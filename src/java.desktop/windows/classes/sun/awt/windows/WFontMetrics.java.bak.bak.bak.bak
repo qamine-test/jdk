@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * A font mftrids objfdt for b WSfrvfr font.
+ *
+ * @buthor Jim Grbhbm
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss WFontMftrids fxtfnds FontMftrids {
+
+    stbtid {
+        initIDs();
+    }
+
+    /**
+     * Thf widths of thf first 256 dhbrbdtfrs.
+     */
+    int widths[];
+
+    /**
+     * Thf stbndbrd bsdfnt of thf font.  This is thf logidbl hfight
+     * bbovf thf bbsflinf for thf Alphbnumfrid dhbrbdtfrs bnd should
+     * bf usfd for dftfrmining linf spbding.  Notf, howfvfr, thbt somf
+     * dhbrbdtfrs in thf font mby fxtfnd bbovf this hfight.
+     */
+    int bsdfnt;
+
+    /**
+     * Thf stbndbrd dfsdfnt of thf font.  This is thf logidbl hfight
+     * bflow thf bbsflinf for thf Alphbnumfrid dhbrbdtfrs bnd should
+     * bf usfd for dftfrmining linf spbding.  Notf, howfvfr, thbt somf
+     * dhbrbdtfrs in thf font mby fxtfnd bflow this hfight.
+     */
+    int dfsdfnt;
+
+    /**
+     * Thf stbndbrd lfbding for thf font.  This is thf logidbl bmount
+     * of spbdf to bf rfsfrvfd bftwffn thf dfsdfnt of onf linf of tfxt
+     * bnd thf bsdfnt of thf nfxt linf.  Thf hfight mftrid is dbldulbtfd
+     * to indludf this fxtrb spbdf.
+     */
+    int lfbding;
+
+    /**
+     * Thf stbndbrd hfight of b linf of tfxt in this font.  This is
+     * thf distbndf bftwffn thf bbsflinf of bdjbdfnt linfs of tfxt.
+     * It is thf sum of thf bsdfnt+dfsdfnt+lfbding.  Thfrf is no
+     * gubrbntff thbt linfs of tfxt spbdfd bt this distbndf will bf
+     * disjoint; sudh linfs mby ovfrlbp if somf dhbrbdtfrs ovfrshoot
+     * thf stbndbrd bsdfnt bnd dfsdfnt mftrids.
+     */
+    int hfight;
+
+    /**
+     * Thf mbximum bsdfnt for bll dhbrbdtfrs in this font.  No dhbrbdtfr
+     * will fxtfnd furthfr bbovf thf bbsflinf thbn this mftrid.
+     */
+    int mbxAsdfnt;
+
+    /**
+     * Thf mbximum dfsdfnt for bll dhbrbdtfrs in this font.  No dhbrbdtfr
+     * will dfsdfnd furthfr bflow thf bbsflinf thbn this mftrid.
+     */
+    int mbxDfsdfnt;
+
+    /**
+     * Thf mbximum possiblf hfight of b linf of tfxt in this font.
+     * Adjbdfnt linfs of tfxt spbdfd this distbndf bpbrt will bf
+     * gubrbntffd not to ovfrlbp.  Notf, howfvfr, thbt mbny pbrbgrbphs
+     * thbt dontbin ordinbry blphbnumfrid tfxt mby look too widfly
+     * spbdfd if this mftrid is usfd to dftfrminf linf spbding.  Thf
+     * hfight fifld should bf prfffrrfd unlfss thf tfxt in b givfn
+     * linf dontbins pbrtidulbrly tbll dhbrbdtfrs.
+     */
+    int mbxHfight;
+
+    /**
+     * Thf mbximum bdvbndf width of bny dhbrbdtfr in this font.
+     */
+    int mbxAdvbndf;
+
+    /**
+     * Cbldulbtf thf mftrids from thf givfn WSfrvfr bnd font.
+     */
+    publid WFontMftrids(Font font) {
+        supfr(font);
+        init();
+    }
+
+    /**
+     * Gft lfbding
+     */
+    @Ovfrridf
+    publid int gftLfbding() {
+        rfturn lfbding;
+    }
+
+    /**
+     * Gft bsdfnt.
+     */
+    @Ovfrridf
+    publid int gftAsdfnt() {
+        rfturn bsdfnt;
+    }
+
+    /**
+     * Gft dfsdfnt
+     */
+    @Ovfrridf
+    publid int gftDfsdfnt() {
+        rfturn dfsdfnt;
+    }
+
+    /**
+     * Gft hfight
+     */
+    @Ovfrridf
+    publid int gftHfight() {
+        rfturn hfight;
+    }
+
+    /**
+     * Gft mbxAsdfnt
+     */
+    @Ovfrridf
+    publid int gftMbxAsdfnt() {
+        rfturn mbxAsdfnt;
+    }
+
+    /**
+     * Gft mbxDfsdfnt
+     */
+    @Ovfrridf
+    publid int gftMbxDfsdfnt() {
+        rfturn mbxDfsdfnt;
+    }
+
+    /**
+     * Gft mbxAdvbndf
+     */
+    @Ovfrridf
+    publid int gftMbxAdvbndf() {
+        rfturn mbxAdvbndf;
+    }
+
+    /**
+     * Rfturn thf width of thf spfdififd string in this Font.
+     */
+    @Ovfrridf
+    publid nbtivf int stringWidth(String str);
+
+    /**
+     * Rfturn thf width of thf spfdififd dhbr[] in this Font.
+     */
+    @Ovfrridf
+    publid nbtivf int dhbrsWidth(dhbr dbtb[], int off, int lfn);
+
+    /**
+     * Rfturn thf width of thf spfdififd bytf[] in this Font.
+     */
+    @Ovfrridf
+    publid nbtivf int bytfsWidth(bytf dbtb[], int off, int lfn);
+
+    /**
+     * Gft thf widths of thf first 256 dhbrbdtfrs in thf font.
+     */
+    @Ovfrridf
+    publid int[] gftWidths() {
+        rfturn widths;
+    }
+
+    nbtivf void init();
+
+    stbtid Hbshtbblf<Font, FontMftrids> tbblf = nfw Hbshtbblf<>();
+
+    stbtid FontMftrids gftFontMftrids(Font font) {
+        FontMftrids fm = tbblf.gft(font);
+        if (fm == null) {
+            tbblf.put(font, fm = nfw WFontMftrids(font));
+        }
+        rfturn fm;
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+}

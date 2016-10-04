@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs;
+pbdkbgf sun.nio.ds;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import java.util.Arrays;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import jbvb.util.Arrbys;
 
-public class US_ASCII
-    extends Charset
-    implements HistoricallyNamedCharset
+publid dlbss US_ASCII
+    fxtfnds Cibrsft
+    implfmfnts HistoridbllyNbmfdCibrsft
 {
 
-    public US_ASCII() {
-        super("US-ASCII", StandardCharsets.aliases_US_ASCII);
+    publid US_ASCII() {
+        supfr("US-ASCII", StbndbrdCibrsfts.blibsfs_US_ASCII);
     }
 
-    public String historicalName() {
-        return "ASCII";
+    publid String iistoridblNbmf() {
+        rfturn "ASCII";
     }
 
-    public boolean contains(Charset cs) {
-        return (cs instanceof US_ASCII);
+    publid boolfbn dontbins(Cibrsft ds) {
+        rfturn (ds instbndfof US_ASCII);
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this);
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(tiis);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this);
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(tiis);
     }
 
-    private static class Decoder extends CharsetDecoder
-                                 implements ArrayDecoder {
+    privbtf stbtid dlbss Dfdodfr fxtfnds CibrsftDfdodfr
+                                 implfmfnts ArrbyDfdodfr {
 
-        private Decoder(Charset cs) {
-            super(cs, 1.0f, 1.0f);
+        privbtf Dfdodfr(Cibrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            CibrBufffr dst)
         {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            dibr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
-                while (sp < sl) {
-                    byte b = sa[sp];
+                wiilf (sp < sl) {
+                    bytf b = sb[sp];
                     if (b >= 0) {
                         if (dp >= dl)
-                            return CoderResult.OVERFLOW;
-                        da[dp++] = (char)b;
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (dibr)b;
                         sp++;
-                        continue;
+                        dontinuf;
                     }
-                    return CoderResult.malformedForLength(1);
+                    rfturn CodfrRfsult.mblformfdForLfngti(1);
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             CibrBufffr dst)
         {
-            int mark = src.position();
+            int mbrk = srd.position();
             try {
-                while (src.hasRemaining()) {
-                    byte b = src.get();
+                wiilf (srd.ibsRfmbining()) {
+                    bytf b = srd.gft();
                     if (b >= 0) {
-                        if (!dst.hasRemaining())
-                            return CoderResult.OVERFLOW;
-                        dst.put((char)b);
-                        mark++;
-                        continue;
+                        if (!dst.ibsRfmbining())
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((dibr)b);
+                        mbrk++;
+                        dontinuf;
                     }
-                    return CoderResult.malformedForLength(1);
+                    rfturn CodfrRfsult.mblformfdForLfngti(1);
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src,
-                                         CharBuffer dst)
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd,
+                                         CibrBufffr dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
-            else
-                return decodeBufferLoop(src, dst);
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
         }
 
-        private char repl = '\uFFFD';
-        protected void implReplaceWith(String newReplacement) {
-            repl = newReplacement.charAt(0);
+        privbtf dibr rfpl = '\uFFFD';
+        protfdtfd void implRfplbdfWiti(String nfwRfplbdfmfnt) {
+            rfpl = nfwRfplbdfmfnt.dibrAt(0);
         }
 
-        public int decode(byte[] src, int sp, int len, char[] dst) {
+        publid int dfdodf(bytf[] srd, int sp, int lfn, dibr[] dst) {
             int dp = 0;
-            len = Math.min(len, dst.length);
-            while (dp < len) {
-                byte b = src[sp++];
+            lfn = Mbti.min(lfn, dst.lfngti);
+            wiilf (dp < lfn) {
+                bytf b = srd[sp++];
                 if (b >= 0)
-                    dst[dp++] = (char)b;
-                else
-                    dst[dp++] = repl;
+                    dst[dp++] = (dibr)b;
+                flsf
+                    dst[dp++] = rfpl;
             }
-            return dp;
+            rfturn dp;
         }
     }
 
-    private static class Encoder extends CharsetEncoder
-                                 implements ArrayEncoder {
+    privbtf stbtid dlbss Endodfr fxtfnds CibrsftEndodfr
+                                 implfmfnts ArrbyEndodfr {
 
-        private Encoder(Charset cs) {
-            super(cs, 1.0f, 1.0f);
+        privbtf Endodfr(Cibrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
         }
 
-        public boolean canEncode(char c) {
-            return c < 0x80;
+        publid boolfbn dbnEndodf(dibr d) {
+            rfturn d < 0x80;
         }
 
-        public boolean isLegalReplacement(byte[] repl) {
-            return (repl.length == 1 && repl[0] >= 0) ||
-                   super.isLegalReplacement(repl);
+        publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+            rfturn (rfpl.lfngti == 1 && rfpl[0] >= 0) ||
+                   supfr.isLfgblRfplbdfmfnt(rfpl);
         }
 
-        private final Surrogate.Parser sgp = new Surrogate.Parser();
-        private CoderResult encodeArrayLoop(CharBuffer src,
-                                            ByteBuffer dst)
+        privbtf finbl Surrogbtf.Pbrsfr sgp = nfw Surrogbtf.Pbrsfr();
+        privbtf CodfrRfsult fndodfArrbyLoop(CibrBufffr srd,
+                                            BytfBufffr dst)
         {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            dibr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             try {
-                while (sp < sl) {
-                    char c = sa[sp];
-                    if (c < 0x80) {
+                wiilf (sp < sl) {
+                    dibr d = sb[sp];
+                    if (d < 0x80) {
                         if (dp >= dl)
-                            return CoderResult.OVERFLOW;
-                        da[dp] = (byte)c;
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp] = (bytf)d;
                         sp++; dp++;
-                        continue;
+                        dontinuf;
                     }
-                    if (sgp.parse(c, sa, sp, sl) < 0)
-                        return sgp.error();
-                    return sgp.unmappableResult();
+                    if (sgp.pbrsf(d, sb, sp, sl) < 0)
+                        rfturn sgp.frror();
+                    rfturn sgp.unmbppbblfRfsult();
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
-                                             ByteBuffer dst)
+        privbtf CodfrRfsult fndodfBufffrLoop(CibrBufffr srd,
+                                             BytfBufffr dst)
         {
-            int mark = src.position();
+            int mbrk = srd.position();
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
-                    if (c < 0x80) {
-                        if (!dst.hasRemaining())
-                            return CoderResult.OVERFLOW;
-                        dst.put((byte)c);
-                        mark++;
-                        continue;
+                wiilf (srd.ibsRfmbining()) {
+                    dibr d = srd.gft();
+                    if (d < 0x80) {
+                        if (!dst.ibsRfmbining())
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)d);
+                        mbrk++;
+                        dontinuf;
                     }
-                    if (sgp.parse(c, src) < 0)
-                        return sgp.error();
-                    return sgp.unmappableResult();
+                    if (sgp.pbrsf(d, srd) < 0)
+                        rfturn sgp.frror();
+                    rfturn sgp.unmbppbblfRfsult();
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src,
-                                         ByteBuffer dst)
+        protfdtfd CodfrRfsult fndodfLoop(CibrBufffr srd,
+                                         BytfBufffr dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
-            else
-                return encodeBufferLoop(src, dst);
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
         }
 
-        private byte repl = (byte)'?';
-        protected void implReplaceWith(byte[] newReplacement) {
-            repl = newReplacement[0];
+        privbtf bytf rfpl = (bytf)'?';
+        protfdtfd void implRfplbdfWiti(bytf[] nfwRfplbdfmfnt) {
+            rfpl = nfwRfplbdfmfnt[0];
         }
 
-        public int encode(char[] src, int sp, int len, byte[] dst) {
+        publid int fndodf(dibr[] srd, int sp, int lfn, bytf[] dst) {
             int dp = 0;
-            int sl = sp + Math.min(len, dst.length);
-            while (sp < sl) {
-                char c = src[sp++];
-                if (c < 0x80) {
-                    dst[dp++] = (byte)c;
-                    continue;
+            int sl = sp + Mbti.min(lfn, dst.lfngti);
+            wiilf (sp < sl) {
+                dibr d = srd[sp++];
+                if (d < 0x80) {
+                    dst[dp++] = (bytf)d;
+                    dontinuf;
                 }
-                if (Character.isHighSurrogate(c) && sp < sl &&
-                    Character.isLowSurrogate(src[sp])) {
-                    if (len > dst.length) {
+                if (Cibrbdtfr.isHigiSurrogbtf(d) && sp < sl &&
+                    Cibrbdtfr.isLowSurrogbtf(srd[sp])) {
+                    if (lfn > dst.lfngti) {
                         sl++;
-                        len--;
+                        lfn--;
                     }
                     sp++;
                 }
-                dst[dp++] = repl;
+                dst[dp++] = rfpl;
             }
-            return dp;
+            rfturn dp;
         }
     }
 

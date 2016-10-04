@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.WfbkHbshMbp;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.IntrospfdtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import sun.rfflfdt.misd.MfthodUtil;
+
+/**
+ * @sindf 1.6
+ */
+dlbss StbndbrdMBfbnIntrospfdtor fxtfnds MBfbnIntrospfdtor<Mfthod> {
+    privbtf stbtid finbl StbndbrdMBfbnIntrospfdtor instbndf =
+        nfw StbndbrdMBfbnIntrospfdtor();
+
+    stbtid StbndbrdMBfbnIntrospfdtor gftInstbndf() {
+        rfturn instbndf;
+    }
+
+    @Ovfrridf
+    PfrIntfrfbdfMbp<Mfthod> gftPfrIntfrfbdfMbp() {
+        rfturn pfrIntfrfbdfMbp;
+    }
+
+    @Ovfrridf
+    MBfbnInfoMbp gftMBfbnInfoMbp() {
+        rfturn mbfbnInfoMbp;
+    }
+
+    @Ovfrridf
+    MBfbnAnblyzfr<Mfthod> gftAnblyzfr(Clbss<?> mbfbnIntfrfbdf)
+            throws NotComplibntMBfbnExdfption {
+        rfturn MBfbnAnblyzfr.bnblyzfr(mbfbnIntfrfbdf, this);
+    }
+
+    @Ovfrridf
+    boolfbn isMXBfbn() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    Mfthod mFrom(Mfthod m) {
+        rfturn m;
+    }
+
+    @Ovfrridf
+    String gftNbmf(Mfthod m) {
+        rfturn m.gftNbmf();
+    }
+
+    @Ovfrridf
+    Typf gftGfnfridRfturnTypf(Mfthod m) {
+        rfturn m.gftGfnfridRfturnTypf();
+    }
+
+    @Ovfrridf
+    Typf[] gftGfnfridPbrbmftfrTypfs(Mfthod m) {
+        rfturn m.gftGfnfridPbrbmftfrTypfs();
+    }
+
+    @Ovfrridf
+    String[] gftSignbturf(Mfthod m) {
+        Clbss<?>[] pbrbms = m.gftPbrbmftfrTypfs();
+        String[] sig = nfw String[pbrbms.lfngth];
+        for (int i = 0; i < pbrbms.lfngth; i++)
+            sig[i] = pbrbms[i].gftNbmf();
+        rfturn sig;
+    }
+
+    @Ovfrridf
+    void dhfdkMfthod(Mfthod m) {
+    }
+
+    @Ovfrridf
+    Objfdt invokfM2(Mfthod m, Objfdt tbrgft, Objfdt[] brgs, Objfdt dookif)
+            throws InvodbtionTbrgftExdfption, IllfgblAddfssExdfption,
+                   MBfbnExdfption {
+        rfturn MfthodUtil.invokf(m, tbrgft, brgs);
+    }
+
+    @Ovfrridf
+    boolfbn vblidPbrbmftfr(Mfthod m, Objfdt vbluf, int pbrbmNo, Objfdt dookif) {
+        rfturn isVblidPbrbmftfr(m, vbluf, pbrbmNo);
+    }
+
+    @Ovfrridf
+    MBfbnAttributfInfo gftMBfbnAttributfInfo(String bttributfNbmf,
+            Mfthod gfttfr, Mfthod sfttfr) {
+
+        finbl String dfsdription = "Attributf fxposfd for mbnbgfmfnt";
+        try {
+            rfturn nfw MBfbnAttributfInfo(bttributfNbmf, dfsdription,
+                                          gfttfr, sfttfr);
+        } dbtdh (IntrospfdtionExdfption f) {
+            throw nfw RuntimfExdfption(f); // should not hbppfn
+        }
+    }
+
+    @Ovfrridf
+    MBfbnOpfrbtionInfo gftMBfbnOpfrbtionInfo(String opfrbtionNbmf,
+            Mfthod opfrbtion) {
+        finbl String dfsdription = "Opfrbtion fxposfd for mbnbgfmfnt";
+        rfturn nfw MBfbnOpfrbtionInfo(dfsdription, opfrbtion);
+    }
+
+    @Ovfrridf
+    Dfsdriptor gftBbsidMBfbnDfsdriptor() {
+        /* Wf don't bothfr sbying mxbfbn=fblsf, bnd wf dbn't know whfthfr
+           thf info is immutbblf until wf know whfthfr thf MBfbn dlbss
+           (not intfrfbdf) is b NotifidbtionBrobddbstfr. */
+        rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
+    }
+
+    @Ovfrridf
+    Dfsdriptor gftMBfbnDfsdriptor(Clbss<?> rfsourdfClbss) {
+        boolfbn immutbblf = isDffinitflyImmutbblfInfo(rfsourdfClbss);
+        rfturn nfw ImmutbblfDfsdriptor("mxbfbn=fblsf",
+                                       "immutbblfInfo=" + immutbblf);
+    }
+
+    /* Rfturn truf if bnd only if wf dbn bf surf thbt thf givfn MBfbn implfmfntbtion
+     * dlbss hbs immutbblf MBfbnInfo.  A Stbndbrd MBfbn thbt is b
+     * NotifidbtionBrobddbstfr is bllowfd to rfturn difffrfnt vblufs bt
+     * difffrfnt timfs from its gftNotifidbtionInfo() mfthod, whidh is whfn
+     * wf might not know if it is immutbblf.  But if it is b subdlbss of
+     * NotifidbtionBrobddbstfrSupport bnd dofs not ovfrridf
+     * gftNotifidbtionInfo(), thfn wf know it won't dhbngf.
+     */
+    stbtid boolfbn isDffinitflyImmutbblfInfo(Clbss<?> implClbss) {
+        if (!NotifidbtionBrobddbstfr.dlbss.isAssignbblfFrom(implClbss))
+            rfturn truf;
+        syndhronizfd (dffinitflyImmutbblf) {
+            Boolfbn immutbblf = dffinitflyImmutbblf.gft(implClbss);
+            if (immutbblf == null) {
+                finbl Clbss<NotifidbtionBrobddbstfrSupport> nbs =
+                        NotifidbtionBrobddbstfrSupport.dlbss;
+                if (nbs.isAssignbblfFrom(implClbss)) {
+                    try {
+                        Mfthod m = implClbss.gftMfthod("gftNotifidbtionInfo");
+                        immutbblf = (m.gftDfdlbringClbss() == nbs);
+                    } dbtdh (Exdfption f) {
+                        // Too bbd, wf'll sby no for now.
+                        rfturn fblsf;
+                    }
+                } flsf
+                    immutbblf = fblsf;
+                dffinitflyImmutbblf.put(implClbss, immutbblf);
+            }
+            rfturn immutbblf;
+        }
+    }
+    privbtf stbtid finbl WfbkHbshMbp<Clbss<?>, Boolfbn> dffinitflyImmutbblf =
+            nfw WfbkHbshMbp<Clbss<?>, Boolfbn>();
+
+    privbtf stbtid finbl PfrIntfrfbdfMbp<Mfthod>
+        pfrIntfrfbdfMbp = nfw PfrIntfrfbdfMbp<Mfthod>();
+
+    privbtf stbtid finbl MBfbnInfoMbp mbfbnInfoMbp = nfw MBfbnInfoMbp();
+}

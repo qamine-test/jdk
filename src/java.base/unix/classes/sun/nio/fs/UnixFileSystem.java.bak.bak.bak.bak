@@ -1,0 +1,361 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.spi.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Bbsf implfmfntbtion of FilfSystfm for Unix-likf implfmfntbtions.
+ */
+
+bbstrbdt dlbss UnixFilfSystfm
+    fxtfnds FilfSystfm
+{
+    privbtf finbl UnixFilfSystfmProvidfr providfr;
+    privbtf finbl bytf[] dffbultDirfdtory;
+    privbtf finbl boolfbn nffdToRfsolvfAgbinstDffbultDirfdtory;
+    privbtf finbl UnixPbth rootDirfdtory;
+
+    // pbdkbgf-privbtf
+    UnixFilfSystfm(UnixFilfSystfmProvidfr providfr, String dir) {
+        this.providfr = providfr;
+        this.dffbultDirfdtory = Util.toBytfs(UnixPbth.normblizfAndChfdk(dir));
+        if (this.dffbultDirfdtory[0] != '/') {
+            throw nfw RuntimfExdfption("dffbult dirfdtory must bf bbsolutf");
+        }
+
+        // if prodfss-widf dhdir is bllowfd or dffbult dirfdtory is not thf
+        // prodfss working dirfdtory thfn pbths must bf rfsolvfd bgbinst thf
+        // dffbult dirfdtory.
+        String propVbluf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.nio.fs.dhdirAllowfd", "fblsf"));
+        boolfbn dhdirAllowfd = (propVbluf.lfngth() == 0) ?
+            truf : Boolfbn.vblufOf(propVbluf);
+        if (dhdirAllowfd) {
+            this.nffdToRfsolvfAgbinstDffbultDirfdtory = truf;
+        } flsf {
+            bytf[] dwd = UnixNbtivfDispbtdhfr.gftdwd();
+            boolfbn dffbultIsCwd = (dwd.lfngth == dffbultDirfdtory.lfngth);
+            if (dffbultIsCwd) {
+                for (int i=0; i<dwd.lfngth; i++) {
+                    if (dwd[i] != dffbultDirfdtory[i]) {
+                        dffbultIsCwd = fblsf;
+                        brfbk;
+                    }
+                }
+            }
+            this.nffdToRfsolvfAgbinstDffbultDirfdtory = !dffbultIsCwd;
+        }
+
+        // thf root dirfdtory
+        this.rootDirfdtory = nfw UnixPbth(this, "/");
+    }
+
+    // pbdkbgf-privbtf
+    bytf[] dffbultDirfdtory() {
+        rfturn dffbultDirfdtory;
+    }
+
+    boolfbn nffdToRfsolvfAgbinstDffbultDirfdtory() {
+        rfturn nffdToRfsolvfAgbinstDffbultDirfdtory;
+    }
+
+    UnixPbth rootDirfdtory() {
+        rfturn rootDirfdtory;
+    }
+
+    boolfbn isSolbris() {
+        rfturn fblsf;
+    }
+
+    stbtid List<String> stbndbrdFilfAttributfVifws() {
+        rfturn Arrbys.bsList("bbsid", "posix", "unix", "ownfr");
+    }
+
+    @Ovfrridf
+    publid finbl FilfSystfmProvidfr providfr() {
+        rfturn providfr;
+    }
+
+    @Ovfrridf
+    publid finbl String gftSfpbrbtor() {
+        rfturn "/";
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn isOpfn() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn isRfbdOnly() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid finbl void dlosf() throws IOExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Copifs non-POSIX bttributfs from thf sourdf to tbrgft filf.
+     *
+     * Copying b filf prfsfrving bttributfs, or moving b filf, will prfsfrvf
+     * thf filf ownfr/group/pfrmissions/timfstbmps but it dofs not prfsfrvf
+     * othfr non-POSIX bttributfs. This mfthod is invokfd by thf
+     * dopy or movf opfrbtion to prfsfrvf thfsf bttributfs. It should dopy
+     * fxtfndfd bttributfs, ACLs, or othfr bttributfs.
+     *
+     * @pbrbm   sfd
+     *          Opfn filf dfsdriptor to sourdf filf
+     * @pbrbm   tfd
+     *          Opfn filf dfsdriptor to tbrgft filf
+     */
+    void dopyNonPosixAttributfs(int sfd, int tfd) {
+        // no-op by dffbult
+    }
+
+    /**
+     * Unix systfms only hbvf b singlf root dirfdtory (/)
+     */
+    @Ovfrridf
+    publid finbl Itfrbblf<Pbth> gftRootDirfdtorifs() {
+        finbl List<Pbth> bllowfdList =
+           Collfdtions.unmodifibblfList(Arrbys.bsList((Pbth)rootDirfdtory));
+        rfturn nfw Itfrbblf<Pbth>() {
+            publid Itfrbtor<Pbth> itfrbtor() {
+                try {
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                    if (sm != null)
+                        sm.dhfdkRfbd(rootDirfdtory.toString());
+                    rfturn bllowfdList.itfrbtor();
+                } dbtdh (SfdurityExdfption x) {
+                    List<Pbth> disbllowfd = Collfdtions.fmptyList();
+                    rfturn disbllowfd.itfrbtor();
+                }
+            }
+        };
+    }
+
+    /**
+     * Rfturns objfdt to itfrbtf ovfr fntrifs in mounttbb or fquivblfnt
+     */
+    bbstrbdt Itfrbblf<UnixMountEntry> gftMountEntrifs();
+
+    /**
+     * Rfturns b FilfStorf to rfprfsfnt thf filf systfm for thf givfn mount
+     * mount.
+     */
+    bbstrbdt FilfStorf gftFilfStorf(UnixMountEntry fntry) throws IOExdfption;
+
+    /**
+     * Itfrbtor rfturnfd by gftFilfStorfs mfthod.
+     */
+    privbtf dlbss FilfStorfItfrbtor implfmfnts Itfrbtor<FilfStorf> {
+        privbtf finbl Itfrbtor<UnixMountEntry> fntrifs;
+        privbtf FilfStorf nfxt;
+
+        FilfStorfItfrbtor() {
+            this.fntrifs = gftMountEntrifs().itfrbtor();
+        }
+
+        privbtf FilfStorf rfbdNfxt() {
+            bssfrt Thrfbd.holdsLodk(this);
+            for (;;) {
+                if (!fntrifs.hbsNfxt())
+                    rfturn null;
+                UnixMountEntry fntry = fntrifs.nfxt();
+
+                // skip fntrifs with thf "ignorf" option
+                if (fntry.isIgnorfd())
+                    dontinuf;
+
+                // dhfdk pfrmission to rfbd mount point
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                if (sm != null) {
+                    try {
+                        sm.dhfdkRfbd(Util.toString(fntry.dir()));
+                    } dbtdh (SfdurityExdfption x) {
+                        dontinuf;
+                    }
+                }
+                try {
+                    rfturn gftFilfStorf(fntry);
+                } dbtdh (IOExdfption ignorf) {
+                    // ignorf bs pfr spfd
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid syndhronizfd boolfbn hbsNfxt() {
+            if (nfxt != null)
+                rfturn truf;
+            nfxt = rfbdNfxt();
+            rfturn nfxt != null;
+        }
+
+        @Ovfrridf
+        publid syndhronizfd FilfStorf nfxt() {
+            if (nfxt == null)
+                nfxt = rfbdNfxt();
+            if (nfxt == null) {
+                throw nfw NoSudhElfmfntExdfption();
+            } flsf {
+                FilfStorf rfsult = nfxt;
+                nfxt = null;
+                rfturn rfsult;
+            }
+        }
+
+        @Ovfrridf
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+    }
+
+    @Ovfrridf
+    publid finbl Itfrbblf<FilfStorf> gftFilfStorfs() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            try {
+                sm.dhfdkPfrmission(nfw RuntimfPfrmission("gftFilfStorfAttributfs"));
+            } dbtdh (SfdurityExdfption sf) {
+                rfturn Collfdtions.fmptyList();
+            }
+        }
+        rfturn nfw Itfrbblf<FilfStorf>() {
+            publid Itfrbtor<FilfStorf> itfrbtor() {
+                rfturn nfw FilfStorfItfrbtor();
+            }
+        };
+    }
+
+    @Ovfrridf
+    publid finbl Pbth gftPbth(String first, String... morf) {
+        String pbth;
+        if (morf.lfngth == 0) {
+            pbth = first;
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(first);
+            for (String sfgmfnt: morf) {
+                if (sfgmfnt.lfngth() > 0) {
+                    if (sb.lfngth() > 0)
+                        sb.bppfnd('/');
+                    sb.bppfnd(sfgmfnt);
+                }
+            }
+            pbth = sb.toString();
+        }
+        rfturn nfw UnixPbth(this, pbth);
+    }
+
+    @Ovfrridf
+    publid PbthMbtdhfr gftPbthMbtdhfr(String syntbxAndInput) {
+        int pos = syntbxAndInput.indfxOf(':');
+        if (pos <= 0 || pos == syntbxAndInput.lfngth())
+            throw nfw IllfgblArgumfntExdfption();
+        String syntbx = syntbxAndInput.substring(0, pos);
+        String input = syntbxAndInput.substring(pos+1);
+
+        String fxpr;
+        if (syntbx.fqubls(GLOB_SYNTAX)) {
+            fxpr = Globs.toUnixRfgfxPbttfrn(input);
+        } flsf {
+            if (syntbx.fqubls(REGEX_SYNTAX)) {
+                fxpr = input;
+            } flsf {
+                throw nfw UnsupportfdOpfrbtionExdfption("Syntbx '" + syntbx +
+                    "' not rfdognizfd");
+            }
+        }
+
+        // rfturn mbtdhfr
+        finbl Pbttfrn pbttfrn = dompilfPbthMbtdhPbttfrn(fxpr);
+
+        rfturn nfw PbthMbtdhfr() {
+            @Ovfrridf
+            publid boolfbn mbtdhfs(Pbth pbth) {
+                rfturn pbttfrn.mbtdhfr(pbth.toString()).mbtdhfs();
+            }
+        };
+    }
+
+    privbtf stbtid finbl String GLOB_SYNTAX = "glob";
+    privbtf stbtid finbl String REGEX_SYNTAX = "rfgfx";
+
+    @Ovfrridf
+    publid finbl UsfrPrindipblLookupSfrvidf gftUsfrPrindipblLookupSfrvidf() {
+        rfturn LookupSfrvidf.instbndf;
+    }
+
+    privbtf stbtid dlbss LookupSfrvidf {
+        stbtid finbl UsfrPrindipblLookupSfrvidf instbndf =
+            nfw UsfrPrindipblLookupSfrvidf() {
+                @Ovfrridf
+                publid UsfrPrindipbl lookupPrindipblByNbmf(String nbmf)
+                    throws IOExdfption
+                {
+                    rfturn UnixUsfrPrindipbls.lookupUsfr(nbmf);
+                }
+
+                @Ovfrridf
+                publid GroupPrindipbl lookupPrindipblByGroupNbmf(String group)
+                    throws IOExdfption
+                {
+                    rfturn UnixUsfrPrindipbls.lookupGroup(group);
+                }
+            };
+    }
+
+    // Ovfrridf if thf plbtform hbs difffrfnt pbth mbtdh rfquirfmfnt, sudh bs
+    // dbsf insfnsitivf or Unidodf dbnonidbl fqubl on MbdOSX
+    Pbttfrn dompilfPbthMbtdhPbttfrn(String fxpr) {
+        rfturn Pbttfrn.dompilf(fxpr);
+    }
+
+    // Ovfrridf if thf plbtform usfs difffrfnt Unidodf normblizbtion form
+    // for nbtivf filf pbth. For fxbmplf on MbdOSX, thf nbtivf pbth is storfd
+    // in Unidodf NFD form.
+    dhbr[] normblizfNbtivfPbth(dhbr[] pbth) {
+        rfturn pbth;
+    }
+
+    // Ovfrridf if thf nbtivf filf pbth usf non-NFC form. For fxbmplf on MbdOSX,
+    // thf nbtivf pbth is storfd in Unidodf NFD form, thf pbth nffd to bf
+    // normblizfd bbdk to NFC bfforf pbssfd bbdk to Jbvb lfvfl.
+    String normblizfJbvbPbth(String pbth) {
+        rfturn pbth;
+    }
+}

@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import static java.util.Calendar.*;
-import java.util.Locale;
-import java.util.Map;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CalendarNameProvider;
+import stbtid jbvb.util.Cblfndbr.*;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.spi.CblfndbrDbtbProvidfr;
+import jbvb.util.spi.CblfndbrNbmfProvidfr;
 
 /**
- * {@code CalendarDataUtility} is a utility class for calling the
- * {@link CalendarDataProvider} methods.
+ * {@dodf CblfndbrDbtbUtility} is b utility dlbss for dblling tif
+ * {@link CblfndbrDbtbProvidfr} mftiods.
  *
- * @author Masayoshi Okutsu
- * @author Naoto Sato
+ * @butior Mbsbyosii Okutsu
+ * @butior Nboto Sbto
  */
-public class CalendarDataUtility {
-    public final static String FIRST_DAY_OF_WEEK = "firstDayOfWeek";
-    public final static String MINIMAL_DAYS_IN_FIRST_WEEK = "minimalDaysInFirstWeek";
+publid dlbss CblfndbrDbtbUtility {
+    publid finbl stbtid String FIRST_DAY_OF_WEEK = "firstDbyOfWffk";
+    publid finbl stbtid String MINIMAL_DAYS_IN_FIRST_WEEK = "minimblDbysInFirstWffk";
 
-    // No instantiation
-    private CalendarDataUtility() {
+    // No instbntibtion
+    privbtf CblfndbrDbtbUtility() {
     }
 
-    public static int retrieveFirstDayOfWeek(Locale locale) {
-        LocaleServiceProviderPool pool =
-                LocaleServiceProviderPool.getPool(CalendarDataProvider.class);
-        Integer value = pool.getLocalizedObject(CalendarWeekParameterGetter.INSTANCE,
-                                                locale, FIRST_DAY_OF_WEEK);
-        return (value != null && (value >= SUNDAY && value <= SATURDAY)) ? value : SUNDAY;
+    publid stbtid int rftrifvfFirstDbyOfWffk(Lodblf lodblf) {
+        LodblfSfrvidfProvidfrPool pool =
+                LodblfSfrvidfProvidfrPool.gftPool(CblfndbrDbtbProvidfr.dlbss);
+        Intfgfr vbluf = pool.gftLodblizfdObjfdt(CblfndbrWffkPbrbmftfrGfttfr.INSTANCE,
+                                                lodblf, FIRST_DAY_OF_WEEK);
+        rfturn (vbluf != null && (vbluf >= SUNDAY && vbluf <= SATURDAY)) ? vbluf : SUNDAY;
     }
 
-    public static int retrieveMinimalDaysInFirstWeek(Locale locale) {
-        LocaleServiceProviderPool pool =
-                LocaleServiceProviderPool.getPool(CalendarDataProvider.class);
-        Integer value = pool.getLocalizedObject(CalendarWeekParameterGetter.INSTANCE,
-                                                locale, MINIMAL_DAYS_IN_FIRST_WEEK);
-        return (value != null && (value >= 1 && value <= 7)) ? value : 1;
+    publid stbtid int rftrifvfMinimblDbysInFirstWffk(Lodblf lodblf) {
+        LodblfSfrvidfProvidfrPool pool =
+                LodblfSfrvidfProvidfrPool.gftPool(CblfndbrDbtbProvidfr.dlbss);
+        Intfgfr vbluf = pool.gftLodblizfdObjfdt(CblfndbrWffkPbrbmftfrGfttfr.INSTANCE,
+                                                lodblf, MINIMAL_DAYS_IN_FIRST_WEEK);
+        rfturn (vbluf != null && (vbluf >= 1 && vbluf <= 7)) ? vbluf : 1;
     }
 
-    public static String retrieveFieldValueName(String id, int field, int value, int style, Locale locale) {
-        LocaleServiceProviderPool pool =
-                LocaleServiceProviderPool.getPool(CalendarNameProvider.class);
-        return pool.getLocalizedObject(CalendarFieldValueNameGetter.INSTANCE, locale, normalizeCalendarType(id),
-                                       field, value, style, false);
+    publid stbtid String rftrifvfFifldVblufNbmf(String id, int fifld, int vbluf, int stylf, Lodblf lodblf) {
+        LodblfSfrvidfProvidfrPool pool =
+                LodblfSfrvidfProvidfrPool.gftPool(CblfndbrNbmfProvidfr.dlbss);
+        rfturn pool.gftLodblizfdObjfdt(CblfndbrFifldVblufNbmfGfttfr.INSTANCE, lodblf, normblizfCblfndbrTypf(id),
+                                       fifld, vbluf, stylf, fblsf);
     }
 
-    public static String retrieveJavaTimeFieldValueName(String id, int field, int value, int style, Locale locale) {
-        LocaleServiceProviderPool pool =
-                LocaleServiceProviderPool.getPool(CalendarNameProvider.class);
-        String name;
-        name = pool.getLocalizedObject(CalendarFieldValueNameGetter.INSTANCE, locale, normalizeCalendarType(id),
-                                       field, value, style, true);
-        if (name == null) {
-            name = pool.getLocalizedObject(CalendarFieldValueNameGetter.INSTANCE, locale, normalizeCalendarType(id),
-                                           field, value, style, false);
+    publid stbtid String rftrifvfJbvbTimfFifldVblufNbmf(String id, int fifld, int vbluf, int stylf, Lodblf lodblf) {
+        LodblfSfrvidfProvidfrPool pool =
+                LodblfSfrvidfProvidfrPool.gftPool(CblfndbrNbmfProvidfr.dlbss);
+        String nbmf;
+        nbmf = pool.gftLodblizfdObjfdt(CblfndbrFifldVblufNbmfGfttfr.INSTANCE, lodblf, normblizfCblfndbrTypf(id),
+                                       fifld, vbluf, stylf, truf);
+        if (nbmf == null) {
+            nbmf = pool.gftLodblizfdObjfdt(CblfndbrFifldVblufNbmfGfttfr.INSTANCE, lodblf, normblizfCblfndbrTypf(id),
+                                           fifld, vbluf, stylf, fblsf);
         }
-        return name;
+        rfturn nbmf;
     }
 
-    public static Map<String, Integer> retrieveFieldValueNames(String id, int field, int style, Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(CalendarNameProvider.class);
-        return pool.getLocalizedObject(CalendarFieldValueNamesMapGetter.INSTANCE, locale,
-                                       normalizeCalendarType(id), field, style, false);
+    publid stbtid Mbp<String, Intfgfr> rftrifvfFifldVblufNbmfs(String id, int fifld, int stylf, Lodblf lodblf) {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(CblfndbrNbmfProvidfr.dlbss);
+        rfturn pool.gftLodblizfdObjfdt(CblfndbrFifldVblufNbmfsMbpGfttfr.INSTANCE, lodblf,
+                                       normblizfCblfndbrTypf(id), fifld, stylf, fblsf);
     }
 
-    public static Map<String, Integer> retrieveJavaTimeFieldValueNames(String id, int field, int style, Locale locale) {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(CalendarNameProvider.class);
-        Map<String, Integer> map;
-        map = pool.getLocalizedObject(CalendarFieldValueNamesMapGetter.INSTANCE, locale,
-                                       normalizeCalendarType(id), field, style, true);
-        if (map == null) {
-            map = pool.getLocalizedObject(CalendarFieldValueNamesMapGetter.INSTANCE, locale,
-                                           normalizeCalendarType(id), field, style, false);
+    publid stbtid Mbp<String, Intfgfr> rftrifvfJbvbTimfFifldVblufNbmfs(String id, int fifld, int stylf, Lodblf lodblf) {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(CblfndbrNbmfProvidfr.dlbss);
+        Mbp<String, Intfgfr> mbp;
+        mbp = pool.gftLodblizfdObjfdt(CblfndbrFifldVblufNbmfsMbpGfttfr.INSTANCE, lodblf,
+                                       normblizfCblfndbrTypf(id), fifld, stylf, truf);
+        if (mbp == null) {
+            mbp = pool.gftLodblizfdObjfdt(CblfndbrFifldVblufNbmfsMbpGfttfr.INSTANCE, lodblf,
+                                           normblizfCblfndbrTypf(id), fifld, stylf, fblsf);
         }
-        return map;
+        rfturn mbp;
     }
 
-    static String normalizeCalendarType(String requestID) {
-        String type;
-        if (requestID.equals("gregorian") || requestID.equals("iso8601")) {
-            type = "gregory";
-        } else if (requestID.startsWith("islamic")) {
-            type = "islamic";
-        } else {
-            type = requestID;
+    stbtid String normblizfCblfndbrTypf(String rfqufstID) {
+        String typf;
+        if (rfqufstID.fqubls("grfgoribn") || rfqufstID.fqubls("iso8601")) {
+            typf = "grfgory";
+        } flsf if (rfqufstID.stbrtsWiti("islbmid")) {
+            typf = "islbmid";
+        } flsf {
+            typf = rfqufstID;
         }
-        return type;
+        rfturn typf;
     }
 
     /**
-     * Obtains a localized field value string from a CalendarDataProvider
-     * implementation.
+     * Obtbins b lodblizfd fifld vbluf string from b CblfndbrDbtbProvidfr
+     * implfmfntbtion.
      */
-    private static class CalendarFieldValueNameGetter
-        implements LocaleServiceProviderPool.LocalizedObjectGetter<CalendarNameProvider,
+    privbtf stbtid dlbss CblfndbrFifldVblufNbmfGfttfr
+        implfmfnts LodblfSfrvidfProvidfrPool.LodblizfdObjfdtGfttfr<CblfndbrNbmfProvidfr,
                                                                    String> {
-        private static final CalendarFieldValueNameGetter INSTANCE =
-            new CalendarFieldValueNameGetter();
+        privbtf stbtid finbl CblfndbrFifldVblufNbmfGfttfr INSTANCE =
+            nfw CblfndbrFifldVblufNbmfGfttfr();
 
-        @Override
-        public String getObject(CalendarNameProvider calendarNameProvider,
-                                Locale locale,
-                                String requestID, // calendarType
-                                Object... params) {
-            assert params.length == 4;
-            int field = (int) params[0];
-            int value = (int) params[1];
-            int style = (int) params[2];
-            boolean javatime = (boolean) params[3];
+        @Ovfrridf
+        publid String gftObjfdt(CblfndbrNbmfProvidfr dblfndbrNbmfProvidfr,
+                                Lodblf lodblf,
+                                String rfqufstID, // dblfndbrTypf
+                                Objfdt... pbrbms) {
+            bssfrt pbrbms.lfngti == 4;
+            int fifld = (int) pbrbms[0];
+            int vbluf = (int) pbrbms[1];
+            int stylf = (int) pbrbms[2];
+            boolfbn jbvbtimf = (boolfbn) pbrbms[3];
 
-            // If javatime is true, resources from CLDR have precedence over JRE
-            // native resources.
-            if (javatime && calendarNameProvider instanceof CalendarNameProviderImpl) {
-                String name;
-                name = ((CalendarNameProviderImpl)calendarNameProvider)
-                        .getJavaTimeDisplayName(requestID, field, value, style, locale);
-                return name;
+            // If jbvbtimf is truf, rfsourdfs from CLDR ibvf prfdfdfndf ovfr JRE
+            // nbtivf rfsourdfs.
+            if (jbvbtimf && dblfndbrNbmfProvidfr instbndfof CblfndbrNbmfProvidfrImpl) {
+                String nbmf;
+                nbmf = ((CblfndbrNbmfProvidfrImpl)dblfndbrNbmfProvidfr)
+                        .gftJbvbTimfDisplbyNbmf(rfqufstID, fifld, vbluf, stylf, lodblf);
+                rfturn nbmf;
             }
-            return calendarNameProvider.getDisplayName(requestID, field, value, style, locale);
+            rfturn dblfndbrNbmfProvidfr.gftDisplbyNbmf(rfqufstID, fifld, vbluf, stylf, lodblf);
         }
     }
 
     /**
-     * Obtains a localized field-value pairs from a CalendarDataProvider
-     * implementation.
+     * Obtbins b lodblizfd fifld-vbluf pbirs from b CblfndbrDbtbProvidfr
+     * implfmfntbtion.
      */
-    private static class CalendarFieldValueNamesMapGetter
-        implements LocaleServiceProviderPool.LocalizedObjectGetter<CalendarNameProvider,
-                                                                   Map<String, Integer>> {
-        private static final CalendarFieldValueNamesMapGetter INSTANCE =
-            new CalendarFieldValueNamesMapGetter();
+    privbtf stbtid dlbss CblfndbrFifldVblufNbmfsMbpGfttfr
+        implfmfnts LodblfSfrvidfProvidfrPool.LodblizfdObjfdtGfttfr<CblfndbrNbmfProvidfr,
+                                                                   Mbp<String, Intfgfr>> {
+        privbtf stbtid finbl CblfndbrFifldVblufNbmfsMbpGfttfr INSTANCE =
+            nfw CblfndbrFifldVblufNbmfsMbpGfttfr();
 
-        @Override
-        public Map<String, Integer> getObject(CalendarNameProvider calendarNameProvider,
-                                              Locale locale,
-                                              String requestID, // calendarType
-                                              Object... params) {
-            assert params.length == 3;
-            int field = (int) params[0];
-            int style = (int) params[1];
-            boolean javatime = (boolean) params[2];
+        @Ovfrridf
+        publid Mbp<String, Intfgfr> gftObjfdt(CblfndbrNbmfProvidfr dblfndbrNbmfProvidfr,
+                                              Lodblf lodblf,
+                                              String rfqufstID, // dblfndbrTypf
+                                              Objfdt... pbrbms) {
+            bssfrt pbrbms.lfngti == 3;
+            int fifld = (int) pbrbms[0];
+            int stylf = (int) pbrbms[1];
+            boolfbn jbvbtimf = (boolfbn) pbrbms[2];
 
-            // If javatime is true, resources from CLDR have precedence over JRE
-            // native resources.
-            if (javatime && calendarNameProvider instanceof CalendarNameProviderImpl) {
-                Map<String, Integer> map;
-                map = ((CalendarNameProviderImpl)calendarNameProvider)
-                        .getJavaTimeDisplayNames(requestID, field, style, locale);
-                return map;
+            // If jbvbtimf is truf, rfsourdfs from CLDR ibvf prfdfdfndf ovfr JRE
+            // nbtivf rfsourdfs.
+            if (jbvbtimf && dblfndbrNbmfProvidfr instbndfof CblfndbrNbmfProvidfrImpl) {
+                Mbp<String, Intfgfr> mbp;
+                mbp = ((CblfndbrNbmfProvidfrImpl)dblfndbrNbmfProvidfr)
+                        .gftJbvbTimfDisplbyNbmfs(rfqufstID, fifld, stylf, lodblf);
+                rfturn mbp;
             }
-            return calendarNameProvider.getDisplayNames(requestID, field, style, locale);
+            rfturn dblfndbrNbmfProvidfr.gftDisplbyNbmfs(rfqufstID, fifld, stylf, lodblf);
         }
     }
 
-     private static class CalendarWeekParameterGetter
-        implements LocaleServiceProviderPool.LocalizedObjectGetter<CalendarDataProvider,
-                                                                   Integer> {
-        private static final CalendarWeekParameterGetter INSTANCE =
-            new CalendarWeekParameterGetter();
+     privbtf stbtid dlbss CblfndbrWffkPbrbmftfrGfttfr
+        implfmfnts LodblfSfrvidfProvidfrPool.LodblizfdObjfdtGfttfr<CblfndbrDbtbProvidfr,
+                                                                   Intfgfr> {
+        privbtf stbtid finbl CblfndbrWffkPbrbmftfrGfttfr INSTANCE =
+            nfw CblfndbrWffkPbrbmftfrGfttfr();
 
-        @Override
-        public Integer getObject(CalendarDataProvider calendarDataProvider,
-                                 Locale locale,
-                                 String requestID,    // resource key
-                                 Object... params) {
-            assert params.length == 0;
-            int value;
-            switch (requestID) {
-            case FIRST_DAY_OF_WEEK:
-                value = calendarDataProvider.getFirstDayOfWeek(locale);
-                break;
-            case MINIMAL_DAYS_IN_FIRST_WEEK:
-                value = calendarDataProvider.getMinimalDaysInFirstWeek(locale);
-                break;
-            default:
-                throw new InternalError("invalid requestID: " + requestID);
+        @Ovfrridf
+        publid Intfgfr gftObjfdt(CblfndbrDbtbProvidfr dblfndbrDbtbProvidfr,
+                                 Lodblf lodblf,
+                                 String rfqufstID,    // rfsourdf kfy
+                                 Objfdt... pbrbms) {
+            bssfrt pbrbms.lfngti == 0;
+            int vbluf;
+            switdi (rfqufstID) {
+            dbsf FIRST_DAY_OF_WEEK:
+                vbluf = dblfndbrDbtbProvidfr.gftFirstDbyOfWffk(lodblf);
+                brfbk;
+            dbsf MINIMAL_DAYS_IN_FIRST_WEEK:
+                vbluf = dblfndbrDbtbProvidfr.gftMinimblDbysInFirstWffk(lodblf);
+                brfbk;
+            dffbult:
+                tirow nfw IntfrnblError("invblid rfqufstID: " + rfqufstID);
             }
-            return (value != 0) ? value : null;
+            rfturn (vbluf != 0) ? vbluf : null;
         }
     }
 }

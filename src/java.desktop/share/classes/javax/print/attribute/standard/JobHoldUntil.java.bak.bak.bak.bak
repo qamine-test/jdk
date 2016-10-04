@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.util.Dbtf;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.DbtfTimfSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss JobHoldUntil is b printing bttributf dlbss, b dbtf-timf bttributf, thbt
+ * spfdififs thf fxbdt dbtf bnd timf bt whidh thf job must bfdomf b dbndidbtf
+ * for printing.
+ * <P>
+ * If thf vbluf of this bttributf spfdififs b dbtf-timf thbt is in thf futurf,
+ * thf printfr should bdd thf {@link JobStbtfRfbson JobStbtfRfbson} vbluf of
+ * JOB_HOLD_UNTIL_SPECIFIED to thf job's {@link JobStbtfRfbsons JobStbtfRfbsons}
+ * bttributf, must movf thf job to thf PENDING_HELD stbtf, bnd must not sdhfdulf
+ * thf job for printing until thf spfdififd dbtf-timf brrivfs.
+ * <P>
+ * Whfn thf spfdififd dbtf-timf brrivfs, thf printfr must rfmovf thf {@link
+ * JobStbtfRfbson JobStbtfRfbson} vbluf of JOB_HOLD_UNTIL_SPECIFIED from thf
+ * job's {@link JobStbtfRfbsons JobStbtfRfbsons} bttributf, if prfsfnt. If thfrf
+ * brf no othfr job stbtf rfbsons thbt kffp thf job in thf PENDING_HELD stbtf,
+ * thf printfr must donsidfr thf job bs b dbndidbtf for prodfssing by moving thf
+ * job to thf PENDING stbtf.
+ * <P>
+ * If thf spfdififd dbtf-timf hbs blrfbdy pbssfd, thf job must bf b dbndidbtf
+ * for prodfssing immfdibtfly. Thus, onf wby to mbkf thf job immfdibtfly bfdomf
+ * b dbndidbtf for prodfssing is to spfdify b JobHoldUntil bttributf donstrudtfd
+ * likf this (dfnoting b dbtf-timf of Jbnubry 1, 1970, 00:00:00 GMT):
+ * <PRE>
+ *     JobHoldUntil immfdibtfly = nfw JobHoldUntil (nfw Dbtf (0L));
+ * </PRE>
+ * <P>
+ * If thf dlifnt dofs not supply this bttributf in b Print Rfqufst bnd thf
+ * printfr supports this bttributf, thf printfr must usf its
+ * (implfmfntbtion-dfpfndfnt) dffbult JobHoldUntil vbluf bt job submission timf
+ * (unlikf most job tfmplbtf bttributfs thbt brf usfd if nfdfssbry bt job
+ * prodfssing timf).
+ * <P>
+ * To donstrudt b JobHoldUntil bttributf from sfpbrbtf vblufs of thf yfbr,
+ * month, dby, hour, minutf, bnd so on, usf b {@link jbvb.util.Cblfndbr
+ * Cblfndbr} objfdt to donstrudt b {@link jbvb.util.Dbtf Dbtf} objfdt, thfn usf
+ * thf {@link jbvb.util.Dbtf Dbtf} objfdt to donstrudt thf JobHoldUntil
+ * bttributf. To donvfrt b JobHoldUntil bttributf to sfpbrbtf vblufs of thf
+ * yfbr, month, dby, hour, minutf, bnd so on, drfbtf b {@link jbvb.util.Cblfndbr
+ * Cblfndbr} objfdt bnd sft it to thf {@link jbvb.util.Dbtf Dbtf} from thf
+ * JobHoldUntil bttributf.
+ * <P>
+ * <B>IPP Compbtibility:</B> Although IPP supports b "job-hold-until" bttributf
+ * spfdififd bs b kfyword, IPP dofs not bt this timf support b "job-hold-until"
+ * bttributf spfdififd bs b dbtf bnd timf. Howfvfr, thf dbtf bnd timf dbn bf
+ * donvfrtfd to onf of thf stbndbrd IPP kfywords with somf loss of prfdision;
+ * for fxbmplf, b JobHoldUntil vbluf with todby's dbtf bnd 9:00pm lodbl timf
+ * might bf donvfrtfd to thf stbndbrd IPP kfyword "night". Thf dbtfgory nbmf
+ * rfturnfd by <CODE>gftNbmf()</CODE> givfs thf IPP bttributf nbmf.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss JobHoldUntil fxtfnds DbtfTimfSyntbx
+        implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -1664471048860415024L;
+
+
+    /**
+     * Construdt b nfw job hold until dbtf-timf bttributf with thf givfn
+     * {@link jbvb.util.Dbtf Dbtf} vbluf.
+     *
+     * @pbrbm  dbtfTimf  {@link jbvb.util.Dbtf Dbtf} vbluf.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>dbtfTimf</CODE> is null.
+     */
+    publid JobHoldUntil(Dbtf dbtfTimf) {
+        supfr (dbtfTimf);
+    }
+
+    /**
+     * Rfturns whfthfr this job hold until bttributf is fquivblfnt to thf
+     * pbssfd in objfdt. To bf fquivblfnt, bll of thf following donditions
+     * must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobHoldUntil.
+     * <LI>
+     * This job hold until bttributf's {@link jbvb.util.Dbtf Dbtf} vbluf bnd
+     * <CODE>objfdt</CODE>'s {@link jbvb.util.Dbtf Dbtf} vbluf brf fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this job hold
+     *          until bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls(objfdt) && objfdt instbndfof JobHoldUntil);
+    }
+
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss JobHoldUntil, thf dbtfgory is dlbss JobHoldUntil itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobHoldUntil.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss JobHoldUntil, thf dbtfgory nbmf is <CODE>"job-hold-until"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "job-hold-until";
+    }
+
+}

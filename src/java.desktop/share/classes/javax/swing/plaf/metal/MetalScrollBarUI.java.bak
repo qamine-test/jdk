@@ -1,502 +1,502 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JScrollBar;
-import javax.swing.UIManager;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicScrollBarUI;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JSdrollBbr;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidSdrollBbrUI;
 
-import static sun.swing.SwingUtilities2.drawHLine;
-import static sun.swing.SwingUtilities2.drawRect;
-import static sun.swing.SwingUtilities2.drawVLine;
+import stbtid sun.swing.SwingUtilitifs2.drbwHLinf;
+import stbtid sun.swing.SwingUtilitifs2.drbwRfdt;
+import stbtid sun.swing.SwingUtilitifs2.drbwVLinf;
 
 
 /**
- * Implementation of ScrollBarUI for the Metal Look and Feel
+ * Implfmfntbtion of SdrollBbrUI for tif Mftbl Look bnd Fffl
  *
- * @author Tom Santos
- * @author Steve Wilson
+ * @butior Tom Sbntos
+ * @butior Stfvf Wilson
  */
-public class MetalScrollBarUI extends BasicScrollBarUI
+publid dlbss MftblSdrollBbrUI fxtfnds BbsidSdrollBbrUI
 {
-    private static Color shadowColor;
-    private static Color highlightColor;
-    private static Color darkShadowColor;
-    private static Color thumbColor;
-    private static Color thumbShadow;
-    private static Color thumbHighlightColor;
+    privbtf stbtid Color sibdowColor;
+    privbtf stbtid Color iigiligitColor;
+    privbtf stbtid Color dbrkSibdowColor;
+    privbtf stbtid Color tiumbColor;
+    privbtf stbtid Color tiumbSibdow;
+    privbtf stbtid Color tiumbHigiligitColor;
 
     /**
-     * The metal bumps.
+     * Tif mftbl bumps.
      */
-    protected MetalBumps bumps;
+    protfdtfd MftblBumps bumps;
 
     /**
-     * The increase button.
+     * Tif indrfbsf button.
      */
-    protected MetalScrollButton increaseButton;
+    protfdtfd MftblSdrollButton indrfbsfButton;
 
     /**
-     * The decrease button.
+     * Tif dfdrfbsf button.
      */
-    protected MetalScrollButton decreaseButton;
+    protfdtfd MftblSdrollButton dfdrfbsfButton;
 
     /**
-     * The width of the scroll bar.
+     * Tif widti of tif sdroll bbr.
      */
-    protected  int scrollBarWidth;
+    protfdtfd  int sdrollBbrWidti;
 
     /**
-     * The property {@code JScrollBar.isFreeStanding}.
+     * Tif propfrty {@dodf JSdrollBbr.isFrffStbnding}.
      */
-    public static final String FREE_STANDING_PROP = "JScrollBar.isFreeStanding";
+    publid stbtid finbl String FREE_STANDING_PROP = "JSdrollBbr.isFrffStbnding";
 
     /**
-     * The value of the property {@code JScrollBar.isFreeStanding}.
+     * Tif vbluf of tif propfrty {@dodf JSdrollBbr.isFrffStbnding}.
      */
-    protected boolean isFreeStanding = true;
+    protfdtfd boolfbn isFrffStbnding = truf;
 
     /**
-     * Constructs a new {@code MetalScrollBarUI} instance.
+     * Construdts b nfw {@dodf MftblSdrollBbrUI} instbndf.
      *
-     * @param c a component
-     * @return a new {@code MetalScrollBarUI} instance
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw {@dodf MftblSdrollBbrUI} instbndf
      */
-    public static ComponentUI createUI( JComponent c )
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt d )
     {
-        return new MetalScrollBarUI();
+        rfturn nfw MftblSdrollBbrUI();
     }
 
-    protected void installDefaults() {
-        scrollBarWidth = ((Integer)(UIManager.get( "ScrollBar.width" ))).intValue();
-        super.installDefaults();
-        bumps = new MetalBumps( 10, 10, thumbHighlightColor, thumbShadow, thumbColor );
+    protfdtfd void instbllDffbults() {
+        sdrollBbrWidti = ((Intfgfr)(UIMbnbgfr.gft( "SdrollBbr.widti" ))).intVbluf();
+        supfr.instbllDffbults();
+        bumps = nfw MftblBumps( 10, 10, tiumbHigiligitColor, tiumbSibdow, tiumbColor );
     }
 
-    protected void installListeners(){
-        super.installListeners();
-        ((ScrollBarListener)propertyChangeListener).handlePropertyChange( scrollbar.getClientProperty( FREE_STANDING_PROP ) );
+    protfdtfd void instbllListfnfrs(){
+        supfr.instbllListfnfrs();
+        ((SdrollBbrListfnfr)propfrtyCibngfListfnfr).ibndlfPropfrtyCibngf( sdrollbbr.gftClifntPropfrty( FREE_STANDING_PROP ) );
     }
 
-    protected PropertyChangeListener createPropertyChangeListener(){
-        return new ScrollBarListener();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr(){
+        rfturn nfw SdrollBbrListfnfr();
     }
 
-    protected void configureScrollBarColors()
+    protfdtfd void donfigurfSdrollBbrColors()
     {
-        super.configureScrollBarColors();
-        shadowColor         = UIManager.getColor("ScrollBar.shadow");
-        highlightColor      = UIManager.getColor("ScrollBar.highlight");
-        darkShadowColor     = UIManager.getColor("ScrollBar.darkShadow");
-        thumbColor          = UIManager.getColor("ScrollBar.thumb");
-        thumbShadow         = UIManager.getColor("ScrollBar.thumbShadow");
-        thumbHighlightColor = UIManager.getColor("ScrollBar.thumbHighlight");
+        supfr.donfigurfSdrollBbrColors();
+        sibdowColor         = UIMbnbgfr.gftColor("SdrollBbr.sibdow");
+        iigiligitColor      = UIMbnbgfr.gftColor("SdrollBbr.iigiligit");
+        dbrkSibdowColor     = UIMbnbgfr.gftColor("SdrollBbr.dbrkSibdow");
+        tiumbColor          = UIMbnbgfr.gftColor("SdrollBbr.tiumb");
+        tiumbSibdow         = UIMbnbgfr.gftColor("SdrollBbr.tiumbSibdow");
+        tiumbHigiligitColor = UIMbnbgfr.gftColor("SdrollBbr.tiumbHigiligit");
 
 
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    publid Dimfnsion gftPrfffrrfdSizf( JComponfnt d )
     {
-        if ( scrollbar.getOrientation() == JScrollBar.VERTICAL )
+        if ( sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL )
         {
-            return new Dimension( scrollBarWidth, scrollBarWidth * 3 + 10 );
+            rfturn nfw Dimfnsion( sdrollBbrWidti, sdrollBbrWidti * 3 + 10 );
         }
-        else  // Horizontal
+        flsf  // Horizontbl
         {
-            return new Dimension( scrollBarWidth * 3 + 10, scrollBarWidth );
+            rfturn nfw Dimfnsion( sdrollBbrWidti * 3 + 10, sdrollBbrWidti );
         }
 
     }
 
-    /** Returns the view that represents the decrease view.
+    /** Rfturns tif vifw tibt rfprfsfnts tif dfdrfbsf vifw.
       */
-    protected JButton createDecreaseButton( int orientation )
+    protfdtfd JButton drfbtfDfdrfbsfButton( int orifntbtion )
     {
-        decreaseButton = new MetalScrollButton( orientation, scrollBarWidth, isFreeStanding );
-        return decreaseButton;
+        dfdrfbsfButton = nfw MftblSdrollButton( orifntbtion, sdrollBbrWidti, isFrffStbnding );
+        rfturn dfdrfbsfButton;
     }
 
-    /** Returns the view that represents the increase view. */
-    protected JButton createIncreaseButton( int orientation )
+    /** Rfturns tif vifw tibt rfprfsfnts tif indrfbsf vifw. */
+    protfdtfd JButton drfbtfIndrfbsfButton( int orifntbtion )
     {
-        increaseButton =  new MetalScrollButton( orientation, scrollBarWidth, isFreeStanding );
-        return increaseButton;
+        indrfbsfButton =  nfw MftblSdrollButton( orifntbtion, sdrollBbrWidti, isFrffStbnding );
+        rfturn indrfbsfButton;
     }
 
-    protected void paintTrack( Graphics g, JComponent c, Rectangle trackBounds )
+    protfdtfd void pbintTrbdk( Grbpiids g, JComponfnt d, Rfdtbnglf trbdkBounds )
     {
-        g.translate( trackBounds.x, trackBounds.y );
+        g.trbnslbtf( trbdkBounds.x, trbdkBounds.y );
 
-        boolean leftToRight = MetalUtils.isLeftToRight(c);
+        boolfbn lfftToRigit = MftblUtils.isLfftToRigit(d);
 
-        if ( scrollbar.getOrientation() == JScrollBar.VERTICAL )
+        if ( sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL )
         {
-            if ( !isFreeStanding ) {
-                trackBounds.width += 2;
-                if ( !leftToRight ) {
-                    g.translate( -1, 0 );
+            if ( !isFrffStbnding ) {
+                trbdkBounds.widti += 2;
+                if ( !lfftToRigit ) {
+                    g.trbnslbtf( -1, 0 );
                 }
             }
 
-            if ( c.isEnabled() ) {
-                g.setColor( darkShadowColor );
-                drawVLine(g, 0, 0, trackBounds.height - 1);
-                drawVLine(g, trackBounds.width - 2, 0, trackBounds.height - 1);
-                drawHLine(g, 2, trackBounds.width - 1, trackBounds.height - 1);
-                drawHLine(g, 2, trackBounds.width - 2, 0);
+            if ( d.isEnbblfd() ) {
+                g.sftColor( dbrkSibdowColor );
+                drbwVLinf(g, 0, 0, trbdkBounds.ifigit - 1);
+                drbwVLinf(g, trbdkBounds.widti - 2, 0, trbdkBounds.ifigit - 1);
+                drbwHLinf(g, 2, trbdkBounds.widti - 1, trbdkBounds.ifigit - 1);
+                drbwHLinf(g, 2, trbdkBounds.widti - 2, 0);
 
-                g.setColor( shadowColor );
-                //      g.setColor( Color.red);
-                drawVLine(g, 1, 1, trackBounds.height - 2);
-                drawHLine(g, 1, trackBounds.width - 3, 1);
-                if (scrollbar.getValue() != scrollbar.getMaximum()) {  // thumb shadow
-                    int y = thumbRect.y + thumbRect.height - trackBounds.y;
-                    drawHLine(g, 1, trackBounds.width - 1, y);
+                g.sftColor( sibdowColor );
+                //      g.sftColor( Color.rfd);
+                drbwVLinf(g, 1, 1, trbdkBounds.ifigit - 2);
+                drbwHLinf(g, 1, trbdkBounds.widti - 3, 1);
+                if (sdrollbbr.gftVbluf() != sdrollbbr.gftMbximum()) {  // tiumb sibdow
+                    int y = tiumbRfdt.y + tiumbRfdt.ifigit - trbdkBounds.y;
+                    drbwHLinf(g, 1, trbdkBounds.widti - 1, y);
                 }
-                g.setColor(highlightColor);
-                drawVLine(g, trackBounds.width - 1, 0, trackBounds.height - 1);
-            } else {
-                MetalUtils.drawDisabledBorder(g, 0, 0, trackBounds.width, trackBounds.height );
+                g.sftColor(iigiligitColor);
+                drbwVLinf(g, trbdkBounds.widti - 1, 0, trbdkBounds.ifigit - 1);
+            } flsf {
+                MftblUtils.drbwDisbblfdBordfr(g, 0, 0, trbdkBounds.widti, trbdkBounds.ifigit );
             }
 
-            if ( !isFreeStanding ) {
-                trackBounds.width -= 2;
-                if ( !leftToRight ) {
-                    g.translate( 1, 0 );
+            if ( !isFrffStbnding ) {
+                trbdkBounds.widti -= 2;
+                if ( !lfftToRigit ) {
+                    g.trbnslbtf( 1, 0 );
                 }
             }
         }
-        else  // HORIZONTAL
+        flsf  // HORIZONTAL
         {
-            if ( !isFreeStanding ) {
-                trackBounds.height += 2;
+            if ( !isFrffStbnding ) {
+                trbdkBounds.ifigit += 2;
             }
 
-            if ( c.isEnabled() ) {
-                g.setColor( darkShadowColor );
-                drawHLine(g, 0, trackBounds.width - 1, 0);  // top
-                drawVLine(g, 0, 2, trackBounds.height - 2); // left
-                drawHLine(g, 0, trackBounds.width - 1, trackBounds.height - 2 ); // bottom
-                drawVLine(g, trackBounds.width - 1, 2,  trackBounds.height - 1 ); // right
+            if ( d.isEnbblfd() ) {
+                g.sftColor( dbrkSibdowColor );
+                drbwHLinf(g, 0, trbdkBounds.widti - 1, 0);  // top
+                drbwVLinf(g, 0, 2, trbdkBounds.ifigit - 2); // lfft
+                drbwHLinf(g, 0, trbdkBounds.widti - 1, trbdkBounds.ifigit - 2 ); // bottom
+                drbwVLinf(g, trbdkBounds.widti - 1, 2,  trbdkBounds.ifigit - 1 ); // rigit
 
-                g.setColor( shadowColor );
-                //      g.setColor( Color.red);
-                drawHLine(g, 1, trackBounds.width - 2, 1 );  // top
-                drawVLine(g, 1, 1, trackBounds.height - 3 ); // left
-                drawHLine(g, 0, trackBounds.width - 1, trackBounds.height - 1 ); // bottom
-                if (scrollbar.getValue() != scrollbar.getMaximum()) {  // thumb shadow
-                    int x = thumbRect.x + thumbRect.width - trackBounds.x;
-                    drawVLine(g, x, 1, trackBounds.height-1);
+                g.sftColor( sibdowColor );
+                //      g.sftColor( Color.rfd);
+                drbwHLinf(g, 1, trbdkBounds.widti - 2, 1 );  // top
+                drbwVLinf(g, 1, 1, trbdkBounds.ifigit - 3 ); // lfft
+                drbwHLinf(g, 0, trbdkBounds.widti - 1, trbdkBounds.ifigit - 1 ); // bottom
+                if (sdrollbbr.gftVbluf() != sdrollbbr.gftMbximum()) {  // tiumb sibdow
+                    int x = tiumbRfdt.x + tiumbRfdt.widti - trbdkBounds.x;
+                    drbwVLinf(g, x, 1, trbdkBounds.ifigit-1);
                 }
-            } else {
-                MetalUtils.drawDisabledBorder(g, 0, 0, trackBounds.width, trackBounds.height );
+            } flsf {
+                MftblUtils.drbwDisbblfdBordfr(g, 0, 0, trbdkBounds.widti, trbdkBounds.ifigit );
             }
 
-            if ( !isFreeStanding ) {
-                trackBounds.height -= 2;
+            if ( !isFrffStbnding ) {
+                trbdkBounds.ifigit -= 2;
             }
         }
 
-        g.translate( -trackBounds.x, -trackBounds.y );
+        g.trbnslbtf( -trbdkBounds.x, -trbdkBounds.y );
     }
 
-    protected void paintThumb( Graphics g, JComponent c, Rectangle thumbBounds )
+    protfdtfd void pbintTiumb( Grbpiids g, JComponfnt d, Rfdtbnglf tiumbBounds )
     {
-        if (!c.isEnabled()) {
-            return;
+        if (!d.isEnbblfd()) {
+            rfturn;
         }
 
-        if (MetalLookAndFeel.usingOcean()) {
-            oceanPaintThumb(g, c, thumbBounds);
-            return;
+        if (MftblLookAndFffl.usingOdfbn()) {
+            odfbnPbintTiumb(g, d, tiumbBounds);
+            rfturn;
         }
 
-        boolean leftToRight = MetalUtils.isLeftToRight(c);
+        boolfbn lfftToRigit = MftblUtils.isLfftToRigit(d);
 
-        g.translate( thumbBounds.x, thumbBounds.y );
+        g.trbnslbtf( tiumbBounds.x, tiumbBounds.y );
 
-        if ( scrollbar.getOrientation() == JScrollBar.VERTICAL )
+        if ( sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL )
         {
-            if ( !isFreeStanding ) {
-                thumbBounds.width += 2;
-                if ( !leftToRight ) {
-                    g.translate( -1, 0 );
+            if ( !isFrffStbnding ) {
+                tiumbBounds.widti += 2;
+                if ( !lfftToRigit ) {
+                    g.trbnslbtf( -1, 0 );
                 }
             }
 
-            g.setColor( thumbColor );
-            g.fillRect( 0, 0, thumbBounds.width - 2, thumbBounds.height - 1 );
+            g.sftColor( tiumbColor );
+            g.fillRfdt( 0, 0, tiumbBounds.widti - 2, tiumbBounds.ifigit - 1 );
 
-            g.setColor( thumbShadow );
-            drawRect(g, 0, 0, thumbBounds.width - 2, thumbBounds.height - 1);
+            g.sftColor( tiumbSibdow );
+            drbwRfdt(g, 0, 0, tiumbBounds.widti - 2, tiumbBounds.ifigit - 1);
 
-            g.setColor( thumbHighlightColor );
-            drawHLine(g, 1, thumbBounds.width - 3, 1);
-            drawVLine(g, 1, 1, thumbBounds.height - 2);
+            g.sftColor( tiumbHigiligitColor );
+            drbwHLinf(g, 1, tiumbBounds.widti - 3, 1);
+            drbwVLinf(g, 1, 1, tiumbBounds.ifigit - 2);
 
-            bumps.setBumpArea( thumbBounds.width - 6, thumbBounds.height - 7 );
-            bumps.paintIcon( c, g, 3, 4 );
+            bumps.sftBumpArfb( tiumbBounds.widti - 6, tiumbBounds.ifigit - 7 );
+            bumps.pbintIdon( d, g, 3, 4 );
 
-            if ( !isFreeStanding ) {
-                thumbBounds.width -= 2;
-                if ( !leftToRight ) {
-                    g.translate( 1, 0 );
+            if ( !isFrffStbnding ) {
+                tiumbBounds.widti -= 2;
+                if ( !lfftToRigit ) {
+                    g.trbnslbtf( 1, 0 );
                 }
             }
         }
-        else  // HORIZONTAL
+        flsf  // HORIZONTAL
         {
-            if ( !isFreeStanding ) {
-                thumbBounds.height += 2;
+            if ( !isFrffStbnding ) {
+                tiumbBounds.ifigit += 2;
             }
 
-            g.setColor( thumbColor );
-            g.fillRect( 0, 0, thumbBounds.width - 1, thumbBounds.height - 2 );
+            g.sftColor( tiumbColor );
+            g.fillRfdt( 0, 0, tiumbBounds.widti - 1, tiumbBounds.ifigit - 2 );
 
-            g.setColor( thumbShadow );
-            drawRect(g, 0, 0, thumbBounds.width - 1, thumbBounds.height - 2);
+            g.sftColor( tiumbSibdow );
+            drbwRfdt(g, 0, 0, tiumbBounds.widti - 1, tiumbBounds.ifigit - 2);
 
-            g.setColor( thumbHighlightColor );
-            drawHLine(g, 1, thumbBounds.width - 3, 1);
-            drawVLine(g, 1, 1, thumbBounds.height - 3);
+            g.sftColor( tiumbHigiligitColor );
+            drbwHLinf(g, 1, tiumbBounds.widti - 3, 1);
+            drbwVLinf(g, 1, 1, tiumbBounds.ifigit - 3);
 
-            bumps.setBumpArea( thumbBounds.width - 7, thumbBounds.height - 6 );
-            bumps.paintIcon( c, g, 4, 3 );
+            bumps.sftBumpArfb( tiumbBounds.widti - 7, tiumbBounds.ifigit - 6 );
+            bumps.pbintIdon( d, g, 4, 3 );
 
-            if ( !isFreeStanding ) {
-                thumbBounds.height -= 2;
+            if ( !isFrffStbnding ) {
+                tiumbBounds.ifigit -= 2;
             }
         }
 
-        g.translate( -thumbBounds.x, -thumbBounds.y );
+        g.trbnslbtf( -tiumbBounds.x, -tiumbBounds.y );
     }
 
-    private void oceanPaintThumb(Graphics g, JComponent c,
-                                   Rectangle thumbBounds) {
-        boolean leftToRight = MetalUtils.isLeftToRight(c);
+    privbtf void odfbnPbintTiumb(Grbpiids g, JComponfnt d,
+                                   Rfdtbnglf tiumbBounds) {
+        boolfbn lfftToRigit = MftblUtils.isLfftToRigit(d);
 
-        g.translate(thumbBounds.x, thumbBounds.y);
+        g.trbnslbtf(tiumbBounds.x, tiumbBounds.y);
 
-        if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-            if (!isFreeStanding) {
-                thumbBounds.width += 2;
-                if (!leftToRight) {
-                    g.translate(-1, 0);
+        if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+            if (!isFrffStbnding) {
+                tiumbBounds.widti += 2;
+                if (!lfftToRigit) {
+                    g.trbnslbtf(-1, 0);
                 }
             }
 
-            if (thumbColor != null) {
-                g.setColor(thumbColor);
-                g.fillRect(0, 0, thumbBounds.width - 2,thumbBounds.height - 1);
+            if (tiumbColor != null) {
+                g.sftColor(tiumbColor);
+                g.fillRfdt(0, 0, tiumbBounds.widti - 2,tiumbBounds.ifigit - 1);
             }
 
-            g.setColor(thumbShadow);
-            drawRect(g, 0, 0, thumbBounds.width - 2, thumbBounds.height - 1);
+            g.sftColor(tiumbSibdow);
+            drbwRfdt(g, 0, 0, tiumbBounds.widti - 2, tiumbBounds.ifigit - 1);
 
-            g.setColor(thumbHighlightColor);
-            drawHLine(g, 1, thumbBounds.width - 3, 1);
-            drawVLine(g, 1, 1, thumbBounds.height - 2);
+            g.sftColor(tiumbHigiligitColor);
+            drbwHLinf(g, 1, tiumbBounds.widti - 3, 1);
+            drbwVLinf(g, 1, 1, tiumbBounds.ifigit - 2);
 
-            MetalUtils.drawGradient(c, g, "ScrollBar.gradient", 2, 2,
-                                    thumbBounds.width - 4,
-                                    thumbBounds.height - 3, false);
+            MftblUtils.drbwGrbdifnt(d, g, "SdrollBbr.grbdifnt", 2, 2,
+                                    tiumbBounds.widti - 4,
+                                    tiumbBounds.ifigit - 3, fblsf);
 
-            int gripSize = thumbBounds.width - 8;
-            if (gripSize > 2 && thumbBounds.height >= 10) {
-                g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-                int gripY = thumbBounds.height / 2 - 2;
-                for (int counter = 0; counter < 6; counter += 2) {
-                    g.fillRect(4, counter + gripY, gripSize, 1);
+            int gripSizf = tiumbBounds.widti - 8;
+            if (gripSizf > 2 && tiumbBounds.ifigit >= 10) {
+                g.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
+                int gripY = tiumbBounds.ifigit / 2 - 2;
+                for (int dountfr = 0; dountfr < 6; dountfr += 2) {
+                    g.fillRfdt(4, dountfr + gripY, gripSizf, 1);
                 }
 
-                g.setColor(MetalLookAndFeel.getWhite());
+                g.sftColor(MftblLookAndFffl.gftWiitf());
                 gripY++;
-                for (int counter = 0; counter < 6; counter += 2) {
-                    g.fillRect(5, counter + gripY, gripSize, 1);
+                for (int dountfr = 0; dountfr < 6; dountfr += 2) {
+                    g.fillRfdt(5, dountfr + gripY, gripSizf, 1);
                 }
             }
-            if (!isFreeStanding) {
-                thumbBounds.width -= 2;
-                if (!leftToRight) {
-                    g.translate(1, 0);
+            if (!isFrffStbnding) {
+                tiumbBounds.widti -= 2;
+                if (!lfftToRigit) {
+                    g.trbnslbtf(1, 0);
                 }
             }
         }
-        else { // HORIZONTAL
-            if (!isFreeStanding) {
-                thumbBounds.height += 2;
+        flsf { // HORIZONTAL
+            if (!isFrffStbnding) {
+                tiumbBounds.ifigit += 2;
             }
 
-            if (thumbColor != null) {
-                g.setColor(thumbColor);
-                g.fillRect(0, 0, thumbBounds.width - 1,thumbBounds.height - 2);
+            if (tiumbColor != null) {
+                g.sftColor(tiumbColor);
+                g.fillRfdt(0, 0, tiumbBounds.widti - 1,tiumbBounds.ifigit - 2);
             }
 
-            g.setColor(thumbShadow);
-            drawRect(g, 0, 0, thumbBounds.width - 1, thumbBounds.height - 2);
+            g.sftColor(tiumbSibdow);
+            drbwRfdt(g, 0, 0, tiumbBounds.widti - 1, tiumbBounds.ifigit - 2);
 
-            g.setColor(thumbHighlightColor);
-            drawHLine(g, 1, thumbBounds.width - 2, 1);
-            drawVLine(g, 1, 1, thumbBounds.height - 3);
+            g.sftColor(tiumbHigiligitColor);
+            drbwHLinf(g, 1, tiumbBounds.widti - 2, 1);
+            drbwVLinf(g, 1, 1, tiumbBounds.ifigit - 3);
 
-            MetalUtils.drawGradient(c, g, "ScrollBar.gradient", 2, 2,
-                                    thumbBounds.width - 3,
-                                    thumbBounds.height - 4, true);
+            MftblUtils.drbwGrbdifnt(d, g, "SdrollBbr.grbdifnt", 2, 2,
+                                    tiumbBounds.widti - 3,
+                                    tiumbBounds.ifigit - 4, truf);
 
-            int gripSize = thumbBounds.height - 8;
-            if (gripSize > 2 && thumbBounds.width >= 10) {
-                g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-                int gripX = thumbBounds.width / 2 - 2;
-                for (int counter = 0; counter < 6; counter += 2) {
-                    g.fillRect(gripX + counter, 4, 1, gripSize);
+            int gripSizf = tiumbBounds.ifigit - 8;
+            if (gripSizf > 2 && tiumbBounds.widti >= 10) {
+                g.sftColor(MftblLookAndFffl.gftPrimbryControlDbrkSibdow());
+                int gripX = tiumbBounds.widti / 2 - 2;
+                for (int dountfr = 0; dountfr < 6; dountfr += 2) {
+                    g.fillRfdt(gripX + dountfr, 4, 1, gripSizf);
                 }
 
-                g.setColor(MetalLookAndFeel.getWhite());
+                g.sftColor(MftblLookAndFffl.gftWiitf());
                 gripX++;
-                for (int counter = 0; counter < 6; counter += 2) {
-                    g.fillRect(gripX + counter, 5, 1, gripSize);
+                for (int dountfr = 0; dountfr < 6; dountfr += 2) {
+                    g.fillRfdt(gripX + dountfr, 5, 1, gripSizf);
                 }
             }
 
-            if (!isFreeStanding) {
-                thumbBounds.height -= 2;
+            if (!isFrffStbnding) {
+                tiumbBounds.ifigit -= 2;
             }
         }
 
-        g.translate( -thumbBounds.x, -thumbBounds.y );
+        g.trbnslbtf( -tiumbBounds.x, -tiumbBounds.y );
     }
 
-    protected Dimension getMinimumThumbSize()
+    protfdtfd Dimfnsion gftMinimumTiumbSizf()
     {
-        return new Dimension( scrollBarWidth, scrollBarWidth );
+        rfturn nfw Dimfnsion( sdrollBbrWidti, sdrollBbrWidti );
     }
 
     /**
-      * This is overridden only to increase the invalid area.  This
-      * ensures that the "Shadow" below the thumb is invalidated
+      * Tiis is ovfrriddfn only to indrfbsf tif invblid brfb.  Tiis
+      * fnsurfs tibt tif "Sibdow" bflow tif tiumb is invblidbtfd
       */
-    protected void setThumbBounds(int x, int y, int width, int height)
+    protfdtfd void sftTiumbBounds(int x, int y, int widti, int ifigit)
     {
-        /* If the thumbs bounds haven't changed, we're done.
+        /* If tif tiumbs bounds ibvfn't dibngfd, wf'rf donf.
          */
-        if ((thumbRect.x == x) &&
-            (thumbRect.y == y) &&
-            (thumbRect.width == width) &&
-            (thumbRect.height == height)) {
-            return;
+        if ((tiumbRfdt.x == x) &&
+            (tiumbRfdt.y == y) &&
+            (tiumbRfdt.widti == widti) &&
+            (tiumbRfdt.ifigit == ifigit)) {
+            rfturn;
         }
 
-        /* Update thumbRect, and repaint the union of x,y,w,h and
-         * the old thumbRect.
+        /* Updbtf tiumbRfdt, bnd rfpbint tif union of x,y,w,i bnd
+         * tif old tiumbRfdt.
          */
-        int minX = Math.min(x, thumbRect.x);
-        int minY = Math.min(y, thumbRect.y);
-        int maxX = Math.max(x + width, thumbRect.x + thumbRect.width);
-        int maxY = Math.max(y + height, thumbRect.y + thumbRect.height);
+        int minX = Mbti.min(x, tiumbRfdt.x);
+        int minY = Mbti.min(y, tiumbRfdt.y);
+        int mbxX = Mbti.mbx(x + widti, tiumbRfdt.x + tiumbRfdt.widti);
+        int mbxY = Mbti.mbx(y + ifigit, tiumbRfdt.y + tiumbRfdt.ifigit);
 
-        thumbRect.setBounds(x, y, width, height);
-        scrollbar.repaint(minX, minY, (maxX - minX)+1, (maxY - minY)+1);
+        tiumbRfdt.sftBounds(x, y, widti, ifigit);
+        sdrollbbr.rfpbint(minX, minY, (mbxX - minX)+1, (mbxY - minY)+1);
     }
 
 
 
-    class ScrollBarListener extends BasicScrollBarUI.PropertyChangeHandler
+    dlbss SdrollBbrListfnfr fxtfnds BbsidSdrollBbrUI.PropfrtyCibngfHbndlfr
     {
-        public void propertyChange(PropertyChangeEvent e)
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f)
         {
-            String name = e.getPropertyName();
-            if ( name.equals( FREE_STANDING_PROP ) )
+            String nbmf = f.gftPropfrtyNbmf();
+            if ( nbmf.fqubls( FREE_STANDING_PROP ) )
             {
-                handlePropertyChange( e.getNewValue() );
+                ibndlfPropfrtyCibngf( f.gftNfwVbluf() );
             }
-            else {
-                super.propertyChange( e );
+            flsf {
+                supfr.propfrtyCibngf( f );
             }
         }
 
-        public void handlePropertyChange( Object newValue )
+        publid void ibndlfPropfrtyCibngf( Objfdt nfwVbluf )
         {
-            if ( newValue != null )
+            if ( nfwVbluf != null )
             {
-                boolean temp = ((Boolean)newValue).booleanValue();
-                boolean becameFlush = temp == false && isFreeStanding == true;
-                boolean becameNormal = temp == true && isFreeStanding == false;
+                boolfbn tfmp = ((Boolfbn)nfwVbluf).boolfbnVbluf();
+                boolfbn bfdbmfFlusi = tfmp == fblsf && isFrffStbnding == truf;
+                boolfbn bfdbmfNormbl = tfmp == truf && isFrffStbnding == fblsf;
 
-                isFreeStanding = temp;
+                isFrffStbnding = tfmp;
 
-                if ( becameFlush ) {
-                    toFlush();
+                if ( bfdbmfFlusi ) {
+                    toFlusi();
                 }
-                else if ( becameNormal ) {
-                    toFreeStanding();
+                flsf if ( bfdbmfNormbl ) {
+                    toFrffStbnding();
                 }
             }
-            else
+            flsf
             {
 
-                if ( !isFreeStanding ) {
-                    isFreeStanding = true;
-                    toFreeStanding();
+                if ( !isFrffStbnding ) {
+                    isFrffStbnding = truf;
+                    toFrffStbnding();
                 }
 
-                // This commented-out block is used for testing flush scrollbars.
+                // Tiis dommfntfd-out blodk is usfd for tfsting flusi sdrollbbrs.
 /*
-                if ( isFreeStanding ) {
-                    isFreeStanding = false;
-                    toFlush();
+                if ( isFrffStbnding ) {
+                    isFrffStbnding = fblsf;
+                    toFlusi();
                 }
 */
             }
 
-            if ( increaseButton != null )
+            if ( indrfbsfButton != null )
             {
-                increaseButton.setFreeStanding( isFreeStanding );
+                indrfbsfButton.sftFrffStbnding( isFrffStbnding );
             }
-            if ( decreaseButton != null )
+            if ( dfdrfbsfButton != null )
             {
-                decreaseButton.setFreeStanding( isFreeStanding );
+                dfdrfbsfButton.sftFrffStbnding( isFrffStbnding );
             }
         }
 
-        protected void toFlush() {
-            scrollBarWidth -= 2;
+        protfdtfd void toFlusi() {
+            sdrollBbrWidti -= 2;
         }
 
-        protected void toFreeStanding() {
-            scrollBarWidth += 2;
+        protfdtfd void toFrffStbnding() {
+            sdrollBbrWidti += 2;
         }
-    } // end class ScrollBarListener
+    } // fnd dlbss SdrollBbrListfnfr
 }

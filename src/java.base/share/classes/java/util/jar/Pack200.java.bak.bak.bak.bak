@@ -1,0 +1,724 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.jbr;
+
+import jbvb.util.SortfdMbp;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+
+
+/**
+ * Trbnsforms b JAR filf to or from b pbdkfd strfbm in Pbdk200 formbt.
+ * Plfbsf rfffr to Nftwork Trbnsffr Formbt JSR 200 Spfdifidbtion bt
+ * <b hrff=http://jdp.org/bboutJbvb/dommunityprodfss/rfvifw/jsr200/indfx.html>http://jdp.org/bboutJbvb/dommunityprodfss/rfvifw/jsr200/indfx.html</b>
+ * <p>
+ * Typidblly thf pbdkfr fnginf is usfd by bpplidbtion dfvflopfrs
+ * to dfploy or host JAR filfs on b wfbsitf.
+ * Thf unpbdkfr  fnginf is usfd by dfploymfnt bpplidbtions to
+ * trbnsform thf bytf-strfbm bbdk to JAR formbt.
+ * <p>
+ * Hfrf is bn fxbmplf using  pbdkfr bnd unpbdkfr:
+ * <prf>{@dodf
+ *    import jbvb.util.jbr.Pbdk200;
+ *    import jbvb.util.jbr.Pbdk200.*;
+ *    ...
+ *    // Crfbtf thf Pbdkfr objfdt
+ *    Pbdkfr pbdkfr = Pbdk200.nfwPbdkfr();
+ *
+ *    // Initiblizf thf stbtf by sftting thf dfsirfd propfrtifs
+ *    Mbp p = pbdkfr.propfrtifs();
+ *    // tbkf morf timf dhoosing dodings for bfttfr domprfssion
+ *    p.put(Pbdkfr.EFFORT, "7");  // dffbult is "5"
+ *    // usf lbrgfst-possiblf brdhivf sfgmfnts (>10% bfttfr domprfssion).
+ *    p.put(Pbdkfr.SEGMENT_LIMIT, "-1");
+ *    // rfordfr filfs for bfttfr domprfssion.
+ *    p.put(Pbdkfr.KEEP_FILE_ORDER, Pbdkfr.FALSE);
+ *    // smfbr modifidbtion timfs to b singlf vbluf.
+ *    p.put(Pbdkfr.MODIFICATION_TIME, Pbdkfr.LATEST);
+ *    // ignorf bll JAR dfflbtion rfqufsts,
+ *    // trbnsmitting b singlf rfqufst to usf "storf" modf.
+ *    p.put(Pbdkfr.DEFLATE_HINT, Pbdkfr.FALSE);
+ *    // disdbrd dfbug bttributfs
+ *    p.put(Pbdkfr.CODE_ATTRIBUTE_PFX+"LinfNumbfrTbblf", Pbdkfr.STRIP);
+ *    // throw bn frror if bn bttributf is unrfdognizfd
+ *    p.put(Pbdkfr.UNKNOWN_ATTRIBUTE, Pbdkfr.ERROR);
+ *    // pbss onf dlbss filf undomprfssfd:
+ *    p.put(Pbdkfr.PASS_FILE_PFX+0, "mutbnts/Roguf.dlbss");
+ *    try {
+ *        JbrFilf jbrFilf = nfw JbrFilf("/tmp/tfstrff.jbr");
+ *        FilfOutputStrfbm fos = nfw FilfOutputStrfbm("/tmp/tfst.pbdk");
+ *        // Cbll thf pbdkfr
+ *        pbdkfr.pbdk(jbrFilf, fos);
+ *        jbrFilf.dlosf();
+ *        fos.dlosf();
+ *
+ *        Filf f = nfw Filf("/tmp/tfst.pbdk");
+ *        FilfOutputStrfbm fostrfbm = nfw FilfOutputStrfbm("/tmp/tfst.jbr");
+ *        JbrOutputStrfbm jostrfbm = nfw JbrOutputStrfbm(fostrfbm);
+ *        Unpbdkfr unpbdkfr = Pbdk200.nfwUnpbdkfr();
+ *        // Cbll thf unpbdkfr
+ *        unpbdkfr.unpbdk(f, jostrfbm);
+ *        // Must fxpliditly dlosf thf output.
+ *        jostrfbm.dlosf();
+ *    } dbtdh (IOExdfption iof) {
+ *        iof.printStbdkTrbdf();
+ *    }
+ * }</prf>
+ * <p>
+ * A Pbdk200 filf domprfssfd with gzip dbn bf hostfd on HTTP/1.1 wfb sfrvfrs.
+ * Thf dfploymfnt bpplidbtions dbn usf "Addfpt-Endoding=pbdk200-gzip". This
+ * indidbtfs to thf sfrvfr thbt thf dlifnt bpplidbtion dfsirfs b vfrsion of
+ * thf filf fndodfd with Pbdk200 bnd furthfr domprfssfd with gzip. Plfbsf
+ * rfffr to  <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dfploymfnt/dfploymfnt-guidf/pbdk200.html">Jbvb Dfploymfnt Guidf</b> for morf dftbils bnd
+ * tfdhniqufs.
+ * <p>
+ * Unlfss othfrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor or
+ * mfthod in this dlbss will dbusf b {@link NullPointfrExdfption} to bf thrown.
+ *
+ * @buthor John Rosf
+ * @buthor Kumbr Srinivbsbn
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss Pbdk200 {
+    privbtf Pbdk200() {} //prfvfnt instbntibtion
+
+    // Stbtid mfthods of thf Pbdk200 dlbss.
+    /**
+     * Obtbin nfw instbndf of b dlbss thbt implfmfnts Pbdkfr.
+     * <ul>
+     * <li><p>If thf systfm propfrty <tt>jbvb.util.jbr.Pbdk200.Pbdkfr</tt>
+     * is dffinfd, thfn thf vbluf is tbkfn to bf thf fully-qublififd nbmf
+     * of b dondrftf implfmfntbtion dlbss, whidh must implfmfnt Pbdkfr.
+     * This dlbss is lobdfd bnd instbntibtfd.  If this prodfss fbils
+     * thfn bn unspfdififd frror is thrown.</p></li>
+     *
+     * <li><p>If bn implfmfntbtion hbs not bffn spfdififd with thf systfm
+     * propfrty, thfn thf systfm-dffbult implfmfntbtion dlbss is instbntibtfd,
+     * bnd thf rfsult is rfturnfd.</p></li>
+     * </ul>
+     *
+     * <p>Notf:  Thf rfturnfd objfdt is not gubrbntffd to opfrbtf
+     * dorrfdtly if multiplf thrfbds usf it bt thf sbmf timf.
+     * A multi-thrfbdfd bpplidbtion should fithfr bllodbtf multiplf
+     * pbdkfr fnginfs, or flsf sfriblizf usf of onf fnginf with b lodk.
+     *
+     * @rfturn  A nfwly bllodbtfd Pbdkfr fnginf.
+     */
+    publid syndhronizfd stbtid Pbdkfr nfwPbdkfr() {
+        rfturn (Pbdkfr) nfwInstbndf(PACK_PROVIDER);
+    }
+
+
+    /**
+     * Obtbin nfw instbndf of b dlbss thbt implfmfnts Unpbdkfr.
+     * <ul>
+     * <li><p>If thf systfm propfrty <tt>jbvb.util.jbr.Pbdk200.Unpbdkfr</tt>
+     * is dffinfd, thfn thf vbluf is tbkfn to bf thf fully-qublififd
+     * nbmf of b dondrftf implfmfntbtion dlbss, whidh must implfmfnt Unpbdkfr.
+     * Thf dlbss is lobdfd bnd instbntibtfd.  If this prodfss fbils
+     * thfn bn unspfdififd frror is thrown.</p></li>
+     *
+     * <li><p>If bn implfmfntbtion hbs not bffn spfdififd with thf
+     * systfm propfrty, thfn thf systfm-dffbult implfmfntbtion dlbss
+     * is instbntibtfd, bnd thf rfsult is rfturnfd.</p></li>
+     * </ul>
+     *
+     * <p>Notf:  Thf rfturnfd objfdt is not gubrbntffd to opfrbtf
+     * dorrfdtly if multiplf thrfbds usf it bt thf sbmf timf.
+     * A multi-thrfbdfd bpplidbtion should fithfr bllodbtf multiplf
+     * unpbdkfr fnginfs, or flsf sfriblizf usf of onf fnginf with b lodk.
+     *
+     * @rfturn  A nfwly bllodbtfd Unpbdkfr fnginf.
+     */
+
+    publid stbtid Unpbdkfr nfwUnpbdkfr() {
+        rfturn (Unpbdkfr) nfwInstbndf(UNPACK_PROVIDER);
+    }
+
+    // Intfrfbdfs
+    /**
+     * Thf pbdkfr fnginf bpplifs vbrious trbnsformbtions to thf input JAR filf,
+     * mbking thf pbdk strfbm highly domprfssiblf by b domprfssor sudh bs
+     * gzip or zip. An instbndf of thf fnginf dbn bf obtbinfd
+     * using {@link #nfwPbdkfr}.
+
+     * Thf high dfgrff of domprfssion is bdhifvfd
+     * by using b numbfr of tfdhniqufs dfsdribfd in thf JSR 200 spfdifidbtion.
+     * Somf of thf tfdhniqufs brf sorting, rf-ordfring bnd do-lodbtion of thf
+     * donstbnt pool.
+     * <p>
+     * Thf pbdk fnginf is initiblizfd to bn initibl stbtf bs dfsdribfd
+     * by thfir propfrtifs bflow.
+     * Thf initibl stbtf dbn bf mbnipulbtfd by gftting thf
+     * fnginf propfrtifs (using {@link #propfrtifs}) bnd storing
+     * thf modififd propfrtifs on thf mbp.
+     * Thf rfsourdf filfs will bf pbssfd through with no dhbngfs bt bll.
+     * Thf dlbss filfs will not dontbin idfntidbl bytfs, sindf thf unpbdkfr
+     * is frff to dhbngf minor dlbss filf ffbturfs sudh bs donstbnt pool ordfr.
+     * Howfvfr, thf dlbss filfs will bf sfmbntidblly idfntidbl,
+     * bs spfdififd in
+     * <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     * <p>
+     * By dffbult, thf pbdkfr dofs not dhbngf thf ordfr of JAR flfmfnts.
+     * Also, thf modifidbtion timf bnd dfflbtion hint of fbdh
+     * JAR flfmfnt is pbssfd undhbngfd.
+     * (Any othfr ZIP-brdhivf informbtion, sudh bs fxtrb bttributfs
+     * giving Unix filf pfrmissions, brf lost.)
+     * <p>
+     * Notf thbt pbdking bnd unpbdking b JAR will in gfnfrbl bltfr thf
+     * bytfwisf dontfnts of dlbssfilfs in thf JAR.  This mfbns thbt pbdking
+     * bnd unpbdking will in gfnfrbl invblidbtf bny digitbl signbturfs
+     * whidh rfly on bytfwisf imbgfs of JAR flfmfnts.  In ordfr both to sign
+     * bnd to pbdk b JAR, you must first pbdk bnd unpbdk thf JAR to
+     * "normblizf" it, thfn domputf signbturfs on thf unpbdkfd JAR flfmfnts,
+     * bnd finblly rfpbdk thf signfd JAR.
+     * Both pbdking stfps should
+     * usf prfdisfly thf sbmf options, bnd thf sfgmfnt limit mby blso
+     * nffd to bf sft to "-1", to prfvfnt bddidfntbl vbribtion of sfgmfnt
+     * boundbrifs bs dlbss filf sizfs dhbngf slightly.
+     * <p>
+     * (Hfrf's why this works:  Any rfordfring thf pbdkfr dofs
+     * of bny dlbssfilf strudturfs is idfmpotfnt, so thf sfdond pbdking
+     * dofs not dhbngf thf ordfrings produdfd by thf first pbdking.
+     * Also, thf unpbdkfr is gubrbntffd by thf JSR 200 spfdifidbtion
+     * to produdf b spfdifid bytfwisf imbgf for bny givfn trbnsmission
+     * ordfring of brdhivf flfmfnts.)
+     * <p>
+     * In ordfr to mbintbin bbdkwbrd dompbtibility, thf pbdk filf's vfrsion is
+     * sft to bddommodbtf thf dlbss filfs prfsfnt in thf input JAR filf. In
+     * othfr words, thf pbdk filf vfrsion will bf thf lbtfst, if thf dlbss filfs
+     * brf thf lbtfst bnd donvfrsfly thf pbdk filf vfrsion will bf thf oldfst
+     * if thf dlbss filf vfrsions brf blso thf oldfst. For intfrmfdibtf dlbss
+     * filf vfrsions thf dorrfsponding pbdk filf vfrsion will bf usfd.
+     * For fxbmplf:
+     *    If thf input JAR-filfs brf solfly domprisfd of 1.5  (or  lfssfr)
+     * dlbss filfs, b 1.5 dompbtiblf pbdk filf is  produdfd. This will blso bf
+     * thf dbsf for brdhivfs thbt hbvf no dlbss filfs.
+     *    If thf input JAR-filfs dontbins b 1.6 dlbss filf, thfn thf pbdk filf
+     * vfrsion will bf sft to 1.6.
+     * <p>
+     * Notf: Unlfss othfrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b
+     * donstrudtor or mfthod in this dlbss will dbusf b {@link NullPointfrExdfption}
+     * to bf thrown.
+     *
+     * @sindf 1.5
+     */
+    publid intfrfbdf Pbdkfr {
+        /**
+         * This propfrty is b numfrbl giving thf fstimbtfd tbrgft sizf N
+         * (in bytfs) of fbdh brdhivf sfgmfnt.
+         * If b singlf input filf rfquirfs morf thbn N bytfs,
+         * it will bf givfn its own brdhivf sfgmfnt.
+         * <p>
+         * As b spfdibl dbsf, b vbluf of -1 will produdf b singlf lbrgf
+         * sfgmfnt with bll input filfs, whilf b vbluf of 0 will
+         * produdf onf sfgmfnt for fbdh dlbss.
+         * Lbrgfr brdhivf sfgmfnts rfsult in lfss frbgmfntbtion bnd
+         * bfttfr domprfssion, but prodfssing thfm rfquirfs morf mfmory.
+         * <p>
+         * Thf sizf of fbdh sfgmfnt is fstimbtfd by dounting thf sizf of fbdh
+         * input filf to bf trbnsmittfd in thf sfgmfnt, blong with thf sizf
+         * of its nbmf bnd othfr trbnsmittfd propfrtifs.
+         * <p>
+         * Thf dffbult is -1, whidh mfbns thf pbdkfr will blwbys drfbtf b singlf
+         * sfgmfnt output filf. In dbsfs whfrf fxtrfmfly lbrgf output filfs brf
+         * gfnfrbtfd, usfrs brf strongly fndourbgfd to usf sfgmfnting or brfbk
+         * up thf input filf into smbllfr JARs.
+         * <p>
+         * A 10Mb JAR pbdkfd without this limit will
+         * typidblly pbdk bbout 10% smbllfr, but thf pbdkfr mby rfquirf
+         * b lbrgfr Jbvb hfbp (bbout tfn timfs thf sfgmfnt limit).
+         */
+        String SEGMENT_LIMIT    = "pbdk.sfgmfnt.limit";
+
+        /**
+         * If this propfrty is sft to {@link #TRUE}, thf pbdkfr will trbnsmit
+         * bll flfmfnts in thfir originbl ordfr within thf sourdf brdhivf.
+         * <p>
+         * If it is sft to {@link #FALSE}, thf pbdkfr mby rfordfr flfmfnts,
+         * bnd blso rfmovf JAR dirfdtory fntrifs, whidh dbrry no usfful
+         * informbtion for Jbvb bpplidbtions.
+         * (Typidblly this fnbblfs bfttfr domprfssion.)
+         * <p>
+         * Thf dffbult is {@link #TRUE}, whidh prfsfrvfs thf input informbtion,
+         * but mby dbusf thf trbnsmittfd brdhivf to bf lbrgfr thbn nfdfssbry.
+         */
+        String KEEP_FILE_ORDER = "pbdk.kffp.filf.ordfr";
+
+
+        /**
+         * If this propfrty is sft to b singlf dfdimbl digit, thf pbdkfr will
+         * usf thf indidbtfd bmount of fffort in domprfssing thf brdhivf.
+         * Lfvfl 1 mby produdf somfwhbt lbrgfr sizf bnd fbstfr domprfssion spffd,
+         * whilf lfvfl 9 will tbkf mudh longfr but mby produdf bfttfr domprfssion.
+         * <p>
+         * Thf spfdibl vbluf 0 instrudts thf pbdkfr to dopy through thf
+         * originbl JAR filf dirfdtly, with no domprfssion.  Thf JSR 200
+         * stbndbrd rfquirfs bny unpbdkfr to undfrstbnd this spfdibl dbsf
+         * bs b pbss-through of thf fntirf brdhivf.
+         * <p>
+         * Thf dffbult is 5, invfsting b modfst bmount of timf to
+         * produdf rfbsonbblf domprfssion.
+         */
+        String EFFORT           = "pbdk.fffort";
+
+        /**
+         * If this propfrty is sft to {@link #TRUE} or {@link #FALSE}, thf pbdkfr
+         * will sft thf dfflbtion hint bddordingly in thf output brdhivf, bnd
+         * will not trbnsmit thf individubl dfflbtion hints of brdhivf flfmfnts.
+         * <p>
+         * If this propfrty is sft to thf spfdibl string {@link #KEEP}, thf pbdkfr
+         * will bttfmpt to dftfrminf bn indfpfndfnt dfflbtion hint for fbdh
+         * bvbilbblf flfmfnt of thf input brdhivf, bnd trbnsmit this hint sfpbrbtfly.
+         * <p>
+         * Thf dffbult is {@link #KEEP}, whidh prfsfrvfs thf input informbtion,
+         * but mby dbusf thf trbnsmittfd brdhivf to bf lbrgfr thbn nfdfssbry.
+         * <p>
+         * It is up to thf unpbdkfr implfmfntbtion
+         * to tbkf bdtion upon thf hint to suitbbly domprfss thf flfmfnts of
+         * thf rfsulting unpbdkfd jbr.
+         * <p>
+         * Thf dfflbtion hint of b ZIP or JAR flfmfnt indidbtfs
+         * whfthfr thf flfmfnt wbs dfflbtfd or storfd dirfdtly.
+         */
+        String DEFLATE_HINT     = "pbdk.dfflbtf.hint";
+
+        /**
+         * If this propfrty is sft to thf spfdibl string {@link #LATEST},
+         * thf pbdkfr will bttfmpt to dftfrminf thf lbtfst modifidbtion timf,
+         * bmong bll thf bvbilbblf fntrifs in thf originbl brdhivf or thf lbtfst
+         * modifidbtion timf of bll thf bvbilbblf fntrifs in fbdh sfgmfnt.
+         * This singlf vbluf will bf trbnsmittfd bs pbrt of thf sfgmfnt bnd bpplifd
+         * to bll thf fntrifs in fbdh sfgmfnt, {@link #SEGMENT_LIMIT}.
+         * <p>
+         * This dbn mbrginblly dfdrfbsf thf trbnsmittfd sizf of thf
+         * brdhivf, bt thf fxpfnsf of sftting bll instbllfd filfs to b singlf
+         * dbtf.
+         * <p>
+         * If this propfrty is sft to thf spfdibl string {@link #KEEP},
+         * thf pbdkfr trbnsmits b sfpbrbtf modifidbtion timf for fbdh input
+         * flfmfnt.
+         * <p>
+         * Thf dffbult is {@link #KEEP}, whidh prfsfrvfs thf input informbtion,
+         * but mby dbusf thf trbnsmittfd brdhivf to bf lbrgfr thbn nfdfssbry.
+         * <p>
+         * It is up to thf unpbdkfr implfmfntbtion to tbkf bdtion to suitbbly
+         * sft thf modifidbtion timf of fbdh flfmfnt of its output filf.
+         * @sff #SEGMENT_LIMIT
+         */
+        String MODIFICATION_TIME        = "pbdk.modifidbtion.timf";
+
+        /**
+         * Indidbtfs thbt b filf should bf pbssfd through bytfwisf, with no
+         * domprfssion.  Multiplf filfs mby bf spfdififd by spfdifying
+         * bdditionbl propfrtifs with distindt strings bppfndfd, to
+         * mbkf b fbmily of propfrtifs with thf dommon prffix.
+         * <p>
+         * Thfrf is no pbthnbmf trbnsformbtion, fxdfpt
+         * thbt thf systfm filf sfpbrbtor is rfplbdfd by thf JAR filf
+         * sfpbrbtor '/'.
+         * <p>
+         * Thf rfsulting filf nbmfs must mbtdh fxbdtly bs strings with thfir
+         * oddurrfndfs in thf JAR filf.
+         * <p>
+         * If b propfrty vbluf is b dirfdtory nbmf, bll filfs undfr thbt
+         * dirfdtory will bf pbssfd blso.
+         * <p>
+         * Exbmplfs:
+         * <prf>{@dodf
+         *     Mbp p = pbdkfr.propfrtifs();
+         *     p.put(PASS_FILE_PFX+0, "mutbnts/Roguf.dlbss");
+         *     p.put(PASS_FILE_PFX+1, "mutbnts/Wolvfrinf.dlbss");
+         *     p.put(PASS_FILE_PFX+2, "mutbnts/Storm.dlbss");
+         *     # Pbss bll filfs in bn fntirf dirfdtory hifrbrdhy:
+         *     p.put(PASS_FILE_PFX+3, "polidf/");
+         * }</prf>
+         */
+        String PASS_FILE_PFX            = "pbdk.pbss.filf.";
+
+        /// Attributf dontrol.
+
+        /**
+         * Indidbtfs thf bdtion to tbkf whfn b dlbss-filf dontbining bn unknown
+         * bttributf is fndountfrfd.  Possiblf vblufs brf thf strings {@link #ERROR},
+         * {@link #STRIP}, bnd {@link #PASS}.
+         * <p>
+         * Thf string {@link #ERROR} mfbns thbt thf pbdk opfrbtion
+         * bs b wholf will fbil, with bn fxdfption of typf <dodf>IOExdfption</dodf>.
+         * Thf string
+         * {@link #STRIP} mfbns thbt thf bttributf will bf droppfd.
+         * Thf string
+         * {@link #PASS} mfbns thbt thf wholf dlbss-filf will bf pbssfd through
+         * (bs if it wfrf b rfsourdf filf) without domprfssion, with  b suitbblf wbrning.
+         * This is thf dffbult vbluf for this propfrty.
+         * <p>
+         * Exbmplfs:
+         * <prf>{@dodf
+         *     Mbp p = pbdk200.gftPropfrtifs();
+         *     p.put(UNKNOWN_ATTRIBUTE, ERROR);
+         *     p.put(UNKNOWN_ATTRIBUTE, STRIP);
+         *     p.put(UNKNOWN_ATTRIBUTE, PASS);
+         * }</prf>
+         */
+        String UNKNOWN_ATTRIBUTE        = "pbdk.unknown.bttributf";
+
+        /**
+         * Whfn dondbtfnbtfd with b dlbss bttributf nbmf,
+         * indidbtfs thf formbt of thbt bttributf,
+         * using thf lbyout lbngubgf spfdififd in thf JSR 200 spfdifidbtion.
+         * <p>
+         * For fxbmplf, thf ffffdt of this option is built in:
+         * <dodf>pbdk.dlbss.bttributf.SourdfFilf=RUH</dodf>.
+         * <p>
+         * Thf spfdibl strings {@link #ERROR}, {@link #STRIP}, bnd {@link #PASS} brf
+         * blso bllowfd, with thf sbmf mfbning bs {@link #UNKNOWN_ATTRIBUTE}.
+         * This providfs b wby for usfrs to rfqufst thbt spfdifid bttributfs bf
+         * rffusfd, strippfd, or pbssfd bitwisf (with no dlbss domprfssion).
+         * <p>
+         * Codf likf this might bf usfd to support bttributfs for JCOV:
+         * <prf><dodf>
+         *     Mbp p = pbdkfr.propfrtifs();
+         *     p.put(CODE_ATTRIBUTE_PFX+"CovfrbgfTbblf",       "NH[PHHII]");
+         *     p.put(CODE_ATTRIBUTE_PFX+"ChbrbdtfrRbngfTbblf", "NH[PHPOHIIH]");
+         *     p.put(CLASS_ATTRIBUTE_PFX+"SourdfID",           "RUH");
+         *     p.put(CLASS_ATTRIBUTE_PFX+"CompilbtionID",      "RUH");
+         * </dodf></prf>
+         * <p>
+         * Codf likf this might bf usfd to strip dfbugging bttributfs:
+         * <prf><dodf>
+         *     Mbp p = pbdkfr.propfrtifs();
+         *     p.put(CODE_ATTRIBUTE_PFX+"LinfNumbfrTbblf",    STRIP);
+         *     p.put(CODE_ATTRIBUTE_PFX+"LodblVbribblfTbblf", STRIP);
+         *     p.put(CLASS_ATTRIBUTE_PFX+"SourdfFilf",        STRIP);
+         * </dodf></prf>
+         */
+        String CLASS_ATTRIBUTE_PFX      = "pbdk.dlbss.bttributf.";
+
+        /**
+         * Whfn dondbtfnbtfd with b fifld bttributf nbmf,
+         * indidbtfs thf formbt of thbt bttributf.
+         * For fxbmplf, thf ffffdt of this option is built in:
+         * <dodf>pbdk.fifld.bttributf.Dfprfdbtfd=</dodf>.
+         * Thf spfdibl strings {@link #ERROR}, {@link #STRIP}, bnd
+         * {@link #PASS} brf blso bllowfd.
+         * @sff #CLASS_ATTRIBUTE_PFX
+         */
+        String FIELD_ATTRIBUTE_PFX      = "pbdk.fifld.bttributf.";
+
+        /**
+         * Whfn dondbtfnbtfd with b mfthod bttributf nbmf,
+         * indidbtfs thf formbt of thbt bttributf.
+         * For fxbmplf, thf ffffdt of this option is built in:
+         * <dodf>pbdk.mfthod.bttributf.Exdfptions=NH[RCH]</dodf>.
+         * Thf spfdibl strings {@link #ERROR}, {@link #STRIP}, bnd {@link #PASS}
+         * brf blso bllowfd.
+         * @sff #CLASS_ATTRIBUTE_PFX
+         */
+        String METHOD_ATTRIBUTE_PFX     = "pbdk.mfthod.bttributf.";
+
+        /**
+         * Whfn dondbtfnbtfd with b dodf bttributf nbmf,
+         * indidbtfs thf formbt of thbt bttributf.
+         * For fxbmplf, thf ffffdt of this option is built in:
+         * <dodf>pbdk.dodf.bttributf.LodblVbribblfTbblf=NH[PHOHRUHRSHH]</dodf>.
+         * Thf spfdibl strings {@link #ERROR}, {@link #STRIP}, bnd {@link #PASS}
+         * brf blso bllowfd.
+         * @sff #CLASS_ATTRIBUTE_PFX
+         */
+        String CODE_ATTRIBUTE_PFX       = "pbdk.dodf.bttributf.";
+
+        /**
+         * Thf unpbdkfr's progrfss bs b pfrdfntbgf, bs pfriodidblly
+         * updbtfd by thf unpbdkfr.
+         * Vblufs of 0 - 100 brf normbl, bnd -1 indidbtfs b stbll.
+         * Progrfss dbn bf monitorfd by polling thf vbluf of this
+         * propfrty.
+         * <p>
+         * At b minimum, thf unpbdkfr must sft progrfss to 0
+         * bt thf bfginning of b pbdking opfrbtion, bnd to 100
+         * bt thf fnd.
+         */
+        String PROGRESS                 = "pbdk.progrfss";
+
+        /** Thf string "kffp", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #DEFLATE_HINT
+         * @sff #MODIFICATION_TIME
+         */
+        String KEEP  = "kffp";
+
+        /** Thf string "pbss", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #UNKNOWN_ATTRIBUTE
+         * @sff #CLASS_ATTRIBUTE_PFX
+         * @sff #FIELD_ATTRIBUTE_PFX
+         * @sff #METHOD_ATTRIBUTE_PFX
+         * @sff #CODE_ATTRIBUTE_PFX
+         */
+        String PASS  = "pbss";
+
+        /** Thf string "strip", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #UNKNOWN_ATTRIBUTE
+         * @sff #CLASS_ATTRIBUTE_PFX
+         * @sff #FIELD_ATTRIBUTE_PFX
+         * @sff #METHOD_ATTRIBUTE_PFX
+         * @sff #CODE_ATTRIBUTE_PFX
+         */
+        String STRIP = "strip";
+
+        /** Thf string "frror", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #UNKNOWN_ATTRIBUTE
+         * @sff #CLASS_ATTRIBUTE_PFX
+         * @sff #FIELD_ATTRIBUTE_PFX
+         * @sff #METHOD_ATTRIBUTE_PFX
+         * @sff #CODE_ATTRIBUTE_PFX
+         */
+        String ERROR = "frror";
+
+        /** Thf string "truf", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #KEEP_FILE_ORDER
+         * @sff #DEFLATE_HINT
+         */
+        String TRUE = "truf";
+
+        /** Thf string "fblsf", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #KEEP_FILE_ORDER
+         * @sff #DEFLATE_HINT
+         */
+        String FALSE = "fblsf";
+
+        /** Thf string "lbtfst", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #MODIFICATION_TIME
+         */
+        String LATEST = "lbtfst";
+
+        /**
+         * Gft thf sft of this fnginf's propfrtifs.
+         * This sft is b "livf vifw", so thbt dhbnging its
+         * dontfnts immfdibtfly bfffdts thf Pbdkfr fnginf, bnd
+         * dhbngfs from thf fnginf (sudh bs progrfss indidbtions)
+         * brf immfdibtfly visiblf in thf mbp.
+         *
+         * <p>Thf propfrty mbp mby dontbin prf-dffinfd implfmfntbtion
+         * spfdifid bnd dffbult propfrtifs.  Usfrs brf fndourbgfd to
+         * rfbd thf informbtion bnd fully undfrstbnd thf implidbtions,
+         * bfforf modifying prf-fxisting propfrtifs.
+         * <p>
+         * Implfmfntbtion spfdifid propfrtifs brf prffixfd with b
+         * pbdkbgf nbmf bssodibtfd with thf implfmfntor, bfginning
+         * with <tt>dom.</tt> or b similbr prffix.
+         * All propfrty nbmfs bfginning with <tt>pbdk.</tt> bnd
+         * <tt>unpbdk.</tt> brf rfsfrvfd for usf by this API.
+         * <p>
+         * Unknown propfrtifs mby bf ignorfd or rfjfdtfd with bn
+         * unspfdififd frror, bnd invblid fntrifs mby dbusf bn
+         * unspfdififd frror to bf thrown.
+         *
+         * <p>
+         * Thf rfturnfd mbp implfmfnts bll optionbl {@link SortfdMbp} opfrbtions
+         * @rfturn A sortfd bssodibtion of propfrty kfy strings to propfrty
+         * vblufs.
+         */
+        SortfdMbp<String,String> propfrtifs();
+
+        /**
+         * Tbkfs b JbrFilf bnd donvfrts it into b Pbdk200 brdhivf.
+         * <p>
+         * Closfs its input but not its output.  (Pbdk200 brdhivfs brf bppfndbblf.)
+         * @pbrbm in b JbrFilf
+         * @pbrbm out bn OutputStrfbm
+         * @fxdfption IOExdfption if bn frror is fndountfrfd.
+         */
+        void pbdk(JbrFilf in, OutputStrfbm out) throws IOExdfption ;
+
+        /**
+         * Tbkfs b JbrInputStrfbm bnd donvfrts it into b Pbdk200 brdhivf.
+         * <p>
+         * Closfs its input but not its output.  (Pbdk200 brdhivfs brf bppfndbblf.)
+         * <p>
+         * Thf modifidbtion timf bnd dfflbtion hint bttributfs brf not bvbilbblf,
+         * for thf JAR mbniffst filf bnd its dontbining dirfdtory.
+         *
+         * @sff #MODIFICATION_TIME
+         * @sff #DEFLATE_HINT
+         * @pbrbm in b JbrInputStrfbm
+         * @pbrbm out bn OutputStrfbm
+         * @fxdfption IOExdfption if bn frror is fndountfrfd.
+         */
+        void pbdk(JbrInputStrfbm in, OutputStrfbm out) throws IOExdfption ;
+    }
+
+    /**
+     * Thf unpbdkfr fnginf donvfrts thf pbdkfd strfbm to b JAR filf.
+     * An instbndf of thf fnginf dbn bf obtbinfd
+     * using {@link #nfwUnpbdkfr}.
+     * <p>
+     * Evfry JAR filf produdfd by this fnginf will indludf thf string
+     * "<tt>PACK200</tt>" bs b zip filf dommfnt.
+     * This bllows b dfployfr to dftfdt if b JAR brdhivf wbs pbdkfd bnd unpbdkfd.
+     * <p>
+     * Notf: Unlfss othfrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b
+     * donstrudtor or mfthod in this dlbss will dbusf b {@link NullPointfrExdfption}
+     * to bf thrown.
+     * <p>
+     * This vfrsion of thf unpbdkfr is dompbtiblf with bll prfvious vfrsions.
+     * @sindf 1.5
+     */
+    publid intfrfbdf Unpbdkfr {
+
+        /** Thf string "kffp", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #DEFLATE_HINT
+         */
+        String KEEP  = "kffp";
+
+        /** Thf string "truf", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #DEFLATE_HINT
+         */
+        String TRUE = "truf";
+
+        /** Thf string "fblsf", b possiblf vbluf for dfrtbin propfrtifs.
+         * @sff #DEFLATE_HINT
+         */
+        String FALSE = "fblsf";
+
+        /**
+         * Propfrty indidbting thbt thf unpbdkfr should
+         * ignorf bll trbnsmittfd vblufs for DEFLATE_HINT,
+         * rfplbding thfm by thf givfn vbluf, {@link #TRUE} or {@link #FALSE}.
+         * Thf dffbult vbluf is thf spfdibl string {@link #KEEP},
+         * whidh bsks thf unpbdkfr to prfsfrvf bll trbnsmittfd
+         * dfflbtion hints.
+         */
+        String DEFLATE_HINT      = "unpbdk.dfflbtf.hint";
+
+
+
+        /**
+         * Thf unpbdkfr's progrfss bs b pfrdfntbgf, bs pfriodidblly
+         * updbtfd by thf unpbdkfr.
+         * Vblufs of 0 - 100 brf normbl, bnd -1 indidbtfs b stbll.
+         * Progrfss dbn bf monitorfd by polling thf vbluf of this
+         * propfrty.
+         * <p>
+         * At b minimum, thf unpbdkfr must sft progrfss to 0
+         * bt thf bfginning of b pbdking opfrbtion, bnd to 100
+         * bt thf fnd.
+         */
+        String PROGRESS         = "unpbdk.progrfss";
+
+        /**
+         * Gft thf sft of this fnginf's propfrtifs. This sft is
+         * b "livf vifw", so thbt dhbnging its
+         * dontfnts immfdibtfly bfffdts thf Pbdkfr fnginf, bnd
+         * dhbngfs from thf fnginf (sudh bs progrfss indidbtions)
+         * brf immfdibtfly visiblf in thf mbp.
+         *
+         * <p>Thf propfrty mbp mby dontbin prf-dffinfd implfmfntbtion
+         * spfdifid bnd dffbult propfrtifs.  Usfrs brf fndourbgfd to
+         * rfbd thf informbtion bnd fully undfrstbnd thf implidbtions,
+         * bfforf modifying prf-fxisting propfrtifs.
+         * <p>
+         * Implfmfntbtion spfdifid propfrtifs brf prffixfd with b
+         * pbdkbgf nbmf bssodibtfd with thf implfmfntor, bfginning
+         * with <tt>dom.</tt> or b similbr prffix.
+         * All propfrty nbmfs bfginning with <tt>pbdk.</tt> bnd
+         * <tt>unpbdk.</tt> brf rfsfrvfd for usf by this API.
+         * <p>
+         * Unknown propfrtifs mby bf ignorfd or rfjfdtfd with bn
+         * unspfdififd frror, bnd invblid fntrifs mby dbusf bn
+         * unspfdififd frror to bf thrown.
+         *
+         * @rfturn A sortfd bssodibtion of option kfy strings to option vblufs.
+         */
+        SortfdMbp<String,String> propfrtifs();
+
+        /**
+         * Rfbd b Pbdk200 brdhivf, bnd writf thf fndodfd JAR to
+         * b JbrOutputStrfbm.
+         * Thf fntirf dontfnts of thf input strfbm will bf rfbd.
+         * It mby bf morf fffidifnt to rfbd thf Pbdk200 brdhivf
+         * to b filf bnd pbss thf Filf objfdt, using thf bltfrnbtf
+         * mfthod dfsdribfd bflow.
+         * <p>
+         * Closfs its input but not its output.  (Thf output dbn bddumulbtf morf flfmfnts.)
+         * @pbrbm in bn InputStrfbm.
+         * @pbrbm out b JbrOutputStrfbm.
+         * @fxdfption IOExdfption if bn frror is fndountfrfd.
+         */
+        void unpbdk(InputStrfbm in, JbrOutputStrfbm out) throws IOExdfption;
+
+        /**
+         * Rfbd b Pbdk200 brdhivf, bnd writf thf fndodfd JAR to
+         * b JbrOutputStrfbm.
+         * <p>
+         * Dofs not dlosf its output.  (Thf output dbn bddumulbtf morf flfmfnts.)
+         * @pbrbm in b Filf.
+         * @pbrbm out b JbrOutputStrfbm.
+         * @fxdfption IOExdfption if bn frror is fndountfrfd.
+         */
+        void unpbdk(Filf in, JbrOutputStrfbm out) throws IOExdfption;
+    }
+
+    // Privbtf stuff....
+
+    privbtf stbtid finbl String PACK_PROVIDER = "jbvb.util.jbr.Pbdk200.Pbdkfr";
+    privbtf stbtid finbl String UNPACK_PROVIDER = "jbvb.util.jbr.Pbdk200.Unpbdkfr";
+
+    privbtf stbtid Clbss<?> pbdkfrImpl;
+    privbtf stbtid Clbss<?> unpbdkfrImpl;
+
+    privbtf syndhronizfd stbtid Objfdt nfwInstbndf(String prop) {
+        String implNbmf = "(unknown)";
+        try {
+            Clbss<?> impl = (PACK_PROVIDER.fqubls(prop))? pbdkfrImpl: unpbdkfrImpl;
+            if (impl == null) {
+                // Thf first timf, wf must dfdidf whidh dlbss to usf.
+                implNbmf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(prop,""));
+                if (implNbmf != null && !implNbmf.fqubls(""))
+                    impl = Clbss.forNbmf(implNbmf);
+                flsf if (PACK_PROVIDER.fqubls(prop))
+                    impl = dom.sun.jbvb.util.jbr.pbdk.PbdkfrImpl.dlbss;
+                flsf
+                    impl = dom.sun.jbvb.util.jbr.pbdk.UnpbdkfrImpl.dlbss;
+            }
+            // Wf hbvf b dlbss.  Now instbntibtf it.
+            rfturn impl.nfwInstbndf();
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw Error("Clbss not found: " + implNbmf +
+                                ":\ndhfdk propfrty " + prop +
+                                " in your propfrtifs filf.", f);
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw Error("Could not instbntibtf: " + implNbmf +
+                                ":\ndhfdk propfrty " + prop +
+                                " in your propfrtifs filf.", f);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw Error("Cbnnot bddfss dlbss: " + implNbmf +
+                                ":\ndhfdk propfrty " + prop +
+                                " in your propfrtifs filf.", f);
+        }
+    }
+
+}

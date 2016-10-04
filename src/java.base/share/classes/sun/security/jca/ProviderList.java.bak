@@ -1,502 +1,502 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jca;
+pbdkbgf sun.sfdurity.jdb;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.Provider.Service;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.Providfr.Sfrvidf;
 
 /**
- * List of Providers. Used to represent the provider preferences.
+ * List of Providfrs. Usfd to rfprfsfnt tif providfr prfffrfndfs.
  *
- * The system starts out with a ProviderList that only has the classNames
- * of the Providers. Providers are loaded on demand only when needed.
+ * Tif systfm stbrts out witi b ProvidfrList tibt only ibs tif dlbssNbmfs
+ * of tif Providfrs. Providfrs brf lobdfd on dfmbnd only wifn nffdfd.
  *
- * For compatibility reasons, Providers that could not be loaded are ignored
- * and internally presented as the instance EMPTY_PROVIDER. However, those
- * objects cannot be presented to applications. Call the convert() method
- * to force all Providers to be loaded and to obtain a ProviderList with
- * invalid entries removed. All this is handled by the Security class.
+ * For dompbtibility rfbsons, Providfrs tibt dould not bf lobdfd brf ignorfd
+ * bnd intfrnblly prfsfntfd bs tif instbndf EMPTY_PROVIDER. Howfvfr, tiosf
+ * objfdts dbnnot bf prfsfntfd to bpplidbtions. Cbll tif donvfrt() mftiod
+ * to fordf bll Providfrs to bf lobdfd bnd to obtbin b ProvidfrList witi
+ * invblid fntrifs rfmovfd. All tiis is ibndlfd by tif Sfdurity dlbss.
  *
- * Note that all indices used by this class are 0-based per general Java
- * convention. These must be converted to the 1-based indices used by the
- * Security class externally when needed.
+ * Notf tibt bll indidfs usfd by tiis dlbss brf 0-bbsfd pfr gfnfrbl Jbvb
+ * donvfntion. Tifsf must bf donvfrtfd to tif 1-bbsfd indidfs usfd by tif
+ * Sfdurity dlbss fxtfrnblly wifn nffdfd.
  *
- * Instances of this class are immutable. This eliminates the need for
- * cloning and synchronization in consumers. The add() and remove() style
- * methods are static in order to avoid confusion about the immutability.
+ * Instbndfs of tiis dlbss brf immutbblf. Tiis fliminbtfs tif nffd for
+ * dloning bnd syndironizbtion in donsumfrs. Tif bdd() bnd rfmovf() stylf
+ * mftiods brf stbtid in ordfr to bvoid donfusion bbout tif immutbbility.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-public final class ProviderList {
+publid finbl dlbss ProvidfrList {
 
-    final static sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance("jca", "ProviderList");
+    finbl stbtid sun.sfdurity.util.Dfbug dfbug =
+        sun.sfdurity.util.Dfbug.gftInstbndf("jdb", "ProvidfrList");
 
-    private final static ProviderConfig[] PC0 = new ProviderConfig[0];
+    privbtf finbl stbtid ProvidfrConfig[] PC0 = nfw ProvidfrConfig[0];
 
-    private final static Provider[] P0 = new Provider[0];
+    privbtf finbl stbtid Providfr[] P0 = nfw Providfr[0];
 
-    // constant for an ProviderList with no elements
-    static final ProviderList EMPTY = new ProviderList(PC0, true);
+    // donstbnt for bn ProvidfrList witi no flfmfnts
+    stbtid finbl ProvidfrList EMPTY = nfw ProvidfrList(PC0, truf);
 
-    // dummy provider object to use during initialization
-    // used to avoid explicit null checks in various places
-    private static final Provider EMPTY_PROVIDER =
-        new Provider("##Empty##", 1.0d, "initialization in progress") {
-            private static final long serialVersionUID = 1151354171352296389L;
-            // override getService() to return null slightly faster
-            public Service getService(String type, String algorithm) {
-                return null;
+    // dummy providfr objfdt to usf during initiblizbtion
+    // usfd to bvoid fxplidit null difdks in vbrious plbdfs
+    privbtf stbtid finbl Providfr EMPTY_PROVIDER =
+        nfw Providfr("##Empty##", 1.0d, "initiblizbtion in progrfss") {
+            privbtf stbtid finbl long sfriblVfrsionUID = 1151354171352296389L;
+            // ovfrridf gftSfrvidf() to rfturn null sligitly fbstfr
+            publid Sfrvidf gftSfrvidf(String typf, String blgoritim) {
+                rfturn null;
             }
         };
 
-    // construct a ProviderList from the security properties
-    // (static provider configuration in the java.security file)
-    static ProviderList fromSecurityProperties() {
-        // doPrivileged() because of Security.getProperty()
-        return AccessController.doPrivileged(
-                        new PrivilegedAction<ProviderList>() {
-            public ProviderList run() {
-                return new ProviderList();
+    // donstrudt b ProvidfrList from tif sfdurity propfrtifs
+    // (stbtid providfr donfigurbtion in tif jbvb.sfdurity filf)
+    stbtid ProvidfrList fromSfdurityPropfrtifs() {
+        // doPrivilfgfd() bfdbusf of Sfdurity.gftPropfrty()
+        rfturn AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<ProvidfrList>() {
+            publid ProvidfrList run() {
+                rfturn nfw ProvidfrList();
             }
         });
     }
 
-    public static ProviderList add(ProviderList providerList, Provider p) {
-        return insertAt(providerList, p, -1);
+    publid stbtid ProvidfrList bdd(ProvidfrList providfrList, Providfr p) {
+        rfturn insfrtAt(providfrList, p, -1);
     }
 
-    public static ProviderList insertAt(ProviderList providerList, Provider p,
+    publid stbtid ProvidfrList insfrtAt(ProvidfrList providfrList, Providfr p,
             int position) {
-        if (providerList.getProvider(p.getName()) != null) {
-            return providerList;
+        if (providfrList.gftProvidfr(p.gftNbmf()) != null) {
+            rfturn providfrList;
         }
-        List<ProviderConfig> list = new ArrayList<>
-                                    (Arrays.asList(providerList.configs));
-        int n = list.size();
+        List<ProvidfrConfig> list = nfw ArrbyList<>
+                                    (Arrbys.bsList(providfrList.donfigs));
+        int n = list.sizf();
         if ((position < 0) || (position > n)) {
             position = n;
         }
-        list.add(position, new ProviderConfig(p));
-        return new ProviderList(list.toArray(PC0), true);
+        list.bdd(position, nfw ProvidfrConfig(p));
+        rfturn nfw ProvidfrList(list.toArrby(PC0), truf);
     }
 
-    public static ProviderList remove(ProviderList providerList, String name) {
-        // make sure provider exists
-        if (providerList.getProvider(name) == null) {
-            return providerList;
+    publid stbtid ProvidfrList rfmovf(ProvidfrList providfrList, String nbmf) {
+        // mbkf surf providfr fxists
+        if (providfrList.gftProvidfr(nbmf) == null) {
+            rfturn providfrList;
         }
-        // copy all except matching to new list
-        ProviderConfig[] configs = new ProviderConfig[providerList.size() - 1];
+        // dopy bll fxdfpt mbtdiing to nfw list
+        ProvidfrConfig[] donfigs = nfw ProvidfrConfig[providfrList.sizf() - 1];
         int j = 0;
-        for (ProviderConfig config : providerList.configs) {
-            if (config.getProvider().getName().equals(name) == false) {
-                configs[j++] = config;
+        for (ProvidfrConfig donfig : providfrList.donfigs) {
+            if (donfig.gftProvidfr().gftNbmf().fqubls(nbmf) == fblsf) {
+                donfigs[j++] = donfig;
             }
         }
-        return new ProviderList(configs, true);
+        rfturn nfw ProvidfrList(donfigs, truf);
     }
 
-    // Create a new ProviderList from the specified Providers.
-    // This method is for use by SunJSSE.
-    public static ProviderList newList(Provider ... providers) {
-        ProviderConfig[] configs = new ProviderConfig[providers.length];
-        for (int i = 0; i < providers.length; i++) {
-            configs[i] = new ProviderConfig(providers[i]);
+    // Crfbtf b nfw ProvidfrList from tif spfdififd Providfrs.
+    // Tiis mftiod is for usf by SunJSSE.
+    publid stbtid ProvidfrList nfwList(Providfr ... providfrs) {
+        ProvidfrConfig[] donfigs = nfw ProvidfrConfig[providfrs.lfngti];
+        for (int i = 0; i < providfrs.lfngti; i++) {
+            donfigs[i] = nfw ProvidfrConfig(providfrs[i]);
         }
-        return new ProviderList(configs, true);
+        rfturn nfw ProvidfrList(donfigs, truf);
     }
 
-    // configuration of the providers
-    private final ProviderConfig[] configs;
+    // donfigurbtion of tif providfrs
+    privbtf finbl ProvidfrConfig[] donfigs;
 
-    // flag indicating whether all configs have been loaded successfully
-    private volatile boolean allLoaded;
+    // flbg indidbting wiftifr bll donfigs ibvf bffn lobdfd suddfssfully
+    privbtf volbtilf boolfbn bllLobdfd;
 
-    // List returned by providers()
-    private final List<Provider> userList = new AbstractList<Provider>() {
-        public int size() {
-            return configs.length;
+    // List rfturnfd by providfrs()
+    privbtf finbl List<Providfr> usfrList = nfw AbstrbdtList<Providfr>() {
+        publid int sizf() {
+            rfturn donfigs.lfngti;
         }
-        public Provider get(int index) {
-            return getProvider(index);
+        publid Providfr gft(int indfx) {
+            rfturn gftProvidfr(indfx);
         }
     };
 
     /**
-     * Create a new ProviderList from an array of configs
+     * Crfbtf b nfw ProvidfrList from bn brrby of donfigs
      */
-    private ProviderList(ProviderConfig[] configs, boolean allLoaded) {
-        this.configs = configs;
-        this.allLoaded = allLoaded;
+    privbtf ProvidfrList(ProvidfrConfig[] donfigs, boolfbn bllLobdfd) {
+        tiis.donfigs = donfigs;
+        tiis.bllLobdfd = bllLobdfd;
     }
 
     /**
-     * Return a new ProviderList parsed from the java.security Properties.
+     * Rfturn b nfw ProvidfrList pbrsfd from tif jbvb.sfdurity Propfrtifs.
      */
-    private ProviderList() {
-        List<ProviderConfig> configList = new ArrayList<>();
-        for (int i = 1; true; i++) {
-            String entry = Security.getProperty("security.provider." + i);
-            if (entry == null) {
-                break;
+    privbtf ProvidfrList() {
+        List<ProvidfrConfig> donfigList = nfw ArrbyList<>();
+        for (int i = 1; truf; i++) {
+            String fntry = Sfdurity.gftPropfrty("sfdurity.providfr." + i);
+            if (fntry == null) {
+                brfbk;
             }
-            entry = entry.trim();
-            if (entry.length() == 0) {
-                System.err.println("invalid entry for " +
-                                   "security.provider." + i);
-                break;
+            fntry = fntry.trim();
+            if (fntry.lfngti() == 0) {
+                Systfm.frr.println("invblid fntry for " +
+                                   "sfdurity.providfr." + i);
+                brfbk;
             }
-            int k = entry.indexOf(' ');
-            ProviderConfig config;
+            int k = fntry.indfxOf(' ');
+            ProvidfrConfig donfig;
             if (k == -1) {
-                config = new ProviderConfig(entry);
-            } else {
-                String className = entry.substring(0, k);
-                String argument = entry.substring(k + 1).trim();
-                config = new ProviderConfig(className, argument);
+                donfig = nfw ProvidfrConfig(fntry);
+            } flsf {
+                String dlbssNbmf = fntry.substring(0, k);
+                String brgumfnt = fntry.substring(k + 1).trim();
+                donfig = nfw ProvidfrConfig(dlbssNbmf, brgumfnt);
             }
 
-            // Get rid of duplicate providers.
-            if (configList.contains(config) == false) {
-                configList.add(config);
+            // Gft rid of duplidbtf providfrs.
+            if (donfigList.dontbins(donfig) == fblsf) {
+                donfigList.bdd(donfig);
             }
         }
-        configs = configList.toArray(PC0);
-        if (debug != null) {
-            debug.println("provider configuration: " + configList);
+        donfigs = donfigList.toArrby(PC0);
+        if (dfbug != null) {
+            dfbug.println("providfr donfigurbtion: " + donfigList);
         }
     }
 
     /**
-     * Construct a special ProviderList for JAR verification. It consists
-     * of the providers specified via jarClassNames, which must be on the
-     * bootclasspath and cannot be in signed JAR files. This is to avoid
-     * possible recursion and deadlock during verification.
+     * Construdt b spfdibl ProvidfrList for JAR vfrifidbtion. It donsists
+     * of tif providfrs spfdififd vib jbrClbssNbmfs, wiidi must bf on tif
+     * bootdlbsspbti bnd dbnnot bf in signfd JAR filfs. Tiis is to bvoid
+     * possiblf rfdursion bnd dfbdlodk during vfrifidbtion.
      */
-    ProviderList getJarList(String[] jarClassNames) {
-        List<ProviderConfig> newConfigs = new ArrayList<>();
-        for (String className : jarClassNames) {
-            ProviderConfig newConfig = new ProviderConfig(className);
-            for (ProviderConfig config : configs) {
-                // if the equivalent object is present in this provider list,
-                // use the old object rather than the new object.
-                // this ensures that when the provider is loaded in the
-                // new thread local list, it will also become available
-                // in this provider list
-                if (config.equals(newConfig)) {
-                    newConfig = config;
-                    break;
+    ProvidfrList gftJbrList(String[] jbrClbssNbmfs) {
+        List<ProvidfrConfig> nfwConfigs = nfw ArrbyList<>();
+        for (String dlbssNbmf : jbrClbssNbmfs) {
+            ProvidfrConfig nfwConfig = nfw ProvidfrConfig(dlbssNbmf);
+            for (ProvidfrConfig donfig : donfigs) {
+                // if tif fquivblfnt objfdt is prfsfnt in tiis providfr list,
+                // usf tif old objfdt rbtifr tibn tif nfw objfdt.
+                // tiis fnsurfs tibt wifn tif providfr is lobdfd in tif
+                // nfw tirfbd lodbl list, it will blso bfdomf bvbilbblf
+                // in tiis providfr list
+                if (donfig.fqubls(nfwConfig)) {
+                    nfwConfig = donfig;
+                    brfbk;
                 }
             }
-            newConfigs.add(newConfig);
+            nfwConfigs.bdd(nfwConfig);
         }
-        ProviderConfig[] configArray = newConfigs.toArray(PC0);
-        return new ProviderList(configArray, false);
+        ProvidfrConfig[] donfigArrby = nfwConfigs.toArrby(PC0);
+        rfturn nfw ProvidfrList(donfigArrby, fblsf);
     }
 
-    public int size() {
-        return configs.length;
-    }
-
-    /**
-     * Return the Provider at the specified index. Returns EMPTY_PROVIDER
-     * if the provider could not be loaded at this time.
-     */
-    Provider getProvider(int index) {
-        Provider p = configs[index].getProvider();
-        return (p != null) ? p : EMPTY_PROVIDER;
+    publid int sizf() {
+        rfturn donfigs.lfngti;
     }
 
     /**
-     * Return an unmodifiable List of all Providers in this List. The
-     * individual Providers are loaded on demand. Elements that could not
-     * be initialized are replaced with EMPTY_PROVIDER.
+     * Rfturn tif Providfr bt tif spfdififd indfx. Rfturns EMPTY_PROVIDER
+     * if tif providfr dould not bf lobdfd bt tiis timf.
      */
-    public List<Provider> providers() {
-        return userList;
-    }
-
-    private ProviderConfig getProviderConfig(String name) {
-        int index = getIndex(name);
-        return (index != -1) ? configs[index] : null;
-    }
-
-    // return the Provider with the specified name or null
-    public Provider getProvider(String name) {
-        ProviderConfig config = getProviderConfig(name);
-        return (config == null) ? null : config.getProvider();
+    Providfr gftProvidfr(int indfx) {
+        Providfr p = donfigs[indfx].gftProvidfr();
+        rfturn (p != null) ? p : EMPTY_PROVIDER;
     }
 
     /**
-     * Return the index at which the provider with the specified name is
-     * installed or -1 if it is not present in this ProviderList.
+     * Rfturn bn unmodifibblf List of bll Providfrs in tiis List. Tif
+     * individubl Providfrs brf lobdfd on dfmbnd. Elfmfnts tibt dould not
+     * bf initiblizfd brf rfplbdfd witi EMPTY_PROVIDER.
      */
-    public int getIndex(String name) {
-        for (int i = 0; i < configs.length; i++) {
-            Provider p = getProvider(i);
-            if (p.getName().equals(name)) {
-                return i;
+    publid List<Providfr> providfrs() {
+        rfturn usfrList;
+    }
+
+    privbtf ProvidfrConfig gftProvidfrConfig(String nbmf) {
+        int indfx = gftIndfx(nbmf);
+        rfturn (indfx != -1) ? donfigs[indfx] : null;
+    }
+
+    // rfturn tif Providfr witi tif spfdififd nbmf or null
+    publid Providfr gftProvidfr(String nbmf) {
+        ProvidfrConfig donfig = gftProvidfrConfig(nbmf);
+        rfturn (donfig == null) ? null : donfig.gftProvidfr();
+    }
+
+    /**
+     * Rfturn tif indfx bt wiidi tif providfr witi tif spfdififd nbmf is
+     * instbllfd or -1 if it is not prfsfnt in tiis ProvidfrList.
+     */
+    publid int gftIndfx(String nbmf) {
+        for (int i = 0; i < donfigs.lfngti; i++) {
+            Providfr p = gftProvidfr(i);
+            if (p.gftNbmf().fqubls(nbmf)) {
+                rfturn i;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
-    // attempt to load all Providers not already loaded
-    private int loadAll() {
-        if (allLoaded) {
-            return configs.length;
+    // bttfmpt to lobd bll Providfrs not blrfbdy lobdfd
+    privbtf int lobdAll() {
+        if (bllLobdfd) {
+            rfturn donfigs.lfngti;
         }
-        if (debug != null) {
-            debug.println("Loading all providers");
-            new Exception("Call trace").printStackTrace();
+        if (dfbug != null) {
+            dfbug.println("Lobding bll providfrs");
+            nfw Exdfption("Cbll trbdf").printStbdkTrbdf();
         }
         int n = 0;
-        for (int i = 0; i < configs.length; i++) {
-            Provider p = configs[i].getProvider();
+        for (int i = 0; i < donfigs.lfngti; i++) {
+            Providfr p = donfigs[i].gftProvidfr();
             if (p != null) {
                 n++;
             }
         }
-        if (n == configs.length) {
-            allLoaded = true;
+        if (n == donfigs.lfngti) {
+            bllLobdfd = truf;
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Try to load all Providers and return the ProviderList. If one or
-     * more Providers could not be loaded, a new ProviderList with those
-     * entries removed is returned. Otherwise, the method returns this.
+     * Try to lobd bll Providfrs bnd rfturn tif ProvidfrList. If onf or
+     * morf Providfrs dould not bf lobdfd, b nfw ProvidfrList witi tiosf
+     * fntrifs rfmovfd is rfturnfd. Otifrwisf, tif mftiod rfturns tiis.
      */
-    ProviderList removeInvalid() {
-        int n = loadAll();
-        if (n == configs.length) {
-            return this;
+    ProvidfrList rfmovfInvblid() {
+        int n = lobdAll();
+        if (n == donfigs.lfngti) {
+            rfturn tiis;
         }
-        ProviderConfig[] newConfigs = new ProviderConfig[n];
-        for (int i = 0, j = 0; i < configs.length; i++) {
-            ProviderConfig config = configs[i];
-            if (config.isLoaded()) {
-                newConfigs[j++] = config;
+        ProvidfrConfig[] nfwConfigs = nfw ProvidfrConfig[n];
+        for (int i = 0, j = 0; i < donfigs.lfngti; i++) {
+            ProvidfrConfig donfig = donfigs[i];
+            if (donfig.isLobdfd()) {
+                nfwConfigs[j++] = donfig;
             }
         }
-        return new ProviderList(newConfigs, true);
+        rfturn nfw ProvidfrList(nfwConfigs, truf);
     }
 
-    // return the providers as an array
-    public Provider[] toArray() {
-        return providers().toArray(P0);
+    // rfturn tif providfrs bs bn brrby
+    publid Providfr[] toArrby() {
+        rfturn providfrs().toArrby(P0);
     }
 
-    // return a String representation of this ProviderList
-    public String toString() {
-        return Arrays.asList(configs).toString();
+    // rfturn b String rfprfsfntbtion of tiis ProvidfrList
+    publid String toString() {
+        rfturn Arrbys.bsList(donfigs).toString();
     }
 
     /**
-     * Return a Service describing an implementation of the specified
-     * algorithm from the Provider with the highest precedence that
-     * supports that algorithm. Return null if no Provider supports this
-     * algorithm.
+     * Rfturn b Sfrvidf dfsdribing bn implfmfntbtion of tif spfdififd
+     * blgoritim from tif Providfr witi tif iigifst prfdfdfndf tibt
+     * supports tibt blgoritim. Rfturn null if no Providfr supports tiis
+     * blgoritim.
      */
-    public Service getService(String type, String name) {
-        for (int i = 0; i < configs.length; i++) {
-            Provider p = getProvider(i);
-            Service s = p.getService(type, name);
+    publid Sfrvidf gftSfrvidf(String typf, String nbmf) {
+        for (int i = 0; i < donfigs.lfngti; i++) {
+            Providfr p = gftProvidfr(i);
+            Sfrvidf s = p.gftSfrvidf(typf, nbmf);
             if (s != null) {
-                return s;
+                rfturn s;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Return a List containing all the Services describing implementations
-     * of the specified algorithms in precedence order. If no implementation
-     * exists, this method returns an empty List.
+     * Rfturn b List dontbining bll tif Sfrvidfs dfsdribing implfmfntbtions
+     * of tif spfdififd blgoritims in prfdfdfndf ordfr. If no implfmfntbtion
+     * fxists, tiis mftiod rfturns bn fmpty List.
      *
-     * The elements of this list are determined lazily on demand.
+     * Tif flfmfnts of tiis list brf dftfrminfd lbzily on dfmbnd.
      *
-     * The List returned is NOT thread safe.
+     * Tif List rfturnfd is NOT tirfbd sbff.
      */
-    public List<Service> getServices(String type, String algorithm) {
-        return new ServiceList(type, algorithm);
+    publid List<Sfrvidf> gftSfrvidfs(String typf, String blgoritim) {
+        rfturn nfw SfrvidfList(typf, blgoritim);
     }
 
     /**
-     * This method exists for compatibility with JCE only. It will be removed
-     * once JCE has been changed to use the replacement method.
-     * @deprecated use getServices(List<ServiceId>) instead
+     * Tiis mftiod fxists for dompbtibility witi JCE only. It will bf rfmovfd
+     * ondf JCE ibs bffn dibngfd to usf tif rfplbdfmfnt mftiod.
+     * @dfprfdbtfd usf gftSfrvidfs(List<SfrvidfId>) instfbd
      */
-    @Deprecated
-    public List<Service> getServices(String type, List<String> algorithms) {
-        List<ServiceId> ids = new ArrayList<>();
-        for (String alg : algorithms) {
-            ids.add(new ServiceId(type, alg));
+    @Dfprfdbtfd
+    publid List<Sfrvidf> gftSfrvidfs(String typf, List<String> blgoritims) {
+        List<SfrvidfId> ids = nfw ArrbyList<>();
+        for (String blg : blgoritims) {
+            ids.bdd(nfw SfrvidfId(typf, blg));
         }
-        return getServices(ids);
+        rfturn gftSfrvidfs(ids);
     }
 
-    public List<Service> getServices(List<ServiceId> ids) {
-        return new ServiceList(ids);
+    publid List<Sfrvidf> gftSfrvidfs(List<SfrvidfId> ids) {
+        rfturn nfw SfrvidfList(ids);
     }
 
     /**
-     * Inner class for a List of Services. Custom List implementation in
-     * order to delay Provider initialization and lookup.
-     * Not thread safe.
+     * Innfr dlbss for b List of Sfrvidfs. Custom List implfmfntbtion in
+     * ordfr to dflby Providfr initiblizbtion bnd lookup.
+     * Not tirfbd sbff.
      */
-    private final class ServiceList extends AbstractList<Service> {
+    privbtf finbl dlbss SfrvidfList fxtfnds AbstrbdtList<Sfrvidf> {
 
-        // type and algorithm for simple lookup
-        // avoid allocating/traversing the ServiceId list for these lookups
-        private final String type;
-        private final String algorithm;
+        // typf bnd blgoritim for simplf lookup
+        // bvoid bllodbting/trbvfrsing tif SfrvidfId list for tifsf lookups
+        privbtf finbl String typf;
+        privbtf finbl String blgoritim;
 
-        // list of ids for parallel lookup
-        // if ids is non-null, type and algorithm are null
-        private final List<ServiceId> ids;
+        // list of ids for pbrbllfl lookup
+        // if ids is non-null, typf bnd blgoritim brf null
+        privbtf finbl List<SfrvidfId> ids;
 
-        // first service we have found
-        // it is stored in a separate variable so that we can avoid
-        // allocating the services list if we do not need the second service.
-        // this is the case if we don't failover (failovers are typically rare)
-        private Service firstService;
+        // first sfrvidf wf ibvf found
+        // it is storfd in b sfpbrbtf vbribblf so tibt wf dbn bvoid
+        // bllodbting tif sfrvidfs list if wf do not nffd tif sfdond sfrvidf.
+        // tiis is tif dbsf if wf don't fbilovfr (fbilovfrs brf typidblly rbrf)
+        privbtf Sfrvidf firstSfrvidf;
 
-        // list of the services we have found so far
-        private List<Service> services;
+        // list of tif sfrvidfs wf ibvf found so fbr
+        privbtf List<Sfrvidf> sfrvidfs;
 
-        // index into config[] of the next provider we need to query
-        private int providerIndex;
+        // indfx into donfig[] of tif nfxt providfr wf nffd to qufry
+        privbtf int providfrIndfx;
 
-        ServiceList(String type, String algorithm) {
-            this.type = type;
-            this.algorithm = algorithm;
-            this.ids = null;
+        SfrvidfList(String typf, String blgoritim) {
+            tiis.typf = typf;
+            tiis.blgoritim = blgoritim;
+            tiis.ids = null;
         }
 
-        ServiceList(List<ServiceId> ids) {
-            this.type = null;
-            this.algorithm = null;
-            this.ids = ids;
+        SfrvidfList(List<SfrvidfId> ids) {
+            tiis.typf = null;
+            tiis.blgoritim = null;
+            tiis.ids = ids;
         }
 
-        private void addService(Service s) {
-            if (firstService == null) {
-                firstService = s;
-            } else {
-                if (services == null) {
-                    services = new ArrayList<Service>(4);
-                    services.add(firstService);
+        privbtf void bddSfrvidf(Sfrvidf s) {
+            if (firstSfrvidf == null) {
+                firstSfrvidf = s;
+            } flsf {
+                if (sfrvidfs == null) {
+                    sfrvidfs = nfw ArrbyList<Sfrvidf>(4);
+                    sfrvidfs.bdd(firstSfrvidf);
                 }
-                services.add(s);
+                sfrvidfs.bdd(s);
             }
         }
 
-        private Service tryGet(int index) {
-            while (true) {
-                if ((index == 0) && (firstService != null)) {
-                    return firstService;
-                } else if ((services != null) && (services.size() > index)) {
-                    return services.get(index);
+        privbtf Sfrvidf tryGft(int indfx) {
+            wiilf (truf) {
+                if ((indfx == 0) && (firstSfrvidf != null)) {
+                    rfturn firstSfrvidf;
+                } flsf if ((sfrvidfs != null) && (sfrvidfs.sizf() > indfx)) {
+                    rfturn sfrvidfs.gft(indfx);
                 }
-                if (providerIndex >= configs.length) {
-                    return null;
+                if (providfrIndfx >= donfigs.lfngti) {
+                    rfturn null;
                 }
-                // check all algorithms in this provider before moving on
-                Provider p = getProvider(providerIndex++);
-                if (type != null) {
-                    // simple lookup
-                    Service s = p.getService(type, algorithm);
+                // difdk bll blgoritims in tiis providfr bfforf moving on
+                Providfr p = gftProvidfr(providfrIndfx++);
+                if (typf != null) {
+                    // simplf lookup
+                    Sfrvidf s = p.gftSfrvidf(typf, blgoritim);
                     if (s != null) {
-                        addService(s);
+                        bddSfrvidf(s);
                     }
-                } else {
-                    // parallel lookup
-                    for (ServiceId id : ids) {
-                        Service s = p.getService(id.type, id.algorithm);
+                } flsf {
+                    // pbrbllfl lookup
+                    for (SfrvidfId id : ids) {
+                        Sfrvidf s = p.gftSfrvidf(id.typf, id.blgoritim);
                         if (s != null) {
-                            addService(s);
+                            bddSfrvidf(s);
                         }
                     }
                 }
             }
         }
 
-        public Service get(int index) {
-            Service s = tryGet(index);
+        publid Sfrvidf gft(int indfx) {
+            Sfrvidf s = tryGft(indfx);
             if (s == null) {
-                throw new IndexOutOfBoundsException();
+                tirow nfw IndfxOutOfBoundsExdfption();
             }
-            return s;
+            rfturn s;
         }
 
-        public int size() {
+        publid int sizf() {
             int n;
-            if (services != null) {
-                n = services.size();
-            } else {
-                n = (firstService != null) ? 1 : 0;
+            if (sfrvidfs != null) {
+                n = sfrvidfs.sizf();
+            } flsf {
+                n = (firstSfrvidf != null) ? 1 : 0;
             }
-            while (tryGet(n) != null) {
+            wiilf (tryGft(n) != null) {
                 n++;
             }
-            return n;
+            rfturn n;
         }
 
-        // override isEmpty() and iterator() to not call size()
-        // this avoids loading + checking all Providers
+        // ovfrridf isEmpty() bnd itfrbtor() to not dbll sizf()
+        // tiis bvoids lobding + difdking bll Providfrs
 
-        public boolean isEmpty() {
-            return (tryGet(0) == null);
+        publid boolfbn isEmpty() {
+            rfturn (tryGft(0) == null);
         }
 
-        public Iterator<Service> iterator() {
-            return new Iterator<Service>() {
-                int index;
+        publid Itfrbtor<Sfrvidf> itfrbtor() {
+            rfturn nfw Itfrbtor<Sfrvidf>() {
+                int indfx;
 
-                public boolean hasNext() {
-                    return tryGet(index) != null;
+                publid boolfbn ibsNfxt() {
+                    rfturn tryGft(indfx) != null;
                 }
 
-                public Service next() {
-                    Service s = tryGet(index);
+                publid Sfrvidf nfxt() {
+                    Sfrvidf s = tryGft(indfx);
                     if (s == null) {
-                        throw new NoSuchElementException();
+                        tirow nfw NoSudiElfmfntExdfption();
                     }
-                    index++;
-                    return s;
+                    indfx++;
+                    rfturn s;
                 }
 
-                public void remove() {
-                    throw new UnsupportedOperationException();
+                publid void rfmovf() {
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
             };
         }

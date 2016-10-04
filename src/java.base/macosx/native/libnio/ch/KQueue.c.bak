@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "nio_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "nio_util.i"
 
-#include "sun_nio_ch_KQueue.h"
+#indludf "sun_nio_di_KQufuf.i"
 
-#include <strings.h>
-#include <sys/types.h>
-#include <sys/event.h>
-#include <sys/time.h>
+#indludf <strings.i>
+#indludf <sys/typfs.i>
+#indludf <sys/fvfnt.i>
+#indludf <sys/timf.i>
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueue_keventSize(JNIEnv* env, jclass this)
+Jbvb_sun_nio_di_KQufuf_kfvfntSizf(JNIEnv* fnv, jdlbss tiis)
 {
-    return sizeof(struct kevent);
+    rfturn sizfof(strudt kfvfnt);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueue_identOffset(JNIEnv* env, jclass this)
+Jbvb_sun_nio_di_KQufuf_idfntOffsft(JNIEnv* fnv, jdlbss tiis)
 {
-    return offsetof(struct kevent, ident);
+    rfturn offsftof(strudt kfvfnt, idfnt);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueue_filterOffset(JNIEnv* env, jclass this)
+Jbvb_sun_nio_di_KQufuf_filtfrOffsft(JNIEnv* fnv, jdlbss tiis)
 {
-    return offsetof(struct kevent, filter);
+    rfturn offsftof(strudt kfvfnt, filtfr);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueue_flagsOffset(JNIEnv* env, jclass this)
+Jbvb_sun_nio_di_KQufuf_flbgsOffsft(JNIEnv* fnv, jdlbss tiis)
 {
-    return offsetof(struct kevent, flags);
+    rfturn offsftof(strudt kfvfnt, flbgs);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueue_kqueue(JNIEnv *env, jclass c) {
-    int kqfd = kqueue();
+Jbvb_sun_nio_di_KQufuf_kqufuf(JNIEnv *fnv, jdlbss d) {
+    int kqfd = kqufuf();
     if (kqfd < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "kqueue failed");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "kqufuf fbilfd");
     }
-    return kqfd;
+    rfturn kqfd;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueue_keventRegister(JNIEnv *env, jclass c, jint kqfd,
-                                      jint fd, jint filter, jint flags)
+Jbvb_sun_nio_di_KQufuf_kfvfntRfgistfr(JNIEnv *fnv, jdlbss d, jint kqfd,
+                                      jint fd, jint filtfr, jint flbgs)
 
 {
-    struct kevent changes[1];
-    struct timespec timeout = {0, 0};
-    int res;
+    strudt kfvfnt dibngfs[1];
+    strudt timfspfd timfout = {0, 0};
+    int rfs;
 
-    EV_SET(&changes[0], fd, filter, flags, 0, 0, 0);
-    RESTARTABLE(kevent(kqfd, &changes[0], 1, NULL, 0, &timeout), res);
-    return (res == -1) ? errno : 0;
+    EV_SET(&dibngfs[0], fd, filtfr, flbgs, 0, 0, 0);
+    RESTARTABLE(kfvfnt(kqfd, &dibngfs[0], 1, NULL, 0, &timfout), rfs);
+    rfturn (rfs == -1) ? frrno : 0;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_KQueue_keventPoll(JNIEnv *env, jclass c,
-                                  jint kqfd, jlong address, jint nevents)
+Jbvb_sun_nio_di_KQufuf_kfvfntPoll(JNIEnv *fnv, jdlbss d,
+                                  jint kqfd, jlong bddrfss, jint nfvfnts)
 {
-    struct kevent *events = jlong_to_ptr(address);
-    int res;
+    strudt kfvfnt *fvfnts = jlong_to_ptr(bddrfss);
+    int rfs;
 
-    RESTARTABLE(kevent(kqfd, NULL, 0, events, nevents, NULL), res);
-    if (res < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "kqueue failed");
+    RESTARTABLE(kfvfnt(kqfd, NULL, 0, fvfnts, nfvfnts, NULL), rfs);
+    if (rfs < 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "kqufuf fbilfd");
     }
-    return res;
+    rfturn rfs;
 }

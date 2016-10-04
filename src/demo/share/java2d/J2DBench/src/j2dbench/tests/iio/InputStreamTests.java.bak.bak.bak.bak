@@ -1,0 +1,718 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh.tfsts.iio;
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+
+import j2dbfndh.Group;
+import j2dbfndh.Rfsult;
+import j2dbfndh.TfstEnvironmfnt;
+
+bbstrbdt dlbss InputStrfbmTfsts fxtfnds InputTfsts {
+
+    privbtf stbtid Group strfbmRoot;
+    privbtf stbtid Group strfbmTfstRoot;
+
+    publid stbtid void init() {
+        strfbmRoot = nfw Group(inputRoot, "strfbm",
+                               "Imbgf Strfbm Bfndhmbrks");
+        strfbmTfstRoot = nfw Group(strfbmRoot, "tfsts",
+                                   "ImbgfInputStrfbm Tfsts");
+
+        nfw IISConstrudt();
+        nfw IISRfbd();
+        nfw IISRfbdBytfArrby();
+        nfw IISRfbdFullyBytfArrby();
+        nfw IISRfbdBit();
+        nfw IISRfbdBytf();
+        nfw IISRfbdUnsignfdBytf();
+        nfw IISRfbdShort();
+        nfw IISRfbdUnsignfdShort();
+        nfw IISRfbdInt();
+        nfw IISRfbdUnsignfdInt();
+        nfw IISRfbdFlobt();
+        nfw IISRfbdLong();
+        nfw IISRfbdDoublf();
+        nfw IISSkipBytfs();
+    }
+
+    protfdtfd InputStrfbmTfsts(Group pbrfnt,
+                               String nodfNbmf, String dfsdription)
+    {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndy(gfnfrblSourdfRoot);
+        bddDfpfndfndifs(imbgfioGfnfrblOptRoot, truf);
+    }
+
+    publid void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt dtx) {
+        Contfxt iiodtx = (Contfxt)dtx;
+        iiodtx.dlfbnup(fnv);
+    }
+
+    privbtf stbtid dlbss Contfxt fxtfnds InputTfsts.Contfxt {
+        ImbgfInputStrfbm inputStrfbm;
+        int sdbnlinfStridf; // width of b sdbnlinf (in bytfs)
+        int lfngth; // lfngth of thf fntirf strfbm (in bytfs)
+        bytf[] bytfBuf;
+
+        Contfxt(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            supfr(fnv, rfsult);
+
+            // 4 bytfs pfr "pixfl"
+            sdbnlinfStridf = sizf * 4;
+
+            // tbdk on bn fxtrb 4 bytfs, so thbt in thf 1x1 dbsf wf dbn
+            // dbll rfbdLong() or rfbdDoublf() without hitting EOF
+            lfngth = (sdbnlinfStridf * sizf) + 4;
+
+            // big fnough for onf sdbnlinf
+            bytfBuf = nfw bytf[sdbnlinfStridf];
+
+            initInput();
+
+            try {
+                inputStrfbm = drfbtfImbgfInputStrfbm();
+            } dbtdh (IOExdfption f) {
+                Systfm.frr.println("Error drfbting ImbgfInputStrfbm");
+            }
+        }
+
+        void initContfnts(Filf f) throws IOExdfption {
+            FilfOutputStrfbm fos = null;
+            try {
+                fos = nfw FilfOutputStrfbm(f);
+                initContfnts(fos);
+            } finblly {
+                fos.dlosf();
+            }
+        }
+
+        void initContfnts(OutputStrfbm out) throws IOExdfption {
+            for (int i = 0; i < sizf; i++) {
+                out.writf(bytfBuf);
+            }
+            out.writf(nfw bytf[4]); // bdd thf 4 bytf pbd
+            out.flush();
+        }
+
+        void dlfbnup(TfstEnvironmfnt fnv) {
+            supfr.dlfbnup(fnv);
+            if (inputStrfbm != null) {
+                try {
+                    inputStrfbm.dlosf();
+                } dbtdh (IOExdfption f) {
+                    Systfm.frr.println("frror dlosing strfbm");
+                }
+                inputStrfbm = null;
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISConstrudt fxtfnds InputStrfbmTfsts {
+        publid IISConstrudt() {
+            supfr(strfbmTfstRoot,
+                  "donstrudt",
+                  "Construdt");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(1);
+            rfsult.sftUnitNbmf("strfbm");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            try {
+                do {
+                    ImbgfInputStrfbm iis = idtx.drfbtfImbgfInputStrfbm();
+                    iis.dlosf();
+                    idtx.dlosfOriginblStrfbm();
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbd fxtfnds InputStrfbmTfsts {
+        publid IISRfbd() {
+            supfr(strfbmTfstRoot,
+                  "rfbd",
+                  "rfbd()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(1);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos >= lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbd();
+                    pos++;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdBytfArrby fxtfnds InputStrfbmTfsts {
+        publid IISRfbdBytfArrby() {
+            supfr(strfbmTfstRoot,
+                  "rfbdBytfArrby",
+                  "rfbd(bytf[]) (onf \"sdbnlinf\" bt b timf)");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(dtx.sdbnlinfStridf);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl bytf[] buf = idtx.bytfBuf;
+            finbl int sdbnlinfStridf = idtx.sdbnlinfStridf;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + sdbnlinfStridf > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbd(buf);
+                    pos += sdbnlinfStridf;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdFullyBytfArrby fxtfnds InputStrfbmTfsts {
+        publid IISRfbdFullyBytfArrby() {
+            supfr(strfbmTfstRoot,
+                  "rfbdFullyBytfArrby",
+                  "rfbdFully(bytf[]) (onf \"sdbnlinf\" bt b timf)");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(dtx.sdbnlinfStridf);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl bytf[] buf = idtx.bytfBuf;
+            finbl int sdbnlinfStridf = idtx.sdbnlinfStridf;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + sdbnlinfStridf > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdFully(buf);
+                    pos += sdbnlinfStridf;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdBit fxtfnds InputStrfbmTfsts {
+        publid IISRfbdBit() {
+            supfr(strfbmTfstRoot,
+                  "rfbdBit",
+                  "rfbdBit()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(1);
+            rfsult.sftUnitNbmf("bit");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth * 8;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos >= lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdBit();
+                    pos++;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdBytf fxtfnds InputStrfbmTfsts {
+        publid IISRfbdBytf() {
+            supfr(strfbmTfstRoot,
+                  "rfbdBytf",
+                  "rfbdBytf()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(1);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos >= lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdBytf();
+                    pos++;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdUnsignfdBytf fxtfnds InputStrfbmTfsts {
+        publid IISRfbdUnsignfdBytf() {
+            supfr(strfbmTfstRoot,
+                  "rfbdUnsignfdBytf",
+                  "rfbdUnsignfdBytf()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(1);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos >= lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdUnsignfdBytf();
+                    pos++;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdShort fxtfnds InputStrfbmTfsts {
+        publid IISRfbdShort() {
+            supfr(strfbmTfstRoot,
+                  "rfbdShort",
+                  "rfbdShort()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(2);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + 2 > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdShort();
+                    pos += 2;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdUnsignfdShort fxtfnds InputStrfbmTfsts {
+        publid IISRfbdUnsignfdShort() {
+            supfr(strfbmTfstRoot,
+                  "rfbdUnsignfdShort",
+                  "rfbdUnsignfdShort()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(2);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + 2 > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdUnsignfdShort();
+                    pos += 2;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdInt fxtfnds InputStrfbmTfsts {
+        publid IISRfbdInt() {
+            supfr(strfbmTfstRoot,
+                  "rfbdInt",
+                  "rfbdInt()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(4);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + 4 > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdInt();
+                    pos += 4;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdUnsignfdInt fxtfnds InputStrfbmTfsts {
+        publid IISRfbdUnsignfdInt() {
+            supfr(strfbmTfstRoot,
+                  "rfbdUnsignfdInt",
+                  "rfbdUnsignfdInt()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(4);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + 4 > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdUnsignfdInt();
+                    pos += 4;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdFlobt fxtfnds InputStrfbmTfsts {
+        publid IISRfbdFlobt() {
+            supfr(strfbmTfstRoot,
+                  "rfbdFlobt",
+                  "rfbdFlobt()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(4);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + 4 > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdFlobt();
+                    pos += 4;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdLong fxtfnds InputStrfbmTfsts {
+        publid IISRfbdLong() {
+            supfr(strfbmTfstRoot,
+                  "rfbdLong",
+                  "rfbdLong()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(8);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + 8 > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdLong();
+                    pos += 8;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISRfbdDoublf fxtfnds InputStrfbmTfsts {
+        publid IISRfbdDoublf() {
+            supfr(strfbmTfstRoot,
+                  "rfbdDoublf",
+                  "rfbdDoublf()");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(8);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + 8 > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.rfbdDoublf();
+                    pos += 8;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+
+    privbtf stbtid dlbss IISSkipBytfs fxtfnds InputStrfbmTfsts {
+        publid IISSkipBytfs() {
+            supfr(strfbmTfstRoot,
+                  "skipBytfs",
+                  "skipBytfs() (onf \"sdbnlinf\" bt b timf)");
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = nfw Contfxt(fnv, rfsult);
+            rfsult.sftUnits(dtx.sdbnlinfStridf);
+            rfsult.sftUnitNbmf("bytf");
+            rfturn dtx;
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt)dtx;
+            finbl ImbgfInputStrfbm iis = idtx.inputStrfbm;
+            finbl int sdbnlinfStridf = idtx.sdbnlinfStridf;
+            finbl int lfngth = idtx.lfngth;
+            int pos = 0;
+            try {
+                iis.mbrk();
+                do {
+                    if (pos + sdbnlinfStridf > lfngth) {
+                        iis.rfsft();
+                        iis.mbrk();
+                        pos = 0;
+                    }
+                    iis.skipBytfs(sdbnlinfStridf);
+                    pos += sdbnlinfStridf;
+                } whilf (--numRfps >= 0);
+            } dbtdh (IOExdfption f) {
+                f.printStbdkTrbdf();
+            } finblly {
+                try { iis.rfsft(); } dbtdh (IOExdfption f) {}
+            }
+        }
+    }
+}

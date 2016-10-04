@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing;
+pbdkbgf sun.swing;
 
-import java.beans.PropertyChangeListener;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
-import javax.swing.Action;
+import jbvbx.swing.Adtion;
 
 /**
- * UIAction is the basis of all of basic's action classes that are used in
- * an ActionMap. Subclasses need to override <code>actionPerformed</code>.
+ * UIAdtion is tif bbsis of bll of bbsid's bdtion dlbssfs tibt brf usfd in
+ * bn AdtionMbp. Subdlbssfs nffd to ovfrridf <dodf>bdtionPfrformfd</dodf>.
  * <p>
- * A typical subclass will look like:
- * <pre>
- *    private static class Actions extends UIAction {
- *        Actions(String name) {
- *            super(name);
+ * A typidbl subdlbss will look likf:
+ * <prf>
+ *    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+ *        Adtions(String nbmf) {
+ *            supfr(nbmf);
  *        }
  *
- *        public void actionPerformed(ActionEvent ae) {
- *            if (getName() == "selectAll") {
- *                selectAll();
+ *        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+ *            if (gftNbmf() == "sflfdtAll") {
+ *                sflfdtAll();
  *            }
- *            else if (getName() == "cancelEditing") {
- *                cancelEditing();
+ *            flsf if (gftNbmf() == "dbndflEditing") {
+ *                dbndflEditing();
  *            }
  *        }
  *    }
- * </pre>
+ * </prf>
  * <p>
- * Subclasses that wish to conditionalize the enabled state should override
- * <code>isEnabled(Component)</code>, and be aware that the passed in
- * <code>Component</code> may be null.
+ * Subdlbssfs tibt wisi to donditionblizf tif fnbblfd stbtf siould ovfrridf
+ * <dodf>isEnbblfd(Componfnt)</dodf>, bnd bf bwbrf tibt tif pbssfd in
+ * <dodf>Componfnt</dodf> mby bf null.
  *
- * @see com.sun.java.swing.ExtendedAction
- * @see javax.swing.Action
- * @author Scott Violet
+ * @sff dom.sun.jbvb.swing.ExtfndfdAdtion
+ * @sff jbvbx.swing.Adtion
+ * @butior Sdott Violft
  */
-public abstract class UIAction implements Action {
-    private String name;
+publid bbstrbdt dlbss UIAdtion implfmfnts Adtion {
+    privbtf String nbmf;
 
-    public UIAction(String name) {
-        this.name = name;
+    publid UIAdtion(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
-    public final String getName() {
-        return name;
+    publid finbl String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public Object getValue(String key) {
-        if (key == NAME) {
-            return name;
+    publid Objfdt gftVbluf(String kfy) {
+        if (kfy == NAME) {
+            rfturn nbmf;
         }
-        return null;
+        rfturn null;
     }
 
-    // UIAction is not mutable, this does nothing.
-    public void putValue(String key, Object value) {
+    // UIAdtion is not mutbblf, tiis dofs notiing.
+    publid void putVbluf(String kfy, Objfdt vbluf) {
     }
 
-    // UIAction is not mutable, this does nothing.
-    public void setEnabled(boolean b) {
+    // UIAdtion is not mutbblf, tiis dofs notiing.
+    publid void sftEnbblfd(boolfbn b) {
     }
 
     /**
-     * Cover method for <code>isEnabled(null)</code>.
+     * Covfr mftiod for <dodf>isEnbblfd(null)</dodf>.
      */
-    public final boolean isEnabled() {
-        return isEnabled(null);
+    publid finbl boolfbn isEnbblfd() {
+        rfturn isEnbblfd(null);
     }
 
     /**
-     * Subclasses that need to conditionalize the enabled state should
-     * override this. Be aware that <code>sender</code> may be null.
+     * Subdlbssfs tibt nffd to donditionblizf tif fnbblfd stbtf siould
+     * ovfrridf tiis. Bf bwbrf tibt <dodf>sfndfr</dodf> mby bf null.
      *
-     * @param sender Widget enabled state is being asked for, may be null.
+     * @pbrbm sfndfr Widgft fnbblfd stbtf is bfing bskfd for, mby bf null.
      */
-    public boolean isEnabled(Object sender) {
-        return true;
+    publid boolfbn isEnbblfd(Objfdt sfndfr) {
+        rfturn truf;
     }
 
-    // UIAction is not mutable, this does nothing.
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
+    // UIAdtion is not mutbblf, tiis dofs notiing.
+    publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
     }
 
-    // UIAction is not mutable, this does nothing.
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
+    // UIAdtion is not mutbblf, tiis dofs notiing.
+    publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
     }
 }

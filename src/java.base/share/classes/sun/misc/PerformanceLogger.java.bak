@@ -1,315 +1,315 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.util.Vector;
-import java.io.FileWriter;
-import java.io.File;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import jbvb.util.Vfdtor;
+import jbvb.io.FilfWritfr;
+import jbvb.io.Filf;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.Writfr;
 
 /**
- * This class is intended to be a central place for the jdk to
- * log timing events of interest.  There is pre-defined event
- * of startTime, as well as a general
- * mechanism of setting arbitrary times in an array.
- * All unreserved times in the array can be used by callers
- * in application-defined situations.  The caller is responsible
- * for setting and getting all times and for doing whatever
- * analysis is interesting; this class is merely a central container
- * for those timing values.
- * Note that, due to the variables in this class being static,
- * use of particular time values by multiple applets will cause
- * confusing results.  For example, if plugin runs two applets
- * simultaneously, the initTime for those applets will collide
- * and the results may be undefined.
+ * Tiis dlbss is intfndfd to bf b dfntrbl plbdf for tif jdk to
+ * log timing fvfnts of intfrfst.  Tifrf is prf-dffinfd fvfnt
+ * of stbrtTimf, bs wfll bs b gfnfrbl
+ * mfdibnism of sftting brbitrbry timfs in bn brrby.
+ * All unrfsfrvfd timfs in tif brrby dbn bf usfd by dbllfrs
+ * in bpplidbtion-dffinfd situbtions.  Tif dbllfr is rfsponsiblf
+ * for sftting bnd gftting bll timfs bnd for doing wibtfvfr
+ * bnblysis is intfrfsting; tiis dlbss is mfrfly b dfntrbl dontbinfr
+ * for tiosf timing vblufs.
+ * Notf tibt, duf to tif vbribblfs in tiis dlbss bfing stbtid,
+ * usf of pbrtidulbr timf vblufs by multiplf bpplfts will dbusf
+ * donfusing rfsults.  For fxbmplf, if plugin runs two bpplfts
+ * simultbnfously, tif initTimf for tiosf bpplfts will dollidf
+ * bnd tif rfsults mby bf undffinfd.
  * <P>
- * To automatically track startup performance in an app or applet,
- * use the command-line parameter sun.perflog as follows:<BR>
- *     -Dsun.perflog[=file:<filename>]
+ * To butombtidblly trbdk stbrtup pfrformbndf in bn bpp or bpplft,
+ * usf tif dommbnd-linf pbrbmftfr sun.pfrflog bs follows:<BR>
+ *     -Dsun.pfrflog[=filf:<filfnbmf>]
  * <BR>
- * where simply using the parameter with no value will enable output
- * to the console and a value of "file:<filename>" will cause
- * that given filename to be created and used for all output.
+ * wifrf simply using tif pbrbmftfr witi no vbluf will fnbblf output
+ * to tif donsolf bnd b vbluf of "filf:<filfnbmf>" will dbusf
+ * tibt givfn filfnbmf to bf drfbtfd bnd usfd for bll output.
  * <P>
- * By default, times are measured using System.currentTimeMillis().  To use
- * System.nanoTime() instead, add the command-line parameter:<BR>
-       -Dsun.perflog.nano=true
+ * By dffbult, timfs brf mfbsurfd using Systfm.durrfntTimfMillis().  To usf
+ * Systfm.nbnoTimf() instfbd, bdd tif dommbnd-linf pbrbmftfr:<BR>
+       -Dsun.pfrflog.nbno=truf
  * <BR>
  * <P>
- * <B>Warning: Use at your own risk!</B>
- * This class is intended for internal testing
- * purposes only and may be removed at any time.  More
- * permanent monitoring and profiling APIs are expected to be
- * developed for future releases and this class will cease to
- * exist once those APIs are in place.
- * @author Chet Haase
+ * <B>Wbrning: Usf bt your own risk!</B>
+ * Tiis dlbss is intfndfd for intfrnbl tfsting
+ * purposfs only bnd mby bf rfmovfd bt bny timf.  Morf
+ * pfrmbnfnt monitoring bnd profiling APIs brf fxpfdtfd to bf
+ * dfvflopfd for futurf rflfbsfs bnd tiis dlbss will dfbsf to
+ * fxist ondf tiosf APIs brf in plbdf.
+ * @butior Cift Hbbsf
  */
-public class PerformanceLogger {
+publid dlbss PfrformbndfLoggfr {
 
-    // Timing values of global interest
-    private static final int START_INDEX    = 0;    // VM start
-    private static final int LAST_RESERVED  = START_INDEX;
+    // Timing vblufs of globbl intfrfst
+    privbtf stbtid finbl int START_INDEX    = 0;    // VM stbrt
+    privbtf stbtid finbl int LAST_RESERVED  = START_INDEX;
 
-    private static boolean perfLoggingOn = false;
-    private static boolean useNanoTime = false;
-    private static Vector<TimeData> times;
-    private static String logFileName = null;
-    private static Writer logWriter = null;
-    private static long baseTime;
+    privbtf stbtid boolfbn pfrfLoggingOn = fblsf;
+    privbtf stbtid boolfbn usfNbnoTimf = fblsf;
+    privbtf stbtid Vfdtor<TimfDbtb> timfs;
+    privbtf stbtid String logFilfNbmf = null;
+    privbtf stbtid Writfr logWritfr = null;
+    privbtf stbtid long bbsfTimf;
 
-    static {
-        String perfLoggingProp =
-            java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.perflog"));
-        if (perfLoggingProp != null) {
-            perfLoggingOn = true;
+    stbtid {
+        String pfrfLoggingProp =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.pfrflog"));
+        if (pfrfLoggingProp != null) {
+            pfrfLoggingOn = truf;
 
-            // Check if we should use nanoTime
-            String perfNanoProp =
-                java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("sun.perflog.nano"));
-            if (perfNanoProp != null) {
-                useNanoTime = true;
+            // Cifdk if wf siould usf nbnoTimf
+            String pfrfNbnoProp =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.pfrflog.nbno"));
+            if (pfrfNbnoProp != null) {
+                usfNbnoTimf = truf;
             }
 
-            // Now, figure out what the user wants to do with the data
-            if (perfLoggingProp.regionMatches(true, 0, "file:", 0, 5)) {
-                logFileName = perfLoggingProp.substring(5);
+            // Now, figurf out wibt tif usfr wbnts to do witi tif dbtb
+            if (pfrfLoggingProp.rfgionMbtdifs(truf, 0, "filf:", 0, 5)) {
+                logFilfNbmf = pfrfLoggingProp.substring(5);
             }
-            if (logFileName != null) {
-                if (logWriter == null) {
-                    java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
-                        public Void run() {
+            if (logFilfNbmf != null) {
+                if (logWritfr == null) {
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
                             try {
-                                File logFile = new File(logFileName);
-                                logFile.createNewFile();
-                                logWriter = new FileWriter(logFile);
-                            } catch (Exception e) {
-                                System.out.println(e + ": Creating logfile " +
-                                                   logFileName +
-                                                   ".  Log to console");
+                                Filf logFilf = nfw Filf(logFilfNbmf);
+                                logFilf.drfbtfNfwFilf();
+                                logWritfr = nfw FilfWritfr(logFilf);
+                            } dbtdi (Exdfption f) {
+                                Systfm.out.println(f + ": Crfbting logfilf " +
+                                                   logFilfNbmf +
+                                                   ".  Log to donsolf");
                             }
-                            return null;
+                            rfturn null;
                         }
                     });
                 }
             }
-            if (logWriter == null) {
-                logWriter = new OutputStreamWriter(System.out);
+            if (logWritfr == null) {
+                logWritfr = nfw OutputStrfbmWritfr(Systfm.out);
             }
         }
-        times = new Vector<TimeData>(10);
-        // Reserve predefined slots
+        timfs = nfw Vfdtor<TimfDbtb>(10);
+        // Rfsfrvf prfdffinfd slots
         for (int i = 0; i <= LAST_RESERVED; ++i) {
-            times.add(new TimeData("Time " + i + " not set", 0));
+            timfs.bdd(nfw TimfDbtb("Timf " + i + " not sft", 0));
         }
     }
 
     /**
-     * Returns status of whether logging is enabled or not.  This is
-     * provided as a convenience method so that users do not have to
-     * perform the same GetPropertyAction check as above to determine whether
-     * to enable performance logging.
+     * Rfturns stbtus of wiftifr logging is fnbblfd or not.  Tiis is
+     * providfd bs b donvfnifndf mftiod so tibt usfrs do not ibvf to
+     * pfrform tif sbmf GftPropfrtyAdtion difdk bs bbovf to dftfrminf wiftifr
+     * to fnbblf pfrformbndf logging.
      */
-    public static boolean loggingEnabled() {
-        return perfLoggingOn;
+    publid stbtid boolfbn loggingEnbblfd() {
+        rfturn pfrfLoggingOn;
     }
 
 
     /**
-     * Internal class used to store time/message data together.
+     * Intfrnbl dlbss usfd to storf timf/mfssbgf dbtb togftifr.
      */
-    static class TimeData {
-        String message;
-        long time;
+    stbtid dlbss TimfDbtb {
+        String mfssbgf;
+        long timf;
 
-        TimeData(String message, long time) {
-            this.message = message;
-            this.time = time;
+        TimfDbtb(String mfssbgf, long timf) {
+            tiis.mfssbgf = mfssbgf;
+            tiis.timf = timf;
         }
 
-        String getMessage() {
-            return message;
+        String gftMfssbgf() {
+            rfturn mfssbgf;
         }
 
-        long getTime() {
-            return time;
+        long gftTimf() {
+            rfturn timf;
         }
     }
 
     /**
-     * Return the current time, in millis or nanos as appropriate
+     * Rfturn tif durrfnt timf, in millis or nbnos bs bppropribtf
      */
-    private static long getCurrentTime() {
-        if (useNanoTime) {
-            return System.nanoTime();
-        } else {
-            return System.currentTimeMillis();
+    privbtf stbtid long gftCurrfntTimf() {
+        if (usfNbnoTimf) {
+            rfturn Systfm.nbnoTimf();
+        } flsf {
+            rfturn Systfm.durrfntTimfMillis();
         }
     }
 
     /**
-     * Sets the start time.  Ideally, this is the earliest time available
-     * during the startup of a Java applet or application.  This time is
-     * later used to analyze the difference between the initial startup
-     * time and other events in the system (such as an applet's init time).
+     * Sfts tif stbrt timf.  Idfblly, tiis is tif fbrlifst timf bvbilbblf
+     * during tif stbrtup of b Jbvb bpplft or bpplidbtion.  Tiis timf is
+     * lbtfr usfd to bnblyzf tif difffrfndf bftwffn tif initibl stbrtup
+     * timf bnd otifr fvfnts in tif systfm (sudi bs bn bpplft's init timf).
      */
-    public static void setStartTime(String message) {
-        if (loggingEnabled()) {
-            long nowTime = getCurrentTime();
-            setStartTime(message, nowTime);
+    publid stbtid void sftStbrtTimf(String mfssbgf) {
+        if (loggingEnbblfd()) {
+            long nowTimf = gftCurrfntTimf();
+            sftStbrtTimf(mfssbgf, nowTimf);
         }
     }
 
     /**
-     * Sets the base time, output can then
-     * be displayed as offsets from the base time;.
+     * Sfts tif bbsf timf, output dbn tifn
+     * bf displbyfd bs offsfts from tif bbsf timf;.
      */
-    public static void setBaseTime(long time) {
-        if (loggingEnabled()) {
-            baseTime = time;
+    publid stbtid void sftBbsfTimf(long timf) {
+        if (loggingEnbblfd()) {
+            bbsfTimf = timf;
         }
     }
 
     /**
-     * Sets the start time.
-     * This version of the method is
-     * given the time to log, instead of expecting this method to
-     * get the time itself.  This is done in case the time was
-     * recorded much earlier than this method was called.
+     * Sfts tif stbrt timf.
+     * Tiis vfrsion of tif mftiod is
+     * givfn tif timf to log, instfbd of fxpfdting tiis mftiod to
+     * gft tif timf itsflf.  Tiis is donf in dbsf tif timf wbs
+     * rfdordfd mudi fbrlifr tibn tiis mftiod wbs dbllfd.
      */
-    public static void setStartTime(String message, long time) {
-        if (loggingEnabled()) {
-            times.set(START_INDEX, new TimeData(message, time));
+    publid stbtid void sftStbrtTimf(String mfssbgf, long timf) {
+        if (loggingEnbblfd()) {
+            timfs.sft(START_INDEX, nfw TimfDbtb(mfssbgf, timf));
         }
     }
 
     /**
-     * Gets the start time, which should be the time when
-     * the java process started, prior to the VM actually being
-     * loaded.
+     * Gfts tif stbrt timf, wiidi siould bf tif timf wifn
+     * tif jbvb prodfss stbrtfd, prior to tif VM bdtublly bfing
+     * lobdfd.
      */
-    public static long getStartTime() {
-        if (loggingEnabled()) {
-            return times.get(START_INDEX).getTime();
-        } else {
-            return 0;
+    publid stbtid long gftStbrtTimf() {
+        if (loggingEnbblfd()) {
+            rfturn timfs.gft(START_INDEX).gftTimf();
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Sets the value of a given time and returns the index of the
-     * slot that that time was stored in.
+     * Sfts tif vbluf of b givfn timf bnd rfturns tif indfx of tif
+     * slot tibt tibt timf wbs storfd in.
      */
-    public static int setTime(String message) {
-        if (loggingEnabled()) {
-            long nowTime = getCurrentTime();
-            return setTime(message, nowTime);
-        } else {
-            return 0;
+    publid stbtid int sftTimf(String mfssbgf) {
+        if (loggingEnbblfd()) {
+            long nowTimf = gftCurrfntTimf();
+            rfturn sftTimf(mfssbgf, nowTimf);
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Sets the value of a given time and returns the index of the
-     * slot that that time was stored in.
-     * This version of the method is
-     * given the time to log, instead of expecting this method to
-     * get the time itself.  This is done in case the time was
-     * recorded much earlier than this method was called.
+     * Sfts tif vbluf of b givfn timf bnd rfturns tif indfx of tif
+     * slot tibt tibt timf wbs storfd in.
+     * Tiis vfrsion of tif mftiod is
+     * givfn tif timf to log, instfbd of fxpfdting tiis mftiod to
+     * gft tif timf itsflf.  Tiis is donf in dbsf tif timf wbs
+     * rfdordfd mudi fbrlifr tibn tiis mftiod wbs dbllfd.
      */
-    public static int setTime(String message, long time) {
-        if (loggingEnabled()) {
-            // times is already synchronized, but we need to ensure that
-            // the size used in times.set() is the same used when returning
-            // the index of that operation.
-            synchronized (times) {
-                times.add(new TimeData(message, time));
-                return (times.size() - 1);
+    publid stbtid int sftTimf(String mfssbgf, long timf) {
+        if (loggingEnbblfd()) {
+            // timfs is blrfbdy syndironizfd, but wf nffd to fnsurf tibt
+            // tif sizf usfd in timfs.sft() is tif sbmf usfd wifn rfturning
+            // tif indfx of tibt opfrbtion.
+            syndironizfd (timfs) {
+                timfs.bdd(nfw TimfDbtb(mfssbgf, timf));
+                rfturn (timfs.sizf() - 1);
             }
-        } else {
-            return 0;
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Returns time at given index.
+     * Rfturns timf bt givfn indfx.
      */
-    public static long getTimeAtIndex(int index) {
-        if (loggingEnabled()) {
-            return times.get(index).getTime();
-        } else {
-            return 0;
+    publid stbtid long gftTimfAtIndfx(int indfx) {
+        if (loggingEnbblfd()) {
+            rfturn timfs.gft(indfx).gftTimf();
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Returns message at given index.
+     * Rfturns mfssbgf bt givfn indfx.
      */
-    public static String getMessageAtIndex(int index) {
-        if (loggingEnabled()) {
-            return times.get(index).getMessage();
-        } else {
-            return null;
+    publid stbtid String gftMfssbgfAtIndfx(int indfx) {
+        if (loggingEnbblfd()) {
+            rfturn timfs.gft(indfx).gftMfssbgf();
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Outputs all data to parameter-specified Writer object
+     * Outputs bll dbtb to pbrbmftfr-spfdififd Writfr objfdt
      */
-    public static void outputLog(Writer writer) {
-        if (loggingEnabled()) {
+    publid stbtid void outputLog(Writfr writfr) {
+        if (loggingEnbblfd()) {
             try {
-                synchronized(times) {
-                    for (int i = 0; i < times.size(); ++i) {
-                        TimeData td = times.get(i);
+                syndironizfd(timfs) {
+                    for (int i = 0; i < timfs.sizf(); ++i) {
+                        TimfDbtb td = timfs.gft(i);
                         if (td != null) {
-                            writer.write(i + " " + td.getMessage() + ": " +
-                                         (td.getTime() - baseTime) + "\n");
+                            writfr.writf(i + " " + td.gftMfssbgf() + ": " +
+                                         (td.gftTimf() - bbsfTimf) + "\n");
 
                         }
                     }
                 }
-                writer.flush();
-            } catch (Exception e) {
-                System.out.println(e + ": Writing performance log to " +
-                                   writer);
+                writfr.flusi();
+            } dbtdi (Exdfption f) {
+                Systfm.out.println(f + ": Writing pfrformbndf log to " +
+                                   writfr);
             }
         }
     }
 
     /**
-     * Outputs all data to whatever location the user specified
-     * via sun.perflog command-line parameter.
+     * Outputs bll dbtb to wibtfvfr lodbtion tif usfr spfdififd
+     * vib sun.pfrflog dommbnd-linf pbrbmftfr.
      */
-    public static void outputLog() {
-        outputLog(logWriter);
+    publid stbtid void outputLog() {
+        outputLog(logWritfr);
     }
 }

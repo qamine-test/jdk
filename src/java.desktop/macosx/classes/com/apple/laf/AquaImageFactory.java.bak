@@ -1,499 +1,499 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.security.PrivilegedAction;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
-import sun.lwawt.macosx.LWCToolkit;
-import apple.laf.JRSUIConstants.AlignmentHorizontal;
-import apple.laf.JRSUIConstants.AlignmentVertical;
-import apple.laf.JRSUIConstants.Direction;
-import apple.laf.JRSUIConstants.State;
-import apple.laf.JRSUIConstants.Widget;
-import apple.laf.*;
+import sun.lwbwt.mbdosx.LWCToolkit;
+import bpplf.lbf.JRSUIConstbnts.AlignmfntHorizontbl;
+import bpplf.lbf.JRSUIConstbnts.AlignmfntVfrtidbl;
+import bpplf.lbf.JRSUIConstbnts.Dirfdtion;
+import bpplf.lbf.JRSUIConstbnts.Stbtf;
+import bpplf.lbf.JRSUIConstbnts.Widgft;
+import bpplf.lbf.*;
 
-import com.apple.eio.FileManager;
-import com.apple.laf.AquaIcon.InvertableIcon;
-import com.apple.laf.AquaIcon.JRSUIControlSpec;
-import com.apple.laf.AquaIcon.SystemIcon;
-import com.apple.laf.AquaUtils.RecyclableObject;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import sun.awt.image.MultiResolutionImage;
-import sun.awt.image.MultiResolutionCachedImage;
+import dom.bpplf.fio.FilfMbnbgfr;
+import dom.bpplf.lbf.AqubIdon.InvfrtbblfIdon;
+import dom.bpplf.lbf.AqubIdon.JRSUIControlSpfd;
+import dom.bpplf.lbf.AqubIdon.SystfmIdon;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfObjfdt;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import sun.bwt.imbgf.MultiRfsolutionImbgf;
+import sun.bwt.imbgf.MultiRfsolutionCbdifdImbgf;
 
-public class AquaImageFactory {
-    public static IconUIResource getConfirmImageIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
+publid dlbss AqubImbgfFbdtory {
+    publid stbtid IdonUIRfsourdf gftConfirmImbgfIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
 
-        return new IconUIResource(new AquaIcon.CachingScalingIcon(kAlertIconSize, kAlertIconSize) {
-            Image createImage() {
-                return getGenericJavaIcon();
+        rfturn nfw IdonUIRfsourdf(nfw AqubIdon.CbdiingSdblingIdon(kAlfrtIdonSizf, kAlfrtIdonSizf) {
+            Imbgf drfbtfImbgf() {
+                rfturn gftGfnfridJbvbIdon();
             }
         });
     }
 
-    public static IconUIResource getCautionImageIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return getAppIconCompositedOn(AquaIcon.SystemIcon.getCautionIcon());
+    publid stbtid IdonUIRfsourdf gftCbutionImbgfIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        rfturn gftAppIdonCompositfdOn(AqubIdon.SystfmIdon.gftCbutionIdon());
     }
 
-    public static IconUIResource getStopImageIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return getAppIconCompositedOn(AquaIcon.SystemIcon.getStopIcon());
+    publid stbtid IdonUIRfsourdf gftStopImbgfIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        rfturn gftAppIdonCompositfdOn(AqubIdon.SystfmIdon.gftStopIdon());
     }
 
-    public static IconUIResource getLockImageIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        if (JRSUIUtils.Images.shouldUseLegacySecurityUIPath()) {
-            final Image lockIcon = AquaUtils.getCImageCreator().createImageFromFile("/System/Library/CoreServices/SecurityAgent.app/Contents/Resources/Security.icns", kAlertIconSize, kAlertIconSize);
-            return getAppIconCompositedOn(lockIcon);
+    publid stbtid IdonUIRfsourdf gftLodkImbgfIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        if (JRSUIUtils.Imbgfs.siouldUsfLfgbdySfdurityUIPbti()) {
+            finbl Imbgf lodkIdon = AqubUtils.gftCImbgfCrfbtor().drfbtfImbgfFromFilf("/Systfm/Librbry/CorfSfrvidfs/SfdurityAgfnt.bpp/Contfnts/Rfsourdfs/Sfdurity.idns", kAlfrtIdonSizf, kAlfrtIdonSizf);
+            rfturn gftAppIdonCompositfdOn(lodkIdon);
         }
 
-        final Image lockIcon = Toolkit.getDefaultToolkit().getImage("NSImage://NSSecurity");
-        return getAppIconCompositedOn(lockIcon);
+        finbl Imbgf lodkIdon = Toolkit.gftDffbultToolkit().gftImbgf("NSImbgf://NSSfdurity");
+        rfturn gftAppIdonCompositfdOn(lodkIdon);
     }
 
-    static Image getGenericJavaIcon() {
-        return java.security.AccessController.doPrivileged(new PrivilegedAction<Image>() {
-            public Image run() {
-                return com.apple.eawt.Application.getApplication().getDockIconImage();
+    stbtid Imbgf gftGfnfridJbvbIdon() {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Imbgf>() {
+            publid Imbgf run() {
+                rfturn dom.bpplf.fbwt.Applidbtion.gftApplidbtion().gftDodkIdonImbgf();
             }
         });
     }
 
-    static String getPathToThisApplication() {
-        return java.security.AccessController.doPrivileged(new PrivilegedAction<String>() {
-            public String run() {
-                return FileManager.getPathToApplicationBundle();
+    stbtid String gftPbtiToTiisApplidbtion() {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn FilfMbnbgfr.gftPbtiToApplidbtionBundlf();
             }
         });
     }
 
-    static IconUIResource getAppIconCompositedOn(final SystemIcon systemIcon) {
-        systemIcon.setSize(kAlertIconSize, kAlertIconSize);
-        return getAppIconCompositedOn(systemIcon.createImage());
+    stbtid IdonUIRfsourdf gftAppIdonCompositfdOn(finbl SystfmIdon systfmIdon) {
+        systfmIdon.sftSizf(kAlfrtIdonSizf, kAlfrtIdonSizf);
+        rfturn gftAppIdonCompositfdOn(systfmIdon.drfbtfImbgf());
     }
 
-    private static final int kAlertIconSize = 64;
-    static IconUIResource getAppIconCompositedOn(final Image background) {
+    privbtf stbtid finbl int kAlfrtIdonSizf = 64;
+    stbtid IdonUIRfsourdf gftAppIdonCompositfdOn(finbl Imbgf bbdkground) {
 
-        if (background instanceof MultiResolutionCachedImage) {
-            int width = background.getWidth(null);
-            Image mrIconImage = ((MultiResolutionCachedImage) background).map(
-                    rv -> getAppIconImageCompositedOn(rv, rv.getWidth(null) / width));
-            return new IconUIResource(new ImageIcon(mrIconImage));
+        if (bbdkground instbndfof MultiRfsolutionCbdifdImbgf) {
+            int widti = bbdkground.gftWidti(null);
+            Imbgf mrIdonImbgf = ((MultiRfsolutionCbdifdImbgf) bbdkground).mbp(
+                    rv -> gftAppIdonImbgfCompositfdOn(rv, rv.gftWidti(null) / widti));
+            rfturn nfw IdonUIRfsourdf(nfw ImbgfIdon(mrIdonImbgf));
         }
 
-        BufferedImage iconImage = getAppIconImageCompositedOn(background, 1);
-        return new IconUIResource(new ImageIcon(iconImage));
+        BufffrfdImbgf idonImbgf = gftAppIdonImbgfCompositfdOn(bbdkground, 1);
+        rfturn nfw IdonUIRfsourdf(nfw ImbgfIdon(idonImbgf));
     }
 
-    static BufferedImage getAppIconImageCompositedOn(final Image background, int scaleFactor) {
+    stbtid BufffrfdImbgf gftAppIdonImbgfCompositfdOn(finbl Imbgf bbdkground, int sdblfFbdtor) {
 
-        final int scaledAlertIconSize = kAlertIconSize * scaleFactor;
-        final int kAlertSubIconSize = (int) (scaledAlertIconSize * 0.5);
-        final int kAlertSubIconInset = scaledAlertIconSize - kAlertSubIconSize;
-        final Icon smallAppIconScaled = new AquaIcon.CachingScalingIcon(
-                kAlertSubIconSize, kAlertSubIconSize) {
-                    Image createImage() {
-                        return getGenericJavaIcon();
+        finbl int sdblfdAlfrtIdonSizf = kAlfrtIdonSizf * sdblfFbdtor;
+        finbl int kAlfrtSubIdonSizf = (int) (sdblfdAlfrtIdonSizf * 0.5);
+        finbl int kAlfrtSubIdonInsft = sdblfdAlfrtIdonSizf - kAlfrtSubIdonSizf;
+        finbl Idon smbllAppIdonSdblfd = nfw AqubIdon.CbdiingSdblingIdon(
+                kAlfrtSubIdonSizf, kAlfrtSubIdonSizf) {
+                    Imbgf drfbtfImbgf() {
+                        rfturn gftGfnfridJbvbIdon();
                     }
                 };
 
-        final BufferedImage image = new BufferedImage(scaledAlertIconSize,
-                scaledAlertIconSize, BufferedImage.TYPE_INT_ARGB);
-        final Graphics g = image.getGraphics();
-        g.drawImage(background, 0, 0,
-                scaledAlertIconSize, scaledAlertIconSize, null);
-        if (g instanceof Graphics2D) {
-            // improves icon rendering quality in Quartz
-            ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_RENDERING,
-                    RenderingHints.VALUE_RENDER_QUALITY);
+        finbl BufffrfdImbgf imbgf = nfw BufffrfdImbgf(sdblfdAlfrtIdonSizf,
+                sdblfdAlfrtIdonSizf, BufffrfdImbgf.TYPE_INT_ARGB);
+        finbl Grbpiids g = imbgf.gftGrbpiids();
+        g.drbwImbgf(bbdkground, 0, 0,
+                sdblfdAlfrtIdonSizf, sdblfdAlfrtIdonSizf, null);
+        if (g instbndfof Grbpiids2D) {
+            // improvfs idon rfndfring qublity in Qubrtz
+            ((Grbpiids2D) g).sftRfndfringHint(RfndfringHints.KEY_RENDERING,
+                    RfndfringHints.VALUE_RENDER_QUALITY);
         }
 
-        smallAppIconScaled.paintIcon(null, g,
-                kAlertSubIconInset, kAlertSubIconInset);
-        g.dispose();
+        smbllAppIdonSdblfd.pbintIdon(null, g,
+                kAlfrtSubIdonInsft, kAlfrtSubIdonInsft);
+        g.disposf();
 
-        return image;
+        rfturn imbgf;
     }
 
-    public static IconUIResource getTreeFolderIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.SystemIcon.getFolderIconUIResource();
+    publid stbtid IdonUIRfsourdf gftTrffFoldfrIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        rfturn AqubIdon.SystfmIdon.gftFoldfrIdonUIRfsourdf();
     }
 
-    public static IconUIResource getTreeOpenFolderIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.SystemIcon.getOpenFolderIconUIResource();
+    publid stbtid IdonUIRfsourdf gftTrffOpfnFoldfrIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        rfturn AqubIdon.SystfmIdon.gftOpfnFoldfrIdonUIRfsourdf();
     }
 
-    public static IconUIResource getTreeDocumentIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.SystemIcon.getDocumentIconUIResource();
+    publid stbtid IdonUIRfsourdf gftTrffDodumfntIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        rfturn AqubIdon.SystfmIdon.gftDodumfntIdonUIRfsourdf();
     }
 
-    public static UIResource getTreeExpandedIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.getIconFor(new JRSUIControlSpec() {
-            public void initIconPainter(final AquaPainter<? extends JRSUIState> painter) {
-                painter.state.set(Widget.DISCLOSURE_TRIANGLE);
-                painter.state.set(State.ACTIVE);
-                painter.state.set(Direction.DOWN);
-                painter.state.set(AlignmentHorizontal.CENTER);
-                painter.state.set(AlignmentVertical.CENTER);
+    publid stbtid UIRfsourdf gftTrffExpbndfdIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        rfturn AqubIdon.gftIdonFor(nfw JRSUIControlSpfd() {
+            publid void initIdonPbintfr(finbl AqubPbintfr<? fxtfnds JRSUIStbtf> pbintfr) {
+                pbintfr.stbtf.sft(Widgft.DISCLOSURE_TRIANGLE);
+                pbintfr.stbtf.sft(Stbtf.ACTIVE);
+                pbintfr.stbtf.sft(Dirfdtion.DOWN);
+                pbintfr.stbtf.sft(AlignmfntHorizontbl.CENTER);
+                pbintfr.stbtf.sft(AlignmfntVfrtidbl.CENTER);
             }
         }, 20, 20);
     }
 
-    public static UIResource getTreeCollapsedIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.getIconFor(new JRSUIControlSpec() {
-            public void initIconPainter(final AquaPainter<? extends JRSUIState> painter) {
-                painter.state.set(Widget.DISCLOSURE_TRIANGLE);
-                painter.state.set(State.ACTIVE);
-                painter.state.set(Direction.RIGHT);
-                painter.state.set(AlignmentHorizontal.CENTER);
-                painter.state.set(AlignmentVertical.CENTER);
+    publid stbtid UIRfsourdf gftTrffCollbpsfdIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        rfturn AqubIdon.gftIdonFor(nfw JRSUIControlSpfd() {
+            publid void initIdonPbintfr(finbl AqubPbintfr<? fxtfnds JRSUIStbtf> pbintfr) {
+                pbintfr.stbtf.sft(Widgft.DISCLOSURE_TRIANGLE);
+                pbintfr.stbtf.sft(Stbtf.ACTIVE);
+                pbintfr.stbtf.sft(Dirfdtion.RIGHT);
+                pbintfr.stbtf.sft(AlignmfntHorizontbl.CENTER);
+                pbintfr.stbtf.sft(AlignmfntVfrtidbl.CENTER);
             }
         }, 20, 20);
     }
 
-    public static UIResource getTreeRightToLeftCollapsedIcon() {
-        // public, because UIDefaults.ProxyLazyValue uses reflection to get this value
-        return AquaIcon.getIconFor(new JRSUIControlSpec() {
-            public void initIconPainter(final AquaPainter<? extends JRSUIState> painter) {
-                painter.state.set(Widget.DISCLOSURE_TRIANGLE);
-                painter.state.set(State.ACTIVE);
-                painter.state.set(Direction.LEFT);
-                painter.state.set(AlignmentHorizontal.CENTER);
-                painter.state.set(AlignmentVertical.CENTER);
+    publid stbtid UIRfsourdf gftTrffRigitToLfftCollbpsfdIdon() {
+        // publid, bfdbusf UIDffbults.ProxyLbzyVbluf usfs rfflfdtion to gft tiis vbluf
+        rfturn AqubIdon.gftIdonFor(nfw JRSUIControlSpfd() {
+            publid void initIdonPbintfr(finbl AqubPbintfr<? fxtfnds JRSUIStbtf> pbintfr) {
+                pbintfr.stbtf.sft(Widgft.DISCLOSURE_TRIANGLE);
+                pbintfr.stbtf.sft(Stbtf.ACTIVE);
+                pbintfr.stbtf.sft(Dirfdtion.LEFT);
+                pbintfr.stbtf.sft(AlignmfntHorizontbl.CENTER);
+                pbintfr.stbtf.sft(AlignmfntVfrtidbl.CENTER);
             }
         }, 20, 20);
     }
 
-    static class NamedImageSingleton extends RecyclableSingleton<Image> {
-        final String namedImage;
+    stbtid dlbss NbmfdImbgfSinglfton fxtfnds RfdydlbblfSinglfton<Imbgf> {
+        finbl String nbmfdImbgf;
 
-        NamedImageSingleton(final String namedImage) {
-            this.namedImage = namedImage;
+        NbmfdImbgfSinglfton(finbl String nbmfdImbgf) {
+            tiis.nbmfdImbgf = nbmfdImbgf;
         }
 
-        @Override
-        protected Image getInstance() {
-            return getNSIcon(namedImage);
-        }
-    }
-
-    static class IconUIResourceSingleton extends RecyclableSingleton<IconUIResource> {
-        final NamedImageSingleton holder;
-
-        public IconUIResourceSingleton(final NamedImageSingleton holder) {
-            this.holder = holder;
-        }
-
-        @Override
-        protected IconUIResource getInstance() {
-            return new IconUIResource(new ImageIcon(holder.get()));
+        @Ovfrridf
+        protfdtfd Imbgf gftInstbndf() {
+            rfturn gftNSIdon(nbmfdImbgf);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class InvertableImageIcon extends ImageIcon implements InvertableIcon, UIResource {
-        Icon invertedImage;
-        public InvertableImageIcon(final Image image) {
-            super(image);
+    stbtid dlbss IdonUIRfsourdfSinglfton fxtfnds RfdydlbblfSinglfton<IdonUIRfsourdf> {
+        finbl NbmfdImbgfSinglfton ioldfr;
+
+        publid IdonUIRfsourdfSinglfton(finbl NbmfdImbgfSinglfton ioldfr) {
+            tiis.ioldfr = ioldfr;
         }
 
-        @Override
-        public Icon getInvertedIcon() {
-            if (invertedImage != null) return invertedImage;
-            return invertedImage = new IconUIResource(new ImageIcon(AquaUtils.generateLightenedImage(getImage(), 100)));
+        @Ovfrridf
+        protfdtfd IdonUIRfsourdf gftInstbndf() {
+            rfturn nfw IdonUIRfsourdf(nfw ImbgfIdon(ioldfr.gft()));
         }
     }
 
-    protected static final NamedImageSingleton northArrow = new NamedImageSingleton("NSMenuScrollUp");
-    protected static final IconUIResourceSingleton northArrowIcon = new IconUIResourceSingleton(northArrow);
-    protected static final NamedImageSingleton southArrow = new NamedImageSingleton("NSMenuScrollDown");
-    protected static final IconUIResourceSingleton southArrowIcon = new IconUIResourceSingleton(southArrow);
-    protected static final NamedImageSingleton westArrow = new NamedImageSingleton("NSMenuSubmenuLeft");
-    protected static final IconUIResourceSingleton westArrowIcon = new IconUIResourceSingleton(westArrow);
-    protected static final NamedImageSingleton eastArrow = new NamedImageSingleton("NSMenuSubmenu");
-    protected static final IconUIResourceSingleton eastArrowIcon = new IconUIResourceSingleton(eastArrow);
-
-    static Image getArrowImageForDirection(final int direction) {
-        switch(direction) {
-            case SwingConstants.NORTH: return northArrow.get();
-            case SwingConstants.SOUTH: return southArrow.get();
-            case SwingConstants.EAST: return eastArrow.get();
-            case SwingConstants.WEST: return westArrow.get();
-        }
-        return null;
-    }
-
-    static Icon getArrowIconForDirection(int direction) {
-        switch(direction) {
-            case SwingConstants.NORTH: return northArrowIcon.get();
-            case SwingConstants.SOUTH: return southArrowIcon.get();
-            case SwingConstants.EAST: return eastArrowIcon.get();
-            case SwingConstants.WEST: return westArrowIcon.get();
-        }
-        return null;
-    }
-
-    public static Icon getMenuArrowIcon() {
-        return new InvertableImageIcon(AquaUtils.generateLightenedImage(eastArrow.get(), 25));
-    }
-
-    public static Icon getMenuItemCheckIcon() {
-        return new InvertableImageIcon(AquaUtils.generateLightenedImage(
-                getNSIcon("NSMenuItemSelection"), 25));
-    }
-
-    public static Icon getMenuItemDashIcon() {
-        return new InvertableImageIcon(AquaUtils.generateLightenedImage(
-                getNSIcon("NSMenuMixedState"), 25));
-    }
-
-    private static Image getNSIcon(String imageName) {
-        Image icon = Toolkit.getDefaultToolkit()
-                .getImage("NSImage://" + imageName);
-        return icon;
-    }
-
-    public static class NineSliceMetrics {
-        public final int wCut, eCut, nCut, sCut;
-        public final int minW, minH;
-        public final boolean showMiddle, stretchH, stretchV;
-
-        public NineSliceMetrics(final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut) {
-            this(minWidth, minHeight, westCut, eastCut, northCut, southCut, true);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss InvfrtbblfImbgfIdon fxtfnds ImbgfIdon implfmfnts InvfrtbblfIdon, UIRfsourdf {
+        Idon invfrtfdImbgf;
+        publid InvfrtbblfImbgfIdon(finbl Imbgf imbgf) {
+            supfr(imbgf);
         }
 
-        public NineSliceMetrics(final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean showMiddle) {
-            this(minWidth, minHeight, westCut, eastCut, northCut, southCut, showMiddle, true, true);
+        @Ovfrridf
+        publid Idon gftInvfrtfdIdon() {
+            if (invfrtfdImbgf != null) rfturn invfrtfdImbgf;
+            rfturn invfrtfdImbgf = nfw IdonUIRfsourdf(nfw ImbgfIdon(AqubUtils.gfnfrbtfLigitfnfdImbgf(gftImbgf(), 100)));
+        }
+    }
+
+    protfdtfd stbtid finbl NbmfdImbgfSinglfton nortiArrow = nfw NbmfdImbgfSinglfton("NSMfnuSdrollUp");
+    protfdtfd stbtid finbl IdonUIRfsourdfSinglfton nortiArrowIdon = nfw IdonUIRfsourdfSinglfton(nortiArrow);
+    protfdtfd stbtid finbl NbmfdImbgfSinglfton soutiArrow = nfw NbmfdImbgfSinglfton("NSMfnuSdrollDown");
+    protfdtfd stbtid finbl IdonUIRfsourdfSinglfton soutiArrowIdon = nfw IdonUIRfsourdfSinglfton(soutiArrow);
+    protfdtfd stbtid finbl NbmfdImbgfSinglfton wfstArrow = nfw NbmfdImbgfSinglfton("NSMfnuSubmfnuLfft");
+    protfdtfd stbtid finbl IdonUIRfsourdfSinglfton wfstArrowIdon = nfw IdonUIRfsourdfSinglfton(wfstArrow);
+    protfdtfd stbtid finbl NbmfdImbgfSinglfton fbstArrow = nfw NbmfdImbgfSinglfton("NSMfnuSubmfnu");
+    protfdtfd stbtid finbl IdonUIRfsourdfSinglfton fbstArrowIdon = nfw IdonUIRfsourdfSinglfton(fbstArrow);
+
+    stbtid Imbgf gftArrowImbgfForDirfdtion(finbl int dirfdtion) {
+        switdi(dirfdtion) {
+            dbsf SwingConstbnts.NORTH: rfturn nortiArrow.gft();
+            dbsf SwingConstbnts.SOUTH: rfturn soutiArrow.gft();
+            dbsf SwingConstbnts.EAST: rfturn fbstArrow.gft();
+            dbsf SwingConstbnts.WEST: rfturn wfstArrow.gft();
+        }
+        rfturn null;
+    }
+
+    stbtid Idon gftArrowIdonForDirfdtion(int dirfdtion) {
+        switdi(dirfdtion) {
+            dbsf SwingConstbnts.NORTH: rfturn nortiArrowIdon.gft();
+            dbsf SwingConstbnts.SOUTH: rfturn soutiArrowIdon.gft();
+            dbsf SwingConstbnts.EAST: rfturn fbstArrowIdon.gft();
+            dbsf SwingConstbnts.WEST: rfturn wfstArrowIdon.gft();
+        }
+        rfturn null;
+    }
+
+    publid stbtid Idon gftMfnuArrowIdon() {
+        rfturn nfw InvfrtbblfImbgfIdon(AqubUtils.gfnfrbtfLigitfnfdImbgf(fbstArrow.gft(), 25));
+    }
+
+    publid stbtid Idon gftMfnuItfmCifdkIdon() {
+        rfturn nfw InvfrtbblfImbgfIdon(AqubUtils.gfnfrbtfLigitfnfdImbgf(
+                gftNSIdon("NSMfnuItfmSflfdtion"), 25));
+    }
+
+    publid stbtid Idon gftMfnuItfmDbsiIdon() {
+        rfturn nfw InvfrtbblfImbgfIdon(AqubUtils.gfnfrbtfLigitfnfdImbgf(
+                gftNSIdon("NSMfnuMixfdStbtf"), 25));
+    }
+
+    privbtf stbtid Imbgf gftNSIdon(String imbgfNbmf) {
+        Imbgf idon = Toolkit.gftDffbultToolkit()
+                .gftImbgf("NSImbgf://" + imbgfNbmf);
+        rfturn idon;
+    }
+
+    publid stbtid dlbss NinfSlidfMftrids {
+        publid finbl int wCut, fCut, nCut, sCut;
+        publid finbl int minW, minH;
+        publid finbl boolfbn siowMiddlf, strftdiH, strftdiV;
+
+        publid NinfSlidfMftrids(finbl int minWidti, finbl int minHfigit, finbl int wfstCut, finbl int fbstCut, finbl int nortiCut, finbl int soutiCut) {
+            tiis(minWidti, minHfigit, wfstCut, fbstCut, nortiCut, soutiCut, truf);
         }
 
-        public NineSliceMetrics(final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean showMiddle, final boolean stretchHorizontally, final boolean stretchVertically) {
-            this.wCut = westCut; this.eCut = eastCut; this.nCut = northCut; this.sCut = southCut;
-            this.minW = minWidth; this.minH = minHeight;
-            this.showMiddle = showMiddle; this.stretchH = stretchHorizontally; this.stretchV = stretchVertically;
+        publid NinfSlidfMftrids(finbl int minWidti, finbl int minHfigit, finbl int wfstCut, finbl int fbstCut, finbl int nortiCut, finbl int soutiCut, finbl boolfbn siowMiddlf) {
+            tiis(minWidti, minHfigit, wfstCut, fbstCut, nortiCut, soutiCut, siowMiddlf, truf, truf);
+        }
+
+        publid NinfSlidfMftrids(finbl int minWidti, finbl int minHfigit, finbl int wfstCut, finbl int fbstCut, finbl int nortiCut, finbl int soutiCut, finbl boolfbn siowMiddlf, finbl boolfbn strftdiHorizontblly, finbl boolfbn strftdiVfrtidblly) {
+            tiis.wCut = wfstCut; tiis.fCut = fbstCut; tiis.nCut = nortiCut; tiis.sCut = soutiCut;
+            tiis.minW = minWidti; tiis.minH = minHfigit;
+            tiis.siowMiddlf = siowMiddlf; tiis.strftdiH = strftdiHorizontblly; tiis.strftdiV = strftdiVfrtidblly;
         }
     }
 
     /*
-     * A "paintable" which holds nine images, which represent a sliced up initial
-     * image that can be streched from its middles.
+     * A "pbintbblf" wiidi iolds ninf imbgfs, wiidi rfprfsfnt b slidfd up initibl
+     * imbgf tibt dbn bf strfdifd from its middlfs.
      */
-    public static class SlicedImageControl {
-        final BufferedImage NW, N, NE;
-        final BufferedImage W, C, E;
-        final BufferedImage SW, S, SE;
+    publid stbtid dlbss SlidfdImbgfControl {
+        finbl BufffrfdImbgf NW, N, NE;
+        finbl BufffrfdImbgf W, C, E;
+        finbl BufffrfdImbgf SW, S, SE;
 
-        final NineSliceMetrics metrics;
+        finbl NinfSlidfMftrids mftrids;
 
-        final int totalWidth, totalHeight;
-        final int centerColWidth, centerRowHeight;
+        finbl int totblWidti, totblHfigit;
+        finbl int dfntfrColWidti, dfntfrRowHfigit;
 
-        public SlicedImageControl(final Image img, final int westCut, final int eastCut, final int northCut, final int southCut) {
-            this(img, westCut, eastCut, northCut, southCut, true);
+        publid SlidfdImbgfControl(finbl Imbgf img, finbl int wfstCut, finbl int fbstCut, finbl int nortiCut, finbl int soutiCut) {
+            tiis(img, wfstCut, fbstCut, nortiCut, soutiCut, truf);
         }
 
-        public SlicedImageControl(final Image img, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean useMiddle) {
-            this(img, westCut, eastCut, northCut, southCut, useMiddle, true, true);
+        publid SlidfdImbgfControl(finbl Imbgf img, finbl int wfstCut, finbl int fbstCut, finbl int nortiCut, finbl int soutiCut, finbl boolfbn usfMiddlf) {
+            tiis(img, wfstCut, fbstCut, nortiCut, soutiCut, usfMiddlf, truf, truf);
         }
 
-        public SlicedImageControl(final Image img, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean useMiddle, final boolean stretchHorizontally, final boolean stretchVertically) {
-            this(img, new NineSliceMetrics(img.getWidth(null), img.getHeight(null), westCut, eastCut, northCut, southCut, useMiddle, stretchHorizontally, stretchVertically));
+        publid SlidfdImbgfControl(finbl Imbgf img, finbl int wfstCut, finbl int fbstCut, finbl int nortiCut, finbl int soutiCut, finbl boolfbn usfMiddlf, finbl boolfbn strftdiHorizontblly, finbl boolfbn strftdiVfrtidblly) {
+            tiis(img, nfw NinfSlidfMftrids(img.gftWidti(null), img.gftHfigit(null), wfstCut, fbstCut, nortiCut, soutiCut, usfMiddlf, strftdiHorizontblly, strftdiVfrtidblly));
         }
 
-        public SlicedImageControl(final Image img, final NineSliceMetrics metrics) {
-            this.metrics = metrics;
+        publid SlidfdImbgfControl(finbl Imbgf img, finbl NinfSlidfMftrids mftrids) {
+            tiis.mftrids = mftrids;
 
-            if (img.getWidth(null) != metrics.minW || img.getHeight(null) != metrics.minH) {
-                throw new IllegalArgumentException("SlicedImageControl: template image and NineSliceMetrics don't agree on minimum dimensions");
+            if (img.gftWidti(null) != mftrids.minW || img.gftHfigit(null) != mftrids.minH) {
+                tirow nfw IllfgblArgumfntExdfption("SlidfdImbgfControl: tfmplbtf imbgf bnd NinfSlidfMftrids don't bgrff on minimum dimfnsions");
             }
 
-            totalWidth = metrics.minW;
-            totalHeight = metrics.minH;
-            centerColWidth = totalWidth - metrics.wCut - metrics.eCut;
-            centerRowHeight = totalHeight - metrics.nCut - metrics.sCut;
+            totblWidti = mftrids.minW;
+            totblHfigit = mftrids.minH;
+            dfntfrColWidti = totblWidti - mftrids.wCut - mftrids.fCut;
+            dfntfrRowHfigit = totblHfigit - mftrids.nCut - mftrids.sCut;
 
-            NW = createSlice(img, 0, 0, metrics.wCut, metrics.nCut);
-            N = createSlice(img, metrics.wCut, 0, centerColWidth, metrics.nCut);
-            NE = createSlice(img, totalWidth - metrics.eCut, 0, metrics.eCut, metrics.nCut);
-            W = createSlice(img, 0, metrics.nCut, metrics.wCut, centerRowHeight);
-            C = metrics.showMiddle ? createSlice(img, metrics.wCut, metrics.nCut, centerColWidth, centerRowHeight) : null;
-            E = createSlice(img, totalWidth - metrics.eCut, metrics.nCut, metrics.eCut, centerRowHeight);
-            SW = createSlice(img, 0, totalHeight - metrics.sCut, metrics.wCut, metrics.sCut);
-            S = createSlice(img, metrics.wCut, totalHeight - metrics.sCut, centerColWidth, metrics.sCut);
-            SE = createSlice(img, totalWidth - metrics.eCut, totalHeight - metrics.sCut, metrics.eCut, metrics.sCut);
+            NW = drfbtfSlidf(img, 0, 0, mftrids.wCut, mftrids.nCut);
+            N = drfbtfSlidf(img, mftrids.wCut, 0, dfntfrColWidti, mftrids.nCut);
+            NE = drfbtfSlidf(img, totblWidti - mftrids.fCut, 0, mftrids.fCut, mftrids.nCut);
+            W = drfbtfSlidf(img, 0, mftrids.nCut, mftrids.wCut, dfntfrRowHfigit);
+            C = mftrids.siowMiddlf ? drfbtfSlidf(img, mftrids.wCut, mftrids.nCut, dfntfrColWidti, dfntfrRowHfigit) : null;
+            E = drfbtfSlidf(img, totblWidti - mftrids.fCut, mftrids.nCut, mftrids.fCut, dfntfrRowHfigit);
+            SW = drfbtfSlidf(img, 0, totblHfigit - mftrids.sCut, mftrids.wCut, mftrids.sCut);
+            S = drfbtfSlidf(img, mftrids.wCut, totblHfigit - mftrids.sCut, dfntfrColWidti, mftrids.sCut);
+            SE = drfbtfSlidf(img, totblWidti - mftrids.fCut, totblHfigit - mftrids.sCut, mftrids.fCut, mftrids.sCut);
         }
 
-        static BufferedImage createSlice(final Image img, final int x, final int y, final int w, final int h) {
-            if (w == 0 || h == 0) return null;
+        stbtid BufffrfdImbgf drfbtfSlidf(finbl Imbgf img, finbl int x, finbl int y, finbl int w, finbl int i) {
+            if (w == 0 || i == 0) rfturn null;
 
-            final BufferedImage slice = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB_PRE);
-            final Graphics2D g2d = slice.createGraphics();
-            g2d.drawImage(img, 0, 0, w, h, x, y, x + w, y + h, null);
-            g2d.dispose();
+            finbl BufffrfdImbgf slidf = nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+            finbl Grbpiids2D g2d = slidf.drfbtfGrbpiids();
+            g2d.drbwImbgf(img, 0, 0, w, i, x, y, x + w, y + i, null);
+            g2d.disposf();
 
-            return slice;
+            rfturn slidf;
         }
 
-        public void paint(final Graphics g, final int x, final int y, final int w, final int h) {
-            g.translate(x, y);
+        publid void pbint(finbl Grbpiids g, finbl int x, finbl int y, finbl int w, finbl int i) {
+            g.trbnslbtf(x, y);
 
-            if (w < totalWidth || h < totalHeight) {
-                paintCompressed(g, w, h);
-            } else {
-                paintStretchedMiddles(g, w, h);
+            if (w < totblWidti || i < totblHfigit) {
+                pbintComprfssfd(g, w, i);
+            } flsf {
+                pbintStrftdifdMiddlfs(g, w, i);
             }
 
-            g.translate(-x, -y);
+            g.trbnslbtf(-x, -y);
         }
 
-        void paintStretchedMiddles(final Graphics g, final int w, final int h) {
-            int baseX = metrics.stretchH ? 0 : ((w / 2) - (totalWidth / 2));
-            int baseY = metrics.stretchV ? 0 : ((h / 2) - (totalHeight / 2));
-            int adjustedWidth = metrics.stretchH ? w : totalWidth;
-            int adjustedHeight = metrics.stretchV ? h : totalHeight;
+        void pbintStrftdifdMiddlfs(finbl Grbpiids g, finbl int w, finbl int i) {
+            int bbsfX = mftrids.strftdiH ? 0 : ((w / 2) - (totblWidti / 2));
+            int bbsfY = mftrids.strftdiV ? 0 : ((i / 2) - (totblHfigit / 2));
+            int bdjustfdWidti = mftrids.strftdiH ? w : totblWidti;
+            int bdjustfdHfigit = mftrids.strftdiV ? i : totblHfigit;
 
-            if (NW != null) g.drawImage(NW, baseX, baseY, null);
-            if (N != null) g.drawImage(N, baseX + metrics.wCut, baseY, adjustedWidth - metrics.eCut - metrics.wCut, metrics.nCut, null);
-            if (NE != null) g.drawImage(NE, baseX + adjustedWidth - metrics.eCut, baseY, null);
-            if (W != null) g.drawImage(W, baseX, baseY + metrics.nCut, metrics.wCut, adjustedHeight - metrics.nCut - metrics.sCut, null);
-            if (C != null) g.drawImage(C, baseX + metrics.wCut, baseY + metrics.nCut, adjustedWidth - metrics.eCut - metrics.wCut, adjustedHeight - metrics.nCut - metrics.sCut, null);
-            if (E != null) g.drawImage(E, baseX + adjustedWidth - metrics.eCut, baseY + metrics.nCut, metrics.eCut, adjustedHeight - metrics.nCut - metrics.sCut, null);
-            if (SW != null) g.drawImage(SW, baseX, baseY + adjustedHeight - metrics.sCut, null);
-            if (S != null) g.drawImage(S, baseX + metrics.wCut, baseY + adjustedHeight - metrics.sCut, adjustedWidth - metrics.eCut - metrics.wCut, metrics.sCut, null);
-            if (SE != null) g.drawImage(SE, baseX + adjustedWidth - metrics.eCut, baseY + adjustedHeight - metrics.sCut, null);
+            if (NW != null) g.drbwImbgf(NW, bbsfX, bbsfY, null);
+            if (N != null) g.drbwImbgf(N, bbsfX + mftrids.wCut, bbsfY, bdjustfdWidti - mftrids.fCut - mftrids.wCut, mftrids.nCut, null);
+            if (NE != null) g.drbwImbgf(NE, bbsfX + bdjustfdWidti - mftrids.fCut, bbsfY, null);
+            if (W != null) g.drbwImbgf(W, bbsfX, bbsfY + mftrids.nCut, mftrids.wCut, bdjustfdHfigit - mftrids.nCut - mftrids.sCut, null);
+            if (C != null) g.drbwImbgf(C, bbsfX + mftrids.wCut, bbsfY + mftrids.nCut, bdjustfdWidti - mftrids.fCut - mftrids.wCut, bdjustfdHfigit - mftrids.nCut - mftrids.sCut, null);
+            if (E != null) g.drbwImbgf(E, bbsfX + bdjustfdWidti - mftrids.fCut, bbsfY + mftrids.nCut, mftrids.fCut, bdjustfdHfigit - mftrids.nCut - mftrids.sCut, null);
+            if (SW != null) g.drbwImbgf(SW, bbsfX, bbsfY + bdjustfdHfigit - mftrids.sCut, null);
+            if (S != null) g.drbwImbgf(S, bbsfX + mftrids.wCut, bbsfY + bdjustfdHfigit - mftrids.sCut, bdjustfdWidti - mftrids.fCut - mftrids.wCut, mftrids.sCut, null);
+            if (SE != null) g.drbwImbgf(SE, bbsfX + bdjustfdWidti - mftrids.fCut, bbsfY + bdjustfdHfigit - mftrids.sCut, null);
 
             /*
-            if (NW != null) {g.setColor(Color.GREEN); g.fillRect(baseX, baseY, NW.getWidth(), NW.getHeight());}
-            if (N != null) {g.setColor(Color.RED); g.fillRect(baseX + metrics.wCut, baseY, adjustedWidth - metrics.eCut - metrics.wCut, metrics.nCut);}
-            if (NE != null) {g.setColor(Color.BLUE); g.fillRect(baseX + adjustedWidth - metrics.eCut, baseY, NE.getWidth(), NE.getHeight());}
-            if (W != null) {g.setColor(Color.PINK); g.fillRect(baseX, baseY + metrics.nCut, metrics.wCut, adjustedHeight - metrics.nCut - metrics.sCut);}
-            if (C != null) {g.setColor(Color.ORANGE); g.fillRect(baseX + metrics.wCut, baseY + metrics.nCut, adjustedWidth - metrics.eCut - metrics.wCut, adjustedHeight - metrics.nCut - metrics.sCut);}
-            if (E != null) {g.setColor(Color.CYAN); g.fillRect(baseX + adjustedWidth - metrics.eCut, baseY + metrics.nCut, metrics.eCut, adjustedHeight - metrics.nCut - metrics.sCut);}
-            if (SW != null) {g.setColor(Color.MAGENTA); g.fillRect(baseX, baseY + adjustedHeight - metrics.sCut, SW.getWidth(), SW.getHeight());}
-            if (S != null) {g.setColor(Color.DARK_GRAY); g.fillRect(baseX + metrics.wCut, baseY + adjustedHeight - metrics.sCut, adjustedWidth - metrics.eCut - metrics.wCut, metrics.sCut);}
-            if (SE != null) {g.setColor(Color.YELLOW); g.fillRect(baseX + adjustedWidth - metrics.eCut, baseY + adjustedHeight - metrics.sCut, SE.getWidth(), SE.getHeight());}
+            if (NW != null) {g.sftColor(Color.GREEN); g.fillRfdt(bbsfX, bbsfY, NW.gftWidti(), NW.gftHfigit());}
+            if (N != null) {g.sftColor(Color.RED); g.fillRfdt(bbsfX + mftrids.wCut, bbsfY, bdjustfdWidti - mftrids.fCut - mftrids.wCut, mftrids.nCut);}
+            if (NE != null) {g.sftColor(Color.BLUE); g.fillRfdt(bbsfX + bdjustfdWidti - mftrids.fCut, bbsfY, NE.gftWidti(), NE.gftHfigit());}
+            if (W != null) {g.sftColor(Color.PINK); g.fillRfdt(bbsfX, bbsfY + mftrids.nCut, mftrids.wCut, bdjustfdHfigit - mftrids.nCut - mftrids.sCut);}
+            if (C != null) {g.sftColor(Color.ORANGE); g.fillRfdt(bbsfX + mftrids.wCut, bbsfY + mftrids.nCut, bdjustfdWidti - mftrids.fCut - mftrids.wCut, bdjustfdHfigit - mftrids.nCut - mftrids.sCut);}
+            if (E != null) {g.sftColor(Color.CYAN); g.fillRfdt(bbsfX + bdjustfdWidti - mftrids.fCut, bbsfY + mftrids.nCut, mftrids.fCut, bdjustfdHfigit - mftrids.nCut - mftrids.sCut);}
+            if (SW != null) {g.sftColor(Color.MAGENTA); g.fillRfdt(bbsfX, bbsfY + bdjustfdHfigit - mftrids.sCut, SW.gftWidti(), SW.gftHfigit());}
+            if (S != null) {g.sftColor(Color.DARK_GRAY); g.fillRfdt(bbsfX + mftrids.wCut, bbsfY + bdjustfdHfigit - mftrids.sCut, bdjustfdWidti - mftrids.fCut - mftrids.wCut, mftrids.sCut);}
+            if (SE != null) {g.sftColor(Color.YELLOW); g.fillRfdt(bbsfX + bdjustfdWidti - mftrids.fCut, bbsfY + bdjustfdHfigit - mftrids.sCut, SE.gftWidti(), SE.gftHfigit());}
             */
         }
 
-        void paintCompressed(final Graphics g, final int w, final int h) {
-            final double heightRatio = h > totalHeight ? 1.0 : (double)h / (double)totalHeight;
-            final double widthRatio = w > totalWidth ? 1.0 : (double)w / (double)totalWidth;
+        void pbintComprfssfd(finbl Grbpiids g, finbl int w, finbl int i) {
+            finbl doublf ifigitRbtio = i > totblHfigit ? 1.0 : (doublf)i / (doublf)totblHfigit;
+            finbl doublf widtiRbtio = w > totblWidti ? 1.0 : (doublf)w / (doublf)totblWidti;
 
-            final int northHeight = (int)(metrics.nCut * heightRatio);
-            final int southHeight = (int)(metrics.sCut * heightRatio);
-            final int centerHeight = h - northHeight - southHeight;
+            finbl int nortiHfigit = (int)(mftrids.nCut * ifigitRbtio);
+            finbl int soutiHfigit = (int)(mftrids.sCut * ifigitRbtio);
+            finbl int dfntfrHfigit = i - nortiHfigit - soutiHfigit;
 
-            final int westWidth = (int)(metrics.wCut * widthRatio);
-            final int eastWidth = (int)(metrics.eCut * widthRatio);
-            final int centerWidth = w - westWidth - eastWidth;
+            finbl int wfstWidti = (int)(mftrids.wCut * widtiRbtio);
+            finbl int fbstWidti = (int)(mftrids.fCut * widtiRbtio);
+            finbl int dfntfrWidti = w - wfstWidti - fbstWidti;
 
-            if (NW != null) g.drawImage(NW, 0, 0, westWidth, northHeight, null);
-            if (N != null) g.drawImage(N, westWidth, 0, centerWidth, northHeight, null);
-            if (NE != null) g.drawImage(NE, w - eastWidth, 0, eastWidth, northHeight, null);
-            if (W != null) g.drawImage(W, 0, northHeight, westWidth, centerHeight, null);
-            if (C != null) g.drawImage(C, westWidth, northHeight, centerWidth, centerHeight, null);
-            if (E != null) g.drawImage(E, w - eastWidth, northHeight, eastWidth, centerHeight, null);
-            if (SW != null) g.drawImage(SW, 0, h - southHeight, westWidth, southHeight, null);
-            if (S != null) g.drawImage(S, westWidth, h - southHeight, centerWidth, southHeight, null);
-            if (SE != null) g.drawImage(SE, w - eastWidth, h - southHeight, eastWidth, southHeight, null);
+            if (NW != null) g.drbwImbgf(NW, 0, 0, wfstWidti, nortiHfigit, null);
+            if (N != null) g.drbwImbgf(N, wfstWidti, 0, dfntfrWidti, nortiHfigit, null);
+            if (NE != null) g.drbwImbgf(NE, w - fbstWidti, 0, fbstWidti, nortiHfigit, null);
+            if (W != null) g.drbwImbgf(W, 0, nortiHfigit, wfstWidti, dfntfrHfigit, null);
+            if (C != null) g.drbwImbgf(C, wfstWidti, nortiHfigit, dfntfrWidti, dfntfrHfigit, null);
+            if (E != null) g.drbwImbgf(E, w - fbstWidti, nortiHfigit, fbstWidti, dfntfrHfigit, null);
+            if (SW != null) g.drbwImbgf(SW, 0, i - soutiHfigit, wfstWidti, soutiHfigit, null);
+            if (S != null) g.drbwImbgf(S, wfstWidti, i - soutiHfigit, dfntfrWidti, soutiHfigit, null);
+            if (SE != null) g.drbwImbgf(SE, w - fbstWidti, i - soutiHfigit, fbstWidti, soutiHfigit, null);
         }
     }
 
-    public abstract static class RecyclableSlicedImageControl extends RecyclableObject<SlicedImageControl> {
-        final NineSliceMetrics metrics;
+    publid bbstrbdt stbtid dlbss RfdydlbblfSlidfdImbgfControl fxtfnds RfdydlbblfObjfdt<SlidfdImbgfControl> {
+        finbl NinfSlidfMftrids mftrids;
 
-        public RecyclableSlicedImageControl(final NineSliceMetrics metrics) {
-            this.metrics = metrics;
+        publid RfdydlbblfSlidfdImbgfControl(finbl NinfSlidfMftrids mftrids) {
+            tiis.mftrids = mftrids;
         }
 
-        @Override
-        protected SlicedImageControl create() {
-            return new SlicedImageControl(createTemplateImage(metrics.minW, metrics.minH), metrics);
+        @Ovfrridf
+        protfdtfd SlidfdImbgfControl drfbtf() {
+            rfturn nfw SlidfdImbgfControl(drfbtfTfmplbtfImbgf(mftrids.minW, mftrids.minH), mftrids);
         }
 
-        protected abstract Image createTemplateImage(final int width, final int height);
+        protfdtfd bbstrbdt Imbgf drfbtfTfmplbtfImbgf(finbl int widti, finbl int ifigit);
     }
 
-    // when we use SystemColors, we need to proxy the color with something that implements UIResource,
-    // so that it will be uninstalled when the look and feel is changed.
-    @SuppressWarnings("serial") // JDK implementation class
-    private static class SystemColorProxy extends Color implements UIResource {
-        final Color color;
-        public SystemColorProxy(final Color color) {
-            super(color.getRGB());
-            this.color = color;
+    // wifn wf usf SystfmColors, wf nffd to proxy tif dolor witi somftiing tibt implfmfnts UIRfsourdf,
+    // so tibt it will bf uninstbllfd wifn tif look bnd fffl is dibngfd.
+    @SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+    privbtf stbtid dlbss SystfmColorProxy fxtfnds Color implfmfnts UIRfsourdf {
+        finbl Color dolor;
+        publid SystfmColorProxy(finbl Color dolor) {
+            supfr(dolor.gftRGB());
+            tiis.dolor = dolor;
         }
 
-        public int getRGB() {
-            return color.getRGB();
+        publid int gftRGB() {
+            rfturn dolor.gftRGB();
         }
     }
 
-    public static Color getWindowBackgroundColorUIResource() {
-        //return AquaNativeResources.getWindowBackgroundColorUIResource();
-        return new SystemColorProxy(SystemColor.window);
+    publid stbtid Color gftWindowBbdkgroundColorUIRfsourdf() {
+        //rfturn AqubNbtivfRfsourdfs.gftWindowBbdkgroundColorUIRfsourdf();
+        rfturn nfw SystfmColorProxy(SystfmColor.window);
     }
 
-    public static Color getTextSelectionBackgroundColorUIResource() {
-        return new SystemColorProxy(SystemColor.textHighlight);
+    publid stbtid Color gftTfxtSflfdtionBbdkgroundColorUIRfsourdf() {
+        rfturn nfw SystfmColorProxy(SystfmColor.tfxtHigiligit);
     }
 
-    public static Color getTextSelectionForegroundColorUIResource() {
-        return new SystemColorProxy(SystemColor.textHighlightText);
+    publid stbtid Color gftTfxtSflfdtionForfgroundColorUIRfsourdf() {
+        rfturn nfw SystfmColorProxy(SystfmColor.tfxtHigiligitTfxt);
     }
 
-    public static Color getSelectionBackgroundColorUIResource() {
-        return new SystemColorProxy(SystemColor.controlHighlight);
+    publid stbtid Color gftSflfdtionBbdkgroundColorUIRfsourdf() {
+        rfturn nfw SystfmColorProxy(SystfmColor.dontrolHigiligit);
     }
 
-    public static Color getSelectionForegroundColorUIResource() {
-        return new SystemColorProxy(SystemColor.controlLtHighlight);
+    publid stbtid Color gftSflfdtionForfgroundColorUIRfsourdf() {
+        rfturn nfw SystfmColorProxy(SystfmColor.dontrolLtHigiligit);
     }
 
-    public static Color getFocusRingColorUIResource() {
-        return new SystemColorProxy(LWCToolkit.getAppleColor(LWCToolkit.KEYBOARD_FOCUS_COLOR));
+    publid stbtid Color gftFodusRingColorUIRfsourdf() {
+        rfturn nfw SystfmColorProxy(LWCToolkit.gftApplfColor(LWCToolkit.KEYBOARD_FOCUS_COLOR));
     }
 
-    public static Color getSelectionInactiveBackgroundColorUIResource() {
-        return new SystemColorProxy(LWCToolkit.getAppleColor(LWCToolkit.INACTIVE_SELECTION_BACKGROUND_COLOR));
+    publid stbtid Color gftSflfdtionInbdtivfBbdkgroundColorUIRfsourdf() {
+        rfturn nfw SystfmColorProxy(LWCToolkit.gftApplfColor(LWCToolkit.INACTIVE_SELECTION_BACKGROUND_COLOR));
     }
 
-    public static Color getSelectionInactiveForegroundColorUIResource() {
-        return new SystemColorProxy(LWCToolkit.getAppleColor(LWCToolkit.INACTIVE_SELECTION_FOREGROUND_COLOR));
+    publid stbtid Color gftSflfdtionInbdtivfForfgroundColorUIRfsourdf() {
+        rfturn nfw SystfmColorProxy(LWCToolkit.gftApplfColor(LWCToolkit.INACTIVE_SELECTION_FOREGROUND_COLOR));
     }
 }

@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.management;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeType;
+pbdkbgf dom.sun.mbnbgfmfnt;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
 
 /**
- * Platform-specific management interface for a garbage collector
- * which performs collections in cycles.
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for b gbrbbgf dollfdtor
+ * wiidi pfrforms dollfdtions in dydlfs.
  *
- * <p> This platform extension is only available to the garbage
- * collection implementation that supports this extension.
+ * <p> Tiis plbtform fxtfnsion is only bvbilbblf to tif gbrbbgf
+ * dollfdtion implfmfntbtion tibt supports tiis fxtfnsion.
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
-@jdk.Exported
-public interface GarbageCollectorMXBean
-    extends java.lang.management.GarbageCollectorMXBean {
+@jdk.Exportfd
+publid intfrfbdf GbrbbgfCollfdtorMXBfbn
+    fxtfnds jbvb.lbng.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn {
 
     /**
-     * Returns the GC information about the most recent GC.
-     * This method returns a {@link GcInfo}.
-     * If no GC information is available, <tt>null</tt> is returned.
-     * The collector-specific attributes, if any, can be obtained
-     * via the {@link CompositeData CompositeData} interface.
+     * Rfturns tif GC informbtion bbout tif most rfdfnt GC.
+     * Tiis mftiod rfturns b {@link GdInfo}.
+     * If no GC informbtion is bvbilbblf, <tt>null</tt> is rfturnfd.
+     * Tif dollfdtor-spfdifid bttributfs, if bny, dbn bf obtbinfd
+     * vib tif {@link CompositfDbtb CompositfDbtb} intfrfbdf.
      * <p>
-     * <b>MBeanServer access:</b>
-     * The mapped type of <tt>GcInfo</tt> is <tt>CompositeData</tt>
-     * with attributes specified in {@link GcInfo#from GcInfo}.
+     * <b>MBfbnSfrvfr bddfss:</b>
+     * Tif mbppfd typf of <tt>GdInfo</tt> is <tt>CompositfDbtb</tt>
+     * witi bttributfs spfdififd in {@link GdInfo#from GdInfo}.
      *
-     * @return a <tt>GcInfo</tt> object representing
-     * the most GC information; or <tt>null</tt> if no GC
-     * information available.
+     * @rfturn b <tt>GdInfo</tt> objfdt rfprfsfnting
+     * tif most GC informbtion; or <tt>null</tt> if no GC
+     * informbtion bvbilbblf.
      */
-    public GcInfo getLastGcInfo();
+    publid GdInfo gftLbstGdInfo();
 }

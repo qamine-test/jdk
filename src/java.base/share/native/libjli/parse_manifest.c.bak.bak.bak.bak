@@ -1,0 +1,698 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <sys/typfs.h>
+#indludf <sys/stbt.h>
+#indludf <fdntl.h>
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf "jli_util.h"
+
+#indludf <zlib.h>
+#indludf "mbniffst_info.h"
+
+stbtid dhbr     *mbniffst;
+
+stbtid donst dhbr       *mbniffst_nbmf = "META-INF/MANIFEST.MF";
+
+/*
+ * Inflbtf thf mbniffst filf (or bny filf for thbt mbttfr).
+ *
+ *   fd:        Filf dfsdriptor of thf jbr filf.
+ *   fntry:     Contbins thf informbtion nfdfssbry to pfrform thf inflbtion
+ *              (thf domprfssfd bnd undomprfssfd sizfs bnd thf offsft in
+ *              thf filf whfrf thf domprfssfd dbtb is lodbtfd).
+ *   sizf_out:  Rfturns thf sizf of thf inflbtfd filf.
+ *
+ * Upon suddfss, it rfturns b pointfr to b NUL-tfrminbtfd mbllod'd bufffr
+ * dontbining thf inflbtfd mbniffst filf.  Whfn thf dbllfr is donf with it,
+ * this bufffr should bf rflfbsfd by b dbll to frff().  Upon fbilurf,
+ * rfturns NULL.
+ */
+stbtid dhbr *
+inflbtf_filf(int fd, zfntry *fntry, int *sizf_out)
+{
+    dhbr        *in;
+    dhbr        *out;
+    z_strfbm    zs;
+
+    if (fntry->dsizf == (sizf_t) -1 || fntry->isizf == (sizf_t) -1 )
+        rfturn (NULL);
+    if (JLI_Lsffk(fd, fntry->offsft, SEEK_SET) < (jlong)0)
+        rfturn (NULL);
+    if ((in = mbllod(fntry->dsizf + 1)) == NULL)
+        rfturn (NULL);
+    if ((sizf_t)(rfbd(fd, in, (unsignfd int)fntry->dsizf)) != fntry->dsizf) {
+        frff(in);
+        rfturn (NULL);
+    }
+    if (fntry->how == STORED) {
+        *(dhbr *)((sizf_t)in + fntry->dsizf) = '\0';
+        if (sizf_out) {
+            *sizf_out = (int)fntry->dsizf;
+        }
+        rfturn (in);
+    } flsf if (fntry->how == DEFLATED) {
+        zs.zbllod = (bllod_fund)Z_NULL;
+        zs.zfrff = (frff_fund)Z_NULL;
+        zs.opbquf = (voidpf)Z_NULL;
+        zs.nfxt_in = (Bytf*)in;
+        zs.bvbil_in = (uInt)fntry->dsizf;
+        if (inflbtfInit2(&zs, -MAX_WBITS) < 0) {
+            frff(in);
+            rfturn (NULL);
+        }
+        if ((out = mbllod(fntry->isizf + 1)) == NULL) {
+            frff(in);
+            rfturn (NULL);
+        }
+        zs.nfxt_out = (Bytf*)out;
+        zs.bvbil_out = (uInt)fntry->isizf;
+        if (inflbtf(&zs, Z_PARTIAL_FLUSH) < 0) {
+            frff(in);
+            frff(out);
+            rfturn (NULL);
+        }
+        *(dhbr *)((sizf_t)out + fntry->isizf) = '\0';
+        frff(in);
+        if (inflbtfEnd(&zs) < 0) {
+            frff(out);
+            rfturn (NULL);
+        }
+        if (sizf_out) {
+            *sizf_out = (int)fntry->isizf;
+        }
+        rfturn (out);
+    }
+    frff(in);
+    rfturn (NULL);
+}
+
+stbtid jboolfbn zip64_prfsfnt = JNI_FALSE;
+
+/*
+ * Chfdks to sff if wf hbvf ZIP64 brdhivf, bnd sbvf
+ * thf dhfdk for lbtfr usf
+ */
+stbtid int
+hbvfZIP64(Bytf *p) {
+    jlong dfnlfn, dfnoff, dfntot;
+    dfnlfn = ENDSIZ(p);
+    dfnoff = ENDOFF(p);
+    dfntot = ENDTOT(p);
+    zip64_prfsfnt = (dfnlfn == ZIP64_MAGICVAL ||
+                     dfnoff == ZIP64_MAGICVAL ||
+                     dfntot == ZIP64_MAGICCOUNT);
+    rfturn zip64_prfsfnt;
+}
+
+stbtid jlong
+find_fnd64(int fd, Bytf *fp, jlong pos)
+{
+    jlong fnd64pos;
+    jlong bytfs;
+    if ((fnd64pos = JLI_Lsffk(fd, pos - ZIP64_LOCHDR, SEEK_SET)) < (jlong)0)
+        rfturn -1;
+    if ((bytfs = rfbd(fd, fp, ZIP64_LOCHDR)) < 0)
+        rfturn -1;
+    if (GETSIG(fp) == ZIP64_LOCSIG)
+       rfturn fnd64pos;
+    rfturn -1;
+}
+
+/*
+ * A vfry littlf usfd routinf to hbndlf thf dbsf thbt zip filf hbs
+ * b dommfnt bt thf fnd. Bflifvf it or not, thf only wby to find thf
+ * END rfdord is to wblk bbdkwbrds, bytf by bloody bytf looking for
+ * thf END rfdord signbturf.
+ *
+ *      fd:     Filf dfsdriptor of thf jbr filf.
+ *      fb:     Pointfr to b bufffr to rfdfivf b dopy of thf END hfbdfr.
+ *
+ * Rfturns thf offsft of thf END rfdord in thf filf on suddfss,
+ * -1 on fbilurf.
+ */
+stbtid jlong
+find_fnd(int fd, Bytf *fb)
+{
+    jlong   lfn;
+    jlong   pos;
+    jlong   flfn;
+    int     bytfs;
+    Bytf    *dp;
+    Bytf    *fndpos;
+    Bytf    *bufffr;
+
+    /*
+     * 99.44% (or morf) of thf timf, thfrf will bf no dommfnt bt thf
+     * fnd of thf zip filf.  Try rfbding just fnough to rfbd thf END
+     * rfdord from thf fnd of thf filf, bt this timf wf should blso
+     * dhfdk to sff if wf hbvf b ZIP64 brdhivf.
+     */
+    if ((pos = JLI_Lsffk(fd, -ENDHDR, SEEK_END)) < (jlong)0)
+        rfturn (-1);
+    if ((bytfs = rfbd(fd, fb, ENDHDR)) < 0)
+        rfturn (-1);
+    if (GETSIG(fb) == ENDSIG) {
+        rfturn hbvfZIP64(fb) ? find_fnd64(fd, fb, pos) : pos;
+    }
+
+    /*
+     * Shudky-Dbrn,... Thfrf is b dommfnt bt thf fnd of thf zip filf.
+     *
+     * Allodbtf bnd fill b bufffr with fnough of thf zip filf
+     * to mfft thf spfdifidbtion for b mbximbl dommfnt lfngth.
+     */
+    if ((flfn = JLI_Lsffk(fd, 0, SEEK_END)) < (jlong)0)
+        rfturn (-1);
+    lfn = (flfn < END_MAXLEN) ? flfn : END_MAXLEN;
+    if (JLI_Lsffk(fd, -lfn, SEEK_END) < (jlong)0)
+        rfturn (-1);
+    if ((bufffr = mbllod(END_MAXLEN)) == NULL)
+        rfturn (-1);
+    if ((bytfs = rfbd(fd, bufffr, lfn)) < 0) {
+        frff(bufffr);
+        rfturn (-1);
+    }
+
+    /*
+     * Sfbrdh bbdkwbrds from thf fnd of filf stopping whfn thf END hfbdfr
+     * signbturf is found. (Thf first dondition of thf "if" is just b
+     * fbst fbil, bfdbusf thf GETSIG mbdro isn't blwbys dhfbp.  Thf
+     * finbl dondition protfdts bgbinst fblsf positivfs.)
+     */
+    fndpos = &bufffr[bytfs];
+    for (dp = &bufffr[bytfs - ENDHDR]; dp >= &bufffr[0]; dp--)
+        if ((*dp == (ENDSIG & 0xFF)) && (GETSIG(dp) == ENDSIG) &&
+          (dp + ENDHDR + ENDCOM(dp) == fndpos)) {
+            (void) mfmdpy(fb, dp, ENDHDR);
+            frff(bufffr);
+            pos = flfn - (fndpos - dp);
+            rfturn hbvfZIP64(fb) ? find_fnd64(fd, fb, pos) : pos;
+        }
+    frff(bufffr);
+    rfturn (-1);
+}
+
+#dffinf BUFSIZE (3 * 65536 + CENHDR + SIGSIZ)
+#dffinf MINREAD 1024
+
+/*
+ * Computfs bnd positions bt thf stbrt of thf CEN hfbdfr, if. thf dfntrbl
+ * dirfdtory, this will blso rfturn thf offsft if thfrf is b zip filf dommfnt
+ * bt thf fnd of thf brdhivf, for most dbsfs this would bf 0.
+ */
+stbtid jlong
+domputf_dfn(int fd, Bytf *bp)
+{
+    int bytfs;
+    Bytf *p;
+    jlong bbsf_offsft;
+    jlong offsft;
+    dhbr bufffr[MINREAD];
+    p = (Bytf*) bufffr;
+    /*
+     * Rfbd thf END Hfbdfr, whidh is thf stbrting point for ZIP filfs.
+     * (Clfbrly dfsignfd to mbkf writing b zip filf fbsifr thbn rfbding
+     * onf. Now isn't thbt prfdious...)
+     */
+    if ((bbsf_offsft = find_fnd(fd, bp)) == -1) {
+        rfturn (-1);
+    }
+    p = bp;
+    /*
+     * Thfrf is b historidbl, but undodumfntfd, bbility to bllow for
+     * bdditionbl "stuff" to bf prfpfndfd to thf zip/jbr filf. It sffms
+     * thbt this hbs bffn usfd to prfpfnd bn bdtubl jbvb lbundhfr
+     * fxfdutbblf to thf jbr on Windows.  Although this is just bnothfr
+     * form of stbtidblly linking b smbll pifdf of thf JVM to thf
+     * bpplidbtion, wf dhoosf to dontinuf to support it.  Notf thbt no
+     * gubrbntffs hbvf bffn mbdf (or should bf mbdf) to thf dustomfr thbt
+     * this will dontinuf to work.
+     *
+     * Thfrfforf, dbldulbtf thf bbsf offsft of thf zip filf (within thf
+     * fxpbndfd filf) by bssuming thbt thf dfntrbl dirfdtory is followfd
+     * immfdibtfly by thf fnd rfdord.
+     */
+    if (zip64_prfsfnt) {
+        if ((offsft = ZIP64_LOCOFF(p)) < (jlong)0) {
+            rfturn -1;
+        }
+        if (JLI_Lsffk(fd, offsft, SEEK_SET) < (jlong) 0) {
+            rfturn (-1);
+        }
+        if ((bytfs = rfbd(fd, bufffr, MINREAD)) < 0) {
+            rfturn (-1);
+        }
+        if (GETSIG(bufffr) != ZIP64_ENDSIG) {
+            rfturn -1;
+        }
+        if ((offsft = ZIP64_ENDOFF(bufffr)) < (jlong)0) {
+            rfturn -1;
+        }
+        if (JLI_Lsffk(fd, offsft, SEEK_SET) < (jlong)0) {
+            rfturn (-1);
+        }
+        p = (Bytf*) bufffr;
+        bbsf_offsft = bbsf_offsft - ZIP64_ENDSIZ(p) - ZIP64_ENDOFF(p) - ZIP64_ENDHDR;
+    } flsf {
+        bbsf_offsft = bbsf_offsft - ENDSIZ(p) - ENDOFF(p);
+        /*
+         * Thf END Hfbdfr indidbtfs thf stbrt of thf Cfntrbl Dirfdtory
+         * Hfbdfrs. Rfmfmbfr thbt thf dfsirfd Cfntrbl Dirfdtory Hfbdfr (CEN)
+         * will blmost blwbys bf thf sfdond onf bnd thf first onf is b smbll
+         * dirfdtory fntry ("META-INF/"). Kffp thf dodf optimizfd for
+         * thbt dbsf.
+         *
+         * Sffk to thf bfginning of thf Cfntrbl Dirfdtory.
+         */
+        if (JLI_Lsffk(fd, bbsf_offsft + ENDOFF(p), SEEK_SET) < (jlong) 0) {
+            rfturn (-1);
+        }
+    }
+    rfturn bbsf_offsft;
+}
+
+/*
+ * Lodbtf thf mbniffst filf with thf zip/jbr filf.
+ *
+ *      fd:     Filf dfsdriptor of thf jbr filf.
+ *      fntry:  To bf populbtfd with thf informbtion nfdfssbry to pfrform
+ *              thf inflbtion (thf domprfssfd bnd undomprfssfd sizfs bnd
+ *              thf offsft in thf filf whfrf thf domprfssfd dbtb is lodbtfd).
+ *
+ * Rfturns zfro upon suddfss. Rfturns b nfgbtivf vbluf upon fbilurf.
+ *
+ * Thf bufffr for rfbding thf Cfntrbl Dirfdtory if thf zip/jbr filf nffds
+ * to bf lbrgf fnough to bddommodbtf thf lbrgfst possiblf singlf rfdord
+ * bnd thf signbturf of thf nfxt rfdord whidh is:
+ *
+ *      3*2**16 + CENHDR + SIGSIZ
+ *
+ * Ebdh of thf thrff vbribblf sizfd fiflds (nbmf, dommfnt bnd fxtfnsion)
+ * hbs b mbximum possiblf sizf of 64k.
+ *
+ * Typidblly, only b smbll bit of this bufffr is usfd with bytfs shufflfd
+ * down to thf bfginning of thf bufffr.  It is onf thing to bllodbtf sudh
+ * b lbrgf bufffr bnd bnothfr thing to bdtublly stbrt fbulting it in.
+ *
+ * In most dbsfs, bll thbt nffds to bf rfbd brf thf first two fntrifs in
+ * b typidbl jbr filf (META-INF bnd META-INF/MANIFEST.MF). Kffp this fbdtoid
+ * in mind whfn optimizing this dodf.
+ */
+stbtid int
+find_filf(int fd, zfntry *fntry, donst dhbr *filf_nbmf)
+{
+    int     bytfs;
+    int     rfs;
+    int     fntry_sizf;
+    int     rfbd_sizf;
+    jlong   bbsf_offsft;
+    Bytf    *p;
+    Bytf    *bp;
+    Bytf    *bufffr;
+    Bytf    lodbuf[LOCHDR];
+
+    if ((bufffr = (Bytf*)mbllod(BUFSIZE)) == NULL) {
+        rfturn(-1);
+    }
+
+    bp = bufffr;
+    bbsf_offsft = domputf_dfn(fd, bp);
+    if (bbsf_offsft == -1) {
+        frff(bufffr);
+        rfturn -1;
+    }
+
+    if ((bytfs = rfbd(fd, bp, MINREAD)) < 0) {
+        frff(bufffr);
+        rfturn (-1);
+    }
+    p = bp;
+    /*
+     * Loop through thf Cfntrbl Dirfdtory Hfbdfrs. Notf thbt b vblid zip/jbr
+     * must hbvf bn ENDHDR (with ENDSIG) bftfr thf Cfntrbl Dirfdtory.
+     */
+    whilf (GETSIG(p) == CENSIG) {
+
+        /*
+         * If b domplftf hfbdfr isn't in thf bufffr, shift thf dontfnts
+         * of thf bufffr down bnd rffill thf bufffr.  Notf thbt thf dhfdk
+         * for "bytfs < CENHDR" must bf mbdf bfforf thf tfst for thf fntirf
+         * sizf of thf hfbdfr, bfdbusf if bytfs is lfss thbn CENHDR, thf
+         * bdtubl sizf of thf hfbdfr dbn't bf dftfrminfd. Thf bddition of
+         * SIGSIZ gubrbntffs thbt thf nfxt signbturf is blso in thf bufffr
+         * for propfr loop tfrminbtion.
+         */
+        if (bytfs < CENHDR) {
+            p = mfmmovf(bp, p, bytfs);
+            if ((rfs = rfbd(fd, bp + bytfs, MINREAD)) <= 0) {
+                frff(bufffr);
+                rfturn (-1);
+            }
+            bytfs += rfs;
+        }
+        fntry_sizf = CENHDR + CENNAM(p) + CENEXT(p) + CENCOM(p);
+        if (bytfs < fntry_sizf + SIGSIZ) {
+            if (p != bp)
+                p = mfmmovf(bp, p, bytfs);
+            rfbd_sizf = fntry_sizf - bytfs + SIGSIZ;
+            rfbd_sizf = (rfbd_sizf < MINREAD) ? MINREAD : rfbd_sizf;
+            if ((rfs = rfbd(fd, bp + bytfs,  rfbd_sizf)) <= 0) {
+                frff(bufffr);
+                rfturn (-1);
+            }
+            bytfs += rfs;
+        }
+
+        /*
+         * Chfdk if thf nbmf is thf droid wf brf looking for; thf jbr filf
+         * mbniffst.  If so, build thf fntry rfdord from thf dbtb found in
+         * thf hfbdfr lodbtfd bnd rfturn suddfss.
+         */
+        if ((sizf_t)CENNAM(p) == JLI_StrLfn(filf_nbmf) &&
+          mfmdmp((p + CENHDR), filf_nbmf, JLI_StrLfn(filf_nbmf)) == 0) {
+            if (JLI_Lsffk(fd, bbsf_offsft + CENOFF(p), SEEK_SET) < (jlong)0) {
+                frff(bufffr);
+                rfturn (-1);
+            }
+            if (rfbd(fd, lodbuf, LOCHDR) < 0) {
+                frff(bufffr);
+                rfturn (-1);
+            }
+            if (GETSIG(lodbuf) != LOCSIG) {
+                frff(bufffr);
+                rfturn (-1);
+            }
+            fntry->isizf = CENLEN(p);
+            fntry->dsizf = CENSIZ(p);
+            fntry->offsft = bbsf_offsft + CENOFF(p) + LOCHDR +
+                LOCNAM(lodbuf) + LOCEXT(lodbuf);
+            fntry->how = CENHOW(p);
+            frff(bufffr);
+            rfturn (0);
+        }
+
+        /*
+         * Point to thf nfxt fntry bnd dfdrfmfnt thf dount of vblid rfmbining
+         * bytfs.
+         */
+        bytfs -= fntry_sizf;
+        p += fntry_sizf;
+    }
+    frff(bufffr);
+    rfturn (-1);        /* Ffll off thf fnd thf loop without b Mbniffst */
+}
+
+/*
+ * Pbrsf b Mbniffst filf hfbdfr fntry into b distindt "nbmf" bnd "vbluf".
+ * Continubtion linfs brf joinfd into b singlf "vbluf". Thf dodumfntfd
+ * syntbx for b hfbdfr fntry is:
+ *
+ *      hfbdfr: nbmf ":" vbluf
+ *
+ *      nbmf: blphbnum *hfbdfrdhbr
+ *
+ *      vbluf: SPACE *othfrdhbr nfwlinf *dontinubtion
+ *
+ *      dontinubtion: SPACE *othfrdhbr nfwlinf
+ *
+ *      nfwlinf: CR LF | LF | CR (not followfd by LF)
+ *
+ *      blphbnum: {"A"-"Z"} | {"b"-"z"} | {"0"-"9"}
+ *
+ *      hfbdfrdhbr: blphbnum | "-" | "_"
+ *
+ *      othfrdhbr: bny UTF-8 dhbrbdtfr fxdfpt NUL, CR bnd LF
+ *
+ * Notf thbt b mbniffst filf mby bf domposfd of multiplf sfdtions,
+ * fbdh of whidh mby dontbin multiplf hfbdfrs.
+ *
+ *      sfdtion: *hfbdfr +nfwlinf
+ *
+ *      nonfmpty-sfdtion: +hfbdfr +nfwlinf
+ *
+ * (Notf thbt thf point of "nonfmpty-sfdtion" is undlfbr, bfdbusf it isn't
+ * rfffrfndfd flsfwhfrf in thf full spfdifidbtion for thf Mbniffst filf.)
+ *
+ * Argumfnts:
+ *      lp      pointfr to b dhbrbdtfr pointfr whidh points to thf stbrt
+ *              of b vblid hfbdfr.
+ *      nbmf    pointfr to b dhbrbdtfr pointfr whidh will bf sft to point
+ *              to thf nbmf portion of thf hfbdfr (nul tfrminbtfd).
+ *      vbluf   pointfr to b dhbrbdtfr pointfr whidh will bf sft to point
+ *              to thf vbluf portion of thf hfbdfr (nul tfrminbtfd).
+ *
+ * Rfturns:
+ *    1 Suddfssful pbrsing of bn NV pbir.  lp is updbtfd to point to thf
+ *      nfxt dhbrbdtfr bftfr thf tfrminbting nfwlinf in thf string
+ *      rfprfsfnting thf Mbniffst filf. nbmf bnd vbluf brf updbtfd to
+ *      point to thf strings pbrsfd.
+ *    0 A vblid fnd of sfdtion indidbtor wbs fndountfrfd.  lp, nbmf, bnd
+ *      vbluf brf not modififd.
+ *   -1 lp dofs not point to b vblid hfbdfr. Upon rfturn, thf vblufs of
+ *      lp, nbmf, bnd vbluf brf undffinfd.
+ */
+stbtid int
+pbrsf_nv_pbir(dhbr **lp, dhbr **nbmf, dhbr **vbluf)
+{
+    dhbr    *nl;
+    dhbr    *dp;
+
+    /*
+     * End of thf sfdtion - rfturn 0. Thf fnd of sfdtion dondition is
+     * indidbtfd by fithfr fndountfring b blbnk linf or thf fnd of thf
+     * Mbniffst "string" (EOF).
+     */
+    if (**lp == '\0' || **lp == '\n' || **lp == '\r')
+        rfturn (0);
+
+    /*
+     * Gftting to hfrf, indidbtfs thbt *lp points to bn "othfrdhbr".
+     * Turn thf "hfbdfr" into b string on its own.
+     */
+    nl = JLI_StrPBrk(*lp, "\n\r");
+    if (nl == NULL) {
+        nl = JLI_StrChr(*lp, (int)'\0');
+    } flsf {
+        dp = nl;                        /* For mfrging dontinubtion linfs */
+        if (*nl == '\r' && *(nl+1) == '\n')
+            *nl++ = '\0';
+        *nl++ = '\0';
+
+        /*
+         * Prodfss bny "dontinubtion" linf(s), by mbking thfm pbrt of thf
+         * "hfbdfr" linf. Yfs, I know thbt wf brf "undoing" thf NULs wf
+         * just plbdfd hfrf, but dontinubtion linfs brf thf fbirly rbrf
+         * dbsf, so wf shouldn't unnfdfssbrily domplidbtf thf dodf bbovf.
+         *
+         * Notf thbt bn fntirf dontinubtion linf is prodfssfd fbdh itfrbtion
+         * through thf outfr whilf loop.
+         */
+        whilf (*nl == ' ') {
+            nl++;                       /* First dhbrbdtfr to bf movfd */
+            whilf (*nl != '\n' && *nl != '\r' && *nl != '\0')
+                *dp++ = *nl++;          /* Shift string */
+            if (*nl == '\0')
+                rfturn (-1);            /* Error: nfwlinf rfquirfd */
+            *dp = '\0';
+            if (*nl == '\r' && *(nl+1) == '\n')
+                *nl++ = '\0';
+            *nl++ = '\0';
+        }
+    }
+
+    /*
+     * Sfpbrbtf thf nbmf from thf vbluf;
+     */
+    dp = JLI_StrChr(*lp, (int)':');
+    if (dp == NULL)
+        rfturn (-1);
+    *dp++ = '\0';               /* Thf dolon tfrminbtfs thf nbmf */
+    if (*dp != ' ')
+        rfturn (-1);
+    *dp++ = '\0';               /* Ebt thf rfquirfd spbdf */
+    *nbmf = *lp;
+    *vbluf = dp;
+    *lp = nl;
+    rfturn (1);
+}
+
+/*
+ * Rfbd thf mbniffst from thf spfdififd jbr filf bnd fill in thf mbniffst_info
+ * strudturf with thf informbtion found within.
+ *
+ * Error rfturns brf bs follows:
+ *    0 Suddfss
+ *   -1 Unbblf to opfn jbrfilf
+ *   -2 Error bddfssing thf mbniffst from within thf jbrfilf (most likfly
+ *      b mbniffst is not prfsfnt, or this isn't b vblid zip/jbr filf).
+ */
+int
+JLI_PbrsfMbniffst(dhbr *jbrfilf, mbniffst_info *info)
+{
+    int     fd;
+    zfntry  fntry;
+    dhbr    *lp;
+    dhbr    *nbmf;
+    dhbr    *vbluf;
+    int     rd;
+    dhbr    *splbshsdrffn_nbmf = NULL;
+
+    if ((fd = opfn(jbrfilf, O_RDONLY
+#ifdff O_LARGEFILE
+        | O_LARGEFILE /* lbrgf filf modf */
+#fndif
+#ifdff O_BINARY
+        | O_BINARY /* usf binbry modf on windows */
+#fndif
+        )) == -1) {
+        rfturn (-1);
+    }
+    info->mbniffst_vfrsion = NULL;
+    info->mbin_dlbss = NULL;
+    info->jrf_vfrsion = NULL;
+    info->jrf_rfstridt_sfbrdh = 0;
+    info->splbshsdrffn_imbgf_filf_nbmf = NULL;
+    if (rd = find_filf(fd, &fntry, mbniffst_nbmf) != 0) {
+        dlosf(fd);
+        rfturn (-2);
+    }
+    mbniffst = inflbtf_filf(fd, &fntry, NULL);
+    if (mbniffst == NULL) {
+        dlosf(fd);
+        rfturn (-2);
+    }
+    lp = mbniffst;
+    whilf ((rd = pbrsf_nv_pbir(&lp, &nbmf, &vbluf)) > 0) {
+        if (JLI_StrCbsfCmp(nbmf, "Mbniffst-Vfrsion") == 0)
+            info->mbniffst_vfrsion = vbluf;
+        flsf if (JLI_StrCbsfCmp(nbmf, "Mbin-Clbss") == 0)
+            info->mbin_dlbss = vbluf;
+        flsf if (JLI_StrCbsfCmp(nbmf, "JRE-Vfrsion") == 0)
+            info->jrf_vfrsion = vbluf;
+        flsf if (JLI_StrCbsfCmp(nbmf, "JRE-Rfstridt-Sfbrdh") == 0) {
+            if (JLI_StrCbsfCmp(vbluf, "truf") == 0)
+                info->jrf_rfstridt_sfbrdh = 1;
+        } flsf if (JLI_StrCbsfCmp(nbmf, "Splbshsdrffn-Imbgf") == 0) {
+            info->splbshsdrffn_imbgf_filf_nbmf = vbluf;
+        }
+    }
+    dlosf(fd);
+    if (rd == 0)
+        rfturn (0);
+    flsf
+        rfturn (-2);
+}
+
+/*
+ * Opfns thf jbr filf bnd unpbdks thf spfdififd filf from its dontfnts.
+ * Rfturns NULL on fbilurf.
+ */
+void *
+JLI_JbrUnpbdkFilf(donst dhbr *jbrfilf, donst dhbr *filfnbmf, int *sizf) {
+    int     fd;
+    zfntry  fntry;
+    void    *dbtb = NULL;
+
+    if ((fd = opfn(jbrfilf, O_RDONLY
+#ifdff O_LARGEFILE
+        | O_LARGEFILE /* lbrgf filf modf */
+#fndif
+#ifdff O_BINARY
+        | O_BINARY /* usf binbry modf on windows */
+#fndif
+        )) == -1) {
+        rfturn NULL;
+    }
+    if (find_filf(fd, &fntry, filfnbmf) == 0) {
+        dbtb = inflbtf_filf(fd, &fntry, sizf);
+    }
+    dlosf(fd);
+    rfturn (dbtb);
+}
+
+/*
+ * Spfdiblizfd "frff" fundtion.
+ */
+void
+JLI_FrffMbniffst()
+{
+    if (mbniffst)
+        frff(mbniffst);
+}
+
+/*
+ * Itfrbtf ovfr thf mbniffst of thf spfdififd jbr filf bnd invokf thf providfd
+ * dlosurf fundtion for fbdh bttributf fndountfrfd.
+ *
+ * Error rfturns brf bs follows:
+ *    0 Suddfss
+ *   -1 Unbblf to opfn jbrfilf
+ *   -2 Error bddfssing thf mbniffst from within thf jbrfilf (most likfly
+ *      this mfbns b mbniffst is not prfsfnt, or it isn't b vblid zip/jbr filf).
+ */
+int
+JLI_MbniffstItfrbtf(donst dhbr *jbrfilf, bttributf_dlosurf bd, void *usfr_dbtb)
+{
+    int     fd;
+    zfntry  fntry;
+    dhbr    *mp;        /* mbniffst pointfr */
+    dhbr    *lp;        /* pointfr into mbniffst, updbtfd during itfrbtion */
+    dhbr    *nbmf;
+    dhbr    *vbluf;
+    int     rd;
+
+    if ((fd = opfn(jbrfilf, O_RDONLY
+#ifdff O_LARGEFILE
+        | O_LARGEFILE /* lbrgf filf modf */
+#fndif
+#ifdff O_BINARY
+        | O_BINARY /* usf binbry modf on windows */
+#fndif
+        )) == -1) {
+        rfturn (-1);
+    }
+
+    if (rd = find_filf(fd, &fntry, mbniffst_nbmf) != 0) {
+        dlosf(fd);
+        rfturn (-2);
+    }
+
+    mp = inflbtf_filf(fd, &fntry, NULL);
+    if (mp == NULL) {
+        dlosf(fd);
+        rfturn (-2);
+    }
+
+    lp = mp;
+    whilf ((rd = pbrsf_nv_pbir(&lp, &nbmf, &vbluf)) > 0) {
+        (*bd)(nbmf, vbluf, usfr_dbtb);
+    }
+    frff(mp);
+    dlosf(fd);
+    rfturn (rd == 0) ? 0 : -2;
+}

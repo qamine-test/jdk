@@ -1,678 +1,678 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import com.sun.jmx.defaults.ServiceName;
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
+import dom.sun.jmx.dffbults.SfrvidfNbmf;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.logging.Level;
-import java.util.Map;
-import java.util.Set;
-import javax.management.DynamicMBean;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.ObjectName;
-import javax.management.QueryExp;
-import javax.management.RuntimeOperationsException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.QufryExp;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
 
 /**
- * This repository does not support persistency.
+ * Tiis rfpository dofs not support pfrsistfndy.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class Repository {
+publid dlbss Rfpository {
 
     /**
-     * An interface that allows the caller to get some control
-     * over the registration.
-     * @see #addMBean
-     * @see #remove
+     * An intfrfbdf tibt bllows tif dbllfr to gft somf dontrol
+     * ovfr tif rfgistrbtion.
+     * @sff #bddMBfbn
+     * @sff #rfmovf
      */
-    public interface RegistrationContext {
+    publid intfrfbdf RfgistrbtionContfxt {
         /**
-         * Called by {@link #addMBean}.
-         * Can throw a RuntimeOperationsException to cancel the
-         * registration.
+         * Cbllfd by {@link #bddMBfbn}.
+         * Cbn tirow b RuntimfOpfrbtionsExdfption to dbndfl tif
+         * rfgistrbtion.
          */
-        public void registering();
+        publid void rfgistfring();
 
         /**
-         * Called by {@link #remove}.
-         * Any exception thrown by this method will be ignored.
+         * Cbllfd by {@link #rfmovf}.
+         * Any fxdfption tirown by tiis mftiod will bf ignorfd.
          */
-        public void unregistered();
+        publid void unrfgistfrfd();
     }
 
-    // Private fields -------------------------------------------->
+    // Privbtf fiflds -------------------------------------------->
 
     /**
-     * The structure for storing the objects is very basic.
-     * A Hashtable is used for storing the different domains
-     * For each domain, a hashtable contains the instances with
-     * canonical key property list string as key and named object
-     * aggregated from given object name and mbean instance as value.
+     * Tif strudturf for storing tif objfdts is vfry bbsid.
+     * A Hbsitbblf is usfd for storing tif difffrfnt dombins
+     * For fbdi dombin, b ibsitbblf dontbins tif instbndfs witi
+     * dbnonidbl kfy propfrty list string bs kfy bnd nbmfd objfdt
+     * bggrfgbtfd from givfn objfdt nbmf bnd mbfbn instbndf bs vbluf.
      */
-    private final Map<String,Map<String,NamedObject>> domainTb;
+    privbtf finbl Mbp<String,Mbp<String,NbmfdObjfdt>> dombinTb;
 
     /**
-     * Number of elements contained in the Repository
+     * Numbfr of flfmfnts dontbinfd in tif Rfpository
      */
-    private volatile int nbElements = 0;
+    privbtf volbtilf int nbElfmfnts = 0;
 
     /**
-     * Domain name of the server the repository is attached to.
-     * It is quicker to store the information in the repository rather
-     * than querying the framework each time the info is required.
+     * Dombin nbmf of tif sfrvfr tif rfpository is bttbdifd to.
+     * It is quidkfr to storf tif informbtion in tif rfpository rbtifr
+     * tibn qufrying tif frbmfwork fbdi timf tif info is rfquirfd.
      */
-    private final String domain;
+    privbtf finbl String dombin;
 
     /**
-     * We use a global reentrant read write lock to protect the repository.
-     * This seems safer and more efficient: we are using Maps of Maps,
-     * Guaranteing consistency while using Concurent objects at each level
-     * may be more difficult.
+     * Wf usf b globbl rffntrbnt rfbd writf lodk to protfdt tif rfpository.
+     * Tiis sffms sbffr bnd morf fffidifnt: wf brf using Mbps of Mbps,
+     * Gubrbntfing donsistfndy wiilf using Condurfnt objfdts bt fbdi lfvfl
+     * mby bf morf diffidult.
      **/
-    private final ReentrantReadWriteLock lock;
+    privbtf finbl RffntrbntRfbdWritfLodk lodk;
 
-    // Private fields <=============================================
+    // Privbtf fiflds <=============================================
 
-    // Private methods --------------------------------------------->
+    // Privbtf mftiods --------------------------------------------->
 
-    /* This class is used to match an ObjectName against a pattern. */
-    private final static class ObjectNamePattern {
-        private final String[] keys;
-        private final String[] values;
-        private final String   properties;
-        private final boolean  isPropertyListPattern;
-        private final boolean  isPropertyValuePattern;
-
-        /**
-         * The ObjectName pattern against which ObjectNames are matched.
-         **/
-        public final ObjectName pattern;
+    /* Tiis dlbss is usfd to mbtdi bn ObjfdtNbmf bgbinst b pbttfrn. */
+    privbtf finbl stbtid dlbss ObjfdtNbmfPbttfrn {
+        privbtf finbl String[] kfys;
+        privbtf finbl String[] vblufs;
+        privbtf finbl String   propfrtifs;
+        privbtf finbl boolfbn  isPropfrtyListPbttfrn;
+        privbtf finbl boolfbn  isPropfrtyVblufPbttfrn;
 
         /**
-         * Builds a new ObjectNamePattern object from an ObjectName pattern.
-         * @param pattern The ObjectName pattern under examination.
+         * Tif ObjfdtNbmf pbttfrn bgbinst wiidi ObjfdtNbmfs brf mbtdifd.
          **/
-        public ObjectNamePattern(ObjectName pattern) {
-            this(pattern.isPropertyListPattern(),
-                 pattern.isPropertyValuePattern(),
-                 pattern.getCanonicalKeyPropertyListString(),
-                 pattern.getKeyPropertyList(),
-                 pattern);
+        publid finbl ObjfdtNbmf pbttfrn;
+
+        /**
+         * Builds b nfw ObjfdtNbmfPbttfrn objfdt from bn ObjfdtNbmf pbttfrn.
+         * @pbrbm pbttfrn Tif ObjfdtNbmf pbttfrn undfr fxbminbtion.
+         **/
+        publid ObjfdtNbmfPbttfrn(ObjfdtNbmf pbttfrn) {
+            tiis(pbttfrn.isPropfrtyListPbttfrn(),
+                 pbttfrn.isPropfrtyVblufPbttfrn(),
+                 pbttfrn.gftCbnonidblKfyPropfrtyListString(),
+                 pbttfrn.gftKfyPropfrtyList(),
+                 pbttfrn);
         }
 
         /**
-         * Builds a new ObjectNamePattern object from an ObjectName pattern
-         * constituents.
-         * @param propertyListPattern pattern.isPropertyListPattern().
-         * @param propertyValuePattern pattern.isPropertyValuePattern().
-         * @param canonicalProps pattern.getCanonicalKeyPropertyListString().
-         * @param keyPropertyList pattern.getKeyPropertyList().
-         * @param pattern The ObjectName pattern under examination.
+         * Builds b nfw ObjfdtNbmfPbttfrn objfdt from bn ObjfdtNbmf pbttfrn
+         * donstitufnts.
+         * @pbrbm propfrtyListPbttfrn pbttfrn.isPropfrtyListPbttfrn().
+         * @pbrbm propfrtyVblufPbttfrn pbttfrn.isPropfrtyVblufPbttfrn().
+         * @pbrbm dbnonidblProps pbttfrn.gftCbnonidblKfyPropfrtyListString().
+         * @pbrbm kfyPropfrtyList pbttfrn.gftKfyPropfrtyList().
+         * @pbrbm pbttfrn Tif ObjfdtNbmf pbttfrn undfr fxbminbtion.
          **/
-        ObjectNamePattern(boolean propertyListPattern,
-                          boolean propertyValuePattern,
-                          String canonicalProps,
-                          Map<String,String> keyPropertyList,
-                          ObjectName pattern) {
-            this.isPropertyListPattern = propertyListPattern;
-            this.isPropertyValuePattern = propertyValuePattern;
-            this.properties = canonicalProps;
-            final int len = keyPropertyList.size();
-            this.keys   = new String[len];
-            this.values = new String[len];
+        ObjfdtNbmfPbttfrn(boolfbn propfrtyListPbttfrn,
+                          boolfbn propfrtyVblufPbttfrn,
+                          String dbnonidblProps,
+                          Mbp<String,String> kfyPropfrtyList,
+                          ObjfdtNbmf pbttfrn) {
+            tiis.isPropfrtyListPbttfrn = propfrtyListPbttfrn;
+            tiis.isPropfrtyVblufPbttfrn = propfrtyVblufPbttfrn;
+            tiis.propfrtifs = dbnonidblProps;
+            finbl int lfn = kfyPropfrtyList.sizf();
+            tiis.kfys   = nfw String[lfn];
+            tiis.vblufs = nfw String[lfn];
             int i = 0;
-            for (Map.Entry<String,String> entry : keyPropertyList.entrySet()) {
-                keys[i]   = entry.getKey();
-                values[i] = entry.getValue();
+            for (Mbp.Entry<String,String> fntry : kfyPropfrtyList.fntrySft()) {
+                kfys[i]   = fntry.gftKfy();
+                vblufs[i] = fntry.gftVbluf();
                 i++;
             }
-            this.pattern = pattern;
+            tiis.pbttfrn = pbttfrn;
         }
 
         /**
-         * Return true if the given ObjectName matches the ObjectName pattern
-         * for which this object has been built.
-         * WARNING: domain name is not considered here because it is supposed
-         *          not to be wildcard when called. PropertyList is also
-         *          supposed not to be zero-length.
-         * @param name The ObjectName we want to match against the pattern.
-         * @return true if <code>name</code> matches the pattern.
+         * Rfturn truf if tif givfn ObjfdtNbmf mbtdifs tif ObjfdtNbmf pbttfrn
+         * for wiidi tiis objfdt ibs bffn built.
+         * WARNING: dombin nbmf is not donsidfrfd ifrf bfdbusf it is supposfd
+         *          not to bf wilddbrd wifn dbllfd. PropfrtyList is blso
+         *          supposfd not to bf zfro-lfngti.
+         * @pbrbm nbmf Tif ObjfdtNbmf wf wbnt to mbtdi bgbinst tif pbttfrn.
+         * @rfturn truf if <dodf>nbmf</dodf> mbtdifs tif pbttfrn.
          **/
-        public boolean matchKeys(ObjectName name) {
-            // If key property value pattern but not key property list
-            // pattern, then the number of key properties must be equal
+        publid boolfbn mbtdiKfys(ObjfdtNbmf nbmf) {
+            // If kfy propfrty vbluf pbttfrn but not kfy propfrty list
+            // pbttfrn, tifn tif numbfr of kfy propfrtifs must bf fqubl
             //
-            if (isPropertyValuePattern &&
-                !isPropertyListPattern &&
-                (name.getKeyPropertyList().size() != keys.length))
-                return false;
+            if (isPropfrtyVblufPbttfrn &&
+                !isPropfrtyListPbttfrn &&
+                (nbmf.gftKfyPropfrtyList().sizf() != kfys.lfngti))
+                rfturn fblsf;
 
-            // If key property value pattern or key property list pattern,
-            // then every property inside pattern should exist in name
+            // If kfy propfrty vbluf pbttfrn or kfy propfrty list pbttfrn,
+            // tifn fvfry propfrty insidf pbttfrn siould fxist in nbmf
             //
-            if (isPropertyValuePattern || isPropertyListPattern) {
-                for (int i = keys.length - 1; i >= 0 ; i--) {
-                    // Find value in given object name for key at current
-                    // index in receiver
+            if (isPropfrtyVblufPbttfrn || isPropfrtyListPbttfrn) {
+                for (int i = kfys.lfngti - 1; i >= 0 ; i--) {
+                    // Find vbluf in givfn objfdt nbmf for kfy bt durrfnt
+                    // indfx in rfdfivfr
                     //
-                    String v = name.getKeyProperty(keys[i]);
-                    // Did we find a value for this key ?
+                    String v = nbmf.gftKfyPropfrty(kfys[i]);
+                    // Did wf find b vbluf for tiis kfy ?
                     //
-                    if (v == null) return false;
-                    // If this property is ok (same key, same value), go to next
+                    if (v == null) rfturn fblsf;
+                    // If tiis propfrty is ok (sbmf kfy, sbmf vbluf), go to nfxt
                     //
-                    if (isPropertyValuePattern &&
-                        pattern.isPropertyValuePattern(keys[i])) {
-                        // wildmatch key property values
-                        // values[i] is the pattern;
-                        // v is the string
-                        if (Util.wildmatch(v,values[i]))
-                            continue;
-                        else
-                            return false;
+                    if (isPropfrtyVblufPbttfrn &&
+                        pbttfrn.isPropfrtyVblufPbttfrn(kfys[i])) {
+                        // wildmbtdi kfy propfrty vblufs
+                        // vblufs[i] is tif pbttfrn;
+                        // v is tif string
+                        if (Util.wildmbtdi(v,vblufs[i]))
+                            dontinuf;
+                        flsf
+                            rfturn fblsf;
                     }
-                    if (v.equals(values[i])) continue;
-                    return false;
+                    if (v.fqubls(vblufs[i])) dontinuf;
+                    rfturn fblsf;
                 }
-                return true;
+                rfturn truf;
             }
 
-            // If no pattern, then canonical names must be equal
+            // If no pbttfrn, tifn dbnonidbl nbmfs must bf fqubl
             //
-            final String p1 = name.getCanonicalKeyPropertyListString();
-            final String p2 = properties;
-            return (p1.equals(p2));
+            finbl String p1 = nbmf.gftCbnonidblKfyPropfrtyListString();
+            finbl String p2 = propfrtifs;
+            rfturn (p1.fqubls(p2));
         }
     }
 
     /**
-     * Add all the matching objects from the given hashtable in the
-     * result set for the given ObjectNamePattern
-     * Do not check whether the domains match (only check for matching
-     * key property lists - see <i>matchKeys()</i>)
+     * Add bll tif mbtdiing objfdts from tif givfn ibsitbblf in tif
+     * rfsult sft for tif givfn ObjfdtNbmfPbttfrn
+     * Do not difdk wiftifr tif dombins mbtdi (only difdk for mbtdiing
+     * kfy propfrty lists - sff <i>mbtdiKfys()</i>)
      **/
-    private void addAllMatching(final Map<String,NamedObject> moiTb,
-                                final Set<NamedObject> result,
-                                final ObjectNamePattern pattern) {
-        synchronized (moiTb) {
-            for (NamedObject no : moiTb.values()) {
-                final ObjectName on = no.getName();
-                // if all couples (property, value) are contained
-                if (pattern.matchKeys(on)) result.add(no);
+    privbtf void bddAllMbtdiing(finbl Mbp<String,NbmfdObjfdt> moiTb,
+                                finbl Sft<NbmfdObjfdt> rfsult,
+                                finbl ObjfdtNbmfPbttfrn pbttfrn) {
+        syndironizfd (moiTb) {
+            for (NbmfdObjfdt no : moiTb.vblufs()) {
+                finbl ObjfdtNbmf on = no.gftNbmf();
+                // if bll douplfs (propfrty, vbluf) brf dontbinfd
+                if (pbttfrn.mbtdiKfys(on)) rfsult.bdd(no);
             }
         }
     }
 
-    private void addNewDomMoi(final DynamicMBean object,
-                              final String dom,
-                              final ObjectName name,
-                              final RegistrationContext context) {
-        final Map<String,NamedObject> moiTb =
-            new HashMap<String,NamedObject>();
-        final String key = name.getCanonicalKeyPropertyListString();
-        addMoiToTb(object,name,key,moiTb,context);
-        domainTb.put(dom, moiTb);
-        nbElements++;
+    privbtf void bddNfwDomMoi(finbl DynbmidMBfbn objfdt,
+                              finbl String dom,
+                              finbl ObjfdtNbmf nbmf,
+                              finbl RfgistrbtionContfxt dontfxt) {
+        finbl Mbp<String,NbmfdObjfdt> moiTb =
+            nfw HbsiMbp<String,NbmfdObjfdt>();
+        finbl String kfy = nbmf.gftCbnonidblKfyPropfrtyListString();
+        bddMoiToTb(objfdt,nbmf,kfy,moiTb,dontfxt);
+        dombinTb.put(dom, moiTb);
+        nbElfmfnts++;
     }
 
-    private void registering(RegistrationContext context) {
-        if (context == null) return;
+    privbtf void rfgistfring(RfgistrbtionContfxt dontfxt) {
+        if (dontfxt == null) rfturn;
         try {
-            context.registering();
-        } catch (RuntimeOperationsException x) {
-            throw x;
-        } catch (RuntimeException x) {
-            throw new RuntimeOperationsException(x);
+            dontfxt.rfgistfring();
+        } dbtdi (RuntimfOpfrbtionsExdfption x) {
+            tirow x;
+        } dbtdi (RuntimfExdfption x) {
+            tirow nfw RuntimfOpfrbtionsExdfption(x);
         }
     }
 
-    private void unregistering(RegistrationContext context, ObjectName name) {
-        if (context == null) return;
+    privbtf void unrfgistfring(RfgistrbtionContfxt dontfxt, ObjfdtNbmf nbmf) {
+        if (dontfxt == null) rfturn;
         try {
-            context.unregistered();
-        } catch (Exception x) {
-            // shouldn't come here...
-            MBEANSERVER_LOGGER.log(Level.FINE,
-                    "Unexpected exception while unregistering "+name,
+            dontfxt.unrfgistfrfd();
+        } dbtdi (Exdfption x) {
+            // siouldn't domf ifrf...
+            MBEANSERVER_LOGGER.log(Lfvfl.FINE,
+                    "Unfxpfdtfd fxdfption wiilf unrfgistfring "+nbmf,
                     x);
         }
     }
 
-    private void addMoiToTb(final DynamicMBean object,
-            final ObjectName name,
-            final String key,
-            final Map<String,NamedObject> moiTb,
-            final RegistrationContext context) {
-        registering(context);
-        moiTb.put(key,new NamedObject(name, object));
+    privbtf void bddMoiToTb(finbl DynbmidMBfbn objfdt,
+            finbl ObjfdtNbmf nbmf,
+            finbl String kfy,
+            finbl Mbp<String,NbmfdObjfdt> moiTb,
+            finbl RfgistrbtionContfxt dontfxt) {
+        rfgistfring(dontfxt);
+        moiTb.put(kfy,nfw NbmfdObjfdt(nbmf, objfdt));
     }
 
     /**
-     * Retrieves the named object contained in repository
-     * from the given objectname.
+     * Rftrifvfs tif nbmfd objfdt dontbinfd in rfpository
+     * from tif givfn objfdtnbmf.
      */
-    private NamedObject retrieveNamedObject(ObjectName name) {
+    privbtf NbmfdObjfdt rftrifvfNbmfdObjfdt(ObjfdtNbmf nbmf) {
 
-        // No patterns inside reposit
-        if (name.isPattern()) return null;
+        // No pbttfrns insidf rfposit
+        if (nbmf.isPbttfrn()) rfturn null;
 
-        // Extract the domain name.
-        String dom = name.getDomain().intern();
+        // Extrbdt tif dombin nbmf.
+        String dom = nbmf.gftDombin().intfrn();
 
-        // Default domain case
-        if (dom.length() == 0) {
-            dom = domain;
+        // Dffbult dombin dbsf
+        if (dom.lfngti() == 0) {
+            dom = dombin;
         }
 
-        Map<String,NamedObject> moiTb = domainTb.get(dom);
+        Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dom);
         if (moiTb == null) {
-            return null; // No domain containing registered object names
+            rfturn null; // No dombin dontbining rfgistfrfd objfdt nbmfs
         }
 
-        return moiTb.get(name.getCanonicalKeyPropertyListString());
+        rfturn moiTb.gft(nbmf.gftCbnonidblKfyPropfrtyListString());
     }
 
-    // Private methods <=============================================
+    // Privbtf mftiods <=============================================
 
-    // Protected methods --------------------------------------------->
+    // Protfdtfd mftiods --------------------------------------------->
 
-    // Protected methods <=============================================
+    // Protfdtfd mftiods <=============================================
 
-    // Public methods --------------------------------------------->
+    // Publid mftiods --------------------------------------------->
 
     /**
-     * Construct a new repository with the given default domain.
+     * Construdt b nfw rfpository witi tif givfn dffbult dombin.
      */
-    public Repository(String domain) {
-        this(domain,true);
+    publid Rfpository(String dombin) {
+        tiis(dombin,truf);
     }
 
     /**
-     * Construct a new repository with the given default domain.
+     * Construdt b nfw rfpository witi tif givfn dffbult dombin.
      */
-    public Repository(String domain, boolean fairLock) {
-        lock = new ReentrantReadWriteLock(fairLock);
+    publid Rfpository(String dombin, boolfbn fbirLodk) {
+        lodk = nfw RffntrbntRfbdWritfLodk(fbirLodk);
 
-        domainTb = new HashMap<String,Map<String,NamedObject>>(5);
+        dombinTb = nfw HbsiMbp<String,Mbp<String,NbmfdObjfdt>>(5);
 
-        if (domain != null && domain.length() != 0)
-            this.domain = domain.intern(); // we use == domain later on...
-        else
-            this.domain = ServiceName.DOMAIN;
+        if (dombin != null && dombin.lfngti() != 0)
+            tiis.dombin = dombin.intfrn(); // wf usf == dombin lbtfr on...
+        flsf
+            tiis.dombin = SfrvidfNbmf.DOMAIN;
 
-        // Creates a new hashtable for the default domain
-        domainTb.put(this.domain, new HashMap<String,NamedObject>());
+        // Crfbtfs b nfw ibsitbblf for tif dffbult dombin
+        dombinTb.put(tiis.dombin, nfw HbsiMbp<String,NbmfdObjfdt>());
     }
 
     /**
-     * Returns the list of domains in which any MBean is currently
-     * registered.
+     * Rfturns tif list of dombins in wiidi bny MBfbn is durrfntly
+     * rfgistfrfd.
      *
      */
-    public String[] getDomains() {
+    publid String[] gftDombins() {
 
-        lock.readLock().lock();
-        final List<String> result;
+        lodk.rfbdLodk().lodk();
+        finbl List<String> rfsult;
         try {
-            // Temporary list
-            result = new ArrayList<String>(domainTb.size());
-            for (Map.Entry<String,Map<String,NamedObject>> entry :
-                     domainTb.entrySet()) {
-                // Skip domains that are in the table but have no
-                // MBean registered in them
-                // in particular the default domain may be like this
-                Map<String,NamedObject> t = entry.getValue();
-                if (t != null && t.size() != 0)
-                    result.add(entry.getKey());
+            // Tfmporbry list
+            rfsult = nfw ArrbyList<String>(dombinTb.sizf());
+            for (Mbp.Entry<String,Mbp<String,NbmfdObjfdt>> fntry :
+                     dombinTb.fntrySft()) {
+                // Skip dombins tibt brf in tif tbblf but ibvf no
+                // MBfbn rfgistfrfd in tifm
+                // in pbrtidulbr tif dffbult dombin mby bf likf tiis
+                Mbp<String,NbmfdObjfdt> t = fntry.gftVbluf();
+                if (t != null && t.sizf() != 0)
+                    rfsult.bdd(fntry.gftKfy());
             }
-        } finally {
-            lock.readLock().unlock();
+        } finblly {
+            lodk.rfbdLodk().unlodk();
         }
 
-        // Make an array from result.
-        return result.toArray(new String[result.size()]);
+        // Mbkf bn brrby from rfsult.
+        rfturn rfsult.toArrby(nfw String[rfsult.sizf()]);
     }
 
     /**
-     * Stores an MBean associated with its object name in the repository.
+     * Storfs bn MBfbn bssodibtfd witi its objfdt nbmf in tif rfpository.
      *
-     * @param object  MBean to be stored in the repository.
-     * @param name    MBean object name.
-     * @param context A registration context. If non null, the repository
-     *                will call {@link RegistrationContext#registering()
-     *                context.registering()} from within the repository
-     *                lock, when it has determined that the {@code object}
-     *                can be stored in the repository with that {@code name}.
-     *                If {@link RegistrationContext#registering()
-     *                context.registering()} throws an exception, the
-     *                operation is abandonned, the MBean is not added to the
-     *                repository, and a {@link RuntimeOperationsException}
-     *                is thrown.
+     * @pbrbm objfdt  MBfbn to bf storfd in tif rfpository.
+     * @pbrbm nbmf    MBfbn objfdt nbmf.
+     * @pbrbm dontfxt A rfgistrbtion dontfxt. If non null, tif rfpository
+     *                will dbll {@link RfgistrbtionContfxt#rfgistfring()
+     *                dontfxt.rfgistfring()} from witiin tif rfpository
+     *                lodk, wifn it ibs dftfrminfd tibt tif {@dodf objfdt}
+     *                dbn bf storfd in tif rfpository witi tibt {@dodf nbmf}.
+     *                If {@link RfgistrbtionContfxt#rfgistfring()
+     *                dontfxt.rfgistfring()} tirows bn fxdfption, tif
+     *                opfrbtion is bbbndonnfd, tif MBfbn is not bddfd to tif
+     *                rfpository, bnd b {@link RuntimfOpfrbtionsExdfption}
+     *                is tirown.
      */
-    public void addMBean(final DynamicMBean object, ObjectName name,
-            final RegistrationContext context)
-        throws InstanceAlreadyExistsException {
+    publid void bddMBfbn(finbl DynbmidMBfbn objfdt, ObjfdtNbmf nbmf,
+            finbl RfgistrbtionContfxt dontfxt)
+        tirows InstbndfAlrfbdyExistsExdfption {
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.class.getName(),
-                    "addMBean", "name = " + name);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER, Rfpository.dlbss.gftNbmf(),
+                    "bddMBfbn", "nbmf = " + nbmf);
         }
 
-        // Extract the domain name.
-        String dom = name.getDomain().intern();
-        boolean to_default_domain = false;
+        // Extrbdt tif dombin nbmf.
+        String dom = nbmf.gftDombin().intfrn();
+        boolfbn to_dffbult_dombin = fblsf;
 
-        // Set domain to default if domain is empty and not already set
-        if (dom.length() == 0)
-            name = Util.newObjectName(domain + name.toString());
+        // Sft dombin to dffbult if dombin is fmpty bnd not blrfbdy sft
+        if (dom.lfngti() == 0)
+            nbmf = Util.nfwObjfdtNbmf(dombin + nbmf.toString());
 
-        // Do we have default domain ?
-        if (dom == domain) {  // ES: OK (dom & domain are interned)
-            to_default_domain = true;
-            dom = domain;
-        } else {
-            to_default_domain = false;
+        // Do wf ibvf dffbult dombin ?
+        if (dom == dombin) {  // ES: OK (dom & dombin brf intfrnfd)
+            to_dffbult_dombin = truf;
+            dom = dombin;
+        } flsf {
+            to_dffbult_dombin = fblsf;
         }
 
-        // Validate name for an object
-        if (name.isPattern()) {
-            throw new RuntimeOperationsException(
-             new IllegalArgumentException("Repository: cannot add mbean for " +
-                                          "pattern name " + name.toString()));
+        // Vblidbtf nbmf for bn objfdt
+        if (nbmf.isPbttfrn()) {
+            tirow nfw RuntimfOpfrbtionsExdfption(
+             nfw IllfgblArgumfntExdfption("Rfpository: dbnnot bdd mbfbn for " +
+                                          "pbttfrn nbmf " + nbmf.toString()));
         }
 
-        lock.writeLock().lock();
+        lodk.writfLodk().lodk();
         try {
-            // Domain cannot be JMImplementation if entry does not exist
-            if ( !to_default_domain &&
-                    dom.equals("JMImplementation") &&
-                    domainTb.containsKey("JMImplementation")) {
-                throw new RuntimeOperationsException(
-                        new IllegalArgumentException(
-                        "Repository: domain name cannot be JMImplementation"));
+            // Dombin dbnnot bf JMImplfmfntbtion if fntry dofs not fxist
+            if ( !to_dffbult_dombin &&
+                    dom.fqubls("JMImplfmfntbtion") &&
+                    dombinTb.dontbinsKfy("JMImplfmfntbtion")) {
+                tirow nfw RuntimfOpfrbtionsExdfption(
+                        nfw IllfgblArgumfntExdfption(
+                        "Rfpository: dombin nbmf dbnnot bf JMImplfmfntbtion"));
             }
 
-            // If domain does not already exist, add it to the hash table
-            final Map<String,NamedObject> moiTb = domainTb.get(dom);
+            // If dombin dofs not blrfbdy fxist, bdd it to tif ibsi tbblf
+            finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dom);
             if (moiTb == null) {
-                addNewDomMoi(object, dom, name, context);
-                return;
-            } else {
-                // Add instance if not already present
-                String cstr = name.getCanonicalKeyPropertyListString();
-                NamedObject elmt= moiTb.get(cstr);
-                if (elmt != null) {
-                    throw new InstanceAlreadyExistsException(name.toString());
-                } else {
-                    nbElements++;
-                    addMoiToTb(object,name,cstr,moiTb,context);
+                bddNfwDomMoi(objfdt, dom, nbmf, dontfxt);
+                rfturn;
+            } flsf {
+                // Add instbndf if not blrfbdy prfsfnt
+                String dstr = nbmf.gftCbnonidblKfyPropfrtyListString();
+                NbmfdObjfdt flmt= moiTb.gft(dstr);
+                if (flmt != null) {
+                    tirow nfw InstbndfAlrfbdyExistsExdfption(nbmf.toString());
+                } flsf {
+                    nbElfmfnts++;
+                    bddMoiToTb(objfdt,nbmf,dstr,moiTb,dontfxt);
                 }
             }
 
-        } finally {
-            lock.writeLock().unlock();
+        } finblly {
+            lodk.writfLodk().unlodk();
         }
     }
 
     /**
-     * Checks whether an MBean of the name specified is already stored in
-     * the repository.
+     * Cifdks wiftifr bn MBfbn of tif nbmf spfdififd is blrfbdy storfd in
+     * tif rfpository.
      *
-     * @param name name of the MBean to find.
+     * @pbrbm nbmf nbmf of tif MBfbn to find.
      *
-     * @return  true if the MBean is stored in the repository,
-     *          false otherwise.
+     * @rfturn  truf if tif MBfbn is storfd in tif rfpository,
+     *          fblsf otifrwisf.
      */
-    public boolean contains(ObjectName name) {
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.class.getName(),
-                    "contains", " name = " + name);
+    publid boolfbn dontbins(ObjfdtNbmf nbmf) {
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER, Rfpository.dlbss.gftNbmf(),
+                    "dontbins", " nbmf = " + nbmf);
         }
-        lock.readLock().lock();
+        lodk.rfbdLodk().lodk();
         try {
-            return (retrieveNamedObject(name) != null);
-        } finally {
-            lock.readLock().unlock();
+            rfturn (rftrifvfNbmfdObjfdt(nbmf) != null);
+        } finblly {
+            lodk.rfbdLodk().unlodk();
         }
     }
 
     /**
-     * Retrieves the MBean of the name specified from the repository. The
-     * object name must match exactly.
+     * Rftrifvfs tif MBfbn of tif nbmf spfdififd from tif rfpository. Tif
+     * objfdt nbmf must mbtdi fxbdtly.
      *
-     * @param name name of the MBean to retrieve.
+     * @pbrbm nbmf nbmf of tif MBfbn to rftrifvf.
      *
-     * @return  The retrieved MBean if it is contained in the repository,
-     *          null otherwise.
+     * @rfturn  Tif rftrifvfd MBfbn if it is dontbinfd in tif rfpository,
+     *          null otifrwisf.
      */
-    public DynamicMBean retrieve(ObjectName name) {
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.class.getName(),
-                    "retrieve", "name = " + name);
+    publid DynbmidMBfbn rftrifvf(ObjfdtNbmf nbmf) {
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER, Rfpository.dlbss.gftNbmf(),
+                    "rftrifvf", "nbmf = " + nbmf);
         }
 
-        // Calls internal retrieve method to get the named object
-        lock.readLock().lock();
+        // Cblls intfrnbl rftrifvf mftiod to gft tif nbmfd objfdt
+        lodk.rfbdLodk().lodk();
         try {
-            NamedObject no = retrieveNamedObject(name);
-            if (no == null) return null;
-            else return no.getObject();
-        } finally {
-            lock.readLock().unlock();
+            NbmfdObjfdt no = rftrifvfNbmfdObjfdt(nbmf);
+            if (no == null) rfturn null;
+            flsf rfturn no.gftObjfdt();
+        } finblly {
+            lodk.rfbdLodk().unlodk();
         }
     }
 
     /**
-     * Selects and retrieves the list of MBeans whose names match the specified
-     * object name pattern and which match the specified query expression
-     * (optionally).
+     * Sflfdts bnd rftrifvfs tif list of MBfbns wiosf nbmfs mbtdi tif spfdififd
+     * objfdt nbmf pbttfrn bnd wiidi mbtdi tif spfdififd qufry fxprfssion
+     * (optionblly).
      *
-     * @param pattern The name of the MBean(s) to retrieve - may be a specific
-     * object or a name pattern allowing multiple MBeans to be selected.
-     * @param query query expression to apply when selecting objects - this
-     * parameter will be ignored when the Repository Service does not
-     * support filtering.
+     * @pbrbm pbttfrn Tif nbmf of tif MBfbn(s) to rftrifvf - mby bf b spfdifid
+     * objfdt or b nbmf pbttfrn bllowing multiplf MBfbns to bf sflfdtfd.
+     * @pbrbm qufry qufry fxprfssion to bpply wifn sflfdting objfdts - tiis
+     * pbrbmftfr will bf ignorfd wifn tif Rfpository Sfrvidf dofs not
+     * support filtfring.
      *
-     * @return  The list of MBeans selected. There may be zero, one or many
-     *          MBeans returned in the set.
+     * @rfturn  Tif list of MBfbns sflfdtfd. Tifrf mby bf zfro, onf or mbny
+     *          MBfbns rfturnfd in tif sft.
      */
-    public Set<NamedObject> query(ObjectName pattern, QueryExp query) {
+    publid Sft<NbmfdObjfdt> qufry(ObjfdtNbmf pbttfrn, QufryExp qufry) {
 
-        final Set<NamedObject> result = new HashSet<NamedObject>();
+        finbl Sft<NbmfdObjfdt> rfsult = nfw HbsiSft<NbmfdObjfdt>();
 
-        // The following filter cases are considered:
-        // null, "", "*:*" : names in all domains
-        // ":*", ":[key=value],*" : names in defaultDomain
-        // "domain:*", "domain:[key=value],*" : names in the specified domain
+        // Tif following filtfr dbsfs brf donsidfrfd:
+        // null, "", "*:*" : nbmfs in bll dombins
+        // ":*", ":[kfy=vbluf],*" : nbmfs in dffbultDombin
+        // "dombin:*", "dombin:[kfy=vbluf],*" : nbmfs in tif spfdififd dombin
 
-        // Surely one of the most frequent cases ... query on the whole world
-        ObjectName name;
-        if (pattern == null ||
-            pattern.getCanonicalName().length() == 0 ||
-            pattern.equals(ObjectName.WILDCARD))
-           name = ObjectName.WILDCARD;
-        else name = pattern;
+        // Surfly onf of tif most frfqufnt dbsfs ... qufry on tif wiolf world
+        ObjfdtNbmf nbmf;
+        if (pbttfrn == null ||
+            pbttfrn.gftCbnonidblNbmf().lfngti() == 0 ||
+            pbttfrn.fqubls(ObjfdtNbmf.WILDCARD))
+           nbmf = ObjfdtNbmf.WILDCARD;
+        flsf nbmf = pbttfrn;
 
-        lock.readLock().lock();
+        lodk.rfbdLodk().lodk();
         try {
 
-            // If pattern is not a pattern, retrieve this mbean !
-            if (!name.isPattern()) {
-                final NamedObject no = retrieveNamedObject(name);
-                if (no != null) result.add(no);
-                return result;
+            // If pbttfrn is not b pbttfrn, rftrifvf tiis mbfbn !
+            if (!nbmf.isPbttfrn()) {
+                finbl NbmfdObjfdt no = rftrifvfNbmfdObjfdt(nbmf);
+                if (no != null) rfsult.bdd(no);
+                rfturn rfsult;
             }
 
-            // All names in all domains
-            if (name == ObjectName.WILDCARD) {
-                for (Map<String,NamedObject> moiTb : domainTb.values()) {
-                    result.addAll(moiTb.values());
+            // All nbmfs in bll dombins
+            if (nbmf == ObjfdtNbmf.WILDCARD) {
+                for (Mbp<String,NbmfdObjfdt> moiTb : dombinTb.vblufs()) {
+                    rfsult.bddAll(moiTb.vblufs());
                 }
-                return result;
+                rfturn rfsult;
             }
 
-            final String canonical_key_property_list_string =
-                    name.getCanonicalKeyPropertyListString();
-            final boolean allNames =
-                    (canonical_key_property_list_string.length()==0);
-            final ObjectNamePattern namePattern =
-                (allNames?null:new ObjectNamePattern(name));
+            finbl String dbnonidbl_kfy_propfrty_list_string =
+                    nbmf.gftCbnonidblKfyPropfrtyListString();
+            finbl boolfbn bllNbmfs =
+                    (dbnonidbl_kfy_propfrty_list_string.lfngti()==0);
+            finbl ObjfdtNbmfPbttfrn nbmfPbttfrn =
+                (bllNbmfs?null:nfw ObjfdtNbmfPbttfrn(nbmf));
 
-            // All names in default domain
-            if (name.getDomain().length() == 0) {
-                final Map<String,NamedObject> moiTb = domainTb.get(domain);
-                if (allNames)
-                    result.addAll(moiTb.values());
-                else
-                    addAllMatching(moiTb, result, namePattern);
-                return result;
+            // All nbmfs in dffbult dombin
+            if (nbmf.gftDombin().lfngti() == 0) {
+                finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dombin);
+                if (bllNbmfs)
+                    rfsult.bddAll(moiTb.vblufs());
+                flsf
+                    bddAllMbtdiing(moiTb, rfsult, nbmfPbttfrn);
+                rfturn rfsult;
             }
 
-            if (!name.isDomainPattern()) {
-                final Map<String,NamedObject> moiTb = domainTb.get(name.getDomain());
-                if (moiTb == null) return Collections.emptySet();
-                if (allNames)
-                    result.addAll(moiTb.values());
-                else
-                    addAllMatching(moiTb, result, namePattern);
-                return result;
+            if (!nbmf.isDombinPbttfrn()) {
+                finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(nbmf.gftDombin());
+                if (moiTb == null) rfturn Collfdtions.fmptySft();
+                if (bllNbmfs)
+                    rfsult.bddAll(moiTb.vblufs());
+                flsf
+                    bddAllMbtdiing(moiTb, rfsult, nbmfPbttfrn);
+                rfturn rfsult;
             }
 
-            // Pattern matching in the domain name (*, ?)
-            final String dom2Match = name.getDomain();
-            for (String dom : domainTb.keySet()) {
-                if (Util.wildmatch(dom, dom2Match)) {
-                    final Map<String,NamedObject> moiTb = domainTb.get(dom);
-                    if (allNames)
-                        result.addAll(moiTb.values());
-                    else
-                        addAllMatching(moiTb, result, namePattern);
+            // Pbttfrn mbtdiing in tif dombin nbmf (*, ?)
+            finbl String dom2Mbtdi = nbmf.gftDombin();
+            for (String dom : dombinTb.kfySft()) {
+                if (Util.wildmbtdi(dom, dom2Mbtdi)) {
+                    finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dom);
+                    if (bllNbmfs)
+                        rfsult.bddAll(moiTb.vblufs());
+                    flsf
+                        bddAllMbtdiing(moiTb, rfsult, nbmfPbttfrn);
                 }
             }
-            return result;
-        } finally {
-            lock.readLock().unlock();
+            rfturn rfsult;
+        } finblly {
+            lodk.rfbdLodk().unlodk();
         }
     }
 
     /**
-     * Removes an MBean from the repository.
+     * Rfmovfs bn MBfbn from tif rfpository.
      *
-     * @param name name of the MBean to remove.
-     * @param context A registration context. If non null, the repository
-     *                will call {@link RegistrationContext#unregistered()
-     *                context.unregistered()} from within the repository
-     *                lock, just after the mbean associated with
-     *                {@code name} is removed from the repository.
-     *                If {@link RegistrationContext#unregistered()
-     *                context.unregistered()} is not expected to throw any
-     *                exception. If it does, the exception is logged
-     *                and swallowed.
+     * @pbrbm nbmf nbmf of tif MBfbn to rfmovf.
+     * @pbrbm dontfxt A rfgistrbtion dontfxt. If non null, tif rfpository
+     *                will dbll {@link RfgistrbtionContfxt#unrfgistfrfd()
+     *                dontfxt.unrfgistfrfd()} from witiin tif rfpository
+     *                lodk, just bftfr tif mbfbn bssodibtfd witi
+     *                {@dodf nbmf} is rfmovfd from tif rfpository.
+     *                If {@link RfgistrbtionContfxt#unrfgistfrfd()
+     *                dontfxt.unrfgistfrfd()} is not fxpfdtfd to tirow bny
+     *                fxdfption. If it dofs, tif fxdfption is loggfd
+     *                bnd swbllowfd.
      *
-     * @exception InstanceNotFoundException The MBean does not exist in
-     *            the repository.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn dofs not fxist in
+     *            tif rfpository.
      */
-    public void remove(final ObjectName name,
-            final RegistrationContext context)
-        throws InstanceNotFoundException {
+    publid void rfmovf(finbl ObjfdtNbmf nbmf,
+            finbl RfgistrbtionContfxt dontfxt)
+        tirows InstbndfNotFoundExdfption {
 
-        // Debugging stuff
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER, Repository.class.getName(),
-                    "remove", "name = " + name);
+        // Dfbugging stuff
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER, Rfpository.dlbss.gftNbmf(),
+                    "rfmovf", "nbmf = " + nbmf);
         }
 
-        // Extract domain name.
-        String dom= name.getDomain().intern();
+        // Extrbdt dombin nbmf.
+        String dom= nbmf.gftDombin().intfrn();
 
-        // Default domain case
-        if (dom.length() == 0) dom = domain;
+        // Dffbult dombin dbsf
+        if (dom.lfngti() == 0) dom = dombin;
 
-        lock.writeLock().lock();
+        lodk.writfLodk().lodk();
         try {
-            // Find the domain subtable
-            final Map<String,NamedObject> moiTb = domainTb.get(dom);
+            // Find tif dombin subtbblf
+            finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dom);
             if (moiTb == null) {
-                throw new InstanceNotFoundException(name.toString());
+                tirow nfw InstbndfNotFoundExdfption(nbmf.toString());
             }
 
-            // Remove the corresponding element
-            if (moiTb.remove(name.getCanonicalKeyPropertyListString())==null) {
-                throw new InstanceNotFoundException(name.toString());
+            // Rfmovf tif dorrfsponding flfmfnt
+            if (moiTb.rfmovf(nbmf.gftCbnonidblKfyPropfrtyListString())==null) {
+                tirow nfw InstbndfNotFoundExdfption(nbmf.toString());
             }
 
-            // We removed it !
-            nbElements--;
+            // Wf rfmovfd it !
+            nbElfmfnts--;
 
-            // No more object for this domain, we remove this domain hashtable
+            // No morf objfdt for tiis dombin, wf rfmovf tiis dombin ibsitbblf
             if (moiTb.isEmpty()) {
-                domainTb.remove(dom);
+                dombinTb.rfmovf(dom);
 
-                // set a new default domain table (always present)
-                // need to reinstantiate a hashtable because of possible
-                // big buckets array size inside table, never cleared,
-                // thus the new !
-                if (dom == domain) // ES: OK dom and domain are interned.
-                    domainTb.put(domain, new HashMap<String,NamedObject>());
+                // sft b nfw dffbult dombin tbblf (blwbys prfsfnt)
+                // nffd to rfinstbntibtf b ibsitbblf bfdbusf of possiblf
+                // big budkfts brrby sizf insidf tbblf, nfvfr dlfbrfd,
+                // tius tif nfw !
+                if (dom == dombin) // ES: OK dom bnd dombin brf intfrnfd.
+                    dombinTb.put(dombin, nfw HbsiMbp<String,NbmfdObjfdt>());
             }
 
-            unregistering(context,name);
+            unrfgistfring(dontfxt,nbmf);
 
-        } finally {
-            lock.writeLock().unlock();
+        } finblly {
+            lodk.writfLodk().unlodk();
         }
     }
 
     /**
-     * Gets the number of MBeans stored in the repository.
+     * Gfts tif numbfr of MBfbns storfd in tif rfpository.
      *
-     * @return  Number of MBeans.
+     * @rfturn  Numbfr of MBfbns.
      */
-    public Integer getCount() {
-        return nbElements;
+    publid Intfgfr gftCount() {
+        rfturn nbElfmfnts;
     }
 
     /**
-     * Gets the name of the domain currently used by default in the
-     * repository.
+     * Gfts tif nbmf of tif dombin durrfntly usfd by dffbult in tif
+     * rfpository.
      *
-     * @return  A string giving the name of the default domain name.
+     * @rfturn  A string giving tif nbmf of tif dffbult dombin nbmf.
      */
-    public String getDefaultDomain() {
-        return domain;
+    publid String gftDffbultDombin() {
+        rfturn dombin;
     }
 
-    // Public methods <=============================================
+    // Publid mftiods <=============================================
 }

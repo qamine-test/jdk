@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.IOException;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class implements a Berkeley uu character encoder. This encoder
- * was made famous by uuencode program.
+ * Tiis dlbss implfmfnts b Bfrkflfy uu dibrbdtfr fndodfr. Tiis fndodfr
+ * wbs mbdf fbmous by uufndodf progrbm.
  *
- * The basic character coding is algorithmic, taking 6 bits of binary
- * data and adding it to an ASCII ' ' (space) character. This converts
- * these six bits into a printable representation. Note that it depends
- * on the ASCII character encoding standard for english. Groups of three
- * bytes are converted into 4 characters by treating the three bytes
- * a four 6 bit groups, group 1 is byte 1's most significant six bits,
- * group 2 is byte 1's least significant two bits plus byte 2's four
- * most significant bits. etc.
+ * Tif bbsid dibrbdtfr doding is blgoritimid, tbking 6 bits of binbry
+ * dbtb bnd bdding it to bn ASCII ' ' (spbdf) dibrbdtfr. Tiis donvfrts
+ * tifsf six bits into b printbblf rfprfsfntbtion. Notf tibt it dfpfnds
+ * on tif ASCII dibrbdtfr fndoding stbndbrd for fnglisi. Groups of tirff
+ * bytfs brf donvfrtfd into 4 dibrbdtfrs by trfbting tif tirff bytfs
+ * b four 6 bit groups, group 1 is bytf 1's most signifidbnt six bits,
+ * group 2 is bytf 1's lfbst signifidbnt two bits plus bytf 2's four
+ * most signifidbnt bits. ftd.
  *
- * In this encoding, the buffer prefix is:
- * <pre>
- *     begin [mode] [filename]
- * </pre>
+ * In tiis fndoding, tif bufffr prffix is:
+ * <prf>
+ *     bfgin [modf] [filfnbmf]
+ * </prf>
  *
- * This is followed by one or more lines of the form:
- * <pre>
- *      (len)(data)(data)(data) ...
- * </pre>
- * where (len) is the number of bytes on this line. Note that groupings
- * are always four characters, even if length is not a multiple of three
- * bytes. When less than three characters are encoded, the values of the
- * last remaining bytes is undefined and should be ignored.
+ * Tiis is followfd by onf or morf linfs of tif form:
+ * <prf>
+ *      (lfn)(dbtb)(dbtb)(dbtb) ...
+ * </prf>
+ * wifrf (lfn) is tif numbfr of bytfs on tiis linf. Notf tibt groupings
+ * brf blwbys four dibrbdtfrs, fvfn if lfngti is not b multiplf of tirff
+ * bytfs. Wifn lfss tibn tirff dibrbdtfrs brf fndodfd, tif vblufs of tif
+ * lbst rfmbining bytfs is undffinfd bnd siould bf ignorfd.
  *
- * The last line of data in a uuencoded file is represented by a single
- * space character. This is translated by the decoding engine to a line
- * length of zero. This is immediately followed by a line which contains
- * the word 'end[newline]'
+ * Tif lbst linf of dbtb in b uufndodfd filf is rfprfsfntfd by b singlf
+ * spbdf dibrbdtfr. Tiis is trbnslbtfd by tif dfdoding fnginf to b linf
+ * lfngti of zfro. Tiis is immfdibtfly followfd by b linf wiidi dontbins
+ * tif word 'fnd[nfwlinf]'
  *
- * @author      Chuck McManis
- * @see         CharacterEncoder
- * @see         UUDecoder
+ * @butior      Ciudk MdMbnis
+ * @sff         CibrbdtfrEndodfr
+ * @sff         UUDfdodfr
  */
-public class UUEncoder extends CharacterEncoder {
+publid dlbss UUEndodfr fxtfnds CibrbdtfrEndodfr {
 
     /**
-     * This name is stored in the begin line.
+     * Tiis nbmf is storfd in tif bfgin linf.
      */
-    private String bufferName;
+    privbtf String bufffrNbmf;
 
     /**
-     * Represents UNIX(tm) mode bits. Generally three octal digits representing
-     * read, write, and execute permission of the owner, group owner, and
-     * others. They should be interpreted as the bit groups:
-     * (owner) (group) (others)
-     *  rwx      rwx     rwx    (r = read, w = write, x = execute)
+     * Rfprfsfnts UNIX(tm) modf bits. Gfnfrblly tirff odtbl digits rfprfsfnting
+     * rfbd, writf, bnd fxfdutf pfrmission of tif ownfr, group ownfr, bnd
+     * otifrs. Tify siould bf intfrprftfd bs tif bit groups:
+     * (ownfr) (group) (otifrs)
+     *  rwx      rwx     rwx    (r = rfbd, w = writf, x = fxfdutf)
      *
-     * By default these are set to 644 (UNIX rw-r--r-- permissions).
+     * By dffbult tifsf brf sft to 644 (UNIX rw-r--r-- pfrmissions).
      */
-    private int mode;
+    privbtf int modf;
 
 
     /**
-     * Default - buffer begin line will be:
-     * <pre>
-     *  begin 644 encoder.buf
-     * </pre>
+     * Dffbult - bufffr bfgin linf will bf:
+     * <prf>
+     *  bfgin 644 fndodfr.buf
+     * </prf>
      */
-    public UUEncoder() {
-        bufferName = "encoder.buf";
-        mode = 644;
+    publid UUEndodfr() {
+        bufffrNbmf = "fndodfr.buf";
+        modf = 644;
     }
 
     /**
-     * Specifies a name for the encoded buffer, begin line will be:
-     * <pre>
-     *  begin 644 [FNAME]
-     * </pre>
+     * Spfdififs b nbmf for tif fndodfd bufffr, bfgin linf will bf:
+     * <prf>
+     *  bfgin 644 [FNAME]
+     * </prf>
      */
-    public UUEncoder(String fname) {
-        bufferName = fname;
-        mode = 644;
+    publid UUEndodfr(String fnbmf) {
+        bufffrNbmf = fnbmf;
+        modf = 644;
     }
 
     /**
-     * Specifies a name and mode for the encoded buffer, begin line will be:
-     * <pre>
-     *  begin [MODE] [FNAME]
-     * </pre>
+     * Spfdififs b nbmf bnd modf for tif fndodfd bufffr, bfgin linf will bf:
+     * <prf>
+     *  bfgin [MODE] [FNAME]
+     * </prf>
      */
-    public UUEncoder(String fname, int newMode) {
-        bufferName = fname;
-        mode = newMode;
+    publid UUEndodfr(String fnbmf, int nfwModf) {
+        bufffrNbmf = fnbmf;
+        modf = nfwModf;
     }
 
-    /** number of bytes per atom in uuencoding is 3 */
-    protected int bytesPerAtom() {
-        return (3);
+    /** numbfr of bytfs pfr btom in uufndoding is 3 */
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (3);
     }
 
-    /** number of bytes per line in uuencoding is 45 */
-    protected int bytesPerLine() {
-        return (45);
+    /** numbfr of bytfs pfr linf in uufndoding is 45 */
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (45);
     }
 
     /**
-     * encodeAtom - take three bytes and encodes them into 4 characters
-     * If len is less than 3 then remaining bytes are filled with '1'.
-     * This insures that the last line won't end in spaces and potentiallly
-     * be truncated.
+     * fndodfAtom - tbkf tirff bytfs bnd fndodfs tifm into 4 dibrbdtfrs
+     * If lfn is lfss tibn 3 tifn rfmbining bytfs brf fillfd witi '1'.
+     * Tiis insurfs tibt tif lbst linf won't fnd in spbdfs bnd potfntibllly
+     * bf trundbtfd.
      */
-    protected void encodeAtom(OutputStream outStream, byte data[], int offset, int len)
-        throws IOException {
-        byte    a, b = 1, c = 1;
-        int     c1, c2, c3, c4;
+    protfdtfd void fndodfAtom(OutputStrfbm outStrfbm, bytf dbtb[], int offsft, int lfn)
+        tirows IOExdfption {
+        bytf    b, b = 1, d = 1;
+        int     d1, d2, d3, d4;
 
-        a = data[offset];
-        if (len > 1) {
-            b = data[offset+1];
+        b = dbtb[offsft];
+        if (lfn > 1) {
+            b = dbtb[offsft+1];
         }
-        if (len > 2) {
-            c = data[offset+2];
+        if (lfn > 2) {
+            d = dbtb[offsft+2];
         }
 
-        c1 = (a >>> 2) & 0x3f;
-        c2 = ((a << 4) & 0x30) | ((b >>> 4) & 0xf);
-        c3 = ((b << 2) & 0x3c) | ((c >>> 6) & 0x3);
-        c4 = c & 0x3f;
-        outStream.write(c1 + ' ');
-        outStream.write(c2 + ' ');
-        outStream.write(c3 + ' ');
-        outStream.write(c4 + ' ');
-        return;
+        d1 = (b >>> 2) & 0x3f;
+        d2 = ((b << 4) & 0x30) | ((b >>> 4) & 0xf);
+        d3 = ((b << 2) & 0x3d) | ((d >>> 6) & 0x3);
+        d4 = d & 0x3f;
+        outStrfbm.writf(d1 + ' ');
+        outStrfbm.writf(d2 + ' ');
+        outStrfbm.writf(d3 + ' ');
+        outStrfbm.writf(d4 + ' ');
+        rfturn;
     }
 
     /**
-     * Encode the line prefix which consists of the single character. The
-     * lenght is added to the value of ' ' (32 decimal) and printed.
+     * Endodf tif linf prffix wiidi donsists of tif singlf dibrbdtfr. Tif
+     * lfngit is bddfd to tif vbluf of ' ' (32 dfdimbl) bnd printfd.
      */
-    protected void encodeLinePrefix(OutputStream outStream, int length)
-        throws IOException {
-        outStream.write((length & 0x3f) + ' ');
+    protfdtfd void fndodfLinfPrffix(OutputStrfbm outStrfbm, int lfngti)
+        tirows IOExdfption {
+        outStrfbm.writf((lfngti & 0x3f) + ' ');
     }
 
 
     /**
-     * The line suffix for uuencoded files is simply a new line.
+     * Tif linf suffix for uufndodfd filfs is simply b nfw linf.
      */
-    protected void encodeLineSuffix(OutputStream outStream) throws IOException {
-        pStream.println();
+    protfdtfd void fndodfLinfSuffix(OutputStrfbm outStrfbm) tirows IOExdfption {
+        pStrfbm.println();
     }
 
     /**
-     * encodeBufferPrefix writes the begin line to the output stream.
+     * fndodfBufffrPrffix writfs tif bfgin linf to tif output strfbm.
      */
-    protected void encodeBufferPrefix(OutputStream a) throws IOException {
-        super.pStream = new PrintStream(a);
-        super.pStream.print("begin "+mode+" ");
-        if (bufferName != null) {
-            super.pStream.println(bufferName);
-        } else {
-            super.pStream.println("encoder.bin");
+    protfdtfd void fndodfBufffrPrffix(OutputStrfbm b) tirows IOExdfption {
+        supfr.pStrfbm = nfw PrintStrfbm(b);
+        supfr.pStrfbm.print("bfgin "+modf+" ");
+        if (bufffrNbmf != null) {
+            supfr.pStrfbm.println(bufffrNbmf);
+        } flsf {
+            supfr.pStrfbm.println("fndodfr.bin");
         }
-        super.pStream.flush();
+        supfr.pStrfbm.flusi();
     }
 
     /**
-     * encodeBufferSuffix writes the single line containing space (' ') and
-     * the line containing the word 'end' to the output stream.
+     * fndodfBufffrSuffix writfs tif singlf linf dontbining spbdf (' ') bnd
+     * tif linf dontbining tif word 'fnd' to tif output strfbm.
      */
-    protected void encodeBufferSuffix(OutputStream a) throws IOException {
-        super.pStream.println(" \nend");
-        super.pStream.flush();
+    protfdtfd void fndodfBufffrSuffix(OutputStrfbm b) tirows IOExdfption {
+        supfr.pStrfbm.println(" \nfnd");
+        supfr.pStrfbm.flusi();
     }
 
 }

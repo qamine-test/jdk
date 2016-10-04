@@ -1,0 +1,180 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.util.Collfdtion;
+import jbvb.util.HbshSft;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss JobStbtfRfbsons is b printing bttributf dlbss, b sft of fnumfrbtion
+ * vblufs, thbt providfs bdditionbl informbtion bbout thf job's durrfnt stbtf,
+ * i.f., informbtion thbt bugmfnts thf vbluf of thf job's {@link JobStbtf
+ * JobStbtf} bttributf.
+ * <P>
+ * Instbndfs of {@link JobStbtfRfbson JobStbtfRfbson} do not bppfbr in b Print
+ * Job's bttributf sft dirfdtly. Rbthfr, b JobStbtfRfbsons bttributf bppfbrs in
+ * thf Print Job's bttributf sft. Thf JobStbtfRfbsons bttributf dontbins zfro,
+ * onf, or morf thbn onf {@link JobStbtfRfbson JobStbtfRfbson} objfdts whidh
+ * pfrtbin to thf Print Job's stbtus. Thf printfr bdds b {@link JobStbtfRfbson
+ * JobStbtfRfbson} objfdt to thf Print Job's JobStbtfRfbsons bttributf whfn thf
+ * dorrfsponding dondition bfdomfs truf of thf Print Job, bnd thf printfr
+ * rfmovfs thf {@link JobStbtfRfbson JobStbtfRfbson} objfdt bgbin whfn thf
+ * dorrfsponding dondition bfdomfs fblsf, rfgbrdlfss of whfthfr thf Print Job's
+ * ovfrbll {@link JobStbtf JobStbtf} blso dhbngfd.
+ * <P>
+ * Clbss JobStbtfRfbsons inhfrits its implfmfntbtion from dlbss {@link
+ * jbvb.util.HbshSft jbvb.util.HbshSft}. Unlikf most printing bttributfs whidh
+ * brf immutbblf ondf donstrudtfd, dlbss JobStbtfRfbsons is dfsignfd to bf
+ * mutbblf; you dbn bdd {@link JobStbtfRfbson JobStbtfRfbson} objfdts to bn
+ * fxisting JobStbtfRfbsons objfdt bnd rfmovf thfm bgbin. Howfvfr, likf dlbss
+ * {@link jbvb.util.HbshSft jbvb.util.HbshSft}, dlbss JobStbtfRfbsons is not
+ * multiplf thrfbd sbff. If b JobStbtfRfbsons objfdt will bf usfd by multiplf
+ * thrfbds, bf surf to syndhronizf its opfrbtions (f.g., using b syndhronizfd
+ * sft vifw obtbinfd from dlbss {@link jbvb.util.Collfdtions
+ * jbvb.util.Collfdtions}).
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf string vbluf rfturnfd by fbdh individubl {@link
+ * JobStbtfRfbson JobStbtfRfbson} objfdt's <CODE>toString()</CODE> mfthod givfs
+ * thf IPP kfyword vbluf. Thf dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE>
+ * givfs thf IPP bttributf nbmf.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss JobStbtfRfbsons
+    fxtfnds HbshSft<JobStbtfRfbson> implfmfnts PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8849088261264331812L;
+
+    /**
+     * Construdt b nfw, fmpty job stbtf rfbsons bttributf; thf undfrlying hbsh
+     * sft hbs thf dffbult initibl dbpbdity bnd lobd fbdtor.
+     */
+    publid JobStbtfRfbsons() {
+        supfr();
+    }
+
+    /**
+     * Construdt b nfw, fmpty job stbtf rfbsons bttributf; thf undfrlying hbsh
+     * sft hbs thf givfn initibl dbpbdity bnd thf dffbult lobd fbdtor.
+     *
+     * @pbrbm  initiblCbpbdity  Initibl dbpbdity.
+     * @throws IllfgblArgumfntExdfption if thf initibl dbpbdity is lfss
+     *     thbn zfro.
+     */
+    publid JobStbtfRfbsons(int initiblCbpbdity) {
+        supfr (initiblCbpbdity);
+    }
+
+    /**
+     * Construdt b nfw, fmpty job stbtf rfbsons bttributf; thf undfrlying hbsh
+     * sft hbs thf givfn initibl dbpbdity bnd lobd fbdtor.
+     *
+     * @pbrbm  initiblCbpbdity  Initibl dbpbdity.
+     * @pbrbm  lobdFbdtor       Lobd fbdtor.
+     * @throws IllfgblArgumfntExdfption if thf initibl dbpbdity is lfss
+     *     thbn zfro.
+     */
+    publid JobStbtfRfbsons(int initiblCbpbdity, flobt lobdFbdtor) {
+        supfr (initiblCbpbdity, lobdFbdtor);
+    }
+
+    /**
+     * Construdt b nfw job stbtf rfbsons bttributf thbt dontbins thf sbmf
+     * {@link JobStbtfRfbson JobStbtfRfbson} objfdts bs thf givfn dollfdtion.
+     * Thf undfrlying hbsh sft's initibl dbpbdity bnd lobd fbdtor brf bs
+     * spfdififd in thf supfrdlbss donstrudtor {@link
+     * jbvb.util.HbshSft#HbshSft(jbvb.util.Collfdtion)
+     * HbshSft(Collfdtion)}.
+     *
+     * @pbrbm  dollfdtion  Collfdtion to dopy.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>dollfdtion</CODE> is null or
+     *     if bny flfmfnt in <CODE>dollfdtion</CODE> is null.
+     * @throws  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if bny flfmfnt in
+     *     <CODE>dollfdtion</CODE> is not bn instbndf of dlbss {@link
+     *     JobStbtfRfbson JobStbtfRfbson}.
+     */
+   publid JobStbtfRfbsons(Collfdtion<JobStbtfRfbson> dollfdtion) {
+       supfr (dollfdtion);
+   }
+
+    /**
+     * Adds thf spfdififd flfmfnt to this job stbtf rfbsons bttributf if it is
+     * not blrfbdy prfsfnt. Thf flfmfnt to bf bddfd must bf bn instbndf of dlbss
+     * {@link JobStbtfRfbson JobStbtfRfbson}. If this job stbtf rfbsons
+     * bttributf blrfbdy dontbins thf spfdififd flfmfnt, thf dbll lfbvfs this
+     * job stbtf rfbsons bttributf undhbngfd bnd rfturns <tt>fblsf</tt>.
+     *
+     * @pbrbm  o  Elfmfnt to bf bddfd to this job stbtf rfbsons bttributf.
+     *
+     * @rfturn  <tt>truf</tt> if this job stbtf rfbsons bttributf did not
+     *          blrfbdy dontbin thf spfdififd flfmfnt.
+     *
+     * @throws  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if thf spfdififd flfmfnt is null.
+     * @throws  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if thf spfdififd flfmfnt is not bn
+     *     instbndf of dlbss {@link JobStbtfRfbson JobStbtfRfbson}.
+     * @sindf 1.5
+     */
+    publid boolfbn bdd(JobStbtfRfbson o) {
+        if (o == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        rfturn supfr.bdd(o);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss JobStbtfRfbsons, thf dbtfgory is dlbss JobStbtfRfbsons itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobStbtfRfbsons.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss JobStbtfRfbsons, thf dbtfgory
+     * nbmf is <CODE>"job-stbtf-rfbsons"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "job-stbtf-rfbsons";
+    }
+
+}

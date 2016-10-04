@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.monitor.fvfnt;
+
+import jbvb.util.Sft;
+import sun.jvmstbt.monitor.MonitorfdHost;
+
+/**
+ * Providfs b dfsdription of b dhbngf in stbtus of thf Jbvb Virtubl Mbdhinfs
+ * bssodibtfd with b MonitorfdHost.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss VmStbtusChbngfEvfnt fxtfnds HostEvfnt {
+
+    /**
+     * Thf sft of durrfntly bdtivf Jbvb Virtubl Mbdhinfs for thf MonitorfdHost.
+     * Thf sft dontbins bn Intfgfr objfdt holding thf <fm>lvmid</fm> for fbdh
+     * bdtivf Jbvb Virtubl Mbdhinf on thf MonitorfdHost. This Sft will only
+     * dontbin Intfgfr objfdts.
+     */
+    protfdtfd Sft<Intfgfr> bdtivf;
+
+    /**
+     * Thf sft of Jbvb Virtubl Mbdhinfs stbrtfd on MonitorfdHost sindf thf
+     * prfvious fvfnt. Thf sft dontbins bn Intfgfr objfdt holding thf
+     * <fm>lvmid</fm> for fbdh Jbvb Virtubl Mbdhinf stbrtfd on thf
+     * MonitorfdHost. This Sft will only dontbin Intfgfr objfdts.
+     */
+    protfdtfd Sft<Intfgfr> stbrtfd;
+
+    /**
+     * Thf sft of Jbvb Virtubl Mbdhinfs tfrminbtfd on MonitorfdHost sindf thf
+     * prfvious fvfnt. Thf sft dontbins bn Intfgfr objfdt holding thf
+     * <fm>lvmid</fm> for fbdh Jbvb Virtubl Mbdhinf stbrtfd on thf
+     * MonitorfdHost. This Sft will only dontbin Intfgfr objfdts.
+     */
+    protfdtfd Sft<Intfgfr> tfrminbtfd;
+
+    /**
+     * Construdt b nfw VmStbtusChbngfEvfnt instbndf.
+     *
+     * @pbrbm host thf MonitorfdHost thbt is thf sourdf of thf fvfnt.
+     * @pbrbm bdtivf thf sft of durrfntly bdtivf Jbvb Virtubl Mbdhinfs
+     * @pbrbm stbrtfd thf sft of Jbvb Virtubl Mbdhinfs stbrtfd sindf thf
+     *                lbst fvfnt.
+     * @pbrbm tfrminbtfd thf sft of Jbvb Virtubl Mbdhinfs tfrminbtfd sindf
+     *                   thf lbst fvfnt.
+     */
+    publid VmStbtusChbngfEvfnt(MonitorfdHost host, Sft<Intfgfr> bdtivf,
+                               Sft<Intfgfr> stbrtfd, Sft<Intfgfr> tfrminbtfd) {
+        supfr(host);
+        this.bdtivf = bdtivf;
+        this.stbrtfd = stbrtfd;
+        this.tfrminbtfd = tfrminbtfd;
+    }
+
+    /**
+     * Rfturn thf sft of durrfntly bdtivf Jbvb Virtubl Mbdhinfs.
+     * Thf sft dontbins bn Intfgfr objfdt holding thf <fm>lvmid</fm> for fbdh
+     * bdtivf Jbvb Virtubl Mbdhinf on thf MonitorfdHost.
+     *
+     * @rfturn Sft - b sft of Intfgfr objfdts dontbining thf <fm>lvmid</fm>
+     *               of fbdh bdtivf Jbvb Virtubl Mbdhinf on thf host. If
+     *               thfrf brf no bdtivf Jbvb Virtubl Mbdhinfs on thf host,
+     *               bn fmpty Sft is rfturnfd.
+     */
+    publid Sft<Intfgfr> gftAdtivf() {
+        rfturn bdtivf;
+    }
+
+    /**
+     * Rfturn thf sft of Jbvb Virtubl Mbdhinfs stbrtfd sindf thf lbst
+     * fvfnt notifidbtion. Thf sft dontbins bn Intfgfr objfdt holding
+     * thf <fm>lvmid</fm> for fbdh Jbvb Virtubl Mbdhinf stbrtfd on thf
+     * MonitorfdHost sindf thf lbst fvfnt notifidbtion.
+     *
+     * @rfturn Sft - b sft of Intfgfr objfdts dontbining thf <fm>lvmid</fm>
+     *               of fbdh Jbvb Virtubl Mbdhinf stbrtfd on thf host. If
+     *               no Jbvb Virtubl Mbdhinfs wfrf rfdfntly stbrtfd on thf
+     *               host, bn fmpty Sft is rfturnfd.
+     */
+    publid Sft<Intfgfr> gftStbrtfd() {
+        rfturn stbrtfd;
+    }
+
+    /**
+     * Rfturn thf sft of Jbvb Virtubl Mbdhinfs tfrminbtfd sindf thf lbst
+     * fvfnt notifidbtion. Thf sft dontbins bn Intfgfr objfdt holding
+     * thf <fm>lvmid</fm> for fbdh Jbvb Virtubl Mbdhinf tfrminbtfd on thf
+     * MonitorfdHost sindf thf lbst fvfnt notifidbtion.
+     *
+     * @rfturn Sft - b sft of Intfgfr objfdts dontbining thf <fm>lvmid</fm>
+     *               of fbdh Jbvb Virtubl Mbdhinf tfrminbtfd on thf host. If
+     *               no Jbvb Virtubl Mbdhinfs wfrf rfdfntly tfrminbtfd on thf
+     *               host, bn fmpty Sft is rfturnfd.
+     */
+    publid Sft<Intfgfr> gftTfrminbtfd() {
+        rfturn tfrminbtfd;
+    }
+}

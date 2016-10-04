@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright 2003 Wily Technology, Inc.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
  */
 
-#ifndef _REENTRANCY_H_
-#define _REENTRANCY_H_
+#ifndff _REENTRANCY_H_
+#dffinf _REENTRANCY_H_
 
-#include    <jni.h>
+#indludf    <jni.i>
 
 /*
- *  This module provides some utility functions to support the "same thread" re-entrancy management.
- *  Uses JVMTI TLS to store a single bit per thread.
- *  Non-zero means the thread is already inside; zero means the thread is not inside.
+ *  Tiis modulf providfs somf utility fundtions to support tif "sbmf tirfbd" rf-fntrbndy mbnbgfmfnt.
+ *  Usfs JVMTI TLS to storf b singlf bit pfr tirfbd.
+ *  Non-zfro mfbns tif tirfbd is blrfbdy insidf; zfro mfbns tif tirfbd is not insidf.
  */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-/* returns true if the token is acquired by this call,
- * false if we already hold it and do not have to acquire it
+/* rfturns truf if tif tokfn is bdquirfd by tiis dbll,
+ * fblsf if wf blrfbdy iold it bnd do not ibvf to bdquirf it
  */
-extern jboolean
-tryToAcquireReentrancyToken(    jvmtiEnv *  jvmtienv,
-                                jthread     thread);
+fxtfrn jboolfbn
+tryToAdquirfRffntrbndyTokfn(    jvmtiEnv *  jvmtifnv,
+                                jtirfbd     tirfbd);
 
-/* release the token; assumes we already hold it */
-extern void
-releaseReentrancyToken(         jvmtiEnv *  jvmtienv,
-                                jthread     thread);
-
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+/* rflfbsf tif tokfn; bssumfs wf blrfbdy iold it */
+fxtfrn void
+rflfbsfRffntrbndyTokfn(         jvmtiEnv *  jvmtifnv,
+                                jtirfbd     tirfbd);
 
 
-#endif
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
+
+
+#fndif

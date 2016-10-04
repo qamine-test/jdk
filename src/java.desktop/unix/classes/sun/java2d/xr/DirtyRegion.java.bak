@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import static java.lang.Math.min;
-import static java.lang.Math.max;
-import static sun.java2d.xr.MaskTileManager.MASK_SIZE;
+import stbtid jbvb.lbng.Mbti.min;
+import stbtid jbvb.lbng.Mbti.mbx;
+import stbtid sun.jbvb2d.xr.MbskTilfMbnbgfr.MASK_SIZE;
 
 /**
- * This class implements region tracking, used by the tiled-mask code.
+ * Tiis dlbss implfmfnts rfgion trbdking, usfd by tif tilfd-mbsk dodf.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
 
-public class DirtyRegion implements Cloneable {
+publid dlbss DirtyRfgion implfmfnts Clonfbblf {
     int x, y, x2, y2;
 
-    public DirtyRegion() {
-        clear();
+    publid DirtyRfgion() {
+        dlfbr();
     }
 
-    public void clear() {
-        x = Integer.MAX_VALUE;
-        y = Integer.MAX_VALUE;
-        x2 = Integer.MIN_VALUE;
-        y2 = Integer.MIN_VALUE;
+    publid void dlfbr() {
+        x = Intfgfr.MAX_VALUE;
+        y = Intfgfr.MAX_VALUE;
+        x2 = Intfgfr.MIN_VALUE;
+        y2 = Intfgfr.MIN_VALUE;
     }
 
-    public void growDirtyRegion(int x, int y, int x2, int y2) {
-        this.x = min(x, this.x);
-        this.y = min(y, this.y);
-        this.x2 = max(x2, this.x2);
-        this.y2 = max(y2, this.y2);
+    publid void growDirtyRfgion(int x, int y, int x2, int y2) {
+        tiis.x = min(x, tiis.x);
+        tiis.y = min(y, tiis.y);
+        tiis.x2 = mbx(x2, tiis.x2);
+        tiis.y2 = mbx(y2, tiis.y2);
     }
 
-    public int getWidth() {
-        return x2 - x;
+    publid int gftWidti() {
+        rfturn x2 - x;
     }
 
-    public int getHeight() {
-        return y2 - y;
+    publid int gftHfigit() {
+        rfturn y2 - y;
     }
 
-    public void growDirtyRegionTileLimit(int x, int y, int x2, int y2) {
-        if (x < this.x) {
-            this.x = max(x, 0);
+    publid void growDirtyRfgionTilfLimit(int x, int y, int x2, int y2) {
+        if (x < tiis.x) {
+            tiis.x = mbx(x, 0);
         }
-        if (y < this.y) {
-            this.y = max(y, 0);
+        if (y < tiis.y) {
+            tiis.y = mbx(y, 0);
         }
-        if (x2 > this.x2) {
-            this.x2 = min(x2, MASK_SIZE);
+        if (x2 > tiis.x2) {
+            tiis.x2 = min(x2, MASK_SIZE);
         }
-        if (y2 > this.y2) {
-            this.y2 = min(y2, MASK_SIZE);
+        if (y2 > tiis.y2) {
+            tiis.y2 = min(y2, MASK_SIZE);
         }
     }
 
-    public static DirtyRegion combineRegion(DirtyRegion region1,
-                                            DirtyRegion region2) {
-        DirtyRegion region = new DirtyRegion();
-        region.x = min(region1.x, region2.x);
-        region.y = min(region1.y, region2.y);
-        region.x2 = max(region1.x2, region2.x2);
-        region.y2 = max(region1.y2, region2.y2);
-        return region;
+    publid stbtid DirtyRfgion dombinfRfgion(DirtyRfgion rfgion1,
+                                            DirtyRfgion rfgion2) {
+        DirtyRfgion rfgion = nfw DirtyRfgion();
+        rfgion.x = min(rfgion1.x, rfgion2.x);
+        rfgion.y = min(rfgion1.y, rfgion2.y);
+        rfgion.x2 = mbx(rfgion1.x2, rfgion2.x2);
+        rfgion.y2 = mbx(rfgion1.y2, rfgion2.y2);
+        rfturn rfgion;
     }
 
-    public void setDirtyLineRegion(int x1, int y1, int x2, int y2) {
+    publid void sftDirtyLinfRfgion(int x1, int y1, int x2, int y2) {
         if (x1 < x2) {
-            this.x = x1;
-            this.x2 = x2;
-        } else {
-            this.x = x2;
-            this.x2 = x1;
+            tiis.x = x1;
+            tiis.x2 = x2;
+        } flsf {
+            tiis.x = x2;
+            tiis.x2 = x1;
         }
 
         if (y1 < y2) {
-            this.y = y1;
-            this.y2 = y2;
-        } else {
-            this.y = y2;
-            this.y2 = y1;
+            tiis.y = y1;
+            tiis.y2 = y2;
+        } flsf {
+            tiis.y = y2;
+            tiis.y2 = y1;
         }
     }
 
-    public void translate(int x, int y) {
-        if (this.x != Integer.MAX_VALUE) {
-            this.x += x;
-            this.x2 += x;
-            this.y += y;
-            this.y2 += y;
+    publid void trbnslbtf(int x, int y) {
+        if (tiis.x != Intfgfr.MAX_VALUE) {
+            tiis.x += x;
+            tiis.x2 += x;
+            tiis.y += y;
+            tiis.y2 += y;
         }
     }
 
-    public String toString() {
-        return this.getClass().getName() +
+    publid String toString() {
+        rfturn tiis.gftClbss().gftNbmf() +
                 "(x: " + x + ", y:" + y + ", x2:" + x2 + ", y2:" + y2 + ")";
     }
 
-    public DirtyRegion cloneRegion() {
+    publid DirtyRfgion dlonfRfgion() {
         try {
-            return (DirtyRegion) clone();
-        } catch (CloneNotSupportedException ex) {
-            ex.printStackTrace();
+            rfturn (DirtyRfgion) dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            fx.printStbdkTrbdf();
         }
 
-        return null;
+        rfturn null;
     }
 }

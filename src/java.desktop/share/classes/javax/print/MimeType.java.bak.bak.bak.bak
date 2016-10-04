@@ -1,0 +1,647 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
+
+/**
+ * Clbss MimfTypf fndbpsulbtfs b Multipurposf Intfrnft Mbil Extfnsions (MIME)
+ * mfdib typf bs dffinfd in <A HREF="http://www.iftf.org/rfd/rfd2045.txt">RFC
+ * 2045</A> bnd <A HREF="http://www.iftf.org/rfd/rfd2046.txt">RFC 2046</A>. A
+ * MIME typf objfdt is pbrt of b {@link DodFlbvor DodFlbvor} objfdt bnd
+ * spfdififs thf formbt of thf print dbtb.
+ * <P>
+ * Clbss MimfTypf is similbr to thf likf-nbmfd
+ * dlbss in pbdkbgf {@link jbvb.bwt.dbtbtrbnsffr jbvb.bwt.dbtbtrbnsffr}. Clbss
+ * jbvb.bwt.dbtbtrbnsffr.MimfTypf is not usfd in thf Jini Print Sfrvidf API
+ * for two rfbsons:
+ * <OL TYPE=1>
+ * <LI>
+ * Sindf not bll Jbvb profilfs indludf thf AWT, thf Jini Print Sfrvidf should
+ * not dfpfnd on bn AWT dlbss.
+ * <P>
+ * <LI>
+ * Thf implfmfntbtion of dlbss jbvb.bwt.dbtbtrbnsffr.MimfTypf dofs not
+ * gubrbntff
+ * thbt fquivblfnt MIME typfs will hbvf thf sbmf sfriblizfd rfprfsfntbtion.
+ * Thus, sindf thf Jini Lookup Sfrvidf (JLUS) mbtdhfs sfrvidf bttributfs bbsfd
+ * on fqublity of sfriblizfd rfprfsfntbtions, JLUS sfbrdhfs involving MIME
+ * typfs fndbpsulbtfd in dlbss jbvb.bwt.dbtbtrbnsffr.MimfTypf mby indorrfdtly
+ * fbil to mbtdh.
+ * </OL>
+ * <P>
+ * Clbss MimfTypf's sfriblizfd rfprfsfntbtion is bbsfd on thf following
+ * dbnonidbl form of b MIME typf string. Thus, two MIME typfs thbt brf not
+ * idfntidbl but thbt brf fquivblfnt (thbt hbvf thf sbmf dbnonidbl form) will
+ * bf donsidfrfd fqubl by thf JLUS's mbtdhing blgorithm.
+ * <UL>
+ * <LI> Thf mfdib typf, mfdib subtypf, bnd pbrbmftfrs brf rftbinfd, but bll
+ *      dommfnts bnd whitfspbdf dhbrbdtfrs brf disdbrdfd.
+ * <LI> Thf mfdib typf, mfdib subtypf, bnd pbrbmftfr nbmfs brf donvfrtfd to
+ *      lowfrdbsf.
+ * <LI> Thf pbrbmftfr vblufs rftbin thfir originbl dbsf, fxdfpt b dhbrsft
+ *      pbrbmftfr vbluf for b tfxt mfdib typf is donvfrtfd to lowfrdbsf.
+ * <LI> Quotf dhbrbdtfrs surrounding pbrbmftfr vblufs brf rfmovfd.
+ * <LI> Quoting bbdkslbsh dhbrbdtfrs insidf pbrbmftfr vblufs brf rfmovfd.
+ * <LI> Thf pbrbmftfrs brf brrbngfd in bsdfnding ordfr of pbrbmftfr nbmf.
+ * </UL>
+ * <P>
+ *
+ * @buthor  Albn Kbminsky
+ */
+dlbss MimfTypf implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2785720609362367683L;
+
+    /**
+     * Arrby of strings thbt hold pifdfs of this MIME typf's dbnonidbl form.
+     * If thf MIME typf hbs <I>n</I> pbrbmftfrs, <I>n</I> &gt;= 0, thfn thf
+     * strings in thf brrby brf:
+     * <BR>Indfx 0 -- Mfdib typf.
+     * <BR>Indfx 1 -- Mfdib subtypf.
+     * <BR>Indfx 2<I>i</I>+2 -- Nbmf of pbrbmftfr <I>i</I>,
+     * <I>i</I>=0,1,...,<I>n</I>-1.
+     * <BR>Indfx 2<I>i</I>+3 -- Vbluf of pbrbmftfr <I>i</I>,
+     * <I>i</I>=0,1,...,<I>n</I>-1.
+     * <BR>Pbrbmftfrs brf brrbngfd in bsdfnding ordfr of pbrbmftfr nbmf.
+     * @sfribl
+     */
+    privbtf String[] myPifdfs;
+
+    /**
+     * String vbluf for this MIME typf. Computfd whfn nffdfd bnd dbdhfd.
+     */
+    privbtf trbnsifnt String myStringVbluf = null;
+
+    /**
+     * Pbrbmftfr mbp fntry sft. Computfd whfn nffdfd bnd dbdhfd.
+     */
+    privbtf trbnsifnt PbrbmftfrMbpEntrySft myEntrySft = null;
+
+    /**
+     * Pbrbmftfr mbp. Computfd whfn nffdfd bnd dbdhfd.
+     */
+    privbtf trbnsifnt PbrbmftfrMbp myPbrbmftfrMbp = null;
+
+    /**
+     * Pbrbmftfr mbp fntry.
+     */
+    privbtf dlbss PbrbmftfrMbpEntry implfmfnts Mbp.Entry<String, String> {
+        privbtf int myIndfx;
+        publid PbrbmftfrMbpEntry(int thfIndfx) {
+            myIndfx = thfIndfx;
+        }
+        publid String gftKfy(){
+            rfturn myPifdfs[myIndfx];
+        }
+        publid String gftVbluf(){
+            rfturn myPifdfs[myIndfx+1];
+        }
+        publid String sftVbluf (String vbluf) {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn (o != null &&
+                    o instbndfof Mbp.Entry &&
+                    gftKfy().fqubls (((Mbp.Entry) o).gftKfy()) &&
+                    gftVbluf().fqubls(((Mbp.Entry) o).gftVbluf()));
+        }
+        publid int hbshCodf() {
+            rfturn gftKfy().hbshCodf() ^ gftVbluf().hbshCodf();
+        }
+    }
+
+    /**
+     * Pbrbmftfr mbp fntry sft itfrbtor.
+     */
+    privbtf dlbss PbrbmftfrMbpEntrySftItfrbtor implfmfnts Itfrbtor<Mbp.Entry<String, String>> {
+        privbtf int myIndfx = 2;
+        publid boolfbn hbsNfxt() {
+            rfturn myIndfx < myPifdfs.lfngth;
+        }
+        publid Mbp.Entry<String, String> nfxt() {
+            if (hbsNfxt()) {
+                PbrbmftfrMbpEntry rfsult = nfw PbrbmftfrMbpEntry (myIndfx);
+                myIndfx += 2;
+                rfturn rfsult;
+            } flsf {
+                throw nfw NoSudhElfmfntExdfption();
+            }
+        }
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+    }
+
+    /**
+     * Pbrbmftfr mbp fntry sft.
+     */
+    privbtf dlbss PbrbmftfrMbpEntrySft fxtfnds AbstrbdtSft<Mbp.Entry<String, String>> {
+        publid Itfrbtor<Mbp.Entry<String, String>> itfrbtor() {
+            rfturn nfw PbrbmftfrMbpEntrySftItfrbtor();
+        }
+        publid int sizf() {
+            rfturn (myPifdfs.lfngth - 2) / 2;
+        }
+    }
+
+    /**
+     * Pbrbmftfr mbp.
+     */
+    privbtf dlbss PbrbmftfrMbp fxtfnds AbstrbdtMbp<String, String> {
+        publid Sft<Mbp.Entry<String, String>> fntrySft() {
+            if (myEntrySft == null) {
+                myEntrySft = nfw PbrbmftfrMbpEntrySft();
+            }
+            rfturn myEntrySft;
+        }
+    }
+
+    /**
+     * Construdt b nfw MIME typf objfdt from thf givfn string. Thf givfn
+     * string is donvfrtfd into dbnonidbl form bnd storfd intfrnblly.
+     *
+     * @pbrbm  s  MIME mfdib typf string.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>s</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>s</CODE> dofs not obfy thf
+     *     syntbx for b MIME mfdib typf string.
+     */
+    publid MimfTypf(String s) {
+        pbrsf (s);
+    }
+
+    /**
+     * Rfturns this MIME typf objfdt's MIME typf string bbsfd on thf dbnonidbl
+     * form. Ebdh pbrbmftfr vbluf is fndlosfd in quotfs.
+     */
+    publid String gftMimfTypf() {
+        rfturn gftStringVbluf();
+    }
+
+    /**
+     * Rfturns this MIME typf objfdt's mfdib typf.
+     */
+    publid String gftMfdibTypf() {
+        rfturn myPifdfs[0];
+    }
+
+    /**
+     * Rfturns this MIME typf objfdt's mfdib subtypf.
+     */
+    publid String gftMfdibSubtypf() {
+        rfturn myPifdfs[1];
+    }
+
+    /**
+     * Rfturns bn unmodifibblf mbp vifw of thf pbrbmftfrs in this MIME typf
+     * objfdt. Ebdh fntry in thf pbrbmftfr mbp vifw donsists of b pbrbmftfr
+     * nbmf String (kfy) mbpping to b pbrbmftfr vbluf String. If this MIME
+     * typf objfdt hbs no pbrbmftfrs, bn fmpty mbp is rfturnfd.
+     *
+     * @rfturn  Pbrbmftfr mbp for this MIME typf objfdt.
+     */
+    publid Mbp<String, String> gftPbrbmftfrMbp() {
+        if (myPbrbmftfrMbp == null) {
+            myPbrbmftfrMbp = nfw PbrbmftfrMbp();
+        }
+        rfturn myPbrbmftfrMbp;
+    }
+
+    /**
+     * Convfrts this MIME typf objfdt to b string.
+     *
+     * @rfturn  MIME typf string bbsfd on thf dbnonidbl form. Ebdh pbrbmftfr
+     *          vbluf is fndlosfd in quotfs.
+     */
+    publid String toString() {
+        rfturn gftStringVbluf();
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this MIME typf objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn gftStringVbluf().hbshCodf();
+    }
+
+    /**
+     * Dftfrminf if this MIME typf objfdt is fqubl to thf givfn objfdt. Thf two
+     * brf fqubl if thf givfn objfdt is not null, is bn instbndf of dlbss
+     * nft.jini.print.dbtb.MimfTypf, bnd hbs thf sbmf dbnonidbl form bs this
+     * MIME typf objfdt (thbt is, hbs thf sbmf typf, subtypf, bnd pbrbmftfrs).
+     * Thus, if two MIME typf objfdts brf thf sbmf fxdfpt for dommfnts, thfy brf
+     * donsidfrfd fqubl. Howfvfr, "tfxt/plbin" bnd "tfxt/plbin;
+     * dhbrsft=us-bsdii" brf not donsidfrfd fqubl, fvfn though thfy rfprfsfnt
+     * thf sbmf mfdib typf (bfdbusf thf dffbult dhbrbdtfr sft for plbin tfxt is
+     * US-ASCII).
+     *
+     * @pbrbm  obj  Objfdt to tfst.
+     *
+     * @rfturn  Truf if this MIME typf objfdt fqubls <CODE>obj</CODE>, fblsf
+     *          othfrwisf.
+     */
+    publid boolfbn fqubls (Objfdt obj) {
+        rfturn(obj != null &&
+               obj instbndfof MimfTypf &&
+               gftStringVbluf().fqubls(((MimfTypf) obj).gftStringVbluf()));
+    }
+
+    /**
+     * Rfturns this MIME typf's string vbluf in dbnonidbl form.
+     */
+    privbtf String gftStringVbluf() {
+        if (myStringVbluf == null) {
+            StringBuildfr rfsult = nfw StringBuildfr();
+            rfsult.bppfnd (myPifdfs[0]);
+            rfsult.bppfnd ('/');
+            rfsult.bppfnd (myPifdfs[1]);
+            int n = myPifdfs.lfngth;
+            for (int i = 2; i < n; i += 2) {
+                rfsult.bppfnd(';');
+                rfsult.bppfnd(' ');
+                rfsult.bppfnd(myPifdfs[i]);
+                rfsult.bppfnd('=');
+                rfsult.bppfnd(bddQuotfs (myPifdfs[i+1]));
+            }
+            myStringVbluf = rfsult.toString();
+        }
+        rfturn myStringVbluf;
+    }
+
+// Hiddfn dlbssfs, donstbnts, bnd opfrbtions for pbrsing b MIME mfdib typf
+// string.
+
+    // Lfxfmf typfs.
+    privbtf stbtid finbl int TOKEN_LEXEME         = 0;
+    privbtf stbtid finbl int QUOTED_STRING_LEXEME = 1;
+    privbtf stbtid finbl int TSPECIAL_LEXEME      = 2;
+    privbtf stbtid finbl int EOF_LEXEME           = 3;
+    privbtf stbtid finbl int ILLEGAL_LEXEME       = 4;
+
+    // Clbss for b lfxidbl bnblyzfr.
+    privbtf stbtid dlbss LfxidblAnblyzfr {
+        protfdtfd String mySourdf;
+        protfdtfd int mySourdfLfngth;
+        protfdtfd int myCurrfntIndfx;
+        protfdtfd int myLfxfmfTypf;
+        protfdtfd int myLfxfmfBfginIndfx;
+        protfdtfd int myLfxfmfEndIndfx;
+
+        publid LfxidblAnblyzfr(String thfSourdf) {
+            mySourdf = thfSourdf;
+            mySourdfLfngth = thfSourdf.lfngth();
+            myCurrfntIndfx = 0;
+            nfxtLfxfmf();
+        }
+
+        publid int gftLfxfmfTypf() {
+            rfturn myLfxfmfTypf;
+        }
+
+        publid String gftLfxfmf() {
+            rfturn(myLfxfmfBfginIndfx >= mySourdfLfngth ?
+                   null :
+                   mySourdf.substring(myLfxfmfBfginIndfx, myLfxfmfEndIndfx));
+        }
+
+        publid dhbr gftLfxfmfFirstChbrbdtfr() {
+            rfturn(myLfxfmfBfginIndfx >= mySourdfLfngth ?
+                   '\u0000' :
+                   mySourdf.dhbrAt(myLfxfmfBfginIndfx));
+        }
+
+        publid void nfxtLfxfmf() {
+            int stbtf = 0;
+            int dommfntLfvfl = 0;
+            dhbr d;
+            whilf (stbtf >= 0) {
+                switdh (stbtf) {
+                    // Looking for b tokfn, quotfd string, or tspfdibl
+                dbsf 0:
+                    if (myCurrfntIndfx >= mySourdfLfngth) {
+                        myLfxfmfTypf = EOF_LEXEME;
+                        myLfxfmfBfginIndfx = mySourdfLfngth;
+                        myLfxfmfEndIndfx = mySourdfLfngth;
+                        stbtf = -1;
+                    } flsf if (Chbrbdtfr.isWhitfspbdf
+                               (d = mySourdf.dhbrAt (myCurrfntIndfx ++))) {
+                        stbtf = 0;
+                    } flsf if (d == '\"') {
+                        myLfxfmfTypf = QUOTED_STRING_LEXEME;
+                        myLfxfmfBfginIndfx = myCurrfntIndfx;
+                        stbtf = 1;
+                    } flsf if (d == '(') {
+                        ++ dommfntLfvfl;
+                        stbtf = 3;
+                    } flsf if (d == '/'  || d == ';' || d == '=' ||
+                               d == ')'  || d == '<' || d == '>' ||
+                               d == '@'  || d == ',' || d == ':' ||
+                               d == '\\' || d == '[' || d == ']' ||
+                               d == '?') {
+                        myLfxfmfTypf = TSPECIAL_LEXEME;
+                        myLfxfmfBfginIndfx = myCurrfntIndfx - 1;
+                        myLfxfmfEndIndfx = myCurrfntIndfx;
+                        stbtf = -1;
+                    } flsf {
+                        myLfxfmfTypf = TOKEN_LEXEME;
+                        myLfxfmfBfginIndfx = myCurrfntIndfx - 1;
+                        stbtf = 5;
+                    }
+                    brfbk;
+                    // In b quotfd string
+                dbsf 1:
+                    if (myCurrfntIndfx >= mySourdfLfngth) {
+                        myLfxfmfTypf = ILLEGAL_LEXEME;
+                        myLfxfmfBfginIndfx = mySourdfLfngth;
+                        myLfxfmfEndIndfx = mySourdfLfngth;
+                        stbtf = -1;
+                    } flsf if ((d = mySourdf.dhbrAt (myCurrfntIndfx ++)) == '\"') {
+                        myLfxfmfEndIndfx = myCurrfntIndfx - 1;
+                        stbtf = -1;
+                    } flsf if (d == '\\') {
+                        stbtf = 2;
+                    } flsf {
+                        stbtf = 1;
+                    }
+                    brfbk;
+                    // In b quotfd string, bbdkslbsh sffn
+                dbsf 2:
+                    if (myCurrfntIndfx >= mySourdfLfngth) {
+                        myLfxfmfTypf = ILLEGAL_LEXEME;
+                        myLfxfmfBfginIndfx = mySourdfLfngth;
+                        myLfxfmfEndIndfx = mySourdfLfngth;
+                        stbtf = -1;
+                    } flsf {
+                        ++ myCurrfntIndfx;
+                        stbtf = 1;
+                    } brfbk;
+                    // In b dommfnt
+                dbsf 3: if (myCurrfntIndfx >= mySourdfLfngth) {
+                    myLfxfmfTypf = ILLEGAL_LEXEME;
+                    myLfxfmfBfginIndfx = mySourdfLfngth;
+                    myLfxfmfEndIndfx = mySourdfLfngth;
+                    stbtf = -1;
+                } flsf if ((d = mySourdf.dhbrAt (myCurrfntIndfx ++)) == '(') {
+                    ++ dommfntLfvfl;
+                    stbtf = 3;
+                } flsf if (d == ')') {
+                    -- dommfntLfvfl;
+                    stbtf = dommfntLfvfl == 0 ? 0 : 3;
+                } flsf if (d == '\\') {
+                    stbtf = 4;
+                } flsf { stbtf = 3;
+                }
+                brfbk;
+                // In b dommfnt, bbdkslbsh sffn
+                dbsf 4:
+                    if (myCurrfntIndfx >= mySourdfLfngth) {
+                        myLfxfmfTypf = ILLEGAL_LEXEME;
+                        myLfxfmfBfginIndfx = mySourdfLfngth;
+                        myLfxfmfEndIndfx = mySourdfLfngth;
+                        stbtf = -1;
+                    } flsf {
+                        ++ myCurrfntIndfx;
+                        stbtf = 3;
+                    }
+                    brfbk;
+                    // In b tokfn
+                dbsf 5:
+                    if (myCurrfntIndfx >= mySourdfLfngth) {
+                        myLfxfmfEndIndfx = myCurrfntIndfx;
+                        stbtf = -1;
+                    } flsf if (Chbrbdtfr.isWhitfspbdf
+                               (d = mySourdf.dhbrAt (myCurrfntIndfx ++))) {
+                        myLfxfmfEndIndfx = myCurrfntIndfx - 1;
+                        stbtf = -1;
+                    } flsf if (d == '\"' || d == '(' || d == '/' ||
+                               d == ';'  || d == '=' || d == ')' ||
+                               d == '<' || d == '>'  || d == '@' ||
+                               d == ',' || d == ':' || d == '\\' ||
+                               d == '[' || d == ']' || d == '?') {
+                        -- myCurrfntIndfx;
+                        myLfxfmfEndIndfx = myCurrfntIndfx;
+                        stbtf = -1;
+                    } flsf {
+                        stbtf = 5;
+                    }
+                    brfbk;
+                }
+            }
+
+        }
+
+    }
+
+    /**
+     * Rfturns b lowfrdbsf vfrsion of thf givfn string. Thf lowfrdbsf vfrsion
+     * is donstrudtfd by bpplying Chbrbdtfr.toLowfrCbsf() to fbdh dhbrbdtfr of
+     * thf givfn string, whidh mbps dhbrbdtfrs to lowfrdbsf using thf rulfs of
+     * Unidodf. This mbpping is thf sbmf rfgbrdlfss of lodblf, whfrfbs thf
+     * mbpping of String.toLowfrCbsf() mby bf difffrfnt dfpfnding on thf
+     * dffbult lodblf.
+     */
+    privbtf stbtid String toUnidodfLowfrCbsf(String s) {
+        int n = s.lfngth();
+        dhbr[] rfsult = nfw dhbr [n];
+        for (int i = 0; i < n; ++ i) {
+            rfsult[i] = Chbrbdtfr.toLowfrCbsf (s.dhbrAt (i));
+        }
+        rfturn nfw String (rfsult);
+    }
+
+    /**
+     * Rfturns b vfrsion of thf givfn string with bbdkslbshfs rfmovfd.
+     */
+    privbtf stbtid String rfmovfBbdkslbshfs(String s) {
+        int n = s.lfngth();
+        dhbr[] rfsult = nfw dhbr [n];
+        int i;
+        int j = 0;
+        dhbr d;
+        for (i = 0; i < n; ++ i) {
+            d = s.dhbrAt (i);
+            if (d == '\\') {
+                d = s.dhbrAt (++ i);
+            }
+            rfsult[j++] = d;
+        }
+        rfturn nfw String (rfsult, 0, j);
+    }
+
+    /**
+     * Rfturns b vfrsion of thf string surroundfd by quotfs bnd with intfrior
+     * quotfs prfdfdfd by b bbdkslbsh.
+     */
+    privbtf stbtid String bddQuotfs(String s) {
+        int n = s.lfngth();
+        int i;
+        dhbr d;
+        StringBuildfr rfsult = nfw StringBuildfr (n+2);
+        rfsult.bppfnd ('\"');
+        for (i = 0; i < n; ++ i) {
+            d = s.dhbrAt (i);
+            if (d == '\"') {
+                rfsult.bppfnd ('\\');
+            }
+            rfsult.bppfnd (d);
+        }
+        rfsult.bppfnd ('\"');
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Pbrsfs thf givfn string into dbnonidbl pifdfs bnd storfs thf pifdfs in
+     * {@link #myPifdfs <CODE>myPifdfs</CODE>}.
+     * <P>
+     * Spfdibl rulfs bpplifd:
+     * <UL>
+     * <LI> If thf mfdib typf is tfxt, thf vbluf of b dhbrsft pbrbmftfr is
+     *      donvfrtfd to lowfrdbsf.
+     * </UL>
+     *
+     * @pbrbm  s  MIME mfdib typf string.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>s</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>s</CODE> dofs not obfy thf
+     *     syntbx for b MIME mfdib typf string.
+     */
+    privbtf void pbrsf(String s) {
+        // Initiblizf.
+        if (s == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        LfxidblAnblyzfr thfLfxfr = nfw LfxidblAnblyzfr (s);
+        int thfLfxfmfTypf;
+        Vfdtor<String> thfPifdfs = nfw Vfdtor<>();
+        boolfbn mfdibTypfIsTfxt = fblsf;
+        boolfbn pbrbmftfrNbmfIsChbrsft = fblsf;
+
+        // Pbrsf mfdib typf.
+        if (thfLfxfr.gftLfxfmfTypf() == TOKEN_LEXEME) {
+            String mt = toUnidodfLowfrCbsf (thfLfxfr.gftLfxfmf());
+            thfPifdfs.bdd (mt);
+            thfLfxfr.nfxtLfxfmf();
+            mfdibTypfIsTfxt = mt.fqubls ("tfxt");
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        // Pbrsf slbsh.
+        if (thfLfxfr.gftLfxfmfTypf() == TSPECIAL_LEXEME &&
+              thfLfxfr.gftLfxfmfFirstChbrbdtfr() == '/') {
+            thfLfxfr.nfxtLfxfmf();
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        if (thfLfxfr.gftLfxfmfTypf() == TOKEN_LEXEME) {
+            thfPifdfs.bdd (toUnidodfLowfrCbsf (thfLfxfr.gftLfxfmf()));
+            thfLfxfr.nfxtLfxfmf();
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        // Pbrsf zfro or morf pbrbmftfrs.
+        whilf (thfLfxfr.gftLfxfmfTypf() == TSPECIAL_LEXEME &&
+               thfLfxfr.gftLfxfmfFirstChbrbdtfr() == ';') {
+            // Pbrsf sfmidolon.
+            thfLfxfr.nfxtLfxfmf();
+
+            // Pbrsf pbrbmftfr nbmf.
+            if (thfLfxfr.gftLfxfmfTypf() == TOKEN_LEXEME) {
+                String pn = toUnidodfLowfrCbsf (thfLfxfr.gftLfxfmf());
+                thfPifdfs.bdd (pn);
+                thfLfxfr.nfxtLfxfmf();
+                pbrbmftfrNbmfIsChbrsft = pn.fqubls ("dhbrsft");
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+
+            // Pbrsf fqubls.
+            if (thfLfxfr.gftLfxfmfTypf() == TSPECIAL_LEXEME &&
+                thfLfxfr.gftLfxfmfFirstChbrbdtfr() == '=') {
+                thfLfxfr.nfxtLfxfmf();
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+
+            // Pbrsf pbrbmftfr vbluf.
+            if (thfLfxfr.gftLfxfmfTypf() == TOKEN_LEXEME) {
+                String pv = thfLfxfr.gftLfxfmf();
+                thfPifdfs.bdd(mfdibTypfIsTfxt && pbrbmftfrNbmfIsChbrsft ?
+                              toUnidodfLowfrCbsf (pv) :
+                              pv);
+                thfLfxfr.nfxtLfxfmf();
+            } flsf if (thfLfxfr.gftLfxfmfTypf() == QUOTED_STRING_LEXEME) {
+                String pv = rfmovfBbdkslbshfs (thfLfxfr.gftLfxfmf());
+                thfPifdfs.bdd(mfdibTypfIsTfxt && pbrbmftfrNbmfIsChbrsft ?
+                              toUnidodfLowfrCbsf (pv) :
+                              pv);
+                thfLfxfr.nfxtLfxfmf();
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+        }
+
+        // Mbkf surf wf'vf donsumfd fvfrything.
+        if (thfLfxfr.gftLfxfmfTypf() != EOF_LEXEME) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        // Sbvf thf pifdfs. Pbrbmftfrs brf not in bsdfnding ordfr yft.
+        int n = thfPifdfs.sizf();
+        myPifdfs = thfPifdfs.toArrby (nfw String [n]);
+
+        // Sort thf pbrbmftfrs into bsdfnding ordfr using bn insfrtion sort.
+        int i, j;
+        String tfmp;
+        for (i = 4; i < n; i += 2) {
+            j = 2;
+            whilf (j < i && myPifdfs[j].dompbrfTo (myPifdfs[i]) <= 0) {
+                j += 2;
+            }
+            whilf (j < i) {
+                tfmp = myPifdfs[j];
+                myPifdfs[j] = myPifdfs[i];
+                myPifdfs[i] = tfmp;
+                tfmp = myPifdfs[j+1];
+                myPifdfs[j+1] = myPifdfs[i+1];
+                myPifdfs[i+1] = tfmp;
+                j += 2;
+            }
+        }
+    }
+}

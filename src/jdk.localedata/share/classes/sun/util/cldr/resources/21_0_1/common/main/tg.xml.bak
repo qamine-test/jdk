@@ -1,220 +1,220 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6610 $"/>
-		<generation date="$Date: 2012-02-27 09:50:26 +0900 (Mon, 27 Feb 2012) $"/>
-		<language type="tg"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="be" draft="unconfirmed">Белорусӣ</language>
-			<language type="bg" draft="unconfirmed">Булғорӣ</language>
-			<language type="bh" draft="unconfirmed">Биҳарӣ</language>
-			<language type="bn" draft="unconfirmed">Бенгалӣ</language>
-			<language type="br" draft="unconfirmed">Бретонӣ</language>
-			<language type="bs" draft="unconfirmed">Босниягӣ</language>
-			<language type="ca" draft="unconfirmed">Каталанӣ</language>
-			<language type="cs" draft="unconfirmed">Чехӣ</language>
-			<language type="da" draft="unconfirmed">Даниягӣ</language>
-			<language type="de">Немисӣ</language>
-			<language type="el" draft="unconfirmed">Юнонӣ</language>
-			<language type="en">Англисӣ</language>
-			<language type="eo" draft="unconfirmed">Эсперанто</language>
-			<language type="es" draft="unconfirmed">Испанӣ</language>
-			<language type="et" draft="unconfirmed">Эстонӣ</language>
-			<language type="eu" draft="unconfirmed">Баскӣ</language>
-			<language type="fa" draft="unconfirmed">Форсӣ</language>
-			<language type="fi" draft="unconfirmed">Финнӣ</language>
-			<language type="fil" draft="unconfirmed">Филиппинӣ</language>
-			<language type="fo" draft="unconfirmed">Фарозӣ</language>
-			<language type="fr">Фаронсавӣ</language>
-			<language type="fy" draft="unconfirmed">Фрисианӣ</language>
-			<language type="ga" draft="unconfirmed">Ирландӣ</language>
-			<language type="gd" draft="unconfirmed">Шотландӣ-Галикӣ</language>
-			<language type="gl" draft="unconfirmed">Галисианӣ</language>
-			<language type="gn" draft="unconfirmed">Горанӣ</language>
-			<language type="gu" draft="unconfirmed">Гуҷаратӣ</language>
-			<language type="he" draft="unconfirmed">Яҳудӣ</language>
-			<language type="hi" draft="unconfirmed">Ҳиндӣ</language>
-			<language type="hu" draft="unconfirmed">Маҷорӣ</language>
-			<language type="ia" draft="unconfirmed">Байни забонӣ</language>
-			<language type="id" draft="unconfirmed">Индонезӣ</language>
-			<language type="is" draft="unconfirmed">Исландӣ</language>
-			<language type="ja" draft="unconfirmed">Ҷопонӣ</language>
-			<language type="jv" draft="unconfirmed">Ҷаванизӣ</language>
-			<language type="ka" draft="unconfirmed">Гурҷӣ</language>
-			<language type="ky" draft="unconfirmed">Қирғизӣ</language>
-			<language type="la" draft="unconfirmed">Лотинӣ</language>
-			<language type="lo" draft="unconfirmed">Лаосӣ</language>
-			<language type="lt" draft="unconfirmed">Литвонӣ</language>
-			<language type="lv" draft="unconfirmed">Латвиягӣ</language>
-			<language type="nl" draft="unconfirmed">Ҳолландӣ</language>
-			<language type="no" draft="unconfirmed">Норвегӣ</language>
-			<language type="or" draft="unconfirmed">Урисоӣ</language>
-			<language type="pl" draft="unconfirmed">Лаҳистонӣ</language>
-			<language type="pt" draft="unconfirmed">Португалӣ</language>
-			<language type="pt_BR" draft="unconfirmed">Португалӣ (Бразилия)</language>
-			<language type="ro" draft="unconfirmed">Руминӣ</language>
-			<language type="ru" draft="unconfirmed">Русӣ</language>
-            <language type="sv" draft="unconfirmed">Шведӣ</language>
-            <language type="tg" draft="unconfirmed">Тоҷикӣ</language>
-			<language type="ug" draft="unconfirmed">Ӯйғурӣ</language>
-			<language type="uk" draft="unconfirmed">Украинӣ</language>
-			<language type="ur" draft="unconfirmed">Урду</language>
-			<language type="uz" draft="unconfirmed">Ӯзбекӣ</language>
-			<language type="yi" draft="unconfirmed">Яҳудии Аврупои шарқӣ</language>
-			<language type="zh">Чинӣ</language>
-			<language type="zu" draft="unconfirmed">Зулу</language>
-		</languages>
-		<scripts>
-			<script type="Arab">Арабӣ</script>
-		</scripts>
-		<territories>
-			<territory type="AF">Афғонистан</territory>
-			<territory type="TO" draft="unconfirmed">Тонга</territory>
-		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[а б в г ғ д е ё ж з и ӣ й к қ л м н о п р с т у ӯ ф х ҳ ч ҷ ш ъ э ю я]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ц щ ы ь]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ф Х Ҳ Ч Ҷ Ш Ъ Э Ю Я]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart draft="unconfirmed">«</quotationStart>
-		<quotationEnd draft="unconfirmed">»</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">«</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">„</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">Янв</month>
-							<month type="2" draft="unconfirmed">Фев</month>
-							<month type="3" draft="unconfirmed">Мар</month>
-							<month type="4" draft="unconfirmed">Апр</month>
-							<month type="5" draft="unconfirmed">Май</month>
-							<month type="6" draft="unconfirmed">Июн</month>
-							<month type="7" draft="unconfirmed">Июл</month>
-							<month type="8" draft="unconfirmed">Авг</month>
-							<month type="9" draft="unconfirmed">Сен</month>
-							<month type="10" draft="unconfirmed">Окт</month>
-							<month type="11" draft="unconfirmed">Ноя</month>
-							<month type="12" draft="unconfirmed">Дек</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">Январ</month>
-							<month type="2" draft="unconfirmed">Феврал</month>
-							<month type="3" draft="unconfirmed">Март</month>
-							<month type="4" draft="unconfirmed">Апрел</month>
-							<month type="5" draft="unconfirmed">Май</month>
-							<month type="6" draft="unconfirmed">Июн</month>
-							<month type="7" draft="unconfirmed">Июл</month>
-							<month type="8" draft="unconfirmed">Август</month>
-							<month type="9" draft="unconfirmed">Сентябр</month>
-							<month type="10" draft="unconfirmed">Октябр</month>
-							<month type="11" draft="unconfirmed">Ноябр</month>
-							<month type="12" draft="unconfirmed">Декабр</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">Яшб</day>
-							<day type="mon" draft="unconfirmed">Дшб</day>
-							<day type="tue" draft="unconfirmed">Сшб</day>
-							<day type="wed" draft="unconfirmed">Чшб</day>
-							<day type="thu" draft="unconfirmed">Пшб</day>
-							<day type="fri" draft="unconfirmed">Ҷмъ</day>
-							<day type="sat" draft="unconfirmed">Шнб</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">Якшанбе</day>
-							<day type="mon" draft="unconfirmed">Душанбе</day>
-							<day type="tue" draft="unconfirmed">Сешанбе</day>
-							<day type="wed" draft="unconfirmed">Чоршанбе</day>
-							<day type="thu" draft="unconfirmed">Панҷшанбе</day>
-							<day type="fri" draft="unconfirmed">Ҷумъа</day>
-							<day type="sat" draft="unconfirmed">Шанбе</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="unconfirmed">пе. чо.</dayPeriod>
-							<dayPeriod type="pm" draft="unconfirmed">па. чо.</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0" draft="unconfirmed">Пеш аз милод</era>
-						<era type="1" draft="unconfirmed">ПаМ</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">ПеМ</era>
-						<era type="1" draft="unconfirmed">ПаМ</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, y MMMM dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">yy/MM/dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<currencies>
-			<currency type="TJS">
-				<displayName draft="unconfirmed">Сомонӣ</displayName>
-				<symbol draft="unconfirmed">сом</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6610 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-27 09:50:26 +0900 (Mon, 27 Ffb 2012) $"/>
+		<lbngubgf typf="tg"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Белорусӣ</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">Булғорӣ</lbngubgf>
+			<lbngubgf typf="bi" drbft="undonfirmfd">Биҳарӣ</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">Бенгалӣ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Бретонӣ</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">Босниягӣ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Каталанӣ</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">Чехӣ</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Даниягӣ</lbngubgf>
+			<lbngubgf typf="df">Немисӣ</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">Юнонӣ</lbngubgf>
+			<lbngubgf typf="fn">Англисӣ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Эсперанто</lbngubgf>
+			<lbngubgf typf="fs" drbft="undonfirmfd">Испанӣ</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">Эстонӣ</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">Баскӣ</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">Форсӣ</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">Финнӣ</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">Филиппинӣ</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Фарозӣ</lbngubgf>
+			<lbngubgf typf="fr">Фаронсавӣ</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">Фрисианӣ</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">Ирландӣ</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">Шотландӣ-Галикӣ</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">Галисианӣ</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">Горанӣ</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">Гуҷаратӣ</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">Яҳудӣ</lbngubgf>
+			<lbngubgf typf="ii" drbft="undonfirmfd">Ҳиндӣ</lbngubgf>
+			<lbngubgf typf="iu" drbft="undonfirmfd">Маҷорӣ</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">Байни забонӣ</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">Индонезӣ</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">Исландӣ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">Ҷопонӣ</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">Ҷаванизӣ</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">Гурҷӣ</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">Қирғизӣ</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">Лотинӣ</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">Лаосӣ</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">Литвонӣ</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">Латвиягӣ</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">Ҳолландӣ</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">Норвегӣ</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">Урисоӣ</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">Лаҳистонӣ</lbngubgf>
+			<lbngubgf typf="pt" drbft="undonfirmfd">Португалӣ</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">Португалӣ (Бразилия)</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">Руминӣ</lbngubgf>
+			<lbngubgf typf="ru" drbft="undonfirmfd">Русӣ</lbngubgf>
+            <lbngubgf typf="sv" drbft="undonfirmfd">Шведӣ</lbngubgf>
+            <lbngubgf typf="tg" drbft="undonfirmfd">Тоҷикӣ</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">Ӯйғурӣ</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">Украинӣ</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">Урду</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">Ӯзбекӣ</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">Яҳудии Аврупои шарқӣ</lbngubgf>
+			<lbngubgf typf="zi">Чинӣ</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">Зулу</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">Арабӣ</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="AF">Афғонистан</tfrritory>
+			<tfrritory typf="TO" drbft="undonfirmfd">Тонга</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[а б в г ғ д е ё ж з и ӣ й к қ л м н о п р с т у ӯ ф х ҳ ч ҷ ш ъ э ю я]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ц щ ы ь]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т У Ф Х Ҳ Ч Ҷ Ш Ъ Э Ю Я]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">«</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">»</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">«</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">„</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1" drbft="undonfirmfd">Янв</monti>
+							<monti typf="2" drbft="undonfirmfd">Фев</monti>
+							<monti typf="3" drbft="undonfirmfd">Мар</monti>
+							<monti typf="4" drbft="undonfirmfd">Апр</monti>
+							<monti typf="5" drbft="undonfirmfd">Май</monti>
+							<monti typf="6" drbft="undonfirmfd">Июн</monti>
+							<monti typf="7" drbft="undonfirmfd">Июл</monti>
+							<monti typf="8" drbft="undonfirmfd">Авг</monti>
+							<monti typf="9" drbft="undonfirmfd">Сен</monti>
+							<monti typf="10" drbft="undonfirmfd">Окт</monti>
+							<monti typf="11" drbft="undonfirmfd">Ноя</monti>
+							<monti typf="12" drbft="undonfirmfd">Дек</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1" drbft="undonfirmfd">Январ</monti>
+							<monti typf="2" drbft="undonfirmfd">Феврал</monti>
+							<monti typf="3" drbft="undonfirmfd">Март</monti>
+							<monti typf="4" drbft="undonfirmfd">Апрел</monti>
+							<monti typf="5" drbft="undonfirmfd">Май</monti>
+							<monti typf="6" drbft="undonfirmfd">Июн</monti>
+							<monti typf="7" drbft="undonfirmfd">Июл</monti>
+							<monti typf="8" drbft="undonfirmfd">Август</monti>
+							<monti typf="9" drbft="undonfirmfd">Сентябр</monti>
+							<monti typf="10" drbft="undonfirmfd">Октябр</monti>
+							<monti typf="11" drbft="undonfirmfd">Ноябр</monti>
+							<monti typf="12" drbft="undonfirmfd">Декабр</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">Яшб</dby>
+							<dby typf="mon" drbft="undonfirmfd">Дшб</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Сшб</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Чшб</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Пшб</dby>
+							<dby typf="fri" drbft="undonfirmfd">Ҷмъ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Шнб</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">Якшанбе</dby>
+							<dby typf="mon" drbft="undonfirmfd">Душанбе</dby>
+							<dby typf="tuf" drbft="undonfirmfd">Сешанбе</dby>
+							<dby typf="wfd" drbft="undonfirmfd">Чоршанбе</dby>
+							<dby typf="tiu" drbft="undonfirmfd">Панҷшанбе</dby>
+							<dby typf="fri" drbft="undonfirmfd">Ҷумъа</dby>
+							<dby typf="sbt" drbft="undonfirmfd">Шанбе</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm" drbft="undonfirmfd">пе. чо.</dbyPfriod>
+							<dbyPfriod typf="pm" drbft="undonfirmfd">па. чо.</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0" drbft="undonfirmfd">Пеш аз милод</frb>
+						<frb typf="1" drbft="undonfirmfd">ПаМ</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">ПеМ</frb>
+						<frb typf="1" drbft="undonfirmfd">ПаМ</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="TJS">
+				<displbyNbmf drbft="undonfirmfd">Сомонӣ</displbyNbmf>
+				<symbol drbft="undonfirmfd">сом</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 </ldml>
 

@@ -1,0 +1,2555 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Point;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.Window;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.ComponfntAdbptfr;
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Vfdtor;
+import jbvbx.swing.plbf.OptionPbnfUI;
+import jbvbx.swing.fvfnt.IntfrnblFrbmfEvfnt;
+import jbvbx.swing.fvfnt.IntfrnblFrbmfAdbptfr;
+import jbvbx.bddfssibility.*;
+import stbtid jbvbx.swing.ClifntPropfrtyKfy.PopupFbdtory_FORCE_HEAVYWEIGHT_POPUP;
+import sun.bwt.AWTAddfssor;
+
+/**
+ * <dodf>JOptionPbnf</dodf> mbkfs it fbsy to pop up b stbndbrd diblog box thbt
+ * prompts usfrs for b vbluf or informs thfm of somfthing.
+ * For informbtion bbout using <dodf>JOptionPbnf</dodf>, sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/diblog.html">How to Mbkf Diblogs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ *
+ * <p>
+ *
+ * Whilf thf <dodf>JOptionPbnf</dodf>
+ * dlbss mby bppfbr domplfx bfdbusf of thf lbrgf numbfr of mfthods, blmost
+ * bll usfs of this dlbss brf onf-linf dblls to onf of thf stbtid
+ * <dodf>showXxxDiblog</dodf> mfthods shown bflow:
+ * <blodkquotf>
+ *
+ *
+ * <tbblf bordfr=1 summbry="Common JOptionPbnf mfthod nbmfs bnd thfir dfsdriptions">
+ * <tr>
+ *    <th>Mfthod Nbmf</th>
+ *    <th>Dfsdription</th>
+ * </tr>
+ * <tr>
+ *    <td>showConfirmDiblog</td>
+ *    <td>Asks b donfirming qufstion, likf yfs/no/dbndfl.</td>
+ * </tr>
+ * <tr>
+ *    <td>showInputDiblog</td>
+ *    <td>Prompt for somf input.</td>
+ * </tr>
+ * <tr>
+ *   <td>showMfssbgfDiblog</td>
+ *   <td>Tfll thf usfr bbout somfthing thbt hbs hbppfnfd.</td>
+ * </tr>
+ * <tr>
+ *   <td>showOptionDiblog</td>
+ *   <td>Thf Grbnd Unifidbtion of thf bbovf thrff.</td>
+ * </tr>
+ * </tbblf>
+ *
+ * </blodkquotf>
+ * Ebdh of thfsf mfthods blso domfs in b <dodf>showIntfrnblXXX</dodf>
+ * flbvor, whidh usfs bn intfrnbl frbmf to hold thf diblog box (sff
+ * {@link JIntfrnblFrbmf}).
+ * Multiplf donvfnifndf mfthods hbvf blso bffn dffinfd -- ovfrlobdfd
+ * vfrsions of thf bbsid mfthods thbt usf difffrfnt pbrbmftfr lists.
+ * <p>
+ * All diblogs brf modbl. Ebdh <dodf>showXxxDiblog</dodf> mfthod blodks
+ * thf dbllfr until thf usfr's intfrbdtion is domplftf.
+ *
+ * <tbblf dfllspbding=6 dfllpbdding=4 bordfr=0 stylf="flobt:right" summbry="lbyout">
+ * <tr>
+ *  <td stylf="bbdkground-dolor:#FFf0d0" rowspbn=2>idon</td>
+ *  <td stylf="bbdkground-dolor:#FFf0d0">mfssbgf</td>
+ * </tr>
+ * <tr>
+ *  <td stylf="bbdkground-dolor:#FFf0d0">input vbluf</td>
+ * </tr>
+ * <tr>
+ *   <td stylf="bbdkground-dolor:#FFf0d0" dolspbn=2>option buttons</td>
+ * </tr>
+ * </tbblf>
+ *
+ * Thf bbsid bppfbrbndf of onf of thfsf diblog boxfs is gfnfrblly
+ * similbr to thf pidturf bt thf right, blthough thf vbrious
+ * look-bnd-fffls brf
+ * ultimbtfly rfsponsiblf for thf finbl rfsult.  In pbrtidulbr, thf
+ * look-bnd-fffls will bdjust thf lbyout to bddommodbtf thf option pbnf's
+ * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+ * <br stylf="dlfbr:bll">
+ * <p>
+ * <b>Pbrbmftfrs:</b><br>
+ * Thf pbrbmftfrs to thfsf mfthods follow donsistfnt pbttfrns:
+ * <blodkquotf>
+ * <dl>
+ * <dt>pbrfntComponfnt<dd>
+ * Dffinfs thf <dodf>Componfnt</dodf> thbt is to bf thf pbrfnt of this
+ * diblog box.
+ * It is usfd in two wbys: thf <dodf>Frbmf</dodf> thbt dontbins
+ * it is usfd bs thf <dodf>Frbmf</dodf>
+ * pbrfnt for thf diblog box, bnd its sdrffn doordinbtfs brf usfd in
+ * thf plbdfmfnt of thf diblog box. In gfnfrbl, thf diblog box is plbdfd
+ * just bflow thf domponfnt. This pbrbmftfr mby bf <dodf>null</dodf>,
+ * in whidh dbsf b dffbult <dodf>Frbmf</dodf> is usfd bs thf pbrfnt,
+ * bnd thf diblog will bf
+ * dfntfrfd on thf sdrffn (dfpfnding on thf {@litfrbl L&F}).
+ * <dt><b nbmf=mfssbgf>mfssbgf</b><dd>
+ * A dfsdriptivf mfssbgf to bf plbdfd in thf diblog box.
+ * In thf most dommon usbgf, mfssbgf is just b <dodf>String</dodf> or
+ * <dodf>String</dodf> donstbnt.
+ * Howfvfr, thf typf of this pbrbmftfr is bdtublly <dodf>Objfdt</dodf>. Its
+ * intfrprftbtion dfpfnds on its typf:
+ * <dl>
+ * <dt>Objfdt[]<dd>An brrby of objfdts is intfrprftfd bs b sfrifs of
+ *                 mfssbgfs (onf pfr objfdt) brrbngfd in b vfrtidbl stbdk.
+ *                 Thf intfrprftbtion is rfdursivf -- fbdh objfdt in thf
+ *                 brrby is intfrprftfd bddording to its typf.
+ * <dt>Componfnt<dd>Thf <dodf>Componfnt</dodf> is displbyfd in thf diblog.
+ * <dt>Idon<dd>Thf <dodf>Idon</dodf> is wrbppfd in b <dodf>JLbbfl</dodf>
+ *               bnd displbyfd in thf diblog.
+ * <dt>othfrs<dd>Thf objfdt is donvfrtfd to b <dodf>String</dodf> by dblling
+ *               its <dodf>toString</dodf> mfthod. Thf rfsult is wrbppfd in b
+ *               <dodf>JLbbfl</dodf> bnd displbyfd.
+ * </dl>
+ * <dt>mfssbgfTypf<dd>Dffinfs thf stylf of thf mfssbgf. Thf Look bnd Fffl
+ * mbnbgfr mby lby out thf diblog difffrfntly dfpfnding on this vbluf, bnd
+ * will oftfn providf b dffbult idon. Thf possiblf vblufs brf:
+ * <ul>
+ * <li><dodf>ERROR_MESSAGE</dodf>
+ * <li><dodf>INFORMATION_MESSAGE</dodf>
+ * <li><dodf>WARNING_MESSAGE</dodf>
+ * <li><dodf>QUESTION_MESSAGE</dodf>
+ * <li><dodf>PLAIN_MESSAGE</dodf>
+ * </ul>
+ * <dt>optionTypf<dd>Dffinfs thf sft of option buttons thbt bppfbr bt
+ * thf bottom of thf diblog box:
+ * <ul>
+ * <li><dodf>DEFAULT_OPTION</dodf>
+ * <li><dodf>YES_NO_OPTION</dodf>
+ * <li><dodf>YES_NO_CANCEL_OPTION</dodf>
+ * <li><dodf>OK_CANCEL_OPTION</dodf>
+ * </ul>
+ * You brfn't limitfd to this sft of option buttons.  You dbn providf bny
+ * buttons you wbnt using thf options pbrbmftfr.
+ * <dt>options<dd>A morf dftbilfd dfsdription of thf sft of option buttons
+ * thbt will bppfbr bt thf bottom of thf diblog box.
+ * Thf usubl vbluf for thf options pbrbmftfr is bn brrby of
+ * <dodf>String</dodf>s. But
+ * thf pbrbmftfr typf is bn brrby of <dodf>Objfdts</dodf>.
+ * A button is drfbtfd for fbdh objfdt dfpfnding on its typf:
+ * <dl>
+ * <dt>Componfnt<dd>Thf domponfnt is bddfd to thf button row dirfdtly.
+ * <dt>Idon<dd>A <dodf>JButton</dodf> is drfbtfd with this bs its lbbfl.
+ * <dt>othfr<dd>Thf <dodf>Objfdt</dodf> is donvfrtfd to b string using its
+ *              <dodf>toString</dodf> mfthod bnd thf rfsult is usfd to
+ *              lbbfl b <dodf>JButton</dodf>.
+ * </dl>
+ * <dt>idon<dd>A dfdorbtivf idon to bf plbdfd in thf diblog box. A dffbult
+ * vbluf for this is dftfrminfd by thf <dodf>mfssbgfTypf</dodf> pbrbmftfr.
+ * <dt>titlf<dd>Thf titlf for thf diblog box.
+ * <dt>initiblVbluf<dd>Thf dffbult sflfdtion (input vbluf).
+ * </dl>
+ * </blodkquotf>
+ * <p>
+ * Whfn thf sflfdtion is dhbngfd, <dodf>sftVbluf</dodf> is invokfd,
+ * whidh gfnfrbtfs b <dodf>PropfrtyChbngfEvfnt</dodf>.
+ * <p>
+ * If b <dodf>JOptionPbnf</dodf> hbs donfigurfd to bll input
+ * <dodf>sftWbntsInput</dodf>
+ * thf bound propfrty <dodf>JOptionPbnf.INPUT_VALUE_PROPERTY</dodf>
+ *  dbn blso bf listfnfd
+ * to, to dftfrminf whfn thf usfr hbs input or sflfdtfd b vbluf.
+ * <p>
+ * Whfn onf of thf <dodf>showXxxDiblog</dodf> mfthods rfturns bn intfgfr,
+ * thf possiblf vblufs brf:
+ * <ul>
+ * <li><dodf>YES_OPTION</dodf>
+ * <li><dodf>NO_OPTION</dodf>
+ * <li><dodf>CANCEL_OPTION</dodf>
+ * <li><dodf>OK_OPTION</dodf>
+ * <li><dodf>CLOSED_OPTION</dodf>
+ * </ul>
+ * <b>Exbmplfs:</b>
+ * <dl>
+ * <dt>Show bn frror diblog thbt displbys thf mfssbgf, 'blfrt':
+ * <dd><dodf>
+ * JOptionPbnf.showMfssbgfDiblog(null, "blfrt", "blfrt", JOptionPbnf.ERROR_MESSAGE);
+ * </dodf>
+ * <dt>Show bn intfrnbl informbtion diblog with thf mfssbgf, 'informbtion':
+ * <dd><prf>
+ * JOptionPbnf.showIntfrnblMfssbgfDiblog(frbmf, "informbtion",
+ *             "informbtion", JOptionPbnf.INFORMATION_MESSAGE);
+ * </prf>
+ * <dt>Show bn informbtion pbnfl with thf options yfs/no bnd mfssbgf 'dhoosf onf':
+ * <dd><prf>JOptionPbnf.showConfirmDiblog(null,
+ *             "dhoosf onf", "dhoosf onf", JOptionPbnf.YES_NO_OPTION);
+ * </prf>
+ * <dt>Show bn intfrnbl informbtion diblog with thf options yfs/no/dbndfl bnd
+ * mfssbgf 'plfbsf dhoosf onf' bnd titlf informbtion:
+ * <dd><prf>JOptionPbnf.showIntfrnblConfirmDiblog(frbmf,
+ *             "plfbsf dhoosf onf", "informbtion",
+ *             JOptionPbnf.YES_NO_CANCEL_OPTION, JOptionPbnf.INFORMATION_MESSAGE);
+ * </prf>
+ * <dt>Show b wbrning diblog with thf options OK, CANCEL, titlf 'Wbrning', bnd
+ * mfssbgf 'Clidk OK to dontinuf':
+ * <dd><prf>
+ * Objfdt[] options = { "OK", "CANCEL" };
+ * JOptionPbnf.showOptionDiblog(null, "Clidk OK to dontinuf", "Wbrning",
+ *             JOptionPbnf.DEFAULT_OPTION, JOptionPbnf.WARNING_MESSAGE,
+ *             null, options, options[0]);
+ * </prf>
+ * <dt>Show b diblog bsking thf usfr to typf in b String:
+ * <dd><dodf>
+ * String inputVbluf = JOptionPbnf.showInputDiblog("Plfbsf input b vbluf");
+ * </dodf>
+ * <dt>Show b diblog bsking thf usfr to sflfdt b String:
+ * <dd><prf>
+ * Objfdt[] possiblfVblufs = { "First", "Sfdond", "Third" };<br>
+ * Objfdt sflfdtfdVbluf = JOptionPbnf.showInputDiblog(null,
+ *             "Choosf onf", "Input",
+ *             JOptionPbnf.INFORMATION_MESSAGE, null,
+ *             possiblfVblufs, possiblfVblufs[0]);
+ * </prf>
+ * </dl>
+ * <b>Dirfdt Usf:</b><br>
+ * To drfbtf bnd usf bn <dodf>JOptionPbnf</dodf> dirfdtly, thf
+ * stbndbrd pbttfrn is roughly bs follows:
+ * <prf>
+ *     JOptionPbnf pbnf = nfw JOptionPbnf(<i>brgumfnts</i>);
+ *     pbnf.sft<i>.Xxxx(...); // Configurf</i>
+ *     JDiblog diblog = pbnf.drfbtfDiblog(<i>pbrfntComponfnt, titlf</i>);
+ *     diblog.show();
+ *     Objfdt sflfdtfdVbluf = pbnf.gftVbluf();
+ *     if(sflfdtfdVbluf == null)
+ *       rfturn CLOSED_OPTION;
+ *     <i>//If thfrf is <b>not</b> bn brrby of option buttons:</i>
+ *     if(options == null) {
+ *       if(sflfdtfdVbluf instbndfof Intfgfr)
+ *          rfturn ((Intfgfr)sflfdtfdVbluf).intVbluf();
+ *       rfturn CLOSED_OPTION;
+ *     }
+ *     <i>//If thfrf is bn brrby of option buttons:</i>
+ *     for(int dountfr = 0, mbxCountfr = options.lfngth;
+ *        dountfr &lt; mbxCountfr; dountfr++) {
+ *        if(options[dountfr].fqubls(sflfdtfdVbluf))
+ *        rfturn dountfr;
+ *     }
+ *     rfturn CLOSED_OPTION;
+ * </prf>
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff JIntfrnblFrbmf
+ *
+ * @bfbninfo
+ *      bttributf: isContbinfr truf
+ *    dfsdription: A domponfnt whidh implfmfnts stbndbrd diblog box dontrols.
+ *
+ * @buthor Jbmfs Gosling
+ * @buthor Sdott Violft
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JOptionPbnf fxtfnds JComponfnt implfmfnts Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "OptionPbnfUI";
+
+    /**
+     * Indidbtfs thbt thf usfr hbs not yft sflfdtfd b vbluf.
+     */
+    publid stbtid finbl Objfdt      UNINITIALIZED_VALUE = "uninitiblizfdVbluf";
+
+    //
+    // Option typfs
+    //
+
+    /**
+     * Typf mfbning Look bnd Fffl should not supply bny options -- only
+     * usf thf options from thf <dodf>JOptionPbnf</dodf>.
+     */
+    publid stbtid finbl int         DEFAULT_OPTION = -1;
+    /** Typf usfd for <dodf>showConfirmDiblog</dodf>. */
+    publid stbtid finbl int         YES_NO_OPTION = 0;
+    /** Typf usfd for <dodf>showConfirmDiblog</dodf>. */
+    publid stbtid finbl int         YES_NO_CANCEL_OPTION = 1;
+    /** Typf usfd for <dodf>showConfirmDiblog</dodf>. */
+    publid stbtid finbl int         OK_CANCEL_OPTION = 2;
+
+    //
+    // Rfturn vblufs.
+    //
+    /** Rfturn vbluf from dlbss mfthod if YES is dhosfn. */
+    publid stbtid finbl int         YES_OPTION = 0;
+    /** Rfturn vbluf from dlbss mfthod if NO is dhosfn. */
+    publid stbtid finbl int         NO_OPTION = 1;
+    /** Rfturn vbluf from dlbss mfthod if CANCEL is dhosfn. */
+    publid stbtid finbl int         CANCEL_OPTION = 2;
+    /** Rfturn vbluf form dlbss mfthod if OK is dhosfn. */
+    publid stbtid finbl int         OK_OPTION = 0;
+    /** Rfturn vbluf from dlbss mfthod if usfr dlosfs window without sflfdting
+     * bnything, morf thbn likfly this should bf trfbtfd bs fithfr b
+     * <dodf>CANCEL_OPTION</dodf> or <dodf>NO_OPTION</dodf>. */
+    publid stbtid finbl int         CLOSED_OPTION = -1;
+
+    //
+    // Mfssbgf typfs. Usfd by thf UI to dftfrminf whbt idon to displby,
+    // bnd possibly whbt bfhbvior to givf bbsfd on thf typf.
+    //
+    /** Usfd for frror mfssbgfs. */
+    publid stbtid finbl int  ERROR_MESSAGE = 0;
+    /** Usfd for informbtion mfssbgfs. */
+    publid stbtid finbl int  INFORMATION_MESSAGE = 1;
+    /** Usfd for wbrning mfssbgfs. */
+    publid stbtid finbl int  WARNING_MESSAGE = 2;
+    /** Usfd for qufstions. */
+    publid stbtid finbl int  QUESTION_MESSAGE = 3;
+    /** No idon is usfd. */
+    publid stbtid finbl int   PLAIN_MESSAGE = -1;
+
+    /** Bound propfrty nbmf for <dodf>idon</dodf>. */
+    publid stbtid finbl String      ICON_PROPERTY = "idon";
+    /** Bound propfrty nbmf for <dodf>mfssbgf</dodf>. */
+    publid stbtid finbl String      MESSAGE_PROPERTY = "mfssbgf";
+    /** Bound propfrty nbmf for <dodf>vbluf</dodf>. */
+    publid stbtid finbl String      VALUE_PROPERTY = "vbluf";
+    /** Bound propfrty nbmf for <dodf>option</dodf>. */
+    publid stbtid finbl String      OPTIONS_PROPERTY = "options";
+    /** Bound propfrty nbmf for <dodf>initiblVbluf</dodf>. */
+    publid stbtid finbl String      INITIAL_VALUE_PROPERTY = "initiblVbluf";
+    /** Bound propfrty nbmf for <dodf>typf</dodf>. */
+    publid stbtid finbl String      MESSAGE_TYPE_PROPERTY = "mfssbgfTypf";
+    /** Bound propfrty nbmf for <dodf>optionTypf</dodf>. */
+    publid stbtid finbl String      OPTION_TYPE_PROPERTY = "optionTypf";
+    /** Bound propfrty nbmf for <dodf>sflfdtionVblufs</dodf>. */
+    publid stbtid finbl String      SELECTION_VALUES_PROPERTY = "sflfdtionVblufs";
+    /** Bound propfrty nbmf for <dodf>initiblSflfdtionVbluf</dodf>. */
+    publid stbtid finbl String      INITIAL_SELECTION_VALUE_PROPERTY = "initiblSflfdtionVbluf";
+    /** Bound propfrty nbmf for <dodf>inputVbluf</dodf>. */
+    publid stbtid finbl String      INPUT_VALUE_PROPERTY = "inputVbluf";
+    /** Bound propfrty nbmf for <dodf>wbntsInput</dodf>. */
+    publid stbtid finbl String      WANTS_INPUT_PROPERTY = "wbntsInput";
+
+    /** Idon usfd in pbnf. */
+    trbnsifnt protfdtfd Idon                  idon;
+    /** Mfssbgf to displby. */
+    trbnsifnt protfdtfd Objfdt                mfssbgf;
+    /** Options to displby to thf usfr. */
+    trbnsifnt protfdtfd Objfdt[]              options;
+    /** Vbluf thbt should bf initiblly sflfdtfd in <dodf>options</dodf>. */
+    trbnsifnt protfdtfd Objfdt                initiblVbluf;
+    /** Mfssbgf typf. */
+    protfdtfd int                   mfssbgfTypf;
+    /**
+     * Option typf, onf of <dodf>DEFAULT_OPTION</dodf>,
+     * <dodf>YES_NO_OPTION</dodf>,
+     * <dodf>YES_NO_CANCEL_OPTION</dodf> or
+     * <dodf>OK_CANCEL_OPTION</dodf>.
+     */
+    protfdtfd int                   optionTypf;
+    /** Currfntly sflfdtfd vbluf, will bf b vblid option, or
+     * <dodf>UNINITIALIZED_VALUE</dodf> or <dodf>null</dodf>. */
+    trbnsifnt protfdtfd Objfdt                vbluf;
+    /** Arrby of vblufs thf usfr dbn dhoosf from. Look bnd fffl will
+     * providf thf UI domponfnt to dhoosf this from. */
+    protfdtfd trbnsifnt Objfdt[]              sflfdtionVblufs;
+    /** Vbluf thf usfr hbs input. */
+    protfdtfd trbnsifnt Objfdt                inputVbluf;
+    /** Initibl vbluf to sflfdt in <dodf>sflfdtionVblufs</dodf>. */
+    protfdtfd trbnsifnt Objfdt                initiblSflfdtionVbluf;
+    /** If truf, b UI widgft will bf providfd to thf usfr to gft input. */
+    protfdtfd boolfbn                         wbntsInput;
+
+
+    /**
+     * Shows b qufstion-mfssbgf diblog rfqufsting input from thf usfr. Thf
+     * diblog usfs thf dffbult frbmf, whidh usublly mfbns it is dfntfrfd on
+     * thf sdrffn.
+     *
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @rfturn usfr's input
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid String showInputDiblog(Objfdt mfssbgf)
+        throws HfbdlfssExdfption {
+        rfturn showInputDiblog(null, mfssbgf);
+    }
+
+    /**
+     * Shows b qufstion-mfssbgf diblog rfqufsting input from thf usfr, with
+     * thf input vbluf initiblizfd to <dodf>initiblSflfdtionVbluf</dodf>. Thf
+     * diblog usfs thf dffbult frbmf, whidh usublly mfbns it is dfntfrfd on
+     * thf sdrffn.
+     *
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm initiblSflfdtionVbluf thf vbluf usfd to initiblizf thf input
+     *                 fifld
+     * @rfturn usfr's input
+     * @sindf 1.4
+     */
+    publid stbtid String showInputDiblog(Objfdt mfssbgf, Objfdt initiblSflfdtionVbluf) {
+        rfturn showInputDiblog(null, mfssbgf, initiblSflfdtionVbluf);
+    }
+
+    /**
+     * Shows b qufstion-mfssbgf diblog rfqufsting input from thf usfr
+     * pbrfntfd to <dodf>pbrfntComponfnt</dodf>.
+     * Thf diblog is displbyfd on top of thf <dodf>Componfnt</dodf>'s
+     * frbmf, bnd is usublly positionfd bflow thf <dodf>Componfnt</dodf>.
+     *
+     * @pbrbm pbrfntComponfnt  thf pbrfnt <dodf>Componfnt</dodf> for thf
+     *          diblog
+     * @pbrbm mfssbgf  thf <dodf>Objfdt</dodf> to displby
+     * @fxdfption HfbdlfssExdfption if
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *    <dodf>truf</dodf>
+     * @rfturn usfr's input
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid String showInputDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf) throws HfbdlfssExdfption {
+        rfturn showInputDiblog(pbrfntComponfnt, mfssbgf, UIMbnbgfr.gftString(
+            "OptionPbnf.inputDiblogTitlf", pbrfntComponfnt), QUESTION_MESSAGE);
+    }
+
+    /**
+     * Shows b qufstion-mfssbgf diblog rfqufsting input from thf usfr bnd
+     * pbrfntfd to <dodf>pbrfntComponfnt</dodf>. Thf input vbluf will bf
+     * initiblizfd to <dodf>initiblSflfdtionVbluf</dodf>.
+     * Thf diblog is displbyfd on top of thf <dodf>Componfnt</dodf>'s
+     * frbmf, bnd is usublly positionfd bflow thf <dodf>Componfnt</dodf>.
+     *
+     * @pbrbm pbrfntComponfnt  thf pbrfnt <dodf>Componfnt</dodf> for thf
+     *          diblog
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm initiblSflfdtionVbluf thf vbluf usfd to initiblizf thf input
+     *                 fifld
+     * @rfturn usfr's input
+     * @sindf 1.4
+     */
+    publid stbtid String showInputDiblog(Componfnt pbrfntComponfnt, Objfdt mfssbgf,
+                                         Objfdt initiblSflfdtionVbluf) {
+        rfturn (String)showInputDiblog(pbrfntComponfnt, mfssbgf,
+                      UIMbnbgfr.gftString("OptionPbnf.inputDiblogTitlf",
+                      pbrfntComponfnt), QUESTION_MESSAGE, null, null,
+                      initiblSflfdtionVbluf);
+    }
+
+    /**
+     * Shows b diblog rfqufsting input from thf usfr pbrfntfd to
+     * <dodf>pbrfntComponfnt</dodf> with thf diblog hbving thf titlf
+     * <dodf>titlf</dodf> bnd mfssbgf typf <dodf>mfssbgfTypf</dodf>.
+     *
+     * @pbrbm pbrfntComponfnt  thf pbrfnt <dodf>Componfnt</dodf> for thf
+     *                  diblog
+     * @pbrbm mfssbgf  thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf    thf <dodf>String</dodf> to displby in thf diblog
+     *                  titlf bbr
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf thbt is to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @rfturn usfr's input
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid String showInputDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf, String titlf, int mfssbgfTypf)
+        throws HfbdlfssExdfption {
+        rfturn (String)showInputDiblog(pbrfntComponfnt, mfssbgf, titlf,
+                                       mfssbgfTypf, null, null, null);
+    }
+
+    /**
+     * Prompts thf usfr for input in b blodking diblog whfrf thf
+     * initibl sflfdtion, possiblf sflfdtions, bnd bll othfr options dbn
+     * bf spfdififd. Thf usfr will bblf to dhoosf from
+     * <dodf>sflfdtionVblufs</dodf>, whfrf <dodf>null</dodf> implifs thf
+     * usfr dbn input
+     * whbtfvfr thfy wish, usublly by mfbns of b <dodf>JTfxtFifld</dodf>.
+     * <dodf>initiblSflfdtionVbluf</dodf> is thf initibl vbluf to prompt
+     * thf usfr with. It is up to thf UI to dfdidf how bfst to rfprfsfnt
+     * thf <dodf>sflfdtionVblufs</dodf>, but usublly b
+     * <dodf>JComboBox</dodf>, <dodf>JList</dodf>, or
+     * <dodf>JTfxtFifld</dodf> will bf usfd.
+     *
+     * @pbrbm pbrfntComponfnt  thf pbrfnt <dodf>Componfnt</dodf> for thf
+     *                  diblog
+     * @pbrbm mfssbgf  thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf    thf <dodf>String</dodf> to displby in thf
+     *                  diblog titlf bbr
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm idon     thf <dodf>Idon</dodf> imbgf to displby
+     * @pbrbm sflfdtionVblufs bn brrby of <dodf>Objfdt</dodf>s thbt
+     *                  givfs thf possiblf sflfdtions
+     * @pbrbm initiblSflfdtionVbluf thf vbluf usfd to initiblizf thf input
+     *                 fifld
+     * @rfturn usfr's input, or <dodf>null</dodf> mfbning thf usfr
+     *                  dbndflfd thf input
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid Objfdt showInputDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf, String titlf, int mfssbgfTypf, Idon idon,
+        Objfdt[] sflfdtionVblufs, Objfdt initiblSflfdtionVbluf)
+        throws HfbdlfssExdfption {
+        JOptionPbnf    pbnf = nfw JOptionPbnf(mfssbgf, mfssbgfTypf,
+                                              OK_CANCEL_OPTION, idon,
+                                              null, null);
+
+        pbnf.sftWbntsInput(truf);
+        pbnf.sftSflfdtionVblufs(sflfdtionVblufs);
+        pbnf.sftInitiblSflfdtionVbluf(initiblSflfdtionVbluf);
+        pbnf.sftComponfntOrifntbtion(((pbrfntComponfnt == null) ?
+            gftRootFrbmf() : pbrfntComponfnt).gftComponfntOrifntbtion());
+
+        int stylf = stylfFromMfssbgfTypf(mfssbgfTypf);
+        JDiblog diblog = pbnf.drfbtfDiblog(pbrfntComponfnt, titlf, stylf);
+
+        pbnf.sflfdtInitiblVbluf();
+        diblog.show();
+        diblog.disposf();
+
+        Objfdt vbluf = pbnf.gftInputVbluf();
+
+        if (vbluf == UNINITIALIZED_VALUE) {
+            rfturn null;
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Brings up bn informbtion-mfssbgf diblog titlfd "Mfssbgf".
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf> in
+     *          whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid void showMfssbgfDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf) throws HfbdlfssExdfption {
+        showMfssbgfDiblog(pbrfntComponfnt, mfssbgf, UIMbnbgfr.gftString(
+                    "OptionPbnf.mfssbgfDiblogTitlf", pbrfntComponfnt),
+                    INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Brings up b diblog thbt displbys b mfssbgf using b dffbult
+     * idon dftfrminfd by thf <dodf>mfssbgfTypf</dodf> pbrbmftfr.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf>
+     *          in whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid void showMfssbgfDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf, String titlf, int mfssbgfTypf)
+        throws HfbdlfssExdfption {
+        showMfssbgfDiblog(pbrfntComponfnt, mfssbgf, titlf, mfssbgfTypf, null);
+    }
+
+    /**
+     * Brings up b diblog displbying b mfssbgf, spfdifying bll pbrbmftfrs.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf> in whidh thf
+     *                  diblog is displbyfd; if <dodf>null</dodf>,
+     *                  or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *                  <dodf>Frbmf</dodf>, b
+     *                  dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm idon      bn idon to displby in thf diblog thbt hflps thf usfr
+     *                  idfntify thf kind of mfssbgf thbt is bfing displbyfd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid void showMfssbgfDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf, String titlf, int mfssbgfTypf, Idon idon)
+        throws HfbdlfssExdfption {
+        showOptionDiblog(pbrfntComponfnt, mfssbgf, titlf, DEFAULT_OPTION,
+                         mfssbgfTypf, idon, null, null);
+    }
+
+    /**
+     * Brings up b diblog with thf options <i>Yfs</i>,
+     * <i>No</i> bnd <i>Cbndfl</i>; with thf
+     * titlf, <b>Sflfdt bn Option</b>.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf> in whidh thf
+     *                  diblog is displbyfd; if <dodf>null</dodf>,
+     *                  or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *                  <dodf>Frbmf</dodf>, b
+     *                  dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @rfturn bn intfgfr indidbting thf option sflfdtfd by thf usfr
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid int showConfirmDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf) throws HfbdlfssExdfption {
+        rfturn showConfirmDiblog(pbrfntComponfnt, mfssbgf,
+                                 UIMbnbgfr.gftString("OptionPbnf.titlfTfxt"),
+                                 YES_NO_CANCEL_OPTION);
+    }
+
+    /**
+     * Brings up b diblog whfrf thf numbfr of dhoidfs is dftfrminfd
+     * by thf <dodf>optionTypf</dodf> pbrbmftfr.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf> in whidh thf
+     *                  diblog is displbyfd; if <dodf>null</dodf>,
+     *                  or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *                  <dodf>Frbmf</dodf>, b
+     *                  dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm optionTypf bn int dfsignbting thf options bvbilbblf on thf diblog:
+     *                  <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  or <dodf>OK_CANCEL_OPTION</dodf>
+     * @rfturn bn int indidbting thf option sflfdtfd by thf usfr
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid int showConfirmDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf, String titlf, int optionTypf)
+        throws HfbdlfssExdfption {
+        rfturn showConfirmDiblog(pbrfntComponfnt, mfssbgf, titlf, optionTypf,
+                                 QUESTION_MESSAGE);
+    }
+
+    /**
+     * Brings up b diblog whfrf thf numbfr of dhoidfs is dftfrminfd
+     * by thf <dodf>optionTypf</dodf> pbrbmftfr, whfrf thf
+     * <dodf>mfssbgfTypf</dodf>
+     * pbrbmftfr dftfrminfs thf idon to displby.
+     * Thf <dodf>mfssbgfTypf</dodf> pbrbmftfr is primbrily usfd to supply
+     * b dffbult idon from thf Look bnd Fffl.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf> in
+     *                  whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *                  or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *                  <dodf>Frbmf</dodf>, b
+     *                  dffbult <dodf>Frbmf</dodf> is usfd.
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm optionTypf bn intfgfr dfsignbting thf options bvbilbblf
+     *                   on thf diblog: <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  or <dodf>OK_CANCEL_OPTION</dodf>
+     * @pbrbm mfssbgfTypf bn intfgfr dfsignbting thf kind of mfssbgf this is;
+     *                  primbrily usfd to dftfrminf thf idon from thf pluggbblf
+     *                  Look bnd Fffl: <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @rfturn bn intfgfr indidbting thf option sflfdtfd by thf usfr
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid int showConfirmDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf, String titlf, int optionTypf, int mfssbgfTypf)
+        throws HfbdlfssExdfption {
+        rfturn showConfirmDiblog(pbrfntComponfnt, mfssbgf, titlf, optionTypf,
+                                mfssbgfTypf, null);
+    }
+
+    /**
+     * Brings up b diblog with b spfdififd idon, whfrf thf numbfr of
+     * dhoidfs is dftfrminfd by thf <dodf>optionTypf</dodf> pbrbmftfr.
+     * Thf <dodf>mfssbgfTypf</dodf> pbrbmftfr is primbrily usfd to supply
+     * b dffbult idon from thf look bnd fffl.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf> in whidh thf
+     *                  diblog is displbyfd; if <dodf>null</dodf>,
+     *                  or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *                  <dodf>Frbmf</dodf>, b
+     *                  dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf Objfdt to displby
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm optionTypf bn int dfsignbting thf options bvbilbblf on thf diblog:
+     *                  <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  or <dodf>OK_CANCEL_OPTION</dodf>
+     * @pbrbm mfssbgfTypf bn int dfsignbting thf kind of mfssbgf this is,
+     *                  primbrily usfd to dftfrminf thf idon from thf pluggbblf
+     *                  Look bnd Fffl: <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm idon      thf idon to displby in thf diblog
+     * @rfturn bn int indidbting thf option sflfdtfd by thf usfr
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid int showConfirmDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf, String titlf, int optionTypf,
+        int mfssbgfTypf, Idon idon) throws HfbdlfssExdfption {
+        rfturn showOptionDiblog(pbrfntComponfnt, mfssbgf, titlf, optionTypf,
+                                mfssbgfTypf, idon, null, null);
+    }
+
+    /**
+     * Brings up b diblog with b spfdififd idon, whfrf thf initibl
+     * dhoidf is dftfrminfd by thf <dodf>initiblVbluf</dodf> pbrbmftfr bnd
+     * thf numbfr of dhoidfs is dftfrminfd by thf <dodf>optionTypf</dodf>
+     * pbrbmftfr.
+     * <p>
+     * If <dodf>optionTypf</dodf> is <dodf>YES_NO_OPTION</dodf>,
+     * or <dodf>YES_NO_CANCEL_OPTION</dodf>
+     * bnd thf <dodf>options</dodf> pbrbmftfr is <dodf>null</dodf>,
+     * thfn thf options brf
+     * supplifd by thf look bnd fffl.
+     * <p>
+     * Thf <dodf>mfssbgfTypf</dodf> pbrbmftfr is primbrily usfd to supply
+     * b dffbult idon from thf look bnd fffl.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf>
+     *                  in whidh thf diblog is displbyfd;  if
+     *                  <dodf>null</dodf>, or if thf
+     *                  <dodf>pbrfntComponfnt</dodf> hbs no
+     *                  <dodf>Frbmf</dodf>, b
+     *                  dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm optionTypf bn intfgfr dfsignbting thf options bvbilbblf on thf
+     *                  diblog: <dodf>DEFAULT_OPTION</dodf>,
+     *                  <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  or <dodf>OK_CANCEL_OPTION</dodf>
+     * @pbrbm mfssbgfTypf bn intfgfr dfsignbting thf kind of mfssbgf this is,
+     *                  primbrily usfd to dftfrminf thf idon from thf
+     *                  pluggbblf Look bnd Fffl: <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm idon      thf idon to displby in thf diblog
+     * @pbrbm options   bn brrby of objfdts indidbting thf possiblf dhoidfs
+     *                  thf usfr dbn mbkf; if thf objfdts brf domponfnts, thfy
+     *                  brf rfndfrfd propfrly; non-<dodf>String</dodf>
+     *                  objfdts brf
+     *                  rfndfrfd using thfir <dodf>toString</dodf> mfthods;
+     *                  if this pbrbmftfr is <dodf>null</dodf>,
+     *                  thf options brf dftfrminfd by thf Look bnd Fffl
+     * @pbrbm initiblVbluf thf objfdt thbt rfprfsfnts thf dffbult sflfdtion
+     *                  for thf diblog; only mfbningful if <dodf>options</dodf>
+     *                  is usfd; dbn bf <dodf>null</dodf>
+     * @rfturn bn intfgfr indidbting thf option dhosfn by thf usfr,
+     *                  or <dodf>CLOSED_OPTION</dodf> if thf usfr dlosfd
+     *                  thf diblog
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid int showOptionDiblog(Componfnt pbrfntComponfnt,
+        Objfdt mfssbgf, String titlf, int optionTypf, int mfssbgfTypf,
+        Idon idon, Objfdt[] options, Objfdt initiblVbluf)
+        throws HfbdlfssExdfption {
+        JOptionPbnf             pbnf = nfw JOptionPbnf(mfssbgf, mfssbgfTypf,
+                                                       optionTypf, idon,
+                                                       options, initiblVbluf);
+
+        pbnf.sftInitiblVbluf(initiblVbluf);
+        pbnf.sftComponfntOrifntbtion(((pbrfntComponfnt == null) ?
+            gftRootFrbmf() : pbrfntComponfnt).gftComponfntOrifntbtion());
+
+        int stylf = stylfFromMfssbgfTypf(mfssbgfTypf);
+        JDiblog diblog = pbnf.drfbtfDiblog(pbrfntComponfnt, titlf, stylf);
+
+        pbnf.sflfdtInitiblVbluf();
+        diblog.show();
+        diblog.disposf();
+
+        Objfdt        sflfdtfdVbluf = pbnf.gftVbluf();
+
+        if(sflfdtfdVbluf == null)
+            rfturn CLOSED_OPTION;
+        if(options == null) {
+            if(sflfdtfdVbluf instbndfof Intfgfr)
+                rfturn ((Intfgfr)sflfdtfdVbluf).intVbluf();
+            rfturn CLOSED_OPTION;
+        }
+        for(int dountfr = 0, mbxCountfr = options.lfngth;
+            dountfr < mbxCountfr; dountfr++) {
+            if(options[dountfr].fqubls(sflfdtfdVbluf))
+                rfturn dountfr;
+        }
+        rfturn CLOSED_OPTION;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b nfw <dodf>JDiblog</dodf> wrbpping
+     * <dodf>this</dodf> dfntfrfd on thf <dodf>pbrfntComponfnt</dodf>
+     * in thf <dodf>pbrfntComponfnt</dodf>'s frbmf.
+     * <dodf>titlf</dodf> is thf titlf of thf rfturnfd diblog.
+     * Thf rfturnfd <dodf>JDiblog</dodf> will not bf rfsizbblf by thf
+     * usfr, howfvfr progrbms dbn invokf <dodf>sftRfsizbblf</dodf> on
+     * thf <dodf>JDiblog</dodf> instbndf to dhbngf this propfrty.
+     * Thf rfturnfd <dodf>JDiblog</dodf> will bf sft up sudh thbt
+     * ondf it is dlosfd, or thf usfr dlidks on onf of thf buttons,
+     * thf optionpbnf's vbluf propfrty will bf sft bddordingly bnd
+     * thf diblog will bf dlosfd.  Ebdh timf thf diblog is mbdf visiblf,
+     * it will rfsft thf option pbnf's vbluf propfrty to
+     * <dodf>JOptionPbnf.UNINITIALIZED_VALUE</dodf> to fnsurf thf
+     * usfr's subsfqufnt bdtion dlosfs thf diblog propfrly.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf frbmf in whidh thf diblog
+     *          is displbyfd; if thf <dodf>pbrfntComponfnt</dodf> hbs
+     *          no <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @rfturn b nfw <dodf>JDiblog</dodf> dontbining this instbndf
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid JDiblog drfbtfDiblog(Componfnt pbrfntComponfnt, String titlf)
+        throws HfbdlfssExdfption {
+        int stylf = stylfFromMfssbgfTypf(gftMfssbgfTypf());
+        rfturn drfbtfDiblog(pbrfntComponfnt, titlf, stylf);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b nfw pbrfntlfss <dodf>JDiblog</dodf>
+     * with thf spfdififd titlf.
+     * Thf rfturnfd <dodf>JDiblog</dodf> will not bf rfsizbblf by thf
+     * usfr, howfvfr progrbms dbn invokf <dodf>sftRfsizbblf</dodf> on
+     * thf <dodf>JDiblog</dodf> instbndf to dhbngf this propfrty.
+     * Thf rfturnfd <dodf>JDiblog</dodf> will bf sft up sudh thbt
+     * ondf it is dlosfd, or thf usfr dlidks on onf of thf buttons,
+     * thf optionpbnf's vbluf propfrty will bf sft bddordingly bnd
+     * thf diblog will bf dlosfd.  Ebdh timf thf diblog is mbdf visiblf,
+     * it will rfsft thf option pbnf's vbluf propfrty to
+     * <dodf>JOptionPbnf.UNINITIALIZED_VALUE</dodf> to fnsurf thf
+     * usfr's subsfqufnt bdtion dlosfs thf diblog propfrly.
+     *
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @rfturn b nfw <dodf>JDiblog</dodf> dontbining this instbndf
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.6
+     */
+    publid JDiblog drfbtfDiblog(String titlf) throws HfbdlfssExdfption {
+        int stylf = stylfFromMfssbgfTypf(gftMfssbgfTypf());
+        JDiblog diblog = nfw JDiblog((Diblog) null, titlf, truf);
+        initDiblog(diblog, stylf, null);
+        rfturn diblog;
+    }
+
+    privbtf JDiblog drfbtfDiblog(Componfnt pbrfntComponfnt, String titlf,
+            int stylf)
+            throws HfbdlfssExdfption {
+
+        finbl JDiblog diblog;
+
+        Window window = JOptionPbnf.gftWindowForComponfnt(pbrfntComponfnt);
+        if (window instbndfof Frbmf) {
+            diblog = nfw JDiblog((Frbmf)window, titlf, truf);
+        } flsf {
+            diblog = nfw JDiblog((Diblog)window, titlf, truf);
+        }
+        if (window instbndfof SwingUtilitifs.ShbrfdOwnfrFrbmf) {
+            WindowListfnfr ownfrShutdownListfnfr =
+                    SwingUtilitifs.gftShbrfdOwnfrFrbmfShutdownListfnfr();
+            diblog.bddWindowListfnfr(ownfrShutdownListfnfr);
+        }
+        initDiblog(diblog, stylf, pbrfntComponfnt);
+        rfturn diblog;
+    }
+
+    privbtf void initDiblog(finbl JDiblog diblog, int stylf, Componfnt pbrfntComponfnt) {
+        diblog.sftComponfntOrifntbtion(this.gftComponfntOrifntbtion());
+        Contbinfr dontfntPbnf = diblog.gftContfntPbnf();
+
+        dontfntPbnf.sftLbyout(nfw BordfrLbyout());
+        dontfntPbnf.bdd(this, BordfrLbyout.CENTER);
+        diblog.sftRfsizbblf(fblsf);
+        if (JDiblog.isDffbultLookAndFfflDfdorbtfd()) {
+            boolfbn supportsWindowDfdorbtions =
+              UIMbnbgfr.gftLookAndFffl().gftSupportsWindowDfdorbtions();
+            if (supportsWindowDfdorbtions) {
+                diblog.sftUndfdorbtfd(truf);
+                gftRootPbnf().sftWindowDfdorbtionStylf(stylf);
+            }
+        }
+        diblog.pbdk();
+        diblog.sftLodbtionRflbtivfTo(pbrfntComponfnt);
+
+        finbl PropfrtyChbngfListfnfr listfnfr = nfw PropfrtyChbngfListfnfr() {
+            publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvfnt) {
+                // Lft thf dffbultClosfOpfrbtion hbndlf thf dlosing
+                // if thf usfr dlosfd thf window without sflfdting b button
+                // (nfwVbluf = null in thbt dbsf).  Othfrwisf, dlosf thf diblog.
+                if (diblog.isVisiblf() && fvfnt.gftSourdf() == JOptionPbnf.this &&
+                        (fvfnt.gftPropfrtyNbmf().fqubls(VALUE_PROPERTY)) &&
+                        fvfnt.gftNfwVbluf() != null &&
+                        fvfnt.gftNfwVbluf() != JOptionPbnf.UNINITIALIZED_VALUE) {
+                    diblog.sftVisiblf(fblsf);
+                }
+            }
+        };
+
+        WindowAdbptfr bdbptfr = nfw WindowAdbptfr() {
+            privbtf boolfbn gotFodus = fblsf;
+            publid void windowClosing(WindowEvfnt wf) {
+                sftVbluf(null);
+            }
+
+            publid void windowClosfd(WindowEvfnt f) {
+                rfmovfPropfrtyChbngfListfnfr(listfnfr);
+                diblog.gftContfntPbnf().rfmovfAll();
+            }
+
+            publid void windowGbinfdFodus(WindowEvfnt wf) {
+                // Ondf window gfts fodus, sft initibl fodus
+                if (!gotFodus) {
+                    sflfdtInitiblVbluf();
+                    gotFodus = truf;
+                }
+            }
+        };
+        diblog.bddWindowListfnfr(bdbptfr);
+        diblog.bddWindowFodusListfnfr(bdbptfr);
+        diblog.bddComponfntListfnfr(nfw ComponfntAdbptfr() {
+            publid void domponfntShown(ComponfntEvfnt df) {
+                // rfsft vbluf to fnsurf dlosing works propfrly
+                sftVbluf(JOptionPbnf.UNINITIALIZED_VALUE);
+            }
+        });
+
+        bddPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+
+    /**
+     * Brings up bn intfrnbl donfirmbtion diblog pbnfl. Thf diblog
+     * is b informbtion-mfssbgf diblog titlfd "Mfssbgf".
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf>
+     *          in whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf objfdt to displby
+     */
+    publid stbtid void showIntfrnblMfssbgfDiblog(Componfnt pbrfntComponfnt,
+                                                 Objfdt mfssbgf) {
+        showIntfrnblMfssbgfDiblog(pbrfntComponfnt, mfssbgf, UIMbnbgfr.
+                                 gftString("OptionPbnf.mfssbgfDiblogTitlf",
+                                 pbrfntComponfnt), INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Brings up bn intfrnbl diblog pbnfl thbt displbys b mfssbgf
+     * using b dffbult idon dftfrminfd by thf <dodf>mfssbgfTypf</dodf>
+     * pbrbmftfr.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf>
+     *          in whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     */
+    publid stbtid void showIntfrnblMfssbgfDiblog(Componfnt pbrfntComponfnt,
+                                                 Objfdt mfssbgf, String titlf,
+                                                 int mfssbgfTypf) {
+        showIntfrnblMfssbgfDiblog(pbrfntComponfnt, mfssbgf, titlf, mfssbgfTypf,null);
+    }
+
+    /**
+     * Brings up bn intfrnbl diblog pbnfl displbying b mfssbgf,
+     * spfdifying bll pbrbmftfrs.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf>
+     *          in whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm idon      bn idon to displby in thf diblog thbt hflps thf usfr
+     *                  idfntify thf kind of mfssbgf thbt is bfing displbyfd
+     */
+    publid stbtid void showIntfrnblMfssbgfDiblog(Componfnt pbrfntComponfnt,
+                                         Objfdt mfssbgf,
+                                         String titlf, int mfssbgfTypf,
+                                         Idon idon){
+        showIntfrnblOptionDiblog(pbrfntComponfnt, mfssbgf, titlf, DEFAULT_OPTION,
+                                 mfssbgfTypf, idon, null, null);
+    }
+
+    /**
+     * Brings up bn intfrnbl diblog pbnfl with thf options <i>Yfs</i>, <i>No</i>
+     * bnd <i>Cbndfl</i>; with thf titlf, <b>Sflfdt bn Option</b>.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf> in
+     *          whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf <dodf>Objfdt</dodf> to displby
+     * @rfturn bn intfgfr indidbting thf option sflfdtfd by thf usfr
+     */
+    publid stbtid int showIntfrnblConfirmDiblog(Componfnt pbrfntComponfnt,
+                                                Objfdt mfssbgf) {
+        rfturn showIntfrnblConfirmDiblog(pbrfntComponfnt, mfssbgf,
+                                 UIMbnbgfr.gftString("OptionPbnf.titlfTfxt"),
+                                 YES_NO_CANCEL_OPTION);
+    }
+
+    /**
+     * Brings up b intfrnbl diblog pbnfl whfrf thf numbfr of dhoidfs
+     * is dftfrminfd by thf <dodf>optionTypf</dodf> pbrbmftfr.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf>
+     *          in whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf objfdt to displby in thf diblog; b
+     *          <dodf>Componfnt</dodf> objfdt is rfndfrfd bs b
+     *          <dodf>Componfnt</dodf>; b <dodf>String</dodf>
+     *          objfdt is rfndfrfd bs b string; othfr objfdts
+     *          brf donvfrtfd to b <dodf>String</dodf> using thf
+     *          <dodf>toString</dodf> mfthod
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm optionTypf bn intfgfr dfsignbting thf options
+     *          bvbilbblf on thf diblog: <dodf>YES_NO_OPTION</dodf>,
+     *          or <dodf>YES_NO_CANCEL_OPTION</dodf>
+     * @rfturn bn intfgfr indidbting thf option sflfdtfd by thf usfr
+     */
+    publid stbtid int showIntfrnblConfirmDiblog(Componfnt pbrfntComponfnt,
+                                                Objfdt mfssbgf, String titlf,
+                                                int optionTypf) {
+        rfturn showIntfrnblConfirmDiblog(pbrfntComponfnt, mfssbgf, titlf, optionTypf,
+                                         QUESTION_MESSAGE);
+    }
+
+    /**
+     * Brings up bn intfrnbl diblog pbnfl whfrf thf numbfr of dhoidfs
+     * is dftfrminfd by thf <dodf>optionTypf</dodf> pbrbmftfr, whfrf
+     * thf <dodf>mfssbgfTypf</dodf> pbrbmftfr dftfrminfs thf idon to displby.
+     * Thf <dodf>mfssbgfTypf</dodf> pbrbmftfr is primbrily usfd to supply
+     * b dffbult idon from thf Look bnd Fffl.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf> in
+     *          whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf objfdt to displby in thf diblog; b
+     *          <dodf>Componfnt</dodf> objfdt is rfndfrfd bs b
+     *          <dodf>Componfnt</dodf>; b <dodf>String</dodf>
+     *          objfdt is rfndfrfd bs b string; othfr objfdts brf
+     *          donvfrtfd to b <dodf>String</dodf> using thf
+     *          <dodf>toString</dodf> mfthod
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm optionTypf bn intfgfr dfsignbting thf options
+     *          bvbilbblf on thf diblog:
+     *          <dodf>YES_NO_OPTION</dodf>, or <dodf>YES_NO_CANCEL_OPTION</dodf>
+     * @pbrbm mfssbgfTypf bn intfgfr dfsignbting thf kind of mfssbgf this is,
+     *          primbrily usfd to dftfrminf thf idon from thf
+     *          pluggbblf Look bnd Fffl: <dodf>ERROR_MESSAGE</dodf>,
+     *          <dodf>INFORMATION_MESSAGE</dodf>,
+     *          <dodf>WARNING_MESSAGE</dodf>, <dodf>QUESTION_MESSAGE</dodf>,
+     *          or <dodf>PLAIN_MESSAGE</dodf>
+     * @rfturn bn intfgfr indidbting thf option sflfdtfd by thf usfr
+     */
+    publid stbtid int showIntfrnblConfirmDiblog(Componfnt pbrfntComponfnt,
+                                        Objfdt mfssbgf,
+                                        String titlf, int optionTypf,
+                                        int mfssbgfTypf) {
+        rfturn showIntfrnblConfirmDiblog(pbrfntComponfnt, mfssbgf, titlf, optionTypf,
+                                         mfssbgfTypf, null);
+    }
+
+    /**
+     * Brings up bn intfrnbl diblog pbnfl with b spfdififd idon, whfrf
+     * thf numbfr of dhoidfs is dftfrminfd by thf <dodf>optionTypf</dodf>
+     * pbrbmftfr.
+     * Thf <dodf>mfssbgfTypf</dodf> pbrbmftfr is primbrily usfd to supply
+     * b dffbult idon from thf look bnd fffl.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf>
+     *          in whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf pbrfntComponfnt hbs no Frbmf, b
+     *          dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf objfdt to displby in thf diblog; b
+     *          <dodf>Componfnt</dodf> objfdt is rfndfrfd bs b
+     *          <dodf>Componfnt</dodf>; b <dodf>String</dodf>
+     *          objfdt is rfndfrfd bs b string; othfr objfdts brf
+     *          donvfrtfd to b <dodf>String</dodf> using thf
+     *          <dodf>toString</dodf> mfthod
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm optionTypf bn intfgfr dfsignbting thf options bvbilbblf
+     *          on thf diblog:
+     *          <dodf>YES_NO_OPTION</dodf>, or
+     *          <dodf>YES_NO_CANCEL_OPTION</dodf>.
+     * @pbrbm mfssbgfTypf bn intfgfr dfsignbting thf kind of mfssbgf this is,
+     *          primbrily usfd to dftfrminf thf idon from thf pluggbblf
+     *          Look bnd Fffl: <dodf>ERROR_MESSAGE</dodf>,
+     *          <dodf>INFORMATION_MESSAGE</dodf>,
+     *          <dodf>WARNING_MESSAGE</dodf>, <dodf>QUESTION_MESSAGE</dodf>,
+     *          or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm idon      thf idon to displby in thf diblog
+     * @rfturn bn intfgfr indidbting thf option sflfdtfd by thf usfr
+     */
+    publid stbtid int showIntfrnblConfirmDiblog(Componfnt pbrfntComponfnt,
+                                        Objfdt mfssbgf,
+                                        String titlf, int optionTypf,
+                                        int mfssbgfTypf, Idon idon) {
+        rfturn showIntfrnblOptionDiblog(pbrfntComponfnt, mfssbgf, titlf, optionTypf,
+                                        mfssbgfTypf, idon, null, null);
+    }
+
+    /**
+     * Brings up bn intfrnbl diblog pbnfl with b spfdififd idon, whfrf
+     * thf initibl dhoidf is dftfrminfd by thf <dodf>initiblVbluf</dodf>
+     * pbrbmftfr bnd thf numbfr of dhoidfs is dftfrminfd by thf
+     * <dodf>optionTypf</dodf> pbrbmftfr.
+     * <p>
+     * If <dodf>optionTypf</dodf> is <dodf>YES_NO_OPTION</dodf>, or
+     * <dodf>YES_NO_CANCEL_OPTION</dodf>
+     * bnd thf <dodf>options</dodf> pbrbmftfr is <dodf>null</dodf>,
+     * thfn thf options brf supplifd by thf Look bnd Fffl.
+     * <p>
+     * Thf <dodf>mfssbgfTypf</dodf> pbrbmftfr is primbrily usfd to supply
+     * b dffbult idon from thf look bnd fffl.
+     *
+     * @pbrbm pbrfntComponfnt dftfrminfs thf <dodf>Frbmf</dodf>
+     *          in whidh thf diblog is displbyfd; if <dodf>null</dodf>,
+     *          or if thf <dodf>pbrfntComponfnt</dodf> hbs no
+     *          <dodf>Frbmf</dodf>, b dffbult <dodf>Frbmf</dodf> is usfd
+     * @pbrbm mfssbgf   thf objfdt to displby in thf diblog; b
+     *          <dodf>Componfnt</dodf> objfdt is rfndfrfd bs b
+     *          <dodf>Componfnt</dodf>; b <dodf>String</dodf>
+     *          objfdt is rfndfrfd bs b string. Othfr objfdts brf
+     *          donvfrtfd to b <dodf>String</dodf> using thf
+     *          <dodf>toString</dodf> mfthod
+     * @pbrbm titlf     thf titlf string for thf diblog
+     * @pbrbm optionTypf bn intfgfr dfsignbting thf options bvbilbblf
+     *          on thf diblog: <dodf>YES_NO_OPTION</dodf>,
+     *          or <dodf>YES_NO_CANCEL_OPTION</dodf>
+     * @pbrbm mfssbgfTypf bn intfgfr dfsignbting thf kind of mfssbgf this is;
+     *          primbrily usfd to dftfrminf thf idon from thf
+     *          pluggbblf Look bnd Fffl: <dodf>ERROR_MESSAGE</dodf>,
+     *          <dodf>INFORMATION_MESSAGE</dodf>,
+     *          <dodf>WARNING_MESSAGE</dodf>, <dodf>QUESTION_MESSAGE</dodf>,
+     *          or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm idon      thf idon to displby in thf diblog
+     * @pbrbm options   bn brrby of objfdts indidbting thf possiblf dhoidfs
+     *          thf usfr dbn mbkf; if thf objfdts brf domponfnts, thfy
+     *          brf rfndfrfd propfrly; non-<dodf>String</dodf>
+     *          objfdts brf rfndfrfd using thfir <dodf>toString</dodf>
+     *          mfthods; if this pbrbmftfr is <dodf>null</dodf>,
+     *          thf options brf dftfrminfd by thf Look bnd Fffl
+     * @pbrbm initiblVbluf thf objfdt thbt rfprfsfnts thf dffbult sflfdtion
+     *          for thf diblog; only mfbningful if <dodf>options</dodf>
+     *          is usfd; dbn bf <dodf>null</dodf>
+     * @rfturn bn intfgfr indidbting thf option dhosfn by thf usfr,
+     *          or <dodf>CLOSED_OPTION</dodf> if thf usfr dlosfd thf Diblog
+     */
+    publid stbtid int showIntfrnblOptionDiblog(Componfnt pbrfntComponfnt,
+                                       Objfdt mfssbgf,
+                                       String titlf, int optionTypf,
+                                       int mfssbgfTypf, Idon idon,
+                                       Objfdt[] options, Objfdt initiblVbluf) {
+        JOptionPbnf pbnf = nfw JOptionPbnf(mfssbgf, mfssbgfTypf,
+                optionTypf, idon, options, initiblVbluf);
+        pbnf.putClifntPropfrty(PopupFbdtory_FORCE_HEAVYWEIGHT_POPUP,
+                Boolfbn.TRUE);
+        Componfnt fo = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                gftFodusOwnfr();
+
+        pbnf.sftInitiblVbluf(initiblVbluf);
+
+        JIntfrnblFrbmf diblog =
+            pbnf.drfbtfIntfrnblFrbmf(pbrfntComponfnt, titlf);
+        pbnf.sflfdtInitiblVbluf();
+        diblog.sftVisiblf(truf);
+
+        /* Sindf bll input will bf blodkfd until this diblog is dismissfd,
+         * mbkf surf its pbrfnt dontbinfrs brf visiblf first (this domponfnt
+         * is tfstfd bflow).  This is nfdfssbry for JApplfts, bfdbusf
+         * bfdbusf bn bpplft normblly isn't mbdf visiblf until bftfr its
+         * stbrt() mfthod rfturns -- if this mfthod is dbllfd from stbrt(),
+         * thf bpplft will bppfbr to hbng whilf bn invisiblf modbl frbmf
+         * wbits for input.
+         */
+        if (diblog.isVisiblf() && !diblog.isShowing()) {
+            Contbinfr pbrfnt = diblog.gftPbrfnt();
+            whilf (pbrfnt != null) {
+                if (pbrfnt.isVisiblf() == fblsf) {
+                    pbrfnt.sftVisiblf(truf);
+                }
+                pbrfnt = pbrfnt.gftPbrfnt();
+            }
+        }
+
+        AWTAddfssor.gftContbinfrAddfssor().stbrtLWModbl(diblog);
+
+        if (pbrfntComponfnt instbndfof JIntfrnblFrbmf) {
+            try {
+                ((JIntfrnblFrbmf)pbrfntComponfnt).sftSflfdtfd(truf);
+            } dbtdh (jbvb.bfbns.PropfrtyVftoExdfption f) {
+            }
+        }
+
+        Objfdt sflfdtfdVbluf = pbnf.gftVbluf();
+
+        if (fo != null && fo.isShowing()) {
+            fo.rfqufstFodus();
+        }
+        if (sflfdtfdVbluf == null) {
+            rfturn CLOSED_OPTION;
+        }
+        if (options == null) {
+            if (sflfdtfdVbluf instbndfof Intfgfr) {
+                rfturn ((Intfgfr)sflfdtfdVbluf).intVbluf();
+            }
+            rfturn CLOSED_OPTION;
+        }
+        for(int dountfr = 0, mbxCountfr = options.lfngth;
+            dountfr < mbxCountfr; dountfr++) {
+            if (options[dountfr].fqubls(sflfdtfdVbluf)) {
+                rfturn dountfr;
+            }
+        }
+        rfturn CLOSED_OPTION;
+    }
+
+    /**
+     * Shows bn intfrnbl qufstion-mfssbgf diblog rfqufsting input from
+     * thf usfr pbrfntfd to <dodf>pbrfntComponfnt</dodf>. Thf diblog
+     * is displbyfd in thf <dodf>Componfnt</dodf>'s frbmf,
+     * bnd is usublly positionfd bflow thf <dodf>Componfnt</dodf>.
+     *
+     * @pbrbm pbrfntComponfnt  thf pbrfnt <dodf>Componfnt</dodf>
+     *          for thf diblog
+     * @pbrbm mfssbgf  thf <dodf>Objfdt</dodf> to displby
+     * @rfturn usfr's input
+     */
+    publid stbtid String showIntfrnblInputDiblog(Componfnt pbrfntComponfnt,
+                                                 Objfdt mfssbgf) {
+        rfturn showIntfrnblInputDiblog(pbrfntComponfnt, mfssbgf, UIMbnbgfr.
+               gftString("OptionPbnf.inputDiblogTitlf", pbrfntComponfnt),
+               QUESTION_MESSAGE);
+    }
+
+    /**
+     * Shows bn intfrnbl diblog rfqufsting input from thf usfr pbrfntfd
+     * to <dodf>pbrfntComponfnt</dodf> with thf diblog hbving thf titlf
+     * <dodf>titlf</dodf> bnd mfssbgf typf <dodf>mfssbgfTypf</dodf>.
+     *
+     * @pbrbm pbrfntComponfnt thf pbrfnt <dodf>Componfnt</dodf> for thf diblog
+     * @pbrbm mfssbgf  thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf    thf <dodf>String</dodf> to displby in thf
+     *          diblog titlf bbr
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf thbt is to bf displbyfd:
+     *                    ERROR_MESSAGE, INFORMATION_MESSAGE, WARNING_MESSAGE,
+     *                    QUESTION_MESSAGE, or PLAIN_MESSAGE
+     * @rfturn usfr's input
+     */
+    publid stbtid String showIntfrnblInputDiblog(Componfnt pbrfntComponfnt,
+                             Objfdt mfssbgf, String titlf, int mfssbgfTypf) {
+        rfturn (String)showIntfrnblInputDiblog(pbrfntComponfnt, mfssbgf, titlf,
+                                       mfssbgfTypf, null, null, null);
+    }
+
+    /**
+     * Prompts thf usfr for input in b blodking intfrnbl diblog whfrf
+     * thf initibl sflfdtion, possiblf sflfdtions, bnd bll othfr
+     * options dbn bf spfdififd. Thf usfr will bblf to dhoosf from
+     * <dodf>sflfdtionVblufs</dodf>, whfrf <dodf>null</dodf>
+     * implifs thf usfr dbn input
+     * whbtfvfr thfy wish, usublly by mfbns of b <dodf>JTfxtFifld</dodf>.
+     * <dodf>initiblSflfdtionVbluf</dodf> is thf initibl vbluf to prompt
+     * thf usfr with. It is up to thf UI to dfdidf how bfst to rfprfsfnt
+     * thf <dodf>sflfdtionVblufs</dodf>, but usublly b
+     * <dodf>JComboBox</dodf>, <dodf>JList</dodf>, or
+     * <dodf>JTfxtFifld</dodf> will bf usfd.
+     *
+     * @pbrbm pbrfntComponfnt thf pbrfnt <dodf>Componfnt</dodf> for thf diblog
+     * @pbrbm mfssbgf  thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm titlf    thf <dodf>String</dodf> to displby in thf diblog
+     *          titlf bbr
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>, <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>, or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm idon     thf <dodf>Idon</dodf> imbgf to displby
+     * @pbrbm sflfdtionVblufs bn brrby of <dodf>Objfdts</dodf> thbt
+     *                  givfs thf possiblf sflfdtions
+     * @pbrbm initiblSflfdtionVbluf thf vbluf usfd to initiblizf thf input
+     *                  fifld
+     * @rfturn usfr's input, or <dodf>null</dodf> mfbning thf usfr
+     *          dbndflfd thf input
+     */
+    publid stbtid Objfdt showIntfrnblInputDiblog(Componfnt pbrfntComponfnt,
+            Objfdt mfssbgf, String titlf, int mfssbgfTypf, Idon idon,
+            Objfdt[] sflfdtionVblufs, Objfdt initiblSflfdtionVbluf) {
+        JOptionPbnf pbnf = nfw JOptionPbnf(mfssbgf, mfssbgfTypf,
+                OK_CANCEL_OPTION, idon, null, null);
+        pbnf.putClifntPropfrty(PopupFbdtory_FORCE_HEAVYWEIGHT_POPUP,
+                Boolfbn.TRUE);
+        Componfnt fo = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                gftFodusOwnfr();
+
+        pbnf.sftWbntsInput(truf);
+        pbnf.sftSflfdtionVblufs(sflfdtionVblufs);
+        pbnf.sftInitiblSflfdtionVbluf(initiblSflfdtionVbluf);
+
+        JIntfrnblFrbmf diblog =
+            pbnf.drfbtfIntfrnblFrbmf(pbrfntComponfnt, titlf);
+
+        pbnf.sflfdtInitiblVbluf();
+        diblog.sftVisiblf(truf);
+
+        /* Sindf bll input will bf blodkfd until this diblog is dismissfd,
+         * mbkf surf its pbrfnt dontbinfrs brf visiblf first (this domponfnt
+         * is tfstfd bflow).  This is nfdfssbry for JApplfts, bfdbusf
+         * bfdbusf bn bpplft normblly isn't mbdf visiblf until bftfr its
+         * stbrt() mfthod rfturns -- if this mfthod is dbllfd from stbrt(),
+         * thf bpplft will bppfbr to hbng whilf bn invisiblf modbl frbmf
+         * wbits for input.
+         */
+        if (diblog.isVisiblf() && !diblog.isShowing()) {
+            Contbinfr pbrfnt = diblog.gftPbrfnt();
+            whilf (pbrfnt != null) {
+                if (pbrfnt.isVisiblf() == fblsf) {
+                    pbrfnt.sftVisiblf(truf);
+                }
+                pbrfnt = pbrfnt.gftPbrfnt();
+            }
+        }
+
+        AWTAddfssor.gftContbinfrAddfssor().stbrtLWModbl(diblog);
+
+        if (pbrfntComponfnt instbndfof JIntfrnblFrbmf) {
+            try {
+                ((JIntfrnblFrbmf)pbrfntComponfnt).sftSflfdtfd(truf);
+            } dbtdh (jbvb.bfbns.PropfrtyVftoExdfption f) {
+            }
+        }
+
+        if (fo != null && fo.isShowing()) {
+            fo.rfqufstFodus();
+        }
+        Objfdt vbluf = pbnf.gftInputVbluf();
+
+        if (vbluf == UNINITIALIZED_VALUE) {
+            rfturn null;
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns bn instbndf of <dodf>JIntfrnblFrbmf</dodf>.
+     * Thf intfrnbl frbmf is drfbtfd with thf spfdififd titlf,
+     * bnd wrbpping thf <dodf>JOptionPbnf</dodf>.
+     * Thf rfturnfd <dodf>JIntfrnblFrbmf</dodf> is
+     * bddfd to thf <dodf>JDfsktopPbnf</dodf> bndfstor of
+     * <dodf>pbrfntComponfnt</dodf>, or domponfnts
+     * pbrfnt if onf its bndfstors isn't b <dodf>JDfsktopPbnf</dodf>,
+     * or if <dodf>pbrfntComponfnt</dodf>
+     * dofsn't hbvf b pbrfnt thfn b <dodf>RuntimfExdfption</dodf> is thrown.
+     *
+     * @pbrbm pbrfntComponfnt  thf pbrfnt <dodf>Componfnt</dodf> for
+     *          thf intfrnbl frbmf
+     * @pbrbm titlf    thf <dodf>String</dodf> to displby in thf
+     *          frbmf's titlf bbr
+     * @rfturn b <dodf>JIntfrnblFrbmf</dodf> dontbining b
+     *          <dodf>JOptionPbnf</dodf>
+     * @fxdfption RuntimfExdfption if <dodf>pbrfntComponfnt</dodf> dofs
+     *          not hbvf b vblid pbrfnt
+     */
+    publid JIntfrnblFrbmf drfbtfIntfrnblFrbmf(Componfnt pbrfntComponfnt,
+                                 String titlf) {
+        Contbinfr pbrfnt =
+                JOptionPbnf.gftDfsktopPbnfForComponfnt(pbrfntComponfnt);
+
+        if (pbrfnt == null && (pbrfntComponfnt == null ||
+                (pbrfnt = pbrfntComponfnt.gftPbrfnt()) == null)) {
+            throw nfw RuntimfExdfption("JOptionPbnf: pbrfntComponfnt dofs " +
+                    "not hbvf b vblid pbrfnt");
+        }
+
+        // Option diblogs should bf dlosbblf only
+        finbl JIntfrnblFrbmf  iFrbmf = nfw JIntfrnblFrbmf(titlf, fblsf, truf,
+                                                           fblsf, fblsf);
+
+        iFrbmf.putClifntPropfrty("JIntfrnblFrbmf.frbmfTypf", "optionDiblog");
+        iFrbmf.putClifntPropfrty("JIntfrnblFrbmf.mfssbgfTypf",
+                                 Intfgfr.vblufOf(gftMfssbgfTypf()));
+
+        iFrbmf.bddIntfrnblFrbmfListfnfr(nfw IntfrnblFrbmfAdbptfr() {
+            publid void intfrnblFrbmfClosing(IntfrnblFrbmfEvfnt f) {
+                if (gftVbluf() == UNINITIALIZED_VALUE) {
+                    sftVbluf(null);
+                }
+            }
+        });
+        bddPropfrtyChbngfListfnfr(nfw PropfrtyChbngfListfnfr() {
+            publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvfnt) {
+                // Lft thf dffbultClosfOpfrbtion hbndlf thf dlosing
+                // if thf usfr dlosfd thf ifrbmf without sflfdting b button
+                // (nfwVbluf = null in thbt dbsf).  Othfrwisf, dlosf thf diblog.
+                if (iFrbmf.isVisiblf() &&
+                        fvfnt.gftSourdf() == JOptionPbnf.this &&
+                        fvfnt.gftPropfrtyNbmf().fqubls(VALUE_PROPERTY)) {
+                    AWTAddfssor.gftContbinfrAddfssor().stopLWModbl(iFrbmf);
+
+                try {
+                    iFrbmf.sftClosfd(truf);
+                }
+                dbtdh (jbvb.bfbns.PropfrtyVftoExdfption f) {
+                }
+
+                iFrbmf.sftVisiblf(fblsf);
+                }
+            }
+        });
+        iFrbmf.gftContfntPbnf().bdd(this, BordfrLbyout.CENTER);
+        if (pbrfnt instbndfof JDfsktopPbnf) {
+            pbrfnt.bdd(iFrbmf, JLbyfrfdPbnf.MODAL_LAYER);
+        } flsf {
+            pbrfnt.bdd(iFrbmf, BordfrLbyout.CENTER);
+        }
+        Dimfnsion iFrbmfSizf = iFrbmf.gftPrfffrrfdSizf();
+        Dimfnsion rootSizf = pbrfnt.gftSizf();
+        Dimfnsion pbrfntSizf = pbrfntComponfnt.gftSizf();
+
+        iFrbmf.sftBounds((rootSizf.width - iFrbmfSizf.width) / 2,
+                         (rootSizf.hfight - iFrbmfSizf.hfight) / 2,
+                         iFrbmfSizf.width, iFrbmfSizf.hfight);
+        // Wf wbnt diblog dfntfrfd rflbtivf to its pbrfnt domponfnt
+        Point iFrbmfCoord =
+          SwingUtilitifs.donvfrtPoint(pbrfntComponfnt, 0, 0, pbrfnt);
+        int x = (pbrfntSizf.width - iFrbmfSizf.width) / 2 + iFrbmfCoord.x;
+        int y = (pbrfntSizf.hfight - iFrbmfSizf.hfight) / 2 + iFrbmfCoord.y;
+
+        // If possiblf, diblog should bf fully visiblf
+        int ovrx = x + iFrbmfSizf.width - rootSizf.width;
+        int ovry = y + iFrbmfSizf.hfight - rootSizf.hfight;
+        x = Mbth.mbx((ovrx > 0? x - ovrx: x), 0);
+        y = Mbth.mbx((ovry > 0? y - ovry: y), 0);
+        iFrbmf.sftBounds(x, y, iFrbmfSizf.width, iFrbmfSizf.hfight);
+
+        pbrfnt.vblidbtf();
+        try {
+            iFrbmf.sftSflfdtfd(truf);
+        } dbtdh (jbvb.bfbns.PropfrtyVftoExdfption f) {}
+
+        rfturn iFrbmf;
+    }
+
+    /**
+     * Rfturns thf spfdififd domponfnt's <dodf>Frbmf</dodf>.
+     *
+     * @pbrbm pbrfntComponfnt thf <dodf>Componfnt</dodf> to dhfdk for b
+     *          <dodf>Frbmf</dodf>
+     * @rfturn thf <dodf>Frbmf</dodf> thbt dontbins thf domponfnt,
+     *          or <dodf>gftRootFrbmf</dodf>
+     *          if thf domponfnt is <dodf>null</dodf>,
+     *          or dofs not hbvf b vblid <dodf>Frbmf</dodf> pbrfnt
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff #gftRootFrbmf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid Frbmf gftFrbmfForComponfnt(Componfnt pbrfntComponfnt)
+        throws HfbdlfssExdfption {
+        if (pbrfntComponfnt == null)
+            rfturn gftRootFrbmf();
+        if (pbrfntComponfnt instbndfof Frbmf)
+            rfturn (Frbmf)pbrfntComponfnt;
+        rfturn JOptionPbnf.gftFrbmfForComponfnt(pbrfntComponfnt.gftPbrfnt());
+    }
+
+    /**
+     * Rfturns thf spfdififd domponfnt's toplfvfl <dodf>Frbmf</dodf> or
+     * <dodf>Diblog</dodf>.
+     *
+     * @pbrbm pbrfntComponfnt thf <dodf>Componfnt</dodf> to dhfdk for b
+     *          <dodf>Frbmf</dodf> or <dodf>Diblog</dodf>
+     * @rfturn thf <dodf>Frbmf</dodf> or <dodf>Diblog</dodf> thbt
+     *          dontbins thf domponfnt, or thf dffbult
+     *          frbmf if thf domponfnt is <dodf>null</dodf>,
+     *          or dofs not hbvf b vblid
+     *          <dodf>Frbmf</dodf> or <dodf>Diblog</dodf> pbrfnt
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    stbtid Window gftWindowForComponfnt(Componfnt pbrfntComponfnt)
+        throws HfbdlfssExdfption {
+        if (pbrfntComponfnt == null)
+            rfturn gftRootFrbmf();
+        if (pbrfntComponfnt instbndfof Frbmf || pbrfntComponfnt instbndfof Diblog)
+            rfturn (Window)pbrfntComponfnt;
+        rfturn JOptionPbnf.gftWindowForComponfnt(pbrfntComponfnt.gftPbrfnt());
+    }
+
+
+    /**
+     * Rfturns thf spfdififd domponfnt's dfsktop pbnf.
+     *
+     * @pbrbm pbrfntComponfnt thf <dodf>Componfnt</dodf> to dhfdk for b
+     *          dfsktop
+     * @rfturn thf <dodf>JDfsktopPbnf</dodf> thbt dontbins thf domponfnt,
+     *          or <dodf>null</dodf> if thf domponfnt is <dodf>null</dodf>
+     *          or dofs not hbvf bn bndfstor thbt is b
+     *          <dodf>JIntfrnblFrbmf</dodf>
+     */
+    publid stbtid JDfsktopPbnf gftDfsktopPbnfForComponfnt(Componfnt pbrfntComponfnt) {
+        if(pbrfntComponfnt == null)
+            rfturn null;
+        if(pbrfntComponfnt instbndfof JDfsktopPbnf)
+            rfturn (JDfsktopPbnf)pbrfntComponfnt;
+        rfturn gftDfsktopPbnfForComponfnt(pbrfntComponfnt.gftPbrfnt());
+    }
+
+    privbtf stbtid finbl Objfdt shbrfdFrbmfKfy = JOptionPbnf.dlbss;
+
+    /**
+     * Sfts thf frbmf to usf for dlbss mfthods in whidh b frbmf is
+     * not providfd.
+     * <p>
+     * <strong>Notf:</strong>
+     * It is rfdommfndfd thbt rbthfr thbn using this mfthod you supply b vblid pbrfnt.
+     *
+     * @pbrbm nfwRootFrbmf thf dffbult <dodf>Frbmf</dodf> to usf
+     */
+    publid stbtid void sftRootFrbmf(Frbmf nfwRootFrbmf) {
+        if (nfwRootFrbmf != null) {
+            SwingUtilitifs.bppContfxtPut(shbrfdFrbmfKfy, nfwRootFrbmf);
+        } flsf {
+            SwingUtilitifs.bppContfxtRfmovf(shbrfdFrbmfKfy);
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>Frbmf</dodf> to usf for thf dlbss mfthods in
+     * whidh b frbmf is not providfd.
+     *
+     * @rfturn thf dffbult <dodf>Frbmf</dodf> to usf
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff #sftRootFrbmf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid stbtid Frbmf gftRootFrbmf() throws HfbdlfssExdfption {
+        Frbmf shbrfdFrbmf =
+            (Frbmf)SwingUtilitifs.bppContfxtGft(shbrfdFrbmfKfy);
+        if (shbrfdFrbmf == null) {
+            shbrfdFrbmf = SwingUtilitifs.gftShbrfdOwnfrFrbmf();
+            SwingUtilitifs.bppContfxtPut(shbrfdFrbmfKfy, shbrfdFrbmf);
+        }
+        rfturn shbrfdFrbmf;
+    }
+
+    /**
+     * Crfbtfs b <dodf>JOptionPbnf</dodf> with b tfst mfssbgf.
+     */
+    publid JOptionPbnf() {
+        this("JOptionPbnf mfssbgf");
+    }
+
+    /**
+     * Crfbtfs b instbndf of <dodf>JOptionPbnf</dodf> to displby b
+     * mfssbgf using thf
+     * plbin-mfssbgf mfssbgf typf bnd thf dffbult options dflivfrfd by
+     * thf UI.
+     *
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     */
+    publid JOptionPbnf(Objfdt mfssbgf) {
+        this(mfssbgf, PLAIN_MESSAGE);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>JOptionPbnf</dodf> to displby b mfssbgf
+     * with thf spfdififd mfssbgf typf bnd thf dffbult options,
+     *
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     */
+    publid JOptionPbnf(Objfdt mfssbgf, int mfssbgfTypf) {
+        this(mfssbgf, mfssbgfTypf, DEFAULT_OPTION);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>JOptionPbnf</dodf> to displby b mfssbgf
+     * with thf spfdififd mfssbgf typf bnd options.
+     *
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm optionTypf thf options to displby in thf pbnf:
+     *                  <dodf>DEFAULT_OPTION</dodf>, <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  <dodf>OK_CANCEL_OPTION</dodf>
+     */
+    publid JOptionPbnf(Objfdt mfssbgf, int mfssbgfTypf, int optionTypf) {
+        this(mfssbgf, mfssbgfTypf, optionTypf, null);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>JOptionPbnf</dodf> to displby b mfssbgf
+     * with thf spfdififd mfssbgf typf, options, bnd idon.
+     *
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm optionTypf thf options to displby in thf pbnf:
+     *                  <dodf>DEFAULT_OPTION</dodf>, <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  <dodf>OK_CANCEL_OPTION</dodf>
+     * @pbrbm idon thf <dodf>Idon</dodf> imbgf to displby
+     */
+    publid JOptionPbnf(Objfdt mfssbgf, int mfssbgfTypf, int optionTypf,
+                       Idon idon) {
+        this(mfssbgf, mfssbgfTypf, optionTypf, idon, null);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>JOptionPbnf</dodf> to displby b mfssbgf
+     * with thf spfdififd mfssbgf typf, idon, bnd options.
+     * Nonf of thf options is initiblly sflfdtfd.
+     * <p>
+     * Thf options objfdts should dontbin fithfr instbndfs of
+     * <dodf>Componfnt</dodf>s, (whidh brf bddfd dirfdtly) or
+     * <dodf>Strings</dodf> (whidh brf wrbppfd in b <dodf>JButton</dodf>).
+     * If you providf <dodf>Componfnt</dodf>s, you must fnsurf thbt whfn thf
+     * <dodf>Componfnt</dodf> is dlidkfd it mfssbgfs <dodf>sftVbluf</dodf>
+     * in thf drfbtfd <dodf>JOptionPbnf</dodf>.
+     *
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm optionTypf thf options to displby in thf pbnf:
+     *                  <dodf>DEFAULT_OPTION</dodf>,
+     *                  <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  <dodf>OK_CANCEL_OPTION</dodf>
+     * @pbrbm idon thf <dodf>Idon</dodf> imbgf to displby
+     * @pbrbm options  thf dhoidfs thf usfr dbn sflfdt
+     */
+    publid JOptionPbnf(Objfdt mfssbgf, int mfssbgfTypf, int optionTypf,
+                       Idon idon, Objfdt[] options) {
+        this(mfssbgf, mfssbgfTypf, optionTypf, idon, options, null);
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>JOptionPbnf</dodf> to displby b mfssbgf
+     * with thf spfdififd mfssbgf typf, idon, bnd options, with thf
+     * initiblly-sflfdtfd option spfdififd.
+     *
+     * @pbrbm mfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @pbrbm mfssbgfTypf thf typf of mfssbgf to bf displbyfd:
+     *                  <dodf>ERROR_MESSAGE</dodf>,
+     *                  <dodf>INFORMATION_MESSAGE</dodf>,
+     *                  <dodf>WARNING_MESSAGE</dodf>,
+     *                  <dodf>QUESTION_MESSAGE</dodf>,
+     *                  or <dodf>PLAIN_MESSAGE</dodf>
+     * @pbrbm optionTypf thf options to displby in thf pbnf:
+     *                  <dodf>DEFAULT_OPTION</dodf>,
+     *                  <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  <dodf>OK_CANCEL_OPTION</dodf>
+     * @pbrbm idon thf Idon imbgf to displby
+     * @pbrbm options  thf dhoidfs thf usfr dbn sflfdt
+     * @pbrbm initiblVbluf thf dhoidf thbt is initiblly sflfdtfd; if
+     *                  <dodf>null</dodf>, thfn nothing will bf initiblly sflfdtfd;
+     *                  only mfbningful if <dodf>options</dodf> is usfd
+     */
+    publid JOptionPbnf(Objfdt mfssbgf, int mfssbgfTypf, int optionTypf,
+                       Idon idon, Objfdt[] options, Objfdt initiblVbluf) {
+
+        this.mfssbgf = mfssbgf;
+        this.options = options;
+        this.initiblVbluf = initiblVbluf;
+        this.idon = idon;
+        sftMfssbgfTypf(mfssbgfTypf);
+        sftOptionTypf(optionTypf);
+        vbluf = UNINITIALIZED_VALUE;
+        inputVbluf = UNINITIALIZED_VALUE;
+        updbtfUI();
+    }
+
+    /**
+     * Sfts thf UI objfdt whidh implfmfnts thf {@litfrbl L&F} for this domponfnt.
+     *
+     * @pbrbm ui  thf <dodf>OptionPbnfUI</dodf> {@litfrbl L&F} objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *       bound: truf
+     *      hiddfn: truf
+     * dfsdription: Thf UI objfdt thbt implfmfnts thf optionpbnf's LookAndFffl
+     */
+    publid void sftUI(OptionPbnfUI ui) {
+        if (this.ui != ui) {
+            supfr.sftUI(ui);
+            invblidbtf();
+        }
+    }
+
+    /**
+     * Rfturns thf UI objfdt whidh implfmfnts thf {@litfrbl L&F} for this domponfnt.
+     *
+     * @rfturn thf <dodf>OptionPbnfUI</dodf> objfdt
+     */
+    publid OptionPbnfUI gftUI() {
+        rfturn (OptionPbnfUI)ui;
+    }
+
+    /**
+     * Notifidbtion from thf <dodf>UIMbnbgfr</dodf> thbt thf {@litfrbl L&F} hbs dhbngfd.
+     * Rfplbdfs thf durrfnt UI objfdt with thf lbtfst vfrsion from thf
+     * <dodf>UIMbnbgfr</dodf>.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((OptionPbnfUI)UIMbnbgfr.gftUI(this));
+    }
+
+
+    /**
+     * Rfturns thf nbmf of thf UI dlbss thbt implfmfnts thf
+     * {@litfrbl L&F} for this domponfnt.
+     *
+     * @rfturn thf string "OptionPbnfUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Sfts thf option pbnf's mfssbgf-objfdt.
+     * @pbrbm nfwMfssbgf thf <dodf>Objfdt</dodf> to displby
+     * @sff #gftMfssbgf
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *   bound: truf
+     * dfsdription: Thf optionpbnf's mfssbgf objfdt.
+     */
+    publid void sftMfssbgf(Objfdt nfwMfssbgf) {
+        Objfdt           oldMfssbgf = mfssbgf;
+
+        mfssbgf = nfwMfssbgf;
+        firfPropfrtyChbngf(MESSAGE_PROPERTY, oldMfssbgf, mfssbgf);
+    }
+
+    /**
+     * Rfturns thf mfssbgf-objfdt this pbnf displbys.
+     * @sff #sftMfssbgf
+     *
+     * @rfturn thf <dodf>Objfdt</dodf> thbt is displbyfd
+     */
+    publid Objfdt gftMfssbgf() {
+        rfturn mfssbgf;
+    }
+
+    /**
+     * Sfts thf idon to displby. If non-<dodf>null</dodf>, thf look bnd fffl
+     * dofs not providf bn idon.
+     * @pbrbm nfwIdon thf <dodf>Idon</dodf> to displby
+     *
+     * @sff #gftIdon
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf option pbnf's typf idon.
+     */
+    publid void sftIdon(Idon nfwIdon) {
+        Objfdt              oldIdon = idon;
+
+        idon = nfwIdon;
+        firfPropfrtyChbngf(ICON_PROPERTY, oldIdon, idon);
+    }
+
+    /**
+     * Rfturns thf idon this pbnf displbys.
+     * @rfturn thf <dodf>Idon</dodf> thbt is displbyfd
+     *
+     * @sff #sftIdon
+     */
+    publid Idon gftIdon() {
+        rfturn idon;
+    }
+
+    /**
+     * Sfts thf vbluf thf usfr hbs dhosfn.
+     * @pbrbm nfwVbluf  thf dhosfn vbluf
+     *
+     * @sff #gftVbluf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf option pbnf's vbluf objfdt.
+     */
+    publid void sftVbluf(Objfdt nfwVbluf) {
+        Objfdt               oldVbluf = vbluf;
+
+        vbluf = nfwVbluf;
+        firfPropfrtyChbngf(VALUE_PROPERTY, oldVbluf, vbluf);
+    }
+
+    /**
+     * Rfturns thf vbluf thf usfr hbs sflfdtfd. <dodf>UNINITIALIZED_VALUE</dodf>
+     * implifs thf usfr hbs not yft mbdf b dhoidf, <dodf>null</dodf> mfbns thf
+     * usfr dlosfd thf window with out dhoosing bnything. Othfrwisf
+     * thf rfturnfd vbluf will bf onf of thf options dffinfd in this
+     * objfdt.
+     *
+     * @rfturn thf <dodf>Objfdt</dodf> dhosfn by thf usfr,
+     *         <dodf>UNINITIALIZED_VALUE</dodf>
+     *         if thf usfr hbs not yft mbdf b dhoidf, or <dodf>null</dodf> if
+     *         thf usfr dlosfd thf window without mbking b dhoidf
+     *
+     * @sff #sftVbluf
+     */
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Sfts thf options this pbnf displbys. If bn flfmfnt in
+     * <dodf>nfwOptions</dodf> is b <dodf>Componfnt</dodf>
+     * it is bddfd dirfdtly to thf pbnf,
+     * othfrwisf b button is drfbtfd for thf flfmfnt.
+     *
+     * @pbrbm nfwOptions bn brrby of <dodf>Objfdts</dodf> thbt drfbtf thf
+     *          buttons thf usfr dbn dlidk on, or brbitrbry
+     *          <dodf>Componfnts</dodf> to bdd to thf pbnf
+     *
+     * @sff #gftOptions
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Thf option pbnf's options objfdts.
+     */
+    publid void sftOptions(Objfdt[] nfwOptions) {
+        Objfdt[]           oldOptions = options;
+
+        options = nfwOptions;
+        firfPropfrtyChbngf(OPTIONS_PROPERTY, oldOptions, options);
+    }
+
+    /**
+     * Rfturns thf dhoidfs thf usfr dbn mbkf.
+     * @rfturn thf brrby of <dodf>Objfdts</dodf> thbt givf thf usfr's dhoidfs
+     *
+     * @sff #sftOptions
+     */
+    publid Objfdt[] gftOptions() {
+        if(options != null) {
+            int             optionCount = options.lfngth;
+            Objfdt[]        rftOptions = nfw Objfdt[optionCount];
+
+            Systfm.brrbydopy(options, 0, rftOptions, 0, optionCount);
+            rfturn rftOptions;
+        }
+        rfturn options;
+    }
+
+    /**
+     * Sfts thf initibl vbluf thbt is to bf fnbblfd -- thf
+     * <dodf>Componfnt</dodf>
+     * thbt hbs thf fodus whfn thf pbnf is initiblly displbyfd.
+     *
+     * @pbrbm nfwInitiblVbluf thf <dodf>Objfdt</dodf> thbt gfts thf initibl
+     *                         kfybobrd fodus
+     *
+     * @sff #gftInitiblVbluf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf option pbnf's initibl vbluf objfdt.
+     */
+    publid void sftInitiblVbluf(Objfdt nfwInitiblVbluf) {
+        Objfdt            oldIV = initiblVbluf;
+
+        initiblVbluf = nfwInitiblVbluf;
+        firfPropfrtyChbngf(INITIAL_VALUE_PROPERTY, oldIV, initiblVbluf);
+    }
+
+    /**
+     * Rfturns thf initibl vbluf.
+     *
+     * @rfturn thf <dodf>Objfdt</dodf> thbt gfts thf initibl kfybobrd fodus
+     *
+     * @sff #sftInitiblVbluf
+     */
+    publid Objfdt gftInitiblVbluf() {
+        rfturn initiblVbluf;
+    }
+
+    /**
+     * Sfts thf option pbnf's mfssbgf typf.
+     * Thf mfssbgf typf is usfd by thf Look bnd Fffl to dftfrminf thf
+     * idon to displby (if not supplifd) bs wfll bs potfntiblly how to
+     * lby out thf <dodf>pbrfntComponfnt</dodf>.
+     * @pbrbm nfwTypf bn intfgfr spfdifying thf kind of mfssbgf to displby:
+     *                <dodf>ERROR_MESSAGE</dodf>, <dodf>INFORMATION_MESSAGE</dodf>,
+     *                <dodf>WARNING_MESSAGE</dodf>,
+     *                <dodf>QUESTION_MESSAGE</dodf>, or <dodf>PLAIN_MESSAGE</dodf>
+     * @fxdfption RuntimfExdfption if <dodf>nfwTypf</dodf> is not onf of thf
+     *          lfgbl vblufs listfd bbovf
+
+     * @sff #gftMfssbgfTypf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf option pbnf's mfssbgf typf.
+     */
+    publid void sftMfssbgfTypf(int nfwTypf) {
+        if(nfwTypf != ERROR_MESSAGE && nfwTypf != INFORMATION_MESSAGE &&
+           nfwTypf != WARNING_MESSAGE && nfwTypf != QUESTION_MESSAGE &&
+           nfwTypf != PLAIN_MESSAGE)
+            throw nfw RuntimfExdfption("JOptionPbnf: typf must bf onf of JOptionPbnf.ERROR_MESSAGE, JOptionPbnf.INFORMATION_MESSAGE, JOptionPbnf.WARNING_MESSAGE, JOptionPbnf.QUESTION_MESSAGE or JOptionPbnf.PLAIN_MESSAGE");
+
+        int           oldTypf = mfssbgfTypf;
+
+        mfssbgfTypf = nfwTypf;
+        firfPropfrtyChbngf(MESSAGE_TYPE_PROPERTY, oldTypf, mfssbgfTypf);
+    }
+
+    /**
+     * Rfturns thf mfssbgf typf.
+     *
+     * @rfturn bn intfgfr spfdifying thf mfssbgf typf
+     *
+     * @sff #sftMfssbgfTypf
+     */
+    publid int gftMfssbgfTypf() {
+        rfturn mfssbgfTypf;
+    }
+
+    /**
+     * Sfts thf options to displby.
+     * Thf option typf is usfd by thf Look bnd Fffl to
+     * dftfrminf whbt buttons to show (unlfss options brf supplifd).
+     * @pbrbm nfwTypf bn intfgfr spfdifying thf options thf {@litfrbl L&F} is to displby:
+     *                  <dodf>DEFAULT_OPTION</dodf>,
+     *                  <dodf>YES_NO_OPTION</dodf>,
+     *                  <dodf>YES_NO_CANCEL_OPTION</dodf>,
+     *                  or <dodf>OK_CANCEL_OPTION</dodf>
+     * @fxdfption RuntimfExdfption if <dodf>nfwTypf</dodf> is not onf of
+     *          thf lfgbl vblufs listfd bbovf
+     *
+     * @sff #gftOptionTypf
+     * @sff #sftOptions
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf option pbnf's option typf.
+      */
+    publid void sftOptionTypf(int nfwTypf) {
+        if(nfwTypf != DEFAULT_OPTION && nfwTypf != YES_NO_OPTION &&
+           nfwTypf != YES_NO_CANCEL_OPTION && nfwTypf != OK_CANCEL_OPTION)
+            throw nfw RuntimfExdfption("JOptionPbnf: option typf must bf onf of JOptionPbnf.DEFAULT_OPTION, JOptionPbnf.YES_NO_OPTION, JOptionPbnf.YES_NO_CANCEL_OPTION or JOptionPbnf.OK_CANCEL_OPTION");
+
+        int            oldTypf = optionTypf;
+
+        optionTypf = nfwTypf;
+        firfPropfrtyChbngf(OPTION_TYPE_PROPERTY, oldTypf, optionTypf);
+    }
+
+    /**
+     * Rfturns thf typf of options thbt brf displbyfd.
+     *
+     * @rfturn bn intfgfr spfdifying thf usfr-sflfdtbblf options
+     *
+     * @sff #sftOptionTypf
+     */
+    publid int gftOptionTypf() {
+        rfturn optionTypf;
+    }
+
+    /**
+     * Sfts thf input sflfdtion vblufs for b pbnf thbt providfs thf usfr
+     * with b list of itfms to dhoosf from. (Thf UI providfs b widgft
+     * for dhoosing onf of thf vblufs.)  A <dodf>null</dodf> vbluf
+     * implifs thf usfr dbn input whbtfvfr thfy wish, usublly by mfbns
+     * of b <dodf>JTfxtFifld</dodf>.
+     * <p>
+     * Sfts <dodf>wbntsInput</dodf> to truf. Usf
+     * <dodf>sftInitiblSflfdtionVbluf</dodf> to spfdify thf initiblly-dhosfn
+     * vbluf. Aftfr thf pbnf bs bffn fnbblfd, <dodf>inputVbluf</dodf> is
+     * sft to thf vbluf thf usfr hbs sflfdtfd.
+     * @pbrbm nfwVblufs bn brrby of <dodf>Objfdts</dodf> thf usfr to bf
+     *                  displbyfd
+     *                  (usublly in b list or dombo-box) from whidh
+     *                  thf usfr dbn mbkf b sflfdtion
+     * @sff #sftWbntsInput
+     * @sff #sftInitiblSflfdtionVbluf
+     * @sff #gftSflfdtionVblufs
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Thf option pbnf's sflfdtion vblufs.
+     */
+    publid void sftSflfdtionVblufs(Objfdt[] nfwVblufs) {
+        Objfdt[]           oldVblufs = sflfdtionVblufs;
+
+        sflfdtionVblufs = nfwVblufs;
+        firfPropfrtyChbngf(SELECTION_VALUES_PROPERTY, oldVblufs, nfwVblufs);
+        if(sflfdtionVblufs != null)
+            sftWbntsInput(truf);
+    }
+
+    /**
+     * Rfturns thf input sflfdtion vblufs.
+     *
+     * @rfturn thf brrby of <dodf>Objfdts</dodf> thf usfr dbn sflfdt
+     * @sff #sftSflfdtionVblufs
+     */
+    publid Objfdt[] gftSflfdtionVblufs() {
+        rfturn sflfdtionVblufs;
+    }
+
+    /**
+     * Sfts thf input vbluf thbt is initiblly displbyfd bs sflfdtfd to thf usfr.
+     * Only usfd if <dodf>wbntsInput</dodf> is truf.
+     * @pbrbm nfwVbluf thf initiblly sflfdtfd vbluf
+     * @sff #sftSflfdtionVblufs
+     * @sff #gftInitiblSflfdtionVbluf
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Thf option pbnf's initibl sflfdtion vbluf objfdt.
+     */
+    publid void sftInitiblSflfdtionVbluf(Objfdt nfwVbluf) {
+        Objfdt          oldVbluf = initiblSflfdtionVbluf;
+
+        initiblSflfdtionVbluf = nfwVbluf;
+        firfPropfrtyChbngf(INITIAL_SELECTION_VALUE_PROPERTY, oldVbluf,
+                           nfwVbluf);
+    }
+
+    /**
+     * Rfturns thf input vbluf thbt is displbyfd bs initiblly sflfdtfd to thf usfr.
+     *
+     * @rfturn thf initiblly sflfdtfd vbluf
+     * @sff #sftInitiblSflfdtionVbluf
+     * @sff #sftSflfdtionVblufs
+     */
+    publid Objfdt gftInitiblSflfdtionVbluf() {
+        rfturn initiblSflfdtionVbluf;
+    }
+
+    /**
+     * Sfts thf input vbluf thbt wbs sflfdtfd or input by thf usfr.
+     * Only usfd if <dodf>wbntsInput</dodf> is truf.  Notf thbt this mfthod
+     * is invokfd intfrnblly by thf option pbnf (in rfsponsf to usfr bdtion)
+     * bnd should gfnfrblly not bf dbllfd by dlifnt progrbms.  To sft thf
+     * input vbluf initiblly displbyfd bs sflfdtfd to thf usfr, usf
+     * <dodf>sftInitiblSflfdtionVbluf</dodf>.
+     *
+     * @pbrbm nfwVbluf thf <dodf>Objfdt</dodf> usfd to sft thf
+     *          vbluf thbt thf usfr spfdififd (usublly in b tfxt fifld)
+     * @sff #sftSflfdtionVblufs
+     * @sff #sftInitiblSflfdtionVbluf
+     * @sff #sftWbntsInput
+     * @sff #gftInputVbluf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf option pbnf's input vbluf objfdt.
+     */
+    publid void sftInputVbluf(Objfdt nfwVbluf) {
+        Objfdt              oldVbluf = inputVbluf;
+
+        inputVbluf = nfwVbluf;
+        firfPropfrtyChbngf(INPUT_VALUE_PROPERTY, oldVbluf, nfwVbluf);
+    }
+
+    /**
+     * Rfturns thf vbluf thf usfr hbs input, if <dodf>wbntsInput</dodf>
+     * is truf.
+     *
+     * @rfturn thf <dodf>Objfdt</dodf> thf usfr spfdififd,
+     *          if it wbs onf of thf objfdts, or b
+     *          <dodf>String</dodf> if it wbs b vbluf typfd into b
+     *          fifld
+     * @sff #sftSflfdtionVblufs
+     * @sff #sftWbntsInput
+     * @sff #sftInputVbluf
+     */
+    publid Objfdt gftInputVbluf() {
+        rfturn inputVbluf;
+    }
+
+    /**
+     * Rfturns thf mbximum numbfr of dhbrbdtfrs to plbdf on b linf in b
+     * mfssbgf. Dffbult is to rfturn <dodf>Intfgfr.MAX_VALUE</dodf>.
+     * Thf vbluf dbn bf
+     * dhbngfd by ovfrriding this mfthod in b subdlbss.
+     *
+     * @rfturn bn intfgfr giving thf mbximum numbfr of dhbrbdtfrs on b linf
+     */
+    publid int gftMbxChbrbdtfrsPfrLinfCount() {
+        rfturn Intfgfr.MAX_VALUE;
+    }
+
+    /**
+     * Sfts thf <dodf>wbntsInput</dodf> propfrty.
+     * If <dodf>nfwVbluf</dodf> is truf, bn input domponfnt
+     * (sudh bs b tfxt fifld or dombo box) whosf pbrfnt is
+     * <dodf>pbrfntComponfnt</dodf> is providfd to
+     * bllow thf usfr to input b vbluf. If <dodf>gftSflfdtionVblufs</dodf>
+     * rfturns b non-<dodf>null</dodf> brrby, thf input vbluf is onf of thf
+     * objfdts in thbt brrby. Othfrwisf thf input vbluf is whbtfvfr
+     * thf usfr inputs.
+     * <p>
+     * This is b bound propfrty.
+     *
+     * @pbrbm nfwVbluf if truf, bn input domponfnt whosf pbrfnt is {@dodf pbrfntComponfnt}
+     *                 is providfd to bllow thf usfr to input b vbluf.
+     * @sff #sftSflfdtionVblufs
+     * @sff #sftInputVbluf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Flbg whidh bllows thf usfr to input b vbluf.
+     */
+    publid void sftWbntsInput(boolfbn nfwVbluf) {
+        boolfbn            oldVbluf = wbntsInput;
+
+        wbntsInput = nfwVbluf;
+        firfPropfrtyChbngf(WANTS_INPUT_PROPERTY, oldVbluf, nfwVbluf);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf <dodf>wbntsInput</dodf> propfrty.
+     *
+     * @rfturn truf if bn input domponfnt will bf providfd
+     * @sff #sftWbntsInput
+     */
+    publid boolfbn gftWbntsInput() {
+        rfturn wbntsInput;
+    }
+
+    /**
+     * Rfqufsts thbt thf initibl vbluf bf sflfdtfd, whidh will sft
+     * fodus to thf initibl vbluf. This mfthod
+     * should bf invokfd bftfr thf window dontbining thf option pbnf
+     * is mbdf visiblf.
+     */
+    publid void sflfdtInitiblVbluf() {
+        OptionPbnfUI         ui = gftUI();
+        if (ui != null) {
+            ui.sflfdtInitiblVbluf(this);
+        }
+    }
+
+
+    privbtf stbtid int stylfFromMfssbgfTypf(int mfssbgfTypf) {
+        switdh (mfssbgfTypf) {
+        dbsf ERROR_MESSAGE:
+            rfturn JRootPbnf.ERROR_DIALOG;
+        dbsf QUESTION_MESSAGE:
+            rfturn JRootPbnf.QUESTION_DIALOG;
+        dbsf WARNING_MESSAGE:
+            rfturn JRootPbnf.WARNING_DIALOG;
+        dbsf INFORMATION_MESSAGE:
+            rfturn JRootPbnf.INFORMATION_DIALOG;
+        dbsf PLAIN_MESSAGE:
+        dffbult:
+            rfturn JRootPbnf.PLAIN_DIALOG;
+        }
+    }
+
+    // Sfriblizbtion support.
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        Vfdtor<Objfdt> vblufs = nfw Vfdtor<Objfdt>();
+
+        s.dffbultWritfObjfdt();
+        // Sbvf thf idon, if its Sfriblizbblf.
+        if(idon != null && idon instbndfof Sfriblizbblf) {
+            vblufs.bddElfmfnt("idon");
+            vblufs.bddElfmfnt(idon);
+        }
+        // Sbvf thf mfssbgf, if its Sfriblizbblf.
+        if(mfssbgf != null && mfssbgf instbndfof Sfriblizbblf) {
+            vblufs.bddElfmfnt("mfssbgf");
+            vblufs.bddElfmfnt(mfssbgf);
+        }
+        // Sbvf thf trffModfl, if its Sfriblizbblf.
+        if(options != null) {
+            Vfdtor<Objfdt> sfrOptions = nfw Vfdtor<Objfdt>();
+
+            for(int dountfr = 0, mbxCountfr = options.lfngth;
+                dountfr < mbxCountfr; dountfr++)
+                if(options[dountfr] instbndfof Sfriblizbblf)
+                    sfrOptions.bddElfmfnt(options[dountfr]);
+            if(sfrOptions.sizf() > 0) {
+                int             optionCount = sfrOptions.sizf();
+                Objfdt[]        brrbyOptions = nfw Objfdt[optionCount];
+
+                sfrOptions.dopyInto(brrbyOptions);
+                vblufs.bddElfmfnt("options");
+                vblufs.bddElfmfnt(brrbyOptions);
+            }
+        }
+        // Sbvf thf initiblVbluf, if its Sfriblizbblf.
+        if(initiblVbluf != null && initiblVbluf instbndfof Sfriblizbblf) {
+            vblufs.bddElfmfnt("initiblVbluf");
+            vblufs.bddElfmfnt(initiblVbluf);
+        }
+        // Sbvf thf vbluf, if its Sfriblizbblf.
+        if(vbluf != null && vbluf instbndfof Sfriblizbblf) {
+            vblufs.bddElfmfnt("vbluf");
+            vblufs.bddElfmfnt(vbluf);
+        }
+        // Sbvf thf sflfdtionVblufs, if its Sfriblizbblf.
+        if(sflfdtionVblufs != null) {
+            boolfbn            sfriblizf = truf;
+
+            for(int dountfr = 0, mbxCountfr = sflfdtionVblufs.lfngth;
+                dountfr < mbxCountfr; dountfr++) {
+                if(sflfdtionVblufs[dountfr] != null &&
+                   !(sflfdtionVblufs[dountfr] instbndfof Sfriblizbblf)) {
+                    sfriblizf = fblsf;
+                    brfbk;
+                }
+            }
+            if(sfriblizf) {
+                vblufs.bddElfmfnt("sflfdtionVblufs");
+                vblufs.bddElfmfnt(sflfdtionVblufs);
+            }
+        }
+        // Sbvf thf inputVbluf, if its Sfriblizbblf.
+        if(inputVbluf != null && inputVbluf instbndfof Sfriblizbblf) {
+            vblufs.bddElfmfnt("inputVbluf");
+            vblufs.bddElfmfnt(inputVbluf);
+        }
+        // Sbvf thf initiblSflfdtionVbluf, if its Sfriblizbblf.
+        if(initiblSflfdtionVbluf != null &&
+           initiblSflfdtionVbluf instbndfof Sfriblizbblf) {
+            vblufs.bddElfmfnt("initiblSflfdtionVbluf");
+            vblufs.bddElfmfnt(initiblSflfdtionVbluf);
+        }
+        s.writfObjfdt(vblufs);
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+
+        Vfdtor<?>       vblufs = (Vfdtor)s.rfbdObjfdt();
+        int             indfxCountfr = 0;
+        int             mbxCountfr = vblufs.sizf();
+
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("idon")) {
+            idon = (Idon)vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("mfssbgf")) {
+            mfssbgf = vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("options")) {
+            options = (Objfdt[])vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("initiblVbluf")) {
+            initiblVbluf = vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("vbluf")) {
+            vbluf = vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("sflfdtionVblufs")) {
+            sflfdtionVblufs = (Objfdt[])vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("inputVbluf")) {
+            inputVbluf = vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+        if(indfxCountfr < mbxCountfr && vblufs.flfmfntAt(indfxCountfr).
+           fqubls("initiblSflfdtionVbluf")) {
+            initiblSflfdtionVbluf = vblufs.flfmfntAt(++indfxCountfr);
+            indfxCountfr++;
+        }
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JOptionPbnf</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JOptionPbnf</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String idonString = (idon != null ?
+                             idon.toString() : "");
+        String initiblVblufString = (initiblVbluf != null ?
+                                     initiblVbluf.toString() : "");
+        String mfssbgfString = (mfssbgf != null ?
+                                mfssbgf.toString() : "");
+        String mfssbgfTypfString;
+        if (mfssbgfTypf == ERROR_MESSAGE) {
+            mfssbgfTypfString = "ERROR_MESSAGE";
+        } flsf if (mfssbgfTypf == INFORMATION_MESSAGE) {
+            mfssbgfTypfString = "INFORMATION_MESSAGE";
+        } flsf if (mfssbgfTypf == WARNING_MESSAGE) {
+            mfssbgfTypfString = "WARNING_MESSAGE";
+        } flsf if (mfssbgfTypf == QUESTION_MESSAGE) {
+            mfssbgfTypfString = "QUESTION_MESSAGE";
+        } flsf if (mfssbgfTypf == PLAIN_MESSAGE)  {
+            mfssbgfTypfString = "PLAIN_MESSAGE";
+        } flsf mfssbgfTypfString = "";
+        String optionTypfString;
+        if (optionTypf == DEFAULT_OPTION) {
+            optionTypfString = "DEFAULT_OPTION";
+        } flsf if (optionTypf == YES_NO_OPTION) {
+            optionTypfString = "YES_NO_OPTION";
+        } flsf if (optionTypf == YES_NO_CANCEL_OPTION) {
+            optionTypfString = "YES_NO_CANCEL_OPTION";
+        } flsf if (optionTypf == OK_CANCEL_OPTION) {
+            optionTypfString = "OK_CANCEL_OPTION";
+        } flsf optionTypfString = "";
+        String wbntsInputString = (wbntsInput ?
+                                   "truf" : "fblsf");
+
+        rfturn supfr.pbrbmString() +
+        ",idon=" + idonString +
+        ",initiblVbluf=" + initiblVblufString +
+        ",mfssbgf=" + mfssbgfString +
+        ",mfssbgfTypf=" + mfssbgfTypfString +
+        ",optionTypf=" + optionTypfString +
+        ",wbntsInput=" + wbntsInputString;
+    }
+
+///////////////////
+// Addfssibility support
+///////////////////
+
+    /**
+     * Rfturns thf <dodf>AddfssiblfContfxt</dodf> bssodibtfd with this JOptionPbnf.
+     * For option pbnfs, thf <dodf>AddfssiblfContfxt</dodf> tbkfs thf form of bn
+     * <dodf>AddfssiblfJOptionPbnf</dodf>.
+     * A nfw <dodf>AddfssiblfJOptionPbnf</dodf> instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJOptionPbnf thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this AddfssiblfJOptionPbnf
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Thf AddfssiblfContfxt bssodibtfd with this option pbnf
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJOptionPbnf();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JOptionPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to option pbnf usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJOptionPbnf fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            switdh (mfssbgfTypf) {
+            dbsf ERROR_MESSAGE:
+            dbsf INFORMATION_MESSAGE:
+            dbsf WARNING_MESSAGE:
+                rfturn AddfssiblfRolf.ALERT;
+
+            dffbult:
+                rfturn AddfssiblfRolf.OPTION_PANE;
+            }
+        }
+
+    } // innfr dlbss AddfssiblfJOptionPbnf
+}

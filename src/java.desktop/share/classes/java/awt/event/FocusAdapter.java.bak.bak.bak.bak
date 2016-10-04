@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+/**
+ * An bbstrbdt bdbptfr dlbss for rfdfiving kfybobrd fodus fvfnts.
+ * Thf mfthods in this dlbss brf fmpty. This dlbss fxists bs
+ * donvfnifndf for drfbting listfnfr objfdts.
+ * <P>
+ * Extfnd this dlbss to drfbtf b <dodf>FodusEvfnt</dodf> listfnfr
+ * bnd ovfrridf thf mfthods for thf fvfnts of intfrfst. (If you implfmfnt thf
+ * <dodf>FodusListfnfr</dodf> intfrfbdf, you hbvf to dffinf bll of
+ * thf mfthods in it. This bbstrbdt dlbss dffinfs null mfthods for thfm
+ * bll, so you dbn only hbvf to dffinf mfthods for fvfnts you dbrf bbout.)
+ * <P>
+ * Crfbtf b listfnfr objfdt using thf fxtfndfd dlbss bnd thfn rfgistfr it with
+ * b domponfnt using thf domponfnt's <dodf>bddFodusListfnfr</dodf>
+ * mfthod. Whfn thf domponfnt gbins or losfs thf kfybobrd fodus,
+ * thf rflfvbnt mfthod in thf listfnfr objfdt is invokfd,
+ * bnd thf <dodf>FodusEvfnt</dodf> is pbssfd to it.
+ *
+ * @sff FodusEvfnt
+ * @sff FodusListfnfr
+ * @sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/foduslistfnfr.html">Tutoribl: Writing b Fodus Listfnfr</b>
+ *
+ * @buthor Cbrl Quinn
+ * @sindf 1.1
+ */
+publid bbstrbdt dlbss FodusAdbptfr implfmfnts FodusListfnfr {
+    /**
+     * Invokfd whfn b domponfnt gbins thf kfybobrd fodus.
+     */
+    publid void fodusGbinfd(FodusEvfnt f) {}
+
+    /**
+     * Invokfd whfn b domponfnt losfs thf kfybobrd fodus.
+     */
+    publid void fodusLost(FodusEvfnt f) {}
+}

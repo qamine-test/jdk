@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Thf WrbppfdSodkft dlbss providfs b gfnfrbl wrbppfr for providing bn
+ * fxtfndfd implfmfntbtion of jbvb.nft.Sodkft thbt dbn bf bttbdhfd to
+ * b prf-fxisting Sodkft objfdt.  WrbppfdSodkft itsflf providfs b
+ * donstrudtor for spfdifying bltfrnbtf input or output strfbms to bf
+ * rfturnfd thbn thosf of thf undfrlying Sodkft.
+ */
+dlbss WrbppfdSodkft fxtfnds Sodkft {
+
+    /** thf undfrlying dondrftf sodkft */
+    protfdtfd Sodkft sodkft;
+
+    /** thf input strfbm to rfturn for sodkft */
+    protfdtfd InputStrfbm in = null;
+
+    /** thf output strfbm to rfturn for sodkft */
+    protfdtfd OutputStrfbm out = null;
+
+    /**
+     * Lbyfr on top of b prf-fxisting Sodkft objfdt, bnd usf spfdififd
+     * input bnd output strfbms.  This bllows thf drfbtor of thf
+     * undfrlying sodkft to pffk bt thf bfginning of thf input with b
+     * BufffrfdInputStrfbm bnd dftfrminf whidh kind of sodkft
+     * to drfbtf, without donsuming thf input.
+     * @pbrbm sodkft thf prf-fxisting sodkft to usf
+     * @pbrbm in thf InputStrfbm to rfturn to usfrs (dbn bf null)
+     * @pbrbm out thf OutputStrfbm to rfturn to usfrs (dbn bf null)
+     */
+    publid WrbppfdSodkft(Sodkft sodkft, InputStrfbm in, OutputStrfbm out)
+        throws IOExdfption
+    {
+        supfr((jbvb.nft.SodkftImpl)null);       // no undfrlying SodkftImpl for this objfdt
+        this.sodkft = sodkft;
+        this.in = in;
+        this.out = out;
+    }
+
+    /**
+     * Gft thf bddrfss to whidh thf sodkft is donnfdtfd.
+     */
+    publid InftAddrfss gftInftAddrfss()
+    {
+        rfturn sodkft.gftInftAddrfss();
+    }
+
+    /**
+     * Gft thf lodbl bddrfss to whidh thf sodkft is bound.
+     */
+    publid InftAddrfss gftLodblAddrfss() {
+        rfturn  AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<InftAddrfss>() {
+                            @Ovfrridf
+                            publid InftAddrfss run() {
+                                rfturn sodkft.gftLodblAddrfss();
+
+                            }
+                        });
+    }
+
+    /**
+     * Gft thf rfmotf port to whidh thf sodkft is donnfdtfd.
+     */
+    publid int gftPort()
+    {
+        rfturn sodkft.gftPort();
+    }
+
+    /**
+     * Gft thf lodbl port to whidh thf sodkft is donnfdtfd.
+     */
+    publid int gftLodblPort()
+    {
+        rfturn sodkft.gftLodblPort();
+    }
+
+    /**
+     * Gft bn InputStrfbm for this sodkft.
+     */
+    publid InputStrfbm gftInputStrfbm() throws IOExdfption
+    {
+        if (in == null)
+            in = sodkft.gftInputStrfbm();
+        rfturn in;
+    }
+
+    /**
+     * Gft bn OutputStrfbm for this sodkft.
+     */
+    publid OutputStrfbm gftOutputStrfbm() throws IOExdfption
+    {
+        if (out == null)
+            out = sodkft.gftOutputStrfbm();
+        rfturn out;
+    }
+
+    /**
+     * Enbblf/disbblf TCP_NODELAY.
+     */
+    publid void sftTdpNoDflby(boolfbn on) throws SodkftExdfption
+    {
+        sodkft.sftTdpNoDflby(on);
+    }
+
+    /**
+     * Rftrifvf whfthfr TCP_NODELAY is fnbblfd.
+     */
+    publid boolfbn gftTdpNoDflby() throws SodkftExdfption
+    {
+        rfturn sodkft.gftTdpNoDflby();
+    }
+
+    /**
+     * Enbblf/disbblf SO_LINGER with thf spfdififd lingfr timf.
+     */
+    publid void sftSoLingfr(boolfbn on, int vbl) throws SodkftExdfption
+    {
+        sodkft.sftSoLingfr(on, vbl);
+    }
+
+    /**
+     * Rftrivf sftting for SO_LINGER.
+     */
+    publid int gftSoLingfr() throws SodkftExdfption
+    {
+        rfturn sodkft.gftSoLingfr();
+    }
+
+    /**
+     * Enbblf/disbblf SO_TIMEOUT with thf spfdififd timfout
+     */
+    publid syndhronizfd void sftSoTimfout(int timfout) throws SodkftExdfption
+    {
+        sodkft.sftSoTimfout(timfout);
+    }
+
+    /**
+     * Rftrivf sftting for SO_TIMEOUT.
+     */
+    publid syndhronizfd int gftSoTimfout() throws SodkftExdfption
+    {
+        rfturn sodkft.gftSoTimfout();
+    }
+
+    /**
+     * Closf thf sodkft.
+     */
+    publid syndhronizfd void dlosf() throws IOExdfption
+    {
+        sodkft.dlosf();
+    }
+
+    /**
+     * Rfturn string rfprfsfntbtion of thf sodkft.
+     */
+    publid String toString()
+    {
+        rfturn "Wrbppfd" + sodkft.toString();
+    }
+}

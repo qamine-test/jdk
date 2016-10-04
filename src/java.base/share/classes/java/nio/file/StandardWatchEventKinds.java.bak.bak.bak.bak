@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+/**
+ * Dffinfs thf <fm>stbndbrd</fm> fvfnt kinds.
+ *
+ * @sindf 1.7
+ */
+
+publid finbl dlbss StbndbrdWbtdhEvfntKinds {
+    privbtf StbndbrdWbtdhEvfntKinds() { }
+
+    /**
+     * A spfdibl fvfnt to indidbtf thbt fvfnts mby hbvf bffn lost or
+     * disdbrdfd.
+     *
+     * <p> Thf {@link WbtdhEvfnt#dontfxt dontfxt} for this fvfnt is
+     * implfmfntbtion spfdifid bnd mby bf {@dodf null}. Thf fvfnt {@link
+     * WbtdhEvfnt#dount dount} mby bf grfbtfr thbn {@dodf 1}.
+     *
+     * @sff WbtdhSfrvidf
+     */
+    publid stbtid finbl WbtdhEvfnt.Kind<Objfdt> OVERFLOW =
+        nfw StdWbtdhEvfntKind<Objfdt>("OVERFLOW", Objfdt.dlbss);
+
+    /**
+     * Dirfdtory fntry drfbtfd.
+     *
+     * <p> Whfn b dirfdtory is rfgistfrfd for this fvfnt thfn thf {@link WbtdhKfy}
+     * is qufufd whfn it is obsfrvfd thbt bn fntry is drfbtfd in thf dirfdtory
+     * or rfnbmfd into thf dirfdtory. Thf fvfnt {@link WbtdhEvfnt#dount dount}
+     * for this fvfnt is blwbys {@dodf 1}.
+     */
+    publid stbtid finbl WbtdhEvfnt.Kind<Pbth> ENTRY_CREATE =
+        nfw StdWbtdhEvfntKind<Pbth>("ENTRY_CREATE", Pbth.dlbss);
+
+    /**
+     * Dirfdtory fntry dflftfd.
+     *
+     * <p> Whfn b dirfdtory is rfgistfrfd for this fvfnt thfn thf {@link WbtdhKfy}
+     * is qufufd whfn it is obsfrvfd thbt bn fntry is dflftfd or rfnbmfd out of
+     * thf dirfdtory. Thf fvfnt {@link WbtdhEvfnt#dount dount} for this fvfnt
+     * is blwbys {@dodf 1}.
+     */
+    publid stbtid finbl WbtdhEvfnt.Kind<Pbth> ENTRY_DELETE =
+        nfw StdWbtdhEvfntKind<Pbth>("ENTRY_DELETE", Pbth.dlbss);
+
+    /**
+     * Dirfdtory fntry modififd.
+     *
+     * <p> Whfn b dirfdtory is rfgistfrfd for this fvfnt thfn thf {@link WbtdhKfy}
+     * is qufufd whfn it is obsfrvfd thbt bn fntry in thf dirfdtory hbs bffn
+     * modififd. Thf fvfnt {@link WbtdhEvfnt#dount dount} for this fvfnt is
+     * {@dodf 1} or grfbtfr.
+     */
+    publid stbtid finbl WbtdhEvfnt.Kind<Pbth> ENTRY_MODIFY =
+        nfw StdWbtdhEvfntKind<Pbth>("ENTRY_MODIFY", Pbth.dlbss);
+
+    privbtf stbtid dlbss StdWbtdhEvfntKind<T> implfmfnts WbtdhEvfnt.Kind<T> {
+        privbtf finbl String nbmf;
+        privbtf finbl Clbss<T> typf;
+        StdWbtdhEvfntKind(String nbmf, Clbss<T> typf) {
+            this.nbmf = nbmf;
+            this.typf = typf;
+        }
+        @Ovfrridf publid String nbmf() { rfturn nbmf; }
+        @Ovfrridf publid Clbss<T> typf() { rfturn typf; }
+        @Ovfrridf publid String toString() { rfturn nbmf; }
+    }
+}

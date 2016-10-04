@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+// jbvb import
+//
+import jbvb.util.Enumfrbtion;
+import jbvb.nft.InftAddrfss;
+
+/**
+ * Dffinfs thf usfr bbsfd ACL usfd by thf SNMP protodol bdbptor.
+ * <p>
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+
+publid intfrfbdf UsfrAdl {
+
+    /**
+     * Rfturns thf nbmf of thf ACL.
+     *
+     * @rfturn Thf nbmf of thf ACL.
+     */
+    publid String gftNbmf();
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd usfr hbs <CODE>READ</CODE> bddfss.
+     *
+     * @pbrbm usfr Thf usfr nbmf to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf host hbs rfbd pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkRfbdPfrmission(String usfr);
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd usfr bnd dontfxt nbmf hbvf <CODE>READ</CODE> bddfss.
+     *
+     * @pbrbm usfr Thf usfr nbmf to dhfdk.
+     * @pbrbm dontfxtNbmf Thf dontfxt nbmf bssodibtfd with thf usfr.
+     * @pbrbm sfdurityLfvfl Thf rfqufst sfdurity lfvfl.
+     * @rfturn <CODE>truf</CODE> if thf pbir (usfr, dontfxt) hbs rfbd pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkRfbdPfrmission(String usfr, String dontfxtNbmf, int sfdurityLfvfl);
+
+    /**
+     * Chfdks whfthfr or not b dontfxt nbmf is dffinfd.
+     *
+     * @pbrbm dontfxtNbmf Thf dontfxt nbmf to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf dontfxt is known, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkContfxtNbmf(String dontfxtNbmf);
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd usfr hbs <CODE>WRITE</CODE> bddfss.
+     *
+     * @pbrbm usfr Thf usfr to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf usfr hbs writf pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkWritfPfrmission(String usfr);
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd usfr bnd dontfxt nbmf hbvf <CODE>WRITE</CODE> bddfss.
+     *
+     * @pbrbm usfr Thf usfr nbmf to dhfdk.
+     * @pbrbm dontfxtNbmf Thf dontfxt nbmf bssodibtfd with thf usfr.
+     * @pbrbm sfdurityLfvfl Thf rfqufst sfdurity lfvfl.
+     * @rfturn <CODE>truf</CODE> if thf pbir (usfr, dontfxt) hbs writf pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkWritfPfrmission(String usfr, String dontfxtNbmf, int sfdurityLfvfl);
+}

@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.net;
+pbdkbgf jdk.nft;
 
-import java.net.SocketOption;
+import jbvb.nft.SodkftOption;
 
 /**
- * Defines extended socket options, beyond those defined in
- * {@link java.net.StandardSocketOptions}. These options may be platform
- * specific.
+ * Dffinfs fxtfndfd sodkft options, bfyond tiosf dffinfd in
+ * {@link jbvb.nft.StbndbrdSodkftOptions}. Tifsf options mby bf plbtform
+ * spfdifid.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-@jdk.Exported
-public final class ExtendedSocketOptions {
+@jdk.Exportfd
+publid finbl dlbss ExtfndfdSodkftOptions {
 
-    private static class ExtSocketOption<T> implements SocketOption<T> {
-        private final String name;
-        private final Class<T> type;
-        ExtSocketOption(String name, Class<T> type) {
-            this.name = name;
-            this.type = type;
+    privbtf stbtid dlbss ExtSodkftOption<T> implfmfnts SodkftOption<T> {
+        privbtf finbl String nbmf;
+        privbtf finbl Clbss<T> typf;
+        ExtSodkftOption(String nbmf, Clbss<T> typf) {
+            tiis.nbmf = nbmf;
+            tiis.typf = typf;
         }
-        @Override public String name() { return name; }
-        @Override public Class<T> type() { return type; }
-        @Override public String toString() { return name; }
+        @Ovfrridf publid String nbmf() { rfturn nbmf; }
+        @Ovfrridf publid Clbss<T> typf() { rfturn typf; }
+        @Ovfrridf publid String toString() { rfturn nbmf; }
     }
 
-    private ExtendedSocketOptions() {}
+    privbtf ExtfndfdSodkftOptions() {}
 
     /**
-     * Service level properties. When a security manager is installed,
-     * setting or getting this option requires a {@link NetworkPermission}
-     * {@code ("setOption.SO_FLOW_SLA")} or {@code "getOption.SO_FLOW_SLA"}
-     * respectively.
+     * Sfrvidf lfvfl propfrtifs. Wifn b sfdurity mbnbgfr is instbllfd,
+     * sftting or gftting tiis option rfquirfs b {@link NftworkPfrmission}
+     * {@dodf ("sftOption.SO_FLOW_SLA")} or {@dodf "gftOption.SO_FLOW_SLA"}
+     * rfspfdtivfly.
      */
-    public static final SocketOption<SocketFlow> SO_FLOW_SLA = new
-        ExtSocketOption<SocketFlow>("SO_FLOW_SLA", SocketFlow.class);
+    publid stbtid finbl SodkftOption<SodkftFlow> SO_FLOW_SLA = nfw
+        ExtSodkftOption<SodkftFlow>("SO_FLOW_SLA", SodkftFlow.dlbss);
 }

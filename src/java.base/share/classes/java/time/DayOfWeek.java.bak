@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,399 +59,399 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_WEEK;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.DAYS;
 
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.time.temporal.WeekFields;
-import java.util.Locale;
+import jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr;
+import jbvb.timf.formbt.TfxtStylf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.tfmporbl.WffkFiflds;
+import jbvb.util.Lodblf;
 
 /**
- * A day-of-week, such as 'Tuesday'.
+ * A dby-of-wffk, sudi bs 'Tufsdby'.
  * <p>
- * {@code DayOfWeek} is an enum representing the 7 days of the week -
- * Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday.
+ * {@dodf DbyOfWffk} is bn fnum rfprfsfnting tif 7 dbys of tif wffk -
+ * Mondby, Tufsdby, Wfdnfsdby, Tiursdby, Fridby, Sbturdby bnd Sundby.
  * <p>
- * In addition to the textual enum name, each day-of-week has an {@code int} value.
- * The {@code int} value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
- * It is recommended that applications use the enum rather than the {@code int} value
- * to ensure code clarity.
+ * In bddition to tif tfxtubl fnum nbmf, fbdi dby-of-wffk ibs bn {@dodf int} vbluf.
+ * Tif {@dodf int} vbluf follows tif ISO-8601 stbndbrd, from 1 (Mondby) to 7 (Sundby).
+ * It is rfdommfndfd tibt bpplidbtions usf tif fnum rbtifr tibn tif {@dodf int} vbluf
+ * to fnsurf dodf dlbrity.
  * <p>
- * This enum provides access to the localized textual form of the day-of-week.
- * Some locales also assign different numeric values to the days, declaring
- * Sunday to have the value 1, however this class provides no support for this.
- * See {@link WeekFields} for localized week-numbering.
+ * Tiis fnum providfs bddfss to tif lodblizfd tfxtubl form of tif dby-of-wffk.
+ * Somf lodblfs blso bssign difffrfnt numfrid vblufs to tif dbys, dfdlbring
+ * Sundby to ibvf tif vbluf 1, iowfvfr tiis dlbss providfs no support for tiis.
+ * Sff {@link WffkFiflds} for lodblizfd wffk-numbfring.
  * <p>
- * <b>Do not use {@code ordinal()} to obtain the numeric representation of {@code DayOfWeek}.
- * Use {@code getValue()} instead.</b>
+ * <b>Do not usf {@dodf ordinbl()} to obtbin tif numfrid rfprfsfntbtion of {@dodf DbyOfWffk}.
+ * Usf {@dodf gftVbluf()} instfbd.</b>
  * <p>
- * This enum represents a common concept that is found in many calendar systems.
- * As such, this enum may be used by any calendar system that has the day-of-week
- * concept defined exactly equivalent to the ISO calendar system.
+ * Tiis fnum rfprfsfnts b dommon dondfpt tibt is found in mbny dblfndbr systfms.
+ * As sudi, tiis fnum mby bf usfd by bny dblfndbr systfm tibt ibs tif dby-of-wffk
+ * dondfpt dffinfd fxbdtly fquivblfnt to tif ISO dblfndbr systfm.
  *
- * @implSpec
- * This is an immutable and thread-safe enum.
+ * @implSpfd
+ * Tiis is bn immutbblf bnd tirfbd-sbff fnum.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public enum DayOfWeek implements TemporalAccessor, TemporalAdjuster {
+publid fnum DbyOfWffk implfmfnts TfmporblAddfssor, TfmporblAdjustfr {
 
     /**
-     * The singleton instance for the day-of-week of Monday.
-     * This has the numeric value of {@code 1}.
+     * Tif singlfton instbndf for tif dby-of-wffk of Mondby.
+     * Tiis ibs tif numfrid vbluf of {@dodf 1}.
      */
     MONDAY,
     /**
-     * The singleton instance for the day-of-week of Tuesday.
-     * This has the numeric value of {@code 2}.
+     * Tif singlfton instbndf for tif dby-of-wffk of Tufsdby.
+     * Tiis ibs tif numfrid vbluf of {@dodf 2}.
      */
     TUESDAY,
     /**
-     * The singleton instance for the day-of-week of Wednesday.
-     * This has the numeric value of {@code 3}.
+     * Tif singlfton instbndf for tif dby-of-wffk of Wfdnfsdby.
+     * Tiis ibs tif numfrid vbluf of {@dodf 3}.
      */
     WEDNESDAY,
     /**
-     * The singleton instance for the day-of-week of Thursday.
-     * This has the numeric value of {@code 4}.
+     * Tif singlfton instbndf for tif dby-of-wffk of Tiursdby.
+     * Tiis ibs tif numfrid vbluf of {@dodf 4}.
      */
     THURSDAY,
     /**
-     * The singleton instance for the day-of-week of Friday.
-     * This has the numeric value of {@code 5}.
+     * Tif singlfton instbndf for tif dby-of-wffk of Fridby.
+     * Tiis ibs tif numfrid vbluf of {@dodf 5}.
      */
     FRIDAY,
     /**
-     * The singleton instance for the day-of-week of Saturday.
-     * This has the numeric value of {@code 6}.
+     * Tif singlfton instbndf for tif dby-of-wffk of Sbturdby.
+     * Tiis ibs tif numfrid vbluf of {@dodf 6}.
      */
     SATURDAY,
     /**
-     * The singleton instance for the day-of-week of Sunday.
-     * This has the numeric value of {@code 7}.
+     * Tif singlfton instbndf for tif dby-of-wffk of Sundby.
+     * Tiis ibs tif numfrid vbluf of {@dodf 7}.
      */
     SUNDAY;
     /**
-     * Private cache of all the constants.
+     * Privbtf dbdif of bll tif donstbnts.
      */
-    private static final DayOfWeek[] ENUMS = DayOfWeek.values();
+    privbtf stbtid finbl DbyOfWffk[] ENUMS = DbyOfWffk.vblufs();
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code DayOfWeek} from an {@code int} value.
+     * Obtbins bn instbndf of {@dodf DbyOfWffk} from bn {@dodf int} vbluf.
      * <p>
-     * {@code DayOfWeek} is an enum representing the 7 days of the week.
-     * This factory allows the enum to be obtained from the {@code int} value.
-     * The {@code int} value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
+     * {@dodf DbyOfWffk} is bn fnum rfprfsfnting tif 7 dbys of tif wffk.
+     * Tiis fbdtory bllows tif fnum to bf obtbinfd from tif {@dodf int} vbluf.
+     * Tif {@dodf int} vbluf follows tif ISO-8601 stbndbrd, from 1 (Mondby) to 7 (Sundby).
      *
-     * @param dayOfWeek  the day-of-week to represent, from 1 (Monday) to 7 (Sunday)
-     * @return the day-of-week singleton, not null
-     * @throws DateTimeException if the day-of-week is invalid
+     * @pbrbm dbyOfWffk  tif dby-of-wffk to rfprfsfnt, from 1 (Mondby) to 7 (Sundby)
+     * @rfturn tif dby-of-wffk singlfton, not null
+     * @tirows DbtfTimfExdfption if tif dby-of-wffk is invblid
      */
-    public static DayOfWeek of(int dayOfWeek) {
-        if (dayOfWeek < 1 || dayOfWeek > 7) {
-            throw new DateTimeException("Invalid value for DayOfWeek: " + dayOfWeek);
+    publid stbtid DbyOfWffk of(int dbyOfWffk) {
+        if (dbyOfWffk < 1 || dbyOfWffk > 7) {
+            tirow nfw DbtfTimfExdfption("Invblid vbluf for DbyOfWffk: " + dbyOfWffk);
         }
-        return ENUMS[dayOfWeek - 1];
+        rfturn ENUMS[dbyOfWffk - 1];
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code DayOfWeek} from a temporal object.
+     * Obtbins bn instbndf of {@dodf DbyOfWffk} from b tfmporbl objfdt.
      * <p>
-     * This obtains a day-of-week based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code DayOfWeek}.
+     * Tiis obtbins b dby-of-wffk bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf DbyOfWffk}.
      * <p>
-     * The conversion extracts the {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} field.
+     * Tif donvfrsion fxtrbdts tif {@link CironoFifld#DAY_OF_WEEK DAY_OF_WEEK} fifld.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code DayOfWeek::from}.
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf DbyOfWffk::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the day-of-week, not null
-     * @throws DateTimeException if unable to convert to a {@code DayOfWeek}
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif dby-of-wffk, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf DbyOfWffk}
      */
-    public static DayOfWeek from(TemporalAccessor temporal) {
-        if (temporal instanceof DayOfWeek) {
-            return (DayOfWeek) temporal;
+    publid stbtid DbyOfWffk from(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof DbyOfWffk) {
+            rfturn (DbyOfWffk) tfmporbl;
         }
         try {
-            return of(temporal.get(DAY_OF_WEEK));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain DayOfWeek from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+            rfturn of(tfmporbl.gft(DAY_OF_WEEK));
+        } dbtdi (DbtfTimfExdfption fx) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin DbyOfWffk from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf(), fx);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the day-of-week {@code int} value.
+     * Gfts tif dby-of-wffk {@dodf int} vbluf.
      * <p>
-     * The values are numbered following the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
-     * See {@link java.time.temporal.WeekFields#dayOfWeek()} for localized week-numbering.
+     * Tif vblufs brf numbfrfd following tif ISO-8601 stbndbrd, from 1 (Mondby) to 7 (Sundby).
+     * Sff {@link jbvb.timf.tfmporbl.WffkFiflds#dbyOfWffk()} for lodblizfd wffk-numbfring.
      *
-     * @return the day-of-week, from 1 (Monday) to 7 (Sunday)
+     * @rfturn tif dby-of-wffk, from 1 (Mondby) to 7 (Sundby)
      */
-    public int getValue() {
-        return ordinal() + 1;
+    publid int gftVbluf() {
+        rfturn ordinbl() + 1;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the textual representation, such as 'Mon' or 'Friday'.
+     * Gfts tif tfxtubl rfprfsfntbtion, sudi bs 'Mon' or 'Fridby'.
      * <p>
-     * This returns the textual name used to identify the day-of-week,
-     * suitable for presentation to the user.
-     * The parameters control the style of the returned text and the locale.
+     * Tiis rfturns tif tfxtubl nbmf usfd to idfntify tif dby-of-wffk,
+     * suitbblf for prfsfntbtion to tif usfr.
+     * Tif pbrbmftfrs dontrol tif stylf of tif rfturnfd tfxt bnd tif lodblf.
      * <p>
-     * If no textual mapping is found then the {@link #getValue() numeric value} is returned.
+     * If no tfxtubl mbpping is found tifn tif {@link #gftVbluf() numfrid vbluf} is rfturnfd.
      *
-     * @param style  the length of the text required, not null
-     * @param locale  the locale to use, not null
-     * @return the text value of the day-of-week, not null
+     * @pbrbm stylf  tif lfngti of tif tfxt rfquirfd, not null
+     * @pbrbm lodblf  tif lodblf to usf, not null
+     * @rfturn tif tfxt vbluf of tif dby-of-wffk, not null
      */
-    public String getDisplayName(TextStyle style, Locale locale) {
-        return new DateTimeFormatterBuilder().appendText(DAY_OF_WEEK, style).toFormatter(locale).format(this);
+    publid String gftDisplbyNbmf(TfxtStylf stylf, Lodblf lodblf) {
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndTfxt(DAY_OF_WEEK, stylf).toFormbttfr(lodblf).formbt(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the specified field is supported.
+     * Cifdks if tif spfdififd fifld is supportfd.
      * <p>
-     * This checks if this day-of-week can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range} and
-     * {@link #get(TemporalField) get} methods will throw an exception.
+     * Tiis difdks if tiis dby-of-wffk dbn bf qufrifd for tif spfdififd fifld.
+     * If fblsf, tifn dblling tif {@link #rbngf(TfmporblFifld) rbngf} bnd
+     * {@link #gft(TfmporblFifld) gft} mftiods will tirow bn fxdfption.
      * <p>
-     * If the field is {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} then
-     * this method returns true.
-     * All other {@code ChronoField} instances will return false.
+     * If tif fifld is {@link CironoFifld#DAY_OF_WEEK DAY_OF_WEEK} tifn
+     * tiis mftiod rfturns truf.
+     * All otifr {@dodf CironoFifld} instbndfs will rfturn fblsf.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the field is supported is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif fifld is supportfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this day-of-week, false if not
+     * @pbrbm fifld  tif fifld to difdk, null rfturns fblsf
+     * @rfturn truf if tif fifld is supportfd on tiis dby-of-wffk, fblsf if not
      */
-    @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == DAY_OF_WEEK;
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            rfturn fifld == DAY_OF_WEEK;
         }
-        return field != null && field.isSupportedBy(this);
+        rfturn fifld != null && fifld.isSupportfdBy(tiis);
     }
 
     /**
-     * Gets the range of valid values for the specified field.
+     * Gfts tif rbngf of vblid vblufs for tif spfdififd fifld.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This day-of-week is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tif rbngf objfdt fxprfssfs tif minimum bnd mbximum vblid vblufs for b fifld.
+     * Tiis dby-of-wffk is usfd to fnibndf tif bddurbdy of tif rfturnfd rbngf.
+     * If it is not possiblf to rfturn tif rbngf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} then the
-     * range of the day-of-week, from 1 to 7, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is {@link CironoFifld#DAY_OF_WEEK DAY_OF_WEEK} tifn tif
+     * rbngf of tif dby-of-wffk, from 1 to 7, will bf rfturnfd.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif rbngf dbn bf obtbinfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm fifld  tif fifld to qufry tif rbngf for, not null
+     * @rfturn tif rbngf of vblid vblufs for tif fifld, not null
+     * @tirows DbtfTimfExdfption if tif rbngf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
      */
-    @Override
-    public ValueRange range(TemporalField field) {
-        if (field == DAY_OF_WEEK) {
-            return field.range();
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld == DAY_OF_WEEK) {
+            rfturn fifld.rbngf();
         }
-        return TemporalAccessor.super.range(field);
+        rfturn TfmporblAddfssor.supfr.rbngf(fifld);
     }
 
     /**
-     * Gets the value of the specified field from this day-of-week as an {@code int}.
+     * Gfts tif vbluf of tif spfdififd fifld from tiis dby-of-wffk bs bn {@dodf int}.
      * <p>
-     * This queries this day-of-week for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tiis qufrifs tiis dby-of-wffk for tif vbluf of tif spfdififd fifld.
+     * Tif rfturnfd vbluf will blwbys bf witiin tif vblid rbngf of vblufs for tif fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} then the
-     * value of the day-of-week, from 1 to 7, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is {@link CironoFifld#DAY_OF_WEEK DAY_OF_WEEK} tifn tif
+     * vbluf of tif dby-of-wffk, from 1 to 7, will bf rfturnfd.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field, within the valid range of values
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld, witiin tif vblid rbngf of vblufs
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd or
+     *         tif vbluf is outsidf tif rbngf of vblid vblufs for tif fifld
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd or
+     *         tif rbngf of vblufs fxdffds bn {@dodf int}
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public int get(TemporalField field) {
-        if (field == DAY_OF_WEEK) {
-            return getValue();
+    @Ovfrridf
+    publid int gft(TfmporblFifld fifld) {
+        if (fifld == DAY_OF_WEEK) {
+            rfturn gftVbluf();
         }
-        return TemporalAccessor.super.get(field);
+        rfturn TfmporblAddfssor.supfr.gft(fifld);
     }
 
     /**
-     * Gets the value of the specified field from this day-of-week as a {@code long}.
+     * Gfts tif vbluf of tif spfdififd fifld from tiis dby-of-wffk bs b {@dodf long}.
      * <p>
-     * This queries this day-of-week for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tiis qufrifs tiis dby-of-wffk for tif vbluf of tif spfdififd fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is {@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} then the
-     * value of the day-of-week, from 1 to 7, will be returned.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is {@link CironoFifld#DAY_OF_WEEK DAY_OF_WEEK} tifn tif
+     * vbluf of tif dby-of-wffk, from 1 to 7, will bf rfturnfd.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public long getLong(TemporalField field) {
-        if (field == DAY_OF_WEEK) {
-            return getValue();
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld == DAY_OF_WEEK) {
+            rfturn gftVbluf();
+        } flsf if (fifld instbndfof CironoFifld) {
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.getFrom(this);
+        rfturn fifld.gftFrom(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the day-of-week that is the specified number of days after this one.
+     * Rfturns tif dby-of-wffk tibt is tif spfdififd numbfr of dbys bftfr tiis onf.
      * <p>
-     * The calculation rolls around the end of the week from Sunday to Monday.
-     * The specified period may be negative.
+     * Tif dbldulbtion rolls bround tif fnd of tif wffk from Sundby to Mondby.
+     * Tif spfdififd pfriod mby bf nfgbtivf.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param days  the days to add, positive or negative
-     * @return the resulting day-of-week, not null
+     * @pbrbm dbys  tif dbys to bdd, positivf or nfgbtivf
+     * @rfturn tif rfsulting dby-of-wffk, not null
      */
-    public DayOfWeek plus(long days) {
-        int amount = (int) (days % 7);
-        return ENUMS[(ordinal() + (amount + 7)) % 7];
+    publid DbyOfWffk plus(long dbys) {
+        int bmount = (int) (dbys % 7);
+        rfturn ENUMS[(ordinbl() + (bmount + 7)) % 7];
     }
 
     /**
-     * Returns the day-of-week that is the specified number of days before this one.
+     * Rfturns tif dby-of-wffk tibt is tif spfdififd numbfr of dbys bfforf tiis onf.
      * <p>
-     * The calculation rolls around the start of the year from Monday to Sunday.
-     * The specified period may be negative.
+     * Tif dbldulbtion rolls bround tif stbrt of tif yfbr from Mondby to Sundby.
+     * Tif spfdififd pfriod mby bf nfgbtivf.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param days  the days to subtract, positive or negative
-     * @return the resulting day-of-week, not null
+     * @pbrbm dbys  tif dbys to subtrbdt, positivf or nfgbtivf
+     * @rfturn tif rfsulting dby-of-wffk, not null
      */
-    public DayOfWeek minus(long days) {
-        return plus(-(days % 7));
+    publid DbyOfWffk minus(long dbys) {
+        rfturn plus(-(dbys % 7));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this day-of-week using the specified query.
+     * Qufrifs tiis dby-of-wffk using tif spfdififd qufry.
      * <p>
-     * This queries this day-of-week using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * Tiis qufrifs tiis dby-of-wffk using tif spfdififd qufry strbtfgy objfdt.
+     * Tif {@dodf TfmporblQufry} objfdt dffinfs tif logid to bf usfd to
+     * obtbin tif rfsult. Rfbd tif dodumfntbtion of tif qufry to undfrstbnd
+     * wibt tif rfsult of tiis mftiod will bf.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * Tif rfsult of tiis mftiod is obtbinfd by invoking tif
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mftiod on tif
+     * spfdififd qufry pbssing {@dodf tiis} bs tif brgumfnt.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
-     * @throws ArithmeticException if numeric overflow occurs (defined by the query)
+     * @pbrbm <R> tif typf of tif rfsult
+     * @pbrbm qufry  tif qufry to invokf, not null
+     * @rfturn tif qufry rfsult, null mby bf rfturnfd (dffinfd by tif qufry)
+     * @tirows DbtfTimfExdfption if unbblf to qufry (dffinfd by tif qufry)
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs (dffinfd by tif qufry)
      */
-    @SuppressWarnings("unchecked")
-    @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.precision()) {
-            return (R) DAYS;
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    publid <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.prfdision()) {
+            rfturn (R) DAYS;
         }
-        return TemporalAccessor.super.query(query);
+        rfturn TfmporblAddfssor.supfr.qufry(qufry);
     }
 
     /**
-     * Adjusts the specified temporal object to have this day-of-week.
+     * Adjusts tif spfdififd tfmporbl objfdt to ibvf tiis dby-of-wffk.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the day-of-week changed to be the same as this.
+     * Tiis rfturns b tfmporbl objfdt of tif sbmf obsfrvbblf typf bs tif input
+     * witi tif dby-of-wffk dibngfd to bf tif sbmf bs tiis.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * passing {@link ChronoField#DAY_OF_WEEK} as the field.
-     * Note that this adjusts forwards or backwards within a Monday to Sunday week.
-     * See {@link java.time.temporal.WeekFields#dayOfWeek()} for localized week start days.
-     * See {@code TemporalAdjuster} for other adjusters with more control,
-     * such as {@code next(MONDAY)}.
+     * Tif bdjustmfnt is fquivblfnt to using {@link Tfmporbl#witi(TfmporblFifld, long)}
+     * pbssing {@link CironoFifld#DAY_OF_WEEK} bs tif fifld.
+     * Notf tibt tiis bdjusts forwbrds or bbdkwbrds witiin b Mondby to Sundby wffk.
+     * Sff {@link jbvb.timf.tfmporbl.WffkFiflds#dbyOfWffk()} for lodblizfd wffk stbrt dbys.
+     * Sff {@dodf TfmporblAdjustfr} for otifr bdjustfrs witi morf dontrol,
+     * sudi bs {@dodf nfxt(MONDAY)}.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisDayOfWeek.adjustInto(temporal);
-     *   temporal = temporal.with(thisDayOfWeek);
-     * </pre>
+     * In most dbsfs, it is dlfbrfr to rfvfrsf tif dblling pbttfrn by using
+     * {@link Tfmporbl#witi(TfmporblAdjustfr)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisDbyOfWffk.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.witi(tiisDbyOfWffk);
+     * </prf>
      * <p>
-     * For example, given a date that is a Wednesday, the following are output:
-     * <pre>
-     *   dateOnWed.with(MONDAY);     // two days earlier
-     *   dateOnWed.with(TUESDAY);    // one day earlier
-     *   dateOnWed.with(WEDNESDAY);  // same date
-     *   dateOnWed.with(THURSDAY);   // one day later
-     *   dateOnWed.with(FRIDAY);     // two days later
-     *   dateOnWed.with(SATURDAY);   // three days later
-     *   dateOnWed.with(SUNDAY);     // four days later
-     * </pre>
+     * For fxbmplf, givfn b dbtf tibt is b Wfdnfsdby, tif following brf output:
+     * <prf>
+     *   dbtfOnWfd.witi(MONDAY);     // two dbys fbrlifr
+     *   dbtfOnWfd.witi(TUESDAY);    // onf dby fbrlifr
+     *   dbtfOnWfd.witi(WEDNESDAY);  // sbmf dbtf
+     *   dbtfOnWfd.witi(THURSDAY);   // onf dby lbtfr
+     *   dbtfOnWfd.witi(FRIDAY);     // two dbys lbtfr
+     *   dbtfOnWfd.witi(SATURDAY);   // tirff dbys lbtfr
+     *   dbtfOnWfd.witi(SUNDAY);     // four dbys lbtfr
+     * </prf>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm tfmporbl  tif tbrgft objfdt to bf bdjustfd, not null
+     * @rfturn tif bdjustfd objfdt, not null
+     * @tirows DbtfTimfExdfption if unbblf to mbkf tif bdjustmfnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public Temporal adjustInto(Temporal temporal) {
-        return temporal.with(DAY_OF_WEEK, getValue());
+    @Ovfrridf
+    publid Tfmporbl bdjustInto(Tfmporbl tfmporbl) {
+        rfturn tfmporbl.witi(DAY_OF_WEEK, gftVbluf());
     }
 
 }

@@ -1,69 +1,69 @@
 <HTML>
 <HEAD>
-   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
-   <TITLE>trace example</TITLE>
+   <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+   <TITLE>trbdf fxbmplf</TITLE>
 </HEAD>
 <BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#000077" ALINK="#FF0000">
-<H2>trace example</H2>
+<H2>trbdf fxbmplf</H2>
 
-<B>Trace</B> runs the Java language program passed as an argument and
-generates a trace of its execution.  <B>Trace</B> is a simple command
-line tool that uses the 
-<A HREF="http://java.sun.com/j2se/1.4/docs/guide/jpda/architecture.html#jdi">
-Java Debug Interface (JDI)</A>.  Programs need
-not be compiled for debugging since this information is not
-used.  
+<B>Trbdf</B> runs tif Jbvb lbngubgf progrbm pbssfd bs bn brgumfnt bnd
+gfnfrbtfs b trbdf of its fxfdution.  <B>Trbdf</B> is b simplf dommbnd
+linf tool tibt usfs tif 
+<A HREF="ittp://jbvb.sun.dom/j2sf/1.4/dods/guidf/jpdb/brdiitfdturf.itml#jdi">
+Jbvb Dfbug Intfrfbdf (JDI)</A>.  Progrbms nffd
+not bf dompilfd for dfbugging sindf tiis informbtion is not
+usfd.  
 <P>
-<B>Trace</B> can be invoked as follows:
+<B>Trbdf</B> dbn bf invokfd bs follows:
 <PRE>
-        java com.sun.tools.example.trace.Trace <i>options class args</i>
+        jbvb dom.sun.tools.fxbmplf.trbdf.Trbdf <i>options dlbss brgs</i>
 </PRE>
-Your classpath must include the JDI Library 
-(see <A HREF="index.html#SETUP">set-up</A>),
-the path to the compiled <b>trace</b> class files,
-and the path for the application being traced.
+Your dlbsspbti must indludf tif JDI Librbry 
+(sff <A HREF="indfx.itml#SETUP">sft-up</A>),
+tif pbti to tif dompilfd <b>trbdf</b> dlbss filfs,
+bnd tif pbti for tif bpplidbtion bfing trbdfd.
 <P>
-Available <i>options</i> are:
+Avbilbblf <i>options</i> brf:
 
 <PRE>
-  -output <i>filename</i>   
-        Set destination for output trace. By default output
-        goes to the terminal.
+  -output <i>filfnbmf</i>   
+        Sft dfstinbtion for output trbdf. By dffbult output
+        gofs to tif tfrminbl.
 
-  -all                 
-        Include system classes in output.  By default
-        java.*, javax.*, sun.* and com.sun.* events are
-        not diplayed.
+  -bll                 
+        Indludf systfm dlbssfs in output.  By dffbult
+        jbvb.*, jbvbx.*, sun.* bnd dom.sun.* fvfnts brf
+        not diplbyfd.
 
-  -fields
-        Also show assignments into fields.
+  -fiflds
+        Also siow bssignmfnts into fiflds.
 
-  -help              
-        Print a help message
+  -iflp              
+        Print b iflp mfssbgf
 
 </PRE>
-<i>class</i> is the program to trace. <i>args</i> are the arguments to <i>class</i>.
+<i>dlbss</i> is tif progrbm to trbdf. <i>brgs</i> brf tif brgumfnts to <i>dlbss</i>.
 <P>
 
-<H2>Source for trace</H2>
-Full source code for <b>trace</b> is included in the
-<code>trace</code> directory of <code>examples.jar</code>.  
-Source code for these example applications is included to provide concrete
-examples for debugger developers.  Example code may be used, modified
-and redistributed by debugger developers providing they adhere to the
-terms in the COPYRIGHT notice.
+<H2>Sourdf for trbdf</H2>
+Full sourdf dodf for <b>trbdf</b> is indludfd in tif
+<dodf>trbdf</dodf> dirfdtory of <dodf>fxbmplfs.jbr</dodf>.  
+Sourdf dodf for tifsf fxbmplf bpplidbtions is indludfd to providf dondrftf
+fxbmplfs for dfbuggfr dfvflopfrs.  Exbmplf dodf mby bf usfd, modififd
+bnd rfdistributfd by dfbuggfr dfvflopfrs providing tify bdifrf to tif
+tfrms in tif COPYRIGHT notidf.
 
 <P>
-<H2>Building trace</H2>
-To completely rebuild the <b>trace</b> classes from the 
-provided source files in the <code>trace</code> directory, 
-you need only to compile them. No special
-options are required, aside from those which set your classpath to 
-include the <A HREF="index.html#SETUP">JDI Library</A>.
+<H2>Building trbdf</H2>
+To domplftfly rfbuild tif <b>trbdf</b> dlbssfs from tif 
+providfd sourdf filfs in tif <dodf>trbdf</dodf> dirfdtory, 
+you nffd only to dompilf tifm. No spfdibl
+options brf rfquirfd, bsidf from tiosf wiidi sft your dlbsspbti to 
+indludf tif <A HREF="indfx.itml#SETUP">JDI Librbry</A>.
 
 <P>
-    <hr>
-    <address><a href="mailto:java-debugger@java.sun.com">java-debugger@java.sun.com</a></address>
+    <ir>
+    <bddrfss><b irff="mbilto:jbvb-dfbuggfr@jbvb.sun.dom">jbvb-dfbuggfr@jbvb.sun.dom</b></bddrfss>
     </P>
 <P>
 </P>

@@ -1,302 +1,302 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.plaf.basic.*;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingConstants;
-public class XButtonPeer extends XComponentPeer implements ButtonPeer {
-    private boolean pressed;
-    private boolean armed;
-    private Insets focusInsets;
-    private Insets borderInsets;
-    private Insets contentAreaInsets;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.SwingConstbnts;
+publid dlbss XButtonPffr fxtfnds XComponfntPffr implfmfnts ButtonPffr {
+    privbtf boolfbn prfssfd;
+    privbtf boolfbn brmfd;
+    privbtf Insfts fodusInsfts;
+    privbtf Insfts bordfrInsfts;
+    privbtf Insfts dontfntArfbInsfts;
 
-    private final static String propertyPrefix = "Button" + ".";
-    protected Color focusColor =  SystemColor.windowText;
+    privbtf finbl stbtid String propfrtyPrffix = "Button" + ".";
+    protfdtfd Color fodusColor =  SystfmColor.windowTfxt;
 
-    private boolean disposed = false;
+    privbtf boolfbn disposfd = fblsf;
 
-    String label;
+    String lbbfl;
 
-    protected String getPropertyPrefix() {
-        return propertyPrefix;
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn propfrtyPrffix;
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        borderInsets = new Insets(2,2,2,2);
-        focusInsets = new Insets(0,0,0,0);
-        contentAreaInsets = new Insets(3,3,3,3);
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        bordfrInsfts = nfw Insfts(2,2,2,2);
+        fodusInsfts = nfw Insfts(0,0,0,0);
+        dontfntArfbInsfts = nfw Insfts(3,3,3,3);
     }
 
 
-    public  XButtonPeer(Button target) {
-        super(target);
-        pressed = false;
-        armed = false;
-        label = target.getLabel();
-        updateMotifColors(getPeerBackground());
+    publid  XButtonPffr(Button tbrgft) {
+        supfr(tbrgft);
+        prfssfd = fblsf;
+        brmfd = fblsf;
+        lbbfl = tbrgft.gftLbbfl();
+        updbtfMotifColors(gftPffrBbdkground());
     }
 
-    public  void dispose() {
-        synchronized (target)
+    publid  void disposf() {
+        syndironizfd (tbrgft)
         {
-            disposed = true;
+            disposfd = truf;
         }
-        super.dispose();
+        supfr.disposf();
     }
 
-    public boolean isFocusable() {
-        return true;
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
     }
 
-    @Override
-    public void setLabel(String label) {
-        if (label == null) {
-            label = "";
+    @Ovfrridf
+    publid void sftLbbfl(String lbbfl) {
+        if (lbbfl == null) {
+            lbbfl = "";
         }
-        if (!label.equals(this.label)) {
-            this.label = label;
-            repaint();
+        if (!lbbfl.fqubls(tiis.lbbfl)) {
+            tiis.lbbfl = lbbfl;
+            rfpbint();
         }
     }
 
-    public void setBackground(Color c) {
-        updateMotifColors(c);
-        super.setBackground(c);
+    publid void sftBbdkground(Color d) {
+        updbtfMotifColors(d);
+        supfr.sftBbdkground(d);
     }
 
-    void handleJavaMouseEvent(MouseEvent e) {
-        super.handleJavaMouseEvent(e);
-        int id = e.getID();
-        switch (id) {
-          case MouseEvent.MOUSE_PRESSED:
-              if (XToolkit.isLeftMouseButton(e) ) {
-                  Button b = (Button) e.getSource();
+    void ibndlfJbvbMousfEvfnt(MousfEvfnt f) {
+        supfr.ibndlfJbvbMousfEvfnt(f);
+        int id = f.gftID();
+        switdi (id) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              if (XToolkit.isLfftMousfButton(f) ) {
+                  Button b = (Button) f.gftSourdf();
 
-                  if(b.contains(e.getX(), e.getY())) {
-                      if (!isEnabled()) {
-                          // Disabled buttons ignore all input...
-                          return;
+                  if(b.dontbins(f.gftX(), f.gftY())) {
+                      if (!isEnbblfd()) {
+                          // Disbblfd buttons ignorf bll input...
+                          rfturn;
                       }
-                      pressed = true;
-                      armed = true;
-                      repaint();
+                      prfssfd = truf;
+                      brmfd = truf;
+                      rfpbint();
                   }
               }
 
-              break;
+              brfbk;
 
-          case MouseEvent.MOUSE_RELEASED:
-              if (XToolkit.isLeftMouseButton(e)) {
-                  if (armed)
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              if (XToolkit.isLfftMousfButton(f)) {
+                  if (brmfd)
                   {
-                      action(e.getWhen(),e.getModifiers());
+                      bdtion(f.gftWifn(),f.gftModififrs());
                   }
-                  pressed = false;
-                  armed = false;
-                  repaint();
+                  prfssfd = fblsf;
+                  brmfd = fblsf;
+                  rfpbint();
               }
 
-              break;
+              brfbk;
 
-          case  MouseEvent.MOUSE_ENTERED:
-              if (pressed)
-                  armed = true;
-              break;
-          case MouseEvent.MOUSE_EXITED:
-              armed = false;
-              break;
+          dbsf  MousfEvfnt.MOUSE_ENTERED:
+              if (prfssfd)
+                  brmfd = truf;
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_EXITED:
+              brmfd = fblsf;
+              brfbk;
         }
     }
 
 
-    // NOTE: This method is called by privileged threads.
+    // NOTE: Tiis mftiod is dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void action(final long when, final int modifiers) {
-        postEvent(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                  ((Button)target).getActionCommand(),
-                                  when, modifiers));
+    publid void bdtion(finbl long wifn, finbl int modififrs) {
+        postEvfnt(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                  ((Button)tbrgft).gftAdtionCommbnd(),
+                                  wifn, modififrs));
     }
 
 
-    public void focusGained(FocusEvent e) {
-        super.focusGained(e);
-        repaint();
+    publid void fodusGbinfd(FodusEvfnt f) {
+        supfr.fodusGbinfd(f);
+        rfpbint();
     }
 
-    public void focusLost(FocusEvent e) {
-        super.focusLost(e);
-        repaint();
+    publid void fodusLost(FodusEvfnt f) {
+        supfr.fodusLost(f);
+        rfpbint();
     }
 
-    void handleJavaKeyEvent(KeyEvent e) {
-        int id = e.getID();
-        switch (id) {
-          case KeyEvent.KEY_PRESSED:
-              if (e.getKeyCode() == KeyEvent.VK_SPACE)
+    void ibndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        int id = f.gftID();
+        switdi (id) {
+          dbsf KfyEvfnt.KEY_PRESSED:
+              if (f.gftKfyCodf() == KfyEvfnt.VK_SPACE)
               {
-                  pressed=true;
-                  armed=true;
-                  repaint();
-                  action(e.getWhen(),e.getModifiers());
+                  prfssfd=truf;
+                  brmfd=truf;
+                  rfpbint();
+                  bdtion(f.gftWifn(),f.gftModififrs());
               }
 
-              break;
+              brfbk;
 
-          case KeyEvent.KEY_RELEASED:
-              if (e.getKeyCode() == KeyEvent.VK_SPACE)
+          dbsf KfyEvfnt.KEY_RELEASED:
+              if (f.gftKfyCodf() == KfyEvfnt.VK_SPACE)
               {
-                  pressed = false;
-                  armed = false;
-                  repaint();
+                  prfssfd = fblsf;
+                  brmfd = fblsf;
+                  rfpbint();
               }
 
-              break;
+              brfbk;
 
 
         }
     }
 
-    public Dimension getMinimumSize() {
-        FontMetrics fm = getFontMetrics(getPeerFont());
-        if ( label == null ) {
-            label = "";
+    publid Dimfnsion gftMinimumSizf() {
+        FontMftrids fm = gftFontMftrids(gftPffrFont());
+        if ( lbbfl == null ) {
+            lbbfl = "";
         }
-        return new Dimension(fm.stringWidth(label) + 14,
-                             fm.getHeight() + 8);
+        rfturn nfw Dimfnsion(fm.stringWidti(lbbfl) + 14,
+                             fm.gftHfigit() + 8);
     }
 
     /**
      * DEPRECATED
      */
-    public Dimension minimumSize() {
-        return getMinimumSize();
+    publid Dimfnsion minimumSizf() {
+        rfturn gftMinimumSizf();
     }
     /**
-     * This method is called from Toolkit Thread and so it should not call any
-     * client code.
+     * Tiis mftiod is dbllfd from Toolkit Tirfbd bnd so it siould not dbll bny
+     * dlifnt dodf.
      */
-    @Override
-    void paintPeer(final Graphics g) {
-        if (!disposed) {
-            Dimension size = getPeerSize();
-            g.setColor( getPeerBackground() );   /* erase the existing button remains */
-            g.fillRect(0,0, size.width , size.height);
-            paintBorder(g,borderInsets.left,
-                        borderInsets.top,
-                        size.width-(borderInsets.left+borderInsets.right),
-                        size.height-(borderInsets.top+borderInsets.bottom));
+    @Ovfrridf
+    void pbintPffr(finbl Grbpiids g) {
+        if (!disposfd) {
+            Dimfnsion sizf = gftPffrSizf();
+            g.sftColor( gftPffrBbdkground() );   /* frbsf tif fxisting button rfmbins */
+            g.fillRfdt(0,0, sizf.widti , sizf.ifigit);
+            pbintBordfr(g,bordfrInsfts.lfft,
+                        bordfrInsfts.top,
+                        sizf.widti-(bordfrInsfts.lfft+bordfrInsfts.rigit),
+                        sizf.ifigit-(bordfrInsfts.top+bordfrInsfts.bottom));
 
-            FontMetrics fm = g.getFontMetrics();
+            FontMftrids fm = g.gftFontMftrids();
 
-            Rectangle textRect,iconRect,viewRect;
+            Rfdtbnglf tfxtRfdt,idonRfdt,vifwRfdt;
 
-            textRect = new Rectangle();
-            viewRect = new Rectangle();
-            iconRect = new Rectangle();
+            tfxtRfdt = nfw Rfdtbnglf();
+            vifwRfdt = nfw Rfdtbnglf();
+            idonRfdt = nfw Rfdtbnglf();
 
 
-            viewRect.width = size.width - (contentAreaInsets.left+contentAreaInsets.right);
-            viewRect.height = size.height - (contentAreaInsets.top+contentAreaInsets.bottom);
-            viewRect.x = contentAreaInsets.left;
-            viewRect.y = contentAreaInsets.top;
-            String llabel = (label != null) ? label : "";
-            // layout the text and icon
-            String text = SwingUtilities.layoutCompoundLabel(
-                                                             fm, llabel, null,
-                                                             SwingConstants.CENTER, SwingConstants.CENTER,
-                                                             SwingConstants.CENTER, SwingConstants.CENTER,
-                                                             viewRect, iconRect, textRect, 0);
+            vifwRfdt.widti = sizf.widti - (dontfntArfbInsfts.lfft+dontfntArfbInsfts.rigit);
+            vifwRfdt.ifigit = sizf.ifigit - (dontfntArfbInsfts.top+dontfntArfbInsfts.bottom);
+            vifwRfdt.x = dontfntArfbInsfts.lfft;
+            vifwRfdt.y = dontfntArfbInsfts.top;
+            String llbbfl = (lbbfl != null) ? lbbfl : "";
+            // lbyout tif tfxt bnd idon
+            String tfxt = SwingUtilitifs.lbyoutCompoundLbbfl(
+                                                             fm, llbbfl, null,
+                                                             SwingConstbnts.CENTER, SwingConstbnts.CENTER,
+                                                             SwingConstbnts.CENTER, SwingConstbnts.CENTER,
+                                                             vifwRfdt, idonRfdt, tfxtRfdt, 0);
 
-            Font f = getPeerFont();
+            Font f = gftPffrFont();
 
-            g.setFont(f);
+            g.sftFont(f);
 
-            // perform UI specific press action, e.g. Windows L&F shifts text
-            if (pressed && armed) {
-                paintButtonPressed(g,target);
+            // pfrform UI spfdifid prfss bdtion, f.g. Windows L&F siifts tfxt
+            if (prfssfd && brmfd) {
+                pbintButtonPrfssfd(g,tbrgft);
             }
 
-            paintText(g, target, textRect, text);
+            pbintTfxt(g, tbrgft, tfxtRfdt, tfxt);
 
-            if (hasFocus()) {
-                // paint UI specific focus
-                paintFocus(g,focusInsets.left,
-                           focusInsets.top,
-                           size.width-(focusInsets.left+focusInsets.right)-1,
-                           size.height-(focusInsets.top+focusInsets.bottom)-1);
+            if (ibsFodus()) {
+                // pbint UI spfdifid fodus
+                pbintFodus(g,fodusInsfts.lfft,
+                           fodusInsfts.top,
+                           sizf.widti-(fodusInsfts.lfft+fodusInsfts.rigit)-1,
+                           sizf.ifigit-(fodusInsfts.top+fodusInsfts.bottom)-1);
             }
         }
-        flush();
+        flusi();
     }
 
-    public void paintBorder(Graphics g, int x, int y, int w, int h) {
-        drawMotif3DRect(g, x, y, w-1, h-1, pressed);
+    publid void pbintBordfr(Grbpiids g, int x, int y, int w, int i) {
+        drbwMotif3DRfdt(g, x, y, w-1, i-1, prfssfd);
     }
 
-    protected void paintFocus(Graphics g, int x, int y, int w, int h){
-        g.setColor(focusColor);
-        g.drawRect(x,y,w,h);
+    protfdtfd void pbintFodus(Grbpiids g, int x, int y, int w, int i){
+        g.sftColor(fodusColor);
+        g.drbwRfdt(x,y,w,i);
     }
 
-    protected void paintButtonPressed(Graphics g, Component b) {
-        Dimension size = getPeerSize();
-        g.setColor(selectColor);
-        g.fillRect(contentAreaInsets.left,
-                   contentAreaInsets.top,
-                   size.width-(contentAreaInsets.left+contentAreaInsets.right),
-                   size.height-(contentAreaInsets.top+contentAreaInsets.bottom));
+    protfdtfd void pbintButtonPrfssfd(Grbpiids g, Componfnt b) {
+        Dimfnsion sizf = gftPffrSizf();
+        g.sftColor(sflfdtColor);
+        g.fillRfdt(dontfntArfbInsfts.lfft,
+                   dontfntArfbInsfts.top,
+                   sizf.widti-(dontfntArfbInsfts.lfft+dontfntArfbInsfts.rigit),
+                   sizf.ifigit-(dontfntArfbInsfts.top+dontfntArfbInsfts.bottom));
 
     }
-    protected void paintText(Graphics g, Component c, Rectangle textRect, String text) {
-        FontMetrics fm = g.getFontMetrics();
+    protfdtfd void pbintTfxt(Grbpiids g, Componfnt d, Rfdtbnglf tfxtRfdt, String tfxt) {
+        FontMftrids fm = g.gftFontMftrids();
 
-        int mnemonicIndex = -1;
+        int mnfmonidIndfx = -1;
 
-        /* Draw the Text */
-        if(isEnabled()) {
-            /*** paint the text normally */
-            g.setColor(getPeerForeground());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text,mnemonicIndex , textRect.x , textRect.y + fm.getAscent() );
+        /* Drbw tif Tfxt */
+        if(isEnbblfd()) {
+            /*** pbint tif tfxt normblly */
+            g.sftColor(gftPffrForfground());
+            BbsidGrbpiidsUtils.drbwStringUndfrlinfCibrAt(g,tfxt,mnfmonidIndfx , tfxtRfdt.x , tfxtRfdt.y + fm.gftAsdfnt() );
         }
-        else {
-            /*** paint the text disabled ***/
-            g.setColor(getPeerBackground().brighter());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text, mnemonicIndex,
-                                                         textRect.x, textRect.y + fm.getAscent());
-            g.setColor(getPeerBackground().darker());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text, mnemonicIndex,
-                                                         textRect.x - 1, textRect.y + fm.getAscent() - 1);
+        flsf {
+            /*** pbint tif tfxt disbblfd ***/
+            g.sftColor(gftPffrBbdkground().brigitfr());
+            BbsidGrbpiidsUtils.drbwStringUndfrlinfCibrAt(g,tfxt, mnfmonidIndfx,
+                                                         tfxtRfdt.x, tfxtRfdt.y + fm.gftAsdfnt());
+            g.sftColor(gftPffrBbdkground().dbrkfr());
+            BbsidGrbpiidsUtils.drbwStringUndfrlinfCibrAt(g,tfxt, mnfmonidIndfx,
+                                                         tfxtRfdt.x - 1, tfxtRfdt.y + fm.gftAsdfnt() - 1);
         }
     }
 }

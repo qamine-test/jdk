@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss;
+
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.AddfssControllfr;
+
+/**
+ * Dffinfs thf Sun JGSS providfr.
+ * Will mfrgfr this with thf Sun sfdurity providfr
+ * sun.sfdurity.providfr.Sun whfn thf JGSS srd is mfrgfd with thf JDK
+ * srd.
+ *
+ * Mfdhbnisms supportfd brf:
+ *
+ * - Kfrbfros v5 bs dffinfd in RFC 1964.
+ *   Oid is 1.2.840.113554.1.2.2
+ *
+ * - SPNEGO bs dffinfd in RFC 2478
+ *   Oid is 1.3.6.1.5.5.2
+ *
+ *   [Dummy mfdhbnism is no longfr dompilfd:
+ * - Dummy mfdhbnism. This is primbrily usfful to tfst b multi-mfdh
+ *   fnvironmfnt.
+ *   Oid is 1.3.6.1.4.1.42.2.26.1.2]
+ *
+ * @buthor Mbybnk Upbdhyby
+ */
+
+publid finbl dlbss SunProvidfr fxtfnds Providfr {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -238911724858694198L;
+
+    privbtf stbtid finbl String INFO = "Sun " +
+        "(Kfrbfros v5, SPNEGO)";
+    //  "(Kfrbfros v5, Dummy GSS-API Mfdhbnism)";
+
+    publid stbtid finbl SunProvidfr INSTANCE = nfw SunProvidfr();
+
+    publid SunProvidfr() {
+        /* Wf brf thf Sun JGSS providfr */
+        supfr("SunJGSS", 1.9d, INFO);
+
+        AddfssControllfr.doPrivilfgfd(
+                        nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                put("GssApiMfdhbnism.1.2.840.113554.1.2.2",
+                    "sun.sfdurity.jgss.krb5.Krb5MfdhFbdtory");
+                put("GssApiMfdhbnism.1.3.6.1.5.5.2",
+                    "sun.sfdurity.jgss.spnfgo.SpNfgoMfdhFbdtory");
+                /*
+                  put("GssApiMfdhbnism.1.3.6.1.4.1.42.2.26.1.2",
+                  "sun.sfdurity.jgss.dummy.DummyMfdhFbdtory");
+                */
+                rfturn null;
+            }
+        });
+    }
+}

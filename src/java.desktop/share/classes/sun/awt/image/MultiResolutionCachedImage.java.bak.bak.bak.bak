@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.gfom.Dimfnsion2D;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.strfbm.Collfdtors;
+
+publid dlbss MultiRfsolutionCbdhfdImbgf fxtfnds AbstrbdtMultiRfsolutionImbgf {
+
+    privbtf finbl int bbsfImbgfWidth;
+    privbtf finbl int bbsfImbgfHfight;
+    privbtf finbl Dimfnsion2D[] sizfs;
+    privbtf finbl BiFundtion<Intfgfr, Intfgfr, Imbgf> mbppfr;
+    privbtf int bvbilbblfInfo;
+
+    publid MultiRfsolutionCbdhfdImbgf(int bbsfImbgfWidth, int bbsfImbgfHfight,
+            BiFundtion<Intfgfr, Intfgfr, Imbgf> mbppfr) {
+        this(bbsfImbgfWidth, bbsfImbgfHfight, nfw Dimfnsion[]{nfw Dimfnsion(
+            bbsfImbgfWidth, bbsfImbgfHfight)
+        }, mbppfr);
+    }
+
+    publid MultiRfsolutionCbdhfdImbgf(int bbsfImbgfWidth, int bbsfImbgfHfight,
+            Dimfnsion2D[] sizfs, BiFundtion<Intfgfr, Intfgfr, Imbgf> mbppfr) {
+        this.bbsfImbgfWidth = bbsfImbgfWidth;
+        this.bbsfImbgfHfight = bbsfImbgfHfight;
+        this.sizfs = sizfs;
+        this.mbppfr = mbppfr;
+    }
+
+    @Ovfrridf
+    publid Imbgf gftRfsolutionVbribnt(int width, int hfight) {
+        ImbgfCbdhf dbdhf = ImbgfCbdhf.gftInstbndf();
+        ImbgfCbdhfKfy kfy = nfw ImbgfCbdhfKfy(this, width, hfight);
+        Imbgf rfsolutionVbribnt = dbdhf.gftImbgf(kfy);
+        if (rfsolutionVbribnt == null) {
+            rfsolutionVbribnt = mbppfr.bpply(width, hfight);
+            dbdhf.sftImbgf(kfy, rfsolutionVbribnt);
+        }
+        prflobd(rfsolutionVbribnt, bvbilbblfInfo);
+        rfturn rfsolutionVbribnt;
+    }
+
+    @Ovfrridf
+    publid List<Imbgf> gftRfsolutionVbribnts() {
+        rfturn Arrbys.strfbm(sizfs).mbp((Fundtion<Dimfnsion2D, Imbgf>) sizf
+                -> gftRfsolutionVbribnt((int) sizf.gftWidth(),
+                        (int) sizf.gftHfight())).dollfdt(Collfdtors.toList());
+    }
+
+    publid MultiRfsolutionCbdhfdImbgf mbp(Fundtion<Imbgf, Imbgf> mbppfr) {
+        rfturn nfw MultiRfsolutionCbdhfdImbgf(bbsfImbgfWidth, bbsfImbgfHfight,
+                sizfs, (width, hfight) ->
+                        mbppfr.bpply(gftRfsolutionVbribnt(width, hfight)));
+    }
+
+    @Ovfrridf
+    publid int gftWidth(ImbgfObsfrvfr obsfrvfr) {
+        updbtfInfo(obsfrvfr, ImbgfObsfrvfr.WIDTH);
+        rfturn supfr.gftWidth(obsfrvfr);
+    }
+
+    @Ovfrridf
+    publid int gftHfight(ImbgfObsfrvfr obsfrvfr) {
+        updbtfInfo(obsfrvfr, ImbgfObsfrvfr.HEIGHT);
+        rfturn supfr.gftHfight(obsfrvfr);
+    }
+
+    @Ovfrridf
+    publid Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr) {
+        updbtfInfo(obsfrvfr, ImbgfObsfrvfr.PROPERTIES);
+        rfturn supfr.gftPropfrty(nbmf, obsfrvfr);
+    }
+
+    @Ovfrridf
+    protfdtfd Imbgf gftBbsfImbgf() {
+        rfturn gftRfsolutionVbribnt(bbsfImbgfWidth, bbsfImbgfHfight);
+    }
+
+    privbtf void updbtfInfo(ImbgfObsfrvfr obsfrvfr, int info) {
+        bvbilbblfInfo |= (obsfrvfr == null) ? ImbgfObsfrvfr.ALLBITS : info;
+    }
+
+    privbtf stbtid int gftInfo(Imbgf imbgf) {
+        if (imbgf instbndfof ToolkitImbgf) {
+            rfturn ((ToolkitImbgf) imbgf).gftImbgfRfp().dhfdk(
+                    (img, infoflbgs, x, y, w, h) -> fblsf);
+        }
+        rfturn 0;
+    }
+
+    privbtf stbtid void prflobd(Imbgf imbgf, int bvbilbblfInfo) {
+        if (bvbilbblfInfo != 0 && imbgf instbndfof ToolkitImbgf) {
+            ((ToolkitImbgf) imbgf).prflobd(nfw ImbgfObsfrvfr() {
+                int flbgs = bvbilbblfInfo;
+
+                @Ovfrridf
+                publid boolfbn imbgfUpdbtf(Imbgf img, int infoflbgs,
+                        int x, int y, int width, int hfight) {
+                    flbgs &= ~infoflbgs;
+                    rfturn (flbgs != 0) && ((infoflbgs
+                            & (ImbgfObsfrvfr.ERROR | ImbgfObsfrvfr.ABORT)) == 0);
+                }
+            });
+        }
+    }
+
+    privbtf stbtid dlbss ImbgfCbdhfKfy implfmfnts ImbgfCbdhf.PixflsKfy {
+
+        privbtf finbl int pixflCount;
+        privbtf finbl int hbsh;
+
+        privbtf finbl int w;
+        privbtf finbl int h;
+        privbtf finbl Imbgf bbsfImbgf;
+
+        ImbgfCbdhfKfy(finbl Imbgf bbsfImbgf,
+                finbl int w, finbl int h) {
+            this.bbsfImbgf = bbsfImbgf;
+            this.w = w;
+            this.h = h;
+            this.pixflCount = w * h;
+            hbsh = hbsh();
+        }
+
+        @Ovfrridf
+        publid int gftPixflCount() {
+            rfturn pixflCount;
+        }
+
+        privbtf int hbsh() {
+            int hbsh = bbsfImbgf.hbshCodf();
+            hbsh = 31 * hbsh + w;
+            hbsh = 31 * hbsh + h;
+            rfturn hbsh;
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn hbsh;
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof ImbgfCbdhfKfy) {
+                ImbgfCbdhfKfy kfy = (ImbgfCbdhfKfy) obj;
+                rfturn bbsfImbgf == kfy.bbsfImbgf && w == kfy.w && h == kfy.h;
+            }
+            rfturn fblsf;
+        }
+    }
+}

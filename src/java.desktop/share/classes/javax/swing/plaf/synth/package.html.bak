@@ -1,178 +1,178 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 
 
 -->
-<title></title>
-</head>
-<body bgcolor="white">
+<titlf></titlf>
+</ifbd>
+<body bgdolor="wiitf">
     <p>
-      Synth is a skinnable look and feel in which all painting is
-      delegated. Synth does not provide a default look. In
-      order to use Synth you need to specify a
-      <a href="doc-files/synthFileFormat.html">file</a>, or 
-      provide a {@link
-      javax.swing.plaf.synth.SynthStyleFactory}. Both 
-      configuration options require an 
-      understanding of the synth architecture, which is described
-      below, as well as an understanding of Swing's architecture.
+      Synti is b skinnbblf look bnd fffl in wiidi bll pbinting is
+      dflfgbtfd. Synti dofs not providf b dffbult look. In
+      ordfr to usf Synti you nffd to spfdify b
+      <b irff="dod-filfs/syntiFilfFormbt.itml">filf</b>, or 
+      providf b {@link
+      jbvbx.swing.plbf.synti.SyntiStylfFbdtory}. Boti 
+      donfigurbtion options rfquirf bn 
+      undfrstbnding of tif synti brdiitfdturf, wiidi is dfsdribfd
+      bflow, bs wfll bs bn undfrstbnding of Swing's brdiitfdturf.
     </p>
     <p>
-      Unless otherwise specified null is not a legal value to any of
-      the methods defined in the synth package and if passed in will
-      result in a <code>NullPointerException</code>.
+      Unlfss otifrwisf spfdififd null is not b lfgbl vbluf to bny of
+      tif mftiods dffinfd in tif synti pbdkbgf bnd if pbssfd in will
+      rfsult in b <dodf>NullPointfrExdfption</dodf>.
       
 
-    <h2>Synth</h2>
+    <i2>Synti</i2>
     <p>
-      Each {@link javax.swing.plaf.ComponentUI} implementation in Synth associates
-      itself with one {@link
-      javax.swing.plaf.synth.SynthStyle} per {@link
-      javax.swing.plaf.synth.Region}, most
-      <code>Components</code> only have one <code>Region</code> and
-      therefor only one <code>SynthStyle</code>.
-      <code>SynthStyle</code>
-      is used to access all style related properties: fonts, colors
-      and other <code>Component</code> properties. In addition
-      <code>SynthStyle</code>s are used to obtain 
-      {@link javax.swing.plaf.synth.SynthPainter}s for painting the background, border,
-      focus and other portions of a <code>Component</code>. The <code>ComponentUI</code>s obtain
-      <code>SynthStyle</code>s from a
-      {@link javax.swing.plaf.synth.SynthStyleFactory}.
-      A <code>SynthStyleFactory</code>
-      can be provided directly by way of 
-      {@link javax.swing.plaf.synth.SynthLookAndFeel#setStyleFactory(javax.swing.plaf.synth.SynthStyleFactory)},
-      or indirectly by way of
-      {@link javax.swing.plaf.synth.SynthLookAndFeel#load}. The
-      following example uses the <code>SynthLookAndFeel.load()</code>
-      method to configure a <code>SynthLookAndFeel</code> and sets it
-      as the current look and feel:
+      Ebdi {@link jbvbx.swing.plbf.ComponfntUI} implfmfntbtion in Synti bssodibtfs
+      itsflf witi onf {@link
+      jbvbx.swing.plbf.synti.SyntiStylf} pfr {@link
+      jbvbx.swing.plbf.synti.Rfgion}, most
+      <dodf>Componfnts</dodf> only ibvf onf <dodf>Rfgion</dodf> bnd
+      tifrffor only onf <dodf>SyntiStylf</dodf>.
+      <dodf>SyntiStylf</dodf>
+      is usfd to bddfss bll stylf rflbtfd propfrtifs: fonts, dolors
+      bnd otifr <dodf>Componfnt</dodf> propfrtifs. In bddition
+      <dodf>SyntiStylf</dodf>s brf usfd to obtbin 
+      {@link jbvbx.swing.plbf.synti.SyntiPbintfr}s for pbinting tif bbdkground, bordfr,
+      fodus bnd otifr portions of b <dodf>Componfnt</dodf>. Tif <dodf>ComponfntUI</dodf>s obtbin
+      <dodf>SyntiStylf</dodf>s from b
+      {@link jbvbx.swing.plbf.synti.SyntiStylfFbdtory}.
+      A <dodf>SyntiStylfFbdtory</dodf>
+      dbn bf providfd dirfdtly by wby of 
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#sftStylfFbdtory(jbvbx.swing.plbf.synti.SyntiStylfFbdtory)},
+      or indirfdtly by wby of
+      {@link jbvbx.swing.plbf.synti.SyntiLookAndFffl#lobd}. Tif
+      following fxbmplf usfs tif <dodf>SyntiLookAndFffl.lobd()</dodf>
+      mftiod to donfigurf b <dodf>SyntiLookAndFffl</dodf> bnd sfts it
+      bs tif durrfnt look bnd fffl:
     </p>
-    <div class="example">
-      <pre>
-  SynthLookAndFeel laf = new SynthLookAndFeel();
-  laf.load(MyClass.class.getResourceAsStream("laf.xml"), MyClass.class);
-  UIManager.setLookAndFeel(laf);
-      </pre>
+    <div dlbss="fxbmplf">
+      <prf>
+  SyntiLookAndFffl lbf = nfw SyntiLookAndFffl();
+  lbf.lobd(MyClbss.dlbss.gftRfsourdfAsStrfbm("lbf.xml"), MyClbss.dlbss);
+  UIMbnbgfr.sftLookAndFffl(lbf);
+      </prf>
     </div>
     <p>
-      Many <code>JComponent</code>s are broken down into smaller
-      pieces and identified by the type safe enumeration in
-      {@link javax.swing.plaf.synth.Region}. For example, a <code>JTabbedPane</code>
-      consists of a <code>Region</code> for the
-      <code>JTabbedPane</code> ({@link
-      javax.swing.plaf.synth.Region#TABBED_PANE}), the content
-      area ({@link
-      javax.swing.plaf.synth.Region#TABBED_PANE_CONTENT}), the
-      area behind the tabs ({@link
-      javax.swing.plaf.synth.Region#TABBED_PANE_TAB_AREA}), and the
-      tabs ({@link
-      javax.swing.plaf.synth.Region#TABBED_PANE_TAB}). Each
-      <code>Region</code> of each
-      <code>JComponent</code> will have a
-      <code>SynthStyle</code>. This allows 
-      you to customize individual pieces of each region of each
-      <code>JComponent</code>.
+      Mbny <dodf>JComponfnt</dodf>s brf brokfn down into smbllfr
+      pifdfs bnd idfntififd by tif typf sbff fnumfrbtion in
+      {@link jbvbx.swing.plbf.synti.Rfgion}. For fxbmplf, b <dodf>JTbbbfdPbnf</dodf>
+      donsists of b <dodf>Rfgion</dodf> for tif
+      <dodf>JTbbbfdPbnf</dodf> ({@link
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE}), tif dontfnt
+      brfb ({@link
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_CONTENT}), tif
+      brfb bfiind tif tbbs ({@link
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB_AREA}), bnd tif
+      tbbs ({@link
+      jbvbx.swing.plbf.synti.Rfgion#TABBED_PANE_TAB}). Ebdi
+      <dodf>Rfgion</dodf> of fbdi
+      <dodf>JComponfnt</dodf> will ibvf b
+      <dodf>SyntiStylf</dodf>. Tiis bllows 
+      you to dustomizf individubl pifdfs of fbdi rfgion of fbdi
+      <dodf>JComponfnt</dodf>.
     <p>
-      Many of the Synth methods take a {@link javax.swing.plaf.synth.SynthContext}. This 
-      is used to provide information about the current
-      <code>Component</code> and includes: the
-      {@link javax.swing.plaf.synth.SynthStyle} associated with the current
-      {@link javax.swing.plaf.synth.Region}, the state of the <code>Component</code>
-      as a bitmask (refer to {@link
-      javax.swing.plaf.synth.SynthConstants} for the valid
-      states), and a {@link javax.swing.plaf.synth.Region} identifying the portion of 
-      the <code>Component</code> being painted.
+      Mbny of tif Synti mftiods tbkf b {@link jbvbx.swing.plbf.synti.SyntiContfxt}. Tiis 
+      is usfd to providf informbtion bbout tif durrfnt
+      <dodf>Componfnt</dodf> bnd indludfs: tif
+      {@link jbvbx.swing.plbf.synti.SyntiStylf} bssodibtfd witi tif durrfnt
+      {@link jbvbx.swing.plbf.synti.Rfgion}, tif stbtf of tif <dodf>Componfnt</dodf>
+      bs b bitmbsk (rfffr to {@link
+      jbvbx.swing.plbf.synti.SyntiConstbnts} for tif vblid
+      stbtfs), bnd b {@link jbvbx.swing.plbf.synti.Rfgion} idfntifying tif portion of 
+      tif <dodf>Componfnt</dodf> bfing pbintfd.
     <p>
-      All text rendering by non-<code>JTextComponent</code>s is
-      delegated to a {@link
-      javax.swing.plaf.synth.SynthGraphicsUtils}, which is
-      obtained using the {@link javax.swing.plaf.synth.SynthStyle} method
-      {@link javax.swing.plaf.synth.SynthStyle#getGraphicsUtils}. You can
-      customize text rendering 
-      by supplying your own {@link javax.swing.plaf.synth.SynthGraphicsUtils}.
+      All tfxt rfndfring by non-<dodf>JTfxtComponfnt</dodf>s is
+      dflfgbtfd to b {@link
+      jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}, wiidi is
+      obtbinfd using tif {@link jbvbx.swing.plbf.synti.SyntiStylf} mftiod
+      {@link jbvbx.swing.plbf.synti.SyntiStylf#gftGrbpiidsUtils}. You dbn
+      dustomizf tfxt rfndfring 
+      by supplying your own {@link jbvbx.swing.plbf.synti.SyntiGrbpiidsUtils}.
 
     </p>
 
-    <h2>Notes on specific components</h2>
+    <i2>Notfs on spfdifid domponfnts</i2>
 
-    <h3>JTree</h3>
+    <i3>JTrff</i3>
     <p>
-      Synth provides a region for the cells of a tree:
-      <code>Region.TREE_CELL</code>.  To specify the colors of the
-      renderer you'll want to provide a style for the
-      <code>TREE_CELL</code> region.  The following illustrates this:
-<pre>
-  &lt;style id="treeCellStyle">
-    &lt;opaque value="TRUE"/>
-    &lt;state>
-      &lt;color value="WHITE" type="TEXT_FOREGROUND"/>
-      &lt;color value="RED" type="TEXT_BACKGROUND"/>
-    &lt;/state>
-    &lt;state value="SELECTED">
-      &lt;color value="RED" type="TEXT_FOREGROUND"/>
-      &lt;color value="WHITE" type="BACKGROUND"/>
-    &lt;/state>
-  &lt;/style>
-  &lt;bind style="treeCellStyle" type="region" key="TreeCell"/>
-</pre>
+      Synti providfs b rfgion for tif dflls of b trff:
+      <dodf>Rfgion.TREE_CELL</dodf>.  To spfdify tif dolors of tif
+      rfndfrfr you'll wbnt to providf b stylf for tif
+      <dodf>TREE_CELL</dodf> rfgion.  Tif following illustrbtfs tiis:
+<prf>
+  &lt;stylf id="trffCfllStylf">
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;stbtf>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+    &lt;/stbtf>
+    &lt;stbtf vbluf="SELECTED">
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="BACKGROUND"/>
+    &lt;/stbtf>
+  &lt;/stylf>
+  &lt;bind stylf="trffCfllStylf" typf="rfgion" kfy="TrffCfll"/>
+</prf>
     <p>
-      This specifies a color combination of red on white, when
-      selected, and white on red when not selected.  To see the
-      background you need to specify that labels are not opaque.  The
-      following XML fragment does that:
-<pre>
-  &lt;style id="labelStyle">
-    &lt;opaque value="FALSE"/>
-  &lt;/style>
-  &lt;bind style="labelStyle" type="region" key="Label"/>
-</pre>
+      Tiis spfdififs b dolor dombinbtion of rfd on wiitf, wifn
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd.  To sff tif
+      bbdkground you nffd to spfdify tibt lbbfls brf not opbquf.  Tif
+      following XML frbgmfnt dofs tibt:
+<prf>
+  &lt;stylf id="lbbflStylf">
+    &lt;opbquf vbluf="FALSE"/>
+  &lt;/stylf>
+  &lt;bind stylf="lbbflStylf" typf="rfgion" kfy="Lbbfl"/>
+</prf>
       
-    <h3>JList and JTable</h3>
+    <i3>JList bnd JTbblf</i3>
     <p>
-      The colors that the renderers for JList and JTable use are
-      specified by way of the list and table Regions.  The following
-      XML fragment illustrates how to specify red on white, when
-      selected, and white on red when not selected:
-<pre>
-  &lt;style id="style">
-    &lt;opaque value="TRUE"/>
-    &lt;state>
-      &lt;color value="WHITE" type="TEXT_FOREGROUND"/>
-      &lt;color value="RED" type="TEXT_BACKGROUND"/>
-      &lt;color value="RED" type="BACKGROUND"/>
-    &lt;/state>
-    &lt;state value="SELECTED">
-      &lt;color value="RED" type="TEXT_FOREGROUND"/>
-      &lt;color value="WHITE" type="TEXT_BACKGROUND"/>
-    &lt;/state>
-  &lt;/style>
-  &lt;bind style="style" type="region" key="Table"/>
-  &lt;bind style="style" type="region" key="List"/>
-</pre>
+      Tif dolors tibt tif rfndfrfrs for JList bnd JTbblf usf brf
+      spfdififd by wby of tif list bnd tbblf Rfgions.  Tif following
+      XML frbgmfnt illustrbtfs iow to spfdify rfd on wiitf, wifn
+      sflfdtfd, bnd wiitf on rfd wifn not sflfdtfd:
+<prf>
+  &lt;stylf id="stylf">
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;stbtf>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+    &lt;/stbtf>
+    &lt;stbtf vbluf="SELECTED">
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_BACKGROUND"/>
+    &lt;/stbtf>
+  &lt;/stylf>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="Tbblf"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="List"/>
+</prf>
   </body>
-</html>
+</itml>

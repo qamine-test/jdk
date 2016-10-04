@@ -1,0 +1,224 @@
+'\" t
+.\"  Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Rfmotf Mfthod Invodbtion (RMI) Tools
+.\"     Titlf: rmid.1
+.\"
+.if n .pl 99999
+.TH rmid 1 "21 Novfmbfr 2013" "JDK 8" "Rfmotf Mfthod Invodbtion (RMI) Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+rmid \- Gfnfrbtfs stub, skflfton, bnd tif dlbssfs for rfmotf objfdts thbt usf thf Jbvb Rfmotf Mfthod Protodol (JRMP) or Intfrnft Intfr-Orb protodol (IIOP)\&. Also gfnfrbtfs Objfdt Mbnbgfmfnt Group (OMG) Intfrfbdf Dffinition Lbngubgf (IDL)
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf \f3options\fR\&. Sff Options\&.
+.TP     
+\fIpbdkbgf-qublififd-dlbss-nbmfs\fR
+Clbss nbmfs thbt indludf thfir pbdkbgfs, for fxbmplf, \f3jbvb\&.bwt\&.Color\fR\&.
+.SH DESCRIPTION    
+\fIDfprfdbtion Notf:\fR Support for stbtid gfnfrbtion of Jbvb Rfmotf Mfthod Protodol (JRMP) stubs bnd skflftons hbs bffn dfprfdbtfd\&. Orbdlf rfdommfnds thbt you usf dynbmidblly gfnfrbtfd JRMP stubs instfbd, fliminbting thf nffd to usf this tool for JRMP-bbsfd bpplidbtions\&. Sff thf \f3jbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR spfdifidbtion bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.html for furthfr informbtion\&.
+.PP
+Thf \f3rmid\fR dompilfr gfnfrbtfs stub bnd skflfton dlbss filfs using thf Jbvb Rfmotf Mfthod Protodol (JRMP) bnd stub bnd tif dlbss filfs (IIOP protodol) for rfmotf objfdts\&. Thfsf dlbss filfs brf gfnfrbtfd from dompilfd Jbvb progrbmming lbngubgf dlbssfs thbt brf rfmotf objfdt implfmfntbtion dlbssfs\&. A rfmotf implfmfntbtion dlbss is b dlbss thbt implfmfnts thf intfrfbdf \f3jbvb\&.rmi\&.Rfmotf\fR\&. Thf dlbss nbmfs in thf \f3rmid\fR dommbnd must bf for dlbssfs thbt wfrf dompilfd suddfssfully with thf \f3jbvbd\fR dommbnd bnd must bf fully pbdkbgf qublififd\&. For fxbmplf, running thf \f3rmid\fR dommbnd on thf dlbss filf nbmf \f3HflloImpl\fR bs shown hfrf drfbtfs thf \f3HflloImpl_Stub\&.dlbss\fRfilf in thf hfllo subdirfdtory (nbmfd for thf dlbss\&'s pbdkbgf):
+.sp     
+.nf     
+\f3rmid hfllo\&.HflloImpl\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+A skflfton for b rfmotf objfdt is b JRMP protodol sfrvfr-sidf fntity thbt hbs b mfthod thbt dispbtdhfs dblls to thf rfmotf objfdt implfmfntbtion\&.
+.PP
+A tif for b rfmotf objfdt is b sfrvfr-sidf fntity similbr to b skflfton, but dommunidbtfs with thf dlifnt with thf IIOP protodol\&.
+.PP
+A stub is b dlifnt-sidf proxy for b rfmotf objfdt thbt is rfsponsiblf for dommunidbting mfthod invodbtions on rfmotf objfdts to thf sfrvfr whfrf thf bdtubl rfmotf objfdt implfmfntbtion rfsidfs\&. A dlifnt\&'s rfffrfndf to b rfmotf objfdt, thfrfforf, is bdtublly b rfffrfndf to b lodbl stub\&.
+.PP
+By dffbult, thf \f3rmid\fR dommbnd gfnfrbtfs stub dlbssfs thbt usf thf 1\&.2 JRMP stub protodol vfrsion only, bs though thf \f3-v1\&.2\fR option wbs spfdififd\&. Thf \f3-vdompbt\fR option wbs thf dffbult in rflfbsfs bfforf 5\&.0\&. Usf thf \f3-iiop\fR option to gfnfrbtf stub bnd tif dlbssfs for thf IIOP protodol\&. Sff Options\&.
+.PP
+A stub implfmfnts only thf rfmotf intfrfbdfs, bnd not bny lodbl intfrfbdfs thbt thf rfmotf objfdt blso implfmfnts\&. Bfdbusf b JRMP stub implfmfnts thf sbmf sft of rfmotf intfrfbdfs bs thf rfmotf objfdt, b dlifnt dbn usf thf Jbvb progrbmming lbngubgf built-in opfrbtors for dbsting bnd typf dhfdking\&. For IIOP, thf \f3PortbblfRfmotfObjfdt\&.nbrrow\fR mfthod must bf usfd\&.
+.SH OPTIONS    
+.TP
+-bootdlbsspbth \fIpbth\fR
+.br
+Ovfrridfs thf lodbtion of bootstrbp dlbss filfs\&.
+.TP
+-dlbsspbth pbth
+.br
+Spfdififs thf pbth thf \f3rmid\fR dommbnd usfs to look up dlbssfs\&. This option ovfrridfs thf dffbult or thf \f3CLASSPATH\fR fnvironmfnt vbribblf whfn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons\&. Thf gfnfrbl formbt for pbth is: \f3\&.:<your_pbth>\fR, for fxbmplf: \f3\&.:/usr/lodbl/jbvb/dlbssfs\fR\&.
+.TP
+-d \fIdirfdtory\fR
+.br
+Spfdififs thf root dfstinbtion dirfdtory for thf gfnfrbtfd dlbss hifrbrdhy\&. You dbn usf this option to spfdify b dfstinbtion dirfdtory for thf stub, skflfton, bnd tif filfs\&. For fxbmplf, thf following dommbnd plbdfs thf stub bnd skflfton dlbssfs dfrivfd from MyClbss into thf dirfdtory /jbvb/dlbssfs/fxbmplfdlbss\&.
+.sp     
+.nf     
+\f3rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+If thf \f3-d\fR option is not spfdififd, thfn thf dffbult bfhbvior is bs if \f3-d \&.\fR wbs spfdififd\&. Thf pbdkbgf hifrbrdhy of thf tbrgft dlbss is drfbtfd in thf durrfnt dirfdtory, bnd stub/tif/skflfton filfs brf plbdfd within it\&. In somf fbrlifr rflfbsfs of thf \f3rmid\fR dommbnd, if thf \f3-d\fR option wbs not spfdififd, thfn thf pbdkbgf hifrbrdhy wbs not drfbtfd, bnd bll of thf output filfs wfrf plbdfd dirfdtly in thf durrfnt dirfdtory\&.
+.TP
+-fxtdirs \fIpbth\fR
+.br
+Ovfrridfs thf lodbtion of instbllfd fxtfnsions\&.
+.TP
+-g
+.br
+Enbblfs thf gfnfrbtion of bll dfbugging informbtion, indluding lodbl vbribblfs\&. By dffbult, only linf numbfr informbtion is gfnfrbtfd\&.
+.TP
+-idl
+.br
+Cbusfs thf \f3rmid\fR dommbnd to gfnfrbtf OMG IDL for thf dlbssfs spfdififd bnd bny dlbssfs rfffrfndfd\&. IDL providfs b purfly dfdlbrbtivf, progrbmming lbngubgf-indfpfndfnt wby to spfdify bn API for bn objfdt\&. Thf IDL is usfd bs b spfdifidbtion for mfthods bnd dbtb thbt dbn bf writtfn in bnd dbllfd from bny lbngubgf thbt providfs CORBA bindings\&. This indludfs Jbvb bnd C++ bmong othfrs\&. Sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/idl/mbpping/jidlMbpping\&.html
+
+Whfn thf \f3-idl\fR option is usfd, othfr options blso indludf:
+.RS     
+.TP 0.2i    
+\(bu
+Thf \f3-blwbys\fR or \f3-blwbysgfnfrbtf\fR options fordf rfgfnfrbtion fvfn whfn fxisting stubs/tifs/IDL brf nfwfr thbn thf input dlbss\&.
+.TP 0.2i    
+\(bu
+Thf \f3-fbdtory\fR option usfs thf \f3fbdtory\fR kfyword in gfnfrbtfd IDL\&.
+.TP 0.2i    
+\(bu
+Thf \f3-idlModulf\fR from J\f3bvbPbdkbgf[\&.dlbss]\fR\f3toIDLModulf\fR spfdififs \f3IDLEntity\fR pbdkbgf mbpping, for fxbmplf: \f3-idlModulf\fR\f3my\&.modulf my::rfbl::idlmod\fR\&.
+.TP 0.2i    
+\(bu
+\f3-idlFilf\fR\f3fromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR spfdififs \f3IDLEntity\fR filf mbpping, for fxbmplf: \f3-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
+.RE     
+
+.TP
+-iiop
+.br
+Cbusfs thf \f3rmid\fR dommbnd to gfnfrbtf IIOP stub bnd tif dlbssfs, rbthfr thbn JRMP stub bnd skflfton dlbssfs\&. A stub dlbss is b lodbl proxy for b rfmotf objfdt bnd is usfd by dlifnts to sfnd dblls to b sfrvfr\&. Ebdh rfmotf intfrfbdf rfquirfs b stub dlbss, whidh implfmfnts thbt rfmotf intfrfbdf\&. A dlifnt rfffrfndf to b rfmotf objfdt is b rfffrfndf to b stub\&. Tif dlbssfs brf usfd on thf sfrvfr sidf to prodfss indoming dblls, bnd dispbtdh thf dblls to thf propfr implfmfntbtion dlbss\&. Ebdh implfmfntbtion dlbss rfquirfs b tif dlbss\&.
+
+If you dbll thf \f3rmid\fR dommbnd with thf \f3-iiop\fR, thfn it gfnfrbtfs stubs bnd tifs thbt donform to this nbming donvfntion:
+.sp     
+.nf     
+\f3_<implfmfntbtionNbmf>_stub\&.dlbss\fP
+.fi     
+.nf     
+\f3_<intfrfbdfNbmf>_tif\&.dlbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.RS     
+.TP 0.2i    
+\(bu
+Whfn you usf thf \f3-iiop\fR option, othfr options blso indludf:
+.TP 0.2i    
+\(bu
+Thf \f3-blwbys\fR or \f3-blwbysgfnfrbtf\fR options fordf rfgfnfrbtion fvfn whfn fxisting stubs/tifs/IDL brf nfwfr thbn thf input dlbss\&.
+.TP 0.2i    
+\(bu
+Thf \f3-nolodblstubs\fR option mfbns do not drfbtf stubs optimizfd for sbmf-prodfss dlifnts bnd sfrvfrs\&.
+.TP 0.2i    
+\(bu
+Thf \f3-noVblufMfthods\fR option must bf usfd with thf \f3-idl\fR option\&. Thf \f3-noVblufMfthods\fR option prfvfnts thf bddition of \f3vbluftypf\fR mfthods bnd initiblizfrs to fmittfd IDL\&. Thfsf mfthods bnd initiblizfrs brf optionbl for vbluftypfs, bnd brf gfnfrbtfd unlfss thf \f3-noVblufMfthods\fR option is spfdififd with thf \f3-idl\fR option\&.
+.TP 0.2i    
+\(bu
+Thf \f3-pob\fR option dhbngfs thf inhfritbndf from \f3org\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fR to \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR\&. Thf \f3PortbblfSfrvfr\fR modulf for thf Portbblf Objfdt Adbptfr (POA) dffinfs thf nbtivf \f3Sfrvbnt\fR typf\&. In thf Jbvb progrbmming lbngubgf, thf \f3Sfrvbnt\fR typf is mbppfd to thf \f3Jbvb org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs thf bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mfthods thbt dbn bf dbllfd by thf bpplidbtion progrbmmfr, bnd mfthods thbt brf dbllfd by thf POA bnd thbt dbn bf ovfrriddfn by thf usfr to dontrol bspfdts of sfrvbnt bfhbvior\&. Bbsfd on thf OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion, CORBA V 2\&.3\&.1 ptd/00-01-08\&.pdf\&..RE     
+
+.TP
+-J
+.br
+Usfd with bny Jbvb dommbnd, thf \f3-J\fR option pbssfs thf brgumfnt thbt follows thf \f3-J\fR (no spbdfs bftwffn thf \f3-J\fRbnd thf brgumfnt) to thf Jbvb intfrprftfr
+.TP
+-kffp or -kffpgfnfrbtfd
+.br
+Rftbins thf gfnfrbtfd \f3\&.jbvb\fR sourdf filfs for thf stub, skflfton, bnd tif dlbssfs bnd writfs thfm to thf sbmf dirfdtory bs thf\f3\&.dlbss\fR filfs\&.
+.TP
+-nowbrn
+.br
+Turns off wbrnings\&. Whfn thf \f3-nowbrn\fR options is usfd\&. Thf dompilfr dofs not print out bny wbrnings\&.
+.TP
+-nowritf
+.br
+Dofs not writf dompilfd dlbssfs to thf filf systfm\&.
+.TP
+-vdompbt (dfprfdbtfd)
+.br
+Gfnfrbtfs stub bnd skflfton dlbssfs thbt brf dompbtiblf with both thf 1\&.1 bnd 1\&.2 JRMP stub protodol vfrsions\&. This option wbs thf dffbult in rflfbsfs bfforf 5\&.0\&. Thf gfnfrbtfd stub dlbssfs usf thf 1\&.1 stub protodol vfrsion whfn lobdfd in b JDK 1\&.1 virtubl mbdhinf bnd usf thf 1\&.2 stub protodol vfrsion whfn lobdfd into b 1\&.2 (or lbtfr) virtubl mbdhinf\&. Thf gfnfrbtfd skflfton dlbssfs support both 1\&.1 bnd 1\&.2 stub protodol vfrsions\&. Thf gfnfrbtfd dlbssfs brf rflbtivfly lbrgf to support both modfs of opfrbtion\&. Notf: This option hbs bffn dfprfdbtfd\&. Sff Dfsdription\&.
+.TP
+-vfrbosf
+.br
+Cbusfs thf dompilfr bnd linkfr to print out mfssbgfs bbout whbt dlbssfs brf bfing dompilfd bnd whbt dlbss filfs brf bfing lobdfd\&.
+.TP
+-v1\&.1 (dfprfdbtfd)
+.br
+Gfnfrbtfs stub bnd skflfton dlbssfs for thf 1\&.1 JRMP stub protodol vfrsion only\&. Thf \f3-v1\&.1\fR option is only usfful for gfnfrbting stub dlbssfs thbt brf sfriblizbtion-dompbtiblf with prffxisting, stbtidblly dfployfd stub dlbssfs thbt wfrf gfnfrbtfd by thf \f3rmid\fR dommbnd from JDK 1\&.1 bnd thbt dbnnot bf upgrbdfd (bnd dynbmid dlbss lobding is not bfing usfd)\&. Notf: This option hbs bffn dfprfdbtfd\&. Sff Dfsdription\&.
+.TP
+-v1\&.2 (dfprfdbtfd)
+.br
+(Dffbult) Gfnfrbtfs stub dlbssfs for thf 1\&.2 JRMP stub protodol vfrsion only\&. No skflfton dlbssfs brf gfnfrbtfd bfdbusf skflfton dlbssfs brf not usfd with thf 1\&.2 stub protodol vfrsion\&. Thf gfnfrbtfd stub dlbssfs do not work whfn thfy brf lobdfd into b JDK 1\&.1 virtubl mbdhinf\&. Notf: This option hbs bffn dfprfdbtfd\&. Sff Dfsdription\&.
+.SH ENVIRONMENT\ VARIABLES    
+.TP     
+CLASSPATH
+Usfd to providf thf systfm b pbth to usfr-dffinfd dlbssfs\&. Dirfdtorifs brf sfpbrbtfd by dolons, for fxbmplf: \f3\&.:/usr/lodbl/jbvb/dlbssfs\fR\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvbd(1)
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+Sftting thf Clbss Pbth
+.RE
+.br
+'pl 8.5i
+'bp

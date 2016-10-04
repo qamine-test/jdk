@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
 /**
- * A selector that defines a set of criteria for selecting {@code CRL}s.
- * Classes that implement this interface are often used to specify
- * which {@code CRL}s should be retrieved from a {@code CertStore}.
+ * A sflfdtor tibt dffinfs b sft of dritfrib for sflfdting {@dodf CRL}s.
+ * Clbssfs tibt implfmfnt tiis intfrfbdf brf oftfn usfd to spfdify
+ * wiidi {@dodf CRL}s siould bf rftrifvfd from b {@dodf CfrtStorf}.
  * <p>
- * <b>Concurrent Access</b>
+ * <b>Condurrfnt Addfss</b>
  * <p>
- * Unless otherwise specified, the methods defined in this interface are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unlfss otifrwisf spfdififd, tif mftiods dffinfd in tiis intfrfbdf brf not
+ * tirfbd-sbff. Multiplf tirfbds tibt nffd to bddfss b singlf
+ * objfdt dondurrfntly siould syndironizf bmongst tifmsflvfs bnd
+ * providf tif nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting
+ * sfpbrbtf objfdts nffd not syndironizf.
  *
- * @see CRL
- * @see CertStore
- * @see CertStore#getCRLs
+ * @sff CRL
+ * @sff CfrtStorf
+ * @sff CfrtStorf#gftCRLs
  *
- * @author      Steve Hanna
- * @since       1.4
+ * @butior      Stfvf Hbnnb
+ * @sindf       1.4
  */
-public interface CRLSelector extends Cloneable {
+publid intfrfbdf CRLSflfdtor fxtfnds Clonfbblf {
 
     /**
-     * Decides whether a {@code CRL} should be selected.
+     * Dfdidfs wiftifr b {@dodf CRL} siould bf sflfdtfd.
      *
-     * @param   crl     the {@code CRL} to be checked
-     * @return  {@code true} if the {@code CRL} should be selected,
-     * {@code false} otherwise
+     * @pbrbm   drl     tif {@dodf CRL} to bf difdkfd
+     * @rfturn  {@dodf truf} if tif {@dodf CRL} siould bf sflfdtfd,
+     * {@dodf fblsf} otifrwisf
      */
-    boolean match(CRL crl);
+    boolfbn mbtdi(CRL drl);
 
     /**
-     * Makes a copy of this {@code CRLSelector}. Changes to the
-     * copy will not affect the original and vice versa.
+     * Mbkfs b dopy of tiis {@dodf CRLSflfdtor}. Cibngfs to tif
+     * dopy will not bfffdt tif originbl bnd vidf vfrsb.
      *
-     * @return a copy of this {@code CRLSelector}
+     * @rfturn b dopy of tiis {@dodf CRLSflfdtor}
      */
-    Object clone();
+    Objfdt dlonf();
 }

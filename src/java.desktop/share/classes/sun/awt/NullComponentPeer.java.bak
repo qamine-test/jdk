@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.AWTException;
-import java.awt.BufferCapabilities;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.MenuBar;
-import java.awt.Point;
-import java.awt.Event;
-import java.awt.event.PaintEvent;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.VolatileImage;
-import java.awt.peer.CanvasPeer;
-import java.awt.peer.LightweightPeer;
-import java.awt.peer.PanelPeer;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.ContainerPeer;
-import java.awt.Rectangle;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.MfnuBbr;
+import jbvb.bwt.Point;
+import jbvb.bwt.Evfnt;
+import jbvb.bwt.fvfnt.PbintEvfnt;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.bwt.pffr.CbnvbsPffr;
+import jbvb.bwt.pffr.LigitwfigitPffr;
+import jbvb.bwt.pffr.PbnflPffr;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.ContbinfrPffr;
+import jbvb.bwt.Rfdtbnglf;
+import sun.jbvb2d.pipf.Rfgion;
 
 
 /**
- * Implements the LightweightPeer interface for use in lightweight components
- * that have no native window associated with them.  This gets created by
- * default in Component so that Component and Container can be directly
- * extended to create useful components written entirely in java.  These
- * components must be hosted somewhere higher up in the component tree by a
- * native container (such as a Frame).
+ * Implfmfnts tif LigitwfigitPffr intfrfbdf for usf in ligitwfigit domponfnts
+ * tibt ibvf no nbtivf window bssodibtfd witi tifm.  Tiis gfts drfbtfd by
+ * dffbult in Componfnt so tibt Componfnt bnd Contbinfr dbn bf dirfdtly
+ * fxtfndfd to drfbtf usfful domponfnts writtfn fntirfly in jbvb.  Tifsf
+ * domponfnts must bf iostfd somfwifrf iigifr up in tif domponfnt trff by b
+ * nbtivf dontbinfr (sudi bs b Frbmf).
  *
- * This implementation provides no useful semantics and serves only as a
- * marker.  One could provide alternative implementations in java that do
- * something useful for some of the other peer interfaces to minimize the
- * native code.
+ * Tiis implfmfntbtion providfs no usfful sfmbntids bnd sfrvfs only bs b
+ * mbrkfr.  Onf dould providf bltfrnbtivf implfmfntbtions in jbvb tibt do
+ * somftiing usfful for somf of tif otifr pffr intfrfbdfs to minimizf tif
+ * nbtivf dodf.
  *
- * This was renamed from java.awt.LightweightPeer (a horrible and confusing
- * name) and moved from java.awt.Toolkit into sun.awt as a public class in
- * its own file.
+ * Tiis wbs rfnbmfd from jbvb.bwt.LigitwfigitPffr (b iorriblf bnd donfusing
+ * nbmf) bnd movfd from jbvb.bwt.Toolkit into sun.bwt bs b publid dlbss in
+ * its own filf.
  *
- * @author Timothy Prinzing
- * @author Michael Martak
+ * @butior Timotiy Prinzing
+ * @butior Midibfl Mbrtbk
  */
 
-public class NullComponentPeer implements LightweightPeer,
-    CanvasPeer, PanelPeer {
+publid dlbss NullComponfntPffr implfmfnts LigitwfigitPffr,
+    CbnvbsPffr, PbnflPffr {
 
-    public boolean isObscured() {
-        return false;
-    }
-
-    public boolean canDetermineObscurity() {
-        return false;
+    publid boolfbn isObsdurfd() {
+        rfturn fblsf;
     }
 
-    public boolean isFocusable() {
-        return false;
+    publid boolfbn dbnDftfrminfObsdurity() {
+        rfturn fblsf;
     }
 
-    public void setVisible(boolean b) {
+    publid boolfbn isFodusbblf() {
+        rfturn fblsf;
     }
 
-    public void show() {
+    publid void sftVisiblf(boolfbn b) {
     }
 
-    public void hide() {
+    publid void siow() {
     }
 
-    public void setEnabled(boolean b) {
+    publid void iidf() {
     }
 
-    public void enable() {
+    publid void sftEnbblfd(boolfbn b) {
     }
 
-    public void disable() {
+    publid void fnbblf() {
     }
 
-    public void paint(Graphics g) {
+    publid void disbblf() {
     }
 
-    public void repaint(long tm, int x, int y, int width, int height) {
+    publid void pbint(Grbpiids g) {
     }
 
-    public void print(Graphics g) {
+    publid void rfpbint(long tm, int x, int y, int widti, int ifigit) {
     }
 
-    public void setBounds(int x, int y, int width, int height, int op) {
+    publid void print(Grbpiids g) {
     }
 
-    public void reshape(int x, int y, int width, int height) {
+    publid void sftBounds(int x, int y, int widti, int ifigit, int op) {
     }
 
-    public void coalescePaintEvent(PaintEvent e) {
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {
     }
 
-    public boolean handleEvent(Event e) {
-        return false;
+    publid void doblfsdfPbintEvfnt(PbintEvfnt f) {
     }
 
-    public void handleEvent(java.awt.AWTEvent arg0) {
+    publid boolfbn ibndlfEvfnt(Evfnt f) {
+        rfturn fblsf;
     }
 
-    public Dimension getPreferredSize() {
-        return new Dimension(1,1);
+    publid void ibndlfEvfnt(jbvb.bwt.AWTEvfnt brg0) {
     }
 
-    public Dimension getMinimumSize() {
-        return new Dimension(1,1);
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn nfw Dimfnsion(1,1);
     }
 
-    public ColorModel getColorModel() {
-        return null;
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn nfw Dimfnsion(1,1);
     }
 
-    public Graphics getGraphics() {
-        return null;
+    publid ColorModfl gftColorModfl() {
+        rfturn null;
     }
 
-    public GraphicsConfiguration getGraphicsConfiguration() {
-        return null;
+    publid Grbpiids gftGrbpiids() {
+        rfturn null;
     }
 
-    public FontMetrics  getFontMetrics(Font font) {
-        return null;
+    publid GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion() {
+        rfturn null;
     }
 
-    public void dispose() {
-    // no native code
+    publid FontMftrids  gftFontMftrids(Font font) {
+        rfturn null;
     }
 
-    public void setForeground(Color c) {
+    publid void disposf() {
+    // no nbtivf dodf
     }
 
-    public void setBackground(Color c) {
+    publid void sftForfground(Color d) {
     }
 
-    public void setFont(Font f) {
+    publid void sftBbdkground(Color d) {
     }
 
-    public void updateCursorImmediately() {
+    publid void sftFont(Font f) {
     }
 
-    public void setCursor(Cursor cursor) {
+    publid void updbtfCursorImmfdibtfly() {
     }
 
-    public boolean requestFocus
-        (Component lightweightChild, boolean temporary,
-         boolean focusedWindowChangeAllowed, long time, CausedFocusEvent.Cause cause) {
-        return false;
+    publid void sftCursor(Cursor dursor) {
     }
 
-    public Image createImage(ImageProducer producer) {
-        return null;
+    publid boolfbn rfqufstFodus
+        (Componfnt ligitwfigitCiild, boolfbn tfmporbry,
+         boolfbn fodusfdWindowCibngfAllowfd, long timf, CbusfdFodusEvfnt.Cbusf dbusf) {
+        rfturn fblsf;
     }
 
-    public Image createImage(int width, int height) {
-        return null;
+    publid Imbgf drfbtfImbgf(ImbgfProdudfr produdfr) {
+        rfturn null;
     }
 
-    public boolean prepareImage(Image img, int w, int h, ImageObserver o) {
-        return false;
+    publid Imbgf drfbtfImbgf(int widti, int ifigit) {
+        rfturn null;
     }
 
-    public int  checkImage(Image img, int w, int h, ImageObserver o) {
-        return 0;
+    publid boolfbn prfpbrfImbgf(Imbgf img, int w, int i, ImbgfObsfrvfr o) {
+        rfturn fblsf;
     }
 
-    public Dimension preferredSize() {
-        return getPreferredSize();
+    publid int  difdkImbgf(Imbgf img, int w, int i, ImbgfObsfrvfr o) {
+        rfturn 0;
     }
 
-    public Dimension minimumSize() {
-        return getMinimumSize();
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn gftPrfffrrfdSizf();
     }
 
-    public Point getLocationOnScreen() {
-        return new Point(0,0);
+    publid Dimfnsion minimumSizf() {
+        rfturn gftMinimumSizf();
     }
 
-    public Insets getInsets() {
-        return insets();
+    publid Point gftLodbtionOnSdrffn() {
+        rfturn nfw Point(0,0);
     }
 
-    public void beginValidate() {
+    publid Insfts gftInsfts() {
+        rfturn insfts();
     }
 
-    public void endValidate() {
+    publid void bfginVblidbtf() {
     }
 
-    public Insets insets() {
-        return new Insets(0, 0, 0, 0);
+    publid void fndVblidbtf() {
     }
 
-    public boolean isPaintPending() {
-        return false;
+    publid Insfts insfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
     }
 
-    public boolean handlesWheelScrolling() {
-        return false;
+    publid boolfbn isPbintPfnding() {
+        rfturn fblsf;
     }
 
-    public VolatileImage createVolatileImage(int width, int height) {
-        return null;
+    publid boolfbn ibndlfsWifflSdrolling() {
+        rfturn fblsf;
     }
 
-    public void beginLayout() {
+    publid VolbtilfImbgf drfbtfVolbtilfImbgf(int widti, int ifigit) {
+        rfturn null;
     }
 
-    public void endLayout() {
+    publid void bfginLbyout() {
     }
 
-    public void createBuffers(int numBuffers, BufferCapabilities caps)
-        throws AWTException {
-        throw new AWTException(
-            "Page-flipping is not allowed on a lightweight component");
+    publid void fndLbyout() {
     }
-    public Image getBackBuffer() {
-        throw new IllegalStateException(
-            "Page-flipping is not allowed on a lightweight component");
+
+    publid void drfbtfBufffrs(int numBufffrs, BufffrCbpbbilitifs dbps)
+        tirows AWTExdfption {
+        tirow nfw AWTExdfption(
+            "Pbgf-flipping is not bllowfd on b ligitwfigit domponfnt");
     }
-    public void flip(int x1, int y1, int x2, int y2,
-                     BufferCapabilities.FlipContents flipAction)
+    publid Imbgf gftBbdkBufffr() {
+        tirow nfw IllfgblStbtfExdfption(
+            "Pbgf-flipping is not bllowfd on b ligitwfigit domponfnt");
+    }
+    publid void flip(int x1, int y1, int x2, int y2,
+                     BufffrCbpbbilitifs.FlipContfnts flipAdtion)
     {
-        throw new IllegalStateException(
-            "Page-flipping is not allowed on a lightweight component");
+        tirow nfw IllfgblStbtfExdfption(
+            "Pbgf-flipping is not bllowfd on b ligitwfigit domponfnt");
     }
-    public void destroyBuffers() {
+    publid void dfstroyBufffrs() {
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer#isReparentSupported
+     * @sff jbvb.bwt.pffr.ComponfntPffr#isRfpbrfntSupportfd
      */
-    public boolean isReparentSupported() {
-        return false;
+    publid boolfbn isRfpbrfntSupportfd() {
+        rfturn fblsf;
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer#reparent
+     * @sff jbvb.bwt.pffr.ComponfntPffr#rfpbrfnt
      */
-    public void reparent(ContainerPeer newNativeParent) {
-        throw new UnsupportedOperationException();
+    publid void rfpbrfnt(ContbinfrPffr nfwNbtivfPbrfnt) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    public void layout() {
+    publid void lbyout() {
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(0, 0, 0, 0);
+    publid Rfdtbnglf gftBounds() {
+        rfturn nfw Rfdtbnglf(0, 0, 0, 0);
     }
 
 
     /**
-      * Applies the shape to the native component window.
-      * @since 1.7
+      * Applifs tif sibpf to tif nbtivf domponfnt window.
+      * @sindf 1.7
       */
-    public void applyShape(Region shape) {
+    publid void bpplySibpf(Rfgion sibpf) {
     }
 
     /**
-     * Lowers this component at the bottom of the above HW peer. If the above parameter
-     * is null then the method places this component at the top of the Z-order.
+     * Lowfrs tiis domponfnt bt tif bottom of tif bbovf HW pffr. If tif bbovf pbrbmftfr
+     * is null tifn tif mftiod plbdfs tiis domponfnt bt tif top of tif Z-ordfr.
      */
-    public void setZOrder(ComponentPeer above) {
+    publid void sftZOrdfr(ComponfntPffr bbovf) {
     }
 
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        return false;
+    publid boolfbn updbtfGrbpiidsDbtb(GrbpiidsConfigurbtion gd) {
+        rfturn fblsf;
     }
 
-    public GraphicsConfiguration getAppropriateGraphicsConfiguration(
-                        GraphicsConfiguration gc)
+    publid GrbpiidsConfigurbtion gftAppropribtfGrbpiidsConfigurbtion(
+                        GrbpiidsConfigurbtion gd)
     {
-        return gc;
+        rfturn gd;
     }
 }

@@ -1,373 +1,373 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _AWT_H_
-#define _AWT_H_
+#ifndff _AWT_H_
+#dffinf _AWT_H_
 
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0600
-#endif
+#ifndff _WIN32_WINNT
+#dffinf _WIN32_WINNT 0x0600
+#fndif
 
-#ifndef _WIN32_IE
-#define _WIN32_IE 0x0600
-#endif
+#ifndff _WIN32_IE
+#dffinf _WIN32_IE 0x0600
+#fndif
 
-//#ifndef NTDDI_VERSION
-//#define NTDDI_VERSION NTDDI_LONGHORN
-//#endif
+//#ifndff NTDDI_VERSION
+//#dffinf NTDDI_VERSION NTDDI_LONGHORN
+//#fndif
 
-#include "stdhdrs.h"
-#include "alloc.h"
-#include "awt_Debug.h"
+#indludf "stdidrs.i"
+#indludf "bllod.i"
+#indludf "bwt_Dfbug.i"
 
-extern COLORREF DesktopColor2RGB(int colorIndex);
+fxtfrn COLORREF DfsktopColor2RGB(int dolorIndfx);
 
-class AwtObject;
-typedef AwtObject* PDATA;
+dlbss AwtObjfdt;
+typfdff AwtObjfdt* PDATA;
 
-#define JNI_IS_TRUE(obj) ((obj) ? JNI_TRUE : JNI_FALSE)
+#dffinf JNI_IS_TRUE(obj) ((obj) ? JNI_TRUE : JNI_FALSE)
 
-#define JNI_CHECK_NULL_GOTO(obj, msg, where) {                            \
+#dffinf JNI_CHECK_NULL_GOTO(obj, msg, wifrf) {                            \
     if (obj == NULL) {                                                    \
-        env->ExceptionClear();                                            \
-        JNU_ThrowNullPointerException(env, msg);                          \
-        goto where;                                                       \
+        fnv->ExdfptionClfbr();                                            \
+        JNU_TirowNullPointfrExdfption(fnv, msg);                          \
+        goto wifrf;                                                       \
     }                                                                     \
 }
 
-#define JNI_CHECK_PEER_GOTO(peer, where) {                                \
-    JNI_CHECK_NULL_GOTO(peer, "peer", where);                             \
-    pData = JNI_GET_PDATA(peer);                                          \
-    if (pData == NULL) {                                                  \
-        THROW_NULL_PDATA_IF_NOT_DESTROYED(peer);                          \
-        goto where;                                                       \
+#dffinf JNI_CHECK_PEER_GOTO(pffr, wifrf) {                                \
+    JNI_CHECK_NULL_GOTO(pffr, "pffr", wifrf);                             \
+    pDbtb = JNI_GET_PDATA(pffr);                                          \
+    if (pDbtb == NULL) {                                                  \
+        THROW_NULL_PDATA_IF_NOT_DESTROYED(pffr);                          \
+        goto wifrf;                                                       \
     }                                                                     \
 }
 
-#define JNI_CHECK_NULL_RETURN(obj, msg) {                                 \
+#dffinf JNI_CHECK_NULL_RETURN(obj, msg) {                                 \
     if (obj == NULL) {                                                    \
-        env->ExceptionClear();                                            \
-        JNU_ThrowNullPointerException(env, msg);                          \
-        return;                                                           \
+        fnv->ExdfptionClfbr();                                            \
+        JNU_TirowNullPointfrExdfption(fnv, msg);                          \
+        rfturn;                                                           \
     }                                                                     \
 }
 
-#define JNI_CHECK_PEER_RETURN(peer) {                                     \
-    JNI_CHECK_NULL_RETURN(peer, "peer");                                  \
-    pData = JNI_GET_PDATA(peer);                                          \
-    if (pData == NULL) {                                                  \
-        THROW_NULL_PDATA_IF_NOT_DESTROYED(peer);                          \
-        return;                                                           \
+#dffinf JNI_CHECK_PEER_RETURN(pffr) {                                     \
+    JNI_CHECK_NULL_RETURN(pffr, "pffr");                                  \
+    pDbtb = JNI_GET_PDATA(pffr);                                          \
+    if (pDbtb == NULL) {                                                  \
+        THROW_NULL_PDATA_IF_NOT_DESTROYED(pffr);                          \
+        rfturn;                                                           \
     }                                                                     \
 }
 
-#define JNI_CHECK_PEER_CREATION_RETURN(peer) {                            \
-    if (peer == NULL ) {                                                  \
-        return;                                                           \
+#dffinf JNI_CHECK_PEER_CREATION_RETURN(pffr) {                            \
+    if (pffr == NULL ) {                                                  \
+        rfturn;                                                           \
     }                                                                     \
-    pData = JNI_GET_PDATA(peer);                                          \
-    if (pData == NULL) {                                                  \
-        return;                                                           \
+    pDbtb = JNI_GET_PDATA(pffr);                                          \
+    if (pDbtb == NULL) {                                                  \
+        rfturn;                                                           \
     }                                                                     \
 }
 
-#define JNI_CHECK_NULL_RETURN_NULL(obj, msg) {                            \
+#dffinf JNI_CHECK_NULL_RETURN_NULL(obj, msg) {                            \
     if (obj == NULL) {                                                    \
-        env->ExceptionClear();                                            \
-        JNU_ThrowNullPointerException(env, msg);                          \
-        return 0;                                                         \
+        fnv->ExdfptionClfbr();                                            \
+        JNU_TirowNullPointfrExdfption(fnv, msg);                          \
+        rfturn 0;                                                         \
     }                                                                     \
 }
 
-#define JNI_CHECK_NULL_RETURN_VAL(obj, msg, val) {                        \
+#dffinf JNI_CHECK_NULL_RETURN_VAL(obj, msg, vbl) {                        \
     if (obj == NULL) {                                                    \
-        env->ExceptionClear();                                            \
-        JNU_ThrowNullPointerException(env, msg);                          \
-        return val;                                                       \
+        fnv->ExdfptionClfbr();                                            \
+        JNU_TirowNullPointfrExdfption(fnv, msg);                          \
+        rfturn vbl;                                                       \
     }                                                                     \
 }
 
-#define JNI_CHECK_PEER_RETURN_NULL(peer) {                                \
-    JNI_CHECK_NULL_RETURN_NULL(peer, "peer");                             \
-    pData = JNI_GET_PDATA(peer);                                          \
-    if (pData == NULL) {                                                  \
-        THROW_NULL_PDATA_IF_NOT_DESTROYED(peer);                          \
-        return 0;                                                         \
+#dffinf JNI_CHECK_PEER_RETURN_NULL(pffr) {                                \
+    JNI_CHECK_NULL_RETURN_NULL(pffr, "pffr");                             \
+    pDbtb = JNI_GET_PDATA(pffr);                                          \
+    if (pDbtb == NULL) {                                                  \
+        THROW_NULL_PDATA_IF_NOT_DESTROYED(pffr);                          \
+        rfturn 0;                                                         \
     }                                                                     \
 }
 
-#define JNI_CHECK_PEER_RETURN_VAL(peer, val) {                            \
-    JNI_CHECK_NULL_RETURN_VAL(peer, "peer", val);                         \
-    pData = JNI_GET_PDATA(peer);                                          \
-    if (pData == NULL) {                                                  \
-        THROW_NULL_PDATA_IF_NOT_DESTROYED(peer);                          \
-        return val;                                                       \
+#dffinf JNI_CHECK_PEER_RETURN_VAL(pffr, vbl) {                            \
+    JNI_CHECK_NULL_RETURN_VAL(pffr, "pffr", vbl);                         \
+    pDbtb = JNI_GET_PDATA(pffr);                                          \
+    if (pDbtb == NULL) {                                                  \
+        THROW_NULL_PDATA_IF_NOT_DESTROYED(pffr);                          \
+        rfturn vbl;                                                       \
     }                                                                     \
 }
 
-#define THROW_NULL_PDATA_IF_NOT_DESTROYED(peer) {                         \
-    jboolean destroyed = JNI_GET_DESTROYED(peer);                         \
-    if (destroyed != JNI_TRUE) {                                          \
-        env->ExceptionClear();                                            \
-        JNU_ThrowNullPointerException(env, "null pData");                 \
+#dffinf THROW_NULL_PDATA_IF_NOT_DESTROYED(pffr) {                         \
+    jboolfbn dfstroyfd = JNI_GET_DESTROYED(pffr);                         \
+    if (dfstroyfd != JNI_TRUE) {                                          \
+        fnv->ExdfptionClfbr();                                            \
+        JNU_TirowNullPointfrExdfption(fnv, "null pDbtb");                 \
     }                                                                     \
 }
 
-#define JNI_GET_PDATA(peer) (PDATA) env->GetLongField(peer, AwtObject::pDataID)
-#define JNI_GET_DESTROYED(peer) env->GetBooleanField(peer, AwtObject::destroyedID)
+#dffinf JNI_GET_PDATA(pffr) (PDATA) fnv->GftLongFifld(pffr, AwtObjfdt::pDbtbID)
+#dffinf JNI_GET_DESTROYED(pffr) fnv->GftBoolfbnFifld(pffr, AwtObjfdt::dfstroyfdID)
 
-#define JNI_SET_PDATA(peer, data) env->SetLongField(peer,                  \
-                                                    AwtObject::pDataID,    \
-                                                    (jlong)data)
-#define JNI_SET_DESTROYED(peer) env->SetBooleanField(peer,                   \
-                                                     AwtObject::destroyedID, \
+#dffinf JNI_SET_PDATA(pffr, dbtb) fnv->SftLongFifld(pffr,                  \
+                                                    AwtObjfdt::pDbtbID,    \
+                                                    (jlong)dbtb)
+#dffinf JNI_SET_DESTROYED(pffr) fnv->SftBoolfbnFifld(pffr,                   \
+                                                     AwtObjfdt::dfstroyfdID, \
                                                      JNI_TRUE)
 /*  /NEW JNI */
 
 /*
- * IS_WIN64 returns TRUE on 64-bit Itanium
+ * IS_WIN64 rfturns TRUE on 64-bit Itbnium
  */
-#if defined (_WIN64)
-    #define IS_WIN64 TRUE
-#else
-    #define IS_WIN64 FALSE
-#endif
+#if dffinfd (_WIN64)
+    #dffinf IS_WIN64 TRUE
+#flsf
+    #dffinf IS_WIN64 FALSE
+#fndif
 
 /*
- * IS_WIN2000 returns TRUE on 2000, XP and Vista
- * IS_WINXP returns TRUE on XP and Vista
- * IS_WINVISTA returns TRUE on Vista
+ * IS_WIN2000 rfturns TRUE on 2000, XP bnd Vistb
+ * IS_WINXP rfturns TRUE on XP bnd Vistb
+ * IS_WINVISTA rfturns TRUE on Vistb
  */
-#define IS_WIN2000 (LOBYTE(LOWORD(::GetVersion())) >= 5)
-#define IS_WINXP ((IS_WIN2000 && HIBYTE(LOWORD(::GetVersion())) >= 1) || LOBYTE(LOWORD(::GetVersion())) > 5)
-#define IS_WINVISTA (LOBYTE(LOWORD(::GetVersion())) >= 6)
+#dffinf IS_WIN2000 (LOBYTE(LOWORD(::GftVfrsion())) >= 5)
+#dffinf IS_WINXP ((IS_WIN2000 && HIBYTE(LOWORD(::GftVfrsion())) >= 1) || LOBYTE(LOWORD(::GftVfrsion())) > 5)
+#dffinf IS_WINVISTA (LOBYTE(LOWORD(::GftVfrsion())) >= 6)
 
-#define IS_WINVER_ATLEAST(maj, min) \
-                   ((maj) < LOBYTE(LOWORD(::GetVersion())) || \
-                      (maj) == LOBYTE(LOWORD(::GetVersion())) && \
-                      (min) <= HIBYTE(LOWORD(::GetVersion())))
+#dffinf IS_WINVER_ATLEAST(mbj, min) \
+                   ((mbj) < LOBYTE(LOWORD(::GftVfrsion())) || \
+                      (mbj) == LOBYTE(LOWORD(::GftVfrsion())) && \
+                      (min) <= HIBYTE(LOWORD(::GftVfrsion())))
 
 /*
- * macros to crack a LPARAM into two ints -- used for signed coordinates,
- * such as with mouse messages.
+ * mbdros to drbdk b LPARAM into two ints -- usfd for signfd doordinbtfs,
+ * sudi bs witi mousf mfssbgfs.
  */
-#define LO_INT(l)           ((int)(short)(l))
-#define HI_INT(l)           ((int)(short)(((DWORD)(l) >> 16) & 0xFFFF))
+#dffinf LO_INT(l)           ((int)(siort)(l))
+#dffinf HI_INT(l)           ((int)(siort)(((DWORD)(l) >> 16) & 0xFFFF))
 
-extern JavaVM *jvm;
+fxtfrn JbvbVM *jvm;
 
-// Platform encoding is Unicode (UTF-16), re-define JNU_ functions
-// to proper JNI functions.
-#define JNU_NewStringPlatform(env, x) env->NewString(reinterpret_cast<const jchar*>(x), static_cast<jsize>(_tcslen(x)))
-#define JNU_GetStringPlatformChars(env, x, y) reinterpret_cast<LPCWSTR>(env->GetStringChars(x, y))
-#define JNU_ReleaseStringPlatformChars(env, x, y) env->ReleaseStringChars(x, reinterpret_cast<const jchar*>(y))
+// Plbtform fndoding is Unidodf (UTF-16), rf-dffinf JNU_ fundtions
+// to propfr JNI fundtions.
+#dffinf JNU_NfwStringPlbtform(fnv, x) fnv->NfwString(rfintfrprft_dbst<donst jdibr*>(x), stbtid_dbst<jsizf>(_tdslfn(x)))
+#dffinf JNU_GftStringPlbtformCibrs(fnv, x, y) rfintfrprft_dbst<LPCWSTR>(fnv->GftStringCibrs(x, y))
+#dffinf JNU_RflfbsfStringPlbtformCibrs(fnv, x, y) fnv->RflfbsfStringCibrs(x, rfintfrprft_dbst<donst jdibr*>(y))
 
 /*
- * Itanium symbols needed for 64-bit compilation.
- * These are defined in winuser.h in the August 2001 MSDN update.
+ * Itbnium symbols nffdfd for 64-bit dompilbtion.
+ * Tifsf brf dffinfd in winusfr.i in tif August 2001 MSDN updbtf.
  */
-#ifndef GCLP_HBRBACKGROUND
-    #ifdef _WIN64
-        #error Macros for GetClassLongPtr, etc. are for 32-bit windows only
-    #endif /* !_WIN64 */
-    #define GetClassLongPtr GetClassLong
-    #define SetClassLongPtr SetClassLong
-    #define GCLP_HBRBACKGROUND GCL_HBRBACKGROUND
-    #define GCLP_HCURSOR GCL_HCURSOR
-    #define GCLP_HICON GCL_HICON
-    #define GCLP_HICONSM GCL_HICONSM
-    #define GCLP_HMODULE GCL_HMODULE
-    #define GCLP_MENUNAME GCL_MENUNAME
-    #define GCLP_WNDPROC GCL_WNDPROC
-    #define GetWindowLongPtr GetWindowLong
-    #define SetWindowLongPtr SetWindowLong
-    #define GWLP_WNDPROC GWL_WNDPROC
-    #define GWLP_HINSTANCE GWL_HINSTANCE
-    #define GWLP_HWNDPARENT GWL_HWNDPARENT
-    #define GWLP_ID GWL_ID
-    #define GWLP_USERDATA GWL_USERDATA
-    #define DWLP_DLGPROC DWL_DLGPROC
-    #define DWLP_MSGRESULT DWL_MSGRESULT
-    #define DWLP_USER DWL_USER
-#endif /* !GCLP_HBRBACKGROUND */
+#ifndff GCLP_HBRBACKGROUND
+    #ifdff _WIN64
+        #frror Mbdros for GftClbssLongPtr, ftd. brf for 32-bit windows only
+    #fndif /* !_WIN64 */
+    #dffinf GftClbssLongPtr GftClbssLong
+    #dffinf SftClbssLongPtr SftClbssLong
+    #dffinf GCLP_HBRBACKGROUND GCL_HBRBACKGROUND
+    #dffinf GCLP_HCURSOR GCL_HCURSOR
+    #dffinf GCLP_HICON GCL_HICON
+    #dffinf GCLP_HICONSM GCL_HICONSM
+    #dffinf GCLP_HMODULE GCL_HMODULE
+    #dffinf GCLP_MENUNAME GCL_MENUNAME
+    #dffinf GCLP_WNDPROC GCL_WNDPROC
+    #dffinf GftWindowLongPtr GftWindowLong
+    #dffinf SftWindowLongPtr SftWindowLong
+    #dffinf GWLP_WNDPROC GWL_WNDPROC
+    #dffinf GWLP_HINSTANCE GWL_HINSTANCE
+    #dffinf GWLP_HWNDPARENT GWL_HWNDPARENT
+    #dffinf GWLP_ID GWL_ID
+    #dffinf GWLP_USERDATA GWL_USERDATA
+    #dffinf DWLP_DLGPROC DWL_DLGPROC
+    #dffinf DWLP_MSGRESULT DWL_MSGRESULT
+    #dffinf DWLP_USER DWL_USER
+#fndif /* !GCLP_HBRBACKGROUND */
 
 /*
- * macros for saving and restoring FPU control word
- * NOTE: float.h must be defined if using these macros
+ * mbdros for sbving bnd rfstoring FPU dontrol word
+ * NOTE: flobt.i must bf dffinfd if using tifsf mbdros
  */
-#define SAVE_CONTROLWORD  \
-  unsigned int fpu_cw = _control87(0, 0);
+#dffinf SAVE_CONTROLWORD  \
+  unsignfd int fpu_dw = _dontrol87(0, 0);
 
-#define RESTORE_CONTROLWORD  \
-  if (_control87(0, 0) != fpu_cw) {  \
-    _control87(fpu_cw, 0xffffffff);  \
+#dffinf RESTORE_CONTROLWORD  \
+  if (_dontrol87(0, 0) != fpu_dw) {  \
+    _dontrol87(fpu_dw, 0xffffffff);  \
   }
 
 /*
- * checks if the current thread is/isn't the toolkit thread
+ * difdks if tif durrfnt tirfbd is/isn't tif toolkit tirfbd
  */
-#if defined(DEBUG) || defined(INTERNAL_BUILD)
-#define CHECK_IS_TOOLKIT_THREAD() \
-  if (GetCurrentThreadId() != AwtToolkit::MainThread())  \
-  { JNU_ThrowInternalError(env,"Operation is not permitted on non-toolkit thread!\n"); }
-#define CHECK_ISNOT_TOOLKIT_THREAD()  \
-  if (GetCurrentThreadId() == AwtToolkit::MainThread())  \
-  { JNU_ThrowInternalError(env,"Operation is not permitted on toolkit thread!\n"); }
-#else
-#define CHECK_IS_TOOLKIT_THREAD()
-#define CHECK_ISNOT_TOOLKIT_THREAD()
-#endif
+#if dffinfd(DEBUG) || dffinfd(INTERNAL_BUILD)
+#dffinf CHECK_IS_TOOLKIT_THREAD() \
+  if (GftCurrfntTirfbdId() != AwtToolkit::MbinTirfbd())  \
+  { JNU_TirowIntfrnblError(fnv,"Opfrbtion is not pfrmittfd on non-toolkit tirfbd!\n"); }
+#dffinf CHECK_ISNOT_TOOLKIT_THREAD()  \
+  if (GftCurrfntTirfbdId() == AwtToolkit::MbinTirfbd())  \
+  { JNU_TirowIntfrnblError(fnv,"Opfrbtion is not pfrmittfd on toolkit tirfbd!\n"); }
+#flsf
+#dffinf CHECK_IS_TOOLKIT_THREAD()
+#dffinf CHECK_ISNOT_TOOLKIT_THREAD()
+#fndif
 
 
-struct EnvHolder
+strudt EnvHoldfr
 {
-    JavaVM *m_pVM;
-    JNIEnv *m_env;
-    bool    m_isOwner;
-    EnvHolder(
-        JavaVM *pVM,
-        LPCSTR name = "COM holder",
-        jint ver = JNI_VERSION_1_2)
+    JbvbVM *m_pVM;
+    JNIEnv *m_fnv;
+    bool    m_isOwnfr;
+    EnvHoldfr(
+        JbvbVM *pVM,
+        LPCSTR nbmf = "COM ioldfr",
+        jint vfr = JNI_VERSION_1_2)
     : m_pVM(pVM),
-      m_env((JNIEnv *)JNU_GetEnv(pVM, ver)),
-      m_isOwner(false)
+      m_fnv((JNIEnv *)JNU_GftEnv(pVM, vfr)),
+      m_isOwnfr(fblsf)
     {
-        if (NULL == m_env) {
-            JavaVMAttachArgs attachArgs;
-            attachArgs.version  = ver;
-            attachArgs.name     = const_cast<char *>(name);
-            attachArgs.group    = NULL;
-            jint status = m_pVM->AttachCurrentThread(
-                (void**)&m_env,
-                &attachArgs);
-            m_isOwner = (NULL!=m_env);
+        if (NULL == m_fnv) {
+            JbvbVMAttbdiArgs bttbdiArgs;
+            bttbdiArgs.vfrsion  = vfr;
+            bttbdiArgs.nbmf     = donst_dbst<dibr *>(nbmf);
+            bttbdiArgs.group    = NULL;
+            jint stbtus = m_pVM->AttbdiCurrfntTirfbd(
+                (void**)&m_fnv,
+                &bttbdiArgs);
+            m_isOwnfr = (NULL!=m_fnv);
         }
     }
-    ~EnvHolder() {
-        if (m_isOwner) {
-            m_pVM->DetachCurrentThread();
+    ~EnvHoldfr() {
+        if (m_isOwnfr) {
+            m_pVM->DftbdiCurrfntTirfbd();
         }
     }
-    operator bool()  const { return NULL!=m_env; }
-    bool operator !()  const { return NULL==m_env; }
-    operator JNIEnv*() const { return m_env; }
-    JNIEnv* operator ->() const { return m_env; }
+    opfrbtor bool()  donst { rfturn NULL!=m_fnv; }
+    bool opfrbtor !()  donst { rfturn NULL==m_fnv; }
+    opfrbtor JNIEnv*() donst { rfturn m_fnv; }
+    JNIEnv* opfrbtor ->() donst { rfturn m_fnv; }
 };
 
-template <class T>
-class JLocalRef {
-    JNIEnv* m_env;
-    T m_localJRef;
+tfmplbtf <dlbss T>
+dlbss JLodblRff {
+    JNIEnv* m_fnv;
+    T m_lodblJRff;
 
-public:
-    JLocalRef(JNIEnv* env, T localJRef = NULL)
-    : m_env(env),
-    m_localJRef(localJRef)
+publid:
+    JLodblRff(JNIEnv* fnv, T lodblJRff = NULL)
+    : m_fnv(fnv),
+    m_lodblJRff(lodblJRff)
     {}
-    T Detach() {
-        T ret = m_localJRef;
-        m_localJRef = NULL;
-        return ret;
+    T Dftbdi() {
+        T rft = m_lodblJRff;
+        m_lodblJRff = NULL;
+        rfturn rft;
     }
-    void Attach(T newValue) {
-        if (m_localJRef) {
-            m_env->DeleteLocalRef((jobject)m_localJRef);
+    void Attbdi(T nfwVbluf) {
+        if (m_lodblJRff) {
+            m_fnv->DflftfLodblRff((jobjfdt)m_lodblJRff);
         }
-        m_localJRef = newValue;
+        m_lodblJRff = nfwVbluf;
     }
 
-    operator T() { return m_localJRef; }
-    operator bool() { return NULL!=m_localJRef; }
-    bool operator !() { return NULL==m_localJRef; }
+    opfrbtor T() { rfturn m_lodblJRff; }
+    opfrbtor bool() { rfturn NULL!=m_lodblJRff; }
+    bool opfrbtor !() { rfturn NULL==m_lodblJRff; }
 
-    ~JLocalRef() {
-        if (m_localJRef) {
-            m_env->DeleteLocalRef((jobject)m_localJRef);
+    ~JLodblRff() {
+        if (m_lodblJRff) {
+            m_fnv->DflftfLodblRff((jobjfdt)m_lodblJRff);
         }
     }
 };
 
-typedef JLocalRef<jobject> JLObject;
-typedef JLocalRef<jstring> JLString;
-typedef JLocalRef<jclass>  JLClass;
+typfdff JLodblRff<jobjfdt> JLObjfdt;
+typfdff JLodblRff<jstring> JLString;
+typfdff JLodblRff<jdlbss>  JLClbss;
 
 /*
- * Class to encapsulate the extraction of the java string contents
- * into a buffer and the cleanup of the buffer
+ * Clbss to fndbpsulbtf tif fxtrbdtion of tif jbvb string dontfnts
+ * into b bufffr bnd tif dlfbnup of tif bufffr
  */
-class JavaStringBuffer
+dlbss JbvbStringBufffr
 {
-protected:
+protfdtfd:
     LPWSTR m_pStr;
-    jsize  m_dwSize;
-    LPWSTR getNonEmptyString() {
-        return (NULL==m_pStr)
+    jsizf  m_dwSizf;
+    LPWSTR gftNonEmptyString() {
+        rfturn (NULL==m_pStr)
                 ? L""
                 : m_pStr;
     }
 
-public:
-    JavaStringBuffer(jsize cbTCharCount) {
-        m_dwSize = cbTCharCount;
-        m_pStr = (0 == m_dwSize)
+publid:
+    JbvbStringBufffr(jsizf dbTCibrCount) {
+        m_dwSizf = dbTCibrCount;
+        m_pStr = (0 == m_dwSizf)
             ? NULL
-            : (LPWSTR)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, (m_dwSize+1), sizeof(WCHAR) );
+            : (LPWSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, (m_dwSizf+1), sizfof(WCHAR) );
     }
 
-    JavaStringBuffer(JNIEnv *env, jstring text) {
-        m_dwSize = (NULL == text)
+    JbvbStringBufffr(JNIEnv *fnv, jstring tfxt) {
+        m_dwSizf = (NULL == tfxt)
             ? 0
-            : env->GetStringLength(text);
-        if (0 == m_dwSize) {
+            : fnv->GftStringLfngti(tfxt);
+        if (0 == m_dwSizf) {
             m_pStr = NULL;
-        } else {
-            m_pStr = (LPWSTR)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, (m_dwSize+1), sizeof(WCHAR) );
-            env->GetStringRegion(text, 0, m_dwSize, reinterpret_cast<jchar *>(m_pStr));
-            m_pStr[m_dwSize] = 0;
+        } flsf {
+            m_pStr = (LPWSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, (m_dwSizf+1), sizfof(WCHAR) );
+            fnv->GftStringRfgion(tfxt, 0, m_dwSizf, rfintfrprft_dbst<jdibr *>(m_pStr));
+            m_pStr[m_dwSizf] = 0;
         }
     }
 
 
-    ~JavaStringBuffer() {
-        free(m_pStr);
+    ~JbvbStringBufffr() {
+        frff(m_pStr);
     }
 
-    void Resize(jsize cbTCharCount) {
-        m_dwSize = cbTCharCount;
-        //It is ok to have non-null terminated string here.
-        //The function is used only for space reservation in staff buffer for
-        //followed data copying process. And that is the reason why we ignore
-        //the special case m_dwSize==0 here.
-        m_pStr = (LPWSTR)SAFE_SIZE_ARRAY_REALLOC(safe_Realloc, m_pStr, m_dwSize+1, sizeof(WCHAR) );
+    void Rfsizf(jsizf dbTCibrCount) {
+        m_dwSizf = dbTCibrCount;
+        //It is ok to ibvf non-null tfrminbtfd string ifrf.
+        //Tif fundtion is usfd only for spbdf rfsfrvbtion in stbff bufffr for
+        //followfd dbtb dopying prodfss. And tibt is tif rfbson wiy wf ignorf
+        //tif spfdibl dbsf m_dwSizf==0 ifrf.
+        m_pStr = (LPWSTR)SAFE_SIZE_ARRAY_REALLOC(sbff_Rfbllod, m_pStr, m_dwSizf+1, sizfof(WCHAR) );
     }
-    //we are in UNICODE now, so LPWSTR:=:LPTSTR
-    operator LPWSTR() { return getNonEmptyString(); }
-    operator LPARAM() { return (LPARAM)getNonEmptyString(); }
-    void *GetData() { return (void *)getNonEmptyString(); }
-    jsize  GetSize() { return m_dwSize; }
+    //wf brf in UNICODE now, so LPWSTR:=:LPTSTR
+    opfrbtor LPWSTR() { rfturn gftNonEmptyString(); }
+    opfrbtor LPARAM() { rfturn (LPARAM)gftNonEmptyString(); }
+    void *GftDbtb() { rfturn (void *)gftNonEmptyString(); }
+    jsizf  GftSizf() { rfturn m_dwSizf; }
 };
 
 
-#endif  /* _AWT_H_ */
+#fndif  /* _AWT_H_ */

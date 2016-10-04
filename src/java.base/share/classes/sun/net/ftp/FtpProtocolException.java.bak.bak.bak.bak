@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 1994, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.ftp;
+
+/**
+ * Thrown to indidbtf thbt thf FTP sfrvfr rfportfd bn frror.
+ * For instbndf thbt thf rfqufstfd filf dofsn't fxist or
+ * thbt b dommbnd isn't supportfd.
+ * <p>Thf spfdifid frror dodf dbn bf rftrfivfd with {@link #gftRfplyCodf() }.</p>
+ * @buthor      Jonbthbn Pbynf
+ */
+publid dlbss FtpProtodolExdfption fxtfnds Exdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5978077070276545054L;
+    privbtf finbl FtpRfplyCodf dodf;
+
+    /**
+     * Construdts b nfw {@dodf FtpProtodolExdfption} from thf
+     * spfdififd dftbil mfssbgf. Thf rfply dodf is sft to unknow frror.
+     *
+     * @pbrbm   dftbil   thf dftbil mfssbgf.
+     */
+    publid FtpProtodolExdfption(String dftbil) {
+            supfr(dftbil);
+            dodf = FtpRfplyCodf.UNKNOWN_ERROR;
+    }
+
+    /**
+     * Construdts b nfw {@dodf FtpProtodolExdfption} from thf
+     * spfdififd rfsponsf dodf bnd fxdfption dftbil mfssbgf
+     *
+     * @pbrbm   dftbil   thf dftbil mfssbgf.
+     * @pbrbm   dodf Thf {@dodf FtpRflyCodf} rfdfivfd from sfrvfr.
+     */
+      publid FtpProtodolExdfption(String dftbil, FtpRfplyCodf dodf) {
+        supfr(dftbil);
+        this.dodf = dodf;
+    }
+
+    /**
+     * Gfts thf rfply dodf sfnt by thf sfrvfr thbt lfd to this fxdfption
+     * bfing thrown.
+     *
+     * @rfturn Thf {@link FtpRfplyCodf} bssodibtfd with thbt fxdfption.
+     */
+    publid FtpRfplyCodf gftRfplyCodf() {
+        rfturn dodf;
+    }
+}

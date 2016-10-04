@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+/**
+ * An implfmfntbtion of <dodf>ImbgfOutputStrfbm</dodf> thbt writfs its
+ * output to b rfgulbr <dodf>OutputStrfbm</dodf>.  A mfmory bufffr is
+ * usfd to dbdhf bt lfbst thf dbtb bftwffn thf disdbrd position bnd
+ * thf durrfnt writf position.  Thf only donstrudtor tbkfs bn
+ * <dodf>OutputStrfbm</dodf>, so this dlbss mby not bf usfd for
+ * rfbd/modify/writf opfrbtions.  Rfbding dbn oddur only on pbrts of
+ * thf strfbm thbt hbvf blrfbdy bffn writtfn to thf dbdhf bnd not
+ * yft flushfd.
+ *
+ */
+publid dlbss MfmoryCbdhfImbgfOutputStrfbm fxtfnds ImbgfOutputStrfbmImpl {
+
+    privbtf OutputStrfbm strfbm;
+
+    privbtf MfmoryCbdhf dbdhf = nfw MfmoryCbdhf();
+
+    /**
+     * Construdts b <dodf>MfmoryCbdhfImbgfOutputStrfbm</dodf> thbt will writf
+     * to b givfn <dodf>OutputStrfbm</dodf>.
+     *
+     * @pbrbm strfbm bn <dodf>OutputStrfbm</dodf> to writf to.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>strfbm</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid MfmoryCbdhfImbgfOutputStrfbm(OutputStrfbm strfbm) {
+        if (strfbm == null) {
+            throw nfw IllfgblArgumfntExdfption("strfbm == null!");
+        }
+        this.strfbm = strfbm;
+    }
+
+    publid int rfbd() throws IOExdfption {
+        dhfdkClosfd();
+
+        bitOffsft = 0;
+
+        int vbl = dbdhf.rfbd(strfbmPos);
+        if (vbl != -1) {
+            ++strfbmPos;
+        }
+        rfturn vbl;
+    }
+
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+        dhfdkClosfd();
+
+        if (b == null) {
+            throw nfw NullPointfrExdfption("b == null!");
+        }
+        // Fix 4467608: rfbd([B,I,I) works indorrfdtly if lfn<=0
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngth || off + lfn < 0) {
+            throw nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off+lfn > b.lfngth || off+lfn < 0!");
+        }
+
+        bitOffsft = 0;
+
+        if (lfn == 0) {
+            rfturn 0;
+        }
+
+        // dhfdk if wf'rf blrfbdy bt/pbst EOF i.f.
+        // no morf bytfs lfft to rfbd from dbdhf
+        long bytfsLfftInCbdhf = dbdhf.gftLfngth() - strfbmPos;
+        if (bytfsLfftInCbdhf <= 0) {
+            rfturn -1; // EOF
+        }
+
+        // gubrbntffd by now thbt bytfsLfftInCbdhf > 0 && lfn > 0
+        // bnd so thf rfst of thf frror dhfdking is donf by dbdhf.rfbd()
+        // NOTE thbt blot of frror dhfdking is duplidbtfd
+        lfn = (int)Mbth.min(bytfsLfftInCbdhf, (long)lfn);
+        dbdhf.rfbd(b, off, lfn, strfbmPos);
+        strfbmPos += lfn;
+        rfturn lfn;
+    }
+
+    publid void writf(int b) throws IOExdfption {
+        flushBits(); // this will dbll dhfdkClosfd() for us
+        dbdhf.writf(b, strfbmPos);
+        ++strfbmPos;
+    }
+
+    publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+        flushBits(); // this will dbll dhfdkClosfd() for us
+        dbdhf.writf(b, off, lfn, strfbmPos);
+        strfbmPos += lfn;
+    }
+
+    publid long lfngth() {
+        try {
+            dhfdkClosfd();
+            rfturn dbdhf.gftLfngth();
+        } dbtdh (IOExdfption f) {
+            rfturn -1L;
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> sindf this
+     * <dodf>ImbgfOutputStrfbm</dodf> dbdhfs dbtb in ordfr to bllow
+     * sffking bbdkwbrds.
+     *
+     * @rfturn <dodf>truf</dodf>.
+     *
+     * @sff #isCbdhfdMfmory
+     * @sff #isCbdhfdFilf
+     */
+    publid boolfbn isCbdhfd() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <dodf>fblsf</dodf> sindf this
+     * <dodf>ImbgfOutputStrfbm</dodf> dofs not mbintbin b filf dbdhf.
+     *
+     * @rfturn <dodf>fblsf</dodf>.
+     *
+     * @sff #isCbdhfd
+     * @sff #isCbdhfdMfmory
+     */
+    publid boolfbn isCbdhfdFilf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> sindf this
+     * <dodf>ImbgfOutputStrfbm</dodf> mbintbins b mbin mfmory dbdhf.
+     *
+     * @rfturn <dodf>truf</dodf>.
+     *
+     * @sff #isCbdhfd
+     * @sff #isCbdhfdFilf
+     */
+    publid boolfbn isCbdhfdMfmory() {
+        rfturn truf;
+    }
+
+    /**
+     * Closfs this <dodf>MfmoryCbdhfImbgfOutputStrfbm</dodf>.  All
+     * pfnding dbtb is flushfd to thf output, bnd thf dbdhf
+     * is rflfbsfd.  Thf dfstinbtion <dodf>OutputStrfbm</dodf>
+     * is not dlosfd.
+     */
+    publid void dlosf() throws IOExdfption {
+        long lfngth = dbdhf.gftLfngth();
+        sffk(lfngth);
+        flushBfforf(lfngth);
+        supfr.dlosf();
+        dbdhf.rfsft();
+        dbdhf = null;
+        strfbm = null;
+    }
+
+    publid void flushBfforf(long pos) throws IOExdfption {
+        long oFlushfdPos = flushfdPos;
+        supfr.flushBfforf(pos); // this will dbll dhfdkClosfd() for us
+
+        long flushBytfs = flushfdPos - oFlushfdPos;
+        dbdhf.writfToStrfbm(strfbm, oFlushfdPos, flushBytfs);
+        dbdhf.disposfBfforf(flushfdPos);
+        strfbm.flush();
+    }
+}

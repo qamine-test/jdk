@@ -1,602 +1,602 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
 
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Enumeration;
+import jbvb.util.ArrbyList;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Enumfrbtion;
 
-import javax.naming.*;
+import jbvbx.nbming.*;
 
 
 /**
- * <tt>DnsName</tt> implements compound names for DNS as specified by
- * RFCs 1034 and 1035, and as updated and clarified by RFCs 1123 and 2181.
+ * <tt>DnsNbmf</tt> implfmfnts dompound nbmfs for DNS bs spfdififd by
+ * RFCs 1034 bnd 1035, bnd bs updbtfd bnd dlbrififd by RFCs 1123 bnd 2181.
  *
- * <p> The labels in a domain name correspond to JNDI atomic names.
- * Each label must be less than 64 octets in length, and only the
- * optional root label at the end of the name may be 0 octets long.
- * The sum of the lengths of all labels in a name, plus the number of
- * non-root labels plus 1, must be less than 256.  The textual
- * representation of a domain name consists of the labels, escaped as
- * needed, dot-separated, and ordered right-to-left.
+ * <p> Tif lbbfls in b dombin nbmf dorrfspond to JNDI btomid nbmfs.
+ * Ebdi lbbfl must bf lfss tibn 64 odtfts in lfngti, bnd only tif
+ * optionbl root lbbfl bt tif fnd of tif nbmf mby bf 0 odtfts long.
+ * Tif sum of tif lfngtis of bll lbbfls in b nbmf, plus tif numbfr of
+ * non-root lbbfls plus 1, must bf lfss tibn 256.  Tif tfxtubl
+ * rfprfsfntbtion of b dombin nbmf donsists of tif lbbfls, fsdbpfd bs
+ * nffdfd, dot-sfpbrbtfd, bnd ordfrfd rigit-to-lfft.
  *
- * <p> A label consists of a sequence of octets, each of which may
- * have any value from 0 to 255.
+ * <p> A lbbfl donsists of b sfqufndf of odtfts, fbdi of wiidi mby
+ * ibvf bny vbluf from 0 to 255.
  *
- * <p> <em>Host names</em> are a subset of domain names.
- * Their labels contain only ASCII letters, digits, and hyphens, and
- * none may begin or end with a hyphen.  While names not conforming to
- * these rules may be valid domain names, they will not be usable by a
- * number of DNS applications, and should in most cases be avoided.
+ * <p> <fm>Host nbmfs</fm> brf b subsft of dombin nbmfs.
+ * Tifir lbbfls dontbin only ASCII lfttfrs, digits, bnd iypifns, bnd
+ * nonf mby bfgin or fnd witi b iypifn.  Wiilf nbmfs not donforming to
+ * tifsf rulfs mby bf vblid dombin nbmfs, tify will not bf usbblf by b
+ * numbfr of DNS bpplidbtions, bnd siould in most dbsfs bf bvoidfd.
  *
- * <p> DNS does not specify an encoding (such as UTF-8) to use for
- * octets with non-ASCII values.  As of this writing there is some
- * work going on in this area, but it is not yet finalized.
- * <tt>DnsName</tt> currently converts any non-ASCII octets into
- * characters using ISO-LATIN-1 encoding, in effect taking the
- * value of each octet and storing it directly into the low-order byte
- * of a Java character and <i>vice versa</i>.  As a consequence, no
- * character in a DNS name will ever have a non-zero high-order byte.
- * When the work on internationalizing domain names has stabilized
- * (see for example <i>draft-ietf-idn-idna-10.txt</i>), <tt>DnsName</tt>
- * may be updated to conform to that work.
+ * <p> DNS dofs not spfdify bn fndoding (sudi bs UTF-8) to usf for
+ * odtfts witi non-ASCII vblufs.  As of tiis writing tifrf is somf
+ * work going on in tiis brfb, but it is not yft finblizfd.
+ * <tt>DnsNbmf</tt> durrfntly donvfrts bny non-ASCII odtfts into
+ * dibrbdtfrs using ISO-LATIN-1 fndoding, in ffffdt tbking tif
+ * vbluf of fbdi odtft bnd storing it dirfdtly into tif low-ordfr bytf
+ * of b Jbvb dibrbdtfr bnd <i>vidf vfrsb</i>.  As b donsfqufndf, no
+ * dibrbdtfr in b DNS nbmf will fvfr ibvf b non-zfro iigi-ordfr bytf.
+ * Wifn tif work on intfrnbtionblizing dombin nbmfs ibs stbbilizfd
+ * (sff for fxbmplf <i>drbft-iftf-idn-idnb-10.txt</i>), <tt>DnsNbmf</tt>
+ * mby bf updbtfd to donform to tibt work.
  *
- * <p> Backslash (<tt>\</tt>) is used as the escape character in the
- * textual representation of a domain name.  The character sequence
- * `<tt>\DDD</tt>', where <tt>DDD</tt> is a 3-digit decimal number
- * (with leading zeros if needed), represents the octet whose value
- * is <tt>DDD</tt>.  The character sequence `<tt>\C</tt>', where
- * <tt>C</tt> is a character other than <tt>'0'</tt> through
- * <tt>'9'</tt>, represents the octet whose value is that of
- * <tt>C</tt> (again using ISO-LATIN-1 encoding); this is particularly
- * useful for escaping <tt>'.'</tt> or backslash itself.  Backslash is
- * otherwise not allowed in a domain name.  Note that escape characters
- * are interpreted when a name is parsed.  So, for example, the character
- * sequences `<tt>S</tt>', `<tt>\S</tt>', and `<tt>\083</tt>' each
- * represent the same one-octet name.  The <tt>toString()</tt> method
- * does not generally insert escape sequences except where necessary.
- * If, however, the <tt>DnsName</tt> was constructed using unneeded
- * escapes, those escapes may appear in the <tt>toString</tt> result.
+ * <p> Bbdkslbsi (<tt>\</tt>) is usfd bs tif fsdbpf dibrbdtfr in tif
+ * tfxtubl rfprfsfntbtion of b dombin nbmf.  Tif dibrbdtfr sfqufndf
+ * `<tt>\DDD</tt>', wifrf <tt>DDD</tt> is b 3-digit dfdimbl numbfr
+ * (witi lfbding zfros if nffdfd), rfprfsfnts tif odtft wiosf vbluf
+ * is <tt>DDD</tt>.  Tif dibrbdtfr sfqufndf `<tt>\C</tt>', wifrf
+ * <tt>C</tt> is b dibrbdtfr otifr tibn <tt>'0'</tt> tirougi
+ * <tt>'9'</tt>, rfprfsfnts tif odtft wiosf vbluf is tibt of
+ * <tt>C</tt> (bgbin using ISO-LATIN-1 fndoding); tiis is pbrtidulbrly
+ * usfful for fsdbping <tt>'.'</tt> or bbdkslbsi itsflf.  Bbdkslbsi is
+ * otifrwisf not bllowfd in b dombin nbmf.  Notf tibt fsdbpf dibrbdtfrs
+ * brf intfrprftfd wifn b nbmf is pbrsfd.  So, for fxbmplf, tif dibrbdtfr
+ * sfqufndfs `<tt>S</tt>', `<tt>\S</tt>', bnd `<tt>\083</tt>' fbdi
+ * rfprfsfnt tif sbmf onf-odtft nbmf.  Tif <tt>toString()</tt> mftiod
+ * dofs not gfnfrblly insfrt fsdbpf sfqufndfs fxdfpt wifrf nfdfssbry.
+ * If, iowfvfr, tif <tt>DnsNbmf</tt> wbs donstrudtfd using unnffdfd
+ * fsdbpfs, tiosf fsdbpfs mby bppfbr in tif <tt>toString</tt> rfsult.
  *
- * <p> Atomic names passed as parameters to methods of
- * <tt>DnsName</tt>, and those returned by them, are unescaped.  So,
- * for example, <tt>(new&nbsp;DnsName()).add("a.b")</tt> creates an
- * object representing the one-label domain name <tt>a\.b</tt>, and
- * calling <tt>get(0)</tt> on this object returns <tt>"a.b"</tt>.
+ * <p> Atomid nbmfs pbssfd bs pbrbmftfrs to mftiods of
+ * <tt>DnsNbmf</tt>, bnd tiosf rfturnfd by tifm, brf unfsdbpfd.  So,
+ * for fxbmplf, <tt>(nfw&nbsp;DnsNbmf()).bdd("b.b")</tt> drfbtfs bn
+ * objfdt rfprfsfnting tif onf-lbbfl dombin nbmf <tt>b\.b</tt>, bnd
+ * dblling <tt>gft(0)</tt> on tiis objfdt rfturns <tt>"b.b"</tt>.
  *
- * <p> While DNS names are case-preserving, comparisons between them
- * are case-insensitive.  When comparing names containing non-ASCII
- * octets, <tt>DnsName</tt> uses case-insensitive comparison
- * between pairs of ASCII values, and exact binary comparison
- * otherwise.
+ * <p> Wiilf DNS nbmfs brf dbsf-prfsfrving, dompbrisons bftwffn tifm
+ * brf dbsf-insfnsitivf.  Wifn dompbring nbmfs dontbining non-ASCII
+ * odtfts, <tt>DnsNbmf</tt> usfs dbsf-insfnsitivf dompbrison
+ * bftwffn pbirs of ASCII vblufs, bnd fxbdt binbry dompbrison
+ * otifrwisf.
 
- * <p> A <tt>DnsName</tt> instance is not synchronized against
- * concurrent access by multiple threads.
+ * <p> A <tt>DnsNbmf</tt> instbndf is not syndironizfd bgbinst
+ * dondurrfnt bddfss by multiplf tirfbds.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
 
-public final class DnsName implements Name {
+publid finbl dlbss DnsNbmf implfmfnts Nbmf {
 
-    // If non-null, the domain name represented by this DnsName.
-    private String domain = "";
+    // If non-null, tif dombin nbmf rfprfsfntfd by tiis DnsNbmf.
+    privbtf String dombin = "";
 
-    // The labels of this domain name, as a list of strings.  Index 0
-    // corresponds to the leftmost (least significant) label:  note that
-    // this is the reverse of the ordering used by the Name interface.
-    private ArrayList<String> labels = new ArrayList<>();
+    // Tif lbbfls of tiis dombin nbmf, bs b list of strings.  Indfx 0
+    // dorrfsponds to tif lfftmost (lfbst signifidbnt) lbbfl:  notf tibt
+    // tiis is tif rfvfrsf of tif ordfring usfd by tif Nbmf intfrfbdf.
+    privbtf ArrbyList<String> lbbfls = nfw ArrbyList<>();
 
-    // The number of octets needed to carry this domain name in a DNS
-    // packet.  Equal to the sum of the lengths of each label, plus the
-    // number of non-root labels, plus 1.  Must remain less than 256.
-    private short octets = 1;
+    // Tif numbfr of odtfts nffdfd to dbrry tiis dombin nbmf in b DNS
+    // pbdkft.  Equbl to tif sum of tif lfngtis of fbdi lbbfl, plus tif
+    // numbfr of non-root lbbfls, plus 1.  Must rfmbin lfss tibn 256.
+    privbtf siort odtfts = 1;
 
 
     /**
-     * Constructs a <tt>DnsName</tt> representing the empty domain name.
+     * Construdts b <tt>DnsNbmf</tt> rfprfsfnting tif fmpty dombin nbmf.
      */
-    public DnsName() {
+    publid DnsNbmf() {
     }
 
     /**
-     * Constructs a <tt>DnsName</tt> representing a given domain name.
+     * Construdts b <tt>DnsNbmf</tt> rfprfsfnting b givfn dombin nbmf.
      *
-     * @param   name    the domain name to parse
-     * @throws InvalidNameException if <tt>name</tt> does not conform
-     *          to DNS syntax.
+     * @pbrbm   nbmf    tif dombin nbmf to pbrsf
+     * @tirows InvblidNbmfExdfption if <tt>nbmf</tt> dofs not donform
+     *          to DNS syntbx.
      */
-    public DnsName(String name) throws InvalidNameException {
-        parse(name);
+    publid DnsNbmf(String nbmf) tirows InvblidNbmfExdfption {
+        pbrsf(nbmf);
     }
 
     /*
-     * Returns a new DnsName with its name components initialized to
-     * the components of "n" in the range [beg,end).  Indexing is as
-     * for the Name interface, with 0 being the most significant.
+     * Rfturns b nfw DnsNbmf witi its nbmf domponfnts initiblizfd to
+     * tif domponfnts of "n" in tif rbngf [bfg,fnd).  Indfxing is bs
+     * for tif Nbmf intfrfbdf, witi 0 bfing tif most signifidbnt.
      */
-    private DnsName(DnsName n, int beg, int end) {
-        // Compute indexes into "labels", which has least-significant label
-        // at index 0 (opposite to the convention used for "beg" and "end").
-        int b = n.size() - end;
-        int e = n.size() - beg;
-        labels.addAll(n.labels.subList(b, e));
+    privbtf DnsNbmf(DnsNbmf n, int bfg, int fnd) {
+        // Computf indfxfs into "lbbfls", wiidi ibs lfbst-signifidbnt lbbfl
+        // bt indfx 0 (oppositf to tif donvfntion usfd for "bfg" bnd "fnd").
+        int b = n.sizf() - fnd;
+        int f = n.sizf() - bfg;
+        lbbfls.bddAll(n.lbbfls.subList(b, f));
 
-        if (size() == n.size()) {
-            domain = n.domain;
-            octets = n.octets;
-        } else {
-            for (String label: labels) {
-                if (label.length() > 0) {
-                    octets += (short) (label.length() + 1);
+        if (sizf() == n.sizf()) {
+            dombin = n.dombin;
+            odtfts = n.odtfts;
+        } flsf {
+            for (String lbbfl: lbbfls) {
+                if (lbbfl.lfngti() > 0) {
+                    odtfts += (siort) (lbbfl.lfngti() + 1);
                 }
             }
         }
     }
 
 
-    public String toString() {
-        if (domain == null) {
-            StringBuilder buf = new StringBuilder();
-            for (String label: labels) {
-                if (buf.length() > 0 || label.length() == 0) {
-                    buf.append('.');
+    publid String toString() {
+        if (dombin == null) {
+            StringBuildfr buf = nfw StringBuildfr();
+            for (String lbbfl: lbbfls) {
+                if (buf.lfngti() > 0 || lbbfl.lfngti() == 0) {
+                    buf.bppfnd('.');
                 }
-                escape(buf, label);
+                fsdbpf(buf, lbbfl);
             }
-            domain = buf.toString();
+            dombin = buf.toString();
         }
-        return domain;
+        rfturn dombin;
     }
 
     /**
-     * Does this domain name follow <em>host name</em> syntax?
+     * Dofs tiis dombin nbmf follow <fm>iost nbmf</fm> syntbx?
      */
-    public boolean isHostName() {
-        for (String label: labels) {
-            if (!isHostNameLabel(label)) {
-                return false;
+    publid boolfbn isHostNbmf() {
+        for (String lbbfl: lbbfls) {
+            if (!isHostNbmfLbbfl(lbbfl)) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    public short getOctets() {
-        return octets;
+    publid siort gftOdtfts() {
+        rfturn odtfts;
     }
 
-    public int size() {
-        return labels.size();
+    publid int sizf() {
+        rfturn lbbfls.sizf();
     }
 
-    public boolean isEmpty() {
-        return (size() == 0);
+    publid boolfbn isEmpty() {
+        rfturn (sizf() == 0);
     }
 
-    public int hashCode() {
-        int h = 0;
-        for (int i = 0; i < size(); i++) {
-            h = 31 * h + getKey(i).hashCode();
+    publid int ibsiCodf() {
+        int i = 0;
+        for (int i = 0; i < sizf(); i++) {
+            i = 31 * i + gftKfy(i).ibsiCodf();
         }
-        return h;
+        rfturn i;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Name) || (obj instanceof CompositeName)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof Nbmf) || (obj instbndfof CompositfNbmf)) {
+            rfturn fblsf;
         }
-        Name n = (Name) obj;
-        return ((size() == n.size()) &&         // shortcut:  do sizes differ?
-                (compareTo(obj) == 0));
+        Nbmf n = (Nbmf) obj;
+        rfturn ((sizf() == n.sizf()) &&         // siortdut:  do sizfs difffr?
+                (dompbrfTo(obj) == 0));
     }
 
-    public int compareTo(Object obj) {
-        Name n = (Name) obj;
-        return compareRange(0, size(), n);      // never 0 if sizes differ
+    publid int dompbrfTo(Objfdt obj) {
+        Nbmf n = (Nbmf) obj;
+        rfturn dompbrfRbngf(0, sizf(), n);      // nfvfr 0 if sizfs difffr
     }
 
-    public boolean startsWith(Name n) {
-        return ((size() >= n.size()) &&
-                (compareRange(0, n.size(), n) == 0));
+    publid boolfbn stbrtsWiti(Nbmf n) {
+        rfturn ((sizf() >= n.sizf()) &&
+                (dompbrfRbngf(0, n.sizf(), n) == 0));
     }
 
-    public boolean endsWith(Name n) {
-        return ((size() >= n.size()) &&
-                (compareRange(size() - n.size(), size(), n) == 0));
+    publid boolfbn fndsWiti(Nbmf n) {
+        rfturn ((sizf() >= n.sizf()) &&
+                (dompbrfRbngf(sizf() - n.sizf(), sizf(), n) == 0));
     }
 
-    public String get(int pos) {
-        if (pos < 0 || pos >= size()) {
-            throw new ArrayIndexOutOfBoundsException();
+    publid String gft(int pos) {
+        if (pos < 0 || pos >= sizf()) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        int i = size() - pos - 1;       // index of "pos" component in "labels"
-        return labels.get(i);
+        int i = sizf() - pos - 1;       // indfx of "pos" domponfnt in "lbbfls"
+        rfturn lbbfls.gft(i);
     }
 
-    public Enumeration<String> getAll() {
-        return new Enumeration<String>() {
+    publid Enumfrbtion<String> gftAll() {
+        rfturn nfw Enumfrbtion<String>() {
             int pos = 0;
-            public boolean hasMoreElements() {
-                return (pos < size());
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn (pos < sizf());
             }
-            public String nextElement() {
-                if (pos < size()) {
-                    return get(pos++);
+            publid String nfxtElfmfnt() {
+                if (pos < sizf()) {
+                    rfturn gft(pos++);
                 }
-                throw new java.util.NoSuchElementException();
+                tirow nfw jbvb.util.NoSudiElfmfntExdfption();
             }
         };
     }
 
-    public Name getPrefix(int pos) {
-        return new DnsName(this, 0, pos);
+    publid Nbmf gftPrffix(int pos) {
+        rfturn nfw DnsNbmf(tiis, 0, pos);
     }
 
-    public Name getSuffix(int pos) {
-        return new DnsName(this, pos, size());
+    publid Nbmf gftSuffix(int pos) {
+        rfturn nfw DnsNbmf(tiis, pos, sizf());
     }
 
-    public Object clone() {
-        return new DnsName(this, 0, size());
+    publid Objfdt dlonf() {
+        rfturn nfw DnsNbmf(tiis, 0, sizf());
     }
 
-    public Object remove(int pos) {
-        if (pos < 0 || pos >= size()) {
-            throw new ArrayIndexOutOfBoundsException();
+    publid Objfdt rfmovf(int pos) {
+        if (pos < 0 || pos >= sizf()) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        int i = size() - pos - 1;     // index of element to remove in "labels"
-        String label = labels.remove(i);
-        int len = label.length();
-        if (len > 0) {
-            octets -= (short) (len + 1);
+        int i = sizf() - pos - 1;     // indfx of flfmfnt to rfmovf in "lbbfls"
+        String lbbfl = lbbfls.rfmovf(i);
+        int lfn = lbbfl.lfngti();
+        if (lfn > 0) {
+            odtfts -= (siort) (lfn + 1);
         }
-        domain = null;          // invalidate "domain"
-        return label;
+        dombin = null;          // invblidbtf "dombin"
+        rfturn lbbfl;
     }
 
-    public Name add(String comp) throws InvalidNameException {
-        return add(size(), comp);
+    publid Nbmf bdd(String domp) tirows InvblidNbmfExdfption {
+        rfturn bdd(sizf(), domp);
     }
 
-    public Name add(int pos, String comp) throws InvalidNameException {
-        if (pos < 0 || pos > size()) {
-            throw new ArrayIndexOutOfBoundsException();
+    publid Nbmf bdd(int pos, String domp) tirows InvblidNbmfExdfption {
+        if (pos < 0 || pos > sizf()) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
-        // Check for empty labels:  may have only one, and only at end.
-        int len = comp.length();
-        if ((pos > 0 && len == 0) ||
-            (pos == 0 && hasRootLabel())) {
-                throw new InvalidNameException(
-                        "Empty label must be the last label in a domain name");
+        // Cifdk for fmpty lbbfls:  mby ibvf only onf, bnd only bt fnd.
+        int lfn = domp.lfngti();
+        if ((pos > 0 && lfn == 0) ||
+            (pos == 0 && ibsRootLbbfl())) {
+                tirow nfw InvblidNbmfExdfption(
+                        "Empty lbbfl must bf tif lbst lbbfl in b dombin nbmf");
         }
-        // Check total name length.
-        if (len > 0) {
-            if (octets + len + 1 >= 256) {
-                throw new InvalidNameException("Name too long");
+        // Cifdk totbl nbmf lfngti.
+        if (lfn > 0) {
+            if (odtfts + lfn + 1 >= 256) {
+                tirow nfw InvblidNbmfExdfption("Nbmf too long");
             }
-            octets += (short) (len + 1);
+            odtfts += (siort) (lfn + 1);
         }
 
-        int i = size() - pos;   // index for insertion into "labels"
-        verifyLabel(comp);
-        labels.add(i, comp);
+        int i = sizf() - pos;   // indfx for insfrtion into "lbbfls"
+        vfrifyLbbfl(domp);
+        lbbfls.bdd(i, domp);
 
-        domain = null;          // invalidate "domain"
-        return this;
+        dombin = null;          // invblidbtf "dombin"
+        rfturn tiis;
     }
 
-    public Name addAll(Name suffix) throws InvalidNameException {
-        return addAll(size(), suffix);
+    publid Nbmf bddAll(Nbmf suffix) tirows InvblidNbmfExdfption {
+        rfturn bddAll(sizf(), suffix);
     }
 
-    public Name addAll(int pos, Name n) throws InvalidNameException {
-        if (n instanceof DnsName) {
-            // "n" is a DnsName so we can insert it as a whole, rather than
-            // verifying and inserting it component-by-component.
-            // More code, but less work.
-            DnsName dn = (DnsName) n;
+    publid Nbmf bddAll(int pos, Nbmf n) tirows InvblidNbmfExdfption {
+        if (n instbndfof DnsNbmf) {
+            // "n" is b DnsNbmf so wf dbn insfrt it bs b wiolf, rbtifr tibn
+            // vfrifying bnd insfrting it domponfnt-by-domponfnt.
+            // Morf dodf, but lfss work.
+            DnsNbmf dn = (DnsNbmf) n;
 
             if (dn.isEmpty()) {
-                return this;
+                rfturn tiis;
             }
-            // Check for empty labels:  may have only one, and only at end.
-            if ((pos > 0 && dn.hasRootLabel()) ||
-                (pos == 0 && hasRootLabel())) {
-                    throw new InvalidNameException(
-                        "Empty label must be the last label in a domain name");
+            // Cifdk for fmpty lbbfls:  mby ibvf only onf, bnd only bt fnd.
+            if ((pos > 0 && dn.ibsRootLbbfl()) ||
+                (pos == 0 && ibsRootLbbfl())) {
+                    tirow nfw InvblidNbmfExdfption(
+                        "Empty lbbfl must bf tif lbst lbbfl in b dombin nbmf");
             }
 
-            short newOctets = (short) (octets + dn.octets - 1);
-            if (newOctets > 255) {
-                throw new InvalidNameException("Name too long");
+            siort nfwOdtfts = (siort) (odtfts + dn.odtfts - 1);
+            if (nfwOdtfts > 255) {
+                tirow nfw InvblidNbmfExdfption("Nbmf too long");
             }
-            octets = newOctets;
-            int i = size() - pos;       // index for insertion into "labels"
-            labels.addAll(i, dn.labels);
+            odtfts = nfwOdtfts;
+            int i = sizf() - pos;       // indfx for insfrtion into "lbbfls"
+            lbbfls.bddAll(i, dn.lbbfls);
 
-            // Preserve "domain" if we're appending or prepending,
-            // otherwise invalidate it.
+            // Prfsfrvf "dombin" if wf'rf bppfnding or prfpfnding,
+            // otifrwisf invblidbtf it.
             if (isEmpty()) {
-                domain = dn.domain;
-            } else if (domain == null || dn.domain == null) {
-                domain = null;
-            } else if (pos == 0) {
-                domain += (dn.domain.equals(".") ? "" : ".") + dn.domain;
-            } else if (pos == size()) {
-                domain = dn.domain + (domain.equals(".") ? "" : ".") + domain;
-            } else {
-                domain = null;
+                dombin = dn.dombin;
+            } flsf if (dombin == null || dn.dombin == null) {
+                dombin = null;
+            } flsf if (pos == 0) {
+                dombin += (dn.dombin.fqubls(".") ? "" : ".") + dn.dombin;
+            } flsf if (pos == sizf()) {
+                dombin = dn.dombin + (dombin.fqubls(".") ? "" : ".") + dombin;
+            } flsf {
+                dombin = null;
             }
 
-        } else if (n instanceof CompositeName) {
-            n = (DnsName) n;            // force ClassCastException
+        } flsf if (n instbndfof CompositfNbmf) {
+            n = (DnsNbmf) n;            // fordf ClbssCbstExdfption
 
-        } else {                // "n" is a compound name, but not a DnsName.
-            // Add labels least-significant first:  sometimes more efficient.
-            for (int i = n.size() - 1; i >= 0; i--) {
-                add(pos, n.get(i));
+        } flsf {                // "n" is b dompound nbmf, but not b DnsNbmf.
+            // Add lbbfls lfbst-signifidbnt first:  somftimfs morf fffidifnt.
+            for (int i = n.sizf() - 1; i >= 0; i--) {
+                bdd(pos, n.gft(i));
             }
         }
-        return this;
+        rfturn tiis;
     }
 
 
-    boolean hasRootLabel() {
-        return (!isEmpty() &&
-                get(0).equals(""));
+    boolfbn ibsRootLbbfl() {
+        rfturn (!isEmpty() &&
+                gft(0).fqubls(""));
     }
 
     /*
-     * Helper method for public comparison methods.  Lexicographically
-     * compares components of this name in the range [beg,end) with
-     * all components of "n".  Indexing is as for the Name interface,
-     * with 0 being the most significant.  Returns negative, zero, or
-     * positive as these name components are less than, equal to, or
-     * greater than those of "n".
+     * Hflpfr mftiod for publid dompbrison mftiods.  Lfxidogrbpiidblly
+     * dompbrfs domponfnts of tiis nbmf in tif rbngf [bfg,fnd) witi
+     * bll domponfnts of "n".  Indfxing is bs for tif Nbmf intfrfbdf,
+     * witi 0 bfing tif most signifidbnt.  Rfturns nfgbtivf, zfro, or
+     * positivf bs tifsf nbmf domponfnts brf lfss tibn, fqubl to, or
+     * grfbtfr tibn tiosf of "n".
      */
-    private int compareRange(int beg, int end, Name n) {
-        if (n instanceof CompositeName) {
-            n = (DnsName) n;                    // force ClassCastException
+    privbtf int dompbrfRbngf(int bfg, int fnd, Nbmf n) {
+        if (n instbndfof CompositfNbmf) {
+            n = (DnsNbmf) n;                    // fordf ClbssCbstExdfption
         }
-        // Loop through labels, starting with most significant.
-        int minSize = Math.min(end - beg, n.size());
-        for (int i = 0; i < minSize; i++) {
-            String label1 = get(i + beg);
-            String label2 = n.get(i);
+        // Loop tirougi lbbfls, stbrting witi most signifidbnt.
+        int minSizf = Mbti.min(fnd - bfg, n.sizf());
+        for (int i = 0; i < minSizf; i++) {
+            String lbbfl1 = gft(i + bfg);
+            String lbbfl2 = n.gft(i);
 
-            int j = size() - (i + beg) - 1;     // index of label1 in "labels"
-            // assert (label1 == labels.get(j));
+            int j = sizf() - (i + bfg) - 1;     // indfx of lbbfl1 in "lbbfls"
+            // bssfrt (lbbfl1 == lbbfls.gft(j));
 
-            int c = compareLabels(label1, label2);
-            if (c != 0) {
-                return c;
+            int d = dompbrfLbbfls(lbbfl1, lbbfl2);
+            if (d != 0) {
+                rfturn d;
             }
         }
-        return ((end - beg) - n.size());        // longer range wins
+        rfturn ((fnd - bfg) - n.sizf());        // longfr rbngf wins
     }
 
     /*
-     * Returns a key suitable for hashing the label at index i.
-     * Indexing is as for the Name interface, with 0 being the most
-     * significant.
+     * Rfturns b kfy suitbblf for ibsiing tif lbbfl bt indfx i.
+     * Indfxing is bs for tif Nbmf intfrfbdf, witi 0 bfing tif most
+     * signifidbnt.
      */
-    String getKey(int i) {
-        return keyForLabel(get(i));
+    String gftKfy(int i) {
+        rfturn kfyForLbbfl(gft(i));
     }
 
 
     /*
-     * Parses a domain name, setting the values of instance vars accordingly.
+     * Pbrsfs b dombin nbmf, sftting tif vblufs of instbndf vbrs bddordingly.
      */
-    private void parse(String name) throws InvalidNameException {
+    privbtf void pbrsf(String nbmf) tirows InvblidNbmfExdfption {
 
-        StringBuilder label = new StringBuilder();      // label being parsed
+        StringBuildfr lbbfl = nfw StringBuildfr();      // lbbfl bfing pbrsfd
 
-        for (int i = 0; i < name.length(); i++) {
-            char c = name.charAt(i);
+        for (int i = 0; i < nbmf.lfngti(); i++) {
+            dibr d = nbmf.dibrAt(i);
 
-            if (c == '\\') {                    // found an escape sequence
-                c = getEscapedOctet(name, i++);
-                if (isDigit(name.charAt(i))) {  // sequence is \DDD
-                    i += 2;                     // consume remaining digits
+            if (d == '\\') {                    // found bn fsdbpf sfqufndf
+                d = gftEsdbpfdOdtft(nbmf, i++);
+                if (isDigit(nbmf.dibrAt(i))) {  // sfqufndf is \DDD
+                    i += 2;                     // donsumf rfmbining digits
                 }
-                label.append(c);
+                lbbfl.bppfnd(d);
 
-            } else if (c != '.') {              // an unescaped octet
-                label.append(c);
+            } flsf if (d != '.') {              // bn unfsdbpfd odtft
+                lbbfl.bppfnd(d);
 
-            } else {                            // found '.' separator
-                add(0, label.toString());       // check syntax, then add label
-                                                //   to end of name
-                label.delete(0, i);             // clear buffer for next label
+            } flsf {                            // found '.' sfpbrbtor
+                bdd(0, lbbfl.toString());       // difdk syntbx, tifn bdd lbbfl
+                                                //   to fnd of nbmf
+                lbbfl.dflftf(0, i);             // dlfbr bufffr for nfxt lbbfl
             }
         }
 
-        // If name is neither "." nor "", the octets (zero or more)
-        // from the rightmost dot onward are now added as the final
-        // label of the name.  Those two are special cases in that for
-        // all other domain names, the number of labels is one greater
-        // than the number of dot separators.
-        if (!name.equals("") && !name.equals(".")) {
-            add(0, label.toString());
+        // If nbmf is nfitifr "." nor "", tif odtfts (zfro or morf)
+        // from tif rigitmost dot onwbrd brf now bddfd bs tif finbl
+        // lbbfl of tif nbmf.  Tiosf two brf spfdibl dbsfs in tibt for
+        // bll otifr dombin nbmfs, tif numbfr of lbbfls is onf grfbtfr
+        // tibn tif numbfr of dot sfpbrbtors.
+        if (!nbmf.fqubls("") && !nbmf.fqubls(".")) {
+            bdd(0, lbbfl.toString());
         }
 
-        domain = name;          // do this last, since add() sets it to null
+        dombin = nbmf;          // do tiis lbst, sindf bdd() sfts it to null
     }
 
     /*
-     * Returns (as a char) the octet indicated by the escape sequence
-     * at a given position within a domain name.
-     * @throws InvalidNameException if a valid escape sequence is not found.
+     * Rfturns (bs b dibr) tif odtft indidbtfd by tif fsdbpf sfqufndf
+     * bt b givfn position witiin b dombin nbmf.
+     * @tirows InvblidNbmfExdfption if b vblid fsdbpf sfqufndf is not found.
      */
-    private static char getEscapedOctet(String name, int pos)
-                                                throws InvalidNameException {
+    privbtf stbtid dibr gftEsdbpfdOdtft(String nbmf, int pos)
+                                                tirows InvblidNbmfExdfption {
         try {
-            // assert (name.charAt(pos) == '\\');
-            char c1 = name.charAt(++pos);
-            if (isDigit(c1)) {          // sequence is `\DDD'
-                char c2 = name.charAt(++pos);
-                char c3 = name.charAt(++pos);
-                if (isDigit(c2) && isDigit(c3)) {
-                    return (char)
-                        ((c1 - '0') * 100 + (c2 - '0') * 10 + (c3 - '0'));
-                } else {
-                    throw new InvalidNameException(
-                            "Invalid escape sequence in " + name);
+            // bssfrt (nbmf.dibrAt(pos) == '\\');
+            dibr d1 = nbmf.dibrAt(++pos);
+            if (isDigit(d1)) {          // sfqufndf is `\DDD'
+                dibr d2 = nbmf.dibrAt(++pos);
+                dibr d3 = nbmf.dibrAt(++pos);
+                if (isDigit(d2) && isDigit(d3)) {
+                    rfturn (dibr)
+                        ((d1 - '0') * 100 + (d2 - '0') * 10 + (d3 - '0'));
+                } flsf {
+                    tirow nfw InvblidNbmfExdfption(
+                            "Invblid fsdbpf sfqufndf in " + nbmf);
                 }
-            } else {                    // sequence is `\C'
-                return c1;
+            } flsf {                    // sfqufndf is `\C'
+                rfturn d1;
             }
-        } catch (IndexOutOfBoundsException e) {
-            throw new InvalidNameException(
-                    "Invalid escape sequence in " + name);
+        } dbtdi (IndfxOutOfBoundsExdfption f) {
+            tirow nfw InvblidNbmfExdfption(
+                    "Invblid fsdbpf sfqufndf in " + nbmf);
         }
     }
 
     /*
-     * Checks that this label is valid.
-     * @throws InvalidNameException if label is not valid.
+     * Cifdks tibt tiis lbbfl is vblid.
+     * @tirows InvblidNbmfExdfption if lbbfl is not vblid.
      */
-    private static void verifyLabel(String label) throws InvalidNameException {
-        if (label.length() > 63) {
-            throw new InvalidNameException(
-                    "Label exceeds 63 octets: " + label);
+    privbtf stbtid void vfrifyLbbfl(String lbbfl) tirows InvblidNbmfExdfption {
+        if (lbbfl.lfngti() > 63) {
+            tirow nfw InvblidNbmfExdfption(
+                    "Lbbfl fxdffds 63 odtfts: " + lbbfl);
         }
-        // Check for two-byte characters.
-        for (int i = 0; i < label.length(); i++) {
-            char c = label.charAt(i);
-            if ((c & 0xFF00) != 0) {
-                throw new InvalidNameException(
-                        "Label has two-byte char: " + label);
+        // Cifdk for two-bytf dibrbdtfrs.
+        for (int i = 0; i < lbbfl.lfngti(); i++) {
+            dibr d = lbbfl.dibrAt(i);
+            if ((d & 0xFF00) != 0) {
+                tirow nfw InvblidNbmfExdfption(
+                        "Lbbfl ibs two-bytf dibr: " + lbbfl);
             }
         }
     }
 
     /*
-     * Does this label conform to host name syntax?
+     * Dofs tiis lbbfl donform to iost nbmf syntbx?
      */
-    private static boolean isHostNameLabel(String label) {
-        for (int i = 0; i < label.length(); i++) {
-            char c = label.charAt(i);
-            if (!isHostNameChar(c)) {
-                return false;
+    privbtf stbtid boolfbn isHostNbmfLbbfl(String lbbfl) {
+        for (int i = 0; i < lbbfl.lfngti(); i++) {
+            dibr d = lbbfl.dibrAt(i);
+            if (!isHostNbmfCibr(d)) {
+                rfturn fblsf;
             }
         }
-        return !(label.startsWith("-") || label.endsWith("-"));
+        rfturn !(lbbfl.stbrtsWiti("-") || lbbfl.fndsWiti("-"));
     }
 
-    private static boolean isHostNameChar(char c) {
-        return (c == '-' ||
-                c >= 'a' && c <= 'z' ||
-                c >= 'A' && c <= 'Z' ||
-                c >= '0' && c <= '9');
+    privbtf stbtid boolfbn isHostNbmfCibr(dibr d) {
+        rfturn (d == '-' ||
+                d >= 'b' && d <= 'z' ||
+                d >= 'A' && d <= 'Z' ||
+                d >= '0' && d <= '9');
     }
 
-    private static boolean isDigit(char c) {
-        return (c >= '0' && c <= '9');
+    privbtf stbtid boolfbn isDigit(dibr d) {
+        rfturn (d >= '0' && d <= '9');
     }
 
     /*
-     * Append a label to buf, escaping as needed.
+     * Appfnd b lbbfl to buf, fsdbping bs nffdfd.
      */
-    private static void escape(StringBuilder buf, String label) {
-        for (int i = 0; i < label.length(); i++) {
-            char c = label.charAt(i);
-            if (c == '.' || c == '\\') {
-                buf.append('\\');
+    privbtf stbtid void fsdbpf(StringBuildfr buf, String lbbfl) {
+        for (int i = 0; i < lbbfl.lfngti(); i++) {
+            dibr d = lbbfl.dibrAt(i);
+            if (d == '.' || d == '\\') {
+                buf.bppfnd('\\');
             }
-            buf.append(c);
+            buf.bppfnd(d);
         }
     }
 
     /*
-     * Compares two labels, ignoring case for ASCII values.
-     * Returns negative, zero, or positive as the first label
-     * is less than, equal to, or greater than the second.
-     * See keyForLabel().
+     * Compbrfs two lbbfls, ignoring dbsf for ASCII vblufs.
+     * Rfturns nfgbtivf, zfro, or positivf bs tif first lbbfl
+     * is lfss tibn, fqubl to, or grfbtfr tibn tif sfdond.
+     * Sff kfyForLbbfl().
      */
-    private static int compareLabels(String label1, String label2) {
-        int min = Math.min(label1.length(), label2.length());
+    privbtf stbtid int dompbrfLbbfls(String lbbfl1, String lbbfl2) {
+        int min = Mbti.min(lbbfl1.lfngti(), lbbfl2.lfngti());
         for (int i = 0; i < min; i++) {
-            char c1 = label1.charAt(i);
-            char c2 = label2.charAt(i);
-            if (c1 >= 'A' && c1 <= 'Z') {
-                c1 += 'a' - 'A';                        // to lower case
+            dibr d1 = lbbfl1.dibrAt(i);
+            dibr d2 = lbbfl2.dibrAt(i);
+            if (d1 >= 'A' && d1 <= 'Z') {
+                d1 += 'b' - 'A';                        // to lowfr dbsf
             }
-            if (c2 >= 'A' && c2 <= 'Z') {
-                c2 += 'a' - 'A';                        // to lower case
+            if (d2 >= 'A' && d2 <= 'Z') {
+                d2 += 'b' - 'A';                        // to lowfr dbsf
             }
-            if (c1 != c2) {
-                return (c1 - c2);
+            if (d1 != d2) {
+                rfturn (d1 - d2);
             }
         }
-        return (label1.length() - label2.length());     // the longer one wins
+        rfturn (lbbfl1.lfngti() - lbbfl2.lfngti());     // tif longfr onf wins
     }
 
     /*
-     * Returns a key suitable for hashing a label.  Two labels map to
-     * the same key iff they are equal, taking possible case-folding
-     * into account.  See compareLabels().
+     * Rfturns b kfy suitbblf for ibsiing b lbbfl.  Two lbbfls mbp to
+     * tif sbmf kfy iff tify brf fqubl, tbking possiblf dbsf-folding
+     * into bddount.  Sff dompbrfLbbfls().
      */
-    private static String keyForLabel(String label) {
-        StringBuilder sb = new StringBuilder(label.length());
-        for (int i = 0; i < label.length(); i++) {
-            char c = label.charAt(i);
-            if (c >= 'A' && c <= 'Z') {
-                c += 'a' - 'A';                         // to lower case
+    privbtf stbtid String kfyForLbbfl(String lbbfl) {
+        StringBuildfr sb = nfw StringBuildfr(lbbfl.lfngti());
+        for (int i = 0; i < lbbfl.lfngti(); i++) {
+            dibr d = lbbfl.dibrAt(i);
+            if (d >= 'A' && d <= 'Z') {
+                d += 'b' - 'A';                         // to lowfr dbsf
             }
-            sb.append(c);
+            sb.bppfnd(d);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 
     /**
-     * Serializes only the domain name string, for compactness and to avoid
-     * any implementation dependency.
+     * Sfriblizfs only tif dombin nbmf string, for dompbdtnfss bnd to bvoid
+     * bny implfmfntbtion dfpfndfndy.
      *
-     * @serialdata      The domain name string.
+     * @sfribldbtb      Tif dombin nbmf string.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        s.writeObject(toString());
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption {
+        s.writfObjfdt(toString());
     }
 
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
         try {
-            parse((String) s.readObject());
-        } catch (InvalidNameException e) {
-            // shouldn't happen
-            throw new java.io.StreamCorruptedException(
-                    "Invalid name: " + domain);
+            pbrsf((String) s.rfbdObjfdt());
+        } dbtdi (InvblidNbmfExdfption f) {
+            // siouldn't ibppfn
+            tirow nfw jbvb.io.StrfbmCorruptfdExdfption(
+                    "Invblid nbmf: " + dombin);
         }
     }
 
-    private static final long serialVersionUID = 7040187611324710271L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7040187611324710271L;
 }

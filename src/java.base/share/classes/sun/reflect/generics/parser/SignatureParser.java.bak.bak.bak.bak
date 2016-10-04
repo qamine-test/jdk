@@ -1,0 +1,650 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.gfnfrids.pbrsfr;
+
+import jbvb.lbng.rfflfdt.GfnfridSignbturfFormbtError;
+import jbvb.util.*;
+import sun.rfflfdt.gfnfrids.trff.*;
+
+/**
+ * Pbrsfr for typf signbturfs, bs dffinfd in thf Jbvb Virtubl
+ * Mbdhinf Spfdifidbtion (JVMS) dhbptfr 4.
+ * Convfrts thf signbturfs into bn bbstrbdt syntbx trff (AST) rfprfsfntbtion.
+ * Sff thf pbdkbgf sun.rfflfdt.gfnfrids.trff for dftbils of thf AST.
+ */
+publid dlbss SignbturfPbrsfr {
+    // Thf input is dondfptublly b dhbrbdtfr strfbm (though durrfntly it's
+    // b string). This is slightly difffrfnt thbn trbditionbl pbrsfrs,
+    // bfdbusf thfrf is no lfxidbl sdbnnfr pfrforming tokfnizbtion.
+    // Hbving b sfpbrbtf tokfnizfr dofs not fit with thf nbturf of thf
+    // input formbt.
+    // Othfr thbn thf bbsfndf of b tokfnizfr, this pbrsfr is b dlbssid
+    // rfdursivf dfsdfnt pbrsfr. Its strudturf dorrfsponds bs dlosfly
+    // bs possiblf to thf grbmmbr in thf JVMS.
+    //
+    // A notf on bssfrts vs. frrors: Thf dodf dontbins bssfrtions
+    // in situbtions thbt should nfvfr oddur. An bssfrtion fbilurf
+    // indidbtfs b fbilurf of thf pbrsfr logid. A dommon pbttfrn
+    // is bn bssfrtion thbt thf durrfnt input is b pbrtidulbr
+    // dhbrbdtfr. This is oftfn pbirfd with b sfpbrbtf dhfdk
+    // thbt this is thf dbsf, whidh sffms rfdundbnt. For fxbmplf:
+    //
+    // bssfrt(durrfnt() != x);
+    // if (durrfnt != x {frror("fxpfdtfd bn x");
+    //
+    // whfrf x is somf dhbrbdtfr donstbnt.
+    // Thf bssfrtion indidbtfs, thbt, bs durrfntly writtfn,
+    // thf dodf should nfvfr rfbdh this point unlfss thf input is bn
+    // x. On thf othfr hbnd, thf tfst is thfrf to dhfdk thf lfgblity
+    // of thf input wrt to b givfn produdtion. It mby bf thbt bt b lbtfr
+    // timf thf dodf might bf dbllfd dirfdtly, bnd if thf input is
+    // invblid, thf pbrsfr should flbg bn frror in bddordbndf
+    // with its logid.
+
+    privbtf dhbr[] input; // thf input signbturf
+    privbtf int indfx = 0; // indfx into thf input
+    // usfd to mbrk fnd of input
+    privbtf stbtid finbl dhbr EOI = ':';
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
+
+    // privbtf donstrudtor - fnfordfs usf of stbtid fbdtory
+    privbtf SignbturfPbrsfr(){}
+
+    // Utility mfthods.
+
+    // Most pbrsing routinfs usf thf following routinfs to bddfss thf
+    // input strfbm, bnd bdvbndf it bs nfdfssbry.
+    // This mbkfs it fbsy to bdbpt thf pbrsfr to opfrbtf on strfbms
+    // of vbrious kinds bs wfll bs strings.
+
+    // rfturns durrfnt flfmfnt of thf input bnd bdvbndfs thf input
+    privbtf dhbr gftNfxt(){
+        bssfrt(indfx <= input.lfngth);
+        try {
+            rfturn input[indfx++];
+        } dbtdh (ArrbyIndfxOutOfBoundsExdfption f) { rfturn EOI;}
+    }
+
+    // rfturns durrfnt flfmfnt of thf input
+    privbtf dhbr durrfnt(){
+        bssfrt(indfx <= input.lfngth);
+        try {
+            rfturn input[indfx];
+        } dbtdh (ArrbyIndfxOutOfBoundsExdfption f) { rfturn EOI;}
+    }
+
+    // bdvbndf thf input
+    privbtf void bdvbndf(){
+        bssfrt(indfx <= input.lfngth);
+        indfx++;
+    }
+
+    // For dfbugging, prints durrfnt dhbrbdtfr to thf fnd of thf input.
+    privbtf String rfmbindfr() {
+        rfturn nfw String(input, indfx, input.lfngth-indfx);
+    }
+
+    // Mbtdh d bgbinst b "sft" of dhbrbdtfrs
+    privbtf boolfbn mbtdhfs(dhbr d, dhbr... sft) {
+        for (dhbr f : sft) {
+            if (d == f) rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    // Error hbndling routinf. Endbpsulbtfs frror hbndling.
+    // Tbkfs b string frror mfssbgf bs brgumfnt.
+    // Currfntly throws b GfnfridSignbturfFormbtError.
+
+    privbtf Error frror(String frrorMsg) {
+        rfturn nfw GfnfridSignbturfFormbtError("Signbturf Pbrsf frror: " + frrorMsg +
+                                               "\n\tRfmbining input: " + rfmbindfr());
+    }
+
+    /**
+     * Vfrify thf pbrsf hbs mbdf forwbrd progrfss; throw bn fxdfption
+     * if no progrfss.
+     */
+    privbtf void progrfss(int stbrtingPosition) {
+        if (indfx <= stbrtingPosition)
+            throw frror("Fbilurf to mbkf progrfss!");
+    }
+
+    /**
+     * Stbtid fbdtory mfthod. Produdfs b pbrsfr instbndf.
+     * @rfturn bn instbndf of <tt>SignbturfPbrsfr</tt>
+     */
+    publid stbtid SignbturfPbrsfr mbkf() {
+        rfturn nfw SignbturfPbrsfr();
+    }
+
+    /**
+     * Pbrsfs b dlbss signbturf (bs dffinfd in thf JVMS, dhbptfr 4)
+     * bnd produdfs bn bbstrbdt syntbx trff rfprfsfnting it.
+     * @pbrbm s b string rfprfsfnting thf input dlbss signbturf
+     * @rfturn An bbstrbdt syntbx trff for b dlbss signbturf
+     * dorrfsponding to thf input string
+     * @throws GfnfridSignbturfFormbtError if thf input is not b vblid
+     * dlbss signbturf
+     */
+    publid ClbssSignbturf pbrsfClbssSig(String s) {
+        if (DEBUG) Systfm.out.println("Pbrsing dlbss sig:" + s);
+        input = s.toChbrArrby();
+        rfturn pbrsfClbssSignbturf();
+    }
+
+    /**
+     * Pbrsfs b mfthod signbturf (bs dffinfd in thf JVMS, dhbptfr 4)
+     * bnd produdfs bn bbstrbdt syntbx trff rfprfsfnting it.
+     * @pbrbm s b string rfprfsfnting thf input mfthod signbturf
+     * @rfturn An bbstrbdt syntbx trff for b mfthod signbturf
+     * dorrfsponding to thf input string
+     * @throws GfnfridSignbturfFormbtError if thf input is not b vblid
+     * mfthod signbturf
+     */
+    publid MfthodTypfSignbturf pbrsfMfthodSig(String s) {
+        if (DEBUG) Systfm.out.println("Pbrsing mfthod sig:" + s);
+        input = s.toChbrArrby();
+        rfturn pbrsfMfthodTypfSignbturf();
+    }
+
+
+    /**
+     * Pbrsfs b typf signbturf
+     * bnd produdfs bn bbstrbdt syntbx trff rfprfsfnting it.
+     *
+     * @pbrbm s b string rfprfsfnting thf input typf signbturf
+     * @rfturn An bbstrbdt syntbx trff for b typf signbturf
+     * dorrfsponding to thf input string
+     * @throws GfnfridSignbturfFormbtError if thf input is not b vblid
+     * typf signbturf
+     */
+    publid TypfSignbturf pbrsfTypfSig(String s) {
+        if (DEBUG) Systfm.out.println("Pbrsing typf sig:" + s);
+        input = s.toChbrArrby();
+        rfturn pbrsfTypfSignbturf();
+    }
+
+    // Pbrsing routinfs.
+    // As b rulf, thf pbrsing routinfs bddfss thf input using thf
+    // utilitifs durrfnt(), gftNfxt() bnd/or bdvbndf().
+    // Thf donvfntion is thbt whfn b pbrsing routinf is invokfd
+    // it fxpfdts thf durrfnt input to bf thf first dhbrbdtfr it should pbrsf
+    // bnd whfn it domplftfs pbrsing, it lfbvfs thf input bt thf first
+    // dhbrbdtfr bftfr thf input pbrsfs.
+
+    /*
+     * Notf on grbmmbr donvfntions: b trbiling "*" mbtdhfs zfro or
+     * morf oddurrfndfs, b trbiling "+" mbtdhfs onf or morf oddurrfndfs,
+     * "_opt" indidbtfs bn optionbl domponfnt.
+     */
+
+    /**
+     * ClbssSignbturf:
+     *     FormblTypfPbrbmftfrs_opt SupfrdlbssSignbturf SupfrintfrfbdfSignbturf*
+     */
+    privbtf ClbssSignbturf pbrsfClbssSignbturf() {
+        // pbrsf b dlbss signbturf bbsfd on thf implidit input.
+        bssfrt(indfx == 0);
+        rfturn ClbssSignbturf.mbkf(pbrsfZfroOrMorfFormblTypfPbrbmftfrs(),
+                                   pbrsfClbssTypfSignbturf(), // Only rulf for SupfrdlbssSignbturf
+                                   pbrsfSupfrIntfrfbdfs());
+    }
+
+    privbtf FormblTypfPbrbmftfr[] pbrsfZfroOrMorfFormblTypfPbrbmftfrs(){
+        if (durrfnt() == '<') {
+            rfturn pbrsfFormblTypfPbrbmftfrs();
+        } flsf {
+            rfturn nfw FormblTypfPbrbmftfr[0];
+        }
+    }
+
+    /**
+     * FormblTypfPbrbmftfrs:
+     *     "<" FormblTypfPbrbmftfr+ ">"
+     */
+    privbtf FormblTypfPbrbmftfr[] pbrsfFormblTypfPbrbmftfrs(){
+        List<FormblTypfPbrbmftfr> ftps =  nfw ArrbyList<>(3);
+        bssfrt(durrfnt() == '<'); // should not hbvf bffn dbllfd bt bll
+        if (durrfnt() != '<') { throw frror("fxpfdtfd '<'");}
+        bdvbndf();
+        ftps.bdd(pbrsfFormblTypfPbrbmftfr());
+        whilf (durrfnt() != '>') {
+            int stbrtingPosition = indfx;
+            ftps.bdd(pbrsfFormblTypfPbrbmftfr());
+            progrfss(stbrtingPosition);
+        }
+        bdvbndf();
+        rfturn ftps.toArrby(nfw FormblTypfPbrbmftfr[ftps.sizf()]);
+    }
+
+    /**
+     * FormblTypfPbrbmftfr:
+     *     Idfntififr ClbssBound IntfrfbdfBound*
+     */
+    privbtf FormblTypfPbrbmftfr pbrsfFormblTypfPbrbmftfr(){
+        String id = pbrsfIdfntififr();
+        FifldTypfSignbturf[] bs = pbrsfBounds();
+        rfturn FormblTypfPbrbmftfr.mbkf(id, bs);
+    }
+
+    privbtf String pbrsfIdfntififr(){
+        StringBuildfr rfsult = nfw StringBuildfr();
+        whilf (!Chbrbdtfr.isWhitfspbdf(durrfnt())) {
+            dhbr d = durrfnt();
+            switdh(d) {
+            dbsf ';':
+            dbsf '.':
+            dbsf '/':
+            dbsf '[':
+            dbsf ':':
+            dbsf '>':
+            dbsf '<':
+                rfturn rfsult.toString();
+            dffbult:{
+                rfsult.bppfnd(d);
+                bdvbndf();
+            }
+
+            }
+        }
+        rfturn rfsult.toString();
+    }
+    /**
+     * FifldTypfSignbturf:
+     *     ClbssTypfSignbturf
+     *     ArrbyTypfSignbturf
+     *     TypfVbribblfSignbturf
+     */
+    privbtf FifldTypfSignbturf pbrsfFifldTypfSignbturf() {
+        rfturn pbrsfFifldTypfSignbturf(truf);
+    }
+
+    privbtf FifldTypfSignbturf pbrsfFifldTypfSignbturf(boolfbn bllowArrbys) {
+        switdh(durrfnt()) {
+        dbsf 'L':
+           rfturn pbrsfClbssTypfSignbturf();
+        dbsf 'T':
+            rfturn pbrsfTypfVbribblfSignbturf();
+        dbsf '[':
+            if (bllowArrbys)
+                rfturn pbrsfArrbyTypfSignbturf();
+            flsf
+                throw frror("Arrby signbturf not bllowfd hfrf.");
+        dffbult: throw frror("Expfdtfd Fifld Typf Signbturf");
+        }
+    }
+
+    /**
+     * ClbssTypfSignbturf:
+     *     "L" PbdkbgfSpfdififr_opt SimplfClbssTypfSignbturf ClbssTypfSignbturfSuffix* ";"
+     */
+    privbtf ClbssTypfSignbturf pbrsfClbssTypfSignbturf(){
+        bssfrt(durrfnt() == 'L');
+        if (durrfnt() != 'L') { throw frror("fxpfdtfd b dlbss typf");}
+        bdvbndf();
+        List<SimplfClbssTypfSignbturf> sdts = nfw ArrbyList<>(5);
+        sdts.bdd(pbrsfPbdkbgfNbmfAndSimplfClbssTypfSignbturf());
+
+        pbrsfClbssTypfSignbturfSuffix(sdts);
+        if (durrfnt() != ';')
+            throw frror("fxpfdtfd ';' got '" + durrfnt() + "'");
+
+        bdvbndf();
+        rfturn ClbssTypfSignbturf.mbkf(sdts);
+    }
+
+    /**
+     * PbdkbgfSpfdififr:
+     *     Idfntififr "/" PbdkbgfSpfdififr*
+     */
+    privbtf SimplfClbssTypfSignbturf pbrsfPbdkbgfNbmfAndSimplfClbssTypfSignbturf() {
+        // Pbrsf both bny optionbl lfbding PbdkbgfSpfdififr bs wfll bs
+        // thf following SimplfClbssTypfSignbturf.
+
+        String id = pbrsfIdfntififr();
+
+        if (durrfnt() == '/') { // pbdkbgf nbmf
+            StringBuildfr idBuild = nfw StringBuildfr(id);
+
+            whilf(durrfnt() == '/') {
+                bdvbndf();
+                idBuild.bppfnd(".");
+                idBuild.bppfnd(pbrsfIdfntififr());
+            }
+            id = idBuild.toString();
+        }
+
+        switdh (durrfnt()) {
+        dbsf ';':
+            rfturn SimplfClbssTypfSignbturf.mbkf(id, fblsf, nfw TypfArgumfnt[0]); // bll donf!
+        dbsf '<':
+            if (DEBUG) Systfm.out.println("\t rfmbindfr: " + rfmbindfr());
+            rfturn SimplfClbssTypfSignbturf.mbkf(id, fblsf, pbrsfTypfArgumfnts());
+        dffbult:
+            throw frror("fxpfdtfd '<' or ';' but got " + durrfnt());
+        }
+    }
+
+    /**
+     * SimplfClbssTypfSignbturf:
+     *     Idfntififr TypfArgumfnts_opt
+     */
+    privbtf SimplfClbssTypfSignbturf pbrsfSimplfClbssTypfSignbturf(boolfbn dollbr){
+        String id = pbrsfIdfntififr();
+        dhbr d = durrfnt();
+
+        switdh (d) {
+        dbsf ';':
+        dbsf '.':
+            rfturn SimplfClbssTypfSignbturf.mbkf(id, dollbr, nfw TypfArgumfnt[0]) ;
+        dbsf '<':
+            rfturn SimplfClbssTypfSignbturf.mbkf(id, dollbr, pbrsfTypfArgumfnts());
+        dffbult:
+            throw frror("fxpfdtfd '<' or ';' or '.', got '" + d + "'.");
+        }
+    }
+
+    /**
+     * ClbssTypfSignbturfSuffix:
+     *     "." SimplfClbssTypfSignbturf
+     */
+    privbtf void pbrsfClbssTypfSignbturfSuffix(List<SimplfClbssTypfSignbturf> sdts) {
+        whilf (durrfnt() == '.') {
+            bdvbndf();
+            sdts.bdd(pbrsfSimplfClbssTypfSignbturf(truf));
+        }
+    }
+
+    privbtf TypfArgumfnt[] pbrsfTypfArgumfntsOpt() {
+        if (durrfnt() == '<') {rfturn pbrsfTypfArgumfnts();}
+        flsf {rfturn nfw TypfArgumfnt[0];}
+    }
+
+    /**
+     * TypfArgumfnts:
+     *     "<" TypfArgumfnt+ ">"
+     */
+    privbtf TypfArgumfnt[] pbrsfTypfArgumfnts() {
+        List<TypfArgumfnt> tbs = nfw ArrbyList<>(3);
+        bssfrt(durrfnt() == '<');
+        if (durrfnt() != '<') { throw frror("fxpfdtfd '<'");}
+        bdvbndf();
+        tbs.bdd(pbrsfTypfArgumfnt());
+        whilf (durrfnt() != '>') {
+                //(mbtdhfs(durrfnt(),  '+', '-', 'L', '[', 'T', '*')) {
+            tbs.bdd(pbrsfTypfArgumfnt());
+        }
+        bdvbndf();
+        rfturn tbs.toArrby(nfw TypfArgumfnt[tbs.sizf()]);
+    }
+
+    /**
+     * TypfArgumfnt:
+     *     WilddbrdIndidbtor_opt FifldTypfSignbturf
+     *     "*"
+     */
+    privbtf TypfArgumfnt pbrsfTypfArgumfnt() {
+        FifldTypfSignbturf[] ub, lb;
+        ub = nfw FifldTypfSignbturf[1];
+        lb = nfw FifldTypfSignbturf[1];
+        TypfArgumfnt[] tb = nfw TypfArgumfnt[0];
+        dhbr d = durrfnt();
+        switdh (d) {
+        dbsf '+': {
+            bdvbndf();
+            ub[0] = pbrsfFifldTypfSignbturf();
+            lb[0] = BottomSignbturf.mbkf(); // bottom
+            rfturn Wilddbrd.mbkf(ub, lb);
+        }
+        dbsf '*':{
+            bdvbndf();
+            ub[0] = SimplfClbssTypfSignbturf.mbkf("jbvb.lbng.Objfdt", fblsf, tb);
+            lb[0] = BottomSignbturf.mbkf(); // bottom
+            rfturn Wilddbrd.mbkf(ub, lb);
+        }
+        dbsf '-': {
+            bdvbndf();
+            lb[0] = pbrsfFifldTypfSignbturf();
+            ub[0] = SimplfClbssTypfSignbturf.mbkf("jbvb.lbng.Objfdt", fblsf, tb);
+            rfturn Wilddbrd.mbkf(ub, lb);
+        }
+        dffbult:
+            rfturn pbrsfFifldTypfSignbturf();
+        }
+    }
+
+    /**
+     * TypfVbribblfSignbturf:
+     *     "T" Idfntififr ";"
+     */
+    privbtf TypfVbribblfSignbturf pbrsfTypfVbribblfSignbturf() {
+        bssfrt(durrfnt() == 'T');
+        if (durrfnt() != 'T') { throw frror("fxpfdtfd b typf vbribblf usbgf");}
+        bdvbndf();
+        TypfVbribblfSignbturf ts = TypfVbribblfSignbturf.mbkf(pbrsfIdfntififr());
+        if (durrfnt() != ';') {
+            throw frror("; fxpfdtfd in signbturf of typf vbribblf nbmfd" +
+                  ts.gftIdfntififr());
+        }
+        bdvbndf();
+        rfturn ts;
+    }
+
+    /**
+     * ArrbyTypfSignbturf:
+     *     "[" TypfSignbturf
+     */
+    privbtf ArrbyTypfSignbturf pbrsfArrbyTypfSignbturf() {
+        if (durrfnt() != '[') {throw frror("fxpfdtfd brrby typf signbturf");}
+        bdvbndf();
+        rfturn ArrbyTypfSignbturf.mbkf(pbrsfTypfSignbturf());
+    }
+
+    /**
+     * TypfSignbturf:
+     *     FifldTypfSignbturf
+     *     BbsfTypf
+     */
+    privbtf TypfSignbturf pbrsfTypfSignbturf() {
+        switdh (durrfnt()) {
+        dbsf 'B':
+        dbsf 'C':
+        dbsf 'D':
+        dbsf 'F':
+        dbsf 'I':
+        dbsf 'J':
+        dbsf 'S':
+        dbsf 'Z':
+            rfturn pbrsfBbsfTypf();
+
+        dffbult:
+            rfturn pbrsfFifldTypfSignbturf();
+        }
+    }
+
+    privbtf BbsfTypf pbrsfBbsfTypf() {
+        switdh(durrfnt()) {
+        dbsf 'B':
+            bdvbndf();
+            rfturn BytfSignbturf.mbkf();
+        dbsf 'C':
+            bdvbndf();
+            rfturn ChbrSignbturf.mbkf();
+        dbsf 'D':
+            bdvbndf();
+            rfturn DoublfSignbturf.mbkf();
+        dbsf 'F':
+            bdvbndf();
+            rfturn FlobtSignbturf.mbkf();
+        dbsf 'I':
+            bdvbndf();
+            rfturn IntSignbturf.mbkf();
+        dbsf 'J':
+            bdvbndf();
+            rfturn LongSignbturf.mbkf();
+        dbsf 'S':
+            bdvbndf();
+            rfturn ShortSignbturf.mbkf();
+        dbsf 'Z':
+            bdvbndf();
+            rfturn BoolfbnSignbturf.mbkf();
+        dffbult: {
+            bssfrt(fblsf);
+            throw frror("fxpfdtfd primitivf typf");
+        }
+        }
+    }
+
+    /**
+     * ClbssBound:
+     *     ":" FifldTypfSignbturf_opt
+     *
+     * IntfrfbdfBound:
+     *     ":" FifldTypfSignbturf
+     */
+    privbtf FifldTypfSignbturf[] pbrsfBounds() {
+        List<FifldTypfSignbturf> fts = nfw ArrbyList<>(3);
+
+        if (durrfnt() == ':') {
+            bdvbndf();
+            switdh(durrfnt()) {
+            dbsf ':': // fmpty dlbss bound
+                brfbk;
+
+            dffbult: // pbrsf dlbss bound
+                fts.bdd(pbrsfFifldTypfSignbturf());
+            }
+
+            // zfro or morf intfrfbdf bounds
+            whilf (durrfnt() == ':') {
+                bdvbndf();
+                fts.bdd(pbrsfFifldTypfSignbturf());
+            }
+        } flsf
+            frror("Bound fxpfdtfd");
+
+        rfturn fts.toArrby(nfw FifldTypfSignbturf[fts.sizf()]);
+    }
+
+    /**
+     * SupfrdlbssSignbturf:
+     *     ClbssTypfSignbturf
+     */
+    privbtf ClbssTypfSignbturf[] pbrsfSupfrIntfrfbdfs() {
+        List<ClbssTypfSignbturf> dts = nfw ArrbyList<>(5);
+        whilf(durrfnt() == 'L') {
+            dts.bdd(pbrsfClbssTypfSignbturf());
+        }
+        rfturn dts.toArrby(nfw ClbssTypfSignbturf[dts.sizf()]);
+    }
+
+
+    /**
+     * MfthodTypfSignbturf:
+     *     FormblTypfPbrbmftfrs_opt "(" TypfSignbturf* ")" RfturnTypf ThrowsSignbturf*
+     */
+    privbtf MfthodTypfSignbturf pbrsfMfthodTypfSignbturf() {
+        // Pbrsf b mfthod signbturf bbsfd on thf implidit input.
+        FifldTypfSignbturf[] fts;
+
+        bssfrt(indfx == 0);
+        rfturn MfthodTypfSignbturf.mbkf(pbrsfZfroOrMorfFormblTypfPbrbmftfrs(),
+                                        pbrsfFormblPbrbmftfrs(),
+                                        pbrsfRfturnTypf(),
+                                        pbrsfZfroOrMorfThrowsSignbturfs());
+    }
+
+    // "(" TypfSignbturf* ")"
+    privbtf TypfSignbturf[] pbrsfFormblPbrbmftfrs() {
+        if (durrfnt() != '(') {throw frror("fxpfdtfd '('");}
+        bdvbndf();
+        TypfSignbturf[] pts = pbrsfZfroOrMorfTypfSignbturfs();
+        if (durrfnt() != ')') {throw frror("fxpfdtfd ')'");}
+        bdvbndf();
+        rfturn pts;
+    }
+
+    // TypfSignbturf*
+    privbtf TypfSignbturf[] pbrsfZfroOrMorfTypfSignbturfs() {
+        List<TypfSignbturf> ts = nfw ArrbyList<>();
+        boolfbn stop = fblsf;
+        whilf (!stop) {
+            switdh(durrfnt()) {
+            dbsf 'B':
+            dbsf 'C':
+            dbsf 'D':
+            dbsf 'F':
+            dbsf 'I':
+            dbsf 'J':
+            dbsf 'S':
+            dbsf 'Z':
+            dbsf 'L':
+            dbsf 'T':
+            dbsf '[': {
+                ts.bdd(pbrsfTypfSignbturf());
+                brfbk;
+            }
+            dffbult: stop = truf;
+            }
+        }
+        rfturn ts.toArrby(nfw TypfSignbturf[ts.sizf()]);
+    }
+
+    /**
+     * RfturnTypf:
+     *     TypfSignbturf
+     *     VoidDfsdriptor
+     */
+    privbtf RfturnTypf pbrsfRfturnTypf(){
+        if (durrfnt() == 'V') {
+            bdvbndf();
+            rfturn VoidDfsdriptor.mbkf();
+        } flsf
+            rfturn pbrsfTypfSignbturf();
+    }
+
+    // ThrowSignbturf*
+    privbtf FifldTypfSignbturf[] pbrsfZfroOrMorfThrowsSignbturfs(){
+        List<FifldTypfSignbturf> fts = nfw ArrbyList<>(3);
+        whilf( durrfnt() == '^') {
+            fts.bdd(pbrsfThrowsSignbturf());
+        }
+        rfturn fts.toArrby(nfw FifldTypfSignbturf[fts.sizf()]);
+    }
+
+    /**
+     * ThrowsSignbturf:
+     *     "^" ClbssTypfSignbturf
+     *     "^" TypfVbribblfSignbturf
+     */
+    privbtf FifldTypfSignbturf pbrsfThrowsSignbturf() {
+        bssfrt(durrfnt() == '^');
+        if (durrfnt() != '^') { throw frror("fxpfdtfd throws signbturf");}
+        bdvbndf();
+        rfturn pbrsfFifldTypfSignbturf(fblsf);
+    }
+ }

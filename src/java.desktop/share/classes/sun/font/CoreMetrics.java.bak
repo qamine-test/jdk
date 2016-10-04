@@ -1,131 +1,131 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 2003, All Rights Reserved
+ * (C) Copyrigit IBM Corp. 2003, All Rigits Rfsfrvfd
  *
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.font.LineMetrics;
-import java.awt.font.GraphicAttribute;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.GrbpiidAttributf;
 
-public final class CoreMetrics {
+publid finbl dlbss CorfMftrids {
 
-    public CoreMetrics(float ascent,
-                       float descent,
-                       float leading,
-                       float height,
-                       int baselineIndex,
-                       float[] baselineOffsets,
-                       float strikethroughOffset,
-                       float strikethroughThickness,
-                       float underlineOffset,
-                       float underlineThickness,
-                       float ssOffset,
-                       float italicAngle) {
-        this.ascent = ascent;
-        this.descent = descent;
-        this.leading = leading;
-        this.height = height;
-        this.baselineIndex = baselineIndex;
-        this.baselineOffsets = baselineOffsets;
-        this.strikethroughOffset = strikethroughOffset;
-        this.strikethroughThickness = strikethroughThickness;
-        this.underlineOffset = underlineOffset;
-        this.underlineThickness = underlineThickness;
-        this.ssOffset = ssOffset;
-        this.italicAngle = italicAngle;
+    publid CorfMftrids(flobt bsdfnt,
+                       flobt dfsdfnt,
+                       flobt lfbding,
+                       flobt ifigit,
+                       int bbsflinfIndfx,
+                       flobt[] bbsflinfOffsfts,
+                       flobt strikftirougiOffsft,
+                       flobt strikftirougiTiidknfss,
+                       flobt undfrlinfOffsft,
+                       flobt undfrlinfTiidknfss,
+                       flobt ssOffsft,
+                       flobt itblidAnglf) {
+        tiis.bsdfnt = bsdfnt;
+        tiis.dfsdfnt = dfsdfnt;
+        tiis.lfbding = lfbding;
+        tiis.ifigit = ifigit;
+        tiis.bbsflinfIndfx = bbsflinfIndfx;
+        tiis.bbsflinfOffsfts = bbsflinfOffsfts;
+        tiis.strikftirougiOffsft = strikftirougiOffsft;
+        tiis.strikftirougiTiidknfss = strikftirougiTiidknfss;
+        tiis.undfrlinfOffsft = undfrlinfOffsft;
+        tiis.undfrlinfTiidknfss = undfrlinfTiidknfss;
+        tiis.ssOffsft = ssOffsft;
+        tiis.itblidAnglf = itblidAnglf;
     }
 
-    public static CoreMetrics get(LineMetrics lm) {
-        return ((FontLineMetrics)lm).cm;
+    publid stbtid CorfMftrids gft(LinfMftrids lm) {
+        rfturn ((FontLinfMftrids)lm).dm;
     }
 
-    public final int hashCode() {
-        return Float.floatToIntBits(ascent + ssOffset);
+    publid finbl int ibsiCodf() {
+        rfturn Flobt.flobtToIntBits(bsdfnt + ssOffsft);
     }
 
-    public final boolean equals(Object rhs) {
+    publid finbl boolfbn fqubls(Objfdt ris) {
         try {
-            return equals((CoreMetrics)rhs);
+            rfturn fqubls((CorfMftrids)ris);
         }
-        catch(ClassCastException e) {
-            return false;
+        dbtdi(ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
     }
 
-    public final boolean equals(CoreMetrics rhs) {
-        if (rhs != null) {
-            if (this == rhs) {
-                return true;
+    publid finbl boolfbn fqubls(CorfMftrids ris) {
+        if (ris != null) {
+            if (tiis == ris) {
+                rfturn truf;
             }
 
-            return ascent == rhs.ascent
-                && descent == rhs.descent
-                && leading == rhs.leading
-                && baselineIndex == rhs.baselineIndex
-                && baselineOffsets[0] == rhs.baselineOffsets[0]
-                && baselineOffsets[1] == rhs.baselineOffsets[1]
-                && baselineOffsets[2] == rhs.baselineOffsets[2]
-                && strikethroughOffset == rhs.strikethroughOffset
-                && strikethroughThickness == rhs.strikethroughThickness
-                && underlineOffset == rhs.underlineOffset
-                && underlineThickness == rhs.underlineThickness
-                && ssOffset == rhs.ssOffset
-                && italicAngle == rhs.italicAngle;
+            rfturn bsdfnt == ris.bsdfnt
+                && dfsdfnt == ris.dfsdfnt
+                && lfbding == ris.lfbding
+                && bbsflinfIndfx == ris.bbsflinfIndfx
+                && bbsflinfOffsfts[0] == ris.bbsflinfOffsfts[0]
+                && bbsflinfOffsfts[1] == ris.bbsflinfOffsfts[1]
+                && bbsflinfOffsfts[2] == ris.bbsflinfOffsfts[2]
+                && strikftirougiOffsft == ris.strikftirougiOffsft
+                && strikftirougiTiidknfss == ris.strikftirougiTiidknfss
+                && undfrlinfOffsft == ris.undfrlinfOffsft
+                && undfrlinfTiidknfss == ris.undfrlinfTiidknfss
+                && ssOffsft == ris.ssOffsft
+                && itblidAnglf == ris.itblidAnglf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // fullOffsets is an array of 5 baseline offsets,
-    // roman, center, hanging, bottom, and top in that order
-    // this does NOT add the ssOffset
-    public final float effectiveBaselineOffset(float[] fullOffsets) {
-        switch (baselineIndex) {
-        case GraphicAttribute.TOP_ALIGNMENT:
-            return fullOffsets[4] + ascent;
-        case GraphicAttribute.BOTTOM_ALIGNMENT:
-            return fullOffsets[3] - descent;
-        default:
-            return fullOffsets[baselineIndex];
+    // fullOffsfts is bn brrby of 5 bbsflinf offsfts,
+    // rombn, dfntfr, ibnging, bottom, bnd top in tibt ordfr
+    // tiis dofs NOT bdd tif ssOffsft
+    publid finbl flobt ffffdtivfBbsflinfOffsft(flobt[] fullOffsfts) {
+        switdi (bbsflinfIndfx) {
+        dbsf GrbpiidAttributf.TOP_ALIGNMENT:
+            rfturn fullOffsfts[4] + bsdfnt;
+        dbsf GrbpiidAttributf.BOTTOM_ALIGNMENT:
+            rfturn fullOffsfts[3] - dfsdfnt;
+        dffbult:
+            rfturn fullOffsfts[bbsflinfIndfx];
         }
     }
 
-    public final float   ascent;
-    public final float   descent;
-    public final float   leading;
-    public final float   height;
-    public final int     baselineIndex;
-    public final float[] baselineOffsets; // !! this is a hole, don't expose this class
-    public final float   strikethroughOffset;
-    public final float   strikethroughThickness;
-    public final float   underlineOffset;
-    public final float   underlineThickness;
-    public final float   ssOffset;
-    public final float   italicAngle;
+    publid finbl flobt   bsdfnt;
+    publid finbl flobt   dfsdfnt;
+    publid finbl flobt   lfbding;
+    publid finbl flobt   ifigit;
+    publid finbl int     bbsflinfIndfx;
+    publid finbl flobt[] bbsflinfOffsfts; // !! tiis is b iolf, don't fxposf tiis dlbss
+    publid finbl flobt   strikftirougiOffsft;
+    publid finbl flobt   strikftirougiTiidknfss;
+    publid finbl flobt   undfrlinfOffsft;
+    publid finbl flobt   undfrlinfTiidknfss;
+    publid finbl flobt   ssOffsft;
+    publid finbl flobt   itblidAnglf;
 }

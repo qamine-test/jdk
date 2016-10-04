@@ -1,0 +1,476 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+
+import jbvb.lbng.mbnbgfmfnt.ThrfbdInfo;
+
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * Implfmfntbtion dlbss for thf thrfbd subsystfm.
+ * Stbndbrd bnd dommittfd hotspot-spfdifid mftrids if bny.
+ *
+ * MbnbgfmfntFbdtory.gftThrfbdMXBfbn() rfturns bn instbndf
+ * of this dlbss.
+ */
+dlbss ThrfbdImpl implfmfnts dom.sun.mbnbgfmfnt.ThrfbdMXBfbn {
+
+    privbtf finbl VMMbnbgfmfnt jvm;
+
+    // dffbult for thrfbd dontfntion monitoring is disbblfd.
+    privbtf boolfbn dontfntionMonitoringEnbblfd = fblsf;
+    privbtf boolfbn dpuTimfEnbblfd;
+    privbtf boolfbn bllodbtfdMfmoryEnbblfd;
+
+    /**
+     * Construdtor of ThrfbdImpl dlbss.
+     */
+    ThrfbdImpl(VMMbnbgfmfnt vm) {
+        this.jvm = vm;
+        this.dpuTimfEnbblfd = jvm.isThrfbdCpuTimfEnbblfd();
+        this.bllodbtfdMfmoryEnbblfd = jvm.isThrfbdAllodbtfdMfmoryEnbblfd();
+    }
+
+    publid int gftThrfbdCount() {
+        rfturn jvm.gftLivfThrfbdCount();
+    }
+
+    publid int gftPfbkThrfbdCount() {
+        rfturn jvm.gftPfbkThrfbdCount();
+    }
+
+    publid long gftTotblStbrtfdThrfbdCount() {
+        rfturn jvm.gftTotblThrfbdCount();
+    }
+
+    publid int gftDbfmonThrfbdCount() {
+        rfturn jvm.gftDbfmonThrfbdCount();
+    }
+
+    publid boolfbn isThrfbdContfntionMonitoringSupportfd() {
+        rfturn jvm.isThrfbdContfntionMonitoringSupportfd();
+    }
+
+    publid syndhronizfd boolfbn isThrfbdContfntionMonitoringEnbblfd() {
+       if (!isThrfbdContfntionMonitoringSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thrfbd dontfntion monitoring is not supportfd.");
+        }
+        rfturn dontfntionMonitoringEnbblfd;
+    }
+
+    publid boolfbn isThrfbdCpuTimfSupportfd() {
+        rfturn jvm.isOthfrThrfbdCpuTimfSupportfd();
+    }
+
+    publid boolfbn isCurrfntThrfbdCpuTimfSupportfd() {
+        rfturn jvm.isCurrfntThrfbdCpuTimfSupportfd();
+    }
+
+    publid boolfbn isThrfbdAllodbtfdMfmorySupportfd() {
+        rfturn jvm.isThrfbdAllodbtfdMfmorySupportfd();
+    }
+
+    publid boolfbn isThrfbdCpuTimfEnbblfd() {
+        if (!isThrfbdCpuTimfSupportfd() &&
+            !isCurrfntThrfbdCpuTimfSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thrfbd CPU timf mfbsurfmfnt is not supportfd");
+        }
+        rfturn dpuTimfEnbblfd;
+    }
+
+    publid boolfbn isThrfbdAllodbtfdMfmoryEnbblfd() {
+        if (!isThrfbdAllodbtfdMfmorySupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thrfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd");
+        }
+        rfturn bllodbtfdMfmoryEnbblfd;
+    }
+
+    publid long[] gftAllThrfbdIds() {
+        Util.dhfdkMonitorAddfss();
+
+        Thrfbd[] thrfbds = gftThrfbds();
+        int lfngth = thrfbds.lfngth;
+        long[] ids = nfw long[lfngth];
+        for (int i = 0; i < lfngth; i++) {
+            Thrfbd t = thrfbds[i];
+            ids[i] = t.gftId();
+        }
+        rfturn ids;
+    }
+
+    publid ThrfbdInfo gftThrfbdInfo(long id) {
+        long[] ids = nfw long[1];
+        ids[0] = id;
+        finbl ThrfbdInfo[] infos = gftThrfbdInfo(ids, 0);
+        rfturn infos[0];
+    }
+
+    publid ThrfbdInfo gftThrfbdInfo(long id, int mbxDfpth) {
+        long[] ids = nfw long[1];
+        ids[0] = id;
+        finbl ThrfbdInfo[] infos = gftThrfbdInfo(ids, mbxDfpth);
+        rfturn infos[0];
+    }
+
+    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids) {
+        rfturn gftThrfbdInfo(ids, 0);
+    }
+
+    privbtf void vfrifyThrfbdIds(long[] ids) {
+        if (ids == null) {
+            throw nfw NullPointfrExdfption("Null ids pbrbmftfr.");
+        }
+
+        for (int i = 0; i < ids.lfngth; i++) {
+            if (ids[i] <= 0) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Invblid thrfbd ID pbrbmftfr: " + ids[i]);
+            }
+        }
+    }
+
+    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids, int mbxDfpth) {
+        vfrifyThrfbdIds(ids);
+
+        if (mbxDfpth < 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Invblid mbxDfpth pbrbmftfr: " + mbxDfpth);
+        }
+
+        Util.dhfdkMonitorAddfss();
+
+        ThrfbdInfo[] infos = nfw ThrfbdInfo[ids.lfngth]; // nulls
+        if (mbxDfpth == Intfgfr.MAX_VALUE) {
+            gftThrfbdInfo1(ids, -1, infos);
+        } flsf {
+            gftThrfbdInfo1(ids, mbxDfpth, infos);
+        }
+        rfturn infos;
+    }
+
+    publid void sftThrfbdContfntionMonitoringEnbblfd(boolfbn fnbblf) {
+        if (!isThrfbdContfntionMonitoringSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thrfbd dontfntion monitoring is not supportfd");
+        }
+
+        Util.dhfdkControlAddfss();
+
+        syndhronizfd (this) {
+            if (dontfntionMonitoringEnbblfd != fnbblf) {
+                if (fnbblf) {
+                    // if rffbblfd, rfsft dontfntion timf stbtistids
+                    // for bll thrfbds
+                    rfsftContfntionTimfs0(0);
+                }
+
+                // updbtf thf VM of thf stbtf dhbngf
+                sftThrfbdContfntionMonitoringEnbblfd0(fnbblf);
+
+                dontfntionMonitoringEnbblfd = fnbblf;
+            }
+        }
+    }
+
+    privbtf boolfbn vfrifyCurrfntThrfbdCpuTimf() {
+        // dhfdk if Thrfbd CPU timf mfbsurfmfnt is supportfd.
+        if (!isCurrfntThrfbdCpuTimfSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Currfnt thrfbd CPU timf mfbsurfmfnt is not supportfd.");
+        }
+        rfturn isThrfbdCpuTimfEnbblfd();
+    }
+
+    publid long gftCurrfntThrfbdCpuTimf() {
+        if (vfrifyCurrfntThrfbdCpuTimf()) {
+            rfturn gftThrfbdTotblCpuTimf0(0);
+        }
+        rfturn -1;
+    }
+
+    publid long gftThrfbdCpuTimf(long id) {
+        long[] ids = nfw long[1];
+        ids[0] = id;
+        finbl long[] timfs = gftThrfbdCpuTimf(ids);
+        rfturn timfs[0];
+    }
+
+    privbtf boolfbn vfrifyThrfbdCpuTimf(long[] ids) {
+        vfrifyThrfbdIds(ids);
+
+        // dhfdk if Thrfbd CPU timf mfbsurfmfnt is supportfd.
+        if (!isThrfbdCpuTimfSupportfd() &&
+            !isCurrfntThrfbdCpuTimfSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thrfbd CPU timf mfbsurfmfnt is not supportfd.");
+        }
+
+        if (!isThrfbdCpuTimfSupportfd()) {
+            // support durrfnt thrfbd only
+            for (int i = 0; i < ids.lfngth; i++) {
+                if (ids[i] != Thrfbd.durrfntThrfbd().gftId()) {
+                    throw nfw UnsupportfdOpfrbtionExdfption(
+                        "Thrfbd CPU timf mfbsurfmfnt is only supportfd" +
+                        " for thf durrfnt thrfbd.");
+                }
+            }
+        }
+
+        rfturn isThrfbdCpuTimfEnbblfd();
+    }
+
+    publid long[] gftThrfbdCpuTimf(long[] ids) {
+        boolfbn vfrififd = vfrifyThrfbdCpuTimf(ids);
+
+        int lfngth = ids.lfngth;
+        long[] timfs = nfw long[lfngth];
+        jbvb.util.Arrbys.fill(timfs, -1);
+
+        if (vfrififd) {
+            if (lfngth == 1) {
+                long id = ids[0];
+                if (id == Thrfbd.durrfntThrfbd().gftId()) {
+                    id = 0;
+                }
+                timfs[0] = gftThrfbdTotblCpuTimf0(id);
+            } flsf {
+                gftThrfbdTotblCpuTimf1(ids, timfs);
+            }
+        }
+        rfturn timfs;
+    }
+
+    publid long gftCurrfntThrfbdUsfrTimf() {
+        if (vfrifyCurrfntThrfbdCpuTimf()) {
+            rfturn gftThrfbdUsfrCpuTimf0(0);
+        }
+        rfturn -1;
+    }
+
+    publid long gftThrfbdUsfrTimf(long id) {
+        long[] ids = nfw long[1];
+        ids[0] = id;
+        finbl long[] timfs = gftThrfbdUsfrTimf(ids);
+        rfturn timfs[0];
+    }
+
+    publid long[] gftThrfbdUsfrTimf(long[] ids) {
+        boolfbn vfrififd = vfrifyThrfbdCpuTimf(ids);
+
+        int lfngth = ids.lfngth;
+        long[] timfs = nfw long[lfngth];
+        jbvb.util.Arrbys.fill(timfs, -1);
+
+        if (vfrififd) {
+            if (lfngth == 1) {
+                long id = ids[0];
+                if (id == Thrfbd.durrfntThrfbd().gftId()) {
+                    id = 0;
+                }
+                timfs[0] = gftThrfbdUsfrCpuTimf0(id);
+            } flsf {
+                gftThrfbdUsfrCpuTimf1(ids, timfs);
+            }
+        }
+        rfturn timfs;
+    }
+
+    publid void sftThrfbdCpuTimfEnbblfd(boolfbn fnbblf) {
+        if (!isThrfbdCpuTimfSupportfd() &&
+            !isCurrfntThrfbdCpuTimfSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thrfbd CPU timf mfbsurfmfnt is not supportfd");
+        }
+
+        Util.dhfdkControlAddfss();
+        syndhronizfd (this) {
+            if (dpuTimfEnbblfd != fnbblf) {
+                // notify VM of thf stbtf dhbngf
+                sftThrfbdCpuTimfEnbblfd0(fnbblf);
+                dpuTimfEnbblfd = fnbblf;
+            }
+        }
+    }
+
+    publid long gftThrfbdAllodbtfdBytfs(long id) {
+        long[] ids = nfw long[1];
+        ids[0] = id;
+        finbl long[] sizfs = gftThrfbdAllodbtfdBytfs(ids);
+        rfturn sizfs[0];
+    }
+
+    privbtf boolfbn vfrifyThrfbdAllodbtfdMfmory(long[] ids) {
+        vfrifyThrfbdIds(ids);
+
+        // dhfdk if Thrfbd bllodbtfd mfmory mfbsurfmfnt is supportfd.
+        if (!isThrfbdAllodbtfdMfmorySupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thrfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+        }
+
+        rfturn isThrfbdAllodbtfdMfmoryEnbblfd();
+    }
+
+    publid long[] gftThrfbdAllodbtfdBytfs(long[] ids) {
+        boolfbn vfrififd = vfrifyThrfbdAllodbtfdMfmory(ids);
+
+        long[] sizfs = nfw long[ids.lfngth];
+        jbvb.util.Arrbys.fill(sizfs, -1);
+
+        if (vfrififd) {
+            gftThrfbdAllodbtfdMfmory1(ids, sizfs);
+        }
+        rfturn sizfs;
+    }
+
+    publid void sftThrfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf) {
+        if (!isThrfbdAllodbtfdMfmorySupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Thrfbd bllodbtfd mfmory mfbsurfmfnt is not supportfd.");
+        }
+
+        Util.dhfdkControlAddfss();
+        syndhronizfd (this) {
+            if (bllodbtfdMfmoryEnbblfd != fnbblf) {
+                // notify VM of thf stbtf dhbngf
+                sftThrfbdAllodbtfdMfmoryEnbblfd0(fnbblf);
+                bllodbtfdMfmoryEnbblfd = fnbblf;
+            }
+        }
+    }
+
+    publid long[] findMonitorDfbdlodkfdThrfbds() {
+        Util.dhfdkMonitorAddfss();
+
+        Thrfbd[] thrfbds = findMonitorDfbdlodkfdThrfbds0();
+        if (thrfbds == null) {
+            rfturn null;
+        }
+
+        long[] ids = nfw long[thrfbds.lfngth];
+        for (int i = 0; i < thrfbds.lfngth; i++) {
+            Thrfbd t = thrfbds[i];
+            ids[i] = t.gftId();
+        }
+        rfturn ids;
+    }
+
+    publid long[] findDfbdlodkfdThrfbds() {
+        if (!isSyndhronizfrUsbgfSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Syndhronizfr Usbgf is not supportfd.");
+        }
+
+        Util.dhfdkMonitorAddfss();
+
+        Thrfbd[] thrfbds = findDfbdlodkfdThrfbds0();
+        if (thrfbds == null) {
+            rfturn null;
+        }
+
+        long[] ids = nfw long[thrfbds.lfngth];
+        for (int i = 0; i < thrfbds.lfngth; i++) {
+            Thrfbd t = thrfbds[i];
+            ids[i] = t.gftId();
+        }
+        rfturn ids;
+    }
+
+    publid void rfsftPfbkThrfbdCount() {
+        Util.dhfdkControlAddfss();
+        rfsftPfbkThrfbdCount0();
+    }
+
+    publid boolfbn isObjfdtMonitorUsbgfSupportfd() {
+        rfturn jvm.isObjfdtMonitorUsbgfSupportfd();
+    }
+
+    publid boolfbn isSyndhronizfrUsbgfSupportfd() {
+        rfturn jvm.isSyndhronizfrUsbgfSupportfd();
+    }
+
+    privbtf void vfrifyDumpThrfbds(boolfbn lodkfdMonitors,
+                                   boolfbn lodkfdSyndhronizfrs) {
+        if (lodkfdMonitors && !isObjfdtMonitorUsbgfSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Objfdt Monitor Usbgf is not supportfd.");
+        }
+
+        if (lodkfdSyndhronizfrs && !isSyndhronizfrUsbgfSupportfd()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "Monitoring of Syndhronizfr Usbgf is not supportfd.");
+        }
+
+        Util.dhfdkMonitorAddfss();
+    }
+
+    publid ThrfbdInfo[] gftThrfbdInfo(long[] ids,
+                                      boolfbn lodkfdMonitors,
+                                      boolfbn lodkfdSyndhronizfrs) {
+        vfrifyThrfbdIds(ids);
+        vfrifyDumpThrfbds(lodkfdMonitors, lodkfdSyndhronizfrs);
+        rfturn dumpThrfbds0(ids, lodkfdMonitors, lodkfdSyndhronizfrs);
+    }
+
+    publid ThrfbdInfo[] dumpAllThrfbds(boolfbn lodkfdMonitors,
+                                       boolfbn lodkfdSyndhronizfrs) {
+        vfrifyDumpThrfbds(lodkfdMonitors, lodkfdSyndhronizfrs);
+        rfturn dumpThrfbds0(null, lodkfdMonitors, lodkfdSyndhronizfrs);
+    }
+
+    // VM support whfrf mbxDfpth == -1 to rfqufst fntirf stbdk dump
+    privbtf stbtid nbtivf Thrfbd[] gftThrfbds();
+    privbtf stbtid nbtivf void gftThrfbdInfo1(long[] ids,
+                                              int mbxDfpth,
+                                              ThrfbdInfo[] rfsult);
+    privbtf stbtid nbtivf long gftThrfbdTotblCpuTimf0(long id);
+    privbtf stbtid nbtivf void gftThrfbdTotblCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf long gftThrfbdUsfrCpuTimf0(long id);
+    privbtf stbtid nbtivf void gftThrfbdUsfrCpuTimf1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void gftThrfbdAllodbtfdMfmory1(long[] ids, long[] rfsult);
+    privbtf stbtid nbtivf void sftThrfbdCpuTimfEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftThrfbdAllodbtfdMfmoryEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf void sftThrfbdContfntionMonitoringEnbblfd0(boolfbn fnbblf);
+    privbtf stbtid nbtivf Thrfbd[] findMonitorDfbdlodkfdThrfbds0();
+    privbtf stbtid nbtivf Thrfbd[] findDfbdlodkfdThrfbds0();
+    privbtf stbtid nbtivf void rfsftPfbkThrfbdCount0();
+    privbtf stbtid nbtivf ThrfbdInfo[] dumpThrfbds0(long[] ids,
+                                                    boolfbn lodkfdMonitors,
+                                                    boolfbn lodkfdSyndhronizfrs);
+
+    // tid == 0 to rfsft dontfntion timfs for bll thrfbds
+    privbtf stbtid nbtivf void rfsftContfntionTimfs0(long tid);
+
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.THREAD_MXBEAN_NAME);
+    }
+
+}

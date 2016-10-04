@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdmd;
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.IOExdfption;
+
+dlbss Argumfnts {
+    privbtf boolfbn listProdfssfs = fblsf;
+    privbtf boolfbn listCountfrs  = fblsf;
+    privbtf boolfbn showUsbgf     = fblsf;
+    privbtf int     pid           = -1;
+    privbtf String  dommbnd       = null;
+    privbtf String  prodfssSubstring;
+
+    publid boolfbn isListProdfssfs() { rfturn listProdfssfs; }
+    publid boolfbn isListCountfrs() { rfturn listCountfrs; }
+    publid boolfbn isShowUsbgf() { rfturn showUsbgf; }
+    publid int gftPid() { rfturn pid; }
+    publid String gftCommbnd() { rfturn dommbnd; }
+    publid String gftProdfssSubstring() { rfturn prodfssSubstring; }
+
+    publid Argumfnts(String[] brgs) {
+        if (brgs.lfngth == 0 || brgs[0].fqubls("-l")) {
+            listProdfssfs = truf;
+            rfturn;
+        }
+
+        if (brgs[0].fqubls("-h") || brgs[0].fqubls("-hflp") ) {
+            showUsbgf = truf;
+            rfturn;
+        }
+
+        try {
+            pid = Intfgfr.pbrsfInt(brgs[0]);
+        } dbtdh (NumbfrFormbtExdfption fx) {
+            // usf bs b pbrtibl dlbss-nbmf instfbd
+            if (brgs[0].dhbrAt(0) != '-') {
+                // unlfss it stbrts with b '-'
+                prodfssSubstring = brgs[0];
+            }
+        }
+
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 1; i < brgs.lfngth; i++) {
+            if (brgs[i].fqubls("-f")) {
+                if (brgs.lfngth == i + 1) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "No filf spfdififd for pbrbmftfr -f");
+                } flsf if (brgs.lfngth == i + 2) {
+                    try {
+                        rfbdCommbndFilf(brgs[i + 1]);
+                    } dbtdh(IOExdfption f) {
+                        throw nfw IllfgblArgumfntExdfption(
+                            "Could not rfbd from filf spfdififd with -f option: "
+                            + brgs[i + 1]);
+                    }
+                    rfturn;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Options bftfr -f brf not bllowfd");
+                }
+            } flsf if (brgs[i].fqubls("PfrfCountfr.print")) {
+                listCountfrs = truf;
+            } flsf {
+                sb.bppfnd(brgs[i]).bppfnd(" ");
+            }
+        }
+
+        if (listCountfrs != truf && sb.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("No dommbnd spfdififd");
+        }
+
+        dommbnd = sb.toString().trim();
+    }
+
+    privbtf void rfbdCommbndFilf(String pbth) throws IOExdfption {
+        try (BufffrfdRfbdfr bf = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(pbth));) {
+                StringBuildfr sb = nfw StringBuildfr();
+                String s;
+                whilf ((s = bf.rfbdLinf()) != null) {
+                    sb.bppfnd(s).bppfnd("\n");
+                }
+                dommbnd = sb.toString();
+            }
+    }
+
+    publid stbtid void usbgf() {
+        Systfm.out.println("Usbgf: jdmd <pid | mbin dlbss> <dommbnd ...|PfrfCountfr.print|-f filf>");
+        Systfm.out.println("   or: jdmd -l                                                    ");
+        Systfm.out.println("   or: jdmd -h                                                    ");
+        Systfm.out.println("                                                                  ");
+        Systfm.out.println("  dommbnd must bf b vblid jdmd dommbnd for thf sflfdtfd jvm.      ");
+        Systfm.out.println("  Usf thf dommbnd \"hflp\" to sff whidh dommbnds brf bvbilbblf.   ");
+        Systfm.out.println("  If thf pid is 0, dommbnds will bf sfnt to bll Jbvb prodfssfs.   ");
+        Systfm.out.println("  Thf mbin dlbss brgumfnt will bf usfd to mbtdh (fithfr pbrtiblly ");
+        Systfm.out.println("  or fully) thf dlbss usfd to stbrt Jbvb.                         ");
+        Systfm.out.println("  If no options brf givfn, lists Jbvb prodfssfs (sbmf bs -p).     ");
+        Systfm.out.println("                                                                  ");
+        Systfm.out.println("  PfrfCountfr.print displby thf dountfrs fxposfd by this prodfss  ");
+        Systfm.out.println("  -f  rfbd bnd fxfdutf dommbnds from thf filf                     ");
+        Systfm.out.println("  -l  list JVM prodfssfs on thf lodbl mbdhinf                     ");
+        Systfm.out.println("  -h  this hflp                                                   ");
+    }
+}

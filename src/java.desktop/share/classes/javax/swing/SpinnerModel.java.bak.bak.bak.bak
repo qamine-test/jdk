@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
+
+
+/**
+ * A modfl for b potfntiblly unboundfd sfqufndf of objfdt vblufs.  This modfl
+ * is similbr to <dodf>ListModfl</dodf> howfvfr thfrf brf somf importbnt difffrfndfs:
+ * <ul>
+ * <li> Thf numbfr of sfqufndf flfmfnts isn't nfdfssbrily boundfd.
+ * <li> Thf modfl dofsn't support indfxfd rbndom bddfss to sfqufndf flfmfnts.
+ *      Only thrff sfqufndf vblufs brf bddfssiblf bt b timf: durrfnt, nfxt bnd
+ *      prfvious.
+ * <li> Thf durrfnt sfqufndf flfmfnt, dbn bf sft.
+ * </ul>
+ * <p>
+ * A <dodf>SpinnfrModfl</dodf> hbs thrff propfrtifs, only thf first is rfbd/writf.
+ * <dl>
+ *   <dt><dodf>vbluf</dodf>
+ *   <dd>Thf durrfnt flfmfnt of thf sfqufndf.
+ *
+ *   <dt><dodf>nfxtVbluf</dodf>
+ *   <dd>Thf following flfmfnt or null if <dodf>vbluf</dodf> is thf
+ *     lbst flfmfnt of thf sfqufndf.
+ *
+ *   <dt><dodf>prfviousVbluf</dodf>
+ *   <dd>Thf prfdfding flfmfnt or null if <dodf>vbluf</dodf> is thf
+ *     first flfmfnt of thf sfqufndf.
+ * </dl>
+ * Whfn thf thf <dodf>vbluf</dodf> propfrty dhbngfs,
+ * <dodf>ChbngfListfnfrs</dodf> brf notififd.  <dodf>SpinnfrModfl</dodf> mby
+ * dhoosf to notify thf <dodf>ChbngfListfnfrs</dodf> undfr othfr dirdumstbndfs.
+ *
+ * @sff JSpinnfr
+ * @sff AbstrbdtSpinnfrModfl
+ * @sff SpinnfrListModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff SpinnfrDbtfModfl
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.4
+ */
+publid intfrfbdf SpinnfrModfl
+{
+    /**
+     * Thf <i>durrfnt flfmfnt</i> of thf sfqufndf.  This flfmfnt is usublly
+     * displbyfd by thf <dodf>fditor</dodf> pbrt of b <dodf>JSpinnfr</dodf>.
+     *
+     * @rfturn thf durrfnt spinnfr vbluf.
+     * @sff #sftVbluf
+     */
+    Objfdt gftVbluf();
+
+
+    /**
+     * Chbngfs durrfnt vbluf of thf modfl, typidblly this vbluf is displbyfd
+     * by thf <dodf>fditor</dodf> pbrt of b  <dodf>JSpinnfr</dodf>.
+     * If thf <dodf>SpinnfrModfl</dodf> implfmfntbtion dofsn't support
+     * thf spfdififd vbluf thfn bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * is thrown.  For fxbmplf b <dodf>SpinnfrModfl</dodf> for numbfrs might
+     * only support vblufs thbt brf intfgfr multiplfs of tfn. In
+     * thbt dbsf, <dodf>modfl.sftVbluf(nfw Numbfr(11))</dodf>
+     * would throw bn fxdfption.
+     *
+     * @pbrbm vbluf  nfw vbluf for thf spinnfr
+     * @throws IllfgblArgumfntExdfption if <dodf>vbluf</dodf> isn't bllowfd
+     * @sff #gftVbluf
+     */
+    void sftVbluf(Objfdt vbluf);
+
+
+    /**
+     * Rfturn thf objfdt in thf sfqufndf thbt domfs bftfr thf objfdt rfturnfd
+     * by <dodf>gftVbluf()</dodf>. If thf fnd of thf sfqufndf hbs bffn rfbdhfd
+     * thfn rfturn null.  Cblling this mfthod dofs not ffffdt <dodf>vbluf</dodf>.
+     *
+     * @rfturn thf nfxt lfgbl vbluf or null if onf dofsn't fxist
+     * @sff #gftVbluf
+     * @sff #gftPrfviousVbluf
+     */
+    Objfdt gftNfxtVbluf();
+
+
+    /**
+     * Rfturn thf objfdt in thf sfqufndf thbt domfs bfforf thf objfdt rfturnfd
+     * by <dodf>gftVbluf()</dodf>.  If thf fnd of thf sfqufndf hbs bffn rfbdhfd thfn
+     * rfturn null. Cblling this mfthod dofs not ffffdt <dodf>vbluf</dodf>.
+     *
+     * @rfturn thf prfvious lfgbl vbluf or null if onf dofsn't fxist
+     * @sff #gftVbluf
+     * @sff #gftNfxtVbluf
+     */
+    Objfdt gftPrfviousVbluf();
+
+
+    /**
+     * Adds b <dodf>ChbngfListfnfr</dodf> to thf modfl's listfnfr list.  Thf
+     * <dodf>ChbngfListfnfrs</dodf> must bf notififd whfn modfls <dodf>vbluf</dodf>
+     * dhbngfs.
+     *
+     * @pbrbm l thf ChbngfListfnfr to bdd
+     * @sff #rfmovfChbngfListfnfr
+     */
+    void bddChbngfListfnfr(ChbngfListfnfr l);
+
+
+    /**
+     * Rfmovfs b <dodf>ChbngfListfnfr</dodf> from thf modfl's listfnfr list.
+     *
+     * @pbrbm l thf ChbngfListfnfr to rfmovf
+     * @sff #bddChbngfListfnfr
+     */
+    void rfmovfChbngfListfnfr(ChbngfListfnfr l);
+}

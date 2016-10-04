@@ -1,0 +1,404 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.sfdurity.*;
+import jbvb.util.Lodblf;
+
+/**
+ * Abstrbdtion for thf SSL/TLS hbsh of bll hbndshbkf mfssbgfs thbt is
+ * mbintbinfd to vfrify thf intfgrity of thf nfgotibtion. Intfrnblly,
+ * it donsists of bn MD5 bnd bn SHA1 digfst. Thfy brf usfd in thf dlifnt
+ * bnd sfrvfr finishfd mfssbgfs bnd in dfrtifidbtf vfrify mfssbgfs (if sfnt).
+ *
+ * This dlbss trbnspbrfntly dfbls with dlonfbblf bnd non-dlonfbblf digfsts.
+ *
+ * This dlbss now supports TLS 1.2 blso. Thf kfy difffrfndf for TLS 1.2
+ * is thbt you dbnnot dftfrminf thf hbsh blgorithms for CfrtifidbtfVfrify
+ * bt b fbrly stbgf. On thf othfr hbnd, it's simplfr thbn TLS 1.1 (bnd fbrlifr)
+ * thbt thfrf is no mfssy MD5+SHA1 digfsts.
+ *
+ * You nffd to obfy thfsf donvfntions whfn using this dlbss:
+ *
+ * 1. protodolDftfrminfd(vfrsion) should bf dbllfd whfn thf nfgotibtfd
+ * protodol vfrsion is dftfrminfd.
+ *
+ * 2. Bfforf protodolDftfrminfd() is dbllfd, only updbtf(), bnd rfsft()
+ * bnd sftFinishfdAlg() dbn bf dbllfd.
+ *
+ * 3. Aftfr protodolDftfrminfd() is dbllfd, rfsft() dbnnot bf dbllfd.
+ *
+ * 4. Aftfr protodolDftfrminfd() is dbllfd, if thf vfrsion is prf-TLS 1.2,
+ * gftFinishfdHbsh() dbnnot bf dbllfd. Othfrwisf,
+ * gftMD5Clonf() bnd gftSHAClonf() dbnnot bf dbllfd.
+ *
+ * 5. gftMD5Clonf() bnd gftSHAClonf() dbn only bf dbllfd bftfr
+ * protodolDftfrminfd() is dbllfd bnd vfrsion is prf-TLS 1.2.
+ *
+ * 6. gftFinishfdHbsh() dbn only bf dbllfd bftfr protodolDftfrminfd()
+ * bnd sftFinishfdAlg() hbvf bffn dbllfd bnd thf vfrsion is TLS 1.2.
+ *
+ * Suggfstion: Cbll protodolDftfrminfd() bnd sftFinishfdAlg()
+ * bs fbrly bs possiblf.
+ *
+ * Exbmplf:
+ * <prf>
+ * HbndshbkfHbsh hh = nfw HbndshbkfHbsh(...)
+ * hh.protodolDftfrminfd(ProtodolVfrsion.TLS12);
+ * hh.updbtf(dlifntHflloBytfs);
+ * hh.sftFinishfdAlg("SHA-256");
+ * hh.updbtf(sfrvfrHflloBytfs);
+ * ...
+ * hh.updbtf(CfrtifidbtfVfrifyBytfs);
+ * ...
+ * hh.updbtf(finishfd1);
+ * bytf[] finDigfst1 = hh.gftFinishfdHbsh();
+ * hh.updbtf(finishfd2);
+ * bytf[] finDigfst2 = hh.gftFinishfdHbsh();
+ * </prf>
+ */
+finbl dlbss HbndshbkfHbsh {
+
+    // Common
+
+    // -1:  unknown
+    //  1:  <=TLS 1.1
+    //  2:  TLS 1.2
+    privbtf int vfrsion = -1;
+    privbtf BytfArrbyOutputStrfbm dbtb = nfw BytfArrbyOutputStrfbm();
+
+    // For TLS 1.1
+    privbtf MfssbgfDigfst md5, shb;
+    privbtf finbl int dlonfsNffdfd;    // nffds to bf sbvfd for lbtfr usf
+
+    // For TLS 1.2
+    privbtf MfssbgfDigfst finMD;
+
+    /**
+     * Crfbtf b nfw HbndshbkfHbsh. nffdCfrtifidbtfVfrify indidbtfs whfthfr
+     * b hbsh for thf dfrtifidbtf vfrify mfssbgf is rfquirfd.
+     */
+    HbndshbkfHbsh(boolfbn nffdCfrtifidbtfVfrify) {
+        dlonfsNffdfd = nffdCfrtifidbtfVfrify ? 3 : 2;
+    }
+
+    void updbtf(bytf[] b, int offsft, int lfn) {
+        switdh (vfrsion) {
+            dbsf 1:
+                md5.updbtf(b, offsft, lfn);
+                shb.updbtf(b, offsft, lfn);
+                brfbk;
+            dffbult:
+                if (finMD != null) {
+                    finMD.updbtf(b, offsft, lfn);
+                }
+                dbtb.writf(b, offsft, lfn);
+                brfbk;
+        }
+    }
+
+    /**
+     * Rfsft thf rfmbining digfsts. Notf this dofs *not* rfsft thf numbfr of
+     * digfst dlonfs thbt dbn bf obtbinfd. Digfsts thbt hbvf blrfbdy bffn
+     * dlonfd bnd brf gonf rfmbin gonf.
+     */
+    void rfsft() {
+        if (vfrsion != -1) {
+            throw nfw RuntimfExdfption(
+                    "rfsft() dbn bf only bf dbllfd bfforf protodolDftfrminfd");
+        }
+        dbtb.rfsft();
+    }
+
+
+    void protodolDftfrminfd(ProtodolVfrsion pv) {
+
+        // Do not sft bgbin, will ignorf
+        if (vfrsion != -1) rfturn;
+
+        vfrsion = pv.dompbrfTo(ProtodolVfrsion.TLS12) >= 0 ? 2 : 1;
+        switdh (vfrsion) {
+            dbsf 1:
+                // initibtf md5, shb bnd dbll updbtf on sbvfd brrby
+                try {
+                    md5 = ClonfbblfDigfst.gftDigfst("MD5", dlonfsNffdfd);
+                    shb = ClonfbblfDigfst.gftDigfst("SHA", dlonfsNffdfd);
+                } dbtdh (NoSudhAlgorithmExdfption f) {
+                    throw nfw RuntimfExdfption
+                                ("Algorithm MD5 or SHA not bvbilbblf", f);
+                }
+                bytf[] bytfs = dbtb.toBytfArrby();
+                updbtf(bytfs, 0, bytfs.lfngth);
+                brfbk;
+            dbsf 2:
+                brfbk;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////
+    // Bflow brf old mfthods for prf-TLS 1.1
+    /////////////////////////////////////////////////////////////
+
+    /**
+     * Rfturn b nfw MD5 digfst updbtfd with bll dbtb hbshfd so fbr.
+     */
+    MfssbgfDigfst gftMD5Clonf() {
+        if (vfrsion != 1) {
+            throw nfw RuntimfExdfption(
+                    "gftMD5Clonf() dbn bf only bf dbllfd for TLS 1.1");
+        }
+        rfturn dlonfDigfst(md5);
+    }
+
+    /**
+     * Rfturn b nfw SHA digfst updbtfd with bll dbtb hbshfd so fbr.
+     */
+    MfssbgfDigfst gftSHAClonf() {
+        if (vfrsion != 1) {
+            throw nfw RuntimfExdfption(
+                    "gftSHAClonf() dbn bf only bf dbllfd for TLS 1.1");
+        }
+        rfturn dlonfDigfst(shb);
+    }
+
+    privbtf stbtid MfssbgfDigfst dlonfDigfst(MfssbgfDigfst digfst) {
+        try {
+            rfturn (MfssbgfDigfst)digfst.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // dbnnot oddur for digfsts gfnfrbtfd vib ClonfbblfDigfst
+            throw nfw RuntimfExdfption("Could not dlonf digfst", f);
+        }
+    }
+
+    /////////////////////////////////////////////////////////////
+    // Bflow brf nfw mfthods for TLS 1.2
+    /////////////////////////////////////////////////////////////
+
+    privbtf stbtid String normblizfAlgNbmf(String blg) {
+        blg = blg.toUppfrCbsf(Lodblf.US);
+        if (blg.stbrtsWith("SHA")) {
+            if (blg.lfngth() == 3) {
+                rfturn "SHA-1";
+            }
+            if (blg.dhbrAt(3) != '-') {
+                rfturn "SHA-" + blg.substring(3);
+            }
+        }
+        rfturn blg;
+    }
+    /**
+     * Spfdififs thf hbsh blgorithm usfd in Finishfd. This should bf dbllfd
+     * bbsfd in info in SfrvfrHfllo.
+     * Cbn bf dbllfd multiplf timfs.
+     */
+    void sftFinishfdAlg(String s) {
+        if (s == null) {
+            throw nfw RuntimfExdfption(
+                    "sftFinishfdAlg's brgumfnt dbnnot bf null");
+        }
+
+        // Cbn bf dbllfd multiplf timfs, but only sft ondf
+        if (finMD != null) rfturn;
+
+        try {
+            finMD = ClonfbblfDigfst.gftDigfst(normblizfAlgNbmf(s), 2);
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            throw nfw Error(f);
+        }
+        finMD.updbtf(dbtb.toBytfArrby());
+    }
+
+    bytf[] gftAllHbndshbkfMfssbgfs() {
+        rfturn dbtb.toBytfArrby();
+    }
+
+    /**
+     * Cbldulbtfs thf hbsh in Finishfd. Must bf dbllfd bftfr sftFinishfdAlg().
+     * This mfthod dbn bf dbllfd twidf, for Finishfd mfssbgfs of thf sfrvfr
+     * sidf bnd dlifnt sidf rfspfdtivfly.
+     */
+    bytf[] gftFinishfdHbsh() {
+        try {
+            rfturn dlonfDigfst(finMD).digfst();
+        } dbtdh (Exdfption f) {
+            throw nfw Error("BAD");
+        }
+    }
+}
+
+/**
+ * A wrbppfr for MfssbgfDigfsts thbt simulbtfs dloning of non-dlonfbblf
+ * digfsts. It usfs thf stbndbrd MfssbgfDigfst API bnd thfrfforf dbn bf usfd
+ * trbnspbrfntly in plbdf of b rfgulbr digfst.
+ *
+ * Notf thbt wf fxtfnd thf MfssbgfDigfst dlbss dirfdtly rbthfr thbn
+ * MfssbgfDigfstSpi. This works bfdbusf MfssbgfDigfst wbs originblly dfsignfd
+ * this wby in thf JDK 1.1 dbys whidh bllows us to bvoid drfbting bn intfrnbl
+ * providfr.
+ *
+ * It dbn bf "dlonfd" b limitfd numbfr of timfs, whidh is spfdififd bt
+ * donstrudtion timf. This is bdhifvfd by intfrnblly mbintbining n digfsts
+ * in pbrbllfl. Consfqufntly, it is only 1/n-th timfs bs fbst bs thf originbl
+ * digfst.
+ *
+ * Exbmplf:
+ *   MfssbgfDigfst md = ClonfbblfDigfst.gftDigfst("SHA", 2);
+ *   md.updbtf(dbtb1);
+ *   MfssbgfDigfst md2 = (MfssbgfDigfst)md.dlonf();
+ *   md2.updbtf(dbtb2);
+ *   bytf[] d1 = md2.digfst(); // digfst of dbtb1 || dbtb2
+ *   md.updbtf(dbtb3);
+ *   bytf[] d2 = md.digfst();  // digfst of dbtb1 || dbtb3
+ *
+ * This dlbss is not thrfbd sbff.
+ *
+ */
+finbl dlbss ClonfbblfDigfst fxtfnds MfssbgfDigfst implfmfnts Clonfbblf {
+
+    /**
+     * Thf individubl MfssbgfDigfsts. Initiblly, bll flfmfnts brf non-null.
+     * Whfn dlonf() is dbllfd, thf non-null flfmfnt with thf mbximum indfx is
+     * rfturnfd bnd thf brrby flfmfnt sft to null.
+     *
+     * All non-null flfmfnt brf blwbys in thf sbmf stbtf.
+     */
+    privbtf finbl MfssbgfDigfst[] digfsts;
+
+    privbtf ClonfbblfDigfst(MfssbgfDigfst digfst, int n, String blgorithm)
+            throws NoSudhAlgorithmExdfption {
+        supfr(blgorithm);
+        digfsts = nfw MfssbgfDigfst[n];
+        digfsts[0] = digfst;
+        for (int i = 1; i < n; i++) {
+            digfsts[i] = JssfJdf.gftMfssbgfDigfst(blgorithm);
+        }
+    }
+
+    /**
+     * Rfturn b MfssbgfDigfst for thf givfn blgorithm thbt dbn bf dlonfd thf
+     * spfdififd numbfr of timfs. If thf dffbult implfmfntbtion supports
+     * dloning, it is rfturnfd. Othfrwisf, bn instbndf of this dlbss is
+     * rfturnfd.
+     */
+    stbtid MfssbgfDigfst gftDigfst(String blgorithm, int n)
+            throws NoSudhAlgorithmExdfption {
+        MfssbgfDigfst digfst = JssfJdf.gftMfssbgfDigfst(blgorithm);
+        try {
+            digfst.dlonf();
+            // blrfbdy dlonfbblf, usf it
+            rfturn digfst;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            rfturn nfw ClonfbblfDigfst(digfst, n, blgorithm);
+        }
+    }
+
+    /**
+     * Chfdk if this objfdt is still usbblf. If it hbs blrfbdy bffn dlonfd thf
+     * mbximum numbfr of timfs, thfrf brf no digfsts lfft bnd this objfdt dbn no
+     * longfr bf usfd.
+     */
+    privbtf void dhfdkStbtf() {
+        // XXX hbndshbking durrfntly dofsn't stop updbting hbshfs...
+        // if (digfsts[0] == null) {
+        //     throw nfw IllfgblStbtfExdfption("no digfsts lfft");
+        // }
+    }
+
+    @Ovfrridf
+    protfdtfd int fnginfGftDigfstLfngth() {
+        dhfdkStbtf();
+        rfturn digfsts[0].gftDigfstLfngth();
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(bytf b) {
+        dhfdkStbtf();
+        for (int i = 0; (i < digfsts.lfngth) && (digfsts[i] != null); i++) {
+            digfsts[i].updbtf(b);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(bytf[] b, int offsft, int lfn) {
+        dhfdkStbtf();
+        for (int i = 0; (i < digfsts.lfngth) && (digfsts[i] != null); i++) {
+            digfsts[i].updbtf(b, offsft, lfn);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd bytf[] fnginfDigfst() {
+        dhfdkStbtf();
+        bytf[] digfst = digfsts[0].digfst();
+        digfstRfsft();
+        rfturn digfst;
+    }
+
+    @Ovfrridf
+    protfdtfd int fnginfDigfst(bytf[] buf, int offsft, int lfn)
+            throws DigfstExdfption {
+        dhfdkStbtf();
+        int n = digfsts[0].digfst(buf, offsft, lfn);
+        digfstRfsft();
+        rfturn n;
+    }
+
+    /**
+     * Rfsft bll digfsts bftfr b digfst() dbll. digfsts[0] hbs blrfbdy bffn
+     * impliditly rfsft by thf digfst() dbll bnd dofs not nffd to bf rfsft
+     * bgbin.
+     */
+    privbtf void digfstRfsft() {
+        for (int i = 1; (i < digfsts.lfngth) && (digfsts[i] != null); i++) {
+            digfsts[i].rfsft();
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfRfsft() {
+        dhfdkStbtf();
+        for (int i = 0; (i < digfsts.lfngth) && (digfsts[i] != null); i++) {
+            digfsts[i].rfsft();
+        }
+    }
+
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        dhfdkStbtf();
+        for (int i = digfsts.lfngth - 1; i >= 0; i--) {
+            if (digfsts[i] != null) {
+                MfssbgfDigfst digfst = digfsts[i];
+                digfsts[i] = null;
+                rfturn digfst;
+            }
+        }
+        // dbnnot oddur
+        throw nfw IntfrnblError();
+    }
+
+}

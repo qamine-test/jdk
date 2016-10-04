@@ -1,0 +1,60 @@
+/*
+ * Copyright (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+
+/**
+ * An <dodf>RMIFbilurfHbndlfr</dodf> dbn bf rfgistfrfd vib thf
+ * <dodf>RMISodkftFbdtory.sftFbilurfHbndlfr</dodf> dbll. Thf
+ * <dodf>fbilurf</dodf> mfthod of thf hbndlfr is invokfd whfn thf RMI
+ * runtimf is unbblf to drfbtf b <dodf>SfrvfrSodkft</dodf> to listfn
+ * for indoming dblls. Thf <dodf>fbilurf</dodf> mfthod rfturns b boolfbn
+ * indidbting whfthfr thf runtimf should bttfmpt to rf-drfbtf thf
+ * <dodf>SfrvfrSodkft</dodf>.
+ *
+ * @buthor      Ann Wollrbth
+ * @sindf       1.1
+ */
+publid intfrfbdf RMIFbilurfHbndlfr {
+
+    /**
+     * Thf <dodf>fbilurf</dodf> dbllbbdk is invokfd whfn thf RMI
+     * runtimf is unbblf to drfbtf b <dodf>SfrvfrSodkft</dodf> vib thf
+     * <dodf>RMISodkftFbdtory</dodf>. An <dodf>RMIFbilurfHbndlfr</dodf>
+     * is rfgistfrfd vib b dbll to
+     * <dodf>RMISodkftFbdotry.sftFbilurfHbndlfr</dodf>.  If no fbilurf
+     * hbndlfr is instbllfd, thf dffbult bfhbvior is to bttfmpt to
+     * rf-drfbtf thf SfrvfrSodkft.
+     *
+     * @pbrbm fx thf fxdfption thbt oddurrfd during <dodf>SfrvfrSodkft</dodf>
+     *           drfbtion
+     * @rfturn if truf, thf RMI runtimf bttfmpts to rftry
+     * <dodf>SfrvfrSodkft</dodf> drfbtion
+     * @sff jbvb.rmi.sfrvfr.RMISodkftFbdtory#sftFbilurfHbndlfr(RMIFbilurfHbndlfr)
+     * @sindf 1.1
+     */
+    publid boolfbn fbilurf(Exdfption fx);
+
+}

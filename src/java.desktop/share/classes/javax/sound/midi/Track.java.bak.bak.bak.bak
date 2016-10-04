@@ -1,0 +1,275 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSft;
+import dom.sun.mfdib.sound.MidiUtils;
+
+/**
+ * A MIDI trbdk is bn indfpfndfnt strfbm of MIDI fvfnts (timf-stbmpfd MIDI
+ * dbtb) thbt dbn bf storfd blong with othfr trbdks in b stbndbrd MIDI filf.
+ * Thf MIDI spfdifidbtion bllows only 16 dhbnnfls of MIDI dbtb, but trbdks
+ * brf b wby to gft bround this limitbtion.  A MIDI filf dbn dontbin bny numbfr
+ * of trbdks, fbdh dontbining its own strfbm of up to 16 dhbnnfls of MIDI dbtb.
+ * <p>
+ * A <dodf>Trbdk</dodf> oddupifs b middlf lfvfl in thf hifrbrdhy of dbtb plbyfd
+ * by b <dodf>{@link Sfqufndfr}</dodf>: sfqufndfrs plby sfqufndfs, whidh dontbin trbdks,
+ * whidh dontbin MIDI fvfnts.  A sfqufndfr mby providf dontrols thbt mutf
+ * or solo individubl trbdks.
+ * <p>
+ * Thf timing informbtion bnd rfsolution for b trbdk is dontrollfd by bnd storfd
+ * in thf sfqufndf dontbining thf trbdk. A givfn <dodf>Trbdk</dodf>
+ * is donsidfrfd to bflong to thf pbrtidulbr <dodf>{@link Sfqufndf}</dodf> thbt
+ * mbintbins its timing. For this rfbson, b nfw (fmpty) trbdk is drfbtfd by dblling thf
+ * <dodf>{@link Sfqufndf#drfbtfTrbdk}</dodf> mfthod, rbthfr thbn by dirfdtly invoking b
+ * <dodf>Trbdk</dodf> donstrudtor.
+ * <p>
+ * Thf <dodf>Trbdk</dodf> dlbss providfs mfthods to fdit thf trbdk by bdding
+ * or rfmoving <dodf>MidiEvfnt</dodf> objfdts from it.  Thfsf opfrbtions kffp
+ * thf fvfnt list in thf dorrfdt timf ordfr.  Mfthods brf blso
+ * indludfd to obtbin thf trbdk's sizf, in tfrms of fithfr thf numbfr of fvfnts
+ * it dontbins or its durbtion in tidks.
+ *
+ * @sff Sfqufndfr#sftTrbdkMutf
+ * @sff Sfqufndfr#sftTrbdkSolo
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+publid dlbss Trbdk {
+
+    // TODO: usf brrbys for fbstfr bddfss
+
+    // thf list dontbining thf fvfnts
+    privbtf ArrbyList<MidiEvfnt> fvfntsList = nfw ArrbyList<>();
+
+    // usf b hbshsft to dftfdt duplidbtf fvfnts in bdd(MidiEvfnt)
+    privbtf HbshSft<MidiEvfnt> sft = nfw HbshSft<>();
+
+    privbtf MidiEvfnt fotEvfnt;
+
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor.  Construdts b nfw, fmpty Trbdk objfdt,
+     * whidh initiblly dontbins onf fvfnt, thf mftb-fvfnt End of Trbdk.
+     */
+    Trbdk() {
+        // stbrt with thf fnd of trbdk fvfnt
+        MftbMfssbgf fot = nfw ImmutbblfEndOfTrbdk();
+        fotEvfnt = nfw MidiEvfnt(fot, 0);
+        fvfntsList.bdd(fotEvfnt);
+        sft.bdd(fotEvfnt);
+    }
+
+    /**
+     * Adds b nfw fvfnt to thf trbdk.  Howfvfr, if thf fvfnt is blrfbdy
+     * dontbinfd in thf trbdk, it is not bddfd bgbin.  Thf list of fvfnts
+     * is kfpt in timf ordfr, mfbning thbt this fvfnt insfrtfd bt thf
+     * bppropribtf plbdf in thf list, not nfdfssbrily bt thf fnd.
+     *
+     * @pbrbm fvfnt thf fvfnt to bdd
+     * @rfturn <dodf>truf</dodf> if thf fvfnt did not blrfbdy fxist in thf
+     * trbdk bnd wbs bddfd, othfrwisf <dodf>fblsf</dodf>
+     */
+    publid boolfbn bdd(MidiEvfnt fvfnt) {
+        if (fvfnt == null) {
+            rfturn fblsf;
+        }
+        syndhronizfd(fvfntsList) {
+
+            if (!sft.dontbins(fvfnt)) {
+                int fvfntsCount = fvfntsList.sizf();
+
+                // gft thf lbst fvfnt
+                MidiEvfnt lbstEvfnt = null;
+                if (fvfntsCount > 0) {
+                    lbstEvfnt = fvfntsList.gft(fvfntsCount - 1);
+                }
+                // sbnity dhfdk thbt wf hbvf b dorrfdt fnd-of-trbdk
+                if (lbstEvfnt != fotEvfnt) {
+                    // if thfrf is no fot fvfnt, bdd our immutbblf instbndf bgbin
+                    if (lbstEvfnt != null) {
+                        // sft fotEvfnt's tidk to thf lbst tidk of thf trbdk
+                        fotEvfnt.sftTidk(lbstEvfnt.gftTidk());
+                    } flsf {
+                        // if thf fvfnts list is fmpty, just sft thf tidk to 0
+                        fotEvfnt.sftTidk(0);
+                    }
+                    // wf nffdn't dhfdk for b duplidbtf of fotEvfnt in "fvfntsList",
+                    // sindf thfn it would bppfbr in thf sft.
+                    fvfntsList.bdd(fotEvfnt);
+                    sft.bdd(fotEvfnt);
+                    fvfntsCount = fvfntsList.sizf();
+                }
+
+                // first sff if wf brf trying to bdd
+                // bnd fndoftrbdk fvfnt.
+                if (MidiUtils.isMftbEndOfTrbdk(fvfnt.gftMfssbgf())) {
+                    // sindf fnd of trbdk fvfnt is usfful
+                    // for dflbys bt thf fnd of b trbdk, wf wbnt to kffp
+                    // thf tidk vbluf rfqufstfd hfrf if it is grfbtfr
+                    // thbn thf onf on thf fot wf brf mbintbining.
+                    // Othfrwisf, wf only wbnt b singlf fot fvfnt, so ignorf.
+                    if (fvfnt.gftTidk() > fotEvfnt.gftTidk()) {
+                        fotEvfnt.sftTidk(fvfnt.gftTidk());
+                    }
+                    rfturn truf;
+                }
+
+                // prfvfnt duplidbtfs
+                sft.bdd(fvfnt);
+
+                // insfrt fvfnt sudh thbt fvfnts is sortfd in indrfbsing
+                // tidk ordfr
+                int i = fvfntsCount;
+                for ( ; i > 0; i--) {
+                    if (fvfnt.gftTidk() >= (fvfntsList.gft(i-1)).gftTidk()) {
+                        brfbk;
+                    }
+                }
+                if (i == fvfntsCount) {
+                    // wf'rf bdding bn fvfnt bftfr thf
+                    // tidk vbluf of our fot, so push thf fot out.
+                    // Alwbys bdd bt thf fnd for bfttfr pfrformbndf:
+                    // this sbvfs bll thf dhfdks bnd brrbydopy whfn insfrting
+
+                    // ovfrwritf fot with nfw fvfnt
+                    fvfntsList.sft(fvfntsCount - 1, fvfnt);
+                    // sft nfw timf of fot, if nfdfssbry
+                    if (fotEvfnt.gftTidk() < fvfnt.gftTidk()) {
+                        fotEvfnt.sftTidk(fvfnt.gftTidk());
+                    }
+                    // bdd fot bgbin bt thf fnd
+                    fvfntsList.bdd(fotEvfnt);
+                } flsf {
+                    fvfntsList.bdd(i, fvfnt);
+                }
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Rfmovfs thf spfdififd fvfnt from thf trbdk.
+     * @pbrbm fvfnt thf fvfnt to rfmovf
+     * @rfturn <dodf>truf</dodf> if thf fvfnt fxistfd in thf trbdk bnd wbs rfmovfd,
+     * othfrwisf <dodf>fblsf</dodf>
+     */
+    publid boolfbn rfmovf(MidiEvfnt fvfnt) {
+
+        // this implfmfntbtion bllows rfmoving thf EOT fvfnt.
+        // prftty bbd, but would probbbly bf too risky to
+        // dhbngf bfhbvior now, in dbsf somfonf dofs tridks likf:
+        //
+        // whilf (trbdk.sizf() > 0) trbdk.rfmovf(trbdk.gft(trbdk.sizf() - 1));
+
+        // blso, would it mbkf sfnsf to bdjust thf EOT's timf
+        // to thf lbst fvfnt, if thf lbst non-EOT fvfnt is rfmovfd?
+        // Or: dodumfnt thbt thf tidks() lfngth will not bf rfdudfd
+        // by dflfting fvfnts (unlfss thf EOT fvfnt is rfmovfd)
+        syndhronizfd(fvfntsList) {
+            if (sft.rfmovf(fvfnt)) {
+                int i = fvfntsList.indfxOf(fvfnt);
+                if (i >= 0) {
+                    fvfntsList.rfmovf(i);
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Obtbins thf fvfnt bt thf spfdififd indfx.
+     * @pbrbm indfx thf lodbtion of thf dfsirfd fvfnt in thf fvfnt vfdtor
+     * @throws ArrbyIndfxOutOfBoundsExdfption  if thf
+     * spfdififd indfx is nfgbtivf or not lfss thbn thf durrfnt sizf of
+     * this trbdk.
+     * @sff #sizf
+     * @rfturn thf fvfnt bt thf spfdififd indfx
+     */
+    publid MidiEvfnt gft(int indfx) throws ArrbyIndfxOutOfBoundsExdfption {
+        try {
+            syndhronizfd(fvfntsList) {
+                rfturn fvfntsList.gft(indfx);
+            }
+        } dbtdh (IndfxOutOfBoundsExdfption ioobf) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(ioobf.gftMfssbgf());
+        }
+    }
+
+
+    /**
+     * Obtbins thf numbfr of fvfnts in this trbdk.
+     * @rfturn thf sizf of thf trbdk's fvfnt vfdtor
+     */
+    publid int sizf() {
+        syndhronizfd(fvfntsList) {
+            rfturn fvfntsList.sizf();
+        }
+    }
+
+
+    /**
+     * Obtbins thf lfngth of thf trbdk, fxprfssfd in MIDI tidks.  (Thf
+     * durbtion of b tidk in sfdonds is dftfrminfd by thf timing rfsolution
+     * of thf <dodf>Sfqufndf</dodf> dontbining this trbdk, bnd blso by
+     * thf tfmpo of thf musid bs sft by thf sfqufndfr.)
+     * @rfturn thf durbtion, in tidks
+     * @sff Sfqufndf#Sfqufndf(flobt, int)
+     * @sff Sfqufndfr#sftTfmpoInBPM(flobt)
+     * @sff Sfqufndfr#gftTidkPosition()
+     */
+    publid long tidks() {
+        long rft = 0;
+        syndhronizfd (fvfntsList) {
+            if (fvfntsList.sizf() > 0) {
+                rft = (fvfntsList.gft(fvfntsList.sizf() - 1)).gftTidk();
+            }
+        }
+        rfturn rft;
+    }
+
+    privbtf stbtid dlbss ImmutbblfEndOfTrbdk fxtfnds MftbMfssbgf {
+        privbtf ImmutbblfEndOfTrbdk() {
+            supfr(nfw bytf[3]);
+            dbtb[0] = (bytf) META;
+            dbtb[1] = MidiUtils.META_END_OF_TRACK_TYPE;
+            dbtb[2] = 0;
+        }
+
+        publid void sftMfssbgf(int typf, bytf[] dbtb, int lfngth) throws InvblidMidiDbtbExdfption {
+            throw nfw InvblidMidiDbtbExdfption("dbnnot modify fnd of trbdk mfssbgf");
+        }
+    }
+
+}

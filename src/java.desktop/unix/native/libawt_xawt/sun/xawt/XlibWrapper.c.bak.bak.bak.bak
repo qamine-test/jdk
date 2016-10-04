@@ -1,0 +1,2342 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "sun_bwt_X11_XlibWrbppfr.h"
+#indludf <X11/Xlib.h>
+#indludf <X11/kfysym.h>
+#indludf <X11/Xutil.h>
+#indludf <X11/Xos.h>
+#indludf <X11/Xbtom.h>
+#indludf <X11/fxtfnsions/Xdbf.h>
+#indludf <X11/fxtfnsions/shbpf.h>
+#indludf <string.h>
+#indludf <stdlib.h>
+#indludf <X11/Sunkfysym.h>
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf <jlong.h>
+#indludf <sizfdbld.h>
+
+#indludf <bwt.h>
+#indludf <bwt_util.h>
+#indludf <jvm.h>
+
+#indludf <Rfgion.h>
+#indludf "utility/rfdt.h"
+
+#indludf <X11/XKBlib.h>
+
+#if dffinfd(DEBUG) || dffinfd(INTERNAL_BUILD)
+stbtid jmfthodID lodkIsHfldMID = NULL;
+
+stbtid void
+ChfdkHbvfAWTLodk(JNIEnv *fnv)
+{
+    if (lodkIsHfldMID == NULL) {
+        if (tkClbss == NULL) rfturn;
+        lodkIsHfldMID =
+            (*fnv)->GftStbtidMfthodID(fnv, tkClbss,
+                                      "isAWTLodkHfldByCurrfntThrfbd", "()Z");
+        if (lodkIsHfldMID == NULL) rfturn;
+    }
+    if (!(*fnv)->CbllStbtidBoolfbnMfthod(fnv, tkClbss, lodkIsHfldMID)) {
+        JNU_ThrowIntfrnblError(fnv, "Currfnt thrfbd dofs not hold AWT_LOCK!");
+    }
+}
+
+#dffinf AWT_CHECK_HAVE_LOCK()                       \
+    do {                                            \
+        ChfdkHbvfAWTLodk(fnv);                      \
+        if ((*fnv)->ExdfptionChfdk(fnv)) {          \
+            rfturn;                                 \
+        }                                           \
+    } whilf (0);                                    \
+
+#dffinf AWT_CHECK_HAVE_LOCK_RETURN(rft)             \
+    do {                                            \
+        ChfdkHbvfAWTLodk(fnv);                      \
+        if ((*fnv)->ExdfptionChfdk(fnv)) {          \
+            rfturn (rft);                           \
+        }                                           \
+    } whilf (0);                                    \
+
+#flsf
+#dffinf AWT_CHECK_HAVE_LOCK()
+#dffinf AWT_CHECK_HAVE_LOCK_RETURN(rft)
+#fndif
+
+void frffNbtivfStringArrby(dhbr **brrby, jsizf lfngth) {
+    int i;
+    if (brrby == NULL) {
+        rfturn;
+    }
+    for (i = 0; i < lfngth; i++) {
+        frff(brrby[i]);
+    }
+    frff(brrby);
+}
+
+dhbr** stringArrbyToNbtivf(JNIEnv *fnv, jobjfdtArrby brrby, jsizf * rft_lfngth) {
+    Bool frr = FALSE;
+    dhbr ** strings;
+    int indfx, str_indfx = 0;
+    jsizf lfngth = (*fnv)->GftArrbyLfngth(fnv, brrby);
+
+    if (lfngth == 0) {
+        rfturn NULL;
+    }
+
+    strings = (dhbr**) dbllod(lfngth, sizfof (dhbr*));
+
+    if (strings == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "");
+        rfturn NULL;
+    }
+
+    for (indfx = 0; indfx < lfngth; indfx++) {
+        jstring str = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brrby, indfx);
+        if (str != NULL) {
+            donst dhbr * str_dhbr = JNU_GftStringPlbtformChbrs(fnv, str, NULL);
+            if (str_dhbr != NULL) {
+                dhbr * dup_str = strdup(str_dhbr);
+                if (dup_str != NULL) {
+                    strings[str_indfx++] = dup_str;
+                } flsf {
+                    JNU_ThrowOutOfMfmoryError(fnv, "");
+                    frr = TRUE;
+                }
+                JNU_RflfbsfStringPlbtformChbrs(fnv, str, str_dhbr);
+            } flsf {
+                frr = TRUE;
+            }
+            (*fnv)->DflftfLodblRff(fnv, str);
+            if (frr) {
+                brfbk;
+            }
+        }
+    }
+
+    if (frr) {
+        frffNbtivfStringArrby(strings, str_indfx);
+        strings = NULL;
+        str_indfx = -1;
+    }
+    *rft_lfngth = str_indfx;
+
+    rfturn strings;
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XOpfnDisplby
+ * Signbturf: (J)J
+ */
+
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XOpfnDisplby
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby_nbmf)
+{
+    Displby *dp;
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    dp  =  XOpfnDisplby((dhbr *) jlong_to_ptr(displby_nbmf));
+
+    rfturn ptr_to_jlong(dp);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XClosfDisplby(JNIEnv *fnv, jdlbss dlbzz,
+                       jlong displby) {
+    AWT_CHECK_HAVE_LOCK();
+    XClosfDisplby((Displby*) jlong_to_ptr(displby));
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XDisplbyString(JNIEnv *fnv, jdlbss dlbzz,
+                        jlong displby) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(XDisplbyString((Displby*) jlong_to_ptr(displby)));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSftClosfDownModf(JNIEnv *fnv, jdlbss dlbzz,
+                           jlong displby, jint modf) {
+    AWT_CHECK_HAVE_LOCK();
+    XSftClosfDownModf((Displby*) jlong_to_ptr(displby), (int)modf);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    DffbultSdrffn
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DffbultSdrffn (JNIEnv *fnv, jdlbss dlbzz, jlong displby) {
+
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) DffbultSdrffn((Displby *) jlong_to_ptr(displby));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    SdrffnOfDisplby
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SdrffnOfDisplby(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn_numbfr) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(SdrffnOfDisplby((Displby *) jlong_to_ptr(displby),
+                                        sdrffn_numbfr));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    DofsBbdkingStorf
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DofsBbdkingStorf(JNIEnv *fnv, jdlbss dlbzz, jlong sdrffn) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jint) DofsBbdkingStorf((Sdrffn*) jlong_to_ptr(sdrffn));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    DisplbyWidth
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DisplbyWidth
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn) {
+
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) DisplbyWidth((Displby *) jlong_to_ptr(displby),sdrffn);
+
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    DisplbyWidthMM
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DisplbyWidthMM
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) DisplbyWidthMM((Displby *) jlong_to_ptr(displby),sdrffn);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    DisplbyHfight
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DisplbyHfight
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn) {
+
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) DisplbyHfight((Displby *) jlong_to_ptr(displby),sdrffn);
+}
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    DisplbyHfightMM
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_DisplbyHfightMM
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong sdrffn) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) DisplbyHfightMM((Displby *) jlong_to_ptr(displby),sdrffn);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    RootWindow
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_RootWindow
+(JNIEnv *fnv , jdlbss dlbzz, jlong displby, jlong sdrffn_numbfr) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) RootWindow((Displby *) jlong_to_ptr(displby), sdrffn_numbfr);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    SdrffnCount
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SdrffnCount
+(JNIEnv *fnv , jdlbss dlbzz, jlong displby) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn SdrffnCount((Displby *) jlong_to_ptr(displby));
+}
+
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XCrfbtfWindow
+ * Signbturf: (JJIIIIIIJJJJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfWindow
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+   jint x, jint y, jint w, jint h , jint bordfr_width, jint dfpth,
+   jlong wdlbss, jlong visubl, jlong vblufmbsk, jlong bttributfs)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn  XCrfbtfWindow((Displby *) jlong_to_ptr(displby),(Window) window, x, y, w, h,
+              bordfr_width, dfpth, wdlbss, (Visubl *) jlong_to_ptr(visubl),
+              vblufmbsk, (XSftWindowAttributfs *) jlong_to_ptr(bttributfs));
+
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XConvfrtCbsf
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XConvfrtCbsf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong kfysym,
+   jlong kfysym_lowfrdbsf, jlong kfysym_uppfrdbsf)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XConvfrtCbsf(kfysym, (jlong_to_ptr(kfysym_lowfrdbsf)),
+                         (jlong_to_ptr(kfysym_uppfrdbsf)));
+}
+
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XMbpWindow
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XMbpWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XMbpWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
+
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XMbpRbisfd
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XMbpRbisfd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XMbpRbisfd( (Displby *)jlong_to_ptr(displby),(Window) window);
+
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XRbisfWindow
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XRbisfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+
+    AWT_CHECK_HAVE_LOCK();
+    XRbisfWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
+
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XLowfrWindow
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XLowfrWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+
+    AWT_CHECK_HAVE_LOCK();
+    XLowfrWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
+
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XRfstbdkWindows
+ * Signbturf: (JJI)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XRfstbdkWindows
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong windows, jint lfngth)
+{
+
+    AWT_CHECK_HAVE_LOCK();
+    XRfstbdkWindows( (Displby *) jlong_to_ptr(displby), (Window *) jlong_to_ptr(windows), lfngth);
+
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XConfigurfWindow
+ * Signbturf: (JJJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XConfigurfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong vbluf_mbsk,
+ jlong vblufs)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XConfigurfWindow((Displby*)jlong_to_ptr(displby), (Window)window,
+            (unsignfd int)vbluf_mbsk, (XWindowChbngfs*)jlong_to_ptr(vblufs));
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XSftInputFodus
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftInputFodus
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+
+    AWT_CHECK_HAVE_LOCK();
+    XSftInputFodus( (Displby *)jlong_to_ptr(displby),(Window) window, RfvfrtToPointfrRoot, CurrfntTimf);
+
+}
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XSftInputFodus2
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftInputFodus2
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong timf)
+{
+
+    AWT_CHECK_HAVE_LOCK();
+    XSftInputFodus( (Displby *)jlong_to_ptr(displby),(Window) window, RfvfrtToPointfrRoot, timf);
+
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XGftInputFodus
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftInputFodus
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
+{
+
+    Window fodusOwnfr;
+    int rfvfrt_to;
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    XGftInputFodus( (Displby *)jlong_to_ptr(displby), &fodusOwnfr, &rfvfrt_to);
+    rfturn fodusOwnfr;
+}
+
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XDfstroyWindow
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XDfstroyWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XDfstroyWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGrbbPointfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+ jint ownfr_fvfnts, jint fvfnt_mbsk, jint pointfr_modf,
+ jint kfybobrd_modf, jlong donfinf_to, jlong dursor, jlong timf)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XGrbbPointfr( (Displby *)jlong_to_ptr(displby), (Window) window,
+             (Bool) ownfr_fvfnts, (unsignfd int) fvfnt_mbsk, (int) pointfr_modf,
+             (int) kfybobrd_modf, (Window) donfinf_to, (Cursor) dursor, (Timf) timf);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XUngrbbPointfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong timf)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XUngrbbPointfr( (Displby *)jlong_to_ptr(displby), (Timf) timf);
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGrbbKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+ jint ownfr_fvfnts, jint pointfr_modf,
+ jint kfybobrd_modf, jlong timf)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XGrbbKfybobrd( (Displby *)jlong_to_ptr(displby), (Window) window,
+              (Bool) ownfr_fvfnts, (int) pointfr_modf,
+              (int) kfybobrd_modf, (Timf) timf);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XUngrbbKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong timf)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XUngrbbKfybobrd( (Displby *)jlong_to_ptr(displby), (Timf) timf);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGrbbSfrvfr(JNIEnv *fnv, jdlbss dlbzz,
+                                         jlong displby) {
+     AWT_CHECK_HAVE_LOCK();
+     XGrbbSfrvfr((Displby*)jlong_to_ptr(displby));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XUngrbbSfrvfr(JNIEnv *fnv, jdlbss dlbzz,
+                                           jlong displby) {
+     AWT_CHECK_HAVE_LOCK();
+     XUngrbbSfrvfr((Displby*)jlong_to_ptr(displby));
+     /* Workbround for bug 5039226 */
+     XSynd((Displby*)jlong_to_ptr(displby), Fblsf);
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    XUnmbpWindow
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XUnmbpWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+
+    AWT_CHECK_HAVE_LOCK();
+    XUnmbpWindow( (Displby *)jlong_to_ptr(displby),(Window) window);
+
+}
+
+
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSflfdtInput
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong mbsk)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XSflfdtInput((Displby *) jlong_to_ptr(displby), (Window) window, mbsk);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbSflfdtEvfnts
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong dfvidf, jlong bits_to_dhbngf, jlong vblufs_for_bits)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XkbSflfdtEvfnts((Displby *) jlong_to_ptr(displby), (unsignfd int)dfvidf,
+                   (unsignfd long)bits_to_dhbngf,
+                   (unsignfd long)vblufs_for_bits);
+}
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbSflfdtEvfntDftbils
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong dfvidf, jlong fvfnt_typf, jlong bits_to_dhbngf, jlong vblufs_for_bits)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XkbSflfdtEvfntDftbils((Displby *) jlong_to_ptr(displby), (unsignfd int)dfvidf,
+                   (unsignfd int) fvfnt_typf,
+                   (unsignfd long)bits_to_dhbngf,
+                   (unsignfd long)vblufs_for_bits);
+}
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbQufryExtfnsion
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong opdodf_rtrn, jlong fvfnt_rtrn,
+              jlong frror_rtrn, jlong mbjor_in_out, jlong minor_in_out)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    rfturn XkbQufryExtfnsion( (Displby *) jlong_to_ptr(displby),
+                       (int *) jlong_to_ptr(opdodf_rtrn),
+                       (int *) jlong_to_ptr(fvfnt_rtrn),
+                       (int *) jlong_to_ptr(frror_rtrn),
+                       (int *) jlong_to_ptr(mbjor_in_out),
+                       (int *) jlong_to_ptr(minor_in_out));
+}
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbLibrbryVfrsion
+(JNIEnv *fnv, jdlbss dlbzz, jlong lib_mbjor_in_out, jlong lib_minor_in_out)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    *((int *)jlong_to_ptr(lib_mbjor_in_out)) =  XkbMbjorVfrsion;
+    *((int *)jlong_to_ptr(lib_minor_in_out)) =  XkbMinorVfrsion;
+    rfturn  XkbLibrbryVfrsion((int *)jlong_to_ptr(lib_mbjor_in_out), (int *)jlong_to_ptr(lib_minor_in_out));
+}
+
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbGftMbp
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong whidh, jlong dfvidf_spfd)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) XkbGftMbp( (Displby *) jlong_to_ptr(displby),
+                              (unsignfd int) whidh,
+                              (unsignfd int) dfvidf_spfd);
+}
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbGftUpdbtfdMbp
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong whidh, jlong xkb)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) XkbGftUpdbtfdMbp( (Displby *) jlong_to_ptr(displby),
+                              (unsignfd int) whidh,
+                              (XkbDfsdPtr) jlong_to_ptr(xkb));
+}
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbFrffKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong xkb, jlong whidh, jboolfbn frff_bll)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XkbFrffKfybobrd(jlong_to_ptr(xkb), (unsignfd int)whidh, frff_bll);
+}
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbTrbnslbtfKfyCodf
+(JNIEnv *fnv, jdlbss dlbzz, jlong xkb, jint kfydodf, jlong mods, jlong mods_rtrn, jlong kfysym_rtrn)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    Bool b;
+    b = XkbTrbnslbtfKfyCodf((XkbDfsdPtr)xkb, (unsignfd int)kfydodf, (unsignfd int)mods,
+                              (unsignfd int *)jlong_to_ptr(mods_rtrn),
+                               (KfySym *)jlong_to_ptr(kfysym_rtrn));
+    //printf("nbtivf,  input: kfydodf:0x%0X; mods:0x%0X\n", kfydodf, mods);
+    //printf("nbtivf, output:  kfysym:0x%0X; mods:0x%0X\n", *(unsignfd int *)jlong_to_ptr(kfysym_rtrn), *(unsignfd int *)jlong_to_ptr(mods_rtrn));
+    rfturn b;
+}
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XkbSftDftfdtbblfAutoRfpfbt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jboolfbn dftfdtbblf)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XkbSftDftfdtbblfAutoRfpfbt((Displby *) jlong_to_ptr(displby), dftfdtbblf, NULL);
+}
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XNfxtEvfnt
+ * Signbturf: (JJ)V
+ */
+
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XNfxtEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong ptr)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XNfxtEvfnt( (Displby *) jlong_to_ptr(displby), jlong_to_ptr(ptr));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XMbskEvfnt
+ * Signbturf: (JJJ)V
+ */
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XMbskEvfnt
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong fvfnt_mbsk, jlong fvfnt_rfturn)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XMbskEvfnt( (Displby *) jlong_to_ptr(displby), fvfnt_mbsk, (XEvfnt *) jlong_to_ptr(fvfnt_rfturn));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XWindowEvfnt
+ * Signbturf: (JJJJ)V
+ */
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XWindowEvfnt
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong fvfnt_mbsk, jlong fvfnt_rfturn)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XWindowEvfnt( (Displby *) jlong_to_ptr(displby), (Window)window, fvfnt_mbsk, (XEvfnt *) jlong_to_ptr(fvfnt_rfturn));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XFiltfrEvfnt
+ * Signbturf: (JJ)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFiltfrEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong ptr, jlong window)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    rfturn (jboolfbn) XFiltfrEvfnt((XEvfnt *) jlong_to_ptr(ptr), (Window) window);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSupportsLodblf
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSupportsLodblf
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    rfturn (jboolfbn)XSupportsLodblf();
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSftLodblfModififrs
+ * Signbturf: (Ljbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftLodblfModififrs
+(JNIEnv *fnv, jdlbss dlbzz, jstring jstr)
+{
+    dhbr * modififr_list = NULL;
+    dhbr * rft = NULL;
+
+    if (!JNU_IsNull(fnv, jstr)) {
+        modififr_list = (dhbr *)JNU_GftStringPlbtformChbrs(fnv, jstr, NULL);
+        CHECK_NULL_RETURN(modififr_list, NULL);
+    }
+
+    AWT_CHECK_HAVE_LOCK_RETURN(NULL);
+    if (modififr_list) {
+        rft = XSftLodblfModififrs(modififr_list);
+        JNU_RflfbsfStringPlbtformChbrs(fnv, jstr, (donst dhbr *) modififr_list);
+    } flsf {
+        rft = XSftLodblfModififrs("");
+    }
+
+    rfturn (rft != NULL ? JNU_NfwStringPlbtform(fnv, rft): NULL);
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_wrbppfrs_XlibWrbppfr
+ * Mfthod:    XPffkEvfnt
+ * Signbturf: (JJ)V
+ */
+
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XPffkEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong ptr)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XPffkEvfnt((Displby *) jlong_to_ptr(displby),jlong_to_ptr(ptr));
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XMovfRfsizfWindow
+ * Signbturf: (JJIIII)V
+ */
+
+JNIEXPORT void JNICALL  Jbvb_sun_bwt_X11_XlibWrbppfr_XMovfRfsizfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint x , jint y , jint width, jint hfight) {
+
+    AWT_CHECK_HAVE_LOCK();
+    XMovfRfsizfWindow( (Displby *) jlong_to_ptr(displby), (Window) window, x, y, width, hfight);
+
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XRfsizfWindow
+ * Signbturf: (JJII)V
+ */
+
+JNIEXPORT void JNICALL  Jbvb_sun_bwt_X11_XlibWrbppfr_XRfsizfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint width, jint hfight)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XRfsizfWindow( (Displby *) jlong_to_ptr(displby),(Window) window,width,hfight);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XMovfWindow
+ * Signbturf: (JJII)V
+ */
+
+JNIEXPORT void JNICALL  Jbvb_sun_bwt_X11_XlibWrbppfr_XMovfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint width, jint hfight)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XMovfWindow( (Displby *) jlong_to_ptr(displby),(Window) window,width,hfight);
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSftWindowBbdkground
+ * Signbturf: (JJJ)V
+ */
+
+JNIEXPORT void JNICALL  Jbvb_sun_bwt_X11_XlibWrbppfr_XSftWindowBbdkground
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong bbdkground_pixfl) {
+
+    AWT_CHECK_HAVE_LOCK();
+    XSftWindowBbdkground((Displby *) jlong_to_ptr(displby),window,bbdkground_pixfl);
+
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XFlush
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFlush
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby) {
+
+    AWT_CHECK_HAVE_LOCK();
+    XFlush((Displby *)jlong_to_ptr(displby));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSynd
+ * Signbturf: (JI)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSynd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jint disdbrd) {
+
+    AWT_CHECK_HAVE_LOCK();
+    XSynd((Displby *) jlong_to_ptr(displby), disdbrd);
+
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XTrbnslbtfCoordinbtfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong srd_w, jlong dfst_w,
+ jlong srd_x, jlong srd_y, jlong dfst_x_rfturn, jlong dfst_y_rfturn,
+ jlong dhild_rfturn)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XTrbnslbtfCoordinbtfs( (Displby *) jlong_to_ptr(displby), srd_w, dfst_w,
+                  srd_x, srd_y,
+                  (int *) jlong_to_ptr(dfst_x_rfturn),
+                  (int *) jlong_to_ptr(dfst_y_rfturn),
+                  (Window *) jlong_to_ptr(dhild_rfturn));
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XEvfntsQufufd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jint modf) {
+
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XEvfntsQufufd((Displby *) jlong_to_ptr(displby), modf);
+
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    SftPropfrty
+ * Signbturf: (JJJLjbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SftPropfrty
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong btom, jstring jstr) {
+    dhbr *dnbmf;
+    XTfxtPropfrty tp;
+    int32_t stbtus;
+
+    /*
+       In dbsf thfrf brf dirfdt support of UTF-8 dfdlbrfd, usf UTF-8 strings.
+    */
+    if (!JNU_IsNull(fnv, jstr)) {
+#ifdff X_HAVE_UTF8_STRING
+        dnbmf = (dhbr *) (*fnv)->GftStringUTFChbrs(fnv, jstr, JNI_FALSE);
+#flsf
+        dnbmf = (dhbr *) JNU_GftStringPlbtformChbrs(fnv, jstr, NULL);
+#fndif
+        CHECK_NULL(dnbmf);
+    } flsf {
+        dnbmf = "";
+    }
+
+
+    AWT_CHECK_HAVE_LOCK();
+
+#ifdff X_HAVE_UTF8_STRING
+    stbtus = Xutf8TfxtListToTfxtPropfrty((Displby *)jlong_to_ptr(displby), &dnbmf, 1,
+                                       XStdICCTfxtStylf, &tp);
+#flsf
+    stbtus = XmbTfxtListToTfxtPropfrty((Displby *)jlong_to_ptr(displby), &dnbmf, 1,
+                                       XStdICCTfxtStylf, &tp);
+#fndif
+
+
+    if (stbtus == Suddfss || stbtus > 0) {
+        XChbngfPropfrty((Displby *)jlong_to_ptr(displby), window, btom, tp.fndoding, tp.formbt, PropModfRfplbdf, tp.vbluf, tp.nitfms);
+        if (tp.vbluf != NULL) {
+            XFrff(tp.vbluf);
+        }
+    }
+
+    if (!JNU_IsNull(fnv, jstr)) {
+#ifdff X_HAVE_UTF8_STRING
+        (*fnv)->RflfbsfStringUTFChbrs(fnv, jstr, (donst dhbr *) dnbmf);
+#flsf
+        JNU_RflfbsfStringPlbtformChbrs(fnv, jstr, (donst dhbr *) dnbmf);
+#fndif
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XChbngfPropfrty
+ * Signbturf: (JJJJJJJJJJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XChbngfPropfrtyImpl(
+    JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong propfrty,
+    jlong typf, jint formbt, jint modf, jlong dbtb, jint nflfmfnts)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XChbngfPropfrty((Displby*) jlong_to_ptr(displby), (Window) window, (Atom) propfrty,
+            (Atom) typf, formbt, modf, (unsignfd dhbr*) jlong_to_ptr(dbtb),
+            nflfmfnts);
+}
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XChbngfPropfrtyS
+ * Signbturf: (JJJJJJJJJLjbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XChbngfPropfrtyS(
+    JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong propfrty,
+    jlong typf, jint formbt, jint modf, jstring vbluf)
+{
+    jboolfbn isdopy;
+    AWT_CHECK_HAVE_LOCK();
+    donst dhbr * dhbrs = JNU_GftStringPlbtformChbrs(fnv, vbluf, &isdopy);
+    CHECK_NULL(dhbrs);
+    XChbngfPropfrty((Displby*)jlong_to_ptr(displby), window, (Atom)propfrty,
+                    (Atom)typf, formbt, modf, (unsignfd dhbr*)dhbrs, strlfn(dhbrs));
+    if (isdopy) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, vbluf, dhbrs);
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftWindowPropfrty
+ * Signbturf: (JJJJJJJJJJJ)J;
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftWindowPropfrty
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong propfrty, jlong long_offsft,
+ jlong long_lfngth, jlong dflftf, jlong rfq_typf, jlong bdtubl_typf,
+ jlong bdtubl_formbt, jlong nitfms_ptr, jlong bytfs_bftfr, jlong dbtb_ptr)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XGftWindowPropfrty((Displby*) jlong_to_ptr(displby), window, propfrty, long_offsft, long_lfngth,
+                  dflftf, (Atom) rfq_typf, (Atom*) jlong_to_ptr(bdtubl_typf),
+                  (int *) jlong_to_ptr(bdtubl_formbt), (unsignfd long *) jlong_to_ptr(nitfms_ptr),
+                  (unsignfd long*) jlong_to_ptr(bytfs_bftfr), (unsignfd dhbr**) jlong_to_ptr(dbtb_ptr));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    GftPropfrty
+ * Signbturf: (JJJ)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_GftPropfrty
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong btom)
+{
+    /* Rfqufst stbtus */
+    int stbtus;
+
+    /* Rfturns of XGftWindowPropfrty */
+    Atom bdtubl_typf;
+    int bdtubl_formbt;
+    unsignfd long nitfms;
+    unsignfd long bytfs_bftfr;
+    unsignfd dhbr * string;
+    jstring rfs = NULL;
+    AWT_CHECK_HAVE_LOCK_RETURN(NULL);
+    stbtus = XGftWindowPropfrty((Displby*)jlong_to_ptr(displby), window,
+                                btom, 0, 0xFFFF, Fblsf, XA_STRING,
+                                &bdtubl_typf, &bdtubl_formbt, &nitfms, &bytfs_bftfr,
+                                &string);
+
+    if (stbtus != Suddfss || string == NULL) {
+        rfturn NULL;
+    }
+
+    if (bdtubl_typf == XA_STRING && bdtubl_formbt == 8) {
+        rfs = JNU_NfwStringPlbtform(fnv,(dhbr*) string);
+    }
+    XFrff(string);
+    rfturn rfs;
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    IntfrnAtom
+ * Signbturf: (JLjbvb/lbng/String;I)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IntfrnAtom
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jstring jstr, jint iff) {
+
+    dhbr *dnbmf;
+    unsignfd long btom;
+
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+
+    if (!JNU_IsNull(fnv, jstr)) {
+        dnbmf = (dhbr *)JNU_GftStringPlbtformChbrs(fnv, jstr, NULL);
+        CHECK_NULL_RETURN(dnbmf, 0);
+    } flsf {
+        dnbmf = "";
+    }
+
+    btom = XIntfrnAtom((Displby *) jlong_to_ptr(displby), dnbmf, iff);
+
+    if (!JNU_IsNull(fnv, jstr)) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, jstr, (donst dhbr *) dnbmf);
+    }
+
+    rfturn (jlong) btom;
+
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfFontCursor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jint shbpf) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XCrfbtfFontCursor((Displby *) jlong_to_ptr(displby), (int) shbpf);
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XCrfbtfPixmbpCursor
+ * Signbturf: (JJJJJII)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfPixmbpCursor
+(JNIEnv *fnv , jdlbss dlbzz, jlong displby, jlong sourdf, jlong mbsk, jlong forf, jlong bbdk, jint x , jint y) {
+
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong) XCrfbtfPixmbpCursor((Displby *) jlong_to_ptr(displby), (Pixmbp) sourdf, (Pixmbp) mbsk,
+                                       (XColor *) jlong_to_ptr(forf), (XColor *) jlong_to_ptr(bbdk), x, y);
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XQufryBfstCursor
+ * Signbturf: (JJIIJJ)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryBfstCursor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jint width, jint hfight, jlong width_rfturn, jlong hfight_rfturn) {
+
+    Stbtus stbtus;
+
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    stbtus  =  XQufryBfstCursor((Displby *) jlong_to_ptr(displby), (Drbwbblf) drbwbblf, width,hfight,
+                                (unsignfd int *) jlong_to_ptr(width_rfturn), (unsignfd int *) jlong_to_ptr(hfight_rfturn));
+
+    if (stbtus == 0) rfturn JNI_FALSE;
+    flsf rfturn JNI_TRUE;
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XFrffCursor
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFrffCursor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong dursor) {
+
+    AWT_CHECK_HAVE_LOCK();
+    XFrffCursor( (Displby *) jlong_to_ptr(displby), (Cursor) dursor);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XQufryPointfr
+ * Signbturf: (JJJJJJJJJ)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryPointfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong w, jlong root_rfturn, jlong dhild_rfturn, jlong root_x_rfturn , jlong root_y_rfturn, jlong win_x_rfturn, jlong win_y_rfturn, jlong mbsk_rfturn) {
+
+    Bool b;
+
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    b = XQufryPointfr((Displby *) jlong_to_ptr(displby),
+                      (Window) w, (Window *) jlong_to_ptr(root_rfturn), (Window *) jlong_to_ptr(dhild_rfturn),
+                      (int *) jlong_to_ptr(root_x_rfturn), (int *) jlong_to_ptr(root_y_rfturn),
+                      (int *) jlong_to_ptr(win_x_rfturn), (int *) jlong_to_ptr(win_y_rfturn),
+                      (unsignfd int *) jlong_to_ptr(mbsk_rfturn));
+
+    rfturn b ? JNI_TRUE : JNI_FALSE;
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XChbngfWindowAttributfs
+ * Signbturf: (JJJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XChbngfWindowAttributfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong vblufmbsk, jlong bttributfs) {
+
+    AWT_CHECK_HAVE_LOCK();
+    XChbngfWindowAttributfs((Displby *) jlong_to_ptr(displby), (Window) window, (unsignfd long) vblufmbsk,
+                            (XSftWindowAttributfs *) jlong_to_ptr(bttributfs));
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSftTrbnsifntFor
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftTrbnsifntFor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong trbnsifnt_for_window)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XSftTrbnsifntForHint((Displby *) jlong_to_ptr(displby), window, trbnsifnt_for_window);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSftWMHints
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftWMHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong hints)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XSftWMHints((Displby *) jlong_to_ptr(displby), window, (XWMHints *) jlong_to_ptr(hints));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftWMHints
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftWMHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong hints)
+{
+    XWMHints * gft_hints;
+    AWT_CHECK_HAVE_LOCK();
+    gft_hints = XGftWMHints((Displby*)jlong_to_ptr(displby), window);
+    if (gft_hints != NULL) {
+        mfmdpy(jlong_to_ptr(hints), gft_hints, sizfof(XWMHints));
+        XFrff(gft_hints);
+    } flsf {
+        mfmsft(jlong_to_ptr(hints), 0, sizfof(XWMHints));
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftPointfrMbpping
+ * Signbturf: (JJI)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftPointfrMbpping
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong mbp, jint buttonNumbfr)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XGftPointfrMbpping((Displby*)jlong_to_ptr(displby), (unsignfd dhbr*) jlong_to_ptr(mbp), buttonNumbfr);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftDffbult
+ * Signbturf: (JJI)I
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftDffbult
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jstring progrbm, jstring option)
+{
+    dhbr * d_progrbm = NULL;
+    dhbr * d_option = NULL;
+    dhbr * d_rfs = NULL;
+
+    if (!JNU_IsNull(fnv, progrbm)) {
+        d_progrbm = (dhbr *)JNU_GftStringPlbtformChbrs(fnv, progrbm, NULL);
+    }
+    CHECK_NULL_RETURN(d_progrbm, NULL);
+
+    if (!JNU_IsNull(fnv, option)) {
+        d_option = (dhbr *)JNU_GftStringPlbtformChbrs(fnv, option, NULL);
+    }
+
+    if (d_option == NULL) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, progrbm, (donst dhbr *) d_progrbm);
+        rfturn NULL;
+    }
+
+    AWT_CHECK_HAVE_LOCK_RETURN(NULL);
+    d_rfs = XGftDffbult((Displby*)jlong_to_ptr(displby), d_progrbm, d_option);
+    // Thf strings rfturnfd by XGftDffbult() brf ownfd by Xlib bnd
+    // should not bf modififd or frffd by thf dlifnt.
+
+    JNU_RflfbsfStringPlbtformChbrs(fnv, progrbm, (donst dhbr *) d_progrbm);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, option, (donst dhbr *) d_option);
+
+    if (d_rfs != NULL) {
+        rfturn JNU_NfwStringPlbtform(fnv, d_rfs);
+    } flsf {
+        rfturn NULL;
+    }
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    gftSdrffnOfWindow
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_gftSdrffnOfWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+    XWindowAttributfs bttrs;
+    mfmsft(&bttrs, 0, sizfof(bttrs));
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    XGftWindowAttributfs((Displby *) jlong_to_ptr(displby), window, &bttrs);
+    rfturn ptr_to_jlong(bttrs.sdrffn);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSdrffnNumbfrOfSdrffn
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSdrffnNumbfrOfSdrffn
+(JNIEnv *fnv, jdlbss dlbzz, jlong sdrffn)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(-1);
+    if(jlong_to_ptr(sdrffn) == NULL) {
+        rfturn -1;
+    }
+    rfturn XSdrffnNumbfrOfSdrffn((Sdrffn*) jlong_to_ptr(sdrffn));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XIdonifyWindow
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XIdonifyWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong sdrffnNumbfr)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XIdonifyWindow((Displby*) jlong_to_ptr(displby), window, sdrffnNumbfr);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XFrff
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFrff
+(JNIEnv *fnv, jdlbss dlbzz, jlong ptr)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XFrff(jlong_to_ptr(ptr));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XFrff
+ * Signbturf: (J)V
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_gftStringBytfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong str_ptr)
+{
+    unsignfd dhbr * str = (unsignfd dhbr*) jlong_to_ptr(str_ptr);
+    long lfngth = strlfn((dhbr*)str);
+    jbytfArrby rfs = (*fnv)->NfwBytfArrby(fnv, lfngth);
+    CHECK_NULL_RETURN(rfs, NULL);
+    (*fnv)->SftBytfArrbyRfgion(fnv, rfs, 0, lfngth,
+                   (donst signfd dhbr*) str);
+    rfturn rfs;
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    SfrvfrVfndor
+ * Signbturf: (J)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SfrvfrVfndor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(NULL);
+    rfturn JNU_NfwStringPlbtform(fnv, SfrvfrVfndor((Displby*)jlong_to_ptr(displby)));
+}
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    VfndorRflfbsf
+ * Signbturf: (J)I;
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_VfndorRflfbsf
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn VfndorRflfbsf((Displby*)jlong_to_ptr(displby));
+}
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    IsXsunKPBfhbvior
+ * Signbturf: (J)Z;
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IsXsunKPBfhbvior
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
+{
+    // Xsun without XKB usfs kfysymbrrby[2] kfysym to dftfrminf if it is KP fvfnt.
+    // Othfrwisf, it is [1] or somftimfs [0].
+    // This snifffr first trifs to dftfrminf whbt is b kfydodf for XK_KP_7
+    // using XKfysymToKfydodf;
+    // sfdond, in whidh plbdf in thf kfysymbrrby is XK_KP_7
+    // using XKfydodfToKfysym.
+    int kd7;
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    kd7 = XKfysymToKfydodf((Displby*)jlong_to_ptr(displby), XK_KP_7);
+    if( !kd7 ) {
+        // kfydodf is not dffinfd. Why, it's b rfdudfd kfybobrd pfrhbps:
+        // rfport brbitrbrily fblsf.
+        rfturn JNI_FALSE;
+    } flsf {
+        long ks2 = XKfydodfToKfysym((Displby*)jlong_to_ptr(displby), kd7, 2);
+        if( ks2 == XK_KP_7 ) {
+            //XXX If somf Xorg sfrvfr would put XK_KP_7 in kfysymbrrby[2] bs wfll,
+            //XXX for yft unknown to mf rfbson, thf snifffr would lif.
+            rfturn JNI_TRUE;
+        }flsf{
+            rfturn JNI_FALSE;
+        }
+    }
+}
+
+
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IsSunKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
+{
+    int xx;
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    xx = XKfysymToKfydodf((Displby*)jlong_to_ptr(displby), SunXK_F37);
+    rfturn (!xx) ? JNI_FALSE : JNI_TRUE;
+}
+
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IsKbnbKfybobrd
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby)
+{
+    int xx;
+    stbtid jboolfbn rfsult = JNI_FALSE;
+
+    int32_t minKfyCodf, mbxKfyCodf, kfySymsPfrKfyCodf;
+    KfySym *kfySyms, *kfySymsStbrt, kfySym;
+    int32_t i;
+    int32_t kbnbCount = 0;
+
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+
+    // Thfrf's no dirfdt wby to dftfrminf whfthfr thf kfybobrd hbs
+    // b kbnb lodk kfy. From bvbilbblf kfybobrd mbpping tbblfs, it looks
+    // likf only kfybobrds with thf kbnb lodk kfy dbn produdf kfysyms
+    // for kbnb dhbrbdtfrs. So, bs bn indirfdt tfst, wf dhfdk for thosf.
+    XDisplbyKfydodfs((Displby*)jlong_to_ptr(displby), &minKfyCodf, &mbxKfyCodf);
+    kfySyms = XGftKfybobrdMbpping((Displby*)jlong_to_ptr(displby), minKfyCodf, mbxKfyCodf - minKfyCodf + 1, &kfySymsPfrKfyCodf);
+    kfySymsStbrt = kfySyms;
+    for (i = 0; i < (mbxKfyCodf - minKfyCodf + 1) * kfySymsPfrKfyCodf; i++) {
+        kfySym = *kfySyms++;
+        if ((kfySym & 0xff00) == 0x0400) {
+            kbnbCount++;
+        }
+    }
+    XFrff(kfySymsStbrt);
+
+    // usf b (somfwhbt brbitrbry) minimum so wf don't gft donfusfd by b strby fundtion kfy
+    rfsult = kbnbCount > 10;
+    rfturn rfsult ? JNI_TRUE : JNI_FALSE;
+}
+
+JbvbVM* jvm = NULL;
+stbtid int ToolkitErrorHbndlfr(Displby * dpy, XErrorEvfnt * fvfnt) {
+    JNIEnv * fnv;
+    // First dbll thf nbtivf synthftid frror hbndlfr dfdlbrfd in "bwt_util.h" filf.
+    if (durrfnt_nbtivf_xfrror_hbndlfr != NULL) {
+        durrfnt_nbtivf_xfrror_hbndlfr(dpy, fvfnt);
+    }
+    if (jvm != NULL) {
+        fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        if (fnv) {
+            rfturn JNU_CbllStbtidMfthodByNbmf(fnv, NULL, "sun/bwt/X11/XErrorHbndlfrUtil",
+                "globblErrorHbndlfr", "(JJ)I", ptr_to_jlong(dpy), ptr_to_jlong(fvfnt)).i;
+        }
+    }
+    rfturn 0;
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    SftToolkitErrorHbndlfr
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_SftToolkitErrorHbndlfr
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+    if ((*fnv)->GftJbvbVM(fnv, &jvm) < 0) {
+        rfturn 0;
+    }
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(XSftErrorHbndlfr(ToolkitErrorHbndlfr));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSftErrorHbndlfr
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftErrorHbndlfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong hbndlfr)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XSftErrorHbndlfr((XErrorHbndlfr) jlong_to_ptr(hbndlfr));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    CbllErrorHbndlfr
+ * Signbturf: (JJJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_CbllErrorHbndlfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong hbndlfr, jlong displby, jlong fvfnt_ptr)
+{
+    rfturn (*(XErrorHbndlfr)jlong_to_ptr(hbndlfr))((Displby*) jlong_to_ptr(displby), (XErrorEvfnt*) jlong_to_ptr(fvfnt_ptr));
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    PrintXErrorEvfnt
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_PrintXErrorEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong fvfnt_ptr)
+{
+    dhbr msg[128];
+    dhbr buf[128];
+
+    XErrorEvfnt* frr = (XErrorEvfnt *)jlong_to_ptr(fvfnt_ptr);
+
+    XGftErrorTfxt((Displby *)jlong_to_ptr(displby), frr->frror_dodf, msg, sizfof(msg));
+    jio_fprintf(stdfrr, "Xfrror %s, XID %x, sfr# %d\n", msg, frr->rfsourdfid, frr->sfribl);
+    jio_snprintf(buf, sizfof(buf), "%d", frr->rfqufst_dodf);
+    XGftErrorDbtbbbsfTfxt((Displby *)jlong_to_ptr(displby), "XRfqufst", buf, "Unknown", msg, sizfof(msg));
+    jio_fprintf(stdfrr, "Mbjor opdodf %d (%s)\n", frr->rfqufst_dodf, msg);
+    if (frr->rfqufst_dodf > 128) {
+        jio_fprintf(stdfrr, "Minor opdodf %d\n", frr->minor_dodf);
+    }
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XIntfrnAtoms
+ * Signbturf: (J[Ljbvb/lbng/String;ZJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XIntfrnAtoms
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jobjfdtArrby nbmfs_brr, jboolfbn only_if_fxists, jlong btoms)
+{
+    int stbtus = 0;
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    jsizf lfngth;
+    dhbr** nbmfs = stringArrbyToNbtivf(fnv, nbmfs_brr, &lfngth);
+    if (nbmfs) {
+        stbtus = XIntfrnAtoms((Displby*)jlong_to_ptr(displby), nbmfs, lfngth, only_if_fxists, (Atom*) jlong_to_ptr(btoms));
+        frffNbtivfStringArrby(nbmfs, lfngth);
+    }
+    rfturn stbtus;
+}
+
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftWindowAttributfs
+ * Signbturf: (JJJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftWindowAttributfs
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong bttr_ptr)
+{
+    jint stbtus;
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    mfmsft((XWindowAttributfs*) jlong_to_ptr(bttr_ptr), 0, sizfof(XWindowAttributfs));
+    stbtus =  XGftWindowAttributfs((Displby*)jlong_to_ptr(displby), window, (XWindowAttributfs*) jlong_to_ptr(bttr_ptr));
+    rfturn stbtus;
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftGfomftry
+ * Signbturf: (JJJJJJJJJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftGfomftry
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jlong root_rfturn,
+     jlong x_rfturn, jlong y_rfturn, jlong width_rfturn, jlong hfight_rfturn,
+     jlong bordfr_width_rfturn, jlong dfpth_rfturn)
+{
+    jint stbtus;
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    stbtus = XGftGfomftry((Displby *)jlong_to_ptr(displby),
+                          (Drbwbblf)drbwbblf, (Window *)jlong_to_ptr(root_rfturn),
+                          (int *)jlong_to_ptr(x_rfturn), (int *)jlong_to_ptr(y_rfturn),
+                          (unsignfd int *)jlong_to_ptr(width_rfturn), (unsignfd int *)jlong_to_ptr(hfight_rfturn),
+                          (unsignfd int *)jlong_to_ptr(bordfr_width_rfturn),
+                          (unsignfd int *)jlong_to_ptr(dfpth_rfturn));
+    rfturn stbtus;
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftWMNormblHints
+ * Signbturf: (JJJJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftWMNormblHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong hints, jlong supplifd_rfturn)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XGftWMNormblHints((Displby*) jlong_to_ptr(displby),
+                             window,
+                             (XSizfHints*) jlong_to_ptr(hints),
+                             (long*) jlong_to_ptr(supplifd_rfturn));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSftWMNormblHints
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftWMNormblHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong hints)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XSftWMNormblHints((Displby*) jlong_to_ptr(displby), window, (XSizfHints*) jlong_to_ptr(hints));
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XDflftfPropfrty
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XDflftfPropfrty
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong btom)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XDflftfPropfrty((Displby*) jlong_to_ptr(displby), window, (Atom)btom);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSfndEvfnt
+ * Signbturf: (JJZJJ)V
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSfndEvfnt
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jboolfbn propbgbtf, jlong fvfnt_mbsk, jlong fvfnt)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XSfndEvfnt((Displby*) jlong_to_ptr(displby),
+                      window,
+                      propbgbtf==JNI_TRUE?Truf:Fblsf,
+                      (long) fvfnt_mbsk,
+                      (XEvfnt*) jlong_to_ptr(fvfnt));
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XQufryTrff
+ * Signbturf: (JJJJJJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryTrff
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong root_rfturn, jlong pbrfnt_rfturn, jlong dhildrfn_rfturn, jlong ndhildrfn_rfturn)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XQufryTrff((Displby*) jlong_to_ptr(displby),
+                      window,
+                      (Window *) jlong_to_ptr(root_rfturn),
+                      (Window*) jlong_to_ptr(pbrfnt_rfturn),
+                      (Window**) jlong_to_ptr(dhildrfn_rfturn),
+                      (unsignfd int*) jlong_to_ptr(ndhildrfn_rfturn));
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    mfmdpy
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_mfmdpy
+(JNIEnv *fnv, jdlbss dlbzz, jlong dfst_ptr, jlong srd_ptr, jlong lfngth)
+{
+    mfmdpy(jlong_to_ptr(dfst_ptr), jlong_to_ptr(srd_ptr), lfngth);
+}
+
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XSftMinMbxHints
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint x, jint y, jint width, jint hfight, jlong flbgs) {
+    XSizfHints * hints;
+    AWT_CHECK_HAVE_LOCK();
+    hints = XAllodSizfHints();
+    hints->flbgs = flbgs;
+    hints->width = width;
+    hints->min_width = width;
+    hints->mbx_width = width;
+    hints->hfight = hfight;
+    hints->min_hfight = hfight;
+    hints->mbx_hfight = hfight;
+    hints->x = x;
+    hints->y = y;
+    XSftWMNormblHints((Displby*) jlong_to_ptr(displby), window, hints);
+    XFrff(hints);
+}
+
+
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XGftVisublInfo
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong vinfo_mbsk, jlong vinfo_tfmplbtf,
+ jlong nitfms_rfturn)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(XGftVisublInfo((Displby*) jlong_to_ptr(displby),
+                                       (long) vinfo_mbsk,
+                                       (XVisublInfo*) jlong_to_ptr(vinfo_tfmplbtf),
+                                       (int*) jlong_to_ptr(nitfms_rfturn)));
+}
+
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XAllodSizfHints
+  (JNIEnv *fnv, jdlbss dlbzz)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(XAllodSizfHints());
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XIdonifyWindow
+ * Signbturf: (JJJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XBfll
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jint pfrdfnt)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XBfll((Displby*)jlong_to_ptr(displby), pfrdfnt);
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XAllodColor
+ * Signbturf: (JJJ)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XAllodColor
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby , jlong dolormbp, jlong xdolor) {
+
+    Stbtus stbtus;
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    stbtus = XAllodColor((Displby *) jlong_to_ptr(displby), (Colormbp) dolormbp, (XColor *) jlong_to_ptr(xdolor));
+
+    if (stbtus == 0) rfturn JNI_FALSE;
+    flsf rfturn JNI_TRUE;
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XCrfbtfBitmbpFromDbtb
+ * Signbturf: (JJJII)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfBitmbpFromDbtb
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jlong dbtb, jint width, jint hfight) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+
+    rfturn (jlong) XCrfbtfBitmbpFromDbtb((Displby *) jlong_to_ptr(displby), (Drbwbblf) drbwbblf,
+                                         (dhbr *) jlong_to_ptr(dbtb), width, hfight);
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XFrffPixmbp
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XFrffPixmbp
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong pixmbp) {
+    AWT_CHECK_HAVE_LOCK();
+    XFrffPixmbp((Displby *)jlong_to_ptr(displby), (Pixmbp) pixmbp);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XRfpbrfntWindow
+ * Signbturf: (JJJII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XRfpbrfntWindow
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong pbrfnt, jint x, jint y) {
+    AWT_CHECK_HAVE_LOCK();
+    XRfpbrfntWindow((Displby*)jlong_to_ptr(displby), window, pbrfnt, x, y);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XConvfrtSflfdtion
+ * Signbturf: (JJJJJJ)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XConvfrtSflfdtion(JNIEnv *fnv, jdlbss dlbzz,
+                           jlong displby, jlong sflfdtion,
+                           jlong tbrgft, jlong propfrty,
+                           jlong rfqufstor, jlong timf) {
+    AWT_CHECK_HAVE_LOCK();
+    XConvfrtSflfdtion((Displby*)jlong_to_ptr(displby), sflfdtion, tbrgft, propfrty, rfqufstor,
+              timf);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XSftSflfdtionOwnfr
+ * Signbturf: (JJJJ)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSftSflfdtionOwnfr(JNIEnv *fnv, jdlbss dlbzz,
+                        jlong displby, jlong sflfdtion,
+                        jlong ownfr, jlong timf) {
+    AWT_CHECK_HAVE_LOCK();
+    XSftSflfdtionOwnfr((Displby*)jlong_to_ptr(displby), sflfdtion, ownfr, timf);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftSflfdtionOwnfr
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGftSflfdtionOwnfr(JNIEnv *fnv, jdlbss dlbzz,
+                        jlong displby, jlong sflfdtion) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn (jlong)XGftSflfdtionOwnfr((Displby*)jlong_to_ptr(displby), sflfdtion);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XGftAtomNbmf
+ * Signbturf: (JJ)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGftAtomNbmf(JNIEnv *fnv, jdlbss dlbzz,
+                      jlong displby, jlong btom)
+{
+    jstring string = NULL;
+    dhbr* nbmf;
+    AWT_CHECK_HAVE_LOCK_RETURN(NULL);
+    nbmf = (dhbr*) XGftAtomNbmf((Displby*)jlong_to_ptr(displby), btom);
+
+    if (nbmf == NULL) {
+        fprintf(stdfrr, "Atom wbs %d\n", (int)btom);
+        JNU_ThrowNullPointfrExdfption(fnv, "Fbilfd to rftrifvf btom nbmf.");
+        rfturn NULL;
+    }
+
+    string = (*fnv)->NfwStringUTF(fnv, (donst dhbr *)nbmf);
+
+    XFrff(nbmf);
+
+    rfturn string;
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XMbxRfqufstSizf
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XMbxRfqufstSizf(JNIEnv *fnv, jdlbss dlbzz,
+                         jlong displby) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XMbxRfqufstSizf((Displby*) jlong_to_ptr(displby));
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XAllodWMHints(JNIEnv *fnv, jdlbss dlbzz)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(XAllodWMHints());
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfPixmbp(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jint width, jint hfight, jint dfpth)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XCrfbtfPixmbp((Displby*)jlong_to_ptr(displby), (Drbwbblf)drbwbblf, width, hfight, dfpth);
+}
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfImbgf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong visubl_ptr,
+   jint dfpth, jint formbt, jint offsft, jlong dbtb, jint width,
+   jint hfight, jint bitmbp_pbd, jint bytfs_pfr_linf)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(XCrfbtfImbgf((Displby*) jlong_to_ptr(displby), (Visubl*) jlong_to_ptr(visubl_ptr),
+                dfpth, formbt, offsft, (dhbr*) jlong_to_ptr(dbtb),
+                width, hfight, bitmbp_pbd, bytfs_pfr_linf));
+}
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XCrfbtfGC
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf,
+   jlong vblufmbsk, jlong vblufs)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(XCrfbtfGC((Displby*) jlong_to_ptr(displby), (Drbwbblf)drbwbblf, vblufmbsk, (XGCVblufs*) jlong_to_ptr(vblufs)));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XDfstroyImbgf(JNIEnv *fnv, jdlbss dlbzz, jlong imbgf)
+{
+    XImbgf *img = (XImbgf*) jlong_to_ptr(imbgf);
+    AWT_CHECK_HAVE_LOCK();
+
+    // Fix for bug 4903671 :
+    // Wf should bf dbrfful to not doublf frff thf mfmory pointfd to dbtb
+    // Sindf wf usf unsbff to bllodbtf it, wf should usf unsbff to frff it.
+    // So wf should NULL thf dbtb pointfr bfforf dblling XDfstroyImbgf so
+    // thbt X dofs not frff thf pointfr for us.
+    img->dbtb = NULL;
+    XDfstroyImbgf(img);
+}
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XPutImbgf(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong drbwbblf, jlong gd, jlong imbgf, jint srd_x, jint srd_y, jint dfst_x, jint dfst_y, jint width, jint hfight)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XPutImbgf((Displby*)jlong_to_ptr(displby), (Drbwbblf)drbwbblf, (GC) jlong_to_ptr(gd), (XImbgf*) jlong_to_ptr(imbgf), srd_x, srd_y,
+              dfst_x, dfst_y, width, hfight);
+}
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XFrffGC(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong gd)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XFrffGC((Displby*) jlong_to_ptr(displby), (GC) jlong_to_ptr(gd));
+}
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSftWindowBbdkgroundPixmbp(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong pixmbp)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XSftWindowBbdkgroundPixmbp((Displby*) jlong_to_ptr(displby), (Window)window, (Pixmbp)pixmbp);
+}
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XClfbrWindow(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XClfbrWindow((Displby*) jlong_to_ptr(displby), (Window)window);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGftIdonSizfs(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong rft_sizfs, jlong rft_dount)
+{
+    XIdonSizf** psizf = (XIdonSizf**) jlong_to_ptr(rft_sizfs);
+    int * pdount = (int *) jlong_to_ptr(rft_dount);
+    Stbtus rfs;
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfs = XGftIdonSizfs((Displby*) jlong_to_ptr(displby), (Window)window, psizf, pdount);
+    rfturn rfs;
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfQufryExtfnsion
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong mbjor_vfrsion_rfturn,
+   jlong minor_vfrsion_rfturn)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XdbfQufryExtfnsion((Displby*) jlong_to_ptr(displby), (int *) jlong_to_ptr(mbjor_vfrsion_rfturn),
+                  (int *) jlong_to_ptr(minor_vfrsion_rfturn));
+}
+
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryExtfnsion
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jstring jstr, jlong mop_rfturn,
+   jlong ffvf_rfturn, jlong frr_rfturn)
+{
+    dhbr *dnbmf;
+    Boolfbn bu;
+    if (!JNU_IsNull(fnv, jstr)) {
+        dnbmf = (dhbr *)JNU_GftStringPlbtformChbrs(fnv, jstr, NULL);
+        CHECK_NULL_RETURN(dnbmf, JNI_FALSE);
+    } flsf {
+        dnbmf = "";
+    }
+
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    bu = XQufryExtfnsion((Displby*) jlong_to_ptr(displby), dnbmf, (int *) jlong_to_ptr(mop_rfturn),
+                (int *) jlong_to_ptr(ffvf_rfturn),  (int *) jlong_to_ptr(frr_rfturn));
+    if (!JNU_IsNull(fnv, jstr)) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, jstr, (donst dhbr *) dnbmf);
+    }
+    rfturn bu ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_IsKfypbdKfy
+  (JNIEnv *fnv, jdlbss dlbzz, jlong kfysym)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    if(IsKfypbdKfy(kfysym)) {
+        rfturn JNI_TRUE;
+    }
+    rfturn JNI_FALSE;
+}
+
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfAllodbtfBbdkBufffrNbmf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jint swbp_bdtion)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XdbfAllodbtfBbdkBufffrNbmf((Displby*) jlong_to_ptr(displby), (Window) window,
+                      (XdbfSwbpAdtion) swbp_bdtion);
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfDfbllodbtfBbdkBufffrNbmf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong bufffr)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XdbfDfbllodbtfBbdkBufffrNbmf((Displby*) jlong_to_ptr(displby), (XdbfBbdkBufffr) bufffr);
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfBfginIdiom
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XdbfBfginIdiom((Displby*) jlong_to_ptr(displby));
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfEndIdiom
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XdbfEndIdiom((Displby*) jlong_to_ptr(displby));
+}
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XdbfSwbpBufffrs
+  (JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong swbp_info, jint num_windows)
+{
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XdbfSwbpBufffrs((Displby*) jlong_to_ptr(displby), (XdbfSwbpInfo *) jlong_to_ptr(swbp_info), num_windows);
+}
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XQufryKfymbp
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong vfdtor)
+{
+
+    AWT_CHECK_HAVE_LOCK();
+    XQufryKfymbp( (Displby *) jlong_to_ptr(displby), (dhbr *) jlong_to_ptr(vfdtor));
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XKfydodfToKfysym(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby, jint kfydodf,
+                                              jint indfx) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XKfydodfToKfysym((Displby*) jlong_to_ptr(displby), (unsignfd int)kfydodf, (int)indfx);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XkbGftEfffdtivfGroup(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby) {
+    XkbStbtfRfd sr;
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    mfmsft(&sr, 0, sizfof(XkbStbtfRfd));
+    XkbGftStbtf((Displby*) jlong_to_ptr(displby), XkbUsfCorfKbd, &sr);
+//    printf("-------------------------------------VVVV\n");
+//    printf("                 group:0x%0X\n",sr.group);
+//    printf("            bbsf_group:0x%0X\n",sr.bbsf_group);
+//    printf("         lbtdhfd_group:0x%0X\n",sr.lbtdhfd_group);
+//    printf("          lodkfd_group:0x%0X\n",sr.lodkfd_group);
+//    printf("                  mods:0x%0X\n",sr.mods);
+//    printf("             bbsf_mods:0x%0X\n",sr.bbsf_mods);
+//    printf("          lbtdhfd_mods:0x%0X\n",sr.lbtdhfd_mods);
+//    printf("           lodkfd_mods:0x%0X\n",sr.lodkfd_mods);
+//    printf("          dompbt_stbtf:0x%0X\n",sr.dompbt_stbtf);
+//    printf("             grbb_mods:0x%0X\n",sr.grbb_mods);
+//    printf("      dompbt_grbb_mods:0x%0X\n",sr.dompbt_grbb_mods);
+//    printf("           lookup_mods:0x%0X\n",sr.lookup_mods);
+//    printf("    dompbt_lookup_mods:0x%0X\n",sr.dompbt_lookup_mods);
+//    printf("           ptr_buttons:0x%0X\n",sr.ptr_buttons);
+//    printf("-------------------------------------^^^^\n");
+    rfturn (jint)(sr.group);
+}
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XkbKfydodfToKfysym(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby, jint kfydodf,
+                                              jint group, jint lfvfl) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XkbKfydodfToKfysym((Displby*) jlong_to_ptr(displby), (unsignfd int)kfydodf, (unsignfd int)group, (unsignfd int)lfvfl);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XKfysymToKfydodf(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby, jlong kfysym) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn XKfysymToKfydodf((Displby*) jlong_to_ptr(displby), (KfySym)kfysym);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XGftModififrMbpping(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong displby) {
+    AWT_CHECK_HAVE_LOCK_RETURN(0);
+    rfturn ptr_to_jlong(XGftModififrMbpping((Displby*) jlong_to_ptr(displby)));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XFrffModififrmbp(JNIEnv *fnv, jdlbss dlbzz,
+                                              jlong kfymbp) {
+    AWT_CHECK_HAVE_LOCK();
+    XFrffModififrmbp((XModififrKfymbp*) jlong_to_ptr(kfymbp));
+}
+/*
+ * Clbss:     sun_bwt_X11_XlibWrbppfr
+ * Mfthod:    XRffrfshKfybobrdMbpping
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XlibWrbppfr_XRffrfshKfybobrdMbpping
+(JNIEnv *fnv, jdlbss dlbzz, jlong fvfnt_ptr)
+{
+    AWT_CHECK_HAVE_LOCK();
+    XRffrfshKfybobrdMbpping((XMbppingEvfnt*) jlong_to_ptr(fvfnt_ptr));
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XChbngfAdtivfPointfrGrbb(JNIEnv *fnv, jdlbss dlbzz,
+                                                      jlong displby, jint mbsk,
+                                                      jlong dursor, jlong timf) {
+    AWT_CHECK_HAVE_LOCK();
+    XChbngfAdtivfPointfrGrbb((Displby*)jlong_to_ptr(displby), (unsignfd int)mbsk,
+                             (Cursor)dursor, (Timf)timf);
+}
+
+/******************* Sfdondbry loop support ************************************/
+#dffinf AWT_SECONDARY_LOOP_TIMEOUT 250
+
+stbtid Bool fxitSfdondbryLoop = Truf;
+
+/*
+ * This prfdidbtf prodfdurf bllows thf Toolkit thrfbd to prodfss spfdifid fvfnts
+ * whilf it is blodkfd wbiting for thf fvfnt dispbtdh thrfbd to prodfss
+ * b SunDropTbrgftEvfnt. Wf nffd this to prfvfnt dfbdlodk whfn thf dlifnt dodf
+ * prodfssing SunDropTbrgftEvfnt sfts or gfts thf dontfnts of thf systfm
+ * dlipbobrd/sflfdtion. In this dbsf thf fvfnt dispbtdh thrfbd wbits for thf
+ * Toolkit thrfbd to prodfss PropfrtyNotify or SflfdtionNotify fvfnts.
+ */
+stbtid Bool
+sfdondbry_loop_fvfnt(Displby* dpy, XEvfnt* fvfnt, dhbr* brg) {
+    rfturn (fvfnt->typf == SflfdtionNotify ||
+            fvfnt->typf == SflfdtionClfbr  ||
+            fvfnt->typf == PropfrtyNotify) ? Truf : Fblsf;
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XNfxtSfdondbryLoopEvfnt(JNIEnv *fnv, jdlbss dlbzz,
+                                                     jlong displby, jlong ptr) {
+    uint32_t timfout = 1;
+
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+    fxitSfdondbryLoop = Fblsf;
+    whilf (!fxitSfdondbryLoop) {
+        if (XChfdkIfEvfnt((Displby*) jlong_to_ptr(displby), (XEvfnt*) jlong_to_ptr(ptr), sfdondbry_loop_fvfnt, NULL)) {
+            rfturn JNI_TRUE;
+        }
+        timfout = (timfout < AWT_SECONDARY_LOOP_TIMEOUT) ? (timfout << 1) : AWT_SECONDARY_LOOP_TIMEOUT;
+        AWT_WAIT(timfout);
+    }
+    rfturn JNI_FALSE;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_ExitSfdondbryLoop(JNIEnv *fnv, jdlbss dlbzz) {
+    DASSERT(!fxitSfdondbryLoop);
+    AWT_CHECK_HAVE_LOCK();
+    fxitSfdondbryLoop = Truf;
+    AWT_NOTIFY_ALL();
+}
+/*******************************************************************************/
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XTfxtPropfrtyToStringList(JNIEnv *fnv,
+                                                       jdlbss dlbzz,
+                                                       jbytfArrby bytfs,
+                                                       jlong fndodingAtom) {
+    XTfxtPropfrty tp;
+    jbytf         *vbluf;
+
+    dhbr**        strings  = (dhbr **)NULL;
+    int32_t       nstrings = 0;
+    jobjfdtArrby  rft = NULL;
+    int32_t       i;
+    jsizf         lfn;
+    jboolfbn      isCopy = JNI_FALSE;
+    stbtid jdlbss stringClbss = NULL;
+    jdlbss        stringClbssLodbl = NULL;
+
+    AWT_CHECK_HAVE_LOCK_RETURN(NULL);
+
+    if (JNU_IsNull(fnv, stringClbss)) {
+        stringClbssLodbl = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+
+        if ((*fnv)->ExdfptionChfdk(fnv)) {
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
+            DASSERT(Fblsf);
+        }
+
+        if (JNU_IsNull(fnv, stringClbssLodbl)) {
+            rfturn NULL;
+        }
+
+        stringClbss = (*fnv)->NfwGlobblRff(fnv, stringClbssLodbl); /* nfvfr frffd! */
+        (*fnv)->DflftfLodblRff(fnv, stringClbssLodbl);
+
+        if (JNU_IsNull(fnv, stringClbss)) {
+            JNU_ThrowOutOfMfmoryError(fnv, "");
+            rfturn NULL;
+        }
+    }
+
+    /*
+     * If thf lfngth of thf bytf brrby is 0 just rfturn b null
+     */
+    lfn = (*fnv)->GftArrbyLfngth(fnv, bytfs);
+    if (lfn == 0) {
+        rfturn (*fnv)->NfwObjfdtArrby(fnv, 0, stringClbss, NULL);
+    }
+
+    vbluf = (*fnv)->GftBytfArrbyElfmfnts(fnv, bytfs, &isCopy);
+    if (JNU_IsNull(fnv, vbluf)) {
+        rfturn NULL;
+    }
+
+    tp.fndoding = fndodingAtom;
+    tp.vbluf    = (unsignfd dhbr *)vbluf;
+    tp.nitfms   = lfn;
+    tp.formbt   = 8;
+
+    /*
+     * Convfrt thf bytf strfbm into b list of X11 strings
+     */
+    if (XTfxtPropfrtyToStringList(&tp, &strings, &nstrings) == 0) {
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, bytfs, vbluf, JNI_ABORT);
+        rfturn NULL;
+    }
+
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, bytfs, vbluf, JNI_ABORT);
+
+    if (nstrings == 0) {
+        rfturn (*fnv)->NfwObjfdtArrby(fnv, 0, stringClbss, NULL);
+    }
+
+    rft = (*fnv)->NfwObjfdtArrby(fnv, nstrings, stringClbss, NULL);
+
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+        (*fnv)->ExdfptionDfsdribf(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);
+        goto wbyout;
+    }
+
+    if (JNU_IsNull(fnv, rft)) {
+        goto wbyout;
+    }
+
+    for (i = 0; i < nstrings; i++) {
+        jstring string = (*fnv)->NfwStringUTF(fnv,
+                                              (donst dhbr *)strings[i]);
+        if ((*fnv)->ExdfptionChfdk(fnv)) {
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
+            goto wbyout;
+        }
+
+        if (JNU_IsNull(fnv, string)) {
+            goto wbyout;
+        }
+
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rft, i, string);
+
+        if ((*fnv)->ExdfptionChfdk(fnv)) {
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
+            goto wbyout;
+        }
+
+        (*fnv)->DflftfLodblRff(fnv, string);
+    }
+
+ wbyout:
+    /*
+     * Clfbn up bnd rfturn
+     */
+    XFrffStringList(strings);
+    rfturn rft;
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XPutBbdkEvfnt(JNIEnv *fnv,
+                                           jdlbss dlbzz,
+                                           jlong displby,
+                                           jlong fvfnt) {
+    XPutBbdkEvfnt((Displby*)jlong_to_ptr(displby), (XEvfnt*) jlong_to_ptr(fvfnt));
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_gftAddrfss(JNIEnv *fnv,
+                                           jdlbss dlbzz,
+                                           jobjfdt o) {
+    rfturn ptr_to_jlong(o);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_dopyIntArrby(JNIEnv *fnv,
+                                           jdlbss dlbzz,
+                                           jlong dfst, jobjfdt brrby, jint sizf) {
+    jboolfbn isCopy = JNI_FALSE;
+    jint * ints = (*fnv)->GftIntArrbyElfmfnts(fnv, brrby, &isCopy);
+    mfmdpy(jlong_to_ptr(dfst), ints, sizf);
+    if (isCopy) {
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, brrby, ints, JNI_ABORT);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_dopyLongArrby(JNIEnv *fnv,
+                                           jdlbss dlbzz,
+                                           jlong dfst, jobjfdt brrby, jint sizf) {
+    jboolfbn isCopy = JNI_FALSE;
+    jlong * longs = (*fnv)->GftLongArrbyElfmfnts(fnv, brrby, &isCopy);
+    mfmdpy(jlong_to_ptr(dfst), longs, sizf);
+    if (isCopy) {
+        (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, brrby, longs, JNI_ABORT);
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XSyndhronizf(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jboolfbn onoff)
+{
+    rfturn (jint) XSyndhronizf((Displby*)jlong_to_ptr(displby), (onoff == JNI_TRUE ? Truf : Fblsf));
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_XShbpfQufryExtfnsion
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong fvfnt_bbsf_rfturn, jlong frror_bbsf_rfturn)
+{
+    jboolfbn stbtus;
+
+    AWT_CHECK_HAVE_LOCK_RETURN(JNI_FALSE);
+
+    stbtus = XShbpfQufryExtfnsion((Displby *)jlong_to_ptr(displby),
+            (int *)jlong_to_ptr(fvfnt_bbsf_rfturn), (int *)jlong_to_ptr(frror_bbsf_rfturn));
+    rfturn stbtus;
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    SftRfdtbngulbrShbpf
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_SftRfdtbngulbrShbpf
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+ jint x1, jint y1, jint x2, jint y2,
+ jobjfdt rfgion)
+{
+    AWT_CHECK_HAVE_LOCK();
+
+    // If bll thf pbrbms brf zfros, thf shbpf must bf simply rfsft.
+    // Othfrwisf, thf shbpf mby bf not rfdtbngulbr.
+    if (rfgion || x1 || x2 || y1 || y2) {
+        XRfdtbnglf rfdts[256];
+        XRfdtbnglf *pRfdt = rfdts;
+
+        int numrfdts = RfgionToYXBbndfdRfdtbnglfs(fnv, x1, y1, x2, y2, rfgion,
+                &pRfdt, 256);
+
+        XShbpfCombinfRfdtbnglfs((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+                ShbpfClip, 0, 0, pRfdt, numrfdts, ShbpfSft, YXBbndfd);
+        XShbpfCombinfRfdtbnglfs((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+                ShbpfBounding, 0, 0, pRfdt, numrfdts, ShbpfSft, YXBbndfd);
+
+        if (pRfdt != rfdts) {
+            frff(pRfdt);
+        }
+    } flsf {
+        // Rfsft thf shbpf to b rfdtbngulbr form.
+        XShbpfCombinfMbsk((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+                ShbpfClip, 0, 0, Nonf, ShbpfSft);
+        XShbpfCombinfMbsk((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+                ShbpfBounding, 0, 0, Nonf, ShbpfSft);
+    }
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    SftZOrdfr
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_SftZOrdfr
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window, jlong bbovf)
+{
+    unsignfd int vbluf_mbsk = CWStbdkModf;
+
+    XWindowChbngfs wd;
+    wd.sibling = (Window)jlong_to_ptr(bbovf);
+
+    AWT_CHECK_HAVE_LOCK();
+
+    if (bbovf == 0) {
+        wd.stbdk_modf = Abovf;
+    } flsf {
+        wd.stbdk_modf = Bflow;
+        vbluf_mbsk |= CWSibling;
+    }
+
+    XConfigurfWindow((Displby *)jlong_to_ptr(displby),
+                     (Window)jlong_to_ptr(window),
+                     vbluf_mbsk, &wd );
+}
+
+/*
+ * Clbss:     XlibWrbppfr
+ * Mfthod:    SftBitmbpShbpf
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XlibWrbppfr_SftBitmbpShbpf
+(JNIEnv *fnv, jdlbss dlbzz, jlong displby, jlong window,
+ jint width, jint hfight, jintArrby bitmbp)
+{
+    jsizf lfn;
+    jint *vblufs;
+    jboolfbn isCopy = JNI_FALSE;
+    sizf_t worstBufffrSizf = (sizf_t)((width / 2 + 1) * hfight);
+    RECT_T * pRfdt;
+    int numrfdts;
+
+    if (!IS_SAFE_SIZE_MUL(width / 2 + 1, hfight)) {
+        rfturn;
+    }
+
+    AWT_CHECK_HAVE_LOCK();
+
+    lfn = (*fnv)->GftArrbyLfngth(fnv, bitmbp);
+    if (lfn == 0 || lfn < width * hfight) {
+        rfturn;
+    }
+
+    vblufs = (*fnv)->GftIntArrbyElfmfnts(fnv, bitmbp, &isCopy);
+    if (JNU_IsNull(fnv, vblufs)) {
+        rfturn;
+    }
+
+    pRfdt = (RECT_T *)SAFE_SIZE_ARRAY_ALLOC(mbllod, worstBufffrSizf, sizfof(RECT_T));
+    if (!pRfdt) {
+        rfturn;
+    }
+
+    /* Notf: thf vblufs[0] bnd vblufs[1] brf supposfd to dontbin thf width
+     * bnd hfight (sff XIdonInfo.gftIntDbtb() for dftbils). So, wf do +2.
+     */
+    numrfdts = BitmbpToYXBbndfdRfdtbnglfs(32, (int)width, (int)hfight,
+            (unsignfd dhbr *)(vblufs + 2), pRfdt);
+
+    XShbpfCombinfRfdtbnglfs((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+            ShbpfClip, 0, 0, pRfdt, numrfdts, ShbpfSft, YXBbndfd);
+    XShbpfCombinfRfdtbnglfs((Displby *)jlong_to_ptr(displby), (Window)jlong_to_ptr(window),
+            ShbpfBounding, 0, 0, pRfdt, numrfdts, ShbpfSft, YXBbndfd);
+
+    frff(pRfdt);
+
+    (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, bitmbp, vblufs, JNI_ABORT);
+}
+

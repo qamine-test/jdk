@@ -1,192 +1,192 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverException;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
-import org.w3c.dom.Attr;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import org.w3d.dom.Attr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64;
 
 /**
- * <code>XMLCipherInput</code> is used to wrap input passed into the
- * XMLCipher encryption operations.
+ * <dodf>XMLCipifrInput</dodf> is usfd to wrbp input pbssfd into tif
+ * XMLCipifr fndryption opfrbtions.
  *
- * In decryption mode, it takes a <code>CipherData</code> object and allows
- * callers to dereference the CipherData into the encrypted bytes that it
- * actually represents.  This takes care of all base64 encoding etc.
+ * In dfdryption modf, it tbkfs b <dodf>CipifrDbtb</dodf> objfdt bnd bllows
+ * dbllfrs to dfrfffrfndf tif CipifrDbtb into tif fndryptfd bytfs tibt it
+ * bdtublly rfprfsfnts.  Tiis tbkfs dbrf of bll bbsf64 fndoding ftd.
  *
- * While primarily an internal class, this can be used by applications to
- * quickly and easily retrieve the encrypted bytes from an EncryptedType
- * object
+ * Wiilf primbrily bn intfrnbl dlbss, tiis dbn bf usfd by bpplidbtions to
+ * quidkly bnd fbsily rftrifvf tif fndryptfd bytfs from bn EndryptfdTypf
+ * objfdt
  *
- * @author Berin Lautenbach
+ * @butior Bfrin Lbutfnbbdi
  */
-public class XMLCipherInput {
+publid dlbss XMLCipifrInput {
 
-    private static java.util.logging.Logger logger =
-        java.util.logging.Logger.getLogger(XMLCipherInput.class.getName());
+    privbtf stbtid jbvb.util.logging.Loggfr loggfr =
+        jbvb.util.logging.Loggfr.gftLoggfr(XMLCipifrInput.dlbss.gftNbmf());
 
-    /** The data we are working with */
-    private CipherData cipherData;
+    /** Tif dbtb wf brf working witi */
+    privbtf CipifrDbtb dipifrDbtb;
 
     /** MODES */
-    private int mode;
+    privbtf int modf;
 
-    private boolean secureValidation;
+    privbtf boolfbn sfdurfVblidbtion;
 
     /**
-     * Constructor for processing encrypted octets
+     * Construdtor for prodfssing fndryptfd odtfts
      *
-     * @param data The <code>CipherData</code> object to read the bytes from
-     * @throws XMLEncryptionException {@link XMLEncryptionException}
+     * @pbrbm dbtb Tif <dodf>CipifrDbtb</dodf> objfdt to rfbd tif bytfs from
+     * @tirows XMLEndryptionExdfption {@link XMLEndryptionExdfption}
      */
-    public XMLCipherInput(CipherData data) throws XMLEncryptionException {
-        cipherData = data;
-        mode = XMLCipher.DECRYPT_MODE;
-        if (cipherData == null) {
-            throw new XMLEncryptionException("CipherData is null");
+    publid XMLCipifrInput(CipifrDbtb dbtb) tirows XMLEndryptionExdfption {
+        dipifrDbtb = dbtb;
+        modf = XMLCipifr.DECRYPT_MODE;
+        if (dipifrDbtb == null) {
+            tirow nfw XMLEndryptionExdfption("CipifrDbtb is null");
         }
     }
 
     /**
-     * Constructor for processing encrypted octets
+     * Construdtor for prodfssing fndryptfd odtfts
      *
-     * @param input The <code>EncryptedType</code> object to read
-     * the bytes from.
-     * @throws XMLEncryptionException {@link XMLEncryptionException}
+     * @pbrbm input Tif <dodf>EndryptfdTypf</dodf> objfdt to rfbd
+     * tif bytfs from.
+     * @tirows XMLEndryptionExdfption {@link XMLEndryptionExdfption}
      */
-    public XMLCipherInput(EncryptedType input) throws XMLEncryptionException {
-        cipherData = ((input == null) ? null : input.getCipherData());
-        mode = XMLCipher.DECRYPT_MODE;
-        if (cipherData == null) {
-            throw new XMLEncryptionException("CipherData is null");
+    publid XMLCipifrInput(EndryptfdTypf input) tirows XMLEndryptionExdfption {
+        dipifrDbtb = ((input == null) ? null : input.gftCipifrDbtb());
+        modf = XMLCipifr.DECRYPT_MODE;
+        if (dipifrDbtb == null) {
+            tirow nfw XMLEndryptionExdfption("CipifrDbtb is null");
         }
     }
 
     /**
-     * Set whether secure validation is enabled or not. The default is false.
+     * Sft wiftifr sfdurf vblidbtion is fnbblfd or not. Tif dffbult is fblsf.
      */
-    public void setSecureValidation(boolean secureValidation) {
-        this.secureValidation = secureValidation;
+    publid void sftSfdurfVblidbtion(boolfbn sfdurfVblidbtion) {
+        tiis.sfdurfVblidbtion = sfdurfVblidbtion;
     }
 
     /**
-     * Dereferences the input and returns it as a single byte array.
+     * Dfrfffrfndfs tif input bnd rfturns it bs b singlf bytf brrby.
      *
-     * @throws XMLEncryptionException
-     * @return The decripted bytes.
+     * @tirows XMLEndryptionExdfption
+     * @rfturn Tif dfdriptfd bytfs.
      */
-    public byte[] getBytes() throws XMLEncryptionException {
-        if (mode == XMLCipher.DECRYPT_MODE) {
-            return getDecryptBytes();
+    publid bytf[] gftBytfs() tirows XMLEndryptionExdfption {
+        if (modf == XMLCipifr.DECRYPT_MODE) {
+            rfturn gftDfdryptBytfs();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Internal method to get bytes in decryption mode
-     * @return the decrypted bytes
-     * @throws XMLEncryptionException
+     * Intfrnbl mftiod to gft bytfs in dfdryption modf
+     * @rfturn tif dfdryptfd bytfs
+     * @tirows XMLEndryptionExdfption
      */
-    private byte[] getDecryptBytes() throws XMLEncryptionException {
-        String base64EncodedEncryptedOctets = null;
+    privbtf bytf[] gftDfdryptBytfs() tirows XMLEndryptionExdfption {
+        String bbsf64EndodfdEndryptfdOdtfts = null;
 
-        if (cipherData.getDataType() == CipherData.REFERENCE_TYPE) {
-            // Fun time!
-            if (logger.isLoggable(java.util.logging.Level.FINE)) {
-                logger.log(java.util.logging.Level.FINE, "Found a reference type CipherData");
+        if (dipifrDbtb.gftDbtbTypf() == CipifrDbtb.REFERENCE_TYPE) {
+            // Fun timf!
+            if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Found b rfffrfndf typf CipifrDbtb");
             }
-            CipherReference cr = cipherData.getCipherReference();
+            CipifrRfffrfndf dr = dipifrDbtb.gftCipifrRfffrfndf();
 
-            // Need to wrap the uri in an Attribute node so that we can
-            // Pass to the resource resolvers
+            // Nffd to wrbp tif uri in bn Attributf nodf so tibt wf dbn
+            // Pbss to tif rfsourdf rfsolvfrs
 
-            Attr uriAttr = cr.getURIAsAttr();
-            XMLSignatureInput input = null;
+            Attr uriAttr = dr.gftURIAsAttr();
+            XMLSignbturfInput input = null;
 
             try {
-                ResourceResolver resolver =
-                    ResourceResolver.getInstance(uriAttr, null, secureValidation);
-                input = resolver.resolve(uriAttr, null, secureValidation);
-            } catch (ResourceResolverException ex) {
-                throw new XMLEncryptionException("empty", ex);
+                RfsourdfRfsolvfr rfsolvfr =
+                    RfsourdfRfsolvfr.gftInstbndf(uriAttr, null, sfdurfVblidbtion);
+                input = rfsolvfr.rfsolvf(uriAttr, null, sfdurfVblidbtion);
+            } dbtdi (RfsourdfRfsolvfrExdfption fx) {
+                tirow nfw XMLEndryptionExdfption("fmpty", fx);
             }
 
             if (input != null) {
-                if (logger.isLoggable(java.util.logging.Level.FINE)) {
-                    logger.log(java.util.logging.Level.FINE, "Managed to resolve URI \"" + cr.getURI() + "\"");
+                if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Mbnbgfd to rfsolvf URI \"" + dr.gftURI() + "\"");
                 }
-            } else {
-                if (logger.isLoggable(java.util.logging.Level.FINE)) {
-                    logger.log(java.util.logging.Level.FINE, "Failed to resolve URI \"" + cr.getURI() + "\"");
+            } flsf {
+                if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Fbilfd to rfsolvf URI \"" + dr.gftURI() + "\"");
                 }
             }
 
-            // Lets see if there are any transforms
-            Transforms transforms = cr.getTransforms();
-            if (transforms != null) {
-                if (logger.isLoggable(java.util.logging.Level.FINE)) {
-                    logger.log(java.util.logging.Level.FINE, "Have transforms in cipher reference");
+            // Lfts sff if tifrf brf bny trbnsforms
+            Trbnsforms trbnsforms = dr.gftTrbnsforms();
+            if (trbnsforms != null) {
+                if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Hbvf trbnsforms in dipifr rfffrfndf");
                 }
                 try {
-                    com.sun.org.apache.xml.internal.security.transforms.Transforms dsTransforms =
-                        transforms.getDSTransforms();
-                    dsTransforms.setSecureValidation(secureValidation);
-                    input = dsTransforms.performTransforms(input);
-                } catch (TransformationException ex) {
-                    throw new XMLEncryptionException("empty", ex);
+                    dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms dsTrbnsforms =
+                        trbnsforms.gftDSTrbnsforms();
+                    dsTrbnsforms.sftSfdurfVblidbtion(sfdurfVblidbtion);
+                    input = dsTrbnsforms.pfrformTrbnsforms(input);
+                } dbtdi (TrbnsformbtionExdfption fx) {
+                    tirow nfw XMLEndryptionExdfption("fmpty", fx);
                 }
             }
 
             try {
-                return input.getBytes();
-            } catch (IOException ex) {
-                throw new XMLEncryptionException("empty", ex);
-            } catch (CanonicalizationException ex) {
-                throw new XMLEncryptionException("empty", ex);
+                rfturn input.gftBytfs();
+            } dbtdi (IOExdfption fx) {
+                tirow nfw XMLEndryptionExdfption("fmpty", fx);
+            } dbtdi (CbnonidblizbtionExdfption fx) {
+                tirow nfw XMLEndryptionExdfption("fmpty", fx);
             }
 
-            // retrieve the cipher text
-        } else if (cipherData.getDataType() == CipherData.VALUE_TYPE) {
-            base64EncodedEncryptedOctets = cipherData.getCipherValue().getValue();
-        } else {
-            throw new XMLEncryptionException("CipherData.getDataType() returned unexpected value");
+            // rftrifvf tif dipifr tfxt
+        } flsf if (dipifrDbtb.gftDbtbTypf() == CipifrDbtb.VALUE_TYPE) {
+            bbsf64EndodfdEndryptfdOdtfts = dipifrDbtb.gftCipifrVbluf().gftVbluf();
+        } flsf {
+            tirow nfw XMLEndryptionExdfption("CipifrDbtb.gftDbtbTypf() rfturnfd unfxpfdtfd vbluf");
         }
 
-        if (logger.isLoggable(java.util.logging.Level.FINE)) {
-            logger.log(java.util.logging.Level.FINE, "Encrypted octets:\n" + base64EncodedEncryptedOctets);
+        if (loggfr.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            loggfr.log(jbvb.util.logging.Lfvfl.FINE, "Endryptfd odtfts:\n" + bbsf64EndodfdEndryptfdOdtfts);
         }
 
         try {
-            return Base64.decode(base64EncodedEncryptedOctets);
-        } catch (Base64DecodingException bde) {
-            throw new XMLEncryptionException("empty", bde);
+            rfturn Bbsf64.dfdodf(bbsf64EndodfdEndryptfdOdtfts);
+        } dbtdi (Bbsf64DfdodingExdfption bdf) {
+            tirow nfw XMLEndryptionExdfption("fmpty", bdf);
         }
     }
 }

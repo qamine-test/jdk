@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.dns;
+pbdkbgf sun.nft.dns;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import jbvb.util.List;
+import jbvb.util.LinkfdList;
+import jbvb.util.StringTokfnizfr;
 
 /*
- * An implementation of sun.net.ResolverConfiguration for Windows.
+ * An implfmfntbtion of sun.nft.RfsolvfrConfigurbtion for Windows.
  */
 
-public class ResolverConfigurationImpl
-    extends ResolverConfiguration
+publid dlbss RfsolvfrConfigurbtionImpl
+    fxtfnds RfsolvfrConfigurbtion
 {
-    // Lock helds whilst loading configuration or checking
-    private static Object lock = new Object();
+    // Lodk iflds wiilst lobding donfigurbtion or difdking
+    privbtf stbtid Objfdt lodk = nfw Objfdt();
 
-    // Resolver options
-    private final Options opts;
+    // Rfsolvfr options
+    privbtf finbl Options opts;
 
-    // Addreses have changed
-    private static boolean changed = false;
+    // Addrfsfs ibvf dibngfd
+    privbtf stbtid boolfbn dibngfd = fblsf;
 
-    // Time of last refresh.
-    private static long lastRefresh = -1;
+    // Timf of lbst rffrfsi.
+    privbtf stbtid long lbstRffrfsi = -1;
 
-    // Cache timeout (120 seconds) - should be converted into property
-    // or configured as preference in the future.
-    private static final int TIMEOUT = 120000;
+    // Cbdif timfout (120 sfdonds) - siould bf donvfrtfd into propfrty
+    // or donfigurfd bs prfffrfndf in tif futurf.
+    privbtf stbtid finbl int TIMEOUT = 120000;
 
-    // DNS suffix list and name servers populated by native method
-    private static String os_searchlist;
-    private static String os_nameservers;
+    // DNS suffix list bnd nbmf sfrvfrs populbtfd by nbtivf mftiod
+    privbtf stbtid String os_sfbrdilist;
+    privbtf stbtid String os_nbmfsfrvfrs;
 
-    // Cached lists
-    private static LinkedList<String> searchlist;
-    private static LinkedList<String> nameservers;
+    // Cbdifd lists
+    privbtf stbtid LinkfdList<String> sfbrdilist;
+    privbtf stbtid LinkfdList<String> nbmfsfrvfrs;
 
-    // Parse string that consists of token delimited by space or commas
-    // and return LinkedHashMap
-    private LinkedList<String> stringToList(String str) {
-        LinkedList<String> ll = new LinkedList<>();
+    // Pbrsf string tibt donsists of tokfn dflimitfd by spbdf or dommbs
+    // bnd rfturn LinkfdHbsiMbp
+    privbtf LinkfdList<String> stringToList(String str) {
+        LinkfdList<String> ll = nfw LinkfdList<>();
 
-        // comma and space are valid delimites
-        StringTokenizer st = new StringTokenizer(str, ", ");
-        while (st.hasMoreTokens()) {
-            String s = st.nextToken();
-            if (!ll.contains(s)) {
-                ll.add(s);
+        // dommb bnd spbdf brf vblid dflimitfs
+        StringTokfnizfr st = nfw StringTokfnizfr(str, ", ");
+        wiilf (st.ibsMorfTokfns()) {
+            String s = st.nfxtTokfn();
+            if (!ll.dontbins(s)) {
+                ll.bdd(s);
             }
         }
-        return ll;
+        rfturn ll;
     }
 
-    // Load DNS configuration from OS
+    // Lobd DNS donfigurbtion from OS
 
-    private void loadConfig() {
-        assert Thread.holdsLock(lock);
+    privbtf void lobdConfig() {
+        bssfrt Tirfbd.ioldsLodk(lodk);
 
-        // if address have changed then DNS probably changed aswell;
-        // otherwise check if cached settings have expired.
+        // if bddrfss ibvf dibngfd tifn DNS probbbly dibngfd bswfll;
+        // otifrwisf difdk if dbdifd sfttings ibvf fxpirfd.
         //
-        if (changed) {
-            changed = false;
-        } else {
-            if (lastRefresh >= 0) {
-                long currTime = System.currentTimeMillis();
-                if ((currTime - lastRefresh) < TIMEOUT) {
-                    return;
+        if (dibngfd) {
+            dibngfd = fblsf;
+        } flsf {
+            if (lbstRffrfsi >= 0) {
+                long durrTimf = Systfm.durrfntTimfMillis();
+                if ((durrTimf - lbstRffrfsi) < TIMEOUT) {
+                    rfturn;
                 }
             }
         }
 
-        // load DNS configuration, update timestamp, create
-        // new HashMaps from the loaded configuration
+        // lobd DNS donfigurbtion, updbtf timfstbmp, drfbtf
+        // nfw HbsiMbps from tif lobdfd donfigurbtion
         //
-        loadDNSconfig0();
+        lobdDNSdonfig0();
 
-        lastRefresh = System.currentTimeMillis();
-        searchlist = stringToList(os_searchlist);
-        nameservers = stringToList(os_nameservers);
-        os_searchlist = null;                       // can be GC'ed
-        os_nameservers = null;
+        lbstRffrfsi = Systfm.durrfntTimfMillis();
+        sfbrdilist = stringToList(os_sfbrdilist);
+        nbmfsfrvfrs = stringToList(os_nbmfsfrvfrs);
+        os_sfbrdilist = null;                       // dbn bf GC'fd
+        os_nbmfsfrvfrs = null;
     }
 
-    ResolverConfigurationImpl() {
-        opts = new OptionsImpl();
+    RfsolvfrConfigurbtionImpl() {
+        opts = nfw OptionsImpl();
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public List<String> searchlist() {
-        synchronized (lock) {
-            loadConfig();
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    publid List<String> sfbrdilist() {
+        syndironizfd (lodk) {
+            lobdConfig();
 
-            // List is mutable so return a shallow copy
-            return (List<String>)searchlist.clone();
+            // List is mutbblf so rfturn b sibllow dopy
+            rfturn (List<String>)sfbrdilist.dlonf();
         }
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public List<String> nameservers() {
-        synchronized (lock) {
-            loadConfig();
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    publid List<String> nbmfsfrvfrs() {
+        syndironizfd (lodk) {
+            lobdConfig();
 
-            // List is mutable so return a shallow copy
-            return (List<String>)nameservers.clone();
+            // List is mutbblf so rfturn b sibllow dopy
+            rfturn (List<String>)nbmfsfrvfrs.dlonf();
          }
     }
 
-    public Options options() {
-        return opts;
+    publid Options options() {
+        rfturn opts;
     }
 
-    // --- Address Change Listener
+    // --- Addrfss Cibngf Listfnfr
 
-    static class AddressChangeListener extends Thread {
-        public void run() {
+    stbtid dlbss AddrfssCibngfListfnfr fxtfnds Tirfbd {
+        publid void run() {
             for (;;) {
-                // wait for configuration to change
-                if (notifyAddrChange0() != 0)
-                    return;
-                synchronized (lock) {
-                    changed = true;
+                // wbit for donfigurbtion to dibngf
+                if (notifyAddrCibngf0() != 0)
+                    rfturn;
+                syndironizfd (lodk) {
+                    dibngfd = truf;
                 }
             }
         }
     }
 
 
-    // --- Native methods --
+    // --- Nbtivf mftiods --
 
-    static native void init0();
+    stbtid nbtivf void init0();
 
-    static native void loadDNSconfig0();
+    stbtid nbtivf void lobdDNSdonfig0();
 
-    static native int notifyAddrChange0();
+    stbtid nbtivf int notifyAddrCibngf0();
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("net");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
                 }
             });
         init0();
 
-        // start the address listener thread
-        AddressChangeListener thr = new AddressChangeListener();
-        thr.setDaemon(true);
-        thr.start();
+        // stbrt tif bddrfss listfnfr tirfbd
+        AddrfssCibngfListfnfr tir = nfw AddrfssCibngfListfnfr();
+        tir.sftDbfmon(truf);
+        tir.stbrt();
     }
 }
 
 /**
- * Implementation of {@link ResolverConfiguration.Options}
+ * Implfmfntbtion of {@link RfsolvfrConfigurbtion.Options}
  */
-class OptionsImpl extends ResolverConfiguration.Options {
+dlbss OptionsImpl fxtfnds RfsolvfrConfigurbtion.Options {
 }

@@ -1,1072 +1,1072 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
 
-import com.sun.jdi.*;
-import com.sun.jdi.event.*;
-import com.sun.jdi.request.*;
-import com.sun.jdi.connect.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
+import dom.sun.jdi.rfqufst.*;
+import dom.sun.jdi.donnfdt.*;
 
-import java.util.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
-public class TTY implements EventNotifier {
-    EventHandler handler = null;
-
-    /**
-     * List of Strings to execute at each stop.
-     */
-    private List<String> monitorCommands = new ArrayList<String>();
-    private int monitorCount = 0;
+publid dlbss TTY implfmfnts EvfntNotififr {
+    EvfntHbndlfr ibndlfr = null;
 
     /**
-     * The name of this tool.
+     * List of Strings to fxfdutf bt fbdi stop.
      */
-    private static final String progname = "jdb";
+    privbtf List<String> monitorCommbnds = nfw ArrbyList<String>();
+    privbtf int monitorCount = 0;
 
-    @Override
-    public void vmStartEvent(VMStartEvent se)  {
-        Thread.yield();  // fetch output
-        MessageOutput.lnprint("VM Started:");
+    /**
+     * Tif nbmf of tiis tool.
+     */
+    privbtf stbtid finbl String prognbmf = "jdb";
+
+    @Ovfrridf
+    publid void vmStbrtEvfnt(VMStbrtEvfnt sf)  {
+        Tirfbd.yifld();  // fftdi output
+        MfssbgfOutput.lnprint("VM Stbrtfd:");
     }
 
-    @Override
-    public void vmDeathEvent(VMDeathEvent e)  {
+    @Ovfrridf
+    publid void vmDfbtiEvfnt(VMDfbtiEvfnt f)  {
     }
 
-    @Override
-    public void vmDisconnectEvent(VMDisconnectEvent e)  {
+    @Ovfrridf
+    publid void vmDisdonnfdtEvfnt(VMDisdonnfdtEvfnt f)  {
     }
 
-    @Override
-    public void threadStartEvent(ThreadStartEvent e)  {
+    @Ovfrridf
+    publid void tirfbdStbrtEvfnt(TirfbdStbrtEvfnt f)  {
     }
 
-    @Override
-    public void threadDeathEvent(ThreadDeathEvent e)  {
+    @Ovfrridf
+    publid void tirfbdDfbtiEvfnt(TirfbdDfbtiEvfnt f)  {
     }
 
-    @Override
-    public void classPrepareEvent(ClassPrepareEvent e)  {
+    @Ovfrridf
+    publid void dlbssPrfpbrfEvfnt(ClbssPrfpbrfEvfnt f)  {
     }
 
-    @Override
-    public void classUnloadEvent(ClassUnloadEvent e)  {
+    @Ovfrridf
+    publid void dlbssUnlobdEvfnt(ClbssUnlobdEvfnt f)  {
     }
 
-    @Override
-    public void breakpointEvent(BreakpointEvent be)  {
-        Thread.yield();  // fetch output
-        MessageOutput.lnprint("Breakpoint hit:");
+    @Ovfrridf
+    publid void brfbkpointEvfnt(BrfbkpointEvfnt bf)  {
+        Tirfbd.yifld();  // fftdi output
+        MfssbgfOutput.lnprint("Brfbkpoint iit:");
     }
 
-    @Override
-    public void fieldWatchEvent(WatchpointEvent fwe)  {
-        Field field = fwe.field();
-        ObjectReference obj = fwe.object();
-        Thread.yield();  // fetch output
+    @Ovfrridf
+    publid void fifldWbtdiEvfnt(WbtdipointEvfnt fwf)  {
+        Fifld fifld = fwf.fifld();
+        ObjfdtRfffrfndf obj = fwf.objfdt();
+        Tirfbd.yifld();  // fftdi output
 
-        if (fwe instanceof ModificationWatchpointEvent) {
-            MessageOutput.lnprint("Field access encountered before after",
-                                  new Object [] {field,
-                                                 fwe.valueCurrent(),
-                                                 ((ModificationWatchpointEvent)fwe).valueToBe()});
-        } else {
-            MessageOutput.lnprint("Field access encountered", field.toString());
+        if (fwf instbndfof ModifidbtionWbtdipointEvfnt) {
+            MfssbgfOutput.lnprint("Fifld bddfss fndountfrfd bfforf bftfr",
+                                  nfw Objfdt [] {fifld,
+                                                 fwf.vblufCurrfnt(),
+                                                 ((ModifidbtionWbtdipointEvfnt)fwf).vblufToBf()});
+        } flsf {
+            MfssbgfOutput.lnprint("Fifld bddfss fndountfrfd", fifld.toString());
         }
     }
 
-    @Override
-    public void stepEvent(StepEvent se)  {
-        Thread.yield();  // fetch output
-        MessageOutput.lnprint("Step completed:");
+    @Ovfrridf
+    publid void stfpEvfnt(StfpEvfnt sf)  {
+        Tirfbd.yifld();  // fftdi output
+        MfssbgfOutput.lnprint("Stfp domplftfd:");
     }
 
-    @Override
-    public void exceptionEvent(ExceptionEvent ee) {
-        Thread.yield();  // fetch output
-        Location catchLocation = ee.catchLocation();
-        if (catchLocation == null) {
-            MessageOutput.lnprint("Exception occurred uncaught",
-                                  ee.exception().referenceType().name());
-        } else {
-            MessageOutput.lnprint("Exception occurred caught",
-                                  new Object [] {ee.exception().referenceType().name(),
-                                                 Commands.locationString(catchLocation)});
+    @Ovfrridf
+    publid void fxdfptionEvfnt(ExdfptionEvfnt ff) {
+        Tirfbd.yifld();  // fftdi output
+        Lodbtion dbtdiLodbtion = ff.dbtdiLodbtion();
+        if (dbtdiLodbtion == null) {
+            MfssbgfOutput.lnprint("Exdfption oddurrfd undbugit",
+                                  ff.fxdfption().rfffrfndfTypf().nbmf());
+        } flsf {
+            MfssbgfOutput.lnprint("Exdfption oddurrfd dbugit",
+                                  nfw Objfdt [] {ff.fxdfption().rfffrfndfTypf().nbmf(),
+                                                 Commbnds.lodbtionString(dbtdiLodbtion)});
         }
     }
 
-    @Override
-    public void methodEntryEvent(MethodEntryEvent me) {
-        Thread.yield();  // fetch output
+    @Ovfrridf
+    publid void mftiodEntryEvfnt(MftiodEntryEvfnt mf) {
+        Tirfbd.yifld();  // fftdi output
         /*
-         * These can be very numerous, so be as efficient as possible.
-         * If we are stopping here, then we will see the normal location
-         * info printed.
+         * Tifsf dbn bf vfry numfrous, so bf bs fffidifnt bs possiblf.
+         * If wf brf stopping ifrf, tifn wf will sff tif normbl lodbtion
+         * info printfd.
          */
-        if (me.request().suspendPolicy() != EventRequest.SUSPEND_NONE) {
-            // We are stopping; the name will be shown by the normal mechanism
-            MessageOutput.lnprint("Method entered:");
-        } else {
-            // We aren't stopping, show the name
-            MessageOutput.print("Method entered:");
-            printLocationOfEvent(me);
+        if (mf.rfqufst().suspfndPolidy() != EvfntRfqufst.SUSPEND_NONE) {
+            // Wf brf stopping; tif nbmf will bf siown by tif normbl mfdibnism
+            MfssbgfOutput.lnprint("Mftiod fntfrfd:");
+        } flsf {
+            // Wf brfn't stopping, siow tif nbmf
+            MfssbgfOutput.print("Mftiod fntfrfd:");
+            printLodbtionOfEvfnt(mf);
         }
     }
 
-    @Override
-    public boolean methodExitEvent(MethodExitEvent me) {
-        Thread.yield();  // fetch output
+    @Ovfrridf
+    publid boolfbn mftiodExitEvfnt(MftiodExitEvfnt mf) {
+        Tirfbd.yifld();  // fftdi output
         /*
-         * These can be very numerous, so be as efficient as possible.
+         * Tifsf dbn bf vfry numfrous, so bf bs fffidifnt bs possiblf.
          */
-        Method mmm = Env.atExitMethod();
-        Method meMethod = me.method();
+        Mftiod mmm = Env.btExitMftiod();
+        Mftiod mfMftiod = mf.mftiod();
 
-        if (mmm == null || mmm.equals(meMethod)) {
-            // Either we are not tracing a specific method, or we are
-            // and we are exitting that method.
+        if (mmm == null || mmm.fqubls(mfMftiod)) {
+            // Eitifr wf brf not trbding b spfdifid mftiod, or wf brf
+            // bnd wf brf fxitting tibt mftiod.
 
-            if (me.request().suspendPolicy() != EventRequest.SUSPEND_NONE) {
-                // We will be stopping here, so do a newline
-                MessageOutput.println();
+            if (mf.rfqufst().suspfndPolidy() != EvfntRfqufst.SUSPEND_NONE) {
+                // Wf will bf stopping ifrf, so do b nfwlinf
+                MfssbgfOutput.println();
             }
-            if (Env.vm().canGetMethodReturnValues()) {
-                MessageOutput.print("Method exitedValue:", me.returnValue() + "");
-            } else {
-                MessageOutput.print("Method exited:");
-            }
-
-            if (me.request().suspendPolicy() == EventRequest.SUSPEND_NONE) {
-                // We won't be stopping here, so show the method name
-                printLocationOfEvent(me);
-
+            if (Env.vm().dbnGftMftiodRfturnVblufs()) {
+                MfssbgfOutput.print("Mftiod fxitfdVbluf:", mf.rfturnVbluf() + "");
+            } flsf {
+                MfssbgfOutput.print("Mftiod fxitfd:");
             }
 
-            // In case we want to have a one shot trace exit some day, this
-            // code disables the request so we don't hit it again.
-            if (false) {
-                // This is a one shot deal; we don't want to stop
-                // here the next time.
-                Env.setAtExitMethod(null);
-                EventRequestManager erm = Env.vm().eventRequestManager();
-                for (EventRequest eReq : erm.methodExitRequests()) {
-                    if (eReq.equals(me.request())) {
-                        eReq.disable();
+            if (mf.rfqufst().suspfndPolidy() == EvfntRfqufst.SUSPEND_NONE) {
+                // Wf won't bf stopping ifrf, so siow tif mftiod nbmf
+                printLodbtionOfEvfnt(mf);
+
+            }
+
+            // In dbsf wf wbnt to ibvf b onf siot trbdf fxit somf dby, tiis
+            // dodf disbblfs tif rfqufst so wf don't iit it bgbin.
+            if (fblsf) {
+                // Tiis is b onf siot dfbl; wf don't wbnt to stop
+                // ifrf tif nfxt timf.
+                Env.sftAtExitMftiod(null);
+                EvfntRfqufstMbnbgfr frm = Env.vm().fvfntRfqufstMbnbgfr();
+                for (EvfntRfqufst fRfq : frm.mftiodExitRfqufsts()) {
+                    if (fRfq.fqubls(mf.rfqufst())) {
+                        fRfq.disbblf();
                     }
                 }
             }
-            return true;
+            rfturn truf;
         }
 
-        // We are tracing a specific method, and this isn't it.  Keep going.
-        return false;
+        // Wf brf trbding b spfdifid mftiod, bnd tiis isn't it.  Kffp going.
+        rfturn fblsf;
     }
 
-    @Override
-    public void vmInterrupted() {
-        Thread.yield();  // fetch output
-        printCurrentLocation();
-        for (String cmd : monitorCommands) {
-            StringTokenizer t = new StringTokenizer(cmd);
-            t.nextToken();  // get rid of monitor number
-            executeCommand(t);
+    @Ovfrridf
+    publid void vmIntfrruptfd() {
+        Tirfbd.yifld();  // fftdi output
+        printCurrfntLodbtion();
+        for (String dmd : monitorCommbnds) {
+            StringTokfnizfr t = nfw StringTokfnizfr(dmd);
+            t.nfxtTokfn();  // gft rid of monitor numbfr
+            fxfdutfCommbnd(t);
         }
-        MessageOutput.printPrompt();
+        MfssbgfOutput.printPrompt();
     }
 
-    @Override
-    public void receivedEvent(Event event) {
+    @Ovfrridf
+    publid void rfdfivfdEvfnt(Evfnt fvfnt) {
     }
 
-    private void printBaseLocation(String threadName, Location loc) {
-        MessageOutput.println("location",
-                              new Object [] {threadName,
-                                             Commands.locationString(loc)});
+    privbtf void printBbsfLodbtion(String tirfbdNbmf, Lodbtion lod) {
+        MfssbgfOutput.println("lodbtion",
+                              nfw Objfdt [] {tirfbdNbmf,
+                                             Commbnds.lodbtionString(lod)});
     }
 
-    private void printCurrentLocation() {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        StackFrame frame;
+    privbtf void printCurrfntLodbtion() {
+        TirfbdInfo tirfbdInfo = TirfbdInfo.gftCurrfntTirfbdInfo();
+        StbdkFrbmf frbmf;
         try {
-            frame = threadInfo.getCurrentFrame();
-        } catch (IncompatibleThreadStateException exc) {
-            MessageOutput.println("<location unavailable>");
-            return;
+            frbmf = tirfbdInfo.gftCurrfntFrbmf();
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption fxd) {
+            MfssbgfOutput.println("<lodbtion unbvbilbblf>");
+            rfturn;
         }
-        if (frame == null) {
-            MessageOutput.println("No frames on the current call stack");
-        } else {
-            Location loc = frame.location();
-            printBaseLocation(threadInfo.getThread().name(), loc);
-            // Output the current source line, if possible
-            if (loc.lineNumber() != -1) {
-                String line;
+        if (frbmf == null) {
+            MfssbgfOutput.println("No frbmfs on tif durrfnt dbll stbdk");
+        } flsf {
+            Lodbtion lod = frbmf.lodbtion();
+            printBbsfLodbtion(tirfbdInfo.gftTirfbd().nbmf(), lod);
+            // Output tif durrfnt sourdf linf, if possiblf
+            if (lod.linfNumbfr() != -1) {
+                String linf;
                 try {
-                    line = Env.sourceLine(loc, loc.lineNumber());
-                } catch (java.io.IOException e) {
-                    line = null;
+                    linf = Env.sourdfLinf(lod, lod.linfNumbfr());
+                } dbtdi (jbvb.io.IOExdfption f) {
+                    linf = null;
                 }
-                if (line != null) {
-                    MessageOutput.println("source line number and line",
-                                          new Object [] {loc.lineNumber(),
-                                                         line});
+                if (linf != null) {
+                    MfssbgfOutput.println("sourdf linf numbfr bnd linf",
+                                          nfw Objfdt [] {lod.linfNumbfr(),
+                                                         linf});
                 }
             }
         }
-        MessageOutput.println();
+        MfssbgfOutput.println();
     }
 
-    private void printLocationOfEvent(LocatableEvent theEvent) {
-        printBaseLocation(theEvent.thread().name(), theEvent.location());
+    privbtf void printLodbtionOfEvfnt(LodbtbblfEvfnt tifEvfnt) {
+        printBbsfLodbtion(tifEvfnt.tirfbd().nbmf(), tifEvfnt.lodbtion());
     }
 
-    void help() {
-        MessageOutput.println("zz help text");
+    void iflp() {
+        MfssbgfOutput.println("zz iflp tfxt");
     }
 
-    private static final String[][] commandList = {
+    privbtf stbtid finbl String[][] dommbndList = {
         /*
-         * NOTE: this list must be kept sorted in ascending ASCII
-         *       order by element [0].  Ref: isCommand() below.
+         * NOTE: tiis list must bf kfpt sortfd in bsdfnding ASCII
+         *       ordfr by flfmfnt [0].  Rff: isCommbnd() bflow.
          *
-         *Command      OK when        OK when
-         * name      disconnected?   readonly?
+         *Commbnd      OK wifn        OK wifn
+         * nbmf      disdonnfdtfd?   rfbdonly?
          *------------------------------------
          */
         {"!!",           "n",         "y"},
         {"?",            "y",         "y"},
-        {"bytecodes",    "n",         "y"},
-        {"catch",        "y",         "n"},
-        {"class",        "n",         "y"},
-        {"classes",      "n",         "y"},
-        {"classpath",    "n",         "y"},
-        {"clear",        "y",         "n"},
-        {"connectors",   "y",         "y"},
-        {"cont",         "n",         "n"},
-        {"disablegc",    "n",         "n"},
+        {"bytfdodfs",    "n",         "y"},
+        {"dbtdi",        "y",         "n"},
+        {"dlbss",        "n",         "y"},
+        {"dlbssfs",      "n",         "y"},
+        {"dlbsspbti",    "n",         "y"},
+        {"dlfbr",        "y",         "n"},
+        {"donnfdtors",   "y",         "y"},
+        {"dont",         "n",         "n"},
+        {"disbblfgd",    "n",         "n"},
         {"down",         "n",         "y"},
         {"dump",         "n",         "y"},
-        {"enablegc",     "n",         "n"},
-        {"eval",         "n",         "y"},
-        {"exclude",      "y",         "n"},
-        {"exit",         "y",         "y"},
-        {"extension",    "n",         "y"},
-        {"fields",       "n",         "y"},
-        {"gc",           "n",         "n"},
-        {"help",         "y",         "y"},
-        {"ignore",       "y",         "n"},
-        {"interrupt",    "n",         "n"},
+        {"fnbblfgd",     "n",         "n"},
+        {"fvbl",         "n",         "y"},
+        {"fxdludf",      "y",         "n"},
+        {"fxit",         "y",         "y"},
+        {"fxtfnsion",    "n",         "y"},
+        {"fiflds",       "n",         "y"},
+        {"gd",           "n",         "n"},
+        {"iflp",         "y",         "y"},
+        {"ignorf",       "y",         "n"},
+        {"intfrrupt",    "n",         "n"},
         {"kill",         "n",         "n"},
-        {"lines",        "n",         "y"},
+        {"linfs",        "n",         "y"},
         {"list",         "n",         "y"},
-        {"load",         "n",         "y"},
-        {"locals",       "n",         "y"},
-        {"lock",         "n",         "n"},
-        {"memory",       "n",         "y"},
-        {"methods",      "n",         "y"},
+        {"lobd",         "n",         "y"},
+        {"lodbls",       "n",         "y"},
+        {"lodk",         "n",         "n"},
+        {"mfmory",       "n",         "y"},
+        {"mftiods",      "n",         "y"},
         {"monitor",      "n",         "n"},
-        {"next",         "n",         "n"},
+        {"nfxt",         "n",         "n"},
         {"pop",          "n",         "n"},
         {"print",        "n",         "y"},
         {"quit",         "y",         "y"},
-        {"read",         "y",         "y"},
-        {"redefine",     "n",         "n"},
-        {"reenter",      "n",         "n"},
-        {"resume",       "n",         "n"},
+        {"rfbd",         "y",         "y"},
+        {"rfdffinf",     "n",         "n"},
+        {"rffntfr",      "n",         "n"},
+        {"rfsumf",       "n",         "n"},
         {"run",          "y",         "n"},
-        {"save",         "n",         "n"},
-        {"set",          "n",         "n"},
-        {"sourcepath",   "y",         "y"},
-        {"step",         "n",         "n"},
-        {"stepi",        "n",         "n"},
+        {"sbvf",         "n",         "n"},
+        {"sft",          "n",         "n"},
+        {"sourdfpbti",   "y",         "y"},
+        {"stfp",         "n",         "n"},
+        {"stfpi",        "n",         "n"},
         {"stop",         "y",         "n"},
-        {"suspend",      "n",         "n"},
-        {"thread",       "n",         "y"},
-        {"threadgroup",  "n",         "y"},
-        {"threadgroups", "n",         "y"},
-        {"threadlocks",  "n",         "y"},
-        {"threads",      "n",         "y"},
-        {"trace",        "n",         "n"},
+        {"suspfnd",      "n",         "n"},
+        {"tirfbd",       "n",         "y"},
+        {"tirfbdgroup",  "n",         "y"},
+        {"tirfbdgroups", "n",         "y"},
+        {"tirfbdlodks",  "n",         "y"},
+        {"tirfbds",      "n",         "y"},
+        {"trbdf",        "n",         "n"},
         {"unmonitor",    "n",         "n"},
-        {"untrace",      "n",         "n"},
-        {"unwatch",      "y",         "n"},
+        {"untrbdf",      "n",         "n"},
+        {"unwbtdi",      "y",         "n"},
         {"up",           "n",         "y"},
-        {"use",          "y",         "y"},
-        {"version",      "y",         "y"},
-        {"watch",        "y",         "n"},
-        {"where",        "n",         "y"},
-        {"wherei",       "n",         "y"},
+        {"usf",          "y",         "y"},
+        {"vfrsion",      "y",         "y"},
+        {"wbtdi",        "y",         "n"},
+        {"wifrf",        "n",         "y"},
+        {"wifrfi",       "n",         "y"},
     };
 
     /*
-     * Look up the command string in commandList.
-     * If found, return the index.
-     * If not found, return index < 0
+     * Look up tif dommbnd string in dommbndList.
+     * If found, rfturn tif indfx.
+     * If not found, rfturn indfx < 0
      */
-    private int isCommand(String key) {
-        //Reference: binarySearch() in java/util/Arrays.java
-        //           Adapted for use with String[][0].
+    privbtf int isCommbnd(String kfy) {
+        //Rfffrfndf: binbrySfbrdi() in jbvb/util/Arrbys.jbvb
+        //           Adbptfd for usf witi String[][0].
         int low = 0;
-        int high = commandList.length - 1;
-        while (low <= high) {
-            int mid = (low + high) >>> 1;
-            String midVal = commandList[mid][0];
-            int compare = midVal.compareTo(key);
-            if (compare < 0) {
+        int iigi = dommbndList.lfngti - 1;
+        wiilf (low <= iigi) {
+            int mid = (low + iigi) >>> 1;
+            String midVbl = dommbndList[mid][0];
+            int dompbrf = midVbl.dompbrfTo(kfy);
+            if (dompbrf < 0) {
                 low = mid + 1;
-            } else if (compare > 0) {
-                high = mid - 1;
+            } flsf if (dompbrf > 0) {
+                iigi = mid - 1;
             }
-            else {
-                return mid; // key found
+            flsf {
+                rfturn mid; // kfy found
         }
         }
-        return -(low + 1);  // key not found.
+        rfturn -(low + 1);  // kfy not found.
     };
 
     /*
-     * Return true if the command is OK when disconnected.
+     * Rfturn truf if tif dommbnd is OK wifn disdonnfdtfd.
      */
-    private boolean isDisconnectCmd(int ii) {
-        if (ii < 0 || ii >= commandList.length) {
-            return false;
+    privbtf boolfbn isDisdonnfdtCmd(int ii) {
+        if (ii < 0 || ii >= dommbndList.lfngti) {
+            rfturn fblsf;
         }
-        return (commandList[ii][1].equals("y"));
+        rfturn (dommbndList[ii][1].fqubls("y"));
     }
 
     /*
-     * Return true if the command is OK when readonly.
+     * Rfturn truf if tif dommbnd is OK wifn rfbdonly.
      */
-    private boolean isReadOnlyCmd(int ii) {
-        if (ii < 0 || ii >= commandList.length) {
-            return false;
+    privbtf boolfbn isRfbdOnlyCmd(int ii) {
+        if (ii < 0 || ii >= dommbndList.lfngti) {
+            rfturn fblsf;
         }
-        return (commandList[ii][2].equals("y"));
+        rfturn (dommbndList[ii][2].fqubls("y"));
     };
 
 
-    void executeCommand(StringTokenizer t) {
-        String cmd = t.nextToken().toLowerCase();
-        // Normally, prompt for the next command after this one is done
-        boolean showPrompt = true;
+    void fxfdutfCommbnd(StringTokfnizfr t) {
+        String dmd = t.nfxtTokfn().toLowfrCbsf();
+        // Normblly, prompt for tif nfxt dommbnd bftfr tiis onf is donf
+        boolfbn siowPrompt = truf;
 
 
         /*
-         * Anything starting with # is discarded as a no-op or 'comment'.
+         * Anytiing stbrting witi # is disdbrdfd bs b no-op or 'dommfnt'.
          */
-        if (!cmd.startsWith("#")) {
+        if (!dmd.stbrtsWiti("#")) {
             /*
-             * Next check for an integer repetition prefix.  If found,
-             * recursively execute cmd that number of times.
+             * Nfxt difdk for bn intfgfr rfpftition prffix.  If found,
+             * rfdursivfly fxfdutf dmd tibt numbfr of timfs.
              */
-            if (Character.isDigit(cmd.charAt(0)) && t.hasMoreTokens()) {
+            if (Cibrbdtfr.isDigit(dmd.dibrAt(0)) && t.ibsMorfTokfns()) {
                 try {
-                    int repeat = Integer.parseInt(cmd);
-                    String subcom = t.nextToken("");
-                    while (repeat-- > 0) {
-                        executeCommand(new StringTokenizer(subcom));
-                        showPrompt = false; // Bypass the printPrompt() below.
+                    int rfpfbt = Intfgfr.pbrsfInt(dmd);
+                    String subdom = t.nfxtTokfn("");
+                    wiilf (rfpfbt-- > 0) {
+                        fxfdutfCommbnd(nfw StringTokfnizfr(subdom));
+                        siowPrompt = fblsf; // Bypbss tif printPrompt() bflow.
                     }
-                } catch (NumberFormatException exc) {
-                    MessageOutput.println("Unrecognized command.  Try help...", cmd);
+                } dbtdi (NumbfrFormbtExdfption fxd) {
+                    MfssbgfOutput.println("Unrfdognizfd dommbnd.  Try iflp...", dmd);
                 }
-            } else {
-                int commandNumber = isCommand(cmd);
+            } flsf {
+                int dommbndNumbfr = isCommbnd(dmd);
                 /*
-                 * Check for an unknown command
+                 * Cifdk for bn unknown dommbnd
                  */
-                if (commandNumber < 0) {
-                    MessageOutput.println("Unrecognized command.  Try help...", cmd);
-                } else if (!Env.connection().isOpen() && !isDisconnectCmd(commandNumber)) {
-                    MessageOutput.println("Command not valid until the VM is started with the run command",
-                                          cmd);
-                } else if (Env.connection().isOpen() && !Env.vm().canBeModified() &&
-                           !isReadOnlyCmd(commandNumber)) {
-                    MessageOutput.println("Command is not supported on a read-only VM connection",
-                                          cmd);
-                } else {
+                if (dommbndNumbfr < 0) {
+                    MfssbgfOutput.println("Unrfdognizfd dommbnd.  Try iflp...", dmd);
+                } flsf if (!Env.donnfdtion().isOpfn() && !isDisdonnfdtCmd(dommbndNumbfr)) {
+                    MfssbgfOutput.println("Commbnd not vblid until tif VM is stbrtfd witi tif run dommbnd",
+                                          dmd);
+                } flsf if (Env.donnfdtion().isOpfn() && !Env.vm().dbnBfModififd() &&
+                           !isRfbdOnlyCmd(dommbndNumbfr)) {
+                    MfssbgfOutput.println("Commbnd is not supportfd on b rfbd-only VM donnfdtion",
+                                          dmd);
+                } flsf {
 
-                    Commands evaluator = new Commands();
+                    Commbnds fvblubtor = nfw Commbnds();
                     try {
-                        if (cmd.equals("print")) {
-                            evaluator.commandPrint(t, false);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("eval")) {
-                            evaluator.commandPrint(t, false);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("set")) {
-                            evaluator.commandSet(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("dump")) {
-                            evaluator.commandPrint(t, true);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("locals")) {
-                            evaluator.commandLocals();
-                        } else if (cmd.equals("classes")) {
-                            evaluator.commandClasses();
-                        } else if (cmd.equals("class")) {
-                            evaluator.commandClass(t);
-                        } else if (cmd.equals("connectors")) {
-                            evaluator.commandConnectors(Bootstrap.virtualMachineManager());
-                        } else if (cmd.equals("methods")) {
-                            evaluator.commandMethods(t);
-                        } else if (cmd.equals("fields")) {
-                            evaluator.commandFields(t);
-                        } else if (cmd.equals("threads")) {
-                            evaluator.commandThreads(t);
-                        } else if (cmd.equals("thread")) {
-                            evaluator.commandThread(t);
-                        } else if (cmd.equals("suspend")) {
-                            evaluator.commandSuspend(t);
-                        } else if (cmd.equals("resume")) {
-                            evaluator.commandResume(t);
-                        } else if (cmd.equals("cont")) {
-                            evaluator.commandCont();
-                        } else if (cmd.equals("threadgroups")) {
-                            evaluator.commandThreadGroups();
-                        } else if (cmd.equals("threadgroup")) {
-                            evaluator.commandThreadGroup(t);
-                        } else if (cmd.equals("catch")) {
-                            evaluator.commandCatchException(t);
-                        } else if (cmd.equals("ignore")) {
-                            evaluator.commandIgnoreException(t);
-                        } else if (cmd.equals("step")) {
-                            evaluator.commandStep(t);
-                        } else if (cmd.equals("stepi")) {
-                            evaluator.commandStepi();
-                        } else if (cmd.equals("next")) {
-                            evaluator.commandNext();
-                        } else if (cmd.equals("kill")) {
-                            evaluator.commandKill(t);
-                        } else if (cmd.equals("interrupt")) {
-                            evaluator.commandInterrupt(t);
-                        } else if (cmd.equals("trace")) {
-                            evaluator.commandTrace(t);
-                        } else if (cmd.equals("untrace")) {
-                            evaluator.commandUntrace(t);
-                        } else if (cmd.equals("where")) {
-                            evaluator.commandWhere(t, false);
-                        } else if (cmd.equals("wherei")) {
-                            evaluator.commandWhere(t, true);
-                        } else if (cmd.equals("up")) {
-                            evaluator.commandUp(t);
-                        } else if (cmd.equals("down")) {
-                            evaluator.commandDown(t);
-                        } else if (cmd.equals("load")) {
-                            evaluator.commandLoad(t);
-                        } else if (cmd.equals("run")) {
-                            evaluator.commandRun(t);
+                        if (dmd.fqubls("print")) {
+                            fvblubtor.dommbndPrint(t, fblsf);
+                            siowPrompt = fblsf;        // bsyndironous dommbnd
+                        } flsf if (dmd.fqubls("fvbl")) {
+                            fvblubtor.dommbndPrint(t, fblsf);
+                            siowPrompt = fblsf;        // bsyndironous dommbnd
+                        } flsf if (dmd.fqubls("sft")) {
+                            fvblubtor.dommbndSft(t);
+                            siowPrompt = fblsf;        // bsyndironous dommbnd
+                        } flsf if (dmd.fqubls("dump")) {
+                            fvblubtor.dommbndPrint(t, truf);
+                            siowPrompt = fblsf;        // bsyndironous dommbnd
+                        } flsf if (dmd.fqubls("lodbls")) {
+                            fvblubtor.dommbndLodbls();
+                        } flsf if (dmd.fqubls("dlbssfs")) {
+                            fvblubtor.dommbndClbssfs();
+                        } flsf if (dmd.fqubls("dlbss")) {
+                            fvblubtor.dommbndClbss(t);
+                        } flsf if (dmd.fqubls("donnfdtors")) {
+                            fvblubtor.dommbndConnfdtors(Bootstrbp.virtublMbdiinfMbnbgfr());
+                        } flsf if (dmd.fqubls("mftiods")) {
+                            fvblubtor.dommbndMftiods(t);
+                        } flsf if (dmd.fqubls("fiflds")) {
+                            fvblubtor.dommbndFiflds(t);
+                        } flsf if (dmd.fqubls("tirfbds")) {
+                            fvblubtor.dommbndTirfbds(t);
+                        } flsf if (dmd.fqubls("tirfbd")) {
+                            fvblubtor.dommbndTirfbd(t);
+                        } flsf if (dmd.fqubls("suspfnd")) {
+                            fvblubtor.dommbndSuspfnd(t);
+                        } flsf if (dmd.fqubls("rfsumf")) {
+                            fvblubtor.dommbndRfsumf(t);
+                        } flsf if (dmd.fqubls("dont")) {
+                            fvblubtor.dommbndCont();
+                        } flsf if (dmd.fqubls("tirfbdgroups")) {
+                            fvblubtor.dommbndTirfbdGroups();
+                        } flsf if (dmd.fqubls("tirfbdgroup")) {
+                            fvblubtor.dommbndTirfbdGroup(t);
+                        } flsf if (dmd.fqubls("dbtdi")) {
+                            fvblubtor.dommbndCbtdiExdfption(t);
+                        } flsf if (dmd.fqubls("ignorf")) {
+                            fvblubtor.dommbndIgnorfExdfption(t);
+                        } flsf if (dmd.fqubls("stfp")) {
+                            fvblubtor.dommbndStfp(t);
+                        } flsf if (dmd.fqubls("stfpi")) {
+                            fvblubtor.dommbndStfpi();
+                        } flsf if (dmd.fqubls("nfxt")) {
+                            fvblubtor.dommbndNfxt();
+                        } flsf if (dmd.fqubls("kill")) {
+                            fvblubtor.dommbndKill(t);
+                        } flsf if (dmd.fqubls("intfrrupt")) {
+                            fvblubtor.dommbndIntfrrupt(t);
+                        } flsf if (dmd.fqubls("trbdf")) {
+                            fvblubtor.dommbndTrbdf(t);
+                        } flsf if (dmd.fqubls("untrbdf")) {
+                            fvblubtor.dommbndUntrbdf(t);
+                        } flsf if (dmd.fqubls("wifrf")) {
+                            fvblubtor.dommbndWifrf(t, fblsf);
+                        } flsf if (dmd.fqubls("wifrfi")) {
+                            fvblubtor.dommbndWifrf(t, truf);
+                        } flsf if (dmd.fqubls("up")) {
+                            fvblubtor.dommbndUp(t);
+                        } flsf if (dmd.fqubls("down")) {
+                            fvblubtor.dommbndDown(t);
+                        } flsf if (dmd.fqubls("lobd")) {
+                            fvblubtor.dommbndLobd(t);
+                        } flsf if (dmd.fqubls("run")) {
+                            fvblubtor.dommbndRun(t);
                             /*
-                             * Fire up an event handler, if the connection was just
-                             * opened. Since this was done from the run command
-                             * we don't stop the VM on its VM start event (so
-                             * arg 2 is false).
+                             * Firf up bn fvfnt ibndlfr, if tif donnfdtion wbs just
+                             * opfnfd. Sindf tiis wbs donf from tif run dommbnd
+                             * wf don't stop tif VM on its VM stbrt fvfnt (so
+                             * brg 2 is fblsf).
                              */
-                            if ((handler == null) && Env.connection().isOpen()) {
-                                handler = new EventHandler(this, false);
+                            if ((ibndlfr == null) && Env.donnfdtion().isOpfn()) {
+                                ibndlfr = nfw EvfntHbndlfr(tiis, fblsf);
                             }
-                        } else if (cmd.equals("memory")) {
-                            evaluator.commandMemory();
-                        } else if (cmd.equals("gc")) {
-                            evaluator.commandGC();
-                        } else if (cmd.equals("stop")) {
-                            evaluator.commandStop(t);
-                        } else if (cmd.equals("clear")) {
-                            evaluator.commandClear(t);
-                        } else if (cmd.equals("watch")) {
-                            evaluator.commandWatch(t);
-                        } else if (cmd.equals("unwatch")) {
-                            evaluator.commandUnwatch(t);
-                        } else if (cmd.equals("list")) {
-                            evaluator.commandList(t);
-                        } else if (cmd.equals("lines")) { // Undocumented command: useful for testing.
-                            evaluator.commandLines(t);
-                        } else if (cmd.equals("classpath")) {
-                            evaluator.commandClasspath(t);
-                        } else if (cmd.equals("use") || cmd.equals("sourcepath")) {
-                            evaluator.commandUse(t);
-                        } else if (cmd.equals("monitor")) {
-                            monitorCommand(t);
-                        } else if (cmd.equals("unmonitor")) {
-                            unmonitorCommand(t);
-                        } else if (cmd.equals("lock")) {
-                            evaluator.commandLock(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("threadlocks")) {
-                            evaluator.commandThreadlocks(t);
-                        } else if (cmd.equals("disablegc")) {
-                            evaluator.commandDisableGC(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("enablegc")) {
-                            evaluator.commandEnableGC(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("save")) { // Undocumented command: useful for testing.
-                            evaluator.commandSave(t);
-                            showPrompt = false;        // asynchronous command
-                        } else if (cmd.equals("bytecodes")) { // Undocumented command: useful for testing.
-                            evaluator.commandBytecodes(t);
-                        } else if (cmd.equals("redefine")) {
-                            evaluator.commandRedefine(t);
-                        } else if (cmd.equals("pop")) {
-                            evaluator.commandPopFrames(t, false);
-                        } else if (cmd.equals("reenter")) {
-                            evaluator.commandPopFrames(t, true);
-                        } else if (cmd.equals("extension")) {
-                            evaluator.commandExtension(t);
-                        } else if (cmd.equals("exclude")) {
-                            evaluator.commandExclude(t);
-                        } else if (cmd.equals("read")) {
-                            readCommand(t);
-                        } else if (cmd.equals("help") || cmd.equals("?")) {
-                            help();
-                        } else if (cmd.equals("version")) {
-                            evaluator.commandVersion(progname,
-                                                     Bootstrap.virtualMachineManager());
-                        } else if (cmd.equals("quit") || cmd.equals("exit")) {
-                            if (handler != null) {
-                                handler.shutdown();
+                        } flsf if (dmd.fqubls("mfmory")) {
+                            fvblubtor.dommbndMfmory();
+                        } flsf if (dmd.fqubls("gd")) {
+                            fvblubtor.dommbndGC();
+                        } flsf if (dmd.fqubls("stop")) {
+                            fvblubtor.dommbndStop(t);
+                        } flsf if (dmd.fqubls("dlfbr")) {
+                            fvblubtor.dommbndClfbr(t);
+                        } flsf if (dmd.fqubls("wbtdi")) {
+                            fvblubtor.dommbndWbtdi(t);
+                        } flsf if (dmd.fqubls("unwbtdi")) {
+                            fvblubtor.dommbndUnwbtdi(t);
+                        } flsf if (dmd.fqubls("list")) {
+                            fvblubtor.dommbndList(t);
+                        } flsf if (dmd.fqubls("linfs")) { // Undodumfntfd dommbnd: usfful for tfsting.
+                            fvblubtor.dommbndLinfs(t);
+                        } flsf if (dmd.fqubls("dlbsspbti")) {
+                            fvblubtor.dommbndClbsspbti(t);
+                        } flsf if (dmd.fqubls("usf") || dmd.fqubls("sourdfpbti")) {
+                            fvblubtor.dommbndUsf(t);
+                        } flsf if (dmd.fqubls("monitor")) {
+                            monitorCommbnd(t);
+                        } flsf if (dmd.fqubls("unmonitor")) {
+                            unmonitorCommbnd(t);
+                        } flsf if (dmd.fqubls("lodk")) {
+                            fvblubtor.dommbndLodk(t);
+                            siowPrompt = fblsf;        // bsyndironous dommbnd
+                        } flsf if (dmd.fqubls("tirfbdlodks")) {
+                            fvblubtor.dommbndTirfbdlodks(t);
+                        } flsf if (dmd.fqubls("disbblfgd")) {
+                            fvblubtor.dommbndDisbblfGC(t);
+                            siowPrompt = fblsf;        // bsyndironous dommbnd
+                        } flsf if (dmd.fqubls("fnbblfgd")) {
+                            fvblubtor.dommbndEnbblfGC(t);
+                            siowPrompt = fblsf;        // bsyndironous dommbnd
+                        } flsf if (dmd.fqubls("sbvf")) { // Undodumfntfd dommbnd: usfful for tfsting.
+                            fvblubtor.dommbndSbvf(t);
+                            siowPrompt = fblsf;        // bsyndironous dommbnd
+                        } flsf if (dmd.fqubls("bytfdodfs")) { // Undodumfntfd dommbnd: usfful for tfsting.
+                            fvblubtor.dommbndBytfdodfs(t);
+                        } flsf if (dmd.fqubls("rfdffinf")) {
+                            fvblubtor.dommbndRfdffinf(t);
+                        } flsf if (dmd.fqubls("pop")) {
+                            fvblubtor.dommbndPopFrbmfs(t, fblsf);
+                        } flsf if (dmd.fqubls("rffntfr")) {
+                            fvblubtor.dommbndPopFrbmfs(t, truf);
+                        } flsf if (dmd.fqubls("fxtfnsion")) {
+                            fvblubtor.dommbndExtfnsion(t);
+                        } flsf if (dmd.fqubls("fxdludf")) {
+                            fvblubtor.dommbndExdludf(t);
+                        } flsf if (dmd.fqubls("rfbd")) {
+                            rfbdCommbnd(t);
+                        } flsf if (dmd.fqubls("iflp") || dmd.fqubls("?")) {
+                            iflp();
+                        } flsf if (dmd.fqubls("vfrsion")) {
+                            fvblubtor.dommbndVfrsion(prognbmf,
+                                                     Bootstrbp.virtublMbdiinfMbnbgfr());
+                        } flsf if (dmd.fqubls("quit") || dmd.fqubls("fxit")) {
+                            if (ibndlfr != null) {
+                                ibndlfr.siutdown();
                             }
-                            Env.shutdown();
-                        } else {
-                            MessageOutput.println("Unrecognized command.  Try help...", cmd);
+                            Env.siutdown();
+                        } flsf {
+                            MfssbgfOutput.println("Unrfdognizfd dommbnd.  Try iflp...", dmd);
                         }
-                    } catch (VMCannotBeModifiedException rovm) {
-                        MessageOutput.println("Command is not supported on a read-only VM connection", cmd);
-                    } catch (UnsupportedOperationException uoe) {
-                        MessageOutput.println("Command is not supported on the target VM", cmd);
-                    } catch (VMNotConnectedException vmnse) {
-                        MessageOutput.println("Command not valid until the VM is started with the run command",
-                                              cmd);
-                    } catch (Exception e) {
-                        MessageOutput.printException("Internal exception:", e);
+                    } dbtdi (VMCbnnotBfModififdExdfption rovm) {
+                        MfssbgfOutput.println("Commbnd is not supportfd on b rfbd-only VM donnfdtion", dmd);
+                    } dbtdi (UnsupportfdOpfrbtionExdfption uof) {
+                        MfssbgfOutput.println("Commbnd is not supportfd on tif tbrgft VM", dmd);
+                    } dbtdi (VMNotConnfdtfdExdfption vmnsf) {
+                        MfssbgfOutput.println("Commbnd not vblid until tif VM is stbrtfd witi tif run dommbnd",
+                                              dmd);
+                    } dbtdi (Exdfption f) {
+                        MfssbgfOutput.printExdfption("Intfrnbl fxdfption:", f);
                     }
                 }
             }
         }
-        if (showPrompt) {
-            MessageOutput.printPrompt();
+        if (siowPrompt) {
+            MfssbgfOutput.printPrompt();
         }
     }
 
     /*
-     * Maintain a list of commands to execute each time the VM is suspended.
+     * Mbintbin b list of dommbnds to fxfdutf fbdi timf tif VM is suspfndfd.
      */
-    void monitorCommand(StringTokenizer t) {
-        if (t.hasMoreTokens()) {
+    void monitorCommbnd(StringTokfnizfr t) {
+        if (t.ibsMorfTokfns()) {
             ++monitorCount;
-            monitorCommands.add(monitorCount + ": " + t.nextToken(""));
-        } else {
-            for (String cmd : monitorCommands) {
-                MessageOutput.printDirectln(cmd);// Special case: use printDirectln()
+            monitorCommbnds.bdd(monitorCount + ": " + t.nfxtTokfn(""));
+        } flsf {
+            for (String dmd : monitorCommbnds) {
+                MfssbgfOutput.printDirfdtln(dmd);// Spfdibl dbsf: usf printDirfdtln()
             }
         }
     }
 
-    void unmonitorCommand(StringTokenizer t) {
-        if (t.hasMoreTokens()) {
-            String monTok = t.nextToken();
+    void unmonitorCommbnd(StringTokfnizfr t) {
+        if (t.ibsMorfTokfns()) {
+            String monTok = t.nfxtTokfn();
             int monNum;
             try {
-                monNum = Integer.parseInt(monTok);
-            } catch (NumberFormatException exc) {
-                MessageOutput.println("Not a monitor number:", monTok);
-                return;
+                monNum = Intfgfr.pbrsfInt(monTok);
+            } dbtdi (NumbfrFormbtExdfption fxd) {
+                MfssbgfOutput.println("Not b monitor numbfr:", monTok);
+                rfturn;
             }
             String monStr = monTok + ":";
-            for (String cmd : monitorCommands) {
-                StringTokenizer ct = new StringTokenizer(cmd);
-                if (ct.nextToken().equals(monStr)) {
-                    monitorCommands.remove(cmd);
-                    MessageOutput.println("Unmonitoring", cmd);
-                    return;
+            for (String dmd : monitorCommbnds) {
+                StringTokfnizfr dt = nfw StringTokfnizfr(dmd);
+                if (dt.nfxtTokfn().fqubls(monStr)) {
+                    monitorCommbnds.rfmovf(dmd);
+                    MfssbgfOutput.println("Unmonitoring", dmd);
+                    rfturn;
                 }
             }
-            MessageOutput.println("No monitor numbered:", monTok);
-        } else {
-            MessageOutput.println("Usage: unmonitor <monitor#>");
+            MfssbgfOutput.println("No monitor numbfrfd:", monTok);
+        } flsf {
+            MfssbgfOutput.println("Usbgf: unmonitor <monitor#>");
         }
     }
 
 
-    void readCommand(StringTokenizer t) {
-        if (t.hasMoreTokens()) {
-            String cmdfname = t.nextToken();
-            if (!readCommandFile(new File(cmdfname))) {
-                MessageOutput.println("Could not open:", cmdfname);
+    void rfbdCommbnd(StringTokfnizfr t) {
+        if (t.ibsMorfTokfns()) {
+            String dmdfnbmf = t.nfxtTokfn();
+            if (!rfbdCommbndFilf(nfw Filf(dmdfnbmf))) {
+                MfssbgfOutput.println("Could not opfn:", dmdfnbmf);
             }
-        } else {
-            MessageOutput.println("Usage: read <command-filename>");
+        } flsf {
+            MfssbgfOutput.println("Usbgf: rfbd <dommbnd-filfnbmf>");
         }
     }
 
     /**
-     * Read and execute a command file.  Return true if the file was read
-     * else false;
+     * Rfbd bnd fxfdutf b dommbnd filf.  Rfturn truf if tif filf wbs rfbd
+     * flsf fblsf;
      */
-    boolean readCommandFile(File f) {
-        BufferedReader inFile = null;
+    boolfbn rfbdCommbndFilf(Filf f) {
+        BufffrfdRfbdfr inFilf = null;
         try {
-            if (f.canRead()) {
-                // Process initial commands.
-                MessageOutput.println("*** Reading commands from", f.getPath());
-                inFile = new BufferedReader(new FileReader(f));
+            if (f.dbnRfbd()) {
+                // Prodfss initibl dommbnds.
+                MfssbgfOutput.println("*** Rfbding dommbnds from", f.gftPbti());
+                inFilf = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(f));
                 String ln;
-                while ((ln = inFile.readLine()) != null) {
-                    StringTokenizer t = new StringTokenizer(ln);
-                    if (t.hasMoreTokens()) {
-                        executeCommand(t);
+                wiilf ((ln = inFilf.rfbdLinf()) != null) {
+                    StringTokfnizfr t = nfw StringTokfnizfr(ln);
+                    if (t.ibsMorfTokfns()) {
+                        fxfdutfCommbnd(t);
                     }
                 }
             }
-        } catch (IOException e) {
-        } finally {
-            if (inFile != null) {
+        } dbtdi (IOExdfption f) {
+        } finblly {
+            if (inFilf != null) {
                 try {
-                    inFile.close();
-                } catch (Exception exc) {
+                    inFilf.dlosf();
+                } dbtdi (Exdfption fxd) {
                 }
             }
         }
-        return inFile != null;
+        rfturn inFilf != null;
     }
 
     /**
-     * Try to read commands from dir/fname, unless
-     * the canonical path passed in is the same as that
-     * for dir/fname.
-     * Return null if that file doesn't exist,
-     * else return the canonical path of that file.
+     * Try to rfbd dommbnds from dir/fnbmf, unlfss
+     * tif dbnonidbl pbti pbssfd in is tif sbmf bs tibt
+     * for dir/fnbmf.
+     * Rfturn null if tibt filf dofsn't fxist,
+     * flsf rfturn tif dbnonidbl pbti of tibt filf.
      */
-    String readStartupCommandFile(String dir, String fname, String canonPath) {
-        File dotInitFile = new File(dir, fname);
-        if (!dotInitFile.exists()) {
-            return null;
+    String rfbdStbrtupCommbndFilf(String dir, String fnbmf, String dbnonPbti) {
+        Filf dotInitFilf = nfw Filf(dir, fnbmf);
+        if (!dotInitFilf.fxists()) {
+            rfturn null;
         }
 
-        String myCanonFile;
+        String myCbnonFilf;
         try {
-            myCanonFile = dotInitFile.getCanonicalPath();
-        } catch (IOException ee) {
-            MessageOutput.println("Could not open:", dotInitFile.getPath());
-            return null;
+            myCbnonFilf = dotInitFilf.gftCbnonidblPbti();
+        } dbtdi (IOExdfption ff) {
+            MfssbgfOutput.println("Could not opfn:", dotInitFilf.gftPbti());
+            rfturn null;
         }
-        if (canonPath == null || !canonPath.equals(myCanonFile)) {
-            if (!readCommandFile(dotInitFile)) {
-                MessageOutput.println("Could not open:", dotInitFile.getPath());
+        if (dbnonPbti == null || !dbnonPbti.fqubls(myCbnonFilf)) {
+            if (!rfbdCommbndFilf(dotInitFilf)) {
+                MfssbgfOutput.println("Could not opfn:", dotInitFilf.gftPbti());
             }
         }
-        return myCanonFile;
+        rfturn myCbnonFilf;
     }
 
 
-    public TTY() throws Exception {
+    publid TTY() tirows Exdfption {
 
-        MessageOutput.println("Initializing progname", progname);
+        MfssbgfOutput.println("Initiblizing prognbmf", prognbmf);
 
-        if (Env.connection().isOpen() && Env.vm().canBeModified()) {
+        if (Env.donnfdtion().isOpfn() && Env.vm().dbnBfModififd()) {
             /*
-             * Connection opened on startup. Start event handler
-             * immediately, telling it (through arg 2) to stop on the
-             * VM start event.
+             * Connfdtion opfnfd on stbrtup. Stbrt fvfnt ibndlfr
+             * immfdibtfly, tflling it (tirougi brg 2) to stop on tif
+             * VM stbrt fvfnt.
              */
-            this.handler = new EventHandler(this, true);
+            tiis.ibndlfr = nfw EvfntHbndlfr(tiis, truf);
         }
         try {
-            BufferedReader in =
-                    new BufferedReader(new InputStreamReader(System.in));
+            BufffrfdRfbdfr in =
+                    nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(Systfm.in));
 
-            String lastLine = null;
+            String lbstLinf = null;
 
-            Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+            Tirfbd.durrfntTirfbd().sftPriority(Tirfbd.NORM_PRIORITY);
 
             /*
-             * Read start up files.  This mimics the behavior
-             * of gdb which will read both ~/.gdbinit and then
-             * ./.gdbinit if they exist.  We have the twist that
-             * we allow two different names, so we do this:
-             *  if ~/jdb.ini exists,
-             *      read it
-             *  else if ~/.jdbrc exists,
-             *      read it
+             * Rfbd stbrt up filfs.  Tiis mimids tif bfibvior
+             * of gdb wiidi will rfbd boti ~/.gdbinit bnd tifn
+             * ./.gdbinit if tify fxist.  Wf ibvf tif twist tibt
+             * wf bllow two difffrfnt nbmfs, so wf do tiis:
+             *  if ~/jdb.ini fxists,
+             *      rfbd it
+             *  flsf if ~/.jdbrd fxists,
+             *      rfbd it
              *
-             *  if ./jdb.ini exists,
-             *      if it hasn't been read, read it
-             *      It could have been read above because ~ == .
-             *      or because of symlinks, ...
-             *  else if ./jdbrx exists
-             *      if it hasn't been read, read it
+             *  if ./jdb.ini fxists,
+             *      if it ibsn't bffn rfbd, rfbd it
+             *      It dould ibvf bffn rfbd bbovf bfdbusf ~ == .
+             *      or bfdbusf of symlinks, ...
+             *  flsf if ./jdbrx fxists
+             *      if it ibsn't bffn rfbd, rfbd it
              */
             {
-                String userHome = System.getProperty("user.home");
-                String canonPath;
+                String usfrHomf = Systfm.gftPropfrty("usfr.iomf");
+                String dbnonPbti;
 
-                if ((canonPath = readStartupCommandFile(userHome, "jdb.ini", null)) == null) {
-                    // Doesn't exist, try alternate spelling
-                    canonPath = readStartupCommandFile(userHome, ".jdbrc", null);
+                if ((dbnonPbti = rfbdStbrtupCommbndFilf(usfrHomf, "jdb.ini", null)) == null) {
+                    // Dofsn't fxist, try bltfrnbtf spflling
+                    dbnonPbti = rfbdStbrtupCommbndFilf(usfrHomf, ".jdbrd", null);
                 }
 
-                String userDir = System.getProperty("user.dir");
-                if (readStartupCommandFile(userDir, "jdb.ini", canonPath) == null) {
-                    // Doesn't exist, try alternate spelling
-                    readStartupCommandFile(userDir, ".jdbrc", canonPath);
+                String usfrDir = Systfm.gftPropfrty("usfr.dir");
+                if (rfbdStbrtupCommbndFilf(usfrDir, "jdb.ini", dbnonPbti) == null) {
+                    // Dofsn't fxist, try bltfrnbtf spflling
+                    rfbdStbrtupCommbndFilf(usfrDir, ".jdbrd", dbnonPbti);
                 }
             }
 
-            // Process interactive commands.
-            MessageOutput.printPrompt();
-            while (true) {
-                String ln = in.readLine();
+            // Prodfss intfrbdtivf dommbnds.
+            MfssbgfOutput.printPrompt();
+            wiilf (truf) {
+                String ln = in.rfbdLinf();
                 if (ln == null) {
-                    MessageOutput.println("Input stream closed.");
+                    MfssbgfOutput.println("Input strfbm dlosfd.");
                     ln = "quit";
                 }
 
-                if (ln.startsWith("!!") && lastLine != null) {
-                    ln = lastLine + ln.substring(2);
-                    MessageOutput.printDirectln(ln);// Special case: use printDirectln()
+                if (ln.stbrtsWiti("!!") && lbstLinf != null) {
+                    ln = lbstLinf + ln.substring(2);
+                    MfssbgfOutput.printDirfdtln(ln);// Spfdibl dbsf: usf printDirfdtln()
                 }
 
-                StringTokenizer t = new StringTokenizer(ln);
-                if (t.hasMoreTokens()) {
-                    lastLine = ln;
-                    executeCommand(t);
-                } else {
-                    MessageOutput.printPrompt();
+                StringTokfnizfr t = nfw StringTokfnizfr(ln);
+                if (t.ibsMorfTokfns()) {
+                    lbstLinf = ln;
+                    fxfdutfCommbnd(t);
+                } flsf {
+                    MfssbgfOutput.printPrompt();
                 }
             }
-        } catch (VMDisconnectedException e) {
-            handler.handleDisconnectedException();
+        } dbtdi (VMDisdonnfdtfdExdfption f) {
+            ibndlfr.ibndlfDisdonnfdtfdExdfption();
         }
     }
 
-    private static void usage() {
-        MessageOutput.println("zz usage text", new Object [] {progname,
-                                                     File.pathSeparator});
-        System.exit(1);
+    privbtf stbtid void usbgf() {
+        MfssbgfOutput.println("zz usbgf tfxt", nfw Objfdt [] {prognbmf,
+                                                     Filf.pbtiSfpbrbtor});
+        Systfm.fxit(1);
     }
 
-    static void usageError(String messageKey) {
-        MessageOutput.println(messageKey);
-        MessageOutput.println();
-        usage();
+    stbtid void usbgfError(String mfssbgfKfy) {
+        MfssbgfOutput.println(mfssbgfKfy);
+        MfssbgfOutput.println();
+        usbgf();
     }
 
-    static void usageError(String messageKey, String argument) {
-        MessageOutput.println(messageKey, argument);
-        MessageOutput.println();
-        usage();
+    stbtid void usbgfError(String mfssbgfKfy, String brgumfnt) {
+        MfssbgfOutput.println(mfssbgfKfy, brgumfnt);
+        MfssbgfOutput.println();
+        usbgf();
     }
 
-    private static boolean supportsSharedMemory() {
-        for (Connector connector :
-                 Bootstrap.virtualMachineManager().allConnectors()) {
-            if (connector.transport() == null) {
-                continue;
+    privbtf stbtid boolfbn supportsSibrfdMfmory() {
+        for (Connfdtor donnfdtor :
+                 Bootstrbp.virtublMbdiinfMbnbgfr().bllConnfdtors()) {
+            if (donnfdtor.trbnsport() == null) {
+                dontinuf;
             }
-            if ("dt_shmem".equals(connector.transport().name())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static String addressToSocketArgs(String address) {
-        int index = address.indexOf(':');
-        if (index != -1) {
-            String hostString = address.substring(0, index);
-            String portString = address.substring(index + 1);
-            return "hostname=" + hostString + ",port=" + portString;
-        } else {
-            return "port=" + address;
-        }
-    }
-
-    private static boolean hasWhitespace(String string) {
-        int length = string.length();
-        for (int i = 0; i < length; i++) {
-            if (Character.isWhitespace(string.charAt(i))) {
-                return true;
+            if ("dt_simfm".fqubls(donnfdtor.trbnsport().nbmf())) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static String addArgument(String string, String argument) {
-        if (hasWhitespace(argument) || argument.indexOf(',') != -1) {
-            // Quotes were stripped out for this argument, add 'em back.
-            StringBuilder sb = new StringBuilder(string);
-            sb.append('"');
-            for (int i = 0; i < argument.length(); i++) {
-                char c = argument.charAt(i);
-                if (c == '"') {
-                    sb.append('\\');
+    privbtf stbtid String bddrfssToSodkftArgs(String bddrfss) {
+        int indfx = bddrfss.indfxOf(':');
+        if (indfx != -1) {
+            String iostString = bddrfss.substring(0, indfx);
+            String portString = bddrfss.substring(indfx + 1);
+            rfturn "iostnbmf=" + iostString + ",port=" + portString;
+        } flsf {
+            rfturn "port=" + bddrfss;
+        }
+    }
+
+    privbtf stbtid boolfbn ibsWiitfspbdf(String string) {
+        int lfngti = string.lfngti();
+        for (int i = 0; i < lfngti; i++) {
+            if (Cibrbdtfr.isWiitfspbdf(string.dibrAt(i))) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid String bddArgumfnt(String string, String brgumfnt) {
+        if (ibsWiitfspbdf(brgumfnt) || brgumfnt.indfxOf(',') != -1) {
+            // Quotfs wfrf strippfd out for tiis brgumfnt, bdd 'fm bbdk.
+            StringBuildfr sb = nfw StringBuildfr(string);
+            sb.bppfnd('"');
+            for (int i = 0; i < brgumfnt.lfngti(); i++) {
+                dibr d = brgumfnt.dibrAt(i);
+                if (d == '"') {
+                    sb.bppfnd('\\');
                 }
-                sb.append(c);
+                sb.bppfnd(d);
             }
-            sb.append("\" ");
-            return sb.toString();
-        } else {
-            return string + argument + ' ';
+            sb.bppfnd("\" ");
+            rfturn sb.toString();
+        } flsf {
+            rfturn string + brgumfnt + ' ';
         }
     }
 
-    public static void main(String argv[]) throws MissingResourceException {
-        String cmdLine = "";
-        String javaArgs = "";
-        int traceFlags = VirtualMachine.TRACE_NONE;
-        boolean launchImmediately = false;
-        String connectSpec = null;
+    publid stbtid void mbin(String brgv[]) tirows MissingRfsourdfExdfption {
+        String dmdLinf = "";
+        String jbvbArgs = "";
+        int trbdfFlbgs = VirtublMbdiinf.TRACE_NONE;
+        boolfbn lbundiImmfdibtfly = fblsf;
+        String donnfdtSpfd = null;
 
-        MessageOutput.textResources = ResourceBundle.getBundle
-            ("com.sun.tools.example.debug.tty.TTYResources",
-             Locale.getDefault());
+        MfssbgfOutput.tfxtRfsourdfs = RfsourdfBundlf.gftBundlf
+            ("dom.sun.tools.fxbmplf.dfbug.tty.TTYRfsourdfs",
+             Lodblf.gftDffbult());
 
-        for (int i = 0; i < argv.length; i++) {
-            String token = argv[i];
-            if (token.equals("-dbgtrace")) {
-                if ((i == argv.length - 1) ||
-                    ! Character.isDigit(argv[i+1].charAt(0))) {
-                    traceFlags = VirtualMachine.TRACE_ALL;
-                } else {
-                    String flagStr = "";
+        for (int i = 0; i < brgv.lfngti; i++) {
+            String tokfn = brgv[i];
+            if (tokfn.fqubls("-dbgtrbdf")) {
+                if ((i == brgv.lfngti - 1) ||
+                    ! Cibrbdtfr.isDigit(brgv[i+1].dibrAt(0))) {
+                    trbdfFlbgs = VirtublMbdiinf.TRACE_ALL;
+                } flsf {
+                    String flbgStr = "";
                     try {
-                        flagStr = argv[++i];
-                        traceFlags = Integer.decode(flagStr).intValue();
-                    } catch (NumberFormatException nfe) {
-                        usageError("dbgtrace flag value must be an integer:",
-                                   flagStr);
-                        return;
+                        flbgStr = brgv[++i];
+                        trbdfFlbgs = Intfgfr.dfdodf(flbgStr).intVbluf();
+                    } dbtdi (NumbfrFormbtExdfption nff) {
+                        usbgfError("dbgtrbdf flbg vbluf must bf bn intfgfr:",
+                                   flbgStr);
+                        rfturn;
                     }
                 }
-            } else if (token.equals("-X")) {
-                usageError("Use java minus X to see");
-                return;
-            } else if (
-                   // Standard VM options passed on
-                   token.equals("-v") || token.startsWith("-v:") ||  // -v[:...]
-                   token.startsWith("-verbose") ||                  // -verbose[:...]
-                   token.startsWith("-D") ||
-                   // -classpath handled below
-                   // NonStandard options passed on
-                   token.startsWith("-X") ||
-                   // Old-style options (These should remain in place as long as
-                   //  the standard VM accepts them)
-                   token.equals("-noasyncgc") || token.equals("-prof") ||
-                   token.equals("-verify") || token.equals("-noverify") ||
-                   token.equals("-verifyremote") ||
-                   token.equals("-verbosegc") ||
-                   token.startsWith("-ms") || token.startsWith("-mx") ||
-                   token.startsWith("-ss") || token.startsWith("-oss") ) {
+            } flsf if (tokfn.fqubls("-X")) {
+                usbgfError("Usf jbvb minus X to sff");
+                rfturn;
+            } flsf if (
+                   // Stbndbrd VM options pbssfd on
+                   tokfn.fqubls("-v") || tokfn.stbrtsWiti("-v:") ||  // -v[:...]
+                   tokfn.stbrtsWiti("-vfrbosf") ||                  // -vfrbosf[:...]
+                   tokfn.stbrtsWiti("-D") ||
+                   // -dlbsspbti ibndlfd bflow
+                   // NonStbndbrd options pbssfd on
+                   tokfn.stbrtsWiti("-X") ||
+                   // Old-stylf options (Tifsf siould rfmbin in plbdf bs long bs
+                   //  tif stbndbrd VM bddfpts tifm)
+                   tokfn.fqubls("-nobsyndgd") || tokfn.fqubls("-prof") ||
+                   tokfn.fqubls("-vfrify") || tokfn.fqubls("-novfrify") ||
+                   tokfn.fqubls("-vfrifyrfmotf") ||
+                   tokfn.fqubls("-vfrbosfgd") ||
+                   tokfn.stbrtsWiti("-ms") || tokfn.stbrtsWiti("-mx") ||
+                   tokfn.stbrtsWiti("-ss") || tokfn.stbrtsWiti("-oss") ) {
 
-                javaArgs = addArgument(javaArgs, token);
-            } else if (token.equals("-tclassic")) {
-                usageError("Classic VM no longer supported.");
-                return;
-            } else if (token.equals("-tclient")) {
-                // -client must be the first one
-                javaArgs = "-client " + javaArgs;
-            } else if (token.equals("-tserver")) {
-                // -server must be the first one
-                javaArgs = "-server " + javaArgs;
-            } else if (token.equals("-sourcepath")) {
-                if (i == (argv.length - 1)) {
-                    usageError("No sourcepath specified.");
-                    return;
+                jbvbArgs = bddArgumfnt(jbvbArgs, tokfn);
+            } flsf if (tokfn.fqubls("-tdlbssid")) {
+                usbgfError("Clbssid VM no longfr supportfd.");
+                rfturn;
+            } flsf if (tokfn.fqubls("-tdlifnt")) {
+                // -dlifnt must bf tif first onf
+                jbvbArgs = "-dlifnt " + jbvbArgs;
+            } flsf if (tokfn.fqubls("-tsfrvfr")) {
+                // -sfrvfr must bf tif first onf
+                jbvbArgs = "-sfrvfr " + jbvbArgs;
+            } flsf if (tokfn.fqubls("-sourdfpbti")) {
+                if (i == (brgv.lfngti - 1)) {
+                    usbgfError("No sourdfpbti spfdififd.");
+                    rfturn;
                 }
-                Env.setSourcePath(argv[++i]);
-            } else if (token.equals("-classpath")) {
-                if (i == (argv.length - 1)) {
-                    usageError("No classpath specified.");
-                    return;
+                Env.sftSourdfPbti(brgv[++i]);
+            } flsf if (tokfn.fqubls("-dlbsspbti")) {
+                if (i == (brgv.lfngti - 1)) {
+                    usbgfError("No dlbsspbti spfdififd.");
+                    rfturn;
                 }
-                javaArgs = addArgument(javaArgs, token);
-                javaArgs = addArgument(javaArgs, argv[++i]);
-            } else if (token.equals("-attach")) {
-                if (connectSpec != null) {
-                    usageError("cannot redefine existing connection", token);
-                    return;
+                jbvbArgs = bddArgumfnt(jbvbArgs, tokfn);
+                jbvbArgs = bddArgumfnt(jbvbArgs, brgv[++i]);
+            } flsf if (tokfn.fqubls("-bttbdi")) {
+                if (donnfdtSpfd != null) {
+                    usbgfError("dbnnot rfdffinf fxisting donnfdtion", tokfn);
+                    rfturn;
                 }
-                if (i == (argv.length - 1)) {
-                    usageError("No attach address specified.");
-                    return;
+                if (i == (brgv.lfngti - 1)) {
+                    usbgfError("No bttbdi bddrfss spfdififd.");
+                    rfturn;
                 }
-                String address = argv[++i];
-
-                /*
-                 * -attach is shorthand for one of the reference implementation's
-                 * attaching connectors. Use the shared memory attach if it's
-                 * available; otherwise, use sockets. Build a connect
-                 * specification string based on this decision.
-                 */
-                if (supportsSharedMemory()) {
-                    connectSpec = "com.sun.jdi.SharedMemoryAttach:name=" +
-                                   address;
-                } else {
-                    String suboptions = addressToSocketArgs(address);
-                    connectSpec = "com.sun.jdi.SocketAttach:" + suboptions;
-                }
-            } else if (token.equals("-listen") || token.equals("-listenany")) {
-                if (connectSpec != null) {
-                    usageError("cannot redefine existing connection", token);
-                    return;
-                }
-                String address = null;
-                if (token.equals("-listen")) {
-                    if (i == (argv.length - 1)) {
-                        usageError("No attach address specified.");
-                        return;
-                    }
-                    address = argv[++i];
-                }
+                String bddrfss = brgv[++i];
 
                 /*
-                 * -listen[any] is shorthand for one of the reference implementation's
-                 * listening connectors. Use the shared memory listen if it's
-                 * available; otherwise, use sockets. Build a connect
-                 * specification string based on this decision.
+                 * -bttbdi is siortibnd for onf of tif rfffrfndf implfmfntbtion's
+                 * bttbdiing donnfdtors. Usf tif sibrfd mfmory bttbdi if it's
+                 * bvbilbblf; otifrwisf, usf sodkfts. Build b donnfdt
+                 * spfdifidbtion string bbsfd on tiis dfdision.
                  */
-                if (supportsSharedMemory()) {
-                    connectSpec = "com.sun.jdi.SharedMemoryListen:";
-                    if (address != null) {
-                        connectSpec += ("name=" + address);
-                    }
-                } else {
-                    connectSpec = "com.sun.jdi.SocketListen:";
-                    if (address != null) {
-                        connectSpec += addressToSocketArgs(address);
-                    }
+                if (supportsSibrfdMfmory()) {
+                    donnfdtSpfd = "dom.sun.jdi.SibrfdMfmoryAttbdi:nbmf=" +
+                                   bddrfss;
+                } flsf {
+                    String suboptions = bddrfssToSodkftArgs(bddrfss);
+                    donnfdtSpfd = "dom.sun.jdi.SodkftAttbdi:" + suboptions;
                 }
-            } else if (token.equals("-launch")) {
-                launchImmediately = true;
-            } else if (token.equals("-listconnectors")) {
-                Commands evaluator = new Commands();
-                evaluator.commandConnectors(Bootstrap.virtualMachineManager());
-                return;
-            } else if (token.equals("-connect")) {
+            } flsf if (tokfn.fqubls("-listfn") || tokfn.fqubls("-listfnbny")) {
+                if (donnfdtSpfd != null) {
+                    usbgfError("dbnnot rfdffinf fxisting donnfdtion", tokfn);
+                    rfturn;
+                }
+                String bddrfss = null;
+                if (tokfn.fqubls("-listfn")) {
+                    if (i == (brgv.lfngti - 1)) {
+                        usbgfError("No bttbdi bddrfss spfdififd.");
+                        rfturn;
+                    }
+                    bddrfss = brgv[++i];
+                }
+
                 /*
-                 * -connect allows the user to pick the connector
-                 * used in bringing up the target VM. This allows
-                 * use of connectors other than those in the reference
-                 * implementation.
+                 * -listfn[bny] is siortibnd for onf of tif rfffrfndf implfmfntbtion's
+                 * listfning donnfdtors. Usf tif sibrfd mfmory listfn if it's
+                 * bvbilbblf; otifrwisf, usf sodkfts. Build b donnfdt
+                 * spfdifidbtion string bbsfd on tiis dfdision.
                  */
-                if (connectSpec != null) {
-                    usageError("cannot redefine existing connection", token);
-                    return;
+                if (supportsSibrfdMfmory()) {
+                    donnfdtSpfd = "dom.sun.jdi.SibrfdMfmoryListfn:";
+                    if (bddrfss != null) {
+                        donnfdtSpfd += ("nbmf=" + bddrfss);
+                    }
+                } flsf {
+                    donnfdtSpfd = "dom.sun.jdi.SodkftListfn:";
+                    if (bddrfss != null) {
+                        donnfdtSpfd += bddrfssToSodkftArgs(bddrfss);
+                    }
                 }
-                if (i == (argv.length - 1)) {
-                    usageError("No connect specification.");
-                    return;
+            } flsf if (tokfn.fqubls("-lbundi")) {
+                lbundiImmfdibtfly = truf;
+            } flsf if (tokfn.fqubls("-listdonnfdtors")) {
+                Commbnds fvblubtor = nfw Commbnds();
+                fvblubtor.dommbndConnfdtors(Bootstrbp.virtublMbdiinfMbnbgfr());
+                rfturn;
+            } flsf if (tokfn.fqubls("-donnfdt")) {
+                /*
+                 * -donnfdt bllows tif usfr to pidk tif donnfdtor
+                 * usfd in bringing up tif tbrgft VM. Tiis bllows
+                 * usf of donnfdtors otifr tibn tiosf in tif rfffrfndf
+                 * implfmfntbtion.
+                 */
+                if (donnfdtSpfd != null) {
+                    usbgfError("dbnnot rfdffinf fxisting donnfdtion", tokfn);
+                    rfturn;
                 }
-                connectSpec = argv[++i];
-            } else if (token.equals("-help")) {
-                usage();
-            } else if (token.equals("-version")) {
-                Commands evaluator = new Commands();
-                evaluator.commandVersion(progname,
-                                         Bootstrap.virtualMachineManager());
-                System.exit(0);
-            } else if (token.startsWith("-")) {
-                usageError("invalid option", token);
-                return;
-            } else {
-                // Everything from here is part of the command line
-                cmdLine = addArgument("", token);
-                for (i++; i < argv.length; i++) {
-                    cmdLine = addArgument(cmdLine, argv[i]);
+                if (i == (brgv.lfngti - 1)) {
+                    usbgfError("No donnfdt spfdifidbtion.");
+                    rfturn;
                 }
-                break;
+                donnfdtSpfd = brgv[++i];
+            } flsf if (tokfn.fqubls("-iflp")) {
+                usbgf();
+            } flsf if (tokfn.fqubls("-vfrsion")) {
+                Commbnds fvblubtor = nfw Commbnds();
+                fvblubtor.dommbndVfrsion(prognbmf,
+                                         Bootstrbp.virtublMbdiinfMbnbgfr());
+                Systfm.fxit(0);
+            } flsf if (tokfn.stbrtsWiti("-")) {
+                usbgfError("invblid option", tokfn);
+                rfturn;
+            } flsf {
+                // Evfrytiing from ifrf is pbrt of tif dommbnd linf
+                dmdLinf = bddArgumfnt("", tokfn);
+                for (i++; i < brgv.lfngti; i++) {
+                    dmdLinf = bddArgumfnt(dmdLinf, brgv[i]);
+                }
+                brfbk;
             }
         }
 
         /*
-         * Unless otherwise specified, set the default connect spec.
+         * Unlfss otifrwisf spfdififd, sft tif dffbult donnfdt spfd.
          */
 
         /*
-         * Here are examples of jdb command lines and how the options
-         * are interpreted as arguments to the program being debugged.
-         * arg1       arg2
+         * Hfrf brf fxbmplfs of jdb dommbnd linfs bnd iow tif options
+         * brf intfrprftfd bs brgumfnts to tif progrbm bfing dfbuggfd.
+         * brg1       brg2
          * ----       ----
-         * jdb hello a b       a          b
-         * jdb hello "a b"     a b
-         * jdb hello a,b       a,b
-         * jdb hello a, b      a,         b
-         * jdb hello "a, b"    a, b
-         * jdb -connect "com.sun.jdi.CommandLineLaunch:main=hello  a,b"   illegal
-         * jdb -connect  com.sun.jdi.CommandLineLaunch:main=hello "a,b"   illegal
-         * jdb -connect 'com.sun.jdi.CommandLineLaunch:main=hello "a,b"'  arg1 = a,b
-         * jdb -connect 'com.sun.jdi.CommandLineLaunch:main=hello "a b"'  arg1 = a b
-         * jdb -connect 'com.sun.jdi.CommandLineLaunch:main=hello  a b'   arg1 = a  arg2 = b
-         * jdb -connect 'com.sun.jdi.CommandLineLaunch:main=hello "a," b' arg1 = a, arg2 = b
+         * jdb ifllo b b       b          b
+         * jdb ifllo "b b"     b b
+         * jdb ifllo b,b       b,b
+         * jdb ifllo b, b      b,         b
+         * jdb ifllo "b, b"    b, b
+         * jdb -donnfdt "dom.sun.jdi.CommbndLinfLbundi:mbin=ifllo  b,b"   illfgbl
+         * jdb -donnfdt  dom.sun.jdi.CommbndLinfLbundi:mbin=ifllo "b,b"   illfgbl
+         * jdb -donnfdt 'dom.sun.jdi.CommbndLinfLbundi:mbin=ifllo "b,b"'  brg1 = b,b
+         * jdb -donnfdt 'dom.sun.jdi.CommbndLinfLbundi:mbin=ifllo "b b"'  brg1 = b b
+         * jdb -donnfdt 'dom.sun.jdi.CommbndLinfLbundi:mbin=ifllo  b b'   brg1 = b  brg2 = b
+         * jdb -donnfdt 'dom.sun.jdi.CommbndLinfLbundi:mbin=ifllo "b," b' brg1 = b, brg2 = b
          */
-        if (connectSpec == null) {
-            connectSpec = "com.sun.jdi.CommandLineLaunch:";
-        } else if (!connectSpec.endsWith(",") && !connectSpec.endsWith(":")) {
-            connectSpec += ","; // (Bug ID 4285874)
+        if (donnfdtSpfd == null) {
+            donnfdtSpfd = "dom.sun.jdi.CommbndLinfLbundi:";
+        } flsf if (!donnfdtSpfd.fndsWiti(",") && !donnfdtSpfd.fndsWiti(":")) {
+            donnfdtSpfd += ","; // (Bug ID 4285874)
         }
 
-        cmdLine = cmdLine.trim();
-        javaArgs = javaArgs.trim();
+        dmdLinf = dmdLinf.trim();
+        jbvbArgs = jbvbArgs.trim();
 
-        if (cmdLine.length() > 0) {
-            if (!connectSpec.startsWith("com.sun.jdi.CommandLineLaunch:")) {
-                usageError("Cannot specify command line with connector:",
-                           connectSpec);
-                return;
+        if (dmdLinf.lfngti() > 0) {
+            if (!donnfdtSpfd.stbrtsWiti("dom.sun.jdi.CommbndLinfLbundi:")) {
+                usbgfError("Cbnnot spfdify dommbnd linf witi donnfdtor:",
+                           donnfdtSpfd);
+                rfturn;
             }
-            connectSpec += "main=" + cmdLine + ",";
+            donnfdtSpfd += "mbin=" + dmdLinf + ",";
         }
 
-        if (javaArgs.length() > 0) {
-            if (!connectSpec.startsWith("com.sun.jdi.CommandLineLaunch:")) {
-                usageError("Cannot specify target vm arguments with connector:",
-                           connectSpec);
-                return;
+        if (jbvbArgs.lfngti() > 0) {
+            if (!donnfdtSpfd.stbrtsWiti("dom.sun.jdi.CommbndLinfLbundi:")) {
+                usbgfError("Cbnnot spfdify tbrgft vm brgumfnts witi donnfdtor:",
+                           donnfdtSpfd);
+                rfturn;
             }
-            connectSpec += "options=" + javaArgs + ",";
+            donnfdtSpfd += "options=" + jbvbArgs + ",";
         }
 
         try {
-            if (! connectSpec.endsWith(",")) {
-                connectSpec += ","; // (Bug ID 4285874)
+            if (! donnfdtSpfd.fndsWiti(",")) {
+                donnfdtSpfd += ","; // (Bug ID 4285874)
             }
-            Env.init(connectSpec, launchImmediately, traceFlags);
-            new TTY();
-        } catch(Exception e) {
-            MessageOutput.printException("Internal exception:", e);
+            Env.init(donnfdtSpfd, lbundiImmfdibtfly, trbdfFlbgs);
+            nfw TTY();
+        } dbtdi(Exdfption f) {
+            MfssbgfOutput.printExdfption("Intfrnbl fxdfption:", f);
         }
     }
 }

@@ -1,0 +1,297 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+
+/**
+ * <dodf>JSfpbrbtor</dodf> providfs b gfnfrbl purposf domponfnt for
+ * implfmfnting dividfr linfs - most dommonly usfd bs b dividfr
+ * bftwffn mfnu itfms thbt brfbks thfm up into logidbl groupings.
+ * Instfbd of using <dodf>JSfpbrbtor</dodf> dirfdtly,
+ * you dbn usf thf <dodf>JMfnu</dodf> or <dodf>JPopupMfnu</dodf>
+ * <dodf>bddSfpbrbtor</dodf> mfthod to drfbtf bnd bdd b sfpbrbtor.
+ * <dodf>JSfpbrbtor</dodf>s mby blso bf usfd flsfwhfrf in b GUI
+ * whfrfvfr b visubl dividfr is usfful.
+ *
+ * <p>
+ *
+ * For morf informbtion bnd fxbmplfs sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/mfnu.html">How to Usf Mfnus</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @bfbninfo
+ *      bttributf: isContbinfr fblsf
+ *    dfsdription: A dividfr bftwffn mfnu itfms.
+ *
+ * @buthor Gforgfs Sbbb
+ * @buthor Jfff Shbpiro
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss JSfpbrbtor fxtfnds JComponfnt implfmfnts SwingConstbnts, Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "SfpbrbtorUI";
+
+    privbtf int orifntbtion = HORIZONTAL;
+
+    /** Crfbtfs b nfw horizontbl sfpbrbtor. */
+    publid JSfpbrbtor()
+    {
+        this( HORIZONTAL );
+    }
+
+    /**
+     * Crfbtfs b nfw sfpbrbtor with thf spfdififd horizontbl or
+     * vfrtidbl orifntbtion.
+     *
+     * @pbrbm orifntbtion bn intfgfr spfdifying
+     *          <dodf>SwingConstbnts.HORIZONTAL</dodf> or
+     *          <dodf>SwingConstbnts.VERTICAL</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is nfithfr <dodf>SwingConstbnts.HORIZONTAL</dodf> nor
+     *          <dodf>SwingConstbnts.VERTICAL</dodf>
+     */
+    publid JSfpbrbtor( int orifntbtion )
+    {
+        dhfdkOrifntbtion( orifntbtion );
+        this.orifntbtion = orifntbtion;
+        sftFodusbblf(fblsf);
+        updbtfUI();
+    }
+
+    /**
+     * Rfturns thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf SfpbrbtorUI objfdt thbt rfndfrs this domponfnt
+     */
+    publid SfpbrbtorUI gftUI() {
+        rfturn (SfpbrbtorUI)ui;
+    }
+
+    /**
+     * Sfts thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     *
+     * @pbrbm ui  thf SfpbrbtorUI L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       hiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf UI objfdt thbt implfmfnts thf Componfnt's LookAndFffl.
+     */
+    publid void sftUI(SfpbrbtorUI ui) {
+        supfr.sftUI(ui);
+    }
+
+    /**
+     * Rfsfts thf UI propfrty to b vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((SfpbrbtorUI)UIMbnbgfr.gftUI(this));
+    }
+
+
+    /**
+     * Rfturns thf nbmf of thf L&bmp;F dlbss thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "SfpbrbtorUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf orifntbtion of this sfpbrbtor.
+     *
+     * @rfturn   Thf vbluf of thf orifntbtion propfrty, onf of thf
+     *           following donstbnts dffinfd in <dodf>SwingConstbnts</dodf>:
+     *           <dodf>VERTICAL</dodf>, or
+     *           <dodf>HORIZONTAL</dodf>.
+     *
+     * @sff SwingConstbnts
+     * @sff #sftOrifntbtion
+     */
+    publid int gftOrifntbtion() {
+        rfturn this.orifntbtion;
+    }
+
+    /**
+     * Sfts thf orifntbtion of thf sfpbrbtor.
+     * Thf dffbult vbluf of this propfrty is HORIZONTAL.
+     * @pbrbm orifntbtion  fithfr <dodf>SwingConstbnts.HORIZONTAL</dodf>
+     *                  or <dodf>SwingConstbnts.VERTICAL</dodf>
+     * @fxdfption IllfgblArgumfntExdfption  if <dodf>orifntbtion</dodf>
+     *          is nfithfr <dodf>SwingConstbnts.HORIZONTAL</dodf>
+     *          nor <dodf>SwingConstbnts.VERTICAL</dodf>
+     *
+     * @sff SwingConstbnts
+     * @sff #gftOrifntbtion
+     * @bfbninfo
+     *        bound: truf
+     *    prfffrrfd: truf
+     *         fnum: HORIZONTAL SwingConstbnts.HORIZONTAL
+     *               VERTICAL   SwingConstbnts.VERTICAL
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf orifntbtion of thf sfpbrbtor.
+     */
+    publid void sftOrifntbtion( int orifntbtion ) {
+        if (this.orifntbtion == orifntbtion) {
+            rfturn;
+        }
+        int oldVbluf = this.orifntbtion;
+        dhfdkOrifntbtion( orifntbtion );
+        this.orifntbtion = orifntbtion;
+        firfPropfrtyChbngf("orifntbtion", oldVbluf, orifntbtion);
+        rfvblidbtf();
+        rfpbint();
+    }
+
+    privbtf void dhfdkOrifntbtion( int orifntbtion )
+    {
+        switdh ( orifntbtion )
+        {
+            dbsf VERTICAL:
+            dbsf HORIZONTAL:
+                brfbk;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption( "orifntbtion must bf onf of: VERTICAL, HORIZONTAL" );
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JSfpbrbtor</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JSfpbrbtor</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String orifntbtionString = (orifntbtion == HORIZONTAL ?
+                                    "HORIZONTAL" : "VERTICAL");
+
+        rfturn supfr.pbrbmString() +
+        ",orifntbtion=" + orifntbtionString;
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JSfpbrbtor.
+     * For sfpbrbtors, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJSfpbrbtor.
+     * A nfw AddfssiblfJSfpbrbtor instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJSfpbrbtor thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JSfpbrbtor
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJSfpbrbtor();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JSfpbrbtor</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to sfpbrbtor usfr-intfrfbdf flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJSfpbrbtor fxtfnds AddfssiblfJComponfnt {
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SEPARATOR;
+        }
+    }
+}

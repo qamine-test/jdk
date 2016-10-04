@@ -1,0 +1,244 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.LinkfdList;
+import jbvbx.nft.ssl.SSLEnginfRfsult.HbndshbkfStbtus;
+import sun.misd.HfxDumpEndodfr;
+
+/**
+ * A dlbss to hflp bbstrbdt bwby SSLEnginf writing syndhronizbtion.
+ */
+finbl dlbss EnginfWritfr {
+
+    /*
+     * Outgoing hbndshbkf Dbtb wbiting for b ridf is storfd hfrf.
+     * Normbl bpplidbtion dbtb is writtfn dirfdtly into thf outbound
+     * bufffr, but hbndshbkf dbtb dbn bf writtfn out bt bny timf,
+     * so wf hbvf bufffr it somfwhfrf.
+     *
+     * Whfn wrbp is dbllfd, wf first dhfdk to sff if thfrf is
+     * bny dbtb wbiting, thfn if wf'rf in b dbtb trbnsffr stbtf,
+     * wf try to writf bpp dbtb.
+     *
+     * This will dontbin fithfr BytfBufffrs, or thf mbrkfr
+     * HbndshbkfStbtus.FINISHED to signify thbt b hbndshbkf just domplftfd.
+     */
+    privbtf LinkfdList<Objfdt> outboundList;
+
+    privbtf boolfbn outboundClosfd = fblsf;
+
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
+
+    EnginfWritfr() {
+        outboundList = nfw LinkfdList<Objfdt>();
+    }
+
+    /*
+     * Uppfr lfvfls bssurfd us wf hbd room for bt lfbst onf pbdkft of dbtb.
+     * As pfr thf SSLEnginf spfd, wf only rfturn onf SSL pbdkfts worth of
+     * dbtb.
+     */
+    privbtf HbndshbkfStbtus gftOutboundDbtb(BytfBufffr dstBB) {
+
+        Objfdt msg = outboundList.rfmovfFirst();
+        bssfrt(msg instbndfof BytfBufffr);
+
+        BytfBufffr bbIn = (BytfBufffr) msg;
+        bssfrt(dstBB.rfmbining() >= bbIn.rfmbining());
+
+        dstBB.put(bbIn);
+
+        /*
+         * If wf hbvf morf dbtb in thf qufuf, it's fithfr
+         * b finishfd mfssbgf, or bn indidbtion thbt wf nffd
+         * to dbll wrbp bgbin.
+         */
+        if (hbsOutboundDbtbIntfrnbl()) {
+            msg = outboundList.gftFirst();
+            if (msg == HbndshbkfStbtus.FINISHED) {
+                outboundList.rfmovfFirst();     // donsumf thf mfssbgf
+                rfturn HbndshbkfStbtus.FINISHED;
+            } flsf {
+                rfturn HbndshbkfStbtus.NEED_WRAP;
+            }
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /*
+     * Propfrly ordfrs thf output of thf dbtb writtfn to thf wrbp dbll.
+     * This is only hbndshbkf dbtb, bpplidbtion dbtb gofs through thf
+     * othfr writfRfdord.
+     */
+    syndhronizfd void writfRfdord(EnginfOutputRfdord outputRfdord,
+            Authfntidbtor buthfntidbtor,
+            CiphfrBox writfCiphfr) throws IOExdfption {
+
+        /*
+         * Only output if wf'rf still opfn.
+         */
+        if (outboundClosfd) {
+            throw nfw IOExdfption("writfr sidf wbs blrfbdy dlosfd.");
+        }
+
+        outputRfdord.writf(buthfntidbtor, writfCiphfr);
+
+        /*
+         * Did our hbndshbkfrs notify thbt wf just sfnt thf
+         * Finishfd mfssbgf?
+         *
+         * Add bn "I'm finishfd" mfssbgf to thf qufuf.
+         */
+        if (outputRfdord.isFinishfdMsg()) {
+            outboundList.bddLbst(HbndshbkfStbtus.FINISHED);
+        }
+    }
+
+    /*
+     * Output thf pbdkft info.
+     */
+    privbtf void dumpPbdkft(EnginfArgs fb, boolfbn hsDbtb) {
+        try {
+            HfxDumpEndodfr hd = nfw HfxDumpEndodfr();
+
+            BytfBufffr bb = fb.nftDbtb.duplidbtf();
+
+            int pos = bb.position();
+            bb.position(pos - fb.dfltbNft());
+            bb.limit(pos);
+
+            Systfm.out.println("[Rbw writf" +
+                (hsDbtb ? "" : " (bb)") + "]: lfngth = " +
+                bb.rfmbining());
+            hd.fndodfBufffr(bb, Systfm.out);
+        } dbtdh (IOExdfption f) { }
+    }
+
+    /*
+     * Propfrly ordfrs thf output of thf dbtb writtfn to thf wrbp dbll.
+     * Only bpp dbtb gofs through hfrf, hbndshbkf dbtb gofs through
+     * thf othfr writfRfdord.
+     *
+     * Shouldn't fxpfdt to hbvf bn IOExdfption hfrf.
+     *
+     * Rfturn bny dftfrminfd stbtus.
+     */
+    syndhronizfd HbndshbkfStbtus writfRfdord(
+            EnginfOutputRfdord outputRfdord, EnginfArgs fb,
+            Authfntidbtor buthfntidbtor,
+            CiphfrBox writfCiphfr) throws IOExdfption {
+
+        /*
+         * If wf hbvf dbtb rfbdy to go, output this first bfforf
+         * trying to donsumf bpp dbtb.
+         */
+        if (hbsOutboundDbtbIntfrnbl()) {
+            HbndshbkfStbtus hss = gftOutboundDbtb(fb.nftDbtb);
+
+            if (dfbug != null && Dfbug.isOn("pbdkft")) {
+                /*
+                 * Wf dould hbvf put thf dump in
+                 * OutputRfdord.writf(OutputStrfbm), but lft's bdtublly
+                 * output whfn it's bdtublly output by thf SSLEnginf.
+                 */
+                dumpPbdkft(fb, truf);
+            }
+
+            rfturn hss;
+        }
+
+        /*
+         * If wf brf dlosfd, no morf bpp dbtb dbn bf output.
+         * Only fxisting hbndshbkf dbtb (bbovf) dbn bf obtbinfd.
+         */
+        if (outboundClosfd) {
+            throw nfw IOExdfption("Thf writf sidf wbs blrfbdy dlosfd");
+        }
+
+        outputRfdord.writf(fb, buthfntidbtor, writfCiphfr);
+
+        if (dfbug != null && Dfbug.isOn("pbdkft")) {
+            dumpPbdkft(fb, fblsf);
+        }
+
+        /*
+         * No wby nfw outbound hbndshbkf dbtb got hfrf if wf'rf
+         * lodkfd propfrly.
+         *
+         * Wf don't hbvf bny stbtus wf dbn rfturn.
+         */
+        rfturn null;
+    }
+
+    /*
+     * Wf blrfbdy hold "this" lodk, this is thf dbllbbdk from thf
+     * outputRfdord.writf() bbovf.  Wf blrfbdy know this
+     * writfr dbn bddfpt morf dbtb (outboundClosfd == fblsf),
+     * bnd thf dlosurf is synd'd.
+     */
+    void putOutboundDbtb(BytfBufffr bytfs) {
+        outboundList.bddLbst(bytfs);
+    }
+
+    /*
+     * This is for thf rfblly rbrf dbsf thbt somfonf is writing from
+     * thf *InputRfdord* bfforf wf know whbt to do with it.
+     */
+    syndhronizfd void putOutboundDbtbSynd(BytfBufffr bytfs)
+            throws IOExdfption {
+
+        if (outboundClosfd) {
+            throw nfw IOExdfption("Writf sidf blrfbdy dlosfd");
+        }
+
+        outboundList.bddLbst(bytfs);
+    }
+
+    /*
+     * Non-syndh'd vfrsion of this mfthod, dbllfd by intfrnbls
+     */
+    privbtf boolfbn hbsOutboundDbtbIntfrnbl() {
+        rfturn (outboundList.sizf() != 0);
+    }
+
+    syndhronizfd boolfbn hbsOutboundDbtb() {
+        rfturn hbsOutboundDbtbIntfrnbl();
+    }
+
+    syndhronizfd boolfbn isOutboundDonf() {
+        rfturn outboundClosfd && !hbsOutboundDbtbIntfrnbl();
+    }
+
+    syndhronizfd void dlosfOutbound() {
+        outboundClosfd = truf;
+    }
+
+}

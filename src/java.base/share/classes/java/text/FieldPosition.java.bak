@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
 /**
- * <code>FieldPosition</code> is a simple class used by <code>Format</code>
- * and its subclasses to identify fields in formatted output. Fields can
- * be identified in two ways:
+ * <dodf>FifldPosition</dodf> is b simplf dlbss usfd by <dodf>Formbt</dodf>
+ * bnd its subdlbssfs to idfntify fiflds in formbttfd output. Fiflds dbn
+ * bf idfntififd in two wbys:
  * <ul>
- *  <li>By an integer constant, whose names typically end with
- *      <code>_FIELD</code>. The constants are defined in the various
- *      subclasses of <code>Format</code>.
- *  <li>By a <code>Format.Field</code> constant, see <code>ERA_FIELD</code>
- *      and its friends in <code>DateFormat</code> for an example.
+ *  <li>By bn intfgfr donstbnt, wiosf nbmfs typidblly fnd witi
+ *      <dodf>_FIELD</dodf>. Tif donstbnts brf dffinfd in tif vbrious
+ *      subdlbssfs of <dodf>Formbt</dodf>.
+ *  <li>By b <dodf>Formbt.Fifld</dodf> donstbnt, sff <dodf>ERA_FIELD</dodf>
+ *      bnd its frifnds in <dodf>DbtfFormbt</dodf> for bn fxbmplf.
  * </ul>
  * <p>
- * <code>FieldPosition</code> keeps track of the position of the
- * field within the formatted output with two indices: the index
- * of the first character of the field and the index of the last
- * character of the field.
+ * <dodf>FifldPosition</dodf> kffps trbdk of tif position of tif
+ * fifld witiin tif formbttfd output witi two indidfs: tif indfx
+ * of tif first dibrbdtfr of tif fifld bnd tif indfx of tif lbst
+ * dibrbdtfr of tif fifld.
  *
  * <p>
- * One version of the <code>format</code> method in the various
- * <code>Format</code> classes requires a <code>FieldPosition</code>
- * object as an argument. You use this <code>format</code> method
- * to perform partial formatting or to get information about the
- * formatted output (such as the position of a field).
+ * Onf vfrsion of tif <dodf>formbt</dodf> mftiod in tif vbrious
+ * <dodf>Formbt</dodf> dlbssfs rfquirfs b <dodf>FifldPosition</dodf>
+ * objfdt bs bn brgumfnt. You usf tiis <dodf>formbt</dodf> mftiod
+ * to pfrform pbrtibl formbtting or to gft informbtion bbout tif
+ * formbttfd output (sudi bs tif position of b fifld).
  *
  * <p>
- * If you are interested in the positions of all attributes in the
- * formatted string use the <code>Format</code> method
- * <code>formatToCharacterIterator</code>.
+ * If you brf intfrfstfd in tif positions of bll bttributfs in tif
+ * formbttfd string usf tif <dodf>Formbt</dodf> mftiod
+ * <dodf>formbtToCibrbdtfrItfrbtor</dodf>.
  *
- * @author      Mark Davis
- * @see         java.text.Format
+ * @butior      Mbrk Dbvis
+ * @sff         jbvb.tfxt.Formbt
  */
-public class FieldPosition {
+publid dlbss FifldPosition {
 
     /**
-     * Input: Desired field to determine start and end offsets for.
-     * The meaning depends on the subclass of Format.
+     * Input: Dfsirfd fifld to dftfrminf stbrt bnd fnd offsfts for.
+     * Tif mfbning dfpfnds on tif subdlbss of Formbt.
      */
-    int field = 0;
+    int fifld = 0;
 
     /**
-     * Output: End offset of field in text.
-     * If the field does not occur in the text, 0 is returned.
+     * Output: End offsft of fifld in tfxt.
+     * If tif fifld dofs not oddur in tif tfxt, 0 is rfturnfd.
      */
-    int endIndex = 0;
+    int fndIndfx = 0;
 
     /**
-     * Output: Start offset of field in text.
-     * If the field does not occur in the text, 0 is returned.
+     * Output: Stbrt offsft of fifld in tfxt.
+     * If tif fifld dofs not oddur in tif tfxt, 0 is rfturnfd.
      */
-    int beginIndex = 0;
+    int bfginIndfx = 0;
 
     /**
-     * Desired field this FieldPosition is for.
+     * Dfsirfd fifld tiis FifldPosition is for.
      */
-    private Format.Field attribute;
+    privbtf Formbt.Fifld bttributf;
 
     /**
-     * Creates a FieldPosition object for the given field.  Fields are
-     * identified by constants, whose names typically end with _FIELD,
-     * in the various subclasses of Format.
+     * Crfbtfs b FifldPosition objfdt for tif givfn fifld.  Fiflds brf
+     * idfntififd by donstbnts, wiosf nbmfs typidblly fnd witi _FIELD,
+     * in tif vbrious subdlbssfs of Formbt.
      *
-     * @param field the field identifier
-     * @see java.text.NumberFormat#INTEGER_FIELD
-     * @see java.text.NumberFormat#FRACTION_FIELD
-     * @see java.text.DateFormat#YEAR_FIELD
-     * @see java.text.DateFormat#MONTH_FIELD
+     * @pbrbm fifld tif fifld idfntififr
+     * @sff jbvb.tfxt.NumbfrFormbt#INTEGER_FIELD
+     * @sff jbvb.tfxt.NumbfrFormbt#FRACTION_FIELD
+     * @sff jbvb.tfxt.DbtfFormbt#YEAR_FIELD
+     * @sff jbvb.tfxt.DbtfFormbt#MONTH_FIELD
      */
-    public FieldPosition(int field) {
-        this.field = field;
+    publid FifldPosition(int fifld) {
+        tiis.fifld = fifld;
     }
 
     /**
-     * Creates a FieldPosition object for the given field constant. Fields are
-     * identified by constants defined in the various <code>Format</code>
-     * subclasses. This is equivalent to calling
-     * <code>new FieldPosition(attribute, -1)</code>.
+     * Crfbtfs b FifldPosition objfdt for tif givfn fifld donstbnt. Fiflds brf
+     * idfntififd by donstbnts dffinfd in tif vbrious <dodf>Formbt</dodf>
+     * subdlbssfs. Tiis is fquivblfnt to dblling
+     * <dodf>nfw FifldPosition(bttributf, -1)</dodf>.
      *
-     * @param attribute Format.Field constant identifying a field
-     * @since 1.4
+     * @pbrbm bttributf Formbt.Fifld donstbnt idfntifying b fifld
+     * @sindf 1.4
      */
-    public FieldPosition(Format.Field attribute) {
-        this(attribute, -1);
+    publid FifldPosition(Formbt.Fifld bttributf) {
+        tiis(bttributf, -1);
     }
 
     /**
-     * Creates a <code>FieldPosition</code> object for the given field.
-     * The field is identified by an attribute constant from one of the
-     * <code>Field</code> subclasses as well as an integer field ID
-     * defined by the <code>Format</code> subclasses. <code>Format</code>
-     * subclasses that are aware of <code>Field</code> should give precedence
-     * to <code>attribute</code> and ignore <code>fieldID</code> if
-     * <code>attribute</code> is not null. However, older <code>Format</code>
-     * subclasses may not be aware of <code>Field</code> and rely on
-     * <code>fieldID</code>. If the field has no corresponding integer
-     * constant, <code>fieldID</code> should be -1.
+     * Crfbtfs b <dodf>FifldPosition</dodf> objfdt for tif givfn fifld.
+     * Tif fifld is idfntififd by bn bttributf donstbnt from onf of tif
+     * <dodf>Fifld</dodf> subdlbssfs bs wfll bs bn intfgfr fifld ID
+     * dffinfd by tif <dodf>Formbt</dodf> subdlbssfs. <dodf>Formbt</dodf>
+     * subdlbssfs tibt brf bwbrf of <dodf>Fifld</dodf> siould givf prfdfdfndf
+     * to <dodf>bttributf</dodf> bnd ignorf <dodf>fifldID</dodf> if
+     * <dodf>bttributf</dodf> is not null. Howfvfr, oldfr <dodf>Formbt</dodf>
+     * subdlbssfs mby not bf bwbrf of <dodf>Fifld</dodf> bnd rfly on
+     * <dodf>fifldID</dodf>. If tif fifld ibs no dorrfsponding intfgfr
+     * donstbnt, <dodf>fifldID</dodf> siould bf -1.
      *
-     * @param attribute Format.Field constant identifying a field
-     * @param fieldID integer constant identifying a field
-     * @since 1.4
+     * @pbrbm bttributf Formbt.Fifld donstbnt idfntifying b fifld
+     * @pbrbm fifldID intfgfr donstbnt idfntifying b fifld
+     * @sindf 1.4
      */
-    public FieldPosition(Format.Field attribute, int fieldID) {
-        this.attribute = attribute;
-        this.field = fieldID;
+    publid FifldPosition(Formbt.Fifld bttributf, int fifldID) {
+        tiis.bttributf = bttributf;
+        tiis.fifld = fifldID;
     }
 
     /**
-     * Returns the field identifier as an attribute constant
-     * from one of the <code>Field</code> subclasses. May return null if
-     * the field is specified only by an integer field ID.
+     * Rfturns tif fifld idfntififr bs bn bttributf donstbnt
+     * from onf of tif <dodf>Fifld</dodf> subdlbssfs. Mby rfturn null if
+     * tif fifld is spfdififd only by bn intfgfr fifld ID.
      *
-     * @return Identifier for the field
-     * @since 1.4
+     * @rfturn Idfntififr for tif fifld
+     * @sindf 1.4
      */
-    public Format.Field getFieldAttribute() {
-        return attribute;
+    publid Formbt.Fifld gftFifldAttributf() {
+        rfturn bttributf;
     }
 
     /**
-     * Retrieves the field identifier.
+     * Rftrifvfs tif fifld idfntififr.
      *
-     * @return the field identifier
+     * @rfturn tif fifld idfntififr
      */
-    public int getField() {
-        return field;
+    publid int gftFifld() {
+        rfturn fifld;
     }
 
     /**
-     * Retrieves the index of the first character in the requested field.
+     * Rftrifvfs tif indfx of tif first dibrbdtfr in tif rfqufstfd fifld.
      *
-     * @return the begin index
+     * @rfturn tif bfgin indfx
      */
-    public int getBeginIndex() {
-        return beginIndex;
+    publid int gftBfginIndfx() {
+        rfturn bfginIndfx;
     }
 
     /**
-     * Retrieves the index of the character following the last character in the
-     * requested field.
+     * Rftrifvfs tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr in tif
+     * rfqufstfd fifld.
      *
-     * @return the end index
+     * @rfturn tif fnd indfx
      */
-    public int getEndIndex() {
-        return endIndex;
+    publid int gftEndIndfx() {
+        rfturn fndIndfx;
     }
 
     /**
-     * Sets the begin index.  For use by subclasses of Format.
+     * Sfts tif bfgin indfx.  For usf by subdlbssfs of Formbt.
      *
-     * @param bi the begin index
-     * @since 1.2
+     * @pbrbm bi tif bfgin indfx
+     * @sindf 1.2
      */
-    public void setBeginIndex(int bi) {
-        beginIndex = bi;
+    publid void sftBfginIndfx(int bi) {
+        bfginIndfx = bi;
     }
 
     /**
-     * Sets the end index.  For use by subclasses of Format.
+     * Sfts tif fnd indfx.  For usf by subdlbssfs of Formbt.
      *
-     * @param ei the end index
-     * @since 1.2
+     * @pbrbm fi tif fnd indfx
+     * @sindf 1.2
      */
-    public void setEndIndex(int ei) {
-        endIndex = ei;
+    publid void sftEndIndfx(int fi) {
+        fndIndfx = fi;
     }
 
     /**
-     * Returns a <code>Format.FieldDelegate</code> instance that is associated
-     * with the FieldPosition. When the delegate is notified of the same
-     * field the FieldPosition is associated with, the begin/end will be
-     * adjusted.
+     * Rfturns b <dodf>Formbt.FifldDflfgbtf</dodf> instbndf tibt is bssodibtfd
+     * witi tif FifldPosition. Wifn tif dflfgbtf is notififd of tif sbmf
+     * fifld tif FifldPosition is bssodibtfd witi, tif bfgin/fnd will bf
+     * bdjustfd.
      */
-    Format.FieldDelegate getFieldDelegate() {
-        return new Delegate();
+    Formbt.FifldDflfgbtf gftFifldDflfgbtf() {
+        rfturn nfw Dflfgbtf();
     }
 
     /**
-     * Overrides equals
+     * Ovfrridfs fqubls
      */
-    public boolean equals(Object obj)
+    publid boolfbn fqubls(Objfdt obj)
     {
-        if (obj == null) return false;
-        if (!(obj instanceof FieldPosition))
-            return false;
-        FieldPosition other = (FieldPosition) obj;
-        if (attribute == null) {
-            if (other.attribute != null) {
-                return false;
+        if (obj == null) rfturn fblsf;
+        if (!(obj instbndfof FifldPosition))
+            rfturn fblsf;
+        FifldPosition otifr = (FifldPosition) obj;
+        if (bttributf == null) {
+            if (otifr.bttributf != null) {
+                rfturn fblsf;
             }
         }
-        else if (!attribute.equals(other.attribute)) {
-            return false;
+        flsf if (!bttributf.fqubls(otifr.bttributf)) {
+            rfturn fblsf;
         }
-        return (beginIndex == other.beginIndex
-            && endIndex == other.endIndex
-            && field == other.field);
+        rfturn (bfginIndfx == otifr.bfginIndfx
+            && fndIndfx == otifr.fndIndfx
+            && fifld == otifr.fifld);
     }
 
     /**
-     * Returns a hash code for this FieldPosition.
-     * @return a hash code value for this object
+     * Rfturns b ibsi dodf for tiis FifldPosition.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt
      */
-    public int hashCode() {
-        return (field << 24) | (beginIndex << 16) | endIndex;
+    publid int ibsiCodf() {
+        rfturn (fifld << 24) | (bfginIndfx << 16) | fndIndfx;
     }
 
     /**
-     * Return a string representation of this FieldPosition.
-     * @return  a string representation of this object
+     * Rfturn b string rfprfsfntbtion of tiis FifldPosition.
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt
      */
-    public String toString() {
-        return getClass().getName() +
-            "[field=" + field + ",attribute=" + attribute +
-            ",beginIndex=" + beginIndex +
-            ",endIndex=" + endIndex + ']';
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+            "[fifld=" + fifld + ",bttributf=" + bttributf +
+            ",bfginIndfx=" + bfginIndfx +
+            ",fndIndfx=" + fndIndfx + ']';
     }
 
 
     /**
-     * Return true if the receiver wants a <code>Format.Field</code> value and
-     * <code>attribute</code> is equal to it.
+     * Rfturn truf if tif rfdfivfr wbnts b <dodf>Formbt.Fifld</dodf> vbluf bnd
+     * <dodf>bttributf</dodf> is fqubl to it.
      */
-    private boolean matchesField(Format.Field attribute) {
-        if (this.attribute != null) {
-            return this.attribute.equals(attribute);
+    privbtf boolfbn mbtdifsFifld(Formbt.Fifld bttributf) {
+        if (tiis.bttributf != null) {
+            rfturn tiis.bttributf.fqubls(bttributf);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Return true if the receiver wants a <code>Format.Field</code> value and
-     * <code>attribute</code> is equal to it, or true if the receiver
-     * represents an inteter constant and <code>field</code> equals it.
+     * Rfturn truf if tif rfdfivfr wbnts b <dodf>Formbt.Fifld</dodf> vbluf bnd
+     * <dodf>bttributf</dodf> is fqubl to it, or truf if tif rfdfivfr
+     * rfprfsfnts bn intftfr donstbnt bnd <dodf>fifld</dodf> fqubls it.
      */
-    private boolean matchesField(Format.Field attribute, int field) {
-        if (this.attribute != null) {
-            return this.attribute.equals(attribute);
+    privbtf boolfbn mbtdifsFifld(Formbt.Fifld bttributf, int fifld) {
+        if (tiis.bttributf != null) {
+            rfturn tiis.bttributf.fqubls(bttributf);
         }
-        return (field == this.field);
+        rfturn (fifld == tiis.fifld);
     }
 
 
     /**
-     * An implementation of FieldDelegate that will adjust the begin/end
-     * of the FieldPosition if the arguments match the field of
-     * the FieldPosition.
+     * An implfmfntbtion of FifldDflfgbtf tibt will bdjust tif bfgin/fnd
+     * of tif FifldPosition if tif brgumfnts mbtdi tif fifld of
+     * tif FifldPosition.
      */
-    private class Delegate implements Format.FieldDelegate {
+    privbtf dlbss Dflfgbtf implfmfnts Formbt.FifldDflfgbtf {
         /**
-         * Indicates whether the field has been  encountered before. If this
-         * is true, and <code>formatted</code> is invoked, the begin/end
-         * are not updated.
+         * Indidbtfs wiftifr tif fifld ibs bffn  fndountfrfd bfforf. If tiis
+         * is truf, bnd <dodf>formbttfd</dodf> is invokfd, tif bfgin/fnd
+         * brf not updbtfd.
          */
-        private boolean encounteredField;
+        privbtf boolfbn fndountfrfdFifld;
 
-        public void formatted(Format.Field attr, Object value, int start,
-                              int end, StringBuffer buffer) {
-            if (!encounteredField && matchesField(attr)) {
-                setBeginIndex(start);
-                setEndIndex(end);
-                encounteredField = (start != end);
+        publid void formbttfd(Formbt.Fifld bttr, Objfdt vbluf, int stbrt,
+                              int fnd, StringBufffr bufffr) {
+            if (!fndountfrfdFifld && mbtdifsFifld(bttr)) {
+                sftBfginIndfx(stbrt);
+                sftEndIndfx(fnd);
+                fndountfrfdFifld = (stbrt != fnd);
             }
         }
 
-        public void formatted(int fieldID, Format.Field attr, Object value,
-                              int start, int end, StringBuffer buffer) {
-            if (!encounteredField && matchesField(attr, fieldID)) {
-                setBeginIndex(start);
-                setEndIndex(end);
-                encounteredField = (start != end);
+        publid void formbttfd(int fifldID, Formbt.Fifld bttr, Objfdt vbluf,
+                              int stbrt, int fnd, StringBufffr bufffr) {
+            if (!fndountfrfdFifld && mbtdifsFifld(bttr, fifldID)) {
+                sftBfginIndfx(stbrt);
+                sftEndIndfx(fnd);
+                fndountfrfdFifld = (stbrt != fnd);
             }
         }
     }

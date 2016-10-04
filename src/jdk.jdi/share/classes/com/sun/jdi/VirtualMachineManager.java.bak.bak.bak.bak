@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.Connfdtion;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
+
+/**
+ * A mbnbgfr of donnfdtions to tbrgft virtubl mbdhinfs. Thf
+ * VirtublMbdhinfMbnbgfr bllows onf bpplidbtion to dfbug
+ * multiplf tbrgft VMs. (Notf thbt thf donvfrsf is not
+ * supportfd; b tbrgft VM dbn bf dfbuggfd by only onf
+ * dfbuggfr bpplidbtion.) This intfrfbdf
+ * dontbins mfthods to mbnbgf donnfdtions
+ * to rfmotf tbrgft VMs bnd to obtbin thf {@link VirtublMbdhinf}
+ * mirror for bvbilbblf tbrgft VMs.
+ * <p>
+ * Connfdtions dbn bf mbdf using onf of sfvfrbl difffrfnt
+ * {@link dom.sun.jdi.donnfdt.Connfdtor} objfdts. Ebdh donnfdtor fndbpsulbtfs
+ * b difffrfnt wby of donnfdting thf dfbuggfr with b tbrgft VM.
+ * <p>
+ * Thf VirtublMbdhinfMbnbgfr supports mbny difffrfnt sdfnbrios for
+ * donnfdting b dfbuggfr to b virtubl mbdhinf. Four fxbmplfs
+ * brf prfsfntfd in thf tbblf bflow. Thf
+ * fxbmplfs usf thf dommbnd linf syntbx in Sun's implfmfntbtion.
+ * Somf {@link dom.sun.jdi.donnfdt.Connfdtor} implfmfntbtions mby rfquirf slightly
+ * difffrfnt hbndling thbn prfsfntfd bflow.
+ * <p>
+ * <TABLE BORDER WIDTH="75%" SUMMARY="Four sdfnbrios for donnfdting b dfbuggfr
+ *  to b virtubl mbdhinf">
+ * <TR>
+ * <TH sdopf=dol>Sdfnbrio</TH>
+ * <TH sdopf=dol>Dfsdription</TH>
+ * <TR>
+ * <TD>Dfbuggfr lbundhfs tbrgft VM (simplfst, most-dommon sdfnbrio)</TD>
+ *
+ * <TD>Dfbuggfr dblls thf
+ * {@link dom.sun.jdi.donnfdt.LbundhingConnfdtor#lbundh(jbvb.util.Mbp)}
+ * mfthod of thf dffbult donnfdtor, obtbinfd with {@link #dffbultConnfdtor}. Thf
+ * tbrgft VM is lbundhfd, bnd b donnfdtion bftwffn thbt VM bnd thf
+ * dfbuggfr is fstbblishfd. A {@link VirtublMbdhinf} mirror is rfturnfd.
+ * <P>Or, for morf dontrol
+ * <UL>
+ * <LI>
+ * Dfbuggfr sflfdts b donnfdtor from thf list rfturnfd by
+ * {@link #lbundhingConnfdtors} with dfsirfd dhbrbdtfristids
+ * (for fxbmplf, trbnsport typf, ftd.).
+ * <LI>
+ * Dfbuggfr dblls thf
+ * {@link dom.sun.jdi.donnfdt.LbundhingConnfdtor#lbundh(jbvb.util.Mbp)}
+ * mfthod of thf sflfdtfd donnfdtor. Thf
+ * tbrgft VM is lbundhfd, bnd b donnfdtion bftwffn thbt VM bnd thf
+ * dfbuggfr is fstbblishfd. A {@link VirtublMbdhinf} mirror is rfturnfd.
+ * </UL>
+ * </TD>
+ * </TR>
+ * <TR>
+ * <TD>Dfbuggfr bttbdhfs to prfviously-running VM</TD>
+ * <TD>
+ * <UL>
+ * <LI>
+ * Tbrgft VM is lbundhfd using thf options
+ * <dodf>-bgfntlib:jdwp=trbnsport=xxx,sfrvfr=y</dodf>
+ * </LI>
+ * <LI>
+ * Tbrgft VM gfnfrbtfs bnd outputs thf trbnport-spfdifid bddrfss bt whidh it will
+ * listfn for b donnfdtion.</LI>
+ * <LI>
+ * Dfbuggfr is lbundhfd. Dfbuggfr sflfdts b donnfdtor in thf list
+ * rfturnfd by {@link #bttbdhingConnfdtors} mbtdhing thf trbnsport with
+ * thf nbmf "xxx".
+ * <LI>
+ * Dfbuggfr prfsfnts thf dffbult donnfdtor pbrbmftfrs (obtbinfd through
+ * {@link dom.sun.jdi.donnfdt.Connfdtor#dffbultArgumfnts()}) to thf fnd usfr,
+ * bllowing thf usfr to
+ * fill in thf trbnsport-spfdifid bddrfss gfnfrbtfd by thf tbrgft VM.
+ * <LI>
+ * Dfbuggfr dblls thf {@link dom.sun.jdi.donnfdt.AttbdhingConnfdtor#bttbdh(jbvb.util.Mbp)} mfthod
+ * of thf sflfdtfd to bttbdh to thf tbrgft VM. A {@link VirtublMbdhinf}
+ * mirror is rfturnfd.
+ * </UL>
+ * </TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>Tbrgft VM bttbdhfs to prfviously-running dfbuggfr</TD>
+ * <TD>
+ * <LI>
+ * At stbrtup, dfbuggfr sflfdts onf or morf donnfdtors from
+ * thf list rfturnfd by {@link #listfningConnfdtors} for onf or morf
+ * trbnsports.</LI>
+ * <LI>
+ * Dfbuggfr dblls thf {@link dom.sun.jdi.donnfdt.ListfningConnfdtor#stbrtListfning(jbvb.util.Mbp)} mfthod for fbdh sflfdtfd
+ * donnfdtor. For fbdh dbll, b trbnsport-spfdifid bddrfss string is
+ * gfnfrbtfd bnd rfturnfd. Thf dfbuggfr mbkfs thf trbnsport nbmfs bnd
+ * dorrfsponding bddrfss strings bvbilbblf to thf fnd usfr.
+ * <LI>
+ * Dfbuggfr dblls
+ * {@link dom.sun.jdi.donnfdt.ListfningConnfdtor#bddfpt(jbvb.util.Mbp)}
+ * for fbdh sflfdtfd donnfdtor to wbit for
+ * b tbrgft VM to donnfdt.</LI>
+ * <LI>
+ * Lbtfr, tbrgft VM is lbundhfd by fnd usfr with thf options
+ * <dodf>-bgfntlib:jdwp=trbnsport=xxx,bddrfss=yyy</dodf>
+ * whfrf "xxx" thf trbnsport for onf of thf donnfdtors sflfdtfd by thf
+ * thf dfbuggfr bnd "yyy"
+ * is thf bddrfss gfnfrbtfd by
+ * {@link dom.sun.jdi.donnfdt.ListfningConnfdtor#bddfpt(jbvb.util.Mbp)} for thbt
+ * trbnsport.</LI>
+ * <LI>
+ * Dfbuggfr's dbll to {@link dom.sun.jdi.donnfdt.ListfningConnfdtor#bddfpt(jbvb.util.Mbp)} rfturns
+ * b {@link VirtublMbdhinf} mirror.</LI>
+ * </TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>Tbrgft VM lbundhfs dfbuggfr (somftimfs dbllfd "Just-In-Timf" dfbugging)</TD>
+ * <TD>
+ * <LI>
+ * Tbrgft VM is lbundhfd with thf options
+ * <dodf>-bgfntlib:jdwp=lbundh=dmdlinf,onundbught=y,trbnsport=xxx,sfrvfr=y</dodf>
+ * </LI>
+ * <LI>
+ * Lbtfr, bn undbught fxdfption is thrown in thf tbrgft VM. Thf tbrgft
+ * VM gfnfrbtfs thf trbnport-spfdifid bddrfss bt whidh it will
+ * listfn for b donnfdtion.
+ * <LI>Tbrgft VM lbundhfs thf dfbuggfr with thf following itfms dondbtfnbtfd
+ * togfthfr (sfpbrbtfd by spbdfs) to form thf dommbnd linf:
+ * <UL>
+ * <LI> Thf lbundh= vbluf
+ * <LI> Thf trbnsport= vbluf
+ * <LI> Thf gfnfrbtfd trbnsport-spfdifid bddrfss bt whidh VM is listfning for
+ * dfbuggfr donnfdtion.
+ * </UL>
+ * <LI>
+ * Upon lbundh, dfbuggfr sflfdts b donnfdtor in thf list
+ * rfturnfd by {@link #bttbdhingConnfdtors} mbtdhing thf trbnsport with
+ * thf nbmf "xxx".
+ * <LI>
+ * Dfbuggfr dhbngfs thf dffbult donnfdtor pbrbmftfrs (obtbinfd through
+ * {@link dom.sun.jdi.donnfdt.Connfdtor#dffbultArgumfnts()}) to spfdify
+ * thf trbnsport spfdifid bddrfss bt whidh thf VM is listfnig. Optionblly,
+ * othfr donnfdtor brgumfnts dbn bf prfsfntfd to thf usfr.
+ * <LI>
+ * Dfbuggfr dblls thf
+ * {@link dom.sun.jdi.donnfdt.AttbdhingConnfdtor#bttbdh(jbvb.util.Mbp)} mfthod
+ * of thf sflfdtfd to bttbdh to thf tbrgft VM. A {@link VirtublMbdhinf}
+ * mirror is rfturnfd.
+ * </TD>
+ * </TR>
+ * </TABLE>
+ *
+ * <p> Connfdtors brf drfbtfd bt stbrt-up timf. Thbt is, thfy
+ * brf drfbtfd thf first timf thbt {@link
+ * dom.sun.jdi.Bootstrbp#virtublMbdhinfMbnbgfr()} is invokfd.
+ * Thf list of bll Connfdtors drfbtfd bt stbrt-up timf dbn bf
+ * obtbinfd from thf VirtublMbdhinfMbnbgfr by invoking thf
+ * {@link #bllConnfdtors bllConnfdtors} mfthod.
+ *
+ * <p> Connfdtors brf drfbtfd bt stbrt-up timf if thfy brf
+ * instbllfd on thf plbtform. In bddition, Connfdtors brf drfbtfd
+ * butombtidblly by thf VirtublMbdhinfMbnbgfr to fndbpsulbtf bny
+ * {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf} implfmfntbtions
+ * thbt brf instbllfd on thf plbtform. Thfsf two mfdhbnisms for
+ * drfbting Connfdtors brf dfsdribfd hfrf.
+ *
+ * <p> A Connfdtor is instbllfd on thf plbtform if it is instbllfd
+ * in b jbr filf thbt is visiblf to thf dffining dlbss lobdfr of
+ * thf {@link dom.sun.jdi.donnfdt.Connfdtor} typf,
+ * bnd thbt jbr filf dontbins b providfr donfigurbtion filf nbmfd
+ * <tt>dom.sun.jdi.donnfdt.Connfdtor</tt> in thf rfsourdf dirfdtory
+ * <tt>META-INF/sfrvidfs</tt>, bnd thf providfr donfigurbtion filf
+ * lists thf full-qublififd dlbss nbmf of thf Connfdtor
+ * implfmfntbtion. A Connfdtor is b dlbss thbt implfmfnts thf
+ * {@link dom.sun.jdi.donnfdt.Connfdtor Connfdtor} intfrfbdf. Morf
+ * bppropribtfly thf dlbss implfmfnts onf of thf spfdifid Connfdtor
+ * typfs, nbmfly {@link dom.sun.jdi.donnfdt.AttbdhingConnfdtor
+ * AttbdhingConnfdtor}, {@link dom.sun.jdi.donnfdt.ListfningConnfdtor
+ * ListfningConnfdtor}, or {@link dom.sun.jdi.donnfdt.LbundhingConnfdtor
+ * LbundhingConnfdtor}. Thf formbt of thf providfr donfigurbtion filf
+ * is onf fully-qublififd dlbss nbmf pfr linf. Spbdf bnd tbb dhbrbdtfrs
+ * surrounding fbdh dlbss, bs wfll bs blbnk linfs brf ignorfd. Thf
+ * dommfnt dhbrbdtfr is <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdh
+ * linf bll dhbrbdtfrs following thf first dommfnt dhbrbdtfr brf
+ * ignorfd. Thf filf must bf fndodfd in UTF-8.
+ *
+ * <p> At stbrt-up timf thf VirtublMbdhinfMbnbgfr bttfmpts to lobd
+ * bnd instbntibtf (using thf no-brg donstrudtor) fbdh dlbss listfd
+ * in thf providfr donfigurbtion filf. Exdfptions thrown whfn lobding
+ * or drfbting thf Connfdtor brf dbught bnd ignorfd. In othfr words,
+ * thf stbrt-up prodfss dontinufs dfspitf of frrors.
+ *
+ * <p> In bddition to Connfdtors instbllfd on thf plbtform thf
+ * VirtublMbdhinfMbnbgfr will blso drfbtf Connfdtors to fndbpsulbtf
+ * bny {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf} implfmfntbtions
+ * thbt brf instbllfd on thf plbtform. A TrbnsportSfrvidf is
+ * instbllfd on thf plbtform if it instbllfd in b jbr filf thbt is
+ * visiblf to thf dffining dlbss lobdfr for thf
+ * {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf} typf, bnd thbt jbr
+ * filf dontbins b providfr donfigurbtion filf nbmfd
+ * <tt>dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf</tt> in thf rfsourdf
+ * dirfdtory <tt>META-INF/sfrvidfs</tt>, bnd thf providfr
+ * donfigurbtion filf lists thf thf full-qublififd dlbss nbmf of thf
+ * TrbnsportSfrvidf implfmfntbtion. A TrbnsportSfrvidf is b dondrftf
+ * sub-dlbss of {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf
+ * TrbnsportSfrvidf}. Thf formbt of thf providfr donfigurbtion filf
+ * is thf sbmf bs thf providfr donfigurbtion filf for Connfdtors
+ * fxdfpt thbt fbdh dlbss listfd must bf thf fully-qublififd dlbss
+ * nbmf of b dlbss thbt implfmfnts thf TrbnsportSfrvidf intfrfbdf.
+ *
+ * <p> For fbdh TrbnsportSfrvidf instbllfd on thf plbtform, thf
+ * VirtublMbdhinfMbnbgfr drfbtfs b dorrfsponding
+ * {@link dom.sun.jdi.donnfdt.AttbdhingConnfdtor} bnd
+ * {@link dom.sun.jdi.donnfdt.ListfningConnfdtor}. Thfsf
+ * Connfdtors brf drfbtfd to fndbpsulbtf b {@link
+ * dom.sun.jdi.donnfdt.Trbnsport Trbnsport} thbt in turn
+ * fndbpsulbtfs thf TrbnsportSfrvidf.
+ * Thf AttbdhingConnfdtor will bf nbmfd bbsfd on thf nbmf of thf
+ * trbnsport sfrvidf dondbtfnbtfd with thf string <tt>Attbdh</tt>.
+ * For fxbmplf, if thf trbnsport sfrvidf {@link
+ * dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf#nbmf() nbmf()} mfthod
+ * rfturns <tt>tflfpbthid</tt> thfn thf AttbdhingConnfdtor will
+ * bf nbmfd <tt>tflfpbthidAttbdh</tt>. Similibrly thf ListfningConnfdtor
+ * will bf nbmfd with thf string <tt>Listfn</tt> tbggfd onto thf
+ * nbmf of thf trbnsport sfrvidf. Thf {@link
+ * dom.sun.jdi.donnfdt.Connfdtor#dfsdription() dfsdription()} mfthod
+ * of both thf AttbdhingConnfdtor, bnd thf ListfningConnfdtor, will
+ * dflfgbtf to thf {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf#dfsdription()
+ * dfsdription()} mfthod of thf undfrlying trbnsport sfrvidf. Both
+ * thf AttbdhingConnfdtor bnd thf ListfningConnfdtor will hbvf two
+ * Connfdtor {@link dom.sun.jdi.donnfdt.Connfdtor$Argumfnt Argumfnts}.
+ * A {@link dom.sun.jdi.donnfdt.Connfdtor$StringArgumfnt StringArgumfnt}
+ * nbmfd <tt>bddrfss</tt> is thf donnfdtor brgumfnt to spfdify thf
+ * bddrfss to bttbdh too, or to listfn on. A
+ * {@link dom.sun.jdi.donnfdt.Connfdtor$IntfgfrArgumfnt IntfgfrArgumfnt}
+ * nbmfd <tt>timfout</tt> is thf donnfdtor brgumfnt to spfdify thf
+ * timfout whfn bttbdhing, or bddfpting. Thf timfout donnfdtor mby bf
+ * ignorfd dfpfnding on if thf trbnsport sfrvidf supports bn bttbdh
+ * timfout or bddfpt timfout.
+ *
+ * <p> Initiblizbtion of thf virtubl mbdhinf mbnbgfr will fbil, thbt is
+ * {@link dom.sun.jdi.Bootstrbp#virtublMbdhinfMbnbgfr()} will throw bn
+ * frror if thf virtubl mbdhinf mbnbgfr is unbblf to drfbtf bny
+ * donnfdtors.
+ *
+ * @buthor Gordon Hirsdh
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf VirtublMbdhinfMbnbgfr {
+
+    /**
+     * Idfntififs thf dffbult donnfdtor. This donnfdtor should
+     * bf usfd bs thf lbundhing donnfdtor whfn sflfdtion of b
+     * donnfdtor with spfdifid dhbrbdtfristids is unnfdfssbry.
+     *
+     * @rfturn thf dffbult {@link dom.sun.jdi.donnfdt.LbundhingConnfdtor}
+     */
+    LbundhingConnfdtor dffbultConnfdtor();
+
+    /**
+     * Rfturns thf list of known {@link dom.sun.jdi.donnfdt.LbundhingConnfdtor} objfdts.
+     * Any of thf rfturnfd objfdts dbn bf usfd to lbundh b nfw tbrgft
+     * VM bnd immfdibtfly drfbtf b {@link VirtublMbdhinf} mirror for it.
+     *
+     * Notf thbt b tbrgft VM lbundhfd by b lbundhing donnfdtor is not
+     * gubrbntffd to bf stbblf until bftfr thf {@link dom.sun.jdi.fvfnt.VMStbrtEvfnt} hbs bffn
+     * rfdfivfd.
+     * @rfturn b list of {@link dom.sun.jdi.donnfdt.LbundhingConnfdtor} objfdts.
+     */
+    List<LbundhingConnfdtor> lbundhingConnfdtors();
+
+    /**
+     * Rfturns thf list of known {@link dom.sun.jdi.donnfdt.AttbdhingConnfdtor} objfdts.
+     * Any of thf rfturnfd objfdts dbn bf usfd to bttbdh to bn fxisting tbrgft
+     * VM bnd drfbtf b {@link VirtublMbdhinf} mirror for it.
+     *
+     * @rfturn b list of {@link dom.sun.jdi.donnfdt.AttbdhingConnfdtor} objfdts.
+     */
+    List<AttbdhingConnfdtor> bttbdhingConnfdtors();
+
+    /**
+     * Rfturns thf list of known {@link dom.sun.jdi.donnfdt.ListfningConnfdtor} objfdts.
+     * Any of thf rfturnfd objfdts dbn bf usfd to listfn for b
+     * donnfdtion initibtfd by b tbrgft VM
+     * bnd drfbtf b {@link VirtublMbdhinf} mirror for it.
+     *
+     * @rfturn b list of {@link dom.sun.jdi.donnfdt.ListfningConnfdtor} objfdts.
+     */
+    List<ListfningConnfdtor> listfningConnfdtors();
+
+    /**
+     * Rfturns thf list of bll known {@link dom.sun.jdi.donnfdt.Connfdtor} objfdts.
+     *
+     * @rfturn b list of {@link dom.sun.jdi.donnfdt.Connfdtor} objfdts.
+     */
+     List<Connfdtor> bllConnfdtors();
+
+    /**
+     * Lists bll tbrgft VMs whidh brf donnfdtfd to thf dfbuggfr.
+     * Thf list indludfs {@link VirtublMbdhinf} instbndfs for
+     * bny tbrgft VMs whidh initibtfd b donnfdtion
+     * bnd bny
+     * tbrgft VMs to whidh this mbnbgfr hbs initibtfd b donnfdtion.
+     * A tbrgft VM will rfmbin in this list
+     * until thf VM is disdonnfdtfd.
+     * {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} is plbdfd in thf fvfnt qufuf
+     * bftfr thf VM is rfmovfd from thf list.
+     *
+     * @rfturn b list of {@link VirtublMbdhinf} objfdts, fbdh mirroring
+     * b tbrgft VM.
+     */
+     List<VirtublMbdhinf> donnfdtfdVirtublMbdhinfs();
+
+     /**
+      * Rfturns thf mbjor vfrsion numbfr of thf JDI intfrfbdf.
+      * Sff {@link VirtublMbdhinf#vfrsion} tbrgft VM vfrsion bnd
+      * informbtion bnd
+      * {@link VirtublMbdhinf#dfsdription} morf vfrsion informbtion.
+      *
+      * @rfturn thf intfgfr mbjor vfrsion numbfr.
+      */
+     int mbjorIntfrfbdfVfrsion();
+
+     /**
+      * Rfturns thf minor vfrsion numbfr of thf JDI intfrfbdf.
+      * Sff {@link VirtublMbdhinf#vfrsion} tbrgft VM vfrsion bnd
+      * informbtion bnd
+      * {@link VirtublMbdhinf#dfsdription} morf vfrsion informbtion.
+      *
+      * @rfturn thf intfgfr minor vfrsion numbfr
+      */
+     int minorIntfrfbdfVfrsion();
+
+     /**
+      * Crfbtf b virtubl mbdhinf mirror for b tbrgft VM.
+      *
+      * <p> Crfbtfs b virtubl mbdhinf mirror for b tbrgft VM
+      * for whidh b {@link dom.sun.jdi.donnfdt.spi.Connfdtion Connfdtion}
+      * blrfbdy fxists. A Connfdtion is drfbtfd whfn b {@link
+      * dom.sun.jdi.donnfdt.Connfdtor Connfdtor} fstbblishfs
+      * b donnfdtion bnd suddfssfully hbndshbkfs with b tbrgft VM.
+      * A Connfdtor dbn thfn usf this mfthod to drfbtf b virtubl mbdhinf
+      * mirror to rfprfsfnt thf dompositf stbtf of thf tbrgft VM.
+      *
+      * <p> Thf <tt>prodfss</tt> brgumfnt spfdififs thf
+      * {@link jbvb.lbng.Prodfss} objfdt for thf tbgft VM. It mby bf
+      * spfdififd bs <tt>null</tt>. If thf tbrgft VM is lbundhfd
+      * by b {@link dom.sun.jdi.donnfdt.LbundhingConnfdtor
+      * LbundhingConnfdtor} thf <tt>prodfss</tt> brgumfnt should bf
+      * spfdififd, othfrwisf dblling {@link dom.sun.jdi.VirtublMbdhinf#prodfss()}
+      * on thf drfbtfd virtubl mbdhinf will rfturn <tt>null</tt>.
+      *
+      * <p> This mfthod fxists so thbt Connfdtors mby drfbtf
+      * b virtubl mbdhinf mirror whfn b donnfdtion is fstbblishfd
+      * to b tbrgft VM. Only dfvflopfrs drfbting nfw Connfdtor
+      * implfmfntbtions should nffd to mbkf dirfdt usf of this
+      * mfthod. </p>
+      *
+      * @pbrbm  donnfdtion
+      *         Thf opfn donnfdtion to thf tbrgft VM.
+      *
+      * @pbrbm  prodfss
+      *         If lbundhfd, thf {@link jbvb.lbng.Prodfss} objfdt for
+      *         thf tbrgft VM. <tt>null</tt> if not lbundhfd.
+      *
+      * @rfturn nfw virtubl mbdhinf rfprfsfnting thf tbrgft VM.
+      *
+      * @throws IOExdfption
+      *         if bn I/O frror oddurs
+      *
+      * @throws IllfgblStbtfExdfption
+      *         if thf donnfdtion is not opfn
+      *
+      * @sff dom.sun.jdi.donnfdt.spi.Connfdtion#isOpfn()
+      * @sff dom.sun.jdi.VirtublMbdhinf#prodfss()
+      *
+      * @sindf 1.5
+      */
+     VirtublMbdhinf drfbtfVirtublMbdhinf(Connfdtion donnfdtion, Prodfss prodfss) throws IOExdfption;
+
+     /**
+      * Crfbtfs b nfw virtubl mbdhinf.
+      *
+      * <p> This donvfnifndf mfthod works bs if by invoking {@link
+      * #drfbtfVirtublMbdhinf(Connfdtion, Prodfss)} mfthod bnd
+      * spfdifying <tt>null</tt> bs thf <tt>prodfss</tt> brgumfnt.
+      *
+      * <p> This mfthod fxists so thbt Connfdtors mby drfbtf
+      * b virtubl mbdhinf mirror whfn b donnfdtion is fstbblishfd
+      * to b tbrgft VM. Only dfvflopfrs drfbting nfw Connfdtor
+      * implfmfntbtions should nffd to mbkf dirfdt usf of this
+      * mfthod. </p>
+      *
+      * @rfturn thf nfw virtubl mbdhinf
+      *
+      * @throws IOExdfption
+      *         if bn I/O frror oddurs
+      *
+      * @throws IllfgblStbtfExdfption
+      *         if thf donnfdtion is not opfn
+      *
+      * @sindf 1.5
+      */
+     VirtublMbdhinf drfbtfVirtublMbdhinf(Connfdtion donnfdtion) throws IOExdfption;
+}

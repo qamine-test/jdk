@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _WIN32SURFACEDATA_H_
-#define _WIN32SURFACEDATA_H_
+#ifndff _WIN32SURFACEDATA_H_
+#dffinf _WIN32SURFACEDATA_H_
 
 
-#include "SurfaceData.h"
+#indludf "SurfbdfDbtb.i"
 
-#include "colordata.h"
-#include "awt_Brush.h"
-#include "awt_Pen.h"
-#include "awt_Win32GraphicsDevice.h"
+#indludf "dolordbtb.i"
+#indludf "bwt_Brusi.i"
+#indludf "bwt_Pfn.i"
+#indludf "bwt_Win32GrbpiidsDfvidf.i"
 
-#include "stdhdrs.h"
+#indludf "stdidrs.i"
 
 
-#define TEST_SURFACE_BITS(a,f) (((a)&(f)) == (f))
+#dffinf TEST_SURFACE_BITS(b,f) (((b)&(f)) == (f))
 
 /**
- * This include file contains support definitions for loops using the
- * SurfaceData interface to talk to a Win32 drawable from native code.
+ * Tiis indludf filf dontbins support dffinitions for loops using tif
+ * SurfbdfDbtb intfrfbdf to tblk to b Win32 drbwbblf from nbtivf dodf.
  */
 
-typedef struct _GDIWinSDOps GDIWinSDOps;
+typfdff strudt _GDIWinSDOps GDIWinSDOps;
 
-#define CONTEXT_NORMAL 0
-#define CONTEXT_DISPLAY_CHANGE 1
-#define CONTEXT_ENTER_FULL_SCREEN 2
-#define CONTEXT_CHANGE_BUFFER_COUNT 3
-#define CONTEXT_EXIT_FULL_SCREEN 4
+#dffinf CONTEXT_NORMAL 0
+#dffinf CONTEXT_DISPLAY_CHANGE 1
+#dffinf CONTEXT_ENTER_FULL_SCREEN 2
+#dffinf CONTEXT_CHANGE_BUFFER_COUNT 3
+#dffinf CONTEXT_EXIT_FULL_SCREEN 4
 
 /*
- * The definitions of the various attribute flags for requesting
- * which rendering objects should be selected into the HDC returned
- * from GetDC().
+ * Tif dffinitions of tif vbrious bttributf flbgs for rfqufsting
+ * wiidi rfndfring objfdts siould bf sflfdtfd into tif HDC rfturnfd
+ * from GftDC().
  */
-#define PEN             1
-#define NOPEN           2
-#define BRUSH           4
-#define NOBRUSH         8
-#define CLIP            16              /* For tracking purposes only */
-#define PENBRUSH        (PEN | BRUSH)
-#define PENONLY         (PEN | NOBRUSH)
-#define BRUSHONLY       (BRUSH | NOPEN)
+#dffinf PEN             1
+#dffinf NOPEN           2
+#dffinf BRUSH           4
+#dffinf NOBRUSH         8
+#dffinf CLIP            16              /* For trbdking purposfs only */
+#dffinf PENBRUSH        (PEN | BRUSH)
+#dffinf PENONLY         (PEN | NOBRUSH)
+#dffinf BRUSHONLY       (BRUSH | NOPEN)
 
 /*
- * This function retrieves an HDC for rendering to the destination
- * managed by the indicated GDIWinSDOps structure.
+ * Tiis fundtion rftrifvfs bn HDC for rfndfring to tif dfstinbtion
+ * mbnbgfd by tif indidbtfd GDIWinSDOps strudturf.
  *
- * The env parameter should be the JNIEnv of the surrounding JNI context.
+ * Tif fnv pbrbmftfr siould bf tif JNIEnv of tif surrounding JNI dontfxt.
  *
- * The ops parameter should be a pointer to the ops object upon which
- * this function is being invoked.
+ * Tif ops pbrbmftfr siould bf b pointfr to tif ops objfdt upon wiidi
+ * tiis fundtion is bfing invokfd.
  *
- * The flags parameter should be an inclusive OR of any of the attribute
- * flags defined above.
+ * Tif flbgs pbrbmftfr siould bf bn indlusivf OR of bny of tif bttributf
+ * flbgs dffinfd bbovf.
  *
- * The patrop parameter should be a pointer to a jint that will receive
- * the appropriate ROP code (PATCOPY or PATINVERT) based on the current
- * composite, or NULL if the ROP code will be ignored by the caller.
+ * Tif pbtrop pbrbmftfr siould bf b pointfr to b jint tibt will rfdfivf
+ * tif bppropribtf ROP dodf (PATCOPY or PATINVERT) bbsfd on tif durrfnt
+ * dompositf, or NULL if tif ROP dodf will bf ignorfd by tif dbllfr.
  *
- * The clip parameter should be a pointer to a rectangle indicating the
- * desired clip.
+ * Tif dlip pbrbmftfr siould bf b pointfr to b rfdtbnglf indidbting tif
+ * dfsirfd dlip.
  *
- * The comp parameter should be a pointer to a Composite object, or NULL
- * which means the Src (default) compositing rule will be used.
+ * Tif domp pbrbmftfr siould bf b pointfr to b Compositf objfdt, or NULL
+ * wiidi mfbns tif Srd (dffbult) dompositing rulf will bf usfd.
  *
- * The pixel parameter should be a 24-bit XRGB value indicating the
- * color that will be used for rendering.  The upper 8 bits are allowed
- * to be any value.
+ * Tif pixfl pbrbmftfr siould bf b 24-bit XRGB vbluf indidbting tif
+ * dolor tibt will bf usfd for rfndfring.  Tif uppfr 8 bits brf bllowfd
+ * to bf bny vbluf.
  *
- * The ReleaseDC function should be called to release the lock on the DC
- * after a given atomic set of rendering operations is complete.
+ * Tif RflfbsfDC fundtion siould bf dbllfd to rflfbsf tif lodk on tif DC
+ * bftfr b givfn btomid sft of rfndfring opfrbtions is domplftf.
  *
- * Note to callers:
- *      This function may use JNI methods so it is important that the
- *      caller not have any outstanding GetPrimitiveArrayCritical or
- *      GetStringCritical locks which have not been released.
+ * Notf to dbllfrs:
+ *      Tiis fundtion mby usf JNI mftiods so it is importbnt tibt tif
+ *      dbllfr not ibvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks wiidi ibvf not bffn rflfbsfd.
  */
-typedef HDC GetDCFunc(JNIEnv *env,
+typfdff HDC GftDCFund(JNIEnv *fnv,
                       GDIWinSDOps *wsdo,
-                      jint flags,
-                      jint *patrop,
-                      jobject clip,
-                      jobject comp,
-                      jint color);
+                      jint flbgs,
+                      jint *pbtrop,
+                      jobjfdt dlip,
+                      jobjfdt domp,
+                      jint dolor);
 
 /*
- * This function releases an HDC that was retrieved from the GetDC
- * function of the indicated GDIWinSDOps structure.
+ * Tiis fundtion rflfbsfs bn HDC tibt wbs rftrifvfd from tif GftDC
+ * fundtion of tif indidbtfd GDIWinSDOps strudturf.
  *
- * The env parameter should be the JNIEnv of the surrounding JNI context.
+ * Tif fnv pbrbmftfr siould bf tif JNIEnv of tif surrounding JNI dontfxt.
  *
- * The ops parameter should be a pointer to the ops object upon which
- * this function is being invoked.
+ * Tif ops pbrbmftfr siould bf b pointfr to tif ops objfdt upon wiidi
+ * tiis fundtion is bfing invokfd.
  *
- * The hdc parameter should be the handle to the HDC object that was
- * returned from the GetDC function.
+ * Tif idd pbrbmftfr siould bf tif ibndlf to tif HDC objfdt tibt wbs
+ * rfturnfd from tif GftDC fundtion.
  *
- * Note to callers:
- *      This function may use JNI methods so it is important that the
- *      caller not have any outstanding GetPrimitiveArrayCritical or
- *      GetStringCritical locks which have not been released.
+ * Notf to dbllfrs:
+ *      Tiis fundtion mby usf JNI mftiods so it is importbnt tibt tif
+ *      dbllfr not ibvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks wiidi ibvf not bffn rflfbsfd.
  */
-typedef void ReleaseDCFunc(JNIEnv *env,
+typfdff void RflfbsfDCFund(JNIEnv *fnv,
                            GDIWinSDOps *wsdo,
-                           HDC hdc);
+                           HDC idd);
 
 
-typedef void InvalidateSDFunc(JNIEnv *env,
+typfdff void InvblidbtfSDFund(JNIEnv *fnv,
                               GDIWinSDOps *wsdo);
 
 /*
- * A structure that holds all state global to the native surfaceData
- * object.
+ * A strudturf tibt iolds bll stbtf globbl to tif nbtivf surfbdfDbtb
+ * objfdt.
  *
- * Note:
- * This structure will be shared between different threads that
- * operate on the same surfaceData, so it should not contain any
- * variables that could be changed by one thread thus placing other
- * threads in a state of confusion.  For example, the hDC field was
- * removed because each thread now has its own shared DC.  But the
- * window field remains because once it is set for a given wsdo
- * structure it stays the same until that structure is destroyed.
+ * Notf:
+ * Tiis strudturf will bf sibrfd bftwffn difffrfnt tirfbds tibt
+ * opfrbtf on tif sbmf surfbdfDbtb, so it siould not dontbin bny
+ * vbribblfs tibt dould bf dibngfd by onf tirfbd tius plbding otifr
+ * tirfbds in b stbtf of donfusion.  For fxbmplf, tif iDC fifld wbs
+ * rfmovfd bfdbusf fbdi tirfbd now ibs its own sibrfd DC.  But tif
+ * window fifld rfmbins bfdbusf ondf it is sft for b givfn wsdo
+ * strudturf it stbys tif sbmf until tibt strudturf is dfstroyfd.
  */
-struct _GDIWinSDOps {
-    SurfaceDataOps      sdOps;
-    LONG                timeStamp; // creation time stamp.
-                                   // Doesn't store a real time -
-                                   // just counts creation events of this structure
-                                   // made by GDIWindowSurfaceData_initOps()
-                                   // see bug# 6859086
-    jboolean            invalid;
-    GetDCFunc           *GetDC;
-    ReleaseDCFunc       *ReleaseDC;
-    InvalidateSDFunc    *InvalidateSD;
-    jint                lockType;       // REMIND: store in TLS
-    jint                lockFlags;      // REMIND: store in TLS
-    jobject             peer;
+strudt _GDIWinSDOps {
+    SurfbdfDbtbOps      sdOps;
+    LONG                timfStbmp; // drfbtion timf stbmp.
+                                   // Dofsn't storf b rfbl timf -
+                                   // just dounts drfbtion fvfnts of tiis strudturf
+                                   // mbdf by GDIWindowSurfbdfDbtb_initOps()
+                                   // sff bug# 6859086
+    jboolfbn            invblid;
+    GftDCFund           *GftDC;
+    RflfbsfDCFund       *RflfbsfDC;
+    InvblidbtfSDFund    *InvblidbtfSD;
+    jint                lodkTypf;       // REMIND: storf in TLS
+    jint                lodkFlbgs;      // REMIND: storf in TLS
+    jobjfdt             pffr;
     HWND                window;
-    RECT                insets;
-    jint                depth;
-    jint                pixelStride;    // Bytes per pixel
-    DWORD               pixelMasks[3];  // RGB Masks for Windows DIB creation
-    HBITMAP             bitmap;         // REMIND: store in TLS
-    HBITMAP             oldmap;         // REMIND: store in TLS
-    HDC                 bmdc;           // REMIND: store in TLS
-    int                 bmScanStride;   // REMIND: store in TLS
-    int                 bmWidth;        // REMIND: store in TLS
-    int                 bmHeight;       // REMIND: store in TLS
-    void                *bmBuffer;      // REMIND: store in TLS
-    jboolean            bmCopyToScreen; // Used to track whether we
-                                        // actually should copy the bitmap
-                                        // to the screen
-    AwtBrush            *brush;         // used for offscreen surfaces only
-    jint                brushclr;
-    AwtPen              *pen;           // used for offscreen surfaces only
-    jint                penclr;
+    RECT                insfts;
+    jint                dfpti;
+    jint                pixflStridf;    // Bytfs pfr pixfl
+    DWORD               pixflMbsks[3];  // RGB Mbsks for Windows DIB drfbtion
+    HBITMAP             bitmbp;         // REMIND: storf in TLS
+    HBITMAP             oldmbp;         // REMIND: storf in TLS
+    HDC                 bmdd;           // REMIND: storf in TLS
+    int                 bmSdbnStridf;   // REMIND: storf in TLS
+    int                 bmWidti;        // REMIND: storf in TLS
+    int                 bmHfigit;       // REMIND: storf in TLS
+    void                *bmBufffr;      // REMIND: storf in TLS
+    jboolfbn            bmCopyToSdrffn; // Usfd to trbdk wiftifr wf
+                                        // bdtublly siould dopy tif bitmbp
+                                        // to tif sdrffn
+    AwtBrusi            *brusi;         // usfd for offsdrffn surfbdfs only
+    jint                brusidlr;
+    AwtPfn              *pfn;           // usfd for offsdrffn surfbdfs only
+    jint                pfndlr;
 
-    int                 x, y, w, h;     // REMIND: store in TLS
-    CriticalSection     *surfaceLock;   // REMIND: try to remove
-    AwtWin32GraphicsDevice *device;
+    int                 x, y, w, i;     // REMIND: storf in TLS
+    CritidblSfdtion     *surfbdfLodk;   // REMIND: try to rfmovf
+    AwtWin32GrbpiidsDfvidf *dfvidf;
 };
 
-#define WIN32SD_LOCK_UNLOCKED   0       /* surface is not locked */
-#define WIN32SD_LOCK_BY_NULL    1       /* surface locked for NOP */
-#define WIN32SD_LOCK_BY_DIB     2       /* surface locked by BitBlt */
+#dffinf WIN32SD_LOCK_UNLOCKED   0       /* surfbdf is not lodkfd */
+#dffinf WIN32SD_LOCK_BY_NULL    1       /* surfbdf lodkfd for NOP */
+#dffinf WIN32SD_LOCK_BY_DIB     2       /* surfbdf lodkfd by BitBlt */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Structure for holding the graphics state of a thread.
+ * Strudturf for iolding tif grbpiids stbtf of b tirfbd.
  */
-typedef struct {
-    HDC         hDC;
+typfdff strudt {
+    HDC         iDC;
     GDIWinSDOps *wsdo;
-    LONG        wsdoTimeStamp; // wsdo creation time stamp.
-                               // Other threads may deallocate wsdo
-                               // and then allocate a new GDIWinSDOps
-                               // structure at the same memory location.
-                               // Time stamp is the only way to detect if
-                               // wsdo got changed.
-                               // see bug# 6859086
+    LONG        wsdoTimfStbmp; // wsdo drfbtion timf stbmp.
+                               // Otifr tirfbds mby dfbllodbtf wsdo
+                               // bnd tifn bllodbtf b nfw GDIWinSDOps
+                               // strudturf bt tif sbmf mfmory lodbtion.
+                               // Timf stbmp is tif only wby to dftfdt if
+                               // wsdo got dibngfd.
+                               // sff bug# 6859086
     RECT        bounds;
-    jobject     clip;
-    jobject     comp;
-    jint        xorcolor;
-    jint        patrop;
-    jint        type;
-    AwtBrush    *brush;
-    jint        brushclr;
-    AwtPen      *pen;
-    jint        penclr;
-} ThreadGraphicsInfo;
+    jobjfdt     dlip;
+    jobjfdt     domp;
+    jint        xordolor;
+    jint        pbtrop;
+    jint        typf;
+    AwtBrusi    *brusi;
+    jint        brusidlr;
+    AwtPfn      *pfn;
+    jint        pfndlr;
+} TirfbdGrbpiidsInfo;
 
 
 /*
- * This function returns a pointer to a native GDIWinSDOps structure
- * for accessing the indicated Win32 SurfaceData Java object.  It
- * verifies that the indicated SurfaceData object is an instance
- * of GDIWindowSurfaceData before returning and will return NULL if the
- * wrong SurfaceData object is being accessed.  This function will
- * throw the appropriate Java exception if it returns NULL so that
- * the caller can simply return.
+ * Tiis fundtion rfturns b pointfr to b nbtivf GDIWinSDOps strudturf
+ * for bddfssing tif indidbtfd Win32 SurfbdfDbtb Jbvb objfdt.  It
+ * vfrififs tibt tif indidbtfd SurfbdfDbtb objfdt is bn instbndf
+ * of GDIWindowSurfbdfDbtb bfforf rfturning bnd will rfturn NULL if tif
+ * wrong SurfbdfDbtb objfdt is bfing bddfssfd.  Tiis fundtion will
+ * tirow tif bppropribtf Jbvb fxdfption if it rfturns NULL so tibt
+ * tif dbllfr dbn simply rfturn.
  *
- * Note to callers:
- *      This function uses JNI methods so it is important that the
- *      caller not have any outstanding GetPrimitiveArrayCritical or
- *      GetStringCritical locks which have not been released.
+ * Notf to dbllfrs:
+ *      Tiis fundtion usfs JNI mftiods so it is importbnt tibt tif
+ *      dbllfr not ibvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks wiidi ibvf not bffn rflfbsfd.
  *
- *      The caller may continue to use JNI methods after this method
- *      is called since this function will not leave any outstanding
- *      JNI Critical locks unreleased.
+ *      Tif dbllfr mby dontinuf to usf JNI mftiods bftfr tiis mftiod
+ *      is dbllfd sindf tiis fundtion will not lfbvf bny outstbnding
+ *      JNI Critidbl lodks unrflfbsfd.
  */
 JNIEXPORT GDIWinSDOps * JNICALL
-GDIWindowSurfaceData_GetOps(JNIEnv *env, jobject sData);
+GDIWindowSurfbdfDbtb_GftOps(JNIEnv *fnv, jobjfdt sDbtb);
 
 JNIEXPORT GDIWinSDOps * JNICALL
-GDIWindowSurfaceData_GetOpsNoSetup(JNIEnv *env, jobject sData);
+GDIWindowSurfbdfDbtb_GftOpsNoSftup(JNIEnv *fnv, jobjfdt sDbtb);
 
 JNIEXPORT HWND JNICALL
-GDIWindowSurfaceData_GetWindow(JNIEnv *env, GDIWinSDOps *wsdo);
+GDIWindowSurfbdfDbtb_GftWindow(JNIEnv *fnv, GDIWinSDOps *wsdo);
 
 JNIEXPORT void JNICALL
-GDIWinSD_InitDC(JNIEnv *env, GDIWinSDOps *wsdo, ThreadGraphicsInfo *info,
-               jint type, jint *patrop,
-               jobject clip, jobject comp, jint color);
+GDIWinSD_InitDC(JNIEnv *fnv, GDIWinSDOps *wsdo, TirfbdGrbpiidsInfo *info,
+               jint typf, jint *pbtrop,
+               jobjfdt dlip, jobjfdt domp, jint dolor);
 
-JNIEXPORT AwtComponent * JNICALL
-GDIWindowSurfaceData_GetComp(JNIEnv *env, GDIWinSDOps *wsdo);
+JNIEXPORT AwtComponfnt * JNICALL
+GDIWindowSurfbdfDbtb_GftComp(JNIEnv *fnv, GDIWinSDOps *wsdo);
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
-#endif _WIN32SURFACEDATA_H_
+#fndif _WIN32SURFACEDATA_H_

@@ -1,283 +1,283 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="bem"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">Ichi Akan</language>
-			<language type="am">Ichi Amhari</language>
-			<language type="ar">Ichi Arab</language>
-			<language type="be">Ichi Belarus</language>
-			<language type="bem">Ichibemba</language>
-			<language type="bg">Ichi Bulgariani</language>
-			<language type="bn">Ichi Bengali</language>
-			<language type="cs">Ichi Cheki</language>
-			<language type="de">Ichi Jemani</language>
-			<language type="el">Ichi Griki</language>
-			<language type="en">Ichi Sungu</language>
-			<language type="es">Ichi Spanishi</language>
-			<language type="fa">Ichi Pesia</language>
-			<language type="fr">Ichi Frenchi</language>
-			<language type="ha">Ichi Hausa</language>
-			<language type="hi">Ichi Hindu</language>
-			<language type="hu">Ichi Hangarian</language>
-			<language type="id">Ichi Indonesiani</language>
-			<language type="ig">Ichi Ibo</language>
-			<language type="it">Ichi Italiani</language>
-			<language type="ja">Ichi Japanisi</language>
-			<language type="jv">Ichi Javanisi</language>
-			<language type="km">Ichi Khmer</language>
-			<language type="ko">Ichi Koriani</language>
-			<language type="ms">Ichi Maleshani</language>
-			<language type="my">Ichi Burma</language>
-			<language type="ne">Ichi Nepali</language>
-			<language type="nl">Ichi Dachi</language>
-			<language type="pa">Ichi Punjabi</language>
-			<language type="pl">Ichi Polishi</language>
-			<language type="pt">Ichi Potogisi</language>
-			<language type="ro">Ichi Romaniani</language>
-			<language type="ru">Ichi Rusiani</language>
-			<language type="rw">Ichi Rwanda</language>
-			<language type="so">Ichi Somalia</language>
-			<language type="sv">Ichi Swideni</language>
-			<language type="ta">Ichi Tamil</language>
-			<language type="th">Ichi Thai</language>
-			<language type="tr">Ichi Takishi</language>
-			<language type="uk">Ichi Ukraniani</language>
-			<language type="ur">Ichi Urudu</language>
-			<language type="vi">Ichi Vietinamu</language>
-			<language type="yo">Ichi Yoruba</language>
-			<language type="zh">Ichi Chainisi</language>
-			<language type="zu">Ichi Zulu</language>
-		</languages>
-		<territories>
-			<territory type="ZM">Zambia</territory>
-		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b c e f g i j k l m n o p s {sh} t u w y]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[d h q r v x z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C E F G I J K L M N O P S {SH} T U W Y]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Jan</month>
-							<month type="2">Feb</month>
-							<month type="3">Mac</month>
-							<month type="4">Epr</month>
-							<month type="5">Mei</month>
-							<month type="6">Jun</month>
-							<month type="7">Jul</month>
-							<month type="8">Oga</month>
-							<month type="9">Sep</month>
-							<month type="10">Okt</month>
-							<month type="11">Nov</month>
-							<month type="12">Dis</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">Januari</month>
-							<month type="2">Februari</month>
-							<month type="3">Machi</month>
-							<month type="4">Epreo</month>
-							<month type="5">Mei</month>
-							<month type="6">Juni</month>
-							<month type="7">Julai</month>
-							<month type="8">Ogasti</month>
-							<month type="9">Septemba</month>
-							<month type="10">Oktoba</month>
-							<month type="11">Novemba</month>
-							<month type="12">Disemba</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">J</month>
-							<month type="2">F</month>
-							<month type="3">M</month>
-							<month type="4">E</month>
-							<month type="5">M</month>
-							<month type="6">J</month>
-							<month type="7">J</month>
-							<month type="8">O</month>
-							<month type="9">S</month>
-							<month type="10">O</month>
-							<month type="11">N</month>
-							<month type="12">D</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="wide">
-							<day type="sun">Pa Mulungu</day>
-							<day type="mon">Palichimo</day>
-							<day type="tue">Palichibuli</day>
-							<day type="wed">Palichitatu</day>
-							<day type="thu">Palichine</day>
-							<day type="fri">Palichisano</day>
-							<day type="sat">Pachibelushi</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">uluchelo</dayPeriod>
-							<dayPeriod type="pm">akasuba</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">Before Yesu</era>
-						<era type="1">After Yesu</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">BC</era>
-						<era type="1">AD</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Inkulo</displayName>
-					</field>
-					<field type="year">
-						<displayName>Umwaka</displayName>
-					</field>
-					<field type="month">
-						<displayName>Umweshi</displayName>
-					</field>
-					<field type="week">
-						<displayName>Umulungu</displayName>
-					</field>
-					<field type="day">
-						<displayName>Ubushiku</displayName>
-						<relative type="-1">Mailo</relative>
-						<relative type="0">Lelo</relative>
-						<relative type="1">Mailo</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Ubushiku</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>Akasuba</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Insa</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Mineti</displayName>
-					</field>
-					<field type="second">
-						<displayName>Sekondi</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="ZMK">
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="bfm"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bk">Idii Akbn</lbngubgf>
+			<lbngubgf typf="bm">Idii Amibri</lbngubgf>
+			<lbngubgf typf="br">Idii Arbb</lbngubgf>
+			<lbngubgf typf="bf">Idii Bflbrus</lbngubgf>
+			<lbngubgf typf="bfm">Idiibfmbb</lbngubgf>
+			<lbngubgf typf="bg">Idii Bulgbribni</lbngubgf>
+			<lbngubgf typf="bn">Idii Bfngbli</lbngubgf>
+			<lbngubgf typf="ds">Idii Cifki</lbngubgf>
+			<lbngubgf typf="df">Idii Jfmbni</lbngubgf>
+			<lbngubgf typf="fl">Idii Griki</lbngubgf>
+			<lbngubgf typf="fn">Idii Sungu</lbngubgf>
+			<lbngubgf typf="fs">Idii Spbnisii</lbngubgf>
+			<lbngubgf typf="fb">Idii Pfsib</lbngubgf>
+			<lbngubgf typf="fr">Idii Frfndii</lbngubgf>
+			<lbngubgf typf="ib">Idii Hbusb</lbngubgf>
+			<lbngubgf typf="ii">Idii Hindu</lbngubgf>
+			<lbngubgf typf="iu">Idii Hbngbribn</lbngubgf>
+			<lbngubgf typf="id">Idii Indonfsibni</lbngubgf>
+			<lbngubgf typf="ig">Idii Ibo</lbngubgf>
+			<lbngubgf typf="it">Idii Itblibni</lbngubgf>
+			<lbngubgf typf="jb">Idii Jbpbnisi</lbngubgf>
+			<lbngubgf typf="jv">Idii Jbvbnisi</lbngubgf>
+			<lbngubgf typf="km">Idii Kimfr</lbngubgf>
+			<lbngubgf typf="ko">Idii Koribni</lbngubgf>
+			<lbngubgf typf="ms">Idii Mblfsibni</lbngubgf>
+			<lbngubgf typf="my">Idii Burmb</lbngubgf>
+			<lbngubgf typf="nf">Idii Nfpbli</lbngubgf>
+			<lbngubgf typf="nl">Idii Dbdii</lbngubgf>
+			<lbngubgf typf="pb">Idii Punjbbi</lbngubgf>
+			<lbngubgf typf="pl">Idii Polisii</lbngubgf>
+			<lbngubgf typf="pt">Idii Potogisi</lbngubgf>
+			<lbngubgf typf="ro">Idii Rombnibni</lbngubgf>
+			<lbngubgf typf="ru">Idii Rusibni</lbngubgf>
+			<lbngubgf typf="rw">Idii Rwbndb</lbngubgf>
+			<lbngubgf typf="so">Idii Somblib</lbngubgf>
+			<lbngubgf typf="sv">Idii Swidfni</lbngubgf>
+			<lbngubgf typf="tb">Idii Tbmil</lbngubgf>
+			<lbngubgf typf="ti">Idii Tibi</lbngubgf>
+			<lbngubgf typf="tr">Idii Tbkisii</lbngubgf>
+			<lbngubgf typf="uk">Idii Ukrbnibni</lbngubgf>
+			<lbngubgf typf="ur">Idii Urudu</lbngubgf>
+			<lbngubgf typf="vi">Idii Viftinbmu</lbngubgf>
+			<lbngubgf typf="yo">Idii Yorubb</lbngubgf>
+			<lbngubgf typf="zi">Idii Cibinisi</lbngubgf>
+			<lbngubgf typf="zu">Idii Zulu</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="ZM">Zbmbib</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b b d f f g i j k l m n o p s {si} t u w y]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[d i q r v x z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C E F G I J K L M N O P S {SH} T U W Y]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Jbn</monti>
+							<monti typf="2">Ffb</monti>
+							<monti typf="3">Mbd</monti>
+							<monti typf="4">Epr</monti>
+							<monti typf="5">Mfi</monti>
+							<monti typf="6">Jun</monti>
+							<monti typf="7">Jul</monti>
+							<monti typf="8">Ogb</monti>
+							<monti typf="9">Sfp</monti>
+							<monti typf="10">Okt</monti>
+							<monti typf="11">Nov</monti>
+							<monti typf="12">Dis</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">Jbnubri</monti>
+							<monti typf="2">Ffbrubri</monti>
+							<monti typf="3">Mbdii</monti>
+							<monti typf="4">Eprfo</monti>
+							<monti typf="5">Mfi</monti>
+							<monti typf="6">Juni</monti>
+							<monti typf="7">Julbi</monti>
+							<monti typf="8">Ogbsti</monti>
+							<monti typf="9">Sfptfmbb</monti>
+							<monti typf="10">Oktobb</monti>
+							<monti typf="11">Novfmbb</monti>
+							<monti typf="12">Disfmbb</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+							<monti typf="1">J</monti>
+							<monti typf="2">F</monti>
+							<monti typf="3">M</monti>
+							<monti typf="4">E</monti>
+							<monti typf="5">M</monti>
+							<monti typf="6">J</monti>
+							<monti typf="7">J</monti>
+							<monti typf="8">O</monti>
+							<monti typf="9">S</monti>
+							<monti typf="10">O</monti>
+							<monti typf="11">N</monti>
+							<monti typf="12">D</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="widf">
+							<dby typf="sun">Pb Mulungu</dby>
+							<dby typf="mon">Pblidiimo</dby>
+							<dby typf="tuf">Pblidiibuli</dby>
+							<dby typf="wfd">Pblidiitbtu</dby>
+							<dby typf="tiu">Pblidiinf</dby>
+							<dby typf="fri">Pblidiisbno</dby>
+							<dby typf="sbt">Pbdiibflusii</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">uludiflo</dbyPfriod>
+							<dbyPfriod typf="pm">bkbsubb</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">Bfforf Yfsu</frb>
+						<frb typf="1">Aftfr Yfsu</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">BC</frb>
+						<frb typf="1">AD</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>i:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, M/d/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, MMM d, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>Inkulo</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>Umwbkb</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>Umwfsii</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>Umulungu</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Ubusiiku</displbyNbmf>
+						<rflbtivf typf="-1">Mbilo</rflbtivf>
+						<rflbtivf typf="0">Lflo</rflbtivf>
+						<rflbtivf typf="1">Mbilo</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Ubusiiku</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>Akbsubb</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>Insb</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Minfti</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Sfkondi</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00;(¤#,##0.00)</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ZMK">
 				<symbol>ZK</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr>Ee:E</yesstr>
-			<nostr>Awe:A</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr>Ef:E</yfsstr>
+			<nostr>Awf:A</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>

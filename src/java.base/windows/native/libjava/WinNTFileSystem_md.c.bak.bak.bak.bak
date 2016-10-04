@@ -1,0 +1,886 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Addfss APIs for WinXP bnd bbovf */
+#ifndff _WIN32_WINNT
+#dffinf _WIN32_WINNT 0x0501
+#fndif
+
+#indludf <bssfrt.h>
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <dtypf.h>
+#indludf <dirfdt.h>
+#indludf <windows.h>
+#indludf <io.h>
+
+#indludf "jni.h"
+#indludf "io_util.h"
+#indludf "jlong.h"
+#indludf "io_util_md.h"
+#indludf "dirfnt_md.h"
+#indludf "jbvb_io_FilfSystfm.h"
+
+#dffinf MAX_PATH_LENGTH 1024
+
+stbtid strudt {
+    jfifldID pbth;
+} ids;
+
+/**
+ * GftFinblPbthNbmfByHbndlf is bvbilbblf on Windows Vistb bnd nfwfr
+ */
+typfdff BOOL (WINAPI* GftFinblPbthNbmfByHbndlfProd) (HANDLE, LPWSTR, DWORD, DWORD);
+stbtid GftFinblPbthNbmfByHbndlfProd GftFinblPbthNbmfByHbndlf_fund;
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    HMODULE hbndlf;
+    jdlbss filfClbss;
+
+    filfClbss = (*fnv)->FindClbss(fnv, "jbvb/io/Filf");
+    CHECK_NULL(filfClbss);
+    ids.pbth = (*fnv)->GftFifldID(fnv, filfClbss, "pbth", "Ljbvb/lbng/String;");
+    CHECK_NULL(ids.pbth);
+
+    // GftFinblPbthNbmfByHbndlf rfquirfs Windows Vistb or nfwfr
+    if (GftModulfHbndlfExW((GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT),
+                           (LPCWSTR)&CrfbtfFilfW, &hbndlf) != 0)
+    {
+        GftFinblPbthNbmfByHbndlf_fund = (GftFinblPbthNbmfByHbndlfProd)
+            GftProdAddrfss(hbndlf, "GftFinblPbthNbmfByHbndlfW");
+    }
+}
+
+/* -- Pbth opfrbtions -- */
+
+fxtfrn int wdbnonidblizf(donst WCHAR *pbth, WCHAR *out, int lfn);
+fxtfrn int wdbnonidblizfWithPrffix(donst WCHAR *dbnonidblPrffix, donst WCHAR *pbthWithCbnonidblPrffix, WCHAR *out, int lfn);
+
+/**
+ * Rftrifvfs thf fully rfsolvfd (finbl) pbth for thf givfn pbth or NULL
+ * if thf fundtion fbils.
+ */
+stbtid WCHAR* gftFinblPbth(JNIEnv *fnv, donst WCHAR *pbth)
+{
+    HANDLE h;
+    WCHAR *rfsult;
+    DWORD frror;
+
+    /* Nffd Windows Vistb or nfwfr to gft thf finbl pbth */
+    if (GftFinblPbthNbmfByHbndlf_fund == NULL)
+        rfturn NULL;
+
+    h = CrfbtfFilfW(pbth,
+                    FILE_READ_ATTRIBUTES,
+                    FILE_SHARE_DELETE |
+                        FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    NULL,
+                    OPEN_EXISTING,
+                    FILE_FLAG_BACKUP_SEMANTICS,
+                    NULL);
+    if (h == INVALID_HANDLE_VALUE)
+        rfturn NULL;
+
+    /**
+     * Allodbtf b bufffr for thf rfsolvfd pbth. For b long pbth wf mby nffd
+     * to bllodbtf b lbrgfr bufffr.
+     */
+    rfsult = (WCHAR*)mbllod(MAX_PATH * sizfof(WCHAR));
+    if (rfsult != NULL) {
+        DWORD lfn = (*GftFinblPbthNbmfByHbndlf_fund)(h, rfsult, MAX_PATH, 0);
+        if (lfn >= MAX_PATH) {
+            /* rftry with b bufffr of thf right sizf */
+            WCHAR* nfwRfsult = (WCHAR*)rfbllod(rfsult, (lfn+1) * sizfof(WCHAR));
+            if (nfwRfsult != NULL) {
+                rfsult = nfwRfsult;
+                lfn = (*GftFinblPbthNbmfByHbndlf_fund)(h, rfsult, lfn, 0);
+            } flsf {
+                lfn = 0;
+                JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+            }
+        }
+
+        if (lfn > 0) {
+            /**
+             * Strip prffix (should bf \\?\ or \\?\UNC)
+             */
+            if (rfsult[0] == L'\\' && rfsult[1] == L'\\' &&
+                rfsult[2] == L'?' && rfsult[3] == L'\\')
+            {
+                int isUnd = (rfsult[4] == L'U' &&
+                             rfsult[5] == L'N' &&
+                             rfsult[6] == L'C');
+                int prffixLfn = (isUnd) ? 7 : 4;
+                /* bdtubl rfsult lfngth (indludfs tfrminbtor) */
+                int rfsultLfn = lfn - prffixLfn + (isUnd ? 1 : 0) + 1;
+
+                /* dopy rfsult without prffix into nfw bufffr */
+                WCHAR *tmp = (WCHAR*)mbllod(rfsultLfn * sizfof(WCHAR));
+                if (tmp == NULL) {
+                    JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+                    lfn = 0;
+                } flsf {
+                    WCHAR *p = rfsult;
+                    p += prffixLfn;
+                    if (isUnd) {
+                        WCHAR *p2 = tmp;
+                        p2[0] = L'\\';
+                        p2++;
+                        wdsdpy(p2, p);
+                    } flsf {
+                        wdsdpy(tmp, p);
+                    }
+                    frff(rfsult);
+                    rfsult = tmp;
+                }
+            }
+        }
+
+        /* unbblf to gft finbl pbth */
+        if (lfn == 0 && rfsult != NULL) {
+            frff(rfsult);
+            rfsult = NULL;
+        }
+    } flsf {
+        JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+    }
+
+    frror = GftLbstError();
+    if (ClosfHbndlf(h))
+        SftLbstError(frror);
+    rfturn rfsult;
+}
+
+/**
+ * Rftrifvfs filf informbtion for thf spfdififd filf. If thf filf is
+ * symbolid link thfn thf informbtion on fully rfsolvfd tbrgft is
+ * rfturnfd.
+ */
+stbtid BOOL gftFilfInformbtion(donst WCHAR *pbth,
+                               BY_HANDLE_FILE_INFORMATION *finfo)
+{
+    BOOL rfsult;
+    DWORD frror;
+    HANDLE h = CrfbtfFilfW(pbth,
+                           FILE_READ_ATTRIBUTES,
+                           FILE_SHARE_DELETE |
+                               FILE_SHARE_READ | FILE_SHARE_WRITE,
+                           NULL,
+                           OPEN_EXISTING,
+                           FILE_FLAG_BACKUP_SEMANTICS,
+                           NULL);
+    if (h == INVALID_HANDLE_VALUE)
+        rfturn FALSE;
+    rfsult = GftFilfInformbtionByHbndlf(h, finfo);
+    frror = GftLbstError();
+    if (ClosfHbndlf(h))
+        SftLbstError(frror);
+    rfturn rfsult;
+}
+
+/**
+ * If thf givfn bttributfs brf thf bttributfs of b rfpbrsf point, thfn
+ * rfbd bnd rfturn thf bttributfs of thf spfdibl dbsfs.
+ */
+DWORD gftFinblAttributfsIfRfpbrsfPoint(WCHAR *pbth, DWORD b)
+{
+    if ((b != INVALID_FILE_ATTRIBUTES) &&
+        ((b & FILE_ATTRIBUTE_REPARSE_POINT) != 0))
+    {
+        BY_HANDLE_FILE_INFORMATION finfo;
+        BOOL rfs = gftFilfInformbtion(pbth, &finfo);
+        b = (rfs) ? finfo.dwFilfAttributfs : INVALID_FILE_ATTRIBUTES;
+    }
+    rfturn b;
+}
+
+/**
+ * Tbkf spfdibl dbsfs into bddount whfn rftrifving thf bttributfs
+ * of pbth
+ */
+DWORD gftFinblAttributfs(WCHAR *pbth)
+{
+    DWORD bttr = INVALID_FILE_ATTRIBUTES;
+
+    WIN32_FILE_ATTRIBUTE_DATA wfbd;
+    WIN32_FIND_DATAW wfd;
+    HANDLE h;
+
+    if (GftFilfAttributfsExW(pbth, GftFilfExInfoStbndbrd, &wfbd)) {
+        bttr = gftFinblAttributfsIfRfpbrsfPoint(pbth, wfbd.dwFilfAttributfs);
+    } flsf if (GftLbstError() == ERROR_SHARING_VIOLATION &&
+               (h = FindFirstFilfW(pbth, &wfd)) != INVALID_HANDLE_VALUE) {
+        bttr = gftFinblAttributfsIfRfpbrsfPoint(pbth, wfd.dwFilfAttributfs);
+        FindClosf(h);
+    }
+    rfturn bttr;
+}
+
+JNIEXPORT jstring JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_dbnonidblizf0(JNIEnv *fnv, jobjfdt this,
+                                           jstring pbthnbmf)
+{
+    jstring rv = NULL;
+    WCHAR dbnonidblPbth[MAX_PATH_LENGTH];
+
+    WITH_UNICODE_STRING(fnv, pbthnbmf, pbth) {
+        /* wf fstimbtf thf mbx lfngth of mfmory nffdfd bs
+           "durrfntDir. lfngth + pbthnbmf.lfngth"
+         */
+        int lfn = (int)wdslfn(pbth);
+        lfn += durrfntDirLfngth(pbth, lfn);
+        if (lfn  > MAX_PATH_LENGTH - 1) {
+            WCHAR *dp = (WCHAR*)mbllod(lfn * sizfof(WCHAR));
+            if (dp != NULL) {
+                if (wdbnonidblizf(pbth, dp, lfn) >= 0) {
+                    rv = (*fnv)->NfwString(fnv, dp, (jsizf)wdslfn(dp));
+                }
+                frff(dp);
+            } flsf {
+                JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+            }
+        } flsf if (wdbnonidblizf(pbth, dbnonidblPbth, MAX_PATH_LENGTH) >= 0) {
+            rv = (*fnv)->NfwString(fnv, dbnonidblPbth, (jsizf)wdslfn(dbnonidblPbth));
+        }
+    } END_UNICODE_STRING(fnv, pbth);
+    if (rv == NULL && !(*fnv)->ExdfptionChfdk(fnv)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Bbd pbthnbmf");
+    }
+    rfturn rv;
+}
+
+
+JNIEXPORT jstring JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_dbnonidblizfWithPrffix0(JNIEnv *fnv, jobjfdt this,
+                                                     jstring dbnonidblPrffixString,
+                                                     jstring pbthWithCbnonidblPrffixString)
+{
+    jstring rv = NULL;
+    WCHAR dbnonidblPbth[MAX_PATH_LENGTH];
+    WITH_UNICODE_STRING(fnv, dbnonidblPrffixString, dbnonidblPrffix) {
+        WITH_UNICODE_STRING(fnv, pbthWithCbnonidblPrffixString, pbthWithCbnonidblPrffix) {
+            int lfn = (int)wdslfn(dbnonidblPrffix) + MAX_PATH;
+            if (lfn > MAX_PATH_LENGTH) {
+                WCHAR *dp = (WCHAR*)mbllod(lfn * sizfof(WCHAR));
+                if (dp != NULL) {
+                    if (wdbnonidblizfWithPrffix(dbnonidblPrffix,
+                                                pbthWithCbnonidblPrffix,
+                                                dp, lfn) >= 0) {
+                      rv = (*fnv)->NfwString(fnv, dp, (jsizf)wdslfn(dp));
+                    }
+                    frff(dp);
+                } flsf {
+                    JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+                }
+            } flsf if (wdbnonidblizfWithPrffix(dbnonidblPrffix,
+                                               pbthWithCbnonidblPrffix,
+                                               dbnonidblPbth, MAX_PATH_LENGTH) >= 0) {
+                rv = (*fnv)->NfwString(fnv, dbnonidblPbth, (jsizf)wdslfn(dbnonidblPbth));
+            }
+        } END_UNICODE_STRING(fnv, pbthWithCbnonidblPrffix);
+    } END_UNICODE_STRING(fnv, dbnonidblPrffix);
+    if (rv == NULL && !(*fnv)->ExdfptionChfdk(fnv)) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Bbd pbthnbmf");
+    }
+    rfturn rv;
+}
+
+/* -- Attributf bddfssors -- */
+
+/* Chfdk whfthfr or not thf filf nbmf in "pbth" is b Windows rfsfrvfd
+   dfvidf nbmf (CON, PRN, AUX, NUL, COM[1-9], LPT[1-9]) bbsfd on thf
+   rfturnfd rfsult from GftFullPbthNbmf, whidh should bf in thr form of
+   "\\.\[RfsfrvfdDfvidfNbmf]" if thf pbth rfprfsfnts b rfsfrvfd dfvidf
+   nbmf.
+   Notf1: GftFullPbthNbmf dofsn't think "CLOCK$" (whidh is no longfr
+   importbnt bnywby) is b dfvidf nbmf, so wf don't dhfdk it hfrf.
+   GftFilfAttributfsEx will dbtdh it lbtfr by rfturning 0 on NT/XP/
+   200X.
+
+   Notf2: Thforftidblly thf implfmfntbtion dould just lookup thf tbblf
+   bflow linfbrly if thf first 4 dhbrbdtfrs of thf fullpbth rfturnfd
+   from GftFullPbthNbmf brf "\\.\". Thf durrfnt implfmfntbtion should
+   bdhifvf thf sbmf rfsult. If Midrosoft bdd morf nbmfs into thfir
+   rfsfrvfd dfvidf nbmf rfpository in thf futurf, whidh probbbly will
+   nfvfr hbppfn, wf will nffd to rfvisit thf lookup implfmfntbtion.
+
+stbtid WCHAR* RfsfrvfdDEvidfNbmfs[] = {
+    L"CON", L"PRN", L"AUX", L"NUL",
+    L"COM1", L"COM2", L"COM3", L"COM4", L"COM5", L"COM6", L"COM7", L"COM8", L"COM9",
+    L"LPT1", L"LPT2", L"LPT3", L"LPT4", L"LPT5", L"LPT6", L"LPT7", L"LPT8", L"LPT9",
+    L"CLOCK$"
+};
+ */
+
+stbtid BOOL isRfsfrvfdDfvidfNbmfW(WCHAR* pbth) {
+#dffinf BUFSIZE 9
+    WCHAR buf[BUFSIZE];
+    WCHAR *lpf = NULL;
+    DWORD rftLfn = GftFullPbthNbmfW(pbth,
+                                   BUFSIZE,
+                                   buf,
+                                   &lpf);
+    if ((rftLfn == BUFSIZE - 1 || rftLfn == BUFSIZE - 2) &&
+        buf[0] == L'\\' && buf[1] == L'\\' &&
+        buf[2] == L'.' && buf[3] == L'\\') {
+        WCHAR* dnbmf = _wdsupr(buf + 4);
+        if (wdsdmp(dnbmf, L"CON") == 0 ||
+            wdsdmp(dnbmf, L"PRN") == 0 ||
+            wdsdmp(dnbmf, L"AUX") == 0 ||
+            wdsdmp(dnbmf, L"NUL") == 0)
+            rfturn TRUE;
+        if ((wdsndmp(dnbmf, L"COM", 3) == 0 ||
+             wdsndmp(dnbmf, L"LPT", 3) == 0) &&
+            dnbmf[3] - L'0' > 0 &&
+            dnbmf[3] - L'0' <= 9)
+            rfturn TRUE;
+    }
+    rfturn FALSE;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_gftBoolfbnAttributfs(JNIEnv *fnv, jobjfdt this,
+                                                  jobjfdt filf)
+{
+    jint rv = 0;
+
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL)
+        rfturn rv;
+    if (!isRfsfrvfdDfvidfNbmfW(pbthbuf)) {
+        DWORD b = gftFinblAttributfs(pbthbuf);
+        if (b != INVALID_FILE_ATTRIBUTES) {
+            rv = (jbvb_io_FilfSystfm_BA_EXISTS
+                | ((b & FILE_ATTRIBUTE_DIRECTORY)
+                    ? jbvb_io_FilfSystfm_BA_DIRECTORY
+                    : jbvb_io_FilfSystfm_BA_REGULAR)
+                | ((b & FILE_ATTRIBUTE_HIDDEN)
+                    ? jbvb_io_FilfSystfm_BA_HIDDEN : 0));
+        }
+    }
+    frff(pbthbuf);
+    rfturn rv;
+}
+
+
+JNIEXPORT jboolfbn
+JNICALL Jbvb_jbvb_io_WinNTFilfSystfm_dhfdkAddfss(JNIEnv *fnv, jobjfdt this,
+                                                 jobjfdt filf, jint bddfss)
+{
+    DWORD bttr;
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL)
+        rfturn JNI_FALSE;
+    bttr = GftFilfAttributfsW(pbthbuf);
+    bttr = gftFinblAttributfsIfRfpbrsfPoint(pbthbuf, bttr);
+    frff(pbthbuf);
+    if (bttr == INVALID_FILE_ATTRIBUTES)
+        rfturn JNI_FALSE;
+    switdh (bddfss) {
+    dbsf jbvb_io_FilfSystfm_ACCESS_READ:
+    dbsf jbvb_io_FilfSystfm_ACCESS_EXECUTE:
+        rfturn JNI_TRUE;
+    dbsf jbvb_io_FilfSystfm_ACCESS_WRITE:
+        /* Rfbd-only bttributf ignorfd on dirfdtorifs */
+        if ((bttr & FILE_ATTRIBUTE_DIRECTORY) ||
+            (bttr & FILE_ATTRIBUTE_READONLY) == 0)
+            rfturn JNI_TRUE;
+        flsf
+            rfturn JNI_FALSE;
+    dffbult:
+        bssfrt(0);
+        rfturn JNI_FALSE;
+    }
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_sftPfrmission(JNIEnv *fnv, jobjfdt this,
+                                           jobjfdt filf,
+                                           jint bddfss,
+                                           jboolfbn fnbblf,
+                                           jboolfbn ownfronly)
+{
+    jboolfbn rv = JNI_FALSE;
+    WCHAR *pbthbuf;
+    DWORD b;
+    if (bddfss == jbvb_io_FilfSystfm_ACCESS_READ ||
+        bddfss == jbvb_io_FilfSystfm_ACCESS_EXECUTE) {
+        rfturn fnbblf;
+    }
+    pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL)
+        rfturn JNI_FALSE;
+    b = GftFilfAttributfsW(pbthbuf);
+
+    /* if rfpbrsf point, gft finbl tbrgft */
+    if ((b != INVALID_FILE_ATTRIBUTES) &&
+        ((b & FILE_ATTRIBUTE_REPARSE_POINT) != 0))
+    {
+        WCHAR *fp = gftFinblPbth(fnv, pbthbuf);
+        if (fp == NULL) {
+            b = INVALID_FILE_ATTRIBUTES;
+        } flsf {
+            frff(pbthbuf);
+            pbthbuf = fp;
+            b = GftFilfAttributfsW(pbthbuf);
+        }
+    }
+    if ((b != INVALID_FILE_ATTRIBUTES) &&
+        ((b & FILE_ATTRIBUTE_DIRECTORY) == 0))
+    {
+        if (fnbblf)
+            b =  b & ~FILE_ATTRIBUTE_READONLY;
+        flsf
+            b =  b | FILE_ATTRIBUTE_READONLY;
+        if (SftFilfAttributfsW(pbthbuf, b))
+            rv = JNI_TRUE;
+    }
+    frff(pbthbuf);
+    rfturn rv;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_gftLbstModififdTimf(JNIEnv *fnv, jobjfdt this,
+                                                 jobjfdt filf)
+{
+    jlong rv = 0;
+    LARGE_INTEGER modTimf;
+    FILETIME t;
+    HANDLE h;
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL)
+        rfturn rv;
+    h = CrfbtfFilfW(pbthbuf,
+                    /* Dfvidf qufry bddfss */
+                    0,
+                    /* Shbrf it */
+                    FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    /* No sfdurity bttributfs */
+                    NULL,
+                    /* Opfn fxisting or fbil */
+                    OPEN_EXISTING,
+                    /* Bbdkup sfmbntids for dirfdtorifs */
+                    FILE_FLAG_BACKUP_SEMANTICS,
+                    /* No tfmplbtf filf */
+                    NULL);
+    if (h != INVALID_HANDLE_VALUE) {
+        if (GftFilfTimf(h, NULL, NULL, &t)) {
+            modTimf.LowPbrt = (DWORD) t.dwLowDbtfTimf;
+            modTimf.HighPbrt = (LONG) t.dwHighDbtfTimf;
+            rv = modTimf.QubdPbrt / 10000;
+            rv -= 11644473600000;
+        }
+        ClosfHbndlf(h);
+    }
+    frff(pbthbuf);
+    rfturn rv;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_gftLfngth(JNIEnv *fnv, jobjfdt this, jobjfdt filf)
+{
+    jlong rv = 0;
+    WIN32_FILE_ATTRIBUTE_DATA wfbd;
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL)
+        rfturn rv;
+    if (GftFilfAttributfsExW(pbthbuf,
+                             GftFilfExInfoStbndbrd,
+                             &wfbd)) {
+        if ((wfbd.dwFilfAttributfs & FILE_ATTRIBUTE_REPARSE_POINT) == 0) {
+            rv = wfbd.nFilfSizfHigh * ((jlong)MAXDWORD + 1) + wfbd.nFilfSizfLow;
+        } flsf {
+            /* filf is b rfpbrsf point so rfbd bttributfs of finbl tbrgft */
+            BY_HANDLE_FILE_INFORMATION finfo;
+            if (gftFilfInformbtion(pbthbuf, &finfo)) {
+                rv = finfo.nFilfSizfHigh * ((jlong)MAXDWORD + 1) +
+                    finfo.nFilfSizfLow;
+            }
+        }
+    } flsf {
+        if (GftLbstError() == ERROR_SHARING_VIOLATION) {
+            /* Thf frror is "shbrf violbtion", whidh mfbns thf filf/dir
+               must fxists. Try _wstbti64, wf know this bt lfbst works
+               for pbgffilf.sys bnd hibfrfil.sys.
+            */
+            strudt _stbti64 sb;
+            if (_wstbti64(pbthbuf, &sb) == 0) {
+                rv = sb.st_sizf;
+            }
+        }
+    }
+    frff(pbthbuf);
+    rfturn rv;
+}
+
+/* -- Filf opfrbtions -- */
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_drfbtfFilfExdlusivfly(JNIEnv *fnv, jdlbss dls,
+                                                   jstring pbth)
+{
+    HANDLE h = NULL;
+    WCHAR *pbthbuf = pbthToNTPbth(fnv, pbth, JNI_FALSE);
+    if (pbthbuf == NULL)
+        rfturn JNI_FALSE;
+    if (isRfsfrvfdDfvidfNbmfW(pbthbuf)) {
+        frff(pbthbuf);
+        rfturn JNI_FALSE;
+    }
+    h = CrfbtfFilfW(
+        pbthbuf,                              /* Widf dhbr pbth nbmf */
+        GENERIC_READ | GENERIC_WRITE,         /* Rfbd bnd writf pfrmission */
+        FILE_SHARE_READ | FILE_SHARE_WRITE,   /* Filf shbring flbgs */
+        NULL,                                 /* Sfdurity bttributfs */
+        CREATE_NEW,                           /* drfbtion disposition */
+        FILE_ATTRIBUTE_NORMAL |
+            FILE_FLAG_OPEN_REPARSE_POINT,     /* flbgs bnd bttributfs */
+        NULL);
+
+    if (h == INVALID_HANDLE_VALUE) {
+        DWORD frror = GftLbstError();
+        if ((frror != ERROR_FILE_EXISTS) && (frror != ERROR_ALREADY_EXISTS)) {
+            // rfturn fblsf rbthfr thbn throwing bn fxdfption whfn thfrf is
+            // bn fxisting filf.
+            DWORD b = GftFilfAttributfsW(pbthbuf);
+            if (b == INVALID_FILE_ATTRIBUTES) {
+                SftLbstError(frror);
+                JNU_ThrowIOExdfptionWithLbstError(fnv, "Could not opfn filf");
+            }
+         }
+         frff(pbthbuf);
+         rfturn JNI_FALSE;
+        }
+    frff(pbthbuf);
+    ClosfHbndlf(h);
+    rfturn JNI_TRUE;
+}
+
+stbtid int
+rfmovfFilfOrDirfdtory(donst jdhbr *pbth)
+{
+    /* Rfturns 0 on suddfss */
+    DWORD b;
+
+    SftFilfAttributfsW(pbth, FILE_ATTRIBUTE_NORMAL);
+    b = GftFilfAttributfsW(pbth);
+    if (b == INVALID_FILE_ATTRIBUTES) {
+        rfturn 1;
+    } flsf if (b & FILE_ATTRIBUTE_DIRECTORY) {
+        rfturn !RfmovfDirfdtoryW(pbth);
+    } flsf {
+        rfturn !DflftfFilfW(pbth);
+    }
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_dflftf0(JNIEnv *fnv, jobjfdt this, jobjfdt filf)
+{
+    jboolfbn rv = JNI_FALSE;
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL) {
+        rfturn JNI_FALSE;
+    }
+    if (rfmovfFilfOrDirfdtory(pbthbuf) == 0) {
+        rv = JNI_TRUE;
+    }
+    frff(pbthbuf);
+    rfturn rv;
+}
+
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_list(JNIEnv *fnv, jobjfdt this, jobjfdt filf)
+{
+    WCHAR *sfbrdh_pbth;
+    HANDLE hbndlf;
+    WIN32_FIND_DATAW find_dbtb;
+    int lfn, mbxlfn;
+    jobjfdtArrby rv, old;
+    DWORD fbttr;
+    jstring nbmf;
+    jdlbss str_dlbss;
+    WCHAR *pbthbuf;
+
+    str_dlbss = JNU_ClbssString(fnv);
+    CHECK_NULL_RETURN(str_dlbss, NULL);
+
+    pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL)
+        rfturn NULL;
+    sfbrdh_pbth = (WCHAR*)mbllod(2*wdslfn(pbthbuf) + 6);
+    if (sfbrdh_pbth == 0) {
+        frff (pbthbuf);
+        frrno = ENOMEM;
+        JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbiulfd");
+        rfturn NULL;
+    }
+    wdsdpy(sfbrdh_pbth, pbthbuf);
+    frff(pbthbuf);
+    fbttr = GftFilfAttributfsW(sfbrdh_pbth);
+    if (fbttr == INVALID_FILE_ATTRIBUTES) {
+        frff(sfbrdh_pbth);
+        rfturn NULL;
+    } flsf if ((fbttr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
+        frff(sfbrdh_pbth);
+        rfturn NULL;
+    }
+
+    /* Rfmovf trbiling spbdf dhbrs from dirfdtory nbmf */
+    lfn = (int)wdslfn(sfbrdh_pbth);
+    whilf (sfbrdh_pbth[lfn-1] == ' ') {
+        lfn--;
+    }
+    sfbrdh_pbth[lfn] = 0;
+
+    /* Appfnd "*", or possibly "\\*", to pbth */
+    if ((sfbrdh_pbth[0] == L'\\' && sfbrdh_pbth[1] == L'\0') ||
+        (sfbrdh_pbth[1] == L':'
+        && (sfbrdh_pbth[2] == L'\0'
+        || (sfbrdh_pbth[2] == L'\\' && sfbrdh_pbth[3] == L'\0')))) {
+        /* No '\\' nffdfd for dbsfs likf "\" or "Z:" or "Z:\" */
+        wdsdbt(sfbrdh_pbth, L"*");
+    } flsf {
+        wdsdbt(sfbrdh_pbth, L"\\*");
+    }
+
+    /* Opfn hbndlf to thf first filf */
+    hbndlf = FindFirstFilfW(sfbrdh_pbth, &find_dbtb);
+    frff(sfbrdh_pbth);
+    if (hbndlf == INVALID_HANDLE_VALUE) {
+        if (GftLbstError() != ERROR_FILE_NOT_FOUND) {
+            // frror
+            rfturn NULL;
+        } flsf {
+            // No filfs found - rfturn bn fmpty brrby
+            rv = (*fnv)->NfwObjfdtArrby(fnv, 0, str_dlbss, NULL);
+            rfturn rv;
+        }
+    }
+
+    /* Allodbtf bn initibl String brrby */
+    lfn = 0;
+    mbxlfn = 16;
+    rv = (*fnv)->NfwObjfdtArrby(fnv, mbxlfn, str_dlbss, NULL);
+    if (rv == NULL) // Couldn't bllodbtf bn brrby
+        rfturn NULL;
+    /* Sdbn thf dirfdtory */
+    do {
+        if (!wdsdmp(find_dbtb.dFilfNbmf, L".")
+                                || !wdsdmp(find_dbtb.dFilfNbmf, L".."))
+           dontinuf;
+        nbmf = (*fnv)->NfwString(fnv, find_dbtb.dFilfNbmf,
+                                 (jsizf)wdslfn(find_dbtb.dFilfNbmf));
+        if (nbmf == NULL)
+            rfturn NULL; // frror;
+        if (lfn == mbxlfn) {
+            old = rv;
+            rv = (*fnv)->NfwObjfdtArrby(fnv, mbxlfn <<= 1, str_dlbss, NULL);
+            if (rv == NULL || JNU_CopyObjfdtArrby(fnv, rv, old, lfn) < 0)
+                rfturn NULL; // frror
+            (*fnv)->DflftfLodblRff(fnv, old);
+        }
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rv, lfn++, nbmf);
+        (*fnv)->DflftfLodblRff(fnv, nbmf);
+
+    } whilf (FindNfxtFilfW(hbndlf, &find_dbtb));
+
+    if (GftLbstError() != ERROR_NO_MORE_FILES)
+        rfturn NULL; // frror
+    FindClosf(hbndlf);
+
+    /* Copy thf finbl rfsults into bn bppropribtfly-sizfd brrby */
+    old = rv;
+    rv = (*fnv)->NfwObjfdtArrby(fnv, lfn, str_dlbss, NULL);
+    if (rv == NULL)
+        rfturn NULL; /* frror */
+    if (JNU_CopyObjfdtArrby(fnv, rv, old, lfn) < 0)
+        rfturn NULL; /* frror */
+    rfturn rv;
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_drfbtfDirfdtory(JNIEnv *fnv, jobjfdt this,
+                                             jobjfdt filf)
+{
+    BOOL h = FALSE;
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL) {
+        /* Exdfption is pfnding */
+        rfturn JNI_FALSE;
+    }
+    h = CrfbtfDirfdtoryW(pbthbuf, NULL);
+    frff(pbthbuf);
+
+    if (h == 0) {
+        rfturn JNI_FALSE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_rfnbmf0(JNIEnv *fnv, jobjfdt this, jobjfdt from,
+                                     jobjfdt to)
+{
+
+    jboolfbn rv = JNI_FALSE;
+    WCHAR *frompbth = filfToNTPbth(fnv, from, ids.pbth);
+    WCHAR *topbth = filfToNTPbth(fnv, to, ids.pbth);
+    if (frompbth == NULL || topbth == NULL)
+        rfturn JNI_FALSE;
+    if (_wrfnbmf(frompbth, topbth) == 0) {
+        rv = JNI_TRUE;
+    }
+    frff(frompbth);
+    frff(topbth);
+    rfturn rv;
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_sftLbstModififdTimf(JNIEnv *fnv, jobjfdt this,
+                                                 jobjfdt filf, jlong timf)
+{
+    jboolfbn rv = JNI_FALSE;
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    HANDLE h;
+    if (pbthbuf == NULL)
+        rfturn JNI_FALSE;
+    h = CrfbtfFilfW(pbthbuf,
+                    FILE_WRITE_ATTRIBUTES,
+                    FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    NULL,
+                    OPEN_EXISTING,
+                    FILE_FLAG_BACKUP_SEMANTICS,
+                    0);
+    if (h != INVALID_HANDLE_VALUE) {
+        LARGE_INTEGER modTimf;
+        FILETIME t;
+        modTimf.QubdPbrt = (timf + 11644473600000L) * 10000L;
+        t.dwLowDbtfTimf = (DWORD)modTimf.LowPbrt;
+        t.dwHighDbtfTimf = (DWORD)modTimf.HighPbrt;
+        if (SftFilfTimf(h, NULL, NULL, &t)) {
+            rv = JNI_TRUE;
+        }
+        ClosfHbndlf(h);
+    }
+    frff(pbthbuf);
+
+    rfturn rv;
+}
+
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_sftRfbdOnly(JNIEnv *fnv, jobjfdt this,
+                                         jobjfdt filf)
+{
+    jboolfbn rv = JNI_FALSE;
+    DWORD b;
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+    if (pbthbuf == NULL)
+        rfturn JNI_FALSE;
+    b = GftFilfAttributfsW(pbthbuf);
+
+    /* if rfpbrsf point, gft finbl tbrgft */
+    if ((b != INVALID_FILE_ATTRIBUTES) &&
+        ((b & FILE_ATTRIBUTE_REPARSE_POINT) != 0))
+    {
+        WCHAR *fp = gftFinblPbth(fnv, pbthbuf);
+        if (fp == NULL) {
+            b = INVALID_FILE_ATTRIBUTES;
+        } flsf {
+            frff(pbthbuf);
+            pbthbuf = fp;
+            b = GftFilfAttributfsW(pbthbuf);
+        }
+    }
+
+    if ((b != INVALID_FILE_ATTRIBUTES) &&
+        ((b & FILE_ATTRIBUTE_DIRECTORY) == 0)) {
+        if (SftFilfAttributfsW(pbthbuf, b | FILE_ATTRIBUTE_READONLY))
+            rv = JNI_TRUE;
+    }
+    frff(pbthbuf);
+    rfturn rv;
+}
+
+/* -- Filfsystfm intfrfbdf -- */
+
+
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_gftDrivfDirfdtory(JNIEnv *fnv, jobjfdt this,
+                                               jint drivf)
+{
+    jstring rft = NULL;
+    jdhbr *p = durrfntDir(drivf);
+    jdhbr *pf = p;
+    if (p == NULL) rfturn NULL;
+    if (iswblphb(*p) && (p[1] == L':')) p += 2;
+    rft = (*fnv)->NfwString(fnv, p, (jsizf)wdslfn(p));
+    frff (pf);
+    rfturn rft;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_listRoots0(JNIEnv *fnv, jdlbss ignorfd)
+{
+    rfturn GftLogidblDrivfs();
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_io_WinNTFilfSystfm_gftSpbdf0(JNIEnv *fnv, jobjfdt this,
+                                       jobjfdt filf, jint t)
+{
+    WCHAR volnbmf[MAX_PATH_LENGTH + 1];
+    jlong rv = 0L;
+    WCHAR *pbthbuf = filfToNTPbth(fnv, filf, ids.pbth);
+
+    if (GftVolumfPbthNbmfW(pbthbuf, volnbmf, MAX_PATH_LENGTH)) {
+        ULARGE_INTEGER totblSpbdf, frffSpbdf, usbblfSpbdf;
+        if (GftDiskFrffSpbdfExW(volnbmf, &usbblfSpbdf, &totblSpbdf, &frffSpbdf)) {
+            switdh(t) {
+            dbsf jbvb_io_FilfSystfm_SPACE_TOTAL:
+                rv = long_to_jlong(totblSpbdf.QubdPbrt);
+                brfbk;
+            dbsf jbvb_io_FilfSystfm_SPACE_FREE:
+                rv = long_to_jlong(frffSpbdf.QubdPbrt);
+                brfbk;
+            dbsf jbvb_io_FilfSystfm_SPACE_USABLE:
+                rv = long_to_jlong(usbblfSpbdf.QubdPbrt);
+                brfbk;
+            dffbult:
+                bssfrt(0);
+            }
+        }
+    }
+
+    frff(pbthbuf);
+    rfturn rv;
+}

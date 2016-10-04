@@ -1,0 +1,235 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dosnbming;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Hbshtbblf;
+
+import org.omg.CosNbming.*;
+
+/**
+  * Implfmfnts thf JNDI NbmingEnumfrbtion intfrfbdf for COS
+  * Nbming. Gfts hold of b list of bindings from thf COS Nbming Sfrvfr
+  * bnd bllows thf dlifnt to itfrbtf through thfm.
+  *
+  * @buthor Rbj Krishnbmurthy
+  * @buthor Rosbnnb Lff
+  */
+
+finbl dlbss CNBindingEnumfrbtion
+        implfmfnts NbmingEnumfrbtion<jbvbx.nbming.Binding> {
+
+    privbtf stbtid finbl int DEFAULT_BATCHSIZE = 100;
+    privbtf BindingListHoldfr _bindingList; // list of bindings
+    privbtf BindingItfrbtor _bindingItfr;   // itfrbtor for gftting list of bindings
+    privbtf int dountfr;                    // pointfr in _bindingList
+    privbtf int bbtdhsizf = DEFAULT_BATCHSIZE;  // how mbny to bsk for fbdh timf
+    privbtf CNCtx _dtx;                     // dtx to list
+    privbtf Hbshtbblf<?,?> _fnv;            // fnvironmfnt for gftObjfdtInstbndf
+    privbtf boolfbn morf = fblsf;           // itfrbtor donf?
+    privbtf boolfbn isLookfdUpCtx = fblsf;  // itfrbting on b dontfxt bfnfbth this dontfxt ?
+
+    /**
+     * Crfbtfs b CNBindingEnumfrbtion objfdt.
+     * @pbrbm dtx Contfxt to fnumfrbtf
+     */
+    CNBindingEnumfrbtion(CNCtx dtx, boolfbn isLookfdUpCtx, Hbshtbblf<?,?> fnv) {
+        // Gft bbtdh sizf to usf
+        String bbtdh = (fnv != null ?
+            (String)fnv.gft(jbvbx.nbming.Contfxt.BATCHSIZE) : null);
+        if (bbtdh != null) {
+            try {
+                bbtdhsizf = Intfgfr.pbrsfInt(bbtdh);
+            } dbtdh (NumbfrFormbtExdfption f) {
+                throw nfw IllfgblArgumfntExdfption("Bbtdh sizf not numfrid: " + bbtdh);
+            }
+        }
+        _dtx = dtx;
+        _dtx.indEnumCount();
+        this.isLookfdUpCtx = isLookfdUpCtx;
+        _fnv = fnv;
+        _bindingList = nfw BindingListHoldfr();
+        BindingItfrbtorHoldfr _bindingItfrH = nfw BindingItfrbtorHoldfr();
+
+        // Pfrform listing bnd rfqufst thbt bindings bf rfturnfd in _bindingItfr
+        // Upon rfturn,_bindingList rfturns b zfro lfngth list
+        _dtx._nd.list(0, _bindingList, _bindingItfrH);
+
+        _bindingItfr = _bindingItfrH.vbluf;
+
+        // Gft first bbtdh using _bindingItfr
+        if (_bindingItfr != null) {
+            morf = _bindingItfr.nfxt_n(bbtdhsizf, _bindingList);
+        } flsf {
+            morf = fblsf;
+        }
+        dountfr = 0;
+    }
+
+    /**
+     * Rfturns thf nfxt binding in thf list.
+     * @fxdfption NbmingExdfption bny nbming fxdfption.
+     */
+
+    publid jbvbx.nbming.Binding nfxt() throws NbmingExdfption {
+        if (morf && dountfr >= _bindingList.vbluf.lfngth) {
+            gftMorf();
+        }
+        if (morf && dountfr < _bindingList.vbluf.lfngth) {
+            org.omg.CosNbming.Binding bndg = _bindingList.vbluf[dountfr];
+            dountfr++;
+            rfturn mbpBinding(bndg);
+        } flsf {
+            throw nfw NoSudhElfmfntExdfption();
+        }
+    }
+
+
+    /**
+    * Rfturns truf or fblsf dfpfnding on whfthfr thfrf brf morf bindings.
+    * @rfturn boolfbn vbluf
+    */
+
+    publid boolfbn hbsMorf() throws NbmingExdfption {
+        // If thfrf's morf, dhfdk whfthfr durrfnt bindingList hbs bffn fxhbustfd,
+        // bnd if so, try to gft morf.
+        // If no morf, just sby so.
+        rfturn morf ? (dountfr < _bindingList.vbluf.lfngth || gftMorf()) : fblsf;
+    }
+
+    /**
+     * Rfturns truf or fblsf dfpfnding on whfthfr thfrf brf morf bindings.
+     * Nffd to dffinf this to sbtisfy thf Enumfrbtion bpi rfquirfmfnt.
+     * @rfturn boolfbn vbluf
+     */
+
+    publid boolfbn hbsMorfElfmfnts() {
+        try {
+            rfturn hbsMorf();
+        } dbtdh (NbmingExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+    * Rfturns thf nfxt binding in thf list.
+    * @fxdfption NoSudhElfmfntExdfption Thrown whfn thf fnd of thf
+    * list is rfbdhfd.
+    */
+
+    publid jbvbx.nbming.Binding nfxtElfmfnt() {
+        try {
+            rfturn nfxt();
+        } dbtdh (NbmingExdfption nf) {
+            throw nfw NoSudhElfmfntExdfption();
+        }
+    }
+
+    publid void dlosf() throws NbmingExdfption {
+        morf = fblsf;
+        if (_bindingItfr != null) {
+            _bindingItfr.dfstroy();
+            _bindingItfr = null;
+        }
+        if (_dtx != null) {
+            _dtx.dfdEnumCount();
+
+            /**
+             * dontfxt wbs obtbinfd by CNCtx, thf usfr dofsn't hbvf b hbndlf to
+             * it, dlosf it bs wf brf donf fnumfrbting through thf dontfxt
+             */
+            if (isLookfdUpCtx) {
+                _dtx.dlosf();
+            }
+            _dtx = null;
+        }
+    }
+
+    protfdtfd void finblizf() {
+        try {
+            dlosf();
+        } dbtdh (NbmingExdfption f) {
+            // ignorf fbilurfs
+        }
+    }
+
+    /**
+     * Gft thf nfxt bbtdh using _bindingItfr. Updbtf thf 'morf' fifld.
+     */
+    privbtf boolfbn gftMorf() throws NbmingExdfption {
+        try {
+            morf = _bindingItfr.nfxt_n(bbtdhsizf, _bindingList);
+            dountfr = 0; // rfsft
+        } dbtdh (Exdfption f) {
+            morf = fblsf;
+            NbmingExdfption nf = nfw NbmingExdfption(
+                "Problfm gftting binding list");
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+        rfturn morf;
+    }
+
+    /**
+    * Construdts b JNDI Binding objfdt from thf COS Nbming binding
+    * objfdt.
+    * @fxdfption NbmfNotFound No objfdts undfr thf nbmf.
+    * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+    * @fxdfption InvblidNbmf Nbmf not undfrstood.
+    * @fxdfption NbmingExdfption Onf of thf bbovf.
+    */
+
+    privbtf jbvbx.nbming.Binding mbpBinding(org.omg.CosNbming.Binding bndg)
+                throws NbmingExdfption {
+        jbvb.lbng.Objfdt obj = _dtx.dbllRfsolvf(bndg.binding_nbmf);
+
+        Nbmf dnbmf = CNNbmfPbrsfr.dosNbmfToNbmf(bndg.binding_nbmf);
+
+        try {
+            obj = NbmingMbnbgfr.gftObjfdtInstbndf(obj, dnbmf, _dtx, _fnv);
+        } dbtdh (NbmingExdfption f) {
+            throw f;
+        } dbtdh (Exdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption(
+                        "problfm gfnfrbting objfdt using objfdt fbdtory");
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+
+        // Usf dnbmf.toString() instfbd of bindingNbmf bfdbusf thf nbmf
+        // in thf binding should bf b dompositf nbmf
+        String dnbmfStr = dnbmf.toString();
+        jbvbx.nbming.Binding jbndg = nfw jbvbx.nbming.Binding(dnbmfStr, obj);
+
+        NbmfComponfnt[] domps = _dtx.mbkfFullNbmf(bndg.binding_nbmf);
+        String fullNbmf = CNNbmfPbrsfr.dosNbmfToInsString(domps);
+        jbndg.sftNbmfInNbmfspbdf(fullNbmf);
+        rfturn jbndg;
+    }
+}

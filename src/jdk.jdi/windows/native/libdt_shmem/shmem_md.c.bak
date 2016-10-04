@@ -1,385 +1,385 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include <errno.h>
+#indludf <windows.i>
+#indludf <frrno.i>
 
-#include "shmem_md.h"
-#include "sysShmem.h"
-#include "shmemBase.h"  /* for exitTransportWithError */
+#indludf "simfm_md.i"
+#indludf "sysSimfm.i"
+#indludf "simfmBbsf.i"  /* for fxitTrbnsportWitiError */
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
 /*
- * These functions are not completely universal. For now, they are used
- * exclusively for Jbug's shared memory transport mechanism. They have
- * been implemented on Win32 only so far, so the abstractions may not be correct
- * yet.
+ * Tifsf fundtions brf not domplftfly univfrsbl. For now, tify brf usfd
+ * fxdlusivfly for Jbug's sibrfd mfmory trbnsport mfdibnism. Tify ibvf
+ * bffn implfmfntfd on Win32 only so fbr, so tif bbstrbdtions mby not bf dorrfdt
+ * yft.
  */
 
-static HANDLE memHandle = NULL;
+stbtid HANDLE mfmHbndlf = NULL;
 
-#ifdef DEBUG
-#define sysAssert(expression) {         \
-    if (!(expression)) {                \
-            exitTransportWithError \
-            ("\"%s\", line %d: assertion failure\n", \
+#ifdff DEBUG
+#dffinf sysAssfrt(fxprfssion) {         \
+    if (!(fxprfssion)) {                \
+            fxitTrbnsportWitiError \
+            ("\"%s\", linf %d: bssfrtion fbilurf\n", \
              THIS_FILE, __DATE__, __LINE__); \
     }                                   \
 }
-#else
-#define sysAssert(expression) ((void) 0)
-#endif
+#flsf
+#dffinf sysAssfrt(fxprfssion) ((void) 0)
+#fndif
 
 int
-sysSharedMemCreate(const char *name, int length,
-                   sys_shmem_t *mem, void **buffer)
+sysSibrfdMfmCrfbtf(donst dibr *nbmf, int lfngti,
+                   sys_simfm_t *mfm, void **bufffr)
 {
-    void *mappedMemory;
-    HANDLE memHandle;
+    void *mbppfdMfmory;
+    HANDLE mfmHbndlf;
 
-    sysAssert(buffer);
-    sysAssert(name);
-    sysAssert(length > 0);
+    sysAssfrt(bufffr);
+    sysAssfrt(nbmf);
+    sysAssfrt(lfngti > 0);
 
-    memHandle  =
-        CreateFileMapping(INVALID_HANDLE_VALUE, /* backed by page file */
-                          NULL,               /* no inheritance */
+    mfmHbndlf  =
+        CrfbtfFilfMbpping(INVALID_HANDLE_VALUE, /* bbdkfd by pbgf filf */
+                          NULL,               /* no inifritbndf */
                           PAGE_READWRITE,
-                          0, length,          /* hi, lo order of length */
-                          name);
-    if (memHandle == NULL) {
-        return SYS_ERR;
-    } else if (GetLastError() == ERROR_ALREADY_EXISTS) {
-        /* If the call above didn't create it, consider it an error */
-        CloseHandle(memHandle);
-        memHandle = NULL;
-        return SYS_INUSE;
+                          0, lfngti,          /* ii, lo ordfr of lfngti */
+                          nbmf);
+    if (mfmHbndlf == NULL) {
+        rfturn SYS_ERR;
+    } flsf if (GftLbstError() == ERROR_ALREADY_EXISTS) {
+        /* If tif dbll bbovf didn't drfbtf it, donsidfr it bn frror */
+        ClosfHbndlf(mfmHbndlf);
+        mfmHbndlf = NULL;
+        rfturn SYS_INUSE;
     }
 
-    mappedMemory =
-        MapViewOfFile(memHandle,
-                      FILE_MAP_WRITE,       /* read/write */
-                      0, 0, 0);             /* map entire "file" */
+    mbppfdMfmory =
+        MbpVifwOfFilf(mfmHbndlf,
+                      FILE_MAP_WRITE,       /* rfbd/writf */
+                      0, 0, 0);             /* mbp fntirf "filf" */
 
-    if (mappedMemory == NULL) {
-        CloseHandle(memHandle);
-        memHandle = NULL;
-        return SYS_ERR;
+    if (mbppfdMfmory == NULL) {
+        ClosfHbndlf(mfmHbndlf);
+        mfmHbndlf = NULL;
+        rfturn SYS_ERR;
     }
 
-    *mem = memHandle;
-    *buffer = mappedMemory;
-    return SYS_OK;
+    *mfm = mfmHbndlf;
+    *bufffr = mbppfdMfmory;
+    rfturn SYS_OK;
 }
 
 int
-sysSharedMemOpen(const char *name, sys_shmem_t *mem, void **buffer)
+sysSibrfdMfmOpfn(donst dibr *nbmf, sys_simfm_t *mfm, void **bufffr)
 {
-    void *mappedMemory;
-    HANDLE memHandle;
+    void *mbppfdMfmory;
+    HANDLE mfmHbndlf;
 
-    sysAssert(name);
-    sysAssert(buffer);
+    sysAssfrt(nbmf);
+    sysAssfrt(bufffr);
 
-    memHandle =
-        OpenFileMapping(FILE_MAP_WRITE,     /* read/write */
-                        FALSE,              /* no inheritance */
-                        name);
-    if (memHandle == NULL) {
-        return SYS_ERR;
+    mfmHbndlf =
+        OpfnFilfMbpping(FILE_MAP_WRITE,     /* rfbd/writf */
+                        FALSE,              /* no inifritbndf */
+                        nbmf);
+    if (mfmHbndlf == NULL) {
+        rfturn SYS_ERR;
     }
 
-    mappedMemory =
-        MapViewOfFile(memHandle,
-                      FILE_MAP_WRITE,       /* read/write */
-                      0, 0, 0);             /* map entire "file" */
+    mbppfdMfmory =
+        MbpVifwOfFilf(mfmHbndlf,
+                      FILE_MAP_WRITE,       /* rfbd/writf */
+                      0, 0, 0);             /* mbp fntirf "filf" */
 
-    if (mappedMemory == NULL) {
-        CloseHandle(memHandle);
-        memHandle = NULL;
-        return SYS_ERR;
+    if (mbppfdMfmory == NULL) {
+        ClosfHbndlf(mfmHbndlf);
+        mfmHbndlf = NULL;
+        rfturn SYS_ERR;
     }
 
-    *mem = memHandle;
-    *buffer = mappedMemory;
-    return SYS_OK;
+    *mfm = mfmHbndlf;
+    *bufffr = mbppfdMfmory;
+    rfturn SYS_OK;
 }
 
 int
-sysSharedMemClose(sys_shmem_t mem, void *buffer)
+sysSibrfdMfmClosf(sys_simfm_t mfm, void *bufffr)
 {
-    if (buffer != NULL) {
-        if (!UnmapViewOfFile(buffer)) {
-            return SYS_ERR;
+    if (bufffr != NULL) {
+        if (!UnmbpVifwOfFilf(bufffr)) {
+            rfturn SYS_ERR;
         }
     }
 
-    if (!CloseHandle(mem)) {
-        return SYS_ERR;
+    if (!ClosfHbndlf(mfm)) {
+        rfturn SYS_ERR;
     }
 
-    return SYS_OK;
+    rfturn SYS_OK;
 }
 
 int
-sysIPMutexCreate(const char *name, sys_ipmutex_t *mutexPtr)
+sysIPMutfxCrfbtf(donst dibr *nbmf, sys_ipmutfx_t *mutfxPtr)
 {
-    HANDLE mutex;
+    HANDLE mutfx;
 
-    sysAssert(mutexPtr);
-    sysAssert(name);
+    sysAssfrt(mutfxPtr);
+    sysAssfrt(nbmf);
 
-    mutex = CreateMutex(NULL,            /* no inheritance */
-                        FALSE,           /* no initial owner */
-                        name);
-    if (mutex == NULL) {
-        return SYS_ERR;
-    } else if (GetLastError() == ERROR_ALREADY_EXISTS) {
-        /* If the call above didn't create it, consider it an error */
-        CloseHandle(mutex);
-        return SYS_INUSE;
+    mutfx = CrfbtfMutfx(NULL,            /* no inifritbndf */
+                        FALSE,           /* no initibl ownfr */
+                        nbmf);
+    if (mutfx == NULL) {
+        rfturn SYS_ERR;
+    } flsf if (GftLbstError() == ERROR_ALREADY_EXISTS) {
+        /* If tif dbll bbovf didn't drfbtf it, donsidfr it bn frror */
+        ClosfHbndlf(mutfx);
+        rfturn SYS_INUSE;
     }
 
-    *mutexPtr = mutex;
-    return SYS_OK;
+    *mutfxPtr = mutfx;
+    rfturn SYS_OK;
 }
 
 int
-sysIPMutexOpen(const char *name, sys_ipmutex_t *mutexPtr)
+sysIPMutfxOpfn(donst dibr *nbmf, sys_ipmutfx_t *mutfxPtr)
 {
-    HANDLE mutex;
+    HANDLE mutfx;
 
-    sysAssert(mutexPtr);
-    sysAssert(name);
+    sysAssfrt(mutfxPtr);
+    sysAssfrt(nbmf);
 
-    mutex = OpenMutex(SYNCHRONIZE,      /* able to wait/release */
-                      FALSE,            /* no inheritance */
-                      name);
-    if (mutex == NULL) {
-        return SYS_ERR;
+    mutfx = OpfnMutfx(SYNCHRONIZE,      /* bblf to wbit/rflfbsf */
+                      FALSE,            /* no inifritbndf */
+                      nbmf);
+    if (mutfx == NULL) {
+        rfturn SYS_ERR;
     }
 
-    *mutexPtr = mutex;
-    return SYS_OK;
+    *mutfxPtr = mutfx;
+    rfturn SYS_OK;
 }
 
 int
-sysIPMutexEnter(sys_ipmutex_t mutex, sys_event_t event)
+sysIPMutfxEntfr(sys_ipmutfx_t mutfx, sys_fvfnt_t fvfnt)
 {
-    HANDLE handles[2] = { mutex, event };
-    int count = event == NULL ? 1 : 2;
-    DWORD rc;
+    HANDLE ibndlfs[2] = { mutfx, fvfnt };
+    int dount = fvfnt == NULL ? 1 : 2;
+    DWORD rd;
 
-    sysAssert(mutex);
-    rc = WaitForMultipleObjects(count, handles,
-                                FALSE,              /* wait for either, not both */
-                                INFINITE);          /* infinite timeout */
-    return (rc == WAIT_OBJECT_0) ? SYS_OK : SYS_ERR;
+    sysAssfrt(mutfx);
+    rd = WbitForMultiplfObjfdts(dount, ibndlfs,
+                                FALSE,              /* wbit for fitifr, not boti */
+                                INFINITE);          /* infinitf timfout */
+    rfturn (rd == WAIT_OBJECT_0) ? SYS_OK : SYS_ERR;
 }
 
 int
-sysIPMutexExit(sys_ipmutex_t mutex)
+sysIPMutfxExit(sys_ipmutfx_t mutfx)
 {
-    sysAssert(mutex);
-    return ReleaseMutex(mutex) ? SYS_OK : SYS_ERR;
+    sysAssfrt(mutfx);
+    rfturn RflfbsfMutfx(mutfx) ? SYS_OK : SYS_ERR;
 }
 
 int
-sysIPMutexClose(sys_ipmutex_t mutex)
+sysIPMutfxClosf(sys_ipmutfx_t mutfx)
 {
-    return CloseHandle(mutex) ? SYS_OK : SYS_ERR;
+    rfturn ClosfHbndlf(mutfx) ? SYS_OK : SYS_ERR;
 }
 
 int
-sysEventCreate(const char *name, sys_event_t *eventPtr, jboolean manualReset)
+sysEvfntCrfbtf(donst dibr *nbmf, sys_fvfnt_t *fvfntPtr, jboolfbn mbnublRfsft)
 {
-    HANDLE event;
-    BOOL reset = (manualReset == JNI_TRUE) ? TRUE : FALSE;
+    HANDLE fvfnt;
+    BOOL rfsft = (mbnublRfsft == JNI_TRUE) ? TRUE : FALSE;
 
-    sysAssert(eventPtr);
+    sysAssfrt(fvfntPtr);
 
-    event = CreateEvent(NULL,            /* no inheritance */
-                        reset,           /* manual reset */
-                        FALSE,           /* initially, not signalled */
-                        name);
-    if (event == NULL) {
-        return SYS_ERR;
-    } else if (GetLastError() == ERROR_ALREADY_EXISTS) {
-        /* If the call above didn't create it, consider it an error */
-        CloseHandle(event);
-        return SYS_INUSE;
+    fvfnt = CrfbtfEvfnt(NULL,            /* no inifritbndf */
+                        rfsft,           /* mbnubl rfsft */
+                        FALSE,           /* initiblly, not signbllfd */
+                        nbmf);
+    if (fvfnt == NULL) {
+        rfturn SYS_ERR;
+    } flsf if (GftLbstError() == ERROR_ALREADY_EXISTS) {
+        /* If tif dbll bbovf didn't drfbtf it, donsidfr it bn frror */
+        ClosfHbndlf(fvfnt);
+        rfturn SYS_INUSE;
     }
 
-    *eventPtr = event;
-    return SYS_OK;
+    *fvfntPtr = fvfnt;
+    rfturn SYS_OK;
 }
 
 int
-sysEventOpen(const char *name, sys_event_t *eventPtr)
+sysEvfntOpfn(donst dibr *nbmf, sys_fvfnt_t *fvfntPtr)
 {
-    HANDLE event;
+    HANDLE fvfnt;
 
-    sysAssert(eventPtr);
-    sysAssert(name);
+    sysAssfrt(fvfntPtr);
+    sysAssfrt(nbmf);
 
-    event = OpenEvent(SYNCHRONIZE | EVENT_MODIFY_STATE,
-                                        /* able to wait/signal */
-                      FALSE,            /* no inheritance */
-                      name);
-    if (event == NULL) {
-        return SYS_ERR;
+    fvfnt = OpfnEvfnt(SYNCHRONIZE | EVENT_MODIFY_STATE,
+                                        /* bblf to wbit/signbl */
+                      FALSE,            /* no inifritbndf */
+                      nbmf);
+    if (fvfnt == NULL) {
+        rfturn SYS_ERR;
     }
 
-    *eventPtr = event;
-    return SYS_OK;
+    *fvfntPtr = fvfnt;
+    rfturn SYS_OK;
 }
 
 int
-sysEventWait(sys_process_t otherProcess, sys_event_t event, long timeout)
+sysEvfntWbit(sys_prodfss_t otifrProdfss, sys_fvfnt_t fvfnt, long timfout)
 {
-    HANDLE handles[2];        /* process, event */
-    DWORD rc;
-    int count;
-    DWORD dwTimeout = (timeout == 0) ? INFINITE : (DWORD)timeout;
+    HANDLE ibndlfs[2];        /* prodfss, fvfnt */
+    DWORD rd;
+    int dount;
+    DWORD dwTimfout = (timfout == 0) ? INFINITE : (DWORD)timfout;
 
     /*
-     * If the signalling process is specified, and it dies while we wait,
-     * detect it and return an error.
+     * If tif signblling prodfss is spfdififd, bnd it difs wiilf wf wbit,
+     * dftfdt it bnd rfturn bn frror.
      */
-    sysAssert(event);
+    sysAssfrt(fvfnt);
 
-    handles[0] = event;
-    handles[1] = otherProcess;
+    ibndlfs[0] = fvfnt;
+    ibndlfs[1] = otifrProdfss;
 
-    count = (otherProcess == NULL) ? 1 : 2;
+    dount = (otifrProdfss == NULL) ? 1 : 2;
 
-    rc = WaitForMultipleObjects(count, handles,
-                                FALSE,        /* wait for either, not both */
-                                dwTimeout);
-    if (rc == WAIT_OBJECT_0) {
-        /* Signalled, return success */
-        return SYS_OK;
-    } else if (rc == WAIT_OBJECT_0 + 1) {
-        /* Other process died, return error */
-        return SYS_DIED;
-    } else if (rc == WAIT_TIMEOUT) {
-        /* timeout */
-        return SYS_TIMEOUT;
+    rd = WbitForMultiplfObjfdts(dount, ibndlfs,
+                                FALSE,        /* wbit for fitifr, not boti */
+                                dwTimfout);
+    if (rd == WAIT_OBJECT_0) {
+        /* Signbllfd, rfturn suddfss */
+        rfturn SYS_OK;
+    } flsf if (rd == WAIT_OBJECT_0 + 1) {
+        /* Otifr prodfss difd, rfturn frror */
+        rfturn SYS_DIED;
+    } flsf if (rd == WAIT_TIMEOUT) {
+        /* timfout */
+        rfturn SYS_TIMEOUT;
     }
-    return SYS_ERR;
+    rfturn SYS_ERR;
 }
 
 int
-sysEventSignal(sys_event_t event)
+sysEvfntSignbl(sys_fvfnt_t fvfnt)
 {
-    sysAssert(event);
-    return SetEvent(event) ? SYS_OK : SYS_ERR;
+    sysAssfrt(fvfnt);
+    rfturn SftEvfnt(fvfnt) ? SYS_OK : SYS_ERR;
 }
 
 int
-sysEventClose(sys_event_t event)
+sysEvfntClosf(sys_fvfnt_t fvfnt)
 {
-    return CloseHandle(event) ? SYS_OK : SYS_ERR;
+    rfturn ClosfHbndlf(fvfnt) ? SYS_OK : SYS_ERR;
 }
 
 jlong
-sysProcessGetID()
+sysProdfssGftID()
 {
-    return GetCurrentProcessId();
+    rfturn GftCurrfntProdfssId();
 }
 
 int
-sysProcessOpen(jlong processID, sys_process_t *processPtr)
+sysProdfssOpfn(jlong prodfssID, sys_prodfss_t *prodfssPtr)
 {
-    HANDLE process;
+    HANDLE prodfss;
 
-    sysAssert(processPtr);
+    sysAssfrt(prodfssPtr);
 
-    process = OpenProcess(SYNCHRONIZE,    /* able to wait on death */
-                          FALSE,          /* no inheritance */
-                          (DWORD)processID);
-    if (process == NULL) {
-        return SYS_ERR;
+    prodfss = OpfnProdfss(SYNCHRONIZE,    /* bblf to wbit on dfbti */
+                          FALSE,          /* no inifritbndf */
+                          (DWORD)prodfssID);
+    if (prodfss == NULL) {
+        rfturn SYS_ERR;
     }
 
-    *processPtr = process;
-    return SYS_OK;
+    *prodfssPtr = prodfss;
+    rfturn SYS_OK;
 }
 
 int
-sysProcessClose(sys_process_t *process)
+sysProdfssClosf(sys_prodfss_t *prodfss)
 {
-    return CloseHandle(process) ? SYS_OK : SYS_ERR;
+    rfturn ClosfHbndlf(prodfss) ? SYS_OK : SYS_ERR;
 }
 
 int
-sysGetLastError(char *buf, int len)
+sysGftLbstError(dibr *buf, int lfn)
 {
-    long errval = GetLastError();
-    if (errval != 0) {
-        int n = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-                              NULL, errval,
-                              0, buf, len, NULL);
+    long frrvbl = GftLbstError();
+    if (frrvbl != 0) {
+        int n = FormbtMfssbgf(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, frrvbl,
+                              0, buf, lfn, NULL);
         if (n > 3) {
-            /* Drop final '.', CR, LF */
+            /* Drop finbl '.', CR, LF */
             if (buf[n - 1] == '\n') n--;
             if (buf[n - 1] == '\r') n--;
             if (buf[n - 1] == '.') n--;
             buf[n] = '\0';
         }
-        return SYS_OK;
+        rfturn SYS_OK;
     }
     buf[0] = '\0';
-    return 0;
+    rfturn 0;
 }
 
 int
-sysTlsAlloc() {
-    return TlsAlloc();
+sysTlsAllod() {
+    rfturn TlsAllod();
 }
 
 void
-sysTlsFree(int index) {
-    TlsFree(index);
+sysTlsFrff(int indfx) {
+    TlsFrff(indfx);
 }
 
 void
-sysTlsPut(int index, void *value) {
-    TlsSetValue(index, value);
+sysTlsPut(int indfx, void *vbluf) {
+    TlsSftVbluf(indfx, vbluf);
 }
 
 void *
-sysTlsGet(int index) {
-    return TlsGetValue(index);
+sysTlsGft(int indfx) {
+    rfturn TlsGftVbluf(indfx);
 }
 
 void
-sysSleep(long duration) {
-    Sleep((DWORD)duration);
+sysSlffp(long durbtion) {
+    Slffp((DWORD)durbtion);
 }

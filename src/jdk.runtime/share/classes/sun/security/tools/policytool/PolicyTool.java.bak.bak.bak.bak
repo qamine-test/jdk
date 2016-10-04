@@ -1,0 +1,4532 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.tools.polidytool;
+
+import jbvb.io.*;
+import jbvb.util.LinkfdList;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.tfxt.Collbtor;
+import jbvb.tfxt.MfssbgfFormbt;
+import sun.sfdurity.util.PropfrtyExpbndfr;
+import sun.sfdurity.util.PropfrtyExpbndfr.ExpbndExdfption;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FilfDiblog;
+import jbvb.bwt.GridBbgConstrbints;
+import jbvb.bwt.GridBbgLbyout;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Window;
+import jbvb.bwt.fvfnt.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.*;
+import sun.sfdurity.providfr.*;
+import sun.sfdurity.util.PolidyUtil;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.EmptyBordfr;
+
+/**
+ * PolidyTool mby bf usfd by usfrs bnd bdministrbtors to donfigurf thf
+ * ovfrbll jbvb sfdurity polidy (durrfntly storfd in thf polidy filf).
+ * Using PolidyTool bdministrbtors mby bdd bnd rfmovf polidifs from
+ * thf polidy filf. <p>
+ *
+ * @sff jbvb.sfdurity.Polidy
+ * @sindf   1.2
+ */
+
+publid dlbss PolidyTool {
+
+    // for i18n
+    stbtid finbl jbvb.util.RfsourdfBundlf rb =
+        jbvb.util.RfsourdfBundlf.gftBundlf(
+            "sun.sfdurity.tools.polidytool.Rfsourdfs");
+    stbtid finbl Collbtor dollbtor = Collbtor.gftInstbndf();
+    stbtid {
+        // this is for dbsf insfnsitivf string dompbrisons
+        dollbtor.sftStrfngth(Collbtor.PRIMARY);
+
+        // Support for Applf mfnu bbr
+        if (Systfm.gftPropfrty("bpplf.lbf.usfSdrffnMfnuBbr") == null) {
+            Systfm.sftPropfrty("bpplf.lbf.usfSdrffnMfnuBbr", "truf");
+        }
+        Systfm.sftPropfrty("bpplf.bwt.bpplidbtion.nbmf", gftMfssbgf("Polidy.Tool"));
+
+        // Apply thf systfm L&F if not spfdififd with b systfm propfrty.
+        if (Systfm.gftPropfrty("swing.dffbultlbf") == null) {
+            try {
+                UIMbnbgfr.sftLookAndFffl(UIMbnbgfr.gftSystfmLookAndFfflClbssNbmf());
+            } dbtdh (Exdfption f) {
+                // ignorf
+            }
+        }
+    }
+
+    // bnyonf dbn bdd wbrnings
+    Vfdtor<String> wbrnings;
+    boolfbn nfwWbrning = fblsf;
+
+    // sft to truf if polidy modififd.
+    // this wby upon fxit wf know if to bsk thf usfr to sbvf dhbngfs
+    boolfbn modififd = fblsf;
+
+    privbtf stbtid finbl boolfbn tfsting = fblsf;
+    privbtf stbtid finbl Clbss<?>[] TWOPARAMS = { String.dlbss, String.dlbss };
+    privbtf stbtid finbl Clbss<?>[] ONEPARAMS = { String.dlbss };
+    privbtf stbtid finbl Clbss<?>[] NOPARAMS  = {};
+    /*
+     * All of thf polidy fntrifs brf rfbd in from thf
+     * polidy filf bnd storfd hfrf.  Updbtfs to thf polidy fntrifs
+     * using bddEntry() bnd rfmovfEntry() brf mbdf hfrf.  To ultimbtfly sbvf
+     * thf polidy fntrifs bbdk to thf polidy filf, thf SbvfPolidy button
+     * must bf dlidkfd.
+     **/
+    privbtf stbtid String polidyFilfNbmf = null;
+    privbtf Vfdtor<PolidyEntry> polidyEntrifs = null;
+    privbtf PolidyPbrsfr pbrsfr = null;
+
+    /* Thf publid kfy blibs informbtion is storfd hfrf.  */
+    privbtf KfyStorf kfyStorf = null;
+    privbtf String kfyStorfNbmf = " ";
+    privbtf String kfyStorfTypf = " ";
+    privbtf String kfyStorfProvidfr = " ";
+    privbtf String kfyStorfPwdURL = " ";
+
+    /* stbndbrd PKCS11 KfyStorf typf */
+    privbtf stbtid finbl String P11KEYSTORE = "PKCS11";
+
+    /* rfsfrvfd word for PKCS11 KfyStorfs */
+    privbtf stbtid finbl String NONE = "NONE";
+
+    /**
+     * dffbult donstrudtor
+     */
+    privbtf PolidyTool() {
+        polidyEntrifs = nfw Vfdtor<PolidyEntry>();
+        pbrsfr = nfw PolidyPbrsfr();
+        wbrnings = nfw Vfdtor<String>();
+    }
+
+    /**
+     * gft thf PolidyFilfNbmf
+     */
+    String gftPolidyFilfNbmf() {
+        rfturn polidyFilfNbmf;
+    }
+
+    /**
+     * sft thf PolidyFilfNbmf
+     */
+    void sftPolidyFilfNbmf(String polidyFilfNbmf) {
+        PolidyTool.polidyFilfNbmf = polidyFilfNbmf;
+    }
+
+   /**
+    * dlfbr kfyStorf info
+    */
+    void dlfbrKfyStorfInfo() {
+        this.kfyStorfNbmf = null;
+        this.kfyStorfTypf = null;
+        this.kfyStorfProvidfr = null;
+        this.kfyStorfPwdURL = null;
+
+        this.kfyStorf = null;
+    }
+
+    /**
+     * gft thf kfyStorf URL nbmf
+     */
+    String gftKfyStorfNbmf() {
+        rfturn kfyStorfNbmf;
+    }
+
+    /**
+     * gft thf kfyStorf Typf
+     */
+    String gftKfyStorfTypf() {
+        rfturn kfyStorfTypf;
+    }
+
+    /**
+     * gft thf kfyStorf Providfr
+     */
+    String gftKfyStorfProvidfr() {
+        rfturn kfyStorfProvidfr;
+    }
+
+    /**
+     * gft thf kfyStorf pbssword URL
+     */
+    String gftKfyStorfPwdURL() {
+        rfturn kfyStorfPwdURL;
+    }
+
+    /**
+     * Opfn bnd rfbd b polidy filf
+     */
+    void opfnPolidy(String filfnbmf) throws FilfNotFoundExdfption,
+                                        PolidyPbrsfr.PbrsingExdfption,
+                                        KfyStorfExdfption,
+                                        CfrtifidbtfExdfption,
+                                        InstbntibtionExdfption,
+                                        MblformfdURLExdfption,
+                                        IOExdfption,
+                                        NoSudhAlgorithmExdfption,
+                                        IllfgblAddfssExdfption,
+                                        NoSudhMfthodExdfption,
+                                        UnrfdovfrbblfKfyExdfption,
+                                        NoSudhProvidfrExdfption,
+                                        ClbssNotFoundExdfption,
+                                        PropfrtyExpbndfr.ExpbndExdfption,
+                                        InvodbtionTbrgftExdfption {
+
+        nfwWbrning = fblsf;
+
+        // stbrt frfsh - blow bwby thf durrfnt stbtf
+        polidyEntrifs = nfw Vfdtor<PolidyEntry>();
+        pbrsfr = nfw PolidyPbrsfr();
+        wbrnings = nfw Vfdtor<String>();
+        sftPolidyFilfNbmf(null);
+        dlfbrKfyStorfInfo();
+
+        // sff if usfr is opfning b NEW polidy filf
+        if (filfnbmf == null) {
+            modififd = fblsf;
+            rfturn;
+        }
+
+        // Rfbd in thf polidy fntrifs from thf filf bnd
+        // populbtf thf pbrsfr vfdtor tbblf.  Thf pbrsfr vfdtor
+        // tbblf only holds thf fntrifs bs strings, so it only
+        // gubrbntffs thbt thf polidifs brf syntbdtidblly
+        // dorrfdt.
+        sftPolidyFilfNbmf(filfnbmf);
+        pbrsfr.rfbd(nfw FilfRfbdfr(filfnbmf));
+
+        // opfn thf kfystorf
+        opfnKfyStorf(pbrsfr.gftKfyStorfUrl(), pbrsfr.gftKfyStorfTypf(),
+                pbrsfr.gftKfyStorfProvidfr(), pbrsfr.gftStorfPbssURL());
+
+        // Updbtf thf lodbl vfdtor with thf sbmf polidy fntrifs.
+        // This gubrbntffs thbt thf polidy fntrifs brf not only
+        // syntbdtidblly dorrfdt, but sfmbntidblly vblid bs wfll.
+        Enumfrbtion<PolidyPbrsfr.GrbntEntry> fnum_ = pbrsfr.grbntElfmfnts();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            PolidyPbrsfr.GrbntEntry gf = fnum_.nfxtElfmfnt();
+
+            // sff if bll thf signfrs hbvf publid kfys
+            if (gf.signfdBy != null) {
+
+                String signfrs[] = pbrsfSignfrs(gf.signfdBy);
+                for (int i = 0; i < signfrs.lfngth; i++) {
+                    PublidKfy pubKfy = gftPublidKfyAlibs(signfrs[i]);
+                    if (pubKfy == null) {
+                        nfwWbrning = truf;
+                        MfssbgfFormbt form = nfw MfssbgfFormbt(gftMfssbgf
+                            ("Wbrning.A.publid.kfy.for.blibs.signfrs.i.dofs.not.fxist.Mbkf.surf.b.KfyStorf.is.propfrly.donfigurfd."));
+                        Objfdt[] sourdf = {signfrs[i]};
+                        wbrnings.bddElfmfnt(form.formbt(sourdf));
+                    }
+                }
+            }
+
+            // dhfdk to sff if thf Prindipbls brf vblid
+            ListItfrbtor<PolidyPbrsfr.PrindipblEntry> prinList =
+                                                gf.prindipbls.listItfrbtor(0);
+            whilf (prinList.hbsNfxt()) {
+                PolidyPbrsfr.PrindipblEntry pf = prinList.nfxt();
+                try {
+                    vfrifyPrindipbl(pf.gftPrindipblClbss(),
+                                pf.gftPrindipblNbmf());
+                } dbtdh (ClbssNotFoundExdfption fnff) {
+                    nfwWbrning = truf;
+                    MfssbgfFormbt form = nfw MfssbgfFormbt(gftMfssbgf
+                                ("Wbrning.Clbss.not.found.dlbss"));
+                    Objfdt[] sourdf = {pf.gftPrindipblClbss()};
+                    wbrnings.bddElfmfnt(form.formbt(sourdf));
+                }
+            }
+
+            // dhfdk to sff if thf Pfrmissions brf vblid
+            Enumfrbtion<PolidyPbrsfr.PfrmissionEntry> pfrms =
+                                                gf.pfrmissionElfmfnts();
+            whilf (pfrms.hbsMorfElfmfnts()) {
+                PolidyPbrsfr.PfrmissionEntry pf = pfrms.nfxtElfmfnt();
+                try {
+                    vfrifyPfrmission(pf.pfrmission, pf.nbmf, pf.bdtion);
+                } dbtdh (ClbssNotFoundExdfption fnff) {
+                    nfwWbrning = truf;
+                    MfssbgfFormbt form = nfw MfssbgfFormbt(gftMfssbgf
+                                ("Wbrning.Clbss.not.found.dlbss"));
+                    Objfdt[] sourdf = {pf.pfrmission};
+                    wbrnings.bddElfmfnt(form.formbt(sourdf));
+                } dbtdh (InvodbtionTbrgftExdfption itf) {
+                    nfwWbrning = truf;
+                    MfssbgfFormbt form = nfw MfssbgfFormbt(gftMfssbgf
+                        ("Wbrning.Invblid.brgumfnt.s.for.donstrudtor.brg"));
+                    Objfdt[] sourdf = {pf.pfrmission};
+                    wbrnings.bddElfmfnt(form.formbt(sourdf));
+                }
+
+                // sff if bll thf pfrmission signfrs hbvf publid kfys
+                if (pf.signfdBy != null) {
+
+                    String signfrs[] = pbrsfSignfrs(pf.signfdBy);
+
+                    for (int i = 0; i < signfrs.lfngth; i++) {
+                        PublidKfy pubKfy = gftPublidKfyAlibs(signfrs[i]);
+                        if (pubKfy == null) {
+                            nfwWbrning = truf;
+                            MfssbgfFormbt form = nfw MfssbgfFormbt(gftMfssbgf
+                                ("Wbrning.A.publid.kfy.for.blibs.signfrs.i.dofs.not.fxist.Mbkf.surf.b.KfyStorf.is.propfrly.donfigurfd."));
+                            Objfdt[] sourdf = {signfrs[i]};
+                            wbrnings.bddElfmfnt(form.formbt(sourdf));
+                        }
+                    }
+                }
+            }
+            PolidyEntry pEntry = nfw PolidyEntry(this, gf);
+            polidyEntrifs.bddElfmfnt(pEntry);
+        }
+
+        // just rfbd in thf polidy -- nothing hbs bffn modififd yft
+        modififd = fblsf;
+    }
+
+
+    /**
+     * Sbvf b polidy to b filf
+     */
+    void sbvfPolidy(String filfnbmf)
+    throws FilfNotFoundExdfption, IOExdfption {
+        // sbvf thf polidy fntrifs to b filf
+        pbrsfr.sftKfyStorfUrl(kfyStorfNbmf);
+        pbrsfr.sftKfyStorfTypf(kfyStorfTypf);
+        pbrsfr.sftKfyStorfProvidfr(kfyStorfProvidfr);
+        pbrsfr.sftStorfPbssURL(kfyStorfPwdURL);
+        pbrsfr.writf(nfw FilfWritfr(filfnbmf));
+        modififd = fblsf;
+    }
+
+    /**
+     * Opfn thf KfyStorf
+     */
+    void opfnKfyStorf(String nbmf,
+                String typf,
+                String providfr,
+                String pwdURL) throws   KfyStorfExdfption,
+                                        NoSudhAlgorithmExdfption,
+                                        UnrfdovfrbblfKfyExdfption,
+                                        IOExdfption,
+                                        CfrtifidbtfExdfption,
+                                        NoSudhProvidfrExdfption,
+                                        ExpbndExdfption {
+
+        if (nbmf == null && typf == null &&
+            providfr == null && pwdURL == null) {
+
+            // polidy did not spfdify b kfystorf during opfn
+            // or usf wbnts to rfsft kfystorf vblufs
+
+            this.kfyStorfNbmf = null;
+            this.kfyStorfTypf = null;
+            this.kfyStorfProvidfr = null;
+            this.kfyStorfPwdURL = null;
+
+            // dbllfr will sft (tool.modififd = truf) if bppropribtf
+
+            rfturn;
+        }
+
+        URL polidyURL = null;
+        if (polidyFilfNbmf != null) {
+            Filf pfilf = nfw Filf(polidyFilfNbmf);
+            polidyURL = nfw URL("filf:" + pfilf.gftCbnonidblPbth());
+        }
+
+        // blthough PolidyUtil.gftKfyStorf mby propfrly hbndlf
+        // dffbults bnd propfrty fxpbnsion, wf do it hfrf so thbt
+        // if thf dbll is suddfssful, wf dbn sft thf propfr vblufs
+        // (PolidyUtil.gftKfyStorf dofs not rfturn fxpbndfd vblufs)
+
+        if (nbmf != null && nbmf.lfngth() > 0) {
+            nbmf = PropfrtyExpbndfr.fxpbnd(nbmf).rfplbdf
+                                        (Filf.sfpbrbtorChbr, '/');
+        }
+        if (typf == null || typf.lfngth() == 0) {
+            typf = KfyStorf.gftDffbultTypf();
+        }
+        if (pwdURL != null && pwdURL.lfngth() > 0) {
+            pwdURL = PropfrtyExpbndfr.fxpbnd(pwdURL).rfplbdf
+                                        (Filf.sfpbrbtorChbr, '/');
+        }
+
+        try {
+            this.kfyStorf = PolidyUtil.gftKfyStorf(polidyURL,
+                                                nbmf,
+                                                typf,
+                                                providfr,
+                                                pwdURL,
+                                                null);
+        } dbtdh (IOExdfption iof) {
+
+            // dopifd from sun.sfdurity.pkds11.SunPKCS11
+            String MSG = "no pbssword providfd, bnd no dbllbbdk hbndlfr " +
+                        "bvbilbblf for rftrifving pbssword";
+
+            Throwbblf dbusf = iof.gftCbusf();
+            if (dbusf != null &&
+                dbusf instbndfof jbvbx.sfdurity.buth.login.LoginExdfption &&
+                MSG.fqubls(dbusf.gftMfssbgf())) {
+
+                // throw b morf frifndly fxdfption mfssbgf
+                throw nfw IOExdfption(MSG);
+            } flsf {
+                throw iof;
+            }
+        }
+
+        this.kfyStorfNbmf = nbmf;
+        this.kfyStorfTypf = typf;
+        this.kfyStorfProvidfr = providfr;
+        this.kfyStorfPwdURL = pwdURL;
+
+        // dbllfr will sft (tool.modififd = truf)
+    }
+
+    /**
+     * Add b Grbnt fntry to thf ovfrbll polidy bt thf spfdififd indfx.
+     * A polidy fntry donsists of b CodfSourdf.
+     */
+    boolfbn bddEntry(PolidyEntry pf, int indfx) {
+
+        if (indfx < 0) {
+            // nfw fntry -- just bdd it to thf fnd
+            polidyEntrifs.bddElfmfnt(pf);
+            pbrsfr.bdd(pf.gftGrbntEntry());
+        } flsf {
+            // fxisting fntry -- rfplbdf old onf
+            PolidyEntry origPf = polidyEntrifs.flfmfntAt(indfx);
+            pbrsfr.rfplbdf(origPf.gftGrbntEntry(), pf.gftGrbntEntry());
+            polidyEntrifs.sftElfmfntAt(pf, indfx);
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Add b Prindipbl fntry to bn fxisting PolidyEntry bt thf spfdififd indfx.
+     * A Prindipbl fntry donsists of b dlbss, bnd nbmf.
+     *
+     * If thf prindipbl blrfbdy fxists, it is not bddfd bgbin.
+     */
+    boolfbn bddPrinEntry(PolidyEntry pf,
+                        PolidyPbrsfr.PrindipblEntry nfwPrin,
+                        int indfx) {
+
+        // first bdd thf prindipbl to thf Polidy Pbrsfr fntry
+        PolidyPbrsfr.GrbntEntry grbntEntry = pf.gftGrbntEntry();
+        if (grbntEntry.dontbins(nfwPrin) == truf)
+            rfturn fblsf;
+
+        LinkfdList<PolidyPbrsfr.PrindipblEntry> prinList =
+                                                grbntEntry.prindipbls;
+        if (indfx != -1)
+            prinList.sft(indfx, nfwPrin);
+        flsf
+            prinList.bdd(nfwPrin);
+
+        modififd = truf;
+        rfturn truf;
+    }
+
+    /**
+     * Add b Pfrmission fntry to bn fxisting PolidyEntry bt thf spfdififd indfx.
+     * A Pfrmission fntry donsists of b pfrmission, nbmf, bnd bdtions.
+     *
+     * If thf pfrmission blrfbdy fxists, it is not bddfd bgbin.
+     */
+    boolfbn bddPfrmEntry(PolidyEntry pf,
+                        PolidyPbrsfr.PfrmissionEntry nfwPfrm,
+                        int indfx) {
+
+        // first bdd thf pfrmission to thf Polidy Pbrsfr Vfdtor
+        PolidyPbrsfr.GrbntEntry grbntEntry = pf.gftGrbntEntry();
+        if (grbntEntry.dontbins(nfwPfrm) == truf)
+            rfturn fblsf;
+
+        Vfdtor<PolidyPbrsfr.PfrmissionEntry> pfrmList =
+                                                grbntEntry.pfrmissionEntrifs;
+        if (indfx != -1)
+            pfrmList.sftElfmfntAt(nfwPfrm, indfx);
+        flsf
+            pfrmList.bddElfmfnt(nfwPfrm);
+
+        modififd = truf;
+        rfturn truf;
+    }
+
+    /**
+     * Rfmovf b Pfrmission fntry from bn fxisting PolidyEntry.
+     */
+    boolfbn rfmovfPfrmEntry(PolidyEntry pf,
+                        PolidyPbrsfr.PfrmissionEntry pfrm) {
+
+        // rfmovf thf Pfrmission from thf GrbntEntry
+        PolidyPbrsfr.GrbntEntry ppgf = pf.gftGrbntEntry();
+        modififd = ppgf.rfmovf(pfrm);
+        rfturn modififd;
+    }
+
+    /**
+     * rfmovf bn fntry from thf ovfrbll polidy
+     */
+    boolfbn rfmovfEntry(PolidyEntry pf) {
+
+        pbrsfr.rfmovf(pf.gftGrbntEntry());
+        modififd = truf;
+        rfturn (polidyEntrifs.rfmovfElfmfnt(pf));
+    }
+
+    /**
+     * rftrifvf bll Polidy Entrifs
+     */
+    PolidyEntry[] gftEntry() {
+
+        if (polidyEntrifs.sizf() > 0) {
+            PolidyEntry fntrifs[] = nfw PolidyEntry[polidyEntrifs.sizf()];
+            for (int i = 0; i < polidyEntrifs.sizf(); i++)
+                fntrifs[i] = polidyEntrifs.flfmfntAt(i);
+            rfturn fntrifs;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rftrifvf thf publid kfy mbppfd to b pbrtidulbr nbmf.
+     * If thf kfy hbs fxpirfd, b KfyExdfption is thrown.
+     */
+    PublidKfy gftPublidKfyAlibs(String nbmf) throws KfyStorfExdfption {
+        if (kfyStorf == null) {
+            rfturn null;
+        }
+
+        Cfrtifidbtf dfrt = kfyStorf.gftCfrtifidbtf(nbmf);
+        if (dfrt == null) {
+            rfturn null;
+        }
+        PublidKfy pubKfy = dfrt.gftPublidKfy();
+        rfturn pubKfy;
+    }
+
+    /**
+     * Rftrifvf bll thf blibs nbmfs storfd in thf dfrtifidbtf dbtbbbsf
+     */
+    String[] gftPublidKfyAlibs() throws KfyStorfExdfption {
+
+        int numAlibsfs = 0;
+        String blibsfs[] = null;
+
+        if (kfyStorf == null) {
+            rfturn null;
+        }
+        Enumfrbtion<String> fnum_ = kfyStorf.blibsfs();
+
+        // first dount thf numbfr of flfmfnts
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            fnum_.nfxtElfmfnt();
+            numAlibsfs++;
+        }
+
+        if (numAlibsfs > 0) {
+            // now dopy thfm into bn brrby
+            blibsfs = nfw String[numAlibsfs];
+            numAlibsfs = 0;
+            fnum_ = kfyStorf.blibsfs();
+            whilf (fnum_.hbsMorfElfmfnts()) {
+                blibsfs[numAlibsfs] = nfw String(fnum_.nfxtElfmfnt());
+                numAlibsfs++;
+            }
+        }
+        rfturn blibsfs;
+    }
+
+    /**
+     * This mfthod pbrsfs b singlf string of signfrs sfpbrbtfd by dommbs
+     * ("jordbn, dukf, pippfn") into bn brrby of individubl strings.
+     */
+    String[] pbrsfSignfrs(String signfdBy) {
+
+        String signfrs[] = null;
+        int numSignfrs = 1;
+        int signfdByIndfx = 0;
+        int dommbIndfx = 0;
+        int signfrNum = 0;
+
+        // first pbss thru "signfdBy" dounts thf numbfr of signfrs
+        whilf (dommbIndfx >= 0) {
+            dommbIndfx = signfdBy.indfxOf(',', signfdByIndfx);
+            if (dommbIndfx >= 0) {
+                numSignfrs++;
+                signfdByIndfx = dommbIndfx + 1;
+            }
+        }
+        signfrs = nfw String[numSignfrs];
+
+        // sfdond pbss thru "signfdBy" trbnsffrs signfrs to brrby
+        dommbIndfx = 0;
+        signfdByIndfx = 0;
+        whilf (dommbIndfx >= 0) {
+            if ((dommbIndfx = signfdBy.indfxOf(',', signfdByIndfx)) >= 0) {
+                // trbnsffr signfr bnd ignorf trbiling pbrt of thf string
+                signfrs[signfrNum] =
+                        signfdBy.substring(signfdByIndfx, dommbIndfx).trim();
+                signfrNum++;
+                signfdByIndfx = dommbIndfx + 1;
+            } flsf {
+                // wf brf bt thf fnd of thf string -- trbnsffr signfr
+                signfrs[signfrNum] = signfdBy.substring(signfdByIndfx).trim();
+            }
+        }
+        rfturn signfrs;
+    }
+
+    /**
+     * Chfdk to sff if thf Prindipbl dontfnts brf OK
+     */
+    void vfrifyPrindipbl(String typf, String nbmf)
+        throws ClbssNotFoundExdfption,
+               InstbntibtionExdfption
+    {
+        if (typf.fqubls(PolidyPbrsfr.PrindipblEntry.WILDCARD_CLASS) ||
+            typf.fqubls(PolidyPbrsfr.PrindipblEntry.REPLACE_NAME)) {
+            rfturn;
+        }
+        Clbss<?> PRIN = Clbss.forNbmf("jbvb.sfdurity.Prindipbl");
+        Clbss<?> pd = Clbss.forNbmf(typf, truf,
+                Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr());
+        if (!PRIN.isAssignbblfFrom(pd)) {
+            MfssbgfFormbt form = nfw MfssbgfFormbt(gftMfssbgf
+                        ("Illfgbl.Prindipbl.Typf.typf"));
+            Objfdt[] sourdf = {typf};
+            throw nfw InstbntibtionExdfption(form.formbt(sourdf));
+        }
+
+        if (ToolDiblog.X500_PRIN_CLASS.fqubls(pd.gftNbmf())) {
+            // PolidyPbrsfr dhfdks vblidity of X500Prindipbl nbmf
+            // - PolidyTool nffds to bs wfll so thbt it dofsn't storf
+            //   bn invblid nbmf thbt dbn't bf rfbd in lbtfr
+            //
+            // this dbn throw bn IllfgblArgumfntExdfption
+            X500Prindipbl nfwP = nfw X500Prindipbl(nbmf);
+        }
+    }
+
+    /**
+     * Chfdk to sff if thf Pfrmission dontfnts brf OK
+     */
+    @SupprfssWbrnings("fbllthrough")
+    void vfrifyPfrmission(String typf,
+                                    String nbmf,
+                                    String bdtions)
+        throws ClbssNotFoundExdfption,
+               InstbntibtionExdfption,
+               IllfgblAddfssExdfption,
+               NoSudhMfthodExdfption,
+               InvodbtionTbrgftExdfption
+    {
+
+        //XXX wf might wbnt to kffp b hbsh of drfbtfd fbdtorifs...
+        Clbss<?> pd = Clbss.forNbmf(typf, truf,
+                Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr());
+        Construdtor<?> d = null;
+        Vfdtor<String> objfdts = nfw Vfdtor<>(2);
+        if (nbmf != null) objfdts.bdd(nbmf);
+        if (bdtions != null) objfdts.bdd(bdtions);
+        switdh (objfdts.sizf()) {
+        dbsf 0:
+            try {
+                d = pd.gftConstrudtor(NOPARAMS);
+                brfbk;
+            } dbtdh (NoSudhMfthodExdfption fx) {
+                // prodffd to thf onf-pbrbm donstrudtor
+                objfdts.bdd(null);
+            }
+            /* fbll through */
+        dbsf 1:
+            try {
+                d = pd.gftConstrudtor(ONEPARAMS);
+                brfbk;
+            } dbtdh (NoSudhMfthodExdfption fx) {
+                // prodffd to thf two-pbrbm donstrudtor
+                objfdts.bdd(null);
+            }
+            /* fbll through */
+        dbsf 2:
+            d = pd.gftConstrudtor(TWOPARAMS);
+            brfbk;
+        }
+        Objfdt pbrbmftfrs[] = objfdts.toArrby();
+        Pfrmission p = (Pfrmission)d.nfwInstbndf(pbrbmftfrs);
+    }
+
+    /*
+     * Pbrsf dommbnd linf brgumfnts.
+     */
+    stbtid void pbrsfArgs(String brgs[]) {
+        /* pbrsf flbgs */
+        int n = 0;
+
+        for (n=0; (n < brgs.lfngth) && brgs[n].stbrtsWith("-"); n++) {
+
+            String flbgs = brgs[n];
+
+            if (dollbtor.dompbrf(flbgs, "-filf") == 0) {
+                if (++n == brgs.lfngth) usbgf();
+                polidyFilfNbmf = brgs[n];
+            } flsf {
+                MfssbgfFormbt form = nfw MfssbgfFormbt(gftMfssbgf
+                                ("Illfgbl.option.option"));
+                Objfdt[] sourdf = { flbgs };
+                Systfm.frr.println(form.formbt(sourdf));
+                usbgf();
+            }
+        }
+    }
+
+    stbtid void usbgf() {
+        Systfm.out.println(gftMfssbgf("Usbgf.polidytool.options."));
+        Systfm.out.println();
+        Systfm.out.println(gftMfssbgf
+                (".filf.filf.polidy.filf.lodbtion"));
+        Systfm.out.println();
+
+        Systfm.fxit(1);
+    }
+
+    /**
+     * run thf PolidyTool
+     */
+    publid stbtid void mbin(String brgs[]) {
+        pbrsfArgs(brgs);
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                ToolWindow tw = nfw ToolWindow(nfw PolidyTool());
+                tw.displbyToolWindow(brgs);
+            }
+        });
+    }
+
+    // split instr to words bddording to dbpitblizbtion,
+    // likf, AWTControl -> A W T Control
+    // this mfthod is for fbsy pronoundibtion
+    stbtid String splitToWords(String instr) {
+        rfturn instr.rfplbdfAll("([A-Z])", " $1");
+    }
+
+    /**
+     * Rfturns thf mfssbgf dorrfsponding to thf kfy in thf bundlf.
+     * This is prfffrrfd ovfr {@link #gftString} bfdbusf it rfmovfs
+     * bny mnfmonid '&' dhbrbdtfr in thf string.
+     *
+     * @pbrbm kfy thf kfy
+     *
+     * @rfturn thf mfssbgf
+     */
+    stbtid String gftMfssbgf(String kfy) {
+        rfturn rfmovfMnfmonidAmpfrsbnd(rb.gftString(kfy));
+    }
+
+
+    /**
+     * Rfturns thf mnfmonid for b mfssbgf.
+     *
+     * @pbrbm kfy thf kfy
+     *
+     * @rfturn thf mnfmonid <dodf>int</dodf>
+     */
+    stbtid int gftMnfmonidInt(String kfy) {
+        String mfssbgf = rb.gftString(kfy);
+        rfturn (findMnfmonidInt(mfssbgf));
+    }
+
+    /**
+     * Rfturns thf mnfmonid displby indfx for b mfssbgf.
+     *
+     * @pbrbm kfy thf kfy
+     *
+     * @rfturn thf mnfmonid displby indfx
+     */
+    stbtid int gftDisplbyfdMnfmonidIndfx(String kfy) {
+        String mfssbgf = rb.gftString(kfy);
+        rfturn (findMnfmonidIndfx(mfssbgf));
+    }
+
+    /**
+     * Finds thf mnfmonid dhbrbdtfr in b mfssbgf.
+     *
+     * Thf mnfmonid dhbrbdtfr is thf first dhbrbdtfr followfd by thf first
+     * <dodf>&</dodf> thbt is not followfd by bnothfr <dodf>&</dodf>.
+     *
+     * @rfturn thf mnfmonid bs bn <dodf>int</dodf>, or <dodf>0</dodf> if it
+     *         dbn't bf found.
+     */
+    privbtf stbtid int findMnfmonidInt(String s) {
+        for (int i = 0; i < s.lfngth() - 1; i++) {
+            if (s.dhbrAt(i) == '&') {
+                if (s.dhbrAt(i + 1) != '&') {
+                    rfturn KfyEvfnt.gftExtfndfdKfyCodfForChbr(s.dhbrAt(i + 1));
+                } flsf {
+                    i++;
+                }
+            }
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Finds thf indfx of thf mnfmonid dhbrbdtfr in b mfssbgf.
+     *
+     * Thf mnfmonid dhbrbdtfr is thf first dhbrbdtfr followfd by thf first
+     * <dodf>&</dodf> thbt is not followfd by bnothfr <dodf>&</dodf>.
+     *
+     * @rfturn thf mnfmonid dhbrbdtfr indfx bs bn <dodf>int</dodf>, or <dodf>-1</dodf> if it
+     *         dbn't bf found.
+     */
+    privbtf stbtid int findMnfmonidIndfx(String s) {
+        for (int i = 0; i < s.lfngth() - 1; i++) {
+            if (s.dhbrAt(i) == '&') {
+                if (s.dhbrAt(i + 1) != '&') {
+                    // Rfturn thf indfx of thf '&' sindf it will bf rfmovfd
+                    rfturn i;
+                } flsf {
+                    i++;
+                }
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfmovfs thf mnfmonid idfntififr (<dodf>&</dodf>) from b string unlfss
+     * it's fsdbpfd by <dodf>&&</dodf> or plbdfd bt thf fnd.
+     *
+     * @pbrbm mfssbgf thf mfssbgf
+     *
+     * @rfturn b mfssbgf with thf mnfmonid idfntififr rfmovfd
+     */
+    privbtf stbtid String rfmovfMnfmonidAmpfrsbnd(String mfssbgf) {
+        StringBuildfr s = nfw StringBuildfr();
+        for (int i = 0; i < mfssbgf.lfngth(); i++) {
+            dhbr durrfnt = mfssbgf.dhbrAt(i);
+            if (durrfnt != '&' || i == mfssbgf.lfngth() - 1
+                    || mfssbgf.dhbrAt(i + 1) == '&') {
+                s.bppfnd(durrfnt);
+            }
+        }
+        rfturn s.toString();
+    }
+}
+
+/**
+ * Ebdh fntry in thf polidy donfigurbtion filf is rfprfsfntfd by b
+ * PolidyEntry objfdt.
+ *
+ * A PolidyEntry is b (CodfSourdf,Pfrmission) pbir.  Thf
+ * CodfSourdf dontbins thf (URL, PublidKfy) thbt togfthfr idfntify
+ * whfrf thf Jbvb bytfdodfs domf from bnd who (if bnyonf) signfd
+ * thfm.  Thf URL dould rfffr to lodblhost.  Thf URL dould blso bf
+ * null, mfbning thbt this polidy fntry is givfn to bll domfrs, bs
+ * long bs thfy mbtdh thf signfr fifld.  Thf signfr dould bf null,
+ * mfbning thf dodf is not signfd.
+ *
+ * Thf Pfrmission dontbins thf (Typf, Nbmf, Adtion) triplft.
+ *
+ */
+dlbss PolidyEntry {
+
+    privbtf CodfSourdf dodfsourdf;
+    privbtf PolidyTool tool;
+    privbtf PolidyPbrsfr.GrbntEntry grbntEntry;
+    privbtf boolfbn tfsting = fblsf;
+
+    /**
+     * Crfbtf b PolidyEntry objfdt from thf informbtion rfbd in
+     * from b polidy filf.
+     */
+    PolidyEntry(PolidyTool tool, PolidyPbrsfr.GrbntEntry gf)
+    throws MblformfdURLExdfption, NoSudhMfthodExdfption,
+    ClbssNotFoundExdfption, InstbntibtionExdfption, IllfgblAddfssExdfption,
+    InvodbtionTbrgftExdfption, CfrtifidbtfExdfption,
+    IOExdfption, NoSudhAlgorithmExdfption, UnrfdovfrbblfKfyExdfption {
+
+        this.tool = tool;
+
+        URL lodbtion = null;
+
+        // donstrudt thf CodfSourdf
+        if (gf.dodfBbsf != null)
+            lodbtion = nfw URL(gf.dodfBbsf);
+        this.dodfsourdf = nfw CodfSourdf(lodbtion,
+            (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null);
+
+        if (tfsting) {
+            Systfm.out.println("Adding Polidy Entry:");
+            Systfm.out.println("    CodfBbsf = " + lodbtion);
+            Systfm.out.println("    Signfrs = " + gf.signfdBy);
+            Systfm.out.println("    with " + gf.prindipbls.sizf() +
+                    " Prindipbls");
+        }
+
+        this.grbntEntry = gf;
+    }
+
+    /**
+     * gft thf dodfsourdf bssodibtfd with this PolidyEntry
+     */
+    CodfSourdf gftCodfSourdf() {
+        rfturn dodfsourdf;
+    }
+
+    /**
+     * gft thf GrbntEntry bssodibtfd with this PolidyEntry
+     */
+    PolidyPbrsfr.GrbntEntry gftGrbntEntry() {
+        rfturn grbntEntry;
+    }
+
+    /**
+     * donvfrt thf hfbdfr portion, i.f. dodfbbsf, signfr, prindipbls, of
+     * this polidy fntry into b string
+     */
+    String hfbdfrToString() {
+        String pString = prindipblsToString();
+        if (pString.lfngth() == 0) {
+            rfturn dodfbbsfToString();
+        } flsf {
+            rfturn dodfbbsfToString() + ", " + pString;
+        }
+    }
+
+    /**
+     * donvfrt thf Codfbbsf/signfr portion of this polidy fntry into b string
+     */
+    String dodfbbsfToString() {
+
+        String stringEntry = nfw String();
+
+        if (grbntEntry.dodfBbsf != null &&
+            grbntEntry.dodfBbsf.fqubls("") == fblsf)
+            stringEntry = stringEntry.dondbt
+                                ("CodfBbsf \"" +
+                                grbntEntry.dodfBbsf +
+                                "\"");
+
+        if (grbntEntry.signfdBy != null &&
+            grbntEntry.signfdBy.fqubls("") == fblsf)
+            stringEntry = ((stringEntry.lfngth() > 0) ?
+                stringEntry.dondbt(", SignfdBy \"" +
+                                grbntEntry.signfdBy +
+                                "\"") :
+                stringEntry.dondbt("SignfdBy \"" +
+                                grbntEntry.signfdBy +
+                                "\""));
+
+        if (stringEntry.lfngth() == 0)
+            rfturn nfw String("CodfBbsf <ALL>");
+        rfturn stringEntry;
+    }
+
+    /**
+     * donvfrt thf Prindipbls portion of this polidy fntry into b string
+     */
+    String prindipblsToString() {
+        String rfsult = "";
+        if ((grbntEntry.prindipbls != null) &&
+            (!grbntEntry.prindipbls.isEmpty())) {
+            StringBuildfr sb = nfw StringBuildfr(200);
+            ListItfrbtor<PolidyPbrsfr.PrindipblEntry> list =
+                                grbntEntry.prindipbls.listItfrbtor();
+            whilf (list.hbsNfxt()) {
+                PolidyPbrsfr.PrindipblEntry pppf = list.nfxt();
+                sb.bppfnd(" Prindipbl " + pppf.gftDisplbyClbss() + " " +
+                    pppf.gftDisplbyNbmf(truf));
+                if (list.hbsNfxt()) sb.bppfnd(", ");
+            }
+            rfsult = sb.toString();
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * donvfrt this polidy fntry into b PolidyPbrsfr.PfrmissionEntry
+     */
+    PolidyPbrsfr.PfrmissionEntry toPfrmissionEntry(Pfrmission pfrm) {
+
+        String bdtions = null;
+
+        // gft thf bdtions
+        if (pfrm.gftAdtions() != null &&
+            pfrm.gftAdtions().trim() != "")
+                bdtions = pfrm.gftAdtions();
+
+        PolidyPbrsfr.PfrmissionEntry pf = nfw PolidyPbrsfr.PfrmissionEntry
+                        (pfrm.gftClbss().gftNbmf(),
+                        pfrm.gftNbmf(),
+                        bdtions);
+        rfturn pf;
+    }
+}
+
+/**
+ * Thf mbin window for thf PolidyTool
+ */
+dlbss ToolWindow fxtfnds JFrbmf {
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = 5682568601210376777L;
+
+    /* ESCAPE kfy */
+    stbtid finbl KfyStrokf fsdKfy = KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0);
+
+    /* fxtfrnbl pbddings */
+    publid stbtid finbl Insfts TOP_PADDING = nfw Insfts(25,0,0,0);
+    publid stbtid finbl Insfts BOTTOM_PADDING = nfw Insfts(0,0,25,0);
+    publid stbtid finbl Insfts LITE_BOTTOM_PADDING = nfw Insfts(0,0,10,0);
+    publid stbtid finbl Insfts LR_PADDING = nfw Insfts(0,10,0,10);
+    publid stbtid finbl Insfts TOP_BOTTOM_PADDING = nfw Insfts(15, 0, 15, 0);
+    publid stbtid finbl Insfts L_TOP_BOTTOM_PADDING = nfw Insfts(5,10,15,0);
+    publid stbtid finbl Insfts LR_TOP_BOTTOM_PADDING = nfw Insfts(15, 4, 15, 4);
+    publid stbtid finbl Insfts LR_BOTTOM_PADDING = nfw Insfts(0,10,5,10);
+    publid stbtid finbl Insfts L_BOTTOM_PADDING = nfw Insfts(0,10,5,0);
+    publid stbtid finbl Insfts R_BOTTOM_PADDING = nfw Insfts(0, 0, 25, 5);
+    publid stbtid finbl Insfts R_PADDING = nfw Insfts(0, 0, 0, 5);
+
+    /* buttons bnd mfnus */
+    publid stbtid finbl String NEW_POLICY_FILE          = "Nfw";
+    publid stbtid finbl String OPEN_POLICY_FILE         = "Opfn";
+    publid stbtid finbl String SAVE_POLICY_FILE         = "Sbvf";
+    publid stbtid finbl String SAVE_AS_POLICY_FILE      = "Sbvf.As";
+    publid stbtid finbl String VIEW_WARNINGS            = "Vifw.Wbrning.Log";
+    publid stbtid finbl String QUIT                     = "Exit";
+    publid stbtid finbl String ADD_POLICY_ENTRY         = "Add.Polidy.Entry";
+    publid stbtid finbl String EDIT_POLICY_ENTRY        = "Edit.Polidy.Entry";
+    publid stbtid finbl String REMOVE_POLICY_ENTRY      = "Rfmovf.Polidy.Entry";
+    publid stbtid finbl String EDIT_KEYSTORE            = "Edit";
+    publid stbtid finbl String ADD_PUBKEY_ALIAS         = "Add.Publid.Kfy.Alibs";
+    publid stbtid finbl String REMOVE_PUBKEY_ALIAS      = "Rfmovf.Publid.Kfy.Alibs";
+
+    /* gridbbg indfx for domponfnts in thf mbin window (MW) */
+    publid stbtid finbl int MW_FILENAME_LABEL           = 0;
+    publid stbtid finbl int MW_FILENAME_TEXTFIELD       = 1;
+    publid stbtid finbl int MW_PANEL                    = 2;
+    publid stbtid finbl int MW_ADD_BUTTON               = 0;
+    publid stbtid finbl int MW_EDIT_BUTTON              = 1;
+    publid stbtid finbl int MW_REMOVE_BUTTON            = 2;
+    publid stbtid finbl int MW_POLICY_LIST              = 3; // follows MW_PANEL
+
+    /* Thf prfffrrfd hfight of JTfxtFifld should mbtdh JComboBox. */
+    stbtid finbl int TEXTFIELD_HEIGHT = nfw JComboBox<>().gftPrfffrrfdSizf().hfight;
+
+    privbtf PolidyTool tool;
+
+    /**
+     * Construdtor
+     */
+    ToolWindow(PolidyTool tool) {
+        this.tool = tool;
+    }
+
+    /**
+     * Don't dbll gftComponfnt dirfdtly on thf window
+     */
+    publid Componfnt gftComponfnt(int n) {
+        Componfnt d = gftContfntPbnf().gftComponfnt(n);
+        if (d instbndfof JSdrollPbnf) {
+            d = ((JSdrollPbnf)d).gftVifwport().gftVifw();
+        }
+        rfturn d;
+    }
+
+    /**
+     * Initiblizf thf PolidyTool window with thf nfdfssbry domponfnts
+     */
+    privbtf void initWindow() {
+        // Thf ToolWindowListfnfr will hbndlf dlosing thf window.
+        sftDffbultClosfOpfrbtion(JFrbmf.DO_NOTHING_ON_CLOSE);
+
+        // drfbtf thf top mfnu bbr
+        JMfnuBbr mfnuBbr = nfw JMfnuBbr();
+
+        // drfbtf b Filf mfnu
+        JMfnu mfnu = nfw JMfnu();
+        donfigurfButton(mfnu, "Filf");
+        AdtionListfnfr bdtionListfnfr = nfw FilfMfnuListfnfr(tool, this);
+        bddMfnuItfm(mfnu, NEW_POLICY_FILE, bdtionListfnfr, "N");
+        bddMfnuItfm(mfnu, OPEN_POLICY_FILE, bdtionListfnfr, "O");
+        bddMfnuItfm(mfnu, SAVE_POLICY_FILE, bdtionListfnfr, "S");
+        bddMfnuItfm(mfnu, SAVE_AS_POLICY_FILE, bdtionListfnfr, null);
+        bddMfnuItfm(mfnu, VIEW_WARNINGS, bdtionListfnfr, null);
+        bddMfnuItfm(mfnu, QUIT, bdtionListfnfr, null);
+        mfnuBbr.bdd(mfnu);
+
+        // drfbtf b KfyStorf mfnu
+        mfnu = nfw JMfnu();
+        donfigurfButton(mfnu, "KfyStorf");
+        bdtionListfnfr = nfw MbinWindowListfnfr(tool, this);
+        bddMfnuItfm(mfnu, EDIT_KEYSTORE, bdtionListfnfr, null);
+        mfnuBbr.bdd(mfnu);
+        sftJMfnuBbr(mfnuBbr);
+
+        // Crfbtf somf spbdf bround domponfnts
+        ((JPbnfl)gftContfntPbnf()).sftBordfr(nfw EmptyBordfr(6, 6, 6, 6));
+
+        // polidy fntry listing
+        JLbbfl lbbfl = nfw JLbbfl(PolidyTool.gftMfssbgf("Polidy.Filf."));
+        bddNfwComponfnt(this, lbbfl, MW_FILENAME_LABEL,
+                        0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                        LR_TOP_BOTTOM_PADDING);
+        JTfxtFifld tf = nfw JTfxtFifld(50);
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("Polidy.Filf."));
+        tf.sftEditbblf(fblsf);
+        bddNfwComponfnt(this, tf, MW_FILENAME_TEXTFIELD,
+                        1, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                        LR_TOP_BOTTOM_PADDING);
+
+
+        // bdd ADD/REMOVE/EDIT buttons in b nfw pbnfl
+        JPbnfl pbnfl = nfw JPbnfl();
+        pbnfl.sftLbyout(nfw GridBbgLbyout());
+
+        JButton button = nfw JButton();
+        donfigurfButton(button, ADD_POLICY_ENTRY);
+        button.bddAdtionListfnfr(nfw MbinWindowListfnfr(tool, this));
+        bddNfwComponfnt(pbnfl, button, MW_ADD_BUTTON,
+                        0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                        LR_PADDING);
+
+        button = nfw JButton();
+        donfigurfButton(button, EDIT_POLICY_ENTRY);
+        button.bddAdtionListfnfr(nfw MbinWindowListfnfr(tool, this));
+        bddNfwComponfnt(pbnfl, button, MW_EDIT_BUTTON,
+                        1, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                        LR_PADDING);
+
+        button = nfw JButton();
+        donfigurfButton(button, REMOVE_POLICY_ENTRY);
+        button.bddAdtionListfnfr(nfw MbinWindowListfnfr(tool, this));
+        bddNfwComponfnt(pbnfl, button, MW_REMOVE_BUTTON,
+                        2, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                        LR_PADDING);
+
+        bddNfwComponfnt(this, pbnfl, MW_PANEL,
+                        0, 2, 2, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                        BOTTOM_PADDING);
+
+
+        String polidyFilf = tool.gftPolidyFilfNbmf();
+        if (polidyFilf == null) {
+            String usfrHomf;
+            usfrHomf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("usfr.homf"));
+            polidyFilf = usfrHomf + Filf.sfpbrbtorChbr + ".jbvb.polidy";
+        }
+
+        try {
+            // opfn thf polidy filf
+            tool.opfnPolidy(polidyFilf);
+
+            // displby thf polidy fntrifs vib thf polidy list tfxtbrfb
+            DffbultListModfl<String> listModfl = nfw DffbultListModfl<>();
+            JList<String> list = nfw JList<>(listModfl);
+            list.sftVisiblfRowCount(15);
+            list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+            list.bddMousfListfnfr(nfw PolidyListListfnfr(tool, this));
+            PolidyEntry fntrifs[] = tool.gftEntry();
+            if (fntrifs != null) {
+                for (int i = 0; i < fntrifs.lfngth; i++) {
+                    listModfl.bddElfmfnt(fntrifs[i].hfbdfrToString());
+                }
+            }
+            JTfxtFifld nfwFilfnbmf = (JTfxtFifld)
+                                gftComponfnt(MW_FILENAME_TEXTFIELD);
+            nfwFilfnbmf.sftTfxt(polidyFilf);
+            initPolidyList(list);
+
+        } dbtdh (FilfNotFoundExdfption fnff) {
+            // bdd blbnk polidy listing
+            JList<String> list = nfw JList<>(nfw DffbultListModfl<>());
+            list.sftVisiblfRowCount(15);
+            list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+            list.bddMousfListfnfr(nfw PolidyListListfnfr(tool, this));
+            initPolidyList(list);
+            tool.sftPolidyFilfNbmf(null);
+            tool.modififd = fblsf;
+
+            // just bdd wbrning
+            tool.wbrnings.bddElfmfnt(fnff.toString());
+
+        } dbtdh (Exdfption f) {
+            // bdd blbnk polidy listing
+            JList<String> list = nfw JList<>(nfw DffbultListModfl<>());
+            list.sftVisiblfRowCount(15);
+            list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+            list.bddMousfListfnfr(nfw PolidyListListfnfr(tool, this));
+            initPolidyList(list);
+            tool.sftPolidyFilfNbmf(null);
+            tool.modififd = fblsf;
+
+            // displby thf frror
+            MfssbgfFormbt form = nfw MfssbgfFormbt(PolidyTool.gftMfssbgf
+                ("Could.not.opfn.polidy.filf.polidyFilf.f.toString."));
+            Objfdt[] sourdf = {polidyFilf, f.toString()};
+            displbyErrorDiblog(null, form.formbt(sourdf));
+        }
+    }
+
+
+    // Plbtform spfdifid modififr (dontrol / dommbnd).
+    privbtf int shortCutModififr = Toolkit.gftDffbultToolkit().gftMfnuShortdutKfyMbsk();
+
+    privbtf void bddMfnuItfm(JMfnu mfnu, String kfy, AdtionListfnfr bdtionListfnfr, String bddflfrbtor) {
+        JMfnuItfm mfnuItfm = nfw JMfnuItfm();
+        donfigurfButton(mfnuItfm, kfy);
+
+        if (PolidyTool.rb.dontbinsKfy(kfy + ".bddflfrbtor")) {
+            // Addflfrbtor from rfsourdfs tbkfs prfdfdfndf
+            bddflfrbtor = PolidyTool.gftMfssbgf(kfy + ".bddflfrbtor");
+        }
+
+        if (bddflfrbtor != null && !bddflfrbtor.isEmpty()) {
+            KfyStrokf kfyStrokf;
+            if (bddflfrbtor.lfngth() == 1) {
+                kfyStrokf = KfyStrokf.gftKfyStrokf(KfyEvfnt.gftExtfndfdKfyCodfForChbr(bddflfrbtor.dhbrAt(0)),
+                                                   shortCutModififr);
+            } flsf {
+                kfyStrokf = KfyStrokf.gftKfyStrokf(bddflfrbtor);
+            }
+            mfnuItfm.sftAddflfrbtor(kfyStrokf);
+        }
+
+        mfnuItfm.bddAdtionListfnfr(bdtionListfnfr);
+        mfnu.bdd(mfnuItfm);
+    }
+
+    stbtid void donfigurfButton(AbstrbdtButton button, String kfy) {
+        button.sftTfxt(PolidyTool.gftMfssbgf(kfy));
+        button.sftAdtionCommbnd(kfy);
+
+        int mnfmonidInt = PolidyTool.gftMnfmonidInt(kfy);
+        if (mnfmonidInt > 0) {
+            button.sftMnfmonid(mnfmonidInt);
+            button.sftDisplbyfdMnfmonidIndfx(PolidyTool.gftDisplbyfdMnfmonidIndfx(kfy));
+         }
+    }
+
+    stbtid void donfigurfLbbflFor(JLbbfl lbbfl, JComponfnt domponfnt, String kfy) {
+        lbbfl.sftTfxt(PolidyTool.gftMfssbgf(kfy));
+        lbbfl.sftLbbflFor(domponfnt);
+
+        int mnfmonidInt = PolidyTool.gftMnfmonidInt(kfy);
+        if (mnfmonidInt > 0) {
+            lbbfl.sftDisplbyfdMnfmonid(mnfmonidInt);
+            lbbfl.sftDisplbyfdMnfmonidIndfx(PolidyTool.gftDisplbyfdMnfmonidIndfx(kfy));
+         }
+    }
+
+
+    /**
+     * Add b domponfnt to thf PolidyTool window
+     */
+    void bddNfwComponfnt(Contbinfr dontbinfr, JComponfnt domponfnt,
+        int indfx, int gridx, int gridy, int gridwidth, int gridhfight,
+        doublf wfightx, doublf wfighty, int fill, Insfts is) {
+
+        if (dontbinfr instbndfof JFrbmf) {
+            dontbinfr = ((JFrbmf)dontbinfr).gftContfntPbnf();
+        } flsf if (dontbinfr instbndfof JDiblog) {
+            dontbinfr = ((JDiblog)dontbinfr).gftContfntPbnf();
+        }
+
+        // bdd thf domponfnt bt thf spfdififd gridbbg indfx
+        dontbinfr.bdd(domponfnt, indfx);
+
+        // sft thf donstrbints
+        GridBbgLbyout gbl = (GridBbgLbyout)dontbinfr.gftLbyout();
+        GridBbgConstrbints gbd = nfw GridBbgConstrbints();
+        gbd.gridx = gridx;
+        gbd.gridy = gridy;
+        gbd.gridwidth = gridwidth;
+        gbd.gridhfight = gridhfight;
+        gbd.wfightx = wfightx;
+        gbd.wfighty = wfighty;
+        gbd.fill = fill;
+        if (is != null) gbd.insfts = is;
+        gbl.sftConstrbints(domponfnt, gbd);
+    }
+
+
+    /**
+     * Add b domponfnt to thf PolidyTool window without fxtfrnbl pbdding
+     */
+    void bddNfwComponfnt(Contbinfr dontbinfr, JComponfnt domponfnt,
+        int indfx, int gridx, int gridy, int gridwidth, int gridhfight,
+        doublf wfightx, doublf wfighty, int fill) {
+
+        // dflfgbtf with "null" fxtfrnbl pbdding
+        bddNfwComponfnt(dontbinfr, domponfnt, indfx, gridx, gridy,
+                        gridwidth, gridhfight, wfightx, wfighty,
+                        fill, null);
+    }
+
+
+    /**
+     * Init thf polidy_fntry_list TEXTAREA domponfnt in thf
+     * PolidyTool window
+     */
+    void initPolidyList(JList<String> polidyList) {
+
+        // bdd thf polidy list to thf window
+        //polidyList.sftPrfffrrfdSizf(nfw Dimfnsion(500, 350));
+        JSdrollPbnf sdrollPbnf = nfw JSdrollPbnf(polidyList);
+        bddNfwComponfnt(this, sdrollPbnf, MW_POLICY_LIST,
+                        0, 3, 2, 1, 1.0, 1.0, GridBbgConstrbints.BOTH);
+    }
+
+    /**
+     * Rfplbdf thf polidy_fntry_list TEXTAREA domponfnt in thf
+     * PolidyTool window with bn updbtfd onf.
+     */
+    void rfplbdfPolidyList(JList<String> polidyList) {
+
+        // rfmovf thf originbl list of Polidy Entrifs
+        // bnd bdd thf nfw list of fntrifs
+        @SupprfssWbrnings("undhfdkfd")
+        JList<String> list = (JList<String>)gftComponfnt(MW_POLICY_LIST);
+        list.sftModfl(polidyList.gftModfl());
+    }
+
+    /**
+     * displby thf mbin PolidyTool window
+     */
+    void displbyToolWindow(String brgs[]) {
+
+        sftTitlf(PolidyTool.gftMfssbgf("Polidy.Tool"));
+        sftRfsizbblf(truf);
+        bddWindowListfnfr(nfw ToolWindowListfnfr(tool, this));
+        //sftBounds(135, 80, 500, 500);
+        gftContfntPbnf().sftLbyout(nfw GridBbgLbyout());
+
+        initWindow();
+        pbdk();
+        sftLodbtionRflbtivfTo(null);
+
+        // displby it
+        sftVisiblf(truf);
+
+        if (tool.nfwWbrning == truf) {
+            displbyStbtusDiblog(this, PolidyTool.gftMfssbgf
+                ("Errors.hbvf.oddurrfd.whilf.opfning.thf.polidy.donfigurbtion.Vifw.thf.Wbrning.Log.for.morf.informbtion."));
+        }
+    }
+
+    /**
+     * displbys b diblog box dfsdribing bn frror whidh oddurrfd.
+     */
+    void displbyErrorDiblog(Window w, String frror) {
+        ToolDiblog fd = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Error"), tool, this, truf);
+
+        // find whfrf thf PolidyTool gui is
+        Point lodbtion = ((w == null) ?
+                gftLodbtionOnSdrffn() : w.gftLodbtionOnSdrffn());
+        //fd.sftBounds(lodbtion.x + 50, lodbtion.y + 50, 600, 100);
+        fd.sftLbyout(nfw GridBbgLbyout());
+
+        JLbbfl lbbfl = nfw JLbbfl(frror);
+        bddNfwComponfnt(fd, lbbfl, 0,
+                        0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH);
+
+        JButton okButton = nfw JButton(PolidyTool.gftMfssbgf("OK"));
+        AdtionListfnfr okListfnfr = nfw ErrorOKButtonListfnfr(fd);
+        okButton.bddAdtionListfnfr(okListfnfr);
+        bddNfwComponfnt(fd, okButton, 1,
+                        0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL);
+
+        fd.gftRootPbnf().sftDffbultButton(okButton);
+        fd.gftRootPbnf().rfgistfrKfybobrdAdtion(okListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+
+        fd.pbdk();
+        fd.sftLodbtionRflbtivfTo(w);
+        fd.sftVisiblf(truf);
+    }
+
+    /**
+     * displbys b diblog box dfsdribing bn frror whidh oddurrfd.
+     */
+    void displbyErrorDiblog(Window w, Throwbblf t) {
+        if (t instbndfof NoDisplbyExdfption) {
+            rfturn;
+        }
+        displbyErrorDiblog(w, t.toString());
+    }
+
+    /**
+     * displbys b diblog box dfsdribing thf stbtus of bn fvfnt
+     */
+    void displbyStbtusDiblog(Window w, String stbtus) {
+        ToolDiblog sd = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Stbtus"), tool, this, truf);
+
+        // find thf lodbtion of thf PolidyTool gui
+        Point lodbtion = ((w == null) ?
+                gftLodbtionOnSdrffn() : w.gftLodbtionOnSdrffn());
+        //sd.sftBounds(lodbtion.x + 50, lodbtion.y + 50, 500, 100);
+        sd.sftLbyout(nfw GridBbgLbyout());
+
+        JLbbfl lbbfl = nfw JLbbfl(stbtus);
+        bddNfwComponfnt(sd, lbbfl, 0,
+                        0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH);
+
+        JButton okButton = nfw JButton(PolidyTool.gftMfssbgf("OK"));
+        AdtionListfnfr okListfnfr = nfw StbtusOKButtonListfnfr(sd);
+        okButton.bddAdtionListfnfr(okListfnfr);
+        bddNfwComponfnt(sd, okButton, 1,
+                        0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL);
+
+        sd.gftRootPbnf().sftDffbultButton(okButton);
+        sd.gftRootPbnf().rfgistfrKfybobrdAdtion(okListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+
+        sd.pbdk();
+        sd.sftLodbtionRflbtivfTo(w);
+        sd.sftVisiblf(truf);
+    }
+
+    /**
+     * displby thf wbrning log
+     */
+    void displbyWbrningLog(Window w) {
+
+        ToolDiblog wd = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Wbrning"), tool, this, truf);
+
+        // find thf lodbtion of thf PolidyTool gui
+        Point lodbtion = ((w == null) ?
+                gftLodbtionOnSdrffn() : w.gftLodbtionOnSdrffn());
+        //wd.sftBounds(lodbtion.x + 50, lodbtion.y + 50, 500, 100);
+        wd.sftLbyout(nfw GridBbgLbyout());
+
+        JTfxtArfb tb = nfw JTfxtArfb();
+        tb.sftEditbblf(fblsf);
+        for (int i = 0; i < tool.wbrnings.sizf(); i++) {
+            tb.bppfnd(tool.wbrnings.flfmfntAt(i));
+            tb.bppfnd(PolidyTool.gftMfssbgf("NEWLINE"));
+        }
+        bddNfwComponfnt(wd, tb, 0,
+                        0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                        BOTTOM_PADDING);
+        tb.sftFodusbblf(fblsf);
+
+        JButton okButton = nfw JButton(PolidyTool.gftMfssbgf("OK"));
+        AdtionListfnfr okListfnfr = nfw CbndflButtonListfnfr(wd);
+        okButton.bddAdtionListfnfr(okListfnfr);
+        bddNfwComponfnt(wd, okButton, 1,
+                        0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                        LR_PADDING);
+
+        wd.gftRootPbnf().sftDffbultButton(okButton);
+        wd.gftRootPbnf().rfgistfrKfybobrdAdtion(okListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+
+        wd.pbdk();
+        wd.sftLodbtionRflbtivfTo(w);
+        wd.sftVisiblf(truf);
+    }
+
+    dhbr displbyYfsNoDiblog(Window w, String titlf, String prompt, String yfs, String no) {
+
+        finbl ToolDiblog tw = nfw ToolDiblog
+                (titlf, tool, this, truf);
+        Point lodbtion = ((w == null) ?
+                gftLodbtionOnSdrffn() : w.gftLodbtionOnSdrffn());
+        //tw.sftBounds(lodbtion.x + 75, lodbtion.y + 100, 400, 150);
+        tw.sftLbyout(nfw GridBbgLbyout());
+
+        JTfxtArfb tb = nfw JTfxtArfb(prompt, 10, 50);
+        tb.sftEditbblf(fblsf);
+        tb.sftLinfWrbp(truf);
+        tb.sftWrbpStylfWord(truf);
+        JSdrollPbnf sdrollPbnf = nfw JSdrollPbnf(tb,
+                                                 JSdrollPbnf.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                                 JSdrollPbnf.HORIZONTAL_SCROLLBAR_NEVER);
+        bddNfwComponfnt(tw, sdrollPbnf, 0,
+                0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH);
+        tb.sftFodusbblf(fblsf);
+
+        JPbnfl pbnfl = nfw JPbnfl();
+        pbnfl.sftLbyout(nfw GridBbgLbyout());
+
+        // StringBufffr to storf button prfss. Must bf finbl.
+        finbl StringBufffr dhoosfRfsult = nfw StringBufffr();
+
+        JButton button = nfw JButton(yfs);
+        button.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                dhoosfRfsult.bppfnd('Y');
+                tw.sftVisiblf(fblsf);
+                tw.disposf();
+            }
+        });
+        bddNfwComponfnt(pbnfl, button, 0,
+                           0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                           LR_PADDING);
+
+        button = nfw JButton(no);
+        button.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                dhoosfRfsult.bppfnd('N');
+                tw.sftVisiblf(fblsf);
+                tw.disposf();
+            }
+        });
+        bddNfwComponfnt(pbnfl, button, 1,
+                           1, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                           LR_PADDING);
+
+        bddNfwComponfnt(tw, pbnfl, 1,
+                0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL);
+
+        tw.pbdk();
+        tw.sftLodbtionRflbtivfTo(w);
+        tw.sftVisiblf(truf);
+        if (dhoosfRfsult.lfngth() > 0) {
+            rfturn dhoosfRfsult.dhbrAt(0);
+        } flsf {
+            // I did fndountfr this ondf, don't why.
+            rfturn 'N';
+        }
+    }
+
+}
+
+/**
+ * Gfnfrbl diblog window
+ */
+dlbss ToolDiblog fxtfnds JDiblog {
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = -372244357011301190L;
+
+    /* ESCAPE kfy */
+    stbtid finbl KfyStrokf fsdKfy = KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0);
+
+    /* nfdfssbry donstbnts */
+    publid stbtid finbl int NOACTION            = 0;
+    publid stbtid finbl int QUIT                = 1;
+    publid stbtid finbl int NEW                 = 2;
+    publid stbtid finbl int OPEN                = 3;
+
+    publid stbtid finbl String ALL_PERM_CLASS   =
+                "jbvb.sfdurity.AllPfrmission";
+    publid stbtid finbl String FILE_PERM_CLASS  =
+                "jbvb.io.FilfPfrmission";
+
+    publid stbtid finbl String X500_PRIN_CLASS         =
+                "jbvbx.sfdurity.buth.x500.X500Prindipbl";
+
+    /* popup mfnus */
+    publid stbtid finbl String PERM             =
+        PolidyTool.gftMfssbgf
+        ("Pfrmission.");
+
+    publid stbtid finbl String PRIN_TYPE        =
+        PolidyTool.gftMfssbgf("Prindipbl.Typf.");
+    publid stbtid finbl String PRIN_NAME        =
+        PolidyTool.gftMfssbgf("Prindipbl.Nbmf.");
+
+    /* morf popu mfnus */
+    publid stbtid finbl String PERM_NAME        =
+        PolidyTool.gftMfssbgf
+        ("Tbrgft.Nbmf.");
+
+    /* bnd morf popup mfnus */
+    publid stbtid finbl String PERM_ACTIONS             =
+      PolidyTool.gftMfssbgf
+      ("Adtions.");
+
+    /* gridbbg indfx for displby PolidyEntry (PE) domponfnts */
+    publid stbtid finbl int PE_CODEBASE_LABEL           = 0;
+    publid stbtid finbl int PE_CODEBASE_TEXTFIELD       = 1;
+    publid stbtid finbl int PE_SIGNEDBY_LABEL           = 2;
+    publid stbtid finbl int PE_SIGNEDBY_TEXTFIELD       = 3;
+
+    publid stbtid finbl int PE_PANEL0                   = 4;
+    publid stbtid finbl int PE_ADD_PRIN_BUTTON          = 0;
+    publid stbtid finbl int PE_EDIT_PRIN_BUTTON         = 1;
+    publid stbtid finbl int PE_REMOVE_PRIN_BUTTON       = 2;
+
+    publid stbtid finbl int PE_PRIN_LABEL               = 5;
+    publid stbtid finbl int PE_PRIN_LIST                = 6;
+
+    publid stbtid finbl int PE_PANEL1                   = 7;
+    publid stbtid finbl int PE_ADD_PERM_BUTTON          = 0;
+    publid stbtid finbl int PE_EDIT_PERM_BUTTON         = 1;
+    publid stbtid finbl int PE_REMOVE_PERM_BUTTON       = 2;
+
+    publid stbtid finbl int PE_PERM_LIST                = 8;
+
+    publid stbtid finbl int PE_PANEL2                   = 9;
+    publid stbtid finbl int PE_CANCEL_BUTTON            = 1;
+    publid stbtid finbl int PE_DONE_BUTTON              = 0;
+
+    /* thf gridbbg indfx for domponfnts in thf Prindipbl Diblog (PRD) */
+    publid stbtid finbl int PRD_DESC_LABEL              = 0;
+    publid stbtid finbl int PRD_PRIN_CHOICE             = 1;
+    publid stbtid finbl int PRD_PRIN_TEXTFIELD          = 2;
+    publid stbtid finbl int PRD_NAME_LABEL              = 3;
+    publid stbtid finbl int PRD_NAME_TEXTFIELD          = 4;
+    publid stbtid finbl int PRD_CANCEL_BUTTON           = 6;
+    publid stbtid finbl int PRD_OK_BUTTON               = 5;
+
+    /* thf gridbbg indfx for domponfnts in thf Pfrmission Diblog (PD) */
+    publid stbtid finbl int PD_DESC_LABEL               = 0;
+    publid stbtid finbl int PD_PERM_CHOICE              = 1;
+    publid stbtid finbl int PD_PERM_TEXTFIELD           = 2;
+    publid stbtid finbl int PD_NAME_CHOICE              = 3;
+    publid stbtid finbl int PD_NAME_TEXTFIELD           = 4;
+    publid stbtid finbl int PD_ACTIONS_CHOICE           = 5;
+    publid stbtid finbl int PD_ACTIONS_TEXTFIELD        = 6;
+    publid stbtid finbl int PD_SIGNEDBY_LABEL           = 7;
+    publid stbtid finbl int PD_SIGNEDBY_TEXTFIELD       = 8;
+    publid stbtid finbl int PD_CANCEL_BUTTON            = 10;
+    publid stbtid finbl int PD_OK_BUTTON                = 9;
+
+    /* modfs for KfyStorf */
+    publid stbtid finbl int EDIT_KEYSTORE               = 0;
+
+    /* thf gridbbg indfx for domponfnts in thf Chbngf KfyStorf Diblog (KSD) */
+    publid stbtid finbl int KSD_NAME_LABEL              = 0;
+    publid stbtid finbl int KSD_NAME_TEXTFIELD          = 1;
+    publid stbtid finbl int KSD_TYPE_LABEL              = 2;
+    publid stbtid finbl int KSD_TYPE_TEXTFIELD          = 3;
+    publid stbtid finbl int KSD_PROVIDER_LABEL          = 4;
+    publid stbtid finbl int KSD_PROVIDER_TEXTFIELD      = 5;
+    publid stbtid finbl int KSD_PWD_URL_LABEL           = 6;
+    publid stbtid finbl int KSD_PWD_URL_TEXTFIELD       = 7;
+    publid stbtid finbl int KSD_CANCEL_BUTTON           = 9;
+    publid stbtid finbl int KSD_OK_BUTTON               = 8;
+
+    /* thf gridbbg indfx for domponfnts in thf Usfr Sbvf Chbngfs Diblog (USC) */
+    publid stbtid finbl int USC_LABEL                   = 0;
+    publid stbtid finbl int USC_PANEL                   = 1;
+    publid stbtid finbl int USC_YES_BUTTON              = 0;
+    publid stbtid finbl int USC_NO_BUTTON               = 1;
+    publid stbtid finbl int USC_CANCEL_BUTTON           = 2;
+
+    /* gridbbg indfx for thf ConfirmRfmovfPolidyEntryDiblog (CRPE) */
+    publid stbtid finbl int CRPE_LABEL1                 = 0;
+    publid stbtid finbl int CRPE_LABEL2                 = 1;
+    publid stbtid finbl int CRPE_PANEL                  = 2;
+    publid stbtid finbl int CRPE_PANEL_OK               = 0;
+    publid stbtid finbl int CRPE_PANEL_CANCEL           = 1;
+
+    /* somf privbtf stbtid finbls */
+    privbtf stbtid finbl int PERMISSION                 = 0;
+    privbtf stbtid finbl int PERMISSION_NAME            = 1;
+    privbtf stbtid finbl int PERMISSION_ACTIONS         = 2;
+    privbtf stbtid finbl int PERMISSION_SIGNEDBY        = 3;
+    privbtf stbtid finbl int PRINCIPAL_TYPE             = 4;
+    privbtf stbtid finbl int PRINCIPAL_NAME             = 5;
+
+    /* Thf prfffrrfd hfight of JTfxtFifld should mbtdh JComboBox. */
+    stbtid finbl int TEXTFIELD_HEIGHT = nfw JComboBox<>().gftPrfffrrfdSizf().hfight;
+
+    publid stbtid jbvb.util.ArrbyList<Pfrm> PERM_ARRAY;
+    publid stbtid jbvb.util.ArrbyList<Prin> PRIN_ARRAY;
+    PolidyTool tool;
+    ToolWindow tw;
+
+    stbtid {
+
+        // sft up pfrmission objfdts
+
+        PERM_ARRAY = nfw jbvb.util.ArrbyList<Pfrm>();
+        PERM_ARRAY.bdd(nfw AllPfrm());
+        PERM_ARRAY.bdd(nfw AudioPfrm());
+        PERM_ARRAY.bdd(nfw AuthPfrm());
+        PERM_ARRAY.bdd(nfw AWTPfrm());
+        PERM_ARRAY.bdd(nfw DflfgbtionPfrm());
+        PERM_ARRAY.bdd(nfw FilfPfrm());
+        PERM_ARRAY.bdd(nfw URLPfrm());
+        PERM_ARRAY.bdd(nfw InqSfdContfxtPfrm());
+        PERM_ARRAY.bdd(nfw LogPfrm());
+        PERM_ARRAY.bdd(nfw MgmtPfrm());
+        PERM_ARRAY.bdd(nfw MBfbnPfrm());
+        PERM_ARRAY.bdd(nfw MBfbnSvrPfrm());
+        PERM_ARRAY.bdd(nfw MBfbnTrustPfrm());
+        PERM_ARRAY.bdd(nfw NftPfrm());
+        PERM_ARRAY.bdd(nfw PrivCrfdPfrm());
+        PERM_ARRAY.bdd(nfw PropPfrm());
+        PERM_ARRAY.bdd(nfw RfflfdtPfrm());
+        PERM_ARRAY.bdd(nfw RuntimfPfrm());
+        PERM_ARRAY.bdd(nfw SfdurityPfrm());
+        PERM_ARRAY.bdd(nfw SfriblPfrm());
+        PERM_ARRAY.bdd(nfw SfrvidfPfrm());
+        PERM_ARRAY.bdd(nfw SodkftPfrm());
+        PERM_ARRAY.bdd(nfw SQLPfrm());
+        PERM_ARRAY.bdd(nfw SSLPfrm());
+        PERM_ARRAY.bdd(nfw SubjDflfgPfrm());
+
+        // sft up prindipbl objfdts
+
+        PRIN_ARRAY = nfw jbvb.util.ArrbyList<Prin>();
+        PRIN_ARRAY.bdd(nfw KrbPrin());
+        PRIN_ARRAY.bdd(nfw X500Prin());
+    }
+
+    ToolDiblog(String titlf, PolidyTool tool, ToolWindow tw, boolfbn modbl) {
+        supfr(tw, modbl);
+        sftTitlf(titlf);
+        this.tool = tool;
+        this.tw = tw;
+        bddWindowListfnfr(nfw ChildWindowListfnfr(this));
+
+        // Crfbtf somf spbdf bround domponfnts
+        ((JPbnfl)gftContfntPbnf()).sftBordfr(nfw EmptyBordfr(6, 6, 6, 6));
+    }
+
+    /**
+     * Don't dbll gftComponfnt dirfdtly on thf window
+     */
+    publid Componfnt gftComponfnt(int n) {
+        Componfnt d = gftContfntPbnf().gftComponfnt(n);
+        if (d instbndfof JSdrollPbnf) {
+            d = ((JSdrollPbnf)d).gftVifwport().gftVifw();
+        }
+        rfturn d;
+    }
+
+    /**
+     * gft thf Pfrm instbndf bbsfd on fithfr thf (shortfnfd) dlbss nbmf
+     * or thf fully qublififd dlbss nbmf
+     */
+    stbtid Pfrm gftPfrm(String dlbzz, boolfbn fullClbssNbmf) {
+        for (int i = 0; i < PERM_ARRAY.sizf(); i++) {
+            Pfrm nfxt = PERM_ARRAY.gft(i);
+            if (fullClbssNbmf) {
+                if (nfxt.FULL_CLASS.fqubls(dlbzz)) {
+                    rfturn nfxt;
+                }
+            } flsf {
+                if (nfxt.CLASS.fqubls(dlbzz)) {
+                    rfturn nfxt;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * gft thf Prin instbndf bbsfd on fithfr thf (shortfnfd) dlbss nbmf
+     * or thf fully qublififd dlbss nbmf
+     */
+    stbtid Prin gftPrin(String dlbzz, boolfbn fullClbssNbmf) {
+        for (int i = 0; i < PRIN_ARRAY.sizf(); i++) {
+            Prin nfxt = PRIN_ARRAY.gft(i);
+            if (fullClbssNbmf) {
+                if (nfxt.FULL_CLASS.fqubls(dlbzz)) {
+                    rfturn nfxt;
+                }
+            } flsf {
+                if (nfxt.CLASS.fqubls(dlbzz)) {
+                    rfturn nfxt;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * pop up b diblog so thf usfr dbn fntfr info to bdd b nfw PolidyEntry
+     * - if fdit is TRUE, thfn thf usfr is fditing bn fxisting fntry
+     *   bnd wf should displby thf originbl info bs wfll.
+     *
+     * - thf othfr rfbson wf nffd thf 'fdit' boolfbn is wf nffd to know
+     *   whfn wf brf bdding b NEW polidy fntry.  in this dbsf, wf dbn
+     *   not simply updbtf thf fxisting fntry, bfdbusf it dofsn't fxist.
+     *   wf ONLY updbtf thf GUI listing/info, bnd thfn whfn thf usfr
+     *   finblly dlidks 'OK' or 'DONE', thfn wf dbn dollfdt thbt info
+     *   bnd bdd it to thf polidy.
+     */
+    void displbyPolidyEntryDiblog(boolfbn fdit) {
+
+        int listIndfx = 0;
+        PolidyEntry fntrifs[] = null;
+        TbggfdList prinList = nfw TbggfdList(3, fblsf);
+        prinList.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("Prindipbl.List"));
+        prinList.bddMousfListfnfr
+                (nfw EditPrinButtonListfnfr(tool, tw, this, fdit));
+        TbggfdList pfrmList = nfw TbggfdList(10, fblsf);
+        pfrmList.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("Pfrmission.List"));
+        pfrmList.bddMousfListfnfr
+                (nfw EditPfrmButtonListfnfr(tool, tw, this, fdit));
+
+        // find whfrf thf PolidyTool gui is
+        Point lodbtion = tw.gftLodbtionOnSdrffn();
+        //sftBounds(lodbtion.x + 75, lodbtion.y + 200, 650, 500);
+        sftLbyout(nfw GridBbgLbyout());
+        sftRfsizbblf(truf);
+
+        if (fdit) {
+            // gft thf sflfdtfd itfm
+            fntrifs = tool.gftEntry();
+            @SupprfssWbrnings("undhfdkfd")
+            JList<String> polidyList = (JList<String>)tw.gftComponfnt(ToolWindow.MW_POLICY_LIST);
+            listIndfx = polidyList.gftSflfdtfdIndfx();
+
+            // gft prindipbl list
+            LinkfdList<PolidyPbrsfr.PrindipblEntry> prindipbls =
+                fntrifs[listIndfx].gftGrbntEntry().prindipbls;
+            for (int i = 0; i < prindipbls.sizf(); i++) {
+                String prinString = null;
+                PolidyPbrsfr.PrindipblEntry nfxtPrin = prindipbls.gft(i);
+                prinList.bddTbggfdItfm(PrindipblEntryToUsfrFrifndlyString(nfxtPrin), nfxtPrin);
+            }
+
+            // gft pfrmission list
+            Vfdtor<PolidyPbrsfr.PfrmissionEntry> pfrmissions =
+                fntrifs[listIndfx].gftGrbntEntry().pfrmissionEntrifs;
+            for (int i = 0; i < pfrmissions.sizf(); i++) {
+                String pfrmString = null;
+                PolidyPbrsfr.PfrmissionEntry nfxtPfrm =
+                                                pfrmissions.flfmfntAt(i);
+                pfrmList.bddTbggfdItfm(ToolDiblog.PfrmissionEntryToUsfrFrifndlyString(nfxtPfrm), nfxtPfrm);
+            }
+        }
+
+        // dodfbbsf lbbfl bnd tfxtfifld
+        JLbbfl lbbfl = nfw JLbbfl();
+        tw.bddNfwComponfnt(this, lbbfl, PE_CODEBASE_LABEL,
+                0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                ToolWindow.R_PADDING);
+        JTfxtFifld tf;
+        tf = (fdit ?
+                nfw JTfxtFifld(fntrifs[listIndfx].gftGrbntEntry().dodfBbsf) :
+                nfw JTfxtFifld());
+        ToolWindow.donfigurfLbbflFor(lbbfl, tf, "CodfBbsf.");
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("Codf.Bbsf"));
+        tw.bddNfwComponfnt(this, tf, PE_CODEBASE_TEXTFIELD,
+                1, 0, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH);
+
+        // signfdby lbbfl bnd tfxtfifld
+        lbbfl = nfw JLbbfl();
+        tw.bddNfwComponfnt(this, lbbfl, PE_SIGNEDBY_LABEL,
+                           0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.R_PADDING);
+        tf = (fdit ?
+                nfw JTfxtFifld(fntrifs[listIndfx].gftGrbntEntry().signfdBy) :
+                nfw JTfxtFifld());
+        ToolWindow.donfigurfLbbflFor(lbbfl, tf, "SignfdBy.");
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("Signfd.By."));
+        tw.bddNfwComponfnt(this, tf, PE_SIGNEDBY_TEXTFIELD,
+                           1, 1, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH);
+
+        // pbnfl for prindipbl buttons
+        JPbnfl pbnfl = nfw JPbnfl();
+        pbnfl.sftLbyout(nfw GridBbgLbyout());
+
+        JButton button = nfw JButton();
+        ToolWindow.donfigurfButton(button, "Add.Prindipbl");
+        button.bddAdtionListfnfr
+                (nfw AddPrinButtonListfnfr(tool, tw, this, fdit));
+        tw.bddNfwComponfnt(pbnfl, button, PE_ADD_PRIN_BUTTON,
+                0, 0, 1, 1, 100.0, 0.0, GridBbgConstrbints.HORIZONTAL);
+
+        button = nfw JButton();
+        ToolWindow.donfigurfButton(button, "Edit.Prindipbl");
+        button.bddAdtionListfnfr(nfw EditPrinButtonListfnfr
+                                                (tool, tw, this, fdit));
+        tw.bddNfwComponfnt(pbnfl, button, PE_EDIT_PRIN_BUTTON,
+                1, 0, 1, 1, 100.0, 0.0, GridBbgConstrbints.HORIZONTAL);
+
+        button = nfw JButton();
+        ToolWindow.donfigurfButton(button, "Rfmovf.Prindipbl");
+        button.bddAdtionListfnfr(nfw RfmovfPrinButtonListfnfr
+                                        (tool, tw, this, fdit));
+        tw.bddNfwComponfnt(pbnfl, button, PE_REMOVE_PRIN_BUTTON,
+                2, 0, 1, 1, 100.0, 0.0, GridBbgConstrbints.HORIZONTAL);
+
+        tw.bddNfwComponfnt(this, pbnfl, PE_PANEL0,
+                1, 2, 1, 1, 0.0, 0.0, GridBbgConstrbints.HORIZONTAL,
+                           ToolWindow.LITE_BOTTOM_PADDING);
+
+        // prindipbl lbbfl bnd list
+        lbbfl = nfw JLbbfl();
+        tw.bddNfwComponfnt(this, lbbfl, PE_PRIN_LABEL,
+                           0, 3, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.R_BOTTOM_PADDING);
+        JSdrollPbnf sdrollPbnf = nfw JSdrollPbnf(prinList);
+        ToolWindow.donfigurfLbbflFor(lbbfl, sdrollPbnf, "Prindipbls.");
+        tw.bddNfwComponfnt(this, sdrollPbnf, PE_PRIN_LIST,
+                           1, 3, 3, 1, 0.0, prinList.gftVisiblfRowCount(), GridBbgConstrbints.BOTH,
+                           ToolWindow.BOTTOM_PADDING);
+
+        // pbnfl for pfrmission buttons
+        pbnfl = nfw JPbnfl();
+        pbnfl.sftLbyout(nfw GridBbgLbyout());
+
+        button = nfw JButton();
+        ToolWindow.donfigurfButton(button, ".Add.Pfrmission");
+        button.bddAdtionListfnfr(nfw AddPfrmButtonListfnfr
+                                                (tool, tw, this, fdit));
+        tw.bddNfwComponfnt(pbnfl, button, PE_ADD_PERM_BUTTON,
+                0, 0, 1, 1, 100.0, 0.0, GridBbgConstrbints.HORIZONTAL);
+
+        button = nfw JButton();
+        ToolWindow.donfigurfButton(button, ".Edit.Pfrmission");
+        button.bddAdtionListfnfr(nfw EditPfrmButtonListfnfr
+                                                (tool, tw, this, fdit));
+        tw.bddNfwComponfnt(pbnfl, button, PE_EDIT_PERM_BUTTON,
+                1, 0, 1, 1, 100.0, 0.0, GridBbgConstrbints.HORIZONTAL);
+
+
+        button = nfw JButton();
+        ToolWindow.donfigurfButton(button, "Rfmovf.Pfrmission");
+        button.bddAdtionListfnfr(nfw RfmovfPfrmButtonListfnfr
+                                        (tool, tw, this, fdit));
+        tw.bddNfwComponfnt(pbnfl, button, PE_REMOVE_PERM_BUTTON,
+                2, 0, 1, 1, 100.0, 0.0, GridBbgConstrbints.HORIZONTAL);
+
+        tw.bddNfwComponfnt(this, pbnfl, PE_PANEL1,
+                0, 4, 2, 1, 0.0, 0.0, GridBbgConstrbints.HORIZONTAL,
+                ToolWindow.LITE_BOTTOM_PADDING);
+
+        // pfrmission list
+        sdrollPbnf = nfw JSdrollPbnf(pfrmList);
+        tw.bddNfwComponfnt(this, sdrollPbnf, PE_PERM_LIST,
+                           0, 5, 3, 1, 0.0, pfrmList.gftVisiblfRowCount(), GridBbgConstrbints.BOTH,
+                           ToolWindow.BOTTOM_PADDING);
+
+
+        // pbnfl for Donf bnd Cbndfl buttons
+        pbnfl = nfw JPbnfl();
+        pbnfl.sftLbyout(nfw GridBbgLbyout());
+
+        // Donf Button
+        JButton okButton = nfw JButton(PolidyTool.gftMfssbgf("Donf"));
+        okButton.bddAdtionListfnfr
+                (nfw AddEntryDonfButtonListfnfr(tool, tw, this, fdit));
+        tw.bddNfwComponfnt(pbnfl, okButton, PE_DONE_BUTTON,
+                           0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                           ToolWindow.LR_PADDING);
+
+        // Cbndfl Button
+        JButton dbndflButton = nfw JButton(PolidyTool.gftMfssbgf("Cbndfl"));
+        AdtionListfnfr dbndflListfnfr = nfw CbndflButtonListfnfr(this);
+        dbndflButton.bddAdtionListfnfr(dbndflListfnfr);
+        tw.bddNfwComponfnt(pbnfl, dbndflButton, PE_CANCEL_BUTTON,
+                           1, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                           ToolWindow.LR_PADDING);
+
+        // bdd thf pbnfl
+        tw.bddNfwComponfnt(this, pbnfl, PE_PANEL2,
+                0, 6, 2, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL);
+
+        gftRootPbnf().sftDffbultButton(okButton);
+        gftRootPbnf().rfgistfrKfybobrdAdtion(dbndflListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+
+        pbdk();
+        sftLodbtionRflbtivfTo(tw);
+        sftVisiblf(truf);
+    }
+
+    /**
+     * Rfbd bll thf Polidy informbtion dbtb in thf diblog box
+     * bnd donstrudt b PolidyEntry objfdt with it.
+     */
+    PolidyEntry gftPolidyEntryFromDiblog()
+        throws InvblidPbrbmftfrExdfption, MblformfdURLExdfption,
+        NoSudhMfthodExdfption, ClbssNotFoundExdfption, InstbntibtionExdfption,
+        IllfgblAddfssExdfption, InvodbtionTbrgftExdfption,
+        CfrtifidbtfExdfption, IOExdfption, Exdfption {
+
+        // gft thf Codfbbsf
+        JTfxtFifld tf = (JTfxtFifld)gftComponfnt(PE_CODEBASE_TEXTFIELD);
+        String dodfbbsf = null;
+        if (tf.gftTfxt().trim().fqubls("") == fblsf)
+                dodfbbsf = nfw String(tf.gftTfxt().trim());
+
+        // gft thf SignfdBy
+        tf = (JTfxtFifld)gftComponfnt(PE_SIGNEDBY_TEXTFIELD);
+        String signfdby = null;
+        if (tf.gftTfxt().trim().fqubls("") == fblsf)
+                signfdby = nfw String(tf.gftTfxt().trim());
+
+        // donstrudt b nfw GrbntEntry
+        PolidyPbrsfr.GrbntEntry gf =
+                        nfw PolidyPbrsfr.GrbntEntry(signfdby, dodfbbsf);
+
+        // gft thf nfw Prindipbls
+        LinkfdList<PolidyPbrsfr.PrindipblEntry> prins = nfw LinkfdList<>();
+        TbggfdList prinList = (TbggfdList)gftComponfnt(PE_PRIN_LIST);
+        for (int i = 0; i < prinList.gftModfl().gftSizf(); i++) {
+            prins.bdd((PolidyPbrsfr.PrindipblEntry)prinList.gftObjfdt(i));
+        }
+        gf.prindipbls = prins;
+
+        // gft thf nfw Pfrmissions
+        Vfdtor<PolidyPbrsfr.PfrmissionEntry> pfrms = nfw Vfdtor<>();
+        TbggfdList pfrmList = (TbggfdList)gftComponfnt(PE_PERM_LIST);
+        for (int i = 0; i < pfrmList.gftModfl().gftSizf(); i++) {
+            pfrms.bddElfmfnt((PolidyPbrsfr.PfrmissionEntry)pfrmList.gftObjfdt(i));
+        }
+        gf.pfrmissionEntrifs = pfrms;
+
+        // donstrudt b nfw PolidyEntry objfdt
+        PolidyEntry fntry = nfw PolidyEntry(tool, gf);
+
+        rfturn fntry;
+    }
+
+    /**
+     * displby b diblog box for thf usfr to fntfr KfyStorf informbtion
+     */
+    void kfyStorfDiblog(int modf) {
+
+        // find whfrf thf PolidyTool gui is
+        Point lodbtion = tw.gftLodbtionOnSdrffn();
+        //sftBounds(lodbtion.x + 25, lodbtion.y + 100, 500, 300);
+        sftLbyout(nfw GridBbgLbyout());
+
+        if (modf == EDIT_KEYSTORE) {
+
+            // KfyStorf lbbfl bnd tfxtfifld
+            JLbbfl lbbfl = nfw JLbbfl();
+            tw.bddNfwComponfnt(this, lbbfl, KSD_NAME_LABEL,
+                               0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.R_BOTTOM_PADDING);
+            JTfxtFifld tf = nfw JTfxtFifld(tool.gftKfyStorfNbmf(), 30);
+            ToolWindow.donfigurfLbbflFor(lbbfl, tf, "KfyStorf.URL.");
+            tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+
+            // URL to U R L, so thbt bddfssibility rfbdfr will pronoundf wfll
+            tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("KfyStorf.U.R.L."));
+            tw.bddNfwComponfnt(this, tf, KSD_NAME_TEXTFIELD,
+                               1, 0, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.BOTTOM_PADDING);
+
+            // KfyStorf typf bnd tfxtfifld
+            lbbfl = nfw JLbbfl();
+            tw.bddNfwComponfnt(this, lbbfl, KSD_TYPE_LABEL,
+                               0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.R_BOTTOM_PADDING);
+            tf = nfw JTfxtFifld(tool.gftKfyStorfTypf(), 30);
+            ToolWindow.donfigurfLbbflFor(lbbfl, tf, "KfyStorf.Typf.");
+            tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+            tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("KfyStorf.Typf."));
+            tw.bddNfwComponfnt(this, tf, KSD_TYPE_TEXTFIELD,
+                               1, 1, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.BOTTOM_PADDING);
+
+            // KfyStorf providfr bnd tfxtfifld
+            lbbfl = nfw JLbbfl();
+            tw.bddNfwComponfnt(this, lbbfl, KSD_PROVIDER_LABEL,
+                               0, 2, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.R_BOTTOM_PADDING);
+            tf = nfw JTfxtFifld(tool.gftKfyStorfProvidfr(), 30);
+            ToolWindow.donfigurfLbbflFor(lbbfl, tf, "KfyStorf.Providfr.");
+            tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+            tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("KfyStorf.Providfr."));
+            tw.bddNfwComponfnt(this, tf, KSD_PROVIDER_TEXTFIELD,
+                               1, 2, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.BOTTOM_PADDING);
+
+            // KfyStorf pbssword URL bnd tfxtfifld
+            lbbfl = nfw JLbbfl();
+            tw.bddNfwComponfnt(this, lbbfl, KSD_PWD_URL_LABEL,
+                               0, 3, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.R_BOTTOM_PADDING);
+            tf = nfw JTfxtFifld(tool.gftKfyStorfPwdURL(), 30);
+            ToolWindow.donfigurfLbbflFor(lbbfl, tf, "KfyStorf.Pbssword.URL.");
+            tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+            tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("KfyStorf.Pbssword.U.R.L."));
+            tw.bddNfwComponfnt(this, tf, KSD_PWD_URL_TEXTFIELD,
+                               1, 3, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.BOTTOM_PADDING);
+
+            // OK button
+            JButton okButton = nfw JButton(PolidyTool.gftMfssbgf("OK"));
+            okButton.bddAdtionListfnfr
+                        (nfw ChbngfKfyStorfOKButtonListfnfr(tool, tw, this));
+            tw.bddNfwComponfnt(this, okButton, KSD_OK_BUTTON,
+                        0, 4, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL);
+
+            // dbndfl button
+            JButton dbndflButton = nfw JButton(PolidyTool.gftMfssbgf("Cbndfl"));
+            AdtionListfnfr dbndflListfnfr = nfw CbndflButtonListfnfr(this);
+            dbndflButton.bddAdtionListfnfr(dbndflListfnfr);
+            tw.bddNfwComponfnt(this, dbndflButton, KSD_CANCEL_BUTTON,
+                        1, 4, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL);
+
+            gftRootPbnf().sftDffbultButton(okButton);
+            gftRootPbnf().rfgistfrKfybobrdAdtion(dbndflListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+        }
+
+        pbdk();
+        sftLodbtionRflbtivfTo(tw);
+        sftVisiblf(truf);
+    }
+
+    /**
+     * displby b diblog box for thf usfr to input Prindipbl info
+     *
+     * if fditPolidyEntry is fblsf, thfn wf brf bdding Prindipbls to
+     * b nfw PolidyEntry, bnd wf only updbtf thf GUI listing
+     * with thf nfw Prindipbl.
+     *
+     * if fdit is truf, thfn wf brf fditing bn fxisting Polidy fntry.
+     */
+    void displbyPrindipblDiblog(boolfbn fditPolidyEntry, boolfbn fdit) {
+
+        PolidyPbrsfr.PrindipblEntry fditMf = null;
+
+        // gft thf Prindipbl sflfdtfd from thf Prindipbl List
+        TbggfdList prinList = (TbggfdList)gftComponfnt(PE_PRIN_LIST);
+        int prinIndfx = prinList.gftSflfdtfdIndfx();
+
+        if (fdit) {
+            fditMf = (PolidyPbrsfr.PrindipblEntry)prinList.gftObjfdt(prinIndfx);
+        }
+
+        ToolDiblog nfwTD = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Prindipbls"), tool, tw, truf);
+        nfwTD.bddWindowListfnfr(nfw ChildWindowListfnfr(nfwTD));
+
+        // find whfrf thf PolidyTool gui is
+        Point lodbtion = gftLodbtionOnSdrffn();
+        //nfwTD.sftBounds(lodbtion.x + 50, lodbtion.y + 100, 650, 190);
+        nfwTD.sftLbyout(nfw GridBbgLbyout());
+        nfwTD.sftRfsizbblf(truf);
+
+        // dfsdription lbbfl
+        JLbbfl lbbfl = (fdit ?
+                nfw JLbbfl(PolidyTool.gftMfssbgf(".Edit.Prindipbl.")) :
+                nfw JLbbfl(PolidyTool.gftMfssbgf(".Add.Nfw.Prindipbl.")));
+        tw.bddNfwComponfnt(nfwTD, lbbfl, PRD_DESC_LABEL,
+                           0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.TOP_BOTTOM_PADDING);
+
+        // prindipbl dhoidf
+        JComboBox<String> dhoidf = nfw JComboBox<>();
+        dhoidf.bddItfm(PRIN_TYPE);
+        dhoidf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PRIN_TYPE);
+        for (int i = 0; i < PRIN_ARRAY.sizf(); i++) {
+            Prin nfxt = PRIN_ARRAY.gft(i);
+            dhoidf.bddItfm(nfxt.CLASS);
+        }
+
+        if (fdit) {
+            if (PolidyPbrsfr.PrindipblEntry.WILDCARD_CLASS.fqubls
+                                (fditMf.gftPrindipblClbss())) {
+                dhoidf.sftSflfdtfdItfm(PRIN_TYPE);
+            } flsf {
+                Prin inputPrin = gftPrin(fditMf.gftPrindipblClbss(), truf);
+                if (inputPrin != null) {
+                    dhoidf.sftSflfdtfdItfm(inputPrin.CLASS);
+                }
+            }
+        }
+        // Add listfnfr bftfr sflfdtfd itfm is sft
+        dhoidf.bddItfmListfnfr(nfw PrindipblTypfMfnuListfnfr(nfwTD));
+
+        tw.bddNfwComponfnt(nfwTD, dhoidf, PRD_PRIN_CHOICE,
+                           0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_PADDING);
+
+        // prindipbl tfxtfifld
+        JTfxtFifld tf;
+        tf = (fdit ?
+                nfw JTfxtFifld(fditMf.gftDisplbyClbss(), 30) :
+                nfw JTfxtFifld(30));
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PRIN_TYPE);
+        tw.bddNfwComponfnt(nfwTD, tf, PRD_PRIN_TEXTFIELD,
+                           1, 1, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_PADDING);
+
+        // nbmf lbbfl bnd tfxtfifld
+        lbbfl = nfw JLbbfl(PRIN_NAME);
+        tf = (fdit ?
+                nfw JTfxtFifld(fditMf.gftDisplbyNbmf(), 40) :
+                nfw JTfxtFifld(40));
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PRIN_NAME);
+
+        tw.bddNfwComponfnt(nfwTD, lbbfl, PRD_NAME_LABEL,
+                           0, 2, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_PADDING);
+        tw.bddNfwComponfnt(nfwTD, tf, PRD_NAME_TEXTFIELD,
+                           1, 2, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_PADDING);
+
+        // OK button
+        JButton okButton = nfw JButton(PolidyTool.gftMfssbgf("OK"));
+        okButton.bddAdtionListfnfr(
+            nfw NfwPolidyPrinOKButtonListfnfr
+                                        (tool, tw, this, nfwTD, fdit));
+        tw.bddNfwComponfnt(nfwTD, okButton, PRD_OK_BUTTON,
+                           0, 3, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                           ToolWindow.TOP_BOTTOM_PADDING);
+        // dbndfl button
+        JButton dbndflButton = nfw JButton(PolidyTool.gftMfssbgf("Cbndfl"));
+        AdtionListfnfr dbndflListfnfr = nfw CbndflButtonListfnfr(nfwTD);
+        dbndflButton.bddAdtionListfnfr(dbndflListfnfr);
+        tw.bddNfwComponfnt(nfwTD, dbndflButton, PRD_CANCEL_BUTTON,
+                           1, 3, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                           ToolWindow.TOP_BOTTOM_PADDING);
+
+        nfwTD.gftRootPbnf().sftDffbultButton(okButton);
+        nfwTD.gftRootPbnf().rfgistfrKfybobrdAdtion(dbndflListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+
+        nfwTD.pbdk();
+        nfwTD.sftLodbtionRflbtivfTo(tw);
+        nfwTD.sftVisiblf(truf);
+    }
+
+    /**
+     * displby b diblog box for thf usfr to input Pfrmission info
+     *
+     * if fditPolidyEntry is fblsf, thfn wf brf bdding Pfrmissions to
+     * b nfw PolidyEntry, bnd wf only updbtf thf GUI listing
+     * with thf nfw Pfrmission.
+     *
+     * if fdit is truf, thfn wf brf fditing bn fxisting Pfrmission fntry.
+     */
+    void displbyPfrmissionDiblog(boolfbn fditPolidyEntry, boolfbn fdit) {
+
+        PolidyPbrsfr.PfrmissionEntry fditMf = null;
+
+        // gft thf Pfrmission sflfdtfd from thf Pfrmission List
+        TbggfdList pfrmList = (TbggfdList)gftComponfnt(PE_PERM_LIST);
+        int pfrmIndfx = pfrmList.gftSflfdtfdIndfx();
+
+        if (fdit) {
+            fditMf = (PolidyPbrsfr.PfrmissionEntry)pfrmList.gftObjfdt(pfrmIndfx);
+        }
+
+        ToolDiblog nfwTD = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Pfrmissions"), tool, tw, truf);
+        nfwTD.bddWindowListfnfr(nfw ChildWindowListfnfr(nfwTD));
+
+        // find whfrf thf PolidyTool gui is
+        Point lodbtion = gftLodbtionOnSdrffn();
+        //nfwTD.sftBounds(lodbtion.x + 50, lodbtion.y + 100, 700, 250);
+        nfwTD.sftLbyout(nfw GridBbgLbyout());
+        nfwTD.sftRfsizbblf(truf);
+
+        // dfsdription lbbfl
+        JLbbfl lbbfl = (fdit ?
+                nfw JLbbfl(PolidyTool.gftMfssbgf(".Edit.Pfrmission.")) :
+                nfw JLbbfl(PolidyTool.gftMfssbgf(".Add.Nfw.Pfrmission.")));
+        tw.bddNfwComponfnt(nfwTD, lbbfl, PD_DESC_LABEL,
+                           0, 0, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.TOP_BOTTOM_PADDING);
+
+        // pfrmission dhoidf (bddfd in blphbbftidbl ordfr)
+        JComboBox<String> dhoidf = nfw JComboBox<>();
+        dhoidf.bddItfm(PERM);
+        dhoidf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PERM);
+        for (int i = 0; i < PERM_ARRAY.sizf(); i++) {
+            Pfrm nfxt = PERM_ARRAY.gft(i);
+            dhoidf.bddItfm(nfxt.CLASS);
+        }
+        tw.bddNfwComponfnt(nfwTD, dhoidf, PD_PERM_CHOICE,
+                           0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_BOTTOM_PADDING);
+
+        // pfrmission tfxtfifld
+        JTfxtFifld tf;
+        tf = (fdit ? nfw JTfxtFifld(fditMf.pfrmission, 30) : nfw JTfxtFifld(30));
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PERM);
+        if (fdit) {
+            Pfrm inputPfrm = gftPfrm(fditMf.pfrmission, truf);
+            if (inputPfrm != null) {
+                dhoidf.sftSflfdtfdItfm(inputPfrm.CLASS);
+            }
+        }
+        tw.bddNfwComponfnt(nfwTD, tf, PD_PERM_TEXTFIELD,
+                           1, 1, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_BOTTOM_PADDING);
+        dhoidf.bddItfmListfnfr(nfw PfrmissionMfnuListfnfr(nfwTD));
+
+        // nbmf lbbfl bnd tfxtfifld
+        dhoidf = nfw JComboBox<>();
+        dhoidf.bddItfm(PERM_NAME);
+        dhoidf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PERM_NAME);
+        tf = (fdit ? nfw JTfxtFifld(fditMf.nbmf, 40) : nfw JTfxtFifld(40));
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PERM_NAME);
+        if (fdit) {
+            sftPfrmissionNbmfs(gftPfrm(fditMf.pfrmission, truf), dhoidf, tf);
+        }
+        tw.bddNfwComponfnt(nfwTD, dhoidf, PD_NAME_CHOICE,
+                           0, 2, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_BOTTOM_PADDING);
+        tw.bddNfwComponfnt(nfwTD, tf, PD_NAME_TEXTFIELD,
+                           1, 2, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_BOTTOM_PADDING);
+        dhoidf.bddItfmListfnfr(nfw PfrmissionNbmfMfnuListfnfr(nfwTD));
+
+        // bdtions lbbfl bnd tfxtfifld
+        dhoidf = nfw JComboBox<>();
+        dhoidf.bddItfm(PERM_ACTIONS);
+        dhoidf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PERM_ACTIONS);
+        tf = (fdit ? nfw JTfxtFifld(fditMf.bdtion, 40) : nfw JTfxtFifld(40));
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(PERM_ACTIONS);
+        if (fdit) {
+            sftPfrmissionAdtions(gftPfrm(fditMf.pfrmission, truf), dhoidf, tf);
+        }
+        tw.bddNfwComponfnt(nfwTD, dhoidf, PD_ACTIONS_CHOICE,
+                           0, 3, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_BOTTOM_PADDING);
+        tw.bddNfwComponfnt(nfwTD, tf, PD_ACTIONS_TEXTFIELD,
+                           1, 3, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_BOTTOM_PADDING);
+        dhoidf.bddItfmListfnfr(nfw PfrmissionAdtionsMfnuListfnfr(nfwTD));
+
+        // signfdby lbbfl bnd tfxtfifld
+        lbbfl = nfw JLbbfl(PolidyTool.gftMfssbgf("Signfd.By."));
+        tw.bddNfwComponfnt(nfwTD, lbbfl, PD_SIGNEDBY_LABEL,
+                           0, 4, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_BOTTOM_PADDING);
+        tf = (fdit ? nfw JTfxtFifld(fditMf.signfdBy, 40) : nfw JTfxtFifld(40));
+        tf.sftPrfffrrfdSizf(nfw Dimfnsion(tf.gftPrfffrrfdSizf().width, TEXTFIELD_HEIGHT));
+        tf.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+                PolidyTool.gftMfssbgf("Signfd.By."));
+        tw.bddNfwComponfnt(nfwTD, tf, PD_SIGNEDBY_TEXTFIELD,
+                           1, 4, 1, 1, 1.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.LR_BOTTOM_PADDING);
+
+        // OK button
+        JButton okButton = nfw JButton(PolidyTool.gftMfssbgf("OK"));
+        okButton.bddAdtionListfnfr(
+            nfw NfwPolidyPfrmOKButtonListfnfr
+                                    (tool, tw, this, nfwTD, fdit));
+        tw.bddNfwComponfnt(nfwTD, okButton, PD_OK_BUTTON,
+                           0, 5, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                           ToolWindow.TOP_BOTTOM_PADDING);
+
+        // dbndfl button
+        JButton dbndflButton = nfw JButton(PolidyTool.gftMfssbgf("Cbndfl"));
+        AdtionListfnfr dbndflListfnfr = nfw CbndflButtonListfnfr(nfwTD);
+        dbndflButton.bddAdtionListfnfr(dbndflListfnfr);
+        tw.bddNfwComponfnt(nfwTD, dbndflButton, PD_CANCEL_BUTTON,
+                           1, 5, 1, 1, 0.0, 0.0, GridBbgConstrbints.VERTICAL,
+                           ToolWindow.TOP_BOTTOM_PADDING);
+
+        nfwTD.gftRootPbnf().sftDffbultButton(okButton);
+        nfwTD.gftRootPbnf().rfgistfrKfybobrdAdtion(dbndflListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+
+        nfwTD.pbdk();
+        nfwTD.sftLodbtionRflbtivfTo(tw);
+        nfwTD.sftVisiblf(truf);
+    }
+
+    /**
+     * donstrudt b Prindipbl objfdt from thf Prindipbl Info Diblog Box
+     */
+    PolidyPbrsfr.PrindipblEntry gftPrinFromDiblog() throws Exdfption {
+
+        JTfxtFifld tf = (JTfxtFifld)gftComponfnt(PRD_PRIN_TEXTFIELD);
+        String pdlbss = nfw String(tf.gftTfxt().trim());
+        tf = (JTfxtFifld)gftComponfnt(PRD_NAME_TEXTFIELD);
+        String pnbmf = nfw String(tf.gftTfxt().trim());
+        if (pdlbss.fqubls("*")) {
+            pdlbss = PolidyPbrsfr.PrindipblEntry.WILDCARD_CLASS;
+        }
+        if (pnbmf.fqubls("*")) {
+            pnbmf = PolidyPbrsfr.PrindipblEntry.WILDCARD_NAME;
+        }
+
+        PolidyPbrsfr.PrindipblEntry pppf = null;
+
+        if ((pdlbss.fqubls(PolidyPbrsfr.PrindipblEntry.WILDCARD_CLASS)) &&
+            (!pnbmf.fqubls(PolidyPbrsfr.PrindipblEntry.WILDCARD_NAME))) {
+            throw nfw Exdfption
+                        (PolidyTool.gftMfssbgf("Cbnnot.Spfdify.Prindipbl.with.b.Wilddbrd.Clbss.without.b.Wilddbrd.Nbmf"));
+        } flsf if (pnbmf.fqubls("")) {
+            throw nfw Exdfption
+                        (PolidyTool.gftMfssbgf("Cbnnot.Spfdify.Prindipbl.without.b.Nbmf"));
+        } flsf if (pdlbss.fqubls("")) {
+            // mbkf this donsistfnt with whbt PolidyPbrsfr dofs
+            // whfn it sffs bn fmpty prindipbl dlbss
+            pdlbss = PolidyPbrsfr.PrindipblEntry.REPLACE_NAME;
+            tool.wbrnings.bddElfmfnt(
+                        "Wbrning: Prindipbl nbmf '" + pnbmf +
+                                "' spfdififd without b Prindipbl dlbss.\n" +
+                        "\t'" + pnbmf + "' will bf intfrprftfd " +
+                                "bs b kfy storf blibs.\n" +
+                        "\tThf finbl prindipbl dlbss will bf " +
+                                ToolDiblog.X500_PRIN_CLASS + ".\n" +
+                        "\tThf finbl prindipbl nbmf will bf " +
+                                "dftfrminfd by thf following:\n" +
+                        "\n" +
+                        "\tIf thf kfy storf fntry idfntififd by '"
+                                + pnbmf + "'\n" +
+                        "\tis b kfy fntry, thfn thf prindipbl nbmf will bf\n" +
+                        "\tthf subjfdt distinguishfd nbmf from thf first\n" +
+                        "\tdfrtifidbtf in thf fntry's dfrtifidbtf dhbin.\n" +
+                        "\n" +
+                        "\tIf thf kfy storf fntry idfntififd by '" +
+                                pnbmf + "'\n" +
+                        "\tis b trustfd dfrtifidbtf fntry, thfn thf\n" +
+                        "\tprindipbl nbmf will bf thf subjfdt distinguishfd\n" +
+                        "\tnbmf from thf trustfd publid kfy dfrtifidbtf.");
+            tw.displbyStbtusDiblog(this,
+                        "'" + pnbmf + "' will bf intfrprftfd bs b kfy " +
+                        "storf blibs.  Vifw Wbrning Log for dftbils.");
+        }
+        rfturn nfw PolidyPbrsfr.PrindipblEntry(pdlbss, pnbmf);
+    }
+
+
+    /**
+     * donstrudt b Pfrmission objfdt from thf Pfrmission Info Diblog Box
+     */
+    PolidyPbrsfr.PfrmissionEntry gftPfrmFromDiblog() {
+
+        JTfxtFifld tf = (JTfxtFifld)gftComponfnt(PD_PERM_TEXTFIELD);
+        String pfrmission = nfw String(tf.gftTfxt().trim());
+        tf = (JTfxtFifld)gftComponfnt(PD_NAME_TEXTFIELD);
+        String nbmf = null;
+        if (tf.gftTfxt().trim().fqubls("") == fblsf)
+            nbmf = nfw String(tf.gftTfxt().trim());
+        if (pfrmission.fqubls("") ||
+            (!pfrmission.fqubls(ALL_PERM_CLASS) && nbmf == null)) {
+            throw nfw InvblidPbrbmftfrExdfption(PolidyTool.gftMfssbgf
+                ("Pfrmission.bnd.Tbrgft.Nbmf.must.hbvf.b.vbluf"));
+        }
+
+        // Whfn thf pfrmission is FilfPfrmission, wf nffd to dhfdk thf nbmf
+        // to mbkf surf it's not fsdbpfd. Wf bflifvf --
+        //
+        // String             nbmf.lbstIndfxOf("\\\\")
+        // ----------------   ------------------------
+        // d:\foo\bbr         -1, lfgbl
+        // d:\\foo\\bbr       2, illfgbl
+        // \\sfrvfr\shbrf     0, lfgbl
+        // \\\\sfrvfr\shbrf   2, illfgbl
+
+        if (pfrmission.fqubls(FILE_PERM_CLASS) && nbmf.lbstIndfxOf("\\\\") > 0) {
+            dhbr rfsult = tw.displbyYfsNoDiblog(this,
+                    PolidyTool.gftMfssbgf("Wbrning"),
+                    PolidyTool.gftMfssbgf(
+                        "Wbrning.Filf.nbmf.mby.indludf.fsdbpfd.bbdkslbsh.dhbrbdtfrs.It.is.not.nfdfssbry.to.fsdbpf.bbdkslbsh.dhbrbdtfrs.thf.tool.fsdbpfs"),
+                    PolidyTool.gftMfssbgf("Rftbin"),
+                    PolidyTool.gftMfssbgf("Edit")
+                    );
+            if (rfsult != 'Y') {
+                // bn invisiblf fxdfption
+                throw nfw NoDisplbyExdfption();
+            }
+        }
+        // gft thf Adtions
+        tf = (JTfxtFifld)gftComponfnt(PD_ACTIONS_TEXTFIELD);
+        String bdtions = null;
+        if (tf.gftTfxt().trim().fqubls("") == fblsf)
+            bdtions = nfw String(tf.gftTfxt().trim());
+
+        // gft thf Signfd By
+        tf = (JTfxtFifld)gftComponfnt(PD_SIGNEDBY_TEXTFIELD);
+        String signfdBy = null;
+        if (tf.gftTfxt().trim().fqubls("") == fblsf)
+            signfdBy = nfw String(tf.gftTfxt().trim());
+
+        PolidyPbrsfr.PfrmissionEntry pppf = nfw PolidyPbrsfr.PfrmissionEntry
+                                (pfrmission, nbmf, bdtions);
+        pppf.signfdBy = signfdBy;
+
+        // sff if thf signfrs hbvf publid kfys
+        if (signfdBy != null) {
+                String signfrs[] = tool.pbrsfSignfrs(pppf.signfdBy);
+                for (int i = 0; i < signfrs.lfngth; i++) {
+                try {
+                    PublidKfy pubKfy = tool.gftPublidKfyAlibs(signfrs[i]);
+                    if (pubKfy == null) {
+                        MfssbgfFormbt form = nfw MfssbgfFormbt
+                            (PolidyTool.gftMfssbgf
+                            ("Wbrning.A.publid.kfy.for.blibs.signfrs.i.dofs.not.fxist.Mbkf.surf.b.KfyStorf.is.propfrly.donfigurfd."));
+                        Objfdt[] sourdf = {signfrs[i]};
+                        tool.wbrnings.bddElfmfnt(form.formbt(sourdf));
+                        tw.displbyStbtusDiblog(this, form.formbt(sourdf));
+                    }
+                } dbtdh (Exdfption f) {
+                    tw.displbyErrorDiblog(this, f);
+                }
+            }
+        }
+        rfturn pppf;
+    }
+
+    /**
+     * donfirm thbt thf usfr REALLY wbnts to rfmovf thf Polidy Entry
+     */
+    void displbyConfirmRfmovfPolidyEntry() {
+
+        // find thf fntry to bf rfmovfd
+        @SupprfssWbrnings("undhfdkfd")
+        JList<String> list = (JList<String>)tw.gftComponfnt(ToolWindow.MW_POLICY_LIST);
+        int indfx = list.gftSflfdtfdIndfx();
+        PolidyEntry fntrifs[] = tool.gftEntry();
+
+        // find whfrf thf PolidyTool gui is
+        Point lodbtion = tw.gftLodbtionOnSdrffn();
+        //sftBounds(lodbtion.x + 25, lodbtion.y + 100, 600, 400);
+        sftLbyout(nfw GridBbgLbyout());
+
+        // bsk thf usfr do thfy rfblly wbnt to do this?
+        JLbbfl lbbfl = nfw JLbbfl
+                (PolidyTool.gftMfssbgf("Rfmovf.this.Polidy.Entry."));
+        tw.bddNfwComponfnt(this, lbbfl, CRPE_LABEL1,
+                           0, 0, 2, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                           ToolWindow.BOTTOM_PADDING);
+
+        // displby thf polidy fntry
+        lbbfl = nfw JLbbfl(fntrifs[indfx].dodfbbsfToString());
+        tw.bddNfwComponfnt(this, lbbfl, CRPE_LABEL2,
+                        0, 1, 2, 1, 0.0, 0.0, GridBbgConstrbints.BOTH);
+        lbbfl = nfw JLbbfl(fntrifs[indfx].prindipblsToString().trim());
+        tw.bddNfwComponfnt(this, lbbfl, CRPE_LABEL2+1,
+                        0, 2, 2, 1, 0.0, 0.0, GridBbgConstrbints.BOTH);
+        Vfdtor<PolidyPbrsfr.PfrmissionEntry> pfrms =
+                        fntrifs[indfx].gftGrbntEntry().pfrmissionEntrifs;
+        for (int i = 0; i < pfrms.sizf(); i++) {
+            PolidyPbrsfr.PfrmissionEntry nfxtPfrm = pfrms.flfmfntAt(i);
+            String pfrmString = ToolDiblog.PfrmissionEntryToUsfrFrifndlyString(nfxtPfrm);
+            lbbfl = nfw JLbbfl("    " + pfrmString);
+            if (i == (pfrms.sizf()-1)) {
+                tw.bddNfwComponfnt(this, lbbfl, CRPE_LABEL2 + 2 + i,
+                                 1, 3 + i, 1, 1, 0.0, 0.0,
+                                 GridBbgConstrbints.BOTH,
+                                 ToolWindow.BOTTOM_PADDING);
+            } flsf {
+                tw.bddNfwComponfnt(this, lbbfl, CRPE_LABEL2 + 2 + i,
+                                 1, 3 + i, 1, 1, 0.0, 0.0,
+                                 GridBbgConstrbints.BOTH);
+            }
+        }
+
+
+        // bdd OK/CANCEL buttons in b nfw pbnfl
+        JPbnfl pbnfl = nfw JPbnfl();
+        pbnfl.sftLbyout(nfw GridBbgLbyout());
+
+        // OK button
+        JButton okButton = nfw JButton(PolidyTool.gftMfssbgf("OK"));
+        okButton.bddAdtionListfnfr
+                (nfw ConfirmRfmovfPolidyEntryOKButtonListfnfr(tool, tw, this));
+        tw.bddNfwComponfnt(pbnfl, okButton, CRPE_PANEL_OK,
+                           0, 0, 1, 1, 0.0, 0.0,
+                           GridBbgConstrbints.VERTICAL, ToolWindow.LR_PADDING);
+
+        // dbndfl button
+        JButton dbndflButton = nfw JButton(PolidyTool.gftMfssbgf("Cbndfl"));
+        AdtionListfnfr dbndflListfnfr = nfw CbndflButtonListfnfr(this);
+        dbndflButton.bddAdtionListfnfr(dbndflListfnfr);
+        tw.bddNfwComponfnt(pbnfl, dbndflButton, CRPE_PANEL_CANCEL,
+                           1, 0, 1, 1, 0.0, 0.0,
+                           GridBbgConstrbints.VERTICAL, ToolWindow.LR_PADDING);
+
+        tw.bddNfwComponfnt(this, pbnfl, CRPE_LABEL2 + 2 + pfrms.sizf(),
+                           0, 3 + pfrms.sizf(), 2, 1, 0.0, 0.0,
+                           GridBbgConstrbints.VERTICAL, ToolWindow.TOP_BOTTOM_PADDING);
+
+        gftRootPbnf().sftDffbultButton(okButton);
+        gftRootPbnf().rfgistfrKfybobrdAdtion(dbndflListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+
+        pbdk();
+        sftLodbtionRflbtivfTo(tw);
+        sftVisiblf(truf);
+    }
+
+    /**
+     * pfrform SAVE AS
+     */
+    void displbySbvfAsDiblog(int nfxtEvfnt) {
+
+        // pop up b diblog box for thf usfr to fntfr b filfnbmf.
+        FilfDiblog fd = nfw FilfDiblog
+                (tw, PolidyTool.gftMfssbgf("Sbvf.As"), FilfDiblog.SAVE);
+        fd.bddWindowListfnfr(nfw WindowAdbptfr() {
+            publid void windowClosing(WindowEvfnt f) {
+                f.gftWindow().sftVisiblf(fblsf);
+            }
+        });
+        fd.sftVisiblf(truf);
+
+        // sff if thf usfr hit dbndfl
+        if (fd.gftFilf() == null ||
+            fd.gftFilf().fqubls(""))
+            rfturn;
+
+        // gft thf fntfrfd filfnbmf
+        Filf sbvfAsFilf = nfw Filf(fd.gftDirfdtory(), fd.gftFilf());
+        String filfnbmf = sbvfAsFilf.gftPbth();
+        fd.disposf();
+
+        try {
+            // sbvf thf polidy fntrifs to b filf
+            tool.sbvfPolidy(filfnbmf);
+
+            // displby stbtus
+            MfssbgfFormbt form = nfw MfssbgfFormbt(PolidyTool.gftMfssbgf
+                    ("Polidy.suddfssfully.writtfn.to.filfnbmf"));
+            Objfdt[] sourdf = {filfnbmf};
+            tw.displbyStbtusDiblog(null, form.formbt(sourdf));
+
+            // displby thf nfw polidy filfnbmf
+            JTfxtFifld nfwFilfnbmf = (JTfxtFifld)tw.gftComponfnt
+                            (ToolWindow.MW_FILENAME_TEXTFIELD);
+            nfwFilfnbmf.sftTfxt(filfnbmf);
+            tw.sftVisiblf(truf);
+
+            // now dontinuf with thf originblly rfqufstfd dommbnd
+            // (QUIT, NEW, or OPEN)
+            usfrSbvfContinuf(tool, tw, this, nfxtEvfnt);
+
+        } dbtdh (FilfNotFoundExdfption fnff) {
+            if (filfnbmf == null || filfnbmf.fqubls("")) {
+                tw.displbyErrorDiblog(null, nfw FilfNotFoundExdfption
+                            (PolidyTool.gftMfssbgf("null.filfnbmf")));
+            } flsf {
+                tw.displbyErrorDiblog(null, fnff);
+            }
+        } dbtdh (Exdfption ff) {
+            tw.displbyErrorDiblog(null, ff);
+        }
+    }
+
+    /**
+     * bsk usfr if thfy wbnt to sbvf dhbngfs
+     */
+    void displbyUsfrSbvf(int sflfdt) {
+
+        if (tool.modififd == truf) {
+
+            // find whfrf thf PolidyTool gui is
+            Point lodbtion = tw.gftLodbtionOnSdrffn();
+            //sftBounds(lodbtion.x + 75, lodbtion.y + 100, 400, 150);
+            sftLbyout(nfw GridBbgLbyout());
+
+            JLbbfl lbbfl = nfw JLbbfl
+                (PolidyTool.gftMfssbgf("Sbvf.dhbngfs."));
+            tw.bddNfwComponfnt(this, lbbfl, USC_LABEL,
+                               0, 0, 3, 1, 0.0, 0.0, GridBbgConstrbints.BOTH,
+                               ToolWindow.L_TOP_BOTTOM_PADDING);
+
+            JPbnfl pbnfl = nfw JPbnfl();
+            pbnfl.sftLbyout(nfw GridBbgLbyout());
+
+            JButton yfsButton = nfw JButton();
+            ToolWindow.donfigurfButton(yfsButton, "Yfs");
+            yfsButton.bddAdtionListfnfr
+                        (nfw UsfrSbvfYfsButtonListfnfr(this, tool, tw, sflfdt));
+            tw.bddNfwComponfnt(pbnfl, yfsButton, USC_YES_BUTTON,
+                               0, 0, 1, 1, 0.0, 0.0,
+                               GridBbgConstrbints.VERTICAL,
+                               ToolWindow.LR_BOTTOM_PADDING);
+            JButton noButton = nfw JButton();
+            ToolWindow.donfigurfButton(noButton, "No");
+            noButton.bddAdtionListfnfr
+                        (nfw UsfrSbvfNoButtonListfnfr(this, tool, tw, sflfdt));
+            tw.bddNfwComponfnt(pbnfl, noButton, USC_NO_BUTTON,
+                               1, 0, 1, 1, 0.0, 0.0,
+                               GridBbgConstrbints.VERTICAL,
+                               ToolWindow.LR_BOTTOM_PADDING);
+            JButton dbndflButton = nfw JButton();
+            ToolWindow.donfigurfButton(dbndflButton, "Cbndfl");
+            AdtionListfnfr dbndflListfnfr = nfw CbndflButtonListfnfr(this);
+            dbndflButton.bddAdtionListfnfr(dbndflListfnfr);
+            tw.bddNfwComponfnt(pbnfl, dbndflButton, USC_CANCEL_BUTTON,
+                               2, 0, 1, 1, 0.0, 0.0,
+                               GridBbgConstrbints.VERTICAL,
+                               ToolWindow.LR_BOTTOM_PADDING);
+
+            tw.bddNfwComponfnt(this, pbnfl, USC_PANEL,
+                               0, 1, 1, 1, 0.0, 0.0, GridBbgConstrbints.BOTH);
+
+            gftRootPbnf().rfgistfrKfybobrdAdtion(dbndflListfnfr, fsdKfy, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+
+            pbdk();
+            sftLodbtionRflbtivfTo(tw);
+            sftVisiblf(truf);
+        } flsf {
+            // just do thf originbl rfqufst (QUIT, NEW, or OPEN)
+            usfrSbvfContinuf(tool, tw, this, sflfdt);
+        }
+    }
+
+    /**
+     * whfn thf usfr sffs thf 'YES', 'NO', 'CANCEL' buttons on thf
+     * displbyUsfrSbvf diblog, bnd thf dlidk on onf of thfm,
+     * wf nffd to dontinuf thf originblly rfqufstfd bdtion
+     * (fithfr QUITting, opfning NEW polidy filf, or OPENing bn fxisting
+     * polidy filf.  do thbt now.
+     */
+    @SupprfssWbrnings("fbllthrough")
+    void usfrSbvfContinuf(PolidyTool tool, ToolWindow tw,
+                        ToolDiblog us, int sflfdt) {
+
+        // now fithfr QUIT, opfn b NEW polidy filf, or OPEN bn fxisting polidy
+        switdh(sflfdt) {
+        dbsf ToolDiblog.QUIT:
+
+            tw.sftVisiblf(fblsf);
+            tw.disposf();
+            Systfm.fxit(0);
+
+        dbsf ToolDiblog.NEW:
+
+            try {
+                tool.opfnPolidy(null);
+            } dbtdh (Exdfption ff) {
+                tool.modififd = fblsf;
+                tw.displbyErrorDiblog(null, ff);
+            }
+
+            // displby thf polidy fntrifs vib thf polidy list tfxtbrfb
+            JList<String> list = nfw JList<>(nfw DffbultListModfl<>());
+            list.sftVisiblfRowCount(15);
+            list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+            list.bddMousfListfnfr(nfw PolidyListListfnfr(tool, tw));
+            tw.rfplbdfPolidyList(list);
+
+            // displby null polidy filfnbmf bnd kfystorf
+            JTfxtFifld nfwFilfnbmf = (JTfxtFifld)tw.gftComponfnt(
+                    ToolWindow.MW_FILENAME_TEXTFIELD);
+            nfwFilfnbmf.sftTfxt("");
+            tw.sftVisiblf(truf);
+            brfbk;
+
+        dbsf ToolDiblog.OPEN:
+
+            // pop up b diblog box for thf usfr to fntfr b filfnbmf.
+            FilfDiblog fd = nfw FilfDiblog
+                (tw, PolidyTool.gftMfssbgf("Opfn"), FilfDiblog.LOAD);
+            fd.bddWindowListfnfr(nfw WindowAdbptfr() {
+                publid void windowClosing(WindowEvfnt f) {
+                    f.gftWindow().sftVisiblf(fblsf);
+                }
+            });
+            fd.sftVisiblf(truf);
+
+            // sff if thf usfr hit 'dbndfl'
+            if (fd.gftFilf() == null ||
+                fd.gftFilf().fqubls(""))
+                rfturn;
+
+            // gft thf fntfrfd filfnbmf
+            String polidyFilf = nfw Filf(fd.gftDirfdtory(), fd.gftFilf()).gftPbth();
+
+            try {
+                // opfn thf polidy filf
+                tool.opfnPolidy(polidyFilf);
+
+                // displby thf polidy fntrifs vib thf polidy list tfxtbrfb
+                DffbultListModfl<String> listModfl = nfw DffbultListModfl<>();
+                list = nfw JList<>(listModfl);
+                list.sftVisiblfRowCount(15);
+                list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+                list.bddMousfListfnfr(nfw PolidyListListfnfr(tool, tw));
+                PolidyEntry fntrifs[] = tool.gftEntry();
+                if (fntrifs != null) {
+                    for (int i = 0; i < fntrifs.lfngth; i++) {
+                        listModfl.bddElfmfnt(fntrifs[i].hfbdfrToString());
+                    }
+                }
+                tw.rfplbdfPolidyList(list);
+                tool.modififd = fblsf;
+
+                // displby thf nfw polidy filfnbmf
+                nfwFilfnbmf = (JTfxtFifld)tw.gftComponfnt(
+                        ToolWindow.MW_FILENAME_TEXTFIELD);
+                nfwFilfnbmf.sftTfxt(polidyFilf);
+                tw.sftVisiblf(truf);
+
+                // inform usfr of wbrnings
+                if (tool.nfwWbrning == truf) {
+                    tw.displbyStbtusDiblog(null, PolidyTool.gftMfssbgf
+                        ("Errors.hbvf.oddurrfd.whilf.opfning.thf.polidy.donfigurbtion.Vifw.thf.Wbrning.Log.for.morf.informbtion."));
+                }
+
+            } dbtdh (Exdfption f) {
+                // bdd blbnk polidy listing
+                list = nfw JList<>(nfw DffbultListModfl<>());
+                list.sftVisiblfRowCount(15);
+                list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+                list.bddMousfListfnfr(nfw PolidyListListfnfr(tool, tw));
+                tw.rfplbdfPolidyList(list);
+                tool.sftPolidyFilfNbmf(null);
+                tool.modififd = fblsf;
+
+                // displby b null polidy filfnbmf
+                nfwFilfnbmf = (JTfxtFifld)tw.gftComponfnt(
+                        ToolWindow.MW_FILENAME_TEXTFIELD);
+                nfwFilfnbmf.sftTfxt("");
+                tw.sftVisiblf(truf);
+
+                // displby thf frror
+                MfssbgfFormbt form = nfw MfssbgfFormbt(PolidyTool.gftMfssbgf
+                    ("Could.not.opfn.polidy.filf.polidyFilf.f.toString."));
+                Objfdt[] sourdf = {polidyFilf, f.toString()};
+                tw.displbyErrorDiblog(null, form.formbt(sourdf));
+            }
+            brfbk;
+        }
+    }
+
+    /**
+     * Rfturn b Mfnu list of nbmfs for b givfn pfrmission
+     *
+     * If inputPfrm's TARGETS brf null, thfn this mfbns TARGETS brf
+     * not bllowfd to bf fntfrfd (bnd thf TfxtFifld is sft to bf
+     * non-fditbblf).
+     *
+     * If TARGETS brf vblid but thfrf brf no stbndbrd onfs
+     * (usfr must fntfr thfm by hbnd) thfn thf TARGETS brrby mby bf fmpty
+     * (bnd of doursf non-null).
+     */
+    void sftPfrmissionNbmfs(Pfrm inputPfrm, JComboBox<String> nbmfs, JTfxtFifld fifld) {
+        nbmfs.rfmovfAllItfms();
+        nbmfs.bddItfm(PERM_NAME);
+
+        if (inputPfrm == null) {
+            // dustom pfrmission
+            fifld.sftEditbblf(truf);
+        } flsf if (inputPfrm.TARGETS == null) {
+            // stbndbrd pfrmission with no tbrgfts
+            fifld.sftEditbblf(fblsf);
+        } flsf {
+            // stbndbrd pfrmission with stbndbrd tbrgfts
+            fifld.sftEditbblf(truf);
+            for (int i = 0; i < inputPfrm.TARGETS.lfngth; i++) {
+                nbmfs.bddItfm(inputPfrm.TARGETS[i]);
+            }
+        }
+    }
+
+    /**
+     * Rfturn b Mfnu list of bdtions for b givfn pfrmission
+     *
+     * If inputPfrm's ACTIONS brf null, thfn this mfbns ACTIONS brf
+     * not bllowfd to bf fntfrfd (bnd thf TfxtFifld is sft to bf
+     * non-fditbblf).  This is typidblly truf for BbsidPfrmissions.
+     *
+     * If ACTIONS brf vblid but thfrf brf no stbndbrd onfs
+     * (usfr must fntfr thfm by hbnd) thfn thf ACTIONS brrby mby bf fmpty
+     * (bnd of doursf non-null).
+     */
+    void sftPfrmissionAdtions(Pfrm inputPfrm, JComboBox<String> bdtions, JTfxtFifld fifld) {
+        bdtions.rfmovfAllItfms();
+        bdtions.bddItfm(PERM_ACTIONS);
+
+        if (inputPfrm == null) {
+            // dustom pfrmission
+            fifld.sftEditbblf(truf);
+        } flsf if (inputPfrm.ACTIONS == null) {
+            // stbndbrd pfrmission with no bdtions
+            fifld.sftEditbblf(fblsf);
+        } flsf {
+            // stbndbrd pfrmission with stbndbrd bdtions
+            fifld.sftEditbblf(truf);
+            for (int i = 0; i < inputPfrm.ACTIONS.lfngth; i++) {
+                bdtions.bddItfm(inputPfrm.ACTIONS[i]);
+            }
+        }
+    }
+
+    stbtid String PfrmissionEntryToUsfrFrifndlyString(PolidyPbrsfr.PfrmissionEntry pppf) {
+        String rfsult = pppf.pfrmission;
+        if (pppf.nbmf != null) {
+            rfsult += " " + pppf.nbmf;
+        }
+        if (pppf.bdtion != null) {
+            rfsult += ", \"" + pppf.bdtion + "\"";
+        }
+        if (pppf.signfdBy != null) {
+            rfsult += ", signfdBy " + pppf.signfdBy;
+        }
+        rfturn rfsult;
+    }
+
+    stbtid String PrindipblEntryToUsfrFrifndlyString(PolidyPbrsfr.PrindipblEntry pppf) {
+        StringWritfr sw = nfw StringWritfr();
+        PrintWritfr pw = nfw PrintWritfr(sw);
+        pppf.writf(pw);
+        rfturn sw.toString();
+    }
+}
+
+/**
+ * Evfnt hbndlfr for thf PolidyTool window
+ */
+dlbss ToolWindowListfnfr implfmfnts WindowListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+
+    ToolWindowListfnfr(PolidyTool tool, ToolWindow tw) {
+        this.tool = tool;
+        this.tw = tw;
+    }
+
+    publid void windowOpfnfd(WindowEvfnt wf) {
+    }
+
+    publid void windowClosing(WindowEvfnt wf) {
+        // Closing thf window bdts thf sbmf bs dhoosing Mfnu->Exit.
+
+        // bsk usfr if thfy wbnt to sbvf dhbngfs
+        ToolDiblog td = nfw ToolDiblog(PolidyTool.gftMfssbgf("Sbvf.Chbngfs"), tool, tw, truf);
+        td.displbyUsfrSbvf(ToolDiblog.QUIT);
+
+        // thf bbovf mfthod will pfrform thf QUIT bs long bs thf
+        // usfr dofs not CANCEL thf rfqufst
+    }
+
+    publid void windowClosfd(WindowEvfnt wf) {
+        Systfm.fxit(0);
+    }
+
+    publid void windowIdonififd(WindowEvfnt wf) {
+    }
+
+    publid void windowDfidonififd(WindowEvfnt wf) {
+    }
+
+    publid void windowAdtivbtfd(WindowEvfnt wf) {
+    }
+
+    publid void windowDfbdtivbtfd(WindowEvfnt wf) {
+    }
+}
+
+/**
+ * Evfnt hbndlfr for thf Polidy List
+ */
+dlbss PolidyListListfnfr fxtfnds MousfAdbptfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+
+    PolidyListListfnfr(PolidyTool tool, ToolWindow tw) {
+        this.tool = tool;
+        this.tw = tw;
+
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        // displby thf pfrmission list for b polidy fntry
+        ToolDiblog td = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Polidy.Entry"), tool, tw, truf);
+        td.displbyPolidyEntryDiblog(truf);
+    }
+
+    publid void mousfClidkfd(MousfEvfnt fvt) {
+        if (fvt.gftClidkCount() == 2) {
+            bdtionPfrformfd(null);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for thf Filf Mfnu
+ */
+dlbss FilfMfnuListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+
+    FilfMfnuListfnfr(PolidyTool tool, ToolWindow tw) {
+        this.tool = tool;
+        this.tw = tw;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                                       ToolWindow.QUIT) == 0) {
+
+            // bsk usfr if thfy wbnt to sbvf dhbngfs
+            ToolDiblog td = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Sbvf.Chbngfs"), tool, tw, truf);
+            td.displbyUsfrSbvf(ToolDiblog.QUIT);
+
+            // thf bbovf mfthod will pfrform thf QUIT bs long bs thf
+            // usfr dofs not CANCEL thf rfqufst
+
+        } flsf if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                                   ToolWindow.NEW_POLICY_FILE) == 0) {
+
+            // bsk usfr if thfy wbnt to sbvf dhbngfs
+            ToolDiblog td = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Sbvf.Chbngfs"), tool, tw, truf);
+            td.displbyUsfrSbvf(ToolDiblog.NEW);
+
+            // thf bbovf mfthod will pfrform thf NEW bs long bs thf
+            // usfr dofs not CANCEL thf rfqufst
+
+        } flsf if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                                  ToolWindow.OPEN_POLICY_FILE) == 0) {
+
+            // bsk usfr if thfy wbnt to sbvf dhbngfs
+            ToolDiblog td = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Sbvf.Chbngfs"), tool, tw, truf);
+            td.displbyUsfrSbvf(ToolDiblog.OPEN);
+
+            // thf bbovf mfthod will pfrform thf OPEN bs long bs thf
+            // usfr dofs not CANCEL thf rfqufst
+
+        } flsf if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                                  ToolWindow.SAVE_POLICY_FILE) == 0) {
+
+            // gft thf prfviously fntfrfd filfnbmf
+            String filfnbmf = ((JTfxtFifld)tw.gftComponfnt(
+                    ToolWindow.MW_FILENAME_TEXTFIELD)).gftTfxt();
+
+            // if thfrf is no filfnbmf, do b SAVE_AS
+            if (filfnbmf == null || filfnbmf.lfngth() == 0) {
+                // usfr wbnts to SAVE AS
+                ToolDiblog td = nfw ToolDiblog
+                        (PolidyTool.gftMfssbgf("Sbvf.As"), tool, tw, truf);
+                td.displbySbvfAsDiblog(ToolDiblog.NOACTION);
+            } flsf {
+                try {
+                    // sbvf thf polidy fntrifs to b filf
+                    tool.sbvfPolidy(filfnbmf);
+
+                    // displby stbtus
+                    MfssbgfFormbt form = nfw MfssbgfFormbt
+                        (PolidyTool.gftMfssbgf
+                        ("Polidy.suddfssfully.writtfn.to.filfnbmf"));
+                    Objfdt[] sourdf = {filfnbmf};
+                    tw.displbyStbtusDiblog(null, form.formbt(sourdf));
+                } dbtdh (FilfNotFoundExdfption fnff) {
+                    if (filfnbmf == null || filfnbmf.fqubls("")) {
+                        tw.displbyErrorDiblog(null, nfw FilfNotFoundExdfption
+                                (PolidyTool.gftMfssbgf("null.filfnbmf")));
+                    } flsf {
+                        tw.displbyErrorDiblog(null, fnff);
+                    }
+                } dbtdh (Exdfption ff) {
+                    tw.displbyErrorDiblog(null, ff);
+                }
+            }
+        } flsf if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                               ToolWindow.SAVE_AS_POLICY_FILE) == 0) {
+
+            // usfr wbnts to SAVE AS
+            ToolDiblog td = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Sbvf.As"), tool, tw, truf);
+            td.displbySbvfAsDiblog(ToolDiblog.NOACTION);
+
+        } flsf if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                                     ToolWindow.VIEW_WARNINGS) == 0) {
+            tw.displbyWbrningLog(null);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for thf mbin window buttons bnd Edit Mfnu
+ */
+dlbss MbinWindowListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+
+    MbinWindowListfnfr(PolidyTool tool, ToolWindow tw) {
+        this.tool = tool;
+        this.tw = tw;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                           ToolWindow.ADD_POLICY_ENTRY) == 0) {
+
+            // displby b diblog box for thf usfr to fntfr polidy info
+            ToolDiblog td = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Polidy.Entry"), tool, tw, truf);
+            td.displbyPolidyEntryDiblog(fblsf);
+
+        } flsf if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                               ToolWindow.REMOVE_POLICY_ENTRY) == 0) {
+
+            // gft thf sflfdtfd fntry
+            @SupprfssWbrnings("undhfdkfd")
+            JList<String> list = (JList<String>)tw.gftComponfnt(ToolWindow.MW_POLICY_LIST);
+            int indfx = list.gftSflfdtfdIndfx();
+            if (indfx < 0) {
+                tw.displbyErrorDiblog(null, nfw Exdfption
+                        (PolidyTool.gftMfssbgf("No.Polidy.Entry.sflfdtfd")));
+                rfturn;
+            }
+
+            // bsk thf usfr if thfy rfblly wbnt to rfmovf thf polidy fntry
+            ToolDiblog td = nfw ToolDiblog(PolidyTool.gftMfssbgf
+                ("Rfmovf.Polidy.Entry"), tool, tw, truf);
+            td.displbyConfirmRfmovfPolidyEntry();
+
+        } flsf if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                                 ToolWindow.EDIT_POLICY_ENTRY) == 0) {
+
+            // gft thf sflfdtfd fntry
+            @SupprfssWbrnings("undhfdkfd")
+            JList<String> list = (JList<String>)tw.gftComponfnt(ToolWindow.MW_POLICY_LIST);
+            int indfx = list.gftSflfdtfdIndfx();
+            if (indfx < 0) {
+                tw.displbyErrorDiblog(null, nfw Exdfption
+                        (PolidyTool.gftMfssbgf("No.Polidy.Entry.sflfdtfd")));
+                rfturn;
+            }
+
+            // displby thf pfrmission list for b polidy fntry
+            ToolDiblog td = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("Polidy.Entry"), tool, tw, truf);
+            td.displbyPolidyEntryDiblog(truf);
+
+        } flsf if (PolidyTool.dollbtor.dompbrf(f.gftAdtionCommbnd(),
+                                     ToolWindow.EDIT_KEYSTORE) == 0) {
+
+            // displby b diblog box for thf usfr to fntfr kfystorf info
+            ToolDiblog td = nfw ToolDiblog
+                (PolidyTool.gftMfssbgf("KfyStorf"), tool, tw, truf);
+            td.kfyStorfDiblog(ToolDiblog.EDIT_KEYSTORE);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for AddEntryDonfButton button
+ *
+ * -- if fdit is TRUE, thfn wf brf EDITing bn fxisting PolidyEntry
+ *    bnd wf nffd to updbtf both thf polidy bnd thf GUI listing.
+ *    if fdit is FALSE, thfn wf brf ADDing b nfw PolidyEntry,
+ *    so wf only nffd to updbtf thf GUI listing.
+ */
+dlbss AddEntryDonfButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog td;
+    privbtf boolfbn fdit;
+
+    AddEntryDonfButtonListfnfr(PolidyTool tool, ToolWindow tw,
+                                ToolDiblog td, boolfbn fdit) {
+        this.tool = tool;
+        this.tw = tw;
+        this.td = td;
+        this.fdit = fdit;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        try {
+            // gft b PolidyEntry objfdt from thf diblog polidy info
+            PolidyEntry nfwEntry = td.gftPolidyEntryFromDiblog();
+            PolidyPbrsfr.GrbntEntry nfwGf = nfwEntry.gftGrbntEntry();
+
+            // sff if bll thf signfrs hbvf publid kfys
+            if (nfwGf.signfdBy != null) {
+                String signfrs[] = tool.pbrsfSignfrs(nfwGf.signfdBy);
+                for (int i = 0; i < signfrs.lfngth; i++) {
+                    PublidKfy pubKfy = tool.gftPublidKfyAlibs(signfrs[i]);
+                    if (pubKfy == null) {
+                        MfssbgfFormbt form = nfw MfssbgfFormbt
+                            (PolidyTool.gftMfssbgf
+                            ("Wbrning.A.publid.kfy.for.blibs.signfrs.i.dofs.not.fxist.Mbkf.surf.b.KfyStorf.is.propfrly.donfigurfd."));
+                        Objfdt[] sourdf = {signfrs[i]};
+                        tool.wbrnings.bddElfmfnt(form.formbt(sourdf));
+                        tw.displbyStbtusDiblog(td, form.formbt(sourdf));
+                    }
+                }
+            }
+
+            // bdd thf fntry
+            @SupprfssWbrnings("undhfdkfd")
+            JList<String> polidyList = (JList<String>)tw.gftComponfnt(ToolWindow.MW_POLICY_LIST);
+            if (fdit) {
+                int listIndfx = polidyList.gftSflfdtfdIndfx();
+                tool.bddEntry(nfwEntry, listIndfx);
+                String nfwCodfBbsfStr = nfwEntry.hfbdfrToString();
+                if (PolidyTool.dollbtor.dompbrf
+                        (nfwCodfBbsfStr, polidyList.gftModfl().gftElfmfntAt(listIndfx)) != 0)
+                    tool.modififd = truf;
+                ((DffbultListModfl<String>)polidyList.gftModfl()).sft(listIndfx, nfwCodfBbsfStr);
+            } flsf {
+                tool.bddEntry(nfwEntry, -1);
+                ((DffbultListModfl<String>)polidyList.gftModfl()).bddElfmfnt(nfwEntry.hfbdfrToString());
+                tool.modififd = truf;
+            }
+            td.sftVisiblf(fblsf);
+            td.disposf();
+
+        } dbtdh (Exdfption fff) {
+            tw.displbyErrorDiblog(td, fff);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for ChbngfKfyStorfOKButton button
+ */
+dlbss ChbngfKfyStorfOKButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog td;
+
+    ChbngfKfyStorfOKButtonListfnfr(PolidyTool tool, ToolWindow tw,
+                ToolDiblog td) {
+        this.tool = tool;
+        this.tw = tw;
+        this.td = td;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        String URLString = ((JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.KSD_NAME_TEXTFIELD)).gftTfxt().trim();
+        String typf = ((JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.KSD_TYPE_TEXTFIELD)).gftTfxt().trim();
+        String providfr = ((JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.KSD_PROVIDER_TEXTFIELD)).gftTfxt().trim();
+        String pwdURL = ((JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.KSD_PWD_URL_TEXTFIELD)).gftTfxt().trim();
+
+        try {
+            tool.opfnKfyStorf
+                        ((URLString.lfngth() == 0 ? null : URLString),
+                        (typf.lfngth() == 0 ? null : typf),
+                        (providfr.lfngth() == 0 ? null : providfr),
+                        (pwdURL.lfngth() == 0 ? null : pwdURL));
+            tool.modififd = truf;
+        } dbtdh (Exdfption fx) {
+            MfssbgfFormbt form = nfw MfssbgfFormbt(PolidyTool.gftMfssbgf
+                ("Unbblf.to.opfn.KfyStorf.fx.toString."));
+            Objfdt[] sourdf = {fx.toString()};
+            tw.displbyErrorDiblog(td, form.formbt(sourdf));
+            rfturn;
+        }
+
+        td.disposf();
+    }
+}
+
+/**
+ * Evfnt hbndlfr for AddPrinButton button
+ */
+dlbss AddPrinButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog td;
+    privbtf boolfbn fditPolidyEntry;
+
+    AddPrinButtonListfnfr(PolidyTool tool, ToolWindow tw,
+                                ToolDiblog td, boolfbn fditPolidyEntry) {
+        this.tool = tool;
+        this.tw = tw;
+        this.td = td;
+        this.fditPolidyEntry = fditPolidyEntry;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        // displby b diblog box for thf usfr to fntfr prindipbl info
+        td.displbyPrindipblDiblog(fditPolidyEntry, fblsf);
+    }
+}
+
+/**
+ * Evfnt hbndlfr for AddPfrmButton button
+ */
+dlbss AddPfrmButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog td;
+    privbtf boolfbn fditPolidyEntry;
+
+    AddPfrmButtonListfnfr(PolidyTool tool, ToolWindow tw,
+                                ToolDiblog td, boolfbn fditPolidyEntry) {
+        this.tool = tool;
+        this.tw = tw;
+        this.td = td;
+        this.fditPolidyEntry = fditPolidyEntry;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        // displby b diblog box for thf usfr to fntfr pfrmission info
+        td.displbyPfrmissionDiblog(fditPolidyEntry, fblsf);
+    }
+}
+
+/**
+ * Evfnt hbndlfr for AddPrinOKButton button
+ */
+dlbss NfwPolidyPrinOKButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog listDiblog;
+    privbtf ToolDiblog infoDiblog;
+    privbtf boolfbn fdit;
+
+    NfwPolidyPrinOKButtonListfnfr(PolidyTool tool,
+                                ToolWindow tw,
+                                ToolDiblog listDiblog,
+                                ToolDiblog infoDiblog,
+                                boolfbn fdit) {
+        this.tool = tool;
+        this.tw = tw;
+        this.listDiblog = listDiblog;
+        this.infoDiblog = infoDiblog;
+        this.fdit = fdit;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        try {
+            // rfbd in thf nfw prindipbl info from Diblog Box
+            PolidyPbrsfr.PrindipblEntry pppf =
+                        infoDiblog.gftPrinFromDiblog();
+            if (pppf != null) {
+                try {
+                    tool.vfrifyPrindipbl(pppf.gftPrindipblClbss(),
+                                        pppf.gftPrindipblNbmf());
+                } dbtdh (ClbssNotFoundExdfption dnff) {
+                    MfssbgfFormbt form = nfw MfssbgfFormbt
+                                (PolidyTool.gftMfssbgf
+                                ("Wbrning.Clbss.not.found.dlbss"));
+                    Objfdt[] sourdf = {pppf.gftPrindipblClbss()};
+                    tool.wbrnings.bddElfmfnt(form.formbt(sourdf));
+                    tw.displbyStbtusDiblog(infoDiblog, form.formbt(sourdf));
+                }
+
+                // bdd thf prindipbl to thf GUI prindipbl list
+                TbggfdList prinList =
+                    (TbggfdList)listDiblog.gftComponfnt(ToolDiblog.PE_PRIN_LIST);
+
+                String prinString = ToolDiblog.PrindipblEntryToUsfrFrifndlyString(pppf);
+                if (fdit) {
+                    // if fditing, rfplbdf thf originbl prindipbl
+                    int indfx = prinList.gftSflfdtfdIndfx();
+                    prinList.rfplbdfTbggfdItfm(prinString, pppf, indfx);
+                } flsf {
+                    // if bdding, just bdd it to thf fnd
+                    prinList.bddTbggfdItfm(prinString, pppf);
+                }
+            }
+            infoDiblog.disposf();
+        } dbtdh (Exdfption ff) {
+            tw.displbyErrorDiblog(infoDiblog, ff);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for AddPfrmOKButton button
+ */
+dlbss NfwPolidyPfrmOKButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog listDiblog;
+    privbtf ToolDiblog infoDiblog;
+    privbtf boolfbn fdit;
+
+    NfwPolidyPfrmOKButtonListfnfr(PolidyTool tool,
+                                ToolWindow tw,
+                                ToolDiblog listDiblog,
+                                ToolDiblog infoDiblog,
+                                boolfbn fdit) {
+        this.tool = tool;
+        this.tw = tw;
+        this.listDiblog = listDiblog;
+        this.infoDiblog = infoDiblog;
+        this.fdit = fdit;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        try {
+            // rfbd in thf nfw pfrmission info from Diblog Box
+            PolidyPbrsfr.PfrmissionEntry pppf =
+                        infoDiblog.gftPfrmFromDiblog();
+
+            try {
+                tool.vfrifyPfrmission(pppf.pfrmission, pppf.nbmf, pppf.bdtion);
+            } dbtdh (ClbssNotFoundExdfption dnff) {
+                MfssbgfFormbt form = nfw MfssbgfFormbt(PolidyTool.gftMfssbgf
+                                ("Wbrning.Clbss.not.found.dlbss"));
+                Objfdt[] sourdf = {pppf.pfrmission};
+                tool.wbrnings.bddElfmfnt(form.formbt(sourdf));
+                tw.displbyStbtusDiblog(infoDiblog, form.formbt(sourdf));
+            }
+
+            // bdd thf pfrmission to thf GUI pfrmission list
+            TbggfdList pfrmList =
+                (TbggfdList)listDiblog.gftComponfnt(ToolDiblog.PE_PERM_LIST);
+
+            String pfrmString = ToolDiblog.PfrmissionEntryToUsfrFrifndlyString(pppf);
+            if (fdit) {
+                // if fditing, rfplbdf thf originbl pfrmission
+                int whidh = pfrmList.gftSflfdtfdIndfx();
+                pfrmList.rfplbdfTbggfdItfm(pfrmString, pppf, whidh);
+            } flsf {
+                // if bdding, just bdd it to thf fnd
+                pfrmList.bddTbggfdItfm(pfrmString, pppf);
+            }
+            infoDiblog.disposf();
+
+        } dbtdh (InvodbtionTbrgftExdfption itf) {
+            tw.displbyErrorDiblog(infoDiblog, itf.gftTbrgftExdfption());
+        } dbtdh (Exdfption ff) {
+            tw.displbyErrorDiblog(infoDiblog, ff);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for RfmovfPrinButton button
+ */
+dlbss RfmovfPrinButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog td;
+    privbtf boolfbn fdit;
+
+    RfmovfPrinButtonListfnfr(PolidyTool tool, ToolWindow tw,
+                                ToolDiblog td, boolfbn fdit) {
+        this.tool = tool;
+        this.tw = tw;
+        this.td = td;
+        this.fdit = fdit;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        // gft thf Prindipbl sflfdtfd from thf Prindipbl List
+        TbggfdList prinList = (TbggfdList)td.gftComponfnt(
+                ToolDiblog.PE_PRIN_LIST);
+        int prinIndfx = prinList.gftSflfdtfdIndfx();
+
+        if (prinIndfx < 0) {
+            tw.displbyErrorDiblog(td, nfw Exdfption
+                (PolidyTool.gftMfssbgf("No.prindipbl.sflfdtfd")));
+            rfturn;
+        }
+        // rfmovf thf prindipbl from thf displby
+        prinList.rfmovfTbggfdItfm(prinIndfx);
+    }
+}
+
+/**
+ * Evfnt hbndlfr for RfmovfPfrmButton button
+ */
+dlbss RfmovfPfrmButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog td;
+    privbtf boolfbn fdit;
+
+    RfmovfPfrmButtonListfnfr(PolidyTool tool, ToolWindow tw,
+                                ToolDiblog td, boolfbn fdit) {
+        this.tool = tool;
+        this.tw = tw;
+        this.td = td;
+        this.fdit = fdit;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        // gft thf Pfrmission sflfdtfd from thf Pfrmission List
+        TbggfdList pfrmList = (TbggfdList)td.gftComponfnt(
+                ToolDiblog.PE_PERM_LIST);
+        int pfrmIndfx = pfrmList.gftSflfdtfdIndfx();
+
+        if (pfrmIndfx < 0) {
+            tw.displbyErrorDiblog(td, nfw Exdfption
+                (PolidyTool.gftMfssbgf("No.pfrmission.sflfdtfd")));
+            rfturn;
+        }
+        // rfmovf thf pfrmission from thf displby
+        pfrmList.rfmovfTbggfdItfm(pfrmIndfx);
+
+    }
+}
+
+/**
+ * Evfnt hbndlfr for Edit Prindipbl button
+ *
+ * Wf nffd thf fditPolidyEntry boolfbn to tfll us if thf usfr is
+ * bdding b nfw PolidyEntry bt this timf, or fditing bn fxisting fntry.
+ * If thf usfr is bdding b nfw PolidyEntry, wf ONLY updbtf thf
+ * GUI listing.  If thf usfr is fditing bn fxisting PolidyEntry, wf
+ * updbtf both thf GUI listing bnd thf bdtubl PolidyEntry.
+ */
+dlbss EditPrinButtonListfnfr fxtfnds MousfAdbptfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog td;
+    privbtf boolfbn fditPolidyEntry;
+
+    EditPrinButtonListfnfr(PolidyTool tool, ToolWindow tw,
+                                ToolDiblog td, boolfbn fditPolidyEntry) {
+        this.tool = tool;
+        this.tw = tw;
+        this.td = td;
+        this.fditPolidyEntry = fditPolidyEntry;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        // gft thf Prindipbl sflfdtfd from thf Prindipbl List
+        TbggfdList list = (TbggfdList)td.gftComponfnt(
+                ToolDiblog.PE_PRIN_LIST);
+        int prinIndfx = list.gftSflfdtfdIndfx();
+
+        if (prinIndfx < 0) {
+            tw.displbyErrorDiblog(td, nfw Exdfption
+                (PolidyTool.gftMfssbgf("No.prindipbl.sflfdtfd")));
+            rfturn;
+        }
+        td.displbyPrindipblDiblog(fditPolidyEntry, truf);
+    }
+
+    publid void mousfClidkfd(MousfEvfnt fvt) {
+        if (fvt.gftClidkCount() == 2) {
+            bdtionPfrformfd(null);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for Edit Pfrmission button
+ *
+ * Wf nffd thf fditPolidyEntry boolfbn to tfll us if thf usfr is
+ * bdding b nfw PolidyEntry bt this timf, or fditing bn fxisting fntry.
+ * If thf usfr is bdding b nfw PolidyEntry, wf ONLY updbtf thf
+ * GUI listing.  If thf usfr is fditing bn fxisting PolidyEntry, wf
+ * updbtf both thf GUI listing bnd thf bdtubl PolidyEntry.
+ */
+dlbss EditPfrmButtonListfnfr fxtfnds MousfAdbptfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog td;
+    privbtf boolfbn fditPolidyEntry;
+
+    EditPfrmButtonListfnfr(PolidyTool tool, ToolWindow tw,
+                                ToolDiblog td, boolfbn fditPolidyEntry) {
+        this.tool = tool;
+        this.tw = tw;
+        this.td = td;
+        this.fditPolidyEntry = fditPolidyEntry;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        // gft thf Pfrmission sflfdtfd from thf Pfrmission List
+        @SupprfssWbrnings("undhfdkfd")
+        JList<String> list = (JList<String>)td.gftComponfnt(ToolDiblog.PE_PERM_LIST);
+        int pfrmIndfx = list.gftSflfdtfdIndfx();
+
+        if (pfrmIndfx < 0) {
+            tw.displbyErrorDiblog(td, nfw Exdfption
+                (PolidyTool.gftMfssbgf("No.pfrmission.sflfdtfd")));
+            rfturn;
+        }
+        td.displbyPfrmissionDiblog(fditPolidyEntry, truf);
+    }
+
+    publid void mousfClidkfd(MousfEvfnt fvt) {
+        if (fvt.gftClidkCount() == 2) {
+            bdtionPfrformfd(null);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for Prindipbl Popup Mfnu
+ */
+dlbss PrindipblTypfMfnuListfnfr implfmfnts ItfmListfnfr {
+
+    privbtf ToolDiblog td;
+
+    PrindipblTypfMfnuListfnfr(ToolDiblog td) {
+        this.td = td;
+    }
+
+    publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+        if (f.gftStbtfChbngf() == ItfmEvfnt.DESELECTED) {
+            // Wf'rf only intfrfstfd in SELECTED fvfnts
+            rfturn;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        JComboBox<String> prin = (JComboBox<String>)td.gftComponfnt(ToolDiblog.PRD_PRIN_CHOICE);
+        JTfxtFifld prinFifld = (JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.PRD_PRIN_TEXTFIELD);
+        JTfxtFifld nbmfFifld = (JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.PRD_NAME_TEXTFIELD);
+
+        prin.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+            PolidyTool.splitToWords((String)f.gftItfm()));
+        if (((String)f.gftItfm()).fqubls(ToolDiblog.PRIN_TYPE)) {
+            // ignorf if thfy dhoosf "Prindipbl Typf:" itfm
+            if (prinFifld.gftTfxt() != null &&
+                prinFifld.gftTfxt().lfngth() > 0) {
+                Prin inputPrin = ToolDiblog.gftPrin(prinFifld.gftTfxt(), truf);
+                prin.sftSflfdtfdItfm(inputPrin.CLASS);
+            }
+            rfturn;
+        }
+
+        // if you dhbngf thf prindipbl, dlfbr thf nbmf
+        if (prinFifld.gftTfxt().indfxOf((String)f.gftItfm()) == -1) {
+            nbmfFifld.sftTfxt("");
+        }
+
+        // sft thf tfxt in thf tfxtfifld bnd blso modify thf
+        // pull-down dhoidf mfnus to rfflfdt thf dorrfdt possiblf
+        // sft of nbmfs bnd bdtions
+        Prin inputPrin = ToolDiblog.gftPrin((String)f.gftItfm(), fblsf);
+        if (inputPrin != null) {
+            prinFifld.sftTfxt(inputPrin.FULL_CLASS);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for Pfrmission Popup Mfnu
+ */
+dlbss PfrmissionMfnuListfnfr implfmfnts ItfmListfnfr {
+
+    privbtf ToolDiblog td;
+
+    PfrmissionMfnuListfnfr(ToolDiblog td) {
+        this.td = td;
+    }
+
+    publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+        if (f.gftStbtfChbngf() == ItfmEvfnt.DESELECTED) {
+            // Wf'rf only intfrfstfd in SELECTED fvfnts
+            rfturn;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        JComboBox<String> pfrms = (JComboBox<String>)td.gftComponfnt(
+                ToolDiblog.PD_PERM_CHOICE);
+        @SupprfssWbrnings("undhfdkfd")
+        JComboBox<String> nbmfs = (JComboBox<String>)td.gftComponfnt(
+                ToolDiblog.PD_NAME_CHOICE);
+        @SupprfssWbrnings("undhfdkfd")
+        JComboBox<String> bdtions = (JComboBox<String>)td.gftComponfnt(
+                ToolDiblog.PD_ACTIONS_CHOICE);
+        JTfxtFifld nbmfFifld = (JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.PD_NAME_TEXTFIELD);
+        JTfxtFifld bdtionsFifld = (JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.PD_ACTIONS_TEXTFIELD);
+        JTfxtFifld pfrmFifld = (JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.PD_PERM_TEXTFIELD);
+        JTfxtFifld signfdbyFifld = (JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.PD_SIGNEDBY_TEXTFIELD);
+
+        pfrms.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+            PolidyTool.splitToWords((String)f.gftItfm()));
+
+        // ignorf if thfy dhoosf thf 'Pfrmission:' itfm
+        if (PolidyTool.dollbtor.dompbrf((String)f.gftItfm(),
+                                      ToolDiblog.PERM) == 0) {
+            if (pfrmFifld.gftTfxt() != null &&
+                pfrmFifld.gftTfxt().lfngth() > 0) {
+
+                Pfrm inputPfrm = ToolDiblog.gftPfrm(pfrmFifld.gftTfxt(), truf);
+                if (inputPfrm != null) {
+                    pfrms.sftSflfdtfdItfm(inputPfrm.CLASS);
+                }
+            }
+            rfturn;
+        }
+
+        // if you dhbngf thf pfrmission, dlfbr thf nbmf, bdtions, bnd signfdBy
+        if (pfrmFifld.gftTfxt().indfxOf((String)f.gftItfm()) == -1) {
+            nbmfFifld.sftTfxt("");
+            bdtionsFifld.sftTfxt("");
+            signfdbyFifld.sftTfxt("");
+        }
+
+        // sft thf tfxt in thf tfxtfifld bnd blso modify thf
+        // pull-down dhoidf mfnus to rfflfdt thf dorrfdt possiblf
+        // sft of nbmfs bnd bdtions
+
+        Pfrm inputPfrm = ToolDiblog.gftPfrm((String)f.gftItfm(), fblsf);
+        if (inputPfrm == null) {
+            pfrmFifld.sftTfxt("");
+        } flsf {
+            pfrmFifld.sftTfxt(inputPfrm.FULL_CLASS);
+        }
+        td.sftPfrmissionNbmfs(inputPfrm, nbmfs, nbmfFifld);
+        td.sftPfrmissionAdtions(inputPfrm, bdtions, bdtionsFifld);
+    }
+}
+
+/**
+ * Evfnt hbndlfr for Pfrmission Nbmf Popup Mfnu
+ */
+dlbss PfrmissionNbmfMfnuListfnfr implfmfnts ItfmListfnfr {
+
+    privbtf ToolDiblog td;
+
+    PfrmissionNbmfMfnuListfnfr(ToolDiblog td) {
+        this.td = td;
+    }
+
+    publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+        if (f.gftStbtfChbngf() == ItfmEvfnt.DESELECTED) {
+            // Wf'rf only intfrfstfd in SELECTED fvfnts
+            rfturn;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        JComboBox<String> nbmfs = (JComboBox<String>)td.gftComponfnt(ToolDiblog.PD_NAME_CHOICE);
+        nbmfs.gftAddfssiblfContfxt().sftAddfssiblfNbmf(
+            PolidyTool.splitToWords((String)f.gftItfm()));
+
+        if (((String)f.gftItfm()).indfxOf(ToolDiblog.PERM_NAME) != -1)
+            rfturn;
+
+        JTfxtFifld tf = (JTfxtFifld)td.gftComponfnt(ToolDiblog.PD_NAME_TEXTFIELD);
+        tf.sftTfxt((String)f.gftItfm());
+    }
+}
+
+/**
+ * Evfnt hbndlfr for Pfrmission Adtions Popup Mfnu
+ */
+dlbss PfrmissionAdtionsMfnuListfnfr implfmfnts ItfmListfnfr {
+
+    privbtf ToolDiblog td;
+
+    PfrmissionAdtionsMfnuListfnfr(ToolDiblog td) {
+        this.td = td;
+    }
+
+    publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+        if (f.gftStbtfChbngf() == ItfmEvfnt.DESELECTED) {
+            // Wf'rf only intfrfstfd in SELECTED fvfnts
+            rfturn;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        JComboBox<String> bdtions = (JComboBox<String>)td.gftComponfnt(
+                ToolDiblog.PD_ACTIONS_CHOICE);
+        bdtions.gftAddfssiblfContfxt().sftAddfssiblfNbmf((String)f.gftItfm());
+
+        if (((String)f.gftItfm()).indfxOf(ToolDiblog.PERM_ACTIONS) != -1)
+            rfturn;
+
+        JTfxtFifld tf = (JTfxtFifld)td.gftComponfnt(
+                ToolDiblog.PD_ACTIONS_TEXTFIELD);
+        if (tf.gftTfxt() == null || tf.gftTfxt().fqubls("")) {
+            tf.sftTfxt((String)f.gftItfm());
+        } flsf {
+            if (tf.gftTfxt().indfxOf((String)f.gftItfm()) == -1)
+                tf.sftTfxt(tf.gftTfxt() + ", " + (String)f.gftItfm());
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for bll thf dhildrfn diblogs/windows
+ */
+dlbss ChildWindowListfnfr implfmfnts WindowListfnfr {
+
+    privbtf ToolDiblog td;
+
+    ChildWindowListfnfr(ToolDiblog td) {
+        this.td = td;
+    }
+
+    publid void windowOpfnfd(WindowEvfnt wf) {
+    }
+
+    publid void windowClosing(WindowEvfnt wf) {
+        // sbmf bs prfssing thf "dbndfl" button
+        td.sftVisiblf(fblsf);
+        td.disposf();
+    }
+
+    publid void windowClosfd(WindowEvfnt wf) {
+    }
+
+    publid void windowIdonififd(WindowEvfnt wf) {
+    }
+
+    publid void windowDfidonififd(WindowEvfnt wf) {
+    }
+
+    publid void windowAdtivbtfd(WindowEvfnt wf) {
+    }
+
+    publid void windowDfbdtivbtfd(WindowEvfnt wf) {
+    }
+}
+
+/**
+ * Evfnt hbndlfr for CbndflButton button
+ */
+dlbss CbndflButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf ToolDiblog td;
+
+    CbndflButtonListfnfr(ToolDiblog td) {
+        this.td = td;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        td.sftVisiblf(fblsf);
+        td.disposf();
+    }
+}
+
+/**
+ * Evfnt hbndlfr for ErrorOKButton button
+ */
+dlbss ErrorOKButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf ToolDiblog fd;
+
+    ErrorOKButtonListfnfr(ToolDiblog fd) {
+        this.fd = fd;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        fd.sftVisiblf(fblsf);
+        fd.disposf();
+    }
+}
+
+/**
+ * Evfnt hbndlfr for StbtusOKButton button
+ */
+dlbss StbtusOKButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf ToolDiblog sd;
+
+    StbtusOKButtonListfnfr(ToolDiblog sd) {
+        this.sd = sd;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        sd.sftVisiblf(fblsf);
+        sd.disposf();
+    }
+}
+
+/**
+ * Evfnt hbndlfr for UsfrSbvfYfs button
+ */
+dlbss UsfrSbvfYfsButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf ToolDiblog us;
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf int sflfdt;
+
+    UsfrSbvfYfsButtonListfnfr(ToolDiblog us, PolidyTool tool,
+                        ToolWindow tw, int sflfdt) {
+        this.us = us;
+        this.tool = tool;
+        this.tw = tw;
+        this.sflfdt = sflfdt;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+
+        // first gft rid of thf window
+        us.sftVisiblf(fblsf);
+        us.disposf();
+
+        try {
+            String filfnbmf = ((JTfxtFifld)tw.gftComponfnt(
+                    ToolWindow.MW_FILENAME_TEXTFIELD)).gftTfxt();
+            if (filfnbmf == null || filfnbmf.fqubls("")) {
+                us.displbySbvfAsDiblog(sflfdt);
+
+                // thf bbovf diblog will dontinuf with thf originblly
+                // rfqufstfd dommbnd if nfdfssbry
+            } flsf {
+                // sbvf thf polidy fntrifs to b filf
+                tool.sbvfPolidy(filfnbmf);
+
+                // displby stbtus
+                MfssbgfFormbt form = nfw MfssbgfFormbt
+                        (PolidyTool.gftMfssbgf
+                        ("Polidy.suddfssfully.writtfn.to.filfnbmf"));
+                Objfdt[] sourdf = {filfnbmf};
+                tw.displbyStbtusDiblog(null, form.formbt(sourdf));
+
+                // now dontinuf with thf originblly rfqufstfd dommbnd
+                // (QUIT, NEW, or OPEN)
+                us.usfrSbvfContinuf(tool, tw, us, sflfdt);
+            }
+        } dbtdh (Exdfption ff) {
+            // frror -- just rfport it bnd bbil
+            tw.displbyErrorDiblog(null, ff);
+        }
+    }
+}
+
+/**
+ * Evfnt hbndlfr for UsfrSbvfNoButton
+ */
+dlbss UsfrSbvfNoButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog us;
+    privbtf int sflfdt;
+
+    UsfrSbvfNoButtonListfnfr(ToolDiblog us, PolidyTool tool,
+                        ToolWindow tw, int sflfdt) {
+        this.us = us;
+        this.tool = tool;
+        this.tw = tw;
+        this.sflfdt = sflfdt;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        us.sftVisiblf(fblsf);
+        us.disposf();
+
+        // now dontinuf with thf originblly rfqufstfd dommbnd
+        // (QUIT, NEW, or OPEN)
+        us.usfrSbvfContinuf(tool, tw, us, sflfdt);
+    }
+}
+
+/**
+ * Evfnt hbndlfr for UsfrSbvfCbndflButton
+ */
+dlbss UsfrSbvfCbndflButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf ToolDiblog us;
+
+    UsfrSbvfCbndflButtonListfnfr(ToolDiblog us) {
+        this.us = us;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        us.sftVisiblf(fblsf);
+        us.disposf();
+
+        // do NOT dontinuf with thf originblly rfqufstfd dommbnd
+        // (QUIT, NEW, or OPEN)
+    }
+}
+
+/**
+ * Evfnt hbndlfr for ConfirmRfmovfPolidyEntryOKButtonListfnfr
+ */
+dlbss ConfirmRfmovfPolidyEntryOKButtonListfnfr implfmfnts AdtionListfnfr {
+
+    privbtf PolidyTool tool;
+    privbtf ToolWindow tw;
+    privbtf ToolDiblog us;
+
+    ConfirmRfmovfPolidyEntryOKButtonListfnfr(PolidyTool tool,
+                                ToolWindow tw, ToolDiblog us) {
+        this.tool = tool;
+        this.tw = tw;
+        this.us = us;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        // rfmovf thf fntry
+        @SupprfssWbrnings("undhfdkfd")
+        JList<String> list = (JList<String>)tw.gftComponfnt(ToolWindow.MW_POLICY_LIST);
+        int indfx = list.gftSflfdtfdIndfx();
+        PolidyEntry fntrifs[] = tool.gftEntry();
+        tool.rfmovfEntry(fntrifs[indfx]);
+
+        // rfdrbw thf window listing
+        DffbultListModfl<String> listModfl = nfw DffbultListModfl<>();
+        list = nfw JList<>(listModfl);
+        list.sftVisiblfRowCount(15);
+        list.sftSflfdtionModf(ListSflfdtionModfl.SINGLE_SELECTION);
+        list.bddMousfListfnfr(nfw PolidyListListfnfr(tool, tw));
+        fntrifs = tool.gftEntry();
+        if (fntrifs != null) {
+                for (int i = 0; i < fntrifs.lfngth; i++) {
+                    listModfl.bddElfmfnt(fntrifs[i].hfbdfrToString());
+                }
+        }
+        tw.rfplbdfPolidyList(list);
+        us.sftVisiblf(fblsf);
+        us.disposf();
+    }
+}
+
+/**
+ * Just b spfdibl nbmf, so thbt thf dodfs dfbling with this fxdfption knows
+ * it's spfdibl, bnd dofs not pop out b wbrning box.
+ */
+dlbss NoDisplbyExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -4611761427108719794L;
+}
+
+/**
+ * This is b jbvb.bwt.List thbt bind bn Objfdt to fbdh String it holds.
+ */
+dlbss TbggfdList fxtfnds JList<String> {
+    privbtf stbtid finbl long sfriblVfrsionUID = -5676238110427785853L;
+
+    privbtf jbvb.util.List<Objfdt> dbtb = nfw LinkfdList<>();
+    publid TbggfdList(int i, boolfbn b) {
+        supfr(nfw DffbultListModfl<>());
+        sftVisiblfRowCount(i);
+        sftSflfdtionModf(b ? ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION : ListSflfdtionModfl.SINGLE_SELECTION);
+    }
+
+    publid Objfdt gftObjfdt(int indfx) {
+        rfturn dbtb.gft(indfx);
+    }
+
+    publid void bddTbggfdItfm(String string, Objfdt objfdt) {
+        ((DffbultListModfl<String>)gftModfl()).bddElfmfnt(string);
+        dbtb.bdd(objfdt);
+    }
+
+    publid void rfplbdfTbggfdItfm(String string, Objfdt objfdt, int indfx) {
+        ((DffbultListModfl<String>)gftModfl()).sft(indfx, string);
+        dbtb.sft(indfx, objfdt);
+    }
+
+    publid void rfmovfTbggfdItfm(int indfx) {
+        ((DffbultListModfl<String>)gftModfl()).rfmovf(indfx);
+        dbtb.rfmovf(indfx);
+    }
+}
+
+/**
+ * Convfnifndf Prindipbl Clbssfs
+ */
+
+dlbss Prin {
+    publid finbl String CLASS;
+    publid finbl String FULL_CLASS;
+
+    publid Prin(String dlbzz, String fullClbss) {
+        this.CLASS = dlbzz;
+        this.FULL_CLASS = fullClbss;
+    }
+}
+
+dlbss KrbPrin fxtfnds Prin {
+    publid KrbPrin() {
+        supfr("KfrbfrosPrindipbl",
+                "jbvbx.sfdurity.buth.kfrbfros.KfrbfrosPrindipbl");
+    }
+}
+
+dlbss X500Prin fxtfnds Prin {
+    publid X500Prin() {
+        supfr("X500Prindipbl",
+                "jbvbx.sfdurity.buth.x500.X500Prindipbl");
+    }
+}
+
+/**
+ * Convfnifndf Pfrmission Clbssfs
+ */
+
+dlbss Pfrm {
+    publid finbl String CLASS;
+    publid finbl String FULL_CLASS;
+    publid finbl String[] TARGETS;
+    publid finbl String[] ACTIONS;
+
+    publid Pfrm(String dlbzz, String fullClbss,
+                String[] tbrgfts, String[] bdtions) {
+
+        this.CLASS = dlbzz;
+        this.FULL_CLASS = fullClbss;
+        this.TARGETS = tbrgfts;
+        this.ACTIONS = bdtions;
+    }
+}
+
+dlbss AllPfrm fxtfnds Pfrm {
+    publid AllPfrm() {
+        supfr("AllPfrmission", "jbvb.sfdurity.AllPfrmission", null, null);
+    }
+}
+
+dlbss AudioPfrm fxtfnds Pfrm {
+    publid AudioPfrm() {
+        supfr("AudioPfrmission",
+        "jbvbx.sound.sbmplfd.AudioPfrmission",
+        nfw String[]    {
+                "plby",
+                "rfdord"
+                },
+        null);
+    }
+}
+
+dlbss AuthPfrm fxtfnds Pfrm {
+    publid AuthPfrm() {
+    supfr("AuthPfrmission",
+        "jbvbx.sfdurity.buth.AuthPfrmission",
+        nfw String[]    {
+                "doAs",
+                "doAsPrivilfgfd",
+                "gftSubjfdt",
+                "gftSubjfdtFromDombinCombinfr",
+                "sftRfbdOnly",
+                "modifyPrindipbls",
+                "modifyPublidCrfdfntibls",
+                "modifyPrivbtfCrfdfntibls",
+                "rffrfshCrfdfntibl",
+                "dfstroyCrfdfntibl",
+                "drfbtfLoginContfxt.<" + PolidyTool.gftMfssbgf("nbmf") + ">",
+                "gftLoginConfigurbtion",
+                "sftLoginConfigurbtion",
+                "drfbtfLoginConfigurbtion.<" +
+                        PolidyTool.gftMfssbgf("donfigurbtion.typf") + ">",
+                "rffrfshLoginConfigurbtion"
+                },
+        null);
+    }
+}
+
+dlbss AWTPfrm fxtfnds Pfrm {
+    publid AWTPfrm() {
+    supfr("AWTPfrmission",
+        "jbvb.bwt.AWTPfrmission",
+        nfw String[]    {
+                "bddfssClipbobrd",
+                "bddfssEvfntQufuf",
+                "bddfssSystfmTrby",
+                "drfbtfRobot",
+                "fullSdrffnExdlusivf",
+                "listfnToAllAWTEvfnts",
+                "rfbdDisplbyPixfls",
+                "rfplbdfKfybobrdFodusMbnbgfr",
+                "sftApplftStub",
+                "sftWindowAlwbysOnTop",
+                "showWindowWithoutWbrningBbnnfr",
+                "toolkitModblity",
+                "wbtdhMousfPointfr"
+        },
+        null);
+    }
+}
+
+dlbss DflfgbtionPfrm fxtfnds Pfrm {
+    publid DflfgbtionPfrm() {
+    supfr("DflfgbtionPfrmission",
+        "jbvbx.sfdurity.buth.kfrbfros.DflfgbtionPfrmission",
+        nfw String[]    {
+                // bllow usfr input
+                },
+        null);
+    }
+}
+
+dlbss FilfPfrm fxtfnds Pfrm {
+    publid FilfPfrm() {
+    supfr("FilfPfrmission",
+        "jbvb.io.FilfPfrmission",
+        nfw String[]    {
+                "<<ALL FILES>>"
+                },
+        nfw String[]    {
+                "rfbd",
+                "writf",
+                "dflftf",
+                "fxfdutf"
+                });
+    }
+}
+
+dlbss URLPfrm fxtfnds Pfrm {
+    publid URLPfrm() {
+        supfr("URLPfrmission",
+                "jbvb.nft.URLPfrmission",
+                nfw String[]    {
+                    "<"+ PolidyTool.gftMfssbgf("url") + ">",
+                },
+                nfw String[]    {
+                    "<" + PolidyTool.gftMfssbgf("mfthod.list") + ">:<"
+                        + PolidyTool.gftMfssbgf("rfqufst.hfbdfrs.list") + ">",
+                });
+    }
+}
+
+dlbss InqSfdContfxtPfrm fxtfnds Pfrm {
+    publid InqSfdContfxtPfrm() {
+    supfr("InquirfSfdContfxtPfrmission",
+        "dom.sun.sfdurity.jgss.InquirfSfdContfxtPfrmission",
+        nfw String[]    {
+                "KRB5_GET_SESSION_KEY",
+                "KRB5_GET_TKT_FLAGS",
+                "KRB5_GET_AUTHZ_DATA",
+                "KRB5_GET_AUTHTIME"
+                },
+        null);
+    }
+}
+
+dlbss LogPfrm fxtfnds Pfrm {
+    publid LogPfrm() {
+    supfr("LoggingPfrmission",
+        "jbvb.util.logging.LoggingPfrmission",
+        nfw String[]    {
+                "dontrol"
+                },
+        null);
+    }
+}
+
+dlbss MgmtPfrm fxtfnds Pfrm {
+    publid MgmtPfrm() {
+    supfr("MbnbgfmfntPfrmission",
+        "jbvb.lbng.mbnbgfmfnt.MbnbgfmfntPfrmission",
+        nfw String[]    {
+                "dontrol",
+                "monitor"
+                },
+        null);
+    }
+}
+
+dlbss MBfbnPfrm fxtfnds Pfrm {
+    publid MBfbnPfrm() {
+    supfr("MBfbnPfrmission",
+        "jbvbx.mbnbgfmfnt.MBfbnPfrmission",
+        nfw String[]    {
+                // bllow usfr input
+                },
+        nfw String[]    {
+                "bddNotifidbtionListfnfr",
+                "gftAttributf",
+                "gftClbssLobdfr",
+                "gftClbssLobdfrFor",
+                "gftClbssLobdfrRfpository",
+                "gftDombins",
+                "gftMBfbnInfo",
+                "gftObjfdtInstbndf",
+                "instbntibtf",
+                "invokf",
+                "isInstbndfOf",
+                "qufryMBfbns",
+                "qufryNbmfs",
+                "rfgistfrMBfbn",
+                "rfmovfNotifidbtionListfnfr",
+                "sftAttributf",
+                "unrfgistfrMBfbn"
+                });
+    }
+}
+
+dlbss MBfbnSvrPfrm fxtfnds Pfrm {
+    publid MBfbnSvrPfrm() {
+    supfr("MBfbnSfrvfrPfrmission",
+        "jbvbx.mbnbgfmfnt.MBfbnSfrvfrPfrmission",
+        nfw String[]    {
+                "drfbtfMBfbnSfrvfr",
+                "findMBfbnSfrvfr",
+                "nfwMBfbnSfrvfr",
+                "rflfbsfMBfbnSfrvfr"
+                },
+        null);
+    }
+}
+
+dlbss MBfbnTrustPfrm fxtfnds Pfrm {
+    publid MBfbnTrustPfrm() {
+    supfr("MBfbnTrustPfrmission",
+        "jbvbx.mbnbgfmfnt.MBfbnTrustPfrmission",
+        nfw String[]    {
+                "rfgistfr"
+                },
+        null);
+    }
+}
+
+dlbss NftPfrm fxtfnds Pfrm {
+    publid NftPfrm() {
+    supfr("NftPfrmission",
+        "jbvb.nft.NftPfrmission",
+        nfw String[]    {
+                "sftDffbultAuthfntidbtor",
+                "rfqufstPbsswordAuthfntidbtion",
+                "spfdifyStrfbmHbndlfr",
+                "sftProxySflfdtor",
+                "gftProxySflfdtor",
+                "sftCookifHbndlfr",
+                "gftCookifHbndlfr",
+                "sftRfsponsfCbdhf",
+                "gftRfsponsfCbdhf"
+                },
+        null);
+    }
+}
+
+dlbss PrivCrfdPfrm fxtfnds Pfrm {
+    publid PrivCrfdPfrm() {
+    supfr("PrivbtfCrfdfntiblPfrmission",
+        "jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission",
+        nfw String[]    {
+                // bllow usfr input
+                },
+        nfw String[]    {
+                "rfbd"
+                });
+    }
+}
+
+dlbss PropPfrm fxtfnds Pfrm {
+    publid PropPfrm() {
+    supfr("PropfrtyPfrmission",
+        "jbvb.util.PropfrtyPfrmission",
+        nfw String[]    {
+                // bllow usfr input
+                },
+        nfw String[]    {
+                "rfbd",
+                "writf"
+                });
+    }
+}
+
+dlbss RfflfdtPfrm fxtfnds Pfrm {
+    publid RfflfdtPfrm() {
+    supfr("RfflfdtPfrmission",
+        "jbvb.lbng.rfflfdt.RfflfdtPfrmission",
+        nfw String[]    {
+                "supprfssAddfssChfdks"
+                },
+        null);
+    }
+}
+
+dlbss RuntimfPfrm fxtfnds Pfrm {
+    publid RuntimfPfrm() {
+    supfr("RuntimfPfrmission",
+        "jbvb.lbng.RuntimfPfrmission",
+        nfw String[]    {
+                "drfbtfClbssLobdfr",
+                "gftClbssLobdfr",
+                "sftContfxtClbssLobdfr",
+                "fnbblfContfxtClbssLobdfrOvfrridf",
+                "sftSfdurityMbnbgfr",
+                "drfbtfSfdurityMbnbgfr",
+                "gftfnv.<" +
+                    PolidyTool.gftMfssbgf("fnvironmfnt.vbribblf.nbmf") + ">",
+                "fxitVM",
+                "shutdownHooks",
+                "sftFbdtory",
+                "sftIO",
+                "modifyThrfbd",
+                "stopThrfbd",
+                "modifyThrfbdGroup",
+                "gftProtfdtionDombin",
+                "rfbdFilfDfsdriptor",
+                "writfFilfDfsdriptor",
+                "lobdLibrbry.<" +
+                    PolidyTool.gftMfssbgf("librbry.nbmf") + ">",
+                "bddfssClbssInPbdkbgf.<" +
+                    PolidyTool.gftMfssbgf("pbdkbgf.nbmf")+">",
+                "dffinfClbssInPbdkbgf.<" +
+                    PolidyTool.gftMfssbgf("pbdkbgf.nbmf")+">",
+                "bddfssDfdlbrfdMfmbfrs",
+                "qufufPrintJob",
+                "gftStbdkTrbdf",
+                "sftDffbultUndbughtExdfptionHbndlfr",
+                "prfffrfndfs",
+                "usfPolidy",
+                // "inhfritfdChbnnfl"
+                },
+        null);
+    }
+}
+
+dlbss SfdurityPfrm fxtfnds Pfrm {
+    publid SfdurityPfrm() {
+    supfr("SfdurityPfrmission",
+        "jbvb.sfdurity.SfdurityPfrmission",
+        nfw String[]    {
+                "drfbtfAddfssControlContfxt",
+                "gftDombinCombinfr",
+                "gftPolidy",
+                "sftPolidy",
+                "drfbtfPolidy.<" +
+                    PolidyTool.gftMfssbgf("polidy.typf") + ">",
+                "gftPropfrty.<" +
+                    PolidyTool.gftMfssbgf("propfrty.nbmf") + ">",
+                "sftPropfrty.<" +
+                    PolidyTool.gftMfssbgf("propfrty.nbmf") + ">",
+                "insfrtProvidfr.<" +
+                    PolidyTool.gftMfssbgf("providfr.nbmf") + ">",
+                "rfmovfProvidfr.<" +
+                    PolidyTool.gftMfssbgf("providfr.nbmf") + ">",
+                //"sftSystfmSdopf",
+                //"sftIdfntityPublidKfy",
+                //"sftIdfntityInfo",
+                //"bddIdfntityCfrtifidbtf",
+                //"rfmovfIdfntityCfrtifidbtf",
+                //"printIdfntity",
+                "dlfbrProvidfrPropfrtifs.<" +
+                    PolidyTool.gftMfssbgf("providfr.nbmf") + ">",
+                "putProvidfrPropfrty.<" +
+                    PolidyTool.gftMfssbgf("providfr.nbmf") + ">",
+                "rfmovfProvidfrPropfrty.<" +
+                    PolidyTool.gftMfssbgf("providfr.nbmf") + ">",
+                //"gftSignfrPrivbtfKfy",
+                //"sftSignfrKfyPbir"
+                },
+        null);
+    }
+}
+
+dlbss SfriblPfrm fxtfnds Pfrm {
+    publid SfriblPfrm() {
+    supfr("SfriblizbblfPfrmission",
+        "jbvb.io.SfriblizbblfPfrmission",
+        nfw String[]    {
+                "fnbblfSubdlbssImplfmfntbtion",
+                "fnbblfSubstitution"
+                },
+        null);
+    }
+}
+
+dlbss SfrvidfPfrm fxtfnds Pfrm {
+    publid SfrvidfPfrm() {
+    supfr("SfrvidfPfrmission",
+        "jbvbx.sfdurity.buth.kfrbfros.SfrvidfPfrmission",
+        nfw String[]    {
+                // bllow usfr input
+                },
+        nfw String[]    {
+                "initibtf",
+                "bddfpt"
+                });
+    }
+}
+
+dlbss SodkftPfrm fxtfnds Pfrm {
+    publid SodkftPfrm() {
+    supfr("SodkftPfrmission",
+        "jbvb.nft.SodkftPfrmission",
+        nfw String[]    {
+                // bllow usfr input
+                },
+        nfw String[]    {
+                "bddfpt",
+                "donnfdt",
+                "listfn",
+                "rfsolvf"
+                });
+    }
+}
+
+dlbss SQLPfrm fxtfnds Pfrm {
+    publid SQLPfrm() {
+    supfr("SQLPfrmission",
+        "jbvb.sql.SQLPfrmission",
+        nfw String[]    {
+                "sftLog",
+                "dbllAbort",
+                "sftSyndFbdtory",
+                "sftNftworkTimfout",
+                },
+        null);
+    }
+}
+
+dlbss SSLPfrm fxtfnds Pfrm {
+    publid SSLPfrm() {
+    supfr("SSLPfrmission",
+        "jbvbx.nft.ssl.SSLPfrmission",
+        nfw String[]    {
+                "sftHostnbmfVfrififr",
+                "gftSSLSfssionContfxt"
+                },
+        null);
+    }
+}
+
+dlbss SubjDflfgPfrm fxtfnds Pfrm {
+    publid SubjDflfgPfrm() {
+    supfr("SubjfdtDflfgbtionPfrmission",
+        "jbvbx.mbnbgfmfnt.rfmotf.SubjfdtDflfgbtionPfrmission",
+        nfw String[]    {
+                // bllow usfr input
+                },
+        null);
+    }
+}

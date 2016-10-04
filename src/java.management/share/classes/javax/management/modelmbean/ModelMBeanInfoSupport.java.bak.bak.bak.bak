@@ -1,0 +1,1067 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * @buthor    IBM Corp.
+ *
+ * Copyright IBM Corp. 1999-2000.  All rights rfsfrvfd.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MODELMBEAN_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.logging.Lfvfl;
+
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+
+/**
+ * This dlbss rfprfsfnts thf mftb dbtb for ModflMBfbns.  Dfsdriptors hbvf bffn
+ * bddfd on thf mftb dbtb objfdts.
+ * <P>
+ * Jbvb rfsourdfs wishing to bf mbnbgfbblf instbntibtf thf ModflMBfbn using thf
+ * MBfbnSfrvfr's drfbtfMBfbn mfthod.  Thf rfsourdf thfn sfts thf ModflMBfbnInfo
+ * bnd Dfsdriptors for thf ModflMBfbn instbndf. Thf bttributfs bnd opfrbtions
+ * fxposfd vib thf ModflMBfbnInfo for thf ModflMBfbn brf bddfssiblf
+ * from MBfbns, donnfdtors/bdbptors likf othfr MBfbns. Through thf Dfsdriptors,
+ * vblufs bnd mfthods in thf mbnbgfd bpplidbtion dbn bf dffinfd bnd mbppfd to
+ * bttributfs bnd opfrbtions of thf ModflMBfbn.
+ * This mbpping dbn bf dffinfd during dfvflopmfnt in b filf or dynbmidblly bnd
+ * progrbmmbtidblly bt runtimf.
+ * <P>
+ * Evfry ModflMBfbn whidh is instbntibtfd in thf MBfbnSfrvfr bfdomfs mbnbgfbblf:
+ * its bttributfs bnd opfrbtions
+ * bfdomf rfmotfly bddfssiblf through thf donnfdtors/bdbptors donnfdtfd to thbt
+ * MBfbnSfrvfr.
+ * A Jbvb objfdt dbnnot bf rfgistfrfd in thf MBfbnSfrvfr unlfss it is b JMX
+ * domplibnt MBfbn.
+ * By instbntibting b ModflMBfbn, rfsourdfs brf gubrbntffd thbt thf MBfbn is
+ * vblid.
+ *
+ * MBfbnExdfption bnd RuntimfOpfrbtionsExdfption must bf thrown on fvfry publid
+ * mfthod.  This bllows for wrbpping fxdfptions from distributfd
+ * dommunidbtions (RMI, EJB, ftd.)
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is
+ * <dodf>-1935722590756516193L</dodf>.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss ModflMBfbnInfoSupport fxtfnds MBfbnInfo implfmfnts ModflMBfbnInfo {
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -3944083498453227709L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -1935722590756516193L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+        nfw ObjfdtStrfbmFifld("modflMBfbnDfsdriptor", Dfsdriptor.dlbss),
+                nfw ObjfdtStrfbmFifld("mmbAttributfs", MBfbnAttributfInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("mmbConstrudtors", MBfbnConstrudtorInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("mmbNotifidbtions", MBfbnNotifidbtionInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("mmbOpfrbtions", MBfbnOpfrbtionInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("durrClbss", String.dlbss)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
+    {
+        nfw ObjfdtStrfbmFifld("modflMBfbnDfsdriptor", Dfsdriptor.dlbss),
+                nfw ObjfdtStrfbmFifld("modflMBfbnAttributfs", MBfbnAttributfInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("modflMBfbnConstrudtors", MBfbnConstrudtorInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("modflMBfbnNotifidbtions", MBfbnNotifidbtionInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("modflMBfbnOpfrbtions", MBfbnOpfrbtionInfo[].dlbss)
+    };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    /**
+     * @sfriblFifld modflMBfbnDfsdriptor Dfsdriptor Thf dfsdriptor dontbining
+     *              MBfbn widf polidy
+     * @sfriblFifld modflMBfbnAttributfs ModflMBfbnAttributfInfo[] Thf brrby of
+     *              {@link ModflMBfbnAttributfInfo} objfdts whidh
+     *              hbvf dfsdriptors
+     * @sfriblFifld modflMBfbnConstrudtors MBfbnConstrudtorInfo[] Thf brrby of
+     *              {@link ModflMBfbnConstrudtorInfo} objfdts whidh
+     *              hbvf dfsdriptors
+     * @sfriblFifld modflMBfbnNotifidbtions MBfbnNotifidbtionInfo[] Thf brrby of
+     *              {@link ModflMBfbnNotifidbtionInfo} objfdts whidh
+     *              hbvf dfsdriptors
+     * @sfriblFifld modflMBfbnOpfrbtions MBfbnOpfrbtionInfo[] Thf brrby of
+     *              {@link ModflMBfbnOpfrbtionInfo} objfdts whidh
+     *              hbvf dfsdriptors
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK: No dompbt with 1.0
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+    //
+    // END Sfriblizbtion dompbtibility stuff
+
+    /**
+     * @sfribl Thf dfsdriptor dontbining MBfbn widf polidy
+     */
+    privbtf Dfsdriptor modflMBfbnDfsdriptor = null;
+
+    /* Thf following fiflds blwbys hbvf thf sbmf vblufs bs thf
+       fiflds inhfritfd from MBfbnInfo bnd brf rftbinfd only for
+       dompbtibility.  By rfwriting thf sfriblizbtion dodf wf dould
+       gft rid of thfm.
+
+       Thfsf fiflds dbn't bf finbl bfdbusf thfy brf bssignfd to by
+       rfbdObjfdt().  */
+
+    /**
+     * @sfribl Thf brrby of {@link ModflMBfbnAttributfInfo} objfdts whidh
+     *         hbvf dfsdriptors
+     */
+    privbtf MBfbnAttributfInfo[] modflMBfbnAttributfs;
+
+    /**
+     * @sfribl Thf brrby of {@link ModflMBfbnConstrudtorInfo} objfdts whidh
+     *         hbvf dfsdriptors
+     */
+    privbtf MBfbnConstrudtorInfo[] modflMBfbnConstrudtors;
+
+    /**
+     * @sfribl Thf brrby of {@link ModflMBfbnNotifidbtionInfo} objfdts whidh
+     *         hbvf dfsdriptors
+     */
+    privbtf MBfbnNotifidbtionInfo[] modflMBfbnNotifidbtions;
+
+    /**
+     * @sfribl Thf brrby of {@link ModflMBfbnOpfrbtionInfo} objfdts whidh
+     *         hbvf dfsdriptors
+     */
+    privbtf MBfbnOpfrbtionInfo[] modflMBfbnOpfrbtions;
+
+    privbtf stbtid finbl String ATTR = "bttributf";
+    privbtf stbtid finbl String OPER = "opfrbtion";
+    privbtf stbtid finbl String NOTF = "notifidbtion";
+    privbtf stbtid finbl String CONS = "donstrudtor";
+    privbtf stbtid finbl String MMB = "mbfbn";
+    privbtf stbtid finbl String ALL = "bll";
+    privbtf stbtid finbl String durrClbss = "ModflMBfbnInfoSupport";
+
+    /**
+     * Construdts b ModflMBfbnInfoSupport whidh is b duplidbtf of thf givfn
+     * ModflMBfbnInfo.  Thf rfturnfd objfdt is b shbllow dopy of thf givfn
+     * objfdt.  Nfithfr thf Dfsdriptor nor thf dontbinfd brrbys
+     * ({@dodf ModflMBfbnAttributfInfo[]} ftd) brf dlonfd.  This mfthod is
+     * dhiffly of intfrfst to modify thf Dfsdriptor of thf rfturnfd instbndf
+     * vib {@link #sftDfsdriptor sftDfsdriptor} without bfffdting thf
+     * Dfsdriptor of thf originbl objfdt.
+     *
+     * @pbrbm mbi thf ModflMBfbnInfo instbndf from whidh thf ModflMBfbnInfo
+     * bfing drfbtfd is initiblizfd.
+     */
+    publid ModflMBfbnInfoSupport(ModflMBfbnInfo  mbi) {
+        supfr(mbi.gftClbssNbmf(),
+                mbi.gftDfsdription(),
+                mbi.gftAttributfs(),
+                mbi.gftConstrudtors(),
+                mbi.gftOpfrbtions(),
+                mbi.gftNotifidbtions());
+
+        modflMBfbnAttributfs = mbi.gftAttributfs();
+        modflMBfbnConstrudtors = mbi.gftConstrudtors();
+        modflMBfbnOpfrbtions = mbi.gftOpfrbtions();
+        modflMBfbnNotifidbtions = mbi.gftNotifidbtions();
+
+        try {
+            Dfsdriptor mbfbndfsdriptor = mbi.gftMBfbnDfsdriptor();
+            modflMBfbnDfsdriptor = vblidDfsdriptor(mbfbndfsdriptor);
+        } dbtdh (MBfbnExdfption mbf) {
+            modflMBfbnDfsdriptor = vblidDfsdriptor(null);
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                        "ModflMBfbnInfo(ModflMBfbnInfo)",
+                        "Could not gft b vblid modflMBfbnDfsdriptor, " +
+                        "sftting b dffbult Dfsdriptor");
+            }
+        }
+
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "ModflMBfbnInfo(ModflMBfbnInfo)", "Exit");
+        }
+    }
+
+    /**
+     * Crfbtfs b ModflMBfbnInfoSupport with thf providfd informbtion,
+     * but thf dfsdriptor is b dffbult.
+     * Thf dffbult dfsdriptor is: nbmf=dlbssNbmf, dfsdriptorTypf="mbfbn",
+     * displbyNbmf=dlbssNbmf, pfrsistPolidy="nfvfr", log="F", visibility="1"
+     *
+     * @pbrbm dlbssNbmf dlbssnbmf of thf MBfbn
+     * @pbrbm dfsdription humbn rfbdbblf dfsdription of thf
+     * ModflMBfbn
+     * @pbrbm bttributfs brrby of ModflMBfbnAttributfInfo objfdts
+     * whidh hbvf dfsdriptors
+     * @pbrbm donstrudtors brrby of ModflMBfbnConstrudtorInfo
+     * objfdts whidh hbvf dfsdriptors
+     * @pbrbm opfrbtions brrby of ModflMBfbnOpfrbtionInfo objfdts
+     * whidh hbvf dfsdriptors
+     * @pbrbm notifidbtions brrby of ModflMBfbnNotifidbtionInfo
+     * objfdts whidh hbvf dfsdriptors
+     */
+    publid ModflMBfbnInfoSupport(String dlbssNbmf,
+            String dfsdription,
+            ModflMBfbnAttributfInfo[] bttributfs,
+            ModflMBfbnConstrudtorInfo[] donstrudtors,
+            ModflMBfbnOpfrbtionInfo[] opfrbtions,
+            ModflMBfbnNotifidbtionInfo[] notifidbtions) {
+        this(dlbssNbmf, dfsdription, bttributfs, donstrudtors,
+                opfrbtions, notifidbtions, null);
+    }
+
+    /**
+     * Crfbtfs b ModflMBfbnInfoSupport with thf providfd informbtion
+     * bnd thf dfsdriptor givfn in pbrbmftfr.
+     *
+     * @pbrbm dlbssNbmf dlbssnbmf of thf MBfbn
+     * @pbrbm dfsdription humbn rfbdbblf dfsdription of thf
+     * ModflMBfbn
+     * @pbrbm bttributfs brrby of ModflMBfbnAttributfInfo objfdts
+     * whidh hbvf dfsdriptors
+     * @pbrbm donstrudtors brrby of ModflMBfbnConstrudtorInfo
+     * objfdts whidh hbvf dfsdriptor
+     * @pbrbm opfrbtions brrby of ModflMBfbnOpfrbtionInfo objfdts
+     * whidh hbvf dfsdriptor
+     * @pbrbm notifidbtions brrby of ModflMBfbnNotifidbtionInfo
+     * objfdts whidh hbvf dfsdriptor
+     * @pbrbm mbfbndfsdriptor dfsdriptor to bf usfd bs thf
+     * MBfbnDfsdriptor dontbining MBfbn widf polidy. If thf
+     * dfsdriptor is null, b dffbult dfsdriptor will bf donstrudtfd.
+     * Thf dffbult dfsdriptor is:
+     * nbmf=dlbssNbmf, dfsdriptorTypf="mbfbn", displbyNbmf=dlbssNbmf,
+     * pfrsistPolidy="nfvfr", log="F", visibility="1".  If thf dfsdriptor
+     * dofs not dontbin bll of thfsf fiflds, thf missing onfs brf
+     * bddfd with thfsf dffbult vblufs.
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+     * IllfgblArgumfntExdfption for invblid dfsdriptor pbssfd in
+     * pbrbmftfr.  (sff {@link #gftMBfbnDfsdriptor
+     * gftMBfbnDfsdriptor} for thf dffinition of b vblid MBfbn
+     * dfsdriptor.)
+     */
+
+    publid ModflMBfbnInfoSupport(String    dlbssNbmf,
+            String dfsdription,
+            ModflMBfbnAttributfInfo[] bttributfs,
+            ModflMBfbnConstrudtorInfo[] donstrudtors,
+            ModflMBfbnOpfrbtionInfo[] opfrbtions,
+            ModflMBfbnNotifidbtionInfo[] notifidbtions,
+            Dfsdriptor mbfbndfsdriptor) {
+        supfr(dlbssNbmf,
+                dfsdription,
+                (bttributfs != null) ? bttributfs : NO_ATTRIBUTES,
+                (donstrudtors != null) ? donstrudtors : NO_CONSTRUCTORS,
+                (opfrbtions != null) ? opfrbtions : NO_OPERATIONS,
+                (notifidbtions != null) ? notifidbtions : NO_NOTIFICATIONS);
+        /* Thf vblufs sbvfd hfrf brf possibly null, but wf
+           dhfdk this fvfrywhfrf thfy brf rfffrfndfd.  If bt
+           somf stbgf wf rfplbdf null with bn fmpty brrby
+           hfrf, bs wf do in thf supfrdlbss donstrudtor
+           pbrbmftfrs, thfn wf must blso do this in
+           rfbdObjfdt().  */
+        modflMBfbnAttributfs = bttributfs;
+        modflMBfbnConstrudtors = donstrudtors;
+        modflMBfbnOpfrbtions = opfrbtions;
+        modflMBfbnNotifidbtions = notifidbtions;
+        modflMBfbnDfsdriptor = vblidDfsdriptor(mbfbndfsdriptor);
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "ModflMBfbnInfoSupport(String,String,ModflMBfbnAttributfInfo[]," +
+                    "ModflMBfbnConstrudtorInfo[],ModflMBfbnOpfrbtionInfo[]," +
+                    "ModflMBfbnNotifidbtionInfo[],Dfsdriptor)",
+                    "Exit");
+        }
+    }
+
+    privbtf stbtid finbl ModflMBfbnAttributfInfo[] NO_ATTRIBUTES =
+            nfw ModflMBfbnAttributfInfo[0];
+    privbtf stbtid finbl ModflMBfbnConstrudtorInfo[] NO_CONSTRUCTORS =
+            nfw ModflMBfbnConstrudtorInfo[0];
+    privbtf stbtid finbl ModflMBfbnNotifidbtionInfo[] NO_NOTIFICATIONS =
+            nfw ModflMBfbnNotifidbtionInfo[0];
+    privbtf stbtid finbl ModflMBfbnOpfrbtionInfo[] NO_OPERATIONS =
+            nfw ModflMBfbnOpfrbtionInfo[0];
+
+    // Jbvb dod inhfritfd from MOdflMBfbnInfo intfrfbdf
+
+    /**
+     * Rfturns b shbllow dlonf of this instbndf.  Nfithfr thf Dfsdriptor nor
+     * thf dontbinfd brrbys ({@dodf ModflMBfbnAttributfInfo[]} ftd) brf
+     * dlonfd.  This mfthod is dhiffly of intfrfst to modify thf Dfsdriptor
+     * of thf dlonf vib {@link #sftDfsdriptor sftDfsdriptor} without bfffdting
+     * thf Dfsdriptor of thf originbl objfdt.
+     *
+     * @rfturn b shbllow dlonf of this instbndf.
+     */
+    publid Objfdt dlonf() {
+        rfturn(nfw ModflMBfbnInfoSupport(this));
+    }
+
+
+    publid Dfsdriptor[] gftDfsdriptors(String inDfsdriptorTypf)
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftDfsdriptors(String)", "Entry");
+        }
+
+        if ((inDfsdriptorTypf == null) || (inDfsdriptorTypf.fqubls(""))) {
+            inDfsdriptorTypf = "bll";
+        }
+
+        // if no dfsdriptors of thbt typf, will rfturn fmpty brrby
+        //
+        finbl Dfsdriptor[] rftList;
+
+        if (inDfsdriptorTypf.fqublsIgnorfCbsf(MMB)) {
+            rftList = nfw Dfsdriptor[] {modflMBfbnDfsdriptor};
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(ATTR)) {
+            finbl MBfbnAttributfInfo[] bttrList = modflMBfbnAttributfs;
+            int numAttrs = 0;
+            if (bttrList != null) numAttrs = bttrList.lfngth;
+
+            rftList = nfw Dfsdriptor[numAttrs];
+            for (int i=0; i < numAttrs; i++) {
+                rftList[i] = (((ModflMBfbnAttributfInfo)
+                    bttrList[i]).gftDfsdriptor());
+            }
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(OPER)) {
+            finbl MBfbnOpfrbtionInfo[] opfrList = modflMBfbnOpfrbtions;
+            int numOpfrs = 0;
+            if (opfrList != null) numOpfrs = opfrList.lfngth;
+
+            rftList = nfw Dfsdriptor[numOpfrs];
+            for (int i=0; i < numOpfrs; i++) {
+                rftList[i] = (((ModflMBfbnOpfrbtionInfo)
+                    opfrList[i]).gftDfsdriptor());
+            }
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(CONS)) {
+            finbl MBfbnConstrudtorInfo[] donsList =  modflMBfbnConstrudtors;
+            int numCons = 0;
+            if (donsList != null) numCons = donsList.lfngth;
+
+            rftList = nfw Dfsdriptor[numCons];
+            for (int i=0; i < numCons; i++) {
+                rftList[i] = (((ModflMBfbnConstrudtorInfo)
+                    donsList[i]).gftDfsdriptor());
+            }
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(NOTF)) {
+            finbl MBfbnNotifidbtionInfo[] notifList = modflMBfbnNotifidbtions;
+            int numNotifs = 0;
+            if (notifList != null) numNotifs = notifList.lfngth;
+
+            rftList = nfw Dfsdriptor[numNotifs];
+            for (int i=0; i < numNotifs; i++) {
+                rftList[i] = (((ModflMBfbnNotifidbtionInfo)
+                    notifList[i]).gftDfsdriptor());
+            }
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(ALL)) {
+
+            finbl MBfbnAttributfInfo[] bttrList = modflMBfbnAttributfs;
+            int numAttrs = 0;
+            if (bttrList != null) numAttrs = bttrList.lfngth;
+
+            finbl MBfbnOpfrbtionInfo[] opfrList = modflMBfbnOpfrbtions;
+            int numOpfrs = 0;
+            if (opfrList != null) numOpfrs = opfrList.lfngth;
+
+            finbl MBfbnConstrudtorInfo[] donsList = modflMBfbnConstrudtors;
+            int numCons = 0;
+            if (donsList != null) numCons = donsList.lfngth;
+
+            finbl MBfbnNotifidbtionInfo[] notifList = modflMBfbnNotifidbtions;
+            int numNotifs = 0;
+            if (notifList != null) numNotifs = notifList.lfngth;
+
+            int dount = numAttrs + numCons + numOpfrs + numNotifs + 1;
+            rftList = nfw Dfsdriptor[dount];
+
+            rftList[dount-1] = modflMBfbnDfsdriptor;
+
+            int j=0;
+            for (int i=0; i < numAttrs; i++) {
+                rftList[j] = (((ModflMBfbnAttributfInfo)
+                    bttrList[i]).gftDfsdriptor());
+                j++;
+            }
+            for (int i=0; i < numCons; i++) {
+                rftList[j] = (((ModflMBfbnConstrudtorInfo)
+                    donsList[i]).gftDfsdriptor());
+                j++;
+            }
+            for (int i=0; i < numOpfrs; i++) {
+                rftList[j] = (((ModflMBfbnOpfrbtionInfo)opfrList[i]).
+                        gftDfsdriptor());
+                j++;
+            }
+            for (int i=0; i < numNotifs; i++) {
+                rftList[j] = (((ModflMBfbnNotifidbtionInfo)notifList[i]).
+                        gftDfsdriptor());
+                j++;
+            }
+        } flsf {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Dfsdriptor Typf is invblid");
+            finbl String msg = "Exdfption oddurrfd trying to find"+
+                    " thf dfsdriptors of thf MBfbn";
+            throw nfw RuntimfOpfrbtionsExdfption(ibf,msg);
+        }
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftDfsdriptors(String)", "Exit");
+        }
+
+        rfturn rftList;
+    }
+
+
+    publid void sftDfsdriptors(Dfsdriptor[] inDfsdriptors)
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftDfsdriptors(Dfsdriptor[])", "Entry");
+        }
+        if (inDfsdriptors==null) {
+            // throw RuntimfOpfrbtionsExdfption - invblid dfsdriptor
+            throw nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Dfsdriptor list is invblid"),
+                    "Exdfption oddurrfd trying to sft thf dfsdriptors " +
+                    "of thf MBfbnInfo");
+        }
+        if (inDfsdriptors.lfngth == 0) { // fmpty list, no-op
+            rfturn;
+        }
+        for (int j=0; j < inDfsdriptors.lfngth; j++) {
+            sftDfsdriptor(inDfsdriptors[j],null);
+        }
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftDfsdriptors(Dfsdriptor[])", "Exit");
+        }
+
+    }
+
+
+    /**
+     * Rfturns b Dfsdriptor rfqufstfd by nbmf.
+     *
+     * @pbrbm inDfsdriptorNbmf Thf nbmf of thf dfsdriptor.
+     *
+     * @rfturn Dfsdriptor dontbining b dfsdriptor for thf ModflMBfbn with thf
+     *         sbmf nbmf. If no dfsdriptor is found, null is rfturnfd.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption
+     *            for null nbmf.
+     *
+     * @sff #sftDfsdriptor
+     */
+
+    publid Dfsdriptor gftDfsdriptor(String inDfsdriptorNbmf)
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftDfsdriptor(String)", "Entry");
+        }
+        rfturn(gftDfsdriptor(inDfsdriptorNbmf, null));
+    }
+
+
+    publid Dfsdriptor gftDfsdriptor(String inDfsdriptorNbmf,
+            String inDfsdriptorTypf)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (inDfsdriptorNbmf==null) {
+            // throw RuntimfOpfrbtionsExdfption - invblid dfsdriptor
+            throw nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Dfsdriptor is invblid"),
+                    "Exdfption oddurrfd trying to sft thf dfsdriptors of " +
+                    "thf MBfbnInfo");
+        }
+
+        if (MMB.fqublsIgnorfCbsf(inDfsdriptorTypf)) {
+            rfturn (Dfsdriptor) modflMBfbnDfsdriptor.dlonf();
+        }
+
+            /* Thf logid hfrf is b bit donvolutfd, bfdbusf wf brf
+               dfbling with two possiblf dbsfs, dfpfnding on whfthfr
+               inDfsdriptorTypf is null.  If it's not null, thfn only
+               onf of thf following ifs will run, bnd it will fithfr
+               rfturn b dfsdriptor or null.  If inDfsdriptorTypf is
+               null, thfn bll of thf following ifs will run until onf
+               of thfm finds b dfsdriptor.  */
+        if (ATTR.fqublsIgnorfCbsf(inDfsdriptorTypf) || inDfsdriptorTypf == null) {
+            ModflMBfbnAttributfInfo bttr = gftAttributf(inDfsdriptorNbmf);
+            if (bttr != null)
+                rfturn bttr.gftDfsdriptor();
+            if (inDfsdriptorTypf != null)
+                rfturn null;
+        }
+        if (OPER.fqublsIgnorfCbsf(inDfsdriptorTypf) || inDfsdriptorTypf == null) {
+            ModflMBfbnOpfrbtionInfo opfr = gftOpfrbtion(inDfsdriptorNbmf);
+            if (opfr != null)
+                rfturn opfr.gftDfsdriptor();
+            if (inDfsdriptorTypf != null)
+                rfturn null;
+        }
+        if (CONS.fqublsIgnorfCbsf(inDfsdriptorTypf) || inDfsdriptorTypf == null) {
+            ModflMBfbnConstrudtorInfo opfr =
+                    gftConstrudtor(inDfsdriptorNbmf);
+            if (opfr != null)
+                rfturn opfr.gftDfsdriptor();
+            if (inDfsdriptorTypf != null)
+                rfturn null;
+        }
+        if (NOTF.fqublsIgnorfCbsf(inDfsdriptorTypf) || inDfsdriptorTypf == null) {
+            ModflMBfbnNotifidbtionInfo notif =
+                    gftNotifidbtion(inDfsdriptorNbmf);
+            if (notif != null)
+                rfturn notif.gftDfsdriptor();
+            if (inDfsdriptorTypf != null)
+                rfturn null;
+        }
+        if (inDfsdriptorTypf == null)
+            rfturn null;
+        throw nfw RuntimfOpfrbtionsExdfption(
+                nfw IllfgblArgumfntExdfption("Dfsdriptor Typf is invblid"),
+                "Exdfption oddurrfd trying to find thf dfsdriptors of thf MBfbn");
+
+    }
+
+
+
+    publid void sftDfsdriptor(Dfsdriptor inDfsdriptor,
+            String inDfsdriptorTypf)
+            throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        finbl String fxdMsg =
+                "Exdfption oddurrfd trying to sft thf dfsdriptors of thf MBfbn";
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftDfsdriptor(Dfsdriptor,String)", "Entry");
+        }
+
+        if (inDfsdriptor==null) {
+            inDfsdriptor = nfw DfsdriptorSupport();
+        }
+
+        if ((inDfsdriptorTypf == null) || (inDfsdriptorTypf.fqubls(""))) {
+            inDfsdriptorTypf =
+                    (String) inDfsdriptor.gftFifldVbluf("dfsdriptorTypf");
+
+            if (inDfsdriptorTypf == null) {
+                   MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                                ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                                "sftDfsdriptor(Dfsdriptor,String)",
+                                "dfsdriptorTypf null in both String pbrbmftfr bnd Dfsdriptor, dffbulting to "+ MMB);
+                inDfsdriptorTypf = MMB;
+            }
+        }
+
+        String inDfsdriptorNbmf =
+                (String) inDfsdriptor.gftFifldVbluf("nbmf");
+        if (inDfsdriptorNbmf == null) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                                ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                                "sftDfsdriptor(Dfsdriptor,String)",
+                                "dfsdriptor nbmf null, dffbulting to "+ this.gftClbssNbmf());
+            inDfsdriptorNbmf = this.gftClbssNbmf();
+        }
+        boolfbn found = fblsf;
+        if (inDfsdriptorTypf.fqublsIgnorfCbsf(MMB)) {
+            sftMBfbnDfsdriptor(inDfsdriptor);
+            found = truf;
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(ATTR)) {
+            MBfbnAttributfInfo[] bttrList =  modflMBfbnAttributfs;
+            int numAttrs = 0;
+            if (bttrList != null) numAttrs = bttrList.lfngth;
+
+            for (int i=0; i < numAttrs; i++) {
+                if (inDfsdriptorNbmf.fqubls(bttrList[i].gftNbmf())) {
+                    found = truf;
+                    ModflMBfbnAttributfInfo mmbbi =
+                            (ModflMBfbnAttributfInfo) bttrList[i];
+                    mmbbi.sftDfsdriptor(inDfsdriptor);
+                    if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        StringBuildfr strb = nfw StringBuildfr()
+                        .bppfnd("Sftting dfsdriptor to ").bppfnd(inDfsdriptor)
+                        .bppfnd("\t\n lodbl: AttributfInfo dfsdriptor is ")
+                        .bppfnd(mmbbi.gftDfsdriptor())
+                        .bppfnd("\t\n modflMBfbnInfo: AttributfInfo dfsdriptor is ")
+                        .bppfnd(this.gftDfsdriptor(inDfsdriptorNbmf,"bttributf"));
+                        MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                                ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                                "sftDfsdriptor(Dfsdriptor,String)",
+                                strb.toString());
+                    }
+                }
+            }
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(OPER)) {
+            MBfbnOpfrbtionInfo[] opfrList =  modflMBfbnOpfrbtions;
+            int numOpfrs = 0;
+            if (opfrList != null) numOpfrs = opfrList.lfngth;
+
+            for (int i=0; i < numOpfrs; i++) {
+                if (inDfsdriptorNbmf.fqubls(opfrList[i].gftNbmf())) {
+                    found = truf;
+                    ModflMBfbnOpfrbtionInfo mmboi =
+                            (ModflMBfbnOpfrbtionInfo) opfrList[i];
+                    mmboi.sftDfsdriptor(inDfsdriptor);
+                }
+            }
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(CONS)) {
+            MBfbnConstrudtorInfo[] donsList =  modflMBfbnConstrudtors;
+            int numCons = 0;
+            if (donsList != null) numCons = donsList.lfngth;
+
+            for (int i=0; i < numCons; i++) {
+                if (inDfsdriptorNbmf.fqubls(donsList[i].gftNbmf())) {
+                    found = truf;
+                    ModflMBfbnConstrudtorInfo mmbdi =
+                            (ModflMBfbnConstrudtorInfo) donsList[i];
+                    mmbdi.sftDfsdriptor(inDfsdriptor);
+                }
+            }
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(NOTF)) {
+            MBfbnNotifidbtionInfo[] notifList =  modflMBfbnNotifidbtions;
+            int numNotifs = 0;
+            if (notifList != null) numNotifs = notifList.lfngth;
+
+            for (int i=0; i < numNotifs; i++) {
+                if (inDfsdriptorNbmf.fqubls(notifList[i].gftNbmf())) {
+                    found = truf;
+                    ModflMBfbnNotifidbtionInfo mmbni =
+                            (ModflMBfbnNotifidbtionInfo) notifList[i];
+                    mmbni.sftDfsdriptor(inDfsdriptor);
+                }
+            }
+        } flsf {
+            RuntimfExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Invblid dfsdriptor typf: " +
+                    inDfsdriptorTypf);
+            throw nfw RuntimfOpfrbtionsExdfption(ibf, fxdMsg);
+        }
+
+        if (!found) {
+            RuntimfExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Dfsdriptor nbmf is invblid: " +
+                    "typf=" + inDfsdriptorTypf +
+                    "; nbmf=" + inDfsdriptorNbmf);
+            throw nfw RuntimfOpfrbtionsExdfption(ibf, fxdMsg);
+        }
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftDfsdriptor(Dfsdriptor,String)", "Exit");
+        }
+
+    }
+
+
+    publid ModflMBfbnAttributfInfo gftAttributf(String inNbmf)
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        ModflMBfbnAttributfInfo rftInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftAttributf(String)", "Entry");
+        }
+        if (inNbmf == null) {
+            throw nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Attributf Nbmf is null"),
+                    "Exdfption oddurrfd trying to gft thf " +
+                    "ModflMBfbnAttributfInfo of thf MBfbn");
+        }
+        MBfbnAttributfInfo[] bttrList = modflMBfbnAttributfs;
+        int numAttrs = 0;
+        if (bttrList != null) numAttrs = bttrList.lfngth;
+
+        for (int i=0; (i < numAttrs) && (rftInfo == null); i++) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                finbl StringBuildfr strb = nfw StringBuildfr()
+                .bppfnd("\t\n this.gftAttributfs() MBfbnAttributfInfo Arrby ")
+                .bppfnd(i).bppfnd(":")
+                .bppfnd(((ModflMBfbnAttributfInfo)bttrList[i]).gftDfsdriptor())
+                .bppfnd("\t\n this.modflMBfbnAttributfs MBfbnAttributfInfo Arrby ")
+                .bppfnd(i).bppfnd(":")
+                .bppfnd(((ModflMBfbnAttributfInfo)modflMBfbnAttributfs[i]).gftDfsdriptor());
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                        "gftAttributf(String)", strb.toString());
+            }
+            if (inNbmf.fqubls(bttrList[i].gftNbmf())) {
+                rftInfo = ((ModflMBfbnAttributfInfo)bttrList[i].dlonf());
+            }
+        }
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftAttributf(String)", "Exit");
+        }
+
+        rfturn rftInfo;
+    }
+
+
+
+    publid ModflMBfbnOpfrbtionInfo gftOpfrbtion(String inNbmf)
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        ModflMBfbnOpfrbtionInfo rftInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftOpfrbtion(String)", "Entry");
+        }
+        if (inNbmf == null) {
+            throw nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("inNbmf is null"),
+                    "Exdfption oddurrfd trying to gft thf " +
+                    "ModflMBfbnOpfrbtionInfo of thf MBfbn");
+        }
+        MBfbnOpfrbtionInfo[] opfrList = modflMBfbnOpfrbtions; //this.gftOpfrbtions();
+        int numOpfrs = 0;
+        if (opfrList != null) numOpfrs = opfrList.lfngth;
+
+        for (int i=0; (i < numOpfrs) && (rftInfo == null); i++) {
+            if (inNbmf.fqubls(opfrList[i].gftNbmf())) {
+                rftInfo = ((ModflMBfbnOpfrbtionInfo) opfrList[i].dlonf());
+            }
+        }
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftOpfrbtion(String)", "Exit");
+        }
+
+        rfturn rftInfo;
+    }
+
+    /**
+     * Rfturns thf ModflMBfbnConstrudtorInfo rfqufstfd by nbmf.
+     * If no ModflMBfbnConstrudtorInfo fxists for this nbmf null is rfturnfd.
+     *
+     * @pbrbm inNbmf thf nbmf of thf donstrudtor.
+     *
+     * @rfturn thf donstrudtor info for thf nbmfd donstrudtor, or null
+     * if thfrf is nonf.
+     *
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption
+     *            for b null donstrudtor nbmf.
+     */
+
+    publid ModflMBfbnConstrudtorInfo gftConstrudtor(String inNbmf)
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        ModflMBfbnConstrudtorInfo rftInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftConstrudtor(String)", "Entry");
+        }
+        if (inNbmf == null) {
+            throw nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Construdtor nbmf is null"),
+                    "Exdfption oddurrfd trying to gft thf " +
+                    "ModflMBfbnConstrudtorInfo of thf MBfbn");
+        }
+        MBfbnConstrudtorInfo[] donsList = modflMBfbnConstrudtors; //this.gftConstrudtors();
+        int numCons = 0;
+        if (donsList != null) numCons = donsList.lfngth;
+
+        for (int i=0; (i < numCons) && (rftInfo == null); i++) {
+            if (inNbmf.fqubls(donsList[i].gftNbmf())) {
+                rftInfo = ((ModflMBfbnConstrudtorInfo) donsList[i].dlonf());
+            }
+        }
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftConstrudtor(String)", "Exit");
+        }
+
+        rfturn rftInfo;
+    }
+
+
+    publid ModflMBfbnNotifidbtionInfo gftNotifidbtion(String inNbmf)
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        ModflMBfbnNotifidbtionInfo rftInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftNotifidbtion(String)", "Entry");
+        }
+        if (inNbmf == null) {
+            throw nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Notifidbtion nbmf is null"),
+                    "Exdfption oddurrfd trying to gft thf " +
+                    "ModflMBfbnNotifidbtionInfo of thf MBfbn");
+        }
+        MBfbnNotifidbtionInfo[] notifList = modflMBfbnNotifidbtions; //this.gftNotifidbtions();
+        int numNotifs = 0;
+        if (notifList != null) numNotifs = notifList.lfngth;
+
+        for (int i=0; (i < numNotifs) && (rftInfo == null); i++) {
+            if (inNbmf.fqubls(notifList[i].gftNbmf())) {
+                rftInfo = ((ModflMBfbnNotifidbtionInfo) notifList[i].dlonf());
+            }
+        }
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftNotifidbtion(String)", "Exit");
+        }
+
+        rfturn rftInfo;
+    }
+
+
+    /* Wf ovfrridf MBfbnInfo.gftDfsdriptor() to rfturn our dfsdriptor. */
+    /**
+     * @sindf 1.6
+     */
+    @Ovfrridf
+    publid Dfsdriptor gftDfsdriptor() {
+        rfturn gftMBfbnDfsdriptorNoExdfption();
+    }
+
+    publid Dfsdriptor gftMBfbnDfsdriptor() throws MBfbnExdfption {
+        rfturn gftMBfbnDfsdriptorNoExdfption();
+    }
+
+    privbtf Dfsdriptor gftMBfbnDfsdriptorNoExdfption() {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftMBfbnDfsdriptorNoExdfption()", "Entry");
+        }
+
+        if (modflMBfbnDfsdriptor == null)
+            modflMBfbnDfsdriptor = vblidDfsdriptor(null);
+
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftMBfbnDfsdriptorNoExdfption()",
+                    "Exit, rfturning: " + modflMBfbnDfsdriptor);
+        }
+        rfturn (Dfsdriptor) modflMBfbnDfsdriptor.dlonf();
+    }
+
+    publid void sftMBfbnDfsdriptor(Dfsdriptor inMBfbnDfsdriptor)
+    throws MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftMBfbnDfsdriptor(Dfsdriptor)", "Entry");
+        }
+        modflMBfbnDfsdriptor = vblidDfsdriptor(inMBfbnDfsdriptor);
+    }
+
+
+    /**
+     * Clonfs thf pbssfd in Dfsdriptor, sfts dffbult vblufs, bnd dhfdks for vblidity.
+     * If thf Dfsdriptor is invblid (for instbndf by hbving thf wrong "nbmf"),
+     * this indidbtfs progrbmming frror bnd b RuntimfOpfrbtionsExdfption will bf thrown.
+     *
+     * Thf following fiflds will bf dffbultfd if thfy brf not blrfbdy sft:
+     * displbyNbmf=dlbssNbmf,nbmf=dlbssNbmf,dfsdriptorTypf="mbfbn",
+     * pfrsistPolidy="nfvfr", log="F", visibility="1"
+     *
+     * @pbrbm in Dfsdriptor to bf dhfdkfd, or null whidh is fquivblfnt to
+     * bn fmpty Dfsdriptor.
+     * @fxdfption RuntimfOpfrbtionsExdfption if Dfsdriptor is invblid
+     */
+    privbtf Dfsdriptor vblidDfsdriptor(finbl Dfsdriptor in) throws RuntimfOpfrbtionsExdfption {
+        Dfsdriptor dlonf;
+        boolfbn dffbultfd = (in == null);
+        if (dffbultfd) {
+            dlonf = nfw DfsdriptorSupport();
+            MODELMBEAN_LOGGER.finfr("Null Dfsdriptor, drfbting nfw.");
+        } flsf {
+            dlonf = (Dfsdriptor) in.dlonf();
+        }
+
+        //Sftting dffbults.
+        if (dffbultfd && dlonf.gftFifldVbluf("nbmf")==null) {
+            dlonf.sftFifld("nbmf", this.gftClbssNbmf());
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor nbmf to " + this.gftClbssNbmf());
+        }
+        if (dffbultfd && dlonf.gftFifldVbluf("dfsdriptorTypf")==null) {
+            dlonf.sftFifld("dfsdriptorTypf", MMB);
+            MODELMBEAN_LOGGER.finfr("Dffbulting dfsdriptorTypf to \"" + MMB + "\"");
+        }
+        if (dlonf.gftFifldVbluf("displbyNbmf") == null) {
+            dlonf.sftFifld("displbyNbmf",this.gftClbssNbmf());
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor displbyNbmf to " + this.gftClbssNbmf());
+        }
+        if (dlonf.gftFifldVbluf("pfrsistPolidy") == null) {
+            dlonf.sftFifld("pfrsistPolidy","nfvfr");
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor pfrsistPolidy to \"nfvfr\"");
+        }
+        if (dlonf.gftFifldVbluf("log") == null) {
+            dlonf.sftFifld("log","F");
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor \"log\" fifld to \"F\"");
+        }
+        if (dlonf.gftFifldVbluf("visibility") == null) {
+            dlonf.sftFifld("visibility","1");
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor visibility to 1");
+        }
+
+        //Chfdking vblidity
+        if (!dlonf.isVblid()) {
+             throw nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                "Thf isVblid() mfthod of thf Dfsdriptor objfdt itsflf rfturnfd fblsf,"+
+                "onf or morf rfquirfd fiflds brf invblid. Dfsdriptor:" + dlonf.toString());
+        }
+
+        if (! ((String)dlonf.gftFifldVbluf("dfsdriptorTypf")).fqublsIgnorfCbsf(MMB)) {
+                 throw nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                "Thf Dfsdriptor \"dfsdriptorTypf\" fifld dofs not mbtdh thf objfdt dfsdribfd. " +
+                 " Expfdtfd: "+ MMB + " , wbs: " + dlonf.gftFifldVbluf("dfsdriptorTypf"));
+        }
+
+        rfturn dlonf;
+    }
+
+
+
+
+    /**
+     * Dfsfriblizfs b {@link ModflMBfbnInfoSupport} from bn {@link ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+    throws IOExdfption, ClbssNotFoundExdfption {
+        if (dompbt) {
+            // Rfbd bn objfdt sfriblizfd in thf old sfribl form
+            //
+            ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+            modflMBfbnDfsdriptor =
+                    (Dfsdriptor) fiflds.gft("modflMBfbnDfsdriptor", null);
+            if (fiflds.dffbultfd("modflMBfbnDfsdriptor")) {
+                throw nfw NullPointfrExdfption("modflMBfbnDfsdriptor");
+            }
+            modflMBfbnAttributfs =
+                    (MBfbnAttributfInfo[]) fiflds.gft("mmbAttributfs", null);
+            if (fiflds.dffbultfd("mmbAttributfs")) {
+                throw nfw NullPointfrExdfption("mmbAttributfs");
+            }
+            modflMBfbnConstrudtors =
+                    (MBfbnConstrudtorInfo[]) fiflds.gft("mmbConstrudtors", null);
+            if (fiflds.dffbultfd("mmbConstrudtors")) {
+                throw nfw NullPointfrExdfption("mmbConstrudtors");
+            }
+            modflMBfbnNotifidbtions =
+                    (MBfbnNotifidbtionInfo[]) fiflds.gft("mmbNotifidbtions", null);
+            if (fiflds.dffbultfd("mmbNotifidbtions")) {
+                throw nfw NullPointfrExdfption("mmbNotifidbtions");
+            }
+            modflMBfbnOpfrbtions =
+                    (MBfbnOpfrbtionInfo[]) fiflds.gft("mmbOpfrbtions", null);
+            if (fiflds.dffbultfd("mmbOpfrbtions")) {
+                throw nfw NullPointfrExdfption("mmbOpfrbtions");
+            }
+        } flsf {
+            // Rfbd bn objfdt sfriblizfd in thf nfw sfribl form
+            //
+            in.dffbultRfbdObjfdt();
+        }
+    }
+
+
+    /**
+     * Sfriblizfs b {@link ModflMBfbnInfoSupport} to bn {@link ObjfdtOutputStrfbm}.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+    throws IOExdfption {
+        if (dompbt) {
+            // Sfriblizfs this instbndf in thf old sfribl form
+            //
+            ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+            fiflds.put("modflMBfbnDfsdriptor", modflMBfbnDfsdriptor);
+            fiflds.put("mmbAttributfs", modflMBfbnAttributfs);
+            fiflds.put("mmbConstrudtors", modflMBfbnConstrudtors);
+            fiflds.put("mmbNotifidbtions", modflMBfbnNotifidbtions);
+            fiflds.put("mmbOpfrbtions", modflMBfbnOpfrbtions);
+            fiflds.put("durrClbss", durrClbss);
+            out.writfFiflds();
+        } flsf {
+            // Sfriblizfs this instbndf in thf nfw sfribl form
+            //
+            out.dffbultWritfObjfdt();
+        }
+    }
+
+
+}

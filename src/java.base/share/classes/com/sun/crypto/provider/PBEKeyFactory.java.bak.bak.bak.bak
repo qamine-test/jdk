@@ -1,0 +1,306 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfyFbdtorySpi;
+import jbvbx.drypto.spfd.PBEKfySpfd;
+import jbvb.util.HbshSft;
+import jbvb.util.Lodblf;
+
+/**
+ * This dlbss implfmfnts b kfy fbdtory for PBE kfys bddording to PKCS#5,
+ * mfbning thbt thf pbssword must donsist of printbblf ASCII dhbrbdtfrs
+ * (vblufs 32 to 126 dfdimbl indlusivf) bnd only thf low ordfr 8 bits
+ * of fbdh pbssword dhbrbdtfr brf usfd.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+bbstrbdt dlbss PBEKfyFbdtory fxtfnds SfdrftKfyFbdtorySpi {
+
+    privbtf String typf;
+    privbtf stbtid HbshSft<String> vblidTypfs;
+
+    /**
+     * Simplf donstrudtor
+     */
+    privbtf PBEKfyFbdtory(String kfytypf) {
+        typf = kfytypf;
+    }
+
+    stbtid {
+        vblidTypfs = nfw HbshSft<String>(17);
+        vblidTypfs.bdd("PBEWithMD5AndDES".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithSHA1AndDESfdf".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithSHA1AndRC2_40".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithSHA1AndRC2_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithSHA1AndRC4_40".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithSHA1AndRC4_128".toUppfrCbsf(Lodblf.ENGLISH));
+        // Propriftbry blgorithm.
+        vblidTypfs.bdd("PBEWithMD5AndTriplfDES".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA1AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA224AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA256AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA384AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA512AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA1AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA224AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA256AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA384AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWithHmbdSHA512AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+    }
+
+    publid stbtid finbl dlbss PBEWithMD5AndDES
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithMD5AndDES()  {
+            supfr("PBEWithMD5AndDES");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithSHA1AndDESfdf
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithSHA1AndDESfdf()  {
+            supfr("PBEWithSHA1AndDESfdf");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithSHA1AndRC2_40
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithSHA1AndRC2_40()  {
+            supfr("PBEWithSHA1AndRC2_40");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithSHA1AndRC2_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithSHA1AndRC2_128()  {
+            supfr("PBEWithSHA1AndRC2_128");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithSHA1AndRC4_40
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithSHA1AndRC4_40()  {
+            supfr("PBEWithSHA1AndRC4_40");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithSHA1AndRC4_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithSHA1AndRC4_128()  {
+            supfr("PBEWithSHA1AndRC4_128");
+        }
+    }
+
+    /*
+     * Privbtf propriftbry blgorithm for supporting JCEKS.
+     */
+    publid stbtid finbl dlbss PBEWithMD5AndTriplfDES
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithMD5AndTriplfDES()  {
+            supfr("PBEWithMD5AndTriplfDES");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA1AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA1AndAES_128()  {
+            supfr("PBEWithHmbdSHA1AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA224AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA224AndAES_128()  {
+            supfr("PBEWithHmbdSHA224AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA256AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA256AndAES_128()  {
+            supfr("PBEWithHmbdSHA256AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA384AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA384AndAES_128()  {
+            supfr("PBEWithHmbdSHA384AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA512AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA512AndAES_128()  {
+            supfr("PBEWithHmbdSHA512AndAES_128");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA1AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA1AndAES_256()  {
+            supfr("PBEWithHmbdSHA1AndAES_256");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA224AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA224AndAES_256()  {
+            supfr("PBEWithHmbdSHA224AndAES_256");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA256AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA256AndAES_256()  {
+            supfr("PBEWithHmbdSHA256AndAES_256");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA384AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA384AndAES_256()  {
+            supfr("PBEWithHmbdSHA384AndAES_256");
+        }
+    }
+
+    publid stbtid finbl dlbss PBEWithHmbdSHA512AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWithHmbdSHA512AndAES_256()  {
+            supfr("PBEWithHmbdSHA512AndAES_256");
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>SfdrftKfy</dodf> objfdt from thf providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf sfdrft kfy
+     *
+     * @rfturn thf sfdrft kfy
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b publid kfy.
+     */
+    protfdtfd SfdrftKfy fnginfGfnfrbtfSfdrft(KfySpfd kfySpfd)
+        throws InvblidKfySpfdExdfption
+    {
+        if (!(kfySpfd instbndfof PBEKfySpfd)) {
+            throw nfw InvblidKfySpfdExdfption("Invblid kfy spfd");
+        }
+        rfturn nfw PBEKfy((PBEKfySpfd)kfySpfd, typf);
+    }
+
+    /**
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of thf givfn kfy
+     * in thf rfqufstfd formbt.
+     *
+     * @pbrbm kfy thf kfy
+     *
+     * @pbrbm kfySpfd thf rfqufstfd formbt in whidh thf kfy mbtfribl shbll bf
+     * rfturnfd
+     *
+     * @rfturn thf undfrlying kfy spfdifidbtion (kfy mbtfribl) in thf
+     * rfqufstfd formbt
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for thf givfn kfy, or thf givfn kfy dbnnot bf prodfssfd
+     * (f.g., thf givfn kfy hbs bn unrfdognizfd blgorithm or formbt).
+     */
+    protfdtfd KfySpfd fnginfGftKfySpfd(SfdrftKfy kfy, Clbss<?> kfySpfdCl)
+        throws InvblidKfySpfdExdfption {
+        if ((kfy instbndfof SfdrftKfy)
+            && (vblidTypfs.dontbins(kfy.gftAlgorithm().toUppfrCbsf(Lodblf.ENGLISH)))
+            && (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
+
+            // Chfdk if rfqufstfd kfy spfd is bmongst thf vblid onfs
+            if ((kfySpfdCl != null)
+                && PBEKfySpfd.dlbss.isAssignbblfFrom(kfySpfdCl)) {
+                bytf[] pbsswdBytfs = kfy.gftEndodfd();
+                dhbr[] pbsswdChbrs = nfw dhbr[pbsswdBytfs.lfngth];
+                for (int i=0; i<pbsswdChbrs.lfngth; i++)
+                    pbsswdChbrs[i] = (dhbr) (pbsswdBytfs[i] & 0x7f);
+                PBEKfySpfd rft = nfw PBEKfySpfd(pbsswdChbrs);
+                // pbssword dhbr[] wbs dlonfd in PBEKfySpfd donstrudtor,
+                // so wf dbn zfro it out hfrf
+                jbvb.util.Arrbys.fill(pbsswdChbrs, ' ');
+                jbvb.util.Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+                rfturn rft;
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption("Invblid kfy spfd");
+            }
+        } flsf {
+            throw nfw InvblidKfySpfdExdfption("Invblid kfy "
+                                              + "formbt/blgorithm");
+        }
+    }
+
+    /**
+     * Trbnslbtfs b <dodf>SfdrftKfy</dodf> objfdt, whosf providfr mby bf
+     * unknown or potfntiblly untrustfd, into b dorrfsponding
+     * <dodf>SfdrftKfy</dodf> objfdt of this kfy fbdtory.
+     *
+     * @pbrbm kfy thf kfy whosf providfr is unknown or untrustfd
+     *
+     * @rfturn thf trbnslbtfd kfy
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy dbnnot bf prodfssfd by
+     * this kfy fbdtory.
+     */
+    protfdtfd SfdrftKfy fnginfTrbnslbtfKfy(SfdrftKfy kfy)
+        throws InvblidKfyExdfption
+    {
+        try {
+            if ((kfy != null) &&
+                (vblidTypfs.dontbins(kfy.gftAlgorithm().toUppfrCbsf(Lodblf.ENGLISH))) &&
+                (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
+
+                // Chfdk if kfy originbtfs from this fbdtory
+                if (kfy instbndfof dom.sun.drypto.providfr.PBEKfy) {
+                    rfturn kfy;
+                }
+
+                // Convfrt kfy to spfd
+                PBEKfySpfd pbfKfySpfd = (PBEKfySpfd)fnginfGftKfySpfd
+                    (kfy, PBEKfySpfd.dlbss);
+
+                // Crfbtf kfy from spfd, bnd rfturn it
+                rfturn fnginfGfnfrbtfSfdrft(pbfKfySpfd);
+            } flsf {
+                throw nfw InvblidKfyExdfption("Invblid kfy formbt/blgorithm");
+            }
+
+        } dbtdh (InvblidKfySpfdExdfption iksf) {
+            throw nfw InvblidKfyExdfption("Cbnnot trbnslbtf kfy: "
+                                          + iksf.gftMfssbgf());
+        }
+    }
+}

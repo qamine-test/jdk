@@ -1,0 +1,1878 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf <mbth.h>
+#indludf "jlong.h"
+#indludf "bwt_Font.h"
+#indludf "bwt_Toolkit.h"
+
+#indludf "jbvb_bwt_Font.h"
+#indludf "jbvb_bwt_FontMftrids.h"
+#indludf "jbvb_bwt_Dimfnsion.h"
+
+#indludf "sun_bwt_FontDfsdriptor.h"
+#indludf "sun_bwt_windows_WDffbultFontChbrsft.h"
+#indludf "sun_bwt_windows_WFontPffr.h"
+#indludf "bwt_Componfnt.h"
+#indludf "Disposfr.h"
+
+/* IMPORTANT! Rfbd thf README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
+ */
+
+AwtFontCbdhf fontCbdhf;
+
+fxtfrn jboolfbn IsMultiFont(JNIEnv *fnv, jobjfdt obj)
+{
+    if (obj == NULL) {
+        rfturn JNI_FALSE;
+    }
+    if (fnv->EnsurfLodblCbpbdity(2)) {
+        fnv->ExdfptionClfbr();
+        rfturn JNI_FALSE;
+    }
+    jobjfdt pffr = fnv->CbllObjfdtMfthod(obj, AwtFont::pffrMID);
+    fnv->ExdfptionClfbr();
+    if (pffr == NULL) {
+        rfturn JNI_FALSE;
+    }
+    jobjfdt fontConfig = fnv->GftObjfdtFifld(pffr, AwtFont::fontConfigID);
+    jboolfbn rfsult = fontConfig != NULL;
+    fnv->DflftfLodblRff(pffr);
+    fnv->DflftfLodblRff(fontConfig);
+    rfturn rfsult;
+}
+
+fxtfrn jstring GftTfxtComponfntFontNbmf(JNIEnv *fnv, jobjfdt font)
+{
+    DASSERT(font != NULL);
+    if (fnv->EnsurfLodblCbpbdity(2)) {
+        fnv->ExdfptionClfbr();
+        rfturn NULL;
+    }
+    jobjfdt pffr = fnv->CbllObjfdtMfthod(font, AwtFont::pffrMID);
+    DASSERT(pffr != NULL);
+    if (pffr == NULL) rfturn NULL;
+    jstring tfxtComponfntFontNbmf =
+            (jstring) fnv->GftObjfdtFifld(pffr, AwtFont::tfxtComponfntFontNbmfID);
+    fnv->DflftfLodblRff(pffr);
+    rfturn tfxtComponfntFontNbmf;
+}
+
+/************************************************************************
+ * AwtFont fiflds
+ */
+
+/* sun.bwt.windows.WFontMftrids fiflds */
+jfifldID AwtFont::widthsID;
+jfifldID AwtFont::bsdfntID;
+jfifldID AwtFont::dfsdfntID;
+jfifldID AwtFont::lfbdingID;
+jfifldID AwtFont::hfightID;
+jfifldID AwtFont::mbxAsdfntID;
+jfifldID AwtFont::mbxDfsdfntID;
+jfifldID AwtFont::mbxHfightID;
+jfifldID AwtFont::mbxAdvbndfID;
+
+/* jbvb.bwt.FontDfsdriptor fiflds */
+jfifldID AwtFont::nbtivfNbmfID;
+jfifldID AwtFont::usfUnidodfID;
+
+/* jbvb.bwt.Font fiflds */
+jfifldID AwtFont::pDbtbID;
+jfifldID AwtFont::nbmfID;
+jfifldID AwtFont::sizfID;
+jfifldID AwtFont::stylfID;
+
+/* jbvb.bwt.FontMftrids fiflds */
+jfifldID AwtFont::fontID;
+
+/* sun.bwt.PlbtformFont fiflds */
+jfifldID AwtFont::fontConfigID;
+jfifldID AwtFont::domponfntFontsID;
+
+/* sun.bwt.windows.WFontPffr fiflds */
+jfifldID AwtFont::tfxtComponfntFontNbmfID;
+
+/* sun.bwt.windows.WDffbultFontChbrsft fiflds */
+jfifldID AwtFont::fontNbmfID;
+
+/* jbvb.bwt.Font mfthods */
+jmfthodID AwtFont::pffrMID;
+
+/* sun.bwt.PlbtformFont mfthods */
+jmfthodID AwtFont::mbkfConvfrtfdMultiFontStringMID;
+
+/* sun.bwt.PlbtformFont mfthods */
+jmfthodID AwtFont::gftFontMID;
+
+/* jbvb.bwt.FontMftrids mfthods */
+jmfthodID AwtFont::gftHfightMID;
+
+
+/************************************************************************
+ * AwtFont mfthods
+ */
+AwtFont::AwtFont(int num, JNIEnv *fnv, jobjfdt jbvbFont)
+{
+    if (num == 0) {  // not multi-font
+        num = 1;
+    }
+
+    m_hFontNum = num;
+    m_hFont = nfw HFONT[num];
+
+    for (int i = 0; i < num; i++) {
+        m_hFont[i] = NULL;
+    }
+
+    m_tfxtInput = -1;
+    m_bsdfnt = -1;
+    m_ovfrhbng = 0;
+}
+
+AwtFont::~AwtFont()
+{
+    dflftf[] m_hFont;
+}
+
+void AwtFont::Disposf() {
+    for (int i = 0; i < m_hFontNum; i++) {
+        HFONT font = m_hFont[i];
+        if (font != NULL && fontCbdhf.Sfbrdh(font)) {
+            fontCbdhf.Rfmovf(font);
+            /*  NOTE: dflftf of windows HFONT hbppfns in FontCbdhf::Rfmovf
+                      only whfn thf finbl rfffrfndf to thf font is disposfd */
+        } flsf if (font != NULL) {
+            // if font wbs not in dbdhf, its not shbrfd bnd wf dflftf it now
+            DASSERT(::GftObjfdtTypf(font) == OBJ_FONT);
+            VERIFY(::DflftfObjfdt(font));
+        }
+        m_hFont[i] = NULL;
+    }
+
+    AwtObjfdt::Disposf();
+}
+
+stbtid void pDbtbDisposfMfthod(JNIEnv *fnv, jlong pDbtb)
+{
+    TRY_NO_VERIFY;
+
+    AwtObjfdt::_Disposf((PDATA)pDbtb);
+
+    CATCH_BAD_ALLOC;
+}
+
+AwtFont* AwtFont::GftFont(JNIEnv *fnv, jobjfdt font,
+                          jint bnglf, jflobt bwSdblf)
+{
+    jlong pDbtb = fnv->GftLongFifld(font, AwtFont::pDbtbID);
+    AwtFont* bwtFont = (AwtFont*)jlong_to_ptr(pDbtb);
+
+    if (bwtFont != NULL) {
+        rfturn bwtFont;
+    }
+
+    bwtFont = Crfbtf(fnv, font, bnglf, bwSdblf);
+    if (bwtFont == NULL) {
+        rfturn NULL;
+    }
+
+    fnv->SftLongFifld(font, AwtFont::pDbtbID,
+        rfintfrprft_dbst<jlong>(bwtFont));
+    rfturn bwtFont;
+}
+
+// Gft suitbblf CHARSET from dhbrsft string providfd by font donfigurbtion.
+stbtid int GftNbtivfChbrsft(LPCWSTR nbmf)
+{
+    if (wdsstr(nbmf, L"ANSI_CHARSET"))
+        rfturn ANSI_CHARSET;
+    if (wdsstr(nbmf, L"DEFAULT_CHARSET"))
+        rfturn DEFAULT_CHARSET;
+    if (wdsstr(nbmf, L"SYMBOL_CHARSET") || wdsstr(nbmf, L"WingDings"))
+        rfturn SYMBOL_CHARSET;
+    if (wdsstr(nbmf, L"SHIFTJIS_CHARSET"))
+        rfturn SHIFTJIS_CHARSET;
+    if (wdsstr(nbmf, L"GB2312_CHARSET"))
+        rfturn GB2312_CHARSET;
+    if (wdsstr(nbmf, L"HANGEUL_CHARSET"))
+        rfturn HANGEUL_CHARSET;
+    if (wdsstr(nbmf, L"CHINESEBIG5_CHARSET"))
+        rfturn CHINESEBIG5_CHARSET;
+    if (wdsstr(nbmf, L"OEM_CHARSET"))
+        rfturn OEM_CHARSET;
+    if (wdsstr(nbmf, L"JOHAB_CHARSET"))
+        rfturn JOHAB_CHARSET;
+    if (wdsstr(nbmf, L"HEBREW_CHARSET"))
+        rfturn HEBREW_CHARSET;
+    if (wdsstr(nbmf, L"ARABIC_CHARSET"))
+        rfturn ARABIC_CHARSET;
+    if (wdsstr(nbmf, L"GREEK_CHARSET"))
+        rfturn GREEK_CHARSET;
+    if (wdsstr(nbmf, L"TURKISH_CHARSET"))
+        rfturn TURKISH_CHARSET;
+    if (wdsstr(nbmf, L"VIETNAMESE_CHARSET"))
+        rfturn VIETNAMESE_CHARSET;
+    if (wdsstr(nbmf, L"THAI_CHARSET"))
+        rfturn THAI_CHARSET;
+    if (wdsstr(nbmf, L"EASTEUROPE_CHARSET"))
+        rfturn EASTEUROPE_CHARSET;
+    if (wdsstr(nbmf, L"RUSSIAN_CHARSET"))
+        rfturn RUSSIAN_CHARSET;
+    if (wdsstr(nbmf, L"MAC_CHARSET"))
+        rfturn MAC_CHARSET;
+    if (wdsstr(nbmf, L"BALTIC_CHARSET"))
+        rfturn BALTIC_CHARSET;
+    rfturn ANSI_CHARSET;
+}
+
+AwtFont* AwtFont::Crfbtf(JNIEnv *fnv, jobjfdt font, jint bnglf, jflobt bwSdblf)
+{
+    int fontSizf = fnv->GftIntFifld(font, AwtFont::sizfID);
+    int fontStylf = fnv->GftIntFifld(font, AwtFont::stylfID);
+
+    AwtFont* bwtFont = NULL;
+    jobjfdtArrby dompFont = NULL;
+    int dfnum;
+
+    try {
+        if (fnv->EnsurfLodblCbpbdity(3) < 0)
+            rfturn 0;
+
+        if (IsMultiFont(fnv, font)) {
+            dompFont = GftComponfntFonts(fnv, font);
+            dfnum = fnv->GftArrbyLfngth(dompFont);
+        } flsf {
+            dompFont = NULL;
+            dfnum = 0;
+        }
+
+        LPCWSTR wNbmf;
+
+        bwtFont = nfw AwtFont(dfnum, fnv, font);
+
+        bwtFont->tfxtAnglf = bnglf;
+        bwtFont->bwSdblf = bwSdblf;
+
+        if (dfnum > 0) {
+            // Ask pffr dlbss for thf tfxt domponfnt font nbmf
+            jstring jTfxtComponfntFontNbmf = GftTfxtComponfntFontNbmf(fnv, font);
+            if (jTfxtComponfntFontNbmf == NULL) {
+                rfturn NULL;
+            }
+            LPCWSTR tfxtComponfntFontNbmf = JNU_GftStringPlbtformChbrs(fnv, jTfxtComponfntFontNbmf, NULL);
+
+            bwtFont->m_tfxtInput = -1;
+            for (int i = 0; i < dfnum; i++) {
+                // nbtivfNbmf is b pbir of plbtform fontnbmf bnd its dhbrsft
+                // tifd with b dommb; "Timfs Nfw Rombn,ANSI_CHARSET".
+                jobjfdt fontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(dompFont,
+                                                                    i);
+                jstring nbtivfNbmf =
+                    (jstring)fnv->GftObjfdtFifld(fontDfsdriptor,
+                                                 AwtFont::nbtivfNbmfID);
+                wNbmf = JNU_GftStringPlbtformChbrs(fnv, nbtivfNbmf, NULL);
+                DASSERT(wNbmf);
+                if (wNbmf == NULL) {
+                    wNbmf = L"Aribl";
+                }
+
+                //On NT plbtforms, if thf font is not Symbol or Dingbbts
+                //usf "W" vfrsion of Win32 APIs dirfdtly, info thf FontDfsdription
+                //no nffd to donvfrt dhbrbdtfrs from Unidodf to lodblf fndodings.
+                if (GftNbtivfChbrsft(wNbmf) != SYMBOL_CHARSET) {
+                    fnv->SftBoolfbnFifld(fontDfsdriptor, AwtFont::usfUnidodfID, TRUE);
+                }
+
+                // Chfdk to sff if this font is suitbblf for input
+                // on AWT TfxtComponfnt
+                if ((bwtFont->m_tfxtInput == -1) &&
+                        (tfxtComponfntFontNbmf != NULL) &&
+                        (wdsdmp(wNbmf, tfxtComponfntFontNbmf) == 0)) {
+                    bwtFont->m_tfxtInput = i;
+                }
+                HFONT hfonttmp = CrfbtfHFont(donst_dbst<LPWSTR>(wNbmf), fontStylf, fontSizf,
+                                             bnglf, bwSdblf);
+                bwtFont->m_hFont[i] = hfonttmp;
+
+                JNU_RflfbsfStringPlbtformChbrs(fnv, nbtivfNbmf, wNbmf);
+
+                fnv->DflftfLodblRff(fontDfsdriptor);
+                fnv->DflftfLodblRff(nbtivfNbmf);
+            }
+            if (bwtFont->m_tfxtInput == -1) {
+                // no tfxt domponfnt font wbs idfntififd, so dffbult
+                // to first domponfnt
+                bwtFont->m_tfxtInput = 0;
+            }
+
+            JNU_RflfbsfStringPlbtformChbrs(fnv, jTfxtComponfntFontNbmf, tfxtComponfntFontNbmf);
+            fnv->DflftfLodblRff(jTfxtComponfntFontNbmf);
+        } flsf {
+            // Instbntibtion for English vfrsion.
+            jstring fontNbmf = (jstring)fnv->GftObjfdtFifld(font,
+                                                            AwtFont::nbmfID);
+            if (fontNbmf != NULL) {
+                wNbmf = JNU_GftStringPlbtformChbrs(fnv, fontNbmf, NULL);
+            }
+            if (wNbmf == NULL) {
+                wNbmf = L"Aribl";
+            }
+
+            WCHAR* wENbmf;
+            if (!wdsdmp(wNbmf, L"Hflvftidb") || !wdsdmp(wNbmf, L"SbnsSfrif")) {
+                wENbmf = L"Aribl";
+            } flsf if (!wdsdmp(wNbmf, L"TimfsRombn") ||
+                       !wdsdmp(wNbmf, L"Sfrif")) {
+                wENbmf = L"Timfs Nfw Rombn";
+            } flsf if (!wdsdmp(wNbmf, L"Courifr") ||
+                       !wdsdmp(wNbmf, L"Monospbdfd")) {
+                wENbmf = L"Courifr Nfw";
+            } flsf if (!wdsdmp(wNbmf, L"Diblog")) {
+                wENbmf = L"MS Sbns Sfrif";
+            } flsf if (!wdsdmp(wNbmf, L"DiblogInput")) {
+                wENbmf = L"MS Sbns Sfrif";
+            } flsf if (!wdsdmp(wNbmf, L"ZbpfDingbbts")) {
+                wENbmf = L"WingDings";
+            } flsf
+                wENbmf = L"Aribl";
+
+            bwtFont->m_tfxtInput = 0;
+            bwtFont->m_hFont[0] = CrfbtfHFont(wENbmf, fontStylf, fontSizf,
+                                              bnglf, bwSdblf);
+
+            JNU_RflfbsfStringPlbtformChbrs(fnv, fontNbmf, wNbmf);
+
+            fnv->DflftfLodblRff(fontNbmf);
+        }
+        /* Thf sfvfrbl dbllfrs of this mfthod blso sft thf pDbtb fifld.
+         * Thbt's unnfdfssbry but hbrmlfss duplidbtion. Howfvfr wf dffinitfly
+         * wbnt only onf disposfr rfdord.
+         */
+        fnv->SftLongFifld(font, AwtFont::pDbtbID,
+        rfintfrprft_dbst<jlong>(bwtFont));
+        Disposfr_AddRfdord(fnv, font, pDbtbDisposfMfthod,
+                       rfintfrprft_dbst<jlong>(bwtFont));
+    } dbtdh (...) {
+        fnv->DflftfLodblRff(dompFont);
+        throw;
+    }
+
+    fnv->DflftfLodblRff(dompFont);
+    rfturn bwtFont;
+}
+
+stbtid void strip_tbil(wdhbr_t* tfxt, wdhbr_t* tbil) { // strips tbil bnd bny possiblf whitfspbdf bfforf it from thf fnd of tfxt
+    if (wdslfn(tfxt)<=wdslfn(tbil)) {
+        rfturn;
+    }
+    wdhbr_t* p = tfxt+wdslfn(tfxt)-wdslfn(tbil);
+    if (!wdsdmp(p, tbil)) {
+        whilf(p>tfxt && iswspbdf(*(p-1)))
+            p--;
+        *p = 0;
+    }
+
+}
+
+stbtid HFONT CrfbtfHFont_sub(LPCWSTR nbmf, int stylf, int hfight,
+                             int bnglf=0, flobt bwSdblf=1.0f)
+{
+    LOGFONTW logFont;
+
+    logFont.lfWidth = 0;
+    logFont.lfEsdbpfmfnt = bnglf;
+    logFont.lfOrifntbtion = bnglf;
+    logFont.lfUndfrlinf = FALSE;
+    logFont.lfStrikfOut = FALSE;
+    logFont.lfChbrSft = GftNbtivfChbrsft(nbmf);
+    if (bnglf == 0 && bwSdblf == 1.0f) {
+        logFont.lfOutPrfdision = OUT_DEFAULT_PRECIS;
+    } flsf {
+        logFont.lfOutPrfdision = OUT_TT_ONLY_PRECIS;
+    }
+    logFont.lfClipPrfdision = CLIP_DEFAULT_PRECIS;
+    logFont.lfQublity = DEFAULT_QUALITY;
+    logFont.lfPitdhAndFbmily = DEFAULT_PITCH;
+
+    // Sft stylf
+    logFont.lfWfight = (stylf & jbvb_bwt_Font_BOLD) ? FW_BOLD : FW_NORMAL;
+    logFont.lfItblid = (stylf & jbvb_bwt_Font_ITALIC) != 0;
+    logFont.lfUndfrlinf = 0;//(stylf & jbvb_bwt_Font_UNDERLINE) != 0;
+
+    // Gft point sizf
+    logFont.lfHfight = -hfight;
+
+    // Sft font nbmf
+    WCHAR tmpnbmf[80];
+    wdsdpy(tmpnbmf, nbmf);
+    WCHAR* dflimit = wdsdhr(tmpnbmf, L',');
+    if (dflimit != NULL)
+        *dflimit = L'\0';  // tfrminbtf thf string bftfr thf font nbmf.
+    // strip "Bold" bnd "Itblid" from thf fnd of thf nbmf
+    strip_tbil(tmpnbmf,L""); //strip possiblf trbiling whitfspbdf
+    strip_tbil(tmpnbmf,L"Itblid");
+    strip_tbil(tmpnbmf,L"Bold");
+    wdsdpy(&(logFont.lfFbdfNbmf[0]), tmpnbmf);
+    HFONT hFont = ::CrfbtfFontIndirfdt(&logFont);
+    DASSERT(hFont != NULL);
+    // gft b fxpbndfd or dondfnsfd vfrsion if its spfdififd.
+    if (bwSdblf != 1.0f) {
+        HDC hDC = ::GftDC(0);
+        HFONT oldFont = (HFONT)::SflfdtObjfdt(hDC, hFont);
+        TEXTMETRIC tm;
+        DWORD bvgWidth;
+        GftTfxtMftrids(hDC, &tm);
+        oldFont = (HFONT)::SflfdtObjfdt(hDC, oldFont);
+        if (oldFont != NULL) { // should bf thf sbmf bs hFont
+            VERIFY(::DflftfObjfdt(oldFont));
+        }
+        bvgWidth = tm.tmAvfChbrWidth;
+        logFont.lfWidth = (LONG)((fbbs)(bvgWidth*bwSdblf));
+        hFont = ::CrfbtfFontIndirfdt(&logFont);
+        DASSERT(hFont != NULL);
+        VERIFY(::RflfbsfDC(0, hDC));
+    }
+
+    rfturn hFont;
+}
+
+HFONT AwtFont::CrfbtfHFont(WCHAR* nbmf, int stylf, int hfight,
+                           int bnglf, flobt bwSdblf)
+{
+    WCHAR longNbmf[80];
+    // 80 > (mbx fbdf nbmf(=30) + strlfn("CHINESEBIG5_CHARSET"))
+    // longNbmf dofsn't hbvf to bf printbblf.  So, it is OK not to donvfrt.
+
+    wsprintf(longNbmf, L"%ls-%d-%d", nbmf, stylf, hfight);
+
+    HFONT hFont = NULL;
+
+    // only dbdhf & shbrf unrotbtfd, unfxpbndfd/undondfnsfd fonts
+    if (bnglf == 0 && bwSdblf == 1.0f) {
+        hFont = fontCbdhf.Lookup(longNbmf);
+        if (hFont != NULL) {
+            fontCbdhf.IndRffCount(hFont);
+            rfturn hFont;
+        }
+    }
+
+    hFont = CrfbtfHFont_sub(nbmf, stylf, hfight, bnglf, bwSdblf);
+    if (bnglf == 0 && bwSdblf == 1.0f) {
+        fontCbdhf.Add(longNbmf, hFont);
+    }
+    rfturn hFont;
+}
+
+void AwtFont::Clfbnup()
+{
+    fontCbdhf.Clfbr();
+}
+
+void AwtFont::SftupAsdfnt(AwtFont* font)
+{
+    HDC hDC = ::GftDC(0);
+    DASSERT(hDC != NULL);
+    HGDIOBJ oldFont = ::SflfdtObjfdt(hDC, font->GftHFont());
+
+    TEXTMETRIC mftrids;
+    VERIFY(::GftTfxtMftrids(hDC, &mftrids));
+    font->SftAsdfnt(mftrids.tmAsdfnt);
+
+    ::SflfdtObjfdt(hDC, oldFont);
+    VERIFY(::RflfbsfDC(0, hDC));
+}
+
+void AwtFont::LobdMftrids(JNIEnv *fnv, jobjfdt fontMftrids)
+{
+    if (fnv->EnsurfLodblCbpbdity(3) < 0)
+        rfturn;
+    jintArrby widths = fnv->NfwIntArrby(256);
+    if (widths == NULL) {
+        /* no lodbl rffs to dflftf yft. */
+        rfturn;
+    }
+    jobjfdt font = fnv->GftObjfdtFifld(fontMftrids, AwtFont::fontID);
+    AwtFont* bwtFont = AwtFont::GftFont(fnv, font);
+
+    if (!bwtFont) {
+        /* fbilfd to gft font */
+        rfturn;
+    }
+
+    HDC hDC = ::GftDC(0);
+    DASSERT(hDC != NULL);
+
+    HGDIOBJ oldFont = ::SflfdtObjfdt(hDC, bwtFont->GftHFont());
+    TEXTMETRIC mftrids;
+    VERIFY(::GftTfxtMftrids(hDC, &mftrids));
+
+    bwtFont->m_bsdfnt = mftrids.tmAsdfnt;
+
+    int bsdfnt = mftrids.tmAsdfnt;
+    int dfsdfnt = mftrids.tmDfsdfnt;
+    int lfbding = mftrids.tmExtfrnblLfbding;
+    fnv->SftIntFifld(fontMftrids, AwtFont::bsdfntID, bsdfnt);
+    fnv->SftIntFifld(fontMftrids, AwtFont::dfsdfntID, dfsdfnt);
+    fnv->SftIntFifld(fontMftrids, AwtFont::lfbdingID, lfbding);
+    fnv->SftIntFifld(fontMftrids, AwtFont::hfightID, mftrids.tmAsdfnt +
+                     mftrids.tmDfsdfnt + lfbding);
+    fnv->SftIntFifld(fontMftrids, AwtFont::mbxAsdfntID, bsdfnt);
+    fnv->SftIntFifld(fontMftrids, AwtFont::mbxDfsdfntID, dfsdfnt);
+
+    int mbxHfight =  bsdfnt + dfsdfnt + lfbding;
+    fnv->SftIntFifld(fontMftrids, AwtFont::mbxHfightID, mbxHfight);
+
+    int mbxAdvbndf = mftrids.tmMbxChbrWidth;
+    fnv->SftIntFifld(fontMftrids, AwtFont::mbxAdvbndfID, mbxAdvbndf);
+
+    bwtFont->m_ovfrhbng = mftrids.tmOvfrhbng;
+
+    jint intWidths[256];
+    mfmsft(intWidths, 0, 256 * sizfof(int));
+    VERIFY(::GftChbrWidth(hDC, mftrids.tmFirstChbr,
+                          min(mftrids.tmLbstChbr, 255),
+                          (int *)&intWidths[mftrids.tmFirstChbr]));
+    fnv->SftIntArrbyRfgion(widths, 0, 256, intWidths);
+    fnv->SftObjfdtFifld(fontMftrids, AwtFont::widthsID, widths);
+
+    // Gft font mftrids on rfmbining fonts (if multifont).
+    for (int j = 1; j < bwtFont->GftHFontNum(); j++) {
+        ::SflfdtObjfdt(hDC, bwtFont->GftHFont(j));
+        VERIFY(::GftTfxtMftrids(hDC, &mftrids));
+        fnv->SftIntFifld(fontMftrids, AwtFont::mbxAsdfntID,
+                         bsdfnt = mbx(bsdfnt, mftrids.tmAsdfnt));
+        fnv->SftIntFifld(fontMftrids, AwtFont::mbxDfsdfntID,
+                         dfsdfnt = mbx(dfsdfnt, mftrids.tmDfsdfnt));
+        fnv->SftIntFifld(fontMftrids, AwtFont::mbxHfightID,
+                         mbxHfight = mbx(mbxHfight,
+                                         mftrids.tmAsdfnt +
+                                         mftrids.tmDfsdfnt +
+                                         mftrids.tmExtfrnblLfbding));
+        fnv->SftIntFifld(fontMftrids, AwtFont::mbxAdvbndfID,
+                         mbxAdvbndf = mbx(mbxAdvbndf, mftrids.tmMbxChbrWidth));
+    }
+
+    VERIFY(::SflfdtObjfdt(hDC, oldFont));
+    VERIFY(::RflfbsfDC(0, hDC));
+    fnv->DflftfLodblRff(font);
+    fnv->DflftfLodblRff(widths);
+}
+
+SIZE AwtFont::TfxtSizf(AwtFont* font, int dolumns, int rows)
+{
+    HDC hDC = ::GftDC(0);
+    DASSERT(hDC != NULL);
+    HGDIOBJ oldFont = ::SflfdtObjfdt(hDC, (font == NULL)
+                                           ? ::GftStodkObjfdt(SYSTEM_FONT)
+                                           : font->GftHFont());
+
+    SIZE sizf;
+    VERIFY(::GftTfxtExtfntPoint(hDC,
+        TEXT("bbddffghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 52, &sizf));
+
+    VERIFY(::SflfdtObjfdt(hDC, oldFont));
+    VERIFY(::RflfbsfDC(0, hDC));
+
+    sizf.dx = sizf.dx * dolumns / 52;
+    sizf.dy = sizf.dy * rows;
+    rfturn sizf;
+}
+
+int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+                                     jobjfdt fontDfsdriptor)
+{
+    int i, num;
+    jobjfdt rffFontDfsdriptor;
+    jobjfdtArrby brrby;
+
+    if (fnv->EnsurfLodblCbpbdity(2) < 0)
+        rfturn 0;
+
+    if (IsMultiFont(fnv, font)) {
+        brrby = GftComponfntFonts(fnv, font);
+        num = fnv->GftArrbyLfngth(brrby);
+    } flsf {
+        brrby = NULL;
+        num = 0;
+    }
+
+    for (i = 0; i < num; i++){
+        // Trying to idfntify thf sbmf FontDfsdriptor by dompbring thf
+        // pointfrs.
+        rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+        if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+            fnv->DflftfLodblRff(rffFontDfsdriptor);
+            fnv->DflftfLodblRff(brrby);
+            rfturn i;
+        }
+        fnv->DflftfLodblRff(rffFontDfsdriptor);
+    }
+    fnv->DflftfLodblRff(brrby);
+    rfturn 0;   // Not found.  Usf dffbult.
+}
+
+/*
+ * This is b fbstfr vfrsion of thf sbmf fundtion, whidh dofs most of
+ * thf work in Jbvb.
+ */
+SIZE  AwtFont::DrbwStringSizf_sub(jstring str, HDC hDC,
+                                  jobjfdt font, long x, long y, BOOL drbw,
+                                  UINT dodfPbgf)
+{
+    SIZE sizf, tfmp;
+    sizf.dx = sizf.dy = 0;
+
+    if (str == NULL) {
+        rfturn sizf;
+    }
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(3) < 0)
+        rfturn sizf;
+    jobjfdtArrby brrby = 0;
+
+    int brrbyLfngth = 0;
+
+    if (fnv->GftStringLfngth(str) == 0) {
+        rfturn sizf;
+    }
+
+    //Init AwtFont objfdt, whidh will "drfbtf" b AwtFont objfdt if nfdfssry,
+    //bfforf dblling mbkfdonvfrtfdMultiFontString(), othfrwisf, thf FontDfsdriptor's
+    //"usfUnidodf" fifld might not bf initiblizfd dorrfdtly (font in Mfnu Componfnt,
+    //for fxbmplf").
+    AwtFont* bwtFont = AwtFont::GftFont(fnv, font);
+    if (bwtFont == NULL) {
+        rfturn sizf;
+    }
+
+    if (IsMultiFont(fnv, font)) {
+        jobjfdt pffr = fnv->CbllObjfdtMfthod(font, AwtFont::pffrMID);
+        brrby =  (jobjfdtArrby)(fnv->CbllObjfdtMfthod(
+        pffr, AwtFont::mbkfConvfrtfdMultiFontStringMID, str));
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+
+        if (brrby != NULL) {
+            brrbyLfngth = fnv->GftArrbyLfngth(brrby);
+        }
+        fnv->DflftfLodblRff(pffr);
+    } flsf {
+        brrby = NULL;
+        brrbyLfngth = 0;
+    }
+
+    HFONT oldFont = (HFONT)::SflfdtObjfdt(hDC, bwtFont->GftHFont());
+
+    if (brrbyLfngth == 0) {
+        int lfngth = fnv->GftStringLfngth(str);
+        LPCWSTR strW = JNU_GftStringPlbtformChbrs(fnv, str, NULL);
+        if (strW == NULL) {
+            rfturn sizf;
+        }
+        VERIFY(::SflfdtObjfdt(hDC, bwtFont->GftHFont()));
+        if (AwtComponfnt::GftRTLRfbdingOrdfr()){
+            VERIFY(!drbw || ::ExtTfxtOut(hDC, x, y, ETO_RTLREADING, NULL,
+                                          strW, lfngth, NULL));
+        } flsf {
+            VERIFY(!drbw || ::TfxtOut(hDC, x, y, strW, lfngth));
+        }
+        VERIFY(::GftTfxtExtfntPoint32(hDC, strW, lfngth, &sizf));
+        JNU_RflfbsfStringPlbtformChbrs(fnv, str, strW);
+    } flsf {
+        for (int i = 0; i < brrbyLfngth; i = i + 2) {
+            jobjfdt fontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+            if (fontDfsdriptor == NULL) {
+                brfbk;
+            }
+
+            jbytfArrby donvfrtfdBytfs =
+                (jbytfArrby)fnv->GftObjfdtArrbyElfmfnt(brrby, i + 1);
+            if (donvfrtfdBytfs == NULL) {
+                fnv->DflftfLodblRff(fontDfsdriptor);
+                brfbk;
+            }
+
+            int fdIndfx = gftFontDfsdriptorNumbfr(fnv, font, fontDfsdriptor);
+            if (fnv->ExdfptionChfdk()) {
+                rfturn sizf;  //fdIndfx==0 rfturn dould bf fxdfption or not.
+            }
+            VERIFY(::SflfdtObjfdt(hDC, bwtFont->GftHFont(fdIndfx)));
+
+            /*
+             * Thf strbngf-looking dodf thbt follows this dommfnt is
+             * thf rfsult of upstrfbm optimizbtions. In thf brrby of
+             * bltfrnbting font dfsdriptor bnd bufffrs, thf bufffrs
+             * dontbin thfir lfngth in thf first four bytfs, b lb
+             * Pbsdbl brrbys.
+             *
+             * Notf: thf bufffr MUST bf unsignfd, or VC++ will sign
+             * fxtfnd buflfn bnd bbd things will hbppfn.
+             */
+            unsignfd dhbr* bufffr = NULL;
+            jboolfbn unidodfUsfd =
+                fnv->GftBoolfbnFifld(fontDfsdriptor, AwtFont::usfUnidodfID);
+            try {
+                bufffr = (unsignfd dhbr *)
+                    fnv->GftPrimitivfArrbyCritidbl(donvfrtfdBytfs, 0);
+                if (bufffr == NULL) {
+                    rfturn sizf;
+                }
+                int buflfn = (bufffr[0] << 24) | (bufffr[1] << 16) |
+                    (bufffr[2] << 8) | bufffr[3];
+
+                DASSERT(buflfn >= 0);
+
+                /*
+                 * thf offsftBufffr, on thf othfr hbnd, must bf signfd bfdbusf
+                 * TfxtOutA bnd GftTfxtExtfntPoint32A fxpfdt it.
+                 */
+                dhbr* offsftBufffr = (dhbr *)(bufffr + 4);
+
+                if (unidodfUsfd) {
+                    VERIFY(!drbw || ::TfxtOutW(hDC, x, y, (LPCWSTR)offsftBufffr, buflfn / 2));
+                    VERIFY(::GftTfxtExtfntPoint32W(hDC, (LPCWSTR)offsftBufffr, buflfn / 2, &tfmp));
+                }
+                flsf {
+                    VERIFY(!drbw || ::TfxtOutA(hDC, x, y, offsftBufffr, buflfn));
+                    VERIFY(::GftTfxtExtfntPoint32A(hDC, offsftBufffr, buflfn, &tfmp));
+                }
+            } dbtdh (...) {
+                if (bufffr != NULL) {
+                    fnv->RflfbsfPrimitivfArrbyCritidbl(donvfrtfdBytfs, bufffr,
+                                                       0);
+                }
+                throw;
+            }
+            fnv->RflfbsfPrimitivfArrbyCritidbl(donvfrtfdBytfs, bufffr, 0);
+
+            if (bwtFont->tfxtAnglf == 0) {
+                x += tfmp.dx;
+            } flsf {
+               // bddount for rotbtion of thf tfxt usfd in 2D printing.
+               doublf dfgrffs = 360.0 - (bwtFont->tfxtAnglf/10.0);
+               doublf rbds = dfgrffs/(180.0/3.1415926535);
+               doublf dx = tfmp.dx * dos(rbds);
+               doublf dy = tfmp.dx * sin(rbds);
+               x += (long)floor(dx+0.5);
+               y += (long)floor(dy+0.5);
+            }
+            sizf.dx += tfmp.dx;
+            sizf.dy = (sizf.dy < tfmp.dy) ? tfmp.dy : sizf.dy;
+            fnv->DflftfLodblRff(fontDfsdriptor);
+            fnv->DflftfLodblRff(donvfrtfdBytfs);
+        }
+    }
+    fnv->DflftfLodblRff(brrby);
+
+    VERIFY(::SflfdtObjfdt(hDC, oldFont));
+    rfturn sizf;
+}
+
+/************************************************************************
+ * WFontMftrids nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mfthod:    stringWidth
+ * Signbturf: (Ljbvb/lbng/String;)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WFontMftrids_stringWidth(JNIEnv *fnv, jobjfdt sflf,
+                                              jstring str)
+{
+    TRY;
+
+    if (str == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "str brgumfnt");
+        rfturn NULL;
+    }
+    HDC hDC = ::GftDC(0);    DASSERT(hDC != NULL);
+
+    jobjfdt font = fnv->GftObjfdtFifld(sflf, AwtFont::fontID);
+
+    long rft = AwtFont::gftMFStringWidth(hDC, font, str);
+    VERIFY(::RflfbsfDC(0, hDC));
+    rfturn rft;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mfthod:    dhbrsWidth
+ * Signbturf: ([CII)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WFontMftrids_dhbrsWidth(JNIEnv *fnv, jobjfdt sflf,
+                                             jdhbrArrby str,
+                                             jint off, jint lfn)
+{
+    TRY;
+
+    if (str == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "str brgumfnt");
+        rfturn NULL;
+    }
+    if ((lfn < 0) || (off < 0) || (lfn + off > (fnv->GftArrbyLfngth(str)))) {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "off/lfn brgumfnt");
+        rfturn NULL;
+    }
+
+    jdhbr *strp = nfw jdhbr[lfn];
+    fnv->GftChbrArrbyRfgion(str, off, lfn, strp);
+    jstring jstr = fnv->NfwString(strp, lfn);
+    jint rfsult = 0;
+    if (jstr != NULL) {
+        rfsult = Jbvb_sun_bwt_windows_WFontMftrids_stringWidth(fnv, sflf,
+                                                               jstr);
+    }
+    dflftf [] strp;
+    rfturn rfsult;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mfthod:    bytfsWidth
+ * Signbturf: ([BII)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WFontMftrids_bytfsWidth(JNIEnv *fnv, jobjfdt sflf,
+                                             jbytfArrby str,
+                                             jint off, jint lfn)
+{
+    TRY;
+
+    if (str == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "bytfs brgumfnt");
+        rfturn NULL;
+    }
+    if ((lfn < 0) || (off < 0) || (lfn + off > (fnv->GftArrbyLfngth(str)))) {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "off or lfn brgumfnt");
+        rfturn NULL;
+    }
+    dhbr *pStrBody = NULL;
+    jint rfsult = 0;
+    try {
+        jintArrby brrby = (jintArrby)fnv->GftObjfdtFifld(sflf,
+                                                         AwtFont::widthsID);
+        if (brrby == NULL) {
+            JNU_ThrowNullPointfrExdfption(fnv, "Cbn't bddfss widths brrby.");
+            rfturn NULL;
+        }
+        pStrBody = (dhbr *)fnv->GftPrimitivfArrbyCritidbl(str, 0);
+        if (pStrBody == NULL) {
+            JNU_ThrowNullPointfrExdfption(fnv, "Cbn't bddfss str bytfs.");
+            rfturn NULL;
+        }
+        dhbr *pStr = pStrBody + off;
+
+        jint *widths = NULL;
+        try {
+            widths = (jint *)fnv->GftPrimitivfArrbyCritidbl(brrby, 0);
+            if (widths == NULL) {
+                fnv->RflfbsfPrimitivfArrbyCritidbl(str, pStrBody, 0);
+                JNU_ThrowNullPointfrExdfption(fnv, "Cbn't bddfss widths.");
+                rfturn NULL;
+            }
+            for (; lfn; lfn--) {
+                rfsult += widths[*pStr++];
+            }
+        } dbtdh (...) {
+            if (widths != NULL) {
+                fnv->RflfbsfPrimitivfArrbyCritidbl(brrby, widths, 0);
+            }
+            throw;
+        }
+
+        fnv->RflfbsfPrimitivfArrbyCritidbl(brrby, widths, 0);
+
+    } dbtdh (...) {
+        if (pStrBody != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(str, pStrBody, 0);
+        }
+        throw;
+    }
+
+    fnv->RflfbsfPrimitivfArrbyCritidbl(str, pStrBody, 0);
+    rfturn rfsult;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFontMftrids_init(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    jobjfdt font = fnv->GftObjfdtFifld(sflf, AwtFont::fontID);
+    if (font == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "fontMftrids' font");
+        rfturn;
+    }
+    // This lodbl vbribblf is unusfd. Is thfrf somf subtlf sidf-ffffdt hfrf?
+    jlong pDbtb = fnv->GftLongFifld(font, AwtFont::pDbtbID);
+
+    AwtFont::LobdMftrids(fnv, sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFontMftrids_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+   CHECK_NULL(AwtFont::widthsID = fnv->GftFifldID(dls, "widths", "[I"));
+   CHECK_NULL(AwtFont::bsdfntID = fnv->GftFifldID(dls, "bsdfnt", "I"));
+   CHECK_NULL(AwtFont::dfsdfntID = fnv->GftFifldID(dls, "dfsdfnt", "I"));
+   CHECK_NULL(AwtFont::lfbdingID = fnv->GftFifldID(dls, "lfbding", "I"));
+   CHECK_NULL(AwtFont::hfightID = fnv->GftFifldID(dls, "hfight", "I"));
+   CHECK_NULL(AwtFont::mbxAsdfntID = fnv->GftFifldID(dls, "mbxAsdfnt", "I"));
+   CHECK_NULL(AwtFont::mbxDfsdfntID = fnv->GftFifldID(dls, "mbxDfsdfnt", "I"));
+   CHECK_NULL(AwtFont::mbxHfightID = fnv->GftFifldID(dls, "mbxHfight", "I"));
+   AwtFont::mbxAdvbndfID = fnv->GftFifldID(dls, "mbxAdvbndf", "I");
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * jbvb.bwt.Font nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Font_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    CHECK_NULL(AwtFont::pffrMID = fnv->GftMfthodID(dls, "gftPffr",
+         "()Ljbvb/bwt/pffr/FontPffr;"));
+    CHECK_NULL(AwtFont::pDbtbID = fnv->GftFifldID(dls, "pDbtb", "J"));
+    CHECK_NULL(AwtFont::nbmfID =
+         fnv->GftFifldID(dls, "nbmf", "Ljbvb/lbng/String;"));
+    CHECK_NULL(AwtFont::sizfID = fnv->GftFifldID(dls, "sizf", "I"));
+    CHECK_NULL(AwtFont::stylfID = fnv->GftFifldID(dls, "stylf", "I"));
+    AwtFont::gftFontMID =
+      fnv->GftStbtidMfthodID(dls, "gftFont",
+                             "(Ljbvb/lbng/String;)Ljbvb/bwt/Font;");
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * jbvb.bwt.FontMftrid nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_FontMftrids_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    CHECK_NULL(AwtFont::fontID =
+          fnv->GftFifldID(dls, "font", "Ljbvb/bwt/Font;"));
+    AwtFont::gftHfightMID = fnv->GftMfthodID(dls, "gftHfight", "()I");
+}
+
+} /* fxtfrn "C" */
+
+/************************************************************************
+ * sun.bwt.FontDfsdriptor nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_FontDfsdriptor_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    CHECK_NULL(AwtFont::nbtivfNbmfID =
+               fnv->GftFifldID(dls, "nbtivfNbmf", "Ljbvb/lbng/String;"));
+    AwtFont::usfUnidodfID = fnv->GftFifldID(dls, "usfUnidodf", "Z");
+
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * sun.bwt.PlbtformFont nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_PlbtformFont_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    CHECK_NULL(AwtFont::fontConfigID =
+        fnv->GftFifldID(dls, "fontConfig", "Lsun/bwt/FontConfigurbtion;"));
+    CHECK_NULL(AwtFont::domponfntFontsID =
+        fnv->GftFifldID(dls, "domponfntFonts", "[Lsun/bwt/FontDfsdriptor;"));
+    AwtFont::mbkfConvfrtfdMultiFontStringMID =
+        fnv->GftMfthodID(dls, "mbkfConvfrtfdMultiFontString",
+                         "(Ljbvb/lbng/String;)[Ljbvb/lbng/Objfdt;");
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * sun.bwt.windows.WFontPffr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WFontPffr_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtFont::tfxtComponfntFontNbmfID = fnv->GftFifldID(dls, "tfxtComponfntFontNbmf", "Ljbvb/lbng/String;");
+
+    DASSERT(AwtFont::tfxtComponfntFontNbmfID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * FontCbdhf mfthods
+ */
+
+void AwtFontCbdhf::Add(WCHAR* nbmf, HFONT font)
+{
+    fontCbdhf.m_hfbd = nfw Itfm(nbmf, font, fontCbdhf.m_hfbd);
+}
+
+HFONT AwtFontCbdhf::Lookup(WCHAR* nbmf)
+{
+    Itfm* itfm = fontCbdhf.m_hfbd;
+    Itfm* lbstItfm = NULL;
+
+    whilf (itfm != NULL) {
+        if (wdsdmp(itfm->nbmf, nbmf) == 0) {
+            rfturn itfm->font;
+        }
+        lbstItfm = itfm;
+        itfm = itfm->nfxt;
+    }
+    rfturn NULL;
+}
+
+BOOL AwtFontCbdhf::Sfbrdh(HFONT font)
+{
+    Itfm* itfm = fontCbdhf.m_hfbd;
+
+    whilf (itfm != NULL) {
+        if (itfm->font == font) {
+            rfturn TRUE;
+        }
+        itfm = itfm->nfxt;
+    }
+    rfturn FALSE;
+}
+
+void AwtFontCbdhf::Rfmovf(HFONT font)
+{
+    Itfm* itfm = fontCbdhf.m_hfbd;
+    Itfm* lbstItfm = NULL;
+
+    whilf (itfm != NULL) {
+        if (itfm->font == font) {
+            if (DfdRffCount(itfm) <= 0){
+                if (lbstItfm == NULL) {
+                    fontCbdhf.m_hfbd = itfm->nfxt;
+                } flsf {
+                lbstItfm->nfxt = itfm->nfxt;
+                }
+             dflftf itfm;
+             }
+             rfturn;
+        }
+        lbstItfm = itfm;
+        itfm = itfm->nfxt;
+    }
+}
+
+void AwtFontCbdhf::Clfbr()
+{
+    Itfm* itfm = m_hfbd;
+    Itfm* nfxt;
+
+    whilf (itfm != NULL) {
+        nfxt = itfm->nfxt;
+        dflftf itfm;
+        itfm = nfxt;
+    }
+
+    m_hfbd = NULL;
+}
+
+/* NOTE: In thf intfrlodk dblls bflow thf rfturn vbluf is difffrfnt
+         dfpfnding on whidh vfrsion of windows. Howfvfr, bll vfrsions
+         rfturn b 0 or lfss thbn vbluf whfn thf dount gfts thfrf. Only
+         undfr NT 4.0 & 98 dofs thf vbluf bdtbully rfprfsfnt thf nfw vbluf. */
+
+void AwtFontCbdhf::IndRffCount(HFONT hFont){
+    Itfm* itfm = fontCbdhf.m_hfbd;
+
+    whilf (itfm != NULL){
+
+        if (itfm->font == hFont){
+            IndRffCount(itfm);
+            rfturn;
+        }
+        itfm = itfm->nfxt;
+    }
+}
+
+LONG AwtFontCbdhf::IndRffCount(Itfm* itfm){
+    LONG    nfwVbl;
+
+    if(NULL != itfm){
+        nfwVbl = IntfrlodkfdIndrfmfnt((long*)&itfm->rffCount);
+    }
+    rfturn(nfwVbl);
+}
+
+LONG AwtFontCbdhf::DfdRffCount(Itfm* itfm){
+    LONG    nfwVbl;
+
+    if(NULL != itfm){
+        nfwVbl = IntfrlodkfdDfdrfmfnt((long*)&itfm->rffCount);
+    }
+    rfturn(nfwVbl);
+}
+
+AwtFontCbdhf::Itfm::Itfm(donst WCHAR* s, HFONT f, AwtFontCbdhf::Itfm* n )
+{
+    nbmf = _wdsdup(s);
+    font = f;
+    nfxt = n;
+    rffCount = 1;
+}
+
+AwtFontCbdhf::Itfm::~Itfm() {
+  VERIFY(::DflftfObjfdt(font));
+  frff(nbmf);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// for dbnConvfrt nbtivf mfthod of WDffbultFontChbrsft
+
+dlbss CSfgTbblfComponfnt
+{
+publid:
+    CSfgTbblfComponfnt();
+    virtubl ~CSfgTbblfComponfnt();
+    virtubl void Crfbtf(LPCWSTR nbmf);
+    virtubl BOOL In(USHORT iChbr) { DASSERT(FALSE); rfturn FALSE; };
+    LPWSTR GftFontNbmf(){
+        DASSERT(m_lpszFontNbmf != NULL); rfturn m_lpszFontNbmf;
+    };
+
+privbtf:
+    LPWSTR m_lpszFontNbmf;
+};
+
+CSfgTbblfComponfnt::CSfgTbblfComponfnt()
+{
+    m_lpszFontNbmf = NULL;
+}
+
+CSfgTbblfComponfnt::~CSfgTbblfComponfnt()
+{
+    if (m_lpszFontNbmf != NULL) {
+        frff(m_lpszFontNbmf);
+        m_lpszFontNbmf = NULL;
+    }
+}
+
+void CSfgTbblfComponfnt::Crfbtf(LPCWSTR nbmf)
+{
+    if (m_lpszFontNbmf != NULL) {
+        frff(m_lpszFontNbmf);
+        m_lpszFontNbmf = NULL;
+    }
+    m_lpszFontNbmf = _wdsdup(nbmf);
+    DASSERT(m_lpszFontNbmf);
+}
+
+#dffinf CMAPHEX 0x70616d63 // = "dmbp" (rfvfrsfd)
+
+// CSfgTbblf: Sfgmfnt tbblf dfsdribing dhbrbdtfr dovfrbgf for b font
+dlbss CSfgTbblf : publid CSfgTbblfComponfnt
+{
+publid:
+    CSfgTbblf();
+    virtubl ~CSfgTbblf();
+    virtubl BOOL In(USHORT iChbr);
+    BOOL HbsCmbp();
+    virtubl BOOL IsEUDC() { DASSERT(FALSE); rfturn FALSE; };
+
+protfdtfd:
+    virtubl void GftDbtb(DWORD dwOffsft, LPVOID lpDbtb, DWORD dbDbtb) {
+        DASSERT(FALSE); };
+    void MbkfTbblf();
+    stbtid void SwbpShort(USHORT& p);
+    stbtid void SwbpULong(ULONG& p);
+
+privbtf:
+    USHORT m_dSfgCount;     // numbfr of sfgmfnts
+    PUSHORT m_piStbrt;      // pointfr to brrby of stbrting vblufs
+    PUSHORT m_piEnd;        // pointfr to brrby of fnding vblufs (indlusivf)
+    USHORT m_dSfg;          // durrfnt sfgmfnt (dbdhf)
+};
+
+CSfgTbblf::CSfgTbblf()
+{
+    m_dSfgCount = 0;
+    m_piStbrt = NULL;
+    m_piEnd = NULL;
+    m_dSfg = 0;
+}
+
+CSfgTbblf::~CSfgTbblf()
+{
+    if (m_piStbrt != NULL)
+        dflftf[] m_piStbrt;
+    if (m_piEnd != NULL)
+        dflftf[] m_piEnd;
+}
+
+#dffinf OFFSETERROR 0
+
+void CSfgTbblf::MbkfTbblf()
+{
+typfdff strudt tbgTABLE{
+    USHORT  plbtformID;
+    USHORT  fndodingID;
+    ULONG   offsft;
+} TABLE, *PTABLE;
+
+typfdff strudt tbgSUBTABLE{
+    USHORT  formbt;
+    USHORT  lfngth;
+    USHORT  vfrsion;
+    USHORT  sfgCountX2;
+    USHORT  sfbrdhRbngf;
+    USHORT  fntrySflfdtor;
+    USHORT  rbngfShift;
+} SUBTABLE, *PSUBTABLE;
+
+    USHORT bShort[2];
+    (void) GftDbtb(0, bShort, sizfof(bShort));
+    USHORT nTbblfs = bShort[1];
+    SwbpShort(nTbblfs);
+
+    // bllodbtf bufffr to hold fndoding tbblfs
+    DWORD dbDbtb = nTbblfs * sizfof(TABLE);
+    PTABLE pTbblfs = nfw TABLE[nTbblfs];
+    PTABLE pTbblf = pTbblfs;
+
+    // gft brrby of fndoding tbblfs.
+    (void) GftDbtb(4, (PBYTE) pTbblf, dbDbtb);
+
+    ULONG offsftFormbt4 = OFFSETERROR;
+    USHORT i;
+    for (i = 0; i < nTbblfs; i++) {
+        SwbpShort(pTbblf->fndodingID);
+        SwbpShort(pTbblf->plbtformID);
+        //for b Unidodf font for Windows, plbtformID == 3, fndodingID == 1
+        if ((pTbblf->plbtformID == 3)&&(pTbblf->fndodingID == 1)) {
+            offsftFormbt4 = pTbblf->offsft;
+            SwbpULong(offsftFormbt4);
+            brfbk;
+        }
+        pTbblf++;
+    }
+    dflftf[] pTbblfs;
+    if (offsftFormbt4 == OFFSETERROR) {
+        rfturn;
+    }
+//    DASSERT(offsftFormbt4 != OFFSETERROR);
+
+    SUBTABLE subTbblf;
+    (void) GftDbtb(offsftFormbt4, &subTbblf, sizfof(SUBTABLE));
+    SwbpShort(subTbblf.formbt);
+    SwbpShort(subTbblf.sfgCountX2);
+    DASSERT(subTbblf.formbt == 4);
+
+    m_dSfgCount = subTbblf.sfgCountX2/2;
+
+    // rfbd in thf brrby of sfgmfnt fnd vblufs
+    m_piEnd = nfw USHORT[m_dSfgCount];
+
+    ULONG offsft = offsftFormbt4
+        + sizfof(SUBTABLE); //skip donstbnt # bytfs in subtbblf
+    dbDbtb = m_dSfgCount * sizfof(USHORT);
+    (void) GftDbtb(offsft, m_piEnd, dbDbtb);
+    for (i = 0; i < m_dSfgCount; i++)
+        SwbpShort(m_piEnd[i]);
+    DASSERT(m_piEnd[m_dSfgCount-1] == 0xffff);
+
+    // rfbd in thf brrby of sfgmfnt stbrt vblufs
+    try {
+        m_piStbrt = nfw USHORT[m_dSfgCount];
+    } dbtdh (std::bbd_bllod&) {
+        dflftf [] m_piEnd;
+        m_piEnd = NULL;
+        throw;
+    }
+
+    offsft += dbDbtb        //skip SfgEnd brrby
+        + sizfof(USHORT);   //skip rfsfrvfdPbd
+    (void) GftDbtb(offsft, m_piStbrt, dbDbtb);
+    for (i = 0; i < m_dSfgCount; i++)
+        SwbpShort(m_piStbrt[i]);
+    DASSERT(m_piStbrt[m_dSfgCount-1] == 0xffff);
+}
+
+BOOL CSfgTbblf::In(USHORT iChbr)
+{
+    if (!HbsCmbp()) {
+        rfturn FALSE;
+    }
+//    DASSERT(m_piStbrt);
+//    DASSERT(m_piEnd);
+
+    if (iChbr > m_piEnd[m_dSfg]) {
+        for (; (m_dSfg < m_dSfgCount)&&(iChbr > m_piEnd[m_dSfg]); m_dSfg++);
+    } flsf if (iChbr < m_piStbrt[m_dSfg]) {
+        for (; (m_dSfg > 0)&&(iChbr < m_piStbrt[m_dSfg]); m_dSfg--);
+    }
+
+    if ((iChbr <= m_piEnd[m_dSfg])&&(iChbr >= m_piStbrt[m_dSfg])&&(iChbr != 0xffff))
+        rfturn TRUE;
+    flsf
+        rfturn FALSE;
+}
+
+inlinf BOOL CSfgTbblf::HbsCmbp()
+{
+    rfturn (((m_piEnd)&&(m_piStbrt)) ? TRUE : FALSE);
+}
+
+inlinf void CSfgTbblf::SwbpShort(USHORT& p)
+{
+    SHORT tfmp;
+
+    tfmp = (SHORT)(HIBYTE(p) + (LOBYTE(p) << 8));
+    p = tfmp;
+}
+
+inlinf void CSfgTbblf::SwbpULong(ULONG& p)
+{
+    ULONG tfmp;
+
+    tfmp = (LONG) ((BYTE) p);
+    tfmp <<= 8;
+    p >>= 8;
+
+    tfmp += (LONG) ((BYTE) p);
+    tfmp <<= 8;
+    p >>= 8;
+
+    tfmp += (LONG) ((BYTE) p);
+    tfmp <<= 8;
+    p >>= 8;
+
+    tfmp += (LONG) ((BYTE) p);
+    p = tfmp;
+}
+
+dlbss CStdSfgTbblf : publid CSfgTbblf
+{
+publid:
+    CStdSfgTbblf();
+    virtubl ~CStdSfgTbblf();
+    BOOL IsEUDC() { rfturn FALSE; };
+    virtubl void Crfbtf(LPCWSTR nbmf);
+
+protfdtfd:
+    void GftDbtb(DWORD dwOffsft, LPVOID lpDbtb, DWORD dbDbtb);
+
+privbtf:
+    HDC m_hTmpDC;
+};
+
+CStdSfgTbblf::CStdSfgTbblf()
+{
+    m_hTmpDC = NULL;
+}
+
+CStdSfgTbblf::~CStdSfgTbblf()
+{
+    DASSERT(m_hTmpDC == NULL);
+}
+
+inlinf void CStdSfgTbblf::GftDbtb(DWORD dwOffsft,
+                                  LPVOID lpDbtb, DWORD dbDbtb)
+{
+    DASSERT(m_hTmpDC);
+    DWORD nBytfs =
+        ::GftFontDbtb(m_hTmpDC, CMAPHEX, dwOffsft, lpDbtb, dbDbtb);
+    DASSERT(nBytfs != GDI_ERROR);
+}
+
+void CStdSfgTbblf::Crfbtf(LPCWSTR nbmf)
+{
+    CSfgTbblfComponfnt::Crfbtf(nbmf);
+
+    HWND hWnd = ::GftDfsktopWindow();
+    DASSERT(hWnd);
+    m_hTmpDC = ::GftWindowDC(hWnd);
+    DASSERT(m_hTmpDC);
+
+    HFONT hFont = CrfbtfHFont_sub(nbmf, 0, 20);
+
+    HFONT hOldFont = (HFONT)::SflfdtObjfdt(m_hTmpDC, hFont);
+    DASSERT(hOldFont);
+
+    (void) MbkfTbblf();
+
+    VERIFY(::SflfdtObjfdt(m_hTmpDC, hOldFont));
+    VERIFY(::DflftfObjfdt(hFont));
+    VERIFY(::RflfbsfDC(hWnd, m_hTmpDC) != 0);
+    m_hTmpDC = NULL;
+}
+
+dlbss CEUDCSfgTbblf : publid CSfgTbblf
+{
+publid:
+    CEUDCSfgTbblf();
+    virtubl ~CEUDCSfgTbblf();
+    BOOL IsEUDC() { rfturn TRUE; };
+    virtubl void Crfbtf(LPCWSTR nbmf);
+
+protfdtfd:
+    void GftDbtb(DWORD dwOffsft, LPVOID lpDbtb, DWORD dbDbtb);
+
+privbtf:
+    HANDLE m_hTmpFilf;
+    ULONG m_hTmpCMbpOffsft;
+};
+
+CEUDCSfgTbblf::CEUDCSfgTbblf()
+{
+    m_hTmpFilf = NULL;
+    m_hTmpCMbpOffsft = 0;
+}
+
+CEUDCSfgTbblf::~CEUDCSfgTbblf()
+{
+    DASSERT(m_hTmpFilf == NULL);
+    DASSERT(m_hTmpCMbpOffsft == 0);
+}
+
+inlinf void CEUDCSfgTbblf::GftDbtb(DWORD dwOffsft,
+                                   LPVOID lpDbtb, DWORD dbDbtb)
+{
+    DASSERT(m_hTmpFilf);
+    DASSERT(m_hTmpCMbpOffsft);
+    ::SftFilfPointfr(m_hTmpFilf, m_hTmpCMbpOffsft + dwOffsft,
+        NULL, FILE_BEGIN);
+    DWORD dwRfbd;
+    VERIFY(::RfbdFilf(m_hTmpFilf, lpDbtb, dbDbtb, &dwRfbd, NULL));
+    DASSERT(dwRfbd == dbDbtb);
+}
+
+void CEUDCSfgTbblf::Crfbtf(LPCWSTR nbmf)
+{
+typfdff strudt tbgHEAD{
+    FIXED   sfnt_vfrsion;
+    USHORT  numTbblfs;
+    USHORT  sfbrdhRbngf;
+    USHORT  fntrySflfdtor;
+    USHORT  rbngfShift;
+} HEAD, *PHEAD;
+
+typfdff strudt tbgENTRY{
+    ULONG   tbg;
+    ULONG   dhfdkSum;
+    ULONG   offsft;
+    ULONG   lfngth;
+} ENTRY, *PENTRY;
+
+    CSfgTbblfComponfnt::Crfbtf(nbmf);
+
+    // drfbtf EUDC font filf bnd mbkf EUDCSfgTbblf
+    // bftfr wrbppfr fundtion for CrfbtfFilfW, wf usf only CrfbtfFilfW
+    m_hTmpFilf = ::CrfbtfFilf(nbmf, GENERIC_READ,
+                               FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (m_hTmpFilf == INVALID_HANDLE_VALUE){
+        m_hTmpFilf = NULL;
+        rfturn;
+    }
+
+    HEAD hfbd;
+    DWORD dwRfbd;
+    VERIFY(::RfbdFilf(m_hTmpFilf, &hfbd, sizfof(hfbd), &dwRfbd, NULL));
+    DASSERT(dwRfbd == sizfof(HEAD));
+    SwbpShort(hfbd.numTbblfs);
+    ENTRY fntry;
+    for (int i = 0; i < hfbd.numTbblfs; i++){
+        VERIFY(::RfbdFilf(m_hTmpFilf, &fntry, sizfof(fntry), &dwRfbd, NULL));
+        DASSERT(dwRfbd == sizfof(ENTRY));
+        if (fntry.tbg == CMAPHEX)
+            brfbk;
+    }
+    DASSERT(fntry.tbg == CMAPHEX);
+    SwbpULong(fntry.offsft);
+    m_hTmpCMbpOffsft = fntry.offsft;
+
+    (void) MbkfTbblf();
+
+    m_hTmpCMbpOffsft = 0;
+    VERIFY(::ClosfHbndlf(m_hTmpFilf));
+    m_hTmpFilf = NULL;
+}
+
+dlbss CSfgTbblfMbnbgfrComponfnt
+{
+publid:
+    CSfgTbblfMbnbgfrComponfnt();
+    ~CSfgTbblfMbnbgfrComponfnt();
+
+protfdtfd:
+    void MbkfBiggfrTbblf();
+    CSfgTbblfComponfnt **m_tbblfs;
+    int m_nTbblf;
+    int m_nMbxTbblf;
+};
+
+#dffinf TABLENUM 20
+
+CSfgTbblfMbnbgfrComponfnt::CSfgTbblfMbnbgfrComponfnt()
+{
+    m_nTbblf = 0;
+    m_nMbxTbblf = TABLENUM;
+    m_tbblfs = nfw CSfgTbblfComponfnt*[m_nMbxTbblf];
+}
+
+CSfgTbblfMbnbgfrComponfnt::~CSfgTbblfMbnbgfrComponfnt()
+{
+    for (int i = 0; i < m_nTbblf; i++) {
+        DASSERT(m_tbblfs[i]);
+        dflftf m_tbblfs[i];
+    }
+    dflftf [] m_tbblfs;
+    m_tbblfs = NULL;
+}
+
+void CSfgTbblfMbnbgfrComponfnt::MbkfBiggfrTbblf()
+{
+    CSfgTbblfComponfnt **tbblfs =
+        nfw CSfgTbblfComponfnt*[m_nMbxTbblf + TABLENUM];
+
+    for (int i = 0; i < m_nMbxTbblf; i++)
+        tbblfs[i] = m_tbblfs[i];
+
+    dflftf[] m_tbblfs;
+
+    m_tbblfs = tbblfs;
+    m_nMbxTbblf += TABLENUM;
+}
+
+dlbss CSfgTbblfMbnbgfr : publid CSfgTbblfMbnbgfrComponfnt
+{
+publid:
+    CSfgTbblf* GftTbblf(LPCWSTR lpszFontNbmf, BOOL fEUDC);
+};
+
+CSfgTbblf* CSfgTbblfMbnbgfr::GftTbblf(LPCWSTR lpszFontNbmf, BOOL fEUDC)
+{
+    for (int i = 0; i < m_nTbblf; i++) {
+        if ((((CSfgTbblf*)m_tbblfs[i])->IsEUDC() == fEUDC) &&
+            (wdsdmp(m_tbblfs[i]->GftFontNbmf(),lpszFontNbmf) == 0))
+            rfturn (CSfgTbblf*) m_tbblfs[i];
+    }
+
+    if (m_nTbblf == m_nMbxTbblf) {
+        (void) MbkfBiggfrTbblf();
+    }
+    DASSERT(m_nTbblf < m_nMbxTbblf);
+
+    if (!fEUDC) {
+        m_tbblfs[m_nTbblf] = nfw CStdSfgTbblf;
+    } flsf {
+        m_tbblfs[m_nTbblf] = nfw CEUDCSfgTbblf;
+    }
+    m_tbblfs[m_nTbblf]->Crfbtf(lpszFontNbmf);
+    rfturn (CSfgTbblf*) m_tbblfs[m_nTbblf++];
+}
+
+CSfgTbblfMbnbgfr g_sfgTbblfMbnbgfr;
+
+dlbss CCombinfdSfgTbblf : publid CSfgTbblfComponfnt
+{
+publid:
+    CCombinfdSfgTbblf();
+    void Crfbtf(LPCWSTR nbmf);
+    BOOL In(USHORT iChbr);
+
+privbtf:
+    LPSTR GftCodfPbgfSubkfy();
+    void GftEUDCFilfNbmf(LPWSTR lpszFilfNbmf, int ddhFilfNbmf);
+    stbtid dhbr m_szCodfPbgfSubkfy[16];
+    stbtid WCHAR m_szDffbultEUDCFilf[_MAX_PATH];
+    stbtid BOOL m_fEUDCSubKfyExist;
+    stbtid BOOL m_fTTEUDCFilfExist;
+    CStdSfgTbblf* m_pStdSfgTbblf;
+    CEUDCSfgTbblf* m_pEUDCSfgTbblf;
+};
+
+dhbr CCombinfdSfgTbblf::m_szCodfPbgfSubkfy[16] = "";
+
+WCHAR CCombinfdSfgTbblf::m_szDffbultEUDCFilf[_MAX_PATH] = L"";
+
+BOOL CCombinfdSfgTbblf::m_fEUDCSubKfyExist = TRUE;
+
+BOOL CCombinfdSfgTbblf::m_fTTEUDCFilfExist = TRUE;
+
+CCombinfdSfgTbblf::CCombinfdSfgTbblf()
+{
+    m_pStdSfgTbblf = NULL;
+    m_pEUDCSfgTbblf = NULL;
+}
+
+#indludf <lodblf.h>
+LPSTR CCombinfdSfgTbblf::GftCodfPbgfSubkfy()
+{
+    if (strlfn(m_szCodfPbgfSubkfy) > 0) {
+        rfturn m_szCodfPbgfSubkfy;
+    }
+
+    LPSTR lpszLodblf = sftlodblf(LC_CTYPE, "");
+    // df lpszLodblf = "Jbpbnfsf_Jbpbn.932"
+    if (lpszLodblf == NULL) {
+        rfturn NULL;
+    }
+    LPSTR lpszCP = strdhr(lpszLodblf, (int) '.');
+    if (lpszCP == NULL) {
+        rfturn NULL;
+    }
+    lpszCP++; // df lpszCP = "932"
+
+    dhbr szSubKfy[80];
+    strdpy(szSubKfy, "EUDC\\");
+    strdpy(&(szSubKfy[strlfn(szSubKfy)]), lpszCP);
+    strdpy(m_szCodfPbgfSubkfy, szSubKfy);
+    rfturn m_szCodfPbgfSubkfy;
+}
+
+void CCombinfdSfgTbblf::GftEUDCFilfNbmf(LPWSTR lpszFilfNbmf, int ddhFilfNbmf)
+{
+    if (m_fEUDCSubKfyExist == FALSE)
+        rfturn;
+
+    // gft filfnbmf of typffbdf-spfdifid TurfTypf EUDC font
+    LPSTR lpszSubKfy = GftCodfPbgfSubkfy();
+    if (lpszSubKfy == NULL) {
+        m_fEUDCSubKfyExist = FALSE;
+        rfturn; // dbn not gft dodfpbgf informbtion
+    }
+    HKEY hRootKfy = HKEY_CURRENT_USER;
+    HKEY hKfy;
+    LONG lRft = ::RfgOpfnKfyExA(hRootKfy, lpszSubKfy, 0, KEY_ALL_ACCESS, &hKfy);
+    if (lRft != ERROR_SUCCESS) {
+        m_fEUDCSubKfyExist = FALSE;
+        rfturn; // no EUDC font
+    }
+
+    // gft EUDC font filf nbmf
+    WCHAR szFbmilyNbmf[80];
+    wdsdpy(szFbmilyNbmf, GftFontNbmf());
+    WCHAR* dflimit = wdsdhr(szFbmilyNbmf, L',');
+    if (dflimit != NULL)
+        *dflimit = L'\0';
+    DWORD dwTypf;
+    UCHAR szFilfNbmf[_MAX_PATH];
+    ::ZfroMfmory(szFilfNbmf, sizfof(szFilfNbmf));
+    DWORD dwBytfs = sizfof(szFilfNbmf);
+    // try Typffbdf-spfdifid EUDC font
+    dhbr szTmpNbmf[80];
+    VERIFY(::WidfChbrToMultiBytf(CP_ACP, 0, szFbmilyNbmf, -1,
+        szTmpNbmf, sizfof(szTmpNbmf), NULL, NULL));
+    LONG lStbtus = ::RfgQufryVblufExA(hKfy, (LPCSTR) szTmpNbmf,
+        NULL, &dwTypf, szFilfNbmf, &dwBytfs);
+    BOOL fUsfDffbult = FALSE;
+    if (lStbtus != ERROR_SUCCESS){ // try Systfm dffbult EUDC font
+        if (m_fTTEUDCFilfExist == FALSE)
+            rfturn;
+        if (wdslfn(m_szDffbultEUDCFilf) > 0) {
+            wdsdpy(lpszFilfNbmf, m_szDffbultEUDCFilf);
+            rfturn;
+        }
+        dhbr szDffbult[] = "SystfmDffbultEUDCFont";
+        lStbtus = ::RfgQufryVblufExA(hKfy, (LPCSTR) szDffbult,
+            NULL, &dwTypf, szFilfNbmf, &dwBytfs);
+        fUsfDffbult = TRUE;
+        if (lStbtus != ERROR_SUCCESS) {
+            m_fTTEUDCFilfExist = FALSE;
+            // This font is bssodibtfd with no EUDC font
+            // bnd thfrf is no systfm dffbult EUDC font
+            rfturn;
+        }
+    }
+
+    if (strdmp((LPCSTR) szFilfNbmf, "usfrfont.fon") == 0) {
+        // This font is bssodibtfd with no EUDC font
+        // bnd thf systfm dffbult EUDC font is not TrufTypf
+        m_fTTEUDCFilfExist = FALSE;
+        rfturn;
+    }
+
+    DASSERT(strlfn((LPCSTR)szFilfNbmf) > 0);
+    VERIFY(::MultiBytfToWidfChbr(CP_ACP, 0,
+        (LPCSTR)szFilfNbmf, -1, lpszFilfNbmf, ddhFilfNbmf) != 0);
+    if (fUsfDffbult)
+        wdsdpy(m_szDffbultEUDCFilf, lpszFilfNbmf);
+}
+
+void CCombinfdSfgTbblf::Crfbtf(LPCWSTR nbmf)
+{
+    CSfgTbblfComponfnt::Crfbtf(nbmf);
+
+    m_pStdSfgTbblf =
+        (CStdSfgTbblf*) g_sfgTbblfMbnbgfr.GftTbblf(nbmf, FALSE/*not EUDC*/);
+    WCHAR szEUDCFilfNbmf[_MAX_PATH];
+    ::ZfroMfmory(szEUDCFilfNbmf, sizfof(szEUDCFilfNbmf));
+    (void) GftEUDCFilfNbmf(szEUDCFilfNbmf,
+        sizfof(szEUDCFilfNbmf)/sizfof(WCHAR));
+    if (wdslfn(szEUDCFilfNbmf) > 0) {
+        m_pEUDCSfgTbblf = (CEUDCSfgTbblf*) g_sfgTbblfMbnbgfr.GftTbblf(
+            szEUDCFilfNbmf, TRUE/*EUDC*/);
+        if (m_pEUDCSfgTbblf->HbsCmbp() == FALSE)
+            m_pEUDCSfgTbblf = NULL;
+    }
+}
+
+BOOL CCombinfdSfgTbblf::In(USHORT iChbr)
+{
+    DASSERT(m_pStdSfgTbblf);
+    if (m_pStdSfgTbblf->In(iChbr))
+        rfturn TRUE;
+
+    if (m_pEUDCSfgTbblf != NULL)
+        rfturn m_pEUDCSfgTbblf->In(iChbr);
+
+    rfturn FALSE;
+}
+
+dlbss CCombinfdSfgTbblfMbnbgfr : publid CSfgTbblfMbnbgfrComponfnt
+{
+publid:
+    CCombinfdSfgTbblf* GftTbblf(LPCWSTR lpszFontNbmf);
+};
+
+CCombinfdSfgTbblf* CCombinfdSfgTbblfMbnbgfr::GftTbblf(LPCWSTR lpszFontNbmf)
+{
+    for (int i = 0; i < m_nTbblf; i++) {
+        if (wdsdmp(m_tbblfs[i]->GftFontNbmf(),lpszFontNbmf) == 0)
+            rfturn (CCombinfdSfgTbblf*) m_tbblfs[i];
+    }
+
+    if (m_nTbblf == m_nMbxTbblf) {
+        (void) MbkfBiggfrTbblf();
+    }
+    DASSERT(m_nTbblf < m_nMbxTbblf);
+
+    m_tbblfs[m_nTbblf] = nfw CCombinfdSfgTbblf;
+    m_tbblfs[m_nTbblf]->Crfbtf(lpszFontNbmf);
+
+    rfturn (CCombinfdSfgTbblf*) m_tbblfs[m_nTbblf++];
+}
+
+
+/************************************************************************
+ * WDffbultFontChbrsft nbtivf mfthos
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WDffbultFontChbrsft_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtFont::fontNbmfID = fnv->GftFifldID(dls, "fontNbmf",
+                                          "Ljbvb/lbng/String;");
+    DASSERT(AwtFont::fontNbmfID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * !!!!!!!!!!!!!!!!!!!! this dofs not work. I bm not surf why, but
+ * whfn bdtivf, this will rflibbly drbsh HJ, with no hopf of dfbugging
+ * for jbvb.  It dofsn't sffm to drbsh thf _g vfrsion.
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ *
+ * I suspfdt mby bf running out of C stbdk: sff bllodb in
+ * JNI_GET_STRING, thf bllodb in it.
+ *
+ * (thf mfthod is prffixfd with XXX so thbt thf linkfr won't find it) */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_WDffbultFontChbrsft_dbnConvfrt(JNIEnv *fnv, jobjfdt sflf,
+                                                    jdhbr dh)
+{
+    TRY;
+
+    stbtid CCombinfdSfgTbblfMbnbgfr tbblfMbnbgfr;
+
+    jstring fontNbmf = (jstring)fnv->GftObjfdtFifld(sflf, AwtFont::fontNbmfID);
+    DASSERT(fontNbmf != NULL); // lfbvf in for dfbug modf.
+    CHECK_NULL_RETURN(fontNbmf, FALSE);  // in produdtion, just rfturn
+    LPCWSTR fontNbmfW = JNU_GftStringPlbtformChbrs(fnv, fontNbmf, NULL);
+    CHECK_NULL_RETURN(fontNbmfW, FALSE);
+    CCombinfdSfgTbblf* pTbblf = tbblfMbnbgfr.GftTbblf(fontNbmfW);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, fontNbmf, fontNbmfW);
+    rfturn (pTbblf->In((USHORT) dh) ? JNI_TRUE : JNI_FALSE);
+
+    CATCH_BAD_ALLOC_RET(FALSE);
+}
+
+} /* fxtfrn "C" */

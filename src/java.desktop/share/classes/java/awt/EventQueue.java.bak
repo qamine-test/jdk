@@ -1,1359 +1,1359 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.event.*;
+import jbvb.bwt.fvfnt.*;
 
-import java.awt.peer.ComponentPeer;
+import jbvb.bwt.pffr.ComponfntPffr;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import java.util.EmptyStackException;
+import jbvb.util.EmptyStbdkExdfption;
 
-import sun.awt.*;
-import sun.awt.dnd.SunDropTargetEvent;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.*;
+import sun.bwt.dnd.SunDropTbrgftEvfnt;
+import sun.util.logging.PlbtformLoggfr;
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.Lodk;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
 
-import java.security.AccessControlContext;
+import jbvb.sfdurity.AddfssControlContfxt;
 
-import sun.misc.SharedSecrets;
-import sun.misc.JavaSecurityAccess;
+import sun.misd.SibrfdSfdrfts;
+import sun.misd.JbvbSfdurityAddfss;
 
 /**
- * <code>EventQueue</code> is a platform-independent class
- * that queues events, both from the underlying peer classes
- * and from trusted application classes.
+ * <dodf>EvfntQufuf</dodf> is b plbtform-indfpfndfnt dlbss
+ * tibt qufufs fvfnts, boti from tif undfrlying pffr dlbssfs
+ * bnd from trustfd bpplidbtion dlbssfs.
  * <p>
- * It encapsulates asynchronous event dispatch machinery which
- * extracts events from the queue and dispatches them by calling
- * {@link #dispatchEvent(AWTEvent) dispatchEvent(AWTEvent)} method
- * on this <code>EventQueue</code> with the event to be dispatched
- * as an argument.  The particular behavior of this machinery is
- * implementation-dependent.  The only requirements are that events
- * which were actually enqueued to this queue (note that events
- * being posted to the <code>EventQueue</code> can be coalesced)
- * are dispatched:
+ * It fndbpsulbtfs bsyndironous fvfnt dispbtdi mbdiinfry wiidi
+ * fxtrbdts fvfnts from tif qufuf bnd dispbtdifs tifm by dblling
+ * {@link #dispbtdiEvfnt(AWTEvfnt) dispbtdiEvfnt(AWTEvfnt)} mftiod
+ * on tiis <dodf>EvfntQufuf</dodf> witi tif fvfnt to bf dispbtdifd
+ * bs bn brgumfnt.  Tif pbrtidulbr bfibvior of tiis mbdiinfry is
+ * implfmfntbtion-dfpfndfnt.  Tif only rfquirfmfnts brf tibt fvfnts
+ * wiidi wfrf bdtublly fnqufufd to tiis qufuf (notf tibt fvfnts
+ * bfing postfd to tif <dodf>EvfntQufuf</dodf> dbn bf doblfsdfd)
+ * brf dispbtdifd:
  * <dl>
- *   <dt> Sequentially.
- *   <dd> That is, it is not permitted that several events from
- *        this queue are dispatched simultaneously.
- *   <dt> In the same order as they are enqueued.
- *   <dd> That is, if <code>AWTEvent</code>&nbsp;A is enqueued
- *        to the <code>EventQueue</code> before
- *        <code>AWTEvent</code>&nbsp;B then event B will not be
- *        dispatched before event A.
+ *   <dt> Sfqufntiblly.
+ *   <dd> Tibt is, it is not pfrmittfd tibt sfvfrbl fvfnts from
+ *        tiis qufuf brf dispbtdifd simultbnfously.
+ *   <dt> In tif sbmf ordfr bs tify brf fnqufufd.
+ *   <dd> Tibt is, if <dodf>AWTEvfnt</dodf>&nbsp;A is fnqufufd
+ *        to tif <dodf>EvfntQufuf</dodf> bfforf
+ *        <dodf>AWTEvfnt</dodf>&nbsp;B tifn fvfnt B will not bf
+ *        dispbtdifd bfforf fvfnt A.
  * </dl>
  * <p>
- * Some browsers partition applets in different code bases into
- * separate contexts, and establish walls between these contexts.
- * In such a scenario, there will be one <code>EventQueue</code>
- * per context. Other browsers place all applets into the same
- * context, implying that there will be only a single, global
- * <code>EventQueue</code> for all applets. This behavior is
- * implementation-dependent.  Consult your browser's documentation
- * for more information.
+ * Somf browsfrs pbrtition bpplfts in difffrfnt dodf bbsfs into
+ * sfpbrbtf dontfxts, bnd fstbblisi wblls bftwffn tifsf dontfxts.
+ * In sudi b sdfnbrio, tifrf will bf onf <dodf>EvfntQufuf</dodf>
+ * pfr dontfxt. Otifr browsfrs plbdf bll bpplfts into tif sbmf
+ * dontfxt, implying tibt tifrf will bf only b singlf, globbl
+ * <dodf>EvfntQufuf</dodf> for bll bpplfts. Tiis bfibvior is
+ * implfmfntbtion-dfpfndfnt.  Consult your browsfr's dodumfntbtion
+ * for morf informbtion.
  * <p>
- * For information on the threading issues of the event dispatch
- * machinery, see <a href="doc-files/AWTThreadIssues.html#Autoshutdown"
- * >AWT Threading Issues</a>.
+ * For informbtion on tif tirfbding issufs of tif fvfnt dispbtdi
+ * mbdiinfry, sff <b irff="dod-filfs/AWTTirfbdIssufs.itml#Autosiutdown"
+ * >AWT Tirfbding Issufs</b>.
  *
- * @author Thomas Ball
- * @author Fred Ecks
- * @author David Mendenhall
+ * @butior Tiombs Bbll
+ * @butior Frfd Edks
+ * @butior Dbvid Mfndfnibll
  *
- * @since       1.1
+ * @sindf       1.1
  */
-public class EventQueue {
-    private static final AtomicInteger threadInitNumber = new AtomicInteger(0);
+publid dlbss EvfntQufuf {
+    privbtf stbtid finbl AtomidIntfgfr tirfbdInitNumbfr = nfw AtomidIntfgfr(0);
 
-    private static final int LOW_PRIORITY = 0;
-    private static final int NORM_PRIORITY = 1;
-    private static final int HIGH_PRIORITY = 2;
-    private static final int ULTIMATE_PRIORITY = 3;
+    privbtf stbtid finbl int LOW_PRIORITY = 0;
+    privbtf stbtid finbl int NORM_PRIORITY = 1;
+    privbtf stbtid finbl int HIGH_PRIORITY = 2;
+    privbtf stbtid finbl int ULTIMATE_PRIORITY = 3;
 
-    private static final int NUM_PRIORITIES = ULTIMATE_PRIORITY + 1;
-
-    /*
-     * We maintain one Queue for each priority that the EventQueue supports.
-     * That is, the EventQueue object is actually implemented as
-     * NUM_PRIORITIES queues and all Events on a particular internal Queue
-     * have identical priority. Events are pulled off the EventQueue starting
-     * with the Queue of highest priority. We progress in decreasing order
-     * across all Queues.
-     */
-    private Queue[] queues = new Queue[NUM_PRIORITIES];
+    privbtf stbtid finbl int NUM_PRIORITIES = ULTIMATE_PRIORITY + 1;
 
     /*
-     * The next EventQueue on the stack, or null if this EventQueue is
-     * on the top of the stack.  If nextQueue is non-null, requests to post
-     * an event are forwarded to nextQueue.
+     * Wf mbintbin onf Qufuf for fbdi priority tibt tif EvfntQufuf supports.
+     * Tibt is, tif EvfntQufuf objfdt is bdtublly implfmfntfd bs
+     * NUM_PRIORITIES qufufs bnd bll Evfnts on b pbrtidulbr intfrnbl Qufuf
+     * ibvf idfntidbl priority. Evfnts brf pullfd off tif EvfntQufuf stbrting
+     * witi tif Qufuf of iigifst priority. Wf progrfss in dfdrfbsing ordfr
+     * bdross bll Qufufs.
      */
-    private EventQueue nextQueue;
+    privbtf Qufuf[] qufufs = nfw Qufuf[NUM_PRIORITIES];
 
     /*
-     * The previous EventQueue on the stack, or null if this is the
-     * "base" EventQueue.
+     * Tif nfxt EvfntQufuf on tif stbdk, or null if tiis EvfntQufuf is
+     * on tif top of tif stbdk.  If nfxtQufuf is non-null, rfqufsts to post
+     * bn fvfnt brf forwbrdfd to nfxtQufuf.
      */
-    private EventQueue previousQueue;
+    privbtf EvfntQufuf nfxtQufuf;
 
     /*
-     * A single lock to synchronize the push()/pop() and related operations with
-     * all the EventQueues from the AppContext. Synchronization on any particular
-     * event queue(s) is not enough: we should lock the whole stack.
+     * Tif prfvious EvfntQufuf on tif stbdk, or null if tiis is tif
+     * "bbsf" EvfntQufuf.
      */
-    private final Lock pushPopLock;
-    private final Condition pushPopCond;
+    privbtf EvfntQufuf prfviousQufuf;
 
     /*
-     * Dummy runnable to wake up EDT from getNextEvent() after
-     push/pop is performed
+     * A singlf lodk to syndironizf tif pusi()/pop() bnd rflbtfd opfrbtions witi
+     * bll tif EvfntQufufs from tif AppContfxt. Syndironizbtion on bny pbrtidulbr
+     * fvfnt qufuf(s) is not fnougi: wf siould lodk tif wiolf stbdk.
      */
-    private final static Runnable dummyRunnable = new Runnable() {
-        public void run() {
+    privbtf finbl Lodk pusiPopLodk;
+    privbtf finbl Condition pusiPopCond;
+
+    /*
+     * Dummy runnbblf to wbkf up EDT from gftNfxtEvfnt() bftfr
+     pusi/pop is pfrformfd
+     */
+    privbtf finbl stbtid Runnbblf dummyRunnbblf = nfw Runnbblf() {
+        publid void run() {
         }
     };
 
-    private EventDispatchThread dispatchThread;
+    privbtf EvfntDispbtdiTirfbd dispbtdiTirfbd;
 
-    private final ThreadGroup threadGroup =
-        Thread.currentThread().getThreadGroup();
-    private final ClassLoader classLoader =
-        Thread.currentThread().getContextClassLoader();
-
-    /*
-     * The time stamp of the last dispatched InputEvent or ActionEvent.
-     */
-    private long mostRecentEventTime = System.currentTimeMillis();
+    privbtf finbl TirfbdGroup tirfbdGroup =
+        Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+    privbtf finbl ClbssLobdfr dlbssLobdfr =
+        Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
 
     /*
-     * The time stamp of the last KeyEvent .
+     * Tif timf stbmp of tif lbst dispbtdifd InputEvfnt or AdtionEvfnt.
      */
-    private long mostRecentKeyEventTime = System.currentTimeMillis();
+    privbtf long mostRfdfntEvfntTimf = Systfm.durrfntTimfMillis();
+
+    /*
+     * Tif timf stbmp of tif lbst KfyEvfnt .
+     */
+    privbtf long mostRfdfntKfyEvfntTimf = Systfm.durrfntTimfMillis();
 
     /**
-     * The modifiers field of the current event, if the current event is an
-     * InputEvent or ActionEvent.
+     * Tif modififrs fifld of tif durrfnt fvfnt, if tif durrfnt fvfnt is bn
+     * InputEvfnt or AdtionEvfnt.
      */
-    private WeakReference<AWTEvent> currentEvent;
+    privbtf WfbkRfffrfndf<AWTEvfnt> durrfntEvfnt;
 
     /*
-     * Non-zero if a thread is waiting in getNextEvent(int) for an event of
-     * a particular ID to be posted to the queue.
+     * Non-zfro if b tirfbd is wbiting in gftNfxtEvfnt(int) for bn fvfnt of
+     * b pbrtidulbr ID to bf postfd to tif qufuf.
      */
-    private volatile int waitForID;
+    privbtf volbtilf int wbitForID;
 
     /*
-     * AppContext corresponding to the queue.
+     * AppContfxt dorrfsponding to tif qufuf.
      */
-    private final AppContext appContext;
+    privbtf finbl AppContfxt bppContfxt;
 
-    private final String name = "AWT-EventQueue-" + threadInitNumber.getAndIncrement();
+    privbtf finbl String nbmf = "AWT-EvfntQufuf-" + tirfbdInitNumbfr.gftAndIndrfmfnt();
 
-    private FwDispatcher fwDispatcher;
+    privbtf FwDispbtdifr fwDispbtdifr;
 
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("java.awt.event.EventQueue");
+    privbtf stbtid finbl PlbtformLoggfr fvfntLog = PlbtformLoggfr.gftLoggfr("jbvb.bwt.fvfnt.EvfntQufuf");
 
-    static {
-        AWTAccessor.setEventQueueAccessor(
-            new AWTAccessor.EventQueueAccessor() {
-                public Thread getDispatchThread(EventQueue eventQueue) {
-                    return eventQueue.getDispatchThread();
+    stbtid {
+        AWTAddfssor.sftEvfntQufufAddfssor(
+            nfw AWTAddfssor.EvfntQufufAddfssor() {
+                publid Tirfbd gftDispbtdiTirfbd(EvfntQufuf fvfntQufuf) {
+                    rfturn fvfntQufuf.gftDispbtdiTirfbd();
                 }
-                public boolean isDispatchThreadImpl(EventQueue eventQueue) {
-                    return eventQueue.isDispatchThreadImpl();
+                publid boolfbn isDispbtdiTirfbdImpl(EvfntQufuf fvfntQufuf) {
+                    rfturn fvfntQufuf.isDispbtdiTirfbdImpl();
                 }
-                public void removeSourceEvents(EventQueue eventQueue,
-                                               Object source,
-                                               boolean removeAllEvents)
+                publid void rfmovfSourdfEvfnts(EvfntQufuf fvfntQufuf,
+                                               Objfdt sourdf,
+                                               boolfbn rfmovfAllEvfnts)
                 {
-                    eventQueue.removeSourceEvents(source, removeAllEvents);
+                    fvfntQufuf.rfmovfSourdfEvfnts(sourdf, rfmovfAllEvfnts);
                 }
-                public boolean noEvents(EventQueue eventQueue) {
-                    return eventQueue.noEvents();
+                publid boolfbn noEvfnts(EvfntQufuf fvfntQufuf) {
+                    rfturn fvfntQufuf.noEvfnts();
                 }
-                public void wakeup(EventQueue eventQueue, boolean isShutdown) {
-                    eventQueue.wakeup(isShutdown);
+                publid void wbkfup(EvfntQufuf fvfntQufuf, boolfbn isSiutdown) {
+                    fvfntQufuf.wbkfup(isSiutdown);
                 }
-                public void invokeAndWait(Object source, Runnable r)
-                    throws InterruptedException, InvocationTargetException
+                publid void invokfAndWbit(Objfdt sourdf, Runnbblf r)
+                    tirows IntfrruptfdExdfption, InvodbtionTbrgftExdfption
                 {
-                    EventQueue.invokeAndWait(source, r);
+                    EvfntQufuf.invokfAndWbit(sourdf, r);
                 }
-                public void setFwDispatcher(EventQueue eventQueue,
-                                            FwDispatcher dispatcher) {
-                    eventQueue.setFwDispatcher(dispatcher);
+                publid void sftFwDispbtdifr(EvfntQufuf fvfntQufuf,
+                                            FwDispbtdifr dispbtdifr) {
+                    fvfntQufuf.sftFwDispbtdifr(dispbtdifr);
                 }
 
-                @Override
-                public long getMostRecentEventTime(EventQueue eventQueue) {
-                    return eventQueue.getMostRecentEventTimeImpl();
+                @Ovfrridf
+                publid long gftMostRfdfntEvfntTimf(EvfntQufuf fvfntQufuf) {
+                    rfturn fvfntQufuf.gftMostRfdfntEvfntTimfImpl();
                 }
             });
     }
 
     /**
-     * Initializes a new instance of {@code EventQueue}.
+     * Initiblizfs b nfw instbndf of {@dodf EvfntQufuf}.
      */
-    public EventQueue() {
+    publid EvfntQufuf() {
         for (int i = 0; i < NUM_PRIORITIES; i++) {
-            queues[i] = new Queue();
+            qufufs[i] = nfw Qufuf();
         }
         /*
-         * NOTE: if you ever have to start the associated event dispatch
-         * thread at this point, be aware of the following problem:
-         * If this EventQueue instance is created in
-         * SunToolkit.createNewAppContext() the started dispatch thread
-         * may call AppContext.getAppContext() before createNewAppContext()
-         * completes thus causing mess in thread group to appcontext mapping.
+         * NOTE: if you fvfr ibvf to stbrt tif bssodibtfd fvfnt dispbtdi
+         * tirfbd bt tiis point, bf bwbrf of tif following problfm:
+         * If tiis EvfntQufuf instbndf is drfbtfd in
+         * SunToolkit.drfbtfNfwAppContfxt() tif stbrtfd dispbtdi tirfbd
+         * mby dbll AppContfxt.gftAppContfxt() bfforf drfbtfNfwAppContfxt()
+         * domplftfs tius dbusing mfss in tirfbd group to bppdontfxt mbpping.
          */
 
-        appContext = AppContext.getAppContext();
-        pushPopLock = (Lock)appContext.get(AppContext.EVENT_QUEUE_LOCK_KEY);
-        pushPopCond = (Condition)appContext.get(AppContext.EVENT_QUEUE_COND_KEY);
+        bppContfxt = AppContfxt.gftAppContfxt();
+        pusiPopLodk = (Lodk)bppContfxt.gft(AppContfxt.EVENT_QUEUE_LOCK_KEY);
+        pusiPopCond = (Condition)bppContfxt.gft(AppContfxt.EVENT_QUEUE_COND_KEY);
     }
 
     /**
-     * Posts a 1.1-style event to the <code>EventQueue</code>.
-     * If there is an existing event on the queue with the same ID
-     * and event source, the source <code>Component</code>'s
-     * <code>coalesceEvents</code> method will be called.
+     * Posts b 1.1-stylf fvfnt to tif <dodf>EvfntQufuf</dodf>.
+     * If tifrf is bn fxisting fvfnt on tif qufuf witi tif sbmf ID
+     * bnd fvfnt sourdf, tif sourdf <dodf>Componfnt</dodf>'s
+     * <dodf>doblfsdfEvfnts</dodf> mftiod will bf dbllfd.
      *
-     * @param theEvent an instance of <code>java.awt.AWTEvent</code>,
-     *          or a subclass of it
-     * @throws NullPointerException if <code>theEvent</code> is <code>null</code>
+     * @pbrbm tifEvfnt bn instbndf of <dodf>jbvb.bwt.AWTEvfnt</dodf>,
+     *          or b subdlbss of it
+     * @tirows NullPointfrExdfption if <dodf>tifEvfnt</dodf> is <dodf>null</dodf>
      */
-    public void postEvent(AWTEvent theEvent) {
-        SunToolkit.flushPendingEvents(appContext);
-        postEventPrivate(theEvent);
+    publid void postEvfnt(AWTEvfnt tifEvfnt) {
+        SunToolkit.flusiPfndingEvfnts(bppContfxt);
+        postEvfntPrivbtf(tifEvfnt);
     }
 
     /**
-     * Posts a 1.1-style event to the <code>EventQueue</code>.
-     * If there is an existing event on the queue with the same ID
-     * and event source, the source <code>Component</code>'s
-     * <code>coalesceEvents</code> method will be called.
+     * Posts b 1.1-stylf fvfnt to tif <dodf>EvfntQufuf</dodf>.
+     * If tifrf is bn fxisting fvfnt on tif qufuf witi tif sbmf ID
+     * bnd fvfnt sourdf, tif sourdf <dodf>Componfnt</dodf>'s
+     * <dodf>doblfsdfEvfnts</dodf> mftiod will bf dbllfd.
      *
-     * @param theEvent an instance of <code>java.awt.AWTEvent</code>,
-     *          or a subclass of it
+     * @pbrbm tifEvfnt bn instbndf of <dodf>jbvb.bwt.AWTEvfnt</dodf>,
+     *          or b subdlbss of it
      */
-    private final void postEventPrivate(AWTEvent theEvent) {
-        theEvent.isPosted = true;
-        pushPopLock.lock();
+    privbtf finbl void postEvfntPrivbtf(AWTEvfnt tifEvfnt) {
+        tifEvfnt.isPostfd = truf;
+        pusiPopLodk.lodk();
         try {
-            if (nextQueue != null) {
-                // Forward the event to the top of EventQueue stack
-                nextQueue.postEventPrivate(theEvent);
-                return;
+            if (nfxtQufuf != null) {
+                // Forwbrd tif fvfnt to tif top of EvfntQufuf stbdk
+                nfxtQufuf.postEvfntPrivbtf(tifEvfnt);
+                rfturn;
             }
-            if (dispatchThread == null) {
-                if (theEvent.getSource() == AWTAutoShutdown.getInstance()) {
-                    return;
-                } else {
-                    initDispatchThread();
+            if (dispbtdiTirfbd == null) {
+                if (tifEvfnt.gftSourdf() == AWTAutoSiutdown.gftInstbndf()) {
+                    rfturn;
+                } flsf {
+                    initDispbtdiTirfbd();
                 }
             }
-            postEvent(theEvent, getPriority(theEvent));
-        } finally {
-            pushPopLock.unlock();
+            postEvfnt(tifEvfnt, gftPriority(tifEvfnt));
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
-    private static int getPriority(AWTEvent theEvent) {
-        if (theEvent instanceof PeerEvent) {
-            PeerEvent peerEvent = (PeerEvent)theEvent;
-            if ((peerEvent.getFlags() & PeerEvent.ULTIMATE_PRIORITY_EVENT) != 0) {
-                return ULTIMATE_PRIORITY;
+    privbtf stbtid int gftPriority(AWTEvfnt tifEvfnt) {
+        if (tifEvfnt instbndfof PffrEvfnt) {
+            PffrEvfnt pffrEvfnt = (PffrEvfnt)tifEvfnt;
+            if ((pffrEvfnt.gftFlbgs() & PffrEvfnt.ULTIMATE_PRIORITY_EVENT) != 0) {
+                rfturn ULTIMATE_PRIORITY;
             }
-            if ((peerEvent.getFlags() & PeerEvent.PRIORITY_EVENT) != 0) {
-                return HIGH_PRIORITY;
+            if ((pffrEvfnt.gftFlbgs() & PffrEvfnt.PRIORITY_EVENT) != 0) {
+                rfturn HIGH_PRIORITY;
             }
-            if ((peerEvent.getFlags() & PeerEvent.LOW_PRIORITY_EVENT) != 0) {
-                return LOW_PRIORITY;
+            if ((pffrEvfnt.gftFlbgs() & PffrEvfnt.LOW_PRIORITY_EVENT) != 0) {
+                rfturn LOW_PRIORITY;
             }
         }
-        int id = theEvent.getID();
-        if ((id >= PaintEvent.PAINT_FIRST) && (id <= PaintEvent.PAINT_LAST)) {
-            return LOW_PRIORITY;
+        int id = tifEvfnt.gftID();
+        if ((id >= PbintEvfnt.PAINT_FIRST) && (id <= PbintEvfnt.PAINT_LAST)) {
+            rfturn LOW_PRIORITY;
         }
-        return NORM_PRIORITY;
+        rfturn NORM_PRIORITY;
     }
 
     /**
-     * Posts the event to the internal Queue of specified priority,
-     * coalescing as appropriate.
+     * Posts tif fvfnt to tif intfrnbl Qufuf of spfdififd priority,
+     * doblfsding bs bppropribtf.
      *
-     * @param theEvent an instance of <code>java.awt.AWTEvent</code>,
-     *          or a subclass of it
-     * @param priority  the desired priority of the event
+     * @pbrbm tifEvfnt bn instbndf of <dodf>jbvb.bwt.AWTEvfnt</dodf>,
+     *          or b subdlbss of it
+     * @pbrbm priority  tif dfsirfd priority of tif fvfnt
      */
-    private void postEvent(AWTEvent theEvent, int priority) {
-        if (coalesceEvent(theEvent, priority)) {
-            return;
+    privbtf void postEvfnt(AWTEvfnt tifEvfnt, int priority) {
+        if (doblfsdfEvfnt(tifEvfnt, priority)) {
+            rfturn;
         }
 
-        EventQueueItem newItem = new EventQueueItem(theEvent);
+        EvfntQufufItfm nfwItfm = nfw EvfntQufufItfm(tifEvfnt);
 
-        cacheEQItem(newItem);
+        dbdifEQItfm(nfwItfm);
 
-        boolean notifyID = (theEvent.getID() == this.waitForID);
+        boolfbn notifyID = (tifEvfnt.gftID() == tiis.wbitForID);
 
-        if (queues[priority].head == null) {
-            boolean shouldNotify = noEvents();
-            queues[priority].head = queues[priority].tail = newItem;
+        if (qufufs[priority].ifbd == null) {
+            boolfbn siouldNotify = noEvfnts();
+            qufufs[priority].ifbd = qufufs[priority].tbil = nfwItfm;
 
-            if (shouldNotify) {
-                if (theEvent.getSource() != AWTAutoShutdown.getInstance()) {
-                    AWTAutoShutdown.getInstance().notifyThreadBusy(dispatchThread);
+            if (siouldNotify) {
+                if (tifEvfnt.gftSourdf() != AWTAutoSiutdown.gftInstbndf()) {
+                    AWTAutoSiutdown.gftInstbndf().notifyTirfbdBusy(dispbtdiTirfbd);
                 }
-                pushPopCond.signalAll();
-            } else if (notifyID) {
-                pushPopCond.signalAll();
+                pusiPopCond.signblAll();
+            } flsf if (notifyID) {
+                pusiPopCond.signblAll();
             }
-        } else {
-            // The event was not coalesced or has non-Component source.
-            // Insert it at the end of the appropriate Queue.
-            queues[priority].tail.next = newItem;
-            queues[priority].tail = newItem;
+        } flsf {
+            // Tif fvfnt wbs not doblfsdfd or ibs non-Componfnt sourdf.
+            // Insfrt it bt tif fnd of tif bppropribtf Qufuf.
+            qufufs[priority].tbil.nfxt = nfwItfm;
+            qufufs[priority].tbil = nfwItfm;
             if (notifyID) {
-                pushPopCond.signalAll();
+                pusiPopCond.signblAll();
             }
         }
     }
 
-    private boolean coalescePaintEvent(PaintEvent e) {
-        ComponentPeer sourcePeer = ((Component)e.getSource()).peer;
-        if (sourcePeer != null) {
-            sourcePeer.coalescePaintEvent(e);
+    privbtf boolfbn doblfsdfPbintEvfnt(PbintEvfnt f) {
+        ComponfntPffr sourdfPffr = ((Componfnt)f.gftSourdf()).pffr;
+        if (sourdfPffr != null) {
+            sourdfPffr.doblfsdfPbintEvfnt(f);
         }
-        EventQueueItem[] cache = ((Component)e.getSource()).eventCache;
-        if (cache == null) {
-            return false;
+        EvfntQufufItfm[] dbdif = ((Componfnt)f.gftSourdf()).fvfntCbdif;
+        if (dbdif == null) {
+            rfturn fblsf;
         }
-        int index = eventToCacheIndex(e);
+        int indfx = fvfntToCbdifIndfx(f);
 
-        if (index != -1 && cache[index] != null) {
-            PaintEvent merged = mergePaintEvents(e, (PaintEvent)cache[index].event);
-            if (merged != null) {
-                cache[index].event = merged;
-                return true;
+        if (indfx != -1 && dbdif[indfx] != null) {
+            PbintEvfnt mfrgfd = mfrgfPbintEvfnts(f, (PbintEvfnt)dbdif[indfx].fvfnt);
+            if (mfrgfd != null) {
+                dbdif[indfx].fvfnt = mfrgfd;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private PaintEvent mergePaintEvents(PaintEvent a, PaintEvent b) {
-        Rectangle aRect = a.getUpdateRect();
-        Rectangle bRect = b.getUpdateRect();
-        if (bRect.contains(aRect)) {
-            return b;
+    privbtf PbintEvfnt mfrgfPbintEvfnts(PbintEvfnt b, PbintEvfnt b) {
+        Rfdtbnglf bRfdt = b.gftUpdbtfRfdt();
+        Rfdtbnglf bRfdt = b.gftUpdbtfRfdt();
+        if (bRfdt.dontbins(bRfdt)) {
+            rfturn b;
         }
-        if (aRect.contains(bRect)) {
-            return a;
+        if (bRfdt.dontbins(bRfdt)) {
+            rfturn b;
         }
-        return null;
+        rfturn null;
     }
 
-    private boolean coalesceMouseEvent(MouseEvent e) {
-        EventQueueItem[] cache = ((Component)e.getSource()).eventCache;
-        if (cache == null) {
-            return false;
+    privbtf boolfbn doblfsdfMousfEvfnt(MousfEvfnt f) {
+        EvfntQufufItfm[] dbdif = ((Componfnt)f.gftSourdf()).fvfntCbdif;
+        if (dbdif == null) {
+            rfturn fblsf;
         }
-        int index = eventToCacheIndex(e);
-        if (index != -1 && cache[index] != null) {
-            cache[index].event = e;
-            return true;
+        int indfx = fvfntToCbdifIndfx(f);
+        if (indfx != -1 && dbdif[indfx] != null) {
+            dbdif[indfx].fvfnt = f;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private boolean coalescePeerEvent(PeerEvent e) {
-        EventQueueItem[] cache = ((Component)e.getSource()).eventCache;
-        if (cache == null) {
-            return false;
+    privbtf boolfbn doblfsdfPffrEvfnt(PffrEvfnt f) {
+        EvfntQufufItfm[] dbdif = ((Componfnt)f.gftSourdf()).fvfntCbdif;
+        if (dbdif == null) {
+            rfturn fblsf;
         }
-        int index = eventToCacheIndex(e);
-        if (index != -1 && cache[index] != null) {
-            e = e.coalesceEvents((PeerEvent)cache[index].event);
-            if (e != null) {
-                cache[index].event = e;
-                return true;
-            } else {
-                cache[index] = null;
+        int indfx = fvfntToCbdifIndfx(f);
+        if (indfx != -1 && dbdif[indfx] != null) {
+            f = f.doblfsdfEvfnts((PffrEvfnt)dbdif[indfx].fvfnt);
+            if (f != null) {
+                dbdif[indfx].fvfnt = f;
+                rfturn truf;
+            } flsf {
+                dbdif[indfx] = null;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Should avoid of calling this method by any means
-     * as it's working time is dependant on EQ length.
-     * In the wors case this method alone can slow down the entire application
-     * 10 times by stalling the Event processing.
-     * Only here by backward compatibility reasons.
+     * Siould bvoid of dblling tiis mftiod by bny mfbns
+     * bs it's working timf is dfpfndbnt on EQ lfngti.
+     * In tif wors dbsf tiis mftiod blonf dbn slow down tif fntirf bpplidbtion
+     * 10 timfs by stblling tif Evfnt prodfssing.
+     * Only ifrf by bbdkwbrd dompbtibility rfbsons.
      */
-    private boolean coalesceOtherEvent(AWTEvent e, int priority) {
-        int id = e.getID();
-        Component source = (Component)e.getSource();
-        for (EventQueueItem entry = queues[priority].head;
-            entry != null; entry = entry.next)
+    privbtf boolfbn doblfsdfOtifrEvfnt(AWTEvfnt f, int priority) {
+        int id = f.gftID();
+        Componfnt sourdf = (Componfnt)f.gftSourdf();
+        for (EvfntQufufItfm fntry = qufufs[priority].ifbd;
+            fntry != null; fntry = fntry.nfxt)
         {
-            // Give Component.coalesceEvents a chance
-            if (entry.event.getSource() == source && entry.event.getID() == id) {
-                AWTEvent coalescedEvent = source.coalesceEvents(
-                    entry.event, e);
-                if (coalescedEvent != null) {
-                    entry.event = coalescedEvent;
-                    return true;
+            // Givf Componfnt.doblfsdfEvfnts b dibndf
+            if (fntry.fvfnt.gftSourdf() == sourdf && fntry.fvfnt.gftID() == id) {
+                AWTEvfnt doblfsdfdEvfnt = sourdf.doblfsdfEvfnts(
+                    fntry.fvfnt, f);
+                if (doblfsdfdEvfnt != null) {
+                    fntry.fvfnt = doblfsdfdEvfnt;
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private boolean coalesceEvent(AWTEvent e, int priority) {
-        if (!(e.getSource() instanceof Component)) {
-            return false;
+    privbtf boolfbn doblfsdfEvfnt(AWTEvfnt f, int priority) {
+        if (!(f.gftSourdf() instbndfof Componfnt)) {
+            rfturn fblsf;
         }
-        if (e instanceof PeerEvent) {
-            return coalescePeerEvent((PeerEvent)e);
+        if (f instbndfof PffrEvfnt) {
+            rfturn doblfsdfPffrEvfnt((PffrEvfnt)f);
         }
-        // The worst case
-        if (((Component)e.getSource()).isCoalescingEnabled()
-            && coalesceOtherEvent(e, priority))
+        // Tif worst dbsf
+        if (((Componfnt)f.gftSourdf()).isCoblfsdingEnbblfd()
+            && doblfsdfOtifrEvfnt(f, priority))
         {
-            return true;
+            rfturn truf;
         }
-        if (e instanceof PaintEvent) {
-            return coalescePaintEvent((PaintEvent)e);
+        if (f instbndfof PbintEvfnt) {
+            rfturn doblfsdfPbintEvfnt((PbintEvfnt)f);
         }
-        if (e instanceof MouseEvent) {
-            return coalesceMouseEvent((MouseEvent)e);
+        if (f instbndfof MousfEvfnt) {
+            rfturn doblfsdfMousfEvfnt((MousfEvfnt)f);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private void cacheEQItem(EventQueueItem entry) {
-        int index = eventToCacheIndex(entry.event);
-        if (index != -1 && entry.event.getSource() instanceof Component) {
-            Component source = (Component)entry.event.getSource();
-            if (source.eventCache == null) {
-                source.eventCache = new EventQueueItem[CACHE_LENGTH];
+    privbtf void dbdifEQItfm(EvfntQufufItfm fntry) {
+        int indfx = fvfntToCbdifIndfx(fntry.fvfnt);
+        if (indfx != -1 && fntry.fvfnt.gftSourdf() instbndfof Componfnt) {
+            Componfnt sourdf = (Componfnt)fntry.fvfnt.gftSourdf();
+            if (sourdf.fvfntCbdif == null) {
+                sourdf.fvfntCbdif = nfw EvfntQufufItfm[CACHE_LENGTH];
             }
-            source.eventCache[index] = entry;
+            sourdf.fvfntCbdif[indfx] = fntry;
         }
     }
 
-    private void uncacheEQItem(EventQueueItem entry) {
-        int index = eventToCacheIndex(entry.event);
-        if (index != -1 && entry.event.getSource() instanceof Component) {
-            Component source = (Component)entry.event.getSource();
-            if (source.eventCache == null) {
-                return;
+    privbtf void undbdifEQItfm(EvfntQufufItfm fntry) {
+        int indfx = fvfntToCbdifIndfx(fntry.fvfnt);
+        if (indfx != -1 && fntry.fvfnt.gftSourdf() instbndfof Componfnt) {
+            Componfnt sourdf = (Componfnt)fntry.fvfnt.gftSourdf();
+            if (sourdf.fvfntCbdif == null) {
+                rfturn;
             }
-            source.eventCache[index] = null;
+            sourdf.fvfntCbdif[indfx] = null;
         }
     }
 
-    private static final int PAINT = 0;
-    private static final int UPDATE = 1;
-    private static final int MOVE = 2;
-    private static final int DRAG = 3;
-    private static final int PEER = 4;
-    private static final int CACHE_LENGTH = 5;
+    privbtf stbtid finbl int PAINT = 0;
+    privbtf stbtid finbl int UPDATE = 1;
+    privbtf stbtid finbl int MOVE = 2;
+    privbtf stbtid finbl int DRAG = 3;
+    privbtf stbtid finbl int PEER = 4;
+    privbtf stbtid finbl int CACHE_LENGTH = 5;
 
-    private static int eventToCacheIndex(AWTEvent e) {
-        switch(e.getID()) {
-        case PaintEvent.PAINT:
-            return PAINT;
-        case PaintEvent.UPDATE:
-            return UPDATE;
-        case MouseEvent.MOUSE_MOVED:
-            return MOVE;
-        case MouseEvent.MOUSE_DRAGGED:
-            // Return -1 for SunDropTargetEvent since they are usually synchronous
-            // and we don't want to skip them by coalescing with MouseEvent or other drag events
-            return e instanceof SunDropTargetEvent ? -1 : DRAG;
-        default:
-            return e instanceof PeerEvent ? PEER : -1;
+    privbtf stbtid int fvfntToCbdifIndfx(AWTEvfnt f) {
+        switdi(f.gftID()) {
+        dbsf PbintEvfnt.PAINT:
+            rfturn PAINT;
+        dbsf PbintEvfnt.UPDATE:
+            rfturn UPDATE;
+        dbsf MousfEvfnt.MOUSE_MOVED:
+            rfturn MOVE;
+        dbsf MousfEvfnt.MOUSE_DRAGGED:
+            // Rfturn -1 for SunDropTbrgftEvfnt sindf tify brf usublly syndironous
+            // bnd wf don't wbnt to skip tifm by doblfsding witi MousfEvfnt or otifr drbg fvfnts
+            rfturn f instbndfof SunDropTbrgftEvfnt ? -1 : DRAG;
+        dffbult:
+            rfturn f instbndfof PffrEvfnt ? PEER : -1;
         }
     }
 
     /**
-     * Returns whether an event is pending on any of the separate
-     * Queues.
-     * @return whether an event is pending on any of the separate Queues
+     * Rfturns wiftifr bn fvfnt is pfnding on bny of tif sfpbrbtf
+     * Qufufs.
+     * @rfturn wiftifr bn fvfnt is pfnding on bny of tif sfpbrbtf Qufufs
      */
-    private boolean noEvents() {
+    privbtf boolfbn noEvfnts() {
         for (int i = 0; i < NUM_PRIORITIES; i++) {
-            if (queues[i].head != null) {
-                return false;
+            if (qufufs[i].ifbd != null) {
+                rfturn fblsf;
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Removes an event from the <code>EventQueue</code> and
-     * returns it.  This method will block until an event has
-     * been posted by another thread.
-     * @return the next <code>AWTEvent</code>
-     * @exception InterruptedException
-     *            if any thread has interrupted this thread
+     * Rfmovfs bn fvfnt from tif <dodf>EvfntQufuf</dodf> bnd
+     * rfturns it.  Tiis mftiod will blodk until bn fvfnt ibs
+     * bffn postfd by bnotifr tirfbd.
+     * @rfturn tif nfxt <dodf>AWTEvfnt</dodf>
+     * @fxdfption IntfrruptfdExdfption
+     *            if bny tirfbd ibs intfrruptfd tiis tirfbd
      */
-    public AWTEvent getNextEvent() throws InterruptedException {
+    publid AWTEvfnt gftNfxtEvfnt() tirows IntfrruptfdExdfption {
         do {
             /*
-             * SunToolkit.flushPendingEvents must be called outside
-             * of the synchronized block to avoid deadlock when
-             * event queues are nested with push()/pop().
+             * SunToolkit.flusiPfndingEvfnts must bf dbllfd outsidf
+             * of tif syndironizfd blodk to bvoid dfbdlodk wifn
+             * fvfnt qufufs brf nfstfd witi pusi()/pop().
              */
-            SunToolkit.flushPendingEvents(appContext);
-            pushPopLock.lock();
+            SunToolkit.flusiPfndingEvfnts(bppContfxt);
+            pusiPopLodk.lodk();
             try {
-                AWTEvent event = getNextEventPrivate();
-                if (event != null) {
-                    return event;
+                AWTEvfnt fvfnt = gftNfxtEvfntPrivbtf();
+                if (fvfnt != null) {
+                    rfturn fvfnt;
                 }
-                AWTAutoShutdown.getInstance().notifyThreadFree(dispatchThread);
-                pushPopCond.await();
-            } finally {
-                pushPopLock.unlock();
+                AWTAutoSiutdown.gftInstbndf().notifyTirfbdFrff(dispbtdiTirfbd);
+                pusiPopCond.bwbit();
+            } finblly {
+                pusiPopLodk.unlodk();
             }
-        } while(true);
+        } wiilf(truf);
     }
 
     /*
-     * Must be called under the lock. Doesn't call flushPendingEvents()
+     * Must bf dbllfd undfr tif lodk. Dofsn't dbll flusiPfndingEvfnts()
      */
-    AWTEvent getNextEventPrivate() throws InterruptedException {
+    AWTEvfnt gftNfxtEvfntPrivbtf() tirows IntfrruptfdExdfption {
         for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
-            if (queues[i].head != null) {
-                EventQueueItem entry = queues[i].head;
-                queues[i].head = entry.next;
-                if (entry.next == null) {
-                    queues[i].tail = null;
+            if (qufufs[i].ifbd != null) {
+                EvfntQufufItfm fntry = qufufs[i].ifbd;
+                qufufs[i].ifbd = fntry.nfxt;
+                if (fntry.nfxt == null) {
+                    qufufs[i].tbil = null;
                 }
-                uncacheEQItem(entry);
-                return entry.event;
+                undbdifEQItfm(fntry);
+                rfturn fntry.fvfnt;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    AWTEvent getNextEvent(int id) throws InterruptedException {
+    AWTEvfnt gftNfxtEvfnt(int id) tirows IntfrruptfdExdfption {
         do {
             /*
-             * SunToolkit.flushPendingEvents must be called outside
-             * of the synchronized block to avoid deadlock when
-             * event queues are nested with push()/pop().
+             * SunToolkit.flusiPfndingEvfnts must bf dbllfd outsidf
+             * of tif syndironizfd blodk to bvoid dfbdlodk wifn
+             * fvfnt qufufs brf nfstfd witi pusi()/pop().
              */
-            SunToolkit.flushPendingEvents(appContext);
-            pushPopLock.lock();
+            SunToolkit.flusiPfndingEvfnts(bppContfxt);
+            pusiPopLodk.lodk();
             try {
                 for (int i = 0; i < NUM_PRIORITIES; i++) {
-                    for (EventQueueItem entry = queues[i].head, prev = null;
-                         entry != null; prev = entry, entry = entry.next)
+                    for (EvfntQufufItfm fntry = qufufs[i].ifbd, prfv = null;
+                         fntry != null; prfv = fntry, fntry = fntry.nfxt)
                     {
-                        if (entry.event.getID() == id) {
-                            if (prev == null) {
-                                queues[i].head = entry.next;
-                            } else {
-                                prev.next = entry.next;
+                        if (fntry.fvfnt.gftID() == id) {
+                            if (prfv == null) {
+                                qufufs[i].ifbd = fntry.nfxt;
+                            } flsf {
+                                prfv.nfxt = fntry.nfxt;
                             }
-                            if (queues[i].tail == entry) {
-                                queues[i].tail = prev;
+                            if (qufufs[i].tbil == fntry) {
+                                qufufs[i].tbil = prfv;
                             }
-                            uncacheEQItem(entry);
-                            return entry.event;
+                            undbdifEQItfm(fntry);
+                            rfturn fntry.fvfnt;
                         }
                     }
                 }
-                waitForID = id;
-                pushPopCond.await();
-                waitForID = 0;
-            } finally {
-                pushPopLock.unlock();
+                wbitForID = id;
+                pusiPopCond.bwbit();
+                wbitForID = 0;
+            } finblly {
+                pusiPopLodk.unlodk();
             }
-        } while(true);
+        } wiilf(truf);
     }
 
     /**
-     * Returns the first event on the <code>EventQueue</code>
-     * without removing it.
-     * @return the first event
+     * Rfturns tif first fvfnt on tif <dodf>EvfntQufuf</dodf>
+     * witiout rfmoving it.
+     * @rfturn tif first fvfnt
      */
-    public AWTEvent peekEvent() {
-        pushPopLock.lock();
+    publid AWTEvfnt pffkEvfnt() {
+        pusiPopLodk.lodk();
         try {
             for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
-                if (queues[i].head != null) {
-                    return queues[i].head.event;
+                if (qufufs[i].ifbd != null) {
+                    rfturn qufufs[i].ifbd.fvfnt;
                 }
             }
-        } finally {
-            pushPopLock.unlock();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the first event with the specified id, if any.
-     * @param id the id of the type of event desired
-     * @return the first event of the specified id or <code>null</code>
-     *    if there is no such event
+     * Rfturns tif first fvfnt witi tif spfdififd id, if bny.
+     * @pbrbm id tif id of tif typf of fvfnt dfsirfd
+     * @rfturn tif first fvfnt of tif spfdififd id or <dodf>null</dodf>
+     *    if tifrf is no sudi fvfnt
      */
-    public AWTEvent peekEvent(int id) {
-        pushPopLock.lock();
+    publid AWTEvfnt pffkEvfnt(int id) {
+        pusiPopLodk.lodk();
         try {
             for (int i = NUM_PRIORITIES - 1; i >= 0; i--) {
-                EventQueueItem q = queues[i].head;
-                for (; q != null; q = q.next) {
-                    if (q.event.getID() == id) {
-                        return q.event;
+                EvfntQufufItfm q = qufufs[i].ifbd;
+                for (; q != null; q = q.nfxt) {
+                    if (q.fvfnt.gftID() == id) {
+                        rfturn q.fvfnt;
                     }
                 }
             }
-        } finally {
-            pushPopLock.unlock();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
 
-        return null;
+        rfturn null;
     }
 
-    private static final JavaSecurityAccess javaSecurityAccess =
-        SharedSecrets.getJavaSecurityAccess();
+    privbtf stbtid finbl JbvbSfdurityAddfss jbvbSfdurityAddfss =
+        SibrfdSfdrfts.gftJbvbSfdurityAddfss();
 
     /**
-     * Dispatches an event. The manner in which the event is
-     * dispatched depends upon the type of the event and the
-     * type of the event's source object:
+     * Dispbtdifs bn fvfnt. Tif mbnnfr in wiidi tif fvfnt is
+     * dispbtdifd dfpfnds upon tif typf of tif fvfnt bnd tif
+     * typf of tif fvfnt's sourdf objfdt:
      *
-     * <table border=1 summary="Event types, source types, and dispatch methods">
+     * <tbblf bordfr=1 summbry="Evfnt typfs, sourdf typfs, bnd dispbtdi mftiods">
      * <tr>
-     *     <th>Event Type</th>
-     *     <th>Source Type</th>
-     *     <th>Dispatched To</th>
+     *     <ti>Evfnt Typf</ti>
+     *     <ti>Sourdf Typf</ti>
+     *     <ti>Dispbtdifd To</ti>
      * </tr>
      * <tr>
-     *     <td>ActiveEvent</td>
+     *     <td>AdtivfEvfnt</td>
      *     <td>Any</td>
-     *     <td>event.dispatch()</td>
+     *     <td>fvfnt.dispbtdi()</td>
      * </tr>
      * <tr>
-     *     <td>Other</td>
-     *     <td>Component</td>
-     *     <td>source.dispatchEvent(AWTEvent)</td>
+     *     <td>Otifr</td>
+     *     <td>Componfnt</td>
+     *     <td>sourdf.dispbtdiEvfnt(AWTEvfnt)</td>
      * </tr>
      * <tr>
-     *     <td>Other</td>
-     *     <td>MenuComponent</td>
-     *     <td>source.dispatchEvent(AWTEvent)</td>
+     *     <td>Otifr</td>
+     *     <td>MfnuComponfnt</td>
+     *     <td>sourdf.dispbtdiEvfnt(AWTEvfnt)</td>
      * </tr>
      * <tr>
-     *     <td>Other</td>
-     *     <td>Other</td>
-     *     <td>No action (ignored)</td>
+     *     <td>Otifr</td>
+     *     <td>Otifr</td>
+     *     <td>No bdtion (ignorfd)</td>
      * </tr>
-     * </table>
+     * </tbblf>
      *
-     * @param event an instance of <code>java.awt.AWTEvent</code>,
-     *          or a subclass of it
-     * @throws NullPointerException if <code>event</code> is <code>null</code>
-     * @since           1.2
+     * @pbrbm fvfnt bn instbndf of <dodf>jbvb.bwt.AWTEvfnt</dodf>,
+     *          or b subdlbss of it
+     * @tirows NullPointfrExdfption if <dodf>fvfnt</dodf> is <dodf>null</dodf>
+     * @sindf           1.2
      */
-    protected void dispatchEvent(final AWTEvent event) {
-        final Object src = event.getSource();
-        final PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
-            public Void run() {
-                // In case fwDispatcher is installed and we're already on the
-                // dispatch thread (e.g. performing DefaultKeyboardFocusManager.sendMessage),
-                // dispatch the event straight away.
-                if (fwDispatcher == null || isDispatchThreadImpl()) {
-                    dispatchEventImpl(event, src);
-                } else {
-                    fwDispatcher.scheduleDispatch(new Runnable() {
-                        @Override
-                        public void run() {
-                            dispatchEventImpl(event, src);
+    protfdtfd void dispbtdiEvfnt(finbl AWTEvfnt fvfnt) {
+        finbl Objfdt srd = fvfnt.gftSourdf();
+        finbl PrivilfgfdAdtion<Void> bdtion = nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                // In dbsf fwDispbtdifr is instbllfd bnd wf'rf blrfbdy on tif
+                // dispbtdi tirfbd (f.g. pfrforming DffbultKfybobrdFodusMbnbgfr.sfndMfssbgf),
+                // dispbtdi tif fvfnt strbigit bwby.
+                if (fwDispbtdifr == null || isDispbtdiTirfbdImpl()) {
+                    dispbtdiEvfntImpl(fvfnt, srd);
+                } flsf {
+                    fwDispbtdifr.sdifdulfDispbtdi(nfw Runnbblf() {
+                        @Ovfrridf
+                        publid void run() {
+                            dispbtdiEvfntImpl(fvfnt, srd);
                         }
                     });
                 }
-                return null;
+                rfturn null;
             }
         };
 
-        final AccessControlContext stack = AccessController.getContext();
-        final AccessControlContext srcAcc = getAccessControlContextFrom(src);
-        final AccessControlContext eventAcc = event.getAccessControlContext();
-        if (srcAcc == null) {
-            javaSecurityAccess.doIntersectionPrivilege(action, stack, eventAcc);
-        } else {
-            javaSecurityAccess.doIntersectionPrivilege(
-                new PrivilegedAction<Void>() {
-                    public Void run() {
-                        javaSecurityAccess.doIntersectionPrivilege(action, eventAcc);
-                        return null;
+        finbl AddfssControlContfxt stbdk = AddfssControllfr.gftContfxt();
+        finbl AddfssControlContfxt srdAdd = gftAddfssControlContfxtFrom(srd);
+        finbl AddfssControlContfxt fvfntAdd = fvfnt.gftAddfssControlContfxt();
+        if (srdAdd == null) {
+            jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(bdtion, stbdk, fvfntAdd);
+        } flsf {
+            jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(
+                nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(bdtion, fvfntAdd);
+                        rfturn null;
                     }
-                }, stack, srcAcc);
+                }, stbdk, srdAdd);
         }
     }
 
-    private static AccessControlContext getAccessControlContextFrom(Object src) {
-        return src instanceof Component ?
-            ((Component)src).getAccessControlContext() :
-            src instanceof MenuComponent ?
-                ((MenuComponent)src).getAccessControlContext() :
-                src instanceof TrayIcon ?
-                    ((TrayIcon)src).getAccessControlContext() :
+    privbtf stbtid AddfssControlContfxt gftAddfssControlContfxtFrom(Objfdt srd) {
+        rfturn srd instbndfof Componfnt ?
+            ((Componfnt)srd).gftAddfssControlContfxt() :
+            srd instbndfof MfnuComponfnt ?
+                ((MfnuComponfnt)srd).gftAddfssControlContfxt() :
+                srd instbndfof TrbyIdon ?
+                    ((TrbyIdon)srd).gftAddfssControlContfxt() :
                     null;
     }
 
     /**
-     * Called from dispatchEvent() under a correct AccessControlContext
+     * Cbllfd from dispbtdiEvfnt() undfr b dorrfdt AddfssControlContfxt
      */
-    private void dispatchEventImpl(final AWTEvent event, final Object src) {
-        event.isPosted = true;
-        if (event instanceof ActiveEvent) {
-            // This could become the sole method of dispatching in time.
-            setCurrentEventAndMostRecentTimeImpl(event);
-            ((ActiveEvent)event).dispatch();
-        } else if (src instanceof Component) {
-            ((Component)src).dispatchEvent(event);
-            event.dispatched();
-        } else if (src instanceof MenuComponent) {
-            ((MenuComponent)src).dispatchEvent(event);
-        } else if (src instanceof TrayIcon) {
-            ((TrayIcon)src).dispatchEvent(event);
-        } else if (src instanceof AWTAutoShutdown) {
-            if (noEvents()) {
-                dispatchThread.stopDispatching();
+    privbtf void dispbtdiEvfntImpl(finbl AWTEvfnt fvfnt, finbl Objfdt srd) {
+        fvfnt.isPostfd = truf;
+        if (fvfnt instbndfof AdtivfEvfnt) {
+            // Tiis dould bfdomf tif solf mftiod of dispbtdiing in timf.
+            sftCurrfntEvfntAndMostRfdfntTimfImpl(fvfnt);
+            ((AdtivfEvfnt)fvfnt).dispbtdi();
+        } flsf if (srd instbndfof Componfnt) {
+            ((Componfnt)srd).dispbtdiEvfnt(fvfnt);
+            fvfnt.dispbtdifd();
+        } flsf if (srd instbndfof MfnuComponfnt) {
+            ((MfnuComponfnt)srd).dispbtdiEvfnt(fvfnt);
+        } flsf if (srd instbndfof TrbyIdon) {
+            ((TrbyIdon)srd).dispbtdiEvfnt(fvfnt);
+        } flsf if (srd instbndfof AWTAutoSiutdown) {
+            if (noEvfnts()) {
+                dispbtdiTirfbd.stopDispbtdiing();
             }
-        } else {
-            if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                eventLog.fine("Unable to dispatch event: " + event);
+        } flsf {
+            if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                fvfntLog.finf("Unbblf to dispbtdi fvfnt: " + fvfnt);
             }
         }
     }
 
     /**
-     * Returns the timestamp of the most recent event that had a timestamp, and
-     * that was dispatched from the <code>EventQueue</code> associated with the
-     * calling thread. If an event with a timestamp is currently being
-     * dispatched, its timestamp will be returned. If no events have yet
-     * been dispatched, the EventQueue's initialization time will be
-     * returned instead.In the current version of
-     * the JDK, only <code>InputEvent</code>s,
-     * <code>ActionEvent</code>s, and <code>InvocationEvent</code>s have
-     * timestamps; however, future versions of the JDK may add timestamps to
-     * additional event types. Note that this method should only be invoked
-     * from an application's {@link #isDispatchThread event dispatching thread}.
-     * If this method is
-     * invoked from another thread, the current system time (as reported by
-     * <code>System.currentTimeMillis()</code>) will be returned instead.
+     * Rfturns tif timfstbmp of tif most rfdfnt fvfnt tibt ibd b timfstbmp, bnd
+     * tibt wbs dispbtdifd from tif <dodf>EvfntQufuf</dodf> bssodibtfd witi tif
+     * dblling tirfbd. If bn fvfnt witi b timfstbmp is durrfntly bfing
+     * dispbtdifd, its timfstbmp will bf rfturnfd. If no fvfnts ibvf yft
+     * bffn dispbtdifd, tif EvfntQufuf's initiblizbtion timf will bf
+     * rfturnfd instfbd.In tif durrfnt vfrsion of
+     * tif JDK, only <dodf>InputEvfnt</dodf>s,
+     * <dodf>AdtionEvfnt</dodf>s, bnd <dodf>InvodbtionEvfnt</dodf>s ibvf
+     * timfstbmps; iowfvfr, futurf vfrsions of tif JDK mby bdd timfstbmps to
+     * bdditionbl fvfnt typfs. Notf tibt tiis mftiod siould only bf invokfd
+     * from bn bpplidbtion's {@link #isDispbtdiTirfbd fvfnt dispbtdiing tirfbd}.
+     * If tiis mftiod is
+     * invokfd from bnotifr tirfbd, tif durrfnt systfm timf (bs rfportfd by
+     * <dodf>Systfm.durrfntTimfMillis()</dodf>) will bf rfturnfd instfbd.
      *
-     * @return the timestamp of the last <code>InputEvent</code>,
-     *         <code>ActionEvent</code>, or <code>InvocationEvent</code> to be
-     *         dispatched, or <code>System.currentTimeMillis()</code> if this
-     *         method is invoked on a thread other than an event dispatching
-     *         thread
-     * @see java.awt.event.InputEvent#getWhen
-     * @see java.awt.event.ActionEvent#getWhen
-     * @see java.awt.event.InvocationEvent#getWhen
-     * @see #isDispatchThread
+     * @rfturn tif timfstbmp of tif lbst <dodf>InputEvfnt</dodf>,
+     *         <dodf>AdtionEvfnt</dodf>, or <dodf>InvodbtionEvfnt</dodf> to bf
+     *         dispbtdifd, or <dodf>Systfm.durrfntTimfMillis()</dodf> if tiis
+     *         mftiod is invokfd on b tirfbd otifr tibn bn fvfnt dispbtdiing
+     *         tirfbd
+     * @sff jbvb.bwt.fvfnt.InputEvfnt#gftWifn
+     * @sff jbvb.bwt.fvfnt.AdtionEvfnt#gftWifn
+     * @sff jbvb.bwt.fvfnt.InvodbtionEvfnt#gftWifn
+     * @sff #isDispbtdiTirfbd
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public static long getMostRecentEventTime() {
-        return Toolkit.getEventQueue().getMostRecentEventTimeImpl();
+    publid stbtid long gftMostRfdfntEvfntTimf() {
+        rfturn Toolkit.gftEvfntQufuf().gftMostRfdfntEvfntTimfImpl();
     }
-    private long getMostRecentEventTimeImpl() {
-        pushPopLock.lock();
+    privbtf long gftMostRfdfntEvfntTimfImpl() {
+        pusiPopLodk.lodk();
         try {
-            return (Thread.currentThread() == dispatchThread)
-                ? mostRecentEventTime
-                : System.currentTimeMillis();
-        } finally {
-            pushPopLock.unlock();
+            rfturn (Tirfbd.durrfntTirfbd() == dispbtdiTirfbd)
+                ? mostRfdfntEvfntTimf
+                : Systfm.durrfntTimfMillis();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /**
-     * @return most recent event time on all threads.
+     * @rfturn most rfdfnt fvfnt timf on bll tirfbds.
      */
-    long getMostRecentEventTimeEx() {
-        pushPopLock.lock();
+    long gftMostRfdfntEvfntTimfEx() {
+        pusiPopLodk.lodk();
         try {
-            return mostRecentEventTime;
-        } finally {
-            pushPopLock.unlock();
+            rfturn mostRfdfntEvfntTimf;
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /**
-     * Returns the the event currently being dispatched by the
-     * <code>EventQueue</code> associated with the calling thread. This is
-     * useful if a method needs access to the event, but was not designed to
-     * receive a reference to it as an argument. Note that this method should
-     * only be invoked from an application's event dispatching thread. If this
-     * method is invoked from another thread, null will be returned.
+     * Rfturns tif tif fvfnt durrfntly bfing dispbtdifd by tif
+     * <dodf>EvfntQufuf</dodf> bssodibtfd witi tif dblling tirfbd. Tiis is
+     * usfful if b mftiod nffds bddfss to tif fvfnt, but wbs not dfsignfd to
+     * rfdfivf b rfffrfndf to it bs bn brgumfnt. Notf tibt tiis mftiod siould
+     * only bf invokfd from bn bpplidbtion's fvfnt dispbtdiing tirfbd. If tiis
+     * mftiod is invokfd from bnotifr tirfbd, null will bf rfturnfd.
      *
-     * @return the event currently being dispatched, or null if this method is
-     *         invoked on a thread other than an event dispatching thread
-     * @since 1.4
+     * @rfturn tif fvfnt durrfntly bfing dispbtdifd, or null if tiis mftiod is
+     *         invokfd on b tirfbd otifr tibn bn fvfnt dispbtdiing tirfbd
+     * @sindf 1.4
      */
-    public static AWTEvent getCurrentEvent() {
-        return Toolkit.getEventQueue().getCurrentEventImpl();
+    publid stbtid AWTEvfnt gftCurrfntEvfnt() {
+        rfturn Toolkit.gftEvfntQufuf().gftCurrfntEvfntImpl();
     }
-    private AWTEvent getCurrentEventImpl() {
-        pushPopLock.lock();
+    privbtf AWTEvfnt gftCurrfntEvfntImpl() {
+        pusiPopLodk.lodk();
         try {
-                return (Thread.currentThread() == dispatchThread)
-                ? currentEvent.get()
+                rfturn (Tirfbd.durrfntTirfbd() == dispbtdiTirfbd)
+                ? durrfntEvfnt.gft()
                 : null;
-        } finally {
-            pushPopLock.unlock();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /**
-     * Replaces the existing <code>EventQueue</code> with the specified one.
-     * Any pending events are transferred to the new <code>EventQueue</code>
-     * for processing by it.
+     * Rfplbdfs tif fxisting <dodf>EvfntQufuf</dodf> witi tif spfdififd onf.
+     * Any pfnding fvfnts brf trbnsffrrfd to tif nfw <dodf>EvfntQufuf</dodf>
+     * for prodfssing by it.
      *
-     * @param newEventQueue an <code>EventQueue</code>
-     *          (or subclass thereof) instance to be use
-     * @see      java.awt.EventQueue#pop
-     * @throws NullPointerException if <code>newEventQueue</code> is <code>null</code>
-     * @since           1.2
+     * @pbrbm nfwEvfntQufuf bn <dodf>EvfntQufuf</dodf>
+     *          (or subdlbss tifrfof) instbndf to bf usf
+     * @sff      jbvb.bwt.EvfntQufuf#pop
+     * @tirows NullPointfrExdfption if <dodf>nfwEvfntQufuf</dodf> is <dodf>null</dodf>
+     * @sindf           1.2
      */
-    public void push(EventQueue newEventQueue) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            eventLog.fine("EventQueue.push(" + newEventQueue + ")");
+    publid void pusi(EvfntQufuf nfwEvfntQufuf) {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf("EvfntQufuf.pusi(" + nfwEvfntQufuf + ")");
         }
 
-        pushPopLock.lock();
+        pusiPopLodk.lodk();
         try {
-            EventQueue topQueue = this;
-            while (topQueue.nextQueue != null) {
-                topQueue = topQueue.nextQueue;
+            EvfntQufuf topQufuf = tiis;
+            wiilf (topQufuf.nfxtQufuf != null) {
+                topQufuf = topQufuf.nfxtQufuf;
             }
-            if (topQueue.fwDispatcher != null) {
-                throw new RuntimeException("push() to queue with fwDispatcher");
+            if (topQufuf.fwDispbtdifr != null) {
+                tirow nfw RuntimfExdfption("pusi() to qufuf witi fwDispbtdifr");
             }
-            if ((topQueue.dispatchThread != null) &&
-                (topQueue.dispatchThread.getEventQueue() == this))
+            if ((topQufuf.dispbtdiTirfbd != null) &&
+                (topQufuf.dispbtdiTirfbd.gftEvfntQufuf() == tiis))
             {
-                newEventQueue.dispatchThread = topQueue.dispatchThread;
-                topQueue.dispatchThread.setEventQueue(newEventQueue);
+                nfwEvfntQufuf.dispbtdiTirfbd = topQufuf.dispbtdiTirfbd;
+                topQufuf.dispbtdiTirfbd.sftEvfntQufuf(nfwEvfntQufuf);
             }
 
-            // Transfer all events forward to new EventQueue.
-            while (topQueue.peekEvent() != null) {
+            // Trbnsffr bll fvfnts forwbrd to nfw EvfntQufuf.
+            wiilf (topQufuf.pffkEvfnt() != null) {
                 try {
-                    // Use getNextEventPrivate() as it doesn't call flushPendingEvents()
-                    newEventQueue.postEventPrivate(topQueue.getNextEventPrivate());
-                } catch (InterruptedException ie) {
-                    if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                        eventLog.fine("Interrupted push", ie);
+                    // Usf gftNfxtEvfntPrivbtf() bs it dofsn't dbll flusiPfndingEvfnts()
+                    nfwEvfntQufuf.postEvfntPrivbtf(topQufuf.gftNfxtEvfntPrivbtf());
+                } dbtdi (IntfrruptfdExdfption if) {
+                    if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        fvfntLog.finf("Intfrruptfd pusi", if);
                     }
                 }
             }
 
-            // Wake up EDT waiting in getNextEvent(), so it can
-            // pick up a new EventQueue. Post the waking event before
-            // topQueue.nextQueue is assigned, otherwise the event would
-            // go newEventQueue
-            topQueue.postEventPrivate(new InvocationEvent(topQueue, dummyRunnable));
+            // Wbkf up EDT wbiting in gftNfxtEvfnt(), so it dbn
+            // pidk up b nfw EvfntQufuf. Post tif wbking fvfnt bfforf
+            // topQufuf.nfxtQufuf is bssignfd, otifrwisf tif fvfnt would
+            // go nfwEvfntQufuf
+            topQufuf.postEvfntPrivbtf(nfw InvodbtionEvfnt(topQufuf, dummyRunnbblf));
 
-            newEventQueue.previousQueue = topQueue;
-            topQueue.nextQueue = newEventQueue;
+            nfwEvfntQufuf.prfviousQufuf = topQufuf;
+            topQufuf.nfxtQufuf = nfwEvfntQufuf;
 
-            if (appContext.get(AppContext.EVENT_QUEUE_KEY) == topQueue) {
-                appContext.put(AppContext.EVENT_QUEUE_KEY, newEventQueue);
+            if (bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY) == topQufuf) {
+                bppContfxt.put(AppContfxt.EVENT_QUEUE_KEY, nfwEvfntQufuf);
             }
 
-            pushPopCond.signalAll();
-        } finally {
-            pushPopLock.unlock();
+            pusiPopCond.signblAll();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /**
-     * Stops dispatching events using this <code>EventQueue</code>.
-     * Any pending events are transferred to the previous
-     * <code>EventQueue</code> for processing.
+     * Stops dispbtdiing fvfnts using tiis <dodf>EvfntQufuf</dodf>.
+     * Any pfnding fvfnts brf trbnsffrrfd to tif prfvious
+     * <dodf>EvfntQufuf</dodf> for prodfssing.
      * <p>
-     * Warning: To avoid deadlock, do not declare this method
-     * synchronized in a subclass.
+     * Wbrning: To bvoid dfbdlodk, do not dfdlbrf tiis mftiod
+     * syndironizfd in b subdlbss.
      *
-     * @exception EmptyStackException if no previous push was made
-     *  on this <code>EventQueue</code>
-     * @see      java.awt.EventQueue#push
-     * @since           1.2
+     * @fxdfption EmptyStbdkExdfption if no prfvious pusi wbs mbdf
+     *  on tiis <dodf>EvfntQufuf</dodf>
+     * @sff      jbvb.bwt.EvfntQufuf#pusi
+     * @sindf           1.2
      */
-    protected void pop() throws EmptyStackException {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            eventLog.fine("EventQueue.pop(" + this + ")");
+    protfdtfd void pop() tirows EmptyStbdkExdfption {
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf("EvfntQufuf.pop(" + tiis + ")");
         }
 
-        pushPopLock.lock();
+        pusiPopLodk.lodk();
         try {
-            EventQueue topQueue = this;
-            while (topQueue.nextQueue != null) {
-                topQueue = topQueue.nextQueue;
+            EvfntQufuf topQufuf = tiis;
+            wiilf (topQufuf.nfxtQufuf != null) {
+                topQufuf = topQufuf.nfxtQufuf;
             }
-            EventQueue prevQueue = topQueue.previousQueue;
-            if (prevQueue == null) {
-                throw new EmptyStackException();
+            EvfntQufuf prfvQufuf = topQufuf.prfviousQufuf;
+            if (prfvQufuf == null) {
+                tirow nfw EmptyStbdkExdfption();
             }
 
-            topQueue.previousQueue = null;
-            prevQueue.nextQueue = null;
+            topQufuf.prfviousQufuf = null;
+            prfvQufuf.nfxtQufuf = null;
 
-            // Transfer all events back to previous EventQueue.
-            while (topQueue.peekEvent() != null) {
+            // Trbnsffr bll fvfnts bbdk to prfvious EvfntQufuf.
+            wiilf (topQufuf.pffkEvfnt() != null) {
                 try {
-                    prevQueue.postEventPrivate(topQueue.getNextEventPrivate());
-                } catch (InterruptedException ie) {
-                    if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                        eventLog.fine("Interrupted pop", ie);
+                    prfvQufuf.postEvfntPrivbtf(topQufuf.gftNfxtEvfntPrivbtf());
+                } dbtdi (IntfrruptfdExdfption if) {
+                    if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        fvfntLog.finf("Intfrruptfd pop", if);
                     }
                 }
             }
 
-            if ((topQueue.dispatchThread != null) &&
-                (topQueue.dispatchThread.getEventQueue() == this))
+            if ((topQufuf.dispbtdiTirfbd != null) &&
+                (topQufuf.dispbtdiTirfbd.gftEvfntQufuf() == tiis))
             {
-                prevQueue.dispatchThread = topQueue.dispatchThread;
-                topQueue.dispatchThread.setEventQueue(prevQueue);
+                prfvQufuf.dispbtdiTirfbd = topQufuf.dispbtdiTirfbd;
+                topQufuf.dispbtdiTirfbd.sftEvfntQufuf(prfvQufuf);
             }
 
-            if (appContext.get(AppContext.EVENT_QUEUE_KEY) == this) {
-                appContext.put(AppContext.EVENT_QUEUE_KEY, prevQueue);
+            if (bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY) == tiis) {
+                bppContfxt.put(AppContfxt.EVENT_QUEUE_KEY, prfvQufuf);
             }
 
-            // Wake up EDT waiting in getNextEvent(), so it can
-            // pick up a new EventQueue
-            topQueue.postEventPrivate(new InvocationEvent(topQueue, dummyRunnable));
+            // Wbkf up EDT wbiting in gftNfxtEvfnt(), so it dbn
+            // pidk up b nfw EvfntQufuf
+            topQufuf.postEvfntPrivbtf(nfw InvodbtionEvfnt(topQufuf, dummyRunnbblf));
 
-            pushPopCond.signalAll();
-        } finally {
-            pushPopLock.unlock();
+            pusiPopCond.signblAll();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /**
-     * Creates a new {@code secondary loop} associated with this
-     * event queue. Use the {@link SecondaryLoop#enter} and
-     * {@link SecondaryLoop#exit} methods to start and stop the
-     * event loop and dispatch the events from this queue.
+     * Crfbtfs b nfw {@dodf sfdondbry loop} bssodibtfd witi tiis
+     * fvfnt qufuf. Usf tif {@link SfdondbryLoop#fntfr} bnd
+     * {@link SfdondbryLoop#fxit} mftiods to stbrt bnd stop tif
+     * fvfnt loop bnd dispbtdi tif fvfnts from tiis qufuf.
      *
-     * @return secondaryLoop A new secondary loop object, which can
-     *                       be used to launch a new nested event
-     *                       loop and dispatch events from this queue
+     * @rfturn sfdondbryLoop A nfw sfdondbry loop objfdt, wiidi dbn
+     *                       bf usfd to lbundi b nfw nfstfd fvfnt
+     *                       loop bnd dispbtdi fvfnts from tiis qufuf
      *
-     * @see SecondaryLoop#enter
-     * @see SecondaryLoop#exit
+     * @sff SfdondbryLoop#fntfr
+     * @sff SfdondbryLoop#fxit
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public SecondaryLoop createSecondaryLoop() {
-        return createSecondaryLoop(null, null, 0);
+    publid SfdondbryLoop drfbtfSfdondbryLoop() {
+        rfturn drfbtfSfdondbryLoop(null, null, 0);
     }
 
-    SecondaryLoop createSecondaryLoop(Conditional cond, EventFilter filter, long interval) {
-        pushPopLock.lock();
+    SfdondbryLoop drfbtfSfdondbryLoop(Conditionbl dond, EvfntFiltfr filtfr, long intfrvbl) {
+        pusiPopLodk.lodk();
         try {
-            if (nextQueue != null) {
-                // Forward the request to the top of EventQueue stack
-                return nextQueue.createSecondaryLoop(cond, filter, interval);
+            if (nfxtQufuf != null) {
+                // Forwbrd tif rfqufst to tif top of EvfntQufuf stbdk
+                rfturn nfxtQufuf.drfbtfSfdondbryLoop(dond, filtfr, intfrvbl);
             }
-            if (fwDispatcher != null) {
-                return fwDispatcher.createSecondaryLoop();
+            if (fwDispbtdifr != null) {
+                rfturn fwDispbtdifr.drfbtfSfdondbryLoop();
             }
-            if (dispatchThread == null) {
-                initDispatchThread();
+            if (dispbtdiTirfbd == null) {
+                initDispbtdiTirfbd();
             }
-            return new WaitDispatchSupport(dispatchThread, cond, filter, interval);
-        } finally {
-            pushPopLock.unlock();
+            rfturn nfw WbitDispbtdiSupport(dispbtdiTirfbd, dond, filtfr, intfrvbl);
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /**
-     * Returns true if the calling thread is
-     * {@link Toolkit#getSystemEventQueue the current AWT EventQueue}'s
-     * dispatch thread. Use this method to ensure that a particular
-     * task is being executed (or not being) there.
+     * Rfturns truf if tif dblling tirfbd is
+     * {@link Toolkit#gftSystfmEvfntQufuf tif durrfnt AWT EvfntQufuf}'s
+     * dispbtdi tirfbd. Usf tiis mftiod to fnsurf tibt b pbrtidulbr
+     * tbsk is bfing fxfdutfd (or not bfing) tifrf.
      * <p>
-     * Note: use the {@link #invokeLater} or {@link #invokeAndWait}
-     * methods to execute a task in
-     * {@link Toolkit#getSystemEventQueue the current AWT EventQueue}'s
-     * dispatch thread.
+     * Notf: usf tif {@link #invokfLbtfr} or {@link #invokfAndWbit}
+     * mftiods to fxfdutf b tbsk in
+     * {@link Toolkit#gftSystfmEvfntQufuf tif durrfnt AWT EvfntQufuf}'s
+     * dispbtdi tirfbd.
      *
-     * @return true if running in
-     * {@link Toolkit#getSystemEventQueue the current AWT EventQueue}'s
-     * dispatch thread
-     * @see             #invokeLater
-     * @see             #invokeAndWait
-     * @see             Toolkit#getSystemEventQueue
-     * @since           1.2
+     * @rfturn truf if running in
+     * {@link Toolkit#gftSystfmEvfntQufuf tif durrfnt AWT EvfntQufuf}'s
+     * dispbtdi tirfbd
+     * @sff             #invokfLbtfr
+     * @sff             #invokfAndWbit
+     * @sff             Toolkit#gftSystfmEvfntQufuf
+     * @sindf           1.2
      */
-    public static boolean isDispatchThread() {
-        EventQueue eq = Toolkit.getEventQueue();
-        return eq.isDispatchThreadImpl();
+    publid stbtid boolfbn isDispbtdiTirfbd() {
+        EvfntQufuf fq = Toolkit.gftEvfntQufuf();
+        rfturn fq.isDispbtdiTirfbdImpl();
     }
 
-    final boolean isDispatchThreadImpl() {
-        EventQueue eq = this;
-        pushPopLock.lock();
+    finbl boolfbn isDispbtdiTirfbdImpl() {
+        EvfntQufuf fq = tiis;
+        pusiPopLodk.lodk();
         try {
-            EventQueue next = eq.nextQueue;
-            while (next != null) {
-                eq = next;
-                next = eq.nextQueue;
+            EvfntQufuf nfxt = fq.nfxtQufuf;
+            wiilf (nfxt != null) {
+                fq = nfxt;
+                nfxt = fq.nfxtQufuf;
             }
-            if (eq.fwDispatcher != null) {
-                return eq.fwDispatcher.isDispatchThread();
+            if (fq.fwDispbtdifr != null) {
+                rfturn fq.fwDispbtdifr.isDispbtdiTirfbd();
             }
-            return (Thread.currentThread() == eq.dispatchThread);
-        } finally {
-            pushPopLock.unlock();
+            rfturn (Tirfbd.durrfntTirfbd() == fq.dispbtdiTirfbd);
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
-    final void initDispatchThread() {
-        pushPopLock.lock();
+    finbl void initDispbtdiTirfbd() {
+        pusiPopLodk.lodk();
         try {
-            if (dispatchThread == null && !threadGroup.isDestroyed() && !appContext.isDisposed()) {
-                dispatchThread = AccessController.doPrivileged(
-                    new PrivilegedAction<EventDispatchThread>() {
-                        public EventDispatchThread run() {
-                            EventDispatchThread t =
-                                new EventDispatchThread(threadGroup,
-                                                        name,
-                                                        EventQueue.this);
-                            t.setContextClassLoader(classLoader);
-                            t.setPriority(Thread.NORM_PRIORITY + 1);
-                            t.setDaemon(false);
-                            AWTAutoShutdown.getInstance().notifyThreadBusy(t);
-                            return t;
+            if (dispbtdiTirfbd == null && !tirfbdGroup.isDfstroyfd() && !bppContfxt.isDisposfd()) {
+                dispbtdiTirfbd = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<EvfntDispbtdiTirfbd>() {
+                        publid EvfntDispbtdiTirfbd run() {
+                            EvfntDispbtdiTirfbd t =
+                                nfw EvfntDispbtdiTirfbd(tirfbdGroup,
+                                                        nbmf,
+                                                        EvfntQufuf.tiis);
+                            t.sftContfxtClbssLobdfr(dlbssLobdfr);
+                            t.sftPriority(Tirfbd.NORM_PRIORITY + 1);
+                            t.sftDbfmon(fblsf);
+                            AWTAutoSiutdown.gftInstbndf().notifyTirfbdBusy(t);
+                            rfturn t;
                         }
                     }
                 );
-                dispatchThread.start();
+                dispbtdiTirfbd.stbrt();
             }
-        } finally {
-            pushPopLock.unlock();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
-    final void detachDispatchThread(EventDispatchThread edt) {
+    finbl void dftbdiDispbtdiTirfbd(EvfntDispbtdiTirfbd fdt) {
         /*
-         * Minimize discard possibility for non-posted events
+         * Minimizf disdbrd possibility for non-postfd fvfnts
          */
-        SunToolkit.flushPendingEvents(appContext);
+        SunToolkit.flusiPfndingEvfnts(bppContfxt);
         /*
-         * This synchronized block is to secure that the event dispatch
-         * thread won't die in the middle of posting a new event to the
-         * associated event queue. It is important because we notify
-         * that the event dispatch thread is busy after posting a new event
-         * to its queue, so the EventQueue.dispatchThread reference must
-         * be valid at that point.
+         * Tiis syndironizfd blodk is to sfdurf tibt tif fvfnt dispbtdi
+         * tirfbd won't dif in tif middlf of posting b nfw fvfnt to tif
+         * bssodibtfd fvfnt qufuf. It is importbnt bfdbusf wf notify
+         * tibt tif fvfnt dispbtdi tirfbd is busy bftfr posting b nfw fvfnt
+         * to its qufuf, so tif EvfntQufuf.dispbtdiTirfbd rfffrfndf must
+         * bf vblid bt tibt point.
          */
-        pushPopLock.lock();
+        pusiPopLodk.lodk();
         try {
-            if (edt == dispatchThread) {
-                dispatchThread = null;
+            if (fdt == dispbtdiTirfbd) {
+                dispbtdiTirfbd = null;
             }
-            AWTAutoShutdown.getInstance().notifyThreadFree(edt);
+            AWTAutoSiutdown.gftInstbndf().notifyTirfbdFrff(fdt);
             /*
-             * Event was posted after EDT events pumping had stopped, so start
-             * another EDT to handle this event
+             * Evfnt wbs postfd bftfr EDT fvfnts pumping ibd stoppfd, so stbrt
+             * bnotifr EDT to ibndlf tiis fvfnt
              */
-            if (peekEvent() != null) {
-                initDispatchThread();
+            if (pffkEvfnt() != null) {
+                initDispbtdiTirfbd();
             }
-        } finally {
-            pushPopLock.unlock();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /*
-     * Gets the <code>EventDispatchThread</code> for this
-     * <code>EventQueue</code>.
-     * @return the event dispatch thread associated with this event queue
-     *         or <code>null</code> if this event queue doesn't have a
-     *         working thread associated with it
-     * @see    java.awt.EventQueue#initDispatchThread
-     * @see    java.awt.EventQueue#detachDispatchThread
+     * Gfts tif <dodf>EvfntDispbtdiTirfbd</dodf> for tiis
+     * <dodf>EvfntQufuf</dodf>.
+     * @rfturn tif fvfnt dispbtdi tirfbd bssodibtfd witi tiis fvfnt qufuf
+     *         or <dodf>null</dodf> if tiis fvfnt qufuf dofsn't ibvf b
+     *         working tirfbd bssodibtfd witi it
+     * @sff    jbvb.bwt.EvfntQufuf#initDispbtdiTirfbd
+     * @sff    jbvb.bwt.EvfntQufuf#dftbdiDispbtdiTirfbd
      */
-    final EventDispatchThread getDispatchThread() {
-        pushPopLock.lock();
+    finbl EvfntDispbtdiTirfbd gftDispbtdiTirfbd() {
+        pusiPopLodk.lodk();
         try {
-            return dispatchThread;
-        } finally {
-            pushPopLock.unlock();
+            rfturn dispbtdiTirfbd;
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /*
-     * Removes any pending events for the specified source object.
-     * If removeAllEvents parameter is <code>true</code> then all
-     * events for the specified source object are removed, if it
-     * is <code>false</code> then <code>SequencedEvent</code>, <code>SentEvent</code>,
-     * <code>FocusEvent</code>, <code>WindowEvent</code>, <code>KeyEvent</code>,
-     * and <code>InputMethodEvent</code> are kept in the queue, but all other
-     * events are removed.
+     * Rfmovfs bny pfnding fvfnts for tif spfdififd sourdf objfdt.
+     * If rfmovfAllEvfnts pbrbmftfr is <dodf>truf</dodf> tifn bll
+     * fvfnts for tif spfdififd sourdf objfdt brf rfmovfd, if it
+     * is <dodf>fblsf</dodf> tifn <dodf>SfqufndfdEvfnt</dodf>, <dodf>SfntEvfnt</dodf>,
+     * <dodf>FodusEvfnt</dodf>, <dodf>WindowEvfnt</dodf>, <dodf>KfyEvfnt</dodf>,
+     * bnd <dodf>InputMftiodEvfnt</dodf> brf kfpt in tif qufuf, but bll otifr
+     * fvfnts brf rfmovfd.
      *
-     * This method is normally called by the source's
-     * <code>removeNotify</code> method.
+     * Tiis mftiod is normblly dbllfd by tif sourdf's
+     * <dodf>rfmovfNotify</dodf> mftiod.
      */
-    final void removeSourceEvents(Object source, boolean removeAllEvents) {
-        SunToolkit.flushPendingEvents(appContext);
-        pushPopLock.lock();
+    finbl void rfmovfSourdfEvfnts(Objfdt sourdf, boolfbn rfmovfAllEvfnts) {
+        SunToolkit.flusiPfndingEvfnts(bppContfxt);
+        pusiPopLodk.lodk();
         try {
             for (int i = 0; i < NUM_PRIORITIES; i++) {
-                EventQueueItem entry = queues[i].head;
-                EventQueueItem prev = null;
-                while (entry != null) {
-                    if ((entry.event.getSource() == source)
-                        && (removeAllEvents
-                            || ! (entry.event instanceof SequencedEvent
-                                  || entry.event instanceof SentEvent
-                                  || entry.event instanceof FocusEvent
-                                  || entry.event instanceof WindowEvent
-                                  || entry.event instanceof KeyEvent
-                                  || entry.event instanceof InputMethodEvent)))
+                EvfntQufufItfm fntry = qufufs[i].ifbd;
+                EvfntQufufItfm prfv = null;
+                wiilf (fntry != null) {
+                    if ((fntry.fvfnt.gftSourdf() == sourdf)
+                        && (rfmovfAllEvfnts
+                            || ! (fntry.fvfnt instbndfof SfqufndfdEvfnt
+                                  || fntry.fvfnt instbndfof SfntEvfnt
+                                  || fntry.fvfnt instbndfof FodusEvfnt
+                                  || fntry.fvfnt instbndfof WindowEvfnt
+                                  || fntry.fvfnt instbndfof KfyEvfnt
+                                  || fntry.fvfnt instbndfof InputMftiodEvfnt)))
                     {
-                        if (entry.event instanceof SequencedEvent) {
-                            ((SequencedEvent)entry.event).dispose();
+                        if (fntry.fvfnt instbndfof SfqufndfdEvfnt) {
+                            ((SfqufndfdEvfnt)fntry.fvfnt).disposf();
                         }
-                        if (entry.event instanceof SentEvent) {
-                            ((SentEvent)entry.event).dispose();
+                        if (fntry.fvfnt instbndfof SfntEvfnt) {
+                            ((SfntEvfnt)fntry.fvfnt).disposf();
                         }
-                        if (entry.event instanceof InvocationEvent) {
-                            AWTAccessor.getInvocationEventAccessor()
-                                    .dispose((InvocationEvent)entry.event);
+                        if (fntry.fvfnt instbndfof InvodbtionEvfnt) {
+                            AWTAddfssor.gftInvodbtionEvfntAddfssor()
+                                    .disposf((InvodbtionEvfnt)fntry.fvfnt);
                         }
-                        if (prev == null) {
-                            queues[i].head = entry.next;
-                        } else {
-                            prev.next = entry.next;
+                        if (prfv == null) {
+                            qufufs[i].ifbd = fntry.nfxt;
+                        } flsf {
+                            prfv.nfxt = fntry.nfxt;
                         }
-                        uncacheEQItem(entry);
-                    } else {
-                        prev = entry;
+                        undbdifEQItfm(fntry);
+                    } flsf {
+                        prfv = fntry;
                     }
-                    entry = entry.next;
+                    fntry = fntry.nfxt;
                 }
-                queues[i].tail = prev;
+                qufufs[i].tbil = prfv;
             }
-        } finally {
-            pushPopLock.unlock();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
-    synchronized long getMostRecentKeyEventTime() {
-        pushPopLock.lock();
+    syndironizfd long gftMostRfdfntKfyEvfntTimf() {
+        pusiPopLodk.lodk();
         try {
-            return mostRecentKeyEventTime;
-        } finally {
-            pushPopLock.unlock();
+            rfturn mostRfdfntKfyEvfntTimf;
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
-    static void setCurrentEventAndMostRecentTime(AWTEvent e) {
-        Toolkit.getEventQueue().setCurrentEventAndMostRecentTimeImpl(e);
+    stbtid void sftCurrfntEvfntAndMostRfdfntTimf(AWTEvfnt f) {
+        Toolkit.gftEvfntQufuf().sftCurrfntEvfntAndMostRfdfntTimfImpl(f);
     }
-    private void setCurrentEventAndMostRecentTimeImpl(AWTEvent e) {
-        pushPopLock.lock();
+    privbtf void sftCurrfntEvfntAndMostRfdfntTimfImpl(AWTEvfnt f) {
+        pusiPopLodk.lodk();
         try {
-            if (Thread.currentThread() != dispatchThread) {
-                return;
+            if (Tirfbd.durrfntTirfbd() != dispbtdiTirfbd) {
+                rfturn;
             }
 
-            currentEvent = new WeakReference<>(e);
+            durrfntEvfnt = nfw WfbkRfffrfndf<>(f);
 
-            // This series of 'instanceof' checks should be replaced with a
-            // polymorphic type (for example, an interface which declares a
-            // getWhen() method). However, this would require us to make such
-            // a type public, or to place it in sun.awt. Both of these approaches
-            // have been frowned upon. So for now, we hack.
+            // Tiis sfrifs of 'instbndfof' difdks siould bf rfplbdfd witi b
+            // polymorpiid typf (for fxbmplf, bn intfrfbdf wiidi dfdlbrfs b
+            // gftWifn() mftiod). Howfvfr, tiis would rfquirf us to mbkf sudi
+            // b typf publid, or to plbdf it in sun.bwt. Boti of tifsf bpprobdifs
+            // ibvf bffn frownfd upon. So for now, wf ibdk.
             //
-            // In tiger, we will probably give timestamps to all events, so this
-            // will no longer be an issue.
-            long mostRecentEventTime2 = Long.MIN_VALUE;
-            if (e instanceof InputEvent) {
-                InputEvent ie = (InputEvent)e;
-                mostRecentEventTime2 = ie.getWhen();
-                if (e instanceof KeyEvent) {
-                    mostRecentKeyEventTime = ie.getWhen();
+            // In tigfr, wf will probbbly givf timfstbmps to bll fvfnts, so tiis
+            // will no longfr bf bn issuf.
+            long mostRfdfntEvfntTimf2 = Long.MIN_VALUE;
+            if (f instbndfof InputEvfnt) {
+                InputEvfnt if = (InputEvfnt)f;
+                mostRfdfntEvfntTimf2 = if.gftWifn();
+                if (f instbndfof KfyEvfnt) {
+                    mostRfdfntKfyEvfntTimf = if.gftWifn();
                 }
-            } else if (e instanceof InputMethodEvent) {
-                InputMethodEvent ime = (InputMethodEvent)e;
-                mostRecentEventTime2 = ime.getWhen();
-            } else if (e instanceof ActionEvent) {
-                ActionEvent ae = (ActionEvent)e;
-                mostRecentEventTime2 = ae.getWhen();
-            } else if (e instanceof InvocationEvent) {
-                InvocationEvent ie = (InvocationEvent)e;
-                mostRecentEventTime2 = ie.getWhen();
+            } flsf if (f instbndfof InputMftiodEvfnt) {
+                InputMftiodEvfnt imf = (InputMftiodEvfnt)f;
+                mostRfdfntEvfntTimf2 = imf.gftWifn();
+            } flsf if (f instbndfof AdtionEvfnt) {
+                AdtionEvfnt bf = (AdtionEvfnt)f;
+                mostRfdfntEvfntTimf2 = bf.gftWifn();
+            } flsf if (f instbndfof InvodbtionEvfnt) {
+                InvodbtionEvfnt if = (InvodbtionEvfnt)f;
+                mostRfdfntEvfntTimf2 = if.gftWifn();
             }
-            mostRecentEventTime = Math.max(mostRecentEventTime, mostRecentEventTime2);
-        } finally {
-            pushPopLock.unlock();
+            mostRfdfntEvfntTimf = Mbti.mbx(mostRfdfntEvfntTimf, mostRfdfntEvfntTimf2);
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
     /**
-     * Causes <code>runnable</code> to have its <code>run</code>
-     * method called in the {@link #isDispatchThread dispatch thread} of
-     * {@link Toolkit#getSystemEventQueue the system EventQueue}.
-     * This will happen after all pending events are processed.
+     * Cbusfs <dodf>runnbblf</dodf> to ibvf its <dodf>run</dodf>
+     * mftiod dbllfd in tif {@link #isDispbtdiTirfbd dispbtdi tirfbd} of
+     * {@link Toolkit#gftSystfmEvfntQufuf tif systfm EvfntQufuf}.
+     * Tiis will ibppfn bftfr bll pfnding fvfnts brf prodfssfd.
      *
-     * @param runnable  the <code>Runnable</code> whose <code>run</code>
-     *                  method should be executed
-     *                  asynchronously in the
-     *                  {@link #isDispatchThread event dispatch thread}
-     *                  of {@link Toolkit#getSystemEventQueue the system EventQueue}
-     * @see             #invokeAndWait
-     * @see             Toolkit#getSystemEventQueue
-     * @see             #isDispatchThread
-     * @since           1.2
+     * @pbrbm runnbblf  tif <dodf>Runnbblf</dodf> wiosf <dodf>run</dodf>
+     *                  mftiod siould bf fxfdutfd
+     *                  bsyndironously in tif
+     *                  {@link #isDispbtdiTirfbd fvfnt dispbtdi tirfbd}
+     *                  of {@link Toolkit#gftSystfmEvfntQufuf tif systfm EvfntQufuf}
+     * @sff             #invokfAndWbit
+     * @sff             Toolkit#gftSystfmEvfntQufuf
+     * @sff             #isDispbtdiTirfbd
+     * @sindf           1.2
      */
-    public static void invokeLater(Runnable runnable) {
-        Toolkit.getEventQueue().postEvent(
-            new InvocationEvent(Toolkit.getDefaultToolkit(), runnable));
+    publid stbtid void invokfLbtfr(Runnbblf runnbblf) {
+        Toolkit.gftEvfntQufuf().postEvfnt(
+            nfw InvodbtionEvfnt(Toolkit.gftDffbultToolkit(), runnbblf));
     }
 
     /**
-     * Causes <code>runnable</code> to have its <code>run</code>
-     * method called in the {@link #isDispatchThread dispatch thread} of
-     * {@link Toolkit#getSystemEventQueue the system EventQueue}.
-     * This will happen after all pending events are processed.
-     * The call blocks until this has happened.  This method
-     * will throw an Error if called from the
-     * {@link #isDispatchThread event dispatcher thread}.
+     * Cbusfs <dodf>runnbblf</dodf> to ibvf its <dodf>run</dodf>
+     * mftiod dbllfd in tif {@link #isDispbtdiTirfbd dispbtdi tirfbd} of
+     * {@link Toolkit#gftSystfmEvfntQufuf tif systfm EvfntQufuf}.
+     * Tiis will ibppfn bftfr bll pfnding fvfnts brf prodfssfd.
+     * Tif dbll blodks until tiis ibs ibppfnfd.  Tiis mftiod
+     * will tirow bn Error if dbllfd from tif
+     * {@link #isDispbtdiTirfbd fvfnt dispbtdifr tirfbd}.
      *
-     * @param runnable  the <code>Runnable</code> whose <code>run</code>
-     *                  method should be executed
-     *                  synchronously in the
-     *                  {@link #isDispatchThread event dispatch thread}
-     *                  of {@link Toolkit#getSystemEventQueue the system EventQueue}
-     * @exception       InterruptedException  if any thread has
-     *                  interrupted this thread
-     * @exception       InvocationTargetException  if an throwable is thrown
-     *                  when running <code>runnable</code>
-     * @see             #invokeLater
-     * @see             Toolkit#getSystemEventQueue
-     * @see             #isDispatchThread
-     * @since           1.2
+     * @pbrbm runnbblf  tif <dodf>Runnbblf</dodf> wiosf <dodf>run</dodf>
+     *                  mftiod siould bf fxfdutfd
+     *                  syndironously in tif
+     *                  {@link #isDispbtdiTirfbd fvfnt dispbtdi tirfbd}
+     *                  of {@link Toolkit#gftSystfmEvfntQufuf tif systfm EvfntQufuf}
+     * @fxdfption       IntfrruptfdExdfption  if bny tirfbd ibs
+     *                  intfrruptfd tiis tirfbd
+     * @fxdfption       InvodbtionTbrgftExdfption  if bn tirowbblf is tirown
+     *                  wifn running <dodf>runnbblf</dodf>
+     * @sff             #invokfLbtfr
+     * @sff             Toolkit#gftSystfmEvfntQufuf
+     * @sff             #isDispbtdiTirfbd
+     * @sindf           1.2
      */
-    public static void invokeAndWait(Runnable runnable)
-        throws InterruptedException, InvocationTargetException
+    publid stbtid void invokfAndWbit(Runnbblf runnbblf)
+        tirows IntfrruptfdExdfption, InvodbtionTbrgftExdfption
     {
-        invokeAndWait(Toolkit.getDefaultToolkit(), runnable);
+        invokfAndWbit(Toolkit.gftDffbultToolkit(), runnbblf);
     }
 
-    static void invokeAndWait(Object source, Runnable runnable)
-        throws InterruptedException, InvocationTargetException
+    stbtid void invokfAndWbit(Objfdt sourdf, Runnbblf runnbblf)
+        tirows IntfrruptfdExdfption, InvodbtionTbrgftExdfption
     {
-        if (EventQueue.isDispatchThread()) {
-            throw new Error("Cannot call invokeAndWait from the event dispatcher thread");
+        if (EvfntQufuf.isDispbtdiTirfbd()) {
+            tirow nfw Error("Cbnnot dbll invokfAndWbit from tif fvfnt dispbtdifr tirfbd");
         }
 
-        class AWTInvocationLock {}
-        Object lock = new AWTInvocationLock();
+        dlbss AWTInvodbtionLodk {}
+        Objfdt lodk = nfw AWTInvodbtionLodk();
 
-        InvocationEvent event =
-            new InvocationEvent(source, runnable, lock, true);
+        InvodbtionEvfnt fvfnt =
+            nfw InvodbtionEvfnt(sourdf, runnbblf, lodk, truf);
 
-        synchronized (lock) {
-            Toolkit.getEventQueue().postEvent(event);
-            while (!event.isDispatched()) {
-                lock.wait();
+        syndironizfd (lodk) {
+            Toolkit.gftEvfntQufuf().postEvfnt(fvfnt);
+            wiilf (!fvfnt.isDispbtdifd()) {
+                lodk.wbit();
             }
         }
 
-        Throwable eventThrowable = event.getThrowable();
-        if (eventThrowable != null) {
-            throw new InvocationTargetException(eventThrowable);
+        Tirowbblf fvfntTirowbblf = fvfnt.gftTirowbblf();
+        if (fvfntTirowbblf != null) {
+            tirow nfw InvodbtionTbrgftExdfption(fvfntTirowbblf);
         }
     }
 
     /*
-     * Called from PostEventQueue.postEvent to notify that a new event
-     * appeared. First it proceeds to the EventQueue on the top of the
-     * stack, then notifies the associated dispatch thread if it exists
-     * or starts a new one otherwise.
+     * Cbllfd from PostEvfntQufuf.postEvfnt to notify tibt b nfw fvfnt
+     * bppfbrfd. First it prodffds to tif EvfntQufuf on tif top of tif
+     * stbdk, tifn notififs tif bssodibtfd dispbtdi tirfbd if it fxists
+     * or stbrts b nfw onf otifrwisf.
      */
-    private void wakeup(boolean isShutdown) {
-        pushPopLock.lock();
+    privbtf void wbkfup(boolfbn isSiutdown) {
+        pusiPopLodk.lodk();
         try {
-            if (nextQueue != null) {
-                // Forward call to the top of EventQueue stack.
-                nextQueue.wakeup(isShutdown);
-            } else if (dispatchThread != null) {
-                pushPopCond.signalAll();
-            } else if (!isShutdown) {
-                initDispatchThread();
+            if (nfxtQufuf != null) {
+                // Forwbrd dbll to tif top of EvfntQufuf stbdk.
+                nfxtQufuf.wbkfup(isSiutdown);
+            } flsf if (dispbtdiTirfbd != null) {
+                pusiPopCond.signblAll();
+            } flsf if (!isSiutdown) {
+                initDispbtdiTirfbd();
             }
-        } finally {
-            pushPopLock.unlock();
+        } finblly {
+            pusiPopLodk.unlodk();
         }
     }
 
-    // The method is used by AWTAccessor for javafx/AWT single threaded mode.
-    private void setFwDispatcher(FwDispatcher dispatcher) {
-        if (nextQueue != null) {
-            nextQueue.setFwDispatcher(dispatcher);
-        } else {
-            fwDispatcher = dispatcher;
+    // Tif mftiod is usfd by AWTAddfssor for jbvbfx/AWT singlf tirfbdfd modf.
+    privbtf void sftFwDispbtdifr(FwDispbtdifr dispbtdifr) {
+        if (nfxtQufuf != null) {
+            nfxtQufuf.sftFwDispbtdifr(dispbtdifr);
+        } flsf {
+            fwDispbtdifr = dispbtdifr;
         }
     }
 }
 
 /**
- * The Queue object holds pointers to the beginning and end of one internal
- * queue. An EventQueue object is composed of multiple internal Queues, one
- * for each priority supported by the EventQueue. All Events on a particular
- * internal Queue have identical priority.
+ * Tif Qufuf objfdt iolds pointfrs to tif bfginning bnd fnd of onf intfrnbl
+ * qufuf. An EvfntQufuf objfdt is domposfd of multiplf intfrnbl Qufufs, onf
+ * for fbdi priority supportfd by tif EvfntQufuf. All Evfnts on b pbrtidulbr
+ * intfrnbl Qufuf ibvf idfntidbl priority.
  */
-class Queue {
-    EventQueueItem head;
-    EventQueueItem tail;
+dlbss Qufuf {
+    EvfntQufufItfm ifbd;
+    EvfntQufufItfm tbil;
 }

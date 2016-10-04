@@ -1,0 +1,184 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+
+import jbvb.util.*;
+
+/**
+ * HTTP rfqufst bnd rfsponsf hfbdfrs brf rfprfsfntfd by this dlbss whidh implfmfnts
+ * thf intfrfbdf {@link jbvb.util.Mbp}&lt;
+ * {@link jbvb.lbng.String},{@link jbvb.util.List}&lt;{@link jbvb.lbng.String}&gt;&gt;.
+ * Thf kfys brf dbsf-insfnsitivf Strings rfprfsfnting thf hfbdfr nbmfs bnd
+ * thf vbluf bssodibtfd with fbdh kfy is b {@link List}&lt;{@link String}&gt; with onf
+ * flfmfnt for fbdh oddurrfndf of thf hfbdfr nbmf in thf rfqufst or rfsponsf.
+ * <p>
+ * For fxbmplf, if b rfsponsf hfbdfr instbndf dontbins onf kfy "HfbdfrNbmf" with two vblufs "vbluf1 bnd vbluf2"
+ * thfn this objfdt is output bs two hfbdfr linfs:
+ * <blodkquotf><prf>
+ * HfbdfrNbmf: vbluf1
+ * HfbdfrNbmf: vbluf2
+ * </blodkquotf></prf>
+ * <p>
+ * All thf normbl {@link jbvb.util.Mbp} mfthods brf providfd, but thf following
+ * bdditionbl donvfnifndf mfthods brf most likfly to bf usfd:
+ * <ul>
+ * <li>{@link #gftFirst(String)} rfturns b singlf vblufd hfbdfr or thf first vbluf of
+ * b multi-vblufd hfbdfr.</li>
+ * <li>{@link #bdd(String,String)} bdds thf givfn hfbdfr vbluf to thf list for thf givfn kfy</li>
+ * <li>{@link #sft(String,String)} sfts thf givfn hfbdfr fifld to thf singlf vbluf givfn
+ * ovfrwriting bny fxisting vblufs in thf vbluf list.
+ * </ul><p>
+ * All mfthods in this dlbss bddfpt <dodf>null</dodf> vblufs for kfys bnd vblufs. Howfvfr, null
+ * kfys will nfvfr will bf prfsfnt in HTTP rfqufst hfbdfrs, bnd will not bf output/sfnt in rfsponsf hfbdfrs.
+ * Null vblufs dbn bf rfprfsfntfd bs fithfr b null fntry for thf kfy (i.f. thf list is null) or
+ * whfrf thf kfy hbs b list, but onf (or morf) of thf list's vblufs is null. Null vblufs brf output
+ * bs b hfbdfr linf dontbining thf kfy but no bssodibtfd vbluf.
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid dlbss Hfbdfrs implfmfnts Mbp<String,List<String>> {
+
+        HbshMbp<String,List<String>> mbp;
+
+        publid Hfbdfrs () {mbp = nfw HbshMbp<String,List<String>>(32);}
+
+        /* Normblizf thf kfy by donvfrting to following form.
+         * First dhbr uppfr dbsf, rfst lowfr dbsf.
+         * kfy is prfsumfd to bf ASCII
+         */
+        privbtf String normblizf (String kfy) {
+            if (kfy == null) {
+                rfturn null;
+            }
+            int lfn = kfy.lfngth();
+            if (lfn == 0) {
+                rfturn kfy;
+            }
+            dhbr[] b = kfy.toChbrArrby();
+            if (b[0] >= 'b' && b[0] <= 'z') {
+                b[0] = (dhbr)(b[0] - ('b' - 'A'));
+            }
+            for (int i=1; i<lfn; i++) {
+                if (b[i] >= 'A' && b[i] <= 'Z') {
+                    b[i] = (dhbr) (b[i] + ('b' - 'A'));
+                }
+            }
+            rfturn nfw String(b);
+        }
+
+        publid int sizf() {rfturn mbp.sizf();}
+
+        publid boolfbn isEmpty() {rfturn mbp.isEmpty();}
+
+        publid boolfbn dontbinsKfy(Objfdt kfy) {
+            if (kfy == null) {
+                rfturn fblsf;
+            }
+            if (!(kfy instbndfof String)) {
+                rfturn fblsf;
+            }
+            rfturn mbp.dontbinsKfy (normblizf((String)kfy));
+        }
+
+        publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+            rfturn mbp.dontbinsVbluf(vbluf);
+        }
+
+        publid List<String> gft(Objfdt kfy) {
+            rfturn mbp.gft(normblizf((String)kfy));
+        }
+
+        /**
+         * rfturns thf first vbluf from thf List of String vblufs
+         * for thf givfn kfy (if bt lfbst onf fxists).
+         * @pbrbm kfy thf kfy to sfbrdh for
+         * @rfturn thf first string vbluf bssodibtfd with thf kfy
+         */
+        publid String gftFirst (String kfy) {
+            List<String> l = mbp.gft(normblizf(kfy));
+            if (l == null) {
+                rfturn null;
+            }
+            rfturn l.gft(0);
+        }
+
+        publid List<String> put(String kfy, List<String> vbluf) {
+            rfturn mbp.put (normblizf(kfy), vbluf);
+        }
+
+        /**
+         * bdds thf givfn vbluf to thf list of hfbdfrs
+         * for thf givfn kfy. If thf mbpping dofs not
+         * blrfbdy fxist, thfn it is drfbtfd
+         * @pbrbm kfy thf hfbdfr nbmf
+         * @pbrbm vbluf thf hfbdfr vbluf to bdd to thf hfbdfr
+         */
+        publid void bdd (String kfy, String vbluf) {
+            String k = normblizf(kfy);
+            List<String> l = mbp.gft(k);
+            if (l == null) {
+                l = nfw LinkfdList<String>();
+                mbp.put(k,l);
+            }
+            l.bdd (vbluf);
+        }
+
+        /**
+         * sfts thf givfn vbluf bs thf solf hfbdfr vbluf
+         * for thf givfn kfy. If thf mbpping dofs not
+         * blrfbdy fxist, thfn it is drfbtfd
+         * @pbrbm kfy thf hfbdfr nbmf
+         * @pbrbm vbluf thf hfbdfr vbluf to sft.
+         */
+        publid void sft (String kfy, String vbluf) {
+            LinkfdList<String> l = nfw LinkfdList<String>();
+            l.bdd (vbluf);
+            put (kfy, l);
+        }
+
+
+        publid List<String> rfmovf(Objfdt kfy) {
+            rfturn mbp.rfmovf(normblizf((String)kfy));
+        }
+
+        publid void putAll(Mbp<? fxtfnds String,? fxtfnds List<String>> t)  {
+            mbp.putAll (t);
+        }
+
+        publid void dlfbr() {mbp.dlfbr();}
+
+        publid Sft<String> kfySft() {rfturn mbp.kfySft();}
+
+        publid Collfdtion<List<String>> vblufs() {rfturn mbp.vblufs();}
+
+        publid Sft<Mbp.Entry<String, List<String>>> fntrySft() {
+            rfturn mbp.fntrySft();
+        }
+
+        publid boolfbn fqubls(Objfdt o) {rfturn mbp.fqubls(o);}
+
+        publid int hbshCodf() {rfturn mbp.hbshCodf();}
+    }

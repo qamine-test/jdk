@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+
+import jbvb.bwt.*;
+import jbvb.io.*;
+
+/**
+  * Cfntfr-positioning lbyout mbnbgfr.
+  * @buthor Tom Sbntos
+  * @buthor Stfvf Wilson
+  */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss CfntfrLbyout implfmfnts LbyoutMbnbgfr, Sfriblizbblf {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) { }
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) { }
+
+    publid Dimfnsion prfffrrfdLbyoutSizf( Contbinfr dontbinfr ) {
+        Componfnt d = dontbinfr.gftComponfnt( 0 );
+        if ( d != null ) {
+            Dimfnsion sizf = d.gftPrfffrrfdSizf();
+            Insfts insfts = dontbinfr.gftInsfts();
+
+            rfturn nfw Dimfnsion(sizf.width + insfts.lfft + insfts.right,
+                                 sizf.hfight + insfts.top + insfts.bottom);
+        }
+        flsf {
+            rfturn nfw Dimfnsion( 0, 0 );
+        }
+    }
+
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr dont) {
+        rfturn prfffrrfdLbyoutSizf(dont);
+    }
+
+    publid void lbyoutContbinfr(Contbinfr dontbinfr) {
+        if (dontbinfr.gftComponfntCount() > 0) {
+            Componfnt d = dontbinfr.gftComponfnt(0);
+            Dimfnsion prff = d.gftPrfffrrfdSizf();
+            int dontbinfrWidth = dontbinfr.gftWidth();
+            int dontbinfrHfight = dontbinfr.gftHfight();
+            Insfts dontbinfrInsfts = dontbinfr.gftInsfts();
+
+            dontbinfrWidth -= dontbinfrInsfts.lfft +
+                              dontbinfrInsfts.right;
+            dontbinfrHfight -= dontbinfrInsfts.top +
+                               dontbinfrInsfts.bottom;
+
+            int lfft = (dontbinfrWidth - prff.width) / 2 +
+                            dontbinfrInsfts.lfft;
+            int right = (dontbinfrHfight - prff.hfight) / 2 +
+                            dontbinfrInsfts.top;
+
+            d.sftBounds(lfft, right, prff.width, prff.hfight);
+        }
+    }
+}

@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing.table;
+pbdkbgf sun.swing.tbblf;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DffbultLookup;
 
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.io.Serializable;
-import javax.swing.*;
-import javax.swing.plaf.UIResource;
-import javax.swing.border.Border;
-import javax.swing.table.*;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.tbblf.*;
 
-@SuppressWarnings("serial") // JDK-implementation class
-public class DefaultTableCellHeaderRenderer extends DefaultTableCellRenderer
-        implements UIResource {
-    private boolean horizontalTextPositionSet;
-    private Icon sortArrow;
-    private EmptyIcon emptyIcon = new EmptyIcon();
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss DffbultTbblfCfllHfbdfrRfndfrfr fxtfnds DffbultTbblfCfllRfndfrfr
+        implfmfnts UIRfsourdf {
+    privbtf boolfbn iorizontblTfxtPositionSft;
+    privbtf Idon sortArrow;
+    privbtf EmptyIdon fmptyIdon = nfw EmptyIdon();
 
-    public DefaultTableCellHeaderRenderer() {
-        setHorizontalAlignment(JLabel.CENTER);
+    publid DffbultTbblfCfllHfbdfrRfndfrfr() {
+        sftHorizontblAlignmfnt(JLbbfl.CENTER);
     }
 
-    public void setHorizontalTextPosition(int textPosition) {
-        horizontalTextPositionSet = true;
-        super.setHorizontalTextPosition(textPosition);
+    publid void sftHorizontblTfxtPosition(int tfxtPosition) {
+        iorizontblTfxtPositionSft = truf;
+        supfr.sftHorizontblTfxtPosition(tfxtPosition);
     }
 
-    public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus, int row, int column) {
-        Icon sortIcon = null;
+    publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf, Objfdt vbluf,
+            boolfbn isSflfdtfd, boolfbn ibsFodus, int row, int dolumn) {
+        Idon sortIdon = null;
 
-        boolean isPaintingForPrint = false;
+        boolfbn isPbintingForPrint = fblsf;
 
-        if (table != null) {
-            JTableHeader header = table.getTableHeader();
-            if (header != null) {
+        if (tbblf != null) {
+            JTbblfHfbdfr ifbdfr = tbblf.gftTbblfHfbdfr();
+            if (ifbdfr != null) {
                 Color fgColor = null;
                 Color bgColor = null;
-                if (hasFocus) {
-                    fgColor = DefaultLookup.getColor(this, ui, "TableHeader.focusCellForeground");
-                    bgColor = DefaultLookup.getColor(this, ui, "TableHeader.focusCellBackground");
+                if (ibsFodus) {
+                    fgColor = DffbultLookup.gftColor(tiis, ui, "TbblfHfbdfr.fodusCfllForfground");
+                    bgColor = DffbultLookup.gftColor(tiis, ui, "TbblfHfbdfr.fodusCfllBbdkground");
                 }
                 if (fgColor == null) {
-                    fgColor = header.getForeground();
+                    fgColor = ifbdfr.gftForfground();
                 }
                 if (bgColor == null) {
-                    bgColor = header.getBackground();
+                    bgColor = ifbdfr.gftBbdkground();
                 }
-                setForeground(fgColor);
-                setBackground(bgColor);
+                sftForfground(fgColor);
+                sftBbdkground(bgColor);
 
-                setFont(header.getFont());
+                sftFont(ifbdfr.gftFont());
 
-                isPaintingForPrint = header.isPaintingForPrint();
+                isPbintingForPrint = ifbdfr.isPbintingForPrint();
             }
 
-            if (!isPaintingForPrint && table.getRowSorter() != null) {
-                if (!horizontalTextPositionSet) {
-                    // There is a row sorter, and the developer hasn't
-                    // set a text position, change to leading.
-                    setHorizontalTextPosition(JLabel.LEADING);
+            if (!isPbintingForPrint && tbblf.gftRowSortfr() != null) {
+                if (!iorizontblTfxtPositionSft) {
+                    // Tifrf is b row sortfr, bnd tif dfvflopfr ibsn't
+                    // sft b tfxt position, dibngf to lfbding.
+                    sftHorizontblTfxtPosition(JLbbfl.LEADING);
                 }
-                SortOrder sortOrder = getColumnSortOrder(table, column);
-                if (sortOrder != null) {
-                    switch(sortOrder) {
-                    case ASCENDING:
-                        sortIcon = DefaultLookup.getIcon(
-                            this, ui, "Table.ascendingSortIcon");
-                        break;
-                    case DESCENDING:
-                        sortIcon = DefaultLookup.getIcon(
-                            this, ui, "Table.descendingSortIcon");
-                        break;
-                    case UNSORTED:
-                        sortIcon = DefaultLookup.getIcon(
-                            this, ui, "Table.naturalSortIcon");
-                        break;
+                SortOrdfr sortOrdfr = gftColumnSortOrdfr(tbblf, dolumn);
+                if (sortOrdfr != null) {
+                    switdi(sortOrdfr) {
+                    dbsf ASCENDING:
+                        sortIdon = DffbultLookup.gftIdon(
+                            tiis, ui, "Tbblf.bsdfndingSortIdon");
+                        brfbk;
+                    dbsf DESCENDING:
+                        sortIdon = DffbultLookup.gftIdon(
+                            tiis, ui, "Tbblf.dfsdfndingSortIdon");
+                        brfbk;
+                    dbsf UNSORTED:
+                        sortIdon = DffbultLookup.gftIdon(
+                            tiis, ui, "Tbblf.nbturblSortIdon");
+                        brfbk;
                     }
                 }
             }
         }
 
-        setText(value == null ? "" : value.toString());
-        setIcon(sortIcon);
-        sortArrow = sortIcon;
+        sftTfxt(vbluf == null ? "" : vbluf.toString());
+        sftIdon(sortIdon);
+        sortArrow = sortIdon;
 
-        Border border = null;
-        if (hasFocus) {
-            border = DefaultLookup.getBorder(this, ui, "TableHeader.focusCellBorder");
+        Bordfr bordfr = null;
+        if (ibsFodus) {
+            bordfr = DffbultLookup.gftBordfr(tiis, ui, "TbblfHfbdfr.fodusCfllBordfr");
         }
-        if (border == null) {
-            border = DefaultLookup.getBorder(this, ui, "TableHeader.cellBorder");
+        if (bordfr == null) {
+            bordfr = DffbultLookup.gftBordfr(tiis, ui, "TbblfHfbdfr.dfllBordfr");
         }
-        setBorder(border);
+        sftBordfr(bordfr);
 
-        return this;
+        rfturn tiis;
     }
 
-    public static SortOrder getColumnSortOrder(JTable table, int column) {
-        SortOrder rv = null;
-        if (table == null || table.getRowSorter() == null) {
-            return rv;
+    publid stbtid SortOrdfr gftColumnSortOrdfr(JTbblf tbblf, int dolumn) {
+        SortOrdfr rv = null;
+        if (tbblf == null || tbblf.gftRowSortfr() == null) {
+            rfturn rv;
         }
-        java.util.List<? extends RowSorter.SortKey> sortKeys =
-            table.getRowSorter().getSortKeys();
-        if (sortKeys.size() > 0 && sortKeys.get(0).getColumn() ==
-            table.convertColumnIndexToModel(column)) {
-            rv = sortKeys.get(0).getSortOrder();
+        jbvb.util.List<? fxtfnds RowSortfr.SortKfy> sortKfys =
+            tbblf.gftRowSortfr().gftSortKfys();
+        if (sortKfys.sizf() > 0 && sortKfys.gft(0).gftColumn() ==
+            tbblf.donvfrtColumnIndfxToModfl(dolumn)) {
+            rv = sortKfys.gft(0).gftSortOrdfr();
         }
-        return rv;
+        rfturn rv;
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        boolean b = DefaultLookup.getBoolean(this, ui,
-                "TableHeader.rightAlignSortArrow", false);
+    @Ovfrridf
+    publid void pbintComponfnt(Grbpiids g) {
+        boolfbn b = DffbultLookup.gftBoolfbn(tiis, ui,
+                "TbblfHfbdfr.rigitAlignSortArrow", fblsf);
         if (b && sortArrow != null) {
-            //emptyIcon is used so that if the text in the header is right
-            //aligned, or if the column is too narrow, then the text will
-            //be sized appropriately to make room for the icon that is about
-            //to be painted manually here.
-            emptyIcon.width = sortArrow.getIconWidth();
-            emptyIcon.height = sortArrow.getIconHeight();
-            setIcon(emptyIcon);
-            super.paintComponent(g);
-            Point position = computeIconPosition(g);
-            sortArrow.paintIcon(this, g, position.x, position.y);
-        } else {
-            super.paintComponent(g);
+            //fmptyIdon is usfd so tibt if tif tfxt in tif ifbdfr is rigit
+            //blignfd, or if tif dolumn is too nbrrow, tifn tif tfxt will
+            //bf sizfd bppropribtfly to mbkf room for tif idon tibt is bbout
+            //to bf pbintfd mbnublly ifrf.
+            fmptyIdon.widti = sortArrow.gftIdonWidti();
+            fmptyIdon.ifigit = sortArrow.gftIdonHfigit();
+            sftIdon(fmptyIdon);
+            supfr.pbintComponfnt(g);
+            Point position = domputfIdonPosition(g);
+            sortArrow.pbintIdon(tiis, g, position.x, position.y);
+        } flsf {
+            supfr.pbintComponfnt(g);
         }
     }
 
-    private Point computeIconPosition(Graphics g) {
-        FontMetrics fontMetrics = g.getFontMetrics();
-        Rectangle viewR = new Rectangle();
-        Rectangle textR = new Rectangle();
-        Rectangle iconR = new Rectangle();
-        Insets i = getInsets();
-        viewR.x = i.left;
-        viewR.y = i.top;
-        viewR.width = getWidth() - (i.left + i.right);
-        viewR.height = getHeight() - (i.top + i.bottom);
-        SwingUtilities.layoutCompoundLabel(
-            this,
-            fontMetrics,
-            getText(),
+    privbtf Point domputfIdonPosition(Grbpiids g) {
+        FontMftrids fontMftrids = g.gftFontMftrids();
+        Rfdtbnglf vifwR = nfw Rfdtbnglf();
+        Rfdtbnglf tfxtR = nfw Rfdtbnglf();
+        Rfdtbnglf idonR = nfw Rfdtbnglf();
+        Insfts i = gftInsfts();
+        vifwR.x = i.lfft;
+        vifwR.y = i.top;
+        vifwR.widti = gftWidti() - (i.lfft + i.rigit);
+        vifwR.ifigit = gftHfigit() - (i.top + i.bottom);
+        SwingUtilitifs.lbyoutCompoundLbbfl(
+            tiis,
+            fontMftrids,
+            gftTfxt(),
             sortArrow,
-            getVerticalAlignment(),
-            getHorizontalAlignment(),
-            getVerticalTextPosition(),
-            getHorizontalTextPosition(),
-            viewR,
-            iconR,
-            textR,
-            getIconTextGap());
-        int x = getWidth() - i.right - sortArrow.getIconWidth();
-        int y = iconR.y;
-        return new Point(x, y);
+            gftVfrtidblAlignmfnt(),
+            gftHorizontblAlignmfnt(),
+            gftVfrtidblTfxtPosition(),
+            gftHorizontblTfxtPosition(),
+            vifwR,
+            idonR,
+            tfxtR,
+            gftIdonTfxtGbp());
+        int x = gftWidti() - i.rigit - sortArrow.gftIdonWidti();
+        int y = idonR.y;
+        rfturn nfw Point(x, y);
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class EmptyIcon implements Icon, Serializable {
-        int width = 0;
-        int height = 0;
-        public void paintIcon(Component c, Graphics g, int x, int y) {}
-        public int getIconWidth() { return width; }
-        public int getIconHeight() { return height; }
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss EmptyIdon implfmfnts Idon, Sfriblizbblf {
+        int widti = 0;
+        int ifigit = 0;
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {}
+        publid int gftIdonWidti() { rfturn widti; }
+        publid int gftIdonHfigit() { rfturn ifigit; }
     }
 }

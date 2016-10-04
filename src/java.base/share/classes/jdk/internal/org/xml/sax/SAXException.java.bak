@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// SAX exception class.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: SAXException.java,v 1.3 2004/11/03 22:55:32 jsuttor Exp $
+// SAX fxdfption dlbss.
+// ittp://www.sbxprojfdt.org
+// No wbrrbnty; no dopyrigit -- usf tiis bs you will.
+// $Id: SAXExdfption.jbvb,v 1.3 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
 
 /**
- * Encapsulate a general SAX error or warning.
+ * Endbpsulbtf b gfnfrbl SAX frror or wbrning.
  *
- * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
- * </blockquote>
+ * <blodkquotf>
+ * <fm>Tiis modulf, boti sourdf dodf bnd dodumfntbtion, is in tif
+ * Publid Dombin, bnd domfs witi <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b irff='ittp://www.sbxprojfdt.org'>ittp://www.sbxprojfdt.org</b>
+ * for furtifr informbtion.
+ * </blodkquotf>
  *
- * <p>This class can contain basic error or warning information from
- * either the XML parser or the application: a parser writer or
- * application writer can subclass it to provide additional
- * functionality.  SAX handlers may throw this exception or
- * any exception subclassed from it.</p>
+ * <p>Tiis dlbss dbn dontbin bbsid frror or wbrning informbtion from
+ * fitifr tif XML pbrsfr or tif bpplidbtion: b pbrsfr writfr or
+ * bpplidbtion writfr dbn subdlbss it to providf bdditionbl
+ * fundtionblity.  SAX ibndlfrs mby tirow tiis fxdfption or
+ * bny fxdfption subdlbssfd from it.</p>
  *
- * <p>If the application needs to pass through other types of
- * exceptions, it must wrap those exceptions in a SAXException
- * or an exception derived from a SAXException.</p>
+ * <p>If tif bpplidbtion nffds to pbss tirougi otifr typfs of
+ * fxdfptions, it must wrbp tiosf fxdfptions in b SAXExdfption
+ * or bn fxdfption dfrivfd from b SAXExdfption.</p>
  *
- * <p>If the parser or application needs to include information about a
- * specific location in an XML document, it should use the
- * {@link org.xml.sax.SAXParseException SAXParseException} subclass.</p>
+ * <p>If tif pbrsfr or bpplidbtion nffds to indludf informbtion bbout b
+ * spfdifid lodbtion in bn XML dodumfnt, it siould usf tif
+ * {@link org.xml.sbx.SAXPbrsfExdfption SAXPbrsfExdfption} subdlbss.</p>
  *
- * @since SAX 1.0
- * @author David Megginson
- * @version 2.0.1 (sax2r2)
- * @see org.xml.sax.SAXParseException
+ * @sindf SAX 1.0
+ * @butior Dbvid Mfgginson
+ * @vfrsion 2.0.1 (sbx2r2)
+ * @sff org.xml.sbx.SAXPbrsfExdfption
  */
-public class SAXException extends Exception {
+publid dlbss SAXExdfption fxtfnds Exdfption {
 
 
     /**
-     * Create a new SAXException.
+     * Crfbtf b nfw SAXExdfption.
      */
-    public SAXException ()
+    publid SAXExdfption ()
     {
-        super();
-        this.exception = null;
+        supfr();
+        tiis.fxdfption = null;
     }
 
 
     /**
-     * Create a new SAXException.
+     * Crfbtf b nfw SAXExdfption.
      *
-     * @param message The error or warning message.
+     * @pbrbm mfssbgf Tif frror or wbrning mfssbgf.
      */
-    public SAXException (String message) {
-        super(message);
-        this.exception = null;
+    publid SAXExdfption (String mfssbgf) {
+        supfr(mfssbgf);
+        tiis.fxdfption = null;
     }
 
 
     /**
-     * Create a new SAXException wrapping an existing exception.
+     * Crfbtf b nfw SAXExdfption wrbpping bn fxisting fxdfption.
      *
-     * <p>The existing exception will be embedded in the new
-     * one, and its message will become the default message for
-     * the SAXException.</p>
+     * <p>Tif fxisting fxdfption will bf fmbfddfd in tif nfw
+     * onf, bnd its mfssbgf will bfdomf tif dffbult mfssbgf for
+     * tif SAXExdfption.</p>
      *
-     * @param e The exception to be wrapped in a SAXException.
+     * @pbrbm f Tif fxdfption to bf wrbppfd in b SAXExdfption.
      */
-    public SAXException (Exception e)
+    publid SAXExdfption (Exdfption f)
     {
-        super();
-        this.exception = e;
+        supfr();
+        tiis.fxdfption = f;
     }
 
 
     /**
-     * Create a new SAXException from an existing exception.
+     * Crfbtf b nfw SAXExdfption from bn fxisting fxdfption.
      *
-     * <p>The existing exception will be embedded in the new
-     * one, but the new exception will have its own message.</p>
+     * <p>Tif fxisting fxdfption will bf fmbfddfd in tif nfw
+     * onf, but tif nfw fxdfption will ibvf its own mfssbgf.</p>
      *
-     * @param message The detail message.
-     * @param e The exception to be wrapped in a SAXException.
+     * @pbrbm mfssbgf Tif dftbil mfssbgf.
+     * @pbrbm f Tif fxdfption to bf wrbppfd in b SAXExdfption.
      */
-    public SAXException (String message, Exception e)
+    publid SAXExdfption (String mfssbgf, Exdfption f)
     {
-        super(message);
-        this.exception = e;
+        supfr(mfssbgf);
+        tiis.fxdfption = f;
     }
 
 
     /**
-     * Return a detail message for this exception.
+     * Rfturn b dftbil mfssbgf for tiis fxdfption.
      *
-     * <p>If there is an embedded exception, and if the SAXException
-     * has no detail message of its own, this method will return
-     * the detail message from the embedded exception.</p>
+     * <p>If tifrf is bn fmbfddfd fxdfption, bnd if tif SAXExdfption
+     * ibs no dftbil mfssbgf of its own, tiis mftiod will rfturn
+     * tif dftbil mfssbgf from tif fmbfddfd fxdfption.</p>
      *
-     * @return The error or warning message.
+     * @rfturn Tif frror or wbrning mfssbgf.
      */
-    public String getMessage ()
+    publid String gftMfssbgf ()
     {
-        String message = super.getMessage();
+        String mfssbgf = supfr.gftMfssbgf();
 
-        if (message == null && exception != null) {
-            return exception.getMessage();
-        } else {
-            return message;
+        if (mfssbgf == null && fxdfption != null) {
+            rfturn fxdfption.gftMfssbgf();
+        } flsf {
+            rfturn mfssbgf;
         }
     }
 
 
     /**
-     * Return the embedded exception, if any.
+     * Rfturn tif fmbfddfd fxdfption, if bny.
      *
-     * @return The embedded exception, or null if there is none.
+     * @rfturn Tif fmbfddfd fxdfption, or null if tifrf is nonf.
      */
-    public Exception getException ()
+    publid Exdfption gftExdfption ()
     {
-        return exception;
+        rfturn fxdfption;
     }
 
     /**
-     * Return the cause of the exception
+     * Rfturn tif dbusf of tif fxdfption
      *
-     * @return Return the cause of the exception
+     * @rfturn Rfturn tif dbusf of tif fxdfption
      */
-    public Throwable getCause() {
-        return exception;
+    publid Tirowbblf gftCbusf() {
+        rfturn fxdfption;
     }
 
     /**
-     * Override toString to pick up any embedded exception.
+     * Ovfrridf toString to pidk up bny fmbfddfd fxdfption.
      *
-     * @return A string representation of this exception.
+     * @rfturn A string rfprfsfntbtion of tiis fxdfption.
      */
-    public String toString ()
+    publid String toString ()
     {
-        if (exception != null) {
-            return super.toString() + "\n" + exception.toString();
-        } else {
-            return super.toString();
+        if (fxdfption != null) {
+            rfturn supfr.toString() + "\n" + fxdfption.toString();
+        } flsf {
+            rfturn supfr.toString();
         }
     }
 
 
 
     //////////////////////////////////////////////////////////////////////
-    // Internal state.
+    // Intfrnbl stbtf.
     //////////////////////////////////////////////////////////////////////
 
 
     /**
-     * @serial The embedded exception if tunnelling, or null.
+     * @sfribl Tif fmbfddfd fxdfption if tunnflling, or null.
      */
-    private Exception exception;
+    privbtf Exdfption fxdfption;
 
-    // Added serialVersionUID to preserve binary compatibility
-    static final long serialVersionUID = 583241635256073760L;
+    // Addfd sfriblVfrsionUID to prfsfrvf binbry dompbtibility
+    stbtid finbl long sfriblVfrsionUID = 583241635256073760L;
 }
 
-// end of SAXException.java
+// fnd of SAXExdfption.jbvb

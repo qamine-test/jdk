@@ -1,861 +1,861 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryNotificationInfo;
-import java.lang.management.MonitorInfo;
-import java.lang.management.LockInfo;
-import java.lang.management.ThreadInfo;
-import java.lang.reflect.*;
-import java.util.List;
-import java.util.Map;
-import java.util.*;
-import java.io.InvalidObjectException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import javax.management.*;
-import javax.management.openmbean.*;
-import static javax.management.openmbean.SimpleType.*;
-import com.sun.management.VMOption;
+pbdkbgf sun.mbnbgfmfnt;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryNotifidbtionInfo;
+import jbvb.lbng.mbnbgfmfnt.MonitorInfo;
+import jbvb.lbng.mbnbgfmfnt.LodkInfo;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.*;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.*;
+import stbtid jbvbx.mbnbgfmfnt.opfnmbfbn.SimplfTypf.*;
+import dom.sun.mbnbgfmfnt.VMOption;
 
 /**
- * A mapped mxbean type maps a Java type to an open type.
- * Only the following Java types are mappable
- * (currently required by the platform MXBeans):
- *   1. Primitive types
- *   2. Wrapper classes such java.lang.Integer, etc
- *   3. Classes with only getter methods and with a static "from" method
- *      that takes a CompositeData argument.
- *   4. E[] where E is a type of 1-4 (can be multi-dimensional array)
- *   5. List<E> where E is a type of 1-3
- *   6. Map<K, V> where K and V are a type of 1-4
+ * A mbppfd mxbfbn typf mbps b Jbvb typf to bn opfn typf.
+ * Only tif following Jbvb typfs brf mbppbblf
+ * (durrfntly rfquirfd by tif plbtform MXBfbns):
+ *   1. Primitivf typfs
+ *   2. Wrbppfr dlbssfs sudi jbvb.lbng.Intfgfr, ftd
+ *   3. Clbssfs witi only gfttfr mftiods bnd witi b stbtid "from" mftiod
+ *      tibt tbkfs b CompositfDbtb brgumfnt.
+ *   4. E[] wifrf E is b typf of 1-4 (dbn bf multi-dimfnsionbl brrby)
+ *   5. List<E> wifrf E is b typf of 1-3
+ *   6. Mbp<K, V> wifrf K bnd V brf b typf of 1-4
  *
- * OpenDataException will be thrown if a Java type is not supported.
+ * OpfnDbtbExdfption will bf tirown if b Jbvb typf is not supportfd.
  */
-// Suppress unchecked cast warnings at line 442, 523 and 546
-// Suppress unchecked calls at line 235, 284, 380 and 430.
-@SuppressWarnings("unchecked")
-public abstract class MappedMXBeanType {
-    private static final WeakHashMap<Type,MappedMXBeanType> convertedTypes =
-        new WeakHashMap<>();
+// Supprfss undifdkfd dbst wbrnings bt linf 442, 523 bnd 546
+// Supprfss undifdkfd dblls bt linf 235, 284, 380 bnd 430.
+@SupprfssWbrnings("undifdkfd")
+publid bbstrbdt dlbss MbppfdMXBfbnTypf {
+    privbtf stbtid finbl WfbkHbsiMbp<Typf,MbppfdMXBfbnTypf> donvfrtfdTypfs =
+        nfw WfbkHbsiMbp<>();
 
-    boolean  isBasicType = false;
-    OpenType<?> openType = inProgress;
-    Class<?>    mappedTypeClass;
+    boolfbn  isBbsidTypf = fblsf;
+    OpfnTypf<?> opfnTypf = inProgrfss;
+    Clbss<?>    mbppfdTypfClbss;
 
-    static synchronized MappedMXBeanType newMappedType(Type javaType)
-            throws OpenDataException {
+    stbtid syndironizfd MbppfdMXBfbnTypf nfwMbppfdTypf(Typf jbvbTypf)
+            tirows OpfnDbtbExdfption {
 
-        MappedMXBeanType mt = null;
-        if (javaType instanceof Class) {
-            final Class<?> c = (Class<?>) javaType;
-            if (c.isEnum()) {
-                mt = new EnumMXBeanType(c);
-            } else if (c.isArray()) {
-                mt = new ArrayMXBeanType(c);
-            } else {
-                mt = new CompositeDataMXBeanType(c);
+        MbppfdMXBfbnTypf mt = null;
+        if (jbvbTypf instbndfof Clbss) {
+            finbl Clbss<?> d = (Clbss<?>) jbvbTypf;
+            if (d.isEnum()) {
+                mt = nfw EnumMXBfbnTypf(d);
+            } flsf if (d.isArrby()) {
+                mt = nfw ArrbyMXBfbnTypf(d);
+            } flsf {
+                mt = nfw CompositfDbtbMXBfbnTypf(d);
             }
-        } else if (javaType instanceof ParameterizedType) {
-            final ParameterizedType pt = (ParameterizedType) javaType;
-            final Type rawType = pt.getRawType();
-            if (rawType instanceof Class) {
-                final Class<?> rc = (Class<?>) rawType;
-                if (rc == List.class) {
-                    mt = new ListMXBeanType(pt);
-                } else if (rc == Map.class) {
-                    mt = new MapMXBeanType(pt);
+        } flsf if (jbvbTypf instbndfof PbrbmftfrizfdTypf) {
+            finbl PbrbmftfrizfdTypf pt = (PbrbmftfrizfdTypf) jbvbTypf;
+            finbl Typf rbwTypf = pt.gftRbwTypf();
+            if (rbwTypf instbndfof Clbss) {
+                finbl Clbss<?> rd = (Clbss<?>) rbwTypf;
+                if (rd == List.dlbss) {
+                    mt = nfw ListMXBfbnTypf(pt);
+                } flsf if (rd == Mbp.dlbss) {
+                    mt = nfw MbpMXBfbnTypf(pt);
                 }
             }
-        } else if (javaType instanceof GenericArrayType) {
-           final GenericArrayType t = (GenericArrayType) javaType;
-           mt = new GenericArrayMXBeanType(t);
+        } flsf if (jbvbTypf instbndfof GfnfridArrbyTypf) {
+           finbl GfnfridArrbyTypf t = (GfnfridArrbyTypf) jbvbTypf;
+           mt = nfw GfnfridArrbyMXBfbnTypf(t);
         }
-        // No open type mapped for the javaType
+        // No opfn typf mbppfd for tif jbvbTypf
         if (mt == null) {
-            throw new OpenDataException(javaType +
-                " is not a supported MXBean type.");
+            tirow nfw OpfnDbtbExdfption(jbvbTypf +
+                " is not b supportfd MXBfbn typf.");
         }
-        convertedTypes.put(javaType, mt);
-        return mt;
+        donvfrtfdTypfs.put(jbvbTypf, mt);
+        rfturn mt;
     }
 
-    // basic types do not require data mapping
-    static synchronized MappedMXBeanType newBasicType(Class<?> c, OpenType<?> ot)
-            throws OpenDataException {
-        MappedMXBeanType mt = new BasicMXBeanType(c, ot);
-        convertedTypes.put(c, mt);
-        return mt;
+    // bbsid typfs do not rfquirf dbtb mbpping
+    stbtid syndironizfd MbppfdMXBfbnTypf nfwBbsidTypf(Clbss<?> d, OpfnTypf<?> ot)
+            tirows OpfnDbtbExdfption {
+        MbppfdMXBfbnTypf mt = nfw BbsidMXBfbnTypf(d, ot);
+        donvfrtfdTypfs.put(d, mt);
+        rfturn mt;
     }
 
-    static synchronized MappedMXBeanType getMappedType(Type t)
-            throws OpenDataException {
-        MappedMXBeanType mt = convertedTypes.get(t);
+    stbtid syndironizfd MbppfdMXBfbnTypf gftMbppfdTypf(Typf t)
+            tirows OpfnDbtbExdfption {
+        MbppfdMXBfbnTypf mt = donvfrtfdTypfs.gft(t);
         if (mt == null) {
-            mt = newMappedType(t);
+            mt = nfwMbppfdTypf(t);
         }
 
-        if (mt.getOpenType() instanceof InProgress) {
-            throw new OpenDataException("Recursive data structure");
+        if (mt.gftOpfnTypf() instbndfof InProgrfss) {
+            tirow nfw OpfnDbtbExdfption("Rfdursivf dbtb strudturf");
         }
-        return mt;
+        rfturn mt;
     }
 
-    // Convert a class to an OpenType
-    public static synchronized OpenType<?> toOpenType(Type t)
-            throws OpenDataException {
-        MappedMXBeanType mt = getMappedType(t);
-        return mt.getOpenType();
+    // Convfrt b dlbss to bn OpfnTypf
+    publid stbtid syndironizfd OpfnTypf<?> toOpfnTypf(Typf t)
+            tirows OpfnDbtbExdfption {
+        MbppfdMXBfbnTypf mt = gftMbppfdTypf(t);
+        rfturn mt.gftOpfnTypf();
     }
 
-    public static Object toJavaTypeData(Object openData, Type t)
-            throws OpenDataException, InvalidObjectException {
-        if (openData == null) {
-            return null;
+    publid stbtid Objfdt toJbvbTypfDbtb(Objfdt opfnDbtb, Typf t)
+            tirows OpfnDbtbExdfption, InvblidObjfdtExdfption {
+        if (opfnDbtb == null) {
+            rfturn null;
         }
-        MappedMXBeanType mt = getMappedType(t);
-        return mt.toJavaTypeData(openData);
+        MbppfdMXBfbnTypf mt = gftMbppfdTypf(t);
+        rfturn mt.toJbvbTypfDbtb(opfnDbtb);
     }
 
-    public static Object toOpenTypeData(Object data, Type t)
-            throws OpenDataException {
-        if (data == null) {
-            return null;
+    publid stbtid Objfdt toOpfnTypfDbtb(Objfdt dbtb, Typf t)
+            tirows OpfnDbtbExdfption {
+        if (dbtb == null) {
+            rfturn null;
         }
-        MappedMXBeanType mt = getMappedType(t);
-        return mt.toOpenTypeData(data);
+        MbppfdMXBfbnTypf mt = gftMbppfdTypf(t);
+        rfturn mt.toOpfnTypfDbtb(dbtb);
     }
 
-    // Return the mapped open type
-    OpenType<?> getOpenType() {
-        return openType;
+    // Rfturn tif mbppfd opfn typf
+    OpfnTypf<?> gftOpfnTypf() {
+        rfturn opfnTypf;
     }
 
-    boolean isBasicType() {
-        return isBasicType;
+    boolfbn isBbsidTypf() {
+        rfturn isBbsidTypf;
     }
 
-    // Return the type name of the mapped open type
-    // For primitive types, the type name is the same as the javaType
-    // but the mapped open type is the wrapper class
-    String getTypeName() {
-        return getMappedTypeClass().getName();
+    // Rfturn tif typf nbmf of tif mbppfd opfn typf
+    // For primitivf typfs, tif typf nbmf is tif sbmf bs tif jbvbTypf
+    // but tif mbppfd opfn typf is tif wrbppfr dlbss
+    String gftTypfNbmf() {
+        rfturn gftMbppfdTypfClbss().gftNbmf();
     }
 
-    // Return the mapped open type
-    Class<?> getMappedTypeClass() {
-        return mappedTypeClass;
+    // Rfturn tif mbppfd opfn typf
+    Clbss<?> gftMbppfdTypfClbss() {
+        rfturn mbppfdTypfClbss;
     }
 
-    abstract Type getJavaType();
+    bbstrbdt Typf gftJbvbTypf();
 
-    // return name of the class or the generic type
-    abstract String getName();
+    // rfturn nbmf of tif dlbss or tif gfnfrid typf
+    bbstrbdt String gftNbmf();
 
-    abstract Object toOpenTypeData(Object javaTypeData)
-        throws OpenDataException;
+    bbstrbdt Objfdt toOpfnTypfDbtb(Objfdt jbvbTypfDbtb)
+        tirows OpfnDbtbExdfption;
 
-    abstract Object toJavaTypeData(Object openTypeData)
-        throws OpenDataException, InvalidObjectException;
+    bbstrbdt Objfdt toJbvbTypfDbtb(Objfdt opfnTypfDbtb)
+        tirows OpfnDbtbExdfption, InvblidObjfdtExdfption;
 
-    // Basic Types - Classes that do not require data conversion
-    //               including primitive types and all SimpleType
+    // Bbsid Typfs - Clbssfs tibt do not rfquirf dbtb donvfrsion
+    //               indluding primitivf typfs bnd bll SimplfTypf
     //
-    //   Mapped open type: SimpleType for corresponding basic type
+    //   Mbppfd opfn typf: SimplfTypf for dorrfsponding bbsid typf
     //
-    // Data Mapping:
-    //   T <-> T (no conversion)
+    // Dbtb Mbpping:
+    //   T <-> T (no donvfrsion)
     //
-    static class BasicMXBeanType extends MappedMXBeanType {
-        final Class<?> basicType;
-        BasicMXBeanType(Class<?> c, OpenType<?> openType) {
-            this.basicType = c;
-            this.openType = openType;
-            this.mappedTypeClass = c;
-            this.isBasicType = true;
+    stbtid dlbss BbsidMXBfbnTypf fxtfnds MbppfdMXBfbnTypf {
+        finbl Clbss<?> bbsidTypf;
+        BbsidMXBfbnTypf(Clbss<?> d, OpfnTypf<?> opfnTypf) {
+            tiis.bbsidTypf = d;
+            tiis.opfnTypf = opfnTypf;
+            tiis.mbppfdTypfClbss = d;
+            tiis.isBbsidTypf = truf;
         }
 
-        Type getJavaType() {
-            return basicType;
+        Typf gftJbvbTypf() {
+            rfturn bbsidTypf;
         }
 
-        String getName() {
-            return basicType.getName();
+        String gftNbmf() {
+            rfturn bbsidTypf.gftNbmf();
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            return data;
+        Objfdt toOpfnTypfDbtb(Objfdt dbtb) tirows OpfnDbtbExdfption {
+            rfturn dbtb;
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Objfdt toJbvbTypfDbtb(Objfdt dbtb)
+            tirows OpfnDbtbExdfption, InvblidObjfdtExdfption {
 
-            return data;
+            rfturn dbtb;
         }
     }
 
 
-    // Enum subclasses
-    //   Mapped open type - String
+    // Enum subdlbssfs
+    //   Mbppfd opfn typf - String
     //
-    // Data Mapping:
-    //   Enum <-> enum's name
+    // Dbtb Mbpping:
+    //   Enum <-> fnum's nbmf
     //
-    static class EnumMXBeanType extends MappedMXBeanType {
-        @SuppressWarnings("rawtypes")
-        final Class enumClass;
-        EnumMXBeanType(Class<?> c) {
-            this.enumClass = c;
-            this.openType = STRING;
-            this.mappedTypeClass = String.class;
+    stbtid dlbss EnumMXBfbnTypf fxtfnds MbppfdMXBfbnTypf {
+        @SupprfssWbrnings("rbwtypfs")
+        finbl Clbss fnumClbss;
+        EnumMXBfbnTypf(Clbss<?> d) {
+            tiis.fnumClbss = d;
+            tiis.opfnTypf = STRING;
+            tiis.mbppfdTypfClbss = String.dlbss;
         }
 
-        Type getJavaType() {
-            return enumClass;
+        Typf gftJbvbTypf() {
+            rfturn fnumClbss;
         }
 
-        String getName() {
-            return enumClass.getName();
+        String gftNbmf() {
+            rfturn fnumClbss.gftNbmf();
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            return ((Enum) data).name();
+        Objfdt toOpfnTypfDbtb(Objfdt dbtb) tirows OpfnDbtbExdfption {
+            rfturn ((Enum) dbtb).nbmf();
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Objfdt toJbvbTypfDbtb(Objfdt dbtb)
+            tirows OpfnDbtbExdfption, InvblidObjfdtExdfption {
 
             try {
-                return Enum.valueOf(enumClass, (String) data);
-            } catch (IllegalArgumentException e) {
-                // missing enum constants
-                final InvalidObjectException ioe =
-                    new InvalidObjectException("Enum constant named " +
-                    (String) data + " is missing");
-                ioe.initCause(e);
-                throw ioe;
+                rfturn Enum.vblufOf(fnumClbss, (String) dbtb);
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                // missing fnum donstbnts
+                finbl InvblidObjfdtExdfption iof =
+                    nfw InvblidObjfdtExdfption("Enum donstbnt nbmfd " +
+                    (String) dbtb + " is missing");
+                iof.initCbusf(f);
+                tirow iof;
             }
         }
     }
 
-    // Array E[]
-    //   Mapped open type - Array with element of OpenType for E
+    // Arrby E[]
+    //   Mbppfd opfn typf - Arrby witi flfmfnt of OpfnTypf for E
     //
-    // Data Mapping:
-    //   E[] <-> openTypeData(E)[]
+    // Dbtb Mbpping:
+    //   E[] <-> opfnTypfDbtb(E)[]
     //
-    static class ArrayMXBeanType extends MappedMXBeanType {
-        final Class<?> arrayClass;
-        protected MappedMXBeanType componentType;
-        protected MappedMXBeanType baseElementType;
+    stbtid dlbss ArrbyMXBfbnTypf fxtfnds MbppfdMXBfbnTypf {
+        finbl Clbss<?> brrbyClbss;
+        protfdtfd MbppfdMXBfbnTypf domponfntTypf;
+        protfdtfd MbppfdMXBfbnTypf bbsfElfmfntTypf;
 
-        ArrayMXBeanType(Class<?> c) throws OpenDataException {
-            this.arrayClass = c;
-            this.componentType = getMappedType(c.getComponentType());
+        ArrbyMXBfbnTypf(Clbss<?> d) tirows OpfnDbtbExdfption {
+            tiis.brrbyClbss = d;
+            tiis.domponfntTypf = gftMbppfdTypf(d.gftComponfntTypf());
 
-            StringBuilder className = new StringBuilder();
-            Class<?> et = c;
+            StringBuildfr dlbssNbmf = nfw StringBuildfr();
+            Clbss<?> ft = d;
             int dim;
-            for (dim = 0; et.isArray(); dim++) {
-                className.append('[');
-                et = et.getComponentType();
+            for (dim = 0; ft.isArrby(); dim++) {
+                dlbssNbmf.bppfnd('[');
+                ft = ft.gftComponfntTypf();
             }
-            baseElementType = getMappedType(et);
-            if (et.isPrimitive()) {
-                className = new StringBuilder(c.getName());
-            } else {
-                className.append("L" + baseElementType.getTypeName() + ";");
+            bbsfElfmfntTypf = gftMbppfdTypf(ft);
+            if (ft.isPrimitivf()) {
+                dlbssNbmf = nfw StringBuildfr(d.gftNbmf());
+            } flsf {
+                dlbssNbmf.bppfnd("L" + bbsfElfmfntTypf.gftTypfNbmf() + ";");
             }
             try {
-                mappedTypeClass = Class.forName(className.toString());
-            } catch (ClassNotFoundException e) {
-                final OpenDataException ode =
-                    new OpenDataException("Cannot obtain array class");
-                ode.initCause(e);
-                throw ode;
+                mbppfdTypfClbss = Clbss.forNbmf(dlbssNbmf.toString());
+            } dbtdi (ClbssNotFoundExdfption f) {
+                finbl OpfnDbtbExdfption odf =
+                    nfw OpfnDbtbExdfption("Cbnnot obtbin brrby dlbss");
+                odf.initCbusf(f);
+                tirow odf;
             }
 
-            openType = new ArrayType<>(dim, baseElementType.getOpenType());
+            opfnTypf = nfw ArrbyTypf<>(dim, bbsfElfmfntTypf.gftOpfnTypf());
         }
 
-        protected ArrayMXBeanType() {
-            arrayClass = null;
+        protfdtfd ArrbyMXBfbnTypf() {
+            brrbyClbss = null;
         };
 
-        Type getJavaType() {
-            return arrayClass;
+        Typf gftJbvbTypf() {
+            rfturn brrbyClbss;
         }
 
-        String getName() {
-            return arrayClass.getName();
+        String gftNbmf() {
+            rfturn brrbyClbss.gftNbmf();
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            // If the base element type is a basic type
-            // return the data as no conversion is needed.
-            // Primitive types are not converted to wrappers.
-            if (baseElementType.isBasicType()) {
-                return data;
+        Objfdt toOpfnTypfDbtb(Objfdt dbtb) tirows OpfnDbtbExdfption {
+            // If tif bbsf flfmfnt typf is b bbsid typf
+            // rfturn tif dbtb bs no donvfrsion is nffdfd.
+            // Primitivf typfs brf not donvfrtfd to wrbppfrs.
+            if (bbsfElfmfntTypf.isBbsidTypf()) {
+                rfturn dbtb;
             }
 
-            final Object[] array = (Object[]) data;
-            final Object[] openArray = (Object[])
-                Array.newInstance(componentType.getMappedTypeClass(),
-                                  array.length);
+            finbl Objfdt[] brrby = (Objfdt[]) dbtb;
+            finbl Objfdt[] opfnArrby = (Objfdt[])
+                Arrby.nfwInstbndf(domponfntTypf.gftMbppfdTypfClbss(),
+                                  brrby.lfngti);
             int i = 0;
-            for (Object o : array) {
+            for (Objfdt o : brrby) {
                 if (o == null) {
-                    openArray[i] = null;
-                } else {
-                    openArray[i] = componentType.toOpenTypeData(o);
+                    opfnArrby[i] = null;
+                } flsf {
+                    opfnArrby[i] = domponfntTypf.toOpfnTypfDbtb(o);
                 }
                 i++;
             }
-            return openArray;
+            rfturn opfnArrby;
         }
 
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Objfdt toJbvbTypfDbtb(Objfdt dbtb)
+            tirows OpfnDbtbExdfption, InvblidObjfdtExdfption {
 
-            // If the base element type is a basic type
-            // return the data as no conversion is needed.
-            if (baseElementType.isBasicType()) {
-                return data;
+            // If tif bbsf flfmfnt typf is b bbsid typf
+            // rfturn tif dbtb bs no donvfrsion is nffdfd.
+            if (bbsfElfmfntTypf.isBbsidTypf()) {
+                rfturn dbtb;
             }
 
-            final Object[] openArray = (Object[]) data;
-            final Object[] array = (Object[])
-                Array.newInstance((Class) componentType.getJavaType(),
-                                  openArray.length);
+            finbl Objfdt[] opfnArrby = (Objfdt[]) dbtb;
+            finbl Objfdt[] brrby = (Objfdt[])
+                Arrby.nfwInstbndf((Clbss) domponfntTypf.gftJbvbTypf(),
+                                  opfnArrby.lfngti);
             int i = 0;
-            for (Object o : openArray) {
+            for (Objfdt o : opfnArrby) {
                 if (o == null) {
-                    array[i] = null;
-                } else {
-                    array[i] = componentType.toJavaTypeData(o);
+                    brrby[i] = null;
+                } flsf {
+                    brrby[i] = domponfntTypf.toJbvbTypfDbtb(o);
                 }
                 i++;
             }
-            return array;
+            rfturn brrby;
         }
 
     }
 
-    static class GenericArrayMXBeanType extends ArrayMXBeanType {
-        final GenericArrayType gtype;
-        GenericArrayMXBeanType(GenericArrayType gat) throws OpenDataException {
-            this.gtype = gat;
-            this.componentType = getMappedType(gat.getGenericComponentType());
+    stbtid dlbss GfnfridArrbyMXBfbnTypf fxtfnds ArrbyMXBfbnTypf {
+        finbl GfnfridArrbyTypf gtypf;
+        GfnfridArrbyMXBfbnTypf(GfnfridArrbyTypf gbt) tirows OpfnDbtbExdfption {
+            tiis.gtypf = gbt;
+            tiis.domponfntTypf = gftMbppfdTypf(gbt.gftGfnfridComponfntTypf());
 
-            StringBuilder className = new StringBuilder();
-            Type elementType = gat;
+            StringBuildfr dlbssNbmf = nfw StringBuildfr();
+            Typf flfmfntTypf = gbt;
             int dim;
-            for (dim = 0; elementType instanceof GenericArrayType; dim++) {
-                className.append('[');
-                GenericArrayType et = (GenericArrayType) elementType;
-                elementType = et.getGenericComponentType();
+            for (dim = 0; flfmfntTypf instbndfof GfnfridArrbyTypf; dim++) {
+                dlbssNbmf.bppfnd('[');
+                GfnfridArrbyTypf ft = (GfnfridArrbyTypf) flfmfntTypf;
+                flfmfntTypf = ft.gftGfnfridComponfntTypf();
             }
-            baseElementType = getMappedType(elementType);
-            if (elementType instanceof Class && ((Class) elementType).isPrimitive()) {
-                className = new StringBuilder(gat.toString());
-            } else {
-                className.append("L" + baseElementType.getTypeName() + ";");
+            bbsfElfmfntTypf = gftMbppfdTypf(flfmfntTypf);
+            if (flfmfntTypf instbndfof Clbss && ((Clbss) flfmfntTypf).isPrimitivf()) {
+                dlbssNbmf = nfw StringBuildfr(gbt.toString());
+            } flsf {
+                dlbssNbmf.bppfnd("L" + bbsfElfmfntTypf.gftTypfNbmf() + ";");
             }
             try {
-                mappedTypeClass = Class.forName(className.toString());
-            } catch (ClassNotFoundException e) {
-                final OpenDataException ode =
-                    new OpenDataException("Cannot obtain array class");
-                ode.initCause(e);
-                throw ode;
+                mbppfdTypfClbss = Clbss.forNbmf(dlbssNbmf.toString());
+            } dbtdi (ClbssNotFoundExdfption f) {
+                finbl OpfnDbtbExdfption odf =
+                    nfw OpfnDbtbExdfption("Cbnnot obtbin brrby dlbss");
+                odf.initCbusf(f);
+                tirow odf;
             }
 
-            openType = new ArrayType<>(dim, baseElementType.getOpenType());
+            opfnTypf = nfw ArrbyTypf<>(dim, bbsfElfmfntTypf.gftOpfnTypf());
         }
 
-        Type getJavaType() {
-            return gtype;
+        Typf gftJbvbTypf() {
+            rfturn gtypf;
         }
 
-        String getName() {
-            return gtype.toString();
+        String gftNbmf() {
+            rfturn gtypf.toString();
         }
     }
 
     // List<E>
-    //   Mapped open type - Array with element of OpenType for E
+    //   Mbppfd opfn typf - Arrby witi flfmfnt of OpfnTypf for E
     //
-    // Data Mapping:
-    //   List<E> <-> openTypeData(E)[]
+    // Dbtb Mbpping:
+    //   List<E> <-> opfnTypfDbtb(E)[]
     //
-    static class ListMXBeanType extends MappedMXBeanType {
-        final ParameterizedType javaType;
-        final MappedMXBeanType paramType;
-        final String typeName;
+    stbtid dlbss ListMXBfbnTypf fxtfnds MbppfdMXBfbnTypf {
+        finbl PbrbmftfrizfdTypf jbvbTypf;
+        finbl MbppfdMXBfbnTypf pbrbmTypf;
+        finbl String typfNbmf;
 
-        ListMXBeanType(ParameterizedType pt) throws OpenDataException {
-            this.javaType = pt;
+        ListMXBfbnTypf(PbrbmftfrizfdTypf pt) tirows OpfnDbtbExdfption {
+            tiis.jbvbTypf = pt;
 
-            final Type[] argTypes = pt.getActualTypeArguments();
-            assert(argTypes.length == 1);
+            finbl Typf[] brgTypfs = pt.gftAdtublTypfArgumfnts();
+            bssfrt(brgTypfs.lfngti == 1);
 
-            if (!(argTypes[0] instanceof Class)) {
-                throw new OpenDataException("Element Type for " + pt +
-                   " not supported");
+            if (!(brgTypfs[0] instbndfof Clbss)) {
+                tirow nfw OpfnDbtbExdfption("Elfmfnt Typf for " + pt +
+                   " not supportfd");
             }
-            final Class<?> et = (Class<?>) argTypes[0];
-            if (et.isArray()) {
-                throw new OpenDataException("Element Type for " + pt +
-                   " not supported");
+            finbl Clbss<?> ft = (Clbss<?>) brgTypfs[0];
+            if (ft.isArrby()) {
+                tirow nfw OpfnDbtbExdfption("Elfmfnt Typf for " + pt +
+                   " not supportfd");
             }
-            paramType = getMappedType(et);
-            typeName = "List<" + paramType.getName() + ">";
+            pbrbmTypf = gftMbppfdTypf(ft);
+            typfNbmf = "List<" + pbrbmTypf.gftNbmf() + ">";
 
             try {
-                mappedTypeClass = Class.forName(
-                    "[L" + paramType.getTypeName() + ";");
-            } catch (ClassNotFoundException e) {
-                final OpenDataException ode =
-                    new OpenDataException("Array class not found");
-                ode.initCause(e);
-                throw ode;
+                mbppfdTypfClbss = Clbss.forNbmf(
+                    "[L" + pbrbmTypf.gftTypfNbmf() + ";");
+            } dbtdi (ClbssNotFoundExdfption f) {
+                finbl OpfnDbtbExdfption odf =
+                    nfw OpfnDbtbExdfption("Arrby dlbss not found");
+                odf.initCbusf(f);
+                tirow odf;
             }
-            openType = new ArrayType<>(1, paramType.getOpenType());
+            opfnTypf = nfw ArrbyTypf<>(1, pbrbmTypf.gftOpfnTypf());
         }
 
-        Type getJavaType() {
-            return javaType;
+        Typf gftJbvbTypf() {
+            rfturn jbvbTypf;
         }
 
-        String getName() {
-            return typeName;
+        String gftNbmf() {
+            rfturn typfNbmf;
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            final List<Object> list = (List<Object>) data;
+        Objfdt toOpfnTypfDbtb(Objfdt dbtb) tirows OpfnDbtbExdfption {
+            finbl List<Objfdt> list = (List<Objfdt>) dbtb;
 
-            final Object[] openArray = (Object[])
-                Array.newInstance(paramType.getMappedTypeClass(),
-                                  list.size());
+            finbl Objfdt[] opfnArrby = (Objfdt[])
+                Arrby.nfwInstbndf(pbrbmTypf.gftMbppfdTypfClbss(),
+                                  list.sizf());
             int i = 0;
-            for (Object o : list) {
-                openArray[i++] = paramType.toOpenTypeData(o);
+            for (Objfdt o : list) {
+                opfnArrby[i++] = pbrbmTypf.toOpfnTypfDbtb(o);
             }
-            return openArray;
+            rfturn opfnArrby;
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Objfdt toJbvbTypfDbtb(Objfdt dbtb)
+            tirows OpfnDbtbExdfption, InvblidObjfdtExdfption {
 
-            final Object[] openArray = (Object[]) data;
-            List<Object> result = new ArrayList<>(openArray.length);
-            for (Object o : openArray) {
-                result.add(paramType.toJavaTypeData(o));
+            finbl Objfdt[] opfnArrby = (Objfdt[]) dbtb;
+            List<Objfdt> rfsult = nfw ArrbyList<>(opfnArrby.lfngti);
+            for (Objfdt o : opfnArrby) {
+                rfsult.bdd(pbrbmTypf.toJbvbTypfDbtb(o));
             }
-            return result;
+            rfturn rfsult;
         }
     }
 
-    private static final String KEY   = "key";
-    private static final String VALUE = "value";
-    private static final String[] mapIndexNames = {KEY};
-    private static final String[] mapItemNames = {KEY, VALUE};
+    privbtf stbtid finbl String KEY   = "kfy";
+    privbtf stbtid finbl String VALUE = "vbluf";
+    privbtf stbtid finbl String[] mbpIndfxNbmfs = {KEY};
+    privbtf stbtid finbl String[] mbpItfmNbmfs = {KEY, VALUE};
 
-    // Map<K,V>
-    //   Mapped open type - TabularType with row type:
-    //                        CompositeType:
-    //                          "key"   of openDataType(K)
-    //                          "value" of openDataType(V)
-    //                        "key" is the index name
+    // Mbp<K,V>
+    //   Mbppfd opfn typf - TbbulbrTypf witi row typf:
+    //                        CompositfTypf:
+    //                          "kfy"   of opfnDbtbTypf(K)
+    //                          "vbluf" of opfnDbtbTypf(V)
+    //                        "kfy" is tif indfx nbmf
     //
-    // Data Mapping:
-    //   Map<K,V> <-> TabularData
+    // Dbtb Mbpping:
+    //   Mbp<K,V> <-> TbbulbrDbtb
     //
-    static class MapMXBeanType extends MappedMXBeanType {
-        final ParameterizedType javaType;
-        final MappedMXBeanType keyType;
-        final MappedMXBeanType valueType;
-        final String typeName;
+    stbtid dlbss MbpMXBfbnTypf fxtfnds MbppfdMXBfbnTypf {
+        finbl PbrbmftfrizfdTypf jbvbTypf;
+        finbl MbppfdMXBfbnTypf kfyTypf;
+        finbl MbppfdMXBfbnTypf vblufTypf;
+        finbl String typfNbmf;
 
-        MapMXBeanType(ParameterizedType pt) throws OpenDataException {
-            this.javaType = pt;
+        MbpMXBfbnTypf(PbrbmftfrizfdTypf pt) tirows OpfnDbtbExdfption {
+            tiis.jbvbTypf = pt;
 
-            final Type[] argTypes = pt.getActualTypeArguments();
-            assert(argTypes.length == 2);
-            this.keyType = getMappedType(argTypes[0]);
-            this.valueType = getMappedType(argTypes[1]);
+            finbl Typf[] brgTypfs = pt.gftAdtublTypfArgumfnts();
+            bssfrt(brgTypfs.lfngti == 2);
+            tiis.kfyTypf = gftMbppfdTypf(brgTypfs[0]);
+            tiis.vblufTypf = gftMbppfdTypf(brgTypfs[1]);
 
 
-            // FIXME: generate typeName for generic
-            typeName = "Map<" + keyType.getName() + "," +
-                                valueType.getName() + ">";
-            final OpenType<?>[] mapItemTypes = new OpenType<?>[] {
-                                                keyType.getOpenType(),
-                                                valueType.getOpenType(),
+            // FIXME: gfnfrbtf typfNbmf for gfnfrid
+            typfNbmf = "Mbp<" + kfyTypf.gftNbmf() + "," +
+                                vblufTypf.gftNbmf() + ">";
+            finbl OpfnTypf<?>[] mbpItfmTypfs = nfw OpfnTypf<?>[] {
+                                                kfyTypf.gftOpfnTypf(),
+                                                vblufTypf.gftOpfnTypf(),
                                             };
-            final CompositeType rowType =
-                new CompositeType(typeName,
-                                  typeName,
-                                  mapItemNames,
-                                  mapItemNames,
-                                  mapItemTypes);
+            finbl CompositfTypf rowTypf =
+                nfw CompositfTypf(typfNbmf,
+                                  typfNbmf,
+                                  mbpItfmNbmfs,
+                                  mbpItfmNbmfs,
+                                  mbpItfmTypfs);
 
-            openType = new TabularType(typeName, typeName, rowType, mapIndexNames);
-            mappedTypeClass = javax.management.openmbean.TabularData.class;
+            opfnTypf = nfw TbbulbrTypf(typfNbmf, typfNbmf, rowTypf, mbpIndfxNbmfs);
+            mbppfdTypfClbss = jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb.dlbss;
         }
 
-        Type getJavaType() {
-            return javaType;
+        Typf gftJbvbTypf() {
+            rfturn jbvbTypf;
         }
 
-        String getName() {
-            return typeName;
+        String gftNbmf() {
+            rfturn typfNbmf;
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            final Map<Object,Object> map = (Map<Object,Object>) data;
-            final TabularType tabularType = (TabularType) openType;
-            final TabularData table = new TabularDataSupport(tabularType);
-            final CompositeType rowType = tabularType.getRowType();
+        Objfdt toOpfnTypfDbtb(Objfdt dbtb) tirows OpfnDbtbExdfption {
+            finbl Mbp<Objfdt,Objfdt> mbp = (Mbp<Objfdt,Objfdt>) dbtb;
+            finbl TbbulbrTypf tbbulbrTypf = (TbbulbrTypf) opfnTypf;
+            finbl TbbulbrDbtb tbblf = nfw TbbulbrDbtbSupport(tbbulbrTypf);
+            finbl CompositfTypf rowTypf = tbbulbrTypf.gftRowTypf();
 
-            for (Map.Entry<Object, Object> entry : map.entrySet()) {
-                final Object key = keyType.toOpenTypeData(entry.getKey());
-                final Object value = valueType.toOpenTypeData(entry.getValue());
-                final CompositeData row =
-                    new CompositeDataSupport(rowType,
-                                             mapItemNames,
-                                             new Object[] {key, value});
-                table.put(row);
+            for (Mbp.Entry<Objfdt, Objfdt> fntry : mbp.fntrySft()) {
+                finbl Objfdt kfy = kfyTypf.toOpfnTypfDbtb(fntry.gftKfy());
+                finbl Objfdt vbluf = vblufTypf.toOpfnTypfDbtb(fntry.gftVbluf());
+                finbl CompositfDbtb row =
+                    nfw CompositfDbtbSupport(rowTypf,
+                                             mbpItfmNbmfs,
+                                             nfw Objfdt[] {kfy, vbluf});
+                tbblf.put(row);
             }
-            return table;
+            rfturn tbblf;
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Objfdt toJbvbTypfDbtb(Objfdt dbtb)
+            tirows OpfnDbtbExdfption, InvblidObjfdtExdfption {
 
-            final TabularData td = (TabularData) data;
+            finbl TbbulbrDbtb td = (TbbulbrDbtb) dbtb;
 
-            Map<Object, Object> result = new HashMap<>();
-            for (CompositeData row : (Collection<CompositeData>) td.values()) {
-                Object key = keyType.toJavaTypeData(row.get(KEY));
-                Object value = valueType.toJavaTypeData(row.get(VALUE));
-                result.put(key, value);
+            Mbp<Objfdt, Objfdt> rfsult = nfw HbsiMbp<>();
+            for (CompositfDbtb row : (Collfdtion<CompositfDbtb>) td.vblufs()) {
+                Objfdt kfy = kfyTypf.toJbvbTypfDbtb(row.gft(KEY));
+                Objfdt vbluf = vblufTypf.toJbvbTypfDbtb(row.gft(VALUE));
+                rfsult.put(kfy, vbluf);
             }
-            return result;
+            rfturn rfsult;
         }
     }
 
-    private static final Class<?> COMPOSITE_DATA_CLASS =
-        javax.management.openmbean.CompositeData.class;
+    privbtf stbtid finbl Clbss<?> COMPOSITE_DATA_CLASS =
+        jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb.dlbss;
 
-    // Classes that have a static from method
-    //   Mapped open type - CompositeData
+    // Clbssfs tibt ibvf b stbtid from mftiod
+    //   Mbppfd opfn typf - CompositfDbtb
     //
-    // Data Mapping:
-    //   Classes <-> CompositeData
+    // Dbtb Mbpping:
+    //   Clbssfs <-> CompositfDbtb
     //
-    // The name and type of items for a class are identified from
-    // the getter methods. For example, a class defines a method:
+    // Tif nbmf bnd typf of itfms for b dlbss brf idfntififd from
+    // tif gfttfr mftiods. For fxbmplf, b dlbss dffinfs b mftiod:
     //
-    //    public FooType getFoo();
+    //    publid FooTypf gftFoo();
     //
-    // The composite data view for this class will contain one
-    // item entry for a "foo" attribute and the item type is
-    // one of the open types defined in the OpenType class that
-    // can be determined in the following manner:
-    // o If FooType is a primitive type, the item type a wrapper
-    //   class for the corresponding primitive type (such as
-    //   Integer, Long, Boolean, etc).
-    // o If FooType is of type CompositeData or TabularData,
-    //   the item type is FooType.
-    // o If FooType is an Enum, the item type is a String and
-    //   the value is the name of the enum constant.
-    // o If FooType is a class or an interface other than the above,
-    //   the item type is CompositeData. The same convention
-    //   can be recursively applied to the FooType class when
-    //   constructing the composite data for the "foo" attribute.
-    // o If FooType is an array, the item type is an array and
-    //   its element type is determined as described above.
+    // Tif dompositf dbtb vifw for tiis dlbss will dontbin onf
+    // itfm fntry for b "foo" bttributf bnd tif itfm typf is
+    // onf of tif opfn typfs dffinfd in tif OpfnTypf dlbss tibt
+    // dbn bf dftfrminfd in tif following mbnnfr:
+    // o If FooTypf is b primitivf typf, tif itfm typf b wrbppfr
+    //   dlbss for tif dorrfsponding primitivf typf (sudi bs
+    //   Intfgfr, Long, Boolfbn, ftd).
+    // o If FooTypf is of typf CompositfDbtb or TbbulbrDbtb,
+    //   tif itfm typf is FooTypf.
+    // o If FooTypf is bn Enum, tif itfm typf is b String bnd
+    //   tif vbluf is tif nbmf of tif fnum donstbnt.
+    // o If FooTypf is b dlbss or bn intfrfbdf otifr tibn tif bbovf,
+    //   tif itfm typf is CompositfDbtb. Tif sbmf donvfntion
+    //   dbn bf rfdursivfly bpplifd to tif FooTypf dlbss wifn
+    //   donstrudting tif dompositf dbtb for tif "foo" bttributf.
+    // o If FooTypf is bn brrby, tif itfm typf is bn brrby bnd
+    //   its flfmfnt typf is dftfrminfd bs dfsdribfd bbovf.
     //
-    static class CompositeDataMXBeanType extends MappedMXBeanType {
-        final Class<?> javaClass;
-        final boolean isCompositeData;
-        Method fromMethod = null;
+    stbtid dlbss CompositfDbtbMXBfbnTypf fxtfnds MbppfdMXBfbnTypf {
+        finbl Clbss<?> jbvbClbss;
+        finbl boolfbn isCompositfDbtb;
+        Mftiod fromMftiod = null;
 
-        CompositeDataMXBeanType(Class<?> c) throws OpenDataException {
-            this.javaClass = c;
-            this.mappedTypeClass = COMPOSITE_DATA_CLASS;
+        CompositfDbtbMXBfbnTypf(Clbss<?> d) tirows OpfnDbtbExdfption {
+            tiis.jbvbClbss = d;
+            tiis.mbppfdTypfClbss = COMPOSITE_DATA_CLASS;
 
-            // check if a static from method exists
+            // difdk if b stbtid from mftiod fxists
             try {
-                fromMethod = AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
-                        public Method run() throws NoSuchMethodException {
-                            return javaClass.getMethod("from", COMPOSITE_DATA_CLASS);
+                fromMftiod = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Mftiod>() {
+                        publid Mftiod run() tirows NoSudiMftiodExdfption {
+                            rfturn jbvbClbss.gftMftiod("from", COMPOSITE_DATA_CLASS);
                         }
                     });
-            } catch (PrivilegedActionException e) {
-                // ignore NoSuchMethodException since we allow classes
-                // that has no from method to be embeded in another class.
+            } dbtdi (PrivilfgfdAdtionExdfption f) {
+                // ignorf NoSudiMftiodExdfption sindf wf bllow dlbssfs
+                // tibt ibs no from mftiod to bf fmbfdfd in bnotifr dlbss.
             }
 
-            if (COMPOSITE_DATA_CLASS.isAssignableFrom(c)) {
-                // c implements CompositeData - set openType to null
-                // defer generating the CompositeType
-                // until the object is constructed
-                this.isCompositeData = true;
-                this.openType = null;
-            } else {
-                this.isCompositeData = false;
+            if (COMPOSITE_DATA_CLASS.isAssignbblfFrom(d)) {
+                // d implfmfnts CompositfDbtb - sft opfnTypf to null
+                // dfffr gfnfrbting tif CompositfTypf
+                // until tif objfdt is donstrudtfd
+                tiis.isCompositfDbtb = truf;
+                tiis.opfnTypf = null;
+            } flsf {
+                tiis.isCompositfDbtb = fblsf;
 
-                // Make a CompositeData containing all the getters
-                final Method[] methods =
-                    AccessController.doPrivileged(new PrivilegedAction<Method[]>() {
-                        public Method[] run() {
-                            return javaClass.getMethods();
+                // Mbkf b CompositfDbtb dontbining bll tif gfttfrs
+                finbl Mftiod[] mftiods =
+                    AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Mftiod[]>() {
+                        publid Mftiod[] run() {
+                            rfturn jbvbClbss.gftMftiods();
                         }
                     });
-                final List<String> names = new ArrayList<>();
-                final List<OpenType<?>> types = new ArrayList<>();
+                finbl List<String> nbmfs = nfw ArrbyList<>();
+                finbl List<OpfnTypf<?>> typfs = nfw ArrbyList<>();
 
-                /* Select public methods that look like "T getX()" or "boolean
-                   isX()", where T is not void and X is not the empty
-                   string.  Exclude "Class getClass()" inherited from Object.  */
-                for (int i = 0; i < methods.length; i++) {
-                    final Method method = methods[i];
-                    final String name = method.getName();
-                    final Type type = method.getGenericReturnType();
-                    final String rest;
-                    if (name.startsWith("get")) {
-                        rest = name.substring(3);
-                    } else if (name.startsWith("is") &&
-                               type instanceof Class &&
-                               ((Class) type) == boolean.class) {
-                        rest = name.substring(2);
-                    } else {
-                        // ignore non-getter methods
-                        continue;
+                /* Sflfdt publid mftiods tibt look likf "T gftX()" or "boolfbn
+                   isX()", wifrf T is not void bnd X is not tif fmpty
+                   string.  Exdludf "Clbss gftClbss()" inifritfd from Objfdt.  */
+                for (int i = 0; i < mftiods.lfngti; i++) {
+                    finbl Mftiod mftiod = mftiods[i];
+                    finbl String nbmf = mftiod.gftNbmf();
+                    finbl Typf typf = mftiod.gftGfnfridRfturnTypf();
+                    finbl String rfst;
+                    if (nbmf.stbrtsWiti("gft")) {
+                        rfst = nbmf.substring(3);
+                    } flsf if (nbmf.stbrtsWiti("is") &&
+                               typf instbndfof Clbss &&
+                               ((Clbss) typf) == boolfbn.dlbss) {
+                        rfst = nbmf.substring(2);
+                    } flsf {
+                        // ignorf non-gfttfr mftiods
+                        dontinuf;
                     }
 
-                    if (rest.equals("") ||
-                        method.getParameterTypes().length > 0 ||
-                        type == void.class ||
-                        rest.equals("Class")) {
+                    if (rfst.fqubls("") ||
+                        mftiod.gftPbrbmftfrTypfs().lfngti > 0 ||
+                        typf == void.dlbss ||
+                        rfst.fqubls("Clbss")) {
 
-                        // ignore non-getter methods
-                        continue;
+                        // ignorf non-gfttfr mftiods
+                        dontinuf;
                     }
-                    names.add(decapitalize(rest));
-                    types.add(toOpenType(type));
+                    nbmfs.bdd(dfdbpitblizf(rfst));
+                    typfs.bdd(toOpfnTypf(typf));
                 }
 
-                final String[] nameArray = names.toArray(new String[0]);
-                openType = new CompositeType(c.getName(),
-                                             c.getName(),
-                                             nameArray, // field names
-                                             nameArray, // field descriptions
-                                             types.toArray(new OpenType<?>[0]));
+                finbl String[] nbmfArrby = nbmfs.toArrby(nfw String[0]);
+                opfnTypf = nfw CompositfTypf(d.gftNbmf(),
+                                             d.gftNbmf(),
+                                             nbmfArrby, // fifld nbmfs
+                                             nbmfArrby, // fifld dfsdriptions
+                                             typfs.toArrby(nfw OpfnTypf<?>[0]));
             }
         }
 
-        Type getJavaType() {
-            return javaClass;
+        Typf gftJbvbTypf() {
+            rfturn jbvbClbss;
         }
 
-        String getName() {
-            return javaClass.getName();
+        String gftNbmf() {
+            rfturn jbvbClbss.gftNbmf();
         }
 
-        Object toOpenTypeData(Object data) throws OpenDataException {
-            if (data instanceof MemoryUsage) {
-                return MemoryUsageCompositeData.toCompositeData((MemoryUsage) data);
+        Objfdt toOpfnTypfDbtb(Objfdt dbtb) tirows OpfnDbtbExdfption {
+            if (dbtb instbndfof MfmoryUsbgf) {
+                rfturn MfmoryUsbgfCompositfDbtb.toCompositfDbtb((MfmoryUsbgf) dbtb);
             }
 
-            if (data instanceof ThreadInfo) {
-                return ThreadInfoCompositeData.toCompositeData((ThreadInfo) data);
+            if (dbtb instbndfof TirfbdInfo) {
+                rfturn TirfbdInfoCompositfDbtb.toCompositfDbtb((TirfbdInfo) dbtb);
             }
 
-            if (data instanceof LockInfo) {
-                if (data instanceof java.lang.management.MonitorInfo) {
-                    return MonitorInfoCompositeData.toCompositeData((MonitorInfo) data);
+            if (dbtb instbndfof LodkInfo) {
+                if (dbtb instbndfof jbvb.lbng.mbnbgfmfnt.MonitorInfo) {
+                    rfturn MonitorInfoCompositfDbtb.toCompositfDbtb((MonitorInfo) dbtb);
                 }
-                return LockInfoCompositeData.toCompositeData((LockInfo) data);
+                rfturn LodkInfoCompositfDbtb.toCompositfDbtb((LodkInfo) dbtb);
             }
 
-            if (data instanceof MemoryNotificationInfo) {
-                return MemoryNotifInfoCompositeData.
-                    toCompositeData((MemoryNotificationInfo) data);
+            if (dbtb instbndfof MfmoryNotifidbtionInfo) {
+                rfturn MfmoryNotifInfoCompositfDbtb.
+                    toCompositfDbtb((MfmoryNotifidbtionInfo) dbtb);
             }
 
-            if (data instanceof VMOption) {
-                return VMOptionCompositeData.toCompositeData((VMOption) data);
+            if (dbtb instbndfof VMOption) {
+                rfturn VMOptionCompositfDbtb.toCompositfDbtb((VMOption) dbtb);
             }
 
-            if (isCompositeData) {
-                // Classes that implement CompositeData
+            if (isCompositfDbtb) {
+                // Clbssfs tibt implfmfnt CompositfDbtb
                 //
-                // construct a new CompositeDataSupport object
-                // so that no other classes are sent over the wire
-                CompositeData cd = (CompositeData) data;
-                CompositeType ct = cd.getCompositeType();
-                String[] itemNames = ct.keySet().toArray(new String[0]);
-                Object[] itemValues = cd.getAll(itemNames);
-                return new CompositeDataSupport(ct, itemNames, itemValues);
+                // donstrudt b nfw CompositfDbtbSupport objfdt
+                // so tibt no otifr dlbssfs brf sfnt ovfr tif wirf
+                CompositfDbtb dd = (CompositfDbtb) dbtb;
+                CompositfTypf dt = dd.gftCompositfTypf();
+                String[] itfmNbmfs = dt.kfySft().toArrby(nfw String[0]);
+                Objfdt[] itfmVblufs = dd.gftAll(itfmNbmfs);
+                rfturn nfw CompositfDbtbSupport(dt, itfmNbmfs, itfmVblufs);
             }
 
-            throw new OpenDataException(javaClass.getName() +
-                " is not supported for platform MXBeans");
+            tirow nfw OpfnDbtbExdfption(jbvbClbss.gftNbmf() +
+                " is not supportfd for plbtform MXBfbns");
         }
 
-        Object toJavaTypeData(Object data)
-            throws OpenDataException, InvalidObjectException {
+        Objfdt toJbvbTypfDbtb(Objfdt dbtb)
+            tirows OpfnDbtbExdfption, InvblidObjfdtExdfption {
 
-            if (fromMethod == null) {
-                throw new AssertionError("Does not support data conversion");
+            if (fromMftiod == null) {
+                tirow nfw AssfrtionError("Dofs not support dbtb donvfrsion");
             }
 
             try {
-                return fromMethod.invoke(null, data);
-            } catch (IllegalAccessException e) {
-                // should never reach here
-                throw new AssertionError(e);
-            } catch (InvocationTargetException e) {
-                final OpenDataException ode =
-                    new OpenDataException("Failed to invoke " +
-                        fromMethod.getName() + " to convert CompositeData " +
-                        " to " + javaClass.getName());
-                ode.initCause(e);
-                throw ode;
+                rfturn fromMftiod.invokf(null, dbtb);
+            } dbtdi (IllfgblAddfssExdfption f) {
+                // siould nfvfr rfbdi ifrf
+                tirow nfw AssfrtionError(f);
+            } dbtdi (InvodbtionTbrgftExdfption f) {
+                finbl OpfnDbtbExdfption odf =
+                    nfw OpfnDbtbExdfption("Fbilfd to invokf " +
+                        fromMftiod.gftNbmf() + " to donvfrt CompositfDbtb " +
+                        " to " + jbvbClbss.gftNbmf());
+                odf.initCbusf(f);
+                tirow odf;
             }
         }
     }
 
-    private static class InProgress<T> extends OpenType<T> {
-        private static final String description =
-                  "Marker to detect recursive type use -- internal use only!";
+    privbtf stbtid dlbss InProgrfss<T> fxtfnds OpfnTypf<T> {
+        privbtf stbtid finbl String dfsdription =
+                  "Mbrkfr to dftfdt rfdursivf typf usf -- intfrnbl usf only!";
 
-        InProgress() throws OpenDataException {
-            super("java.lang.String", "java.lang.String", description);
+        InProgrfss() tirows OpfnDbtbExdfption {
+            supfr("jbvb.lbng.String", "jbvb.lbng.String", dfsdription);
         }
 
-        public String toString() {
-            return description;
+        publid String toString() {
+            rfturn dfsdription;
         }
 
-        public int hashCode() {
-            return 0;
+        publid int ibsiCodf() {
+            rfturn 0;
         }
 
-        public boolean equals(Object o) {
-            return false;
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn fblsf;
         }
 
-        public boolean isValue(Object o) {
-            return false;
+        publid boolfbn isVbluf(Objfdt o) {
+            rfturn fblsf;
         }
-        private static final long serialVersionUID = -3413063475064374490L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -3413063475064374490L;
     }
-    private static final OpenType<?> inProgress;
-    static {
-        OpenType<?> t;
+    privbtf stbtid finbl OpfnTypf<?> inProgrfss;
+    stbtid {
+        OpfnTypf<?> t;
         try {
-            t = new InProgress<>();
-        } catch (OpenDataException e) {
-            // Should not reach here
-            throw new AssertionError(e);
+            t = nfw InProgrfss<>();
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould not rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
-        inProgress = t;
+        inProgrfss = t;
     }
 
-    private static final OpenType<?>[] simpleTypes = {
+    privbtf stbtid finbl OpfnTypf<?>[] simplfTypfs = {
         BIGDECIMAL, BIGINTEGER, BOOLEAN, BYTE, CHARACTER, DATE,
         DOUBLE, FLOAT, INTEGER, LONG, OBJECTNAME, SHORT, STRING,
         VOID,
     };
-    static {
+    stbtid {
         try {
-            for (int i = 0; i < simpleTypes.length; i++) {
-                final OpenType<?> t = simpleTypes[i];
-                Class<?> c;
+            for (int i = 0; i < simplfTypfs.lfngti; i++) {
+                finbl OpfnTypf<?> t = simplfTypfs[i];
+                Clbss<?> d;
                 try {
-                    c = Class.forName(t.getClassName(), false,
-                                      MappedMXBeanType.class.getClassLoader());
-                    MappedMXBeanType.newBasicType(c, t);
-                } catch (ClassNotFoundException e) {
-                    // the classes that these predefined types declare
-                    // must exist!
-                    throw new AssertionError(e);
-                } catch (OpenDataException e) {
-                    throw new AssertionError(e);
+                    d = Clbss.forNbmf(t.gftClbssNbmf(), fblsf,
+                                      MbppfdMXBfbnTypf.dlbss.gftClbssLobdfr());
+                    MbppfdMXBfbnTypf.nfwBbsidTypf(d, t);
+                } dbtdi (ClbssNotFoundExdfption f) {
+                    // tif dlbssfs tibt tifsf prfdffinfd typfs dfdlbrf
+                    // must fxist!
+                    tirow nfw AssfrtionError(f);
+                } dbtdi (OpfnDbtbExdfption f) {
+                    tirow nfw AssfrtionError(f);
                 }
 
-                if (c.getName().startsWith("java.lang.")) {
+                if (d.gftNbmf().stbrtsWiti("jbvb.lbng.")) {
                     try {
-                        final Field typeField = c.getField("TYPE");
-                        final Class<?> primitiveType = (Class<?>) typeField.get(null);
-                        MappedMXBeanType.newBasicType(primitiveType, t);
-                    } catch (NoSuchFieldException e) {
-                        // OK: must not be a primitive wrapper
-                    } catch (IllegalAccessException e) {
-                        // Should not reach here
-                       throw new AssertionError(e);
+                        finbl Fifld typfFifld = d.gftFifld("TYPE");
+                        finbl Clbss<?> primitivfTypf = (Clbss<?>) typfFifld.gft(null);
+                        MbppfdMXBfbnTypf.nfwBbsidTypf(primitivfTypf, t);
+                    } dbtdi (NoSudiFifldExdfption f) {
+                        // OK: must not bf b primitivf wrbppfr
+                    } dbtdi (IllfgblAddfssExdfption f) {
+                        // Siould not rfbdi ifrf
+                       tirow nfw AssfrtionError(f);
                     }
                 }
             }
-        } catch (OpenDataException e) {
-            throw new AssertionError(e);
+        } dbtdi (OpfnDbtbExdfption f) {
+            tirow nfw AssfrtionError(f);
         }
     }
 
     /**
-     * Utility method to take a string and convert it to normal Java variable
-     * name capitalization.  This normally means converting the first
-     * character from upper case to lower case, but in the (unusual) special
-     * case when there is more than one character and both the first and
-     * second characters are upper case, we leave it alone.
+     * Utility mftiod to tbkf b string bnd donvfrt it to normbl Jbvb vbribblf
+     * nbmf dbpitblizbtion.  Tiis normblly mfbns donvfrting tif first
+     * dibrbdtfr from uppfr dbsf to lowfr dbsf, but in tif (unusubl) spfdibl
+     * dbsf wifn tifrf is morf tibn onf dibrbdtfr bnd boti tif first bnd
+     * sfdond dibrbdtfrs brf uppfr dbsf, wf lfbvf it blonf.
      * <p>
-     * Thus "FooBah" becomes "fooBah" and "X" becomes "x", but "URL" stays
-     * as "URL".
+     * Tius "FooBbi" bfdomfs "fooBbi" bnd "X" bfdomfs "x", but "URL" stbys
+     * bs "URL".
      *
-     * @param  name The string to be decapitalized.
-     * @return  The decapitalized version of the string.
+     * @pbrbm  nbmf Tif string to bf dfdbpitblizfd.
+     * @rfturn  Tif dfdbpitblizfd vfrsion of tif string.
      */
-    private static String decapitalize(String name) {
-        if (name == null || name.length() == 0) {
-            return name;
+    privbtf stbtid String dfdbpitblizf(String nbmf) {
+        if (nbmf == null || nbmf.lfngti() == 0) {
+            rfturn nbmf;
         }
-        if (name.length() > 1 && Character.isUpperCase(name.charAt(1)) &&
-                        Character.isUpperCase(name.charAt(0))){
-            return name;
+        if (nbmf.lfngti() > 1 && Cibrbdtfr.isUppfrCbsf(nbmf.dibrAt(1)) &&
+                        Cibrbdtfr.isUppfrCbsf(nbmf.dibrAt(0))){
+            rfturn nbmf;
         }
-        char chars[] = name.toCharArray();
-        chars[0] = Character.toLowerCase(chars[0]);
-        return new String(chars);
+        dibr dibrs[] = nbmf.toCibrArrby();
+        dibrs[0] = Cibrbdtfr.toLowfrCbsf(dibrs[0]);
+        rfturn nfw String(dibrs);
     }
 
 }

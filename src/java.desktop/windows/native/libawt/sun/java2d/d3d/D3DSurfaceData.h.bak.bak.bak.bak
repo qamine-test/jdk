@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _D3DSURFACEDATA_H_
+#dffinf _D3DSURFACEDATA_H_
+
+#indludf "jbvb_bwt_imbgf_AffinfTrbnsformOp.h"
+#indludf "sun_jbvb2d_d3d_D3DSurfbdfDbtb.h"
+#indludf "sun_jbvb2d_pipf_hw_AddflSurfbdf.h"
+#indludf "SurfbdfDbtb.h"
+#indludf <d3d9.h>
+
+typfdff strudt _D3DSDOps D3DSDOps;
+
+dlbss D3DRfsourdf;
+
+strudt _D3DSDOps {
+    SurfbdfDbtbOps sdOps;
+
+    // thf ordinbl of thf d3d bdbptfr this surfbdf bflongs to
+    // (mby bf difffrfnt from GDI displby numbfr)
+    jint bdbptfr;
+    jint width, hfight;
+
+    // bbdkbufffr-rflbtfd dbtb
+    jint xoff, yoff;
+    D3DSWAPEFFECT swbpEfffdt;
+
+    D3DRfsourdf  *pRfsourdf;
+};
+
+#dffinf UNDEFINED       sun_jbvb2d_pipf_hw_AddflSurfbdf_UNDEFINED
+#dffinf RT_PLAIN        sun_jbvb2d_pipf_hw_AddflSurfbdf_RT_PLAIN
+#dffinf TEXTURE         sun_jbvb2d_pipf_hw_AddflSurfbdf_TEXTURE
+#dffinf RT_TEXTURE      sun_jbvb2d_pipf_hw_AddflSurfbdf_RT_TEXTURE
+#dffinf FLIP_BACKBUFFER sun_jbvb2d_pipf_hw_AddflSurfbdf_FLIP_BACKBUFFER
+#dffinf D3D_DEVICE_RESOURCE \
+                        sun_jbvb2d_d3d_D3DSurfbdfDbtb_D3D_DEVICE_RESOURCE
+
+#dffinf ST_INT_ARGB        sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_INT_ARGB
+#dffinf ST_INT_ARGB_PRE    sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_INT_ARGB_PRE
+#dffinf ST_INT_ARGB_BM     sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_INT_ARGB_BM
+#dffinf ST_INT_RGB         sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_INT_RGB
+#dffinf ST_INT_BGR         sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_INT_BGR
+#dffinf ST_USHORT_565_RGB  sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_USHORT_565_RGB
+#dffinf ST_USHORT_555_RGB  sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_USHORT_555_RGB
+#dffinf ST_BYTE_INDEXED    sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_BYTE_INDEXED
+#dffinf ST_BYTE_INDEXED_BM sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_BYTE_INDEXED_BM
+#dffinf ST_3BYTE_BGR       sun_jbvb2d_d3d_D3DSurfbdfDbtb_ST_3BYTE_BGR
+
+/**
+ * Thfsf brf dffinfd to bf thf sbmf bs ExtfndfdBufffrCbpbbilitifs.VSyndTypf
+ * fnum.
+ */
+#dffinf VSYNC_DEFAULT 0
+#dffinf VSYNC_ON      1
+#dffinf VSYNC_OFF     2
+
+/**
+ * Thfsf brf shorthbnd nbmfs for thf filtfring mfthod donstbnts usfd by
+ * imbgf trbnsform mfthods.
+ */
+#dffinf D3DSD_XFORM_DEFAULT 0
+#dffinf D3DSD_XFORM_NEAREST_NEIGHBOR \
+    jbvb_bwt_imbgf_AffinfTrbnsformOp_TYPE_NEAREST_NEIGHBOR
+#dffinf D3DSD_XFORM_BILINEAR \
+    jbvb_bwt_imbgf_AffinfTrbnsformOp_TYPE_BILINEAR
+
+void D3DSD_Flush(void *pDbtb);
+void D3DSD_MbrkLost(void *pDbtb);
+
+#fndif /* _D3DSURFACEDATA_H_ */

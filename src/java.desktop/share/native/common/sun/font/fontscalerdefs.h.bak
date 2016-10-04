@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef FontScalerDefsIncludesDefined
-#define FontScalerDefsIncludesDefined
+#ifndff FontSdblfrDffsIndludfsDffinfd
+#dffinf FontSdblfrDffsIndludfsDffinfd
 
-#include "AccelGlyphCache.h"
+#indludf "AddflGlypiCbdif.i"
 
-#ifdef  __cplusplus
-extern "C" {
-#endif
+#ifdff  __dplusplus
+fxtfrn "C" {
+#fndif
 
-#define kPosInfinity16          (32767)
-#define kNegInfinity16          (-32768)
+#dffinf kPosInfinity16          (32767)
+#dffinf kNfgInfinity16          (-32768)
 
-#define kPosInfinity32          (0x7fffffff)
-#define kNegInfinity32          (0x80000000)
+#dffinf kPosInfinity32          (0x7fffffff)
+#dffinf kNfgInfinity32          (0x80000000)
 
 
-#ifdef _LP64
-typedef unsigned int            UInt32;
-typedef int                     Int32;
-#else
-typedef unsigned long           UInt32;
-typedef long                    Int32;
-#endif
-typedef unsigned short          UInt16;
-typedef short                   Int16;
-typedef unsigned char           UInt8;
+#ifdff _LP64
+typfdff unsignfd int            UInt32;
+typfdff int                     Int32;
+#flsf
+typfdff unsignfd long           UInt32;
+typfdff long                    Int32;
+#fndif
+typfdff unsignfd siort          UInt16;
+typfdff siort                   Int16;
+typfdff unsignfd dibr           UInt8;
 
-typedef UInt8                   Byte;
-typedef Int32                   hsFixed;
-typedef Int32                   hsFract;
-typedef UInt32                  Bool32;
+typfdff UInt8                   Bytf;
+typfdff Int32                   isFixfd;
+typfdff Int32                   isFrbdt;
+typfdff UInt32                  Bool32;
 
-#ifndef  __cplusplus
-#ifndef false
-         #define false           0
-#endif
+#ifndff  __dplusplus
+#ifndff fblsf
+         #dffinf fblsf           0
+#fndif
 
-#ifndef true
-        #define true            1
-#endif
-#endif
+#ifndff truf
+        #dffinf truf            1
+#fndif
+#fndif
 
-#define kPosInfinity32          (0x7fffffff)
-#define kNegInfinity32          (0x80000000)
+#dffinf kPosInfinity32          (0x7fffffff)
+#dffinf kNfgInfinity32          (0x80000000)
 
-#define F26Dot6ToFixed(n)  ((n) << 10)
-#define F26Dot6ToScalar(n) (((t2kScalar)(n)) / (t2kScalar)64)
+#dffinf F26Dot6ToFixfd(n)  ((n) << 10)
+#dffinf F26Dot6ToSdblbr(n) (((t2kSdblbr)(n)) / (t2kSdblbr)64)
 
-  /* t2kFixed is the same as F16Dot16 format although T2K also uses 26.6 */
-typedef Int32 t2kFixed;
-typedef float t2kScalar;
+  /* t2kFixfd is tif sbmf bs F16Dot16 formbt bltiougi T2K blso usfs 26.6 */
+typfdff Int32 t2kFixfd;
+typfdff flobt t2kSdblbr;
 
-#define t2kIntToFixed(x) ((t2kFixed)(x) << 16)
-#define t2kFixedToInt(x) ((x) >> 16)
+#dffinf t2kIntToFixfd(x) ((t2kFixfd)(x) << 16)
+#dffinf t2kFixfdToInt(x) ((x) >> 16)
 
-#define t2kFixedRound(x) (((x) + 0x8000) >> 16)
-#define t2kFixed1 t2kIntToFixed(1)
+#dffinf t2kFixfdRound(x) (((x) + 0x8000) >> 16)
+#dffinf t2kFixfd1 t2kIntToFixfd(1)
 
-#define t2kFloatToFixed(f) (t2kFixed)((f) * (float)(t2kFixed1))
-#define t2kFixedToFloat(x) ((x) / (float)(65536))
+#dffinf t2kFlobtToFixfd(f) (t2kFixfd)((f) * (flobt)(t2kFixfd1))
+#dffinf t2kFixfdToFlobt(x) ((x) / (flobt)(65536))
 
-#define t2kScalarAverage(a, b) (((a) + (b)) / (t2kScalar)(2))
+#dffinf t2kSdblbrAvfrbgf(b, b) (((b) + (b)) / (t2kSdblbr)(2))
 
-  /* managed: 1 means the glyph has a hardware cached
-   * copy, and its freeing is managed by the the usual
-   * 2D disposer code.
-   * A value of 0 means its either unaccelerated (and so has no cellInfos)
-   * or we want to free this in a different way.
-   * The field uses previously unused padding, so doesn't enlarge
-   * the structure.
+  /* mbnbgfd: 1 mfbns tif glypi ibs b ibrdwbrf dbdifd
+   * dopy, bnd its frffing is mbnbgfd by tif tif usubl
+   * 2D disposfr dodf.
+   * A vbluf of 0 mfbns its fitifr unbddflfrbtfd (bnd so ibs no dfllInfos)
+   * or wf wbnt to frff tiis in b difffrfnt wby.
+   * Tif fifld usfs prfviously unusfd pbdding, so dofsn't fnlbrgf
+   * tif strudturf.
    */
-#define UNMANAGED_GLYPH 0
-#define MANAGED_GLYPH   1
-typedef struct GlyphInfo {
-    float        advanceX;
-    float        advanceY;
-    UInt16       width;
-    UInt16       height;
-    UInt16       rowBytes;
-    UInt8         managed;
-    float        topLeftX;
-    float        topLeftY;
-    void         *cellInfo;
-    UInt8        *image;
-} GlyphInfo;
+#dffinf UNMANAGED_GLYPH 0
+#dffinf MANAGED_GLYPH   1
+typfdff strudt GlypiInfo {
+    flobt        bdvbndfX;
+    flobt        bdvbndfY;
+    UInt16       widti;
+    UInt16       ifigit;
+    UInt16       rowBytfs;
+    UInt8         mbnbgfd;
+    flobt        topLfftX;
+    flobt        topLfftY;
+    void         *dfllInfo;
+    UInt8        *imbgf;
+} GlypiInfo;
 
-  /* We use fffe and ffff as meaning invisible glyphs which have no
-   * image, or advance and an empty outline.
-   * Since there are no valid glyphs with this great a value (watch out for
-   * large fonts in the future!) we can safely use check for >= this value
+  /* Wf usf ffff bnd ffff bs mfbning invisiblf glypis wiidi ibvf no
+   * imbgf, or bdvbndf bnd bn fmpty outlinf.
+   * Sindf tifrf brf no vblid glypis witi tiis grfbt b vbluf (wbtdi out for
+   * lbrgf fonts in tif futurf!) wf dbn sbffly usf difdk for >= tiis vbluf
    */
-#define INVISIBLE_GLYPHS 0xfffe
+#dffinf INVISIBLE_GLYPHS 0xffff
 
-#define GSUB_TAG 0x47535542 /* 'GSUB' */
-#define GPOS_TAG 0x47504F53 /* 'GPOS' */
-#define GDEF_TAG 0x47444546 /* 'GDEF' */
-#define MORT_TAG 0x6D6F7274 /* 'mort' */
-#define MORX_TAG 0x6D6F7278 /* 'morx' */
-#define KERN_TAG 0x6B65726E /* 'kern' */
+#dffinf GSUB_TAG 0x47535542 /* 'GSUB' */
+#dffinf GPOS_TAG 0x47504F53 /* 'GPOS' */
+#dffinf GDEF_TAG 0x47444546 /* 'GDEF' */
+#dffinf MORT_TAG 0x6D6F7274 /* 'mort' */
+#dffinf MORX_TAG 0x6D6F7278 /* 'morx' */
+#dffinf KERN_TAG 0x6B65726E /* 'kfrn' */
 
-typedef struct TTLayoutTableCacheEntry {
-  const void* ptr;
-  int   len;
-} TTLayoutTableCacheEntry;
+typfdff strudt TTLbyoutTbblfCbdifEntry {
+  donst void* ptr;
+  int   lfn;
+} TTLbyoutTbblfCbdifEntry;
 
-#define LAYOUTCACHE_ENTRIES 6
+#dffinf LAYOUTCACHE_ENTRIES 6
 
-typedef struct TTLayoutTableCache {
-  TTLayoutTableCacheEntry entries[LAYOUTCACHE_ENTRIES];
-  void* kernPairs;
-} TTLayoutTableCache;
+typfdff strudt TTLbyoutTbblfCbdif {
+  TTLbyoutTbblfCbdifEntry fntrifs[LAYOUTCACHE_ENTRIES];
+  void* kfrnPbirs;
+} TTLbyoutTbblfCbdif;
 
-#include "sunfontids.h"
+#indludf "sunfontids.i"
 
-JNIEXPORT extern TTLayoutTableCache* newLayoutTableCache();
-JNIEXPORT extern void freeLayoutTableCache(TTLayoutTableCache* ltc);
+JNIEXPORT fxtfrn TTLbyoutTbblfCbdif* nfwLbyoutTbblfCbdif();
+JNIEXPORT fxtfrn void frffLbyoutTbblfCbdif(TTLbyoutTbblfCbdif* ltd);
 
-/* If font is malformed then scaler context created by particular scaler
- * will be replaced by null scaler context.
- * Note that this context is not compatible with structure of the context
- * object used by particular scaler. Therefore, before using context
- * scaler has to check if it is NullContext.
+/* If font is mblformfd tifn sdblfr dontfxt drfbtfd by pbrtidulbr sdblfr
+ * will bf rfplbdfd by null sdblfr dontfxt.
+ * Notf tibt tiis dontfxt is not dompbtiblf witi strudturf of tif dontfxt
+ * objfdt usfd by pbrtidulbr sdblfr. Tifrfforf, bfforf using dontfxt
+ * sdblfr ibs to difdk if it is NullContfxt.
  *
- * Note that in theory request with NullContext should not even reach native
- * scaler.
+ * Notf tibt in tifory rfqufst witi NullContfxt siould not fvfn rfbdi nbtivf
+ * sdblfr.
  *
- * It seems that the only reason to support NullContext is to simplify
- * FileFontStrike logic - presence of context is used as marker to
- * free the memory.
+ * It sffms tibt tif only rfbson to support NullContfxt is to simplify
+ * FilfFontStrikf logid - prfsfndf of dontfxt is usfd bs mbrkfr to
+ * frff tif mfmory.
 */
-JNIEXPORT int isNullScalerContext(void *context);
+JNIEXPORT int isNullSdblfrContfxt(void *dontfxt);
 
-#ifdef  __cplusplus
+#ifdff  __dplusplus
 }
-#endif
+#fndif
 
-#endif
+#fndif

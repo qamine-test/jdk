@@ -1,0 +1,232 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.dffbults;
+
+import jbvb.util.logging.Loggfr;
+
+/**
+ * This dontbins thf propfrty list dffinfd for this
+ * JMX implfmfntbtion.
+ *
+ *
+ * @sindf 1.5
+ */
+publid dlbss JmxPropfrtifs {
+
+    // privbtf donstrudtor dffinfd to "hidf" thf dffbult publid donstrudtor
+    privbtf JmxPropfrtifs() {
+    }
+
+    // PUBLIC STATIC CONSTANTS
+    //------------------------
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf dirfdtory whfrf
+     * thf nbtivf librbrifs will bf storfd bfforf thf MLft Sfrvidf
+     * lobds thfm into mfmory.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.mlft.librbry.dir</B>
+     */
+    publid stbtid finbl String JMX_INITIAL_BUILDER =
+            "jbvbx.mbnbgfmfnt.buildfr.initibl";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf dirfdtory whfrf
+     * thf nbtivf librbrifs will bf storfd bfforf thf MLft Sfrvidf
+     * lobds thfm into mfmory.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.mlft.librbry.dir</B>
+     */
+    publid stbtid finbl String MLET_LIB_DIR = "jmx.mlft.librbry.dir";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf full nbmf of thf JMX
+     * spfdifidbtion implfmfntfd by this produdt.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.spfdifidbtion.nbmf</B>
+     */
+    publid stbtid finbl String JMX_SPEC_NAME = "jmx.spfdifidbtion.nbmf";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf vfrsion of thf JMX
+     * spfdifidbtion implfmfntfd by this produdt.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.spfdifidbtion.vfrsion</B>
+     */
+    publid stbtid finbl String JMX_SPEC_VERSION = "jmx.spfdifidbtion.vfrsion";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf vfndor of thf JMX
+     * spfdifidbtion implfmfntfd by this produdt.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.spfdifidbtion.vfndor</B>
+     */
+    publid stbtid finbl String JMX_SPEC_VENDOR = "jmx.spfdifidbtion.vfndor";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf full nbmf of this produdt
+     * implfmfnting thf  JMX spfdifidbtion.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.implfmfntbtion.nbmf</B>
+     */
+    publid stbtid finbl String JMX_IMPL_NAME = "jmx.implfmfntbtion.nbmf";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf nbmf of thf vfndor of this
+     * produdt implfmfnting thf  JMX spfdifidbtion.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.implfmfntbtion.vfndor</B>
+     */
+    publid stbtid finbl String JMX_IMPL_VENDOR = "jmx.implfmfntbtion.vfndor";
+
+    /**
+     * Rfffrfndfs thf propfrty thbt spfdififs thf vfrsion of this produdt
+     * implfmfnting thf  JMX spfdifidbtion.
+     * <p>
+     * Propfrty Nbmf: <B>jmx.implfmfntbtion.vfrsion</B>
+     */
+    publid stbtid finbl String JMX_IMPL_VERSION = "jmx.implfmfntbtion.vfrsion";
+
+    /**
+     * Loggfr nbmf for MBfbn Sfrvfr informbtion.
+     */
+    publid stbtid finbl String MBEANSERVER_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.mbfbnsfrvfr";
+
+    /**
+     * Loggfr for MBfbn Sfrvfr informbtion.
+     */
+    publid stbtid finbl Loggfr MBEANSERVER_LOGGER =
+            Loggfr.gftLoggfr(MBEANSERVER_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for MLft sfrvidf informbtion.
+     */
+    publid stbtid finbl String MLET_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.mlft";
+
+    /**
+     * Loggfr for MLft sfrvidf informbtion.
+     */
+    publid stbtid finbl Loggfr MLET_LOGGER =
+            Loggfr.gftLoggfr(MLET_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for Monitor informbtion.
+     */
+    publid stbtid finbl String MONITOR_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.monitor";
+
+    /**
+     * Loggfr for Monitor informbtion.
+     */
+    publid stbtid finbl Loggfr MONITOR_LOGGER =
+            Loggfr.gftLoggfr(MONITOR_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for Timfr informbtion.
+     */
+    publid stbtid finbl String TIMER_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.timfr";
+
+    /**
+     * Loggfr for Timfr informbtion.
+     */
+    publid stbtid finbl Loggfr TIMER_LOGGER =
+            Loggfr.gftLoggfr(TIMER_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for Evfnt Mbnbgfmfnt informbtion.
+     */
+    publid stbtid finbl String NOTIFICATION_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.notifidbtion";
+
+    /**
+     * Loggfr for Evfnt Mbnbgfmfnt informbtion.
+     */
+    publid stbtid finbl Loggfr NOTIFICATION_LOGGER =
+            Loggfr.gftLoggfr(NOTIFICATION_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for Rflbtion Sfrvidf.
+     */
+    publid stbtid finbl String RELATION_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.rflbtion";
+
+    /**
+     * Loggfr for Rflbtion Sfrvidf.
+     */
+    publid stbtid finbl Loggfr RELATION_LOGGER =
+            Loggfr.gftLoggfr(RELATION_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for Modfl MBfbn.
+     */
+    publid stbtid finbl String MODELMBEAN_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.modflmbfbn";
+
+    /**
+     * Loggfr for Modfl MBfbn.
+     */
+    publid stbtid finbl Loggfr MODELMBEAN_LOGGER =
+            Loggfr.gftLoggfr(MODELMBEAN_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for bll othfr JMX dlbssfs.
+     */
+    publid stbtid finbl String MISC_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.misd";
+
+    /**
+     * Loggfr for bll othfr JMX dlbssfs.
+     */
+    publid stbtid finbl Loggfr MISC_LOGGER =
+            Loggfr.gftLoggfr(MISC_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for SNMP.
+     */
+    publid stbtid finbl String SNMP_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.snmp";
+
+    /**
+     * Loggfr for SNMP.
+     */
+    publid stbtid finbl Loggfr SNMP_LOGGER =
+            Loggfr.gftLoggfr(SNMP_LOGGER_NAME);
+
+    /**
+     * Loggfr nbmf for SNMP Adbptor.
+     */
+    publid stbtid finbl String SNMP_ADAPTOR_LOGGER_NAME =
+            "jbvbx.mbnbgfmfnt.snmp.dbfmon";
+
+    /**
+     * Loggfr for SNMP Adbptor.
+     */
+    publid stbtid finbl Loggfr SNMP_ADAPTOR_LOGGER =
+            Loggfr.gftLoggfr(SNMP_ADAPTOR_LOGGER_NAME);
+}

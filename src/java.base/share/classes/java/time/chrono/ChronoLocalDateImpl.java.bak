@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,391 +54,391 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.ERA;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.PROLEPTIC_MONTH;
-import static java.time.temporal.ChronoField.YEAR_OF_ERA;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ERA;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.PROLEPTIC_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR_OF_ERA;
 
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.tfmporbl.CironoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Objfdts;
 
 /**
- * A date expressed in terms of a standard year-month-day calendar system.
+ * A dbtf fxprfssfd in tfrms of b stbndbrd yfbr-monti-dby dblfndbr systfm.
  * <p>
- * This class is used by applications seeking to handle dates in non-ISO calendar systems.
- * For example, the Japanese, Minguo, Thai Buddhist and others.
+ * Tiis dlbss is usfd by bpplidbtions sffking to ibndlf dbtfs in non-ISO dblfndbr systfms.
+ * For fxbmplf, tif Jbpbnfsf, Minguo, Tibi Buddiist bnd otifrs.
  * <p>
- * {@code ChronoLocalDate} is built on the generic concepts of year, month and day.
- * The calendar system, represented by a {@link java.time.chrono.Chronology}, expresses the relationship between
- * the fields and this class allows the resulting date to be manipulated.
+ * {@dodf CironoLodblDbtf} is built on tif gfnfrid dondfpts of yfbr, monti bnd dby.
+ * Tif dblfndbr systfm, rfprfsfntfd by b {@link jbvb.timf.dirono.Cironology}, fxprfssfs tif rflbtionsiip bftwffn
+ * tif fiflds bnd tiis dlbss bllows tif rfsulting dbtf to bf mbnipulbtfd.
  * <p>
- * Note that not all calendar systems are suitable for use with this class.
- * For example, the Mayan calendar uses a system that bears no relation to years, months and days.
+ * Notf tibt not bll dblfndbr systfms brf suitbblf for usf witi tiis dlbss.
+ * For fxbmplf, tif Mbybn dblfndbr usfs b systfm tibt bfbrs no rflbtion to yfbrs, montis bnd dbys.
  * <p>
- * The API design encourages the use of {@code LocalDate} for the majority of the application.
- * This includes code to read and write from a persistent data store, such as a database,
- * and to send dates and times across a network. The {@code ChronoLocalDate} instance is then used
- * at the user interface level to deal with localized input/output.
+ * Tif API dfsign fndourbgfs tif usf of {@dodf LodblDbtf} for tif mbjority of tif bpplidbtion.
+ * Tiis indludfs dodf to rfbd bnd writf from b pfrsistfnt dbtb storf, sudi bs b dbtbbbsf,
+ * bnd to sfnd dbtfs bnd timfs bdross b nftwork. Tif {@dodf CironoLodblDbtf} instbndf is tifn usfd
+ * bt tif usfr intfrfbdf lfvfl to dfbl witi lodblizfd input/output.
  *
- * <P>Example: </p>
- * <pre>
- *        System.out.printf("Example()%n");
- *        // Enumerate the list of available calendars and print today for each
- *        Set&lt;Chronology&gt; chronos = Chronology.getAvailableChronologies();
- *        for (Chronology chrono : chronos) {
- *            ChronoLocalDate date = chrono.dateNow();
- *            System.out.printf("   %20s: %s%n", chrono.getID(), date.toString());
+ * <P>Exbmplf: </p>
+ * <prf>
+ *        Systfm.out.printf("Exbmplf()%n");
+ *        // Enumfrbtf tif list of bvbilbblf dblfndbrs bnd print todby for fbdi
+ *        Sft&lt;Cironology&gt; dironos = Cironology.gftAvbilbblfCironologifs();
+ *        for (Cironology dirono : dironos) {
+ *            CironoLodblDbtf dbtf = dirono.dbtfNow();
+ *            Systfm.out.printf("   %20s: %s%n", dirono.gftID(), dbtf.toString());
  *        }
  *
- *        // Print the Hijrah date and calendar
- *        ChronoLocalDate date = Chronology.of("Hijrah").dateNow();
- *        int day = date.get(ChronoField.DAY_OF_MONTH);
- *        int dow = date.get(ChronoField.DAY_OF_WEEK);
- *        int month = date.get(ChronoField.MONTH_OF_YEAR);
- *        int year = date.get(ChronoField.YEAR);
- *        System.out.printf("  Today is %s %s %d-%s-%d%n", date.getChronology().getID(),
- *                dow, day, month, year);
+ *        // Print tif Hijrbi dbtf bnd dblfndbr
+ *        CironoLodblDbtf dbtf = Cironology.of("Hijrbi").dbtfNow();
+ *        int dby = dbtf.gft(CironoFifld.DAY_OF_MONTH);
+ *        int dow = dbtf.gft(CironoFifld.DAY_OF_WEEK);
+ *        int monti = dbtf.gft(CironoFifld.MONTH_OF_YEAR);
+ *        int yfbr = dbtf.gft(CironoFifld.YEAR);
+ *        Systfm.out.printf("  Todby is %s %s %d-%s-%d%n", dbtf.gftCironology().gftID(),
+ *                dow, dby, monti, yfbr);
 
- *        // Print today's date and the last day of the year
- *        ChronoLocalDate now1 = Chronology.of("Hijrah").dateNow();
- *        ChronoLocalDate first = now1.with(ChronoField.DAY_OF_MONTH, 1)
- *                .with(ChronoField.MONTH_OF_YEAR, 1);
- *        ChronoLocalDate last = first.plus(1, ChronoUnit.YEARS)
- *                .minus(1, ChronoUnit.DAYS);
- *        System.out.printf("  Today is %s: start: %s; end: %s%n", last.getChronology().getID(),
- *                first, last);
- * </pre>
+ *        // Print todby's dbtf bnd tif lbst dby of tif yfbr
+ *        CironoLodblDbtf now1 = Cironology.of("Hijrbi").dbtfNow();
+ *        CironoLodblDbtf first = now1.witi(CironoFifld.DAY_OF_MONTH, 1)
+ *                .witi(CironoFifld.MONTH_OF_YEAR, 1);
+ *        CironoLodblDbtf lbst = first.plus(1, CironoUnit.YEARS)
+ *                .minus(1, CironoUnit.DAYS);
+ *        Systfm.out.printf("  Todby is %s: stbrt: %s; fnd: %s%n", lbst.gftCironology().gftID(),
+ *                first, lbst);
+ * </prf>
  *
- * <h3>Adding Calendars</h3>
- * <p> The set of calendars is extensible by defining a subclass of {@link ChronoLocalDate}
- * to represent a date instance and an implementation of {@code Chronology}
- * to be the factory for the ChronoLocalDate subclass.
+ * <i3>Adding Cblfndbrs</i3>
+ * <p> Tif sft of dblfndbrs is fxtfnsiblf by dffining b subdlbss of {@link CironoLodblDbtf}
+ * to rfprfsfnt b dbtf instbndf bnd bn implfmfntbtion of {@dodf Cironology}
+ * to bf tif fbdtory for tif CironoLodblDbtf subdlbss.
  * </p>
- * <p> To permit the discovery of the additional calendar types the implementation of
- * {@code Chronology} must be registered as a Service implementing the {@code Chronology} interface
- * in the {@code META-INF/Services} file as per the specification of {@link java.util.ServiceLoader}.
- * The subclass must function according to the {@code Chronology} class description and must provide its
- * {@link java.time.chrono.Chronology#getId() chronlogy ID} and {@link Chronology#getCalendarType() calendar type}. </p>
+ * <p> To pfrmit tif disdovfry of tif bdditionbl dblfndbr typfs tif implfmfntbtion of
+ * {@dodf Cironology} must bf rfgistfrfd bs b Sfrvidf implfmfnting tif {@dodf Cironology} intfrfbdf
+ * in tif {@dodf META-INF/Sfrvidfs} filf bs pfr tif spfdifidbtion of {@link jbvb.util.SfrvidfLobdfr}.
+ * Tif subdlbss must fundtion bddording to tif {@dodf Cironology} dlbss dfsdription bnd must providf its
+ * {@link jbvb.timf.dirono.Cironology#gftId() dironlogy ID} bnd {@link Cironology#gftCblfndbrTypf() dblfndbr typf}. </p>
  *
- * @implSpec
- * This abstract class must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * @implSpfd
+ * Tiis bbstrbdt dlbss must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * Subdlbssfs siould bf Sfriblizbblf wifrfvfr possiblf.
  *
- * @param <D> the ChronoLocalDate of this date-time
- * @since 1.8
+ * @pbrbm <D> tif CironoLodblDbtf of tiis dbtf-timf
+ * @sindf 1.8
  */
-abstract class ChronoLocalDateImpl<D extends ChronoLocalDate>
-        implements ChronoLocalDate, Temporal, TemporalAdjuster, Serializable {
+bbstrbdt dlbss CironoLodblDbtfImpl<D fxtfnds CironoLodblDbtf>
+        implfmfnts CironoLodblDbtf, Tfmporbl, TfmporblAdjustfr, Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = 6282433883239719096L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6282433883239719096L;
 
     /**
-     * Casts the {@code Temporal} to {@code ChronoLocalDate} ensuring it bas the specified chronology.
+     * Cbsts tif {@dodf Tfmporbl} to {@dodf CironoLodblDbtf} fnsuring it bbs tif spfdififd dironology.
      *
-     * @param chrono  the chronology to check for, not null
-     * @param temporal  a date-time to cast, not null
-     * @return the date-time checked and cast to {@code ChronoLocalDate}, not null
-     * @throws ClassCastException if the date-time cannot be cast to ChronoLocalDate
-     *  or the chronology is not equal this Chronology
+     * @pbrbm dirono  tif dironology to difdk for, not null
+     * @pbrbm tfmporbl  b dbtf-timf to dbst, not null
+     * @rfturn tif dbtf-timf difdkfd bnd dbst to {@dodf CironoLodblDbtf}, not null
+     * @tirows ClbssCbstExdfption if tif dbtf-timf dbnnot bf dbst to CironoLodblDbtf
+     *  or tif dironology is not fqubl tiis Cironology
      */
-    static <D extends ChronoLocalDate> D ensureValid(Chronology chrono, Temporal temporal) {
-        @SuppressWarnings("unchecked")
-        D other = (D) temporal;
-        if (chrono.equals(other.getChronology()) == false) {
-            throw new ClassCastException("Chronology mismatch, expected: " + chrono.getId() + ", actual: " + other.getChronology().getId());
+    stbtid <D fxtfnds CironoLodblDbtf> D fnsurfVblid(Cironology dirono, Tfmporbl tfmporbl) {
+        @SupprfssWbrnings("undifdkfd")
+        D otifr = (D) tfmporbl;
+        if (dirono.fqubls(otifr.gftCironology()) == fblsf) {
+            tirow nfw ClbssCbstExdfption("Cironology mismbtdi, fxpfdtfd: " + dirono.gftId() + ", bdtubl: " + otifr.gftCironology().gftId());
         }
-        return other;
+        rfturn otifr;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance.
+     * Crfbtfs bn instbndf.
      */
-    ChronoLocalDateImpl() {
+    CironoLodblDbtfImpl() {
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public D with(TemporalAdjuster adjuster) {
-        return (D) ChronoLocalDate.super.with(adjuster);
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid D witi(TfmporblAdjustfr bdjustfr) {
+        rfturn (D) CironoLodblDbtf.supfr.witi(bdjustfr);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public D with(TemporalField field, long value) {
-        return (D) ChronoLocalDate.super.with(field, value);
-    }
-
-    //-----------------------------------------------------------------------
-    @Override
-    @SuppressWarnings("unchecked")
-    public D plus(TemporalAmount amount) {
-        return (D) ChronoLocalDate.super.plus(amount);
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid D witi(TfmporblFifld fifld, long vbluf) {
+        rfturn (D) CironoLodblDbtf.supfr.witi(fifld, vbluf);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    @SuppressWarnings("unchecked")
-    public D plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            ChronoUnit f = (ChronoUnit) unit;
-            switch (f) {
-                case DAYS: return plusDays(amountToAdd);
-                case WEEKS: return plusDays(Math.multiplyExact(amountToAdd, 7));
-                case MONTHS: return plusMonths(amountToAdd);
-                case YEARS: return plusYears(amountToAdd);
-                case DECADES: return plusYears(Math.multiplyExact(amountToAdd, 10));
-                case CENTURIES: return plusYears(Math.multiplyExact(amountToAdd, 100));
-                case MILLENNIA: return plusYears(Math.multiplyExact(amountToAdd, 1000));
-                case ERAS: return with(ERA, Math.addExact(getLong(ERA), amountToAdd));
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid D plus(TfmporblAmount bmount) {
+        rfturn (D) CironoLodblDbtf.supfr.plus(bmount);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid D plus(long bmountToAdd, TfmporblUnit unit) {
+        if (unit instbndfof CironoUnit) {
+            CironoUnit f = (CironoUnit) unit;
+            switdi (f) {
+                dbsf DAYS: rfturn plusDbys(bmountToAdd);
+                dbsf WEEKS: rfturn plusDbys(Mbti.multiplyExbdt(bmountToAdd, 7));
+                dbsf MONTHS: rfturn plusMontis(bmountToAdd);
+                dbsf YEARS: rfturn plusYfbrs(bmountToAdd);
+                dbsf DECADES: rfturn plusYfbrs(Mbti.multiplyExbdt(bmountToAdd, 10));
+                dbsf CENTURIES: rfturn plusYfbrs(Mbti.multiplyExbdt(bmountToAdd, 100));
+                dbsf MILLENNIA: rfturn plusYfbrs(Mbti.multiplyExbdt(bmountToAdd, 1000));
+                dbsf ERAS: rfturn witi(ERA, Mbti.bddExbdt(gftLong(ERA), bmountToAdd));
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd unit: " + unit);
         }
-        return (D) ChronoLocalDate.super.plus(amountToAdd, unit);
+        rfturn (D) CironoLodblDbtf.supfr.plus(bmountToAdd, unit);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public D minus(TemporalAmount amount) {
-        return (D) ChronoLocalDate.super.minus(amount);
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid D minus(TfmporblAmount bmount) {
+        rfturn (D) CironoLodblDbtf.supfr.minus(bmount);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public D minus(long amountToSubtract, TemporalUnit unit) {
-        return (D) ChronoLocalDate.super.minus(amountToSubtract, unit);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Returns a copy of this date with the specified number of years added.
-     * <p>
-     * This adds the specified period in years to the date.
-     * In some cases, adding years can cause the resulting date to become invalid.
-     * If this occurs, then other fields, typically the day-of-month, will be adjusted to ensure
-     * that the result is valid. Typically this will select the last valid day of the month.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param yearsToAdd  the years to add, may be negative
-     * @return a date based on this one with the years added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    abstract D plusYears(long yearsToAdd);
-
-    /**
-     * Returns a copy of this date with the specified number of months added.
-     * <p>
-     * This adds the specified period in months to the date.
-     * In some cases, adding months can cause the resulting date to become invalid.
-     * If this occurs, then other fields, typically the day-of-month, will be adjusted to ensure
-     * that the result is valid. Typically this will select the last valid day of the month.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param monthsToAdd  the months to add, may be negative
-     * @return a date based on this one with the months added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    abstract D plusMonths(long monthsToAdd);
-
-    /**
-     * Returns a copy of this date with the specified number of weeks added.
-     * <p>
-     * This adds the specified period in weeks to the date.
-     * In some cases, adding weeks can cause the resulting date to become invalid.
-     * If this occurs, then other fields will be adjusted to ensure that the result is valid.
-     * <p>
-     * The default implementation uses {@link #plusDays(long)} using a 7 day week.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param weeksToAdd  the weeks to add, may be negative
-     * @return a date based on this one with the weeks added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    D plusWeeks(long weeksToAdd) {
-        return plusDays(Math.multiplyExact(weeksToAdd, 7));
-    }
-
-    /**
-     * Returns a copy of this date with the specified number of days added.
-     * <p>
-     * This adds the specified period in days to the date.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param daysToAdd  the days to add, may be negative
-     * @return a date based on this one with the days added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    abstract D plusDays(long daysToAdd);
-
-    //-----------------------------------------------------------------------
-    /**
-     * Returns a copy of this date with the specified number of years subtracted.
-     * <p>
-     * This subtracts the specified period in years to the date.
-     * In some cases, subtracting years can cause the resulting date to become invalid.
-     * If this occurs, then other fields, typically the day-of-month, will be adjusted to ensure
-     * that the result is valid. Typically this will select the last valid day of the month.
-     * <p>
-     * The default implementation uses {@link #plusYears(long)}.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param yearsToSubtract  the years to subtract, may be negative
-     * @return a date based on this one with the years subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    @SuppressWarnings("unchecked")
-    D minusYears(long yearsToSubtract) {
-        return (yearsToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusYears(Long.MAX_VALUE)).plusYears(1) : plusYears(-yearsToSubtract));
-    }
-
-    /**
-     * Returns a copy of this date with the specified number of months subtracted.
-     * <p>
-     * This subtracts the specified period in months to the date.
-     * In some cases, subtracting months can cause the resulting date to become invalid.
-     * If this occurs, then other fields, typically the day-of-month, will be adjusted to ensure
-     * that the result is valid. Typically this will select the last valid day of the month.
-     * <p>
-     * The default implementation uses {@link #plusMonths(long)}.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param monthsToSubtract  the months to subtract, may be negative
-     * @return a date based on this one with the months subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    @SuppressWarnings("unchecked")
-    D minusMonths(long monthsToSubtract) {
-        return (monthsToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusMonths(Long.MAX_VALUE)).plusMonths(1) : plusMonths(-monthsToSubtract));
-    }
-
-    /**
-     * Returns a copy of this date with the specified number of weeks subtracted.
-     * <p>
-     * This subtracts the specified period in weeks to the date.
-     * In some cases, subtracting weeks can cause the resulting date to become invalid.
-     * If this occurs, then other fields will be adjusted to ensure that the result is valid.
-     * <p>
-     * The default implementation uses {@link #plusWeeks(long)}.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param weeksToSubtract  the weeks to subtract, may be negative
-     * @return a date based on this one with the weeks subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    @SuppressWarnings("unchecked")
-    D minusWeeks(long weeksToSubtract) {
-        return (weeksToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusWeeks(Long.MAX_VALUE)).plusWeeks(1) : plusWeeks(-weeksToSubtract));
-    }
-
-    /**
-     * Returns a copy of this date with the specified number of days subtracted.
-     * <p>
-     * This subtracts the specified period in days to the date.
-     * <p>
-     * The default implementation uses {@link #plusDays(long)}.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param daysToSubtract  the days to subtract, may be negative
-     * @return a date based on this one with the days subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
-     */
-    @SuppressWarnings("unchecked")
-    D minusDays(long daysToSubtract) {
-        return (daysToSubtract == Long.MIN_VALUE ? ((ChronoLocalDateImpl<D>)plusDays(Long.MAX_VALUE)).plusDays(1) : plusDays(-daysToSubtract));
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid D minus(long bmountToSubtrbdt, TfmporblUnit unit) {
+        rfturn (D) CironoLodblDbtf.supfr.minus(bmountToSubtrbdt, unit);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        Objects.requireNonNull(endExclusive, "endExclusive");
-        ChronoLocalDate end = getChronology().date(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            switch ((ChronoUnit) unit) {
-                case DAYS: return daysUntil(end);
-                case WEEKS: return daysUntil(end) / 7;
-                case MONTHS: return monthsUntil(end);
-                case YEARS: return monthsUntil(end) / 12;
-                case DECADES: return monthsUntil(end) / 120;
-                case CENTURIES: return monthsUntil(end) / 1200;
-                case MILLENNIA: return monthsUntil(end) / 12000;
-                case ERAS: return end.getLong(ERA) - getLong(ERA);
+    /**
+     * Rfturns b dopy of tiis dbtf witi tif spfdififd numbfr of yfbrs bddfd.
+     * <p>
+     * Tiis bdds tif spfdififd pfriod in yfbrs to tif dbtf.
+     * In somf dbsfs, bdding yfbrs dbn dbusf tif rfsulting dbtf to bfdomf invblid.
+     * If tiis oddurs, tifn otifr fiflds, typidblly tif dby-of-monti, will bf bdjustfd to fnsurf
+     * tibt tif rfsult is vblid. Typidblly tiis will sflfdt tif lbst vblid dby of tif monti.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm yfbrsToAdd  tif yfbrs to bdd, mby bf nfgbtivf
+     * @rfturn b dbtf bbsfd on tiis onf witi tif yfbrs bddfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
+     */
+    bbstrbdt D plusYfbrs(long yfbrsToAdd);
+
+    /**
+     * Rfturns b dopy of tiis dbtf witi tif spfdififd numbfr of montis bddfd.
+     * <p>
+     * Tiis bdds tif spfdififd pfriod in montis to tif dbtf.
+     * In somf dbsfs, bdding montis dbn dbusf tif rfsulting dbtf to bfdomf invblid.
+     * If tiis oddurs, tifn otifr fiflds, typidblly tif dby-of-monti, will bf bdjustfd to fnsurf
+     * tibt tif rfsult is vblid. Typidblly tiis will sflfdt tif lbst vblid dby of tif monti.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm montisToAdd  tif montis to bdd, mby bf nfgbtivf
+     * @rfturn b dbtf bbsfd on tiis onf witi tif montis bddfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
+     */
+    bbstrbdt D plusMontis(long montisToAdd);
+
+    /**
+     * Rfturns b dopy of tiis dbtf witi tif spfdififd numbfr of wffks bddfd.
+     * <p>
+     * Tiis bdds tif spfdififd pfriod in wffks to tif dbtf.
+     * In somf dbsfs, bdding wffks dbn dbusf tif rfsulting dbtf to bfdomf invblid.
+     * If tiis oddurs, tifn otifr fiflds will bf bdjustfd to fnsurf tibt tif rfsult is vblid.
+     * <p>
+     * Tif dffbult implfmfntbtion usfs {@link #plusDbys(long)} using b 7 dby wffk.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm wffksToAdd  tif wffks to bdd, mby bf nfgbtivf
+     * @rfturn b dbtf bbsfd on tiis onf witi tif wffks bddfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
+     */
+    D plusWffks(long wffksToAdd) {
+        rfturn plusDbys(Mbti.multiplyExbdt(wffksToAdd, 7));
+    }
+
+    /**
+     * Rfturns b dopy of tiis dbtf witi tif spfdififd numbfr of dbys bddfd.
+     * <p>
+     * Tiis bdds tif spfdififd pfriod in dbys to tif dbtf.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm dbysToAdd  tif dbys to bdd, mby bf nfgbtivf
+     * @rfturn b dbtf bbsfd on tiis onf witi tif dbys bddfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
+     */
+    bbstrbdt D plusDbys(long dbysToAdd);
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dopy of tiis dbtf witi tif spfdififd numbfr of yfbrs subtrbdtfd.
+     * <p>
+     * Tiis subtrbdts tif spfdififd pfriod in yfbrs to tif dbtf.
+     * In somf dbsfs, subtrbdting yfbrs dbn dbusf tif rfsulting dbtf to bfdomf invblid.
+     * If tiis oddurs, tifn otifr fiflds, typidblly tif dby-of-monti, will bf bdjustfd to fnsurf
+     * tibt tif rfsult is vblid. Typidblly tiis will sflfdt tif lbst vblid dby of tif monti.
+     * <p>
+     * Tif dffbult implfmfntbtion usfs {@link #plusYfbrs(long)}.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm yfbrsToSubtrbdt  tif yfbrs to subtrbdt, mby bf nfgbtivf
+     * @rfturn b dbtf bbsfd on tiis onf witi tif yfbrs subtrbdtfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
+     */
+    @SupprfssWbrnings("undifdkfd")
+    D minusYfbrs(long yfbrsToSubtrbdt) {
+        rfturn (yfbrsToSubtrbdt == Long.MIN_VALUE ? ((CironoLodblDbtfImpl<D>)plusYfbrs(Long.MAX_VALUE)).plusYfbrs(1) : plusYfbrs(-yfbrsToSubtrbdt));
+    }
+
+    /**
+     * Rfturns b dopy of tiis dbtf witi tif spfdififd numbfr of montis subtrbdtfd.
+     * <p>
+     * Tiis subtrbdts tif spfdififd pfriod in montis to tif dbtf.
+     * In somf dbsfs, subtrbdting montis dbn dbusf tif rfsulting dbtf to bfdomf invblid.
+     * If tiis oddurs, tifn otifr fiflds, typidblly tif dby-of-monti, will bf bdjustfd to fnsurf
+     * tibt tif rfsult is vblid. Typidblly tiis will sflfdt tif lbst vblid dby of tif monti.
+     * <p>
+     * Tif dffbult implfmfntbtion usfs {@link #plusMontis(long)}.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm montisToSubtrbdt  tif montis to subtrbdt, mby bf nfgbtivf
+     * @rfturn b dbtf bbsfd on tiis onf witi tif montis subtrbdtfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
+     */
+    @SupprfssWbrnings("undifdkfd")
+    D minusMontis(long montisToSubtrbdt) {
+        rfturn (montisToSubtrbdt == Long.MIN_VALUE ? ((CironoLodblDbtfImpl<D>)plusMontis(Long.MAX_VALUE)).plusMontis(1) : plusMontis(-montisToSubtrbdt));
+    }
+
+    /**
+     * Rfturns b dopy of tiis dbtf witi tif spfdififd numbfr of wffks subtrbdtfd.
+     * <p>
+     * Tiis subtrbdts tif spfdififd pfriod in wffks to tif dbtf.
+     * In somf dbsfs, subtrbdting wffks dbn dbusf tif rfsulting dbtf to bfdomf invblid.
+     * If tiis oddurs, tifn otifr fiflds will bf bdjustfd to fnsurf tibt tif rfsult is vblid.
+     * <p>
+     * Tif dffbult implfmfntbtion usfs {@link #plusWffks(long)}.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm wffksToSubtrbdt  tif wffks to subtrbdt, mby bf nfgbtivf
+     * @rfturn b dbtf bbsfd on tiis onf witi tif wffks subtrbdtfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
+     */
+    @SupprfssWbrnings("undifdkfd")
+    D minusWffks(long wffksToSubtrbdt) {
+        rfturn (wffksToSubtrbdt == Long.MIN_VALUE ? ((CironoLodblDbtfImpl<D>)plusWffks(Long.MAX_VALUE)).plusWffks(1) : plusWffks(-wffksToSubtrbdt));
+    }
+
+    /**
+     * Rfturns b dopy of tiis dbtf witi tif spfdififd numbfr of dbys subtrbdtfd.
+     * <p>
+     * Tiis subtrbdts tif spfdififd pfriod in dbys to tif dbtf.
+     * <p>
+     * Tif dffbult implfmfntbtion usfs {@link #plusDbys(long)}.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm dbysToSubtrbdt  tif dbys to subtrbdt, mby bf nfgbtivf
+     * @rfturn b dbtf bbsfd on tiis onf witi tif dbys subtrbdtfd, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
+     */
+    @SupprfssWbrnings("undifdkfd")
+    D minusDbys(long dbysToSubtrbdt) {
+        rfturn (dbysToSubtrbdt == Long.MIN_VALUE ? ((CironoLodblDbtfImpl<D>)plusDbys(Long.MAX_VALUE)).plusDbys(1) : plusDbys(-dbysToSubtrbdt));
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid long until(Tfmporbl fndExdlusivf, TfmporblUnit unit) {
+        Objfdts.rfquirfNonNull(fndExdlusivf, "fndExdlusivf");
+        CironoLodblDbtf fnd = gftCironology().dbtf(fndExdlusivf);
+        if (unit instbndfof CironoUnit) {
+            switdi ((CironoUnit) unit) {
+                dbsf DAYS: rfturn dbysUntil(fnd);
+                dbsf WEEKS: rfturn dbysUntil(fnd) / 7;
+                dbsf MONTHS: rfturn montisUntil(fnd);
+                dbsf YEARS: rfturn montisUntil(fnd) / 12;
+                dbsf DECADES: rfturn montisUntil(fnd) / 120;
+                dbsf CENTURIES: rfturn montisUntil(fnd) / 1200;
+                dbsf MILLENNIA: rfturn montisUntil(fnd) / 12000;
+                dbsf ERAS: rfturn fnd.gftLong(ERA) - gftLong(ERA);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd unit: " + unit);
         }
-        Objects.requireNonNull(unit, "unit");
-        return unit.between(this, end);
+        Objfdts.rfquirfNonNull(unit, "unit");
+        rfturn unit.bftwffn(tiis, fnd);
     }
 
-    private long daysUntil(ChronoLocalDate end) {
-        return end.toEpochDay() - toEpochDay();  // no overflow
+    privbtf long dbysUntil(CironoLodblDbtf fnd) {
+        rfturn fnd.toEpodiDby() - toEpodiDby();  // no ovfrflow
     }
 
-    private long monthsUntil(ChronoLocalDate end) {
-        ValueRange range = getChronology().range(MONTH_OF_YEAR);
-        if (range.getMaximum() != 12) {
-            throw new IllegalStateException("ChronoLocalDateImpl only supports Chronologies with 12 months per year");
+    privbtf long montisUntil(CironoLodblDbtf fnd) {
+        VblufRbngf rbngf = gftCironology().rbngf(MONTH_OF_YEAR);
+        if (rbngf.gftMbximum() != 12) {
+            tirow nfw IllfgblStbtfExdfption("CironoLodblDbtfImpl only supports Cironologifs witi 12 montis pfr yfbr");
         }
-        long packed1 = getLong(PROLEPTIC_MONTH) * 32L + get(DAY_OF_MONTH);  // no overflow
-        long packed2 = end.getLong(PROLEPTIC_MONTH) * 32L + end.get(DAY_OF_MONTH);  // no overflow
-        return (packed2 - packed1) / 32;
+        long pbdkfd1 = gftLong(PROLEPTIC_MONTH) * 32L + gft(DAY_OF_MONTH);  // no ovfrflow
+        long pbdkfd2 = fnd.gftLong(PROLEPTIC_MONTH) * 32L + fnd.gft(DAY_OF_MONTH);  // no ovfrflow
+        rfturn (pbdkfd2 - pbdkfd1) / 32;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof ChronoLocalDate) {
-            return compareTo((ChronoLocalDate) obj) == 0;
+        if (obj instbndfof CironoLodblDbtf) {
+            rfturn dompbrfTo((CironoLodblDbtf) obj) == 0;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        long epDay = toEpochDay();
-        return getChronology().hashCode() ^ ((int) (epDay ^ (epDay >>> 32)));
+    @Ovfrridf
+    publid int ibsiCodf() {
+        long fpDby = toEpodiDby();
+        rfturn gftCironology().ibsiCodf() ^ ((int) (fpDby ^ (fpDby >>> 32)));
     }
 
-    @Override
-    public String toString() {
-        // getLong() reduces chances of exceptions in toString()
-        long yoe = getLong(YEAR_OF_ERA);
-        long moy = getLong(MONTH_OF_YEAR);
-        long dom = getLong(DAY_OF_MONTH);
-        StringBuilder buf = new StringBuilder(30);
-        buf.append(getChronology().toString())
-                .append(" ")
-                .append(getEra())
-                .append(" ")
-                .append(yoe)
-                .append(moy < 10 ? "-0" : "-").append(moy)
-                .append(dom < 10 ? "-0" : "-").append(dom);
-        return buf.toString();
+    @Ovfrridf
+    publid String toString() {
+        // gftLong() rfdudfs dibndfs of fxdfptions in toString()
+        long yof = gftLong(YEAR_OF_ERA);
+        long moy = gftLong(MONTH_OF_YEAR);
+        long dom = gftLong(DAY_OF_MONTH);
+        StringBuildfr buf = nfw StringBuildfr(30);
+        buf.bppfnd(gftCironology().toString())
+                .bppfnd(" ")
+                .bppfnd(gftErb())
+                .bppfnd(" ")
+                .bppfnd(yof)
+                .bppfnd(moy < 10 ? "-0" : "-").bppfnd(moy)
+                .bppfnd(dom < 10 ? "-0" : "-").bppfnd(dom);
+        rfturn buf.toString();
     }
 
 }

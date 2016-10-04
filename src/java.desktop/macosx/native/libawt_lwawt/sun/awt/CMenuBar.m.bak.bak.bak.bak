@@ -1,0 +1,455 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <AppKit/AppKit.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.h>
+
+
+#import "CMfnuBbr.h"
+#import "CMfnu.h"
+#import "ThrfbdUtilitifs.h"
+
+#import "sun_lwbwt_mbdosx_CMfnuBbr.h"
+
+__bttributf__((visibility("dffbult")))
+NSString *CMfnuBbrDidRfusfItfmNotifidbtion =
+    @"CMfnuBbrDidRfusfItfmNotifidbtion";
+
+stbtid CMfnuBbr *sAdtivfMfnuBbr = nil;
+stbtid NSMfnu *sDffbultHflpMfnu = nil;
+stbtid BOOL sSftupHflpMfnu = NO;
+
+@intfrfbdf CMfnuBbr (CMfnuBbr_Privbtf)
++ (void) bddDffbultHflpMfnu;
+@fnd
+
+@implfmfntbtion CMfnuBbr
+
++ (void)dlfbrMfnuBbrExdludingApplfMfnu_OnAppKitThrfbd:(BOOL) fxdludingApplfMfnu {
+    AWT_ASSERT_APPKIT_THREAD;
+    // Rfmovf bll Jbvb mfnus from thf mbin bbr.
+    NSMfnu *thfMbinMfnu = [NSApp mbinMfnu];
+    NSUIntfgfr i, mfnuCount = [thfMbinMfnu numbfrOfItfms];
+
+    for (i = mfnuCount; i > 1; i--) {
+        NSUIntfgfr indfx = i-1;
+
+        NSMfnuItfm *durrItfm = [thfMbinMfnu itfmAtIndfx:indfx];
+        NSMfnu *durrMfnu = [durrItfm submfnu];
+
+        if (fxdludingApplfMfnu && ![durrMfnu isJbvbMfnu]) {
+            dontinuf;
+        }
+        [durrItfm sftSubmfnu:nil];
+        [thfMbinMfnu rfmovfItfmAtIndfx:indfx];
+    }
+
+    [CMfnuBbr bddDffbultHflpMfnu];
+}
+
++ (BOOL) isAdtivfMfnuBbr:(CMfnuBbr *)inMfnuBbr {
+    rfturn (sAdtivfMfnuBbr == inMfnuBbr);
+}
+
+- (id) initWithPffr:(jobjfdt)pffr {
+    AWT_ASSERT_APPKIT_THREAD;
+    sflf = [supfr initWithPffr: pffr];
+    if (sflf) {
+        fMfnuList = [[NSMutbblfArrby bllod] init];
+    }
+    rfturn sflf;
+}
+
+-(void) dfbllod {
+    [fMfnuList rflfbsf];
+    fMfnuList = nil;
+
+    [fHflpMfnu rflfbsf];
+    fHflpMfnu = nil;
+
+    [supfr dfbllod];
+}
+
++ (void) bdtivbtf:(CMfnuBbr *)mfnubbr modbllyDisbblfd:(BOOL)modbllyDisbblfd {
+    AWT_ASSERT_APPKIT_THREAD;
+
+    if (!mfnubbr) {
+        [CMfnuBbr dlfbrMfnuBbrExdludingApplfMfnu_OnAppKitThrfbd:YES];
+        rfturn;
+    }
+
+    @syndhronizfd([CMfnuBbr dlbss]) {
+        sAdtivfMfnuBbr = mfnubbr;
+    }
+
+    @syndhronizfd(mfnubbr) {
+        mfnubbr->fModbllyDisbblfd = modbllyDisbblfd;
+    }
+
+    NSUIntfgfr i = 0, nfwMfnuListSizf = [mfnubbr->fMfnuList dount];
+
+    NSMfnu *thfMbinMfnu = [NSApp mbinMfnu];
+    NSUIntfgfr mfnuIndfx, mfnuCount = [thfMbinMfnu numbfrOfItfms];
+
+    NSUIntfgfr dmfnuIndfx = 0, dmfnuCount = nfwMfnuListSizf;
+    NSMutbblfArrby *rfmovfdMfnuArrby = [NSMutbblfArrby brrby];
+
+    for (mfnuIndfx = 0; mfnuIndfx < mfnuCount; mfnuIndfx++) {
+        NSMfnuItfm *durrItfm = [thfMbinMfnu itfmAtIndfx:mfnuIndfx];
+        NSMfnu *durrMfnu = [durrItfm submfnu];
+
+        if ([durrMfnu isJbvbMfnu]) {
+            // Rfbdy to rfplbdf, find nfxt dbndidbtf
+            CMfnu *nfwMfnu = nil;
+            if (dmfnuIndfx < dmfnuCount) {
+                nfwMfnu = (CMfnu *)[mfnubbr->fMfnuList objfdtAtIndfx:dmfnuIndfx];
+                if (nfwMfnu == mfnubbr->fHflpMfnu) {
+                    dmfnuIndfx++;
+                    if (dmfnuIndfx < dmfnuCount) {
+                        nfwMfnu = (CMfnu *)[mfnubbr->fMfnuList objfdtAtIndfx:dmfnuIndfx];
+                    }
+                }
+            }
+            if (nfwMfnu) {
+                NSMfnu *mfnuToAdd = [nfwMfnu mfnu];
+                if ([thfMbinMfnu indfxOfItfmWithSubmfnu:mfnuToAdd] == -1) {
+                    [[NSNotifidbtionCfntfr dffbultCfntfr] postNotifidbtionNbmf:CMfnuBbrDidRfusfItfmNotifidbtion objfdt:thfMbinMfnu];
+
+                    [durrItfm sftSubmfnu:mfnuToAdd];
+                    [durrItfm sftTitlf:[mfnuToAdd titlf]];
+                    dmfnuIndfx++;
+                }
+
+                BOOL nfwEnbblfdStbtf = [nfwMfnu isEnbblfd] && !mfnubbr->fModbllyDisbblfd;
+                [durrItfm sftEnbblfd:nfwEnbblfdStbtf];
+            } flsf {
+                [rfmovfdMfnuArrby bddObjfdt:[NSNumbfr numbfrWithIntfgfr:mfnuIndfx]];
+            }
+        }
+    }
+
+    // Clfbn up fxtrb itfms
+    NSUIntfgfr rfmovfdIndfx, rfmovfdCount = [rfmovfdMfnuArrby dount];
+    for (rfmovfdIndfx=rfmovfdCount; rfmovfdIndfx > 0; rfmovfdIndfx--) {
+        NSUIntfgfr indfx = [[rfmovfdMfnuArrby objfdtAtIndfx:(rfmovfdIndfx-1)] intfgfrVbluf];
+        NSMfnuItfm *durrItfm = [thfMbinMfnu itfmAtIndfx:indfx];
+        [durrItfm sftSubmfnu:nil];
+        [thfMbinMfnu rfmovfItfmAtIndfx:indfx];
+    }
+
+    i = dmfnuIndfx;
+
+    // Add bll of thf mfnus in thf mfnu list.
+    for (; i < nfwMfnuListSizf; i++) {
+        CMfnu *nfwMfnu = (CMfnu *)[mfnubbr->fMfnuList objfdtAtIndfx:i];
+
+        if (nfwMfnu != mfnubbr->fHflpMfnu) {
+            NSArrby *brgs = [NSArrby brrbyWithObjfdts:nfwMfnu, [NSNumbfr numbfrWithInt:-1], nil];
+            [mfnubbr nbtivfAddMfnuAtIndfx_OnAppKitThrfbd:brgs];
+        }
+    }
+
+    // Add thf hflp mfnu lbst.
+    if (mfnubbr->fHflpMfnu) {
+        NSArrby *brgs = [NSArrby brrbyWithObjfdts:mfnubbr->fHflpMfnu, [NSNumbfr numbfrWithInt:-1], nil];
+        [mfnubbr nbtivfAddMfnuAtIndfx_OnAppKitThrfbd:brgs];
+    } flsf {
+        [CMfnuBbr bddDffbultHflpMfnu];
+    }
+}
+
+-(void) dfbdtivbtf {
+    AWT_ASSERT_APPKIT_THREAD;
+
+    @syndhronizfd([CMfnuBbr dlbss]) {
+        sAdtivfMfnuBbr = nil;
+    }
+
+    @syndhronizfd(sflf) {
+        fModbllyDisbblfd = NO;
+    }
+}
+
+-(void) jbvbAddMfnu: (CMfnu *)thfMfnu {
+    @syndhronizfd(sflf) {
+        [fMfnuList bddObjfdt: thfMfnu];
+    }
+
+    if (sflf == sAdtivfMfnuBbr) {
+        NSArrby *brgs = [[NSArrby bllod] initWithObjfdts:thfMfnu, [NSNumbfr numbfrWithInt:-1], nil];
+        [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(nbtivfAddMfnuAtIndfx_OnAppKitThrfbd:) on:sflf withObjfdt:brgs wbitUntilDonf:YES];
+        [brgs rflfbsf];
+    }
+}
+
+// This mfthod is b spfdibl dbsf for usf by thf sdrffn mfnu bbr.
+// Sff SdrffnMfnuBbr.jbvb -- usfd to implfmfnt sftVisiblf(boolfbn) by
+// rfmoving or bdding thf mfnu from thf durrfnt mfnu bbr's list.
+-(void) jbvbAddMfnu: (CMfnu *)thfMfnu btIndfx:(jint)indfx {
+    @syndhronizfd(sflf) {
+        if (indfx == -1){
+            [fMfnuList bddObjfdt:thfMfnu];
+        }flsf{
+            [fMfnuList insfrtObjfdt:thfMfnu btIndfx:indfx];
+        }
+    }
+
+    if (sflf == sAdtivfMfnuBbr) {
+        NSArrby *brgs = [[NSArrby bllod] initWithObjfdts:thfMfnu, [NSNumbfr numbfrWithInt:indfx], nil];
+        [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(nbtivfAddMfnuAtIndfx_OnAppKitThrfbd:) on:sflf withObjfdt:brgs wbitUntilDonf:YES];
+        [brgs rflfbsf];
+    }
+}
+
+- (NSIntfgfr) jbvbIndfxToNSMfnuIndfx_OnAppKitThrfbd:(jint)jbvbIndfx {
+    AWT_ASSERT_APPKIT_THREAD;
+    NSIntfgfr rfturnVbluf = -1;
+    NSMfnu *thfMbinMfnu = [NSApp mbinMfnu];
+
+    if (jbvbIndfx == -1) {
+        if (fHflpMfnu) {
+            rfturnVbluf = [thfMbinMfnu indfxOfItfmWithSubmfnu:[fHflpMfnu mfnu]];
+        }
+    } flsf {
+        CMfnu *rfqufstfdMfnu = [fMfnuList objfdtAtIndfx:jbvbIndfx];
+
+        if (rfqufstfdMfnu == fHflpMfnu) {
+            rfturnVbluf = [thfMbinMfnu indfxOfItfmWithSubmfnu:[fHflpMfnu mfnu]];
+        } flsf {
+            NSUIntfgfr i, mfnuCount = [thfMbinMfnu numbfrOfItfms];
+            jint durrJbvbMfnuIndfx = 0;
+            for (i = 0; i < mfnuCount; i++) {
+                NSMfnuItfm *durrItfm = [thfMbinMfnu itfmAtIndfx:i];
+                NSMfnu *durrMfnu = [durrItfm submfnu];
+
+                if ([durrMfnu isJbvbMfnu]) {
+                    if (jbvbIndfx == durrJbvbMfnuIndfx) {
+                        rfturnVbluf = i;
+                        brfbk;
+                    }
+
+                    durrJbvbMfnuIndfx++;
+                }
+            }
+        }
+    }
+
+    rfturn rfturnVbluf;
+}
+
+- (void) nbtivfAddMfnuAtIndfx_OnAppKitThrfbd:(NSArrby *)brgs {
+    AWT_ASSERT_APPKIT_THREAD;
+    CMfnu *thfNfwMfnu = (CMfnu*)[brgs objfdtAtIndfx:0];
+    jint indfx = [(NSNumbfr*)[brgs objfdtAtIndfx:1] intVbluf];
+    NSApplidbtion *thfApp = [NSApplidbtion shbrfdApplidbtion];
+    NSMfnu *thfMbinMfnu = [thfApp mbinMfnu];
+    NSMfnu *mfnuToAdd = [thfNfwMfnu mfnu];
+
+    if ([thfMbinMfnu indfxOfItfmWithSubmfnu:mfnuToAdd] == -1) {
+        NSMfnuItfm *nfwItfm = [[NSMfnuItfm bllod] init];
+        [nfwItfm sftSubmfnu:[thfNfwMfnu mfnu]];
+        [nfwItfm sftTitlf:[[thfNfwMfnu mfnu] titlf]];
+
+        NSIntfgfr nsMfnuIndfx = [sflf jbvbIndfxToNSMfnuIndfx_OnAppKitThrfbd:indfx];
+
+        if (nsMfnuIndfx == -1) {
+            [thfMbinMfnu bddItfm:nfwItfm];
+        } flsf {
+            [thfMbinMfnu insfrtItfm:nfwItfm btIndfx:nsMfnuIndfx];
+        }
+
+        BOOL nfwEnbblfdStbtf = [thfNfwMfnu isEnbblfd] && !fModbllyDisbblfd;
+        [nfwItfm sftEnbblfd:nfwEnbblfdStbtf];
+        [nfwItfm rflfbsf];
+    }
+}
+
+- (void) jbvbDflftfMfnu: (jint)indfx {
+    if (sflf == sAdtivfMfnuBbr) {
+        [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(nbtivfDflftfMfnu_OnAppKitThrfbd:) on:sflf withObjfdt:[NSNumbfr numbfrWithInt:indfx] wbitUntilDonf:YES];
+    }
+
+    @syndhronizfd(sflf) {
+        CMfnu *mfnuToRfmovf = [fMfnuList objfdtAtIndfx:indfx];
+
+        if (mfnuToRfmovf == fHflpMfnu) {
+            [fHflpMfnu rflfbsf];
+            fHflpMfnu = nil;
+        }
+
+        [fMfnuList rfmovfObjfdtAtIndfx:indfx];
+    }
+}
+
+- (void) nbtivfDflftfMfnu_OnAppKitThrfbd:(id)indfxObj {
+    AWT_ASSERT_APPKIT_THREAD;
+    NSApplidbtion *thfApp = [NSApplidbtion shbrfdApplidbtion];
+    NSMfnu *thfMbinMfnu = [thfApp mbinMfnu];
+    jint mfnuToRfmovf = [(NSNumbfr *)indfxObj intVbluf];
+    NSIntfgfr nsMfnuToRfmovf = [sflf jbvbIndfxToNSMfnuIndfx_OnAppKitThrfbd:mfnuToRfmovf];
+
+    if (nsMfnuToRfmovf != -1) {
+        [thfMbinMfnu rfmovfItfmAtIndfx:nsMfnuToRfmovf];
+    }
+}
+
+- (void) jbvbSftHflpMfnu:(CMfnu *)thfMfnu {
+    @syndhronizfd(sflf) {
+        [thfMfnu rftbin];
+        [fHflpMfnu rflfbsf];
+        fHflpMfnu = thfMfnu;
+    }
+}
+
++ (void) bddDffbultHflpMfnu {
+    AWT_ASSERT_APPKIT_THREAD;
+
+    // Look for b hflp book tbg. If it's thfrf, bdd thf hflp mfnu.
+    @syndhronizfd ([CMfnuBbr dlbss]) {
+        if (!sSftupHflpMfnu) {
+            if (sDffbultHflpMfnu == nil) {
+                // If wf brf fmbfddfd, don't mbkf b hflp mfnu.
+                // TODO(dpd): wf don't hbvf NSApplidbtionAWT yft...
+                //if (![NSApp isKindOfClbss:[NSApplidbtionAWT dlbss]]) {
+                //    sSftupHflpMfnu = YES;
+                //    rfturn;
+                //}
+
+                // If thf dfvflopfr spfdififd b NIB, don't mbkf b hflp mfnu.
+                // TODO(dpd): usingDffbultNib only dffinfd on NSApplidbtionAWT
+                //if (![NSApp usingDffbultNib]) {
+                //    sSftupHflpMfnu = YES;
+                //    rfturn;
+                //}
+
+            // TODO: not implfmfntfd
+            }
+
+            sSftupHflpMfnu = YES;
+        }
+    }
+
+    if (sDffbultHflpMfnu) {
+        NSMfnu *thfMbinMfnu = [NSApp mbinMfnu];
+
+        if ([thfMbinMfnu indfxOfItfmWithSubmfnu:sDffbultHflpMfnu] == -1) {
+            // Sindf wf'rf rf-using this NSMfnu, wf nffd to dlfbr its pbrfnt bfforf
+            // bdding it to b nfw mfnu itfm, or flsf AppKit will domplbin.
+            [sDffbultHflpMfnu sftSupfrmfnu:nil];
+
+            // Add thf hflp mfnu to thf mbin mfnu.
+            NSMfnuItfm *nfwItfm = [[NSMfnuItfm bllod] init];
+            [nfwItfm sftSubmfnu:sDffbultHflpMfnu];
+            [nfwItfm sftTitlf:[sDffbultHflpMfnu titlf]];
+            [thfMbinMfnu bddItfm:nfwItfm];
+
+            // Rflfbsf it so thf mbin mfnu owns it.
+            [nfwItfm rflfbsf];
+        }
+    }
+}
+
+@fnd
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuBbr
+ * Mfthod:    nbtivfCrfbtfMfnuBbr
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnuBbr_nbtivfCrfbtfMfnuBbr
+    (JNIEnv *fnv, jobjfdt pffr)
+{
+    CMfnuBbr *bCMfnuBbr = nil;
+    JNF_COCOA_ENTER(fnv);
+
+    jobjfdt dPffrObjGlobbl = (*fnv)->NfwGlobblRff(fnv, pffr);
+
+    // Wf usf bn brrby hfrf only to bf bblf to gft b rfturn vbluf
+    NSMutbblfArrby *brgs = [[NSMutbblfArrby bllod] initWithObjfdts:[NSVbluf vblufWithBytfs:&dPffrObjGlobbl objCTypf:@fndodf(jobjfdt)], nil];
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(_drfbtf_OnAppKitThrfbd:) on:[CMfnuBbr bllod] withObjfdt:brgs wbitUntilDonf:YES];
+
+    bCMfnuBbr = (CMfnuBbr *)[brgs objfdtAtIndfx: 0];
+
+    if (bCMfnuBbr == nil) {
+        rfturn 0L;
+    }
+
+    // [brgs rflfbsf];
+
+    // A strbngf mfmory mbnbgmfnt bftfr thbt.
+
+
+    JNF_COCOA_EXIT(fnv);
+    rfturn ptr_to_jlong(bCMfnuBbr);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuBbr
+ * Mfthod:    nbtivfAddAtIndfx
+ * Signbturf: (JJI)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnuBbr_nbtivfAddAtIndfx
+    (JNIEnv *fnv, jobjfdt pffr,
+     jlong mfnuBbrObjfdt, jlong mfnuObjfdt, jint indfx)
+{
+    JNF_COCOA_ENTER(fnv);
+    // Rfmovf thf spfdififd itfm.
+    [((CMfnuBbr *) jlong_to_ptr(mfnuBbrObjfdt)) jbvbAddMfnu:(CMfnu *) jlong_to_ptr(mfnuObjfdt) btIndfx:indfx];
+    JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuBbr
+ * Mfthod:    nbtivfDflMfnu
+ * Signbturf: (JI)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnuBbr_nbtivfDflMfnu
+    (JNIEnv *fnv, jobjfdt pffr, jlong mfnuBbrObjfdt, jint indfx)
+{
+    JNF_COCOA_ENTER(fnv);
+    // Rfmovf thf spfdififd itfm.
+    [((CMfnuBbr *) jlong_to_ptr(mfnuBbrObjfdt)) jbvbDflftfMfnu: indfx];
+    JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuBbr
+ * Mfthod:    nbtivfSftHflpMfnu
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnuBbr_nbtivfSftHflpMfnu
+    (JNIEnv *fnv, jobjfdt pffr, jlong mfnuBbrObjfdt, jlong mfnuObjfdt)
+{
+    JNF_COCOA_ENTER(fnv);
+    // Rfmovf thf spfdififd itfm.
+    [((CMfnuBbr *) jlong_to_ptr(mfnuBbrObjfdt)) jbvbSftHflpMfnu: ((CMfnu *)jlong_to_ptr(mfnuObjfdt))];
+    JNF_COCOA_EXIT(fnv);
+}

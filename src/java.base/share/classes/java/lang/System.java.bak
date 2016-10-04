@@ -1,1273 +1,1273 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.*;
-import java.lang.reflect.Executable;
-import java.lang.annotation.Annotation;
-import java.security.AccessControlContext;
-import java.util.Properties;
-import java.util.PropertyPermission;
-import java.util.StringTokenizer;
-import java.util.Map;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.AllPermission;
-import java.nio.channels.Channel;
-import java.nio.channels.spi.SelectorProvider;
-import sun.nio.ch.Interruptible;
-import sun.reflect.CallerSensitive;
-import sun.reflect.Reflection;
-import sun.security.util.SecurityConstants;
-import sun.reflect.annotation.AnnotationType;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.Exfdutbblf;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.util.Propfrtifs;
+import jbvb.util.PropfrtyPfrmission;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AllPfrmission;
+import jbvb.nio.dibnnfls.Cibnnfl;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import sun.nio.di.Intfrruptiblf;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.rfflfdt.bnnotbtion.AnnotbtionTypf;
 
 /**
- * The <code>System</code> class contains several useful class fields
- * and methods. It cannot be instantiated.
+ * Tif <dodf>Systfm</dodf> dlbss dontbins sfvfrbl usfful dlbss fiflds
+ * bnd mftiods. It dbnnot bf instbntibtfd.
  *
- * <p>Among the facilities provided by the <code>System</code> class
- * are standard input, standard output, and error output streams;
- * access to externally defined properties and environment
- * variables; a means of loading files and libraries; and a utility
- * method for quickly copying a portion of an array.
+ * <p>Among tif fbdilitifs providfd by tif <dodf>Systfm</dodf> dlbss
+ * brf stbndbrd input, stbndbrd output, bnd frror output strfbms;
+ * bddfss to fxtfrnblly dffinfd propfrtifs bnd fnvironmfnt
+ * vbribblfs; b mfbns of lobding filfs bnd librbrifs; bnd b utility
+ * mftiod for quidkly dopying b portion of bn brrby.
  *
- * @author  unascribed
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sindf   1.0
  */
-public final class System {
+publid finbl dlbss Systfm {
 
-    /* register the natives via the static initializer.
+    /* rfgistfr tif nbtivfs vib tif stbtid initiblizfr.
      *
-     * VM will invoke the initializeSystemClass method to complete
-     * the initialization for this class separated from clinit.
-     * Note that to use properties set by the VM, see the constraints
-     * described in the initializeSystemClass method.
+     * VM will invokf tif initiblizfSystfmClbss mftiod to domplftf
+     * tif initiblizbtion for tiis dlbss sfpbrbtfd from dlinit.
+     * Notf tibt to usf propfrtifs sft by tif VM, sff tif donstrbints
+     * dfsdribfd in tif initiblizfSystfmClbss mftiod.
      */
-    private static native void registerNatives();
-    static {
-        registerNatives();
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
+    stbtid {
+        rfgistfrNbtivfs();
     }
 
-    /** Don't let anyone instantiate this class */
-    private System() {
+    /** Don't lft bnyonf instbntibtf tiis dlbss */
+    privbtf Systfm() {
     }
 
     /**
-     * The "standard" input stream. This stream is already
-     * open and ready to supply input data. Typically this stream
-     * corresponds to keyboard input or another input source specified by
-     * the host environment or user.
+     * Tif "stbndbrd" input strfbm. Tiis strfbm is blrfbdy
+     * opfn bnd rfbdy to supply input dbtb. Typidblly tiis strfbm
+     * dorrfsponds to kfybobrd input or bnotifr input sourdf spfdififd by
+     * tif iost fnvironmfnt or usfr.
      */
-    public final static InputStream in = null;
+    publid finbl stbtid InputStrfbm in = null;
 
     /**
-     * The "standard" output stream. This stream is already
-     * open and ready to accept output data. Typically this stream
-     * corresponds to display output or another output destination
-     * specified by the host environment or user.
+     * Tif "stbndbrd" output strfbm. Tiis strfbm is blrfbdy
+     * opfn bnd rfbdy to bddfpt output dbtb. Typidblly tiis strfbm
+     * dorrfsponds to displby output or bnotifr output dfstinbtion
+     * spfdififd by tif iost fnvironmfnt or usfr.
      * <p>
-     * For simple stand-alone Java applications, a typical way to write
-     * a line of output data is:
-     * <blockquote><pre>
-     *     System.out.println(data)
-     * </pre></blockquote>
+     * For simplf stbnd-blonf Jbvb bpplidbtions, b typidbl wby to writf
+     * b linf of output dbtb is:
+     * <blodkquotf><prf>
+     *     Systfm.out.println(dbtb)
+     * </prf></blodkquotf>
      * <p>
-     * See the <code>println</code> methods in class <code>PrintStream</code>.
+     * Sff tif <dodf>println</dodf> mftiods in dlbss <dodf>PrintStrfbm</dodf>.
      *
-     * @see     java.io.PrintStream#println()
-     * @see     java.io.PrintStream#println(boolean)
-     * @see     java.io.PrintStream#println(char)
-     * @see     java.io.PrintStream#println(char[])
-     * @see     java.io.PrintStream#println(double)
-     * @see     java.io.PrintStream#println(float)
-     * @see     java.io.PrintStream#println(int)
-     * @see     java.io.PrintStream#println(long)
-     * @see     java.io.PrintStream#println(java.lang.Object)
-     * @see     java.io.PrintStream#println(java.lang.String)
+     * @sff     jbvb.io.PrintStrfbm#println()
+     * @sff     jbvb.io.PrintStrfbm#println(boolfbn)
+     * @sff     jbvb.io.PrintStrfbm#println(dibr)
+     * @sff     jbvb.io.PrintStrfbm#println(dibr[])
+     * @sff     jbvb.io.PrintStrfbm#println(doublf)
+     * @sff     jbvb.io.PrintStrfbm#println(flobt)
+     * @sff     jbvb.io.PrintStrfbm#println(int)
+     * @sff     jbvb.io.PrintStrfbm#println(long)
+     * @sff     jbvb.io.PrintStrfbm#println(jbvb.lbng.Objfdt)
+     * @sff     jbvb.io.PrintStrfbm#println(jbvb.lbng.String)
      */
-    public final static PrintStream out = null;
+    publid finbl stbtid PrintStrfbm out = null;
 
     /**
-     * The "standard" error output stream. This stream is already
-     * open and ready to accept output data.
+     * Tif "stbndbrd" frror output strfbm. Tiis strfbm is blrfbdy
+     * opfn bnd rfbdy to bddfpt output dbtb.
      * <p>
-     * Typically this stream corresponds to display output or another
-     * output destination specified by the host environment or user. By
-     * convention, this output stream is used to display error messages
-     * or other information that should come to the immediate attention
-     * of a user even if the principal output stream, the value of the
-     * variable <code>out</code>, has been redirected to a file or other
-     * destination that is typically not continuously monitored.
+     * Typidblly tiis strfbm dorrfsponds to displby output or bnotifr
+     * output dfstinbtion spfdififd by tif iost fnvironmfnt or usfr. By
+     * donvfntion, tiis output strfbm is usfd to displby frror mfssbgfs
+     * or otifr informbtion tibt siould domf to tif immfdibtf bttfntion
+     * of b usfr fvfn if tif prindipbl output strfbm, tif vbluf of tif
+     * vbribblf <dodf>out</dodf>, ibs bffn rfdirfdtfd to b filf or otifr
+     * dfstinbtion tibt is typidblly not dontinuously monitorfd.
      */
-    public final static PrintStream err = null;
+    publid finbl stbtid PrintStrfbm frr = null;
 
-    /* The security manager for the system.
+    /* Tif sfdurity mbnbgfr for tif systfm.
      */
-    private static volatile SecurityManager security = null;
+    privbtf stbtid volbtilf SfdurityMbnbgfr sfdurity = null;
 
     /**
-     * Reassigns the "standard" input stream.
+     * Rfbssigns tif "stbndbrd" input strfbm.
      *
-     * <p>First, if there is a security manager, its <code>checkPermission</code>
-     * method is called with a <code>RuntimePermission("setIO")</code> permission
-     *  to see if it's ok to reassign the "standard" input stream.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkPfrmission</dodf>
+     * mftiod is dbllfd witi b <dodf>RuntimfPfrmission("sftIO")</dodf> pfrmission
+     *  to sff if it's ok to rfbssign tif "stbndbrd" input strfbm.
      *
-     * @param in the new standard input stream.
+     * @pbrbm in tif nfw stbndbrd input strfbm.
      *
-     * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow
-     *        reassigning of the standard input stream.
+     * @tirows SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>difdkPfrmission</dodf> mftiod dofsn't bllow
+     *        rfbssigning of tif stbndbrd input strfbm.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
      *
-     * @since   1.1
+     * @sindf   1.1
      */
-    public static void setIn(InputStream in) {
-        checkIO();
-        setIn0(in);
+    publid stbtid void sftIn(InputStrfbm in) {
+        difdkIO();
+        sftIn0(in);
     }
 
     /**
-     * Reassigns the "standard" output stream.
+     * Rfbssigns tif "stbndbrd" output strfbm.
      *
-     * <p>First, if there is a security manager, its <code>checkPermission</code>
-     * method is called with a <code>RuntimePermission("setIO")</code> permission
-     *  to see if it's ok to reassign the "standard" output stream.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkPfrmission</dodf>
+     * mftiod is dbllfd witi b <dodf>RuntimfPfrmission("sftIO")</dodf> pfrmission
+     *  to sff if it's ok to rfbssign tif "stbndbrd" output strfbm.
      *
-     * @param out the new standard output stream
+     * @pbrbm out tif nfw stbndbrd output strfbm
      *
-     * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow
-     *        reassigning of the standard output stream.
+     * @tirows SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>difdkPfrmission</dodf> mftiod dofsn't bllow
+     *        rfbssigning of tif stbndbrd output strfbm.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
      *
-     * @since   1.1
+     * @sindf   1.1
      */
-    public static void setOut(PrintStream out) {
-        checkIO();
-        setOut0(out);
+    publid stbtid void sftOut(PrintStrfbm out) {
+        difdkIO();
+        sftOut0(out);
     }
 
     /**
-     * Reassigns the "standard" error output stream.
+     * Rfbssigns tif "stbndbrd" frror output strfbm.
      *
-     * <p>First, if there is a security manager, its <code>checkPermission</code>
-     * method is called with a <code>RuntimePermission("setIO")</code> permission
-     *  to see if it's ok to reassign the "standard" error output stream.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkPfrmission</dodf>
+     * mftiod is dbllfd witi b <dodf>RuntimfPfrmission("sftIO")</dodf> pfrmission
+     *  to sff if it's ok to rfbssign tif "stbndbrd" frror output strfbm.
      *
-     * @param err the new standard error output stream.
+     * @pbrbm frr tif nfw stbndbrd frror output strfbm.
      *
-     * @throws SecurityException
-     *        if a security manager exists and its
-     *        <code>checkPermission</code> method doesn't allow
-     *        reassigning of the standard error output stream.
+     * @tirows SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        <dodf>difdkPfrmission</dodf> mftiod dofsn't bllow
+     *        rfbssigning of tif stbndbrd frror output strfbm.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
      *
-     * @since   1.1
+     * @sindf   1.1
      */
-    public static void setErr(PrintStream err) {
-        checkIO();
-        setErr0(err);
+    publid stbtid void sftErr(PrintStrfbm frr) {
+        difdkIO();
+        sftErr0(frr);
     }
 
-    private static volatile Console cons = null;
+    privbtf stbtid volbtilf Consolf dons = null;
     /**
-     * Returns the unique {@link java.io.Console Console} object associated
-     * with the current Java virtual machine, if any.
+     * Rfturns tif uniquf {@link jbvb.io.Consolf Consolf} objfdt bssodibtfd
+     * witi tif durrfnt Jbvb virtubl mbdiinf, if bny.
      *
-     * @return  The system console, if any, otherwise <tt>null</tt>.
+     * @rfturn  Tif systfm donsolf, if bny, otifrwisf <tt>null</tt>.
      *
-     * @since   1.6
+     * @sindf   1.6
      */
-     public static Console console() {
-         if (cons == null) {
-             synchronized (System.class) {
-                 cons = sun.misc.SharedSecrets.getJavaIOAccess().console();
+     publid stbtid Consolf donsolf() {
+         if (dons == null) {
+             syndironizfd (Systfm.dlbss) {
+                 dons = sun.misd.SibrfdSfdrfts.gftJbvbIOAddfss().donsolf();
              }
          }
-         return cons;
+         rfturn dons;
      }
 
     /**
-     * Returns the channel inherited from the entity that created this
-     * Java virtual machine.
+     * Rfturns tif dibnnfl inifritfd from tif fntity tibt drfbtfd tiis
+     * Jbvb virtubl mbdiinf.
      *
-     * <p> This method returns the channel obtained by invoking the
-     * {@link java.nio.channels.spi.SelectorProvider#inheritedChannel
-     * inheritedChannel} method of the system-wide default
-     * {@link java.nio.channels.spi.SelectorProvider} object. </p>
+     * <p> Tiis mftiod rfturns tif dibnnfl obtbinfd by invoking tif
+     * {@link jbvb.nio.dibnnfls.spi.SflfdtorProvidfr#inifritfdCibnnfl
+     * inifritfdCibnnfl} mftiod of tif systfm-widf dffbult
+     * {@link jbvb.nio.dibnnfls.spi.SflfdtorProvidfr} objfdt. </p>
      *
-     * <p> In addition to the network-oriented channels described in
-     * {@link java.nio.channels.spi.SelectorProvider#inheritedChannel
-     * inheritedChannel}, this method may return other kinds of
-     * channels in the future.
+     * <p> In bddition to tif nftwork-orifntfd dibnnfls dfsdribfd in
+     * {@link jbvb.nio.dibnnfls.spi.SflfdtorProvidfr#inifritfdCibnnfl
+     * inifritfdCibnnfl}, tiis mftiod mby rfturn otifr kinds of
+     * dibnnfls in tif futurf.
      *
-     * @return  The inherited channel, if any, otherwise <tt>null</tt>.
+     * @rfturn  Tif inifritfd dibnnfl, if bny, otifrwisf <tt>null</tt>.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  SecurityException
-     *          If a security manager is present and it does not
-     *          permit access to the channel.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd it dofs not
+     *          pfrmit bddfss to tif dibnnfl.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static Channel inheritedChannel() throws IOException {
-        return SelectorProvider.provider().inheritedChannel();
+    publid stbtid Cibnnfl inifritfdCibnnfl() tirows IOExdfption {
+        rfturn SflfdtorProvidfr.providfr().inifritfdCibnnfl();
     }
 
-    private static void checkIO() {
-        SecurityManager sm = getSecurityManager();
+    privbtf stbtid void difdkIO() {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("setIO"));
+            sm.difdkPfrmission(nfw RuntimfPfrmission("sftIO"));
         }
     }
 
-    private static native void setIn0(InputStream in);
-    private static native void setOut0(PrintStream out);
-    private static native void setErr0(PrintStream err);
+    privbtf stbtid nbtivf void sftIn0(InputStrfbm in);
+    privbtf stbtid nbtivf void sftOut0(PrintStrfbm out);
+    privbtf stbtid nbtivf void sftErr0(PrintStrfbm frr);
 
     /**
-     * Sets the System security.
+     * Sfts tif Systfm sfdurity.
      *
-     * <p> If there is a security manager already installed, this method first
-     * calls the security manager's <code>checkPermission</code> method
-     * with a <code>RuntimePermission("setSecurityManager")</code>
-     * permission to ensure it's ok to replace the existing
-     * security manager.
-     * This may result in throwing a <code>SecurityException</code>.
+     * <p> If tifrf is b sfdurity mbnbgfr blrfbdy instbllfd, tiis mftiod first
+     * dblls tif sfdurity mbnbgfr's <dodf>difdkPfrmission</dodf> mftiod
+     * witi b <dodf>RuntimfPfrmission("sftSfdurityMbnbgfr")</dodf>
+     * pfrmission to fnsurf it's ok to rfplbdf tif fxisting
+     * sfdurity mbnbgfr.
+     * Tiis mby rfsult in tirowing b <dodf>SfdurityExdfption</dodf>.
      *
-     * <p> Otherwise, the argument is established as the current
-     * security manager. If the argument is <code>null</code> and no
-     * security manager has been established, then no action is taken and
-     * the method simply returns.
+     * <p> Otifrwisf, tif brgumfnt is fstbblisifd bs tif durrfnt
+     * sfdurity mbnbgfr. If tif brgumfnt is <dodf>null</dodf> bnd no
+     * sfdurity mbnbgfr ibs bffn fstbblisifd, tifn no bdtion is tbkfn bnd
+     * tif mftiod simply rfturns.
      *
-     * @param      s   the security manager.
-     * @exception  SecurityException  if the security manager has already
-     *             been set and its <code>checkPermission</code> method
-     *             doesn't allow it to be replaced.
-     * @see #getSecurityManager
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @pbrbm      s   tif sfdurity mbnbgfr.
+     * @fxdfption  SfdurityExdfption  if tif sfdurity mbnbgfr ibs blrfbdy
+     *             bffn sft bnd its <dodf>difdkPfrmission</dodf> mftiod
+     *             dofsn't bllow it to bf rfplbdfd.
+     * @sff #gftSfdurityMbnbgfr
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
      */
-    public static
-    void setSecurityManager(final SecurityManager s) {
+    publid stbtid
+    void sftSfdurityMbnbgfr(finbl SfdurityMbnbgfr s) {
         try {
-            s.checkPackageAccess("java.lang");
-        } catch (Exception e) {
+            s.difdkPbdkbgfAddfss("jbvb.lbng");
+        } dbtdi (Exdfption f) {
             // no-op
         }
-        setSecurityManager0(s);
+        sftSfdurityMbnbgfr0(s);
     }
 
-    private static synchronized
-    void setSecurityManager0(final SecurityManager s) {
-        SecurityManager sm = getSecurityManager();
+    privbtf stbtid syndironizfd
+    void sftSfdurityMbnbgfr0(finbl SfdurityMbnbgfr s) {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            // ask the currently installed security manager if we
-            // can replace it.
-            sm.checkPermission(new RuntimePermission
-                                     ("setSecurityManager"));
+            // bsk tif durrfntly instbllfd sfdurity mbnbgfr if wf
+            // dbn rfplbdf it.
+            sm.difdkPfrmission(nfw RuntimfPfrmission
+                                     ("sftSfdurityMbnbgfr"));
         }
 
-        if ((s != null) && (s.getClass().getClassLoader() != null)) {
-            // New security manager class is not on bootstrap classpath.
-            // Cause policy to get initialized before we install the new
-            // security manager, in order to prevent infinite loops when
-            // trying to initialize the policy (which usually involves
-            // accessing some security and/or system properties, which in turn
-            // calls the installed security manager's checkPermission method
-            // which will loop infinitely if there is a non-system class
-            // (in this case: the new security manager class) on the stack).
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
-                    s.getClass().getProtectionDomain().implies
-                        (SecurityConstants.ALL_PERMISSION);
-                    return null;
+        if ((s != null) && (s.gftClbss().gftClbssLobdfr() != null)) {
+            // Nfw sfdurity mbnbgfr dlbss is not on bootstrbp dlbsspbti.
+            // Cbusf polidy to gft initiblizfd bfforf wf instbll tif nfw
+            // sfdurity mbnbgfr, in ordfr to prfvfnt infinitf loops wifn
+            // trying to initiblizf tif polidy (wiidi usublly involvfs
+            // bddfssing somf sfdurity bnd/or systfm propfrtifs, wiidi in turn
+            // dblls tif instbllfd sfdurity mbnbgfr's difdkPfrmission mftiod
+            // wiidi will loop infinitfly if tifrf is b non-systfm dlbss
+            // (in tiis dbsf: tif nfw sfdurity mbnbgfr dlbss) on tif stbdk).
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    s.gftClbss().gftProtfdtionDombin().implifs
+                        (SfdurityConstbnts.ALL_PERMISSION);
+                    rfturn null;
                 }
             });
         }
 
-        security = s;
+        sfdurity = s;
     }
 
     /**
-     * Gets the system security interface.
+     * Gfts tif systfm sfdurity intfrfbdf.
      *
-     * @return  if a security manager has already been established for the
-     *          current application, then that security manager is returned;
-     *          otherwise, <code>null</code> is returned.
-     * @see     #setSecurityManager
+     * @rfturn  if b sfdurity mbnbgfr ibs blrfbdy bffn fstbblisifd for tif
+     *          durrfnt bpplidbtion, tifn tibt sfdurity mbnbgfr is rfturnfd;
+     *          otifrwisf, <dodf>null</dodf> is rfturnfd.
+     * @sff     #sftSfdurityMbnbgfr
      */
-    public static SecurityManager getSecurityManager() {
-        return security;
+    publid stbtid SfdurityMbnbgfr gftSfdurityMbnbgfr() {
+        rfturn sfdurity;
     }
 
     /**
-     * Returns the current time in milliseconds.  Note that
-     * while the unit of time of the return value is a millisecond,
-     * the granularity of the value depends on the underlying
-     * operating system and may be larger.  For example, many
-     * operating systems measure time in units of tens of
-     * milliseconds.
+     * Rfturns tif durrfnt timf in millisfdonds.  Notf tibt
+     * wiilf tif unit of timf of tif rfturn vbluf is b millisfdond,
+     * tif grbnulbrity of tif vbluf dfpfnds on tif undfrlying
+     * opfrbting systfm bnd mby bf lbrgfr.  For fxbmplf, mbny
+     * opfrbting systfms mfbsurf timf in units of tfns of
+     * millisfdonds.
      *
-     * <p> See the description of the class <code>Date</code> for
-     * a discussion of slight discrepancies that may arise between
-     * "computer time" and coordinated universal time (UTC).
+     * <p> Sff tif dfsdription of tif dlbss <dodf>Dbtf</dodf> for
+     * b disdussion of sligit disdrfpbndifs tibt mby brisf bftwffn
+     * "domputfr timf" bnd doordinbtfd univfrsbl timf (UTC).
      *
-     * @return  the difference, measured in milliseconds, between
-     *          the current time and midnight, January 1, 1970 UTC.
-     * @see     java.util.Date
+     * @rfturn  tif difffrfndf, mfbsurfd in millisfdonds, bftwffn
+     *          tif durrfnt timf bnd midnigit, Jbnubry 1, 1970 UTC.
+     * @sff     jbvb.util.Dbtf
      */
-    public static native long currentTimeMillis();
+    publid stbtid nbtivf long durrfntTimfMillis();
 
     /**
-     * Returns the current value of the running Java Virtual Machine's
-     * high-resolution time source, in nanoseconds.
+     * Rfturns tif durrfnt vbluf of tif running Jbvb Virtubl Mbdiinf's
+     * iigi-rfsolution timf sourdf, in nbnosfdonds.
      *
-     * <p>This method can only be used to measure elapsed time and is
-     * not related to any other notion of system or wall-clock time.
-     * The value returned represents nanoseconds since some fixed but
-     * arbitrary <i>origin</i> time (perhaps in the future, so values
-     * may be negative).  The same origin is used by all invocations of
-     * this method in an instance of a Java virtual machine; other
-     * virtual machine instances are likely to use a different origin.
+     * <p>Tiis mftiod dbn only bf usfd to mfbsurf flbpsfd timf bnd is
+     * not rflbtfd to bny otifr notion of systfm or wbll-dlodk timf.
+     * Tif vbluf rfturnfd rfprfsfnts nbnosfdonds sindf somf fixfd but
+     * brbitrbry <i>origin</i> timf (pfribps in tif futurf, so vblufs
+     * mby bf nfgbtivf).  Tif sbmf origin is usfd by bll invodbtions of
+     * tiis mftiod in bn instbndf of b Jbvb virtubl mbdiinf; otifr
+     * virtubl mbdiinf instbndfs brf likfly to usf b difffrfnt origin.
      *
-     * <p>This method provides nanosecond precision, but not necessarily
-     * nanosecond resolution (that is, how frequently the value changes)
-     * - no guarantees are made except that the resolution is at least as
-     * good as that of {@link #currentTimeMillis()}.
+     * <p>Tiis mftiod providfs nbnosfdond prfdision, but not nfdfssbrily
+     * nbnosfdond rfsolution (tibt is, iow frfqufntly tif vbluf dibngfs)
+     * - no gubrbntffs brf mbdf fxdfpt tibt tif rfsolution is bt lfbst bs
+     * good bs tibt of {@link #durrfntTimfMillis()}.
      *
-     * <p>Differences in successive calls that span greater than
-     * approximately 292 years (2<sup>63</sup> nanoseconds) will not
-     * correctly compute elapsed time due to numerical overflow.
+     * <p>Difffrfndfs in suddfssivf dblls tibt spbn grfbtfr tibn
+     * bpproximbtfly 292 yfbrs (2<sup>63</sup> nbnosfdonds) will not
+     * dorrfdtly domputf flbpsfd timf duf to numfridbl ovfrflow.
      *
-     * <p>The values returned by this method become meaningful only when
-     * the difference between two such values, obtained within the same
-     * instance of a Java virtual machine, is computed.
+     * <p>Tif vblufs rfturnfd by tiis mftiod bfdomf mfbningful only wifn
+     * tif difffrfndf bftwffn two sudi vblufs, obtbinfd witiin tif sbmf
+     * instbndf of b Jbvb virtubl mbdiinf, is domputfd.
      *
-     * <p> For example, to measure how long some code takes to execute:
-     *  <pre> {@code
-     * long startTime = System.nanoTime();
-     * // ... the code being measured ...
-     * long estimatedTime = System.nanoTime() - startTime;}</pre>
+     * <p> For fxbmplf, to mfbsurf iow long somf dodf tbkfs to fxfdutf:
+     *  <prf> {@dodf
+     * long stbrtTimf = Systfm.nbnoTimf();
+     * // ... tif dodf bfing mfbsurfd ...
+     * long fstimbtfdTimf = Systfm.nbnoTimf() - stbrtTimf;}</prf>
      *
-     * <p>To compare two nanoTime values
-     *  <pre> {@code
-     * long t0 = System.nanoTime();
+     * <p>To dompbrf two nbnoTimf vblufs
+     *  <prf> {@dodf
+     * long t0 = Systfm.nbnoTimf();
      * ...
-     * long t1 = System.nanoTime();}</pre>
+     * long t1 = Systfm.nbnoTimf();}</prf>
      *
-     * one should use {@code t1 - t0 < 0}, not {@code t1 < t0},
-     * because of the possibility of numerical overflow.
+     * onf siould usf {@dodf t1 - t0 < 0}, not {@dodf t1 < t0},
+     * bfdbusf of tif possibility of numfridbl ovfrflow.
      *
-     * @return the current value of the running Java Virtual Machine's
-     *         high-resolution time source, in nanoseconds
-     * @since 1.5
+     * @rfturn tif durrfnt vbluf of tif running Jbvb Virtubl Mbdiinf's
+     *         iigi-rfsolution timf sourdf, in nbnosfdonds
+     * @sindf 1.5
      */
-    public static native long nanoTime();
+    publid stbtid nbtivf long nbnoTimf();
 
     /**
-     * Copies an array from the specified source array, beginning at the
-     * specified position, to the specified position of the destination array.
-     * A subsequence of array components are copied from the source
-     * array referenced by <code>src</code> to the destination array
-     * referenced by <code>dest</code>. The number of components copied is
-     * equal to the <code>length</code> argument. The components at
-     * positions <code>srcPos</code> through
-     * <code>srcPos+length-1</code> in the source array are copied into
-     * positions <code>destPos</code> through
-     * <code>destPos+length-1</code>, respectively, of the destination
-     * array.
+     * Copifs bn brrby from tif spfdififd sourdf brrby, bfginning bt tif
+     * spfdififd position, to tif spfdififd position of tif dfstinbtion brrby.
+     * A subsfqufndf of brrby domponfnts brf dopifd from tif sourdf
+     * brrby rfffrfndfd by <dodf>srd</dodf> to tif dfstinbtion brrby
+     * rfffrfndfd by <dodf>dfst</dodf>. Tif numbfr of domponfnts dopifd is
+     * fqubl to tif <dodf>lfngti</dodf> brgumfnt. Tif domponfnts bt
+     * positions <dodf>srdPos</dodf> tirougi
+     * <dodf>srdPos+lfngti-1</dodf> in tif sourdf brrby brf dopifd into
+     * positions <dodf>dfstPos</dodf> tirougi
+     * <dodf>dfstPos+lfngti-1</dodf>, rfspfdtivfly, of tif dfstinbtion
+     * brrby.
      * <p>
-     * If the <code>src</code> and <code>dest</code> arguments refer to the
-     * same array object, then the copying is performed as if the
-     * components at positions <code>srcPos</code> through
-     * <code>srcPos+length-1</code> were first copied to a temporary
-     * array with <code>length</code> components and then the contents of
-     * the temporary array were copied into positions
-     * <code>destPos</code> through <code>destPos+length-1</code> of the
-     * destination array.
+     * If tif <dodf>srd</dodf> bnd <dodf>dfst</dodf> brgumfnts rfffr to tif
+     * sbmf brrby objfdt, tifn tif dopying is pfrformfd bs if tif
+     * domponfnts bt positions <dodf>srdPos</dodf> tirougi
+     * <dodf>srdPos+lfngti-1</dodf> wfrf first dopifd to b tfmporbry
+     * brrby witi <dodf>lfngti</dodf> domponfnts bnd tifn tif dontfnts of
+     * tif tfmporbry brrby wfrf dopifd into positions
+     * <dodf>dfstPos</dodf> tirougi <dodf>dfstPos+lfngti-1</dodf> of tif
+     * dfstinbtion brrby.
      * <p>
-     * If <code>dest</code> is <code>null</code>, then a
-     * <code>NullPointerException</code> is thrown.
+     * If <dodf>dfst</dodf> is <dodf>null</dodf>, tifn b
+     * <dodf>NullPointfrExdfption</dodf> is tirown.
      * <p>
-     * If <code>src</code> is <code>null</code>, then a
-     * <code>NullPointerException</code> is thrown and the destination
-     * array is not modified.
+     * If <dodf>srd</dodf> is <dodf>null</dodf>, tifn b
+     * <dodf>NullPointfrExdfption</dodf> is tirown bnd tif dfstinbtion
+     * brrby is not modififd.
      * <p>
-     * Otherwise, if any of the following is true, an
-     * <code>ArrayStoreException</code> is thrown and the destination is
-     * not modified:
+     * Otifrwisf, if bny of tif following is truf, bn
+     * <dodf>ArrbyStorfExdfption</dodf> is tirown bnd tif dfstinbtion is
+     * not modififd:
      * <ul>
-     * <li>The <code>src</code> argument refers to an object that is not an
-     *     array.
-     * <li>The <code>dest</code> argument refers to an object that is not an
-     *     array.
-     * <li>The <code>src</code> argument and <code>dest</code> argument refer
-     *     to arrays whose component types are different primitive types.
-     * <li>The <code>src</code> argument refers to an array with a primitive
-     *    component type and the <code>dest</code> argument refers to an array
-     *     with a reference component type.
-     * <li>The <code>src</code> argument refers to an array with a reference
-     *    component type and the <code>dest</code> argument refers to an array
-     *     with a primitive component type.
+     * <li>Tif <dodf>srd</dodf> brgumfnt rfffrs to bn objfdt tibt is not bn
+     *     brrby.
+     * <li>Tif <dodf>dfst</dodf> brgumfnt rfffrs to bn objfdt tibt is not bn
+     *     brrby.
+     * <li>Tif <dodf>srd</dodf> brgumfnt bnd <dodf>dfst</dodf> brgumfnt rfffr
+     *     to brrbys wiosf domponfnt typfs brf difffrfnt primitivf typfs.
+     * <li>Tif <dodf>srd</dodf> brgumfnt rfffrs to bn brrby witi b primitivf
+     *    domponfnt typf bnd tif <dodf>dfst</dodf> brgumfnt rfffrs to bn brrby
+     *     witi b rfffrfndf domponfnt typf.
+     * <li>Tif <dodf>srd</dodf> brgumfnt rfffrs to bn brrby witi b rfffrfndf
+     *    domponfnt typf bnd tif <dodf>dfst</dodf> brgumfnt rfffrs to bn brrby
+     *     witi b primitivf domponfnt typf.
      * </ul>
      * <p>
-     * Otherwise, if any of the following is true, an
-     * <code>IndexOutOfBoundsException</code> is
-     * thrown and the destination is not modified:
+     * Otifrwisf, if bny of tif following is truf, bn
+     * <dodf>IndfxOutOfBoundsExdfption</dodf> is
+     * tirown bnd tif dfstinbtion is not modififd:
      * <ul>
-     * <li>The <code>srcPos</code> argument is negative.
-     * <li>The <code>destPos</code> argument is negative.
-     * <li>The <code>length</code> argument is negative.
-     * <li><code>srcPos+length</code> is greater than
-     *     <code>src.length</code>, the length of the source array.
-     * <li><code>destPos+length</code> is greater than
-     *     <code>dest.length</code>, the length of the destination array.
+     * <li>Tif <dodf>srdPos</dodf> brgumfnt is nfgbtivf.
+     * <li>Tif <dodf>dfstPos</dodf> brgumfnt is nfgbtivf.
+     * <li>Tif <dodf>lfngti</dodf> brgumfnt is nfgbtivf.
+     * <li><dodf>srdPos+lfngti</dodf> is grfbtfr tibn
+     *     <dodf>srd.lfngti</dodf>, tif lfngti of tif sourdf brrby.
+     * <li><dodf>dfstPos+lfngti</dodf> is grfbtfr tibn
+     *     <dodf>dfst.lfngti</dodf>, tif lfngti of tif dfstinbtion brrby.
      * </ul>
      * <p>
-     * Otherwise, if any actual component of the source array from
-     * position <code>srcPos</code> through
-     * <code>srcPos+length-1</code> cannot be converted to the component
-     * type of the destination array by assignment conversion, an
-     * <code>ArrayStoreException</code> is thrown. In this case, let
-     * <b><i>k</i></b> be the smallest nonnegative integer less than
-     * length such that <code>src[srcPos+</code><i>k</i><code>]</code>
-     * cannot be converted to the component type of the destination
-     * array; when the exception is thrown, source array components from
-     * positions <code>srcPos</code> through
-     * <code>srcPos+</code><i>k</i><code>-1</code>
-     * will already have been copied to destination array positions
-     * <code>destPos</code> through
-     * <code>destPos+</code><i>k</I><code>-1</code> and no other
-     * positions of the destination array will have been modified.
-     * (Because of the restrictions already itemized, this
-     * paragraph effectively applies only to the situation where both
-     * arrays have component types that are reference types.)
+     * Otifrwisf, if bny bdtubl domponfnt of tif sourdf brrby from
+     * position <dodf>srdPos</dodf> tirougi
+     * <dodf>srdPos+lfngti-1</dodf> dbnnot bf donvfrtfd to tif domponfnt
+     * typf of tif dfstinbtion brrby by bssignmfnt donvfrsion, bn
+     * <dodf>ArrbyStorfExdfption</dodf> is tirown. In tiis dbsf, lft
+     * <b><i>k</i></b> bf tif smbllfst nonnfgbtivf intfgfr lfss tibn
+     * lfngti sudi tibt <dodf>srd[srdPos+</dodf><i>k</i><dodf>]</dodf>
+     * dbnnot bf donvfrtfd to tif domponfnt typf of tif dfstinbtion
+     * brrby; wifn tif fxdfption is tirown, sourdf brrby domponfnts from
+     * positions <dodf>srdPos</dodf> tirougi
+     * <dodf>srdPos+</dodf><i>k</i><dodf>-1</dodf>
+     * will blrfbdy ibvf bffn dopifd to dfstinbtion brrby positions
+     * <dodf>dfstPos</dodf> tirougi
+     * <dodf>dfstPos+</dodf><i>k</I><dodf>-1</dodf> bnd no otifr
+     * positions of tif dfstinbtion brrby will ibvf bffn modififd.
+     * (Bfdbusf of tif rfstridtions blrfbdy itfmizfd, tiis
+     * pbrbgrbpi ffffdtivfly bpplifs only to tif situbtion wifrf boti
+     * brrbys ibvf domponfnt typfs tibt brf rfffrfndf typfs.)
      *
-     * @param      src      the source array.
-     * @param      srcPos   starting position in the source array.
-     * @param      dest     the destination array.
-     * @param      destPos  starting position in the destination data.
-     * @param      length   the number of array elements to be copied.
-     * @exception  IndexOutOfBoundsException  if copying would cause
-     *               access of data outside array bounds.
-     * @exception  ArrayStoreException  if an element in the <code>src</code>
-     *               array could not be stored into the <code>dest</code> array
-     *               because of a type mismatch.
-     * @exception  NullPointerException if either <code>src</code> or
-     *               <code>dest</code> is <code>null</code>.
+     * @pbrbm      srd      tif sourdf brrby.
+     * @pbrbm      srdPos   stbrting position in tif sourdf brrby.
+     * @pbrbm      dfst     tif dfstinbtion brrby.
+     * @pbrbm      dfstPos  stbrting position in tif dfstinbtion dbtb.
+     * @pbrbm      lfngti   tif numbfr of brrby flfmfnts to bf dopifd.
+     * @fxdfption  IndfxOutOfBoundsExdfption  if dopying would dbusf
+     *               bddfss of dbtb outsidf brrby bounds.
+     * @fxdfption  ArrbyStorfExdfption  if bn flfmfnt in tif <dodf>srd</dodf>
+     *               brrby dould not bf storfd into tif <dodf>dfst</dodf> brrby
+     *               bfdbusf of b typf mismbtdi.
+     * @fxdfption  NullPointfrExdfption if fitifr <dodf>srd</dodf> or
+     *               <dodf>dfst</dodf> is <dodf>null</dodf>.
      */
-    public static native void arraycopy(Object src,  int  srcPos,
-                                        Object dest, int destPos,
-                                        int length);
+    publid stbtid nbtivf void brrbydopy(Objfdt srd,  int  srdPos,
+                                        Objfdt dfst, int dfstPos,
+                                        int lfngti);
 
     /**
-     * Returns the same hash code for the given object as
-     * would be returned by the default method hashCode(),
-     * whether or not the given object's class overrides
-     * hashCode().
-     * The hash code for the null reference is zero.
+     * Rfturns tif sbmf ibsi dodf for tif givfn objfdt bs
+     * would bf rfturnfd by tif dffbult mftiod ibsiCodf(),
+     * wiftifr or not tif givfn objfdt's dlbss ovfrridfs
+     * ibsiCodf().
+     * Tif ibsi dodf for tif null rfffrfndf is zfro.
      *
-     * @param x object for which the hashCode is to be calculated
-     * @return  the hashCode
-     * @since   1.1
+     * @pbrbm x objfdt for wiidi tif ibsiCodf is to bf dbldulbtfd
+     * @rfturn  tif ibsiCodf
+     * @sindf   1.1
      */
-    public static native int identityHashCode(Object x);
+    publid stbtid nbtivf int idfntityHbsiCodf(Objfdt x);
 
     /**
-     * System properties. The following properties are guaranteed to be defined:
+     * Systfm propfrtifs. Tif following propfrtifs brf gubrbntffd to bf dffinfd:
      * <dl>
-     * <dt>java.version         <dd>Java version number
-     * <dt>java.vendor          <dd>Java vendor specific string
-     * <dt>java.vendor.url      <dd>Java vendor URL
-     * <dt>java.home            <dd>Java installation directory
-     * <dt>java.class.version   <dd>Java class version number
-     * <dt>java.class.path      <dd>Java classpath
-     * <dt>os.name              <dd>Operating System Name
-     * <dt>os.arch              <dd>Operating System Architecture
-     * <dt>os.version           <dd>Operating System Version
-     * <dt>file.separator       <dd>File separator ("/" on Unix)
-     * <dt>path.separator       <dd>Path separator (":" on Unix)
-     * <dt>line.separator       <dd>Line separator ("\n" on Unix)
-     * <dt>user.name            <dd>User account name
-     * <dt>user.home            <dd>User home directory
-     * <dt>user.dir             <dd>User's current working directory
+     * <dt>jbvb.vfrsion         <dd>Jbvb vfrsion numbfr
+     * <dt>jbvb.vfndor          <dd>Jbvb vfndor spfdifid string
+     * <dt>jbvb.vfndor.url      <dd>Jbvb vfndor URL
+     * <dt>jbvb.iomf            <dd>Jbvb instbllbtion dirfdtory
+     * <dt>jbvb.dlbss.vfrsion   <dd>Jbvb dlbss vfrsion numbfr
+     * <dt>jbvb.dlbss.pbti      <dd>Jbvb dlbsspbti
+     * <dt>os.nbmf              <dd>Opfrbting Systfm Nbmf
+     * <dt>os.brdi              <dd>Opfrbting Systfm Ardiitfdturf
+     * <dt>os.vfrsion           <dd>Opfrbting Systfm Vfrsion
+     * <dt>filf.sfpbrbtor       <dd>Filf sfpbrbtor ("/" on Unix)
+     * <dt>pbti.sfpbrbtor       <dd>Pbti sfpbrbtor (":" on Unix)
+     * <dt>linf.sfpbrbtor       <dd>Linf sfpbrbtor ("\n" on Unix)
+     * <dt>usfr.nbmf            <dd>Usfr bddount nbmf
+     * <dt>usfr.iomf            <dd>Usfr iomf dirfdtory
+     * <dt>usfr.dir             <dd>Usfr's durrfnt working dirfdtory
      * </dl>
      */
 
-    private static Properties props;
-    private static native Properties initProperties(Properties props);
+    privbtf stbtid Propfrtifs props;
+    privbtf stbtid nbtivf Propfrtifs initPropfrtifs(Propfrtifs props);
 
     /**
-     * Determines the current system properties.
+     * Dftfrminfs tif durrfnt systfm propfrtifs.
      * <p>
-     * First, if there is a security manager, its
-     * <code>checkPropertiesAccess</code> method is called with no
-     * arguments. This may result in a security exception.
+     * First, if tifrf is b sfdurity mbnbgfr, its
+     * <dodf>difdkPropfrtifsAddfss</dodf> mftiod is dbllfd witi no
+     * brgumfnts. Tiis mby rfsult in b sfdurity fxdfption.
      * <p>
-     * The current set of system properties for use by the
-     * {@link #getProperty(String)} method is returned as a
-     * <code>Properties</code> object. If there is no current set of
-     * system properties, a set of system properties is first created and
-     * initialized. This set of system properties always includes values
-     * for the following keys:
-     * <table summary="Shows property keys and associated values">
-     * <tr><th>Key</th>
-     *     <th>Description of Associated Value</th></tr>
-     * <tr><td><code>java.version</code></td>
-     *     <td>Java Runtime Environment version</td></tr>
-     * <tr><td><code>java.vendor</code></td>
-     *     <td>Java Runtime Environment vendor</td></tr>
-     * <tr><td><code>java.vendor.url</code></td>
-     *     <td>Java vendor URL</td></tr>
-     * <tr><td><code>java.home</code></td>
-     *     <td>Java installation directory</td></tr>
-     * <tr><td><code>java.vm.specification.version</code></td>
-     *     <td>Java Virtual Machine specification version</td></tr>
-     * <tr><td><code>java.vm.specification.vendor</code></td>
-     *     <td>Java Virtual Machine specification vendor</td></tr>
-     * <tr><td><code>java.vm.specification.name</code></td>
-     *     <td>Java Virtual Machine specification name</td></tr>
-     * <tr><td><code>java.vm.version</code></td>
-     *     <td>Java Virtual Machine implementation version</td></tr>
-     * <tr><td><code>java.vm.vendor</code></td>
-     *     <td>Java Virtual Machine implementation vendor</td></tr>
-     * <tr><td><code>java.vm.name</code></td>
-     *     <td>Java Virtual Machine implementation name</td></tr>
-     * <tr><td><code>java.specification.version</code></td>
-     *     <td>Java Runtime Environment specification  version</td></tr>
-     * <tr><td><code>java.specification.vendor</code></td>
-     *     <td>Java Runtime Environment specification  vendor</td></tr>
-     * <tr><td><code>java.specification.name</code></td>
-     *     <td>Java Runtime Environment specification  name</td></tr>
-     * <tr><td><code>java.class.version</code></td>
-     *     <td>Java class format version number</td></tr>
-     * <tr><td><code>java.class.path</code></td>
-     *     <td>Java class path</td></tr>
-     * <tr><td><code>java.library.path</code></td>
-     *     <td>List of paths to search when loading libraries</td></tr>
-     * <tr><td><code>java.io.tmpdir</code></td>
-     *     <td>Default temp file path</td></tr>
-     * <tr><td><code>java.compiler</code></td>
-     *     <td>Name of JIT compiler to use</td></tr>
-     * <tr><td><code>java.ext.dirs</code></td>
-     *     <td>Path of extension directory or directories</td></tr>
-     * <tr><td><code>os.name</code></td>
-     *     <td>Operating system name</td></tr>
-     * <tr><td><code>os.arch</code></td>
-     *     <td>Operating system architecture</td></tr>
-     * <tr><td><code>os.version</code></td>
-     *     <td>Operating system version</td></tr>
-     * <tr><td><code>file.separator</code></td>
-     *     <td>File separator ("/" on UNIX)</td></tr>
-     * <tr><td><code>path.separator</code></td>
-     *     <td>Path separator (":" on UNIX)</td></tr>
-     * <tr><td><code>line.separator</code></td>
-     *     <td>Line separator ("\n" on UNIX)</td></tr>
-     * <tr><td><code>user.name</code></td>
-     *     <td>User's account name</td></tr>
-     * <tr><td><code>user.home</code></td>
-     *     <td>User's home directory</td></tr>
-     * <tr><td><code>user.dir</code></td>
-     *     <td>User's current working directory</td></tr>
-     * </table>
+     * Tif durrfnt sft of systfm propfrtifs for usf by tif
+     * {@link #gftPropfrty(String)} mftiod is rfturnfd bs b
+     * <dodf>Propfrtifs</dodf> objfdt. If tifrf is no durrfnt sft of
+     * systfm propfrtifs, b sft of systfm propfrtifs is first drfbtfd bnd
+     * initiblizfd. Tiis sft of systfm propfrtifs blwbys indludfs vblufs
+     * for tif following kfys:
+     * <tbblf summbry="Siows propfrty kfys bnd bssodibtfd vblufs">
+     * <tr><ti>Kfy</ti>
+     *     <ti>Dfsdription of Assodibtfd Vbluf</ti></tr>
+     * <tr><td><dodf>jbvb.vfrsion</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt vfrsion</td></tr>
+     * <tr><td><dodf>jbvb.vfndor</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt vfndor</td></tr>
+     * <tr><td><dodf>jbvb.vfndor.url</dodf></td>
+     *     <td>Jbvb vfndor URL</td></tr>
+     * <tr><td><dodf>jbvb.iomf</dodf></td>
+     *     <td>Jbvb instbllbtion dirfdtory</td></tr>
+     * <tr><td><dodf>jbvb.vm.spfdifidbtion.vfrsion</dodf></td>
+     *     <td>Jbvb Virtubl Mbdiinf spfdifidbtion vfrsion</td></tr>
+     * <tr><td><dodf>jbvb.vm.spfdifidbtion.vfndor</dodf></td>
+     *     <td>Jbvb Virtubl Mbdiinf spfdifidbtion vfndor</td></tr>
+     * <tr><td><dodf>jbvb.vm.spfdifidbtion.nbmf</dodf></td>
+     *     <td>Jbvb Virtubl Mbdiinf spfdifidbtion nbmf</td></tr>
+     * <tr><td><dodf>jbvb.vm.vfrsion</dodf></td>
+     *     <td>Jbvb Virtubl Mbdiinf implfmfntbtion vfrsion</td></tr>
+     * <tr><td><dodf>jbvb.vm.vfndor</dodf></td>
+     *     <td>Jbvb Virtubl Mbdiinf implfmfntbtion vfndor</td></tr>
+     * <tr><td><dodf>jbvb.vm.nbmf</dodf></td>
+     *     <td>Jbvb Virtubl Mbdiinf implfmfntbtion nbmf</td></tr>
+     * <tr><td><dodf>jbvb.spfdifidbtion.vfrsion</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt spfdifidbtion  vfrsion</td></tr>
+     * <tr><td><dodf>jbvb.spfdifidbtion.vfndor</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt spfdifidbtion  vfndor</td></tr>
+     * <tr><td><dodf>jbvb.spfdifidbtion.nbmf</dodf></td>
+     *     <td>Jbvb Runtimf Environmfnt spfdifidbtion  nbmf</td></tr>
+     * <tr><td><dodf>jbvb.dlbss.vfrsion</dodf></td>
+     *     <td>Jbvb dlbss formbt vfrsion numbfr</td></tr>
+     * <tr><td><dodf>jbvb.dlbss.pbti</dodf></td>
+     *     <td>Jbvb dlbss pbti</td></tr>
+     * <tr><td><dodf>jbvb.librbry.pbti</dodf></td>
+     *     <td>List of pbtis to sfbrdi wifn lobding librbrifs</td></tr>
+     * <tr><td><dodf>jbvb.io.tmpdir</dodf></td>
+     *     <td>Dffbult tfmp filf pbti</td></tr>
+     * <tr><td><dodf>jbvb.dompilfr</dodf></td>
+     *     <td>Nbmf of JIT dompilfr to usf</td></tr>
+     * <tr><td><dodf>jbvb.fxt.dirs</dodf></td>
+     *     <td>Pbti of fxtfnsion dirfdtory or dirfdtorifs</td></tr>
+     * <tr><td><dodf>os.nbmf</dodf></td>
+     *     <td>Opfrbting systfm nbmf</td></tr>
+     * <tr><td><dodf>os.brdi</dodf></td>
+     *     <td>Opfrbting systfm brdiitfdturf</td></tr>
+     * <tr><td><dodf>os.vfrsion</dodf></td>
+     *     <td>Opfrbting systfm vfrsion</td></tr>
+     * <tr><td><dodf>filf.sfpbrbtor</dodf></td>
+     *     <td>Filf sfpbrbtor ("/" on UNIX)</td></tr>
+     * <tr><td><dodf>pbti.sfpbrbtor</dodf></td>
+     *     <td>Pbti sfpbrbtor (":" on UNIX)</td></tr>
+     * <tr><td><dodf>linf.sfpbrbtor</dodf></td>
+     *     <td>Linf sfpbrbtor ("\n" on UNIX)</td></tr>
+     * <tr><td><dodf>usfr.nbmf</dodf></td>
+     *     <td>Usfr's bddount nbmf</td></tr>
+     * <tr><td><dodf>usfr.iomf</dodf></td>
+     *     <td>Usfr's iomf dirfdtory</td></tr>
+     * <tr><td><dodf>usfr.dir</dodf></td>
+     *     <td>Usfr's durrfnt working dirfdtory</td></tr>
+     * </tbblf>
      * <p>
-     * Multiple paths in a system property value are separated by the path
-     * separator character of the platform.
+     * Multiplf pbtis in b systfm propfrty vbluf brf sfpbrbtfd by tif pbti
+     * sfpbrbtor dibrbdtfr of tif plbtform.
      * <p>
-     * Note that even if the security manager does not permit the
-     * <code>getProperties</code> operation, it may choose to permit the
-     * {@link #getProperty(String)} operation.
+     * Notf tibt fvfn if tif sfdurity mbnbgfr dofs not pfrmit tif
+     * <dodf>gftPropfrtifs</dodf> opfrbtion, it mby dioosf to pfrmit tif
+     * {@link #gftPropfrty(String)} opfrbtion.
      *
-     * @return     the system properties
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow access
-     *              to the system properties.
-     * @see        #setProperties
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkPropertiesAccess()
-     * @see        java.util.Properties
+     * @rfturn     tif systfm propfrtifs
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *              to tif systfm propfrtifs.
+     * @sff        #sftPropfrtifs
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtifsAddfss()
+     * @sff        jbvb.util.Propfrtifs
      */
-    public static Properties getProperties() {
-        SecurityManager sm = getSecurityManager();
+    publid stbtid Propfrtifs gftPropfrtifs() {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertiesAccess();
+            sm.difdkPropfrtifsAddfss();
         }
 
-        return props;
+        rfturn props;
     }
 
     /**
-     * Returns the system-dependent line separator string.  It always
-     * returns the same value - the initial value of the {@linkplain
-     * #getProperty(String) system property} {@code line.separator}.
+     * Rfturns tif systfm-dfpfndfnt linf sfpbrbtor string.  It blwbys
+     * rfturns tif sbmf vbluf - tif initibl vbluf of tif {@linkplbin
+     * #gftPropfrty(String) systfm propfrty} {@dodf linf.sfpbrbtor}.
      *
-     * <p>On UNIX systems, it returns {@code "\n"}; on Microsoft
-     * Windows systems it returns {@code "\r\n"}.
+     * <p>On UNIX systfms, it rfturns {@dodf "\n"}; on Midrosoft
+     * Windows systfms it rfturns {@dodf "\r\n"}.
      *
-     * @return the system-dependent line separator string
-     * @since 1.7
+     * @rfturn tif systfm-dfpfndfnt linf sfpbrbtor string
+     * @sindf 1.7
      */
-    public static String lineSeparator() {
-        return lineSeparator;
+    publid stbtid String linfSfpbrbtor() {
+        rfturn linfSfpbrbtor;
     }
 
-    private static String lineSeparator;
+    privbtf stbtid String linfSfpbrbtor;
 
     /**
-     * Sets the system properties to the <code>Properties</code>
-     * argument.
+     * Sfts tif systfm propfrtifs to tif <dodf>Propfrtifs</dodf>
+     * brgumfnt.
      * <p>
-     * First, if there is a security manager, its
-     * <code>checkPropertiesAccess</code> method is called with no
-     * arguments. This may result in a security exception.
+     * First, if tifrf is b sfdurity mbnbgfr, its
+     * <dodf>difdkPropfrtifsAddfss</dodf> mftiod is dbllfd witi no
+     * brgumfnts. Tiis mby rfsult in b sfdurity fxdfption.
      * <p>
-     * The argument becomes the current set of system properties for use
-     * by the {@link #getProperty(String)} method. If the argument is
-     * <code>null</code>, then the current set of system properties is
-     * forgotten.
+     * Tif brgumfnt bfdomfs tif durrfnt sft of systfm propfrtifs for usf
+     * by tif {@link #gftPropfrty(String)} mftiod. If tif brgumfnt is
+     * <dodf>null</dodf>, tifn tif durrfnt sft of systfm propfrtifs is
+     * forgottfn.
      *
-     * @param      props   the new system properties.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow access
-     *              to the system properties.
-     * @see        #getProperties
-     * @see        java.util.Properties
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkPropertiesAccess()
+     * @pbrbm      props   tif nfw systfm propfrtifs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *              to tif systfm propfrtifs.
+     * @sff        #gftPropfrtifs
+     * @sff        jbvb.util.Propfrtifs
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtifsAddfss()
      */
-    public static void setProperties(Properties props) {
-        SecurityManager sm = getSecurityManager();
+    publid stbtid void sftPropfrtifs(Propfrtifs props) {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertiesAccess();
+            sm.difdkPropfrtifsAddfss();
         }
         if (props == null) {
-            props = new Properties();
-            initProperties(props);
+            props = nfw Propfrtifs();
+            initPropfrtifs(props);
         }
-        System.props = props;
+        Systfm.props = props;
     }
 
     /**
-     * Gets the system property indicated by the specified key.
+     * Gfts tif systfm propfrty indidbtfd by tif spfdififd kfy.
      * <p>
-     * First, if there is a security manager, its
-     * <code>checkPropertyAccess</code> method is called with the key as
-     * its argument. This may result in a SecurityException.
+     * First, if tifrf is b sfdurity mbnbgfr, its
+     * <dodf>difdkPropfrtyAddfss</dodf> mftiod is dbllfd witi tif kfy bs
+     * its brgumfnt. Tiis mby rfsult in b SfdurityExdfption.
      * <p>
-     * If there is no current set of system properties, a set of system
-     * properties is first created and initialized in the same manner as
-     * for the <code>getProperties</code> method.
+     * If tifrf is no durrfnt sft of systfm propfrtifs, b sft of systfm
+     * propfrtifs is first drfbtfd bnd initiblizfd in tif sbmf mbnnfr bs
+     * for tif <dodf>gftPropfrtifs</dodf> mftiod.
      *
-     * @param      key   the name of the system property.
-     * @return     the string value of the system property,
-     *             or <code>null</code> if there is no property with that key.
+     * @pbrbm      kfy   tif nbmf of tif systfm propfrty.
+     * @rfturn     tif string vbluf of tif systfm propfrty,
+     *             or <dodf>null</dodf> if tifrf is no propfrty witi tibt kfy.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertyAccess</code> method doesn't allow
-     *              access to the specified system property.
-     * @exception  NullPointerException if <code>key</code> is
-     *             <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
-     * @see        #setProperty
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see        java.lang.System#getProperties()
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtyAddfss</dodf> mftiod dofsn't bllow
+     *              bddfss to tif spfdififd systfm propfrty.
+     * @fxdfption  NullPointfrExdfption if <dodf>kfy</dodf> is
+     *             <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     * @sff        #sftPropfrty
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff        jbvb.lbng.Systfm#gftPropfrtifs()
      */
-    public static String getProperty(String key) {
-        checkKey(key);
-        SecurityManager sm = getSecurityManager();
+    publid stbtid String gftPropfrty(String kfy) {
+        difdkKfy(kfy);
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertyAccess(key);
+            sm.difdkPropfrtyAddfss(kfy);
         }
 
-        return props.getProperty(key);
+        rfturn props.gftPropfrty(kfy);
     }
 
     /**
-     * Gets the system property indicated by the specified key.
+     * Gfts tif systfm propfrty indidbtfd by tif spfdififd kfy.
      * <p>
-     * First, if there is a security manager, its
-     * <code>checkPropertyAccess</code> method is called with the
-     * <code>key</code> as its argument.
+     * First, if tifrf is b sfdurity mbnbgfr, its
+     * <dodf>difdkPropfrtyAddfss</dodf> mftiod is dbllfd witi tif
+     * <dodf>kfy</dodf> bs its brgumfnt.
      * <p>
-     * If there is no current set of system properties, a set of system
-     * properties is first created and initialized in the same manner as
-     * for the <code>getProperties</code> method.
+     * If tifrf is no durrfnt sft of systfm propfrtifs, b sft of systfm
+     * propfrtifs is first drfbtfd bnd initiblizfd in tif sbmf mbnnfr bs
+     * for tif <dodf>gftPropfrtifs</dodf> mftiod.
      *
-     * @param      key   the name of the system property.
-     * @param      def   a default value.
-     * @return     the string value of the system property,
-     *             or the default value if there is no property with that key.
+     * @pbrbm      kfy   tif nbmf of tif systfm propfrty.
+     * @pbrbm      dff   b dffbult vbluf.
+     * @rfturn     tif string vbluf of tif systfm propfrty,
+     *             or tif dffbult vbluf if tifrf is no propfrty witi tibt kfy.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertyAccess</code> method doesn't allow
-     *             access to the specified system property.
-     * @exception  NullPointerException if <code>key</code> is
-     *             <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
-     * @see        #setProperty
-     * @see        java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see        java.lang.System#getProperties()
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtyAddfss</dodf> mftiod dofsn't bllow
+     *             bddfss to tif spfdififd systfm propfrty.
+     * @fxdfption  NullPointfrExdfption if <dodf>kfy</dodf> is
+     *             <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     * @sff        #sftPropfrty
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff        jbvb.lbng.Systfm#gftPropfrtifs()
      */
-    public static String getProperty(String key, String def) {
-        checkKey(key);
-        SecurityManager sm = getSecurityManager();
+    publid stbtid String gftPropfrty(String kfy, String dff) {
+        difdkKfy(kfy);
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertyAccess(key);
+            sm.difdkPropfrtyAddfss(kfy);
         }
 
-        return props.getProperty(key, def);
+        rfturn props.gftPropfrty(kfy, dff);
     }
 
     /**
-     * Sets the system property indicated by the specified key.
+     * Sfts tif systfm propfrty indidbtfd by tif spfdififd kfy.
      * <p>
-     * First, if a security manager exists, its
-     * <code>SecurityManager.checkPermission</code> method
-     * is called with a <code>PropertyPermission(key, "write")</code>
-     * permission. This may result in a SecurityException being thrown.
-     * If no exception is thrown, the specified property is set to the given
-     * value.
+     * First, if b sfdurity mbnbgfr fxists, its
+     * <dodf>SfdurityMbnbgfr.difdkPfrmission</dodf> mftiod
+     * is dbllfd witi b <dodf>PropfrtyPfrmission(kfy, "writf")</dodf>
+     * pfrmission. Tiis mby rfsult in b SfdurityExdfption bfing tirown.
+     * If no fxdfption is tirown, tif spfdififd propfrty is sft to tif givfn
+     * vbluf.
      *
-     * @param      key   the name of the system property.
-     * @param      value the value of the system property.
-     * @return     the previous value of the system property,
-     *             or <code>null</code> if it did not have one.
+     * @pbrbm      kfy   tif nbmf of tif systfm propfrty.
+     * @pbrbm      vbluf tif vbluf of tif systfm propfrty.
+     * @rfturn     tif prfvious vbluf of tif systfm propfrty,
+     *             or <dodf>null</dodf> if it did not ibvf onf.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPermission</code> method doesn't allow
-     *             setting of the specified property.
-     * @exception  NullPointerException if <code>key</code> or
-     *             <code>value</code> is <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
-     * @see        #getProperty
-     * @see        java.lang.System#getProperty(java.lang.String)
-     * @see        java.lang.System#getProperty(java.lang.String, java.lang.String)
-     * @see        java.util.PropertyPermission
-     * @see        SecurityManager#checkPermission
-     * @since      1.2
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPfrmission</dodf> mftiod dofsn't bllow
+     *             sftting of tif spfdififd propfrty.
+     * @fxdfption  NullPointfrExdfption if <dodf>kfy</dodf> or
+     *             <dodf>vbluf</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     * @sff        #gftPropfrty
+     * @sff        jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff        jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String, jbvb.lbng.String)
+     * @sff        jbvb.util.PropfrtyPfrmission
+     * @sff        SfdurityMbnbgfr#difdkPfrmission
+     * @sindf      1.2
      */
-    public static String setProperty(String key, String value) {
-        checkKey(key);
-        SecurityManager sm = getSecurityManager();
+    publid stbtid String sftPropfrty(String kfy, String vbluf) {
+        difdkKfy(kfy);
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new PropertyPermission(key,
-                SecurityConstants.PROPERTY_WRITE_ACTION));
+            sm.difdkPfrmission(nfw PropfrtyPfrmission(kfy,
+                SfdurityConstbnts.PROPERTY_WRITE_ACTION));
         }
 
-        return (String) props.setProperty(key, value);
+        rfturn (String) props.sftPropfrty(kfy, vbluf);
     }
 
     /**
-     * Removes the system property indicated by the specified key.
+     * Rfmovfs tif systfm propfrty indidbtfd by tif spfdififd kfy.
      * <p>
-     * First, if a security manager exists, its
-     * <code>SecurityManager.checkPermission</code> method
-     * is called with a <code>PropertyPermission(key, "write")</code>
-     * permission. This may result in a SecurityException being thrown.
-     * If no exception is thrown, the specified property is removed.
+     * First, if b sfdurity mbnbgfr fxists, its
+     * <dodf>SfdurityMbnbgfr.difdkPfrmission</dodf> mftiod
+     * is dbllfd witi b <dodf>PropfrtyPfrmission(kfy, "writf")</dodf>
+     * pfrmission. Tiis mby rfsult in b SfdurityExdfption bfing tirown.
+     * If no fxdfption is tirown, tif spfdififd propfrty is rfmovfd.
      *
-     * @param      key   the name of the system property to be removed.
-     * @return     the previous string value of the system property,
-     *             or <code>null</code> if there was no property with that key.
+     * @pbrbm      kfy   tif nbmf of tif systfm propfrty to bf rfmovfd.
+     * @rfturn     tif prfvious string vbluf of tif systfm propfrty,
+     *             or <dodf>null</dodf> if tifrf wbs no propfrty witi tibt kfy.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertyAccess</code> method doesn't allow
-     *              access to the specified system property.
-     * @exception  NullPointerException if <code>key</code> is
-     *             <code>null</code>.
-     * @exception  IllegalArgumentException if <code>key</code> is empty.
-     * @see        #getProperty
-     * @see        #setProperty
-     * @see        java.util.Properties
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkPropertiesAccess()
-     * @since 1.5
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtyAddfss</dodf> mftiod dofsn't bllow
+     *              bddfss to tif spfdififd systfm propfrty.
+     * @fxdfption  NullPointfrExdfption if <dodf>kfy</dodf> is
+     *             <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     * @sff        #gftPropfrty
+     * @sff        #sftPropfrty
+     * @sff        jbvb.util.Propfrtifs
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtifsAddfss()
+     * @sindf 1.5
      */
-    public static String clearProperty(String key) {
-        checkKey(key);
-        SecurityManager sm = getSecurityManager();
+    publid stbtid String dlfbrPropfrty(String kfy) {
+        difdkKfy(kfy);
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new PropertyPermission(key, "write"));
+            sm.difdkPfrmission(nfw PropfrtyPfrmission(kfy, "writf"));
         }
 
-        return (String) props.remove(key);
+        rfturn (String) props.rfmovf(kfy);
     }
 
-    private static void checkKey(String key) {
-        if (key == null) {
-            throw new NullPointerException("key can't be null");
+    privbtf stbtid void difdkKfy(String kfy) {
+        if (kfy == null) {
+            tirow nfw NullPointfrExdfption("kfy dbn't bf null");
         }
-        if (key.equals("")) {
-            throw new IllegalArgumentException("key can't be empty");
+        if (kfy.fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("kfy dbn't bf fmpty");
         }
     }
 
     /**
-     * Gets the value of the specified environment variable. An
-     * environment variable is a system-dependent external named
-     * value.
+     * Gfts tif vbluf of tif spfdififd fnvironmfnt vbribblf. An
+     * fnvironmfnt vbribblf is b systfm-dfpfndfnt fxtfrnbl nbmfd
+     * vbluf.
      *
-     * <p>If a security manager exists, its
-     * {@link SecurityManager#checkPermission checkPermission}
-     * method is called with a
-     * <code>{@link RuntimePermission}("getenv."+name)</code>
-     * permission.  This may result in a {@link SecurityException}
-     * being thrown.  If no exception is thrown the value of the
-     * variable <code>name</code> is returned.
+     * <p>If b sfdurity mbnbgfr fxists, its
+     * {@link SfdurityMbnbgfr#difdkPfrmission difdkPfrmission}
+     * mftiod is dbllfd witi b
+     * <dodf>{@link RuntimfPfrmission}("gftfnv."+nbmf)</dodf>
+     * pfrmission.  Tiis mby rfsult in b {@link SfdurityExdfption}
+     * bfing tirown.  If no fxdfption is tirown tif vbluf of tif
+     * vbribblf <dodf>nbmf</dodf> is rfturnfd.
      *
-     * <p><a name="EnvironmentVSSystemProperties"><i>System
-     * properties</i> and <i>environment variables</i></a> are both
-     * conceptually mappings between names and values.  Both
-     * mechanisms can be used to pass user-defined information to a
-     * Java process.  Environment variables have a more global effect,
-     * because they are visible to all descendants of the process
-     * which defines them, not just the immediate Java subprocess.
-     * They can have subtly different semantics, such as case
-     * insensitivity, on different operating systems.  For these
-     * reasons, environment variables are more likely to have
-     * unintended side effects.  It is best to use system properties
-     * where possible.  Environment variables should be used when a
-     * global effect is desired, or when an external system interface
-     * requires an environment variable (such as <code>PATH</code>).
+     * <p><b nbmf="EnvironmfntVSSystfmPropfrtifs"><i>Systfm
+     * propfrtifs</i> bnd <i>fnvironmfnt vbribblfs</i></b> brf boti
+     * dondfptublly mbppings bftwffn nbmfs bnd vblufs.  Boti
+     * mfdibnisms dbn bf usfd to pbss usfr-dffinfd informbtion to b
+     * Jbvb prodfss.  Environmfnt vbribblfs ibvf b morf globbl ffffdt,
+     * bfdbusf tify brf visiblf to bll dfsdfndbnts of tif prodfss
+     * wiidi dffinfs tifm, not just tif immfdibtf Jbvb subprodfss.
+     * Tify dbn ibvf subtly difffrfnt sfmbntids, sudi bs dbsf
+     * insfnsitivity, on difffrfnt opfrbting systfms.  For tifsf
+     * rfbsons, fnvironmfnt vbribblfs brf morf likfly to ibvf
+     * unintfndfd sidf ffffdts.  It is bfst to usf systfm propfrtifs
+     * wifrf possiblf.  Environmfnt vbribblfs siould bf usfd wifn b
+     * globbl ffffdt is dfsirfd, or wifn bn fxtfrnbl systfm intfrfbdf
+     * rfquirfs bn fnvironmfnt vbribblf (sudi bs <dodf>PATH</dodf>).
      *
-     * <p>On UNIX systems the alphabetic case of <code>name</code> is
-     * typically significant, while on Microsoft Windows systems it is
-     * typically not.  For example, the expression
-     * <code>System.getenv("FOO").equals(System.getenv("foo"))</code>
-     * is likely to be true on Microsoft Windows.
+     * <p>On UNIX systfms tif blpibbftid dbsf of <dodf>nbmf</dodf> is
+     * typidblly signifidbnt, wiilf on Midrosoft Windows systfms it is
+     * typidblly not.  For fxbmplf, tif fxprfssion
+     * <dodf>Systfm.gftfnv("FOO").fqubls(Systfm.gftfnv("foo"))</dodf>
+     * is likfly to bf truf on Midrosoft Windows.
      *
-     * @param  name the name of the environment variable
-     * @return the string value of the variable, or <code>null</code>
-     *         if the variable is not defined in the system environment
-     * @throws NullPointerException if <code>name</code> is <code>null</code>
-     * @throws SecurityException
-     *         if a security manager exists and its
-     *         {@link SecurityManager#checkPermission checkPermission}
-     *         method doesn't allow access to the environment variable
-     *         <code>name</code>
-     * @see    #getenv()
-     * @see    ProcessBuilder#environment()
+     * @pbrbm  nbmf tif nbmf of tif fnvironmfnt vbribblf
+     * @rfturn tif string vbluf of tif vbribblf, or <dodf>null</dodf>
+     *         if tif vbribblf is not dffinfd in tif systfm fnvironmfnt
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     * @tirows SfdurityExdfption
+     *         if b sfdurity mbnbgfr fxists bnd its
+     *         {@link SfdurityMbnbgfr#difdkPfrmission difdkPfrmission}
+     *         mftiod dofsn't bllow bddfss to tif fnvironmfnt vbribblf
+     *         <dodf>nbmf</dodf>
+     * @sff    #gftfnv()
+     * @sff    ProdfssBuildfr#fnvironmfnt()
      */
-    public static String getenv(String name) {
-        SecurityManager sm = getSecurityManager();
+    publid stbtid String gftfnv(String nbmf) {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("getenv."+name));
+            sm.difdkPfrmission(nfw RuntimfPfrmission("gftfnv."+nbmf));
         }
 
-        return ProcessEnvironment.getenv(name);
+        rfturn ProdfssEnvironmfnt.gftfnv(nbmf);
     }
 
 
     /**
-     * Returns an unmodifiable string map view of the current system environment.
-     * The environment is a system-dependent mapping from names to
-     * values which is passed from parent to child processes.
+     * Rfturns bn unmodifibblf string mbp vifw of tif durrfnt systfm fnvironmfnt.
+     * Tif fnvironmfnt is b systfm-dfpfndfnt mbpping from nbmfs to
+     * vblufs wiidi is pbssfd from pbrfnt to diild prodfssfs.
      *
-     * <p>If the system does not support environment variables, an
-     * empty map is returned.
+     * <p>If tif systfm dofs not support fnvironmfnt vbribblfs, bn
+     * fmpty mbp is rfturnfd.
      *
-     * <p>The returned map will never contain null keys or values.
-     * Attempting to query the presence of a null key or value will
-     * throw a {@link NullPointerException}.  Attempting to query
-     * the presence of a key or value which is not of type
-     * {@link String} will throw a {@link ClassCastException}.
+     * <p>Tif rfturnfd mbp will nfvfr dontbin null kfys or vblufs.
+     * Attfmpting to qufry tif prfsfndf of b null kfy or vbluf will
+     * tirow b {@link NullPointfrExdfption}.  Attfmpting to qufry
+     * tif prfsfndf of b kfy or vbluf wiidi is not of typf
+     * {@link String} will tirow b {@link ClbssCbstExdfption}.
      *
-     * <p>The returned map and its collection views may not obey the
-     * general contract of the {@link Object#equals} and
-     * {@link Object#hashCode} methods.
+     * <p>Tif rfturnfd mbp bnd its dollfdtion vifws mby not obfy tif
+     * gfnfrbl dontrbdt of tif {@link Objfdt#fqubls} bnd
+     * {@link Objfdt#ibsiCodf} mftiods.
      *
-     * <p>The returned map is typically case-sensitive on all platforms.
+     * <p>Tif rfturnfd mbp is typidblly dbsf-sfnsitivf on bll plbtforms.
      *
-     * <p>If a security manager exists, its
-     * {@link SecurityManager#checkPermission checkPermission}
-     * method is called with a
-     * <code>{@link RuntimePermission}("getenv.*")</code>
-     * permission.  This may result in a {@link SecurityException} being
-     * thrown.
+     * <p>If b sfdurity mbnbgfr fxists, its
+     * {@link SfdurityMbnbgfr#difdkPfrmission difdkPfrmission}
+     * mftiod is dbllfd witi b
+     * <dodf>{@link RuntimfPfrmission}("gftfnv.*")</dodf>
+     * pfrmission.  Tiis mby rfsult in b {@link SfdurityExdfption} bfing
+     * tirown.
      *
-     * <p>When passing information to a Java subprocess,
-     * <a href=#EnvironmentVSSystemProperties>system properties</a>
-     * are generally preferred over environment variables.
+     * <p>Wifn pbssing informbtion to b Jbvb subprodfss,
+     * <b irff=#EnvironmfntVSSystfmPropfrtifs>systfm propfrtifs</b>
+     * brf gfnfrblly prfffrrfd ovfr fnvironmfnt vbribblfs.
      *
-     * @return the environment as a map of variable names to values
-     * @throws SecurityException
-     *         if a security manager exists and its
-     *         {@link SecurityManager#checkPermission checkPermission}
-     *         method doesn't allow access to the process environment
-     * @see    #getenv(String)
-     * @see    ProcessBuilder#environment()
-     * @since  1.5
+     * @rfturn tif fnvironmfnt bs b mbp of vbribblf nbmfs to vblufs
+     * @tirows SfdurityExdfption
+     *         if b sfdurity mbnbgfr fxists bnd its
+     *         {@link SfdurityMbnbgfr#difdkPfrmission difdkPfrmission}
+     *         mftiod dofsn't bllow bddfss to tif prodfss fnvironmfnt
+     * @sff    #gftfnv(String)
+     * @sff    ProdfssBuildfr#fnvironmfnt()
+     * @sindf  1.5
      */
-    public static java.util.Map<String,String> getenv() {
-        SecurityManager sm = getSecurityManager();
+    publid stbtid jbvb.util.Mbp<String,String> gftfnv() {
+        SfdurityMbnbgfr sm = gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("getenv.*"));
+            sm.difdkPfrmission(nfw RuntimfPfrmission("gftfnv.*"));
         }
 
-        return ProcessEnvironment.getenv();
+        rfturn ProdfssEnvironmfnt.gftfnv();
     }
 
     /**
-     * Terminates the currently running Java Virtual Machine. The
-     * argument serves as a status code; by convention, a nonzero status
-     * code indicates abnormal termination.
+     * Tfrminbtfs tif durrfntly running Jbvb Virtubl Mbdiinf. Tif
+     * brgumfnt sfrvfs bs b stbtus dodf; by donvfntion, b nonzfro stbtus
+     * dodf indidbtfs bbnormbl tfrminbtion.
      * <p>
-     * This method calls the <code>exit</code> method in class
-     * <code>Runtime</code>. This method never returns normally.
+     * Tiis mftiod dblls tif <dodf>fxit</dodf> mftiod in dlbss
+     * <dodf>Runtimf</dodf>. Tiis mftiod nfvfr rfturns normblly.
      * <p>
-     * The call <code>System.exit(n)</code> is effectively equivalent to
-     * the call:
-     * <blockquote><pre>
-     * Runtime.getRuntime().exit(n)
-     * </pre></blockquote>
+     * Tif dbll <dodf>Systfm.fxit(n)</dodf> is ffffdtivfly fquivblfnt to
+     * tif dbll:
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().fxit(n)
+     * </prf></blodkquotf>
      *
-     * @param      status   exit status.
-     * @throws  SecurityException
-     *        if a security manager exists and its <code>checkExit</code>
-     *        method doesn't allow exit with the specified status.
-     * @see        java.lang.Runtime#exit(int)
+     * @pbrbm      stbtus   fxit stbtus.
+     * @tirows  SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its <dodf>difdkExit</dodf>
+     *        mftiod dofsn't bllow fxit witi tif spfdififd stbtus.
+     * @sff        jbvb.lbng.Runtimf#fxit(int)
      */
-    public static void exit(int status) {
-        Runtime.getRuntime().exit(status);
+    publid stbtid void fxit(int stbtus) {
+        Runtimf.gftRuntimf().fxit(stbtus);
     }
 
     /**
-     * Runs the garbage collector.
+     * Runs tif gbrbbgf dollfdtor.
      * <p>
-     * Calling the <code>gc</code> method suggests that the Java Virtual
-     * Machine expend effort toward recycling unused objects in order to
-     * make the memory they currently occupy available for quick reuse.
-     * When control returns from the method call, the Java Virtual
-     * Machine has made a best effort to reclaim space from all discarded
-     * objects.
+     * Cblling tif <dodf>gd</dodf> mftiod suggfsts tibt tif Jbvb Virtubl
+     * Mbdiinf fxpfnd fffort towbrd rfdydling unusfd objfdts in ordfr to
+     * mbkf tif mfmory tify durrfntly oddupy bvbilbblf for quidk rfusf.
+     * Wifn dontrol rfturns from tif mftiod dbll, tif Jbvb Virtubl
+     * Mbdiinf ibs mbdf b bfst fffort to rfdlbim spbdf from bll disdbrdfd
+     * objfdts.
      * <p>
-     * The call <code>System.gc()</code> is effectively equivalent to the
-     * call:
-     * <blockquote><pre>
-     * Runtime.getRuntime().gc()
-     * </pre></blockquote>
+     * Tif dbll <dodf>Systfm.gd()</dodf> is ffffdtivfly fquivblfnt to tif
+     * dbll:
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().gd()
+     * </prf></blodkquotf>
      *
-     * @see     java.lang.Runtime#gc()
+     * @sff     jbvb.lbng.Runtimf#gd()
      */
-    public static void gc() {
-        Runtime.getRuntime().gc();
+    publid stbtid void gd() {
+        Runtimf.gftRuntimf().gd();
     }
 
     /**
-     * Runs the finalization methods of any objects pending finalization.
+     * Runs tif finblizbtion mftiods of bny objfdts pfnding finblizbtion.
      * <p>
-     * Calling this method suggests that the Java Virtual Machine expend
-     * effort toward running the <code>finalize</code> methods of objects
-     * that have been found to be discarded but whose <code>finalize</code>
-     * methods have not yet been run. When control returns from the
-     * method call, the Java Virtual Machine has made a best effort to
-     * complete all outstanding finalizations.
+     * Cblling tiis mftiod suggfsts tibt tif Jbvb Virtubl Mbdiinf fxpfnd
+     * fffort towbrd running tif <dodf>finblizf</dodf> mftiods of objfdts
+     * tibt ibvf bffn found to bf disdbrdfd but wiosf <dodf>finblizf</dodf>
+     * mftiods ibvf not yft bffn run. Wifn dontrol rfturns from tif
+     * mftiod dbll, tif Jbvb Virtubl Mbdiinf ibs mbdf b bfst fffort to
+     * domplftf bll outstbnding finblizbtions.
      * <p>
-     * The call <code>System.runFinalization()</code> is effectively
-     * equivalent to the call:
-     * <blockquote><pre>
-     * Runtime.getRuntime().runFinalization()
-     * </pre></blockquote>
+     * Tif dbll <dodf>Systfm.runFinblizbtion()</dodf> is ffffdtivfly
+     * fquivblfnt to tif dbll:
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().runFinblizbtion()
+     * </prf></blodkquotf>
      *
-     * @see     java.lang.Runtime#runFinalization()
+     * @sff     jbvb.lbng.Runtimf#runFinblizbtion()
      */
-    public static void runFinalization() {
-        Runtime.getRuntime().runFinalization();
+    publid stbtid void runFinblizbtion() {
+        Runtimf.gftRuntimf().runFinblizbtion();
     }
 
     /**
-     * Enable or disable finalization on exit; doing so specifies that the
-     * finalizers of all objects that have finalizers that have not yet been
-     * automatically invoked are to be run before the Java runtime exits.
-     * By default, finalization on exit is disabled.
+     * Enbblf or disbblf finblizbtion on fxit; doing so spfdififs tibt tif
+     * finblizfrs of bll objfdts tibt ibvf finblizfrs tibt ibvf not yft bffn
+     * butombtidblly invokfd brf to bf run bfforf tif Jbvb runtimf fxits.
+     * By dffbult, finblizbtion on fxit is disbblfd.
      *
-     * <p>If there is a security manager,
-     * its <code>checkExit</code> method is first called
-     * with 0 as its argument to ensure the exit is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr,
+     * its <dodf>difdkExit</dodf> mftiod is first dbllfd
+     * witi 0 bs its brgumfnt to fnsurf tif fxit is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @deprecated  This method is inherently unsafe.  It may result in
-     *      finalizers being called on live objects while other threads are
-     *      concurrently manipulating those objects, resulting in erratic
-     *      behavior or deadlock.
-     * @param value indicating enabling or disabling of finalization
-     * @throws  SecurityException
-     *        if a security manager exists and its <code>checkExit</code>
-     *        method doesn't allow the exit.
+     * @dfprfdbtfd  Tiis mftiod is inifrfntly unsbff.  It mby rfsult in
+     *      finblizfrs bfing dbllfd on livf objfdts wiilf otifr tirfbds brf
+     *      dondurrfntly mbnipulbting tiosf objfdts, rfsulting in frrbtid
+     *      bfibvior or dfbdlodk.
+     * @pbrbm vbluf indidbting fnbbling or disbbling of finblizbtion
+     * @tirows  SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its <dodf>difdkExit</dodf>
+     *        mftiod dofsn't bllow tif fxit.
      *
-     * @see     java.lang.Runtime#exit(int)
-     * @see     java.lang.Runtime#gc()
-     * @see     java.lang.SecurityManager#checkExit(int)
-     * @since   1.1
+     * @sff     jbvb.lbng.Runtimf#fxit(int)
+     * @sff     jbvb.lbng.Runtimf#gd()
+     * @sff     jbvb.lbng.SfdurityMbnbgfr#difdkExit(int)
+     * @sindf   1.1
      */
-    @Deprecated
-    public static void runFinalizersOnExit(boolean value) {
-        Runtime.runFinalizersOnExit(value);
+    @Dfprfdbtfd
+    publid stbtid void runFinblizfrsOnExit(boolfbn vbluf) {
+        Runtimf.runFinblizfrsOnExit(vbluf);
     }
 
     /**
-     * Loads the native library specified by the filename argument.  The filename
-     * argument must be an absolute path name.
+     * Lobds tif nbtivf librbry spfdififd by tif filfnbmf brgumfnt.  Tif filfnbmf
+     * brgumfnt must bf bn bbsolutf pbti nbmf.
      *
-     * If the filename argument, when stripped of any platform-specific library
-     * prefix, path, and file extension, indicates a library whose name is,
-     * for example, L, and a native library called L is statically linked
-     * with the VM, then the JNI_OnLoad_L function exported by the library
-     * is invoked rather than attempting to load a dynamic library.
-     * A filename matching the argument does not have to exist in the
-     * file system.
-     * See the JNI Specification for more details.
+     * If tif filfnbmf brgumfnt, wifn strippfd of bny plbtform-spfdifid librbry
+     * prffix, pbti, bnd filf fxtfnsion, indidbtfs b librbry wiosf nbmf is,
+     * for fxbmplf, L, bnd b nbtivf librbry dbllfd L is stbtidblly linkfd
+     * witi tif VM, tifn tif JNI_OnLobd_L fundtion fxportfd by tif librbry
+     * is invokfd rbtifr tibn bttfmpting to lobd b dynbmid librbry.
+     * A filfnbmf mbtdiing tif brgumfnt dofs not ibvf to fxist in tif
+     * filf systfm.
+     * Sff tif JNI Spfdifidbtion for morf dftbils.
      *
-     * Otherwise, the filename argument is mapped to a native library image in
-     * an implementation-dependent manner.
+     * Otifrwisf, tif filfnbmf brgumfnt is mbppfd to b nbtivf librbry imbgf in
+     * bn implfmfntbtion-dfpfndfnt mbnnfr.
      *
      * <p>
-     * The call <code>System.load(name)</code> is effectively equivalent
-     * to the call:
-     * <blockquote><pre>
-     * Runtime.getRuntime().load(name)
-     * </pre></blockquote>
+     * Tif dbll <dodf>Systfm.lobd(nbmf)</dodf> is ffffdtivfly fquivblfnt
+     * to tif dbll:
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().lobd(nbmf)
+     * </prf></blodkquotf>
      *
-     * @param      filename   the file to load.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkLink</code> method doesn't allow
-     *             loading of the specified dynamic library
-     * @exception  UnsatisfiedLinkError  if either the filename is not an
-     *             absolute path name, the native library is not statically
-     *             linked with the VM, or the library cannot be mapped to
-     *             a native library image by the host system.
-     * @exception  NullPointerException if <code>filename</code> is
-     *             <code>null</code>
-     * @see        java.lang.Runtime#load(java.lang.String)
-     * @see        java.lang.SecurityManager#checkLink(java.lang.String)
+     * @pbrbm      filfnbmf   tif filf to lobd.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkLink</dodf> mftiod dofsn't bllow
+     *             lobding of tif spfdififd dynbmid librbry
+     * @fxdfption  UnsbtisfifdLinkError  if fitifr tif filfnbmf is not bn
+     *             bbsolutf pbti nbmf, tif nbtivf librbry is not stbtidblly
+     *             linkfd witi tif VM, or tif librbry dbnnot bf mbppfd to
+     *             b nbtivf librbry imbgf by tif iost systfm.
+     * @fxdfption  NullPointfrExdfption if <dodf>filfnbmf</dodf> is
+     *             <dodf>null</dodf>
+     * @sff        jbvb.lbng.Runtimf#lobd(jbvb.lbng.String)
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkLink(jbvb.lbng.String)
      */
-    @CallerSensitive
-    public static void load(String filename) {
-        Runtime.getRuntime().load0(Reflection.getCallerClass(), filename);
+    @CbllfrSfnsitivf
+    publid stbtid void lobd(String filfnbmf) {
+        Runtimf.gftRuntimf().lobd0(Rfflfdtion.gftCbllfrClbss(), filfnbmf);
     }
 
     /**
-     * Loads the native library specified by the <code>libname</code>
-     * argument.  The <code>libname</code> argument must not contain any platform
-     * specific prefix, file extension or path. If a native library
-     * called <code>libname</code> is statically linked with the VM, then the
-     * JNI_OnLoad_<code>libname</code> function exported by the library is invoked.
-     * See the JNI Specification for more details.
+     * Lobds tif nbtivf librbry spfdififd by tif <dodf>libnbmf</dodf>
+     * brgumfnt.  Tif <dodf>libnbmf</dodf> brgumfnt must not dontbin bny plbtform
+     * spfdifid prffix, filf fxtfnsion or pbti. If b nbtivf librbry
+     * dbllfd <dodf>libnbmf</dodf> is stbtidblly linkfd witi tif VM, tifn tif
+     * JNI_OnLobd_<dodf>libnbmf</dodf> fundtion fxportfd by tif librbry is invokfd.
+     * Sff tif JNI Spfdifidbtion for morf dftbils.
      *
-     * Otherwise, the libname argument is loaded from a system library
-     * location and mapped to a native library image in an implementation-
-     * dependent manner.
+     * Otifrwisf, tif libnbmf brgumfnt is lobdfd from b systfm librbry
+     * lodbtion bnd mbppfd to b nbtivf librbry imbgf in bn implfmfntbtion-
+     * dfpfndfnt mbnnfr.
      * <p>
-     * The call <code>System.loadLibrary(name)</code> is effectively
-     * equivalent to the call
-     * <blockquote><pre>
-     * Runtime.getRuntime().loadLibrary(name)
-     * </pre></blockquote>
+     * Tif dbll <dodf>Systfm.lobdLibrbry(nbmf)</dodf> is ffffdtivfly
+     * fquivblfnt to tif dbll
+     * <blodkquotf><prf>
+     * Runtimf.gftRuntimf().lobdLibrbry(nbmf)
+     * </prf></blodkquotf>
      *
-     * @param      libname   the name of the library.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkLink</code> method doesn't allow
-     *             loading of the specified dynamic library
-     * @exception  UnsatisfiedLinkError if either the libname argument
-     *             contains a file path, the native library is not statically
-     *             linked with the VM,  or the library cannot be mapped to a
-     *             native library image by the host system.
-     * @exception  NullPointerException if <code>libname</code> is
-     *             <code>null</code>
-     * @see        java.lang.Runtime#loadLibrary(java.lang.String)
-     * @see        java.lang.SecurityManager#checkLink(java.lang.String)
+     * @pbrbm      libnbmf   tif nbmf of tif librbry.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkLink</dodf> mftiod dofsn't bllow
+     *             lobding of tif spfdififd dynbmid librbry
+     * @fxdfption  UnsbtisfifdLinkError if fitifr tif libnbmf brgumfnt
+     *             dontbins b filf pbti, tif nbtivf librbry is not stbtidblly
+     *             linkfd witi tif VM,  or tif librbry dbnnot bf mbppfd to b
+     *             nbtivf librbry imbgf by tif iost systfm.
+     * @fxdfption  NullPointfrExdfption if <dodf>libnbmf</dodf> is
+     *             <dodf>null</dodf>
+     * @sff        jbvb.lbng.Runtimf#lobdLibrbry(jbvb.lbng.String)
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkLink(jbvb.lbng.String)
      */
-    @CallerSensitive
-    public static void loadLibrary(String libname) {
-        Runtime.getRuntime().loadLibrary0(Reflection.getCallerClass(), libname);
+    @CbllfrSfnsitivf
+    publid stbtid void lobdLibrbry(String libnbmf) {
+        Runtimf.gftRuntimf().lobdLibrbry0(Rfflfdtion.gftCbllfrClbss(), libnbmf);
     }
 
     /**
-     * Maps a library name into a platform-specific string representing
-     * a native library.
+     * Mbps b librbry nbmf into b plbtform-spfdifid string rfprfsfnting
+     * b nbtivf librbry.
      *
-     * @param      libname the name of the library.
-     * @return     a platform-dependent native library name.
-     * @exception  NullPointerException if <code>libname</code> is
-     *             <code>null</code>
-     * @see        java.lang.System#loadLibrary(java.lang.String)
-     * @see        java.lang.ClassLoader#findLibrary(java.lang.String)
-     * @since      1.2
+     * @pbrbm      libnbmf tif nbmf of tif librbry.
+     * @rfturn     b plbtform-dfpfndfnt nbtivf librbry nbmf.
+     * @fxdfption  NullPointfrExdfption if <dodf>libnbmf</dodf> is
+     *             <dodf>null</dodf>
+     * @sff        jbvb.lbng.Systfm#lobdLibrbry(jbvb.lbng.String)
+     * @sff        jbvb.lbng.ClbssLobdfr#findLibrbry(jbvb.lbng.String)
+     * @sindf      1.2
      */
-    public static native String mapLibraryName(String libname);
+    publid stbtid nbtivf String mbpLibrbryNbmf(String libnbmf);
 
     /**
-     * Create PrintStream for stdout/err based on encoding.
+     * Crfbtf PrintStrfbm for stdout/frr bbsfd on fndoding.
      */
-    private static PrintStream newPrintStream(FileOutputStream fos, String enc) {
-       if (enc != null) {
+    privbtf stbtid PrintStrfbm nfwPrintStrfbm(FilfOutputStrfbm fos, String fnd) {
+       if (fnd != null) {
             try {
-                return new PrintStream(new BufferedOutputStream(fos, 128), true, enc);
-            } catch (UnsupportedEncodingException uee) {}
+                rfturn nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(fos, 128), truf, fnd);
+            } dbtdi (UnsupportfdEndodingExdfption uff) {}
         }
-        return new PrintStream(new BufferedOutputStream(fos, 128), true);
+        rfturn nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(fos, 128), truf);
     }
 
 
     /**
-     * Initialize the system class.  Called after thread initialization.
+     * Initiblizf tif systfm dlbss.  Cbllfd bftfr tirfbd initiblizbtion.
      */
-    private static void initializeSystemClass() {
+    privbtf stbtid void initiblizfSystfmClbss() {
 
-        // VM might invoke JNU_NewStringPlatform() to set those encoding
-        // sensitive properties (user.home, user.name, boot.class.path, etc.)
-        // during "props" initialization, in which it may need access, via
-        // System.getProperty(), to the related system encoding property that
-        // have been initialized (put into "props") at early stage of the
-        // initialization. So make sure the "props" is available at the
-        // very beginning of the initialization and all system properties to
-        // be put into it directly.
-        props = new Properties();
-        initProperties(props);  // initialized by the VM
+        // VM migit invokf JNU_NfwStringPlbtform() to sft tiosf fndoding
+        // sfnsitivf propfrtifs (usfr.iomf, usfr.nbmf, boot.dlbss.pbti, ftd.)
+        // during "props" initiblizbtion, in wiidi it mby nffd bddfss, vib
+        // Systfm.gftPropfrty(), to tif rflbtfd systfm fndoding propfrty tibt
+        // ibvf bffn initiblizfd (put into "props") bt fbrly stbgf of tif
+        // initiblizbtion. So mbkf surf tif "props" is bvbilbblf bt tif
+        // vfry bfginning of tif initiblizbtion bnd bll systfm propfrtifs to
+        // bf put into it dirfdtly.
+        props = nfw Propfrtifs();
+        initPropfrtifs(props);  // initiblizfd by tif VM
 
-        // There are certain system configurations that may be controlled by
-        // VM options such as the maximum amount of direct memory and
-        // Integer cache size used to support the object identity semantics
-        // of autoboxing.  Typically, the library will obtain these values
-        // from the properties set by the VM.  If the properties are for
-        // internal implementation use only, these properties should be
-        // removed from the system properties.
+        // Tifrf brf dfrtbin systfm donfigurbtions tibt mby bf dontrollfd by
+        // VM options sudi bs tif mbximum bmount of dirfdt mfmory bnd
+        // Intfgfr dbdif sizf usfd to support tif objfdt idfntity sfmbntids
+        // of butoboxing.  Typidblly, tif librbry will obtbin tifsf vblufs
+        // from tif propfrtifs sft by tif VM.  If tif propfrtifs brf for
+        // intfrnbl implfmfntbtion usf only, tifsf propfrtifs siould bf
+        // rfmovfd from tif systfm propfrtifs.
         //
-        // See java.lang.Integer.IntegerCache and the
-        // sun.misc.VM.saveAndRemoveProperties method for example.
+        // Sff jbvb.lbng.Intfgfr.IntfgfrCbdif bnd tif
+        // sun.misd.VM.sbvfAndRfmovfPropfrtifs mftiod for fxbmplf.
         //
-        // Save a private copy of the system properties object that
-        // can only be accessed by the internal implementation.  Remove
-        // certain system properties that are not intended for public access.
-        sun.misc.VM.saveAndRemoveProperties(props);
+        // Sbvf b privbtf dopy of tif systfm propfrtifs objfdt tibt
+        // dbn only bf bddfssfd by tif intfrnbl implfmfntbtion.  Rfmovf
+        // dfrtbin systfm propfrtifs tibt brf not intfndfd for publid bddfss.
+        sun.misd.VM.sbvfAndRfmovfPropfrtifs(props);
 
 
-        lineSeparator = props.getProperty("line.separator");
-        sun.misc.Version.init();
+        linfSfpbrbtor = props.gftPropfrty("linf.sfpbrbtor");
+        sun.misd.Vfrsion.init();
 
-        FileInputStream fdIn = new FileInputStream(FileDescriptor.in);
-        FileOutputStream fdOut = new FileOutputStream(FileDescriptor.out);
-        FileOutputStream fdErr = new FileOutputStream(FileDescriptor.err);
-        setIn0(new BufferedInputStream(fdIn));
-        setOut0(newPrintStream(fdOut, props.getProperty("sun.stdout.encoding")));
-        setErr0(newPrintStream(fdErr, props.getProperty("sun.stderr.encoding")));
+        FilfInputStrfbm fdIn = nfw FilfInputStrfbm(FilfDfsdriptor.in);
+        FilfOutputStrfbm fdOut = nfw FilfOutputStrfbm(FilfDfsdriptor.out);
+        FilfOutputStrfbm fdErr = nfw FilfOutputStrfbm(FilfDfsdriptor.frr);
+        sftIn0(nfw BufffrfdInputStrfbm(fdIn));
+        sftOut0(nfwPrintStrfbm(fdOut, props.gftPropfrty("sun.stdout.fndoding")));
+        sftErr0(nfwPrintStrfbm(fdErr, props.gftPropfrty("sun.stdfrr.fndoding")));
 
-        // Load the zip library now in order to keep java.util.zip.ZipFile
-        // from trying to use itself to load this library later.
-        loadLibrary("zip");
+        // Lobd tif zip librbry now in ordfr to kffp jbvb.util.zip.ZipFilf
+        // from trying to usf itsflf to lobd tiis librbry lbtfr.
+        lobdLibrbry("zip");
 
-        // Setup Java signal handlers for HUP, TERM, and INT (where available).
-        Terminator.setup();
+        // Sftup Jbvb signbl ibndlfrs for HUP, TERM, bnd INT (wifrf bvbilbblf).
+        Tfrminbtor.sftup();
 
-        // Initialize any miscellenous operating system settings that need to be
-        // set for the class libraries. Currently this is no-op everywhere except
-        // for Windows where the process-wide error mode is set before the java.io
-        // classes are used.
-        sun.misc.VM.initializeOSEnvironment();
+        // Initiblizf bny misdfllfnous opfrbting systfm sfttings tibt nffd to bf
+        // sft for tif dlbss librbrifs. Currfntly tiis is no-op fvfrywifrf fxdfpt
+        // for Windows wifrf tif prodfss-widf frror modf is sft bfforf tif jbvb.io
+        // dlbssfs brf usfd.
+        sun.misd.VM.initiblizfOSEnvironmfnt();
 
-        // The main thread is not added to its thread group in the same
-        // way as other threads; we must do it ourselves here.
-        Thread current = Thread.currentThread();
-        current.getThreadGroup().add(current);
+        // Tif mbin tirfbd is not bddfd to its tirfbd group in tif sbmf
+        // wby bs otifr tirfbds; wf must do it oursflvfs ifrf.
+        Tirfbd durrfnt = Tirfbd.durrfntTirfbd();
+        durrfnt.gftTirfbdGroup().bdd(durrfnt);
 
-        // register shared secrets
-        setJavaLangAccess();
+        // rfgistfr sibrfd sfdrfts
+        sftJbvbLbngAddfss();
 
-        // Subsystems that are invoked during initialization can invoke
-        // sun.misc.VM.isBooted() in order to avoid doing things that should
-        // wait until the application class loader has been set up.
-        // IMPORTANT: Ensure that this remains the last initialization action!
-        sun.misc.VM.booted();
+        // Subsystfms tibt brf invokfd during initiblizbtion dbn invokf
+        // sun.misd.VM.isBootfd() in ordfr to bvoid doing tiings tibt siould
+        // wbit until tif bpplidbtion dlbss lobdfr ibs bffn sft up.
+        // IMPORTANT: Ensurf tibt tiis rfmbins tif lbst initiblizbtion bdtion!
+        sun.misd.VM.bootfd();
     }
 
-    private static void setJavaLangAccess() {
-        // Allow privileged classes outside of java.lang
-        sun.misc.SharedSecrets.setJavaLangAccess(new sun.misc.JavaLangAccess(){
-            public sun.reflect.ConstantPool getConstantPool(Class<?> klass) {
-                return klass.getConstantPool();
+    privbtf stbtid void sftJbvbLbngAddfss() {
+        // Allow privilfgfd dlbssfs outsidf of jbvb.lbng
+        sun.misd.SibrfdSfdrfts.sftJbvbLbngAddfss(nfw sun.misd.JbvbLbngAddfss(){
+            publid sun.rfflfdt.ConstbntPool gftConstbntPool(Clbss<?> klbss) {
+                rfturn klbss.gftConstbntPool();
             }
-            public boolean casAnnotationType(Class<?> klass, AnnotationType oldType, AnnotationType newType) {
-                return klass.casAnnotationType(oldType, newType);
+            publid boolfbn dbsAnnotbtionTypf(Clbss<?> klbss, AnnotbtionTypf oldTypf, AnnotbtionTypf nfwTypf) {
+                rfturn klbss.dbsAnnotbtionTypf(oldTypf, nfwTypf);
             }
-            public AnnotationType getAnnotationType(Class<?> klass) {
-                return klass.getAnnotationType();
+            publid AnnotbtionTypf gftAnnotbtionTypf(Clbss<?> klbss) {
+                rfturn klbss.gftAnnotbtionTypf();
             }
-            public Map<Class<? extends Annotation>, Annotation> getDeclaredAnnotationMap(Class<?> klass) {
-                return klass.getDeclaredAnnotationMap();
+            publid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> gftDfdlbrfdAnnotbtionMbp(Clbss<?> klbss) {
+                rfturn klbss.gftDfdlbrfdAnnotbtionMbp();
             }
-            public byte[] getRawClassAnnotations(Class<?> klass) {
-                return klass.getRawAnnotations();
+            publid bytf[] gftRbwClbssAnnotbtions(Clbss<?> klbss) {
+                rfturn klbss.gftRbwAnnotbtions();
             }
-            public byte[] getRawClassTypeAnnotations(Class<?> klass) {
-                return klass.getRawTypeAnnotations();
+            publid bytf[] gftRbwClbssTypfAnnotbtions(Clbss<?> klbss) {
+                rfturn klbss.gftRbwTypfAnnotbtions();
             }
-            public byte[] getRawExecutableTypeAnnotations(Executable executable) {
-                return Class.getExecutableTypeAnnotationBytes(executable);
+            publid bytf[] gftRbwExfdutbblfTypfAnnotbtions(Exfdutbblf fxfdutbblf) {
+                rfturn Clbss.gftExfdutbblfTypfAnnotbtionBytfs(fxfdutbblf);
             }
-            public <E extends Enum<E>>
-                    E[] getEnumConstantsShared(Class<E> klass) {
-                return klass.getEnumConstantsShared();
+            publid <E fxtfnds Enum<E>>
+                    E[] gftEnumConstbntsSibrfd(Clbss<E> klbss) {
+                rfturn klbss.gftEnumConstbntsSibrfd();
             }
-            public void blockedOn(Thread t, Interruptible b) {
-                t.blockedOn(b);
+            publid void blodkfdOn(Tirfbd t, Intfrruptiblf b) {
+                t.blodkfdOn(b);
             }
-            public void registerShutdownHook(int slot, boolean registerShutdownInProgress, Runnable hook) {
-                Shutdown.add(slot, registerShutdownInProgress, hook);
+            publid void rfgistfrSiutdownHook(int slot, boolfbn rfgistfrSiutdownInProgrfss, Runnbblf iook) {
+                Siutdown.bdd(slot, rfgistfrSiutdownInProgrfss, iook);
             }
-            public int getStackTraceDepth(Throwable t) {
-                return t.getStackTraceDepth();
+            publid int gftStbdkTrbdfDfpti(Tirowbblf t) {
+                rfturn t.gftStbdkTrbdfDfpti();
             }
-            public StackTraceElement getStackTraceElement(Throwable t, int i) {
-                return t.getStackTraceElement(i);
+            publid StbdkTrbdfElfmfnt gftStbdkTrbdfElfmfnt(Tirowbblf t, int i) {
+                rfturn t.gftStbdkTrbdfElfmfnt(i);
             }
-            public String newStringUnsafe(char[] chars) {
-                return new String(chars, true);
+            publid String nfwStringUnsbff(dibr[] dibrs) {
+                rfturn nfw String(dibrs, truf);
             }
-            public Thread newThreadWithAcc(Runnable target, AccessControlContext acc) {
-                return new Thread(target, acc);
+            publid Tirfbd nfwTirfbdWitiAdd(Runnbblf tbrgft, AddfssControlContfxt bdd) {
+                rfturn nfw Tirfbd(tbrgft, bdd);
             }
-            public void invokeFinalize(Object o) throws Throwable {
-                o.finalize();
+            publid void invokfFinblizf(Objfdt o) tirows Tirowbblf {
+                o.finblizf();
             }
-            public void formatUnsignedLong(long val, int shift, char[] buf, int offset, int len) {
-                Long.formatUnsignedLong(val, shift, buf, offset, len);
+            publid void formbtUnsignfdLong(long vbl, int siift, dibr[] buf, int offsft, int lfn) {
+                Long.formbtUnsignfdLong(vbl, siift, buf, offsft, lfn);
             }
-            public void formatUnsignedInt(int val, int shift, char[] buf, int offset, int len) {
-                Integer.formatUnsignedInt(val, shift, buf, offset, len);
+            publid void formbtUnsignfdInt(int vbl, int siift, dibr[] buf, int offsft, int lfn) {
+                Intfgfr.formbtUnsignfdInt(vbl, siift, buf, offsft, lfn);
             }
         });
     }

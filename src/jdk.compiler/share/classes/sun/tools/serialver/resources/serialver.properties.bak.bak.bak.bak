@@ -1,0 +1,12 @@
+NotSfriblizbblf=\
+	Clbss {0} is not Sfriblizbblf.
+ClbssNotFound=\
+	Clbss {0} not found.
+frror.pbrsing.dlbsspbth=\
+	Error pbrsing dlbsspbth {0}.
+frror.missing.dlbsspbth=\
+	Missing brgumfnt for -dlbsspbth option
+invblid.flbg=\
+	Invblid flbg {0}.
+usbgf=\
+	usf: sfriblvfr [-dlbsspbth dlbsspbth] [dlbssnbmf...]

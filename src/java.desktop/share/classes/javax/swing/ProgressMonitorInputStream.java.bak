@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
 
-import java.io.*;
-import java.awt.Component;
+import jbvb.io.*;
+import jbvb.bwt.Componfnt;
 
 
 
 /**
- * Monitors the progress of reading from some InputStream. This ProgressMonitor
- * is normally invoked in roughly this form:
- * <pre>
- * InputStream in = new BufferedInputStream(
- *                          new ProgressMonitorInputStream(
- *                                  parentComponent,
- *                                  "Reading " + fileName,
- *                                  new FileInputStream(fileName)));
- * </pre><p>
- * This creates a progress monitor to monitor the progress of reading
- * the input stream.  If it's taking a while, a ProgressDialog will
- * be popped up to inform the user.  If the user hits the Cancel button
- * an InterruptedIOException will be thrown on the next read.
- * All the right cleanup is done when the stream is closed.
+ * Monitors tif progrfss of rfbding from somf InputStrfbm. Tiis ProgrfssMonitor
+ * is normblly invokfd in rougily tiis form:
+ * <prf>
+ * InputStrfbm in = nfw BufffrfdInputStrfbm(
+ *                          nfw ProgrfssMonitorInputStrfbm(
+ *                                  pbrfntComponfnt,
+ *                                  "Rfbding " + filfNbmf,
+ *                                  nfw FilfInputStrfbm(filfNbmf)));
+ * </prf><p>
+ * Tiis drfbtfs b progrfss monitor to monitor tif progrfss of rfbding
+ * tif input strfbm.  If it's tbking b wiilf, b ProgrfssDiblog will
+ * bf poppfd up to inform tif usfr.  If tif usfr iits tif Cbndfl button
+ * bn IntfrruptfdIOExdfption will bf tirown on tif nfxt rfbd.
+ * All tif rigit dlfbnup is donf wifn tif strfbm is dlosfd.
  *
  *
  * <p>
  *
- * For further documentation and examples see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/progress.html">How to Monitor Progress</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For furtifr dodumfntbtion bnd fxbmplfs sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/progrfss.itml">How to Monitor Progrfss</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  *
- * @see ProgressMonitor
- * @see JOptionPane
- * @author James Gosling
- * @since 1.2
+ * @sff ProgrfssMonitor
+ * @sff JOptionPbnf
+ * @butior Jbmfs Gosling
+ * @sindf 1.2
  */
-public class ProgressMonitorInputStream extends FilterInputStream
+publid dlbss ProgrfssMonitorInputStrfbm fxtfnds FiltfrInputStrfbm
 {
-    private ProgressMonitor monitor;
-    private int             nread = 0;
-    private int             size = 0;
+    privbtf ProgrfssMonitor monitor;
+    privbtf int             nrfbd = 0;
+    privbtf int             sizf = 0;
 
 
     /**
-     * Constructs an object to monitor the progress of an input stream.
+     * Construdts bn objfdt to monitor tif progrfss of bn input strfbm.
      *
-     * @param message Descriptive text to be placed in the dialog box
-     *                if one is popped up.
-     * @param parentComponent The component triggering the operation
-     *                        being monitored.
-     * @param in The input stream to be monitored.
+     * @pbrbm mfssbgf Dfsdriptivf tfxt to bf plbdfd in tif diblog box
+     *                if onf is poppfd up.
+     * @pbrbm pbrfntComponfnt Tif domponfnt triggfring tif opfrbtion
+     *                        bfing monitorfd.
+     * @pbrbm in Tif input strfbm to bf monitorfd.
      */
-    public ProgressMonitorInputStream(Component parentComponent,
-                                      Object message,
-                                      InputStream in) {
-        super(in);
+    publid ProgrfssMonitorInputStrfbm(Componfnt pbrfntComponfnt,
+                                      Objfdt mfssbgf,
+                                      InputStrfbm in) {
+        supfr(in);
         try {
-            size = in.available();
+            sizf = in.bvbilbblf();
         }
-        catch(IOException ioe) {
-            size = 0;
+        dbtdi(IOExdfption iof) {
+            sizf = 0;
         }
-        monitor = new ProgressMonitor(parentComponent, message, null, 0, size);
+        monitor = nfw ProgrfssMonitor(pbrfntComponfnt, mfssbgf, null, 0, sizf);
     }
 
 
     /**
-     * Get the ProgressMonitor object being used by this stream. Normally
-     * this isn't needed unless you want to do something like change the
-     * descriptive text partway through reading the file.
-     * @return the ProgressMonitor object used by this object
+     * Gft tif ProgrfssMonitor objfdt bfing usfd by tiis strfbm. Normblly
+     * tiis isn't nffdfd unlfss you wbnt to do somftiing likf dibngf tif
+     * dfsdriptivf tfxt pbrtwby tirougi rfbding tif filf.
+     * @rfturn tif ProgrfssMonitor objfdt usfd by tiis objfdt
      */
-    public ProgressMonitor getProgressMonitor() {
-        return monitor;
+    publid ProgrfssMonitor gftProgrfssMonitor() {
+        rfturn monitor;
     }
 
 
     /**
-     * Overrides <code>FilterInputStream.read</code>
-     * to update the progress monitor after the read.
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.rfbd</dodf>
+     * to updbtf tif progrfss monitor bftfr tif rfbd.
      */
-    public int read() throws IOException {
-        int c = in.read();
-        if (c >= 0) monitor.setProgress(++nread);
-        if (monitor.isCanceled()) {
-            InterruptedIOException exc =
-                                    new InterruptedIOException("progress");
-            exc.bytesTransferred = nread;
-            throw exc;
+    publid int rfbd() tirows IOExdfption {
+        int d = in.rfbd();
+        if (d >= 0) monitor.sftProgrfss(++nrfbd);
+        if (monitor.isCbndflfd()) {
+            IntfrruptfdIOExdfption fxd =
+                                    nfw IntfrruptfdIOExdfption("progrfss");
+            fxd.bytfsTrbnsffrrfd = nrfbd;
+            tirow fxd;
         }
-        return c;
+        rfturn d;
     }
 
 
     /**
-     * Overrides <code>FilterInputStream.read</code>
-     * to update the progress monitor after the read.
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.rfbd</dodf>
+     * to updbtf tif progrfss monitor bftfr tif rfbd.
      */
-    public int read(byte b[]) throws IOException {
-        int nr = in.read(b);
-        if (nr > 0) monitor.setProgress(nread += nr);
-        if (monitor.isCanceled()) {
-            InterruptedIOException exc =
-                                    new InterruptedIOException("progress");
-            exc.bytesTransferred = nread;
-            throw exc;
+    publid int rfbd(bytf b[]) tirows IOExdfption {
+        int nr = in.rfbd(b);
+        if (nr > 0) monitor.sftProgrfss(nrfbd += nr);
+        if (monitor.isCbndflfd()) {
+            IntfrruptfdIOExdfption fxd =
+                                    nfw IntfrruptfdIOExdfption("progrfss");
+            fxd.bytfsTrbnsffrrfd = nrfbd;
+            tirow fxd;
         }
-        return nr;
+        rfturn nr;
     }
 
 
     /**
-     * Overrides <code>FilterInputStream.read</code>
-     * to update the progress monitor after the read.
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.rfbd</dodf>
+     * to updbtf tif progrfss monitor bftfr tif rfbd.
      */
-    public int read(byte b[],
+    publid int rfbd(bytf b[],
                     int off,
-                    int len) throws IOException {
-        int nr = in.read(b, off, len);
-        if (nr > 0) monitor.setProgress(nread += nr);
-        if (monitor.isCanceled()) {
-            InterruptedIOException exc =
-                                    new InterruptedIOException("progress");
-            exc.bytesTransferred = nread;
-            throw exc;
+                    int lfn) tirows IOExdfption {
+        int nr = in.rfbd(b, off, lfn);
+        if (nr > 0) monitor.sftProgrfss(nrfbd += nr);
+        if (monitor.isCbndflfd()) {
+            IntfrruptfdIOExdfption fxd =
+                                    nfw IntfrruptfdIOExdfption("progrfss");
+            fxd.bytfsTrbnsffrrfd = nrfbd;
+            tirow fxd;
         }
-        return nr;
+        rfturn nr;
     }
 
 
     /**
-     * Overrides <code>FilterInputStream.skip</code>
-     * to update the progress monitor after the skip.
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.skip</dodf>
+     * to updbtf tif progrfss monitor bftfr tif skip.
      */
-    public long skip(long n) throws IOException {
+    publid long skip(long n) tirows IOExdfption {
         long nr = in.skip(n);
-        if (nr > 0) monitor.setProgress(nread += nr);
-        return nr;
+        if (nr > 0) monitor.sftProgrfss(nrfbd += nr);
+        rfturn nr;
     }
 
 
     /**
-     * Overrides <code>FilterInputStream.close</code>
-     * to close the progress monitor as well as the stream.
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.dlosf</dodf>
+     * to dlosf tif progrfss monitor bs wfll bs tif strfbm.
      */
-    public void close() throws IOException {
-        in.close();
-        monitor.close();
+    publid void dlosf() tirows IOExdfption {
+        in.dlosf();
+        monitor.dlosf();
     }
 
 
     /**
-     * Overrides <code>FilterInputStream.reset</code>
-     * to reset the progress monitor as well as the stream.
+     * Ovfrridfs <dodf>FiltfrInputStrfbm.rfsft</dodf>
+     * to rfsft tif progrfss monitor bs wfll bs tif strfbm.
      */
-    public synchronized void reset() throws IOException {
-        in.reset();
-        nread = size - in.available();
-        monitor.setProgress(nread);
+    publid syndironizfd void rfsft() tirows IOExdfption {
+        in.rfsft();
+        nrfbd = sizf - in.bvbilbblf();
+        monitor.sftProgrfss(nrfbd);
     }
 }

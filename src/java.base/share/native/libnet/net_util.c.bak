@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jvm.h"
-#include "jni_util.h"
-#include "net_util.h"
+#indludf "jni.i"
+#indludf "jvm.i"
+#indludf "jni_util.i"
+#indludf "nft_util.i"
 
-int IPv6_supported() ;
+int IPv6_supportfd() ;
 
-static int IPv6_available;
+stbtid int IPv6_bvbilbblf;
 
-JNIEXPORT jint JNICALL ipv6_available()
+JNIEXPORT jint JNICALL ipv6_bvbilbblf()
 {
-    return IPv6_available ;
+    rfturn IPv6_bvbilbblf ;
 }
 
 JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM *vm, void *reserved)
+JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd)
 {
-    JNIEnv *env;
-    jclass iCls;
-    jmethodID mid;
+    JNIEnv *fnv;
+    jdlbss iCls;
+    jmftiodID mid;
     jstring s;
-    jint preferIPv4Stack;
+    jint prfffrIPv4Stbdk;
 
-    if ((*vm)->GetEnv(vm, (void**) &env, JNI_VERSION_1_2) != JNI_OK) {
-        return JNI_EVERSION; /* JNI version not supported */
+    if ((*vm)->GftEnv(vm, (void**) &fnv, JNI_VERSION_1_2) != JNI_OK) {
+        rfturn JNI_EVERSION; /* JNI vfrsion not supportfd */
     }
 
-    iCls = (*env)->FindClass(env, "java/lang/Boolean");
+    iCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/Boolfbn");
     CHECK_NULL_RETURN(iCls, JNI_VERSION_1_2);
-    mid = (*env)->GetStaticMethodID(env, iCls, "getBoolean", "(Ljava/lang/String;)Z");
+    mid = (*fnv)->GftStbtidMftiodID(fnv, iCls, "gftBoolfbn", "(Ljbvb/lbng/String;)Z");
     CHECK_NULL_RETURN(mid, JNI_VERSION_1_2);
-    s = (*env)->NewStringUTF(env, "java.net.preferIPv4Stack");
+    s = (*fnv)->NfwStringUTF(fnv, "jbvb.nft.prfffrIPv4Stbdk");
     CHECK_NULL_RETURN(s, JNI_VERSION_1_2);
-    preferIPv4Stack = (*env)->CallStaticBooleanMethod(env, iCls, mid, s);
+    prfffrIPv4Stbdk = (*fnv)->CbllStbtidBoolfbnMftiod(fnv, iCls, mid, s);
 
     /*
-       Since we have initialized and loaded the Socket library we will
-       check now to whether we have IPv6 on this platform and if the
-       supporting socket APIs are available
+       Sindf wf ibvf initiblizfd bnd lobdfd tif Sodkft librbry wf will
+       difdk now to wiftifr wf ibvf IPv6 on tiis plbtform bnd if tif
+       supporting sodkft APIs brf bvbilbblf
     */
-    IPv6_available = IPv6_supported() & (!preferIPv4Stack);
-    platformInit();
-    parseExclusiveBindProperty(env);
+    IPv6_bvbilbblf = IPv6_supportfd() & (!prfffrIPv4Stbdk);
+    plbtformInit();
+    pbrsfExdlusivfBindPropfrty(fnv);
 
-    return JNI_VERSION_1_2;
+    rfturn JNI_VERSION_1_2;
 }
 
-static int initialized = 0;
+stbtid int initiblizfd = 0;
 
-JNIEXPORT void JNICALL initInetAddressIDs(JNIEnv *env) {
-    if (!initialized) {
-        Java_java_net_InetAddress_init(env, 0);
-        JNU_CHECK_EXCEPTION(env);
-        Java_java_net_Inet4Address_init(env, 0);
-        JNU_CHECK_EXCEPTION(env);
-        Java_java_net_Inet6Address_init(env, 0);
-        JNU_CHECK_EXCEPTION(env);
-        initialized = 1;
+JNIEXPORT void JNICALL initInftAddrfssIDs(JNIEnv *fnv) {
+    if (!initiblizfd) {
+        Jbvb_jbvb_nft_InftAddrfss_init(fnv, 0);
+        JNU_CHECK_EXCEPTION(fnv);
+        Jbvb_jbvb_nft_Inft4Addrfss_init(fnv, 0);
+        JNU_CHECK_EXCEPTION(fnv);
+        Jbvb_jbvb_nft_Inft6Addrfss_init(fnv, 0);
+        JNU_CHECK_EXCEPTION(fnv);
+        initiblizfd = 1;
     }
 }
 
-/* The address, and family fields used to be in InetAddress
- * but are now in an implementation object. So, there is an extra
- * level of indirection to access them now.
+/* Tif bddrfss, bnd fbmily fiflds usfd to bf in InftAddrfss
+ * but brf now in bn implfmfntbtion objfdt. So, tifrf is bn fxtrb
+ * lfvfl of indirfdtion to bddfss tifm now.
  */
 
-extern jclass iac_class;
-extern jfieldID ia_holderID;
-extern jfieldID iac_addressID;
-extern jfieldID iac_familyID;
+fxtfrn jdlbss ibd_dlbss;
+fxtfrn jfifldID ib_ioldfrID;
+fxtfrn jfifldID ibd_bddrfssID;
+fxtfrn jfifldID ibd_fbmilyID;
 
 /**
- * set_ methods return JNI_TRUE on success JNI_FALSE on error
- * get_ methods that return +ve int return -1 on error
- * get_ methods that return objects return NULL on error.
+ * sft_ mftiods rfturn JNI_TRUE on suddfss JNI_FALSE on frror
+ * gft_ mftiods tibt rfturn +vf int rfturn -1 on frror
+ * gft_ mftiods tibt rfturn objfdts rfturn NULL on frror.
  */
-jobject getInet6Address_scopeifname(JNIEnv *env, jobject iaObj) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia6_holder6ID);
-    CHECK_NULL_RETURN(holder, NULL);
-    return (*env)->GetObjectField(env, holder, ia6_scopeifnameID);
+jobjfdt gftInft6Addrfss_sdopfifnbmf(JNIEnv *fnv, jobjfdt ibObj) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib6_ioldfr6ID);
+    CHECK_NULL_RETURN(ioldfr, NULL);
+    rfturn (*fnv)->GftObjfdtFifld(fnv, ioldfr, ib6_sdopfifnbmfID);
 }
 
-jboolean setInet6Address_scopeifname(JNIEnv *env, jobject iaObj, jobject scopeifname) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia6_holder6ID);
-    CHECK_NULL_RETURN(holder, JNI_FALSE);
-    (*env)->SetObjectField(env, holder, ia6_scopeifnameID, scopeifname);
-    return JNI_TRUE;
+jboolfbn sftInft6Addrfss_sdopfifnbmf(JNIEnv *fnv, jobjfdt ibObj, jobjfdt sdopfifnbmf) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib6_ioldfr6ID);
+    CHECK_NULL_RETURN(ioldfr, JNI_FALSE);
+    (*fnv)->SftObjfdtFifld(fnv, ioldfr, ib6_sdopfifnbmfID, sdopfifnbmf);
+    rfturn JNI_TRUE;
 }
 
-int getInet6Address_scopeid_set(JNIEnv *env, jobject iaObj) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia6_holder6ID);
-    CHECK_NULL_RETURN(holder, -1);
-    return (*env)->GetBooleanField(env, holder, ia6_scopeidsetID);
+int gftInft6Addrfss_sdopfid_sft(JNIEnv *fnv, jobjfdt ibObj) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib6_ioldfr6ID);
+    CHECK_NULL_RETURN(ioldfr, -1);
+    rfturn (*fnv)->GftBoolfbnFifld(fnv, ioldfr, ib6_sdopfidsftID);
 }
 
-int getInet6Address_scopeid(JNIEnv *env, jobject iaObj) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia6_holder6ID);
-    CHECK_NULL_RETURN(holder, -1);
-    return (*env)->GetIntField(env, holder, ia6_scopeidID);
+int gftInft6Addrfss_sdopfid(JNIEnv *fnv, jobjfdt ibObj) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib6_ioldfr6ID);
+    CHECK_NULL_RETURN(ioldfr, -1);
+    rfturn (*fnv)->GftIntFifld(fnv, ioldfr, ib6_sdopfidID);
 }
 
-jboolean setInet6Address_scopeid(JNIEnv *env, jobject iaObj, int scopeid) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia6_holder6ID);
-    CHECK_NULL_RETURN(holder, JNI_FALSE);
-    (*env)->SetIntField(env, holder, ia6_scopeidID, scopeid);
-    if (scopeid > 0) {
-        (*env)->SetBooleanField(env, holder, ia6_scopeidsetID, JNI_TRUE);
+jboolfbn sftInft6Addrfss_sdopfid(JNIEnv *fnv, jobjfdt ibObj, int sdopfid) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib6_ioldfr6ID);
+    CHECK_NULL_RETURN(ioldfr, JNI_FALSE);
+    (*fnv)->SftIntFifld(fnv, ioldfr, ib6_sdopfidID, sdopfid);
+    if (sdopfid > 0) {
+        (*fnv)->SftBoolfbnFifld(fnv, ioldfr, ib6_sdopfidsftID, JNI_TRUE);
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-jboolean getInet6Address_ipaddress(JNIEnv *env, jobject iaObj, char *dest) {
-    jobject holder, addr;
+jboolfbn gftInft6Addrfss_ipbddrfss(JNIEnv *fnv, jobjfdt ibObj, dibr *dfst) {
+    jobjfdt ioldfr, bddr;
 
-    holder = (*env)->GetObjectField(env, iaObj, ia6_holder6ID);
-    CHECK_NULL_RETURN(holder, JNI_FALSE);
-    addr =  (*env)->GetObjectField(env, holder, ia6_ipaddressID);
-    CHECK_NULL_RETURN(addr, JNI_FALSE);
-    (*env)->GetByteArrayRegion(env, addr, 0, 16, (jbyte *)dest);
-    return JNI_TRUE;
+    ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib6_ioldfr6ID);
+    CHECK_NULL_RETURN(ioldfr, JNI_FALSE);
+    bddr =  (*fnv)->GftObjfdtFifld(fnv, ioldfr, ib6_ipbddrfssID);
+    CHECK_NULL_RETURN(bddr, JNI_FALSE);
+    (*fnv)->GftBytfArrbyRfgion(fnv, bddr, 0, 16, (jbytf *)dfst);
+    rfturn JNI_TRUE;
 }
 
-jboolean setInet6Address_ipaddress(JNIEnv *env, jobject iaObj, char *address) {
-    jobject holder;
-    jbyteArray addr;
+jboolfbn sftInft6Addrfss_ipbddrfss(JNIEnv *fnv, jobjfdt ibObj, dibr *bddrfss) {
+    jobjfdt ioldfr;
+    jbytfArrby bddr;
 
-    holder = (*env)->GetObjectField(env, iaObj, ia6_holder6ID);
-    CHECK_NULL_RETURN(holder, JNI_FALSE);
-    addr =  (jbyteArray)(*env)->GetObjectField(env, holder, ia6_ipaddressID);
-    if (addr == NULL) {
-        addr = (*env)->NewByteArray(env, 16);
-        CHECK_NULL_RETURN(addr, JNI_FALSE);
-        (*env)->SetObjectField(env, holder, ia6_ipaddressID, addr);
+    ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib6_ioldfr6ID);
+    CHECK_NULL_RETURN(ioldfr, JNI_FALSE);
+    bddr =  (jbytfArrby)(*fnv)->GftObjfdtFifld(fnv, ioldfr, ib6_ipbddrfssID);
+    if (bddr == NULL) {
+        bddr = (*fnv)->NfwBytfArrby(fnv, 16);
+        CHECK_NULL_RETURN(bddr, JNI_FALSE);
+        (*fnv)->SftObjfdtFifld(fnv, ioldfr, ib6_ipbddrfssID, bddr);
     }
-    (*env)->SetByteArrayRegion(env, addr, 0, 16, (jbyte *)address);
-    return JNI_TRUE;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bddr, 0, 16, (jbytf *)bddrfss);
+    rfturn JNI_TRUE;
 }
 
-void setInetAddress_addr(JNIEnv *env, jobject iaObj, int address) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia_holderID);
-    (*env)->SetIntField(env, holder, iac_addressID, address);
+void sftInftAddrfss_bddr(JNIEnv *fnv, jobjfdt ibObj, int bddrfss) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib_ioldfrID);
+    (*fnv)->SftIntFifld(fnv, ioldfr, ibd_bddrfssID, bddrfss);
 }
 
-void setInetAddress_family(JNIEnv *env, jobject iaObj, int family) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia_holderID);
-    (*env)->SetIntField(env, holder, iac_familyID, family);
+void sftInftAddrfss_fbmily(JNIEnv *fnv, jobjfdt ibObj, int fbmily) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib_ioldfrID);
+    (*fnv)->SftIntFifld(fnv, ioldfr, ibd_fbmilyID, fbmily);
 }
 
-void setInetAddress_hostName(JNIEnv *env, jobject iaObj, jobject host) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia_holderID);
-    (*env)->SetObjectField(env, holder, iac_hostNameID, host);
+void sftInftAddrfss_iostNbmf(JNIEnv *fnv, jobjfdt ibObj, jobjfdt iost) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib_ioldfrID);
+    (*fnv)->SftObjfdtFifld(fnv, ioldfr, ibd_iostNbmfID, iost);
 }
 
-int getInetAddress_addr(JNIEnv *env, jobject iaObj) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia_holderID);
-    return (*env)->GetIntField(env, holder, iac_addressID);
+int gftInftAddrfss_bddr(JNIEnv *fnv, jobjfdt ibObj) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib_ioldfrID);
+    rfturn (*fnv)->GftIntFifld(fnv, ioldfr, ibd_bddrfssID);
 }
 
-int getInetAddress_family(JNIEnv *env, jobject iaObj) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia_holderID);
-    return (*env)->GetIntField(env, holder, iac_familyID);
+int gftInftAddrfss_fbmily(JNIEnv *fnv, jobjfdt ibObj) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib_ioldfrID);
+    rfturn (*fnv)->GftIntFifld(fnv, ioldfr, ibd_fbmilyID);
 }
 
-jobject getInetAddress_hostName(JNIEnv *env, jobject iaObj) {
-    jobject holder = (*env)->GetObjectField(env, iaObj, ia_holderID);
-    return (*env)->GetObjectField(env, holder, iac_hostNameID);
+jobjfdt gftInftAddrfss_iostNbmf(JNIEnv *fnv, jobjfdt ibObj) {
+    jobjfdt ioldfr = (*fnv)->GftObjfdtFifld(fnv, ibObj, ib_ioldfrID);
+    rfturn (*fnv)->GftObjfdtFifld(fnv, ioldfr, ibd_iostNbmfID);
 }
 
-JNIEXPORT jobject JNICALL
-NET_SockaddrToInetAddress(JNIEnv *env, struct sockaddr *him, int *port) {
-    jobject iaObj;
-#ifdef AF_INET6
-    if (him->sa_family == AF_INET6) {
-#ifdef WIN32
-        struct SOCKADDR_IN6 *him6 = (struct SOCKADDR_IN6 *)him;
-#else
-        struct sockaddr_in6 *him6 = (struct sockaddr_in6 *)him;
-#endif
-        jbyte *caddr = (jbyte *)&(him6->sin6_addr);
-        if (NET_IsIPv4Mapped(caddr)) {
-            int address;
-            iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            CHECK_NULL_RETURN(iaObj, NULL);
-            address = NET_IPv4MappedToIPv4(caddr);
-            setInetAddress_addr(env, iaObj, address);
-            setInetAddress_family(env, iaObj, IPv4);
-        } else {
-            jint scope;
-            jboolean ret;
-            iaObj = (*env)->NewObject(env, ia6_class, ia6_ctrID);
-            CHECK_NULL_RETURN(iaObj, NULL);
-            ret = setInet6Address_ipaddress(env, iaObj, (char *)&(him6->sin6_addr));
-            if (ret == JNI_FALSE)
-                return NULL;
-            setInetAddress_family(env, iaObj, IPv6);
-            scope = getScopeID(him);
-            setInet6Address_scopeid(env, iaObj, scope);
+JNIEXPORT jobjfdt JNICALL
+NET_SodkbddrToInftAddrfss(JNIEnv *fnv, strudt sodkbddr *iim, int *port) {
+    jobjfdt ibObj;
+#ifdff AF_INET6
+    if (iim->sb_fbmily == AF_INET6) {
+#ifdff WIN32
+        strudt SOCKADDR_IN6 *iim6 = (strudt SOCKADDR_IN6 *)iim;
+#flsf
+        strudt sodkbddr_in6 *iim6 = (strudt sodkbddr_in6 *)iim;
+#fndif
+        jbytf *dbddr = (jbytf *)&(iim6->sin6_bddr);
+        if (NET_IsIPv4Mbppfd(dbddr)) {
+            int bddrfss;
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+            CHECK_NULL_RETURN(ibObj, NULL);
+            bddrfss = NET_IPv4MbppfdToIPv4(dbddr);
+            sftInftAddrfss_bddr(fnv, ibObj, bddrfss);
+            sftInftAddrfss_fbmily(fnv, ibObj, IPv4);
+        } flsf {
+            jint sdopf;
+            jboolfbn rft;
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib6_dlbss, ib6_dtrID);
+            CHECK_NULL_RETURN(ibObj, NULL);
+            rft = sftInft6Addrfss_ipbddrfss(fnv, ibObj, (dibr *)&(iim6->sin6_bddr));
+            if (rft == JNI_FALSE)
+                rfturn NULL;
+            sftInftAddrfss_fbmily(fnv, ibObj, IPv6);
+            sdopf = gftSdopfID(iim);
+            sftInft6Addrfss_sdopfid(fnv, ibObj, sdopf);
         }
-        *port = ntohs(him6->sin6_port);
-    } else
-#endif /* AF_INET6 */
+        *port = ntois(iim6->sin6_port);
+    } flsf
+#fndif /* AF_INET6 */
         {
-            struct sockaddr_in *him4 = (struct sockaddr_in *)him;
-            iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            CHECK_NULL_RETURN(iaObj, NULL);
-            setInetAddress_family(env, iaObj, IPv4);
-            setInetAddress_addr(env, iaObj, ntohl(him4->sin_addr.s_addr));
-            *port = ntohs(him4->sin_port);
+            strudt sodkbddr_in *iim4 = (strudt sodkbddr_in *)iim;
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+            CHECK_NULL_RETURN(ibObj, NULL);
+            sftInftAddrfss_fbmily(fnv, ibObj, IPv4);
+            sftInftAddrfss_bddr(fnv, ibObj, ntoil(iim4->sin_bddr.s_bddr));
+            *port = ntois(iim4->sin_port);
         }
-    return iaObj;
+    rfturn ibObj;
 }
 
 JNIEXPORT jint JNICALL
-NET_SockaddrEqualsInetAddress(JNIEnv *env, struct sockaddr *him, jobject iaObj)
+NET_SodkbddrEqublsInftAddrfss(JNIEnv *fnv, strudt sodkbddr *iim, jobjfdt ibObj)
 {
-    jint family = AF_INET;
+    jint fbmily = AF_INET;
 
-#ifdef AF_INET6
-    family = getInetAddress_family(env, iaObj) == IPv4? AF_INET : AF_INET6;
-    if (him->sa_family == AF_INET6) {
-#ifdef WIN32
-        struct SOCKADDR_IN6 *him6 = (struct SOCKADDR_IN6 *)him;
-#else
-        struct sockaddr_in6 *him6 = (struct sockaddr_in6 *)him;
-#endif
-        jbyte *caddrNew = (jbyte *)&(him6->sin6_addr);
-        if (NET_IsIPv4Mapped(caddrNew)) {
-            int addrNew;
-            int addrCur;
-            if (family == AF_INET6) {
-                return JNI_FALSE;
+#ifdff AF_INET6
+    fbmily = gftInftAddrfss_fbmily(fnv, ibObj) == IPv4? AF_INET : AF_INET6;
+    if (iim->sb_fbmily == AF_INET6) {
+#ifdff WIN32
+        strudt SOCKADDR_IN6 *iim6 = (strudt SOCKADDR_IN6 *)iim;
+#flsf
+        strudt sodkbddr_in6 *iim6 = (strudt sodkbddr_in6 *)iim;
+#fndif
+        jbytf *dbddrNfw = (jbytf *)&(iim6->sin6_bddr);
+        if (NET_IsIPv4Mbppfd(dbddrNfw)) {
+            int bddrNfw;
+            int bddrCur;
+            if (fbmily == AF_INET6) {
+                rfturn JNI_FALSE;
             }
-            addrNew = NET_IPv4MappedToIPv4(caddrNew);
-            addrCur = getInetAddress_addr(env, iaObj);
-            if (addrNew == addrCur) {
-                return JNI_TRUE;
-            } else {
-                return JNI_FALSE;
+            bddrNfw = NET_IPv4MbppfdToIPv4(dbddrNfw);
+            bddrCur = gftInftAddrfss_bddr(fnv, ibObj);
+            if (bddrNfw == bddrCur) {
+                rfturn JNI_TRUE;
+            } flsf {
+                rfturn JNI_FALSE;
             }
-        } else {
-            jbyte caddrCur[16];
-            int scope;
+        } flsf {
+            jbytf dbddrCur[16];
+            int sdopf;
 
-            if (family == AF_INET) {
-                return JNI_FALSE;
+            if (fbmily == AF_INET) {
+                rfturn JNI_FALSE;
             }
-            scope = getInet6Address_scopeid(env, iaObj);
-            getInet6Address_ipaddress(env, iaObj, (char *)caddrCur);
-            if (NET_IsEqual(caddrNew, caddrCur) && cmpScopeID(scope, him)) {
-                return JNI_TRUE;
-            } else {
-                return JNI_FALSE;
+            sdopf = gftInft6Addrfss_sdopfid(fnv, ibObj);
+            gftInft6Addrfss_ipbddrfss(fnv, ibObj, (dibr *)dbddrCur);
+            if (NET_IsEqubl(dbddrNfw, dbddrCur) && dmpSdopfID(sdopf, iim)) {
+                rfturn JNI_TRUE;
+            } flsf {
+                rfturn JNI_FALSE;
             }
         }
-    } else
-#endif /* AF_INET6 */
+    } flsf
+#fndif /* AF_INET6 */
         {
-            struct sockaddr_in *him4 = (struct sockaddr_in *)him;
-            int addrNew, addrCur;
-            if (family != AF_INET) {
-                return JNI_FALSE;
+            strudt sodkbddr_in *iim4 = (strudt sodkbddr_in *)iim;
+            int bddrNfw, bddrCur;
+            if (fbmily != AF_INET) {
+                rfturn JNI_FALSE;
             }
-            addrNew = ntohl(him4->sin_addr.s_addr);
-            addrCur = getInetAddress_addr(env, iaObj);
-            if (addrNew == addrCur) {
-                return JNI_TRUE;
-            } else {
-                return JNI_FALSE;
+            bddrNfw = ntoil(iim4->sin_bddr.s_bddr);
+            bddrCur = gftInftAddrfss_bddr(fnv, ibObj);
+            if (bddrNfw == bddrCur) {
+                rfturn JNI_TRUE;
+            } flsf {
+                rfturn JNI_FALSE;
             }
         }
 }
 
-unsigned short
-in_cksum(unsigned short *addr, int len) {
-    int nleft = len;
+unsignfd siort
+in_dksum(unsignfd siort *bddr, int lfn) {
+    int nlfft = lfn;
     int sum = 0;
-    unsigned short *w = addr;
-    unsigned short answer = 0;
-    while(nleft > 1) {
+    unsignfd siort *w = bddr;
+    unsignfd siort bnswfr = 0;
+    wiilf(nlfft > 1) {
         sum += *w++;
-        nleft -= 2;
+        nlfft -= 2;
     }
 
-    if (nleft == 1) {
-        *(unsigned char *) (&answer) = *(unsigned char *)w;
-        sum += answer;
+    if (nlfft == 1) {
+        *(unsignfd dibr *) (&bnswfr) = *(unsignfd dibr *)w;
+        sum += bnswfr;
     }
 
     sum = (sum >> 16) + (sum & 0xffff);
     sum += (sum >> 16);
-    answer = ~sum;
-    return (answer);
+    bnswfr = ~sum;
+    rfturn (bnswfr);
 }

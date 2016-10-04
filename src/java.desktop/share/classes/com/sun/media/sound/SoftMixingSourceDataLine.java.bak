@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Arrbys;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.DbtbLinf;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
+import jbvbx.sound.sbmplfd.SourdfDbtbLinf;
 
 /**
- * SourceDataLine implementation for the SoftMixingMixer.
+ * SourdfDbtbLinf implfmfntbtion for tif SoftMixingMixfr.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftMixingSourceDataLine extends SoftMixingDataLine
-        implements SourceDataLine {
+publid finbl dlbss SoftMixingSourdfDbtbLinf fxtfnds SoftMixingDbtbLinf
+        implfmfnts SourdfDbtbLinf {
 
-    private boolean open = false;
+    privbtf boolfbn opfn = fblsf;
 
-    private AudioFormat format = new AudioFormat(44100.0f, 16, 2, true, false);
+    privbtf AudioFormbt formbt = nfw AudioFormbt(44100.0f, 16, 2, truf, fblsf);
 
-    private int framesize;
+    privbtf int frbmfsizf;
 
-    private int bufferSize = -1;
+    privbtf int bufffrSizf = -1;
 
-    private float[] readbuffer;
+    privbtf flobt[] rfbdbufffr;
 
-    private boolean active = false;
+    privbtf boolfbn bdtivf = fblsf;
 
-    private byte[] cycling_buffer;
+    privbtf bytf[] dydling_bufffr;
 
-    private int cycling_read_pos = 0;
+    privbtf int dydling_rfbd_pos = 0;
 
-    private int cycling_write_pos = 0;
+    privbtf int dydling_writf_pos = 0;
 
-    private int cycling_avail = 0;
+    privbtf int dydling_bvbil = 0;
 
-    private long cycling_framepos = 0;
+    privbtf long dydling_frbmfpos = 0;
 
-    private AudioFloatInputStream afis;
+    privbtf AudioFlobtInputStrfbm bfis;
 
-    private static class NonBlockingFloatInputStream extends
-            AudioFloatInputStream {
-        AudioFloatInputStream ais;
+    privbtf stbtid dlbss NonBlodkingFlobtInputStrfbm fxtfnds
+            AudioFlobtInputStrfbm {
+        AudioFlobtInputStrfbm bis;
 
-        NonBlockingFloatInputStream(AudioFloatInputStream ais) {
-            this.ais = ais;
+        NonBlodkingFlobtInputStrfbm(AudioFlobtInputStrfbm bis) {
+            tiis.bis = bis;
         }
 
-        public int available() throws IOException {
-            return ais.available();
+        publid int bvbilbblf() tirows IOExdfption {
+            rfturn bis.bvbilbblf();
         }
 
-        public void close() throws IOException {
-            ais.close();
+        publid void dlosf() tirows IOExdfption {
+            bis.dlosf();
         }
 
-        public AudioFormat getFormat() {
-            return ais.getFormat();
+        publid AudioFormbt gftFormbt() {
+            rfturn bis.gftFormbt();
         }
 
-        public long getFrameLength() {
-            return ais.getFrameLength();
+        publid long gftFrbmfLfngti() {
+            rfturn bis.gftFrbmfLfngti();
         }
 
-        public void mark(int readlimit) {
-            ais.mark(readlimit);
+        publid void mbrk(int rfbdlimit) {
+            bis.mbrk(rfbdlimit);
         }
 
-        public boolean markSupported() {
-            return ais.markSupported();
+        publid boolfbn mbrkSupportfd() {
+            rfturn bis.mbrkSupportfd();
         }
 
-        public int read(float[] b, int off, int len) throws IOException {
-            int avail = available();
-            if (len > avail) {
-                int ret = ais.read(b, off, avail);
-                Arrays.fill(b, off + ret, off + len, 0);
-                return len;
+        publid int rfbd(flobt[] b, int off, int lfn) tirows IOExdfption {
+            int bvbil = bvbilbblf();
+            if (lfn > bvbil) {
+                int rft = bis.rfbd(b, off, bvbil);
+                Arrbys.fill(b, off + rft, off + lfn, 0);
+                rfturn lfn;
             }
-            return ais.read(b, off, len);
+            rfturn bis.rfbd(b, off, lfn);
         }
 
-        public void reset() throws IOException {
-            ais.reset();
+        publid void rfsft() tirows IOExdfption {
+            bis.rfsft();
         }
 
-        public long skip(long len) throws IOException {
-            return ais.skip(len);
+        publid long skip(long lfn) tirows IOExdfption {
+            rfturn bis.skip(lfn);
         }
 
     }
 
-    SoftMixingSourceDataLine(SoftMixingMixer mixer, DataLine.Info info) {
-        super(mixer, info);
+    SoftMixingSourdfDbtbLinf(SoftMixingMixfr mixfr, DbtbLinf.Info info) {
+        supfr(mixfr, info);
     }
 
-    public int write(byte[] b, int off, int len) {
-        if (!isOpen())
-            return 0;
-        if (len % framesize != 0)
-            throw new IllegalArgumentException(
-                    "Number of bytes does not represent an integral number of sample frames.");
+    publid int writf(bytf[] b, int off, int lfn) {
+        if (!isOpfn())
+            rfturn 0;
+        if (lfn % frbmfsizf != 0)
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Numbfr of bytfs dofs not rfprfsfnt bn intfgrbl numbfr of sbmplf frbmfs.");
         if (off < 0) {
-            throw new ArrayIndexOutOfBoundsException(off);
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(off);
         }
-        if ((long)off + (long)len > (long)b.length) {
-            throw new ArrayIndexOutOfBoundsException(b.length);
+        if ((long)off + (long)lfn > (long)b.lfngti) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(b.lfngti);
         }
 
-        byte[] buff = cycling_buffer;
-        int buff_len = cycling_buffer.length;
+        bytf[] buff = dydling_bufffr;
+        int buff_lfn = dydling_bufffr.lfngti;
 
         int l = 0;
-        while (l != len) {
-            int avail;
-            synchronized (cycling_buffer) {
-                int pos = cycling_write_pos;
-                avail = cycling_avail;
-                while (l != len) {
-                    if (avail == buff_len)
-                        break;
+        wiilf (l != lfn) {
+            int bvbil;
+            syndironizfd (dydling_bufffr) {
+                int pos = dydling_writf_pos;
+                bvbil = dydling_bvbil;
+                wiilf (l != lfn) {
+                    if (bvbil == buff_lfn)
+                        brfbk;
                     buff[pos++] = b[off++];
                     l++;
-                    avail++;
-                    if (pos == buff_len)
+                    bvbil++;
+                    if (pos == buff_lfn)
                         pos = 0;
                 }
-                cycling_avail = avail;
-                cycling_write_pos = pos;
-                if (l == len)
-                    return l;
+                dydling_bvbil = bvbil;
+                dydling_writf_pos = pos;
+                if (l == lfn)
+                    rfturn l;
             }
-            if (avail == buff_len) {
+            if (bvbil == buff_lfn) {
                 try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    return l;
+                    Tirfbd.slffp(1);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    rfturn l;
                 }
                 if (!isRunning())
-                    return l;
+                    rfturn l;
             }
         }
 
-        return l;
+        rfturn l;
     }
 
     //
-    // BooleanControl.Type.APPLY_REVERB
-    // BooleanControl.Type.MUTE
-    // EnumControl.Type.REVERB
+    // BoolfbnControl.Typf.APPLY_REVERB
+    // BoolfbnControl.Typf.MUTE
+    // EnumControl.Typf.REVERB
     //
-    // FloatControl.Type.SAMPLE_RATE
-    // FloatControl.Type.REVERB_SEND
-    // FloatControl.Type.VOLUME
-    // FloatControl.Type.PAN
-    // FloatControl.Type.MASTER_GAIN
-    // FloatControl.Type.BALANCE
+    // FlobtControl.Typf.SAMPLE_RATE
+    // FlobtControl.Typf.REVERB_SEND
+    // FlobtControl.Typf.VOLUME
+    // FlobtControl.Typf.PAN
+    // FlobtControl.Typf.MASTER_GAIN
+    // FlobtControl.Typf.BALANCE
 
-    private boolean _active = false;
+    privbtf boolfbn _bdtivf = fblsf;
 
-    private AudioFormat outputformat;
+    privbtf AudioFormbt outputformbt;
 
-    private int out_nrofchannels;
+    privbtf int out_nrofdibnnfls;
 
-    private int in_nrofchannels;
+    privbtf int in_nrofdibnnfls;
 
-    private float _rightgain;
+    privbtf flobt _rigitgbin;
 
-    private float _leftgain;
+    privbtf flobt _lfftgbin;
 
-    private float _eff1gain;
+    privbtf flobt _fff1gbin;
 
-    private float _eff2gain;
+    privbtf flobt _fff2gbin;
 
-    protected void processControlLogic() {
-        _active = active;
-        _rightgain = rightgain;
-        _leftgain = leftgain;
-        _eff1gain = eff1gain;
-        _eff2gain = eff2gain;
+    protfdtfd void prodfssControlLogid() {
+        _bdtivf = bdtivf;
+        _rigitgbin = rigitgbin;
+        _lfftgbin = lfftgbin;
+        _fff1gbin = fff1gbin;
+        _fff2gbin = fff2gbin;
     }
 
-    protected void processAudioLogic(SoftAudioBuffer[] buffers) {
-        if (_active) {
-            float[] left = buffers[SoftMixingMainMixer.CHANNEL_LEFT].array();
-            float[] right = buffers[SoftMixingMainMixer.CHANNEL_RIGHT].array();
-            int bufferlen = buffers[SoftMixingMainMixer.CHANNEL_LEFT].getSize();
+    protfdtfd void prodfssAudioLogid(SoftAudioBufffr[] bufffrs) {
+        if (_bdtivf) {
+            flobt[] lfft = bufffrs[SoftMixingMbinMixfr.CHANNEL_LEFT].brrby();
+            flobt[] rigit = bufffrs[SoftMixingMbinMixfr.CHANNEL_RIGHT].brrby();
+            int bufffrlfn = bufffrs[SoftMixingMbinMixfr.CHANNEL_LEFT].gftSizf();
 
-            int readlen = bufferlen * in_nrofchannels;
-            if (readbuffer == null || readbuffer.length < readlen) {
-                readbuffer = new float[readlen];
+            int rfbdlfn = bufffrlfn * in_nrofdibnnfls;
+            if (rfbdbufffr == null || rfbdbufffr.lfngti < rfbdlfn) {
+                rfbdbufffr = nfw flobt[rfbdlfn];
             }
-            int ret = 0;
+            int rft = 0;
             try {
-                ret = afis.read(readbuffer);
-                if (ret != in_nrofchannels)
-                    Arrays.fill(readbuffer, ret, readlen, 0);
-            } catch (IOException e) {
+                rft = bfis.rfbd(rfbdbufffr);
+                if (rft != in_nrofdibnnfls)
+                    Arrbys.fill(rfbdbufffr, rft, rfbdlfn, 0);
+            } dbtdi (IOExdfption f) {
             }
 
-            int in_c = in_nrofchannels;
-            for (int i = 0, ix = 0; i < bufferlen; i++, ix += in_c) {
-                left[i] += readbuffer[ix] * _leftgain;
+            int in_d = in_nrofdibnnfls;
+            for (int i = 0, ix = 0; i < bufffrlfn; i++, ix += in_d) {
+                lfft[i] += rfbdbufffr[ix] * _lfftgbin;
             }
-            if (out_nrofchannels != 1) {
-                if (in_nrofchannels == 1) {
-                    for (int i = 0, ix = 0; i < bufferlen; i++, ix += in_c) {
-                        right[i] += readbuffer[ix] * _rightgain;
+            if (out_nrofdibnnfls != 1) {
+                if (in_nrofdibnnfls == 1) {
+                    for (int i = 0, ix = 0; i < bufffrlfn; i++, ix += in_d) {
+                        rigit[i] += rfbdbufffr[ix] * _rigitgbin;
                     }
-                } else {
-                    for (int i = 0, ix = 1; i < bufferlen; i++, ix += in_c) {
-                        right[i] += readbuffer[ix] * _rightgain;
-                    }
-                }
-
-            }
-
-            if (_eff1gain > 0.0001) {
-                float[] eff1 = buffers[SoftMixingMainMixer.CHANNEL_EFFECT1]
-                        .array();
-                for (int i = 0, ix = 0; i < bufferlen; i++, ix += in_c) {
-                    eff1[i] += readbuffer[ix] * _eff1gain;
-                }
-                if (in_nrofchannels == 2) {
-                    for (int i = 0, ix = 1; i < bufferlen; i++, ix += in_c) {
-                        eff1[i] += readbuffer[ix] * _eff1gain;
+                } flsf {
+                    for (int i = 0, ix = 1; i < bufffrlfn; i++, ix += in_d) {
+                        rigit[i] += rfbdbufffr[ix] * _rigitgbin;
                     }
                 }
+
             }
 
-            if (_eff2gain > 0.0001) {
-                float[] eff2 = buffers[SoftMixingMainMixer.CHANNEL_EFFECT2]
-                        .array();
-                for (int i = 0, ix = 0; i < bufferlen; i++, ix += in_c) {
-                    eff2[i] += readbuffer[ix] * _eff2gain;
+            if (_fff1gbin > 0.0001) {
+                flobt[] fff1 = bufffrs[SoftMixingMbinMixfr.CHANNEL_EFFECT1]
+                        .brrby();
+                for (int i = 0, ix = 0; i < bufffrlfn; i++, ix += in_d) {
+                    fff1[i] += rfbdbufffr[ix] * _fff1gbin;
                 }
-                if (in_nrofchannels == 2) {
-                    for (int i = 0, ix = 1; i < bufferlen; i++, ix += in_c) {
-                        eff2[i] += readbuffer[ix] * _eff2gain;
+                if (in_nrofdibnnfls == 2) {
+                    for (int i = 0, ix = 1; i < bufffrlfn; i++, ix += in_d) {
+                        fff1[i] += rfbdbufffr[ix] * _fff1gbin;
+                    }
+                }
+            }
+
+            if (_fff2gbin > 0.0001) {
+                flobt[] fff2 = bufffrs[SoftMixingMbinMixfr.CHANNEL_EFFECT2]
+                        .brrby();
+                for (int i = 0, ix = 0; i < bufffrlfn; i++, ix += in_d) {
+                    fff2[i] += rfbdbufffr[ix] * _fff2gbin;
+                }
+                if (in_nrofdibnnfls == 2) {
+                    for (int i = 0, ix = 1; i < bufffrlfn; i++, ix += in_d) {
+                        fff2[i] += rfbdbufffr[ix] * _fff2gbin;
                     }
                 }
             }
@@ -274,251 +274,251 @@ public final class SoftMixingSourceDataLine extends SoftMixingDataLine
         }
     }
 
-    public void open() throws LineUnavailableException {
-        open(format);
+    publid void opfn() tirows LinfUnbvbilbblfExdfption {
+        opfn(formbt);
     }
 
-    public void open(AudioFormat format) throws LineUnavailableException {
-        if (bufferSize == -1)
-            bufferSize = ((int) (format.getFrameRate() / 2))
-                    * format.getFrameSize();
-        open(format, bufferSize);
+    publid void opfn(AudioFormbt formbt) tirows LinfUnbvbilbblfExdfption {
+        if (bufffrSizf == -1)
+            bufffrSizf = ((int) (formbt.gftFrbmfRbtf() / 2))
+                    * formbt.gftFrbmfSizf();
+        opfn(formbt, bufffrSizf);
     }
 
-    public void open(AudioFormat format, int bufferSize)
-            throws LineUnavailableException {
+    publid void opfn(AudioFormbt formbt, int bufffrSizf)
+            tirows LinfUnbvbilbblfExdfption {
 
-        LineEvent event = null;
+        LinfEvfnt fvfnt = null;
 
-        if (bufferSize < format.getFrameSize() * 32)
-            bufferSize = format.getFrameSize() * 32;
+        if (bufffrSizf < formbt.gftFrbmfSizf() * 32)
+            bufffrSizf = formbt.gftFrbmfSizf() * 32;
 
-        synchronized (control_mutex) {
+        syndironizfd (dontrol_mutfx) {
 
-            if (!isOpen()) {
-                if (!mixer.isOpen()) {
-                    mixer.open();
-                    mixer.implicitOpen = true;
+            if (!isOpfn()) {
+                if (!mixfr.isOpfn()) {
+                    mixfr.opfn();
+                    mixfr.impliditOpfn = truf;
                 }
 
-                event = new LineEvent(this, LineEvent.Type.OPEN, 0);
+                fvfnt = nfw LinfEvfnt(tiis, LinfEvfnt.Typf.OPEN, 0);
 
-                this.bufferSize = bufferSize - bufferSize
-                        % format.getFrameSize();
-                this.format = format;
-                this.framesize = format.getFrameSize();
-                this.outputformat = mixer.getFormat();
-                out_nrofchannels = outputformat.getChannels();
-                in_nrofchannels = format.getChannels();
+                tiis.bufffrSizf = bufffrSizf - bufffrSizf
+                        % formbt.gftFrbmfSizf();
+                tiis.formbt = formbt;
+                tiis.frbmfsizf = formbt.gftFrbmfSizf();
+                tiis.outputformbt = mixfr.gftFormbt();
+                out_nrofdibnnfls = outputformbt.gftCibnnfls();
+                in_nrofdibnnfls = formbt.gftCibnnfls();
 
-                open = true;
+                opfn = truf;
 
-                mixer.getMainMixer().openLine(this);
+                mixfr.gftMbinMixfr().opfnLinf(tiis);
 
-                cycling_buffer = new byte[framesize * bufferSize];
-                cycling_read_pos = 0;
-                cycling_write_pos = 0;
-                cycling_avail = 0;
-                cycling_framepos = 0;
+                dydling_bufffr = nfw bytf[frbmfsizf * bufffrSizf];
+                dydling_rfbd_pos = 0;
+                dydling_writf_pos = 0;
+                dydling_bvbil = 0;
+                dydling_frbmfpos = 0;
 
-                InputStream cycling_inputstream = new InputStream() {
+                InputStrfbm dydling_inputstrfbm = nfw InputStrfbm() {
 
-                    public int read() throws IOException {
-                        byte[] b = new byte[1];
-                        int ret = read(b);
-                        if (ret < 0)
-                            return ret;
-                        return b[0] & 0xFF;
+                    publid int rfbd() tirows IOExdfption {
+                        bytf[] b = nfw bytf[1];
+                        int rft = rfbd(b);
+                        if (rft < 0)
+                            rfturn rft;
+                        rfturn b[0] & 0xFF;
                     }
 
-                    public int available() throws IOException {
-                        synchronized (cycling_buffer) {
-                            return cycling_avail;
+                    publid int bvbilbblf() tirows IOExdfption {
+                        syndironizfd (dydling_bufffr) {
+                            rfturn dydling_bvbil;
                         }
                     }
 
-                    public int read(byte[] b, int off, int len)
-                            throws IOException {
+                    publid int rfbd(bytf[] b, int off, int lfn)
+                            tirows IOExdfption {
 
-                        synchronized (cycling_buffer) {
-                            if (len > cycling_avail)
-                                len = cycling_avail;
-                            int pos = cycling_read_pos;
-                            byte[] buff = cycling_buffer;
-                            int buff_len = buff.length;
-                            for (int i = 0; i < len; i++) {
+                        syndironizfd (dydling_bufffr) {
+                            if (lfn > dydling_bvbil)
+                                lfn = dydling_bvbil;
+                            int pos = dydling_rfbd_pos;
+                            bytf[] buff = dydling_bufffr;
+                            int buff_lfn = buff.lfngti;
+                            for (int i = 0; i < lfn; i++) {
                                 b[off++] = buff[pos];
                                 pos++;
-                                if (pos == buff_len)
+                                if (pos == buff_lfn)
                                     pos = 0;
                             }
-                            cycling_read_pos = pos;
-                            cycling_avail -= len;
-                            cycling_framepos += len / framesize;
+                            dydling_rfbd_pos = pos;
+                            dydling_bvbil -= lfn;
+                            dydling_frbmfpos += lfn / frbmfsizf;
                         }
-                        return len;
+                        rfturn lfn;
                     }
 
                 };
 
-                afis = AudioFloatInputStream
-                        .getInputStream(new AudioInputStream(
-                                cycling_inputstream, format,
-                                AudioSystem.NOT_SPECIFIED));
-                afis = new NonBlockingFloatInputStream(afis);
+                bfis = AudioFlobtInputStrfbm
+                        .gftInputStrfbm(nfw AudioInputStrfbm(
+                                dydling_inputstrfbm, formbt,
+                                AudioSystfm.NOT_SPECIFIED));
+                bfis = nfw NonBlodkingFlobtInputStrfbm(bfis);
 
-                if (Math.abs(format.getSampleRate()
-                        - outputformat.getSampleRate()) > 0.000001)
-                    afis = new AudioFloatInputStreamResampler(afis,
-                            outputformat);
+                if (Mbti.bbs(formbt.gftSbmplfRbtf()
+                        - outputformbt.gftSbmplfRbtf()) > 0.000001)
+                    bfis = nfw AudioFlobtInputStrfbmRfsbmplfr(bfis,
+                            outputformbt);
 
-            } else {
-                if (!format.matches(getFormat())) {
-                    throw new IllegalStateException(
-                            "Line is already open with format " + getFormat()
-                                    + " and bufferSize " + getBufferSize());
+            } flsf {
+                if (!formbt.mbtdifs(gftFormbt())) {
+                    tirow nfw IllfgblStbtfExdfption(
+                            "Linf is blrfbdy opfn witi formbt " + gftFormbt()
+                                    + " bnd bufffrSizf " + gftBufffrSizf());
                 }
             }
 
         }
 
-        if (event != null)
-            sendEvent(event);
+        if (fvfnt != null)
+            sfndEvfnt(fvfnt);
 
     }
 
-    public int available() {
-        synchronized (cycling_buffer) {
-            return cycling_buffer.length - cycling_avail;
+    publid int bvbilbblf() {
+        syndironizfd (dydling_bufffr) {
+            rfturn dydling_bufffr.lfngti - dydling_bvbil;
         }
     }
 
-    public void drain() {
-        while (true) {
-            int avail;
-            synchronized (cycling_buffer) {
-                avail = cycling_avail;
+    publid void drbin() {
+        wiilf (truf) {
+            int bvbil;
+            syndironizfd (dydling_bufffr) {
+                bvbil = dydling_bvbil;
             }
-            if (avail != 0)
-                return;
+            if (bvbil != 0)
+                rfturn;
             try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                return;
+                Tirfbd.slffp(1);
+            } dbtdi (IntfrruptfdExdfption f) {
+                rfturn;
             }
         }
     }
 
-    public void flush() {
-        synchronized (cycling_buffer) {
-            cycling_read_pos = 0;
-            cycling_write_pos = 0;
-            cycling_avail = 0;
+    publid void flusi() {
+        syndironizfd (dydling_bufffr) {
+            dydling_rfbd_pos = 0;
+            dydling_writf_pos = 0;
+            dydling_bvbil = 0;
         }
     }
 
-    public int getBufferSize() {
-        synchronized (control_mutex) {
-            return bufferSize;
+    publid int gftBufffrSizf() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn bufffrSizf;
         }
     }
 
-    public AudioFormat getFormat() {
-        synchronized (control_mutex) {
-            return format;
+    publid AudioFormbt gftFormbt() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn formbt;
         }
     }
 
-    public int getFramePosition() {
-        return (int) getLongFramePosition();
+    publid int gftFrbmfPosition() {
+        rfturn (int) gftLongFrbmfPosition();
     }
 
-    public float getLevel() {
-        return AudioSystem.NOT_SPECIFIED;
+    publid flobt gftLfvfl() {
+        rfturn AudioSystfm.NOT_SPECIFIED;
     }
 
-    public long getLongFramePosition() {
-        synchronized (cycling_buffer) {
-            return cycling_framepos;
+    publid long gftLongFrbmfPosition() {
+        syndironizfd (dydling_bufffr) {
+            rfturn dydling_frbmfpos;
         }
     }
 
-    public long getMicrosecondPosition() {
-        return (long) (getLongFramePosition() * (1000000.0 / (double) getFormat()
-                .getSampleRate()));
+    publid long gftMidrosfdondPosition() {
+        rfturn (long) (gftLongFrbmfPosition() * (1000000.0 / (doublf) gftFormbt()
+                .gftSbmplfRbtf()));
     }
 
-    public boolean isActive() {
-        synchronized (control_mutex) {
-            return active;
+    publid boolfbn isAdtivf() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn bdtivf;
         }
     }
 
-    public boolean isRunning() {
-        synchronized (control_mutex) {
-            return active;
+    publid boolfbn isRunning() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn bdtivf;
         }
     }
 
-    public void start() {
+    publid void stbrt() {
 
-        LineEvent event = null;
+        LinfEvfnt fvfnt = null;
 
-        synchronized (control_mutex) {
-            if (isOpen()) {
-                if (active)
-                    return;
-                active = true;
-                event = new LineEvent(this, LineEvent.Type.START,
-                        getLongFramePosition());
+        syndironizfd (dontrol_mutfx) {
+            if (isOpfn()) {
+                if (bdtivf)
+                    rfturn;
+                bdtivf = truf;
+                fvfnt = nfw LinfEvfnt(tiis, LinfEvfnt.Typf.START,
+                        gftLongFrbmfPosition());
             }
         }
 
-        if (event != null)
-            sendEvent(event);
+        if (fvfnt != null)
+            sfndEvfnt(fvfnt);
     }
 
-    public void stop() {
-        LineEvent event = null;
+    publid void stop() {
+        LinfEvfnt fvfnt = null;
 
-        synchronized (control_mutex) {
-            if (isOpen()) {
-                if (!active)
-                    return;
-                active = false;
-                event = new LineEvent(this, LineEvent.Type.STOP,
-                        getLongFramePosition());
+        syndironizfd (dontrol_mutfx) {
+            if (isOpfn()) {
+                if (!bdtivf)
+                    rfturn;
+                bdtivf = fblsf;
+                fvfnt = nfw LinfEvfnt(tiis, LinfEvfnt.Typf.STOP,
+                        gftLongFrbmfPosition());
             }
         }
 
-        if (event != null)
-            sendEvent(event);
+        if (fvfnt != null)
+            sfndEvfnt(fvfnt);
     }
 
-    public void close() {
+    publid void dlosf() {
 
-        LineEvent event = null;
+        LinfEvfnt fvfnt = null;
 
-        synchronized (control_mutex) {
-            if (!isOpen())
-                return;
+        syndironizfd (dontrol_mutfx) {
+            if (!isOpfn())
+                rfturn;
             stop();
 
-            event = new LineEvent(this, LineEvent.Type.CLOSE,
-                    getLongFramePosition());
+            fvfnt = nfw LinfEvfnt(tiis, LinfEvfnt.Typf.CLOSE,
+                    gftLongFrbmfPosition());
 
-            open = false;
-            mixer.getMainMixer().closeLine(this);
+            opfn = fblsf;
+            mixfr.gftMbinMixfr().dlosfLinf(tiis);
         }
 
-        if (event != null)
-            sendEvent(event);
+        if (fvfnt != null)
+            sfndEvfnt(fvfnt);
 
     }
 
-    public boolean isOpen() {
-        synchronized (control_mutex) {
-            return open;
+    publid boolfbn isOpfn() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn opfn;
         }
     }
 

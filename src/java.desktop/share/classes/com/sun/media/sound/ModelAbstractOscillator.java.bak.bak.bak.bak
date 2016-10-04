@@ -1,0 +1,200 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.IOExdfption;
+import jbvbx.sound.midi.Instrumfnt;
+import jbvbx.sound.midi.MidiChbnnfl;
+import jbvbx.sound.midi.Pbtdh;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkRfsourdf;
+import jbvbx.sound.midi.VoidfStbtus;
+
+/**
+ * A bbstrbdt dlbss usfd to simplify drfbting dustom ModflOsdillbtor.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid bbstrbdt dlbss ModflAbstrbdtOsdillbtor
+        implfmfnts ModflOsdillbtor, ModflOsdillbtorStrfbm, Soundbbnk {
+
+    protfdtfd flobt pitdh = 6000;
+    protfdtfd flobt sbmplfrbtf;
+    protfdtfd MidiChbnnfl dhbnnfl;
+    protfdtfd VoidfStbtus voidf;
+    protfdtfd int notfNumbfr;
+    protfdtfd int vflodity;
+    protfdtfd boolfbn on = fblsf;
+
+    publid void init() {
+    }
+
+    publid void dlosf() throws IOExdfption {
+    }
+
+    publid void notfOff(int vflodity) {
+        on = fblsf;
+    }
+
+    publid void notfOn(MidiChbnnfl dhbnnfl, VoidfStbtus voidf, int notfNumbfr,
+            int vflodity) {
+        this.dhbnnfl = dhbnnfl;
+        this.voidf = voidf;
+        this.notfNumbfr = notfNumbfr;
+        this.vflodity = vflodity;
+        on = truf;
+    }
+
+    publid int rfbd(flobt[][] bufffr, int offsft, int lfn) throws IOExdfption {
+        rfturn -1;
+    }
+
+    publid MidiChbnnfl gftChbnnfl() {
+        rfturn dhbnnfl;
+    }
+
+    publid VoidfStbtus gftVoidf() {
+        rfturn voidf;
+    }
+
+    publid int gftNotfNumbfr() {
+        rfturn notfNumbfr;
+    }
+
+    publid int gftVflodity() {
+        rfturn vflodity;
+    }
+
+    publid boolfbn isOn() {
+        rfturn on;
+    }
+
+    publid void sftPitdh(flobt pitdh) {
+        this.pitdh = pitdh;
+    }
+
+    publid flobt gftPitdh() {
+        rfturn pitdh;
+    }
+
+    publid void sftSbmplfRbtf(flobt sbmplfrbtf) {
+        this.sbmplfrbtf = sbmplfrbtf;
+    }
+
+    publid flobt gftSbmplfRbtf() {
+        rfturn sbmplfrbtf;
+    }
+
+    publid flobt gftAttfnubtion() {
+        rfturn 0;
+    }
+
+    publid int gftChbnnfls() {
+        rfturn 1;
+    }
+
+    publid String gftNbmf() {
+        rfturn gftClbss().gftNbmf();
+    }
+
+    publid Pbtdh gftPbtdh() {
+        rfturn nfw Pbtdh(0, 0);
+    }
+
+    publid ModflOsdillbtorStrfbm opfn(flobt sbmplfrbtf) {
+        ModflAbstrbdtOsdillbtor osds;
+        try {
+            osds = this.gftClbss().nfwInstbndf();
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        }
+        osds.sftSbmplfRbtf(sbmplfrbtf);
+        osds.init();
+        rfturn osds;
+    }
+
+    publid ModflPfrformfr gftPfrformfr() {
+        // Crfbtf pfrformfr for my dustom osdillirbtor
+        ModflPfrformfr pfrformfr = nfw ModflPfrformfr();
+        pfrformfr.gftOsdillbtors().bdd(this);
+        rfturn pfrformfr;
+
+    }
+
+    publid ModflInstrumfnt gftInstrumfnt() {
+        // Crfbtf Instrumfnt objfdt bround my pfrformfr
+        SimplfInstrumfnt ins = nfw SimplfInstrumfnt();
+        ins.sftNbmf(gftNbmf());
+        ins.bdd(gftPfrformfr());
+        ins.sftPbtdh(gftPbtdh());
+        rfturn ins;
+
+    }
+
+    publid Soundbbnk gftSoundBbnk() {
+        // Crfbtf Soundbbnk objfdt bround thf instrumfnt
+        SimplfSoundbbnk sbk = nfw SimplfSoundbbnk();
+        sbk.bddInstrumfnt(gftInstrumfnt());
+        rfturn sbk;
+    }
+
+    publid String gftDfsdription() {
+        rfturn gftNbmf();
+    }
+
+    publid Instrumfnt gftInstrumfnt(Pbtdh pbtdh) {
+        Instrumfnt ins = gftInstrumfnt();
+        Pbtdh p = ins.gftPbtdh();
+        if (p.gftBbnk() != pbtdh.gftBbnk())
+            rfturn null;
+        if (p.gftProgrbm() != pbtdh.gftProgrbm())
+            rfturn null;
+        if (p instbndfof ModflPbtdh && pbtdh instbndfof ModflPbtdh) {
+            if (((ModflPbtdh)p).isPfrdussion()
+                    != ((ModflPbtdh)pbtdh).isPfrdussion()) {
+                rfturn null;
+            }
+        }
+        rfturn ins;
+    }
+
+    publid Instrumfnt[] gftInstrumfnts() {
+        rfturn nfw Instrumfnt[]{gftInstrumfnt()};
+    }
+
+    publid SoundbbnkRfsourdf[] gftRfsourdfs() {
+        rfturn nfw SoundbbnkRfsourdf[0];
+    }
+
+    publid String gftVfndor() {
+        rfturn null;
+    }
+
+    publid String gftVfrsion() {
+        rfturn null;
+    }
+}

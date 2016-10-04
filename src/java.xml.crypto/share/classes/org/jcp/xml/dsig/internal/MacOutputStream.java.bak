@@ -1,54 +1,54 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package org.jcp.xml.dsig.internal;
+pbdkbgf org.jdp.xml.dsig.intfrnbl;
 
-import java.io.ByteArrayOutputStream;
-import javax.crypto.Mac;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvbx.drypto.Mbd;
 
 /**
- * Derived from Apache sources and changed to use Mac objects instead of
- * com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm objects.
+ * Dfrivfd from Apbdif sourdfs bnd dibngfd to usf Mbd objfdts instfbd of
+ * dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritim objfdts.
  *
- * @author raul
- * @author Sean Mullan
+ * @butior rbul
+ * @butior Sfbn Mullbn
  *
  */
-public class MacOutputStream extends ByteArrayOutputStream {
-    private final Mac mac;
+publid dlbss MbdOutputStrfbm fxtfnds BytfArrbyOutputStrfbm {
+    privbtf finbl Mbd mbd;
 
-    public MacOutputStream(Mac mac) {
-        this.mac = mac;
+    publid MbdOutputStrfbm(Mbd mbd) {
+        tiis.mbd = mbd;
     }
 
-    @Override
-    public void write(int arg0) {
-        super.write(arg0);
-        mac.update((byte) arg0);
+    @Ovfrridf
+    publid void writf(int brg0) {
+        supfr.writf(brg0);
+        mbd.updbtf((bytf) brg0);
     }
 
-    @Override
-    public void write(byte[] arg0, int arg1, int arg2) {
-        super.write(arg0, arg1, arg2);
-        mac.update(arg0, arg1, arg2);
+    @Ovfrridf
+    publid void writf(bytf[] brg0, int brg1, int brg2) {
+        supfr.writf(brg0, brg1, brg2);
+        mbd.updbtf(brg0, brg1, brg2);
     }
 }

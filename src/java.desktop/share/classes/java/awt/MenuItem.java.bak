@@ -1,951 +1,951 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.MenuItemPeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import javax.accessibility.*;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.pffr.MfnuItfmPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvbx.bddfssibility.*;
+import sun.bwt.AWTAddfssor;
 
 /**
- * All items in a menu must belong to the class
- * <code>MenuItem</code>, or one of its subclasses.
+ * All itfms in b mfnu must bflong to tif dlbss
+ * <dodf>MfnuItfm</dodf>, or onf of its subdlbssfs.
  * <p>
- * The default <code>MenuItem</code> object embodies
- * a simple labeled menu item.
+ * Tif dffbult <dodf>MfnuItfm</dodf> objfdt fmbodifs
+ * b simplf lbbflfd mfnu itfm.
  * <p>
- * This picture of a menu bar shows five menu items:
- * <IMG SRC="doc-files/MenuBar-1.gif" alt="The following text describes this graphic."
- * style="float:center; margin: 7px 10px;">
- * <br style="clear:left;">
- * The first two items are simple menu items, labeled
- * <code>"Basic"</code> and <code>"Simple"</code>.
- * Following these two items is a separator, which is itself
- * a menu item, created with the label <code>"-"</code>.
- * Next is an instance of <code>CheckboxMenuItem</code>
- * labeled <code>"Check"</code>. The final menu item is a
- * submenu labeled <code>"More&nbsp;Examples"</code>,
- * and this submenu is an instance of <code>Menu</code>.
+ * Tiis pidturf of b mfnu bbr siows fivf mfnu itfms:
+ * <IMG SRC="dod-filfs/MfnuBbr-1.gif" blt="Tif following tfxt dfsdribfs tiis grbpiid."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <br stylf="dlfbr:lfft;">
+ * Tif first two itfms brf simplf mfnu itfms, lbbflfd
+ * <dodf>"Bbsid"</dodf> bnd <dodf>"Simplf"</dodf>.
+ * Following tifsf two itfms is b sfpbrbtor, wiidi is itsflf
+ * b mfnu itfm, drfbtfd witi tif lbbfl <dodf>"-"</dodf>.
+ * Nfxt is bn instbndf of <dodf>CifdkboxMfnuItfm</dodf>
+ * lbbflfd <dodf>"Cifdk"</dodf>. Tif finbl mfnu itfm is b
+ * submfnu lbbflfd <dodf>"Morf&nbsp;Exbmplfs"</dodf>,
+ * bnd tiis submfnu is bn instbndf of <dodf>Mfnu</dodf>.
  * <p>
- * When a menu item is selected, AWT sends an action event to
- * the menu item. Since the event is an
- * instance of <code>ActionEvent</code>, the <code>processEvent</code>
- * method examines the event and passes it along to
- * <code>processActionEvent</code>. The latter method redirects the
- * event to any <code>ActionListener</code> objects that have
- * registered an interest in action events generated by this
- * menu item.
+ * Wifn b mfnu itfm is sflfdtfd, AWT sfnds bn bdtion fvfnt to
+ * tif mfnu itfm. Sindf tif fvfnt is bn
+ * instbndf of <dodf>AdtionEvfnt</dodf>, tif <dodf>prodfssEvfnt</dodf>
+ * mftiod fxbminfs tif fvfnt bnd pbssfs it blong to
+ * <dodf>prodfssAdtionEvfnt</dodf>. Tif lbttfr mftiod rfdirfdts tif
+ * fvfnt to bny <dodf>AdtionListfnfr</dodf> objfdts tibt ibvf
+ * rfgistfrfd bn intfrfst in bdtion fvfnts gfnfrbtfd by tiis
+ * mfnu itfm.
  * <P>
- * Note that the subclass <code>Menu</code> overrides this behavior and
- * does not send any event to the frame until one of its subitems is
- * selected.
+ * Notf tibt tif subdlbss <dodf>Mfnu</dodf> ovfrridfs tiis bfibvior bnd
+ * dofs not sfnd bny fvfnt to tif frbmf until onf of its subitfms is
+ * sflfdtfd.
  *
- * @author Sami Shaio
+ * @butior Sbmi Sibio
  */
-public class MenuItem extends MenuComponent implements Accessible {
+publid dlbss MfnuItfm fxtfnds MfnuComponfnt implfmfnts Addfssiblf {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
 
-        AWTAccessor.setMenuItemAccessor(
-            new AWTAccessor.MenuItemAccessor() {
-                public boolean isEnabled(MenuItem item) {
-                    return item.enabled;
+        AWTAddfssor.sftMfnuItfmAddfssor(
+            nfw AWTAddfssor.MfnuItfmAddfssor() {
+                publid boolfbn isEnbblfd(MfnuItfm itfm) {
+                    rfturn itfm.fnbblfd;
                 }
 
-                public String getLabel(MenuItem item) {
-                    return item.label;
+                publid String gftLbbfl(MfnuItfm itfm) {
+                    rfturn itfm.lbbfl;
                 }
 
-                public MenuShortcut getShortcut(MenuItem item) {
-                    return item.shortcut;
+                publid MfnuSiortdut gftSiortdut(MfnuItfm itfm) {
+                    rfturn itfm.siortdut;
                 }
 
-                public String getActionCommandImpl(MenuItem item) {
-                    return item.getActionCommandImpl();
+                publid String gftAdtionCommbndImpl(MfnuItfm itfm) {
+                    rfturn itfm.gftAdtionCommbndImpl();
                 }
 
-                public boolean isItemEnabled(MenuItem item) {
-                    return item.isItemEnabled();
+                publid boolfbn isItfmEnbblfd(MfnuItfm itfm) {
+                    rfturn itfm.isItfmEnbblfd();
                 }
             });
     }
 
     /**
-     * A value to indicate whether a menu item is enabled
-     * or not.  If it is enabled, <code>enabled</code> will
-     * be set to true.  Else <code>enabled</code> will
-     * be set to false.
+     * A vbluf to indidbtf wiftifr b mfnu itfm is fnbblfd
+     * or not.  If it is fnbblfd, <dodf>fnbblfd</dodf> will
+     * bf sft to truf.  Elsf <dodf>fnbblfd</dodf> will
+     * bf sft to fblsf.
      *
-     * @serial
-     * @see #isEnabled()
-     * @see #setEnabled(boolean)
+     * @sfribl
+     * @sff #isEnbblfd()
+     * @sff #sftEnbblfd(boolfbn)
      */
-    boolean enabled = true;
+    boolfbn fnbblfd = truf;
 
     /**
-     * <code>label</code> is the label of a menu item.
-     * It can be any string.
+     * <dodf>lbbfl</dodf> is tif lbbfl of b mfnu itfm.
+     * It dbn bf bny string.
      *
-     * @serial
-     * @see #getLabel()
-     * @see #setLabel(String)
+     * @sfribl
+     * @sff #gftLbbfl()
+     * @sff #sftLbbfl(String)
      */
-    String label;
+    String lbbfl;
 
     /**
-     * This field indicates the command tha has been issued
-     * by a  particular menu item.
-     * By default the <code>actionCommand</code>
-     * is the label of the menu item, unless it has been
-     * set using setActionCommand.
+     * Tiis fifld indidbtfs tif dommbnd tib ibs bffn issufd
+     * by b  pbrtidulbr mfnu itfm.
+     * By dffbult tif <dodf>bdtionCommbnd</dodf>
+     * is tif lbbfl of tif mfnu itfm, unlfss it ibs bffn
+     * sft using sftAdtionCommbnd.
      *
-     * @serial
-     * @see #setActionCommand(String)
-     * @see #getActionCommand()
+     * @sfribl
+     * @sff #sftAdtionCommbnd(String)
+     * @sff #gftAdtionCommbnd()
      */
-    String actionCommand;
+    String bdtionCommbnd;
 
     /**
-     * The eventMask is ONLY set by subclasses via enableEvents.
-     * The mask should NOT be set when listeners are registered
-     * so that we can distinguish the difference between when
-     * listeners request events and subclasses request them.
+     * Tif fvfntMbsk is ONLY sft by subdlbssfs vib fnbblfEvfnts.
+     * Tif mbsk siould NOT bf sft wifn listfnfrs brf rfgistfrfd
+     * so tibt wf dbn distinguisi tif difffrfndf bftwffn wifn
+     * listfnfrs rfqufst fvfnts bnd subdlbssfs rfqufst tifm.
      *
-     * @serial
+     * @sfribl
      */
-    long eventMask;
+    long fvfntMbsk;
 
-    transient ActionListener actionListener;
+    trbnsifnt AdtionListfnfr bdtionListfnfr;
 
     /**
-     * A sequence of key stokes that ia associated with
-     * a menu item.
-     * Note :in 1.1.2 you must use setActionCommand()
-     * on a menu item in order for its shortcut to
+     * A sfqufndf of kfy stokfs tibt ib bssodibtfd witi
+     * b mfnu itfm.
+     * Notf :in 1.1.2 you must usf sftAdtionCommbnd()
+     * on b mfnu itfm in ordfr for its siortdut to
      * work.
      *
-     * @serial
-     * @see #getShortcut()
-     * @see #setShortcut(MenuShortcut)
-     * @see #deleteShortcut()
+     * @sfribl
+     * @sff #gftSiortdut()
+     * @sff #sftSiortdut(MfnuSiortdut)
+     * @sff #dflftfSiortdut()
      */
-    private MenuShortcut shortcut = null;
+    privbtf MfnuSiortdut siortdut = null;
 
-    private static final String base = "menuitem";
-    private static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "mfnuitfm";
+    privbtf stbtid int nbmfCountfr = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -21757335363267194L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -21757335363267194L;
 
     /**
-     * Constructs a new MenuItem with an empty label and no keyboard
-     * shortcut.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since    1.1
+     * Construdts b nfw MfnuItfm witi bn fmpty lbbfl bnd no kfybobrd
+     * siortdut.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf    1.1
      */
-    public MenuItem() throws HeadlessException {
-        this("", null);
+    publid MfnuItfm() tirows HfbdlfssExdfption {
+        tiis("", null);
     }
 
     /**
-     * Constructs a new MenuItem with the specified label
-     * and no keyboard shortcut. Note that use of "-" in
-     * a label is reserved to indicate a separator between
-     * menu items. By default, all menu items except for
-     * separators are enabled.
-     * @param       label the label for this menu item.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since       1.0
+     * Construdts b nfw MfnuItfm witi tif spfdififd lbbfl
+     * bnd no kfybobrd siortdut. Notf tibt usf of "-" in
+     * b lbbfl is rfsfrvfd to indidbtf b sfpbrbtor bftwffn
+     * mfnu itfms. By dffbult, bll mfnu itfms fxdfpt for
+     * sfpbrbtors brf fnbblfd.
+     * @pbrbm       lbbfl tif lbbfl for tiis mfnu itfm.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf       1.0
      */
-    public MenuItem(String label) throws HeadlessException {
-        this(label, null);
+    publid MfnuItfm(String lbbfl) tirows HfbdlfssExdfption {
+        tiis(lbbfl, null);
     }
 
     /**
-     * Create a menu item with an associated keyboard shortcut.
-     * Note that use of "-" in a label is reserved to indicate
-     * a separator between menu items. By default, all menu
-     * items except for separators are enabled.
-     * @param       label the label for this menu item.
-     * @param       s the instance of <code>MenuShortcut</code>
-     *                       associated with this menu item.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since       1.1
+     * Crfbtf b mfnu itfm witi bn bssodibtfd kfybobrd siortdut.
+     * Notf tibt usf of "-" in b lbbfl is rfsfrvfd to indidbtf
+     * b sfpbrbtor bftwffn mfnu itfms. By dffbult, bll mfnu
+     * itfms fxdfpt for sfpbrbtors brf fnbblfd.
+     * @pbrbm       lbbfl tif lbbfl for tiis mfnu itfm.
+     * @pbrbm       s tif instbndf of <dodf>MfnuSiortdut</dodf>
+     *                       bssodibtfd witi tiis mfnu itfm.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf       1.1
      */
-    public MenuItem(String label, MenuShortcut s) throws HeadlessException {
-        this.label = label;
-        this.shortcut = s;
+    publid MfnuItfm(String lbbfl, MfnuSiortdut s) tirows HfbdlfssExdfption {
+        tiis.lbbfl = lbbfl;
+        tiis.siortdut = s;
     }
 
     /**
-     * Construct a name for this MenuComponent.  Called by getName() when
-     * the name is null.
+     * Construdt b nbmf for tiis MfnuComponfnt.  Cbllfd by gftNbmf() wifn
+     * tif nbmf is null.
      */
-    String constructComponentName() {
-        synchronized (MenuItem.class) {
-            return base + nameCounter++;
+    String donstrudtComponfntNbmf() {
+        syndironizfd (MfnuItfm.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Creates the menu item's peer.  The peer allows us to modify the
-     * appearance of the menu item without changing its functionality.
+     * Crfbtfs tif mfnu itfm's pffr.  Tif pffr bllows us to modify tif
+     * bppfbrbndf of tif mfnu itfm witiout dibnging its fundtionblity.
      */
-    public void addNotify() {
-        synchronized (getTreeLock()) {
-            if (peer == null)
-                peer = Toolkit.getDefaultToolkit().createMenuItem(this);
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = Toolkit.gftDffbultToolkit().drfbtfMfnuItfm(tiis);
         }
     }
 
     /**
-     * Gets the label for this menu item.
-     * @return  the label of this menu item, or <code>null</code>
-                       if this menu item has no label.
-     * @see     java.awt.MenuItem#setLabel
-     * @since   1.0
+     * Gfts tif lbbfl for tiis mfnu itfm.
+     * @rfturn  tif lbbfl of tiis mfnu itfm, or <dodf>null</dodf>
+                       if tiis mfnu itfm ibs no lbbfl.
+     * @sff     jbvb.bwt.MfnuItfm#sftLbbfl
+     * @sindf   1.0
      */
-    public String getLabel() {
-        return label;
+    publid String gftLbbfl() {
+        rfturn lbbfl;
     }
 
     /**
-     * Sets the label for this menu item to the specified label.
-     * @param     label   the new label, or <code>null</code> for no label.
-     * @see       java.awt.MenuItem#getLabel
-     * @since     1.0
+     * Sfts tif lbbfl for tiis mfnu itfm to tif spfdififd lbbfl.
+     * @pbrbm     lbbfl   tif nfw lbbfl, or <dodf>null</dodf> for no lbbfl.
+     * @sff       jbvb.bwt.MfnuItfm#gftLbbfl
+     * @sindf     1.0
      */
-    public synchronized void setLabel(String label) {
-        this.label = label;
-        MenuItemPeer peer = (MenuItemPeer)this.peer;
-        if (peer != null) {
-            peer.setLabel(label);
+    publid syndironizfd void sftLbbfl(String lbbfl) {
+        tiis.lbbfl = lbbfl;
+        MfnuItfmPffr pffr = (MfnuItfmPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftLbbfl(lbbfl);
         }
     }
 
     /**
-     * Checks whether this menu item is enabled.
+     * Cifdks wiftifr tiis mfnu itfm is fnbblfd.
      *
-     * @return {@code true} if the item is enabled;
-     *         otherwise {@code false}
-     * @see        java.awt.MenuItem#setEnabled
-     * @since      1.0
+     * @rfturn {@dodf truf} if tif itfm is fnbblfd;
+     *         otifrwisf {@dodf fblsf}
+     * @sff        jbvb.bwt.MfnuItfm#sftEnbblfd
+     * @sindf      1.0
      */
-    public boolean isEnabled() {
-        return enabled;
+    publid boolfbn isEnbblfd() {
+        rfturn fnbblfd;
     }
 
     /**
-     * Sets whether or not this menu item can be chosen.
-     * @param      b  if <code>true</code>, enables this menu item;
-     *                       if <code>false</code>, disables it.
-     * @see        java.awt.MenuItem#isEnabled
-     * @since      1.1
+     * Sfts wiftifr or not tiis mfnu itfm dbn bf diosfn.
+     * @pbrbm      b  if <dodf>truf</dodf>, fnbblfs tiis mfnu itfm;
+     *                       if <dodf>fblsf</dodf>, disbblfs it.
+     * @sff        jbvb.bwt.MfnuItfm#isEnbblfd
+     * @sindf      1.1
      */
-    public synchronized void setEnabled(boolean b) {
-        enable(b);
+    publid syndironizfd void sftEnbblfd(boolfbn b) {
+        fnbblf(b);
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setEnabled(boolean)</code>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftEnbblfd(boolfbn)</dodf>.
      */
-    @Deprecated
-    public synchronized void enable() {
-        enabled = true;
-        MenuItemPeer peer = (MenuItemPeer)this.peer;
-        if (peer != null) {
-            peer.setEnabled(true);
+    @Dfprfdbtfd
+    publid syndironizfd void fnbblf() {
+        fnbblfd = truf;
+        MfnuItfmPffr pffr = (MfnuItfmPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftEnbblfd(truf);
         }
     }
 
     /**
-     * Sets whether or not this menu item can be chosen.
+     * Sfts wiftifr or not tiis mfnu itfm dbn bf diosfn.
      *
-     * @param  b if {@code true}, enables this menu item;
-     *           otherwise disables
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setEnabled(boolean)</code>.
+     * @pbrbm  b if {@dodf truf}, fnbblfs tiis mfnu itfm;
+     *           otifrwisf disbblfs
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftEnbblfd(boolfbn)</dodf>.
      */
-    @Deprecated
-    public void enable(boolean b) {
+    @Dfprfdbtfd
+    publid void fnbblf(boolfbn b) {
         if (b) {
-            enable();
-        } else {
-            disable();
+            fnbblf();
+        } flsf {
+            disbblf();
         }
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setEnabled(boolean)</code>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftEnbblfd(boolfbn)</dodf>.
      */
-    @Deprecated
-    public synchronized void disable() {
-        enabled = false;
-        MenuItemPeer peer = (MenuItemPeer)this.peer;
-        if (peer != null) {
-            peer.setEnabled(false);
+    @Dfprfdbtfd
+    publid syndironizfd void disbblf() {
+        fnbblfd = fblsf;
+        MfnuItfmPffr pffr = (MfnuItfmPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftEnbblfd(fblsf);
         }
     }
 
     /**
-     * Get the <code>MenuShortcut</code> object associated with this
-     * menu item,
-     * @return      the menu shortcut associated with this menu item,
-     *                   or <code>null</code> if none has been specified.
-     * @see         java.awt.MenuItem#setShortcut
-     * @since       1.1
+     * Gft tif <dodf>MfnuSiortdut</dodf> objfdt bssodibtfd witi tiis
+     * mfnu itfm,
+     * @rfturn      tif mfnu siortdut bssodibtfd witi tiis mfnu itfm,
+     *                   or <dodf>null</dodf> if nonf ibs bffn spfdififd.
+     * @sff         jbvb.bwt.MfnuItfm#sftSiortdut
+     * @sindf       1.1
      */
-    public MenuShortcut getShortcut() {
-        return shortcut;
+    publid MfnuSiortdut gftSiortdut() {
+        rfturn siortdut;
     }
 
     /**
-     * Set the <code>MenuShortcut</code> object associated with this
-     * menu item. If a menu shortcut is already associated with
-     * this menu item, it is replaced.
-     * @param       s  the menu shortcut to associate
-     *                           with this menu item.
-     * @see         java.awt.MenuItem#getShortcut
-     * @since       1.1
+     * Sft tif <dodf>MfnuSiortdut</dodf> objfdt bssodibtfd witi tiis
+     * mfnu itfm. If b mfnu siortdut is blrfbdy bssodibtfd witi
+     * tiis mfnu itfm, it is rfplbdfd.
+     * @pbrbm       s  tif mfnu siortdut to bssodibtf
+     *                           witi tiis mfnu itfm.
+     * @sff         jbvb.bwt.MfnuItfm#gftSiortdut
+     * @sindf       1.1
      */
-    public void setShortcut(MenuShortcut s) {
-        shortcut = s;
-        MenuItemPeer peer = (MenuItemPeer)this.peer;
-        if (peer != null) {
-            peer.setLabel(label);
+    publid void sftSiortdut(MfnuSiortdut s) {
+        siortdut = s;
+        MfnuItfmPffr pffr = (MfnuItfmPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftLbbfl(lbbfl);
         }
     }
 
     /**
-     * Delete any <code>MenuShortcut</code> object associated
-     * with this menu item.
-     * @since      1.1
+     * Dflftf bny <dodf>MfnuSiortdut</dodf> objfdt bssodibtfd
+     * witi tiis mfnu itfm.
+     * @sindf      1.1
      */
-    public void deleteShortcut() {
-        shortcut = null;
-        MenuItemPeer peer = (MenuItemPeer)this.peer;
-        if (peer != null) {
-            peer.setLabel(label);
+    publid void dflftfSiortdut() {
+        siortdut = null;
+        MfnuItfmPffr pffr = (MfnuItfmPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftLbbfl(lbbfl);
         }
     }
 
     /*
-     * Delete a matching MenuShortcut associated with this MenuItem.
-     * Used when iterating Menus.
+     * Dflftf b mbtdiing MfnuSiortdut bssodibtfd witi tiis MfnuItfm.
+     * Usfd wifn itfrbting Mfnus.
      */
-    void deleteShortcut(MenuShortcut s) {
-        if (s.equals(shortcut)) {
-            shortcut = null;
-            MenuItemPeer peer = (MenuItemPeer)this.peer;
-            if (peer != null) {
-                peer.setLabel(label);
+    void dflftfSiortdut(MfnuSiortdut s) {
+        if (s.fqubls(siortdut)) {
+            siortdut = null;
+            MfnuItfmPffr pffr = (MfnuItfmPffr)tiis.pffr;
+            if (pffr != null) {
+                pffr.sftLbbfl(lbbfl);
             }
         }
     }
 
     /*
-     * The main goal of this method is to post an appropriate event
-     * to the event queue when menu shortcut is pressed. However,
-     * in subclasses this method may do more than just posting
-     * an event.
+     * Tif mbin gobl of tiis mftiod is to post bn bppropribtf fvfnt
+     * to tif fvfnt qufuf wifn mfnu siortdut is prfssfd. Howfvfr,
+     * in subdlbssfs tiis mftiod mby do morf tibn just posting
+     * bn fvfnt.
      */
-    void doMenuEvent(long when, int modifiers) {
-        Toolkit.getEventQueue().postEvent(
-            new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                            getActionCommand(), when, modifiers));
+    void doMfnuEvfnt(long wifn, int modififrs) {
+        Toolkit.gftEvfntQufuf().postEvfnt(
+            nfw AdtionEvfnt(tiis, AdtionEvfnt.ACTION_PERFORMED,
+                            gftAdtionCommbnd(), wifn, modififrs));
     }
 
     /*
-     * Returns true if the item and all its ancestors are
-     * enabled, false otherwise
+     * Rfturns truf if tif itfm bnd bll its bndfstors brf
+     * fnbblfd, fblsf otifrwisf
      */
-    private final boolean isItemEnabled() {
-        // Fix For 6185151: Menu shortcuts of all menuitems within a menu
-        // should be disabled when the menu itself is disabled
-        if (!isEnabled()) {
-            return false;
+    privbtf finbl boolfbn isItfmEnbblfd() {
+        // Fix For 6185151: Mfnu siortduts of bll mfnuitfms witiin b mfnu
+        // siould bf disbblfd wifn tif mfnu itsflf is disbblfd
+        if (!isEnbblfd()) {
+            rfturn fblsf;
         }
-        MenuContainer container = getParent_NoClientCode();
+        MfnuContbinfr dontbinfr = gftPbrfnt_NoClifntCodf();
         do {
-            if (!(container instanceof Menu)) {
-                return true;
+            if (!(dontbinfr instbndfof Mfnu)) {
+                rfturn truf;
             }
-            Menu menu = (Menu)container;
-            if (!menu.isEnabled()) {
-                return false;
+            Mfnu mfnu = (Mfnu)dontbinfr;
+            if (!mfnu.isEnbblfd()) {
+                rfturn fblsf;
             }
-            container = menu.getParent_NoClientCode();
-        } while (container != null);
-        return true;
+            dontbinfr = mfnu.gftPbrfnt_NoClifntCodf();
+        } wiilf (dontbinfr != null);
+        rfturn truf;
     }
 
     /*
-     * Post an ActionEvent to the target (on
-     * keydown) and the item is enabled.
-     * Returns true if there is an associated shortcut.
+     * Post bn AdtionEvfnt to tif tbrgft (on
+     * kfydown) bnd tif itfm is fnbblfd.
+     * Rfturns truf if tifrf is bn bssodibtfd siortdut.
      */
-    boolean handleShortcut(KeyEvent e) {
-        MenuShortcut s = new MenuShortcut(e.getKeyCode(),
-                             (e.getModifiers() & InputEvent.SHIFT_MASK) > 0);
-        MenuShortcut sE = new MenuShortcut(e.getExtendedKeyCode(),
-                             (e.getModifiers() & InputEvent.SHIFT_MASK) > 0);
-        // Fix For 6185151: Menu shortcuts of all menuitems within a menu
-        // should be disabled when the menu itself is disabled
-        if ((s.equals(shortcut) || sE.equals(shortcut)) && isItemEnabled()) {
-            // MenuShortcut match -- issue an event on keydown.
-            if (e.getID() == KeyEvent.KEY_PRESSED) {
-                doMenuEvent(e.getWhen(), e.getModifiers());
-            } else {
-                // silently eat key release.
+    boolfbn ibndlfSiortdut(KfyEvfnt f) {
+        MfnuSiortdut s = nfw MfnuSiortdut(f.gftKfyCodf(),
+                             (f.gftModififrs() & InputEvfnt.SHIFT_MASK) > 0);
+        MfnuSiortdut sE = nfw MfnuSiortdut(f.gftExtfndfdKfyCodf(),
+                             (f.gftModififrs() & InputEvfnt.SHIFT_MASK) > 0);
+        // Fix For 6185151: Mfnu siortduts of bll mfnuitfms witiin b mfnu
+        // siould bf disbblfd wifn tif mfnu itsflf is disbblfd
+        if ((s.fqubls(siortdut) || sE.fqubls(siortdut)) && isItfmEnbblfd()) {
+            // MfnuSiortdut mbtdi -- issuf bn fvfnt on kfydown.
+            if (f.gftID() == KfyEvfnt.KEY_PRESSED) {
+                doMfnuEvfnt(f.gftWifn(), f.gftModififrs());
+            } flsf {
+                // silfntly fbt kfy rflfbsf.
             }
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    MenuItem getShortcutMenuItem(MenuShortcut s) {
-        return (s.equals(shortcut)) ? this : null;
+    MfnuItfm gftSiortdutMfnuItfm(MfnuSiortdut s) {
+        rfturn (s.fqubls(siortdut)) ? tiis : null;
     }
 
     /**
-     * Enables event delivery to this menu item for events
-     * to be defined by the specified event mask parameter
+     * Enbblfs fvfnt dflivfry to tiis mfnu itfm for fvfnts
+     * to bf dffinfd by tif spfdififd fvfnt mbsk pbrbmftfr
      * <p>
-     * Since event types are automatically enabled when a listener for
-     * that type is added to the menu item, this method only needs
-     * to be invoked by subclasses of <code>MenuItem</code> which desire to
-     * have the specified event types delivered to <code>processEvent</code>
-     * regardless of whether a listener is registered.
+     * Sindf fvfnt typfs brf butombtidblly fnbblfd wifn b listfnfr for
+     * tibt typf is bddfd to tif mfnu itfm, tiis mftiod only nffds
+     * to bf invokfd by subdlbssfs of <dodf>MfnuItfm</dodf> wiidi dfsirf to
+     * ibvf tif spfdififd fvfnt typfs dflivfrfd to <dodf>prodfssEvfnt</dodf>
+     * rfgbrdlfss of wiftifr b listfnfr is rfgistfrfd.
      *
-     * @param       eventsToEnable the event mask defining the event types
-     * @see         java.awt.MenuItem#processEvent
-     * @see         java.awt.MenuItem#disableEvents
-     * @see         java.awt.Component#enableEvents
-     * @since       1.1
+     * @pbrbm       fvfntsToEnbblf tif fvfnt mbsk dffining tif fvfnt typfs
+     * @sff         jbvb.bwt.MfnuItfm#prodfssEvfnt
+     * @sff         jbvb.bwt.MfnuItfm#disbblfEvfnts
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
      */
-    protected final void enableEvents(long eventsToEnable) {
-        eventMask |= eventsToEnable;
-        newEventsOnly = true;
+    protfdtfd finbl void fnbblfEvfnts(long fvfntsToEnbblf) {
+        fvfntMbsk |= fvfntsToEnbblf;
+        nfwEvfntsOnly = truf;
     }
 
     /**
-     * Disables event delivery to this menu item for events
-     * defined by the specified event mask parameter.
+     * Disbblfs fvfnt dflivfry to tiis mfnu itfm for fvfnts
+     * dffinfd by tif spfdififd fvfnt mbsk pbrbmftfr.
      *
-     * @param       eventsToDisable the event mask defining the event types
-     * @see         java.awt.MenuItem#processEvent
-     * @see         java.awt.MenuItem#enableEvents
-     * @see         java.awt.Component#disableEvents
-     * @since       1.1
+     * @pbrbm       fvfntsToDisbblf tif fvfnt mbsk dffining tif fvfnt typfs
+     * @sff         jbvb.bwt.MfnuItfm#prodfssEvfnt
+     * @sff         jbvb.bwt.MfnuItfm#fnbblfEvfnts
+     * @sff         jbvb.bwt.Componfnt#disbblfEvfnts
+     * @sindf       1.1
      */
-    protected final void disableEvents(long eventsToDisable) {
-        eventMask &= ~eventsToDisable;
+    protfdtfd finbl void disbblfEvfnts(long fvfntsToDisbblf) {
+        fvfntMbsk &= ~fvfntsToDisbblf;
     }
 
     /**
-     * Sets the command name of the action event that is fired
-     * by this menu item.
+     * Sfts tif dommbnd nbmf of tif bdtion fvfnt tibt is firfd
+     * by tiis mfnu itfm.
      * <p>
-     * By default, the action command is set to the label of
-     * the menu item.
-     * @param       command   the action command to be set
-     *                                for this menu item.
-     * @see         java.awt.MenuItem#getActionCommand
-     * @since       1.1
+     * By dffbult, tif bdtion dommbnd is sft to tif lbbfl of
+     * tif mfnu itfm.
+     * @pbrbm       dommbnd   tif bdtion dommbnd to bf sft
+     *                                for tiis mfnu itfm.
+     * @sff         jbvb.bwt.MfnuItfm#gftAdtionCommbnd
+     * @sindf       1.1
      */
-    public void setActionCommand(String command) {
-        actionCommand = command;
+    publid void sftAdtionCommbnd(String dommbnd) {
+        bdtionCommbnd = dommbnd;
     }
 
     /**
-     * Gets the command name of the action event that is fired
-     * by this menu item.
+     * Gfts tif dommbnd nbmf of tif bdtion fvfnt tibt is firfd
+     * by tiis mfnu itfm.
      *
-     * @return the action command name
-     * @see java.awt.MenuItem#setActionCommand
-     * @since 1.1
+     * @rfturn tif bdtion dommbnd nbmf
+     * @sff jbvb.bwt.MfnuItfm#sftAdtionCommbnd
+     * @sindf 1.1
      */
-    public String getActionCommand() {
-        return getActionCommandImpl();
+    publid String gftAdtionCommbnd() {
+        rfturn gftAdtionCommbndImpl();
     }
 
-    // This is final so it can be called on the Toolkit thread.
-    final String getActionCommandImpl() {
-        return (actionCommand == null? label : actionCommand);
+    // Tiis is finbl so it dbn bf dbllfd on tif Toolkit tirfbd.
+    finbl String gftAdtionCommbndImpl() {
+        rfturn (bdtionCommbnd == null? lbbfl : bdtionCommbnd);
     }
 
     /**
-     * Adds the specified action listener to receive action events
-     * from this menu item.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Adds tif spfdififd bdtion listfnfr to rfdfivf bdtion fvfnts
+     * from tiis mfnu itfm.
+     * If l is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param      l the action listener.
-     * @see        #removeActionListener
-     * @see        #getActionListeners
-     * @see        java.awt.event.ActionEvent
-     * @see        java.awt.event.ActionListener
-     * @since      1.1
+     * @pbrbm      l tif bdtion listfnfr.
+     * @sff        #rfmovfAdtionListfnfr
+     * @sff        #gftAdtionListfnfrs
+     * @sff        jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff        jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf      1.1
      */
-    public synchronized void addActionListener(ActionListener l) {
+    publid syndironizfd void bddAdtionListfnfr(AdtionListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        actionListener = AWTEventMulticaster.add(actionListener, l);
-        newEventsOnly = true;
+        bdtionListfnfr = AWTEvfntMultidbstfr.bdd(bdtionListfnfr, l);
+        nfwEvfntsOnly = truf;
     }
 
     /**
-     * Removes the specified action listener so it no longer receives
-     * action events from this menu item.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Rfmovfs tif spfdififd bdtion listfnfr so it no longfr rfdfivfs
+     * bdtion fvfnts from tiis mfnu itfm.
+     * If l is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param      l the action listener.
-     * @see        #addActionListener
-     * @see        #getActionListeners
-     * @see        java.awt.event.ActionEvent
-     * @see        java.awt.event.ActionListener
-     * @since      1.1
+     * @pbrbm      l tif bdtion listfnfr.
+     * @sff        #bddAdtionListfnfr
+     * @sff        #gftAdtionListfnfrs
+     * @sff        jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff        jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf      1.1
      */
-    public synchronized void removeActionListener(ActionListener l) {
+    publid syndironizfd void rfmovfAdtionListfnfr(AdtionListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        actionListener = AWTEventMulticaster.remove(actionListener, l);
+        bdtionListfnfr = AWTEvfntMultidbstfr.rfmovf(bdtionListfnfr, l);
     }
 
     /**
-     * Returns an array of all the action listeners
-     * registered on this menu item.
+     * Rfturns bn brrby of bll tif bdtion listfnfrs
+     * rfgistfrfd on tiis mfnu itfm.
      *
-     * @return all of this menu item's <code>ActionListener</code>s
-     *         or an empty array if no action
-     *         listeners are currently registered
+     * @rfturn bll of tiis mfnu itfm's <dodf>AdtionListfnfr</dodf>s
+     *         or bn fmpty brrby if no bdtion
+     *         listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see        #addActionListener
-     * @see        #removeActionListener
-     * @see        java.awt.event.ActionEvent
-     * @see        java.awt.event.ActionListener
-     * @since 1.4
+     * @sff        #bddAdtionListfnfr
+     * @sff        #rfmovfAdtionListfnfr
+     * @sff        jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff        jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf 1.4
      */
-    public synchronized ActionListener[] getActionListeners() {
-        return getListeners(ActionListener.class);
+    publid syndironizfd AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn gftListfnfrs(AdtionListfnfr.dlbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>MenuItem</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis <dodf>MfnuItfm</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>MenuItem</code> <code>m</code>
-     * for its action listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>MfnuItfm</dodf> <dodf>m</dodf>
+     * for its bdtion listfnfrs witi tif following dodf:
      *
-     * <pre>ActionListener[] als = (ActionListener[])(m.getListeners(ActionListener.class));</pre>
+     * <prf>AdtionListfnfr[] bls = (AdtionListfnfr[])(m.gftListfnfrs(AdtionListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this menu item,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis mfnu itfm,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getActionListeners
-     * @since 1.3
+     * @sff #gftAdtionListfnfrs
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        EventListener l = null;
-        if  (listenerType == ActionListener.class) {
-            l = actionListener;
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == AdtionListfnfr.dlbss) {
+            l = bdtionListfnfr;
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
     }
 
     /**
-     * Processes events on this menu item. If the event is an
-     * instance of <code>ActionEvent</code>, it invokes
-     * <code>processActionEvent</code>, another method
-     * defined by <code>MenuItem</code>.
+     * Prodfssfs fvfnts on tiis mfnu itfm. If tif fvfnt is bn
+     * instbndf of <dodf>AdtionEvfnt</dodf>, it invokfs
+     * <dodf>prodfssAdtionEvfnt</dodf>, bnotifr mftiod
+     * dffinfd by <dodf>MfnuItfm</dodf>.
      * <p>
-     * Currently, menu items only support action events.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * Currfntly, mfnu itfms only support bdtion fvfnts.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param       e the event
-     * @see         java.awt.MenuItem#processActionEvent
-     * @since       1.1
+     * @pbrbm       f tif fvfnt
+     * @sff         jbvb.bwt.MfnuItfm#prodfssAdtionEvfnt
+     * @sindf       1.1
      */
-    protected void processEvent(AWTEvent e) {
-        if (e instanceof ActionEvent) {
-            processActionEvent((ActionEvent)e);
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof AdtionEvfnt) {
+            prodfssAdtionEvfnt((AdtionEvfnt)f);
         }
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
-        if (e.id == ActionEvent.ACTION_PERFORMED) {
-            if ((eventMask & AWTEvent.ACTION_EVENT_MASK) != 0 ||
-                actionListener != null) {
-                return true;
+    // REMIND: rfmovf wifn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == AdtionEvfnt.ACTION_PERFORMED) {
+            if ((fvfntMbsk & AWTEvfnt.ACTION_EVENT_MASK) != 0 ||
+                bdtionListfnfr != null) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
-        return super.eventEnabled(e);
+        rfturn supfr.fvfntEnbblfd(f);
     }
 
     /**
-     * Processes action events occurring on this menu item,
-     * by dispatching them to any registered
-     * <code>ActionListener</code> objects.
-     * This method is not called unless action events are
-     * enabled for this component. Action events are enabled
-     * when one of the following occurs:
+     * Prodfssfs bdtion fvfnts oddurring on tiis mfnu itfm,
+     * by dispbtdiing tifm to bny rfgistfrfd
+     * <dodf>AdtionListfnfr</dodf> objfdts.
+     * Tiis mftiod is not dbllfd unlfss bdtion fvfnts brf
+     * fnbblfd for tiis domponfnt. Adtion fvfnts brf fnbblfd
+     * wifn onf of tif following oddurs:
      * <ul>
-     * <li>An <code>ActionListener</code> object is registered
-     * via <code>addActionListener</code>.
-     * <li>Action events are enabled via <code>enableEvents</code>.
+     * <li>An <dodf>AdtionListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddAdtionListfnfr</dodf>.
+     * <li>Adtion fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param       e the action event
-     * @see         java.awt.event.ActionEvent
-     * @see         java.awt.event.ActionListener
-     * @see         java.awt.MenuItem#enableEvents
-     * @since       1.1
+     * @pbrbm       f tif bdtion fvfnt
+     * @sff         jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff         jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sff         jbvb.bwt.MfnuItfm#fnbblfEvfnts
+     * @sindf       1.1
      */
-    protected void processActionEvent(ActionEvent e) {
-        ActionListener listener = actionListener;
-        if (listener != null) {
-            listener.actionPerformed(e);
+    protfdtfd void prodfssAdtionEvfnt(AdtionEvfnt f) {
+        AdtionListfnfr listfnfr = bdtionListfnfr;
+        if (listfnfr != null) {
+            listfnfr.bdtionPfrformfd(f);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>MenuItem</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>MfnuItfm</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return the parameter string of this menu item
+     * @rfturn tif pbrbmftfr string of tiis mfnu itfm
      */
-    public String paramString() {
-        String str = ",label=" + label;
-        if (shortcut != null) {
-            str += ",shortcut=" + shortcut;
+    publid String pbrbmString() {
+        String str = ",lbbfl=" + lbbfl;
+        if (siortdut != null) {
+            str += ",siortdut=" + siortdut;
         }
-        return super.paramString() + str;
+        rfturn supfr.pbrbmString() + str;
     }
 
 
-    /* Serialization support.
+    /* Sfriblizbtion support.
      */
 
     /**
-     * Menu item serialized data version.
+     * Mfnu itfm sfriblizfd dbtb vfrsion.
      *
-     * @serial
+     * @sfribl
      */
-    private int menuItemSerializedDataVersion = 1;
+    privbtf int mfnuItfmSfriblizfdDbtbVfrsion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>ActionListeners</code>
-     * as optional data. The non-serializable listeners are
-     * detected and no attempt is made to serialize them.
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf <dodf>AdtionListfnfrs</dodf>
+     * bs optionbl dbtb. Tif non-sfriblizbblf listfnfrs brf
+     * dftfdtfd bnd no bttfmpt is mbdf to sfriblizf tifm.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData <code>null</code> terminated sequence of 0
-     *   or more pairs; the pair consists of a <code>String</code>
-     *   and an <code>Object</code>; the <code>String</code>
-     *   indicates the type of object and is one of the following:
-     *   <code>actionListenerK</code> indicating an
-     *     <code>ActionListener</code> object
+     * @pbrbm s tif <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sfriblDbtb <dodf>null</dodf> tfrminbtfd sfqufndf of 0
+     *   or morf pbirs; tif pbir donsists of b <dodf>String</dodf>
+     *   bnd bn <dodf>Objfdt</dodf>; tif <dodf>String</dodf>
+     *   indidbtfs tif typf of objfdt bnd is onf of tif following:
+     *   <dodf>bdtionListfnfrK</dodf> indidbting bn
+     *     <dodf>AdtionListfnfr</dodf> objfdt
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see #readObject(ObjectInputStream)
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
      */
-    private void writeObject(ObjectOutputStream s)
-      throws IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      tirows IOExdfption
     {
-      s.defaultWriteObject();
+      s.dffbultWritfObjfdt();
 
-      AWTEventMulticaster.save(s, actionListenerK, actionListener);
-      s.writeObject(null);
+      AWTEvfntMultidbstfr.sbvf(s, bdtionListfnfrK, bdtionListfnfr);
+      s.writfObjfdt(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if it
-     * isn't <code>null</code> adds a listener to receive
-     * action events fired by the <code>Menu</code> Item.
-     * Unrecognized keys or values will be ignored.
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd if it
+     * isn't <dodf>null</dodf> bdds b listfnfr to rfdfivf
+     * bdtion fvfnts firfd by tif <dodf>Mfnu</dodf> Itfm.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
-     *   <code>true</code>
-     * @see #removeActionListener(ActionListener)
-     * @see #addActionListener(ActionListener)
-     * @see #writeObject(ObjectOutputStream)
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sff #rfmovfAdtionListfnfr(AdtionListfnfr)
+     * @sff #bddAdtionListfnfr(AdtionListfnfr)
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-      // HeadlessException will be thrown from MenuComponent's readObject
-      s.defaultReadObject();
+      // HfbdlfssExdfption will bf tirown from MfnuComponfnt's rfbdObjfdt
+      s.dffbultRfbdObjfdt();
 
-      Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
-        String key = ((String)keyOrNull).intern();
+      Objfdt kfyOrNull;
+      wiilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+        String kfy = ((String)kfyOrNull).intfrn();
 
-        if (actionListenerK == key)
-          addActionListener((ActionListener)(s.readObject()));
+        if (bdtionListfnfrK == kfy)
+          bddAdtionListfnfr((AdtionListfnfr)(s.rfbdObjfdt()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        flsf // skip vbluf for unrfdognizfd kfy
+          s.rfbdObjfdt();
       }
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this MenuItem.
-     * For menu items, the AccessibleContext takes the form of an
-     * AccessibleAWTMenuItem.
-     * A new AccessibleAWTMenuItem instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis MfnuItfm.
+     * For mfnu itfms, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfAWTMfnuItfm.
+     * A nfw AddfssiblfAWTMfnuItfm instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleAWTMenuItem that serves as the
-     *         AccessibleContext of this MenuItem
-     * @since 1.3
+     * @rfturn bn AddfssiblfAWTMfnuItfm tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis MfnuItfm
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTMenuItem();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTMfnuItfm();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * Inner class of MenuItem used to provide default support for
-     * accessibility.  This class is not meant to be used directly by
-     * application developers, but is instead meant only to be
-     * subclassed by menu component developers.
+     * Innfr dlbss of MfnuItfm usfd to providf dffbult support for
+     * bddfssibility.  Tiis dlbss is not mfbnt to bf usfd dirfdtly by
+     * bpplidbtion dfvflopfrs, but is instfbd mfbnt only to bf
+     * subdlbssfd by mfnu domponfnt dfvflopfrs.
      * <p>
-     * This class implements accessibility support for the
-     * <code>MenuItem</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to menu item user-interface elements.
-     * @since 1.3
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>MfnuItfm</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to mfnu itfm usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTMenuItem extends AccessibleAWTMenuComponent
-        implements AccessibleAction, AccessibleValue
+    protfdtfd dlbss AddfssiblfAWTMfnuItfm fxtfnds AddfssiblfAWTMfnuComponfnt
+        implfmfnts AddfssiblfAdtion, AddfssiblfVbluf
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = -217847831945965825L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -217847831945965825L;
 
         /**
-         * Get the accessible name of this object.
+         * Gft tif bddfssiblf nbmf of tiis objfdt.
          *
-         * @return the localized name of the object -- can be null if this
-         * object does not have a name
+         * @rfturn tif lodblizfd nbmf of tif objfdt -- dbn bf null if tiis
+         * objfdt dofs not ibvf b nbmf
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
-            } else {
-                if (getLabel() == null) {
-                    return super.getAccessibleName();
-                } else {
-                    return getLabel();
+        publid String gftAddfssiblfNbmf() {
+            if (bddfssiblfNbmf != null) {
+                rfturn bddfssiblfNbmf;
+            } flsf {
+                if (gftLbbfl() == null) {
+                    rfturn supfr.gftAddfssiblfNbmf();
+                } flsf {
+                    rfturn gftLbbfl();
                 }
             }
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.MENU_ITEM;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.MENU_ITEM;
         }
 
         /**
-         * Get the AccessibleAction associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleAction interface on behalf of itself.
+         * Gft tif AddfssiblfAdtion bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfAdtion intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleAction getAccessibleAction() {
-            return this;
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * Gft tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfVbluf intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
         /**
-         * Returns the number of Actions available in this object.  The
-         * default behavior of a menu item is to have one action.
+         * Rfturns tif numbfr of Adtions bvbilbblf in tiis objfdt.  Tif
+         * dffbult bfibvior of b mfnu itfm is to ibvf onf bdtion.
          *
-         * @return 1, the number of Actions in this object
+         * @rfturn 1, tif numbfr of Adtions in tiis objfdt
          */
-        public int getAccessibleActionCount() {
-            return 1;
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 1;
         }
 
         /**
-         * Return a description of the specified action of the object.
+         * Rfturn b dfsdription of tif spfdififd bdtion of tif objfdt.
          *
-         * @param i zero-based index of the actions
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
          */
-        public String getAccessibleActionDescription(int i) {
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
             if (i == 0) {
-                // [[[PENDING:  WDW -- need to provide a localized string]]]
-                return "click";
-            } else {
-                return null;
+                // [[[PENDING:  WDW -- nffd to providf b lodblizfd string]]]
+                rfturn "dlidk";
+            } flsf {
+                rfturn null;
             }
         }
 
         /**
-         * Perform the specified Action on the object
+         * Pfrform tif spfdififd Adtion on tif objfdt
          *
-         * @param i zero-based index of actions
-         * @return true if the action was performed; otherwise false.
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if tif bdtion wbs pfrformfd; otifrwisf fblsf.
          */
-        public boolean doAccessibleAction(int i) {
+        publid boolfbn doAddfssiblfAdtion(int i) {
             if (i == 0) {
-                // Simulate a button click
-                Toolkit.getEventQueue().postEvent(
-                        new ActionEvent(MenuItem.this,
-                                        ActionEvent.ACTION_PERFORMED,
-                                        MenuItem.this.getActionCommand(),
-                                        EventQueue.getMostRecentEventTime(),
+                // Simulbtf b button dlidk
+                Toolkit.gftEvfntQufuf().postEvfnt(
+                        nfw AdtionEvfnt(MfnuItfm.tiis,
+                                        AdtionEvfnt.ACTION_PERFORMED,
+                                        MfnuItfm.tiis.gftAdtionCommbnd(),
+                                        EvfntQufuf.gftMostRfdfntEvfntTimf(),
                                         0));
-                return true;
-            } else {
-                return false;
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
         }
 
         /**
-         * Get the value of this object as a Number.
+         * Gft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return An Integer of 0 if this isn't selected or an Integer of 1 if
-         * this is selected.
-         * @see javax.swing.AbstractButton#isSelected()
+         * @rfturn An Intfgfr of 0 if tiis isn't sflfdtfd or bn Intfgfr of 1 if
+         * tiis is sflfdtfd.
+         * @sff jbvbx.swing.AbstrbdtButton#isSflfdtfd()
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(0);
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Sft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return True if the value was set.
+         * @rfturn Truf if tif vbluf wbs sft.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
-            return false;
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            rfturn fblsf;
         }
 
         /**
-         * Get the minimum value of this object as a Number.
+         * Gft tif minimum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return An Integer of 0.
+         * @rfturn An Intfgfr of 0.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(0);
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
         }
 
         /**
-         * Get the maximum value of this object as a Number.
+         * Gft tif mbximum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return An Integer of 0.
+         * @rfturn An Intfgfr of 0.
          */
-        public Number getMaximumAccessibleValue() {
-            return Integer.valueOf(0);
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
         }
 
-    } // class AccessibleAWTMenuItem
+    } // dlbss AddfssiblfAWTMfnuItfm
 
 }

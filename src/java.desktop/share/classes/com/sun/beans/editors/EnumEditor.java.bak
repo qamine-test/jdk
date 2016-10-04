@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.editors;
+pbdkbgf dom.sun.bfbns.fditors;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyEditor;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyEditor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * Property editor for java.lang.Enum subclasses.
+ * Propfrty fditor for jbvb.lbng.Enum subdlbssfs.
  *
- * @see PropertyEditor
+ * @sff PropfrtyEditor
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-public final class EnumEditor implements PropertyEditor {
-    private final List<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
+publid finbl dlbss EnumEditor implfmfnts PropfrtyEditor {
+    privbtf finbl List<PropfrtyCibngfListfnfr> listfnfrs = nfw ArrbyList<PropfrtyCibngfListfnfr>();
 
-    @SuppressWarnings("rawtypes")
-    private final Class<? extends Enum> type;
-    private final String[] tags;
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl Clbss<? fxtfnds Enum> typf;
+    privbtf finbl String[] tbgs;
 
-    private Object value;
+    privbtf Objfdt vbluf;
 
-    public EnumEditor(Class<?> type) {
-        Object[] values = type.getEnumConstants();
-        if ( values == null ) {
-            throw new IllegalArgumentException( "Unsupported " + type );
+    publid EnumEditor(Clbss<?> typf) {
+        Objfdt[] vblufs = typf.gftEnumConstbnts();
+        if ( vblufs == null ) {
+            tirow nfw IllfgblArgumfntExdfption( "Unsupportfd " + typf );
         }
-        this.type = type.asSubclass(java.lang.Enum.class);
-        this.tags = new String[values.length];
-        for ( int i = 0; i < values.length; i++ ) {
-            this.tags[i] = ( ( Enum )values[i] ).name();
+        tiis.typf = typf.bsSubdlbss(jbvb.lbng.Enum.dlbss);
+        tiis.tbgs = nfw String[vblufs.lfngti];
+        for ( int i = 0; i < vblufs.lfngti; i++ ) {
+            tiis.tbgs[i] = ( ( Enum )vblufs[i] ).nbmf();
         }
     }
 
-    public Object getValue() {
-        return this.value;
+    publid Objfdt gftVbluf() {
+        rfturn tiis.vbluf;
     }
 
-    public void setValue( Object value ) {
-        if ( ( value != null ) && !this.type.isInstance( value ) ) {
-            throw new IllegalArgumentException( "Unsupported value: " + value );
+    publid void sftVbluf( Objfdt vbluf ) {
+        if ( ( vbluf != null ) && !tiis.typf.isInstbndf( vbluf ) ) {
+            tirow nfw IllfgblArgumfntExdfption( "Unsupportfd vbluf: " + vbluf );
         }
-        Object oldValue;
-        PropertyChangeListener[] listeners;
-        synchronized ( this.listeners ) {
-            oldValue = this.value;
-            this.value = value;
+        Objfdt oldVbluf;
+        PropfrtyCibngfListfnfr[] listfnfrs;
+        syndironizfd ( tiis.listfnfrs ) {
+            oldVbluf = tiis.vbluf;
+            tiis.vbluf = vbluf;
 
-            if ( ( value == null ) ? oldValue == null : value.equals( oldValue ) ) {
-                return; // do not fire event if value is not changed
+            if ( ( vbluf == null ) ? oldVbluf == null : vbluf.fqubls( oldVbluf ) ) {
+                rfturn; // do not firf fvfnt if vbluf is not dibngfd
             }
-            int size = this.listeners.size();
-            if ( size == 0 ) {
-                return; // do not fire event if there are no any listener
+            int sizf = tiis.listfnfrs.sizf();
+            if ( sizf == 0 ) {
+                rfturn; // do not firf fvfnt if tifrf brf no bny listfnfr
             }
-            listeners = this.listeners.toArray( new PropertyChangeListener[size] );
+            listfnfrs = tiis.listfnfrs.toArrby( nfw PropfrtyCibngfListfnfr[sizf] );
         }
-        PropertyChangeEvent event = new PropertyChangeEvent( this, null, oldValue, value );
-        for ( PropertyChangeListener listener : listeners ) {
-            listener.propertyChange( event );
+        PropfrtyCibngfEvfnt fvfnt = nfw PropfrtyCibngfEvfnt( tiis, null, oldVbluf, vbluf );
+        for ( PropfrtyCibngfListfnfr listfnfr : listfnfrs ) {
+            listfnfr.propfrtyCibngf( fvfnt );
         }
     }
 
-    public String getAsText() {
-        return ( this.value != null )
-                ? ( ( Enum )this.value ).name()
+    publid String gftAsTfxt() {
+        rfturn ( tiis.vbluf != null )
+                ? ( ( Enum )tiis.vbluf ).nbmf()
                 : null;
     }
 
-    public void setAsText( String text ) {
-        @SuppressWarnings("unchecked")
-        Object tmp = ( text != null )
-            ? Enum.valueOf( (Class)this.type, text )
+    publid void sftAsTfxt( String tfxt ) {
+        @SupprfssWbrnings("undifdkfd")
+        Objfdt tmp = ( tfxt != null )
+            ? Enum.vblufOf( (Clbss)tiis.typf, tfxt )
             : null;
-        setValue(tmp);
+        sftVbluf(tmp);
     }
 
-    public String[] getTags() {
-        return this.tags.clone();
+    publid String[] gftTbgs() {
+        rfturn tiis.tbgs.dlonf();
     }
 
-    public String getJavaInitializationString() {
-        String name = getAsText();
-        return ( name != null )
-                ? this.type.getName() + '.' + name
+    publid String gftJbvbInitiblizbtionString() {
+        String nbmf = gftAsTfxt();
+        rfturn ( nbmf != null )
+                ? tiis.typf.gftNbmf() + '.' + nbmf
                 : "null";
     }
 
-    public boolean isPaintable() {
-        return false;
+    publid boolfbn isPbintbblf() {
+        rfturn fblsf;
     }
 
-    public void paintValue( Graphics gfx, Rectangle box ) {
+    publid void pbintVbluf( Grbpiids gfx, Rfdtbnglf box ) {
     }
 
-    public boolean supportsCustomEditor() {
-        return false;
+    publid boolfbn supportsCustomEditor() {
+        rfturn fblsf;
     }
 
-    public Component getCustomEditor() {
-        return null;
+    publid Componfnt gftCustomEditor() {
+        rfturn null;
     }
 
-    public void addPropertyChangeListener( PropertyChangeListener listener ) {
-        synchronized ( this.listeners ) {
-            this.listeners.add( listener );
+    publid void bddPropfrtyCibngfListfnfr( PropfrtyCibngfListfnfr listfnfr ) {
+        syndironizfd ( tiis.listfnfrs ) {
+            tiis.listfnfrs.bdd( listfnfr );
         }
     }
 
-    public void removePropertyChangeListener( PropertyChangeListener listener ) {
-        synchronized ( this.listeners ) {
-            this.listeners.remove( listener );
+    publid void rfmovfPropfrtyCibngfListfnfr( PropfrtyCibngfListfnfr listfnfr ) {
+        syndironizfd ( tiis.listfnfrs ) {
+            tiis.listfnfrs.rfmovf( listfnfr );
         }
     }
 }

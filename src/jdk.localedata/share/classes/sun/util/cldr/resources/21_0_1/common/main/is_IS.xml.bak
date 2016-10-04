@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 4123 $"/>
-		<generation date="$Date: 2009-05-06 08:06:42 +0900 (Wed, 06 May 2009) $"/>
-		<language type="is"/>
-		<territory type="IS"/>
-	</identity>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 4123 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2009-05-06 08:06:42 +0900 (Wfd, 06 Mby 2009) $"/>
+		<lbngubgf typf="is"/>
+		<tfrritory typf="IS"/>
+	</idfntity>
 </ldml>

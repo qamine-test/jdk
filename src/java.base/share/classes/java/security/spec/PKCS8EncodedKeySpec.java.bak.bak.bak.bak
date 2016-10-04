@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.spfd;
+
+/**
+ * This dlbss rfprfsfnts thf ASN.1 fndoding of b privbtf kfy,
+ * fndodfd bddording to thf ASN.1 typf {@dodf PrivbtfKfyInfo}.
+ * Thf {@dodf PrivbtfKfyInfo} syntbx is dffinfd in thf PKCS#8 stbndbrd
+ * bs follows:
+ *
+ * <prf>
+ * PrivbtfKfyInfo ::= SEQUENCE {
+ *   vfrsion Vfrsion,
+ *   privbtfKfyAlgorithm PrivbtfKfyAlgorithmIdfntififr,
+ *   privbtfKfy PrivbtfKfy,
+ *   bttributfs [0] IMPLICIT Attributfs OPTIONAL }
+ *
+ * Vfrsion ::= INTEGER
+ *
+ * PrivbtfKfyAlgorithmIdfntififr ::= AlgorithmIdfntififr
+ *
+ * PrivbtfKfy ::= OCTET STRING
+ *
+ * Attributfs ::= SET OF Attributf
+ * </prf>
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff jbvb.sfdurity.Kfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff KfySpfd
+ * @sff EndodfdKfySpfd
+ * @sff X509EndodfdKfySpfd
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss PKCS8EndodfdKfySpfd fxtfnds EndodfdKfySpfd {
+
+    /**
+     * Crfbtfs b nfw PKCS8EndodfdKfySpfd with thf givfn fndodfd kfy.
+     *
+     * @pbrbm fndodfdKfy thf kfy, whidh is bssumfd to bf
+     * fndodfd bddording to thf PKCS #8 stbndbrd. Thf dontfnts of
+     * thf brrby brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @fxdfption NullPointfrExdfption if {@dodf fndodfdKfy}
+     * is null.
+     */
+    publid PKCS8EndodfdKfySpfd(bytf[] fndodfdKfy) {
+        supfr(fndodfdKfy);
+    }
+
+    /**
+     * Rfturns thf kfy bytfs, fndodfd bddording to thf PKCS #8 stbndbrd.
+     *
+     * @rfturn thf PKCS #8 fndoding of thf kfy. Rfturns b nfw brrby
+     * fbdh timf this mfthod is dbllfd.
+     */
+    publid bytf[] gftEndodfd() {
+        rfturn supfr.gftEndodfd();
+    }
+
+    /**
+     * Rfturns thf nbmf of thf fndoding formbt bssodibtfd with this
+     * kfy spfdifidbtion.
+     *
+     * @rfturn thf string {@dodf "PKCS#8"}.
+     */
+    publid finbl String gftFormbt() {
+        rfturn "PKCS#8";
+    }
+}

@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.UIMbnbgfr;
+
+import jbvbx.swing.plbf.ComponfntUI;
+
+import jbvbx.swing.plbf.bbsid.BbsidLbbflUI;
+
+
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ */
+publid dlbss WindowsLbbflUI fxtfnds BbsidLbbflUI {
+
+    privbtf stbtid finbl Objfdt WINDOWS_LABEL_UI_KEY = nfw Objfdt();
+
+    // ********************************
+    //          Crfbtf PLAF
+    // ********************************
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        WindowsLbbflUI windowsLbbflUI =
+                (WindowsLbbflUI) bppContfxt.gft(WINDOWS_LABEL_UI_KEY);
+        if (windowsLbbflUI == null) {
+            windowsLbbflUI = nfw WindowsLbbflUI();
+            bppContfxt.put(WINDOWS_LABEL_UI_KEY, windowsLbbflUI);
+        }
+        rfturn windowsLbbflUI;
+    }
+
+    protfdtfd void pbintEnbblfdTfxt(JLbbfl l, Grbphids g, String s,
+                                    int tfxtX, int tfxtY) {
+        int mnfmonidIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        // W2K Ffbturf: Chfdk to sff if thf Undfrsdorf should bf rfndfrfd.
+        if (WindowsLookAndFffl.isMnfmonidHiddfn() == truf) {
+            mnfmonidIndfx = -1;
+        }
+
+        g.sftColor(l.gftForfground());
+        SwingUtilitifs2.drbwStringUndfrlinfChbrAt(l, g, s, mnfmonidIndfx,
+                                                     tfxtX, tfxtY);
+    }
+
+    protfdtfd void pbintDisbblfdTfxt(JLbbfl l, Grbphids g, String s,
+                                     int tfxtX, int tfxtY) {
+        int mnfmonidIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        // W2K Ffbturf: Chfdk to sff if thf Undfrsdorf should bf rfndfrfd.
+        if (WindowsLookAndFffl.isMnfmonidHiddfn() == truf) {
+            mnfmonidIndfx = -1;
+        }
+        if ( UIMbnbgfr.gftColor("Lbbfl.disbblfdForfground") instbndfof Color &&
+             UIMbnbgfr.gftColor("Lbbfl.disbblfdShbdow") instbndfof Color) {
+            g.sftColor( UIMbnbgfr.gftColor("Lbbfl.disbblfdShbdow") );
+            SwingUtilitifs2.drbwStringUndfrlinfChbrAt(l, g, s,
+                                                         mnfmonidIndfx,
+                                                         tfxtX + 1, tfxtY + 1);
+            g.sftColor( UIMbnbgfr.gftColor("Lbbfl.disbblfdForfground") );
+            SwingUtilitifs2.drbwStringUndfrlinfChbrAt(l, g, s,
+                                                         mnfmonidIndfx,
+                                                         tfxtX, tfxtY);
+        } flsf {
+            Color bbdkground = l.gftBbdkground();
+            g.sftColor(bbdkground.brightfr());
+            SwingUtilitifs2.drbwStringUndfrlinfChbrAt(l,g, s, mnfmonidIndfx,
+                                                         tfxtX + 1, tfxtY + 1);
+            g.sftColor(bbdkground.dbrkfr());
+            SwingUtilitifs2.drbwStringUndfrlinfChbrAt(l,g, s, mnfmonidIndfx,
+                                                         tfxtX, tfxtY);
+        }
+    }
+}

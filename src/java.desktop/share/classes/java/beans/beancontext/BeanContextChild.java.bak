@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.beans.PropertyChangeListener;
-import java.beans.VetoableChangeListener;
-import java.beans.PropertyVetoException;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.VftobblfCibngfListfnfr;
+import jbvb.bfbns.PropfrtyVftoExdfption;
 
-import java.beans.beancontext.BeanContext;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
 
 /**
  * <p>
- * JavaBeans wishing to be nested within, and obtain a reference to their
- * execution environment, or context, as defined by the BeanContext
- * sub-interface shall implement this interface.
+ * JbvbBfbns wisiing to bf nfstfd witiin, bnd obtbin b rfffrfndf to tifir
+ * fxfdution fnvironmfnt, or dontfxt, bs dffinfd by tif BfbnContfxt
+ * sub-intfrfbdf sibll implfmfnt tiis intfrfbdf.
  * </p>
  * <p>
- * Conformant BeanContexts shall as a side effect of adding a BeanContextChild
- * object shall pass a reference to itself via the setBeanContext() method of
- * this interface.
+ * Conformbnt BfbnContfxts sibll bs b sidf ffffdt of bdding b BfbnContfxtCiild
+ * objfdt sibll pbss b rfffrfndf to itsflf vib tif sftBfbnContfxt() mftiod of
+ * tiis intfrfbdf.
  * </p>
  * <p>
- * Note that a BeanContextChild may refuse a change in state by throwing
- * PropertyVetoedException in response.
+ * Notf tibt b BfbnContfxtCiild mby rffusf b dibngf in stbtf by tirowing
+ * PropfrtyVftofdExdfption in rfsponsf.
  * </p>
  * <p>
- * In order for persistence mechanisms to function properly on BeanContextChild
- * instances across a broad variety of scenarios, implementing classes of this
- * interface are required to define as transient, any or all fields, or
- * instance variables, that may contain, or represent, references to the
- * nesting BeanContext instance or other resources obtained
- * from the BeanContext via any unspecified mechanisms.
+ * In ordfr for pfrsistfndf mfdibnisms to fundtion propfrly on BfbnContfxtCiild
+ * instbndfs bdross b brobd vbrifty of sdfnbrios, implfmfnting dlbssfs of tiis
+ * intfrfbdf brf rfquirfd to dffinf bs trbnsifnt, bny or bll fiflds, or
+ * instbndf vbribblfs, tibt mby dontbin, or rfprfsfnt, rfffrfndfs to tif
+ * nfsting BfbnContfxt instbndf or otifr rfsourdfs obtbinfd
+ * from tif BfbnContfxt vib bny unspfdififd mfdibnisms.
  * </p>
  *
- * @author      Laurence P. G. Cable
- * @since       1.2
+ * @butior      Lburfndf P. G. Cbblf
+ * @sindf       1.2
  *
- * @see java.beans.beancontext.BeanContext
- * @see java.beans.PropertyChangeEvent
- * @see java.beans.PropertyChangeListener
- * @see java.beans.PropertyVetoException
- * @see java.beans.VetoableChangeListener
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ * @sff jbvb.bfbns.PropfrtyCibngfEvfnt
+ * @sff jbvb.bfbns.PropfrtyCibngfListfnfr
+ * @sff jbvb.bfbns.PropfrtyVftoExdfption
+ * @sff jbvb.bfbns.VftobblfCibngfListfnfr
  */
 
-public interface BeanContextChild {
+publid intfrfbdf BfbnContfxtCiild {
 
     /**
      * <p>
-     * Objects that implement this interface,
-     * shall fire a java.beans.PropertyChangeEvent, with parameters:
+     * Objfdts tibt implfmfnt tiis intfrfbdf,
+     * sibll firf b jbvb.bfbns.PropfrtyCibngfEvfnt, witi pbrbmftfrs:
      *
-     * propertyName "beanContext", oldValue (the previous nesting
-     * <code>BeanContext</code> instance, or <code>null</code>),
-     * newValue (the current nesting
-     * <code>BeanContext</code> instance, or <code>null</code>).
+     * propfrtyNbmf "bfbnContfxt", oldVbluf (tif prfvious nfsting
+     * <dodf>BfbnContfxt</dodf> instbndf, or <dodf>null</dodf>),
+     * nfwVbluf (tif durrfnt nfsting
+     * <dodf>BfbnContfxt</dodf> instbndf, or <dodf>null</dodf>).
      * <p>
-     * A change in the value of the nesting BeanContext property of this
-     * BeanContextChild may be vetoed by throwing the appropriate exception.
+     * A dibngf in tif vbluf of tif nfsting BfbnContfxt propfrty of tiis
+     * BfbnContfxtCiild mby bf vftofd by tirowing tif bppropribtf fxdfption.
      * </p>
-     * @param bc The <code>BeanContext</code> with which
-     * to associate this <code>BeanContextChild</code>.
-     * @throws PropertyVetoException if the
-     * addition of the specified <code>BeanContext</code> is refused.
+     * @pbrbm bd Tif <dodf>BfbnContfxt</dodf> witi wiidi
+     * to bssodibtf tiis <dodf>BfbnContfxtCiild</dodf>.
+     * @tirows PropfrtyVftoExdfption if tif
+     * bddition of tif spfdififd <dodf>BfbnContfxt</dodf> is rffusfd.
      */
-    void setBeanContext(BeanContext bc) throws PropertyVetoException;
+    void sftBfbnContfxt(BfbnContfxt bd) tirows PropfrtyVftoExdfption;
 
     /**
-     * Gets the <code>BeanContext</code> associated
-     * with this <code>BeanContextChild</code>.
-     * @return the <code>BeanContext</code> associated
-     * with this <code>BeanContextChild</code>.
+     * Gfts tif <dodf>BfbnContfxt</dodf> bssodibtfd
+     * witi tiis <dodf>BfbnContfxtCiild</dodf>.
+     * @rfturn tif <dodf>BfbnContfxt</dodf> bssodibtfd
+     * witi tiis <dodf>BfbnContfxtCiild</dodf>.
      */
-    BeanContext getBeanContext();
+    BfbnContfxt gftBfbnContfxt();
 
     /**
-     * Adds a <code>PropertyChangeListener</code>
-     * to this <code>BeanContextChild</code>
-     * in order to receive a <code>PropertyChangeEvent</code>
-     * whenever the specified property has changed.
-     * @param name the name of the property to listen on
-     * @param pcl the <code>PropertyChangeListener</code> to add
+     * Adds b <dodf>PropfrtyCibngfListfnfr</dodf>
+     * to tiis <dodf>BfbnContfxtCiild</dodf>
+     * in ordfr to rfdfivf b <dodf>PropfrtyCibngfEvfnt</dodf>
+     * wifnfvfr tif spfdififd propfrty ibs dibngfd.
+     * @pbrbm nbmf tif nbmf of tif propfrty to listfn on
+     * @pbrbm pdl tif <dodf>PropfrtyCibngfListfnfr</dodf> to bdd
      */
-    void addPropertyChangeListener(String name, PropertyChangeListener pcl);
+    void bddPropfrtyCibngfListfnfr(String nbmf, PropfrtyCibngfListfnfr pdl);
 
     /**
-     * Removes a <code>PropertyChangeListener</code> from this
-     * <code>BeanContextChild</code>  so that it no longer
-     * receives <code>PropertyChangeEvents</code> when the
-     * specified property is changed.
+     * Rfmovfs b <dodf>PropfrtyCibngfListfnfr</dodf> from tiis
+     * <dodf>BfbnContfxtCiild</dodf>  so tibt it no longfr
+     * rfdfivfs <dodf>PropfrtyCibngfEvfnts</dodf> wifn tif
+     * spfdififd propfrty is dibngfd.
      *
-     * @param name the name of the property that was listened on
-     * @param pcl the <code>PropertyChangeListener</code> to remove
+     * @pbrbm nbmf tif nbmf of tif propfrty tibt wbs listfnfd on
+     * @pbrbm pdl tif <dodf>PropfrtyCibngfListfnfr</dodf> to rfmovf
      */
-    void removePropertyChangeListener(String name, PropertyChangeListener pcl);
+    void rfmovfPropfrtyCibngfListfnfr(String nbmf, PropfrtyCibngfListfnfr pdl);
 
     /**
-     * Adds a <code>VetoableChangeListener</code> to
-     * this <code>BeanContextChild</code>
-     * to receive events whenever the specified property changes.
-     * @param name the name of the property to listen on
-     * @param vcl the <code>VetoableChangeListener</code> to add
+     * Adds b <dodf>VftobblfCibngfListfnfr</dodf> to
+     * tiis <dodf>BfbnContfxtCiild</dodf>
+     * to rfdfivf fvfnts wifnfvfr tif spfdififd propfrty dibngfs.
+     * @pbrbm nbmf tif nbmf of tif propfrty to listfn on
+     * @pbrbm vdl tif <dodf>VftobblfCibngfListfnfr</dodf> to bdd
      */
-    void addVetoableChangeListener(String name, VetoableChangeListener vcl);
+    void bddVftobblfCibngfListfnfr(String nbmf, VftobblfCibngfListfnfr vdl);
 
     /**
-     * Removes a <code>VetoableChangeListener</code> from this
-     * <code>BeanContextChild</code> so that it no longer receives
-     * events when the specified property changes.
-     * @param name the name of the property that was listened on.
-     * @param vcl the <code>VetoableChangeListener</code> to remove.
+     * Rfmovfs b <dodf>VftobblfCibngfListfnfr</dodf> from tiis
+     * <dodf>BfbnContfxtCiild</dodf> so tibt it no longfr rfdfivfs
+     * fvfnts wifn tif spfdififd propfrty dibngfs.
+     * @pbrbm nbmf tif nbmf of tif propfrty tibt wbs listfnfd on.
+     * @pbrbm vdl tif <dodf>VftobblfCibngfListfnfr</dodf> to rfmovf.
      */
-    void removeVetoableChangeListener(String name, VetoableChangeListener vcl);
+    void rfmovfVftobblfCibngfListfnfr(String nbmf, VftobblfCibngfListfnfr vdl);
 
 }

@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.Image;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
 /**
- * The <code>ImageGraphicAttribute</code> class is an implementation of
- * {@link GraphicAttribute} which draws images in
- * a {@link TextLayout}.
- * @see GraphicAttribute
+ * Tif <dodf>ImbgfGrbpiidAttributf</dodf> dlbss is bn implfmfntbtion of
+ * {@link GrbpiidAttributf} wiidi drbws imbgfs in
+ * b {@link TfxtLbyout}.
+ * @sff GrbpiidAttributf
  */
 
-public final class ImageGraphicAttribute extends GraphicAttribute {
+publid finbl dlbss ImbgfGrbpiidAttributf fxtfnds GrbpiidAttributf {
 
-    private Image fImage;
-    private float fImageWidth, fImageHeight;
-    private float fOriginX, fOriginY;
+    privbtf Imbgf fImbgf;
+    privbtf flobt fImbgfWidti, fImbgfHfigit;
+    privbtf flobt fOriginX, fOriginY;
 
     /**
-     * Constucts an <code>ImageGraphicAttribute</code> from the specified
-     * {@link Image}.  The origin is at (0,&nbsp;0).
-     * @param image the <code>Image</code> rendered by this
-     * <code>ImageGraphicAttribute</code>.
-     * This object keeps a reference to <code>image</code>.
-     * @param alignment one of the alignments from this
-     * <code>ImageGraphicAttribute</code>
+     * Constudts bn <dodf>ImbgfGrbpiidAttributf</dodf> from tif spfdififd
+     * {@link Imbgf}.  Tif origin is bt (0,&nbsp;0).
+     * @pbrbm imbgf tif <dodf>Imbgf</dodf> rfndfrfd by tiis
+     * <dodf>ImbgfGrbpiidAttributf</dodf>.
+     * Tiis objfdt kffps b rfffrfndf to <dodf>imbgf</dodf>.
+     * @pbrbm blignmfnt onf of tif blignmfnts from tiis
+     * <dodf>ImbgfGrbpiidAttributf</dodf>
      */
-    public ImageGraphicAttribute(Image image, int alignment) {
+    publid ImbgfGrbpiidAttributf(Imbgf imbgf, int blignmfnt) {
 
-        this(image, alignment, 0, 0);
+        tiis(imbgf, blignmfnt, 0, 0);
     }
 
     /**
-     * Constructs an <code>ImageGraphicAttribute</code> from the specified
-     * <code>Image</code>. The point
-     * (<code>originX</code>,&nbsp;<code>originY</code>) in the
-     * <code>Image</code> appears at the origin of the
-     * <code>ImageGraphicAttribute</code> within the text.
-     * @param image the <code>Image</code> rendered by this
-     * <code>ImageGraphicAttribute</code>.
-     * This object keeps a reference to <code>image</code>.
-     * @param alignment one of the alignments from this
-     * <code>ImageGraphicAttribute</code>
-     * @param originX the X coordinate of the point within
-     * the <code>Image</code> that appears at the origin of the
-     * <code>ImageGraphicAttribute</code> in the text line.
-     * @param originY the Y coordinate of the point within
-     * the <code>Image</code> that appears at the origin of the
-     * <code>ImageGraphicAttribute</code> in the text line.
+     * Construdts bn <dodf>ImbgfGrbpiidAttributf</dodf> from tif spfdififd
+     * <dodf>Imbgf</dodf>. Tif point
+     * (<dodf>originX</dodf>,&nbsp;<dodf>originY</dodf>) in tif
+     * <dodf>Imbgf</dodf> bppfbrs bt tif origin of tif
+     * <dodf>ImbgfGrbpiidAttributf</dodf> witiin tif tfxt.
+     * @pbrbm imbgf tif <dodf>Imbgf</dodf> rfndfrfd by tiis
+     * <dodf>ImbgfGrbpiidAttributf</dodf>.
+     * Tiis objfdt kffps b rfffrfndf to <dodf>imbgf</dodf>.
+     * @pbrbm blignmfnt onf of tif blignmfnts from tiis
+     * <dodf>ImbgfGrbpiidAttributf</dodf>
+     * @pbrbm originX tif X doordinbtf of tif point witiin
+     * tif <dodf>Imbgf</dodf> tibt bppfbrs bt tif origin of tif
+     * <dodf>ImbgfGrbpiidAttributf</dodf> in tif tfxt linf.
+     * @pbrbm originY tif Y doordinbtf of tif point witiin
+     * tif <dodf>Imbgf</dodf> tibt bppfbrs bt tif origin of tif
+     * <dodf>ImbgfGrbpiidAttributf</dodf> in tif tfxt linf.
      */
-    public ImageGraphicAttribute(Image image,
-                                 int alignment,
-                                 float originX,
-                                 float originY) {
+    publid ImbgfGrbpiidAttributf(Imbgf imbgf,
+                                 int blignmfnt,
+                                 flobt originX,
+                                 flobt originY) {
 
-        super(alignment);
+        supfr(blignmfnt);
 
-        // Can't clone image
-        // fImage = (Image) image.clone();
-        fImage = image;
+        // Cbn't dlonf imbgf
+        // fImbgf = (Imbgf) imbgf.dlonf();
+        fImbgf = imbgf;
 
-        fImageWidth = image.getWidth(null);
-        fImageHeight = image.getHeight(null);
+        fImbgfWidti = imbgf.gftWidti(null);
+        fImbgfHfigit = imbgf.gftHfigit(null);
 
-        // ensure origin is in Image?
+        // fnsurf origin is in Imbgf?
         fOriginX = originX;
         fOriginY = originY;
     }
 
     /**
-     * Returns the ascent of this <code>ImageGraphicAttribute</code>.  The
-     * ascent of an <code>ImageGraphicAttribute</code> is the distance
-     * from the top of the image to the origin.
-     * @return the ascent of this <code>ImageGraphicAttribute</code>.
+     * Rfturns tif bsdfnt of tiis <dodf>ImbgfGrbpiidAttributf</dodf>.  Tif
+     * bsdfnt of bn <dodf>ImbgfGrbpiidAttributf</dodf> is tif distbndf
+     * from tif top of tif imbgf to tif origin.
+     * @rfturn tif bsdfnt of tiis <dodf>ImbgfGrbpiidAttributf</dodf>.
      */
-    public float getAscent() {
+    publid flobt gftAsdfnt() {
 
-        return Math.max(0, fOriginY);
+        rfturn Mbti.mbx(0, fOriginY);
     }
 
     /**
-     * Returns the descent of this <code>ImageGraphicAttribute</code>.
-     * The descent of an <code>ImageGraphicAttribute</code> is the
-     * distance from the origin to the bottom of the image.
-     * @return the descent of this <code>ImageGraphicAttribute</code>.
+     * Rfturns tif dfsdfnt of tiis <dodf>ImbgfGrbpiidAttributf</dodf>.
+     * Tif dfsdfnt of bn <dodf>ImbgfGrbpiidAttributf</dodf> is tif
+     * distbndf from tif origin to tif bottom of tif imbgf.
+     * @rfturn tif dfsdfnt of tiis <dodf>ImbgfGrbpiidAttributf</dodf>.
      */
-    public float getDescent() {
+    publid flobt gftDfsdfnt() {
 
-        return Math.max(0, fImageHeight-fOriginY);
+        rfturn Mbti.mbx(0, fImbgfHfigit-fOriginY);
     }
 
     /**
-     * Returns the advance of this <code>ImageGraphicAttribute</code>.
-     * The advance of an <code>ImageGraphicAttribute</code> is the
-     * distance from the origin to the right edge of the image.
-     * @return the advance of this <code>ImageGraphicAttribute</code>.
+     * Rfturns tif bdvbndf of tiis <dodf>ImbgfGrbpiidAttributf</dodf>.
+     * Tif bdvbndf of bn <dodf>ImbgfGrbpiidAttributf</dodf> is tif
+     * distbndf from tif origin to tif rigit fdgf of tif imbgf.
+     * @rfturn tif bdvbndf of tiis <dodf>ImbgfGrbpiidAttributf</dodf>.
      */
-    public float getAdvance() {
+    publid flobt gftAdvbndf() {
 
-        return Math.max(0, fImageWidth-fOriginX);
+        rfturn Mbti.mbx(0, fImbgfWidti-fOriginX);
     }
 
     /**
-     * Returns a {@link Rectangle2D} that encloses all of the
-     * bits rendered by this <code>ImageGraphicAttribute</code>, relative
-     * to the rendering position.  A graphic can be rendered beyond its
-     * origin, ascent, descent, or advance;  but if it is, this
-     * method's implementation must indicate where the graphic is rendered.
-     * @return a <code>Rectangle2D</code> that encloses all of the bits
-     * rendered by this <code>ImageGraphicAttribute</code>.
+     * Rfturns b {@link Rfdtbnglf2D} tibt fndlosfs bll of tif
+     * bits rfndfrfd by tiis <dodf>ImbgfGrbpiidAttributf</dodf>, rflbtivf
+     * to tif rfndfring position.  A grbpiid dbn bf rfndfrfd bfyond its
+     * origin, bsdfnt, dfsdfnt, or bdvbndf;  but if it is, tiis
+     * mftiod's implfmfntbtion must indidbtf wifrf tif grbpiid is rfndfrfd.
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt fndlosfs bll of tif bits
+     * rfndfrfd by tiis <dodf>ImbgfGrbpiidAttributf</dodf>.
      */
-    public Rectangle2D getBounds() {
+    publid Rfdtbnglf2D gftBounds() {
 
-        return new Rectangle2D.Float(
-                        -fOriginX, -fOriginY, fImageWidth, fImageHeight);
+        rfturn nfw Rfdtbnglf2D.Flobt(
+                        -fOriginX, -fOriginY, fImbgfWidti, fImbgfHfigit);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void draw(Graphics2D graphics, float x, float y) {
+    publid void drbw(Grbpiids2D grbpiids, flobt x, flobt y) {
 
-        graphics.drawImage(fImage, (int) (x-fOriginX), (int) (y-fOriginY), null);
+        grbpiids.drbwImbgf(fImbgf, (int) (x-fOriginX), (int) (y-fOriginY), null);
     }
 
     /**
-     * Returns a hashcode for this <code>ImageGraphicAttribute</code>.
-     * @return  a hash code value for this object.
+     * Rfturns b ibsidodf for tiis <dodf>ImbgfGrbpiidAttributf</dodf>.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        return fImage.hashCode();
+        rfturn fImbgf.ibsiCodf();
     }
 
     /**
-     * Compares this <code>ImageGraphicAttribute</code> to the specified
-     * {@link Object}.
-     * @param rhs the <code>Object</code> to compare for equality
-     * @return <code>true</code> if this
-     * <code>ImageGraphicAttribute</code> equals <code>rhs</code>;
-     * <code>false</code> otherwise.
+     * Compbrfs tiis <dodf>ImbgfGrbpiidAttributf</dodf> to tif spfdififd
+     * {@link Objfdt}.
+     * @pbrbm ris tif <dodf>Objfdt</dodf> to dompbrf for fqublity
+     * @rfturn <dodf>truf</dodf> if tiis
+     * <dodf>ImbgfGrbpiidAttributf</dodf> fqubls <dodf>ris</dodf>;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(Object rhs) {
+    publid boolfbn fqubls(Objfdt ris) {
 
         try {
-            return equals((ImageGraphicAttribute) rhs);
+            rfturn fqubls((ImbgfGrbpiidAttributf) ris);
         }
-        catch(ClassCastException e) {
-            return false;
+        dbtdi(ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Compares this <code>ImageGraphicAttribute</code> to the specified
-     * <code>ImageGraphicAttribute</code>.
-     * @param rhs the <code>ImageGraphicAttribute</code> to compare for
-     * equality
-     * @return <code>true</code> if this
-     * <code>ImageGraphicAttribute</code> equals <code>rhs</code>;
-     * <code>false</code> otherwise.
+     * Compbrfs tiis <dodf>ImbgfGrbpiidAttributf</dodf> to tif spfdififd
+     * <dodf>ImbgfGrbpiidAttributf</dodf>.
+     * @pbrbm ris tif <dodf>ImbgfGrbpiidAttributf</dodf> to dompbrf for
+     * fqublity
+     * @rfturn <dodf>truf</dodf> if tiis
+     * <dodf>ImbgfGrbpiidAttributf</dodf> fqubls <dodf>ris</dodf>;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(ImageGraphicAttribute rhs) {
+    publid boolfbn fqubls(ImbgfGrbpiidAttributf ris) {
 
-        if (rhs == null) {
-            return false;
+        if (ris == null) {
+            rfturn fblsf;
         }
 
-        if (this == rhs) {
-            return true;
+        if (tiis == ris) {
+            rfturn truf;
         }
 
-        if (fOriginX != rhs.fOriginX || fOriginY != rhs.fOriginY) {
-            return false;
+        if (fOriginX != ris.fOriginX || fOriginY != ris.fOriginY) {
+            rfturn fblsf;
         }
 
-        if (getAlignment() != rhs.getAlignment()) {
-            return false;
+        if (gftAlignmfnt() != ris.gftAlignmfnt()) {
+            rfturn fblsf;
         }
 
-        if (!fImage.equals(rhs.fImage)) {
-            return false;
+        if (!fImbgf.fqubls(ris.fImbgf)) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 }

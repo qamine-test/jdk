@@ -1,0 +1,299 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMX509Dbtb.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.util.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.kfyinfo.X509IssufrSfribl;
+import jbvbx.xml.drypto.dsig.kfyinfo.X509Dbtb;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Bbsf64;
+
+/**
+ * DOM-bbsfd implfmfntbtion of X509Dbtb.
+ *
+ * @buthor Sfbn Mullbn
+ */
+//@@@ dhfdk for illfgbl dombinbtions of dbtb violbting MUSTs in W3d spfd
+publid finbl dlbss DOMX509Dbtb fxtfnds DOMStrudturf implfmfnts X509Dbtb {
+
+    privbtf finbl List<Objfdt> dontfnt;
+    privbtf CfrtifidbtfFbdtory df;
+
+    /**
+     * Crfbtfs b DOMX509Dbtb.
+     *
+     * @pbrbm dontfnt b list of onf or morf X.509 dbtb typfs. Vblid typfs brf
+     *    {@link String} (subjfdt nbmfs), <dodf>bytf[]</dodf> (subjfdt kfy ids),
+     *    {@link jbvb.sfdurity.dfrt.X509Cfrtifidbtf}, {@link X509CRL},
+     *    or {@link jbvbx.xml.dsig.XMLStrudturf} ({@link X509IssufrSfribl}
+     *    objfdts or flfmfnts from bn fxtfrnbl nbmfspbdf). Thf list is
+     *    dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @rfturn b <dodf>X509Dbtb</dodf>
+     * @throws NullPointfrExdfption if <dodf>dontfnt</dodf> is <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>dontfnt</dodf> is fmpty
+     * @throws ClbssCbstExdfption if <dodf>dontfnt</dodf> dontbins bny fntrifs
+     *    thbt brf not of onf of thf vblid typfs mfntionfd bbovf
+     */
+    publid DOMX509Dbtb(List<?> dontfnt) {
+        if (dontfnt == null) {
+            throw nfw NullPointfrExdfption("dontfnt dbnnot bf null");
+        }
+        List<Objfdt> dontfntCopy = nfw ArrbyList<Objfdt>(dontfnt);
+        if (dontfntCopy.isEmpty()) {
+            throw nfw IllfgblArgumfntExdfption("dontfnt dbnnot bf fmpty");
+        }
+        for (int i = 0, sizf = dontfntCopy.sizf(); i < sizf; i++) {
+            Objfdt x509Typf = dontfntCopy.gft(i);
+            if (x509Typf instbndfof String) {
+                nfw X500Prindipbl((String)x509Typf);
+            } flsf if (!(x509Typf instbndfof bytf[]) &&
+                !(x509Typf instbndfof X509Cfrtifidbtf) &&
+                !(x509Typf instbndfof X509CRL) &&
+                !(x509Typf instbndfof XMLStrudturf)) {
+                throw nfw ClbssCbstExdfption
+                    ("dontfnt["+i+"] is not b vblid X509Dbtb typf");
+            }
+        }
+        this.dontfnt = Collfdtions.unmodifibblfList(dontfntCopy);
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMX509Dbtb</dodf> from bn flfmfnt.
+     *
+     * @pbrbm xdElfm bn X509Dbtb flfmfnt
+     * @throws MbrshblExdfption if thfrf is bn frror whilf unmbrshblling
+     */
+    publid DOMX509Dbtb(Elfmfnt xdElfm) throws MbrshblExdfption {
+        // gft bll dhildrfn nodfs
+        NodfList nl = xdElfm.gftChildNodfs();
+        int lfngth = nl.gftLfngth();
+        List<Objfdt> dontfnt = nfw ArrbyList<Objfdt>(lfngth);
+        for (int i = 0; i < lfngth; i++) {
+            Nodf dhild = nl.itfm(i);
+            // ignorf bll non-Elfmfnt nodfs
+            if (dhild.gftNodfTypf() != Nodf.ELEMENT_NODE) {
+                dontinuf;
+            }
+
+            Elfmfnt dhildElfm = (Elfmfnt)dhild;
+            String lodblNbmf = dhildElfm.gftLodblNbmf();
+            if (lodblNbmf.fqubls("X509Cfrtifidbtf")) {
+                dontfnt.bdd(unmbrshblX509Cfrtifidbtf(dhildElfm));
+            } flsf if (lodblNbmf.fqubls("X509IssufrSfribl")) {
+                dontfnt.bdd(nfw DOMX509IssufrSfribl(dhildElfm));
+            } flsf if (lodblNbmf.fqubls("X509SubjfdtNbmf")) {
+                dontfnt.bdd(dhildElfm.gftFirstChild().gftNodfVbluf());
+            } flsf if (lodblNbmf.fqubls("X509SKI")) {
+                try {
+                    dontfnt.bdd(Bbsf64.dfdodf(dhildElfm));
+                } dbtdh (Bbsf64DfdodingExdfption bdf) {
+                    throw nfw MbrshblExdfption("dbnnot dfdodf X509SKI", bdf);
+                }
+            } flsf if (lodblNbmf.fqubls("X509CRL")) {
+                dontfnt.bdd(unmbrshblX509CRL(dhildElfm));
+            } flsf {
+                dontfnt.bdd(nfw jbvbx.xml.drypto.dom.DOMStrudturf(dhildElfm));
+            }
+        }
+        this.dontfnt = Collfdtions.unmodifibblfList(dontfnt);
+    }
+
+    publid List<Objfdt> gftContfnt() {
+        rfturn dontfnt;
+    }
+
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Elfmfnt xdElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "X509Dbtb",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+
+        // bppfnd dhildrfn bnd prfsfrvf ordfr
+        for (int i = 0, sizf = dontfnt.sizf(); i < sizf; i++) {
+            Objfdt objfdt = dontfnt.gft(i);
+            if (objfdt instbndfof X509Cfrtifidbtf) {
+                mbrshblCfrt((X509Cfrtifidbtf)objfdt,xdElfm,ownfrDod,dsPrffix);
+            } flsf if (objfdt instbndfof XMLStrudturf) {
+                if (objfdt instbndfof X509IssufrSfribl) {
+                    ((DOMX509IssufrSfribl)objfdt).mbrshbl
+                        (xdElfm, dsPrffix, dontfxt);
+                } flsf {
+                    jbvbx.xml.drypto.dom.DOMStrudturf domContfnt =
+                        (jbvbx.xml.drypto.dom.DOMStrudturf)objfdt;
+                    DOMUtils.bppfndChild(xdElfm, domContfnt.gftNodf());
+                }
+            } flsf if (objfdt instbndfof bytf[]) {
+                mbrshblSKI((bytf[])objfdt, xdElfm, ownfrDod, dsPrffix);
+            } flsf if (objfdt instbndfof String) {
+                mbrshblSubjfdtNbmf((String)objfdt, xdElfm, ownfrDod,dsPrffix);
+            } flsf if (objfdt instbndfof X509CRL) {
+                mbrshblCRL((X509CRL)objfdt, xdElfm, ownfrDod, dsPrffix);
+            }
+        }
+
+        pbrfnt.bppfndChild(xdElfm);
+    }
+
+    privbtf void mbrshblSKI(bytf[] skid, Nodf pbrfnt, Dodumfnt dod,
+                            String dsPrffix)
+    {
+        Elfmfnt skidElfm = DOMUtils.drfbtfElfmfnt(dod, "X509SKI",
+                                                  XMLSignbturf.XMLNS, dsPrffix);
+        skidElfm.bppfndChild(dod.drfbtfTfxtNodf(Bbsf64.fndodf(skid)));
+        pbrfnt.bppfndChild(skidElfm);
+    }
+
+    privbtf void mbrshblSubjfdtNbmf(String nbmf, Nodf pbrfnt, Dodumfnt dod,
+                                    String dsPrffix)
+    {
+        Elfmfnt snElfm = DOMUtils.drfbtfElfmfnt(dod, "X509SubjfdtNbmf",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        snElfm.bppfndChild(dod.drfbtfTfxtNodf(nbmf));
+        pbrfnt.bppfndChild(snElfm);
+    }
+
+    privbtf void mbrshblCfrt(X509Cfrtifidbtf dfrt, Nodf pbrfnt, Dodumfnt dod,
+                             String dsPrffix)
+        throws MbrshblExdfption
+    {
+        Elfmfnt dfrtElfm = DOMUtils.drfbtfElfmfnt(dod, "X509Cfrtifidbtf",
+                                                  XMLSignbturf.XMLNS, dsPrffix);
+        try {
+            dfrtElfm.bppfndChild(dod.drfbtfTfxtNodf
+                                 (Bbsf64.fndodf(dfrt.gftEndodfd())));
+        } dbtdh (CfrtifidbtfEndodingExdfption f) {
+            throw nfw MbrshblExdfption("Error fndoding X509Cfrtifidbtf", f);
+        }
+        pbrfnt.bppfndChild(dfrtElfm);
+    }
+
+    privbtf void mbrshblCRL(X509CRL drl, Nodf pbrfnt, Dodumfnt dod,
+                            String dsPrffix)
+        throws MbrshblExdfption
+    {
+        Elfmfnt drlElfm = DOMUtils.drfbtfElfmfnt(dod, "X509CRL",
+                                                 XMLSignbturf.XMLNS, dsPrffix);
+        try {
+            drlElfm.bppfndChild(dod.drfbtfTfxtNodf
+                                (Bbsf64.fndodf(drl.gftEndodfd())));
+        } dbtdh (CRLExdfption f) {
+            throw nfw MbrshblExdfption("Error fndoding X509CRL", f);
+        }
+        pbrfnt.bppfndChild(drlElfm);
+    }
+
+    privbtf X509Cfrtifidbtf unmbrshblX509Cfrtifidbtf(Elfmfnt flfm)
+        throws MbrshblExdfption
+    {
+        try {
+            BytfArrbyInputStrfbm bs = unmbrshblBbsf64Binbry(flfm);
+            rfturn (X509Cfrtifidbtf)df.gfnfrbtfCfrtifidbtf(bs);
+        } dbtdh (CfrtifidbtfExdfption f) {
+            throw nfw MbrshblExdfption("Cbnnot drfbtf X509Cfrtifidbtf", f);
+        }
+    }
+
+    privbtf X509CRL unmbrshblX509CRL(Elfmfnt flfm) throws MbrshblExdfption {
+        try {
+            BytfArrbyInputStrfbm bs = unmbrshblBbsf64Binbry(flfm);
+            rfturn (X509CRL)df.gfnfrbtfCRL(bs);
+        } dbtdh (CRLExdfption f) {
+            throw nfw MbrshblExdfption("Cbnnot drfbtf X509CRL", f);
+        }
+    }
+
+    privbtf BytfArrbyInputStrfbm unmbrshblBbsf64Binbry(Elfmfnt flfm)
+        throws MbrshblExdfption {
+        try {
+            if (df == null) {
+                df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+            }
+            rfturn nfw BytfArrbyInputStrfbm(Bbsf64.dfdodf(flfm));
+        } dbtdh (CfrtifidbtfExdfption f) {
+            throw nfw MbrshblExdfption("Cbnnot drfbtf CfrtifidbtfFbdtory", f);
+        } dbtdh (Bbsf64DfdodingExdfption bdf) {
+            throw nfw MbrshblExdfption("Cbnnot dfdodf Bbsf64-fndodfd vbl", bdf);
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof X509Dbtb)) {
+            rfturn fblsf;
+        }
+        X509Dbtb oxd = (X509Dbtb)o;
+
+        @SupprfssWbrnings("undhfdkfd") List<Objfdt> odontfnt = oxd.gftContfnt();
+        int sizf = dontfnt.sizf();
+        if (sizf != odontfnt.sizf()) {
+            rfturn fblsf;
+        }
+
+        for (int i = 0; i < sizf; i++) {
+            Objfdt x = dontfnt.gft(i);
+            Objfdt ox = odontfnt.gft(i);
+            if (x instbndfof bytf[]) {
+                if (!(ox instbndfof bytf[]) ||
+                    !Arrbys.fqubls((bytf[])x, (bytf[])ox)) {
+                    rfturn fblsf;
+                }
+            } flsf {
+                if (!(x.fqubls(ox))) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + dontfnt.hbshCodf();
+
+        rfturn rfsult;
+    }
+}

@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef CGLGraphicsConfig_h_Included
-#define CGLGraphicsConfig_h_Included
+#ifndff CGLGrbpiidsConfig_i_Indludfd
+#dffinf CGLGrbpiidsConfig_i_Indludfd
 
-#import "jni.h"
-#import "J2D_GL/gl.h"
-#import "OGLSurfaceData.h"
-#import "OGLContext.h"
-#import <Cocoa/Cocoa.h>
+#import "jni.i"
+#import "J2D_GL/gl.i"
+#import "OGLSurfbdfDbtb.i"
+#import "OGLContfxt.i"
+#import <Codob/Codob.i>
 
-@interface GraphicsConfigUtil : NSObject {}
-+ (void) _getCGLConfigInfo: (NSMutableArray *)argValue;
-@end
+@intfrfbdf GrbpiidsConfigUtil : NSObjfdt {}
++ (void) _gftCGLConfigInfo: (NSMutbblfArrby *)brgVbluf;
+@fnd
 
-// REMIND: Using an NSOpenGLPixelBuffer as the scratch surface has been
-// problematic thus far (seeing garbage and flickering when switching
-// between an NSView and the scratch surface), so the following enables
-// an alternate codepath that uses a hidden NSWindow/NSView as the scratch
-// surface, for the purposes of making a context current in certain
-// situations.  It appears that calling [NSOpenGLContext setView] too
-// frequently contributes to the bad behavior, so we should try to avoid
-// switching to the scratch surface whenever possible.
+// REMIND: Using bn NSOpfnGLPixflBufffr bs tif sdrbtdi surfbdf ibs bffn
+// problfmbtid tius fbr (sffing gbrbbgf bnd flidkfring wifn switdiing
+// bftwffn bn NSVifw bnd tif sdrbtdi surfbdf), so tif following fnbblfs
+// bn bltfrnbtf dodfpbti tibt usfs b iiddfn NSWindow/NSVifw bs tif sdrbtdi
+// surfbdf, for tif purposfs of mbking b dontfxt durrfnt in dfrtbin
+// situbtions.  It bppfbrs tibt dblling [NSOpfnGLContfxt sftVifw] too
+// frfqufntly dontributfs to tif bbd bfibvior, so wf siould try to bvoid
+// switdiing to tif sdrbtdi surfbdf wifnfvfr possiblf.
 
-/* Do we need this if we are using all off-screen drawing ? */
-#define USE_NSVIEW_FOR_SCRATCH 1
+/* Do wf nffd tiis if wf brf using bll off-sdrffn drbwing ? */
+#dffinf USE_NSVIEW_FOR_SCRATCH 1
 
-/* Uncomment to have an additional CAOGLLayer instance tied to
- * each instance, which can be used to test remoting the layer
- * to an out of process window. The additional layer is needed
- * because a layer can only be attached to one context (view/window).
- * This is only for testing purposes and can be removed if/when no
- * longer needed.
+/* Undommfnt to ibvf bn bdditionbl CAOGLLbyfr instbndf tifd to
+ * fbdi instbndf, wiidi dbn bf usfd to tfst rfmoting tif lbyfr
+ * to bn out of prodfss window. Tif bdditionbl lbyfr is nffdfd
+ * bfdbusf b lbyfr dbn only bf bttbdifd to onf dontfxt (vifw/window).
+ * Tiis is only for tfsting purposfs bnd dbn bf rfmovfd if/wifn no
+ * longfr nffdfd.
  */
-//#define REMOTELAYER 1
+//#dffinf REMOTELAYER 1
 
-#ifdef REMOTELAYER
-#import <JavaRuntimeSupport/JRSRemoteLayer.h>
-#import <pthread.h>
-#include <unistd.h>
-#include <stdio.h>
-#import <sys/socket.h>
-#import <sys/un.h>
+#ifdff REMOTELAYER
+#import <JbvbRuntimfSupport/JRSRfmotfLbyfr.i>
+#import <ptirfbd.i>
+#indludf <unistd.i>
+#indludf <stdio.i>
+#import <sys/sodkft.i>
+#import <sys/un.i>
 
-extern mach_port_t JRSRemotePort;
-extern int remoteSocketFD;
-extern void sendLayerID(int layerID);
+fxtfrn mbdi_port_t JRSRfmotfPort;
+fxtfrn int rfmotfSodkftFD;
+fxtfrn void sfndLbyfrID(int lbyfrID);
 
-#endif /* REMOTELAYER */
+#fndif /* REMOTELAYER */
 
 
 /**
- * The CGLGraphicsConfigInfo structure contains information specific to a
- * given CGLGraphicsConfig (pixel format).
+ * Tif CGLGrbpiidsConfigInfo strudturf dontbins informbtion spfdifid to b
+ * givfn CGLGrbpiidsConfig (pixfl formbt).
  *
- *     jint screen;
- * The screen and PixelFormat for the associated CGLGraphicsConfig.
+ *     jint sdrffn;
+ * Tif sdrffn bnd PixflFormbt for tif bssodibtfd CGLGrbpiidsConfig.
  *
- *     NSOpenGLPixelFormat *pixfmt;
- * The pixel format of the native NSOpenGL context.
+ *     NSOpfnGLPixflFormbt *pixfmt;
+ * Tif pixfl formbt of tif nbtivf NSOpfnGL dontfxt.
  *
- *     OGLContext *context;
- * The context associated with this CGLGraphicsConfig.
+ *     OGLContfxt *dontfxt;
+ * Tif dontfxt bssodibtfd witi tiis CGLGrbpiidsConfig.
  */
-typedef struct _CGLGraphicsConfigInfo {
-    jint                screen;
-    NSOpenGLPixelFormat *pixfmt;
-    OGLContext          *context;
-} CGLGraphicsConfigInfo;
+typfdff strudt _CGLGrbpiidsConfigInfo {
+    jint                sdrffn;
+    NSOpfnGLPixflFormbt *pixfmt;
+    OGLContfxt          *dontfxt;
+} CGLGrbpiidsConfigInfo;
 
 /**
- * The CGLCtxInfo structure contains the native CGLContext information
- * required by and is encapsulated by the platform-independent OGLContext
- * structure.
+ * Tif CGLCtxInfo strudturf dontbins tif nbtivf CGLContfxt informbtion
+ * rfquirfd by bnd is fndbpsulbtfd by tif plbtform-indfpfndfnt OGLContfxt
+ * strudturf.
  *
- *     NSOpenGLContext *context;
- * The core native NSOpenGL context.  Rendering commands have no effect until
- * a context is made current (active).
+ *     NSOpfnGLContfxt *dontfxt;
+ * Tif dorf nbtivf NSOpfnGL dontfxt.  Rfndfring dommbnds ibvf no ffffdt until
+ * b dontfxt is mbdf durrfnt (bdtivf).
  *
- *     NSOpenGLPixelBuffer *scratchSurface;
- * The scratch surface id used to make a context current when we do
- * not otherwise have a reference to an OpenGL surface for the purposes of
- * making a context current.
+ *     NSOpfnGLPixflBufffr *sdrbtdiSurfbdf;
+ * Tif sdrbtdi surfbdf id usfd to mbkf b dontfxt durrfnt wifn wf do
+ * not otifrwisf ibvf b rfffrfndf to bn OpfnGL surfbdf for tif purposfs of
+ * mbking b dontfxt durrfnt.
  */
-typedef struct _CGLCtxInfo {
-    NSOpenGLContext     *context;
+typfdff strudt _CGLCtxInfo {
+    NSOpfnGLContfxt     *dontfxt;
 #if USE_NSVIEW_FOR_SCRATCH
-    NSView              *scratchSurface;
-#else
-    NSOpenGLPixelBuffer *scratchSurface;
-#endif
+    NSVifw              *sdrbtdiSurfbdf;
+#flsf
+    NSOpfnGLPixflBufffr *sdrbtdiSurfbdf;
+#fndif
 } CGLCtxInfo;
 
-#endif /* CGLGraphicsConfig_h_Included */
+#fndif /* CGLGrbpiidsConfig_i_Indludfd */

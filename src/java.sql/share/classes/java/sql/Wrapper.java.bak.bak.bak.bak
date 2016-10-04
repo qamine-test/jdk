@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * Intfrfbdf for JDBC dlbssfs whidh providf thf bbility to rftrifvf thf dflfgbtf instbndf whfn thf instbndf
+ * in qufstion is in fbdt b proxy dlbss.
+ * <p>
+ * Thf wrbppfr pbttfrn is fmployfd by mbny JDBC drivfr implfmfntbtions to providf fxtfnsions bfyond
+ * thf trbditionbl JDBC API thbt brf spfdifid to b dbtb sourdf. Dfvflopfrs mby wish to gbin bddfss to
+ * thfsf rfsourdfs thbt brf wrbppfd (thf dflfgbtfs) bs  proxy dlbss instbndfs rfprfsfnting thf
+ * thf bdtubl rfsourdfs. This intfrfbdf dfsdribfs b stbndbrd mfdhbnism to bddfss
+ * thfsf wrbppfd rfsourdfs
+ * rfprfsfntfd by thfir proxy, to pfrmit dirfdt bddfss to thf rfsourdf dflfgbtfs.
+ *
+ * @sindf 1.6
+ */
+
+publid intfrfbdf Wrbppfr {
+
+    /**
+     * Rfturns bn objfdt thbt implfmfnts thf givfn intfrfbdf to bllow bddfss to
+     * non-stbndbrd mfthods, or stbndbrd mfthods not fxposfd by thf proxy.
+     *
+     * If thf rfdfivfr implfmfnts thf intfrfbdf thfn thf rfsult is thf rfdfivfr
+     * or b proxy for thf rfdfivfr. If thf rfdfivfr is b wrbppfr
+     * bnd thf wrbppfd objfdt implfmfnts thf intfrfbdf thfn thf rfsult is thf
+     * wrbppfd objfdt or b proxy for thf wrbppfd objfdt. Othfrwisf rfturn thf
+     * thf rfsult of dblling <dodf>unwrbp</dodf> rfdursivfly on thf wrbppfd objfdt
+     * or b proxy for thbt rfsult. If thf rfdfivfr is not b
+     * wrbppfr bnd dofs not implfmfnt thf intfrfbdf, thfn bn <dodf>SQLExdfption</dodf> is thrown.
+     *
+     * @pbrbm <T> thf typf of thf dlbss modflfd by this Clbss objfdt
+     * @pbrbm ifbdf A Clbss dffining bn intfrfbdf thbt thf rfsult must implfmfnt.
+     * @rfturn bn objfdt thbt implfmfnts thf intfrfbdf. Mby bf b proxy for thf bdtubl implfmfnting objfdt.
+     * @throws jbvb.sql.SQLExdfption If no objfdt found thbt implfmfnts thf intfrfbdf
+     * @sindf 1.6
+     */
+        <T> T unwrbp(jbvb.lbng.Clbss<T> ifbdf) throws jbvb.sql.SQLExdfption;
+
+    /**
+     * Rfturns truf if this fithfr implfmfnts thf intfrfbdf brgumfnt or is dirfdtly or indirfdtly b wrbppfr
+     * for bn objfdt thbt dofs. Rfturns fblsf othfrwisf. If this implfmfnts thf intfrfbdf thfn rfturn truf,
+     * flsf if this is b wrbppfr thfn rfturn thf rfsult of rfdursivfly dblling <dodf>isWrbppfrFor</dodf> on thf wrbppfd
+     * objfdt. If this dofs not implfmfnt thf intfrfbdf bnd is not b wrbppfr, rfturn fblsf.
+     * This mfthod should bf implfmfntfd bs b low-dost opfrbtion dompbrfd to <dodf>unwrbp</dodf> so thbt
+     * dbllfrs dbn usf this mfthod to bvoid fxpfnsivf <dodf>unwrbp</dodf> dblls thbt mby fbil. If this mfthod
+     * rfturns truf thfn dblling <dodf>unwrbp</dodf> with thf sbmf brgumfnt should suddffd.
+     *
+     * @pbrbm ifbdf b Clbss dffining bn intfrfbdf.
+     * @rfturn truf if this implfmfnts thf intfrfbdf or dirfdtly or indirfdtly wrbps bn objfdt thbt dofs.
+     * @throws jbvb.sql.SQLExdfption  if bn frror oddurs whilf dftfrmining whfthfr this is b wrbppfr
+     * for bn objfdt with thf givfn intfrfbdf.
+     * @sindf 1.6
+     */
+    boolfbn isWrbppfrFor(jbvb.lbng.Clbss<?> ifbdf) throws jbvb.sql.SQLExdfption;
+
+}

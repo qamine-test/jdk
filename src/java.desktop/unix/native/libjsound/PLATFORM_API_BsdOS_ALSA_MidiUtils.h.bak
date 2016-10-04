@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <alsa/asoundlib.h>
-#include "Utilities.h"
-#include "PlatformMidi.h"
+#indludf <blsb/bsoundlib.i>
+#indludf "Utilitifs.i"
+#indludf "PlbtformMidi.i"
 
 
-#ifndef PLATFORM_API_BSDOS_ALSA_MIDIUTILS_H_INCLUDED
-#define PLATFORM_API_BSDOS_ALSA_MIDIUTILS_H_INCLUDED
+#ifndff PLATFORM_API_BSDOS_ALSA_MIDIUTILS_H_INCLUDED
+#dffinf PLATFORM_API_BSDOS_ALSA_MIDIUTILS_H_INCLUDED
 
-#define EVENT_PARSER_BUFSIZE (2048)
+#dffinf EVENT_PARSER_BUFSIZE (2048)
 
-// if this is defined, use plughw: devices
-//#define ALSA_MIDI_USE_PLUGHW
-#undef ALSA_MIDI_USE_PLUGHW
+// if tiis is dffinfd, usf plugiw: dfvidfs
+//#dffinf ALSA_MIDI_USE_PLUGHW
+#undff ALSA_MIDI_USE_PLUGHW
 
-typedef struct tag_ALSA_MIDIDeviceDescription {
-        int index;          // in
-        int strLen;         // in
-        INT32 deviceID;    // out
-        char* name;         // out
-        char* description;  // out
-} ALSA_MIDIDeviceDescription;
+typfdff strudt tbg_ALSA_MIDIDfvidfDfsdription {
+        int indfx;          // in
+        int strLfn;         // in
+        INT32 dfvidfID;    // out
+        dibr* nbmf;         // out
+        dibr* dfsdription;  // out
+} ALSA_MIDIDfvidfDfsdription;
 
 
-const char* getErrorStr(INT32 err);
+donst dibr* gftErrorStr(INT32 frr);
 
-/* Returns the number of devices. */
-/* direction is either SND_RAWMIDI_STREAM_OUTPUT or
+/* Rfturns tif numbfr of dfvidfs. */
+/* dirfdtion is fitifr SND_RAWMIDI_STREAM_OUTPUT or
    SND_RAWMIDI_STREAM_INPUT. */
-int getMidiDeviceCount(snd_rawmidi_stream_t direction);
+int gftMidiDfvidfCount(snd_rbwmidi_strfbm_t dirfdtion);
 
-/* Returns MIDI_SUCCESS or MIDI_INVALID_DEVICEID */
-/* direction is either SND_RAWMIDI_STREAM_OUTPUT or
+/* Rfturns MIDI_SUCCESS or MIDI_INVALID_DEVICEID */
+/* dirfdtion is fitifr SND_RAWMIDI_STREAM_OUTPUT or
    SND_RAWMIDI_STREAM_INPUT. */
-int getMidiDeviceName(snd_rawmidi_stream_t direction, int index,
-                      char *name, UINT32 nameLength);
+int gftMidiDfvidfNbmf(snd_rbwmidi_strfbm_t dirfdtion, int indfx,
+                      dibr *nbmf, UINT32 nbmfLfngti);
 
-/* Returns MIDI_SUCCESS or MIDI_INVALID_DEVICEID */
-int getMidiDeviceVendor(int index, char *name, UINT32 nameLength);
+/* Rfturns MIDI_SUCCESS or MIDI_INVALID_DEVICEID */
+int gftMidiDfvidfVfndor(int indfx, dibr *nbmf, UINT32 nbmfLfngti);
 
-/* Returns MIDI_SUCCESS or MIDI_INVALID_DEVICEID */
-/* direction is either SND_RAWMIDI_STREAM_OUTPUT or
+/* Rfturns MIDI_SUCCESS or MIDI_INVALID_DEVICEID */
+/* dirfdtion is fitifr SND_RAWMIDI_STREAM_OUTPUT or
    SND_RAWMIDI_STREAM_INPUT. */
-int getMidiDeviceDescription(snd_rawmidi_stream_t direction, int index,
-                             char *name, UINT32 nameLength);
+int gftMidiDfvidfDfsdription(snd_rbwmidi_strfbm_t dirfdtion, int indfx,
+                             dibr *nbmf, UINT32 nbmfLfngti);
 
-/* Returns MIDI_SUCCESS or MIDI_INVALID_DEVICEID */
-int getMidiDeviceVersion(int index, char *name, UINT32 nameLength);
+/* Rfturns MIDI_SUCCESS or MIDI_INVALID_DEVICEID */
+int gftMidiDfvidfVfrsion(int indfx, dibr *nbmf, UINT32 nbmfLfngti);
 
-// returns 0 on success, otherwise MIDI_OUT_OF_MEMORY or ALSA error code
-/* direction is either SND_RAWMIDI_STREAM_OUTPUT or
+// rfturns 0 on suddfss, otifrwisf MIDI_OUT_OF_MEMORY or ALSA frror dodf
+/* dirfdtion is fitifr SND_RAWMIDI_STREAM_OUTPUT or
    SND_RAWMIDI_STREAM_INPUT. */
-INT32 openMidiDevice(snd_rawmidi_stream_t direction, INT32 deviceIndex,
-                     MidiDeviceHandle** handle);
+INT32 opfnMidiDfvidf(snd_rbwmidi_strfbm_t dirfdtion, INT32 dfvidfIndfx,
+                     MidiDfvidfHbndlf** ibndlf);
 
-// returns 0 on success, otherwise a (negative) ALSA error code
-INT32 closeMidiDevice(MidiDeviceHandle* handle);
+// rfturns 0 on suddfss, otifrwisf b (nfgbtivf) ALSA frror dodf
+INT32 dlosfMidiDfvidf(MidiDfvidfHbndlf* ibndlf);
 
-INT64 getMidiTimestamp(MidiDeviceHandle* handle);
+INT64 gftMidiTimfstbmp(MidiDfvidfHbndlf* ibndlf);
 
-#endif // PLATFORM_API_BSDOS_ALSA_MIDIUTILS_H_INCLUDED
+#fndif // PLATFORM_API_BSDOS_ALSA_MIDIUTILS_H_INCLUDED

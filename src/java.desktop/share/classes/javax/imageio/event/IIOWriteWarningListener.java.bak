@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.event;
+pbdkbgf jbvbx.imbgfio.fvfnt;
 
-import java.util.EventListener;
-import javax.imageio.ImageWriter;
+import jbvb.util.EvfntListfnfr;
+import jbvbx.imbgfio.ImbgfWritfr;
 
 /**
- * An interface used by <code>ImageWriter</code> implementations to
- * notify callers of their image and thumbnail reading methods of
- * warnings (non-fatal errors).  Fatal errors cause the relevant
- * read method to throw an <code>IIOException</code>.
+ * An intfrfbdf usfd by <dodf>ImbgfWritfr</dodf> implfmfntbtions to
+ * notify dbllfrs of tifir imbgf bnd tiumbnbil rfbding mftiods of
+ * wbrnings (non-fbtbl frrors).  Fbtbl frrors dbusf tif rflfvbnt
+ * rfbd mftiod to tirow bn <dodf>IIOExdfption</dodf>.
  *
- * <p> Localization is handled by associating a <code>Locale</code>
- * with each <code>IIOWriteWarningListener</code> as it is registered
- * with an <code>ImageWriter</code>.  It is up to the
- * <code>ImageWriter</code> to provide localized messages.
+ * <p> Lodblizbtion is ibndlfd by bssodibting b <dodf>Lodblf</dodf>
+ * witi fbdi <dodf>IIOWritfWbrningListfnfr</dodf> bs it is rfgistfrfd
+ * witi bn <dodf>ImbgfWritfr</dodf>.  It is up to tif
+ * <dodf>ImbgfWritfr</dodf> to providf lodblizfd mfssbgfs.
  *
- * @see javax.imageio.ImageWriter#addIIOWriteWarningListener
- * @see javax.imageio.ImageWriter#removeIIOWriteWarningListener
+ * @sff jbvbx.imbgfio.ImbgfWritfr#bddIIOWritfWbrningListfnfr
+ * @sff jbvbx.imbgfio.ImbgfWritfr#rfmovfIIOWritfWbrningListfnfr
  *
  */
-public interface IIOWriteWarningListener extends EventListener {
+publid intfrfbdf IIOWritfWbrningListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Reports the occurrence of a non-fatal error in encoding.  Encoding
-     * will continue following the call to this method.  The application
-     * may choose to display a dialog, print the warning to the console,
-     * ignore the warning, or take any other action it chooses.
+     * Rfports tif oddurrfndf of b non-fbtbl frror in fndoding.  Endoding
+     * will dontinuf following tif dbll to tiis mftiod.  Tif bpplidbtion
+     * mby dioosf to displby b diblog, print tif wbrning to tif donsolf,
+     * ignorf tif wbrning, or tbkf bny otifr bdtion it dioosfs.
      *
-     * @param source the <code>ImageWriter</code> object calling this method.
-     * @param imageIndex the index, starting with 0, of the image
-     * generating the warning.
-     * @param warning a <code>String</code> containing the warning.
+     * @pbrbm sourdf tif <dodf>ImbgfWritfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm imbgfIndfx tif indfx, stbrting witi 0, of tif imbgf
+     * gfnfrbting tif wbrning.
+     * @pbrbm wbrning b <dodf>String</dodf> dontbining tif wbrning.
      */
-    void warningOccurred(ImageWriter source,
-                         int imageIndex,
-                         String warning);
+    void wbrningOddurrfd(ImbgfWritfr sourdf,
+                         int imbgfIndfx,
+                         String wbrning);
 }

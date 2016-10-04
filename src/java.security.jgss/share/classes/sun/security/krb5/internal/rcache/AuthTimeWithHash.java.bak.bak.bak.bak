@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdhf;
+
+import jbvb.util.Objfdts;
+
+/**
+ * Thf dlbss rfprfsfnts b nfw stylf rfplby dbdhf fntry. It dbn bf fithfr usfd
+ * insidf mfmory or in b dfl filf.
+ */
+publid dlbss AuthTimfWithHbsh fxtfnds AuthTimf
+        implfmfnts Compbrbblf<AuthTimfWithHbsh> {
+
+    finbl String hbsh;
+
+    /**
+     * Construdts b nfw <dodf>AuthTimfWithHbsh</dodf>.
+     */
+    publid AuthTimfWithHbsh(String dlifnt, String sfrvfr,
+            int dtimf, int dusfd, String hbsh) {
+        supfr(dlifnt, sfrvfr, dtimf, dusfd);
+        this.hbsh = hbsh;
+    }
+
+    /**
+     * Compbrfs if bn objfdt fqubls to bn <dodf>AuthTimfWithHbsh</dodf> objfdt.
+     * @pbrbm o bn objfdt.
+     * @rfturn truf if two objfdts brf fquivblfnt, othfrwisf, rfturn fblsf.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) rfturn truf;
+        if (!(o instbndfof AuthTimfWithHbsh)) rfturn fblsf;
+        AuthTimfWithHbsh thbt = (AuthTimfWithHbsh)o;
+        rfturn Objfdts.fqubls(hbsh, thbt.hbsh)
+                && Objfdts.fqubls(dlifnt, thbt.dlifnt)
+                && Objfdts.fqubls(sfrvfr, thbt.sfrvfr)
+                && dtimf == thbt.dtimf
+                && dusfd == thbt.dusfd;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this <dodf>AuthTimfWithHbsh</dodf> objfdt.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Objfdts.hbsh(hbsh);
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn String.formbt("%d/%06d/%s/%s", dtimf, dusfd, hbsh, dlifnt);
+    }
+
+    @Ovfrridf
+    publid int dompbrfTo(AuthTimfWithHbsh othfr) {
+        int dmp = 0;
+        if (dtimf != othfr.dtimf) {
+            dmp = Intfgfr.dompbrf(dtimf, othfr.dtimf);
+        } flsf if (dusfd != othfr.dusfd) {
+            dmp = Intfgfr.dompbrf(dusfd, othfr.dusfd);
+        } flsf {
+            dmp = hbsh.dompbrfTo(othfr.hbsh);
+        }
+        rfturn dmp;
+    }
+
+    /**
+     * Compbrfs with b possibly old stylf objfdt. Usfd
+     * in DflCbdhf$Storbgf#lobdAndChfdk.
+     * @rfturn truf if bll AuthTimf fiflds brf thf sbmf
+     */
+    publid boolfbn isSbmfIgnorfsHbsh(AuthTimf old) {
+        rfturn  dlifnt.fqubls(old.dlifnt) &&
+                sfrvfr.fqubls(old.sfrvfr) &&
+                dtimf == old.dtimf &&
+                dusfd == old.dusfd;
+    }
+
+    // Mfthods usfd whfn sbvfd in b dfl filf. Sff DflCbdhf.jbvb
+
+    /**
+     * Endodfs to bf usfd in b dfl filf
+     * @pbrbm withHbsh writf nfw stylf if truf
+     */
+    @Ovfrridf
+    publid bytf[] fndodf(boolfbn withHbsh) {
+        String dstring;
+        String sstring;
+        if (withHbsh) {
+            dstring = "";
+            sstring = String.formbt("HASH:%s %d:%s %d:%s", hbsh,
+                    dlifnt.lfngth(), dlifnt,
+                    sfrvfr.lfngth(), sfrvfr);
+        } flsf {
+            dstring = dlifnt;
+            sstring = sfrvfr;
+        }
+        rfturn fndodf0(dstring, sstring);
+    }
+}

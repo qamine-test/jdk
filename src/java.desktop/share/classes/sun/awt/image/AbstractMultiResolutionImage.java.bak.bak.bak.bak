@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.*;
+
+/**
+ * This dlbss providfs dffbult implfmfntbtions for thf
+ * <dodf>MultiRfsolutionImbgf</dodf> intfrfbdf. Thf dfvflopfr nffds only
+ * to subdlbss this bbstrbdt dlbss bnd dffinf thf <dodf>gftRfsolutionVbribnt</dodf>,
+ * <dodf>gftRfsolutionVbribnts</dodf>, bnd <dodf>gftBbsfImbgf</dodf> mfthods.
+ *
+ *
+ * For fxbmplf,
+ * {@dodf
+ * publid dlbss CustomMultiRfsolutionImbgf fxtfnds AbstrbdtMultiRfsolutionImbgf {
+ *
+ *     int bbsfImbgfIndfx;
+ *     Imbgf[] rfsolutionVbribnts;
+ *
+ *     publid CustomMultiRfsolutionImbgf(int bbsfImbgfIndfx,
+ *             Imbgf... rfsolutionVbribnts) {
+ *          this.bbsfImbgfIndfx = bbsfImbgfIndfx;
+ *          this.rfsolutionVbribnts = rfsolutionVbribnts;
+ *     }
+ *
+ *     @Ovfrridf
+ *     publid Imbgf gftRfsolutionVbribnt(flobt logidblDPIX, flobt logidblDPIY,
+ *             flobt bbsfImbgfWidth, flobt bbsfImbgfHfight,
+ *             flobt dfstImbgfWidth, flobt dfstImbgfHfight) {
+ *         // rfturn b rfsolution vbribnt bbsfd on thf givfn logidbl DPI,
+ *         // bbsf imbgf sizf, or dfstinbtion imbgf sizf
+ *     }
+ *
+ *     @Ovfrridf
+ *     publid List<Imbgf> gftRfsolutionVbribnts() {
+ *         rfturn Arrbys.bsList(rfsolutionVbribnts);
+ *     }
+ *
+ *     protfdtfd Imbgf gftBbsfImbgf() {
+ *         rfturn rfsolutionVbribnts[bbsfImbgfIndfx];
+ *     }
+ * }
+ * }
+ *
+ * @sff jbvb.bwt.Imbgf
+ * @sff jbvb.bwt.imbgf.MultiRfsolutionImbgf
+ *
+ * @sindf 1.9
+ */
+publid bbstrbdt dlbss AbstrbdtMultiRfsolutionImbgf fxtfnds jbvb.bwt.Imbgf
+        implfmfnts MultiRfsolutionImbgf {
+
+    /**
+     * @inhfritDod
+     */
+    @Ovfrridf
+    publid int gftWidth(ImbgfObsfrvfr obsfrvfr) {
+        rfturn gftBbsfImbgf().gftWidth(null);
+    }
+
+    /**
+     * @inhfritDod
+     */
+    @Ovfrridf
+    publid int gftHfight(ImbgfObsfrvfr obsfrvfr) {
+        rfturn gftBbsfImbgf().gftHfight(null);
+    }
+
+    /**
+     * @inhfritDod
+     */
+    @Ovfrridf
+    publid ImbgfProdudfr gftSourdf() {
+        rfturn gftBbsfImbgf().gftSourdf();
+    }
+
+    /**
+     * @inhfritDod
+     */
+    @Ovfrridf
+    publid Grbphids gftGrbphids() {
+        rfturn gftBbsfImbgf().gftGrbphids();
+
+    }
+
+    /**
+     * @inhfritDod
+     */
+    @Ovfrridf
+    publid Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr) {
+        rfturn gftBbsfImbgf().gftPropfrty(nbmf, obsfrvfr);
+    }
+
+    /**
+     * @rfturn bbsf imbgf
+     */
+    protfdtfd bbstrbdt Imbgf gftBbsfImbgf();
+}

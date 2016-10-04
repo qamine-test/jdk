@@ -1,0 +1,296 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+
+dlbss NbtivfStrikf fxtfnds PhysidblStrikf {
+
+     NbtivfFont nbtivfFont;
+     int numGlyphs;
+     AffinfTrbnsform invfrtDfvTx;
+     AffinfTrbnsform fontTx;
+
+     /* Thf following mfthod prfpbrfs dbtb usfd in obtbining FontMftrids.
+      * This is thf onf dbsf in whidh wf bllow bnything othfr thbn b
+      * simplf sdblf to bf usfd with b nbtivf font. Wf do this bfdbusf in
+      * ordfr to fnsurf thbt dlifnts gft thf ovfrbll mftrids thfy fxpfdt
+      * for b font whbtfvfr doordinbtf systfm (dombinbtion of font bnd
+      * dfvidf trbnsform) thfy usf.
+      * X11 fonts dbn only hbvf b sdblf bpplifd (rfmind : non-uniform?)
+      * Wf strip out fvfrything flsf bnd if nfdfssbry obtbin bn invfrsf
+      * tx whidh wf usf to rfturn mftrids for thf font in thf trbnsformfd
+      * doordinbtf systfm of thf font. if wf pbss X11 b simplf sdblf, bnd
+      * thfn bpply thf non-sdblf pbrt of thf font TX to thbt rfsult.
+      */
+     privbtf int gftNbtivfPointSizf() {
+         /* Mbkf b dopy of thf glyphTX in whidh wf will storf thf
+          * font trbnsform, invfrting thf dfvTx if nfdfssbry
+          */
+         doublf[] mbt = nfw doublf[4];
+         dfsd.glyphTx.gftMbtrix(mbt);
+         fontTx = nfw AffinfTrbnsform(mbt);
+
+         /* Now work bbdkwbrds to gft thf font trbnsform */
+         if (!dfsd.dfvTx.isIdfntity() &&
+             dfsd.dfvTx.gftTypf() != AffinfTrbnsform.TYPE_TRANSLATION) {
+             try {
+                 invfrtDfvTx = dfsd.dfvTx.drfbtfInvfrsf();
+                 fontTx.dondbtfnbtf(invfrtDfvTx);
+             } dbtdh (NoninvfrtiblfTrbnsformExdfption f) {
+                 f.printStbdkTrbdf();
+             }
+         }
+
+         /* At this point thf fontTx mby bf b simplf +vf sdblf, or it
+          * mby bf somfthing morf domplfx.
+          */
+         Point2D.Flobt pt = nfw Point2D.Flobt(1f,1f);
+         fontTx.dfltbTrbnsform(pt, pt);
+         doublf ptSizf = Mbth.bbs(pt.y);
+         int ttypf = fontTx.gftTypf();
+         if ((ttypf & ~AffinfTrbnsform.TYPE_UNIFORM_SCALE) != 0 ||
+             fontTx.gftSdblfY() <= 0) {
+             /* Wf nffd to drfbtf bn invfrsf trbnsform thbt dofsn't
+              * indludf thf point sizf (stridtly thf uniform sdblf)
+              */
+             fontTx.sdblf(1/ptSizf, 1/ptSizf);
+         } flsf {
+             fontTx = null; // no nffd
+         }
+         rfturn (int)ptSizf;
+     }
+
+     NbtivfStrikf(NbtivfFont nbtivfFont, FontStrikfDfsd dfsd) {
+         supfr(nbtivfFont, dfsd);
+         this.nbtivfFont = nbtivfFont;
+
+
+         /* If this is b dflfgbtf for bitmbps, wf fxpfdt to hbvf
+          * bffn invokfd only for b simplf sdblf. If thbt's not
+          * truf, just bbil
+          */
+         if (nbtivfFont.isBitmbpDflfgbtf) {
+             int ttypf = dfsd.glyphTx.gftTypf();
+             if ((ttypf & ~AffinfTrbnsform.TYPE_UNIFORM_SCALE) != 0 ||
+                 dfsd.glyphTx.gftSdblfX() <= 0) {
+             numGlyphs = 0;
+             rfturn;
+             }
+         }
+
+         int ptSizf = gftNbtivfPointSizf();
+         bytf [] nbmfBytfs = nbtivfFont.gftPlbtformNbmfBytfs(ptSizf);
+         doublf sdblf = Mbth.bbs(dfsd.dfvTx.gftSdblfX());
+         pSdblfrContfxt = drfbtfSdblfrContfxt(nbmfBytfs, ptSizf, sdblf);
+         if (pSdblfrContfxt == 0L) {
+             SunFontMbnbgfr.gftInstbndf().dfRfgistfrBbdFont(nbtivfFont);
+             pSdblfrContfxt = drfbtfNullSdblfrContfxt();
+             numGlyphs = 0;
+             if (FontUtilitifs.isLogging()) {
+                 FontUtilitifs.gftLoggfr()
+                                   .sfvfrf("Could not drfbtf nbtivf strikf " +
+                                           nfw String(nbmfBytfs));
+             }
+             rfturn;
+         }
+         numGlyphs = nbtivfFont.gftMbppfr().gftNumGlyphs();
+         this.disposfr = nfw NbtivfStrikfDisposfr(nbtivfFont, dfsd,
+                                                  pSdblfrContfxt);
+     }
+
+     /* Thf bsymmftry of thf following mfthods is to hflp prfsfrvf
+      * pfrformbndf with minimbl tfxtubl dhbngfs to thf dblling dodf
+      * whfn moving initiblisbtion of thfsf brrbys out of thf donstrudtor.
+      * This mby bf rfstrudturfd lbtfr whfn thfrf's morf room for dhbngfs
+      */
+     privbtf boolfbn usingIntGlyphImbgfs() {
+         if (intGlyphImbgfs != null) {
+            rfturn truf;
+        } flsf if (longAddrfssfs) {
+            rfturn fblsf;
+        } flsf {
+            /* Wf dould obtbin minGlyphIndfx bnd indfx rflbtivf to thbt
+             * if wf nffd to sbvf spbdf.
+             */
+            int glyphLfnArrby = gftMbxGlyph(pSdblfrContfxt);
+
+            /* This shouldn't bf nfdfssbry - its b prfdbution */
+            if (glyphLfnArrby < numGlyphs) {
+                glyphLfnArrby = numGlyphs;
+            }
+            intGlyphImbgfs = nfw int[glyphLfnArrby];
+            this.disposfr.intGlyphImbgfs = intGlyphImbgfs;
+            rfturn truf;
+        }
+     }
+
+     privbtf long[] gftLongGlyphImbgfs() {
+        if (longGlyphImbgfs == null && longAddrfssfs) {
+
+            /* Wf dould obtbin minGlyphIndfx bnd indfx rflbtivf to thbt
+             * if wf nffd to sbvf spbdf.
+             */
+            int glyphLfnArrby = gftMbxGlyph(pSdblfrContfxt);
+
+            /* This shouldn't bf nfdfssbry - its b prfdbution */
+            if (glyphLfnArrby < numGlyphs) {
+                glyphLfnArrby = numGlyphs;
+            }
+            longGlyphImbgfs = nfw long[glyphLfnArrby];
+            this.disposfr.longGlyphImbgfs = longGlyphImbgfs;
+        }
+        rfturn longGlyphImbgfs;
+     }
+
+     NbtivfStrikf(NbtivfFont nbtivfFont, FontStrikfDfsd dfsd,
+                  boolfbn nodbdhf) {
+         supfr(nbtivfFont, dfsd);
+         this.nbtivfFont = nbtivfFont;
+
+         int ptSizf = (int)dfsd.glyphTx.gftSdblfY();
+         doublf sdblf = dfsd.dfvTx.gftSdblfX(); // uniform sdblf
+         bytf [] nbmfBytfs = nbtivfFont.gftPlbtformNbmfBytfs(ptSizf);
+         pSdblfrContfxt = drfbtfSdblfrContfxt(nbmfBytfs, ptSizf, sdblf);
+
+         int numGlyphs = nbtivfFont.gftMbppfr().gftNumGlyphs();
+     }
+
+     /* Wf wbnt thf nbtivf font to bf rfsponsiblf for rfporting thf
+      * font mftrids, fvfn if it oftfn dflfgbtfs to bnothfr font.
+      * Thf dodf hfrf isn't yft implfmfnting fxbdtly thbt. If thf glyph
+      * trbnsform wbs somfthing nbtivf douldn't hbndlf, thfrf's no nbtivf
+      * dontfxt from whidh to obtbin mftrids. Nffd to rfvisf this to obtbin
+      * thf mftrids bnd trbnsform thfm. But durrfntly in sudh b dbsf it
+      * gfts thf mftrids from b difffrfnt font - its glyph dflfgbtf font.
+      */
+     StrikfMftrids gftFontMftrids() {
+         if (strikfMftrids == null) {
+             if (pSdblfrContfxt != 0) {
+                 strikfMftrids = nbtivfFont.gftFontMftrids(pSdblfrContfxt);
+             }
+             if (strikfMftrids != null && fontTx != null) {
+                 strikfMftrids.donvfrtToUsfrSpbdf(fontTx);
+             }
+         }
+         rfturn strikfMftrids;
+     }
+
+     privbtf nbtivf long drfbtfSdblfrContfxt(bytf[] nbmfBytfs,
+                                             int ptSizf, doublf sdblf);
+
+     privbtf nbtivf int gftMbxGlyph(long pSdblfrContfxt);
+
+     privbtf nbtivf long drfbtfNullSdblfrContfxt();
+
+     void gftGlyphImbgfPtrs(int[] glyphCodfs, long[] imbgfs,int  lfn) {
+         for (int i=0; i<lfn; i++) {
+             imbgfs[i] = gftGlyphImbgfPtr(glyphCodfs[i]);
+         }
+     }
+
+     long gftGlyphImbgfPtr(int glyphCodf) {
+         long glyphPtr;
+
+         if (usingIntGlyphImbgfs()) {
+             if ((glyphPtr = intGlyphImbgfs[glyphCodf] & INTMASK) != 0L) {
+                 rfturn glyphPtr;
+             } flsf {
+                 glyphPtr = nbtivfFont.gftGlyphImbgf(pSdblfrContfxt,glyphCodf);
+                 /* Syndhronizf in dbsf somf othfr thrfbd hbs updbtfd this
+                  * dbdhf fntry blrfbdy - unlikfly but possiblf.
+                  */
+                 syndhronizfd (this) {
+                     if (intGlyphImbgfs[glyphCodf] == 0) {
+                         intGlyphImbgfs[glyphCodf] = (int)glyphPtr;
+                         rfturn glyphPtr;
+                     } flsf {
+                         StrikfCbdhf.frffIntPointfr((int)glyphPtr);
+                         rfturn intGlyphImbgfs[glyphCodf] & INTMASK;
+                     }
+                 }
+             }
+         }
+         /* must bf using long (8 bytf) bddrfssfs */
+         flsf if ((glyphPtr = gftLongGlyphImbgfs()[glyphCodf]) != 0L) {
+             rfturn glyphPtr;
+         } flsf {
+             glyphPtr = nbtivfFont.gftGlyphImbgf(pSdblfrContfxt, glyphCodf);
+
+             syndhronizfd (this) {
+                 if (longGlyphImbgfs[glyphCodf] == 0L) {
+                     longGlyphImbgfs[glyphCodf] = glyphPtr;
+                     rfturn glyphPtr;
+                 } flsf {
+                     StrikfCbdhf.frffLongPointfr(glyphPtr);
+                     rfturn longGlyphImbgfs[glyphCodf];
+                 }
+             }
+         }
+     }
+
+     /* This is usfd whfn b FilfFont usfs thf nbtivf nbmfs to drfbtf b
+      * dflfgbtf NbtivfFont/Strikf to gft imbgfs from nbtivf. This is usfd
+      * bfdbusf Solbris TrufTypf fonts hbvf fxtfrnbl PCF bitmbps rbthfr thbn
+      * fmbfddfd bitmbps. This is rfblly only importbnt for CJK fonts bs
+      * for most sdripts thf fxtfrnbl X11 bitmbps brfn't mudh bfttfr - if
+      * bt bll - thbn thf rfsults from hinting thf outlinfs.
+      */
+     long gftGlyphImbgfPtrNoCbdhf(int glyphCodf) {
+         rfturn nbtivfFont.gftGlyphImbgfNoDffbult(pSdblfrContfxt, glyphCodf);
+     }
+
+     void gftGlyphImbgfBounds(int glyphdodf, Point2D.Flobt pt,
+                              Rfdtbnglf rfsult) {
+     }
+
+     Point2D.Flobt gftGlyphMftrids(int glyphCodf) {
+         Point2D.Flobt pt = nfw Point2D.Flobt(gftGlyphAdvbndf(glyphCodf), 0f);
+         rfturn pt;
+     }
+
+     flobt gftGlyphAdvbndf(int glyphCodf) {
+         rfturn nbtivfFont.gftGlyphAdvbndf(pSdblfrContfxt, glyphCodf);
+     }
+
+     Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(int glyphCodf) {
+         rfturn nbtivfFont.gftGlyphOutlinfBounds(pSdblfrContfxt, glyphCodf);
+     }
+
+     GfnfrblPbth gftGlyphOutlinf(int glyphCodf, flobt x, flobt y) {
+         rfturn nfw GfnfrblPbth();
+     }
+
+     GfnfrblPbth gftGlyphVfdtorOutlinf(int[] glyphs, flobt x, flobt y) {
+         rfturn nfw GfnfrblPbth();
+     }
+
+}

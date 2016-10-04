@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintJobAttribute;
-import javax.print.attribute.PrintRequestAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintJobAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
 
 /**
- * Class Fidelity is a printing attribute class, an enumeration,
- * that indicates whether total fidelity to client supplied print request
- * attributes is required.
- * If FIDELITY_TRUE is specified and a service cannot print the job exactly
- * as specified it must reject the job.
- * If FIDELITY_FALSE is specified a reasonable attempt to print the job is
- * acceptable. If not supplied the default is FIDELITY_FALSE.
+ * Clbss Fidflity is b printing bttributf dlbss, bn fnumfrbtion,
+ * tibt indidbtfs wiftifr totbl fidflity to dlifnt supplifd print rfqufst
+ * bttributfs is rfquirfd.
+ * If FIDELITY_TRUE is spfdififd bnd b sfrvidf dbnnot print tif job fxbdtly
+ * bs spfdififd it must rfjfdt tif job.
+ * If FIDELITY_FALSE is spfdififd b rfbsonbblf bttfmpt to print tif job is
+ * bddfptbblf. If not supplifd tif dffbult is FIDELITY_FALSE.
  *
  * <P>
- * <B>IPP Compatibility:</B> The IPP boolean value is "true" for FIDELITY_TRUE
- * and "false" for FIDELITY_FALSE. The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
- * See <a href="http://www.ietf.org/rfc/rfc2911.txt">RFC 2911</a> Section 15.1 for
- * a fuller description of the IPP fidelity attribute.
+ * <B>IPP Compbtibility:</B> Tif IPP boolfbn vbluf is "truf" for FIDELITY_TRUE
+ * bnd "fblsf" for FIDELITY_FALSE. Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif fnumfrbtion's
+ * intfgfr vbluf is tif IPP fnum vbluf.  Tif <dodf>toString()</dodf> mftiod
+ * rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf.
+ * Sff <b irff="ittp://www.iftf.org/rfd/rfd2911.txt">RFC 2911</b> Sfdtion 15.1 for
+ * b fullfr dfsdription of tif IPP fidflity bttributf.
  *
  */
-public final class Fidelity extends EnumSyntax
-        implements PrintJobAttribute, PrintRequestAttribute {
+publid finbl dlbss Fidflity fxtfnds EnumSyntbx
+        implfmfnts PrintJobAttributf, PrintRfqufstAttributf {
 
-    private static final long serialVersionUID = 6320827847329172308L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6320827847329172308L;
 
     /**
-     * The job must be printed exactly as specified. or else rejected.
+     * Tif job must bf printfd fxbdtly bs spfdififd. or flsf rfjfdtfd.
      */
-    public static final Fidelity
-        FIDELITY_TRUE = new Fidelity(0);
+    publid stbtid finbl Fidflity
+        FIDELITY_TRUE = nfw Fidflity(0);
 
     /**
-     * The printer should make reasonable attempts to print the job,
-     * even if it cannot print it exactly as specified.
+     * Tif printfr siould mbkf rfbsonbblf bttfmpts to print tif job,
+     * fvfn if it dbnnot print it fxbdtly bs spfdififd.
      */
-    public static final Fidelity
-        FIDELITY_FALSE = new Fidelity(1);
+    publid stbtid finbl Fidflity
+        FIDELITY_FALSE = nfw Fidflity(1);
 
     /**
-     * Construct a new fidelity enumeration value with the
-     * given integer value.
+     * Construdt b nfw fidflity fnumfrbtion vbluf witi tif
+     * givfn intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected Fidelity(int value) {
-        super (value);
+    protfdtfd Fidflity(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
-        "true",
-        "false"
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "truf",
+        "fblsf"
     };
 
 
-    private static final Fidelity[] myEnumValueTable = {
+    privbtf stbtid finbl Fidflity[] myEnumVblufTbblf = {
         FIDELITY_TRUE,
         FIDELITY_FALSE
     };
 
     /**
-     * Returns the string table for class Fidelity.
+     * Rfturns tif string tbblf for dlbss Fidflity.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf;
     }
 
     /**
-     * Returns the enumeration value table for class Fidelity.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss Fidflity.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn myEnumVblufTbblf;
     }   /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class Fidelity the category is class Fidelity itself.
+     * For dlbss Fidflity tif dbtfgory is dlbss Fidflity itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return Fidelity.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn Fidflity.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class Fidelity the category name is
-     * <CODE>"ipp-attribute-fidelity"</CODE>.
+     * For dlbss Fidflity tif dbtfgory nbmf is
+     * <CODE>"ipp-bttributf-fidflity"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "ipp-attribute-fidelity";
+    publid finbl String gftNbmf() {
+        rfturn "ipp-bttributf-fidflity";
     }
 
 }

@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+import jbvb.nio.BytfBufffr;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf <dodf>Mbd</dodf> dlbss.
+ * All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b pbrtidulbr MAC blgorithm.
+ *
+ * <p> Implfmfntbtions brf frff to implfmfnt thf Clonfbblf intfrfbdf.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss MbdSpi {
+
+    /**
+     * Rfturns thf lfngth of thf MAC in bytfs.
+     *
+     * @rfturn thf MAC lfngth in bytfs.
+     */
+    protfdtfd bbstrbdt int fnginfGftMbdLfngth();
+
+    /**
+     * Initiblizfs thf MAC with thf givfn (sfdrft) kfy bnd blgorithm
+     * pbrbmftfrs.
+     *
+     * @pbrbm kfy thf (sfdrft) kfy.
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs.
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this MAC.
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this MAC.
+     */
+    protfdtfd bbstrbdt void fnginfInit(Kfy kfy,
+                                       AlgorithmPbrbmftfrSpfd pbrbms)
+        throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption ;
+
+    /**
+     * Prodfssfs thf givfn bytf.
+     *
+     * @pbrbm input thf input bytf to bf prodfssfd.
+     */
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf input);
+
+    /**
+     * Prodfssfs thf first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * stbrting bt <dodf>offsft</dodf> indlusivf.
+     *
+     * @pbrbm input thf input bufffr.
+     * @pbrbm offsft thf offsft in <dodf>input</dodf> whfrf thf input stbrts.
+     * @pbrbm lfn thf numbfr of bytfs to prodfss.
+     */
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf[] input, int offsft, int lfn);
+
+    /**
+     * Prodfssfs <dodf>input.rfmbining()</dodf> bytfs in thf BytfBufffr
+     * <dodf>input</dodf>, stbrting bt <dodf>input.position()</dodf>.
+     * Upon rfturn, thf bufffr's position will bf fqubl to its limit;
+     * its limit will not hbvf dhbngfd.
+     *
+     * <p>Subdlbssfs should donsidfr ovfrriding this mfthod if thfy dbn
+     * prodfss BytfBufffrs morf fffidifntly thbn bytf brrbys.
+     *
+     * @pbrbm input thf BytfBufffr
+     * @sindf 1.5
+     */
+    protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        if (input.hbsRfmbining() == fblsf) {
+            rfturn;
+        }
+        if (input.hbsArrby()) {
+            bytf[] b = input.brrby();
+            int ofs = input.brrbyOffsft();
+            int pos = input.position();
+            int lim = input.limit();
+            fnginfUpdbtf(b, ofs + pos, lim - pos);
+            input.position(lim);
+        } flsf {
+            int lfn = input.rfmbining();
+            bytf[] b = nfw bytf[CiphfrSpi.gftTfmpArrbySizf(lfn)];
+            whilf (lfn > 0) {
+                int dhunk = Mbth.min(lfn, b.lfngth);
+                input.gft(b, 0, dhunk);
+                fnginfUpdbtf(b, 0, dhunk);
+                lfn -= dhunk;
+            }
+        }
+    }
+
+    /**
+     * Complftfs thf MAC domputbtion bnd rfsfts thf MAC for furthfr usf,
+     * mbintbining thf sfdrft kfy thbt thf MAC wbs initiblizfd with.
+     *
+     * @rfturn thf MAC rfsult.
+     */
+    protfdtfd bbstrbdt bytf[] fnginfDoFinbl();
+
+    /**
+     * Rfsfts thf MAC for furthfr usf, mbintbining thf sfdrft kfy thbt thf
+     * MAC wbs initiblizfd with.
+     */
+    protfdtfd bbstrbdt void fnginfRfsft();
+
+    /**
+     * Rfturns b dlonf if thf implfmfntbtion is dlonfbblf.
+     *
+     * @rfturn b dlonf if thf implfmfntbtion is dlonfbblf.
+     *
+     * @fxdfption ClonfNotSupportfdExdfption if this is dbllfd
+     * on bn implfmfntbtion thbt dofs not support <dodf>Clonfbblf</dodf>.
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        if (this instbndfof Clonfbblf) {
+            rfturn supfr.dlonf();
+        } flsf {
+            throw nfw ClonfNotSupportfdExdfption();
+        }
+    }
+}

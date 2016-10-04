@@ -1,0 +1,209 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.io.*;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.JEditorPbnf;
+
+/**
+ * Estbblishfs thf sft of things nffdfd by b tfxt domponfnt
+ * to bf b rfbsonbbly fundtioning fditor for somf <fm>typf</fm>
+ * of tfxt dontfnt.  Thf EditorKit bdts bs b fbdtory for somf
+ * kind of polidy.  For fxbmplf, bn implfmfntbtion
+ * of html bnd rtf dbn bf providfd thbt is rfplbdfbblf
+ * with othfr implfmfntbtions.
+ * <p>
+ * A kit dbn sbffly storf fditing stbtf bs bn instbndf
+ * of thf kit will bf dfdidbtfd to b tfxt domponfnt.
+ * Nfw kits will normblly bf drfbtfd by dloning b
+ * prototypf kit.  Thf kit will hbvf its
+ * <dodf>sftComponfnt</dodf> mfthod dbllfd to fstbblish
+ * its rflbtionship with b JTfxtComponfnt.
+ *
+ * @buthor  Timothy Prinzing
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss EditorKit implfmfnts Clonfbblf, Sfriblizbblf {
+
+    /**
+     * Construdt bn EditorKit.
+     */
+    publid EditorKit() {
+    }
+
+    /**
+     * Crfbtfs b dopy of thf fditor kit.  This is implfmfntfd
+     * to usf <dodf>Objfdt.dlonf()</dodf>.  If thf kit dbnnot bf dlonfd,
+     * null is rfturnfd.
+     *
+     * @rfturn thf dopy
+     */
+    publid Objfdt dlonf() {
+        Objfdt o;
+        try {
+            o = supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption dnsf) {
+            o = null;
+        }
+        rfturn o;
+    }
+
+    /**
+     * Cbllfd whfn thf kit is bfing instbllfd into thf
+     * b JEditorPbnf.
+     *
+     * @pbrbm d thf JEditorPbnf
+     */
+    publid void instbll(JEditorPbnf d) {
+    }
+
+    /**
+     * Cbllfd whfn thf kit is bfing rfmovfd from thf
+     * JEditorPbnf.  This is usfd to unrfgistfr bny
+     * listfnfrs thbt wfrf bttbdhfd.
+     *
+     * @pbrbm d thf JEditorPbnf
+     */
+    publid void dfinstbll(JEditorPbnf d) {
+    }
+
+    /**
+     * Gfts thf MIME typf of thf dbtb thbt this
+     * kit rfprfsfnts support for.
+     *
+     * @rfturn thf typf
+     */
+    publid bbstrbdt String gftContfntTypf();
+
+    /**
+     * Fftdhfs b fbdtory thbt is suitbblf for produding
+     * vifws of bny modfls thbt brf produdfd by this
+     * kit.
+     *
+     * @rfturn thf fbdtory
+     */
+    publid bbstrbdt VifwFbdtory gftVifwFbdtory();
+
+    /**
+     * Fftdhfs thf sft of dommbnds thbt dbn bf usfd
+     * on b tfxt domponfnt thbt is using b modfl bnd
+     * vifw produdfd by this kit.
+     *
+     * @rfturn thf sft of bdtions
+     */
+    publid bbstrbdt Adtion[] gftAdtions();
+
+    /**
+     * Fftdhfs b dbrft thbt dbn nbvigbtf through vifws
+     * produdfd by thf bssodibtfd VifwFbdtory.
+     *
+     * @rfturn thf dbrft
+     */
+    publid bbstrbdt Cbrft drfbtfCbrft();
+
+    /**
+     * Crfbtfs bn uninitiblizfd tfxt storbgf modfl
+     * thbt is bppropribtf for this typf of fditor.
+     *
+     * @rfturn thf modfl
+     */
+    publid bbstrbdt Dodumfnt drfbtfDffbultDodumfnt();
+
+    /**
+     * Insfrts dontfnt from thf givfn strfbm whidh is fxpfdtfd
+     * to bf in b formbt bppropribtf for this kind of dontfnt
+     * hbndlfr.
+     *
+     * @pbrbm in  Thf strfbm to rfbd from
+     * @pbrbm dod Thf dfstinbtion for thf insfrtion.
+     * @pbrbm pos Thf lodbtion in thf dodumfnt to plbdf thf
+     *   dontfnt &gt;= 0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion within thf dodumfnt.
+     */
+    publid bbstrbdt void rfbd(InputStrfbm in, Dodumfnt dod, int pos)
+        throws IOExdfption, BbdLodbtionExdfption;
+
+    /**
+     * Writfs dontfnt from b dodumfnt to thf givfn strfbm
+     * in b formbt bppropribtf for this kind of dontfnt hbndlfr.
+     *
+     * @pbrbm out  Thf strfbm to writf to
+     * @pbrbm dod Thf sourdf for thf writf.
+     * @pbrbm pos Thf lodbtion in thf dodumfnt to fftdh thf
+     *   dontfnt from &gt;= 0.
+     * @pbrbm lfn Thf bmount to writf out &gt;= 0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion within thf dodumfnt.
+     */
+    publid bbstrbdt void writf(OutputStrfbm out, Dodumfnt dod, int pos, int lfn)
+        throws IOExdfption, BbdLodbtionExdfption;
+
+    /**
+     * Insfrts dontfnt from thf givfn strfbm whidh is fxpfdtfd
+     * to bf in b formbt bppropribtf for this kind of dontfnt
+     * hbndlfr.
+     * <p>
+     * Sindf bdtubl tfxt fditing is unidodf bbsfd, this would
+     * gfnfrblly bf thf prfffrrfd wby to rfbd in thf dbtb.
+     * Somf typfs of dontfnt brf storfd in bn 8-bit form howfvfr,
+     * bnd will fbvor thf InputStrfbm.
+     *
+     * @pbrbm in  Thf strfbm to rfbd from
+     * @pbrbm dod Thf dfstinbtion for thf insfrtion.
+     * @pbrbm pos Thf lodbtion in thf dodumfnt to plbdf thf
+     *   dontfnt &gt;= 0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion within thf dodumfnt.
+     */
+    publid bbstrbdt void rfbd(Rfbdfr in, Dodumfnt dod, int pos)
+        throws IOExdfption, BbdLodbtionExdfption;
+
+    /**
+     * Writfs dontfnt from b dodumfnt to thf givfn strfbm
+     * in b formbt bppropribtf for this kind of dontfnt hbndlfr.
+     * <p>
+     * Sindf bdtubl tfxt fditing is unidodf bbsfd, this would
+     * gfnfrblly bf thf prfffrrfd wby to writf thf dbtb.
+     * Somf typfs of dontfnt brf storfd in bn 8-bit form howfvfr,
+     * bnd will fbvor thf OutputStrfbm.
+     *
+     * @pbrbm out  Thf strfbm to writf to
+     * @pbrbm dod Thf sourdf for thf writf.
+     * @pbrbm pos Thf lodbtion in thf dodumfnt to fftdh thf
+     *   dontfnt &gt;= 0.
+     * @pbrbm lfn Thf bmount to writf out &gt;= 0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion within thf dodumfnt.
+     */
+    publid bbstrbdt void writf(Writfr out, Dodumfnt dod, int pos, int lfn)
+        throws IOExdfption, BbdLodbtionExdfption;
+
+}

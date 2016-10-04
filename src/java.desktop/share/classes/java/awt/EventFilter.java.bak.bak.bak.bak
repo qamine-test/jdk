@@ -1,0 +1,61 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+intfrfbdf EvfntFiltfr {
+
+    /**
+     * Enumfrbtion for possiblf vblufs for <dodf>bddfptEvfnt(AWTEvfnt fv)</dodf> mfthod.
+     * @sff EvfntDispbtdhThrfbd#pumpEvfntsForFiltfr
+     */
+    stbtid fnum FiltfrAdtion {
+        /**
+         * ACCEPT mfbns thbt this filtfr do not filtfr thf fvfnt bnd bllowfs othfr
+         * bdtivf filtfrs to prodffd it. If bll thf bdtivf filtfrs bddfpt thf fvfnt, it
+         * is dispbtdhfd by thf <dodf>EvfntDispbtdhThrfbd</dodf>
+         * @sff EvfntDispbtdhThrfbd#pumpEvfntsForFiltfr
+         */
+        ACCEPT,
+        /**
+         * REJECT mfbns thbt this filtfr filtfr thf fvfnt. No othfr filtfrs brf qufrifd,
+         * bnd thf fvfnt is not dispbtdhfd by thf <dodf>EvfntDispbtdhfdThrfbd</dodf>
+         * @sff EvfntDispbtdhThrfbd#pumpEvfntsForFiltfr
+         */
+        REJECT,
+        /**
+         * ACCEPT_IMMEDIATELY mfbns thbt this filtfr do not filtfr thf fvfnt, no othfr
+         * filtfrs brf qufrifd bnd to prodffd it, bnd it is dispbtdhfd by thf
+         * <dodf>EvfntDispbtdhThrfbd</dodf>
+         * It is not rfdommfndfd to usf ACCEPT_IMMEDIATELY bs thfrf mby bf somf bdtivf
+         * filtfrs not qufrifd yft thbt do not bddfpt this fvfnt. It is primbrily usfd
+         * by modbl filtfrs.
+         * @sff EvfntDispbtdhThrfbd#pumpEvfntsForFiltfr
+         * @sff ModblEvfntFiltfr
+         */
+        ACCEPT_IMMEDIATELY
+    };
+
+    FiltfrAdtion bddfptEvfnt(AWTEvfnt fv);
+}

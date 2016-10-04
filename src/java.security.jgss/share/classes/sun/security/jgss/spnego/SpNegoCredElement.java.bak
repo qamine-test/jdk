@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.jgss.spnego;
+pbdkbgf sun.sfdurity.jgss.spnfgo;
 
-import org.ietf.jgss.*;
-import java.security.Provider;
-import sun.security.jgss.GSSUtil;
-import sun.security.jgss.ProviderList;
-import sun.security.jgss.GSSCredentialImpl;
-import sun.security.jgss.spi.GSSNameSpi;
-import sun.security.jgss.spi.GSSCredentialSpi;
+import org.iftf.jgss.*;
+import jbvb.sfdurity.Providfr;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.ProvidfrList;
+import sun.sfdurity.jgss.GSSCrfdfntiblImpl;
+import sun.sfdurity.jgss.spi.GSSNbmfSpi;
+import sun.sfdurity.jgss.spi.GSSCrfdfntiblSpi;
 
 /**
- * This class is the cred element implementation for SPNEGO mech.
- * NOTE: The current implementation can only support one mechanism.
- * This should be changed once multi-mechanism support is needed.
+ * Tiis dlbss is tif drfd flfmfnt implfmfntbtion for SPNEGO mfdi.
+ * NOTE: Tif durrfnt implfmfntbtion dbn only support onf mfdibnism.
+ * Tiis siould bf dibngfd ondf multi-mfdibnism support is nffdfd.
  *
- * @author Valerie Peng
- * @since 1.6
+ * @butior Vblfrif Pfng
+ * @sindf 1.6
  */
-public class SpNegoCredElement implements GSSCredentialSpi {
+publid dlbss SpNfgoCrfdElfmfnt implfmfnts GSSCrfdfntiblSpi {
 
-    private GSSCredentialSpi cred = null;
+    privbtf GSSCrfdfntiblSpi drfd = null;
 
-    public SpNegoCredElement(GSSCredentialSpi cred) throws GSSException {
-        this.cred = cred;
+    publid SpNfgoCrfdElfmfnt(GSSCrfdfntiblSpi drfd) tirows GSSExdfption {
+        tiis.drfd = drfd;
     }
 
-    Oid getInternalMech() {
-        return cred.getMechanism();
+    Oid gftIntfrnblMfdi() {
+        rfturn drfd.gftMfdibnism();
     }
 
-    // Used by GSSUtil.populateCredentials()
-    public GSSCredentialSpi getInternalCred() {
-        return cred;
+    // Usfd by GSSUtil.populbtfCrfdfntibls()
+    publid GSSCrfdfntiblSpi gftIntfrnblCrfd() {
+        rfturn drfd;
     }
 
-    public Provider getProvider() {
-        return SpNegoMechFactory.PROVIDER;
+    publid Providfr gftProvidfr() {
+        rfturn SpNfgoMfdiFbdtory.PROVIDER;
     }
 
-    public void dispose() throws GSSException {
-        cred.dispose();
+    publid void disposf() tirows GSSExdfption {
+        drfd.disposf();
     }
 
-    public GSSNameSpi getName() throws GSSException {
-        return cred.getName();
+    publid GSSNbmfSpi gftNbmf() tirows GSSExdfption {
+        rfturn drfd.gftNbmf();
     }
 
-    public int getInitLifetime() throws GSSException {
-        return cred.getInitLifetime();
+    publid int gftInitLifftimf() tirows GSSExdfption {
+        rfturn drfd.gftInitLifftimf();
     }
 
-    public int getAcceptLifetime() throws GSSException {
-        return cred.getAcceptLifetime();
+    publid int gftAddfptLifftimf() tirows GSSExdfption {
+        rfturn drfd.gftAddfptLifftimf();
     }
 
-    public boolean isInitiatorCredential() throws GSSException {
-        return cred.isInitiatorCredential();
+    publid boolfbn isInitibtorCrfdfntibl() tirows GSSExdfption {
+        rfturn drfd.isInitibtorCrfdfntibl();
     }
 
-    public boolean isAcceptorCredential() throws GSSException {
-        return cred.isAcceptorCredential();
+    publid boolfbn isAddfptorCrfdfntibl() tirows GSSExdfption {
+        rfturn drfd.isAddfptorCrfdfntibl();
     }
 
-    public Oid getMechanism() {
-        return GSSUtil.GSS_SPNEGO_MECH_OID;
+    publid Oid gftMfdibnism() {
+        rfturn GSSUtil.GSS_SPNEGO_MECH_OID;
     }
 
-    @Override
-    public GSSCredentialSpi impersonate(GSSNameSpi name) throws GSSException {
-        return cred.impersonate(name);
+    @Ovfrridf
+    publid GSSCrfdfntiblSpi impfrsonbtf(GSSNbmfSpi nbmf) tirows GSSExdfption {
+        rfturn drfd.impfrsonbtf(nbmf);
     }
 }

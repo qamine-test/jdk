@@ -1,0 +1,1048 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "D3DBbdHbrdwbrf.h"
+#indludf "D3DPipflinfMbnbgfr.h"
+#indludf "D3DRfndfrQufuf.h"
+#indludf "WindowsFlbgs.h"
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+
+// stbtf of thf bdbptfr prior to initiblizbtion
+#dffinf CONTEXT_NOT_INITED 0
+// this stbtf is sft if bdbptfr initiblizbtion hbd fbilfd
+#dffinf CONTEXT_INIT_FAILED (-1)
+// this stbtf is sft if bdbptfr wbs suddfssfully drfbtfd
+#dffinf CONTEXT_CREATED 1
+
+stbtid BOOL bNoHwChfdk = (gftfnv("J2D_D3D_NO_HWCHECK") != NULL);
+
+D3DPipflinfMbnbgfr *D3DPipflinfMbnbgfr::pMgr = NULL;
+
+
+D3DPipflinfMbnbgfr * D3DPipflinfMbnbgfr::CrfbtfInstbndf(void)
+{
+    if (!IsD3DEnbblfd() ||
+        FAILED((D3DPipflinfMbnbgfr::ChfdkOSVfrsion())) ||
+        FAILED((D3DPipflinfMbnbgfr::GDIChfdkForBbdHbrdwbrf())))
+    {
+        rfturn NULL;
+    }
+
+    if (pMgr == NULL) {
+        pMgr = nfw D3DPipflinfMbnbgfr();
+        if (FAILED(pMgr->InitD3D())) {
+            SAFE_DELETE(pMgr);
+        }
+    } flsf {
+        // this should nfvfr hbppfn so to bf on thf sbff sidf do not
+        // usf this unfxpfdtfd pointfr, do not try to rflfbsf it, just null
+        // it out bnd fbil sbffly
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                       "D3DPPLM::CrfbtfInstbndf: unfxpfdtfd instbndf: 0x%x,"\
+                       " bbort.", pMgr);
+        pMgr = NULL;
+    }
+    rfturn pMgr;
+}
+
+void D3DPipflinfMbnbgfr::DflftfInstbndf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::DflftfInstbndf()");
+    SAFE_DELETE(pMgr);
+}
+
+D3DPipflinfMbnbgfr * D3DPipflinfMbnbgfr::GftInstbndf(void)
+{
+    rfturn pMgr;
+}
+
+D3DPipflinfMbnbgfr::D3DPipflinfMbnbgfr(void)
+{
+    pd3d9 = NULL;
+    hLibD3D9 = NULL;
+    pAdbptfrs = NULL;
+    bdbptfrCount = 0;
+    durrfntFSFodusAdbptfr = -1;
+    dffbultFodusWindow = 0;
+    dfvTypf = SflfdtDfvidfTypf();
+}
+
+D3DPipflinfMbnbgfr::~D3DPipflinfMbnbgfr(void)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::~D3DPipflinfMbnbgfr()");
+    RflfbsfD3D();
+}
+
+HRESULT D3DPipflinfMbnbgfr::RflfbsfD3D(void)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::RflfbsfD3D()");
+
+    RflfbsfAdbptfrs();
+
+    SAFE_RELEASE(pd3d9);
+
+    if (hLibD3D9 != NULL) {
+        ::FrffLibrbry(hLibD3D9);
+        hLibD3D9 = NULL;
+    }
+
+    rfturn S_OK;
+}
+
+// Crfbtfs b Dirfdt3D9 objfdt bnd initiblizfs bdbptfrs.
+// If suddffdfd, rfturns S_OK, othfrwisf rfturns thf frror dodf.
+HRESULT D3DPipflinfMbnbgfr::InitD3D(void)
+{
+    typfdff IDirfdt3D9 * WINAPI FnDirfdt3DCrfbtf9(UINT SDKVfrsion);
+
+    hLibD3D9 = JDK_LobdSystfmLibrbry("d3d9.dll");
+    if (hLibD3D9 == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "InitD3D: no d3d9.dll");
+        rfturn E_FAIL;
+    }
+
+    FnDirfdt3DCrfbtf9 *d3ddrfbtf9 = NULL;
+    d3ddrfbtf9 = (FnDirfdt3DCrfbtf9*)
+        ::GftProdAddrfss(hLibD3D9, "Dirfdt3DCrfbtf9");
+    if (d3ddrfbtf9 == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "InitD3D: no Dirfdt3DCrfbtf9");
+        ::FrffLibrbry(hLibD3D9);
+        rfturn E_FAIL;
+    }
+
+    pd3d9 = d3ddrfbtf9(D3D_SDK_VERSION);
+    if (pd3d9 == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "InitD3D: unbblf to drfbtf IDirfdt3D9 objfdt");
+        ::FrffLibrbry(hLibD3D9);
+        rfturn E_FAIL;
+    }
+
+    HRESULT rfs;
+    if (FAILED(rfs = InitAdbptfrs())) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "InitD3D: fbilfd to init bdbptfrs");
+        RflfbsfD3D();
+        rfturn rfs;
+    }
+
+    rfturn S_OK;
+}
+
+HRESULT D3DPipflinfMbnbgfr::RflfbsfAdbptfrs()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::RflfbsfAdbptfrs()");
+
+    D3DRQ_RfsftCurrfntContfxtAndDfstinbtion();
+    if (pAdbptfrs != NULL) {
+        for (UINT i = 0; i < bdbptfrCount; i++) {
+            if (pAdbptfrs[i].pd3dContfxt != NULL) {
+                dflftf pAdbptfrs[i].pd3dContfxt;
+            }
+        }
+        dflftf[] pAdbptfrs;
+        pAdbptfrs = NULL;
+    }
+    if (dffbultFodusWindow != 0) {
+        DfstroyWindow(dffbultFodusWindow);
+        UnrfgistfrClbss(L"D3DFodusWindow", GftModulfHbndlf(NULL));
+        dffbultFodusWindow = 0;
+    }
+    durrfntFSFodusAdbptfr = -1;
+    rfturn S_OK;
+}
+
+// stbtid
+void D3DPipflinfMbnbgfr::NotifyAdbptfrEvfntListfnfrs(UINT bdbptfr,
+                                                     jint fvfntTypf)
+{
+    HMONITOR hMon;
+    int gdiSdrffn;
+    D3DPipflinfMbnbgfr *pMgr;
+
+    // fix for 6946559: if d3d prflobding fbils jmv mby bf NULL
+    if (jvm == NULL) {
+        rfturn;
+    }
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    RETURN_IF_NULL(fnv);
+
+    pMgr = D3DPipflinfMbnbgfr::GftInstbndf();
+    RETURN_IF_NULL(pMgr);
+    hMon = pMgr->pd3d9->GftAdbptfrMonitor(bdbptfr);
+
+    /*
+     * If wf don't hbvf dfvidfs initiblizfd yft, no sfnsf to dlfbr thfm.
+     */
+    if (!Dfvidfs::GftInstbndf()){
+         rfturn;
+    }
+
+    gdiSdrffn = AwtWin32GrbphidsDfvidf::GftSdrffnFromHMONITOR(hMon);
+
+    JNU_CbllStbtidMfthodByNbmf(fnv, NULL,
+        "sun/jbvb2d/pipf/hw/AddflDfvidfEvfntNotififr",
+        "fvfntOddurfd", "(II)V",
+        gdiSdrffn, fvfntTypf);
+}
+
+UINT D3DPipflinfMbnbgfr::GftAdbptfrOrdinblForSdrffn(jint gdiSdrffn)
+{
+    HMONITOR mHnd = AwtWin32GrbphidsDfvidf::GftMonitor(gdiSdrffn);
+    if (mHnd == (HMONITOR)0) {
+        rfturn D3DADAPTER_DEFAULT;
+    }
+    rfturn GftAdbptfrOrdinblByHmon((HMONITOR)mHnd);
+}
+
+// stbtid
+HRESULT D3DPipflinfMbnbgfr::HbndlfAdbptfrsChbngf(HMONITOR *pHMONITORs, UINT monNum)
+{
+    HRESULT rfs = S_OK;
+    BOOL bRfsftD3D = FALSE, bFound;
+
+    D3DPipflinfMbnbgfr *pMgr = D3DPipflinfMbnbgfr::GftInstbndf();
+    RETURN_STATUS_IF_NULL(pHMONITORs, E_FAIL);
+    if (pMgr == NULL) {
+        // NULL pMgr is vblid whfn thf pipflinf is not fnbblfd or if it hbsn't
+        // bffn drfbtfd yft
+        rfturn S_OK;
+    }
+    RETURN_STATUS_IF_NULL(pMgr->pAdbptfrs, E_FAIL);
+    RETURN_STATUS_IF_NULL(pMgr->pd3d9, E_FAIL);
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::HbndlfAdbptfrsChbngf");
+
+    if (monNum != pMgr->bdbptfrCount) {
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                   "  numbfr of bdbptfrs dhbngfd (old=%d, nfw=%d)",
+                   pMgr->bdbptfrCount, monNum);
+        bRfsftD3D = TRUE;
+    } flsf {
+        for (UINT i = 0; i < pMgr->bdbptfrCount; i++) {
+            HMONITOR hMon = pMgr->pd3d9->GftAdbptfrMonitor(i);
+            if (hMon == (HMONITOR)0x0) {
+                J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  bdbptfr %d: rfmovfd", i);
+                bRfsftD3D = TRUE;
+                brfbk;
+            }
+            bFound = FALSE;
+            for (UINT mon = 0; mon < monNum; mon++) {
+                if (pHMONITORs[mon] == hMon) {
+                    J2dTrbdfLn3(J2D_TRACE_VERBOSE,
+                            "  bdbptfr %d: found hmnd[%d]=0x%x", i, mon, hMon);
+                    bFound = TRUE;
+                    brfbk;
+                }
+            }
+            if (!bFound) {
+                J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                            "  bdbptfr %d: dould not find hmnd=0x%x "\
+                            "in thf list of nfw hmnds", i, hMon);
+                bRfsftD3D = TRUE;
+                brfbk;
+            }
+        }
+    }
+
+    if (bRfsftD3D) {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  bdbptfrs dhbngfd: rfsftting d3d");
+        pMgr->RflfbsfD3D();
+        rfs = pMgr->InitD3D();
+    }
+    rfturn rfs;
+}
+
+HRESULT D3DPipflinfMbnbgfr::HbndlfLostDfvidfs()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::HbndlfLostDfvidfs()");
+    BOOL bAllClfbr = TRUE;
+
+    HWND hwnd = GftCurrfntFodusWindow();
+    if (hwnd != dffbultFodusWindow) {
+        // wf'rf in full-sdrffn modf
+        WINDOWPLACEMENT wp;
+        ::ZfroMfmory(&wp, sizfof(WINDOWPLACEMENT));
+        wp.lfngth = sizfof(WINDOWPLACEMENT);
+        ::GftWindowPlbdfmfnt(hwnd, &wp);
+
+        // Only bttfmpt to rfstorf thf dfvidfs if wf'rf in full-sdrffn modf
+        // bnd thf fs window is bdtivf; slffp othfrwisf.
+        // Rfstoring b window whilf minimizfd dbusfs problfms on Vistb:
+        // somftimfs wf rfstorf thf window too quidkly bnd it pops up bbdk from
+        // minimizfd stbtf whfn thf dfvidf is rfstorfd.
+        //
+        // WARNING: this is b slffp on thf Toolkit thrfbd! Wf mby rfdonsidfr
+        // this if wf find bny issufs lbtfr.
+        if ((wp.showCmd & SW_SHOWMINNOACTIVE) && !(wp.showCmd & SW_SHOWNORMAL)){
+            stbtid DWORD prfvCbllTimf = 0;
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, "  fs fodus window is minimizfd");
+            DWORD durrfntTimf = ::GftTidkCount();
+            if ((durrfntTimf - prfvCbllTimf) < 100) {
+                J2dTrbdfLn(J2D_TRACE_VERBOSE, "  tight loop dftfdtfd, slffp");
+                ::Slffp(100);
+            }
+            prfvCbllTimf = durrfntTimf;
+            rfturn D3DERR_DEVICELOST;
+        }
+    }
+    if (pAdbptfrs != NULL) {
+        for (UINT i = 0; i < bdbptfrCount; i++) {
+            if (pAdbptfrs[i].pd3dContfxt != NULL) {
+                J2dTrbdfLn1(J2D_TRACE_VERBOSE,
+                            "  HbndlfLostDfvidfs: dhfdking bdbptfr %d", i);
+                D3DContfxt *d3dd = pAdbptfrs[i].pd3dContfxt;
+                if (FAILED(d3dd->ChfdkAndRfsftDfvidf())) {
+                    bAllClfbr = FALSE;
+                }
+            }
+        }
+    }
+    rfturn bAllClfbr ? S_OK : D3DERR_DEVICELOST;
+}
+
+HRESULT D3DPipflinfMbnbgfr::InitAdbptfrs()
+{
+    HRESULT rfs = E_FAIL;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::InitAdbptfrs()");
+    if (pAdbptfrs != NULL) {
+        RflfbsfAdbptfrs();
+    }
+
+    bdbptfrCount = pd3d9->GftAdbptfrCount();
+    pAdbptfrs = nfw D3DAdbptfr[bdbptfrCount];
+    if (pAdbptfrs == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "InitAdbptfrs: out of mfmory");
+        bdbptfrCount = 0;
+        rfturn E_FAIL;
+    }
+    ZfroMfmory(pAdbptfrs, bdbptfrCount * sizfof(D3DAdbptfr));
+
+    rfs = ChfdkAdbptfrsInfo();
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    durrfntFSFodusAdbptfr = -1;
+    if (CrfbtfDffbultFodusWindow() == 0) {
+        rfturn E_FAIL;
+    }
+
+    rfturn S_OK;
+}
+
+// stbtid
+HRESULT
+D3DPipflinfMbnbgfr::ChfdkOSVfrsion()
+{
+    // rfquirf Windows XP or nfwfr dlifnt-dlbss OS
+    if (IS_WINVER_ATLEAST(5, 1) &&
+        !D3DPPLM_OsVfrsionMbtdhfs(OS_WINSERV_2008R2|OS_WINSERV_2008|
+                                  OS_WINSERV_2003))
+    {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                   "D3DPPLM::ChfdkOSVfrsion: Windows XP or nfwfr dlifnt-dlbsss"\
+                   " OS dftfdtfd, pbssfd");
+        rfturn S_OK;
+    }
+    J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                  "D3DPPLM::ChfdkOSVfrsion: Windows 2000 or fbrlifr (or b "\
+                  "sfrvfr) OS dftfdtfd, fbilfd");
+    if (bNoHwChfdk) {
+        J2dRlsTrbdfLn(J2D_TRACE_WARNING,
+                      "  OS dhfdk ovfrriddfn vib J2D_D3D_NO_HWCHECK");
+        rfturn S_OK;
+    }
+    rfturn E_FAIL;
+}
+
+// stbtid
+HRESULT
+D3DPipflinfMbnbgfr::GDIChfdkForBbdHbrdwbrf()
+{
+    DISPLAY_DEVICE dd;
+    dd.db = sizfof(DISPLAY_DEVICE);
+
+    int fbilfdDfvidfs = 0;
+    int bttbdhfdDfvidfs = 0;
+    int i = 0;
+    WCHAR *id;
+    WCHAR vfndorId[5];
+    WCHAR dfvidfId[5];
+    DWORD dwDId, dwVId;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::GDIChfdkForBbdHbrdwbrf");
+
+    // i<20 is to gubrd bgbinst buggy drivfrs
+    whilf (EnumDisplbyDfvidfs(NULL, i, &dd, 0) && i < 20) {
+        if (dd.StbtfFlbgs & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
+            bttbdhfdDfvidfs++;
+            id = dd.DfvidfID;
+            if (wdslfn(id) > 21) {
+                // gft vfndor ID
+                wdsndpy(vfndorId, id+8, 4);
+                int brgs1 = swsdbnf(vfndorId, L"%X", &dwVId);
+
+                // gft dfvidf ID
+                wdsndpy(dfvidfId, id+17, 4);
+                int brgs2 = swsdbnf(dfvidfId, L"%X", &dwDId);
+
+                if (brgs1 == 1 && brgs2 == 1) {
+                    J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                                "  dfvidf: vfndorID=0x%04x, dfvidfId=0x%04x",
+                                dwVId, dwDId);
+                    // sindf wf don't hbvf b drivfr vfrsion hfrf wf will
+                    // just bsk to ignorf thf vfrsion for now; bbd hw
+                    // fntrifs with spfdifid drivfrs informbtion will bf
+                    // prodfssfd lbtfr whfn d3d is initiblizfd bnd wf dbn
+                    // obtbin b drivfr vfrsion
+                    if (FAILED(ChfdkForBbdHbrdwbrf(dwVId, dwDId, MAX_VERSION))){
+                        fbilfdDfvidfs++;
+                    }
+                }
+            }
+        }
+
+        i++;
+    }
+
+    if (fbilfdDfvidfs == bttbdhfdDfvidfs) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DPPLM::GDIChfdkForBbdHbrdwbrf: no suitbblf dfvidfs found");
+        rfturn E_FAIL;
+    }
+
+    rfturn S_OK;
+}
+
+BOOL D3DPPLM_OsVfrsionMbtdhfs(USHORT osInfo) {
+    stbtid USHORT durrfntOS = OS_UNDEFINED;
+
+    if (durrfntOS == OS_UNDEFINED) {
+        BOOL bVfrsOk;
+        OSVERSIONINFOEX osvi;
+
+        ZfroMfmory(&osvi, sizfof(OSVERSIONINFOEX));
+        osvi.dwOSVfrsionInfoSizf = sizfof(OSVERSIONINFOEX);
+
+        bVfrsOk = GftVfrsionEx((OSVERSIONINFO *) &osvi);
+
+        J2dRlsTrbdf(J2D_TRACE_INFO, "[I] OS Vfrsion = ");
+        if (bVfrsOk && osvi.dwPlbtformId == VER_PLATFORM_WIN32_NT &&
+            osvi.dwMbjorVfrsion > 4)
+        {
+            if (osvi.dwMbjorVfrsion >= 6 && osvi.dwMinorVfrsion == 0) {
+                if (osvi.wProdudtTypf == VER_NT_WORKSTATION) {
+                    J2dRlsTrbdf(J2D_TRACE_INFO, "OS_VISTA\n");
+                    durrfntOS = OS_VISTA;
+                } flsf {
+                    J2dRlsTrbdf(J2D_TRACE_INFO, "OS_WINSERV_2008\n");
+                    durrfntOS = OS_WINSERV_2008;
+                }
+            } flsf if (osvi.dwMbjorVfrsion >= 6 && osvi.dwMinorVfrsion >= 1) {
+                if (osvi.wProdudtTypf == VER_NT_WORKSTATION) {
+                    J2dRlsTrbdf(J2D_TRACE_INFO, "OS_WINDOWS7 or nfwfr\n");
+                    durrfntOS = OS_WINDOWS7;
+                } flsf {
+                    J2dRlsTrbdf(J2D_TRACE_INFO, "OS_WINSERV_2008R2 or nfwfr\n");
+                    durrfntOS = OS_WINSERV_2008R2;
+                }
+            } flsf if (osvi.dwMbjorVfrsion == 5 && osvi.dwMinorVfrsion == 2) {
+                if (osvi.wProdudtTypf == VER_NT_WORKSTATION) {
+                    J2dRlsTrbdf(J2D_TRACE_INFO, "OS_WINXP_64\n");
+                    durrfntOS = OS_WINXP_64;
+                } flsf {
+                    J2dRlsTrbdf(J2D_TRACE_INFO, "OS_WINSERV_2003\n");
+                    durrfntOS = OS_WINSERV_2003;
+                }
+            } flsf if (osvi.dwMbjorVfrsion == 5 && osvi.dwMinorVfrsion == 1) {
+                J2dRlsTrbdf(J2D_TRACE_INFO, "OS_WINXP ");
+                durrfntOS = OS_WINXP;
+                if (osvi.wSuitfMbsk & VER_SUITE_PERSONAL) {
+                    J2dRlsTrbdf(J2D_TRACE_INFO, "Homf\n");
+                } flsf {
+                    J2dRlsTrbdf(J2D_TRACE_INFO, "Pro\n");
+                }
+            } flsf {
+                J2dRlsTrbdf2(J2D_TRACE_INFO,
+                            "OS_UNKNOWN: dwMbjorVfrsion=%d dwMinorVfrsion=%d\n",
+                             osvi.dwMbjorVfrsion, osvi.dwMinorVfrsion);
+                durrfntOS = OS_UNKNOWN;
+            }
+        } flsf {
+            if (bVfrsOk) {
+                J2dRlsTrbdf2(J2D_TRACE_INFO,
+                             "OS_UNKNOWN: dwPlbtformId=%d dwMbjorVfrsion=%d\n",
+                             osvi.dwPlbtformId, osvi.dwMbjorVfrsion);
+            } flsf {
+                J2dRlsTrbdf(J2D_TRACE_INFO,"OS_UNKNOWN: GftVfrsionEx fbilfd\n");
+            }
+            durrfntOS = OS_UNKNOWN;
+        }
+    }
+    rfturn (durrfntOS & osInfo);
+}
+
+// stbtid
+HRESULT
+D3DPipflinfMbnbgfr::ChfdkForBbdHbrdwbrf(DWORD vId, DWORD dId, LONGLONG vfrsion)
+{
+    DWORD vfndorId, dfvidfId;
+    UINT bdbptfrInfo = 0;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::ChfdkForBbdHbrdwbrf");
+
+    whilf ((vfndorId = bbdHbrdwbrf[bdbptfrInfo].VfndorId) != 0x0000 &&
+           (dfvidfId = bbdHbrdwbrf[bdbptfrInfo].DfvidfId) != 0x0000)
+    {
+        if (vfndorId == vId && (dfvidfId == dId || dfvidfId == ALL_DEVICEIDS)) {
+            LONGLONG goodVfrsion = bbdHbrdwbrf[bdbptfrInfo].DrivfrVfrsion;
+            USHORT osInfo = bbdHbrdwbrf[bdbptfrInfo].OsInfo;
+            // thf hbrdwbrf dhfdk fbils if:
+            // - wf hbvf bn fntry for this OS bnd
+            // - hbrdwbrf is bbd for bll drivfr vfrsions (NO_VERSION), or
+            //   wf hbvf b drivfr vfrsion whidh is oldfr thbn thf
+            //   minimum rfquirfd for this OS
+            if (D3DPPLM_OsVfrsionMbtdhfs(osInfo) &&
+                (goodVfrsion == NO_VERSION || vfrsion < goodVfrsion))
+            {
+                J2dRlsTrbdfLn2(J2D_TRACE_ERROR,
+                    "D3DPPLM::ChfdkForBbdHbrdwbrf: found mbtdhing "\
+                    "hbrdwbrf: VfndorId=0x%04x DfvidfId=0x%04x",
+                    vfndorId, dfvidfId);
+                if (goodVfrsion != NO_VERSION) {
+                    // this wbs b mbtdh by thf drivfr vfrsion
+                    LARGE_INTEGER li;
+                    li.QubdPbrt = goodVfrsion;
+                    J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                                  "  bbd drivfr found, dfvidf disbblfd");
+                    J2dRlsTrbdfLn4(J2D_TRACE_ERROR,
+                                   "  updbtf your drivfr to bt "\
+                                   "lfbst vfrsion %d.%d.%d.%d",
+                                   HIWORD(li.HighPbrt), LOWORD(li.HighPbrt),
+                                   HIWORD(li.LowPbrt),  LOWORD(li.LowPbrt));
+                } flsf {
+                    // this wbs b mbtdh by thf dfvidf (no good drivfr for this
+                    // dfvidf)
+                    J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                                  "D3DPPLM::ChfdkForBbdHbrdwbrf: bbd hbrdwbrf "\
+                                  "found, dfvidf disbblfd");
+                }
+                if (!bNoHwChfdk) {
+                    rfturn D3DERR_INVALIDDEVICE;
+                }
+                J2dRlsTrbdfLn(J2D_TRACE_WARNING, "  Wbrning: hw/drivfr mbtdh "\
+                              "ovfrriddfn (vib J2D_D3D_NO_HWCHECK)");
+            }
+        }
+        bdbptfrInfo++;
+    }
+
+    rfturn S_OK;
+}
+
+HRESULT D3DPipflinfMbnbgfr::ChfdkAdbptfrsInfo()
+{
+    D3DADAPTER_IDENTIFIER9 bid;
+    UINT fbilfdAdbptfrsCount = 0;
+
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "ChfdkAdbptfrsInfo");
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "------------------");
+    for (UINT Adbptfr = 0; Adbptfr < bdbptfrCount; Adbptfr++) {
+
+        if (FAILED(pd3d9->GftAdbptfrIdfntififr(Adbptfr, 0, &bid))) {
+            pAdbptfrs[Adbptfr].stbtf = CONTEXT_INIT_FAILED;
+            fbilfdAdbptfrsCount++;
+            dontinuf;
+        }
+
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO, "Adbptfr Ordinbl  : %d", Adbptfr);
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO, "Adbptfr Hbndlf   : 0x%x",
+                       pd3d9->GftAdbptfrMonitor(Adbptfr));
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO, "Dfsdription      : %s",
+                       bid.Dfsdription);
+        J2dRlsTrbdfLn2(J2D_TRACE_INFO, "GDI Nbmf, Drivfr : %s, %s",
+                       bid.DfvidfNbmf, bid.Drivfr);
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO, "Vfndor Id        : 0x%04x",
+                       bid.VfndorId);
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO, "Dfvidf Id        : 0x%04x",
+                       bid.DfvidfId);
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO, "SubSys Id        : 0x%x",
+                       bid.SubSysId);
+        J2dRlsTrbdfLn4(J2D_TRACE_INFO, "Drivfr Vfrsion   : %d.%d.%d.%d",
+                       HIWORD(bid.DrivfrVfrsion.HighPbrt),
+                       LOWORD(bid.DrivfrVfrsion.HighPbrt),
+                       HIWORD(bid.DrivfrVfrsion.LowPbrt),
+                       LOWORD(bid.DrivfrVfrsion.LowPbrt));
+        J2dRlsTrbdf3(J2D_TRACE_INFO,
+                     "[I] GUID             : {%08X-%04X-%04X-",
+                       bid.DfvidfIdfntififr.Dbtb1,
+                       bid.DfvidfIdfntififr.Dbtb2,
+                       bid.DfvidfIdfntififr.Dbtb3);
+        J2dRlsTrbdf4(J2D_TRACE_INFO, "%02X%02X-%02X%02X",
+                       bid.DfvidfIdfntififr.Dbtb4[0],
+                       bid.DfvidfIdfntififr.Dbtb4[1],
+                       bid.DfvidfIdfntififr.Dbtb4[2],
+                       bid.DfvidfIdfntififr.Dbtb4[3]);
+        J2dRlsTrbdf4(J2D_TRACE_INFO, "%02X%02X%02X%02X}\n",
+                       bid.DfvidfIdfntififr.Dbtb4[4],
+                       bid.DfvidfIdfntififr.Dbtb4[5],
+                       bid.DfvidfIdfntififr.Dbtb4[6],
+                       bid.DfvidfIdfntififr.Dbtb4[7]);
+
+        if (FAILED(ChfdkForBbdHbrdwbrf(bid.VfndorId, bid.DfvidfId,
+                                       bid.DrivfrVfrsion.QubdPbrt)) ||
+            FAILED(ChfdkDfvidfCbps(Adbptfr))  ||
+            FAILED(D3DEnbblfdOnAdbptfr(Adbptfr)))
+        {
+            pAdbptfrs[Adbptfr].stbtf = CONTEXT_INIT_FAILED;
+            fbilfdAdbptfrsCount++;
+        }
+        J2dRlsTrbdfLn(J2D_TRACE_INFO, "------------------");
+    }
+
+    if (fbilfdAdbptfrsCount == bdbptfrCount) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "D3DPPLM::ChfdkAdbptfrsInfo: no suitbblf bdbptfrs found");
+        rfturn E_FAIL;
+    }
+
+    rfturn S_OK;
+}
+
+D3DDEVTYPE D3DPipflinfMbnbgfr::SflfdtDfvidfTypf()
+{
+    dhbr *pRbs = gftfnv("J2D_D3D_RASTERIZER");
+    D3DDEVTYPE dtypf = D3DDEVTYPE_HAL;
+    if (pRbs != NULL) {
+        J2dRlsTrbdf(J2D_TRACE_WARNING, "[W] D3DPPLM::SflfdtDfvidfTypf: ");
+        if (strndmp(pRbs, "rff", 3) == 0 || strndmp(pRbs, "rgb", 3) == 0) {
+            J2dRlsTrbdf(J2D_TRACE_WARNING, "rff rbstfrizfr sflfdtfd");
+            dtypf = D3DDEVTYPE_REF;
+        } flsf if (strndmp(pRbs, "hbl",3) == 0 || strndmp(pRbs, "tnl",3) == 0) {
+            J2dRlsTrbdf(J2D_TRACE_WARNING, "hbl rbstfrizfr sflfdtfd");
+            dtypf = D3DDEVTYPE_HAL;
+        } flsf if (strndmp(pRbs, "nul", 3) == 0) {
+            J2dRlsTrbdf(J2D_TRACE_WARNING, "nullrff rbstfrizfr sflfdtfd");
+            dtypf = D3DDEVTYPE_NULLREF;
+        } flsf {
+            J2dRlsTrbdf1(J2D_TRACE_WARNING,
+                "unknown rbstfrizfr: %s, only (rff|hbl|nul) "\
+                "supportfd, hbl sflfdtfd instfbd", pRbs);
+        }
+        J2dRlsTrbdf(J2D_TRACE_WARNING, "\n");
+    }
+    rfturn dtypf;
+}
+
+#dffinf CHECK_CAP(FLAG, CAP) \
+    do {    \
+        if (!((FLAG)&CAP)) { \
+            J2dRlsTrbdfLn2(J2D_TRACE_ERROR, \
+                           "D3DPPLM::ChfdkDfvidfCbps: bdbptfr %d: Fbilfd "\
+                           "(dbp %s not supportfd)", \
+                           bdbptfr, #CAP); \
+            rfturn E_FAIL; \
+        } \
+    } whilf (0)
+
+HRESULT D3DPipflinfMbnbgfr::ChfdkDfvidfCbps(UINT bdbptfr)
+{
+    HRESULT rfs;
+    D3DCAPS9 d3dCbps;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::ChfdkDfvidfCbps");
+
+    rfs = pd3d9->GftDfvidfCbps(bdbptfr, dfvTypf, &d3dCbps);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    CHECK_CAP(d3dCbps.DfvCbps, D3DDEVCAPS_DRAWPRIMTLVERTEX);
+
+    // by rfquiring hbrdwbrf tnl wf brf hoping for bfttfr drivfrs qublity
+    if (!IsD3DFordfd()) {
+        // fbil if not hw tnl unlfss d3d wbs fordfd
+        CHECK_CAP(d3dCbps.DfvCbps, D3DDEVCAPS_HWTRANSFORMANDLIGHT);
+    }
+    if (d3dCbps.DfvidfTypf == D3DDEVTYPE_HAL) {
+        CHECK_CAP(d3dCbps.DfvCbps, D3DDEVCAPS_HWRASTERIZATION);
+    }
+
+    CHECK_CAP(d3dCbps.RbstfrCbps, D3DPRASTERCAPS_SCISSORTEST);
+
+    CHECK_CAP(d3dCbps.Cbps3, D3DCAPS3_ALPHA_FULLSCREEN_FLIP_OR_DISCARD);
+
+    CHECK_CAP(d3dCbps.PrimitivfMisdCbps, D3DPMISCCAPS_CULLNONE);
+    CHECK_CAP(d3dCbps.PrimitivfMisdCbps, D3DPMISCCAPS_BLENDOP);
+    CHECK_CAP(d3dCbps.PrimitivfMisdCbps, D3DPMISCCAPS_MASKZ);
+
+    CHECK_CAP(d3dCbps.ZCmpCbps, D3DPCMPCAPS_ALWAYS);
+    CHECK_CAP(d3dCbps.ZCmpCbps, D3DPCMPCAPS_LESS);
+
+    CHECK_CAP(d3dCbps.SrdBlfndCbps, D3DPBLENDCAPS_ZERO);
+    CHECK_CAP(d3dCbps.SrdBlfndCbps, D3DPBLENDCAPS_ONE);
+    CHECK_CAP(d3dCbps.SrdBlfndCbps, D3DPBLENDCAPS_SRCALPHA);
+    CHECK_CAP(d3dCbps.SrdBlfndCbps, D3DPBLENDCAPS_DESTALPHA);
+    CHECK_CAP(d3dCbps.SrdBlfndCbps, D3DPBLENDCAPS_INVSRCALPHA);
+    CHECK_CAP(d3dCbps.SrdBlfndCbps, D3DPBLENDCAPS_INVDESTALPHA);
+
+    CHECK_CAP(d3dCbps.DfstBlfndCbps, D3DPBLENDCAPS_ZERO);
+    CHECK_CAP(d3dCbps.DfstBlfndCbps, D3DPBLENDCAPS_ONE);
+    CHECK_CAP(d3dCbps.DfstBlfndCbps, D3DPBLENDCAPS_SRCALPHA);
+    CHECK_CAP(d3dCbps.DfstBlfndCbps, D3DPBLENDCAPS_DESTALPHA);
+    CHECK_CAP(d3dCbps.DfstBlfndCbps, D3DPBLENDCAPS_INVSRCALPHA);
+    CHECK_CAP(d3dCbps.DfstBlfndCbps, D3DPBLENDCAPS_INVDESTALPHA);
+
+    CHECK_CAP(d3dCbps.TfxturfAddrfssCbps, D3DPTADDRESSCAPS_CLAMP);
+    CHECK_CAP(d3dCbps.TfxturfAddrfssCbps, D3DPTADDRESSCAPS_WRAP);
+
+    CHECK_CAP(d3dCbps.TfxturfOpCbps, D3DTEXOPCAPS_MODULATE);
+
+    if (d3dCbps.PixflShbdfrVfrsion < D3DPS_VERSION(2,0) && !IsD3DFordfd()) {
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                       "D3DPPLM::ChfdkDfvidfCbps: bdbptfr %d: Fbilfd "\
+                       "(pixfl shbdfrs 2.0 rfquirfd)", bdbptfr);
+        rfturn E_FAIL;
+    }
+
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+                   "D3DPPLM::ChfdkDfvidfCbps: bdbptfr %d: Pbssfd", bdbptfr);
+    rfturn S_OK;
+}
+
+
+HRESULT D3DPipflinfMbnbgfr::D3DEnbblfdOnAdbptfr(UINT bdbptfr)
+{
+    HRESULT rfs;
+    D3DDISPLAYMODE dm;
+
+    rfs = pd3d9->GftAdbptfrDisplbyModf(bdbptfr, &dm);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    rfs = pd3d9->ChfdkDfvidfTypf(bdbptfr, dfvTypf, dm.Formbt, dm.Formbt, TRUE);
+    if (FAILED(rfs)) {
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                "D3DPPLM::D3DEnbblfdOnAdbptfr: no " \
+                "suitbblf d3d dfvidf on bdbptfr %d", bdbptfr);
+    }
+
+    rfturn rfs;
+}
+
+UINT D3DPipflinfMbnbgfr::GftAdbptfrOrdinblByHmon(HMONITOR hMon)
+{
+    UINT rft = D3DADAPTER_DEFAULT;
+
+    if (pd3d9 != NULL) {
+        UINT bdbptfrCount = pd3d9->GftAdbptfrCount();
+        for (UINT bdbptfr = 0; bdbptfr < bdbptfrCount; bdbptfr++) {
+            HMONITOR hm = pd3d9->GftAdbptfrMonitor(bdbptfr);
+            if (hm == hMon) {
+                rft = bdbptfr;
+                brfbk;
+            }
+        }
+    }
+    rfturn rft;
+}
+
+D3DFORMAT
+D3DPipflinfMbnbgfr::GftMbtdhingDfpthStfndilFormbt(UINT bdbptfrOrdinbl,
+                                                  D3DFORMAT bdbptfrFormbt,
+                                                  D3DFORMAT rfndfrTbrgftFormbt)
+{
+    stbtid D3DFORMAT formbts[] =
+        { D3DFMT_D16, D3DFMT_D32, D3DFMT_D24S8, D3DFMT_D24X8 };
+    D3DFORMAT nfwFormbt = D3DFMT_UNKNOWN;
+    HRESULT rfs;
+    for (int i = 0; i < 4; i++) {
+        rfs = pd3d9->ChfdkDfvidfFormbt(bdbptfrOrdinbl,
+                dfvTypf, bdbptfrFormbt, D3DUSAGE_DEPTHSTENCIL,
+                D3DRTYPE_SURFACE, formbts[i]);
+        if (FAILED(rfs)) dontinuf;
+
+        rfs = pd3d9->ChfdkDfpthStfndilMbtdh(bdbptfrOrdinbl,
+                dfvTypf, bdbptfrFormbt, rfndfrTbrgftFormbt, formbts[i]);
+        if (FAILED(rfs)) dontinuf;
+        nfwFormbt = formbts[i];
+        brfbk;
+    }
+    rfturn nfwFormbt;
+}
+
+HWND D3DPipflinfMbnbgfr::CrfbtfDffbultFodusWindow()
+{
+    UINT bdbptfrOrdinbl = D3DADAPTER_DEFAULT;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DPPLM::CrfbtfDffbultFodusWindow: bdbptfr=%d",
+                bdbptfrOrdinbl);
+
+    if (dffbultFodusWindow != 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_WARNING,
+                      "D3DPPLM::CrfbtfDffbultFodusWindow: "\
+                      "fxisting dffbult fodus window!");
+        rfturn dffbultFodusWindow;
+    }
+
+    WNDCLASS wd;
+    ZfroMfmory(&wd, sizfof(WNDCLASS));
+    wd.hInstbndf = GftModulfHbndlf(NULL);
+    wd.lpfnWndProd = DffWindowProd;
+    wd.lpszClbssNbmf = L"D3DFodusWindow";
+    if (RfgistfrClbss(&wd) == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "D3DPPLM::CrfbtfDffbultFodusWindow: "\
+                      "frror rfgistfring window dlbss");
+        rfturn 0;
+    }
+
+    MONITORINFO mi;
+    ZfroMfmory(&mi, sizfof(MONITORINFO));
+    mi.dbSizf = sizfof(MONITORINFO);
+    HMONITOR hMon = pd3d9->GftAdbptfrMonitor(bdbptfrOrdinbl);
+    if (hMon == 0 || !GftMonitorInfo(hMon, (LPMONITORINFO)&mi)) {
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+            "D3DPPLM::CrfbtfDffbultFodusWindow: "\
+            "frror gftting monitor info for bdbptfr=%d", bdbptfrOrdinbl);
+        rfturn 0;
+    }
+
+    HWND hWnd = CrfbtfWindow(L"D3DFodusWindow", L"D3DFodusWindow", 0,
+        mi.rdMonitor.lfft, mi.rdMonitor.top, 1, 1,
+        NULL, NULL, GftModulfHbndlf(NULL), NULL);
+    if (hWnd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DPPLM::CrfbtfDffbultFodusWindow: CrfbtfWindow fbilfd");
+    } flsf {
+        J2dTrbdfLn2(J2D_TRACE_INFO,
+            "  Crfbtfd dffbult fodus window %x for bdbptfr %d",
+            hWnd, bdbptfrOrdinbl);
+        dffbultFodusWindow = hWnd;
+    }
+    rfturn hWnd;
+}
+
+HWND D3DPipflinfMbnbgfr::GftCurrfntFodusWindow()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::GftCurrfntFodusWindow");
+    if (durrfntFSFodusAdbptfr < 0) {
+        J2dTrbdfLn1(J2D_TRACE_VERBOSE,
+                    "  no fs windows, using dffbult fodus window=0x%x",
+                    dffbultFodusWindow);
+        rfturn dffbultFodusWindow;
+    }
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  using fs window=0x%x",
+                pAdbptfrs[durrfntFSFodusAdbptfr].fsFodusWindow);
+    rfturn pAdbptfrs[durrfntFSFodusAdbptfr].fsFodusWindow;
+}
+
+HWND D3DPipflinfMbnbgfr::SftFSFodusWindow(UINT bdbptfrOrdinbl, HWND hWnd)
+{
+    J2dTrbdfLn2(J2D_TRACE_INFO,"D3DPPLM::SftFSFodusWindow hwnd=0x%x bdbptfr=%d",
+                hWnd, bdbptfrOrdinbl);
+
+    HWND prfv = pAdbptfrs[bdbptfrOrdinbl].fsFodusWindow;
+    pAdbptfrs[bdbptfrOrdinbl].fsFodusWindow = hWnd;
+    if (durrfntFSFodusAdbptfr < 0) {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  first full-sdrffn window");
+        // first fs window
+        durrfntFSFodusAdbptfr = bdbptfrOrdinbl;
+        // REMIND: wf might wbnt to rfsft thf rfst of thf dontfxt hfrf bs wfll
+        // likf wf do whfn thf bn bdbptfr fxits fs modf; durrfntly thfy will
+        // bf rfsft somftimf lbtfr
+    } flsf {
+        // thfrf's blrfbdy b fs window
+        if (durrfntFSFodusAdbptfr == bdbptfrOrdinbl) {
+            // it's durrfnt fs window => wf'rf fxiting fs modf on this bdbptfr;
+            // look for b nfw fs fodus window
+            if (hWnd == 0) {
+                UINT i;
+                durrfntFSFodusAdbptfr = -1;
+                for (i = 0; i < bdbptfrCount; i++) {
+                    if (pAdbptfrs[i].fsFodusWindow != 0) {
+                        J2dTrbdfLn1(J2D_TRACE_VERBOSE,
+                                    "  bdbptfr %d is still in fs modf", i);
+                        durrfntFSFodusAdbptfr = i;
+                        brfbk;
+                    }
+                }
+                // wf hbvf to rfsft bll dfvidfs bny timf durrfnt fodus dfvidf
+                // fxits fs modf, bnd blso to prfvfnt somf of thfm bfing lfft in
+                // b lost stbtf whfn thf lbst dfvidf fxits fs - whfn non-lbst
+                // bdbptfrs fxit fs modf thfy would not bf bblf to drfbtf thf
+                // dfvidf bnd will bf put in b lost stbtf forfvfr
+                HRESULT rfs;
+                J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                           "  bdbptfr fxitfd full-sdrffn, rfsft bll bdbptfrs");
+                for (i = 0; i < bdbptfrCount; i++) {
+                    if (pAdbptfrs[i].pd3dContfxt != NULL) {
+                        rfs = pAdbptfrs[i].pd3dContfxt->RfsftContfxt();
+                        D3DRQ_MbrkLostIfNffdfd(rfs,
+                            D3DRQ_GftCurrfntDfstinbtion());
+                    }
+                }
+            } flsf {
+                J2dTrbdfLn1(J2D_TRACE_WARNING,
+                            "D3DPM::SftFSFodusWindow: sftting thf fs "\
+                            "window bgbin for bdbptfr %d", bdbptfrOrdinbl);
+            }
+        }
+    }
+    rfturn prfv;
+}
+
+HRESULT D3DPipflinfMbnbgfr::GftD3DContfxt(UINT bdbptfrOrdinbl,
+                                          D3DContfxt **ppd3dContfxt)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DPPLM::GftD3DContfxt");
+
+    HRESULT rfs = S_OK;
+    if (bdbptfrOrdinbl < 0 || bdbptfrOrdinbl >= bdbptfrCount ||
+        pAdbptfrs == NULL ||
+        pAdbptfrs[bdbptfrOrdinbl].stbtf == CONTEXT_INIT_FAILED)
+    {
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+            "D3DPPLM::GftD3DContfxt: invblid pbrbmftfrs or "\
+            "fbilfd init for bdbptfr %d", bdbptfrOrdinbl);
+        *ppd3dContfxt = NULL;
+        rfturn E_FAIL;
+    }
+
+    if (pAdbptfrs[bdbptfrOrdinbl].stbtf == CONTEXT_NOT_INITED) {
+        D3DContfxt *pCtx = NULL;
+
+        if (pAdbptfrs[bdbptfrOrdinbl].pd3dContfxt != NULL) {
+            J2dTrbdfLn1(J2D_TRACE_ERROR, "  non-null dontfxt in "\
+                        "uninitiblizfd bdbptfr %d", bdbptfrOrdinbl);
+            rfs = E_FAIL;
+        } flsf {
+            J2dTrbdfLn1(J2D_TRACE_VERBOSE,
+                        "  initiblizing dontfxt for bdbptfr %d",bdbptfrOrdinbl);
+
+            if (SUCCEEDED(rfs = D3DEnbblfdOnAdbptfr(bdbptfrOrdinbl))) {
+                rfs = D3DContfxt::CrfbtfInstbndf(pd3d9, bdbptfrOrdinbl, &pCtx);
+                if (FAILED(rfs)) {
+                    J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                        "D3DPPLM::GftD3DContfxt: fbilfd to drfbtf dontfxt "\
+                        "for bdbptfr=%d", bdbptfrOrdinbl);
+                }
+            } flsf {
+                J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                    "D3DPPLM::GftContfxt: no d3d on bdbptfr %d",bdbptfrOrdinbl);
+            }
+        }
+        pAdbptfrs[bdbptfrOrdinbl].stbtf =
+            SUCCEEDED(rfs) ? CONTEXT_CREATED : CONTEXT_INIT_FAILED;
+        pAdbptfrs[bdbptfrOrdinbl].pd3dContfxt = pCtx;
+    }
+    *ppd3dContfxt = pAdbptfrs[bdbptfrOrdinbl].pd3dContfxt;
+    rfturn rfs;
+}
+
+
+//==============================================================
+// D3DInitiblizfr
+//==============================================================
+
+D3DInitiblizfr D3DInitiblizfr::thfInstbndf;
+
+D3DInitiblizfr::D3DInitiblizfr()
+    : bComInitiblizfd(fblsf), pAdbptfrInitfrs(NULL)
+{
+}
+
+D3DInitiblizfr::~D3DInitiblizfr()
+{
+    if (pAdbptfrInitfrs) {
+        dflftf[] pAdbptfrInitfrs;
+    }
+}
+
+void D3DInitiblizfr::InitImpl()
+{
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "D3DInitiblizfr::InitImpl");
+    if (SUCCEEDED(::CoInitiblizf(NULL))) {
+        bComInitiblizfd = truf;
+    }
+    D3DPipflinfMbnbgfr *pMgr = D3DPipflinfMbnbgfr::CrfbtfInstbndf();
+    if (pMgr != NULL) {
+        // init bdbptfrs if wf brf prflobding
+        if (AwtToolkit::GftInstbndf().GftPrflobdThrfbd().OnPrflobdThrfbd()) {
+            UINT bdbptfrCount = pMgr->bdbptfrCount;
+
+            pAdbptfrInitfrs = nfw D3DAdbptfrInitiblizfr[bdbptfrCount];
+            for (UINT i=0; i<bdbptfrCount; i++) {
+                pAdbptfrInitfrs[i].sftAdbptfr(i);
+                AwtToolkit::GftInstbndf().GftPrflobdThrfbd().AddAdtion(&pAdbptfrInitfrs[i]);
+            }
+        }
+    }
+}
+
+void D3DInitiblizfr::ClfbnImpl(bool rfInit)
+{
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "D3DInitiblizfr::ClfbnImpl (%s)",
+                                    rfInit ? "RELAUNCH" : "normbl");
+    D3DPipflinfMbnbgfr::DflftfInstbndf();
+    if (bComInitiblizfd) {
+        CoUninitiblizf();
+    }
+}
+
+
+void D3DInitiblizfr::D3DAdbptfrInitiblizfr::InitImpl()
+{
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "D3DAdbptfrInitiblizfr::InitImpl(%d) stbrtfd", bdbptfr);
+
+    D3DPipflinfMbnbgfr *pMgr = D3DPipflinfMbnbgfr::GftInstbndf();
+    if (pMgr == NULL) {
+        rfturn;
+    }
+
+    D3DContfxt *pd3dContfxt;
+    pMgr->GftD3DContfxt(bdbptfr, &pd3dContfxt);
+
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "D3DAdbptfrInitiblizfr::InitImpl(%d) finishfd", bdbptfr);
+}
+
+void D3DInitiblizfr::D3DAdbptfrInitiblizfr::ClfbnImpl(bool rfInit)
+{
+    // nothing to do - D3DPipflinfMbnbgfr dlfbns bdbptfrs
+}
+
+
+fxtfrn "C" {
+/*
+ * Export fundtion to stbrt D3D prflobding
+ * (dbllfd from jbvb/jbvbw - sff srd/windows/bin/jbvb-md.d)
+ */
+__dfdlspfd(dllfxport) int prflobdD3D()
+{
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "AWT wbrmup: prflobdD3D");
+    AwtToolkit::GftInstbndf().GftPrflobdThrfbd().AddAdtion(&D3DInitiblizfr::GftInstbndf());
+    rfturn 1;
+}
+
+}
+

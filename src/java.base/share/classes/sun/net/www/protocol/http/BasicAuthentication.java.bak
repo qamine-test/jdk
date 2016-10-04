@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.http;
+pbdkbgf sun.nft.www.protodol.ittp;
 
-import java.net.URL;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.PasswordAuthentication;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Base64;
-import sun.net.www.HeaderParser;
+import jbvb.nft.URL;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.nft.PbsswordAutifntidbtion;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Bbsf64;
+import sun.nft.www.HfbdfrPbrsfr;
 
 /**
- * BasicAuthentication: Encapsulate an http server authentication using
- * the "basic" scheme.
+ * BbsidAutifntidbtion: Endbpsulbtf bn ittp sfrvfr butifntidbtion using
+ * tif "bbsid" sdifmf.
  *
- * @author Bill Foote
+ * @butior Bill Footf
  */
 
 
-class BasicAuthentication extends AuthenticationInfo {
+dlbss BbsidAutifntidbtion fxtfnds AutifntidbtionInfo {
 
-    private static final long serialVersionUID = 100L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 100L;
 
-    /** The authentication string for this host, port, and realm.  This is
-        a simple BASE64 encoding of "login:password".    */
-    String auth;
+    /** Tif butifntidbtion string for tiis iost, port, bnd rfblm.  Tiis is
+        b simplf BASE64 fndoding of "login:pbssword".    */
+    String buti;
 
     /**
-     * Create a BasicAuthentication
+     * Crfbtf b BbsidAutifntidbtion
      */
-    public BasicAuthentication(boolean isProxy, String host, int port,
-                               String realm, PasswordAuthentication pw) {
-        super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
-              AuthScheme.BASIC, host, port, realm);
-        String plain = pw.getUserName() + ":";
-        byte[] nameBytes = null;
+    publid BbsidAutifntidbtion(boolfbn isProxy, String iost, int port,
+                               String rfblm, PbsswordAutifntidbtion pw) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              AutiSdifmf.BASIC, iost, port, rfblm);
+        String plbin = pw.gftUsfrNbmf() + ":";
+        bytf[] nbmfBytfs = null;
         try {
-            nameBytes = plain.getBytes("ISO-8859-1");
-        } catch (java.io.UnsupportedEncodingException uee) {
-            assert false;
+            nbmfBytfs = plbin.gftBytfs("ISO-8859-1");
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            bssfrt fblsf;
         }
 
-        // get password bytes
-        char[] passwd = pw.getPassword();
-        byte[] passwdBytes = new byte[passwd.length];
-        for (int i=0; i<passwd.length; i++)
-            passwdBytes[i] = (byte)passwd[i];
+        // gft pbssword bytfs
+        dibr[] pbsswd = pw.gftPbssword();
+        bytf[] pbsswdBytfs = nfw bytf[pbsswd.lfngti];
+        for (int i=0; i<pbsswd.lfngti; i++)
+            pbsswdBytfs[i] = (bytf)pbsswd[i];
 
-        // concatenate user name and password bytes and encode them
-        byte[] concat = new byte[nameBytes.length + passwdBytes.length];
-        System.arraycopy(nameBytes, 0, concat, 0, nameBytes.length);
-        System.arraycopy(passwdBytes, 0, concat, nameBytes.length,
-                         passwdBytes.length);
-        this.auth = "Basic " + Base64.getEncoder().encodeToString(concat);
-        this.pw = pw;
+        // dondbtfnbtf usfr nbmf bnd pbssword bytfs bnd fndodf tifm
+        bytf[] dondbt = nfw bytf[nbmfBytfs.lfngti + pbsswdBytfs.lfngti];
+        Systfm.brrbydopy(nbmfBytfs, 0, dondbt, 0, nbmfBytfs.lfngti);
+        Systfm.brrbydopy(pbsswdBytfs, 0, dondbt, nbmfBytfs.lfngti,
+                         pbsswdBytfs.lfngti);
+        tiis.buti = "Bbsid " + Bbsf64.gftEndodfr().fndodfToString(dondbt);
+        tiis.pw = pw;
     }
 
     /**
-     * Create a BasicAuthentication
+     * Crfbtf b BbsidAutifntidbtion
      */
-    public BasicAuthentication(boolean isProxy, String host, int port,
-                               String realm, String auth) {
-        super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
-              AuthScheme.BASIC, host, port, realm);
-        this.auth = "Basic " + auth;
+    publid BbsidAutifntidbtion(boolfbn isProxy, String iost, int port,
+                               String rfblm, String buti) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              AutiSdifmf.BASIC, iost, port, rfblm);
+        tiis.buti = "Bbsid " + buti;
     }
 
     /**
-     * Create a BasicAuthentication
+     * Crfbtf b BbsidAutifntidbtion
      */
-    public BasicAuthentication(boolean isProxy, URL url, String realm,
-                                   PasswordAuthentication pw) {
-        super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
-              AuthScheme.BASIC, url, realm);
-        String plain = pw.getUserName() + ":";
-        byte[] nameBytes = null;
+    publid BbsidAutifntidbtion(boolfbn isProxy, URL url, String rfblm,
+                                   PbsswordAutifntidbtion pw) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              AutiSdifmf.BASIC, url, rfblm);
+        String plbin = pw.gftUsfrNbmf() + ":";
+        bytf[] nbmfBytfs = null;
         try {
-            nameBytes = plain.getBytes("ISO-8859-1");
-        } catch (java.io.UnsupportedEncodingException uee) {
-            assert false;
+            nbmfBytfs = plbin.gftBytfs("ISO-8859-1");
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            bssfrt fblsf;
         }
 
-        // get password bytes
-        char[] passwd = pw.getPassword();
-        byte[] passwdBytes = new byte[passwd.length];
-        for (int i=0; i<passwd.length; i++)
-            passwdBytes[i] = (byte)passwd[i];
+        // gft pbssword bytfs
+        dibr[] pbsswd = pw.gftPbssword();
+        bytf[] pbsswdBytfs = nfw bytf[pbsswd.lfngti];
+        for (int i=0; i<pbsswd.lfngti; i++)
+            pbsswdBytfs[i] = (bytf)pbsswd[i];
 
-        // concatenate user name and password bytes and encode them
-        byte[] concat = new byte[nameBytes.length + passwdBytes.length];
-        System.arraycopy(nameBytes, 0, concat, 0, nameBytes.length);
-        System.arraycopy(passwdBytes, 0, concat, nameBytes.length,
-                         passwdBytes.length);
-        this.auth = "Basic " + Base64.getEncoder().encodeToString(concat);
-        this.pw = pw;
+        // dondbtfnbtf usfr nbmf bnd pbssword bytfs bnd fndodf tifm
+        bytf[] dondbt = nfw bytf[nbmfBytfs.lfngti + pbsswdBytfs.lfngti];
+        Systfm.brrbydopy(nbmfBytfs, 0, dondbt, 0, nbmfBytfs.lfngti);
+        Systfm.brrbydopy(pbsswdBytfs, 0, dondbt, nbmfBytfs.lfngti,
+                         pbsswdBytfs.lfngti);
+        tiis.buti = "Bbsid " + Bbsf64.gftEndodfr().fndodfToString(dondbt);
+        tiis.pw = pw;
     }
 
     /**
-     * Create a BasicAuthentication
+     * Crfbtf b BbsidAutifntidbtion
      */
-    public BasicAuthentication(boolean isProxy, URL url, String realm,
-                                   String auth) {
-        super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
-              AuthScheme.BASIC, url, realm);
-        this.auth = "Basic " + auth;
+    publid BbsidAutifntidbtion(boolfbn isProxy, URL url, String rfblm,
+                                   String buti) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              AutiSdifmf.BASIC, url, rfblm);
+        tiis.buti = "Bbsid " + buti;
     }
 
     /**
-     * @return true if this authentication supports preemptive authorization
+     * @rfturn truf if tiis butifntidbtion supports prffmptivf butiorizbtion
      */
-    @Override
-    public boolean supportsPreemptiveAuthorization() {
-        return true;
+    @Ovfrridf
+    publid boolfbn supportsPrffmptivfAutiorizbtion() {
+        rfturn truf;
     }
 
     /**
-     * Set header(s) on the given connection. This will only be called for
-     * definitive (i.e. non-preemptive) authorization.
-     * @param conn The connection to apply the header(s) to
-     * @param p A source of header values for this connection, if needed.
-     * @param raw The raw header values for this connection, if needed.
-     * @return true if all goes well, false if no headers were set.
+     * Sft ifbdfr(s) on tif givfn donnfdtion. Tiis will only bf dbllfd for
+     * dffinitivf (i.f. non-prffmptivf) butiorizbtion.
+     * @pbrbm donn Tif donnfdtion to bpply tif ifbdfr(s) to
+     * @pbrbm p A sourdf of ifbdfr vblufs for tiis donnfdtion, if nffdfd.
+     * @pbrbm rbw Tif rbw ifbdfr vblufs for tiis donnfdtion, if nffdfd.
+     * @rfturn truf if bll gofs wfll, fblsf if no ifbdfrs wfrf sft.
      */
-    @Override
-    public boolean setHeaders(HttpURLConnection conn, HeaderParser p, String raw) {
-        conn.setAuthenticationProperty(getHeaderName(), getHeaderValue(null,null));
-        return true;
+    @Ovfrridf
+    publid boolfbn sftHfbdfrs(HttpURLConnfdtion donn, HfbdfrPbrsfr p, String rbw) {
+        donn.sftAutifntidbtionPropfrty(gftHfbdfrNbmf(), gftHfbdfrVbluf(null,null));
+        rfturn truf;
     }
 
     /**
-     * @return the value of the HTTP header this authentication wants set
+     * @rfturn tif vbluf of tif HTTP ifbdfr tiis butifntidbtion wbnts sft
      */
-    @Override
-    public String getHeaderValue(URL url, String method) {
-        /* For Basic the authorization string does not depend on the request URL
-         * or the request method
+    @Ovfrridf
+    publid String gftHfbdfrVbluf(URL url, String mftiod) {
+        /* For Bbsid tif butiorizbtion string dofs not dfpfnd on tif rfqufst URL
+         * or tif rfqufst mftiod
          */
-        return auth;
+        rfturn buti;
     }
 
     /**
-     * For Basic Authentication, the security parameters can never be stale.
-     * In other words there is no possibility to reuse the credentials.
-     * They are always either valid or invalid.
+     * For Bbsid Autifntidbtion, tif sfdurity pbrbmftfrs dbn nfvfr bf stblf.
+     * In otifr words tifrf is no possibility to rfusf tif drfdfntibls.
+     * Tify brf blwbys fitifr vblid or invblid.
      */
-    @Override
-    public boolean isAuthorizationStale (String header) {
-        return false;
+    @Ovfrridf
+    publid boolfbn isAutiorizbtionStblf (String ifbdfr) {
+        rfturn fblsf;
     }
 
     /**
-     * @return the common root path between npath and path.
-     * This is used to detect when we have an authentication for two
-     * paths and the root of th authentication space is the common root.
+     * @rfturn tif dommon root pbti bftwffn npbti bnd pbti.
+     * Tiis is usfd to dftfdt wifn wf ibvf bn butifntidbtion for two
+     * pbtis bnd tif root of ti butifntidbtion spbdf is tif dommon root.
      */
 
-    static String getRootPath(String npath, String opath) {
-        int index = 0;
-        int toindex;
+    stbtid String gftRootPbti(String npbti, String opbti) {
+        int indfx = 0;
+        int toindfx;
 
-        /* Must normalize so we don't get confused by ../ and ./ segments */
+        /* Must normblizf so wf don't gft donfusfd by ../ bnd ./ sfgmfnts */
         try {
-            npath = new URI (npath).normalize().getPath();
-            opath = new URI (opath).normalize().getPath();
-        } catch (URISyntaxException e) {
-            /* ignore error and use the old value */
+            npbti = nfw URI (npbti).normblizf().gftPbti();
+            opbti = nfw URI (opbti).normblizf().gftPbti();
+        } dbtdi (URISyntbxExdfption f) {
+            /* ignorf frror bnd usf tif old vbluf */
         }
 
-        while (index < opath.length()) {
-            toindex = opath.indexOf('/', index+1);
-            if (toindex != -1 && opath.regionMatches(0, npath, 0, toindex+1))
-                index = toindex;
-            else
-                return opath.substring(0, index+1);
+        wiilf (indfx < opbti.lfngti()) {
+            toindfx = opbti.indfxOf('/', indfx+1);
+            if (toindfx != -1 && opbti.rfgionMbtdifs(0, npbti, 0, toindfx+1))
+                indfx = toindfx;
+            flsf
+                rfturn opbti.substring(0, indfx+1);
         }
-        /*should not reach here. If we do simply return npath*/
-        return npath;
+        /*siould not rfbdi ifrf. If wf do simply rfturn npbti*/
+        rfturn npbti;
     }
 }
 

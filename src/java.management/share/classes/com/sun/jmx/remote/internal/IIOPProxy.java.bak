@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.internal;
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
 
-import java.util.Properties;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.NoSuchObjectException;
+import jbvb.util.Propfrtifs;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.NoSudiObjfdtExdfption;
 
 /**
- * An interface to a subset of the RMI-IIOP and CORBA APIs to avoid a
- * static dependencies on the types defined by these APIs.
+ * An intfrfbdf to b subsft of tif RMI-IIOP bnd CORBA APIs to bvoid b
+ * stbtid dfpfndfndifs on tif typfs dffinfd by tifsf APIs.
  */
 
-public interface IIOPProxy {
+publid intfrfbdf IIOPProxy {
 
     /**
-     * Returns true if the given object is a Stub.
+     * Rfturns truf if tif givfn objfdt is b Stub.
      */
-    boolean isStub(Object obj);
+    boolfbn isStub(Objfdt obj);
 
     /**
-     * Returns the Delegate to which the given Stub delegates.
+     * Rfturns tif Dflfgbtf to wiidi tif givfn Stub dflfgbtfs.
      */
-    Object getDelegate(Object stub);
+    Objfdt gftDflfgbtf(Objfdt stub);
 
     /**
-     * Sets the Delegate for a given Stub.
+     * Sfts tif Dflfgbtf for b givfn Stub.
      */
-    void setDelegate(Object stub, Object delegate);
+    void sftDflfgbtf(Objfdt stub, Objfdt dflfgbtf);
 
     /**
-     * Returns the ORB associated with the given stub
+     * Rfturns tif ORB bssodibtfd witi tif givfn stub
      *
-     * @throws  UnsupportedOperationException
-     *          if the object does not support the operation that
-     *          was invoked
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if tif objfdt dofs not support tif opfrbtion tibt
+     *          wbs invokfd
      */
-    Object getOrb(Object stub);
+    Objfdt gftOrb(Objfdt stub);
 
     /**
-     * Connects the Stub to the given ORB.
+     * Connfdts tif Stub to tif givfn ORB.
      */
-    void connect(Object stub, Object orb) throws RemoteException;
+    void donnfdt(Objfdt stub, Objfdt orb) tirows RfmotfExdfption;
 
     /**
-     * Returns true if the given object is an ORB.
+     * Rfturns truf if tif givfn objfdt is bn ORB.
      */
-    boolean isOrb(Object obj);
+    boolfbn isOrb(Objfdt obj);
 
     /**
-     * Creates, and returns, a new ORB instance.
+     * Crfbtfs, bnd rfturns, b nfw ORB instbndf.
      */
-    Object createOrb(String[] args, Properties props);
+    Objfdt drfbtfOrb(String[] brgs, Propfrtifs props);
 
     /**
-     * Converts a string, produced by the object_to_string method, back
-     * to a CORBA object reference.
+     * Convfrts b string, produdfd by tif objfdt_to_string mftiod, bbdk
+     * to b CORBA objfdt rfffrfndf.
      */
-    Object stringToObject(Object orb, String str);
+    Objfdt stringToObjfdt(Objfdt orb, String str);
 
     /**
-     * Converts the given CORBA object reference to a string.
+     * Convfrts tif givfn CORBA objfdt rfffrfndf to b string.
      */
-    String objectToString(Object orb, Object obj);
+    String objfdtToString(Objfdt orb, Objfdt obj);
 
     /**
-     * Checks to ensure that an object of a remote or abstract interface
-     * type can be cast to a desired type.
+     * Cifdks to fnsurf tibt bn objfdt of b rfmotf or bbstrbdt intfrfbdf
+     * typf dbn bf dbst to b dfsirfd typf.
      */
-    <T> T narrow(Object narrowFrom, Class<T> narrowTo);
+    <T> T nbrrow(Objfdt nbrrowFrom, Clbss<T> nbrrowTo);
 
     /**
-     * Makes a server object ready to receive remote calls
+     * Mbkfs b sfrvfr objfdt rfbdy to rfdfivf rfmotf dblls
      */
-    void exportObject(Remote obj) throws RemoteException;
+    void fxportObjfdt(Rfmotf obj) tirows RfmotfExdfption;
 
     /**
-     * Deregisters a server object from the runtime.
+     * Dfrfgistfrs b sfrvfr objfdt from tif runtimf.
      */
-    void unexportObject(Remote obj) throws NoSuchObjectException;
+    void unfxportObjfdt(Rfmotf obj) tirows NoSudiObjfdtExdfption;
 
     /**
-     * Returns a stub for the given server object.
+     * Rfturns b stub for tif givfn sfrvfr objfdt.
      */
-    Remote toStub(Remote obj) throws NoSuchObjectException;
+    Rfmotf toStub(Rfmotf obj) tirows NoSudiObjfdtExdfption;
 }

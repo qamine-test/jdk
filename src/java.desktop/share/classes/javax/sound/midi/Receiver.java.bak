@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 
 /**
- * A <code>Receiver</code> receives <code>{@link MidiEvent}</code> objects and
- * typically does something useful in response, such as interpreting them to
- * generate sound or raw MIDI output.  Common MIDI receivers include
- * synthesizers and MIDI Out ports.
+ * A <dodf>Rfdfivfr</dodf> rfdfivfs <dodf>{@link MidiEvfnt}</dodf> objfdts bnd
+ * typidblly dofs somftiing usfful in rfsponsf, sudi bs intfrprfting tifm to
+ * gfnfrbtf sound or rbw MIDI output.  Common MIDI rfdfivfrs indludf
+ * syntifsizfrs bnd MIDI Out ports.
  *
- * @see MidiDevice
- * @see Synthesizer
- * @see Transmitter
+ * @sff MidiDfvidf
+ * @sff Syntifsizfr
+ * @sff Trbnsmittfr
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-public interface Receiver extends AutoCloseable {
+publid intfrfbdf Rfdfivfr fxtfnds AutoClosfbblf {
 
 
-    //$$fb 2002-04-12: fix for 4662090: Contradiction in Receiver specification
+    //$$fb 2002-04-12: fix for 4662090: Contrbdidtion in Rfdfivfr spfdifidbtion
     /**
-     * Sends a MIDI message and time-stamp to this receiver.
-     * If time-stamping is not supported by this receiver, the time-stamp
-     * value should be -1.
-     * @param message the MIDI message to send
-     * @param timeStamp the time-stamp for the message, in microseconds.
-     * @throws IllegalStateException if the receiver is closed
+     * Sfnds b MIDI mfssbgf bnd timf-stbmp to tiis rfdfivfr.
+     * If timf-stbmping is not supportfd by tiis rfdfivfr, tif timf-stbmp
+     * vbluf siould bf -1.
+     * @pbrbm mfssbgf tif MIDI mfssbgf to sfnd
+     * @pbrbm timfStbmp tif timf-stbmp for tif mfssbgf, in midrosfdonds.
+     * @tirows IllfgblStbtfExdfption if tif rfdfivfr is dlosfd
      */
-    public void send(MidiMessage message, long timeStamp);
+    publid void sfnd(MidiMfssbgf mfssbgf, long timfStbmp);
 
     /**
-     * Indicates that the application has finished using the receiver, and
-     * that limited resources it requires may be released or made available.
+     * Indidbtfs tibt tif bpplidbtion ibs finisifd using tif rfdfivfr, bnd
+     * tibt limitfd rfsourdfs it rfquirfs mby bf rflfbsfd or mbdf bvbilbblf.
      *
-     * <p>If the creation of this <code>Receiver</code> resulted in
-     * implicitly opening the underlying device, the device is
-     * implicitly closed by this method. This is true unless the device is
-     * kept open by other <code>Receiver</code> or <code>Transmitter</code>
-     * instances that opened the device implicitly, and unless the device
-     * has been opened explicitly. If the device this
-     * <code>Receiver</code> is retrieved from is closed explicitly by
-     * calling {@link MidiDevice#close MidiDevice.close}, the
-     * <code>Receiver</code> is closed, too.  For a detailed
-     * description of open/close behaviour see the class description
-     * of {@link javax.sound.midi.MidiDevice MidiDevice}.
+     * <p>If tif drfbtion of tiis <dodf>Rfdfivfr</dodf> rfsultfd in
+     * impliditly opfning tif undfrlying dfvidf, tif dfvidf is
+     * impliditly dlosfd by tiis mftiod. Tiis is truf unlfss tif dfvidf is
+     * kfpt opfn by otifr <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf>
+     * instbndfs tibt opfnfd tif dfvidf impliditly, bnd unlfss tif dfvidf
+     * ibs bffn opfnfd fxpliditly. If tif dfvidf tiis
+     * <dodf>Rfdfivfr</dodf> is rftrifvfd from is dlosfd fxpliditly by
+     * dblling {@link MidiDfvidf#dlosf MidiDfvidf.dlosf}, tif
+     * <dodf>Rfdfivfr</dodf> is dlosfd, too.  For b dftbilfd
+     * dfsdription of opfn/dlosf bfibviour sff tif dlbss dfsdription
+     * of {@link jbvbx.sound.midi.MidiDfvidf MidiDfvidf}.
      *
-     * @see javax.sound.midi.MidiSystem#getReceiver
+     * @sff jbvbx.sound.midi.MidiSystfm#gftRfdfivfr
      */
-    public void close();
+    publid void dlosf();
 }

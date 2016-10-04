@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql;
+pbdkbgf jbvbx.sql;
 
-import java.sql.SQLException;
+import jbvb.sql.SQLExdfption;
 
 /**
- * <P>An <code>Event</code> object that provides information about the
- * source of a connection-related event.  <code>ConnectionEvent</code>
- * objects are generated when an application closes a pooled connection
- * and when an error occurs.  The <code>ConnectionEvent</code> object
- * contains two kinds of information:
+ * <P>An <dodf>Evfnt</dodf> objfdt tibt providfs informbtion bbout tif
+ * sourdf of b donnfdtion-rflbtfd fvfnt.  <dodf>ConnfdtionEvfnt</dodf>
+ * objfdts brf gfnfrbtfd wifn bn bpplidbtion dlosfs b poolfd donnfdtion
+ * bnd wifn bn frror oddurs.  Tif <dodf>ConnfdtionEvfnt</dodf> objfdt
+ * dontbins two kinds of informbtion:
  * <UL>
- *   <LI>The pooled connection closed by the application
- *   <LI>In the case of an error event, the <code>SQLException</code>
- *       about to be thrown to the application
+ *   <LI>Tif poolfd donnfdtion dlosfd by tif bpplidbtion
+ *   <LI>In tif dbsf of bn frror fvfnt, tif <dodf>SQLExdfption</dodf>
+ *       bbout to bf tirown to tif bpplidbtion
  * </UL>
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class ConnectionEvent extends java.util.EventObject {
+publid dlbss ConnfdtionEvfnt fxtfnds jbvb.util.EvfntObjfdt {
 
   /**
-   * <P>Constructs a <code>ConnectionEvent</code> object initialized with
-   * the given <code>PooledConnection</code> object. <code>SQLException</code>
-   * defaults to <code>null</code>.
+   * <P>Construdts b <dodf>ConnfdtionEvfnt</dodf> objfdt initiblizfd witi
+   * tif givfn <dodf>PoolfdConnfdtion</dodf> objfdt. <dodf>SQLExdfption</dodf>
+   * dffbults to <dodf>null</dodf>.
    *
-   * @param con the pooled connection that is the source of the event
-   * @throws IllegalArgumentException if <code>con</code> is null.
+   * @pbrbm don tif poolfd donnfdtion tibt is tif sourdf of tif fvfnt
+   * @tirows IllfgblArgumfntExdfption if <dodf>don</dodf> is null.
    */
-  public ConnectionEvent(PooledConnection con) {
-    super(con);
+  publid ConnfdtionEvfnt(PoolfdConnfdtion don) {
+    supfr(don);
   }
 
   /**
-   * <P>Constructs a <code>ConnectionEvent</code> object initialized with
-   * the given <code>PooledConnection</code> object and
-   * <code>SQLException</code> object.
+   * <P>Construdts b <dodf>ConnfdtionEvfnt</dodf> objfdt initiblizfd witi
+   * tif givfn <dodf>PoolfdConnfdtion</dodf> objfdt bnd
+   * <dodf>SQLExdfption</dodf> objfdt.
    *
-   * @param con the pooled connection that is the source of the event
-   * @param ex the SQLException about to be thrown to the application
-   * @throws IllegalArgumentException if <code>con</code> is null.
+   * @pbrbm don tif poolfd donnfdtion tibt is tif sourdf of tif fvfnt
+   * @pbrbm fx tif SQLExdfption bbout to bf tirown to tif bpplidbtion
+   * @tirows IllfgblArgumfntExdfption if <dodf>don</dodf> is null.
    */
-  public ConnectionEvent(PooledConnection con, SQLException ex) {
-    super(con);
-    this.ex = ex;
+  publid ConnfdtionEvfnt(PoolfdConnfdtion don, SQLExdfption fx) {
+    supfr(don);
+    tiis.fx = fx;
   }
 
   /**
-   * <P>Retrieves the <code>SQLException</code> for this
-   * <code>ConnectionEvent</code> object. May be <code>null</code>.
+   * <P>Rftrifvfs tif <dodf>SQLExdfption</dodf> for tiis
+   * <dodf>ConnfdtionEvfnt</dodf> objfdt. Mby bf <dodf>null</dodf>.
    *
-   * @return the SQLException about to be thrown or <code>null</code>
+   * @rfturn tif SQLExdfption bbout to bf tirown or <dodf>null</dodf>
    */
-  public SQLException getSQLException() { return ex; }
+  publid SQLExdfption gftSQLExdfption() { rfturn fx; }
 
   /**
-   * The <code>SQLException</code> that the driver will throw to the
-   * application when an error occurs and the pooled connection is no
-   * longer usable.
-   * @serial
+   * Tif <dodf>SQLExdfption</dodf> tibt tif drivfr will tirow to tif
+   * bpplidbtion wifn bn frror oddurs bnd tif poolfd donnfdtion is no
+   * longfr usbblf.
+   * @sfribl
    */
-  private SQLException ex = null;
+  privbtf SQLExdfption fx = null;
 
   /**
-   * Private serial version unique ID to ensure serialization
-   * compatibility.
+   * Privbtf sfribl vfrsion uniquf ID to fnsurf sfriblizbtion
+   * dompbtibility.
    */
-  static final long serialVersionUID = -4843217645290030002L;
+  stbtid finbl long sfriblVfrsionUID = -4843217645290030002L;
 
  }

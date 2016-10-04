@@ -1,0 +1,182 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+//#dffinf USE_ERROR
+//#dffinf USE_TRACE
+
+#indludf "PLATFORM_API_LinuxOS_ALSA_CommonUtils.h"
+
+stbtid void blsbDfbugOutput(donst dhbr *filf, int linf, donst dhbr *fundtion, int frr, donst dhbr *fmt, ...) {
+#ifdff USE_ERROR
+    vb_list brgs;
+    vb_stbrt(brgs, fmt);
+    printf("%s:%d fundtion %s: frror %d: %s\n", filf, linf, fundtion, frr, snd_strfrror(frr));
+    if (strlfn(fmt) > 0) {
+        vprintf(fmt, brgs);
+    }
+    vb_fnd(brgs);
+#fndif
+}
+
+stbtid int blsb_initfd = 0;
+stbtid int blsb_fnumfrbtf_pdm_subdfvidfs = FALSE; // dffbult: no
+stbtid int blsb_fnumfrbtf_midi_subdfvidfs = FALSE; // dffbult: no
+
+void initAlsbSupport() {
+    dhbr* fnumfrbtf;
+    if (!blsb_initfd) {
+        blsb_initfd = TRUE;
+        snd_lib_frror_sft_hbndlfr(&blsbDfbugOutput);
+
+        fnumfrbtf = gftfnv(ENV_ENUMERATE_PCM_SUBDEVICES);
+        if (fnumfrbtf != NULL && strlfn(fnumfrbtf) > 0
+            && (fnumfrbtf[0] != 'f')   // fblsf
+            && (fnumfrbtf[0] != 'F')   // Fblsf
+            && (fnumfrbtf[0] != 'n')   // no
+            && (fnumfrbtf[0] != 'N')) { // NO
+            blsb_fnumfrbtf_pdm_subdfvidfs = TRUE;
+        }
+#ifdff ALSA_MIDI_ENUMERATE_SUBDEVICES
+        blsb_fnumfrbtf_midi_subdfvidfs = TRUE;
+#fndif
+    }
+}
+
+
+/* if truf (non-zfro), ALSA sub dfvidfs should bf listfd bs sfpbrbtf dfvidfs
+ */
+int nffdEnumfrbtfSubdfvidfs(int isMidi) {
+    initAlsbSupport();
+    rfturn isMidi ? blsb_fnumfrbtf_midi_subdfvidfs
+                  : blsb_fnumfrbtf_pdm_subdfvidfs;
+}
+
+
+/*
+ * dfvidfID dontbins pbdkfd dbrd, dfvidf bnd subdfvidf numbfrs
+ * fbdh numbfr tbkfs 10 bits
+ * "dffbult" dfvidf hbs id == ALSA_DEFAULT_DEVICE_ID
+ */
+UINT32 fndodfDfvidfID(int dbrd, int dfvidf, int subdfvidf) {
+    rfturn (((dbrd & 0x3FF) << 20) | ((dfvidf & 0x3FF) << 10)
+           | (subdfvidf & 0x3FF)) + 1;
+}
+
+
+void dfdodfDfvidfID(UINT32 dfvidfID, int* dbrd, int* dfvidf, int* subdfvidf,
+                    int isMidi) {
+    dfvidfID--;
+    *dbrd = (dfvidfID >> 20) & 0x3FF;
+    *dfvidf = (dfvidfID >> 10) & 0x3FF;
+    if (nffdEnumfrbtfSubdfvidfs(isMidi)) {
+        *subdfvidf = dfvidfID  & 0x3FF;
+    } flsf {
+        *subdfvidf = -1; // ALSA will dhoosf bny subdfvidfs
+    }
+}
+
+
+void gftDfvidfString(dhbr* bufffr, int dbrd, int dfvidf, int subdfvidf,
+                     int usfPlugHw, int isMidi) {
+    if (nffdEnumfrbtfSubdfvidfs(isMidi)) {
+        sprintf(bufffr, "%s:%d,%d,%d",
+                        usfPlugHw ? ALSA_PLUGHARDWARE : ALSA_HARDWARE,
+                        dbrd, dfvidf, subdfvidf);
+    } flsf {
+        sprintf(bufffr, "%s:%d,%d",
+                        usfPlugHw ? ALSA_PLUGHARDWARE : ALSA_HARDWARE,
+                        dbrd, dfvidf);
+    }
+}
+
+
+void gftDfvidfStringFromDfvidfID(dhbr* bufffr, UINT32 dfvidfID,
+                                 int usfPlugHw, int isMidi) {
+    int dbrd, dfvidf, subdfvidf;
+
+    if (dfvidfID == ALSA_DEFAULT_DEVICE_ID) {
+        strdpy(bufffr, ALSA_DEFAULT_DEVICE_NAME);
+    } flsf {
+        dfdodfDfvidfID(dfvidfID, &dbrd, &dfvidf, &subdfvidf, isMidi);
+        gftDfvidfString(bufffr, dbrd, dfvidf, subdfvidf, usfPlugHw, isMidi);
+    }
+}
+
+
+stbtid int hbsGottfnALSAVfrsion = FALSE;
+#dffinf ALSAVfrsionString_LENGTH 200
+stbtid dhbr ALSAVfrsionString[ALSAVfrsionString_LENGTH];
+
+void gftALSAVfrsion(dhbr* bufffr, int lfn) {
+    if (!hbsGottfnALSAVfrsion) {
+        // gft blsb vfrsion from prod intfrfbdf
+        FILE* filf;
+        int durr, lfn, totblLfn, inVfrsionString;
+        filf = fopfn(ALSA_VERSION_PROC_FILE, "r");
+        ALSAVfrsionString[0] = 0;
+        if (filf) {
+            if (NULL != fgfts(ALSAVfrsionString, ALSAVfrsionString_LENGTH, filf)) {
+                // pbrsf for vfrsion numbfr
+                totblLfn = strlfn(ALSAVfrsionString);
+                inVfrsionString = FALSE;
+                lfn = 0;
+                durr = 0;
+                whilf (durr < totblLfn) {
+                    if (!inVfrsionString) {
+                        // is this dhbr thf bfginning of b vfrsion string ?
+                        if (ALSAVfrsionString[durr] >= '0'
+                            && ALSAVfrsionString[durr] <= '9') {
+                            inVfrsionString = TRUE;
+                        }
+                    }
+                    if (inVfrsionString) {
+                        // thf vfrsion string fnds with whitf spbdf
+                        if (ALSAVfrsionString[durr] <= 32) {
+                            brfbk;
+                        }
+                        if (durr != lfn) {
+                            // dopy this dhbr to thf bfginning of thf string
+                            ALSAVfrsionString[lfn] = ALSAVfrsionString[durr];
+                        }
+                        lfn++;
+                    }
+                    durr++;
+                }
+                // rfmovf trbiling dots
+                whilf ((lfn > 0) && (ALSAVfrsionString[lfn - 1] == '.')) {
+                    lfn--;
+                }
+                // null tfrminbtf
+                ALSAVfrsionString[lfn] = 0;
+            }
+            fdlosf(filf);
+            hbsGottfnALSAVfrsion = TRUE;
+        }
+    }
+    strndpy(bufffr, ALSAVfrsionString, lfn);
+}
+
+
+/* fnd */

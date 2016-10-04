@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
 
-import sun.awt.*;
-import sun.awt.im.*;
+import sun.bwt.*;
+import sun.bwt.im.*;
 
-final class WDialogPeer extends WWindowPeer implements DialogPeer {
-    // Toolkit & peer internals
+finbl dlbss WDiblogPffr fxtfnds WWindowPffr implfmfnts DiblogPffr {
+    // Toolkit & pffr intfrnbls
 
-    // Platform default background for dialogs.  Gets set on target if
-    // target has none explicitly specified.
-    final static Color defaultBackground =  SystemColor.control;
+    // Plbtform dffbult bbdkground for diblogs.  Gfts sft on tbrgft if
+    // tbrgft ibs nonf fxpliditly spfdififd.
+    finbl stbtid Color dffbultBbdkground =  SystfmColor.dontrol;
 
-    // If target doesn't have its background color set, we set its
-    // background to platform default.
-    boolean needDefaultBackground;
+    // If tbrgft dofsn't ibvf its bbdkground dolor sft, wf sft its
+    // bbdkground to plbtform dffbult.
+    boolfbn nffdDffbultBbdkground;
 
-    WDialogPeer(Dialog target) {
-        super(target);
+    WDiblogPffr(Diblog tbrgft) {
+        supfr(tbrgft);
 
-        InputMethodManager imm = InputMethodManager.getInstance();
-        String menuString = imm.getTriggerMenuString();
-        if (menuString != null)
+        InputMftiodMbnbgfr imm = InputMftiodMbnbgfr.gftInstbndf();
+        String mfnuString = imm.gftTriggfrMfnuString();
+        if (mfnuString != null)
         {
-            pSetIMMOption(menuString);
+            pSftIMMOption(mfnuString);
         }
     }
 
-    native void createAwtDialog(WComponentPeer parent);
-    @Override
-    void create(WComponentPeer parent) {
-        preCreate(parent);
-        createAwtDialog(parent);
+    nbtivf void drfbtfAwtDiblog(WComponfntPffr pbrfnt);
+    @Ovfrridf
+    void drfbtf(WComponfntPffr pbrfnt) {
+        prfCrfbtf(pbrfnt);
+        drfbtfAwtDiblog(pbrfnt);
     }
 
-    native void showModal();
-    native void endModal();
+    nbtivf void siowModbl();
+    nbtivf void fndModbl();
 
-    @Override
-    void initialize() {
-        Dialog target = (Dialog)this.target;
-        // Need to set target's background to default _before_ a call
-        // to super.initialize.
-        if (needDefaultBackground) {
-            target.setBackground(defaultBackground);
+    @Ovfrridf
+    void initiblizf() {
+        Diblog tbrgft = (Diblog)tiis.tbrgft;
+        // Nffd to sft tbrgft's bbdkground to dffbult _bfforf_ b dbll
+        // to supfr.initiblizf.
+        if (nffdDffbultBbdkground) {
+            tbrgft.sftBbdkground(dffbultBbdkground);
         }
 
-        super.initialize();
+        supfr.initiblizf();
 
-        if (target.getTitle() != null) {
-            setTitle(target.getTitle());
+        if (tbrgft.gftTitlf() != null) {
+            sftTitlf(tbrgft.gftTitlf());
         }
-        setResizable(target.isResizable());
+        sftRfsizbblf(tbrgft.isRfsizbblf());
     }
 
-    @Override
-    protected void realShow() {
-        Dialog dlg = (Dialog)target;
-        if (dlg.getModalityType() != Dialog.ModalityType.MODELESS) {
-            showModal();
-        } else {
-            super.realShow();
-        }
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    void hide() {
-        Dialog dlg = (Dialog)target;
-        if (dlg.getModalityType() != Dialog.ModalityType.MODELESS) {
-            endModal();
-        } else {
-            super.hide();
+    @Ovfrridf
+    protfdtfd void rfblSiow() {
+        Diblog dlg = (Diblog)tbrgft;
+        if (dlg.gftModblityTypf() != Diblog.ModblityTypf.MODELESS) {
+            siowModbl();
+        } flsf {
+            supfr.rfblSiow();
         }
     }
 
-    @Override
-    public void blockWindows(java.util.List<Window> toBlock) {
-        for (Window w : toBlock) {
-            WWindowPeer wp = (WWindowPeer)AWTAccessor.getComponentAccessor().getPeer(w);
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    void iidf() {
+        Diblog dlg = (Diblog)tbrgft;
+        if (dlg.gftModblityTypf() != Diblog.ModblityTypf.MODELESS) {
+            fndModbl();
+        } flsf {
+            supfr.iidf();
+        }
+    }
+
+    @Ovfrridf
+    publid void blodkWindows(jbvb.util.List<Window> toBlodk) {
+        for (Window w : toBlodk) {
+            WWindowPffr wp = (WWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
             if (wp != null) {
-                wp.setModalBlocked((Dialog)target, true);
+                wp.sftModblBlodkfd((Diblog)tbrgft, truf);
             }
         }
     }
 
-    @Override
-    public Dimension getMinimumSize() {
-        if (((Dialog)target).isUndecorated()) {
-            return super.getMinimumSize();
-        } else {
-            return new Dimension(getSysMinWidth(), getSysMinHeight());
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        if (((Diblog)tbrgft).isUndfdorbtfd()) {
+            rfturn supfr.gftMinimumSizf();
+        } flsf {
+            rfturn nfw Dimfnsion(gftSysMinWidti(), gftSysMinHfigit());
         }
     }
 
-    @Override
-    boolean isTargetUndecorated() {
-        return ((Dialog)target).isUndecorated();
+    @Ovfrridf
+    boolfbn isTbrgftUndfdorbtfd() {
+        rfturn ((Diblog)tbrgft).isUndfdorbtfd();
     }
 
-    @Override
-    public void reshape(int x, int y, int width, int height) {
-        if (((Dialog)target).isUndecorated()) {
-            super.reshape(x, y, width, height);
-        } else {
-            reshapeFrame(x, y, width, height);
+    @Ovfrridf
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {
+        if (((Diblog)tbrgft).isUndfdorbtfd()) {
+            supfr.rfsibpf(x, y, widti, ifigit);
+        } flsf {
+            rfsibpfFrbmf(x, y, widti, ifigit);
         }
     }
 
-    /* Native create() peeks at target's background and if it's null
-     * calls this method to arrage for default background to be set on
-     * target.  Can't make the check in Java, since getBackground will
-     * return owner's background if target has none set.
+    /* Nbtivf drfbtf() pffks bt tbrgft's bbdkground bnd if it's null
+     * dblls tiis mftiod to brrbgf for dffbult bbdkground to bf sft on
+     * tbrgft.  Cbn't mbkf tif difdk in Jbvb, sindf gftBbdkground will
+     * rfturn ownfr's bbdkground if tbrgft ibs nonf sft.
      */
-    private void setDefaultColor() {
-        // Can't call target.setBackground directly, since we are
-        // called on toolkit thread.  Can't schedule a Runnable on the
-        // EventHandlerThread because of the race condition.  So just
-        // set a flag and call target.setBackground in initialize.
-        needDefaultBackground = true;
+    privbtf void sftDffbultColor() {
+        // Cbn't dbll tbrgft.sftBbdkground dirfdtly, sindf wf brf
+        // dbllfd on toolkit tirfbd.  Cbn't sdifdulf b Runnbblf on tif
+        // EvfntHbndlfrTirfbd bfdbusf of tif rbdf dondition.  So just
+        // sft b flbg bnd dbll tbrgft.sftBbdkground in initiblizf.
+        nffdDffbultBbdkground = truf;
     }
 
-    native void pSetIMMOption(String option);
-    void notifyIMMOptionChange(){
-      InputMethodManager.getInstance().notifyChangeRequest((Component)target);
+    nbtivf void pSftIMMOption(String option);
+    void notifyIMMOptionCibngf(){
+      InputMftiodMbnbgfr.gftInstbndf().notifyCibngfRfqufst((Componfnt)tbrgft);
     }
 }

@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
 /**
- * Member is an interface that reflects identifying information about
- * a single member (a field or a method) or a constructor.
+ * Mfmbfr is bn intfrfbdf tibt rfflfdts idfntifying informbtion bbout
+ * b singlf mfmbfr (b fifld or b mftiod) or b donstrudtor.
  *
- * @see java.lang.Class
- * @see Field
- * @see Method
- * @see Constructor
+ * @sff jbvb.lbng.Clbss
+ * @sff Fifld
+ * @sff Mftiod
+ * @sff Construdtor
  *
- * @author Nakul Saraiya
+ * @butior Nbkul Sbrbiyb
  */
-public
-interface Member {
+publid
+intfrfbdf Mfmbfr {
 
     /**
-     * Identifies the set of all public members of a class or interface,
-     * including inherited members.
+     * Idfntififs tif sft of bll publid mfmbfrs of b dlbss or intfrfbdf,
+     * indluding inifritfd mfmbfrs.
      */
-    public static final int PUBLIC = 0;
+    publid stbtid finbl int PUBLIC = 0;
 
     /**
-     * Identifies the set of declared members of a class or interface.
-     * Inherited members are not included.
+     * Idfntififs tif sft of dfdlbrfd mfmbfrs of b dlbss or intfrfbdf.
+     * Inifritfd mfmbfrs brf not indludfd.
      */
-    public static final int DECLARED = 1;
+    publid stbtid finbl int DECLARED = 1;
 
     /**
-     * Returns the Class object representing the class or interface
-     * that declares the member or constructor represented by this Member.
+     * Rfturns tif Clbss objfdt rfprfsfnting tif dlbss or intfrfbdf
+     * tibt dfdlbrfs tif mfmbfr or donstrudtor rfprfsfntfd by tiis Mfmbfr.
      *
-     * @return an object representing the declaring class of the
-     * underlying member
+     * @rfturn bn objfdt rfprfsfnting tif dfdlbring dlbss of tif
+     * undfrlying mfmbfr
      */
-    public Class<?> getDeclaringClass();
+    publid Clbss<?> gftDfdlbringClbss();
 
     /**
-     * Returns the simple name of the underlying member or constructor
-     * represented by this Member.
+     * Rfturns tif simplf nbmf of tif undfrlying mfmbfr or donstrudtor
+     * rfprfsfntfd by tiis Mfmbfr.
      *
-     * @return the simple name of the underlying member
+     * @rfturn tif simplf nbmf of tif undfrlying mfmbfr
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Returns the Java language modifiers for the member or
-     * constructor represented by this Member, as an integer.  The
-     * Modifier class should be used to decode the modifiers in
-     * the integer.
+     * Rfturns tif Jbvb lbngubgf modififrs for tif mfmbfr or
+     * donstrudtor rfprfsfntfd by tiis Mfmbfr, bs bn intfgfr.  Tif
+     * Modififr dlbss siould bf usfd to dfdodf tif modififrs in
+     * tif intfgfr.
      *
-     * @return the Java language modifiers for the underlying member
-     * @see Modifier
+     * @rfturn tif Jbvb lbngubgf modififrs for tif undfrlying mfmbfr
+     * @sff Modififr
      */
-    public int getModifiers();
+    publid int gftModififrs();
 
     /**
-     * Returns {@code true} if this member was introduced by
-     * the compiler; returns {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis mfmbfr wbs introdudfd by
+     * tif dompilfr; rfturns {@dodf fblsf} otifrwisf.
      *
-     * @return true if and only if this member was introduced by
-     * the compiler.
-     * @jls 13.1 The Form of a Binary
-     * @since 1.5
+     * @rfturn truf if bnd only if tiis mfmbfr wbs introdudfd by
+     * tif dompilfr.
+     * @jls 13.1 Tif Form of b Binbry
+     * @sindf 1.5
      */
-    public boolean isSynthetic();
+    publid boolfbn isSyntiftid();
 }

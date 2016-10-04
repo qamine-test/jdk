@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * A CookifHbndlfr objfdt providfs b dbllbbdk mfdhbnism to hook up b
+ * HTTP stbtf mbnbgfmfnt polidy implfmfntbtion into thf HTTP protodol
+ * hbndlfr. Thf HTTP stbtf mbnbgfmfnt mfdhbnism spfdififs b wby to
+ * drfbtf b stbtfful sfssion with HTTP rfqufsts bnd rfsponsfs.
+ *
+ * <p>A systfm-widf CookifHbndlfr thbt to usfd by thf HTTP protodol
+ * hbndlfr dbn bf rfgistfrfd by doing b
+ * CookifHbndlfr.sftDffbult(CookifHbndlfr). Thf durrfntly rfgistfrfd
+ * CookifHbndlfr dbn bf rftrifvfd by dblling
+ * CookifHbndlfr.gftDffbult().
+ *
+ * For morf informbtion on HTTP stbtf mbnbgfmfnt, sff <b
+ * hrff="http://www.iftf.org/rfd/rfd2965.txt"><i>RFC&nbsp;2965: HTTP
+ * Stbtf Mbnbgfmfnt Mfdhbnism</i></b>
+ *
+ * @buthor Yingxibn Wbng
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss CookifHbndlfr {
+    /**
+     * Thf systfm-widf dookif hbndlfr thbt will bpply dookifs to thf
+     * rfqufst hfbdfrs bnd mbnbgf dookifs from thf rfsponsf hfbdfrs.
+     *
+     * @sff sftDffbult(CookifHbndlfr)
+     * @sff gftDffbult()
+     */
+    privbtf stbtid CookifHbndlfr dookifHbndlfr;
+
+    /**
+     * Gfts thf systfm-widf dookif hbndlfr.
+     *
+     * @rfturn thf systfm-widf dookif hbndlfr; A null rfturn mfbns
+     *        thfrf is no systfm-widf dookif hbndlfr durrfntly sft.
+     * @throws SfdurityExdfption
+     *       If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("gftCookifHbndlfr")}
+     * @sff #sftDffbult(CookifHbndlfr)
+     */
+    publid syndhronizfd stbtid CookifHbndlfr gftDffbult() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(SfdurityConstbnts.GET_COOKIEHANDLER_PERMISSION);
+        }
+        rfturn dookifHbndlfr;
+    }
+
+    /**
+     * Sfts (or unsfts) thf systfm-widf dookif hbndlfr.
+     *
+     * Notf: non-stbndbrd http protodol hbndlfrs mby ignorf this sftting.
+     *
+     * @pbrbm dHbndlfr Thf HTTP dookif hbndlfr, or
+     *       {@dodf null} to unsft.
+     * @throws SfdurityExdfption
+     *       If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("sftCookifHbndlfr")}
+     * @sff #gftDffbult()
+     */
+    publid syndhronizfd stbtid void sftDffbult(CookifHbndlfr dHbndlfr) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(SfdurityConstbnts.SET_COOKIEHANDLER_PERMISSION);
+        }
+        dookifHbndlfr = dHbndlfr;
+    }
+
+    /**
+     * Gfts bll thf bpplidbblf dookifs from b dookif dbdhf for thf
+     * spfdififd uri in thf rfqufst hfbdfr.
+     *
+     * <P>Thf {@dodf URI} pbssfd bs bn brgumfnt spfdififs thf intfndfd usf for
+     * thf dookifs. In pbrtidulbr thf sdhfmf should rfflfdt whfthfr thf dookifs
+     * will bf sfnt ovfr http, https or usfd in bnothfr dontfxt likf jbvbsdript.
+     * Thf host pbrt should rfflfdt fithfr thf dfstinbtion of thf dookifs or
+     * thfir origin in thf dbsf of jbvbsdript.</P>
+     * <P>It is up to thf implfmfntbtion to tbkf into bddount thf {@dodf URI} bnd
+     * thf dookifs bttributfs bnd sfdurity sfttings to dftfrminf whidh onfs
+     * should bf rfturnfd.</P>
+     *
+     * <P>HTTP protodol implfmfntfrs should mbkf surf thbt this mfthod is
+     * dbllfd bftfr bll rfqufst hfbdfrs rflbtfd to dhoosing dookifs
+     * brf bddfd, bnd bfforf thf rfqufst is sfnt.</P>
+     *
+     * @pbrbm uri b {@dodf URI} rfprfsfnting thf intfndfd usf for thf
+     *            dookifs
+     * @pbrbm rfqufstHfbdfrs - b Mbp from rfqufst hfbdfr
+     *            fifld nbmfs to lists of fifld vblufs rfprfsfnting
+     *            thf durrfnt rfqufst hfbdfrs
+     * @rfturn bn immutbblf mbp from stbtf mbnbgfmfnt hfbdfrs, with
+     *            fifld nbmfs "Cookif" or "Cookif2" to b list of
+     *            dookifs dontbining stbtf informbtion
+     *
+     * @throws IOExdfption if bn I/O frror oddurs
+     * @throws IllfgblArgumfntExdfption if fithfr brgumfnt is null
+     * @sff #put(URI, Mbp)
+     */
+    publid bbstrbdt Mbp<String, List<String>>
+        gft(URI uri, Mbp<String, List<String>> rfqufstHfbdfrs)
+        throws IOExdfption;
+
+    /**
+     * Sfts bll thf bpplidbblf dookifs, fxbmplfs brf rfsponsf hfbdfr
+     * fiflds thbt brf nbmfd Sft-Cookif2, prfsfnt in thf rfsponsf
+     * hfbdfrs into b dookif dbdhf.
+     *
+     * @pbrbm uri b {@dodf URI} whfrf thf dookifs domf from
+     * @pbrbm rfsponsfHfbdfrs bn immutbblf mbp from fifld nbmfs to
+     *            lists of fifld vblufs rfprfsfnting thf rfsponsf
+     *            hfbdfr fiflds rfturnfd
+     * @throws  IOExdfption if bn I/O frror oddurs
+     * @throws  IllfgblArgumfntExdfption if fithfr brgumfnt is null
+     * @sff #gft(URI, Mbp)
+     */
+    publid bbstrbdt void
+        put(URI uri, Mbp<String, List<String>> rfsponsfHfbdfrs)
+        throws IOExdfption;
+}

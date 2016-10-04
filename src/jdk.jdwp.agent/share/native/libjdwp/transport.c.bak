@@ -1,619 +1,619 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "utf_util.h"
-#include "transport.h"
-#include "debugLoop.h"
-#include "sys.h"
+#indludf "util.i"
+#indludf "utf_util.i"
+#indludf "trbnsport.i"
+#indludf "dfbugLoop.i"
+#indludf "sys.i"
 
-static jdwpTransportEnv *transport;
-static jrawMonitorID listenerLock;
-static jrawMonitorID sendLock;
+stbtid jdwpTrbnsportEnv *trbnsport;
+stbtid jrbwMonitorID listfnfrLodk;
+stbtid jrbwMonitorID sfndLodk;
 
 /*
- * data structure used for passing transport info from thread to thread
+ * dbtb strudturf usfd for pbssing trbnsport info from tirfbd to tirfbd
  */
-typedef struct TransportInfo {
-    char *name;
-    jdwpTransportEnv *transport;
-    char *address;
-    long timeout;
-} TransportInfo;
+typfdff strudt TrbnsportInfo {
+    dibr *nbmf;
+    jdwpTrbnsportEnv *trbnsport;
+    dibr *bddrfss;
+    long timfout;
+} TrbnsportInfo;
 
-static struct jdwpTransportCallback callback = {jvmtiAllocate, jvmtiDeallocate};
+stbtid strudt jdwpTrbnsportCbllbbdk dbllbbdk = {jvmtiAllodbtf, jvmtiDfbllodbtf};
 
 /*
- * Print the last transport error
+ * Print tif lbst trbnsport frror
  */
-static void
-printLastError(jdwpTransportEnv *t, jdwpTransportError err)
+stbtid void
+printLbstError(jdwpTrbnsportEnv *t, jdwpTrbnsportError frr)
 {
-    char  *msg;
-    jbyte *utf8msg;
-    jdwpTransportError rv;
+    dibr  *msg;
+    jbytf *utf8msg;
+    jdwpTrbnsportError rv;
 
     msg     = NULL;
     utf8msg = NULL;
-    rv = (*t)->GetLastError(t, &msg); /* This is a platform encoded string */
+    rv = (*t)->GftLbstError(t, &msg); /* Tiis is b plbtform fndodfd string */
     if ( msg != NULL ) {
-        int len;
-        int maxlen;
+        int lfn;
+        int mbxlfn;
 
-        /* Convert this string to UTF8 */
-        len = (int)strlen(msg);
-        maxlen = len+len/2+2; /* Should allow for plenty of room */
-        utf8msg = (jbyte*)jvmtiAllocate(maxlen+1);
-        (void)utf8FromPlatform(msg, len, utf8msg, maxlen);
-        utf8msg[maxlen] = 0;
+        /* Convfrt tiis string to UTF8 */
+        lfn = (int)strlfn(msg);
+        mbxlfn = lfn+lfn/2+2; /* Siould bllow for plfnty of room */
+        utf8msg = (jbytf*)jvmtiAllodbtf(mbxlfn+1);
+        (void)utf8FromPlbtform(msg, lfn, utf8msg, mbxlfn);
+        utf8msg[mbxlfn] = 0;
     }
     if (rv == JDWPTRANSPORT_ERROR_NONE) {
-        ERROR_MESSAGE(("transport error %d: %s",err, utf8msg));
-    } else if ( msg!=NULL ) {
-        ERROR_MESSAGE(("transport error %d: %s",err, utf8msg));
-    } else {
-        ERROR_MESSAGE(("transport error %d: %s",err, "UNKNOWN"));
+        ERROR_MESSAGE(("trbnsport frror %d: %s",frr, utf8msg));
+    } flsf if ( msg!=NULL ) {
+        ERROR_MESSAGE(("trbnsport frror %d: %s",frr, utf8msg));
+    } flsf {
+        ERROR_MESSAGE(("trbnsport frror %d: %s",frr, "UNKNOWN"));
     }
-    jvmtiDeallocate(msg);
-    jvmtiDeallocate(utf8msg);
+    jvmtiDfbllodbtf(msg);
+    jvmtiDfbllodbtf(utf8msg);
 }
 
-/* Find OnLoad symbol */
-static jdwpTransport_OnLoad_t
-findTransportOnLoad(void *handle)
+/* Find OnLobd symbol */
+stbtid jdwpTrbnsport_OnLobd_t
+findTrbnsportOnLobd(void *ibndlf)
 {
-    jdwpTransport_OnLoad_t onLoad;
+    jdwpTrbnsport_OnLobd_t onLobd;
 
-    onLoad = (jdwpTransport_OnLoad_t)NULL;
-    if (handle == NULL) {
-        return onLoad;
+    onLobd = (jdwpTrbnsport_OnLobd_t)NULL;
+    if (ibndlf == NULL) {
+        rfturn onLobd;
     }
-    onLoad = (jdwpTransport_OnLoad_t)
-                 dbgsysFindLibraryEntry(handle, "jdwpTransport_OnLoad");
-    return onLoad;
+    onLobd = (jdwpTrbnsport_OnLobd_t)
+                 dbgsysFindLibrbryEntry(ibndlf, "jdwpTrbnsport_OnLobd");
+    rfturn onLobd;
 }
 
-/* Load transport library (directory=="" means do system search) */
-static void *
-loadTransportLibrary(const char *libdir, const char *name)
+/* Lobd trbnsport librbry (dirfdtory=="" mfbns do systfm sfbrdi) */
+stbtid void *
+lobdTrbnsportLibrbry(donst dibr *libdir, donst dibr *nbmf)
 {
-    void *handle;
-    char libname[MAXPATHLEN+2];
-    char buf[MAXPATHLEN*2+100];
-    const char *plibdir;
+    void *ibndlf;
+    dibr libnbmf[MAXPATHLEN+2];
+    dibr buf[MAXPATHLEN*2+100];
+    donst dibr *plibdir;
 
-    /* Convert libdir from UTF-8 to platform encoding */
+    /* Convfrt libdir from UTF-8 to plbtform fndoding */
     plibdir = NULL;
     if ( libdir != NULL ) {
-        int  len;
+        int  lfn;
 
-        len = (int)strlen(libdir);
-        (void)utf8ToPlatform((jbyte*)libdir, len, buf, (int)sizeof(buf));
+        lfn = (int)strlfn(libdir);
+        (void)utf8ToPlbtform((jbytf*)libdir, lfn, buf, (int)sizfof(buf));
         plibdir = buf;
     }
 
-    /* Construct library name (simple name or full path) */
-    dbgsysBuildLibName(libname, sizeof(libname), plibdir, name);
-    if (strlen(libname) == 0) {
-        return NULL;
+    /* Construdt librbry nbmf (simplf nbmf or full pbti) */
+    dbgsysBuildLibNbmf(libnbmf, sizfof(libnbmf), plibdir, nbmf);
+    if (strlfn(libnbmf) == 0) {
+        rfturn NULL;
     }
 
-    /* dlopen (unix) / LoadLibrary (windows) the transport library */
-    handle = dbgsysLoadLibrary(libname, buf, sizeof(buf));
-    return handle;
+    /* dlopfn (unix) / LobdLibrbry (windows) tif trbnsport librbry */
+    ibndlf = dbgsysLobdLibrbry(libnbmf, buf, sizfof(buf));
+    rfturn ibndlf;
 }
 
 /*
- * loadTransport() is adapted from loadJVMHelperLib() in
- * JDK 1.2 javai.c v1.61
+ * lobdTrbnsport() is bdbptfd from lobdJVMHflpfrLib() in
+ * JDK 1.2 jbvbi.d v1.61
  */
-static jdwpError
-loadTransport(const char *name, jdwpTransportEnv **transportPtr)
+stbtid jdwpError
+lobdTrbnsport(donst dibr *nbmf, jdwpTrbnsportEnv **trbnsportPtr)
 {
-    JNIEnv                 *env;
-    jdwpTransport_OnLoad_t  onLoad;
-    void                   *handle;
-    const char             *libdir;
+    JNIEnv                 *fnv;
+    jdwpTrbnsport_OnLobd_t  onLobd;
+    void                   *ibndlf;
+    donst dibr             *libdir;
 
-    /* Make sure library name is not empty */
-    if (name == NULL) {
-        ERROR_MESSAGE(("library name is empty"));
-        return JDWP_ERROR(TRANSPORT_LOAD);
+    /* Mbkf surf librbry nbmf is not fmpty */
+    if (nbmf == NULL) {
+        ERROR_MESSAGE(("librbry nbmf is fmpty"));
+        rfturn JDWP_ERROR(TRANSPORT_LOAD);
     }
 
-    /* First, look in sun.boot.library.path. This should find the standard
-     *  dt_socket and dt_shmem transport libraries, or any library
-     *  that was delivered with the J2SE.
-     *  Note: Since 6819213 fixed, Java property sun.boot.library.path can
-     *  contain multiple paths. Dll_dir is the first entry and
-     *  -Dsun.boot.library.path entries are appended.
+    /* First, look in sun.boot.librbry.pbti. Tiis siould find tif stbndbrd
+     *  dt_sodkft bnd dt_simfm trbnsport librbrifs, or bny librbry
+     *  tibt wbs dflivfrfd witi tif J2SE.
+     *  Notf: Sindf 6819213 fixfd, Jbvb propfrty sun.boot.librbry.pbti dbn
+     *  dontbin multiplf pbtis. Dll_dir is tif first fntry bnd
+     *  -Dsun.boot.librbry.pbti fntrifs brf bppfndfd.
      */
-    libdir = gdata->property_sun_boot_library_path;
+    libdir = gdbtb->propfrty_sun_boot_librbry_pbti;
     if (libdir == NULL) {
-        ERROR_MESSAGE(("Java property sun.boot.library.path is not set"));
-        return JDWP_ERROR(TRANSPORT_LOAD);
+        ERROR_MESSAGE(("Jbvb propfrty sun.boot.librbry.pbti is not sft"));
+        rfturn JDWP_ERROR(TRANSPORT_LOAD);
     }
-    handle = loadTransportLibrary(libdir, name);
-    if (handle == NULL) {
-        /* Second, look along the path used by the native dlopen/LoadLibrary
-         *  functions. This should effectively try and load the simple
-         *  library name, which will cause the default system library
-         *  search technique to happen.
-         *  We should only reach here if the transport library wasn't found
-         *  in the J2SE directory, e.g. it's a custom transport library
-         *  not installed in the J2SE like dt_socket and dt_shmem is.
+    ibndlf = lobdTrbnsportLibrbry(libdir, nbmf);
+    if (ibndlf == NULL) {
+        /* Sfdond, look blong tif pbti usfd by tif nbtivf dlopfn/LobdLibrbry
+         *  fundtions. Tiis siould ffffdtivfly try bnd lobd tif simplf
+         *  librbry nbmf, wiidi will dbusf tif dffbult systfm librbry
+         *  sfbrdi tfdiniquf to ibppfn.
+         *  Wf siould only rfbdi ifrf if tif trbnsport librbry wbsn't found
+         *  in tif J2SE dirfdtory, f.g. it's b dustom trbnsport librbry
+         *  not instbllfd in tif J2SE likf dt_sodkft bnd dt_simfm is.
          *
-         *  Note: Why not use java.library.path? Several reasons:
-         *        a) This matches existing agentlib search
-         *        b) These are technically not JNI libraries
+         *  Notf: Wiy not usf jbvb.librbry.pbti? Sfvfrbl rfbsons:
+         *        b) Tiis mbtdifs fxisting bgfntlib sfbrdi
+         *        b) Tifsf brf tfdinidblly not JNI librbrifs
          */
-        handle = loadTransportLibrary("", name);
+        ibndlf = lobdTrbnsportLibrbry("", nbmf);
     }
 
-    /* See if a library was found with this name */
-    if (handle == NULL) {
-        ERROR_MESSAGE(("transport library not found: %s", name));
-        return JDWP_ERROR(TRANSPORT_LOAD);
+    /* Sff if b librbry wbs found witi tiis nbmf */
+    if (ibndlf == NULL) {
+        ERROR_MESSAGE(("trbnsport librbry not found: %s", nbmf));
+        rfturn JDWP_ERROR(TRANSPORT_LOAD);
     }
 
-    /* Find the onLoad address */
-    onLoad = findTransportOnLoad(handle);
-    if (onLoad == NULL) {
-        ERROR_MESSAGE(("transport library missing onLoad entry: %s", name));
-        return JDWP_ERROR(TRANSPORT_LOAD);
+    /* Find tif onLobd bddrfss */
+    onLobd = findTrbnsportOnLobd(ibndlf);
+    if (onLobd == NULL) {
+        ERROR_MESSAGE(("trbnsport librbry missing onLobd fntry: %s", nbmf));
+        rfturn JDWP_ERROR(TRANSPORT_LOAD);
     }
 
-    /* Get transport interface */
-    env = getEnv();
-    if ( env != NULL ) {
-        jdwpTransportEnv *t;
-        JavaVM           *jvm;
-        jint              ver;
+    /* Gft trbnsport intfrfbdf */
+    fnv = gftEnv();
+    if ( fnv != NULL ) {
+        jdwpTrbnsportEnv *t;
+        JbvbVM           *jvm;
+        jint              vfr;
 
-        JNI_FUNC_PTR(env,GetJavaVM)(env, &jvm);
-        ver = (*onLoad)(jvm, &callback, JDWPTRANSPORT_VERSION_1_0, &t);
-        if (ver != JNI_OK) {
-            switch (ver) {
-                case JNI_ENOMEM :
-                    ERROR_MESSAGE(("insufficient memory to complete initialization"));
-                    break;
+        JNI_FUNC_PTR(fnv,GftJbvbVM)(fnv, &jvm);
+        vfr = (*onLobd)(jvm, &dbllbbdk, JDWPTRANSPORT_VERSION_1_0, &t);
+        if (vfr != JNI_OK) {
+            switdi (vfr) {
+                dbsf JNI_ENOMEM :
+                    ERROR_MESSAGE(("insuffidifnt mfmory to domplftf initiblizbtion"));
+                    brfbk;
 
-                case JNI_EVERSION :
-                    ERROR_MESSAGE(("transport doesn't recognize version %x",
+                dbsf JNI_EVERSION :
+                    ERROR_MESSAGE(("trbnsport dofsn't rfdognizf vfrsion %x",
                         JDWPTRANSPORT_VERSION_1_0));
-                    break;
+                    brfbk;
 
-                case JNI_EEXIST :
-                    ERROR_MESSAGE(("transport doesn't support multiple environments"));
-                    break;
+                dbsf JNI_EEXIST :
+                    ERROR_MESSAGE(("trbnsport dofsn't support multiplf fnvironmfnts"));
+                    brfbk;
 
-                default:
-                    ERROR_MESSAGE(("unrecognized error %d from transport", ver));
-                    break;
+                dffbult:
+                    ERROR_MESSAGE(("unrfdognizfd frror %d from trbnsport", vfr));
+                    brfbk;
             }
 
-            return JDWP_ERROR(TRANSPORT_INIT);
+            rfturn JDWP_ERROR(TRANSPORT_INIT);
         }
-        *transportPtr = t;
-    } else {
-        return JDWP_ERROR(TRANSPORT_LOAD);
+        *trbnsportPtr = t;
+    } flsf {
+        rfturn JDWP_ERROR(TRANSPORT_LOAD);
     }
 
-    return JDWP_ERROR(NONE);
+    rfturn JDWP_ERROR(NONE);
 }
 
-static void
-connectionInitiated(jdwpTransportEnv *t)
+stbtid void
+donnfdtionInitibtfd(jdwpTrbnsportEnv *t)
 {
-    jint isValid = JNI_FALSE;
+    jint isVblid = JNI_FALSE;
 
-    debugMonitorEnter(listenerLock);
+    dfbugMonitorEntfr(listfnfrLodk);
 
     /*
-     * Don't allow a connection until initialization is complete
+     * Don't bllow b donnfdtion until initiblizbtion is domplftf
      */
-    debugInit_waitInitComplete();
+    dfbugInit_wbitInitComplftf();
 
-    /* Are we the first transport to get a connection? */
+    /* Arf wf tif first trbnsport to gft b donnfdtion? */
 
-    if (transport == NULL) {
-        transport = t;
-        isValid = JNI_TRUE;
-    } else {
-        if (transport == t) {
-            /* connected with the same transport as before */
-            isValid = JNI_TRUE;
-        } else {
+    if (trbnsport == NULL) {
+        trbnsport = t;
+        isVblid = JNI_TRUE;
+    } flsf {
+        if (trbnsport == t) {
+            /* donnfdtfd witi tif sbmf trbnsport bs bfforf */
+            isVblid = JNI_TRUE;
+        } flsf {
             /*
-             * Another transport got a connection - multiple transports
-             * not fully supported yet so shouldn't get here.
+             * Anotifr trbnsport got b donnfdtion - multiplf trbnsports
+             * not fully supportfd yft so siouldn't gft ifrf.
              */
-            (*t)->Close(t);
+            (*t)->Closf(t);
             JDI_ASSERT(JNI_FALSE);
         }
     }
 
-    if (isValid) {
-        debugMonitorNotifyAll(listenerLock);
+    if (isVblid) {
+        dfbugMonitorNotifyAll(listfnfrLodk);
     }
 
-    debugMonitorExit(listenerLock);
+    dfbugMonitorExit(listfnfrLodk);
 
-    if (isValid) {
-        debugLoop_run();
+    if (isVblid) {
+        dfbugLoop_run();
     }
 
 }
 
 /*
- * Set the transport property (sun.jdwp.listenerAddress) to the
- * specified value.
+ * Sft tif trbnsport propfrty (sun.jdwp.listfnfrAddrfss) to tif
+ * spfdififd vbluf.
  */
-static void
-setTransportProperty(JNIEnv* env, char* value) {
-    char* prop_value = (value == NULL) ? "" : value;
-    setAgentPropertyValue(env, "sun.jdwp.listenerAddress", prop_value);
+stbtid void
+sftTrbnsportPropfrty(JNIEnv* fnv, dibr* vbluf) {
+    dibr* prop_vbluf = (vbluf == NULL) ? "" : vbluf;
+    sftAgfntPropfrtyVbluf(fnv, "sun.jdwp.listfnfrAddrfss", prop_vbluf);
 }
 
 void
-transport_waitForConnection(void)
+trbnsport_wbitForConnfdtion(void)
 {
     /*
-     * If the VM is suspended on debugger initialization, we wait
-     * for a connection before continuing. This ensures that all
-     * events are delivered to the debugger. (We might as well do this
-     * this since the VM won't continue until a remote debugger attaches
-     * and resumes it.) If not suspending on initialization, we must
-     * just drop any packets (i.e. events) so that the VM can continue
-     * to run. The debugger may not attach until much later.
+     * If tif VM is suspfndfd on dfbuggfr initiblizbtion, wf wbit
+     * for b donnfdtion bfforf dontinuing. Tiis fnsurfs tibt bll
+     * fvfnts brf dflivfrfd to tif dfbuggfr. (Wf migit bs wfll do tiis
+     * tiis sindf tif VM won't dontinuf until b rfmotf dfbuggfr bttbdifs
+     * bnd rfsumfs it.) If not suspfnding on initiblizbtion, wf must
+     * just drop bny pbdkfts (i.f. fvfnts) so tibt tif VM dbn dontinuf
+     * to run. Tif dfbuggfr mby not bttbdi until mudi lbtfr.
      */
-    if (debugInit_suspendOnInit()) {
-        debugMonitorEnter(listenerLock);
-        while (transport == NULL) {
-            debugMonitorWait(listenerLock);
+    if (dfbugInit_suspfndOnInit()) {
+        dfbugMonitorEntfr(listfnfrLodk);
+        wiilf (trbnsport == NULL) {
+            dfbugMonitorWbit(listfnfrLodk);
         }
-        debugMonitorExit(listenerLock);
+        dfbugMonitorExit(listfnfrLodk);
     }
 }
 
-static void JNICALL
-acceptThread(jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* arg)
+stbtid void JNICALL
+bddfptTirfbd(jvmtiEnv* jvmti_fnv, JNIEnv* jni_fnv, void* brg)
 {
-    TransportInfo *info;
-    jdwpTransportEnv *t;
-    jdwpTransportError rc;
+    TrbnsportInfo *info;
+    jdwpTrbnsportEnv *t;
+    jdwpTrbnsportError rd;
 
-    LOG_MISC(("Begin accept thread"));
+    LOG_MISC(("Bfgin bddfpt tirfbd"));
 
-    info = (TransportInfo*)(void*)arg;
-    t = info->transport;
+    info = (TrbnsportInfo*)(void*)brg;
+    t = info->trbnsport;
 
-    rc = (*t)->Accept(t, info->timeout, 0);
+    rd = (*t)->Addfpt(t, info->timfout, 0);
 
-    /* System property no longer needed */
-    setTransportProperty(jni_env, NULL);
+    /* Systfm propfrty no longfr nffdfd */
+    sftTrbnsportPropfrty(jni_fnv, NULL);
 
-    if (rc != JDWPTRANSPORT_ERROR_NONE) {
+    if (rd != JDWPTRANSPORT_ERROR_NONE) {
         /*
-         * If accept fails it probably means a timeout, or another fatal error
-         * We thus exit the VM after stopping the listener.
+         * If bddfpt fbils it probbbly mfbns b timfout, or bnotifr fbtbl frror
+         * Wf tius fxit tif VM bftfr stopping tif listfnfr.
          */
-        printLastError(t, rc);
-        (*t)->StopListening(t);
-        EXIT_ERROR(JVMTI_ERROR_NONE, "could not connect, timeout or fatal error");
-    } else {
-        (*t)->StopListening(t);
-        connectionInitiated(t);
+        printLbstError(t, rd);
+        (*t)->StopListfning(t);
+        EXIT_ERROR(JVMTI_ERROR_NONE, "dould not donnfdt, timfout or fbtbl frror");
+    } flsf {
+        (*t)->StopListfning(t);
+        donnfdtionInitibtfd(t);
     }
 
-    LOG_MISC(("End accept thread"));
+    LOG_MISC(("End bddfpt tirfbd"));
 }
 
-static void JNICALL
-attachThread(jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* arg)
+stbtid void JNICALL
+bttbdiTirfbd(jvmtiEnv* jvmti_fnv, JNIEnv* jni_fnv, void* brg)
 {
-    LOG_MISC(("Begin attach thread"));
-    connectionInitiated((jdwpTransportEnv *)(void*)arg);
-    LOG_MISC(("End attach thread"));
+    LOG_MISC(("Bfgin bttbdi tirfbd"));
+    donnfdtionInitibtfd((jdwpTrbnsportEnv *)(void*)brg);
+    LOG_MISC(("End bttbdi tirfbd"));
 }
 
 void
-transport_initialize(void)
+trbnsport_initiblizf(void)
 {
-    transport = NULL;
-    listenerLock = debugMonitorCreate("JDWP Transport Listener Monitor");
-    sendLock = debugMonitorCreate("JDWP Transport Send Monitor");
+    trbnsport = NULL;
+    listfnfrLodk = dfbugMonitorCrfbtf("JDWP Trbnsport Listfnfr Monitor");
+    sfndLodk = dfbugMonitorCrfbtf("JDWP Trbnsport Sfnd Monitor");
 }
 
 void
-transport_reset(void)
+trbnsport_rfsft(void)
 {
     /*
-     * Reset the transport by closing any listener (will silently fail
-     * with JDWPTRANSPORT_ERROR_ILLEGAL_STATE if not listening), and
-     * closing any connection (will also fail silently if not
-     * connected).
+     * Rfsft tif trbnsport by dlosing bny listfnfr (will silfntly fbil
+     * witi JDWPTRANSPORT_ERROR_ILLEGAL_STATE if not listfning), bnd
+     * dlosing bny donnfdtion (will blso fbil silfntly if not
+     * donnfdtfd).
      *
-     * Note: There's an assumption here that we don't yet support
-     * multiple transports. When we do then we need a clear transition
-     * from the current transport to the new transport.
+     * Notf: Tifrf's bn bssumption ifrf tibt wf don't yft support
+     * multiplf trbnsports. Wifn wf do tifn wf nffd b dlfbr trbnsition
+     * from tif durrfnt trbnsport to tif nfw trbnsport.
      */
-    if (transport != NULL) {
-        setTransportProperty(getEnv(), NULL);
-        (*transport)->StopListening(transport);
-        (*transport)->Close(transport);
+    if (trbnsport != NULL) {
+        sftTrbnsportPropfrty(gftEnv(), NULL);
+        (*trbnsport)->StopListfning(trbnsport);
+        (*trbnsport)->Closf(trbnsport);
     }
 }
 
-static jdwpError
-launch(char *command, char *name, char *address)
+stbtid jdwpError
+lbundi(dibr *dommbnd, dibr *nbmf, dibr *bddrfss)
 {
-    jint rc;
-    char *buf;
-    char *commandLine;
-    int  len;
+    jint rd;
+    dibr *buf;
+    dibr *dommbndLinf;
+    int  lfn;
 
-    /* Construct complete command line (all in UTF-8) */
-    commandLine = jvmtiAllocate((int)strlen(command) +
-                                 (int)strlen(name) +
-                                 (int)strlen(address) + 3);
-    if (commandLine == NULL) {
-        return JDWP_ERROR(OUT_OF_MEMORY);
+    /* Construdt domplftf dommbnd linf (bll in UTF-8) */
+    dommbndLinf = jvmtiAllodbtf((int)strlfn(dommbnd) +
+                                 (int)strlfn(nbmf) +
+                                 (int)strlfn(bddrfss) + 3);
+    if (dommbndLinf == NULL) {
+        rfturn JDWP_ERROR(OUT_OF_MEMORY);
     }
-    (void)strcpy(commandLine, command);
-    (void)strcat(commandLine, " ");
-    (void)strcat(commandLine, name);
-    (void)strcat(commandLine, " ");
-    (void)strcat(commandLine, address);
+    (void)strdpy(dommbndLinf, dommbnd);
+    (void)strdbt(dommbndLinf, " ");
+    (void)strdbt(dommbndLinf, nbmf);
+    (void)strdbt(dommbndLinf, " ");
+    (void)strdbt(dommbndLinf, bddrfss);
 
-    /* Convert commandLine from UTF-8 to platform encoding */
-    len = (int)strlen(commandLine);
-    buf = jvmtiAllocate(len*3+3);
-    (void)utf8ToPlatform((jbyte*)commandLine, len, buf, len*3+3);
+    /* Convfrt dommbndLinf from UTF-8 to plbtform fndoding */
+    lfn = (int)strlfn(dommbndLinf);
+    buf = jvmtiAllodbtf(lfn*3+3);
+    (void)utf8ToPlbtform((jbytf*)dommbndLinf, lfn, buf, lfn*3+3);
 
-    /* Exec commandLine */
-    rc = dbgsysExec(buf);
+    /* Exfd dommbndLinf */
+    rd = dbgsysExfd(buf);
 
-    /* Free up buffers */
-    jvmtiDeallocate(buf);
-    jvmtiDeallocate(commandLine);
+    /* Frff up bufffrs */
+    jvmtiDfbllodbtf(buf);
+    jvmtiDfbllodbtf(dommbndLinf);
 
-    /* And non-zero exit status means we had an error */
-    if (rc != SYS_OK) {
-        return JDWP_ERROR(TRANSPORT_INIT);
+    /* And non-zfro fxit stbtus mfbns wf ibd bn frror */
+    if (rd != SYS_OK) {
+        rfturn JDWP_ERROR(TRANSPORT_INIT);
     }
-    return JDWP_ERROR(NONE);
+    rfturn JDWP_ERROR(NONE);
 }
 
 jdwpError
-transport_startTransport(jboolean isServer, char *name, char *address,
-                         long timeout)
+trbnsport_stbrtTrbnsport(jboolfbn isSfrvfr, dibr *nbmf, dibr *bddrfss,
+                         long timfout)
 {
-    jvmtiStartFunction func;
-    jdwpTransportEnv *trans;
-    char threadName[MAXPATHLEN + 100];
-    jint err;
-    jdwpError serror;
+    jvmtiStbrtFundtion fund;
+    jdwpTrbnsportEnv *trbns;
+    dibr tirfbdNbmf[MAXPATHLEN + 100];
+    jint frr;
+    jdwpError sfrror;
 
     /*
-     * If the transport is already loaded then use it
-     * Note: We're assuming here that we don't support multiple
-     * transports - when we do then we need to handle the case
-     * where the transport library only supports a single environment.
-     * That probably means we have a bag a transport environments
-     * to correspond to the transports bag.
+     * If tif trbnsport is blrfbdy lobdfd tifn usf it
+     * Notf: Wf'rf bssuming ifrf tibt wf don't support multiplf
+     * trbnsports - wifn wf do tifn wf nffd to ibndlf tif dbsf
+     * wifrf tif trbnsport librbry only supports b singlf fnvironmfnt.
+     * Tibt probbbly mfbns wf ibvf b bbg b trbnsport fnvironmfnts
+     * to dorrfspond to tif trbnsports bbg.
      */
-    if (transport != NULL) {
-        trans = transport;
-    } else {
-        serror = loadTransport(name, &trans);
-        if (serror != JDWP_ERROR(NONE)) {
-            return serror;
+    if (trbnsport != NULL) {
+        trbns = trbnsport;
+    } flsf {
+        sfrror = lobdTrbnsport(nbmf, &trbns);
+        if (sfrror != JDWP_ERROR(NONE)) {
+            rfturn sfrror;
         }
     }
 
-    if (isServer) {
+    if (isSfrvfr) {
 
-        char *retAddress;
-        char *launchCommand;
-        TransportInfo *info;
-        jvmtiError error;
-        int len;
-        char* prop_value;
+        dibr *rftAddrfss;
+        dibr *lbundiCommbnd;
+        TrbnsportInfo *info;
+        jvmtiError frror;
+        int lfn;
+        dibr* prop_vbluf;
 
-        info = jvmtiAllocate(sizeof(*info));
+        info = jvmtiAllodbtf(sizfof(*info));
         if (info == NULL) {
-            return JDWP_ERROR(OUT_OF_MEMORY);
+            rfturn JDWP_ERROR(OUT_OF_MEMORY);
         }
-        info->name = jvmtiAllocate((int)strlen(name)+1);
-        (void)strcpy(info->name, name);
-        info->address = NULL;
-        info->timeout = timeout;
-        if (info->name == NULL) {
-            serror = JDWP_ERROR(OUT_OF_MEMORY);
-            goto handleError;
+        info->nbmf = jvmtiAllodbtf((int)strlfn(nbmf)+1);
+        (void)strdpy(info->nbmf, nbmf);
+        info->bddrfss = NULL;
+        info->timfout = timfout;
+        if (info->nbmf == NULL) {
+            sfrror = JDWP_ERROR(OUT_OF_MEMORY);
+            goto ibndlfError;
         }
-        if (address != NULL) {
-            info->address = jvmtiAllocate((int)strlen(address)+1);
-            (void)strcpy(info->address, address);
-            if (info->address == NULL) {
-                serror = JDWP_ERROR(OUT_OF_MEMORY);
-                goto handleError;
+        if (bddrfss != NULL) {
+            info->bddrfss = jvmtiAllodbtf((int)strlfn(bddrfss)+1);
+            (void)strdpy(info->bddrfss, bddrfss);
+            if (info->bddrfss == NULL) {
+                sfrror = JDWP_ERROR(OUT_OF_MEMORY);
+                goto ibndlfError;
             }
         }
 
-        info->transport = trans;
+        info->trbnsport = trbns;
 
-        err = (*trans)->StartListening(trans, address, &retAddress);
-        if (err != JDWPTRANSPORT_ERROR_NONE) {
-            printLastError(trans, err);
-            serror = JDWP_ERROR(TRANSPORT_INIT);
-            goto handleError;
+        frr = (*trbns)->StbrtListfning(trbns, bddrfss, &rftAddrfss);
+        if (frr != JDWPTRANSPORT_ERROR_NONE) {
+            printLbstError(trbns, frr);
+            sfrror = JDWP_ERROR(TRANSPORT_INIT);
+            goto ibndlfError;
         }
 
         /*
-         * Record listener address in a system property
+         * Rfdord listfnfr bddrfss in b systfm propfrty
          */
-        len = (int)strlen(name) + (int)strlen(retAddress) + 2; /* ':' and '\0' */
-        prop_value = (char*)jvmtiAllocate(len);
-        strcpy(prop_value, name);
-        strcat(prop_value, ":");
-        strcat(prop_value, retAddress);
-        setTransportProperty(getEnv(), prop_value);
-        jvmtiDeallocate(prop_value);
+        lfn = (int)strlfn(nbmf) + (int)strlfn(rftAddrfss) + 2; /* ':' bnd '\0' */
+        prop_vbluf = (dibr*)jvmtiAllodbtf(lfn);
+        strdpy(prop_vbluf, nbmf);
+        strdbt(prop_vbluf, ":");
+        strdbt(prop_vbluf, rftAddrfss);
+        sftTrbnsportPropfrty(gftEnv(), prop_vbluf);
+        jvmtiDfbllodbtf(prop_vbluf);
 
 
-        (void)strcpy(threadName, "JDWP Transport Listener: ");
-        (void)strcat(threadName, name);
+        (void)strdpy(tirfbdNbmf, "JDWP Trbnsport Listfnfr: ");
+        (void)strdbt(tirfbdNbmf, nbmf);
 
-        func = &acceptThread;
-        error = spawnNewThread(func, (void*)info, threadName);
-        if (error != JVMTI_ERROR_NONE) {
-            serror = map2jdwpError(error);
-            goto handleError;
+        fund = &bddfptTirfbd;
+        frror = spbwnNfwTirfbd(fund, (void*)info, tirfbdNbmf);
+        if (frror != JVMTI_ERROR_NONE) {
+            sfrror = mbp2jdwpError(frror);
+            goto ibndlfError;
         }
 
-        launchCommand = debugInit_launchOnInit();
-        if (launchCommand != NULL) {
-            serror = launch(launchCommand, name, retAddress);
-            if (serror != JDWP_ERROR(NONE)) {
-                goto handleError;
+        lbundiCommbnd = dfbugInit_lbundiOnInit();
+        if (lbundiCommbnd != NULL) {
+            sfrror = lbundi(lbundiCommbnd, nbmf, rftAddrfss);
+            if (sfrror != JDWP_ERROR(NONE)) {
+                goto ibndlfError;
             }
-        } else {
-            if ( ! gdata->quiet ) {
-                TTY_MESSAGE(("Listening for transport %s at address: %s",
-                    name, retAddress));
+        } flsf {
+            if ( ! gdbtb->quift ) {
+                TTY_MESSAGE(("Listfning for trbnsport %s bt bddrfss: %s",
+                    nbmf, rftAddrfss));
             }
         }
-        return JDWP_ERROR(NONE);
+        rfturn JDWP_ERROR(NONE);
 
-handleError:
-        jvmtiDeallocate(info->name);
-        jvmtiDeallocate(info->address);
-        jvmtiDeallocate(info);
-    } else {
+ibndlfError:
+        jvmtiDfbllodbtf(info->nbmf);
+        jvmtiDfbllodbtf(info->bddrfss);
+        jvmtiDfbllodbtf(info);
+    } flsf {
         /*
-         * Note that we don't attempt to do a launch here. Launching
-         * is currently supported only in server mode.
+         * Notf tibt wf don't bttfmpt to do b lbundi ifrf. Lbundiing
+         * is durrfntly supportfd only in sfrvfr modf.
          */
 
         /*
-         * If we're connecting to another process, there shouldn't be
-         * any concurrent listens, so its ok if we block here in this
-         * thread, waiting for the attach to finish.
+         * If wf'rf donnfdting to bnotifr prodfss, tifrf siouldn't bf
+         * bny dondurrfnt listfns, so its ok if wf blodk ifrf in tiis
+         * tirfbd, wbiting for tif bttbdi to finisi.
          */
-         err = (*trans)->Attach(trans, address, timeout, 0);
-         if (err != JDWPTRANSPORT_ERROR_NONE) {
-             printLastError(trans, err);
-             serror = JDWP_ERROR(TRANSPORT_INIT);
-             return serror;
+         frr = (*trbns)->Attbdi(trbns, bddrfss, timfout, 0);
+         if (frr != JDWPTRANSPORT_ERROR_NONE) {
+             printLbstError(trbns, frr);
+             sfrror = JDWP_ERROR(TRANSPORT_INIT);
+             rfturn sfrror;
          }
 
          /*
-          * Start the transport loop in a separate thread
+          * Stbrt tif trbnsport loop in b sfpbrbtf tirfbd
           */
-         (void)strcpy(threadName, "JDWP Transport Listener: ");
-         (void)strcat(threadName, name);
+         (void)strdpy(tirfbdNbmf, "JDWP Trbnsport Listfnfr: ");
+         (void)strdbt(tirfbdNbmf, nbmf);
 
-         func = &attachThread;
-         err = spawnNewThread(func, (void*)trans, threadName);
-         serror = map2jdwpError(err);
+         fund = &bttbdiTirfbd;
+         frr = spbwnNfwTirfbd(fund, (void*)trbns, tirfbdNbmf);
+         sfrror = mbp2jdwpError(frr);
     }
-    return serror;
+    rfturn sfrror;
 }
 
 void
-transport_close(void)
+trbnsport_dlosf(void)
 {
-    if ( transport != NULL ) {
-        (*transport)->Close(transport);
+    if ( trbnsport != NULL ) {
+        (*trbnsport)->Closf(trbnsport);
     }
 }
 
-jboolean
-transport_is_open(void)
+jboolfbn
+trbnsport_is_opfn(void)
 {
-    jboolean is_open = JNI_FALSE;
+    jboolfbn is_opfn = JNI_FALSE;
 
-    if ( transport != NULL ) {
-        is_open = (*transport)->IsOpen(transport);
+    if ( trbnsport != NULL ) {
+        is_opfn = (*trbnsport)->IsOpfn(trbnsport);
     }
-    return is_open;
+    rfturn is_opfn;
 }
 
 jint
-transport_sendPacket(jdwpPacket *packet)
+trbnsport_sfndPbdkft(jdwpPbdkft *pbdkft)
 {
-    jdwpTransportError err = JDWPTRANSPORT_ERROR_NONE;
-    jint rc = 0;
+    jdwpTrbnsportError frr = JDWPTRANSPORT_ERROR_NONE;
+    jint rd = 0;
 
-    if (transport != NULL) {
-        if ( (*transport)->IsOpen(transport) ) {
-            debugMonitorEnter(sendLock);
-            err = (*transport)->WritePacket(transport, packet);
-            debugMonitorExit(sendLock);
+    if (trbnsport != NULL) {
+        if ( (*trbnsport)->IsOpfn(trbnsport) ) {
+            dfbugMonitorEntfr(sfndLodk);
+            frr = (*trbnsport)->WritfPbdkft(trbnsport, pbdkft);
+            dfbugMonitorExit(sfndLodk);
         }
-        if (err != JDWPTRANSPORT_ERROR_NONE) {
-            if ((*transport)->IsOpen(transport)) {
-                printLastError(transport, err);
+        if (frr != JDWPTRANSPORT_ERROR_NONE) {
+            if ((*trbnsport)->IsOpfn(trbnsport)) {
+                printLbstError(trbnsport, frr);
             }
 
             /*
-             * The users of transport_sendPacket except 0 for
-             * success; non-0 otherwise.
+             * Tif usfrs of trbnsport_sfndPbdkft fxdfpt 0 for
+             * suddfss; non-0 otifrwisf.
              */
-            rc = (jint)-1;
+            rd = (jint)-1;
         }
 
-    } /* else, bit bucket */
+    } /* flsf, bit budkft */
 
-    return rc;
+    rfturn rd;
 }
 
 jint
-transport_receivePacket(jdwpPacket *packet)
+trbnsport_rfdfivfPbdkft(jdwpPbdkft *pbdkft)
 {
-    jdwpTransportError err;
+    jdwpTrbnsportError frr;
 
-    err = (*transport)->ReadPacket(transport, packet);
-    if (err != JDWPTRANSPORT_ERROR_NONE) {
+    frr = (*trbnsport)->RfbdPbdkft(trbnsport, pbdkft);
+    if (frr != JDWPTRANSPORT_ERROR_NONE) {
         /*
-         * If transport has been closed return EOF
+         * If trbnsport ibs bffn dlosfd rfturn EOF
          */
-        if (!(*transport)->IsOpen(transport)) {
-            packet->type.cmd.len = 0;
-            return 0;
+        if (!(*trbnsport)->IsOpfn(trbnsport)) {
+            pbdkft->typf.dmd.lfn = 0;
+            rfturn 0;
         }
 
-        printLastError(transport, err);
+        printLbstError(trbnsport, frr);
 
         /*
-         * Users of transport_receivePacket expect 0 for success,
-         * non-0 otherwise.
+         * Usfrs of trbnsport_rfdfivfPbdkft fxpfdt 0 for suddfss,
+         * non-0 otifrwisf.
          */
-        return (jint)-1;
+        rfturn (jint)-1;
     }
-    return 0;
+    rfturn 0;
 }

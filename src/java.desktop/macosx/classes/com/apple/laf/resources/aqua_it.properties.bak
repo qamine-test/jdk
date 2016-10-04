@@ -1,183 +1,183 @@
 #
-# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used in Swing
-# Currently, it contains the additional strings needed for the Aqua versions of these components:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd in Swing
+# Currfntly, it dontbins tif bdditionbl strings nffdfd for tif Aqub vfrsions of tifsf domponfnts:
 #
-#    FileChooser
+#    FilfCioosfr
 #
-# When this file is read in, the strings are put into the
-# defaults table.  This is an implementation detail of the current
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
-# This may change in future versions of Swing as we improve localization
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # support.
 
 ############ FILE CHOOSER STRINGS #############
-FileChooser.fileDescription.textAndMnemonic=File generico
-FileChooser.directoryDescription.textAndMnemonic=Directory
-FileChooser.newFolderError.textAndMnemonic=Si \u00E8 verificato un errore durante la creazione della cartella
-FileChooser.newFolderErrorSeparator= :
-FileChooser.acceptAllFileFilter.textAndMnemonic=Tutti i file
-FileChooser.cancelButton.textAndMnemonic=Annulla
-FileChooser.saveButton.textAndMnemonic=Salva
-FileChooser.openButton.textAndMnemonic=Apri
-FileChooser.saveDialogTitle.textAndMnemonic=Salva
-FileChooser.openDialogTitle.textAndMnemonic=Apri
-FileChooser.updateButton.textAndMnemonic=Aggiorna
-FileChooser.helpButton.textAndMnemonic=?
-FileChooser.directoryOpenButton.textAndMnemonic=Apri
+FilfCioosfr.filfDfsdription.tfxtAndMnfmonid=Filf gfnfrido
+FilfCioosfr.dirfdtoryDfsdription.tfxtAndMnfmonid=Dirfdtory
+FilfCioosfr.nfwFoldfrError.tfxtAndMnfmonid=Si \u00E8 vfrifidbto un frrorf durbntf lb drfbzionf dfllb dbrtfllb
+FilfCioosfr.nfwFoldfrErrorSfpbrbtor= :
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Tutti i filf
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Annullb
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Sblvb
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=Apri
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvb
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Apri
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Aggiornb
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=?
+FilfCioosfr.dirfdtoryOpfnButton.tfxtAndMnfmonid=Apri
 
-# File Size Units
-FileChooser.fileSizeKiloBytes={0} KB
-FileChooser.fileSizeMegaBytes={0} MB
-FileChooser.fileSizeGigaBytes={0} GB
+# Filf Sizf Units
+FilfCioosfr.filfSizfKiloBytfs={0} KB
+FilfCioosfr.filfSizfMfgbBytfs={0} MB
+FilfCioosfr.filfSizfGigbBytfs={0} GB
 
-# Mac-specific strings
-FileChooser.saveTitle.textAndMnemonic=Salva
-FileChooser.openTitle.textAndMnemonic=Apri
-FileChooser.newFolderExistsError.textAndMnemonic=Il nome \u00E8 gi\u00E0 stato assegnato
-FileChooser.chooseButton.textAndMnemonic=Scegli
+# Mbd-spfdifid strings
+FilfCioosfr.sbvfTitlf.tfxtAndMnfmonid=Sblvb
+FilfCioosfr.opfnTitlf.tfxtAndMnfmonid=Apri
+FilfCioosfr.nfwFoldfrExistsError.tfxtAndMnfmonid=Il nomf \u00E8 gi\u00E0 stbto bssfgnbto
+FilfCioosfr.dioosfButton.tfxtAndMnfmonid=Sdfgli
 
-FileChooser.newFolderButton.textAndMnemonic=Nuova cartella
-FileChooser.newFolderTitle.textAndMnemonic=Nuova cartella
-FileChooser.fileNameLabel.textAndMnemonic=File:
-FileChooser.saveDialogFileNameLabel.textAndMnemonic=Salva con nome:
-FileChooser.filesOfTypeLabel.textAndMnemonic=Formato file:
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=Nuovb dbrtfllb
+FilfCioosfr.nfwFoldfrTitlf.tfxtAndMnfmonid=Nuovb dbrtfllb
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=Filf:
+FilfCioosfr.sbvfDiblogFilfNbmfLbbfl.tfxtAndMnfmonid=Sblvb don nomf:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Formbto filf:
 
-FileChooser.desktopName=Desktop
-FileChooser.newFolderPrompt.textAndMnemonic=Nome nuova cartella:
-FileChooser.untitledFolderName=cartella senza titolo
-FileChooser.untitledFileName=senza titolo
-FileChooser.createButton.textAndMnemonic=Crea
+FilfCioosfr.dfsktopNbmf=Dfsktop
+FilfCioosfr.nfwFoldfrPrompt.tfxtAndMnfmonid=Nomf nuovb dbrtfllb:
+FilfCioosfr.untitlfdFoldfrNbmf=dbrtfllb sfnzb titolo
+FilfCioosfr.untitlfdFilfNbmf=sfnzb titolo
+FilfCioosfr.drfbtfButton.tfxtAndMnfmonid=Crfb
 
-FileChooser.byDate.textAndMnemonic=Data modifica
-FileChooser.by.textAndMnemonic=Nome
-FileChooser.newFolderAccessibleName=Nuova cartella
+FilfCioosfr.byDbtf.tfxtAndMnfmonid=Dbtb modifidb
+FilfCioosfr.by.tfxtAndMnfmonid=Nomf
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Nuovb dbrtfllb
 
-FileChooser.mac.newFolder=cartella senza titolo
-FileChooser.mac.newFolder.subsequent=cartella senza titolo {0}
+FilfCioosfr.mbd.nfwFoldfr=dbrtfllb sfnzb titolo
+FilfCioosfr.mbd.nfwFoldfr.subsfqufnt=dbrtfllb sfnzb titolo {0}
 
 
 ############ COLOR CHOOSER STRINGS #############
-ColorChooser.preview.textAndMnemonic=Anteprima
-ColorChooser.ok.textAndMnemonic=OK
-ColorChooser.cancel.textAndMnemonic=Annulla
-ColorChooser.reset.textAndMnemonic=R&eimposta
-ColorChooser.sample.textAndMnemonic=Testo di prova          Testo di prova
-ColorChooser.swatches.textAndMnemonic=Colori ca&mpione
-ColorChooser.swatchesRecent.textAndMnemonic=Recenti:
-ColorChooser.hsb.textAndMnemonic=&HSB
-ColorChooser.hsbHue.textAndMnemonic=H
-ColorChooser.hsbSaturation.textAndMnemonic=S
-ColorChooser.hsbBrightness.textAndMnemonic=B
-ColorChooser.hsbRed.textAndMnemonic=R
-ColorChooser.hsbGreen.textAndMnemonic=G
-ColorChooser.hsbBlue.textAndMnemonic=B
-ColorChooser.rgb.textAndMnemonic=R&GB
-ColorChooser.rgbRed.textAndMnemonic=&Rosso
-ColorChooser.rgbGreen.textAndMnemonic=Ver&de
-ColorChooser.rgbBlue.textAndMnemonic=&Blu
+ColorCioosfr.prfvifw.tfxtAndMnfmonid=Antfprimb
+ColorCioosfr.ok.tfxtAndMnfmonid=OK
+ColorCioosfr.dbndfl.tfxtAndMnfmonid=Annullb
+ColorCioosfr.rfsft.tfxtAndMnfmonid=R&fimpostb
+ColorCioosfr.sbmplf.tfxtAndMnfmonid=Tfsto di provb          Tfsto di provb
+ColorCioosfr.swbtdifs.tfxtAndMnfmonid=Colori db&mpionf
+ColorCioosfr.swbtdifsRfdfnt.tfxtAndMnfmonid=Rfdfnti:
+ColorCioosfr.isb.tfxtAndMnfmonid=&HSB
+ColorCioosfr.isbHuf.tfxtAndMnfmonid=H
+ColorCioosfr.isbSbturbtion.tfxtAndMnfmonid=S
+ColorCioosfr.isbBrigitnfss.tfxtAndMnfmonid=B
+ColorCioosfr.isbRfd.tfxtAndMnfmonid=R
+ColorCioosfr.isbGrffn.tfxtAndMnfmonid=G
+ColorCioosfr.isbBluf.tfxtAndMnfmonid=B
+ColorCioosfr.rgb.tfxtAndMnfmonid=R&GB
+ColorCioosfr.rgbRfd.tfxtAndMnfmonid=&Rosso
+ColorCioosfr.rgbGrffn.tfxtAndMnfmonid=Vfr&df
+ColorCioosfr.rgbBluf.tfxtAndMnfmonid=&Blu
 
 ############ OPTION PANE STRINGS #############
-# We only define mnemonics for YES/NO, but for completeness you can
-# define mnemonics for any of the buttons.
-OptionPane.yesButton.textAndMnemonic=&S\u00EC
-OptionPane.noButton.textAndMnemonic=&No
-OptionPane.okButton.textAndMnemonic=OK
-OptionPane.cancelButton.textAndMnemonic=Annulla
-OptionPane.title.textAndMnemonic=Selezionare una opzione
-# Title for the dialog for the showInputDialog methods. Only used if
-# the developer uses one of the variants that doesn't take a title.
-OptionPane.inputDialog.titleAndMnemonic=Input
-# Title for the dialog for the showMessageDialog methods. Only used if
-# the developer uses one of the variants that doesn't take a title.
-OptionPane.messageDialog.titleAndMnemonic=Messaggio
+# Wf only dffinf mnfmonids for YES/NO, but for domplftfnfss you dbn
+# dffinf mnfmonids for bny of tif buttons.
+OptionPbnf.yfsButton.tfxtAndMnfmonid=&S\u00EC
+OptionPbnf.noButton.tfxtAndMnfmonid=&No
+OptionPbnf.okButton.tfxtAndMnfmonid=OK
+OptionPbnf.dbndflButton.tfxtAndMnfmonid=Annullb
+OptionPbnf.titlf.tfxtAndMnfmonid=Sflfzionbrf unb opzionf
+# Titlf for tif diblog for tif siowInputDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.inputDiblog.titlfAndMnfmonid=Input
+# Titlf for tif diblog for tif siowMfssbgfDiblog mftiods. Only usfd if
+# tif dfvflopfr usfs onf of tif vbribnts tibt dofsn't tbkf b titlf.
+OptionPbnf.mfssbgfDiblog.titlfAndMnfmonid=Mfssbggio
 
-############ Printing Dialog Strings ############
-PrintingDialog.titleProgress.textAndMnemonic=Stampa in corso
-PrintingDialog.titleAborting.textAndMnemonic=Stampa in corso (operazione interrotta)
+############ Printing Diblog Strings ############
+PrintingDiblog.titlfProgrfss.tfxtAndMnfmonid=Stbmpb in dorso
+PrintingDiblog.titlfAborting.tfxtAndMnfmonid=Stbmpb in dorso (opfrbzionf intfrrottb)
 
-PrintingDialog.contentInitial.textAndMnemonic=Stampa in corso...
+PrintingDiblog.dontfntInitibl.tfxtAndMnfmonid=Stbmpb in dorso...
 
-# The following string will be formatted by a MessageFormat
-# and {0} will be replaced by page number being printed
-PrintingDialog.contentProgress.textAndMnemonic=Pagina stampata {0}...
+# Tif following string will bf formbttfd by b MfssbgfFormbt
+# bnd {0} will bf rfplbdfd by pbgf numbfr bfing printfd
+PrintingDiblog.dontfntProgrfss.tfxtAndMnfmonid=Pbginb stbmpbtb {0}...
 
-PrintingDialog.contentAborting.textAndMnemonic=Interruzione della stampa in corso...
+PrintingDiblog.dontfntAborting.tfxtAndMnfmonid=Intfrruzionf dfllb stbmpb in dorso...
 
-PrintingDialog.abortButton.textAndMnemonic=&Interrompi
-PrintingDialog.abortButtonToolTip.textAndMnemonic=Interrompe la stampa
+PrintingDiblog.bbortButton.tfxtAndMnfmonid=&Intfrrompi
+PrintingDiblog.bbortButtonToolTip.tfxtAndMnfmonid=Intfrrompf lb stbmpb
 
-############ Internal Frame Strings ############
-InternalFrame.iconButtonToolTip=Riduce a icona
-InternalFrame.maxButtonToolTip=Ingrandisce
-InternalFrame.restoreButtonToolTip=Ripristina
-InternalFrame.closeButtonToolTip=Chiude
+############ Intfrnbl Frbmf Strings ############
+IntfrnblFrbmf.idonButtonToolTip=Ridudf b idonb
+IntfrnblFrbmf.mbxButtonToolTip=Ingrbndisdf
+IntfrnblFrbmf.rfstorfButtonToolTip=Ripristinb
+IntfrnblFrbmf.dlosfButtonToolTip=Ciiudf
 
-############ Internal Frame Title Pane Strings ############
-InternalFrameTitlePane.restoreButton.textAndMnemonic=Ripristina
-InternalFrameTitlePane.moveButton.textAndMnemonic=Sposta
-InternalFrameTitlePane.sizeButton.textAndMnemonic=Dimensiona
-InternalFrameTitlePane.minimizeButton.textAndMnemonic=Riduci a icona
-InternalFrameTitlePane.maximizeButton.textAndMnemonic=Ingrandisci
-InternalFrameTitlePane.closeButton.textAndMnemonic=Chiudi
+############ Intfrnbl Frbmf Titlf Pbnf Strings ############
+IntfrnblFrbmfTitlfPbnf.rfstorfButton.tfxtAndMnfmonid=Ripristinb
+IntfrnblFrbmfTitlfPbnf.movfButton.tfxtAndMnfmonid=Spostb
+IntfrnblFrbmfTitlfPbnf.sizfButton.tfxtAndMnfmonid=Dimfnsionb
+IntfrnblFrbmfTitlfPbnf.minimizfButton.tfxtAndMnfmonid=Ridudi b idonb
+IntfrnblFrbmfTitlfPbnf.mbximizfButton.tfxtAndMnfmonid=Ingrbndisdi
+IntfrnblFrbmfTitlfPbnf.dlosfButton.tfxtAndMnfmonid=Ciiudi
 
-############ Text strings #############
-# Used for html forms
-FormView.submitButton.textAndMnemonic=Sottometti query
-FormView.resetButton.textAndMnemonic=Reimposta
-FormView.browseFileButton.textAndMnemonic=Sfoglia...
+############ Tfxt strings #############
+# Usfd for itml forms
+FormVifw.submitButton.tfxtAndMnfmonid=Sottomftti qufry
+FormVifw.rfsftButton.tfxtAndMnfmonid=Rfimpostb
+FormVifw.browsfFilfButton.tfxtAndMnfmonid=Sfoglib...
 
-############ Abstract Document Strings ############
-AbstractDocument.styleChange.textAndMnemonic=modifica di stile
-AbstractDocument.addition.textAndMnemonic=aggiunta
-AbstractDocument.deletion.textAndMnemonic=eliminazione
-AbstractDocument.undo.textAndMnemonic=Annulla
-AbstractDocument.redo.textAndMnemonic=Ripeti
+############ Abstrbdt Dodumfnt Strings ############
+AbstrbdtDodumfnt.stylfCibngf.tfxtAndMnfmonid=modifidb di stilf
+AbstrbdtDodumfnt.bddition.tfxtAndMnfmonid=bggiuntb
+AbstrbdtDodumfnt.dflftion.tfxtAndMnfmonid=fliminbzionf
+AbstrbdtDodumfnt.undo.tfxtAndMnfmonid=Annullb
+AbstrbdtDodumfnt.rfdo.tfxtAndMnfmonid=Ripfti
 
-############ Abstract Button Strings ############
-AbstractButton.click.textAndMnemonic=fare clic
+############ Abstrbdt Button Strings ############
+AbstrbdtButton.dlidk.tfxtAndMnfmonid=fbrf dlid
 
-############ Abstract Undoable Edit Strings ############
-AbstractUndoableEdit.undo.textAndMnemonic=Annulla
-AbstractUndoableEdit.redo.textAndMnemonic=Ripeti
+############ Abstrbdt Undobblf Edit Strings ############
+AbstrbdtUndobblfEdit.undo.tfxtAndMnfmonid=Annullb
+AbstrbdtUndobblfEdit.rfdo.tfxtAndMnfmonid=Ripfti
 
 ############ Combo Box Strings ############
-ComboBox.togglePopup.textAndMnemonic=togglePopup
+ComboBox.togglfPopup.tfxtAndMnfmonid=togglfPopup
 
-############ Progress Monitor Strings ############
-ProgressMonitor.progress.textAndMnemonic=In corso...
+############ Progrfss Monitor Strings ############
+ProgrfssMonitor.progrfss.tfxtAndMnfmonid=In dorso...
 
-############ Split Pane Strings ############
-SplitPane.leftButton.textAndMnemonic=pulsante sinistro
-SplitPane.rightButton.textAndMnemonic=pulsante destro
-# Used for Isindex
-IsindexView.prompt=Questo \u00E8 un indice di ricerca. Immettere le parole chiave:
+############ Split Pbnf Strings ############
+SplitPbnf.lfftButton.tfxtAndMnfmonid=pulsbntf sinistro
+SplitPbnf.rigitButton.tfxtAndMnfmonid=pulsbntf dfstro
+# Usfd for Isindfx
+IsindfxVifw.prompt=Qufsto \u00E8 un indidf di ridfrdb. Immfttfrf lf pbrolf diibvf:
 
-############ InternalFrameTitlePane Strings ############
-InternalFrameTitlePane.iconifyButtonAccessibleName=Riduci a icona
-InternalFrameTitlePane.maximizeButtonAccessibleName=Ingrandisci
-InternalFrameTitlePane.closeButtonAccessibleName=Chiudi
+############ IntfrnblFrbmfTitlfPbnf Strings ############
+IntfrnblFrbmfTitlfPbnf.idonifyButtonAddfssiblfNbmf=Ridudi b idonb
+IntfrnblFrbmfTitlfPbnf.mbximizfButtonAddfssiblfNbmf=Ingrbndisdi
+IntfrnblFrbmfTitlfPbnf.dlosfButtonAddfssiblfNbmf=Ciiudi

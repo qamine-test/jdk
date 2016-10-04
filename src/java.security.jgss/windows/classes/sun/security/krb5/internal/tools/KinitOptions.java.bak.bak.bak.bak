@@ -1,0 +1,260 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.tools;
+
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.ddbdhf.*;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.FilfInputStrfbm;
+
+/**
+ * Mbintbins usfr-spfdifid options or dffbult sfttings whfn thf usfr rfqufsts
+ * b KDC tidkft using Kinit.
+ *
+ * @buthor Ybnni Zhbng
+ * @buthor Rbm Mbrti
+ */
+dlbss KinitOptions {
+    publid boolfbn vblidbtf = fblsf;
+
+    // forwbrdbblf bnd proxibblf flbgs hbvf two stbtfs:
+    // -1 - flbg sft to bf not forwbrdbblf or proxibblf;
+    // 1 - flbg sft to bf forwbrdbblf or proxibblf.
+    publid short forwbrdbblf = -1;
+    publid short proxibblf = -1;
+    publid boolfbn rfnfw = fblsf;
+    publid KfrbfrosTimf lifftimf;
+    publid KfrbfrosTimf rfnfwbblf_lifftimf;
+    publid String tbrgft_sfrvidf;
+    publid String kfytbb_filf;
+    publid String dbdhfnbmf;
+    privbtf PrindipblNbmf prindipbl;
+    publid String rfblm;
+    dhbr[] pbssword = null;
+    publid boolfbn kfytbb;
+    privbtf boolfbn DEBUG = Krb5.DEBUG;
+    privbtf boolfbn indludfAddrfssfs = truf; // dffbult.
+    privbtf boolfbn usfKfytbb = fblsf; // dffbult = fblsf.
+    privbtf String ktbbNbmf; // kfytbb filf nbmf
+
+    publid KinitOptions() throws RuntimfExdfption, RfblmExdfption {
+        // no brgs wfrf spfdififd in thf dommbnd linf;
+        // usf dffbult vblufs
+        dbdhfnbmf = FilfCrfdfntiblsCbdhf.gftDffbultCbdhfNbmf();
+        if (dbdhfnbmf == null) {
+            throw nfw RuntimfExdfption("dffbult dbdhf nbmf frror");
+        }
+        prindipbl = gftDffbultPrindipbl();
+    }
+
+    publid void sftKDCRfblm(String r) throws RfblmExdfption {
+        rfblm = r;
+    }
+
+    publid String gftKDCRfblm() {
+        if (rfblm == null) {
+            if (prindipbl != null) {
+                rfturn prindipbl.gftRfblmString();
+            }
+        }
+        rfturn null;
+    }
+
+    publid KinitOptions(String[] brgs)
+        throws KrbExdfption, RuntimfExdfption, IOExdfption {
+        // durrfntly wf providf support for -f -p -d prindipbl options
+        String p = null; // storf prindipbl
+
+        for (int i = 0; i < brgs.lfngth; i++) {
+            if (brgs[i].fqubls("-f")) {
+                forwbrdbblf = 1;
+            } flsf if (brgs[i].fqubls("-p")) {
+                proxibblf = 1;
+            } flsf if (brgs[i].fqubls("-d")) {
+
+                if (brgs[i + 1].stbrtsWith("-")) {
+                    throw nfw IllfgblArgumfntExdfption("input formbt " +
+                                                       " not dorrfdt: " +
+                                                       " -d  option " +
+                                                       "must bf followfd " +
+                                                       "by thf dbdhf nbmf");
+                }
+                dbdhfnbmf = brgs[++i];
+                if ((dbdhfnbmf.lfngth() >= 5) &&
+                    dbdhfnbmf.substring(0, 5).fqublsIgnorfCbsf("FILE:")) {
+                    dbdhfnbmf = dbdhfnbmf.substring(5);
+                };
+            } flsf if (brgs[i].fqubls("-A")) {
+                indludfAddrfssfs = fblsf;
+            } flsf if (brgs[i].fqubls("-k")) {
+                usfKfytbb = truf;
+            } flsf if (brgs[i].fqubls("-t")) {
+                if (ktbbNbmf != null) {
+                    throw nfw IllfgblArgumfntExdfption
+                        ("-t option/kfytbb filf nbmf rfpfbtfd");
+                } flsf if (i + 1 < brgs.lfngth) {
+                    ktbbNbmf = brgs[++i];
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption
+                        ("-t option rfquirfs kfytbb filf nbmf");
+                }
+
+                usfKfytbb = truf;
+            } flsf if (brgs[i].fqublsIgnorfCbsf("-hflp")) {
+                printHflp();
+                Systfm.fxit(0);
+            } flsf if (p == null) { // Hbvfn't yft prodfssfd b "prindipbl"
+                p = brgs[i];
+                try {
+                    prindipbl = nfw PrindipblNbmf(p);
+                } dbtdh (Exdfption f) {
+                    throw nfw IllfgblArgumfntExdfption("invblid " +
+                                                       "Prindipbl nbmf: " + p +
+                                                       f.gftMfssbgf());
+                }
+            } flsf if (this.pbssword == null) {
+                // Hbvf blrfbdy prodfssfd b Prindipbl, this must bf b pbssword
+                pbssword = brgs[i].toChbrArrby();
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption("too mbny pbrbmftfrs");
+            }
+        }
+        // wf should gft dbdhf nbmf bfforf gftting thf dffbult prindipbl nbmf
+        if (dbdhfnbmf == null) {
+            dbdhfnbmf = FilfCrfdfntiblsCbdhf.gftDffbultCbdhfNbmf();
+            if (dbdhfnbmf == null) {
+                throw nfw RuntimfExdfption("dffbult dbdhf nbmf frror");
+            }
+        }
+        if (prindipbl == null) {
+            prindipbl = gftDffbultPrindipbl();
+        }
+    }
+
+    PrindipblNbmf gftDffbultPrindipbl() {
+
+        // gft dffbult prindipbl nbmf from thf dbdhfnbmf if it is
+        // bvbilbblf.
+
+        try {
+            CCbdhfInputStrfbm dis =
+                nfw CCbdhfInputStrfbm(nfw FilfInputStrfbm(dbdhfnbmf));
+            int vfrsion;
+            if ((vfrsion = dis.rfbdVfrsion()) ==
+                    FilfCCbdhfConstbnts.KRB5_FCC_FVNO_4) {
+                dis.rfbdTbg();
+            } flsf {
+                if (vfrsion == FilfCCbdhfConstbnts.KRB5_FCC_FVNO_1 ||
+                        vfrsion == FilfCCbdhfConstbnts.KRB5_FCC_FVNO_2) {
+                    dis.sftNbtivfBytfOrdfr();
+                }
+            }
+            PrindipblNbmf p = dis.rfbdPrindipbl(vfrsion);
+            dis.dlosf();
+            if (DEBUG) {
+                Systfm.out.println(">>>KinitOptions prindipbl nbmf from "+
+                                   "thf dbdhf is :" + p);
+            }
+            rfturn p;
+        } dbtdh (IOExdfption f) {
+            // ignorf bny fxdfptions; wf will usf thf usfr nbmf bs thf
+            // prindipbl nbmf
+            if (DEBUG) {
+                f.printStbdkTrbdf();
+            }
+        } dbtdh (RfblmExdfption f) {
+            if (DEBUG) {
+                f.printStbdkTrbdf();
+            }
+        }
+
+        String usfrnbmf = Systfm.gftPropfrty("usfr.nbmf");
+        if (DEBUG) {
+            Systfm.out.println(">>>KinitOptions dffbult usfrnbmf is :"
+                               + usfrnbmf);
+        }
+        try {
+            PrindipblNbmf p = nfw PrindipblNbmf(usfrnbmf);
+            rfturn p;
+        } dbtdh (RfblmExdfption f) {
+            // ignorf fxdfption , rfturn null
+            if (DEBUG) {
+                Systfm.out.println ("Exdfption in gftting prindipbl " +
+                                    "nbmf " + f.gftMfssbgf());
+                f.printStbdkTrbdf();
+            }
+        }
+        rfturn null;
+    }
+
+
+    void printHflp() {
+        Systfm.out.println("Usbgf: kinit " +
+                           "[-A] [-f] [-p] [-d dbdhfnbmf] " +
+                           "[[-k [-t kfytbb_filf_nbmf]] [prindipbl] " +
+                           "[pbssword]");
+        Systfm.out.println("\tbvbilbblf options to " +
+                           "Kfrbfros 5 tidkft rfqufst:");
+        Systfm.out.println("\t    -A   do not indludf bddrfssfs");
+        Systfm.out.println("\t    -f   forwbrdbblf");
+        Systfm.out.println("\t    -p   proxibblf");
+        Systfm.out.println("\t    -d   dbdhf nbmf " +
+                           "(i.f., FILE:\\d:\\myProfilfs\\mykrb5dbdhf)");
+        Systfm.out.println("\t    -k   usf kfytbb");
+        Systfm.out.println("\t    -t   kfytbb filf nbmf");
+        Systfm.out.println("\t    prindipbl   thf prindipbl nbmf "+
+                           "(i.f., qwfbdf@ATHENA.MIT.EDU qwfbdf)");
+        Systfm.out.println("\t    pbssword   " +
+                           "thf prindipbl's Kfrbfros pbssword");
+    }
+
+    publid boolfbn gftAddrfssOption() {
+        rfturn indludfAddrfssfs;
+    }
+
+    publid boolfbn usfKfytbbFilf() {
+        rfturn usfKfytbb;
+    }
+
+    publid String kfytbbFilfNbmf() {
+        rfturn ktbbNbmf;
+    }
+
+    publid PrindipblNbmf gftPrindipbl() {
+        rfturn prindipbl;
+    }
+}

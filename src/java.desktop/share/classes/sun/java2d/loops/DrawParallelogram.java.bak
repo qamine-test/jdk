@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * @author Jim Graham
+ * @butior Jim Grbibm
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
 
 /**
- * DrawParallelogram
- * 1) fill the area between the 4 edges of an outer parallelogram
- *    (as specified by an origin and 2 delta vectors)
- *    but also outside the 4 edges of an inner parallelogram
- *    (as specified by proportional amounts of the outer delta vectors)
+ * DrbwPbrbllflogrbm
+ * 1) fill tif brfb bftwffn tif 4 fdgfs of bn outfr pbrbllflogrbm
+ *    (bs spfdififd by bn origin bnd 2 dfltb vfdtors)
+ *    but blso outsidf tif 4 fdgfs of bn innfr pbrbllflogrbm
+ *    (bs spfdififd by proportionbl bmounts of tif outfr dfltb vfdtors)
  */
-public class DrawParallelogram extends GraphicsPrimitive
+publid dlbss DrbwPbrbllflogrbm fxtfnds GrbpiidsPrimitivf
 {
-    public final static String methodSignature =
-        "DrawParallelogram(...)".toString();
+    publid finbl stbtid String mftiodSignbturf =
+        "DrbwPbrbllflogrbm(...)".toString();
 
-    public final static int primTypeID = makePrimTypeID();
+    publid finbl stbtid int primTypfID = mbkfPrimTypfID();
 
-    public static DrawParallelogram locate(SurfaceType srctype,
-                                           CompositeType comptype,
-                                           SurfaceType dsttype)
+    publid stbtid DrbwPbrbllflogrbm lodbtf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
     {
-        return (DrawParallelogram)
-            GraphicsPrimitiveMgr.locate(primTypeID,
-                                        srctype, comptype, dsttype);
+        rfturn (DrbwPbrbllflogrbm)
+            GrbpiidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
     }
 
-    protected DrawParallelogram(SurfaceType srctype,
-                                CompositeType comptype,
-                                SurfaceType dsttype)
+    protfdtfd DrbwPbrbllflogrbm(SurfbdfTypf srdtypf,
+                                CompositfTypf domptypf,
+                                SurfbdfTypf dsttypf)
     {
-        super(methodSignature, primTypeID,
-              srctype, comptype, dsttype);
+        supfr(mftiodSignbturf, primTypfID,
+              srdtypf, domptypf, dsttypf);
     }
 
-    public DrawParallelogram(long pNativePrim,
-                             SurfaceType srctype,
-                             CompositeType comptype,
-                             SurfaceType dsttype)
+    publid DrbwPbrbllflogrbm(long pNbtivfPrim,
+                             SurfbdfTypf srdtypf,
+                             CompositfTypf domptypf,
+                             SurfbdfTypf dsttypf)
     {
-        super(pNativePrim, methodSignature, primTypeID,
-              srctype, comptype, dsttype);
+        supfr(pNbtivfPrim, mftiodSignbturf, primTypfID,
+              srdtypf, domptypf, dsttypf);
     }
 
     /**
-     * All DrawParallelogram implementors must have this invoker method
+     * All DrbwPbrbllflogrbm implfmfntors must ibvf tiis invokfr mftiod
      */
-    public native void DrawParallelogram(SunGraphics2D sg, SurfaceData dest,
-                                         double x, double y,
-                                         double dx1, double dy1,
-                                         double dx2, double dy2,
-                                         double lw1, double lw2);
+    publid nbtivf void DrbwPbrbllflogrbm(SunGrbpiids2D sg, SurfbdfDbtb dfst,
+                                         doublf x, doublf y,
+                                         doublf dx1, doublf dy1,
+                                         doublf dx2, doublf dy2,
+                                         doublf lw1, doublf lw2);
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
-                                           CompositeType comptype,
-                                           SurfaceType dsttype)
+    publid GrbpiidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
     {
-        // REMIND: iterate with a FillRect primitive?
-        throw new InternalError("DrawParallelogram not implemented for "+
-                                srctype+" with "+comptype);
+        // REMIND: itfrbtf witi b FillRfdt primitivf?
+        tirow nfw IntfrnblError("DrbwPbrbllflogrbm not implfmfntfd for "+
+                                srdtypf+" witi "+domptypf);
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceDrawParallelogram(this);
+    publid GrbpiidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfDrbwPbrbllflogrbm(tiis);
     }
 
-    private static class TraceDrawParallelogram extends DrawParallelogram {
-        DrawParallelogram target;
+    privbtf stbtid dlbss TrbdfDrbwPbrbllflogrbm fxtfnds DrbwPbrbllflogrbm {
+        DrbwPbrbllflogrbm tbrgft;
 
-        public TraceDrawParallelogram(DrawParallelogram target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        publid TrbdfDrbwPbrbllflogrbm(DrbwPbrbllflogrbm tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            tiis.tbrgft = tbrgft;
         }
 
-        public GraphicsPrimitive traceWrap() {
-            return this;
+        publid GrbpiidsPrimitivf trbdfWrbp() {
+            rfturn tiis;
         }
 
-        public void DrawParallelogram(SunGraphics2D sg2d, SurfaceData dest,
-                                      double x, double y,
-                                      double dx1, double dy1,
-                                      double dx2, double dy2,
-                                      double lw1, double lw2)
+        publid void DrbwPbrbllflogrbm(SunGrbpiids2D sg2d, SurfbdfDbtb dfst,
+                                      doublf x, doublf y,
+                                      doublf dx1, doublf dy1,
+                                      doublf dx2, doublf dy2,
+                                      doublf lw1, doublf lw2)
         {
-            tracePrimitive(target);
-            target.DrawParallelogram(sg2d, dest,
+            trbdfPrimitivf(tbrgft);
+            tbrgft.DrbwPbrbllflogrbm(sg2d, dfst,
                                      x, y, dx1, dy1, dx2, dy2, lw1, lw2);
         }
     }

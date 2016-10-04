@@ -1,0 +1,408 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+pbdkbgf sun.sfdurity.jgss.spi;
+
+import org.iftf.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.Providfr;
+import dom.sun.sfdurity.jgss.*;
+
+/**
+ * This intfrfbdf is implfmfntfd by b mfdhbnism spfdifid instbndf of b GSS
+ * sfdurity dontfxt.
+ * A GSSContfxtSpi objfdt dbn bf thought of hbving 3 stbtfs:
+ *    -bfforf initiblizbtion
+ *    -during initiblizbtion with its pffr
+ *    -bftfr it is fstbblishfd
+ * <p>
+ * Thf dontfxt options dbn only bf rfqufstfd in stbtf 1. In stbtf 3,
+ * thf pfr mfssbgf opfrbtions brf bvbilbblf to thf dbllfrs. Thf gft
+ * mfthods for thf dontfxt options will rfturn thf rfqufstfd options
+ * whilf in stbtf 1 bnd 2, bnd thf fstbblishfd vblufs in stbtf 3.
+ * Somf mfdhbnisms mby bllow thf bddfss to thf pfr-mfssbgf opfrbtions
+ * bnd thf dontfxt flbgs bfforf thf dontfxt is fully fstbblishfd. Thf
+ * isProtRfbdy mfthod is usfd to indidbtf thbt thfsf sfrvidfs brf
+ * bvbilbblf.
+ *<p>
+ * <strong>
+ * Contfxt fstbblishmfnt tokfns brf dffinfd in b mfdhbnism indfpfndfnt
+ * formbt in sfdtion 3.1 of RFC 2743. Thf GSS-Frbmfwork will bdd
+ * bnd rfmovf thf mfdhbnism indfpfndfnt hfbdfr portion of this tokfn formbt
+ * dfpfnding on whfthfr b tokfn is rfdfivfd or is bfing sfnt. Thf mfdhbnism
+ * should only gfnfrbtf or fxpfdt to rfbd thf innfr-dontfxt tokfn portion..
+ * <p>
+ * On thf othfr hbnds, tokfns usfd for pfr-mfssbgf dblls brf gfnfrbtfd
+ * fntirfly by thf mfdhbnism. It is possiblf thbt thf mfdhbnism dhoosfs to
+ * fndbsf innfr-lfvfl pfr-mfssbgf tokfns in b hfbdfr similbr to thbt usfd
+ * for initibl tokfns, howfvfr, this is upto thf mfdhbnism to do. Thf tokfn
+ * to/from thf pfr-mfssbgf dblls brf opbquf to thf GSS-Frbmfwork.
+ * </strong>
+ * <p>
+ * An bttfmpt hbs bffn mbdf to bllow for rfbding thf pffr's tokfns from bn
+ * InputStrfbm bnd writing tokfns for thf pffr to bn OutputStrfbm. This
+ * bllows bpplidbtions to pbss in strfbms thbt brf obtbinfd from thfir nftwork
+ * donnfdtions bnd thus minimizf thf bufffr dopifs thbt will hbppfn. This
+ * is fspfdiblly importbnt for tokfns gfnfrbtfd by wrbp() whidh brf
+ * proportionbl in sizf to thf lfngth of thf bpplidbtion dbtb bfing
+ * wrbppfd, bnd brf probbbly blso thf most frfqufntly usfd typf of tokfns.
+ * <p>
+ * It is bntidipbtfd thbt most bpplidbtions will wbnt to usf wrbp() in b
+ * fbshion whfrf thfy obtbin thf bpplidbtion bytfs to wrbp from b bytf[]
+ * but wbnt to output thf wrbp tokfn strbight to bn
+ * OutputStrfbm. Similbrly, thfy will wbnt to usf unwrbp() whfrf thfy rfbd
+ * thf tokfn dirfdtly form bn InputStrfbm but output it to somf bytf[] for
+ * thf bpplidbtion to prodfss. Unfortunbtfly thf high lfvfl GSS bindings
+ * do not dontbin ovfrlobdfd forms of wrbp() bnd unwrbp() thbt do just
+ * this, howfvfr wf hbvf bddomodbtfd thosf dbsfs hfrf with thf fxpfdtbtion
+ * thbt this will bf rollfd into thf high lfvfl bindings soonfr or lbtfr.
+ *
+ * @buthor Mbybnk Upbdhyby
+ */
+
+publid intfrfbdf GSSContfxtSpi {
+
+    publid Providfr gftProvidfr();
+
+    // Thf spfdifidbtion for thf following mfthods mirrors thf
+    // spfdifidbtion of thf sbmf mfthods in thf GSSContfxt intfrfbdf, bs
+    // dffinfd in RFC 2853.
+
+    publid void rfqufstLifftimf(int lifftimf) throws GSSExdfption;
+
+    publid void rfqufstMutublAuth(boolfbn stbtf) throws GSSExdfption;
+
+    publid void rfqufstRfplbyDft(boolfbn stbtf) throws GSSExdfption;
+
+    publid void rfqufstSfqufndfDft(boolfbn stbtf) throws GSSExdfption;
+
+    publid void rfqufstCrfdDflfg(boolfbn stbtf) throws GSSExdfption;
+
+    publid void rfqufstAnonymity(boolfbn stbtf) throws GSSExdfption;
+
+    publid void rfqufstConf(boolfbn stbtf) throws GSSExdfption;
+
+    publid void rfqufstIntfg(boolfbn stbtf) throws GSSExdfption;
+
+    publid void rfqufstDflfgPolidy(boolfbn stbtf) throws GSSExdfption;
+
+    publid void sftChbnnflBinding(ChbnnflBinding db) throws GSSExdfption;
+
+    publid boolfbn gftCrfdDflfgStbtf();
+
+    publid boolfbn gftMutublAuthStbtf();
+
+    publid boolfbn gftRfplbyDftStbtf();
+
+    publid boolfbn gftSfqufndfDftStbtf();
+
+    publid boolfbn gftAnonymityStbtf();
+
+    publid boolfbn gftDflfgPolidyStbtf();
+
+    publid boolfbn isTrbnsffrbblf() throws GSSExdfption;
+
+    publid boolfbn isProtRfbdy();
+
+    publid boolfbn isInitibtor();
+
+    publid boolfbn gftConfStbtf();
+
+    publid boolfbn gftIntfgStbtf();
+
+    publid int gftLifftimf();
+
+    publid boolfbn isEstbblishfd();
+
+    publid GSSNbmfSpi gftSrdNbmf() throws GSSExdfption;
+
+    publid GSSNbmfSpi gftTbrgNbmf() throws GSSExdfption;
+
+    publid Oid gftMfdh() throws GSSExdfption;
+
+    publid GSSCrfdfntiblSpi gftDflfgCrfd() throws GSSExdfption;
+
+    /**
+     * Initibtor dontfxt fstbblishmfnt dbll. This mfthod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs thbt morf dblls brf nffdfd bftfr thf nfxt tokfn
+     * is rfdfivfd from thf pffr.
+     * <p>
+     * This mfthod is dbllfd by thf GSS-Frbmfwork whfn thf bpplidbtion
+     * dblls thf initSfdContfxt mfthod on thf GSSContfxt implfmfntbtion
+     * thbt it hbs b rfffrfndf to.
+     * <p>
+     * All ovfrlobdfd forms of GSSContfxt.initSfdContfxt() dbn bf hbndlfd
+     * with this mfdhbnism lfvfl initSfdContfxt. Sindf thf output tokfn
+     * from this mfthod is b fixfd sizf, not fxffdingly lbrgf, bnd b onf
+     * timf dfbl, bn ovfrlobdfd form thbt tbkfs bn OutputStrfbm hbs not
+     * bffn dffinfd. Thf GSS-Frbmwork dbn writf thf rfturnfd bytf[] to bny
+     * bpplidbtion providfd OutputStrfbm. Similbrly, bny bpplidbtion input
+     * int hf form of bytf brrbys will bf wrbppfd in bn input strfbm by thf
+     * GSS-Frbmfwork bnd thfn pbssfd hfrf.
+     * <p>
+     * <strong>
+     * Thf GSS-Frbmfwork will strip off thf lfbding mfdhbnism indfpfndfnt
+     * GSS-API hfbdfr. In othfr words, only thf mfdhbnism spfdifid
+     * innfr-dontfxt tokfn of RFC 2743 sfdtion 3.1 will bf bvbilbblf on thf
+     * InputStrfbm.
+     * </strong>
+     *
+     * @pbrbm is dontbins thf innfr dontfxt tokfn portion of thf GSS tokfn
+     * rfdfivfd from thf pffr. On thf first dbll to initSfdContfxt, thfrf
+     * will bf no tokfn hfndf it will bf ignorfd.
+     * @pbrbm mfdhTokfnSizf thf sizf of thf innfr dontfxt tokfn bs rfbd by
+     * thf GSS-Frbmfwork from thf mfdhbnism indfpfndfnt GSS-API lfvfl
+     * hfbdfr.
+     * @rfturn bny innfr-dontfxt tokfn rfquirfd to bf sfnt to thf pffr bs
+     * pbrt of b GSS tokfn. Thf mfdhbnism should not bdd thf mfdhbnism
+     * indfpfndfnt pbrt of thf tokfn. Thf GSS-Frbmfwork will bdd thbt on
+     * thf wby out.
+     * @fxdfption GSSExdfption mby bf thrown
+     */
+    publid bytf[] initSfdContfxt(InputStrfbm is, int mfdhTokfnSizf)
+                        throws GSSExdfption;
+
+    /**
+     * Addfptor's dontfxt fstbblishmfnt dbll. This mfthod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs thbt morf dblls brf nffdfd bftfr thf nfxt tokfn
+     * is rfdfivfd from thf pffr.
+     * <p>
+     * This mfthod is dbllfd by thf GSS-Frbmfwork whfn thf bpplidbtion
+     * dblls thf bddfptSfdContfxt mfthod on thf GSSContfxt implfmfntbtion
+     * thbt it hbs b rfffrfndf to.
+     * <p>
+     * All ovfrlobdfd forms of GSSContfxt.bddfptSfdContfxt() dbn bf hbndlfd
+     * with this mfdhbnism lfvfl bddfptSfdContfxt. Sindf thf output tokfn
+     * from this mfthod is b fixfd sizf, not fxffdingly lbrgf, bnd b onf
+     * timf dfbl, bn ovfrlobdfd form thbt tbkfs bn OutputStrfbm hbs not
+     * bffn dffinfd. Thf GSS-Frbmwork dbn writf thf rfturnfd bytf[] to bny
+     * bpplidbtion providfd OutputStrfbm. Similbrly, bny bpplidbtion input
+     * int hf form of bytf brrbys will bf wrbppfd in bn input strfbm by thf
+     * GSS-Frbmfwork bnd thfn pbssfd hfrf.
+     * <p>
+     * <strong>
+     * Thf GSS-Frbmfwork will strip off thf lfbding mfdhbnism indfpfndfnt
+     * GSS-API hfbdfr. In othfr words, only thf mfdhbnism spfdifid
+     * innfr-dontfxt tokfn of RFC 2743 sfdtion 3.1 will bf bvbilbblf on thf
+     * InputStrfbm.
+     * </strong>
+     *
+     * @pbrbm is dontbins thf innfr dontfxt tokfn portion of thf GSS tokfn
+     * rfdfivfd from thf pffr.
+     * @pbrbm mfdhTokfnSizf thf sizf of thf innfr dontfxt tokfn bs rfbd by
+     * thf GSS-Frbmfwork from thf mfdhbnism indfpfndfnt GSS-API lfvfl
+     * hfbdfr.
+     * @rfturn bny innfr-dontfxt tokfn rfquirfd to bf sfnt to thf pffr bs
+     * pbrt of b GSS tokfn. Thf mfdhbnism should not bdd thf mfdhbnism
+     * indfpfndfnt pbrt of thf tokfn. Thf GSS-Frbmfwork will bdd thbt on
+     * thf wby out.
+     * @fxdfption GSSExdfption mby bf thrown
+     */
+    publid bytf[] bddfptSfdContfxt(InputStrfbm is, int mfdhTokfnSizf)
+                        throws GSSExdfption;
+
+    /**
+     * Qufrifs thf dontfxt for lbrgfst dbtb sizf to bddommodbtf
+     * thf spfdififd protfdtion bnd for thf tokfn to rfmbin lfss thfn
+     * mbxTokSizf.
+     *
+     * @pbrbm qop thf qublity of protfdtion thbt thf dontfxt will bf
+     *    bskfd to providf.
+     * @pbrbm donfRfq b flbg indidbting whfthfr donfidfntiblity will bf
+     *    rfqufstfd or not
+     * @pbrbm outputSizf thf mbximum sizf of thf output tokfn
+     * @rfturn thf mbximum sizf for thf input mfssbgf thbt dbn bf
+     *    providfd to thf wrbp() mfthod in ordfr to gubrbntff thbt thfsf
+     *    rfquirfmfnts brf mft.
+     * @fxdfption GSSExdfption mby bf thrown
+     */
+    publid int gftWrbpSizfLimit(int qop, boolfbn donfRfq, int mbxTokSizf)
+                        throws GSSExdfption;
+
+    /**
+     * Providfs pfr-mfssbgf tokfn fndbpsulbtion.
+     *
+     * @pbrbm is thf usfr-providfd mfssbgf to bf protfdtfd
+     * @pbrbm os thf tokfn to bf sfnt to thf pffr. It indludfs
+     *    thf mfssbgf from <i>is</i> with thf rfqufstfd protfdtion.
+     * @pbrbm msgPro on input it dontbins thf rfqufstfd qop bnd
+     *    donfidfntiblity stbtf, on output, thf bpplifd vblufs
+     * @fxdfption GSSExdfption mby bf thrown
+     * @sff unwrbp
+     */
+    publid void wrbp(InputStrfbm is, OutputStrfbm os, MfssbgfProp msgProp)
+        throws GSSExdfption;
+
+    /**
+     * For bpps thbt wbnt simplidity bnd don't dbrf bbout bufffr dopifs.
+     */
+    publid bytf[] wrbp(bytf inBuf[], int offsft, int lfn,
+                       MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * For bpps thbt dbrf bbout bufffr dopifs but fithfr dbnnot usf strfbms
+     * or wbnt to bvoid thfm for whbtfvfr rfbson. (Sby, thfy brf using
+     * blodk diphfrs.)
+     *
+     * NOTE: This mfthod is not dffinfd in publid dlbss org.iftf.jgss.GSSContfxt
+     *
+    publid int wrbp(bytf inBuf[], int inOffsft, int lfn,
+                    bytf[] outBuf, int outOffsft,
+                    MfssbgfProp msgProp) throws GSSExdfption;
+
+    */
+
+    /**
+     * For bpps thbt wbnt to rfbd from b spfdifid bpplidbtion providfd
+     * bufffr but wbnt to writf dirfdtly to thf nftwork strfbm.
+     */
+    /*
+     * Cbn bf bdhifvfd by donvfrting thf input bufffr to b
+     * BytfInputStrfbm. Providfd to kffp thf API donsistfnt
+     * with unwrbp.
+     *
+     * NOTE: This mfthod is not dffinfd in publid dlbss org.iftf.jgss.GSSContfxt
+     *
+    publid void wrbp(bytf inBuf[], int offsft, int lfn,
+                     OutputStrfbm os, MfssbgfProp msgProp)
+        throws GSSExdfption;
+    */
+
+    /**
+     * Rftrifvfs thf mfssbgf tokfn prfviously fndbpsulbtfd in thf wrbp
+     * dbll.
+     *
+     * @pbrbm is thf tokfn from thf pffr
+     * @pbrbm os unprotfdtfd mfssbgf dbtb
+     * @pbrbm msgProp will dontbin thf bpplifd qop bnd donfidfntiblity
+     *    of thf input tokfn bnd bny informbtory stbtus vblufs
+     * @fxdfption GSSExdfption mby bf thrown
+     * @sff wrbp
+     */
+    publid void unwrbp(InputStrfbm is, OutputStrfbm os,
+                        MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * For bpps thbt wbnt simplidity bnd don't dbrf bbout bufffr dopifs.
+     */
+    publid bytf[] unwrbp(bytf inBuf[], int offsft, int lfn,
+                         MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * For bpps thbt dbrf bbout bufffr dopifs but fithfr dbnnot usf strfbms
+     * or wbnt to bvoid thfm for whbtfvfr rfbson. (Sby, thfy brf using
+     * blodk diphfrs.)
+     *
+     * NOTE: This mfthod is not dffinfd in publid dlbss org.iftf.jgss.GSSContfxt
+     *
+    publid int unwrbp(bytf inBuf[], int inOffsft, int lfn,
+                      bytf[] outBuf, int outOffsft,
+                      MfssbgfProp msgProp) throws GSSExdfption;
+
+    */
+
+    /**
+     * For bpps thbt dbrf bbout bufffr dopifs bnd wbnt to rfbd
+     * strbight from thf nftwork, but blso wbnt thf output in b spfdifid
+     * bpplidbtion providfd bufffr, sby to rfdudf bufffr bllodbtion or
+     * subsfqufnt dopy.
+     *
+     * NOTE: This mfthod is not dffinfd in publid dlbss org.iftf.jgss.GSSContfxt
+     *
+    publid int unwrbp(InputStrfbm is,
+                       bytf[] outBuf, int outOffsft,
+                       MfssbgfProp msgProp) throws GSSExdfption;
+    */
+
+    /**
+     * Applifs pfr-mfssbgf intfgrity sfrvidfs.
+     *
+     * @pbrbm is thf usfr-providfd mfssbgf
+     * @pbrbm os thf tokfn to bf sfnt to thf pffr blong with thf
+     *    mfssbgf tokfn. Thf mfssbgf tokfn <b>is not</b> fndbpsulbtfd.
+     * @pbrbm msgProp on input thf dfsirfd QOP bnd output thf bpplifd QOP
+     * @fxdfption GSSExdfption
+     */
+    publid void gftMIC(InputStrfbm is, OutputStrfbm os,
+                        MfssbgfProp msgProp)
+                throws GSSExdfption;
+
+    publid bytf[] gftMIC(bytf []inMsg, int offsft, int lfn,
+                         MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Chfdks thf intfgrity of thf supplifd tokfns.
+     * This tokfn wbs prfviously gfnfrbtfd by gftMIC.
+     *
+     * @pbrbm is tokfn gfnfrbtfd by gftMIC
+     * @pbrbm msgStr thf mfssbgf to dhfdk intfgrity for
+     * @pbrbm msgProp will dontbin thf bpplifd QOP bnd donfidfntiblity
+     *    stbtfs of thf tokfn bs wfll bs bny informbtory stbtus dodfs
+     * @fxdfption GSSExdfption mby bf thrown
+     */
+    publid void vfrifyMIC(InputStrfbm is, InputStrfbm msgStr,
+                           MfssbgfProp mProp) throws GSSExdfption;
+
+    publid void vfrifyMIC(bytf []inTok, int tokOffsft, int tokLfn,
+                          bytf[] inMsg, int msgOffsft, int msgLfn,
+                          MfssbgfProp msgProp) throws GSSExdfption;
+
+    /**
+     * Produdfs b tokfn rfprfsfnting this dontfxt. Aftfr this dbll
+     * thf dontfxt will no longfr bf usbblf until bn import is
+     * pfrformfd on thf rfturnfd tokfn.
+     *
+     * @rfturn fxportfd dontfxt tokfn
+     * @fxdfption GSSExdfption mby bf thrown
+     */
+    publid bytf[] fxport() throws GSSExdfption;
+
+    /**
+     * Rflfbsfs dontfxt rfsourdfs bnd tfrminbtfs thf
+     * dontfxt bftwffn 2 pffr.
+     *
+     * @fxdfption GSSExdfption mby bf thrown
+     */
+    publid void disposf() throws GSSExdfption;
+
+    /**
+     * Rfturn thf mfdhbnism-spfdifid bttributf bssodibtfd with (@dodf typf}.
+     *
+     * @pbrbm typf thf typf of thf bttributf rfqufstfd
+     * @rfturn thf bttributf
+     * @throws GSSExdfption sff {@link ExtfndfdGSSContfxt#inquirfSfdContfxt}
+     * for dftbils
+     */
+    publid Objfdt inquirfSfdContfxt(InquirfTypf typf)
+            throws GSSExdfption;
+}

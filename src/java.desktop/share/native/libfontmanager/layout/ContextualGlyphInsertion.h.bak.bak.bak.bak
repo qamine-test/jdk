@@ -1,0 +1,82 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __CONTEXTUALGLYPHINSERTION_H
+#dffinf __CONTEXTUALGLYPHINSERTION_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "LbyoutTbblfs.h"
+#indludf "StbtfTbblfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "MorphStbtfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+strudt ContfxtublGlyphInsfrtionHfbdfr : MorphStbtfTbblfHfbdfr
+{
+};
+
+strudt ContfxtublGlyphInsfrtionHfbdfr2 : MorphStbtfTbblfHfbdfr2
+{
+    lf_uint32 insfrtionTbblfOffsft;
+};
+
+fnum ContfxtublGlyphInsfrtionFlbgs
+{
+    dgiSftMbrk                  = 0x8000,
+    dgiDontAdvbndf              = 0x4000,
+    dgiCurrfntIsKbshidbLikf     = 0x2000,
+    dgiMbrkfdIsKbshidbLikf      = 0x1000,
+    dgiCurrfntInsfrtBfforf      = 0x0800,
+    dgiMbrkInsfrtBfforf         = 0x0400,
+    dgiCurrfntInsfrtCountMbsk   = 0x03E0,
+    dgiMbrkfdInsfrtCountMbsk    = 0x001F
+};
+
+strudt ContfxtublGlyphInsfrtionStbtfEntry : StbtfEntry
+{
+    BytfOffsft durrfntInsfrtionListOffsft;
+    BytfOffsft mbrkfdInsfrtionListOffsft;
+};
+
+strudt ContfxtublGlyphInsfrtionStbtfEntry2 : StbtfEntry2
+{
+    lf_uint16 durrfntInsfrtionListIndfx;
+    lf_uint16 mbrkfdInsfrtionListIndfx;
+};
+
+U_NAMESPACE_END
+#fndif

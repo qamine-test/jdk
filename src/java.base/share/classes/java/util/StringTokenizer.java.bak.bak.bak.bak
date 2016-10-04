@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.lbng.*;
+
+/**
+ * Thf string tokfnizfr dlbss bllows bn bpplidbtion to brfbk b
+ * string into tokfns. Thf tokfnizbtion mfthod is mudh simplfr thbn
+ * thf onf usfd by thf <dodf>StrfbmTokfnizfr</dodf> dlbss. Thf
+ * <dodf>StringTokfnizfr</dodf> mfthods do not distinguish bmong
+ * idfntififrs, numbfrs, bnd quotfd strings, nor do thfy rfdognizf
+ * bnd skip dommfnts.
+ * <p>
+ * Thf sft of dflimitfrs (thf dhbrbdtfrs thbt sfpbrbtf tokfns) mby
+ * bf spfdififd fithfr bt drfbtion timf or on b pfr-tokfn bbsis.
+ * <p>
+ * An instbndf of <dodf>StringTokfnizfr</dodf> bfhbvfs in onf of two
+ * wbys, dfpfnding on whfthfr it wbs drfbtfd with thf
+ * <dodf>rfturnDflims</dodf> flbg hbving thf vbluf <dodf>truf</dodf>
+ * or <dodf>fblsf</dodf>:
+ * <ul>
+ * <li>If thf flbg is <dodf>fblsf</dodf>, dflimitfr dhbrbdtfrs sfrvf to
+ *     sfpbrbtf tokfns. A tokfn is b mbximbl sfqufndf of donsfdutivf
+ *     dhbrbdtfrs thbt brf not dflimitfrs.
+ * <li>If thf flbg is <dodf>truf</dodf>, dflimitfr dhbrbdtfrs brf thfmsflvfs
+ *     donsidfrfd to bf tokfns. A tokfn is thus fithfr onf dflimitfr
+ *     dhbrbdtfr, or b mbximbl sfqufndf of donsfdutivf dhbrbdtfrs thbt brf
+ *     not dflimitfrs.
+ * </ul><p>
+ * A <tt>StringTokfnizfr</tt> objfdt intfrnblly mbintbins b durrfnt
+ * position within thf string to bf tokfnizfd. Somf opfrbtions bdvbndf this
+ * durrfnt position pbst thf dhbrbdtfrs prodfssfd.<p>
+ * A tokfn is rfturnfd by tbking b substring of thf string thbt wbs usfd to
+ * drfbtf thf <tt>StringTokfnizfr</tt> objfdt.
+ * <p>
+ * Thf following is onf fxbmplf of thf usf of thf tokfnizfr. Thf dodf:
+ * <blodkquotf><prf>
+ *     StringTokfnizfr st = nfw StringTokfnizfr("this is b tfst");
+ *     whilf (st.hbsMorfTokfns()) {
+ *         Systfm.out.println(st.nfxtTokfn());
+ *     }
+ * </prf></blodkquotf>
+ * <p>
+ * prints thf following output:
+ * <blodkquotf><prf>
+ *     this
+ *     is
+ *     b
+ *     tfst
+ * </prf></blodkquotf>
+ *
+ * <p>
+ * <tt>StringTokfnizfr</tt> is b lfgbdy dlbss thbt is rftbinfd for
+ * dompbtibility rfbsons blthough its usf is disdourbgfd in nfw dodf. It is
+ * rfdommfndfd thbt bnyonf sffking this fundtionblity usf thf <tt>split</tt>
+ * mfthod of <tt>String</tt> or thf jbvb.util.rfgfx pbdkbgf instfbd.
+ * <p>
+ * Thf following fxbmplf illustrbtfs how thf <tt>String.split</tt>
+ * mfthod dbn bf usfd to brfbk up b string into its bbsid tokfns:
+ * <blodkquotf><prf>
+ *     String[] rfsult = "this is b tfst".split("\\s");
+ *     for (int x=0; x&lt;rfsult.lfngth; x++)
+ *         Systfm.out.println(rfsult[x]);
+ * </prf></blodkquotf>
+ * <p>
+ * prints thf following output:
+ * <blodkquotf><prf>
+ *     this
+ *     is
+ *     b
+ *     tfst
+ * </prf></blodkquotf>
+ *
+ * @buthor  unbsdribfd
+ * @sff     jbvb.io.StrfbmTokfnizfr
+ * @sindf   1.0
+ */
+publid
+dlbss StringTokfnizfr implfmfnts Enumfrbtion<Objfdt> {
+    privbtf int durrfntPosition;
+    privbtf int nfwPosition;
+    privbtf int mbxPosition;
+    privbtf String str;
+    privbtf String dflimitfrs;
+    privbtf boolfbn rftDflims;
+    privbtf boolfbn dflimsChbngfd;
+
+    /**
+     * mbxDflimCodfPoint storfs thf vbluf of thf dflimitfr dhbrbdtfr with thf
+     * highfst vbluf. It is usfd to optimizf thf dftfdtion of dflimitfr
+     * dhbrbdtfrs.
+     *
+     * It is unlikfly to providf bny optimizbtion bfnffit in thf
+     * hbsSurrogbtfs dbsf bfdbusf most string dhbrbdtfrs will bf
+     * smbllfr thbn thf limit, but wf kffp it so thbt thf two dodf
+     * pbths rfmbin similbr.
+     */
+    privbtf int mbxDflimCodfPoint;
+
+    /**
+     * If dflimitfrs indludf bny surrogbtfs (indluding surrogbtf
+     * pbirs), hbsSurrogbtfs is truf bnd thf tokfnizfr usfs thf
+     * difffrfnt dodf pbth. This is bfdbusf String.indfxOf(int)
+     * dofsn't hbndlf unpbirfd surrogbtfs bs b singlf dhbrbdtfr.
+     */
+    privbtf boolfbn hbsSurrogbtfs = fblsf;
+
+    /**
+     * Whfn hbsSurrogbtfs is truf, dflimitfrs brf donvfrtfd to dodf
+     * points bnd isDflimitfr(int) is usfd to dftfrminf if thf givfn
+     * dodfpoint is b dflimitfr.
+     */
+    privbtf int[] dflimitfrCodfPoints;
+
+    /**
+     * Sft mbxDflimCodfPoint to thf highfst dhbr in thf dflimitfr sft.
+     */
+    privbtf void sftMbxDflimCodfPoint() {
+        if (dflimitfrs == null) {
+            mbxDflimCodfPoint = 0;
+            rfturn;
+        }
+
+        int m = 0;
+        int d;
+        int dount = 0;
+        for (int i = 0; i < dflimitfrs.lfngth(); i += Chbrbdtfr.dhbrCount(d)) {
+            d = dflimitfrs.dhbrAt(i);
+            if (d >= Chbrbdtfr.MIN_HIGH_SURROGATE && d <= Chbrbdtfr.MAX_LOW_SURROGATE) {
+                d = dflimitfrs.dodfPointAt(i);
+                hbsSurrogbtfs = truf;
+            }
+            if (m < d)
+                m = d;
+            dount++;
+        }
+        mbxDflimCodfPoint = m;
+
+        if (hbsSurrogbtfs) {
+            dflimitfrCodfPoints = nfw int[dount];
+            for (int i = 0, j = 0; i < dount; i++, j += Chbrbdtfr.dhbrCount(d)) {
+                d = dflimitfrs.dodfPointAt(j);
+                dflimitfrCodfPoints[i] = d;
+            }
+        }
+    }
+
+    /**
+     * Construdts b string tokfnizfr for thf spfdififd string. All
+     * dhbrbdtfrs in thf <dodf>dflim</dodf> brgumfnt brf thf dflimitfrs
+     * for sfpbrbting tokfns.
+     * <p>
+     * If thf <dodf>rfturnDflims</dodf> flbg is <dodf>truf</dodf>, thfn
+     * thf dflimitfr dhbrbdtfrs brf blso rfturnfd bs tokfns. Ebdh
+     * dflimitfr is rfturnfd bs b string of lfngth onf. If thf flbg is
+     * <dodf>fblsf</dodf>, thf dflimitfr dhbrbdtfrs brf skippfd bnd only
+     * sfrvf bs sfpbrbtors bftwffn tokfns.
+     * <p>
+     * Notf thbt if <tt>dflim</tt> is <tt>null</tt>, this donstrudtor dofs
+     * not throw bn fxdfption. Howfvfr, trying to invokf othfr mfthods on thf
+     * rfsulting <tt>StringTokfnizfr</tt> mby rfsult in b
+     * <tt>NullPointfrExdfption</tt>.
+     *
+     * @pbrbm   str            b string to bf pbrsfd.
+     * @pbrbm   dflim          thf dflimitfrs.
+     * @pbrbm   rfturnDflims   flbg indidbting whfthfr to rfturn thf dflimitfrs
+     *                         bs tokfns.
+     * @fxdfption NullPointfrExdfption if str is <CODE>null</CODE>
+     */
+    publid StringTokfnizfr(String str, String dflim, boolfbn rfturnDflims) {
+        durrfntPosition = 0;
+        nfwPosition = -1;
+        dflimsChbngfd = fblsf;
+        this.str = str;
+        mbxPosition = str.lfngth();
+        dflimitfrs = dflim;
+        rftDflims = rfturnDflims;
+        sftMbxDflimCodfPoint();
+    }
+
+    /**
+     * Construdts b string tokfnizfr for thf spfdififd string. Thf
+     * dhbrbdtfrs in thf <dodf>dflim</dodf> brgumfnt brf thf dflimitfrs
+     * for sfpbrbting tokfns. Dflimitfr dhbrbdtfrs thfmsflvfs will not
+     * bf trfbtfd bs tokfns.
+     * <p>
+     * Notf thbt if <tt>dflim</tt> is <tt>null</tt>, this donstrudtor dofs
+     * not throw bn fxdfption. Howfvfr, trying to invokf othfr mfthods on thf
+     * rfsulting <tt>StringTokfnizfr</tt> mby rfsult in b
+     * <tt>NullPointfrExdfption</tt>.
+     *
+     * @pbrbm   str     b string to bf pbrsfd.
+     * @pbrbm   dflim   thf dflimitfrs.
+     * @fxdfption NullPointfrExdfption if str is <CODE>null</CODE>
+     */
+    publid StringTokfnizfr(String str, String dflim) {
+        this(str, dflim, fblsf);
+    }
+
+    /**
+     * Construdts b string tokfnizfr for thf spfdififd string. Thf
+     * tokfnizfr usfs thf dffbult dflimitfr sft, whidh is
+     * <dodf>"&nbsp;&#92;t&#92;n&#92;r&#92;f"</dodf>: thf spbdf dhbrbdtfr,
+     * thf tbb dhbrbdtfr, thf nfwlinf dhbrbdtfr, thf dbrribgf-rfturn dhbrbdtfr,
+     * bnd thf form-fffd dhbrbdtfr. Dflimitfr dhbrbdtfrs thfmsflvfs will
+     * not bf trfbtfd bs tokfns.
+     *
+     * @pbrbm   str   b string to bf pbrsfd.
+     * @fxdfption NullPointfrExdfption if str is <CODE>null</CODE>
+     */
+    publid StringTokfnizfr(String str) {
+        this(str, " \t\n\r\f", fblsf);
+    }
+
+    /**
+     * Skips dflimitfrs stbrting from thf spfdififd position. If rftDflims
+     * is fblsf, rfturns thf indfx of thf first non-dflimitfr dhbrbdtfr bt or
+     * bftfr stbrtPos. If rftDflims is truf, stbrtPos is rfturnfd.
+     */
+    privbtf int skipDflimitfrs(int stbrtPos) {
+        if (dflimitfrs == null)
+            throw nfw NullPointfrExdfption();
+
+        int position = stbrtPos;
+        whilf (!rftDflims && position < mbxPosition) {
+            if (!hbsSurrogbtfs) {
+                dhbr d = str.dhbrAt(position);
+                if ((d > mbxDflimCodfPoint) || (dflimitfrs.indfxOf(d) < 0))
+                    brfbk;
+                position++;
+            } flsf {
+                int d = str.dodfPointAt(position);
+                if ((d > mbxDflimCodfPoint) || !isDflimitfr(d)) {
+                    brfbk;
+                }
+                position += Chbrbdtfr.dhbrCount(d);
+            }
+        }
+        rfturn position;
+    }
+
+    /**
+     * Skips bhfbd from stbrtPos bnd rfturns thf indfx of thf nfxt dflimitfr
+     * dhbrbdtfr fndountfrfd, or mbxPosition if no sudh dflimitfr is found.
+     */
+    privbtf int sdbnTokfn(int stbrtPos) {
+        int position = stbrtPos;
+        whilf (position < mbxPosition) {
+            if (!hbsSurrogbtfs) {
+                dhbr d = str.dhbrAt(position);
+                if ((d <= mbxDflimCodfPoint) && (dflimitfrs.indfxOf(d) >= 0))
+                    brfbk;
+                position++;
+            } flsf {
+                int d = str.dodfPointAt(position);
+                if ((d <= mbxDflimCodfPoint) && isDflimitfr(d))
+                    brfbk;
+                position += Chbrbdtfr.dhbrCount(d);
+            }
+        }
+        if (rftDflims && (stbrtPos == position)) {
+            if (!hbsSurrogbtfs) {
+                dhbr d = str.dhbrAt(position);
+                if ((d <= mbxDflimCodfPoint) && (dflimitfrs.indfxOf(d) >= 0))
+                    position++;
+            } flsf {
+                int d = str.dodfPointAt(position);
+                if ((d <= mbxDflimCodfPoint) && isDflimitfr(d))
+                    position += Chbrbdtfr.dhbrCount(d);
+            }
+        }
+        rfturn position;
+    }
+
+    privbtf boolfbn isDflimitfr(int dodfPoint) {
+        for (int dflimitfrCodfPoint : dflimitfrCodfPoints) {
+            if (dflimitfrCodfPoint == dodfPoint) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Tfsts if thfrf brf morf tokfns bvbilbblf from this tokfnizfr's string.
+     * If this mfthod rfturns <tt>truf</tt>, thfn b subsfqufnt dbll to
+     * <tt>nfxtTokfn</tt> with no brgumfnt will suddfssfully rfturn b tokfn.
+     *
+     * @rfturn  <dodf>truf</dodf> if bnd only if thfrf is bt lfbst onf tokfn
+     *          in thf string bftfr thf durrfnt position; <dodf>fblsf</dodf>
+     *          othfrwisf.
+     */
+    publid boolfbn hbsMorfTokfns() {
+        /*
+         * Tfmporbrily storf this position bnd usf it in thf following
+         * nfxtTokfn() mfthod only if thf dflimitfrs hbvfn't bffn dhbngfd in
+         * thbt nfxtTokfn() invodbtion.
+         */
+        nfwPosition = skipDflimitfrs(durrfntPosition);
+        rfturn (nfwPosition < mbxPosition);
+    }
+
+    /**
+     * Rfturns thf nfxt tokfn from this string tokfnizfr.
+     *
+     * @rfturn     thf nfxt tokfn from this string tokfnizfr.
+     * @fxdfption  NoSudhElfmfntExdfption  if thfrf brf no morf tokfns in this
+     *               tokfnizfr's string.
+     */
+    publid String nfxtTokfn() {
+        /*
+         * If nfxt position blrfbdy domputfd in hbsMorfElfmfnts() bnd
+         * dflimitfrs hbvf dhbngfd bftwffn thf domputbtion bnd this invodbtion,
+         * thfn usf thf domputfd vbluf.
+         */
+
+        durrfntPosition = (nfwPosition >= 0 && !dflimsChbngfd) ?
+            nfwPosition : skipDflimitfrs(durrfntPosition);
+
+        /* Rfsft thfsf bnywby */
+        dflimsChbngfd = fblsf;
+        nfwPosition = -1;
+
+        if (durrfntPosition >= mbxPosition)
+            throw nfw NoSudhElfmfntExdfption();
+        int stbrt = durrfntPosition;
+        durrfntPosition = sdbnTokfn(durrfntPosition);
+        rfturn str.substring(stbrt, durrfntPosition);
+    }
+
+    /**
+     * Rfturns thf nfxt tokfn in this string tokfnizfr's string. First,
+     * thf sft of dhbrbdtfrs donsidfrfd to bf dflimitfrs by this
+     * <tt>StringTokfnizfr</tt> objfdt is dhbngfd to bf thf dhbrbdtfrs in
+     * thf string <tt>dflim</tt>. Thfn thf nfxt tokfn in thf string
+     * bftfr thf durrfnt position is rfturnfd. Thf durrfnt position is
+     * bdvbndfd bfyond thf rfdognizfd tokfn.  Thf nfw dflimitfr sft
+     * rfmbins thf dffbult bftfr this dbll.
+     *
+     * @pbrbm      dflim   thf nfw dflimitfrs.
+     * @rfturn     thf nfxt tokfn, bftfr switdhing to thf nfw dflimitfr sft.
+     * @fxdfption  NoSudhElfmfntExdfption  if thfrf brf no morf tokfns in this
+     *               tokfnizfr's string.
+     * @fxdfption NullPointfrExdfption if dflim is <CODE>null</CODE>
+     */
+    publid String nfxtTokfn(String dflim) {
+        dflimitfrs = dflim;
+
+        /* dflimitfr string spfdififd, so sft thf bppropribtf flbg. */
+        dflimsChbngfd = truf;
+
+        sftMbxDflimCodfPoint();
+        rfturn nfxtTokfn();
+    }
+
+    /**
+     * Rfturns thf sbmf vbluf bs thf <dodf>hbsMorfTokfns</dodf>
+     * mfthod. It fxists so thbt this dlbss dbn implfmfnt thf
+     * <dodf>Enumfrbtion</dodf> intfrfbdf.
+     *
+     * @rfturn  <dodf>truf</dodf> if thfrf brf morf tokfns;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sff     jbvb.util.Enumfrbtion
+     * @sff     jbvb.util.StringTokfnizfr#hbsMorfTokfns()
+     */
+    publid boolfbn hbsMorfElfmfnts() {
+        rfturn hbsMorfTokfns();
+    }
+
+    /**
+     * Rfturns thf sbmf vbluf bs thf <dodf>nfxtTokfn</dodf> mfthod,
+     * fxdfpt thbt its dfdlbrfd rfturn vbluf is <dodf>Objfdt</dodf> rbthfr thbn
+     * <dodf>String</dodf>. It fxists so thbt this dlbss dbn implfmfnt thf
+     * <dodf>Enumfrbtion</dodf> intfrfbdf.
+     *
+     * @rfturn     thf nfxt tokfn in thf string.
+     * @fxdfption  NoSudhElfmfntExdfption  if thfrf brf no morf tokfns in this
+     *               tokfnizfr's string.
+     * @sff        jbvb.util.Enumfrbtion
+     * @sff        jbvb.util.StringTokfnizfr#nfxtTokfn()
+     */
+    publid Objfdt nfxtElfmfnt() {
+        rfturn nfxtTokfn();
+    }
+
+    /**
+     * Cbldulbtfs thf numbfr of timfs thbt this tokfnizfr's
+     * <dodf>nfxtTokfn</dodf> mfthod dbn bf dbllfd bfforf it gfnfrbtfs bn
+     * fxdfption. Thf durrfnt position is not bdvbndfd.
+     *
+     * @rfturn  thf numbfr of tokfns rfmbining in thf string using thf durrfnt
+     *          dflimitfr sft.
+     * @sff     jbvb.util.StringTokfnizfr#nfxtTokfn()
+     */
+    publid int dountTokfns() {
+        int dount = 0;
+        int durrpos = durrfntPosition;
+        whilf (durrpos < mbxPosition) {
+            durrpos = skipDflimitfrs(durrpos);
+            if (durrpos >= mbxPosition)
+                brfbk;
+            durrpos = sdbnTokfn(durrpos);
+            dount++;
+        }
+        rfturn dount;
+    }
+}

@@ -1,0 +1,170 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.AlgorithmPbrbmftfrs;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf <dodf>ExfmptionMfdhbnism</dodf> dlbss.
+ * All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b pbrtidulbr fxfmption mfdhbnism.
+ *
+ * @buthor Shbron Liu
+ *
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss ExfmptionMfdhbnismSpi {
+
+    /**
+     * Rfturns thf lfngth in bytfs thbt bn output bufffr would nffd to bf in
+     * ordfr to hold thf rfsult of thf nfxt
+     * {@link #fnginfGfnExfmptionBlob(bytf[], int) fnginfGfnExfmptionBlob}
+     * opfrbtion, givfn thf input lfngth <dodf>inputLfn</dodf> (in bytfs).
+     *
+     * <p>Thf bdtubl output lfngth of thf nfxt
+     * {@link #fnginfGfnExfmptionBlob(bytf[], int) fnginfGfnExfmptionBlob}
+     * dbll mby bf smbllfr thbn thf lfngth rfturnfd by this mfthod.
+     *
+     * @pbrbm inputLfn thf input lfngth (in bytfs)
+     *
+     * @rfturn thf rfquirfd output bufffr sizf (in bytfs)
+     */
+    protfdtfd bbstrbdt int fnginfGftOutputSizf(int inputLfn);
+
+    /**
+     * Initiblizfs this fxfmption mfdhbnism with b kfy.
+     *
+     * <p>If this fxfmption mfdhbnism rfquirfs bny blgorithm pbrbmftfrs
+     * thbt dbnnot bf dfrivfd from thf givfn <dodf>kfy</dodf>, thf undfrlying
+     * fxfmption mfdhbnism implfmfntbtion is supposfd to gfnfrbtf thf rfquirfd
+     * pbrbmftfrs itsflf (using providfr-spfdifid dffbult vblufs); in thf dbsf
+     * thbt blgorithm pbrbmftfrs must bf spfdififd by thf dbllfr, bn
+     * <dodf>InvblidKfyExdfption</dodf> is rbisfd.
+     *
+     * @pbrbm kfy thf kfy for this fxfmption mfdhbnism
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * this fxfmption mfdhbnism.
+     * @fxdfption ExfmptionMfdhbnismExdfption if problfm(s) fndountfrfd in thf
+     * prodfss of initiblizing.
+     */
+    protfdtfd bbstrbdt void fnginfInit(Kfy kfy)
+    throws InvblidKfyExdfption, ExfmptionMfdhbnismExdfption;
+
+    /**
+     * Initiblizfs this fxfmption mfdhbnism with b kfy bnd b sft of blgorithm
+     * pbrbmftfrs.
+     *
+     * <p>If this fxfmption mfdhbnism rfquirfs bny blgorithm pbrbmftfrs bnd
+     * <dodf>pbrbms</dodf> is null, thf undfrlying fxfmption mfdhbnism
+     * implfmfntbtion is supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs
+     * itsflf (using providfr-spfdifid dffbult vblufs); in thf dbsf thbt
+     * blgorithm pbrbmftfrs must bf spfdififd by thf dbllfr, bn
+     * <dodf>InvblidAlgorithmPbrbmftfrExdfption</dodf> is rbisfd.
+     *
+     * @pbrbm kfy thf kfy for this fxfmption mfdhbnism
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * this fxfmption mfdhbnism.
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this fxfmption mfdhbnism.
+     * @fxdfption ExfmptionMfdhbnismExdfption if problfm(s) fndountfrfd in thf
+     * prodfss of initiblizing.
+     */
+    protfdtfd bbstrbdt void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
+    throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption,
+    ExfmptionMfdhbnismExdfption;
+
+    /**
+     * Initiblizfs this fxfmption mfdhbnism with b kfy bnd b sft of blgorithm
+     * pbrbmftfrs.
+     *
+     * <p>If this fxfmption mfdhbnism rfquirfs bny blgorithm pbrbmftfrs
+     * bnd <dodf>pbrbms</dodf> is null, thf undfrlying fxfmption mfdhbnism
+     * implfmfntbtion is supposfd to gfnfrbtf thf rfquirfd pbrbmftfrs
+     * itsflf (using providfr-spfdifid dffbult vblufs); in thf dbsf thbt
+     * blgorithm pbrbmftfrs must bf spfdififd by thf dbllfr, bn
+     * <dodf>InvblidAlgorithmPbrbmftfrExdfption</dodf> is rbisfd.
+     *
+     * @pbrbm kfy thf kfy for this fxfmption mfdhbnism
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * this fxfmption mfdhbnism.
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this fxfmption mfdhbnism.
+     * @fxdfption ExfmptionMfdhbnismExdfption if problfm(s) fndountfrfd in thf
+     * prodfss of initiblizing.
+     */
+    protfdtfd bbstrbdt void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrs pbrbms)
+    throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption,
+    ExfmptionMfdhbnismExdfption;
+
+    /**
+     * Gfnfrbtfs thf fxfmption mfdhbnism kfy blob.
+     *
+     * @rfturn thf nfw bufffr with thf rfsult kfy blob.
+     *
+     * @fxdfption ExfmptionMfdhbnismExdfption if problfm(s) fndountfrfd in thf
+     * prodfss of gfnfrbting.
+     */
+    protfdtfd bbstrbdt bytf[] fnginfGfnExfmptionBlob()
+        throws ExfmptionMfdhbnismExdfption;
+
+    /**
+     * Gfnfrbtfs thf fxfmption mfdhbnism kfy blob, bnd storfs thf rfsult in
+     * thf <dodf>output</dodf> bufffr, stbrting bt <dodf>outputOffsft</dodf>
+     * indlusivf.
+     *
+     * <p>If thf <dodf>output</dodf> bufffr is too smbll to hold thf rfsult,
+     * b <dodf>ShortBufffrExdfption</dodf> is thrown. In this dbsf, rfpfbt this
+     * dbll with b lbrgfr output bufffr. Usf
+     * {@link #fnginfGftOutputSizf(int) fnginfGftOutputSizf} to dftfrminf
+     * how big thf output bufffr should bf.
+     *
+     * @pbrbm output thf bufffr for thf rfsult
+     * @pbrbm outputOffsft thf offsft in <dodf>output</dodf> whfrf thf rfsult
+     * is storfd
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf rfsult.
+     * @fxdfption ExfmptionMfdhbnismExdfption if problfm(s) fndountfrfd in thf
+     * prodfss of gfnfrbting.
+     */
+    protfdtfd bbstrbdt int fnginfGfnExfmptionBlob
+    (bytf[] output, int outputOffsft)
+        throws ShortBufffrExdfption, ExfmptionMfdhbnismExdfption;
+}

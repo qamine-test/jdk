@@ -1,0 +1,245 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.dffbults;
+
+
+// jbvb import
+//
+import jbvb.io.Filf;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.util.StringTokfnizfr;
+
+/**
+ * This dlbss rfprfsfnts b sft of dffbult dirfdtorifs usfd by Jbvb DMK.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid dlbss DffbultPbths {
+    privbtf stbtid finbl String INSTALL_PATH_RESOURCE_NAME = "dom/sun/jdmk/dffbults/instbll.pbth";
+    // privbtf donstrudtor dffinfd to "hidf" thf dffbult publid donstrudtor
+    privbtf DffbultPbths() {
+
+    }
+
+    // PUBLIC STATIC METHODS
+    //----------------------
+
+    /**
+     * Rfturns thf instbllbtion dirfdtory for Jbvb DMK.
+     *
+     * Thf dffbult vbluf of thf instbllbtion dirfdtory is:
+     * <CODE>&lt;bbsf_dir&gt; + Filf.sfpbrbtor + SUNWjdmk + Filf.sfpbrbtor + jdmk5.0 </CODE>
+     *
+     * @rfturn Jbvb DMK instbllbtion dirfdtory.
+     */
+    publid stbtid String gftInstbllDir() {
+        if (instbllDir == null)
+            rfturn usfRfssourdfFilf();
+        flsf
+            rfturn instbllDir;
+    }
+
+    /**
+     * Rfturns thf instbllbtion dirfdtory for Jbvb DMK dondbtfnbtfd with dirnbmf.
+     *
+     * Thf dffbult vbluf of thf instbllbtion dirfdtory is:
+     * <CODE>&lt;bbsf_dir&gt; + Filf.sfpbrbtor + SUNWjdmk + Filf.sfpbrbtor + jdmk5.0 </CODE>
+     *
+     * @pbrbm dirnbmf Thf dirfdtory to bf bppfndfd.
+     *
+     * @rfturn Jbvb DMK instbllbtion dirfdtory + <CODE>Filf.sfpbrbtor</CODE> + <CODE>dirnbmf</CODE>.
+     */
+    publid stbtid String gftInstbllDir(String dirnbmf) {
+        if (instbllDir == null) {
+            if (dirnbmf == null) {
+                rfturn gftInstbllDir();
+            } flsf {
+                rfturn gftInstbllDir() + Filf.sfpbrbtor + dirnbmf;
+            }
+        } flsf {
+            if (dirnbmf == null) {
+                rfturn instbllDir;
+            } flsf {
+                rfturn instbllDir + Filf.sfpbrbtor + dirnbmf;
+            }
+        }
+    }
+
+    /**
+     * Sfts thf instbllbtion dirfdtory for Jbvb DMK.
+     *
+     * @pbrbm dirnbmf Thf dirfdtory whfrf Jbvb DMK rfsidfs.
+     */
+    publid stbtid void sftInstbllDir(String dirnbmf) {
+        instbllDir = dirnbmf;
+    }
+
+    /**
+     * Rfturns thf <CODE>ftd</CODE> dirfdtory for Jbvb DMK.
+     * <P>
+     * Thf dffbult vbluf of thf <CODE>ftd</CODE> dirfdtory is:
+     * <UL>
+     * <LI><CODE>DffbultPbths.gftInstbllDir("ftd")</CODE>.
+     * </UL>
+     *
+     * @rfturn Jbvb DMK <CODE>ftd</CODE> dirfdtory.
+     */
+    publid stbtid String gftEtdDir() {
+        if (ftdDir == null)
+            rfturn gftInstbllDir("ftd");
+        flsf
+            rfturn ftdDir;
+    }
+
+    /**
+     * Rfturns thf <CODE>ftd</CODE> dirfdtory for Jbvb DMK dondbtfnbtfd with dirnbmf.
+     * <P>
+     * Thf dffbult vbluf of thf <CODE>ftd</CODE> dirfdtory is:
+     * <UL>
+     * <LI><CODE>DffbultPbths.gftInstbllDir("ftd")</CODE>.
+     * </UL>
+     *
+     * @pbrbm dirnbmf Thf dirfdtory to bf bppfndfd.
+     *
+     * @rfturn Jbvb DMK <CODE>ftd</CODE> dirfdtory + <CODE>Filf.sfpbrbtor</CODE> + <CODE>dirnbmf</CODE>.
+     */
+    publid stbtid String gftEtdDir(String dirnbmf) {
+        if (ftdDir == null) {
+            if (dirnbmf == null) {
+                rfturn gftEtdDir();
+            } flsf {
+                rfturn gftEtdDir() + Filf.sfpbrbtor + dirnbmf;
+            }
+        } flsf {
+            if (dirnbmf == null) {
+                rfturn ftdDir;
+            } flsf {
+                rfturn ftdDir + Filf.sfpbrbtor + dirnbmf;
+            }
+        }
+    }
+
+    /**
+     * Sfts thf <CODE>ftd</CODE> dirfdtory for Jbvb DMK.
+     *
+     * @pbrbm dirnbmf Thf <CODE>ftd</CODE> dirfdtory for Jbvb DMK.
+     */
+    publid stbtid void sftEtdDir(String dirnbmf) {
+        ftdDir = dirnbmf;
+    }
+
+    /**
+     * Rfturns thf <CODE>tmp</CODE> dirfdtory for thf produdt.
+     * <P>
+     * Thf dffbult vbluf of thf <CODE>tmp</CODE> dirfdtory is:
+     * <UL>
+     * <LI><CODE>DffbultPbths.gftInstbllDir("tmp")</CODE>.
+     * </UL>
+     *
+     * @rfturn Jbvb DMK <CODE>tmp</CODE> dirfdtory.
+     */
+    publid stbtid String gftTmpDir() {
+         if (tmpDir == null)
+            rfturn gftInstbllDir("tmp");
+        flsf
+            rfturn tmpDir;
+    }
+
+    /**
+     * Rfturns thf <CODE>tmp</CODE> dirfdtory for Jbvb DMK dondbtfnbtfd with dirnbmf.
+     * <P>
+     * Thf dffbult vbluf of thf <CODE>tmp</CODE> dirfdtory is:
+     * <UL>
+     * <LI><CODE>DffbultPbths.gftInstbllDir("tmp")</CODE>.
+     * </UL>
+     *
+     * @pbrbm dirnbmf Thf dirfdtory to bf bppfndfd.
+     *
+     * @rfturn Jbvb DMK <CODE>tmp</CODE> dirfdtory + <CODE>Filf.sfpbrbtor</CODE> + <CODE>dirnbmf</CODE>.
+     */
+    publid stbtid String gftTmpDir(String dirnbmf) {
+        if (tmpDir == null) {
+            if (dirnbmf == null) {
+                rfturn gftTmpDir();
+            } flsf {
+                rfturn gftTmpDir() + Filf.sfpbrbtor + dirnbmf;
+            }
+        } flsf {
+            if (dirnbmf == null) {
+                rfturn tmpDir;
+            } flsf {
+                rfturn tmpDir + Filf.sfpbrbtor + dirnbmf;
+            }
+        }
+    }
+
+    /**
+     * Sfts thf <CODE>tmp</CODE> dirfdtory for thf produdt
+     *
+     * @pbrbm dirnbmf Thf <CODE>tmp</CODE> dirfdtory for Jbvb DMK.
+     */
+    publid stbtid void sftTmpDir(String dirnbmf) {
+        tmpDir = dirnbmf;
+    }
+
+
+    // PRIVATE STATIC METHODS
+    //-----------------------
+
+    privbtf stbtid String usfRfssourdfFilf() {
+        InputStrfbm in = null;
+        BufffrfdRfbdfr r = null;
+        try {
+            in =
+                DffbultPbths.dlbss.gftClbssLobdfr().gftRfsourdfAsStrfbm(INSTALL_PATH_RESOURCE_NAME);
+            if(in == null) rfturn null;
+            r = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in));
+            instbllDir = r.rfbdLinf();
+        }dbtdh(Exdfption f) {
+        }
+        finblly {
+            try {
+                if(in != null) in.dlosf();
+                if(r != null) r.dlosf();
+            }dbtdh(Exdfption f) {}
+        }
+        rfturn instbllDir;
+    }
+
+    // PRIVATE VARIABLES
+    //------------------
+
+    /**
+     * Dirfdtorifs usfd by Jbvb DMK.
+     */
+    privbtf stbtid String ftdDir;
+    privbtf stbtid String tmpDir;
+    privbtf stbtid String instbllDir;
+}

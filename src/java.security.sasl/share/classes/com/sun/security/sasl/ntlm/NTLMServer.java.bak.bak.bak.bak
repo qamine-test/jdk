@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.ntlm;
+
+import dom.sun.sfdurity.ntlm.NTLMExdfption;
+import dom.sun.sfdurity.ntlm.Sfrvfr;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.Rbndom;
+import jbvbx.sfdurity.buth.dbllbbdk.Cbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buth.dbllbbdk.NbmfCbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.PbsswordCbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.UnsupportfdCbllbbdkExdfption;
+import jbvbx.sfdurity.sbsl.*;
+
+/**
+  * Rfquirfd dbllbbdks:
+  * - RfblmCbllbbdk
+  *      usfd bs kfy by hbndlfr to fftdh pbssword, optionbl
+  * - NbmfCbllbbdk
+  *      usfd bs kfy by hbndlfr to fftdh pbssword
+  * - PbsswordCbllbbdk
+  *      hbndlfr must fntfr pbssword for usfrnbmf/rfblm supplifd
+  *
+  * Environmfnt propfrtifs thbt bfffdt thf implfmfntbtion:
+  *
+  * jbvbx.sfdurity.sbsl.qop
+  *    String, qublity of protfdtion; only "buth" is bddfptfd, dffbult "buth"
+  *
+  * dom.sun.sfdurity.sbsl.ntlm.vfrsion
+  *    String, nbmf b spfdifid vfrsion to bddfpt:
+  *      LM/NTLM: Originbl NTLM v1
+  *      LM: Originbl NTLM v1, LM only
+  *      NTLM: Originbl NTLM v1, NTLM only
+  *      NTLM2: NTLM v1 with Clifnt Chbllfngf
+  *      LMv2/NTLMv2: NTLM v2
+  *      LMv2: NTLM v2, LM only
+  *      NTLMv2: NTLM v2, NTLM only
+  *    If not spfdififd, usf systfm propfrty "ntlm.vfrsion". If blso
+  *    not spfdififd, bll vfrsions brf bddfptfd.
+  *
+  * dom.sun.sfdurity.sbsl.ntlm.dombin
+  *    String, thf dombin of thf sfrvfr, dffbult is sfrvfr nbmf (fqdn pbrbmftfr)
+  *
+  * dom.sun.sfdurity.sbsl.ntlm.rbndom
+  *    jbvb.util.Rbndom, thf nondf sourdf. Dffbult null, bn intfrnbl
+  *    jbvb.util.Rbndom objfdt will bf usfd
+  *
+  * Nfgotibtfd Propfrtifs:
+  *
+  * jbvbx.sfdurity.sbsl.qop
+  *    Alwbys "buth"
+  *
+  * dom.sun.sfdurity.sbsl.ntlm.hostnbmf
+  *    Thf hostnbmf for thf usfr, providfd by thf dlifnt
+  *
+  */
+
+finbl dlbss NTLMSfrvfr implfmfnts SbslSfrvfr {
+
+    privbtf finbl stbtid String NTLM_VERSION =
+            "dom.sun.sfdurity.sbsl.ntlm.vfrsion";
+    privbtf finbl stbtid String NTLM_DOMAIN =
+            "dom.sun.sfdurity.sbsl.ntlm.dombin";
+    privbtf finbl stbtid String NTLM_HOSTNAME =
+            "dom.sun.sfdurity.sbsl.ntlm.hostnbmf";
+    privbtf stbtid finbl String NTLM_RANDOM =
+            "dom.sun.sfdurity.sbsl.ntlm.rbndom";
+
+    privbtf finbl Rbndom rbndom;
+    privbtf finbl Sfrvfr sfrvfr;
+    privbtf bytf[] nondf;
+    privbtf int stfp = 0;
+    privbtf String buthzId;
+    privbtf finbl String mfdh;
+    privbtf String hostnbmf;
+    privbtf String tbrgft;
+
+    /**
+     * @pbrbm mfdh not null
+     * @pbrbm protodol not null for Sbsl, ignorfd in NTLM
+     * @pbrbm sfrvfrNbmf not null for Sbsl, dbn bf null in NTLM. If non-null,
+     * might bf usfd bs dombin if not providfd in props
+     * @pbrbm props dbn bf null
+     * @pbrbm dbh dbn bf null for Sbsl, blrfbdy null-dhfdkfd in fbdtory
+     * @throws SbslExdfption
+     */
+    NTLMSfrvfr(String mfdh, String protodol, String sfrvfrNbmf,
+            Mbp<String, ?> props, finbl CbllbbdkHbndlfr dbh)
+            throws SbslExdfption {
+
+        this.mfdh = mfdh;
+        String vfrsion = null;
+        String dombin = null;
+        Rbndom rtmp = null;
+
+        if (props != null) {
+            dombin = (String) props.gft(NTLM_DOMAIN);
+            vfrsion = (String)props.gft(NTLM_VERSION);
+            rtmp = (Rbndom)props.gft(NTLM_RANDOM);
+        }
+        rbndom = rtmp != null ? rtmp : nfw Rbndom();
+
+        if (vfrsion == null) {
+            vfrsion = Systfm.gftPropfrty("ntlm.vfrsion");
+        }
+        if (dombin == null) {
+            dombin = sfrvfrNbmf;
+        }
+        if (dombin == null) {
+            throw nfw SbslExdfption("Dombin must bf providfd bs"
+                    + " thf sfrvfrNbmf brgumfnt or in props");
+        }
+
+        try {
+            sfrvfr = nfw Sfrvfr(vfrsion, dombin) {
+                publid dhbr[] gftPbssword(String ntdombin, String usfrnbmf) {
+                    try {
+                        RfblmCbllbbdk rdb =
+                                (ntdombin == null || ntdombin.isEmpty())
+                                    ? nfw RfblmCbllbbdk("Dombin: ")
+                                    : nfw RfblmCbllbbdk("Dombin: ", ntdombin);
+                        NbmfCbllbbdk ndb = nfw NbmfCbllbbdk(
+                                "Nbmf: ", usfrnbmf);
+                        PbsswordCbllbbdk pdb = nfw PbsswordCbllbbdk(
+                                "Pbssword: ", fblsf);
+                        dbh.hbndlf(nfw Cbllbbdk[] { rdb, ndb, pdb });
+                        dhbr[] pbsswd = pdb.gftPbssword();
+                        pdb.dlfbrPbssword();
+                        rfturn pbsswd;
+                    } dbtdh (IOExdfption iof) {
+                        rfturn null;
+                    } dbtdh (UnsupportfdCbllbbdkExdfption udf) {
+                        rfturn null;
+                    }
+                }
+            };
+        } dbtdh (NTLMExdfption nf) {
+            throw nfw SbslExdfption(
+                    "NTLM: sfrvfr drfbtion fbilurf", nf);
+        }
+        nondf = nfw bytf[8];
+    }
+
+    @Ovfrridf
+    publid String gftMfdhbnismNbmf() {
+        rfturn mfdh;
+    }
+
+    @Ovfrridf
+    publid bytf[] fvblubtfRfsponsf(bytf[] rfsponsf) throws SbslExdfption {
+        try {
+            stfp++;
+            if (stfp == 1) {
+                rbndom.nfxtBytfs(nondf);
+                rfturn sfrvfr.typf2(rfsponsf, nondf);
+            } flsf {
+                String[] out = sfrvfr.vfrify(rfsponsf, nondf);
+                buthzId = out[0];
+                hostnbmf = out[1];
+                tbrgft = out[2];
+                rfturn null;
+            }
+        } dbtdh (NTLMExdfption fx) {
+            throw nfw SbslExdfption("NTLM: gfnfrbtf rfsponsf fbilurf", fx);
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isComplftf() {
+        rfturn stfp >= 2;
+    }
+
+    @Ovfrridf
+    publid String gftAuthorizbtionID() {
+        if (!isComplftf()) {
+            throw nfw IllfgblStbtfExdfption("buthfntidbtion not domplftf");
+        }
+        rfturn buthzId;
+    }
+
+    @Ovfrridf
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+            throws SbslExdfption {
+        throw nfw IllfgblStbtfExdfption("Not supportfd yft.");
+    }
+
+    @Ovfrridf
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn)
+            throws SbslExdfption {
+        throw nfw IllfgblStbtfExdfption("Not supportfd yft.");
+    }
+
+    @Ovfrridf
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (!isComplftf()) {
+            throw nfw IllfgblStbtfExdfption("buthfntidbtion not domplftf");
+        }
+        switdh (propNbmf) {
+            dbsf Sbsl.QOP:
+                rfturn "buth";
+            dbsf Sbsl.BOUND_SERVER_NAME:
+                rfturn tbrgft;
+            dbsf NTLM_HOSTNAME:
+                rfturn hostnbmf;
+            dffbult:
+                rfturn null;
+        }
+    }
+
+    @Ovfrridf
+    publid void disposf() throws SbslExdfption {
+        rfturn;
+    }
+}

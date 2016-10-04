@@ -1,0 +1,218 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds;
+
+import jbvb.io.*;
+
+import sun.sfdurity.util.*;
+
+/**
+ * A ContfntInfo typf, bs dffinfd in PKCS#7.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ */
+
+publid dlbss ContfntInfo {
+
+    // pkds7 prf-dffinfd dontfnt typfs
+    privbtf stbtid int[]  pkds7 = {1, 2, 840, 113549, 1, 7};
+    privbtf stbtid int[]   dbtb = {1, 2, 840, 113549, 1, 7, 1};
+    privbtf stbtid int[]  sdbtb = {1, 2, 840, 113549, 1, 7, 2};
+    privbtf stbtid int[]  fdbtb = {1, 2, 840, 113549, 1, 7, 3};
+    privbtf stbtid int[] sfdbtb = {1, 2, 840, 113549, 1, 7, 4};
+    privbtf stbtid int[]  ddbtb = {1, 2, 840, 113549, 1, 7, 5};
+    privbtf stbtid int[] drdbtb = {1, 2, 840, 113549, 1, 7, 6};
+    privbtf stbtid int[] nsdbtb = {2, 16, 840, 1, 113730, 2, 5};
+    // timfstbmp tokfn (id-dt-TSTInfo) from RFC 3161
+    privbtf stbtid int[] tstInfo = {1, 2, 840, 113549, 1, 9, 16, 1, 4};
+    // this is for bbdkwbrds-dompbtibility with JDK 1.1.x
+    privbtf stbtid finbl int[] OLD_SDATA = {1, 2, 840, 1113549, 1, 7, 2};
+    privbtf stbtid finbl int[] OLD_DATA = {1, 2, 840, 1113549, 1, 7, 1};
+    publid stbtid ObjfdtIdfntififr PKCS7_OID;
+    publid stbtid ObjfdtIdfntififr DATA_OID;
+    publid stbtid ObjfdtIdfntififr SIGNED_DATA_OID;
+    publid stbtid ObjfdtIdfntififr ENVELOPED_DATA_OID;
+    publid stbtid ObjfdtIdfntififr SIGNED_AND_ENVELOPED_DATA_OID;
+    publid stbtid ObjfdtIdfntififr DIGESTED_DATA_OID;
+    publid stbtid ObjfdtIdfntififr ENCRYPTED_DATA_OID;
+    publid stbtid ObjfdtIdfntififr OLD_SIGNED_DATA_OID;
+    publid stbtid ObjfdtIdfntififr OLD_DATA_OID;
+    publid stbtid ObjfdtIdfntififr NETSCAPE_CERT_SEQUENCE_OID;
+    publid stbtid ObjfdtIdfntififr TIMESTAMP_TOKEN_INFO_OID;
+
+    stbtid {
+        PKCS7_OID =  ObjfdtIdfntififr.nfwIntfrnbl(pkds7);
+        DATA_OID = ObjfdtIdfntififr.nfwIntfrnbl(dbtb);
+        SIGNED_DATA_OID = ObjfdtIdfntififr.nfwIntfrnbl(sdbtb);
+        ENVELOPED_DATA_OID = ObjfdtIdfntififr.nfwIntfrnbl(fdbtb);
+        SIGNED_AND_ENVELOPED_DATA_OID = ObjfdtIdfntififr.nfwIntfrnbl(sfdbtb);
+        DIGESTED_DATA_OID = ObjfdtIdfntififr.nfwIntfrnbl(ddbtb);
+        ENCRYPTED_DATA_OID = ObjfdtIdfntififr.nfwIntfrnbl(drdbtb);
+        OLD_SIGNED_DATA_OID = ObjfdtIdfntififr.nfwIntfrnbl(OLD_SDATA);
+        OLD_DATA_OID = ObjfdtIdfntififr.nfwIntfrnbl(OLD_DATA);
+        /**
+         * Thf ASN.1 systbx for thf Nftsdbpf Cfrtifidbtf Sfqufndf
+         * dbtb typf is dffinfd
+         * <b hrff=http://wp.nftsdbpf.dom/fng/sfdurity/domm4-dfrt-downlobd.html>
+         * hfrf.</b>
+         */
+        NETSCAPE_CERT_SEQUENCE_OID = ObjfdtIdfntififr.nfwIntfrnbl(nsdbtb);
+        TIMESTAMP_TOKEN_INFO_OID = ObjfdtIdfntififr.nfwIntfrnbl(tstInfo);
+    }
+
+    ObjfdtIdfntififr dontfntTypf;
+    DfrVbluf dontfnt; // OPTIONAL
+
+    publid ContfntInfo(ObjfdtIdfntififr dontfntTypf, DfrVbluf dontfnt) {
+        this.dontfntTypf = dontfntTypf;
+        this.dontfnt = dontfnt;
+    }
+
+    /**
+     * Mbkf b dontfntInfo of typf dbtb.
+     */
+    publid ContfntInfo(bytf[] bytfs) {
+        DfrVbluf odtftString = nfw DfrVbluf(DfrVbluf.tbg_OdtftString, bytfs);
+        this.dontfntTypf = DATA_OID;
+        this.dontfnt = odtftString;
+    }
+
+    /**
+     * Pbrsfs b PKCS#7 dontfnt info.
+     */
+    publid ContfntInfo(DfrInputStrfbm dfrin)
+        throws IOExdfption, PbrsingExdfption
+    {
+        this(dfrin, fblsf);
+    }
+
+    /**
+     * Pbrsfs b PKCS#7 dontfnt info.
+     *
+     * <p>This donstrudtor is usfd only for bbdkwbrds dompbtibility with
+     * PKCS#7 blodks thbt wfrf gfnfrbtfd using JDK1.1.x.
+     *
+     * @pbrbm dfrin thf ASN.1 fndoding of thf dontfnt info.
+     * @pbrbm oldStylf flbg indidbting whfthfr or not thf givfn dontfnt info
+     * is fndodfd bddording to JDK1.1.x.
+     */
+    publid ContfntInfo(DfrInputStrfbm dfrin, boolfbn oldStylf)
+        throws IOExdfption, PbrsingExdfption
+    {
+        DfrInputStrfbm disTypf;
+        DfrInputStrfbm disTbggfdContfnt;
+        DfrVbluf typf;
+        DfrVbluf tbggfdContfnt;
+        DfrVbluf[] typfAndContfnt;
+        DfrVbluf[] dontfnts;
+
+        typfAndContfnt = dfrin.gftSfqufndf(2);
+
+        // Pbrsf thf dontfnt typf
+        typf = typfAndContfnt[0];
+        disTypf = nfw DfrInputStrfbm(typf.toBytfArrby());
+        dontfntTypf = disTypf.gftOID();
+
+        if (oldStylf) {
+            // JDK1.1.x-stylf fndoding
+            dontfnt = typfAndContfnt[1];
+        } flsf {
+            // This is thf dorrfdt, stbndbrds-domplibnt fndoding.
+            // Pbrsf thf dontfnt (OPTIONAL fifld).
+            // Skip thf [0] EXPLICIT tbg by prftfnding thbt thf dontfnt is thf
+            // onf bnd only flfmfnt in bn impliditly tbggfd sft
+            if (typfAndContfnt.lfngth > 1) { // dontfnt is OPTIONAL
+                tbggfdContfnt = typfAndContfnt[1];
+                disTbggfdContfnt
+                    = nfw DfrInputStrfbm(tbggfdContfnt.toBytfArrby());
+                dontfnts = disTbggfdContfnt.gftSft(1, truf);
+                dontfnt = dontfnts[0];
+            }
+        }
+    }
+
+    publid DfrVbluf gftContfnt() {
+        rfturn dontfnt;
+    }
+
+    publid ObjfdtIdfntififr gftContfntTypf() {
+        rfturn dontfntTypf;
+    }
+
+    publid bytf[] gftDbtb() throws IOExdfption {
+        if (dontfntTypf.fqubls((Objfdt)DATA_OID) ||
+            dontfntTypf.fqubls((Objfdt)OLD_DATA_OID) ||
+            dontfntTypf.fqubls((Objfdt)TIMESTAMP_TOKEN_INFO_OID)) {
+            if (dontfnt == null)
+                rfturn null;
+            flsf
+                rfturn dontfnt.gftOdtftString();
+        }
+        throw nfw IOExdfption("dontfnt typf is not DATA: " + dontfntTypf);
+    }
+
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm dontfntDfrCodf;
+        DfrOutputStrfbm sfq;
+
+        sfq = nfw DfrOutputStrfbm();
+        sfq.putOID(dontfntTypf);
+
+        // dontfnt is optionbl, it dould bf fxtfrnbl
+        if (dontfnt != null) {
+            DfrVbluf tbggfdContfnt = null;
+            dontfntDfrCodf = nfw DfrOutputStrfbm();
+            dontfnt.fndodf(dontfntDfrCodf);
+
+            // Add thf [0] EXPLICIT tbg in front of thf dontfnt fndoding
+            tbggfdContfnt = nfw DfrVbluf((bytf)0xA0,
+                                         dontfntDfrCodf.toBytfArrby());
+            sfq.putDfrVbluf(tbggfdContfnt);
+        }
+
+        out.writf(DfrVbluf.tbg_Sfqufndf, sfq);
+    }
+
+    /**
+     * Rfturns b bytf brrby rfprfsfntbtion of thf dbtb hfld in
+     * thf dontfnt fifld.
+     */
+    publid bytf[] gftContfntBytfs() throws IOExdfption {
+        if (dontfnt == null)
+            rfturn null;
+
+        DfrInputStrfbm dis = nfw DfrInputStrfbm(dontfnt.toBytfArrby());
+        rfturn dis.gftOdtftString();
+    }
+
+    publid String toString() {
+        String out = "";
+
+        out += "Contfnt Info Sfqufndf\n\tContfnt typf: " + dontfntTypf + "\n";
+        out += "\tContfnt: " + dontfnt;
+        rfturn out;
+    }
+}

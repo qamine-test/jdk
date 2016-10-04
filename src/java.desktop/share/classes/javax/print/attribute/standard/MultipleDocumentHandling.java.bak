@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class MultipleDocumentHandling is a printing attribute class, an enumeration,
- * that controls finishing operations and the placement of one or more
- * print-stream pages into impressions and onto media sheets. When the value of
- * the {@link Copies Copies} attribute exceeds 1, MultipleDocumentHandling also
- * controls the order in which the copies that result from processing the
- * documents are produced. This attribute is relevant only for a multidoc print
- * job consisting of two or more individual docs.
+ * Clbss MultiplfDodumfntHbndling is b printing bttributf dlbss, bn fnumfrbtion,
+ * tibt dontrols finisiing opfrbtions bnd tif plbdfmfnt of onf or morf
+ * print-strfbm pbgfs into imprfssions bnd onto mfdib siffts. Wifn tif vbluf of
+ * tif {@link Copifs Copifs} bttributf fxdffds 1, MultiplfDodumfntHbndling blso
+ * dontrols tif ordfr in wiidi tif dopifs tibt rfsult from prodfssing tif
+ * dodumfnts brf produdfd. Tiis bttributf is rflfvbnt only for b multidod print
+ * job donsisting of two or morf individubl dods.
  * <P>
- * Briefly, MultipleDocumentHandling determines the relationship between the
- * multiple input (electronic) documents fed into a multidoc print job and the
- * output (physical) document or documents produced by the multidoc print job.
- * There are two possibilities:
+ * Briffly, MultiplfDodumfntHbndling dftfrminfs tif rflbtionsiip bftwffn tif
+ * multiplf input (flfdtronid) dodumfnts ffd into b multidod print job bnd tif
+ * output (piysidbl) dodumfnt or dodumfnts produdfd by tif multidod print job.
+ * Tifrf brf two possibilitifs:
  * <UL>
  * <LI>
- * The multiple input documents are combined into a single output document.
- * Finishing operations ({@link Finishings Finishings}),
- * are performed on this single output
- * document. The {@link Copies Copies} attribute tells how many copies of this
- * single output document to produce. The MultipleDocumentHandling values
- * SINGLE_DOCUMENT and SINGLE_DOCUMENT_NEW_SHEET specify two variations of
- * this  possibility.
+ * Tif multiplf input dodumfnts brf dombinfd into b singlf output dodumfnt.
+ * Finisiing opfrbtions ({@link Finisiings Finisiings}),
+ * brf pfrformfd on tiis singlf output
+ * dodumfnt. Tif {@link Copifs Copifs} bttributf tflls iow mbny dopifs of tiis
+ * singlf output dodumfnt to produdf. Tif MultiplfDodumfntHbndling vblufs
+ * SINGLE_DOCUMENT bnd SINGLE_DOCUMENT_NEW_SHEET spfdify two vbribtions of
+ * tiis  possibility.
  *
  * <LI>
- * The multiple input documents remain separate output documents. Finishing
- * operations ({@link Finishings Finishings}),
- * are performed on each output document
- * separately. The {@link Copies Copies} attribute tells how many copies of each
- * separate output document to produce. The MultipleDocumentHandling values
- * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES and SEPARATE_DOCUMENTS_COLLATED_COPIES
- * specify two variations of this possibility.
+ * Tif multiplf input dodumfnts rfmbin sfpbrbtf output dodumfnts. Finisiing
+ * opfrbtions ({@link Finisiings Finisiings}),
+ * brf pfrformfd on fbdi output dodumfnt
+ * sfpbrbtfly. Tif {@link Copifs Copifs} bttributf tflls iow mbny dopifs of fbdi
+ * sfpbrbtf output dodumfnt to produdf. Tif MultiplfDodumfntHbndling vblufs
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES bnd SEPARATE_DOCUMENTS_COLLATED_COPIES
+ * spfdify two vbribtions of tiis possibility.
  * </UL>
  * <P>
- * In the detailed explanations below, if "<CODE>a</CODE>" represents an
- * instance of document data, then the result of processing the data in
- * document "<CODE>a</CODE>" is a sequence of media sheets represented by
- * "<CODE>a(*)</CODE>".
+ * In tif dftbilfd fxplbnbtions bflow, if "<CODE>b</CODE>" rfprfsfnts bn
+ * instbndf of dodumfnt dbtb, tifn tif rfsult of prodfssing tif dbtb in
+ * dodumfnt "<CODE>b</CODE>" is b sfqufndf of mfdib siffts rfprfsfntfd by
+ * "<CODE>b(*)</CODE>".
  * <P>
- * The standard MultipleDocumentHandling values are:
+ * Tif stbndbrd MultiplfDodumfntHbndling vblufs brf:
  * <UL>
  * <LI>
  * <A NAME="sdfi">{@link #SINGLE_DOCUMENT
- * <B>SINGLE_DOCUMENT</B>}</A>. If a print job has multiple
- * documents -- say, the document data is called <CODE>a</CODE> and
- * <CODE>b</CODE> -- then the result of processing all the document data
- * (<CODE>a</CODE> and then <CODE>b</CODE>) must be treated as a single sequence
- * of media sheets for finishing operations; that is, finishing would be
- * performed on the concatenation of the sequences <CODE>a(*),b(*)</CODE>. The
- * printer must not force the data in each document instance to be formatted
- * onto a new print-stream page, nor to start a new impression on a new media
- * sheet. If more than one copy is made, the ordering of the sets of media
- * sheets resulting from processing the document data must be
- * <CODE>a(*),b(*),a(*),b(*),...</CODE>, and the printer object must force
- * each copy (<CODE>a(*),b(*)</CODE>) to start on a new media sheet.
+ * <B>SINGLE_DOCUMENT</B>}</A>. If b print job ibs multiplf
+ * dodumfnts -- sby, tif dodumfnt dbtb is dbllfd <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- tifn tif rfsult of prodfssing bll tif dodumfnt dbtb
+ * (<CODE>b</CODE> bnd tifn <CODE>b</CODE>) must bf trfbtfd bs b singlf sfqufndf
+ * of mfdib siffts for finisiing opfrbtions; tibt is, finisiing would bf
+ * pfrformfd on tif dondbtfnbtion of tif sfqufndfs <CODE>b(*),b(*)</CODE>. Tif
+ * printfr must not fordf tif dbtb in fbdi dodumfnt instbndf to bf formbttfd
+ * onto b nfw print-strfbm pbgf, nor to stbrt b nfw imprfssion on b nfw mfdib
+ * sifft. If morf tibn onf dopy is mbdf, tif ordfring of tif sfts of mfdib
+ * siffts rfsulting from prodfssing tif dodumfnt dbtb must bf
+ * <CODE>b(*),b(*),b(*),b(*),...</CODE>, bnd tif printfr objfdt must fordf
+ * fbdi dopy (<CODE>b(*),b(*)</CODE>) to stbrt on b nfw mfdib sifft.
  *
  * <LI>
- * <A NAME="sducfi">{@link #SEPARATE_DOCUMENTS_UNCOLLATED_COPIES
- * <B>SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</B>}</A>. If a print job
- * has multiple documents -- say, the document data is called <CODE>a</CODE> and
- * <CODE>b</CODE> -- then the result of processing the data in each document
- * instance must be treated as a single sequence of media sheets for finishing
- * operations; that is, the sets <CODE>a(*)</CODE> and <CODE>b(*)</CODE> would
- * each be finished separately. The printer must force each copy of the result
- * of processing the data in a single document to start on a new media sheet.
- * If more than one copy is made, the ordering of the sets of media sheets
- * resulting from processing the document data must be
- * <CODE>a(*),a(*),...,b(*),b(*)...</CODE>.
+ * <A NAME="sdudfi">{@link #SEPARATE_DOCUMENTS_UNCOLLATED_COPIES
+ * <B>SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</B>}</A>. If b print job
+ * ibs multiplf dodumfnts -- sby, tif dodumfnt dbtb is dbllfd <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- tifn tif rfsult of prodfssing tif dbtb in fbdi dodumfnt
+ * instbndf must bf trfbtfd bs b singlf sfqufndf of mfdib siffts for finisiing
+ * opfrbtions; tibt is, tif sfts <CODE>b(*)</CODE> bnd <CODE>b(*)</CODE> would
+ * fbdi bf finisifd sfpbrbtfly. Tif printfr must fordf fbdi dopy of tif rfsult
+ * of prodfssing tif dbtb in b singlf dodumfnt to stbrt on b nfw mfdib sifft.
+ * If morf tibn onf dopy is mbdf, tif ordfring of tif sfts of mfdib siffts
+ * rfsulting from prodfssing tif dodumfnt dbtb must bf
+ * <CODE>b(*),b(*),...,b(*),b(*)...</CODE>.
  *
  * <LI>
- * <A NAME="sdccfi">{@link #SEPARATE_DOCUMENTS_COLLATED_COPIES
- * <B>SEPARATE_DOCUMENTS_COLLATED_COPIES</B>}</A>. If a print job
- * has multiple documents -- say, the document data is called <CODE>a</CODE> and
- * <CODE>b</CODE> -- then the result of processing the data in each document
- * instance must be treated as a single sequence of media sheets for finishing
- * operations; that is, the sets <CODE>a(*)</CODE> and <CODE>b(*)</CODE> would
- * each be finished separately. The printer must force each copy of the result
- * of processing the data in a single document to start on a new media sheet.
- * If more than one copy is made, the ordering of the sets of media sheets
- * resulting from processing the document data must be
- * <CODE>a(*),b(*),a(*),b(*),...</CODE>.
+ * <A NAME="sdddfi">{@link #SEPARATE_DOCUMENTS_COLLATED_COPIES
+ * <B>SEPARATE_DOCUMENTS_COLLATED_COPIES</B>}</A>. If b print job
+ * ibs multiplf dodumfnts -- sby, tif dodumfnt dbtb is dbllfd <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- tifn tif rfsult of prodfssing tif dbtb in fbdi dodumfnt
+ * instbndf must bf trfbtfd bs b singlf sfqufndf of mfdib siffts for finisiing
+ * opfrbtions; tibt is, tif sfts <CODE>b(*)</CODE> bnd <CODE>b(*)</CODE> would
+ * fbdi bf finisifd sfpbrbtfly. Tif printfr must fordf fbdi dopy of tif rfsult
+ * of prodfssing tif dbtb in b singlf dodumfnt to stbrt on b nfw mfdib sifft.
+ * If morf tibn onf dopy is mbdf, tif ordfring of tif sfts of mfdib siffts
+ * rfsulting from prodfssing tif dodumfnt dbtb must bf
+ * <CODE>b(*),b(*),b(*),b(*),...</CODE>.
  *
  * <LI>
  * <A NAME="sdnsfi">{@link #SINGLE_DOCUMENT_NEW_SHEET
- * <B>SINGLE_DOCUMENT_NEW_SHEET</B>}</A>. Same as SINGLE_DOCUMENT,
- * except that the printer must ensure that the first impression of each
- * document instance in the job is placed on a new media sheet. This value
- * allows multiple documents to be stapled together with a single staple where
- * each document starts on a new sheet.
+ * <B>SINGLE_DOCUMENT_NEW_SHEET</B>}</A>. Sbmf bs SINGLE_DOCUMENT,
+ * fxdfpt tibt tif printfr must fnsurf tibt tif first imprfssion of fbdi
+ * dodumfnt instbndf in tif job is plbdfd on b nfw mfdib sifft. Tiis vbluf
+ * bllows multiplf dodumfnts to bf stbplfd togftifr witi b singlf stbplf wifrf
+ * fbdi dodumfnt stbrts on b nfw sifft.
  * </UL>
  * <P>
- * SINGLE_DOCUMENT is the same as SEPARATE_DOCUMENTS_COLLATED_COPIES with
- * respect to ordering of print-stream pages, but not media sheet generation,
- * since SINGLE_DOCUMENT will put the first page of the next document on the
- * back side of a sheet if an odd number of pages have been produced so far
- * for the job, while SEPARATE_DOCUMENTS_COLLATED_COPIES always forces the
- * next document or document copy on to a new sheet.
+ * SINGLE_DOCUMENT is tif sbmf bs SEPARATE_DOCUMENTS_COLLATED_COPIES witi
+ * rfspfdt to ordfring of print-strfbm pbgfs, but not mfdib sifft gfnfrbtion,
+ * sindf SINGLE_DOCUMENT will put tif first pbgf of tif nfxt dodumfnt on tif
+ * bbdk sidf of b sifft if bn odd numbfr of pbgfs ibvf bffn produdfd so fbr
+ * for tif job, wiilf SEPARATE_DOCUMENTS_COLLATED_COPIES blwbys fordfs tif
+ * nfxt dodumfnt or dodumfnt dopy on to b nfw sifft.
  * <P>
- * In addition, if a {@link Finishings Finishings} attribute of
- * {@link Finishings#STAPLE STAPLE} is specified, then:
+ * In bddition, if b {@link Finisiings Finisiings} bttributf of
+ * {@link Finisiings#STAPLE STAPLE} is spfdififd, tifn:
  * <UL>
  * <LI>
- * With SINGLE_DOCUMENT, documents <CODE>a</CODE> and <CODE>b</CODE> are
- * stapled together as a single document with no regard to new sheets.
+ * Witi SINGLE_DOCUMENT, dodumfnts <CODE>b</CODE> bnd <CODE>b</CODE> brf
+ * stbplfd togftifr bs b singlf dodumfnt witi no rfgbrd to nfw siffts.
  *
  * <LI>
- * With SINGLE_DOCUMENT_NEW_SHEET, documents <CODE>a</CODE> and <CODE>b</CODE>
- * are stapled together as a single document, but document <CODE>b</CODE>
- * starts on a new sheet.
+ * Witi SINGLE_DOCUMENT_NEW_SHEET, dodumfnts <CODE>b</CODE> bnd <CODE>b</CODE>
+ * brf stbplfd togftifr bs b singlf dodumfnt, but dodumfnt <CODE>b</CODE>
+ * stbrts on b nfw sifft.
  *
  * <LI>
- * With SEPARATE_DOCUMENTS_UNCOLLATED_COPIES and
- * SEPARATE_DOCUMENTS_COLLATED_COPIES, documents <CODE>a</CODE> and
- * <CODE>b</CODE> are stapled separately.
+ * Witi SEPARATE_DOCUMENTS_UNCOLLATED_COPIES bnd
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES, dodumfnts <CODE>b</CODE> bnd
+ * <CODE>b</CODE> brf stbplfd sfpbrbtfly.
  * </UL>
  * <P>
- * <I>Note:</I> None of these values provide means to produce uncollated
- * sheets within a document, i.e., where multiple copies of sheet <I>n</I>
- * are produced before sheet <I>n</I>+1 of the same document.
- * To specify that, see the {@link SheetCollate SheetCollate} attribute.
+ * <I>Notf:</I> Nonf of tifsf vblufs providf mfbns to produdf undollbtfd
+ * siffts witiin b dodumfnt, i.f., wifrf multiplf dopifs of sifft <I>n</I>
+ * brf produdfd bfforf sifft <I>n</I>+1 of tif sbmf dodumfnt.
+ * To spfdify tibt, sff tif {@link SifftCollbtf SifftCollbtf} bttributf.
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif fnumfrbtion's
+ * intfgfr vbluf is tif IPP fnum vbluf.  Tif <dodf>toString()</dodf> mftiod
+ * rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf.
  * <P>
  *
- * @see  Copies
- * @see  Finishings
- * @see  NumberUp
- * @see  PageRanges
- * @see  SheetCollate
- * @see  Sides
+ * @sff  Copifs
+ * @sff  Finisiings
+ * @sff  NumbfrUp
+ * @sff  PbgfRbngfs
+ * @sff  SifftCollbtf
+ * @sff  Sidfs
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @butior  Dbvid Mfndfnibll
+ * @butior  Albn Kbminsky
  */
-public class MultipleDocumentHandling extends EnumSyntax
-    implements PrintRequestAttribute, PrintJobAttribute {
+publid dlbss MultiplfDodumfntHbndling fxtfnds EnumSyntbx
+    implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
 
-    private static final long serialVersionUID = 8098326460746413466L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8098326460746413466L;
 
 
     /**
-     * Single document -- see above for <A HREF="#sdfi">further
-     * information</A>.
+     * Singlf dodumfnt -- sff bbovf for <A HREF="#sdfi">furtifr
+     * informbtion</A>.
      */
-    public static final MultipleDocumentHandling
-        SINGLE_DOCUMENT = new MultipleDocumentHandling (0);
+    publid stbtid finbl MultiplfDodumfntHbndling
+        SINGLE_DOCUMENT = nfw MultiplfDodumfntHbndling (0);
 
     /**
-     * Separate documents uncollated copies -- see above for
-     * <A HREF="#sducfi">further information</A>.
+     * Sfpbrbtf dodumfnts undollbtfd dopifs -- sff bbovf for
+     * <A HREF="#sdudfi">furtifr informbtion</A>.
      */
-    public static final MultipleDocumentHandling
-       SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = new MultipleDocumentHandling (1);
+    publid stbtid finbl MultiplfDodumfntHbndling
+       SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = nfw MultiplfDodumfntHbndling (1);
 
     /**
-     * Separate documents collated copies -- see above for
-     * <A HREF="#sdccfi">further information</A>.
+     * Sfpbrbtf dodumfnts dollbtfd dopifs -- sff bbovf for
+     * <A HREF="#sdddfi">furtifr informbtion</A>.
      */
-    public static final MultipleDocumentHandling
-        SEPARATE_DOCUMENTS_COLLATED_COPIES = new MultipleDocumentHandling (2);
+    publid stbtid finbl MultiplfDodumfntHbndling
+        SEPARATE_DOCUMENTS_COLLATED_COPIES = nfw MultiplfDodumfntHbndling (2);
 
     /**
-     * Single document new sheet -- see above for
-     * <A HREF="#sdnsfi">further information</A>.
+     * Singlf dodumfnt nfw sifft -- sff bbovf for
+     * <A HREF="#sdnsfi">furtifr informbtion</A>.
      */
-    public static final MultipleDocumentHandling
-        SINGLE_DOCUMENT_NEW_SHEET = new MultipleDocumentHandling (3);
+    publid stbtid finbl MultiplfDodumfntHbndling
+        SINGLE_DOCUMENT_NEW_SHEET = nfw MultiplfDodumfntHbndling (3);
 
 
     /**
-     * Construct a new multiple document handling enumeration value with the
-     * given integer value.
+     * Construdt b nfw multiplf dodumfnt ibndling fnumfrbtion vbluf witi tif
+     * givfn intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected MultipleDocumentHandling(int value) {
-        super (value);
+    protfdtfd MultiplfDodumfntHbndling(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
-        "single-document",
-        "separate-documents-uncollated-copies",
-        "separate-documents-collated-copies",
-        "single-document-new-sheet"
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "singlf-dodumfnt",
+        "sfpbrbtf-dodumfnts-undollbtfd-dopifs",
+        "sfpbrbtf-dodumfnts-dollbtfd-dopifs",
+        "singlf-dodumfnt-nfw-sifft"
     };
 
-    private static final MultipleDocumentHandling[] myEnumValueTable = {
+    privbtf stbtid finbl MultiplfDodumfntHbndling[] myEnumVblufTbblf = {
         SINGLE_DOCUMENT,
         SEPARATE_DOCUMENTS_UNCOLLATED_COPIES,
         SEPARATE_DOCUMENTS_COLLATED_COPIES,
@@ -225,44 +225,44 @@ public class MultipleDocumentHandling extends EnumSyntax
     };
 
     /**
-     * Returns the string table for class MultipleDocumentHandling.
+     * Rfturns tif string tbblf for dlbss MultiplfDodumfntHbndling.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
     }
 
     /**
-     * Returns the enumeration value table for class MultipleDocumentHandling.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss MultiplfDodumfntHbndling.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class MultipleDocumentHandling and any vendor-defined subclasses,
-     * the category is class MultipleDocumentHandling itself.
+     * For dlbss MultiplfDodumfntHbndling bnd bny vfndor-dffinfd subdlbssfs,
+     * tif dbtfgory is dlbss MultiplfDodumfntHbndling itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return MultipleDocumentHandling.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn MultiplfDodumfntHbndling.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class MultipleDocumentHandling and any vendor-defined subclasses,
-     * the category name is <CODE>"multiple-document-handling"</CODE>.
+     * For dlbss MultiplfDodumfntHbndling bnd bny vfndor-dffinfd subdlbssfs,
+     * tif dbtfgory nbmf is <CODE>"multiplf-dodumfnt-ibndling"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "multiple-document-handling";
+    publid finbl String gftNbmf() {
+        rfturn "multiplf-dodumfnt-ibndling";
     }
 
 }

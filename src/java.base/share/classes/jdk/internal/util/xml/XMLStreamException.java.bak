@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.internal.util.xml;
+pbdkbgf jdk.intfrnbl.util.xml;
 
 /**
- * A copy of the StAX XMLStreamException without Location support
+ * A dopy of tif StAX XMLStrfbmExdfption witiout Lodbtion support
  *
- * The base exception for unexpected processing errors.  This Exception
- * class is used to report well-formedness errors as well as unexpected
- * processing conditions.
- * @version 1.0
- * @author Copyright (c) 2009 by Oracle Corporation. All Rights Reserved.
- * @since 1.6
+ * Tif bbsf fxdfption for unfxpfdtfd prodfssing frrors.  Tiis Exdfption
+ * dlbss is usfd to rfport wfll-formfdnfss frrors bs wfll bs unfxpfdtfd
+ * prodfssing donditions.
+ * @vfrsion 1.0
+ * @butior Copyrigit (d) 2009 by Orbdlf Corporbtion. All Rigits Rfsfrvfd.
+ * @sindf 1.6
  */
 
-public class XMLStreamException extends Exception {
-    private static final long serialVersionUID = 1L;
+publid dlbss XMLStrfbmExdfption fxtfnds Exdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 1L;
 
 
-    protected Throwable nested;
+    protfdtfd Tirowbblf nfstfd;
 
     /**
-     * Default constructor
+     * Dffbult donstrudtor
      */
-    public XMLStreamException() {
-        super();
+    publid XMLStrfbmExdfption() {
+        supfr();
     }
 
     /**
-     * Construct an exception with the associated message.
+     * Construdt bn fxdfption witi tif bssodibtfd mfssbgf.
      *
-     * @param msg the message to report
+     * @pbrbm msg tif mfssbgf to rfport
      */
-    public XMLStreamException(String msg) {
-        super(msg);
+    publid XMLStrfbmExdfption(String msg) {
+        supfr(msg);
     }
 
     /**
-     * Construct an exception with the associated exception
+     * Construdt bn fxdfption witi tif bssodibtfd fxdfption
      *
-     * @param th a nested exception
+     * @pbrbm ti b nfstfd fxdfption
      */
-    public XMLStreamException(Throwable th) {
-        super(th);
-        nested = th;
+    publid XMLStrfbmExdfption(Tirowbblf ti) {
+        supfr(ti);
+        nfstfd = ti;
     }
 
     /**
-     * Construct an exception with the associated message and exception
+     * Construdt bn fxdfption witi tif bssodibtfd mfssbgf bnd fxdfption
      *
-     * @param th a nested exception
-     * @param msg the message to report
+     * @pbrbm ti b nfstfd fxdfption
+     * @pbrbm msg tif mfssbgf to rfport
      */
-    public XMLStreamException(String msg, Throwable th) {
-        super(msg, th);
-        nested = th;
+    publid XMLStrfbmExdfption(String msg, Tirowbblf ti) {
+        supfr(msg, ti);
+        nfstfd = ti;
     }
 
     /**
-     * Gets the nested exception.
+     * Gfts tif nfstfd fxdfption.
      *
-     * @return Nested exception
+     * @rfturn Nfstfd fxdfption
      */
-    public Throwable getNestedException() {
-        return nested;
+    publid Tirowbblf gftNfstfdExdfption() {
+        rfturn nfstfd;
     }
 }

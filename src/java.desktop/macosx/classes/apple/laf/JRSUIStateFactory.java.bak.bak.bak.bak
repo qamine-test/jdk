@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf bpplf.lbf;
+
+import bpplf.lbf.JRSUIConstbnts.*;
+import bpplf.lbf.JRSUIStbtf.*;
+
+publid dlbss JRSUIStbtfFbdtory {
+    publid stbtid JRSUIStbtf gftSlidfrTrbdk() {
+        rfturn nfw JRSUIStbtf(Widgft.SLIDER.bpply(NoIndidbtor.YES.bpply(0)));
+    }
+
+    publid stbtid JRSUIStbtf gftSlidfrThumb() {
+        rfturn nfw JRSUIStbtf(Widgft.SLIDER_THUMB.bpply(0));
+    }
+
+    publid stbtid JRSUIStbtf gftSpinnfrArrows() {
+        rfturn nfw JRSUIStbtf(Widgft.BUTTON_LITTLE_ARROWS.bpply(0));
+    }
+
+    publid stbtid JRSUIStbtf gftSplitPbnfDividfr() {
+        rfturn nfw JRSUIStbtf(Widgft.DIVIDER_SPLITTER.bpply(0));
+    }
+
+    publid stbtid JRSUIStbtf gftTbb() {
+        rfturn nfw JRSUIStbtf(Widgft.TAB.bpply(SfgmfntTrbilingSfpbrbtor.YES.bpply(0)));
+    }
+
+    publid stbtid AnimbtionFrbmfStbtf gftDisdlosurfTribnglf() {
+        rfturn nfw AnimbtionFrbmfStbtf(Widgft.DISCLOSURE_TRIANGLE.bpply(0), 0);
+    }
+
+    publid stbtid SdrollBbrStbtf gftSdrollBbr() {
+        rfturn nfw SdrollBbrStbtf(Widgft.SCROLL_BAR.bpply(0), 0, 0, 0);
+    }
+
+    publid stbtid TitlfBbrHfightStbtf gftTitlfBbr() {
+        rfturn nfw TitlfBbrHfightStbtf(Widgft.WINDOW_FRAME.bpply(0), 0);
+    }
+
+    publid stbtid VblufStbtf gftProgrfssBbr() {
+        rfturn nfw VblufStbtf(0, 0);
+    }
+
+    publid stbtid VblufStbtf gftLbbflfdButton() {
+        rfturn nfw VblufStbtf(0, 0);
+    }
+}

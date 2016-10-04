@@ -1,0 +1,199 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+/**
+  * This dlbss rfprfsfnts b nbmf-to-objfdt binding found in b dontfxt.
+  *<p>
+  * A dontfxt donsists of nbmf-to-objfdt bindings.
+  * Thf Binding dlbss rfprfsfnts sudh b binding.  It donsists
+  * of b nbmf bnd bn objfdt. Thf <dodf>Contfxt.listBindings()</dodf>
+  * mfthod rfturns bn fnumfrbtion of Binding.
+  *<p>
+  * Usf subdlbssing for nbming systfms thbt gfnfrbtf dontfnts of
+  * b binding dynbmidblly.
+  *<p>
+  * A Binding instbndf is not syndhronizfd bgbinst dondurrfnt bddfss by multiplf
+  * thrfbds. Thrfbds thbt nffd to bddfss b Binding dondurrfntly should
+  * syndhronizf bmongst thfmsflvfs bnd providf thf nfdfssbry lodking.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @sindf 1.3
+  */
+
+publid dlbss Binding fxtfnds NbmfClbssPbir {
+    /**
+     * Contbins this binding's objfdt.
+     * It is initiblizfd by thf donstrudtor bnd dbn bf updbtfd using
+     * <tt>sftObjfdt</tt>.
+     * @sfribl
+     * @sff #gftObjfdt
+     * @sff #sftObjfdt
+     */
+    privbtf Objfdt boundObj;
+
+    /**
+      * Construdts bn instbndf of b Binding givfn its nbmf bnd objfdt.
+      *<p>
+      * <tt>gftClbssNbmf()</tt> will rfturn
+      * thf dlbss nbmf of <tt>obj</tt> (or null if <tt>obj</tt> is null)
+      * unlfss thf dlbss nbmf hbs bffn fxpliditly sft using <tt>sftClbssNbmf()</tt>
+      *
+      * @pbrbm  nbmf    Thf non-null nbmf of thf objfdt. It is rflbtivf
+      *             to thf <fm>tbrgft dontfxt</fm> (whidh is
+      * nbmfd by thf first pbrbmftfr of thf <dodf>listBindings()</dodf> mfthod)
+      * @pbrbm  obj     Thf possibly null objfdt bound to nbmf.
+      * @sff NbmfClbssPbir#sftClbssNbmf
+      */
+    publid Binding(String nbmf, Objfdt obj) {
+        supfr(nbmf, null);
+        this.boundObj = obj;
+    }
+
+    /**
+      * Construdts bn instbndf of b Binding givfn its nbmf, objfdt, bnd whfthfr
+      * thf nbmf is rflbtivf.
+      *<p>
+      * <tt>gftClbssNbmf()</tt> will rfturn thf dlbss nbmf of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unlfss thf dlbss nbmf hbs bffn
+      * fxpliditly sft using <tt>sftClbssNbmf()</tt>
+      *
+      * @pbrbm  nbmf    Thf non-null string nbmf of thf objfdt.
+      * @pbrbm  obj     Thf possibly null objfdt bound to nbmf.
+      * @pbrbm isRflbtivf truf if <dodf>nbmf</dodf> is b nbmf rflbtivf
+      *         to thf tbrgft dontfxt (whidh is nbmfd by
+      *         thf first pbrbmftfr of thf <dodf>listBindings()</dodf> mfthod);
+      *         fblsf if <dodf>nbmf</dodf> is b URL string.
+      * @sff NbmfClbssPbir#isRflbtivf
+      * @sff NbmfClbssPbir#sftRflbtivf
+      * @sff NbmfClbssPbir#sftClbssNbmf
+      */
+    publid Binding(String nbmf, Objfdt obj, boolfbn isRflbtivf) {
+        supfr(nbmf, null, isRflbtivf);
+        this.boundObj = obj;
+    }
+
+    /**
+      * Construdts bn instbndf of b Binding givfn its nbmf, dlbss nbmf, bnd objfdt.
+      *
+      * @pbrbm  nbmf    Thf non-null nbmf of thf objfdt. It is rflbtivf
+      *             to thf <fm>tbrgft dontfxt</fm> (whidh is
+      * nbmfd by thf first pbrbmftfr of thf <dodf>listBindings()</dodf> mfthod)
+      * @pbrbm  dlbssNbmf       Thf possibly null dlbss nbmf of thf objfdt
+      *         bound to <tt>nbmf</tt>. If null, thf dlbss nbmf of <tt>obj</tt> is
+      *         rfturnfd by <tt>gftClbssNbmf()</tt>. If <tt>obj</tt> is blso
+      *         null, <tt>gftClbssNbmf()</tt> will rfturn null.
+      * @pbrbm  obj     Thf possibly null objfdt bound to nbmf.
+      * @sff NbmfClbssPbir#sftClbssNbmf
+      */
+    publid Binding(String nbmf, String dlbssNbmf, Objfdt obj) {
+        supfr(nbmf, dlbssNbmf);
+        this.boundObj = obj;
+    }
+
+    /**
+      * Construdts bn instbndf of b Binding givfn its
+      * nbmf, dlbss nbmf, objfdt, bnd whfthfr thf nbmf is rflbtivf.
+      *
+      * @pbrbm  nbmf    Thf non-null string nbmf of thf objfdt.
+      * @pbrbm  dlbssNbmf       Thf possibly null dlbss nbmf of thf objfdt
+      *         bound to <tt>nbmf</tt>. If null, thf dlbss nbmf of <tt>obj</tt> is
+      *         rfturnfd by <tt>gftClbssNbmf()</tt>. If <tt>obj</tt> is blso
+      *         null, <tt>gftClbssNbmf()</tt> will rfturn null.
+      * @pbrbm  obj     Thf possibly null objfdt bound to nbmf.
+      * @pbrbm isRflbtivf truf if <dodf>nbmf</dodf> is b nbmf rflbtivf
+      *         to thf tbrgft dontfxt (whidh is nbmfd by
+      *         thf first pbrbmftfr of thf <dodf>listBindings()</dodf> mfthod);
+      *         fblsf if <dodf>nbmf</dodf> is b URL string.
+      * @sff NbmfClbssPbir#isRflbtivf
+      * @sff NbmfClbssPbir#sftRflbtivf
+      * @sff NbmfClbssPbir#sftClbssNbmf
+      */
+    publid Binding(String nbmf, String dlbssNbmf, Objfdt obj, boolfbn isRflbtivf) {
+        supfr(nbmf, dlbssNbmf, isRflbtivf);
+        this.boundObj = obj;
+    }
+
+    /**
+      * Rftrifvfs thf dlbss nbmf of thf objfdt bound to thf nbmf of this binding.
+      * If thf dlbss nbmf hbs bffn sft fxpliditly, rfturn it.
+      * Othfrwisf, if this binding dontbins b non-null objfdt,
+      * thbt objfdt's dlbss nbmf is usfd. Othfrwisf, null is rfturnfd.
+      *
+      * @rfturn A possibly null string dontbining dlbss nbmf of objfdt bound.
+      */
+    publid String gftClbssNbmf() {
+        String dnbmf = supfr.gftClbssNbmf();
+        if (dnbmf != null) {
+            rfturn dnbmf;
+        }
+        if (boundObj != null)
+            rfturn boundObj.gftClbss().gftNbmf();
+        flsf
+            rfturn null;
+    }
+
+    /**
+      * Rftrifvfs thf objfdt bound to thf nbmf of this binding.
+      *
+      * @rfturn Thf objfdt bound; null if this binding dofs not dontbin bn objfdt.
+      * @sff #sftObjfdt
+      */
+
+    publid Objfdt gftObjfdt() {
+        rfturn boundObj;
+    }
+
+    /**
+     * Sfts thf objfdt bssodibtfd with this binding.
+     * @pbrbm obj Thf possibly null objfdt to usf.
+     * @sff #gftObjfdt
+     */
+    publid void sftObjfdt(Objfdt obj) {
+        boundObj = obj;
+    }
+
+    /**
+      * Gfnfrbtfs thf string rfprfsfntbtion of this binding.
+      * Thf string rfprfsfntbtion donsists of thf string rfprfsfntbtion
+      * of thf nbmf/dlbss pbir bnd thf string rfprfsfntbtion of
+      * this binding's objfdt, sfpbrbtfd by ':'.
+      * Thf dontfnts of this string is usfful
+      * for dfbugging bnd is not mfbnt to bf intfrprftfd progrbmmbtidblly.
+      *
+      * @rfturn Thf non-null string rfprfsfntbtion of this binding.
+      */
+
+    publid String toString() {
+        rfturn supfr.toString() + ":" + gftObjfdt();
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8839217842691845890L;
+};

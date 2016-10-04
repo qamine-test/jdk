@@ -1,0 +1,1313 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
+
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssRfbdfr;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbth;
+
+/**
+ * A {@link Printfr} thbt prints thf ASM dodf to gfnfrbtf thf dlbssfs if visits.
+ *
+ * @buthor Erid Brunfton
+ */
+publid dlbss ASMififr fxtfnds Printfr {
+
+    /**
+     * Thf nbmf of thf visitor vbribblf in thf produdfd dodf.
+     */
+    protfdtfd finbl String nbmf;
+
+    /**
+     * Idfntififr of thf bnnotbtion visitor vbribblf in thf produdfd dodf.
+     */
+    protfdtfd finbl int id;
+
+    /**
+     * Thf lbbfl nbmfs. This mbp bssodibtfs String vblufs to Lbbfl kfys. It is
+     * usfd only in ASMififrMfthodVisitor.
+     */
+    protfdtfd Mbp<Lbbfl, String> lbbflNbmfs;
+
+    /**
+     * Psfudo bddfss flbg usfd to distinguish dlbss bddfss flbgs.
+     */
+    privbtf stbtid finbl int ACCESS_CLASS = 262144;
+
+    /**
+     * Psfudo bddfss flbg usfd to distinguish fifld bddfss flbgs.
+     */
+    privbtf stbtid finbl int ACCESS_FIELD = 524288;
+
+    /**
+     * Psfudo bddfss flbg usfd to distinguish innfr dlbss flbgs.
+     */
+    privbtf stbtid finbl int ACCESS_INNER = 1048576;
+
+    /**
+     * Construdts b nfw {@link ASMififr}. <i>Subdlbssfs must not usf this
+     * donstrudtor</i>. Instfbd, thfy must usf thf
+     * {@link #ASMififr(int, String, int)} vfrsion.
+     *
+     * @throws IllfgblStbtfExdfption
+     *             If b subdlbss dblls this donstrudtor.
+     */
+    publid ASMififr() {
+        this(Opdodfs.ASM5, "dw", 0);
+        if (gftClbss() != ASMififr.dlbss) {
+            throw nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * Construdts b nfw {@link ASMififr}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this dlbss. Must bf onf of
+     *            {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm nbmf
+     *            thf nbmf of thf visitor vbribblf in thf produdfd dodf.
+     * @pbrbm id
+     *            idfntififr of thf bnnotbtion visitor vbribblf in thf produdfd
+     *            dodf.
+     */
+    protfdtfd ASMififr(finbl int bpi, finbl String nbmf, finbl int id) {
+        supfr(bpi);
+        this.nbmf = nbmf;
+        this.id = id;
+    }
+
+    /**
+     * Prints thf ASM sourdf dodf to gfnfrbtf thf givfn dlbss to thf stbndbrd
+     * output.
+     * <p>
+     * Usbgf: ASMififr [-dfbug] &lt;binbry dlbss nbmf or dlbss filf nbmf&gt;
+     *
+     * @pbrbm brgs
+     *            thf dommbnd linf brgumfnts.
+     *
+     * @throws Exdfption
+     *             if thf dlbss dbnnot bf found, or if bn IO fxdfption oddurs.
+     */
+    publid stbtid void mbin(finbl String[] brgs) throws Exdfption {
+        int i = 0;
+        int flbgs = ClbssRfbdfr.SKIP_DEBUG;
+
+        boolfbn ok = truf;
+        if (brgs.lfngth < 1 || brgs.lfngth > 2) {
+            ok = fblsf;
+        }
+        if (ok && "-dfbug".fqubls(brgs[0])) {
+            i = 1;
+            flbgs = 0;
+            if (brgs.lfngth != 2) {
+                ok = fblsf;
+            }
+        }
+        if (!ok) {
+            Systfm.frr
+                    .println("Prints thf ASM dodf to gfnfrbtf thf givfn dlbss.");
+            Systfm.frr.println("Usbgf: ASMififr [-dfbug] "
+                    + "<fully qublififd dlbss nbmf or dlbss filf nbmf>");
+            rfturn;
+        }
+        ClbssRfbdfr dr;
+        if (brgs[i].fndsWith(".dlbss") || brgs[i].indfxOf('\\') > -1
+                || brgs[i].indfxOf('/') > -1) {
+            dr = nfw ClbssRfbdfr(nfw FilfInputStrfbm(brgs[i]));
+        } flsf {
+            dr = nfw ClbssRfbdfr(brgs[i]);
+        }
+        dr.bddfpt(nfw TrbdfClbssVisitor(null, nfw ASMififr(), nfw PrintWritfr(
+                Systfm.out)), flbgs);
+    }
+
+    // ------------------------------------------------------------------------
+    // Clbssfs
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid void visit(finbl int vfrsion, finbl int bddfss, finbl String nbmf,
+            finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs) {
+        String simplfNbmf;
+        int n = nbmf.lbstIndfxOf('/');
+        if (n == -1) {
+            simplfNbmf = nbmf;
+        } flsf {
+            tfxt.bdd("pbdkbgf bsm." + nbmf.substring(0, n).rfplbdf('/', '.')
+                    + ";\n");
+            simplfNbmf = nbmf.substring(n + 1);
+        }
+        tfxt.bdd("import jbvb.util.*;\n");
+        tfxt.bdd("import jdk.intfrnbl.org.objfdtwfb.bsm.*;\n");
+        tfxt.bdd("publid dlbss " + simplfNbmf + "Dump implfmfnts Opdodfs {\n\n");
+        tfxt.bdd("publid stbtid bytf[] dump () throws Exdfption {\n\n");
+        tfxt.bdd("ClbssWritfr dw = nfw ClbssWritfr(0);\n");
+        tfxt.bdd("FifldVisitor fv;\n");
+        tfxt.bdd("MfthodVisitor mv;\n");
+        tfxt.bdd("AnnotbtionVisitor bv0;\n\n");
+
+        buf.sftLfngth(0);
+        buf.bppfnd("dw.visit(");
+        switdh (vfrsion) {
+        dbsf Opdodfs.V1_1:
+            buf.bppfnd("V1_1");
+            brfbk;
+        dbsf Opdodfs.V1_2:
+            buf.bppfnd("V1_2");
+            brfbk;
+        dbsf Opdodfs.V1_3:
+            buf.bppfnd("V1_3");
+            brfbk;
+        dbsf Opdodfs.V1_4:
+            buf.bppfnd("V1_4");
+            brfbk;
+        dbsf Opdodfs.V1_5:
+            buf.bppfnd("V1_5");
+            brfbk;
+        dbsf Opdodfs.V1_6:
+            buf.bppfnd("V1_6");
+            brfbk;
+        dbsf Opdodfs.V1_7:
+            buf.bppfnd("V1_7");
+            brfbk;
+        dffbult:
+            buf.bppfnd(vfrsion);
+            brfbk;
+        }
+        buf.bppfnd(", ");
+        bppfndAddfss(bddfss | ACCESS_CLASS);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(signbturf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(supfrNbmf);
+        buf.bppfnd(", ");
+        if (intfrfbdfs != null && intfrfbdfs.lfngth > 0) {
+            buf.bppfnd("nfw String[] {");
+            for (int i = 0; i < intfrfbdfs.lfngth; ++i) {
+                buf.bppfnd(i == 0 ? " " : ", ");
+                bppfndConstbnt(intfrfbdfs[i]);
+            }
+            buf.bppfnd(" }");
+        } flsf {
+            buf.bppfnd("null");
+        }
+        buf.bppfnd(");\n\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitSourdf(finbl String filf, finbl String dfbug) {
+        buf.sftLfngth(0);
+        buf.bppfnd("dw.visitSourdf(");
+        bppfndConstbnt(filf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfbug);
+        buf.bppfnd(");\n\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitOutfrClbss(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        buf.sftLfngth(0);
+        buf.bppfnd("dw.visitOutfrClbss(");
+        bppfndConstbnt(ownfr);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(");\n\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid ASMififr visitClbssAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        rfturn visitAnnotbtion(dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid ASMififr visitClbssTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion(typfRff, typfPbth, dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid void visitClbssAttributf(finbl Attributf bttr) {
+        visitAttributf(bttr);
+    }
+
+    @Ovfrridf
+    publid void visitInnfrClbss(finbl String nbmf, finbl String outfrNbmf,
+            finbl String innfrNbmf, finbl int bddfss) {
+        buf.sftLfngth(0);
+        buf.bppfnd("dw.visitInnfrClbss(");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(outfrNbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(innfrNbmf);
+        buf.bppfnd(", ");
+        bppfndAddfss(bddfss | ACCESS_INNER);
+        buf.bppfnd(");\n\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid ASMififr visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n");
+        buf.bppfnd("fv = dw.visitFifld(");
+        bppfndAddfss(bddfss | ACCESS_FIELD);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(signbturf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(vbluf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("fv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid ASMififr visitMfthod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n");
+        buf.bppfnd("mv = dw.visitMfthod(");
+        bppfndAddfss(bddfss);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(signbturf);
+        buf.bppfnd(", ");
+        if (fxdfptions != null && fxdfptions.lfngth > 0) {
+            buf.bppfnd("nfw String[] {");
+            for (int i = 0; i < fxdfptions.lfngth; ++i) {
+                buf.bppfnd(i == 0 ? " " : ", ");
+                bppfndConstbnt(fxdfptions[i]);
+            }
+            buf.bppfnd(" }");
+        } flsf {
+            buf.bppfnd("null");
+        }
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("mv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid void visitClbssEnd() {
+        tfxt.bdd("dw.visitEnd();\n\n");
+        tfxt.bdd("rfturn dw.toBytfArrby();\n");
+        tfxt.bdd("}\n");
+        tfxt.bdd("}\n");
+    }
+
+    // ------------------------------------------------------------------------
+    // Annotbtions
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid void visit(finbl String nbmf, finbl Objfdt vbluf) {
+        buf.sftLfngth(0);
+        buf.bppfnd("bv").bppfnd(id).bppfnd(".visit(");
+        bppfndConstbnt(buf, nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(buf, vbluf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitEnum(finbl String nbmf, finbl String dfsd,
+            finbl String vbluf) {
+        buf.sftLfngth(0);
+        buf.bppfnd("bv").bppfnd(id).bppfnd(".visitEnum(");
+        bppfndConstbnt(buf, nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(buf, dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(buf, vbluf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid ASMififr visitAnnotbtion(finbl String nbmf, finbl String dfsd) {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n");
+        buf.bppfnd("AnnotbtionVisitor bv").bppfnd(id + 1).bppfnd(" = bv");
+        buf.bppfnd(id).bppfnd(".visitAnnotbtion(");
+        bppfndConstbnt(buf, nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(buf, dfsd);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", id + 1);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid ASMififr visitArrby(finbl String nbmf) {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n");
+        buf.bppfnd("AnnotbtionVisitor bv").bppfnd(id + 1).bppfnd(" = bv");
+        buf.bppfnd(id).bppfnd(".visitArrby(");
+        bppfndConstbnt(buf, nbmf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", id + 1);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid void visitAnnotbtionEnd() {
+        buf.sftLfngth(0);
+        buf.bppfnd("bv").bppfnd(id).bppfnd(".visitEnd();\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    // ------------------------------------------------------------------------
+    // Fiflds
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid ASMififr visitFifldAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        rfturn visitAnnotbtion(dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid ASMififr visitFifldTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion(typfRff, typfPbth, dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid void visitFifldAttributf(finbl Attributf bttr) {
+        visitAttributf(bttr);
+    }
+
+    @Ovfrridf
+    publid void visitFifldEnd() {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitEnd();\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    // ------------------------------------------------------------------------
+    // Mfthods
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid void visitPbrbmftfr(String pbrbmftfrNbmf, int bddfss) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitPbrbmftfr(");
+        bppfndString(buf, pbrbmftfrNbmf);
+        buf.bppfnd(", ");
+        bppfndAddfss(bddfss);
+        tfxt.bdd(buf.bppfnd(");\n").toString());
+    }
+
+    @Ovfrridf
+    publid ASMififr visitAnnotbtionDffbult() {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf)
+                .bppfnd(".visitAnnotbtionDffbult();\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid ASMififr visitMfthodAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        rfturn visitAnnotbtion(dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid ASMififr visitMfthodTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion(typfRff, typfPbth, dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid ASMififr visitPbrbmftfrAnnotbtion(finbl int pbrbmftfr,
+            finbl String dfsd, finbl boolfbn visiblf) {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf)
+                .bppfnd(".visitPbrbmftfrAnnotbtion(").bppfnd(pbrbmftfr)
+                .bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(visiblf).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid void visitMfthodAttributf(finbl Attributf bttr) {
+        visitAttributf(bttr);
+    }
+
+    @Ovfrridf
+    publid void visitCodf() {
+        tfxt.bdd(nbmf + ".visitCodf();\n");
+    }
+
+    @Ovfrridf
+    publid void visitFrbmf(finbl int typf, finbl int nLodbl,
+            finbl Objfdt[] lodbl, finbl int nStbdk, finbl Objfdt[] stbdk) {
+        buf.sftLfngth(0);
+        switdh (typf) {
+        dbsf Opdodfs.F_NEW:
+        dbsf Opdodfs.F_FULL:
+            dfdlbrfFrbmfTypfs(nLodbl, lodbl);
+            dfdlbrfFrbmfTypfs(nStbdk, stbdk);
+            if (typf == Opdodfs.F_NEW) {
+                buf.bppfnd(nbmf).bppfnd(".visitFrbmf(Opdodfs.F_NEW, ");
+            } flsf {
+                buf.bppfnd(nbmf).bppfnd(".visitFrbmf(Opdodfs.F_FULL, ");
+            }
+            buf.bppfnd(nLodbl).bppfnd(", nfw Objfdt[] {");
+            bppfndFrbmfTypfs(nLodbl, lodbl);
+            buf.bppfnd("}, ").bppfnd(nStbdk).bppfnd(", nfw Objfdt[] {");
+            bppfndFrbmfTypfs(nStbdk, stbdk);
+            buf.bppfnd('}');
+            brfbk;
+        dbsf Opdodfs.F_APPEND:
+            dfdlbrfFrbmfTypfs(nLodbl, lodbl);
+            buf.bppfnd(nbmf).bppfnd(".visitFrbmf(Opdodfs.F_APPEND,")
+                    .bppfnd(nLodbl).bppfnd(", nfw Objfdt[] {");
+            bppfndFrbmfTypfs(nLodbl, lodbl);
+            buf.bppfnd("}, 0, null");
+            brfbk;
+        dbsf Opdodfs.F_CHOP:
+            buf.bppfnd(nbmf).bppfnd(".visitFrbmf(Opdodfs.F_CHOP,")
+                    .bppfnd(nLodbl).bppfnd(", null, 0, null");
+            brfbk;
+        dbsf Opdodfs.F_SAME:
+            buf.bppfnd(nbmf).bppfnd(
+                    ".visitFrbmf(Opdodfs.F_SAME, 0, null, 0, null");
+            brfbk;
+        dbsf Opdodfs.F_SAME1:
+            dfdlbrfFrbmfTypfs(1, stbdk);
+            buf.bppfnd(nbmf).bppfnd(
+                    ".visitFrbmf(Opdodfs.F_SAME1, 0, null, 1, nfw Objfdt[] {");
+            bppfndFrbmfTypfs(1, stbdk);
+            buf.bppfnd('}');
+            brfbk;
+        }
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitInsn(finbl int opdodf) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitInsn(").bppfnd(OPCODES[opdodf])
+                .bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitIntInsn(finbl int opdodf, finbl int opfrbnd) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf)
+                .bppfnd(".visitIntInsn(")
+                .bppfnd(OPCODES[opdodf])
+                .bppfnd(", ")
+                .bppfnd(opdodf == Opdodfs.NEWARRAY ? TYPES[opfrbnd] : Intfgfr
+                        .toString(opfrbnd)).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitVbrInsn(finbl int opdodf, finbl int vbr) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitVbrInsn(").bppfnd(OPCODES[opdodf])
+                .bppfnd(", ").bppfnd(vbr).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitTypfInsn(finbl int opdodf, finbl String typf) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitTypfInsn(").bppfnd(OPCODES[opdodf])
+                .bppfnd(", ");
+        bppfndConstbnt(typf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        buf.sftLfngth(0);
+        buf.bppfnd(this.nbmf).bppfnd(".visitFifldInsn(")
+                .bppfnd(OPCODES[opdodf]).bppfnd(", ");
+        bppfndConstbnt(ownfr);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMfthodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMfthodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
+        }
+        doVisitMfthodInsn(opdodf, ownfr, nbmf, dfsd,
+                opdodf == Opdodfs.INVOKEINTERFACE);
+    }
+
+    @Ovfrridf
+    publid void visitMfthodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMfthodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
+        }
+        doVisitMfthodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+    }
+
+    privbtf void doVisitMfthodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        buf.sftLfngth(0);
+        buf.bppfnd(this.nbmf).bppfnd(".visitMfthodInsn(")
+                .bppfnd(OPCODES[opdodf]).bppfnd(", ");
+        bppfndConstbnt(ownfr);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        buf.bppfnd(itf ? "truf" : "fblsf");
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        buf.sftLfngth(0);
+        buf.bppfnd(this.nbmf).bppfnd(".visitInvokfDynbmidInsn(");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(bsm);
+        buf.bppfnd(", nfw Objfdt[]{");
+        for (int i = 0; i < bsmArgs.lfngth; ++i) {
+            bppfndConstbnt(bsmArgs[i]);
+            if (i != bsmArgs.lfngth - 1) {
+                buf.bppfnd(", ");
+            }
+        }
+        buf.bppfnd("});\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl) {
+        buf.sftLfngth(0);
+        dfdlbrfLbbfl(lbbfl);
+        buf.bppfnd(nbmf).bppfnd(".visitJumpInsn(").bppfnd(OPCODES[opdodf])
+                .bppfnd(", ");
+        bppfndLbbfl(lbbfl);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitLbbfl(finbl Lbbfl lbbfl) {
+        buf.sftLfngth(0);
+        dfdlbrfLbbfl(lbbfl);
+        buf.bppfnd(nbmf).bppfnd(".visitLbbfl(");
+        bppfndLbbfl(lbbfl);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitLddInsn(finbl Objfdt dst) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitLddInsn(");
+        bppfndConstbnt(dst);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitIindInsn(finbl int vbr, finbl int indrfmfnt) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitIindInsn(").bppfnd(vbr).bppfnd(", ")
+                .bppfnd(indrfmfnt).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitTbblfSwitdhInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls) {
+        buf.sftLfngth(0);
+        for (int i = 0; i < lbbfls.lfngth; ++i) {
+            dfdlbrfLbbfl(lbbfls[i]);
+        }
+        dfdlbrfLbbfl(dflt);
+
+        buf.bppfnd(nbmf).bppfnd(".visitTbblfSwitdhInsn(").bppfnd(min)
+                .bppfnd(", ").bppfnd(mbx).bppfnd(", ");
+        bppfndLbbfl(dflt);
+        buf.bppfnd(", nfw Lbbfl[] {");
+        for (int i = 0; i < lbbfls.lfngth; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ");
+            bppfndLbbfl(lbbfls[i]);
+        }
+        buf.bppfnd(" });\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitLookupSwitdhInsn(finbl Lbbfl dflt, finbl int[] kfys,
+            finbl Lbbfl[] lbbfls) {
+        buf.sftLfngth(0);
+        for (int i = 0; i < lbbfls.lfngth; ++i) {
+            dfdlbrfLbbfl(lbbfls[i]);
+        }
+        dfdlbrfLbbfl(dflt);
+
+        buf.bppfnd(nbmf).bppfnd(".visitLookupSwitdhInsn(");
+        bppfndLbbfl(dflt);
+        buf.bppfnd(", nfw int[] {");
+        for (int i = 0; i < kfys.lfngth; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ").bppfnd(kfys[i]);
+        }
+        buf.bppfnd(" }, nfw Lbbfl[] {");
+        for (int i = 0; i < lbbfls.lfngth; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ");
+            bppfndLbbfl(lbbfls[i]);
+        }
+        buf.bppfnd(" });\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(finbl String dfsd, finbl int dims) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitMultiANfwArrbyInsn(");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(dims).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid ASMififr visitInsnAnnotbtion(finbl int typfRff,
+            finbl TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion("visitInsnAnnotbtion", typfRff, typfPbth,
+                dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid void visitTryCbtdhBlodk(finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl Lbbfl hbndlfr, finbl String typf) {
+        buf.sftLfngth(0);
+        dfdlbrfLbbfl(stbrt);
+        dfdlbrfLbbfl(fnd);
+        dfdlbrfLbbfl(hbndlfr);
+        buf.bppfnd(nbmf).bppfnd(".visitTryCbtdhBlodk(");
+        bppfndLbbfl(stbrt);
+        buf.bppfnd(", ");
+        bppfndLbbfl(fnd);
+        buf.bppfnd(", ");
+        bppfndLbbfl(hbndlfr);
+        buf.bppfnd(", ");
+        bppfndConstbnt(typf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid ASMififr visitTryCbtdhAnnotbtion(finbl int typfRff,
+            finbl TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion("visitTryCbtdhAnnotbtion", typfRff,
+                typfPbth, dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid void visitLodblVbribblf(finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl int indfx) {
+        buf.sftLfngth(0);
+        buf.bppfnd(this.nbmf).bppfnd(".visitLodblVbribblf(");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(signbturf);
+        buf.bppfnd(", ");
+        bppfndLbbfl(stbrt);
+        buf.bppfnd(", ");
+        bppfndLbbfl(fnd);
+        buf.bppfnd(", ").bppfnd(indfx).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid Printfr visitLodblVbribblfAnnotbtion(int typfRff, TypfPbth typfPbth,
+            Lbbfl[] stbrt, Lbbfl[] fnd, int[] indfx, String dfsd,
+            boolfbn visiblf) {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf)
+                .bppfnd(".visitLodblVbribblfAnnotbtion(");
+        buf.bppfnd(typfRff);
+        buf.bppfnd(", TypfPbth.fromString(\"").bppfnd(typfPbth).bppfnd("\"), ");
+        buf.bppfnd("nfw Lbbfl[] {");
+        for (int i = 0; i < stbrt.lfngth; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ");
+            bppfndLbbfl(stbrt[i]);
+        }
+        buf.bppfnd(" }, nfw Lbbfl[] {");
+        for (int i = 0; i < fnd.lfngth; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ");
+            bppfndLbbfl(fnd[i]);
+        }
+        buf.bppfnd(" }, nfw int[] {");
+        for (int i = 0; i < indfx.lfngth; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ").bppfnd(indfx[i]);
+        }
+        buf.bppfnd(" }, ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(visiblf).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid void visitLinfNumbfr(finbl int linf, finbl Lbbfl stbrt) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitLinfNumbfr(").bppfnd(linf).bppfnd(", ");
+        bppfndLbbfl(stbrt);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitMbxs(finbl int mbxStbdk, finbl int mbxLodbls) {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitMbxs(").bppfnd(mbxStbdk).bppfnd(", ")
+                .bppfnd(mbxLodbls).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    @Ovfrridf
+    publid void visitMfthodEnd() {
+        buf.sftLfngth(0);
+        buf.bppfnd(nbmf).bppfnd(".visitEnd();\n");
+        tfxt.bdd(buf.toString());
+    }
+
+    // ------------------------------------------------------------------------
+    // Common mfthods
+    // ------------------------------------------------------------------------
+
+    publid ASMififr visitAnnotbtion(finbl String dfsd, finbl boolfbn visiblf) {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf)
+                .bppfnd(".visitAnnotbtion(");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(visiblf).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    publid ASMififr visitTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion("visitTypfAnnotbtion", typfRff, typfPbth,
+                dfsd, visiblf);
+    }
+
+    publid ASMififr visitTypfAnnotbtion(finbl String mfthod, finbl int typfRff,
+            finbl TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        buf.sftLfngth(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf).bppfnd(".")
+                .bppfnd(mfthod).bppfnd("(");
+        buf.bppfnd(typfRff);
+        buf.bppfnd(", TypfPbth.fromString(\"").bppfnd(typfPbth).bppfnd("\"), ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(visiblf).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    publid void visitAttributf(finbl Attributf bttr) {
+        buf.sftLfngth(0);
+        buf.bppfnd("// ATTRIBUTE ").bppfnd(bttr.typf).bppfnd('\n');
+        if (bttr instbndfof ASMifibblf) {
+            if (lbbflNbmfs == null) {
+                lbbflNbmfs = nfw HbshMbp<Lbbfl, String>();
+            }
+            buf.bppfnd("{\n");
+            ((ASMifibblf) bttr).bsmify(buf, "bttr", lbbflNbmfs);
+            buf.bppfnd(nbmf).bppfnd(".visitAttributf(bttr);\n");
+            buf.bppfnd("}\n");
+        }
+        tfxt.bdd(buf.toString());
+    }
+
+    // ------------------------------------------------------------------------
+    // Utility mfthods
+    // ------------------------------------------------------------------------
+
+    protfdtfd ASMififr drfbtfASMififr(finbl String nbmf, finbl int id) {
+        rfturn nfw ASMififr(Opdodfs.ASM5, nbmf, id);
+    }
+
+    /**
+     * Appfnds b string rfprfsfntbtion of thf givfn bddfss modififrs to
+     * {@link #buf buf}.
+     *
+     * @pbrbm bddfss
+     *            somf bddfss modififrs.
+     */
+    void bppfndAddfss(finbl int bddfss) {
+        boolfbn first = truf;
+        if ((bddfss & Opdodfs.ACC_PUBLIC) != 0) {
+            buf.bppfnd("ACC_PUBLIC");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_PRIVATE) != 0) {
+            buf.bppfnd("ACC_PRIVATE");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_PROTECTED) != 0) {
+            buf.bppfnd("ACC_PROTECTED");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_FINAL) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_FINAL");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_STATIC) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_STATIC");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_SYNCHRONIZED) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            if ((bddfss & ACCESS_CLASS) == 0) {
+                buf.bppfnd("ACC_SYNCHRONIZED");
+            } flsf {
+                buf.bppfnd("ACC_SUPER");
+            }
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_VOLATILE) != 0
+                && (bddfss & ACCESS_FIELD) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_VOLATILE");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_BRIDGE) != 0 && (bddfss & ACCESS_CLASS) == 0
+                && (bddfss & ACCESS_FIELD) == 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_BRIDGE");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_VARARGS) != 0 && (bddfss & ACCESS_CLASS) == 0
+                && (bddfss & ACCESS_FIELD) == 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_VARARGS");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_TRANSIENT) != 0
+                && (bddfss & ACCESS_FIELD) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_TRANSIENT");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_NATIVE) != 0 && (bddfss & ACCESS_CLASS) == 0
+                && (bddfss & ACCESS_FIELD) == 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_NATIVE");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_ENUM) != 0
+                && ((bddfss & ACCESS_CLASS) != 0
+                        || (bddfss & ACCESS_FIELD) != 0 || (bddfss & ACCESS_INNER) != 0)) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_ENUM");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_ANNOTATION) != 0
+                && ((bddfss & ACCESS_CLASS) != 0 || (bddfss & ACCESS_INNER) != 0)) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_ANNOTATION");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_ABSTRACT) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_ABSTRACT");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_INTERFACE) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_INTERFACE");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_STRICT) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_STRICT");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_SYNTHETIC");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_DEPRECATED");
+            first = fblsf;
+        }
+        if ((bddfss & Opdodfs.ACC_MANDATED) != 0) {
+            if (!first) {
+                buf.bppfnd(" + ");
+            }
+            buf.bppfnd("ACC_MANDATED");
+            first = fblsf;
+        }
+        if (first) {
+            buf.bppfnd('0');
+        }
+    }
+
+    /**
+     * Appfnds b string rfprfsfntbtion of thf givfn donstbnt to thf givfn
+     * bufffr.
+     *
+     * @pbrbm dst
+     *            bn {@link Intfgfr}, {@link Flobt}, {@link Long},
+     *            {@link Doublf} or {@link String} objfdt. Mby bf <tt>null</tt>.
+     */
+    protfdtfd void bppfndConstbnt(finbl Objfdt dst) {
+        bppfndConstbnt(buf, dst);
+    }
+
+    /**
+     * Appfnds b string rfprfsfntbtion of thf givfn donstbnt to thf givfn
+     * bufffr.
+     *
+     * @pbrbm buf
+     *            b string bufffr.
+     * @pbrbm dst
+     *            bn {@link Intfgfr}, {@link Flobt}, {@link Long},
+     *            {@link Doublf} or {@link String} objfdt. Mby bf <tt>null</tt>.
+     */
+    stbtid void bppfndConstbnt(finbl StringBufffr buf, finbl Objfdt dst) {
+        if (dst == null) {
+            buf.bppfnd("null");
+        } flsf if (dst instbndfof String) {
+            bppfndString(buf, (String) dst);
+        } flsf if (dst instbndfof Typf) {
+            buf.bppfnd("Typf.gftTypf(\"");
+            buf.bppfnd(((Typf) dst).gftDfsdriptor());
+            buf.bppfnd("\")");
+        } flsf if (dst instbndfof Hbndlf) {
+            buf.bppfnd("nfw Hbndlf(");
+            Hbndlf h = (Hbndlf) dst;
+            buf.bppfnd("Opdodfs.").bppfnd(HANDLE_TAG[h.gftTbg()])
+                    .bppfnd(", \"");
+            buf.bppfnd(h.gftOwnfr()).bppfnd("\", \"");
+            buf.bppfnd(h.gftNbmf()).bppfnd("\", \"");
+            buf.bppfnd(h.gftDfsd()).bppfnd("\")");
+        } flsf if (dst instbndfof Bytf) {
+            buf.bppfnd("nfw Bytf((bytf)").bppfnd(dst).bppfnd(')');
+        } flsf if (dst instbndfof Boolfbn) {
+            buf.bppfnd(((Boolfbn) dst).boolfbnVbluf() ? "Boolfbn.TRUE"
+                    : "Boolfbn.FALSE");
+        } flsf if (dst instbndfof Short) {
+            buf.bppfnd("nfw Short((short)").bppfnd(dst).bppfnd(')');
+        } flsf if (dst instbndfof Chbrbdtfr) {
+            int d = ((Chbrbdtfr) dst).dhbrVbluf();
+            buf.bppfnd("nfw Chbrbdtfr((dhbr)").bppfnd(d).bppfnd(')');
+        } flsf if (dst instbndfof Intfgfr) {
+            buf.bppfnd("nfw Intfgfr(").bppfnd(dst).bppfnd(')');
+        } flsf if (dst instbndfof Flobt) {
+            buf.bppfnd("nfw Flobt(\"").bppfnd(dst).bppfnd("\")");
+        } flsf if (dst instbndfof Long) {
+            buf.bppfnd("nfw Long(").bppfnd(dst).bppfnd("L)");
+        } flsf if (dst instbndfof Doublf) {
+            buf.bppfnd("nfw Doublf(\"").bppfnd(dst).bppfnd("\")");
+        } flsf if (dst instbndfof bytf[]) {
+            bytf[] v = (bytf[]) dst;
+            buf.bppfnd("nfw bytf[] {");
+            for (int i = 0; i < v.lfngth; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]);
+            }
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof boolfbn[]) {
+            boolfbn[] v = (boolfbn[]) dst;
+            buf.bppfnd("nfw boolfbn[] {");
+            for (int i = 0; i < v.lfngth; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]);
+            }
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof short[]) {
+            short[] v = (short[]) dst;
+            buf.bppfnd("nfw short[] {");
+            for (int i = 0; i < v.lfngth; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd("(short)").bppfnd(v[i]);
+            }
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof dhbr[]) {
+            dhbr[] v = (dhbr[]) dst;
+            buf.bppfnd("nfw dhbr[] {");
+            for (int i = 0; i < v.lfngth; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd("(dhbr)")
+                        .bppfnd((int) v[i]);
+            }
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof int[]) {
+            int[] v = (int[]) dst;
+            buf.bppfnd("nfw int[] {");
+            for (int i = 0; i < v.lfngth; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]);
+            }
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof long[]) {
+            long[] v = (long[]) dst;
+            buf.bppfnd("nfw long[] {");
+            for (int i = 0; i < v.lfngth; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]).bppfnd('L');
+            }
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof flobt[]) {
+            flobt[] v = (flobt[]) dst;
+            buf.bppfnd("nfw flobt[] {");
+            for (int i = 0; i < v.lfngth; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]).bppfnd('f');
+            }
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof doublf[]) {
+            doublf[] v = (doublf[]) dst;
+            buf.bppfnd("nfw doublf[] {");
+            for (int i = 0; i < v.lfngth; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]).bppfnd('d');
+            }
+            buf.bppfnd('}');
+        }
+    }
+
+    privbtf void dfdlbrfFrbmfTypfs(finbl int n, finbl Objfdt[] o) {
+        for (int i = 0; i < n; ++i) {
+            if (o[i] instbndfof Lbbfl) {
+                dfdlbrfLbbfl((Lbbfl) o[i]);
+            }
+        }
+    }
+
+    privbtf void bppfndFrbmfTypfs(finbl int n, finbl Objfdt[] o) {
+        for (int i = 0; i < n; ++i) {
+            if (i > 0) {
+                buf.bppfnd(", ");
+            }
+            if (o[i] instbndfof String) {
+                bppfndConstbnt(o[i]);
+            } flsf if (o[i] instbndfof Intfgfr) {
+                switdh (((Intfgfr) o[i]).intVbluf()) {
+                dbsf 0:
+                    buf.bppfnd("Opdodfs.TOP");
+                    brfbk;
+                dbsf 1:
+                    buf.bppfnd("Opdodfs.INTEGER");
+                    brfbk;
+                dbsf 2:
+                    buf.bppfnd("Opdodfs.FLOAT");
+                    brfbk;
+                dbsf 3:
+                    buf.bppfnd("Opdodfs.DOUBLE");
+                    brfbk;
+                dbsf 4:
+                    buf.bppfnd("Opdodfs.LONG");
+                    brfbk;
+                dbsf 5:
+                    buf.bppfnd("Opdodfs.NULL");
+                    brfbk;
+                dbsf 6:
+                    buf.bppfnd("Opdodfs.UNINITIALIZED_THIS");
+                    brfbk;
+                }
+            } flsf {
+                bppfndLbbfl((Lbbfl) o[i]);
+            }
+        }
+    }
+
+    /**
+     * Appfnds b dfdlbrbtion of thf givfn lbbfl to {@link #buf buf}. This
+     * dfdlbrbtion is of thf form "Lbbfl lXXX = nfw Lbbfl();". Dofs nothing if
+     * thf givfn lbbfl hbs blrfbdy bffn dfdlbrfd.
+     *
+     * @pbrbm l
+     *            b lbbfl.
+     */
+    protfdtfd void dfdlbrfLbbfl(finbl Lbbfl l) {
+        if (lbbflNbmfs == null) {
+            lbbflNbmfs = nfw HbshMbp<Lbbfl, String>();
+        }
+        String nbmf = lbbflNbmfs.gft(l);
+        if (nbmf == null) {
+            nbmf = "l" + lbbflNbmfs.sizf();
+            lbbflNbmfs.put(l, nbmf);
+            buf.bppfnd("Lbbfl ").bppfnd(nbmf).bppfnd(" = nfw Lbbfl();\n");
+        }
+    }
+
+    /**
+     * Appfnds thf nbmf of thf givfn lbbfl to {@link #buf buf}. Thf givfn lbbfl
+     * <i>must</i> blrfbdy hbvf b nbmf. Onf wby to fnsurf this is to blwbys dbll
+     * {@link #dfdlbrfLbbfl dfdlbrfd} bfforf dblling this mfthod.
+     *
+     * @pbrbm l
+     *            b lbbfl.
+     */
+    protfdtfd void bppfndLbbfl(finbl Lbbfl l) {
+        buf.bppfnd(lbbflNbmfs.gft(l));
+    }
+}

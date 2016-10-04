@@ -1,595 +1,595 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "sun_security_krb5_Credentials.h"
-#import <Kerberos/Kerberos.h>
+#import "sun_sfdurity_krb5_Crfdfntibls.i"
+#import <Kfrbfros/Kfrbfros.i>
 
 /*
- * Based largely on klist.c,
+ * Bbsfd lbrgfly on klist.d,
  *
- * Created by Scott Kovatch on 8/12/04.
+ * Crfbtfd by Sdott Kovbtdi on 8/12/04.
  *
- * See http://www.opensource.apple.com/darwinsource/10.3.3/Kerberos-47/KerberosClients/klist/Sources/klist.c
+ * Sff ittp://www.opfnsourdf.bpplf.dom/dbrwinsourdf/10.3.3/Kfrbfros-47/KfrbfrosClifnts/klist/Sourdfs/klist.d
 
  */
 
 /*
- * Statics for this module
+ * Stbtids for tiis modulf
  */
 
-static jclass derValueClass = NULL;
-static jclass ticketClass = NULL;
-static jclass principalNameClass = NULL;
-static jclass encryptionKeyClass = NULL;
-static jclass ticketFlagsClass = NULL;
-static jclass kerberosTimeClass = NULL;
-static jclass javaLangStringClass = NULL;
-static jclass javaLangIntegerClass = NULL;
-static jclass hostAddressClass = NULL;
-static jclass hostAddressesClass = NULL;
+stbtid jdlbss dfrVblufClbss = NULL;
+stbtid jdlbss tidkftClbss = NULL;
+stbtid jdlbss prindipblNbmfClbss = NULL;
+stbtid jdlbss fndryptionKfyClbss = NULL;
+stbtid jdlbss tidkftFlbgsClbss = NULL;
+stbtid jdlbss kfrbfrosTimfClbss = NULL;
+stbtid jdlbss jbvbLbngStringClbss = NULL;
+stbtid jdlbss jbvbLbngIntfgfrClbss = NULL;
+stbtid jdlbss iostAddrfssClbss = NULL;
+stbtid jdlbss iostAddrfssfsClbss = NULL;
 
-static jmethodID derValueConstructor = 0;
-static jmethodID ticketConstructor = 0;
-static jmethodID principalNameConstructor = 0;
-static jmethodID encryptionKeyConstructor = 0;
-static jmethodID ticketFlagsConstructor = 0;
-static jmethodID kerberosTimeConstructor = 0;
-static jmethodID krbcredsConstructor = 0;
-static jmethodID integerConstructor = 0;
-static jmethodID hostAddressConstructor = 0;
-static jmethodID hostAddressesConstructor = 0;
+stbtid jmftiodID dfrVblufConstrudtor = 0;
+stbtid jmftiodID tidkftConstrudtor = 0;
+stbtid jmftiodID prindipblNbmfConstrudtor = 0;
+stbtid jmftiodID fndryptionKfyConstrudtor = 0;
+stbtid jmftiodID tidkftFlbgsConstrudtor = 0;
+stbtid jmftiodID kfrbfrosTimfConstrudtor = 0;
+stbtid jmftiodID krbdrfdsConstrudtor = 0;
+stbtid jmftiodID intfgfrConstrudtor = 0;
+stbtid jmftiodID iostAddrfssConstrudtor = 0;
+stbtid jmftiodID iostAddrfssfsConstrudtor = 0;
 
 /*
- * Function prototypes for internal routines
+ * Fundtion prototypfs for intfrnbl routinfs
  */
 
-static jobject BuildTicket(JNIEnv *env, krb5_data *encodedTicket);
-static jobject BuildClientPrincipal(JNIEnv *env, krb5_context kcontext, krb5_principal principalName);
-static jobject BuildEncryptionKey(JNIEnv *env, krb5_keyblock *cryptoKey);
-static jobject BuildTicketFlags(JNIEnv *env, krb5_flags flags);
-static jobject BuildKerberosTime(JNIEnv *env, krb5_timestamp kerbtime);
-static jobject BuildAddressList(JNIEnv *env, krb5_address **kerbtime);
+stbtid jobjfdt BuildTidkft(JNIEnv *fnv, krb5_dbtb *fndodfdTidkft);
+stbtid jobjfdt BuildClifntPrindipbl(JNIEnv *fnv, krb5_dontfxt kdontfxt, krb5_prindipbl prindipblNbmf);
+stbtid jobjfdt BuildEndryptionKfy(JNIEnv *fnv, krb5_kfyblodk *dryptoKfy);
+stbtid jobjfdt BuildTidkftFlbgs(JNIEnv *fnv, krb5_flbgs flbgs);
+stbtid jobjfdt BuildKfrbfrosTimf(JNIEnv *fnv, krb5_timfstbmp kfrbtimf);
+stbtid jobjfdt BuildAddrfssList(JNIEnv *fnv, krb5_bddrfss **kfrbtimf);
 
-static void printiferr (errcode_t err, const char *format, ...);
+stbtid void printiffrr (frrdodf_t frr, donst dibr *formbt, ...);
 
-static jclass FindClass(JNIEnv *env, char *className)
+stbtid jdlbss FindClbss(JNIEnv *fnv, dibr *dlbssNbmf)
 {
-    jclass cls = (*env)->FindClass(env, className);
+    jdlbss dls = (*fnv)->FindClbss(fnv, dlbssNbmf);
 
-    if (cls == NULL) {
-        printf("Couldn't find %s\n", className);
-        return NULL;
+    if (dls == NULL) {
+        printf("Couldn't find %s\n", dlbssNbmf);
+        rfturn NULL;
     }
 
-    jobject returnValue = (*env)->NewWeakGlobalRef(env,cls);
-    return returnValue;
+    jobjfdt rfturnVbluf = (*fnv)->NfwWfbkGlobblRff(fnv,dls);
+    rfturn rfturnVbluf;
 }
 /*
- * Class:     sun_security_krb5_KrbCreds
- * Method:    JNI_OnLoad
+ * Clbss:     sun_sfdurity_krb5_KrbCrfds
+ * Mftiod:    JNI_OnLobd
  */
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *jvm, void *reserved)
+JNIEXPORT jint JNICALL JNI_OnLobd(JbvbVM *jvm, void *rfsfrvfd)
 {
-    JNIEnv *env;
+    JNIEnv *fnv;
 
-    if ((*jvm)->GetEnv(jvm, (void **)&env, JNI_VERSION_1_4)) {
-        return JNI_EVERSION; /* JNI version not supported */
+    if ((*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_4)) {
+        rfturn JNI_EVERSION; /* JNI vfrsion not supportfd */
     }
 
-    ticketClass = FindClass(env, "sun/security/krb5/internal/Ticket");
-    if (ticketClass == NULL) return JNI_ERR;
+    tidkftClbss = FindClbss(fnv, "sun/sfdurity/krb5/intfrnbl/Tidkft");
+    if (tidkftClbss == NULL) rfturn JNI_ERR;
 
-    principalNameClass = FindClass(env, "sun/security/krb5/PrincipalName");
-    if (principalNameClass == NULL) return JNI_ERR;
+    prindipblNbmfClbss = FindClbss(fnv, "sun/sfdurity/krb5/PrindipblNbmf");
+    if (prindipblNbmfClbss == NULL) rfturn JNI_ERR;
 
-    derValueClass = FindClass(env, "sun/security/util/DerValue");
-    if (derValueClass == NULL) return JNI_ERR;
+    dfrVblufClbss = FindClbss(fnv, "sun/sfdurity/util/DfrVbluf");
+    if (dfrVblufClbss == NULL) rfturn JNI_ERR;
 
-    encryptionKeyClass = FindClass(env, "sun/security/krb5/EncryptionKey");
-    if (encryptionKeyClass == NULL) return JNI_ERR;
+    fndryptionKfyClbss = FindClbss(fnv, "sun/sfdurity/krb5/EndryptionKfy");
+    if (fndryptionKfyClbss == NULL) rfturn JNI_ERR;
 
-    ticketFlagsClass = FindClass(env,"sun/security/krb5/internal/TicketFlags");
-    if (ticketFlagsClass == NULL) return JNI_ERR;
+    tidkftFlbgsClbss = FindClbss(fnv,"sun/sfdurity/krb5/intfrnbl/TidkftFlbgs");
+    if (tidkftFlbgsClbss == NULL) rfturn JNI_ERR;
 
-    kerberosTimeClass = FindClass(env,"sun/security/krb5/internal/KerberosTime");
-    if (kerberosTimeClass == NULL) return JNI_ERR;
+    kfrbfrosTimfClbss = FindClbss(fnv,"sun/sfdurity/krb5/intfrnbl/KfrbfrosTimf");
+    if (kfrbfrosTimfClbss == NULL) rfturn JNI_ERR;
 
-    javaLangStringClass = FindClass(env,"java/lang/String");
-    if (javaLangStringClass == NULL) return JNI_ERR;
+    jbvbLbngStringClbss = FindClbss(fnv,"jbvb/lbng/String");
+    if (jbvbLbngStringClbss == NULL) rfturn JNI_ERR;
 
-    javaLangIntegerClass = FindClass(env,"java/lang/Integer");
-    if (javaLangIntegerClass == NULL) return JNI_ERR;
+    jbvbLbngIntfgfrClbss = FindClbss(fnv,"jbvb/lbng/Intfgfr");
+    if (jbvbLbngIntfgfrClbss == NULL) rfturn JNI_ERR;
 
-    hostAddressClass = FindClass(env,"sun/security/krb5/internal/HostAddress");
-    if (hostAddressClass == NULL) return JNI_ERR;
+    iostAddrfssClbss = FindClbss(fnv,"sun/sfdurity/krb5/intfrnbl/HostAddrfss");
+    if (iostAddrfssClbss == NULL) rfturn JNI_ERR;
 
-    hostAddressesClass = FindClass(env,"sun/security/krb5/internal/HostAddresses");
-    if (hostAddressesClass == NULL) return JNI_ERR;
+    iostAddrfssfsClbss = FindClbss(fnv,"sun/sfdurity/krb5/intfrnbl/HostAddrfssfs");
+    if (iostAddrfssfsClbss == NULL) rfturn JNI_ERR;
 
-    derValueConstructor = (*env)->GetMethodID(env, derValueClass, "<init>", "([B)V");
-    if (derValueConstructor == 0) {
-        printf("Couldn't find DerValue constructor\n");
-        return JNI_ERR;
+    dfrVblufConstrudtor = (*fnv)->GftMftiodID(fnv, dfrVblufClbss, "<init>", "([B)V");
+    if (dfrVblufConstrudtor == 0) {
+        printf("Couldn't find DfrVbluf donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    ticketConstructor = (*env)->GetMethodID(env, ticketClass, "<init>", "(Lsun/security/util/DerValue;)V");
-    if (ticketConstructor == 0) {
-        printf("Couldn't find Ticket constructor\n");
-        return JNI_ERR;
+    tidkftConstrudtor = (*fnv)->GftMftiodID(fnv, tidkftClbss, "<init>", "(Lsun/sfdurity/util/DfrVbluf;)V");
+    if (tidkftConstrudtor == 0) {
+        printf("Couldn't find Tidkft donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    principalNameConstructor = (*env)->GetMethodID(env, principalNameClass, "<init>", "(Ljava/lang/String;I)V");
-    if (principalNameConstructor == 0) {
-        printf("Couldn't find PrincipalName constructor\n");
-        return JNI_ERR;
+    prindipblNbmfConstrudtor = (*fnv)->GftMftiodID(fnv, prindipblNbmfClbss, "<init>", "(Ljbvb/lbng/String;I)V");
+    if (prindipblNbmfConstrudtor == 0) {
+        printf("Couldn't find PrindipblNbmf donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    encryptionKeyConstructor = (*env)->GetMethodID(env, encryptionKeyClass, "<init>", "(I[B)V");
-    if (encryptionKeyConstructor == 0) {
-        printf("Couldn't find EncryptionKey constructor\n");
-        return JNI_ERR;
+    fndryptionKfyConstrudtor = (*fnv)->GftMftiodID(fnv, fndryptionKfyClbss, "<init>", "(I[B)V");
+    if (fndryptionKfyConstrudtor == 0) {
+        printf("Couldn't find EndryptionKfy donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    ticketFlagsConstructor = (*env)->GetMethodID(env, ticketFlagsClass, "<init>", "(I[B)V");
-    if (ticketFlagsConstructor == 0) {
-        printf("Couldn't find TicketFlags constructor\n");
-        return JNI_ERR;
+    tidkftFlbgsConstrudtor = (*fnv)->GftMftiodID(fnv, tidkftFlbgsClbss, "<init>", "(I[B)V");
+    if (tidkftFlbgsConstrudtor == 0) {
+        printf("Couldn't find TidkftFlbgs donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    kerberosTimeConstructor = (*env)->GetMethodID(env, kerberosTimeClass, "<init>", "(J)V");
-    if (kerberosTimeConstructor == 0) {
-        printf("Couldn't find KerberosTime constructor\n");
-        return JNI_ERR;
+    kfrbfrosTimfConstrudtor = (*fnv)->GftMftiodID(fnv, kfrbfrosTimfClbss, "<init>", "(J)V");
+    if (kfrbfrosTimfConstrudtor == 0) {
+        printf("Couldn't find KfrbfrosTimf donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    integerConstructor = (*env)->GetMethodID(env, javaLangIntegerClass, "<init>", "(I)V");
-    if (integerConstructor == 0) {
-        printf("Couldn't find Integer constructor\n");
-        return JNI_ERR;
+    intfgfrConstrudtor = (*fnv)->GftMftiodID(fnv, jbvbLbngIntfgfrClbss, "<init>", "(I)V");
+    if (intfgfrConstrudtor == 0) {
+        printf("Couldn't find Intfgfr donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    hostAddressConstructor = (*env)->GetMethodID(env, hostAddressClass, "<init>", "(I[B)V");
-    if (hostAddressConstructor == 0) {
-        printf("Couldn't find HostAddress constructor\n");
-        return JNI_ERR;
+    iostAddrfssConstrudtor = (*fnv)->GftMftiodID(fnv, iostAddrfssClbss, "<init>", "(I[B)V");
+    if (iostAddrfssConstrudtor == 0) {
+        printf("Couldn't find HostAddrfss donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    hostAddressesConstructor = (*env)->GetMethodID(env, hostAddressesClass, "<init>", "([Lsun/security/krb5/internal/HostAddress;)V");
-    if (hostAddressesConstructor == 0) {
-        printf("Couldn't find HostAddresses constructor\n");
-        return JNI_ERR;
+    iostAddrfssfsConstrudtor = (*fnv)->GftMftiodID(fnv, iostAddrfssfsClbss, "<init>", "([Lsun/sfdurity/krb5/intfrnbl/HostAddrfss;)V");
+    if (iostAddrfssfsConstrudtor == 0) {
+        printf("Couldn't find HostAddrfssfs donstrudtor\n");
+        rfturn JNI_ERR;
     }
 
-    return JNI_VERSION_1_2;
+    rfturn JNI_VERSION_1_2;
 }
 
 /*
- * Class:     sun_security_jgss_KrbCreds
- * Method:    JNI_OnUnload
+ * Clbss:     sun_sfdurity_jgss_KrbCrfds
+ * Mftiod:    JNI_OnUnlobd
  */
-JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *jvm, void *reserved)
+JNIEXPORT void JNICALL JNI_OnUnlobd(JbvbVM *jvm, void *rfsfrvfd)
 {
-    JNIEnv *env;
+    JNIEnv *fnv;
 
-    if ((*jvm)->GetEnv(jvm, (void **)&env, JNI_VERSION_1_2)) {
-        return; /* Nothing else we can do */
+    if ((*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2)) {
+        rfturn; /* Notiing flsf wf dbn do */
     }
 
-    if (ticketClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,ticketClass);
+    if (tidkftClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,tidkftClbss);
     }
-    if (derValueClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,derValueClass);
+    if (dfrVblufClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,dfrVblufClbss);
     }
-    if (principalNameClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,principalNameClass);
+    if (prindipblNbmfClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,prindipblNbmfClbss);
     }
-    if (encryptionKeyClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,encryptionKeyClass);
+    if (fndryptionKfyClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,fndryptionKfyClbss);
     }
-    if (ticketFlagsClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,ticketFlagsClass);
+    if (tidkftFlbgsClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,tidkftFlbgsClbss);
     }
-    if (kerberosTimeClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,kerberosTimeClass);
+    if (kfrbfrosTimfClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,kfrbfrosTimfClbss);
     }
-    if (javaLangStringClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,javaLangStringClass);
+    if (jbvbLbngStringClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,jbvbLbngStringClbss);
     }
-    if (javaLangIntegerClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,javaLangIntegerClass);
+    if (jbvbLbngIntfgfrClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,jbvbLbngIntfgfrClbss);
     }
-    if (hostAddressClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,hostAddressClass);
+    if (iostAddrfssClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,iostAddrfssClbss);
     }
-    if (hostAddressesClass != NULL) {
-        (*env)->DeleteWeakGlobalRef(env,hostAddressesClass);
+    if (iostAddrfssfsClbss != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv,iostAddrfssfsClbss);
     }
 
 }
 
-int isIn(krb5_enctype e, int n, jint* etypes)
+int isIn(krb5_fndtypf f, int n, jint* ftypfs)
 {
     int i;
     for (i=0; i<n; i++) {
-        if (e == etypes[i]) return 1;
+        if (f == ftypfs[i]) rfturn 1;
     }
-    return 0;
+    rfturn 0;
 }
 
 /*
- * Class:     sun_security_krb5_Credentials
- * Method:    acquireDefaultNativeCreds
- * Signature: ([I])Lsun/security/krb5/Credentials;
+ * Clbss:     sun_sfdurity_krb5_Crfdfntibls
+ * Mftiod:    bdquirfDffbultNbtivfCrfds
+ * Signbturf: ([I])Lsun/sfdurity/krb5/Crfdfntibls;
  */
-JNIEXPORT jobject JNICALL Java_sun_security_krb5_Credentials_acquireDefaultNativeCreds
-(JNIEnv *env, jclass krbcredsClass, jintArray jetypes)
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_sfdurity_krb5_Crfdfntibls_bdquirfDffbultNbtivfCrfds
+(JNIEnv *fnv, jdlbss krbdrfdsClbss, jintArrby jftypfs)
 {
-    jobject krbCreds = NULL;
-    krb5_error_code err = 0;
-    krb5_ccache ccache = NULL;
-    krb5_cc_cursor cursor = NULL;
-    krb5_creds creds;
-    krb5_flags flags = 0;
-    krb5_context kcontext = NULL;
+    jobjfdt krbCrfds = NULL;
+    krb5_frror_dodf frr = 0;
+    krb5_ddbdif ddbdif = NULL;
+    krb5_dd_dursor dursor = NULL;
+    krb5_drfds drfds;
+    krb5_flbgs flbgs = 0;
+    krb5_dontfxt kdontfxt = NULL;
 
-    int netypes;
-    jint *etypes = NULL;
+    int nftypfs;
+    jint *ftypfs = NULL;
 
-    /* Initialize the Kerberos 5 context */
-    err = krb5_init_context (&kcontext);
+    /* Initiblizf tif Kfrbfros 5 dontfxt */
+    frr = krb5_init_dontfxt (&kdontfxt);
 
-    if (!err) {
-        err = krb5_cc_default (kcontext, &ccache);
+    if (!frr) {
+        frr = krb5_dd_dffbult (kdontfxt, &ddbdif);
     }
 
-    if (!err) {
-        err = krb5_cc_set_flags (kcontext, ccache, flags); /* turn off OPENCLOSE */
+    if (!frr) {
+        frr = krb5_dd_sft_flbgs (kdontfxt, ddbdif, flbgs); /* turn off OPENCLOSE */
     }
 
-    if (!err) {
-        err = krb5_cc_start_seq_get (kcontext, ccache, &cursor);
+    if (!frr) {
+        frr = krb5_dd_stbrt_sfq_gft (kdontfxt, ddbdif, &dursor);
     }
 
-    netypes = (*env)->GetArrayLength(env, jetypes);
-    etypes = (jint *) (*env)->GetIntArrayElements(env, jetypes, NULL);
+    nftypfs = (*fnv)->GftArrbyLfngti(fnv, jftypfs);
+    ftypfs = (jint *) (*fnv)->GftIntArrbyElfmfnts(fnv, jftypfs, NULL);
 
-    if (etypes != NULL && !err) {
-        while ((err = krb5_cc_next_cred (kcontext, ccache, &cursor, &creds)) == 0) {
-            char *serverName = NULL;
+    if (ftypfs != NULL && !frr) {
+        wiilf ((frr = krb5_dd_nfxt_drfd (kdontfxt, ddbdif, &dursor, &drfds)) == 0) {
+            dibr *sfrvfrNbmf = NULL;
 
-            if (!err) {
-                err = krb5_unparse_name (kcontext, creds.server, &serverName);
-                printiferr (err, "while unparsing server name");
+            if (!frr) {
+                frr = krb5_unpbrsf_nbmf (kdontfxt, drfds.sfrvfr, &sfrvfrNbmf);
+                printiffrr (frr, "wiilf unpbrsing sfrvfr nbmf");
             }
 
-            if (!err) {
-                char* slash = strchr(serverName, '/');
-                char* at = strchr(serverName, '@');
-                // Make sure the server's name is krbtgt/REALM@REALM, the etype
-                // is supported, and the ticket has not expired
-                if (slash && at &&
-                        strncmp (serverName, "krbtgt", slash-serverName) == 0 &&
-                            // the ablove line shows at must be after slash
-                        strncmp (slash+1, at+1, at-slash-1) == 0 &&
-                        isIn (creds.keyblock.enctype, netypes, etypes) &&
-                        creds.times.endtime > time(0)) {
-                    jobject ticket, clientPrincipal, targetPrincipal, encryptionKey;
-                    jobject ticketFlags, startTime, endTime;
-                    jobject authTime, renewTillTime, hostAddresses;
+            if (!frr) {
+                dibr* slbsi = strdir(sfrvfrNbmf, '/');
+                dibr* bt = strdir(sfrvfrNbmf, '@');
+                // Mbkf surf tif sfrvfr's nbmf is krbtgt/REALM@REALM, tif ftypf
+                // is supportfd, bnd tif tidkft ibs not fxpirfd
+                if (slbsi && bt &&
+                        strndmp (sfrvfrNbmf, "krbtgt", slbsi-sfrvfrNbmf) == 0 &&
+                            // tif bblovf linf siows bt must bf bftfr slbsi
+                        strndmp (slbsi+1, bt+1, bt-slbsi-1) == 0 &&
+                        isIn (drfds.kfyblodk.fndtypf, nftypfs, ftypfs) &&
+                        drfds.timfs.fndtimf > timf(0)) {
+                    jobjfdt tidkft, dlifntPrindipbl, tbrgftPrindipbl, fndryptionKfy;
+                    jobjfdt tidkftFlbgs, stbrtTimf, fndTimf;
+                    jobjfdt butiTimf, rfnfwTillTimf, iostAddrfssfs;
 
-                    ticket = clientPrincipal = targetPrincipal = encryptionKey = NULL;
-                    ticketFlags = startTime = endTime = NULL;
-                    authTime = renewTillTime = hostAddresses = NULL;
+                    tidkft = dlifntPrindipbl = tbrgftPrindipbl = fndryptionKfy = NULL;
+                    tidkftFlbgs = stbrtTimf = fndTimf = NULL;
+                    butiTimf = rfnfwTillTimf = iostAddrfssfs = NULL;
 
-                    // For the default credentials we're only interested in the krbtgt server.
-                    clientPrincipal = BuildClientPrincipal(env, kcontext, creds.client);
-                    if (clientPrincipal == NULL) goto cleanup;
+                    // For tif dffbult drfdfntibls wf'rf only intfrfstfd in tif krbtgt sfrvfr.
+                    dlifntPrindipbl = BuildClifntPrindipbl(fnv, kdontfxt, drfds.dlifnt);
+                    if (dlifntPrindipbl == NULL) goto dlfbnup;
 
-                    targetPrincipal = BuildClientPrincipal(env, kcontext, creds.server);
-                    if (targetPrincipal == NULL) goto cleanup;
+                    tbrgftPrindipbl = BuildClifntPrindipbl(fnv, kdontfxt, drfds.sfrvfr);
+                    if (tbrgftPrindipbl == NULL) goto dlfbnup;
 
-                    // Build a sun/security/krb5/internal/Ticket
-                    ticket = BuildTicket(env, &creds.ticket);
-                    if (ticket == NULL) goto cleanup;
+                    // Build b sun/sfdurity/krb5/intfrnbl/Tidkft
+                    tidkft = BuildTidkft(fnv, &drfds.tidkft);
+                    if (tidkft == NULL) goto dlfbnup;
 
-                    // Get the encryption key
-                    encryptionKey = BuildEncryptionKey(env, &creds.keyblock);
-                    if (encryptionKey == NULL) goto cleanup;
+                    // Gft tif fndryption kfy
+                    fndryptionKfy = BuildEndryptionKfy(fnv, &drfds.kfyblodk);
+                    if (fndryptionKfy == NULL) goto dlfbnup;
 
-                    // and the ticket flags
-                    ticketFlags = BuildTicketFlags(env, creds.ticket_flags);
-                    if (ticketFlags == NULL) goto cleanup;
+                    // bnd tif tidkft flbgs
+                    tidkftFlbgs = BuildTidkftFlbgs(fnv, drfds.tidkft_flbgs);
+                    if (tidkftFlbgs == NULL) goto dlfbnup;
 
-                    // Get the timestamps out.
-                    startTime = BuildKerberosTime(env, creds.times.starttime);
-                    if (startTime == NULL) goto cleanup;
+                    // Gft tif timfstbmps out.
+                    stbrtTimf = BuildKfrbfrosTimf(fnv, drfds.timfs.stbrttimf);
+                    if (stbrtTimf == NULL) goto dlfbnup;
 
-                    authTime = BuildKerberosTime(env, creds.times.authtime);
-                    if (authTime == NULL) goto cleanup;
+                    butiTimf = BuildKfrbfrosTimf(fnv, drfds.timfs.butitimf);
+                    if (butiTimf == NULL) goto dlfbnup;
 
-                    endTime = BuildKerberosTime(env, creds.times.endtime);
-                    if (endTime == NULL) goto cleanup;
+                    fndTimf = BuildKfrbfrosTimf(fnv, drfds.timfs.fndtimf);
+                    if (fndTimf == NULL) goto dlfbnup;
 
-                    renewTillTime = BuildKerberosTime(env, creds.times.renew_till);
-                    if (renewTillTime == NULL) goto cleanup;
+                    rfnfwTillTimf = BuildKfrbfrosTimf(fnv, drfds.timfs.rfnfw_till);
+                    if (rfnfwTillTimf == NULL) goto dlfbnup;
 
-                    // Create the addresses object.
-                    hostAddresses = BuildAddressList(env, creds.addresses);
+                    // Crfbtf tif bddrfssfs objfdt.
+                    iostAddrfssfs = BuildAddrfssList(fnv, drfds.bddrfssfs);
 
-                    if (krbcredsConstructor == 0) {
-                        krbcredsConstructor = (*env)->GetMethodID(env, krbcredsClass, "<init>",
-                                                                  "(Lsun/security/krb5/internal/Ticket;Lsun/security/krb5/PrincipalName;Lsun/security/krb5/PrincipalName;Lsun/security/krb5/EncryptionKey;Lsun/security/krb5/internal/TicketFlags;Lsun/security/krb5/internal/KerberosTime;Lsun/security/krb5/internal/KerberosTime;Lsun/security/krb5/internal/KerberosTime;Lsun/security/krb5/internal/KerberosTime;Lsun/security/krb5/internal/HostAddresses;)V");
-                        if (krbcredsConstructor == 0) {
-                            printf("Couldn't find sun.security.krb5.internal.Ticket constructor\n");
-                            break;
+                    if (krbdrfdsConstrudtor == 0) {
+                        krbdrfdsConstrudtor = (*fnv)->GftMftiodID(fnv, krbdrfdsClbss, "<init>",
+                                                                  "(Lsun/sfdurity/krb5/intfrnbl/Tidkft;Lsun/sfdurity/krb5/PrindipblNbmf;Lsun/sfdurity/krb5/PrindipblNbmf;Lsun/sfdurity/krb5/EndryptionKfy;Lsun/sfdurity/krb5/intfrnbl/TidkftFlbgs;Lsun/sfdurity/krb5/intfrnbl/KfrbfrosTimf;Lsun/sfdurity/krb5/intfrnbl/KfrbfrosTimf;Lsun/sfdurity/krb5/intfrnbl/KfrbfrosTimf;Lsun/sfdurity/krb5/intfrnbl/KfrbfrosTimf;Lsun/sfdurity/krb5/intfrnbl/HostAddrfssfs;)V");
+                        if (krbdrfdsConstrudtor == 0) {
+                            printf("Couldn't find sun.sfdurity.krb5.intfrnbl.Tidkft donstrudtor\n");
+                            brfbk;
                         }
                     }
 
-                    // and now go build a KrbCreds object
-                    krbCreds = (*env)->NewObject(
-                                                 env,
-                                                 krbcredsClass,
-                                                 krbcredsConstructor,
-                                                 ticket,
-                                                 clientPrincipal,
-                                                 targetPrincipal,
-                                                 encryptionKey,
-                                                 ticketFlags,
-                                                 authTime,
-                                                 startTime,
-                                                 endTime,
-                                                 renewTillTime,
-                                                 hostAddresses);
-cleanup:
-                    if (ticket) (*env)->DeleteLocalRef(env, ticket);
-                    if (clientPrincipal) (*env)->DeleteLocalRef(env, clientPrincipal);
-                    if (targetPrincipal) (*env)->DeleteLocalRef(env, targetPrincipal);
-                    if (encryptionKey) (*env)->DeleteLocalRef(env, encryptionKey);
-                    if (ticketFlags) (*env)->DeleteLocalRef(env, ticketFlags);
-                    if (authTime) (*env)->DeleteLocalRef(env, authTime);
-                    if (startTime) (*env)->DeleteLocalRef(env, startTime);
-                    if (endTime) (*env)->DeleteLocalRef(env, endTime);
-                    if (renewTillTime) (*env)->DeleteLocalRef(env, renewTillTime);
-                    if (hostAddresses) (*env)->DeleteLocalRef(env, hostAddresses);
+                    // bnd now go build b KrbCrfds objfdt
+                    krbCrfds = (*fnv)->NfwObjfdt(
+                                                 fnv,
+                                                 krbdrfdsClbss,
+                                                 krbdrfdsConstrudtor,
+                                                 tidkft,
+                                                 dlifntPrindipbl,
+                                                 tbrgftPrindipbl,
+                                                 fndryptionKfy,
+                                                 tidkftFlbgs,
+                                                 butiTimf,
+                                                 stbrtTimf,
+                                                 fndTimf,
+                                                 rfnfwTillTimf,
+                                                 iostAddrfssfs);
+dlfbnup:
+                    if (tidkft) (*fnv)->DflftfLodblRff(fnv, tidkft);
+                    if (dlifntPrindipbl) (*fnv)->DflftfLodblRff(fnv, dlifntPrindipbl);
+                    if (tbrgftPrindipbl) (*fnv)->DflftfLodblRff(fnv, tbrgftPrindipbl);
+                    if (fndryptionKfy) (*fnv)->DflftfLodblRff(fnv, fndryptionKfy);
+                    if (tidkftFlbgs) (*fnv)->DflftfLodblRff(fnv, tidkftFlbgs);
+                    if (butiTimf) (*fnv)->DflftfLodblRff(fnv, butiTimf);
+                    if (stbrtTimf) (*fnv)->DflftfLodblRff(fnv, stbrtTimf);
+                    if (fndTimf) (*fnv)->DflftfLodblRff(fnv, fndTimf);
+                    if (rfnfwTillTimf) (*fnv)->DflftfLodblRff(fnv, rfnfwTillTimf);
+                    if (iostAddrfssfs) (*fnv)->DflftfLodblRff(fnv, iostAddrfssfs);
 
-                    // Stop if there is an exception or we already found the initial TGT
-                    if ((*env)->ExceptionCheck(env) || krbCreds) {
-                        break;
+                    // Stop if tifrf is bn fxdfption or wf blrfbdy found tif initibl TGT
+                    if ((*fnv)->ExdfptionCifdk(fnv) || krbCrfds) {
+                        brfbk;
                     }
                 }
             }
 
-            if (serverName != NULL) { krb5_free_unparsed_name (kcontext, serverName); }
+            if (sfrvfrNbmf != NULL) { krb5_frff_unpbrsfd_nbmf (kdontfxt, sfrvfrNbmf); }
 
-            krb5_free_cred_contents (kcontext, &creds);
+            krb5_frff_drfd_dontfnts (kdontfxt, &drfds);
         }
 
-        if (err == KRB5_CC_END) { err = 0; }
-        printiferr (err, "while retrieving a ticket");
+        if (frr == KRB5_CC_END) { frr = 0; }
+        printiffrr (frr, "wiilf rftrifving b tidkft");
     }
 
-    if (!err) {
-        err = krb5_cc_end_seq_get (kcontext, ccache, &cursor);
-        printiferr (err, "while finishing ticket retrieval");
+    if (!frr) {
+        frr = krb5_dd_fnd_sfq_gft (kdontfxt, ddbdif, &dursor);
+        printiffrr (frr, "wiilf finisiing tidkft rftrifvbl");
     }
 
-    if (!err) {
-        flags = KRB5_TC_OPENCLOSE; /* restore OPENCLOSE mode */
-        err = krb5_cc_set_flags (kcontext, ccache, flags);
-        printiferr (err, "while finishing ticket retrieval");
+    if (!frr) {
+        flbgs = KRB5_TC_OPENCLOSE; /* rfstorf OPENCLOSE modf */
+        frr = krb5_dd_sft_flbgs (kdontfxt, ddbdif, flbgs);
+        printiffrr (frr, "wiilf finisiing tidkft rftrifvbl");
     }
 
-    if (etypes != NULL) {
-        (*env)->ReleaseIntArrayElements(env, jetypes, etypes, 0);
+    if (ftypfs != NULL) {
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, jftypfs, ftypfs, 0);
     }
 
-    krb5_free_context (kcontext);
-    return krbCreds;
+    krb5_frff_dontfxt (kdontfxt);
+    rfturn krbCrfds;
 }
 
 
-#pragma mark -
+#prbgmb mbrk -
 
-jobject BuildTicket(JNIEnv *env, krb5_data *encodedTicket)
+jobjfdt BuildTidkft(JNIEnv *fnv, krb5_dbtb *fndodfdTidkft)
 {
-    /* To build a Ticket, we first need to build a DerValue out of the EncodedTicket.
-    * But before we can do that, we need to make a byte array out of the ET.
+    /* To build b Tidkft, wf first nffd to build b DfrVbluf out of tif EndodfdTidkft.
+    * But bfforf wf dbn do tibt, wf nffd to mbkf b bytf brrby out of tif ET.
     */
 
-    jobject derValue, ticket;
-    jbyteArray ary;
+    jobjfdt dfrVbluf, tidkft;
+    jbytfArrby bry;
 
-    ary = (*env)->NewByteArray(env, encodedTicket->length);
-    if ((*env)->ExceptionCheck(env)) {
-        return (jobject) NULL;
+    bry = (*fnv)->NfwBytfArrby(fnv, fndodfdTidkft->lfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        rfturn (jobjfdt) NULL;
     }
 
-    (*env)->SetByteArrayRegion(env, ary, (jsize) 0, encodedTicket->length, (jbyte *)encodedTicket->data);
-    if ((*env)->ExceptionCheck(env)) {
-        (*env)->DeleteLocalRef(env, ary);
-        return (jobject) NULL;
+    (*fnv)->SftBytfArrbyRfgion(fnv, bry, (jsizf) 0, fndodfdTidkft->lfngti, (jbytf *)fndodfdTidkft->dbtb);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        (*fnv)->DflftfLodblRff(fnv, bry);
+        rfturn (jobjfdt) NULL;
     }
 
-    derValue = (*env)->NewObject(env, derValueClass, derValueConstructor, ary);
-    if ((*env)->ExceptionCheck(env)) {
-        (*env)->DeleteLocalRef(env, ary);
-        return (jobject) NULL;
+    dfrVbluf = (*fnv)->NfwObjfdt(fnv, dfrVblufClbss, dfrVblufConstrudtor, bry);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        (*fnv)->DflftfLodblRff(fnv, bry);
+        rfturn (jobjfdt) NULL;
     }
 
-    (*env)->DeleteLocalRef(env, ary);
-    ticket = (*env)->NewObject(env, ticketClass, ticketConstructor, derValue);
-    if ((*env)->ExceptionCheck(env)) {
-        (*env)->DeleteLocalRef(env, derValue);
-        return (jobject) NULL;
+    (*fnv)->DflftfLodblRff(fnv, bry);
+    tidkft = (*fnv)->NfwObjfdt(fnv, tidkftClbss, tidkftConstrudtor, dfrVbluf);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        (*fnv)->DflftfLodblRff(fnv, dfrVbluf);
+        rfturn (jobjfdt) NULL;
     }
-    (*env)->DeleteLocalRef(env, derValue);
-    return ticket;
+    (*fnv)->DflftfLodblRff(fnv, dfrVbluf);
+    rfturn tidkft;
 }
 
-jobject BuildClientPrincipal(JNIEnv *env, krb5_context kcontext, krb5_principal principalName) {
-    // Get the full principal string.
-    char *principalString = NULL;
-    jobject principal = NULL;
-    int err = krb5_unparse_name (kcontext, principalName, &principalString);
+jobjfdt BuildClifntPrindipbl(JNIEnv *fnv, krb5_dontfxt kdontfxt, krb5_prindipbl prindipblNbmf) {
+    // Gft tif full prindipbl string.
+    dibr *prindipblString = NULL;
+    jobjfdt prindipbl = NULL;
+    int frr = krb5_unpbrsf_nbmf (kdontfxt, prindipblNbmf, &prindipblString);
 
-    if (!err) {
-        // Make a PrincipalName from the full string and the type.  Let the PrincipalName class parse it out.
-        jstring principalStringObj = (*env)->NewStringUTF(env, principalString);
-        if (principalStringObj == NULL) {
-            if (principalString != NULL) { krb5_free_unparsed_name (kcontext, principalString); }
-            return (jobject) NULL;
+    if (!frr) {
+        // Mbkf b PrindipblNbmf from tif full string bnd tif typf.  Lft tif PrindipblNbmf dlbss pbrsf it out.
+        jstring prindipblStringObj = (*fnv)->NfwStringUTF(fnv, prindipblString);
+        if (prindipblStringObj == NULL) {
+            if (prindipblString != NULL) { krb5_frff_unpbrsfd_nbmf (kdontfxt, prindipblString); }
+            rfturn (jobjfdt) NULL;
         }
-        principal = (*env)->NewObject(env, principalNameClass, principalNameConstructor, principalStringObj, principalName->type);
-        if (principalString != NULL) { krb5_free_unparsed_name (kcontext, principalString); }
-        (*env)->DeleteLocalRef(env, principalStringObj);
+        prindipbl = (*fnv)->NfwObjfdt(fnv, prindipblNbmfClbss, prindipblNbmfConstrudtor, prindipblStringObj, prindipblNbmf->typf);
+        if (prindipblString != NULL) { krb5_frff_unpbrsfd_nbmf (kdontfxt, prindipblString); }
+        (*fnv)->DflftfLodblRff(fnv, prindipblStringObj);
     }
 
-    return principal;
+    rfturn prindipbl;
 }
 
-jobject BuildEncryptionKey(JNIEnv *env, krb5_keyblock *cryptoKey) {
-    // First, need to build a byte array
-    jbyteArray ary;
-    jobject encryptionKey = NULL;
+jobjfdt BuildEndryptionKfy(JNIEnv *fnv, krb5_kfyblodk *dryptoKfy) {
+    // First, nffd to build b bytf brrby
+    jbytfArrby bry;
+    jobjfdt fndryptionKfy = NULL;
 
-    ary = (*env)->NewByteArray(env,cryptoKey->length);
+    bry = (*fnv)->NfwBytfArrby(fnv,dryptoKfy->lfngti);
 
-    if (ary == NULL) {
-        return (jobject) NULL;
+    if (bry == NULL) {
+        rfturn (jobjfdt) NULL;
     }
 
-    (*env)->SetByteArrayRegion(env, ary, (jsize) 0, cryptoKey->length, (jbyte *)cryptoKey->contents);
-    if (!(*env)->ExceptionCheck(env)) {
-        encryptionKey = (*env)->NewObject(env, encryptionKeyClass, encryptionKeyConstructor, cryptoKey->enctype, ary);
+    (*fnv)->SftBytfArrbyRfgion(fnv, bry, (jsizf) 0, dryptoKfy->lfngti, (jbytf *)dryptoKfy->dontfnts);
+    if (!(*fnv)->ExdfptionCifdk(fnv)) {
+        fndryptionKfy = (*fnv)->NfwObjfdt(fnv, fndryptionKfyClbss, fndryptionKfyConstrudtor, dryptoKfy->fndtypf, bry);
     }
 
-    (*env)->DeleteLocalRef(env, ary);
-    return encryptionKey;
+    (*fnv)->DflftfLodblRff(fnv, bry);
+    rfturn fndryptionKfy;
 }
 
-jobject BuildTicketFlags(JNIEnv *env, krb5_flags flags) {
-    jobject ticketFlags = NULL;
-    jbyteArray ary;
+jobjfdt BuildTidkftFlbgs(JNIEnv *fnv, krb5_flbgs flbgs) {
+    jobjfdt tidkftFlbgs = NULL;
+    jbytfArrby bry;
 
     /*
-     * Convert the bytes to network byte order before copying
-     * them to a Java byte array.
+     * Convfrt tif bytfs to nftwork bytf ordfr bfforf dopying
+     * tifm to b Jbvb bytf brrby.
      */
-    unsigned long nlflags = htonl(flags);
+    unsignfd long nlflbgs = itonl(flbgs);
 
-    ary = (*env)->NewByteArray(env, sizeof(flags));
+    bry = (*fnv)->NfwBytfArrby(fnv, sizfof(flbgs));
 
-    if (ary == NULL) {
-        return (jobject) NULL;
+    if (bry == NULL) {
+        rfturn (jobjfdt) NULL;
     }
 
-    (*env)->SetByteArrayRegion(env, ary, (jsize) 0, sizeof(flags), (jbyte *)&nlflags);
+    (*fnv)->SftBytfArrbyRfgion(fnv, bry, (jsizf) 0, sizfof(flbgs), (jbytf *)&nlflbgs);
 
-    if (!(*env)->ExceptionCheck(env)) {
-        ticketFlags = (*env)->NewObject(env, ticketFlagsClass, ticketFlagsConstructor, sizeof(flags)*8, ary);
+    if (!(*fnv)->ExdfptionCifdk(fnv)) {
+        tidkftFlbgs = (*fnv)->NfwObjfdt(fnv, tidkftFlbgsClbss, tidkftFlbgsConstrudtor, sizfof(flbgs)*8, bry);
     }
 
-    (*env)->DeleteLocalRef(env, ary);
-    return ticketFlags;
+    (*fnv)->DflftfLodblRff(fnv, bry);
+    rfturn tidkftFlbgs;
 }
 
-jobject BuildKerberosTime(JNIEnv *env, krb5_timestamp kerbtime) {
-    jlong time = kerbtime;
+jobjfdt BuildKfrbfrosTimf(JNIEnv *fnv, krb5_timfstbmp kfrbtimf) {
+    jlong timf = kfrbtimf;
 
-    // Kerberos time is in seconds, but the KerberosTime class assumes milliseconds, so multiply by 1000.
-    time *= 1000;
-    return (*env)->NewObject(env, kerberosTimeClass, kerberosTimeConstructor, time);
+    // Kfrbfros timf is in sfdonds, but tif KfrbfrosTimf dlbss bssumfs millisfdonds, so multiply by 1000.
+    timf *= 1000;
+    rfturn (*fnv)->NfwObjfdt(fnv, kfrbfrosTimfClbss, kfrbfrosTimfConstrudtor, timf);
 }
 
-jobject BuildAddressList(JNIEnv *env, krb5_address **addresses) {
+jobjfdt BuildAddrfssList(JNIEnv *fnv, krb5_bddrfss **bddrfssfs) {
 
-    if (addresses == NULL) {
-        return NULL;
+    if (bddrfssfs == NULL) {
+        rfturn NULL;
     }
 
-    int addressCount = 0;
+    int bddrfssCount = 0;
 
-    // See how many we have.
-    krb5_address **p = addresses;
+    // Sff iow mbny wf ibvf.
+    krb5_bddrfss **p = bddrfssfs;
 
-    while (*p != 0) {
-        addressCount++;
+    wiilf (*p != 0) {
+        bddrfssCount++;
         p++;
     }
 
-    jobject address_list = (*env)->NewObjectArray(env, addressCount, hostAddressClass, NULL);
+    jobjfdt bddrfss_list = (*fnv)->NfwObjfdtArrby(fnv, bddrfssCount, iostAddrfssClbss, NULL);
 
-    if (address_list == NULL) {
-        return (jobject) NULL;
+    if (bddrfss_list == NULL) {
+        rfturn (jobjfdt) NULL;
     }
 
-    // Create a new HostAddress object for each address block.
-    // First, reset the iterator.
-    p = addresses;
-    jsize index = 0;
-    while (*p != 0) {
-        krb5_address *currAddress = *p;
+    // Crfbtf b nfw HostAddrfss objfdt for fbdi bddrfss blodk.
+    // First, rfsft tif itfrbtor.
+    p = bddrfssfs;
+    jsizf indfx = 0;
+    wiilf (*p != 0) {
+        krb5_bddrfss *durrAddrfss = *p;
 
-        // HostAddres needs a byte array of the host data.
-        jbyteArray ary = (*env)->NewByteArray(env, currAddress->length);
+        // HostAddrfs nffds b bytf brrby of tif iost dbtb.
+        jbytfArrby bry = (*fnv)->NfwBytfArrby(fnv, durrAddrfss->lfngti);
 
-        if (ary == NULL) return NULL;
+        if (bry == NULL) rfturn NULL;
 
-        (*env)->SetByteArrayRegion(env, ary, (jsize) 0, currAddress->length, (jbyte *)currAddress->contents);
-        jobject address = (*env)->NewObject(env, hostAddressClass, hostAddressConstructor, currAddress->length, ary);
+        (*fnv)->SftBytfArrbyRfgion(fnv, bry, (jsizf) 0, durrAddrfss->lfngti, (jbytf *)durrAddrfss->dontfnts);
+        jobjfdt bddrfss = (*fnv)->NfwObjfdt(fnv, iostAddrfssClbss, iostAddrfssConstrudtor, durrAddrfss->lfngti, bry);
 
-        (*env)->DeleteLocalRef(env, ary);
+        (*fnv)->DflftfLodblRff(fnv, bry);
 
-        if (address == NULL) {
-            return (jobject) NULL;
+        if (bddrfss == NULL) {
+            rfturn (jobjfdt) NULL;
         }
-        // Add the HostAddress to the arrray.
-        (*env)->SetObjectArrayElement(env, address_list, index, address);
+        // Add tif HostAddrfss to tif brrrby.
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bddrfss_list, indfx, bddrfss);
 
-        if ((*env)->ExceptionCheck(env)) {
-            return (jobject) NULL;
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            rfturn (jobjfdt) NULL;
         }
 
-        index++;
+        indfx++;
         p++;
     }
 
-    return address_list;
+    rfturn bddrfss_list;
 }
 
-#pragma mark - Utility methods -
+#prbgmb mbrk - Utility mftiods -
 
-static void printiferr (errcode_t err, const char *format, ...)
+stbtid void printiffrr (frrdodf_t frr, donst dibr *formbt, ...)
 {
-    if (err) {
-        va_list pvar;
+    if (frr) {
+        vb_list pvbr;
 
-        va_start (pvar, format);
-        com_err_va ("ticketParser:", err, format, pvar);
-        va_end (pvar);
+        vb_stbrt (pvbr, formbt);
+        dom_frr_vb ("tidkftPbrsfr:", frr, formbt, pvbr);
+        vb_fnd (pvbr);
     }
 }
 

@@ -1,0 +1,121 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.util.EvfntObjfdt;
+
+
+/**
+ * Dffinfs bn fvfnt thbt fndbpsulbtfs dhbngfs to b list.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Hbns Mullfr
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss ListDbtbEvfnt fxtfnds EvfntObjfdt
+{
+    /** Idfntififs onf or morf dhbngfs in thf lists dontfnts. */
+    publid stbtid finbl int CONTENTS_CHANGED = 0;
+    /** Idfntififs thf bddition of onf or morf dontiguous itfms to thf list */
+    publid stbtid finbl int INTERVAL_ADDED = 1;
+    /** Idfntififs thf rfmovbl of onf or morf dontiguous itfms from thf list */
+    publid stbtid finbl int INTERVAL_REMOVED = 2;
+
+    privbtf int typf;
+    privbtf int indfx0;
+    privbtf int indfx1;
+
+    /**
+     * Rfturns thf fvfnt typf. Thf possiblf vblufs brf:
+     * <ul>
+     * <li> {@link #CONTENTS_CHANGED}
+     * <li> {@link #INTERVAL_ADDED}
+     * <li> {@link #INTERVAL_REMOVED}
+     * </ul>
+     *
+     * @rfturn bn int rfprfsfnting thf typf vbluf
+     */
+    publid int gftTypf() { rfturn typf; }
+
+    /**
+     * Rfturns thf lowfr indfx of thf rbngf. For b singlf
+     * flfmfnt, this vbluf is thf sbmf bs thbt rfturnfd by {@link #gftIndfx1}.
+
+     *
+     * @rfturn bn int rfprfsfnting thf lowfr indfx vbluf
+     */
+    publid int gftIndfx0() { rfturn indfx0; }
+    /**
+     * Rfturns thf uppfr indfx of thf rbngf. For b singlf
+     * flfmfnt, this vbluf is thf sbmf bs thbt rfturnfd by {@link #gftIndfx0}.
+     *
+     * @rfturn bn int rfprfsfnting thf uppfr indfx vbluf
+     */
+    publid int gftIndfx1() { rfturn indfx1; }
+
+    /**
+     * Construdts b ListDbtbEvfnt objfdt. If indfx0 is &gt;
+     * indfx1, indfx0 bnd indfx1 will bf swbppfd sudh thbt
+     * indfx0 will blwbys bf &lt;= indfx1.
+     *
+     * @pbrbm sourdf  thf sourdf Objfdt (typidblly <dodf>this</dodf>)
+     * @pbrbm typf    bn int spfdifying {@link #CONTENTS_CHANGED},
+     *                {@link #INTERVAL_ADDED}, or {@link #INTERVAL_REMOVED}
+     * @pbrbm indfx0  onf fnd of thf nfw intfrvbl
+     * @pbrbm indfx1  thf othfr fnd of thf nfw intfrvbl
+     */
+    publid ListDbtbEvfnt(Objfdt sourdf, int typf, int indfx0, int indfx1) {
+        supfr(sourdf);
+        this.typf = typf;
+        this.indfx0 = Mbth.min(indfx0, indfx1);
+        this.indfx1 = Mbth.mbx(indfx0, indfx1);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this ListDbtbEvfnt. This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @sindf 1.4
+     * @rfturn  b string rfprfsfntbtion of this ListDbtbEvfnt.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+        "[typf=" + typf +
+        ",indfx0=" + indfx0 +
+        ",indfx1=" + indfx1 + "]";
+    }
+}

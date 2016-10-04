@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.util.List;
-import sun.management.counter.*;
+import jbvb.util.List;
+import sun.mbnbgfmfnt.dountfr.*;
 
 /**
- * Implementation class of HotspotMemoryMBean interface.
+ * Implfmfntbtion dlbss of HotspotMfmoryMBfbn intfrfbdf.
  *
- * Internal, uncommitted management interface for Hotspot memory
- * system.
+ * Intfrnbl, undommittfd mbnbgfmfnt intfrfbdf for Hotspot mfmory
+ * systfm.
  *
  */
-class HotspotMemory
-    implements HotspotMemoryMBean {
+dlbss HotspotMfmory
+    implfmfnts HotspotMfmoryMBfbn {
 
-    private VMManagement jvm;
+    privbtf VMMbnbgfmfnt jvm;
 
     /**
-     * Constructor of HotspotRuntime class.
+     * Construdtor of HotspotRuntimf dlbss.
      */
-    HotspotMemory(VMManagement vm) {
+    HotspotMfmory(VMMbnbgfmfnt vm) {
         jvm = vm;
     }
 
-    // Performance counter support
-    private static final String JAVA_GC    = "java.gc.";
-    private static final String COM_SUN_GC = "com.sun.gc.";
-    private static final String SUN_GC     = "sun.gc.";
-    private static final String GC_COUNTER_NAME_PATTERN =
+    // Pfrformbndf dountfr support
+    privbtf stbtid finbl String JAVA_GC    = "jbvb.gd.";
+    privbtf stbtid finbl String COM_SUN_GC = "dom.sun.gd.";
+    privbtf stbtid finbl String SUN_GC     = "sun.gd.";
+    privbtf stbtid finbl String GC_COUNTER_NAME_PATTERN =
         JAVA_GC + "|" + COM_SUN_GC + "|" + SUN_GC;
 
-    public java.util.List<Counter> getInternalMemoryCounters() {
-        return jvm.getInternalCounters(GC_COUNTER_NAME_PATTERN);
+    publid jbvb.util.List<Countfr> gftIntfrnblMfmoryCountfrs() {
+        rfturn jvm.gftIntfrnblCountfrs(GC_COUNTER_NAME_PATTERN);
     }
 }

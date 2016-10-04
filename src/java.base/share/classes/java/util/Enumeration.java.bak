@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1994, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * An object that implements the Enumeration interface generates a
- * series of elements, one at a time. Successive calls to the
- * <code>nextElement</code> method return successive elements of the
- * series.
+ * An objfdt tibt implfmfnts tif Enumfrbtion intfrfbdf gfnfrbtfs b
+ * sfrifs of flfmfnts, onf bt b timf. Suddfssivf dblls to tif
+ * <dodf>nfxtElfmfnt</dodf> mftiod rfturn suddfssivf flfmfnts of tif
+ * sfrifs.
  * <p>
- * For example, to print all elements of a <tt>Vector&lt;E&gt;</tt> <i>v</i>:
- * <pre>
- *   for (Enumeration&lt;E&gt; e = v.elements(); e.hasMoreElements();)
- *       System.out.println(e.nextElement());</pre>
+ * For fxbmplf, to print bll flfmfnts of b <tt>Vfdtor&lt;E&gt;</tt> <i>v</i>:
+ * <prf>
+ *   for (Enumfrbtion&lt;E&gt; f = v.flfmfnts(); f.ibsMorfElfmfnts();)
+ *       Systfm.out.println(f.nfxtElfmfnt());</prf>
  * <p>
- * Methods are provided to enumerate through the elements of a
- * vector, the keys of a hashtable, and the values in a hashtable.
- * Enumerations are also used to specify the input streams to a
- * <code>SequenceInputStream</code>.
+ * Mftiods brf providfd to fnumfrbtf tirougi tif flfmfnts of b
+ * vfdtor, tif kfys of b ibsitbblf, bnd tif vblufs in b ibsitbblf.
+ * Enumfrbtions brf blso usfd to spfdify tif input strfbms to b
+ * <dodf>SfqufndfInputStrfbm</dodf>.
  * <p>
- * NOTE: The functionality of this interface is duplicated by the Iterator
- * interface.  In addition, Iterator adds an optional remove operation, and
- * has shorter method names.  New implementations should consider using
- * Iterator in preference to Enumeration.
+ * NOTE: Tif fundtionblity of tiis intfrfbdf is duplidbtfd by tif Itfrbtor
+ * intfrfbdf.  In bddition, Itfrbtor bdds bn optionbl rfmovf opfrbtion, bnd
+ * ibs siortfr mftiod nbmfs.  Nfw implfmfntbtions siould donsidfr using
+ * Itfrbtor in prfffrfndf to Enumfrbtion.
  *
- * @see     java.util.Iterator
- * @see     java.io.SequenceInputStream
- * @see     java.util.Enumeration#nextElement()
- * @see     java.util.Hashtable
- * @see     java.util.Hashtable#elements()
- * @see     java.util.Hashtable#keys()
- * @see     java.util.Vector
- * @see     java.util.Vector#elements()
+ * @sff     jbvb.util.Itfrbtor
+ * @sff     jbvb.io.SfqufndfInputStrfbm
+ * @sff     jbvb.util.Enumfrbtion#nfxtElfmfnt()
+ * @sff     jbvb.util.Hbsitbblf
+ * @sff     jbvb.util.Hbsitbblf#flfmfnts()
+ * @sff     jbvb.util.Hbsitbblf#kfys()
+ * @sff     jbvb.util.Vfdtor
+ * @sff     jbvb.util.Vfdtor#flfmfnts()
  *
- * @author  Lee Boynton
- * @since   1.0
+ * @butior  Lff Boynton
+ * @sindf   1.0
  */
-public interface Enumeration<E> {
+publid intfrfbdf Enumfrbtion<E> {
     /**
-     * Tests if this enumeration contains more elements.
+     * Tfsts if tiis fnumfrbtion dontbins morf flfmfnts.
      *
-     * @return  <code>true</code> if and only if this enumeration object
-     *           contains at least one more element to provide;
-     *          <code>false</code> otherwise.
+     * @rfturn  <dodf>truf</dodf> if bnd only if tiis fnumfrbtion objfdt
+     *           dontbins bt lfbst onf morf flfmfnt to providf;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean hasMoreElements();
+    boolfbn ibsMorfElfmfnts();
 
     /**
-     * Returns the next element of this enumeration if this enumeration
-     * object has at least one more element to provide.
+     * Rfturns tif nfxt flfmfnt of tiis fnumfrbtion if tiis fnumfrbtion
+     * objfdt ibs bt lfbst onf morf flfmfnt to providf.
      *
-     * @return     the next element of this enumeration.
-     * @exception  NoSuchElementException  if no more elements exist.
+     * @rfturn     tif nfxt flfmfnt of tiis fnumfrbtion.
+     * @fxdfption  NoSudiElfmfntExdfption  if no morf flfmfnts fxist.
      */
-    E nextElement();
+    E nfxtElfmfnt();
 }

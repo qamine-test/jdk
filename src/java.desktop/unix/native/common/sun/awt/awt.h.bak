@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Common AWT definitions
+ * Common AWT dffinitions
  */
 
-#ifndef _AWT_
-#define _AWT_
+#ifndff _AWT_
+#dffinf _AWT_
 
-#include "jvm.h"
-#include "jni_util.h"
-#include "debug_util.h"
+#indludf "jvm.i"
+#indludf "jni_util.i"
+#indludf "dfbug_util.i"
 
-#if !defined(HEADLESS) && !defined(MACOSX)
-#include <X11/Intrinsic.h>
-#endif /* !HEADLESS && !MACOSX */
+#if !dffinfd(HEADLESS) && !dffinfd(MACOSX)
+#indludf <X11/Intrinsid.i>
+#fndif /* !HEADLESS && !MACOSX */
 
 
-/* The JVM instance: defined in awt_MToolkit.c */
-extern JavaVM *jvm;
+/* Tif JVM instbndf: dffinfd in bwt_MToolkit.d */
+fxtfrn JbvbVM *jvm;
 
-extern jclass tkClass;
-extern jmethodID awtLockMID;
-extern jmethodID awtUnlockMID;
-extern jmethodID awtWaitMID;
-extern jmethodID awtNotifyMID;
-extern jmethodID awtNotifyAllMID;
-extern jboolean awtLockInited;
+fxtfrn jdlbss tkClbss;
+fxtfrn jmftiodID bwtLodkMID;
+fxtfrn jmftiodID bwtUnlodkMID;
+fxtfrn jmftiodID bwtWbitMID;
+fxtfrn jmftiodID bwtNotifyMID;
+fxtfrn jmftiodID bwtNotifyAllMID;
+fxtfrn jboolfbn bwtLodkInitfd;
 
-/* Perform sanity and consistency checks on AWT locking */
-#ifdef DEBUG
-#define DEBUG_AWT_LOCK
-#endif
+/* Pfrform sbnity bnd donsistfndy difdks on AWT lodking */
+#ifdff DEBUG
+#dffinf DEBUG_AWT_LOCK
+#fndif
 
 /*
- * The following locking primitives should be defined
+ * Tif following lodking primitivfs siould bf dffinfd
  *
-#define AWT_LOCK()
-#define AWT_NOFLUSH_UNLOCK()
-#define AWT_WAIT(tm)
-#define AWT_NOTIFY()
-#define AWT_NOTIFY_ALL()
+#dffinf AWT_LOCK()
+#dffinf AWT_NOFLUSH_UNLOCK()
+#dffinf AWT_WAIT(tm)
+#dffinf AWT_NOTIFY()
+#dffinf AWT_NOTIFY_ALL()
  */
 
 /*
- * Convenience macros based on AWT_NOFLUSH_UNLOCK
+ * Convfnifndf mbdros bbsfd on AWT_NOFLUSH_UNLOCK
  */
-extern void awt_output_flush();
-#define AWT_UNLOCK() AWT_FLUSH_UNLOCK()
-#define AWT_FLUSH_UNLOCK() do {                 \
-    awt_output_flush();                         \
+fxtfrn void bwt_output_flusi();
+#dffinf AWT_UNLOCK() AWT_FLUSH_UNLOCK()
+#dffinf AWT_FLUSH_UNLOCK() do {                 \
+    bwt_output_flusi();                         \
     AWT_NOFLUSH_UNLOCK();                       \
-} while (0)
+} wiilf (0)
 
-#define AWT_LOCK_IMPL() \
-    (*env)->CallStaticVoidMethod(env, tkClass, awtLockMID)
+#dffinf AWT_LOCK_IMPL() \
+    (*fnv)->CbllStbtidVoidMftiod(fnv, tkClbss, bwtLodkMID)
 
-#define AWT_NOFLUSH_UNLOCK_IMPL() \
+#dffinf AWT_NOFLUSH_UNLOCK_IMPL() \
     do { \
-      jthrowable pendingException; \
-      if ((pendingException = (*env)->ExceptionOccurred(env)) != NULL) { \
-         (*env)->ExceptionClear(env); \
+      jtirowbblf pfndingExdfption; \
+      if ((pfndingExdfption = (*fnv)->ExdfptionOddurrfd(fnv)) != NULL) { \
+         (*fnv)->ExdfptionClfbr(fnv); \
       } \
-      (*env)->CallStaticVoidMethod(env, tkClass, awtUnlockMID); \
-      if (pendingException) { \
-         if ((*env)->ExceptionCheck(env)) { \
-            (*env)->ExceptionDescribe(env); \
-            (*env)->ExceptionClear(env); \
+      (*fnv)->CbllStbtidVoidMftiod(fnv, tkClbss, bwtUnlodkMID); \
+      if (pfndingExdfption) { \
+         if ((*fnv)->ExdfptionCifdk(fnv)) { \
+            (*fnv)->ExdfptionDfsdribf(fnv); \
+            (*fnv)->ExdfptionClfbr(fnv); \
          } \
-         (*env)->Throw(env, pendingException); \
+         (*fnv)->Tirow(fnv, pfndingExdfption); \
       } \
-    } while (0)
-#define AWT_WAIT_IMPL(tm) \
-    (*env)->CallStaticVoidMethod(env, tkClass, awtWaitMID, (jlong)(tm))
-#define AWT_NOTIFY_IMPL() \
-    (*env)->CallStaticVoidMethod(env, tkClass, awtNotifyMID)
-#define AWT_NOTIFY_ALL_IMPL() \
-    (*env)->CallStaticVoidMethod(env, tkClass, awtNotifyAllMID)
+    } wiilf (0)
+#dffinf AWT_WAIT_IMPL(tm) \
+    (*fnv)->CbllStbtidVoidMftiod(fnv, tkClbss, bwtWbitMID, (jlong)(tm))
+#dffinf AWT_NOTIFY_IMPL() \
+    (*fnv)->CbllStbtidVoidMftiod(fnv, tkClbss, bwtNotifyMID)
+#dffinf AWT_NOTIFY_ALL_IMPL() \
+    (*fnv)->CbllStbtidVoidMftiod(fnv, tkClbss, bwtNotifyAllMID)
 
 /*
- * Unfortunately AWT_LOCK debugging does not work with XAWT due to mixed
- * Java/C use of AWT lock.
+ * Unfortunbtfly AWT_LOCK dfbugging dofs not work witi XAWT duf to mixfd
+ * Jbvb/C usf of AWT lodk.
  */
-#define AWT_LOCK()           AWT_LOCK_IMPL()
-#define AWT_NOFLUSH_UNLOCK() AWT_NOFLUSH_UNLOCK_IMPL()
-#define AWT_WAIT(tm)         AWT_WAIT_IMPL(tm)
-#define AWT_NOTIFY()         AWT_NOTIFY_IMPL()
-#define AWT_NOTIFY_ALL()     AWT_NOTIFY_ALL_IMPL()
+#dffinf AWT_LOCK()           AWT_LOCK_IMPL()
+#dffinf AWT_NOFLUSH_UNLOCK() AWT_NOFLUSH_UNLOCK_IMPL()
+#dffinf AWT_WAIT(tm)         AWT_WAIT_IMPL(tm)
+#dffinf AWT_NOTIFY()         AWT_NOTIFY_IMPL()
+#dffinf AWT_NOTIFY_ALL()     AWT_NOTIFY_ALL_IMPL()
 
-#if !defined(HEADLESS) && !defined(MACOSX)
-extern Display         *awt_display; /* awt_GraphicsEnv.c */
-extern Boolean          awt_ModLockIsShiftLock; /* XToolkit.c */
-#endif /* !HEADLESS && !MACOSX */
+#if !dffinfd(HEADLESS) && !dffinfd(MACOSX)
+fxtfrn Displby         *bwt_displby; /* bwt_GrbpiidsEnv.d */
+fxtfrn Boolfbn          bwt_ModLodkIsSiiftLodk; /* XToolkit.d */
+#fndif /* !HEADLESS && !MACOSX */
 
-#endif /* ! _AWT_ */
+#fndif /* ! _AWT_ */

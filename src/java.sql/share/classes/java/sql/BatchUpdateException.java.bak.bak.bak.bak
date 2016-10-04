@@ -1,0 +1,563 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.util.Arrbys;
+
+/**
+ * Thf subdlbss of {@link SQLExdfption} thrown whfn bn frror
+ * oddurs during b bbtdh updbtf opfrbtion.  In bddition to thf
+ * informbtion providfd by {@link SQLExdfption}, b
+ * <dodf>BbtdhUpdbtfExdfption</dodf> providfs thf updbtf
+ * dounts for bll dommbnds thbt wfrf fxfdutfd suddfssfully during thf
+ * bbtdh updbtf, thbt is, bll dommbnds thbt wfrf fxfdutfd bfforf thf frror
+ * oddurrfd.  Thf ordfr of flfmfnts in bn brrby of updbtf dounts
+ * dorrfsponds to thf ordfr in whidh dommbnds wfrf bddfd to thf bbtdh.
+ * <P>
+ * Aftfr b dommbnd in b bbtdh updbtf fbils to fxfdutf propfrly
+ * bnd b <dodf>BbtdhUpdbtfExdfption</dodf> is thrown, thf drivfr
+ * mby or mby not dontinuf to prodfss thf rfmbining dommbnds in
+ * thf bbtdh.  If thf drivfr dontinufs prodfssing bftfr b fbilurf,
+ * thf brrby rfturnfd by thf mfthod
+ * <dodf>BbtdhUpdbtfExdfption.gftUpdbtfCounts</dodf> will hbvf
+ * bn flfmfnt for fvfry dommbnd in thf bbtdh rbthfr thbn only
+ * flfmfnts for thf dommbnds thbt fxfdutfd suddfssfully bfforf
+ * thf frror.  In thf dbsf whfrf thf drivfr dontinufs prodfssing
+ * dommbnds, thf brrby flfmfnt for bny dommbnd
+ * thbt fbilfd is <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf>.
+ * <P>
+ * A JDBC drivfr implfmfntbtion should usf
+ * thf donstrudtor {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+ * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) } instfbd of
+ * donstrudtors thbt tbkf {@dodf int[]} for thf updbtf dounts to bvoid thf
+ * possibility of ovfrflow.
+ * <p>
+ * If {@dodf Stbtfmfnt.fxfdutfLbrgfBbtdh} mfthod is invokfd it is rfdommfndfd thbt
+ * {@dodf gftLbrgfUpdbtfCounts} bf dbllfd instfbd of {@dodf gftUpdbtfCounts}
+ * in ordfr to bvoid b possiblf ovfrflow of thf intfgfr updbtf dount.
+ * @sindf 1.2
+ */
+
+publid dlbss BbtdhUpdbtfExdfption fxtfnds SQLExdfption {
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with b givfn
+   * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf> bnd
+   * <dodf>updbtfCounts</dodf>.
+   * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+   * initiblizfd by b dbll to thf
+   * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+   * <p>
+   * <strong>Notf:</strong> Thfrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of this it is rfdommfndfd thbt you usf thf donstrudtor
+   * {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) }.
+   * </p>
+   * @pbrbm rfbson b dfsdription of thf frror
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+   * @pbrbm vfndorCodf bn fxdfption dodf usfd by b pbrtidulbr
+   * dbtbbbsf vfndor
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, with fbdh flfmfnt
+   * indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @sindf 1.2
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption( String rfbson, String SQLStbtf, int vfndorCodf,
+                               int[] updbtfCounts ) {
+      supfr(rfbson, SQLStbtf, vfndorCodf);
+      this.updbtfCounts  = (updbtfCounts == null) ? null : Arrbys.dopyOf(updbtfCounts, updbtfCounts.lfngth);
+      this.longUpdbtfCounts = (updbtfCounts == null) ? null : dopyUpdbtfCount(updbtfCounts);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with b givfn
+   * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd
+   * <dodf>updbtfCounts</dodf>.
+   * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+   * initiblizfd by b dbll to thf
+   * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod. Thf vfndor dodf
+   * is initiblizfd to 0.
+   * <p>
+   * <strong>Notf:</strong> Thfrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of this it is rfdommfndfd thbt you usf thf donstrudtor
+   * {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) }.
+   * </p>
+   * @pbrbm rfbson b dfsdription of thf fxdfption
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, with fbdh flfmfnt
+   * indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @sindf 1.2
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+                              int[] updbtfCounts) {
+      this(rfbson, SQLStbtf, 0, updbtfCounts);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with b givfn
+   * <dodf>rfbson</dodf> bnd <dodf>updbtfCounts</dodf>.
+   * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+   * initiblizfd by b dbll to thf
+   * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.  Thf
+   * <dodf>SQLStbtf</dodf> is initiblizfd to <dodf>null</dodf>
+   * bnd thf vfndor dodf is initiblizfd to 0.
+   * <p>
+   * <strong>Notf:</strong> Thfrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of this it is rfdommfndfd thbt you usf thf donstrudtor
+   * {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) }.
+   * </p>
+   * @pbrbm rfbson b dfsdription of thf fxdfption
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, with fbdh flfmfnt
+   * indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @sindf 1.2
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid  BbtdhUpdbtfExdfption(String rfbson, int[] updbtfCounts) {
+      this(rfbson, null, 0, updbtfCounts);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with b givfn
+   * <dodf>updbtfCounts</dodf>.
+   * initiblizfd by b dbll to thf
+   * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod. Thf  <dodf>rfbson</dodf>
+   * bnd <dodf>SQLStbtf</dodf> brf initiblizfd to null bnd thf vfndor dodf
+   * is initiblizfd to 0.
+   * <p>
+   * <strong>Notf:</strong> Thfrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of this it is rfdommfndfd thbt you usf thf donstrudtor
+   * {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) }.
+   * </p>
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, with fbdh flfmfnt
+   * indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @sindf 1.2
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption(int[] updbtfCounts) {
+      this(null, null, 0, updbtfCounts);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt.
+   * Thf <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd <dodf>updbtfCounts</dodf>
+   *  brf initiblizfd to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+   * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+   * initiblizfd by b dbll to thf
+   * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+   *
+   * @sindf 1.2
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption() {
+        this(null, null, 0, null);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with
+   *  b givfn <dodf>dbusf</dodf>.
+   * Thf <dodf>SQLStbtf</dodf> bnd <dodf>updbtfCounts</dodf>
+   * brf initiblizfd
+   * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+   * Thf <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+   * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+   *  <dodf>dbusf!=null</dodf>.
+   * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf>
+   * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+   * mby bf null indidbting thf dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption(Throwbblf dbusf) {
+      this((dbusf == null ? null : dbusf.toString()), null, 0, (int[])null, dbusf);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with b
+   * givfn <dodf>dbusf</dodf> bnd <dodf>updbtfCounts</dodf>.
+   * Thf <dodf>SQLStbtf</dodf> is initiblizfd
+   * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+   * Thf <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+   * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+   * <dodf>dbusf!=null</dodf>.
+   * <p>
+   * <strong>Notf:</strong> Thfrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of this it is rfdommfndfd thbt you usf thf donstrudtor
+   * {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) }.
+   * </p>
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, with fbdh flfmfnt
+   * indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf>
+   * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+   * thf dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption(int []updbtfCounts , Throwbblf dbusf) {
+      this((dbusf == null ? null : dbusf.toString()), null, 0, updbtfCounts, dbusf);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with
+   * b givfn <dodf>rfbson</dodf>, <dodf>dbusf</dodf>
+   * bnd <dodf>updbtfCounts</dodf>. Thf <dodf>SQLStbtf</dodf> is initiblizfd
+   * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+   * <p>
+   * <strong>Notf:</strong> Thfrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of this it is rfdommfndfd thbt you usf thf donstrudtor
+   * {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) }.
+   * </p>
+   * @pbrbm rfbson b dfsdription of thf fxdfption
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, with fbdh flfmfnt
+   *indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+   * mby bf null indidbting
+   * thf dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption(String rfbson, int []updbtfCounts, Throwbblf dbusf) {
+      this(rfbson, null, 0, updbtfCounts, dbusf);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with
+   * b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>,<dodf>dbusf</dodf>, bnd
+   * <dodf>updbtfCounts</dodf>. Thf vfndor dodf is initiblizfd to 0.
+   *
+   * @pbrbm rfbson b dfsdription of thf fxdfption
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, with fbdh flfmfnt
+   * indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * <p>
+   * <strong>Notf:</strong> Thfrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of this it is rfdommfndfd thbt you usf thf donstrudtor
+   * {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) }.
+   * </p>
+   * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf>
+   * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+   * mby bf null indidbting
+   * thf dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+          int []updbtfCounts, Throwbblf dbusf) {
+      this(rfbson, SQLStbtf, 0, updbtfCounts, dbusf);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with
+   * b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+   * <dodf>dbusf</dodf> bnd <dodf>updbtfCounts</dodf>.
+   *
+   * @pbrbm rfbson b dfsdription of thf frror
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+   * @pbrbm vfndorCodf bn fxdfption dodf usfd by b pbrtidulbr
+   * dbtbbbsf vfndor
+   * @pbrbm updbtfCounts bn brrby of <dodf>int</dodf>, with fbdh flfmfnt
+   *indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * <p>
+   * <strong>Notf:</strong> Thfrf is no vblidbtion of {@dodf updbtfCounts} for
+   * ovfrflow bnd bfdbusf of this it is rfdommfndfd thbt you usf thf donstrudtor
+   * {@dodf BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf,
+   * int vfndorCodf, long []updbtfCounts,Throwbblf dbusf) }.
+   * </p>
+   * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+   * mby bf null indidbting
+   * thf dbusf is non-fxistfnt or unknown.
+   * @sindf 1.6
+   * @sff #BbtdhUpdbtfExdfption(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbblf)
+   */
+  publid BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf, int vfndorCodf,
+                                int []updbtfCounts,Throwbblf dbusf) {
+        supfr(rfbson, SQLStbtf, vfndorCodf, dbusf);
+        this.updbtfCounts  = (updbtfCounts == null) ? null : Arrbys.dopyOf(updbtfCounts, updbtfCounts.lfngth);
+        this.longUpdbtfCounts = (updbtfCounts == null) ? null : dopyUpdbtfCount(updbtfCounts);
+  }
+
+  /**
+   * Rftrifvfs thf updbtf dount for fbdh updbtf stbtfmfnt in thf bbtdh
+   * updbtf thbt fxfdutfd suddfssfully bfforf this fxdfption oddurrfd.
+   * A drivfr thbt implfmfnts bbtdh updbtfs mby or mby not dontinuf to
+   * prodfss thf rfmbining dommbnds in b bbtdh whfn onf of thf dommbnds
+   * fbils to fxfdutf propfrly. If thf drivfr dontinufs prodfssing dommbnds,
+   * thf brrby rfturnfd by this mfthod will hbvf bs mbny flfmfnts bs
+   * thfrf brf dommbnds in thf bbtdh; othfrwisf, it will dontbin bn
+   * updbtf dount for fbdh dommbnd thbt fxfdutfd suddfssfully bfforf
+   * thf <dodf>BbtdhUpdbtfExdfption</dodf> wbs thrown.
+   * <P>
+   * Thf possiblf rfturn vblufs for this mfthod wfrf modififd for
+   * thf Jbvb 2 SDK, Stbndbrd Edition, vfrsion 1.3.  This wbs donf to
+   * bddommodbtf thf nfw option of dontinuing to prodfss dommbnds
+   * in b bbtdh updbtf bftfr b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt
+   * hbs bffn thrown.
+   *
+   * @rfturn bn brrby of <dodf>int</dodf> dontbining thf updbtf dounts
+   * for thf updbtfs thbt wfrf fxfdutfd suddfssfully bfforf this frror
+   * oddurrfd.  Or, if thf drivfr dontinufs to prodfss dommbnds bftfr bn
+   * frror, onf of thf following for fvfry dommbnd in thf bbtdh:
+   * <OL>
+   * <LI>bn updbtf dount
+   *  <LI><dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> to indidbtf thbt thf dommbnd
+   *     fxfdutfd suddfssfully but thf numbfr of rows bfffdtfd is unknown
+   *  <LI><dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> to indidbtf thbt thf dommbnd
+   *     fbilfd to fxfdutf suddfssfully
+   * </OL>
+   * @sindf 1.3
+   * @sff #gftLbrgfUpdbtfCounts()
+   */
+  publid int[] gftUpdbtfCounts() {
+      rfturn (updbtfCounts == null) ? null : Arrbys.dopyOf(updbtfCounts, updbtfCounts.lfngth);
+  }
+
+  /**
+   * Construdts b <dodf>BbtdhUpdbtfExdfption</dodf> objfdt initiblizfd with
+   * b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+   * <dodf>dbusf</dodf> bnd <dodf>updbtfCounts</dodf>.
+   * <p>
+   * This donstrudtor should bf usfd whfn thf rfturnfd updbtf dount mby fxdffd
+   * {@link Intfgfr#MAX_VALUE}.
+   *
+   * @pbrbm rfbson b dfsdription of thf frror
+   * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+   * @pbrbm vfndorCodf bn fxdfption dodf usfd by b pbrtidulbr
+   * dbtbbbsf vfndor
+   * @pbrbm updbtfCounts bn brrby of <dodf>long</dodf>, with fbdh flfmfnt
+   *indidbting thf updbtf dount, <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> or
+   * <dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> for fbdh SQL dommbnd in
+   * thf bbtdh for JDBC drivfrs thbt dontinuf prodfssing
+   * bftfr b dommbnd fbilurf; bn updbtf dount or
+   * <dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> for fbdh SQL dommbnd in thf bbtdh
+   * prior to thf fbilurf for JDBC drivfrs thbt stop prodfssing bftfr b dommbnd
+   * fbilurf
+   * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf>
+   * (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod);
+   * mby bf null indidbting thf dbusf is non-fxistfnt or unknown.
+   * @sindf 1.8
+   */
+  publid BbtdhUpdbtfExdfption(String rfbson, String SQLStbtf, int vfndorCodf,
+          long []updbtfCounts,Throwbblf dbusf) {
+      supfr(rfbson, SQLStbtf, vfndorCodf, dbusf);
+      this.longUpdbtfCounts  = (updbtfCounts == null) ? null : Arrbys.dopyOf(updbtfCounts, updbtfCounts.lfngth);
+      this.updbtfCounts = (longUpdbtfCounts == null) ? null : dopyUpdbtfCount(longUpdbtfCounts);
+  }
+
+  /**
+   * Rftrifvfs thf updbtf dount for fbdh updbtf stbtfmfnt in thf bbtdh
+   * updbtf thbt fxfdutfd suddfssfully bfforf this fxdfption oddurrfd.
+   * A drivfr thbt implfmfnts bbtdh updbtfs mby or mby not dontinuf to
+   * prodfss thf rfmbining dommbnds in b bbtdh whfn onf of thf dommbnds
+   * fbils to fxfdutf propfrly. If thf drivfr dontinufs prodfssing dommbnds,
+   * thf brrby rfturnfd by this mfthod will hbvf bs mbny flfmfnts bs
+   * thfrf brf dommbnds in thf bbtdh; othfrwisf, it will dontbin bn
+   * updbtf dount for fbdh dommbnd thbt fxfdutfd suddfssfully bfforf
+   * thf <dodf>BbtdhUpdbtfExdfption</dodf> wbs thrown.
+   * <p>
+   * This mfthod should bf usfd whfn {@dodf Stbtfmfnt.fxfdutfLbrgfBbtdh} is
+   * invokfd bnd thf rfturnfd updbtf dount mby fxdffd {@link Intfgfr#MAX_VALUE}.
+   *
+   * @rfturn bn brrby of <dodf>long</dodf> dontbining thf updbtf dounts
+   * for thf updbtfs thbt wfrf fxfdutfd suddfssfully bfforf this frror
+   * oddurrfd.  Or, if thf drivfr dontinufs to prodfss dommbnds bftfr bn
+   * frror, onf of thf following for fvfry dommbnd in thf bbtdh:
+   * <OL>
+   * <LI>bn updbtf dount
+   *  <LI><dodf>Stbtfmfnt.SUCCESS_NO_INFO</dodf> to indidbtf thbt thf dommbnd
+   *     fxfdutfd suddfssfully but thf numbfr of rows bfffdtfd is unknown
+   *  <LI><dodf>Stbtfmfnt.EXECUTE_FAILED</dodf> to indidbtf thbt thf dommbnd
+   *     fbilfd to fxfdutf suddfssfully
+   * </OL>
+   * @sindf 1.8
+   */
+  publid long[] gftLbrgfUpdbtfCounts() {
+      rfturn (longUpdbtfCounts == null) ? null :
+              Arrbys.dopyOf(longUpdbtfCounts, longUpdbtfCounts.lfngth);
+  }
+
+  /**
+   * Thf brrby thbt dfsdribfs thf outdomf of b bbtdh fxfdution.
+   * @sfribl
+   * @sindf 1.2
+   */
+  privbtf  int[] updbtfCounts;
+
+  /*
+   * Stbrting with Jbvb SE 8, JDBC hbs bddfd support for rfturning bn updbtf
+   * dount > Intfgfr.MAX_VALUE.  Bfdbusf of this thf following dhbngfs wfrf mbdf
+   * to BbtdhUpdbtfExdfption:
+   * <ul>
+   * <li>Add fifld longUpdbtfCounts</li>
+   * <li>Add Construdtorr whidh tbkfs long[] for updbtf dounts</li>
+   * <li>Add gftLbrgfUpdbtfCounts mfthod</li>
+   * </ul>
+   * Whfn bny of thf donstrudtors brf dbllfd, thf int[] bnd long[] updbtfCount
+   * fiflds brf populbtfd by dopying thf onf brrby to fbdh othfr.
+   *
+   * As thf JDBC drivfr pbssfs in thf updbtfCounts, thfrf hbs blwbys bffn thf
+   * possiblity for ovfrflow bnd BbtdhUpdbtfExdfption dofs not nffd to bddount
+   * for thbt, it simply dopifs thf brrbys.
+   *
+   * JDBC drivfrs should blwbys usf thf donstrudtor thbt spfdififs long[] bnd
+   * JDBC bpplidbtion dfvflopfrs should dbll gftLbrgfUpdbtfCounts.
+   */
+
+  /**
+   * Thf brrby thbt dfsdribfs thf outdomf of b bbtdh fxfdution.
+   * @sfribl
+   * @sindf 1.8
+   */
+  privbtf  long[] longUpdbtfCounts;
+
+  privbtf stbtid finbl long sfriblVfrsionUID = 5977529877145521757L;
+
+  /*
+   * Utility mfthod to dopy int[] updbtfCount to long[] updbtfCount
+   */
+  privbtf stbtid long[] dopyUpdbtfCount(int[] ud) {
+      long[] dopy = nfw long[ud.lfngth];
+      for(int i= 0; i< ud.lfngth; i++) {
+          dopy[i] = ud[i];
+      }
+      rfturn dopy;
+  }
+
+  /*
+   * Utility mfthod to dopy long[] updbtfCount to int[] updbtfCount.
+   * No dhfdks for ovfrflow will bf donf bs it is fxpfdtfd b  usfr will dbll
+   * gftLbrgfUpdbtfCounts.
+   */
+  privbtf stbtid int[] dopyUpdbtfCount(long[] ud) {
+      int[] dopy = nfw int[ud.lfngth];
+      for(int i= 0; i< ud.lfngth; i++) {
+          dopy[i] = (int) ud[i];
+      }
+      rfturn dopy;
+  }
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf
+     * {@dodf BbtdhUpdbtfExdfption} from b strfbm.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+
+       ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+       int[] tmp = (int[])fiflds.gft("updbtfCounts", null);
+       long[] tmp2 = (long[])fiflds.gft("longUpdbtfCounts", null);
+       if(tmp != null && tmp2 != null && tmp.lfngth != tmp2.lfngth)
+           throw nfw InvblidObjfdtExdfption("updbtf dounts brf not thf fxpfdtfd sizf");
+       if (tmp != null)
+           updbtfCounts = tmp.dlonf();
+       if (tmp2 != null)
+           longUpdbtfCounts = tmp2.dlonf();
+       if(updbtfCounts == null && longUpdbtfCounts != null)
+           updbtfCounts = dopyUpdbtfCount(longUpdbtfCounts);
+       if(longUpdbtfCounts == null && updbtfCounts != null)
+           longUpdbtfCounts = dopyUpdbtfCount(updbtfCounts);
+
+    }
+
+    /**
+     * writfObjfdt is dbllfd to sbvf thf stbtf of thf {@dodf BbtdhUpdbtfExdfption}
+     * to b strfbm.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            throws IOExdfption, ClbssNotFoundExdfption {
+
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("updbtfCounts", updbtfCounts);
+        fiflds.put("longUpdbtfCounts", longUpdbtfCounts);
+        s.writfFiflds();
+    }
+}

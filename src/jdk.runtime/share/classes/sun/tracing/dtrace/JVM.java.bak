@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tracing.dtrace;
+pbdkbgf sun.trbding.dtrbdf;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.rfflfdt.Mftiod;
 
 /**
- * Container class for JVM interface native methods
+ * Contbinfr dlbss for JVM intfrfbdf nbtivf mftiods
  *
- * @since 1.7
+ * @sindf 1.7
  */
-class JVM {
+dlbss JVM {
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("jsdt");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("jsdt");
+                    rfturn null;
                 }
             });
     }
 
-    static long activate(String moduleName, DTraceProvider[] providers) {
-        return activate0(moduleName, providers);
+    stbtid long bdtivbtf(String modulfNbmf, DTrbdfProvidfr[] providfrs) {
+        rfturn bdtivbtf0(modulfNbmf, providfrs);
     }
 
-    static void dispose(long handle) {
-        dispose0(handle);
+    stbtid void disposf(long ibndlf) {
+        disposf0(ibndlf);
     }
 
-    static boolean isEnabled(Method m) {
-        return isEnabled0(m);
+    stbtid boolfbn isEnbblfd(Mftiod m) {
+        rfturn isEnbblfd0(m);
     }
 
-    static boolean isSupported() {
-        return isSupported0();
+    stbtid boolfbn isSupportfd() {
+        rfturn isSupportfd0();
     }
 
-    static Class<?> defineClass(
-            ClassLoader loader, String name, byte[] b, int off, int len) {
-        return defineClass0(loader, name, b, off, len);
+    stbtid Clbss<?> dffinfClbss(
+            ClbssLobdfr lobdfr, String nbmf, bytf[] b, int off, int lfn) {
+        rfturn dffinfClbss0(lobdfr, nbmf, b, off, lfn);
     }
 
-    private static native long activate0(
-        String moduleName, DTraceProvider[] providers);
-    private static native void dispose0(long activation_handle);
-    private static native boolean isEnabled0(Method m);
-    private static native boolean isSupported0();
-    private static native Class<?> defineClass0(
-        ClassLoader loader, String name, byte[] b, int off, int len);
+    privbtf stbtid nbtivf long bdtivbtf0(
+        String modulfNbmf, DTrbdfProvidfr[] providfrs);
+    privbtf stbtid nbtivf void disposf0(long bdtivbtion_ibndlf);
+    privbtf stbtid nbtivf boolfbn isEnbblfd0(Mftiod m);
+    privbtf stbtid nbtivf boolfbn isSupportfd0();
+    privbtf stbtid nbtivf Clbss<?> dffinfClbss0(
+        ClbssLobdfr lobdfr, String nbmf, bytf[] b, int off, int lfn);
 }

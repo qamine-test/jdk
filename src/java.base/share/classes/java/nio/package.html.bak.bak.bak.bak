@@ -1,0 +1,139 @@
+<!--
+ Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!dodtypf html publid "-//IETF//DTD HTML//EN">
+<html>
+<body bgdolor="whitf">
+
+Dffinfs bufffrs, whidh brf dontbinfrs for dbtb, bnd providfs bn ovfrvifw of thf
+othfr NIO pbdkbgfs.
+
+
+<p> Thf dfntrbl bbstrbdtions of thf NIO APIs brf: </p>
+
+<ul>
+
+  <li><p> <b hrff="#bufffrs"><i>Bufffrs</i></b>, whidh brf dontbinfrs for dbtb;
+  </p></li>
+
+  <li><p> <b hrff="dhbrsft/pbdkbgf-summbry.html"><i>Chbrsfts</i></b> bnd thfir
+  bssodibtfd <i>dfdodfrs</i> bnd <i>fndodfrs</i>, <br> whidh trbnslbtf bftwffn
+  bytfs bnd Unidodf dhbrbdtfrs; </p></li>
+
+  <li><p> <b hrff="dhbnnfls/pbdkbgf-summbry.html"><i>Chbnnfls</i></b> of
+  vbrious typfs, whidh rfprfsfnt donnfdtions <br> to fntitifs dbpbblf of
+  pfrforming I/O opfrbtions; bnd </p></li>
+
+  <li><p> <i>Sflfdtors</i> bnd <i>sflfdtion kfys</i>, whidh togfthfr with <br>
+  <i>sflfdtbblf dhbnnfls</i> dffinf b <b
+  hrff="dhbnnfls/pbdkbgf-summbry.html#multiplfx">multiplfxfd, non-blodking <br>
+  I/O</b>&nbsp;fbdility.  </p></li>
+
+</ul>
+
+<p> Thf <tt>jbvb.nio</tt> pbdkbgf dffinfs thf bufffr dlbssfs, whidh brf usfd
+throughout thf NIO APIs.  Thf dhbrsft API is dffinfd in thf {@link
+jbvb.nio.dhbrsft} pbdkbgf, bnd thf dhbnnfl bnd sflfdtor APIs brf dffinfd in thf
+{@link jbvb.nio.dhbnnfls} pbdkbgf.  Ebdh of thfsf subpbdkbgfs hbs its own
+sfrvidf-providfr (SPI) subpbdkbgf, thf dontfnts of whidh dbn bf usfd to fxtfnd
+thf plbtform's dffbult implfmfntbtions or to donstrudt bltfrnbtivf
+implfmfntbtions.
+
+
+<b nbmf="bufffrs"> </b>
+
+<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Dfsdription of thf vbrious bufffrs">
+  <tr><th><p blign="lfft">Bufffrs</p></th><th><p blign="lfft">Dfsdription</p></th></tr> 
+  <tr><td vblign=top><tt>{@link jbvb.nio.Bufffr}</tt></td>
+      <td>Position, limit, bnd dbpbdity;
+          <br>dlfbr, flip, rfwind, bnd mbrk/rfsft</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.BytfBufffr}</tt></td>
+      <td>Gft/put, dompbdt, vifws; bllodbtf,&nbsp;wrbp</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;{@link jbvb.nio.MbppfdBytfBufffr}&nbsp;&nbsp;</tt></td>
+      <td>A bytf bufffr mbppfd to b filf</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.ChbrBufffr}</tt></td>
+      <td>Gft/put, dompbdt; bllodbtf,&nbsp;wrbp</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.DoublfBufffr}</tt></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.FlobtBufffr}</tt></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.IntBufffr}</tt></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.LongBufffr}</tt></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
+  <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.ShortBufffr}</tt></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.BytfOrdfr}</tt></td>
+      <td>Typfsbff fnumfrbtion for&nbsp;bytf&nbsp;ordfrs</td></tr>
+</tbblf></blodkquotf>
+
+<p> A <i>bufffr</i> is b dontbinfr for b fixfd bmount of dbtb of b spfdifid
+primitivf typf.  In bddition to its dontfnt b bufffr hbs b <i>position</i>,
+whidh is thf indfx of thf nfxt flfmfnt to bf rfbd or writtfn, bnd b
+<i>limit</i>, whidh is thf indfx of thf first flfmfnt thbt should not bf rfbd
+or writtfn.  Thf bbsf {@link jbvb.nio.Bufffr} dlbss dffinfs thfsf propfrtifs bs
+wfll bs mfthods for <i>dlfbring</i>, <i>flipping</i>, bnd <i>rfwinding</i>, for
+<i>mbrking</i> thf durrfnt position, bnd for <i>rfsftting</i> thf position to
+thf prfvious mbrk.
+
+<p> Thfrf is b bufffr dlbss for fbdh non-boolfbn primitivf typf.  Ebdh dlbss
+dffinfs b fbmily of <i>gft</i> bnd <i>put</i> mfthods for moving dbtb out of
+bnd in to b bufffr, mfthods for <i>dompbdting</i>, <i>duplidbting</i>, bnd
+<i>sliding</i> b bufffr, bnd stbtid mfthods for <i>bllodbting</i> b nfw bufffr
+bs wfll bs for <i>wrbpping</i> bn fxisting brrby into b bufffr.
+
+<p> Bytf bufffrs brf distinguishfd in thbt thfy dbn bf usfd bs thf sourdfs bnd
+tbrgfts of I/O opfrbtions.  Thfy blso support sfvfrbl ffbturfs not found in thf
+othfr bufffr dlbssfs:
+
+<ul>
+
+  <li><p> A bytf bufffr dbn bf bllodbtfd bs b <b hrff="BytfBufffr.html#dirfdt">
+  <i>dirfdt</i></b> bufffr, in whidh dbsf thf Jbvb virtubl mbdhinf will mbkf b
+  bfst fffort to pfrform nbtivf I/O opfrbtions dirfdtly upon it.  </p></li>
+
+  <li><p> A bytf bufffr dbn bf drfbtfd by {@link
+  jbvb.nio.dhbnnfls.FilfChbnnfl#mbp <i>mbpping</i>} b rfgion of b
+  filf dirfdtly into mfmory, in whidh dbsf b ffw bdditionbl filf-rflbtfd
+  opfrbtions dffinfd in thf {@link jbvb.nio.MbppfdBytfBufffr} dlbss brf
+  bvbilbblf.  </p></li>
+
+  <li><p> A bytf bufffr providfs bddfss to its dontfnt bs fithfr b hftfrogfnfous
+  or homogfnfous sfqufndf of <b hrff="BytfBufffr.html#bin"><i>binbry dbtb</i></b>
+  of bny non-boolfbn primitivf typf, in fithfr big-fndibn or littlf-fndibn <b
+  hrff="BytfOrdfr.html">bytf ordfr</b>.  </p></li>
+
+</ul>
+
+<p> Unlfss othfrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+or mfthod in bny dlbss or intfrfbdf in this pbdkbgf will dbusf b {@link
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf thrown.
+
+@sindf 1.4
+@buthor Mbrk Rfinhold
+@buthor JSR-51 Expfrt Group
+
+</body>
+</html>

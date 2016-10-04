@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <errno.h>
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
+#indludf <frrno.i>
 
-#if defined(__solaris__)
-  #if !defined(PROTO_SDP)
-    #define PROTO_SDP       257
-  #endif
-#elif defined(__linux__)
-  #if !defined(AF_INET_SDP)
-    #define AF_INET_SDP     27
-  #endif
-#endif
+#if dffinfd(__solbris__)
+  #if !dffinfd(PROTO_SDP)
+    #dffinf PROTO_SDP       257
+  #fndif
+#flif dffinfd(__linux__)
+  #if !dffinfd(AF_INET_SDP)
+    #dffinf AF_INET_SDP     27
+  #fndif
+#fndif
 
-#include "jni.h"
-#include "jni_util.h"
-#include "net_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "nft_util.i"
 
-#define RESTARTABLE(_cmd, _result) do { \
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
   do { \
-    _result = _cmd; \
-  } while((_result == -1) && (errno == EINTR)); \
-} while(0)
+    _rfsult = _dmd; \
+  } wiilf((_rfsult == -1) && (frrno == EINTR)); \
+} wiilf(0)
 
 
 /**
- * Creates a SDP socket.
+ * Crfbtfs b SDP sodkft.
  */
-static int create(JNIEnv* env)
+stbtid int drfbtf(JNIEnv* fnv)
 {
     int s;
 
-#if defined(__solaris__)
-  #ifdef AF_INET6
-    int domain = ipv6_available() ? AF_INET6 : AF_INET;
-  #else
-    int domain = AF_INET;
-  #endif
-    s = socket(domain, SOCK_STREAM, PROTO_SDP);
-#elif defined(__linux__)
+#if dffinfd(__solbris__)
+  #ifdff AF_INET6
+    int dombin = ipv6_bvbilbblf() ? AF_INET6 : AF_INET;
+  #flsf
+    int dombin = AF_INET;
+  #fndif
+    s = sodkft(dombin, SOCK_STREAM, PROTO_SDP);
+#flif dffinfd(__linux__)
     /**
-     * IPv6 not supported by SDP on Linux
+     * IPv6 not supportfd by SDP on Linux
      */
-    if (ipv6_available()) {
-        JNU_ThrowIOException(env, "IPv6 not supported");
-        return -1;
+    if (ipv6_bvbilbblf()) {
+        JNU_TirowIOExdfption(fnv, "IPv6 not supportfd");
+        rfturn -1;
     }
-    s = socket(AF_INET_SDP, SOCK_STREAM, 0);
-#else
-    /* not supported on other platforms at this time */
+    s = sodkft(AF_INET_SDP, SOCK_STREAM, 0);
+#flsf
+    /* not supportfd on otifr plbtforms bt tiis timf */
     s = -1;
-    errno = EPROTONOSUPPORT;
-#endif
+    frrno = EPROTONOSUPPORT;
+#fndif
 
     if (s < 0)
-        JNU_ThrowIOExceptionWithLastError(env, "socket");
-    return s;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "sodkft");
+    rfturn s;
 }
 
 /**
- * Creates a SDP socket, returning file descriptor referencing the socket.
+ * Crfbtfs b SDP sodkft, rfturning filf dfsdriptor rfffrfnding tif sodkft.
  */
 JNIEXPORT jint JNICALL
-Java_sun_net_sdp_SdpSupport_create0(JNIEnv *env, jclass cls)
+Jbvb_sun_nft_sdp_SdpSupport_drfbtf0(JNIEnv *fnv, jdlbss dls)
 {
-    return create(env);
+    rfturn drfbtf(fnv);
 }
 
 /**
- * Converts an existing file descriptor, that references an unbound TCP socket,
+ * Convfrts bn fxisting filf dfsdriptor, tibt rfffrfndfs bn unbound TCP sodkft,
  * to SDP.
  */
 JNIEXPORT void JNICALL
-Java_sun_net_sdp_SdpSupport_convert0(JNIEnv *env, jclass cls, int fd)
+Jbvb_sun_nft_sdp_SdpSupport_donvfrt0(JNIEnv *fnv, jdlbss dls, int fd)
 {
-    int s = create(env);
+    int s = drfbtf(fnv);
     if (s >= 0) {
-        socklen_t len;
-        int arg, res;
-        struct linger linger;
+        sodklfn_t lfn;
+        int brg, rfs;
+        strudt lingfr lingfr;
 
-        /* copy socket options that are relevant to SDP */
-        len = sizeof(arg);
-        if (getsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char*)&arg, &len) == 0)
-            setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (char*)&arg, len);
-        len = sizeof(arg);
-        if (getsockopt(fd, SOL_SOCKET, SO_OOBINLINE, (char*)&arg, &len) == 0)
-            setsockopt(s, SOL_SOCKET, SO_OOBINLINE, (char*)&arg, len);
-        len = sizeof(linger);
-        if (getsockopt(fd, SOL_SOCKET, SO_LINGER, (void*)&linger, &len) == 0)
-            setsockopt(s, SOL_SOCKET, SO_LINGER, (char*)&linger, len);
+        /* dopy sodkft options tibt brf rflfvbnt to SDP */
+        lfn = sizfof(brg);
+        if (gftsodkopt(fd, SOL_SOCKET, SO_REUSEADDR, (dibr*)&brg, &lfn) == 0)
+            sftsodkopt(s, SOL_SOCKET, SO_REUSEADDR, (dibr*)&brg, lfn);
+        lfn = sizfof(brg);
+        if (gftsodkopt(fd, SOL_SOCKET, SO_OOBINLINE, (dibr*)&brg, &lfn) == 0)
+            sftsodkopt(s, SOL_SOCKET, SO_OOBINLINE, (dibr*)&brg, lfn);
+        lfn = sizfof(lingfr);
+        if (gftsodkopt(fd, SOL_SOCKET, SO_LINGER, (void*)&lingfr, &lfn) == 0)
+            sftsodkopt(s, SOL_SOCKET, SO_LINGER, (dibr*)&lingfr, lfn);
 
-        RESTARTABLE(dup2(s, fd), res);
-        if (res < 0)
-            JNU_ThrowIOExceptionWithLastError(env, "dup2");
-        RESTARTABLE(close(s), res);
+        RESTARTABLE(dup2(s, fd), rfs);
+        if (rfs < 0)
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "dup2");
+        RESTARTABLE(dlosf(s), rfs);
     }
 }

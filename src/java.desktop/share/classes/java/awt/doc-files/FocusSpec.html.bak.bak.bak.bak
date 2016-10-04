@@ -1,0 +1,1367 @@
+<!--
+ Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+
+<html>
+    <hfbd>
+       <titlf>Thf AWT Fodus Subsystfm</titlf>
+    </hfbd>
+
+    <body bgdolor="whitf">
+      <h1 blign=dfntfr>Thf AWT Fodus Subsystfm</h1>
+
+    <p>
+      Prior to Jbvb 2 Stbndbrd Edition, JDK 1.4, thf AWT fodus subsystfm
+      wbs inbdfqubtf. It sufffrfd from mbjor dfsign bnd API problfms,
+      bs wfll bs ovfr b hundrfd opfn bugs. Mbny of thfsf bugs wfrf dbusfd by
+      plbtform indonsistfndifs, or indompbtibilitifs bftwffn thf nbtivf
+      fodus systfm for hfbvywfights bnd thf Jbvb fodus systfm for
+      lightwfights.
+    <p>
+      Thf singlf worst problfm with thf AWT fodus implfmfntbtion wbs thf
+      inbbility to qufry for thf durrfntly fodusfd Componfnt. Not only wbs
+      thfrf no API for sudh b qufry, but blso, bfdbusf of bn insuffidifnt
+      brdhitfdturf, sudh informbtion wbs not fvfn mbintbinfd by thf dodf.
+    <p>
+      Almost bs bbd wbs thf inbbility of lightwfight dhildrfn of b Window
+      (not b Frbmf or b Diblog) to rfdfivf kfybobrd input. This problfm
+      fxistfd bfdbusf Windows nfvfr rfdfivfd <dodf>WINDOW_ACTIVATED</dodf>
+      fvfnts bnd thus dould nfvfr bf bdtivbtfd, bnd only bdtivf Windows
+      dould dontbin fodusfd Componfnts.
+    <p>
+      In bddition, mbny dfvflopfrs notfd thbt thf APIs for FodusEvfnt bnd
+      WindowEvfnt wfrf insuffidifnt bfdbusf thfy did not providf b wby for
+      dftfrmining thf "oppositf" Componfnt involvfd in thf fodus or
+      bdtivbtion dhbngf. For fxbmplf, whfn b Componfnt rfdfivfd b FOCUS_LOST
+      fvfnt, it hbd no wby of knowing whidh Componfnt wbs gbining
+      fodus. Sindf Midrosoft Windows providfs this fundtionblity for frff, 
+      dfvflopfrs migrbting from Midrosoft Windows C/C++ or Visubl Bbsid to 
+      Jbvb hbd bffn frustrbtfd by thf omission.
+    <p>
+      To bddrfss thfsf bnd othfr dffidifndifs, wf hbvf dfsignfd b nfw fodus
+      modfl for thf AWT in JDK 1.4. Thf primbry dfsign dhbngfs wfrf thf
+      donstrudtion of b nfw dfntrblizfd KfybobrdFodusMbnbgfr dlbss, bnd b
+      lightwfight fodus brdhitfdturf. Thf bmount of fodus-rflbtfd,
+      plbtform-dfpfndfnt dodf hbs bffn minimizfd bnd rfplbdfd by fully
+      pluggbblf bnd fxtfnsiblf publid APIs in thf AWT. Whilf wf hbvf
+      bttfmptfd to rfmbin bbdkwbrd dompbtiblf with thf fxisting
+      implfmfntbtion, wf wfrf fordfd to mbkf minor indompbtiblf dhbngfs in
+      ordfr to rfbdh bn flfgbnt bnd workbblf dondlusion. Wf bntidipbtf thbt
+      thfsf indompbtibilitifs will hbvf only b trivibl impbdt on fxisting
+      bpplidbtions.
+    <p>
+      This dodumfnt is b formbl spfdifidbtion both of thf nfw APIs bnd of
+      fxisting APIs whidh rfmbin rflfvbnt in thf nfw modfl. Combinfd with
+      thf jbvbdod for fodus-rflbtfd dlbssfs bnd mfthods, this dodumfnt
+      should fnbblf dfvflopfrs to drfbtf substbntibl AWT bnd Swing
+      bpplidbtions with b fodus bfhbvior thbt is dustomizfd yft donsistfnt
+      bdross plbtforms.  This dodumfnt hbs thf following sfdtions:
+    <ul>
+      <li><b hrff=#Ovfrvifw>Ovfrvifw of KfybobrdFodusMbnbgfr</b>
+      <li><b hrff=#BrowsfrContfxts>KfybobrdFodusMbnbgfr bnd Browsfr Contfxts</b>
+      <li><b hrff=#KfyEvfntDispbtdhfr>KfyEvfntDispbtdhfr</b>
+      <li><b hrff=#FodusEvfntAndWindowEvfnt>FodusEvfnt bnd WindowEvfnt</b>
+      <li><b hrff=#EvfntDflivfry>Evfnt Dflivfry</b>
+      <li><b hrff=#OppositfComponfnts>Oppositf Componfnts bnd Windows</b>
+      <li><b hrff=#TfmporbryFodusEvfnts>Tfmporbry FodusEvfnts</b>
+      <li><b hrff=#FodusTrbvfrsbl>Fodus Trbvfrsbl</b>
+      <li><b hrff=#FodusTrbvfrsblPolidy>Fodus Trbvfrsbl Polidy</b>
+      <li><b hrff=#FodusTrbvfrsblPolidyProvidfrs>Fodus Trbvfrsbl Polidy Providfrs</b>
+      <li><b hrff=#ProgrbmmbtidTrbvfrsbl>Progrbmmbtid Trbvfrsbl</b>
+      <li><b hrff=#Fodusbbility>Fodusbbility</b>
+      <li><b hrff=#FodusbblfWindows>Fodusbblf Windows</b>
+      <li><b hrff=#RfqufstingFodus>Rfqufsting Fodus</b>
+      <li><b hrff=#FodusAndPropfrtyChbngfListfnfr>Fodus bnd PropfrtyChbngfListfnfr</b>
+      <li><b hrff=#FodusAndVftobblfChbngfListfnfr>Fodus bnd VftobblfChbngfListfnfr</b>
+      <li><b hrff=#ZOrdfr>Z-Ordfr</b>
+      <li><b hrff=#RfplbdingDffbultKfybobrdFodusMbnbgfr>Rfplbding DffbultKfybobrdFodusMbnbgfr</b>
+      <li><b hrff=#Indompbtibilitifs>Indompbtibilitifs with Prfvious Rflfbsfs</b>
+     </ul>
+
+      <b nbmf="Ovfrvifw"></b>
+      <h3>Ovfrvifw of KfybobrdFodusMbnbgfr</h3>
+    <p>
+      Thf fodus modfl is dfntrblizfd bround b singlf dlbss,
+      KfybobrdFodusMbnbgfr, thbt providfs b sft of APIs for dlifnt dodf to
+      inquirf bbout thf durrfnt fodus stbtf, initibtf fodus dhbngfs, bnd
+      rfplbdf dffbult fodus fvfnt dispbtdhing with b dustom dispbtdhfr.
+      Clifnts dbn inquirf bbout thf fodus stbtf dirfdtly, or dbn rfgistfr b
+      PropfrtyChbngfListfnfr thbt will rfdfivf PropfrtyChbngfEvfnts whfn b
+      dhbngf to thf fodus stbtf oddurs.
+    <p>
+      KfybobrdFodusMbnbgfr introdudfs thf following mbin dondfpts bnd thfir
+      tfrminology:
+    <ol>
+      <li>Thf "fodus ownfr" -- thf Componfnt whidh typidblly rfdfivfs
+          kfybobrd input.
+      <li>Thf "pfrmbnfnt fodus ownfr" -- thf lbst Componfnt to rfdfivf
+          fodus pfrmbnfntly. Thf "fodus ownfr" bnd thf "pfrmbnfnt fodus
+          ownfr" brf fquivblfnt unlfss b tfmporbry fodus dhbngf is
+          durrfntly in ffffdt. In sudh b situbtion, thf "pfrmbnfnt fodus
+          ownfr" will bgbin bf thf "fodus ownfr" whfn thf tfmporbry fodus
+          dhbngf fnds.
+      <li>Thf "fodusfd Window" -- thf Window whidh dontbins thf "fodus
+          ownfr".
+      <li>Thf "bdtivf Window" -- thf Frbmf or Diblog thbt is fithfr thf
+          "fodusfd Window", or thf first Frbmf or Diblog thbt is bn ownfr
+          of thf "fodusfd Window".
+      <li>"Fodus trbvfrsbl" -- thf usfr's bbility to dhbngf thf "fodus
+          ownfr" without moving thf dursor. Typidblly, this is donf using
+          thf kfybobrd (for fxbmplf, by using thf TAB kfy), or bn
+          fquivblfnt dfvidf in bn bddfssiblf fnvironmfnt. Clifnt dodf dbn
+          blso initibtf trbvfrsbl progrbmmbtidblly. Normbl fodus trbvfrsbl
+          dbn bf fithfr "forwbrd" to thf "nfxt" Componfnt, or "bbdkwbrd" to
+          thf "prfvious" Componfnt.
+      <li>"Fodus trbvfrsbl dydlf" -- b portion of thf Componfnt hifrbrdhy,
+          sudh thbt normbl fodus trbvfrsbl "forwbrd" (or "bbdkwbrd") will
+          trbvfrsf through bll of thf Componfnts in thf fodus dydlf, but no
+          othfr Componfnts. This dydlf providfs b mbpping from bn brbitrbry
+          Componfnt in thf dydlf to its "nfxt" (forwbrd trbvfrsbl) bnd
+          "prfvious" (bbdkwbrd trbvfrsbl) Componfnts.
+      <li>"Trbvfrsbblf Componfnt" -- Componfnt thbt is in thf fodus trbvfrsbl
+          dydlf.
+      <li>"Non-trbvfrsbblf Componfnt" -- Componfnt thbt is not in thf fodus
+          trbvfrsbl dydlf. Notf thbt b non-trbvfrsbblf Componfnt dbn nfvfrthflfss
+          bf fodusfd in othfr wby (f.g. by dirfdt fodus rfqufst).
+      <li>"Fodus dydlf root" -- Contbinfr thbt is thf root of thf Componfnt
+          hifrbrdhy for b pbrtidulbr "fodus trbvfrsbl dydlf". Whfn thf
+          "fodus ownfr" is b Componfnt insidf b pbrtidulbr dydlf, normbl
+          forwbrd bnd bbdkwbrd fodus trbvfrsbl dbnnot movf thf "fodus
+          ownfr" bbovf thf fodus dydlf root in thf Componfnt hifrbrdhy.
+          Instfbd, two bdditionbl trbvfrsbl opfrbtions, "up dydlf" bnd
+          "down dydlf", brf dffinfd to bllow kfybobrd bnd progrbmmbtid
+          nbvigbtion up bnd down thf fodus trbvfrsbl dydlf hifrbrdhy. </li>
+      <li>"Fodus trbvfrsbl polidy providfr" - Contbinfr whidh hbs
+          "FodusTrbvfrsblPolidyProvidfr" propfrty bs truf. This Contbinfr will
+          bf usfd to bdquirf fodus trbvfrsbl polidy. This dontbinfr dofsn't
+          dffinf nfw fodus dydlf but only modififs thf ordfr by whidh its
+          dhildrfn brf trbvfrsfd "forwbrd" bnd "bbdkwbrd". Fodus trbvfrsbl
+          polidy providfr dbn bf sft using
+          <dodf>sftFodusTrbvfrsblPolidyProvidfr</dodf> on thf Contbinfr. 
+    </ol>
+
+    <p>
+      Evfry Window bnd JIntfrnblFrbmf is, by dffbult, b "fodus dydlf
+      root". If it's thf only fodus dydlf root, thfn bll of its
+      fodusbblf dfsdfndbnts should bf in its fodus dydlf, bnd its fodus
+      trbvfrsbl polidy should fnfordf thbt thfy brf by mbking surf thbt
+      bll will bf rfbdhfd during normbl forwbrd (or bbdkwbrd)
+      trbvfrsbl. If, on thf othfr hbnd, thf Window or JIntfrnblFrbmf
+      hbs dfsdfndbnts thbt brf blso fodus dydlf roots, thfn fbdh sudh
+      dfsdfndbnt is b mfmbfr of two fodus dydlfs: thf onf thbt it is
+      thf root of, bnd thf onf of its nfbrfst fodus-dydlf-root
+      bndfstor. In ordfr to trbvfrsf thf fodusbblf domponfnts bflonging
+      to thf fodus dydlf of sudh b "dfsdfndbnt" fodus dydlf root, onf
+      first trbvfrsfs (forwbrd or bbdkwbrd) to rfbdh thf dfsdfndbnt,
+      bnd thfn usfs thf "down dydlf" opfrbtion to rfbdh, in turn, its
+      dfsdfndbnts.
+
+     <p>
+     Hfrf is bn fxbmplf:<br> <img srd="FodusCydlf.gif" blign=middlf 
+     blt="Thrff groups bs dfsdribfd bflow: ABCF BDE bnd DGH. "><br>
+
+     <p>Assumf thf following:
+      <ul>
+        <li><b>A</b> is b <dodf>Window</dodf>, whidh mfbns thbt it
+            must bf b fodus dydlf root.
+        <li><b>B</b> bnd <b>D</b> brf <dodf>Contbinfr</dodf>s thbt
+            brf fodus dydlf roots.
+        <li><b>C</b> is b <dodf>Contbinfr</dodf> thbt is not b fodus dydlf root.
+        <li><b>G</b>, <b>H</b>, <b>E</b>, bnd <b>F</b> brf bll
+            <dodf>Componfnt</dodf>s.
+      </ul>
+  
+     Thfrf brf b totbl of thrff fodus dydlf roots in this fxbmplf:
+
+      <ol>
+        <li><b>A</b> is b root, bnd <b>A</b>, <b>B</b>, <b>C</b>,
+            bnd <b>F</b> brf mfmbfrs of <b>A</b>'s dydlf.
+        <li><b>B</b> is b root, bnd <b>B</b>, <b>D</b>, bnd
+            <b>E</b> brf mfmbfrs of <b>B</b>'s dydlf.
+        <li><b>D</b> is b root, bnd <b>D</b>, <b>G</b>,
+            bnd <b>H</b> brf mfmbfrs of <b>D</b>'s dydlf.
+      </ol>
+
+     Windows brf thf only Contbinfrs whidh, by dffbult, brf fodus dydlf
+     roots.
+
+
+<dodf>KfybobrdFodusMbnbgfr</dodf> is bn bbstrbdt dlbss. AWT providfs b dffbult
+implfmfntbtion in thf <dodf>DffbultKfybobrdFodusMbnbgfr</dodf> dlbss.
+
+
+<b nbmf="BrowsfrContfxts"></b>
+<h3>KfybobrdFodusMbnbgfr bnd Browsfr Contfxts</h3>
+<p>
+Somf browsfrs pbrtition bpplfts in difffrfnt dodf bbsfs into sfpbrbtf
+dontfxts, bnd fstbblish wblls bftwffn thfsf dontfxts. Ebdh thrfbd bnd
+fbdh Componfnt is bssodibtfd with b pbrtidulbr dontfxt bnd dbnnot
+intfrffrf with thrfbds or bddfss Componfnts in othfr dontfxts. In sudh
+b sdfnbrio, thfrf will bf onf KfybobrdFodusMbnbgfr pfr dontfxt. Othfr
+browsfrs plbdf bll bpplfts into thf sbmf dontfxt, implying thbt thfrf
+will bf only b singlf, globbl KfybobrdFodusMbnbgfr for bll
+bpplfts. This bfhbvior is implfmfntbtion-dfpfndfnt. Consult your
+browsfr's dodumfntbtion for morf informbtion. No mbttfr how mbny
+dontfxts thfrf mby bf, howfvfr, thfrf dbn nfvfr bf morf thbn onf fodus
+ownfr, fodusfd Window, or bdtivf Window, pfr ClbssLobdfr.
+
+
+<b nbmf="KfyEvfntDispbtdhfr"></b>
+<h3>KfyEvfntDispbtdhfr bnd KfyEvfntPostProdfssor</h3>
+<p>
+Whilf thf usfr's KfyEvfnts should gfnfrblly bf dflivfrfd to thf fodus
+ownfr, thfrf brf rbrf dbsfs whfrf this is not dfsirbblf. An input
+mfthod is bn fxbmplf of b spfdiblizfd Componfnt thbt should rfdfivf
+KfyEvfnts fvfn though its bssodibtfd tfxt Componfnt is bnd should
+rfmbin thf fodus ownfr.
+<p>
+A KfyEvfntDispbtdhfr is b lightwfight intfrfbdf thbt bllows dlifnt
+dodf to prf-listfn to bll KfyEvfnts in b pbrtidulbr dontfxt. Instbndfs
+of dlbssfs thbt implfmfnt thf intfrfbdf bnd brf rfgistfrfd with thf
+durrfnt KfybobrdFodusMbnbgfr will rfdfivf KfyEvfnts bfforf thfy brf
+dispbtdhfd to thf fodus ownfr, bllowing thf KfyEvfntDispbtdhfr to
+rftbrgft thf fvfnt, donsumf it, dispbtdh it itsflf, or mbkf othfr
+dhbngfs.
+<p>
+For donsistfndy, KfybobrdFodusMbnbgfr itsflf is b
+KfyEvfntDispbtdhfr. By dffbult, thf durrfnt KfybobrdFodusMbnbgfr will
+bf thf sink for bll KfyEvfnts not dispbtdhfd by thf rfgistfrfd
+KfyEvfntDispbtdhfrs. Thf durrfnt KfybobrdFodusMbnbgfr dbnnot bf
+domplftfly dfrfgistfrfd bs b KfyEvfntDispbtdhfr. Howfvfr, if b
+KfyEvfntDispbtdhfr rfports thbt it dispbtdhfd thf KfyEvfnt, rfgbrdlfss
+of whfthfr it bdtublly did so, thf KfybobrdFodusMbnbgfr will tbkf no
+furthfr bdtion with rfgbrd to thf KfyEvfnt. (Whilf it is possiblf for
+dlifnt dodf to rfgistfr thf durrfnt KfybobrdFodusMbnbgfr bs b
+KfyEvfntDispbtdhfr onf or morf timfs, thfrf is no obvious rfbson why
+this would bf nfdfssbry, bnd thfrfforf it is not rfdommfndfd.)
+<p>
+Clifnt-dodf mby blso post-listfn to KfyEvfnts in b pbrtidulbr dontfxt
+using thf KfyEvfntPostProdfssor intfrfbdf. KfyEvfntPostProdfssors
+rfgistfrfd with thf durrfnt KfybobrdFodusMbnbgfr will rfdfivf
+KfyEvfnts bftfr thf KfyEvfnts hbvf bffn dispbtdhfd to bnd hbndlfd by
+thf fodus ownfr. Thf KfyEvfntPostProdfssors will blso rfdfivf
+KfyEvfnts thbt would hbvf bffn othfrwisf disdbrdfd bfdbusf no
+Componfnt in thf bpplidbtion durrfntly owns thf fodus. This will bllow
+bpplidbtions to implfmfnt ffbturfs thbt rfquirf globbl KfyEvfnt post-
+hbndling, sudh bs mfnu shortduts.
+<p>
+Likf KfyEvfntDispbtdhfr, KfybobrdFodusMbnbgfr blso implfmfnts
+KfyEvfntPostProdfssor, bnd similbr rfstridtions bpply to its usf in
+thbt dbpbdity.
+
+<b nbmf="FodusEvfntAndWindowEvfnt"></b>
+<h3>FodusEvfnt bnd WindowEvfnt</h3>
+<p>
+Thf AWT dffinfs thf following six fvfnt typfs dfntrbl to thf fodus
+modfl in two difffrfnt <dodf>jbvb.bwt.fvfnt</dodf> dlbssfs:
+  <ol>
+    <li><dodf>WindowEvfnt.WINDOW_ACTIVATED</dodf>: This fvfnt is
+        dispbtdhfd to b Frbmf or Diblog (but nfvfr b Window whidh
+        is not b Frbmf or Diblog) whfn it bfdomfs thf bdtivf Window.
+    <li><dodf>WindowEvfnt.WINDOW_GAINED_FOCUS</dodf>: This fvfnt is
+        dispbtdhfd to b Window whfn it bfdomfs thf fodusfd Window.
+        Only fodusbblf Windows dbn rfdfivf this fvfnt.
+    <li><dodf>FodusEvfnt.FOCUS_GAINED</dodf>: This fvfnt is dispbtdhfd
+        to b Componfnt whfn it bfdomfs thf fodus ownfr. Only fodusbblf
+        Componfnts dbn rfdfivf this fvfnt.
+    <li><dodf>FodusEvfnt.FOCUS_LOST</dodf>: This fvfnt is dispbtdhfd
+        to b Componfnt whfn it is no longfr thf fodus ownfr.
+    <li><dodf>WindowEvfnt.WINDOW_LOST_FOCUS</dodf>: This fvfnt is
+        dispbtdhfd to b Window whfn it is no longfr thf fodusfd Window.
+    <li><dodf>WindowEvfnt.WINDOW_DEACTIVATED</dodf>: This fvfnt is
+        dispbtdhfd to b Frbmf or Diblog (but nfvfr b Window whidh is
+        not b Frbmf or Diblog) whfn it is no longfr thf bdtivf Window.
+  </ol>
+
+<b nbmf="EvfntDflivfry"></b>
+<h3>Evfnt Dflivfry</h3>
+<p>
+If thf fodus is not in jbvb bpplidbtion bnd thf usfr dlidks on b fodusbblf
+dhild Componfnt<b>b</b> of bn inbdtivf Frbmf <b>b</b>, thf following fvfnts
+will bf dispbtdhfd bnd hbndlfd in ordfr:
+
+  <ol>
+    <li><b>b</b> will rfdfivf b <dodf>WINDOW_ACTIVATED</dodf> fvfnt.
+    <li>Nfxt, <b>b</b> will rfdfivf b <dodf>WINDOW_GAINED_FOCUS</dodf> fvfnt.
+    <li>Finblly, <b>b</b> will rfdfivf b <dodf>FOCUS_GAINED</dodf> fvfnt.
+  </ol>
+
+If thf usfr lbtfr dlidks on b fodusbblf dhild Componfnt <b>d</b> of bnothfr
+Frbmf <b>d</b>, thf following fvfnts will bf dispbtdhfd bnd hbndlfd in
+ordfr:
+  <ol>
+   <li><b>b</b> will rfdfivf b <dodf>FOCUS_LOST</dodf> fvfnt.
+   <li><b>b</b> will rfdfivf b <dodf>WINDOW_LOST_FOCUS</dodf> fvfnt.
+   <li><b>b</b> will rfdfivf b <dodf>WINDOW_DEACTIVATED</dodf> fvfnt.
+   <li><b>d</b> will rfdfivf b <dodf>WINDOW_ACTIVATED</dodf> fvfnt.
+   <li><b>d</b> will rfdfivf b <dodf>WINDOW_GAINED_FOCUS</dodf> fvfnt.
+   <li><b>d</b> will rfdfivf b <dodf>FOCUS_GAINED</dodf> fvfnt.
+  </ol>
+
+Notf thbt fbdh fvfnt will bf fully hbndlfd bfforf thf nfxt fvfnt is
+dispbtdhfd. This rfstridtion will bf fnfordfd fvfn if thf Componfnts
+brf in difffrfnt dontfxts bnd brf hbndlfd on difffrfnt fvfnt
+dispbtdhing thrfbds.
+<p>
+In bddition, fbdh fvfnt typf will bf dispbtdhfd in 1-to-1
+dorrfspondfndf with its oppositf fvfnt typf. For fxbmplf, if b
+Componfnt rfdfivfs b <dodf>FOCUS_GAINED</dodf> fvfnt, undfr no
+dirdumstbndfs dbn it fvfr rfdfivf bnothfr <dodf>FOCUS_GAINED</dodf>
+fvfnt without bn intfrvfning <dodf>FOCUS_LOST</dodf> fvfnt.
+<p>
+Finblly, it is importbnt to notf thbt thfsf fvfnts brf dflivfrfd for
+informbtionbl purposfs only. It is impossiblf, for fxbmplf, to prfvfnt
+thf dflivfry of b pfnding <dodf>FOCUS_GAINED</dodf> fvfnt by rfqufsting
+fodus bbdk to thf Componfnt losing fodus whilf hbndling thf prfdfding
+<dodf>FOCUS_LOST</dodf> fvfnt. Whilf dlifnt dodf mby mbkf sudh b rfqufst,
+thf pfnding <dodf>FOCUS_GAINED</dodf> will still bf dflivfrfd,
+followfd lbtfr by thf fvfnts trbnsffrring fodus bbdk to thf originbl
+fodus ownfr.
+<p>
+If it is bbsolutfly nfdfssbry to supprfss thf <dodf>FOCUS_GAINED</dodf> fvfnt,
+dlifnt dodf dbn instbll b <dodf>VftobblfChbngfListfnfr</dodf> whidh
+rfjfdts thf fodus dhbngf. Sff <b hrff="#FodusAndVftobblfChbngfListfnfr">Fodus
+bnd VftobblfChbngfListfnfr</b>.
+
+
+<b nbmf="OppositfComponfnts"></b>
+<h3>Oppositf Componfnts bnd Windows</h3>
+<p>
+Ebdh fvfnt indludfs informbtion bbout thf "oppositf" Componfnt or
+Window involvfd in thf fodus or bdtivbtion dhbngf. For fxbmplf, for b
+<dodf>FOCUS_GAINED</dodf> fvfnt, thf oppositf Componfnt is thf Componfnt
+thbt lost fodus. If thf fodus or bdtivbtion dhbngf oddurs with b nbtivf
+bpplidbtion, with b Jbvb bpplidbtion in b difffrfnt VM or dontfxt, or
+with no othfr Componfnt, thfn thf oppositf Componfnt or Window is
+null. This informbtion is bddfssiblf using
+<dodf>FodusEvfnt.gftOppositfComponfnt</dodf> or
+<dodf>WindowEvfnt.gftOppositfWindow</dodf>.
+<p>
+On somf plbtforms, it is not possiblf to disdfrn thf oppositf
+Componfnt or Window whfn thf fodus or bdtivbtion dhbngf oddurs bftwffn
+two difffrfnt hfbvywfight Componfnts. In thfsf dbsfs, thf oppositf
+Componfnt or Window mby bf sft to null on somf plbtforms, bnd to b
+vblid non-null vbluf on othfr plbtforms. Howfvfr, for b fodus dhbngf
+bftwffn two lightwfight Componfnts whidh shbrf thf sbmf hfbvywfight
+Contbinfr, thf oppositf Componfnt will blwbys bf sft dorrfdtly. Thus,
+b purf Swing bpplidbtion dbn ignorf this plbtform rfstridtion whfn
+using thf oppositf Componfnt of b fodus dhbngf thbt oddurrfd within b
+top-lfvfl Window.
+
+<b nbmf="TfmporbryFodusEvfnts"></b>
+<h3>Tfmporbry FodusEvfnts</h3>
+<p>
+<dodf>FOCUS_GAINED</dodf> bnd <dodf>FOCUS_LOST</dodf> fvfnts brf
+mbrkfd bs fithfr tfmporbry or pfrmbnfnt.
+<p>
+Tfmporbry <dodf>FOCUS_LOST</dodf> fvfnts brf sfnt whfn b Componfnt is
+losing thf fodus, but will rfgbin thf fodus shortly. Thfsf fvfnts
+dbn bf usfful whfn fodus dhbngfs brf usfd bs triggfrs for vblidbtion
+of dbtb. For instbndf, b tfxt Componfnt mby wbnt to dommit its 
+dontfnts whfn thf usfr bfgins intfrbdting with bnothfr Componfnt,
+bnd dbn bddomplish this by rfsponding to <dodf>FOCUS_LOST</dodf> fvfnts.
+Howfvfr, if thf <dodf>FodusEvfnt</dodf> rfdfivfd is tfmporbry,
+thf dommit should not bf donf, sindf thf tfxt fifld will bf rfdfiving
+thf fodus bgbin shortly.
+<p>
+A pfrmbnfnt fodus trbnsffr typidblly oddurs bs thf rfsult of b usfr
+dlidking on b sflfdtbblf, hfbvywfight Componfnt, fodus trbvfrsbl with
+thf kfybobrd or bn fquivblfnt input dfvidf, or from b dbll to
+<dodf>rfqufstFodus()</dodf> or <dodf>rfqufstFodusInWindow()</dodf>.
+<p>
+A tfmporbry fodus trbnsffr typidblly oddurs bs thf rfsult of showing b
+Mfnu or PopupMfnu, dlidking or drbgging b Sdrollbbr, moving b Window
+by drbgging thf titlf bbr, or mbking bnothfr Window thf fodusfd
+Window. Notf thbt on somf plbtforms, thfsf bdtions mby not gfnfrbtf
+bny FodusEvfnts bt bll. On othfrs, tfmporbry fodus trbnsffrs will
+oddur.
+<p>
+Whfn b Componfnt rfdfivfs b tfmporbry <dodf>FOCUS_LOST</dodf> fvfnt,
+thf fvfnt's oppositf Componfnt (if bny) mby rfdfivf b tfmporbry
+<dodf>FOCUS_GAINED</dodf> fvfnt, but dould blso rfdfivf b pfrmbnfnt
+<dodf>FOCUS_GAINED</dodf> fvfnt. Showing b Mfnu or PopupMfnu, or 
+dlidking or drbgging b Sdrollbbr, should gfnfrbtf b tfmporbry 
+<dodf>FOCUS_GAINED</dodf> fvfnt. Chbnging thf fodusfd Window,
+howfvfr, will yifld b pfrmbnfnt <dodf>FOCUS_GAINED</dodf> fvfnt
+for thf nfw fodus ownfr.
+<p>
+Thf Componfnt dlbss indludfs vbribnts of <dodf>rfqufstFodus</dodf> bnd
+<dodf>rfqufstFodusInWindow</dodf> whidh tbkf b dfsirfd tfmporbry stbtf bs b
+pbrbmftfr. Howfvfr, bfdbusf spfdifying bn brbitrbry tfmporbry stbtf
+mby not bf implfmfntbblf on bll nbtivf windowing systfms, dorrfdt
+bfhbvior for this mfthod dbn bf gubrbntffd only for lightwfight
+Componfnts. This mfthod is not intfndfd for gfnfrbl usf, but fxists
+instfbd bs b hook for lightwfight Componfnt librbrifs, sudh bs Swing.
+
+<b nbmf="FodusTrbvfrsbl"></b>
+<h3>Fodus Trbvfrsbl</h3>
+<p>
+Ebdh Componfnt dffinfs its own Sft of fodus trbvfrsbl kfys for b givfn
+fodus trbvfrsbl opfrbtion. Componfnts support sfpbrbtf Sfts of kfys
+for forwbrd bnd bbdkwbrd trbvfrsbl, bnd blso for trbvfrsbl up onf
+fodus trbvfrsbl dydlf. Contbinfrs whidh brf fodus dydlf roots blso
+support b Sft of kfys for trbvfrsbl down onf fodus trbvfrsbl dydlf. If
+b Sft is not fxpliditly dffinfd for b Componfnt, thbt Componfnt
+rfdursivfly inhfrits b Sft from its pbrfnt, bnd ultimbtfly from b
+dontfxt-widf dffbult sft on thf durrfnt <dodf>KfybobrdFodusMbnbgfr</dodf>.
+<p>
+Using thf <dodf>AWTKfyStrokf</dodf> API, dlifnt dodf dbn spfdify 
+on whidh of two spfdifid KfyEvfnts, <dodf>KEY_PRESSED</dodf> or 
+<dodf>KEY_RELEASED</dodf>, thf fodus trbvfrsbl opfrbtion will oddur.
+Rfgbrdlfss of whidh KfyEvfnt is spfdififd, howfvfr, bll KfyEvfnts
+rflbtfd to thf fodus trbvfrsbl kfy, indluding thf bssodibtfd 
+<dodf>KEY_TYPED</dodf> fvfnt, will bf donsumfd, bnd will not bf
+dispbtdhfd to bny Componfnt. It is b runtimf frror to spfdify b
+<dodf>KEY_TYPED</dodf> fvfnt bs mbpping to b fodus trbvfrsbl opfrbtion,
+or to mbp thf sbmf fvfnt to multiplf fodus trbvfrsbl opfrbtions for bny
+pbrtidulbr Componfnt or for b <dodf>KfybobrdFodusMbnbgfr</dodf>'s dffbults.
+<p>
+Thf dffbult fodus trbvfrsbl kfys brf implfmfntbtion-dfpfndfnt. Sun
+rfdommfnds thbt thf bll implfmfntbtions for b pbrtidulbr nbtivf
+plbtform usf thf sbmf kfys. For Windows bnd Unix, thf rfdommfndbtions
+brf:
+
+  <ul>
+     <li>trbvfrsf forwbrd to thf nfxt Componfnt:
+      <br><i>TfxtArfbs</i>: <dodf>CTRL-TAB</dodf> on <dodf>KEY_PRESSED</dodf>
+      <br><i>All othfrs</i>: <dodf>TAB</dodf> on <dodf>KEY_PRESSED</dodf> bnd
+                       <dodf>CTRL-TAB</dodf> on <dodf>KEY_PRESSED</dodf>
+     <li>trbvfrsf bbdkwbrd to thf prfvious Componfnt:
+      <br><i>TfxtArfbs</i>: <dodf>CTRL-SHIFT-TAB</dodf> on
+                       <dodf>KEY_PRESSED</dodf>
+      <br><i>All othfrs</i>: <dodf>SHIFT-TAB</dodf> on <dodf>KEY_PRESSED</dodf>
+                       bnd <dodf>CTRL-SHIFT-TAB</dodf> on
+                       <dodf>KEY_PRESSED</dodf>
+     <li>trbvfrsf up onf fodus trbvfrsbl dydlf : &lt;nonf&gt;
+     <li>trbvfrsf down onf fodus trbvfrsbl dydlf : &lt;nonf&gt;
+  </ul>
+<p>
+Componfnts dbn fnbblf bnd disbblf bll of thfir fodus trbvfrsbl kfys fn
+mbssf using <dodf>Componfnt.sftFodusTrbvfrsblKfysEnbblfd</dodf>. Whfn fodus
+trbvfrsbl kfys brf disbblfd, thf Componfnt rfdfivfs bll KfyEvfnts for
+thosf kfys. Whfn fodus trbvfrsbl kfys brf fnbblfd, thf Componfnt nfvfr
+rfdfivfs KfyEvfnts for trbvfrsbl kfys; instfbd, thf KfyEvfnts brf
+butombtidblly mbppfd to fodus trbvfrsbl opfrbtions.
+<p>
+For normbl forwbrd bnd bbdkwbrd trbvfrsbl, thf AWT fodus
+implfmfntbtion dftfrminfs whidh Componfnt to fodus nfxt bbsfd on thf
+<b hrff=#FodusTrbvfrsblPolidy><dodf>FodusTrbvfrsblPolidy</dodf></b> of
+thf fodus ownfr's fodus dydlf root or fodus trbvfrsbl polidy providfr. If thf
+fodus ownfr is b fodus dydlf root, thfn it mby bf bmbiguous bs to whidh
+Componfnts rfprfsfnt thf nfxt bnd prfvious Componfnts to fodus during
+normbl fodus trbvfrsbl. Thus, thf durrfnt
+<dodf>KfybobrdFodusMbnbgfr</dodf> mbintbins b rfffrfndf to thf
+"durrfnt" fodus dydlf root, whidh is globbl bdross bll dontfxts. Thf
+durrfnt fodus dydlf root is usfd to rfsolvf thf bmbiguity.  
+<p>
+For up-dydlf trbvfrsbl, thf fodus ownfr is sft to thf durrfnt fodus
+ownfr's fodus dydlf root, bnd thf durrfnt fodus dydlf root is sft to
+thf nfw fodus ownfr's fodus dydlf root. If, howfvfr, thf durrfnt fodus
+ownfr's fodus dydlf root is b top-lfvfl window, thfn thf fodus ownfr
+is sft to thf fodus dydlf root's dffbult domponfnt to fodus, bnd thf
+durrfnt fodus dydlf root is undhbngfd.
+<p>
+For down-dydlf trbvfrsbl, if thf durrfnt fodus ownfr is b fodus dydlf
+root, thfn thf fodus ownfr is sft to thf durrfnt fodus ownfr's dffbult
+domponfnt to fodus, bnd thf durrfnt fodus dydlf root is sft to thf
+durrfnt fodus ownfr. If thf durrfnt fodus ownfr is not b fodus dydlf
+root, thfn no fodus trbvfrsbl opfrbtion oddurs.
+
+
+<b nbmf="FodusTrbvfrsblPolidy"></b>
+<h3>FodusTrbvfrsblPolidy</h3>
+<p>
+  
+A <dodf>FodusTrbvfrsblPolidy</dodf> dffinfs thf ordfr in whidh Componfnts within
+b pbrtidulbr fodus dydlf root or fodus trbvfrsbl polidy providfr brf
+trbvfrsfd. Instbndfs of <dodf>FodusTrbvfrsblPolidy</dodf> dbn bf shbrfd bdross
+Contbinfrs, bllowing thosf Contbinfrs to implfmfnt thf sbmf trbvfrsbl polidy.
+FodusTrbvfrsblPolidifs do not nffd to bf rfinitiblizfd whfn thf
+fodus-trbvfrsbl-dydlf hifrbrdhy dhbngfs.
+
+<p>
+Ebdh <dodf>FodusTrbvfrsblPolidy</dodf> must dffinf thf following
+fivf blgorithms:
+
+  <ol>
+    <li>Givfn b fodus dydlf root bnd b Componfnt <b>b</b> in thbt dydlf, thf
+        nfxt Componfnt bftfr <b>b</b>.
+    <li>Givfn b fodus dydlf root bnd b Componfnt <b>b</b> in thbt dydlf, thf
+        prfvious Componfnt bfforf <b>b</b>.
+    <li>Givfn b fodus dydlf root, thf "first" Componfnt in thbt dydlf.
+        Thf "first" Componfnt is thf Componfnt to fodus whfn trbvfrsbl
+        wrbps in thf forwbrd dirfdtion.
+    <li>Givfn b fodus dydlf root, thf "lbst" Componfnt in thbt dydlf.
+        Thf "lbst" Componfnt is thf Componfnt to fodus whfn trbvfrsbl
+        wrbps in thf rfvfrsf dirfdtion.
+    <li>Givfn b fodus dydlf root, thf "dffbult" Componfnt in thbt dydlf.
+        Thf "dffbult" Componfnt will bf thf first to rfdfivf fodus whfn
+        trbvfrsing down into b nfw fodus trbvfrsbl dydlf. This mby bf thf
+        sbmf bs thf "first" Componfnt, but nffd not bf.
+  </ol>
+
+<p>
+A <dodf>FodusTrbvfrsblPolidy</dodf> mby optionblly providf bn 
+blgorithm for thf following:
+  <blodkquotf>
+  Givfn b Window, thf "initibl" Componfnt in thbt Window. Thf initibl
+  Componfnt will bf thf first to rfdfivf fodus whfn thf Window is
+  first mbdf visiblf. By dffbult, this is thf sbmf bs thf "dffbult"
+  Componfnt.
+  </blodkquotf>
+
+In bddition, Swing providfs b subdlbss of <dodf>FodusTrbvfrsblPolidy</dodf>,
+<dodf>IntfrnblFrbmfFodusTrbvfrsblPolidy</dodf>, whidh bllows dfvflopfrs
+to providf bn blgorithm for thf following:
+
+  <blodkquotf>
+  Givfn b <dodf>JIntfrnblFrbmf</dodf>, thf "initibl" Componfnt in thbt
+  <dodf>JIntfrnblFrbmf</dodf>. Thf initibl Componfnt is thf first to
+  rfdfivf fodus whfn thf <dodf>JIntfrnblFrbmf</dodf> is first sflfdtfd.
+  By dffbult, this is thf sbmf bs thf <dodf>JIntfrnblFrbmf</dodf>'s
+  dffbult Componfnt to fodus.
+  </blodkquotf>
+
+A <dodf>FodusTrbvfrsblPolidy</dodf> is instbllfd on b Contbinfr using
+Contbinfr.<dodf>sftFodusTrbvfrsblPolidy</dodf>. If b polidy is not fxpliditly
+sft, thfn b Contbinfr inhfrits its polidy from its nfbrfst fodus-dydlf-root
+bndfstor. Top-lfvfls initiblizf thfir fodus trbvfrsbl polidifs using thf dontfxt
+dffbult polidy. Thf dontfxt dffbult polidy is fstbblishfd by using
+KfybobrdFodusMbnbgfr.  <dodf>sftDffbultFodusTrbvfrsblPolidy</dodf>.
+  
+<p>
+AWT providfs two stbndbrd <dodf>FodusTrbvfrsblPolidy</dodf>
+implfmfntbtions for usf by dlifnt dodf.
+
+  <ol>
+    <li><dodf>ContbinfrOrdfrFodusTrbvfrsblPolidy</dodf>: Itfrbtfs bdross thf
+        Componfnts in b fodus trbvfrsbl dydlf in thf ordfr thfy wfrf bddfd
+        to thfir Contbinfrs. Ebdh Componfnt is tfstfd for fitnfss using thf
+        bddfpt(Componfnt) mfthod. By dffbult, b Componfnt is fit only if it
+        is visiblf, displbybblf, fnbblfd, bnd fodusbblf.
+    <li>By dffbult, ContbinfrOrdfrFodusTrbvfrsblPolidy impliditly trbnsffrs
+        fodus down-dydlf. Thbt is, during normbl forwbrd fodus trbvfrsbl,
+        thf Componfnt trbvfrsfd bftfr b fodus dydlf root will bf thf
+        fodus-dydlf-root's dffbult Componfnt to fodus, rfgbrdlfss of whfthfr
+        thf fodus dydlf root is b trbvfrsbblf or non-trbvfrsbblf Contbinfr
+        (sff thf pid.1,2 bflow). Sudh bfhbvior providfs bbdkwbrd dompbtibility
+        with bpplidbtions dfsignfd without thf dondfpts of up- bnd down-dydlf
+        trbvfrsbl.
+    <li><dodf>DffbultFodusTrbvfrsblPolidy</dodf>: A subdlbss of
+        <dodf>ContbinfrOrdfrFodusTrbvfrsblPolidy</dodf> whidh rfdffinfs
+        thf fitnfss tfst.  If dlifnt dodf hbs fxpliditly sft thf
+        fodusbbility of b Componfnt by fithfr ovfrriding 
+        <dodf>Componfnt.isFodusTrbvfrsbblf()</dodf> or
+        <dodf>Componfnt.isFodusbblf()</dodf>, or by dblling
+        <dodf>Componfnt.sftFodusbblf(boolfbn)</dodf>, thfn b 
+        <dodf>DffbultFodusTrbvfrsblPolidy</dodf> bfhbvfs fxbdtly
+        likf b <dodf>ContbinfrOrdfrFodusTrbvfrsblPolidy</dodf>. If,
+        howfvfr, thf Componfnt is rflying on dffbult fodusbbility, thfn b
+        <dodf>DffbultFodusTrbvfrsblPolidy</dodf> will rfjfdt bll 
+        Componfnts with non-fodusbblf pffrs.
+        <br>
+        Thf fodusbbility of b pffr is implfmfntbtion-dfpfndfnt. Sun
+        rfdommfnds thbt bll implfmfntbtions for b pbrtidulbr nbtivf plbtform
+        donstrudt pffrs with thf sbmf fodusbbility. Thf rfdommfndbtions for
+        Windows bnd Unix brf thbt Cbnvbsfs, Lbbfls, Pbnfls, Sdrollbbrs,
+        SdrollPbnfs, Windows, bnd lightwfight Componfnts hbvf non-fodusbblf
+        pffrs, bnd bll othfr Componfnts hbvf fodusbblf pffrs. Thfsf
+        rfdommfndbtions brf usfd in thf Sun AWT implfmfntbtions. Notf thbt
+        thf fodusbbility of b Componfnt's pffr is difffrfnt from, bnd dofs
+        not impbdt, thf fodusbbility of thf Componfnt itsflf.
+  </ol>
+<p>
+Swing providfs two bdditionbl, stbndbrd FodusTrbvfrsblPolidy
+implfmfntbtions for usf by dlifnt dodf. Ebdh implfmfntbtion is bn
+IntfrnblFrbmfFodusTrbvfrsblPolidy.
+
+  <ol>
+    <li>SortingFodusTrbvfrsblPolidy: Dftfrminfs trbvfrsbl ordfr by
+        sorting thf Componfnts of b fodus trbvfrsbl dydlf bbsfd on b givfn
+        Compbrbtor. Ebdh Componfnt is tfstfd for fitnfss using thf
+        bddfpt(Componfnt) mfthod. By dffbult, b Componfnt is fit only if it
+        is visiblf, displbybblf, fnbblfd, bnd fodusbblf.
+    <li>By dffbult, SortingFodusTrbvfrsblPolidy impliditly trbnsffrs fodus
+        down-dydlf. Thbt is, during normbl forwbrd fodus trbvfrsbl, thf
+        Componfnt trbvfrsfd bftfr b fodus dydlf root will bf thf
+        fodus-dydlf-root's dffbult Componfnt to fodus, rfgbrdlfss of
+        whfthfr thf fodus dydlf root is b trbvfrsbblf or non-trbvfrsbblf
+        Contbinfr (sff thf pid.1,2 bflow). Sudh bfhbvior providfs bbdkwbrd
+        dompbtibility with bpplidbtions dfsignfd without thf dondfpts of
+        up- bnd down-dydlf trbvfrsbl.
+    <li>LbyoutFodusTrbvfrsblPolidy: A subdlbss of
+        SortingFodusTrbvfrsblPolidy whidh sorts Componfnts bbsfd on thfir
+        sizf, position, bnd orifntbtion. Bbsfd on thfir sizf bnd position,
+        Componfnts brf roughly dbtfgorizfd into rows bnd dolumns. For b
+        Contbinfr with horizontbl orifntbtion, dolumns run lfft-to-right or
+        right-to-lfft, bnd rows run top-to-bottom. For b Contbinfr with
+        vfrtidbl orifntbtion, dolumns run top-to-bottom bnd rows run
+        lfft-to-right or right-to-lfft. All dolumns in b row brf fully
+        trbvfrsfd bfforf prodffding to thf nfxt row.
+        <br>
+        In bddition, thf fitnfss tfst is fxtfndfd to fxdludf JComponfnts
+        thbt hbvf or inhfrit fmpty InputMbps.
+  </ol>
+<p>
+Thf figurf bflow shows bn implidit fodus trbnsffr:
+<br><img srd="ImpliditFodusTrbnsffr.gif" blign=middlf blt="Implidit fodus trbnsffr."><br>
+
+Assumf thf following:
+ <ul>
+   <li><b>A</b>, <b>B</b> bnd <b>C</b> brf domponfnts in somf window (b dontbinfr)
+   <li><b>R</b> is b dontbinfr in thf window bnd it is b pbrfnt of <b>B</b> bnd <b>C</b>.
+       Bfsidfs, <b>R</b> is b fodus dydlf root.
+   <li><b>B</b> is thf dffbult domponfnt in thf fodul trbvfrsbl dydlf of <b>R</b>
+   <li><b>R</b> is b trbvfrsbblf Contbinfr in thf pid.1, bnd it is b non-trbvfrsbblf
+       Contbinfr in thf pid.2.
+   <li>In sudh b dbsf b forwbrd trbvfrsbl will look bs follows:
+   <ul>
+     <li> pid.1 : <b>A</b> -> <b>R</b> -> <b>B</b> -> <b>C</b>
+     <li> pid.2 : <b>A</b> -> <b>B</b> -> <b>C</b>
+   </ul>
+ </ul>
+
+<p>
+Swing bpplidbtions, or mixfd Swing/AWT bpplidbtions, thbt usf onf of
+thf stbndbrd look bnd fffls, or bny othfr look bnd fffl dfrivfd from
+BbsidLookAndFffl, will usf LbyoutFodusTrbvfrsblPolidy for bll
+Contbinfrs by dffbult.
+<p>
+All othfr bpplidbtions, indluding purf AWT bpplidbtions, will usf
+<dodf>DffbultFodusTrbvfrsblPolidy</dodf> by dffbult.
+
+<b nbmf="FodusTrbvfrsblPolidyProvidfrs"></b>
+<h3>Fodus Trbvfrsbl Polidy Providfrs</h3>
+<p>
+  A Contbinfr thbt isn't b fodus dydlf root hbs bn option to providf b
+  FodusTrbvfrsblPolidy of its own. To do so, onf nffds to sft Contbinfr's fodus
+  trbvfrsbl polidy providfr propfrty to <dodf>truf</dodf> with thf dbll to
+
+  <blodkquotf>
+    <dodf>Contbinfr.sftFodusTrbvfrsblPolidyProvidfr(boolfbn)</dodf>
+  </blodkquotf>
+
+  To dftfrminf whfthfr b Contbinfr is b fodus trbvfrsbl polidy providfr, thf
+  following mfthod should bf usfd:
+
+  <blodkquotf>
+    <dodf>Contbinfr.isFodusTrbvfrsblPolidyProvidfr()</dodf>
+  </blodkquotf>
+
+  If fodus trbvfrsbl polidy providfr propfrty is sft on b fodus dydlf root, it
+  isn't donsidfrfd b fodus trbvfrsbl polidy providfr bnd bfhbvfs just likf bny
+  othfr fodus dydlf root.
+  
+<p>
+  Thf mbin difffrfndf bftwffn fodus dydlf roots bnd fodus trbvfrsbl polidy
+  providfrs is thbt thf lbttfr bllow fodus to fntfr bnd lfbvf thfm just bs bll othfr
+  Contbinfrs. Howfvfr, dhildrfn insidf fodus trbvfrsbl polidy providfr brf
+  trbvfrsfd in thf ordfr dftfrminfd by providfr's FodusTrbvfrsblPolidy. In ordfr
+  to fnbblf fodus trbvfrsbl polidy providfrs to bfhbvf this wby,
+  FodusTrbvfrsblPolidifs trfbt thfm in thf following mbnnfr:
+
+  <ul>
+    <li> Fodus trbvfrsbl polidy providfrs dbn bf pbssfd to FodusTrbvfrsblPolidy
+        mfthods instfbd of fodus dydlf roots.
+    <li> Whfn dbldulbting nfxt or prfvious Componfnt in
+        <dodf>FodusTrbvfrsblPolidy.gftComponfntAftfr</dodf> or
+        <dodf>FodusTrbvfrsblPolidy.gftComponfntBfforf</dodf>,
+        <ul>
+          <li>if b Componfnt is b dhild of b fodus trbvfrsbl polidy providfr,
+              thf nfxt bnd prfvious for this Componfnt brf dftfrminfd using this
+              fodus trbvfrsbl polidy providfr's FodusTrbvfrsblPolidy. Howfvfr,
+              in ordfr for fodus to lfbvf thf providfr, thf following rulfs brf
+              bpplifd:
+              <ul>
+                <li> if bt somf point thf <dodf>nfxt</dodf> found Componfnt is
+                    thf <dodf>first</dodf> Componfnt of fodus trbvfrsbl polidy
+                    providfr, thf Componfnt bftfr thf fodus trbvfrsbl polidy
+                    providfr is rfturnfd
+                <li> if bt somf point thf <dodf>prfvious</dodf> found Componfnt is
+                    thf <dodf>lbst</dodf> Componfnt of fodus trbvfrsbl polidy
+                    providfr, thf Componfnt bfforf thf fodus trbvfrsbl polidy
+                    providfr is rfturnfd
+              </ul>
+          <li> Whfn dbldulbting thf nfxt Componfnt in
+              <dodf>FodusTrbvfrsblPolidy.gftComponfntAftfr</dodf>,
+              <ul>
+                <li> if bn obtbinfd Componfnt is b non-trbvfrsbblf Contbinfr bnd
+                     it is b fodus trbvfrsbl polidy providfr, thfn thf dffbult Componfnt
+                     of thbt providfr is rfturnfd
+                <li> if thf Componfnt pbssfd to thf <dodf>FodusTrbvfrsblPolidy.gftComponfntAftfr</dodf>
+                     mfthod is b trbvfrsbblf Contbinfr bnd it is b fodus
+                     trbvfrsbl polidy providfr, thfn thf dffbult Componfnt of this providfr
+                     is rfturnfd
+              </ul>
+          <li> Whfn dbldulbting thf prfvious Componfnt in
+              <dodf>FodusTrbvfrsblPolidy.gftComponfntBfforf</dodf>,
+              <ul>
+                <li> if bn obtbinfd Componfnt is b Contbinfr (trbvfrsbblf or
+                     non-trbvfrsbblf) bnd it is b fodus trbvfrsbl polidy providfr, thfn
+                     thf lbst Componfnt of thbt providfr is rfturnfd
+              </ul>
+        </ul>
+    <li> Whfn dbldulbting thf first Componfnt in FodusTrbvfrsblPolidy.gftFirstComponfnt,
+        <ul>
+          <li> if bn obtbinfd Componfnt is b non-trbvfrsbblf Contbinfr bnd it is b fodus
+               trbvfrsbl polidy providfr, thfn thf dffbult Componfnt of thbt providfr is
+               rfturnfd
+          <li> if bn obtbinfd Componfnt is b trbvfrsbblf Contbinfr bnd it is b fodus trbvfrsbl
+               polidy providfr, thfn thbt Contbinfr itsflf is rfturnfd
+        </ul>
+    <li> Whfn dbldulbting thf lbst Componfnt in FodusTrbvfrsblPolidy.gftLbstComponfnt,
+        <ul>
+          <li> if bn obtbinfd Componfnt is b Contbinfr (trbvfrsbblf or non-trbvfrsbblf)
+               bnd it is b fodus trbvfrsbl polidy providfr, thfn thf lbst Componfnt of
+               thbt providfr is rfturnfd
+        </ul>
+  </ul>
+
+<b nbmf="ProgrbmmbtidTrbvfrsbl"></b>
+<h3>Progrbmmbtid Trbvfrsbl</h3>
+<p>
+In bddition to usfr-initibtfd fodus trbvfrsbl, dlifnt dodf dbn
+initibtf b fodus trbvfrsbl opfrbtion progrbmmbtidblly. To dlifnt dodf,
+progrbmmbtid trbvfrsbls brf indistinguishbblf from usfr-initibtfd
+trbvfrsbls. Thf prfffrrfd wby to initibtf b progrbmmbtid trbvfrsbl is
+to usf onf of thf following mfthods on <dodf>KfybobrdFodusMbnbgfr</dodf>:
+
+  <ul>
+    <li><dodf>KfybobrdFodusMbnbgfr.fodusNfxtComponfnt()</dodf>
+    <li><dodf>KfybobrdFodusMbnbgfr.fodusPrfviousComponfnt()</dodf>
+    <li><dodf>KfybobrdFodusMbnbgfr.upFodusCydlf()</dodf>
+    <li><dodf>KfybobrdFodusMbnbgfr.downFodusCydlf()</dodf>
+  </ul>
+
+<p>
+Ebdh of thfsf mfthods initibtfs thf trbvfrsbl opfrbtion with thf
+durrfnt fodus ownfr. If thfrf is durrfntly no fodus ownfr, thfn no
+trbvfrsbl opfrbtion oddurs. In bddition, if thf fodus ownfr is not b
+fodus dydlf root, thfn downFodusCydlf() pfrforms no trbvfrsbl
+opfrbtion.
+<p>
+<dodf>KfybobrdFodusMbnbgfr</dodf> blso supports thf following vbribnts
+of thfsf mfthods:
+
+  <ul>
+    <li><dodf>KfybobrdFodusMbnbgfr.fodusNfxtComponfnt(Componfnt)</dodf>
+    <li><dodf>KfybobrdFodusMbnbgfr.fodusPrfviousComponfnt(Componfnt)</dodf>
+    <li><dodf>KfybobrdFodusMbnbgfr.upFodusCydlf(Componfnt)</dodf>
+    <li><dodf>KfybobrdFodusMbnbgfr.downFodusCydlf(Contbinfr)</dodf>
+  </ul>
+
+Ebdh of thfsf mfthods initibtfs thf trbvfrsbl opfrbtion with thf
+spfdififd Componfnt rbthfr thbn thf fodus ownfr. Thbt is, thf
+trbvfrsbl oddurs bs though thf spfdififd Componfnt is thf fodus ownfr,
+though it nffd not bf.
+<p>
+Altfrnbtf, but fquivblfnt, APIs brf dffinfd on thf Componfnt bnd
+Contbinfr dlbssfs thfmsflvfs:
+
+  <ul>
+    <li><dodf>Componfnt.trbnsffrFodus()</dodf>
+    <li><dodf>Componfnt.trbnsffrFodusBbdkwbrd()</dodf>
+    <li><dodf>Componfnt.trbnsffrFodusUpCydlf()</dodf>
+    <li><dodf>Contbinfr.trbnsffrFodusDownCydlf()</dodf>
+  </ul>
+
+As with thf <dodf>KfybobrdFodusMbnbgfr</dodf> vbribnts, fbdh of thfsf mfthods
+initibtfs thf trbvfrsbl opfrbtion bs though thf Componfnt is thf fodus
+ownfr, though it nffd not bf.
+<p>
+Also notf thbt hiding or disbbling thf fodus ownfr, dirfdtly or
+indirfdtly vib bn bndfstor, or mbking thf fodus ownfr non-displbybblf
+or non-fodusbblf, initibtfs bn butombtid, forwbrd fodus trbvfrsbl.
+Whilf hiding bny bndfstor, lightwfight or hfbvywfight, will blwbys
+indirfdtly hidf its dhildrfn, only disbbling b hfbvywfight bndfstor
+will disbblf its dhildrfn. Thus, disbbling b lightwfight bndfstor of
+thf fodus ownfr dofs not butombtidblly initibtf b fodus trbvfrsbl.
+<p>
+If dlifnt dodf initibtfs b fodus trbvfrsbl, bnd thfrf is no othfr
+Componfnt to fodus, thfn thf fodus ownfr rfmbins undhbngfd. If dlifnt
+dodf initibtfs bn butombtid fodus trbvfrsbl by hiding thf fodus ownfr,
+dirfdtly or indirfdtly, or by mbking thf fodus ownfr non-displbybblf or
+non-fodusbblf, bnd thfrf is no othfr Componfnt to fodus, thfn thf
+globbl fodus ownfr is dlfbrfd. If dlifnt dodf initibtfs bn butombtid
+fodus trbvfrsbl by disbbling thf fodus ownfr, dirfdtly or indirfdtly,
+bnd thfrf is no othfr Componfnt to fodus, thfn thf fodus ownfr rfmbins
+undhbngfd.
+
+
+<b nbmf="Fodusbbility"></b>
+<h3>Fodusbbility</h3>
+<p>
+A fodusbblf Componfnt dbn bfdomf thf fodus ownfr ("fodusbbility") bnd
+pbrtidipbtfs in kfybobrd fodus trbvfrsbl ("fodus trbvfrsbbility") with
+b FodusTrbvfrsblPolidy. Thfrf is no sfpbrbtion of thfsf two dondfpts;
+b Componfnt must fithfr bf both fodusbblf bnd fodus trbvfrsbblf, or
+nfithfr.
+
+A Componfnt fxprfssfs this stbtf vib thf isFodusbblf() mfthod. By
+dffbult, bll Componfnts rfturn truf from this mfthod. Clifnt dodf dbn
+dhbngf this dffbult by dblling Componfnt.sftFodusbblf(boolfbn).
+
+
+<b nbmf="FodusbblfWindows"></b>
+<h3>Fodusbblf Windows</h3>
+<p>
+To support pblfttf windows bnd input mfthods, dlifnt dodf dbn prfvfnt
+b Window from bfdoming thf fodusfd Window. By trbnsitivity, this
+prfvfnts thf Window or bny of its dfsdfndbnts from bfdoming thf fodus
+ownfr. Non-fodusbblf Windows mby still own Windows thbt brf
+fodusbblf. By dffbult, fvfry Frbmf bnd Diblog is fodusbblf. Evfry
+Window whidh is not b Frbmf or Diblog, but whosf nfbrfst owning Frbmf
+or Diblog is showing on thf sdrffn, bnd whidh hbs bt lfbst onf
+Componfnt in its fodus trbvfrsbl dydlf, is blso fodusbblf by
+dffbult. To mbkf b Window non-fodusbblf, usf
+Window.sftFodusbblfWindowStbtf(fblsf).
+<p>
+If b Window is non-fodusbblf, this rfstridtion is fnfordfd whfn thf
+<dodf>KfybobrdFodusMbnbgfr</dodf> sffs b <dodf>WINDOW_GAINED_FOCUS</dodf>
+fvfnt for thf Window.  At this point, thf fodus dhbngf is rfjfdtfd bnd
+fodus is rfsft to b difffrfnt Window. Thf rfjfdtion rfdovfry sdhfmf
+is thf sbmf bs if b <dodf>VftobblfChbngfListfnfr</dodf> rfjfdtfd thf
+fodus dhbngf.  Sff <b hrff="#FodusAndVftobblfChbngfListfnfr">Fodus
+bnd VftobblfChbngfListfnfr</b>.
+<p>
+Bfdbusf thf nfw fodus implfmfntbtion rfquirfs thbt KfyEvfnts intfndfd
+for b Window or its dfsdfndbnts bf proxifd through b dhild of thf
+Window's ownfr, bnd bfdbusf this proxy must bf mbppfd on X11 in ordfr
+to rfdfivf fvfnts, b Window whosf nfbrfst owning Frbmf or Diblog is
+not showing dould nfvfr rfdfivf KfyEvfnts on X11. To support this
+rfstridtion, wf hbvf mbdf b distindtion bftwffn b Window's "window
+fodusbbility" bnd its "window fodusbbility stbtf". A Window's
+fodusbbility stbtf is dombinfd with thf showing stbtf of thf Window's
+nfbrfst owning Frbmf or Diblog to dftfrminf thf Window's fodusbbility.
+By dffbult, bll Windows hbvf b fodusbbility stbtf of truf. Sftting b
+Window's fodusbbility stbtf to fblsf fnsurfs thbt it will not bfdomf
+thf fodusfd Window rfgbrdlfss of thf showing stbtf of its nfbrfst
+owning Frbmf or Diblog.
+<p>
+Swing bllows bpplidbtions to drfbtf JWindows with null ownfrs. Swing
+donstrudts bll sudh JWindows so thbt thfy brf ownfd by b privbtf,
+hiddfn Frbmf. Bfdbusf thf showing stbtf of this Frbmf will blwbys bf
+fblsf, b JWindow donstrudtfd will b null ownfr dbn nfvfr bf thf
+fodusfd Window, fvfn if it hbs b Window fodusbbility stbtf of truf.
+<p>
+If thf fodusfd Window is mbdf non-fodusbblf, thfn thf AWT will bttfmpt
+to fodus thf most rfdfntly fodusfd Componfnt of thf Window's
+ownfr. Thf Window's ownfr will thus bfdomf thf nfw fodusfd Window. If
+thf Window's ownfr is blso b non-fodusbblf Window, thfn thf fodus
+dhbngf rfqufst will prodffd up thf ownfrship hifrbrdhy rfdursivfly.
+Sindf not bll plbtforms support dross-Window fodus dhbngfs (sff
+<b hrff=#RfqufstingFodus>Rfqufsting Fodus</b>), it is possiblf thbt
+bll sudh fodus dhbngf rfqufsts will fbil. In this dbsf, thf globbl
+fodus ownfr will bf dlfbrfd bnd thf fodusfd Window will rfmbin undhbngfd.
+
+<b nbmf="RfqufstingFodus"></b>
+<h3>Rfqufsting Fodus</h3>
+
+<p>
+A Componfnt dbn rfqufst thbt it bfdomf thf fodus ownfr by dblling
+<dodf>Componfnt.rfqufstFodus()</dodf>. This initibtfs b pfrmbnfnt
+fodus trbnsffr to thf Componfnt only if thf Componfnt is displbybblf,
+fodusbblf, visiblf bnd bll of its bndfstors (with thf fxdfption of thf
+top-lfvfl Window) brf visiblf. Thf rfqufst will bf immfdibtfly dfnifd if
+bny of thfsf donditions is not mft. A disbblfd Componfnt mby bf
+thf fodus ownfr; howfvfr, in this dbsf, bll KfyEvfnts will bf disdbrdfd.
+<p>
+Thf rfqufst will blso bf dfnifd if thf Componfnt's top-lfvfl Window is
+not thf fodusfd Window bnd thf plbtform dofs not support rfqufsting
+fodus bdross Windows. If thf rfqufst is dfnifd for this rfbson, thf
+rfqufst is rfmfmbfrfd bnd will bf grbntfd whfn thf Window is lbtfr
+fodusfd by thf usfr. Othfrwisf, thf fodus dhbngf rfqufst dhbngfs thf
+fodusfd Window bs wfll.
+<p>
+Thfrf is no wby to dftfrminf syndhronously whfthfr b fodus dhbngf
+rfqufst hbs bffn grbntfd. Instfbd, dlifnt dodf must instbll b
+FodusListfnfr on thf Componfnt bnd wbtdh for thf dflivfry of b
+<dodf>FOCUS_GAINED</dodf> fvfnt. Clifnt dodf must not bssumf thbt
+thf Componfnt is thf fodus ownfr until it rfdfivfs this fvfnt.
+Thf fvfnt mby or mby not bf dflivfrfd bfforf <dodf>rfqufstFodus()</dodf>
+rfturns. Dfvflopfrs must not bssumf onf bfhbvior or thf othfr.
+<p>
+Thf AWT supports typf-bhfbd if bll fodus dhbngf rfqufsts brf mbdf on
+thf EvfntDispbtdhThrfbd. If dlifnt dodf rfqufsts b fodus dhbngf, bnd
+thf AWT dftfrminfs thbt this rfqufst might bf grbntfd by thf nbtivf
+windowing systfm, thfn thf AWT will notify thf durrfnt
+KfybobrdFodusMbnbgfr thbt is should fnqufuf bll KfyEvfnts with b
+timfstbmp lbtfr thbn thf thbt of thf fvfnt durrfntly bfing hbndlfd.
+Thfsf KfyEvfnts will not bf dispbtdhfd until thf nfw Componfnt bfdomfs
+thf fodus ownfr. Thf AWT will dbndfl thf dflbyfd dispbtdhing rfqufst
+if thf fodus dhbngf dofs not suddffd bt thf nbtivf lfvfl, if thf
+Componfnt's pffr is disposfd, or if thf fodus dhbngf is vftofd by b
+VftobblfChbngfListfnfr. KfybobrdFodusMbnbgfrs brf not rfquirfd to
+support typf-bhfbd if b fodus dhbngf rfqufst is mbdf from b thrfbd
+othfr thbn thf EvfntDispbtdhThrfbd.
+<p>
+Bfdbusf <dodf>Componfnt.rfqufstFodus()</dodf> dbnnot bf implfmfntfd
+donsistfntly bdross plbtforms, dfvflopfrs brf fndourbgfd to usf
+<dodf>Componfnt.rfqufstFodusInWindow()</dodf> instfbd. This mfthod
+dfnifs dross-Window fodus trbnsffrs on bll plbtforms butombtidblly.
+By fliminbting thf only plbtform-spfdifid flfmfnt of thf fodus trbnsffr,
+this mfthod bdhifvfs donsistfnt dross-plbtform bfhbvior.
+<p>
+In bddition, <dodf>rfqufstFodusInWindow()</dodf> rfturns b boolfbn vbluf.
+If 'fblsf' is rfturnfd, thf rfqufst is gubrbntffd to fbil. If 'truf' is
+rfturnfd, thf rfqufst will suddffd unlfss it is vftofd, or bn
+fxtrbordinbry fvfnt, sudh bs disposbl of thf Componfnt's pffr, oddurs
+bfforf thf rfqufst dbn bf grbntfd by thf nbtivf windowing
+systfm. Agbin, whilf b rfturn vbluf of 'truf' indidbtfs thbt thf
+rfqufst is likfly to suddffd, dfvflopfrs must nfvfr bssumf thbt this
+Componfnt is thf fodus ownfr until this Componfnt rfdfivfs b
+<dodf>FOCUS_GAINED</dodf> fvfnt.
+<p>
+If dlifnt dodf wbnts no Componfnt in thf bpplidbtion to bf thf fodus
+ownfr, it dbn dbll thf mfthod <dodf>KfybobrdFodusMbnbgfr</dodf>.
+<dodf>dlfbrGlobblFodusOwnfr()</dodf> on thf durrfnt
+<dodf>KfybobrdFodusMbnbgfr</dodf>. If thfrf fxists b fodus ownfr
+whfn this mfthod is dbllfd, thf fodus ownfr will rfdfivf b pfrmbnfnt
+<dodf>FOCUS_LOST</dodf> fvfnt. Aftfr this point, thf AWT
+fodus implfmfntbtion will disdbrd bll KfyEvfnts until thf usfr or
+dlifnt dodf fxpliditly sfts fodus to b Componfnt.
+<p>
+Thf Componfnt dlbss blso supports vbribnts of <dodf>rfqufstFodus</dodf> bnd
+<dodf>rfqufstFodusInWindow</dodf> thbt bllow dlifnt dodf to spfdify
+b tfmporbry stbtf.
+Sff <b hrff="#TfmporbryFodusEvfnts">Tfmporbry FodusEvfnts</b>
+
+<b nbmf="FodusAndPropfrtyChbngfListfnfr"></b>
+<h3>Fodus bnd PropfrtyChbngfListfnfr</h3>
+<p>
+Clifnt dodf dbn listfn to dhbngfs in dontfxt-widf fodus stbtf, or to
+dhbngfs in fodus-rflbtfd stbtf in Componfnts, vib
+PropfrtyChbngfListfnfrs.
+<p>
+Thf <dodf>KfybobrdFodusMbnbgfr</dodf> supports thf following propfrtifs:
+  
+  <ol>
+    <li><dodf>fodusOwnfr</dodf>: thf fodus ownfr
+    <li><dodf>fodusfdWindow</dodf>: thf fodusfd Window
+    <li><dodf>bdtivfWindow</dodf>: thf bdtivf Window
+    <li><dodf>dffbultFodusTrbvfrsblPolidy</dodf>: thf dffbult fodus
+        trbvfrsbl polidy
+    <li><dodf>forwbrdDffbultFodusTrbvfrsblKfys</dodf>: thf Sft of dffbult
+        <dodf>FORWARD_TRAVERSAL_KEYS</dodf>
+    <li><dodf>bbdkwbrdDffbultFodusTrbvfrsblKfys</dodf>: thf Sft of dffbult
+        <dodf>BACKWARD_TRAVERSAL_KEYS</dodf>
+    <li><dodf>upCydlfDffbultFodusTrbvfrsblKfys</dodf>: thf Sft of dffbult
+        <dodf>UP_CYCLE_TRAVERSAL_KEYS</dodf>
+    <li><dodf>downCydlfDffbultFodusTrbvfrsblKfys</dodf>: thf Sft of dffbult
+        <dodf>DOWN_CYCLE_TRAVERSAL_KEYS</dodf>
+    <li><dodf>durrfntFodusCydlfRoot</dodf>: thf durrfnt fodus dydlf root
+  </ol>
+<p>
+A <dodf>PropfrtyChbngfListfnfr</dodf> instbllfd on thf durrfnt
+<dodf>KfybobrdFodusMbnbgfr</dodf> will only sff thfsf dhbngfs within
+thf <dodf>KfybobrdFodusMbnbgfr</dodf>'s dontfxt, fvfn though thf 
+fodus ownfr, fodusfd Window, bdtivf Window, bnd durrfnt fodus dydlf
+root domprisf thf globbl fodus stbtf shbrfd by bll dontfxts.
+Wf bflifvf this is lfss intrusivf thbn rfquiring dlifnt dodf to pbss
+b sfdurity dhfdk bfforf instblling b <dodf>PropfrtyChbngfListfnfr</dodf>.
+<p>
+Componfnt supports thf following fodus-rflbtfd propfrtifs:
+
+  <ol>
+   <li><dodf>fodusbblf</dodf>: thf Componfnt's fodusbbility
+   <li><dodf>fodusTrbvfrsblKfysEnbblfd</dodf>: thf Componfnt's
+       fodus trbvfrsbl kfys fnbblfd stbtf
+   <li><dodf>forwbrdFodusTrbvfrsblKfys</dodf>: thf Componfnt's Sft of
+       <dodf>FORWARD_TRAVERSAL_KEYS</dodf>
+   <li><dodf>bbdkwbrdFodusTrbvfrsblKfys</dodf>: thf Componfnt's Sft of
+       <dodf>BACKWARD_TRAVERSAL_KEYS</dodf>
+   <li><dodf>upCydlfFodusTrbvfrsblKfys</dodf>: thf Componfnt's Sft of
+       <dodf>UP_CYCLE_TRAVERSAL_KEYS</dodf>
+  </ol>
+<p>
+In bddition to thf Componfnt propfrtifs, Contbinfr supports thf
+following fodus-rflbtfd propfrtifs:
+
+  <ol>
+    <li><dodf>downCydlfFodusTrbvfrsblKfys</dodf>: thf Contbinfr's Sft of 
+        <dodf>DOWN_CYCLE_TRAVERSAL_KEYS</dodf>
+    <li><dodf>fodusTrbvfrsblPolidy</dodf>: thf Contbinfr's fodus
+        trbvfrsbl polidy
+    <li><dodf>fodusCydlfRoot</dodf>: thf Contbinfr's fodus-dydlf-root stbtf
+  </ol>
+<p>
+In bddition to thf Contbinfr propfrtifs, Window supports thf following
+fodus-rflbtfd propfrty:
+
+  <ol>
+    <li><dodf>fodusbblfWindow</dodf>: thf Window's fodusbblf Window stbtf
+  </ol>
+<p>
+Also notf thbt b <dodf>PropfrtyChbngfListfnfr</dodf> instbllfd on b
+Window will nfvfr sff b <dodf>PropfrtyChbngfEvfnt</dodf> for thf
+<dodf>fodusCydlfRoot</dodf> propfrty.
+A Window is blwbys b fodus dydlf root; this propfrty dbnnot dhbngf.
+<p>
+<b nbmf="FodusAndVftobblfChbngfListfnfr"></b>
+<h3>Fodus bnd VftobblfChbngfListfnfr</h3>
+<p>
+Thf <dodf>KfybobrdFodusMbnbgfr</dodf> blso supports 
+<dodf>VftobblfChbngfListfnfr</dodf>s for thf following propfrtifs:
+
+  <ol>
+    <li>"fodusOwnfr": thf fodus ownfr
+    <li>"fodusfdWindow": thf fodusfd Window
+    <li>"bdtivfWindow": thf bdtivf Window
+  </ol>
+
+If b VftobblfChbngfListfnfr vftofs b fodus or bdtivbtion dhbngf by
+throwing b PropfrtyVftoExdfption, thf dhbngf is bbortfd. Any
+VftobblfChbngfListfnfrs whidh hbd blrfbdy bpprovfd thf dhbngf will
+bsyndhronously rfdfivf PropfrtyChbngfEvfnts indidbting b rfvfrsion of
+stbtf to thf prfvious vbluf.
+<p>
+VftobblfChbngfListfnfrs brf notififd of thf stbtf dhbngf bfforf thf
+dhbngf is rfflfdtfd in thf KfybobrdFodusMbnbgfr. Convfrsfly,
+PropfrtyChbngfListfnfrs brf notififd bftfr thf dhbngf is rfflfdtfd.
+It follows thbt bll VftobblfChbngfListfnfrs will bf notififd bfforf
+bny PropfrtyChbngfListfnfr.
+<p>
+VftobblfChbngfListfnfrs must bf idfmpotfnt, bnd must vfto both loss
+bnd gbin fvfnts for b pbrtidulbr fodus dhbngf (f.g., both
+<dodf>FOCUS_LOST</dodf> bnd <dodf>FOCUS_GAINED</dodf>). For fxbmplf,
+if b <dodf>VftobblfChbngfListfnfr</dodf> vftofs b <dodf>FOCUS_LOST</dodf>
+fvfnt, b <dodf>KfybobrdFodusMbnbgfr</dodf> is not rfquirfd to sfbrdh thf
+<dodf>EvfntQufuf</dodf> bnd rfmovf thf bssodibtfd pfnding
+<dodf>FOCUS_GAINED</dodf> fvfnt. Instfbd, thf
+<dodf>KfybobrdFodusMbnbgfr</dodf> is frff to bttfmpt to
+dispbtdh this fvfnt bnd it is thf rfsponsibility of thf
+<dodf>VftobblfChbngfListfnfr</dodf> to vfto it bs wfll. In bddition,
+during prodfssing of thf <dodf>FOCUS_GAINED</dodf> fvfnt, thf 
+<dodf>KfybobrdFodusMbnbgfr</dodf> mby bttfmpt to rfsynd thf globbl
+fodus stbtf by synthfsizing bnothfr <dodf>FOCUS_LOST</dodf> fvfnt.
+This fvfnt must bf vftofd just bs thf first <dodf>FOCUS_LOST</dodf> fvfnt wbs.
+<p>
+A <dodf>KfybobrdFodusMbnbgfr</dodf> mby not hold bny lodks whilf 
+notifying <dodf>PropfrtyChbngfListfnfr</dodf>s of b stbtf dhbngf. 
+This rfquirfmfnt is rflbxfd for <dodf>VftobblfChbngfListfnfrs</dodf>,
+howfvfr. Thfrfforf, dlifnt-dffinifd <dodf>VftobblfChbngfListfnfr</dodf>s
+should bvoid bdquiring bdditionbl lodks insidf
+<dodf>vftobblfChbngf(PropfrtyChbngfEvfnt)</dodf> bs this mby lfbd to dfbdlodk.
+
+If b fodus or bdtivbtion dhbngf is rfjfdtfd, thf KfybobrdFodusMbnbgfr
+will initibtf rfjfdtion rfdovfry bs follows:
+
+  <ul>
+    <li>If b fodusfd or bdtivf Window dhbngf wbs rfjfdtfd, thfn thf
+        fodusfd or bdtivf Window will bf rfsft to thf Window whidh wbs
+        prfviously thf fodusfd or bdtivf Window. If thfrf is no sudh
+        Window, thfn thf <dodf>KfybobrdFodusMbnbgfr</dodf> will dlfbr
+        thf globbl fodus ownfr.
+    <li>If b fodus ownfr dhbngf wbs rfjfdtfd, thfn thf fodus ownfr will bf
+        rfsft to thf Componfnt whidh wbs prfviously thf fodus ownfr. If
+        thbt is not possiblf, thfn it will bf rfsft to thf nfxt Componfnt
+        in thf fodus trbvfrsbl dydlf bftfr thf prfvious fodus ownfr. If
+        thbt is blso not possiblf, thfn thf <dodf>KfybobrdFodusMbnbgfr</dodf>
+        will dlfbr thf globbl fodus ownfr.
+  </ul>
+
+<dodf>VftobblfChbngfListfnfr</dodf>s must bf dbrfful to bvoid vftoing fodus
+dhbngfs initibtfd bs b rfsult of vfto rfjfdtion rfdovfry. Fbilurf
+to bntidipbtf this situbtion dould lfbd to bn infinitf dydlf of
+vftofd fodus dhbngfs bnd rfdovfry bttfmpts.
+
+
+<b nbmf="ZOrdfr"></b>
+<h3>Z-Ordfr</h3>
+<p>
+On somf nbtivf windowing systfms, thf Z-ordfr of b Window dbn bfffdt
+its fodusfd or bdtivf (if bpplidbblf) stbtf. On Midrosoft Windows, thf 
+top-most Window is nbturblly thf fodusfd Window bs wfll. Howfvfr, on 
+Solbris, mbny window mbnbgfrs usf b point-to-fodus modfl thbt ignorfs 
+Z-ordfr in dftfrmining thf fodusfd Window.
+
+Whfn fodusing or bdtivbting Windows, thf AWT bdhfrfs to thf UI
+rfquirfmfnts of thf nbtivf plbtform. Thfrfforf, thf fodus bfhbvior of
+Z-ordfr-rflbtfd mfthods sudh bs:
+  <ul>
+    <li><dodf>Window.toFront()</dodf>
+    <li><dodf>Window.toBbdk()</dodf>
+    <li><dodf>Window.show()</dodf>
+    <li><dodf>Window.hidf()</dodf>
+    <li><dodf>Window.sftVisiblf(boolfbn)</dodf>
+    <li><dodf>Window.disposf()</dodf>
+    <li><dodf>Frbmf.sftStbtf(int)</dodf>
+  </ul>
+is plbtform-dfpfndfnt. In JDK 1.4, thf bfhbvior of thfsf mfthods on
+Midrosoft Windows bnd Solbris is bs follows:
+  <ul>
+     <li><dodf>Window.toFront()</dodf>:<br>
+        <b>Midrosoft Windows</b>: Thf Window is movfd to front, if possiblf. 
+        Whilf wf will blwbys bf bblf to movf this Window in front of othfr 
+        Windows in thf sbmf VM, Windows 98 bnd Windows 2000 do not bllow bn
+        bpplidbtion to bring bny of its windows to thf front unlfss onf
+        of thbt bpplidbtion's windows is blrfbdy in thf forfground. In
+        this dbsf, Windows will instfbd flbsh thf Window's idon in thf
+        tbskbbr. If thf Window is movfd to thf front, it will bf mbdf
+        thf fodusfd bnd (if bpplidbblf) bdtivf Window.
+      <br>
+        <b>Solbris</b>: Thf Window is movfd to front. In b point-to-fodus
+        window mbnbgfr, thf Window will bfdomf thf fodusfd Window if it
+        is thf top-most Window undfrnfbth thf dursor. In b dlidk-to-fodus
+        window mbnbgfr, thf fodusfd Window will rfmbin undhbngfd.
+
+     <li><dodf>Window.toBbdk()</dodf>:<br>
+        <b>Midrosoft Windows</b>: Thf Window is movfd to bbdk. Notf howfvfr 
+        thbt Midrosoft Windows insists thbt bn ownfd Window blwbys bf in 
+        front of bll of its rfdursivf ownfrs. Thus, bftfr thf domplftion of 
+        this opfrbtion, thf Window mby not bf thf lowfst Jbvb Window in thf 
+        Z-ordfr. If thf Window, or bny of its ownfrs, wbs thf fodusfd Window, 
+        thfn thf fodusfd Window is rfsft to thf top-most Window in thf VM.
+      <br>
+        <b>Solbris</b>: Thf Window is movfd to bbdk. Likf Midrosoft Windows, 
+        somf window mbnbgfrs insist thbn bn ownfd Window blwbys bf in front 
+        of bll of its rfdursivf ownfrs. Thus, bftfr thf domplftion of this
+        opfrbtion, thf Window mby not bf thf lowfst Jbvb Window in thf
+        Z-ordfr. If thf Window wbs thf fodusfd Window, it will losf
+        fodus in b point-to-fodus window mbnbgfr if it is no longfr thf
+        top-most Window undfr thf dursor. In b dlidk-to-fodus window
+        mbnbgfr, thf fodusfd Window will rfmbin undhbngfd.
+
+     <li><dodf>Window.show()/Window.sftVisiblf(truf)/Frbmf.sftStbtf(NORMAL)</dodf>:<br>
+        <b>Midrosoft Windows</b>: Thf Window is movfd to front bnd bfdomfs thf fodusfd
+        Window.
+      <br>
+        <b>Solbris</b>: Thf Window is movfd to front. In b point-to-fodus fodus
+        window mbnbgfr, thf Window will bf fodusfd if it is now thf
+        top-most Window undfr thf dursor. In b dlidk-to-fodus window
+        mbnbgfr, thf Window will bfdomf thf fodusfd Window.
+
+     <li><dodf>Window.hidf()/Window.sftVisiblf(fblsf)/Window.disposf()/
+    Frbmf.sftStbtf(ICONIFIED)</dodf>:<br>
+        <b>Midrosoft Windows</b>: If thf Window wbs thf fodusfd Window, thf fodusfd 
+        Window is rfsft to b window dhosfn by thf OS, or to no window. Thf
+        window mby bf in b nbtivf bpplidbtion, or b Jbvb bpplidbtion in
+        bnothfr VM.
+       <br>
+        <b>Solbris</b>: If thf Window wbs thf fodusfd Window, in b point-to-
+        fodus window mbnbgfr, thf top-most Window undfr thf dursor will
+        bfdomf thf fodusfd Window. In b dlidk-to-fodus window mbnbgfr,
+        thf fodusfd Window is rfsft to b window dhosfn by thf window
+        mbnbgfr. Thf window mby bf in b nbtivf bpplidbtion, or b Jbvb
+        bpplidbtion in bnothfr VM.
+  </ul>
+
+<b nbmf="RfplbdingDffbultKfybobrdFodusMbnbgfr"></b>
+<h3>Rfplbding DffbultKfybobrdFodusMbnbgfr</h3>
+<p>
+<dodf>KfybobrdFodusMbnbgfr</dodf>s brf pluggbblf bt thf browsfr dontfxt
+lfvfl. Clifnt dodf dbn subdlbss <dodf>KfybobrdFodusMbnbgfr</dodf> or
+<dodf>DffbultKfybobrdFodusMbnbgfr</dodf> to modify thf wby thbt WindowEvfnts
+rflbtfd to fodus, FodusEvfnts, bnd KfyEvfnts brf hbndlfd bnd
+dispbtdhfd, bnd to fxbminf bnd modify thf globbl fodus stbtf. A dustom
+<dodf>KfybobrdFodusMbnbgfr</dodf> dbn blso rfjfdt fodus dhbngfs bt b morf
+fundbmfntbl lfvfl thfn b FodusListfnfr or WindowListfnfr fvfr dould.
+<p>
+Whilf giving b dfvflopfr ultimbtf dontrol ovfr thf fodus modfl,
+rfplbding thf fntirf <dodf>KfybobrdFodusMbnbgfr</dodf> is b diffidult prodfss
+rfquiring b thorough undfrstbnding of thf pffr fodus lbyfr.
+Fortunbtfly, most bpplidbtions do not nffd this mudh dontrol.
+Dfvflopfrs brf fndourbgfd to usf KfyEvfntDispbtdhfrs,
+KfyEvfntPostProdfssors, FodusTrbvfrsblPolidifs,
+VftobblfChbngfListfnfrs, bnd othfr dondfpts disdussfd in this dodumfnt
+bfforf rfsorting to b full rfplbdfmfnt of thf <dodf>KfybobrdFodusMbnbgfr</dodf>.
+<p>
+First notf thbt, bfdbusf unhindfrfd bddfss to Componfnts in othfr
+dontfxts rfprfsfnts b sfdurity holf, thf SfdurityMbnbgfr must grbnt b
+nfw pfrmission, "rfplbdfKfybobrdFodusMbnbgfr", bfforf dlifnt dodf is
+pfrmittfd to rfplbdf thf <dodf>KfybobrdFodusMbnbgfr</dodf> with bn brbitrbry
+subdlbss instbndf. Bfdbusf of thf sfdurity dhfdk, rfplbding thf
+<dodf>KfybobrdFodusMbnbgfr</dodf> is not bn option for bpplidbtions thbt will bf
+dfployfd in fnvironmfnts with b SfdurityMbnbgfr, sudh bs bpplfts in b
+browsfr.
+<p>
+Ondf instbllfd, b <dodf>KfybobrdFodusMbnbgfr</dodf> instbndf hbs
+bddfss to thf globbl fodus stbtf vib b sft of protfdtfd fundtions.
+Thf <dodf>KfybobrdFodusMbnbgfr</dodf> dbn only dbll thfsf fundtions
+if it is instbllfd in thf dblling thrfbd's dontfxt. This fnsurfs
+thbt mblidious dodf dbnnot dirdumvfnt thf sfdurity dhfdk in
+<dodf>KfybobrdFodusMbnbgfr.sftCurrfntFodusMbnbgfr</dodf>.
+A <dodf>KfybobrdFodusMbnbgfr</dodf> should blwbys work with
+thf globbl fodus stbtf instfbd of thf dontfxt fodus stbtf.
+Fbilurf to do this will lfbd to indorrfdt bfhbvior of thf
+<dodf>KfybobrdFodusMbnbgfr</dodf>.
+<p>
+Thf primbry rfsponsibility of b <dodf>KfybobrdFodusMbnbgfr</dodf>
+is thf dispbtdh of thf following fvfnts:
+
+    <ul>
+      <li>bll <dodf>KfyEvfnt</dodf>s
+      <li>bll <dodf>FodusEvfnt</dodf>s
+      <li><dodf>WindowEvfnt.WINDOW_GAINED_FOCUS</dodf>
+      <li><dodf>WindowEvfnt.WINDOW_LOST_FOCUS</dodf>
+      <li><dodf>WindowEvfnt.WINDOW_ACTIVATED</dodf>
+      <li><dodf>WindowEvfnt.WINDOW_DEACTIVATED</dodf>
+    </ul>
+
+Thf pffr lbyfr will providf thf <dodf>KfybobrdFodusMbnbgfr</dodf>
+with bll of thf bbovf fvfnts fxdfpt <dodf>WINDOW_ACTIVATED</dodf>
+bnd <dodf>WINDOW_DEACTIVATED</dodf>. Thf <dodf>KfybobrdFodusMbnbgfr</dodf>
+must synthfsizf <dodf>WINDOW_ACTIVATED</dodf> bnd
+<dodf>WINDOW_DEACTIVATED</dodf> fvfnts whfn bppropribtf bnd tbrgft thfm
+bddordingly.
+<p>
+Thf <dodf>KfybobrdFodusMbnbgfr</dodf> mby nffd to rftbrgft thf fvfnts
+providfd by thf pffr lbyfr to its own notion of thf fodus ownfr or
+fodusfd Window:
+    <ul>
+      <li>A KfyEvfnt must bf rftbrgftfd to thf fodus ownfr. Bfdbusf thf pffr
+          lbyfr is unbwbrf of bny lightwfight Componfnts, KfyEvfnts will
+          brrivf from thf pffr lbyfr tbrgftfd to thf fodus ownfr's
+          hfbvywfight Contbinfr, not thf fodus ownfr.
+      <li>A <dodf>FOCUS_LOST</dodf> fvfnt must bf rftbrgftfd to thf fodus
+          ownfr. Agbin, this is nfdfssbry bfdbusf thf pffr lbyfr is
+          unbwbrf of lightwfight Componfnts. 
+      <li>A <dodf>WINDOW_LOST_FOCUS</dodf> fvfnt must bf rftbrgftfd to
+          thf fodusfd Window. Thf implfmfntbtion of thf Window dlbss
+          mby dbusf thf nbtivf fodusfd Window to difffr from thf Jbvb
+          fodusfd Window.
+    </ul>
+<p>
+A <dodf>KfybobrdFodusMbnbgfr</dodf> must fnsurf propfr fvfnt ordfring,
+bnd b 1-to-1 dorrfspondfndf bftwffn bn fvfnt bnd its oppositf fvfnt typf.
+Thf pffr lbyfr dofs not mbkf bny of thfsf gubrbntffs. For fxbmplf, it is
+possiblf for thf pffr lbyfr to sfnd b <dodf>FOCUS_GAINED</dodf>
+fvfnt bfforf b <dodf>WINDOW_GAINED_FOCUS</dodf> fvfnt.
+Thf <dodf>KfybobrdFodusMbnbgfr</dodf> is rfsponsiblf for
+fnsuring thbt thf <dodf>WINDOW_GAINED_FOCUS</dodf> fvfnt is dispbtdhfd
+bfforf thf <dodf>FOCUS_GAINED</dodf> fvfnt.
+<p>
+Bfforf rfdispbtdhing bn fvfnt vib <dodf>KfybobrdFodusMbnbgfr</dodf>.
+<dodf>rfdispbtdhEvfnt</dodf>, b <dodf>KfybobrdFodusMbnbgfr</dodf>
+must bttfmpt to updbtf thf globbl fodus stbtf. Typidblly, this
+is donf using onf of thf <dodf>KfybobrdFodusMbnbgfr.sftGlobbl*</dodf>
+mfthods; howfvfr, bn implfmfntbtion is frff to implfmfnt its own mfthods.
+Aftfr bttfmpting bn updbtf, thf <dodf>KfybobrdFodusMbnbgfr</dodf>
+must vfrify thbt thf globbl fodus stbtf dhbngf
+wbs not rfjfdtfd. A rfjfdtion is dftfdtfd whfn b dbll to thf
+dorrfsponding <dodf>gftGlobbl*</dodf> mfthod rfturns b vbluf difffrfnt thbn thf
+vbluf just sft. Rfjfdtions oddur in thrff stbndbrd dbsfs:
+    <ul>
+      <li>If thf <dodf>KfybobrdFodusMbnbgfr</dodf> bttfmpts
+          to sft thf globbl fodus ownfr to b non-fodusbblf Componfnt.
+      <li>If thf <dodf>KfybobrdFodusMbnbgfr</dodf> bttfmpts
+          to sft thf globbl fodusfd Window to b non-fodusbblf Window.
+      <li>If thf dhbngf is rfjfdtfd by bn instbllfd 
+          <dodf>VftobblfChbngfListfnfr</dodf>.
+    </ul>
+<p>
+Clifnt-dffinfd implfmfntbtions of <dodf>KfybobrdFodusMbnbgfr</dodf>
+dbn bdjust thf sft of fodus trbnsffrs whidh brf rfjfdtfd by ovfrriding thf
+bddfssor bnd mutbtor mfthods for thf globbl fodus stbtf.
+<p>
+If b rfqufst to dhbngf thf globbl fodus stbtf is rfjfdtfd, thf
+<dodf>KfybobrdFodusMbnbgfr</dodf> must disdbrd thf fvfnt whidh promptfd
+thf fodus dhbngf rfqufst. Thf Componfnt to whidh thf fvfnt wbs tbrgftfd
+must not rfdfivf thf fvfnt.
+<p>
+Thf <dodf>KfybobrdFodusMbnbgfr</dodf> is blso fxpfdtfd to initibtf rfjfdtion
+rfdovfry bs outlinfd in <b hrff="#FodusAndVftobblfChbngfListfnfr">Fodus
+bnd VftobblfChbngfListfnfr</b>.
+  <p>
+     Finblly, b KfybobrdFodusMbnbgfr must hbndlf thf following sft of
+     spfdibl dbsfs:
+    <ul>
+      <li>Whfn hbndling b <dodf>WINDOW_GAINED_FOCUS</dodf> fvfnt, thf
+          <dodf>KfybobrdFodusMbnbgfr</dodf> must sft fodus to thf
+          bppropribtf dhild Componfnt of thf Window. If b dhild
+          Componfnt of thf Window prfviously rfqufstfd fodus,
+          but thf fodus dhbngf wbs rfjfdtfd bfdbusf thf plbtform
+          dofs not support dross-Window fodus dhbngf rfqufsts,
+          thfn fodus should bf sft to thbt dhild Componfnt.
+          Othfrwisf, if thf Window hbs nfvfr bffn fodusfd, fodus should bf
+          sft to thf Window's initibl Componfnt to fodus. If thf Window wbs
+          prfviously fodusfd, fodus should bf sft to thf Window's most
+          rfdfnt fodus ownfr.
+      <li>Thf <dodf>KfybobrdFodusMbnbgfr</dodf> must fnsurf thbt thf
+          oppositf Componfnt or Window brf bs bddurbtf bs thf nbtivf
+          windowing plbtform pfrmits. For fxbmplf, thf 
+          <dodf>KfybobrdFodusMbnbgfr</dodf> mby nffd to
+          rftbrgft thf oppositf Componfnt to b lightwfight dhild of thf
+          hfbvywfight initiblly spfdififd by thf pffr lbyfr.
+          <br>
+          If thf pffr lbyfr stbtfs thbt thf oppositf Componfnt or Window is
+          <dodf>null</dodf>, it is bddfptbblf for thf 
+          <dodf>KfybobrdFodusMbnbgfr</dodf> to propbgbtf
+          this vbluf. <dodf>null</dodf> indidbtfs thbt it is highly
+          probbbly thbt no othfr Componfnt or Window wbs involvfd
+          in thf fodus or bdtivbtion dhbngf. Bfdbusf of plbtform
+          limitbtions, this domputbtion mby bf
+          subjfdt to b hfuristid bnd dould bf indorrfdt. Nfvfrthflfss, this
+          hfuristid will bf thf bfst possiblf gufss whidh thf pffr lbyfr
+          dould mbkf.
+       <li>Fodus bnd bdtivbtion dhbngfs in whidh b Componfnt or Window losfs
+          fodus or bdtivbtion to itsflf must bf disdbrdfd.
+       <li>Evfnts postfd by thf pffr lbyfr dlbiming thbt thf bdtivf Window
+          hbs lost fodus to thf fodusfd Window must bf disdbrdfd. Thf pffr
+          implfmfntbtion of thf Window dlbss mby gfnfrbtf thfsf spurious
+          fvfnts.
+    </ul>
+
+<b nbmf="Indompbtibilitifs"></b>
+<h3>Indompbtibilitifs with Prfvious Rflfbsfs</h3>
+  <p><b>Cross-plbtform dhbngfs:</b>
+    <ol>
+      <li>Thf dffbult fodus trbvfrsbbility for bll Componfnts is now
+          'truf'. Prfviously, somf Componfnts (in pbrtidulbr, bll
+          lightwfights), hbd b dffbult fodus trbvfrsbbility of 'fblsf'. Notf
+          thbt dfspitf this dhbngf, howfvfr, thf
+          <dodf>DffbultFodusTrbvfrsblPolidy</dodf> for bll AWT Contbinfrs
+          will prfsfrvf thf trbvfrsbl ordfr of prfvious rflfbsfs.
+      <li>A rfqufst to fodus b non-fodus trbvfrsbblf (i.f., non-fodusbblf)
+          Componfnt will bf dfnifd. Prfviously, sudh rfqufsts wfrf grbntfd.
+      <li><dodf>Window.toFront()</dodf> bnd <dodf>Window.toBbdk()</dodf>
+          now pfrform no opfrbtion if thf Window is not visiblf.
+          Prfviously, thf bfhbvior wbs plbtform-dfpfndfnt.
+      <li>KfyListfnfrs instbllfd on <dodf>Componfnt</dodf>s
+          will no longfr sff <dodf>KfyEvfnt</dodf>s thbt mbp to fodus
+          trbvfrsbl opfrbtions, bnd
+          <dodf>Componfnt.hbndlfEvfnt()</dodf> will no longfr bf invokfd 
+          for sudh fvfnts. Prfviously, AWT Componfnts sbw thfsf fvfnts
+          bnd hbd bn opportunity to donsumf thfm bfforf AWT
+          initibtfd fodus trbvfrsbl. Codf thbt rfquirfs this
+          fundtionblity should instfbd disbblf fodus trbvfrsbl kfys on
+          its <dodf>Componfnt</dodf>s bnd hbndlf fodus trbvfrsbl
+          itsflf. Altfrnbtfly, thf dodf dbn usf bn
+          <dodf>AWTEvfntListfnfr</dodf> or
+          <dodf>KfyEvfntDispbtdhfr</dodf> to prf-listfn to bll
+          <dodf>KfyEvfnt</dodf>s. 
+    </ol>
+  <p><b>Chbngfs spfdifid to Midrosoft Windows:</b>
+    <ol>
+      <li><dodf>Window.toBbdk()</dodf> dhbngfs thf fodusfd Window to
+          thf top-most Window bftfr thf Z-ordfr dhbngf.
+      <li><dodf>rfqufstFodus()</dodf> now bllows dross-Window fodus
+          dhbngf rfqufsts in bll dbsfs. Prfviously, rfqufsts wfrf grbntfd
+          for hfbvywfights, but dfnifd for lightwfights.
+    </ol>
+
+</body>
+</html>

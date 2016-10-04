@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * This dlbss is usfd by thf qufry building mfdhbnism for isInstbndfOf fxprfssions.
+ * @sfribl indludf
+ *
+ * @sindf 1.6
+ */
+dlbss InstbndfOfQufryExp fxtfnds QufryEvbl implfmfnts QufryExp {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -1081892073854801359L;
+
+    /**
+     * @sfribl Thf {@link StringVblufExp} rfturning thf nbmf of thf dlbss
+     *         of whidh sflfdtfd MBfbns should bf instbndfs.
+     */
+    privbtf StringVblufExp dlbssNbmfVbluf;
+
+    /**
+     * Crfbtfs b nfw InstbndfOfExp with b spfdifid dlbss nbmf.
+     * @pbrbm dlbssNbmfVbluf Thf {@link StringVblufExp} rfturning thf nbmf of
+     *        thf dlbss of whidh sflfdtfd MBfbns should bf instbndfs.
+     */
+    // Wf brf using StringVblufExp hfrf to bf donsistfnt with othfr qufrifs,
+    // blthough wf should bdtublly fithfr usf b simplf string (thf dlbssnbmf)
+    // or b VblufExp - whidh would bllow morf domplfx qufrifs - likf for
+    // instbndf fvblubting thf dlbss nbmf from bn AttributfVblufExp.
+    // As it stbnds - using StringVblufExp instfbd of b simplf donstbnt string
+    // dofsn't sfrvf bny usfful purposf bfsidfs offfring b donsistfnt
+    // look & fffl.
+    publid InstbndfOfQufryExp(StringVblufExp dlbssNbmfVbluf) {
+        if (dlbssNbmfVbluf == null) {
+            throw nfw IllfgblArgumfntExdfption("Null dlbss nbmf.");
+        }
+
+        this.dlbssNbmfVbluf = dlbssNbmfVbluf;
+    }
+
+    /**
+     * Rfturns thf dlbss nbmf.
+     * @rfturns Thf {@link StringVblufExp} rfturning thf nbmf of
+     *        thf dlbss of whidh sflfdtfd MBfbns should bf instbndfs.
+     */
+    publid StringVblufExp gftClbssNbmfVbluf()  {
+        rfturn dlbssNbmfVbluf;
+    }
+
+    /**
+     * Applifs thf InstbndfOf on b MBfbn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf InstbndfOf will bf bpplifd.
+     *
+     * @rfturn  Truf if thf MBfbn spfdififd by thf nbmf is instbndf of thf dlbss.
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     */
+    publid boolfbn bpply(ObjfdtNbmf nbmf)
+        throws BbdStringOpfrbtionExdfption,
+        BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption,
+        InvblidApplidbtionExdfption {
+
+        // Gft thf dlbss nbmf vbluf
+        finbl StringVblufExp vbl;
+        try {
+            vbl = (StringVblufExp) dlbssNbmfVbluf.bpply(nbmf);
+        } dbtdh (ClbssCbstExdfption x) {
+            // Should not hbppfn - unlfss somfonf wrongly implfmfntfd
+            // StringVblufExp.bpply().
+            finbl BbdStringOpfrbtionExdfption y =
+                    nfw BbdStringOpfrbtionExdfption(x.toString());
+            y.initCbusf(x);
+            throw y;
+        }
+
+        // Tfst whfthfr thf MBfbn is bn instbndf of thbt dlbss.
+        try {
+            rfturn gftMBfbnSfrvfr().isInstbndfOf(nbmf, vbl.gftVbluf());
+        } dbtdh (InstbndfNotFoundExdfption inff) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this InstbndfOfQufryExp.
+     * @rfturn b string rfprfsfntbtion of this InstbndfOfQufryExp.
+     */
+    publid String toString() {
+       rfturn "InstbndfOf " + dlbssNbmfVbluf.toString();
+   }
+}

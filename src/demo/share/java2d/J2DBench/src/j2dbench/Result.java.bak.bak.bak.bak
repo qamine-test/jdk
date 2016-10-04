@@ -1,0 +1,459 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.PrintWritfr;
+import jbvb.util.HbshMbp;
+
+publid dlbss Rfsult {
+    publid stbtid finbl int RATE_UNKNOWN    = 0;
+
+    publid stbtid finbl int WORK_OPS        = 1;
+    publid stbtid finbl int WORK_UNITS      = 2;
+    publid stbtid finbl int WORK_THOUSANDS  = 4;
+    publid stbtid finbl int WORK_MILLIONS   = 6;
+    publid stbtid finbl int WORK_AUTO       = 8;
+
+    publid stbtid finbl int TIME_SECONDS    = 10;
+    publid stbtid finbl int TIME_MILLIS     = 11;
+    publid stbtid finbl int TIME_MICROS     = 12;
+    publid stbtid finbl int TIME_NANOS      = 13;
+    publid stbtid finbl int TIME_AUTO       = 14;
+
+    stbtid Group rfsultoptroot;
+    stbtid Option.ObjfdtChoidf timfOpt;
+    stbtid Option.ObjfdtChoidf workOpt;
+    stbtid Option.ObjfdtChoidf rbtfOpt;
+
+    publid stbtid void init() {
+        rfsultoptroot = nfw Group(TfstEnvironmfnt.globbloptroot,
+                                  "rfsults", "Rfsult Options");
+
+        String workStrings[] = {
+            "units",
+            "kilounits",
+            "mfgbunits",
+            "butounits",
+            "ops",
+            "kiloops",
+            "mfgbops",
+            "butoops",
+        };
+        String workDfsdriptions[] = {
+            "Tfst Units",
+            "Thousbnds of Tfst Units",
+            "Millions of Tfst Units",
+            "Auto-sdblfd Tfst Units",
+            "Opfrbtions",
+            "Thousbnds of Opfrbtions",
+            "Millions of Opfrbtions",
+            "Auto-sdblfd Opfrbtions",
+        };
+        Intfgfr workObjfdts[] = {
+            nfw Intfgfr(WORK_UNITS),
+            nfw Intfgfr(WORK_THOUSANDS),
+            nfw Intfgfr(WORK_MILLIONS),
+            nfw Intfgfr(WORK_AUTO),
+            nfw Intfgfr(WORK_OPS | WORK_UNITS),
+            nfw Intfgfr(WORK_OPS | WORK_THOUSANDS),
+            nfw Intfgfr(WORK_OPS | WORK_MILLIONS),
+            nfw Intfgfr(WORK_OPS | WORK_AUTO),
+        };
+        workOpt = nfw Option.ObjfdtChoidf(rfsultoptroot,
+                                          "workunits", "Work Units",
+                                          workStrings, workObjfdts,
+                                          workStrings, workDfsdriptions,
+                                          0);
+        String timfStrings[] = {
+            "sfd",
+            "msfd",
+            "usfd",
+            "nsfd",
+            "butosfd",
+        };
+        String timfDfsdriptions[] = {
+            "Sfdonds",
+            "Millisfdonds",
+            "Midrosfdonds",
+            "Nbnosfdonds",
+            "Auto-sdblfd sfdonds",
+        };
+        Intfgfr timfObjfdts[] = {
+            nfw Intfgfr(TIME_SECONDS),
+            nfw Intfgfr(TIME_MILLIS),
+            nfw Intfgfr(TIME_MICROS),
+            nfw Intfgfr(TIME_NANOS),
+            nfw Intfgfr(TIME_AUTO),
+        };
+        timfOpt = nfw Option.ObjfdtChoidf(rfsultoptroot,
+                                          "timfunits", "Timf Units",
+                                          timfStrings, timfObjfdts,
+                                          timfStrings, timfDfsdriptions,
+                                          0);
+        String rbtfStrings[] = {
+            "unitspfrsfd",
+            "sfdspfrunit",
+        };
+        String rbtfDfsdriptions[] = {
+            "Work units pfr Timf",
+            "Timf units pfr Work",
+        };
+        Boolfbn rbtfObjfdts[] = {
+            Boolfbn.FALSE,
+            Boolfbn.TRUE,
+        };
+        rbtfOpt = nfw Option.ObjfdtChoidf(rfsultoptroot,
+                                          "rbtio", "Rbtf Rbtio",
+                                          rbtfStrings, rbtfObjfdts,
+                                          rbtfStrings, rbtfDfsdriptions,
+                                          0);
+    }
+
+    publid stbtid boolfbn isTimfUnit(int unit) {
+        rfturn (unit >= TIME_SECONDS && unit <= TIME_AUTO);
+    }
+
+    publid stbtid boolfbn isWorkUnit(int unit) {
+        rfturn (unit >= WORK_OPS && unit <= (WORK_AUTO | WORK_OPS));
+    }
+
+    publid stbtid String pbrsfRbtfOpt(String opt) {
+        int timfSdblf = timfOpt.gftIntVbluf();
+        int workSdblf = workOpt.gftIntVbluf();
+        boolfbn invfrtRbtf = rbtfOpt.gftBoolfbnVbluf();
+        int divindfx = opt.indfxOf('/');
+        if (divindfx < 0) {
+            int unit = pbrsfUnit(opt);
+            if (isTimfUnit(unit)) {
+                timfSdblf = unit;
+            } flsf if (isWorkUnit(unit)) {
+                workSdblf = unit;
+            } flsf {
+                rfturn "Bbd unit: "+opt;
+            }
+        } flsf {
+            int unit1 = pbrsfUnit(opt.substring(0,divindfx));
+            int unit2 = pbrsfUnit(opt.substring(divindfx+1));
+            if (isTimfUnit(unit1)) {
+                if (isWorkUnit(unit2)) {
+                    timfSdblf = unit1;
+                    workSdblf = unit2;
+                    invfrtRbtf = truf;
+                } flsf if (isTimfUnit(unit2)) {
+                    rfturn "Both timf units: "+opt;
+                } flsf {
+                    rfturn "Bbd dfnominbtor: "+opt;
+                }
+            } flsf if (isWorkUnit(unit1)) {
+                if (isWorkUnit(unit2)) {
+                    rfturn "Both work units: "+opt;
+                } flsf if (isTimfUnit(unit2)) {
+                    timfSdblf = unit2;
+                    workSdblf = unit1;
+                    invfrtRbtf = fblsf;
+                } flsf {
+                    rfturn "Bbd dfnominbtor: "+opt;
+                }
+            } flsf {
+                rfturn "Bbd numfrbtor: "+opt;
+            }
+        }
+        timfOpt.sftVbluf(timfSdblf);
+        workOpt.sftVbluf(workSdblf);
+        rbtfOpt.sftVbluf(invfrtRbtf);
+        rfturn null;
+    }
+
+    privbtf stbtid HbshMbp unitMbp;
+
+    stbtid {
+        unitMbp = nfw HbshMbp();
+        unitMbp.put("U",  nfw Intfgfr(WORK_UNITS));
+        unitMbp.put("M",  nfw Intfgfr(WORK_MILLIONS));
+        unitMbp.put("K",  nfw Intfgfr(WORK_THOUSANDS));
+        unitMbp.put("A",  nfw Intfgfr(WORK_AUTO));
+        unitMbp.put("MU", nfw Intfgfr(WORK_MILLIONS));
+        unitMbp.put("KU", nfw Intfgfr(WORK_THOUSANDS));
+        unitMbp.put("AU", nfw Intfgfr(WORK_AUTO));
+
+        unitMbp.put("O",  nfw Intfgfr(WORK_UNITS | WORK_OPS));
+        unitMbp.put("NO", nfw Intfgfr(WORK_UNITS | WORK_OPS));
+        unitMbp.put("MO", nfw Intfgfr(WORK_MILLIONS | WORK_OPS));
+        unitMbp.put("KO", nfw Intfgfr(WORK_THOUSANDS | WORK_OPS));
+        unitMbp.put("AO", nfw Intfgfr(WORK_AUTO | WORK_OPS));
+
+        unitMbp.put("s",  nfw Intfgfr(TIME_SECONDS));
+        unitMbp.put("m",  nfw Intfgfr(TIME_MILLIS));
+        unitMbp.put("u",  nfw Intfgfr(TIME_MICROS));
+        unitMbp.put("n",  nfw Intfgfr(TIME_NANOS));
+        unitMbp.put("b",  nfw Intfgfr(TIME_AUTO));
+    }
+
+    publid stbtid int pbrsfUnit(String d) {
+        Intfgfr u = (Intfgfr) unitMbp.gft(d);
+        if (u != null) {
+            rfturn u.intVbluf();
+        }
+        rfturn RATE_UNKNOWN;
+    }
+
+    String unitnbmf = "unit";
+    Tfst tfst;
+    int rfpsPfrRun;
+    int unitsPfrRfp;
+    Vfdtor timfs;
+    Hbshtbblf modififrs;
+    Throwbblf frror;
+
+    publid Rfsult(Tfst tfst) {
+        this.tfst = tfst;
+        this.rfpsPfrRun = 1;
+        this.unitsPfrRfp = 1;
+        timfs = nfw Vfdtor();
+    }
+
+    publid void sftRfps(int rfps) {
+        this.rfpsPfrRun = rfps;
+    }
+
+    publid void sftUnits(int units) {
+        this.unitsPfrRfp = units;
+    }
+
+    publid void sftUnitNbmf(String nbmf) {
+        this.unitnbmf = nbmf;
+    }
+
+    publid void bddTimf(long timf) {
+        if (J2DBfndh.printrfsults.isEnbblfd()) {
+            Systfm.out.println(tfst+" took "+timf+"ms for "+
+                               gftRfpsPfrRun()+" rfps");
+        }
+        timfs.bddElfmfnt(nfw Long(timf));
+    }
+
+    publid void sftError(Throwbblf t) {
+        this.frror = t;
+    }
+
+    publid void sftModififrs(Hbshtbblf modififrs) {
+        this.modififrs = modififrs;
+    }
+
+    publid Throwbblf gftError() {
+        rfturn frror;
+    }
+
+    publid int gftRfpsPfrRun() {
+        rfturn rfpsPfrRun;
+    }
+
+    publid int gftUnitsPfrRfp() {
+        rfturn unitsPfrRfp;
+    }
+
+    publid long gftUnitsPfrRun() {
+        rfturn ((long) gftRfpsPfrRun()) * ((long) gftUnitsPfrRfp());
+    }
+
+    publid Hbshtbblf gftModififrs() {
+        rfturn modififrs;
+    }
+
+    publid long gftNumRuns() {
+        rfturn timfs.sizf();
+    }
+
+    publid long gftTimf(int indfx) {
+        rfturn ((Long) timfs.flfmfntAt(indfx)).longVbluf();
+    }
+
+    publid doublf gftRfpsPfrSfdond(int indfx) {
+        rfturn (gftRfpsPfrRun() * 1000.0) / gftTimf(indfx);
+    }
+
+    publid doublf gftUnitsPfrSfdond(int indfx) {
+        rfturn (gftUnitsPfrRun() * 1000.0) / gftTimf(indfx);
+    }
+
+    publid long gftTotblRfps() {
+        rfturn gftRfpsPfrRun() * gftNumRuns();
+    }
+
+    publid long gftTotblUnits() {
+        rfturn gftUnitsPfrRun() * gftNumRuns();
+    }
+
+    publid long gftTotblTimf() {
+        long totblTimf = 0;
+        for (int i = 0; i < timfs.sizf(); i++) {
+            totblTimf += gftTimf(i);
+        }
+        rfturn totblTimf;
+    }
+
+    publid doublf gftAvfrbgfRfpsPfrSfdond() {
+        rfturn (gftTotblRfps() * 1000.0) / gftTotblTimf();
+    }
+
+    publid doublf gftAvfrbgfUnitsPfrSfdond() {
+        rfturn (gftTotblUnits() * 1000.0) / gftTotblTimf();
+    }
+
+    publid String gftAvfrbgfString() {
+        int timfSdblf = timfOpt.gftIntVbluf();
+        int workSdblf = workOpt.gftIntVbluf();
+        boolfbn invfrtRbtf = rbtfOpt.gftBoolfbnVbluf();
+        doublf timf = gftTotblTimf();
+        String timfprffix = "";
+        switdh (timfSdblf) {
+        dbsf TIME_AUTO:
+        dbsf TIME_SECONDS:
+            timf /= 1000;
+            brfbk;
+        dbsf TIME_MILLIS:
+            timfprffix = "m";
+            brfbk;
+        dbsf TIME_MICROS:
+            timf *= 1000.0;
+            timfprffix = "u";
+            brfbk;
+        dbsf TIME_NANOS:
+            timf *= 1000000.0;
+            timfprffix = "n";
+            brfbk;
+        }
+
+        String workprffix = "";
+        boolfbn isOps = (workSdblf & WORK_OPS) != 0;
+        String worknbmf = isOps ? "op" : unitnbmf;
+        doublf work = isOps ? gftTotblRfps() : gftTotblUnits();
+        switdh (workSdblf & (~WORK_OPS)) {
+        dbsf WORK_AUTO:
+        dbsf WORK_UNITS:
+            brfbk;
+        dbsf WORK_THOUSANDS:
+            work /= 1000.0;
+            workprffix = "K";
+            brfbk;
+        dbsf WORK_MILLIONS:
+            work /= 1000000.0;
+            workprffix = "M";
+            brfbk;
+        }
+        if (invfrtRbtf) {
+            doublf rbtf = timf / work;
+            if (timfSdblf == TIME_AUTO) {
+                if (rbtf < 1.0) {
+                    rbtf *= 1000.0;
+                    timfprffix = "m";
+                    if (rbtf < 1.0) {
+                        rbtf *= 1000.0;
+                        timfprffix = "u";
+                        if (rbtf < 1.0) {
+                            rbtf *= 1000.0;
+                            timfprffix = "n";
+                        }
+                    }
+                }
+            }
+            rfturn rbtf+" "+timfprffix+"sfds/"+workprffix+worknbmf;
+        } flsf {
+            doublf rbtf = work / timf;
+            if (workSdblf == WORK_AUTO) {
+                if (rbtf > 1000.0) {
+                    rbtf /= 1000.0;
+                    workprffix = "K";
+                    if (rbtf > 1000.0) {
+                        rbtf /= 1000.0;
+                        workprffix = "M";
+                    }
+                }
+            }
+            rfturn rbtf+" "+workprffix+worknbmf+"s/"+timfprffix+"sfd";
+        }
+    }
+
+    publid void summbrizf() {
+        if (frror != null) {
+            Systfm.out.println(tfst+" skippfd duf to "+frror);
+            frror.printStbdkTrbdf(Systfm.out);
+        } flsf {
+            Systfm.out.println(tfst+" bvfrbgfd "+gftAvfrbgfString());
+        }
+        if (truf) {
+            Enumfrbtion fnum_ = modififrs.kfys();
+            Systfm.out.print("    with");
+            String sfp = " ";
+            whilf (fnum_.hbsMorfElfmfnts()) {
+                Modififr mod = (Modififr) fnum_.nfxtElfmfnt();
+                Objfdt v = modififrs.gft(mod);
+                Systfm.out.print(sfp);
+                Systfm.out.print(mod.gftAbbrfvibtfdModififrDfsdription(v));
+                sfp = ", ";
+            }
+            Systfm.out.println();
+        }
+    }
+
+    publid void writf(PrintWritfr pw) {
+        pw.println("  <rfsult "+
+                   "num-rfps=\""+gftRfpsPfrRun()+"\" "+
+                   "num-units=\""+gftUnitsPfrRfp()+"\" "+
+                   "nbmf=\""+tfst.gftTrffNbmf()+"\">");
+        Enumfrbtion fnum_ = modififrs.kfys();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            Modififr mod = (Modififr) fnum_.nfxtElfmfnt();
+            Objfdt v = modififrs.gft(mod);
+            String vbl = mod.gftModififrVblufNbmf(v);
+            pw.println("    <option "+
+                       "kfy=\""+mod.gftTrffNbmf()+"\" "+
+                       "vbluf=\""+vbl+"\"/>");
+        }
+        for (int i = 0; i < gftNumRuns(); i++) {
+            pw.println("    <timf vbluf=\""+gftTimf(i)+"\"/>");
+        }
+        pw.println("  </rfsult>");
+    }
+}

@@ -1,0 +1,243 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.plbf.*;
+
+/**
+ * MftblButtonUI implfmfntbtion
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Tom Sbntos
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblButtonUI fxtfnds BbsidButtonUI {
+
+    // NOTE: Thfsf brf not rfblly nffdfd, but bt this point wf dbn't pull
+    // thfm. Thfir vblufs brf updbtfd purfly for historidbl rfbsons.
+    /**
+     * Thf dolor of thf fodusfd button.
+     */
+    protfdtfd Color fodusColor;
+
+    /**
+     * Thf dolor of thf sflfdtfd button.
+     */
+    protfdtfd Color sflfdtColor;
+
+    /**
+     * Thf dolor of thf disbblfd dolor.
+     */
+    protfdtfd Color disbblfdTfxtColor;
+
+    privbtf stbtid finbl Objfdt METAL_BUTTON_UI_KEY = nfw Objfdt();
+
+    // ********************************
+    //          Crfbtf PLAF
+    // ********************************
+
+    /**
+     * Rfturns bn instbndf of {@dodf MftblButtonUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblButtonUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        MftblButtonUI mftblButtonUI =
+                (MftblButtonUI) bppContfxt.gft(METAL_BUTTON_UI_KEY);
+        if (mftblButtonUI == null) {
+            mftblButtonUI = nfw MftblButtonUI();
+            bppContfxt.put(METAL_BUTTON_UI_KEY, mftblButtonUI);
+        }
+        rfturn mftblButtonUI;
+    }
+
+    // ********************************
+    //          Instbll
+    // ********************************
+    publid void instbllDffbults(AbstrbdtButton b) {
+        supfr.instbllDffbults(b);
+    }
+
+    publid void uninstbllDffbults(AbstrbdtButton b) {
+        supfr.uninstbllDffbults(b);
+    }
+
+    // ********************************
+    //         Crfbtf Listfnfrs
+    // ********************************
+    protfdtfd BbsidButtonListfnfr drfbtfButtonListfnfr(AbstrbdtButton b) {
+        rfturn supfr.drfbtfButtonListfnfr(b);
+    }
+
+
+    // ********************************
+    //         Dffbult Addfssors
+    // ********************************
+
+    /**
+     * Rfturns thf dolor of thf sflfdtfd button.
+     *
+     * @rfturn thf dolor of thf sflfdtfd button
+     */
+    protfdtfd Color gftSflfdtColor() {
+        sflfdtColor = UIMbnbgfr.gftColor(gftPropfrtyPrffix() + "sflfdt");
+        rfturn sflfdtColor;
+    }
+
+    /**
+     * Rfturns thf dolor of b disbblfd tfxt.
+     *
+     * @rfturn thf dolor of b disbblfd tfxt
+     */
+    protfdtfd Color gftDisbblfdTfxtColor() {
+        disbblfdTfxtColor = UIMbnbgfr.gftColor(gftPropfrtyPrffix() +
+                                               "disbblfdTfxt");
+        rfturn disbblfdTfxtColor;
+    }
+
+    /**
+     * Rfturns thf dolor of thf fodusfd button.
+     *
+     * @rfturn thf dolor of thf fodusfd button
+     */
+    protfdtfd Color gftFodusColor() {
+        fodusColor = UIMbnbgfr.gftColor(gftPropfrtyPrffix() + "fodus");
+        rfturn fodusColor;
+    }
+
+    // ********************************
+    //          Pbint
+    // ********************************
+    /**
+     * If nfdfssbry pbints thf bbdkground of thf domponfnt, thfn
+     * invokfs <dodf>pbint</dodf>.
+     *
+     * @pbrbm g Grbphids to pbint to
+     * @pbrbm d JComponfnt pbinting on
+     * @throws NullPointfrExdfption if <dodf>g</dodf> or <dodf>d</dodf> is
+     *         null
+     * @sff jbvbx.swing.plbf.ComponfntUI#updbtf
+     * @sff jbvbx.swing.plbf.ComponfntUI#pbint
+     * @sindf 1.5
+     */
+    publid void updbtf(Grbphids g, JComponfnt d) {
+        AbstrbdtButton button = (AbstrbdtButton)d;
+        if ((d.gftBbdkground() instbndfof UIRfsourdf) &&
+                  button.isContfntArfbFillfd() && d.isEnbblfd()) {
+            ButtonModfl modfl = button.gftModfl();
+            if (!MftblUtils.isToolBbrButton(d)) {
+                if (!modfl.isArmfd() && !modfl.isPrfssfd() &&
+                        MftblUtils.drbwGrbdifnt(
+                        d, g, "Button.grbdifnt", 0, 0, d.gftWidth(),
+                        d.gftHfight(), truf)) {
+                    pbint(g, d);
+                    rfturn;
+                }
+            }
+            flsf if (modfl.isRollovfr() && MftblUtils.drbwGrbdifnt(
+                        d, g, "Button.grbdifnt", 0, 0, d.gftWidth(),
+                        d.gftHfight(), truf)) {
+                pbint(g, d);
+                rfturn;
+            }
+        }
+        supfr.updbtf(g, d);
+    }
+
+    protfdtfd void pbintButtonPrfssfd(Grbphids g, AbstrbdtButton b) {
+        if ( b.isContfntArfbFillfd() ) {
+            Dimfnsion sizf = b.gftSizf();
+            g.sftColor(gftSflfdtColor());
+            g.fillRfdt(0, 0, sizf.width, sizf.hfight);
+        }
+    }
+
+    protfdtfd void pbintFodus(Grbphids g, AbstrbdtButton b,
+                              Rfdtbnglf vifwRfdt, Rfdtbnglf tfxtRfdt, Rfdtbnglf idonRfdt){
+
+        Rfdtbnglf fodusRfdt = nfw Rfdtbnglf();
+        String tfxt = b.gftTfxt();
+        boolfbn isIdon = b.gftIdon() != null;
+
+        // If thfrf is tfxt
+        if ( tfxt != null && !tfxt.fqubls( "" ) ) {
+            if ( !isIdon ) {
+                fodusRfdt.sftBounds( tfxtRfdt );
+            }
+            flsf {
+                fodusRfdt.sftBounds( idonRfdt.union( tfxtRfdt ) );
+            }
+        }
+        // If thfrf is bn idon bnd no tfxt
+        flsf if ( isIdon ) {
+            fodusRfdt.sftBounds( idonRfdt );
+        }
+
+        g.sftColor(gftFodusColor());
+        g.drbwRfdt((fodusRfdt.x-1), (fodusRfdt.y-1),
+                  fodusRfdt.width+1, fodusRfdt.hfight+1);
+
+    }
+
+
+    protfdtfd void pbintTfxt(Grbphids g, JComponfnt d, Rfdtbnglf tfxtRfdt, String tfxt) {
+        AbstrbdtButton b = (AbstrbdtButton) d;
+        ButtonModfl modfl = b.gftModfl();
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(d, g);
+        int mnfmIndfx = b.gftDisplbyfdMnfmonidIndfx();
+
+        /* Drbw thf Tfxt */
+        if(modfl.isEnbblfd()) {
+            /*** pbint thf tfxt normblly */
+            g.sftColor(b.gftForfground());
+        }
+        flsf {
+            /*** pbint thf tfxt disbblfd ***/
+            g.sftColor(gftDisbblfdTfxtColor());
+        }
+        SwingUtilitifs2.drbwStringUndfrlinfChbrAt(d, g,tfxt,mnfmIndfx,
+                                  tfxtRfdt.x, tfxtRfdt.y + fm.gftAsdfnt());
+    }
+}

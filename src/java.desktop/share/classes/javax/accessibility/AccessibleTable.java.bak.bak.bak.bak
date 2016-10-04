@@ -1,0 +1,222 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+/**
+ * Clbss AddfssiblfTbblf dfsdribfs b usfr-intfrfbdf domponfnt thbt
+ * prfsfnts dbtb in b two-dimfnsionbl tbblf formbt.
+ *
+ * @buthor      Lynn Monsbnto
+ * @sindf 1.3
+ */
+publid intfrfbdf AddfssiblfTbblf {
+
+    /**
+     * Rfturns thf dbption for thf tbblf.
+     *
+     * @rfturn thf dbption for thf tbblf
+     */
+    publid Addfssiblf gftAddfssiblfCbption();
+
+    /**
+     * Sfts thf dbption for thf tbblf.
+     *
+     * @pbrbm b thf dbption for thf tbblf
+     */
+    publid void sftAddfssiblfCbption(Addfssiblf b);
+
+    /**
+     * Rfturns thf summbry dfsdription of thf tbblf.
+     *
+     * @rfturn thf summbry dfsdription of thf tbblf
+     */
+    publid Addfssiblf gftAddfssiblfSummbry();
+
+    /**
+     * Sfts thf summbry dfsdription of thf tbblf
+     *
+     * @pbrbm b thf summbry dfsdription of thf tbblf
+     */
+    publid void sftAddfssiblfSummbry(Addfssiblf b);
+
+    /**
+     * Rfturns thf numbfr of rows in thf tbblf.
+     *
+     * @rfturn thf numbfr of rows in thf tbblf
+     */
+    publid int gftAddfssiblfRowCount();
+
+    /**
+     * Rfturns thf numbfr of dolumns in thf tbblf.
+     *
+     * @rfturn thf numbfr of dolumns in thf tbblf
+     */
+    publid int gftAddfssiblfColumnCount();
+
+    /**
+     * Rfturns thf Addfssiblf bt b spfdififd row bnd dolumn
+     * in thf tbblf.
+     *
+     * @pbrbm r zfro-bbsfd row of thf tbblf
+     * @pbrbm d zfro-bbsfd dolumn of thf tbblf
+     * @rfturn thf Addfssiblf bt thf spfdififd row bnd dolumn
+     */
+    publid Addfssiblf gftAddfssiblfAt(int r, int d);
+
+    /**
+     * Rfturns thf numbfr of rows oddupifd by thf Addfssiblf bt
+     * b spfdififd row bnd dolumn in thf tbblf.
+     *
+     * @pbrbm r zfro-bbsfd row of thf tbblf
+     * @pbrbm d zfro-bbsfd dolumn of thf tbblf
+     * @rfturn thf numbfr of rows oddupifd by thf Addfssiblf bt b
+     * givfn spfdififd (row, dolumn)
+     */
+    publid int gftAddfssiblfRowExtfntAt(int r, int d);
+
+    /**
+     * Rfturns thf numbfr of dolumns oddupifd by thf Addfssiblf bt
+     * b spfdififd row bnd dolumn in thf tbblf.
+     *
+     * @pbrbm r zfro-bbsfd row of thf tbblf
+     * @pbrbm d zfro-bbsfd dolumn of thf tbblf
+     * @rfturn thf numbfr of dolumns oddupifd by thf Addfssiblf bt b
+     * givfn spfdififd row bnd dolumn
+     */
+    publid int gftAddfssiblfColumnExtfntAt(int r, int d);
+
+    /**
+     * Rfturns thf row hfbdfrs bs bn AddfssiblfTbblf.
+     *
+     * @rfturn bn AddfssiblfTbblf rfprfsfnting thf row
+     * hfbdfrs
+     */
+    publid AddfssiblfTbblf gftAddfssiblfRowHfbdfr();
+
+    /**
+     * Sfts thf row hfbdfrs.
+     *
+     * @pbrbm tbblf bn AddfssiblfTbblf rfprfsfnting thf
+     * row hfbdfrs
+     */
+    publid void sftAddfssiblfRowHfbdfr(AddfssiblfTbblf tbblf);
+
+    /**
+     * Rfturns thf dolumn hfbdfrs bs bn AddfssiblfTbblf.
+     *
+     * @rfturn bn AddfssiblfTbblf rfprfsfnting thf dolumn
+     * hfbdfrs
+     */
+    publid AddfssiblfTbblf gftAddfssiblfColumnHfbdfr();
+
+    /**
+     * Sfts thf dolumn hfbdfrs.
+     *
+     * @pbrbm tbblf bn AddfssiblfTbblf rfprfsfnting thf
+     * dolumn hfbdfrs
+     */
+    publid void sftAddfssiblfColumnHfbdfr(AddfssiblfTbblf tbblf);
+
+    /**
+     * Rfturns thf dfsdription of thf spfdififd row in thf tbblf.
+     *
+     * @pbrbm r zfro-bbsfd row of thf tbblf
+     * @rfturn thf dfsdription of thf row
+     */
+    publid Addfssiblf gftAddfssiblfRowDfsdription(int r);
+
+    /**
+     * Sfts thf dfsdription tfxt of thf spfdififd row of thf tbblf.
+     *
+     * @pbrbm r zfro-bbsfd row of thf tbblf
+     * @pbrbm b thf dfsdription of thf row
+     */
+    publid void sftAddfssiblfRowDfsdription(int r, Addfssiblf b);
+
+    /**
+     * Rfturns thf dfsdription tfxt of thf spfdififd dolumn in thf tbblf.
+     *
+     * @pbrbm d zfro-bbsfd dolumn of thf tbblf
+     * @rfturn thf tfxt dfsdription of thf dolumn
+     */
+    publid Addfssiblf gftAddfssiblfColumnDfsdription(int d);
+
+    /**
+     * Sfts thf dfsdription tfxt of thf spfdififd dolumn in thf tbblf.
+     *
+     * @pbrbm d zfro-bbsfd dolumn of thf tbblf
+     * @pbrbm b thf tfxt dfsdription of thf dolumn
+     */
+    publid void sftAddfssiblfColumnDfsdription(int d, Addfssiblf b);
+
+    /**
+     * Rfturns b boolfbn vbluf indidbting whfthfr thf bddfssiblf bt
+     * b spfdififd row bnd dolumn is sflfdtfd.
+     *
+     * @pbrbm r zfro-bbsfd row of thf tbblf
+     * @pbrbm d zfro-bbsfd dolumn of thf tbblf
+     * @rfturn thf boolfbn vbluf truf if thf bddfssiblf bt thf
+     * row bnd dolumn is sflfdtfd. Othfrwisf, thf boolfbn vbluf
+     * fblsf
+     */
+    publid boolfbn isAddfssiblfSflfdtfd(int r, int d);
+
+    /**
+     * Rfturns b boolfbn vbluf indidbting whfthfr thf spfdififd row
+     * is sflfdtfd.
+     *
+     * @pbrbm r zfro-bbsfd row of thf tbblf
+     * @rfturn thf boolfbn vbluf truf if thf spfdififd row is sflfdtfd.
+     * Othfrwisf, fblsf.
+     */
+    publid boolfbn isAddfssiblfRowSflfdtfd(int r);
+
+    /**
+     * Rfturns b boolfbn vbluf indidbting whfthfr thf spfdififd dolumn
+     * is sflfdtfd.
+     *
+     * @pbrbm d zfro-bbsfd dolumn of thf tbblf
+     * @rfturn thf boolfbn vbluf truf if thf spfdififd dolumn is sflfdtfd.
+     * Othfrwisf, fblsf.
+     */
+    publid boolfbn isAddfssiblfColumnSflfdtfd(int d);
+
+    /**
+     * Rfturns thf sflfdtfd rows in b tbblf.
+     *
+     * @rfturn bn brrby of sflfdtfd rows whfrf fbdh flfmfnt is b
+     * zfro-bbsfd row of thf tbblf
+     */
+    publid int [] gftSflfdtfdAddfssiblfRows();
+
+    /**
+     * Rfturns thf sflfdtfd dolumns in b tbblf.
+     *
+     * @rfturn bn brrby of sflfdtfd dolumns whfrf fbdh flfmfnt is b
+     * zfro-bbsfd dolumn of thf tbblf
+     */
+    publid int [] gftSflfdtfdAddfssiblfColumns();
+}

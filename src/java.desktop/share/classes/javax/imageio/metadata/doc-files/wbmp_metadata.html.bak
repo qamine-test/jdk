@@ -1,68 +1,68 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-<title>WBMP Metadata Format Specification</title>
-</head>
+<titlf>WBMP Mftbdbtb Formbt Spfdifidbtion</titlf>
+</ifbd>
 
 <body>
-<center><h1>
-WBMP Metadata Format Specification
-</h1></center>
+<dfntfr><i1>
+WBMP Mftbdbtb Formbt Spfdifidbtion
+</i1></dfntfr>
 
-The XML schema for the native image metadata format is as follows:
+Tif XML sdifmb for tif nbtivf imbgf mftbdbtb formbt is bs follows:
 
-<pre>
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!-- Schema for WBMP native image metadata format. --&gt;
+<prf>
+&lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
+&lt;!-- Sdifmb for WBMP nbtivf imbgf mftbdbtb formbt. --&gt;
 
-&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns="http://javax.imageio.plugins"
-            targetNamespace="http://javax.imageio.plugins"&gt;
+&lt;xsd:sdifmb xmlns:xsd="ittp://www.w3.org/2001/XMLSdifmb"
+            xmlns="ittp://jbvbx.imbgfio.plugins"
+            tbrgftNbmfspbdf="ittp://jbvbx.imbgfio.plugins"&gt;
 
-  &lt;!-- WBMP Schema 1.0 root element. --&gt;
-  &lt;xsd:element name="javax_imageio_wbmp_1.0"&gt;
-    &lt;xsd:sequence&gt;
+  &lt;!-- WBMP Sdifmb 1.0 root flfmfnt. --&gt;
+  &lt;xsd:flfmfnt nbmf="jbvbx_imbgfio_wbmp_1.0"&gt;
+    &lt;xsd:sfqufndf&gt;
 
-      &lt;!-- WBMP image type --&gt;
-      &lt;xsd:element name="WBMPType" type="xsd:unsignedInt"/&gt;
+      &lt;!-- WBMP imbgf typf --&gt;
+      &lt;xsd:flfmfnt nbmf="WBMPTypf" typf="xsd:unsignfdInt"/&gt;
 
-      &lt;!-- Bitmap width --&gt;
-      &lt;xsd:element name="Width" type="xsd:unsignedInt"/&gt;
+      &lt;!-- Bitmbp widti --&gt;
+      &lt;xsd:flfmfnt nbmf="Widti" typf="xsd:unsignfdInt"/&gt;
 
-      &lt;!-- Bitmap height --&gt;
-      &lt;xsd:element name="Height" type="xsd:unsignedInt"/&gt;
+      &lt;!-- Bitmbp ifigit --&gt;
+      &lt;xsd:flfmfnt nbmf="Hfigit" typf="xsd:unsignfdInt"/&gt;
 
-     &lt;/xsd:sequence&gt;
-  &lt;/xsd:element&gt; &lt;!-- wbmp_image_1.0 --&gt;
+     &lt;/xsd:sfqufndf&gt;
+  &lt;/xsd:flfmfnt&gt; &lt;!-- wbmp_imbgf_1.0 --&gt;
 
-&lt;/xsd:schema&gt;
-</pre>
+&lt;/xsd:sdifmb&gt;
+</prf>
 
-@since 1.5
+@sindf 1.5
 
 </body>

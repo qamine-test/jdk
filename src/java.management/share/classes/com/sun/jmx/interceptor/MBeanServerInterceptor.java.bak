@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.interceptor;
+pbdkbgf dom.sun.jmx.intfrdfptor;
 
 
-import java.io.ObjectInputStream;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.OperationsException;
-import javax.management.ReflectionException;
-import javax.management.loading.ClassLoaderRepository;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.OpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository;
 
 /**
- * <p>This interface specifies the behavior to be implemented by an
- * MBean Server Interceptor.  An MBean Server Interceptor has
- * essentially the same interface as an MBean Server.  An MBean Server
- * forwards received requests to its default interceptor, which may
- * handle them itself or forward them to other interceptors.  The
- * default interceptor may be changed via the {@link
- * com.sun.jmx.mbeanserver.SunJmxMBeanServer#setMBeanServerInterceptor}
- * method.</p>
+ * <p>Tiis intfrfbdf spfdififs tif bfibvior to bf implfmfntfd by bn
+ * MBfbn Sfrvfr Intfrdfptor.  An MBfbn Sfrvfr Intfrdfptor ibs
+ * fssfntiblly tif sbmf intfrfbdf bs bn MBfbn Sfrvfr.  An MBfbn Sfrvfr
+ * forwbrds rfdfivfd rfqufsts to its dffbult intfrdfptor, wiidi mby
+ * ibndlf tifm itsflf or forwbrd tifm to otifr intfrdfptors.  Tif
+ * dffbult intfrdfptor mby bf dibngfd vib tif {@link
+ * dom.sun.jmx.mbfbnsfrvfr.SunJmxMBfbnSfrvfr#sftMBfbnSfrvfrIntfrdfptor}
+ * mftiod.</p>
  *
- * <p>The initial default interceptor provides the standard MBean
- * Server behavior.  It handles a collection of named MBeans, each
- * represented by a Java object.  A replacement default interceptor
- * may build on this behavior, for instance by adding logging or
- * security checks, before forwarding requests to the initial default
- * interceptor.  Or, it may route each request to one of a number of
- * sub-interceptors, for instance based on the {@link ObjectName} in
- * the request.</p>
+ * <p>Tif initibl dffbult intfrdfptor providfs tif stbndbrd MBfbn
+ * Sfrvfr bfibvior.  It ibndlfs b dollfdtion of nbmfd MBfbns, fbdi
+ * rfprfsfntfd by b Jbvb objfdt.  A rfplbdfmfnt dffbult intfrdfptor
+ * mby build on tiis bfibvior, for instbndf by bdding logging or
+ * sfdurity difdks, bfforf forwbrding rfqufsts to tif initibl dffbult
+ * intfrdfptor.  Or, it mby routf fbdi rfqufst to onf of b numbfr of
+ * sub-intfrdfptors, for instbndf bbsfd on tif {@link ObjfdtNbmf} in
+ * tif rfqufst.</p>
  *
- * <p>An interceptor, default or not, need not implement MBeans as
- * Java objects, in the way that the initial default interceptor does.
- * It may instead implement <em>virtual MBeans</em>, which do not
- * exist as Java objects when they are not in use.  For example, these
- * MBeans could be implemented by forwarding requests to a database,
- * or to a remote MBean server, or by performing system calls to query
- * or modify system resources.</p>
+ * <p>An intfrdfptor, dffbult or not, nffd not implfmfnt MBfbns bs
+ * Jbvb objfdts, in tif wby tibt tif initibl dffbult intfrdfptor dofs.
+ * It mby instfbd implfmfnt <fm>virtubl MBfbns</fm>, wiidi do not
+ * fxist bs Jbvb objfdts wifn tify brf not in usf.  For fxbmplf, tifsf
+ * MBfbns dould bf implfmfntfd by forwbrding rfqufsts to b dbtbbbsf,
+ * or to b rfmotf MBfbn sfrvfr, or by pfrforming systfm dblls to qufry
+ * or modify systfm rfsourdfs.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface MBeanServerInterceptor extends MBeanServer {
+publid intfrfbdf MBfbnSfrvfrIntfrdfptor fxtfnds MBfbnSfrvfr {
     /**
-     * This method should never be called.
-     * Usually hrows UnsupportedOperationException.
+     * Tiis mftiod siould nfvfr bf dbllfd.
+     * Usublly irows UnsupportfdOpfrbtionExdfption.
      */
-    public Object instantiate(String className)
-            throws ReflectionException, MBeanException;
+    publid Objfdt instbntibtf(String dlbssNbmf)
+            tirows RfflfdtionExdfption, MBfbnExdfption;
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * Tiis mftiod siould nfvfr bf dbllfd.
+     * Usublly tirows UnsupportfdOpfrbtionExdfption.
      */
-    public Object instantiate(String className, ObjectName loaderName)
-            throws ReflectionException, MBeanException,
-            InstanceNotFoundException;
+    publid Objfdt instbntibtf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf)
+            tirows RfflfdtionExdfption, MBfbnExdfption,
+            InstbndfNotFoundExdfption;
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * Tiis mftiod siould nfvfr bf dbllfd.
+     * Usublly tirows UnsupportfdOpfrbtionExdfption.
      */
-    public Object instantiate(String className, Object[] params,
-            String[] signature) throws ReflectionException, MBeanException;
+    publid Objfdt instbntibtf(String dlbssNbmf, Objfdt[] pbrbms,
+            String[] signbturf) tirows RfflfdtionExdfption, MBfbnExdfption;
 
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * Tiis mftiod siould nfvfr bf dbllfd.
+     * Usublly tirows UnsupportfdOpfrbtionExdfption.
      */
-    public Object instantiate(String className, ObjectName loaderName,
-            Object[] params, String[] signature)
-            throws ReflectionException, MBeanException,
-            InstanceNotFoundException;
+    publid Objfdt instbntibtf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf,
+            Objfdt[] pbrbms, String[] signbturf)
+            tirows RfflfdtionExdfption, MBfbnExdfption,
+            InstbndfNotFoundExdfption;
 
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * Tiis mftiod siould nfvfr bf dbllfd.
+     * Usublly tirows UnsupportfdOpfrbtionExdfption.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(ObjectName name, byte[] data)
-            throws InstanceNotFoundException, OperationsException;
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(ObjfdtNbmf nbmf, bytf[] dbtb)
+            tirows InstbndfNotFoundExdfption, OpfrbtionsExdfption;
 
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * Tiis mftiod siould nfvfr bf dbllfd.
+     * Usublly tirows UnsupportfdOpfrbtionExdfption.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(String className, byte[] data)
-            throws OperationsException, ReflectionException;
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(String dlbssNbmf, bytf[] dbtb)
+            tirows OpfrbtionsExdfption, RfflfdtionExdfption;
 
     /**
-     * This method should never be called.
-     * Usually hrows UnsupportedOperationException.
+     * Tiis mftiod siould nfvfr bf dbllfd.
+     * Usublly irows UnsupportfdOpfrbtionExdfption.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(String className,
-            ObjectName loaderName, byte[] data)
-            throws InstanceNotFoundException, OperationsException,
-            ReflectionException;
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(String dlbssNbmf,
+            ObjfdtNbmf lobdfrNbmf, bytf[] dbtb)
+            tirows InstbndfNotFoundExdfption, OpfrbtionsExdfption,
+            RfflfdtionExdfption;
 
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * Tiis mftiod siould nfvfr bf dbllfd.
+     * Usublly tirows UnsupportfdOpfrbtionExdfption.
      */
-    public ClassLoaderRepository getClassLoaderRepository();
+    publid ClbssLobdfrRfpository gftClbssLobdfrRfpository();
 
 }
 

@@ -1,0 +1,256 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright (d) 2011-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.dhrono;
+
+import jbvb.io.Extfrnblizbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidClbssExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtfTimf;
+
+/**
+ * Thf shbrfd sfriblizbtion dflfgbtf for this pbdkbgf.
+ *
+ * @implNotf
+ * This dlbss wrbps thf objfdt bfing sfriblizfd, bnd tbkfs b bytf rfprfsfnting thf typf of thf dlbss to
+ * bf sfriblizfd.  This bytf dbn blso bf usfd for vfrsioning thf sfriblizbtion formbt.  In this dbsf bnothfr
+ * bytf flbg would bf usfd in ordfr to spfdify bn bltfrnbtivf vfrsion of thf typf formbt.
+ * For fxbmplf {@dodf CHRONO_TYPE_VERSION_2 = 21}
+ * <p>
+ * In ordfr to sfriblizf thf objfdt it writfs its bytf bnd thfn dblls bbdk to thf bppropribtf dlbss whfrf
+ * thf sfriblizbtion is pfrformfd.  In ordfr to dfsfriblizf thf objfdt it rfbd in thf typf bytf, switdhing
+ * in ordfr to sflfdt whidh dlbss to dbll bbdk into.
+ * <p>
+ * Thf sfriblizbtion formbt is dftfrminfd on b pfr dlbss bbsis.  In thf dbsf of fifld bbsfd dlbssfs fbdh
+ * of thf fiflds is writtfn out with bn bppropribtf sizf formbt in dfsdfnding ordfr of thf fifld's sizf.  For
+ * fxbmplf in thf dbsf of {@link LodblDbtf} yfbr is writtfn bfforf month.  Compositf dlbssfs, sudh bs
+ * {@link LodblDbtfTimf} brf sfriblizfd bs onf objfdt.  Enum dlbssfs brf sfriblizfd using thf indfx of thfir
+ * flfmfnt.
+ * <p>
+ * This dlbss is mutbblf bnd should bf drfbtfd ondf pfr sfriblizbtion.
+ *
+ * @sfribl indludf
+ * @sindf 1.8
+ */
+finbl dlbss Sfr implfmfnts Extfrnblizbblf {
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -6103370247208168577L;
+
+    stbtid finbl bytf CHRONO_TYPE = 1;
+    stbtid finbl bytf CHRONO_LOCAL_DATE_TIME_TYPE = 2;
+    stbtid finbl bytf CHRONO_ZONE_DATE_TIME_TYPE = 3;
+    stbtid finbl bytf JAPANESE_DATE_TYPE = 4;
+    stbtid finbl bytf JAPANESE_ERA_TYPE = 5;
+    stbtid finbl bytf HIJRAH_DATE_TYPE = 6;
+    stbtid finbl bytf MINGUO_DATE_TYPE = 7;
+    stbtid finbl bytf THAIBUDDHIST_DATE_TYPE = 8;
+    stbtid finbl bytf CHRONO_PERIOD_TYPE = 9;
+
+    /** Thf typf bfing sfriblizfd. */
+    privbtf bytf typf;
+    /** Thf objfdt bfing sfriblizfd. */
+    privbtf Objfdt objfdt;
+
+    /**
+     * Construdtor for dfsfriblizbtion.
+     */
+    publid Sfr() {
+    }
+
+    /**
+     * Crfbtfs bn instbndf for sfriblizbtion.
+     *
+     * @pbrbm typf  thf typf
+     * @pbrbm objfdt  thf objfdt
+     */
+    Sfr(bytf typf, Objfdt objfdt) {
+        this.typf = typf;
+        this.objfdt = objfdt;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfnts thf {@dodf Extfrnblizbblf} intfrfbdf to writf thf objfdt.
+     * @sfriblDbtb
+     * Ebdh sfriblizbblf dlbss is mbppfd to b typf thbt is thf first bytf
+     * in thf strfbm.  Rfffr to fbdh dlbss {@dodf writfRfplbdf}
+     * sfriblizfd form for thf vbluf of thf typf bnd sfqufndf of vblufs for thf typf.
+     * <ul>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.HijrbhChronology">HijrbhChronology.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.IsoChronology">IsoChronology.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.JbpbnfsfChronology">JbpbnfsfChronology.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.MinguoChronology">MinguoChronology.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.ThbiBuddhistChronology">ThbiBuddhistChronology.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.ChronoLodblDbtfTimfImpl">ChronoLodblDbtfTimf.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.ChronoZonfdDbtfTimfImpl">ChronoZonfdDbtfTimf.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.JbpbnfsfDbtf">JbpbnfsfDbtf.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.JbpbnfsfErb">JbpbnfsfErb.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.HijrbhDbtf">HijrbhDbtf.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.MinguoDbtf">MinguoDbtf.writfRfplbdf</b>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.ThbiBuddhistDbtf">ThbiBuddhistDbtf.writfRfplbdf</b>
+     * </ul>
+     *
+     * @pbrbm out  thf dbtb strfbm to writf to, not null
+     */
+    @Ovfrridf
+    publid void writfExtfrnbl(ObjfdtOutput out) throws IOExdfption {
+        writfIntfrnbl(typf, objfdt, out);
+    }
+
+    privbtf stbtid void writfIntfrnbl(bytf typf, Objfdt objfdt, ObjfdtOutput out) throws IOExdfption {
+        out.writfBytf(typf);
+        switdh (typf) {
+            dbsf CHRONO_TYPE:
+                ((AbstrbdtChronology) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf CHRONO_LOCAL_DATE_TIME_TYPE:
+                ((ChronoLodblDbtfTimfImpl<?>) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf CHRONO_ZONE_DATE_TIME_TYPE:
+                ((ChronoZonfdDbtfTimfImpl<?>) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf JAPANESE_DATE_TYPE:
+                ((JbpbnfsfDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf JAPANESE_ERA_TYPE:
+                ((JbpbnfsfErb) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf HIJRAH_DATE_TYPE:
+                ((HijrbhDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf MINGUO_DATE_TYPE:
+                ((MinguoDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf THAIBUDDHIST_DATE_TYPE:
+                ((ThbiBuddhistDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf CHRONO_PERIOD_TYPE:
+                ((ChronoPfriodImpl) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dffbult:
+                throw nfw InvblidClbssExdfption("Unknown sfriblizfd typf");
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfnts thf {@dodf Extfrnblizbblf} intfrfbdf to rfbd thf objfdt.
+     * @sfriblDbtb
+     * Thf strfbmfd typf bnd pbrbmftfrs dffinfd by thf typf's {@dodf writfRfplbdf}
+     * mfthod brf rfbd bnd pbssfd to thf dorrfsponding stbtid fbdtory for thf typf
+     * to drfbtf b nfw instbndf.  Thbt instbndf is rfturnfd bs thf df-sfriblizfd
+     * {@dodf Sfr} objfdt.
+     *
+     * <ul>
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.HijrbhChronology">HijrbhChronology</b> - Chronology.of(id)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.IsoChronology">IsoChronology</b> - Chronology.of(id)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.JbpbnfsfChronology">JbpbnfsfChronology</b> - Chronology.of(id)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.MinguoChronology">MinguoChronology</b> - Chronology.of(id)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.ThbiBuddhistChronology">ThbiBuddhistChronology</b> - Chronology.of(id)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.ChronoLodblDbtfTimfImpl">ChronoLodblDbtfTimf</b> - dbtf.btTimf(timf)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.ChronoZonfdDbtfTimfImpl">ChronoZonfdDbtfTimf</b> - dbtfTimf.btZonf(offsft).withZonfSbmfLodbl(zonf)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.JbpbnfsfDbtf">JbpbnfsfDbtf</b> - JbpbnfsfChronology.INSTANCE.dbtf(yfbr, month, dbyOfMonth)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.JbpbnfsfErb">JbpbnfsfErb</b> - JbpbnfsfErb.of(frbVbluf)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.HijrbhDbtf">HijrbhDbtf</b> - HijrbhChronology dhrono.dbtf(yfbr, month, dbyOfMonth)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.MinguoDbtf">MinguoDbtf</b> - MinguoChronology.INSTANCE.dbtf(yfbr, month, dbyOfMonth)
+     * <li><b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.ThbiBuddhistDbtf">ThbiBuddhistDbtf</b> - ThbiBuddhistChronology.INSTANCE.dbtf(yfbr, month, dbyOfMonth)
+     * </ul>
+     *
+     * @pbrbm in  thf dbtb strfbm to rfbd from, not null
+     */
+    @Ovfrridf
+    publid void rfbdExtfrnbl(ObjfdtInput in) throws IOExdfption, ClbssNotFoundExdfption {
+        typf = in.rfbdBytf();
+        objfdt = rfbdIntfrnbl(typf, in);
+    }
+
+    stbtid Objfdt rfbd(ObjfdtInput in) throws IOExdfption, ClbssNotFoundExdfption {
+        bytf typf = in.rfbdBytf();
+        rfturn rfbdIntfrnbl(typf, in);
+    }
+
+    privbtf stbtid Objfdt rfbdIntfrnbl(bytf typf, ObjfdtInput in) throws IOExdfption, ClbssNotFoundExdfption {
+        switdh (typf) {
+            dbsf CHRONO_TYPE: rfturn AbstrbdtChronology.rfbdExtfrnbl(in);
+            dbsf CHRONO_LOCAL_DATE_TIME_TYPE: rfturn ChronoLodblDbtfTimfImpl.rfbdExtfrnbl(in);
+            dbsf CHRONO_ZONE_DATE_TIME_TYPE: rfturn ChronoZonfdDbtfTimfImpl.rfbdExtfrnbl(in);
+            dbsf JAPANESE_DATE_TYPE:  rfturn JbpbnfsfDbtf.rfbdExtfrnbl(in);
+            dbsf JAPANESE_ERA_TYPE: rfturn JbpbnfsfErb.rfbdExtfrnbl(in);
+            dbsf HIJRAH_DATE_TYPE: rfturn HijrbhDbtf.rfbdExtfrnbl(in);
+            dbsf MINGUO_DATE_TYPE: rfturn MinguoDbtf.rfbdExtfrnbl(in);
+            dbsf THAIBUDDHIST_DATE_TYPE: rfturn ThbiBuddhistDbtf.rfbdExtfrnbl(in);
+            dbsf CHRONO_PERIOD_TYPE: rfturn ChronoPfriodImpl.rfbdExtfrnbl(in);
+            dffbult: throw nfw StrfbmCorruptfdExdfption("Unknown sfriblizfd typf");
+        }
+    }
+
+    /**
+     * Rfturns thf objfdt thbt will rfplbdf this onf.
+     *
+     * @rfturn thf rfbd objfdt, should nfvfr bf null
+     */
+    privbtf Objfdt rfbdRfsolvf() {
+         rfturn objfdt;
+    }
+
+}

@@ -1,1168 +1,1168 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <fcntl.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <pwd.h>
-#include <grp.h>
-#include <errno.h>
-#include <dlfcn.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/statvfs.h>
-#include <sys/time.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <limits.i>
+#indludf <fdntl.i>
+#indludf <dirfnt.i>
+#indludf <unistd.i>
+#indludf <pwd.i>
+#indludf <grp.i>
+#indludf <frrno.i>
+#indludf <dlfdn.i>
+#indludf <sys/typfs.i>
+#indludf <sys/stbt.i>
+#indludf <sys/stbtvfs.i>
+#indludf <sys/timf.i>
 
-#ifdef __solaris__
-#include <strings.h>
-#endif
+#ifdff __solbris__
+#indludf <strings.i>
+#fndif
 
-#if defined(__linux__) || defined(_AIX)
-#include <string.h>
-#endif
+#if dffinfd(__linux__) || dffinfd(_AIX)
+#indludf <string.i>
+#fndif
 
-#ifdef _ALLBSD_SOURCE
-#include <string.h>
+#ifdff _ALLBSD_SOURCE
+#indludf <string.i>
 
-#define stat64 stat
-#define statvfs64 statvfs
+#dffinf stbt64 stbt
+#dffinf stbtvfs64 stbtvfs
 
-#define open64 open
-#define fstat64 fstat
-#define lstat64 lstat
-#define dirent64 dirent
-#define readdir64_r readdir_r
-#endif
+#dffinf opfn64 opfn
+#dffinf fstbt64 fstbt
+#dffinf lstbt64 lstbt
+#dffinf dirfnt64 dirfnt
+#dffinf rfbddir64_r rfbddir_r
+#fndif
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jlong.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jlong.i"
 
-#include "sun_nio_fs_UnixNativeDispatcher.h"
+#indludf "sun_nio_fs_UnixNbtivfDispbtdifr.i"
 
 /**
- * Size of password or group entry when not available via sysconf
+ * Sizf of pbssword or group fntry wifn not bvbilbblf vib sysdonf
  */
-#define ENT_BUF_SIZE   1024
+#dffinf ENT_BUF_SIZE   1024
 
-#define RESTARTABLE(_cmd, _result) do { \
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
   do { \
-    _result = _cmd; \
-  } while((_result == -1) && (errno == EINTR)); \
-} while(0)
+    _rfsult = _dmd; \
+  } wiilf((_rfsult == -1) && (frrno == EINTR)); \
+} wiilf(0)
 
-#define RESTARTABLE_RETURN_PTR(_cmd, _result) do { \
+#dffinf RESTARTABLE_RETURN_PTR(_dmd, _rfsult) do { \
   do { \
-    _result = _cmd; \
-  } while((_result == NULL) && (errno == EINTR)); \
-} while(0)
+    _rfsult = _dmd; \
+  } wiilf((_rfsult == NULL) && (frrno == EINTR)); \
+} wiilf(0)
 
-static jfieldID attrs_st_mode;
-static jfieldID attrs_st_ino;
-static jfieldID attrs_st_dev;
-static jfieldID attrs_st_rdev;
-static jfieldID attrs_st_nlink;
-static jfieldID attrs_st_uid;
-static jfieldID attrs_st_gid;
-static jfieldID attrs_st_size;
-static jfieldID attrs_st_atime_sec;
-static jfieldID attrs_st_atime_nsec;
-static jfieldID attrs_st_mtime_sec;
-static jfieldID attrs_st_mtime_nsec;
-static jfieldID attrs_st_ctime_sec;
-static jfieldID attrs_st_ctime_nsec;
+stbtid jfifldID bttrs_st_modf;
+stbtid jfifldID bttrs_st_ino;
+stbtid jfifldID bttrs_st_dfv;
+stbtid jfifldID bttrs_st_rdfv;
+stbtid jfifldID bttrs_st_nlink;
+stbtid jfifldID bttrs_st_uid;
+stbtid jfifldID bttrs_st_gid;
+stbtid jfifldID bttrs_st_sizf;
+stbtid jfifldID bttrs_st_btimf_sfd;
+stbtid jfifldID bttrs_st_btimf_nsfd;
+stbtid jfifldID bttrs_st_mtimf_sfd;
+stbtid jfifldID bttrs_st_mtimf_nsfd;
+stbtid jfifldID bttrs_st_dtimf_sfd;
+stbtid jfifldID bttrs_st_dtimf_nsfd;
 
-#ifdef _DARWIN_FEATURE_64_BIT_INODE
-static jfieldID attrs_st_birthtime_sec;
-#endif
+#ifdff _DARWIN_FEATURE_64_BIT_INODE
+stbtid jfifldID bttrs_st_birtitimf_sfd;
+#fndif
 
-static jfieldID attrs_f_frsize;
-static jfieldID attrs_f_blocks;
-static jfieldID attrs_f_bfree;
-static jfieldID attrs_f_bavail;
+stbtid jfifldID bttrs_f_frsizf;
+stbtid jfifldID bttrs_f_blodks;
+stbtid jfifldID bttrs_f_bfrff;
+stbtid jfifldID bttrs_f_bbvbil;
 
-static jfieldID entry_name;
-static jfieldID entry_dir;
-static jfieldID entry_fstype;
-static jfieldID entry_options;
-static jfieldID entry_dev;
+stbtid jfifldID fntry_nbmf;
+stbtid jfifldID fntry_dir;
+stbtid jfifldID fntry_fstypf;
+stbtid jfifldID fntry_options;
+stbtid jfifldID fntry_dfv;
 
 /**
- * System calls that may not be available at run time.
+ * Systfm dblls tibt mby not bf bvbilbblf bt run timf.
  */
-typedef int openat64_func(int, const char *, int, ...);
-typedef int fstatat64_func(int, const char *, struct stat64 *, int);
-typedef int unlinkat_func(int, const char*, int);
-typedef int renameat_func(int, const char*, int, const char*);
-typedef int futimesat_func(int, const char *, const struct timeval *);
-typedef DIR* fdopendir_func(int);
+typfdff int opfnbt64_fund(int, donst dibr *, int, ...);
+typfdff int fstbtbt64_fund(int, donst dibr *, strudt stbt64 *, int);
+typfdff int unlinkbt_fund(int, donst dibr*, int);
+typfdff int rfnbmfbt_fund(int, donst dibr*, int, donst dibr*);
+typfdff int futimfsbt_fund(int, donst dibr *, donst strudt timfvbl *);
+typfdff DIR* fdopfndir_fund(int);
 
-static openat64_func* my_openat64_func = NULL;
-static fstatat64_func* my_fstatat64_func = NULL;
-static unlinkat_func* my_unlinkat_func = NULL;
-static renameat_func* my_renameat_func = NULL;
-static futimesat_func* my_futimesat_func = NULL;
-static fdopendir_func* my_fdopendir_func = NULL;
+stbtid opfnbt64_fund* my_opfnbt64_fund = NULL;
+stbtid fstbtbt64_fund* my_fstbtbt64_fund = NULL;
+stbtid unlinkbt_fund* my_unlinkbt_fund = NULL;
+stbtid rfnbmfbt_fund* my_rfnbmfbt_fund = NULL;
+stbtid futimfsbt_fund* my_futimfsbt_fund = NULL;
+stbtid fdopfndir_fund* my_fdopfndir_fund = NULL;
 
 /**
- * fstatat missing from glibc on Linux. Temporary workaround
+ * fstbtbt missing from glibd on Linux. Tfmporbry workbround
  * for x86/x64.
  */
-#if defined(__linux__) && defined(__i386)
-#define FSTATAT64_SYSCALL_AVAILABLE
-static int fstatat64_wrapper(int dfd, const char *path,
-                             struct stat64 *statbuf, int flag)
+#if dffinfd(__linux__) && dffinfd(__i386)
+#dffinf FSTATAT64_SYSCALL_AVAILABLE
+stbtid int fstbtbt64_wrbppfr(int dfd, donst dibr *pbti,
+                             strudt stbt64 *stbtbuf, int flbg)
 {
-    #ifndef __NR_fstatat64
-    #define __NR_fstatat64  300
-    #endif
-    return syscall(__NR_fstatat64, dfd, path, statbuf, flag);
+    #ifndff __NR_fstbtbt64
+    #dffinf __NR_fstbtbt64  300
+    #fndif
+    rfturn sysdbll(__NR_fstbtbt64, dfd, pbti, stbtbuf, flbg);
 }
-#endif
+#fndif
 
-#if defined(__linux__) && defined(__x86_64__)
-#define FSTATAT64_SYSCALL_AVAILABLE
-static int fstatat64_wrapper(int dfd, const char *path,
-                             struct stat64 *statbuf, int flag)
+#if dffinfd(__linux__) && dffinfd(__x86_64__)
+#dffinf FSTATAT64_SYSCALL_AVAILABLE
+stbtid int fstbtbt64_wrbppfr(int dfd, donst dibr *pbti,
+                             strudt stbt64 *stbtbuf, int flbg)
 {
-    #ifndef __NR_newfstatat
-    #define __NR_newfstatat  262
-    #endif
-    return syscall(__NR_newfstatat, dfd, path, statbuf, flag);
+    #ifndff __NR_nfwfstbtbt
+    #dffinf __NR_nfwfstbtbt  262
+    #fndif
+    rfturn sysdbll(__NR_nfwfstbtbt, dfd, pbti, stbtbuf, flbg);
 }
-#endif
+#fndif
 
 /**
- * Call this to throw an internal UnixException when a system/library
- * call fails
+ * Cbll tiis to tirow bn intfrnbl UnixExdfption wifn b systfm/librbry
+ * dbll fbils
  */
-static void throwUnixException(JNIEnv* env, int errnum) {
-    jobject x = JNU_NewObjectByName(env, "sun/nio/fs/UnixException",
-        "(I)V", errnum);
+stbtid void tirowUnixExdfption(JNIEnv* fnv, int frrnum) {
+    jobjfdt x = JNU_NfwObjfdtByNbmf(fnv, "sun/nio/fs/UnixExdfption",
+        "(I)V", frrnum);
     if (x != NULL) {
-        (*env)->Throw(env, x);
+        (*fnv)->Tirow(fnv, x);
     }
 }
 
 /**
- * Initialization
+ * Initiblizbtion
  */
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_init(JNIEnv* env, jclass this)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_init(JNIEnv* fnv, jdlbss tiis)
 {
-    jint capabilities = 0;
-    jclass clazz;
+    jint dbpbbilitifs = 0;
+    jdlbss dlbzz;
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/UnixFileAttributes");
-    CHECK_NULL_RETURN(clazz, 0);
-    attrs_st_mode = (*env)->GetFieldID(env, clazz, "st_mode", "I");
-    CHECK_NULL_RETURN(attrs_st_mode, 0);
-    attrs_st_ino = (*env)->GetFieldID(env, clazz, "st_ino", "J");
-    CHECK_NULL_RETURN(attrs_st_ino, 0);
-    attrs_st_dev = (*env)->GetFieldID(env, clazz, "st_dev", "J");
-    CHECK_NULL_RETURN(attrs_st_dev, 0);
-    attrs_st_rdev = (*env)->GetFieldID(env, clazz, "st_rdev", "J");
-    CHECK_NULL_RETURN(attrs_st_rdev, 0);
-    attrs_st_nlink = (*env)->GetFieldID(env, clazz, "st_nlink", "I");
-    CHECK_NULL_RETURN(attrs_st_nlink, 0);
-    attrs_st_uid = (*env)->GetFieldID(env, clazz, "st_uid", "I");
-    CHECK_NULL_RETURN(attrs_st_uid, 0);
-    attrs_st_gid = (*env)->GetFieldID(env, clazz, "st_gid", "I");
-    CHECK_NULL_RETURN(attrs_st_gid, 0);
-    attrs_st_size = (*env)->GetFieldID(env, clazz, "st_size", "J");
-    CHECK_NULL_RETURN(attrs_st_size, 0);
-    attrs_st_atime_sec = (*env)->GetFieldID(env, clazz, "st_atime_sec", "J");
-    CHECK_NULL_RETURN(attrs_st_atime_sec, 0);
-    attrs_st_atime_nsec = (*env)->GetFieldID(env, clazz, "st_atime_nsec", "J");
-    CHECK_NULL_RETURN(attrs_st_atime_nsec, 0);
-    attrs_st_mtime_sec = (*env)->GetFieldID(env, clazz, "st_mtime_sec", "J");
-    CHECK_NULL_RETURN(attrs_st_mtime_sec, 0);
-    attrs_st_mtime_nsec = (*env)->GetFieldID(env, clazz, "st_mtime_nsec", "J");
-    CHECK_NULL_RETURN(attrs_st_mtime_nsec, 0);
-    attrs_st_ctime_sec = (*env)->GetFieldID(env, clazz, "st_ctime_sec", "J");
-    CHECK_NULL_RETURN(attrs_st_ctime_sec, 0);
-    attrs_st_ctime_nsec = (*env)->GetFieldID(env, clazz, "st_ctime_nsec", "J");
-    CHECK_NULL_RETURN(attrs_st_ctime_nsec, 0);
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/UnixFilfAttributfs");
+    CHECK_NULL_RETURN(dlbzz, 0);
+    bttrs_st_modf = (*fnv)->GftFifldID(fnv, dlbzz, "st_modf", "I");
+    CHECK_NULL_RETURN(bttrs_st_modf, 0);
+    bttrs_st_ino = (*fnv)->GftFifldID(fnv, dlbzz, "st_ino", "J");
+    CHECK_NULL_RETURN(bttrs_st_ino, 0);
+    bttrs_st_dfv = (*fnv)->GftFifldID(fnv, dlbzz, "st_dfv", "J");
+    CHECK_NULL_RETURN(bttrs_st_dfv, 0);
+    bttrs_st_rdfv = (*fnv)->GftFifldID(fnv, dlbzz, "st_rdfv", "J");
+    CHECK_NULL_RETURN(bttrs_st_rdfv, 0);
+    bttrs_st_nlink = (*fnv)->GftFifldID(fnv, dlbzz, "st_nlink", "I");
+    CHECK_NULL_RETURN(bttrs_st_nlink, 0);
+    bttrs_st_uid = (*fnv)->GftFifldID(fnv, dlbzz, "st_uid", "I");
+    CHECK_NULL_RETURN(bttrs_st_uid, 0);
+    bttrs_st_gid = (*fnv)->GftFifldID(fnv, dlbzz, "st_gid", "I");
+    CHECK_NULL_RETURN(bttrs_st_gid, 0);
+    bttrs_st_sizf = (*fnv)->GftFifldID(fnv, dlbzz, "st_sizf", "J");
+    CHECK_NULL_RETURN(bttrs_st_sizf, 0);
+    bttrs_st_btimf_sfd = (*fnv)->GftFifldID(fnv, dlbzz, "st_btimf_sfd", "J");
+    CHECK_NULL_RETURN(bttrs_st_btimf_sfd, 0);
+    bttrs_st_btimf_nsfd = (*fnv)->GftFifldID(fnv, dlbzz, "st_btimf_nsfd", "J");
+    CHECK_NULL_RETURN(bttrs_st_btimf_nsfd, 0);
+    bttrs_st_mtimf_sfd = (*fnv)->GftFifldID(fnv, dlbzz, "st_mtimf_sfd", "J");
+    CHECK_NULL_RETURN(bttrs_st_mtimf_sfd, 0);
+    bttrs_st_mtimf_nsfd = (*fnv)->GftFifldID(fnv, dlbzz, "st_mtimf_nsfd", "J");
+    CHECK_NULL_RETURN(bttrs_st_mtimf_nsfd, 0);
+    bttrs_st_dtimf_sfd = (*fnv)->GftFifldID(fnv, dlbzz, "st_dtimf_sfd", "J");
+    CHECK_NULL_RETURN(bttrs_st_dtimf_sfd, 0);
+    bttrs_st_dtimf_nsfd = (*fnv)->GftFifldID(fnv, dlbzz, "st_dtimf_nsfd", "J");
+    CHECK_NULL_RETURN(bttrs_st_dtimf_nsfd, 0);
 
-#ifdef _DARWIN_FEATURE_64_BIT_INODE
-    attrs_st_birthtime_sec = (*env)->GetFieldID(env, clazz, "st_birthtime_sec", "J");
-    CHECK_NULL_RETURN(attrs_st_birthtime_sec, 0);
-#endif
+#ifdff _DARWIN_FEATURE_64_BIT_INODE
+    bttrs_st_birtitimf_sfd = (*fnv)->GftFifldID(fnv, dlbzz, "st_birtitimf_sfd", "J");
+    CHECK_NULL_RETURN(bttrs_st_birtitimf_sfd, 0);
+#fndif
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/UnixFileStoreAttributes");
-    CHECK_NULL_RETURN(clazz, 0);
-    attrs_f_frsize = (*env)->GetFieldID(env, clazz, "f_frsize", "J");
-    CHECK_NULL_RETURN(attrs_f_frsize, 0);
-    attrs_f_blocks = (*env)->GetFieldID(env, clazz, "f_blocks", "J");
-    CHECK_NULL_RETURN(attrs_f_blocks, 0);
-    attrs_f_bfree = (*env)->GetFieldID(env, clazz, "f_bfree", "J");
-    CHECK_NULL_RETURN(attrs_f_bfree, 0);
-    attrs_f_bavail = (*env)->GetFieldID(env, clazz, "f_bavail", "J");
-    CHECK_NULL_RETURN(attrs_f_bavail, 0);
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/UnixFilfStorfAttributfs");
+    CHECK_NULL_RETURN(dlbzz, 0);
+    bttrs_f_frsizf = (*fnv)->GftFifldID(fnv, dlbzz, "f_frsizf", "J");
+    CHECK_NULL_RETURN(bttrs_f_frsizf, 0);
+    bttrs_f_blodks = (*fnv)->GftFifldID(fnv, dlbzz, "f_blodks", "J");
+    CHECK_NULL_RETURN(bttrs_f_blodks, 0);
+    bttrs_f_bfrff = (*fnv)->GftFifldID(fnv, dlbzz, "f_bfrff", "J");
+    CHECK_NULL_RETURN(bttrs_f_bfrff, 0);
+    bttrs_f_bbvbil = (*fnv)->GftFifldID(fnv, dlbzz, "f_bbvbil", "J");
+    CHECK_NULL_RETURN(bttrs_f_bbvbil, 0);
 
-    clazz = (*env)->FindClass(env, "sun/nio/fs/UnixMountEntry");
-    CHECK_NULL_RETURN(clazz, 0);
-    entry_name = (*env)->GetFieldID(env, clazz, "name", "[B");
-    CHECK_NULL_RETURN(entry_name, 0);
-    entry_dir = (*env)->GetFieldID(env, clazz, "dir", "[B");
-    CHECK_NULL_RETURN(entry_dir, 0);
-    entry_fstype = (*env)->GetFieldID(env, clazz, "fstype", "[B");
-    CHECK_NULL_RETURN(entry_fstype, 0);
-    entry_options = (*env)->GetFieldID(env, clazz, "opts", "[B");
-    CHECK_NULL_RETURN(entry_options, 0);
-    entry_dev = (*env)->GetFieldID(env, clazz, "dev", "J");
-    CHECK_NULL_RETURN(entry_dev, 0);
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/UnixMountEntry");
+    CHECK_NULL_RETURN(dlbzz, 0);
+    fntry_nbmf = (*fnv)->GftFifldID(fnv, dlbzz, "nbmf", "[B");
+    CHECK_NULL_RETURN(fntry_nbmf, 0);
+    fntry_dir = (*fnv)->GftFifldID(fnv, dlbzz, "dir", "[B");
+    CHECK_NULL_RETURN(fntry_dir, 0);
+    fntry_fstypf = (*fnv)->GftFifldID(fnv, dlbzz, "fstypf", "[B");
+    CHECK_NULL_RETURN(fntry_fstypf, 0);
+    fntry_options = (*fnv)->GftFifldID(fnv, dlbzz, "opts", "[B");
+    CHECK_NULL_RETURN(fntry_options, 0);
+    fntry_dfv = (*fnv)->GftFifldID(fnv, dlbzz, "dfv", "J");
+    CHECK_NULL_RETURN(fntry_dfv, 0);
 
-    /* system calls that might not be available at run time */
+    /* systfm dblls tibt migit not bf bvbilbblf bt run timf */
 
-#if (defined(__solaris__) && defined(_LP64)) || defined(_ALLBSD_SOURCE)
-    /* Solaris 64-bit does not have openat64/fstatat64 */
-    my_openat64_func = (openat64_func*)dlsym(RTLD_DEFAULT, "openat");
-    my_fstatat64_func = (fstatat64_func*)dlsym(RTLD_DEFAULT, "fstatat");
-#else
-    my_openat64_func = (openat64_func*) dlsym(RTLD_DEFAULT, "openat64");
-    my_fstatat64_func = (fstatat64_func*) dlsym(RTLD_DEFAULT, "fstatat64");
-#endif
-    my_unlinkat_func = (unlinkat_func*) dlsym(RTLD_DEFAULT, "unlinkat");
-    my_renameat_func = (renameat_func*) dlsym(RTLD_DEFAULT, "renameat");
-    my_futimesat_func = (futimesat_func*) dlsym(RTLD_DEFAULT, "futimesat");
-    my_fdopendir_func = (fdopendir_func*) dlsym(RTLD_DEFAULT, "fdopendir");
+#if (dffinfd(__solbris__) && dffinfd(_LP64)) || dffinfd(_ALLBSD_SOURCE)
+    /* Solbris 64-bit dofs not ibvf opfnbt64/fstbtbt64 */
+    my_opfnbt64_fund = (opfnbt64_fund*)dlsym(RTLD_DEFAULT, "opfnbt");
+    my_fstbtbt64_fund = (fstbtbt64_fund*)dlsym(RTLD_DEFAULT, "fstbtbt");
+#flsf
+    my_opfnbt64_fund = (opfnbt64_fund*) dlsym(RTLD_DEFAULT, "opfnbt64");
+    my_fstbtbt64_fund = (fstbtbt64_fund*) dlsym(RTLD_DEFAULT, "fstbtbt64");
+#fndif
+    my_unlinkbt_fund = (unlinkbt_fund*) dlsym(RTLD_DEFAULT, "unlinkbt");
+    my_rfnbmfbt_fund = (rfnbmfbt_fund*) dlsym(RTLD_DEFAULT, "rfnbmfbt");
+    my_futimfsbt_fund = (futimfsbt_fund*) dlsym(RTLD_DEFAULT, "futimfsbt");
+    my_fdopfndir_fund = (fdopfndir_fund*) dlsym(RTLD_DEFAULT, "fdopfndir");
 
-#if defined(FSTATAT64_SYSCALL_AVAILABLE)
-    /* fstatat64 missing from glibc */
-    if (my_fstatat64_func == NULL)
-        my_fstatat64_func = (fstatat64_func*)&fstatat64_wrapper;
-#endif
+#if dffinfd(FSTATAT64_SYSCALL_AVAILABLE)
+    /* fstbtbt64 missing from glibd */
+    if (my_fstbtbt64_fund == NULL)
+        my_fstbtbt64_fund = (fstbtbt64_fund*)&fstbtbt64_wrbppfr;
+#fndif
 
-    /* supports futimes or futimesat */
+    /* supports futimfs or futimfsbt */
 
-#ifdef _ALLBSD_SOURCE
-    capabilities |= sun_nio_fs_UnixNativeDispatcher_SUPPORTS_FUTIMES;
-#else
-    if (my_futimesat_func != NULL)
-        capabilities |= sun_nio_fs_UnixNativeDispatcher_SUPPORTS_FUTIMES;
-#endif
+#ifdff _ALLBSD_SOURCE
+    dbpbbilitifs |= sun_nio_fs_UnixNbtivfDispbtdifr_SUPPORTS_FUTIMES;
+#flsf
+    if (my_futimfsbt_fund != NULL)
+        dbpbbilitifs |= sun_nio_fs_UnixNbtivfDispbtdifr_SUPPORTS_FUTIMES;
+#fndif
 
-    /* supports openat, etc. */
+    /* supports opfnbt, ftd. */
 
-    if (my_openat64_func != NULL &&  my_fstatat64_func != NULL &&
-        my_unlinkat_func != NULL && my_renameat_func != NULL &&
-        my_futimesat_func != NULL && my_fdopendir_func != NULL)
+    if (my_opfnbt64_fund != NULL &&  my_fstbtbt64_fund != NULL &&
+        my_unlinkbt_fund != NULL && my_rfnbmfbt_fund != NULL &&
+        my_futimfsbt_fund != NULL && my_fdopfndir_fund != NULL)
     {
-        capabilities |= sun_nio_fs_UnixNativeDispatcher_SUPPORTS_OPENAT;
+        dbpbbilitifs |= sun_nio_fs_UnixNbtivfDispbtdifr_SUPPORTS_OPENAT;
     }
 
-    /* supports file birthtime */
+    /* supports filf birtitimf */
 
-#ifdef _DARWIN_FEATURE_64_BIT_INODE
-    capabilities |= sun_nio_fs_UnixNativeDispatcher_SUPPORTS_BIRTHTIME;
-#endif
+#ifdff _DARWIN_FEATURE_64_BIT_INODE
+    dbpbbilitifs |= sun_nio_fs_UnixNbtivfDispbtdifr_SUPPORTS_BIRTHTIME;
+#fndif
 
-    return capabilities;
+    rfturn dbpbbilitifs;
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_getcwd(JNIEnv* env, jclass this) {
-    jbyteArray result = NULL;
-    char buf[PATH_MAX+1];
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_gftdwd(JNIEnv* fnv, jdlbss tiis) {
+    jbytfArrby rfsult = NULL;
+    dibr buf[PATH_MAX+1];
 
-    /* EINTR not listed as a possible error */
-    char* cwd = getcwd(buf, sizeof(buf));
-    if (cwd == NULL) {
-        throwUnixException(env, errno);
-    } else {
-        jsize len = (jsize)strlen(buf);
-        result = (*env)->NewByteArray(env, len);
-        if (result != NULL) {
-            (*env)->SetByteArrayRegion(env, result, 0, len, (jbyte*)buf);
+    /* EINTR not listfd bs b possiblf frror */
+    dibr* dwd = gftdwd(buf, sizfof(buf));
+    if (dwd == NULL) {
+        tirowUnixExdfption(fnv, frrno);
+    } flsf {
+        jsizf lfn = (jsizf)strlfn(buf);
+        rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+        if (rfsult != NULL) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)buf);
         }
     }
-    return result;
+    rfturn rfsult;
 }
 
-JNIEXPORT jbyteArray
-Java_sun_nio_fs_UnixNativeDispatcher_strerror(JNIEnv* env, jclass this, jint error)
+JNIEXPORT jbytfArrby
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_strfrror(JNIEnv* fnv, jdlbss tiis, jint frror)
 {
-    char* msg;
-    jsize len;
-    jbyteArray bytes;
+    dibr* msg;
+    jsizf lfn;
+    jbytfArrby bytfs;
 
-#ifdef _AIX
-    /* strerror() is not thread-safe on AIX so we have to use strerror_r() */
-    char buffer[256];
-    msg = (strerror_r((int)error, buffer, 256) == 0) ? buffer : "Error while calling strerror_r";
-#else
-    msg = strerror((int)error);
-#endif
-    len = strlen(msg);
-    bytes = (*env)->NewByteArray(env, len);
-    if (bytes != NULL) {
-        (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)msg);
+#ifdff _AIX
+    /* strfrror() is not tirfbd-sbff on AIX so wf ibvf to usf strfrror_r() */
+    dibr bufffr[256];
+    msg = (strfrror_r((int)frror, bufffr, 256) == 0) ? bufffr : "Error wiilf dblling strfrror_r";
+#flsf
+    msg = strfrror((int)frror);
+#fndif
+    lfn = strlfn(msg);
+    bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (bytfs != NULL) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)msg);
     }
-    return bytes;
+    rfturn bytfs;
 }
 
 JNIEXPORT jint
-Java_sun_nio_fs_UnixNativeDispatcher_dup(JNIEnv* env, jclass this, jint fd) {
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_dup(JNIEnv* fnv, jdlbss tiis, jint fd) {
 
-    int res = -1;
+    int rfs = -1;
 
-    RESTARTABLE(dup((int)fd), res);
+    RESTARTABLE(dup((int)fd), rfs);
     if (fd == -1) {
-        throwUnixException(env, errno);
+        tirowUnixExdfption(fnv, frrno);
     }
-    return (jint)res;
+    rfturn (jint)rfs;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_fopen0(JNIEnv* env, jclass this,
-    jlong pathAddress, jlong modeAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_fopfn0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jlong modfAddrfss)
 {
     FILE* fp = NULL;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
-    const char* mode = (const char*)jlong_to_ptr(modeAddress);
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
+    donst dibr* modf = (donst dibr*)jlong_to_ptr(modfAddrfss);
 
     do {
-        fp = fopen(path, mode);
-    } while (fp == NULL && errno == EINTR);
+        fp = fopfn(pbti, modf);
+    } wiilf (fp == NULL && frrno == EINTR);
 
     if (fp == NULL) {
-        throwUnixException(env, errno);
+        tirowUnixExdfption(fnv, frrno);
     }
 
-    return ptr_to_jlong(fp);
+    rfturn ptr_to_jlong(fp);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_fclose(JNIEnv* env, jclass this, jlong stream)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_fdlosf(JNIEnv* fnv, jdlbss tiis, jlong strfbm)
 {
-    int res;
-    FILE* fp = jlong_to_ptr(stream);
+    int rfs;
+    FILE* fp = jlong_to_ptr(strfbm);
 
     do {
-        res = fclose(fp);
-    } while (res == EOF && errno == EINTR);
-    if (res == EOF) {
-        throwUnixException(env, errno);
+        rfs = fdlosf(fp);
+    } wiilf (rfs == EOF && frrno == EINTR);
+    if (rfs == EOF) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_open0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint oflags, jint mode)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_opfn0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jint oflbgs, jint modf)
 {
     jint fd;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    RESTARTABLE(open64(path, (int)oflags, (mode_t)mode), fd);
+    RESTARTABLE(opfn64(pbti, (int)oflbgs, (modf_t)modf), fd);
     if (fd == -1) {
-        throwUnixException(env, errno);
+        tirowUnixExdfption(fnv, frrno);
     }
-    return fd;
+    rfturn fd;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_openat0(JNIEnv* env, jclass this, jint dfd,
-    jlong pathAddress, jint oflags, jint mode)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_opfnbt0(JNIEnv* fnv, jdlbss tiis, jint dfd,
+    jlong pbtiAddrfss, jint oflbgs, jint modf)
 {
     jint fd;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    if (my_openat64_func == NULL) {
-        JNU_ThrowInternalError(env, "should not reach here");
-        return -1;
+    if (my_opfnbt64_fund == NULL) {
+        JNU_TirowIntfrnblError(fnv, "siould not rfbdi ifrf");
+        rfturn -1;
     }
 
-    RESTARTABLE((*my_openat64_func)(dfd, path, (int)oflags, (mode_t)mode), fd);
+    RESTARTABLE((*my_opfnbt64_fund)(dfd, pbti, (int)oflbgs, (modf_t)modf), fd);
     if (fd == -1) {
-        throwUnixException(env, errno);
+        tirowUnixExdfption(fnv, frrno);
     }
-    return fd;
+    rfturn fd;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_close(JNIEnv* env, jclass this, jint fd) {
-    int err;
-    /* TDB - need to decide if EIO and other errors should cause exception */
-    RESTARTABLE(close((int)fd), err);
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_dlosf(JNIEnv* fnv, jdlbss tiis, jint fd) {
+    int frr;
+    /* TDB - nffd to dfdidf if EIO bnd otifr frrors siould dbusf fxdfption */
+    RESTARTABLE(dlosf((int)fd), frr);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_read(JNIEnv* env, jclass this, jint fd,
-    jlong address, jint nbytes)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_rfbd(JNIEnv* fnv, jdlbss tiis, jint fd,
+    jlong bddrfss, jint nbytfs)
 {
-    ssize_t n;
-    void* bufp = jlong_to_ptr(address);
-    RESTARTABLE(read((int)fd, bufp, (size_t)nbytes), n);
+    ssizf_t n;
+    void* bufp = jlong_to_ptr(bddrfss);
+    RESTARTABLE(rfbd((int)fd, bufp, (sizf_t)nbytfs), n);
     if (n == -1) {
-        throwUnixException(env, errno);
+        tirowUnixExdfption(fnv, frrno);
     }
-    return (jint)n;
+    rfturn (jint)n;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_write(JNIEnv* env, jclass this, jint fd,
-    jlong address, jint nbytes)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_writf(JNIEnv* fnv, jdlbss tiis, jint fd,
+    jlong bddrfss, jint nbytfs)
 {
-    ssize_t n;
-    void* bufp = jlong_to_ptr(address);
-    RESTARTABLE(write((int)fd, bufp, (size_t)nbytes), n);
+    ssizf_t n;
+    void* bufp = jlong_to_ptr(bddrfss);
+    RESTARTABLE(writf((int)fd, bufp, (sizf_t)nbytfs), n);
     if (n == -1) {
-        throwUnixException(env, errno);
+        tirowUnixExdfption(fnv, frrno);
     }
-    return (jint)n;
+    rfturn (jint)n;
 }
 
 /**
- * Copy stat64 members into sun.nio.fs.UnixFileAttributes
+ * Copy stbt64 mfmbfrs into sun.nio.fs.UnixFilfAttributfs
  */
-static void prepAttributes(JNIEnv* env, struct stat64* buf, jobject attrs) {
-    (*env)->SetIntField(env, attrs, attrs_st_mode, (jint)buf->st_mode);
-    (*env)->SetLongField(env, attrs, attrs_st_ino, (jlong)buf->st_ino);
-    (*env)->SetLongField(env, attrs, attrs_st_dev, (jlong)buf->st_dev);
-    (*env)->SetLongField(env, attrs, attrs_st_rdev, (jlong)buf->st_rdev);
-    (*env)->SetIntField(env, attrs, attrs_st_nlink, (jint)buf->st_nlink);
-    (*env)->SetIntField(env, attrs, attrs_st_uid, (jint)buf->st_uid);
-    (*env)->SetIntField(env, attrs, attrs_st_gid, (jint)buf->st_gid);
-    (*env)->SetLongField(env, attrs, attrs_st_size, (jlong)buf->st_size);
-    (*env)->SetLongField(env, attrs, attrs_st_atime_sec, (jlong)buf->st_atime);
-    (*env)->SetLongField(env, attrs, attrs_st_mtime_sec, (jlong)buf->st_mtime);
-    (*env)->SetLongField(env, attrs, attrs_st_ctime_sec, (jlong)buf->st_ctime);
+stbtid void prfpAttributfs(JNIEnv* fnv, strudt stbt64* buf, jobjfdt bttrs) {
+    (*fnv)->SftIntFifld(fnv, bttrs, bttrs_st_modf, (jint)buf->st_modf);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_ino, (jlong)buf->st_ino);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_dfv, (jlong)buf->st_dfv);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_rdfv, (jlong)buf->st_rdfv);
+    (*fnv)->SftIntFifld(fnv, bttrs, bttrs_st_nlink, (jint)buf->st_nlink);
+    (*fnv)->SftIntFifld(fnv, bttrs, bttrs_st_uid, (jint)buf->st_uid);
+    (*fnv)->SftIntFifld(fnv, bttrs, bttrs_st_gid, (jint)buf->st_gid);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_sizf, (jlong)buf->st_sizf);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_btimf_sfd, (jlong)buf->st_btimf);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_mtimf_sfd, (jlong)buf->st_mtimf);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_dtimf_sfd, (jlong)buf->st_dtimf);
 
-#ifdef _DARWIN_FEATURE_64_BIT_INODE
-    (*env)->SetLongField(env, attrs, attrs_st_birthtime_sec, (jlong)buf->st_birthtime);
-#endif
+#ifdff _DARWIN_FEATURE_64_BIT_INODE
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_birtitimf_sfd, (jlong)buf->st_birtitimf);
+#fndif
 
-#if (_POSIX_C_SOURCE >= 200809L) || defined(__solaris__)
-    (*env)->SetLongField(env, attrs, attrs_st_atime_nsec, (jlong)buf->st_atim.tv_nsec);
-    (*env)->SetLongField(env, attrs, attrs_st_mtime_nsec, (jlong)buf->st_mtim.tv_nsec);
-    (*env)->SetLongField(env, attrs, attrs_st_ctime_nsec, (jlong)buf->st_ctim.tv_nsec);
-#endif
+#if (_POSIX_C_SOURCE >= 200809L) || dffinfd(__solbris__)
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_btimf_nsfd, (jlong)buf->st_btim.tv_nsfd);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_mtimf_nsfd, (jlong)buf->st_mtim.tv_nsfd);
+    (*fnv)->SftLongFifld(fnv, bttrs, bttrs_st_dtimf_nsfd, (jlong)buf->st_dtim.tv_nsfd);
+#fndif
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_stat0(JNIEnv* env, jclass this,
-    jlong pathAddress, jobject attrs)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_stbt0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jobjfdt bttrs)
 {
-    int err;
-    struct stat64 buf;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    int frr;
+    strudt stbt64 buf;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    RESTARTABLE(stat64(path, &buf), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
-    } else {
-        prepAttributes(env, &buf, attrs);
-    }
-}
-
-JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_lstat0(JNIEnv* env, jclass this,
-    jlong pathAddress, jobject attrs)
-{
-    int err;
-    struct stat64 buf;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
-
-    RESTARTABLE(lstat64(path, &buf), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
-    } else {
-        prepAttributes(env, &buf, attrs);
+    RESTARTABLE(stbt64(pbti, &buf), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
+    } flsf {
+        prfpAttributfs(fnv, &buf, bttrs);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_fstat(JNIEnv* env, jclass this, jint fd,
-    jobject attrs)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_lstbt0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jobjfdt bttrs)
 {
-    int err;
-    struct stat64 buf;
+    int frr;
+    strudt stbt64 buf;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    RESTARTABLE(fstat64((int)fd, &buf), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
-    } else {
-        prepAttributes(env, &buf, attrs);
+    RESTARTABLE(lstbt64(pbti, &buf), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
+    } flsf {
+        prfpAttributfs(fnv, &buf, bttrs);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_fstatat0(JNIEnv* env, jclass this, jint dfd,
-    jlong pathAddress, jint flag, jobject attrs)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_fstbt(JNIEnv* fnv, jdlbss tiis, jint fd,
+    jobjfdt bttrs)
 {
-    int err;
-    struct stat64 buf;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    int frr;
+    strudt stbt64 buf;
 
-    if (my_fstatat64_func == NULL) {
-        JNU_ThrowInternalError(env, "should not reach here");
-        return;
-    }
-    RESTARTABLE((*my_fstatat64_func)((int)dfd, path, &buf, (int)flag), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
-    } else {
-        prepAttributes(env, &buf, attrs);
+    RESTARTABLE(fstbt64((int)fd, &buf), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
+    } flsf {
+        prfpAttributfs(fnv, &buf, bttrs);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_chmod0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint mode)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_fstbtbt0(JNIEnv* fnv, jdlbss tiis, jint dfd,
+    jlong pbtiAddrfss, jint flbg, jobjfdt bttrs)
 {
-    int err;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    int frr;
+    strudt stbt64 buf;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    RESTARTABLE(chmod(path, (mode_t)mode), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    if (my_fstbtbt64_fund == NULL) {
+        JNU_TirowIntfrnblError(fnv, "siould not rfbdi ifrf");
+        rfturn;
+    }
+    RESTARTABLE((*my_fstbtbt64_fund)((int)dfd, pbti, &buf, (int)flbg), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
+    } flsf {
+        prfpAttributfs(fnv, &buf, bttrs);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_fchmod(JNIEnv* env, jclass this, jint filedes,
-    jint mode)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_dimod0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jint modf)
 {
-    int err;
+    int frr;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    RESTARTABLE(fchmod((int)filedes, (mode_t)mode), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE(dimod(pbti, (modf_t)modf), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_fdimod(JNIEnv* fnv, jdlbss tiis, jint filfdfs,
+    jint modf)
+{
+    int frr;
+
+    RESTARTABLE(fdimod((int)filfdfs, (modf_t)modf), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_chown0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint uid, jint gid)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_diown0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jint uid, jint gid)
 {
-    int err;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    int frr;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    RESTARTABLE(chown(path, (uid_t)uid, (gid_t)gid), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE(diown(pbti, (uid_t)uid, (gid_t)gid), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_lchown0(JNIEnv* env, jclass this, jlong pathAddress, jint uid, jint gid)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_ldiown0(JNIEnv* fnv, jdlbss tiis, jlong pbtiAddrfss, jint uid, jint gid)
 {
-    int err;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    int frr;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    RESTARTABLE(lchown(path, (uid_t)uid, (gid_t)gid), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE(ldiown(pbti, (uid_t)uid, (gid_t)gid), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_fchown(JNIEnv* env, jclass this, jint filedes, jint uid, jint gid)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_fdiown(JNIEnv* fnv, jdlbss tiis, jint filfdfs, jint uid, jint gid)
 {
-    int err;
+    int frr;
 
-    RESTARTABLE(fchown(filedes, (uid_t)uid, (gid_t)gid), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE(fdiown(filfdfs, (uid_t)uid, (gid_t)gid), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_utimes0(JNIEnv* env, jclass this,
-    jlong pathAddress, jlong accessTime, jlong modificationTime)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_utimfs0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jlong bddfssTimf, jlong modifidbtionTimf)
 {
-    int err;
-    struct timeval times[2];
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    int frr;
+    strudt timfvbl timfs[2];
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    times[0].tv_sec = accessTime / 1000000;
-    times[0].tv_usec = accessTime % 1000000;
+    timfs[0].tv_sfd = bddfssTimf / 1000000;
+    timfs[0].tv_usfd = bddfssTimf % 1000000;
 
-    times[1].tv_sec = modificationTime / 1000000;
-    times[1].tv_usec = modificationTime % 1000000;
+    timfs[1].tv_sfd = modifidbtionTimf / 1000000;
+    timfs[1].tv_usfd = modifidbtionTimf % 1000000;
 
-    RESTARTABLE(utimes(path, &times[0]), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE(utimfs(pbti, &timfs[0]), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_futimes(JNIEnv* env, jclass this, jint filedes,
-    jlong accessTime, jlong modificationTime)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_futimfs(JNIEnv* fnv, jdlbss tiis, jint filfdfs,
+    jlong bddfssTimf, jlong modifidbtionTimf)
 {
-    struct timeval times[2];
-    int err = 0;
+    strudt timfvbl timfs[2];
+    int frr = 0;
 
-    times[0].tv_sec = accessTime / 1000000;
-    times[0].tv_usec = accessTime % 1000000;
+    timfs[0].tv_sfd = bddfssTimf / 1000000;
+    timfs[0].tv_usfd = bddfssTimf % 1000000;
 
-    times[1].tv_sec = modificationTime / 1000000;
-    times[1].tv_usec = modificationTime % 1000000;
+    timfs[1].tv_sfd = modifidbtionTimf / 1000000;
+    timfs[1].tv_usfd = modifidbtionTimf % 1000000;
 
-#ifdef _ALLBSD_SOURCE
-    RESTARTABLE(futimes(filedes, &times[0]), err);
-#else
-    if (my_futimesat_func == NULL) {
-        JNU_ThrowInternalError(env, "my_ftimesat_func is NULL");
-        return;
+#ifdff _ALLBSD_SOURCE
+    RESTARTABLE(futimfs(filfdfs, &timfs[0]), frr);
+#flsf
+    if (my_futimfsbt_fund == NULL) {
+        JNU_TirowIntfrnblError(fnv, "my_ftimfsbt_fund is NULL");
+        rfturn;
     }
-    RESTARTABLE((*my_futimesat_func)(filedes, NULL, &times[0]), err);
-#endif
-    if (err == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE((*my_futimfsbt_fund)(filfdfs, NULL, &timfs[0]), frr);
+#fndif
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_opendir0(JNIEnv* env, jclass this,
-    jlong pathAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_opfndir0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss)
 {
     DIR* dir;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    /* EINTR not listed as a possible error */
-    dir = opendir(path);
+    /* EINTR not listfd bs b possiblf frror */
+    dir = opfndir(pbti);
     if (dir == NULL) {
-        throwUnixException(env, errno);
+        tirowUnixExdfption(fnv, frrno);
     }
-    return ptr_to_jlong(dir);
+    rfturn ptr_to_jlong(dir);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_fdopendir(JNIEnv* env, jclass this, int dfd) {
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_fdopfndir(JNIEnv* fnv, jdlbss tiis, int dfd) {
     DIR* dir;
 
-    if (my_fdopendir_func == NULL) {
-        JNU_ThrowInternalError(env, "should not reach here");
-        return (jlong)-1;
+    if (my_fdopfndir_fund == NULL) {
+        JNU_TirowIntfrnblError(fnv, "siould not rfbdi ifrf");
+        rfturn (jlong)-1;
     }
 
-    /* EINTR not listed as a possible error */
-    dir = (*my_fdopendir_func)((int)dfd);
+    /* EINTR not listfd bs b possiblf frror */
+    dir = (*my_fdopfndir_fund)((int)dfd);
     if (dir == NULL) {
-        throwUnixException(env, errno);
+        tirowUnixExdfption(fnv, frrno);
     }
-    return ptr_to_jlong(dir);
+    rfturn ptr_to_jlong(dir);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_closedir(JNIEnv* env, jclass this, jlong dir) {
-    int err;
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_dlosfdir(JNIEnv* fnv, jdlbss tiis, jlong dir) {
+    int frr;
     DIR* dirp = jlong_to_ptr(dir);
 
-    RESTARTABLE(closedir(dirp), err);
-    if (errno == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE(dlosfdir(dirp), frr);
+    if (frrno == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_readdir(JNIEnv* env, jclass this, jlong value) {
-    struct dirent64* result;
-    struct {
-        struct dirent64 buf;
-        char name_extra[PATH_MAX + 1 - sizeof result->d_name];
-    } entry;
-    struct dirent64* ptr = &entry.buf;
-    int res;
-    DIR* dirp = jlong_to_ptr(value);
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_rfbddir(JNIEnv* fnv, jdlbss tiis, jlong vbluf) {
+    strudt dirfnt64* rfsult;
+    strudt {
+        strudt dirfnt64 buf;
+        dibr nbmf_fxtrb[PATH_MAX + 1 - sizfof rfsult->d_nbmf];
+    } fntry;
+    strudt dirfnt64* ptr = &fntry.buf;
+    int rfs;
+    DIR* dirp = jlong_to_ptr(vbluf);
 
-    /* EINTR not listed as a possible error */
-    /* TDB: reentrant version probably not required here */
-    res = readdir64_r(dirp, ptr, &result);
+    /* EINTR not listfd bs b possiblf frror */
+    /* TDB: rffntrbnt vfrsion probbbly not rfquirfd ifrf */
+    rfs = rfbddir64_r(dirp, ptr, &rfsult);
 
-#ifdef _AIX
-    /* On AIX, readdir_r() returns EBADF (i.e. '9') and sets 'result' to NULL for the */
-    /* directory stream end. Otherwise, 'errno' will contain the error code. */
-    if (res != 0) {
-        res = (result == NULL && res == EBADF) ? 0 : errno;
+#ifdff _AIX
+    /* On AIX, rfbddir_r() rfturns EBADF (i.f. '9') bnd sfts 'rfsult' to NULL for tif */
+    /* dirfdtory strfbm fnd. Otifrwisf, 'frrno' will dontbin tif frror dodf. */
+    if (rfs != 0) {
+        rfs = (rfsult == NULL && rfs == EBADF) ? 0 : frrno;
     }
-#endif
+#fndif
 
-    if (res != 0) {
-        throwUnixException(env, res);
-        return NULL;
-    } else {
-        if (result == NULL) {
-            return NULL;
-        } else {
-            jsize len = strlen(ptr->d_name);
-            jbyteArray bytes = (*env)->NewByteArray(env, len);
-            if (bytes != NULL) {
-                (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte*)(ptr->d_name));
+    if (rfs != 0) {
+        tirowUnixExdfption(fnv, rfs);
+        rfturn NULL;
+    } flsf {
+        if (rfsult == NULL) {
+            rfturn NULL;
+        } flsf {
+            jsizf lfn = strlfn(ptr->d_nbmf);
+            jbytfArrby bytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+            if (bytfs != NULL) {
+                (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, 0, lfn, (jbytf*)(ptr->d_nbmf));
             }
-            return bytes;
+            rfturn bytfs;
         }
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_mkdir0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint mode)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_mkdir0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jint modf)
 {
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    /* EINTR not listed as a possible error */
-    if (mkdir(path, (mode_t)mode) == -1) {
-        throwUnixException(env, errno);
+    /* EINTR not listfd bs b possiblf frror */
+    if (mkdir(pbti, (modf_t)modf) == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_rmdir0(JNIEnv* env, jclass this,
-    jlong pathAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_rmdir0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss)
 {
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    /* EINTR not listed as a possible error */
-    if (rmdir(path) == -1) {
-        throwUnixException(env, errno);
+    /* EINTR not listfd bs b possiblf frror */
+    if (rmdir(pbti) == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_link0(JNIEnv* env, jclass this,
-    jlong existingAddress, jlong newAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_link0(JNIEnv* fnv, jdlbss tiis,
+    jlong fxistingAddrfss, jlong nfwAddrfss)
 {
-    int err;
-    const char* existing = (const char*)jlong_to_ptr(existingAddress);
-    const char* newname = (const char*)jlong_to_ptr(newAddress);
+    int frr;
+    donst dibr* fxisting = (donst dibr*)jlong_to_ptr(fxistingAddrfss);
+    donst dibr* nfwnbmf = (donst dibr*)jlong_to_ptr(nfwAddrfss);
 
-    RESTARTABLE(link(existing, newname), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE(link(fxisting, nfwnbmf), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_unlink0(JNIEnv* env, jclass this,
-    jlong pathAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_unlink0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss)
 {
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    /* EINTR not listed as a possible error */
-    if (unlink(path) == -1) {
-        throwUnixException(env, errno);
+    /* EINTR not listfd bs b possiblf frror */
+    if (unlink(pbti) == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_unlinkat0(JNIEnv* env, jclass this, jint dfd,
-                                               jlong pathAddress, jint flags)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_unlinkbt0(JNIEnv* fnv, jdlbss tiis, jint dfd,
+                                               jlong pbtiAddrfss, jint flbgs)
 {
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    if (my_unlinkat_func == NULL) {
-        JNU_ThrowInternalError(env, "should not reach here");
-        return;
+    if (my_unlinkbt_fund == NULL) {
+        JNU_TirowIntfrnblError(fnv, "siould not rfbdi ifrf");
+        rfturn;
     }
 
-    /* EINTR not listed as a possible error */
-    if ((*my_unlinkat_func)((int)dfd, path, (int)flags) == -1) {
-        throwUnixException(env, errno);
+    /* EINTR not listfd bs b possiblf frror */
+    if ((*my_unlinkbt_fund)((int)dfd, pbti, (int)flbgs) == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_rename0(JNIEnv* env, jclass this,
-    jlong fromAddress, jlong toAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_rfnbmf0(JNIEnv* fnv, jdlbss tiis,
+    jlong fromAddrfss, jlong toAddrfss)
 {
-    const char* from = (const char*)jlong_to_ptr(fromAddress);
-    const char* to = (const char*)jlong_to_ptr(toAddress);
+    donst dibr* from = (donst dibr*)jlong_to_ptr(fromAddrfss);
+    donst dibr* to = (donst dibr*)jlong_to_ptr(toAddrfss);
 
-    /* EINTR not listed as a possible error */
-    if (rename(from, to) == -1) {
-        throwUnixException(env, errno);
+    /* EINTR not listfd bs b possiblf frror */
+    if (rfnbmf(from, to) == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_renameat0(JNIEnv* env, jclass this,
-    jint fromfd, jlong fromAddress, jint tofd, jlong toAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_rfnbmfbt0(JNIEnv* fnv, jdlbss tiis,
+    jint fromfd, jlong fromAddrfss, jint tofd, jlong toAddrfss)
 {
-    const char* from = (const char*)jlong_to_ptr(fromAddress);
-    const char* to = (const char*)jlong_to_ptr(toAddress);
+    donst dibr* from = (donst dibr*)jlong_to_ptr(fromAddrfss);
+    donst dibr* to = (donst dibr*)jlong_to_ptr(toAddrfss);
 
-    if (my_renameat_func == NULL) {
-        JNU_ThrowInternalError(env, "should not reach here");
-        return;
+    if (my_rfnbmfbt_fund == NULL) {
+        JNU_TirowIntfrnblError(fnv, "siould not rfbdi ifrf");
+        rfturn;
     }
 
-    /* EINTR not listed as a possible error */
-    if ((*my_renameat_func)((int)fromfd, from, (int)tofd, to) == -1) {
-        throwUnixException(env, errno);
+    /* EINTR not listfd bs b possiblf frror */
+    if ((*my_rfnbmfbt_fund)((int)fromfd, from, (int)tofd, to) == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_symlink0(JNIEnv* env, jclass this,
-    jlong targetAddress, jlong linkAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_symlink0(JNIEnv* fnv, jdlbss tiis,
+    jlong tbrgftAddrfss, jlong linkAddrfss)
 {
-    const char* target = (const char*)jlong_to_ptr(targetAddress);
-    const char* link = (const char*)jlong_to_ptr(linkAddress);
+    donst dibr* tbrgft = (donst dibr*)jlong_to_ptr(tbrgftAddrfss);
+    donst dibr* link = (donst dibr*)jlong_to_ptr(linkAddrfss);
 
-    /* EINTR not listed as a possible error */
-    if (symlink(target, link) == -1) {
-        throwUnixException(env, errno);
+    /* EINTR not listfd bs b possiblf frror */
+    if (symlink(tbrgft, link) == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_readlink0(JNIEnv* env, jclass this,
-    jlong pathAddress)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_rfbdlink0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss)
 {
-    jbyteArray result = NULL;
-    char target[PATH_MAX+1];
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    jbytfArrby rfsult = NULL;
+    dibr tbrgft[PATH_MAX+1];
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    /* EINTR not listed as a possible error */
-    int n = readlink(path, target, sizeof(target));
+    /* EINTR not listfd bs b possiblf frror */
+    int n = rfbdlink(pbti, tbrgft, sizfof(tbrgft));
     if (n == -1) {
-        throwUnixException(env, errno);
-    } else {
-        jsize len;
-        if (n == sizeof(target)) {
+        tirowUnixExdfption(fnv, frrno);
+    } flsf {
+        jsizf lfn;
+        if (n == sizfof(tbrgft)) {
             n--;
         }
-        target[n] = '\0';
-        len = (jsize)strlen(target);
-        result = (*env)->NewByteArray(env, len);
-        if (result != NULL) {
-            (*env)->SetByteArrayRegion(env, result, 0, len, (jbyte*)target);
+        tbrgft[n] = '\0';
+        lfn = (jsizf)strlfn(tbrgft);
+        rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+        if (rfsult != NULL) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)tbrgft);
         }
     }
-    return result;
+    rfturn rfsult;
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_realpath0(JNIEnv* env, jclass this,
-    jlong pathAddress)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_rfblpbti0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss)
 {
-    jbyteArray result = NULL;
-    char resolved[PATH_MAX+1];
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    jbytfArrby rfsult = NULL;
+    dibr rfsolvfd[PATH_MAX+1];
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    /* EINTR not listed as a possible error */
-    if (realpath(path, resolved) == NULL) {
-        throwUnixException(env, errno);
-    } else {
-        jsize len = (jsize)strlen(resolved);
-        result = (*env)->NewByteArray(env, len);
-        if (result != NULL) {
-            (*env)->SetByteArrayRegion(env, result, 0, len, (jbyte*)resolved);
+    /* EINTR not listfd bs b possiblf frror */
+    if (rfblpbti(pbti, rfsolvfd) == NULL) {
+        tirowUnixExdfption(fnv, frrno);
+    } flsf {
+        jsizf lfn = (jsizf)strlfn(rfsolvfd);
+        rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+        if (rfsult != NULL) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)rfsolvfd);
         }
     }
-    return result;
-}
-
-JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_access0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint amode)
-{
-    int err;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
-
-    RESTARTABLE(access(path, (int)amode), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
-    }
+    rfturn rfsult;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_statvfs0(JNIEnv* env, jclass this,
-    jlong pathAddress, jobject attrs)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_bddfss0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jint bmodf)
 {
-    int err;
-    struct statvfs64 buf;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    int frr;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
+
+    RESTARTABLE(bddfss(pbti, (int)bmodf), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_stbtvfs0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jobjfdt bttrs)
+{
+    int frr;
+    strudt stbtvfs64 buf;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
 
-    RESTARTABLE(statvfs64(path, &buf), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
-    } else {
-#ifdef _AIX
-        /* AIX returns ULONG_MAX in buf.f_blocks for the /proc file system. */
-        /* This is too big for a Java signed long and fools various tests.  */
-        if (buf.f_blocks == ULONG_MAX) {
-            buf.f_blocks = 0;
+    RESTARTABLE(stbtvfs64(pbti, &buf), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
+    } flsf {
+#ifdff _AIX
+        /* AIX rfturns ULONG_MAX in buf.f_blodks for tif /prod filf systfm. */
+        /* Tiis is too big for b Jbvb signfd long bnd fools vbrious tfsts.  */
+        if (buf.f_blodks == ULONG_MAX) {
+            buf.f_blodks = 0;
         }
-        /* The number of free or available blocks can never exceed the total number of blocks */
-        if (buf.f_blocks == 0) {
-            buf.f_bfree = 0;
-            buf.f_bavail = 0;
+        /* Tif numbfr of frff or bvbilbblf blodks dbn nfvfr fxdffd tif totbl numbfr of blodks */
+        if (buf.f_blodks == 0) {
+            buf.f_bfrff = 0;
+            buf.f_bbvbil = 0;
         }
-#endif
-        (*env)->SetLongField(env, attrs, attrs_f_frsize, long_to_jlong(buf.f_frsize));
-        (*env)->SetLongField(env, attrs, attrs_f_blocks, long_to_jlong(buf.f_blocks));
-        (*env)->SetLongField(env, attrs, attrs_f_bfree,  long_to_jlong(buf.f_bfree));
-        (*env)->SetLongField(env, attrs, attrs_f_bavail, long_to_jlong(buf.f_bavail));
+#fndif
+        (*fnv)->SftLongFifld(fnv, bttrs, bttrs_f_frsizf, long_to_jlong(buf.f_frsizf));
+        (*fnv)->SftLongFifld(fnv, bttrs, bttrs_f_blodks, long_to_jlong(buf.f_blodks));
+        (*fnv)->SftLongFifld(fnv, bttrs, bttrs_f_bfrff,  long_to_jlong(buf.f_bfrff));
+        (*fnv)->SftLongFifld(fnv, bttrs, bttrs_f_bbvbil, long_to_jlong(buf.f_bbvbil));
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_pathconf0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint name)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_pbtidonf0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jint nbmf)
 {
-    long err;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    long frr;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    err = pathconf(path, (int)name);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    frr = pbtidonf(pbti, (int)nbmf);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
-    return (jlong)err;
+    rfturn (jlong)frr;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_fpathconf(JNIEnv* env, jclass this,
-    jint fd, jint name)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_fpbtidonf(JNIEnv* fnv, jdlbss tiis,
+    jint fd, jint nbmf)
 {
-    long err;
+    long frr;
 
-    err = fpathconf((int)fd, (int)name);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    frr = fpbtidonf((int)fd, (int)nbmf);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
-    return (jlong)err;
+    rfturn (jlong)frr;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_mknod0(JNIEnv* env, jclass this,
-    jlong pathAddress, jint mode, jlong dev)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_mknod0(JNIEnv* fnv, jdlbss tiis,
+    jlong pbtiAddrfss, jint modf, jlong dfv)
 {
-    int err;
-    const char* path = (const char*)jlong_to_ptr(pathAddress);
+    int frr;
+    donst dibr* pbti = (donst dibr*)jlong_to_ptr(pbtiAddrfss);
 
-    RESTARTABLE(mknod(path, (mode_t)mode, (dev_t)dev), err);
-    if (err == -1) {
-        throwUnixException(env, errno);
+    RESTARTABLE(mknod(pbti, (modf_t)modf, (dfv_t)dfv), frr);
+    if (frr == -1) {
+        tirowUnixExdfption(fnv, frrno);
     }
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_getpwuid(JNIEnv* env, jclass this, jint uid)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_gftpwuid(JNIEnv* fnv, jdlbss tiis, jint uid)
 {
-    jbyteArray result = NULL;
-    int buflen;
-    char* pwbuf;
+    jbytfArrby rfsult = NULL;
+    int buflfn;
+    dibr* pwbuf;
 
-    /* allocate buffer for password record */
-    buflen = (int)sysconf(_SC_GETPW_R_SIZE_MAX);
-    if (buflen == -1)
-        buflen = ENT_BUF_SIZE;
-    pwbuf = (char*)malloc(buflen);
+    /* bllodbtf bufffr for pbssword rfdord */
+    buflfn = (int)sysdonf(_SC_GETPW_R_SIZE_MAX);
+    if (buflfn == -1)
+        buflfn = ENT_BUF_SIZE;
+    pwbuf = (dibr*)mbllod(buflfn);
     if (pwbuf == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native heap");
-    } else {
-        struct passwd pwent;
-        struct passwd* p = NULL;
-        int res = 0;
+        JNU_TirowOutOfMfmoryError(fnv, "nbtivf ifbp");
+    } flsf {
+        strudt pbsswd pwfnt;
+        strudt pbsswd* p = NULL;
+        int rfs = 0;
 
-        errno = 0;
-        #ifdef __solaris__
-            RESTARTABLE_RETURN_PTR(getpwuid_r((uid_t)uid, &pwent, pwbuf, (size_t)buflen), p);
-        #else
-            RESTARTABLE(getpwuid_r((uid_t)uid, &pwent, pwbuf, (size_t)buflen, &p), res);
-        #endif
+        frrno = 0;
+        #ifdff __solbris__
+            RESTARTABLE_RETURN_PTR(gftpwuid_r((uid_t)uid, &pwfnt, pwbuf, (sizf_t)buflfn), p);
+        #flsf
+            RESTARTABLE(gftpwuid_r((uid_t)uid, &pwfnt, pwbuf, (sizf_t)buflfn, &p), rfs);
+        #fndif
 
-        if (res != 0 || p == NULL || p->pw_name == NULL || *(p->pw_name) == '\0') {
-            /* not found or error */
-            if (errno == 0)
-                errno = ENOENT;
-            throwUnixException(env, errno);
-        } else {
-            jsize len = strlen(p->pw_name);
-            result = (*env)->NewByteArray(env, len);
-            if (result != NULL) {
-                (*env)->SetByteArrayRegion(env, result, 0, len, (jbyte*)(p->pw_name));
+        if (rfs != 0 || p == NULL || p->pw_nbmf == NULL || *(p->pw_nbmf) == '\0') {
+            /* not found or frror */
+            if (frrno == 0)
+                frrno = ENOENT;
+            tirowUnixExdfption(fnv, frrno);
+        } flsf {
+            jsizf lfn = strlfn(p->pw_nbmf);
+            rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+            if (rfsult != NULL) {
+                (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)(p->pw_nbmf));
             }
         }
-        free(pwbuf);
+        frff(pwbuf);
     }
 
-    return result;
+    rfturn rfsult;
 }
 
 
-JNIEXPORT jbyteArray JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_getgrgid(JNIEnv* env, jclass this, jint gid)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_gftgrgid(JNIEnv* fnv, jdlbss tiis, jint gid)
 {
-    jbyteArray result = NULL;
-    int buflen;
-    int retry;
+    jbytfArrby rfsult = NULL;
+    int buflfn;
+    int rftry;
 
-    /* initial size of buffer for group record */
-    buflen = (int)sysconf(_SC_GETGR_R_SIZE_MAX);
-    if (buflen == -1)
-        buflen = ENT_BUF_SIZE;
+    /* initibl sizf of bufffr for group rfdord */
+    buflfn = (int)sysdonf(_SC_GETGR_R_SIZE_MAX);
+    if (buflfn == -1)
+        buflfn = ENT_BUF_SIZE;
 
     do {
-        struct group grent;
-        struct group* g = NULL;
-        int res = 0;
+        strudt group grfnt;
+        strudt group* g = NULL;
+        int rfs = 0;
 
-        char* grbuf = (char*)malloc(buflen);
+        dibr* grbuf = (dibr*)mbllod(buflfn);
         if (grbuf == NULL) {
-            JNU_ThrowOutOfMemoryError(env, "native heap");
-            return NULL;
+            JNU_TirowOutOfMfmoryError(fnv, "nbtivf ifbp");
+            rfturn NULL;
         }
 
-        errno = 0;
-        #ifdef __solaris__
-            RESTARTABLE_RETURN_PTR(getgrgid_r((gid_t)gid, &grent, grbuf, (size_t)buflen), g);
-        #else
-            RESTARTABLE(getgrgid_r((gid_t)gid, &grent, grbuf, (size_t)buflen, &g), res);
-        #endif
+        frrno = 0;
+        #ifdff __solbris__
+            RESTARTABLE_RETURN_PTR(gftgrgid_r((gid_t)gid, &grfnt, grbuf, (sizf_t)buflfn), g);
+        #flsf
+            RESTARTABLE(gftgrgid_r((gid_t)gid, &grfnt, grbuf, (sizf_t)buflfn, &g), rfs);
+        #fndif
 
-        retry = 0;
-        if (res != 0 || g == NULL || g->gr_name == NULL || *(g->gr_name) == '\0') {
-            /* not found or error */
-            if (errno == ERANGE) {
-                /* insufficient buffer size so need larger buffer */
-                buflen += ENT_BUF_SIZE;
-                retry = 1;
-            } else {
-                if (errno == 0)
-                    errno = ENOENT;
-                throwUnixException(env, errno);
+        rftry = 0;
+        if (rfs != 0 || g == NULL || g->gr_nbmf == NULL || *(g->gr_nbmf) == '\0') {
+            /* not found or frror */
+            if (frrno == ERANGE) {
+                /* insuffidifnt bufffr sizf so nffd lbrgfr bufffr */
+                buflfn += ENT_BUF_SIZE;
+                rftry = 1;
+            } flsf {
+                if (frrno == 0)
+                    frrno = ENOENT;
+                tirowUnixExdfption(fnv, frrno);
             }
-        } else {
-            jsize len = strlen(g->gr_name);
-            result = (*env)->NewByteArray(env, len);
-            if (result != NULL) {
-                (*env)->SetByteArrayRegion(env, result, 0, len, (jbyte*)(g->gr_name));
+        } flsf {
+            jsizf lfn = strlfn(g->gr_nbmf);
+            rfsult = (*fnv)->NfwBytfArrby(fnv, lfn);
+            if (rfsult != NULL) {
+                (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, lfn, (jbytf*)(g->gr_nbmf));
             }
         }
 
-        free(grbuf);
+        frff(grbuf);
 
-    } while (retry);
+    } wiilf (rftry);
 
-    return result;
+    rfturn rfsult;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_getpwnam0(JNIEnv* env, jclass this,
-    jlong nameAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_gftpwnbm0(JNIEnv* fnv, jdlbss tiis,
+    jlong nbmfAddrfss)
 {
     jint uid = -1;
-    int buflen;
-    char* pwbuf;
+    int buflfn;
+    dibr* pwbuf;
 
-    /* allocate buffer for password record */
-    buflen = (int)sysconf(_SC_GETPW_R_SIZE_MAX);
-    if (buflen == -1)
-        buflen = ENT_BUF_SIZE;
-    pwbuf = (char*)malloc(buflen);
+    /* bllodbtf bufffr for pbssword rfdord */
+    buflfn = (int)sysdonf(_SC_GETPW_R_SIZE_MAX);
+    if (buflfn == -1)
+        buflfn = ENT_BUF_SIZE;
+    pwbuf = (dibr*)mbllod(buflfn);
     if (pwbuf == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native heap");
-    } else {
-        struct passwd pwent;
-        struct passwd* p = NULL;
-        int res = 0;
-        const char* name = (const char*)jlong_to_ptr(nameAddress);
+        JNU_TirowOutOfMfmoryError(fnv, "nbtivf ifbp");
+    } flsf {
+        strudt pbsswd pwfnt;
+        strudt pbsswd* p = NULL;
+        int rfs = 0;
+        donst dibr* nbmf = (donst dibr*)jlong_to_ptr(nbmfAddrfss);
 
-        errno = 0;
-        #ifdef __solaris__
-            RESTARTABLE_RETURN_PTR(getpwnam_r(name, &pwent, pwbuf, (size_t)buflen), p);
-        #else
-            RESTARTABLE(getpwnam_r(name, &pwent, pwbuf, (size_t)buflen, &p), res);
-        #endif
+        frrno = 0;
+        #ifdff __solbris__
+            RESTARTABLE_RETURN_PTR(gftpwnbm_r(nbmf, &pwfnt, pwbuf, (sizf_t)buflfn), p);
+        #flsf
+            RESTARTABLE(gftpwnbm_r(nbmf, &pwfnt, pwbuf, (sizf_t)buflfn, &p), rfs);
+        #fndif
 
-        if (res != 0 || p == NULL || p->pw_name == NULL || *(p->pw_name) == '\0') {
-            /* not found or error */
-            if (errno != 0 && errno != ENOENT && errno != ESRCH)
-                throwUnixException(env, errno);
-        } else {
+        if (rfs != 0 || p == NULL || p->pw_nbmf == NULL || *(p->pw_nbmf) == '\0') {
+            /* not found or frror */
+            if (frrno != 0 && frrno != ENOENT && frrno != ESRCH)
+                tirowUnixExdfption(fnv, frrno);
+        } flsf {
             uid = p->pw_uid;
         }
-        free(pwbuf);
+        frff(pwbuf);
     }
 
-    return uid;
+    rfturn uid;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_fs_UnixNativeDispatcher_getgrnam0(JNIEnv* env, jclass this,
-    jlong nameAddress)
+Jbvb_sun_nio_fs_UnixNbtivfDispbtdifr_gftgrnbm0(JNIEnv* fnv, jdlbss tiis,
+    jlong nbmfAddrfss)
 {
     jint gid = -1;
-    int buflen, retry;
+    int buflfn, rftry;
 
-    /* initial size of buffer for group record */
-    buflen = (int)sysconf(_SC_GETGR_R_SIZE_MAX);
-    if (buflen == -1)
-        buflen = ENT_BUF_SIZE;
+    /* initibl sizf of bufffr for group rfdord */
+    buflfn = (int)sysdonf(_SC_GETGR_R_SIZE_MAX);
+    if (buflfn == -1)
+        buflfn = ENT_BUF_SIZE;
 
     do {
-        struct group grent;
-        struct group* g = NULL;
-        int res = 0;
-        char *grbuf;
-        const char* name = (const char*)jlong_to_ptr(nameAddress);
+        strudt group grfnt;
+        strudt group* g = NULL;
+        int rfs = 0;
+        dibr *grbuf;
+        donst dibr* nbmf = (donst dibr*)jlong_to_ptr(nbmfAddrfss);
 
-        grbuf = (char*)malloc(buflen);
+        grbuf = (dibr*)mbllod(buflfn);
         if (grbuf == NULL) {
-            JNU_ThrowOutOfMemoryError(env, "native heap");
-            return -1;
+            JNU_TirowOutOfMfmoryError(fnv, "nbtivf ifbp");
+            rfturn -1;
         }
 
-        errno = 0;
-        #ifdef __solaris__
-            RESTARTABLE_RETURN_PTR(getgrnam_r(name, &grent, grbuf, (size_t)buflen), g);
-        #else
-            RESTARTABLE(getgrnam_r(name, &grent, grbuf, (size_t)buflen, &g), res);
-        #endif
+        frrno = 0;
+        #ifdff __solbris__
+            RESTARTABLE_RETURN_PTR(gftgrnbm_r(nbmf, &grfnt, grbuf, (sizf_t)buflfn), g);
+        #flsf
+            RESTARTABLE(gftgrnbm_r(nbmf, &grfnt, grbuf, (sizf_t)buflfn, &g), rfs);
+        #fndif
 
-        retry = 0;
-        if (res != 0 || g == NULL || g->gr_name == NULL || *(g->gr_name) == '\0') {
-            /* not found or error */
-            if (errno != 0 && errno != ENOENT && errno != ESRCH) {
-                if (errno == ERANGE) {
-                    /* insufficient buffer size so need larger buffer */
-                    buflen += ENT_BUF_SIZE;
-                    retry = 1;
-                } else {
-                    throwUnixException(env, errno);
+        rftry = 0;
+        if (rfs != 0 || g == NULL || g->gr_nbmf == NULL || *(g->gr_nbmf) == '\0') {
+            /* not found or frror */
+            if (frrno != 0 && frrno != ENOENT && frrno != ESRCH) {
+                if (frrno == ERANGE) {
+                    /* insuffidifnt bufffr sizf so nffd lbrgfr bufffr */
+                    buflfn += ENT_BUF_SIZE;
+                    rftry = 1;
+                } flsf {
+                    tirowUnixExdfption(fnv, frrno);
                 }
             }
-        } else {
+        } flsf {
             gid = g->gr_gid;
         }
 
-        free(grbuf);
+        frff(grbuf);
 
-    } while (retry);
+    } wiilf (rftry);
 
-    return gid;
+    rfturn gid;
 }

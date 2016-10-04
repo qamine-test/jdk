@@ -1,0 +1,393 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+import jbvb.util.List;
+
+ /**
+ * <dodf>MidiDfvidf</dodf> is thf bbsf intfrfbdf for bll MIDI dfvidfs.
+ * Common dfvidfs indludf synthfsizfrs, sfqufndfrs, MIDI input ports, bnd MIDI
+ * output ports.
+ *
+ * <p>A <dodf>MidiDfvidf</dodf> dbn bf b trbnsmittfr or b rfdfivfr of
+ * MIDI fvfnts, or both. Thfrfforf, it dbn providf {@link Trbnsmittfr}
+ * or {@link Rfdfivfr} instbndfs (or both). Typidblly, MIDI IN ports
+ * providf trbnsmittfrs, MIDI OUT ports bnd synthfsizfrs providf
+ * rfdfivfrs. A Sfqufndfr typidblly providfs trbnsmittfrs for plbybbdk
+ * bnd rfdfivfrs for rfdording.
+ *
+ * <p>A <dodf>MidiDfvidf</dodf> dbn bf opfnfd bnd dlosfd fxpliditly bs
+ * wfll bs impliditly. Explidit opfning is bddomplishfd by dblling
+ * {@link #opfn}, fxplidit dlosing is donf by dblling {@link
+ * #dlosf} on thf <dodf>MidiDfvidf</dodf> instbndf.
+ * If bn bpplidbtion opfns b <dodf>MidiDfvidf</dodf>
+ * fxpliditly, it hbs to dlosf it fxpliditly to frff systfm rfsourdfs
+ * bnd fnbblf thf bpplidbtion to fxit dlfbnly. Implidit opfning is
+ * donf by dblling {@link jbvbx.sound.midi.MidiSystfm#gftRfdfivfr
+ * MidiSystfm.gftRfdfivfr} bnd {@link
+ * jbvbx.sound.midi.MidiSystfm#gftTrbnsmittfr
+ * MidiSystfm.gftTrbnsmittfr}. Thf <dodf>MidiDfvidf</dodf> usfd by
+ * <dodf>MidiSystfm.gftRfdfivfr</dodf> bnd
+ * <dodf>MidiSystfm.gftTrbnsmittfr</dodf> is implfmfntbtion-dfpfndbnt
+ * unlfss thf propfrtifs <dodf>jbvbx.sound.midi.Rfdfivfr</dodf>
+ * bnd <dodf>jbvbx.sound.midi.Trbnsmittfr</dodf> brf usfd (sff thf
+ * dfsdription of propfrtifs to sflfdt dffbult providfrs in
+ * {@link jbvbx.sound.midi.MidiSystfm}). A <dodf>MidiDfvidf</dodf>
+ * thbt wbs opfnfd impliditly, is dlosfd impliditly by dlosing thf
+ * <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf> thbt rfsultfd in
+ * opfning it. If morf thbn onf impliditly opfning
+ * <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf> wfrf obtbinfd by
+ * thf bpplidbtion, thf dfvidf is dlosfd bftfr thf lbst
+ * <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf> hbs bffn
+ * dlosfd. On thf othfr hbnd, dblling <dodf>gftRfdfivfr</dodf> or
+ * <dodf>gftTrbnsmittfr</dodf> on thf dfvidf instbndf dirfdtly dofs
+ * not opfn thf dfvidf impliditly. Closing thfsf
+ * <dodf>Trbnsmittfr</dodf>s bnd <dodf>Rfdfivfr</dodf>s dofs not dlosf
+ * thf dfvidf impliditly. To usf b dfvidf with <dodf>Rfdfivfr</dodf>s
+ * or <dodf>Trbnsmittfr</dodf>s obtbinfd this wby, thf dfvidf hbs to
+ * bf opfnfd bnd dlosfd fxpliditly.
+ *
+ * <p>If implidit bnd fxplidit opfning bnd dlosing brf mixfd on thf
+ * sbmf <dodf>MidiDfvidf</dodf> instbndf, thf following rulfs bpply:
+ *
+ * <ul>
+ * <li>Aftfr bn fxplidit opfn (fithfr bfforf or bftfr implidit
+ * opfns), thf dfvidf will not bf dlosfd by implidit dlosing. Thf only
+ * wby to dlosf bn fxpliditly opfnfd dfvidf is bn fxplidit dlosf.</li>
+ *
+ * <li>An fxplidit dlosf blwbys dlosfs thf dfvidf, fvfn if it blso hbs
+ * bffn opfnfd impliditly. A subsfqufnt implidit dlosf hbs no furthfr
+ * ffffdt.</li>
+ * </ul>
+ *
+ * To dftfdt if b MidiDfvidf rfprfsfnts b hbrdwbrf MIDI port, thf
+ * following progrbmming tfdhniquf dbn bf usfd:
+ *
+ * <prf>{@dodf
+ * MidiDfvidf dfvidf = ...;
+ * if ( ! (dfvidf instbndfof Sfqufndfr) && ! (dfvidf instbndfof Synthfsizfr)) {
+ *   // wf'rf now surf thbt dfvidf rfprfsfnts b MIDI port
+ *   // ...
+ * }
+ * }</prf>
+ *
+ * <p>
+ * A <dodf>MidiDfvidf</dodf> indludfs b <dodf>{@link MidiDfvidf.Info}</dodf> objfdt
+ * to providf mbnufbdturfr informbtion bnd so on.
+ *
+ * @sff Synthfsizfr
+ * @sff Sfqufndfr
+ * @sff Rfdfivfr
+ * @sff Trbnsmittfr
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+
+publid intfrfbdf MidiDfvidf fxtfnds AutoClosfbblf {
+
+
+    /**
+     * Obtbins informbtion bbout thf dfvidf, indluding its Jbvb dlbss bnd
+     * <dodf>Strings</dodf> dontbining its nbmf, vfndor, bnd dfsdription.
+     *
+     * @rfturn dfvidf info
+     */
+    publid Info gftDfvidfInfo();
+
+
+    /**
+     * Opfns thf dfvidf, indidbting thbt it should now bdquirf bny
+     * systfm rfsourdfs it rfquirfs bnd bfdomf opfrbtionbl.
+     *
+     * <p>An bpplidbtion opfning b dfvidf fxpliditly with this dbll
+     * hbs to dlosf thf dfvidf by dblling {@link #dlosf}. This is
+     * nfdfssbry to rflfbsf systfm rfsourdfs bnd bllow bpplidbtions to
+     * fxit dlfbnly.
+     *
+     * <p>
+     * Notf thbt somf dfvidfs, ondf dlosfd, dbnnot bf rfopfnfd.  Attfmpts
+     * to rfopfn sudh b dfvidf will blwbys rfsult in b MidiUnbvbilbblfExdfption.
+     *
+     * @throws MidiUnbvbilbblfExdfption thrown if thf dfvidf dbnnot bf
+     * opfnfd duf to rfsourdf rfstridtions.
+     * @throws SfdurityExdfption thrown if thf dfvidf dbnnot bf
+     * opfnfd duf to sfdurity rfstridtions.
+     *
+     * @sff #dlosf
+     * @sff #isOpfn
+     */
+    publid void opfn() throws MidiUnbvbilbblfExdfption;
+
+
+    /**
+     * Closfs thf dfvidf, indidbting thbt thf dfvidf should now rflfbsf
+     * bny systfm rfsourdfs it is using.
+     *
+     * <p>All <dodf>Rfdfivfr</dodf> bnd <dodf>Trbnsmittfr</dodf> instbndfs
+     * opfn from this dfvidf brf dlosfd. This indludfs instbndfs rftrifvfd
+     * vib <dodf>MidiSystfm</dodf>.
+     *
+     * @sff #opfn
+     * @sff #isOpfn
+     */
+    publid void dlosf();
+
+
+    /**
+     * Rfports whfthfr thf dfvidf is opfn.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dfvidf is opfn, othfrwisf
+     * <dodf>fblsf</dodf>
+     * @sff #opfn
+     * @sff #dlosf
+     */
+    publid boolfbn isOpfn();
+
+
+    /**
+     * Obtbins thf durrfnt timf-stbmp of thf dfvidf, in midrosfdonds.
+     * If b dfvidf supports timf-stbmps, it should stbrt dounting bt
+     * 0 whfn thf dfvidf is opfnfd bnd dontinuf indrfmfnting its
+     * timf-stbmp in midrosfdonds until thf dfvidf is dlosfd.
+     * If it dofs not support timf-stbmps, it should blwbys rfturn
+     * -1.
+     * @rfturn thf durrfnt timf-stbmp of thf dfvidf in midrosfdonds,
+     * or -1 if timf-stbmping is not supportfd by thf dfvidf.
+     */
+    publid long gftMidrosfdondPosition();
+
+
+    /**
+     * Obtbins thf mbximum numbfr of MIDI IN donnfdtions bvbilbblf on this
+     * MIDI dfvidf for rfdfiving MIDI dbtb.
+     * @rfturn mbximum numbfr of MIDI IN donnfdtions,
+     * or -1 if bn unlimitfd numbfr of donnfdtions is bvbilbblf.
+     */
+    publid int gftMbxRfdfivfrs();
+
+
+    /**
+     * Obtbins thf mbximum numbfr of MIDI OUT donnfdtions bvbilbblf on this
+     * MIDI dfvidf for trbnsmitting MIDI dbtb.
+     * @rfturn mbximum numbfr of MIDI OUT donnfdtions,
+     * or -1 if bn unlimitfd numbfr of donnfdtions is bvbilbblf.
+     */
+    publid int gftMbxTrbnsmittfrs();
+
+
+    /**
+     * Obtbins b MIDI IN rfdfivfr through whidh thf MIDI dfvidf mby rfdfivf
+     * MIDI dbtb.  Thf rfturnfd rfdfivfr must bf dlosfd whfn thf bpplidbtion
+     * hbs finishfd using it.
+     *
+     * <p>Usublly thf rfturnfd rfdfivfr implfmfnts
+     * thf {@dodf MidiDfvidfRfdfivfr} intfrfbdf.
+     *
+     * <p>Obtbining b <dodf>Rfdfivfr</dodf> with this mfthod dofs not
+     * opfn thf dfvidf. To bf bblf to usf thf dfvidf, it hbs to bf
+     * opfnfd fxpliditly by dblling {@link #opfn}. Also, dlosing thf
+     * <dodf>Rfdfivfr</dodf> dofs not dlosf thf dfvidf. It hbs to bf
+     * dlosfd fxpliditly by dblling {@link #dlosf}.
+     *
+     * @rfturn b rfdfivfr for thf dfvidf.
+     * @throws MidiUnbvbilbblfExdfption thrown if b rfdfivfr is not bvbilbblf
+     * duf to rfsourdf rfstridtions
+     * @sff Rfdfivfr#dlosf()
+     */
+    publid Rfdfivfr gftRfdfivfr() throws MidiUnbvbilbblfExdfption;
+
+
+    /**
+     * Rfturns bll durrfntly bdtivf, non-dlosfd rfdfivfrs
+     * donnfdtfd with this MidiDfvidf.
+     * A rfdfivfr dbn bf rfmovfd
+     * from thf dfvidf by dlosing it.
+     *
+     * <p>Usublly thf rfturnfd rfdfivfrs implfmfnt
+     * thf {@dodf MidiDfvidfRfdfivfr} intfrfbdf.
+     *
+     * @rfturn bn unmodifibblf list of thf opfn rfdfivfrs
+     * @sindf 1.5
+     */
+    List<Rfdfivfr> gftRfdfivfrs();
+
+
+    /**
+     * Obtbins b MIDI OUT donnfdtion from whidh thf MIDI dfvidf will trbnsmit
+     * MIDI dbtb  Thf rfturnfd trbnsmittfr must bf dlosfd whfn thf bpplidbtion
+     * hbs finishfd using it.
+     *
+     * <p>Usublly thf rfturnfd trbnsmittfr implfmfnts
+     * thf {@dodf MidiDfvidfTrbnsmittfr} intfrfbdf.
+     *
+     * <p>Obtbining b <dodf>Trbnsmittfr</dodf> with this mfthod dofs not
+     * opfn thf dfvidf. To bf bblf to usf thf dfvidf, it hbs to bf
+     * opfnfd fxpliditly by dblling {@link #opfn}. Also, dlosing thf
+     * <dodf>Trbnsmittfr</dodf> dofs not dlosf thf dfvidf. It hbs to bf
+     * dlosfd fxpliditly by dblling {@link #dlosf}.
+     *
+     * @rfturn b MIDI OUT trbnsmittfr for thf dfvidf.
+     * @throws MidiUnbvbilbblfExdfption thrown if b trbnsmittfr is not bvbilbblf
+     * duf to rfsourdf rfstridtions
+     * @sff Trbnsmittfr#dlosf()
+     */
+    publid Trbnsmittfr gftTrbnsmittfr() throws MidiUnbvbilbblfExdfption;
+
+
+    /**
+     * Rfturns bll durrfntly bdtivf, non-dlosfd trbnsmittfrs
+     * donnfdtfd with this MidiDfvidf.
+     * A trbnsmittfr dbn bf rfmovfd
+     * from thf dfvidf by dlosing it.
+     *
+     * <p>Usublly thf rfturnfd trbnsmittfrs implfmfnt
+     * thf {@dodf MidiDfvidfTrbnsmittfr} intfrfbdf.
+     *
+     * @rfturn bn unmodifibblf list of thf opfn trbnsmittfrs
+     * @sindf 1.5
+     */
+    List<Trbnsmittfr> gftTrbnsmittfrs();
+
+
+
+    /**
+     * A <dodf>MidiDfvidf.Info</dodf> objfdt dontbins bssortfd
+     * dbtb bbout b <dodf>{@link MidiDfvidf}</dodf>, indluding its
+     * nbmf, thf dompbny who drfbtfd it, bnd dfsdriptivf tfxt.
+     *
+     * @sff MidiDfvidf#gftDfvidfInfo
+     */
+    publid stbtid dlbss Info {
+
+        /**
+         * Thf dfvidf's nbmf.
+         */
+        privbtf String nbmf;
+
+        /**
+         * Thf nbmf of thf dompbny who providfs thf dfvidf.
+         */
+        privbtf String vfndor;
+
+        /**
+         * A dfsdription of thf dfvidf.
+         */
+        privbtf String dfsdription;
+
+        /**
+         * Dfvidf vfrsion.
+         */
+        privbtf String vfrsion;
+
+
+        /**
+         * Construdts b dfvidf info objfdt.
+         *
+         * @pbrbm nbmf thf nbmf of thf dfvidf
+         * @pbrbm vfndor thf nbmf of thf dompbny who providfs thf dfvidf
+         * @pbrbm dfsdription b dfsdription of thf dfvidf
+         * @pbrbm vfrsion vfrsion informbtion for thf dfvidf
+         */
+        protfdtfd Info(String nbmf, String vfndor, String dfsdription, String vfrsion) {
+
+            this.nbmf = nbmf;
+            this.vfndor = vfndor;
+            this.dfsdription = dfsdription;
+            this.vfrsion = vfrsion;
+        }
+
+
+        /**
+         * Rfports whfthfr two objfdts brf fqubl.
+         * Rfturns <dodf>truf</dodf> if thf objfdts brf idfntidbl.
+         * @pbrbm obj thf rfffrfndf objfdt with whidh to dompbrf this
+         * objfdt
+         * @rfturn <dodf>truf</dodf> if this objfdt is thf sbmf bs thf
+         * <dodf>obj</dodf> brgumfnt; <dodf>fblsf</dodf> othfrwisf
+         */
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            rfturn supfr.fqubls(obj);
+        }
+
+
+        /**
+         * Finblizfs thf hbshdodf mfthod.
+         */
+        publid finbl int hbshCodf() {
+            rfturn supfr.hbshCodf();
+        }
+
+
+        /**
+         * Obtbins thf nbmf of thf dfvidf.
+         *
+         * @rfturn b string dontbining thf dfvidf's nbmf
+         */
+        publid finbl String gftNbmf() {
+            rfturn nbmf;
+        }
+
+
+        /**
+         * Obtbins thf nbmf of thf dompbny who supplifs thf dfvidf.
+         * @rfturn dfvidf thf vfndor's nbmf
+         */
+        publid finbl String gftVfndor() {
+            rfturn vfndor;
+        }
+
+
+        /**
+         * Obtbins thf dfsdription of thf dfvidf.
+         * @rfturn b dfsdription of thf dfvidf
+         */
+        publid finbl String gftDfsdription() {
+            rfturn dfsdription;
+        }
+
+
+        /**
+         * Obtbins thf vfrsion of thf dfvidf.
+         * @rfturn tfxtubl vfrsion informbtion for thf dfvidf.
+         */
+        publid finbl String gftVfrsion() {
+            rfturn vfrsion;
+        }
+
+
+        /**
+         * Providfs b string rfprfsfntbtion of thf dfvidf informbtion.
+
+         * @rfturn b dfsdription of thf info objfdt
+         */
+        publid finbl String toString() {
+            rfturn nbmf;
+        }
+    } // dlbss Info
+
+
+}

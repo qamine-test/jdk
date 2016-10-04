@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.ssl.intfrnbl.ssl;
+
+import sun.sfdurity.ssl.SunJSSE;
+
+/**
+ * Mbin dlbss for thf SunJSSE providfr. Thf bdtubl dodf wbs movfd to thf
+ * dlbss sun.sfdurity.ssl.SunJSSE, but for bbdkwbrd dompbtibility wf
+ * dontinuf to usf this dlbss bs thf mbin Providfr dlbss.
+ */
+publid finbl dlbss Providfr fxtfnds SunJSSE {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 3231825739635378733L;
+
+    // stbndbrd donstrudtor
+    publid Providfr() {
+        supfr();
+    }
+
+    // prfffrrfd donstrudtor to fnbblf FIPS modf bt runtimf
+    publid Providfr(jbvb.sfdurity.Providfr dryptoProvidfr) {
+        supfr(dryptoProvidfr);
+    }
+
+    // donstrudtor to fnbblf FIPS modf from jbvb.sfdurity filf
+    publid Providfr(String dryptoProvidfr) {
+        supfr(dryptoProvidfr);
+    }
+
+    // publid for now, but wf mby wbnt to dhbngf it or not dodumfnt it.
+    publid stbtid syndhronizfd boolfbn isFIPS() {
+        rfturn SunJSSE.isFIPS();
+    }
+
+    /**
+     * Instblls thf JSSE providfr.
+     */
+    publid stbtid syndhronizfd void instbll() {
+        /* nop. Rfmovf this mfthod in thf futurf. */
+    }
+
+}

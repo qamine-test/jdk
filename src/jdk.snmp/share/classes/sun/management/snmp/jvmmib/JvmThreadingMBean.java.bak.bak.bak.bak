@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+
+//
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) whfn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+//
+
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * This intfrfbdf is usfd for rfprfsfnting thf rfmotf mbnbgfmfnt intfrfbdf for thf "JvmThrfbding" MBfbn.
+ */
+publid intfrfbdf JvmThrfbdingMBfbn {
+
+    /**
+     * Gfttfr for thf "JvmThrfbdCpuTimfMonitoring" vbribblf.
+     */
+    publid EnumJvmThrfbdCpuTimfMonitoring gftJvmThrfbdCpuTimfMonitoring() throws SnmpStbtusExdfption;
+
+    /**
+     * Sfttfr for thf "JvmThrfbdCpuTimfMonitoring" vbribblf.
+     */
+    publid void sftJvmThrfbdCpuTimfMonitoring(EnumJvmThrfbdCpuTimfMonitoring x) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdkfr for thf "JvmThrfbdCpuTimfMonitoring" vbribblf.
+     */
+    publid void dhfdkJvmThrfbdCpuTimfMonitoring(EnumJvmThrfbdCpuTimfMonitoring x) throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdContfntionMonitoring" vbribblf.
+     */
+    publid EnumJvmThrfbdContfntionMonitoring gftJvmThrfbdContfntionMonitoring() throws SnmpStbtusExdfption;
+
+    /**
+     * Sfttfr for thf "JvmThrfbdContfntionMonitoring" vbribblf.
+     */
+    publid void sftJvmThrfbdContfntionMonitoring(EnumJvmThrfbdContfntionMonitoring x) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdkfr for thf "JvmThrfbdContfntionMonitoring" vbribblf.
+     */
+    publid void dhfdkJvmThrfbdContfntionMonitoring(EnumJvmThrfbdContfntionMonitoring x) throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdTotblStbrtfdCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdTotblStbrtfdCount() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdPfbkCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdPfbkCount() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdDbfmonCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdDbfmonCount() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdCount" vbribblf.
+     */
+    publid Long gftJvmThrfbdCount() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmThrfbdPfbkCountRfsft" vbribblf.
+     */
+    publid Long gftJvmThrfbdPfbkCountRfsft() throws SnmpStbtusExdfption;
+
+    /**
+     * Sfttfr for thf "JvmThrfbdPfbkCountRfsft" vbribblf.
+     */
+    publid void sftJvmThrfbdPfbkCountRfsft(Long x) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdkfr for thf "JvmThrfbdPfbkCountRfsft" vbribblf.
+     */
+    publid void dhfdkJvmThrfbdPfbkCountRfsft(Long x) throws SnmpStbtusExdfption;
+
+}

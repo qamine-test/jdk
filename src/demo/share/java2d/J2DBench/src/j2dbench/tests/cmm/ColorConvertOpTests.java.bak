@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,354 +30,354 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-package j2dbench.tests.cmm;
+pbdkbgf j2dbfndi.tfsts.dmm;
 
-import j2dbench.Group;
-import j2dbench.Option;
-import j2dbench.Result;
-import j2dbench.TestEnvironment;
-import j2dbench.tests.iio.IIOTests;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorConvertOp;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import javax.imageio.ImageIO;
+import j2dbfndi.Group;
+import j2dbfndi.Option;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
+import j2dbfndi.tfsts.iio.IIOTfsts;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorConvfrtOp;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvbx.imbgfio.ImbgfIO;
 
-public class ColorConvertOpTests extends ColorConversionTests {
+publid dlbss ColorConvfrtOpTfsts fxtfnds ColorConvfrsionTfsts {
 
-    private static enum ImageContent {
-        BLANK("bank", "Blank (opaque black)"),
-        RANDOM("random", "Random"),
-        VECTOR("vector", "Vector Art"),
-        PHOTO("photo", "Photograph");
+    privbtf stbtid fnum ImbgfContfnt {
+        BLANK("bbnk", "Blbnk (opbquf blbdk)"),
+        RANDOM("rbndom", "Rbndom"),
+        VECTOR("vfdtor", "Vfdtor Art"),
+        PHOTO("pioto", "Piotogrbpi");
 
-        public final String name;
-        public final String descr;
+        publid finbl String nbmf;
+        publid finbl String dfsdr;
 
-        private ImageContent(String name, String descr) {
-            this.name = name;
-            this.descr = descr;
+        privbtf ImbgfContfnt(String nbmf, String dfsdr) {
+            tiis.nbmf = nbmf;
+            tiis.dfsdr = dfsdr;
         }
     }
 
-    private static enum ImageType {
-        INT_ARGB(BufferedImage.TYPE_INT_ARGB, "INT_ARGB", "TYPE_INT_ARGB"),
-        INT_RGB(BufferedImage.TYPE_INT_RGB, "INT_RGB", "TYPE_INT_RGB"),
-        INT_BGR(BufferedImage.TYPE_INT_BGR, "INT_BGR", "TYPE_INT_BGR"),
-        BYTE_3BYTE_BGR(BufferedImage.TYPE_3BYTE_BGR, "3BYTE_BGR", "TYPE_3BYTE_BGR"),
-        BYTE_4BYTE_ABGR(BufferedImage.TYPE_4BYTE_ABGR, "4BYTE_BGR", "TYPE_4BYTE_BGR"),
-        COMPATIBLE_DST(0, "Compatible", "Compatible destination");
+    privbtf stbtid fnum ImbgfTypf {
+        INT_ARGB(BufffrfdImbgf.TYPE_INT_ARGB, "INT_ARGB", "TYPE_INT_ARGB"),
+        INT_RGB(BufffrfdImbgf.TYPE_INT_RGB, "INT_RGB", "TYPE_INT_RGB"),
+        INT_BGR(BufffrfdImbgf.TYPE_INT_BGR, "INT_BGR", "TYPE_INT_BGR"),
+        BYTE_3BYTE_BGR(BufffrfdImbgf.TYPE_3BYTE_BGR, "3BYTE_BGR", "TYPE_3BYTE_BGR"),
+        BYTE_4BYTE_ABGR(BufffrfdImbgf.TYPE_4BYTE_ABGR, "4BYTE_BGR", "TYPE_4BYTE_BGR"),
+        COMPATIBLE_DST(0, "Compbtiblf", "Compbtiblf dfstinbtion");
 
-        private ImageType(int type, String abbr, String descr) {
-            this.type = type;
-            this.abbrev = abbr;
-            this.descr = descr;
+        privbtf ImbgfTypf(int typf, String bbbr, String dfsdr) {
+            tiis.typf = typf;
+            tiis.bbbrfv = bbbr;
+            tiis.dfsdr = dfsdr;
         }
 
-        public final int type;
-        public final String abbrev;
-        public final String descr;
+        publid finbl int typf;
+        publid finbl String bbbrfv;
+        publid finbl String dfsdr;
     }
 
-    private static enum ListType {
-        SRC("srcType", "Source Images"),
-        DST("dstType", "Destination Images");
+    privbtf stbtid fnum ListTypf {
+        SRC("srdTypf", "Sourdf Imbgfs"),
+        DST("dstTypf", "Dfstinbtion Imbgfs");
 
-        private ListType(String name, String description) {
-            this.name = name;
-            this.description = description;
+        privbtf ListTypf(String nbmf, String dfsdription) {
+            tiis.nbmf = nbmf;
+            tiis.dfsdription = dfsdription;
         }
-        public final String name;
-        public final String description;
+        publid finbl String nbmf;
+        publid finbl String dfsdription;
     }
 
-    public static Option createImageTypeList(ListType listType) {
+    publid stbtid Option drfbtfImbgfTypfList(ListTypf listTypf) {
 
-        ImageType[] allTypes = ImageType.values();
+        ImbgfTypf[] bllTypfs = ImbgfTypf.vblufs();
 
-        int num = allTypes.length;
-        if (listType == ListType.SRC) {
-            num -= 1; // exclude compatible destination
+        int num = bllTypfs.lfngti;
+        if (listTypf == ListTypf.SRC) {
+            num -= 1; // fxdludf dompbtiblf dfstinbtion
         }
 
-        ImageType[] t = new ImageType[num];
-        String[] names = new String[num];
-        String[] abbrev = new String[num];
-        String[] descr = new String[num];
+        ImbgfTypf[] t = nfw ImbgfTypf[num];
+        String[] nbmfs = nfw String[num];
+        String[] bbbrfv = nfw String[num];
+        String[] dfsdr = nfw String[num];
 
         for (int i = 0; i < num; i++) {
-            t[i] = allTypes[i];
-            names[i] = t[i].toString();
-            abbrev[i] = t[i].abbrev;
-            descr[i] = t[i].descr;
+            t[i] = bllTypfs[i];
+            nbmfs[i] = t[i].toString();
+            bbbrfv[i] = t[i].bbbrfv;
+            dfsdr[i] = t[i].dfsdr;
         }
 
-        Option list = new Option.ObjectList(opOptionsRoot,
-                listType.name, listType.description,
-                names, t, abbrev, descr, 1);
-        return list;
+        Option list = nfw Option.ObjfdtList(opOptionsRoot,
+                listTypf.nbmf, listTypf.dfsdription,
+                nbmfs, t, bbbrfv, dfsdr, 1);
+        rfturn list;
     }
 
-    protected static Group opConvRoot;
+    protfdtfd stbtid Group opConvRoot;
 
-    protected static Group opOptionsRoot;
-    protected static Option sizeList;
-    protected static Option contentList;
+    protfdtfd stbtid Group opOptionsRoot;
+    protfdtfd stbtid Option sizfList;
+    protfdtfd stbtid Option dontfntList;
 
-    protected static Option sourceType;
+    protfdtfd stbtid Option sourdfTypf;
 
-    protected static Option destinationType;
+    protfdtfd stbtid Option dfstinbtionTypf;
 
-    public static void init() {
-        opConvRoot = new Group(colorConvRoot, "ccop", "ColorConvertOp Tests");
+    publid stbtid void init() {
+        opConvRoot = nfw Group(dolorConvRoot, "ddop", "ColorConvfrtOp Tfsts");
 
-        opOptionsRoot = new Group(opConvRoot, "ccopOptions", "Options");
+        opOptionsRoot = nfw Group(opConvRoot, "ddopOptions", "Options");
 
-        // size list
-        int[] sizes = new int[] {1, 20, 250, 1000, 4000};
-        String[] sizeStrs = new String[] {
+        // sizf list
+        int[] sizfs = nfw int[] {1, 20, 250, 1000, 4000};
+        String[] sizfStrs = nfw String[] {
             "1x1", "20x20", "250x250", "1000x1000", "4000x4000"
         };
-        String[] sizeDescs = new String[] {
-            "Tiny Images (1x1)",
-            "Small Images (20x20)",
-            "Medium Images (250x250)",
-            "Large Images (1000x1000)",
-            "Huge Images (4000x4000)",
+        String[] sizfDfsds = nfw String[] {
+            "Tiny Imbgfs (1x1)",
+            "Smbll Imbgfs (20x20)",
+            "Mfdium Imbgfs (250x250)",
+            "Lbrgf Imbgfs (1000x1000)",
+            "Hugf Imbgfs (4000x4000)",
         };
-        sizeList = new Option.IntList(opOptionsRoot,
-                                      "size", "Image Size",
-                                      sizes, sizeStrs, sizeDescs, 0x4);
-        ((Option.ObjectList) sizeList).setNumRows(5);
+        sizfList = nfw Option.IntList(opOptionsRoot,
+                                      "sizf", "Imbgf Sizf",
+                                      sizfs, sizfStrs, sizfDfsds, 0x4);
+        ((Option.ObjfdtList) sizfList).sftNumRows(5);
 
-        // image content
-        ImageContent[] c = ImageContent.values();
+        // imbgf dontfnt
+        ImbgfContfnt[] d = ImbgfContfnt.vblufs();
 
-        String[] contentStrs = new String[c.length];
-        String[] contentDescs = new String[c.length];
+        String[] dontfntStrs = nfw String[d.lfngti];
+        String[] dontfntDfsds = nfw String[d.lfngti];
 
-        for (int i = 0; i < c.length; i++) {
-            contentStrs[i] = c[i].name;
-            contentDescs[i] = c[i].descr;
+        for (int i = 0; i < d.lfngti; i++) {
+            dontfntStrs[i] = d[i].nbmf;
+            dontfntDfsds[i] = d[i].dfsdr;
         };
 
-        contentList = new Option.ObjectList(opOptionsRoot,
-                                            "content", "Image Content",
-                                            contentStrs, c,
-                                            contentStrs, contentDescs,
+        dontfntList = nfw Option.ObjfdtList(opOptionsRoot,
+                                            "dontfnt", "Imbgf Contfnt",
+                                            dontfntStrs, d,
+                                            dontfntStrs, dontfntDfsds,
                                             0x8);
 
-        sourceType = createImageTypeList(ListType.SRC);
+        sourdfTypf = drfbtfImbgfTypfList(ListTypf.SRC);
 
-        destinationType = createImageTypeList(ListType.DST);
+        dfstinbtionTypf = drfbtfImbgfTypfList(ListTypf.DST);
 
-        new ConvertImageTest();
-        new ConvertRasterTest();
-        new DrawImageTest();
+        nfw ConvfrtImbgfTfst();
+        nfw ConvfrtRbstfrTfst();
+        nfw DrbwImbgfTfst();
     }
 
-    public ColorConvertOpTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(opOptionsRoot, true);
+    publid ColorConvfrtOpTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndifs(opOptionsRoot, truf);
     }
 
-    public Object initTest(TestEnvironment env, Result res) {
-        return new Context(env, res);
+    publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfs) {
+        rfturn nfw Contfxt(fnv, rfs);
     }
 
-    public void cleanupTest(TestEnvironment env, Object o) {
-        Context ctx = (Context)o;
-        ctx.cs = null;
-        ctx.op_img = null;
-        ctx.op_rst = null;
-        ctx.dst = null;
-        ctx.src = null;
-        ctx.graphics = null;
+    publid void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt o) {
+        Contfxt dtx = (Contfxt)o;
+        dtx.ds = null;
+        dtx.op_img = null;
+        dtx.op_rst = null;
+        dtx.dst = null;
+        dtx.srd = null;
+        dtx.grbpiids = null;
     }
 
-    private static class Context {
-        ColorSpace cs;
-        Graphics2D graphics;
-        ColorConvertOp op_img;
-        ColorConvertOp op_rst;
+    privbtf stbtid dlbss Contfxt {
+        ColorSpbdf ds;
+        Grbpiids2D grbpiids;
+        ColorConvfrtOp op_img;
+        ColorConvfrtOp op_rst;
 
-        BufferedImage src;
-        BufferedImage dst;
+        BufffrfdImbgf srd;
+        BufffrfdImbgf dst;
 
-        WritableRaster rsrc;
-        WritableRaster rdst;
+        WritbblfRbstfr rsrd;
+        WritbblfRbstfr rdst;
 
-        public Context(TestEnvironment env, Result res) {
+        publid Contfxt(TfstEnvironmfnt fnv, Rfsult rfs) {
 
-            graphics = (Graphics2D)env.getGraphics();
-            cs = getColorSpace(env);
+            grbpiids = (Grbpiids2D)fnv.gftGrbpiids();
+            ds = gftColorSpbdf(fnv);
 
-            // TODO: provide rendering hints
-            op_img = new ColorConvertOp(cs, null);
-            ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-            op_rst = new ColorConvertOp(sRGB, cs, null);
+            // TODO: providf rfndfring iints
+            op_img = nfw ColorConvfrtOp(ds, null);
+            ColorSpbdf sRGB = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+            op_rst = nfw ColorConvfrtOp(sRGB, ds, null);
 
-            int size = env.getIntValue(sizeList);
+            int sizf = fnv.gftIntVbluf(sizfList);
 
-            ImageContent content = (ImageContent)env.getModifier(contentList);
-            ImageType srcType = (ImageType)env.getModifier(sourceType);
+            ImbgfContfnt dontfnt = (ImbgfContfnt)fnv.gftModififr(dontfntList);
+            ImbgfTypf srdTypf = (ImbgfTypf)fnv.gftModififr(sourdfTypf);
 
-            src = createBufferedImage(size, size, content, srcType.type);
-            rsrc = src.getRaster();
+            srd = drfbtfBufffrfdImbgf(sizf, sizf, dontfnt, srdTypf.typf);
+            rsrd = srd.gftRbstfr();
 
-            ImageType dstType = (ImageType)env.getModifier(destinationType);
-            if (dstType == ImageType.COMPATIBLE_DST) {
-                dst = op_img.createCompatibleDestImage(src, null);
-            } else {
-                dst = createBufferedImage(size, size, content, dstType.type);
+            ImbgfTypf dstTypf = (ImbgfTypf)fnv.gftModififr(dfstinbtionTypf);
+            if (dstTypf == ImbgfTypf.COMPATIBLE_DST) {
+                dst = op_img.drfbtfCompbtiblfDfstImbgf(srd, null);
+            } flsf {
+                dst = drfbtfBufffrfdImbgf(sizf, sizf, dontfnt, dstTypf.typf);
             }
-            // raster always has to be comatible
-            rdst = op_rst.createCompatibleDestRaster(rsrc);
+            // rbstfr blwbys ibs to bf dombtiblf
+            rdst = op_rst.drfbtfCompbtiblfDfstRbstfr(rsrd);
         }
     }
 
-    private static class ConvertImageTest extends ColorConvertOpTests {
-        public ConvertImageTest() {
-            super(opConvRoot, "op_img", "op.filetr(BufferedImage)");
+    privbtf stbtid dlbss ConvfrtImbgfTfst fxtfnds ColorConvfrtOpTfsts {
+        publid ConvfrtImbgfTfst() {
+            supfr(opConvRoot, "op_img", "op.filftr(BufffrfdImbgf)");
         }
 
-        public void runTest(Object octx, int numReps) {
-            final Context ctx = (Context)octx;
-            final ColorConvertOp op = ctx.op_img;
+        publid void runTfst(Objfdt odtx, int numRfps) {
+            finbl Contfxt dtx = (Contfxt)odtx;
+            finbl ColorConvfrtOp op = dtx.op_img;
 
-            final BufferedImage src = ctx.src;
-            BufferedImage dst = ctx.dst;
+            finbl BufffrfdImbgf srd = dtx.srd;
+            BufffrfdImbgf dst = dtx.dst;
             do {
                 try {
-                    dst = op.filter(src, dst);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    dst = op.filtfr(srd, dst);
+                } dbtdi (Exdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    private static class ConvertRasterTest extends ColorConvertOpTests {
-        public ConvertRasterTest() {
-            super(opConvRoot, "op_rst", "op.filetr(Raster)");
+    privbtf stbtid dlbss ConvfrtRbstfrTfst fxtfnds ColorConvfrtOpTfsts {
+        publid ConvfrtRbstfrTfst() {
+            supfr(opConvRoot, "op_rst", "op.filftr(Rbstfr)");
         }
 
-        public void runTest(Object octx, int numReps) {
-            final Context ctx = (Context)octx;
-            final ColorConvertOp op = ctx.op_rst;
+        publid void runTfst(Objfdt odtx, int numRfps) {
+            finbl Contfxt dtx = (Contfxt)odtx;
+            finbl ColorConvfrtOp op = dtx.op_rst;
 
-            final Raster src = ctx.rsrc;
-            WritableRaster dst = ctx.rdst;
+            finbl Rbstfr srd = dtx.rsrd;
+            WritbblfRbstfr dst = dtx.rdst;
             do {
                 try {
-                    dst = op.filter(src, dst);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    dst = op.filtfr(srd, dst);
+                } dbtdi (Exdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    private static class DrawImageTest extends ColorConvertOpTests {
-        public DrawImageTest() {
-            super(opConvRoot, "op_draw", "drawImage(ColorConvertOp)");
+    privbtf stbtid dlbss DrbwImbgfTfst fxtfnds ColorConvfrtOpTfsts {
+        publid DrbwImbgfTfst() {
+            supfr(opConvRoot, "op_drbw", "drbwImbgf(ColorConvfrtOp)");
         }
 
-        public void runTest(Object octx, int numReps) {
-            final Context ctx = (Context)octx;
-            final ColorConvertOp op = ctx.op_img;
+        publid void runTfst(Objfdt odtx, int numRfps) {
+            finbl Contfxt dtx = (Contfxt)odtx;
+            finbl ColorConvfrtOp op = dtx.op_img;
 
-            final Graphics2D g = ctx.graphics;
+            finbl Grbpiids2D g = dtx.grbpiids;
 
-            final BufferedImage src = ctx.src;
+            finbl BufffrfdImbgf srd = dtx.srd;
 
             do {
-                g.drawImage(src, op, 0, 0);
-            } while (--numReps >= 0);
+                g.drbwImbgf(srd, op, 0, 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
     /**************************************************************************
-     ******                    Helper routines
+     ******                    Hflpfr routinfs
      *************************************************************************/
-    protected static BufferedImage createBufferedImage(int width,
-                                                       int height,
-                                                       ImageContent contentType,
-                                                       int type)
+    protfdtfd stbtid BufffrfdImbgf drfbtfBufffrfdImbgf(int widti,
+                                                       int ifigit,
+                                                       ImbgfContfnt dontfntTypf,
+                                                       int typf)
     {
-        BufferedImage image;
-        image = new BufferedImage(width, height, type);
-        boolean hasAlpha = image.getColorModel().hasAlpha();
-        switch (contentType) {
-            case RANDOM:
-                for (int y = 0; y < height; y++) {
-                    for (int x = 0; x < width; x++) {
-                        int rgb = (int)(Math.random() * 0xffffff);
-                        if (hasAlpha) {
+        BufffrfdImbgf imbgf;
+        imbgf = nfw BufffrfdImbgf(widti, ifigit, typf);
+        boolfbn ibsAlpib = imbgf.gftColorModfl().ibsAlpib();
+        switdi (dontfntTypf) {
+            dbsf RANDOM:
+                for (int y = 0; y < ifigit; y++) {
+                    for (int x = 0; x < widti; x++) {
+                        int rgb = (int)(Mbti.rbndom() * 0xffffff);
+                        if (ibsAlpib) {
                             rgb |= 0x7f000000;
                         }
-                        image.setRGB(x, y, rgb);
+                        imbgf.sftRGB(x, y, rgb);
                     }
                 }
-                break;
-            case VECTOR:
+                brfbk;
+            dbsf VECTOR:
                 {
-                    Graphics2D g = image.createGraphics();
-                    if (hasAlpha) {
-                        // fill background with a translucent color
-                        g.setComposite(AlphaComposite.getInstance(
-                                           AlphaComposite.SRC, 0.5f));
+                    Grbpiids2D g = imbgf.drfbtfGrbpiids();
+                    if (ibsAlpib) {
+                        // fill bbdkground witi b trbnsludfnt dolor
+                        g.sftCompositf(AlpibCompositf.gftInstbndf(
+                                           AlpibCompositf.SRC, 0.5f));
                     }
-                    g.setColor(Color.blue);
-                    g.fillRect(0, 0, width, height);
-                    g.setComposite(AlphaComposite.Src);
-                    g.setColor(Color.yellow);
-                    g.fillOval(2, 2, width-4, height-4);
-                    g.setColor(Color.red);
-                    g.fillOval(4, 4, width-8, height-8);
-                    g.setColor(Color.green);
-                    g.fillRect(8, 8, width-16, height-16);
-                    g.setColor(Color.white);
-                    g.drawLine(0, 0, width, height);
-                    g.drawLine(0, height, width, 0);
-                    g.dispose();
-                    break;
+                    g.sftColor(Color.bluf);
+                    g.fillRfdt(0, 0, widti, ifigit);
+                    g.sftCompositf(AlpibCompositf.Srd);
+                    g.sftColor(Color.yfllow);
+                    g.fillOvbl(2, 2, widti-4, ifigit-4);
+                    g.sftColor(Color.rfd);
+                    g.fillOvbl(4, 4, widti-8, ifigit-8);
+                    g.sftColor(Color.grffn);
+                    g.fillRfdt(8, 8, widti-16, ifigit-16);
+                    g.sftColor(Color.wiitf);
+                    g.drbwLinf(0, 0, widti, ifigit);
+                    g.drbwLinf(0, ifigit, widti, 0);
+                    g.disposf();
+                    brfbk;
                 }
-            case PHOTO:
+            dbsf PHOTO:
                 {
-                    Image photo = null;
+                    Imbgf pioto = null;
                     try {
-                        photo = ImageIO.read(
-                            IIOTests.class.getResourceAsStream("images/photo.jpg"));
-                    } catch (Exception e) {
-                        System.err.println("error loading photo");
-                        e.printStackTrace();
+                        pioto = ImbgfIO.rfbd(
+                            IIOTfsts.dlbss.gftRfsourdfAsStrfbm("imbgfs/pioto.jpg"));
+                    } dbtdi (Exdfption f) {
+                        Systfm.frr.println("frror lobding pioto");
+                        f.printStbdkTrbdf();
                     }
-                    Graphics2D g = image.createGraphics();
-                    if (hasAlpha) {
-                        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC,
+                    Grbpiids2D g = imbgf.drfbtfGrbpiids();
+                    if (ibsAlpib) {
+                        g.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC,
                                                                   0.5f));
                     }
-                    g.drawImage(photo, 0, 0, width, height, null);
-                    g.dispose();
-                    break;
+                    g.drbwImbgf(pioto, 0, 0, widti, ifigit, null);
+                    g.disposf();
+                    brfbk;
                 }
-            default:
-                break;
+            dffbult:
+                brfbk;
         }
 
-        return image;
+        rfturn imbgf;
     }
 }

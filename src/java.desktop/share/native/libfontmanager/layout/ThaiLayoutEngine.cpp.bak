@@ -1,147 +1,147 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2010 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LayoutEngine.h"
-#include "ThaiLayoutEngine.h"
-#include "ScriptAndLanguageTags.h"
-#include "LEGlyphStorage.h"
+#indludf "LETypfs.i"
+#indludf "LbyoutEnginf.i"
+#indludf "TibiLbyoutEnginf.i"
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "LEGlypiStorbgf.i"
 
-#include "KernTable.h"
+#indludf "KfrnTbblf.i"
 
-#include "ThaiShaping.h"
+#indludf "TibiSibping.i"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ThaiLayoutEngine)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(TibiLbyoutEnginf)
 
-ThaiLayoutEngine::ThaiLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, le_int32 typoFlags, LEErrorCode &success)
-    : LayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success)
+TibiLbyoutEnginf::TibiLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+    : LbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss)
 {
-    fErrorChar = 0x25CC;
+    fErrorCibr = 0x25CC;
 
-    // Figure out which presentation forms the font uses
-    if (! fontInstance->canDisplay(0x0E01)) {
-        // No Thai in font; don't use presentation forms.
-        fGlyphSet = 3;
-    } else if (fontInstance->canDisplay(0x0E64)) {
-        // WorldType uses reserved space in Thai block
-        fGlyphSet = 0;
-    } else if (fontInstance->canDisplay(0xF701)) {
-        // Microsoft corporate zone
-        fGlyphSet = 1;
+    // Figurf out wiidi prfsfntbtion forms tif font usfs
+    if (! fontInstbndf->dbnDisplby(0x0E01)) {
+        // No Tibi in font; don't usf prfsfntbtion forms.
+        fGlypiSft = 3;
+    } flsf if (fontInstbndf->dbnDisplby(0x0E64)) {
+        // WorldTypf usfs rfsfrvfd spbdf in Tibi blodk
+        fGlypiSft = 0;
+    } flsf if (fontInstbndf->dbnDisplby(0xF701)) {
+        // Midrosoft dorporbtf zonf
+        fGlypiSft = 1;
 
-        if (!fontInstance->canDisplay(fErrorChar)) {
-            fErrorChar = 0xF71B;
+        if (!fontInstbndf->dbnDisplby(fErrorCibr)) {
+            fErrorCibr = 0xF71B;
         }
-    } else if (fontInstance->canDisplay(0xF885)) {
-        // Apple corporate zone
-        fGlyphSet = 2;
-    } else {
-        // no presentation forms in the font
-        fGlyphSet = 3;
+    } flsf if (fontInstbndf->dbnDisplby(0xF885)) {
+        // Applf dorporbtf zonf
+        fGlypiSft = 2;
+    } flsf {
+        // no prfsfntbtion forms in tif font
+        fGlypiSft = 3;
     }
 }
 
-ThaiLayoutEngine::~ThaiLayoutEngine()
+TibiLbyoutEnginf::~TibiLbyoutEnginf()
 {
-    // nothing to do
+    // notiing to do
 }
 
-// Input: characters (0..max provided for context)
-// Output: glyphs, char indices
-// Returns: the glyph count
-// NOTE: this assumes that ThaiShaping::compose will allocate the outChars array...
-le_int32 ThaiLayoutEngine::computeGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool /*rightToLeft*/, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+// Input: dibrbdtfrs (0..mbx providfd for dontfxt)
+// Output: glypis, dibr indidfs
+// Rfturns: tif glypi dount
+// NOTE: tiis bssumfs tibt TibiSibping::domposf will bllodbtf tif outCibrs brrby...
+lf_int32 TibiLbyoutEnginf::domputfGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool /*rigitToLfft*/, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
-        success = LE_ILLEGAL_ARGUMENT_ERROR;
-        return 0;
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn 0;
     }
 
-    LEUnicode *outChars;
-    le_int32 glyphCount;
+    LEUnidodf *outCibrs;
+    lf_int32 glypiCount;
 
-    // This is enough room for the worst-case expansion
-    // (it says here...)
-    outChars = LE_NEW_ARRAY(LEUnicode, count * 2);
+    // Tiis is fnougi room for tif worst-dbsf fxpbnsion
+    // (it sbys ifrf...)
+    outCibrs = LE_NEW_ARRAY(LEUnidodf, dount * 2);
 
-    if (outChars == NULL) {
-        success = LE_MEMORY_ALLOCATION_ERROR;
-        return 0;
+    if (outCibrs == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
     }
 
-    glyphStorage.allocateGlyphArray(count * 2, FALSE, success);
+    glypiStorbgf.bllodbtfGlypiArrby(dount * 2, FALSE, suddfss);
 
-    if (LE_FAILURE(success)) {
-        LE_DELETE_ARRAY(outChars);
-        success = LE_MEMORY_ALLOCATION_ERROR;
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        LE_DELETE_ARRAY(outCibrs);
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
     }
 
-    glyphCount = ThaiShaping::compose(chars, offset, count, fGlyphSet, fErrorChar, outChars, glyphStorage);
-    mapCharsToGlyphs(outChars, 0, glyphCount, FALSE, FALSE, glyphStorage, success);
+    glypiCount = TibiSibping::domposf(dibrs, offsft, dount, fGlypiSft, fErrorCibr, outCibrs, glypiStorbgf);
+    mbpCibrsToGlypis(outCibrs, 0, glypiCount, FALSE, FALSE, glypiStorbgf, suddfss);
 
-    LE_DELETE_ARRAY(outChars);
+    LE_DELETE_ARRAY(outCibrs);
 
-    glyphStorage.adoptGlyphCount(glyphCount);
-    return glyphCount;
+    glypiStorbgf.bdoptGlypiCount(glypiCount);
+    rfturn glypiCount;
 }
 
-// This is the same as LayoutEngline::adjustGlyphPositions() except that it doesn't call adjustMarkGlyphs
-void ThaiLayoutEngine::adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool  /*reverse*/,
-                                        LEGlyphStorage &glyphStorage, LEErrorCode &success)
+// Tiis is tif sbmf bs LbyoutEnglinf::bdjustGlypiPositions() fxdfpt tibt it dofsn't dbll bdjustMbrkGlypis
+void TibiLbyoutEnginf::bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool  /*rfvfrsf*/,
+                                        LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return;
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
-        success = LE_ILLEGAL_ARGUMENT_ERROR;
-        return;
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn;
     }
 
-    if (fTypoFlags & LE_Kerning_FEATURE_FLAG) { /* kerning enabled */
-      LETableReference kernTable(fFontInstance, LE_KERN_TABLE_TAG, success);
-      KernTable kt(kernTable, success);
-      kt.process(glyphStorage, success);
+    if (fTypoFlbgs & LE_Kfrning_FEATURE_FLAG) { /* kfrning fnbblfd */
+      LETbblfRfffrfndf kfrnTbblf(fFontInstbndf, LE_KERN_TABLE_TAG, suddfss);
+      KfrnTbblf kt(kfrnTbblf, suddfss);
+      kt.prodfss(glypiStorbgf, suddfss);
     }
 
-    // default is no adjustments
-    return;
+    // dffbult is no bdjustmfnts
+    rfturn;
 }
 
 U_NAMESPACE_END

@@ -1,0 +1,414 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+#indludf    <jni.h>
+#indludf    <jvmti.h>
+
+#indludf    "JPLISAssfrt.h"
+#indludf    "Utilitifs.h"
+#indludf    "JbvbExdfptions.h"
+
+/**
+ * This modulf dontbins utility routinfs for mbnipulbting Jbvb throwbblfs
+ * bnd JNIEnv throwbblf stbtf from nbtivf dodf.
+ */
+
+stbtid jthrowbblf   sFbllbbdkIntfrnblError  = NULL;
+
+/*
+ * Lodbl forwbrd dfdlbrbtions.
+ */
+
+/* insist on hbving b throwbblf. If wf blrfbdy hbvf onf, rfturn it.
+ * If not, mbp to fbllbbdk
+ */
+jthrowbblf
+fordfFbllbbdk(jthrowbblf potfntiblExdfption);
+
+
+jthrowbblf
+fordfFbllbbdk(jthrowbblf potfntiblExdfption) {
+    if ( potfntiblExdfption == NULL ) {
+        rfturn sFbllbbdkIntfrnblError;
+    }
+    flsf {
+        rfturn potfntiblExdfption;
+    }
+}
+
+/**
+ *  Rfturns truf if it propfrly sfts up b fbllbbdk fxdfption
+ */
+jboolfbn
+initiblizfFbllbbdkError(JNIEnv* jnifnv) {
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    sFbllbbdkIntfrnblError = drfbtfIntfrnblError(jnifnv, NULL);
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn (sFbllbbdkIntfrnblError != NULL);
+}
+
+
+/*
+ *  Mbp fvfrything to IntfrnblError.
+ */
+jthrowbblf
+mbpAllChfdkfdToIntfrnblErrorMbppfr( JNIEnv *    jnifnv,
+                                    jthrowbblf  throwbblfToMbp) {
+    jthrowbblf  mbppfdThrowbblf = NULL;
+    jstring     mfssbgf         = NULL;
+
+    jplis_bssfrt(throwbblfToMbp != NULL);
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    jplis_bssfrt(!isUndhfdkfd(jnifnv, throwbblfToMbp));
+
+    mfssbgf = gftMfssbgfFromThrowbblf(jnifnv, throwbblfToMbp);
+    mbppfdThrowbblf = drfbtfIntfrnblError(jnifnv, mfssbgf);
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn mbppfdThrowbblf;
+}
+
+
+jboolfbn
+dhfdkForThrowbblf(  JNIEnv*     jnifnv) {
+    rfturn (*jnifnv)->ExdfptionChfdk(jnifnv);
+}
+
+jboolfbn
+isSbffForJNICblls(  JNIEnv * jnifnv) {
+    rfturn !(*jnifnv)->ExdfptionChfdk(jnifnv);
+}
+
+
+void
+logThrowbblf(   JNIEnv * jnifnv) {
+    if ( dhfdkForThrowbblf(jnifnv) ) {
+        (*jnifnv)->ExdfptionDfsdribf(jnifnv);
+    }
+}
+
+
+
+/**
+ *  Crfbtfs bn fxdfption or frror with thf fully qublififd dlbssnbmf (if jbvb/lbng/Error)
+ *  bnd mfssbgf pbssfd to its donstrudtor
+ */
+jthrowbblf
+drfbtfThrowbblf(    JNIEnv *        jnifnv,
+                    donst dhbr *    dlbssNbmf,
+                    jstring         mfssbgf) {
+    jthrowbblf  fxdfption           = NULL;
+    jmfthodID   donstrudtor         = NULL;
+    jdlbss      fxdfptionClbss      = NULL;
+    jboolfbn    frrorOutstbnding    = JNI_FALSE;
+
+    jplis_bssfrt(dlbssNbmf != NULL);
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+
+    /* drfbtf nfw VMError with mfssbgf from fxdfption */
+    fxdfptionClbss = (*jnifnv)->FindClbss(jnifnv, dlbssNbmf);
+    frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+    jplis_bssfrt(!frrorOutstbnding);
+
+    if (!frrorOutstbnding) {
+        donstrudtor = (*jnifnv)->GftMfthodID(   jnifnv,
+                                                fxdfptionClbss,
+                                                "<init>",
+                                                "(Ljbvb/lbng/String;)V");
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
+    }
+
+    if (!frrorOutstbnding) {
+        fxdfption = (*jnifnv)->NfwObjfdt(jnifnv, fxdfptionClbss, donstrudtor, mfssbgf);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
+    }
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn fxdfption;
+}
+
+jthrowbblf
+drfbtfIntfrnblError(JNIEnv * jnifnv, jstring mfssbgf) {
+    rfturn drfbtfThrowbblf( jnifnv,
+                            "jbvb/lbng/IntfrnblError",
+                            mfssbgf);
+}
+
+jthrowbblf
+drfbtfThrowbblfFromJVMTIErrorCodf(JNIEnv * jnifnv, jvmtiError frrorCodf) {
+    donst dhbr * throwbblfClbssNbmf = NULL;
+    donst dhbr * mfssbgf            = NULL;
+    jstring mfssbgfString           = NULL;
+
+    switdh ( frrorCodf ) {
+        dbsf JVMTI_ERROR_NULL_POINTER:
+                throwbblfClbssNbmf = "jbvb/lbng/NullPointfrExdfption";
+                brfbk;
+
+        dbsf JVMTI_ERROR_ILLEGAL_ARGUMENT:
+                throwbblfClbssNbmf = "jbvb/lbng/IllfgblArgumfntExdfption";
+                brfbk;
+
+        dbsf JVMTI_ERROR_OUT_OF_MEMORY:
+                throwbblfClbssNbmf = "jbvb/lbng/OutOfMfmoryError";
+                brfbk;
+
+        dbsf JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION:
+                throwbblfClbssNbmf = "jbvb/lbng/ClbssCirdulbrityError";
+                brfbk;
+
+        dbsf JVMTI_ERROR_FAILS_VERIFICATION:
+                throwbblfClbssNbmf = "jbvb/lbng/VfrifyError";
+                brfbk;
+
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED:
+                throwbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to bdd b mfthod";
+                brfbk;
+
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED:
+                throwbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dhbngf thf sdhfmb (bdd/rfmovf fiflds)";
+                brfbk;
+
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED:
+                throwbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dhbngf supfrdlbss or intfrfbdfs";
+                brfbk;
+
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED:
+                throwbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dflftf b mfthod";
+                brfbk;
+
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED:
+                throwbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dhbngf thf dlbss modififrs";
+                brfbk;
+
+        dbsf JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED:
+                throwbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "dlbss rfdffinition fbilfd: bttfmptfd to dhbngf mfthod modififrs";
+                brfbk;
+
+        dbsf JVMTI_ERROR_UNSUPPORTED_VERSION:
+                throwbblfClbssNbmf = "jbvb/lbng/UnsupportfdClbssVfrsionError";
+                brfbk;
+
+        dbsf JVMTI_ERROR_NAMES_DONT_MATCH:
+                throwbblfClbssNbmf = "jbvb/lbng/NoClbssDffFoundError";
+                mfssbgf = "dlbss nbmfs don't mbtdh";
+                brfbk;
+
+        dbsf JVMTI_ERROR_INVALID_CLASS_FORMAT:
+                throwbblfClbssNbmf = "jbvb/lbng/ClbssFormbtError";
+                brfbk;
+
+        dbsf JVMTI_ERROR_UNMODIFIABLE_CLASS:
+                throwbblfClbssNbmf = "jbvb/lbng/instrumfnt/UnmodifibblfClbssExdfption";
+                brfbk;
+
+        dbsf JVMTI_ERROR_INVALID_CLASS:
+                throwbblfClbssNbmf = "jbvb/lbng/IntfrnblError";
+                mfssbgf = "dlbss rfdffinition fbilfd: invblid dlbss";
+                brfbk;
+
+        dbsf JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED:
+                throwbblfClbssNbmf = "jbvb/lbng/UnsupportfdOpfrbtionExdfption";
+                mfssbgf = "unsupportfd opfrbtion";
+                brfbk;
+
+        dbsf JVMTI_ERROR_INTERNAL:
+        dffbult:
+                throwbblfClbssNbmf = "jbvb/lbng/IntfrnblError";
+                brfbk;
+        }
+
+    if ( mfssbgf != NULL ) {
+        jboolfbn frrorOutstbnding;
+
+        mfssbgfString = (*jnifnv)->NfwStringUTF(jnifnv, mfssbgf);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        jplis_bssfrt_msg(!frrorOutstbnding, "dbn't drfbtf fxdfption jbvb string");
+    }
+    rfturn drfbtfThrowbblf( jnifnv,
+                            throwbblfClbssNbmf,
+                            mfssbgfString);
+
+}
+
+
+/**
+ *  Cblls toString() on thf givfn mfssbgf whidh is thf sbmf dbll mbdf by
+ *  Exdfption whfn pbssfd b throwbblf to its donstrudtor
+ */
+jstring
+gftMfssbgfFromThrowbblf(    JNIEnv*     jnifnv,
+                            jthrowbblf  fxdfption) {
+    jdlbss      fxdfptionClbss      = NULL;
+    jmfthodID   mfthod              = NULL;
+    jstring     mfssbgf             = NULL;
+    jboolfbn    frrorOutstbnding    = JNI_FALSE;
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+
+    /* dbll gftMfssbgf on fxdfption */
+    fxdfptionClbss = (*jnifnv)->GftObjfdtClbss(jnifnv, fxdfption);
+    frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+    jplis_bssfrt(!frrorOutstbnding);
+
+    if (!frrorOutstbnding) {
+        mfthod = (*jnifnv)->GftMfthodID(jnifnv,
+                                        fxdfptionClbss,
+                                        "toString",
+                                        "()Ljbvb/lbng/String;");
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
+    }
+
+    if (!frrorOutstbnding) {
+        mfssbgf = (*jnifnv)->CbllObjfdtMfthod(jnifnv, fxdfption, mfthod);
+        frrorOutstbnding = dhfdkForAndClfbrThrowbblf(jnifnv);
+        jplis_bssfrt(!frrorOutstbnding);
+    }
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+
+    rfturn mfssbgf;
+}
+
+
+/**
+ *  Rfturns whfthfr thf fxdfption givfn is bn undhfdkfd fxdfption:
+ *  b subdlbss of Error or RuntimfExdfption
+ */
+jboolfbn
+isUndhfdkfd(    JNIEnv*     jnifnv,
+                jthrowbblf  fxdfption) {
+    jboolfbn rfsult = JNI_FALSE;
+
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfsult =    (fxdfption == NULL) ||
+                isInstbndfofClbssNbmf(jnifnv, fxdfption, "jbvb/lbng/Error") ||
+                isInstbndfofClbssNbmf(jnifnv, fxdfption, "jbvb/lbng/RuntimfExdfption");
+    jplis_bssfrt(isSbffForJNICblls(jnifnv));
+    rfturn rfsult;
+}
+
+/*
+ *  Rfturns thf durrfnt throwbblf, if bny. Clfbrs thf throwbblf stbtf.
+ *  Clifnts dbn usf this to prfsfrvf thf durrfnt throwbblf stbtf on thf stbdk.
+ */
+jthrowbblf
+prfsfrvfThrowbblf(JNIEnv * jnifnv) {
+    jthrowbblf rfsult = (*jnifnv)->ExdfptionOddurrfd(jnifnv);
+    if ( rfsult != NULL ) {
+        (*jnifnv)->ExdfptionClfbr(jnifnv);
+    }
+    rfturn rfsult;
+}
+
+/*
+ *  Instblls thf supplifd throwbblf into thf JNIEnv if thf throwbblf is not null.
+ *  Clifnts dbn usf this to prfsfrvf thf durrfnt throwbblf stbtf on thf stbdk.
+ */
+void
+rfstorfThrowbblf(   JNIEnv *    jnifnv,
+                    jthrowbblf  prfsfrvfdExdfption) {
+    throwThrowbblf( jnifnv,
+                    prfsfrvfdExdfption);
+    rfturn;
+}
+
+void
+throwThrowbblf(     JNIEnv *    jnifnv,
+                    jthrowbblf  fxdfption) {
+    if ( fxdfption != NULL ) {
+        jint rfsult = (*jnifnv)->Throw(jnifnv, fxdfption);
+        jplis_bssfrt_msg(rfsult == JNI_OK, "throwThrowbblf fbilfd to rf-throw");
+    }
+    rfturn;
+}
+
+
+/*
+ *  Alwbys dlfbrs thf JNIEnv throwbblf stbtf. Rfturns truf if bn fxdfption wbs prfsfnt
+ *  bfforf thf dlfbring opfrbtion.
+ */
+jboolfbn
+dhfdkForAndClfbrThrowbblf(  JNIEnv *    jnifnv) {
+    jboolfbn rfsult = (*jnifnv)->ExdfptionChfdk(jnifnv);
+    if ( rfsult ) {
+        (*jnifnv)->ExdfptionClfbr(jnifnv);
+    }
+    rfturn rfsult;
+}
+
+/* drfbtfs b jbvb.lbng.IntfrnblError bnd instblls it into thf JNIEnv */
+void
+drfbtfAndThrowIntfrnblError(JNIEnv * jnifnv) {
+    jthrowbblf intfrnblError = drfbtfIntfrnblError( jnifnv, NULL);
+    throwThrowbblf(jnifnv, fordfFbllbbdk(intfrnblError));
+}
+
+void
+drfbtfAndThrowThrowbblfFromJVMTIErrorCodf(JNIEnv * jnifnv, jvmtiError frrorCodf) {
+    jthrowbblf throwbblf = drfbtfThrowbblfFromJVMTIErrorCodf(jnifnv, frrorCodf);
+    throwThrowbblf(jnifnv, fordfFbllbbdk(throwbblf));
+}
+
+void
+mbpThrownThrowbblfIfNfdfssbry(  JNIEnv *                jnifnv,
+                                ChfdkfdExdfptionMbppfr  mbppfr) {
+    jthrowbblf  originblThrowbblf   = NULL;
+    jthrowbblf  rfsultThrowbblf     = NULL;
+
+    originblThrowbblf = prfsfrvfThrowbblf(jnifnv);
+
+    /* thf throwbblf is now dlfbrfd, so JNI dblls brf sbff */
+    if ( originblThrowbblf != NULL ) {
+        /* if thfrf is bn fxdfption: wf dbn just throw it if it is undhfdkfd. If dhfdkfd,
+         * wf nffd to mbp it (mbppfr is donditionbl, will vbry by usbgf, hfndf thf dbllbbdk)
+         */
+        if ( isUndhfdkfd(jnifnv, originblThrowbblf) ) {
+            rfsultThrowbblf = originblThrowbblf;
+        }
+        flsf {
+            rfsultThrowbblf = (*mbppfr) (jnifnv, originblThrowbblf);
+        }
+    }
+
+    /* rf-fstbblish thf dorrfdt throwbblf */
+    if ( rfsultThrowbblf != NULL ) {
+        throwThrowbblf(jnifnv, fordfFbllbbdk(rfsultThrowbblf));
+    }
+
+}

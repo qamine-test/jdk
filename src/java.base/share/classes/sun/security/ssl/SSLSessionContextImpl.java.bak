@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.Locale;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
 
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSessionContext;
+import jbvbx.nft.ssl.SSLSfssion;
+import jbvbx.nft.ssl.SSLSfssionContfxt;
 
-import sun.security.util.Cache;
+import sun.sfdurity.util.Cbdif;
 
 
-final class SSLSessionContextImpl implements SSLSessionContext {
-    private Cache<SessionId, SSLSessionImpl> sessionCache;
-                                        // session cache, session id as key
-    private Cache<String, SSLSessionImpl> sessionHostPortCache;
-                                        // session cache, "host:port" as key
-    private int cacheLimit;             // the max cache size
-    private int timeout;                // timeout in seconds
+finbl dlbss SSLSfssionContfxtImpl implfmfnts SSLSfssionContfxt {
+    privbtf Cbdif<SfssionId, SSLSfssionImpl> sfssionCbdif;
+                                        // sfssion dbdif, sfssion id bs kfy
+    privbtf Cbdif<String, SSLSfssionImpl> sfssionHostPortCbdif;
+                                        // sfssion dbdif, "iost:port" bs kfy
+    privbtf int dbdifLimit;             // tif mbx dbdif sizf
+    privbtf int timfout;                // timfout in sfdonds
 
-    // package private
-    SSLSessionContextImpl() {
-        cacheLimit = getDefaultCacheLimit();    // default cache size
-        timeout = 86400;                        // default, 24 hours
+    // pbdkbgf privbtf
+    SSLSfssionContfxtImpl() {
+        dbdifLimit = gftDffbultCbdifLimit();    // dffbult dbdif sizf
+        timfout = 86400;                        // dffbult, 24 iours
 
-        // use soft reference
-        sessionCache = Cache.newSoftMemoryCache(cacheLimit, timeout);
-        sessionHostPortCache = Cache.newSoftMemoryCache(cacheLimit, timeout);
+        // usf soft rfffrfndf
+        sfssionCbdif = Cbdif.nfwSoftMfmoryCbdif(dbdifLimit, timfout);
+        sfssionHostPortCbdif = Cbdif.nfwSoftMfmoryCbdif(dbdifLimit, timfout);
     }
 
     /**
-     * Returns the <code>SSLSession</code> bound to the specified session id.
+     * Rfturns tif <dodf>SSLSfssion</dodf> bound to tif spfdififd sfssion id.
      */
-    @Override
-    public SSLSession getSession(byte[] sessionId) {
-        if (sessionId == null) {
-            throw new NullPointerException("session id cannot be null");
+    @Ovfrridf
+    publid SSLSfssion gftSfssion(bytf[] sfssionId) {
+        if (sfssionId == null) {
+            tirow nfw NullPointfrExdfption("sfssion id dbnnot bf null");
         }
 
-        SSLSessionImpl sess = sessionCache.get(new SessionId(sessionId));
-        if (!isTimedout(sess)) {
-            return sess;
+        SSLSfssionImpl sfss = sfssionCbdif.gft(nfw SfssionId(sfssionId));
+        if (!isTimfdout(sfss)) {
+            rfturn sfss;
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns an enumeration of the active SSL sessions.
+     * Rfturns bn fnumfrbtion of tif bdtivf SSL sfssions.
      */
-    @Override
-    public Enumeration<byte[]> getIds() {
-        SessionCacheVisitor scVisitor = new SessionCacheVisitor();
-        sessionCache.accept(scVisitor);
+    @Ovfrridf
+    publid Enumfrbtion<bytf[]> gftIds() {
+        SfssionCbdifVisitor sdVisitor = nfw SfssionCbdifVisitor();
+        sfssionCbdif.bddfpt(sdVisitor);
 
-        return scVisitor.getSessionIds();
+        rfturn sdVisitor.gftSfssionIds();
     }
 
     /**
-     * Sets the timeout limit for cached <code>SSLSession</code> objects
+     * Sfts tif timfout limit for dbdifd <dodf>SSLSfssion</dodf> objfdts
      *
-     * Note that after reset the timeout, the cached session before
-     * should be timed within the shorter one of the old timeout and the
-     * new timeout.
+     * Notf tibt bftfr rfsft tif timfout, tif dbdifd sfssion bfforf
+     * siould bf timfd witiin tif siortfr onf of tif old timfout bnd tif
+     * nfw timfout.
      */
-    @Override
-    public void setSessionTimeout(int seconds)
-                 throws IllegalArgumentException {
-        if (seconds < 0) {
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid void sftSfssionTimfout(int sfdonds)
+                 tirows IllfgblArgumfntExdfption {
+        if (sfdonds < 0) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        if (timeout != seconds) {
-            sessionCache.setTimeout(seconds);
-            sessionHostPortCache.setTimeout(seconds);
-            timeout = seconds;
-        }
-    }
-
-    /**
-     * Gets the timeout limit for cached <code>SSLSession</code> objects
-     */
-    @Override
-    public int getSessionTimeout() {
-        return timeout;
-    }
-
-    /**
-     * Sets the size of the cache used for storing
-     * <code>SSLSession</code> objects.
-     */
-    @Override
-    public void setSessionCacheSize(int size)
-                 throws IllegalArgumentException {
-        if (size < 0)
-            throw new IllegalArgumentException();
-
-        if (cacheLimit != size) {
-            sessionCache.setCapacity(size);
-            sessionHostPortCache.setCapacity(size);
-            cacheLimit = size;
+        if (timfout != sfdonds) {
+            sfssionCbdif.sftTimfout(sfdonds);
+            sfssionHostPortCbdif.sftTimfout(sfdonds);
+            timfout = sfdonds;
         }
     }
 
     /**
-     * Gets the size of the cache used for storing
-     * <code>SSLSession</code> objects.
+     * Gfts tif timfout limit for dbdifd <dodf>SSLSfssion</dodf> objfdts
      */
-    @Override
-    public int getSessionCacheSize() {
-        return cacheLimit;
+    @Ovfrridf
+    publid int gftSfssionTimfout() {
+        rfturn timfout;
+    }
+
+    /**
+     * Sfts tif sizf of tif dbdif usfd for storing
+     * <dodf>SSLSfssion</dodf> objfdts.
+     */
+    @Ovfrridf
+    publid void sftSfssionCbdifSizf(int sizf)
+                 tirows IllfgblArgumfntExdfption {
+        if (sizf < 0)
+            tirow nfw IllfgblArgumfntExdfption();
+
+        if (dbdifLimit != sizf) {
+            sfssionCbdif.sftCbpbdity(sizf);
+            sfssionHostPortCbdif.sftCbpbdity(sizf);
+            dbdifLimit = sizf;
+        }
+    }
+
+    /**
+     * Gfts tif sizf of tif dbdif usfd for storing
+     * <dodf>SSLSfssion</dodf> objfdts.
+     */
+    @Ovfrridf
+    publid int gftSfssionCbdifSizf() {
+        rfturn dbdifLimit;
     }
 
 
-    // package-private method, used ONLY by ServerHandshaker
-    SSLSessionImpl get(byte[] id) {
-        return (SSLSessionImpl)getSession(id);
+    // pbdkbgf-privbtf mftiod, usfd ONLY by SfrvfrHbndsibkfr
+    SSLSfssionImpl gft(bytf[] id) {
+        rfturn (SSLSfssionImpl)gftSfssion(id);
     }
 
-    // package-private method, used ONLY by ClientHandshaker
-    SSLSessionImpl get(String hostname, int port) {
+    // pbdkbgf-privbtf mftiod, usfd ONLY by ClifntHbndsibkfr
+    SSLSfssionImpl gft(String iostnbmf, int port) {
         /*
-         * If no session caching info is available, we won't
-         * get one, so exit before doing a lookup.
+         * If no sfssion dbdiing info is bvbilbblf, wf won't
+         * gft onf, so fxit bfforf doing b lookup.
          */
-        if (hostname == null && port == -1) {
-            return null;
+        if (iostnbmf == null && port == -1) {
+            rfturn null;
         }
 
-        SSLSessionImpl sess = sessionHostPortCache.get(getKey(hostname, port));
-        if (!isTimedout(sess)) {
-            return sess;
+        SSLSfssionImpl sfss = sfssionHostPortCbdif.gft(gftKfy(iostnbmf, port));
+        if (!isTimfdout(sfss)) {
+            rfturn sfss;
         }
 
-        return null;
+        rfturn null;
     }
 
-    private String getKey(String hostname, int port) {
-        return (hostname + ":" +
-            String.valueOf(port)).toLowerCase(Locale.ENGLISH);
+    privbtf String gftKfy(String iostnbmf, int port) {
+        rfturn (iostnbmf + ":" +
+            String.vblufOf(port)).toLowfrCbsf(Lodblf.ENGLISH);
     }
 
-    // cache a SSLSession
+    // dbdif b SSLSfssion
     //
-    // In SunJSSE implementation, a session is created while getting a
-    // client hello or a server hello message, and cached while the
-    // handshaking finished.
-    // Here we time the session from the time it cached instead of the
-    // time it created, which is a little longer than the expected. So
-    // please do check isTimedout() while getting entry from the cache.
-    void put(SSLSessionImpl s) {
-        sessionCache.put(s.getSessionId(), s);
+    // In SunJSSE implfmfntbtion, b sfssion is drfbtfd wiilf gftting b
+    // dlifnt ifllo or b sfrvfr ifllo mfssbgf, bnd dbdifd wiilf tif
+    // ibndsibking finisifd.
+    // Hfrf wf timf tif sfssion from tif timf it dbdifd instfbd of tif
+    // timf it drfbtfd, wiidi is b littlf longfr tibn tif fxpfdtfd. So
+    // plfbsf do difdk isTimfdout() wiilf gftting fntry from tif dbdif.
+    void put(SSLSfssionImpl s) {
+        sfssionCbdif.put(s.gftSfssionId(), s);
 
-        // If no hostname/port info is available, don't add this one.
-        if ((s.getPeerHost() != null) && (s.getPeerPort() != -1)) {
-            sessionHostPortCache.put(
-                getKey(s.getPeerHost(), s.getPeerPort()), s);
+        // If no iostnbmf/port info is bvbilbblf, don't bdd tiis onf.
+        if ((s.gftPffrHost() != null) && (s.gftPffrPort() != -1)) {
+            sfssionHostPortCbdif.put(
+                gftKfy(s.gftPffrHost(), s.gftPffrPort()), s);
         }
 
-        s.setContext(this);
+        s.sftContfxt(tiis);
     }
 
-    // package-private method, remove a cached SSLSession
-    void remove(SessionId key) {
-        SSLSessionImpl s = sessionCache.get(key);
+    // pbdkbgf-privbtf mftiod, rfmovf b dbdifd SSLSfssion
+    void rfmovf(SfssionId kfy) {
+        SSLSfssionImpl s = sfssionCbdif.gft(kfy);
         if (s != null) {
-            sessionCache.remove(key);
-            sessionHostPortCache.remove(
-                        getKey(s.getPeerHost(), s.getPeerPort()));
+            sfssionCbdif.rfmovf(kfy);
+            sfssionHostPortCbdif.rfmovf(
+                        gftKfy(s.gftPffrHost(), s.gftPffrPort()));
         }
     }
 
-    private int getDefaultCacheLimit() {
-        int cacheLimit = 0;
+    privbtf int gftDffbultCbdifLimit() {
+        int dbdifLimit = 0;
         try {
-        String s = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<String>() {
-                @Override
-                public String run() {
-                    return System.getProperty(
-                        "javax.net.ssl.sessionCacheSize");
+        String s = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
+                    rfturn Systfm.gftPropfrty(
+                        "jbvbx.nft.ssl.sfssionCbdifSizf");
                 }
             });
-            cacheLimit = (s != null) ? Integer.valueOf(s).intValue() : 0;
-        } catch (Exception e) {
+            dbdifLimit = (s != null) ? Intfgfr.vblufOf(s).intVbluf() : 0;
+        } dbtdi (Exdfption f) {
         }
 
-        return (cacheLimit > 0) ? cacheLimit : 0;
+        rfturn (dbdifLimit > 0) ? dbdifLimit : 0;
     }
 
-    boolean isTimedout(SSLSession sess) {
-        if (timeout == 0) {
-            return false;
+    boolfbn isTimfdout(SSLSfssion sfss) {
+        if (timfout == 0) {
+            rfturn fblsf;
         }
 
-        if ((sess != null) && ((sess.getCreationTime() + timeout * 1000L)
-                                        <= (System.currentTimeMillis()))) {
-            sess.invalidate();
-            return true;
+        if ((sfss != null) && ((sfss.gftCrfbtionTimf() + timfout * 1000L)
+                                        <= (Systfm.durrfntTimfMillis()))) {
+            sfss.invblidbtf();
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    final class SessionCacheVisitor
-            implements Cache.CacheVisitor<SessionId, SSLSessionImpl> {
-        Vector<byte[]> ids = null;
+    finbl dlbss SfssionCbdifVisitor
+            implfmfnts Cbdif.CbdifVisitor<SfssionId, SSLSfssionImpl> {
+        Vfdtor<bytf[]> ids = null;
 
-        // public void visit(java.util.Map<K,V> map) {}
-        @Override
-        public void visit(java.util.Map<SessionId, SSLSessionImpl> map) {
-            ids = new Vector<>(map.size());
+        // publid void visit(jbvb.util.Mbp<K,V> mbp) {}
+        @Ovfrridf
+        publid void visit(jbvb.util.Mbp<SfssionId, SSLSfssionImpl> mbp) {
+            ids = nfw Vfdtor<>(mbp.sizf());
 
-            for (SessionId key : map.keySet()) {
-                SSLSessionImpl value = map.get(key);
-                if (!isTimedout(value)) {
-                    ids.addElement(key.getId());
+            for (SfssionId kfy : mbp.kfySft()) {
+                SSLSfssionImpl vbluf = mbp.gft(kfy);
+                if (!isTimfdout(vbluf)) {
+                    ids.bddElfmfnt(kfy.gftId());
                 }
             }
         }
 
-        public Enumeration<byte[]> getSessionIds() {
-            return  ids != null ? ids.elements() :
-                                  new Vector<byte[]>().elements();
+        publid Enumfrbtion<bytf[]> gftSfssionIds() {
+            rfturn  ids != null ? ids.flfmfnts() :
+                                  nfw Vfdtor<bytf[]>().flfmfnts();
         }
     }
 

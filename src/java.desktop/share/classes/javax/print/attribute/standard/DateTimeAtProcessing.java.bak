@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import java.util.Date;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.DateTimeSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvb.util.Dbtf;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.DbtfTimfSyntbx;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class DateTimeAtProcessing is a printing attribute class, a date-time
- * attribute, that indicates the date and time at which the Print Job first
- * began processing.
+ * Clbss DbtfTimfAtProdfssing is b printing bttributf dlbss, b dbtf-timf
+ * bttributf, tibt indidbtfs tif dbtf bnd timf bt wiidi tif Print Job first
+ * bfgbn prodfssing.
  * <P>
- * To construct a DateTimeAtProcessing attribute from separate values of the
- * year, month, day, hour, minute, and so on, use a {@link java.util.Calendar
- * Calendar} object to construct a {@link java.util.Date Date} object, then use
- * the {@link java.util.Date Date} object to construct the DateTimeAtProcessing
- * attribute. To convert a DateTimeAtProcessing attribute to separate values of
- * the year, month, day, hour, minute, and so on, create a {@link
- * java.util.Calendar Calendar} object and set it to the {@link java.util.Date
- * Date} from the DateTimeAtProcessing attribute.
+ * To donstrudt b DbtfTimfAtProdfssing bttributf from sfpbrbtf vblufs of tif
+ * yfbr, monti, dby, iour, minutf, bnd so on, usf b {@link jbvb.util.Cblfndbr
+ * Cblfndbr} objfdt to donstrudt b {@link jbvb.util.Dbtf Dbtf} objfdt, tifn usf
+ * tif {@link jbvb.util.Dbtf Dbtf} objfdt to donstrudt tif DbtfTimfAtProdfssing
+ * bttributf. To donvfrt b DbtfTimfAtProdfssing bttributf to sfpbrbtf vblufs of
+ * tif yfbr, monti, dby, iour, minutf, bnd so on, drfbtf b {@link
+ * jbvb.util.Cblfndbr Cblfndbr} objfdt bnd sft it to tif {@link jbvb.util.Dbtf
+ * Dbtf} from tif DbtfTimfAtProdfssing bttributf.
  * <P>
- * <B>IPP Compatibility:</B> The information needed to construct an IPP
- * "date-time-at-processing" attribute can be obtained as described above. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> Tif informbtion nffdfd to donstrudt bn IPP
+ * "dbtf-timf-bt-prodfssing" bttributf dbn bf obtbinfd bs dfsdribfd bbovf. Tif
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP bttributf
+ * nbmf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class DateTimeAtProcessing extends DateTimeSyntax
-        implements PrintJobAttribute {
+publid finbl dlbss DbtfTimfAtProdfssing fxtfnds DbtfTimfSyntbx
+        implfmfnts PrintJobAttributf {
 
-    private static final long serialVersionUID = -3710068197278263244L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -3710068197278263244L;
 
     /**
-     * Construct a new date-time at processing attribute with the given {@link
-     * java.util.Date Date} value.
+     * Construdt b nfw dbtf-timf bt prodfssing bttributf witi tif givfn {@link
+     * jbvb.util.Dbtf Dbtf} vbluf.
      *
-     * @param  dateTime  {@link java.util.Date Date} value.
+     * @pbrbm  dbtfTimf  {@link jbvb.util.Dbtf Dbtf} vbluf.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>dateTime</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>dbtfTimf</CODE> is null.
      */
-    public DateTimeAtProcessing(Date dateTime) {
-        super (dateTime);
+    publid DbtfTimfAtProdfssing(Dbtf dbtfTimf) {
+        supfr (dbtfTimf);
     }
 
     /**
-     * Returns whether this date-time at processing attribute is equivalent to
-     * the passed in object. To be equivalent, all of the following conditions
-     * must be true:
+     * Rfturns wiftifr tiis dbtf-timf bt prodfssing bttributf is fquivblfnt to
+     * tif pbssfd in objfdt. To bf fquivblfnt, bll of tif following donditions
+     * must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class DateTimeAtProcessing.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss DbtfTimfAtProdfssing.
      * <LI>
-     * This date-time at processing attribute's {@link java.util.Date Date}
-     * value and <CODE>object</CODE>'s {@link java.util.Date Date} value
-     * are equal.
+     * Tiis dbtf-timf bt prodfssing bttributf's {@link jbvb.util.Dbtf Dbtf}
+     * vbluf bnd <CODE>objfdt</CODE>'s {@link jbvb.util.Dbtf Dbtf} vbluf
+     * brf fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this date-time
-     *          at processing attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis dbtf-timf
+     *          bt prodfssing bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return(super.equals (object) &&
-               object instanceof DateTimeAtProcessing);
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn(supfr.fqubls (objfdt) &&
+               objfdt instbndfof DbtfTimfAtProdfssing);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class DateTimeAtProcessing, the category is class
-     * DateTimeAtProcessing itself.
+     * For dlbss DbtfTimfAtProdfssing, tif dbtfgory is dlbss
+     * DbtfTimfAtProdfssing itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return DateTimeAtProcessing.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn DbtfTimfAtProdfssing.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class DateTimeAtProcessing, the category name is
-     * <CODE>"date-time-at-processing"</CODE>.
+     * For dlbss DbtfTimfAtProdfssing, tif dbtfgory nbmf is
+     * <CODE>"dbtf-timf-bt-prodfssing"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "date-time-at-processing";
+    publid finbl String gftNbmf() {
+        rfturn "dbtf-timf-bt-prodfssing";
     }
 
 }

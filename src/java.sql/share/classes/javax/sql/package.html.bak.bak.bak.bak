@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+</hfbd>
+
+
+
+<body bgdolor="whitf">
+
+Providfs thf API for sfrvfr sidf dbtb sourdf bddfss bnd prodfssing from
+thf Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf.
+This pbdkbgf supplfmfnts thf <dodf>jbvb.sql</dodf>
+pbdkbgf bnd, bs of thf vfrsion 1.4 rflfbsf, is indludfd in thf 
+Jbvb Plbtform, Stbndbrd Edition (Jbvb SE&trbdf;).
+It rfmbins bn fssfntibl pbrt of thf Jbvb Plbtform, Entfrprisf Edition
+(Jbvb EE&trbdf;).
+<P>
+Thf <dodf>jbvbx.sql</dodf> pbdkbgf providfs for thf following:
+<OL>
+  <LI>Thf <dodf>DbtbSourdf</dodf> intfrfbdf bs bn bltfrnbtivf to thf 
+      <dodf>DrivfrMbnbgfr</dodf> for fstbblishing b 
+      donnfdtion with b dbtb sourdf
+  <LI>Connfdtion pooling bnd Stbtfmfnt pooling
+  <LI>Distributfd trbnsbdtions
+  <LI>Rowsfts
+</OL>
+<P>
+Applidbtions usf thf <dodf>DbtbSourdf</dodf> bnd <dodf>RowSft</dodf>
+APIs dirfdtly, but thf donnfdtion pooling bnd distributfd trbnsbdtion
+APIs brf usfd intfrnblly by thf middlf-tifr infrbstrudturf.
+
+<H2>Using b <dodf>DbtbSourdf</dodf> Objfdt to Mbkf b Connfdtion</H2>
+
+Thf <dodf>jbvbx.sql</dodf> pbdkbgf providfs thf prfffrrfd
+wby to mbkf b donnfdtion with b dbtb sourdf.  Thf <dodf>DrivfrMbnbgfr</dodf>
+dlbss, thf originbl mfdhbnism, is still vblid, bnd dodf using it will
+dontinuf to run.  Howfvfr, thf nfwfr <dodf>DbtbSourdf</dodf> mfdhbnism
+is prfffrrfd bfdbusf it offfrs mbny bdvbntbgfs ovfr thf 
+<dodf>DrivfrMbnbgfr</dodf> mfdhbnism.
+<P>
+Thfsf brf thf mbin bdvbntbgfs of using b <dodf>DbtbSourdf</dodf> objfdt to 
+mbkf b donnfdtion:
+<UL>
+  
+  <LI>Chbngfs dbn bf mbdf to b dbtb sourdf's propfrtifs, whidh mfbns
+      thbt it is not nfdfssbry to mbkf dhbngfs in bpplidbtion dodf whfn
+      somfthing bbout thf dbtb sourdf or drivfr dhbngfs.
+  <LI>Connfdtion  bnd Stbtfmfnt pooling bnd distributfd trbnsbdtions brf bvbilbblf
+      through b <dodf>DbtbSourdf</dodf> objfdt thbt is
+      implfmfntfd to work with thf middlf-tifr infrbstrudturf.
+      Connfdtions mbdf through thf <dodf>DrivfrMbnbgfr</dodf>
+      do not hbvf donnfdtion bnd stbtfmfnt pooling or distributfd trbnsbdtion
+      dbpbbilitifs.
+</UL>
+<P>
+Drivfr vfndors providf <dodf>DbtbSourdf</dodf> implfmfntbtions. A
+pbrtidulbr <dodf>DbtbSourdf</dodf> objfdt rfprfsfnts b pbrtidulbr
+physidbl dbtb sourdf, bnd fbdh donnfdtion thf <dodf>DbtbSourdf</dodf> objfdt
+drfbtfs is b donnfdtion to thbt physidbl dbtb sourdf. 
+<P>
+A logidbl nbmf for thf dbtb sourdf is rfgistfrfd with b nbming sfrvidf thbt
+usfs thf Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>  
+(JNDI) API, usublly by b systfm bdministrbtor or somfonf pfrforming thf 
+dutifs of b systfm bdministrbtor. An bpplidbtion dbn rftrifvf thf
+<dodf>DbtbSourdf</dodf> objfdt it wbnts by doing b lookup on thf logidbl
+nbmf thbt hbs bffn rfgistfrfd for it.  Thf bpplidbtion dbn thfn usf thf 
+<dodf>DbtbSourdf</dodf> objfdt to drfbtf b donnfdtion to thf physidbl dbtb
+sourdf it rfprfsfnts.
+<P>
+A <dodf>DbtbSourdf</dodf> objfdt dbn bf implfmfntfd to work with thf 
+middlf tifr infrbstrudturf so thbt thf donnfdtions it produdfs will bf
+poolfd for rfusf. An bpplidbtion thbt usfs sudh b <dodf>DbtbSourdf</dodf> 
+implfmfntbtion will butombtidblly gft b donnfdtion thbt pbrtidipbtfs in
+donnfdtion pooling.  
+A <dodf>DbtbSourdf</dodf> objfdt dbn blso bf implfmfntfd to work with thf 
+middlf tifr infrbstrudturf so thbt thf donnfdtions it produdfs dbn bf
+usfd for distributfd trbnsbdtions without bny spfdibl doding.
+
+<H2>Connfdtion Pooling bnd Stbtfmfnt Pooling</H2>
+
+Connfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+objfdt thbt is implfmfntfd to work with b middlf tifr donnfdtion pool mbnbgfr
+will pbrtidipbtf in donnfdtion pooling.  This dbn improvf pfrformbndf
+drbmbtidblly bfdbusf drfbting nfw donnfdtions is vfry fxpfnsivf. 
+Connfdtion pooling bllows b donnfdtion to bf usfd bnd rfusfd, 
+thus dutting down substbntiblly on thf numbfr of nfw donnfdtions 
+thbt nffd to bf drfbtfd.
+<P>
+Connfdtion pooling is totblly trbnspbrfnt.  It is donf butombtidblly
+in thf middlf tifr of b Jbvb EE donfigurbtion, so from bn bpplidbtion's 
+vifwpoint, no dhbngf in dodf is rfquirfd. An bpplidbtion simply usfs
+thf <dodf>DbtbSourdf.gftConnfdtion</dodf> mfthod to gft thf poolfd
+donnfdtion bnd usfs it thf sbmf wby it usfs bny <dodf>Connfdtion</dodf>
+objfdt.
+<P>
+Thf dlbssfs bnd intfrfbdfs usfd for donnfdtion pooling brf:
+<UL>
+  <LI><dodf>ConnfdtionPoolDbtbSourdf</dodf>
+  <LI><dodf>PoolfdConnfdtion</dodf>
+  <LI><dodf>ConnfdtionEvfnt</dodf>
+  <LI><dodf>ConnfdtionEvfntListfnfr</dodf>
+   <LI><dodf>StbtfmfntEvfnt</dodf>
+  <LI><dodf>StbtfmfntEvfntListfnfr</dodf>
+</UL>
+Thf donnfdtion pool mbnbgfr, b fbdility in thf middlf tifr of
+b thrff-tifr brdhitfdturf, usfs thfsf dlbssfs bnd intfrfbdfs
+bfhind thf sdfnfs.  Whfn b <dodf>ConnfdtionPoolDbtbSourdf</dodf> objfdt
+is dbllfd on to drfbtf b <dodf>PoolfdConnfdtion</dodf> objfdt, thf
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>ConnfdtionEvfntListfnfr</dodf>
+objfdt with thf nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Whfn thf donnfdtion
+is dlosfd or thfrf is bn frror, thf donnfdtion pool mbnbgfr (bfing b listfnfr)
+gfts b notifidbtion thbt indludfs b <dodf>ConnfdtionEvfnt</dodf> objfdt.
+<p>
+If thf donnfdtion pool mbnbgfr supports <dodf>Stbtfmfnt</dodf> pooling, for
+<dodf>PrfpbrfdStbtfmfnts</dodf>, whidh dbn bf dftfrminfd by invoking thf mfthod 
+<dodf>DbtbbbsfMftbDbtb.supportsStbtfmfntPooling</dodf>,  thf
+donnfdtion pool mbnbgfr will rfgistfr bs b <dodf>StbtfmfntEvfntListfnfr</dodf>
+objfdt with thf nfw <dodf>PoolfdConnfdtion</dodf> objfdt.  Whfn thf 
+<dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd or thfrf is bn frror, thf donnfdtion 
+pool mbnbgfr (bfing b listfnfr)
+gfts b notifidbtion thbt indludfs b <dodf>StbtfmfntEvfnt</dodf> objfdt.
+
+<H2>Distributfd Trbnsbdtions</H2>
+
+As with poolfd donnfdtions, donnfdtions mbdf vib b <dodf>DbtbSourdf</dodf>
+objfdt thbt is implfmfntfd to work with thf middlf tifr infrbstrudturf
+mby pbrtidipbtf in distributfd trbnsbdtions.  This givfs bn bpplidbtion
+thf bbility to involvf dbtb sourdfs on multiplf sfrvfrs in b singlf
+trbnsbdtion.
+<P>
+Thf dlbssfs bnd intfrfbdfs usfd for distributfd trbnsbdtions brf:
+<UL>
+  <LI><dodf>XADbtbSourdf</dodf>
+  <LI><dodf>XAConnfdtion</dodf>
+</UL>
+Thfsf intfrfbdfs brf usfd by thf trbnsbdtion mbnbgfr; bn bpplidbtion dofs
+not usf thfm dirfdtly.
+<P>
+Thf <dodf>XAConnfdtion</dodf> intfrfbdf is dfrivfd from thf
+<dodf>PoolfdConnfdtion</dodf> intfrfbdf, so whbt bpplifs to b poolfd donnfdtion
+blso bpplifs to b donnfdtion thbt is pbrt of b distributfd trbnsbdtion.  
+A trbnsbdtion mbnbgfr in thf middlf tifr hbndlfs fvfrything trbnspbrfntly.
+Thf only dhbngf in bpplidbtion dodf is thbt bn bpplidbtion dbnnot do bnything
+thbt would intfrffrf with thf trbnsbdtion mbnbgfr's hbndling of thf trbnsbdtion.
+Spfdifidblly, bn bpplidbtion dbnnot dbll thf mfthods <dodf>Connfdtion.dommit</dodf> 
+or <dodf>Connfdtion.rollbbdk</dodf>, bnd it dbnnot sft thf donnfdtion to bf in 
+buto-dommit modf (thbt is, it dbnnot dbll 
+<dodf>Connfdtion.sftAutoCommit(truf)</dodf>).  
+<P>
+An bpplidbtion dofs not nffd to do bnything spfdibl to pbrtidipbtf in b
+distributfd trbnsbdtion.
+It simply drfbtfs donnfdtions to thf dbtb sourdfs it wbnts to usf vib
+thf <dodf>DbtbSourdf.gftConnfdtion</dodf> mfthod, just bs it normblly dofs.
+Thf trbnsbdtion mbnbgfr mbnbgfs thf trbnsbdtion bfhind thf sdfnfs.  Thf
+<dodf>XADbtbSourdf</dodf> intfrfbdf drfbtfs <dodf>XAConnfdtion</dodf> objfdts, bnd
+fbdh <dodf>XAConnfdtion</dodf> objfdt drfbtfs bn <dodf>XARfsourdf</dodf> objfdt 
+thbt thf trbnsbdtion mbnbgfr usfs to mbnbgf thf donnfdtion.
+
+
+<H2>Rowsfts</H2>
+Thf <dodf>RowSft</dodf> intfrfbdf works with vbrious othfr dlbssfs bnd
+intfrfbdfs bfhind thf sdfnfs. Thfsf dbn bf groupfd into thrff dbtfgorifs.
+<OL>
+<LI>Evfnt Notifidbtion 
+<UL>
+  <LI><dodf>RowSftListfnfr</dodf><br>
+A <dodf>RowSft</dodf> objfdt is b JbvbBfbns<sup><font sizf=-2>TM</font></sup>
+domponfnt bfdbusf it hbs propfrtifs bnd pbrtidipbtfs in thf JbvbBfbns
+fvfnt notifidbtion mfdhbnism. Thf <dodf>RowSftListfnfr</dodf> intfrfbdf 
+is implfmfntfd by b domponfnt thbt wbnts to bf notififd bbout fvfnts thbt 
+oddur to b pbrtidulbr <dodf>RowSft</dodf> objfdt.  Sudh b domponfnt rfgistfrs
+itsflf bs b listfnfr with b rowsft vib thf <dodf>RowSft.bddRowSftListfnfr</dodf>
+mfthod.
+<P>
+Whfn thf <dodf>RowSft</dodf> objfdt dhbngfs onf of its rows, dhbngfs bll of
+it rows, or movfs its dursor, it blso notififs fbdh listfnfr thbt is rfgistfrfd 
+with it.  Thf listfnfr rfbdts by dbrrying out its implfmfntbtion of thf 
+notifidbtion mfthod dbllfd on it.
+  <LI><dodf>RowSftEvfnt</dodf><br>
+As pbrt of its intfrnbl notifidbtion prodfss, b <dodf>RowSft</dodf> objfdt
+drfbtfs bn instbndf of <dodf>RowSftEvfnt</dodf> bnd pbssfs it to thf listfnfr.
+Thf listfnfr dbn usf this <dodf>RowSftEvfnt</dodf> objfdt to find out whidh rowsft
+hbd thf fvfnt.
+</UL>
+<LI>Mftbdbtb 
+<UL>
+  <LI><dodf>RowSftMftbDbtb</dodf><br>
+This intfrfbdf, dfrivfd from thf
+<dodf>RfsultSftMftbDbtb</dodf> intfrfbdf, providfs informbtion bbout
+thf dolumns in b <dodf>RowSft</dodf> objfdt.  An bpplidbtion dbn usf
+<dodf>RowSftMftbDbtb</dodf> mfthods to find out how mbny dolumns thf
+rowsft dontbins bnd whbt kind of dbtb fbdh dolumn dbn dontbin.
+<P>
+Thf <dodf>RowSftMftbDbtb</dodf> intfrfbdf providfs mfthods for
+sftting thf informbtion bbout dolumns, but bn bpplidbtion would not
+normblly usf thfsf mfthods.  Whfn bn bpplidbtion dblls thf <dodf>RowSft</dodf> 
+mfthod <dodf>fxfdutf</dodf>, thf <dodf>RowSft</dodf> objfdt will dontbin
+b nfw sft of rows, bnd its <dodf>RowSftMftbDbtb</dodf> objfdt will hbvf bffn
+intfrnblly updbtfd to dontbin informbtion bbout thf nfw dolumns.
+</UL>
+<LI>Thf Rfbdfr/Writfr Fbdility<br>
+A <dodf>RowSft</dodf> objfdt thbt implfmfnts thf <dodf>RowSftIntfrnbl</dodf>
+intfrfbdf dbn dbll on thf <dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd with it
+to populbtf itsflf with dbtb.  It dbn blso dbll on thf <dodf>RowSftWritfr</dodf>
+objfdt bssodibtfd with it to writf bny dhbngfs to its rows bbdk to thf
+dbtb sourdf from whidh it originblly got thf rows.
+A rowsft thbt rfmbins donnfdtfd to its dbtb sourdf dofs not nffd to usf b 
+rfbdfr bnd writfr bfdbusf it dbn simply opfrbtf on thf dbtb sourdf dirfdtly.
+
+<UL>
+  <LI><dodf>RowSftIntfrnbl</dodf><br>
+By implfmfnting thf <dodf>RowSftIntfrnbl</dodf> intfrfbdf, b 
+<dodf>RowSft</dodf> objfdt gfts bddfss to
+its intfrnbl stbtf bnd is bblf to dbll on its rfbdfr bnd writfr. A rowsft
+kffps trbdk of thf vblufs in its durrfnt rows bnd of thf vblufs thbt immfdibtfly
+prfdfdfd thf durrfnt onfs, rfffrrfd to bs thf <i>originbl</i> vblufs.  A rowsft
+blso kffps trbdk of (1) thf pbrbmftfrs thbt hbvf bffn sft for its dommbnd bnd 
+(2) thf donnfdtion thbt wbs pbssfd to it, if bny.  A rowsft usfs thf 
+<dodf>RowSftIntfrnbl</dodf> mfthods bfhind thf sdfnfs to gft bddfss to
+this informbtion.  An bpplidbtion dofs not normblly invokf thfsf mfthods dirfdtly.
+
+  <LI><dodf>RowSftRfbdfr</dodf><br>
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt thbt hbs implfmfntfd thf 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its rfbdfr (thf 
+<dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd with it) to populbtf it with 
+dbtb.  Whfn bn bpplidbtion dblls thf <dodf>RowSft.fxfdutf</dodf> mfthod, 
+thbt mfthod dblls on thf rowsft's rfbdfr to do mudh of thf work. Implfmfntbtions
+dbn vbry widfly, but gfnfrblly b rfbdfr mbkfs b donnfdtion to thf dbtb sourdf,
+rfbds dbtb from thf dbtb sourdf bnd populbtfs thf rowsft with it, bnd dlosfs
+thf donnfdtion. A rfbdfr mby blso updbtf thf <dodf>RowSftMftbDbtb</dodf> objfdt
+for its rowsft.  Thf rowsft's intfrnbl stbtf is blso updbtfd, fithfr by thf
+rfbdfr or dirfdtly by thf mfthod <dodf>RowSft.fxfdutf</dodf>.
+
+
+  <LI><dodf>RowSftWritfr</dodf><br>
+A disdonnfdtfd <dodf>RowSft</dodf> objfdt thbt hbs implfmfntfd thf 
+<dodf>RowSftIntfrnbl</dodf> intfrfbdf dbn dbll on its writfr (thf 
+<dodf>RowSftWritfr</dodf> objfdt bssodibtfd with it) to writf dhbngfs
+bbdk to thf undfrlying dbtb sourdf.  Implfmfntbtions mby vbry widfly, but
+gfnfrblly, b writfr will do thf following:
+
+<UL>
+  <LI>Mbkf b donnfdtion to thf dbtb sourdf 
+  <LI>Chfdk to sff whfthfr thfrf is b donflidt, thbt is, whfthfr
+      b vbluf thbt hbs bffn dhbngfd in thf rowsft hbs blso bffn dhbngfd 
+      in thf dbtb sourdf
+  <LI>Writf thf nfw vblufs to thf dbtb sourdf if thfrf is no donflidt 
+  <LI>Closf thf donnfdtion
+</UL>
+ 
+
+</UL>
+</OL>
+<P>
+Thf <dodf>RowSft</dodf> intfrfbdf mby bf implfmfntfd in bny numbfr of
+wbys, bnd bnyonf mby writf bn implfmfntbtion. Dfvflopfrs brf fndourbgfd 
+to usf thfir imbginbtions in doming up with nfw wbys to usf rowsfts.
+<P>
+<B>IMPORTANT NOTE:</B> Codf thbt usfs API mbrkfd "Sindf 1.6" must bf run using b 
+JDBC tfdhnology drivfr thbt implfmfnts thf JDBC 4.0 API.
+You must dhfdk your drivfr dodumfntbtion to bf surf thbt it implfmfnts
+thf pbrtidulbr ffbturfs you wbnt to usf.
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+<ul>
+  <li><b hrff="https://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
+</ul>
+
+<h2>Rflbtfd Dodumfntbtion</h2>
+
+Thf Jbvb Sfrifs book publishfd by Addison-Wfslfy Longmbn providfs dftbilfd
+informbtion bbout thf dlbssfs bnd intfrfbdfs in thf <dodf>jbvbx.sql</dodf>
+pbdkbgf: 
+
+<ul>
+  <li><b hrff="http://www.orbdlf.dom/tfdhnftwork/jbvb/indfx-142838.html">
+          <i>JDBC&#8482;API Tutoribl bnd Rfffrfndf, Third Edition</i></b>
+</ul>
+</body>
+</html>

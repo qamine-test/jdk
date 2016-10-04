@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.net.httpserver;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * HTTP request and response headers are represented by this class which implements
- * the interface {@link java.util.Map}&lt;
- * {@link java.lang.String},{@link java.util.List}&lt;{@link java.lang.String}&gt;&gt;.
- * The keys are case-insensitive Strings representing the header names and
- * the value associated with each key is a {@link List}&lt;{@link String}&gt; with one
- * element for each occurrence of the header name in the request or response.
+ * HTTP rfqufst bnd rfsponsf ifbdfrs brf rfprfsfntfd by tiis dlbss wiidi implfmfnts
+ * tif intfrfbdf {@link jbvb.util.Mbp}&lt;
+ * {@link jbvb.lbng.String},{@link jbvb.util.List}&lt;{@link jbvb.lbng.String}&gt;&gt;.
+ * Tif kfys brf dbsf-insfnsitivf Strings rfprfsfnting tif ifbdfr nbmfs bnd
+ * tif vbluf bssodibtfd witi fbdi kfy is b {@link List}&lt;{@link String}&gt; witi onf
+ * flfmfnt for fbdi oddurrfndf of tif ifbdfr nbmf in tif rfqufst or rfsponsf.
  * <p>
- * For example, if a response header instance contains one key "HeaderName" with two values "value1 and value2"
- * then this object is output as two header lines:
- * <blockquote><pre>
- * HeaderName: value1
- * HeaderName: value2
- * </blockquote></pre>
+ * For fxbmplf, if b rfsponsf ifbdfr instbndf dontbins onf kfy "HfbdfrNbmf" witi two vblufs "vbluf1 bnd vbluf2"
+ * tifn tiis objfdt is output bs two ifbdfr linfs:
+ * <blodkquotf><prf>
+ * HfbdfrNbmf: vbluf1
+ * HfbdfrNbmf: vbluf2
+ * </blodkquotf></prf>
  * <p>
- * All the normal {@link java.util.Map} methods are provided, but the following
- * additional convenience methods are most likely to be used:
+ * All tif normbl {@link jbvb.util.Mbp} mftiods brf providfd, but tif following
+ * bdditionbl donvfnifndf mftiods brf most likfly to bf usfd:
  * <ul>
- * <li>{@link #getFirst(String)} returns a single valued header or the first value of
- * a multi-valued header.</li>
- * <li>{@link #add(String,String)} adds the given header value to the list for the given key</li>
- * <li>{@link #set(String,String)} sets the given header field to the single value given
- * overwriting any existing values in the value list.
+ * <li>{@link #gftFirst(String)} rfturns b singlf vblufd ifbdfr or tif first vbluf of
+ * b multi-vblufd ifbdfr.</li>
+ * <li>{@link #bdd(String,String)} bdds tif givfn ifbdfr vbluf to tif list for tif givfn kfy</li>
+ * <li>{@link #sft(String,String)} sfts tif givfn ifbdfr fifld to tif singlf vbluf givfn
+ * ovfrwriting bny fxisting vblufs in tif vbluf list.
  * </ul><p>
- * All methods in this class accept <code>null</code> values for keys and values. However, null
- * keys will never will be present in HTTP request headers, and will not be output/sent in response headers.
- * Null values can be represented as either a null entry for the key (i.e. the list is null) or
- * where the key has a list, but one (or more) of the list's values is null. Null values are output
- * as a header line containing the key but no associated value.
- * @since 1.6
+ * All mftiods in tiis dlbss bddfpt <dodf>null</dodf> vblufs for kfys bnd vblufs. Howfvfr, null
+ * kfys will nfvfr will bf prfsfnt in HTTP rfqufst ifbdfrs, bnd will not bf output/sfnt in rfsponsf ifbdfrs.
+ * Null vblufs dbn bf rfprfsfntfd bs fitifr b null fntry for tif kfy (i.f. tif list is null) or
+ * wifrf tif kfy ibs b list, but onf (or morf) of tif list's vblufs is null. Null vblufs brf output
+ * bs b ifbdfr linf dontbining tif kfy but no bssodibtfd vbluf.
+ * @sindf 1.6
  */
-@jdk.Exported
-public class Headers implements Map<String,List<String>> {
+@jdk.Exportfd
+publid dlbss Hfbdfrs implfmfnts Mbp<String,List<String>> {
 
-        HashMap<String,List<String>> map;
+        HbsiMbp<String,List<String>> mbp;
 
-        public Headers () {map = new HashMap<String,List<String>>(32);}
+        publid Hfbdfrs () {mbp = nfw HbsiMbp<String,List<String>>(32);}
 
-        /* Normalize the key by converting to following form.
-         * First char upper case, rest lower case.
-         * key is presumed to be ASCII
+        /* Normblizf tif kfy by donvfrting to following form.
+         * First dibr uppfr dbsf, rfst lowfr dbsf.
+         * kfy is prfsumfd to bf ASCII
          */
-        private String normalize (String key) {
-            if (key == null) {
-                return null;
+        privbtf String normblizf (String kfy) {
+            if (kfy == null) {
+                rfturn null;
             }
-            int len = key.length();
-            if (len == 0) {
-                return key;
+            int lfn = kfy.lfngti();
+            if (lfn == 0) {
+                rfturn kfy;
             }
-            char[] b = key.toCharArray();
-            if (b[0] >= 'a' && b[0] <= 'z') {
-                b[0] = (char)(b[0] - ('a' - 'A'));
+            dibr[] b = kfy.toCibrArrby();
+            if (b[0] >= 'b' && b[0] <= 'z') {
+                b[0] = (dibr)(b[0] - ('b' - 'A'));
             }
-            for (int i=1; i<len; i++) {
+            for (int i=1; i<lfn; i++) {
                 if (b[i] >= 'A' && b[i] <= 'Z') {
-                    b[i] = (char) (b[i] + ('a' - 'A'));
+                    b[i] = (dibr) (b[i] + ('b' - 'A'));
                 }
             }
-            return new String(b);
+            rfturn nfw String(b);
         }
 
-        public int size() {return map.size();}
+        publid int sizf() {rfturn mbp.sizf();}
 
-        public boolean isEmpty() {return map.isEmpty();}
+        publid boolfbn isEmpty() {rfturn mbp.isEmpty();}
 
-        public boolean containsKey(Object key) {
-            if (key == null) {
-                return false;
+        publid boolfbn dontbinsKfy(Objfdt kfy) {
+            if (kfy == null) {
+                rfturn fblsf;
             }
-            if (!(key instanceof String)) {
-                return false;
+            if (!(kfy instbndfof String)) {
+                rfturn fblsf;
             }
-            return map.containsKey (normalize((String)key));
+            rfturn mbp.dontbinsKfy (normblizf((String)kfy));
         }
 
-        public boolean containsValue(Object value) {
-            return map.containsValue(value);
+        publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+            rfturn mbp.dontbinsVbluf(vbluf);
         }
 
-        public List<String> get(Object key) {
-            return map.get(normalize((String)key));
+        publid List<String> gft(Objfdt kfy) {
+            rfturn mbp.gft(normblizf((String)kfy));
         }
 
         /**
-         * returns the first value from the List of String values
-         * for the given key (if at least one exists).
-         * @param key the key to search for
-         * @return the first string value associated with the key
+         * rfturns tif first vbluf from tif List of String vblufs
+         * for tif givfn kfy (if bt lfbst onf fxists).
+         * @pbrbm kfy tif kfy to sfbrdi for
+         * @rfturn tif first string vbluf bssodibtfd witi tif kfy
          */
-        public String getFirst (String key) {
-            List<String> l = map.get(normalize(key));
+        publid String gftFirst (String kfy) {
+            List<String> l = mbp.gft(normblizf(kfy));
             if (l == null) {
-                return null;
+                rfturn null;
             }
-            return l.get(0);
+            rfturn l.gft(0);
         }
 
-        public List<String> put(String key, List<String> value) {
-            return map.put (normalize(key), value);
+        publid List<String> put(String kfy, List<String> vbluf) {
+            rfturn mbp.put (normblizf(kfy), vbluf);
         }
 
         /**
-         * adds the given value to the list of headers
-         * for the given key. If the mapping does not
-         * already exist, then it is created
-         * @param key the header name
-         * @param value the header value to add to the header
+         * bdds tif givfn vbluf to tif list of ifbdfrs
+         * for tif givfn kfy. If tif mbpping dofs not
+         * blrfbdy fxist, tifn it is drfbtfd
+         * @pbrbm kfy tif ifbdfr nbmf
+         * @pbrbm vbluf tif ifbdfr vbluf to bdd to tif ifbdfr
          */
-        public void add (String key, String value) {
-            String k = normalize(key);
-            List<String> l = map.get(k);
+        publid void bdd (String kfy, String vbluf) {
+            String k = normblizf(kfy);
+            List<String> l = mbp.gft(k);
             if (l == null) {
-                l = new LinkedList<String>();
-                map.put(k,l);
+                l = nfw LinkfdList<String>();
+                mbp.put(k,l);
             }
-            l.add (value);
+            l.bdd (vbluf);
         }
 
         /**
-         * sets the given value as the sole header value
-         * for the given key. If the mapping does not
-         * already exist, then it is created
-         * @param key the header name
-         * @param value the header value to set.
+         * sfts tif givfn vbluf bs tif solf ifbdfr vbluf
+         * for tif givfn kfy. If tif mbpping dofs not
+         * blrfbdy fxist, tifn it is drfbtfd
+         * @pbrbm kfy tif ifbdfr nbmf
+         * @pbrbm vbluf tif ifbdfr vbluf to sft.
          */
-        public void set (String key, String value) {
-            LinkedList<String> l = new LinkedList<String>();
-            l.add (value);
-            put (key, l);
+        publid void sft (String kfy, String vbluf) {
+            LinkfdList<String> l = nfw LinkfdList<String>();
+            l.bdd (vbluf);
+            put (kfy, l);
         }
 
 
-        public List<String> remove(Object key) {
-            return map.remove(normalize((String)key));
+        publid List<String> rfmovf(Objfdt kfy) {
+            rfturn mbp.rfmovf(normblizf((String)kfy));
         }
 
-        public void putAll(Map<? extends String,? extends List<String>> t)  {
-            map.putAll (t);
+        publid void putAll(Mbp<? fxtfnds String,? fxtfnds List<String>> t)  {
+            mbp.putAll (t);
         }
 
-        public void clear() {map.clear();}
+        publid void dlfbr() {mbp.dlfbr();}
 
-        public Set<String> keySet() {return map.keySet();}
+        publid Sft<String> kfySft() {rfturn mbp.kfySft();}
 
-        public Collection<List<String>> values() {return map.values();}
+        publid Collfdtion<List<String>> vblufs() {rfturn mbp.vblufs();}
 
-        public Set<Map.Entry<String, List<String>>> entrySet() {
-            return map.entrySet();
+        publid Sft<Mbp.Entry<String, List<String>>> fntrySft() {
+            rfturn mbp.fntrySft();
         }
 
-        public boolean equals(Object o) {return map.equals(o);}
+        publid boolfbn fqubls(Objfdt o) {rfturn mbp.fqubls(o);}
 
-        public int hashCode() {return map.hashCode();}
+        publid int ibsiCodf() {rfturn mbp.ibsiCodf();}
     }

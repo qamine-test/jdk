@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff D3DPbints_h_Indludfd
+#dffinf D3DPbints_h_Indludfd
+
+#indludf "sun_jbvb2d_SunGrbphids2D.h"
+
+#indludf "D3DContfxt.h"
+#indludf "D3DSurfbdfDbtb.h"
+
+HRESULT D3DPbints_RfsftPbint(D3DContfxt *d3dd);
+HRESULT D3DPbints_SftColor(D3DContfxt *d3dd, jint pixfl);
+
+/************************* GrbdifntPbint support ****************************/
+
+/**
+ * Flbgs thbt dbn bf bitwisf-or'fd togfthfr to dontrol how thf shbdfr
+ * sourdf dodf is gfnfrbtfd.
+ */
+#dffinf BASIC_GRAD_IS_CYCLIC (1 << 0)
+#dffinf BASIC_GRAD_USE_MASK  (1 << 1)
+
+HRESULT D3DPbints_SftGrbdifntPbint(D3DContfxt *d3dd,
+                                jboolfbn usfMbsk, jboolfbn dydlid,
+                                jdoublf p0, jdoublf p1, jdoublf p3,
+                                jint pixfl1, jint pixfl2);
+
+/************************** TfxturfPbint support ****************************/
+
+HRESULT D3DPbints_SftTfxturfPbint(D3DContfxt *d3dd,
+                               jboolfbn usfMbsk,
+                               jlong pSrdOps, jboolfbn filtfr,
+                               jdoublf xp0, jdoublf xp1, jdoublf xp3,
+                               jdoublf yp0, jdoublf yp1, jdoublf yp3);
+
+/****************** Shbrfd MultiplfGrbdifntPbint support ********************/
+
+/**
+ * Thfsf donstbnts brf idfntidbl to thosf dffinfd in thf
+ * MultiplfGrbdifntPbint.CydlfMfthod fnum; thfy brf dopifd hfrf for
+ * donvfnifndf (idfblly wf would pull thfm dirfdtly from thf Jbvb lfvfl,
+ * but thbt fntbils morf hbsslf thbn it is worth).
+ */
+#dffinf CYCLE_NONE    0
+#dffinf CYCLE_REFLECT 1
+#dffinf CYCLE_REPEAT  2
+
+/**
+ * Thf following donstbnts brf flbgs thbt dbn bf bitwisf-or'fd togfthfr
+ * to dontrol how thf MultiplfGrbdifntPbint shbdfr sourdf dodf is gfnfrbtfd:
+ *
+ *   MULTI_GRAD_CYCLE_METHOD
+ *     Plbdfholdfr for thf CydlfMfthod fnum donstbnt.
+ *
+ *   MULTI_GRAD_LARGE
+ *     If sft, usf thf (slowfr) shbdfr thbt supports b lbrgfr numbfr of
+ *     grbdifnt dolors; othfrwisf, usf thf optimizfd dodfpbth.  Sff
+ *     thf MAX_FRACTIONS_SMALL/LARGE donstbnts bflow for morf dftbils.
+ *
+ *   MULTI_GRAD_USE_MASK
+ *     If sft, bpply thf blphb mbsk vbluf from tfxturf unit 1 to thf
+ *     finbl dolor rfsult (only usfd in thf MbskFill dbsf).
+ *
+ *   MULTI_GRAD_LINEAR_RGB
+ *     If sft, donvfrt thf linfbr RGB rfsult bbdk into thf sRGB dolor spbdf.
+ */
+#dffinf MULTI_GRAD_CYCLE_METHOD (3 << 0)
+#dffinf MULTI_GRAD_LARGE        (1 << 2)
+#dffinf MULTI_GRAD_USE_MASK     (1 << 3)
+#dffinf MULTI_GRAD_LINEAR_RGB   (1 << 4)
+
+/**
+ * Thf mbximum numbfr of grbdifnt dolors supportfd by bll of thf grbdifnt
+ * frbgmfnt shbdfrs.  Notf thbt this vbluf must bf b powfr of two, bs it
+ * dftfrminfs thf sizf of thf 1D tfxturf drfbtfd bflow.  It blso must bf
+ * grfbtfr thbn or fqubl to MAX_FRACTIONS (thfrf is no stridt rfquirfmfnt
+ * thbt thf two vblufs bf fqubl).
+ */
+#dffinf MAX_MULTI_GRADIENT_COLORS 16
+
+/********************** LinfbrGrbdifntPbint support *************************/
+
+HRESULT D3DPbints_SftLinfbrGrbdifntPbint(D3DContfxt *d3dd, D3DSDOps *dstOps,
+                                         jboolfbn usfMbsk, jboolfbn linfbr,
+                                         jint dydlfMfthod, jint numStops,
+                                         jflobt p0, jflobt p1, jflobt p3,
+                                         void *frbdtions, void *pixfls);
+
+/********************** RbdiblGrbdifntPbint support *************************/
+
+HRESULT D3DPbints_SftRbdiblGrbdifntPbint(D3DContfxt *d3dd, D3DSDOps *dstOps,
+                                         jboolfbn usfMbsk, jboolfbn linfbr,
+                                         jint dydlfMfthod, jint numStops,
+                                         jflobt m00, jflobt m01, jflobt m02,
+                                         jflobt m10, jflobt m11, jflobt m12,
+                                         jflobt fodusX,
+                                         void *frbdtions, void *pixfls);
+
+/************************ SunGrbphids2D donstbnts ***************************/
+
+#dffinf PAINT_CUSTOM       sun_jbvb2d_SunGrbphids2D_PAINT_CUSTOM
+#dffinf PAINT_TEXTURE      sun_jbvb2d_SunGrbphids2D_PAINT_TEXTURE
+#dffinf PAINT_RAD_GRADIENT sun_jbvb2d_SunGrbphids2D_PAINT_RAD_GRADIENT
+#dffinf PAINT_LIN_GRADIENT sun_jbvb2d_SunGrbphids2D_PAINT_LIN_GRADIENT
+#dffinf PAINT_GRADIENT     sun_jbvb2d_SunGrbphids2D_PAINT_GRADIENT
+#dffinf PAINT_ALPHACOLOR   sun_jbvb2d_SunGrbphids2D_PAINT_ALPHACOLOR
+#dffinf PAINT_OPAQUECOLOR  sun_jbvb2d_SunGrbphids2D_PAINT_OPAQUECOLOR
+
+#fndif /* D3DPbints_h_Indludfd */

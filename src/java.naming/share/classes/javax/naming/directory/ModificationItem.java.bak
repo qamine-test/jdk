@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 1999, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.directory;
+pbdkbgf jbvbx.nbming.dirfdtory;
 
 /**
-  * This class represents a modification item.
-  * It consists of a modification code and an attribute on which to operate.
+  * Tiis dlbss rfprfsfnts b modifidbtion itfm.
+  * It donsists of b modifidbtion dodf bnd bn bttributf on wiidi to opfrbtf.
   *<p>
-  * A ModificationItem instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single ModificationItem instance should lock the object.
+  * A ModifidbtionItfm instbndf is not syndironizfd bgbinst dondurrfnt
+  * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify
+  * b singlf ModifidbtionItfm instbndf siould lodk tif objfdt.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @since 1.3
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
   */
 
 /*
   *<p>
-  * The serialized form of a ModificationItem object consists of the
-  * modification op (and int) and the corresponding Attribute.
+  * Tif sfriblizfd form of b ModifidbtionItfm objfdt donsists of tif
+  * modifidbtion op (bnd int) bnd tif dorrfsponding Attributf.
 */
 
-public class ModificationItem implements java.io.Serializable {
+publid dlbss ModifidbtionItfm implfmfnts jbvb.io.Sfriblizbblf {
     /**
-     * Contains an integer identify the modification
-     * to be performed.
-     * @serial
+     * Contbins bn intfgfr idfntify tif modifidbtion
+     * to bf pfrformfd.
+     * @sfribl
      */
-    private int mod_op;
+    privbtf int mod_op;
     /**
-     * Contains the attribute identifying
-     * the attribute and/or its value to be applied for the modification.
-     * @serial
+     * Contbins tif bttributf idfntifying
+     * tif bttributf bnd/or its vbluf to bf bpplifd for tif modifidbtion.
+     * @sfribl
      */
-    private Attribute attr;
+    privbtf Attributf bttr;
 
     /**
-      * Creates a new instance of ModificationItem.
-      * @param mod_op Modification to apply.  It must be one of:
-      *         DirContext.ADD_ATTRIBUTE
-      *         DirContext.REPLACE_ATTRIBUTE
-      *         DirContext.REMOVE_ATTRIBUTE
-      * @param attr     The non-null attribute to use for modification.
-      * @exception IllegalArgumentException If attr is null, or if mod_op is
-      *         not one of the ones specified above.
+      * Crfbtfs b nfw instbndf of ModifidbtionItfm.
+      * @pbrbm mod_op Modifidbtion to bpply.  It must bf onf of:
+      *         DirContfxt.ADD_ATTRIBUTE
+      *         DirContfxt.REPLACE_ATTRIBUTE
+      *         DirContfxt.REMOVE_ATTRIBUTE
+      * @pbrbm bttr     Tif non-null bttributf to usf for modifidbtion.
+      * @fxdfption IllfgblArgumfntExdfption If bttr is null, or if mod_op is
+      *         not onf of tif onfs spfdififd bbovf.
       */
-    public ModificationItem(int mod_op, Attribute attr) {
-        switch (mod_op) {
-        case DirContext.ADD_ATTRIBUTE:
-        case DirContext.REPLACE_ATTRIBUTE:
-        case DirContext.REMOVE_ATTRIBUTE:
-            if (attr == null)
-                throw new IllegalArgumentException("Must specify non-null attribute for modification");
+    publid ModifidbtionItfm(int mod_op, Attributf bttr) {
+        switdi (mod_op) {
+        dbsf DirContfxt.ADD_ATTRIBUTE:
+        dbsf DirContfxt.REPLACE_ATTRIBUTE:
+        dbsf DirContfxt.REMOVE_ATTRIBUTE:
+            if (bttr == null)
+                tirow nfw IllfgblArgumfntExdfption("Must spfdify non-null bttributf for modifidbtion");
 
-            this.mod_op = mod_op;
-            this.attr = attr;
-            break;
+            tiis.mod_op = mod_op;
+            tiis.bttr = bttr;
+            brfbk;
 
-        default:
-            throw new IllegalArgumentException("Invalid modification code " + mod_op);
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid modifidbtion dodf " + mod_op);
         }
     }
 
     /**
-      * Retrieves the modification code of this modification item.
-      * @return The modification code.  It is one of:
-      *         DirContext.ADD_ATTRIBUTE
-      *         DirContext.REPLACE_ATTRIBUTE
-      *         DirContext.REMOVE_ATTRIBUTE
+      * Rftrifvfs tif modifidbtion dodf of tiis modifidbtion itfm.
+      * @rfturn Tif modifidbtion dodf.  It is onf of:
+      *         DirContfxt.ADD_ATTRIBUTE
+      *         DirContfxt.REPLACE_ATTRIBUTE
+      *         DirContfxt.REMOVE_ATTRIBUTE
       */
-    public int getModificationOp() {
-        return mod_op;
+    publid int gftModifidbtionOp() {
+        rfturn mod_op;
     }
 
     /**
-      * Retrieves the attribute associated with this modification item.
-      * @return The non-null attribute to use for the modification.
+      * Rftrifvfs tif bttributf bssodibtfd witi tiis modifidbtion itfm.
+      * @rfturn Tif non-null bttributf to usf for tif modifidbtion.
       */
-    public Attribute getAttribute() {
-        return attr;
+    publid Attributf gftAttributf() {
+        rfturn bttr;
     }
 
     /**
-      * Generates the string representation of this modification item,
-      * which consists of the modification operation and its related attribute.
-      * The string representation is meant for debugging and not to be
-      * interpreted programmatically.
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis modifidbtion itfm,
+      * wiidi donsists of tif modifidbtion opfrbtion bnd its rflbtfd bttributf.
+      * Tif string rfprfsfntbtion is mfbnt for dfbugging bnd not to bf
+      * intfrprftfd progrbmmbtidblly.
       *
-      * @return The non-null string representation of this modification item.
+      * @rfturn Tif non-null string rfprfsfntbtion of tiis modifidbtion itfm.
       */
-    public String toString() {
-        switch (mod_op) {
-        case DirContext.ADD_ATTRIBUTE:
-            return ("Add attribute: " + attr.toString());
+    publid String toString() {
+        switdi (mod_op) {
+        dbsf DirContfxt.ADD_ATTRIBUTE:
+            rfturn ("Add bttributf: " + bttr.toString());
 
-        case DirContext.REPLACE_ATTRIBUTE:
-            return ("Replace attribute: " + attr.toString());
+        dbsf DirContfxt.REPLACE_ATTRIBUTE:
+            rfturn ("Rfplbdf bttributf: " + bttr.toString());
 
-        case DirContext.REMOVE_ATTRIBUTE:
-            return ("Remove attribute: " + attr.toString());
+        dbsf DirContfxt.REMOVE_ATTRIBUTE:
+            rfturn ("Rfmovf bttributf: " + bttr.toString());
         }
-        return "";      // should never happen
+        rfturn "";      // siould nfvfr ibppfn
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = 7573258562534746850L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7573258562534746850L;
 }

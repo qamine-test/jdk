@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.toolkit.corba;
+pbdkbgf dom.sun.jndi.toolkit.dorbb;
 
-// Needed for RMI/IIOP
-import java.rmi.Remote;
+// Nffdfd for RMI/IIOP
+import jbvb.rmi.Rfmotf;
 
-import java.rmi.RemoteException;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Enumeration;
-import java.applet.Applet;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Enumfrbtion;
+import jbvb.bpplft.Applft;
 
 import org.omg.CORBA.ORB;
 
-import javax.naming.Context;
-import javax.naming.ConfigurationException;
-import javax.rmi.CORBA.Stub;
-import javax.rmi.PortableRemoteObject;
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.ConfigurbtionExdfption;
+import jbvbx.rmi.CORBA.Stub;
+import jbvbx.rmi.PortbblfRfmotfObjfdt;
 
 /**
-  * Contains utilities for performing CORBA-related tasks:
-  * 1. Get the org.omg.CORBA.Object for a java.rmi.Remote object.
-  * 2. Create an ORB to use for a given host/port, and environment properties.
+  * Contbins utilitifs for pfrforming CORBA-rflbtfd tbsks:
+  * 1. Gft tif org.omg.CORBA.Objfdt for b jbvb.rmi.Rfmotf objfdt.
+  * 2. Crfbtf bn ORB to usf for b givfn iost/port, bnd fnvironmfnt propfrtifs.
   *
-  * @author Simon Nash
-  * @author Bryan Atsatt
+  * @butior Simon Nbsi
+  * @butior Brybn Atsbtt
   */
 
-public class CorbaUtils {
+publid dlbss CorbbUtils {
     /**
-      * Returns the CORBA object reference associated with a Remote
-      * object by using the javax.rmi.CORBA package.
+      * Rfturns tif CORBA objfdt rfffrfndf bssodibtfd witi b Rfmotf
+      * objfdt by using tif jbvbx.rmi.CORBA pbdkbgf.
       *<p>
-      * This method effective does the following:
-      *<blockquote><pre>
-      * java.lang.Object stub;
+      * Tiis mftiod ffffdtivf dofs tif following:
+      *<blodkquotf><prf>
+      * jbvb.lbng.Objfdt stub;
       * try {
-      *     stub = PortableRemoteObject.toStub(remoteObj);
-      * } catch (Exception e) {
-      *     throw new ConfigurationException("Object not exported or not found");
+      *     stub = PortbblfRfmotfObjfdt.toStub(rfmotfObj);
+      * } dbtdi (Exdfption f) {
+      *     tirow nfw ConfigurbtionExdfption("Objfdt not fxportfd or not found");
       * }
-      * if (!(stub instanceof javax.rmi.CORBA.Stub)) {
-      *     return null; // JRMP impl or JRMP stub
+      * if (!(stub instbndfof jbvbx.rmi.CORBA.Stub)) {
+      *     rfturn null; // JRMP impl or JRMP stub
       * }
       * try {
-      *     ((javax.rmi.CORBA.Stub)stub).connect(orb);  // try to connect IIOP stub
-      * } catch (RemoteException e) {
-      *     // ignore 'already connected' error
+      *     ((jbvbx.rmi.CORBA.Stub)stub).donnfdt(orb);  // try to donnfdt IIOP stub
+      * } dbtdi (RfmotfExdfption f) {
+      *     // ignorf 'blrfbdy donnfdtfd' frror
       * }
-      * return (javax.rmi.CORBA.Stub)stub;
+      * rfturn (jbvbx.rmi.CORBA.Stub)stub;
       *
-      * @param remoteObj The non-null remote object for
-      * @param orb       The non-null ORB to connect the remote object to
-      * @return The CORBA Object for remoteObj; null if <tt>remoteObj</tt>
-      *                 is a JRMP implementation or JRMP stub.
-      * @exception ConfigurationException The CORBA Object cannot be obtained
-      *         because of configuration problems.
+      * @pbrbm rfmotfObj Tif non-null rfmotf objfdt for
+      * @pbrbm orb       Tif non-null ORB to donnfdt tif rfmotf objfdt to
+      * @rfturn Tif CORBA Objfdt for rfmotfObj; null if <tt>rfmotfObj</tt>
+      *                 is b JRMP implfmfntbtion or JRMP stub.
+      * @fxdfption ConfigurbtionExdfption Tif CORBA Objfdt dbnnot bf obtbinfd
+      *         bfdbusf of donfigurbtion problfms.
       */
-    public static org.omg.CORBA.Object remoteToCorba(Remote remoteObj, ORB orb)
-        throws ConfigurationException {
+    publid stbtid org.omg.CORBA.Objfdt rfmotfToCorbb(Rfmotf rfmotfObj, ORB orb)
+        tirows ConfigurbtionExdfption {
 
-// First, get remoteObj's stub
+// First, gft rfmotfObj's stub
 
-            // javax.rmi.CORBA.Stub stub = PortableRemoteObject.toStub(remoteObj);
+            // jbvbx.rmi.CORBA.Stub stub = PortbblfRfmotfObjfdt.toStub(rfmotfObj);
 
-            Remote stub;
+            Rfmotf stub;
 
             try {
-                stub = PortableRemoteObject.toStub(remoteObj);
-            } catch (Throwable t) {
-                ConfigurationException ce = new ConfigurationException(
-    "Problem with PortableRemoteObject.toStub(); object not exported or stub not found");
-                ce.setRootCause(t);
-                throw ce;
+                stub = PortbblfRfmotfObjfdt.toStub(rfmotfObj);
+            } dbtdi (Tirowbblf t) {
+                ConfigurbtionExdfption df = nfw ConfigurbtionExdfption(
+    "Problfm witi PortbblfRfmotfObjfdt.toStub(); objfdt not fxportfd or stub not found");
+                df.sftRootCbusf(t);
+                tirow df;
             }
 
-// Next, make sure that the stub is javax.rmi.CORBA.Stub
+// Nfxt, mbkf surf tibt tif stub is jbvbx.rmi.CORBA.Stub
 
-            if (!(stub instanceof Stub)) {
-                return null;  // JRMP implementation or JRMP stub
+            if (!(stub instbndfof Stub)) {
+                rfturn null;  // JRMP implfmfntbtion or JRMP stub
             }
 
-// Next, make sure that the stub is connected
+// Nfxt, mbkf surf tibt tif stub is donnfdtfd
             try {
-                ((Stub) stub).connect(orb);
-            } catch (RemoteException e) {
-                // ignore RemoteException because stub might have already
-                // been connected
-            } catch (Throwable t) {
-                ConfigurationException ce = new ConfigurationException(
-                        "Problem invoking javax.rmi.CORBA.Stub.connect()");
-                ce.setRootCause(t);
-                throw ce;
+                ((Stub) stub).donnfdt(orb);
+            } dbtdi (RfmotfExdfption f) {
+                // ignorf RfmotfExdfption bfdbusf stub migit ibvf blrfbdy
+                // bffn donnfdtfd
+            } dbtdi (Tirowbblf t) {
+                ConfigurbtionExdfption df = nfw ConfigurbtionExdfption(
+                        "Problfm invoking jbvbx.rmi.CORBA.Stub.donnfdt()");
+                df.sftRootCbusf(t);
+                tirow df;
             }
-// Finally, return stub
-            return (org.omg.CORBA.Object)stub;
+// Finblly, rfturn stub
+            rfturn (org.omg.CORBA.Objfdt)stub;
     }
 
     /**
-     * Get ORB using given server and port number, and properties from environment.
+     * Gft ORB using givfn sfrvfr bnd port numbfr, bnd propfrtifs from fnvironmfnt.
      *
-     * @param server Possibly null server; if null means use default;
-     *               For applet, it is the applet host; for app, it is localhost.
-     * @param port   Port number, -1 means default port
-     * @param env    Possibly null environment. Contains environment properties.
-     *               Could contain ORB itself; or applet used for initializing ORB.
-     *               Use all String properties from env for initializing ORB
-     * @return A non-null ORB.
+     * @pbrbm sfrvfr Possibly null sfrvfr; if null mfbns usf dffbult;
+     *               For bpplft, it is tif bpplft iost; for bpp, it is lodbliost.
+     * @pbrbm port   Port numbfr, -1 mfbns dffbult port
+     * @pbrbm fnv    Possibly null fnvironmfnt. Contbins fnvironmfnt propfrtifs.
+     *               Could dontbin ORB itsflf; or bpplft usfd for initiblizing ORB.
+     *               Usf bll String propfrtifs from fnv for initiblizing ORB
+     * @rfturn A non-null ORB.
      */
-    public static ORB getOrb(String server, int port, Hashtable<?,?> env) {
-        // See if we can get info from environment
-        Properties orbProp;
+    publid stbtid ORB gftOrb(String sfrvfr, int port, Hbsitbblf<?,?> fnv) {
+        // Sff if wf dbn gft info from fnvironmfnt
+        Propfrtifs orbProp;
 
-        // Extract any org.omg.CORBA properties from environment
-        if (env != null) {
-            if (env instanceof Properties) {
-                // Already a Properties, just clone
-                orbProp = (Properties) env.clone();
-            } else {
-                // Get all String properties
-                Enumeration<?> envProp;
-                orbProp = new Properties();
-                for (envProp = env.keys(); envProp.hasMoreElements();) {
-                    String key = (String)envProp.nextElement();
-                    Object val = env.get(key);
-                    if (val instanceof String) {
-                        orbProp.put(key, val);
+        // Extrbdt bny org.omg.CORBA propfrtifs from fnvironmfnt
+        if (fnv != null) {
+            if (fnv instbndfof Propfrtifs) {
+                // Alrfbdy b Propfrtifs, just dlonf
+                orbProp = (Propfrtifs) fnv.dlonf();
+            } flsf {
+                // Gft bll String propfrtifs
+                Enumfrbtion<?> fnvProp;
+                orbProp = nfw Propfrtifs();
+                for (fnvProp = fnv.kfys(); fnvProp.ibsMorfElfmfnts();) {
+                    String kfy = (String)fnvProp.nfxtElfmfnt();
+                    Objfdt vbl = fnv.gft(kfy);
+                    if (vbl instbndfof String) {
+                        orbProp.put(kfy, vbl);
                     }
                 }
             }
-        } else {
-            orbProp = new Properties();
+        } flsf {
+            orbProp = nfw Propfrtifs();
         }
 
-        if (server != null) {
-            orbProp.put("org.omg.CORBA.ORBInitialHost", server);
+        if (sfrvfr != null) {
+            orbProp.put("org.omg.CORBA.ORBInitiblHost", sfrvfr);
         }
         if (port >= 0) {
-            orbProp.put("org.omg.CORBA.ORBInitialPort", ""+port);
+            orbProp.put("org.omg.CORBA.ORBInitiblPort", ""+port);
         }
 
-        // Get Applet from environment
-        if (env != null) {
-            @SuppressWarnings("deprecation")
-            Applet applet = (Applet) env.get(Context.APPLET);
-            if (applet != null) {
-            // Create ORBs using applet and orbProp
-                return ORB.init(applet, orbProp);
+        // Gft Applft from fnvironmfnt
+        if (fnv != null) {
+            @SupprfssWbrnings("dfprfdbtion")
+            Applft bpplft = (Applft) fnv.gft(Contfxt.APPLET);
+            if (bpplft != null) {
+            // Crfbtf ORBs using bpplft bnd orbProp
+                rfturn ORB.init(bpplft, orbProp);
             }
         }
 
-        return ORB.init(new String[0], orbProp);
+        rfturn ORB.init(nfw String[0], orbProp);
     }
 }

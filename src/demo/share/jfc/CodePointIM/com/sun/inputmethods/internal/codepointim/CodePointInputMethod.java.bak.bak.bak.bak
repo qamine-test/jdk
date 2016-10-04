@@ -1,0 +1,499 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+pbdkbgf dom.sun.inputmfthods.intfrnbl.dodfpointim;
+
+
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.InputMfthodEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.bwt.im.InputMfthodHighlight;
+import jbvb.bwt.im.spi.InputMfthod;
+import jbvb.bwt.im.spi.InputMfthodContfxt;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.AttributfdString;
+import jbvb.util.Lodblf;
+
+
+/**
+ * Thf Codf Point Input Mfthod is b simplf input mfthod thbt bllows Unidodf
+ * dhbrbdtfrs to bf fntfrfd using thfir dodf point or dodf unit vblufs. Sff thf
+ * bddompbnying filf README.txt for morf informbtion.
+ *
+ * @buthor Bribn Bfdk
+ */
+publid dlbss CodfPointInputMfthod implfmfnts InputMfthod {
+
+    privbtf stbtid finbl int UNSET = 0;
+    privbtf stbtid finbl int ESCAPE = 1; // \u0000       - \uFFFF
+    privbtf stbtid finbl int SPECIAL_ESCAPE = 2; // \U000000     - \U10FFFF
+    privbtf stbtid finbl int SURROGATE_PAIR = 3; // \uD800\uDC00 - \uDBFF\uDFFF
+    privbtf InputMfthodContfxt dontfxt;
+    privbtf Lodblf lodblf;
+    privbtf StringBufffr bufffr;
+    privbtf int insfrtionPoint;
+    privbtf int formbt = UNSET;
+
+    publid CodfPointInputMfthod() throws IOExdfption {
+    }
+
+    /**
+     * This is thf input mfthod's mbin routinf.  Thf domposfd tfxt is storfd
+     * in bufffr.
+     */
+    publid void dispbtdhEvfnt(AWTEvfnt fvfnt) {
+        // This input mfthod hbndlfs KfyEvfnt only.
+        if (!(fvfnt instbndfof KfyEvfnt)) {
+            rfturn;
+        }
+
+        KfyEvfnt f = (KfyEvfnt) fvfnt;
+        int fvfntID = fvfnt.gftID();
+        boolfbn notInCompositionModf = bufffr.lfngth() == 0;
+
+        if (fvfntID == KfyEvfnt.KEY_PRESSED) {
+            // If wf brf not in domposition modf, pbss through
+            if (notInCompositionModf) {
+                rfturn;
+            }
+
+            switdh (f.gftKfyCodf()) {
+                dbsf KfyEvfnt.VK_LEFT:
+                    movfCbrftLfft();
+                    brfbk;
+                dbsf KfyEvfnt.VK_RIGHT:
+                    movfCbrftRight();
+                    brfbk;
+            }
+        } flsf if (fvfntID == KfyEvfnt.KEY_TYPED) {
+            dhbr d = f.gftKfyChbr();
+
+            // If wf brf not in domposition modf, wbit b bbdk slbsh
+            if (notInCompositionModf) {
+                // If thf typf dhbrbdtfr is not b bbdk slbsh, pbss through
+                if (d != '\\') {
+                    rfturn;
+                }
+
+                stbrtComposition();     // Entfr to domposition modf
+            } flsf {
+                switdh (d) {
+                    dbsf ' ':       // Exit from domposition modf
+                        finishComposition();
+                        brfbk;
+                    dbsf '\u007f':  // Dflftf
+                        dflftfChbrbdtfr();
+                        brfbk;
+                    dbsf '\b':      // BbdkSpbdf
+                        dflftfPrfviousChbrbdtfr();
+                        brfbk;
+                    dbsf '\u001b':  // Esdbpf
+                        dbndflComposition();
+                        brfbk;
+                    dbsf '\n':      // Rfturn
+                    dbsf '\t':      // Tbb
+                        sfndCommittfdTfxt();
+                        brfbk;
+                    dffbult:
+                        domposfUnidodfEsdbpf(d);
+                        brfbk;
+                }
+            }
+        } flsf {  // KfyEvfnt.KEY_RELEASED
+            // If wf brf not in domposition modf, pbss through
+            if (notInCompositionModf) {
+                rfturn;
+            }
+        }
+
+        f.donsumf();
+    }
+
+    privbtf void domposfUnidodfEsdbpf(dhbr d) {
+        switdh (bufffr.lfngth()) {
+            dbsf 1:  // \\
+                wbitEsdbpfChbrbdtfr(d);
+                brfbk;
+            dbsf 2:  // \\u or \\U
+            dbsf 3:  // \\ux or \\Ux
+            dbsf 4:  // \\uxx or \\Uxx
+                wbitDigit(d);
+                brfbk;
+            dbsf 5:  // \\uxxx or \\Uxxx
+                if (formbt == SPECIAL_ESCAPE) {
+                    wbitDigit(d);
+                } flsf {
+                    wbitDigit2(d);
+                }
+                brfbk;
+            dbsf 6:  // \\uxxxx or \\Uxxxx
+                if (formbt == SPECIAL_ESCAPE) {
+                    wbitDigit(d);
+                } flsf if (formbt == SURROGATE_PAIR) {
+                    wbitBbdkSlbshOrLowSurrogbtf(d);
+                } flsf {
+                    bffp();
+                }
+                brfbk;
+            dbsf 7:  // \\Uxxxxx
+                // Only SPECIAL_ESCAPE formbt usfs this stbtf.
+                // Sindf thf sfdond "\\u" of SURROGATE_PAIR formbt is insfrtfd
+                // butombtidblly, usfrs don't hbvf to typf thfsf kfys.
+                wbitDigit(d);
+                brfbk;
+            dbsf 8:  // \\uxxxx\\u
+            dbsf 9:  // \\uxxxx\\ux
+            dbsf 10: // \\uxxxx\\uxx
+            dbsf 11: // \\uxxxx\\uxxx
+                if (formbt == SURROGATE_PAIR) {
+                    wbitDigit(d);
+                } flsf {
+                    bffp();
+                }
+                brfbk;
+            dffbult:
+                bffp();
+                brfbk;
+        }
+    }
+
+    privbtf void wbitEsdbpfChbrbdtfr(dhbr d) {
+        if (d == 'u' || d == 'U') {
+            bufffr.bppfnd(d);
+            insfrtionPoint++;
+            sfndComposfdTfxt();
+            formbt = (d == 'u') ? ESCAPE : SPECIAL_ESCAPE;
+        } flsf {
+            if (d != '\\') {
+                bufffr.bppfnd(d);
+                insfrtionPoint++;
+            }
+            sfndCommittfdTfxt();
+        }
+    }
+
+    privbtf void wbitDigit(dhbr d) {
+        if (Chbrbdtfr.digit(d, 16) != -1) {
+            bufffr.insfrt(insfrtionPoint++, d);
+            sfndComposfdTfxt();
+        } flsf {
+            bffp();
+        }
+    }
+
+    privbtf void wbitDigit2(dhbr d) {
+        if (Chbrbdtfr.digit(d, 16) != -1) {
+            bufffr.insfrt(insfrtionPoint++, d);
+            dhbr dodfPoint = (dhbr) gftCodfPoint(bufffr, 2, 5);
+            if (Chbrbdtfr.isHighSurrogbtf(dodfPoint)) {
+                formbt = SURROGATE_PAIR;
+                bufffr.bppfnd("\\u");
+                insfrtionPoint = 8;
+            } flsf {
+                formbt = ESCAPE;
+            }
+            sfndComposfdTfxt();
+        } flsf {
+            bffp();
+        }
+    }
+
+    privbtf void wbitBbdkSlbshOrLowSurrogbtf(dhbr d) {
+        if (insfrtionPoint == 6) {
+            if (d == '\\') {
+                bufffr.bppfnd(d);
+                bufffr.bppfnd('u');
+                insfrtionPoint = 8;
+                sfndComposfdTfxt();
+            } flsf if (Chbrbdtfr.digit(d, 16) != -1) {
+                bufffr.bppfnd("\\u");
+                bufffr.bppfnd(d);
+                insfrtionPoint = 9;
+                sfndComposfdTfxt();
+            } flsf {
+                bffp();
+            }
+        } flsf {
+            bffp();
+        }
+    }
+
+    /**
+     * Sfnd thf domposfd tfxt to thf dlifnt.
+     */
+    privbtf void sfndComposfdTfxt() {
+        AttributfdString bs = nfw AttributfdString(bufffr.toString());
+        bs.bddAttributf(TfxtAttributf.INPUT_METHOD_HIGHLIGHT,
+                InputMfthodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT);
+        dontfxt.dispbtdhInputMfthodEvfnt(
+                InputMfthodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                bs.gftItfrbtor(), 0,
+                TfxtHitInfo.lfbding(insfrtionPoint), null);
+    }
+
+    /**
+     * Sfnd thf dommittfd tfxt to thf dlifnt.
+     */
+    privbtf void sfndCommittfdTfxt() {
+        AttributfdString bs = nfw AttributfdString(bufffr.toString());
+        dontfxt.dispbtdhInputMfthodEvfnt(
+                InputMfthodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                bs.gftItfrbtor(), bufffr.lfngth(),
+                TfxtHitInfo.lfbding(insfrtionPoint), null);
+
+        bufffr.sftLfngth(0);
+        insfrtionPoint = 0;
+        formbt = UNSET;
+    }
+
+    /**
+     * Movf thf insfrtion point onf position to thf lfft in thf domposfd tfxt.
+     * Do not lft thf dbrft movf to thf lfft of thf "\\u" or "\\U".
+     */
+    privbtf void movfCbrftLfft() {
+        int lfn = bufffr.lfngth();
+        if (--insfrtionPoint < 2) {
+            insfrtionPoint++;
+            bffp();
+        } flsf if (formbt == SURROGATE_PAIR && insfrtionPoint == 7) {
+            insfrtionPoint = 8;
+            bffp();
+        }
+
+        dontfxt.dispbtdhInputMfthodEvfnt(
+                InputMfthodEvfnt.CARET_POSITION_CHANGED,
+                null, 0,
+                TfxtHitInfo.lfbding(insfrtionPoint), null);
+    }
+
+    /**
+     * Movf thf insfrtion point onf position to thf right in thf domposfd tfxt.
+     */
+    privbtf void movfCbrftRight() {
+        int lfn = bufffr.lfngth();
+        if (++insfrtionPoint > lfn) {
+            insfrtionPoint = lfn;
+            bffp();
+        }
+
+        dontfxt.dispbtdhInputMfthodEvfnt(
+                InputMfthodEvfnt.CARET_POSITION_CHANGED,
+                null, 0,
+                TfxtHitInfo.lfbding(insfrtionPoint), null);
+    }
+
+    /**
+     * Dflftf thf dhbrbdtfr prfdfding thf insfrtion point in thf domposfd tfxt.
+     * If thf insfrtion point is not bt thf fnd of thf domposfd tfxt bnd thf
+     * prfdfding tfxt is "\\u" or "\\U", ring thf bfll.
+     */
+    privbtf void dflftfPrfviousChbrbdtfr() {
+        if (insfrtionPoint == 2) {
+            if (bufffr.lfngth() == 2) {
+                dbndflComposition();
+            } flsf {
+                // Do not bllow dflftion of thf lfbding "\\u" or "\\U" if thfrf
+                // brf othfr digits in thf domposfd tfxt.
+                bffp();
+            }
+        } flsf if (insfrtionPoint == 8) {
+            if (bufffr.lfngth() == 8) {
+                if (formbt == SURROGATE_PAIR) {
+                    bufffr.dflftfChbrAt(--insfrtionPoint);
+                }
+                bufffr.dflftfChbrAt(--insfrtionPoint);
+                sfndComposfdTfxt();
+            } flsf {
+                // Do not bllow dflftion of thf sfdond "\\u" if thfrf brf othfr
+                // digits in thf domposfd tfxt.
+                bffp();
+            }
+        } flsf {
+            bufffr.dflftfChbrAt(--insfrtionPoint);
+            if (bufffr.lfngth() == 0) {
+                sfndCommittfdTfxt();
+            } flsf {
+                sfndComposfdTfxt();
+            }
+        }
+    }
+
+    /**
+     * Dflftf thf dhbrbdtfr following thf insfrtion point in thf domposfd tfxt.
+     * If thf insfrtion point is bt thf fnd of thf domposfd tfxt, ring thf bfll.
+     */
+    privbtf void dflftfChbrbdtfr() {
+        if (insfrtionPoint < bufffr.lfngth()) {
+            bufffr.dflftfChbrAt(insfrtionPoint);
+            sfndComposfdTfxt();
+        } flsf {
+            bffp();
+        }
+    }
+
+    privbtf void stbrtComposition() {
+        bufffr.bppfnd('\\');
+        insfrtionPoint = 1;
+        sfndComposfdTfxt();
+    }
+
+    privbtf void dbndflComposition() {
+        bufffr.sftLfngth(0);
+        insfrtionPoint = 0;
+        sfndCommittfdTfxt();
+    }
+
+    privbtf void finishComposition() {
+        int lfn = bufffr.lfngth();
+        if (lfn == 6 && formbt != SPECIAL_ESCAPE) {
+            dhbr dodfPoint = (dhbr) gftCodfPoint(bufffr, 2, 5);
+            if (Chbrbdtfr.isVblidCodfPoint(dodfPoint) && dodfPoint != 0xFFFF) {
+                bufffr.sftLfngth(0);
+                bufffr.bppfnd(dodfPoint);
+                sfndCommittfdTfxt();
+                rfturn;
+            }
+        } flsf if (lfn == 8 && formbt == SPECIAL_ESCAPE) {
+            int dodfPoint = gftCodfPoint(bufffr, 2, 7);
+            if (Chbrbdtfr.isVblidCodfPoint(dodfPoint) && dodfPoint != 0xFFFF) {
+                bufffr.sftLfngth(0);
+                bufffr.bppfndCodfPoint(dodfPoint);
+                sfndCommittfdTfxt();
+                rfturn;
+            }
+        } flsf if (lfn == 12 && formbt == SURROGATE_PAIR) {
+            dhbr[] dodfPoint = {
+                (dhbr) gftCodfPoint(bufffr, 2, 5),
+                (dhbr) gftCodfPoint(bufffr, 8, 11)
+            };
+            if (Chbrbdtfr.isHighSurrogbtf(dodfPoint[0]) && Chbrbdtfr.
+                    isLowSurrogbtf(dodfPoint[1])) {
+                bufffr.sftLfngth(0);
+                bufffr.bppfnd(dodfPoint);
+                sfndCommittfdTfxt();
+                rfturn;
+            }
+        }
+
+        bffp();
+    }
+
+    privbtf int gftCodfPoint(StringBufffr sb, int from, int to) {
+        int vbluf = 0;
+        for (int i = from; i <= to; i++) {
+            vbluf = (vbluf << 4) + Chbrbdtfr.digit(sb.dhbrAt(i), 16);
+        }
+        rfturn vbluf;
+    }
+
+    privbtf stbtid void bffp() {
+        Toolkit.gftDffbultToolkit().bffp();
+    }
+
+    publid void bdtivbtf() {
+        if (bufffr == null) {
+            bufffr = nfw StringBufffr(12);
+            insfrtionPoint = 0;
+        }
+    }
+
+    publid void dfbdtivbtf(boolfbn isTfmporbry) {
+        if (!isTfmporbry) {
+            bufffr = null;
+        }
+    }
+
+    publid void disposf() {
+    }
+
+    publid Objfdt gftControlObjfdt() {
+        rfturn null;
+    }
+
+    publid void fndComposition() {
+        sfndCommittfdTfxt();
+    }
+
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+    publid void hidfWindows() {
+    }
+
+    publid boolfbn isCompositionEnbblfd() {
+        // blwbys fnbblfd
+        rfturn truf;
+    }
+
+    publid void notifyClifntWindowChbngf(Rfdtbnglf lodbtion) {
+    }
+
+    publid void rfdonvfrt() {
+        // not supportfd yft
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    publid void rfmovfNotify() {
+    }
+
+    publid void sftChbrbdtfrSubsfts(Chbrbdtfr.Subsft[] subsfts) {
+    }
+
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        // not supportfd yft
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    publid void sftInputMfthodContfxt(InputMfthodContfxt dontfxt) {
+        this.dontfxt = dontfxt;
+    }
+
+    /*
+     * Thf Codf Point Input Mfthod supports bll lodblfs.
+     */
+    publid boolfbn sftLodblf(Lodblf lodblf) {
+        this.lodblf = lodblf;
+        rfturn truf;
+    }
+}

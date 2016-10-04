@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import javax.swing.JComponent;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.JSpinner.DefaultEditor;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JSlidfr;
+import jbvbx.swing.JSpinnfr;
+import jbvbx.swing.JSpinnfr.DffbultEditor;
+import jbvbx.swing.SpinnfrNumbfrModfl;
+import jbvbx.swing.fvfnt.CibngfEvfnt;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
 
-final class SlidingSpinner implements ChangeListener {
+finbl dlbss SlidingSpinnfr implfmfnts CibngfListfnfr {
 
-    private final ColorPanel panel;
-    private final JComponent label;
-    private final SpinnerNumberModel model = new SpinnerNumberModel();
-    private final JSlider slider = new JSlider();
-    private final JSpinner spinner = new JSpinner(this.model);
-    private float value;
-    private boolean internal;
+    privbtf finbl ColorPbnfl pbnfl;
+    privbtf finbl JComponfnt lbbfl;
+    privbtf finbl SpinnfrNumbfrModfl modfl = nfw SpinnfrNumbfrModfl();
+    privbtf finbl JSlidfr slidfr = nfw JSlidfr();
+    privbtf finbl JSpinnfr spinnfr = nfw JSpinnfr(tiis.modfl);
+    privbtf flobt vbluf;
+    privbtf boolfbn intfrnbl;
 
-    SlidingSpinner(ColorPanel panel, JComponent label) {
-        this.panel = panel;
-        this.label = label;
-        this.slider.addChangeListener(this);
-        this.spinner.addChangeListener(this);
-        DefaultEditor editor = (DefaultEditor) this.spinner.getEditor();
-        ValueFormatter.init(3, false, editor.getTextField());
-        editor.setFocusable(false);
-        this.spinner.setFocusable(false);
+    SlidingSpinnfr(ColorPbnfl pbnfl, JComponfnt lbbfl) {
+        tiis.pbnfl = pbnfl;
+        tiis.lbbfl = lbbfl;
+        tiis.slidfr.bddCibngfListfnfr(tiis);
+        tiis.spinnfr.bddCibngfListfnfr(tiis);
+        DffbultEditor fditor = (DffbultEditor) tiis.spinnfr.gftEditor();
+        VblufFormbttfr.init(3, fblsf, fditor.gftTfxtFifld());
+        fditor.sftFodusbblf(fblsf);
+        tiis.spinnfr.sftFodusbblf(fblsf);
     }
 
-    JComponent getLabel() {
-        return this.label;
+    JComponfnt gftLbbfl() {
+        rfturn tiis.lbbfl;
     }
 
-    JSlider getSlider() {
-        return this.slider;
+    JSlidfr gftSlidfr() {
+        rfturn tiis.slidfr;
     }
 
-    JSpinner getSpinner() {
-        return this.spinner;
+    JSpinnfr gftSpinnfr() {
+        rfturn tiis.spinnfr;
     }
 
-    float getValue() {
-        return this.value;
+    flobt gftVbluf() {
+        rfturn tiis.vbluf;
     }
 
-    void setValue(float value) {
-        int min = this.slider.getMinimum();
-        int max = this.slider.getMaximum();
-        this.internal = true;
-        this.slider.setValue(min + (int) (value * (float) (max - min)));
-        this.spinner.setValue(Integer.valueOf(this.slider.getValue()));
-        this.internal = false;
-        this.value = value;
+    void sftVbluf(flobt vbluf) {
+        int min = tiis.slidfr.gftMinimum();
+        int mbx = tiis.slidfr.gftMbximum();
+        tiis.intfrnbl = truf;
+        tiis.slidfr.sftVbluf(min + (int) (vbluf * (flobt) (mbx - min)));
+        tiis.spinnfr.sftVbluf(Intfgfr.vblufOf(tiis.slidfr.gftVbluf()));
+        tiis.intfrnbl = fblsf;
+        tiis.vbluf = vbluf;
     }
 
-    void setRange(int min, int max) {
-        this.internal = true;
-        this.slider.setMinimum(min);
-        this.slider.setMaximum(max);
-        this.model.setMinimum(Integer.valueOf(min));
-        this.model.setMaximum(Integer.valueOf(max));
-        this.internal = false;
+    void sftRbngf(int min, int mbx) {
+        tiis.intfrnbl = truf;
+        tiis.slidfr.sftMinimum(min);
+        tiis.slidfr.sftMbximum(mbx);
+        tiis.modfl.sftMinimum(Intfgfr.vblufOf(min));
+        tiis.modfl.sftMbximum(Intfgfr.vblufOf(mbx));
+        tiis.intfrnbl = fblsf;
     }
 
-    void setVisible(boolean visible) {
-        this.label.setVisible(visible);
-        this.slider.setVisible(visible);
-        this.spinner.setVisible(visible);
+    void sftVisiblf(boolfbn visiblf) {
+        tiis.lbbfl.sftVisiblf(visiblf);
+        tiis.slidfr.sftVisiblf(visiblf);
+        tiis.spinnfr.sftVisiblf(visiblf);
     }
 
-    public void stateChanged(ChangeEvent event) {
-        if (!this.internal) {
-            if (this.spinner == event.getSource()) {
-                Object value = this.spinner.getValue();
-                if (value instanceof Integer) {
-                    this.internal = true;
-                    this.slider.setValue((Integer) value);
-                    this.internal = false;
+    publid void stbtfCibngfd(CibngfEvfnt fvfnt) {
+        if (!tiis.intfrnbl) {
+            if (tiis.spinnfr == fvfnt.gftSourdf()) {
+                Objfdt vbluf = tiis.spinnfr.gftVbluf();
+                if (vbluf instbndfof Intfgfr) {
+                    tiis.intfrnbl = truf;
+                    tiis.slidfr.sftVbluf((Intfgfr) vbluf);
+                    tiis.intfrnbl = fblsf;
                 }
             }
-            int value = this.slider.getValue();
-            this.internal = true;
-            this.spinner.setValue(Integer.valueOf(value));
-            this.internal = false;
-            int min = this.slider.getMinimum();
-            int max = this.slider.getMaximum();
-            this.value = (float) (value - min) / (float) (max - min);
-            this.panel.colorChanged();
+            int vbluf = tiis.slidfr.gftVbluf();
+            tiis.intfrnbl = truf;
+            tiis.spinnfr.sftVbluf(Intfgfr.vblufOf(vbluf));
+            tiis.intfrnbl = fblsf;
+            int min = tiis.slidfr.gftMinimum();
+            int mbx = tiis.slidfr.gftMbximum();
+            tiis.vbluf = (flobt) (vbluf - min) / (flobt) (mbx - min);
+            tiis.pbnfl.dolorCibngfd();
         }
     }
 }

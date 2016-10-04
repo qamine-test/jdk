@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import java.awt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bwt.*;
 
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JViewport}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JVifwport}.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public class SynthViewportUI extends ViewportUI
-                             implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+publid dlbss SyntiVifwportUI fxtfnds VifwportUI
+                             implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf SyntiStylf stylf;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param c component to create UI object for
-     * @return the UI object
+     * @pbrbm d domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthViewportUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SyntiVifwportUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void installUI(JComponent c) {
-        super.installUI(c);
-        installDefaults(c);
-        installListeners(c);
+    @Ovfrridf
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        instbllDffbults(d);
+        instbllListfnfrs(d);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
-        uninstallListeners(c);
-        uninstallDefaults(c);
+    @Ovfrridf
+    publid void uninstbllUI(JComponfnt d) {
+        supfr.uninstbllUI(d);
+        uninstbllListfnfrs(d);
+        uninstbllDffbults(d);
     }
 
     /**
-     * Installs defaults for a viewport.
+     * Instblls dffbults for b vifwport.
      *
-     * @param c a {@code JViewport} object
+     * @pbrbm d b {@dodf JVifwport} objfdt
      */
-    protected void installDefaults(JComponent c) {
-        updateStyle(c);
+    protfdtfd void instbllDffbults(JComponfnt d) {
+        updbtfStylf(d);
     }
 
-    private void updateStyle(JComponent c) {
-        SynthContext context = getContext(c, ENABLED);
+    privbtf void updbtfStylf(JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d, ENABLED);
 
-        // Note: JViewport is special cased as it does not allow for
-        // a border to be set. JViewport.setBorder is overriden to throw
-        // an IllegalArgumentException. Refer to SynthScrollPaneUI for
-        // details of this.
-        SynthStyle newStyle = SynthLookAndFeel.getStyle(context.getComponent(),
-                                                        context.getRegion());
-        SynthStyle oldStyle = context.getStyle();
+        // Notf: JVifwport is spfdibl dbsfd bs it dofs not bllow for
+        // b bordfr to bf sft. JVifwport.sftBordfr is ovfrridfn to tirow
+        // bn IllfgblArgumfntExdfption. Rfffr to SyntiSdrollPbnfUI for
+        // dftbils of tiis.
+        SyntiStylf nfwStylf = SyntiLookAndFffl.gftStylf(dontfxt.gftComponfnt(),
+                                                        dontfxt.gftRfgion());
+        SyntiStylf oldStylf = dontfxt.gftStylf();
 
-        if (newStyle != oldStyle) {
-            if (oldStyle != null) {
-                oldStyle.uninstallDefaults(context);
+        if (nfwStylf != oldStylf) {
+            if (oldStylf != null) {
+                oldStylf.uninstbllDffbults(dontfxt);
             }
-            context.setStyle(newStyle);
-            newStyle.installDefaults(context);
+            dontfxt.sftStylf(nfwStylf);
+            nfwStylf.instbllDffbults(dontfxt);
         }
-        this.style = newStyle;
-        context.dispose();
+        tiis.stylf = nfwStylf;
+        dontfxt.disposf();
     }
 
     /**
-     * Installs listeners into the viewport.
+     * Instblls listfnfrs into tif vifwport.
      *
-     * @param c a {@code JViewport} object
+     * @pbrbm d b {@dodf JVifwport} objfdt
      */
-    protected void installListeners(JComponent c) {
-        c.addPropertyChangeListener(this);
+    protfdtfd void instbllListfnfrs(JComponfnt d) {
+        d.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * Uninstalls listeners from the viewport.
+     * Uninstblls listfnfrs from tif vifwport.
      *
-     * @param c a {@code JViewport} object
+     * @pbrbm d b {@dodf JVifwport} objfdt
      */
-    protected void uninstallListeners(JComponent c) {
-        c.removePropertyChangeListener(this);
+    protfdtfd void uninstbllListfnfrs(JComponfnt d) {
+        d.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * Uninstalls defaults from a viewport.
+     * Uninstblls dffbults from b vifwport.
      *
-     * @param c a {@code JViewport} object
+     * @pbrbm d b {@dodf JVifwport} objfdt
      */
-    protected void uninstallDefaults(JComponent c) {
-        SynthContext context = getContext(c, ENABLED);
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+    protfdtfd void uninstbllDffbults(JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d, ENABLED);
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    private Region getRegion(JComponent c) {
-        return SynthLookAndFeel.getRegion(c);
+    privbtf Rfgion gftRfgion(JComponfnt d) {
+        rfturn SyntiLookAndFffl.gftRfgion(d);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintViewportBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintVifwportBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the border. The method is never called,
-     * because the {@code JViewport} class does not support a border.
-     * This implementation does nothing.
+     * Pbints tif bordfr. Tif mftiod is nfvfr dbllfd,
+     * bfdbusf tif {@dodf JVifwport} dlbss dofs not support b bordfr.
+     * Tiis implfmfntbtion dofs notiing.
      *
-     * @param context a component context
-     * @param g the {@code Graphics} to paint on
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     * @param w width of the border
-     * @param h height of the border
+     * @pbrbm dontfxt b domponfnt dontfxt
+     * @pbrbm g tif {@dodf Grbpiids} to pbint on
+     * @pbrbm x tif X doordinbtf
+     * @pbrbm y tif Y doordinbtf
+     * @pbrbm w widti of tif bordfr
+     * @pbrbm i ifigit of tif bordfr
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints tif spfdififd domponfnt. Tiis implfmfntbtion dofs notiing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JComponent)e.getSource());
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+            updbtfStylf((JComponfnt)f.gftSourdf());
         }
     }
 }

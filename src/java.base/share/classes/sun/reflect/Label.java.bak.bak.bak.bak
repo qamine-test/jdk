@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+
+/** Allows forwbrd rfffrfndfs in bytfdodf strfbms fmittfd by
+    ClbssFilfAssfmblfr. Assumfs thbt thf stbrt of thf mfthod body is
+    thf first bytf in thf bssfmblfr's bufffr. Mby bf usfd bt morf thbn
+    onf brbndh sitf. */
+
+dlbss Lbbfl {
+    stbtid dlbss PbtdhInfo {
+        PbtdhInfo(ClbssFilfAssfmblfr bsm,
+                  short instrBCI,
+                  short pbtdhBCI,
+                  int stbdkDfpth)
+        {
+            this.bsm = bsm;
+            this.instrBCI   = instrBCI;
+            this.pbtdhBCI   = pbtdhBCI;
+            this.stbdkDfpth = stbdkDfpth;
+        }
+        // This won't work for morf thbn onf bssfmblfr bnywby, so this is
+        // unnfdfssbry
+        ClbssFilfAssfmblfr bsm;
+        short instrBCI;
+        short pbtdhBCI;
+        int   stbdkDfpth;
+    }
+    privbtf List<PbtdhInfo> pbtdhfs = nfw ArrbyList<>();
+
+    publid Lbbfl() {
+    }
+
+    void bdd(ClbssFilfAssfmblfr bsm,
+             short instrBCI,
+             short pbtdhBCI,
+             int stbdkDfpth)
+    {
+        pbtdhfs.bdd(nfw PbtdhInfo(bsm, instrBCI, pbtdhBCI, stbdkDfpth));
+    }
+
+    publid void bind() {
+        for (PbtdhInfo pbtdh : pbtdhfs){
+            short durBCI = pbtdh.bsm.gftLfngth();
+            short offsft = (short) (durBCI - pbtdh.instrBCI);
+            pbtdh.bsm.fmitShort(pbtdh.pbtdhBCI, offsft);
+            pbtdh.bsm.sftStbdk(pbtdh.stbdkDfpth);
+        }
+    }
+}

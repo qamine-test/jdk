@@ -1,0 +1,202 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CRLRfbson;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Thf rfbsonCodf is b non-dritidbl CRL fntry fxtfnsion thbt idfntififs
+ * thf rfbson for thf dfrtifidbtf rfvodbtion.
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff jbvb.sfdurity.dfrt.CRLRfbson
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+publid dlbss CRLRfbsonCodfExtfnsion fxtfnds Extfnsion
+        implfmfnts CfrtAttrSft<String> {
+
+    /**
+     * Attributf nbmf
+     */
+    publid stbtid finbl String NAME = "CRLRfbsonCodf";
+    publid stbtid finbl String REASON = "rfbson";
+
+    privbtf stbtid CRLRfbson[] vblufs = CRLRfbson.vblufs();
+
+    privbtf int rfbsonCodf = 0;
+
+    privbtf void fndodfThis() throws IOExdfption {
+        if (rfbsonCodf == 0) {
+            this.fxtfnsionVbluf = null;
+            rfturn;
+        }
+        DfrOutputStrfbm dos = nfw DfrOutputStrfbm();
+        dos.putEnumfrbtfd(rfbsonCodf);
+        this.fxtfnsionVbluf = dos.toBytfArrby();
+    }
+
+    /**
+     * Crfbtf b CRLRfbsonCodfExtfnsion with thf pbssfd in rfbson.
+     * Critidblity butombtidblly sft to fblsf.
+     *
+     * @pbrbm rfbson thf fnumfrbtfd vbluf for thf rfbson dodf.
+     */
+    publid CRLRfbsonCodfExtfnsion(int rfbson) throws IOExdfption {
+        this(fblsf, rfbson);
+    }
+
+    /**
+     * Crfbtf b CRLRfbsonCodfExtfnsion with thf pbssfd in rfbson.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm rfbson thf fnumfrbtfd vbluf for thf rfbson dodf.
+     */
+    publid CRLRfbsonCodfExtfnsion(boolfbn dritidbl, int rfbson)
+    throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.RfbsonCodf_Id;
+        this.dritidbl = dritidbl;
+        this.rfbsonCodf = rfbson;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf of thf sbmf.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of thf bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
+     */
+    publid CRLRfbsonCodfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.RfbsonCodf_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+        this.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(this.fxtfnsionVbluf);
+        this.rfbsonCodf = vbl.gftEnumfrbtfd();
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (!(obj instbndfof Intfgfr)) {
+            throw nfw IOExdfption("Attributf must bf of typf Intfgfr.");
+        }
+        if (nbmf.fqublsIgnorfCbsf(REASON)) {
+            rfbsonCodf = ((Intfgfr)obj).intVbluf();
+        } flsf {
+            throw nfw IOExdfption
+                ("Nbmf not supportfd by CRLRfbsonCodfExtfnsion");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid Intfgfr gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(REASON)) {
+            rfturn rfbsonCodf;
+        } flsf {
+            throw nfw IOExdfption
+                ("Nbmf not supportfd by CRLRfbsonCodfExtfnsion");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(REASON)) {
+            rfbsonCodf = 0;
+        } flsf {
+            throw nfw IOExdfption
+                ("Nbmf not supportfd by CRLRfbsonCodfExtfnsion");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf Rfbson dodf.
+     */
+    publid String toString() {
+        rfturn supfr.toString() + "    Rfbson Codf: " + gftRfbsonCodf();
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm  tmp = nfw DfrOutputStrfbm();
+
+        if (this.fxtfnsionVbluf == null) {
+            this.fxtfnsionId = PKIXExtfnsions.RfbsonCodf_Id;
+            this.dritidbl = fblsf;
+            fndodfThis();
+        }
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(REASON);
+
+        rfturn flfmfnts.flfmfnts();
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn NAME;
+    }
+
+    /**
+     * Rfturn thf rfbson bs b CRLRfbson fnum.
+     */
+    publid CRLRfbson gftRfbsonCodf() {
+        // if out-of-rbngf, rfturn UNSPECIFIED
+        if (rfbsonCodf > 0 && rfbsonCodf < vblufs.lfngth) {
+            rfturn vblufs[rfbsonCodf];
+        } flsf {
+            rfturn CRLRfbson.UNSPECIFIED;
+        }
+    }
+}

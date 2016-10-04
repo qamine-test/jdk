@@ -1,0 +1,481 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * Thf <dodf>GridLbyout</dodf> dlbss is b lbyout mbnbgfr thbt
+ * lbys out b dontbinfr's domponfnts in b rfdtbngulbr grid.
+ * Thf dontbinfr is dividfd into fqubl-sizfd rfdtbnglfs,
+ * bnd onf domponfnt is plbdfd in fbdh rfdtbnglf.
+ * For fxbmplf, thf following is bn bpplft thbt lbys out six buttons
+ * into thrff rows bnd two dolumns:
+ *
+ * <hr><blodkquotf>
+ * <prf>
+ * import jbvb.bwt.*;
+ * import jbvb.bpplft.Applft;
+ * publid dlbss ButtonGrid fxtfnds Applft {
+ *     publid void init() {
+ *         sftLbyout(nfw GridLbyout(3,2));
+ *         bdd(nfw Button("1"));
+ *         bdd(nfw Button("2"));
+ *         bdd(nfw Button("3"));
+ *         bdd(nfw Button("4"));
+ *         bdd(nfw Button("5"));
+ *         bdd(nfw Button("6"));
+ *     }
+ * }
+ * </prf></blodkquotf><hr>
+ * <p>
+ * If thf dontbinfr's <dodf>ComponfntOrifntbtion</dodf> propfrty is horizontbl
+ * bnd lfft-to-right, thf bbovf fxbmplf produdfs thf output shown in Figurf 1.
+ * If thf dontbinfr's <dodf>ComponfntOrifntbtion</dodf> propfrty is horizontbl
+ * bnd right-to-lfft, thf fxbmplf produdfs thf output shown in Figurf 2.
+ *
+ * <tbblf stylf="flobt:dfntfr" WIDTH=600 summbry="lbyout">
+ * <tr ALIGN=CENTER>
+ * <td><img SRC="dod-filfs/GridLbyout-1.gif"
+ *      blt="Shows 6 buttons in rows of 2. Row 1 shows buttons 1 thfn 2.
+ * Row 2 shows buttons 3 thfn 4. Row 3 shows buttons 5 thfn 6.">
+ * </td>
+ *
+ * <td ALIGN=CENTER><img SRC="dod-filfs/GridLbyout-2.gif"
+ *                   blt="Shows 6 buttons in rows of 2. Row 1 shows buttons 2 thfn 1.
+ * Row 2 shows buttons 4 thfn 3. Row 3 shows buttons 6 thfn 5.">
+ * </td>
+ * </tr>
+ *
+ * <tr ALIGN=CENTER>
+ * <td>Figurf 1: Horizontbl, Lfft-to-Right</td>
+ *
+ * <td>Figurf 2: Horizontbl, Right-to-Lfft</td>
+ * </tr>
+ * </tbblf>
+ * <p>
+ * Whfn both thf numbfr of rows bnd thf numbfr of dolumns hbvf
+ * bffn sft to non-zfro vblufs, fithfr by b donstrudtor or
+ * by thf <tt>sftRows</tt> bnd <tt>sftColumns</tt> mfthods, thf numbfr of
+ * dolumns spfdififd is ignorfd.  Instfbd, thf numbfr of
+ * dolumns is dftfrminfd from thf spfdififd numbfr of rows
+ * bnd thf totbl numbfr of domponfnts in thf lbyout. So, for
+ * fxbmplf, if thrff rows bnd two dolumns hbvf bffn spfdififd
+ * bnd ninf domponfnts brf bddfd to thf lbyout, thfy will
+ * bf displbyfd bs thrff rows of thrff dolumns.  Spfdifying
+ * thf numbfr of dolumns bfffdts thf lbyout only whfn thf
+ * numbfr of rows is sft to zfro.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @sindf   1.0
+ */
+publid dlbss GridLbyout implfmfnts LbyoutMbnbgfr, jbvb.io.Sfriblizbblf {
+    /*
+     * sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7411804673224730901L;
+
+    /**
+     * This is thf horizontbl gbp (in pixfls) whidh spfdififs thf spbdf
+     * bftwffn dolumns.  Thfy dbn bf dhbngfd bt bny timf.
+     * This should bf b non-nfgbtivf intfgfr.
+     *
+     * @sfribl
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
+     */
+    int hgbp;
+    /**
+     * This is thf vfrtidbl gbp (in pixfls) whidh spfdififs thf spbdf
+     * bftwffn rows.  Thfy dbn bf dhbngfd bt bny timf.
+     * This should bf b non nfgbtivf intfgfr.
+     *
+     * @sfribl
+     * @sff #gftVgbp()
+     * @sff #sftVgbp(int)
+     */
+    int vgbp;
+    /**
+     * This is thf numbfr of rows spfdififd for thf grid.  Thf numbfr
+     * of rows dbn bf dhbngfd bt bny timf.
+     * This should bf b non nfgbtivf intfgfr, whfrf '0' mfbns
+     * 'bny numbfr' mfbning thbt thf numbfr of Rows in thbt
+     * dimfnsion dfpfnds on thf othfr dimfnsion.
+     *
+     * @sfribl
+     * @sff #gftRows()
+     * @sff #sftRows(int)
+     */
+    int rows;
+    /**
+     * This is thf numbfr of dolumns spfdififd for thf grid.  Thf numbfr
+     * of dolumns dbn bf dhbngfd bt bny timf.
+     * This should bf b non nfgbtivf intfgfr, whfrf '0' mfbns
+     * 'bny numbfr' mfbning thbt thf numbfr of Columns in thbt
+     * dimfnsion dfpfnds on thf othfr dimfnsion.
+     *
+     * @sfribl
+     * @sff #gftColumns()
+     * @sff #sftColumns(int)
+     */
+    int dols;
+
+    /**
+     * Crfbtfs b grid lbyout with b dffbult of onf dolumn pfr domponfnt,
+     * in b singlf row.
+     * @sindf 1.1
+     */
+    publid GridLbyout() {
+        this(1, 0, 0, 0);
+    }
+
+    /**
+     * Crfbtfs b grid lbyout with thf spfdififd numbfr of rows bnd
+     * dolumns. All domponfnts in thf lbyout brf givfn fqubl sizf.
+     * <p>
+     * Onf, but not both, of <dodf>rows</dodf> bnd <dodf>dols</dodf> dbn
+     * bf zfro, whidh mfbns thbt bny numbfr of objfdts dbn bf plbdfd in b
+     * row or in b dolumn.
+     * @pbrbm     rows   thf rows, with thf vbluf zfro mfbning
+     *                   bny numbfr of rows.
+     * @pbrbm     dols   thf dolumns, with thf vbluf zfro mfbning
+     *                   bny numbfr of dolumns.
+     */
+    publid GridLbyout(int rows, int dols) {
+        this(rows, dols, 0, 0);
+    }
+
+    /**
+     * Crfbtfs b grid lbyout with thf spfdififd numbfr of rows bnd
+     * dolumns. All domponfnts in thf lbyout brf givfn fqubl sizf.
+     * <p>
+     * In bddition, thf horizontbl bnd vfrtidbl gbps brf sft to thf
+     * spfdififd vblufs. Horizontbl gbps brf plbdfd bftwffn fbdh
+     * of thf dolumns. Vfrtidbl gbps brf plbdfd bftwffn fbdh of
+     * thf rows.
+     * <p>
+     * Onf, but not both, of <dodf>rows</dodf> bnd <dodf>dols</dodf> dbn
+     * bf zfro, whidh mfbns thbt bny numbfr of objfdts dbn bf plbdfd in b
+     * row or in b dolumn.
+     * <p>
+     * All <dodf>GridLbyout</dodf> donstrudtors dfffr to this onf.
+     * @pbrbm     rows   thf rows, with thf vbluf zfro mfbning
+     *                   bny numbfr of rows
+     * @pbrbm     dols   thf dolumns, with thf vbluf zfro mfbning
+     *                   bny numbfr of dolumns
+     * @pbrbm     hgbp   thf horizontbl gbp
+     * @pbrbm     vgbp   thf vfrtidbl gbp
+     * @fxdfption   IllfgblArgumfntExdfption  if thf vbluf of both
+     *                  <dodf>rows</dodf> bnd <dodf>dols</dodf> is
+     *                  sft to zfro
+     */
+    publid GridLbyout(int rows, int dols, int hgbp, int vgbp) {
+        if ((rows == 0) && (dols == 0)) {
+            throw nfw IllfgblArgumfntExdfption("rows bnd dols dbnnot both bf zfro");
+        }
+        this.rows = rows;
+        this.dols = dols;
+        this.hgbp = hgbp;
+        this.vgbp = vgbp;
+    }
+
+    /**
+     * Gfts thf numbfr of rows in this lbyout.
+     * @rfturn    thf numbfr of rows in this lbyout
+     * @sindf     1.1
+     */
+    publid int gftRows() {
+        rfturn rows;
+    }
+
+    /**
+     * Sfts thf numbfr of rows in this lbyout to thf spfdififd vbluf.
+     * @pbrbm        rows   thf numbfr of rows in this lbyout
+     * @fxdfption    IllfgblArgumfntExdfption  if thf vbluf of both
+     *               <dodf>rows</dodf> bnd <dodf>dols</dodf> is sft to zfro
+     * @sindf        1.1
+     */
+    publid void sftRows(int rows) {
+        if ((rows == 0) && (this.dols == 0)) {
+            throw nfw IllfgblArgumfntExdfption("rows bnd dols dbnnot both bf zfro");
+        }
+        this.rows = rows;
+    }
+
+    /**
+     * Gfts thf numbfr of dolumns in this lbyout.
+     * @rfturn     thf numbfr of dolumns in this lbyout
+     * @sindf      1.1
+     */
+    publid int gftColumns() {
+        rfturn dols;
+    }
+
+    /**
+     * Sfts thf numbfr of dolumns in this lbyout to thf spfdififd vbluf.
+     * Sftting thf numbfr of dolumns hbs no bfffdt on thf lbyout
+     * if thf numbfr of rows spfdififd by b donstrudtor or by
+     * thf <tt>sftRows</tt> mfthod is non-zfro. In thbt dbsf, thf numbfr
+     * of dolumns displbyfd in thf lbyout is dftfrminfd by thf totbl
+     * numbfr of domponfnts bnd thf numbfr of rows spfdififd.
+     * @pbrbm        dols   thf numbfr of dolumns in this lbyout
+     * @fxdfption    IllfgblArgumfntExdfption  if thf vbluf of both
+     *               <dodf>rows</dodf> bnd <dodf>dols</dodf> is sft to zfro
+     * @sindf        1.1
+     */
+    publid void sftColumns(int dols) {
+        if ((dols == 0) && (this.rows == 0)) {
+            throw nfw IllfgblArgumfntExdfption("rows bnd dols dbnnot both bf zfro");
+        }
+        this.dols = dols;
+    }
+
+    /**
+     * Gfts thf horizontbl gbp bftwffn domponfnts.
+     * @rfturn       thf horizontbl gbp bftwffn domponfnts
+     * @sindf        1.1
+     */
+    publid int gftHgbp() {
+        rfturn hgbp;
+    }
+
+    /**
+     * Sfts thf horizontbl gbp bftwffn domponfnts to thf spfdififd vbluf.
+     * @pbrbm        hgbp   thf horizontbl gbp bftwffn domponfnts
+     * @sindf        1.1
+     */
+    publid void sftHgbp(int hgbp) {
+        this.hgbp = hgbp;
+    }
+
+    /**
+     * Gfts thf vfrtidbl gbp bftwffn domponfnts.
+     * @rfturn       thf vfrtidbl gbp bftwffn domponfnts
+     * @sindf        1.1
+     */
+    publid int gftVgbp() {
+        rfturn vgbp;
+    }
+
+    /**
+     * Sfts thf vfrtidbl gbp bftwffn domponfnts to thf spfdififd vbluf.
+     * @pbrbm         vgbp  thf vfrtidbl gbp bftwffn domponfnts
+     * @sindf        1.1
+     */
+    publid void sftVgbp(int vgbp) {
+        this.vgbp = vgbp;
+    }
+
+    /**
+     * Adds thf spfdififd domponfnt with thf spfdififd nbmf to thf lbyout.
+     * @pbrbm nbmf thf nbmf of thf domponfnt
+     * @pbrbm domp thf domponfnt to bf bddfd
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    }
+
+    /**
+     * Rfmovfs thf spfdififd domponfnt from thf lbyout.
+     * @pbrbm domp thf domponfnt to bf rfmovfd
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd sizf of thf dontbinfr brgumfnt using
+     * this grid lbyout.
+     * <p>
+     * Thf prfffrrfd width of b grid lbyout is thf lbrgfst prfffrrfd
+     * width of bll of thf domponfnts in thf dontbinfr timfs thf numbfr of
+     * dolumns, plus thf horizontbl pbdding timfs thf numbfr of dolumns
+     * minus onf, plus thf lfft bnd right insfts of thf tbrgft dontbinfr.
+     * <p>
+     * Thf prfffrrfd hfight of b grid lbyout is thf lbrgfst prfffrrfd
+     * hfight of bll of thf domponfnts in thf dontbinfr timfs thf numbfr of
+     * rows, plus thf vfrtidbl pbdding timfs thf numbfr of rows minus onf,
+     * plus thf top bnd bottom insfts of thf tbrgft dontbinfr.
+     *
+     * @pbrbm     pbrfnt   thf dontbinfr in whidh to do thf lbyout
+     * @rfturn    thf prfffrrfd dimfnsions to lby out thf
+     *                      subdomponfnts of thf spfdififd dontbinfr
+     * @sff       jbvb.bwt.GridLbyout#minimumLbyoutSizf
+     * @sff       jbvb.bwt.Contbinfr#gftPrfffrrfdSizf()
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+      syndhronizfd (pbrfnt.gftTrffLodk()) {
+        Insfts insfts = pbrfnt.gftInsfts();
+        int ndomponfnts = pbrfnt.gftComponfntCount();
+        int nrows = rows;
+        int ndols = dols;
+
+        if (nrows > 0) {
+            ndols = (ndomponfnts + nrows - 1) / nrows;
+        } flsf {
+            nrows = (ndomponfnts + ndols - 1) / ndols;
+        }
+        int w = 0;
+        int h = 0;
+        for (int i = 0 ; i < ndomponfnts ; i++) {
+            Componfnt domp = pbrfnt.gftComponfnt(i);
+            Dimfnsion d = domp.gftPrfffrrfdSizf();
+            if (w < d.width) {
+                w = d.width;
+            }
+            if (h < d.hfight) {
+                h = d.hfight;
+            }
+        }
+        rfturn nfw Dimfnsion(insfts.lfft + insfts.right + ndols*w + (ndols-1)*hgbp,
+                             insfts.top + insfts.bottom + nrows*h + (nrows-1)*vgbp);
+      }
+    }
+
+    /**
+     * Dftfrminfs thf minimum sizf of thf dontbinfr brgumfnt using this
+     * grid lbyout.
+     * <p>
+     * Thf minimum width of b grid lbyout is thf lbrgfst minimum width
+     * of bll of thf domponfnts in thf dontbinfr timfs thf numbfr of dolumns,
+     * plus thf horizontbl pbdding timfs thf numbfr of dolumns minus onf,
+     * plus thf lfft bnd right insfts of thf tbrgft dontbinfr.
+     * <p>
+     * Thf minimum hfight of b grid lbyout is thf lbrgfst minimum hfight
+     * of bll of thf domponfnts in thf dontbinfr timfs thf numbfr of rows,
+     * plus thf vfrtidbl pbdding timfs thf numbfr of rows minus onf, plus
+     * thf top bnd bottom insfts of thf tbrgft dontbinfr.
+     *
+     * @pbrbm       pbrfnt   thf dontbinfr in whidh to do thf lbyout
+     * @rfturn      thf minimum dimfnsions nffdfd to lby out thf
+     *                      subdomponfnts of thf spfdififd dontbinfr
+     * @sff         jbvb.bwt.GridLbyout#prfffrrfdLbyoutSizf
+     * @sff         jbvb.bwt.Contbinfr#doLbyout
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+      syndhronizfd (pbrfnt.gftTrffLodk()) {
+        Insfts insfts = pbrfnt.gftInsfts();
+        int ndomponfnts = pbrfnt.gftComponfntCount();
+        int nrows = rows;
+        int ndols = dols;
+
+        if (nrows > 0) {
+            ndols = (ndomponfnts + nrows - 1) / nrows;
+        } flsf {
+            nrows = (ndomponfnts + ndols - 1) / ndols;
+        }
+        int w = 0;
+        int h = 0;
+        for (int i = 0 ; i < ndomponfnts ; i++) {
+            Componfnt domp = pbrfnt.gftComponfnt(i);
+            Dimfnsion d = domp.gftMinimumSizf();
+            if (w < d.width) {
+                w = d.width;
+            }
+            if (h < d.hfight) {
+                h = d.hfight;
+            }
+        }
+        rfturn nfw Dimfnsion(insfts.lfft + insfts.right + ndols*w + (ndols-1)*hgbp,
+                             insfts.top + insfts.bottom + nrows*h + (nrows-1)*vgbp);
+      }
+    }
+
+    /**
+     * Lbys out thf spfdififd dontbinfr using this lbyout.
+     * <p>
+     * This mfthod rfshbpfs thf domponfnts in thf spfdififd tbrgft
+     * dontbinfr in ordfr to sbtisfy thf donstrbints of thf
+     * <dodf>GridLbyout</dodf> objfdt.
+     * <p>
+     * Thf grid lbyout mbnbgfr dftfrminfs thf sizf of individubl
+     * domponfnts by dividing thf frff spbdf in thf dontbinfr into
+     * fqubl-sizfd portions bddording to thf numbfr of rows bnd dolumns
+     * in thf lbyout. Thf dontbinfr's frff spbdf fqubls thf dontbinfr's
+     * sizf minus bny insfts bnd bny spfdififd horizontbl or vfrtidbl
+     * gbp. All domponfnts in b grid lbyout brf givfn thf sbmf sizf.
+     *
+     * @pbrbm      pbrfnt   thf dontbinfr in whidh to do thf lbyout
+     * @sff        jbvb.bwt.Contbinfr
+     * @sff        jbvb.bwt.Contbinfr#doLbyout
+     */
+    publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+      syndhronizfd (pbrfnt.gftTrffLodk()) {
+        Insfts insfts = pbrfnt.gftInsfts();
+        int ndomponfnts = pbrfnt.gftComponfntCount();
+        int nrows = rows;
+        int ndols = dols;
+        boolfbn ltr = pbrfnt.gftComponfntOrifntbtion().isLfftToRight();
+
+        if (ndomponfnts == 0) {
+            rfturn;
+        }
+        if (nrows > 0) {
+            ndols = (ndomponfnts + nrows - 1) / nrows;
+        } flsf {
+            nrows = (ndomponfnts + ndols - 1) / ndols;
+        }
+        // 4370316. To position domponfnts in thf dfntfr wf should:
+        // 1. gft bn bmount of fxtrb spbdf within Contbinfr
+        // 2. indorporbtf hblf of thbt vbluf to thf lfft/top position
+        // Notf thbt wf usf trbndbting division for widthOnComponfnt
+        // Thf rfmindfr gofs to fxtrbWidthAvbilbblf
+        int totblGbpsWidth = (ndols - 1) * hgbp;
+        int widthWOInsfts = pbrfnt.width - (insfts.lfft + insfts.right);
+        int widthOnComponfnt = (widthWOInsfts - totblGbpsWidth) / ndols;
+        int fxtrbWidthAvbilbblf = (widthWOInsfts - (widthOnComponfnt * ndols + totblGbpsWidth)) / 2;
+
+        int totblGbpsHfight = (nrows - 1) * vgbp;
+        int hfightWOInsfts = pbrfnt.hfight - (insfts.top + insfts.bottom);
+        int hfightOnComponfnt = (hfightWOInsfts - totblGbpsHfight) / nrows;
+        int fxtrbHfightAvbilbblf = (hfightWOInsfts - (hfightOnComponfnt * nrows + totblGbpsHfight)) / 2;
+        if (ltr) {
+            for (int d = 0, x = insfts.lfft + fxtrbWidthAvbilbblf; d < ndols ; d++, x += widthOnComponfnt + hgbp) {
+                for (int r = 0, y = insfts.top + fxtrbHfightAvbilbblf; r < nrows ; r++, y += hfightOnComponfnt + vgbp) {
+                    int i = r * ndols + d;
+                    if (i < ndomponfnts) {
+                        pbrfnt.gftComponfnt(i).sftBounds(x, y, widthOnComponfnt, hfightOnComponfnt);
+                    }
+                }
+            }
+        } flsf {
+            for (int d = 0, x = (pbrfnt.width - insfts.right - widthOnComponfnt) - fxtrbWidthAvbilbblf; d < ndols ; d++, x -= widthOnComponfnt + hgbp) {
+                for (int r = 0, y = insfts.top + fxtrbHfightAvbilbblf; r < nrows ; r++, y += hfightOnComponfnt + vgbp) {
+                    int i = r * ndols + d;
+                    if (i < ndomponfnts) {
+                        pbrfnt.gftComponfnt(i).sftBounds(x, y, widthOnComponfnt, hfightOnComponfnt);
+                    }
+                }
+            }
+        }
+      }
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of this grid lbyout's vblufs.
+     * @rfturn     b string rfprfsfntbtion of this grid lbyout
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[hgbp=" + hgbp + ",vgbp=" + vgbp +
+                                       ",rows=" + rows + ",dols=" + dols + "]";
+    }
+}

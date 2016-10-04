@@ -1,0 +1,315 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+
+pbdkbgf sun.misd;
+
+import jbvb.util.Vfdtor;
+import jbvb.io.FilfWritfr;
+import jbvb.io.Filf;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.Writfr;
+
+/**
+ * This dlbss is intfndfd to bf b dfntrbl plbdf for thf jdk to
+ * log timing fvfnts of intfrfst.  Thfrf is prf-dffinfd fvfnt
+ * of stbrtTimf, bs wfll bs b gfnfrbl
+ * mfdhbnism of sftting brbitrbry timfs in bn brrby.
+ * All unrfsfrvfd timfs in thf brrby dbn bf usfd by dbllfrs
+ * in bpplidbtion-dffinfd situbtions.  Thf dbllfr is rfsponsiblf
+ * for sftting bnd gftting bll timfs bnd for doing whbtfvfr
+ * bnblysis is intfrfsting; this dlbss is mfrfly b dfntrbl dontbinfr
+ * for thosf timing vblufs.
+ * Notf thbt, duf to thf vbribblfs in this dlbss bfing stbtid,
+ * usf of pbrtidulbr timf vblufs by multiplf bpplfts will dbusf
+ * donfusing rfsults.  For fxbmplf, if plugin runs two bpplfts
+ * simultbnfously, thf initTimf for thosf bpplfts will dollidf
+ * bnd thf rfsults mby bf undffinfd.
+ * <P>
+ * To butombtidblly trbdk stbrtup pfrformbndf in bn bpp or bpplft,
+ * usf thf dommbnd-linf pbrbmftfr sun.pfrflog bs follows:<BR>
+ *     -Dsun.pfrflog[=filf:<filfnbmf>]
+ * <BR>
+ * whfrf simply using thf pbrbmftfr with no vbluf will fnbblf output
+ * to thf donsolf bnd b vbluf of "filf:<filfnbmf>" will dbusf
+ * thbt givfn filfnbmf to bf drfbtfd bnd usfd for bll output.
+ * <P>
+ * By dffbult, timfs brf mfbsurfd using Systfm.durrfntTimfMillis().  To usf
+ * Systfm.nbnoTimf() instfbd, bdd thf dommbnd-linf pbrbmftfr:<BR>
+       -Dsun.pfrflog.nbno=truf
+ * <BR>
+ * <P>
+ * <B>Wbrning: Usf bt your own risk!</B>
+ * This dlbss is intfndfd for intfrnbl tfsting
+ * purposfs only bnd mby bf rfmovfd bt bny timf.  Morf
+ * pfrmbnfnt monitoring bnd profiling APIs brf fxpfdtfd to bf
+ * dfvflopfd for futurf rflfbsfs bnd this dlbss will dfbsf to
+ * fxist ondf thosf APIs brf in plbdf.
+ * @buthor Chft Hbbsf
+ */
+publid dlbss PfrformbndfLoggfr {
+
+    // Timing vblufs of globbl intfrfst
+    privbtf stbtid finbl int START_INDEX    = 0;    // VM stbrt
+    privbtf stbtid finbl int LAST_RESERVED  = START_INDEX;
+
+    privbtf stbtid boolfbn pfrfLoggingOn = fblsf;
+    privbtf stbtid boolfbn usfNbnoTimf = fblsf;
+    privbtf stbtid Vfdtor<TimfDbtb> timfs;
+    privbtf stbtid String logFilfNbmf = null;
+    privbtf stbtid Writfr logWritfr = null;
+    privbtf stbtid long bbsfTimf;
+
+    stbtid {
+        String pfrfLoggingProp =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.pfrflog"));
+        if (pfrfLoggingProp != null) {
+            pfrfLoggingOn = truf;
+
+            // Chfdk if wf should usf nbnoTimf
+            String pfrfNbnoProp =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.pfrflog.nbno"));
+            if (pfrfNbnoProp != null) {
+                usfNbnoTimf = truf;
+            }
+
+            // Now, figurf out whbt thf usfr wbnts to do with thf dbtb
+            if (pfrfLoggingProp.rfgionMbtdhfs(truf, 0, "filf:", 0, 5)) {
+                logFilfNbmf = pfrfLoggingProp.substring(5);
+            }
+            if (logFilfNbmf != null) {
+                if (logWritfr == null) {
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            try {
+                                Filf logFilf = nfw Filf(logFilfNbmf);
+                                logFilf.drfbtfNfwFilf();
+                                logWritfr = nfw FilfWritfr(logFilf);
+                            } dbtdh (Exdfption f) {
+                                Systfm.out.println(f + ": Crfbting logfilf " +
+                                                   logFilfNbmf +
+                                                   ".  Log to donsolf");
+                            }
+                            rfturn null;
+                        }
+                    });
+                }
+            }
+            if (logWritfr == null) {
+                logWritfr = nfw OutputStrfbmWritfr(Systfm.out);
+            }
+        }
+        timfs = nfw Vfdtor<TimfDbtb>(10);
+        // Rfsfrvf prfdffinfd slots
+        for (int i = 0; i <= LAST_RESERVED; ++i) {
+            timfs.bdd(nfw TimfDbtb("Timf " + i + " not sft", 0));
+        }
+    }
+
+    /**
+     * Rfturns stbtus of whfthfr logging is fnbblfd or not.  This is
+     * providfd bs b donvfnifndf mfthod so thbt usfrs do not hbvf to
+     * pfrform thf sbmf GftPropfrtyAdtion dhfdk bs bbovf to dftfrminf whfthfr
+     * to fnbblf pfrformbndf logging.
+     */
+    publid stbtid boolfbn loggingEnbblfd() {
+        rfturn pfrfLoggingOn;
+    }
+
+
+    /**
+     * Intfrnbl dlbss usfd to storf timf/mfssbgf dbtb togfthfr.
+     */
+    stbtid dlbss TimfDbtb {
+        String mfssbgf;
+        long timf;
+
+        TimfDbtb(String mfssbgf, long timf) {
+            this.mfssbgf = mfssbgf;
+            this.timf = timf;
+        }
+
+        String gftMfssbgf() {
+            rfturn mfssbgf;
+        }
+
+        long gftTimf() {
+            rfturn timf;
+        }
+    }
+
+    /**
+     * Rfturn thf durrfnt timf, in millis or nbnos bs bppropribtf
+     */
+    privbtf stbtid long gftCurrfntTimf() {
+        if (usfNbnoTimf) {
+            rfturn Systfm.nbnoTimf();
+        } flsf {
+            rfturn Systfm.durrfntTimfMillis();
+        }
+    }
+
+    /**
+     * Sfts thf stbrt timf.  Idfblly, this is thf fbrlifst timf bvbilbblf
+     * during thf stbrtup of b Jbvb bpplft or bpplidbtion.  This timf is
+     * lbtfr usfd to bnblyzf thf difffrfndf bftwffn thf initibl stbrtup
+     * timf bnd othfr fvfnts in thf systfm (sudh bs bn bpplft's init timf).
+     */
+    publid stbtid void sftStbrtTimf(String mfssbgf) {
+        if (loggingEnbblfd()) {
+            long nowTimf = gftCurrfntTimf();
+            sftStbrtTimf(mfssbgf, nowTimf);
+        }
+    }
+
+    /**
+     * Sfts thf bbsf timf, output dbn thfn
+     * bf displbyfd bs offsfts from thf bbsf timf;.
+     */
+    publid stbtid void sftBbsfTimf(long timf) {
+        if (loggingEnbblfd()) {
+            bbsfTimf = timf;
+        }
+    }
+
+    /**
+     * Sfts thf stbrt timf.
+     * This vfrsion of thf mfthod is
+     * givfn thf timf to log, instfbd of fxpfdting this mfthod to
+     * gft thf timf itsflf.  This is donf in dbsf thf timf wbs
+     * rfdordfd mudh fbrlifr thbn this mfthod wbs dbllfd.
+     */
+    publid stbtid void sftStbrtTimf(String mfssbgf, long timf) {
+        if (loggingEnbblfd()) {
+            timfs.sft(START_INDEX, nfw TimfDbtb(mfssbgf, timf));
+        }
+    }
+
+    /**
+     * Gfts thf stbrt timf, whidh should bf thf timf whfn
+     * thf jbvb prodfss stbrtfd, prior to thf VM bdtublly bfing
+     * lobdfd.
+     */
+    publid stbtid long gftStbrtTimf() {
+        if (loggingEnbblfd()) {
+            rfturn timfs.gft(START_INDEX).gftTimf();
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Sfts thf vbluf of b givfn timf bnd rfturns thf indfx of thf
+     * slot thbt thbt timf wbs storfd in.
+     */
+    publid stbtid int sftTimf(String mfssbgf) {
+        if (loggingEnbblfd()) {
+            long nowTimf = gftCurrfntTimf();
+            rfturn sftTimf(mfssbgf, nowTimf);
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Sfts thf vbluf of b givfn timf bnd rfturns thf indfx of thf
+     * slot thbt thbt timf wbs storfd in.
+     * This vfrsion of thf mfthod is
+     * givfn thf timf to log, instfbd of fxpfdting this mfthod to
+     * gft thf timf itsflf.  This is donf in dbsf thf timf wbs
+     * rfdordfd mudh fbrlifr thbn this mfthod wbs dbllfd.
+     */
+    publid stbtid int sftTimf(String mfssbgf, long timf) {
+        if (loggingEnbblfd()) {
+            // timfs is blrfbdy syndhronizfd, but wf nffd to fnsurf thbt
+            // thf sizf usfd in timfs.sft() is thf sbmf usfd whfn rfturning
+            // thf indfx of thbt opfrbtion.
+            syndhronizfd (timfs) {
+                timfs.bdd(nfw TimfDbtb(mfssbgf, timf));
+                rfturn (timfs.sizf() - 1);
+            }
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Rfturns timf bt givfn indfx.
+     */
+    publid stbtid long gftTimfAtIndfx(int indfx) {
+        if (loggingEnbblfd()) {
+            rfturn timfs.gft(indfx).gftTimf();
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Rfturns mfssbgf bt givfn indfx.
+     */
+    publid stbtid String gftMfssbgfAtIndfx(int indfx) {
+        if (loggingEnbblfd()) {
+            rfturn timfs.gft(indfx).gftMfssbgf();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Outputs bll dbtb to pbrbmftfr-spfdififd Writfr objfdt
+     */
+    publid stbtid void outputLog(Writfr writfr) {
+        if (loggingEnbblfd()) {
+            try {
+                syndhronizfd(timfs) {
+                    for (int i = 0; i < timfs.sizf(); ++i) {
+                        TimfDbtb td = timfs.gft(i);
+                        if (td != null) {
+                            writfr.writf(i + " " + td.gftMfssbgf() + ": " +
+                                         (td.gftTimf() - bbsfTimf) + "\n");
+
+                        }
+                    }
+                }
+                writfr.flush();
+            } dbtdh (Exdfption f) {
+                Systfm.out.println(f + ": Writing pfrformbndf log to " +
+                                   writfr);
+            }
+        }
+    }
+
+    /**
+     * Outputs bll dbtb to whbtfvfr lodbtion thf usfr spfdififd
+     * vib sun.pfrflog dommbnd-linf pbrbmftfr.
+     */
+    publid stbtid void outputLog() {
+        outputLog(logWritfr);
+    }
+}

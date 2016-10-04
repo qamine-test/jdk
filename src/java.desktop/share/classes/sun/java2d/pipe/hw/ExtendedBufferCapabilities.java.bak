@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe.hw;
+pbdkbgf sun.jbvb2d.pipf.iw;
 
-import java.awt.BufferCapabilities;
-import java.awt.ImageCapabilities;
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.ImbgfCbpbbilitifs;
 
 /**
- * Provides extended BufferStrategy capabilities, allowing to specify
- * the type of vertical refresh synchronization for a buffer strategy.
+ * Providfs fxtfndfd BufffrStrbtfgy dbpbbilitifs, bllowing to spfdify
+ * tif typf of vfrtidbl rffrfsi syndironizbtion for b bufffr strbtfgy.
  *
- * This BS capability is always page flipping because v-sync is only relevant
- * to flipping buffer strategies.
+ * Tiis BS dbpbbility is blwbys pbgf flipping bfdbusf v-synd is only rflfvbnt
+ * to flipping bufffr strbtfgifs.
  *
- * Note that asking for a v-synced BS doesn't necessarily guarantee that it will
- * be v-synced since the vsync capability may be disabled in the driver, or
- * there may be other restriction (like a number of v-synced buffer strategies
- * allowed per vm). Because of this {@code createBufferStrategy} doesn't
- * throw {@code AWTException} when a v-synced BS could not be created when
- * requested.
+ * Notf tibt bsking for b v-syndfd BS dofsn't nfdfssbrily gubrbntff tibt it will
+ * bf v-syndfd sindf tif vsynd dbpbbility mby bf disbblfd in tif drivfr, or
+ * tifrf mby bf otifr rfstridtion (likf b numbfr of v-syndfd bufffr strbtfgifs
+ * bllowfd pfr vm). Bfdbusf of tiis {@dodf drfbtfBufffrStrbtfgy} dofsn't
+ * tirow {@dodf AWTExdfption} wifn b v-syndfd BS dould not bf drfbtfd wifn
+ * rfqufstfd.
  *
- * @see java.awt.Canvas#createBufferStrategy(int, BufferCapabilities)
- * @see java.awt.Window#createBufferStrategy(int, BufferCapabilities)
+ * @sff jbvb.bwt.Cbnvbs#drfbtfBufffrStrbtfgy(int, BufffrCbpbbilitifs)
+ * @sff jbvb.bwt.Window#drfbtfBufffrStrbtfgy(int, BufffrCbpbbilitifs)
  */
-public class ExtendedBufferCapabilities extends BufferCapabilities {
+publid dlbss ExtfndfdBufffrCbpbbilitifs fxtfnds BufffrCbpbbilitifs {
 
     /**
-     * Type of synchronization on vertical retrace.
+     * Typf of syndironizbtion on vfrtidbl rftrbdf.
      */
-    public static enum VSyncType {
+    publid stbtid fnum VSyndTypf {
         /**
-         * Use the default v-sync mode appropriate for given BufferStrategy
-         * and situation.
+         * Usf tif dffbult v-synd modf bppropribtf for givfn BufffrStrbtfgy
+         * bnd situbtion.
          */
         VSYNC_DEFAULT(0),
 
         /**
-         * Synchronize flip on vertical retrace.
+         * Syndironizf flip on vfrtidbl rftrbdf.
          */
         VSYNC_ON(1),
 
         /**
-         * Do not synchronize flip on vertical retrace.
+         * Do not syndironizf flip on vfrtidbl rftrbdf.
          */
         VSYNC_OFF(2);
 
         /**
-         * Used to identify the v-sync type (independent of the constants
-         * order as opposed to {@code ordinal()}).
+         * Usfd to idfntify tif v-synd typf (indfpfndfnt of tif donstbnts
+         * ordfr bs opposfd to {@dodf ordinbl()}).
          */
-        public int id() {
-            return id;
+        publid int id() {
+            rfturn id;
         }
 
-        private VSyncType(int id) {
-            this.id = id;
+        privbtf VSyndTypf(int id) {
+            tiis.id = id;
         }
-        private int id;
+        privbtf int id;
     }
 
-    private VSyncType vsync;
+    privbtf VSyndTypf vsynd;
 
     /**
-     * Creates an ExtendedBufferCapabilities object with front/back/flip caps
-     * from the passed cap, and VSYNC_DEFAULT v-sync mode.
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs objfdt witi front/bbdk/flip dbps
+     * from tif pbssfd dbp, bnd VSYNC_DEFAULT v-synd modf.
      */
-    public ExtendedBufferCapabilities(BufferCapabilities caps) {
-        super(caps.getFrontBufferCapabilities(),
-              caps.getBackBufferCapabilities(),
-              caps.getFlipContents());
+    publid ExtfndfdBufffrCbpbbilitifs(BufffrCbpbbilitifs dbps) {
+        supfr(dbps.gftFrontBufffrCbpbbilitifs(),
+              dbps.gftBbdkBufffrCbpbbilitifs(),
+              dbps.gftFlipContfnts());
 
-        this.vsync = VSyncType.VSYNC_DEFAULT;
+        tiis.vsynd = VSyndTypf.VSYNC_DEFAULT;
     }
 
     /**
-     * Creates an ExtendedBufferCapabilities instance with front/back/flip caps
-     * from the passed caps, and VSYNC_DEFAULT v-sync mode.
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs instbndf witi front/bbdk/flip dbps
+     * from tif pbssfd dbps, bnd VSYNC_DEFAULT v-synd modf.
      */
-    public ExtendedBufferCapabilities(ImageCapabilities front,
-                                      ImageCapabilities back, FlipContents flip)
+    publid ExtfndfdBufffrCbpbbilitifs(ImbgfCbpbbilitifs front,
+                                      ImbgfCbpbbilitifs bbdk, FlipContfnts flip)
     {
-        super(front, back, flip);
+        supfr(front, bbdk, flip);
 
-        this.vsync = VSyncType.VSYNC_DEFAULT;
+        tiis.vsynd = VSyndTypf.VSYNC_DEFAULT;
     }
 
     /**
-     * Creates an ExtendedBufferCapabilities instance with front/back/flip caps
-     * from the passed image/flip caps, and the v-sync type.
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs instbndf witi front/bbdk/flip dbps
+     * from tif pbssfd imbgf/flip dbps, bnd tif v-synd typf.
      */
-    public ExtendedBufferCapabilities(ImageCapabilities front,
-                                      ImageCapabilities back, FlipContents flip,
-                                      VSyncType t)
+    publid ExtfndfdBufffrCbpbbilitifs(ImbgfCbpbbilitifs front,
+                                      ImbgfCbpbbilitifs bbdk, FlipContfnts flip,
+                                      VSyndTypf t)
     {
-        super(front, back, flip);
+        supfr(front, bbdk, flip);
 
-        this.vsync = t;
+        tiis.vsynd = t;
     }
 
     /**
-     * Creates an ExtendedBufferCapabilities instance with front/back/flip caps
-     * from the passed cap, and the passed v-sync mode.
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs instbndf witi front/bbdk/flip dbps
+     * from tif pbssfd dbp, bnd tif pbssfd v-synd modf.
      */
-    public ExtendedBufferCapabilities(BufferCapabilities caps, VSyncType t) {
-        super(caps.getFrontBufferCapabilities(),
-              caps.getBackBufferCapabilities(),
-              caps.getFlipContents());
+    publid ExtfndfdBufffrCbpbbilitifs(BufffrCbpbbilitifs dbps, VSyndTypf t) {
+        supfr(dbps.gftFrontBufffrCbpbbilitifs(),
+              dbps.gftBbdkBufffrCbpbbilitifs(),
+              dbps.gftFlipContfnts());
 
-        this.vsync = t;
+        tiis.vsynd = t;
     }
 
     /**
-     * Creates an ExtendedBufferCapabilities instance with front/back/flip caps
-     * from the object, and passed v-sync mode.
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs instbndf witi front/bbdk/flip dbps
+     * from tif objfdt, bnd pbssfd v-synd modf.
      */
-    public ExtendedBufferCapabilities derive(VSyncType t) {
-        return new ExtendedBufferCapabilities(this, t);
+    publid ExtfndfdBufffrCbpbbilitifs dfrivf(VSyndTypf t) {
+        rfturn nfw ExtfndfdBufffrCbpbbilitifs(tiis, t);
     }
 
     /**
-     * Returns the type of v-sync requested by this capabilities instance.
+     * Rfturns tif typf of v-synd rfqufstfd by tiis dbpbbilitifs instbndf.
      */
-    public VSyncType getVSync() {
-        return vsync;
+    publid VSyndTypf gftVSynd() {
+        rfturn vsynd;
     }
 
-    @Override
-    public final boolean isPageFlipping() {
-        return true;
+    @Ovfrridf
+    publid finbl boolfbn isPbgfFlipping() {
+        rfturn truf;
     }
 }

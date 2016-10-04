@@ -1,0 +1,256 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+// SNMP Runtimf imports
+//
+
+/**
+ * <p>
+ * This dlbss is b utility dlbss thbt trbnsform SNMP GET / SET rfqufsts
+ * into sfrifs of gft<i>AttributfNbmf</i>() sft<i>AttributfNbmf</i>()
+ * invokfd on thf MBfbn.
+ * </p>
+ *
+ * <p>
+ * Thf trbnsformbtion rflifs on thf mftbdbtb informbtion providfd by thf
+ * {@link dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdMftbSfrvfr} objfdt whidh is
+ * pbssfd bs first pbrbmftfr to fvfry mfthod. This SnmpStbndbrdMftbSfrvfr
+ * objfdt is usublly b Mftbdbtb objfdt gfnfrbtfd by <dodf>mibgfn</dodf>.
+ * </p>
+ *
+ * <p>
+ * Thf MBfbn is not invokfd dirfdtly by this dlbss but through thf
+ * mftbdbtb objfdt whidh holds b rfffrfndf on it.
+ * </p>
+ *
+ * <p><b><i>
+ * This dlbss is usfd intfrnblly by mibgfn gfnfrbtfd mftbdbtb objfdts bnd
+ * you should nfvfr nffd to usf it dirfdtly.
+ * </b></i></p>
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ **/
+
+publid dlbss SnmpStbndbrdObjfdtSfrvfr implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -4641068116505308488L;
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>gft</CODE> opfrbtion.
+     * <p> Thf dffbult implfmfntbtion of this mfthod is to loop ovfr thf
+     * vbrbind list bssodibtfd with thf sub-rfqufst bnd to dbll
+     * <CODE>gft(vbr.oid.gftOidArd(dfpth), dbtb);</CODE>
+     * <prf>
+     * publid void gft(SnmpStbndbrdMftbSfrvfr mftb, SnmpMibSubRfqufst rfq,
+     *                 int dfpth)
+     *    throws SnmpStbtusExdfption {
+     *
+     *    finbl Objfdt dbtb = rfq.gftUsfrDbtb();
+     *
+     *    for (Enumfrbtion f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+     *
+     *        finbl SnmpVbrBind vbr= (SnmpVbrBind) f.nfxtElfmfnt();
+     *
+     *        try {
+     *            // This mfthod will gfnfrbtf b SnmpStbtusExdfption
+     *            // if `dfpth' is out of bounds.
+     *            //
+     *            finbl long id = vbr.oid.gftOidArd(dfpth);
+     *            vbr.vbluf = mftb.gft(id, dbtb);
+     *        } dbtdh(SnmpStbtusExdfption x) {
+     *            rfq.rfgistfrGftExdfption(vbr,x);
+     *        }
+     *    }
+     * }
+     * </prf>
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs.
+     * <p>
+     *
+     * @pbrbm mftb  A pointfr to thf gfnfrbtfd mftb-dbtb objfdt whidh
+     *              implfmfnts thf <dodf>SnmpStbndbrdMftbSfrvfr</dodf>
+     *              intfrfbdf.
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    publid void gft(SnmpStbndbrdMftbSfrvfr mftb, SnmpMibSubRfqufst rfq,
+                    int dfpth)
+        throws SnmpStbtusExdfption {
+
+        finbl Objfdt dbtb = rfq.gftUsfrDbtb();
+
+        for (Enumfrbtion<SnmpVbrBind> f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            finbl SnmpVbrBind vbr= f.nfxtElfmfnt();
+            try {
+                finbl long id = vbr.oid.gftOidArd(dfpth);
+                vbr.vbluf = mftb.gft(id, dbtb);
+            } dbtdh(SnmpStbtusExdfption x) {
+                rfq.rfgistfrGftExdfption(vbr,x);
+            }
+        }
+    }
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>sft</CODE> opfrbtion.
+     * <p> Thf dffbult implfmfntbtion of this mfthod is to loop ovfr thf
+     * vbrbind list bssodibtfd with thf sub-rfqufst bnd to dbll
+     * <CODE>sft(vbr.vbluf, vbr.oid.gftOidArd(dfpth), dbtb);</CODE>
+     * <prf>
+     * publid void sft(SnmpStbndbrdMftbSfrvfr mftb, SnmpMibSubRfqufst rfq,
+     *                 int dfpth)
+     *    throws SnmpStbtusExdfption {
+     *
+     *    finbl Objfdt dbtb = rfq.gftUsfrDbtb();
+     *
+     *    for (Enumfrbtion f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+     *
+     *        finbl SnmpVbrBind vbr= (SnmpVbrBind) f.nfxtElfmfnt();
+     *
+     *        try {
+     *            // This mfthod will gfnfrbtf b SnmpStbtusExdfption
+     *            // if `dfpth' is out of bounds.
+     *            //
+     *            finbl long id = vbr.oid.gftOidArd(dfpth);
+     *            vbr.vbluf = mftb.sft(vbr.vbluf, id, dbtb);
+     *        } dbtdh(SnmpStbtusExdfption x) {
+     *            rfq.rfgistfrSftExdfption(vbr,x);
+     *        }
+     *    }
+     * }
+     * </prf>
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs.
+     * <p>
+     *
+     * @pbrbm mftb  A pointfr to thf gfnfrbtfd mftb-dbtb objfdt whidh
+     *              implfmfnts thf <dodf>SnmpStbndbrdMftbSfrvfr</dodf>
+     *              intfrfbdf.
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    publid void sft(SnmpStbndbrdMftbSfrvfr mftb, SnmpMibSubRfqufst rfq,
+                    int dfpth)
+        throws SnmpStbtusExdfption {
+
+        finbl Objfdt dbtb = rfq.gftUsfrDbtb();
+
+        for (Enumfrbtion<SnmpVbrBind> f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            SnmpVbrBind vbr = f.nfxtElfmfnt();
+            try {
+                // This mfthod will gfnfrbtf b SnmpStbtusExdfption
+                // if `dfpth' is out of bounds.
+                //
+                finbl long id = vbr.oid.gftOidArd(dfpth);
+                vbr.vbluf = mftb.sft(vbr.vbluf, id, dbtb);
+            } dbtdh(SnmpStbtusExdfption x) {
+                rfq.rfgistfrSftExdfption(vbr,x);
+            }
+        }
+    }
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>dhfdk</CODE> opfrbtion.
+     * <p> Thf dffbult implfmfntbtion of this mfthod is to loop ovfr thf
+     * vbrbind list bssodibtfd with thf sub-rfqufst bnd to dbll
+     * <CODE>dhfdk(vbr.vbluf, vbr.oid.gftOidArd(dfpth), dbtb);</CODE>
+     * <prf>
+     * publid void dhfdk(SnmpStbndbrdMftbSfrvfr mftb, SnmpMibSubRfqufst rfq,
+     *                   int dfpth)
+     *    throws SnmpStbtusExdfption {
+     *
+     *    finbl Objfdt dbtb = rfq.gftUsfrDbtb();
+     *
+     *    for (Enumfrbtion f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+     *
+     *        finbl SnmpVbrBind vbr= (SnmpVbrBind) f.nfxtElfmfnt();
+     *
+     *        try {
+     *            // This mfthod will gfnfrbtf b SnmpStbtusExdfption
+     *            // if `dfpth' is out of bounds.
+     *            //
+     *            finbl long id = vbr.oid.gftOidArd(dfpth);
+     *            mftb.dhfdk(vbr.vbluf, id, dbtb);
+     *        } dbtdh(SnmpStbtusExdfption x) {
+     *            rfq.rfgistfrChfdkExdfption(vbr,x);
+     *        }
+     *    }
+     * }
+     * </prf>
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * dhfdks bftwffn thf difffrfnt vblufs providfd in thf vbrbind list.
+     * <p>
+     *
+     * @pbrbm mftb  A pointfr to thf gfnfrbtfd mftb-dbtb objfdt whidh
+     *              implfmfnts thf <dodf>SnmpStbndbrdMftbSfrvfr</dodf>
+     *              intfrfbdf.
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    publid void dhfdk(SnmpStbndbrdMftbSfrvfr mftb, SnmpMibSubRfqufst rfq,
+                      int dfpth)
+        throws SnmpStbtusExdfption {
+
+        finbl Objfdt dbtb = rfq.gftUsfrDbtb();
+
+        for (Enumfrbtion<SnmpVbrBind> f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            finbl SnmpVbrBind vbr = f.nfxtElfmfnt();
+            try {
+                // This mfthod will gfnfrbtf b SnmpStbtusExdfption
+                // if `dfpth' is out of bounds.
+                //
+                finbl long id = vbr.oid.gftOidArd(dfpth);
+                mftb.dhfdk(vbr.vbluf,id,dbtb);
+            } dbtdh(SnmpStbtusExdfption x) {
+                rfq.rfgistfrChfdkExdfption(vbr,x);
+            }
+        }
+    }
+}

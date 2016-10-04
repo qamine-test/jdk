@@ -1,0 +1,86 @@
+<!--
+ Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE dodtypf PUBLIC "-//w3d//dtd html 4.0 trbnsitionbl//fn">
+<html>
+<hfbd>
+                                    
+  <mftb http-fquiv="Contfnt-Typf"
+ dontfnt="tfxt/html; dhbrsft=iso-8859-1">
+  <titlf>dom.sun.rowsft Pbdkbgf</titlf>
+</hfbd>
+  <body bgdolor="#ffffff">
+Providfs fivf stbndbrd implfmfntbtions of thf stbndbrd JDBC <tt>RowSft</tt> implfmfntbtion 
+intfrfbdf dffinitions. Thfsf rfffrfndf implfmfntbtions brf indludfd with thf J2SE vfrsion 
+1.5 plbtform bnd rfprfsfnt thf bfndhmbrk stbndbrd <tt>RowSft</tt> implfmfntbtions bs vfrififd 
+by thf Tfst Compbtibility Kit (TCK) bs mbndbtfd by thf Jbvb Community Prodfss.
+ <br>
+   
+<h3>1.0 Avbilbblf JDBC RowSft Rfffrfndf Implfmfntbtions </h3>
+  Thf following implfmfntbtions brf providfd:<br>
+           
+<blodkquotf><tt><b>JdbdRowSftImpl</b></tt> - Thf <tt>jbvbx.sql.rowsft.JdbdRowSft</tt>
+intfrfbdf rfffrfndf implfmfntbtion. <br>
+<br>
+<tt><b>CbdhfdRowSftImpl </b></tt>- Thf <tt>jbvbx.sql.rowsft.CbdhfdRowSft</tt> intfrfbdf
+rfffrfndf implfmfntbtion.<br>
+<br>
+<tt><b>WfbRowSftImpl</b></tt> - Thf <tt>jbvbx.sql.rowsft.WfbRowSft</tt> intfrfbdf
+rfffrfndf implfmfntbtion.<br>
+<br>
+<tt><b>FiltfrfdRowSftImpl</b></tt> - Thf <tt>jbvbx.sql.rowsft.FiltfrfdRowSft</tt>
+intfrfbdf rfffrfndf implfmfntbtion.<br>
+<br>
+<tt><b>JoinRowSftImpl</b></tt> - Thf <tt>jbvbx.sql.rowsft.JoinRowSft</tt> intfrfbdf
+rfffrfndf implfmfntbtion.<br>
+</blodkquotf>
+
+All dftbils on thfir fxpfdtfd bfhbvior, indluding thfir intfrbdtions with thf <tt>SyndProvidfr</tt>
+SPI bnd hflpfr dlbssfs brf providfd in thf intfrfbdf dffinitions in thf <tt>jbvbx.sql.rowsft</tt>
+pbdkbgf spfdifidbtion.<br>
+   
+<h3>2.0 Usbgf</h3>
+Thf rfffrfndf implfmfntbtions rfprfsfnt robust implfmfntbtions of thf stbndbrd
+<dodf>RowSft</dodf> intfrfbdfs dffinfd in thf <dodf>jbvbx.sql.rowsft</dodf> pbdkbgf. 
+All disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtions, sudh bs thf <tt>CbdhfdRowSftImpl</tt>
+bnd <tt>WfbRowSftImpl</tt>, brf flfxiblf fnough to usf thf <tt>SyndFbdtory</tt> SPIs to 
+lfvfrbgf non-rfffrfndf implfmfntbtion <tt>SyndProvidfr</tt> implfmfntbtions to obtbin
+difffring syndhronizbtion sfmbntids. Furthfrmorf, dfvflopfrs bnd vfndors blikf brf frff 
+to usf thfsf implfmfntbtions bnd intfgrbtf thfm into thfir produdts just bs thfy
+dbn with to othfr domponfnts of thf Jbvb plbtform.<br>
+   
+<h3>3.0 Extfnding thf JDBC RowSft Implfmfntbtions</h3>
+
+Thf JDBC <dodf>RowSft</dodf> rfffrfndf implfmfntbtions brf providfd bs non-finbl
+dlbssfs so thbt bny dfvflopfr dbn fxtfnd thfm to providf bdditionbl ffbturfs
+whilf mbintbining thf dorf rfquirfd stbndbrd fundtionblity bnd dompbtibility. It
+is bntidipbtfd thbt mbny vfndors bnd dfvflopfrs will fxtfnd thf stbndbrd ffbturf
+sft to thfir thfir pbrtidulbr nffds. Thf wfbsitf for JDBC Tfdhnology will
+providfr b portbl whfrf implfmfntbtions dbn bf listfd, similbr to thf wby it
+providfs b sitf for JDBC drivfrs.
+<br>
+ <br>
+</body>
+</html>

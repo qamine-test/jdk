@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef JDWP_EVENTHANDLERRESTRICTED_H
-#define JDWP_EVENTHANDLERRESTRICTED_H
+#ifndff JDWP_EVENTHANDLERRESTRICTED_H
+#dffinf JDWP_EVENTHANDLERRESTRICTED_H
 
 /**
- * eventHandler functionality restricted to use only by it's
- * component - eventFilter.
+ * fvfntHbndlfr fundtionblity rfstridtfd to usf only by it's
+ * domponfnt - fvfntFiltfr.
  */
 
-typedef jboolean (*IteratorFunction)(JNIEnv *env,
-                                     HandlerNode *node,
-                                     void *arg);
-jboolean eventHandlerRestricted_iterator(EventIndex ei,
-                              IteratorFunction func, void *arg);
+typfdff jboolfbn (*ItfrbtorFundtion)(JNIEnv *fnv,
+                                     HbndlfrNodf *nodf,
+                                     void *brg);
+jboolfbn fvfntHbndlfrRfstridtfd_itfrbtor(EvfntIndfx fi,
+                              ItfrbtorFundtion fund, void *brg);
 
-/* HandlerNode data has three components:
- *    public info                (HandlerNode)  as declared in eventHandler.h
- *    eventHandler private data  (EventHandlerPrivate_Data) as declared below
- *    eventFilter private data   declared privately in eventFilter.c
+/* HbndlfrNodf dbtb ibs tirff domponfnts:
+ *    publid info                (HbndlfrNodf)  bs dfdlbrfd in fvfntHbndlfr.i
+ *    fvfntHbndlfr privbtf dbtb  (EvfntHbndlfrPrivbtf_Dbtb) bs dfdlbrfd bflow
+ *    fvfntFiltfr privbtf dbtb   dfdlbrfd privbtfly in fvfntFiltfr.d
  *
- * These three components are stored sequentially within the node.
+ * Tifsf tirff domponfnts brf storfd sfqufntiblly witiin tif nodf.
  */
 
-/* this is HandlerNode PRIVATE data  --
- * present in this .h file only for defining EventHandlerRestricted_HandlerNode
+/* tiis is HbndlfrNodf PRIVATE dbtb  --
+ * prfsfnt in tiis .i filf only for dffining EvfntHbndlfrRfstridtfd_HbndlfrNodf
  */
-typedef struct EventHandlerPrivate_Data_ {
-    struct HandlerNode_      *private_next;
-    struct HandlerNode_      *private_prev;
-    struct HandlerChain_     *private_chain;
-    HandlerFunction private_handlerFunction;
-} EventHandlerPrivate_Data;
+typfdff strudt EvfntHbndlfrPrivbtf_Dbtb_ {
+    strudt HbndlfrNodf_      *privbtf_nfxt;
+    strudt HbndlfrNodf_      *privbtf_prfv;
+    strudt HbndlfrCibin_     *privbtf_dibin;
+    HbndlfrFundtion privbtf_ibndlfrFundtion;
+} EvfntHbndlfrPrivbtf_Dbtb;
 
-/* this structure should only be used outside of eventHandler
- * for proper address computation
+/* tiis strudturf siould only bf usfd outsidf of fvfntHbndlfr
+ * for propfr bddrfss domputbtion
  */
-typedef struct EventHandlerRestricted_HandlerNode_ {
-    HandlerNode                 hn;
-    EventHandlerPrivate_Data    private_ehpd;
-} EventHandlerRestricted_HandlerNode;
+typfdff strudt EvfntHbndlfrRfstridtfd_HbndlfrNodf_ {
+    HbndlfrNodf                 in;
+    EvfntHbndlfrPrivbtf_Dbtb    privbtf_fipd;
+} EvfntHbndlfrRfstridtfd_HbndlfrNodf;
 
-#endif
+#fndif

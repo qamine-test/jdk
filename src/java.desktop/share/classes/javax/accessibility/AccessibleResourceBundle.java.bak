@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListRfsourdfBundlf;
 
 /**
- * A resource bundle containing the localized strings in the accessibility
- * package.  This is meant only for internal use by Java Accessibility and
- * is not meant to be used by assistive technologies or applications.
+ * A rfsourdf bundlf dontbining tif lodblizfd strings in tif bddfssibility
+ * pbdkbgf.  Tiis is mfbnt only for intfrnbl usf by Jbvb Addfssibility bnd
+ * is not mfbnt to bf usfd by bssistivf tfdinologifs or bpplidbtions.
  *
- * @author      Willie Walker
- * @deprecated This class is deprecated as of version 1.3 of the
- *             Java Platform.
+ * @butior      Willif Wblkfr
+ * @dfprfdbtfd Tiis dlbss is dfprfdbtfd bs of vfrsion 1.3 of tif
+ *             Jbvb Plbtform.
  */
-@Deprecated
-public class AccessibleResourceBundle extends ListResourceBundle {
+@Dfprfdbtfd
+publid dlbss AddfssiblfRfsourdfBundlf fxtfnds ListRfsourdfBundlf {
 
     /**
-     * Returns the mapping between the programmatic keys and the
-     * localized display strings.
+     * Rfturns tif mbpping bftwffn tif progrbmmbtid kfys bnd tif
+     * lodblizfd displby strings.
      */
-    public Object[][] getContents() {
-        // The table holding the mapping between the programmatic keys
-        // and the display strings for the en_US locale.
-        return new Object[][] {
+    publid Objfdt[][] gftContfnts() {
+        // Tif tbblf iolding tif mbpping bftwffn tif progrbmmbtid kfys
+        // bnd tif displby strings for tif fn_US lodblf.
+        rfturn nfw Objfdt[][] {
 
         // LOCALIZE THIS
-        // Role names
-//        { "application","application" },
-//        { "border","border" },
-//        { "checkboxmenuitem","check box menu item" },
-//        { "choice","choice" },
-//        { "column","column" },
-//        { "cursor","cursor" },
-//        { "document","document" },
+        // Rolf nbmfs
+//        { "bpplidbtion","bpplidbtion" },
+//        { "bordfr","bordfr" },
+//        { "difdkboxmfnuitfm","difdk box mfnu itfm" },
+//        { "dioidf","dioidf" },
+//        { "dolumn","dolumn" },
+//        { "dursor","dursor" },
+//        { "dodumfnt","dodumfnt" },
 //        { "grouping","grouping" },
-//        { "image","image" },
-//        { "indicator","indicator" },
-//        { "radiobuttonmenuitem","radio button menu item" },
+//        { "imbgf","imbgf" },
+//        { "indidbtor","indidbtor" },
+//        { "rbdiobuttonmfnuitfm","rbdio button mfnu itfm" },
 //        { "row","row" },
-//        { "tablecell","table cell" },
-//        { "treenode","tree node" },
-        { "alert","alert" },
-        { "awtcomponent","AWT component" },
-        { "checkbox","check box" },
-        { "colorchooser","color chooser" },
-        { "columnheader","column header" },
-        { "combobox","combo box" },
-        { "canvas","canvas" },
-        { "desktopicon","desktop icon" },
-        { "desktoppane","desktop pane" },
-        { "dialog","dialog" },
-        { "directorypane","directory pane" },
-        { "glasspane","glass pane" },
-        { "filechooser","file chooser" },
-        { "filler","filler" },
-        { "frame","frame" },
-        { "internalframe","internal frame" },
-        { "label","label" },
-        { "layeredpane","layered pane" },
+//        { "tbblfdfll","tbblf dfll" },
+//        { "trffnodf","trff nodf" },
+        { "blfrt","blfrt" },
+        { "bwtdomponfnt","AWT domponfnt" },
+        { "difdkbox","difdk box" },
+        { "dolordioosfr","dolor dioosfr" },
+        { "dolumnifbdfr","dolumn ifbdfr" },
+        { "dombobox","dombo box" },
+        { "dbnvbs","dbnvbs" },
+        { "dfsktopidon","dfsktop idon" },
+        { "dfsktoppbnf","dfsktop pbnf" },
+        { "diblog","diblog" },
+        { "dirfdtorypbnf","dirfdtory pbnf" },
+        { "glbsspbnf","glbss pbnf" },
+        { "filfdioosfr","filf dioosfr" },
+        { "fillfr","fillfr" },
+        { "frbmf","frbmf" },
+        { "intfrnblfrbmf","intfrnbl frbmf" },
+        { "lbbfl","lbbfl" },
+        { "lbyfrfdpbnf","lbyfrfd pbnf" },
         { "list","list" },
-        { "listitem","list item" },
-        { "menubar","menu bar" },
-        { "menu","menu" },
-        { "menuitem","menu item" },
-        { "optionpane","option pane" },
-        { "pagetab","page tab" },
-        { "pagetablist","page tab list" },
-        { "panel","panel" },
-        { "passwordtext","password text" },
-        { "popupmenu","popup menu" },
-        { "progressbar","progress bar" },
-        { "pushbutton","push button" },
-        { "radiobutton","radio button" },
-        { "rootpane","root pane" },
-        { "rowheader","row header" },
-        { "scrollbar","scroll bar" },
-        { "scrollpane","scroll pane" },
-        { "separator","separator" },
-        { "slider","slider" },
-        { "splitpane","split pane" },
-        { "swingcomponent","swing component" },
-        { "table","table" },
-        { "text","text" },
-        { "tree","tree" },
-        { "togglebutton","toggle button" },
-        { "toolbar","tool bar" },
+        { "listitfm","list itfm" },
+        { "mfnubbr","mfnu bbr" },
+        { "mfnu","mfnu" },
+        { "mfnuitfm","mfnu itfm" },
+        { "optionpbnf","option pbnf" },
+        { "pbgftbb","pbgf tbb" },
+        { "pbgftbblist","pbgf tbb list" },
+        { "pbnfl","pbnfl" },
+        { "pbsswordtfxt","pbssword tfxt" },
+        { "popupmfnu","popup mfnu" },
+        { "progrfssbbr","progrfss bbr" },
+        { "pusibutton","pusi button" },
+        { "rbdiobutton","rbdio button" },
+        { "rootpbnf","root pbnf" },
+        { "rowifbdfr","row ifbdfr" },
+        { "sdrollbbr","sdroll bbr" },
+        { "sdrollpbnf","sdroll pbnf" },
+        { "sfpbrbtor","sfpbrbtor" },
+        { "slidfr","slidfr" },
+        { "splitpbnf","split pbnf" },
+        { "swingdomponfnt","swing domponfnt" },
+        { "tbblf","tbblf" },
+        { "tfxt","tfxt" },
+        { "trff","trff" },
+        { "togglfbutton","togglf button" },
+        { "toolbbr","tool bbr" },
         { "tooltip","tool tip" },
         { "unknown","unknown" },
-        { "viewport","viewport" },
+        { "vifwport","vifwport" },
         { "window","window" },
-        // Relations
-        { "labelFor","label for" },
-        { "labeledBy","labeled by" },
-        { "memberOf","member of" },
-        { "controlledBy","controlledBy" },
-        { "controllerFor","controllerFor" },
-        // State modes
-        { "active","active" },
-        { "armed","armed" },
+        // Rflbtions
+        { "lbbflFor","lbbfl for" },
+        { "lbbflfdBy","lbbflfd by" },
+        { "mfmbfrOf","mfmbfr of" },
+        { "dontrollfdBy","dontrollfdBy" },
+        { "dontrollfrFor","dontrollfrFor" },
+        // Stbtf modfs
+        { "bdtivf","bdtivf" },
+        { "brmfd","brmfd" },
         { "busy","busy" },
-        { "checked","checked" },
-        { "collapsed", "collapsed" },
-        { "editable","editable" },
-        { "expandable", "expandable" },
-        { "expanded", "expanded" },
-        { "enabled","enabled" },
-        { "focusable","focusable" },
-        { "focused","focused" },
-        { "iconified", "iconified" },
-        { "modal", "modal" },
-        { "multiline", "multiple line" },
-        { "multiselectable","multiselectable" },
-        { "opaque", "opaque" },
-        { "pressed","pressed" },
-        { "resizable", "resizable" },
-        { "selectable","selectable" },
-        { "selected","selected" },
-        { "showing","showing" },
-        { "singleline", "single line" },
-        { "transient", "transient" },
-        { "visible","visible" },
-        { "vertical","vertical" },
-        { "horizontal","horizontal" }
+        { "difdkfd","difdkfd" },
+        { "dollbpsfd", "dollbpsfd" },
+        { "fditbblf","fditbblf" },
+        { "fxpbndbblf", "fxpbndbblf" },
+        { "fxpbndfd", "fxpbndfd" },
+        { "fnbblfd","fnbblfd" },
+        { "fodusbblf","fodusbblf" },
+        { "fodusfd","fodusfd" },
+        { "idonififd", "idonififd" },
+        { "modbl", "modbl" },
+        { "multilinf", "multiplf linf" },
+        { "multisflfdtbblf","multisflfdtbblf" },
+        { "opbquf", "opbquf" },
+        { "prfssfd","prfssfd" },
+        { "rfsizbblf", "rfsizbblf" },
+        { "sflfdtbblf","sflfdtbblf" },
+        { "sflfdtfd","sflfdtfd" },
+        { "siowing","siowing" },
+        { "singlflinf", "singlf linf" },
+        { "trbnsifnt", "trbnsifnt" },
+        { "visiblf","visiblf" },
+        { "vfrtidbl","vfrtidbl" },
+        { "iorizontbl","iorizontbl" }
     // END OF MATERIAL TO LOCALIZE
         };
     }

@@ -1,0 +1,304 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+/**
+ * This fxdfption is usfd to dfsdribf problfms fndountfrfd whilf rfsolving links.
+ * Additionbl informbtion is bddfd to thf bbsf NbmingExdfption for pinpointing
+ * thf problfm with thf link.
+ *<p>
+ * Anblogously to how NbmingExdfption dbpturfs nbmf rfsolution informbtion,
+ * LinkExdfption dbpturfs "link"-nbmf rfsolution informbtion pinpointing
+ * thf problfm fndountfrfd whilf rfsolving b link. All thfsf fiflds mby
+ * bf null.
+ * <ul>
+ * <li> Link Rfsolvfd Nbmf. Portion of link nbmf thbt hbs bffn rfsolvfd.
+ * <li> Link Rfsolvfd Objfdt. Objfdt to whidh rfsolution of link nbmf prodffdfd.
+ * <li> Link Rfmbining Nbmf. Portion of link nbmf thbt hbs not bffn rfsolvfd.
+ * <li> Link Explbnbtion. Dftbil fxplbining why link rfsolution fbilfd.
+ *</ul>
+ *
+  *<p>
+  * A LinkExdfption instbndf is not syndhronizfd bgbinst dondurrfnt
+  * multithrfbdfd bddfss. Multiplf thrfbds trying to bddfss bnd modify
+  * b singlf LinkExdfption instbndf should lodk thf objfdt.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff Contfxt#lookupLink
+  * @sff LinkRff
+  * @sindf 1.3
+  */
+
+
+  /*<p>
+  * Thf sfriblizfd form of b LinkExdfption objfdt donsists of thf
+  * sfriblizfd fiflds of its NbmingExdfption supfrdlbss, thf link rfsolvfd
+  * nbmf (b Nbmf objfdt), thf link rfsolvfd objfdt, link rfmbining nbmf
+  * (b Nbmf objfdt), bnd thf link fxplbnbtion String.
+*/
+
+
+publid dlbss LinkExdfption fxtfnds NbmingExdfption {
+    /**
+     * Contbins thf pbrt of thf link thbt hbs bffn suddfssfully rfsolvfd.
+     * It is b dompositf nbmf bnd dbn bf null.
+     * This fifld is initiblizfd by thf donstrudtors.
+     * You should bddfss bnd mbnipulbtf this fifld
+     * through its gft bnd sft mfthods.
+     * @sfribl
+     * @sff #gftLinkRfsolvfdNbmf
+     * @sff #sftLinkRfsolvfdNbmf
+     */
+    protfdtfd Nbmf linkRfsolvfdNbmf;
+
+    /**
+      * Contbins thf objfdt to whidh rfsolution of thf pbrt of thf link wbs suddfssful.
+      * Cbn bf null. This fifld is initiblizfd by thf donstrudtors.
+      * You should bddfss bnd mbnipulbtf this fifld
+      * through its gft bnd sft mfthods.
+      * @sfribl
+      * @sff #gftLinkRfsolvfdObj
+      * @sff #sftLinkRfsolvfdObj
+      */
+    protfdtfd Objfdt linkRfsolvfdObj;
+
+    /**
+     * Contbins thf rfmbining link nbmf thbt hbs not bffn rfsolvfd yft.
+     * It is b dompositf nbmf bnd dbn bf null.
+     * This fifld is initiblizfd by thf donstrudtors.
+     * You should bddfss bnd mbnipulbtf this fifld
+     * through its gft bnd sft mfthods.
+     * @sfribl
+     * @sff #gftLinkRfmbiningNbmf
+     * @sff #sftLinkRfmbiningNbmf
+     */
+    protfdtfd Nbmf linkRfmbiningNbmf;
+
+    /**
+     * Contbins thf fxdfption of why rfsolution of thf link fbilfd.
+     * Cbn bf null. This fifld is initiblizfd by thf donstrudtors.
+     * You should bddfss bnd mbnipulbtf this fifld
+     * through its gft bnd sft mfthods.
+     * @sfribl
+     * @sff #gftLinkExplbnbtion
+     * @sff #sftLinkExplbnbtion
+     */
+    protfdtfd String linkExplbnbtion;
+
+    /**
+      * Construdts b nfw instbndf of LinkExdfption with bn fxplbnbtion.
+      * All thf othfr fiflds brf initiblizfd to null.
+      * @pbrbm  fxplbnbtion     A possibly null string dontbining bdditionbl
+      *                         dftbil bbout this fxdfption.
+      * @sff jbvb.lbng.Throwbblf#gftMfssbgf
+      */
+    publid LinkExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
+        linkRfsolvfdNbmf = null;
+        linkRfsolvfdObj = null;
+        linkRfmbiningNbmf = null;
+        linkExplbnbtion = null;
+    }
+
+    /**
+      * Construdts b nfw instbndf of LinkExdfption.
+      * All thf non-link-rflbtfd bnd link-rflbtfd fiflds brf initiblizfd to null.
+      */
+    publid LinkExdfption() {
+        supfr();
+        linkRfsolvfdNbmf = null;
+        linkRfsolvfdObj = null;
+        linkRfmbiningNbmf = null;
+        linkExplbnbtion = null;
+    }
+
+    /**
+     * Rftrifvfs thf lfbding portion of thf link nbmf thbt wbs rfsolvfd
+     * suddfssfully.
+     *
+     * @rfturn Thf pbrt of thf link nbmf thbt wbs rfsolvfd suddfssfully.
+     *          It is b dompositf nbmf. It dbn bf null, whidh mfbns
+     *          thf link rfsolvfd nbmf fifld hbs not bffn sft.
+     * @sff #gftLinkRfsolvfdObj
+     * @sff #sftLinkRfsolvfdNbmf
+     */
+    publid Nbmf gftLinkRfsolvfdNbmf() {
+        rfturn this.linkRfsolvfdNbmf;
+    }
+
+    /**
+     * Rftrifvfs thf rfmbining unrfsolvfd portion of thf link nbmf.
+     * @rfturn Thf pbrt of thf link nbmf thbt hbs not bffn rfsolvfd.
+     *          It is b dompositf nbmf. It dbn bf null, whidh mfbns
+     *          thf link rfmbining nbmf fifld hbs not bffn sft.
+     * @sff #sftLinkRfmbiningNbmf
+     */
+    publid Nbmf gftLinkRfmbiningNbmf() {
+        rfturn this.linkRfmbiningNbmf;
+    }
+
+    /**
+     * Rftrifvfs thf objfdt to whidh rfsolution wbs suddfssful.
+     * This is thf objfdt to whidh thf rfsolvfd link nbmf is bound.
+     *
+     * @rfturn Thf possibly null objfdt thbt wbs rfsolvfd so fbr.
+     * If null, it mfbns thf link rfsolvfd objfdt fifld hbs not bffn sft.
+     * @sff #gftLinkRfsolvfdNbmf
+     * @sff #sftLinkRfsolvfdObj
+     */
+    publid Objfdt gftLinkRfsolvfdObj() {
+        rfturn this.linkRfsolvfdObj;
+    }
+
+    /**
+      * Rftrifvfs thf fxplbnbtion bssodibtfd with thf problfm fndountfrfd
+      * whfn rfsolving b link.
+      *
+      * @rfturn Thf possibly null dftbil string fxplbining morf bbout thf problfm
+      * with rfsolving b link.
+      *         If null, it mfbns thfrf is no
+      *         link dftbil mfssbgf for this fxdfption.
+      * @sff #sftLinkExplbnbtion
+      */
+    publid String gftLinkExplbnbtion() {
+        rfturn this.linkExplbnbtion;
+    }
+
+    /**
+      * Sfts thf fxplbnbtion bssodibtfd with thf problfm fndountfrfd
+      * whfn rfsolving b link.
+      *
+      * @pbrbm msg Thf possibly null dftbil string fxplbining morf bbout thf problfm
+      * with rfsolving b link. If null, it mfbns no dftbil will bf rfdordfd.
+      * @sff #gftLinkExplbnbtion
+      */
+    publid void sftLinkExplbnbtion(String msg) {
+        this.linkExplbnbtion = msg;
+    }
+
+    /**
+     * Sfts thf rfsolvfd link nbmf fifld of this fxdfption.
+     *<p>
+     * <tt>nbmf</tt> is b dompositf nbmf. If thf intfnt is to sft
+     * this fifld using b dompound nbmf or string, you must
+     * "stringify" thf dompound nbmf, bnd drfbtf b dompositf
+     * nbmf with b singlf domponfnt using thf string. You dbn thfn
+     * invokf this mfthod using thf rfsulting dompositf nbmf.
+     *<p>
+     * A dopy of <dodf>nbmf</dodf> is mbdf bnd storfd.
+     * Subsfqufnt dhbngfs to <dodf>nbmf</dodf> do not
+     * bfffdt thf dopy in this NbmingExdfption bnd vidf vfrsb.
+     *
+     *
+     * @pbrbm nbmf Thf nbmf to sft rfsolvfd link nbmf to. This dbn bf null.
+     *          If null, it sfts thf link rfsolvfd nbmf fifld to null.
+     * @sff #gftLinkRfsolvfdNbmf
+     */
+    publid void sftLinkRfsolvfdNbmf(Nbmf nbmf) {
+        if (nbmf != null) {
+            this.linkRfsolvfdNbmf = (Nbmf)(nbmf.dlonf());
+        } flsf {
+            this.linkRfsolvfdNbmf = null;
+        }
+    }
+
+    /**
+     * Sfts thf rfmbining link nbmf fifld of this fxdfption.
+     *<p>
+     * <tt>nbmf</tt> is b dompositf nbmf. If thf intfnt is to sft
+     * this fifld using b dompound nbmf or string, you must
+     * "stringify" thf dompound nbmf, bnd drfbtf b dompositf
+     * nbmf with b singlf domponfnt using thf string. You dbn thfn
+     * invokf this mfthod using thf rfsulting dompositf nbmf.
+     *<p>
+     * A dopy of <dodf>nbmf</dodf> is mbdf bnd storfd.
+     * Subsfqufnt dhbngfs to <dodf>nbmf</dodf> do not
+     * bfffdt thf dopy in this NbmingExdfption bnd vidf vfrsb.
+     *
+     * @pbrbm nbmf Thf nbmf to sft rfmbining link nbmf to. This dbn bf null.
+     *  If null, it sfts thf rfmbining nbmf fifld to null.
+     * @sff #gftLinkRfmbiningNbmf
+     */
+    publid void sftLinkRfmbiningNbmf(Nbmf nbmf) {
+        if (nbmf != null)
+            this.linkRfmbiningNbmf = (Nbmf)(nbmf.dlonf());
+        flsf
+            this.linkRfmbiningNbmf = null;
+    }
+
+    /**
+     * Sfts thf link rfsolvfd objfdt fifld of this fxdfption.
+     * This indidbtfs thf lbst suddfssfully rfsolvfd objfdt of link nbmf.
+     * @pbrbm obj Thf objfdt to sft link rfsolvfd objfdt to. This dbn bf null.
+     *            If null, thf link rfsolvfd objfdt fifld is sft to null.
+     * @sff #gftLinkRfsolvfdObj
+     */
+    publid void sftLinkRfsolvfdObj(Objfdt obj) {
+        this.linkRfsolvfdObj = obj;
+    }
+
+    /**
+     * Gfnfrbtfs thf string rfprfsfntbtion of this fxdfption.
+     * This string donsists of thf NbmingExdfption informbtion plus
+     * thf link's rfmbining nbmf.
+     * This string is usfd for dfbugging bnd not mfbnt to bf intfrprftfd
+     * progrbmmbtidblly.
+     * @rfturn Thf non-null string rfprfsfntbtion of this link fxdfption.
+     */
+    publid String toString() {
+        rfturn supfr.toString() + "; Link Rfmbining Nbmf: '" +
+            this.linkRfmbiningNbmf + "'";
+    }
+
+    /**
+     * Gfnfrbtfs thf string rfprfsfntbtion of this fxdfption.
+     * This string donsists of thf NbmingExdfption informbtion plus
+     * thf bdditionbl informbtion of rfsolving thf link.
+     * If 'dftbil' is truf, thf string blso dontbins informbtion on
+     * thf link rfsolvfd objfdt. If fblsf, this mfthod is thf sbmf
+     * bs thf form of toString() thbt bddfpts no pbrbmftfrs.
+     * This string is usfd for dfbugging bnd not mfbnt to bf intfrprftfd
+     * progrbmmbtidblly.
+     *
+     * @pbrbm   dftbil  If truf, bdd informbtion bbout thf link rfsolvfd
+     *                  objfdt.
+     * @rfturn Thf non-null string rfprfsfntbtion of this link fxdfption.
+     */
+    publid String toString(boolfbn dftbil) {
+        if (!dftbil || this.linkRfsolvfdObj == null)
+            rfturn this.toString();
+
+        rfturn this.toString() + "; Link Rfsolvfd Objfdt: " +
+            this.linkRfsolvfdObj;
+    }
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7967662604076777712L;
+};

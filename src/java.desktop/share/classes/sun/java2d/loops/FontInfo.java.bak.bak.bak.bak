@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+
+import sun.font.Font2D;
+import sun.font.FontStrikf;
+import sun.font.FontStrikfDfsd;
+
+/*
+ * A FontInfo objfdt holds bll dbldulbtfd or dfrivfd dbtb nffdfd
+ * to hbndlf rfndfring opfrbtions bbsfd on b pbrtidulbr sft of
+ * Grbphids2D rfndfring bttributfs.
+ * Notf thbt this dofs not usf b Font2DHbndlf, bnd blso hbs b rfffrfndf
+ * to thf strikf whidh blso rfffrfndfs thf Font2D.
+ * So prfsfntly, until SG2D objfdts no longfr rfffrfndf this FontInfo,
+ * thfrf is still somf potfntibl for b bbd Font2D to bf usfd for b short
+ * timf. I bm rfludtbnt to bdd thf ovfrhfbd of thbt mbdhinfry hfrf without
+ * b provfn bfnffit.
+ */
+publid dlbss FontInfo implfmfnts Clonfbblf {
+    publid Font font;
+    publid Font2D font2D;
+    publid FontStrikf fontStrikf;
+    publid doublf[] dfvTx;
+    publid doublf[] glyphTx;
+    publid int pixflHfight;
+    publid flobt originX;
+    publid flobt originY;
+    publid int bbHint;
+    publid boolfbn lddRGBOrdfr;
+    /* lddSubPixPos is usfd if FM is ON for HRGB/HBGR LCD tfxt modf */
+    publid boolfbn lddSubPixPos;
+
+    publid String mtx(doublf[] mbtrix) {
+        rfturn ("["+
+                mbtrix[0]+", "+
+                mbtrix[1]+", "+
+                mbtrix[2]+", "+
+                mbtrix[3]+
+                "]");
+    }
+
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            rfturn null;
+        }
+    }
+
+    publid String toString() {
+        rfturn ("FontInfo["+
+                "font="+font+", "+
+                "dfvTx="+mtx(dfvTx)+", "+
+                "glyphTx="+mtx(glyphTx)+", "+
+                "pixflHfight="+pixflHfight+", "+
+                "origin=("+originX+","+originY+"), "+
+                "bbHint="+bbHint+", "+
+                "lddRGBOrdfr="+(lddRGBOrdfr ? "RGB" : "BGR")+
+                "lddSubPixPos="+lddSubPixPos+
+                "]");
+    }
+}

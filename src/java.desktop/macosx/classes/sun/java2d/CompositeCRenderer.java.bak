@@ -1,437 +1,437 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.font.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
 
-import sun.awt.image.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.*;
+import sun.bwt.imbgf.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipf.*;
 
-public class CompositeCRenderer extends CRenderer implements PixelDrawPipe, PixelFillPipe, ShapeDrawPipe, DrawImagePipe, TextPipe {
-    final static int fPadding = 4;
-    final static int fPaddingHalf = fPadding / 2;
+publid dlbss CompositfCRfndfrfr fxtfnds CRfndfrfr implfmfnts PixflDrbwPipf, PixflFillPipf, SibpfDrbwPipf, DrbwImbgfPipf, TfxtPipf {
+    finbl stbtid int fPbdding = 4;
+    finbl stbtid int fPbddingHblf = fPbdding / 2;
 
-    private static AffineTransform sIdentityMatrix = new AffineTransform();
+    privbtf stbtid AffinfTrbnsform sIdfntityMbtrix = nfw AffinfTrbnsform();
 
-    AffineTransform ShapeTM = new AffineTransform();
-    Rectangle2D ShapeBounds = new Rectangle2D.Float();
+    AffinfTrbnsform SibpfTM = nfw AffinfTrbnsform();
+    Rfdtbnglf2D SibpfBounds = nfw Rfdtbnglf2D.Flobt();
 
-    Line2D line = new Line2D.Float();
-    Rectangle2D rectangle = new Rectangle2D.Float();
-    RoundRectangle2D roundrectangle = new RoundRectangle2D.Float();
-    Ellipse2D ellipse = new Ellipse2D.Float();
-    Arc2D arc = new Arc2D.Float();
+    Linf2D linf = nfw Linf2D.Flobt();
+    Rfdtbnglf2D rfdtbnglf = nfw Rfdtbnglf2D.Flobt();
+    RoundRfdtbnglf2D roundrfdtbnglf = nfw RoundRfdtbnglf2D.Flobt();
+    Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt();
+    Ard2D brd = nfw Ard2D.Flobt();
 
-    public synchronized void drawLine(SunGraphics2D sg2d, int x1, int y1, int x2, int y2) {
-        // create shape corresponding to this primitive
-        line.setLine(x1, y1, x2, y2);
+    publid syndironizfd void drbwLinf(SunGrbpiids2D sg2d, int x1, int y1, int x2, int y2) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        linf.sftLinf(x1, y1, x2, y2);
 
-        draw(sg2d, line);
+        drbw(sg2d, linf);
     }
 
-    public synchronized void drawRect(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        // create shape corresponding to this primitive
-        rectangle.setRect(x, y, width, height);
+    publid syndironizfd void drbwRfdt(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        rfdtbnglf.sftRfdt(x, y, widti, ifigit);
 
-        draw(sg2d, rectangle);
+        drbw(sg2d, rfdtbnglf);
     }
 
-    public synchronized void drawRoundRect(SunGraphics2D sg2d, int x, int y, int width, int height, int arcWidth, int arcHeight) {
-        // create shape corresponding to this primitive
-        roundrectangle.setRoundRect(x, y, width, height, arcWidth, arcHeight);
+    publid syndironizfd void drbwRoundRfdt(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit, int brdWidti, int brdHfigit) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        roundrfdtbnglf.sftRoundRfdt(x, y, widti, ifigit, brdWidti, brdHfigit);
 
-        draw(sg2d, roundrectangle);
+        drbw(sg2d, roundrfdtbnglf);
     }
 
-    public synchronized void drawOval(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        // create shape corresponding to this primitive
-        ellipse.setFrame(x, y, width, height);
+    publid syndironizfd void drbwOvbl(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        fllipsf.sftFrbmf(x, y, widti, ifigit);
 
-        draw(sg2d, ellipse);
+        drbw(sg2d, fllipsf);
     }
 
-    public synchronized void drawArc(SunGraphics2D sg2d, int x, int y, int width, int height, int startAngle, int arcAngle) {
-        // create shape corresponding to this primitive
-        arc.setArc(x, y, width, height, startAngle, arcAngle, Arc2D.OPEN);
+    publid syndironizfd void drbwArd(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit, int stbrtAnglf, int brdAnglf) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        brd.sftArd(x, y, widti, ifigit, stbrtAnglf, brdAnglf, Ard2D.OPEN);
 
-        draw(sg2d, arc);
+        drbw(sg2d, brd);
     }
 
-    public synchronized void drawPolyline(SunGraphics2D sg2d, int xpoints[], int ypoints[], int npoints) {
-        doPolygon(sg2d, xpoints, ypoints, npoints, false, false);
+    publid syndironizfd void drbwPolylinf(SunGrbpiids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        doPolygon(sg2d, xpoints, ypoints, npoints, fblsf, fblsf);
     }
 
-    public synchronized void drawPolygon(SunGraphics2D sg2d, int xpoints[], int ypoints[], int npoints) {
-        doPolygon(sg2d, xpoints, ypoints, npoints, true, false);
+    publid syndironizfd void drbwPolygon(SunGrbpiids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        doPolygon(sg2d, xpoints, ypoints, npoints, truf, fblsf);
     }
 
-    public synchronized void fillRect(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        // create shape corresponding to this primitive
-        rectangle.setRect(x, y, width, height);
+    publid syndironizfd void fillRfdt(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        rfdtbnglf.sftRfdt(x, y, widti, ifigit);
 
-        fill(sg2d, rectangle);
+        fill(sg2d, rfdtbnglf);
     }
 
-    public synchronized void fillRoundRect(SunGraphics2D sg2d, int x, int y, int width, int height, int arcWidth, int arcHeight) {
-        // create shape corresponding to this primitive
-        roundrectangle.setRoundRect(x, y, width, height, arcWidth, arcHeight);
+    publid syndironizfd void fillRoundRfdt(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit, int brdWidti, int brdHfigit) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        roundrfdtbnglf.sftRoundRfdt(x, y, widti, ifigit, brdWidti, brdHfigit);
 
-        fill(sg2d, roundrectangle);
+        fill(sg2d, roundrfdtbnglf);
     }
 
-    public synchronized void fillOval(SunGraphics2D sg2d, int x, int y, int width, int height) {
-        // create shape corresponding to this primitive
-        ellipse.setFrame(x, y, width, height);
+    publid syndironizfd void fillOvbl(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        fllipsf.sftFrbmf(x, y, widti, ifigit);
 
-        fill(sg2d, ellipse);
+        fill(sg2d, fllipsf);
     }
 
-    public synchronized void fillArc(SunGraphics2D sg2d, int x, int y, int width, int height, int startAngle, int arcAngle) {
-        // create shape corresponding to this primitive
-        arc.setArc(x, y, width, height, startAngle, arcAngle, Arc2D.PIE);
+    publid syndironizfd void fillArd(SunGrbpiids2D sg2d, int x, int y, int widti, int ifigit, int stbrtAnglf, int brdAnglf) {
+        // drfbtf sibpf dorrfsponding to tiis primitivf
+        brd.sftArd(x, y, widti, ifigit, stbrtAnglf, brdAnglf, Ard2D.PIE);
 
-        fill(sg2d, arc);
+        fill(sg2d, brd);
     }
 
-    public synchronized void fillPolygon(SunGraphics2D sg2d, int xpoints[], int ypoints[], int npoints) {
-        doPolygon(sg2d, xpoints, ypoints, npoints, true, true);
+    publid syndironizfd void fillPolygon(SunGrbpiids2D sg2d, int xpoints[], int ypoints[], int npoints) {
+        doPolygon(sg2d, xpoints, ypoints, npoints, truf, truf);
     }
 
-    public synchronized void doPolygon(SunGraphics2D sg2d, int xpoints[], int ypoints[], int npoints, boolean ispolygon, boolean isfill) {
-        GeneralPath gp = new GeneralPath(Path2D.WIND_NON_ZERO, npoints);
-        gp.moveTo(xpoints[0], ypoints[0]);
+    publid syndironizfd void doPolygon(SunGrbpiids2D sg2d, int xpoints[], int ypoints[], int npoints, boolfbn ispolygon, boolfbn isfill) {
+        GfnfrblPbti gp = nfw GfnfrblPbti(Pbti2D.WIND_NON_ZERO, npoints);
+        gp.movfTo(xpoints[0], ypoints[0]);
         for (int i = 1; i < npoints; i++) {
-            gp.lineTo(xpoints[i], ypoints[i]);
+            gp.linfTo(xpoints[i], ypoints[i]);
         }
         if (ispolygon) {
-            // according to the specs (only applies to polygons, not polylines)
+            // bddording to tif spfds (only bpplifs to polygons, not polylinfs)
             if ((xpoints[0] != xpoints[npoints - 1]) || (ypoints[0] != ypoints[npoints - 1])) {
-                gp.lineTo(xpoints[0], ypoints[0]);
+                gp.linfTo(xpoints[0], ypoints[0]);
             }
         }
 
-        doShape(sg2d, (OSXSurfaceData) sg2d.getSurfaceData(), (Shape) gp, isfill);
+        doSibpf(sg2d, (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb(), (Sibpf) gp, isfill);
     }
 
-    public synchronized void draw(SunGraphics2D sg2d, Shape shape) {
-        doShape(sg2d, (OSXSurfaceData) sg2d.getSurfaceData(), shape, false);
+    publid syndironizfd void drbw(SunGrbpiids2D sg2d, Sibpf sibpf) {
+        doSibpf(sg2d, (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb(), sibpf, fblsf);
     }
 
-    public synchronized void fill(SunGraphics2D sg2d, Shape shape) {
-        doShape(sg2d, (OSXSurfaceData) sg2d.getSurfaceData(), shape, true);
+    publid syndironizfd void fill(SunGrbpiids2D sg2d, Sibpf sibpf) {
+        doSibpf(sg2d, (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb(), sibpf, truf);
     }
 
-    void doShape(SunGraphics2D sg2d, OSXSurfaceData surfaceData, Shape shape, boolean isfill) {
-        Rectangle2D shapeBounds = shape.getBounds2D();
+    void doSibpf(SunGrbpiids2D sg2d, OSXSurfbdfDbtb surfbdfDbtb, Sibpf sibpf, boolfbn isfill) {
+        Rfdtbnglf2D sibpfBounds = sibpf.gftBounds2D();
 
-        // We don't want to draw with negative width and height (CRender doesn't do it and Windows doesn't do it either)
-        // Drawing with negative w and h, can cause CG problems down the line <rdar://3960579> (vm)
-        if ((shapeBounds.getWidth() < 0) || (shapeBounds.getHeight() < 0)) { return; }
+        // Wf don't wbnt to drbw witi nfgbtivf widti bnd ifigit (CRfndfr dofsn't do it bnd Windows dofsn't do it fitifr)
+        // Drbwing witi nfgbtivf w bnd i, dbn dbusf CG problfms down tif linf <rdbr://3960579> (vm)
+        if ((sibpfBounds.gftWidti() < 0) || (sibpfBounds.gftHfigit() < 0)) { rfturn; }
 
-        // get final destination compositing bounds (after all transformations if needed)
-        Rectangle2D compositingBounds = padBounds(sg2d, shape);
+        // gft finbl dfstinbtion dompositing bounds (bftfr bll trbnsformbtions if nffdfd)
+        Rfdtbnglf2D dompositingBounds = pbdBounds(sg2d, sibpf);
 
-        // constrain the bounds to be within surface bounds
-        clipBounds(sg2d, compositingBounds);
+        // donstrbin tif bounds to bf witiin surfbdf bounds
+        dlipBounds(sg2d, dompositingBounds);
 
-        // if the compositing region is empty we skip all remaining compositing work:
-        if (compositingBounds.isEmpty() == false) {
-            BufferedImage srcPixels;
-            // create a matching surface into which we'll render the primitive to be composited
-            // with the desired dimension
-            srcPixels = surfaceData.getCompositingSrcImage((int) (compositingBounds.getWidth()),
-                    (int) (compositingBounds.getHeight()));
+        // if tif dompositing rfgion is fmpty wf skip bll rfmbining dompositing work:
+        if (dompositingBounds.isEmpty() == fblsf) {
+            BufffrfdImbgf srdPixfls;
+            // drfbtf b mbtdiing surfbdf into wiidi wf'll rfndfr tif primitivf to bf dompositfd
+            // witi tif dfsirfd dimfnsion
+            srdPixfls = surfbdfDbtb.gftCompositingSrdImbgf((int) (dompositingBounds.gftWidti()),
+                    (int) (dompositingBounds.gftHfigit()));
 
-            Graphics2D g = srcPixels.createGraphics();
+            Grbpiids2D g = srdPixfls.drfbtfGrbpiids();
 
-            // sync up graphics state
-            ShapeTM.setToTranslation(-compositingBounds.getX(), -compositingBounds.getY());
-            ShapeTM.concatenate(sg2d.transform);
-            g.setTransform(ShapeTM);
-            g.setRenderingHints(sg2d.getRenderingHints());
-            g.setPaint(sg2d.getPaint());
-            g.setStroke(sg2d.getStroke());
+            // synd up grbpiids stbtf
+            SibpfTM.sftToTrbnslbtion(-dompositingBounds.gftX(), -dompositingBounds.gftY());
+            SibpfTM.dondbtfnbtf(sg2d.trbnsform);
+            g.sftTrbnsform(SibpfTM);
+            g.sftRfndfringHints(sg2d.gftRfndfringHints());
+            g.sftPbint(sg2d.gftPbint());
+            g.sftStrokf(sg2d.gftStrokf());
 
-            // render the primitive to be composited
+            // rfndfr tif primitivf to bf dompositfd
             if (isfill) {
-                g.fill(shape);
-            } else {
-                g.draw(shape);
+                g.fill(sibpf);
+            } flsf {
+                g.drbw(sibpf);
             }
 
-            g.dispose();
+            g.disposf();
 
-            composite(sg2d, surfaceData, srcPixels, compositingBounds);
+            dompositf(sg2d, surfbdfDbtb, srdPixfls, dompositingBounds);
         }
     }
 
-    public synchronized void drawString(SunGraphics2D sg2d, String str, double x, double y) {
-        drawGlyphVector(sg2d, sg2d.getFont().createGlyphVector(sg2d.getFontRenderContext(), str), x, y);
+    publid syndironizfd void drbwString(SunGrbpiids2D sg2d, String str, doublf x, doublf y) {
+        drbwGlypiVfdtor(sg2d, sg2d.gftFont().drfbtfGlypiVfdtor(sg2d.gftFontRfndfrContfxt(), str), x, y);
     }
 
-    public synchronized void drawChars(SunGraphics2D sg2d, char data[], int offset, int length, int x, int y) {
-        drawString(sg2d, new String(data, offset, length), x, y);
+    publid syndironizfd void drbwCibrs(SunGrbpiids2D sg2d, dibr dbtb[], int offsft, int lfngti, int x, int y) {
+        drbwString(sg2d, nfw String(dbtb, offsft, lfngti), x, y);
     }
 
-    public synchronized void drawGlyphVector(SunGraphics2D sg2d, GlyphVector glyphVector, double x, double y) {
-        drawGlyphVector(sg2d, glyphVector, (float) x, (float) y);
+    publid syndironizfd void drbwGlypiVfdtor(SunGrbpiids2D sg2d, GlypiVfdtor glypiVfdtor, doublf x, doublf y) {
+        drbwGlypiVfdtor(sg2d, glypiVfdtor, (flobt) x, (flobt) y);
     }
 
-    public synchronized void drawGlyphVector(SunGraphics2D sg2d, GlyphVector glyphVector, float x, float y) {
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
+    publid syndironizfd void drbwGlypiVfdtor(SunGrbpiids2D sg2d, GlypiVfdtor glypiVfdtor, flobt x, flobt y) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
 
-        Shape shape = glyphVector.getOutline(x, y);
+        Sibpf sibpf = glypiVfdtor.gftOutlinf(x, y);
 
-        // get final destination compositing bounds (after all transformations if needed)
-        Rectangle2D compositingBounds = padBounds(sg2d, shape);
+        // gft finbl dfstinbtion dompositing bounds (bftfr bll trbnsformbtions if nffdfd)
+        Rfdtbnglf2D dompositingBounds = pbdBounds(sg2d, sibpf);
 
-        // constrain the bounds to be within surface bounds
-        clipBounds(sg2d, compositingBounds);
+        // donstrbin tif bounds to bf witiin surfbdf bounds
+        dlipBounds(sg2d, dompositingBounds);
 
-        // if the compositing region is empty we skip all remaining compositing work:
-        if (compositingBounds.isEmpty() == false) {
-            BufferedImage srcPixels;
+        // if tif dompositing rfgion is fmpty wf skip bll rfmbining dompositing work:
+        if (dompositingBounds.isEmpty() == fblsf) {
+            BufffrfdImbgf srdPixfls;
             {
-                // create matching image into which we'll render the primitive to be composited
-                srcPixels = surfaceData.getCompositingSrcImage((int) compositingBounds.getWidth(), (int) compositingBounds.getHeight());
+                // drfbtf mbtdiing imbgf into wiidi wf'll rfndfr tif primitivf to bf dompositfd
+                srdPixfls = surfbdfDbtb.gftCompositingSrdImbgf((int) dompositingBounds.gftWidti(), (int) dompositingBounds.gftHfigit());
 
-                Graphics2D g = srcPixels.createGraphics();
+                Grbpiids2D g = srdPixfls.drfbtfGrbpiids();
 
-                // sync up graphics state
-                ShapeTM.setToTranslation(-compositingBounds.getX(), -compositingBounds.getY());
-                ShapeTM.concatenate(sg2d.transform);
-                g.setTransform(ShapeTM);
-                g.setPaint(sg2d.getPaint());
-                g.setStroke(sg2d.getStroke());
-                g.setFont(sg2d.getFont());
-                g.setRenderingHints(sg2d.getRenderingHints());
+                // synd up grbpiids stbtf
+                SibpfTM.sftToTrbnslbtion(-dompositingBounds.gftX(), -dompositingBounds.gftY());
+                SibpfTM.dondbtfnbtf(sg2d.trbnsform);
+                g.sftTrbnsform(SibpfTM);
+                g.sftPbint(sg2d.gftPbint());
+                g.sftStrokf(sg2d.gftStrokf());
+                g.sftFont(sg2d.gftFont());
+                g.sftRfndfringHints(sg2d.gftRfndfringHints());
 
-                // render the primitive to be composited
-                g.drawGlyphVector(glyphVector, x, y);
-                g.dispose();
+                // rfndfr tif primitivf to bf dompositfd
+                g.drbwGlypiVfdtor(glypiVfdtor, x, y);
+                g.disposf();
             }
 
-            composite(sg2d, surfaceData, srcPixels, compositingBounds);
+            dompositf(sg2d, surfbdfDbtb, srdPixfls, dompositingBounds);
         }
     }
 
-    protected boolean blitImage(SunGraphics2D sg2d, Image img, boolean fliph, boolean flipv, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh, Color bgColor) {
-        OSXSurfaceData surfaceData = (OSXSurfaceData) sg2d.getSurfaceData();
+    protfdtfd boolfbn blitImbgf(SunGrbpiids2D sg2d, Imbgf img, boolfbn flipi, boolfbn flipv, int sx, int sy, int sw, int si, int dx, int dy, int dw, int di, Color bgColor) {
+        OSXSurfbdfDbtb surfbdfDbtb = (OSXSurfbdfDbtb) sg2d.gftSurfbdfDbtb();
 
-        // get final destination compositing bounds (after all transformations if needed)
-        dx = (flipv == false) ? dx : dx - dw;
-        dy = (fliph == false) ? dy : dy - dh;
-        ShapeBounds.setFrame(dx, dy, dw, dh);
-        Rectangle2D compositingBounds = ShapeBounds;
-        boolean complexTransform = (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE);
-        if (complexTransform == false) {
-            double newX = Math.floor(compositingBounds.getX() + sg2d.transX);
-            double newY = Math.floor(compositingBounds.getY() + sg2d.transY);
-            double newW = Math.ceil(compositingBounds.getWidth()) + (newX < compositingBounds.getX() ? 1 : 0);
-            double newH = Math.ceil(compositingBounds.getHeight()) + (newY < compositingBounds.getY() ? 1 : 0);
-            compositingBounds.setRect(newX, newY, newW, newH);
-        } else {
-            Shape transformedShape = sg2d.transform.createTransformedShape(compositingBounds);
-            compositingBounds = transformedShape.getBounds2D();
-            double newX = Math.floor(compositingBounds.getX());
-            double newY = Math.floor(compositingBounds.getY());
-            double newW = Math.ceil(compositingBounds.getWidth()) + (newX < compositingBounds.getX() ? 1 : 0);
-            double newH = Math.ceil(compositingBounds.getHeight()) + (newY < compositingBounds.getY() ? 1 : 0);
-            compositingBounds.setRect(newX, newY, newW, newH);
+        // gft finbl dfstinbtion dompositing bounds (bftfr bll trbnsformbtions if nffdfd)
+        dx = (flipv == fblsf) ? dx : dx - dw;
+        dy = (flipi == fblsf) ? dy : dy - di;
+        SibpfBounds.sftFrbmf(dx, dy, dw, di);
+        Rfdtbnglf2D dompositingBounds = SibpfBounds;
+        boolfbn domplfxTrbnsform = (sg2d.trbnsformStbtf >= SunGrbpiids2D.TRANSFORM_TRANSLATESCALE);
+        if (domplfxTrbnsform == fblsf) {
+            doublf nfwX = Mbti.floor(dompositingBounds.gftX() + sg2d.trbnsX);
+            doublf nfwY = Mbti.floor(dompositingBounds.gftY() + sg2d.trbnsY);
+            doublf nfwW = Mbti.dfil(dompositingBounds.gftWidti()) + (nfwX < dompositingBounds.gftX() ? 1 : 0);
+            doublf nfwH = Mbti.dfil(dompositingBounds.gftHfigit()) + (nfwY < dompositingBounds.gftY() ? 1 : 0);
+            dompositingBounds.sftRfdt(nfwX, nfwY, nfwW, nfwH);
+        } flsf {
+            Sibpf trbnsformfdSibpf = sg2d.trbnsform.drfbtfTrbnsformfdSibpf(dompositingBounds);
+            dompositingBounds = trbnsformfdSibpf.gftBounds2D();
+            doublf nfwX = Mbti.floor(dompositingBounds.gftX());
+            doublf nfwY = Mbti.floor(dompositingBounds.gftY());
+            doublf nfwW = Mbti.dfil(dompositingBounds.gftWidti()) + (nfwX < dompositingBounds.gftX() ? 1 : 0);
+            doublf nfwH = Mbti.dfil(dompositingBounds.gftHfigit()) + (nfwY < dompositingBounds.gftY() ? 1 : 0);
+            dompositingBounds.sftRfdt(nfwX, nfwY, nfwW, nfwH);
         }
 
-        // constrain the bounds to be within surface bounds
-        clipBounds(sg2d, compositingBounds);
+        // donstrbin tif bounds to bf witiin surfbdf bounds
+        dlipBounds(sg2d, dompositingBounds);
 
-        // if the compositing region is empty we skip all remaining compositing work:
-        if (compositingBounds.isEmpty() == false) {
-            BufferedImage srcPixels;
+        // if tif dompositing rfgion is fmpty wf skip bll rfmbining dompositing work:
+        if (dompositingBounds.isEmpty() == fblsf) {
+            BufffrfdImbgf srdPixfls;
             {
-                // create matching image into which we'll render the primitive to be composited
-                srcPixels = surfaceData.getCompositingSrcImage((int) compositingBounds.getWidth(), (int) compositingBounds.getHeight());
+                // drfbtf mbtdiing imbgf into wiidi wf'll rfndfr tif primitivf to bf dompositfd
+                srdPixfls = surfbdfDbtb.gftCompositingSrdImbgf((int) dompositingBounds.gftWidti(), (int) dompositingBounds.gftHfigit());
 
-                Graphics2D g = srcPixels.createGraphics();
+                Grbpiids2D g = srdPixfls.drfbtfGrbpiids();
 
-                // sync up graphics state
-                ShapeTM.setToTranslation(-compositingBounds.getX(), -compositingBounds.getY());
-                ShapeTM.concatenate(sg2d.transform);
-                g.setTransform(ShapeTM);
-                g.setRenderingHints(sg2d.getRenderingHints());
-                g.setComposite(AlphaComposite.Src);
+                // synd up grbpiids stbtf
+                SibpfTM.sftToTrbnslbtion(-dompositingBounds.gftX(), -dompositingBounds.gftY());
+                SibpfTM.dondbtfnbtf(sg2d.trbnsform);
+                g.sftTrbnsform(SibpfTM);
+                g.sftRfndfringHints(sg2d.gftRfndfringHints());
+                g.sftCompositf(AlpibCompositf.Srd);
 
-                int sx2 = (flipv == false) ? sx + sw : sx - sw;
-                int sy2 = (fliph == false) ? sy + sh : sy - sh;
-                g.drawImage(img, dx, dy, dx + dw, dy + dh, sx, sy, sx2, sy2, null);
+                int sx2 = (flipv == fblsf) ? sx + sw : sx - sw;
+                int sy2 = (flipi == fblsf) ? sy + si : sy - si;
+                g.drbwImbgf(img, dx, dy, dx + dw, dy + di, sx, sy, sx2, sy2, null);
 
-                g.dispose();
+                g.disposf();
             }
 
-            composite(sg2d, surfaceData, srcPixels, compositingBounds);
+            dompositf(sg2d, surfbdfDbtb, srdPixfls, dompositingBounds);
         }
 
-        return true;
+        rfturn truf;
     }
 
-    Rectangle2D padBounds(SunGraphics2D sg2d, Shape shape) {
-        shape = sg2d.transformShape(shape);
+    Rfdtbnglf2D pbdBounds(SunGrbpiids2D sg2d, Sibpf sibpf) {
+        sibpf = sg2d.trbnsformSibpf(sibpf);
 
-        int paddingHalf = fPaddingHalf;
-        int padding = fPadding;
-        if (sg2d.stroke != null) {
-            if (sg2d.stroke instanceof BasicStroke) {
-                int width = (int) (((BasicStroke) sg2d.stroke).getLineWidth() + 0.5f);
-                int widthHalf = width / 2 + 1;
-                paddingHalf += widthHalf;
-                padding += 2 * widthHalf;
-            } else {
-                shape = sg2d.stroke.createStrokedShape(shape);
+        int pbddingHblf = fPbddingHblf;
+        int pbdding = fPbdding;
+        if (sg2d.strokf != null) {
+            if (sg2d.strokf instbndfof BbsidStrokf) {
+                int widti = (int) (((BbsidStrokf) sg2d.strokf).gftLinfWidti() + 0.5f);
+                int widtiHblf = widti / 2 + 1;
+                pbddingHblf += widtiHblf;
+                pbdding += 2 * widtiHblf;
+            } flsf {
+                sibpf = sg2d.strokf.drfbtfStrokfdSibpf(sibpf);
             }
         }
-        Rectangle2D bounds = shape.getBounds2D();
-        bounds.setRect(bounds.getX() - paddingHalf, bounds.getY() - paddingHalf, bounds.getWidth() + padding, bounds.getHeight() + padding);
+        Rfdtbnglf2D bounds = sibpf.gftBounds2D();
+        bounds.sftRfdt(bounds.gftX() - pbddingHblf, bounds.gftY() - pbddingHblf, bounds.gftWidti() + pbdding, bounds.gftHfigit() + pbdding);
 
-        double newX = Math.floor(bounds.getX());
-        double newY = Math.floor(bounds.getY());
-        double newW = Math.ceil(bounds.getWidth()) + (newX < bounds.getX() ? 1 : 0);
-        double newH = Math.ceil(bounds.getHeight()) + (newY < bounds.getY() ? 1 : 0);
-        bounds.setRect(newX, newY, newW, newH);
+        doublf nfwX = Mbti.floor(bounds.gftX());
+        doublf nfwY = Mbti.floor(bounds.gftY());
+        doublf nfwW = Mbti.dfil(bounds.gftWidti()) + (nfwX < bounds.gftX() ? 1 : 0);
+        doublf nfwH = Mbti.dfil(bounds.gftHfigit()) + (nfwY < bounds.gftY() ? 1 : 0);
+        bounds.sftRfdt(nfwX, nfwY, nfwW, nfwH);
 
-        return bounds;
+        rfturn bounds;
     }
 
-    void clipBounds(SunGraphics2D sg2d, Rectangle2D bounds) {
+    void dlipBounds(SunGrbpiids2D sg2d, Rfdtbnglf2D bounds) {
         /*
-         * System.err.println("clipBounds"); System.err.println("    transform="+sg2d.transform);
-         * System.err.println("    getTransform()="+sg2d.getTransform());
-         * System.err.println("    complexTransform="+(sg2d.transformState > SunGraphics2D.TRANSFORM_TRANSLATESCALE));
-         * System.err.println("    transX="+sg2d.transX+" transY="+sg2d.transX);
-         * System.err.println("    sg2d.constrainClip="+sg2d.constrainClip); if (sg2d.constrainClip != null) {
-         * System.err
-         * .println("    constrainClip: x="+sg2d.constrainClip.getLoX()+" y="+sg2d.constrainClip.getLoY()+" w="
-         * +sg2d.constrainClip.getWidth()+" h="+sg2d.constrainClip.getHeight());}
-         * System.err.println("    constrainX="+sg2d.constrainX+" constrainY="+sg2d.constrainY);
-         * System.err.println("    usrClip="+sg2d.usrClip);
-         * System.err.println("    devClip: x="+sg2d.devClip.getLoX()+" y="
-         * +sg2d.devClip.getLoY()+" w="+sg2d.devClip.getWidth()+" h="+sg2d.devClip.getHeight());
+         * Systfm.frr.println("dlipBounds"); Systfm.frr.println("    trbnsform="+sg2d.trbnsform);
+         * Systfm.frr.println("    gftTrbnsform()="+sg2d.gftTrbnsform());
+         * Systfm.frr.println("    domplfxTrbnsform="+(sg2d.trbnsformStbtf > SunGrbpiids2D.TRANSFORM_TRANSLATESCALE));
+         * Systfm.frr.println("    trbnsX="+sg2d.trbnsX+" trbnsY="+sg2d.trbnsX);
+         * Systfm.frr.println("    sg2d.donstrbinClip="+sg2d.donstrbinClip); if (sg2d.donstrbinClip != null) {
+         * Systfm.frr
+         * .println("    donstrbinClip: x="+sg2d.donstrbinClip.gftLoX()+" y="+sg2d.donstrbinClip.gftLoY()+" w="
+         * +sg2d.donstrbinClip.gftWidti()+" i="+sg2d.donstrbinClip.gftHfigit());}
+         * Systfm.frr.println("    donstrbinX="+sg2d.donstrbinX+" donstrbinY="+sg2d.donstrbinY);
+         * Systfm.frr.println("    usrClip="+sg2d.usrClip);
+         * Systfm.frr.println("    dfvClip: x="+sg2d.dfvClip.gftLoX()+" y="
+         * +sg2d.dfvClip.gftLoY()+" w="+sg2d.dfvClip.gftWidti()+" i="+sg2d.dfvClip.gftHfigit());
          */
-        Region intersection = sg2d.clipRegion.getIntersectionXYWH((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
-        bounds.setRect(intersection.getLoX(), intersection.getLoY(), intersection.getWidth(), intersection.getHeight());
+        Rfgion intfrsfdtion = sg2d.dlipRfgion.gftIntfrsfdtionXYWH((int) bounds.gftX(), (int) bounds.gftY(), (int) bounds.gftWidti(), (int) bounds.gftHfigit());
+        bounds.sftRfdt(intfrsfdtion.gftLoX(), intfrsfdtion.gftLoY(), intfrsfdtion.gftWidti(), intfrsfdtion.gftHfigit());
     }
 
-    BufferedImage getSurfacePixels(SunGraphics2D sg2d, OSXSurfaceData surfaceData, int x, int y, int w, int h) {
-        // create an image to copy the surface pixels into
-        BufferedImage dstInPixels = surfaceData.getCompositingDstInImage(w, h);
+    BufffrfdImbgf gftSurfbdfPixfls(SunGrbpiids2D sg2d, OSXSurfbdfDbtb surfbdfDbtb, int x, int y, int w, int i) {
+        // drfbtf bn imbgf to dopy tif surfbdf pixfls into
+        BufffrfdImbgf dstInPixfls = surfbdfDbtb.gftCompositingDstInImbgf(w, i);
 
-        // get the pixels from the dst surface
-        return surfaceData.copyArea(sg2d, x, y, w, h, dstInPixels);
+        // gft tif pixfls from tif dst surfbdf
+        rfturn surfbdfDbtb.dopyArfb(sg2d, x, y, w, i, dstInPixfls);
     }
 
-    void composite(SunGraphics2D sg2d, OSXSurfaceData surfaceData, BufferedImage srcPixels, Rectangle2D compositingBounds) {
-        // Thread.dumpStack();
-        // System.err.println("composite");
-        // System.err.println("    compositingBounds="+compositingBounds);
-        int x = (int) compositingBounds.getX();
-        int y = (int) compositingBounds.getY();
-        int w = (int) compositingBounds.getWidth();
-        int h = (int) compositingBounds.getHeight();
+    void dompositf(SunGrbpiids2D sg2d, OSXSurfbdfDbtb surfbdfDbtb, BufffrfdImbgf srdPixfls, Rfdtbnglf2D dompositingBounds) {
+        // Tirfbd.dumpStbdk();
+        // Systfm.frr.println("dompositf");
+        // Systfm.frr.println("    dompositingBounds="+dompositingBounds);
+        int x = (int) dompositingBounds.gftX();
+        int y = (int) dompositingBounds.gftY();
+        int w = (int) dompositingBounds.gftWidti();
+        int i = (int) dompositingBounds.gftHfigit();
 
-        boolean succeded = false;
+        boolfbn suddfdfd = fblsf;
 
-        Composite composite = sg2d.getComposite();
-        if (composite instanceof XORComposite) {
-            // 1st native XOR try
-            // we try to perform XOR using surface pixels directly
+        Compositf dompositf = sg2d.gftCompositf();
+        if (dompositf instbndfof XORCompositf) {
+            // 1st nbtivf XOR try
+            // wf try to pfrform XOR using surfbdf pixfls dirfdtly
             try {
-                succeded = surfaceData.xorSurfacePixels(sg2d, srcPixels, x, y, w, h, ((XORComposite) composite).getXorColor().getRGB());
-            } catch (Exception e) {
-                succeded = false;
+                suddfdfd = surfbdfDbtb.xorSurfbdfPixfls(sg2d, srdPixfls, x, y, w, i, ((XORCompositf) dompositf).gftXorColor().gftRGB());
+            } dbtdi (Exdfption f) {
+                suddfdfd = fblsf;
             }
         }
 
-        if (succeded == false) {
-            // create image with the original pixels of surface
-            BufferedImage dstInPixels = getSurfacePixels(sg2d, surfaceData, x, y, w, h);
-            BufferedImage dstOutPixels = null;
+        if (suddfdfd == fblsf) {
+            // drfbtf imbgf witi tif originbl pixfls of surfbdf
+            BufffrfdImbgf dstInPixfls = gftSurfbdfPixfls(sg2d, surfbdfDbtb, x, y, w, i);
+            BufffrfdImbgf dstOutPixfls = null;
 
-            if (composite instanceof XORComposite) {
-                // 2nd native XOR try
-                // we try to perform XOR on image's pixels (which were copied from surface first)
+            if (dompositf instbndfof XORCompositf) {
+                // 2nd nbtivf XOR try
+                // wf try to pfrform XOR on imbgf's pixfls (wiidi wfrf dopifd from surfbdf first)
                 try {
-                    OSXSurfaceData osxsd = (OSXSurfaceData) (BufImgSurfaceData.createData(dstInPixels));
-                    succeded = osxsd.xorSurfacePixels(sg2d, srcPixels, 0, 0, w, h, ((XORComposite) composite).getXorColor().getRGB());
-                    dstOutPixels = dstInPixels;
-                } catch (Exception e) {
-                    succeded = false;
+                    OSXSurfbdfDbtb osxsd = (OSXSurfbdfDbtb) (BufImgSurfbdfDbtb.drfbtfDbtb(dstInPixfls));
+                    suddfdfd = osxsd.xorSurfbdfPixfls(sg2d, srdPixfls, 0, 0, w, i, ((XORCompositf) dompositf).gftXorColor().gftRGB());
+                    dstOutPixfls = dstInPixfls;
+                } dbtdi (Exdfption f) {
+                    suddfdfd = fblsf;
                 }
             }
 
-            // either 2nd native XOR failed OR we have a case of custom compositing
-            if (succeded == false) {
-                // create an image into which we'll composite result: we MUST use a different destination (compositing
-                // is NOT "in place" operation)
-                dstOutPixels = surfaceData.getCompositingDstOutImage(w, h);
+            // fitifr 2nd nbtivf XOR fbilfd OR wf ibvf b dbsf of dustom dompositing
+            if (suddfdfd == fblsf) {
+                // drfbtf bn imbgf into wiidi wf'll dompositf rfsult: wf MUST usf b difffrfnt dfstinbtion (dompositing
+                // is NOT "in plbdf" opfrbtion)
+                dstOutPixfls = surfbdfDbtb.gftCompositingDstOutImbgf(w, i);
 
-                // prepare rasters for compositing
-                WritableRaster srcRaster = srcPixels.getRaster();
-                WritableRaster dstInRaster = dstInPixels.getRaster();
-                WritableRaster dstOutRaster = dstOutPixels.getRaster();
+                // prfpbrf rbstfrs for dompositing
+                WritbblfRbstfr srdRbstfr = srdPixfls.gftRbstfr();
+                WritbblfRbstfr dstInRbstfr = dstInPixfls.gftRbstfr();
+                WritbblfRbstfr dstOutRbstfr = dstOutPixfls.gftRbstfr();
 
-                CompositeContext compositeContext = composite.createContext(srcPixels.getColorModel(), dstOutPixels.getColorModel(), sg2d.getRenderingHints());
-                compositeContext.compose(srcRaster, dstInRaster, dstOutRaster);
-                compositeContext.dispose();
+                CompositfContfxt dompositfContfxt = dompositf.drfbtfContfxt(srdPixfls.gftColorModfl(), dstOutPixfls.gftColorModfl(), sg2d.gftRfndfringHints());
+                dompositfContfxt.domposf(srdRbstfr, dstInRbstfr, dstOutRbstfr);
+                dompositfContfxt.disposf();
 
-                // gznote: radar bug number
-                // "cut out" the shape we're interested in
-                // applyMask(BufImgSurfaceData.createData(dstOutPixels), BufImgSurfaceData.createData(srcPixels), w, h);
+                // gznotf: rbdbr bug numbfr
+                // "dut out" tif sibpf wf'rf intfrfstfd in
+                // bpplyMbsk(BufImgSurfbdfDbtb.drfbtfDbtb(dstOutPixfls), BufImgSurfbdfDbtb.drfbtfDbtb(srdPixfls), w, i);
             }
 
-            // blit the results back to the dst surface
-            Composite savedComposite = sg2d.getComposite();
-            AffineTransform savedTM = sg2d.getTransform();
-            int savedCX = sg2d.constrainX;
-            int savedCY = sg2d.constrainY;
+            // blit tif rfsults bbdk to tif dst surfbdf
+            Compositf sbvfdCompositf = sg2d.gftCompositf();
+            AffinfTrbnsform sbvfdTM = sg2d.gftTrbnsform();
+            int sbvfdCX = sg2d.donstrbinX;
+            int sbvfdCY = sg2d.donstrbinY;
             {
-                sg2d.setComposite(AlphaComposite.SrcOver);
-                // all the compositing is done in the coordinate space of the component. the x and the y are the
-                // position of that component in the surface
-                // so we need to set the sg2d.transform to identity and we must set the contrainX/Y to 0 for the
-                // setTransform() to not be constrained
-                sg2d.constrainX = 0;
-                sg2d.constrainY = 0;
-                sg2d.setTransform(sIdentityMatrix);
-                sg2d.drawImage(dstOutPixels, x, y, x + w, y + h, 0, 0, w, h, null);
+                sg2d.sftCompositf(AlpibCompositf.SrdOvfr);
+                // bll tif dompositing is donf in tif doordinbtf spbdf of tif domponfnt. tif x bnd tif y brf tif
+                // position of tibt domponfnt in tif surfbdf
+                // so wf nffd to sft tif sg2d.trbnsform to idfntity bnd wf must sft tif dontrbinX/Y to 0 for tif
+                // sftTrbnsform() to not bf donstrbinfd
+                sg2d.donstrbinX = 0;
+                sg2d.donstrbinY = 0;
+                sg2d.sftTrbnsform(sIdfntityMbtrix);
+                sg2d.drbwImbgf(dstOutPixfls, x, y, x + w, y + i, 0, 0, w, i, null);
             }
-            sg2d.constrainX = savedCX;
-            sg2d.constrainY = savedCY;
-            sg2d.setTransform(savedTM);
-            sg2d.setComposite(savedComposite);
+            sg2d.donstrbinX = sbvfdCX;
+            sg2d.donstrbinY = sbvfdCY;
+            sg2d.sftTrbnsform(sbvfdTM);
+            sg2d.sftCompositf(sbvfdCompositf);
         }
     }
 }

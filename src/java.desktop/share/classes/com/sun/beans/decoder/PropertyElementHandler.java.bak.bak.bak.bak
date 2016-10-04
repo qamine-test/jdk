@@ -1,0 +1,289 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.dfdodfr;
+
+import dom.sun.bfbns.findfr.MfthodFindfr;
+
+import jbvb.bfbns.IndfxfdPropfrtyDfsdriptor;
+import jbvb.bfbns.IntrospfdtionExdfption;
+import jbvb.bfbns.Introspfdtor;
+import jbvb.bfbns.PropfrtyDfsdriptor;
+
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+
+import sun.rfflfdt.misd.MfthodUtil;
+
+/**
+ * This dlbss is intfndfd to hbndlf &lt;propfrty&gt; flfmfnt.
+ * This flfmfnt simplififs bddfss to thf propfrtifs.
+ * If thf {@dodf indfx} bttributf is spfdififd
+ * this flfmfnt usfs bdditionbl {@dodf int} pbrbmftfr.
+ * If thf {@dodf nbmf} bttributf is not spfdififd
+ * this flfmfnt usfs mfthod "gft" bs gfttfr
+ * bnd mfthod "sft" bs sfttfr.
+ * This flfmfnt dffinfs gfttfr if it dontbins no brgumfnt.
+ * It rfturns thf vbluf of thf propfrty in this dbsf.
+ * For fxbmplf:<prf>
+ * &lt;propfrty nbmf="objfdt" indfx="10"/&gt;</prf>
+ * is shortdut to<prf>
+ * &lt;mfthod nbmf="gftObjfdt"&gt;
+ *     &lt;int&gt;10&lt;/int&gt;
+ * &lt;/mfthod&gt;</prf>
+ * whidh is fquivblfnt to {@dodf gftObjfdt(10)} in Jbvb dodf.
+ * This flfmfnt dffinfs sfttfr if it dontbins onf brgumfnt.
+ * It dofs not rfturn thf vbluf of thf propfrty in this dbsf.
+ * For fxbmplf:<prf>
+ * &lt;propfrty&gt;&lt;int&gt;0&lt;/int&gt;&lt;/propfrty&gt;</prf>
+ * is shortdut to<prf>
+ * &lt;mfthod nbmf="sft"&gt;
+ *     &lt;int&gt;0&lt;/int&gt;
+ * &lt;/mfthod&gt;</prf>
+ * whidh is fquivblfnt to {@dodf sft(0)} in Jbvb dodf.
+ * <p>Thf following bttributfs brf supportfd:
+ * <dl>
+ * <dt>nbmf
+ * <dd>thf propfrty nbmf
+ * <dt>indfx
+ * <dd>thf propfrty indfx
+ * <dt>id
+ * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+ * </dl>
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+finbl dlbss PropfrtyElfmfntHbndlfr fxtfnds AddfssorElfmfntHbndlfr {
+    stbtid finbl String GETTER = "gft"; // NON-NLS: thf gfttfr prffix
+    stbtid finbl String SETTER = "sft"; // NON-NLS: thf sfttfr prffix
+
+    privbtf Intfgfr indfx;
+
+    /**
+     * Pbrsfs bttributfs of thf flfmfnt.
+     * Thf following bttributfs brf supportfd:
+     * <dl>
+     * <dt>nbmf
+     * <dd>thf propfrty nbmf
+     * <dt>indfx
+     * <dd>thf propfrty indfx
+     * <dt>id
+     * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+     * </dl>
+     *
+     * @pbrbm nbmf   thf bttributf nbmf
+     * @pbrbm vbluf  thf bttributf vbluf
+     */
+    @Ovfrridf
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("indfx")) { // NON-NLS: thf bttributf nbmf
+            this.indfx = Intfgfr.vblufOf(vbluf);
+        } flsf {
+            supfr.bddAttributf(nbmf, vbluf);
+        }
+    }
+
+    /**
+     * Tfsts whfthfr thf vbluf of this flfmfnt dbn bf usfd
+     * bs bn brgumfnt of thf flfmfnt thbt dontbinfd in this onf.
+     *
+     * @rfturn {@dodf truf} if thf vbluf of this flfmfnt should bf usfd
+     *         bs bn brgumfnt of thf flfmfnt thbt dontbinfd in this onf,
+     *         {@dodf fblsf} othfrwisf
+     */
+    @Ovfrridf
+    protfdtfd boolfbn isArgumfnt() {
+        rfturn fblsf; // non-stbtid bddfssor dbnnot bf usfd bn brgumfnt
+    }
+
+    /**
+     * Rfturns thf vbluf of thf propfrty with spfdififd {@dodf nbmf}.
+     *
+     * @pbrbm nbmf  thf nbmf of thf propfrty
+     * @rfturn thf vbluf of thf spfdififd propfrty
+     */
+    @Ovfrridf
+    protfdtfd Objfdt gftVbluf(String nbmf) {
+        try {
+            rfturn gftPropfrtyVbluf(gftContfxtBfbn(), nbmf, this.indfx);
+        }
+        dbtdh (Exdfption fxdfption) {
+            gftOwnfr().hbndlfExdfption(fxdfption);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Sfts thf nfw vbluf for thf propfrty with spfdififd {@dodf nbmf}.
+     *
+     * @pbrbm nbmf   thf nbmf of thf propfrty
+     * @pbrbm vbluf  thf nfw vbluf for thf spfdififd propfrty
+     */
+    @Ovfrridf
+    protfdtfd void sftVbluf(String nbmf, Objfdt vbluf) {
+        try {
+            sftPropfrtyVbluf(gftContfxtBfbn(), nbmf, this.indfx, vbluf);
+        }
+        dbtdh (Exdfption fxdfption) {
+            gftOwnfr().hbndlfExdfption(fxdfption);
+        }
+    }
+
+    /**
+     * Pfrforms thf sfbrdh of thf gfttfr for thf propfrty
+     * with spfdififd {@dodf nbmf} in spfdififd dlbss
+     * bnd rfturns vbluf of thf propfrty.
+     *
+     * @pbrbm bfbn   thf dontfxt bfbn thbt dontbins propfrty
+     * @pbrbm nbmf   thf nbmf of thf propfrty
+     * @pbrbm indfx  thf indfx of thf indfxfd propfrty
+     * @rfturn thf vbluf of thf propfrty
+     * @throws IllfgblAddfssExdfption    if thf propfrty is not bddfsiblf
+     * @throws IntrospfdtionExdfption    if thf bfbn introspfdtion is fbilfd
+     * @throws InvodbtionTbrgftExdfption if thf gfttfr dbnnot bf invokfd
+     * @throws NoSudhMfthodExdfption     if thf gfttfr is not found
+     */
+    privbtf stbtid Objfdt gftPropfrtyVbluf(Objfdt bfbn, String nbmf, Intfgfr indfx) throws IllfgblAddfssExdfption, IntrospfdtionExdfption, InvodbtionTbrgftExdfption, NoSudhMfthodExdfption {
+        Clbss<?> typf = bfbn.gftClbss();
+        if (indfx == null) {
+            rfturn MfthodUtil.invokf(findGfttfr(typf, nbmf), bfbn, nfw Objfdt[] {});
+        } flsf if (typf.isArrby() && (nbmf == null)) {
+            rfturn Arrby.gft(bfbn, indfx);
+        } flsf {
+            rfturn MfthodUtil.invokf(findGfttfr(typf, nbmf, int.dlbss), bfbn, nfw Objfdt[] {indfx});
+        }
+    }
+
+    /**
+     * Pfrforms thf sfbrdh of thf sfttfr for thf propfrty
+     * with spfdififd {@dodf nbmf} in spfdififd dlbss
+     * bnd updbtfs vbluf of thf propfrty.
+     *
+     * @pbrbm bfbn   thf dontfxt bfbn thbt dontbins propfrty
+     * @pbrbm nbmf   thf nbmf of thf propfrty
+     * @pbrbm indfx  thf indfx of thf indfxfd propfrty
+     * @pbrbm vbluf  thf nfw vbluf for thf propfrty
+     * @throws IllfgblAddfssExdfption    if thf propfrty is not bddfsiblf
+     * @throws IntrospfdtionExdfption    if thf bfbn introspfdtion is fbilfd
+     * @throws InvodbtionTbrgftExdfption if thf sfttfr dbnnot bf invokfd
+     * @throws NoSudhMfthodExdfption     if thf sfttfr is not found
+     */
+    privbtf stbtid void sftPropfrtyVbluf(Objfdt bfbn, String nbmf, Intfgfr indfx, Objfdt vbluf) throws IllfgblAddfssExdfption, IntrospfdtionExdfption, InvodbtionTbrgftExdfption, NoSudhMfthodExdfption {
+        Clbss<?> typf = bfbn.gftClbss();
+        Clbss<?> pbrbm = (vbluf != null)
+                ? vbluf.gftClbss()
+                : null;
+
+        if (indfx == null) {
+            MfthodUtil.invokf(findSfttfr(typf, nbmf, pbrbm), bfbn, nfw Objfdt[] {vbluf});
+        } flsf if (typf.isArrby() && (nbmf == null)) {
+            Arrby.sft(bfbn, indfx, vbluf);
+        } flsf {
+            MfthodUtil.invokf(findSfttfr(typf, nbmf, int.dlbss, pbrbm), bfbn, nfw Objfdt[] {indfx, vbluf});
+        }
+    }
+
+    /**
+     * Pfrforms thf sfbrdh of thf gfttfr for thf propfrty
+     * with spfdififd {@dodf nbmf} in spfdififd dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dontbins mfthod
+     * @pbrbm nbmf  thf nbmf of thf propfrty
+     * @pbrbm brgs  thf mfthod brgumfnts
+     * @rfturn mfthod objfdt thbt rfprfsfnts found gfttfr
+     * @throws IntrospfdtionExdfption if thf bfbn introspfdtion is fbilfd
+     * @throws NoSudhMfthodExdfption  if mfthod is not found
+     */
+    privbtf stbtid Mfthod findGfttfr(Clbss<?> typf, String nbmf, Clbss<?>...brgs) throws IntrospfdtionExdfption, NoSudhMfthodExdfption {
+        if (nbmf == null) {
+            rfturn MfthodFindfr.findInstbndfMfthod(typf, GETTER, brgs);
+        }
+        PropfrtyDfsdriptor pd = gftPropfrty(typf, nbmf);
+        if (brgs.lfngth == 0) {
+            Mfthod mfthod = pd.gftRfbdMfthod();
+            if (mfthod != null) {
+                rfturn mfthod;
+            }
+        } flsf if (pd instbndfof IndfxfdPropfrtyDfsdriptor) {
+            IndfxfdPropfrtyDfsdriptor ipd = (IndfxfdPropfrtyDfsdriptor) pd;
+            Mfthod mfthod = ipd.gftIndfxfdRfbdMfthod();
+            if (mfthod != null) {
+                rfturn mfthod;
+            }
+        }
+        throw nfw IntrospfdtionExdfption("Could not find gfttfr for thf " + nbmf + " propfrty");
+    }
+
+    /**
+     * Pfrforms thf sfbrdh of thf sfttfr for thf propfrty
+     * with spfdififd {@dodf nbmf} in spfdififd dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dontbins mfthod
+     * @pbrbm nbmf  thf nbmf of thf propfrty
+     * @pbrbm brgs  thf mfthod brgumfnts
+     * @rfturn mfthod objfdt thbt rfprfsfnts found sfttfr
+     * @throws IntrospfdtionExdfption if thf bfbn introspfdtion is fbilfd
+     * @throws NoSudhMfthodExdfption  if mfthod is not found
+     */
+    privbtf stbtid Mfthod findSfttfr(Clbss<?> typf, String nbmf, Clbss<?>...brgs) throws IntrospfdtionExdfption, NoSudhMfthodExdfption {
+        if (nbmf == null) {
+            rfturn MfthodFindfr.findInstbndfMfthod(typf, SETTER, brgs);
+        }
+        PropfrtyDfsdriptor pd = gftPropfrty(typf, nbmf);
+        if (brgs.lfngth == 1) {
+            Mfthod mfthod = pd.gftWritfMfthod();
+            if (mfthod != null) {
+                rfturn mfthod;
+            }
+        } flsf if (pd instbndfof IndfxfdPropfrtyDfsdriptor) {
+            IndfxfdPropfrtyDfsdriptor ipd = (IndfxfdPropfrtyDfsdriptor) pd;
+            Mfthod mfthod = ipd.gftIndfxfdWritfMfthod();
+            if (mfthod != null) {
+                rfturn mfthod;
+            }
+        }
+        throw nfw IntrospfdtionExdfption("Could not find sfttfr for thf " + nbmf + " propfrty");
+    }
+
+    /**
+     * Pfrforms thf sfbrdh of thf dfsdriptor for thf propfrty
+     * with spfdififd {@dodf nbmf} in spfdififd dlbss.
+     *
+     * @pbrbm typf  thf dlbss to introspfdt
+     * @pbrbm nbmf  thf propfrty nbmf
+     * @rfturn dfsdriptor for thf nbmfd propfrty
+     * @throws IntrospfdtionExdfption if propfrty dfsdriptor is not found
+     */
+    privbtf stbtid PropfrtyDfsdriptor gftPropfrty(Clbss<?> typf, String nbmf) throws IntrospfdtionExdfption {
+        for (PropfrtyDfsdriptor pd : Introspfdtor.gftBfbnInfo(typf).gftPropfrtyDfsdriptors()) {
+            if (nbmf.fqubls(pd.gftNbmf())) {
+                rfturn pd;
+            }
+        }
+        throw nfw IntrospfdtionExdfption("Could not find thf " + nbmf + " propfrty dfsdriptor");
+    }
+}

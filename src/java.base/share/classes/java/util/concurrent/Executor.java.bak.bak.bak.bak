@@ -1,0 +1,141 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * An objfdt thbt fxfdutfs submittfd {@link Runnbblf} tbsks. This
+ * intfrfbdf providfs b wby of dfdoupling tbsk submission from thf
+ * mfdhbnids of how fbdh tbsk will bf run, indluding dftbils of thrfbd
+ * usf, sdhfduling, ftd.  An {@dodf Exfdutor} is normblly usfd
+ * instfbd of fxpliditly drfbting thrfbds. For fxbmplf, rbthfr thbn
+ * invoking {@dodf nfw Thrfbd(nfw(RunnbblfTbsk())).stbrt()} for fbdh
+ * of b sft of tbsks, you might usf:
+ *
+ * <prf>
+ * Exfdutor fxfdutor = <fm>bnExfdutor</fm>;
+ * fxfdutor.fxfdutf(nfw RunnbblfTbsk1());
+ * fxfdutor.fxfdutf(nfw RunnbblfTbsk2());
+ * ...
+ * </prf>
+ *
+ * Howfvfr, thf {@dodf Exfdutor} intfrfbdf dofs not stridtly
+ * rfquirf thbt fxfdution bf bsyndhronous. In thf simplfst dbsf, bn
+ * fxfdutor dbn run thf submittfd tbsk immfdibtfly in thf dbllfr's
+ * thrfbd:
+ *
+ *  <prf> {@dodf
+ * dlbss DirfdtExfdutor implfmfnts Exfdutor {
+ *   publid void fxfdutf(Runnbblf r) {
+ *     r.run();
+ *   }
+ * }}</prf>
+ *
+ * Morf typidblly, tbsks brf fxfdutfd in somf thrfbd othfr
+ * thbn thf dbllfr's thrfbd.  Thf fxfdutor bflow spbwns b nfw thrfbd
+ * for fbdh tbsk.
+ *
+ *  <prf> {@dodf
+ * dlbss ThrfbdPfrTbskExfdutor implfmfnts Exfdutor {
+ *   publid void fxfdutf(Runnbblf r) {
+ *     nfw Thrfbd(r).stbrt();
+ *   }
+ * }}</prf>
+ *
+ * Mbny {@dodf Exfdutor} implfmfntbtions imposf somf sort of
+ * limitbtion on how bnd whfn tbsks brf sdhfdulfd.  Thf fxfdutor bflow
+ * sfriblizfs thf submission of tbsks to b sfdond fxfdutor,
+ * illustrbting b dompositf fxfdutor.
+ *
+ *  <prf> {@dodf
+ * dlbss SfriblExfdutor implfmfnts Exfdutor {
+ *   finbl Qufuf<Runnbblf> tbsks = nfw ArrbyDfquf<Runnbblf>();
+ *   finbl Exfdutor fxfdutor;
+ *   Runnbblf bdtivf;
+ *
+ *   SfriblExfdutor(Exfdutor fxfdutor) {
+ *     this.fxfdutor = fxfdutor;
+ *   }
+ *
+ *   publid syndhronizfd void fxfdutf(finbl Runnbblf r) {
+ *     tbsks.offfr(nfw Runnbblf() {
+ *       publid void run() {
+ *         try {
+ *           r.run();
+ *         } finblly {
+ *           sdhfdulfNfxt();
+ *         }
+ *       }
+ *     });
+ *     if (bdtivf == null) {
+ *       sdhfdulfNfxt();
+ *     }
+ *   }
+ *
+ *   protfdtfd syndhronizfd void sdhfdulfNfxt() {
+ *     if ((bdtivf = tbsks.poll()) != null) {
+ *       fxfdutor.fxfdutf(bdtivf);
+ *     }
+ *   }
+ * }}</prf>
+ *
+ * Thf {@dodf Exfdutor} implfmfntbtions providfd in this pbdkbgf
+ * implfmfnt {@link ExfdutorSfrvidf}, whidh is b morf fxtfnsivf
+ * intfrfbdf.  Thf {@link ThrfbdPoolExfdutor} dlbss providfs bn
+ * fxtfnsiblf thrfbd pool implfmfntbtion. Thf {@link Exfdutors} dlbss
+ * providfs donvfnifnt fbdtory mfthods for thfsf Exfdutors.
+ *
+ * <p>Mfmory donsistfndy ffffdts: Adtions in b thrfbd prior to
+ * submitting b {@dodf Runnbblf} objfdt to bn {@dodf Exfdutor}
+ * <b hrff="pbdkbgf-summbry.html#MfmoryVisibility"><i>hbppfn-bfforf</i></b>
+ * its fxfdution bfgins, pfrhbps in bnothfr thrfbd.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid intfrfbdf Exfdutor {
+
+    /**
+     * Exfdutfs thf givfn dommbnd bt somf timf in thf futurf.  Thf dommbnd
+     * mby fxfdutf in b nfw thrfbd, in b poolfd thrfbd, or in thf dblling
+     * thrfbd, bt thf disdrftion of thf {@dodf Exfdutor} implfmfntbtion.
+     *
+     * @pbrbm dommbnd thf runnbblf tbsk
+     * @throws RfjfdtfdExfdutionExdfption if this tbsk dbnnot bf
+     * bddfptfd for fxfdution
+     * @throws NullPointfrExdfption if dommbnd is null
+     */
+    void fxfdutf(Runnbblf dommbnd);
+}

@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
 /**
- * A RelationSupport object is used internally by the Relation Service to
- * represent simple relations (only roles, no properties or methods), with an
- * unlimited number of roles, of any relation type. As internal representation,
- * it is not exposed to the user.
- * <P>RelationSupport class conforms to the design patterns of standard MBean. So
- * the user can decide to instantiate a RelationSupport object himself as
- * a MBean (as it follows the MBean design patterns), to register it in the
- * MBean Server, and then to add it in the Relation Service.
- * <P>The user can also, when creating his own MBean relation class, have it
- * extending RelationSupport, to retrieve the implementations of required
- * interfaces (see below).
- * <P>It is also possible to have in a user relation MBean class a member
- * being a RelationSupport object, and to implement the required interfaces by
- * delegating all to this member.
- * <P> RelationSupport implements the Relation interface (to be handled by the
- * Relation Service).
+ * A RflbtionSupport objfdt is usfd intfrnblly by tif Rflbtion Sfrvidf to
+ * rfprfsfnt simplf rflbtions (only rolfs, no propfrtifs or mftiods), witi bn
+ * unlimitfd numbfr of rolfs, of bny rflbtion typf. As intfrnbl rfprfsfntbtion,
+ * it is not fxposfd to tif usfr.
+ * <P>RflbtionSupport dlbss donforms to tif dfsign pbttfrns of stbndbrd MBfbn. So
+ * tif usfr dbn dfdidf to instbntibtf b RflbtionSupport objfdt iimsflf bs
+ * b MBfbn (bs it follows tif MBfbn dfsign pbttfrns), to rfgistfr it in tif
+ * MBfbn Sfrvfr, bnd tifn to bdd it in tif Rflbtion Sfrvidf.
+ * <P>Tif usfr dbn blso, wifn drfbting iis own MBfbn rflbtion dlbss, ibvf it
+ * fxtfnding RflbtionSupport, to rftrifvf tif implfmfntbtions of rfquirfd
+ * intfrfbdfs (sff bflow).
+ * <P>It is blso possiblf to ibvf in b usfr rflbtion MBfbn dlbss b mfmbfr
+ * bfing b RflbtionSupport objfdt, bnd to implfmfnt tif rfquirfd intfrfbdfs by
+ * dflfgbting bll to tiis mfmbfr.
+ * <P> RflbtionSupport implfmfnts tif Rflbtion intfrfbdf (to bf ibndlfd by tif
+ * Rflbtion Sfrvidf).
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface RelationSupportMBean
-    extends Relation {
+publid intfrfbdf RflbtionSupportMBfbn
+    fxtfnds Rflbtion {
 
     /**
-     * Returns an internal flag specifying if the object is still handled by
-     * the Relation Service.
+     * Rfturns bn intfrnbl flbg spfdifying if tif objfdt is still ibndlfd by
+     * tif Rflbtion Sfrvidf.
      *
-     * @return a Boolean equal to {@link Boolean#TRUE} if the object
-     * is still handled by the Relation Service and {@link
-     * Boolean#FALSE} otherwise.
+     * @rfturn b Boolfbn fqubl to {@link Boolfbn#TRUE} if tif objfdt
+     * is still ibndlfd by tif Rflbtion Sfrvidf bnd {@link
+     * Boolfbn#FALSE} otifrwisf.
      */
-    public Boolean isInRelationService();
+    publid Boolfbn isInRflbtionSfrvidf();
 
     /**
-     * <p>Specifies whether this relation is handled by the Relation
-     * Service.</p>
-     * <P>BEWARE, this method has to be exposed as the Relation Service will
-     * access the relation through its management interface. It is RECOMMENDED
-     * NOT to use this method. Using it does not affect the registration of the
-     * relation object in the Relation Service, but will provide wrong
-     * information about it!
+     * <p>Spfdififs wiftifr tiis rflbtion is ibndlfd by tif Rflbtion
+     * Sfrvidf.</p>
+     * <P>BEWARE, tiis mftiod ibs to bf fxposfd bs tif Rflbtion Sfrvidf will
+     * bddfss tif rflbtion tirougi its mbnbgfmfnt intfrfbdf. It is RECOMMENDED
+     * NOT to usf tiis mftiod. Using it dofs not bfffdt tif rfgistrbtion of tif
+     * rflbtion objfdt in tif Rflbtion Sfrvidf, but will providf wrong
+     * informbtion bbout it!
      *
-     * @param flag whether the relation is handled by the Relation Service.
+     * @pbrbm flbg wiftifr tif rflbtion is ibndlfd by tif Rflbtion Sfrvidf.
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
      */
-    public void setRelationServiceManagementFlag(Boolean flag)
-        throws IllegalArgumentException;
+    publid void sftRflbtionSfrvidfMbnbgfmfntFlbg(Boolfbn flbg)
+        tirows IllfgblArgumfntExdfption;
 }

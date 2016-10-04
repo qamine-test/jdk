@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 /**
- * A <code>SoundbankResource</code> represents any audio resource stored
- * in a <code>{@link Soundbank}</code>.  Common soundbank resources include:
+ * A <dodf>SoundbbnkRfsourdf</dodf> rfprfsfnts bny budio rfsourdf storfd
+ * in b <dodf>{@link Soundbbnk}</dodf>.  Common soundbbnk rfsourdfs indludf:
  * <ul>
- * <li>Instruments.  An instrument may be specified in a variety of
- * ways.  However, all soundbanks have some mechanism for defining
- * instruments.  In doing so, they may reference other resources
- * stored in the soundbank.  Each instrument has a <code>Patch</code>
- * which specifies the MIDI program and bank by which it may be
- * referenced in MIDI messages.  Instrument information may be
- * stored in <code>{@link Instrument}</code> objects.
- * <li>Audio samples.  A sample typically is a sampled audio waveform
- * which contains a short sound recording whose duration is a fraction of
- * a second, or at most a few seconds.  These audio samples may be
- * used by a <code>{@link Synthesizer}</code> to synthesize sound in response to MIDI
- * commands, or extracted for use by an application.
- * (The terminology reflects musicians' use of the word "sample" to refer
- * collectively to a series of contiguous audio samples or frames, rather than
- * to a single, instantaneous sample.)
- * The data class for an audio sample will be an object
- * that encapsulates the audio sample data itself and information
- * about how to interpret it (the format of the audio data), such
- * as an <code>{@link javax.sound.sampled.AudioInputStream}</code>.     </li>
- * <li>Embedded sequences.  A sound bank may contain built-in
- * song data stored in a data object such as a <code>{@link Sequence}</code>.
+ * <li>Instrumfnts.  An instrumfnt mby bf spfdififd in b vbrifty of
+ * wbys.  Howfvfr, bll soundbbnks ibvf somf mfdibnism for dffining
+ * instrumfnts.  In doing so, tify mby rfffrfndf otifr rfsourdfs
+ * storfd in tif soundbbnk.  Ebdi instrumfnt ibs b <dodf>Pbtdi</dodf>
+ * wiidi spfdififs tif MIDI progrbm bnd bbnk by wiidi it mby bf
+ * rfffrfndfd in MIDI mfssbgfs.  Instrumfnt informbtion mby bf
+ * storfd in <dodf>{@link Instrumfnt}</dodf> objfdts.
+ * <li>Audio sbmplfs.  A sbmplf typidblly is b sbmplfd budio wbvfform
+ * wiidi dontbins b siort sound rfdording wiosf durbtion is b frbdtion of
+ * b sfdond, or bt most b ffw sfdonds.  Tifsf budio sbmplfs mby bf
+ * usfd by b <dodf>{@link Syntifsizfr}</dodf> to syntifsizf sound in rfsponsf to MIDI
+ * dommbnds, or fxtrbdtfd for usf by bn bpplidbtion.
+ * (Tif tfrminology rfflfdts musidibns' usf of tif word "sbmplf" to rfffr
+ * dollfdtivfly to b sfrifs of dontiguous budio sbmplfs or frbmfs, rbtifr tibn
+ * to b singlf, instbntbnfous sbmplf.)
+ * Tif dbtb dlbss for bn budio sbmplf will bf bn objfdt
+ * tibt fndbpsulbtfs tif budio sbmplf dbtb itsflf bnd informbtion
+ * bbout iow to intfrprft it (tif formbt of tif budio dbtb), sudi
+ * bs bn <dodf>{@link jbvbx.sound.sbmplfd.AudioInputStrfbm}</dodf>.     </li>
+ * <li>Embfddfd sfqufndfs.  A sound bbnk mby dontbin built-in
+ * song dbtb storfd in b dbtb objfdt sudi bs b <dodf>{@link Sfqufndf}</dodf>.
  * </ul>
  * <p>
- * Synthesizers that use wavetable synthesis or related
- * techniques play back the audio in a sample when
- * synthesizing notes, often when emulating the real-world instrument that
- * was originally recorded.  However, there is not necessarily a one-to-one
- * correspondence between the <code>Instruments</code> and samples
- * in a <code>Soundbank</code>.  A single <code>Instrument</code> can use
- * multiple SoundbankResources (typically for notes of dissimilar pitch or
- * brightness).  Also, more than one <code>Instrument</code> can use the same
- * sample.
+ * Syntifsizfrs tibt usf wbvftbblf syntifsis or rflbtfd
+ * tfdiniqufs plby bbdk tif budio in b sbmplf wifn
+ * syntifsizing notfs, oftfn wifn fmulbting tif rfbl-world instrumfnt tibt
+ * wbs originblly rfdordfd.  Howfvfr, tifrf is not nfdfssbrily b onf-to-onf
+ * dorrfspondfndf bftwffn tif <dodf>Instrumfnts</dodf> bnd sbmplfs
+ * in b <dodf>Soundbbnk</dodf>.  A singlf <dodf>Instrumfnt</dodf> dbn usf
+ * multiplf SoundbbnkRfsourdfs (typidblly for notfs of dissimilbr pitdi or
+ * brigitnfss).  Also, morf tibn onf <dodf>Instrumfnt</dodf> dbn usf tif sbmf
+ * sbmplf.
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
 
-public abstract class SoundbankResource {
+publid bbstrbdt dlbss SoundbbnkRfsourdf {
 
 
     /**
-     * The sound bank that contains the <code>SoundbankResources</code>
+     * Tif sound bbnk tibt dontbins tif <dodf>SoundbbnkRfsourdfs</dodf>
      */
-    private final Soundbank soundBank;
+    privbtf finbl Soundbbnk soundBbnk;
 
 
     /**
-     * The name of the <code>SoundbankResource</code>
+     * Tif nbmf of tif <dodf>SoundbbnkRfsourdf</dodf>
      */
-    private final String name;
+    privbtf finbl String nbmf;
 
 
     /**
-     * The class used to represent the sample's data.
+     * Tif dlbss usfd to rfprfsfnt tif sbmplf's dbtb.
      */
-    private final Class<?> dataClass;
+    privbtf finbl Clbss<?> dbtbClbss;
 
 
     /**
-     * The wavetable index.
+     * Tif wbvftbblf indfx.
      */
-    //private final int index;
+    //privbtf finbl int indfx;
 
 
     /**
-     * Constructs a new <code>SoundbankResource</code> from the given sound bank
-     * and wavetable index.  (Setting the <code>SoundbankResource's</code> name,
-     * sampled audio data, and instruments is a subclass responsibility.)
-     * @param soundBank the sound bank containing this <code>SoundbankResource</code>
-     * @param name the name of the sample
-     * @param dataClass the class used to represent the sample's data
+     * Construdts b nfw <dodf>SoundbbnkRfsourdf</dodf> from tif givfn sound bbnk
+     * bnd wbvftbblf indfx.  (Sftting tif <dodf>SoundbbnkRfsourdf's</dodf> nbmf,
+     * sbmplfd budio dbtb, bnd instrumfnts is b subdlbss rfsponsibility.)
+     * @pbrbm soundBbnk tif sound bbnk dontbining tiis <dodf>SoundbbnkRfsourdf</dodf>
+     * @pbrbm nbmf tif nbmf of tif sbmplf
+     * @pbrbm dbtbClbss tif dlbss usfd to rfprfsfnt tif sbmplf's dbtb
      *
-     * @see #getSoundbank
-     * @see #getName
-     * @see #getDataClass
-     * @see #getData
+     * @sff #gftSoundbbnk
+     * @sff #gftNbmf
+     * @sff #gftDbtbClbss
+     * @sff #gftDbtb
      */
-    protected SoundbankResource(Soundbank soundBank, String name, Class<?> dataClass) {
+    protfdtfd SoundbbnkRfsourdf(Soundbbnk soundBbnk, String nbmf, Clbss<?> dbtbClbss) {
 
-        this.soundBank = soundBank;
-        this.name = name;
-        this.dataClass = dataClass;
+        tiis.soundBbnk = soundBbnk;
+        tiis.nbmf = nbmf;
+        tiis.dbtbClbss = dbtbClbss;
     }
 
 
     /**
-     * Obtains the sound bank that contains this <code>SoundbankResource</code>.
-     * @return the sound bank in which this <code>SoundbankResource</code> is stored
+     * Obtbins tif sound bbnk tibt dontbins tiis <dodf>SoundbbnkRfsourdf</dodf>.
+     * @rfturn tif sound bbnk in wiidi tiis <dodf>SoundbbnkRfsourdf</dodf> is storfd
      */
-    public Soundbank getSoundbank() {
-        return soundBank;
+    publid Soundbbnk gftSoundbbnk() {
+        rfturn soundBbnk;
     }
 
 
     /**
-     * Obtains the name of the resource.  This should generally be a string
-     * descriptive of the resource.
-     * @return the instrument's name
+     * Obtbins tif nbmf of tif rfsourdf.  Tiis siould gfnfrblly bf b string
+     * dfsdriptivf of tif rfsourdf.
+     * @rfturn tif instrumfnt's nbmf
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
 
     /**
-     * Obtains the class used by this sample to represent its data.
-     * The object returned by <code>getData</code> will be of this
-     * class.  If this <code>SoundbankResource</code> object does not support
-     * direct access to its data, returns <code>null</code>.
-     * @return the class used to represent the sample's data, or
-     * null if the data is not accessible
+     * Obtbins tif dlbss usfd by tiis sbmplf to rfprfsfnt its dbtb.
+     * Tif objfdt rfturnfd by <dodf>gftDbtb</dodf> will bf of tiis
+     * dlbss.  If tiis <dodf>SoundbbnkRfsourdf</dodf> objfdt dofs not support
+     * dirfdt bddfss to its dbtb, rfturns <dodf>null</dodf>.
+     * @rfturn tif dlbss usfd to rfprfsfnt tif sbmplf's dbtb, or
+     * null if tif dbtb is not bddfssiblf
      */
-    public Class<?> getDataClass() {
-        return dataClass;
+    publid Clbss<?> gftDbtbClbss() {
+        rfturn dbtbClbss;
     }
 
 
     /**
-     * Obtains the sampled audio that is stored in this <code>SoundbankResource</code>.
-     * The type of object returned depends on the implementation of the
-     * concrete class, and may be queried using <code>getDataClass</code>.
-     * @return an object containing the sampled audio data
-     * @see #getDataClass
+     * Obtbins tif sbmplfd budio tibt is storfd in tiis <dodf>SoundbbnkRfsourdf</dodf>.
+     * Tif typf of objfdt rfturnfd dfpfnds on tif implfmfntbtion of tif
+     * dondrftf dlbss, bnd mby bf qufrifd using <dodf>gftDbtbClbss</dodf>.
+     * @rfturn bn objfdt dontbining tif sbmplfd budio dbtb
+     * @sff #gftDbtbClbss
      */
-    public abstract Object getData();
+    publid bbstrbdt Objfdt gftDbtb();
 
 
     /**
-     * Obtains the index of this <code>SoundbankResource</code> into the
-     * <code>Soundbank's</code> set of <code>SoundbankResources</code>.
-     * @return the wavetable index
+     * Obtbins tif indfx of tiis <dodf>SoundbbnkRfsourdf</dodf> into tif
+     * <dodf>Soundbbnk's</dodf> sft of <dodf>SoundbbnkRfsourdfs</dodf>.
+     * @rfturn tif wbvftbblf indfx
      */
-    //public int getIndex() {
-    //  return index;
+    //publid int gftIndfx() {
+    //  rfturn indfx;
     //}
 
 
     /**
-     * Obtains a list of the instruments in the sound bank that use the
-     * <code>SoundbankResource</code> for sound synthesis.
-     * @return an array of <code>Instruments</code> that reference this
-     * <code>SoundbankResource</code>
+     * Obtbins b list of tif instrumfnts in tif sound bbnk tibt usf tif
+     * <dodf>SoundbbnkRfsourdf</dodf> for sound syntifsis.
+     * @rfturn bn brrby of <dodf>Instrumfnts</dodf> tibt rfffrfndf tiis
+     * <dodf>SoundbbnkRfsourdf</dodf>
      *
-     * @see Instrument#getSamples
+     * @sff Instrumfnt#gftSbmplfs
      */
-    //public abstract Instrument[] getInstruments();
+    //publid bbstrbdt Instrumfnt[] gftInstrumfnts();
 }

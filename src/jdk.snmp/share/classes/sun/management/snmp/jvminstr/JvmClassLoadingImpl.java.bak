@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
-import java.lang.management.ClassLoadingMXBean;
-import java.lang.management.ManagementFactory;
+import jbvb.lbng.mbnbgfmfnt.ClbssLobdingMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
 // jmx imports
 //
-import javax.management.MBeanServer;
-import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
 
-import sun.management.snmp.jvmmib.JvmClassLoadingMBean;
-import sun.management.snmp.jvmmib.EnumJvmClassesVerboseLevel;
-import sun.management.snmp.util.MibLogger;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmClbssLobdingMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmClbssfsVfrbosfLfvfl;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
 
 /**
- * The class is used for implementing the "JvmClassLoading" group.
+ * Tif dlbss is usfd for implfmfnting tif "JvmClbssLobding" group.
  */
-public class JvmClassLoadingImpl implements JvmClassLoadingMBean {
+publid dlbss JvmClbssLobdingImpl implfmfnts JvmClbssLobdingMBfbn {
 
     /**
-     * Variable for storing the value of "JvmClassesVerboseLevel".
+     * Vbribblf for storing tif vbluf of "JvmClbssfsVfrbosfLfvfl".
      *
-     * "verbose: if the -verbose:class flag is set.
-     * silent:  otherwise.
+     * "vfrbosf: if tif -vfrbosf:dlbss flbg is sft.
+     * silfnt:  otifrwisf.
      *
-     * See java.management.ClassLoadingMXBean.isVerbose(),
-     * java.management.ClassLoadingMXBean.setVerbose()
+     * Sff jbvb.mbnbgfmfnt.ClbssLobdingMXBfbn.isVfrbosf(),
+     * jbvb.mbnbgfmfnt.ClbssLobdingMXBfbn.sftVfrbosf()
      * "
      *
      */
-    static final EnumJvmClassesVerboseLevel JvmClassesVerboseLevelVerbose =
-        new EnumJvmClassesVerboseLevel("verbose");
-    static final EnumJvmClassesVerboseLevel JvmClassesVerboseLevelSilent =
-        new EnumJvmClassesVerboseLevel("silent");
+    stbtid finbl EnumJvmClbssfsVfrbosfLfvfl JvmClbssfsVfrbosfLfvflVfrbosf =
+        nfw EnumJvmClbssfsVfrbosfLfvfl("vfrbosf");
+    stbtid finbl EnumJvmClbssfsVfrbosfLfvfl JvmClbssfsVfrbosfLfvflSilfnt =
+        nfw EnumJvmClbssfsVfrbosfLfvfl("silfnt");
 
     /**
-     * Constructor for the "JvmClassLoading" group.
-     * If the group contains a table, the entries created through an
-     * SNMP SET will not be registered in Java DMK.
+     * Construdtor for tif "JvmClbssLobding" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn
+     * SNMP SET will not bf rfgistfrfd in Jbvb DMK.
      */
-    public JvmClassLoadingImpl(SnmpMib myMib) {
+    publid JvmClbssLobdingImpl(SnmpMib myMib) {
     }
 
     /**
-     * Constructor for the "JvmClassLoading" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will be AUTOMATICALLY REGISTERED in Java DMK.
+     * Construdtor for tif "JvmClbssLobding" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn SNMP SET
+     * will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmClassLoadingImpl(SnmpMib myMib, MBeanServer server) {
+    publid JvmClbssLobdingImpl(SnmpMib myMib, MBfbnSfrvfr sfrvfr) {
     }
 
-    static ClassLoadingMXBean getClassLoadingMXBean() {
-        return ManagementFactory.getClassLoadingMXBean();
-    }
-
-    /**
-     * Getter for the "JvmClassesVerboseLevel" variable.
-     */
-    public EnumJvmClassesVerboseLevel getJvmClassesVerboseLevel()
-        throws SnmpStatusException {
-        if(getClassLoadingMXBean().isVerbose())
-            return JvmClassesVerboseLevelVerbose;
-        else
-            return JvmClassesVerboseLevelSilent;
+    stbtid ClbssLobdingMXBfbn gftClbssLobdingMXBfbn() {
+        rfturn MbnbgfmfntFbdtory.gftClbssLobdingMXBfbn();
     }
 
     /**
-     * Setter for the "JvmClassesVerboseLevel" variable.
+     * Gfttfr for tif "JvmClbssfsVfrbosfLfvfl" vbribblf.
      */
-    public void setJvmClassesVerboseLevel(EnumJvmClassesVerboseLevel x)
-        throws SnmpStatusException {
-        final boolean verbose;
-        if (JvmClassesVerboseLevelVerbose.equals(x)) verbose=true;
-        else if (JvmClassesVerboseLevelSilent.equals(x)) verbose=false;
-        // Should never happen, this case is handled by
-        // checkJvmClassesVerboseLevel();
-        else throw new
-            SnmpStatusException(SnmpStatusException.snmpRspWrongValue);
-        getClassLoadingMXBean().setVerbose(verbose);
+    publid EnumJvmClbssfsVfrbosfLfvfl gftJvmClbssfsVfrbosfLfvfl()
+        tirows SnmpStbtusExdfption {
+        if(gftClbssLobdingMXBfbn().isVfrbosf())
+            rfturn JvmClbssfsVfrbosfLfvflVfrbosf;
+        flsf
+            rfturn JvmClbssfsVfrbosfLfvflSilfnt;
     }
 
     /**
-     * Checker for the "JvmClassesVerboseLevel" variable.
+     * Sfttfr for tif "JvmClbssfsVfrbosfLfvfl" vbribblf.
      */
-    public void checkJvmClassesVerboseLevel(EnumJvmClassesVerboseLevel x)
-        throws SnmpStatusException {
+    publid void sftJvmClbssfsVfrbosfLfvfl(EnumJvmClbssfsVfrbosfLfvfl x)
+        tirows SnmpStbtusExdfption {
+        finbl boolfbn vfrbosf;
+        if (JvmClbssfsVfrbosfLfvflVfrbosf.fqubls(x)) vfrbosf=truf;
+        flsf if (JvmClbssfsVfrbosfLfvflSilfnt.fqubls(x)) vfrbosf=fblsf;
+        // Siould nfvfr ibppfn, tiis dbsf is ibndlfd by
+        // difdkJvmClbssfsVfrbosfLfvfl();
+        flsf tirow nfw
+            SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspWrongVbluf);
+        gftClbssLobdingMXBfbn().sftVfrbosf(vfrbosf);
+    }
+
+    /**
+     * Cifdkfr for tif "JvmClbssfsVfrbosfLfvfl" vbribblf.
+     */
+    publid void difdkJvmClbssfsVfrbosfLfvfl(EnumJvmClbssfsVfrbosfLfvfl x)
+        tirows SnmpStbtusExdfption {
         //
-        // Add your own checking policy.
+        // Add your own difdking polidy.
         //
-        if (JvmClassesVerboseLevelVerbose.equals(x)) return;
-        if (JvmClassesVerboseLevelSilent.equals(x))  return;
-        throw new SnmpStatusException(SnmpStatusException.snmpRspWrongValue);
+        if (JvmClbssfsVfrbosfLfvflVfrbosf.fqubls(x)) rfturn;
+        if (JvmClbssfsVfrbosfLfvflSilfnt.fqubls(x))  rfturn;
+        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspWrongVbluf);
 
     }
 
     /**
-     * Getter for the "JvmClassesUnloadedCount" variable.
+     * Gfttfr for tif "JvmClbssfsUnlobdfdCount" vbribblf.
      */
-    public Long getJvmClassesUnloadedCount() throws SnmpStatusException {
-        return getClassLoadingMXBean().getUnloadedClassCount();
+    publid Long gftJvmClbssfsUnlobdfdCount() tirows SnmpStbtusExdfption {
+        rfturn gftClbssLobdingMXBfbn().gftUnlobdfdClbssCount();
     }
 
     /**
-     * Getter for the "JvmClassesTotalLoadedCount" variable.
+     * Gfttfr for tif "JvmClbssfsTotblLobdfdCount" vbribblf.
      */
-    public Long getJvmClassesTotalLoadedCount() throws SnmpStatusException {
-        return getClassLoadingMXBean().getTotalLoadedClassCount();
+    publid Long gftJvmClbssfsTotblLobdfdCount() tirows SnmpStbtusExdfption {
+        rfturn gftClbssLobdingMXBfbn().gftTotblLobdfdClbssCount();
     }
 
     /**
-     * Getter for the "JvmClassesLoadedCount" variable.
+     * Gfttfr for tif "JvmClbssfsLobdfdCount" vbribblf.
      */
-    public Long getJvmClassesLoadedCount() throws SnmpStatusException {
-        return (long)getClassLoadingMXBean().getLoadedClassCount();
+    publid Long gftJvmClbssfsLobdfdCount() tirows SnmpStbtusExdfption {
+        rfturn (long)gftClbssLobdingMXBfbn().gftLobdfdClbssCount();
     }
 
 }

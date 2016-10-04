@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
 /**
- * Base class for a data structure for gathering elements into a buffer and then
- * iterating them. Maintains an array of increasingly sized arrays, so there is
- * no copying cost associated with growing the data structure.
- * @since 1.8
+ * Bbsf dlbss for b dbtb strudturf for gbtifring flfmfnts into b bufffr bnd tifn
+ * itfrbting tifm. Mbintbins bn brrby of indrfbsingly sizfd brrbys, so tifrf is
+ * no dopying dost bssodibtfd witi growing tif dbtb strudturf.
+ * @sindf 1.8
  */
-abstract class AbstractSpinedBuffer {
+bbstrbdt dlbss AbstrbdtSpinfdBufffr {
     /**
-     * Minimum power-of-two for the first chunk.
+     * Minimum powfr-of-two for tif first diunk.
      */
-    public static final int MIN_CHUNK_POWER = 4;
+    publid stbtid finbl int MIN_CHUNK_POWER = 4;
 
     /**
-     * Minimum size for the first chunk.
+     * Minimum sizf for tif first diunk.
      */
-    public static final int MIN_CHUNK_SIZE = 1 << MIN_CHUNK_POWER;
+    publid stbtid finbl int MIN_CHUNK_SIZE = 1 << MIN_CHUNK_POWER;
 
     /**
-     * Max power-of-two for chunks.
+     * Mbx powfr-of-two for diunks.
      */
-    public static final int MAX_CHUNK_POWER = 30;
+    publid stbtid finbl int MAX_CHUNK_POWER = 30;
 
     /**
-     * Minimum array size for array-of-chunks.
+     * Minimum brrby sizf for brrby-of-diunks.
      */
-    public static final int MIN_SPINE_SIZE = 8;
+    publid stbtid finbl int MIN_SPINE_SIZE = 8;
 
 
     /**
-     * log2 of the size of the first chunk.
+     * log2 of tif sizf of tif first diunk.
      */
-    protected final int initialChunkPower;
+    protfdtfd finbl int initiblCiunkPowfr;
 
     /**
-     * Index of the *next* element to write; may point into, or just outside of,
-     * the current chunk.
+     * Indfx of tif *nfxt* flfmfnt to writf; mby point into, or just outsidf of,
+     * tif durrfnt diunk.
      */
-    protected int elementIndex;
+    protfdtfd int flfmfntIndfx;
 
     /**
-     * Index of the *current* chunk in the spine array, if the spine array is
+     * Indfx of tif *durrfnt* diunk in tif spinf brrby, if tif spinf brrby is
      * non-null.
      */
-    protected int spineIndex;
+    protfdtfd int spinfIndfx;
 
     /**
-     * Count of elements in all prior chunks.
+     * Count of flfmfnts in bll prior diunks.
      */
-    protected long[] priorElementCount;
+    protfdtfd long[] priorElfmfntCount;
 
     /**
-     * Construct with an initial capacity of 16.
+     * Construdt witi bn initibl dbpbdity of 16.
      */
-    protected AbstractSpinedBuffer() {
-        this.initialChunkPower = MIN_CHUNK_POWER;
+    protfdtfd AbstrbdtSpinfdBufffr() {
+        tiis.initiblCiunkPowfr = MIN_CHUNK_POWER;
     }
 
     /**
-     * Construct with a specified initial capacity.
+     * Construdt witi b spfdififd initibl dbpbdity.
      *
-     * @param initialCapacity The minimum expected number of elements
+     * @pbrbm initiblCbpbdity Tif minimum fxpfdtfd numbfr of flfmfnts
      */
-    protected AbstractSpinedBuffer(int initialCapacity) {
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal Capacity: "+ initialCapacity);
+    protfdtfd AbstrbdtSpinfdBufffr(int initiblCbpbdity) {
+        if (initiblCbpbdity < 0)
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl Cbpbdity: "+ initiblCbpbdity);
 
-        this.initialChunkPower = Math.max(MIN_CHUNK_POWER,
-                                          Integer.SIZE - Integer.numberOfLeadingZeros(initialCapacity - 1));
+        tiis.initiblCiunkPowfr = Mbti.mbx(MIN_CHUNK_POWER,
+                                          Intfgfr.SIZE - Intfgfr.numbfrOfLfbdingZfros(initiblCbpbdity - 1));
     }
 
     /**
-     * Is the buffer currently empty?
+     * Is tif bufffr durrfntly fmpty?
      */
-    public boolean isEmpty() {
-        return (spineIndex == 0) && (elementIndex == 0);
+    publid boolfbn isEmpty() {
+        rfturn (spinfIndfx == 0) && (flfmfntIndfx == 0);
     }
 
     /**
-     * How many elements are currently in the buffer?
+     * How mbny flfmfnts brf durrfntly in tif bufffr?
      */
-    public long count() {
-        return (spineIndex == 0)
-               ? elementIndex
-               : priorElementCount[spineIndex] + elementIndex;
+    publid long dount() {
+        rfturn (spinfIndfx == 0)
+               ? flfmfntIndfx
+               : priorElfmfntCount[spinfIndfx] + flfmfntIndfx;
     }
 
     /**
-     * How big should the nth chunk be?
+     * How big siould tif nti diunk bf?
      */
-    protected int chunkSize(int n) {
-        int power = (n == 0 || n == 1)
-                    ? initialChunkPower
-                    : Math.min(initialChunkPower + n - 1, AbstractSpinedBuffer.MAX_CHUNK_POWER);
-        return 1 << power;
+    protfdtfd int diunkSizf(int n) {
+        int powfr = (n == 0 || n == 1)
+                    ? initiblCiunkPowfr
+                    : Mbti.min(initiblCiunkPowfr + n - 1, AbstrbdtSpinfdBufffr.MAX_CHUNK_POWER);
+        rfturn 1 << powfr;
     }
 
     /**
-     * Remove all data from the buffer
+     * Rfmovf bll dbtb from tif bufffr
      */
-    public abstract void clear();
+    publid bbstrbdt void dlfbr();
 }

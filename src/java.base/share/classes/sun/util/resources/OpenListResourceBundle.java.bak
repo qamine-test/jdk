@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package sun.util.resources;
+pbdkbgf sun.util.rfsourdfs;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-import sun.util.ResourceBundleEnumeration;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Sft;
+import sun.util.RfsourdfBundlfEnumfrbtion;
 
 /**
- * Subclass of <code>ResourceBundle</code> which mimics
- * <code>ListResourceBundle</code>, but provides more hooks
- * for specialized subclass behavior. For general description,
- * see {@link java.util.ListResourceBundle}.
+ * Subdlbss of <dodf>RfsourdfBundlf</dodf> wiidi mimids
+ * <dodf>ListRfsourdfBundlf</dodf>, but providfs morf iooks
+ * for spfdiblizfd subdlbss bfibvior. For gfnfrbl dfsdription,
+ * sff {@link jbvb.util.ListRfsourdfBundlf}.
  * <p>
- * This class leaves handleGetObject non-final, and
- * adds a method createMap which allows subclasses to
- * use specialized Map implementations.
+ * Tiis dlbss lfbvfs ibndlfGftObjfdt non-finbl, bnd
+ * bdds b mftiod drfbtfMbp wiidi bllows subdlbssfs to
+ * usf spfdiblizfd Mbp implfmfntbtions.
  */
-public abstract class OpenListResourceBundle extends ResourceBundle {
+publid bbstrbdt dlbss OpfnListRfsourdfBundlf fxtfnds RfsourdfBundlf {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected OpenListResourceBundle() {
+    protfdtfd OpfnListRfsourdfBundlf() {
     }
 
-    // Implements java.util.ResourceBundle.handleGetObject; inherits javadoc specification.
-    @Override
-    protected Object handleGetObject(String key) {
-        if (key == null) {
-            throw new NullPointerException();
+    // Implfmfnts jbvb.util.RfsourdfBundlf.ibndlfGftObjfdt; inifrits jbvbdod spfdifidbtion.
+    @Ovfrridf
+    protfdtfd Objfdt ibndlfGftObjfdt(String kfy) {
+        if (kfy == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        loadLookupTablesIfNecessary();
-        return lookup.get(key); // this class ignores locales
+        lobdLookupTbblfsIfNfdfssbry();
+        rfturn lookup.gft(kfy); // tiis dlbss ignorfs lodblfs
     }
 
     /**
-     * Implementation of ResourceBundle.getKeys.
+     * Implfmfntbtion of RfsourdfBundlf.gftKfys.
      */
-    @Override
-    public Enumeration<String> getKeys() {
-        ResourceBundle parentBundle = this.parent;
-        return new ResourceBundleEnumeration(handleKeySet(),
-                (parentBundle != null) ? parentBundle.getKeys() : null);
+    @Ovfrridf
+    publid Enumfrbtion<String> gftKfys() {
+        RfsourdfBundlf pbrfntBundlf = tiis.pbrfnt;
+        rfturn nfw RfsourdfBundlfEnumfrbtion(ibndlfKfySft(),
+                (pbrfntBundlf != null) ? pbrfntBundlf.gftKfys() : null);
      }
 
     /**
-     * Returns a set of keys provided in this resource bundle,
-     * including no parents.
+     * Rfturns b sft of kfys providfd in tiis rfsourdf bundlf,
+     * indluding no pbrfnts.
      */
-    @Override
-    protected Set<String> handleKeySet() {
-        loadLookupTablesIfNecessary();
-        return lookup.keySet();
+    @Ovfrridf
+    protfdtfd Sft<String> ibndlfKfySft() {
+        lobdLookupTbblfsIfNfdfssbry();
+        rfturn lookup.kfySft();
     }
 
-    @Override
-    public Set<String> keySet() {
-        if (keyset != null) {
-            return keyset;
+    @Ovfrridf
+    publid Sft<String> kfySft() {
+        if (kfysft != null) {
+            rfturn kfysft;
         }
-        Set<String> ks = createSet();
-        ks.addAll(handleKeySet());
-        if (parent != null) {
-            ks.addAll(parent.keySet());
+        Sft<String> ks = drfbtfSft();
+        ks.bddAll(ibndlfKfySft());
+        if (pbrfnt != null) {
+            ks.bddAll(pbrfnt.kfySft());
         }
-        synchronized (this) {
-            if (keyset == null) {
-                keyset = ks;
+        syndironizfd (tiis) {
+            if (kfysft == null) {
+                kfysft = ks;
             }
         }
-        return keyset;
+        rfturn kfysft;
     }
 
     /**
-     * See ListResourceBundle class description.
+     * Sff ListRfsourdfBundlf dlbss dfsdription.
      */
-    abstract protected Object[][] getContents();
+    bbstrbdt protfdtfd Objfdt[][] gftContfnts();
 
     /**
-     * Load lookup tables if they haven't been loaded already.
+     * Lobd lookup tbblfs if tify ibvfn't bffn lobdfd blrfbdy.
      */
-    void loadLookupTablesIfNecessary() {
+    void lobdLookupTbblfsIfNfdfssbry() {
         if (lookup == null) {
-            loadLookup();
+            lobdLookup();
         }
     }
 
     /**
-     * We lazily load the lookup hashtable.  This function does the
-     * loading.
+     * Wf lbzily lobd tif lookup ibsitbblf.  Tiis fundtion dofs tif
+     * lobding.
      */
-    private void loadLookup() {
-        Object[][] contents = getContents();
-        Map<String, Object> temp = createMap(contents.length);
-        for (int i = 0; i < contents.length; ++i) {
-            // key must be non-null String, value must be non-null
-            String key = (String) contents[i][0];
-            Object value = contents[i][1];
-            if (key == null || value == null) {
-                throw new NullPointerException();
+    privbtf void lobdLookup() {
+        Objfdt[][] dontfnts = gftContfnts();
+        Mbp<String, Objfdt> tfmp = drfbtfMbp(dontfnts.lfngti);
+        for (int i = 0; i < dontfnts.lfngti; ++i) {
+            // kfy must bf non-null String, vbluf must bf non-null
+            String kfy = (String) dontfnts[i][0];
+            Objfdt vbluf = dontfnts[i][1];
+            if (kfy == null || vbluf == null) {
+                tirow nfw NullPointfrExdfption();
             }
-            temp.put(key, value);
+            tfmp.put(kfy, vbluf);
         }
-        synchronized (this) {
+        syndironizfd (tiis) {
             if (lookup == null) {
-                lookup = temp;
+                lookup = tfmp;
             }
         }
     }
 
     /**
-     * Lets subclasses provide specialized Map implementations.
-     * Default uses HashMap.
+     * Lfts subdlbssfs providf spfdiblizfd Mbp implfmfntbtions.
+     * Dffbult usfs HbsiMbp.
      */
-    protected <K, V> Map<K, V> createMap(int size) {
-        return new HashMap<>(size);
+    protfdtfd <K, V> Mbp<K, V> drfbtfMbp(int sizf) {
+        rfturn nfw HbsiMbp<>(sizf);
     }
 
-    protected <E> Set<E> createSet() {
-        return new HashSet<>();
+    protfdtfd <E> Sft<E> drfbtfSft() {
+        rfturn nfw HbsiSft<>();
     }
 
-    private volatile Map<String, Object> lookup = null;
-    private volatile Set<String> keyset;
+    privbtf volbtilf Mbp<String, Objfdt> lookup = null;
+    privbtf volbtilf Sft<String> kfysft;
 }

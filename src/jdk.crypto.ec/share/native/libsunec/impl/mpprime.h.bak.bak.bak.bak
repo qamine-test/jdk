@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf MPI Arbitrbry Prfdision Intfgfr Arithmftid librbry.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Midhbfl J. Frombfrgfr.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 1997
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *
+ *********************************************************************** */
+
+/*  Utilitifs for finding bnd working with primf bnd psfudo-primf intfgfrs */
+
+#ifndff _MP_PRIME_H
+#dffinf _MP_PRIME_H
+
+#indludf "mpi.h"
+
+fxtfrn donst int primf_tbb_sizf;   /* numbfr of primfs bvbilbblf */
+fxtfrn donst mp_digit primf_tbb[];
+
+/* Tfsts for divisibility    */
+mp_frr  mpp_divis(mp_int *b, mp_int *b);
+mp_frr  mpp_divis_d(mp_int *b, mp_digit d);
+
+/* Rbndom sflfdtion          */
+mp_frr  mpp_rbndom(mp_int *b);
+mp_frr  mpp_rbndom_sizf(mp_int *b, mp_sizf prfd);
+
+/* Psfudo-primblity tfsting  */
+mp_frr  mpp_divis_vfdtor(mp_int *b, donst mp_digit *vfd, int sizf, int *whidh);
+mp_frr  mpp_divis_primfs(mp_int *b, mp_digit *np);
+mp_frr  mpp_ffrmbt(mp_int *b, mp_digit w);
+mp_frr mpp_ffrmbt_list(mp_int *b, donst mp_digit *primfs, mp_sizf nPrimfs);
+mp_frr  mpp_pprimf(mp_int *b, int nt);
+mp_frr mpp_sifvf(mp_int *tribl, donst mp_digit *primfs, mp_sizf nPrimfs,
+                 unsignfd dhbr *sifvf, mp_sizf nSifvf);
+mp_frr mpp_mbkf_primf(mp_int *stbrt, mp_sizf nBits, mp_sizf strong,
+                      unsignfd long * nTrifs);
+
+#fndif /* _MP_PRIME_H */

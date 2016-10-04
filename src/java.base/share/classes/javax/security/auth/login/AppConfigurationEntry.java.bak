@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.login;
+pbdkbgf jbvbx.sfdurity.buti.login;
 
-import java.util.Map;
-import java.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.Collfdtions;
 
 /**
- * This class represents a single {@code LoginModule} entry
- * configured for the application specified in the
- * {@code getAppConfigurationEntry(String appName)}
- * method in the {@code Configuration} class.  Each respective
- * {@code AppConfigurationEntry} contains a {@code LoginModule} name,
- * a control flag (specifying whether this {@code LoginModule} is
- * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), and LoginModule-specific
- * options.  Please refer to the {@code Configuration} class for
- * more information on the different control flags and their semantics.
+ * Tiis dlbss rfprfsfnts b singlf {@dodf LoginModulf} fntry
+ * donfigurfd for tif bpplidbtion spfdififd in tif
+ * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+ * mftiod in tif {@dodf Configurbtion} dlbss.  Ebdi rfspfdtivf
+ * {@dodf AppConfigurbtionEntry} dontbins b {@dodf LoginModulf} nbmf,
+ * b dontrol flbg (spfdifying wiftifr tiis {@dodf LoginModulf} is
+ * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), bnd LoginModulf-spfdifid
+ * options.  Plfbsf rfffr to tif {@dodf Configurbtion} dlbss for
+ * morf informbtion on tif difffrfnt dontrol flbgs bnd tifir sfmbntids.
  *
- * @see javax.security.auth.login.Configuration
+ * @sff jbvbx.sfdurity.buti.login.Configurbtion
  */
-public class AppConfigurationEntry {
+publid dlbss AppConfigurbtionEntry {
 
-    private String loginModuleName;
-    private LoginModuleControlFlag controlFlag;
-    private Map<String,?> options;
+    privbtf String loginModulfNbmf;
+    privbtf LoginModulfControlFlbg dontrolFlbg;
+    privbtf Mbp<String,?> options;
 
     /**
-     * Default constructor for this class.
+     * Dffbult donstrudtor for tiis dlbss.
      *
-     * <p> This entry represents a single {@code LoginModule}
-     * entry configured for the application specified in the
-     * {@code getAppConfigurationEntry(String appName)}
-     * method from the {@code Configuration} class.
+     * <p> Tiis fntry rfprfsfnts b singlf {@dodf LoginModulf}
+     * fntry donfigurfd for tif bpplidbtion spfdififd in tif
+     * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+     * mftiod from tif {@dodf Configurbtion} dlbss.
      *
-     * @param loginModuleName String representing the class name of the
-     *                  {@code LoginModule} configured for the
-     *                  specified application. <p>
+     * @pbrbm loginModulfNbmf String rfprfsfnting tif dlbss nbmf of tif
+     *                  {@dodf LoginModulf} donfigurfd for tif
+     *                  spfdififd bpplidbtion. <p>
      *
-     * @param controlFlag either REQUIRED, REQUISITE, SUFFICIENT,
+     * @pbrbm dontrolFlbg fitifr REQUIRED, REQUISITE, SUFFICIENT,
      *                  or OPTIONAL. <p>
      *
-     * @param options the options configured for this {@code LoginModule}.
+     * @pbrbm options tif options donfigurfd for tiis {@dodf LoginModulf}.
      *
-     * @exception IllegalArgumentException if {@code loginModuleName}
-     *                  is null, if {@code LoginModuleName}
-     *                  has a length of 0, if {@code controlFlag}
-     *                  is not either REQUIRED, REQUISITE, SUFFICIENT
-     *                  or OPTIONAL, or if {@code options} is null.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf loginModulfNbmf}
+     *                  is null, if {@dodf LoginModulfNbmf}
+     *                  ibs b lfngti of 0, if {@dodf dontrolFlbg}
+     *                  is not fitifr REQUIRED, REQUISITE, SUFFICIENT
+     *                  or OPTIONAL, or if {@dodf options} is null.
      */
-    public AppConfigurationEntry(String loginModuleName,
-                                LoginModuleControlFlag controlFlag,
-                                Map<String,?> options)
+    publid AppConfigurbtionEntry(String loginModulfNbmf,
+                                LoginModulfControlFlbg dontrolFlbg,
+                                Mbp<String,?> options)
     {
-        if (loginModuleName == null || loginModuleName.length() == 0 ||
-            (controlFlag != LoginModuleControlFlag.REQUIRED &&
-                controlFlag != LoginModuleControlFlag.REQUISITE &&
-                controlFlag != LoginModuleControlFlag.SUFFICIENT &&
-                controlFlag != LoginModuleControlFlag.OPTIONAL) ||
+        if (loginModulfNbmf == null || loginModulfNbmf.lfngti() == 0 ||
+            (dontrolFlbg != LoginModulfControlFlbg.REQUIRED &&
+                dontrolFlbg != LoginModulfControlFlbg.REQUISITE &&
+                dontrolFlbg != LoginModulfControlFlbg.SUFFICIENT &&
+                dontrolFlbg != LoginModulfControlFlbg.OPTIONAL) ||
             options == null)
-            throw new IllegalArgumentException();
+            tirow nfw IllfgblArgumfntExdfption();
 
-        this.loginModuleName = loginModuleName;
-        this.controlFlag = controlFlag;
-        this.options = Collections.unmodifiableMap(options);
+        tiis.loginModulfNbmf = loginModulfNbmf;
+        tiis.dontrolFlbg = dontrolFlbg;
+        tiis.options = Collfdtions.unmodifibblfMbp(options);
     }
 
     /**
-     * Get the class name of the configured {@code LoginModule}.
+     * Gft tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf}.
      *
-     * @return the class name of the configured {@code LoginModule} as
-     *          a String.
+     * @rfturn tif dlbss nbmf of tif donfigurfd {@dodf LoginModulf} bs
+     *          b String.
      */
-    public String getLoginModuleName() {
-        return loginModuleName;
+    publid String gftLoginModulfNbmf() {
+        rfturn loginModulfNbmf;
     }
 
     /**
-     * Return the controlFlag
-     * (either REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
-     * for this {@code LoginModule}.
+     * Rfturn tif dontrolFlbg
+     * (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     * for tiis {@dodf LoginModulf}.
      *
-     * @return the controlFlag
-     *          (either REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
-     *          for this {@code LoginModule}.
+     * @rfturn tif dontrolFlbg
+     *          (fitifr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     *          for tiis {@dodf LoginModulf}.
      */
-    public LoginModuleControlFlag getControlFlag() {
-        return controlFlag;
+    publid LoginModulfControlFlbg gftControlFlbg() {
+        rfturn dontrolFlbg;
     }
 
     /**
-     * Get the options configured for this {@code LoginModule}.
+     * Gft tif options donfigurfd for tiis {@dodf LoginModulf}.
      *
-     * @return the options configured for this {@code LoginModule}
-     *          as an unmodifiable {@code Map}.
+     * @rfturn tif options donfigurfd for tiis {@dodf LoginModulf}
+     *          bs bn unmodifibblf {@dodf Mbp}.
      */
-    public Map<String,?> getOptions() {
-        return options;
+    publid Mbp<String,?> gftOptions() {
+        rfturn options;
     }
 
     /**
-     * This class represents whether or not a {@code LoginModule}
+     * Tiis dlbss rfprfsfnts wiftifr or not b {@dodf LoginModulf}
      * is REQUIRED, REQUISITE, SUFFICIENT or OPTIONAL.
      */
-    public static class LoginModuleControlFlag {
+    publid stbtid dlbss LoginModulfControlFlbg {
 
-        private String controlFlag;
-
-        /**
-         * Required {@code LoginModule}.
-         */
-        public static final LoginModuleControlFlag REQUIRED =
-                                new LoginModuleControlFlag("required");
+        privbtf String dontrolFlbg;
 
         /**
-         * Requisite {@code LoginModule}.
+         * Rfquirfd {@dodf LoginModulf}.
          */
-        public static final LoginModuleControlFlag REQUISITE =
-                                new LoginModuleControlFlag("requisite");
+        publid stbtid finbl LoginModulfControlFlbg REQUIRED =
+                                nfw LoginModulfControlFlbg("rfquirfd");
 
         /**
-         * Sufficient {@code LoginModule}.
+         * Rfquisitf {@dodf LoginModulf}.
          */
-        public static final LoginModuleControlFlag SUFFICIENT =
-                                new LoginModuleControlFlag("sufficient");
+        publid stbtid finbl LoginModulfControlFlbg REQUISITE =
+                                nfw LoginModulfControlFlbg("rfquisitf");
 
         /**
-         * Optional {@code LoginModule}.
+         * Suffidifnt {@dodf LoginModulf}.
          */
-        public static final LoginModuleControlFlag OPTIONAL =
-                                new LoginModuleControlFlag("optional");
+        publid stbtid finbl LoginModulfControlFlbg SUFFICIENT =
+                                nfw LoginModulfControlFlbg("suffidifnt");
 
-        private LoginModuleControlFlag(String controlFlag) {
-            this.controlFlag = controlFlag;
+        /**
+         * Optionbl {@dodf LoginModulf}.
+         */
+        publid stbtid finbl LoginModulfControlFlbg OPTIONAL =
+                                nfw LoginModulfControlFlbg("optionbl");
+
+        privbtf LoginModulfControlFlbg(String dontrolFlbg) {
+            tiis.dontrolFlbg = dontrolFlbg;
         }
 
         /**
-         * Return a String representation of this controlFlag.
+         * Rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
          *
-         * <p> The String has the format, "LoginModuleControlFlag: <i>flag</i>",
-         * where <i>flag</i> is either <i>required</i>, <i>requisite</i>,
-         * <i>sufficient</i>, or <i>optional</i>.
+         * <p> Tif String ibs tif formbt, "LoginModulfControlFlbg: <i>flbg</i>",
+         * wifrf <i>flbg</i> is fitifr <i>rfquirfd</i>, <i>rfquisitf</i>,
+         * <i>suffidifnt</i>, or <i>optionbl</i>.
          *
-         * @return a String representation of this controlFlag.
+         * @rfturn b String rfprfsfntbtion of tiis dontrolFlbg.
          */
-        public String toString() {
-            return (sun.security.util.ResourcesMgr.getString
-                ("LoginModuleControlFlag.") + controlFlag);
+        publid String toString() {
+            rfturn (sun.sfdurity.util.RfsourdfsMgr.gftString
+                ("LoginModulfControlFlbg.") + dontrolFlbg);
         }
     }
 }

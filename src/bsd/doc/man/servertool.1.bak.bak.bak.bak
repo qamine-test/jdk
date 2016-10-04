@@ -1,0 +1,138 @@
+'\" t
+.\"  Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: sfrvfrtool.1
+.\"
+.if n .pl 99999
+.TH sfrvfrtool 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+sfrvfrtool \- Providfs bn fbsy-to-usf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd shut down b pfrsistfnt sfrvfr\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBsfrvfrtool\fR \-ORBInitiblPort \fInbmfsfrvfrport\fR [ \fIoptions\fR ] [ \fIdommbnds \fR]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+dommbnds
+Thf dommbnd-linf dommbnds\&. Sff Commbnds\&.
+.SH DESCRIPTION    
+Thf \f3sfrvfrtool\fR dommbnd providfs thf dommbnd-linf intfrfbdf for dfvflopfrs to rfgistfr, unrfgistfr, stbrt up, bnd shut down b pfrsistfnt sfrvfr\&. Commbnd-linf dommbnds lft you obtbin vbrious stbtistidbl informbtion bbout thf sfrvfr\&. Sff Commbnds\&.
+.SH OPTIONS    
+.TP
+-ORBInitiblHost \fInbmfsfrvfrhost\fR
+.br
+This options is rfquirfd\&. It spfdififs thf host mbdhinf on whidh thf nbmf sfrvfr runs bnd listfns for indoming rfqufsts\&. Thf \f3nbmfsfrvfrhost\fR vbluf must spfdify thf port on whidh thf \f3orb\fR is running bnd listfning for rfqufsts\&. Thf vbluf dffbults to \f3lodblhost\fR whfn this option is not spfdififd\&. If \f3orbd\fR bnd \f3sfrvfrtool\fR brf running on difffrfnt mbdhinfs, thfn you must spfdify thf nbmf or IP bddrfss of thf host on whidh \f3orbd\fR is running\&.
+
+\fINotf:\fR On Orbdlf Solbris, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. Orbdlf rfdommfnds thbt you usf b port numbfr bbovf or fqubl to 1024 for thf \f3nbmfsfrvfrport\fR vbluf\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to thf Jbvb Virtubl Mbdhinf, whfrf \f3option\fR is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH COMMANDS    
+You dbn stbrt thf \f3sfrvfrtool\fR dommbnd with or without b dommbnd-linf dommbnd\&.
+.TP 0.2i    
+\(bu
+If you did not spfdify b dommbnd whfn you stbrtfd \f3sfrvfrtool\fR, thfn thf dommbnd-linf tool displbys thf \f3sfrvfrtool\fR prompt whfrf you dbn fntfr dommbnds: \f3sfrvfrtool >\fR\&.
+.TP 0.2i    
+\(bu
+If you spfdify b dommbnd whfn you stbrt \f3sfrvfrtool\fR, thfn thf Jbvb IDL Sfrvfr Tool stbrts, fxfdutfs thf dommbnd, bnd fxits\&.
+.TP     
+.ll 180
+rfgistfr -sfrvfr \fIsfrvfr-dlbss-nbmf\fR -dlbsspbth \fIdlbsspbth-to-sfrvfr\fR [ -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR -brgs \fIbrgs-to-sfrvfr\fR -vmbrgs \fIflbgs-for-JVM\fR ]
+Rfgistfrs b nfw pfrsistfnt sfrvfr with thf Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. If thf sfrvfr is not blrfbdy rfgistfrfd, thfn it is rfgistfrfd bnd bdtivbtfd\&. This dommbnd dbusfs bn instbllbtion mfthod to bf dbllfd in thf \f3mbin\fR dlbss of thf sfrvfr idfntififd by thf \f3-sfrvfr\fR option\&. Thf instbllbtion mfthod must bf \f3publid stbtid void instbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Thf instbll mfthod is optionbl bnd lfts dfvflopfrs providf thfir own sfrvfr instbllbtion bfhbvior, sudh bs drfbting b dbtbbbsf sdhfmb\&.
+.TP     
+.ll 180
+unrfgistfr -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+Unrfgistfrs b sfrvfr from thf ORBD with fithfr its sfrvfr ID or its bpplidbtion nbmf\&. This dommbnd dbusfs bn uninstbllbtion mfthod to bf dbllfd in thf \f3mbin\fR dlbss of thf sfrvfr idfntififd by thf \f3-sfrvfr\fR option\&. Thf \f3uninstbll\fR mfthod must bf \f3publid stbtid void uninstbll(org\&.omg\&.CORBA\&.ORB)\fR\&. Thf \f3uninstbll\fR mfthod is optionbl bnd lfts dfvflopfrs providf thfir own sfrvfr uninstbllbtion bfhbvior, sudh bs undoing thf bfhbvior of thf \f3instbll\fR mfthod\&.
+.TP     
+gftsfrvfrid -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+Rfturns thf sfrvfr ID thbt dorrfsponds to thf \f3bpplidbtion-nbmf\fR vbluf\&.
+.TP     
+list
+Lists informbtion bbout bll pfrsistfnt sfrvfrs rfgistfrfd with thf ORBD\&.
+.TP     
+listbppnbmfs
+Lists thf bpplidbtion nbmfs for bll sfrvfrs durrfntly rfgistfrfd with thf ORBD\&.
+.TP     
+listbdtivf
+Lists informbtion bbout bll pfrsistfnt sfrvfrs thbt wfrf stbrtfd by thf ORBD bnd brf durrfntly running\&.
+.TP     
+.ll 180
+lodbtf -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -fndpointTypf \fIfndpointTypf\fR ]
+Lodbtfs thf fndpoints (ports) of b spfdifid typf for bll ORBs drfbtfd by b rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, thfn it is bdtivbtfd\&. If bn \f3fndpointTypf\fR vbluf is not spfdififd, thfn thf plbin/non-protfdtfd fndpoint bssodibtfd with fbdh ORB in b sfrvfr is rfturnfd\&.
+.TP     
+.ll 180
+lodbtfpfrorb -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR [ -orbid \fIORB-nbmf\fR ]
+Lodbtfs bll thf fndpoints (ports) rfgistfrfd by b spfdifid Objfdt Rfqufst Brokfr (ORB) of rfgistfrfd sfrvfr\&. If b sfrvfr is not blrfbdy running, thfn it is bdtivbtfd\&. If bn \f3orbid\fR is not spfdififd, thfn thf dffbult vbluf of \f3""\fR is bssignfd to thf \f3orbid\fR\&. If bny ORBs brf drfbtfd with bn \f3orbid\fR of fmpty string, thfn bll ports rfgistfrfd by it brf rfturnfd\&.
+.TP     
+orblist -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf \fIbpplidbtion-nbmf\fR
+Lists thf \f3ORBId\fR of thf ORBs dffinfd on b sfrvfr\&. An \f3ORBId\fR is thf string nbmf for thf ORB drfbtfd by thf sfrvfr\&. If thf sfrvfr is not blrfbdy running, thfn it is bdtivbtfd\&.
+.TP     
+shutdown -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+Shut down bn bdtivf sfrvfr thbt is rfgistfrfd with ORBD\&. During fxfdution of this dommbnd, thf \f3shutdown\fR mfthod dffinfd in thf dlbss spfdififd by fithfr thf \f3-sfrvfrid\fR or \f3-bpplidbtionNbmf\fR pbrbmftfr is blso dbllfd to shut down thf sfrvfr prodfss\&.
+.TP     
+stbrtup -sfrvfrid \fIsfrvfr-id\fR | -bpplidbtionNbmf bpplidbtion-nbmf
+Stbrts up or bdtivbtf b sfrvfr thbt is rfgistfrfd with ORBD\&. If thf sfrvfr is not running, thfn this dommbnd stbrts thf sfrvfr\&. If thf sfrvfr is blrfbdy running, thfn bn frror mfssbgf is displbyfd\&.
+.TP     
+hflp
+Lists bll thf dommbnds bvbilbblf to thf sfrvfr through thf \f3sfrvfrtool\fR dommbnd\&.
+.TP     
+quit
+Exits thf \f3sfrvfrtool\fR dommbnd\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+orbd(1)
+.RE
+.br
+'pl 8.5i
+'bp

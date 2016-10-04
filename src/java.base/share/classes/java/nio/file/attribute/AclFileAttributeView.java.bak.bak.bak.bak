@@ -1,0 +1,209 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import jbvb.nio.filf.*;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
+
+/**
+ * A filf bttributf vifw thbt supports rfbding or updbting b filf's Addfss
+ * Control Lists (ACL) or filf ownfr bttributfs.
+ *
+ * <p> ACLs brf usfd to spfdify bddfss rights to filf systfm objfdts. An ACL is
+ * bn ordfrfd list of {@link AdlEntry bddfss-dontrol-fntrifs}, fbdh spfdifying b
+ * {@link UsfrPrindipbl} bnd thf lfvfl of bddfss for thbt usfr prindipbl. This
+ * filf bttributf vifw dffinfs thf {@link #gftAdl() gftAdl}, bnd {@link
+ * #sftAdl(List) sftAdl} mfthods to rfbd bnd writf ACLs bbsfd on thf ACL
+ * modfl spfdififd in <b hrff="http://www.iftf.org/rfd/rfd3530.txt"><i>RFC&nbsp;3530:
+ * Nftwork Filf Systfm (NFS) vfrsion 4 Protodol</i></b>. This filf bttributf vifw
+ * is intfndfd for filf systfm implfmfntbtions thbt support thf NFSv4 ACL modfl
+ * or hbvf b <fm>wfll-dffinfd</fm> mbpping bftwffn thf NFSv4 ACL modfl bnd thf ACL
+ * modfl usfd by thf filf systfm. Thf dftbils of sudh mbpping brf implfmfntbtion
+ * dfpfndfnt bnd brf thfrfforf unspfdififd.
+ *
+ * <p> This dlbss blso fxtfnds {@dodf FilfOwnfrAttributfVifw} so bs to dffinf
+ * mfthods to gft bnd sft thf filf ownfr.
+ *
+ * <p> Whfn b filf systfm providfs bddfss to b sft of {@link FilfStorf
+ * filf-systfms} thbt brf not homogfnfous thfn only somf of thf filf systfms mby
+ * support ACLs. Thf {@link FilfStorf#supportsFilfAttributfVifw
+ * supportsFilfAttributfVifw} mfthod dbn bf usfd to tfst if b filf systfm
+ * supports ACLs.
+ *
+ * <h2>Intfropfrbbility</h2>
+ *
+ * RFC&nbsp;3530 bllows for spfdibl usfr idfntitifs to bf usfd on plbtforms thbt
+ * support thf POSIX dffinfd bddfss pfrmissions. Thf spfdibl usfr idfntitifs
+ * brf "{@dodf OWNER@}", "{@dodf GROUP@}", bnd "{@dodf EVERYONE@}". Whfn both
+ * thf {@dodf AdlFilfAttributfVifw} bnd thf {@link PosixFilfAttributfVifw}
+ * brf supportfd thfn thfsf spfdibl usfr idfntitifs mby bf indludfd in ACL {@link
+ * AdlEntry fntrifs} thbt brf rfbd or writtfn. Thf filf systfm's {@link
+ * UsfrPrindipblLookupSfrvidf} mby bf usfd to obtbin b {@link UsfrPrindipbl}
+ * to rfprfsfnt thfsf spfdibl idfntitifs by invoking thf {@link
+ * UsfrPrindipblLookupSfrvidf#lookupPrindipblByNbmf lookupPrindipblByNbmf}
+ * mfthod.
+ *
+ * <p> <b>Usbgf Exbmplf:</b>
+ * Supposf wf wish to bdd bn fntry to bn fxisting ACL to grbnt "jof" bddfss:
+ * <prf>
+ *     // lookup "jof"
+ *     UsfrPrindipbl jof = filf.gftFilfSystfm().gftUsfrPrindipblLookupSfrvidf()
+ *         .lookupPrindipblByNbmf("jof");
+ *
+ *     // gft vifw
+ *     AdlFilfAttributfVifw vifw = Filfs.gftFilfAttributfVifw(filf, AdlFilfAttributfVifw.dlbss);
+ *
+ *     // drfbtf ACE to givf "jof" rfbd bddfss
+ *     AdlEntry fntry = AdlEntry.nfwBuildfr()
+ *         .sftTypf(AdlEntryTypf.ALLOW)
+ *         .sftPrindipbl(jof)
+ *         .sftPfrmissions(AdlEntryPfrmission.READ_DATA, AdlEntryPfrmission.READ_ATTRIBUTES)
+ *         .build();
+ *
+ *     // rfbd ACL, insfrt ACE, rf-writf ACL
+ *     List&lt;AdlEntry&gt; bdl = vifw.gftAdl();
+ *     bdl.bdd(0, fntry);   // insfrt bfforf bny DENY fntrifs
+ *     vifw.sftAdl(bdl);
+ * </prf>
+ *
+ * <h2> Dynbmid Addfss </h2>
+ * <p> Whfrf dynbmid bddfss to filf bttributfs is rfquirfd, thf bttributfs
+ * supportfd by this bttributf vifw brf bs follows:
+ * <blodkquotf>
+ * <tbblf bordfr="1" dfllpbdding="8" summbry="Supportfd bttributfs">
+ *   <tr>
+ *     <th> Nbmf </th>
+ *     <th> Typf </th>
+ *   </tr>
+ *   <tr>
+ *     <td> "bdl" </td>
+ *     <td> {@link List}&lt;{@link AdlEntry}&gt; </td>
+ *   </tr>
+ *   <tr>
+ *     <td> "ownfr" </td>
+ *     <td> {@link UsfrPrindipbl} </td>
+ *   </tr>
+ * </tbblf>
+ * </blodkquotf>
+ *
+ * <p> Thf {@link Filfs#gftAttributf gftAttributf} mfthod mby bf usfd to rfbd
+ * thf ACL or ownfr bttributfs bs if by invoking thf {@link #gftAdl gftAdl} or
+ * {@link #gftOwnfr gftOwnfr} mfthods.
+ *
+ * <p> Thf {@link Filfs#sftAttributf sftAttributf} mfthod mby bf usfd to
+ * updbtf thf ACL or ownfr bttributfs bs if by invoking thf {@link #sftAdl sftAdl}
+ * or {@link #sftOwnfr sftOwnfr} mfthods.
+ *
+ * <h2> Sftting thf ACL whfn drfbting b filf </h2>
+ *
+ * <p> Implfmfntbtions supporting this bttributf vifw mby blso support sftting
+ * thf initibl ACL whfn drfbting b filf or dirfdtory. Thf initibl ACL
+ * mby bf providfd to mfthods sudh bs {@link Filfs#drfbtfFilf drfbtfFilf} or {@link
+ * Filfs#drfbtfDirfdtory drfbtfDirfdtory} bs bn {@link FilfAttributf} with {@link
+ * FilfAttributf#nbmf nbmf} {@dodf "bdl:bdl"} bnd b {@link FilfAttributf#vbluf
+ * vbluf} thbt is thf list of {@dodf AdlEntry} objfdts.
+ *
+ * <p> Whfrf bn implfmfntbtion supports bn ACL modfl thbt difffrs from thf NFSv4
+ * dffinfd ACL modfl thfn sftting thf initibl ACL whfn drfbting thf filf must
+ * trbnslbtf thf ACL to thf modfl supportfd by thf filf systfm. Mfthods thbt
+ * drfbtf b filf should rfjfdt (by throwing {@link IOExdfption IOExdfption})
+ * bny bttfmpt to drfbtf b filf thbt would bf lfss sfdurf bs b rfsult of thf
+ * trbnslbtion.
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf AdlFilfAttributfVifw
+    fxtfnds FilfOwnfrAttributfVifw
+{
+    /**
+     * Rfturns thf nbmf of thf bttributf vifw. Attributf vifws of this typf
+     * hbvf thf nbmf {@dodf "bdl"}.
+     */
+    @Ovfrridf
+    String nbmf();
+
+    /**
+     * Rfbds thf bddfss dontrol list.
+     *
+     * <p> Whfn thf filf systfm usfs bn ACL modfl thbt difffrs from thf NFSv4
+     * dffinfd ACL modfl, thfn this mfthod rfturns bn ACL thbt is thf trbnslbtion
+     * of thf ACL to thf NFSv4 ACL modfl.
+     *
+     * <p> Thf rfturnfd list is modifibblf so bs to fbdilitbtf dhbngfs to thf
+     * fxisting ACL. Thf {@link #sftAdl sftAdl} mfthod is usfd to updbtf
+     * thf filf's ACL bttributf.
+     *
+     * @rfturn  bn ordfrfd list of {@link AdlEntry fntrifs} rfprfsfnting thf
+     *          ACL
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd} mfthod
+     *          dfnifs rfbd bddfss to thf filf.
+     */
+    List<AdlEntry> gftAdl() throws IOExdfption;
+
+    /**
+     * Updbtfs (rfplbdf) thf bddfss dontrol list.
+     *
+     * <p> Whfrf thf filf systfm supports Addfss Control Lists, bnd it usfs bn
+     * ACL modfl thbt difffrs from thf NFSv4 dffinfd ACL modfl, thfn this mfthod
+     * must trbnslbtf thf ACL to thf modfl supportfd by thf filf systfm. This
+     * mfthod should rfjfdt (by throwing {@link IOExdfption IOExdfption}) bny
+     * bttfmpt to writf bn ACL thbt would bppfbr to mbkf thf filf morf sfdurf
+     * thbn would bf thf dbsf if thf ACL wfrf updbtfd. Whfrf bn implfmfntbtion
+     * dofs not support b mbpping of {@link AdlEntryTypf#AUDIT} or {@link
+     * AdlEntryTypf#ALARM} fntrifs, thfn this mfthod ignorfs thfsf fntrifs whfn
+     * writing thf ACL.
+     *
+     * <p> If bn ACL fntry dontbins b {@link AdlEntry#prindipbl usfr-prindipbl}
+     * thbt is not bssodibtfd with thf sbmf providfr bs this bttributf vifw thfn
+     * {@link ProvidfrMismbtdhExdfption} is thrown. Additionbl vblidbtion, if
+     * bny, is implfmfntbtion dfpfndfnt.
+     *
+     * <p> If thf filf systfm supports othfr sfdurity rflbtfd filf bttributfs
+     * (sudh bs b filf {@link PosixFilfAttributfs#pfrmissions
+     * bddfss-pfrmissions} for fxbmplf), thf updbting thf bddfss dontrol list
+     * mby blso dbusf thfsf sfdurity rflbtfd bttributfs to bf updbtfd.
+     *
+     * @pbrbm   bdl
+     *          thf nfw bddfss dontrol list
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs or thf ACL is invblid
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, it dfnifs {@link RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod dfnifs writf bddfss to thf filf.
+     */
+    void sftAdl(List<AdlEntry> bdl) throws IOExdfption;
+}

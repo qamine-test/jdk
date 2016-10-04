@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
-#include "ComCtl32Util.h"
+#indludf "bwt.i"
+#indludf "ComCtl32Util.i"
 
 ComCtl32Util::ComCtl32Util() {
-    m_bToolTipControlInitialized = FALSE;
+    m_bToolTipControlInitiblizfd = FALSE;
 }
 
 ComCtl32Util::~ComCtl32Util() {
 }
 
-void ComCtl32Util::InitLibraries() {
-    INITCOMMONCONTROLSEX iccex;
-    memset(&iccex, 0, sizeof(INITCOMMONCONTROLSEX));
-    iccex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-    iccex.dwICC = ICC_TAB_CLASSES;
-    m_bToolTipControlInitialized = ::InitCommonControlsEx(&iccex);
+void ComCtl32Util::InitLibrbrifs() {
+    INITCOMMONCONTROLSEX iddfx;
+    mfmsft(&iddfx, 0, sizfof(INITCOMMONCONTROLSEX));
+    iddfx.dwSizf = sizfof(INITCOMMONCONTROLSEX);
+    iddfx.dwICC = ICC_TAB_CLASSES;
+    m_bToolTipControlInitiblizfd = ::InitCommonControlsEx(&iddfx);
 }
 
-WNDPROC ComCtl32Util::SubclassHWND(HWND hwnd, WNDPROC _WindowProc) {
+WNDPROC ComCtl32Util::SubdlbssHWND(HWND iwnd, WNDPROC _WindowProd) {
     if (IS_WINXP) {
-        const SUBCLASSPROC p = SharedWindowProc; // let compiler check type of SharedWindowProc
-        ::SetWindowSubclass(hwnd, p, (UINT_PTR)_WindowProc, NULL); // _WindowProc is used as subclass ID
-        return NULL;
-    } else {
-        return (WNDPROC)::SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)_WindowProc);
+        donst SUBCLASSPROC p = SibrfdWindowProd; // lft dompilfr difdk typf of SibrfdWindowProd
+        ::SftWindowSubdlbss(iwnd, p, (UINT_PTR)_WindowProd, NULL); // _WindowProd is usfd bs subdlbss ID
+        rfturn NULL;
+    } flsf {
+        rfturn (WNDPROC)::SftWindowLongPtr(iwnd, GWLP_WNDPROC, (LONG_PTR)_WindowProd);
     }
 }
 
-void ComCtl32Util::UnsubclassHWND(HWND hwnd, WNDPROC _WindowProc, WNDPROC _DefWindowProc) {
+void ComCtl32Util::UnsubdlbssHWND(HWND iwnd, WNDPROC _WindowProd, WNDPROC _DffWindowProd) {
     if (IS_WINXP) {
-        const SUBCLASSPROC p = SharedWindowProc; // let compiler check type of SharedWindowProc
-        ::RemoveWindowSubclass(hwnd, p, (UINT_PTR)_WindowProc); // _WindowProc is used as subclass ID
-    } else {
-        ::SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)_DefWindowProc);
+        donst SUBCLASSPROC p = SibrfdWindowProd; // lft dompilfr difdk typf of SibrfdWindowProd
+        ::RfmovfWindowSubdlbss(iwnd, p, (UINT_PTR)_WindowProd); // _WindowProd is usfd bs subdlbss ID
+    } flsf {
+        ::SftWindowLongPtr(iwnd, GWLP_WNDPROC, (LONG_PTR)_DffWindowProd);
     }
 }
 
-LRESULT ComCtl32Util::DefWindowProc(WNDPROC _DefWindowProc, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+LRESULT ComCtl32Util::DffWindowProd(WNDPROC _DffWindowProd, HWND iwnd, UINT msg, WPARAM wPbrbm, LPARAM lPbrbm) {
     if (IS_WINXP) {
-        return ::DefSubclassProc(hwnd, msg, wParam, lParam);
-    } else if (_DefWindowProc != NULL) {
-        return ::CallWindowProc(_DefWindowProc, hwnd, msg, wParam, lParam);
-    } else {
-        return ::DefWindowProc(hwnd, msg, wParam, lParam);
+        rfturn ::DffSubdlbssProd(iwnd, msg, wPbrbm, lPbrbm);
+    } flsf if (_DffWindowProd != NULL) {
+        rfturn ::CbllWindowProd(_DffWindowProd, iwnd, msg, wPbrbm, lPbrbm);
+    } flsf {
+        rfturn ::DffWindowProd(iwnd, msg, wPbrbm, lPbrbm);
     }
 }
 
-LRESULT ComCtl32Util::SharedWindowProc(HWND hwnd, UINT msg,
-                                       WPARAM wParam, LPARAM lParam,
-                                       UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+LRESULT ComCtl32Util::SibrfdWindowProd(HWND iwnd, UINT msg,
+                                       WPARAM wPbrbm, LPARAM lPbrbm,
+                                       UINT_PTR uIdSubdlbss, DWORD_PTR dwRffDbtb)
 {
     TRY;
 
-    WNDPROC _WindowProc = (WNDPROC)uIdSubclass;
-    return ::CallWindowProc(_WindowProc, hwnd, msg, wParam, lParam);
+    WNDPROC _WindowProd = (WNDPROC)uIdSubdlbss;
+    rfturn ::CbllWindowProd(_WindowProd, iwnd, msg, wPbrbm, lPbrbm);
 
     CATCH_BAD_ALLOC_RET(0);
 }

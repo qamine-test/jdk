@@ -1,0 +1,316 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * A <dodf>LbbflVifw</dodf> is b stylfd dhunk of tfxt
+ * thbt rfprfsfnts b vifw mbppfd ovfr bn flfmfnt in thf
+ * tfxt modfl.  It dbdhfs thf dhbrbdtfr lfvfl bttributfs
+ * usfd for rfndfring.
+ *
+ * @buthor Timothy Prinzing
+ */
+publid dlbss LbbflVifw fxtfnds GlyphVifw implfmfnts TbbbblfVifw {
+
+    /**
+     * Construdts b nfw vifw wrbppfd on bn flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt
+     */
+    publid LbbflVifw(Elfmfnt flfm) {
+        supfr(flfm);
+    }
+
+    /**
+     * Syndhronizf thf vifw's dbdhfd vblufs with thf modfl.
+     * This dbusfs thf font, mftrids, dolor, ftd to bf
+     * rf-dbdhfd if thf dbdhf hbs bffn invblidbtfd.
+     */
+    finbl void synd() {
+        if (font == null) {
+            sftPropfrtifsFromAttributfs();
+        }
+    }
+
+    /**
+     * Sfts whfthfr or not thf vifw is undfrlinfd.
+     * Notf thbt this sfttfr is protfdtfd bnd is rfblly
+     * only mfbnt if you nffd to updbtf somf bdditionbl
+     * stbtf whfn sft.
+     *
+     * @pbrbm u truf if thf vifw is undfrlinfd, othfrwisf
+     *          fblsf
+     * @sff #isUndfrlinf
+     */
+    protfdtfd void sftUndfrlinf(boolfbn u) {
+        undfrlinf = u;
+    }
+
+    /**
+     * Sfts whfthfr or not thf vifw hbs b strikf/linf
+     * through it.
+     * Notf thbt this sfttfr is protfdtfd bnd is rfblly
+     * only mfbnt if you nffd to updbtf somf bdditionbl
+     * stbtf whfn sft.
+     *
+     * @pbrbm s truf if thf vifw hbs b strikf/linf
+     *          through it, othfrwisf fblsf
+     * @sff #isStrikfThrough
+     */
+    protfdtfd void sftStrikfThrough(boolfbn s) {
+        strikf = s;
+    }
+
+
+    /**
+     * Sfts whfthfr or not thf vifw rfprfsfnts b
+     * supfrsdript.
+     * Notf thbt this sfttfr is protfdtfd bnd is rfblly
+     * only mfbnt if you nffd to updbtf somf bdditionbl
+     * stbtf whfn sft.
+     *
+     * @pbrbm s truf if thf vifw rfprfsfnts b
+     *          supfrsdript, othfrwisf fblsf
+     * @sff #isSupfrsdript
+     */
+    protfdtfd void sftSupfrsdript(boolfbn s) {
+        supfrsdript = s;
+    }
+
+    /**
+     * Sfts whfthfr or not thf vifw rfprfsfnts b
+     * subsdript.
+     * Notf thbt this sfttfr is protfdtfd bnd is rfblly
+     * only mfbnt if you nffd to updbtf somf bdditionbl
+     * stbtf whfn sft.
+     *
+     * @pbrbm s truf if thf vifw rfprfsfnts b
+     *          subsdript, othfrwisf fblsf
+     * @sff #isSubsdript
+     */
+    protfdtfd void sftSubsdript(boolfbn s) {
+        subsdript = s;
+    }
+
+    /**
+     * Sfts thf bbdkground dolor for thf vifw. This mfthod is typidblly
+     * invokfd bs pbrt of donfiguring this <dodf>Vifw</dodf>. If you nffd
+     * to dustomizf thf bbdkground dolor you should ovfrridf
+     * <dodf>sftPropfrtifsFromAttributfs</dodf> bnd invokf this mfthod. A
+     * vbluf of null indidbtfs no bbdkground should bf rfndfrfd, so thbt thf
+     * bbdkground of thf pbrfnt <dodf>Vifw</dodf> will show through.
+     *
+     * @pbrbm bg bbdkground dolor, or null
+     * @sff #sftPropfrtifsFromAttributfs
+     * @sindf 1.5
+     */
+    protfdtfd void sftBbdkground(Color bg) {
+        this.bg = bg;
+    }
+
+    /**
+     * Sfts thf dbdhfd propfrtifs from thf bttributfs.
+     */
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        AttributfSft bttr = gftAttributfs();
+        if (bttr != null) {
+            Dodumfnt d = gftDodumfnt();
+            if (d instbndfof StylfdDodumfnt) {
+                StylfdDodumfnt dod = (StylfdDodumfnt) d;
+                font = dod.gftFont(bttr);
+                fg = dod.gftForfground(bttr);
+                if (bttr.isDffinfd(StylfConstbnts.Bbdkground)) {
+                    bg = dod.gftBbdkground(bttr);
+                } flsf {
+                    bg = null;
+                }
+                sftUndfrlinf(StylfConstbnts.isUndfrlinf(bttr));
+                sftStrikfThrough(StylfConstbnts.isStrikfThrough(bttr));
+                sftSupfrsdript(StylfConstbnts.isSupfrsdript(bttr));
+                sftSubsdript(StylfConstbnts.isSubsdript(bttr));
+            } flsf {
+                throw nfw StbtfInvbribntError("LbbflVifw nffds StylfdDodumfnt");
+            }
+        }
+     }
+
+    /**
+     * Fftdhfs thf <dodf>FontMftrids</dodf> usfd for this vifw.
+     * @dfprfdbtfd FontMftrids brf not usfd for glyph rfndfring
+     *  whfn running in thf JDK.
+     */
+    @Dfprfdbtfd
+    protfdtfd FontMftrids gftFontMftrids() {
+        synd();
+        Contbinfr d = gftContbinfr();
+        rfturn (d != null) ? d.gftFontMftrids(font) :
+            Toolkit.gftDffbultToolkit().gftFontMftrids(font);
+    }
+
+    /**
+     * Fftdhfs thf bbdkground dolor to usf to rfndfr thf glyphs.
+     * This is implfmfntfd to rfturn b dbdhfd bbdkground dolor,
+     * whidh dffbults to <dodf>null</dodf>.
+     *
+     * @rfturn thf dbdhfd bbdkground dolor
+     * @sindf 1.3
+     */
+    publid Color gftBbdkground() {
+        synd();
+        rfturn bg;
+    }
+
+    /**
+     * Fftdhfs thf forfground dolor to usf to rfndfr thf glyphs.
+     * This is implfmfntfd to rfturn b dbdhfd forfground dolor,
+     * whidh dffbults to <dodf>null</dodf>.
+     *
+     * @rfturn thf dbdhfd forfground dolor
+     * @sindf 1.3
+     */
+    publid Color gftForfground() {
+        synd();
+        rfturn fg;
+    }
+
+    /**
+     * Fftdhfs thf font thbt thf glyphs should bf bbsfd upon.
+     * This is implfmfntfd to rfturn b dbdhfd font.
+     *
+     * @rfturn thf dbdhfd font
+     */
+     publid Font gftFont() {
+        synd();
+        rfturn font;
+    }
+
+    /**
+     * Dftfrminfs if thf glyphs should bf undfrlinfd.  If truf,
+     * bn undfrlinf should bf drbwn through thf bbsflinf.  This
+     * is implfmfntfd to rfturn thf dbdhfd undfrlinf propfrty.
+     *
+     * <p>Whfn you rfqufst this propfrty, <dodf>LbbflVifw</dodf>
+     * rf-synds its stbtf with thf propfrtifs of thf
+     * <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>.
+     * If <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>
+     * dofs not hbvf this propfrty sft, it will rfvfrt to fblsf.
+     *
+     * @rfturn thf vbluf of thf dbdhfd
+     *     <dodf>undfrlinf</dodf> propfrty
+     * @sindf 1.3
+     */
+    publid boolfbn isUndfrlinf() {
+        synd();
+        rfturn undfrlinf;
+    }
+
+    /**
+     * Dftfrminfs if thf glyphs should hbvf b strikfthrough
+     * linf.  If truf, b linf should bf drbwn through thf dfntfr
+     * of thf glyphs.  This is implfmfntfd to rfturn thf
+     * dbdhfd <dodf>strikfThrough</dodf> propfrty.
+     *
+     * <p>Whfn you rfqufst this propfrty, <dodf>LbbflVifw</dodf>
+     * rf-synds its stbtf with thf propfrtifs of thf
+     * <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>.
+     * If <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>
+     * dofs not hbvf this propfrty sft, it will rfvfrt to fblsf.
+     *
+     * @rfturn thf vbluf of thf dbdhfd
+     *     <dodf>strikfThrough</dodf> propfrty
+     * @sindf 1.3
+     */
+    publid boolfbn isStrikfThrough() {
+        synd();
+        rfturn strikf;
+    }
+
+    /**
+     * Dftfrminfs if thf glyphs should bf rfndfrfd bs supfrsdript.
+     * @rfturn thf vbluf of thf dbdhfd subsdript propfrty
+     *
+     * <p>Whfn you rfqufst this propfrty, <dodf>LbbflVifw</dodf>
+     * rf-synds its stbtf with thf propfrtifs of thf
+     * <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>.
+     * If <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>
+     * dofs not hbvf this propfrty sft, it will rfvfrt to fblsf.
+     *
+     * @rfturn thf vbluf of thf dbdhfd
+     *     <dodf>subsdript</dodf> propfrty
+     * @sindf 1.3
+     */
+    publid boolfbn isSubsdript() {
+        synd();
+        rfturn subsdript;
+    }
+
+    /**
+     * Dftfrminfs if thf glyphs should bf rfndfrfd bs subsdript.
+     *
+     * <p>Whfn you rfqufst this propfrty, <dodf>LbbflVifw</dodf>
+     * rf-synds its stbtf with thf propfrtifs of thf
+     * <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>.
+     * If <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>
+     * dofs not hbvf this propfrty sft, it will rfvfrt to fblsf.
+     *
+     * @rfturn thf vbluf of thf dbdhfd
+     *     <dodf>supfrsdript</dodf> propfrty
+     * @sindf 1.3
+     */
+    publid boolfbn isSupfrsdript() {
+        synd();
+        rfturn supfrsdript;
+    }
+
+    // --- Vifw mfthods ---------------------------------------------
+
+    /**
+     * Givfs notifidbtion from thf dodumfnt thbt bttributfs wfrf dhbngfd
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     *
+     * @pbrbm f thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#dhbngfdUpdbtf
+     */
+    publid void dhbngfdUpdbtf(DodumfntEvfnt f, Shbpf b, VifwFbdtory f) {
+        font = null;
+        supfr.dhbngfdUpdbtf(f, b, f);
+    }
+
+    // --- vbribblfs ------------------------------------------------
+
+    privbtf Font font;
+    privbtf Color fg;
+    privbtf Color bg;
+    privbtf boolfbn undfrlinf;
+    privbtf boolfbn strikf;
+    privbtf boolfbn supfrsdript;
+    privbtf boolfbn subsdript;
+
+}

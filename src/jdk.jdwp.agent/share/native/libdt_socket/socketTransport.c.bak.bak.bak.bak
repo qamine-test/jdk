@@ -1,0 +1,820 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf <frrno.h>
+#indludf <stdlib.h>
+#indludf <dtypf.h>
+
+#indludf "jdwpTrbnsport.h"
+#indludf "sysSodkft.h"
+
+#ifdff _WIN32
+ #indludf <winsodk2.h>
+ #indludf <ws2tdpip.h>
+#fndif
+
+/*
+ * Thf Sodkft Trbnsport Librbry.
+ *
+ * This modulf is bn implfmfntbtion of thf Jbvb Dfbug Wirf Protodol Trbnsport
+ * Sfrvidf Providfr Intfrfbdf - sff srd/shbrf/jbvbvm/fxport/jdwpTrbnsport.h.
+ */
+
+stbtid int sfrvfrSodkftFD;
+stbtid int sodkftFD = -1;
+stbtid jdwpTrbnsportCbllbbdk *dbllbbdk;
+stbtid JbvbVM *jvm;
+stbtid int tlsIndfx;
+stbtid jboolfbn initiblizfd;
+stbtid strudt jdwpTrbnsportNbtivfIntfrfbdf_ intfrfbdf;
+stbtid jdwpTrbnsportEnv singlf_fnv = (jdwpTrbnsportEnv)&intfrfbdf;
+
+#dffinf RETURN_ERROR(frr, msg) \
+        if (1==1) { \
+            sftLbstError(frr, msg); \
+            rfturn frr; \
+        }
+
+#dffinf RETURN_IO_ERROR(msg)    RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, msg);
+
+#dffinf RETURN_RECV_ERROR(n) \
+        if (n == 0) { \
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, "prfmbturf EOF"); \
+        } flsf { \
+            RETURN_IO_ERROR("rfdv frror"); \
+        }
+
+#dffinf HEADER_SIZE     11
+#dffinf MAX_DATA_SIZE 1000
+
+stbtid jint rfdv_fully(int, dhbr *, int);
+stbtid jint sfnd_fully(int, dhbr *, int);
+
+/*
+ * Rfdord thf lbst frror for this thrfbd.
+ */
+stbtid void
+sftLbstError(jdwpTrbnsportError frr, dhbr *nfwmsg) {
+    dhbr buf[255];
+    dhbr *msg;
+
+    /* gft bny I/O first in dbsf bny systfm dblls ovfrridf frrno */
+    if (frr == JDWPTRANSPORT_ERROR_IO_ERROR) {
+        dbgsysGftLbstIOError(buf, sizfof(buf));
+    }
+
+    msg = (dhbr *)dbgsysTlsGft(tlsIndfx);
+    if (msg != NULL) {
+        (*dbllbbdk->frff)(msg);
+    }
+
+    if (frr == JDWPTRANSPORT_ERROR_IO_ERROR) {
+        dhbr *join_str = ": ";
+        int msg_lfn = (int)strlfn(nfwmsg) + (int)strlfn(join_str) +
+                      (int)strlfn(buf) + 3;
+        msg = (*dbllbbdk->bllod)(msg_lfn);
+        if (msg != NULL) {
+            strdpy(msg, nfwmsg);
+            strdbt(msg, join_str);
+            strdbt(msg, buf);
+        }
+    } flsf {
+        msg = (*dbllbbdk->bllod)((int)strlfn(nfwmsg)+1);
+        if (msg != NULL) {
+            strdpy(msg, nfwmsg);
+        }
+    }
+
+    dbgsysTlsPut(tlsIndfx, msg);
+}
+
+/*
+ * Rfturn thf lbst frror for this thrfbd (mby bf NULL)
+ */
+stbtid dhbr*
+gftLbstError() {
+    rfturn (dhbr *)dbgsysTlsGft(tlsIndfx);
+}
+
+stbtid jdwpTrbnsportError
+sftOptions(int fd)
+{
+    jvbluf dontdbrf;
+    int frr;
+
+    dontdbrf.i = 0;  /* kffp dompilfr hbppy */
+
+    frr = dbgsysSftSodkftOption(fd, SO_REUSEADDR, JNI_TRUE, dontdbrf);
+    if (frr < 0) {
+        RETURN_IO_ERROR("sftsodkopt SO_REUSEADDR fbilfd");
+    }
+
+    frr = dbgsysSftSodkftOption(fd, TCP_NODELAY, JNI_TRUE, dontdbrf);
+    if (frr < 0) {
+        RETURN_IO_ERROR("sftsodkopt TCPNODELAY fbilfd");
+    }
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jdwpTrbnsportError
+hbndshbkf(int fd, jlong timfout) {
+    donst dhbr *hfllo = "JDWP-Hbndshbkf";
+    dhbr b[16];
+    int rv, hflloLfn, rfdfivfd;
+
+    if (timfout > 0) {
+        dbgsysConfigurfBlodking(fd, JNI_FALSE);
+    }
+    hflloLfn = (int)strlfn(hfllo);
+    rfdfivfd = 0;
+    whilf (rfdfivfd < hflloLfn) {
+        int n;
+        dhbr *buf;
+        if (timfout > 0) {
+            rv = dbgsysPoll(fd, JNI_TRUE, JNI_FALSE, (long)timfout);
+            if (rv <= 0) {
+                sftLbstError(0, "timfout during hbndshbkf");
+                rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+            }
+        }
+        buf = b;
+        buf += rfdfivfd;
+        n = rfdv_fully(fd, buf, hflloLfn-rfdfivfd);
+        if (n == 0) {
+            sftLbstError(0, "hbndshbkf fbilfd - donnfdtion prfmbturblly dlosfd");
+            rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+        }
+        if (n < 0) {
+            RETURN_IO_ERROR("rfdv fbilfd during hbndshbkf");
+        }
+        rfdfivfd += n;
+    }
+    if (timfout > 0) {
+        dbgsysConfigurfBlodking(fd, JNI_TRUE);
+    }
+    if (strndmp(b, hfllo, rfdfivfd) != 0) {
+        dhbr msg[80+2*16];
+        b[rfdfivfd] = '\0';
+        /*
+         * Wf should rfblly usf snprintf hfrf but it's not bvbilbblf on Windows.
+         * Wf dbn't usf jio_snprintf without linking thf trbnsport bgbinst thf VM.
+         */
+        sprintf(msg, "hbndshbkf fbilfd - rfdfivfd >%s< - fxpfdtfd >%s<", b, hfllo);
+        sftLbstError(0, msg);
+        rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+    }
+
+    if (sfnd_fully(fd, (dhbr*)hfllo, hflloLfn) != hflloLfn) {
+        RETURN_IO_ERROR("sfnd fbilfd during hbndshbkf");
+    }
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid uint32_t
+gftLodblHostAddrfss() {
+    // Simplf routinf to gufss lodblhost bddrfss.
+    // it looks up "lodblhost" bnd rfturns 127.0.0.1 if lookup
+    // fbils.
+    strudt bddrinfo hints, *rfs = NULL;
+    int frr;
+
+    // Usf portbblf wby to initiblizf thf strudturf
+    mfmsft((void *)&hints, 0, sizfof(hints));
+    hints.bi_fbmily = AF_INET;
+
+    frr = gftbddrinfo("lodblhost", NULL, &hints, &rfs);
+    if (frr < 0 || rfs == NULL) {
+        rfturn dbgsysHostToNftworkLong(INADDR_LOOPBACK);
+    }
+
+    // gftbddrinfo might rfturn morf thbn onf bddrfss
+    // but wf brf using first onf only
+    rfturn ((strudt sodkbddr_in *)(rfs->bi_bddr))->sin_bddr.s_bddr;
+}
+
+stbtid int
+gftPortNumbfr(donst dhbr *s_port) {
+    u_long n;
+    dhbr *fptr;
+
+    if (*s_port == 0) {
+        // bbd bddrfss - dolon with no port numbfr in pbrbmftfrs
+        rfturn -1;
+    }
+
+    n = strtoul(s_port, &fptr, 10);
+    if (fptr != s_port + strlfn(s_port)) {
+        // indomplftf donvfrsion - port numbfr dontbins non-digit
+        rfturn -1;
+    }
+
+    if (n > (u_short) -1) {
+        // dhfdk thbt vbluf supplifd by usfr is lfss thbn
+        // mbximum possiblf u_short vbluf (65535) bnd
+        // will not bf trundbtfd lbtfr.
+        rfturn -1;
+    }
+
+    rfturn n;
+}
+
+stbtid jdwpTrbnsportError
+pbrsfAddrfss(donst dhbr *bddrfss, strudt sodkbddr_in *sb) {
+    dhbr *dolon;
+    int port;
+
+    mfmsft((void *)sb,0,sizfof(strudt sodkbddr_in));
+    sb->sin_fbmily = AF_INET;
+
+    /* dhfdk for host:port or port */
+    dolon = strdhr(bddrfss, ':');
+    port = gftPortNumbfr((dolon == NULL) ? bddrfss : dolon +1);
+    if (port < 0) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invblid port numbfr spfdififd");
+    }
+    sb->sin_port = dbgsysHostToNftworkShort((u_short)port);
+
+    if (dolon == NULL) {
+        // bind to lodblhost only if no bddrfss spfdififd
+        sb->sin_bddr.s_bddr = gftLodblHostAddrfss();
+    } flsf if (strndmp(bddrfss,"lodblhost:",10) == 0) {
+        // optimizf for dommon dbsf
+        sb->sin_bddr.s_bddr = gftLodblHostAddrfss();
+    } flsf if (*bddrfss == '*' && *(bddrfss+1) == ':') {
+        // wf brf fxpliditly bskfd to bind sfrvfr to bll bvbilbblf IP bddrfssfs
+        // hbs no mfbning for dlifnt.
+        sb->sin_bddr.s_bddr = dbgsysHostToNftworkLong(INADDR_ANY);
+     } flsf {
+        dhbr *buf;
+        dhbr *hostnbmf;
+        uint32_t bddr;
+
+        buf = (*dbllbbdk->bllod)((int)strlfn(bddrfss)+1);
+        if (buf == NULL) {
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of mfmory");
+        }
+        strdpy(buf, bddrfss);
+        buf[dolon - bddrfss] = '\0';
+        hostnbmf = buf;
+
+        /*
+         * First sff if thf host is b litfrbl IP bddrfss.
+         * If not thfn try to rfsolvf it.
+         */
+        bddr = dbgsysInftAddr(hostnbmf);
+        if (bddr == 0xffffffff) {
+            strudt hostfnt *hp = dbgsysGftHostByNbmf(hostnbmf);
+            if (hp == NULL) {
+                /* don't usf RETURN_IO_ERROR bs unknown host is normbl */
+                sftLbstError(0, "gfthostbynbmf: unknown host");
+                (*dbllbbdk->frff)(buf);
+                rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+            }
+
+            /* lookup wbs suddfssful */
+            mfmdpy(&(sb->sin_bddr), hp->h_bddr_list[0], hp->h_lfngth);
+        } flsf {
+            sb->sin_bddr.s_bddr = bddr;
+        }
+
+        (*dbllbbdk->frff)(buf);
+    }
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_gftCbpbbilitifs(jdwpTrbnsportEnv* fnv,
+        JDWPTrbnsportCbpbbilitifs* dbpbbilitifsPtr)
+{
+    JDWPTrbnsportCbpbbilitifs rfsult;
+
+    mfmsft(&rfsult, 0, sizfof(rfsult));
+    rfsult.dbn_timfout_bttbdh = JNI_TRUE;
+    rfsult.dbn_timfout_bddfpt = JNI_TRUE;
+    rfsult.dbn_timfout_hbndshbkf = JNI_TRUE;
+
+    *dbpbbilitifsPtr = rfsult;
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_stbrtListfning(jdwpTrbnsportEnv* fnv, donst dhbr* bddrfss,
+                               dhbr** bdtublAddrfss)
+{
+    strudt sodkbddr_in sb;
+    int frr;
+
+    mfmsft((void *)&sb,0,sizfof(strudt sodkbddr_in));
+    sb.sin_fbmily = AF_INET;
+
+    /* no bddrfss providfd */
+    if ((bddrfss == NULL) || (bddrfss[0] == '\0')) {
+        bddrfss = "0";
+    }
+
+    frr = pbrsfAddrfss(bddrfss, &sb);
+    if (frr != JDWPTRANSPORT_ERROR_NONE) {
+        rfturn frr;
+    }
+
+    sfrvfrSodkftFD = dbgsysSodkft(AF_INET, SOCK_STREAM, 0);
+    if (sfrvfrSodkftFD < 0) {
+        RETURN_IO_ERROR("sodkft drfbtion fbilfd");
+    }
+
+    frr = sftOptions(sfrvfrSodkftFD);
+    if (frr) {
+        rfturn frr;
+    }
+
+    frr = dbgsysBind(sfrvfrSodkftFD, (strudt sodkbddr *)&sb, sizfof(sb));
+    if (frr < 0) {
+        RETURN_IO_ERROR("bind fbilfd");
+    }
+
+    frr = dbgsysListfn(sfrvfrSodkftFD, 1);
+    if (frr < 0) {
+        RETURN_IO_ERROR("listfn fbilfd");
+    }
+
+    {
+        dhbr buf[20];
+        sodklfn_t lfn = sizfof(sb);
+        jint portNum;
+        frr = dbgsysGftSodkftNbmf(sfrvfrSodkftFD,
+                               (strudt sodkbddr *)&sb, &lfn);
+        portNum = dbgsysNftworkToHostShort(sb.sin_port);
+        sprintf(buf, "%d", portNum);
+        *bdtublAddrfss = (*dbllbbdk->bllod)((int)strlfn(buf) + 1);
+        if (*bdtublAddrfss == NULL) {
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of mfmory");
+        } flsf {
+            strdpy(*bdtublAddrfss, buf);
+        }
+    }
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_bddfpt(jdwpTrbnsportEnv* fnv, jlong bddfptTimfout, jlong hbndshbkfTimfout)
+{
+    sodklfn_t sodkftLfn;
+    int frr;
+    strudt sodkbddr_in sodkft;
+    jlong stbrtTimf = (jlong)0;
+
+    /*
+     * Usf b dffbult hbndshbkf timfout if not spfdififd - this bvoids bn indffinitf
+     * hbng in dbsfs whfrf somfthing othfr thbn b dfbuggfr donnfdts to our port.
+     */
+    if (hbndshbkfTimfout == 0) {
+        hbndshbkfTimfout = 2000;
+    }
+
+    do {
+        /*
+         * If thfrf is bn bddfpt timfout thfn wf put thf sodkft in non-blodking
+         * modf bnd poll for b donnfdtion.
+         */
+        if (bddfptTimfout > 0) {
+            int rv;
+            dbgsysConfigurfBlodking(sfrvfrSodkftFD, JNI_FALSE);
+            stbrtTimf = dbgsysCurrfntTimfMillis();
+            rv = dbgsysPoll(sfrvfrSodkftFD, JNI_TRUE, JNI_FALSE, (long)bddfptTimfout);
+            if (rv <= 0) {
+                /* sft thf lbst frror hfrf bs dould bf ovfrriddfn by donfigurfBlodking */
+                if (rv == 0) {
+                    sftLbstError(JDWPTRANSPORT_ERROR_IO_ERROR, "poll fbilfd");
+                }
+                /* rfstorf blodking stbtf */
+                dbgsysConfigurfBlodking(sfrvfrSodkftFD, JNI_TRUE);
+                if (rv == 0) {
+                    RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "timfd out wbiting for donnfdtion");
+                } flsf {
+                    rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+                }
+            }
+        }
+
+        /*
+         * Addfpt thf donnfdtion
+         */
+        mfmsft((void *)&sodkft,0,sizfof(strudt sodkbddr_in));
+        sodkftLfn = sizfof(sodkft);
+        sodkftFD = dbgsysAddfpt(sfrvfrSodkftFD,
+                                (strudt sodkbddr *)&sodkft,
+                                &sodkftLfn);
+        /* sft thf lbst frror hfrf bs dould bf ovfrriddfn by donfigurfBlodking */
+        if (sodkftFD < 0) {
+            sftLbstError(JDWPTRANSPORT_ERROR_IO_ERROR, "bddfpt fbilfd");
+        }
+        /*
+         * Rfstorf thf blodking stbtf - notf thbt thf bddfptfd sodkft mby bf in
+         * blodking or non-blodking modf (plbtform dfpfndfnt). Howfvfr bs thfrf
+         * is b hbndshbkf timfout sft thfn it will go into non-blodking modf
+         * bnywby for thf hbndshbkf.
+         */
+        if (bddfptTimfout > 0) {
+            dbgsysConfigurfBlodking(sfrvfrSodkftFD, JNI_TRUE);
+        }
+        if (sodkftFD < 0) {
+            rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+        }
+
+        /* hbndshbkf with thf dfbuggfr */
+        frr = hbndshbkf(sodkftFD, hbndshbkfTimfout);
+
+        /*
+         * If thf hbndshbkf fbils thfn dlosf thf donnfdtion. If thfrf if bn bddfpt
+         * timfout thfn wf must bdjust thf timfout for thf nfxt poll.
+         */
+        if (frr) {
+            fprintf(stdfrr, "Dfbuggfr fbilfd to bttbdh: %s\n", gftLbstError());
+            dbgsysSodkftClosf(sodkftFD);
+            sodkftFD = -1;
+            if (bddfptTimfout > 0) {
+                long fndTimf = dbgsysCurrfntTimfMillis();
+                bddfptTimfout -= (fndTimf - stbrtTimf);
+                if (bddfptTimfout <= 0) {
+                    sftLbstError(JDWPTRANSPORT_ERROR_IO_ERROR,
+                        "timfout wbiting for dfbuggfr to donnfdt");
+                    rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+                }
+            }
+        }
+    } whilf (sodkftFD < 0);
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_stopListfning(jdwpTrbnsportEnv *fnv)
+{
+    if (sfrvfrSodkftFD < 0) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "donnfdtion not opfn");
+    }
+    if (dbgsysSodkftClosf(sfrvfrSodkftFD) < 0) {
+        RETURN_IO_ERROR("dlosf fbilfd");
+    }
+    sfrvfrSodkftFD = -1;
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_bttbdh(jdwpTrbnsportEnv* fnv, donst dhbr* bddrfssString, jlong bttbdhTimfout,
+                       jlong hbndshbkfTimfout)
+{
+    strudt sodkbddr_in sb;
+    int frr;
+
+    if (bddrfssString == NULL || bddrfssString[0] == '\0') {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "bddrfss is missing");
+    }
+
+    frr = pbrsfAddrfss(bddrfssString, &sb);
+    if (frr != JDWPTRANSPORT_ERROR_NONE) {
+        rfturn frr;
+    }
+
+    sodkftFD = dbgsysSodkft(AF_INET, SOCK_STREAM, 0);
+    if (sodkftFD < 0) {
+        RETURN_IO_ERROR("unbblf to drfbtf sodkft");
+    }
+
+    frr = sftOptions(sodkftFD);
+    if (frr) {
+        rfturn frr;
+    }
+
+    /*
+     * To do b timfd donnfdt wf mbkf thf sodkft non-blodking
+     * bnd poll with b timfout;
+     */
+    if (bttbdhTimfout > 0) {
+        dbgsysConfigurfBlodking(sodkftFD, JNI_FALSE);
+    }
+
+    frr = dbgsysConnfdt(sodkftFD, (strudt sodkbddr *)&sb, sizfof(sb));
+    if (frr == DBG_EINPROGRESS && bttbdhTimfout > 0) {
+        frr = dbgsysFinishConnfdt(sodkftFD, (long)bttbdhTimfout);
+
+        if (frr == DBG_ETIMEOUT) {
+            dbgsysConfigurfBlodking(sodkftFD, JNI_TRUE);
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "donnfdt timfd out");
+        }
+    }
+
+    if (frr < 0) {
+        RETURN_IO_ERROR("donnfdt fbilfd");
+    }
+
+    if (bttbdhTimfout > 0) {
+        dbgsysConfigurfBlodking(sodkftFD, JNI_TRUE);
+    }
+
+    frr = hbndshbkf(sodkftFD, hbndshbkfTimfout);
+    if (frr) {
+        dbgsysSodkftClosf(sodkftFD);
+        sodkftFD = -1;
+        rfturn frr;
+    }
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jboolfbn JNICALL
+sodkftTrbnsport_isOpfn(jdwpTrbnsportEnv* fnv)
+{
+    if (sodkftFD >= 0) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
+    }
+}
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_dlosf(jdwpTrbnsportEnv* fnv)
+{
+    int fd = sodkftFD;
+    sodkftFD = -1;
+    if (fd < 0) {
+        rfturn JDWPTRANSPORT_ERROR_NONE;
+    }
+#ifdff _AIX
+    /*
+      AIX nffds b workbround for I/O dbndfllbtion, sff:
+      http://publib.bouldfr.ibm.dom/infodfntfr/psfrifs/v5r3/indfx.jsp?topid=/dom.ibm.bix.bbsftfdhrff/dod/bbsftrf1/dlosf.htm
+      ...
+      Thf dlosf subroutinf is blodkfd until bll subroutinfs whidh usf thf filf
+      dfsdriptor rfturn to usr spbdf. For fxbmplf, whfn b thrfbd is dblling dlosf
+      bnd bnothfr thrfbd is dblling sflfdt with thf sbmf filf dfsdriptor, thf
+      dlosf subroutinf dofs not rfturn until thf sflfdt dbll rfturns.
+      ...
+    */
+    shutdown(fd, 2);
+#fndif
+    if (dbgsysSodkftClosf(fd) < 0) {
+        /*
+         * dlosf fbilfd - it's pointlfss to rfstorf sodkftFD hfrf bfdbusf
+         * bny subsfqufnt dlosf will likfly fbil bs wfll.
+         */
+        RETURN_IO_ERROR("dlosf fbilfd");
+    }
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_writfPbdkft(jdwpTrbnsportEnv* fnv, donst jdwpPbdkft *pbdkft)
+{
+    jint lfn, dbtb_lfn, id;
+    /*
+     * room for hfbdfr bnd up to MAX_DATA_SIZE dbtb bytfs
+     */
+    dhbr hfbdfr[HEADER_SIZE + MAX_DATA_SIZE];
+    jbytf *dbtb;
+
+    /* pbdkft dbn't bf null */
+    if (pbdkft == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbdkft is NULL");
+    }
+
+    lfn = pbdkft->typf.dmd.lfn;         /* indludfs hfbdfr */
+    dbtb_lfn = lfn - HEADER_SIZE;
+
+    /* bbd pbdkft */
+    if (dbtb_lfn < 0) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invblid lfngth");
+    }
+
+    /* prfpbrf thf hfbdfr for trbnsmission */
+    lfn = (jint)dbgsysHostToNftworkLong(lfn);
+    id = (jint)dbgsysHostToNftworkLong(pbdkft->typf.dmd.id);
+
+    mfmdpy(hfbdfr + 0, &lfn, 4);
+    mfmdpy(hfbdfr + 4, &id, 4);
+    hfbdfr[8] = pbdkft->typf.dmd.flbgs;
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        jshort frrorCodf =
+            dbgsysHostToNftworkShort(pbdkft->typf.rfply.frrorCodf);
+        mfmdpy(hfbdfr + 9, &frrorCodf, 2);
+    } flsf {
+        hfbdfr[9] = pbdkft->typf.dmd.dmdSft;
+        hfbdfr[10] = pbdkft->typf.dmd.dmd;
+    }
+
+    dbtb = pbdkft->typf.dmd.dbtb;
+    /* Do onf sfnd for short pbdkfts, two for longfr onfs */
+    if (dbtb_lfn <= MAX_DATA_SIZE) {
+        mfmdpy(hfbdfr + HEADER_SIZE, dbtb, dbtb_lfn);
+        if (sfnd_fully(sodkftFD, (dhbr *)&hfbdfr, HEADER_SIZE + dbtb_lfn) !=
+            HEADER_SIZE + dbtb_lfn) {
+            RETURN_IO_ERROR("sfnd fbilfd");
+        }
+    } flsf {
+        mfmdpy(hfbdfr + HEADER_SIZE, dbtb, MAX_DATA_SIZE);
+        if (sfnd_fully(sodkftFD, (dhbr *)&hfbdfr, HEADER_SIZE + MAX_DATA_SIZE) !=
+            HEADER_SIZE + MAX_DATA_SIZE) {
+            RETURN_IO_ERROR("sfnd fbilfd");
+        }
+        /* Sfnd thf rfmbining dbtb bytfs right out of thf dbtb brfb. */
+        if (sfnd_fully(sodkftFD, (dhbr *)dbtb + MAX_DATA_SIZE,
+                       dbtb_lfn - MAX_DATA_SIZE) != dbtb_lfn - MAX_DATA_SIZE) {
+            RETURN_IO_ERROR("sfnd fbilfd");
+        }
+    }
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jint
+rfdv_fully(int f, dhbr *buf, int lfn)
+{
+    int nbytfs = 0;
+    whilf (nbytfs < lfn) {
+        int rfs = dbgsysRfdv(f, buf + nbytfs, lfn - nbytfs, 0);
+        if (rfs < 0) {
+            rfturn rfs;
+        } flsf if (rfs == 0) {
+            brfbk; /* fof, rfturn nbytfs whidh is lfss thbn lfn */
+        }
+        nbytfs += rfs;
+    }
+    rfturn nbytfs;
+}
+
+jint
+sfnd_fully(int f, dhbr *buf, int lfn)
+{
+    int nbytfs = 0;
+    whilf (nbytfs < lfn) {
+        int rfs = dbgsysSfnd(f, buf + nbytfs, lfn - nbytfs, 0);
+        if (rfs < 0) {
+            rfturn rfs;
+        } flsf if (rfs == 0) {
+            brfbk; /* fof, rfturn nbytfs whidh is lfss thbn lfn */
+        }
+        nbytfs += rfs;
+    }
+    rfturn nbytfs;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_rfbdPbdkft(jdwpTrbnsportEnv* fnv, jdwpPbdkft* pbdkft) {
+    jint lfngth, dbtb_lfn;
+    jint n;
+
+    /* pbdkft dbn't bf null */
+    if (pbdkft == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbdkft is null");
+    }
+
+    /* rfbd thf lfngth fifld */
+    n = rfdv_fully(sodkftFD, (dhbr *)&lfngth, sizfof(jint));
+
+    /* dhfdk for EOF */
+    if (n == 0) {
+        pbdkft->typf.dmd.lfn = 0;
+        rfturn JDWPTRANSPORT_ERROR_NONE;
+    }
+    if (n != sizfof(jint)) {
+        RETURN_RECV_ERROR(n);
+    }
+
+    lfngth = (jint)dbgsysNftworkToHostLong(lfngth);
+    pbdkft->typf.dmd.lfn = lfngth;
+
+
+    n = rfdv_fully(sodkftFD,(dhbr *)&(pbdkft->typf.dmd.id),sizfof(jint));
+    if (n < (int)sizfof(jint)) {
+        RETURN_RECV_ERROR(n);
+    }
+
+    pbdkft->typf.dmd.id = (jint)dbgsysNftworkToHostLong(pbdkft->typf.dmd.id);
+
+    n = rfdv_fully(sodkftFD,(dhbr *)&(pbdkft->typf.dmd.flbgs),sizfof(jbytf));
+    if (n < (int)sizfof(jbytf)) {
+        RETURN_RECV_ERROR(n);
+    }
+
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        n = rfdv_fully(sodkftFD,(dhbr *)&(pbdkft->typf.rfply.frrorCodf),sizfof(jbytf));
+        if (n < (int)sizfof(jshort)) {
+            RETURN_RECV_ERROR(n);
+        }
+
+        /* FIXME - should thf frror bf donvfrtfd to host ordfr?? */
+
+
+    } flsf {
+        n = rfdv_fully(sodkftFD,(dhbr *)&(pbdkft->typf.dmd.dmdSft),sizfof(jbytf));
+        if (n < (int)sizfof(jbytf)) {
+            RETURN_RECV_ERROR(n);
+        }
+
+        n = rfdv_fully(sodkftFD,(dhbr *)&(pbdkft->typf.dmd.dmd),sizfof(jbytf));
+        if (n < (int)sizfof(jbytf)) {
+            RETURN_RECV_ERROR(n);
+        }
+    }
+
+    dbtb_lfn = lfngth - ((sizfof(jint) * 2) + (sizfof(jbytf) * 3));
+
+    if (dbtb_lfn < 0) {
+        sftLbstError(0, "Bbdly formfd pbdkft rfdfivfd - invblid lfngth");
+        rfturn JDWPTRANSPORT_ERROR_IO_ERROR;
+    } flsf if (dbtb_lfn == 0) {
+        pbdkft->typf.dmd.dbtb = NULL;
+    } flsf {
+        pbdkft->typf.dmd.dbtb= (*dbllbbdk->bllod)(dbtb_lfn);
+
+        if (pbdkft->typf.dmd.dbtb == NULL) {
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of mfmory");
+        }
+
+        n = rfdv_fully(sodkftFD,(dhbr *)pbdkft->typf.dmd.dbtb, dbtb_lfn);
+        if (n < dbtb_lfn) {
+            (*dbllbbdk->frff)(pbdkft->typf.dmd.dbtb);
+            RETURN_RECV_ERROR(n);
+        }
+    }
+
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+stbtid jdwpTrbnsportError JNICALL
+sodkftTrbnsport_gftLbstError(jdwpTrbnsportEnv* fnv, dhbr** msgP) {
+    dhbr *msg = (dhbr *)dbgsysTlsGft(tlsIndfx);
+    if (msg == NULL) {
+        rfturn JDWPTRANSPORT_ERROR_MSG_NOT_AVAILABLE;
+    }
+    *msgP = (*dbllbbdk->bllod)((int)strlfn(msg)+1);
+    if (*msgP == NULL) {
+        rfturn JDWPTRANSPORT_ERROR_OUT_OF_MEMORY;
+    }
+    strdpy(*msgP, msg);
+    rfturn JDWPTRANSPORT_ERROR_NONE;
+}
+
+JNIEXPORT jint JNICALL
+jdwpTrbnsport_OnLobd(JbvbVM *vm, jdwpTrbnsportCbllbbdk* dbTbblfPtr,
+                     jint vfrsion, jdwpTrbnsportEnv** rfsult)
+{
+    if (vfrsion != JDWPTRANSPORT_VERSION_1_0) {
+        rfturn JNI_EVERSION;
+    }
+    if (initiblizfd) {
+        /*
+         * This librbry dofsn't support multiplf fnvironmfnts (yft)
+         */
+        rfturn JNI_EEXIST;
+    }
+    initiblizfd = JNI_TRUE;
+    jvm = vm;
+    dbllbbdk = dbTbblfPtr;
+
+    /* initiblizf intfrfbdf tbblf */
+    intfrfbdf.GftCbpbbilitifs = &sodkftTrbnsport_gftCbpbbilitifs;
+    intfrfbdf.Attbdh = &sodkftTrbnsport_bttbdh;
+    intfrfbdf.StbrtListfning = &sodkftTrbnsport_stbrtListfning;
+    intfrfbdf.StopListfning = &sodkftTrbnsport_stopListfning;
+    intfrfbdf.Addfpt = &sodkftTrbnsport_bddfpt;
+    intfrfbdf.IsOpfn = &sodkftTrbnsport_isOpfn;
+    intfrfbdf.Closf = &sodkftTrbnsport_dlosf;
+    intfrfbdf.RfbdPbdkft = &sodkftTrbnsport_rfbdPbdkft;
+    intfrfbdf.WritfPbdkft = &sodkftTrbnsport_writfPbdkft;
+    intfrfbdf.GftLbstError = &sodkftTrbnsport_gftLbstError;
+    *rfsult = &singlf_fnv;
+
+    /* initiblizfd TLS */
+    tlsIndfx = dbgsysTlsAllod();
+    rfturn JNI_OK;
+}

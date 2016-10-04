@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eawt;
+pbdkbgf dom.bpplf.fbwt;
 
-import com.apple.eawt.AppEvent.OpenURIEvent;
+import dom.bpplf.fbwt.AppEvfnt.OpfnURIEvfnt;
 
 /**
- * An implementor is notified when the application is asked to open a URI.
- * The application only sends {@link com.apple.eawt.EAWTEvent.OpenURIEvent}s when it has been launched as a bundled Mac application, and it's Info.plist claims URL schemes in it's <code>CFBundleURLTypes</code> entry.
- * See the <a href="http://developer.apple.com/mac/library/documentation/General/Reference/InfoPlistKeyReference">Info.plist Key Reference</a> for more information about adding a <code>CFBundleURLTypes</code> key to your app's Info.plist.
+ * An implfmfntor is notififd wifn tif bpplidbtion is bskfd to opfn b URI.
+ * Tif bpplidbtion only sfnds {@link dom.bpplf.fbwt.EAWTEvfnt.OpfnURIEvfnt}s wifn it ibs bffn lbundifd bs b bundlfd Mbd bpplidbtion, bnd it's Info.plist dlbims URL sdifmfs in it's <dodf>CFBundlfURLTypfs</dodf> fntry.
+ * Sff tif <b irff="ittp://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/Gfnfrbl/Rfffrfndf/InfoPlistKfyRfffrfndf">Info.plist Kfy Rfffrfndf</b> for morf informbtion bbout bdding b <dodf>CFBundlfURLTypfs</dodf> kfy to your bpp's Info.plist.
  *
- * @see Application#setOpenURIHandler(OpenURIHandler)
+ * @sff Applidbtion#sftOpfnURIHbndlfr(OpfnURIHbndlfr)
  *
- * @since Java for Mac OS X 10.6 Update 3
- * @since Java for Mac OS X 10.5 Update 8
+ * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+ * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
  */
-public interface OpenURIHandler {
+publid intfrfbdf OpfnURIHbndlfr {
     /**
-     * Called when the application is asked to open a URI
-     * @param e the request to open a URI
+     * Cbllfd wifn tif bpplidbtion is bskfd to opfn b URI
+     * @pbrbm f tif rfqufst to opfn b URI
      */
-    public void openURI(final OpenURIEvent e);
+    publid void opfnURI(finbl OpfnURIEvfnt f);
 }

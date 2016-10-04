@@ -1,0 +1,591 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.pffr.RobotPffr;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import sun.bwt.AWTPfrmissions;
+import sun.bwt.ComponfntFbdtory;
+import sun.bwt.SunToolkit;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+
+/**
+ * This dlbss is usfd to gfnfrbtf nbtivf systfm input fvfnts
+ * for thf purposfs of tfst butombtion, sflf-running dfmos, bnd
+ * othfr bpplidbtions whfrf dontrol of thf mousf bnd kfybobrd
+ * is nffdfd. Thf primbry purposf of Robot is to fbdilitbtf
+ * butombtfd tfsting of Jbvb plbtform implfmfntbtions.
+ * <p>
+ * Using thf dlbss to gfnfrbtf input fvfnts difffrs from posting
+ * fvfnts to thf AWT fvfnt qufuf or AWT domponfnts in thbt thf
+ * fvfnts brf gfnfrbtfd in thf plbtform's nbtivf input
+ * qufuf. For fxbmplf, <dodf>Robot.mousfMovf</dodf> will bdtublly movf
+ * thf mousf dursor instfbd of just gfnfrbting mousf movf fvfnts.
+ * <p>
+ * Notf thbt somf plbtforms rfquirf spfdibl privilfgfs or fxtfnsions
+ * to bddfss low-lfvfl input dontrol. If thf durrfnt plbtform donfigurbtion
+ * dofs not bllow input dontrol, bn <dodf>AWTExdfption</dodf> will bf thrown
+ * whfn trying to donstrudt Robot objfdts. For fxbmplf, X-Window systfms
+ * will throw thf fxdfption if thf XTEST 2.2 stbndbrd fxtfnsion is not supportfd
+ * (or not fnbblfd) by thf X sfrvfr.
+ * <p>
+ * Applidbtions thbt usf Robot for purposfs othfr thbn sflf-tfsting should
+ * hbndlf thfsf frror donditions grbdffully.
+ *
+ * @buthor      Robi Khbn
+ * @sindf       1.3
+ */
+publid dlbss Robot {
+    privbtf stbtid finbl int MAX_DELAY = 60000;
+    privbtf RobotPffr pffr;
+    privbtf boolfbn isAutoWbitForIdlf = fblsf;
+    privbtf int butoDflby = 0;
+    privbtf stbtid int LEGAL_BUTTON_MASK = 0;
+
+    privbtf DirfdtColorModfl sdrffnCbpCM = null;
+
+    /**
+     * Construdts b Robot objfdt in thf doordinbtf systfm of thf primbry sdrffn.
+     *
+     * @throws  AWTExdfption if thf plbtform donfigurbtion dofs not bllow
+     * low-lfvfl input dontrol.  This fxdfption is blwbys thrown whfn
+     * GrbphidsEnvironmfnt.isHfbdlfss() rfturns truf
+     * @throws  SfdurityExdfption if <dodf>drfbtfRobot</dodf> pfrmission is not grbntfd
+     * @sff     jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff     SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff     AWTPfrmission
+     */
+    publid Robot() throws AWTExdfption {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw AWTExdfption("hfbdlfss fnvironmfnt");
+        }
+        init(GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt()
+            .gftDffbultSdrffnDfvidf());
+    }
+
+    /**
+     * Crfbtfs b Robot for thf givfn sdrffn dfvidf. Coordinbtfs pbssfd
+     * to Robot mfthod dblls likf mousfMovf bnd drfbtfSdrffnCbpturf will
+     * bf intfrprftfd bs bfing in thf sbmf doordinbtf systfm bs thf
+     * spfdififd sdrffn. Notf thbt dfpfnding on thf plbtform donfigurbtion,
+     * multiplf sdrffns mby fithfr:
+     * <ul>
+     * <li>shbrf thf sbmf doordinbtf systfm to form b dombinfd virtubl sdrffn</li>
+     * <li>usf difffrfnt doordinbtf systfms to bdt bs indfpfndfnt sdrffns</li>
+     * </ul>
+     * This donstrudtor is mfbnt for thf lbttfr dbsf.
+     * <p>
+     * If sdrffn dfvidfs brf rfdonfigurfd sudh thbt thf doordinbtf systfm is
+     * bfffdtfd, thf bfhbvior of fxisting Robot objfdts is undffinfd.
+     *
+     * @pbrbm sdrffn    A sdrffn GrbphidsDfvidf indidbting thf doordinbtf
+     *                  systfm thf Robot will opfrbtf in.
+     * @throws  AWTExdfption if thf plbtform donfigurbtion dofs not bllow
+     * low-lfvfl input dontrol.  This fxdfption is blwbys thrown whfn
+     * GrbphidsEnvironmfnt.isHfbdlfss() rfturns truf.
+     * @throws  IllfgblArgumfntExdfption if <dodf>sdrffn</dodf> is not b sdrffn
+     *          GrbphidsDfvidf.
+     * @throws  SfdurityExdfption if <dodf>drfbtfRobot</dodf> pfrmission is not grbntfd
+     * @sff     jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff     GrbphidsDfvidf
+     * @sff     SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff     AWTPfrmission
+     */
+    publid Robot(GrbphidsDfvidf sdrffn) throws AWTExdfption {
+        dhfdkIsSdrffnDfvidf(sdrffn);
+        init(sdrffn);
+    }
+
+    privbtf void init(GrbphidsDfvidf sdrffn) throws AWTExdfption {
+        dhfdkRobotAllowfd();
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        if (toolkit instbndfof ComponfntFbdtory) {
+            pffr = ((ComponfntFbdtory)toolkit).drfbtfRobot(this, sdrffn);
+            disposfr = nfw RobotDisposfr(pffr);
+            sun.jbvb2d.Disposfr.bddRfdord(bndhor, disposfr);
+        }
+        initLfgblButtonMbsk();
+    }
+
+    privbtf stbtid syndhronizfd void initLfgblButtonMbsk() {
+        if (LEGAL_BUTTON_MASK != 0) rfturn;
+
+        int tmpMbsk = 0;
+        if (Toolkit.gftDffbultToolkit().brfExtrbMousfButtonsEnbblfd()){
+            if (Toolkit.gftDffbultToolkit() instbndfof SunToolkit) {
+                finbl int buttonsNumbfr = ((SunToolkit)(Toolkit.gftDffbultToolkit())).gftNumbfrOfButtons();
+                for (int i = 0; i < buttonsNumbfr; i++){
+                    tmpMbsk |= InputEvfnt.gftMbskForButton(i+1);
+                }
+            }
+        }
+        tmpMbsk |= InputEvfnt.BUTTON1_MASK|
+            InputEvfnt.BUTTON2_MASK|
+            InputEvfnt.BUTTON3_MASK|
+            InputEvfnt.BUTTON1_DOWN_MASK|
+            InputEvfnt.BUTTON2_DOWN_MASK|
+            InputEvfnt.BUTTON3_DOWN_MASK;
+        LEGAL_BUTTON_MASK = tmpMbsk;
+    }
+
+    /* dftfrminf if thf sfdurity polidy bllows Robot's to bf drfbtfd */
+    privbtf void dhfdkRobotAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.CREATE_ROBOT_PERMISSION);
+        }
+    }
+
+    /* dhfdk if thf givfn dfvidf is b sdrffn dfvidf */
+    privbtf void dhfdkIsSdrffnDfvidf(GrbphidsDfvidf dfvidf) {
+        if (dfvidf == null || dfvidf.gftTypf() != GrbphidsDfvidf.TYPE_RASTER_SCREEN) {
+            throw nfw IllfgblArgumfntExdfption("not b vblid sdrffn dfvidf");
+        }
+    }
+
+    privbtf trbnsifnt Objfdt bndhor = nfw Objfdt();
+
+    stbtid dlbss RobotDisposfr implfmfnts sun.jbvb2d.DisposfrRfdord {
+        privbtf finbl RobotPffr pffr;
+        publid RobotDisposfr(RobotPffr pffr) {
+            this.pffr = pffr;
+        }
+        publid void disposf() {
+            if (pffr != null) {
+                pffr.disposf();
+            }
+        }
+    }
+
+    privbtf trbnsifnt RobotDisposfr disposfr;
+
+    /**
+     * Movfs mousf pointfr to givfn sdrffn doordinbtfs.
+     * @pbrbm x         X position
+     * @pbrbm y         Y position
+     */
+    publid syndhronizfd void mousfMovf(int x, int y) {
+        pffr.mousfMovf(x, y);
+        bftfrEvfnt();
+    }
+
+    /**
+     * Prfssfs onf or morf mousf buttons.  Thf mousf buttons should
+     * bf rflfbsfd using thf {@link #mousfRflfbsf(int)} mfthod.
+     *
+     * @pbrbm buttons thf Button mbsk; b dombinbtion of onf or morf
+     * mousf button mbsks.
+     * <p>
+     * It is bllowfd to usf only b dombinbtion of vblid vblufs bs b {@dodf buttons} pbrbmftfr.
+     * A vblid dombinbtion donsists of {@dodf InputEvfnt.BUTTON1_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON2_DOWN_MASK}, {@dodf InputEvfnt.BUTTON3_DOWN_MASK}
+     * bnd vblufs rfturnfd by thf
+     * {@link InputEvfnt#gftMbskForButton(int) InputEvfnt.gftMbskForButton(button)} mfthod.
+     *
+     * Thf vblid dombinbtion blso dfpfnds on b
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() Toolkit.brfExtrbMousfButtonsEnbblfd()} vbluf bs follows:
+     * <ul>
+     * <li> If support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * thfn it is bllowfd to usf only thf following stbndbrd button mbsks:
+     * {@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON3_DOWN_MASK}.
+     * <li> If support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * thfn it is bllowfd to usf thf stbndbrd button mbsks
+     * bnd mbsks for fxisting fxtfndfd mousf buttons, if thf mousf hbs morf thfn thrff buttons.
+     * In thbt wby, it is bllowfd to usf thf button mbsks dorrfsponding to thf buttons
+     * in thf rbngf from 1 to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}.
+     * <br>
+     * It is rfdommfndfd to usf thf {@link InputEvfnt#gftMbskForButton(int) InputEvfnt.gftMbskForButton(button)}
+     * mfthod to obtbin thf mbsk for bny mousf button by its numbfr.
+     * </ul>
+     * <p>
+     * Thf following stbndbrd button mbsks brf blso bddfptfd:
+     * <ul>
+     * <li>{@dodf InputEvfnt.BUTTON1_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON2_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON3_MASK}
+     * </ul>
+     * Howfvfr, it is rfdommfndfd to usf {@dodf InputEvfnt.BUTTON1_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON2_DOWN_MASK},  {@dodf InputEvfnt.BUTTON3_DOWN_MASK} instfbd.
+     * Eithfr fxtfndfd {@dodf _DOWN_MASK} or old {@dodf _MASK} vblufs
+     * should bf usfd, but both thosf modfls should not bf mixfd.
+     * @throws IllfgblArgumfntExdfption if thf {@dodf buttons} mbsk dontbins thf mbsk for fxtrb mousf button
+     *         bnd support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * @throws IllfgblArgumfntExdfption if thf {@dodf buttons} mbsk dontbins thf mbsk for fxtrb mousf button
+     *         thbt dofs not fxist on thf mousf bnd support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * @sff #mousfRflfbsf(int)
+     * @sff InputEvfnt#gftMbskForButton(int)
+     * @sff Toolkit#brfExtrbMousfButtonsEnbblfd()
+     * @sff jbvb.bwt.MousfInfo#gftNumbfrOfButtons()
+     * @sff jbvb.bwt.fvfnt.MousfEvfnt
+     */
+    publid syndhronizfd void mousfPrfss(int buttons) {
+        dhfdkButtonsArgumfnt(buttons);
+        pffr.mousfPrfss(buttons);
+        bftfrEvfnt();
+    }
+
+    /**
+     * Rflfbsfs onf or morf mousf buttons.
+     *
+     * @pbrbm buttons thf Button mbsk; b dombinbtion of onf or morf
+     * mousf button mbsks.
+     * <p>
+     * It is bllowfd to usf only b dombinbtion of vblid vblufs bs b {@dodf buttons} pbrbmftfr.
+     * A vblid dombinbtion donsists of {@dodf InputEvfnt.BUTTON1_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON2_DOWN_MASK}, {@dodf InputEvfnt.BUTTON3_DOWN_MASK}
+     * bnd vblufs rfturnfd by thf
+     * {@link InputEvfnt#gftMbskForButton(int) InputEvfnt.gftMbskForButton(button)} mfthod.
+     *
+     * Thf vblid dombinbtion blso dfpfnds on b
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() Toolkit.brfExtrbMousfButtonsEnbblfd()} vbluf bs follows:
+     * <ul>
+     * <li> If thf support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * thfn it is bllowfd to usf only thf following stbndbrd button mbsks:
+     * {@dodf InputEvfnt.BUTTON1_DOWN_MASK}, {@dodf InputEvfnt.BUTTON2_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON3_DOWN_MASK}.
+     * <li> If thf support for fxtfndfd mousf buttons is
+     * {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * thfn it is bllowfd to usf thf stbndbrd button mbsks
+     * bnd mbsks for fxisting fxtfndfd mousf buttons, if thf mousf hbs morf thfn thrff buttons.
+     * In thbt wby, it is bllowfd to usf thf button mbsks dorrfsponding to thf buttons
+     * in thf rbngf from 1 to {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}.
+     * <br>
+     * It is rfdommfndfd to usf thf {@link InputEvfnt#gftMbskForButton(int) InputEvfnt.gftMbskForButton(button)}
+     * mfthod to obtbin thf mbsk for bny mousf button by its numbfr.
+     * </ul>
+     * <p>
+     * Thf following stbndbrd button mbsks brf blso bddfptfd:
+     * <ul>
+     * <li>{@dodf InputEvfnt.BUTTON1_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON2_MASK}
+     * <li>{@dodf InputEvfnt.BUTTON3_MASK}
+     * </ul>
+     * Howfvfr, it is rfdommfndfd to usf {@dodf InputEvfnt.BUTTON1_DOWN_MASK},
+     * {@dodf InputEvfnt.BUTTON2_DOWN_MASK},  {@dodf InputEvfnt.BUTTON3_DOWN_MASK} instfbd.
+     * Eithfr fxtfndfd {@dodf _DOWN_MASK} or old {@dodf _MASK} vblufs
+     * should bf usfd, but both thosf modfls should not bf mixfd.
+     * @throws IllfgblArgumfntExdfption if thf {@dodf buttons} mbsk dontbins thf mbsk for fxtrb mousf button
+     *         bnd support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() disbblfd} by Jbvb
+     * @throws IllfgblArgumfntExdfption if thf {@dodf buttons} mbsk dontbins thf mbsk for fxtrb mousf button
+     *         thbt dofs not fxist on thf mousf bnd support for fxtfndfd mousf buttons is {@link Toolkit#brfExtrbMousfButtonsEnbblfd() fnbblfd} by Jbvb
+     * @sff #mousfPrfss(int)
+     * @sff InputEvfnt#gftMbskForButton(int)
+     * @sff Toolkit#brfExtrbMousfButtonsEnbblfd()
+     * @sff jbvb.bwt.MousfInfo#gftNumbfrOfButtons()
+     * @sff jbvb.bwt.fvfnt.MousfEvfnt
+     */
+    publid syndhronizfd void mousfRflfbsf(int buttons) {
+        dhfdkButtonsArgumfnt(buttons);
+        pffr.mousfRflfbsf(buttons);
+        bftfrEvfnt();
+    }
+
+    privbtf void dhfdkButtonsArgumfnt(int buttons) {
+        if ( (buttons|LEGAL_BUTTON_MASK) != LEGAL_BUTTON_MASK ) {
+            throw nfw IllfgblArgumfntExdfption("Invblid dombinbtion of button flbgs");
+        }
+    }
+
+    /**
+     * Rotbtfs thf sdroll whffl on whffl-fquippfd midf.
+     *
+     * @pbrbm whfflAmt  numbfr of "notdhfs" to movf thf mousf whffl
+     *                  Nfgbtivf vblufs indidbtf movfmfnt up/bwby from thf usfr,
+     *                  positivf vblufs indidbtf movfmfnt down/towbrds thf usfr.
+     *
+     * @sindf 1.4
+     */
+    publid syndhronizfd void mousfWhffl(int whfflAmt) {
+        pffr.mousfWhffl(whfflAmt);
+        bftfrEvfnt();
+    }
+
+    /**
+     * Prfssfs b givfn kfy.  Thf kfy should bf rflfbsfd using thf
+     * <dodf>kfyRflfbsf</dodf> mfthod.
+     * <p>
+     * Kfy dodfs thbt hbvf morf thbn onf physidbl kfy bssodibtfd with thfm
+     * (f.g. <dodf>KfyEvfnt.VK_SHIFT</dodf> dould mfbn fithfr thf
+     * lfft or right shift kfy) will mbp to thf lfft kfy.
+     *
+     * @pbrbm   kfydodf Kfy to prfss (f.g. <dodf>KfyEvfnt.VK_A</dodf>)
+     * @throws  IllfgblArgumfntExdfption if <dodf>kfydodf</dodf> is not
+     *          b vblid kfy
+     * @sff     #kfyRflfbsf(int)
+     * @sff     jbvb.bwt.fvfnt.KfyEvfnt
+     */
+    publid syndhronizfd void kfyPrfss(int kfydodf) {
+        dhfdkKfydodfArgumfnt(kfydodf);
+        pffr.kfyPrfss(kfydodf);
+        bftfrEvfnt();
+    }
+
+    /**
+     * Rflfbsfs b givfn kfy.
+     * <p>
+     * Kfy dodfs thbt hbvf morf thbn onf physidbl kfy bssodibtfd with thfm
+     * (f.g. <dodf>KfyEvfnt.VK_SHIFT</dodf> dould mfbn fithfr thf
+     * lfft or right shift kfy) will mbp to thf lfft kfy.
+     *
+     * @pbrbm   kfydodf Kfy to rflfbsf (f.g. <dodf>KfyEvfnt.VK_A</dodf>)
+     * @throws  IllfgblArgumfntExdfption if <dodf>kfydodf</dodf> is not b
+     *          vblid kfy
+     * @sff  #kfyPrfss(int)
+     * @sff     jbvb.bwt.fvfnt.KfyEvfnt
+     */
+    publid syndhronizfd void kfyRflfbsf(int kfydodf) {
+        dhfdkKfydodfArgumfnt(kfydodf);
+        pffr.kfyRflfbsf(kfydodf);
+        bftfrEvfnt();
+    }
+
+    privbtf void dhfdkKfydodfArgumfnt(int kfydodf) {
+        // rbthfr thbn build b big tbblf or switdh stbtfmfnt hfrf, wf'll
+        // just dhfdk thbt thf kfy isn't VK_UNDEFINED bnd bssumf thbt thf
+        // pffr implfmfntbtions will throw bn fxdfption for othfr bogus
+        // vblufs f.g. -1, 999999
+        if (kfydodf == KfyEvfnt.VK_UNDEFINED) {
+            throw nfw IllfgblArgumfntExdfption("Invblid kfy dodf");
+        }
+    }
+
+    /**
+     * Rfturns thf dolor of b pixfl bt thf givfn sdrffn doordinbtfs.
+     * @pbrbm   x       X position of pixfl
+     * @pbrbm   y       Y position of pixfl
+     * @rfturn  Color of thf pixfl
+     */
+    publid syndhronizfd Color gftPixflColor(int x, int y) {
+        Color dolor = nfw Color(pffr.gftRGBPixfl(x, y));
+        rfturn dolor;
+    }
+
+    /**
+     * Crfbtfs bn imbgf dontbining pixfls rfbd from thf sdrffn.  This imbgf dofs
+     * not indludf thf mousf dursor.
+     * @pbrbm   sdrffnRfdt      Rfdt to dbpturf in sdrffn doordinbtfs
+     * @rfturn  Thf dbpturfd imbgf
+     * @throws  IllfgblArgumfntExdfption if <dodf>sdrffnRfdt</dodf> width bnd hfight brf not grfbtfr thbn zfro
+     * @throws  SfdurityExdfption if <dodf>rfbdDisplbyPixfls</dodf> pfrmission is not grbntfd
+     * @sff     SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff     AWTPfrmission
+     */
+    publid syndhronizfd BufffrfdImbgf drfbtfSdrffnCbpturf(Rfdtbnglf sdrffnRfdt) {
+        dhfdkSdrffnCbpturfAllowfd();
+
+        dhfdkVblidRfdt(sdrffnRfdt);
+
+        BufffrfdImbgf imbgf;
+        DbtbBufffrInt bufffr;
+        WritbblfRbstfr rbstfr;
+
+        if (sdrffnCbpCM == null) {
+            /*
+             * Fix for 4285201
+             * Crfbtf b DirfdtColorModfl fquivblfnt to thf dffbult RGB ColorModfl,
+             * fxdfpt with no Alphb domponfnt.
+             */
+
+            sdrffnCbpCM = nfw DirfdtColorModfl(24,
+                                               /* rfd mbsk */    0x00FF0000,
+                                               /* grffn mbsk */  0x0000FF00,
+                                               /* bluf mbsk */   0x000000FF);
+        }
+
+        // nffd to synd thf toolkit prior to grbbbing thf pixfls sindf in somf
+        // dbsfs rfndfring to thf sdrffn mby bf dflbyfd
+        Toolkit.gftDffbultToolkit().synd();
+
+        int pixfls[];
+        int[] bbndmbsks = nfw int[3];
+
+        pixfls = pffr.gftRGBPixfls(sdrffnRfdt);
+        bufffr = nfw DbtbBufffrInt(pixfls, pixfls.lfngth);
+
+        bbndmbsks[0] = sdrffnCbpCM.gftRfdMbsk();
+        bbndmbsks[1] = sdrffnCbpCM.gftGrffnMbsk();
+        bbndmbsks[2] = sdrffnCbpCM.gftBlufMbsk();
+
+        rbstfr = Rbstfr.drfbtfPbdkfdRbstfr(bufffr, sdrffnRfdt.width, sdrffnRfdt.hfight, sdrffnRfdt.width, bbndmbsks, null);
+        SunWritbblfRbstfr.mbkfTrbdkbblf(bufffr);
+
+        imbgf = nfw BufffrfdImbgf(sdrffnCbpCM, rbstfr, fblsf, null);
+
+        rfturn imbgf;
+    }
+
+    privbtf stbtid void dhfdkVblidRfdt(Rfdtbnglf rfdt) {
+        if (rfdt.width <= 0 || rfdt.hfight <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Rfdtbnglf width bnd hfight must bf > 0");
+        }
+    }
+
+    privbtf stbtid void dhfdkSdrffnCbpturfAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPfrmission(AWTPfrmissions.READ_DISPLAY_PIXELS_PERMISSION);
+        }
+    }
+
+    /*
+     * Cbllfd bftfr bn fvfnt is gfnfrbtfd
+     */
+    privbtf void bftfrEvfnt() {
+        butoWbitForIdlf();
+        butoDflby();
+    }
+
+    /**
+     * Rfturns whfthfr this Robot butombtidblly invokfs <dodf>wbitForIdlf</dodf>
+     * bftfr gfnfrbting bn fvfnt.
+     * @rfturn Whfthfr <dodf>wbitForIdlf</dodf> is butombtidblly dbllfd
+     */
+    publid syndhronizfd boolfbn isAutoWbitForIdlf() {
+        rfturn isAutoWbitForIdlf;
+    }
+
+    /**
+     * Sfts whfthfr this Robot butombtidblly invokfs <dodf>wbitForIdlf</dodf>
+     * bftfr gfnfrbting bn fvfnt.
+     * @pbrbm   isOn    Whfthfr <dodf>wbitForIdlf</dodf> is butombtidblly invokfd
+     */
+    publid syndhronizfd void sftAutoWbitForIdlf(boolfbn isOn) {
+        isAutoWbitForIdlf = isOn;
+    }
+
+    /*
+     * Cblls wbitForIdlf bftfr fvfry fvfnt if so dfsirfd.
+     */
+    privbtf void butoWbitForIdlf() {
+        if (isAutoWbitForIdlf) {
+            wbitForIdlf();
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of millisfdonds this Robot slffps bftfr gfnfrbting bn fvfnt.
+     *
+     * @rfturn thf dflby durbtion in millisfdonds
+     */
+    publid syndhronizfd int gftAutoDflby() {
+        rfturn butoDflby;
+    }
+
+    /**
+     * Sfts thf numbfr of millisfdonds this Robot slffps bftfr gfnfrbting bn fvfnt.
+     *
+     * @pbrbm  ms thf dflby durbtion in millisfdonds
+     * @throws IllfgblArgumfntExdfption If {@dodf ms}
+     *         is not bftwffn 0 bnd 60,000 millisfdonds indlusivf
+     */
+    publid syndhronizfd void sftAutoDflby(int ms) {
+        dhfdkDflbyArgumfnt(ms);
+        butoDflby = ms;
+    }
+
+    /*
+     * Autombtidblly slffps for thf spfdififd intfrvbl bftfr fvfnt gfnfrbtfd.
+     */
+    privbtf void butoDflby() {
+        dflby(butoDflby);
+    }
+
+    /**
+     * Slffps for thf spfdififd timf.
+     * To dbtdh bny <dodf>IntfrruptfdExdfption</dodf>s thbt oddur,
+     * <dodf>Thrfbd.slffp()</dodf> mby bf usfd instfbd.
+     *
+     * @pbrbm  ms timf to slffp in millisfdonds
+     * @throws IllfgblArgumfntExdfption if {@dodf ms}
+     *         is not bftwffn 0 bnd 60,000 millisfdonds indlusivf
+     * @sff jbvb.lbng.Thrfbd#slffp
+     */
+    publid syndhronizfd void dflby(int ms) {
+        dhfdkDflbyArgumfnt(ms);
+        try {
+            Thrfbd.slffp(ms);
+        } dbtdh(IntfrruptfdExdfption itf) {
+            itf.printStbdkTrbdf();
+        }
+    }
+
+    privbtf void dhfdkDflbyArgumfnt(int ms) {
+        if (ms < 0 || ms > MAX_DELAY) {
+            throw nfw IllfgblArgumfntExdfption("Dflby must bf to 0 to 60,000ms");
+        }
+    }
+
+    /**
+     * Wbits until bll fvfnts durrfntly on thf fvfnt qufuf hbvf bffn prodfssfd.
+     * @throws  IllfgblThrfbdStbtfExdfption if dbllfd on thf AWT fvfnt dispbtdhing thrfbd
+     */
+    publid syndhronizfd void wbitForIdlf() {
+        dhfdkNotDispbtdhThrfbd();
+        // post b dummy fvfnt to thf qufuf so wf know whfn
+        // bll thf fvfnts bfforf it hbvf bffn prodfssfd
+        try {
+            SunToolkit.flushPfndingEvfnts();
+            EvfntQufuf.invokfAndWbit( nfw Runnbblf() {
+                                            publid void run() {
+                                                // dummy implfmfntbtion
+                                            }
+                                        } );
+        } dbtdh(IntfrruptfdExdfption itf) {
+            Systfm.frr.println("Robot.wbitForIdlf, non-fbtbl fxdfption dbught:");
+            itf.printStbdkTrbdf();
+        } dbtdh(InvodbtionTbrgftExdfption inf) {
+            Systfm.frr.println("Robot.wbitForIdlf, non-fbtbl fxdfption dbught:");
+            inf.printStbdkTrbdf();
+        }
+    }
+
+    privbtf void dhfdkNotDispbtdhThrfbd() {
+        if (EvfntQufuf.isDispbtdhThrfbd()) {
+            throw nfw IllfgblThrfbdStbtfExdfption("Cbnnot dbll mfthod from thf fvfnt dispbtdhfr thrfbd");
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this Robot.
+     *
+     * @rfturn  thf string rfprfsfntbtion.
+     */
+    publid syndhronizfd String toString() {
+        String pbrbms = "butoDflby = "+gftAutoDflby()+", "+"butoWbitForIdlf = "+isAutoWbitForIdlf();
+        rfturn gftClbss().gftNbmf() + "[ " + pbrbms + " ]";
+    }
+}

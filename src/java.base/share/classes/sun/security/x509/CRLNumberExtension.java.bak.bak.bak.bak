@@ -1,0 +1,236 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnt thf CRL Numbfr Extfnsion.
+ *
+ * <p>This fxtfnsion, if prfsfnt, donvfys b monotonidblly indrfbsing
+ * sfqufndf numbfr for fbdh CRL issufd by b givfn CA through b spfdifid
+ * CA X.500 Dirfdtory fntry or CRL distribution point. This fxtfnsion
+ * bllows usfrs to fbsily dftfrminf whfn b pbrtidulbr CRL supfrsfdfs
+ * bnothfr CRL.
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+publid dlbss CRLNumbfrExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
+
+    /**
+     * Attributf nbmf.
+     */
+    publid stbtid finbl String NAME = "CRLNumbfr";
+    publid stbtid finbl String NUMBER = "vbluf";
+
+    privbtf stbtid finbl String LABEL = "CRL Numbfr";
+
+    privbtf BigIntfgfr drlNumbfr = null;
+    privbtf String fxtfnsionNbmf;
+    privbtf String fxtfnsionLbbfl;
+
+    // Endodf this fxtfnsion vbluf
+    privbtf void fndodfThis() throws IOExdfption {
+        if (drlNumbfr == null) {
+            this.fxtfnsionVbluf = null;
+            rfturn;
+        }
+        DfrOutputStrfbm os = nfw DfrOutputStrfbm();
+        os.putIntfgfr(this.drlNumbfr);
+        this.fxtfnsionVbluf = os.toBytfArrby();
+    }
+
+    /**
+     * Crfbtf b CRLNumbfrExtfnsion with thf intfgfr vbluf .
+     * Thf dritidblity is sft to fblsf.
+     *
+     * @pbrbm drlNum thf vbluf to bf sft for thf fxtfnsion.
+     */
+    publid CRLNumbfrExtfnsion(int drlNum) throws IOExdfption {
+        this(PKIXExtfnsions.CRLNumbfr_Id, fblsf, BigIntfgfr.vblufOf(drlNum),
+        NAME, LABEL);
+    }
+
+    /**
+     * Crfbtf b CRLNumbfrExtfnsion with thf BigIntfgfr vbluf .
+     * Thf dritidblity is sft to fblsf.
+     *
+     * @pbrbm drlNum thf vbluf to bf sft for thf fxtfnsion.
+     */
+    publid CRLNumbfrExtfnsion(BigIntfgfr drlNum) throws IOExdfption {
+        this(PKIXExtfnsions.CRLNumbfr_Id, fblsf, drlNum, NAME, LABEL);
+    }
+
+    /**
+     * Crfbtfs thf fxtfnsion (blso dbllfd by thf subdlbss).
+     */
+    protfdtfd CRLNumbfrExtfnsion(ObjfdtIdfntififr fxtfnsionId,
+        boolfbn isCritidbl, BigIntfgfr drlNum, String fxtfnsionNbmf,
+        String fxtfnsionLbbfl) throws IOExdfption {
+
+        this.fxtfnsionId = fxtfnsionId;
+        this.dritidbl = isCritidbl;
+        this.drlNumbfr = drlNum;
+        this.fxtfnsionNbmf = fxtfnsionNbmf;
+        this.fxtfnsionLbbfl = fxtfnsionLbbfl;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf of thf sbmf.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of thf bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
+     */
+    publid CRLNumbfrExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    throws IOExdfption {
+        this(PKIXExtfnsions.CRLNumbfr_Id, dritidbl, vbluf, NAME, LABEL);
+    }
+
+    /**
+     * Crfbtfs thf fxtfnsion (blso dbllfd by thf subdlbss).
+     */
+    protfdtfd CRLNumbfrExtfnsion(ObjfdtIdfntififr fxtfnsionId,
+        Boolfbn dritidbl, Objfdt vbluf, String fxtfnsionNbmf,
+        String fxtfnsionLbbfl) throws IOExdfption {
+
+        this.fxtfnsionId = fxtfnsionId;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+        this.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(this.fxtfnsionVbluf);
+        this.drlNumbfr = vbl.gftBigIntfgfr();
+        this.fxtfnsionNbmf = fxtfnsionNbmf;
+        this.fxtfnsionLbbfl = fxtfnsionLbbfl;
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            if (!(obj instbndfof BigIntfgfr)) {
+                throw nfw IOExdfption("Attributf must bf of typf BigIntfgfr.");
+            }
+            drlNumbfr = (BigIntfgfr)obj;
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by"
+                                + " CfrtAttrSft:" + fxtfnsionNbmf + ".");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid BigIntfgfr gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            if (drlNumbfr == null) rfturn null;
+            flsf rfturn drlNumbfr;
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by"
+                                + " CfrtAttrSft:" + fxtfnsionNbmf + ".");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            drlNumbfr = null;
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by"
+                                + " CfrtAttrSft:" + fxtfnsionNbmf + ".");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf CRLNumbfrExtfnsion.
+     */
+    publid String toString() {
+        String s = supfr.toString() + fxtfnsionLbbfl + ": " +
+                   ((drlNumbfr == null) ? "" : Dfbug.toHfxString(drlNumbfr))
+                   + "\n";
+        rfturn (s);
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+       DfrOutputStrfbm  tmp = nfw DfrOutputStrfbm();
+        fndodf(out, PKIXExtfnsions.CRLNumbfr_Id, truf);
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf DfrOutputStrfbm.
+     * (Also dbllfd by thf subdlbss)
+     */
+    protfdtfd void fndodf(OutputStrfbm out, ObjfdtIdfntififr fxtfnsionId,
+        boolfbn isCritidbl) throws IOExdfption {
+
+       DfrOutputStrfbm  tmp = nfw DfrOutputStrfbm();
+
+       if (this.fxtfnsionVbluf == null) {
+           this.fxtfnsionId = fxtfnsionId;
+           this.dritidbl = isCritidbl;
+           fndodfThis();
+       }
+       supfr.fndodf(tmp);
+       out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(NUMBER);
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (fxtfnsionNbmf);
+    }
+}

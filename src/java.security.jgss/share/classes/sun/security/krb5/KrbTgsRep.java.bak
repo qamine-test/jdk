@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.KeyUsage;
-import sun.security.util.*;
-import java.io.IOException;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
 
 /**
- * This class encapsulates a TGS-REP that is sent from the KDC to the
- * Kerberos client.
+ * Tiis dlbss fndbpsulbtfs b TGS-REP tibt is sfnt from tif KDC to tif
+ * Kfrbfros dlifnt.
  */
-public class KrbTgsRep extends KrbKdcRep {
-    private TGSRep rep;
-    private Credentials creds;
-    private Ticket secondTicket;
-    private static final boolean DEBUG = Krb5.DEBUG;
+publid dlbss KrbTgsRfp fxtfnds KrbKddRfp {
+    privbtf TGSRfp rfp;
+    privbtf Crfdfntibls drfds;
+    privbtf Tidkft sfdondTidkft;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5.DEBUG;
 
-    KrbTgsRep(byte[] ibuf, KrbTgsReq tgsReq)
-        throws KrbException, IOException {
-        DerValue ref = new DerValue(ibuf);
-        TGSReq req = tgsReq.getMessage();
-        TGSRep rep = null;
+    KrbTgsRfp(bytf[] ibuf, KrbTgsRfq tgsRfq)
+        tirows KrbExdfption, IOExdfption {
+        DfrVbluf rff = nfw DfrVbluf(ibuf);
+        TGSRfq rfq = tgsRfq.gftMfssbgf();
+        TGSRfp rfp = null;
         try {
-            rep = new TGSRep(ref);
-        } catch (Asn1Exception e) {
-            rep = null;
-            KRBError err = new KRBError(ref);
-            String errStr = err.getErrorString();
-            String eText = null; // pick up text sent by the server (if any)
-            if (errStr != null && errStr.length() > 0) {
-                if (errStr.charAt(errStr.length() - 1) == 0)
-                    eText = errStr.substring(0, errStr.length() - 1);
-                else
-                    eText = errStr;
+            rfp = nfw TGSRfp(rff);
+        } dbtdi (Asn1Exdfption f) {
+            rfp = null;
+            KRBError frr = nfw KRBError(rff);
+            String frrStr = frr.gftErrorString();
+            String fTfxt = null; // pidk up tfxt sfnt by tif sfrvfr (if bny)
+            if (frrStr != null && frrStr.lfngti() > 0) {
+                if (frrStr.dibrAt(frrStr.lfngti() - 1) == 0)
+                    fTfxt = frrStr.substring(0, frrStr.lfngti() - 1);
+                flsf
+                    fTfxt = frrStr;
             }
-            KrbException ke;
-            if (eText == null) {
-                // no text sent from server
-                ke = new KrbException(err.getErrorCode());
-            } else {
-                // override default text with server text
-                ke = new KrbException(err.getErrorCode(), eText);
+            KrbExdfption kf;
+            if (fTfxt == null) {
+                // no tfxt sfnt from sfrvfr
+                kf = nfw KrbExdfption(frr.gftErrorCodf());
+            } flsf {
+                // ovfrridf dffbult tfxt witi sfrvfr tfxt
+                kf = nfw KrbExdfption(frr.gftErrorCodf(), fTfxt);
             }
-            ke.initCause(e);
-            throw ke;
+            kf.initCbusf(f);
+            tirow kf;
         }
-        byte[] enc_tgs_rep_bytes = rep.encPart.decrypt(tgsReq.tgsReqKey,
-            tgsReq.usedSubkey() ? KeyUsage.KU_ENC_TGS_REP_PART_SUBKEY :
-            KeyUsage.KU_ENC_TGS_REP_PART_SESSKEY);
+        bytf[] fnd_tgs_rfp_bytfs = rfp.fndPbrt.dfdrypt(tgsRfq.tgsRfqKfy,
+            tgsRfq.usfdSubkfy() ? KfyUsbgf.KU_ENC_TGS_REP_PART_SUBKEY :
+            KfyUsbgf.KU_ENC_TGS_REP_PART_SESSKEY);
 
-        byte[] enc_tgs_rep_part = rep.encPart.reset(enc_tgs_rep_bytes);
-        ref = new DerValue(enc_tgs_rep_part);
-        EncTGSRepPart enc_part = new EncTGSRepPart(ref);
-        rep.encKDCRepPart = enc_part;
+        bytf[] fnd_tgs_rfp_pbrt = rfp.fndPbrt.rfsft(fnd_tgs_rfp_bytfs);
+        rff = nfw DfrVbluf(fnd_tgs_rfp_pbrt);
+        EndTGSRfpPbrt fnd_pbrt = nfw EndTGSRfpPbrt(rff);
+        rfp.fndKDCRfpPbrt = fnd_pbrt;
 
-        check(false, req, rep);
+        difdk(fblsf, rfq, rfp);
 
-        this.creds = new Credentials(rep.ticket,
-                                rep.cname,
-                                rep.ticket.sname,
-                                enc_part.key,
-                                enc_part.flags,
-                                enc_part.authtime,
-                                enc_part.starttime,
-                                enc_part.endtime,
-                                enc_part.renewTill,
-                                enc_part.caddr
+        tiis.drfds = nfw Crfdfntibls(rfp.tidkft,
+                                rfp.dnbmf,
+                                rfp.tidkft.snbmf,
+                                fnd_pbrt.kfy,
+                                fnd_pbrt.flbgs,
+                                fnd_pbrt.butitimf,
+                                fnd_pbrt.stbrttimf,
+                                fnd_pbrt.fndtimf,
+                                fnd_pbrt.rfnfwTill,
+                                fnd_pbrt.dbddr
                                 );
-        this.rep = rep;
-        this.secondTicket = tgsReq.getSecondTicket();
+        tiis.rfp = rfp;
+        tiis.sfdondTidkft = tgsRfq.gftSfdondTidkft();
     }
 
     /**
-     * Return the credentials that were contained in this KRB-TGS-REP.
+     * Rfturn tif drfdfntibls tibt wfrf dontbinfd in tiis KRB-TGS-REP.
      */
-    public Credentials getCreds() {
-        return creds;
+    publid Crfdfntibls gftCrfds() {
+        rfturn drfds;
     }
 
-    sun.security.krb5.internal.ccache.Credentials setCredentials() {
-        return new sun.security.krb5.internal.ccache.Credentials(rep, secondTicket);
+    sun.sfdurity.krb5.intfrnbl.ddbdif.Crfdfntibls sftCrfdfntibls() {
+        rfturn nfw sun.sfdurity.krb5.intfrnbl.ddbdif.Crfdfntibls(rfp, sfdondTidkft);
     }
 }

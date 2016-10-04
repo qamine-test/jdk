@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
+
+import jbvb.util.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.io.*;
+
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+
+/**
+ * Condrftf implfmfntbtion of thf AbstrbdtMonitorfdVm dlbss for thf
+ * <fm>lodbl:</fm> protodol for thf HotSpot PfrfDbtb monitoring implfmfntbtion.
+ * <p>
+ * This dlbss providfs thf bbility to bttbdh to thf instrumfntbtion bufffr
+ * of b livf tbrgft Jbvb Virtubl Mbdhinf through b HotSpot spfdifid bttbdh
+ * mfdhbnism.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss LodblMonitorfdVm fxtfnds AbstrbdtMonitorfdVm {
+
+    /**
+     * List of rfgistfrfd listfnfrs.
+     */
+    privbtf ArrbyList<VmListfnfr> listfnfrs;
+
+    /**
+     * Tbsk pfrforming listfnfr notifidbtion.
+     */
+    privbtf NotififrTbsk tbsk;
+
+    /**
+     * Crfbtf b LodblMonitorfdVm instbndf.
+     *
+     * @pbrbm vmid thf vm idfntififr spfdifying thf tbrgft JVM
+     * @pbrbm intfrvbl thf sbmpling intfrvbl
+     */
+    publid LodblMonitorfdVm(VmIdfntififr vmid, int intfrvbl)
+           throws MonitorExdfption {
+        supfr(vmid, intfrvbl);
+        this.pdb = nfw PfrfDbtbBufffr(vmid);
+        listfnfrs = nfw ArrbyList<VmListfnfr>();
+    }
+
+    /**
+     * {@inhfritDod}.
+     */
+    publid void dftbdh() {
+        if (intfrvbl > 0) {
+            /*
+             * if thf notififr tbsk is running, stop it, othfrwisf it dbn
+             * bddfss non-fxistfnt mfmory ondf wf'vf dftbdhfd from thf
+             * undfrlying bufffr.
+             */
+            if (tbsk != null) {
+                tbsk.dbndfl();
+                tbsk = null;
+            }
+        }
+        supfr.dftbdh();
+    }
+
+    /**
+     * {@inhfritDod}.
+     */
+    publid void bddVmListfnfr(VmListfnfr l) {
+        syndhronizfd(listfnfrs) {
+            listfnfrs.bdd(l);
+            if (tbsk == null) {
+                tbsk = nfw NotififrTbsk();
+                LodblEvfntTimfr timfr = LodblEvfntTimfr.gftInstbndf();
+                timfr.sdhfdulf(tbsk, intfrvbl, intfrvbl);
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}.
+     */
+    publid void rfmovfVmListfnfr(VmListfnfr l) {
+        syndhronizfd(listfnfrs) {
+            listfnfrs.rfmovf(l);
+            if (listfnfrs.isEmpty() && tbsk != null) {
+                tbsk.dbndfl();
+                tbsk = null;
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}.
+     */
+    publid void sftIntfrvbl(int nfwIntfrvbl) {
+        syndhronizfd(listfnfrs) {
+            if (nfwIntfrvbl == intfrvbl) {
+                rfturn;
+            }
+
+            int oldIntfrvbl = intfrvbl;
+            supfr.sftIntfrvbl(nfwIntfrvbl);
+
+            if (tbsk != null) {
+                tbsk.dbndfl();
+                NotififrTbsk oldTbsk = tbsk;
+                tbsk = nfw NotififrTbsk();
+                LodblEvfntTimfr timfr = LodblEvfntTimfr.gftInstbndf();
+                CountfdTimfrTbskUtils.rfsdhfdulf(timfr, oldTbsk, tbsk,
+                                                 oldIntfrvbl, nfwIntfrvbl);
+            }
+        }
+    }
+
+    /**
+     * Firf MonitorfdVmStrudturfChbngfd fvfnts.
+     *
+     * @pbrbm insfrtfd List of Monitor objfdts insfrtfd.
+     * @pbrbm rfmovfd List of Monitor objfdts rfmovfd.
+     */
+    @SupprfssWbrnings("undhfdkfd") // Cbst of rfsult of dlonf
+    void firfMonitorStbtusChbngfdEvfnts(List<Monitor> insfrtfd, List<Monitor> rfmovfd) {
+        MonitorStbtusChbngfEvfnt fv = null;
+        ArrbyList<VmListfnfr> rfgistfrfd = null;
+
+        syndhronizfd (listfnfrs) {
+            rfgistfrfd = (ArrbyList)listfnfrs.dlonf();
+        }
+
+        for (Itfrbtor<VmListfnfr> i = rfgistfrfd.itfrbtor(); i.hbsNfxt(); /* fmpty */) {
+            VmListfnfr l = i.nfxt();
+            // lbzily drfbtf thf fvfnt objfdt;
+            if (fv == null) {
+                fv = nfw MonitorStbtusChbngfEvfnt(this, insfrtfd, rfmovfd);
+            }
+            l.monitorStbtusChbngfd(fv);
+        }
+    }
+
+    /**
+     * Firf MonitorfdUpdbtfd fvfnts.
+     */
+    void firfMonitorsUpdbtfdEvfnts() {
+        VmEvfnt fv = null;
+        ArrbyList<VmListfnfr> rfgistfrfd = null;
+
+        syndhronizfd (listfnfrs) {
+            rfgistfrfd = dbst(listfnfrs.dlonf());
+        }
+
+        for (VmListfnfr l :  rfgistfrfd) {
+            // lbzily drfbtf thf fvfnt objfdt;
+            if (fv == null) {
+                fv = nfw VmEvfnt(this);
+            }
+            l.monitorsUpdbtfd(fv);
+        }
+    }
+
+    /**
+     * Clbss to notify listfnfrs of Monitor rflbtfd fvfnts for
+     * thf tbrgft JVM.
+     */
+    privbtf dlbss NotififrTbsk fxtfnds CountfdTimfrTbsk {
+        publid void run() {
+            supfr.run();
+            try {
+                MonitorStbtus stbtus = gftMonitorStbtus();
+                List<Monitor> insfrtfd = stbtus.gftInsfrtfd();
+                List<Monitor> rfmovfd = stbtus.gftRfmovfd();
+
+                if (!insfrtfd.isEmpty() || !rfmovfd.isEmpty()) {
+                    firfMonitorStbtusChbngfdEvfnts(insfrtfd, rfmovfd);
+                }
+                firfMonitorsUpdbtfdEvfnts();
+            } dbtdh (MonitorExdfption f) {
+                // XXX: usf logging bpi
+                Systfm.frr.println("Exdfption updbting monitors for "
+                                   + gftVmIdfntififr());
+                f.printStbdkTrbdf();
+            }
+        }
+    }
+    // Supprfss undhfdkfd dbst wbrning msg.
+    @SupprfssWbrnings("undhfdkfd")
+    stbtid <T> T dbst(Objfdt x) {
+        rfturn (T) x;
+    }
+}

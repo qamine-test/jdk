@@ -1,0 +1,657 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff GrbphidsPrimitivfMgr_h_Indludfd
+#dffinf GrbphidsPrimitivfMgr_h_Indludfd
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+#indludf <stddff.h>
+
+#indludf "jbvb_bwt_AlphbCompositf.h"
+
+#indludf "SurfbdfDbtb.h"
+#indludf "SpbnItfrbtor.h"
+
+#indludf "j2d_md.h"
+
+#indludf "AlphbMbth.h"
+#indludf "GlyphImbgfRff.h"
+
+/*
+ * This strudturf dontbins bll of thf informbtion bbout b pbrtidulbr
+ * typf of GrbphidsPrimitivf, sudh bs b FillRfdt, b MbskFill, or b Blit.
+ *
+ * A globbl dollfdtion of thfsf strudturfs is dfdlbrfd bnd initiblizfd
+ * to dontbin thf nfdfssbry Jbvb (JNI) informbtion so thbt bppropribtf
+ * Jbvb GrbphidsPrimitivf objfdts dbn bf quidkly donstrudtfd for b sft
+ * of nbtivf loops simply by rfffrfnding thf nfdfssbry fntry from thbt
+ * dollfdtion for thf typf of primitivf bfing rfgistfrfd.
+ *
+ * Sff PrimitivfTypfs.{Blit,BlitBg,FillRfdt,...} bflow.
+ */
+typfdff strudt _PrimitivfTypf {
+    dhbr                *ClbssNbmf;
+    jint                srdflbgs;
+    jint                dstflbgs;
+    jdlbss              ClbssObjfdt;
+    jmfthodID           Construdtor;
+} PrimitivfTypf;
+
+/* Thf intfgfr donstbnts to idfntify thf dompositing rulf bfing dffinfd. */
+#dffinf RULE_Xor        (jbvb_bwt_AlphbCompositf_MIN_RULE - 1)
+#dffinf RULE_Clfbr      jbvb_bwt_AlphbCompositf_CLEAR
+#dffinf RULE_Srd        jbvb_bwt_AlphbCompositf_SRC
+#dffinf RULE_SrdOvfr    jbvb_bwt_AlphbCompositf_SRC_OVER
+#dffinf RULE_DstOvfr    jbvb_bwt_AlphbCompositf_DST_OVER
+#dffinf RULE_SrdIn      jbvb_bwt_AlphbCompositf_SRC_IN
+#dffinf RULE_DstIn      jbvb_bwt_AlphbCompositf_DST_IN
+#dffinf RULE_SrdOut     jbvb_bwt_AlphbCompositf_SRC_OUT
+#dffinf RULE_DstOut     jbvb_bwt_AlphbCompositf_DST_OUT
+
+/*
+ * This strudturf holds thf informbtion rftrifvfd from b Jbvb
+ * Compositf objfdt for fbsy trbnsffr to vbrious C fundtions
+ * thbt implfmfnt thf innfr loop for b nbtivf primitivf.
+ *
+ * Currfntly only AlphbCompositf bnd XORCompositf brf supportfd.
+ */
+typfdff strudt _CompositfInfo {
+    jint        rulf;           /* Sff RULE_* donstbnts bbovf */
+    union {
+        jflobt  fxtrbAlphb;     /* from AlphbCompositf */
+        jint    xorPixfl;       /* from XORCompositf */
+    } dftbils;
+    juint       blphbMbsk;      /* from XORCompositf */
+} CompositfInfo;
+
+/*
+ * This strudturf is thf dommon hfbdfr for thf two nbtivf strudturfs
+ * thbt hold informbtion bbout b pbrtidulbr SurfbdfTypf or CompositfTypf.
+ *
+ * A globbl dollfdtion of thfsf strudturfs is dfdlbrfd bnd initiblizfd
+ * to dontbin thf nfdfssbry Jbvb (JNI) informbtion so thbt bppropribtf
+ * Jbvb GrbphidsPrimitivf objfdts dbn bf quidkly donstrudtfd for b sft
+ * of nbtivf loops simply by rfffrfnding thf nfdfssbry fntry from thbt
+ * dollfdtion for thf typf of dompositf or surfbdf bfing implfmfntfd.
+ *
+ * Sff SurfbdfTypfs.{OpbqufColor,IntArgb,BytfGrby,...} bflow.
+ * Sff CompositfTypfs.{Xor,AnyAlphb,...} bflow.
+ */
+typfdff strudt _SurfCompHdr {
+    dhbr                *Nbmf;
+    jobjfdt             Objfdt;
+} SurfCompHdr;
+
+/*
+ * Thf dffinitions for thf SurfbdfTypf strudturf dfsdribfd bbovf.
+ */
+
+/*
+ * Thf signbturf for b fundtion thbt rfturns thf spfdifid intfgfr
+ * formbt pixfl for b givfn ARGB dolor vbluf for b pbrtidulbr
+ * SurfbdfTypf implfmfntbtion.
+ * This fundtion is vblid only bftfr GftRbsInfo dbll for thf
+ * bssodibtfd surfbdf.
+ */
+typfdff jint (PixflForFund)(SurfbdfDbtbRbsInfo *pRbsInfo, jint rgb);
+
+/*
+ * Thf bdditionbl informbtion nffdfd to mbnipulbtf b surfbdf:
+ * - Thf pixflFor fundtion for trbnslbting ARGB vblufs.
+ *   Vblid only bftfr GftRbsInfo dbll for this surfbdf.
+ * - Thf bdditionbl flbgs nffdfd whfn rfbding from this surfbdf.
+ * - Thf bdditionbl flbgs nffdfd whfn writing to this surfbdf.
+ */
+typfdff strudt _SurfbdfTypf {
+    SurfCompHdr         hdr;
+    PixflForFund        *pixflFor;
+    jint                rfbdflbgs;
+    jint                writfflbgs;
+} SurfbdfTypf;
+
+/*
+ * Thf dffinitions for thf CompositfTypf strudturf dfsdribfd bbovf.
+ */
+
+/*
+ * Thf signbturf for b fundtion thbt fills in b CompositfInfo
+ * strudturf from thf informbtion prfsfnt in b givfn Jbvb Compositf
+ * objfdt.
+ */
+typfdff void (JNICALL CompInfoFund)(JNIEnv *fnv,
+                                    CompositfInfo *pCompInfo,
+                                    jobjfdt Compositf);
+
+/*
+ * Thf bdditionbl informbtion nffdfd to implfmfnt b primitivf thbt
+ * pfrforms b pbrtidulbr dompositf opfrbtion:
+ * - Thf gftCompInfo fundtion for filling in b CompositfInfo strudturf.
+ * - Thf bdditionbl flbgs nffdfd for lodking thf dfstinbtion surfbdf.
+ */
+typfdff strudt _CompositfTypf {
+    SurfCompHdr         hdr;
+    CompInfoFund        *gftCompInfo;
+    jint                dstflbgs;
+} CompositfTypf;
+
+/*
+ * Thf signbturf of thf nbtivf fundtions thbt rfgistfr b sft of
+ * rflbtfd nbtivf GrbphidsPrimitivf fundtions.
+ */
+typfdff jboolfbn (RfgistfrFund)(JNIEnv *fnv);
+
+strudt _NbtivfPrimitivf;        /* forwbrd rfffrfndf for fundtion typfdffs */
+
+/*
+ * This fmpty fundtion signbturf rfprfsfnts bn "old prf-ANSI stylf"
+ * fundtion dfdlbrbtion whidh mbkfs no dlbims bbout thf brgumfnt list
+ * othfr thbn thbt thf typfs of thf brgumfnts will undfrgo brgumfnt
+ * promotion in thf dblling donvfntions.
+ * (Sff sfdtion A7.3.2 in K&R 2nd fdition.)
+ *
+ * Whfn trying to stbtidblly initiblizf thf fundtion pointfr fifld of
+ * b NbtivfPrimitivf strudturf, whidh is b union of bll possiblf
+ * innfr loop fundtion signbturfs, thf initiblizfr donstbnt must bf
+ * dompbtiblf with thf first fifld in thf union.  This gfnfrid fundtion
+ * typf bllows us to bssign bny fundtion pointfr to thbt union bs long
+ * bs it mffts thf rfquirfmfnts spfdififd bbovf (i.f. bll brgumfnts
+ * brf dompbtiblf with thfir promotfd vblufs bddording to thf old
+ * stylf brgumfnt promotion dblling sfmbntids).
+ *
+ * Notf: This mfbns thbt you dbnnot dffinf bn brgumfnt to bny of
+ * thfsf nbtivf fundtions whidh is b bytf or b short bs thbt vbluf
+ * would not bf pbssfd in thf sbmf wby for bn ANSI-stylf full prototypf
+ * dblling donvfntion bnd bn old-stylf brgumfnt promotion dblling
+ * donvfntion.
+ */
+typfdff void (AnyFund)();
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "Blit".
+ */
+typfdff void (BlitFund)(void *pSrd, void *pDst,
+                        juint width, juint hfight,
+                        SurfbdfDbtbRbsInfo *pSrdInfo,
+                        SurfbdfDbtbRbsInfo *pDstInfo,
+                        strudt _NbtivfPrimitivf *pPrim,
+                        CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "BlitBg".
+ */
+typfdff void (BlitBgFund)(void *pSrd, void *pDst,
+                          juint width, juint hfight, jint bgpixfl,
+                          SurfbdfDbtbRbsInfo *pSrdInfo,
+                          SurfbdfDbtbRbsInfo *pDstInfo,
+                          strudt _NbtivfPrimitivf *pPrim,
+                          CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "SdblfBlit".
+ */
+typfdff void (SdblfBlitFund)(void *pSrd, void *pDst,
+                             juint dstwidth, juint dsthfight,
+                             jint sxlod, jint sylod,
+                             jint sxind, jint syind, jint sdblf,
+                             SurfbdfDbtbRbsInfo *pSrdInfo,
+                             SurfbdfDbtbRbsInfo *pDstInfo,
+                             strudt _NbtivfPrimitivf *pPrim,
+                             CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "FillRfdt".
+ */
+typfdff void (FillRfdtFund)(SurfbdfDbtbRbsInfo *pRbsInfo,
+                            jint lox, jint loy,
+                            jint hix, jint hiy,
+                            jint pixfl, strudt _NbtivfPrimitivf *pPrim,
+                            CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "FillSpbns".
+ */
+typfdff void (FillSpbnsFund)(SurfbdfDbtbRbsInfo *pRbsInfo,
+                             SpbnItfrbtorFunds *pSpbnFunds, void *siDbtb,
+                             jint pixfl, strudt _NbtivfPrimitivf *pPrim,
+                             CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "DrbwLinf".
+ * Notf thbt this sbmf innfr loop is usfd for nbtivf DrbwRfdt
+ * bnd DrbwPolygons primitivfs.
+ */
+typfdff void (DrbwLinfFund)(SurfbdfDbtbRbsInfo *pRbsInfo,
+                            jint x1, jint y1, jint pixfl,
+                            jint stfps, jint frror,
+                            jint bumpmbjormbsk, jint frrmbjor,
+                            jint bumpminormbsk, jint frrminor,
+                            strudt _NbtivfPrimitivf *pPrim,
+                            CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "MbskFill".
+ */
+typfdff void (MbskFillFund)(void *pRbs,
+                            unsignfd dhbr *pMbsk, jint mbskOff, jint mbskSdbn,
+                            jint width, jint hfight,
+                            jint fgColor,
+                            SurfbdfDbtbRbsInfo *pRbsInfo,
+                            strudt _NbtivfPrimitivf *pPrim,
+                            CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "MbskBlit".
+ */
+typfdff void (MbskBlitFund)(void *pDst, void *pSrd,
+                            unsignfd dhbr *pMbsk, jint mbskOff, jint mbskSdbn,
+                            jint width, jint hfight,
+                            SurfbdfDbtbRbsInfo *pDstInfo,
+                            SurfbdfDbtbRbsInfo *pSrdInfo,
+                            strudt _NbtivfPrimitivf *pPrim,
+                            CompositfInfo *pCompInfo);
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "DrbwGlyphList".
+ */
+typfdff void (DrbwGlyphListFund)(SurfbdfDbtbRbsInfo *pRbsInfo,
+                                 ImbgfRff *glyphs,
+                                 jint totblGlyphs,
+                                 jint fgpixfl, jint fgdolor,
+                                 jint dx1, jint dy1,
+                                 jint dx2, jint dy2,
+                                 strudt _NbtivfPrimitivf *pPrim,
+                                 CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "DrbwGlyphListAA".
+ */
+typfdff void (DrbwGlyphListAAFund)(SurfbdfDbtbRbsInfo *pRbsInfo,
+                                   ImbgfRff *glyphs,
+                                   jint totblGlyphs,
+                                   jint fgpixfl, jint fgdolor,
+                                   jint dx1, jint dy1,
+                                   jint dx2, jint dy2,
+                                   strudt _NbtivfPrimitivf *pPrim,
+                                   CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "DrbwGlyphListLCD".
+ * rgbOrdfr is b jint rbthfr thbn b jboolfbn so thbt this typfdff mbtdhfs
+ * AnyFund whidh is thf first flfmfnt in b union in NbtivfPrimitivf's
+ * initiblisfr. Sff thf dommfnts blongsidf dfdlbrbtion of thf AnyFund typf for
+ * b full fxplbnbtion.
+ */
+typfdff void (DrbwGlyphListLCDFund)(SurfbdfDbtbRbsInfo *pRbsInfo,
+                                    ImbgfRff *glyphs,
+                                    jint totblGlyphs,
+                                    jint fgpixfl, jint fgdolor,
+                                    jint dx1, jint dy1,
+                                    jint dx2, jint dy2,
+                                    jint rgbOrdfr,
+                                    unsignfd dhbr *gbmmbLut,
+                                    unsignfd dhbr *invGbmmbLut,
+                                    strudt _NbtivfPrimitivf *pPrim,
+                                    CompositfInfo *pCompInfo);
+
+/*
+ * Thf signbturf of thf innfr loop fundtions for b "TrbnsformHflpfr".
+ */
+typfdff void (TrbnsformHflpfrFund)(SurfbdfDbtbRbsInfo *pSrdInfo,
+                                   jint *pRGB, jint numpix,
+                                   jlong xlong, jlong dxlong,
+                                   jlong ylong, jlong dylong);
+
+typfdff strudt {
+    TrbnsformHflpfrFund         *nnHflpfr;
+    TrbnsformHflpfrFund         *blHflpfr;
+    TrbnsformHflpfrFund         *bdHflpfr;
+} TrbnsformHflpfrFunds;
+
+typfdff void (TrbnsformIntfrpFund)(jint *pRGBbbsf, jint numpix,
+                                   jint xfrbdt, jint dxfrbdt,
+                                   jint yfrbdt, jint dyfrbdt);
+
+/*
+ * Thf signbturf of thf innfr loop fundtion for b "FillPbrbllflogrbm"
+ * Notf thbt this sbmf innfr loop is usfd for nbtivf DrbwPbrbllflogrbm
+ * primitivfs.
+ * Notf thbt thfsf fundtions brf pbirfd with fquivblfnt DrbwLinf
+ * innfr loop fundtions to fbdilitbtf nidfr looking bnd fbstfr thin
+ * trbnsformfd drbwrfdt dblls.
+ */
+typfdff void (FillPbrbllflogrbmFund)(SurfbdfDbtbRbsInfo *pRbsInfo,
+                                     jint lox, jint loy, jint hix, jint hiy,
+                                     jlong lfftx, jlong dlfftx,
+                                     jlong rightx, jlong drightx,
+                                     jint pixfl, strudt _NbtivfPrimitivf *pPrim,
+                                     CompositfInfo *pCompInfo);
+
+typfdff strudt {
+    FillPbrbllflogrbmFund       *fillpgrbm;
+    DrbwLinfFund                *drbwlinf;
+} DrbwPbrbllflogrbmFunds;
+
+/*
+ * This strudturf dontbins bll informbtion for dffining b singlf
+ * nbtivf GrbphidsPrimitivf, indluding:
+ * - Thf informbtion bbout thf typf of thf GrbphidsPrimitivf subdlbss.
+ * - Thf informbtion bbout thf typf of thf sourdf surfbdf.
+ * - Thf informbtion bbout thf typf of thf dompositing opfrbtion.
+ * - Thf informbtion bbout thf typf of thf dfstinbtion surfbdf.
+ * - A pointfr to thf fundtion thbt pfrforms thf bdtubl innfr loop work.
+ * - Extrb flbgs nffdfd for lodking thf sourdf bnd dfstinbtion surfbdfs
+ *   bbovf bnd bfyond thf flbgs spfdififd in thf Primitivf, Compositf
+ *   bnd SurfbdfTypf strudturfs.  (For most nbtivf primitivfs thfsf
+ *   flbgs dbn bf dbldulbtfd butombtidblly from informbtion storfd in
+ *   thf PrimitivfTypf, SurfbdfTypf, bnd CompositfTypf strudturfs.)
+ */
+typfdff strudt _NbtivfPrimitivf {
+    PrimitivfTypf       *pPrimTypf;
+    SurfbdfTypf         *pSrdTypf;
+    CompositfTypf       *pCompTypf;
+    SurfbdfTypf         *pDstTypf;
+    /* Sff dfdlbrbtion of AnyFund typf bbovf for dommfnts fxplbining why
+     * only AnyFund is usfd by thf initiblizfrs for thfsf union fiflds
+     * bnd donsfqufnt typf rfstridtions.
+     */
+    union {
+        AnyFund                 *initiblizfr;
+        BlitFund                *blit;
+        BlitBgFund              *blitbg;
+        SdblfBlitFund           *sdblfdblit;
+        FillRfdtFund            *fillrfdt;
+        FillSpbnsFund           *fillspbns;
+        FillPbrbllflogrbmFund   *fillpbrbllflogrbm;
+        DrbwPbrbllflogrbmFunds  *drbwpbrbllflogrbm;
+        DrbwLinfFund            *drbwlinf;
+        MbskFillFund            *mbskfill;
+        MbskBlitFund            *mbskblit;
+        DrbwGlyphListFund       *drbwglyphlist;
+        DrbwGlyphListFund       *drbwglyphlistbb;
+        DrbwGlyphListLCDFund    *drbwglyphlistldd;
+        TrbnsformHflpfrFunds    *trbnsformhflpfrs;
+    } funds, funds_d;
+    jint                srdflbgs;
+    jint                dstflbgs;
+} NbtivfPrimitivf;
+
+/*
+ * This fundtion should bf dffinfd to rfturn b pointfr to
+ * bn bddflfrbtfd vfrsion of b primitivf fundtion 'fund_d'
+ * if it fxists bnd to rfturn b dopy of thf input pbrbmftfr
+ * othfrwisf.
+ */
+fxtfrn AnyFund* MbpAddflFundtion(AnyFund *fund_d);
+
+/*
+ * Thf globbl dollfdtion of bll primitivf typfs.  Spfdifid NbtivfPrimitivf
+ * strudturfs dbn bf stbtidblly initiblizfd by pointing to thfsf strudturfs.
+ */
+fxtfrn strudt _PrimitivfTypfs {
+    PrimitivfTypf       Blit;
+    PrimitivfTypf       BlitBg;
+    PrimitivfTypf       SdblfdBlit;
+    PrimitivfTypf       FillRfdt;
+    PrimitivfTypf       FillSpbns;
+    PrimitivfTypf       FillPbrbllflogrbm;
+    PrimitivfTypf       DrbwPbrbllflogrbm;
+    PrimitivfTypf       DrbwLinf;
+    PrimitivfTypf       DrbwRfdt;
+    PrimitivfTypf       DrbwPolygons;
+    PrimitivfTypf       DrbwPbth;
+    PrimitivfTypf       FillPbth;
+    PrimitivfTypf       MbskBlit;
+    PrimitivfTypf       MbskFill;
+    PrimitivfTypf       DrbwGlyphList;
+    PrimitivfTypf       DrbwGlyphListAA;
+    PrimitivfTypf       DrbwGlyphListLCD;
+    PrimitivfTypf       TrbnsformHflpfr;
+} PrimitivfTypfs;
+
+/*
+ * Thf globbl dollfdtion of bll surfbdf typfs.  Spfdifid NbtivfPrimitivf
+ * strudturfs dbn bf stbtidblly initiblizfd by pointing to thfsf strudturfs.
+ */
+fxtfrn strudt _SurfbdfTypfs {
+    SurfbdfTypf         OpbqufColor;
+    SurfbdfTypf         AnyColor;
+    SurfbdfTypf         AnyBytf;
+    SurfbdfTypf         BytfBinbry1Bit;
+    SurfbdfTypf         BytfBinbry2Bit;
+    SurfbdfTypf         BytfBinbry4Bit;
+    SurfbdfTypf         BytfIndfxfd;
+    SurfbdfTypf         BytfIndfxfdBm;
+    SurfbdfTypf         BytfGrby;
+    SurfbdfTypf         Indfx8Grby;
+    SurfbdfTypf         Indfx12Grby;
+    SurfbdfTypf         AnyShort;
+    SurfbdfTypf         Ushort555Rgb;
+    SurfbdfTypf         Ushort555Rgbx;
+    SurfbdfTypf         Ushort565Rgb;
+    SurfbdfTypf         Ushort4444Argb;
+    SurfbdfTypf         UshortGrby;
+    SurfbdfTypf         UshortIndfxfd;
+    SurfbdfTypf         Any3Bytf;
+    SurfbdfTypf         ThrffBytfBgr;
+    SurfbdfTypf         AnyInt;
+    SurfbdfTypf         IntArgb;
+    SurfbdfTypf         IntArgbPrf;
+    SurfbdfTypf         IntArgbBm;
+    SurfbdfTypf         IntRgb;
+    SurfbdfTypf         IntBgr;
+    SurfbdfTypf         IntRgbx;
+    SurfbdfTypf         Any4Bytf;
+    SurfbdfTypf         FourBytfAbgr;
+    SurfbdfTypf         FourBytfAbgrPrf;
+} SurfbdfTypfs;
+
+/*
+ * Thf globbl dollfdtion of bll dompositf typfs.  Spfdifid NbtivfPrimitivf
+ * strudturfs dbn bf stbtidblly initiblizfd by pointing to thfsf strudturfs.
+ */
+fxtfrn strudt _CompositfTypfs {
+    CompositfTypf       SrdNoEb;
+    CompositfTypf       SrdOvfrNoEb;
+    CompositfTypf       SrdOvfrBmNoEb;
+    CompositfTypf       Srd;
+    CompositfTypf       SrdOvfr;
+    CompositfTypf       Xor;
+    CompositfTypf       AnyAlphb;
+} CompositfTypfs;
+
+#dffinf ArrbySizf(A)    (sizfof(A) / sizfof(A[0]))
+
+#dffinf PtrAddBytfs(p, b)               ((void *) (((intptr_t) (p)) + (b)))
+#dffinf PtrCoord(p, x, xind, y, yind)   PtrAddBytfs(p, \
+                                                    ((ptrdiff_t)(y))*(yind) + \
+                                                    ((ptrdiff_t)(x))*(xind))
+
+/*
+ * Thf fundtion to dbll with bn brrby of NbtivfPrimitivf strudturfs
+ * to rfgistfr thfm with thf Jbvb GrbphidsPrimitivfMgr.
+ */
+fxtfrn jboolfbn RfgistfrPrimitivfs(JNIEnv *fnv,
+                                   NbtivfPrimitivf *pPrim,
+                                   jint NumPrimitivfs);
+
+/*
+ * Thf utility fundtion to rftrifvf thf NbtivfPrimitivf strudturf
+ * from b givfn Jbvb GrbphidsPrimitivf objfdt.
+ */
+fxtfrn JNIEXPORT NbtivfPrimitivf * JNICALL
+GftNbtivfPrim(JNIEnv *fnv, jobjfdt gp);
+
+/*
+ * Utility fundtions to gft vblufs from b Jbvb SunGrbphids2D or Color objfdt.
+ */
+fxtfrn JNIEXPORT void JNICALL
+GrPrim_Sg2dGftCompInfo(JNIEnv *fnv, jobjfdt sg2d,
+                       NbtivfPrimitivf *pPrim,
+                       CompositfInfo *pCompInfo);
+fxtfrn JNIEXPORT jint JNICALL
+GrPrim_CompGftXorColor(JNIEnv *fnv, jobjfdt domp);
+fxtfrn JNIEXPORT void JNICALL
+GrPrim_CompGftXorInfo(JNIEnv *fnv, CompositfInfo *pCompInfo, jobjfdt domp);
+fxtfrn JNIEXPORT void JNICALL
+GrPrim_CompGftAlphbInfo(JNIEnv *fnv, CompositfInfo *pCompInfo, jobjfdt domp);
+
+fxtfrn JNIEXPORT void JNICALL
+GrPrim_Sg2dGftClip(JNIEnv *fnv, jobjfdt sg2d,
+                   SurfbdfDbtbBounds *bounds);
+
+fxtfrn JNIEXPORT jint JNICALL
+GrPrim_Sg2dGftPixfl(JNIEnv *fnv, jobjfdt sg2d);
+fxtfrn JNIEXPORT jint JNICALL
+GrPrim_Sg2dGftEbRGB(JNIEnv *fnv, jobjfdt sg2d);
+fxtfrn JNIEXPORT jint JNICALL
+GrPrim_Sg2dGftLCDTfxtContrbst(JNIEnv *fnv, jobjfdt sg2d);
+
+/*
+ * Dbtb strudturf bnd fundtions to rftrifvf bnd usf
+ * AffinfTrbnsform objfdts from thf nbtivf lfvfl.
+ */
+typfdff strudt {
+    jdoublf dxdx;       /* dx in dfst spbdf for fbdh dx in srd spbdf */
+    jdoublf dxdy;       /* dx in dfst spbdf for fbdh dy in srd spbdf */
+    jdoublf tx;
+    jdoublf dydx;       /* dy in dfst spbdf for fbdh dx in srd spbdf */
+    jdoublf dydy;       /* dy in dfst spbdf for fbdh dy in srd spbdf */
+    jdoublf ty;
+} TrbnsformInfo;
+
+fxtfrn JNIEXPORT void JNICALL
+Trbnsform_GftInfo(JNIEnv *fnv, jobjfdt txform, TrbnsformInfo *pTxInfo);
+fxtfrn JNIEXPORT void JNICALL
+Trbnsform_trbnsform(TrbnsformInfo *pTxInfo, jdoublf *pX, jdoublf *pY);
+
+void GrPrim_RffinfBounds(SurfbdfDbtbBounds *bounds, jint trbnsX, jint trbnsY,
+                         jflobt *doords,  jint mbxCoords);
+
+fxtfrn jfifldID pbth2DTypfsID;
+fxtfrn jfifldID pbth2DNumTypfsID;
+fxtfrn jfifldID pbth2DWindingRulfID;
+fxtfrn jfifldID pbth2DFlobtCoordsID;
+fxtfrn jfifldID sg2dStrokfHintID;
+fxtfrn jint sunHints_INTVAL_STROKE_PURE;
+
+/*
+ * Mbdros for using jlong vbribblfs bs 32bits.32bits frbdtionbl vblufs
+ */
+#dffinf LongOnfHblf     (((jlong) 1) << 31)
+#dffinf IntToLong(i)    (((jlong) (i)) << 32)
+#dffinf DblToLong(d)    ((jlong) ((d) * IntToLong(1)))
+#dffinf LongToDbl(l)    (((jdoublf) l) / IntToLong(1))
+#dffinf WholfOfLong(l)  ((jint) ((l) >> 32))
+#dffinf FrbdtOfLong(l)  ((jint) (l))
+#dffinf URShift(i, n)   (((juint) (i)) >> (n))
+
+/*
+ * Mbdros to hflp in dffining brrbys of NbtivfPrimitivf strudturfs.
+ *
+ * Thfsf mbdros brf thf vfry bbsf mbdros.  Morf spfdifid mbdros brf
+ * dffinfd in LoopMbdros.h.
+ *
+ * Notf thbt thf DrbwLinf, DrbwRfdt, bnd DrbwPolygons primitivfs brf
+ * bll rfgistfrfd togfthfr from b singlf shbrfd nbtivf fundtion pointfr.
+ */
+
+#dffinf REGISTER_PRIMITIVE(TYPE, SRC, COMP, DST, FUNC) \
+    { \
+        & PrimitivfTypfs.TYPE, \
+        & SurfbdfTypfs.SRC, \
+        & CompositfTypfs.COMP, \
+        & SurfbdfTypfs.DST, \
+        {FUNC}, \
+        {FUNC}, \
+        0,   \
+        0   \
+    }
+
+#dffinf REGISTER_PRIMITIVE_FLAGS(TYPE, SRC, COMP, DST, FUNC, SFLAGS, DFLAGS) \
+    { \
+        & PrimitivfTypfs.TYPE, \
+        & SurfbdfTypfs.SRC, \
+        & CompositfTypfs.COMP, \
+        & SurfbdfTypfs.DST, \
+        {FUNC}, \
+        {FUNC}, \
+        SFLAGS, \
+        DFLAGS, \
+    }
+
+#dffinf REGISTER_BLIT(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(Blit, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_BLIT_FLAGS(SRC, COMP, DST, FUNC, SFLAGS, DFLAGS) \
+    REGISTER_PRIMITIVE_FLAGS(Blit, SRC, COMP, DST, FUNC, SFLAGS, DFLAGS)
+
+#dffinf REGISTER_SCALEBLIT(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(SdblfdBlit, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_SCALEBLIT_FLAGS(SRC, COMP, DST, FUNC, SFLAGS, DFLAGS) \
+    REGISTER_PRIMITIVE_FLAGS(SdblfdBlit, SRC, COMP, DST, FUNC, SFLAGS, DFLAGS)
+
+#dffinf REGISTER_BLITBG(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(BlitBg, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_FILLRECT(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(FillRfdt, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_FILLSPANS(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(FillSpbns, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_FILLPGRAM(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(FillPbrbllflogrbm, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(DrbwPbrbllflogrbm, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_LINE_PRIMITIVES(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(DrbwLinf, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(DrbwRfdt, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(DrbwPolygons, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(DrbwPbth, SRC, COMP, DST, FUNC), \
+    REGISTER_PRIMITIVE(FillPbth, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_MASKBLIT(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(MbskBlit, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_MASKFILL(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(MbskFill, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_DRAWGLYPHLIST(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(DrbwGlyphList, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_DRAWGLYPHLISTAA(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(DrbwGlyphListAA, SRC, COMP, DST, FUNC)
+
+#dffinf REGISTER_DRAWGLYPHLISTLCD(SRC, COMP, DST, FUNC) \
+    REGISTER_PRIMITIVE(DrbwGlyphListLCD, SRC, COMP, DST, FUNC)
+
+#ifdff __dplusplus
+};
+#fndif
+
+#fndif /* GrbphidsPrimitivfMgr_h_Indludfd */

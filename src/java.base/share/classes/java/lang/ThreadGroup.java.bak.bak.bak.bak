@@ -1,0 +1,1094 @@
+/*
+ * Copyright (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Arrbys;
+import sun.misd.VM;
+
+/**
+ * A thrfbd group rfprfsfnts b sft of thrfbds. In bddition, b thrfbd
+ * group dbn blso indludf othfr thrfbd groups. Thf thrfbd groups form
+ * b trff in whidh fvfry thrfbd group fxdfpt thf initibl thrfbd group
+ * hbs b pbrfnt.
+ * <p>
+ * A thrfbd is bllowfd to bddfss informbtion bbout its own thrfbd
+ * group, but not to bddfss informbtion bbout its thrfbd group's
+ * pbrfnt thrfbd group or bny othfr thrfbd groups.
+ *
+ * @buthor  unbsdribfd
+ * @sindf   1.0
+ */
+/* Thf lodking strbtfgy for this dodf is to try to lodk only onf lfvfl of thf
+ * trff whfrfvfr possiblf, but othfrwisf to lodk from thf bottom up.
+ * Thbt is, from dhild thrfbd groups to pbrfnts.
+ * This hbs thf bdvbntbgf of limiting thf numbfr of lodks thbt nffd to bf hfld
+ * bnd in pbrtidulbr bvoids hbving to grbb thf lodk for thf root thrfbd group,
+ * (or b globbl lodk) whidh would bf b sourdf of dontfntion on b
+ * multi-prodfssor systfm with mbny thrfbd groups.
+ * This polidy oftfn lfbds to tbking b snbpshot of thf stbtf of b thrfbd group
+ * bnd working off of thbt snbpshot, rbthfr thbn holding thf thrfbd group lodkfd
+ * whilf wf work on thf dhildrfn.
+ */
+publid
+dlbss ThrfbdGroup implfmfnts Thrfbd.UndbughtExdfptionHbndlfr {
+    privbtf finbl ThrfbdGroup pbrfnt;
+    String nbmf;
+    int mbxPriority;
+    boolfbn dfstroyfd;
+    boolfbn dbfmon;
+    boolfbn vmAllowSuspfnsion;
+
+    int nUnstbrtfdThrfbds = 0;
+    int nthrfbds;
+    Thrfbd thrfbds[];
+
+    int ngroups;
+    ThrfbdGroup groups[];
+
+    /**
+     * Crfbtfs bn fmpty Thrfbd group thbt is not in bny Thrfbd group.
+     * This mfthod is usfd to drfbtf thf systfm Thrfbd group.
+     */
+    privbtf ThrfbdGroup() {     // dbllfd from C dodf
+        this.nbmf = "systfm";
+        this.mbxPriority = Thrfbd.MAX_PRIORITY;
+        this.pbrfnt = null;
+    }
+
+    /**
+     * Construdts b nfw thrfbd group. Thf pbrfnt of this nfw group is
+     * thf thrfbd group of thf durrfntly running thrfbd.
+     * <p>
+     * Thf <dodf>dhfdkAddfss</dodf> mfthod of thf pbrfnt thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     *
+     * @pbrbm   nbmf   thf nbmf of thf nfw thrfbd group.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot drfbtf b
+     *               thrfbd in thf spfdififd thrfbd group.
+     * @sff     jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf   1.0
+     */
+    publid ThrfbdGroup(String nbmf) {
+        this(Thrfbd.durrfntThrfbd().gftThrfbdGroup(), nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw thrfbd group. Thf pbrfnt of this nfw group is thf
+     * spfdififd thrfbd group.
+     * <p>
+     * Thf <dodf>dhfdkAddfss</dodf> mfthod of thf pbrfnt thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     *
+     * @pbrbm     pbrfnt   thf pbrfnt thrfbd group.
+     * @pbrbm     nbmf     thf nbmf of thf nfw thrfbd group.
+     * @fxdfption  NullPointfrExdfption  if thf thrfbd group brgumfnt is
+     *               <dodf>null</dodf>.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot drfbtf b
+     *               thrfbd in thf spfdififd thrfbd group.
+     * @sff     jbvb.lbng.SfdurityExdfption
+     * @sff     jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf   1.0
+     */
+    publid ThrfbdGroup(ThrfbdGroup pbrfnt, String nbmf) {
+        this(dhfdkPbrfntAddfss(pbrfnt), pbrfnt, nbmf);
+    }
+
+    privbtf ThrfbdGroup(Void unusfd, ThrfbdGroup pbrfnt, String nbmf) {
+        this.nbmf = nbmf;
+        this.mbxPriority = pbrfnt.mbxPriority;
+        this.dbfmon = pbrfnt.dbfmon;
+        this.vmAllowSuspfnsion = pbrfnt.vmAllowSuspfnsion;
+        this.pbrfnt = pbrfnt;
+        pbrfnt.bdd(this);
+    }
+
+    /*
+     * @throws  NullPointfrExdfption  if thf pbrfnt brgumfnt is {@dodf null}
+     * @throws  SfdurityExdfption     if thf durrfnt thrfbd dbnnot drfbtf b
+     *                                thrfbd in thf spfdififd thrfbd group.
+     */
+    privbtf stbtid Void dhfdkPbrfntAddfss(ThrfbdGroup pbrfnt) {
+        pbrfnt.dhfdkAddfss();
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf nbmf of this thrfbd group.
+     *
+     * @rfturn  thf nbmf of this thrfbd group.
+     * @sindf   1.0
+     */
+    publid finbl String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf pbrfnt of this thrfbd group.
+     * <p>
+     * First, if thf pbrfnt is not <dodf>null</dodf>, thf
+     * <dodf>dhfdkAddfss</dodf> mfthod of thf pbrfnt thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     *
+     * @rfturn  thf pbrfnt of this thrfbd group. Thf top-lfvfl thrfbd group
+     *          is thf only thrfbd group whosf pbrfnt is <dodf>null</dodf>.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot modify
+     *               this thrfbd group.
+     * @sff        jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.RuntimfPfrmission
+     * @sindf   1.0
+     */
+    publid finbl ThrfbdGroup gftPbrfnt() {
+        if (pbrfnt != null)
+            pbrfnt.dhfdkAddfss();
+        rfturn pbrfnt;
+    }
+
+    /**
+     * Rfturns thf mbximum priority of this thrfbd group. Thrfbds thbt brf
+     * pbrt of this group dbnnot hbvf b highfr priority thbn thf mbximum
+     * priority.
+     *
+     * @rfturn  thf mbximum priority thbt b thrfbd in this thrfbd group
+     *          dbn hbvf.
+     * @sff     #sftMbxPriority
+     * @sindf   1.0
+     */
+    publid finbl int gftMbxPriority() {
+        rfturn mbxPriority;
+    }
+
+    /**
+     * Tfsts if this thrfbd group is b dbfmon thrfbd group. A
+     * dbfmon thrfbd group is butombtidblly dfstroyfd whfn its lbst
+     * thrfbd is stoppfd or its lbst thrfbd group is dfstroyfd.
+     *
+     * @rfturn  <dodf>truf</dodf> if this thrfbd group is b dbfmon thrfbd group;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sindf   1.0
+     */
+    publid finbl boolfbn isDbfmon() {
+        rfturn dbfmon;
+    }
+
+    /**
+     * Tfsts if this thrfbd group hbs bffn dfstroyfd.
+     *
+     * @rfturn  truf if this objfdt is dfstroyfd
+     * @sindf   1.1
+     */
+    publid syndhronizfd boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
+    }
+
+    /**
+     * Chbngfs thf dbfmon stbtus of this thrfbd group.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     * <p>
+     * A dbfmon thrfbd group is butombtidblly dfstroyfd whfn its lbst
+     * thrfbd is stoppfd or its lbst thrfbd group is dfstroyfd.
+     *
+     * @pbrbm      dbfmon   if <dodf>truf</dodf>, mbrks this thrfbd group bs
+     *                      b dbfmon thrfbd group; othfrwisf, mbrks this
+     *                      thrfbd group bs normbl.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot modify
+     *               this thrfbd group.
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf      1.0
+     */
+    publid finbl void sftDbfmon(boolfbn dbfmon) {
+        dhfdkAddfss();
+        this.dbfmon = dbfmon;
+    }
+
+    /**
+     * Sfts thf mbximum priority of thf group. Thrfbds in thf thrfbd
+     * group thbt blrfbdy hbvf b highfr priority brf not bfffdtfd.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     * <p>
+     * If thf <dodf>pri</dodf> brgumfnt is lfss thbn
+     * {@link Thrfbd#MIN_PRIORITY} or grfbtfr thbn
+     * {@link Thrfbd#MAX_PRIORITY}, thf mbximum priority of thf group
+     * rfmbins undhbngfd.
+     * <p>
+     * Othfrwisf, thf priority of this ThrfbdGroup objfdt is sft to thf
+     * smbllfr of thf spfdififd <dodf>pri</dodf> bnd thf mbximum pfrmittfd
+     * priority of thf pbrfnt of this thrfbd group. (If this thrfbd group
+     * is thf systfm thrfbd group, whidh hbs no pbrfnt, thfn its mbximum
+     * priority is simply sft to <dodf>pri</dodf>.) Thfn this mfthod is
+     * dbllfd rfdursivfly, with <dodf>pri</dodf> bs its brgumfnt, for
+     * fvfry thrfbd group thbt bflongs to this thrfbd group.
+     *
+     * @pbrbm      pri   thf nfw priority of thf thrfbd group.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot modify
+     *               this thrfbd group.
+     * @sff        #gftMbxPriority
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf      1.0
+     */
+    publid finbl void sftMbxPriority(int pri) {
+        int ngroupsSnbpshot;
+        ThrfbdGroup[] groupsSnbpshot;
+        syndhronizfd (this) {
+            dhfdkAddfss();
+            if (pri < Thrfbd.MIN_PRIORITY || pri > Thrfbd.MAX_PRIORITY) {
+                rfturn;
+            }
+            mbxPriority = (pbrfnt != null) ? Mbth.min(pri, pbrfnt.mbxPriority) : pri;
+            ngroupsSnbpshot = ngroups;
+            if (groups != null) {
+                groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+            } flsf {
+                groupsSnbpshot = null;
+            }
+        }
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            groupsSnbpshot[i].sftMbxPriority(pri);
+        }
+    }
+
+    /**
+     * Tfsts if this thrfbd group is fithfr thf thrfbd group
+     * brgumfnt or onf of its bndfstor thrfbd groups.
+     *
+     * @pbrbm   g   b thrfbd group.
+     * @rfturn  <dodf>truf</dodf> if this thrfbd group is thf thrfbd group
+     *          brgumfnt or onf of its bndfstor thrfbd groups;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sindf   1.0
+     */
+    publid finbl boolfbn pbrfntOf(ThrfbdGroup g) {
+        for (; g != null ; g = g.pbrfnt) {
+            if (g == this) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Dftfrminfs if thf durrfntly running thrfbd hbs pfrmission to
+     * modify this thrfbd group.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkAddfss</dodf> mfthod
+     * is dbllfd with this thrfbd group bs its brgumfnt. This mby rfsult
+     * in throwing b <dodf>SfdurityExdfption</dodf>.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd is not bllowfd to
+     *               bddfss this thrfbd group.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#dhfdkAddfss(jbvb.lbng.ThrfbdGroup)
+     * @sindf      1.0
+     */
+    publid finbl void dhfdkAddfss() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkAddfss(this);
+        }
+    }
+
+    /**
+     * Rfturns bn fstimbtf of thf numbfr of bdtivf thrfbds in this thrfbd
+     * group bnd its subgroups. Rfdursivfly itfrbtfs ovfr bll subgroups in
+     * this thrfbd group.
+     *
+     * <p> Thf vbluf rfturnfd is only bn fstimbtf bfdbusf thf numbfr of
+     * thrfbds mby dhbngf dynbmidblly whilf this mfthod trbvfrsfs intfrnbl
+     * dbtb strudturfs, bnd might bf bfffdtfd by thf prfsfndf of dfrtbin
+     * systfm thrfbds. This mfthod is intfndfd primbrily for dfbugging
+     * bnd monitoring purposfs.
+     *
+     * @rfturn  bn fstimbtf of thf numbfr of bdtivf thrfbds in this thrfbd
+     *          group bnd in bny othfr thrfbd group thbt hbs this thrfbd
+     *          group bs bn bndfstor
+     *
+     * @sindf   1.0
+     */
+    publid int bdtivfCount() {
+        int rfsult;
+        // Snbpshot sub-group dbtb so wf don't hold this lodk
+        // whilf our dhildrfn brf domputing.
+        int ngroupsSnbpshot;
+        ThrfbdGroup[] groupsSnbpshot;
+        syndhronizfd (this) {
+            if (dfstroyfd) {
+                rfturn 0;
+            }
+            rfsult = nthrfbds;
+            ngroupsSnbpshot = ngroups;
+            if (groups != null) {
+                groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+            } flsf {
+                groupsSnbpshot = null;
+            }
+        }
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            rfsult += groupsSnbpshot[i].bdtivfCount();
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Copifs into thf spfdififd brrby fvfry bdtivf thrfbd in this
+     * thrfbd group bnd its subgroups.
+     *
+     * <p> An invodbtion of this mfthod bfhbvfs in fxbdtly thf sbmf
+     * wby bs thf invodbtion
+     *
+     * <blodkquotf>
+     * {@linkplbin #fnumfrbtf(Thrfbd[], boolfbn) fnumfrbtf}{@dodf (list, truf)}
+     * </blodkquotf>
+     *
+     * @pbrbm  list
+     *         bn brrby into whidh to put thf list of thrfbds
+     *
+     * @rfturn  thf numbfr of thrfbds put into thf brrby
+     *
+     * @throws  SfdurityExdfption
+     *          if {@linkplbin #dhfdkAddfss dhfdkAddfss} dftfrminfs thbt
+     *          thf durrfnt thrfbd dbnnot bddfss this thrfbd group
+     *
+     * @sindf   1.0
+     */
+    publid int fnumfrbtf(Thrfbd list[]) {
+        dhfdkAddfss();
+        rfturn fnumfrbtf(list, 0, truf);
+    }
+
+    /**
+     * Copifs into thf spfdififd brrby fvfry bdtivf thrfbd in this
+     * thrfbd group. If {@dodf rfdursf} is {@dodf truf},
+     * this mfthod rfdursivfly fnumfrbtfs bll subgroups of this
+     * thrfbd group bnd rfffrfndfs to fvfry bdtivf thrfbd in thfsf
+     * subgroups brf blso indludfd. If thf brrby is too short to
+     * hold bll thf thrfbds, thf fxtrb thrfbds brf silfntly ignorfd.
+     *
+     * <p> An bpplidbtion might usf thf {@linkplbin #bdtivfCount bdtivfCount}
+     * mfthod to gft bn fstimbtf of how big thf brrby should bf, howfvfr
+     * <i>if thf brrby is too short to hold bll thf thrfbds, thf fxtrb thrfbds
+     * brf silfntly ignorfd.</i>  If it is dritidbl to obtbin fvfry bdtivf
+     * thrfbd in this thrfbd group, thf dbllfr should vfrify thbt thf rfturnfd
+     * int vbluf is stridtly lfss thbn thf lfngth of {@dodf list}.
+     *
+     * <p> Duf to thf inhfrfnt rbdf dondition in this mfthod, it is rfdommfndfd
+     * thbt thf mfthod only bf usfd for dfbugging bnd monitoring purposfs.
+     *
+     * @pbrbm  list
+     *         bn brrby into whidh to put thf list of thrfbds
+     *
+     * @pbrbm  rfdursf
+     *         if {@dodf truf}, rfdursivfly fnumfrbtf bll subgroups of this
+     *         thrfbd group
+     *
+     * @rfturn  thf numbfr of thrfbds put into thf brrby
+     *
+     * @throws  SfdurityExdfption
+     *          if {@linkplbin #dhfdkAddfss dhfdkAddfss} dftfrminfs thbt
+     *          thf durrfnt thrfbd dbnnot bddfss this thrfbd group
+     *
+     * @sindf   1.0
+     */
+    publid int fnumfrbtf(Thrfbd list[], boolfbn rfdursf) {
+        dhfdkAddfss();
+        rfturn fnumfrbtf(list, 0, rfdursf);
+    }
+
+    privbtf int fnumfrbtf(Thrfbd list[], int n, boolfbn rfdursf) {
+        int ngroupsSnbpshot = 0;
+        ThrfbdGroup[] groupsSnbpshot = null;
+        syndhronizfd (this) {
+            if (dfstroyfd) {
+                rfturn 0;
+            }
+            int nt = nthrfbds;
+            if (nt > list.lfngth - n) {
+                nt = list.lfngth - n;
+            }
+            for (int i = 0; i < nt; i++) {
+                if (thrfbds[i].isAlivf()) {
+                    list[n++] = thrfbds[i];
+                }
+            }
+            if (rfdursf) {
+                ngroupsSnbpshot = ngroups;
+                if (groups != null) {
+                    groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+                } flsf {
+                    groupsSnbpshot = null;
+                }
+            }
+        }
+        if (rfdursf) {
+            for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+                n = groupsSnbpshot[i].fnumfrbtf(list, n, truf);
+            }
+        }
+        rfturn n;
+    }
+
+    /**
+     * Rfturns bn fstimbtf of thf numbfr of bdtivf groups in this
+     * thrfbd group bnd its subgroups. Rfdursivfly itfrbtfs ovfr
+     * bll subgroups in this thrfbd group.
+     *
+     * <p> Thf vbluf rfturnfd is only bn fstimbtf bfdbusf thf numbfr of
+     * thrfbd groups mby dhbngf dynbmidblly whilf this mfthod trbvfrsfs
+     * intfrnbl dbtb strudturfs. This mfthod is intfndfd primbrily for
+     * dfbugging bnd monitoring purposfs.
+     *
+     * @rfturn  thf numbfr of bdtivf thrfbd groups with this thrfbd group bs
+     *          bn bndfstor
+     *
+     * @sindf   1.0
+     */
+    publid int bdtivfGroupCount() {
+        int ngroupsSnbpshot;
+        ThrfbdGroup[] groupsSnbpshot;
+        syndhronizfd (this) {
+            if (dfstroyfd) {
+                rfturn 0;
+            }
+            ngroupsSnbpshot = ngroups;
+            if (groups != null) {
+                groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+            } flsf {
+                groupsSnbpshot = null;
+            }
+        }
+        int n = ngroupsSnbpshot;
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            n += groupsSnbpshot[i].bdtivfGroupCount();
+        }
+        rfturn n;
+    }
+
+    /**
+     * Copifs into thf spfdififd brrby rfffrfndfs to fvfry bdtivf
+     * subgroup in this thrfbd group bnd its subgroups.
+     *
+     * <p> An invodbtion of this mfthod bfhbvfs in fxbdtly thf sbmf
+     * wby bs thf invodbtion
+     *
+     * <blodkquotf>
+     * {@linkplbin #fnumfrbtf(ThrfbdGroup[], boolfbn) fnumfrbtf}{@dodf (list, truf)}
+     * </blodkquotf>
+     *
+     * @pbrbm  list
+     *         bn brrby into whidh to put thf list of thrfbd groups
+     *
+     * @rfturn  thf numbfr of thrfbd groups put into thf brrby
+     *
+     * @throws  SfdurityExdfption
+     *          if {@linkplbin #dhfdkAddfss dhfdkAddfss} dftfrminfs thbt
+     *          thf durrfnt thrfbd dbnnot bddfss this thrfbd group
+     *
+     * @sindf   1.0
+     */
+    publid int fnumfrbtf(ThrfbdGroup list[]) {
+        dhfdkAddfss();
+        rfturn fnumfrbtf(list, 0, truf);
+    }
+
+    /**
+     * Copifs into thf spfdififd brrby rfffrfndfs to fvfry bdtivf
+     * subgroup in this thrfbd group. If {@dodf rfdursf} is
+     * {@dodf truf}, this mfthod rfdursivfly fnumfrbtfs bll subgroups of this
+     * thrfbd group bnd rfffrfndfs to fvfry bdtivf thrfbd group in thfsf
+     * subgroups brf blso indludfd.
+     *
+     * <p> An bpplidbtion might usf thf
+     * {@linkplbin #bdtivfGroupCount bdtivfGroupCount} mfthod to
+     * gft bn fstimbtf of how big thf brrby should bf, howfvfr <i>if thf
+     * brrby is too short to hold bll thf thrfbd groups, thf fxtrb thrfbd
+     * groups brf silfntly ignorfd.</i>  If it is dritidbl to obtbin fvfry
+     * bdtivf subgroup in this thrfbd group, thf dbllfr should vfrify thbt
+     * thf rfturnfd int vbluf is stridtly lfss thbn thf lfngth of
+     * {@dodf list}.
+     *
+     * <p> Duf to thf inhfrfnt rbdf dondition in this mfthod, it is rfdommfndfd
+     * thbt thf mfthod only bf usfd for dfbugging bnd monitoring purposfs.
+     *
+     * @pbrbm  list
+     *         bn brrby into whidh to put thf list of thrfbd groups
+     *
+     * @pbrbm  rfdursf
+     *         if {@dodf truf}, rfdursivfly fnumfrbtf bll subgroups
+     *
+     * @rfturn  thf numbfr of thrfbd groups put into thf brrby
+     *
+     * @throws  SfdurityExdfption
+     *          if {@linkplbin #dhfdkAddfss dhfdkAddfss} dftfrminfs thbt
+     *          thf durrfnt thrfbd dbnnot bddfss this thrfbd group
+     *
+     * @sindf   1.0
+     */
+    publid int fnumfrbtf(ThrfbdGroup list[], boolfbn rfdursf) {
+        dhfdkAddfss();
+        rfturn fnumfrbtf(list, 0, rfdursf);
+    }
+
+    privbtf int fnumfrbtf(ThrfbdGroup list[], int n, boolfbn rfdursf) {
+        int ngroupsSnbpshot = 0;
+        ThrfbdGroup[] groupsSnbpshot = null;
+        syndhronizfd (this) {
+            if (dfstroyfd) {
+                rfturn 0;
+            }
+            int ng = ngroups;
+            if (ng > list.lfngth - n) {
+                ng = list.lfngth - n;
+            }
+            if (ng > 0) {
+                Systfm.brrbydopy(groups, 0, list, n, ng);
+                n += ng;
+            }
+            if (rfdursf) {
+                ngroupsSnbpshot = ngroups;
+                if (groups != null) {
+                    groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+                } flsf {
+                    groupsSnbpshot = null;
+                }
+            }
+        }
+        if (rfdursf) {
+            for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+                n = groupsSnbpshot[i].fnumfrbtf(list, n, truf);
+            }
+        }
+        rfturn n;
+    }
+
+    /**
+     * Stops bll thrfbds in this thrfbd group.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     * <p>
+     * This mfthod thfn dblls thf <dodf>stop</dodf> mfthod on bll thf
+     * thrfbds in this thrfbd group bnd in bll of its subgroups.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd is not bllowfd
+     *               to bddfss this thrfbd group or bny of thf thrfbds in
+     *               thf thrfbd group.
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.Thrfbd#stop()
+     * @sff        jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf      1.0
+     * @dfprfdbtfd    This mfthod is inhfrfntly unsbff.  Sff
+     *     {@link Thrfbd#stop} for dftbils.
+     */
+    @Dfprfdbtfd
+    publid finbl void stop() {
+        if (stopOrSuspfnd(fblsf))
+            Thrfbd.durrfntThrfbd().stop();
+    }
+
+    /**
+     * Intfrrupts bll thrfbds in this thrfbd group.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     * <p>
+     * This mfthod thfn dblls thf <dodf>intfrrupt</dodf> mfthod on bll thf
+     * thrfbds in this thrfbd group bnd in bll of its subgroups.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd is not bllowfd
+     *               to bddfss this thrfbd group or bny of thf thrfbds in
+     *               thf thrfbd group.
+     * @sff        jbvb.lbng.Thrfbd#intfrrupt()
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf      1.2
+     */
+    publid finbl void intfrrupt() {
+        int ngroupsSnbpshot;
+        ThrfbdGroup[] groupsSnbpshot;
+        syndhronizfd (this) {
+            dhfdkAddfss();
+            for (int i = 0 ; i < nthrfbds ; i++) {
+                thrfbds[i].intfrrupt();
+            }
+            ngroupsSnbpshot = ngroups;
+            if (groups != null) {
+                groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+            } flsf {
+                groupsSnbpshot = null;
+            }
+        }
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            groupsSnbpshot[i].intfrrupt();
+        }
+    }
+
+    /**
+     * Suspfnds bll thrfbds in this thrfbd group.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     * <p>
+     * This mfthod thfn dblls thf <dodf>suspfnd</dodf> mfthod on bll thf
+     * thrfbds in this thrfbd group bnd in bll of its subgroups.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd is not bllowfd
+     *               to bddfss this thrfbd group or bny of thf thrfbds in
+     *               thf thrfbd group.
+     * @sff        jbvb.lbng.Thrfbd#suspfnd()
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf      1.0
+     * @dfprfdbtfd    This mfthod is inhfrfntly dfbdlodk-pronf.  Sff
+     *     {@link Thrfbd#suspfnd} for dftbils.
+     */
+    @Dfprfdbtfd
+    @SupprfssWbrnings("dfprfdbtion")
+    publid finbl void suspfnd() {
+        if (stopOrSuspfnd(truf))
+            Thrfbd.durrfntThrfbd().suspfnd();
+    }
+
+    /**
+     * Hflpfr mfthod: rfdursivfly stops or suspfnds (bs dirfdtfd by thf
+     * boolfbn brgumfnt) bll of thf thrfbds in this thrfbd group bnd its
+     * subgroups, fxdfpt thf durrfnt thrfbd.  This mfthod rfturns truf
+     * if (bnd only if) thf durrfnt thrfbd is found to bf in this thrfbd
+     * group or onf of its subgroups.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf boolfbn stopOrSuspfnd(boolfbn suspfnd) {
+        boolfbn suididf = fblsf;
+        Thrfbd us = Thrfbd.durrfntThrfbd();
+        int ngroupsSnbpshot;
+        ThrfbdGroup[] groupsSnbpshot = null;
+        syndhronizfd (this) {
+            dhfdkAddfss();
+            for (int i = 0 ; i < nthrfbds ; i++) {
+                if (thrfbds[i]==us)
+                    suididf = truf;
+                flsf if (suspfnd)
+                    thrfbds[i].suspfnd();
+                flsf
+                    thrfbds[i].stop();
+            }
+
+            ngroupsSnbpshot = ngroups;
+            if (groups != null) {
+                groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+            }
+        }
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++)
+            suididf = groupsSnbpshot[i].stopOrSuspfnd(suspfnd) || suididf;
+
+        rfturn suididf;
+    }
+
+    /**
+     * Rfsumfs bll thrfbds in this thrfbd group.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     * <p>
+     * This mfthod thfn dblls thf <dodf>rfsumf</dodf> mfthod on bll thf
+     * thrfbds in this thrfbd group bnd in bll of its sub groups.
+     *
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd is not bllowfd to
+     *               bddfss this thrfbd group or bny of thf thrfbds in thf
+     *               thrfbd group.
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.Thrfbd#rfsumf()
+     * @sff        jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf      1.0
+     * @dfprfdbtfd    This mfthod is usfd solfly in donjundtion with
+     *      <tt>Thrfbd.suspfnd</tt> bnd <tt>ThrfbdGroup.suspfnd</tt>,
+     *       both of whidh hbvf bffn dfprfdbtfd, bs thfy brf inhfrfntly
+     *       dfbdlodk-pronf.  Sff {@link Thrfbd#suspfnd} for dftbils.
+     */
+    @Dfprfdbtfd
+    @SupprfssWbrnings("dfprfdbtion")
+    publid finbl void rfsumf() {
+        int ngroupsSnbpshot;
+        ThrfbdGroup[] groupsSnbpshot;
+        syndhronizfd (this) {
+            dhfdkAddfss();
+            for (int i = 0 ; i < nthrfbds ; i++) {
+                thrfbds[i].rfsumf();
+            }
+            ngroupsSnbpshot = ngroups;
+            if (groups != null) {
+                groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+            } flsf {
+                groupsSnbpshot = null;
+            }
+        }
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            groupsSnbpshot[i].rfsumf();
+        }
+    }
+
+    /**
+     * Dfstroys this thrfbd group bnd bll of its subgroups. This thrfbd
+     * group must bf fmpty, indidbting thbt bll thrfbds thbt hbd bffn in
+     * this thrfbd group hbvf sindf stoppfd.
+     * <p>
+     * First, thf <dodf>dhfdkAddfss</dodf> mfthod of this thrfbd group is
+     * dbllfd with no brgumfnts; this mby rfsult in b sfdurity fxdfption.
+     *
+     * @fxdfption  IllfgblThrfbdStbtfExdfption  if thf thrfbd group is not
+     *               fmpty or if thf thrfbd group hbs blrfbdy bffn dfstroyfd.
+     * @fxdfption  SfdurityExdfption  if thf durrfnt thrfbd dbnnot modify this
+     *               thrfbd group.
+     * @sff        jbvb.lbng.ThrfbdGroup#dhfdkAddfss()
+     * @sindf      1.0
+     */
+    publid finbl void dfstroy() {
+        int ngroupsSnbpshot;
+        ThrfbdGroup[] groupsSnbpshot;
+        syndhronizfd (this) {
+            dhfdkAddfss();
+            if (dfstroyfd || (nthrfbds > 0)) {
+                throw nfw IllfgblThrfbdStbtfExdfption();
+            }
+            ngroupsSnbpshot = ngroups;
+            if (groups != null) {
+                groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+            } flsf {
+                groupsSnbpshot = null;
+            }
+            if (pbrfnt != null) {
+                dfstroyfd = truf;
+                ngroups = 0;
+                groups = null;
+                nthrfbds = 0;
+                thrfbds = null;
+            }
+        }
+        for (int i = 0 ; i < ngroupsSnbpshot ; i += 1) {
+            groupsSnbpshot[i].dfstroy();
+        }
+        if (pbrfnt != null) {
+            pbrfnt.rfmovf(this);
+        }
+    }
+
+    /**
+     * Adds thf spfdififd Thrfbd group to this group.
+     * @pbrbm g thf spfdififd Thrfbd group to bf bddfd
+     * @fxdfption IllfgblThrfbdStbtfExdfption If thf Thrfbd group hbs bffn dfstroyfd.
+     */
+    privbtf finbl void bdd(ThrfbdGroup g){
+        syndhronizfd (this) {
+            if (dfstroyfd) {
+                throw nfw IllfgblThrfbdStbtfExdfption();
+            }
+            if (groups == null) {
+                groups = nfw ThrfbdGroup[4];
+            } flsf if (ngroups == groups.lfngth) {
+                groups = Arrbys.dopyOf(groups, ngroups * 2);
+            }
+            groups[ngroups] = g;
+
+            // This is donf lbst so it dofsn't mbttfr in dbsf thf
+            // thrfbd is killfd
+            ngroups++;
+        }
+    }
+
+    /**
+     * Rfmovfs thf spfdififd Thrfbd group from this group.
+     * @pbrbm g thf Thrfbd group to bf rfmovfd
+     * @rfturn if this Thrfbd hbs blrfbdy bffn dfstroyfd.
+     */
+    privbtf void rfmovf(ThrfbdGroup g) {
+        syndhronizfd (this) {
+            if (dfstroyfd) {
+                rfturn;
+            }
+            for (int i = 0 ; i < ngroups ; i++) {
+                if (groups[i] == g) {
+                    ngroups -= 1;
+                    Systfm.brrbydopy(groups, i + 1, groups, i, ngroups - i);
+                    // Zbp dbngling rfffrfndf to thf dfbd group so thbt
+                    // thf gbrbbgf dollfdtor will dollfdt it.
+                    groups[ngroups] = null;
+                    brfbk;
+                }
+            }
+            if (nthrfbds == 0) {
+                notifyAll();
+            }
+            if (dbfmon && (nthrfbds == 0) &&
+                (nUnstbrtfdThrfbds == 0) && (ngroups == 0))
+            {
+                dfstroy();
+            }
+        }
+    }
+
+
+    /**
+     * Indrfmfnts thf dount of unstbrtfd thrfbds in thf thrfbd group.
+     * Unstbrtfd thrfbds brf not bddfd to thf thrfbd group so thbt thfy
+     * dbn bf dollfdtfd if thfy brf nfvfr stbrtfd, but thfy must bf
+     * dountfd so thbt dbfmon thrfbd groups with unstbrtfd thrfbds in
+     * thfm brf not dfstroyfd.
+     */
+    void bddUnstbrtfd() {
+        syndhronizfd(this) {
+            if (dfstroyfd) {
+                throw nfw IllfgblThrfbdStbtfExdfption();
+            }
+            nUnstbrtfdThrfbds++;
+        }
+    }
+
+    /**
+     * Adds thf spfdififd thrfbd to this thrfbd group.
+     *
+     * <p> Notf: This mfthod is dbllfd from both librbry dodf
+     * bnd thf Virtubl Mbdhinf. It is dbllfd from VM to bdd
+     * dfrtbin systfm thrfbds to thf systfm thrfbd group.
+     *
+     * @pbrbm  t
+     *         thf Thrfbd to bf bddfd
+     *
+     * @throws  IllfgblThrfbdStbtfExdfption
+     *          if thf Thrfbd group hbs bffn dfstroyfd
+     */
+    void bdd(Thrfbd t) {
+        syndhronizfd (this) {
+            if (dfstroyfd) {
+                throw nfw IllfgblThrfbdStbtfExdfption();
+            }
+            if (thrfbds == null) {
+                thrfbds = nfw Thrfbd[4];
+            } flsf if (nthrfbds == thrfbds.lfngth) {
+                thrfbds = Arrbys.dopyOf(thrfbds, nthrfbds * 2);
+            }
+            thrfbds[nthrfbds] = t;
+
+            // This is donf lbst so it dofsn't mbttfr in dbsf thf
+            // thrfbd is killfd
+            nthrfbds++;
+
+            // Thf thrfbd is now b fully flfdgfd mfmbfr of thf group, fvfn
+            // though it mby, or mby not, hbvf bffn stbrtfd yft. It will prfvfnt
+            // thf group from bfing dfstroyfd so thf unstbrtfd Thrfbds dount is
+            // dfdrfmfntfd.
+            nUnstbrtfdThrfbds--;
+        }
+    }
+
+    /**
+     * Notififs thf group thbt thf thrfbd {@dodf t} hbs fbilfd
+     * bn bttfmpt to stbrt.
+     *
+     * <p> Thf stbtf of this thrfbd group is rollfd bbdk bs if thf
+     * bttfmpt to stbrt thf thrfbd hbs nfvfr oddurrfd. Thf thrfbd is bgbin
+     * donsidfrfd bn unstbrtfd mfmbfr of thf thrfbd group, bnd b subsfqufnt
+     * bttfmpt to stbrt thf thrfbd is pfrmittfd.
+     *
+     * @pbrbm  t
+     *         thf Thrfbd whosf stbrt mfthod wbs invokfd
+     */
+    void thrfbdStbrtFbilfd(Thrfbd t) {
+        syndhronizfd(this) {
+            rfmovf(t);
+            nUnstbrtfdThrfbds++;
+        }
+    }
+
+    /**
+     * Notififs thf group thbt thf thrfbd {@dodf t} hbs tfrminbtfd.
+     *
+     * <p> Dfstroy thf group if bll of thf following donditions brf
+     * truf: this is b dbfmon thrfbd group; thfrf brf no morf blivf
+     * or unstbrtfd thrfbds in thf group; thfrf brf no subgroups in
+     * this thrfbd group.
+     *
+     * @pbrbm  t
+     *         thf Thrfbd thbt hbs tfrminbtfd
+     */
+    void thrfbdTfrminbtfd(Thrfbd t) {
+        syndhronizfd (this) {
+            rfmovf(t);
+
+            if (nthrfbds == 0) {
+                notifyAll();
+            }
+            if (dbfmon && (nthrfbds == 0) &&
+                (nUnstbrtfdThrfbds == 0) && (ngroups == 0))
+            {
+                dfstroy();
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs thf spfdififd Thrfbd from this group. Invoking this mfthod
+     * on b thrfbd group thbt hbs bffn dfstroyfd hbs no ffffdt.
+     *
+     * @pbrbm  t
+     *         thf Thrfbd to bf rfmovfd
+     */
+    privbtf void rfmovf(Thrfbd t) {
+        syndhronizfd (this) {
+            if (dfstroyfd) {
+                rfturn;
+            }
+            for (int i = 0 ; i < nthrfbds ; i++) {
+                if (thrfbds[i] == t) {
+                    Systfm.brrbydopy(thrfbds, i + 1, thrfbds, i, --nthrfbds - i);
+                    // Zbp dbngling rfffrfndf to thf dfbd thrfbd so thbt
+                    // thf gbrbbgf dollfdtor will dollfdt it.
+                    thrfbds[nthrfbds] = null;
+                    brfbk;
+                }
+            }
+        }
+    }
+
+    /**
+     * Prints informbtion bbout this thrfbd group to thf stbndbrd
+     * output. This mfthod is usfful only for dfbugging.
+     *
+     * @sindf   1.0
+     */
+    publid void list() {
+        list(Systfm.out, 0);
+    }
+    void list(PrintStrfbm out, int indfnt) {
+        int ngroupsSnbpshot;
+        ThrfbdGroup[] groupsSnbpshot;
+        syndhronizfd (this) {
+            for (int j = 0 ; j < indfnt ; j++) {
+                out.print(" ");
+            }
+            out.println(this);
+            indfnt += 4;
+            for (int i = 0 ; i < nthrfbds ; i++) {
+                for (int j = 0 ; j < indfnt ; j++) {
+                    out.print(" ");
+                }
+                out.println(thrfbds[i]);
+            }
+            ngroupsSnbpshot = ngroups;
+            if (groups != null) {
+                groupsSnbpshot = Arrbys.dopyOf(groups, ngroupsSnbpshot);
+            } flsf {
+                groupsSnbpshot = null;
+            }
+        }
+        for (int i = 0 ; i < ngroupsSnbpshot ; i++) {
+            groupsSnbpshot[i].list(out, indfnt);
+        }
+    }
+
+    /**
+     * Cbllfd by thf Jbvb Virtubl Mbdhinf whfn b thrfbd in this
+     * thrfbd group stops bfdbusf of bn undbught fxdfption, bnd thf thrfbd
+     * dofs not hbvf b spfdifid {@link Thrfbd.UndbughtExdfptionHbndlfr}
+     * instbllfd.
+     * <p>
+     * Thf <dodf>undbughtExdfption</dodf> mfthod of
+     * <dodf>ThrfbdGroup</dodf> dofs thf following:
+     * <ul>
+     * <li>If this thrfbd group hbs b pbrfnt thrfbd group, thf
+     *     <dodf>undbughtExdfption</dodf> mfthod of thbt pbrfnt is dbllfd
+     *     with thf sbmf two brgumfnts.
+     * <li>Othfrwisf, this mfthod dhfdks to sff if thfrf is b
+     *     {@linkplbin Thrfbd#gftDffbultUndbughtExdfptionHbndlfr dffbult
+     *     undbught fxdfption hbndlfr} instbllfd, bnd if so, its
+     *     <dodf>undbughtExdfption</dodf> mfthod is dbllfd with thf sbmf
+     *     two brgumfnts.
+     * <li>Othfrwisf, this mfthod dftfrminfs if thf <dodf>Throwbblf</dodf>
+     *     brgumfnt is bn instbndf of {@link ThrfbdDfbth}. If so, nothing
+     *     spfdibl is donf. Othfrwisf, b mfssbgf dontbining thf
+     *     thrfbd's nbmf, bs rfturnfd from thf thrfbd's {@link
+     *     Thrfbd#gftNbmf gftNbmf} mfthod, bnd b stbdk bbdktrbdf,
+     *     using thf <dodf>Throwbblf</dodf>'s {@link
+     *     Throwbblf#printStbdkTrbdf printStbdkTrbdf} mfthod, is
+     *     printfd to thf {@linkplbin Systfm#frr stbndbrd frror strfbm}.
+     * </ul>
+     * <p>
+     * Applidbtions dbn ovfrridf this mfthod in subdlbssfs of
+     * <dodf>ThrfbdGroup</dodf> to providf bltfrnbtivf hbndling of
+     * undbught fxdfptions.
+     *
+     * @pbrbm   t   thf thrfbd thbt is bbout to fxit.
+     * @pbrbm   f   thf undbught fxdfption.
+     * @sindf   1.0
+     */
+    publid void undbughtExdfption(Thrfbd t, Throwbblf f) {
+        if (pbrfnt != null) {
+            pbrfnt.undbughtExdfption(t, f);
+        } flsf {
+            Thrfbd.UndbughtExdfptionHbndlfr ufh =
+                Thrfbd.gftDffbultUndbughtExdfptionHbndlfr();
+            if (ufh != null) {
+                ufh.undbughtExdfption(t, f);
+            } flsf if (!(f instbndfof ThrfbdDfbth)) {
+                Systfm.frr.print("Exdfption in thrfbd \""
+                                 + t.gftNbmf() + "\" ");
+                f.printStbdkTrbdf(Systfm.frr);
+            }
+        }
+    }
+
+    /**
+     * Usfd by VM to dontrol lowmfm implidit suspfnsion.
+     *
+     * @pbrbm b boolfbn to bllow or disbllow suspfnsion
+     * @rfturn truf on suddfss
+     * @sindf   1.1
+     * @dfprfdbtfd Thf dffinition of this dbll dfpfnds on {@link #suspfnd},
+     *             whidh is dfprfdbtfd.  Furthfr, thf bfhbvior of this dbll
+     *             wbs nfvfr spfdififd.
+     */
+    @Dfprfdbtfd
+    publid boolfbn bllowThrfbdSuspfnsion(boolfbn b) {
+        this.vmAllowSuspfnsion = b;
+        if (!b) {
+            VM.unsuspfndSomfThrfbds();
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this Thrfbd group.
+     *
+     * @rfturn  b string rfprfsfntbtion of this thrfbd group.
+     * @sindf   1.0
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[nbmf=" + gftNbmf() + ",mbxpri=" + mbxPriority + "]";
+    }
+}

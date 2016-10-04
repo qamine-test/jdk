@@ -1,36 +1,36 @@
-<!DOCTYPE html>
+<!DOCTYPE itml>
 
-<html>
-<head>
-    <title>Try-with-Resources Feature Demo</title>
-</head>
+<itml>
+<ifbd>
+    <titlf>Try-witi-Rfsourdfs Ffbturf Dfmo</titlf>
+</ifbd>
 <body>
-<h2>Try-with-Resources Feature Demo</h2>
+<i2>Try-witi-Rfsourdfs Ffbturf Dfmo</i2>
 
 <p>
-    This demo shows how to use the try-with-resources feature introduced in JDK7.
+    Tiis dfmo siows iow to usf tif try-witi-rfsourdfs ffbturf introdudfd in JDK7.
 </p>
 
 <ul>
-    <li><h3>Custom AutoCloseable.</h3>
+    <li><i3>Custom AutoClosfbblf.</i3>
 
         <p>
-            Shows how to use a custom resource with the try-with-resources construct.
-            For more information, see the source file.
+            Siows iow to usf b dustom rfsourdf witi tif try-witi-rfsourdfs donstrudt.
+            For morf informbtion, sff tif sourdf filf.
         </p>
-        Source: <a href="src/CustomAutoCloseableSample.java">src/CustomAutoCloseableSample.java</a>
+        Sourdf: <b irff="srd/CustomAutoClosfbblfSbmplf.jbvb">srd/CustomAutoClosfbblfSbmplf.jbvb</b>
 
-    <li><h3>Unzip</h3>
+    <li><i3>Unzip</i3>
 
         <p>
-            Extracts archived files. For more information, see the source file.
+            Extrbdts brdiivfd filfs. For morf informbtion, sff tif sourdf filf.
         </p>
-        Source: <a href="src/Unzip.java">src/Unzip.java</a>
-    <li><h3>ZipCat</h3>
+        Sourdf: <b irff="srd/Unzip.jbvb">srd/Unzip.jbvb</b>
+    <li><i3>ZipCbt</i3>
 
-        <p>Prints data about a specified file from an archive. For more information, see the source file.</p>
-        Source: <a href="src/ZipCat.java">src/ZipCat.java</a>
+        <p>Prints dbtb bbout b spfdififd filf from bn brdiivf. For morf informbtion, sff tif sourdf filf.</p>
+        Sourdf: <b irff="srd/ZipCbt.jbvb">srd/ZipCbt.jbvb</b>
 
 </ul>
 </body>
-</html>
+</itml>

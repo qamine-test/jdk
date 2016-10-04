@@ -1,393 +1,393 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import sun.awt.datatransfer.DataTransferer;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
 
-import java.awt.*;
-import java.awt.dnd.*;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.awt.image.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.peer.*;
-import java.util.Map;
-import java.util.Properties;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
+import jbvb.bwt.im.InputMftiodHigiligit;
+import jbvb.bwt.im.spi.InputMftiodDfsdriptor;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.dbtbtrbnsffr.Clipbobrd;
+import jbvb.bwt.pffr.*;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
 
 /*
- * HToolkit is a platform independent Toolkit used
- * with the HeadlessToolkit.  It is primarily used
- * in embedded JRE's that do not have sun/awt/X11 classes.
+ * HToolkit is b plbtform indfpfndfnt Toolkit usfd
+ * witi tif HfbdlfssToolkit.  It is primbrily usfd
+ * in fmbfddfd JRE's tibt do not ibvf sun/bwt/X11 dlbssfs.
  */
-public class HToolkit extends SunToolkit
-    implements ComponentFactory {
+publid dlbss HToolkit fxtfnds SunToolkit
+    implfmfnts ComponfntFbdtory {
 
-    private static final KeyboardFocusManagerPeer kfmPeer = new KeyboardFocusManagerPeer() {
-        public void setCurrentFocusedWindow(Window win) {}
-        public Window getCurrentFocusedWindow() { return null; }
-        public void setCurrentFocusOwner(Component comp) {}
-        public Component getCurrentFocusOwner() { return null; }
-        public void clearGlobalFocusOwner(Window activeWindow) {}
+    privbtf stbtid finbl KfybobrdFodusMbnbgfrPffr kfmPffr = nfw KfybobrdFodusMbnbgfrPffr() {
+        publid void sftCurrfntFodusfdWindow(Window win) {}
+        publid Window gftCurrfntFodusfdWindow() { rfturn null; }
+        publid void sftCurrfntFodusOwnfr(Componfnt domp) {}
+        publid Componfnt gftCurrfntFodusOwnfr() { rfturn null; }
+        publid void dlfbrGlobblFodusOwnfr(Window bdtivfWindow) {}
     };
 
-    public HToolkit() {
+    publid HToolkit() {
     }
 
     /*
-     * Component peer objects - unsupported.
+     * Componfnt pffr objfdts - unsupportfd.
      */
 
-    public WindowPeer createWindow(Window target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid WindowPffr drfbtfWindow(Window tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public FramePeer createLightweightFrame(LightweightFrame target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid FrbmfPffr drfbtfLigitwfigitFrbmf(LigitwfigitFrbmf tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public FramePeer createFrame(Frame target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid FrbmfPffr drfbtfFrbmf(Frbmf tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public DialogPeer createDialog(Dialog target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid DiblogPffr drfbtfDiblog(Diblog tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public ButtonPeer createButton(Button target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid ButtonPffr drfbtfButton(Button tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public TextFieldPeer createTextField(TextField target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid TfxtFifldPffr drfbtfTfxtFifld(TfxtFifld tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public ChoicePeer createChoice(Choice target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid CioidfPffr drfbtfCioidf(Cioidf tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public LabelPeer createLabel(Label target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid LbbflPffr drfbtfLbbfl(Lbbfl tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public ListPeer createList(List target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid ListPffr drfbtfList(List tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public CheckboxPeer createCheckbox(Checkbox target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid CifdkboxPffr drfbtfCifdkbox(Cifdkbox tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public ScrollbarPeer createScrollbar(Scrollbar target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid SdrollbbrPffr drfbtfSdrollbbr(Sdrollbbr tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public ScrollPanePeer createScrollPane(ScrollPane target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid SdrollPbnfPffr drfbtfSdrollPbnf(SdrollPbnf tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public TextAreaPeer createTextArea(TextArea target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid TfxtArfbPffr drfbtfTfxtArfb(TfxtArfb tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public FileDialogPeer createFileDialog(FileDialog target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid FilfDiblogPffr drfbtfFilfDiblog(FilfDiblog tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public MenuBarPeer createMenuBar(MenuBar target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid MfnuBbrPffr drfbtfMfnuBbr(MfnuBbr tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public MenuPeer createMenu(Menu target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid MfnuPffr drfbtfMfnu(Mfnu tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public PopupMenuPeer createPopupMenu(PopupMenu target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid PopupMfnuPffr drfbtfPopupMfnu(PopupMfnu tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public MenuItemPeer createMenuItem(MenuItem target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid MfnuItfmPffr drfbtfMfnuItfm(MfnuItfm tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public CheckboxMenuItemPeer createCheckboxMenuItem(CheckboxMenuItem target)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid CifdkboxMfnuItfmPffr drfbtfCifdkboxMfnuItfm(CifdkboxMfnuItfm tbrgft)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public DragSourceContextPeer createDragSourceContextPeer(
-        DragGestureEvent dge)
-        throws InvalidDnDOperationException {
-        throw new InvalidDnDOperationException("Headless environment");
+    publid DrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(
+        DrbgGfsturfEvfnt dgf)
+        tirows InvblidDnDOpfrbtionExdfption {
+        tirow nfw InvblidDnDOpfrbtionExdfption("Hfbdlfss fnvironmfnt");
     }
 
-    public RobotPeer createRobot(Robot target, GraphicsDevice screen)
-        throws AWTException, HeadlessException {
-        throw new HeadlessException();
+    publid RobotPffr drfbtfRobot(Robot tbrgft, GrbpiidsDfvidf sdrffn)
+        tirows AWTExdfption, HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public KeyboardFocusManagerPeer getKeyboardFocusManagerPeer() {
-        // See 6833019.
-        return kfmPeer;
+    publid KfybobrdFodusMbnbgfrPffr gftKfybobrdFodusMbnbgfrPffr() {
+        // Sff 6833019.
+        rfturn kfmPffr;
     }
 
-    public TrayIconPeer createTrayIcon(TrayIcon target)
-      throws HeadlessException {
-        throw new HeadlessException();
+    publid TrbyIdonPffr drfbtfTrbyIdon(TrbyIdon tbrgft)
+      tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public SystemTrayPeer createSystemTray(SystemTray target)
-      throws HeadlessException {
-        throw new HeadlessException();
+    publid SystfmTrbyPffr drfbtfSystfmTrby(SystfmTrby tbrgft)
+      tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public boolean isTraySupported() {
-        return false;
+    publid boolfbn isTrbySupportfd() {
+        rfturn fblsf;
     }
 
-    @Override
-    public DataTransferer getDataTransferer() {
-        return null;
+    @Ovfrridf
+    publid DbtbTrbnsffrfr gftDbtbTrbnsffrfr() {
+        rfturn null;
     }
 
-    public GlobalCursorManager getGlobalCursorManager()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid GlobblCursorMbnbgfr gftGlobblCursorMbnbgfr()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
     /*
-     * Headless toolkit - unsupported.
+     * Hfbdlfss toolkit - unsupportfd.
      */
-    protected void loadSystemColors(int[] systemColors)
-        throws HeadlessException {
-        throw new HeadlessException();
+    protfdtfd void lobdSystfmColors(int[] systfmColors)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public ColorModel getColorModel()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid ColorModfl gftColorModfl()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public int getScreenResolution()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid int gftSdrffnRfsolution()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public Map<java.awt.font.TextAttribute, ?> mapInputMethodHighlight(
-            InputMethodHighlight highlight)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid Mbp<jbvb.bwt.font.TfxtAttributf, ?> mbpInputMftiodHigiligit(
+            InputMftiodHigiligit iigiligit)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public int getMenuShortcutKeyMask()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid int gftMfnuSiortdutKfyMbsk()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public boolean getLockingKeyState(int keyCode)
-        throws UnsupportedOperationException {
-        throw new HeadlessException();
+    publid boolfbn gftLodkingKfyStbtf(int kfyCodf)
+        tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public void setLockingKeyState(int keyCode, boolean on)
-        throws UnsupportedOperationException {
-        throw new HeadlessException();
+    publid void sftLodkingKfyStbtf(int kfyCodf, boolfbn on)
+        tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public Cursor createCustomCursor(Image cursor, Point hotSpot, String name)
-        throws IndexOutOfBoundsException, HeadlessException {
-        throw new HeadlessException();
+    publid Cursor drfbtfCustomCursor(Imbgf dursor, Point iotSpot, String nbmf)
+        tirows IndfxOutOfBoundsExdfption, HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public Dimension getBestCursorSize(int preferredWidth, int preferredHeight)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid Dimfnsion gftBfstCursorSizf(int prfffrrfdWidti, int prfffrrfdHfigit)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public int getMaximumCursorColors()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid int gftMbximumCursorColors()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public <T extends DragGestureRecognizer> T
-        createDragGestureRecognizer(Class<T> abstractRecognizerClass,
-                                    DragSource ds, Component c,
-                                    int srcActions, DragGestureListener dgl)
+    publid <T fxtfnds DrbgGfsturfRfdognizfr> T
+        drfbtfDrbgGfsturfRfdognizfr(Clbss<T> bbstrbdtRfdognizfrClbss,
+                                    DrbgSourdf ds, Componfnt d,
+                                    int srdAdtions, DrbgGfsturfListfnfr dgl)
     {
-        return null;
+        rfturn null;
     }
 
-    public int getScreenHeight()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid int gftSdrffnHfigit()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public int getScreenWidth()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid int gftSdrffnWidti()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public Dimension getScreenSize()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid Dimfnsion gftSdrffnSizf()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public Insets getScreenInsets(GraphicsConfiguration gc)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid Insfts gftSdrffnInsfts(GrbpiidsConfigurbtion gd)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public void setDynamicLayout(boolean dynamic)
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid void sftDynbmidLbyout(boolfbn dynbmid)
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    protected boolean isDynamicLayoutSet()
-        throws HeadlessException {
-        throw new HeadlessException();
+    protfdtfd boolfbn isDynbmidLbyoutSft()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public boolean isDynamicLayoutActive()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid boolfbn isDynbmidLbyoutAdtivf()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public Clipboard getSystemClipboard()
-        throws HeadlessException {
-        throw new HeadlessException();
+    publid Clipbobrd gftSystfmClipbobrd()
+        tirows HfbdlfssExdfption {
+        tirow nfw HfbdlfssExdfption();
     }
 
     /*
      * Printing
      */
-    public PrintJob getPrintJob(Frame frame, String jobtitle,
-        JobAttributes jobAttributes,
-        PageAttributes pageAttributes) {
-        if (frame != null) {
-            // Should never happen
-            throw new HeadlessException();
+    publid PrintJob gftPrintJob(Frbmf frbmf, String jobtitlf,
+        JobAttributfs jobAttributfs,
+        PbgfAttributfs pbgfAttributfs) {
+        if (frbmf != null) {
+            // Siould nfvfr ibppfn
+            tirow nfw HfbdlfssExdfption();
         }
-        throw new IllegalArgumentException(
-                "PrintJob not supported in a headless environment");
+        tirow nfw IllfgblArgumfntExdfption(
+                "PrintJob not supportfd in b ifbdlfss fnvironmfnt");
     }
 
-    public PrintJob getPrintJob(Frame frame, String doctitle, Properties props)
+    publid PrintJob gftPrintJob(Frbmf frbmf, String dodtitlf, Propfrtifs props)
     {
-        if (frame != null) {
-            // Should never happen
-            throw new HeadlessException();
+        if (frbmf != null) {
+            // Siould nfvfr ibppfn
+            tirow nfw HfbdlfssExdfption();
         }
-        throw new IllegalArgumentException(
-                "PrintJob not supported in a headless environment");
+        tirow nfw IllfgblArgumfntExdfption(
+                "PrintJob not supportfd in b ifbdlfss fnvironmfnt");
     }
 
     /*
-     * Headless toolkit - supported.
+     * Hfbdlfss toolkit - supportfd.
      */
 
-    public void sync() {
-        // Do nothing
+    publid void synd() {
+        // Do notiing
     }
 
-    protected boolean syncNativeQueue(final long timeout) {
-        return false;
+    protfdtfd boolfbn syndNbtivfQufuf(finbl long timfout) {
+        rfturn fblsf;
     }
 
-    public void beep() {
-        // Send alert character
-        System.out.write(0x07);
+    publid void bffp() {
+        // Sfnd blfrt dibrbdtfr
+        Systfm.out.writf(0x07);
     }
 
 
     /*
      * Fonts
      */
-    public FontPeer getFontPeer(String name, int style) {
-        return (FontPeer)null;
+    publid FontPffr gftFontPffr(String nbmf, int stylf) {
+        rfturn (FontPffr)null;
     }
 
     /*
-     * Modality
+     * Modblity
      */
-    public boolean isModalityTypeSupported(Dialog.ModalityType modalityType) {
-        return false;
+    publid boolfbn isModblityTypfSupportfd(Diblog.ModblityTypf modblityTypf) {
+        rfturn fblsf;
     }
 
-    public boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType exclusionType) {
-        return false;
+    publid boolfbn isModblExdlusionTypfSupportfd(Diblog.ModblExdlusionTypf fxdlusionTypf) {
+        rfturn fblsf;
     }
 
-    public boolean isDesktopSupported() {
-        return false;
+    publid boolfbn isDfsktopSupportfd() {
+        rfturn fblsf;
     }
 
-    public DesktopPeer createDesktopPeer(Desktop target)
-    throws HeadlessException{
-        throw new HeadlessException();
+    publid DfsktopPffr drfbtfDfsktopPffr(Dfsktop tbrgft)
+    tirows HfbdlfssExdfption{
+        tirow nfw HfbdlfssExdfption();
     }
 
-    public boolean isWindowOpacityControlSupported() {
-        return false;
+    publid boolfbn isWindowOpbdityControlSupportfd() {
+        rfturn fblsf;
     }
 
-    public boolean isWindowShapingSupported() {
-        return false;
+    publid boolfbn isWindowSibpingSupportfd() {
+        rfturn fblsf;
     }
 
-    public boolean isWindowTranslucencySupported() {
-        return false;
+    publid boolfbn isWindowTrbnsludfndySupportfd() {
+        rfturn fblsf;
     }
 
-    public  void grab(Window w) { }
+    publid  void grbb(Window w) { }
 
-    public void ungrab(Window w) { }
+    publid void ungrbb(Window w) { }
 
-    protected boolean syncNativeQueue() { return false; }
+    protfdtfd boolfbn syndNbtivfQufuf() { rfturn fblsf; }
 
-    public InputMethodDescriptor getInputMethodAdapterDescriptor()
-        throws AWTException
+    publid InputMftiodDfsdriptor gftInputMftiodAdbptfrDfsdriptor()
+        tirows AWTExdfption
     {
-        return (InputMethodDescriptor)null;
+        rfturn (InputMftiodDfsdriptor)null;
     }
 }

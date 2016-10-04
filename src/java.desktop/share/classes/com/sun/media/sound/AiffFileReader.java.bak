@@ -1,438 +1,438 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.URL;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import jbvbx.sound.sbmplfd.AudioFilfFormbt;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.UnsupportfdAudioFilfExdfption;
 
 
 /**
- * AIFF file reader and writer.
+ * AIFF filf rfbdfr bnd writfr.
  *
- * @author Kara Kytle
- * @author Jan Borgersen
- * @author Florian Bomers
+ * @butior Kbrb Kytlf
+ * @butior Jbn Borgfrsfn
+ * @butior Floribn Bomfrs
  */
-public final class AiffFileReader extends SunFileReader {
+publid finbl dlbss AiffFilfRfbdfr fxtfnds SunFilfRfbdfr {
 
-    private static final int MAX_READ_LENGTH = 8;
+    privbtf stbtid finbl int MAX_READ_LENGTH = 8;
 
-    // METHODS TO IMPLEMENT AudioFileReader
+    // METHODS TO IMPLEMENT AudioFilfRfbdfr
 
     /**
-     * Obtains the audio file format of the input stream provided.  The stream must
-     * point to valid audio file data.  In general, audio file providers may
-     * need to read some data from the stream before determining whether they
-     * support it.  These parsers must
-     * be able to mark the stream, read enough data to determine whether they
-     * support the stream, and, if not, reset the stream's read pointer to its original
-     * position.  If the input stream does not support this, this method may fail
-     * with an IOException.
-     * @param stream the input stream from which file format information should be
-     * extracted
-     * @return an <code>AudioFileFormat</code> object describing the audio file format
-     * @throws UnsupportedAudioFileException if the stream does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * Obtbins tif budio filf formbt of tif input strfbm providfd.  Tif strfbm must
+     * point to vblid budio filf dbtb.  In gfnfrbl, budio filf providfrs mby
+     * nffd to rfbd somf dbtb from tif strfbm bfforf dftfrmining wiftifr tify
+     * support it.  Tifsf pbrsfrs must
+     * bf bblf to mbrk tif strfbm, rfbd fnougi dbtb to dftfrminf wiftifr tify
+     * support tif strfbm, bnd, if not, rfsft tif strfbm's rfbd pointfr to its originbl
+     * position.  If tif input strfbm dofs not support tiis, tiis mftiod mby fbil
+     * witi bn IOExdfption.
+     * @pbrbm strfbm tif input strfbm from wiidi filf formbt informbtion siould bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing tif budio filf formbt
+     * @tirows UnsupportfdAudioFilfExdfption if tif strfbm dofs not point to vblid budio
+     * filf dbtb rfdognizfd by tif systfm
+     * @tirows IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
      */
-    public AudioFileFormat getAudioFileFormat(InputStream stream) throws UnsupportedAudioFileException, IOException {
-        // fix for 4489272: AudioSystem.getAudioFileFormat() fails for InputStream, but works for URL
-        AudioFileFormat aff = getCOMM(stream, true);
-        // the following is not strictly necessary - but was implemented like that in 1.3.0 - 1.4.1
-        // so I leave it as it was. May remove this for 1.5.0
-        stream.reset();
-        return aff;
+    publid AudioFilfFormbt gftAudioFilfFormbt(InputStrfbm strfbm) tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        // fix for 4489272: AudioSystfm.gftAudioFilfFormbt() fbils for InputStrfbm, but works for URL
+        AudioFilfFormbt bff = gftCOMM(strfbm, truf);
+        // tif following is not stridtly nfdfssbry - but wbs implfmfntfd likf tibt in 1.3.0 - 1.4.1
+        // so I lfbvf it bs it wbs. Mby rfmovf tiis for 1.5.0
+        strfbm.rfsft();
+        rfturn bff;
     }
 
 
     /**
-     * Obtains the audio file format of the URL provided.  The URL must
-     * point to valid audio file data.
-     * @param url the URL from which file format information should be
-     * extracted
-     * @return an <code>AudioFileFormat</code> object describing the audio file format
-     * @throws UnsupportedAudioFileException if the URL does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * Obtbins tif budio filf formbt of tif URL providfd.  Tif URL must
+     * point to vblid budio filf dbtb.
+     * @pbrbm url tif URL from wiidi filf formbt informbtion siould bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing tif budio filf formbt
+     * @tirows UnsupportfdAudioFilfExdfption if tif URL dofs not point to vblid budio
+     * filf dbtb rfdognizfd by tif systfm
+     * @tirows IOExdfption if bn I/O fxdfption oddurs
      */
-    public AudioFileFormat getAudioFileFormat(URL url) throws UnsupportedAudioFileException, IOException {
-        AudioFileFormat fileFormat = null;
-        InputStream urlStream = url.openStream();       // throws IOException
+    publid AudioFilfFormbt gftAudioFilfFormbt(URL url) tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        AudioFilfFormbt filfFormbt = null;
+        InputStrfbm urlStrfbm = url.opfnStrfbm();       // tirows IOExdfption
         try {
-            fileFormat = getCOMM(urlStream, false);
-        } finally {
-            urlStream.close();
+            filfFormbt = gftCOMM(urlStrfbm, fblsf);
+        } finblly {
+            urlStrfbm.dlosf();
         }
-        return fileFormat;
+        rfturn filfFormbt;
     }
 
 
     /**
-     * Obtains the audio file format of the File provided.  The File must
-     * point to valid audio file data.
-     * @param file the File from which file format information should be
-     * extracted
-     * @return an <code>AudioFileFormat</code> object describing the audio file format
-     * @throws UnsupportedAudioFileException if the File does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * Obtbins tif budio filf formbt of tif Filf providfd.  Tif Filf must
+     * point to vblid budio filf dbtb.
+     * @pbrbm filf tif Filf from wiidi filf formbt informbtion siould bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing tif budio filf formbt
+     * @tirows UnsupportfdAudioFilfExdfption if tif Filf dofs not point to vblid budio
+     * filf dbtb rfdognizfd by tif systfm
+     * @tirows IOExdfption if bn I/O fxdfption oddurs
      */
-    public AudioFileFormat getAudioFileFormat(File file) throws UnsupportedAudioFileException, IOException {
-        AudioFileFormat fileFormat = null;
-        FileInputStream fis = new FileInputStream(file);       // throws IOException
-        // part of fix for 4325421
+    publid AudioFilfFormbt gftAudioFilfFormbt(Filf filf) tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        AudioFilfFormbt filfFormbt = null;
+        FilfInputStrfbm fis = nfw FilfInputStrfbm(filf);       // tirows IOExdfption
+        // pbrt of fix for 4325421
         try {
-            fileFormat = getCOMM(fis, false);
-        } finally {
-            fis.close();
+            filfFormbt = gftCOMM(fis, fblsf);
+        } finblly {
+            fis.dlosf();
         }
 
-        return fileFormat;
+        rfturn filfFormbt;
     }
 
 
 
 
     /**
-     * Obtains an audio stream from the input stream provided.  The stream must
-     * point to valid audio file data.  In general, audio file providers may
-     * need to read some data from the stream before determining whether they
-     * support it.  These parsers must
-     * be able to mark the stream, read enough data to determine whether they
-     * support the stream, and, if not, reset the stream's read pointer to its original
-     * position.  If the input stream does not support this, this method may fail
-     * with an IOException.
-     * @param stream the input stream from which the <code>AudioInputStream</code> should be
-     * constructed
-     * @return an <code>AudioInputStream</code> object based on the audio file data contained
-     * in the input stream.
-     * @throws UnsupportedAudioFileException if the stream does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * Obtbins bn budio strfbm from tif input strfbm providfd.  Tif strfbm must
+     * point to vblid budio filf dbtb.  In gfnfrbl, budio filf providfrs mby
+     * nffd to rfbd somf dbtb from tif strfbm bfforf dftfrmining wiftifr tify
+     * support it.  Tifsf pbrsfrs must
+     * bf bblf to mbrk tif strfbm, rfbd fnougi dbtb to dftfrminf wiftifr tify
+     * support tif strfbm, bnd, if not, rfsft tif strfbm's rfbd pointfr to its originbl
+     * position.  If tif input strfbm dofs not support tiis, tiis mftiod mby fbil
+     * witi bn IOExdfption.
+     * @pbrbm strfbm tif input strfbm from wiidi tif <dodf>AudioInputStrfbm</dodf> siould bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on tif budio filf dbtb dontbinfd
+     * in tif input strfbm.
+     * @tirows UnsupportfdAudioFilfExdfption if tif strfbm dofs not point to vblid budio
+     * filf dbtb rfdognizfd by tif systfm
+     * @tirows IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
      */
-    public AudioInputStream getAudioInputStream(InputStream stream) throws UnsupportedAudioFileException, IOException {
-        // getCOMM leaves the input stream at the beginning of the audio data
-        AudioFileFormat fileFormat = getCOMM(stream, true);     // throws UnsupportedAudioFileException, IOException
+    publid AudioInputStrfbm gftAudioInputStrfbm(InputStrfbm strfbm) tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        // gftCOMM lfbvfs tif input strfbm bt tif bfginning of tif budio dbtb
+        AudioFilfFormbt filfFormbt = gftCOMM(strfbm, truf);     // tirows UnsupportfdAudioFilfExdfption, IOExdfption
 
-        // we've got everything, and the stream is at the
-        // beginning of the audio data, so return an AudioInputStream.
-        return new AudioInputStream(stream, fileFormat.getFormat(), fileFormat.getFrameLength());
+        // wf'vf got fvfrytiing, bnd tif strfbm is bt tif
+        // bfginning of tif budio dbtb, so rfturn bn AudioInputStrfbm.
+        rfturn nfw AudioInputStrfbm(strfbm, filfFormbt.gftFormbt(), filfFormbt.gftFrbmfLfngti());
     }
 
 
     /**
-     * Obtains an audio stream from the URL provided.  The URL must
-     * point to valid audio file data.
-     * @param url the URL for which the <code>AudioInputStream</code> should be
-     * constructed
-     * @return an <code>AudioInputStream</code> object based on the audio file data pointed
-     * to by the URL
-     * @throws UnsupportedAudioFileException if the URL does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * Obtbins bn budio strfbm from tif URL providfd.  Tif URL must
+     * point to vblid budio filf dbtb.
+     * @pbrbm url tif URL for wiidi tif <dodf>AudioInputStrfbm</dodf> siould bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on tif budio filf dbtb pointfd
+     * to by tif URL
+     * @tirows UnsupportfdAudioFilfExdfption if tif URL dofs not point to vblid budio
+     * filf dbtb rfdognizfd by tif systfm
+     * @tirows IOExdfption if bn I/O fxdfption oddurs
      */
-    public AudioInputStream getAudioInputStream(URL url) throws UnsupportedAudioFileException, IOException {
-        InputStream urlStream = url.openStream();  // throws IOException
-        AudioFileFormat fileFormat = null;
+    publid AudioInputStrfbm gftAudioInputStrfbm(URL url) tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        InputStrfbm urlStrfbm = url.opfnStrfbm();  // tirows IOExdfption
+        AudioFilfFormbt filfFormbt = null;
         try {
-            fileFormat = getCOMM(urlStream, false);
-        } finally {
-            if (fileFormat == null) {
-                urlStream.close();
+            filfFormbt = gftCOMM(urlStrfbm, fblsf);
+        } finblly {
+            if (filfFormbt == null) {
+                urlStrfbm.dlosf();
             }
         }
-        return new AudioInputStream(urlStream, fileFormat.getFormat(), fileFormat.getFrameLength());
+        rfturn nfw AudioInputStrfbm(urlStrfbm, filfFormbt.gftFormbt(), filfFormbt.gftFrbmfLfngti());
     }
 
 
     /**
-     * Obtains an audio stream from the File provided.  The File must
-     * point to valid audio file data.
-     * @param file the File for which the <code>AudioInputStream</code> should be
-     * constructed
-     * @return an <code>AudioInputStream</code> object based on the audio file data pointed
-     * to by the File
-     * @throws UnsupportedAudioFileException if the File does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * Obtbins bn budio strfbm from tif Filf providfd.  Tif Filf must
+     * point to vblid budio filf dbtb.
+     * @pbrbm filf tif Filf for wiidi tif <dodf>AudioInputStrfbm</dodf> siould bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on tif budio filf dbtb pointfd
+     * to by tif Filf
+     * @tirows UnsupportfdAudioFilfExdfption if tif Filf dofs not point to vblid budio
+     * filf dbtb rfdognizfd by tif systfm
+     * @tirows IOExdfption if bn I/O fxdfption oddurs
      */
-    public AudioInputStream getAudioInputStream(File file)
-        throws UnsupportedAudioFileException, IOException {
+    publid AudioInputStrfbm gftAudioInputStrfbm(Filf filf)
+        tirows UnsupportfdAudioFilfExdfption, IOExdfption {
 
-        FileInputStream fis = new FileInputStream(file); // throws IOException
-        AudioFileFormat fileFormat = null;
-        // part of fix for 4325421
+        FilfInputStrfbm fis = nfw FilfInputStrfbm(filf); // tirows IOExdfption
+        AudioFilfFormbt filfFormbt = null;
+        // pbrt of fix for 4325421
         try {
-            fileFormat = getCOMM(fis, false);
-        } finally {
-            if (fileFormat == null) {
-                fis.close();
+            filfFormbt = gftCOMM(fis, fblsf);
+        } finblly {
+            if (filfFormbt == null) {
+                fis.dlosf();
             }
         }
-        return new AudioInputStream(fis, fileFormat.getFormat(), fileFormat.getFrameLength());
+        rfturn nfw AudioInputStrfbm(fis, filfFormbt.gftFormbt(), filfFormbt.gftFrbmfLfngti());
     }
 
     //--------------------------------------------------------------------
 
-    private AudioFileFormat getCOMM(InputStream is, boolean doReset)
-        throws UnsupportedAudioFileException, IOException {
+    privbtf AudioFilfFormbt gftCOMM(InputStrfbm is, boolfbn doRfsft)
+        tirows UnsupportfdAudioFilfExdfption, IOExdfption {
 
-        DataInputStream dis = new DataInputStream(is);
+        DbtbInputStrfbm dis = nfw DbtbInputStrfbm(is);
 
-        if (doReset) {
-            dis.mark(MAX_READ_LENGTH);
+        if (doRfsft) {
+            dis.mbrk(MAX_READ_LENGTH);
         }
 
-        // assumes a stream at the beginning of the file which has already
-        // passed the magic number test...
-        // leaves the input stream at the beginning of the audio data
-        int fileRead = 0;
-        int dataLength = 0;
-        AudioFormat format = null;
+        // bssumfs b strfbm bt tif bfginning of tif filf wiidi ibs blrfbdy
+        // pbssfd tif mbgid numbfr tfst...
+        // lfbvfs tif input strfbm bt tif bfginning of tif budio dbtb
+        int filfRfbd = 0;
+        int dbtbLfngti = 0;
+        AudioFormbt formbt = null;
 
-        // Read the magic number
-        int magic = dis.readInt();
+        // Rfbd tif mbgid numbfr
+        int mbgid = dis.rfbdInt();
 
-        // $$fb: fix for 4369044: javax.sound.sampled.AudioSystem.getAudioInputStream() works wrong with Cp037
-        if (magic != AiffFileFormat.AIFF_MAGIC) {
-            // not AIFF, throw exception
-            if (doReset) {
-                dis.reset();
+        // $$fb: fix for 4369044: jbvbx.sound.sbmplfd.AudioSystfm.gftAudioInputStrfbm() works wrong witi Cp037
+        if (mbgid != AiffFilfFormbt.AIFF_MAGIC) {
+            // not AIFF, tirow fxdfption
+            if (doRfsft) {
+                dis.rfsft();
             }
-            throw new UnsupportedAudioFileException("not an AIFF file");
+            tirow nfw UnsupportfdAudioFilfExdfption("not bn AIFF filf");
         }
 
-        int length = dis.readInt();
-        int iffType = dis.readInt();
-        fileRead += 12;
+        int lfngti = dis.rfbdInt();
+        int iffTypf = dis.rfbdInt();
+        filfRfbd += 12;
 
-        int totallength;
-        if(length <= 0 ) {
-            length = AudioSystem.NOT_SPECIFIED;
-            totallength = AudioSystem.NOT_SPECIFIED;
-        } else {
-            totallength = length + 8;
+        int totbllfngti;
+        if(lfngti <= 0 ) {
+            lfngti = AudioSystfm.NOT_SPECIFIED;
+            totbllfngti = AudioSystfm.NOT_SPECIFIED;
+        } flsf {
+            totbllfngti = lfngti + 8;
         }
 
-        // Is this an AIFC or just plain AIFF file.
-        boolean aifc = false;
-        // $$fb: fix for 4369044: javax.sound.sampled.AudioSystem.getAudioInputStream() works wrong with Cp037
-        if (iffType ==  AiffFileFormat.AIFC_MAGIC) {
-            aifc = true;
+        // Is tiis bn AIFC or just plbin AIFF filf.
+        boolfbn bifd = fblsf;
+        // $$fb: fix for 4369044: jbvbx.sound.sbmplfd.AudioSystfm.gftAudioInputStrfbm() works wrong witi Cp037
+        if (iffTypf ==  AiffFilfFormbt.AIFC_MAGIC) {
+            bifd = truf;
         }
 
-        // Loop through the AIFF chunks until
-        // we get to the SSND chunk.
-        boolean ssndFound = false;
-        while (!ssndFound) {
-            // Read the chunk name
-            int chunkName = dis.readInt();
-            int chunkLen = dis.readInt();
-            fileRead += 8;
+        // Loop tirougi tif AIFF diunks until
+        // wf gft to tif SSND diunk.
+        boolfbn ssndFound = fblsf;
+        wiilf (!ssndFound) {
+            // Rfbd tif diunk nbmf
+            int diunkNbmf = dis.rfbdInt();
+            int diunkLfn = dis.rfbdInt();
+            filfRfbd += 8;
 
-            int chunkRead = 0;
+            int diunkRfbd = 0;
 
-            // Switch on the chunk name.
-            switch (chunkName) {
-            case AiffFileFormat.FVER_MAGIC:
-                // Ignore format version for now.
-                break;
+            // Switdi on tif diunk nbmf.
+            switdi (diunkNbmf) {
+            dbsf AiffFilfFormbt.FVER_MAGIC:
+                // Ignorf formbt vfrsion for now.
+                brfbk;
 
-            case AiffFileFormat.COMM_MAGIC:
+            dbsf AiffFilfFormbt.COMM_MAGIC:
                 // AIFF vs. AIFC
-                // $$fb: fix for 4399551: Repost of bug candidate: cannot replay aif file (Review ID: 108108)
-                if ((!aifc && chunkLen < 18) || (aifc && chunkLen < 22)) {
-                    throw new UnsupportedAudioFileException("Invalid AIFF/COMM chunksize");
+                // $$fb: fix for 4399551: Rfpost of bug dbndidbtf: dbnnot rfplby bif filf (Rfvifw ID: 108108)
+                if ((!bifd && diunkLfn < 18) || (bifd && diunkLfn < 22)) {
+                    tirow nfw UnsupportfdAudioFilfExdfption("Invblid AIFF/COMM diunksizf");
                 }
-                // Read header info.
-                int channels = dis.readUnsignedShort();
-                if (channels <= 0) {
-                    throw new UnsupportedAudioFileException("Invalid number of channels");
+                // Rfbd ifbdfr info.
+                int dibnnfls = dis.rfbdUnsignfdSiort();
+                if (dibnnfls <= 0) {
+                    tirow nfw UnsupportfdAudioFilfExdfption("Invblid numbfr of dibnnfls");
                 }
-                dis.readInt(); // numSampleFrames
-                int sampleSizeInBits = dis.readUnsignedShort();
-                if (sampleSizeInBits < 1 || sampleSizeInBits > 32) {
-                    throw new UnsupportedAudioFileException("Invalid AIFF/COMM sampleSize");
+                dis.rfbdInt(); // numSbmplfFrbmfs
+                int sbmplfSizfInBits = dis.rfbdUnsignfdSiort();
+                if (sbmplfSizfInBits < 1 || sbmplfSizfInBits > 32) {
+                    tirow nfw UnsupportfdAudioFilfExdfption("Invblid AIFF/COMM sbmplfSizf");
                 }
-                float sampleRate = (float) read_ieee_extended(dis);
-                chunkRead += (2 + 4 + 2 + 10);
+                flobt sbmplfRbtf = (flobt) rfbd_ifff_fxtfndfd(dis);
+                diunkRfbd += (2 + 4 + 2 + 10);
 
-                // If this is not AIFC then we assume it's
-                // a linearly encoded file.
-                AudioFormat.Encoding encoding = AudioFormat.Encoding.PCM_SIGNED;
+                // If tiis is not AIFC tifn wf bssumf it's
+                // b linfbrly fndodfd filf.
+                AudioFormbt.Endoding fndoding = AudioFormbt.Endoding.PCM_SIGNED;
 
-                if (aifc) {
-                    int enc = dis.readInt(); chunkRead += 4;
-                    switch (enc) {
-                    case AiffFileFormat.AIFC_PCM:
-                        encoding = AudioFormat.Encoding.PCM_SIGNED;
-                        break;
-                    case AiffFileFormat.AIFC_ULAW:
-                        encoding = AudioFormat.Encoding.ULAW;
-                        sampleSizeInBits = 8; // Java Sound convention
-                        break;
-                    default:
-                        throw new UnsupportedAudioFileException("Invalid AIFF encoding");
+                if (bifd) {
+                    int fnd = dis.rfbdInt(); diunkRfbd += 4;
+                    switdi (fnd) {
+                    dbsf AiffFilfFormbt.AIFC_PCM:
+                        fndoding = AudioFormbt.Endoding.PCM_SIGNED;
+                        brfbk;
+                    dbsf AiffFilfFormbt.AIFC_ULAW:
+                        fndoding = AudioFormbt.Endoding.ULAW;
+                        sbmplfSizfInBits = 8; // Jbvb Sound donvfntion
+                        brfbk;
+                    dffbult:
+                        tirow nfw UnsupportfdAudioFilfExdfption("Invblid AIFF fndoding");
                     }
                 }
-                int frameSize = calculatePCMFrameSize(sampleSizeInBits, channels);
-                //$fb what's that ??
-                //if (sampleSizeInBits == 8) {
-                //    encoding = AudioFormat.Encoding.PCM_SIGNED;
+                int frbmfSizf = dbldulbtfPCMFrbmfSizf(sbmplfSizfInBits, dibnnfls);
+                //$fb wibt's tibt ??
+                //if (sbmplfSizfInBits == 8) {
+                //    fndoding = AudioFormbt.Endoding.PCM_SIGNED;
                 //}
-                format =  new AudioFormat(encoding, sampleRate,
-                                          sampleSizeInBits, channels,
-                                          frameSize, sampleRate, true);
-                break;
-            case AiffFileFormat.SSND_MAGIC:
-                // Data chunk.
-                // we are getting *weird* numbers for chunkLen sometimes;
-                // this really should be the size of the data chunk....
-                int dataOffset = dis.readInt();
-                int blocksize = dis.readInt();
-                chunkRead += 8;
+                formbt =  nfw AudioFormbt(fndoding, sbmplfRbtf,
+                                          sbmplfSizfInBits, dibnnfls,
+                                          frbmfSizf, sbmplfRbtf, truf);
+                brfbk;
+            dbsf AiffFilfFormbt.SSND_MAGIC:
+                // Dbtb diunk.
+                // wf brf gftting *wfird* numbfrs for diunkLfn somftimfs;
+                // tiis rfblly siould bf tif sizf of tif dbtb diunk....
+                int dbtbOffsft = dis.rfbdInt();
+                int blodksizf = dis.rfbdInt();
+                diunkRfbd += 8;
 
-                // okay, now we are done reading the header.  we need to set the size
-                // of the data segment.  we know that sometimes the value we get for
-                // the chunksize is absurd.  this is the best i can think of:if the
-                // value seems okay, use it.  otherwise, we get our value of
-                // length by assuming that everything left is the data segment;
-                // its length should be our original length (for all AIFF data chunks)
-                // minus what we've read so far.
-                // $$kk: we should be able to get length for the data chunk right after
-                // we find "SSND."  however, some aiff files give *weird* numbers.  what
+                // okby, now wf brf donf rfbding tif ifbdfr.  wf nffd to sft tif sizf
+                // of tif dbtb sfgmfnt.  wf know tibt somftimfs tif vbluf wf gft for
+                // tif diunksizf is bbsurd.  tiis is tif bfst i dbn tiink of:if tif
+                // vbluf sffms okby, usf it.  otifrwisf, wf gft our vbluf of
+                // lfngti by bssuming tibt fvfrytiing lfft is tif dbtb sfgmfnt;
+                // its lfngti siould bf our originbl lfngti (for bll AIFF dbtb diunks)
+                // minus wibt wf'vf rfbd so fbr.
+                // $$kk: wf siould bf bblf to gft lfngti for tif dbtb diunk rigit bftfr
+                // wf find "SSND."  iowfvfr, somf biff filfs givf *wfird* numbfrs.  wibt
                 // is going on??
 
-                if (chunkLen < length) {
-                    dataLength = chunkLen - chunkRead;
-                } else {
-                    // $$kk: 11.03.98: this seems dangerous!
-                    dataLength = length - (fileRead + chunkRead);
+                if (diunkLfn < lfngti) {
+                    dbtbLfngti = diunkLfn - diunkRfbd;
+                } flsf {
+                    // $$kk: 11.03.98: tiis sffms dbngfrous!
+                    dbtbLfngti = lfngti - (filfRfbd + diunkRfbd);
                 }
-                ssndFound = true;
-                break;
-            } // switch
-            fileRead += chunkRead;
-            // skip the remainder of this chunk
+                ssndFound = truf;
+                brfbk;
+            } // switdi
+            filfRfbd += diunkRfbd;
+            // skip tif rfmbindfr of tiis diunk
             if (!ssndFound) {
-                int toSkip = chunkLen - chunkRead;
+                int toSkip = diunkLfn - diunkRfbd;
                 if (toSkip > 0) {
-                    fileRead += dis.skipBytes(toSkip);
+                    filfRfbd += dis.skipBytfs(toSkip);
                 }
             }
-        } // while
+        } // wiilf
 
-        if (format == null) {
-            throw new UnsupportedAudioFileException("missing COMM chunk");
+        if (formbt == null) {
+            tirow nfw UnsupportfdAudioFilfExdfption("missing COMM diunk");
         }
-        AudioFileFormat.Type type = aifc?AudioFileFormat.Type.AIFC:AudioFileFormat.Type.AIFF;
+        AudioFilfFormbt.Typf typf = bifd?AudioFilfFormbt.Typf.AIFC:AudioFilfFormbt.Typf.AIFF;
 
-        return new AiffFileFormat(type, totallength, format, dataLength / format.getFrameSize());
+        rfturn nfw AiffFilfFormbt(typf, totbllfngti, formbt, dbtbLfngti / formbt.gftFrbmfSizf());
     }
 
     // HELPER METHODS
-    /** write_ieee_extended(DataOutputStream dos, double f) throws IOException {
-     * Extended precision IEEE floating-point conversion routine.
-     * @argument DataOutputStream
-     * @argument double
-     * @return void
-     * @exception IOException
+    /** writf_ifff_fxtfndfd(DbtbOutputStrfbm dos, doublf f) tirows IOExdfption {
+     * Extfndfd prfdision IEEE flobting-point donvfrsion routinf.
+     * @brgumfnt DbtbOutputStrfbm
+     * @brgumfnt doublf
+     * @rfturn void
+     * @fxdfption IOExdfption
      */
-    private void write_ieee_extended(DataOutputStream dos, double f) throws IOException {
+    privbtf void writf_ifff_fxtfndfd(DbtbOutputStrfbm dos, doublf f) tirows IOExdfption {
 
-        int exponent = 16398;
-        double highMantissa = f;
+        int fxponfnt = 16398;
+        doublf iigiMbntissb = f;
 
-        // For now write the integer portion of f
-        // $$jb: 03.30.99: stay in synch with JMF on this!!!!
-        while (highMantissa < 44000) {
-            highMantissa *= 2;
-            exponent--;
+        // For now writf tif intfgfr portion of f
+        // $$jb: 03.30.99: stby in syndi witi JMF on tiis!!!!
+        wiilf (iigiMbntissb < 44000) {
+            iigiMbntissb *= 2;
+            fxponfnt--;
         }
-        dos.writeShort(exponent);
-        dos.writeInt( ((int) highMantissa) << 16);
-        dos.writeInt(0); // low Mantissa
+        dos.writfSiort(fxponfnt);
+        dos.writfInt( ((int) iigiMbntissb) << 16);
+        dos.writfInt(0); // low Mbntissb
     }
 
 
     /**
-     * read_ieee_extended
-     * Extended precision IEEE floating-point conversion routine.
-     * @argument DataInputStream
-     * @return double
-     * @exception IOException
+     * rfbd_ifff_fxtfndfd
+     * Extfndfd prfdision IEEE flobting-point donvfrsion routinf.
+     * @brgumfnt DbtbInputStrfbm
+     * @rfturn doublf
+     * @fxdfption IOExdfption
      */
-    private double read_ieee_extended(DataInputStream dis) throws IOException {
+    privbtf doublf rfbd_ifff_fxtfndfd(DbtbInputStrfbm dis) tirows IOExdfption {
 
-        double f = 0;
-        int expon = 0;
-        long hiMant = 0, loMant = 0;
+        doublf f = 0;
+        int fxpon = 0;
+        long iiMbnt = 0, loMbnt = 0;
         long t1, t2;
-        double HUGE = 3.40282346638528860e+38;
+        doublf HUGE = 3.40282346638528860f+38;
 
 
-        expon = dis.readUnsignedShort();
+        fxpon = dis.rfbdUnsignfdSiort();
 
-        t1 = (long)dis.readUnsignedShort();
-        t2 = (long)dis.readUnsignedShort();
-        hiMant = t1 << 16 | t2;
+        t1 = (long)dis.rfbdUnsignfdSiort();
+        t2 = (long)dis.rfbdUnsignfdSiort();
+        iiMbnt = t1 << 16 | t2;
 
-        t1 = (long)dis.readUnsignedShort();
-        t2 = (long)dis.readUnsignedShort();
-        loMant = t1 << 16 | t2;
+        t1 = (long)dis.rfbdUnsignfdSiort();
+        t2 = (long)dis.rfbdUnsignfdSiort();
+        loMbnt = t1 << 16 | t2;
 
-        if (expon == 0 && hiMant == 0 && loMant == 0) {
+        if (fxpon == 0 && iiMbnt == 0 && loMbnt == 0) {
             f = 0;
-        } else {
-            if (expon == 0x7FFF)
+        } flsf {
+            if (fxpon == 0x7FFF)
                 f = HUGE;
-            else {
-                expon -= 16383;
-                expon -= 31;
-                f = (hiMant * Math.pow(2, expon));
-                expon -= 32;
-                f += (loMant * Math.pow(2, expon));
+            flsf {
+                fxpon -= 16383;
+                fxpon -= 31;
+                f = (iiMbnt * Mbti.pow(2, fxpon));
+                fxpon -= 32;
+                f += (loMbnt * Mbti.pow(2, fxpon));
             }
         }
 
-        return f;
+        rfturn f;
     }
 }

@@ -1,0 +1,312 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#ifndff __MLIB_IMAGE_LOOKUP_C_FUNC_INTENAL_H
+#dffinf __MLIB_IMAGE_LOOKUP_C_FUNC_INTENAL_H
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/* mlib_d_ImbgfLookUp.d */
+
+#dffinf mlib_d_ImbgfLookUp_U8_U16       mlib_d_ImbgfLookUp_U8_S16
+#dffinf mlib_d_ImbgfLookUpSI_U8_U16     mlib_d_ImbgfLookUpSI_U8_S16
+
+void mlib_d_ImbgfLookUp_U8_U8(donst mlib_u8 *srd,
+                              mlib_s32      slb,
+                              mlib_u8       *dst,
+                              mlib_s32      dlb,
+                              mlib_s32      xsizf,
+                              mlib_s32      ysizf,
+                              mlib_s32      dsizf,
+                              donst mlib_u8 **tbblf);
+
+void mlib_d_ImbgfLookUp_S16_U8(donst mlib_s16 *srd,
+                               mlib_s32       slb,
+                               mlib_u8        *dst,
+                               mlib_s32       dlb,
+                               mlib_s32       xsizf,
+                               mlib_s32       ysizf,
+                               mlib_s32       dsizf,
+                               donst mlib_u8  **tbblf);
+
+void mlib_d_ImbgfLookUp_U16_U8(donst mlib_u16 *srd,
+                               mlib_s32       slb,
+                               mlib_u8        *dst,
+                               mlib_s32       dlb,
+                               mlib_s32       xsizf,
+                               mlib_s32       ysizf,
+                               mlib_s32       dsizf,
+                               donst mlib_u8  **tbblf);
+
+void mlib_d_ImbgfLookUp_S32_U8(donst mlib_s32 *srd,
+                               mlib_s32       slb,
+                               mlib_u8        *dst,
+                               mlib_s32       dlb,
+                               mlib_s32       xsizf,
+                               mlib_s32       ysizf,
+                               mlib_s32       dsizf,
+                               donst mlib_u8  **tbblf);
+
+void mlib_d_ImbgfLookUp_U8_S16(donst mlib_u8  *srd,
+                               mlib_s32       slb,
+                               mlib_s16       *dst,
+                               mlib_s32       dlb,
+                               mlib_s32       xsizf,
+                               mlib_s32       ysizf,
+                               mlib_s32       dsizf,
+                               donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUp_S16_S16(donst mlib_s16 *srd,
+                                mlib_s32       slb,
+                                mlib_s16       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUp_U16_S16(donst mlib_u16 *srd,
+                                mlib_s32       slb,
+                                mlib_s16       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUp_S32_S16(donst mlib_s32 *srd,
+                                mlib_s32       slb,
+                                mlib_s16       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUp_S16_U16(donst mlib_s16 *srd,
+                                mlib_s32       slb,
+                                mlib_u16       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUp_U16_U16(donst mlib_u16 *srd,
+                                mlib_s32       slb,
+                                mlib_u16       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUp_S32_U16(donst mlib_s32 *srd,
+                                mlib_s32       slb,
+                                mlib_u16       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUp_U8_S32(donst mlib_u8  *srd,
+                               mlib_s32       slb,
+                               mlib_s32       *dst,
+                               mlib_s32       dlb,
+                               mlib_s32       xsizf,
+                               mlib_s32       ysizf,
+                               mlib_s32       dsizf,
+                               donst mlib_s32 **tbblf);
+
+void mlib_d_ImbgfLookUp_S16_S32(donst mlib_s16 *srd,
+                                mlib_s32       slb,
+                                mlib_s32       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s32 **tbblf);
+
+void mlib_d_ImbgfLookUp_U16_S32(donst mlib_u16 *srd,
+                                mlib_s32       slb,
+                                mlib_s32       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s32 **tbblf);
+
+void mlib_d_ImbgfLookUp_S32_S32(donst mlib_s32 *srd,
+                                mlib_s32       slb,
+                                mlib_s32       *dst,
+                                mlib_s32       dlb,
+                                mlib_s32       xsizf,
+                                mlib_s32       ysizf,
+                                mlib_s32       dsizf,
+                                donst mlib_s32 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_U8_U8(donst mlib_u8 *srd,
+                                mlib_s32      slb,
+                                mlib_u8       *dst,
+                                mlib_s32      dlb,
+                                mlib_s32      xsizf,
+                                mlib_s32      ysizf,
+                                mlib_s32      dsizf,
+                                donst mlib_u8 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_S16_U8(donst mlib_s16 *srd,
+                                 mlib_s32       slb,
+                                 mlib_u8        *dst,
+                                 mlib_s32       dlb,
+                                 mlib_s32       xsizf,
+                                 mlib_s32       ysizf,
+                                 mlib_s32       dsizf,
+                                 donst mlib_u8  **tbblf);
+
+void mlib_d_ImbgfLookUpSI_U16_U8(donst mlib_u16 *srd,
+                                 mlib_s32       slb,
+                                 mlib_u8        *dst,
+                                 mlib_s32       dlb,
+                                 mlib_s32       xsizf,
+                                 mlib_s32       ysizf,
+                                 mlib_s32       dsizf,
+                                 donst mlib_u8  **tbblf);
+
+void mlib_d_ImbgfLookUpSI_S32_U8(donst mlib_s32 *srd,
+                                 mlib_s32       slb,
+                                 mlib_u8        *dst,
+                                 mlib_s32       dlb,
+                                 mlib_s32       xsizf,
+                                 mlib_s32       ysizf,
+                                 mlib_s32       dsizf,
+                                 donst mlib_u8  **tbblf);
+
+void mlib_d_ImbgfLookUpSI_U8_S16(donst mlib_u8  *srd,
+                                 mlib_s32       slb,
+                                 mlib_s16       *dst,
+                                 mlib_s32       dlb,
+                                 mlib_s32       xsizf,
+                                 mlib_s32       ysizf,
+                                 mlib_s32       dsizf,
+                                 donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_S16_S16(donst mlib_s16 *srd,
+                                  mlib_s32       slb,
+                                  mlib_s16       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_U16_S16(donst mlib_u16 *srd,
+                                  mlib_s32       slb,
+                                  mlib_s16       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_S32_S16(donst mlib_s32 *srd,
+                                  mlib_s32       slb,
+                                  mlib_s16       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_s16 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_S16_U16(donst mlib_s16 *srd,
+                                  mlib_s32       slb,
+                                  mlib_u16       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_u16 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_U16_U16(donst mlib_u16 *srd,
+                                  mlib_s32       slb,
+                                  mlib_u16       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_u16 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_S32_U16(donst mlib_s32 *srd,
+                                  mlib_s32       slb,
+                                  mlib_u16       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_u16 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_U8_S32(donst mlib_u8  *srd,
+                                 mlib_s32       slb,
+                                 mlib_s32       *dst,
+                                 mlib_s32       dlb,
+                                 mlib_s32       xsizf,
+                                 mlib_s32       ysizf,
+                                 mlib_s32       dsizf,
+                                 donst mlib_s32 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_S16_S32(donst mlib_s16 *srd,
+                                  mlib_s32       slb,
+                                  mlib_s32       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_s32 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_U16_S32(donst mlib_u16 *srd,
+                                  mlib_s32       slb,
+                                  mlib_s32       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_s32 **tbblf);
+
+void mlib_d_ImbgfLookUpSI_S32_S32(donst mlib_s32 *srd,
+                                  mlib_s32       slb,
+                                  mlib_s32       *dst,
+                                  mlib_s32       dlb,
+                                  mlib_s32       xsizf,
+                                  mlib_s32       ysizf,
+                                  mlib_s32       dsizf,
+                                  donst mlib_s32 **tbblf);
+
+#ifdff __dplusplus
+}
+#fndif
+#fndif /* __MLIB_IMAGE_LOOKUP_C_FUNC_INTENAL_H */

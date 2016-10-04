@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.rfgfx;
+
+/**
+ * Thf rfsult of b mbtdh opfrbtion.
+ *
+ * <p>This intfrfbdf dontbins qufry mfthods usfd to dftfrminf thf
+ * rfsults of b mbtdh bgbinst b rfgulbr fxprfssion. Thf mbtdh boundbrifs,
+ * groups bnd group boundbrifs dbn bf sffn but not modififd through
+ * b <dodf>MbtdhRfsult</dodf>.
+ *
+ * @buthor  Midhbfl MdCloskfy
+ * @sff Mbtdhfr
+ * @sindf 1.5
+ */
+publid intfrfbdf MbtdhRfsult {
+
+    /**
+     * Rfturns thf stbrt indfx of thf mbtdh.
+     *
+     * @rfturn  Thf indfx of thf first dhbrbdtfr mbtdhfd
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     */
+    publid int stbrt();
+
+    /**
+     * Rfturns thf stbrt indfx of thf subsfqufndf dbpturfd by thf givfn group
+     * during this mbtdh.
+     *
+     * <p> <b hrff="Pbttfrn.html#dg">Cbpturing groups</b> brf indfxfd from lfft
+     * to right, stbrting bt onf.  Group zfro dfnotfs thf fntirf pbttfrn, so
+     * thf fxprfssion <i>m.</i><tt>stbrt(0)</tt> is fquivblfnt to
+     * <i>m.</i><tt>stbrt()</tt>.  </p>
+     *
+     * @pbrbm  group
+     *         Thf indfx of b dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf indfx of thf first dhbrbdtfr dbpturfd by thf group,
+     *          or <tt>-1</tt> if thf mbtdh wbs suddfssful but thf group
+     *          itsflf did not mbtdh bnything
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn indfx
+     */
+    publid int stbrt(int group);
+
+    /**
+     * Rfturns thf offsft bftfr thf lbst dhbrbdtfr mbtdhfd.
+     *
+     * @rfturn  Thf offsft bftfr thf lbst dhbrbdtfr mbtdhfd
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     */
+    publid int fnd();
+
+    /**
+     * Rfturns thf offsft bftfr thf lbst dhbrbdtfr of thf subsfqufndf
+     * dbpturfd by thf givfn group during this mbtdh.
+     *
+     * <p> <b hrff="Pbttfrn.html#dg">Cbpturing groups</b> brf indfxfd from lfft
+     * to right, stbrting bt onf.  Group zfro dfnotfs thf fntirf pbttfrn, so
+     * thf fxprfssion <i>m.</i><tt>fnd(0)</tt> is fquivblfnt to
+     * <i>m.</i><tt>fnd()</tt>.  </p>
+     *
+     * @pbrbm  group
+     *         Thf indfx of b dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf offsft bftfr thf lbst dhbrbdtfr dbpturfd by thf group,
+     *          or <tt>-1</tt> if thf mbtdh wbs suddfssful
+     *          but thf group itsflf did not mbtdh bnything
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn indfx
+     */
+    publid int fnd(int group);
+
+    /**
+     * Rfturns thf input subsfqufndf mbtdhfd by thf prfvious mbtdh.
+     *
+     * <p> For b mbtdhfr <i>m</i> with input sfqufndf <i>s</i>,
+     * thf fxprfssions <i>m.</i><tt>group()</tt> bnd
+     * <i>s.</i><tt>substring(</tt><i>m.</i><tt>stbrt(),</tt>&nbsp;<i>m.</i><tt>fnd())</tt>
+     * brf fquivblfnt.  </p>
+     *
+     * <p> Notf thbt somf pbttfrns, for fxbmplf <tt>b*</tt>, mbtdh thf fmpty
+     * string.  This mfthod will rfturn thf fmpty string whfn thf pbttfrn
+     * suddfssfully mbtdhfs thf fmpty string in thf input.  </p>
+     *
+     * @rfturn Thf (possibly fmpty) subsfqufndf mbtdhfd by thf prfvious mbtdh,
+     *         in string form
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     */
+    publid String group();
+
+    /**
+     * Rfturns thf input subsfqufndf dbpturfd by thf givfn group during thf
+     * prfvious mbtdh opfrbtion.
+     *
+     * <p> For b mbtdhfr <i>m</i>, input sfqufndf <i>s</i>, bnd group indfx
+     * <i>g</i>, thf fxprfssions <i>m.</i><tt>group(</tt><i>g</i><tt>)</tt> bnd
+     * <i>s.</i><tt>substring(</tt><i>m.</i><tt>stbrt(</tt><i>g</i><tt>),</tt>&nbsp;<i>m.</i><tt>fnd(</tt><i>g</i><tt>))</tt>
+     * brf fquivblfnt.  </p>
+     *
+     * <p> <b hrff="Pbttfrn.html#dg">Cbpturing groups</b> brf indfxfd from lfft
+     * to right, stbrting bt onf.  Group zfro dfnotfs thf fntirf pbttfrn, so
+     * thf fxprfssion <tt>m.group(0)</tt> is fquivblfnt to <tt>m.group()</tt>.
+     * </p>
+     *
+     * <p> If thf mbtdh wbs suddfssful but thf group spfdififd fbilfd to mbtdh
+     * bny pbrt of thf input sfqufndf, thfn <tt>null</tt> is rfturnfd. Notf
+     * thbt somf groups, for fxbmplf <tt>(b*)</tt>, mbtdh thf fmpty string.
+     * This mfthod will rfturn thf fmpty string whfn sudh b group suddfssfully
+     * mbtdhfs thf fmpty string in thf input.  </p>
+     *
+     * @pbrbm  group
+     *         Thf indfx of b dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf (possibly fmpty) subsfqufndf dbpturfd by thf group
+     *          during thf prfvious mbtdh, or <tt>null</tt> if thf group
+     *          fbilfd to mbtdh pbrt of thf input
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn indfx
+     */
+    publid String group(int group);
+
+    /**
+     * Rfturns thf numbfr of dbpturing groups in this mbtdh rfsult's pbttfrn.
+     *
+     * <p> Group zfro dfnotfs thf fntirf pbttfrn by donvfntion. It is not
+     * indludfd in this dount.
+     *
+     * <p> Any non-nfgbtivf intfgfr smbllfr thbn or fqubl to thf vbluf
+     * rfturnfd by this mfthod is gubrbntffd to bf b vblid group indfx for
+     * this mbtdhfr.  </p>
+     *
+     * @rfturn Thf numbfr of dbpturing groups in this mbtdhfr's pbttfrn
+     */
+    publid int groupCount();
+
+}

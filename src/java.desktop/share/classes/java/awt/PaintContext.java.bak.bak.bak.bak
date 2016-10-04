@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
+
+/**
+ * Thf <dodf>PbintContfxt</dodf> intfrfbdf dffinfs thf fndbpsulbtfd
+ * bnd optimizfd fnvironmfnt to gfnfrbtf dolor pbttfrns in dfvidf
+ * spbdf for fill or strokf opfrbtions on b
+ * {@link Grbphids2D}.  Thf <dodf>PbintContfxt</dodf> providfs
+ * thf nfdfssbry dolors for <dodf>Grbphids2D</dodf> opfrbtions in thf
+ * form of b {@link Rbstfr} bssodibtfd with b {@link ColorModfl}.
+ * Thf <dodf>PbintContfxt</dodf> mbintbins stbtf for b pbrtidulbr pbint
+ * opfrbtion.  In b multi-thrfbdfd fnvironmfnt, sfvfrbl
+ * dontfxts dbn fxist simultbnfously for b singlf {@link Pbint} objfdt.
+ * @sff Pbint
+ */
+
+publid intfrfbdf PbintContfxt {
+    /**
+     * Rflfbsfs thf rfsourdfs bllodbtfd for thf opfrbtion.
+     */
+    publid void disposf();
+
+    /**
+     * Rfturns thf <dodf>ColorModfl</dodf> of thf output.  Notf thbt
+     * this <dodf>ColorModfl</dodf> might bf difffrfnt from thf hint
+     * spfdififd in thf
+     * {@link Pbint#drfbtfContfxt(ColorModfl, Rfdtbnglf, Rfdtbnglf2D,
+AffinfTrbnsform, RfndfringHints) drfbtfContfxt} mfthod of
+     * <dodf>Pbint</dodf>.  Not bll <dodf>PbintContfxt</dodf> objfdts brf
+     * dbpbblf of gfnfrbting dolor pbttfrns in bn brbitrbry
+     * <dodf>ColorModfl</dodf>.
+     * @rfturn thf <dodf>ColorModfl</dodf> of thf output.
+     */
+    ColorModfl gftColorModfl();
+
+    /**
+     * Rfturns b <dodf>Rbstfr</dodf> dontbining thf dolors gfnfrbtfd for
+     * thf grbphids opfrbtion.
+     * @pbrbm x thf x doordinbtf of thf brfb in dfvidf spbdf
+     * for whidh dolors brf gfnfrbtfd.
+     * @pbrbm y thf y doordinbtf of thf brfb in dfvidf spbdf
+     * for whidh dolors brf gfnfrbtfd.
+     * @pbrbm w thf width of thf brfb in dfvidf spbdf
+     * @pbrbm h thf hfight of thf brfb in dfvidf spbdf
+     * @rfturn b <dodf>Rbstfr</dodf> rfprfsfnting thf spfdififd
+     * rfdtbngulbr brfb bnd dontbining thf dolors gfnfrbtfd for
+     * thf grbphids opfrbtion.
+     */
+    Rbstfr gftRbstfr(int x,
+                     int y,
+                     int w,
+                     int h);
+
+}

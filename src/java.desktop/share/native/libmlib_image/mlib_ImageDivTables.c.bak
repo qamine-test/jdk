@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
  * DESCRIPTION:
  *
- *   mlib_u16 mlib_div6_tab[x] = 0xff00/6/x;
- *   mlib_u16 mlib_div1_tab[x] = 0xff00/x;
+ *   mlib_u16 mlib_div6_tbb[x] = 0xff00/6/x;
+ *   mlib_u16 mlib_div1_tbb[x] = 0xff00/x;
  *   mlib_d64 mlib_U82D64[x] = (mlib_d64)x;
  *   mlib_f32 mlib_U82F32[x] = (mlib_f32)x;
- *   mlib_f32 mlib_HSL2RGB_L2[x] = x/255.0 for x<128, and (255-x)/255.0 for x >= 128;
- *   mlib_f32 mlib_HSL2RGB_F[x] = 1.0 - fabs(fraction(x*3/256.) * 4.0f - 2.0)
+ *   mlib_f32 mlib_HSL2RGB_L2[x] = x/255.0 for x<128, bnd (255-x)/255.0 for x >= 128;
+ *   mlib_f32 mlib_HSL2RGB_F[x] = 1.0 - fbbs(frbdtion(x*3/256.) * 4.0f - 2.0)
  *
  * REFERENCING:
- *   mlib_div* tables are used to exclude dividing in functions
- *     mlib_ImageColorRGB2HSV
- *     mlib_ImageColorRGB2HSL
- *     mlib_ImageDivAlpha
+ *   mlib_div* tbblfs brf usfd to fxdludf dividing in fundtions
+ *     mlib_ImbgfColorRGB2HSV
+ *     mlib_ImbgfColorRGB2HSL
+ *     mlib_ImbgfDivAlpib
  *
- *   table mlib_U82D64 is used to exclude conversion unsigned
- *   byte to double in functions
- *     mlib_ImageColorConvert...
- *     mlib_ImageDataTypeConvert
- *     mlib_ImageAffine
- *     mlib_ImageAffineTable
- *     mlib_ImageZoomTranslate
- *     mlib_ImageZoomTranslateTable
- *     mlib_ImageGridWarp
- *     mlib_ImagePolynomialWarp
- *     mlib_ImageCrossCorrel
- *     mlib_ImageMoment2
- *     mlib_ImageStdDev
- *     mlib_ImageFourierTransform
+ *   tbblf mlib_U82D64 is usfd to fxdludf donvfrsion unsignfd
+ *   bytf to doublf in fundtions
+ *     mlib_ImbgfColorConvfrt...
+ *     mlib_ImbgfDbtbTypfConvfrt
+ *     mlib_ImbgfAffinf
+ *     mlib_ImbgfAffinfTbblf
+ *     mlib_ImbgfZoomTrbnslbtf
+ *     mlib_ImbgfZoomTrbnslbtfTbblf
+ *     mlib_ImbgfGridWbrp
+ *     mlib_ImbgfPolynomiblWbrp
+ *     mlib_ImbgfCrossCorrfl
+ *     mlib_ImbgfMomfnt2
+ *     mlib_ImbgfStdDfv
+ *     mlib_ImbgfFourifrTrbnsform
  *
- *   table mlib_U82F32 is used to exclude conversion unsigned
- *   byte to float in functions
- *     mlib_ImageBlend
- *     mlib_ImageDivShift
- *     mlib_ImageMulAlpha
- *     mlib_ImageMulAlpha_Inp
- *     mlib_ImageMulShift
- *     mlib_ImageBlend_BDST_BSRC
- *     mlib_ImageColorHSL2RGB
- *     mlib_ImageColorHSV2RGB
- *     mlib_ImageDataTypeConvert
- *     mlib_ImageAffine
- *     mlib_ImageAffineTable
- *     mlib_ImageZoomTranslate
- *     mlib_ImageZoomTranslateTable
- *     mlib_ImageConvMxN
- *     mlib_ImageSobel
- *     mlib_ImageGradient3x3
- *     mlib_ImageGradientMxN
+ *   tbblf mlib_U82F32 is usfd to fxdludf donvfrsion unsignfd
+ *   bytf to flobt in fundtions
+ *     mlib_ImbgfBlfnd
+ *     mlib_ImbgfDivSiift
+ *     mlib_ImbgfMulAlpib
+ *     mlib_ImbgfMulAlpib_Inp
+ *     mlib_ImbgfMulSiift
+ *     mlib_ImbgfBlfnd_BDST_BSRC
+ *     mlib_ImbgfColorHSL2RGB
+ *     mlib_ImbgfColorHSV2RGB
+ *     mlib_ImbgfDbtbTypfConvfrt
+ *     mlib_ImbgfAffinf
+ *     mlib_ImbgfAffinfTbblf
+ *     mlib_ImbgfZoomTrbnslbtf
+ *     mlib_ImbgfZoomTrbnslbtfTbblf
+ *     mlib_ImbgfConvMxN
+ *     mlib_ImbgfSobfl
+ *     mlib_ImbgfGrbdifnt3x3
+ *     mlib_ImbgfGrbdifntMxN
  *
- *   tables mlib_HSL2RGB_* are used to exclude conversion unsigned
- *   byte to float in functions with some computations
- *     mlib_ImageColorHSL2RGB
+ *   tbblfs mlib_HSL2RGB_* brf usfd to fxdludf donvfrsion unsignfd
+ *   bytf to flobt in fundtions witi somf domputbtions
+ *     mlib_ImbgfColorHSL2RGB
  */
 
-#include "mlib_image.h"
-#define __DIV_TABLE_DEFINED
-#include "mlib_ImageDivTables.h"
+#indludf "mlib_imbgf.i"
+#dffinf __DIV_TABLE_DEFINED
+#indludf "mlib_ImbgfDivTbblfs.i"
 
 /***************************************************************/
 /* *INDENT-OFF* */
 
-const mlib_u16 mlib_div6_tab[] = {
+donst mlib_u16 mlib_div6_tbb[] = {
  32767, 10880,  5440,  3627,  2720,  2176,  1813,  1554,
   1360,  1209,  1088,   989,   907,   837,   777,   725,
    680,   640,   604,   573,   544,   518,   495,   473,
@@ -124,7 +124,7 @@ const mlib_u16 mlib_div6_tab[] = {
 
 /***************************************************************/
 
-const mlib_u16 mlib_div1_tab[] = {
+donst mlib_u16 mlib_div1_tbb[] = {
  65280, 65280, 32640, 21760, 16320, 13056, 10880,  9326,
   8160,  7253,  6528,  5935,  5440,  5022,  4663,  4352,
   4080,  3840,  3627,  3436,  3264,  3109,  2967,  2838,
@@ -161,7 +161,7 @@ const mlib_u16 mlib_div1_tab[] = {
 
 /***************************************************************/
 
-const mlib_f32 mlib_HSL2RGB_L2[] = {
+donst mlib_f32 mlib_HSL2RGB_L2[] = {
  0.000000f, 0.003922f, 0.007843f, 0.011765f, 0.015686f, 0.019608f, 0.023529f, 0.027451f,
  0.031373f, 0.035294f, 0.039216f, 0.043137f, 0.047059f, 0.050980f, 0.054902f, 0.058824f,
  0.062745f, 0.066667f, 0.070588f, 0.074510f, 0.078431f, 0.082353f, 0.086275f, 0.090196f,
@@ -198,7 +198,7 @@ const mlib_f32 mlib_HSL2RGB_L2[] = {
 
 /***************************************************************/
 
-const mlib_f32 mlib_HSL2RGB_F[] = {
+donst mlib_f32 mlib_HSL2RGB_F[] = {
  -1.000000f, -0.953125f, -0.906250f, -0.859375f, -0.812500f, -0.765625f, -0.718750f, -0.671875f,
  -0.625000f, -0.578125f, -0.531250f, -0.484375f, -0.437500f, -0.390625f, -0.343750f, -0.296875f,
  -0.250000f, -0.203125f, -0.156250f, -0.109375f, -0.062500f, -0.015625f,  0.031250f,  0.078125f,
@@ -235,7 +235,7 @@ const mlib_f32 mlib_HSL2RGB_F[] = {
 
 /***************************************************************/
 
-const mlib_f32 mlib_U82F32[] = {
+donst mlib_f32 mlib_U82F32[] = {
     0.0f,   1.0f,   2.0f,   3.0f,   4.0f,   5.0f,   6.0f,   7.0f,
     8.0f,   9.0f,  10.0f,  11.0f,  12.0f,  13.0f,  14.0f,  15.0f,
    16.0f,  17.0f,  18.0f,  19.0f,  20.0f,  21.0f,  22.0f,  23.0f,
@@ -273,7 +273,7 @@ const mlib_f32 mlib_U82F32[] = {
 
 /***************************************************************/
 
-const mlib_d64 mlib_U82D64[] = {
+donst mlib_d64 mlib_U82D64[] = {
     0.0,   1.0,   2.0,   3.0,   4.0,   5.0,   6.0,   7.0,
     8.0,   9.0,  10.0,  11.0,  12.0,  13.0,  14.0,  15.0,
    16.0,  17.0,  18.0,  19.0,  20.0,  21.0,  22.0,  23.0,
@@ -311,7 +311,7 @@ const mlib_d64 mlib_U82D64[] = {
 
 /***************************************************************/
 
-const mlib_u32 mlib_FlipAndFixRotateTable[] = {
+donst mlib_u32 mlib_FlipAndFixRotbtfTbblf[] = {
   0x00000000, 0x00000000, 0x00000000, 0x00000080,
   0x00000000, 0x00008000, 0x00000000, 0x00008080,
   0x00000000, 0x00800000, 0x00000000, 0x00800080,

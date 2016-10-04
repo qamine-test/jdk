@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,1258 +56,1258 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
 
-import java.io.FileInputStream;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssRfbdfr;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
 
 /**
- * A {@link Printer} that prints the ASM code to generate the classes if visits.
+ * A {@link Printfr} tibt prints tif ASM dodf to gfnfrbtf tif dlbssfs if visits.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class ASMifier extends Printer {
+publid dlbss ASMififr fxtfnds Printfr {
 
     /**
-     * The name of the visitor variable in the produced code.
+     * Tif nbmf of tif visitor vbribblf in tif produdfd dodf.
      */
-    protected final String name;
+    protfdtfd finbl String nbmf;
 
     /**
-     * Identifier of the annotation visitor variable in the produced code.
+     * Idfntififr of tif bnnotbtion visitor vbribblf in tif produdfd dodf.
      */
-    protected final int id;
+    protfdtfd finbl int id;
 
     /**
-     * The label names. This map associates String values to Label keys. It is
-     * used only in ASMifierMethodVisitor.
+     * Tif lbbfl nbmfs. Tiis mbp bssodibtfs String vblufs to Lbbfl kfys. It is
+     * usfd only in ASMififrMftiodVisitor.
      */
-    protected Map<Label, String> labelNames;
+    protfdtfd Mbp<Lbbfl, String> lbbflNbmfs;
 
     /**
-     * Pseudo access flag used to distinguish class access flags.
+     * Psfudo bddfss flbg usfd to distinguisi dlbss bddfss flbgs.
      */
-    private static final int ACCESS_CLASS = 262144;
+    privbtf stbtid finbl int ACCESS_CLASS = 262144;
 
     /**
-     * Pseudo access flag used to distinguish field access flags.
+     * Psfudo bddfss flbg usfd to distinguisi fifld bddfss flbgs.
      */
-    private static final int ACCESS_FIELD = 524288;
+    privbtf stbtid finbl int ACCESS_FIELD = 524288;
 
     /**
-     * Pseudo access flag used to distinguish inner class flags.
+     * Psfudo bddfss flbg usfd to distinguisi innfr dlbss flbgs.
      */
-    private static final int ACCESS_INNER = 1048576;
+    privbtf stbtid finbl int ACCESS_INNER = 1048576;
 
     /**
-     * Constructs a new {@link ASMifier}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #ASMifier(int, String, int)} version.
+     * Construdts b nfw {@link ASMififr}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #ASMififr(int, String, int)} vfrsion.
      *
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public ASMifier() {
-        this(Opcodes.ASM5, "cw", 0);
-        if (getClass() != ASMifier.class) {
-            throw new IllegalStateException();
+    publid ASMififr() {
+        tiis(Opdodfs.ASM5, "dw", 0);
+        if (gftClbss() != ASMififr.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Constructs a new {@link ASMifier}.
+     * Construdts b nfw {@link ASMififr}.
      *
-     * @param api
-     *            the ASM API version implemented by this class. Must be one of
-     *            {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param name
-     *            the name of the visitor variable in the produced code.
-     * @param id
-     *            identifier of the annotation visitor variable in the produced
-     *            code.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis dlbss. Must bf onf of
+     *            {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm nbmf
+     *            tif nbmf of tif visitor vbribblf in tif produdfd dodf.
+     * @pbrbm id
+     *            idfntififr of tif bnnotbtion visitor vbribblf in tif produdfd
+     *            dodf.
      */
-    protected ASMifier(final int api, final String name, final int id) {
-        super(api);
-        this.name = name;
-        this.id = id;
+    protfdtfd ASMififr(finbl int bpi, finbl String nbmf, finbl int id) {
+        supfr(bpi);
+        tiis.nbmf = nbmf;
+        tiis.id = id;
     }
 
     /**
-     * Prints the ASM source code to generate the given class to the standard
+     * Prints tif ASM sourdf dodf to gfnfrbtf tif givfn dlbss to tif stbndbrd
      * output.
      * <p>
-     * Usage: ASMifier [-debug] &lt;binary class name or class file name&gt;
+     * Usbgf: ASMififr [-dfbug] &lt;binbry dlbss nbmf or dlbss filf nbmf&gt;
      *
-     * @param args
-     *            the command line arguments.
+     * @pbrbm brgs
+     *            tif dommbnd linf brgumfnts.
      *
-     * @throws Exception
-     *             if the class cannot be found, or if an IO exception occurs.
+     * @tirows Exdfption
+     *             if tif dlbss dbnnot bf found, or if bn IO fxdfption oddurs.
      */
-    public static void main(final String[] args) throws Exception {
+    publid stbtid void mbin(finbl String[] brgs) tirows Exdfption {
         int i = 0;
-        int flags = ClassReader.SKIP_DEBUG;
+        int flbgs = ClbssRfbdfr.SKIP_DEBUG;
 
-        boolean ok = true;
-        if (args.length < 1 || args.length > 2) {
-            ok = false;
+        boolfbn ok = truf;
+        if (brgs.lfngti < 1 || brgs.lfngti > 2) {
+            ok = fblsf;
         }
-        if (ok && "-debug".equals(args[0])) {
+        if (ok && "-dfbug".fqubls(brgs[0])) {
             i = 1;
-            flags = 0;
-            if (args.length != 2) {
-                ok = false;
+            flbgs = 0;
+            if (brgs.lfngti != 2) {
+                ok = fblsf;
             }
         }
         if (!ok) {
-            System.err
-                    .println("Prints the ASM code to generate the given class.");
-            System.err.println("Usage: ASMifier [-debug] "
-                    + "<fully qualified class name or class file name>");
-            return;
+            Systfm.frr
+                    .println("Prints tif ASM dodf to gfnfrbtf tif givfn dlbss.");
+            Systfm.frr.println("Usbgf: ASMififr [-dfbug] "
+                    + "<fully qublififd dlbss nbmf or dlbss filf nbmf>");
+            rfturn;
         }
-        ClassReader cr;
-        if (args[i].endsWith(".class") || args[i].indexOf('\\') > -1
-                || args[i].indexOf('/') > -1) {
-            cr = new ClassReader(new FileInputStream(args[i]));
-        } else {
-            cr = new ClassReader(args[i]);
+        ClbssRfbdfr dr;
+        if (brgs[i].fndsWiti(".dlbss") || brgs[i].indfxOf('\\') > -1
+                || brgs[i].indfxOf('/') > -1) {
+            dr = nfw ClbssRfbdfr(nfw FilfInputStrfbm(brgs[i]));
+        } flsf {
+            dr = nfw ClbssRfbdfr(brgs[i]);
         }
-        cr.accept(new TraceClassVisitor(null, new ASMifier(), new PrintWriter(
-                System.out)), flags);
+        dr.bddfpt(nfw TrbdfClbssVisitor(null, nfw ASMififr(), nfw PrintWritfr(
+                Systfm.out)), flbgs);
     }
 
     // ------------------------------------------------------------------------
-    // Classes
+    // Clbssfs
     // ------------------------------------------------------------------------
 
-    @Override
-    public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
-        String simpleName;
-        int n = name.lastIndexOf('/');
+    @Ovfrridf
+    publid void visit(finbl int vfrsion, finbl int bddfss, finbl String nbmf,
+            finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs) {
+        String simplfNbmf;
+        int n = nbmf.lbstIndfxOf('/');
         if (n == -1) {
-            simpleName = name;
-        } else {
-            text.add("package asm." + name.substring(0, n).replace('/', '.')
+            simplfNbmf = nbmf;
+        } flsf {
+            tfxt.bdd("pbdkbgf bsm." + nbmf.substring(0, n).rfplbdf('/', '.')
                     + ";\n");
-            simpleName = name.substring(n + 1);
+            simplfNbmf = nbmf.substring(n + 1);
         }
-        text.add("import java.util.*;\n");
-        text.add("import jdk.internal.org.objectweb.asm.*;\n");
-        text.add("public class " + simpleName + "Dump implements Opcodes {\n\n");
-        text.add("public static byte[] dump () throws Exception {\n\n");
-        text.add("ClassWriter cw = new ClassWriter(0);\n");
-        text.add("FieldVisitor fv;\n");
-        text.add("MethodVisitor mv;\n");
-        text.add("AnnotationVisitor av0;\n\n");
+        tfxt.bdd("import jbvb.util.*;\n");
+        tfxt.bdd("import jdk.intfrnbl.org.objfdtwfb.bsm.*;\n");
+        tfxt.bdd("publid dlbss " + simplfNbmf + "Dump implfmfnts Opdodfs {\n\n");
+        tfxt.bdd("publid stbtid bytf[] dump () tirows Exdfption {\n\n");
+        tfxt.bdd("ClbssWritfr dw = nfw ClbssWritfr(0);\n");
+        tfxt.bdd("FifldVisitor fv;\n");
+        tfxt.bdd("MftiodVisitor mv;\n");
+        tfxt.bdd("AnnotbtionVisitor bv0;\n\n");
 
-        buf.setLength(0);
-        buf.append("cw.visit(");
-        switch (version) {
-        case Opcodes.V1_1:
-            buf.append("V1_1");
-            break;
-        case Opcodes.V1_2:
-            buf.append("V1_2");
-            break;
-        case Opcodes.V1_3:
-            buf.append("V1_3");
-            break;
-        case Opcodes.V1_4:
-            buf.append("V1_4");
-            break;
-        case Opcodes.V1_5:
-            buf.append("V1_5");
-            break;
-        case Opcodes.V1_6:
-            buf.append("V1_6");
-            break;
-        case Opcodes.V1_7:
-            buf.append("V1_7");
-            break;
-        default:
-            buf.append(version);
-            break;
+        buf.sftLfngti(0);
+        buf.bppfnd("dw.visit(");
+        switdi (vfrsion) {
+        dbsf Opdodfs.V1_1:
+            buf.bppfnd("V1_1");
+            brfbk;
+        dbsf Opdodfs.V1_2:
+            buf.bppfnd("V1_2");
+            brfbk;
+        dbsf Opdodfs.V1_3:
+            buf.bppfnd("V1_3");
+            brfbk;
+        dbsf Opdodfs.V1_4:
+            buf.bppfnd("V1_4");
+            brfbk;
+        dbsf Opdodfs.V1_5:
+            buf.bppfnd("V1_5");
+            brfbk;
+        dbsf Opdodfs.V1_6:
+            buf.bppfnd("V1_6");
+            brfbk;
+        dbsf Opdodfs.V1_7:
+            buf.bppfnd("V1_7");
+            brfbk;
+        dffbult:
+            buf.bppfnd(vfrsion);
+            brfbk;
         }
-        buf.append(", ");
-        appendAccess(access | ACCESS_CLASS);
-        buf.append(", ");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(signature);
-        buf.append(", ");
-        appendConstant(superName);
-        buf.append(", ");
-        if (interfaces != null && interfaces.length > 0) {
-            buf.append("new String[] {");
-            for (int i = 0; i < interfaces.length; ++i) {
-                buf.append(i == 0 ? " " : ", ");
-                appendConstant(interfaces[i]);
+        buf.bppfnd(", ");
+        bppfndAddfss(bddfss | ACCESS_CLASS);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(signbturf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(supfrNbmf);
+        buf.bppfnd(", ");
+        if (intfrfbdfs != null && intfrfbdfs.lfngti > 0) {
+            buf.bppfnd("nfw String[] {");
+            for (int i = 0; i < intfrfbdfs.lfngti; ++i) {
+                buf.bppfnd(i == 0 ? " " : ", ");
+                bppfndConstbnt(intfrfbdfs[i]);
             }
-            buf.append(" }");
-        } else {
-            buf.append("null");
+            buf.bppfnd(" }");
+        } flsf {
+            buf.bppfnd("null");
         }
-        buf.append(");\n\n");
-        text.add(buf.toString());
+        buf.bppfnd(");\n\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitSource(final String file, final String debug) {
-        buf.setLength(0);
-        buf.append("cw.visitSource(");
-        appendConstant(file);
-        buf.append(", ");
-        appendConstant(debug);
-        buf.append(");\n\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitSourdf(finbl String filf, finbl String dfbug) {
+        buf.sftLfngti(0);
+        buf.bppfnd("dw.visitSourdf(");
+        bppfndConstbnt(filf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfbug);
+        buf.bppfnd(");\n\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitOuterClass(final String owner, final String name,
-            final String desc) {
-        buf.setLength(0);
-        buf.append("cw.visitOuterClass(");
-        appendConstant(owner);
-        buf.append(", ");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(desc);
-        buf.append(");\n\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitOutfrClbss(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        buf.sftLfngti(0);
+        buf.bppfnd("dw.visitOutfrClbss(");
+        bppfndConstbnt(ownfr);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(");\n\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public ASMifier visitClassAnnotation(final String desc,
-            final boolean visible) {
-        return visitAnnotation(desc, visible);
+    @Ovfrridf
+    publid ASMififr visitClbssAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        rfturn visitAnnotbtion(dfsd, visiblf);
     }
 
-    @Override
-    public ASMifier visitClassTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        return visitTypeAnnotation(typeRef, typePath, desc, visible);
+    @Ovfrridf
+    publid ASMififr visitClbssTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion(typfRff, typfPbti, dfsd, visiblf);
     }
 
-    @Override
-    public void visitClassAttribute(final Attribute attr) {
-        visitAttribute(attr);
+    @Ovfrridf
+    publid void visitClbssAttributf(finbl Attributf bttr) {
+        visitAttributf(bttr);
     }
 
-    @Override
-    public void visitInnerClass(final String name, final String outerName,
-            final String innerName, final int access) {
-        buf.setLength(0);
-        buf.append("cw.visitInnerClass(");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(outerName);
-        buf.append(", ");
-        appendConstant(innerName);
-        buf.append(", ");
-        appendAccess(access | ACCESS_INNER);
-        buf.append(");\n\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitInnfrClbss(finbl String nbmf, finbl String outfrNbmf,
+            finbl String innfrNbmf, finbl int bddfss) {
+        buf.sftLfngti(0);
+        buf.bppfnd("dw.visitInnfrClbss(");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(outfrNbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(innfrNbmf);
+        buf.bppfnd(", ");
+        bppfndAddfss(bddfss | ACCESS_INNER);
+        buf.bppfnd(");\n\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public ASMifier visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        buf.setLength(0);
-        buf.append("{\n");
-        buf.append("fv = cw.visitField(");
-        appendAccess(access | ACCESS_FIELD);
-        buf.append(", ");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(desc);
-        buf.append(", ");
-        appendConstant(signature);
-        buf.append(", ");
-        appendConstant(value);
-        buf.append(");\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("fv", 0);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
+    @Ovfrridf
+    publid ASMififr visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n");
+        buf.bppfnd("fv = dw.visitFifld(");
+        bppfndAddfss(bddfss | ACCESS_FIELD);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(signbturf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(vbluf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("fv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
     }
 
-    @Override
-    public ASMifier visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        buf.setLength(0);
-        buf.append("{\n");
-        buf.append("mv = cw.visitMethod(");
-        appendAccess(access);
-        buf.append(", ");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(desc);
-        buf.append(", ");
-        appendConstant(signature);
-        buf.append(", ");
-        if (exceptions != null && exceptions.length > 0) {
-            buf.append("new String[] {");
-            for (int i = 0; i < exceptions.length; ++i) {
-                buf.append(i == 0 ? " " : ", ");
-                appendConstant(exceptions[i]);
+    @Ovfrridf
+    publid ASMififr visitMftiod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n");
+        buf.bppfnd("mv = dw.visitMftiod(");
+        bppfndAddfss(bddfss);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(signbturf);
+        buf.bppfnd(", ");
+        if (fxdfptions != null && fxdfptions.lfngti > 0) {
+            buf.bppfnd("nfw String[] {");
+            for (int i = 0; i < fxdfptions.lfngti; ++i) {
+                buf.bppfnd(i == 0 ? " " : ", ");
+                bppfndConstbnt(fxdfptions[i]);
             }
-            buf.append(" }");
-        } else {
-            buf.append("null");
+            buf.bppfnd(" }");
+        } flsf {
+            buf.bppfnd("null");
         }
-        buf.append(");\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("mv", 0);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("mv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
     }
 
-    @Override
-    public void visitClassEnd() {
-        text.add("cw.visitEnd();\n\n");
-        text.add("return cw.toByteArray();\n");
-        text.add("}\n");
-        text.add("}\n");
-    }
-
-    // ------------------------------------------------------------------------
-    // Annotations
-    // ------------------------------------------------------------------------
-
-    @Override
-    public void visit(final String name, final Object value) {
-        buf.setLength(0);
-        buf.append("av").append(id).append(".visit(");
-        appendConstant(buf, name);
-        buf.append(", ");
-        appendConstant(buf, value);
-        buf.append(");\n");
-        text.add(buf.toString());
-    }
-
-    @Override
-    public void visitEnum(final String name, final String desc,
-            final String value) {
-        buf.setLength(0);
-        buf.append("av").append(id).append(".visitEnum(");
-        appendConstant(buf, name);
-        buf.append(", ");
-        appendConstant(buf, desc);
-        buf.append(", ");
-        appendConstant(buf, value);
-        buf.append(");\n");
-        text.add(buf.toString());
-    }
-
-    @Override
-    public ASMifier visitAnnotation(final String name, final String desc) {
-        buf.setLength(0);
-        buf.append("{\n");
-        buf.append("AnnotationVisitor av").append(id + 1).append(" = av");
-        buf.append(id).append(".visitAnnotation(");
-        appendConstant(buf, name);
-        buf.append(", ");
-        appendConstant(buf, desc);
-        buf.append(");\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("av", id + 1);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
-    }
-
-    @Override
-    public ASMifier visitArray(final String name) {
-        buf.setLength(0);
-        buf.append("{\n");
-        buf.append("AnnotationVisitor av").append(id + 1).append(" = av");
-        buf.append(id).append(".visitArray(");
-        appendConstant(buf, name);
-        buf.append(");\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("av", id + 1);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
-    }
-
-    @Override
-    public void visitAnnotationEnd() {
-        buf.setLength(0);
-        buf.append("av").append(id).append(".visitEnd();\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitClbssEnd() {
+        tfxt.bdd("dw.visitEnd();\n\n");
+        tfxt.bdd("rfturn dw.toBytfArrby();\n");
+        tfxt.bdd("}\n");
+        tfxt.bdd("}\n");
     }
 
     // ------------------------------------------------------------------------
-    // Fields
+    // Annotbtions
     // ------------------------------------------------------------------------
 
-    @Override
-    public ASMifier visitFieldAnnotation(final String desc,
-            final boolean visible) {
-        return visitAnnotation(desc, visible);
+    @Ovfrridf
+    publid void visit(finbl String nbmf, finbl Objfdt vbluf) {
+        buf.sftLfngti(0);
+        buf.bppfnd("bv").bppfnd(id).bppfnd(".visit(");
+        bppfndConstbnt(buf, nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(buf, vbluf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public ASMifier visitFieldTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        return visitTypeAnnotation(typeRef, typePath, desc, visible);
+    @Ovfrridf
+    publid void visitEnum(finbl String nbmf, finbl String dfsd,
+            finbl String vbluf) {
+        buf.sftLfngti(0);
+        buf.bppfnd("bv").bppfnd(id).bppfnd(".visitEnum(");
+        bppfndConstbnt(buf, nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(buf, dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(buf, vbluf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitFieldAttribute(final Attribute attr) {
-        visitAttribute(attr);
+    @Ovfrridf
+    publid ASMififr visitAnnotbtion(finbl String nbmf, finbl String dfsd) {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n");
+        buf.bppfnd("AnnotbtionVisitor bv").bppfnd(id + 1).bppfnd(" = bv");
+        buf.bppfnd(id).bppfnd(".visitAnnotbtion(");
+        bppfndConstbnt(buf, nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(buf, dfsd);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", id + 1);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
     }
 
-    @Override
-    public void visitFieldEnd() {
-        buf.setLength(0);
-        buf.append(name).append(".visitEnd();\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid ASMififr visitArrby(finbl String nbmf) {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n");
+        buf.bppfnd("AnnotbtionVisitor bv").bppfnd(id + 1).bppfnd(" = bv");
+        buf.bppfnd(id).bppfnd(".visitArrby(");
+        bppfndConstbnt(buf, nbmf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", id + 1);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid void visitAnnotbtionEnd() {
+        buf.sftLfngti(0);
+        buf.bppfnd("bv").bppfnd(id).bppfnd(".visitEnd();\n");
+        tfxt.bdd(buf.toString());
     }
 
     // ------------------------------------------------------------------------
-    // Methods
+    // Fiflds
     // ------------------------------------------------------------------------
 
-    @Override
-    public void visitParameter(String parameterName, int access) {
-        buf.setLength(0);
-        buf.append(name).append(".visitParameter(");
-        appendString(buf, parameterName);
-        buf.append(", ");
-        appendAccess(access);
-        text.add(buf.append(");\n").toString());
+    @Ovfrridf
+    publid ASMififr visitFifldAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        rfturn visitAnnotbtion(dfsd, visiblf);
     }
 
-    @Override
-    public ASMifier visitAnnotationDefault() {
-        buf.setLength(0);
-        buf.append("{\n").append("av0 = ").append(name)
-                .append(".visitAnnotationDefault();\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("av", 0);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
+    @Ovfrridf
+    publid ASMififr visitFifldTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion(typfRff, typfPbti, dfsd, visiblf);
     }
 
-    @Override
-    public ASMifier visitMethodAnnotation(final String desc,
-            final boolean visible) {
-        return visitAnnotation(desc, visible);
+    @Ovfrridf
+    publid void visitFifldAttributf(finbl Attributf bttr) {
+        visitAttributf(bttr);
     }
 
-    @Override
-    public ASMifier visitMethodTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        return visitTypeAnnotation(typeRef, typePath, desc, visible);
+    @Ovfrridf
+    publid void visitFifldEnd() {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitEnd();\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public ASMifier visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible) {
-        buf.setLength(0);
-        buf.append("{\n").append("av0 = ").append(name)
-                .append(".visitParameterAnnotation(").append(parameter)
-                .append(", ");
-        appendConstant(desc);
-        buf.append(", ").append(visible).append(");\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("av", 0);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
+    // ------------------------------------------------------------------------
+    // Mftiods
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid void visitPbrbmftfr(String pbrbmftfrNbmf, int bddfss) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitPbrbmftfr(");
+        bppfndString(buf, pbrbmftfrNbmf);
+        buf.bppfnd(", ");
+        bppfndAddfss(bddfss);
+        tfxt.bdd(buf.bppfnd(");\n").toString());
     }
 
-    @Override
-    public void visitMethodAttribute(final Attribute attr) {
-        visitAttribute(attr);
+    @Ovfrridf
+    publid ASMififr visitAnnotbtionDffbult() {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf)
+                .bppfnd(".visitAnnotbtionDffbult();\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
     }
 
-    @Override
-    public void visitCode() {
-        text.add(name + ".visitCode();\n");
+    @Ovfrridf
+    publid ASMififr visitMftiodAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        rfturn visitAnnotbtion(dfsd, visiblf);
     }
 
-    @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        buf.setLength(0);
-        switch (type) {
-        case Opcodes.F_NEW:
-        case Opcodes.F_FULL:
-            declareFrameTypes(nLocal, local);
-            declareFrameTypes(nStack, stack);
-            if (type == Opcodes.F_NEW) {
-                buf.append(name).append(".visitFrame(Opcodes.F_NEW, ");
-            } else {
-                buf.append(name).append(".visitFrame(Opcodes.F_FULL, ");
+    @Ovfrridf
+    publid ASMififr visitMftiodTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion(typfRff, typfPbti, dfsd, visiblf);
+    }
+
+    @Ovfrridf
+    publid ASMififr visitPbrbmftfrAnnotbtion(finbl int pbrbmftfr,
+            finbl String dfsd, finbl boolfbn visiblf) {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf)
+                .bppfnd(".visitPbrbmftfrAnnotbtion(").bppfnd(pbrbmftfr)
+                .bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(visiblf).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
+    }
+
+    @Ovfrridf
+    publid void visitMftiodAttributf(finbl Attributf bttr) {
+        visitAttributf(bttr);
+    }
+
+    @Ovfrridf
+    publid void visitCodf() {
+        tfxt.bdd(nbmf + ".visitCodf();\n");
+    }
+
+    @Ovfrridf
+    publid void visitFrbmf(finbl int typf, finbl int nLodbl,
+            finbl Objfdt[] lodbl, finbl int nStbdk, finbl Objfdt[] stbdk) {
+        buf.sftLfngti(0);
+        switdi (typf) {
+        dbsf Opdodfs.F_NEW:
+        dbsf Opdodfs.F_FULL:
+            dfdlbrfFrbmfTypfs(nLodbl, lodbl);
+            dfdlbrfFrbmfTypfs(nStbdk, stbdk);
+            if (typf == Opdodfs.F_NEW) {
+                buf.bppfnd(nbmf).bppfnd(".visitFrbmf(Opdodfs.F_NEW, ");
+            } flsf {
+                buf.bppfnd(nbmf).bppfnd(".visitFrbmf(Opdodfs.F_FULL, ");
             }
-            buf.append(nLocal).append(", new Object[] {");
-            appendFrameTypes(nLocal, local);
-            buf.append("}, ").append(nStack).append(", new Object[] {");
-            appendFrameTypes(nStack, stack);
-            buf.append('}');
-            break;
-        case Opcodes.F_APPEND:
-            declareFrameTypes(nLocal, local);
-            buf.append(name).append(".visitFrame(Opcodes.F_APPEND,")
-                    .append(nLocal).append(", new Object[] {");
-            appendFrameTypes(nLocal, local);
-            buf.append("}, 0, null");
-            break;
-        case Opcodes.F_CHOP:
-            buf.append(name).append(".visitFrame(Opcodes.F_CHOP,")
-                    .append(nLocal).append(", null, 0, null");
-            break;
-        case Opcodes.F_SAME:
-            buf.append(name).append(
-                    ".visitFrame(Opcodes.F_SAME, 0, null, 0, null");
-            break;
-        case Opcodes.F_SAME1:
-            declareFrameTypes(1, stack);
-            buf.append(name).append(
-                    ".visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {");
-            appendFrameTypes(1, stack);
-            buf.append('}');
-            break;
+            buf.bppfnd(nLodbl).bppfnd(", nfw Objfdt[] {");
+            bppfndFrbmfTypfs(nLodbl, lodbl);
+            buf.bppfnd("}, ").bppfnd(nStbdk).bppfnd(", nfw Objfdt[] {");
+            bppfndFrbmfTypfs(nStbdk, stbdk);
+            buf.bppfnd('}');
+            brfbk;
+        dbsf Opdodfs.F_APPEND:
+            dfdlbrfFrbmfTypfs(nLodbl, lodbl);
+            buf.bppfnd(nbmf).bppfnd(".visitFrbmf(Opdodfs.F_APPEND,")
+                    .bppfnd(nLodbl).bppfnd(", nfw Objfdt[] {");
+            bppfndFrbmfTypfs(nLodbl, lodbl);
+            buf.bppfnd("}, 0, null");
+            brfbk;
+        dbsf Opdodfs.F_CHOP:
+            buf.bppfnd(nbmf).bppfnd(".visitFrbmf(Opdodfs.F_CHOP,")
+                    .bppfnd(nLodbl).bppfnd(", null, 0, null");
+            brfbk;
+        dbsf Opdodfs.F_SAME:
+            buf.bppfnd(nbmf).bppfnd(
+                    ".visitFrbmf(Opdodfs.F_SAME, 0, null, 0, null");
+            brfbk;
+        dbsf Opdodfs.F_SAME1:
+            dfdlbrfFrbmfTypfs(1, stbdk);
+            buf.bppfnd(nbmf).bppfnd(
+                    ".visitFrbmf(Opdodfs.F_SAME1, 0, null, 1, nfw Objfdt[] {");
+            bppfndFrbmfTypfs(1, stbdk);
+            buf.bppfnd('}');
+            brfbk;
         }
-        buf.append(");\n");
-        text.add(buf.toString());
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitInsn(final int opcode) {
-        buf.setLength(0);
-        buf.append(name).append(".visitInsn(").append(OPCODES[opcode])
-                .append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitInsn(finbl int opdodf) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitInsn(").bppfnd(OPCODES[opdodf])
+                .bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        buf.setLength(0);
-        buf.append(name)
-                .append(".visitIntInsn(")
-                .append(OPCODES[opcode])
-                .append(", ")
-                .append(opcode == Opcodes.NEWARRAY ? TYPES[operand] : Integer
-                        .toString(operand)).append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitIntInsn(finbl int opdodf, finbl int opfrbnd) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf)
+                .bppfnd(".visitIntInsn(")
+                .bppfnd(OPCODES[opdodf])
+                .bppfnd(", ")
+                .bppfnd(opdodf == Opdodfs.NEWARRAY ? TYPES[opfrbnd] : Intfgfr
+                        .toString(opfrbnd)).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        buf.setLength(0);
-        buf.append(name).append(".visitVarInsn(").append(OPCODES[opcode])
-                .append(", ").append(var).append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitVbrInsn(finbl int opdodf, finbl int vbr) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitVbrInsn(").bppfnd(OPCODES[opdodf])
+                .bppfnd(", ").bppfnd(vbr).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitTypeInsn(final int opcode, final String type) {
-        buf.setLength(0);
-        buf.append(name).append(".visitTypeInsn(").append(OPCODES[opcode])
-                .append(", ");
-        appendConstant(type);
-        buf.append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitTypfInsn(finbl int opdodf, finbl String typf) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitTypfInsn(").bppfnd(OPCODES[opdodf])
+                .bppfnd(", ");
+        bppfndConstbnt(typf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        buf.setLength(0);
-        buf.append(this.name).append(".visitFieldInsn(")
-                .append(OPCODES[opcode]).append(", ");
-        appendConstant(owner);
-        buf.append(", ");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(desc);
-        buf.append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        buf.sftLfngti(0);
+        buf.bppfnd(tiis.nbmf).bppfnd(".visitFifldInsn(")
+                .bppfnd(OPCODES[opdodf]).bppfnd(", ");
+        bppfndConstbnt(ownfr);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Deprecated
-    @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
-            return;
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
         }
-        doVisitMethodInsn(opcode, owner, name, desc,
-                opcode == Opcodes.INVOKEINTERFACE);
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd,
+                opdodf == Opdodfs.INVOKEINTERFACE);
     }
 
-    @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
-            return;
+    @Ovfrridf
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
     }
 
-    private void doVisitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        buf.setLength(0);
-        buf.append(this.name).append(".visitMethodInsn(")
-                .append(OPCODES[opcode]).append(", ");
-        appendConstant(owner);
-        buf.append(", ");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(desc);
-        buf.append(", ");
-        buf.append(itf ? "true" : "false");
-        buf.append(");\n");
-        text.add(buf.toString());
+    privbtf void doVisitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        buf.sftLfngti(0);
+        buf.bppfnd(tiis.nbmf).bppfnd(".visitMftiodInsn(")
+                .bppfnd(OPCODES[opdodf]).bppfnd(", ");
+        bppfndConstbnt(ownfr);
+        buf.bppfnd(", ");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        buf.bppfnd(itf ? "truf" : "fblsf");
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
-            Object... bsmArgs) {
-        buf.setLength(0);
-        buf.append(this.name).append(".visitInvokeDynamicInsn(");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(desc);
-        buf.append(", ");
-        appendConstant(bsm);
-        buf.append(", new Object[]{");
-        for (int i = 0; i < bsmArgs.length; ++i) {
-            appendConstant(bsmArgs[i]);
-            if (i != bsmArgs.length - 1) {
-                buf.append(", ");
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        buf.sftLfngti(0);
+        buf.bppfnd(tiis.nbmf).bppfnd(".visitInvokfDynbmidInsn(");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(bsm);
+        buf.bppfnd(", nfw Objfdt[]{");
+        for (int i = 0; i < bsmArgs.lfngti; ++i) {
+            bppfndConstbnt(bsmArgs[i]);
+            if (i != bsmArgs.lfngti - 1) {
+                buf.bppfnd(", ");
             }
         }
-        buf.append("});\n");
-        text.add(buf.toString());
+        buf.bppfnd("});\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        buf.setLength(0);
-        declareLabel(label);
-        buf.append(name).append(".visitJumpInsn(").append(OPCODES[opcode])
-                .append(", ");
-        appendLabel(label);
-        buf.append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl) {
+        buf.sftLfngti(0);
+        dfdlbrfLbbfl(lbbfl);
+        buf.bppfnd(nbmf).bppfnd(".visitJumpInsn(").bppfnd(OPCODES[opdodf])
+                .bppfnd(", ");
+        bppfndLbbfl(lbbfl);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitLabel(final Label label) {
-        buf.setLength(0);
-        declareLabel(label);
-        buf.append(name).append(".visitLabel(");
-        appendLabel(label);
-        buf.append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitLbbfl(finbl Lbbfl lbbfl) {
+        buf.sftLfngti(0);
+        dfdlbrfLbbfl(lbbfl);
+        buf.bppfnd(nbmf).bppfnd(".visitLbbfl(");
+        bppfndLbbfl(lbbfl);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitLdcInsn(final Object cst) {
-        buf.setLength(0);
-        buf.append(name).append(".visitLdcInsn(");
-        appendConstant(cst);
-        buf.append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitLddInsn(finbl Objfdt dst) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitLddInsn(");
+        bppfndConstbnt(dst);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitIincInsn(final int var, final int increment) {
-        buf.setLength(0);
-        buf.append(name).append(".visitIincInsn(").append(var).append(", ")
-                .append(increment).append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitIindInsn(finbl int vbr, finbl int indrfmfnt) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitIindInsn(").bppfnd(vbr).bppfnd(", ")
+                .bppfnd(indrfmfnt).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        buf.setLength(0);
-        for (int i = 0; i < labels.length; ++i) {
-            declareLabel(labels[i]);
+    @Ovfrridf
+    publid void visitTbblfSwitdiInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls) {
+        buf.sftLfngti(0);
+        for (int i = 0; i < lbbfls.lfngti; ++i) {
+            dfdlbrfLbbfl(lbbfls[i]);
         }
-        declareLabel(dflt);
+        dfdlbrfLbbfl(dflt);
 
-        buf.append(name).append(".visitTableSwitchInsn(").append(min)
-                .append(", ").append(max).append(", ");
-        appendLabel(dflt);
-        buf.append(", new Label[] {");
-        for (int i = 0; i < labels.length; ++i) {
-            buf.append(i == 0 ? " " : ", ");
-            appendLabel(labels[i]);
+        buf.bppfnd(nbmf).bppfnd(".visitTbblfSwitdiInsn(").bppfnd(min)
+                .bppfnd(", ").bppfnd(mbx).bppfnd(", ");
+        bppfndLbbfl(dflt);
+        buf.bppfnd(", nfw Lbbfl[] {");
+        for (int i = 0; i < lbbfls.lfngti; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ");
+            bppfndLbbfl(lbbfls[i]);
         }
-        buf.append(" });\n");
-        text.add(buf.toString());
+        buf.bppfnd(" });\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        buf.setLength(0);
-        for (int i = 0; i < labels.length; ++i) {
-            declareLabel(labels[i]);
+    @Ovfrridf
+    publid void visitLookupSwitdiInsn(finbl Lbbfl dflt, finbl int[] kfys,
+            finbl Lbbfl[] lbbfls) {
+        buf.sftLfngti(0);
+        for (int i = 0; i < lbbfls.lfngti; ++i) {
+            dfdlbrfLbbfl(lbbfls[i]);
         }
-        declareLabel(dflt);
+        dfdlbrfLbbfl(dflt);
 
-        buf.append(name).append(".visitLookupSwitchInsn(");
-        appendLabel(dflt);
-        buf.append(", new int[] {");
-        for (int i = 0; i < keys.length; ++i) {
-            buf.append(i == 0 ? " " : ", ").append(keys[i]);
+        buf.bppfnd(nbmf).bppfnd(".visitLookupSwitdiInsn(");
+        bppfndLbbfl(dflt);
+        buf.bppfnd(", nfw int[] {");
+        for (int i = 0; i < kfys.lfngti; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ").bppfnd(kfys[i]);
         }
-        buf.append(" }, new Label[] {");
-        for (int i = 0; i < labels.length; ++i) {
-            buf.append(i == 0 ? " " : ", ");
-            appendLabel(labels[i]);
+        buf.bppfnd(" }, nfw Lbbfl[] {");
+        for (int i = 0; i < lbbfls.lfngti; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ");
+            bppfndLbbfl(lbbfls[i]);
         }
-        buf.append(" });\n");
-        text.add(buf.toString());
+        buf.bppfnd(" });\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        buf.setLength(0);
-        buf.append(name).append(".visitMultiANewArrayInsn(");
-        appendConstant(desc);
-        buf.append(", ").append(dims).append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(finbl String dfsd, finbl int dims) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitMultiANfwArrbyInsn(");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(dims).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public ASMifier visitInsnAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        return visitTypeAnnotation("visitInsnAnnotation", typeRef, typePath,
-                desc, visible);
+    @Ovfrridf
+    publid ASMififr visitInsnAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion("visitInsnAnnotbtion", typfRff, typfPbti,
+                dfsd, visiblf);
     }
 
-    @Override
-    public void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type) {
-        buf.setLength(0);
-        declareLabel(start);
-        declareLabel(end);
-        declareLabel(handler);
-        buf.append(name).append(".visitTryCatchBlock(");
-        appendLabel(start);
-        buf.append(", ");
-        appendLabel(end);
-        buf.append(", ");
-        appendLabel(handler);
-        buf.append(", ");
-        appendConstant(type);
-        buf.append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitTryCbtdiBlodk(finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl Lbbfl ibndlfr, finbl String typf) {
+        buf.sftLfngti(0);
+        dfdlbrfLbbfl(stbrt);
+        dfdlbrfLbbfl(fnd);
+        dfdlbrfLbbfl(ibndlfr);
+        buf.bppfnd(nbmf).bppfnd(".visitTryCbtdiBlodk(");
+        bppfndLbbfl(stbrt);
+        buf.bppfnd(", ");
+        bppfndLbbfl(fnd);
+        buf.bppfnd(", ");
+        bppfndLbbfl(ibndlfr);
+        buf.bppfnd(", ");
+        bppfndConstbnt(typf);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public ASMifier visitTryCatchAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        return visitTypeAnnotation("visitTryCatchAnnotation", typeRef,
-                typePath, desc, visible);
+    @Ovfrridf
+    publid ASMififr visitTryCbtdiAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion("visitTryCbtdiAnnotbtion", typfRff,
+                typfPbti, dfsd, visiblf);
     }
 
-    @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        buf.setLength(0);
-        buf.append(this.name).append(".visitLocalVariable(");
-        appendConstant(name);
-        buf.append(", ");
-        appendConstant(desc);
-        buf.append(", ");
-        appendConstant(signature);
-        buf.append(", ");
-        appendLabel(start);
-        buf.append(", ");
-        appendLabel(end);
-        buf.append(", ").append(index).append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitLodblVbribblf(finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl int indfx) {
+        buf.sftLfngti(0);
+        buf.bppfnd(tiis.nbmf).bppfnd(".visitLodblVbribblf(");
+        bppfndConstbnt(nbmf);
+        buf.bppfnd(", ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ");
+        bppfndConstbnt(signbturf);
+        buf.bppfnd(", ");
+        bppfndLbbfl(stbrt);
+        buf.bppfnd(", ");
+        bppfndLbbfl(fnd);
+        buf.bppfnd(", ").bppfnd(indfx).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public Printer visitLocalVariableAnnotation(int typeRef, TypePath typePath,
-            Label[] start, Label[] end, int[] index, String desc,
-            boolean visible) {
-        buf.setLength(0);
-        buf.append("{\n").append("av0 = ").append(name)
-                .append(".visitLocalVariableAnnotation(");
-        buf.append(typeRef);
-        buf.append(", TypePath.fromString(\"").append(typePath).append("\"), ");
-        buf.append("new Label[] {");
-        for (int i = 0; i < start.length; ++i) {
-            buf.append(i == 0 ? " " : ", ");
-            appendLabel(start[i]);
+    @Ovfrridf
+    publid Printfr visitLodblVbribblfAnnotbtion(int typfRff, TypfPbti typfPbti,
+            Lbbfl[] stbrt, Lbbfl[] fnd, int[] indfx, String dfsd,
+            boolfbn visiblf) {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf)
+                .bppfnd(".visitLodblVbribblfAnnotbtion(");
+        buf.bppfnd(typfRff);
+        buf.bppfnd(", TypfPbti.fromString(\"").bppfnd(typfPbti).bppfnd("\"), ");
+        buf.bppfnd("nfw Lbbfl[] {");
+        for (int i = 0; i < stbrt.lfngti; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ");
+            bppfndLbbfl(stbrt[i]);
         }
-        buf.append(" }, new Label[] {");
-        for (int i = 0; i < end.length; ++i) {
-            buf.append(i == 0 ? " " : ", ");
-            appendLabel(end[i]);
+        buf.bppfnd(" }, nfw Lbbfl[] {");
+        for (int i = 0; i < fnd.lfngti; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ");
+            bppfndLbbfl(fnd[i]);
         }
-        buf.append(" }, new int[] {");
-        for (int i = 0; i < index.length; ++i) {
-            buf.append(i == 0 ? " " : ", ").append(index[i]);
+        buf.bppfnd(" }, nfw int[] {");
+        for (int i = 0; i < indfx.lfngti; ++i) {
+            buf.bppfnd(i == 0 ? " " : ", ").bppfnd(indfx[i]);
         }
-        buf.append(" }, ");
-        appendConstant(desc);
-        buf.append(", ").append(visible).append(");\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("av", 0);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
+        buf.bppfnd(" }, ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(visiblf).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
     }
 
-    @Override
-    public void visitLineNumber(final int line, final Label start) {
-        buf.setLength(0);
-        buf.append(name).append(".visitLineNumber(").append(line).append(", ");
-        appendLabel(start);
-        buf.append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitLinfNumbfr(finbl int linf, finbl Lbbfl stbrt) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitLinfNumbfr(").bppfnd(linf).bppfnd(", ");
+        bppfndLbbfl(stbrt);
+        buf.bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
-        buf.setLength(0);
-        buf.append(name).append(".visitMaxs(").append(maxStack).append(", ")
-                .append(maxLocals).append(");\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitMbxs(finbl int mbxStbdk, finbl int mbxLodbls) {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitMbxs(").bppfnd(mbxStbdk).bppfnd(", ")
+                .bppfnd(mbxLodbls).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
     }
 
-    @Override
-    public void visitMethodEnd() {
-        buf.setLength(0);
-        buf.append(name).append(".visitEnd();\n");
-        text.add(buf.toString());
+    @Ovfrridf
+    publid void visitMftiodEnd() {
+        buf.sftLfngti(0);
+        buf.bppfnd(nbmf).bppfnd(".visitEnd();\n");
+        tfxt.bdd(buf.toString());
     }
 
     // ------------------------------------------------------------------------
-    // Common methods
+    // Common mftiods
     // ------------------------------------------------------------------------
 
-    public ASMifier visitAnnotation(final String desc, final boolean visible) {
-        buf.setLength(0);
-        buf.append("{\n").append("av0 = ").append(name)
-                .append(".visitAnnotation(");
-        appendConstant(desc);
-        buf.append(", ").append(visible).append(");\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("av", 0);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
+    publid ASMififr visitAnnotbtion(finbl String dfsd, finbl boolfbn visiblf) {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf)
+                .bppfnd(".visitAnnotbtion(");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(visiblf).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
     }
 
-    public ASMifier visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        return visitTypeAnnotation("visitTypeAnnotation", typeRef, typePath,
-                desc, visible);
+    publid ASMififr visitTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        rfturn visitTypfAnnotbtion("visitTypfAnnotbtion", typfRff, typfPbti,
+                dfsd, visiblf);
     }
 
-    public ASMifier visitTypeAnnotation(final String method, final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        buf.setLength(0);
-        buf.append("{\n").append("av0 = ").append(name).append(".")
-                .append(method).append("(");
-        buf.append(typeRef);
-        buf.append(", TypePath.fromString(\"").append(typePath).append("\"), ");
-        appendConstant(desc);
-        buf.append(", ").append(visible).append(");\n");
-        text.add(buf.toString());
-        ASMifier a = createASMifier("av", 0);
-        text.add(a.getText());
-        text.add("}\n");
-        return a;
+    publid ASMififr visitTypfAnnotbtion(finbl String mftiod, finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        buf.sftLfngti(0);
+        buf.bppfnd("{\n").bppfnd("bv0 = ").bppfnd(nbmf).bppfnd(".")
+                .bppfnd(mftiod).bppfnd("(");
+        buf.bppfnd(typfRff);
+        buf.bppfnd(", TypfPbti.fromString(\"").bppfnd(typfPbti).bppfnd("\"), ");
+        bppfndConstbnt(dfsd);
+        buf.bppfnd(", ").bppfnd(visiblf).bppfnd(");\n");
+        tfxt.bdd(buf.toString());
+        ASMififr b = drfbtfASMififr("bv", 0);
+        tfxt.bdd(b.gftTfxt());
+        tfxt.bdd("}\n");
+        rfturn b;
     }
 
-    public void visitAttribute(final Attribute attr) {
-        buf.setLength(0);
-        buf.append("// ATTRIBUTE ").append(attr.type).append('\n');
-        if (attr instanceof ASMifiable) {
-            if (labelNames == null) {
-                labelNames = new HashMap<Label, String>();
+    publid void visitAttributf(finbl Attributf bttr) {
+        buf.sftLfngti(0);
+        buf.bppfnd("// ATTRIBUTE ").bppfnd(bttr.typf).bppfnd('\n');
+        if (bttr instbndfof ASMifibblf) {
+            if (lbbflNbmfs == null) {
+                lbbflNbmfs = nfw HbsiMbp<Lbbfl, String>();
             }
-            buf.append("{\n");
-            ((ASMifiable) attr).asmify(buf, "attr", labelNames);
-            buf.append(name).append(".visitAttribute(attr);\n");
-            buf.append("}\n");
+            buf.bppfnd("{\n");
+            ((ASMifibblf) bttr).bsmify(buf, "bttr", lbbflNbmfs);
+            buf.bppfnd(nbmf).bppfnd(".visitAttributf(bttr);\n");
+            buf.bppfnd("}\n");
         }
-        text.add(buf.toString());
+        tfxt.bdd(buf.toString());
     }
 
     // ------------------------------------------------------------------------
-    // Utility methods
+    // Utility mftiods
     // ------------------------------------------------------------------------
 
-    protected ASMifier createASMifier(final String name, final int id) {
-        return new ASMifier(Opcodes.ASM5, name, id);
+    protfdtfd ASMififr drfbtfASMififr(finbl String nbmf, finbl int id) {
+        rfturn nfw ASMififr(Opdodfs.ASM5, nbmf, id);
     }
 
     /**
-     * Appends a string representation of the given access modifiers to
+     * Appfnds b string rfprfsfntbtion of tif givfn bddfss modififrs to
      * {@link #buf buf}.
      *
-     * @param access
-     *            some access modifiers.
+     * @pbrbm bddfss
+     *            somf bddfss modififrs.
      */
-    void appendAccess(final int access) {
-        boolean first = true;
-        if ((access & Opcodes.ACC_PUBLIC) != 0) {
-            buf.append("ACC_PUBLIC");
-            first = false;
+    void bppfndAddfss(finbl int bddfss) {
+        boolfbn first = truf;
+        if ((bddfss & Opdodfs.ACC_PUBLIC) != 0) {
+            buf.bppfnd("ACC_PUBLIC");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_PRIVATE) != 0) {
-            buf.append("ACC_PRIVATE");
-            first = false;
+        if ((bddfss & Opdodfs.ACC_PRIVATE) != 0) {
+            buf.bppfnd("ACC_PRIVATE");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_PROTECTED) != 0) {
-            buf.append("ACC_PROTECTED");
-            first = false;
+        if ((bddfss & Opdodfs.ACC_PROTECTED) != 0) {
+            buf.bppfnd("ACC_PROTECTED");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_FINAL) != 0) {
+        if ((bddfss & Opdodfs.ACC_FINAL) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_FINAL");
-            first = false;
+            buf.bppfnd("ACC_FINAL");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_STATIC) != 0) {
+        if ((bddfss & Opdodfs.ACC_STATIC) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_STATIC");
-            first = false;
+            buf.bppfnd("ACC_STATIC");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_SYNCHRONIZED) != 0) {
+        if ((bddfss & Opdodfs.ACC_SYNCHRONIZED) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            if ((access & ACCESS_CLASS) == 0) {
-                buf.append("ACC_SYNCHRONIZED");
-            } else {
-                buf.append("ACC_SUPER");
+            if ((bddfss & ACCESS_CLASS) == 0) {
+                buf.bppfnd("ACC_SYNCHRONIZED");
+            } flsf {
+                buf.bppfnd("ACC_SUPER");
             }
-            first = false;
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_VOLATILE) != 0
-                && (access & ACCESS_FIELD) != 0) {
+        if ((bddfss & Opdodfs.ACC_VOLATILE) != 0
+                && (bddfss & ACCESS_FIELD) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_VOLATILE");
-            first = false;
+            buf.bppfnd("ACC_VOLATILE");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_BRIDGE) != 0 && (access & ACCESS_CLASS) == 0
-                && (access & ACCESS_FIELD) == 0) {
+        if ((bddfss & Opdodfs.ACC_BRIDGE) != 0 && (bddfss & ACCESS_CLASS) == 0
+                && (bddfss & ACCESS_FIELD) == 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_BRIDGE");
-            first = false;
+            buf.bppfnd("ACC_BRIDGE");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_VARARGS) != 0 && (access & ACCESS_CLASS) == 0
-                && (access & ACCESS_FIELD) == 0) {
+        if ((bddfss & Opdodfs.ACC_VARARGS) != 0 && (bddfss & ACCESS_CLASS) == 0
+                && (bddfss & ACCESS_FIELD) == 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_VARARGS");
-            first = false;
+            buf.bppfnd("ACC_VARARGS");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_TRANSIENT) != 0
-                && (access & ACCESS_FIELD) != 0) {
+        if ((bddfss & Opdodfs.ACC_TRANSIENT) != 0
+                && (bddfss & ACCESS_FIELD) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_TRANSIENT");
-            first = false;
+            buf.bppfnd("ACC_TRANSIENT");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_NATIVE) != 0 && (access & ACCESS_CLASS) == 0
-                && (access & ACCESS_FIELD) == 0) {
+        if ((bddfss & Opdodfs.ACC_NATIVE) != 0 && (bddfss & ACCESS_CLASS) == 0
+                && (bddfss & ACCESS_FIELD) == 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_NATIVE");
-            first = false;
+            buf.bppfnd("ACC_NATIVE");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_ENUM) != 0
-                && ((access & ACCESS_CLASS) != 0
-                        || (access & ACCESS_FIELD) != 0 || (access & ACCESS_INNER) != 0)) {
+        if ((bddfss & Opdodfs.ACC_ENUM) != 0
+                && ((bddfss & ACCESS_CLASS) != 0
+                        || (bddfss & ACCESS_FIELD) != 0 || (bddfss & ACCESS_INNER) != 0)) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_ENUM");
-            first = false;
+            buf.bppfnd("ACC_ENUM");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_ANNOTATION) != 0
-                && ((access & ACCESS_CLASS) != 0 || (access & ACCESS_INNER) != 0)) {
+        if ((bddfss & Opdodfs.ACC_ANNOTATION) != 0
+                && ((bddfss & ACCESS_CLASS) != 0 || (bddfss & ACCESS_INNER) != 0)) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_ANNOTATION");
-            first = false;
+            buf.bppfnd("ACC_ANNOTATION");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_ABSTRACT) != 0) {
+        if ((bddfss & Opdodfs.ACC_ABSTRACT) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_ABSTRACT");
-            first = false;
+            buf.bppfnd("ACC_ABSTRACT");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_INTERFACE) != 0) {
+        if ((bddfss & Opdodfs.ACC_INTERFACE) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_INTERFACE");
-            first = false;
+            buf.bppfnd("ACC_INTERFACE");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_STRICT) != 0) {
+        if ((bddfss & Opdodfs.ACC_STRICT) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_STRICT");
-            first = false;
+            buf.bppfnd("ACC_STRICT");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_SYNTHETIC");
-            first = false;
+            buf.bppfnd("ACC_SYNTHETIC");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_DEPRECATED");
-            first = false;
+            buf.bppfnd("ACC_DEPRECATED");
+            first = fblsf;
         }
-        if ((access & Opcodes.ACC_MANDATED) != 0) {
+        if ((bddfss & Opdodfs.ACC_MANDATED) != 0) {
             if (!first) {
-                buf.append(" + ");
+                buf.bppfnd(" + ");
             }
-            buf.append("ACC_MANDATED");
-            first = false;
+            buf.bppfnd("ACC_MANDATED");
+            first = fblsf;
         }
         if (first) {
-            buf.append('0');
+            buf.bppfnd('0');
         }
     }
 
     /**
-     * Appends a string representation of the given constant to the given
-     * buffer.
+     * Appfnds b string rfprfsfntbtion of tif givfn donstbnt to tif givfn
+     * bufffr.
      *
-     * @param cst
-     *            an {@link Integer}, {@link Float}, {@link Long},
-     *            {@link Double} or {@link String} object. May be <tt>null</tt>.
+     * @pbrbm dst
+     *            bn {@link Intfgfr}, {@link Flobt}, {@link Long},
+     *            {@link Doublf} or {@link String} objfdt. Mby bf <tt>null</tt>.
      */
-    protected void appendConstant(final Object cst) {
-        appendConstant(buf, cst);
+    protfdtfd void bppfndConstbnt(finbl Objfdt dst) {
+        bppfndConstbnt(buf, dst);
     }
 
     /**
-     * Appends a string representation of the given constant to the given
-     * buffer.
+     * Appfnds b string rfprfsfntbtion of tif givfn donstbnt to tif givfn
+     * bufffr.
      *
-     * @param buf
-     *            a string buffer.
-     * @param cst
-     *            an {@link Integer}, {@link Float}, {@link Long},
-     *            {@link Double} or {@link String} object. May be <tt>null</tt>.
+     * @pbrbm buf
+     *            b string bufffr.
+     * @pbrbm dst
+     *            bn {@link Intfgfr}, {@link Flobt}, {@link Long},
+     *            {@link Doublf} or {@link String} objfdt. Mby bf <tt>null</tt>.
      */
-    static void appendConstant(final StringBuffer buf, final Object cst) {
-        if (cst == null) {
-            buf.append("null");
-        } else if (cst instanceof String) {
-            appendString(buf, (String) cst);
-        } else if (cst instanceof Type) {
-            buf.append("Type.getType(\"");
-            buf.append(((Type) cst).getDescriptor());
-            buf.append("\")");
-        } else if (cst instanceof Handle) {
-            buf.append("new Handle(");
-            Handle h = (Handle) cst;
-            buf.append("Opcodes.").append(HANDLE_TAG[h.getTag()])
-                    .append(", \"");
-            buf.append(h.getOwner()).append("\", \"");
-            buf.append(h.getName()).append("\", \"");
-            buf.append(h.getDesc()).append("\")");
-        } else if (cst instanceof Byte) {
-            buf.append("new Byte((byte)").append(cst).append(')');
-        } else if (cst instanceof Boolean) {
-            buf.append(((Boolean) cst).booleanValue() ? "Boolean.TRUE"
-                    : "Boolean.FALSE");
-        } else if (cst instanceof Short) {
-            buf.append("new Short((short)").append(cst).append(')');
-        } else if (cst instanceof Character) {
-            int c = ((Character) cst).charValue();
-            buf.append("new Character((char)").append(c).append(')');
-        } else if (cst instanceof Integer) {
-            buf.append("new Integer(").append(cst).append(')');
-        } else if (cst instanceof Float) {
-            buf.append("new Float(\"").append(cst).append("\")");
-        } else if (cst instanceof Long) {
-            buf.append("new Long(").append(cst).append("L)");
-        } else if (cst instanceof Double) {
-            buf.append("new Double(\"").append(cst).append("\")");
-        } else if (cst instanceof byte[]) {
-            byte[] v = (byte[]) cst;
-            buf.append("new byte[] {");
-            for (int i = 0; i < v.length; i++) {
-                buf.append(i == 0 ? "" : ",").append(v[i]);
+    stbtid void bppfndConstbnt(finbl StringBufffr buf, finbl Objfdt dst) {
+        if (dst == null) {
+            buf.bppfnd("null");
+        } flsf if (dst instbndfof String) {
+            bppfndString(buf, (String) dst);
+        } flsf if (dst instbndfof Typf) {
+            buf.bppfnd("Typf.gftTypf(\"");
+            buf.bppfnd(((Typf) dst).gftDfsdriptor());
+            buf.bppfnd("\")");
+        } flsf if (dst instbndfof Hbndlf) {
+            buf.bppfnd("nfw Hbndlf(");
+            Hbndlf i = (Hbndlf) dst;
+            buf.bppfnd("Opdodfs.").bppfnd(HANDLE_TAG[i.gftTbg()])
+                    .bppfnd(", \"");
+            buf.bppfnd(i.gftOwnfr()).bppfnd("\", \"");
+            buf.bppfnd(i.gftNbmf()).bppfnd("\", \"");
+            buf.bppfnd(i.gftDfsd()).bppfnd("\")");
+        } flsf if (dst instbndfof Bytf) {
+            buf.bppfnd("nfw Bytf((bytf)").bppfnd(dst).bppfnd(')');
+        } flsf if (dst instbndfof Boolfbn) {
+            buf.bppfnd(((Boolfbn) dst).boolfbnVbluf() ? "Boolfbn.TRUE"
+                    : "Boolfbn.FALSE");
+        } flsf if (dst instbndfof Siort) {
+            buf.bppfnd("nfw Siort((siort)").bppfnd(dst).bppfnd(')');
+        } flsf if (dst instbndfof Cibrbdtfr) {
+            int d = ((Cibrbdtfr) dst).dibrVbluf();
+            buf.bppfnd("nfw Cibrbdtfr((dibr)").bppfnd(d).bppfnd(')');
+        } flsf if (dst instbndfof Intfgfr) {
+            buf.bppfnd("nfw Intfgfr(").bppfnd(dst).bppfnd(')');
+        } flsf if (dst instbndfof Flobt) {
+            buf.bppfnd("nfw Flobt(\"").bppfnd(dst).bppfnd("\")");
+        } flsf if (dst instbndfof Long) {
+            buf.bppfnd("nfw Long(").bppfnd(dst).bppfnd("L)");
+        } flsf if (dst instbndfof Doublf) {
+            buf.bppfnd("nfw Doublf(\"").bppfnd(dst).bppfnd("\")");
+        } flsf if (dst instbndfof bytf[]) {
+            bytf[] v = (bytf[]) dst;
+            buf.bppfnd("nfw bytf[] {");
+            for (int i = 0; i < v.lfngti; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]);
             }
-            buf.append('}');
-        } else if (cst instanceof boolean[]) {
-            boolean[] v = (boolean[]) cst;
-            buf.append("new boolean[] {");
-            for (int i = 0; i < v.length; i++) {
-                buf.append(i == 0 ? "" : ",").append(v[i]);
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof boolfbn[]) {
+            boolfbn[] v = (boolfbn[]) dst;
+            buf.bppfnd("nfw boolfbn[] {");
+            for (int i = 0; i < v.lfngti; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]);
             }
-            buf.append('}');
-        } else if (cst instanceof short[]) {
-            short[] v = (short[]) cst;
-            buf.append("new short[] {");
-            for (int i = 0; i < v.length; i++) {
-                buf.append(i == 0 ? "" : ",").append("(short)").append(v[i]);
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof siort[]) {
+            siort[] v = (siort[]) dst;
+            buf.bppfnd("nfw siort[] {");
+            for (int i = 0; i < v.lfngti; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd("(siort)").bppfnd(v[i]);
             }
-            buf.append('}');
-        } else if (cst instanceof char[]) {
-            char[] v = (char[]) cst;
-            buf.append("new char[] {");
-            for (int i = 0; i < v.length; i++) {
-                buf.append(i == 0 ? "" : ",").append("(char)")
-                        .append((int) v[i]);
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof dibr[]) {
+            dibr[] v = (dibr[]) dst;
+            buf.bppfnd("nfw dibr[] {");
+            for (int i = 0; i < v.lfngti; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd("(dibr)")
+                        .bppfnd((int) v[i]);
             }
-            buf.append('}');
-        } else if (cst instanceof int[]) {
-            int[] v = (int[]) cst;
-            buf.append("new int[] {");
-            for (int i = 0; i < v.length; i++) {
-                buf.append(i == 0 ? "" : ",").append(v[i]);
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof int[]) {
+            int[] v = (int[]) dst;
+            buf.bppfnd("nfw int[] {");
+            for (int i = 0; i < v.lfngti; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]);
             }
-            buf.append('}');
-        } else if (cst instanceof long[]) {
-            long[] v = (long[]) cst;
-            buf.append("new long[] {");
-            for (int i = 0; i < v.length; i++) {
-                buf.append(i == 0 ? "" : ",").append(v[i]).append('L');
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof long[]) {
+            long[] v = (long[]) dst;
+            buf.bppfnd("nfw long[] {");
+            for (int i = 0; i < v.lfngti; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]).bppfnd('L');
             }
-            buf.append('}');
-        } else if (cst instanceof float[]) {
-            float[] v = (float[]) cst;
-            buf.append("new float[] {");
-            for (int i = 0; i < v.length; i++) {
-                buf.append(i == 0 ? "" : ",").append(v[i]).append('f');
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof flobt[]) {
+            flobt[] v = (flobt[]) dst;
+            buf.bppfnd("nfw flobt[] {");
+            for (int i = 0; i < v.lfngti; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]).bppfnd('f');
             }
-            buf.append('}');
-        } else if (cst instanceof double[]) {
-            double[] v = (double[]) cst;
-            buf.append("new double[] {");
-            for (int i = 0; i < v.length; i++) {
-                buf.append(i == 0 ? "" : ",").append(v[i]).append('d');
+            buf.bppfnd('}');
+        } flsf if (dst instbndfof doublf[]) {
+            doublf[] v = (doublf[]) dst;
+            buf.bppfnd("nfw doublf[] {");
+            for (int i = 0; i < v.lfngti; i++) {
+                buf.bppfnd(i == 0 ? "" : ",").bppfnd(v[i]).bppfnd('d');
             }
-            buf.append('}');
+            buf.bppfnd('}');
         }
     }
 
-    private void declareFrameTypes(final int n, final Object[] o) {
+    privbtf void dfdlbrfFrbmfTypfs(finbl int n, finbl Objfdt[] o) {
         for (int i = 0; i < n; ++i) {
-            if (o[i] instanceof Label) {
-                declareLabel((Label) o[i]);
+            if (o[i] instbndfof Lbbfl) {
+                dfdlbrfLbbfl((Lbbfl) o[i]);
             }
         }
     }
 
-    private void appendFrameTypes(final int n, final Object[] o) {
+    privbtf void bppfndFrbmfTypfs(finbl int n, finbl Objfdt[] o) {
         for (int i = 0; i < n; ++i) {
             if (i > 0) {
-                buf.append(", ");
+                buf.bppfnd(", ");
             }
-            if (o[i] instanceof String) {
-                appendConstant(o[i]);
-            } else if (o[i] instanceof Integer) {
-                switch (((Integer) o[i]).intValue()) {
-                case 0:
-                    buf.append("Opcodes.TOP");
-                    break;
-                case 1:
-                    buf.append("Opcodes.INTEGER");
-                    break;
-                case 2:
-                    buf.append("Opcodes.FLOAT");
-                    break;
-                case 3:
-                    buf.append("Opcodes.DOUBLE");
-                    break;
-                case 4:
-                    buf.append("Opcodes.LONG");
-                    break;
-                case 5:
-                    buf.append("Opcodes.NULL");
-                    break;
-                case 6:
-                    buf.append("Opcodes.UNINITIALIZED_THIS");
-                    break;
+            if (o[i] instbndfof String) {
+                bppfndConstbnt(o[i]);
+            } flsf if (o[i] instbndfof Intfgfr) {
+                switdi (((Intfgfr) o[i]).intVbluf()) {
+                dbsf 0:
+                    buf.bppfnd("Opdodfs.TOP");
+                    brfbk;
+                dbsf 1:
+                    buf.bppfnd("Opdodfs.INTEGER");
+                    brfbk;
+                dbsf 2:
+                    buf.bppfnd("Opdodfs.FLOAT");
+                    brfbk;
+                dbsf 3:
+                    buf.bppfnd("Opdodfs.DOUBLE");
+                    brfbk;
+                dbsf 4:
+                    buf.bppfnd("Opdodfs.LONG");
+                    brfbk;
+                dbsf 5:
+                    buf.bppfnd("Opdodfs.NULL");
+                    brfbk;
+                dbsf 6:
+                    buf.bppfnd("Opdodfs.UNINITIALIZED_THIS");
+                    brfbk;
                 }
-            } else {
-                appendLabel((Label) o[i]);
+            } flsf {
+                bppfndLbbfl((Lbbfl) o[i]);
             }
         }
     }
 
     /**
-     * Appends a declaration of the given label to {@link #buf buf}. This
-     * declaration is of the form "Label lXXX = new Label();". Does nothing if
-     * the given label has already been declared.
+     * Appfnds b dfdlbrbtion of tif givfn lbbfl to {@link #buf buf}. Tiis
+     * dfdlbrbtion is of tif form "Lbbfl lXXX = nfw Lbbfl();". Dofs notiing if
+     * tif givfn lbbfl ibs blrfbdy bffn dfdlbrfd.
      *
-     * @param l
-     *            a label.
+     * @pbrbm l
+     *            b lbbfl.
      */
-    protected void declareLabel(final Label l) {
-        if (labelNames == null) {
-            labelNames = new HashMap<Label, String>();
+    protfdtfd void dfdlbrfLbbfl(finbl Lbbfl l) {
+        if (lbbflNbmfs == null) {
+            lbbflNbmfs = nfw HbsiMbp<Lbbfl, String>();
         }
-        String name = labelNames.get(l);
-        if (name == null) {
-            name = "l" + labelNames.size();
-            labelNames.put(l, name);
-            buf.append("Label ").append(name).append(" = new Label();\n");
+        String nbmf = lbbflNbmfs.gft(l);
+        if (nbmf == null) {
+            nbmf = "l" + lbbflNbmfs.sizf();
+            lbbflNbmfs.put(l, nbmf);
+            buf.bppfnd("Lbbfl ").bppfnd(nbmf).bppfnd(" = nfw Lbbfl();\n");
         }
     }
 
     /**
-     * Appends the name of the given label to {@link #buf buf}. The given label
-     * <i>must</i> already have a name. One way to ensure this is to always call
-     * {@link #declareLabel declared} before calling this method.
+     * Appfnds tif nbmf of tif givfn lbbfl to {@link #buf buf}. Tif givfn lbbfl
+     * <i>must</i> blrfbdy ibvf b nbmf. Onf wby to fnsurf tiis is to blwbys dbll
+     * {@link #dfdlbrfLbbfl dfdlbrfd} bfforf dblling tiis mftiod.
      *
-     * @param l
-     *            a label.
+     * @pbrbm l
+     *            b lbbfl.
      */
-    protected void appendLabel(final Label l) {
-        buf.append(labelNames.get(l));
+    protfdtfd void bppfndLbbfl(finbl Lbbfl l) {
+        buf.bppfnd(lbbflNbmfs.gft(l));
     }
 }

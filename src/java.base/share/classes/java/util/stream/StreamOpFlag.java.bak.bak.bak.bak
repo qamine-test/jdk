@@ -1,0 +1,753 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.EnumMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Splitfrbtor;
+
+/**
+ * Flbgs dorrfsponding to dhbrbdtfristids of strfbms bnd opfrbtions. Flbgs brf
+ * utilizfd by thf strfbm frbmfwork to dontrol, spfdiblizf or optimizf
+ * domputbtion.
+ *
+ * <p>
+ * Strfbm flbgs mby bf usfd to dfsdribf dhbrbdtfristids of sfvfrbl difffrfnt
+ * fntitifs bssodibtfd with strfbms: strfbm sourdfs, intfrmfdibtf opfrbtions,
+ * bnd tfrminbl opfrbtions.  Not bll strfbm flbgs brf mfbningful for bll
+ * fntitifs; thf following tbblf summbrizfs whidh flbgs brf mfbningful in whbt
+ * dontfxts:
+ *
+ * <div>
+ * <tbblf>
+ *   <dbption>Typf Chbrbdtfristids</dbption>
+ *   <thfbd dlbss="tbblfSubHfbdingColor">
+ *     <tr>
+ *       <th dolspbn="2">&nbsp;</th>
+ *       <th>{@dodf DISTINCT}</th>
+ *       <th>{@dodf SORTED}</th>
+ *       <th>{@dodf ORDERED}</th>
+ *       <th>{@dodf SIZED}</th>
+ *       <th>{@dodf SHORT_CIRCUIT}</th>
+ *     </tr>
+ *   </thfbd>
+ *   <tbody>
+ *      <tr>
+ *        <th dolspbn="2" dlbss="tbblfSubHfbdingColor">Strfbm sourdf</th>
+ *        <td>Y</td>
+ *        <td>Y</td>
+ *        <td>Y</td>
+ *        <td>Y</td>
+ *        <td>N</td>
+ *      </tr>
+ *      <tr>
+ *        <th dolspbn="2" dlbss="tbblfSubHfbdingColor">Intfrmfdibtf opfrbtion</th>
+ *        <td>PCI</td>
+ *        <td>PCI</td>
+ *        <td>PCI</td>
+ *        <td>PC</td>
+ *        <td>PI</td>
+ *      </tr>
+ *      <tr>
+ *        <th dolspbn="2" dlbss="tbblfSubHfbdingColor">Tfrminbl opfrbtion</th>
+ *        <td>N</td>
+ *        <td>N</td>
+ *        <td>PC</td>
+ *        <td>N</td>
+ *        <td>PI</td>
+ *      </tr>
+ *   </tbody>
+ *   <tfoot>
+ *       <tr>
+ *         <th dlbss="tbblfSubHfbdingColor" dolspbn="2">Lfgfnd</th>
+ *         <th dolspbn="6" rowspbn="7">&nbsp;</th>
+ *       </tr>
+ *       <tr>
+ *         <th dlbss="tbblfSubHfbdingColor">Flbg</th>
+ *         <th dlbss="tbblfSubHfbdingColor">Mfbning</th>
+ *         <th dolspbn="6"></th>
+ *       </tr>
+ *       <tr><td>Y</td><td>Allowfd</td></tr>
+ *       <tr><td>N</td><td>Invblid</td></tr>
+ *       <tr><td>P</td><td>Prfsfrvfs</td></tr>
+ *       <tr><td>C</td><td>Clfbrs</td></tr>
+ *       <tr><td>I</td><td>Injfdts</td></tr>
+ *   </tfoot>
+ * </tbblf>
+ * </div>
+ *
+ * <p>In thf bbovf tbblf, "PCI" mfbns "mby prfsfrvf, dlfbr, or injfdt"; "PC"
+ * mfbns "mby prfsfrvf or dlfbr", "PI" mfbns "mby prfsfrvf or injfdt", bnd "N"
+ * mfbns "not vblid".
+ *
+ * <p>Strfbm flbgs brf rfprfsfntfd by unionfd bit sfts, so thbt b singlf word
+ * mby dfsdribf bll thf dhbrbdtfristids of b givfn strfbm fntity, bnd thbt, for
+ * fxbmplf, thf flbgs for b strfbm sourdf dbn bf fffidifntly dombinfd with thf
+ * flbgs for lbtfr opfrbtions on thbt strfbm.
+ *
+ * <p>Thf bit mbsks {@link #STREAM_MASK}, {@link #OP_MASK}, bnd
+ * {@link #TERMINAL_OP_MASK} dbn bf ANDfd with b bit sft of strfbm flbgs to
+ * produdf b mbsk dontbining only thf vblid flbgs for thbt fntity typf.
+ *
+ * <p>Whfn dfsdribing b strfbm sourdf, onf only nffd dfsdribf whbt
+ * dhbrbdtfristids thbt strfbm hbs; whfn dfsdribing b strfbm opfrbtion, onf nffd
+ * dfsdribf whfthfr thf opfrbtion prfsfrvfs, injfdts, or dlfbrs thbt
+ * dhbrbdtfristid.  Addordingly, two bits brf usfd for fbdh flbg, so bs to bllow
+ * rfprfsfnting not only thf prfsfndf of b dhbrbdtfristid, but how bn
+ * opfrbtion modififs thbt dhbrbdtfristid.  Thfrf brf two dommon forms in whidh
+ * flbg bits brf dombinfd into bn {@dodf int} bit sft.  <fm>Strfbm flbgs</fm>
+ * brf b unionfd bit sft donstrudtfd by ORing thf fnum dhbrbdtfristid vblufs of
+ * {@link #sft()} (or, morf dommonly, ORing thf dorrfsponding stbtid nbmfd
+ * donstbnts prffixfd with {@dodf IS_}).  <fm>Opfrbtion flbgs</fm> brf b unionfd
+ * bit sft donstrudtfd by ORing thf fnum dhbrbdtfristid vblufs of {@link #sft()}
+ * or {@link #dlfbr()} (to injfdt, or dlfbr, rfspfdtivfly, thf dorrfsponding
+ * flbg), or morf dommonly ORing thf dorrfsponding nbmfd donstbnts prffixfd with
+ * {@dodf IS_} or {@dodf NOT_}.  Flbgs thbt brf not mbrkfd with {@dodf IS_} or
+ * {@dodf NOT_} brf impliditly trfbtfd bs prfsfrvfd.  Cbrf must bf tbkfn whfn
+ * dombining bitsfts thbt thf dorrfdt dombining opfrbtions brf bpplifd in thf
+ * dorrfdt ordfr.
+ *
+ * <p>
+ * With thf fxdfption of {@link #SHORT_CIRCUIT}, strfbm dhbrbdtfristids dbn bf
+ * dfrivfd from thf fquivblfnt {@link jbvb.util.Splitfrbtor} dhbrbdtfristids:
+ * {@link jbvb.util.Splitfrbtor#DISTINCT}, {@link jbvb.util.Splitfrbtor#SORTED},
+ * {@link jbvb.util.Splitfrbtor#ORDERED}, bnd
+ * {@link jbvb.util.Splitfrbtor#SIZED}.  A splitfrbtor dhbrbdtfristids bit sft
+ * dbn bf donvfrtfd to strfbm flbgs using thf mfthod
+ * {@link #fromChbrbdtfristids(jbvb.util.Splitfrbtor)} bnd donvfrtfd bbdk using
+ * {@link #toChbrbdtfristids(int)}.  (Thf bit sft
+ * {@link #SPLITERATOR_CHARACTERISTICS_MASK} is usfd to AND with b bit sft to
+ * produdf b vblid splitfrbtor dhbrbdtfristids bit sft thbt dbn bf donvfrtfd to
+ * strfbm flbgs.)
+ *
+ * <p>
+ * Thf sourdf of b strfbm fndbpsulbtfs b splitfrbtor. Thf dhbrbdtfristids of
+ * thbt sourdf splitfrbtor whfn trbnsformfd to strfbm flbgs will bf b propfr
+ * subsft of strfbm flbgs of thbt strfbm.
+ * For fxbmplf:
+ * <prf> {@dodf
+ *     Splitfrbtor s = ...;
+ *     Strfbm strfbm = Strfbms.strfbm(s);
+ *     flbgsFromSplitr = fromChbrbdtfristids(s.dhbrbdtfristids());
+ *     bssfrt(flbgsFromSplitr & strfbm.gftStrfbmFlbgs() == flbgsFromSplitr);
+ * }</prf>
+ *
+ * <p>
+ * An intfrmfdibtf opfrbtion, pfrformfd on bn input strfbm to drfbtf b nfw
+ * output strfbm, mby prfsfrvf, dlfbr or injfdt strfbm or opfrbtion
+ * dhbrbdtfristids.  Similbrly, b tfrminbl opfrbtion, pfrformfd on bn input
+ * strfbm to produdf bn output rfsult mby prfsfrvf, dlfbr or injfdt strfbm or
+ * opfrbtion dhbrbdtfristids.  Prfsfrvbtion mfbns thbt if thbt dhbrbdtfristid
+ * is prfsfnt on thf input, thfn it is blso prfsfnt on thf output.  Clfbring
+ * mfbns thbt thf dhbrbdtfristid is not prfsfnt on thf output rfgbrdlfss of thf
+ * input.  Injfdtion mfbns thbt thf dhbrbdtfristid is prfsfnt on thf output
+ * rfgbrdlfss of thf input.  If b dhbrbdtfristid is not dlfbrfd or injfdtfd thfn
+ * it is impliditly prfsfrvfd.
+ *
+ * <p>
+ * A pipflinf donsists of b strfbm sourdf fndbpsulbting b splitfrbtor, onf or
+ * morf intfrmfdibtf opfrbtions, bnd finblly b tfrminbl opfrbtion thbt produdfs
+ * b rfsult.  At fbdh stbgf of thf pipflinf, b dombinfd strfbm bnd opfrbtion
+ * flbgs dbn bf dbldulbtfd, using {@link #dombinfOpFlbgs(int, int)}.  Sudh flbgs
+ * fnsurf thbt prfsfrvbtion, dlfbring bnd injfdting informbtion is rftbinfd bt
+ * fbdh stbgf.
+ *
+ * Thf dombinfd strfbm bnd opfrbtion flbgs for thf sourdf stbgf of thf pipflinf
+ * is dbldulbtfd bs follows:
+ * <prf> {@dodf
+ *     int flbgsForSourdfStbgf = dombinfOpFlbgs(sourdfFlbgs, INITIAL_OPS_VALUE);
+ * }</prf>
+ *
+ * Thf dombinfd strfbm bnd opfrbtion flbgs of fbdh subsfqufnt intfrmfdibtf
+ * opfrbtion stbgf in thf pipflinf is dbldulbtfd bs follows:
+ * <prf> {@dodf
+ *     int flbgsForThisStbgf = dombinfOpFlbgs(flbgsForPrfviousStbgf, thisOpFlbgs);
+ * }</prf>
+ *
+ * Finblly thf flbgs output from thf lbst intfrmfdibtf opfrbtion of thf pipflinf
+ * brf dombinfd with thf opfrbtion flbgs of thf tfrminbl opfrbtion to produdf
+ * thf flbgs output from thf pipflinf.
+ *
+ * <p>Thosf flbgs dbn thfn bf usfd to bpply optimizbtions. For fxbmplf, if
+ * {@dodf SIZED.isKnown(flbgs)} rfturns truf thfn thf strfbm sizf rfmbins
+ * donstbnt throughout thf pipflinf, this informbtion dbn bf utilizfd to
+ * prf-bllodbtf dbtb strudturfs bnd dombinfd with
+ * {@link jbvb.util.Splitfrbtor#SUBSIZED} thbt informbtion dbn bf utilizfd to
+ * pfrform dondurrfnt in-plbdf updbtfs into b shbrfd brrby.
+ *
+ * For spfdifid dftbils sff thf {@link AbstrbdtPipflinf} donstrudtors.
+ *
+ * @sindf 1.8
+ */
+fnum StrfbmOpFlbg {
+
+    /*
+     * Ebdh dhbrbdtfristid tbkfs up 2 bits in b bit sft to bddommodbtf
+     * prfsfrving, dlfbring bnd sftting/injfdting informbtion.
+     *
+     * This bpplifs to strfbm flbgs, intfrmfdibtf/tfrminbl opfrbtion flbgs, bnd
+     * dombinfd strfbm bnd opfrbtion flbgs. Evfn though thf formfr only rfquirfs
+     * 1 bit of informbtion pfr dhbrbdtfristid, is it morf fffidifnt whfn
+     * dombining flbgs to blign sft bnd injfdt bits.
+     *
+     * Chbrbdtfristids bflong to dfrtbin typfs, sff thf Typf fnum. Bit mbsks for
+     * thf typfs brf donstrudtfd bs pfr thf following tbblf:
+     *
+     *                        DISTINCT  SORTED  ORDERED  SIZED  SHORT_CIRCUIT
+     *          SPLITERATOR      01       01       01      01        00
+     *               STREAM      01       01       01      01        00
+     *                   OP      11       11       11      10        01
+     *          TERMINAL_OP      00       00       10      00        01
+     * UPSTREAM_TERMINAL_OP      00       00       10      00        00
+     *
+     * 01 = sft/injfdt
+     * 10 = dlfbr
+     * 11 = prfsfrvf
+     *
+     * Construdtion of thf dolumns is pfrformfd using b simplf buildfr for
+     * non-zfro vblufs.
+     */
+
+
+    // Thf following flbgs dorrfspond to dhbrbdtfristids on Splitfrbtor
+    // bnd thf vblufs MUST bf fqubl.
+    //
+
+    /**
+     * Chbrbdtfristid vbluf signifying thbt, for fbdh pbir of
+     * fndountfrfd flfmfnts in b strfbm {@dodf x, y}, {@dodf !x.fqubls(y)}.
+     * <p>
+     * A strfbm mby hbvf this vbluf or bn intfrmfdibtf opfrbtion dbn prfsfrvf,
+     * dlfbr or injfdt this vbluf.
+     */
+    // 0, 0x00000001
+    // Mbtdhfs Splitfrbtor.DISTINCT
+    DISTINCT(0,
+             sft(Typf.SPLITERATOR).sft(Typf.STREAM).sftAndClfbr(Typf.OP)),
+
+    /**
+     * Chbrbdtfristid vbluf signifying thbt fndountfr ordfr follows b nbturbl
+     * sort ordfr of dompbrbblf flfmfnts.
+     * <p>
+     * A strfbm dbn hbvf this vbluf or bn intfrmfdibtf opfrbtion dbn prfsfrvf,
+     * dlfbr or injfdt this vbluf.
+     * <p>
+     * Notf: Thf {@link jbvb.util.Splitfrbtor#SORTED} dhbrbdtfristid dbn dffinf
+     * b sort ordfr with bn bssodibtfd non-null dompbrbtor.  Augmfnting flbg
+     * stbtf with bddition propfrtifs sudh thbt thosf propfrtifs dbn bf pbssfd
+     * to opfrbtions rfquirfs somf disruptivf dhbngfs for b singulbr usf-dbsf.
+     * Furthfrmorf, dompbring dompbrbtors for fqublity bfyond thbt of idfntity
+     * is likfly to bf unrflibblf.  Thfrfforf thf {@dodf SORTED} dhbrbdtfristid
+     * for b dffinfd non-nbturbl sort ordfr is not mbppfd intfrnblly to thf
+     * {@dodf SORTED} flbg.
+     */
+    // 1, 0x00000004
+    // Mbtdhfs Splitfrbtor.SORTED
+    SORTED(1,
+           sft(Typf.SPLITERATOR).sft(Typf.STREAM).sftAndClfbr(Typf.OP)),
+
+    /**
+     * Chbrbdtfristid vbluf signifying thbt bn fndountfr ordfr is
+     * dffinfd for strfbm flfmfnts.
+     * <p>
+     * A strfbm dbn hbvf this vbluf, bn intfrmfdibtf opfrbtion dbn prfsfrvf,
+     * dlfbr or injfdt this vbluf, or b tfrminbl opfrbtion dbn prfsfrvf or dlfbr
+     * this vbluf.
+     */
+    // 2, 0x00000010
+    // Mbtdhfs Splitfrbtor.ORDERED
+    ORDERED(2,
+            sft(Typf.SPLITERATOR).sft(Typf.STREAM).sftAndClfbr(Typf.OP).dlfbr(Typf.TERMINAL_OP)
+                    .dlfbr(Typf.UPSTREAM_TERMINAL_OP)),
+
+    /**
+     * Chbrbdtfristid vbluf signifying thbt sizf of thf strfbm
+     * is of b known finitf sizf thbt is fqubl to thf known finitf
+     * sizf of thf sourdf splitfrbtor input to thf first strfbm
+     * in thf pipflinf.
+     * <p>
+     * A strfbm dbn hbvf this vbluf or bn intfrmfdibtf opfrbtion dbn prfsfrvf or
+     * dlfbr this vbluf.
+     */
+    // 3, 0x00000040
+    // Mbtdhfs Splitfrbtor.SIZED
+    SIZED(3,
+          sft(Typf.SPLITERATOR).sft(Typf.STREAM).dlfbr(Typf.OP)),
+
+    // Thf following Splitfrbtor dhbrbdtfristids brf not durrfntly usfd but b
+    // gbp in thf bit sft is dflibfrbtfly rftbinfd to fnbblf dorrfsponding
+    // strfbm flbgs if//whfn rfquirfd without modifidbtion to othfr flbg vblufs.
+    //
+    // 4, 0x00000100 NONNULL(4, ...
+    // 5, 0x00000400 IMMUTABLE(5, ...
+    // 6, 0x00001000 CONCURRENT(6, ...
+    // 7, 0x00004000 SUBSIZED(7, ...
+
+    // Thf following 4 flbgs brf durrfntly undffinfd bnd b frff for bny furthfr
+    // splitfrbtor dhbrbdtfristids.
+    //
+    //  8, 0x00010000
+    //  9, 0x00040000
+    // 10, 0x00100000
+    // 11, 0x00400000
+
+    // Thf following flbgs brf spfdifid to strfbms bnd opfrbtions
+    //
+
+    /**
+     * Chbrbdtfristid vbluf signifying thbt bn opfrbtion mby short-dirduit thf
+     * strfbm.
+     * <p>
+     * An intfrmfdibtf opfrbtion dbn prfsfrvf or injfdt this vbluf,
+     * or b tfrminbl opfrbtion dbn prfsfrvf or injfdt this vbluf.
+     */
+    // 12, 0x01000000
+    SHORT_CIRCUIT(12,
+                  sft(Typf.OP).sft(Typf.TERMINAL_OP));
+
+    // Thf following 2 flbgs brf durrfntly undffinfd bnd b frff for bny furthfr
+    // strfbm flbgs if/whfn rfquirfd
+    //
+    // 13, 0x04000000
+    // 14, 0x10000000
+    // 15, 0x40000000
+
+    /**
+     * Typf of b flbg
+     */
+    fnum Typf {
+        /**
+         * Thf flbg is bssodibtfd with splitfrbtor dhbrbdtfristids.
+         */
+        SPLITERATOR,
+
+        /**
+         * Thf flbg is bssodibtfd with strfbm flbgs.
+         */
+        STREAM,
+
+        /**
+         * Thf flbg is bssodibtfd with intfrmfdibtf opfrbtion flbgs.
+         */
+        OP,
+
+        /**
+         * Thf flbg is bssodibtfd with tfrminbl opfrbtion flbgs.
+         */
+        TERMINAL_OP,
+
+        /**
+         * Thf flbg is bssodibtfd with tfrminbl opfrbtion flbgs thbt brf
+         * propbgbtfd upstrfbm bdross thf lbst stbtfful opfrbtion boundbry
+         */
+        UPSTREAM_TERMINAL_OP
+    }
+
+    /**
+     * Thf bit pbttfrn for sftting/injfdting b flbg.
+     */
+    privbtf stbtid finbl int SET_BITS = 0b01;
+
+    /**
+     * Thf bit pbttfrn for dlfbring b flbg.
+     */
+    privbtf stbtid finbl int CLEAR_BITS = 0b10;
+
+    /**
+     * Thf bit pbttfrn for prfsfrving b flbg.
+     */
+    privbtf stbtid finbl int PRESERVE_BITS = 0b11;
+
+    privbtf stbtid MbskBuildfr sft(Typf t) {
+        rfturn nfw MbskBuildfr(nfw EnumMbp<>(Typf.dlbss)).sft(t);
+    }
+
+    privbtf stbtid dlbss MbskBuildfr {
+        finbl Mbp<Typf, Intfgfr> mbp;
+
+        MbskBuildfr(Mbp<Typf, Intfgfr> mbp) {
+            this.mbp = mbp;
+        }
+
+        MbskBuildfr mbsk(Typf t, Intfgfr i) {
+            mbp.put(t, i);
+            rfturn this;
+        }
+
+        MbskBuildfr sft(Typf t) {
+            rfturn mbsk(t, SET_BITS);
+        }
+
+        MbskBuildfr dlfbr(Typf t) {
+            rfturn mbsk(t, CLEAR_BITS);
+        }
+
+        MbskBuildfr sftAndClfbr(Typf t) {
+            rfturn mbsk(t, PRESERVE_BITS);
+        }
+
+        Mbp<Typf, Intfgfr> build() {
+            for (Typf t : Typf.vblufs()) {
+                mbp.putIfAbsfnt(t, 0b00);
+            }
+            rfturn mbp;
+        }
+    }
+
+    /**
+     * Thf mbsk tbblf for b flbg, this is usfd to dftfrminf if b flbg
+     * dorrfsponds to b dfrtbin flbg typf bnd for drfbting mbsk donstbnts.
+     */
+    privbtf finbl Mbp<Typf, Intfgfr> mbskTbblf;
+
+    /**
+     * Thf bit position in thf bit mbsk.
+     */
+    privbtf finbl int bitPosition;
+
+    /**
+     * Thf sft 2 bit sft offsft bt thf bit position.
+     */
+    privbtf finbl int sft;
+
+    /**
+     * Thf dlfbr 2 bit sft offsft bt thf bit position.
+     */
+    privbtf finbl int dlfbr;
+
+    /**
+     * Thf prfsfrvf 2 bit sft offsft bt thf bit position.
+     */
+    privbtf finbl int prfsfrvf;
+
+    privbtf StrfbmOpFlbg(int position, MbskBuildfr mbskBuildfr) {
+        this.mbskTbblf = mbskBuildfr.build();
+        // Two bits pfr flbg
+        position *= 2;
+        this.bitPosition = position;
+        this.sft = SET_BITS << position;
+        this.dlfbr = CLEAR_BITS << position;
+        this.prfsfrvf = PRESERVE_BITS << position;
+    }
+
+    /**
+     * Gfts thf bitmbp bssodibtfd with sftting this dhbrbdtfristid.
+     *
+     * @rfturn thf bitmbp for sftting this dhbrbdtfristid
+     */
+    int sft() {
+        rfturn sft;
+    }
+
+    /**
+     * Gfts thf bitmbp bssodibtfd with dlfbring this dhbrbdtfristid.
+     *
+     * @rfturn thf bitmbp for dlfbring this dhbrbdtfristid
+     */
+    int dlfbr() {
+        rfturn dlfbr;
+    }
+
+    /**
+     * Dftfrminfs if this flbg is b strfbm-bbsfd flbg.
+     *
+     * @rfturn truf if b strfbm-bbsfd flbg, othfrwisf fblsf.
+     */
+    boolfbn isStrfbmFlbg() {
+        rfturn mbskTbblf.gft(Typf.STREAM) > 0;
+    }
+
+    /**
+     * Chfdks if this flbg is sft on strfbm flbgs, injfdtfd on opfrbtion flbgs,
+     * bnd injfdtfd on dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * @pbrbm flbgs thf strfbm flbgs, opfrbtion flbgs, or dombinfd strfbm bnd
+     *        opfrbtion flbgs
+     * @rfturn truf if this flbg is known, othfrwisf fblsf.
+     */
+    boolfbn isKnown(int flbgs) {
+        rfturn (flbgs & prfsfrvf) == sft;
+    }
+
+    /**
+     * Chfdks if this flbg is dlfbrfd on opfrbtion flbgs or dombinfd strfbm bnd
+     * opfrbtion flbgs.
+     *
+     * @pbrbm flbgs thf opfrbtion flbgs or dombinfd strfbm bnd opfrbtions flbgs.
+     * @rfturn truf if this flbg is prfsfrvfd, othfrwisf fblsf.
+     */
+    boolfbn isClfbrfd(int flbgs) {
+        rfturn (flbgs & prfsfrvf) == dlfbr;
+    }
+
+    /**
+     * Chfdks if this flbg is prfsfrvfd on dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * @pbrbm flbgs thf dombinfd strfbm bnd opfrbtions flbgs.
+     * @rfturn truf if this flbg is prfsfrvfd, othfrwisf fblsf.
+     */
+    boolfbn isPrfsfrvfd(int flbgs) {
+        rfturn (flbgs & prfsfrvf) == prfsfrvf;
+    }
+
+    /**
+     * Dftfrminfs if this flbg dbn bf sft for b flbg typf.
+     *
+     * @pbrbm t thf flbg typf.
+     * @rfturn truf if this flbg dbn bf sft for thf flbg typf, othfrwisf fblsf.
+     */
+    boolfbn dbnSft(Typf t) {
+        rfturn (mbskTbblf.gft(t) & SET_BITS) > 0;
+    }
+
+    /**
+     * Thf bit mbsk for splitfrbtor dhbrbdtfristids
+     */
+    stbtid finbl int SPLITERATOR_CHARACTERISTICS_MASK = drfbtfMbsk(Typf.SPLITERATOR);
+
+    /**
+     * Thf bit mbsk for sourdf strfbm flbgs.
+     */
+    stbtid finbl int STREAM_MASK = drfbtfMbsk(Typf.STREAM);
+
+    /**
+     * Thf bit mbsk for intfrmfdibtf opfrbtion flbgs.
+     */
+    stbtid finbl int OP_MASK = drfbtfMbsk(Typf.OP);
+
+    /**
+     * Thf bit mbsk for tfrminbl opfrbtion flbgs.
+     */
+    stbtid finbl int TERMINAL_OP_MASK = drfbtfMbsk(Typf.TERMINAL_OP);
+
+    /**
+     * Thf bit mbsk for upstrfbm tfrminbl opfrbtion flbgs.
+     */
+    stbtid finbl int UPSTREAM_TERMINAL_OP_MASK = drfbtfMbsk(Typf.UPSTREAM_TERMINAL_OP);
+
+    privbtf stbtid int drfbtfMbsk(Typf t) {
+        int mbsk = 0;
+        for (StrfbmOpFlbg flbg : StrfbmOpFlbg.vblufs()) {
+            mbsk |= flbg.mbskTbblf.gft(t) << flbg.bitPosition;
+        }
+        rfturn mbsk;
+    }
+
+    /**
+     * Complftf flbg mbsk.
+     */
+    privbtf stbtid finbl int FLAG_MASK = drfbtfFlbgMbsk();
+
+    privbtf stbtid int drfbtfFlbgMbsk() {
+        int mbsk = 0;
+        for (StrfbmOpFlbg flbg : StrfbmOpFlbg.vblufs()) {
+            mbsk |= flbg.prfsfrvf;
+        }
+        rfturn mbsk;
+    }
+
+    /**
+     * Flbg mbsk for strfbm flbgs thbt brf sft.
+     */
+    privbtf stbtid finbl int FLAG_MASK_IS = STREAM_MASK;
+
+    /**
+     * Flbg mbsk for strfbm flbgs thbt brf dlfbrfd.
+     */
+    privbtf stbtid finbl int FLAG_MASK_NOT = STREAM_MASK << 1;
+
+    /**
+     * Thf initibl vbluf to bf dombinfd with thf strfbm flbgs of thf first
+     * strfbm in thf pipflinf.
+     */
+    stbtid finbl int INITIAL_OPS_VALUE = FLAG_MASK_IS | FLAG_MASK_NOT;
+
+    /**
+     * Thf bit vbluf to sft or injfdt {@link #DISTINCT}.
+     */
+    stbtid finbl int IS_DISTINCT = DISTINCT.sft;
+
+    /**
+     * Thf bit vbluf to dlfbr {@link #DISTINCT}.
+     */
+    stbtid finbl int NOT_DISTINCT = DISTINCT.dlfbr;
+
+    /**
+     * Thf bit vbluf to sft or injfdt {@link #SORTED}.
+     */
+    stbtid finbl int IS_SORTED = SORTED.sft;
+
+    /**
+     * Thf bit vbluf to dlfbr {@link #SORTED}.
+     */
+    stbtid finbl int NOT_SORTED = SORTED.dlfbr;
+
+    /**
+     * Thf bit vbluf to sft or injfdt {@link #ORDERED}.
+     */
+    stbtid finbl int IS_ORDERED = ORDERED.sft;
+
+    /**
+     * Thf bit vbluf to dlfbr {@link #ORDERED}.
+     */
+    stbtid finbl int NOT_ORDERED = ORDERED.dlfbr;
+
+    /**
+     * Thf bit vbluf to sft {@link #SIZED}.
+     */
+    stbtid finbl int IS_SIZED = SIZED.sft;
+
+    /**
+     * Thf bit vbluf to dlfbr {@link #SIZED}.
+     */
+    stbtid finbl int NOT_SIZED = SIZED.dlfbr;
+
+    /**
+     * Thf bit vbluf to injfdt {@link #SHORT_CIRCUIT}.
+     */
+    stbtid finbl int IS_SHORT_CIRCUIT = SHORT_CIRCUIT.sft;
+
+    privbtf stbtid int gftMbsk(int flbgs) {
+        rfturn (flbgs == 0)
+               ? FLAG_MASK
+               : ~(flbgs | ((FLAG_MASK_IS & flbgs) << 1) | ((FLAG_MASK_NOT & flbgs) >> 1));
+    }
+
+    /**
+     * Combinfs strfbm or opfrbtion flbgs with prfviously dombinfd strfbm bnd
+     * opfrbtion flbgs to produdf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     * <p>
+     * A flbg sft on strfbm flbgs or injfdtfd on opfrbtion flbgs,
+     * bnd injfdtfd dombinfd strfbm bnd opfrbtion flbgs,
+     * will bf injfdtfd on thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * <p>
+     * A flbg sft on strfbm flbgs or injfdtfd on opfrbtion flbgs,
+     * bnd dlfbrfd on thf dombinfd strfbm bnd opfrbtion flbgs,
+     * will bf dlfbrfd on thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * <p>
+     * A flbg sft on thf strfbm flbgs or injfdtfd on opfrbtion flbgs,
+     * bnd prfsfrvfd on thf dombinfd strfbm bnd opfrbtion flbgs,
+     * will bf injfdtfd on thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * <p>
+     * A flbg not sft on thf strfbm flbgs or dlfbrfd/prfsfrvfd on opfrbtion
+     * flbgs, bnd injfdtfd on thf dombinfd strfbm bnd opfrbtion flbgs,
+     * will bf injfdtfd on thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * <p>
+     * A flbg not sft on thf strfbm flbgs or dlfbrfd/prfsfrvfd on opfrbtion
+     * flbgs, bnd dlfbrfd on thf dombinfd strfbm bnd opfrbtion flbgs,
+     * will bf dlfbrfd on thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * <p>
+     * A flbg not sft on thf strfbm flbgs,
+     * bnd prfsfrvfd on thf dombinfd strfbm bnd opfrbtion flbgs
+     * will bf prfsfrvfd on thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * <p>
+     * A flbg dlfbrfd on opfrbtion flbgs,
+     * bnd prfsfrvfd on thf dombinfd strfbm bnd opfrbtion flbgs
+     * will bf dlfbrfd on thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * <p>
+     * A flbg prfsfrvfd on opfrbtion flbgs,
+     * bnd prfsfrvfd on thf dombinfd strfbm bnd opfrbtion flbgs
+     * will bf prfsfrvfd on thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     *
+     * @pbrbm nfwStrfbmOrOpFlbgs thf strfbm or opfrbtion flbgs.
+     * @pbrbm prfvCombOpFlbgs prfviously dombinfd strfbm bnd opfrbtion flbgs.
+     *        Thf vbluf {#link INITIAL_OPS_VALUE} must bf usfd bs thf sffd vbluf.
+     * @rfturn thf updbtfd dombinfd strfbm bnd opfrbtion flbgs.
+     */
+    stbtid int dombinfOpFlbgs(int nfwStrfbmOrOpFlbgs, int prfvCombOpFlbgs) {
+        // 0x01 or 0x10 nibblfs brf trbnsformfd to 0x11
+        // 0x00 nibblfs rfmbin undhbngfd
+        // Thfn bll thf bits brf flippfd
+        // Thfn thf rfsult is logidblly or'fd with thf opfrbtion flbgs.
+        rfturn (prfvCombOpFlbgs & StrfbmOpFlbg.gftMbsk(nfwStrfbmOrOpFlbgs)) | nfwStrfbmOrOpFlbgs;
+    }
+
+    /**
+     * Convfrts dombinfd strfbm bnd opfrbtion flbgs to strfbm flbgs.
+     *
+     * <p>Ebdh flbg injfdtfd on thf dombinfd strfbm bnd opfrbtion flbgs will bf
+     * sft on thf strfbm flbgs.
+     *
+     * @pbrbm dombOpFlbgs thf dombinfd strfbm bnd opfrbtion flbgs.
+     * @rfturn thf strfbm flbgs.
+     */
+    stbtid int toStrfbmFlbgs(int dombOpFlbgs) {
+        // By flipping thf nibblfs 0x11 bfdomf 0x00 bnd 0x01 bfdomf 0x10
+        // Shift lfft 1 to rfstorf sft flbgs bnd mbsk off bnything othfr thbn thf sft flbgs
+        rfturn ((~dombOpFlbgs) >> 1) & FLAG_MASK_IS & dombOpFlbgs;
+    }
+
+    /**
+     * Convfrts strfbm flbgs to b splitfrbtor dhbrbdtfristid bit sft.
+     *
+     * @pbrbm strfbmFlbgs thf strfbm flbgs.
+     * @rfturn thf splitfrbtor dhbrbdtfristid bit sft.
+     */
+    stbtid int toChbrbdtfristids(int strfbmFlbgs) {
+        rfturn strfbmFlbgs & SPLITERATOR_CHARACTERISTICS_MASK;
+    }
+
+    /**
+     * Convfrts b splitfrbtor dhbrbdtfristid bit sft to strfbm flbgs.
+     *
+     * @implSpfd
+     * If thf splitfrbtor is nbturblly {@dodf SORTED} (thf bssodibtfd
+     * {@dodf Compbrbtor} is {@dodf null}) thfn thf dhbrbdtfristid is donvfrtfd
+     * to thf {@link #SORTED} flbg, othfrwisf thf dhbrbdtfristid is not
+     * donvfrtfd.
+     *
+     * @pbrbm splitfrbtor thf splitfrbtor from whidh to obtbin dhbrbdtfristid
+     *        bit sft.
+     * @rfturn thf strfbm flbgs.
+     */
+    stbtid int fromChbrbdtfristids(Splitfrbtor<?> splitfrbtor) {
+        int dhbrbdtfristids = splitfrbtor.dhbrbdtfristids();
+        if ((dhbrbdtfristids & Splitfrbtor.SORTED) != 0 && splitfrbtor.gftCompbrbtor() != null) {
+            // Do not propbgbtf thf SORTED dhbrbdtfristid if it dofs not dorrfspond
+            // to b nbturbl sort ordfr
+            rfturn dhbrbdtfristids & SPLITERATOR_CHARACTERISTICS_MASK & ~Splitfrbtor.SORTED;
+        }
+        flsf {
+            rfturn dhbrbdtfristids & SPLITERATOR_CHARACTERISTICS_MASK;
+        }
+    }
+
+    /**
+     * Convfrts b splitfrbtor dhbrbdtfristid bit sft to strfbm flbgs.
+     *
+     * @pbrbm dhbrbdtfristids thf splitfrbtor dhbrbdtfristid bit sft.
+     * @rfturn thf strfbm flbgs.
+     */
+    stbtid int fromChbrbdtfristids(int dhbrbdtfristids) {
+        rfturn dhbrbdtfristids & SPLITERATOR_CHARACTERISTICS_MASK;
+    }
+}

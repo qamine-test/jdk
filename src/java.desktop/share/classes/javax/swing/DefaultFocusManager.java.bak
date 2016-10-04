@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.FocusTraversalPolicy;
-import java.util.Comparator;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.FodusTrbvfrsblPolidy;
+import jbvb.util.Compbrbtor;
 
 
 /**
- * This class has been obsoleted by the 1.4 focus APIs. While client code may
- * still use this class, developers are strongly encouraged to use
- * <code>java.awt.KeyboardFocusManager</code> and
- * <code>java.awt.DefaultKeyboardFocusManager</code> instead.
+ * Tiis dlbss ibs bffn obsolftfd by tif 1.4 fodus APIs. Wiilf dlifnt dodf mby
+ * still usf tiis dlbss, dfvflopfrs brf strongly fndourbgfd to usf
+ * <dodf>jbvb.bwt.KfybobrdFodusMbnbgfr</dodf> bnd
+ * <dodf>jbvb.bwt.DffbultKfybobrdFodusMbnbgfr</dodf> instfbd.
  * <p>
- * Please see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/misc/focus.html">
- * How to Use the Focus Subsystem</a>,
- * a section in <em>The Java Tutorial</em>, and the
- * <a href="../../java/awt/doc-files/FocusSpec.html">Focus Specification</a>
- * for more information.
+ * Plfbsf sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/fodus.itml">
+ * How to Usf tif Fodus Subsystfm</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>, bnd tif
+ * <b irff="../../jbvb/bwt/dod-filfs/FodusSpfd.itml">Fodus Spfdifidbtion</b>
+ * for morf informbtion.
  *
- * @author Arnaud Weber
- * @author David Mendenhall
- * @since 1.2
+ * @butior Arnbud Wfbfr
+ * @butior Dbvid Mfndfnibll
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Obsolete class
-public class DefaultFocusManager extends FocusManager {
+@SupprfssWbrnings("sfribl") // Obsolftf dlbss
+publid dlbss DffbultFodusMbnbgfr fxtfnds FodusMbnbgfr {
 
-    final FocusTraversalPolicy gluePolicy =
-        new LegacyGlueFocusTraversalPolicy(this);
-    private final FocusTraversalPolicy layoutPolicy =
-        new LegacyLayoutFocusTraversalPolicy(this);
-    private final LayoutComparator comparator =
-        new LayoutComparator();
+    finbl FodusTrbvfrsblPolidy glufPolidy =
+        nfw LfgbdyGlufFodusTrbvfrsblPolidy(tiis);
+    privbtf finbl FodusTrbvfrsblPolidy lbyoutPolidy =
+        nfw LfgbdyLbyoutFodusTrbvfrsblPolidy(tiis);
+    privbtf finbl LbyoutCompbrbtor dompbrbtor =
+        nfw LbyoutCompbrbtor();
 
-    public DefaultFocusManager() {
-        setDefaultFocusTraversalPolicy(gluePolicy);
+    publid DffbultFodusMbnbgfr() {
+        sftDffbultFodusTrbvfrsblPolidy(glufPolidy);
     }
 
-    public Component getComponentAfter(Container aContainer,
-                                       Component aComponent)
+    publid Componfnt gftComponfntAftfr(Contbinfr bContbinfr,
+                                       Componfnt bComponfnt)
     {
-        Container root = (aContainer.isFocusCycleRoot())
-            ? aContainer
-            : aContainer.getFocusCycleRootAncestor();
+        Contbinfr root = (bContbinfr.isFodusCydlfRoot())
+            ? bContbinfr
+            : bContbinfr.gftFodusCydlfRootAndfstor();
 
-        // Support for mixed 1.4/pre-1.4 focus APIs. If a particular root's
-        // traversal policy is non-legacy, then honor it.
+        // Support for mixfd 1.4/prf-1.4 fodus APIs. If b pbrtidulbr root's
+        // trbvfrsbl polidy is non-lfgbdy, tifn ionor it.
         if (root != null) {
-            FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
-            if (policy != gluePolicy) {
-                return policy.getComponentAfter(root, aComponent);
+            FodusTrbvfrsblPolidy polidy = root.gftFodusTrbvfrsblPolidy();
+            if (polidy != glufPolidy) {
+                rfturn polidy.gftComponfntAftfr(root, bComponfnt);
             }
 
-            comparator.setComponentOrientation(root.getComponentOrientation());
-            return layoutPolicy.getComponentAfter(root, aComponent);
+            dompbrbtor.sftComponfntOrifntbtion(root.gftComponfntOrifntbtion());
+            rfturn lbyoutPolidy.gftComponfntAftfr(root, bComponfnt);
         }
 
-        return null;
+        rfturn null;
     }
 
-    public Component getComponentBefore(Container aContainer,
-                                        Component aComponent)
+    publid Componfnt gftComponfntBfforf(Contbinfr bContbinfr,
+                                        Componfnt bComponfnt)
     {
-        Container root = (aContainer.isFocusCycleRoot())
-            ? aContainer
-            : aContainer.getFocusCycleRootAncestor();
+        Contbinfr root = (bContbinfr.isFodusCydlfRoot())
+            ? bContbinfr
+            : bContbinfr.gftFodusCydlfRootAndfstor();
 
-        // Support for mixed 1.4/pre-1.4 focus APIs. If a particular root's
-        // traversal policy is non-legacy, then honor it.
+        // Support for mixfd 1.4/prf-1.4 fodus APIs. If b pbrtidulbr root's
+        // trbvfrsbl polidy is non-lfgbdy, tifn ionor it.
         if (root != null) {
-            FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
-            if (policy != gluePolicy) {
-                return policy.getComponentBefore(root, aComponent);
+            FodusTrbvfrsblPolidy polidy = root.gftFodusTrbvfrsblPolidy();
+            if (polidy != glufPolidy) {
+                rfturn polidy.gftComponfntBfforf(root, bComponfnt);
             }
 
-            comparator.setComponentOrientation(root.getComponentOrientation());
-            return layoutPolicy.getComponentBefore(root, aComponent);
+            dompbrbtor.sftComponfntOrifntbtion(root.gftComponfntOrifntbtion());
+            rfturn lbyoutPolidy.gftComponfntBfforf(root, bComponfnt);
         }
 
-        return null;
+        rfturn null;
     }
 
-    public Component getFirstComponent(Container aContainer) {
-        Container root = (aContainer.isFocusCycleRoot())
-            ? aContainer
-            : aContainer.getFocusCycleRootAncestor();
+    publid Componfnt gftFirstComponfnt(Contbinfr bContbinfr) {
+        Contbinfr root = (bContbinfr.isFodusCydlfRoot())
+            ? bContbinfr
+            : bContbinfr.gftFodusCydlfRootAndfstor();
 
-        // Support for mixed 1.4/pre-1.4 focus APIs. If a particular root's
-        // traversal policy is non-legacy, then honor it.
+        // Support for mixfd 1.4/prf-1.4 fodus APIs. If b pbrtidulbr root's
+        // trbvfrsbl polidy is non-lfgbdy, tifn ionor it.
         if (root != null) {
-            FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
-            if (policy != gluePolicy) {
-                return policy.getFirstComponent(root);
+            FodusTrbvfrsblPolidy polidy = root.gftFodusTrbvfrsblPolidy();
+            if (polidy != glufPolidy) {
+                rfturn polidy.gftFirstComponfnt(root);
             }
 
-            comparator.setComponentOrientation(root.getComponentOrientation());
-            return layoutPolicy.getFirstComponent(root);
+            dompbrbtor.sftComponfntOrifntbtion(root.gftComponfntOrifntbtion());
+            rfturn lbyoutPolidy.gftFirstComponfnt(root);
         }
 
-        return null;
+        rfturn null;
     }
 
-    public Component getLastComponent(Container aContainer) {
-        Container root = (aContainer.isFocusCycleRoot())
-            ? aContainer
-            : aContainer.getFocusCycleRootAncestor();
+    publid Componfnt gftLbstComponfnt(Contbinfr bContbinfr) {
+        Contbinfr root = (bContbinfr.isFodusCydlfRoot())
+            ? bContbinfr
+            : bContbinfr.gftFodusCydlfRootAndfstor();
 
-        // Support for mixed 1.4/pre-1.4 focus APIs. If a particular root's
-        // traversal policy is non-legacy, then honor it.
+        // Support for mixfd 1.4/prf-1.4 fodus APIs. If b pbrtidulbr root's
+        // trbvfrsbl polidy is non-lfgbdy, tifn ionor it.
         if (root != null) {
-            FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
-            if (policy != gluePolicy) {
-                return policy.getLastComponent(root);
+            FodusTrbvfrsblPolidy polidy = root.gftFodusTrbvfrsblPolidy();
+            if (polidy != glufPolidy) {
+                rfturn polidy.gftLbstComponfnt(root);
             }
 
-            comparator.setComponentOrientation(root.getComponentOrientation());
-            return layoutPolicy.getLastComponent(root);
+            dompbrbtor.sftComponfntOrifntbtion(root.gftComponfntOrifntbtion());
+            rfturn lbyoutPolidy.gftLbstComponfnt(root);
         }
 
-        return null;
+        rfturn null;
     }
 
-    public boolean compareTabOrder(Component a, Component b) {
-        return (comparator.compare(a, b) < 0);
+    publid boolfbn dompbrfTbbOrdfr(Componfnt b, Componfnt b) {
+        rfturn (dompbrbtor.dompbrf(b, b) < 0);
     }
 }
 
-@SuppressWarnings("serial") // JDK-implementation class
-final class LegacyLayoutFocusTraversalPolicy
-    extends LayoutFocusTraversalPolicy
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss LfgbdyLbyoutFodusTrbvfrsblPolidy
+    fxtfnds LbyoutFodusTrbvfrsblPolidy
 {
-    LegacyLayoutFocusTraversalPolicy(DefaultFocusManager defaultFocusManager) {
-        super(new CompareTabOrderComparator(defaultFocusManager));
+    LfgbdyLbyoutFodusTrbvfrsblPolidy(DffbultFodusMbnbgfr dffbultFodusMbnbgfr) {
+        supfr(nfw CompbrfTbbOrdfrCompbrbtor(dffbultFodusMbnbgfr));
     }
 }
 
-final class CompareTabOrderComparator implements Comparator<Component> {
-    private final DefaultFocusManager defaultFocusManager;
+finbl dlbss CompbrfTbbOrdfrCompbrbtor implfmfnts Compbrbtor<Componfnt> {
+    privbtf finbl DffbultFodusMbnbgfr dffbultFodusMbnbgfr;
 
-    CompareTabOrderComparator(DefaultFocusManager defaultFocusManager) {
-        this.defaultFocusManager = defaultFocusManager;
+    CompbrfTbbOrdfrCompbrbtor(DffbultFodusMbnbgfr dffbultFodusMbnbgfr) {
+        tiis.dffbultFodusMbnbgfr = dffbultFodusMbnbgfr;
     }
 
-    public int compare(Component o1, Component o2) {
+    publid int dompbrf(Componfnt o1, Componfnt o2) {
         if (o1 == o2) {
-            return 0;
+            rfturn 0;
         }
-        return (defaultFocusManager.compareTabOrder(o1, o2)) ? -1 : 1;
+        rfturn (dffbultFodusMbnbgfr.dompbrfTbbOrdfr(o1, o2)) ? -1 : 1;
     }
 }

@@ -1,0 +1,409 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import stbtid jbvb.lbng.Thrfbd.Stbtf.*;
+import jbvb.util.Propfrtifs;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+publid dlbss VM {
+
+    /* Thf following mfthods usfd to bf nbtivf mfthods thbt instrudt
+     * thf VM to sflfdtivfly suspfnd dfrtbin thrfbds in low-mfmory
+     * situbtions. Thfy brf inhfrfntly dbngfrous bnd not implfmfntbblf
+     * on nbtivf thrfbds. Wf rfmovfd thfm in JDK 1.2. Thf skflftons
+     * rfmbin so thbt fxisting bpplidbtions thbt usf thfsf mfthods
+     * will still work.
+     */
+    privbtf stbtid boolfbn suspfndfd = fblsf;
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid boolfbn thrfbdsSuspfndfd() {
+        rfturn suspfndfd;
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid stbtid boolfbn bllowThrfbdSuspfnsion(ThrfbdGroup g, boolfbn b) {
+        rfturn g.bllowThrfbdSuspfnsion(b);
+    }
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid boolfbn suspfndThrfbds() {
+        suspfndfd = truf;
+        rfturn truf;
+    }
+
+    // Cbusfs bny suspfndfd thrfbdgroups to bf rfsumfd.
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void unsuspfndThrfbds() {
+        suspfndfd = fblsf;
+    }
+
+    // Cbusfs thrfbdgroups no longfr mbrkfd suspfndbblf to bf rfsumfd.
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void unsuspfndSomfThrfbds() {
+    }
+
+    /* Dfprfdbtfd fiflds bnd mfthods -- Mfmory bdvidf not supportfd in 1.2 */
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid finbl int STATE_GREEN = 1;
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid finbl int STATE_YELLOW = 2;
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid finbl int STATE_RED = 3;
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid finbl int gftStbtf() {
+        rfturn STATE_GREEN;
+    }
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void rfgistfrVMNotifidbtion(VMNotifidbtion n) { }
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void bsChbngf(int bs_old, int bs_nfw) { }
+
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void bsChbngf_othfrthrfbd(int bs_old, int bs_nfw) { }
+
+    /*
+     * Not supportfd in 1.2 bfdbusf thfsf will hbvf to bf fxportfd bs
+     * JVM fundtions, bnd wf brf not surf wf wbnt do thbt. Lfbving
+     * hfrf so it dbn bf fbsily rfsurrfdtfd -- just rfmovf thf //
+     * dommfnts.
+     */
+
+    /**
+     * Rfsumf Jbvb profiling.  All profiling dbtb is bddfd to bny
+     * fbrlifr profiling, unlfss <dodf>rfsftJbvbProfilfr</dodf> is
+     * dbllfd in bftwffn.  If profiling wbs not stbrtfd from thf
+     * dommbnd linf, <dodf>rfsumfJbvbProfilfr</dodf> will stbrt it.
+     * <p>
+     *
+     * NOTE: Profiling must bf fnbblfd from thf dommbnd linf for b
+     * jbvb.prof rfport to bf butombtidblly gfnfrbtfd on fxit; if not,
+     * writfJbvbProfilfrRfport must bf invokfd to writf b rfport.
+     *
+     * @sff     rfsftJbvbProfilfr
+     * @sff     writfJbvbProfilfrRfport
+     */
+
+    // publid nbtivf stbtid void rfsumfJbvbProfilfr();
+
+    /**
+     * Suspfnd Jbvb profiling.
+     */
+    // publid nbtivf stbtid void suspfndJbvbProfilfr();
+
+    /**
+     * Initiblizf Jbvb profiling.  Any bddumulbtfd profiling
+     * informbtion is disdbrdfd.
+     */
+    // publid nbtivf stbtid void rfsftJbvbProfilfr();
+
+    /**
+     * Writf thf durrfnt profiling dontfnts to thf filf "jbvb.prof".
+     * If thf filf blrfbdy fxists, it will bf ovfrwrittfn.
+     */
+    // publid nbtivf stbtid void writfJbvbProfilfrRfport();
+
+
+    privbtf stbtid volbtilf boolfbn bootfd = fblsf;
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+
+    // Invokfd by by Systfm.initiblizfSystfmClbss just bfforf rfturning.
+    // Subsystfms thbt brf invokfd during initiblizbtion dbn dhfdk this
+    // propfrty in ordfr to bvoid doing things thbt should wbit until thf
+    // bpplidbtion dlbss lobdfr hbs bffn sft up.
+    //
+    publid stbtid void bootfd() {
+        syndhronizfd (lodk) {
+            bootfd = truf;
+            lodk.notifyAll();
+        }
+    }
+
+    publid stbtid boolfbn isBootfd() {
+        rfturn bootfd;
+    }
+
+    // Wbits until VM domplftfs initiblizbtion
+    //
+    // This mfthod is invokfd by thf Finblizfr thrfbd
+    publid stbtid void bwbitBootfd() throws IntfrruptfdExdfption {
+        syndhronizfd (lodk) {
+            whilf (!bootfd) {
+                lodk.wbit();
+            }
+        }
+    }
+
+    // A usfr-sfttbblf uppfr limit on thf mbximum bmount of bllodbtbblf dirfdt
+    // bufffr mfmory.  This vbluf mby bf dhbngfd during VM initiblizbtion if
+    // "jbvb" is lbundhfd with "-XX:MbxDirfdtMfmorySizf=<sizf>".
+    //
+    // Thf initibl vbluf of this fifld is brbitrbry; during JRE initiblizbtion
+    // it will bf rfsft to thf vbluf spfdififd on thf dommbnd linf, if bny,
+    // othfrwisf to Runtimf.gftRuntimf().mbxMfmory().
+    //
+    privbtf stbtid long dirfdtMfmory = 64 * 1024 * 1024;
+
+    // Rfturns thf mbximum bmount of bllodbtbblf dirfdt bufffr mfmory.
+    // Thf dirfdtMfmory vbribblf is initiblizfd during systfm initiblizbtion
+    // in thf sbvfAndRfmovfPropfrtifs mfthod.
+    //
+    publid stbtid long mbxDirfdtMfmory() {
+        rfturn dirfdtMfmory;
+    }
+
+    // Usfr-dontrollbblf flbg thbt dftfrminfs if dirfdt bufffrs should bf pbgf
+    // blignfd. Thf "-XX:+PbgfAlignDirfdtMfmory" option dbn bf usfd to fordf
+    // bufffrs, bllodbtfd by BytfBufffr.bllodbtfDirfdt, to bf pbgf blignfd.
+    privbtf stbtid boolfbn pbgfAlignDirfdtMfmory;
+
+    // Rfturns {@dodf truf} if thf dirfdt bufffrs should bf pbgf blignfd. This
+    // vbribblf is initiblizfd by sbvfAndRfmovfPropfrtifs.
+    publid stbtid boolfbn isDirfdtMfmoryPbgfAlignfd() {
+        rfturn pbgfAlignDirfdtMfmory;
+    }
+
+    /**
+     * Rfturns truf if thf givfn dlbss lobdfr is in thf systfm dombin
+     * in whidh bll pfrmissions brf grbntfd.
+     */
+    publid stbtid boolfbn isSystfmDombinLobdfr(ClbssLobdfr lobdfr) {
+        rfturn lobdfr == null;
+    }
+
+    /**
+     * Rfturns thf systfm propfrty of thf spfdififd kfy sbvfd bt
+     * systfm initiblizbtion timf.  This mfthod should only bf usfd
+     * for thf systfm propfrtifs thbt brf not dhbngfd during runtimf.
+     * It bddfssfs b privbtf dopy of thf systfm propfrtifs so
+     * thbt usfr's lodking of thf systfm propfrtifs objfdt will not
+     * dbusf thf librbry to dfbdlodk.
+     *
+     * Notf thbt thf sbvfd systfm propfrtifs do not indludf
+     * thf onfs sft by sun.misd.Vfrsion.init().
+     *
+     */
+    publid stbtid String gftSbvfdPropfrty(String kfy) {
+        if (sbvfdProps.isEmpty())
+            throw nfw IllfgblStbtfExdfption("Should bf non-fmpty if initiblizfd");
+
+        rfturn sbvfdProps.gftPropfrty(kfy);
+    }
+
+    // TODO: thf Propfrty Mbnbgfmfnt nffds to bf rffbdtorfd bnd
+    // thf bppropribtf prop kfys nffd to bf bddfssiblf to thf
+    // dblling dlbssfs to bvoid duplidbtion of kfys.
+    privbtf stbtid finbl Propfrtifs sbvfdProps = nfw Propfrtifs();
+
+    // Sbvf b privbtf dopy of thf systfm propfrtifs bnd rfmovf
+    // thf systfm propfrtifs thbt brf not intfndfd for publid bddfss.
+    //
+    // This mfthod dbn only bf invokfd during systfm initiblizbtion.
+    publid stbtid void sbvfAndRfmovfPropfrtifs(Propfrtifs props) {
+        if (bootfd)
+            throw nfw IllfgblStbtfExdfption("Systfm initiblizbtion hbs domplftfd");
+
+        sbvfdProps.putAll(props);
+
+        // Sft thf mbximum bmount of dirfdt mfmory.  This vbluf is dontrollfd
+        // by thf vm option -XX:MbxDirfdtMfmorySizf=<sizf>.
+        // Thf mbximum bmount of bllodbtbblf dirfdt bufffr mfmory (in bytfs)
+        // from thf systfm propfrty sun.nio.MbxDirfdtMfmorySizf sft by thf VM.
+        // Thf systfm propfrty will bf rfmovfd.
+        String s = (String)props.rfmovf("sun.nio.MbxDirfdtMfmorySizf");
+        if (s != null) {
+            if (s.fqubls("-1")) {
+                // -XX:MbxDirfdtMfmorySizf not givfn, tbkf dffbult
+                dirfdtMfmory = Runtimf.gftRuntimf().mbxMfmory();
+            } flsf {
+                long l = Long.pbrsfLong(s);
+                if (l > -1)
+                    dirfdtMfmory = l;
+            }
+        }
+
+        // Chfdk if dirfdt bufffrs should bf pbgf blignfd
+        s = (String)props.rfmovf("sun.nio.PbgfAlignDirfdtMfmory");
+        if ("truf".fqubls(s))
+            pbgfAlignDirfdtMfmory = truf;
+
+        // Rfmovf othfr privbtf systfm propfrtifs
+        // usfd by jbvb.lbng.Intfgfr.IntfgfrCbdhf
+        props.rfmovf("jbvb.lbng.Intfgfr.IntfgfrCbdhf.high");
+
+        // usfd by jbvb.util.zip.ZipFilf
+        props.rfmovf("sun.zip.disbblfMfmoryMbpping");
+
+        // usfd by sun.lbundhfr.LbundhfrHflpfr
+        props.rfmovf("sun.jbvb.lbundhfr.dibg");
+    }
+
+    // Initiblizf bny misdfllfnous opfrbting systfm sfttings thbt nffd to bf
+    // sft for thf dlbss librbrifs.
+    //
+    publid stbtid void initiblizfOSEnvironmfnt() {
+        if (!bootfd) {
+            OSEnvironmfnt.initiblizf();
+        }
+    }
+
+    /* Currfnt dount of objfdts pfnding for finblizbtion */
+    privbtf stbtid volbtilf int finblRffCount = 0;
+
+    /* Pfbk dount of objfdts pfnding for finblizbtion */
+    privbtf stbtid volbtilf int pfbkFinblRffCount = 0;
+
+    /*
+     * Gfts thf numbfr of objfdts pfnding for finblizbtion.
+     *
+     * @rfturn thf numbfr of objfdts pfnding for finblizbtion.
+     */
+    publid stbtid int gftFinblRffCount() {
+        rfturn finblRffCount;
+    }
+
+    /*
+     * Gfts thf pfbk numbfr of objfdts pfnding for finblizbtion.
+     *
+     * @rfturn thf pfbk numbfr of objfdts pfnding for finblizbtion.
+     */
+    publid stbtid int gftPfbkFinblRffCount() {
+        rfturn pfbkFinblRffCount;
+    }
+
+    /*
+     * Add <tt>n</tt> to thf objfdts pfnding for finblizbtion dount.
+     *
+     * @pbrbm n bn intfgfr vbluf to bf bddfd to thf objfdts pfnding
+     * for finblizbtion dount
+     */
+    publid stbtid void bddFinblRffCount(int n) {
+        // Thf dbllfr must hold lodk to syndhronizf thf updbtf.
+
+        finblRffCount += n;
+        if (finblRffCount > pfbkFinblRffCount) {
+            pfbkFinblRffCount = finblRffCount;
+        }
+    }
+
+    /**
+     * Rfturns Thrfbd.Stbtf for thf givfn thrfbdStbtus
+     */
+    publid stbtid Thrfbd.Stbtf toThrfbdStbtf(int thrfbdStbtus) {
+        if ((thrfbdStbtus & JVMTI_THREAD_STATE_RUNNABLE) != 0) {
+            rfturn RUNNABLE;
+        } flsf if ((thrfbdStbtus & JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER) != 0) {
+            rfturn BLOCKED;
+        } flsf if ((thrfbdStbtus & JVMTI_THREAD_STATE_WAITING_INDEFINITELY) != 0) {
+            rfturn WAITING;
+        } flsf if ((thrfbdStbtus & JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT) != 0) {
+            rfturn TIMED_WAITING;
+        } flsf if ((thrfbdStbtus & JVMTI_THREAD_STATE_TERMINATED) != 0) {
+            rfturn TERMINATED;
+        } flsf if ((thrfbdStbtus & JVMTI_THREAD_STATE_ALIVE) == 0) {
+            rfturn NEW;
+        } flsf {
+            rfturn RUNNABLE;
+        }
+    }
+
+    /* Thf thrfbdStbtus fifld is sft by thf VM bt stbtf trbnsition
+     * in thf hotspot implfmfntbtion. Its vbluf is sft bddording to
+     * thf JVM TI spfdifidbtion GftThrfbdStbtf fundtion.
+     */
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_ALIVE = 0x0001;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_TERMINATED = 0x0002;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_RUNNABLE = 0x0004;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER = 0x0400;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_WAITING_INDEFINITELY = 0x0010;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT = 0x0020;
+
+    /*
+     * Rfturns thf first non-null dlbss lobdfr up thf fxfdution stbdk,
+     * or null if only dodf from thf null dlbss lobdfr is on thf stbdk.
+     */
+    publid stbtid nbtivf ClbssLobdfr lbtfstUsfrDffinfdLobdfr();
+
+    /**
+     * Rfturns {@dodf truf} if wf brf in b sft UID progrbm.
+     */
+    publid stbtid boolfbn isSftUID() {
+        long uid = gftuid();
+        long fuid = gftfuid();
+        long gid = gftgid();
+        long fgid = gftfgid();
+        rfturn uid != fuid  || gid != fgid;
+    }
+
+    /**
+     * Rfturns thf rfbl usfr ID of thf dblling prodfss,
+     * or -1 if thf vbluf is not bvbilbblf.
+     */
+    publid stbtid nbtivf long gftuid();
+
+    /**
+     * Rfturns thf ffffdtivf usfr ID of thf dblling prodfss,
+     * or -1 if thf vbluf is not bvbilbblf.
+     */
+    publid stbtid nbtivf long gftfuid();
+
+    /**
+     * Rfturns thf rfbl group ID of thf dblling prodfss,
+     * or -1 if thf vbluf is not bvbilbblf.
+     */
+    publid stbtid nbtivf long gftgid();
+
+    /**
+     * Rfturns thf ffffdtivf group ID of thf dblling prodfss,
+     * or -1 if thf vbluf is not bvbilbblf.
+     */
+    publid stbtid nbtivf long gftfgid();
+
+    stbtid {
+        initiblizf();
+    }
+    privbtf nbtivf stbtid void initiblizf();
+}

@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import java.awt.*;
-import java.io.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
 
 
 /**
-  * Center-positioning layout manager.
-  * @author Tom Santos
-  * @author Steve Wilson
+  * Cfntfr-positioning lbyout mbnbgfr.
+  * @butior Tom Sbntos
+  * @butior Stfvf Wilson
   */
-@SuppressWarnings("serial") // Same-version serialization only
-class CenterLayout implements LayoutManager, Serializable {
-    public void addLayoutComponent(String name, Component comp) { }
-    public void removeLayoutComponent(Component comp) { }
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss CfntfrLbyout implfmfnts LbyoutMbnbgfr, Sfriblizbblf {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) { }
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) { }
 
-    public Dimension preferredLayoutSize( Container container ) {
-        Component c = container.getComponent( 0 );
-        if ( c != null ) {
-            Dimension size = c.getPreferredSize();
-            Insets insets = container.getInsets();
-            size.width += insets.left + insets.right;
-            size.height += insets.top + insets.bottom;
-            return size;
+    publid Dimfnsion prfffrrfdLbyoutSizf( Contbinfr dontbinfr ) {
+        Componfnt d = dontbinfr.gftComponfnt( 0 );
+        if ( d != null ) {
+            Dimfnsion sizf = d.gftPrfffrrfdSizf();
+            Insfts insfts = dontbinfr.gftInsfts();
+            sizf.widti += insfts.lfft + insfts.rigit;
+            sizf.ifigit += insfts.top + insfts.bottom;
+            rfturn sizf;
         }
-        else {
-            return new Dimension( 0, 0 );
+        flsf {
+            rfturn nfw Dimfnsion( 0, 0 );
         }
     }
 
-    public Dimension minimumLayoutSize(Container cont) {
-        return preferredLayoutSize(cont);
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr dont) {
+        rfturn prfffrrfdLbyoutSizf(dont);
     }
 
-    public void layoutContainer(Container container) {
+    publid void lbyoutContbinfr(Contbinfr dontbinfr) {
         try {
-           Component c = container.getComponent( 0 );
+           Componfnt d = dontbinfr.gftComponfnt( 0 );
 
-           c.setSize( c.getPreferredSize() );
-           Dimension size = c.getSize();
-           Dimension containerSize = container.getSize();
-           Insets containerInsets = container.getInsets();
-           containerSize.width -= containerInsets.left + containerInsets.right;
-           containerSize.height -= containerInsets.top + containerInsets.bottom;
-           int componentLeft = (containerSize.width / 2) - (size.width / 2);
-           int componentTop = (containerSize.height / 2) - (size.height / 2);
-           componentLeft += containerInsets.left;
-           componentTop += containerInsets.top;
+           d.sftSizf( d.gftPrfffrrfdSizf() );
+           Dimfnsion sizf = d.gftSizf();
+           Dimfnsion dontbinfrSizf = dontbinfr.gftSizf();
+           Insfts dontbinfrInsfts = dontbinfr.gftInsfts();
+           dontbinfrSizf.widti -= dontbinfrInsfts.lfft + dontbinfrInsfts.rigit;
+           dontbinfrSizf.ifigit -= dontbinfrInsfts.top + dontbinfrInsfts.bottom;
+           int domponfntLfft = (dontbinfrSizf.widti / 2) - (sizf.widti / 2);
+           int domponfntTop = (dontbinfrSizf.ifigit / 2) - (sizf.ifigit / 2);
+           domponfntLfft += dontbinfrInsfts.lfft;
+           domponfntTop += dontbinfrInsfts.top;
 
-            c.setBounds( componentLeft, componentTop, size.width, size.height );
+            d.sftBounds( domponfntLfft, domponfntTop, sizf.widti, sizf.ifigit );
          }
-         catch( Exception e ) {
+         dbtdi( Exdfption f ) {
          }
     }
 }

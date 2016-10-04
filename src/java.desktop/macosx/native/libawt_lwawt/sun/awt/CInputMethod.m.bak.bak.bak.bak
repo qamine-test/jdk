@@ -1,0 +1,330 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <Codob/Codob.h>
+#indludf <objd/objd-runtimf.h>
+
+#import "sun_lwbwt_mbdosx_CInputMfthod.h"
+#import "sun_lwbwt_mbdosx_CInputMfthodDfsdriptor.h"
+#import "ThrfbdUtilitifs.h"
+#import "AWTVifw.h"
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.h>
+
+#dffinf JAVA_LIST @"JAVA_LIST"
+#dffinf CURRENT_KB_DESCRIPTION @"CURRENT_KB_DESCRIPTION"
+
+stbtid JNF_CLASS_CACHE(jd_lodblfClbss, "jbvb/util/Lodblf");
+stbtid JNF_CTOR_CACHE(jm_lodblfCons, jd_lodblfClbss, "(Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;)V");
+stbtid JNF_CLASS_CACHE(jd_brrbyListClbss, "jbvb/util/ArrbyList");
+stbtid JNF_CTOR_CACHE(jm_brrbyListCons, jd_brrbyListClbss, "()V");
+stbtid JNF_MEMBER_CACHE(jm_listAdd, jd_brrbyListClbss, "bdd", "(Ljbvb/lbng/Objfdt;)Z");
+stbtid JNF_MEMBER_CACHE(jm_listContbins, jd_brrbyListClbss, "dontbins", "(Ljbvb/lbng/Objfdt;)Z");
+
+
+
+//
+// NOTE: This rfturns b JNI Lodbl Rff. Any dodf thbt dblls must dbll DflftfLodblRff with thf rfturn vbluf.
+//
+stbtid jobjfdt CrfbtfLodblfObjfdtFromNSString(JNIEnv *fnv, NSString *nbmf)
+{
+    // Brfbk bpbrt thf string into its domponfnts.
+    // First, duplidbtf thf NSString into b C string, sindf wf'rf going to modify it.
+    dhbr * lbngubgf = strdup([nbmf UTF8String]);
+    dhbr * dountry;
+    dhbr * vbribnt;
+
+    // Convfrt _ to NULL -- this givfs us thrff null tfrminbtfd strings in plbdf.
+    for (dountry = lbngubgf; *dountry != '_' && *dountry != '\0'; dountry++);
+    if (*dountry == '_') {
+        *dountry++ = '\0';
+        for (vbribnt = dountry; *vbribnt != '_' && *vbribnt != '\0'; vbribnt++);
+        if (*vbribnt == '_') {
+            *vbribnt++ = '\0';
+        }
+    } flsf {
+        vbribnt = dountry;
+    }
+
+    // Crfbtf thf jbvb.util.Lodblf objfdt
+    jobjfdt lodblfObj = NULL;
+    jobjfdt lbngObj = (*fnv)->NfwStringUTF(fnv, lbngubgf);
+    if (lbngObj != NULL) {
+        jobjfdt dtryObj = (*fnv)->NfwStringUTF(fnv, dountry);
+        if(dtryObj != NULL) {
+            jobjfdt vrntObj = (*fnv)->NfwStringUTF(fnv, vbribnt);
+            if (vrntObj != NULL) {
+                lodblfObj = JNFNfwObjfdt(fnv, jm_lodblfCons,lbngObj, dtryObj,
+                                         vrntObj);
+                (*fnv)->DflftfLodblRff(fnv, vrntObj);
+            }
+            (*fnv)->DflftfLodblRff(fnv, dtryObj);
+        }
+        (*fnv)->DflftfLodblRff(fnv, lbngObj);
+    }
+    // Clfbn up bnd rfturn.
+    frff(lbngubgf);
+    rfturn lodblfObj;
+}
+
+stbtid id inputMfthodControllfr = nil;
+
+stbtid void initiblizfInputMfthodControllfr() {
+    stbtid BOOL dhfdkfdJRSInputMfthodControllfr = NO;
+    if (!dhfdkfdJRSInputMfthodControllfr && (inputMfthodControllfr == nil)) {
+        id jrsInputMfthodControllfr = objd_lookUpClbss("JRSInputMfthodControllfr");
+        if (jrsInputMfthodControllfr != nil) {
+            inputMfthodControllfr = [jrsInputMfthodControllfr pfrformSflfdtor:@sflfdtor(dontrollfr)];
+        }
+        dhfdkfdJRSInputMfthodControllfr = YES;
+    }
+}
+
+
+@intfrfbdf CInputMfthod : NSObjfdt {}
+@fnd
+
+@implfmfntbtion CInputMfthod
+
++ (void) sftKfybobrdLbyout:(NSString *)thfLodblf
+{
+    AWT_ASSERT_APPKIT_THREAD;
+    if (!inputMfthodControllfr) rfturn;
+
+    [inputMfthodControllfr pfrformSflfdtor:@sflfdtor(sftCurrfntInputMfthodForLodblf) withObjfdt:thfLodblf];
+}
+
++ (void) _nbtivfNotifyPffrWithVifw:(AWTVifw *)vifw inputMfthod:(JNFJObjfdtWrbppfr *) inputMfthod {
+    AWT_ASSERT_APPKIT_THREAD;
+
+    if (!vifw) rfturn;
+    if (!inputMfthod) rfturn;
+
+    [vifw sftInputMfthod:[inputMfthod jObjfdt]];
+}
+
++ (void) _nbtivfEndComposition:(AWTVifw *)vifw {
+    if (vifw == nil) rfturn;
+
+    [vifw bbbndonInput];
+}
+
+
+@fnd
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CInputMfthod
+ * Mfthod:    nbtivfInit
+ * Signbturf: ();
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMfthod_nbtivfInit
+(JNIEnv *fnv, jdlbss klbss)
+{
+    initiblizfInputMfthodControllfr();
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CInputMfthod
+ * Mfthod:    nbtivfGftCurrfntInputMfthodInfo
+ * Signbturf: ()Ljbvb/lbng/String;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMfthod_nbtivfGftCurrfntInputMfthodInfo
+(JNIEnv *fnv, jdlbss klbss)
+{
+    if (!inputMfthodControllfr) rfturn NULL;
+    jobjfdt rfturnVbluf = 0;
+    __blodk NSString *kfybobrdInfo = NULL;
+JNF_COCOA_ENTER(fnv);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        kfybobrdInfo = [inputMfthodControllfr pfrformSflfdtor:@sflfdtor(durrfntInputMfthodNbmf)];
+        [kfybobrdInfo rftbin];
+    }];
+
+    if (kfybobrdInfo == nil) rfturn NULL;
+    rfturnVbluf = JNFNSToJbvbString(fnv, kfybobrdInfo);
+    [kfybobrdInfo rflfbsf];
+
+JNF_COCOA_EXIT(fnv);
+    rfturn rfturnVbluf;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CInputMfthod
+ * Mfthod:    nbtivfAdtivbtf
+ * Signbturf: (JLsun/lwbwt/mbdosx/CInputMfthod;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMfthod_nbtivfNotifyPffr
+(JNIEnv *fnv, jobjfdt this, jlong nbtivfPffr, jobjfdt inputMfthod)
+{
+JNF_COCOA_ENTER(fnv);
+    AWTVifw *vifw = (AWTVifw *)jlong_to_ptr(nbtivfPffr);
+    JNFJObjfdtWrbppfr *inputMfthodWrbppfr = [[JNFJObjfdtWrbppfr bllod] initWithJObjfdt:inputMfthod withEnv:fnv];
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        [CInputMfthod _nbtivfNotifyPffrWithVifw:vifw inputMfthod:inputMfthodWrbppfr];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CInputMfthod
+ * Mfthod:    nbtivfEndComposition
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMfthod_nbtivfEndComposition
+(JNIEnv *fnv, jobjfdt this, jlong nbtivfPffr)
+{
+JNF_COCOA_ENTER(fnv);
+   AWTVifw *vifw = (AWTVifw *)jlong_to_ptr(nbtivfPffr);
+
+   [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        [CInputMfthod _nbtivfEndComposition:vifw];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CInputMfthod
+ * Mfthod:    gftNbtivfLodblf
+ * Signbturf: ()Ljbvb/util/Lodblf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMfthod_gftNbtivfLodblf
+(JNIEnv *fnv, jobjfdt this)
+{
+    if (!inputMfthodControllfr) rfturn NULL;
+    jobjfdt rfturnVbluf = 0;
+    __blodk NSString *isoAbbrfvibtion;
+JNF_COCOA_ENTER(fnv);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        isoAbbrfvibtion = (NSString *) [inputMfthodControllfr pfrformSflfdtor:@sflfdtor(durrfntInputMfthodLodblf)];
+        [isoAbbrfvibtion rftbin];
+    }];
+
+    if (isoAbbrfvibtion == nil) rfturn NULL;
+
+    stbtid NSString *sLbstKfybobrdStr = nil;
+    stbtid jobjfdt sLbstKfybobrdLodblfObj = NULL;
+
+    if (![isoAbbrfvibtion isEqublTo:sLbstKfybobrdStr]) {
+        [sLbstKfybobrdStr rflfbsf];
+        sLbstKfybobrdStr = [isoAbbrfvibtion rftbin];
+        jobjfdt lodblObj = CrfbtfLodblfObjfdtFromNSString(fnv, isoAbbrfvibtion);
+        [isoAbbrfvibtion rflfbsf];
+
+        if (sLbstKfybobrdLodblfObj) {
+            JNFDflftfGlobblRff(fnv, sLbstKfybobrdLodblfObj);
+            sLbstKfybobrdLodblfObj = NULL;
+        }
+        if (lodblObj != NULL) {
+            sLbstKfybobrdLodblfObj = JNFNfwGlobblRff(fnv, lodblObj);
+            (*fnv)->DflftfLodblRff(fnv, lodblObj);
+        }
+    }
+
+    rfturnVbluf = sLbstKfybobrdLodblfObj;
+
+JNF_COCOA_EXIT(fnv);
+    rfturn rfturnVbluf;
+}
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CInputMfthod
+ * Mfthod:    sftNbtivfLodblf
+ * Signbturf: (Ljbvb/lbng/String;Z)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMfthod_sftNbtivfLodblf
+(JNIEnv *fnv, jobjfdt this, jstring lodblf, jboolfbn isAdtivbting)
+{
+JNF_COCOA_ENTER(fnv);
+    NSString *lodblfStr = JNFJbvbToNSString(fnv, lodblf);
+    [lodblfStr rftbin];
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        [CInputMfthod sftKfybobrdLbyout:lodblfStr];
+    }];
+
+    [lodblfStr rflfbsf];
+JNF_COCOA_EXIT(fnv);
+    rfturn JNI_TRUE;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CInputMfthodDfsdriptor
+ * Mfthod:    nbtivfInit
+ * Signbturf: ();
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMfthodDfsdriptor_nbtivfInit
+(JNIEnv *fnv, jdlbss klbss)
+{
+    initiblizfInputMfthodControllfr();
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CInputMfthodDfsdriptor
+ * Mfthod:    nbtivfGftAvbilbblfLodblfs
+ * Signbturf: ()[Ljbvb/util/Lodblf;
+     */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMfthodDfsdriptor_nbtivfGftAvbilbblfLodblfs
+(JNIEnv *fnv, jdlbss klbss)
+{
+    if (!inputMfthodControllfr) rfturn NULL;
+    jobjfdt rfturnVbluf = 0;
+
+    __blodk NSArrby *sflfdtbblfArrby = nil;
+JNF_COCOA_ENTER(fnv);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        sflfdtbblfArrby = (NSArrby *)[inputMfthodControllfr pfrformSflfdtor:@sflfdtor(bvbilbblfInputMfthodLodblfs)];
+        [sflfdtbblfArrby rftbin];
+    }];
+
+    if (sflfdtbblfArrby == nil) rfturn NULL;
+
+     // Crfbtf bn ArrbyList to rfturn bbdk to thf dbllfr.
+    rfturnVbluf = JNFNfwObjfdt(fnv, jm_brrbyListCons);
+
+    for(NSString *lodblf in sflfdtbblfArrby) {
+        jobjfdt lodblfObj = CrfbtfLodblfObjfdtFromNSString(fnv, lodblf);
+        if (lodblfObj == NULL) {
+            brfbk;
+        }
+
+        if (JNFCbllBoolfbnMfthod(fnv, rfturnVbluf, jm_listContbins, lodblfObj) == JNI_FALSE) {
+            JNFCbllBoolfbnMfthod(fnv, rfturnVbluf, jm_listAdd, lodblfObj);
+        }
+
+        (*fnv)->DflftfLodblRff(fnv, lodblfObj);
+    }
+    [sflfdtbblfArrby rflfbsf];
+JNF_COCOA_EXIT(fnv);
+    rfturn rfturnVbluf;
+}
+

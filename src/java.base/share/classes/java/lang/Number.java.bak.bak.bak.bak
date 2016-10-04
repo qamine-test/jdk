@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 1994, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thf bbstrbdt dlbss {@dodf Numbfr} is thf supfrdlbss of plbtform
+ * dlbssfs rfprfsfnting numfrid vblufs thbt brf donvfrtiblf to thf
+ * primitivf typfs {@dodf bytf}, {@dodf doublf}, {@dodf flobt}, {@dodf
+ * int}, {@dodf long}, bnd {@dodf short}.
+ *
+ * Thf spfdifid sfmbntids of thf donvfrsion from thf numfrid vbluf of
+ * b pbrtidulbr {@dodf Numbfr} implfmfntbtion to b givfn primitivf
+ * typf is dffinfd by thf {@dodf Numbfr} implfmfntbtion in qufstion.
+ *
+ * For plbtform dlbssfs, thf donvfrsion is oftfn bnblogous to b
+ * nbrrowing primitivf donvfrsion or b widfning primitivf donvfrsion
+ * bs dffining in <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+ * for donvfrting bftwffn primitivf typfs.  Thfrfforf, donvfrsions mby
+ * losf informbtion bbout thf ovfrbll mbgnitudf of b numfrid vbluf, mby
+ * losf prfdision, bnd mby fvfn rfturn b rfsult of b difffrfnt sign
+ * thbn thf input.
+ *
+ * Sff thf dodumfntbtion of b givfn {@dodf Numbfr} implfmfntbtion for
+ * donvfrsion dftbils.
+ *
+ * @buthor      Lff Boynton
+ * @buthor      Arthur vbn Hoff
+ * @jls 5.1.2 Widfning Primitivf Convfrsions
+ * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
+ * @sindf   1.0
+ */
+publid bbstrbdt dlbss Numbfr implfmfnts jbvb.io.Sfriblizbblf {
+    /**
+     * Rfturns thf vbluf of thf spfdififd numbfr bs bn {@dodf int},
+     * whidh mby involvf rounding or trundbtion.
+     *
+     * @rfturn  thf numfrid vbluf rfprfsfntfd by this objfdt bftfr donvfrsion
+     *          to typf {@dodf int}.
+     */
+    publid bbstrbdt int intVbluf();
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd numbfr bs b {@dodf long},
+     * whidh mby involvf rounding or trundbtion.
+     *
+     * @rfturn  thf numfrid vbluf rfprfsfntfd by this objfdt bftfr donvfrsion
+     *          to typf {@dodf long}.
+     */
+    publid bbstrbdt long longVbluf();
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd numbfr bs b {@dodf flobt},
+     * whidh mby involvf rounding.
+     *
+     * @rfturn  thf numfrid vbluf rfprfsfntfd by this objfdt bftfr donvfrsion
+     *          to typf {@dodf flobt}.
+     */
+    publid bbstrbdt flobt flobtVbluf();
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd numbfr bs b {@dodf doublf},
+     * whidh mby involvf rounding.
+     *
+     * @rfturn  thf numfrid vbluf rfprfsfntfd by this objfdt bftfr donvfrsion
+     *          to typf {@dodf doublf}.
+     */
+    publid bbstrbdt doublf doublfVbluf();
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd numbfr bs b {@dodf bytf},
+     * whidh mby involvf rounding or trundbtion.
+     *
+     * <p>This implfmfntbtion rfturns thf rfsult of {@link #intVbluf} dbst
+     * to b {@dodf bytf}.
+     *
+     * @rfturn  thf numfrid vbluf rfprfsfntfd by this objfdt bftfr donvfrsion
+     *          to typf {@dodf bytf}.
+     * @sindf   1.1
+     */
+    publid bytf bytfVbluf() {
+        rfturn (bytf)intVbluf();
+    }
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd numbfr bs b {@dodf short},
+     * whidh mby involvf rounding or trundbtion.
+     *
+     * <p>This implfmfntbtion rfturns thf rfsult of {@link #intVbluf} dbst
+     * to b {@dodf short}.
+     *
+     * @rfturn  thf numfrid vbluf rfprfsfntfd by this objfdt bftfr donvfrsion
+     *          to typf {@dodf short}.
+     * @sindf   1.1
+     */
+    publid short shortVbluf() {
+        rfturn (short)intVbluf();
+    }
+
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -8742448824652078965L;
+}

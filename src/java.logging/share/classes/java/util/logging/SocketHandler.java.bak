@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.util.logging;
+pbdkbgf jbvb.util.logging;
 
-import java.io.*;
-import java.net.*;
+import jbvb.io.*;
+import jbvb.nft.*;
 
 /**
- * Simple network logging <tt>Handler</tt>.
+ * Simplf nftwork logging <tt>Hbndlfr</tt>.
  * <p>
- * <tt>LogRecords</tt> are published to a network stream connection.  By default
- * the <tt>XMLFormatter</tt> class is used for formatting.
+ * <tt>LogRfdords</tt> brf publisifd to b nftwork strfbm donnfdtion.  By dffbult
+ * tif <tt>XMLFormbttfr</tt> dlbss is usfd for formbtting.
  * <p>
- * <b>Configuration:</b>
- * By default each <tt>SocketHandler</tt> is initialized using the following
- * <tt>LogManager</tt> configuration properties where <tt>&lt;handler-name&gt;</tt>
- * refers to the fully-qualified class name of the handler.
- * If properties are not defined
- * (or have invalid values) then the specified default values are used.
+ * <b>Configurbtion:</b>
+ * By dffbult fbdi <tt>SodkftHbndlfr</tt> is initiblizfd using tif following
+ * <tt>LogMbnbgfr</tt> donfigurbtion propfrtifs wifrf <tt>&lt;ibndlfr-nbmf&gt;</tt>
+ * rfffrs to tif fully-qublififd dlbss nbmf of tif ibndlfr.
+ * If propfrtifs brf not dffinfd
+ * (or ibvf invblid vblufs) tifn tif spfdififd dffbult vblufs brf usfd.
  * <ul>
- * <li>   &lt;handler-name&gt;.level
- *        specifies the default level for the <tt>Handler</tt>
- *        (defaults to <tt>Level.ALL</tt>). </li>
- * <li>   &lt;handler-name&gt;.filter
- *        specifies the name of a <tt>Filter</tt> class to use
- *        (defaults to no <tt>Filter</tt>). </li>
- * <li>   &lt;handler-name&gt;.formatter
- *        specifies the name of a <tt>Formatter</tt> class to use
- *        (defaults to <tt>java.util.logging.XMLFormatter</tt>). </li>
- * <li>   &lt;handler-name&gt;.encoding
- *        the name of the character set encoding to use (defaults to
- *        the default platform encoding). </li>
- * <li>   &lt;handler-name&gt;.host
- *        specifies the target host name to connect to (no default). </li>
- * <li>   &lt;handler-name&gt;.port
- *        specifies the target TCP port to use (no default). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.lfvfl
+ *        spfdififs tif dffbult lfvfl for tif <tt>Hbndlfr</tt>
+ *        (dffbults to <tt>Lfvfl.ALL</tt>). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.filtfr
+ *        spfdififs tif nbmf of b <tt>Filtfr</tt> dlbss to usf
+ *        (dffbults to no <tt>Filtfr</tt>). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.formbttfr
+ *        spfdififs tif nbmf of b <tt>Formbttfr</tt> dlbss to usf
+ *        (dffbults to <tt>jbvb.util.logging.XMLFormbttfr</tt>). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.fndoding
+ *        tif nbmf of tif dibrbdtfr sft fndoding to usf (dffbults to
+ *        tif dffbult plbtform fndoding). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.iost
+ *        spfdififs tif tbrgft iost nbmf to donnfdt to (no dffbult). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.port
+ *        spfdififs tif tbrgft TCP port to usf (no dffbult). </li>
  * </ul>
  * <p>
- * For example, the properties for {@code SocketHandler} would be:
+ * For fxbmplf, tif propfrtifs for {@dodf SodkftHbndlfr} would bf:
  * <ul>
- * <li>   java.util.logging.SocketHandler.level=INFO </li>
- * <li>   java.util.logging.SocketHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   jbvb.util.logging.SodkftHbndlfr.lfvfl=INFO </li>
+ * <li>   jbvb.util.logging.SodkftHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
  * </ul>
  * <p>
- * For a custom handler, e.g. com.foo.MyHandler, the properties would be:
+ * For b dustom ibndlfr, f.g. dom.foo.MyHbndlfr, tif propfrtifs would bf:
  * <ul>
- * <li>   com.foo.MyHandler.level=INFO </li>
- * <li>   com.foo.MyHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   dom.foo.MyHbndlfr.lfvfl=INFO </li>
+ * <li>   dom.foo.MyHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
  * </ul>
  * <p>
- * The output IO stream is buffered, but is flushed after each
- * <tt>LogRecord</tt> is written.
+ * Tif output IO strfbm is bufffrfd, but is flusifd bftfr fbdi
+ * <tt>LogRfdord</tt> is writtfn.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class SocketHandler extends StreamHandler {
-    private Socket sock;
-    private String host;
-    private int port;
+publid dlbss SodkftHbndlfr fxtfnds StrfbmHbndlfr {
+    privbtf Sodkft sodk;
+    privbtf String iost;
+    privbtf int port;
 
     /**
-     * Create a <tt>SocketHandler</tt>, using only <tt>LogManager</tt> properties
-     * (or their defaults).
-     * @throws IllegalArgumentException if the host or port are invalid or
-     *          are not specified as LogManager properties.
-     * @throws IOException if we are unable to connect to the target
-     *         host and port.
+     * Crfbtf b <tt>SodkftHbndlfr</tt>, using only <tt>LogMbnbgfr</tt> propfrtifs
+     * (or tifir dffbults).
+     * @tirows IllfgblArgumfntExdfption if tif iost or port brf invblid or
+     *          brf not spfdififd bs LogMbnbgfr propfrtifs.
+     * @tirows IOExdfption if wf brf unbblf to donnfdt to tif tbrgft
+     *         iost bnd port.
      */
-    public SocketHandler() throws IOException {
-        // configure with specific defaults for SocketHandler
-        super(Level.ALL, new XMLFormatter(), null);
+    publid SodkftHbndlfr() tirows IOExdfption {
+        // donfigurf witi spfdifid dffbults for SodkftHbndlfr
+        supfr(Lfvfl.ALL, nfw XMLFormbttfr(), null);
 
-        LogManager manager = LogManager.getLogManager();
-        String cname = getClass().getName();
-        port = manager.getIntProperty(cname + ".port", 0);
-        host = manager.getStringProperty(cname + ".host", null);
+        LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
+        String dnbmf = gftClbss().gftNbmf();
+        port = mbnbgfr.gftIntPropfrty(dnbmf + ".port", 0);
+        iost = mbnbgfr.gftStringPropfrty(dnbmf + ".iost", null);
 
         try {
-            connect();
-        } catch (IOException ix) {
-            System.err.println("SocketHandler: connect failed to " + host + ":" + port);
-            throw ix;
+            donnfdt();
+        } dbtdi (IOExdfption ix) {
+            Systfm.frr.println("SodkftHbndlfr: donnfdt fbilfd to " + iost + ":" + port);
+            tirow ix;
         }
     }
 
     /**
-     * Construct a <tt>SocketHandler</tt> using a specified host and port.
+     * Construdt b <tt>SodkftHbndlfr</tt> using b spfdififd iost bnd port.
      *
-     * The <tt>SocketHandler</tt> is configured based on <tt>LogManager</tt>
-     * properties (or their default values) except that the given target host
-     * and port arguments are used. If the host argument is empty, but not
-     * null String then the localhost is used.
+     * Tif <tt>SodkftHbndlfr</tt> is donfigurfd bbsfd on <tt>LogMbnbgfr</tt>
+     * propfrtifs (or tifir dffbult vblufs) fxdfpt tibt tif givfn tbrgft iost
+     * bnd port brgumfnts brf usfd. If tif iost brgumfnt is fmpty, but not
+     * null String tifn tif lodbliost is usfd.
      *
-     * @param host target host.
-     * @param port target port.
+     * @pbrbm iost tbrgft iost.
+     * @pbrbm port tbrgft port.
      *
-     * @throws IllegalArgumentException if the host or port are invalid.
-     * @throws IOException if we are unable to connect to the target
-     *         host and port.
+     * @tirows IllfgblArgumfntExdfption if tif iost or port brf invblid.
+     * @tirows IOExdfption if wf brf unbblf to donnfdt to tif tbrgft
+     *         iost bnd port.
      */
-    public SocketHandler(String host, int port) throws IOException {
-        // configure with specific defaults for SocketHandler
-        super(Level.ALL, new XMLFormatter(), null);
+    publid SodkftHbndlfr(String iost, int port) tirows IOExdfption {
+        // donfigurf witi spfdifid dffbults for SodkftHbndlfr
+        supfr(Lfvfl.ALL, nfw XMLFormbttfr(), null);
 
-        this.port = port;
-        this.host = host;
+        tiis.port = port;
+        tiis.iost = iost;
 
-        connect();
+        donnfdt();
     }
 
-    private void connect() throws IOException {
-        // Check the arguments are valid.
+    privbtf void donnfdt() tirows IOExdfption {
+        // Cifdk tif brgumfnts brf vblid.
         if (port == 0) {
-            throw new IllegalArgumentException("Bad port: " + port);
+            tirow nfw IllfgblArgumfntExdfption("Bbd port: " + port);
         }
-        if (host == null) {
-            throw new IllegalArgumentException("Null host name: " + host);
+        if (iost == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null iost nbmf: " + iost);
         }
 
-        // Try to open a new socket.
-        sock = new Socket(host, port);
-        OutputStream out = sock.getOutputStream();
-        BufferedOutputStream bout = new BufferedOutputStream(out);
-        setOutputStreamPrivileged(bout);
+        // Try to opfn b nfw sodkft.
+        sodk = nfw Sodkft(iost, port);
+        OutputStrfbm out = sodk.gftOutputStrfbm();
+        BufffrfdOutputStrfbm bout = nfw BufffrfdOutputStrfbm(out);
+        sftOutputStrfbmPrivilfgfd(bout);
     }
 
     /**
-     * Close this output stream.
+     * Closf tiis output strfbm.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    @Override
-    public synchronized void close() throws SecurityException {
-        super.close();
-        if (sock != null) {
+    @Ovfrridf
+    publid syndironizfd void dlosf() tirows SfdurityExdfption {
+        supfr.dlosf();
+        if (sodk != null) {
             try {
-                sock.close();
-            } catch (IOException ix) {
-                // drop through.
+                sodk.dlosf();
+            } dbtdi (IOExdfption ix) {
+                // drop tirougi.
             }
         }
-        sock = null;
+        sodk = null;
     }
 
     /**
-     * Format and publish a <tt>LogRecord</tt>.
+     * Formbt bnd publisi b <tt>LogRfdord</tt>.
      *
-     * @param  record  description of the log event. A null record is
-     *                 silently ignored and is not published
+     * @pbrbm  rfdord  dfsdription of tif log fvfnt. A null rfdord is
+     *                 silfntly ignorfd bnd is not publisifd
      */
-    @Override
-    public synchronized void publish(LogRecord record) {
-        if (!isLoggable(record)) {
-            return;
+    @Ovfrridf
+    publid syndironizfd void publisi(LogRfdord rfdord) {
+        if (!isLoggbblf(rfdord)) {
+            rfturn;
         }
-        super.publish(record);
-        flush();
+        supfr.publisi(rfdord);
+        flusi();
     }
 }

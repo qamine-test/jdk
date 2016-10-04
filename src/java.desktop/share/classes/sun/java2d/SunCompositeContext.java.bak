@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.Composite;
-import java.awt.CompositeContext;
-import java.awt.AlphaComposite;
-import java.awt.image.ColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.loops.XORComposite;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.Blit;
+import jbvb.bwt.Compositf;
+import jbvb.bwt.CompositfContfxt;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import sun.bwt.imbgf.BufImgSurfbdfDbtb;
+import sun.jbvb2d.loops.XORCompositf;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.Blit;
 
-public class SunCompositeContext implements CompositeContext {
-    ColorModel srcCM;
-    ColorModel dstCM;
-    Composite composite;
-    CompositeType comptype;
+publid dlbss SunCompositfContfxt implfmfnts CompositfContfxt {
+    ColorModfl srdCM;
+    ColorModfl dstCM;
+    Compositf dompositf;
+    CompositfTypf domptypf;
 
-    public SunCompositeContext(AlphaComposite ac,
-                               ColorModel s, ColorModel d)
+    publid SunCompositfContfxt(AlpibCompositf bd,
+                               ColorModfl s, ColorModfl d)
     {
         if (s == null) {
-            throw new NullPointerException("Source color model cannot be null");
+            tirow nfw NullPointfrExdfption("Sourdf dolor modfl dbnnot bf null");
         }
         if (d == null) {
-            throw new NullPointerException("Destination color model cannot be null");
+            tirow nfw NullPointfrExdfption("Dfstinbtion dolor modfl dbnnot bf null");
         }
-        srcCM = s;
+        srdCM = s;
         dstCM = d;
-        this.composite = ac;
-        this.comptype = CompositeType.forAlphaComposite(ac);
+        tiis.dompositf = bd;
+        tiis.domptypf = CompositfTypf.forAlpibCompositf(bd);
     }
 
-    public SunCompositeContext(XORComposite xc,
-                               ColorModel s, ColorModel d)
+    publid SunCompositfContfxt(XORCompositf xd,
+                               ColorModfl s, ColorModfl d)
     {
         if (s == null) {
-            throw new NullPointerException("Source color model cannot be null");
+            tirow nfw NullPointfrExdfption("Sourdf dolor modfl dbnnot bf null");
         }
         if (d == null) {
-            throw new NullPointerException("Destination color model cannot be null");
+            tirow nfw NullPointfrExdfption("Dfstinbtion dolor modfl dbnnot bf null");
         }
-        srcCM = s;
+        srdCM = s;
         dstCM = d;
-        this.composite = xc;
-        this.comptype = CompositeType.Xor;
+        tiis.dompositf = xd;
+        tiis.domptypf = CompositfTypf.Xor;
     }
 
     /**
-     * Release resources allocated for context.
+     * Rflfbsf rfsourdfs bllodbtfd for dontfxt.
      */
-    public void dispose() {
+    publid void disposf() {
     }
 
     /**
-     * This method composes the two source tiles
-     * and places the result in the destination tile. Note that
-     * the destination can be the same object as either
-     * the first or second source.
-     * @param src1 The first source tile for the compositing operation.
-     * @param src2 The second source tile for the compositing operation.
-     * @param dst The tile where the result of the operation is stored.
+     * Tiis mftiod domposfs tif two sourdf tilfs
+     * bnd plbdfs tif rfsult in tif dfstinbtion tilf. Notf tibt
+     * tif dfstinbtion dbn bf tif sbmf objfdt bs fitifr
+     * tif first or sfdond sourdf.
+     * @pbrbm srd1 Tif first sourdf tilf for tif dompositing opfrbtion.
+     * @pbrbm srd2 Tif sfdond sourdf tilf for tif dompositing opfrbtion.
+     * @pbrbm dst Tif tilf wifrf tif rfsult of tif opfrbtion is storfd.
      */
-    public void compose(Raster srcArg, Raster dstIn, WritableRaster dstOut) {
-        WritableRaster src;
+    publid void domposf(Rbstfr srdArg, Rbstfr dstIn, WritbblfRbstfr dstOut) {
+        WritbblfRbstfr srd;
         int w;
-        int h;
+        int i;
 
         if (dstIn != dstOut) {
-            dstOut.setDataElements(0, 0, dstIn);
+            dstOut.sftDbtbElfmfnts(0, 0, dstIn);
         }
 
-        // REMIND: We should be able to create a SurfaceData from just
-        // a non-writable Raster and a ColorModel.  Since we need to
-        // create a SurfaceData from a BufferedImage then we need to
-        // make a WritableRaster since it is needed to construct a
-        // BufferedImage.
-        if (srcArg instanceof WritableRaster) {
-            src = (WritableRaster) srcArg;
-        } else {
-            src = srcArg.createCompatibleWritableRaster();
-            src.setDataElements(0, 0, srcArg);
+        // REMIND: Wf siould bf bblf to drfbtf b SurfbdfDbtb from just
+        // b non-writbblf Rbstfr bnd b ColorModfl.  Sindf wf nffd to
+        // drfbtf b SurfbdfDbtb from b BufffrfdImbgf tifn wf nffd to
+        // mbkf b WritbblfRbstfr sindf it is nffdfd to donstrudt b
+        // BufffrfdImbgf.
+        if (srdArg instbndfof WritbblfRbstfr) {
+            srd = (WritbblfRbstfr) srdArg;
+        } flsf {
+            srd = srdArg.drfbtfCompbtiblfWritbblfRbstfr();
+            srd.sftDbtbElfmfnts(0, 0, srdArg);
         }
 
-        w = Math.min(src.getWidth(), dstIn.getWidth());
-        h = Math.min(src.getHeight(), dstIn.getHeight());
+        w = Mbti.min(srd.gftWidti(), dstIn.gftWidti());
+        i = Mbti.min(srd.gftHfigit(), dstIn.gftHfigit());
 
-        BufferedImage srcImg = new BufferedImage(srcCM, src,
-                                                 srcCM.isAlphaPremultiplied(),
+        BufffrfdImbgf srdImg = nfw BufffrfdImbgf(srdCM, srd,
+                                                 srdCM.isAlpibPrfmultiplifd(),
                                                  null);
-        BufferedImage dstImg = new BufferedImage(dstCM, dstOut,
-                                                 dstCM.isAlphaPremultiplied(),
+        BufffrfdImbgf dstImg = nfw BufffrfdImbgf(dstCM, dstOut,
+                                                 dstCM.isAlpibPrfmultiplifd(),
                                                  null);
 
-        SurfaceData srcData = BufImgSurfaceData.createData(srcImg);
-        SurfaceData dstData = BufImgSurfaceData.createData(dstImg);
-        Blit blit = Blit.getFromCache(srcData.getSurfaceType(),
-                                      comptype,
-                                      dstData.getSurfaceType());
-        blit.Blit(srcData, dstData, composite, null, 0, 0, 0, 0, w, h);
+        SurfbdfDbtb srdDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(srdImg);
+        SurfbdfDbtb dstDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(dstImg);
+        Blit blit = Blit.gftFromCbdif(srdDbtb.gftSurfbdfTypf(),
+                                      domptypf,
+                                      dstDbtb.gftSurfbdfTypf());
+        blit.Blit(srdDbtb, dstDbtb, dompositf, null, 0, 0, 0, 0, w, i);
     }
 }

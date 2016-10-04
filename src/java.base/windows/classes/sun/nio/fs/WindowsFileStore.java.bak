@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
 
-import static sun.nio.fs.WindowsConstants.*;
-import static sun.nio.fs.WindowsNativeDispatcher.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
 
 /**
- * Windows implementation of FileStore.
+ * Windows implfmfntbtion of FilfStorf.
  */
 
-class WindowsFileStore
-    extends FileStore
+dlbss WindowsFilfStorf
+    fxtfnds FilfStorf
 {
-    private final String root;
-    private final VolumeInformation volInfo;
-    private final int volType;
-    private final String displayName;   // returned by toString
+    privbtf finbl String root;
+    privbtf finbl VolumfInformbtion volInfo;
+    privbtf finbl int volTypf;
+    privbtf finbl String displbyNbmf;   // rfturnfd by toString
 
-    private WindowsFileStore(String root) throws WindowsException {
-        assert root.charAt(root.length()-1) == '\\';
-        this.root = root;
-        this.volInfo = GetVolumeInformation(root);
-        this.volType = GetDriveType(root);
+    privbtf WindowsFilfStorf(String root) tirows WindowsExdfption {
+        bssfrt root.dibrAt(root.lfngti()-1) == '\\';
+        tiis.root = root;
+        tiis.volInfo = GftVolumfInformbtion(root);
+        tiis.volTypf = GftDrivfTypf(root);
 
-        // file store "display name" is the volume name if available
-        String vol = volInfo.volumeName();
-        if (vol.length() > 0) {
-            this.displayName = vol;
-        } else {
-            // TBD - should we map all types? Does this need to be localized?
-            this.displayName = (volType == DRIVE_REMOVABLE) ? "Removable Disk" : "";
+        // filf storf "displby nbmf" is tif volumf nbmf if bvbilbblf
+        String vol = volInfo.volumfNbmf();
+        if (vol.lfngti() > 0) {
+            tiis.displbyNbmf = vol;
+        } flsf {
+            // TBD - siould wf mbp bll typfs? Dofs tiis nffd to bf lodblizfd?
+            tiis.displbyNbmf = (volTypf == DRIVE_REMOVABLE) ? "Rfmovbblf Disk" : "";
         }
     }
 
-    static WindowsFileStore create(String root, boolean ignoreNotReady)
-        throws IOException
+    stbtid WindowsFilfStorf drfbtf(String root, boolfbn ignorfNotRfbdy)
+        tirows IOExdfption
     {
         try {
-            return new WindowsFileStore(root);
-        } catch (WindowsException x) {
-            if (ignoreNotReady && x.lastError() == ERROR_NOT_READY)
-                return null;
-            x.rethrowAsIOException(root);
-            return null; // keep compiler happy
+            rfturn nfw WindowsFilfStorf(root);
+        } dbtdi (WindowsExdfption x) {
+            if (ignorfNotRfbdy && x.lbstError() == ERROR_NOT_READY)
+                rfturn null;
+            x.rftirowAsIOExdfption(root);
+            rfturn null; // kffp dompilfr ibppy
         }
     }
 
-    static WindowsFileStore create(WindowsPath file) throws IOException {
+    stbtid WindowsFilfStorf drfbtf(WindowsPbti filf) tirows IOExdfption {
         try {
-            // if the file is a link then GetVolumePathName returns the
-            // volume that the link is on so we need to call it with the
-            // final target
-            String target;
-            if (file.getFileSystem().supportsLinks()) {
-                target = WindowsLinkSupport.getFinalPath(file, true);
-            } else {
-                // file must exist
-                WindowsFileAttributes.get(file, true);
-                target = file.getPathForWin32Calls();
+            // if tif filf is b link tifn GftVolumfPbtiNbmf rfturns tif
+            // volumf tibt tif link is on so wf nffd to dbll it witi tif
+            // finbl tbrgft
+            String tbrgft;
+            if (filf.gftFilfSystfm().supportsLinks()) {
+                tbrgft = WindowsLinkSupport.gftFinblPbti(filf, truf);
+            } flsf {
+                // filf must fxist
+                WindowsFilfAttributfs.gft(filf, truf);
+                tbrgft = filf.gftPbtiForWin32Cblls();
             }
             try {
-                return createFromPath(target);
-            } catch (WindowsException e) {
-                if (e.lastError() != ERROR_DIR_NOT_ROOT)
-                    throw e;
-                target = WindowsLinkSupport.getFinalPath(file);
-                if (target == null)
-                    throw new FileSystemException(file.getPathForExceptionMessage(),
-                            null, "Couldn't resolve path");
-                return createFromPath(target);
+                rfturn drfbtfFromPbti(tbrgft);
+            } dbtdi (WindowsExdfption f) {
+                if (f.lbstError() != ERROR_DIR_NOT_ROOT)
+                    tirow f;
+                tbrgft = WindowsLinkSupport.gftFinblPbti(filf);
+                if (tbrgft == null)
+                    tirow nfw FilfSystfmExdfption(filf.gftPbtiForExdfptionMfssbgf(),
+                            null, "Couldn't rfsolvf pbti");
+                rfturn drfbtfFromPbti(tbrgft);
             }
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(file);
-            return null; // keep compiler happy
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+            rfturn null; // kffp dompilfr ibppy
         }
     }
 
-    private static WindowsFileStore createFromPath(String target) throws WindowsException {
-        String root = GetVolumePathName(target);
-        return new WindowsFileStore(root);
+    privbtf stbtid WindowsFilfStorf drfbtfFromPbti(String tbrgft) tirows WindowsExdfption {
+        String root = GftVolumfPbtiNbmf(tbrgft);
+        rfturn nfw WindowsFilfStorf(root);
     }
 
-    VolumeInformation volumeInformation() {
-        return volInfo;
+    VolumfInformbtion volumfInformbtion() {
+        rfturn volInfo;
     }
 
-    int volumeType() {
-        return volType;
+    int volumfTypf() {
+        rfturn volTypf;
     }
 
-    @Override
-    public String name() {
-        return volInfo.volumeName();   // "SYSTEM", "DVD-RW", ...
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn volInfo.volumfNbmf();   // "SYSTEM", "DVD-RW", ...
     }
 
-    @Override
-    public String type() {
-        return volInfo.fileSystemName();  // "FAT", "NTFS", ...
+    @Ovfrridf
+    publid String typf() {
+        rfturn volInfo.filfSystfmNbmf();  // "FAT", "NTFS", ...
     }
 
-    @Override
-    public boolean isReadOnly() {
-        return ((volInfo.flags() & FILE_READ_ONLY_VOLUME) != 0);
+    @Ovfrridf
+    publid boolfbn isRfbdOnly() {
+        rfturn ((volInfo.flbgs() & FILE_READ_ONLY_VOLUME) != 0);
     }
 
-    // read the free space info
-    private DiskFreeSpace readDiskFreeSpace() throws IOException {
+    // rfbd tif frff spbdf info
+    privbtf DiskFrffSpbdf rfbdDiskFrffSpbdf() tirows IOExdfption {
         try {
-            return GetDiskFreeSpaceEx(root);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(root);
-            return null;
+            rfturn GftDiskFrffSpbdfEx(root);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(root);
+            rfturn null;
         }
     }
 
-    @Override
-    public long getTotalSpace() throws IOException {
-        return readDiskFreeSpace().totalNumberOfBytes();
+    @Ovfrridf
+    publid long gftTotblSpbdf() tirows IOExdfption {
+        rfturn rfbdDiskFrffSpbdf().totblNumbfrOfBytfs();
     }
 
-    @Override
-    public long getUsableSpace() throws IOException {
-        return readDiskFreeSpace().freeBytesAvailable();
+    @Ovfrridf
+    publid long gftUsbblfSpbdf() tirows IOExdfption {
+        rfturn rfbdDiskFrffSpbdf().frffBytfsAvbilbblf();
     }
 
-    @Override
-    public long getUnallocatedSpace() throws IOException {
-        return readDiskFreeSpace().freeBytesAvailable();
+    @Ovfrridf
+    publid long gftUnbllodbtfdSpbdf() tirows IOExdfption {
+        rfturn rfbdDiskFrffSpbdf().frffBytfsAvbilbblf();
     }
 
-    @Override
-    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> type) {
-        if (type == null)
-            throw new NullPointerException();
-        return (V) null;
+    @Ovfrridf
+    publid <V fxtfnds FilfStorfAttributfVifw> V gftFilfStorfAttributfVifw(Clbss<V> typf) {
+        if (typf == null)
+            tirow nfw NullPointfrExdfption();
+        rfturn (V) null;
     }
 
-    @Override
-    public Object getAttribute(String attribute) throws IOException {
-        // standard
-        if (attribute.equals("totalSpace"))
-            return getTotalSpace();
-        if (attribute.equals("usableSpace"))
-            return getUsableSpace();
-        if (attribute.equals("unallocatedSpace"))
-            return getUnallocatedSpace();
-        // windows specific for testing purposes
-        if (attribute.equals("volume:vsn"))
-            return volInfo.volumeSerialNumber();
-        if (attribute.equals("volume:isRemovable"))
-            return volType == DRIVE_REMOVABLE;
-        if (attribute.equals("volume:isCdrom"))
-            return volType == DRIVE_CDROM;
-        throw new UnsupportedOperationException("'" + attribute + "' not recognized");
+    @Ovfrridf
+    publid Objfdt gftAttributf(String bttributf) tirows IOExdfption {
+        // stbndbrd
+        if (bttributf.fqubls("totblSpbdf"))
+            rfturn gftTotblSpbdf();
+        if (bttributf.fqubls("usbblfSpbdf"))
+            rfturn gftUsbblfSpbdf();
+        if (bttributf.fqubls("unbllodbtfdSpbdf"))
+            rfturn gftUnbllodbtfdSpbdf();
+        // windows spfdifid for tfsting purposfs
+        if (bttributf.fqubls("volumf:vsn"))
+            rfturn volInfo.volumfSfriblNumbfr();
+        if (bttributf.fqubls("volumf:isRfmovbblf"))
+            rfturn volTypf == DRIVE_REMOVABLE;
+        if (bttributf.fqubls("volumf:isCdrom"))
+            rfturn volTypf == DRIVE_CDROM;
+        tirow nfw UnsupportfdOpfrbtionExdfption("'" + bttributf + "' not rfdognizfd");
     }
 
-    @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
-        if (type == null)
-            throw new NullPointerException();
-        if (type == BasicFileAttributeView.class || type == DosFileAttributeView.class)
-            return true;
-        if (type == AclFileAttributeView.class || type == FileOwnerAttributeView.class)
-            return ((volInfo.flags() & FILE_PERSISTENT_ACLS) != 0);
-        if (type == UserDefinedFileAttributeView.class)
-            return ((volInfo.flags() & FILE_NAMED_STREAMS) != 0);
-        return false;
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(Clbss<? fxtfnds FilfAttributfVifw> typf) {
+        if (typf == null)
+            tirow nfw NullPointfrExdfption();
+        if (typf == BbsidFilfAttributfVifw.dlbss || typf == DosFilfAttributfVifw.dlbss)
+            rfturn truf;
+        if (typf == AdlFilfAttributfVifw.dlbss || typf == FilfOwnfrAttributfVifw.dlbss)
+            rfturn ((volInfo.flbgs() & FILE_PERSISTENT_ACLS) != 0);
+        if (typf == UsfrDffinfdFilfAttributfVifw.dlbss)
+            rfturn ((volInfo.flbgs() & FILE_NAMED_STREAMS) != 0);
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean supportsFileAttributeView(String name) {
-        if (name.equals("basic") || name.equals("dos"))
-            return true;
-        if (name.equals("acl"))
-            return supportsFileAttributeView(AclFileAttributeView.class);
-        if (name.equals("owner"))
-            return supportsFileAttributeView(FileOwnerAttributeView.class);
-        if (name.equals("user"))
-            return supportsFileAttributeView(UserDefinedFileAttributeView.class);
-        return false;
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(String nbmf) {
+        if (nbmf.fqubls("bbsid") || nbmf.fqubls("dos"))
+            rfturn truf;
+        if (nbmf.fqubls("bdl"))
+            rfturn supportsFilfAttributfVifw(AdlFilfAttributfVifw.dlbss);
+        if (nbmf.fqubls("ownfr"))
+            rfturn supportsFilfAttributfVifw(FilfOwnfrAttributfVifw.dlbss);
+        if (nbmf.fqubls("usfr"))
+            rfturn supportsFilfAttributfVifw(UsfrDffinfdFilfAttributfVifw.dlbss);
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean equals(Object ob) {
-        if (ob == this)
-            return true;
-        if (!(ob instanceof WindowsFileStore))
-            return false;
-        WindowsFileStore other = (WindowsFileStore)ob;
-        return root.equals(other.root);
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt ob) {
+        if (ob == tiis)
+            rfturn truf;
+        if (!(ob instbndfof WindowsFilfStorf))
+            rfturn fblsf;
+        WindowsFilfStorf otifr = (WindowsFilfStorf)ob;
+        rfturn root.fqubls(otifr.root);
     }
 
-    @Override
-    public int hashCode() {
-        return root.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn root.ibsiCodf();
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(displayName);
-        if (sb.length() > 0)
-            sb.append(" ");
-        sb.append("(");
-        // drop trailing slash
-        sb.append(root.subSequence(0, root.length()-1));
-        sb.append(")");
-        return sb.toString();
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(displbyNbmf);
+        if (sb.lfngti() > 0)
+            sb.bppfnd(" ");
+        sb.bppfnd("(");
+        // drop trbiling slbsi
+        sb.bppfnd(root.subSfqufndf(0, root.lfngti()-1));
+        sb.bppfnd(")");
+        rfturn sb.toString();
     }
  }

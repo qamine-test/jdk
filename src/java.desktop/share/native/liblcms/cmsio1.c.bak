@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2012 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,983 +53,983 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
-// Read tags using low-level functions, provides necessary glue code to adapt versions, etc.
+// Rfbd tbgs using low-lfvfl fundtions, providfs nfdfssbry gluf dodf to bdbpt vfrsions, ftd.
 
-// LUT tags
-static const cmsTagSignature Device2PCS16[]   =  {cmsSigAToB0Tag,     // Perceptual
-                                                  cmsSigAToB1Tag,     // Relative colorimetric
-                                                  cmsSigAToB2Tag,     // Saturation
-                                                  cmsSigAToB1Tag };   // Absolute colorimetric
+// LUT tbgs
+stbtid donst dmsTbgSignbturf Dfvidf2PCS16[]   =  {dmsSigAToB0Tbg,     // Pfrdfptubl
+                                                  dmsSigAToB1Tbg,     // Rflbtivf dolorimftrid
+                                                  dmsSigAToB2Tbg,     // Sbturbtion
+                                                  dmsSigAToB1Tbg };   // Absolutf dolorimftrid
 
-static const cmsTagSignature Device2PCSFloat[] = {cmsSigDToB0Tag,     // Perceptual
-                                                  cmsSigDToB1Tag,     // Relative colorimetric
-                                                  cmsSigDToB2Tag,     // Saturation
-                                                  cmsSigDToB3Tag };   // Absolute colorimetric
+stbtid donst dmsTbgSignbturf Dfvidf2PCSFlobt[] = {dmsSigDToB0Tbg,     // Pfrdfptubl
+                                                  dmsSigDToB1Tbg,     // Rflbtivf dolorimftrid
+                                                  dmsSigDToB2Tbg,     // Sbturbtion
+                                                  dmsSigDToB3Tbg };   // Absolutf dolorimftrid
 
-static const cmsTagSignature PCS2Device16[]    = {cmsSigBToA0Tag,     // Perceptual
-                                                  cmsSigBToA1Tag,     // Relative colorimetric
-                                                  cmsSigBToA2Tag,     // Saturation
-                                                  cmsSigBToA1Tag };   // Absolute colorimetric
+stbtid donst dmsTbgSignbturf PCS2Dfvidf16[]    = {dmsSigBToA0Tbg,     // Pfrdfptubl
+                                                  dmsSigBToA1Tbg,     // Rflbtivf dolorimftrid
+                                                  dmsSigBToA2Tbg,     // Sbturbtion
+                                                  dmsSigBToA1Tbg };   // Absolutf dolorimftrid
 
-static const cmsTagSignature PCS2DeviceFloat[] = {cmsSigBToD0Tag,     // Perceptual
-                                                  cmsSigBToD1Tag,     // Relative colorimetric
-                                                  cmsSigBToD2Tag,     // Saturation
-                                                  cmsSigBToD3Tag };   // Absolute colorimetric
+stbtid donst dmsTbgSignbturf PCS2DfvidfFlobt[] = {dmsSigBToD0Tbg,     // Pfrdfptubl
+                                                  dmsSigBToD1Tbg,     // Rflbtivf dolorimftrid
+                                                  dmsSigBToD2Tbg,     // Sbturbtion
+                                                  dmsSigBToD3Tbg };   // Absolutf dolorimftrid
 
 
-// Factors to convert from 1.15 fixed point to 0..1.0 range and vice-versa
-#define InpAdj   (1.0/MAX_ENCODEABLE_XYZ)     // (65536.0/(65535.0*2.0))
-#define OutpAdj  (MAX_ENCODEABLE_XYZ)         // ((2.0*65535.0)/65536.0)
+// Fbdtors to donvfrt from 1.15 fixfd point to 0..1.0 rbngf bnd vidf-vfrsb
+#dffinf InpAdj   (1.0/MAX_ENCODEABLE_XYZ)     // (65536.0/(65535.0*2.0))
+#dffinf OutpAdj  (MAX_ENCODEABLE_XYZ)         // ((2.0*65535.0)/65536.0)
 
-// Several resources for gray conversions.
-static const cmsFloat64Number GrayInputMatrix[] = { (InpAdj*cmsD50X),  (InpAdj*cmsD50Y),  (InpAdj*cmsD50Z) };
-static const cmsFloat64Number OneToThreeInputMatrix[] = { 1, 1, 1 };
-static const cmsFloat64Number PickYMatrix[] = { 0, (OutpAdj*cmsD50Y), 0 };
-static const cmsFloat64Number PickLstarMatrix[] = { 1, 0, 0 };
+// Sfvfrbl rfsourdfs for grby donvfrsions.
+stbtid donst dmsFlobt64Numbfr GrbyInputMbtrix[] = { (InpAdj*dmsD50X),  (InpAdj*dmsD50Y),  (InpAdj*dmsD50Z) };
+stbtid donst dmsFlobt64Numbfr OnfToTirffInputMbtrix[] = { 1, 1, 1 };
+stbtid donst dmsFlobt64Numbfr PidkYMbtrix[] = { 0, (OutpAdj*dmsD50Y), 0 };
+stbtid donst dmsFlobt64Numbfr PidkLstbrMbtrix[] = { 1, 0, 0 };
 
-// Get a media white point fixing some issues found in certain old profiles
-cmsBool  _cmsReadMediaWhitePoint(cmsCIEXYZ* Dest, cmsHPROFILE hProfile)
+// Gft b mfdib wiitf point fixing somf issufs found in dfrtbin old profilfs
+dmsBool  _dmsRfbdMfdibWiitfPoint(dmsCIEXYZ* Dfst, dmsHPROFILE iProfilf)
 {
-    cmsCIEXYZ* Tag;
+    dmsCIEXYZ* Tbg;
 
-    _cmsAssert(Dest != NULL);
+    _dmsAssfrt(Dfst != NULL);
 
-    Tag = (cmsCIEXYZ*) cmsReadTag(hProfile, cmsSigMediaWhitePointTag);
+    Tbg = (dmsCIEXYZ*) dmsRfbdTbg(iProfilf, dmsSigMfdibWiitfPointTbg);
 
-    // If no wp, take D50
-    if (Tag == NULL) {
-        *Dest = *cmsD50_XYZ();
-        return TRUE;
+    // If no wp, tbkf D50
+    if (Tbg == NULL) {
+        *Dfst = *dmsD50_XYZ();
+        rfturn TRUE;
     }
 
-    // V2 display profiles should give D50
-    if (cmsGetEncodedICCversion(hProfile) < 0x4000000) {
+    // V2 displby profilfs siould givf D50
+    if (dmsGftEndodfdICCvfrsion(iProfilf) < 0x4000000) {
 
-        if (cmsGetDeviceClass(hProfile) == cmsSigDisplayClass) {
-            *Dest = *cmsD50_XYZ();
-            return TRUE;
+        if (dmsGftDfvidfClbss(iProfilf) == dmsSigDisplbyClbss) {
+            *Dfst = *dmsD50_XYZ();
+            rfturn TRUE;
         }
     }
 
-    // All seems ok
-    *Dest = *Tag;
-    return TRUE;
+    // All sffms ok
+    *Dfst = *Tbg;
+    rfturn TRUE;
 }
 
 
-// Chromatic adaptation matrix. Fix some issues as well
-cmsBool  _cmsReadCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile)
+// Cirombtid bdbptbtion mbtrix. Fix somf issufs bs wfll
+dmsBool  _dmsRfbdCHAD(dmsMAT3* Dfst, dmsHPROFILE iProfilf)
 {
-    cmsMAT3* Tag;
+    dmsMAT3* Tbg;
 
-    _cmsAssert(Dest != NULL);
+    _dmsAssfrt(Dfst != NULL);
 
-    Tag = (cmsMAT3*) cmsReadTag(hProfile, cmsSigChromaticAdaptationTag);
+    Tbg = (dmsMAT3*) dmsRfbdTbg(iProfilf, dmsSigCirombtidAdbptbtionTbg);
 
-    if (Tag != NULL) {
-        *Dest = *Tag;
-        return TRUE;
+    if (Tbg != NULL) {
+        *Dfst = *Tbg;
+        rfturn TRUE;
     }
 
-    // No CHAD available, default it to identity
-    _cmsMAT3identity(Dest);
+    // No CHAD bvbilbblf, dffbult it to idfntity
+    _dmsMAT3idfntity(Dfst);
 
-    // V2 display profiles should give D50
-    if (cmsGetEncodedICCversion(hProfile) < 0x4000000) {
+    // V2 displby profilfs siould givf D50
+    if (dmsGftEndodfdICCvfrsion(iProfilf) < 0x4000000) {
 
-        if (cmsGetDeviceClass(hProfile) == cmsSigDisplayClass) {
+        if (dmsGftDfvidfClbss(iProfilf) == dmsSigDisplbyClbss) {
 
-            cmsCIEXYZ* White = (cmsCIEXYZ*) cmsReadTag(hProfile, cmsSigMediaWhitePointTag);
+            dmsCIEXYZ* Wiitf = (dmsCIEXYZ*) dmsRfbdTbg(iProfilf, dmsSigMfdibWiitfPointTbg);
 
-            if (White == NULL) {
+            if (Wiitf == NULL) {
 
-                _cmsMAT3identity(Dest);
-                return TRUE;
+                _dmsMAT3idfntity(Dfst);
+                rfturn TRUE;
             }
 
-            return _cmsAdaptationMatrix(Dest, NULL, White, cmsD50_XYZ());
+            rfturn _dmsAdbptbtionMbtrix(Dfst, NULL, Wiitf, dmsD50_XYZ());
         }
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-// Auxiliar, read colorants as a MAT3 structure. Used by any function that needs a matrix-shaper
-static
-cmsBool ReadICCMatrixRGB2XYZ(cmsMAT3* r, cmsHPROFILE hProfile)
+// Auxilibr, rfbd dolorbnts bs b MAT3 strudturf. Usfd by bny fundtion tibt nffds b mbtrix-sibpfr
+stbtid
+dmsBool RfbdICCMbtrixRGB2XYZ(dmsMAT3* r, dmsHPROFILE iProfilf)
 {
-    cmsCIEXYZ *PtrRed, *PtrGreen, *PtrBlue;
+    dmsCIEXYZ *PtrRfd, *PtrGrffn, *PtrBluf;
 
-    _cmsAssert(r != NULL);
+    _dmsAssfrt(r != NULL);
 
-    PtrRed   = (cmsCIEXYZ *) cmsReadTag(hProfile, cmsSigRedColorantTag);
-    PtrGreen = (cmsCIEXYZ *) cmsReadTag(hProfile, cmsSigGreenColorantTag);
-    PtrBlue  = (cmsCIEXYZ *) cmsReadTag(hProfile, cmsSigBlueColorantTag);
+    PtrRfd   = (dmsCIEXYZ *) dmsRfbdTbg(iProfilf, dmsSigRfdColorbntTbg);
+    PtrGrffn = (dmsCIEXYZ *) dmsRfbdTbg(iProfilf, dmsSigGrffnColorbntTbg);
+    PtrBluf  = (dmsCIEXYZ *) dmsRfbdTbg(iProfilf, dmsSigBlufColorbntTbg);
 
-    if (PtrRed == NULL || PtrGreen == NULL || PtrBlue == NULL)
-        return FALSE;
+    if (PtrRfd == NULL || PtrGrffn == NULL || PtrBluf == NULL)
+        rfturn FALSE;
 
-    _cmsVEC3init(&r -> v[0], PtrRed -> X, PtrGreen -> X,  PtrBlue -> X);
-    _cmsVEC3init(&r -> v[1], PtrRed -> Y, PtrGreen -> Y,  PtrBlue -> Y);
-    _cmsVEC3init(&r -> v[2], PtrRed -> Z, PtrGreen -> Z,  PtrBlue -> Z);
+    _dmsVEC3init(&r -> v[0], PtrRfd -> X, PtrGrffn -> X,  PtrBluf -> X);
+    _dmsVEC3init(&r -> v[1], PtrRfd -> Y, PtrGrffn -> Y,  PtrBluf -> Y);
+    _dmsVEC3init(&r -> v[2], PtrRfd -> Z, PtrGrffn -> Z,  PtrBluf -> Z);
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-// Gray input pipeline
-static
-cmsPipeline* BuildGrayInputMatrixPipeline(cmsHPROFILE hProfile)
+// Grby input pipflinf
+stbtid
+dmsPipflinf* BuildGrbyInputMbtrixPipflinf(dmsHPROFILE iProfilf)
 {
-    cmsToneCurve *GrayTRC;
-    cmsPipeline* Lut;
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
+    dmsTonfCurvf *GrbyTRC;
+    dmsPipflinf* Lut;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
 
-    GrayTRC = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigGrayTRCTag);
-    if (GrayTRC == NULL) return NULL;
+    GrbyTRC = (dmsTonfCurvf *) dmsRfbdTbg(iProfilf, dmsSigGrbyTRCTbg);
+    if (GrbyTRC == NULL) rfturn NULL;
 
-    Lut = cmsPipelineAlloc(ContextID, 1, 3);
+    Lut = dmsPipflinfAllod(ContfxtID, 1, 3);
     if (Lut == NULL)
         goto Error;
 
-    if (cmsGetPCS(hProfile) == cmsSigLabData) {
+    if (dmsGftPCS(iProfilf) == dmsSigLbbDbtb) {
 
-        // In this case we implement the profile as an  identity matrix plus 3 tone curves
-        cmsUInt16Number Zero[2] = { 0x8080, 0x8080 };
-        cmsToneCurve* EmptyTab;
-        cmsToneCurve* LabCurves[3];
+        // In tiis dbsf wf implfmfnt tif profilf bs bn  idfntity mbtrix plus 3 tonf durvfs
+        dmsUInt16Numbfr Zfro[2] = { 0x8080, 0x8080 };
+        dmsTonfCurvf* EmptyTbb;
+        dmsTonfCurvf* LbbCurvfs[3];
 
-        EmptyTab = cmsBuildTabulatedToneCurve16(ContextID, 2, Zero);
+        EmptyTbb = dmsBuildTbbulbtfdTonfCurvf16(ContfxtID, 2, Zfro);
 
-        if (EmptyTab == NULL)
+        if (EmptyTbb == NULL)
             goto Error;
 
-        LabCurves[0] = GrayTRC;
-        LabCurves[1] = EmptyTab;
-        LabCurves[2] = EmptyTab;
+        LbbCurvfs[0] = GrbyTRC;
+        LbbCurvfs[1] = EmptyTbb;
+        LbbCurvfs[2] = EmptyTbb;
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3,  1, OneToThreeInputMatrix, NULL)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 3, LabCurves))) {
-                cmsFreeToneCurve(EmptyTab);
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodMbtrix(ContfxtID, 3,  1, OnfToTirffInputMbtrix, NULL)) ||
+            !dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodTonfCurvfs(ContfxtID, 3, LbbCurvfs))) {
+                dmsFrffTonfCurvf(EmptyTbb);
                 goto Error;
         }
 
-        cmsFreeToneCurve(EmptyTab);
+        dmsFrffTonfCurvf(EmptyTbb);
 
     }
-    else  {
+    flsf  {
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 1, &GrayTRC)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3,  1, GrayInputMatrix, NULL)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodTonfCurvfs(ContfxtID, 1, &GrbyTRC)) ||
+            !dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodMbtrix(ContfxtID, 3,  1, GrbyInputMbtrix, NULL)))
             goto Error;
     }
 
-    return Lut;
+    rfturn Lut;
 
 Error:
-    cmsFreeToneCurve(GrayTRC);
-    cmsPipelineFree(Lut);
-    return NULL;
+    dmsFrffTonfCurvf(GrbyTRC);
+    dmsPipflinfFrff(Lut);
+    rfturn NULL;
 }
 
-// RGB Matrix shaper
-static
-cmsPipeline* BuildRGBInputMatrixShaper(cmsHPROFILE hProfile)
+// RGB Mbtrix sibpfr
+stbtid
+dmsPipflinf* BuildRGBInputMbtrixSibpfr(dmsHPROFILE iProfilf)
 {
-    cmsPipeline* Lut;
-    cmsMAT3 Mat;
-    cmsToneCurve *Shapes[3];
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
+    dmsPipflinf* Lut;
+    dmsMAT3 Mbt;
+    dmsTonfCurvf *Sibpfs[3];
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
     int i, j;
 
-    if (!ReadICCMatrixRGB2XYZ(&Mat, hProfile)) return NULL;
+    if (!RfbdICCMbtrixRGB2XYZ(&Mbt, iProfilf)) rfturn NULL;
 
-    // XYZ PCS in encoded in 1.15 format, and the matrix output comes in 0..0xffff range, so
-    // we need to adjust the output by a factor of (0x10000/0xffff) to put data in
-    // a 1.16 range, and then a >> 1 to obtain 1.15. The total factor is (65536.0)/(65535.0*2)
+    // XYZ PCS in fndodfd in 1.15 formbt, bnd tif mbtrix output domfs in 0..0xffff rbngf, so
+    // wf nffd to bdjust tif output by b fbdtor of (0x10000/0xffff) to put dbtb in
+    // b 1.16 rbngf, bnd tifn b >> 1 to obtbin 1.15. Tif totbl fbdtor is (65536.0)/(65535.0*2)
 
     for (i=0; i < 3; i++)
         for (j=0; j < 3; j++)
-            Mat.v[i].n[j] *= InpAdj;
+            Mbt.v[i].n[j] *= InpAdj;
 
 
-    Shapes[0] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigRedTRCTag);
-    Shapes[1] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigGreenTRCTag);
-    Shapes[2] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigBlueTRCTag);
+    Sibpfs[0] = (dmsTonfCurvf *) dmsRfbdTbg(iProfilf, dmsSigRfdTRCTbg);
+    Sibpfs[1] = (dmsTonfCurvf *) dmsRfbdTbg(iProfilf, dmsSigGrffnTRCTbg);
+    Sibpfs[2] = (dmsTonfCurvf *) dmsRfbdTbg(iProfilf, dmsSigBlufTRCTbg);
 
-    if (!Shapes[0] || !Shapes[1] || !Shapes[2])
-        return NULL;
+    if (!Sibpfs[0] || !Sibpfs[1] || !Sibpfs[2])
+        rfturn NULL;
 
-    Lut = cmsPipelineAlloc(ContextID, 3, 3);
+    Lut = dmsPipflinfAllod(ContfxtID, 3, 3);
     if (Lut != NULL) {
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 3, Shapes)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3, 3, (cmsFloat64Number*) &Mat, NULL)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodTonfCurvfs(ContfxtID, 3, Sibpfs)) ||
+            !dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodMbtrix(ContfxtID, 3, 3, (dmsFlobt64Numbfr*) &Mbt, NULL)))
             goto Error;
 
-        // Note that it is certainly possible a single profile would have a LUT based
-        // tag for output working in lab and a matrix-shaper for the fallback cases.
-        // This is not allowed by the spec, but this code is tolerant to those cases
-        if (cmsGetPCS(hProfile) == cmsSigLabData) {
+        // Notf tibt it is dfrtbinly possiblf b singlf profilf would ibvf b LUT bbsfd
+        // tbg for output working in lbb bnd b mbtrix-sibpfr for tif fbllbbdk dbsfs.
+        // Tiis is not bllowfd by tif spfd, but tiis dodf is tolfrbnt to tiosf dbsfs
+        if (dmsGftPCS(iProfilf) == dmsSigLbbDbtb) {
 
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocXYZ2Lab(ContextID)))
+            if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfAllodXYZ2Lbb(ContfxtID)))
                 goto Error;
         }
 
     }
 
-    return Lut;
+    rfturn Lut;
 
 Error:
-    cmsPipelineFree(Lut);
-    return NULL;
+    dmsPipflinfFrff(Lut);
+    rfturn NULL;
 }
 
 
 
-// Read the DToAX tag, adjusting the encoding of Lab or XYZ if neded
-static
-cmsPipeline* _cmsReadFloatInputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
+// Rfbd tif DToAX tbg, bdjusting tif fndoding of Lbb or XYZ if nfdfd
+stbtid
+dmsPipflinf* _dmsRfbdFlobtInputTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf tbgFlobt)
 {
-    cmsContext ContextID       = cmsGetProfileContextID(hProfile);
-    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
-    cmsColorSpaceSignature spc = cmsGetColorSpace(hProfile);
-    cmsColorSpaceSignature PCS = cmsGetPCS(hProfile);
+    dmsContfxt ContfxtID       = dmsGftProfilfContfxtID(iProfilf);
+    dmsPipflinf* Lut           = dmsPipflinfDup((dmsPipflinf*) dmsRfbdTbg(iProfilf, tbgFlobt));
+    dmsColorSpbdfSignbturf spd = dmsGftColorSpbdf(iProfilf);
+    dmsColorSpbdfSignbturf PCS = dmsGftPCS(iProfilf);
 
-    if (Lut == NULL) return NULL;
+    if (Lut == NULL) rfturn NULL;
 
-    // input and output of transform are in lcms 0..1 encoding.  If XYZ or Lab spaces are used,
-    //  these need to be normalized into the appropriate ranges (Lab = 100,0,0, XYZ=1.0,1.0,1.0)
-    if ( spc == cmsSigLabData)
+    // input bnd output of trbnsform brf in ldms 0..1 fndoding.  If XYZ or Lbb spbdfs brf usfd,
+    //  tifsf nffd to bf normblizfd into tif bppropribtf rbngfs (Lbb = 100,0,0, XYZ=1.0,1.0,1.0)
+    if ( spd == dmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToLabFloat(ContextID)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfNormblizfToLbbFlobt(ContfxtID)))
             goto Error;
     }
-    else if (spc == cmsSigXYZData)
+    flsf if (spd == dmsSigXYZDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID)))
-            goto Error;
-    }
-
-    if ( PCS == cmsSigLabData)
-    {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromLabFloat(ContextID)))
-            goto Error;
-    }
-    else if( PCS == cmsSigXYZData)
-    {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfNormblizfToXyzFlobt(ContfxtID)))
             goto Error;
     }
 
-    return Lut;
+    if ( PCS == dmsSigLbbDbtb)
+    {
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfNormblizfFromLbbFlobt(ContfxtID)))
+            goto Error;
+    }
+    flsf if( PCS == dmsSigXYZDbtb)
+    {
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfNormblizfFromXyzFlobt(ContfxtID)))
+            goto Error;
+    }
+
+    rfturn Lut;
 
 Error:
-    cmsPipelineFree(Lut);
-    return NULL;
+    dmsPipflinfFrff(Lut);
+    rfturn NULL;
 }
 
 
-// Read and create a BRAND NEW MPE LUT from a given profile. All stuff dependent of version, etc
-// is adjusted here in order to create a LUT that takes care of all those details
-cmsPipeline* _cmsReadInputLUT(cmsHPROFILE hProfile, int Intent)
+// Rfbd bnd drfbtf b BRAND NEW MPE LUT from b givfn profilf. All stuff dfpfndfnt of vfrsion, ftd
+// is bdjustfd ifrf in ordfr to drfbtf b LUT tibt tbkfs dbrf of bll tiosf dftbils
+dmsPipflinf* _dmsRfbdInputLUT(dmsHPROFILE iProfilf, int Intfnt)
 {
-    cmsTagTypeSignature OriginalType;
-    cmsTagSignature tag16    = Device2PCS16[Intent];
-    cmsTagSignature tagFloat = Device2PCSFloat[Intent];
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
+    dmsTbgTypfSignbturf OriginblTypf;
+    dmsTbgSignbturf tbg16    = Dfvidf2PCS16[Intfnt];
+    dmsTbgSignbturf tbgFlobt = Dfvidf2PCSFlobt[Intfnt];
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
 
-    // On named color, take the appropiate tag
-    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+    // On nbmfd dolor, tbkf tif bppropibtf tbg
+    if (dmsGftDfvidfClbss(iProfilf) == dmsSigNbmfdColorClbss) {
 
-        cmsPipeline* Lut;
-        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
+        dmsPipflinf* Lut;
+        dmsNAMEDCOLORLIST* nd = (dmsNAMEDCOLORLIST*) dmsRfbdTbg(iProfilf, dmsSigNbmfdColor2Tbg);
 
-        if (nc == NULL) return NULL;
+        if (nd == NULL) rfturn NULL;
 
-        Lut = cmsPipelineAlloc(ContextID, 0, 0);
+        Lut = dmsPipflinfAllod(ContfxtID, 0, 0);
         if (Lut == NULL) {
-            cmsFreeNamedColorList(nc);
-            return NULL;
+            dmsFrffNbmfdColorList(nd);
+            rfturn NULL;
         }
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocNamedColor(nc, TRUE)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID))) {
-            cmsPipelineFree(Lut);
-            return NULL;
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfAllodNbmfdColor(nd, TRUE)) ||
+            !dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfAllodLbbV2ToV4(ContfxtID))) {
+            dmsPipflinfFrff(Lut);
+            rfturn NULL;
         }
-        return Lut;
+        rfturn Lut;
     }
 
-    if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
+    if (dmsIsTbg(iProfilf, tbgFlobt)) {  // Flobt tbg tbkfs prfdfdfndf
 
-        // Floating point LUT are always V4, but the encoding range is no
-        // longer 0..1.0, so we need to add an stage depending on the color space
-         return _cmsReadFloatInputTag(hProfile, tagFloat);
+        // Flobting point LUT brf blwbys V4, but tif fndoding rbngf is no
+        // longfr 0..1.0, so wf nffd to bdd bn stbgf dfpfnding on tif dolor spbdf
+         rfturn _dmsRfbdFlobtInputTbg(iProfilf, tbgFlobt);
     }
 
-    // Revert to perceptual if no tag is found
-    if (!cmsIsTag(hProfile, tag16)) {
-        tag16 = Device2PCS16[0];
+    // Rfvfrt to pfrdfptubl if no tbg is found
+    if (!dmsIsTbg(iProfilf, tbg16)) {
+        tbg16 = Dfvidf2PCS16[0];
     }
 
-    if (cmsIsTag(hProfile, tag16)) { // Is there any LUT-Based table?
+    if (dmsIsTbg(iProfilf, tbg16)) { // Is tifrf bny LUT-Bbsfd tbblf?
 
-        // Check profile version and LUT type. Do the necessary adjustments if needed
+        // Cifdk profilf vfrsion bnd LUT typf. Do tif nfdfssbry bdjustmfnts if nffdfd
 
-        // First read the tag
-        cmsPipeline* Lut = (cmsPipeline*) cmsReadTag(hProfile, tag16);
-        if (Lut == NULL) return NULL;
+        // First rfbd tif tbg
+        dmsPipflinf* Lut = (dmsPipflinf*) dmsRfbdTbg(iProfilf, tbg16);
+        if (Lut == NULL) rfturn NULL;
 
-        // After reading it, we have now info about the original type
-        OriginalType =  _cmsGetTagTrueType(hProfile, tag16);
+        // Aftfr rfbding it, wf ibvf now info bbout tif originbl typf
+        OriginblTypf =  _dmsGftTbgTrufTypf(iProfilf, tbg16);
 
-        // The profile owns the Lut, so we need to copy it
-        Lut = cmsPipelineDup(Lut);
+        // Tif profilf owns tif Lut, so wf nffd to dopy it
+        Lut = dmsPipflinfDup(Lut);
 
-        // We need to adjust data only for Lab16 on output
-        if (OriginalType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLabData)
-            return Lut;
+        // Wf nffd to bdjust dbtb only for Lbb16 on output
+        if (OriginblTypf != dmsSigLut16Typf || dmsGftPCS(iProfilf) != dmsSigLbbDbtb)
+            rfturn Lut;
 
-        // If the input is Lab, add also a conversion at the begin
-        if (cmsGetColorSpace(hProfile) == cmsSigLabData &&
-            !cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID)))
+        // If tif input is Lbb, bdd blso b donvfrsion bt tif bfgin
+        if (dmsGftColorSpbdf(iProfilf) == dmsSigLbbDbtb &&
+            !dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfAllodLbbV4ToV2(ContfxtID)))
             goto Error;
 
-        // Add a matrix for conversion V2 to V4 Lab PCS
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID)))
+        // Add b mbtrix for donvfrsion V2 to V4 Lbb PCS
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfAllodLbbV2ToV4(ContfxtID)))
             goto Error;
 
-        return Lut;
+        rfturn Lut;
 Error:
-        cmsPipelineFree(Lut);
-        return NULL;
+        dmsPipflinfFrff(Lut);
+        rfturn NULL;
     }
 
-    // Lut was not found, try to create a matrix-shaper
+    // Lut wbs not found, try to drfbtf b mbtrix-sibpfr
 
-    // Check if this is a grayscale profile.
-    if (cmsGetColorSpace(hProfile) == cmsSigGrayData) {
+    // Cifdk if tiis is b grbysdblf profilf.
+    if (dmsGftColorSpbdf(iProfilf) == dmsSigGrbyDbtb) {
 
-        // if so, build appropiate conversion tables.
-        // The tables are the PCS iluminant, scaled across GrayTRC
-        return BuildGrayInputMatrixPipeline(hProfile);
+        // if so, build bppropibtf donvfrsion tbblfs.
+        // Tif tbblfs brf tif PCS iluminbnt, sdblfd bdross GrbyTRC
+        rfturn BuildGrbyInputMbtrixPipflinf(iProfilf);
     }
 
-    // Not gray, create a normal matrix-shaper
-    return BuildRGBInputMatrixShaper(hProfile);
+    // Not grby, drfbtf b normbl mbtrix-sibpfr
+    rfturn BuildRGBInputMbtrixSibpfr(iProfilf);
 }
 
 // ---------------------------------------------------------------------------------------------------------------
 
-// Gray output pipeline.
-// XYZ -> Gray or Lab -> Gray. Since we only know the GrayTRC, we need to do some assumptions. Gray component will be
-// given by Y on XYZ PCS and by L* on Lab PCS, Both across inverse TRC curve.
-// The complete pipeline on XYZ is Matrix[3:1] -> Tone curve and in Lab Matrix[3:1] -> Tone Curve as well.
+// Grby output pipflinf.
+// XYZ -> Grby or Lbb -> Grby. Sindf wf only know tif GrbyTRC, wf nffd to do somf bssumptions. Grby domponfnt will bf
+// givfn by Y on XYZ PCS bnd by L* on Lbb PCS, Boti bdross invfrsf TRC durvf.
+// Tif domplftf pipflinf on XYZ is Mbtrix[3:1] -> Tonf durvf bnd in Lbb Mbtrix[3:1] -> Tonf Curvf bs wfll.
 
-static
-cmsPipeline* BuildGrayOutputPipeline(cmsHPROFILE hProfile)
+stbtid
+dmsPipflinf* BuildGrbyOutputPipflinf(dmsHPROFILE iProfilf)
 {
-    cmsToneCurve *GrayTRC, *RevGrayTRC;
-    cmsPipeline* Lut;
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
+    dmsTonfCurvf *GrbyTRC, *RfvGrbyTRC;
+    dmsPipflinf* Lut;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
 
-    GrayTRC = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigGrayTRCTag);
-    if (GrayTRC == NULL) return NULL;
+    GrbyTRC = (dmsTonfCurvf *) dmsRfbdTbg(iProfilf, dmsSigGrbyTRCTbg);
+    if (GrbyTRC == NULL) rfturn NULL;
 
-    RevGrayTRC = cmsReverseToneCurve(GrayTRC);
-    if (RevGrayTRC == NULL) return NULL;
+    RfvGrbyTRC = dmsRfvfrsfTonfCurvf(GrbyTRC);
+    if (RfvGrbyTRC == NULL) rfturn NULL;
 
-    Lut = cmsPipelineAlloc(ContextID, 3, 1);
+    Lut = dmsPipflinfAllod(ContfxtID, 3, 1);
     if (Lut == NULL) {
-        cmsFreeToneCurve(RevGrayTRC);
-        return NULL;
+        dmsFrffTonfCurvf(RfvGrbyTRC);
+        rfturn NULL;
     }
 
-    if (cmsGetPCS(hProfile) == cmsSigLabData) {
+    if (dmsGftPCS(iProfilf) == dmsSigLbbDbtb) {
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 1,  3, PickLstarMatrix, NULL)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodMbtrix(ContfxtID, 1,  3, PidkLstbrMbtrix, NULL)))
             goto Error;
     }
-    else  {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 1,  3, PickYMatrix, NULL)))
+    flsf  {
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodMbtrix(ContfxtID, 1,  3, PidkYMbtrix, NULL)))
             goto Error;
     }
 
-    if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 1, &RevGrayTRC)))
+    if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodTonfCurvfs(ContfxtID, 1, &RfvGrbyTRC)))
         goto Error;
 
-    cmsFreeToneCurve(RevGrayTRC);
-    return Lut;
+    dmsFrffTonfCurvf(RfvGrbyTRC);
+    rfturn Lut;
 
 Error:
-    cmsFreeToneCurve(RevGrayTRC);
-    cmsPipelineFree(Lut);
-    return NULL;
+    dmsFrffTonfCurvf(RfvGrbyTRC);
+    dmsPipflinfFrff(Lut);
+    rfturn NULL;
 }
 
 
-static
-cmsPipeline* BuildRGBOutputMatrixShaper(cmsHPROFILE hProfile)
+stbtid
+dmsPipflinf* BuildRGBOutputMbtrixSibpfr(dmsHPROFILE iProfilf)
 {
-    cmsPipeline* Lut;
-    cmsToneCurve *Shapes[3], *InvShapes[3];
-    cmsMAT3 Mat, Inv;
+    dmsPipflinf* Lut;
+    dmsTonfCurvf *Sibpfs[3], *InvSibpfs[3];
+    dmsMAT3 Mbt, Inv;
     int i, j;
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
 
-    if (!ReadICCMatrixRGB2XYZ(&Mat, hProfile))
-        return NULL;
+    if (!RfbdICCMbtrixRGB2XYZ(&Mbt, iProfilf))
+        rfturn NULL;
 
-    if (!_cmsMAT3inverse(&Mat, &Inv))
-        return NULL;
+    if (!_dmsMAT3invfrsf(&Mbt, &Inv))
+        rfturn NULL;
 
-    // XYZ PCS in encoded in 1.15 format, and the matrix input should come in 0..0xffff range, so
-    // we need to adjust the input by a << 1 to obtain a 1.16 fixed and then by a factor of
-    // (0xffff/0x10000) to put data in 0..0xffff range. Total factor is (2.0*65535.0)/65536.0;
+    // XYZ PCS in fndodfd in 1.15 formbt, bnd tif mbtrix input siould domf in 0..0xffff rbngf, so
+    // wf nffd to bdjust tif input by b << 1 to obtbin b 1.16 fixfd bnd tifn by b fbdtor of
+    // (0xffff/0x10000) to put dbtb in 0..0xffff rbngf. Totbl fbdtor is (2.0*65535.0)/65536.0;
 
     for (i=0; i < 3; i++)
         for (j=0; j < 3; j++)
             Inv.v[i].n[j] *= OutpAdj;
 
-    Shapes[0] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigRedTRCTag);
-    Shapes[1] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigGreenTRCTag);
-    Shapes[2] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigBlueTRCTag);
+    Sibpfs[0] = (dmsTonfCurvf *) dmsRfbdTbg(iProfilf, dmsSigRfdTRCTbg);
+    Sibpfs[1] = (dmsTonfCurvf *) dmsRfbdTbg(iProfilf, dmsSigGrffnTRCTbg);
+    Sibpfs[2] = (dmsTonfCurvf *) dmsRfbdTbg(iProfilf, dmsSigBlufTRCTbg);
 
-    if (!Shapes[0] || !Shapes[1] || !Shapes[2])
-        return NULL;
+    if (!Sibpfs[0] || !Sibpfs[1] || !Sibpfs[2])
+        rfturn NULL;
 
-    InvShapes[0] = cmsReverseToneCurve(Shapes[0]);
-    InvShapes[1] = cmsReverseToneCurve(Shapes[1]);
-    InvShapes[2] = cmsReverseToneCurve(Shapes[2]);
+    InvSibpfs[0] = dmsRfvfrsfTonfCurvf(Sibpfs[0]);
+    InvSibpfs[1] = dmsRfvfrsfTonfCurvf(Sibpfs[1]);
+    InvSibpfs[2] = dmsRfvfrsfTonfCurvf(Sibpfs[2]);
 
-    if (!InvShapes[0] || !InvShapes[1] || !InvShapes[2]) {
-        return NULL;
+    if (!InvSibpfs[0] || !InvSibpfs[1] || !InvSibpfs[2]) {
+        rfturn NULL;
     }
 
-    Lut = cmsPipelineAlloc(ContextID, 3, 3);
+    Lut = dmsPipflinfAllod(ContfxtID, 3, 3);
     if (Lut != NULL) {
 
-        // Note that it is certainly possible a single profile would have a LUT based
-        // tag for output working in lab and a matrix-shaper for the fallback cases.
-        // This is not allowed by the spec, but this code is tolerant to those cases
-        if (cmsGetPCS(hProfile) == cmsSigLabData) {
+        // Notf tibt it is dfrtbinly possiblf b singlf profilf would ibvf b LUT bbsfd
+        // tbg for output working in lbb bnd b mbtrix-sibpfr for tif fbllbbdk dbsfs.
+        // Tiis is not bllowfd by tif spfd, but tiis dodf is tolfrbnt to tiosf dbsfs
+        if (dmsGftPCS(iProfilf) == dmsSigLbbDbtb) {
 
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLab2XYZ(ContextID)))
+            if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfAllodLbb2XYZ(ContfxtID)))
                 goto Error;
         }
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3, 3, (cmsFloat64Number*) &Inv, NULL)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 3, InvShapes)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodMbtrix(ContfxtID, 3, 3, (dmsFlobt64Numbfr*) &Inv, NULL)) ||
+            !dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, dmsStbgfAllodTonfCurvfs(ContfxtID, 3, InvSibpfs)))
             goto Error;
     }
 
-    cmsFreeToneCurveTriple(InvShapes);
-    return Lut;
+    dmsFrffTonfCurvfTriplf(InvSibpfs);
+    rfturn Lut;
 Error:
-    cmsFreeToneCurveTriple(InvShapes);
-    cmsPipelineFree(Lut);
-    return NULL;
+    dmsFrffTonfCurvfTriplf(InvSibpfs);
+    dmsPipflinfFrff(Lut);
+    rfturn NULL;
 }
 
 
-// Change CLUT interpolation to trilinear
-static
-void ChangeInterpolationToTrilinear(cmsPipeline* Lut)
+// Cibngf CLUT intfrpolbtion to trilinfbr
+stbtid
+void CibngfIntfrpolbtionToTrilinfbr(dmsPipflinf* Lut)
 {
-    cmsStage* Stage;
+    dmsStbgf* Stbgf;
 
-    for (Stage = cmsPipelineGetPtrToFirstStage(Lut);
-        Stage != NULL;
-        Stage = cmsStageNext(Stage)) {
+    for (Stbgf = dmsPipflinfGftPtrToFirstStbgf(Lut);
+        Stbgf != NULL;
+        Stbgf = dmsStbgfNfxt(Stbgf)) {
 
-            if (cmsStageType(Stage) == cmsSigCLutElemType) {
+            if (dmsStbgfTypf(Stbgf) == dmsSigCLutElfmTypf) {
 
-                _cmsStageCLutData* CLUT = (_cmsStageCLutData*) Stage ->Data;
+                _dmsStbgfCLutDbtb* CLUT = (_dmsStbgfCLutDbtb*) Stbgf ->Dbtb;
 
-                CLUT ->Params->dwFlags |= CMS_LERP_FLAGS_TRILINEAR;
-                _cmsSetInterpolationRoutine(CLUT ->Params);
+                CLUT ->Pbrbms->dwFlbgs |= CMS_LERP_FLAGS_TRILINEAR;
+                _dmsSftIntfrpolbtionRoutinf(CLUT ->Pbrbms);
             }
     }
 }
 
 
-// Read the DToAX tag, adjusting the encoding of Lab or XYZ if neded
-static
-cmsPipeline* _cmsReadFloatOutputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
+// Rfbd tif DToAX tbg, bdjusting tif fndoding of Lbb or XYZ if nfdfd
+stbtid
+dmsPipflinf* _dmsRfbdFlobtOutputTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf tbgFlobt)
 {
-    cmsContext ContextID       = cmsGetProfileContextID(hProfile);
-    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
-    cmsColorSpaceSignature PCS = cmsGetPCS(hProfile);
-    cmsColorSpaceSignature dataSpace = cmsGetColorSpace(hProfile);
+    dmsContfxt ContfxtID       = dmsGftProfilfContfxtID(iProfilf);
+    dmsPipflinf* Lut           = dmsPipflinfDup((dmsPipflinf*) dmsRfbdTbg(iProfilf, tbgFlobt));
+    dmsColorSpbdfSignbturf PCS = dmsGftPCS(iProfilf);
+    dmsColorSpbdfSignbturf dbtbSpbdf = dmsGftColorSpbdf(iProfilf);
 
-    if (Lut == NULL) return NULL;
+    if (Lut == NULL) rfturn NULL;
 
-    // If PCS is Lab or XYZ, the floating point tag is accepting data in the space encoding,
-    // and since the formatter has already accomodated to 0..1.0, we should undo this change
-    if ( PCS == cmsSigLabData)
+    // If PCS is Lbb or XYZ, tif flobting point tbg is bddfpting dbtb in tif spbdf fndoding,
+    // bnd sindf tif formbttfr ibs blrfbdy bddomodbtfd to 0..1.0, wf siould undo tiis dibngf
+    if ( PCS == dmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToLabFloat(ContextID)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfNormblizfToLbbFlobt(ContfxtID)))
             goto Error;
     }
-    else
-        if (PCS == cmsSigXYZData)
+    flsf
+        if (PCS == dmsSigXYZDbtb)
         {
-            if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID)))
+            if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfNormblizfToXyzFlobt(ContfxtID)))
                 goto Error;
         }
 
-    // the output can be Lab or XYZ, in which case normalisation is needed on the end of the pipeline
-    if ( dataSpace == cmsSigLabData)
+    // tif output dbn bf Lbb or XYZ, in wiidi dbsf normblisbtion is nffdfd on tif fnd of tif pipflinf
+    if ( dbtbSpbdf == dmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromLabFloat(ContextID)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfNormblizfFromLbbFlobt(ContfxtID)))
             goto Error;
     }
-    else if (dataSpace == cmsSigXYZData)
+    flsf if (dbtbSpbdf == dmsSigXYZDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfNormblizfFromXyzFlobt(ContfxtID)))
             goto Error;
     }
 
-    return Lut;
+    rfturn Lut;
 
 Error:
-    cmsPipelineFree(Lut);
-    return NULL;
+    dmsPipflinfFrff(Lut);
+    rfturn NULL;
 }
 
-// Create an output MPE LUT from agiven profile. Version mismatches are handled here
-cmsPipeline* _cmsReadOutputLUT(cmsHPROFILE hProfile, int Intent)
+// Crfbtf bn output MPE LUT from bgivfn profilf. Vfrsion mismbtdifs brf ibndlfd ifrf
+dmsPipflinf* _dmsRfbdOutputLUT(dmsHPROFILE iProfilf, int Intfnt)
 {
-    cmsTagTypeSignature OriginalType;
-    cmsTagSignature tag16    = PCS2Device16[Intent];
-    cmsTagSignature tagFloat = PCS2DeviceFloat[Intent];
-    cmsContext ContextID     = cmsGetProfileContextID(hProfile);
+    dmsTbgTypfSignbturf OriginblTypf;
+    dmsTbgSignbturf tbg16    = PCS2Dfvidf16[Intfnt];
+    dmsTbgSignbturf tbgFlobt = PCS2DfvidfFlobt[Intfnt];
+    dmsContfxt ContfxtID     = dmsGftProfilfContfxtID(iProfilf);
 
-    if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
+    if (dmsIsTbg(iProfilf, tbgFlobt)) {  // Flobt tbg tbkfs prfdfdfndf
 
-        // Floating point LUT are always V4
-        return _cmsReadFloatOutputTag(hProfile, tagFloat);
+        // Flobting point LUT brf blwbys V4
+        rfturn _dmsRfbdFlobtOutputTbg(iProfilf, tbgFlobt);
     }
 
-    // Revert to perceptual if no tag is found
-    if (!cmsIsTag(hProfile, tag16)) {
-        tag16 = PCS2Device16[0];
+    // Rfvfrt to pfrdfptubl if no tbg is found
+    if (!dmsIsTbg(iProfilf, tbg16)) {
+        tbg16 = PCS2Dfvidf16[0];
     }
 
-    if (cmsIsTag(hProfile, tag16)) { // Is there any LUT-Based table?
+    if (dmsIsTbg(iProfilf, tbg16)) { // Is tifrf bny LUT-Bbsfd tbblf?
 
-        // Check profile version and LUT type. Do the necessary adjustments if needed
+        // Cifdk profilf vfrsion bnd LUT typf. Do tif nfdfssbry bdjustmfnts if nffdfd
 
-        // First read the tag
-        cmsPipeline* Lut = (cmsPipeline*) cmsReadTag(hProfile, tag16);
-        if (Lut == NULL) return NULL;
+        // First rfbd tif tbg
+        dmsPipflinf* Lut = (dmsPipflinf*) dmsRfbdTbg(iProfilf, tbg16);
+        if (Lut == NULL) rfturn NULL;
 
-        // After reading it, we have info about the original type
-        OriginalType =  _cmsGetTagTrueType(hProfile, tag16);
+        // Aftfr rfbding it, wf ibvf info bbout tif originbl typf
+        OriginblTypf =  _dmsGftTbgTrufTypf(iProfilf, tbg16);
 
-        // The profile owns the Lut, so we need to copy it
-        Lut = cmsPipelineDup(Lut);
-        if (Lut == NULL) return NULL;
+        // Tif profilf owns tif Lut, so wf nffd to dopy it
+        Lut = dmsPipflinfDup(Lut);
+        if (Lut == NULL) rfturn NULL;
 
-        // Now it is time for a controversial stuff. I found that for 3D LUTS using
-        // Lab used as indexer space,  trilinear interpolation should be used
-        if (cmsGetPCS(hProfile) == cmsSigLabData)
-            ChangeInterpolationToTrilinear(Lut);
+        // Now it is timf for b dontrovfrsibl stuff. I found tibt for 3D LUTS using
+        // Lbb usfd bs indfxfr spbdf,  trilinfbr intfrpolbtion siould bf usfd
+        if (dmsGftPCS(iProfilf) == dmsSigLbbDbtb)
+            CibngfIntfrpolbtionToTrilinfbr(Lut);
 
-        // We need to adjust data only for Lab and Lut16 type
-        if (OriginalType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLabData)
-            return Lut;
+        // Wf nffd to bdjust dbtb only for Lbb bnd Lut16 typf
+        if (OriginblTypf != dmsSigLut16Typf || dmsGftPCS(iProfilf) != dmsSigLbbDbtb)
+            rfturn Lut;
 
-        // Add a matrix for conversion V4 to V2 Lab PCS
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID)))
+        // Add b mbtrix for donvfrsion V4 to V2 Lbb PCS
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfAllodLbbV4ToV2(ContfxtID)))
             goto Error;
 
-        // If the output is Lab, add also a conversion at the end
-        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID)))
+        // If tif output is Lbb, bdd blso b donvfrsion bt tif fnd
+        if (dmsGftColorSpbdf(iProfilf) == dmsSigLbbDbtb)
+            if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfAllodLbbV2ToV4(ContfxtID)))
                 goto Error;
 
-        return Lut;
+        rfturn Lut;
 Error:
-        cmsPipelineFree(Lut);
-        return NULL;
+        dmsPipflinfFrff(Lut);
+        rfturn NULL;
     }
 
-    // Lut not found, try to create a matrix-shaper
+    // Lut not found, try to drfbtf b mbtrix-sibpfr
 
-    // Check if this is a grayscale profile.
-    if (cmsGetColorSpace(hProfile) == cmsSigGrayData) {
+    // Cifdk if tiis is b grbysdblf profilf.
+    if (dmsGftColorSpbdf(iProfilf) == dmsSigGrbyDbtb) {
 
-        // if so, build appropiate conversion tables.
-        // The tables are the PCS iluminant, scaled across GrayTRC
-        return BuildGrayOutputPipeline(hProfile);
+        // if so, build bppropibtf donvfrsion tbblfs.
+        // Tif tbblfs brf tif PCS iluminbnt, sdblfd bdross GrbyTRC
+        rfturn BuildGrbyOutputPipflinf(iProfilf);
     }
 
-    // Not gray, create a normal matrix-shaper, which only operates in XYZ space
-    return BuildRGBOutputMatrixShaper(hProfile);
+    // Not grby, drfbtf b normbl mbtrix-sibpfr, wiidi only opfrbtfs in XYZ spbdf
+    rfturn BuildRGBOutputMbtrixSibpfr(iProfilf);
 }
 
 // ---------------------------------------------------------------------------------------------------------------
 
-// Read the AToD0 tag, adjusting the encoding of Lab or XYZ if neded
-static
-cmsPipeline* _cmsReadFloatDevicelinkTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
+// Rfbd tif AToD0 tbg, bdjusting tif fndoding of Lbb or XYZ if nfdfd
+stbtid
+dmsPipflinf* _dmsRfbdFlobtDfvidflinkTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf tbgFlobt)
 {
-    cmsContext ContextID       = cmsGetProfileContextID(hProfile);
-    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
-    cmsColorSpaceSignature PCS = cmsGetPCS(hProfile);
-    cmsColorSpaceSignature spc = cmsGetColorSpace(hProfile);
+    dmsContfxt ContfxtID       = dmsGftProfilfContfxtID(iProfilf);
+    dmsPipflinf* Lut           = dmsPipflinfDup((dmsPipflinf*) dmsRfbdTbg(iProfilf, tbgFlobt));
+    dmsColorSpbdfSignbturf PCS = dmsGftPCS(iProfilf);
+    dmsColorSpbdfSignbturf spd = dmsGftColorSpbdf(iProfilf);
 
-    if (Lut == NULL) return NULL;
+    if (Lut == NULL) rfturn NULL;
 
-    if (spc == cmsSigLabData)
+    if (spd == dmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToLabFloat(ContextID)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfNormblizfToLbbFlobt(ContfxtID)))
             goto Error;
     }
-    else
-        if (spc == cmsSigXYZData)
+    flsf
+        if (spd == dmsSigXYZDbtb)
         {
-            if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID)))
+            if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfNormblizfToXyzFlobt(ContfxtID)))
                 goto Error;
         }
 
-        if (PCS == cmsSigLabData)
+        if (PCS == dmsSigLbbDbtb)
         {
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromLabFloat(ContextID)))
+            if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfNormblizfFromLbbFlobt(ContfxtID)))
                 goto Error;
         }
-        else
-            if (PCS == cmsSigXYZData)
+        flsf
+            if (PCS == dmsSigXYZDbtb)
             {
-                if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID)))
+                if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfNormblizfFromXyzFlobt(ContfxtID)))
                     goto Error;
             }
 
-    return Lut;
+    rfturn Lut;
 Error:
-    cmsPipelineFree(Lut);
-    return NULL;
+    dmsPipflinfFrff(Lut);
+    rfturn NULL;
 }
 
-// This one includes abstract profiles as well. Matrix-shaper cannot be obtained on that device class. The
-// tag name here may default to AToB0
-cmsPipeline* _cmsReadDevicelinkLUT(cmsHPROFILE hProfile, int Intent)
+// Tiis onf indludfs bbstrbdt profilfs bs wfll. Mbtrix-sibpfr dbnnot bf obtbinfd on tibt dfvidf dlbss. Tif
+// tbg nbmf ifrf mby dffbult to AToB0
+dmsPipflinf* _dmsRfbdDfvidflinkLUT(dmsHPROFILE iProfilf, int Intfnt)
 {
-    cmsPipeline* Lut;
-    cmsTagTypeSignature OriginalType;
-    cmsTagSignature tag16    = Device2PCS16[Intent];
-    cmsTagSignature tagFloat = Device2PCSFloat[Intent];
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
+    dmsPipflinf* Lut;
+    dmsTbgTypfSignbturf OriginblTypf;
+    dmsTbgSignbturf tbg16    = Dfvidf2PCS16[Intfnt];
+    dmsTbgSignbturf tbgFlobt = Dfvidf2PCSFlobt[Intfnt];
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
 
 
-    // On named color, take the appropiate tag
-    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+    // On nbmfd dolor, tbkf tif bppropibtf tbg
+    if (dmsGftDfvidfClbss(iProfilf) == dmsSigNbmfdColorClbss) {
 
-        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
+        dmsNAMEDCOLORLIST* nd = (dmsNAMEDCOLORLIST*) dmsRfbdTbg(iProfilf, dmsSigNbmfdColor2Tbg);
 
-        if (nc == NULL) return NULL;
+        if (nd == NULL) rfturn NULL;
 
-        Lut = cmsPipelineAlloc(ContextID, 0, 0);
+        Lut = dmsPipflinfAllod(ContfxtID, 0, 0);
         if (Lut == NULL)
             goto Error;
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocNamedColor(nc, FALSE)))
+        if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfAllodNbmfdColor(nd, FALSE)))
             goto Error;
 
-        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID)))
+        if (dmsGftColorSpbdf(iProfilf) == dmsSigLbbDbtb)
+            if (!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfAllodLbbV2ToV4(ContfxtID)))
                 goto Error;
 
-        return Lut;
+        rfturn Lut;
 Error:
-        cmsPipelineFree(Lut);
-        cmsFreeNamedColorList(nc);
-        return NULL;
+        dmsPipflinfFrff(Lut);
+        dmsFrffNbmfdColorList(nd);
+        rfturn NULL;
     }
 
-    if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
+    if (dmsIsTbg(iProfilf, tbgFlobt)) {  // Flobt tbg tbkfs prfdfdfndf
 
-        // Floating point LUT are always V
-        return _cmsReadFloatDevicelinkTag(hProfile, tagFloat);
+        // Flobting point LUT brf blwbys V
+        rfturn _dmsRfbdFlobtDfvidflinkTbg(iProfilf, tbgFlobt);
     }
 
-    tagFloat = Device2PCSFloat[0];
-    if (cmsIsTag(hProfile, tagFloat)) {
+    tbgFlobt = Dfvidf2PCSFlobt[0];
+    if (dmsIsTbg(iProfilf, tbgFlobt)) {
 
-        return cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
+        rfturn dmsPipflinfDup((dmsPipflinf*) dmsRfbdTbg(iProfilf, tbgFlobt));
     }
 
-    if (!cmsIsTag(hProfile, tag16)) {  // Is there any LUT-Based table?
+    if (!dmsIsTbg(iProfilf, tbg16)) {  // Is tifrf bny LUT-Bbsfd tbblf?
 
-        tag16    = Device2PCS16[0];
-        if (!cmsIsTag(hProfile, tag16)) return NULL;
+        tbg16    = Dfvidf2PCS16[0];
+        if (!dmsIsTbg(iProfilf, tbg16)) rfturn NULL;
     }
 
-    // Check profile version and LUT type. Do the necessary adjustments if needed
+    // Cifdk profilf vfrsion bnd LUT typf. Do tif nfdfssbry bdjustmfnts if nffdfd
 
-    // Read the tag
-    Lut = (cmsPipeline*) cmsReadTag(hProfile, tag16);
-    if (Lut == NULL) return NULL;
+    // Rfbd tif tbg
+    Lut = (dmsPipflinf*) dmsRfbdTbg(iProfilf, tbg16);
+    if (Lut == NULL) rfturn NULL;
 
-    // The profile owns the Lut, so we need to copy it
-    Lut = cmsPipelineDup(Lut);
-    if (Lut == NULL) return NULL;
+    // Tif profilf owns tif Lut, so wf nffd to dopy it
+    Lut = dmsPipflinfDup(Lut);
+    if (Lut == NULL) rfturn NULL;
 
-    // Now it is time for a controversial stuff. I found that for 3D LUTS using
-    // Lab used as indexer space,  trilinear interpolation should be used
-    if (cmsGetColorSpace(hProfile) == cmsSigLabData)
-        ChangeInterpolationToTrilinear(Lut);
+    // Now it is timf for b dontrovfrsibl stuff. I found tibt for 3D LUTS using
+    // Lbb usfd bs indfxfr spbdf,  trilinfbr intfrpolbtion siould bf usfd
+    if (dmsGftColorSpbdf(iProfilf) == dmsSigLbbDbtb)
+        CibngfIntfrpolbtionToTrilinfbr(Lut);
 
-    // After reading it, we have info about the original type
-    OriginalType =  _cmsGetTagTrueType(hProfile, tag16);
+    // Aftfr rfbding it, wf ibvf info bbout tif originbl typf
+    OriginblTypf =  _dmsGftTbgTrufTypf(iProfilf, tbg16);
 
-    // We need to adjust data for Lab16 on output
-    if (OriginalType != cmsSigLut16Type) return Lut;
+    // Wf nffd to bdjust dbtb for Lbb16 on output
+    if (OriginblTypf != dmsSigLut16Typf) rfturn Lut;
 
-    // Here it is possible to get Lab on both sides
+    // Hfrf it is possiblf to gft Lbb on boti sidfs
 
-    if (cmsGetPCS(hProfile) == cmsSigLabData) {
-        if(!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID)))
+    if (dmsGftPCS(iProfilf) == dmsSigLbbDbtb) {
+        if(!dmsPipflinfInsfrtStbgf(Lut, dmsAT_BEGIN, _dmsStbgfAllodLbbV4ToV2(ContfxtID)))
             goto Error2;
     }
 
-    if (cmsGetColorSpace(hProfile) == cmsSigLabData) {
-        if(!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID)))
+    if (dmsGftColorSpbdf(iProfilf) == dmsSigLbbDbtb) {
+        if(!dmsPipflinfInsfrtStbgf(Lut, dmsAT_END, _dmsStbgfAllodLbbV2ToV4(ContfxtID)))
             goto Error2;
     }
 
-    return Lut;
+    rfturn Lut;
 
 Error2:
-    cmsPipelineFree(Lut);
-    return NULL;
+    dmsPipflinfFrff(Lut);
+    rfturn NULL;
 }
 
 // ---------------------------------------------------------------------------------------------------------------
 
-// Returns TRUE if the profile is implemented as matrix-shaper
-cmsBool  CMSEXPORT cmsIsMatrixShaper(cmsHPROFILE hProfile)
+// Rfturns TRUE if tif profilf is implfmfntfd bs mbtrix-sibpfr
+dmsBool  CMSEXPORT dmsIsMbtrixSibpfr(dmsHPROFILE iProfilf)
 {
-    switch (cmsGetColorSpace(hProfile)) {
+    switdi (dmsGftColorSpbdf(iProfilf)) {
 
-    case cmsSigGrayData:
+    dbsf dmsSigGrbyDbtb:
 
-        return cmsIsTag(hProfile, cmsSigGrayTRCTag);
+        rfturn dmsIsTbg(iProfilf, dmsSigGrbyTRCTbg);
 
-    case cmsSigRgbData:
+    dbsf dmsSigRgbDbtb:
 
-        return (cmsIsTag(hProfile, cmsSigRedColorantTag) &&
-                cmsIsTag(hProfile, cmsSigGreenColorantTag) &&
-                cmsIsTag(hProfile, cmsSigBlueColorantTag) &&
-                cmsIsTag(hProfile, cmsSigRedTRCTag) &&
-                cmsIsTag(hProfile, cmsSigGreenTRCTag) &&
-                cmsIsTag(hProfile, cmsSigBlueTRCTag));
+        rfturn (dmsIsTbg(iProfilf, dmsSigRfdColorbntTbg) &&
+                dmsIsTbg(iProfilf, dmsSigGrffnColorbntTbg) &&
+                dmsIsTbg(iProfilf, dmsSigBlufColorbntTbg) &&
+                dmsIsTbg(iProfilf, dmsSigRfdTRCTbg) &&
+                dmsIsTbg(iProfilf, dmsSigGrffnTRCTbg) &&
+                dmsIsTbg(iProfilf, dmsSigBlufTRCTbg));
 
-    default:
+    dffbult:
 
-        return FALSE;
+        rfturn FALSE;
     }
 }
 
-// Returns TRUE if the intent is implemented as CLUT
-cmsBool  CMSEXPORT cmsIsCLUT(cmsHPROFILE hProfile, cmsUInt32Number Intent, cmsUInt32Number UsedDirection)
+// Rfturns TRUE if tif intfnt is implfmfntfd bs CLUT
+dmsBool  CMSEXPORT dmsIsCLUT(dmsHPROFILE iProfilf, dmsUInt32Numbfr Intfnt, dmsUInt32Numbfr UsfdDirfdtion)
 {
-    const cmsTagSignature* TagTable;
+    donst dmsTbgSignbturf* TbgTbblf;
 
-    // For devicelinks, the supported intent is that one stated in the header
-    if (cmsGetDeviceClass(hProfile) == cmsSigLinkClass) {
-            return (cmsGetHeaderRenderingIntent(hProfile) == Intent);
+    // For dfvidflinks, tif supportfd intfnt is tibt onf stbtfd in tif ifbdfr
+    if (dmsGftDfvidfClbss(iProfilf) == dmsSigLinkClbss) {
+            rfturn (dmsGftHfbdfrRfndfringIntfnt(iProfilf) == Intfnt);
     }
 
-    switch (UsedDirection) {
+    switdi (UsfdDirfdtion) {
 
-       case LCMS_USED_AS_INPUT: TagTable = Device2PCS16; break;
-       case LCMS_USED_AS_OUTPUT:TagTable = PCS2Device16; break;
+       dbsf LCMS_USED_AS_INPUT: TbgTbblf = Dfvidf2PCS16; brfbk;
+       dbsf LCMS_USED_AS_OUTPUT:TbgTbblf = PCS2Dfvidf16; brfbk;
 
-       // For proofing, we need rel. colorimetric in output. Let's do some recursion
-       case LCMS_USED_AS_PROOF:
-           return cmsIsIntentSupported(hProfile, Intent, LCMS_USED_AS_INPUT) &&
-                  cmsIsIntentSupported(hProfile, INTENT_RELATIVE_COLORIMETRIC, LCMS_USED_AS_OUTPUT);
+       // For proofing, wf nffd rfl. dolorimftrid in output. Lft's do somf rfdursion
+       dbsf LCMS_USED_AS_PROOF:
+           rfturn dmsIsIntfntSupportfd(iProfilf, Intfnt, LCMS_USED_AS_INPUT) &&
+                  dmsIsIntfntSupportfd(iProfilf, INTENT_RELATIVE_COLORIMETRIC, LCMS_USED_AS_OUTPUT);
 
-       default:
-           cmsSignalError(cmsGetProfileContextID(hProfile), cmsERROR_RANGE, "Unexpected direction (%d)", UsedDirection);
-           return FALSE;
+       dffbult:
+           dmsSignblError(dmsGftProfilfContfxtID(iProfilf), dmsERROR_RANGE, "Unfxpfdtfd dirfdtion (%d)", UsfdDirfdtion);
+           rfturn FALSE;
     }
 
-    return cmsIsTag(hProfile, TagTable[Intent]);
+    rfturn dmsIsTbg(iProfilf, TbgTbblf[Intfnt]);
 
 }
 
 
-// Return info about supported intents
-cmsBool  CMSEXPORT cmsIsIntentSupported(cmsHPROFILE hProfile,
-                                        cmsUInt32Number Intent, cmsUInt32Number UsedDirection)
+// Rfturn info bbout supportfd intfnts
+dmsBool  CMSEXPORT dmsIsIntfntSupportfd(dmsHPROFILE iProfilf,
+                                        dmsUInt32Numbfr Intfnt, dmsUInt32Numbfr UsfdDirfdtion)
 {
 
-    if (cmsIsCLUT(hProfile, Intent, UsedDirection)) return TRUE;
+    if (dmsIsCLUT(iProfilf, Intfnt, UsfdDirfdtion)) rfturn TRUE;
 
-    // Is there any matrix-shaper? If so, the intent is supported. This is a bit odd, since V2 matrix shaper
-    // does not fully support relative colorimetric because they cannot deal with non-zero black points, but
-    // many profiles claims that, and this is certainly not true for V4 profiles. Lets answer "yes" no matter
-    // the accuracy would be less than optimal in rel.col and v2 case.
+    // Is tifrf bny mbtrix-sibpfr? If so, tif intfnt is supportfd. Tiis is b bit odd, sindf V2 mbtrix sibpfr
+    // dofs not fully support rflbtivf dolorimftrid bfdbusf tify dbnnot dfbl witi non-zfro blbdk points, but
+    // mbny profilfs dlbims tibt, bnd tiis is dfrtbinly not truf for V4 profilfs. Lfts bnswfr "yfs" no mbttfr
+    // tif bddurbdy would bf lfss tibn optimbl in rfl.dol bnd v2 dbsf.
 
-    return cmsIsMatrixShaper(hProfile);
+    rfturn dmsIsMbtrixSibpfr(iProfilf);
 }
 
 
 // ---------------------------------------------------------------------------------------------------------------
 
-// Read both, profile sequence description and profile sequence id if present. Then combine both to
-// create qa unique structure holding both. Shame on ICC to store things in such complicated way.
-cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
+// Rfbd boti, profilf sfqufndf dfsdription bnd profilf sfqufndf id if prfsfnt. Tifn dombinf boti to
+// drfbtf qb uniquf strudturf iolding boti. Sibmf on ICC to storf tiings in sudi domplidbtfd wby.
+dmsSEQ* _dmsRfbdProfilfSfqufndf(dmsHPROFILE iProfilf)
 {
-    cmsSEQ* ProfileSeq;
-    cmsSEQ* ProfileId;
-    cmsSEQ* NewSeq;
-    cmsUInt32Number i;
+    dmsSEQ* ProfilfSfq;
+    dmsSEQ* ProfilfId;
+    dmsSEQ* NfwSfq;
+    dmsUInt32Numbfr i;
 
-    // Take profile sequence description first
-    ProfileSeq = (cmsSEQ*) cmsReadTag(hProfile, cmsSigProfileSequenceDescTag);
+    // Tbkf profilf sfqufndf dfsdription first
+    ProfilfSfq = (dmsSEQ*) dmsRfbdTbg(iProfilf, dmsSigProfilfSfqufndfDfsdTbg);
 
-    // Take profile sequence ID
-    ProfileId  = (cmsSEQ*) cmsReadTag(hProfile, cmsSigProfileSequenceIdTag);
+    // Tbkf profilf sfqufndf ID
+    ProfilfId  = (dmsSEQ*) dmsRfbdTbg(iProfilf, dmsSigProfilfSfqufndfIdTbg);
 
-    if (ProfileSeq == NULL && ProfileId == NULL) return NULL;
+    if (ProfilfSfq == NULL && ProfilfId == NULL) rfturn NULL;
 
-    if (ProfileSeq == NULL) return cmsDupProfileSequenceDescription(ProfileId);
-    if (ProfileId  == NULL) return cmsDupProfileSequenceDescription(ProfileSeq);
+    if (ProfilfSfq == NULL) rfturn dmsDupProfilfSfqufndfDfsdription(ProfilfId);
+    if (ProfilfId  == NULL) rfturn dmsDupProfilfSfqufndfDfsdription(ProfilfSfq);
 
-    // We have to mix both together. For that they must agree
-    if (ProfileSeq ->n != ProfileId ->n) return cmsDupProfileSequenceDescription(ProfileSeq);
+    // Wf ibvf to mix boti togftifr. For tibt tify must bgrff
+    if (ProfilfSfq ->n != ProfilfId ->n) rfturn dmsDupProfilfSfqufndfDfsdription(ProfilfSfq);
 
-    NewSeq = cmsDupProfileSequenceDescription(ProfileSeq);
+    NfwSfq = dmsDupProfilfSfqufndfDfsdription(ProfilfSfq);
 
-    // Ok, proceed to the mixing
-    if (NewSeq != NULL) {
-        for (i=0; i < ProfileSeq ->n; i++) {
+    // Ok, prodffd to tif mixing
+    if (NfwSfq != NULL) {
+        for (i=0; i < ProfilfSfq ->n; i++) {
 
-            memmove(&NewSeq ->seq[i].ProfileID, &ProfileId ->seq[i].ProfileID, sizeof(cmsProfileID));
-            NewSeq ->seq[i].Description = cmsMLUdup(ProfileId ->seq[i].Description);
+            mfmmovf(&NfwSfq ->sfq[i].ProfilfID, &ProfilfId ->sfq[i].ProfilfID, sizfof(dmsProfilfID));
+            NfwSfq ->sfq[i].Dfsdription = dmsMLUdup(ProfilfId ->sfq[i].Dfsdription);
         }
     }
-    return NewSeq;
+    rfturn NfwSfq;
 }
 
-// Dump the contents of profile sequence in both tags (if v4 available)
-cmsBool _cmsWriteProfileSequence(cmsHPROFILE hProfile, const cmsSEQ* seq)
+// Dump tif dontfnts of profilf sfqufndf in boti tbgs (if v4 bvbilbblf)
+dmsBool _dmsWritfProfilfSfqufndf(dmsHPROFILE iProfilf, donst dmsSEQ* sfq)
 {
-    if (!cmsWriteTag(hProfile, cmsSigProfileSequenceDescTag, seq)) return FALSE;
+    if (!dmsWritfTbg(iProfilf, dmsSigProfilfSfqufndfDfsdTbg, sfq)) rfturn FALSE;
 
-    if (cmsGetProfileVersion(hProfile) >= 4.0) {
+    if (dmsGftProfilfVfrsion(iProfilf) >= 4.0) {
 
-            if (!cmsWriteTag(hProfile, cmsSigProfileSequenceIdTag, seq)) return FALSE;
+            if (!dmsWritfTbg(iProfilf, dmsSigProfilfSfqufndfIdTbg, sfq)) rfturn FALSE;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-// Auxiliar, read and duplicate a MLU if found.
-static
-cmsMLU* GetMLUFromProfile(cmsHPROFILE h, cmsTagSignature sig)
+// Auxilibr, rfbd bnd duplidbtf b MLU if found.
+stbtid
+dmsMLU* GftMLUFromProfilf(dmsHPROFILE i, dmsTbgSignbturf sig)
 {
-    cmsMLU* mlu = (cmsMLU*) cmsReadTag(h, sig);
-    if (mlu == NULL) return NULL;
+    dmsMLU* mlu = (dmsMLU*) dmsRfbdTbg(i, sig);
+    if (mlu == NULL) rfturn NULL;
 
-    return cmsMLUdup(mlu);
+    rfturn dmsMLUdup(mlu);
 }
 
-// Create a sequence description out of an array of profiles
-cmsSEQ* _cmsCompileProfileSequence(cmsContext ContextID, cmsUInt32Number nProfiles, cmsHPROFILE hProfiles[])
+// Crfbtf b sfqufndf dfsdription out of bn brrby of profilfs
+dmsSEQ* _dmsCompilfProfilfSfqufndf(dmsContfxt ContfxtID, dmsUInt32Numbfr nProfilfs, dmsHPROFILE iProfilfs[])
 {
-    cmsUInt32Number i;
-    cmsSEQ* seq = cmsAllocProfileSequenceDescription(ContextID, nProfiles);
+    dmsUInt32Numbfr i;
+    dmsSEQ* sfq = dmsAllodProfilfSfqufndfDfsdription(ContfxtID, nProfilfs);
 
-    if (seq == NULL) return NULL;
+    if (sfq == NULL) rfturn NULL;
 
-    for (i=0; i < nProfiles; i++) {
+    for (i=0; i < nProfilfs; i++) {
 
-        cmsPSEQDESC* ps = &seq ->seq[i];
-        cmsHPROFILE h = hProfiles[i];
-        cmsTechnologySignature* techpt;
+        dmsPSEQDESC* ps = &sfq ->sfq[i];
+        dmsHPROFILE i = iProfilfs[i];
+        dmsTfdinologySignbturf* tfdipt;
 
-        cmsGetHeaderAttributes(h, &ps ->attributes);
-        cmsGetHeaderProfileID(h, ps ->ProfileID.ID8);
-        ps ->deviceMfg   = cmsGetHeaderManufacturer(h);
-        ps ->deviceModel = cmsGetHeaderModel(h);
+        dmsGftHfbdfrAttributfs(i, &ps ->bttributfs);
+        dmsGftHfbdfrProfilfID(i, ps ->ProfilfID.ID8);
+        ps ->dfvidfMfg   = dmsGftHfbdfrMbnufbdturfr(i);
+        ps ->dfvidfModfl = dmsGftHfbdfrModfl(i);
 
-        techpt = (cmsTechnologySignature*) cmsReadTag(h, cmsSigTechnologyTag);
-        if (techpt == NULL)
-            ps ->technology   =  (cmsTechnologySignature) 0;
-        else
-            ps ->technology   = *techpt;
+        tfdipt = (dmsTfdinologySignbturf*) dmsRfbdTbg(i, dmsSigTfdinologyTbg);
+        if (tfdipt == NULL)
+            ps ->tfdinology   =  (dmsTfdinologySignbturf) 0;
+        flsf
+            ps ->tfdinology   = *tfdipt;
 
-        ps ->Manufacturer = GetMLUFromProfile(h,  cmsSigDeviceMfgDescTag);
-        ps ->Model        = GetMLUFromProfile(h,  cmsSigDeviceModelDescTag);
-        ps ->Description  = GetMLUFromProfile(h, cmsSigProfileDescriptionTag);
+        ps ->Mbnufbdturfr = GftMLUFromProfilf(i,  dmsSigDfvidfMfgDfsdTbg);
+        ps ->Modfl        = GftMLUFromProfilf(i,  dmsSigDfvidfModflDfsdTbg);
+        ps ->Dfsdription  = GftMLUFromProfilf(i, dmsSigProfilfDfsdriptionTbg);
 
     }
 
-    return seq;
+    rfturn sfq;
 }
 
 // -------------------------------------------------------------------------------------------------------------------
 
 
-static
-const cmsMLU* GetInfo(cmsHPROFILE hProfile, cmsInfoType Info)
+stbtid
+donst dmsMLU* GftInfo(dmsHPROFILE iProfilf, dmsInfoTypf Info)
 {
-    cmsTagSignature sig;
+    dmsTbgSignbturf sig;
 
-    switch (Info) {
+    switdi (Info) {
 
-    case cmsInfoDescription:
-        sig = cmsSigProfileDescriptionTag;
-        break;
+    dbsf dmsInfoDfsdription:
+        sig = dmsSigProfilfDfsdriptionTbg;
+        brfbk;
 
-    case cmsInfoManufacturer:
-        sig = cmsSigDeviceMfgDescTag;
-        break;
+    dbsf dmsInfoMbnufbdturfr:
+        sig = dmsSigDfvidfMfgDfsdTbg;
+        brfbk;
 
-    case cmsInfoModel:
-        sig = cmsSigDeviceModelDescTag;
-         break;
+    dbsf dmsInfoModfl:
+        sig = dmsSigDfvidfModflDfsdTbg;
+         brfbk;
 
-    case cmsInfoCopyright:
-        sig = cmsSigCopyrightTag;
-        break;
+    dbsf dmsInfoCopyrigit:
+        sig = dmsSigCopyrigitTbg;
+        brfbk;
 
-    default: return NULL;
+    dffbult: rfturn NULL;
     }
 
 
-    return (cmsMLU*) cmsReadTag(hProfile, sig);
+    rfturn (dmsMLU*) dmsRfbdTbg(iProfilf, sig);
 }
 
 
 
-cmsUInt32Number CMSEXPORT cmsGetProfileInfo(cmsHPROFILE hProfile, cmsInfoType Info,
-                                            const char LanguageCode[3], const char CountryCode[3],
-                                            wchar_t* Buffer, cmsUInt32Number BufferSize)
+dmsUInt32Numbfr CMSEXPORT dmsGftProfilfInfo(dmsHPROFILE iProfilf, dmsInfoTypf Info,
+                                            donst dibr LbngubgfCodf[3], donst dibr CountryCodf[3],
+                                            wdibr_t* Bufffr, dmsUInt32Numbfr BufffrSizf)
 {
-    const cmsMLU* mlu = GetInfo(hProfile, Info);
-    if (mlu == NULL) return 0;
+    donst dmsMLU* mlu = GftInfo(iProfilf, Info);
+    if (mlu == NULL) rfturn 0;
 
-    return cmsMLUgetWide(mlu, LanguageCode, CountryCode, Buffer, BufferSize);
+    rfturn dmsMLUgftWidf(mlu, LbngubgfCodf, CountryCodf, Bufffr, BufffrSizf);
 }
 
 
-cmsUInt32Number  CMSEXPORT cmsGetProfileInfoASCII(cmsHPROFILE hProfile, cmsInfoType Info,
-                                                          const char LanguageCode[3], const char CountryCode[3],
-                                                          char* Buffer, cmsUInt32Number BufferSize)
+dmsUInt32Numbfr  CMSEXPORT dmsGftProfilfInfoASCII(dmsHPROFILE iProfilf, dmsInfoTypf Info,
+                                                          donst dibr LbngubgfCodf[3], donst dibr CountryCodf[3],
+                                                          dibr* Bufffr, dmsUInt32Numbfr BufffrSizf)
 {
-    const cmsMLU* mlu = GetInfo(hProfile, Info);
-    if (mlu == NULL) return 0;
+    donst dmsMLU* mlu = GftInfo(iProfilf, Info);
+    if (mlu == NULL) rfturn 0;
 
-    return cmsMLUgetASCII(mlu, LanguageCode, CountryCode, Buffer, BufferSize);
+    rfturn dmsMLUgftASCII(mlu, LbngubgfCodf, CountryCodf, Bufffr, BufffrSizf);
 }

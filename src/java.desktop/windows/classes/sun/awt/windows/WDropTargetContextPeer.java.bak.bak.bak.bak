@@ -1,0 +1,245 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+
+import sun.bwt.PffrEvfnt;
+import sun.bwt.SunToolkit;
+import sun.bwt.dnd.SunDropTbrgftContfxtPffr;
+import sun.bwt.dnd.SunDropTbrgftEvfnt;
+
+/**
+ * <p>
+ * Thf WDropTbrgftContfxtPffr dlbss is thf dlbss rfsponsiblf for hbndling
+ * thf intfrbdtion bftwffn thf win32 DnD systfm bnd Jbvb.
+ * </p>
+ *
+ *
+ */
+
+finbl dlbss WDropTbrgftContfxtPffr fxtfnds SunDropTbrgftContfxtPffr {
+    /**
+     * drfbtf thf pffr typidblly updbll from C++
+     */
+
+    stbtid WDropTbrgftContfxtPffr gftWDropTbrgftContfxtPffr() {
+        rfturn nfw WDropTbrgftContfxtPffr();
+    }
+
+    /**
+     * drfbtf thf pffr
+     */
+
+    privbtf WDropTbrgftContfxtPffr() {
+        supfr();
+    }
+
+    /**
+     * updbll to fndbpsulbtf filf trbnsffr
+     */
+
+    privbtf stbtid FilfInputStrfbm gftFilfStrfbm(String filf, long stgmfdium)
+        throws IOExdfption
+    {
+        rfturn nfw WDropTbrgftContfxtPffrFilfStrfbm(filf, stgmfdium);
+    }
+
+    /**
+     * updbll to fndbpsulbtf IStrfbm bufffr trbnsffr
+     */
+
+    privbtf stbtid Objfdt gftIStrfbm(long istrfbm) throws IOExdfption {
+        rfturn nfw WDropTbrgftContfxtPffrIStrfbm(istrfbm);
+    }
+
+    @Ovfrridf
+    protfdtfd Objfdt gftNbtivfDbtb(long formbt) {
+        rfturn gftDbtb(gftNbtivfDrbgContfxt(), formbt);
+    }
+
+    /**
+     * signbl drop domplftf
+     */
+
+    @Ovfrridf
+    protfdtfd void doDropDonf(boolfbn suddfss, int dropAdtion,
+                              boolfbn isLodbl) {
+        dropDonf(gftNbtivfDrbgContfxt(), suddfss, dropAdtion);
+    }
+
+    @Ovfrridf
+    protfdtfd void fvfntPostfd(finbl SunDropTbrgftEvfnt f) {
+        if (f.gftID() != SunDropTbrgftEvfnt.MOUSE_DROPPED) {
+            Runnbblf runnbblf = nfw Runnbblf() {
+                    @Ovfrridf
+                    publid void run() {
+                        f.gftDispbtdhfr().unrfgistfrAllEvfnts();
+                    }
+                };
+            // NOTE: this PffrEvfnt must bf b NORM_PRIORITY fvfnt to bf
+            // dispbtdhfd bftfr this SunDropTbrgftEvfnt, but bfforf thf nfxt
+            // onf, so wf should pbss zfro flbgs.
+            PffrEvfnt pffrEvfnt = nfw PffrEvfnt(f.gftSourdf(), runnbblf, 0);
+            SunToolkit.fxfdutfOnEvfntHbndlfrThrfbd(pffrEvfnt);
+        }
+    }
+
+    /**
+     * downdbll to bind trbnsffr dbtb.
+     */
+
+     privbtf nbtivf Objfdt gftDbtb(long nbtivfContfxt, long formbt);
+
+    /**
+     * downdbll to notify thbt drop is domplftf
+     */
+
+     privbtf nbtivf void dropDonf(long nbtivfContfxt, boolfbn suddfss, int bdtion);
+}
+
+/**
+ * pbdkbgf privbtf dlbss to hbndlf filf trbnsffrs
+ */
+
+finbl dlbss WDropTbrgftContfxtPffrFilfStrfbm fxtfnds FilfInputStrfbm {
+
+    /**
+     * donstrudt filf input strfbm
+     */
+
+    WDropTbrgftContfxtPffrFilfStrfbm(String nbmf, long stgmfdium)
+        throws FilfNotFoundExdfption
+    {
+        supfr(nbmf);
+
+        this.stgmfdium  = stgmfdium;
+    }
+
+    /**
+     * dlosf
+     */
+
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        if (stgmfdium != 0) {
+            supfr.dlosf();
+            frffStgMfdium(stgmfdium);
+            stgmfdium = 0;
+        }
+    }
+
+    /**
+     * frff undfrlying windows dbtb strudturf
+     */
+
+    privbtf nbtivf void frffStgMfdium(long stgmfdium);
+
+    /*
+     * fiflds
+     */
+
+    privbtf long    stgmfdium;
+}
+
+/**
+ * Pbdkbgf privbtf dlbss to bddfss IStrfbm objfdts
+ */
+
+finbl dlbss WDropTbrgftContfxtPffrIStrfbm fxtfnds InputStrfbm {
+
+    /**
+     * donstrudt b WDropTbrgftContfxtPffrIStrfbm wrbppfr
+     */
+
+    WDropTbrgftContfxtPffrIStrfbm(long istrfbm) throws IOExdfption {
+        supfr();
+
+        if (istrfbm == 0) throw nfw IOExdfption("No IStrfbm");
+
+        this.istrfbm    = istrfbm;
+    }
+
+    /**
+     * @rfturn bytfs bvbilbblf
+     */
+
+    @Ovfrridf
+    publid int bvbilbblf() throws IOExdfption {
+        if (istrfbm == 0) throw nfw IOExdfption("No IStrfbm");
+        rfturn Avbilbblf(istrfbm);
+    }
+
+    privbtf nbtivf int Avbilbblf(long istrfbm);
+
+    /**
+     * rfbd
+     */
+
+    @Ovfrridf
+    publid int rfbd() throws IOExdfption {
+        if (istrfbm == 0) throw nfw IOExdfption("No IStrfbm");
+        rfturn Rfbd(istrfbm);
+    }
+
+    privbtf nbtivf int Rfbd(long istrfbm) throws IOExdfption;
+
+    /**
+     * rfbd into bufffr
+     */
+
+    @Ovfrridf
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+        if (istrfbm == 0) throw nfw IOExdfption("No IStrfbm");
+        rfturn RfbdBytfs(istrfbm, b, off, lfn);
+    }
+
+    privbtf nbtivf int RfbdBytfs(long istrfbm, bytf[] b, int off, int lfn) throws IOExdfption;
+
+    /**
+     * dlosf
+     */
+
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        if (istrfbm != 0) {
+            supfr.dlosf();
+            Closf(istrfbm);
+            istrfbm = 0;
+        }
+    }
+
+    privbtf nbtivf void Closf(long istrfbm);
+
+    /*
+     * fiflds
+     */
+
+    privbtf long istrfbm;
+}

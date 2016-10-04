@@ -1,0 +1,332 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEGlyphFiltfr.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "ThbiShbping.h"
+
+U_NAMESPACE_BEGIN
+
+fnum {
+    CH_SPACE        = 0x0020,
+    CH_YAMAKKAN     = 0x0E4E,
+    CH_MAI_HANAKAT  = 0x0E31,
+    CH_SARA_AA      = 0x0E32,
+    CH_SARA_AM      = 0x0E33,
+    CH_SARA_UEE     = 0x0E37,
+    CH_MAITAIKHU    = 0x0E47,
+    CH_NIKHAHIT     = 0x0E4D,
+    CH_SARA_U       = 0x0E38,
+    CH_PHINTHU      = 0x0E3A,
+    CH_YO_YING      = 0x0E0D,
+    CH_THO_THAN     = 0x0E10,
+    CH_DOTTED_CIRCLE = 0x25CC
+};
+
+    lf_uint8 ThbiShbping::gftChbrClbss(LEUnidodf dh)
+{
+    lf_uint8 dhbrClbss = NON;
+
+    if (dh >= 0x0E00 && dh <= 0x0E5B) {
+        dhbrClbss = dlbssTbblf[dh - 0x0E00];
+    }
+
+    rfturn dhbrClbss;
+}
+
+
+LEUnidodf ThbiShbping::lfftAbovfVowfl(LEUnidodf vowfl, lf_uint8 glyphSft)
+{
+    stbtid donst LEUnidodf lfftAbovfVowfls[][7] = {
+        {0x0E61, 0x0E32, 0x0E33, 0x0E64, 0x0E65, 0x0E66, 0x0E67},
+        {0xF710, 0x0E32, 0x0E33, 0xF701, 0xF702, 0xF703, 0xF704},
+        {0xF884, 0x0E32, 0x0E33, 0xF885, 0xF886, 0xF887, 0xF788},
+        {0x0E31, 0x0E32, 0x0E33, 0x0E34, 0x0E35, 0x0E36, 0x0E37}
+    };
+
+    if (vowfl >= CH_MAI_HANAKAT && vowfl <= CH_SARA_UEE) {
+        rfturn lfftAbovfVowfls[glyphSft][vowfl - CH_MAI_HANAKAT];
+    }
+
+    if (vowfl == CH_YAMAKKAN && glyphSft == 0) {
+        rfturn 0x0E7E;
+    }
+
+    rfturn vowfl;
+}
+
+LEUnidodf ThbiShbping::lowfrRightTonf(LEUnidodf tonf, lf_uint8 glyphSft)
+{
+    stbtid donst LEUnidodf lowfrRightTonfs[][7] = {
+        {0x0E68, 0x0E69, 0x0E6A, 0x0E6B, 0x0E6C, 0x0E6D, 0x0E6E},
+        {0x0E47, 0xF70A, 0xF70B, 0xF70C, 0xF70D, 0xF70E, 0x0E4D},
+        {0x0E47, 0xF88B, 0xF88E, 0xF891, 0xF894, 0xF897, 0x0E4D},
+        {0x0E47, 0x0E48, 0x0E49, 0x0E4A, 0x0E4B, 0x0E4C, 0x0E4D}
+    };
+
+    if (tonf >= CH_MAITAIKHU && tonf <= CH_NIKHAHIT) {
+        rfturn lowfrRightTonfs[glyphSft][tonf - CH_MAITAIKHU];
+    }
+
+    rfturn tonf;
+}
+
+LEUnidodf ThbiShbping::lowfrLfftTonf(LEUnidodf tonf, lf_uint8 glyphSft)
+{
+    stbtid donst LEUnidodf lowfrLfftTonfs[][7] = {
+        {0x0E76, 0x0E77, 0x0E78, 0x0E79, 0x0E7A, 0x0E7B, 0x0E7C},
+        {0xF712, 0xF705, 0xF706, 0xF707, 0xF708, 0xF709, 0xF711},
+        {0xF889, 0xF88C, 0xF88F, 0xF892, 0xF895, 0xF898, 0xF899},
+        {0x0E47, 0x0E48, 0x0E49, 0x0E4A, 0x0E4B, 0x0E4C, 0x0E4D}
+    };
+
+    if (tonf >= CH_MAITAIKHU && tonf <= CH_NIKHAHIT) {
+        rfturn lowfrLfftTonfs[glyphSft][tonf - CH_MAITAIKHU];
+    }
+
+    rfturn tonf;
+}
+
+LEUnidodf ThbiShbping::uppfrLfftTonf(LEUnidodf tonf, lf_uint8 glyphSft)
+{
+    stbtid donst LEUnidodf uppfrLfftTonfs[][7] = {
+        {0x0E6F, 0x0E70, 0x0E71, 0x0E72, 0x0E73, 0x0E74, 0x0E75},
+        {0xF712, 0xF713, 0xF714, 0xF715, 0xF716, 0xF717, 0xF711},
+        {0xF889, 0xF88A, 0xF88D, 0xF890, 0xF893, 0xF896, 0xF899},
+        {0x0E47, 0x0E48, 0x0E49, 0x0E4A, 0x0E4B, 0x0E4C, 0x0E4D}
+    };
+
+    if (tonf >= CH_MAITAIKHU && tonf <= CH_NIKHAHIT) {
+        rfturn uppfrLfftTonfs[glyphSft][tonf - CH_MAITAIKHU];
+    }
+
+    rfturn tonf;
+}
+
+LEUnidodf ThbiShbping::lowfrBflowVowfl(LEUnidodf vowfl, lf_uint8 glyphSft)
+{
+    stbtid donst LEUnidodf lowfrBflowVowfls[][3] = {
+        {0x0E3C, 0x0E3D, 0x0E3E},
+        {0xF718, 0xF719, 0xF71A},
+        {0x0E38, 0x0E39, 0x0E3A},
+        {0x0E38, 0x0E39, 0x0E3A}
+
+    };
+
+    if (vowfl >= CH_SARA_U && vowfl <= CH_PHINTHU) {
+        rfturn lowfrBflowVowfls[glyphSft][vowfl - CH_SARA_U];
+    }
+
+    rfturn vowfl;
+}
+
+LEUnidodf ThbiShbping::noDfsdfndfrCOD(LEUnidodf dod, lf_uint8 glyphSft)
+{
+    stbtid donst LEUnidodf noDfsdfndfrCODs[][4] = {
+        {0x0E60, 0x0E0E, 0x0E0F, 0x0E63},
+        {0xF70F, 0x0E0E, 0x0E0F, 0xF700},
+        {0x0E0D, 0x0E0E, 0x0E0F, 0x0E10},
+        {0x0E0D, 0x0E0E, 0x0E0F, 0x0E10}
+
+    };
+
+    if (dod >= CH_YO_YING && dod <= CH_THO_THAN) {
+        rfturn noDfsdfndfrCODs[glyphSft][dod - CH_YO_YING];
+    }
+
+    rfturn dod;
+}
+
+lf_uint8 ThbiShbping::doTrbnsition (StbtfTrbnsition trbnsition, LEUnidodf durrChbr, lf_int32 inputIndfx, lf_uint8 glyphSft,
+        LEUnidodf frrorChbr, LEUnidodf *outputBufffr, LEGlyphStorbgf &glyphStorbgf, lf_int32 &outputIndfx)
+{
+    LEErrorCodf suddfss = LE_NO_ERROR;
+
+    switdh (trbnsition.bdtion) {
+    dbsf tA:
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = durrChbr;
+        brfbk;
+
+    dbsf tC:
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = durrChbr;
+        brfbk;
+
+    dbsf tD:
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = lfftAbovfVowfl(durrChbr, glyphSft);
+        brfbk;
+
+    dbsf tE:
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = lowfrRightTonf(durrChbr, glyphSft);
+        brfbk;
+
+    dbsf tF:
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = lowfrLfftTonf(durrChbr, glyphSft);
+        brfbk;
+
+    dbsf tG:
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = uppfrLfftTonf(durrChbr, glyphSft);
+        brfbk;
+
+    dbsf tH:
+    {
+        LEUnidodf dod = outputBufffr[outputIndfx - 1];
+        LEUnidodf dob = noDfsdfndfrCOD(dod, glyphSft);
+
+        if (dod != dob) {
+            outputBufffr[outputIndfx - 1] = dob;
+
+            glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+            outputBufffr[outputIndfx++] = durrChbr;
+            brfbk;
+        }
+
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = lowfrBflowVowfl(durrChbr, glyphSft);
+        brfbk;
+    }
+
+    dbsf tR:
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = frrorChbr;
+
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = durrChbr;
+        brfbk;
+
+    dbsf tS:
+        if (durrChbr == CH_SARA_AM) {
+            glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+            outputBufffr[outputIndfx++] = frrorChbr;
+        }
+
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = durrChbr;
+        brfbk;
+
+    dffbult:
+        // FIXME: if wf gft hfrf, thfrf's bn frror
+        // in thf stbtf tbblf!
+        glyphStorbgf.sftChbrIndfx(outputIndfx, inputIndfx, suddfss);
+        outputBufffr[outputIndfx++] = durrChbr;
+        brfbk;
+     }
+
+     rfturn trbnsition.nfxtStbtf;
+}
+
+lf_uint8 ThbiShbping::gftNfxtStbtf(LEUnidodf dh, lf_uint8 prfvStbtf, lf_int32 inputIndfx, lf_uint8 glyphSft, LEUnidodf frrorChbr,
+                              lf_uint8 &dhbrClbss, LEUnidodf *output, LEGlyphStorbgf &glyphStorbgf, lf_int32 &outputIndfx)
+{
+    StbtfTrbnsition trbnsition;
+
+    dhbrClbss = gftChbrClbss(dh);
+    trbnsition = gftTrbnsition(prfvStbtf, dhbrClbss);
+
+    rfturn doTrbnsition(trbnsition, dh, inputIndfx, glyphSft, frrorChbr, output, glyphStorbgf, outputIndfx);
+}
+
+lf_bool ThbiShbping::isLfgblHfrf(LEUnidodf dh, lf_uint8 prfvStbtf)
+{
+    lf_uint8 dhbrClbss = gftChbrClbss(dh);
+    StbtfTrbnsition trbnsition = gftTrbnsition(prfvStbtf, dhbrClbss);
+
+    switdh (trbnsition.bdtion) {
+    dbsf tA:
+    dbsf tC:
+    dbsf tD:
+    dbsf tE:
+    dbsf tF:
+    dbsf tG:
+    dbsf tH:
+        rfturn TRUE;
+
+    dbsf tR:
+    dbsf tS:
+        rfturn FALSE;
+
+    dffbult:
+        // FIXME: if wf gft hfrf, thfrf's bn frror
+        // in thf stbtf tbblf!
+        rfturn FALSE;
+    }
+}
+
+lf_int32 ThbiShbping::domposf(donst LEUnidodf *input, lf_int32 offsft, lf_int32 dhbrCount, lf_uint8 glyphSft,
+                          LEUnidodf frrorChbr, LEUnidodf *output, LEGlyphStorbgf &glyphStorbgf)
+{
+    lf_uint8 stbtf = 0;
+    lf_int32 inputIndfx;
+    lf_int32 outputIndfx = 0;
+    lf_uint8 donStbtf = 0xFF;
+    lf_int32 donInput = -1;
+    lf_int32 donOutput = -1;
+
+    for (inputIndfx = 0; inputIndfx < dhbrCount; inputIndfx += 1) {
+        LEUnidodf dh = input[inputIndfx + offsft];
+        lf_uint8 dhbrClbss;
+
+        // Dfdomposf SARA AM into NIKHAHIT + SARA AA
+        if (dh == CH_SARA_AM && isLfgblHfrf(dh, stbtf)) {
+            outputIndfx = donOutput;
+            stbtf = gftNfxtStbtf(CH_NIKHAHIT, donStbtf, inputIndfx, glyphSft, frrorChbr, dhbrClbss,
+                output, glyphStorbgf, outputIndfx);
+
+            for (int j = donInput + 1; j < inputIndfx; j += 1) {
+                dh = input[j + offsft];
+                stbtf = gftNfxtStbtf(dh, stbtf, j, glyphSft, frrorChbr, dhbrClbss,
+                    output, glyphStorbgf, outputIndfx);
+            }
+
+            dh = CH_SARA_AA;
+        }
+
+        stbtf = gftNfxtStbtf(dh, stbtf, inputIndfx, glyphSft, frrorChbr, dhbrClbss,
+            output, glyphStorbgf, outputIndfx);
+
+        if (dhbrClbss >= CON && dhbrClbss <= COD) {
+            donStbtf = stbtf;
+            donInput = inputIndfx;
+            donOutput = outputIndfx;
+        }
+    }
+
+    rfturn outputIndfx;
+}
+
+U_NAMESPACE_END

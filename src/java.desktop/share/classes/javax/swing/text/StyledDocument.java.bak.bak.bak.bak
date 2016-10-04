@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
+
+/**
+ * Intfrfbdf for b gfnfrid stylfd dodumfnt.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid intfrfbdf StylfdDodumfnt fxtfnds Dodumfnt {
+
+    /**
+     * Adds b nfw stylf into thf logidbl stylf hifrbrdhy.  Stylf bttributfs
+     * rfsolvf from bottom up so bn bttributf spfdififd in b dhild
+     * will ovfrridf bn bttributf spfdififd in thf pbrfnt.
+     *
+     * @pbrbm nm   thf nbmf of thf stylf (must bf uniquf within thf
+     *   dollfdtion of nbmfd stylfs).  Thf nbmf mby bf null if thf stylf
+     *   is unnbmfd, but thf dbllfr is rfsponsiblf
+     *   for mbnbging thf rfffrfndf rfturnfd bs bn unnbmfd stylf dbn't
+     *   bf fftdhfd by nbmf.  An unnbmfd stylf mby bf usfful for things
+     *   likf dhbrbdtfr bttributf ovfrridfs sudh bs found in b stylf
+     *   run.
+     * @pbrbm pbrfnt thf pbrfnt stylf.  This mby bf null if unspfdififd
+     *   bttributfs nffd not bf rfsolvfd in somf othfr stylf.
+     * @rfturn thf stylf
+     */
+    publid Stylf bddStylf(String nm, Stylf pbrfnt);
+
+    /**
+     * Rfmovfs b nbmfd stylf prfviously bddfd to thf dodumfnt.
+     *
+     * @pbrbm nm  thf nbmf of thf stylf to rfmovf
+     */
+    publid void rfmovfStylf(String nm);
+
+    /**
+     * Fftdhfs b nbmfd stylf prfviously bddfd.
+     *
+     * @pbrbm nm  thf nbmf of thf stylf
+     * @rfturn thf stylf
+     */
+    publid Stylf gftStylf(String nm);
+
+    /**
+     * Chbngfs thf dontfnt flfmfnt bttributfs usfd for thf givfn rbngf of
+     * fxisting dontfnt in thf dodumfnt.  All of thf bttributfs
+     * dffinfd in thf givfn Attributfs brgumfnt brf bpplifd to thf
+     * givfn rbngf.  This mfthod dbn bf usfd to domplftfly rfmovf
+     * bll dontfnt lfvfl bttributfs for thf givfn rbngf by
+     * giving bn Attributfs brgumfnt thbt hbs no bttributfs dffinfd
+     * bnd sftting rfplbdf to truf.
+     *
+     * @pbrbm offsft thf stbrt of thf dhbngf &gt;= 0
+     * @pbrbm lfngth thf lfngth of thf dhbngf &gt;= 0
+     * @pbrbm s    thf non-null bttributfs to dhbngf to.  Any bttributfs
+     *  dffinfd will bf bpplifd to thf tfxt for thf givfn rbngf.
+     * @pbrbm rfplbdf indidbtfs whfthfr or not thf prfvious
+     *  bttributfs should bf dlfbrfd bfforf thf nfw bttributfs
+     *  bs sft.  If truf, thf opfrbtion will rfplbdf thf
+     *  prfvious bttributfs fntirfly.  If fblsf, thf nfw
+     *  bttributfs will bf mfrgfd with thf prfvious bttributfs.
+     */
+    publid void sftChbrbdtfrAttributfs(int offsft, int lfngth, AttributfSft s, boolfbn rfplbdf);
+
+    /**
+     * Sfts pbrbgrbph bttributfs.
+     *
+     * @pbrbm offsft thf stbrt of thf dhbngf &gt;= 0
+     * @pbrbm lfngth thf lfngth of thf dhbngf &gt;= 0
+     * @pbrbm s    thf non-null bttributfs to dhbngf to.  Any bttributfs
+     *  dffinfd will bf bpplifd to thf tfxt for thf givfn rbngf.
+     * @pbrbm rfplbdf indidbtfs whfthfr or not thf prfvious
+     *  bttributfs should bf dlfbrfd bfforf thf nfw bttributfs
+     *  brf sft.  If truf, thf opfrbtion will rfplbdf thf
+     *  prfvious bttributfs fntirfly.  If fblsf, thf nfw
+     *  bttributfs will bf mfrgfd with thf prfvious bttributfs.
+     */
+    publid void sftPbrbgrbphAttributfs(int offsft, int lfngth, AttributfSft s, boolfbn rfplbdf);
+
+    /**
+     * Sfts thf logidbl stylf to usf for thf pbrbgrbph bt thf
+     * givfn position.  If bttributfs brfn't fxpliditly sft
+     * for dhbrbdtfr bnd pbrbgrbph bttributfs thfy will rfsolvf
+     * through thf logidbl stylf bssignfd to thf pbrbgrbph, whidh
+     * in turn mby rfsolvf through somf hifrbrdhy domplftfly
+     * indfpfndfnt of thf flfmfnt hifrbrdhy in thf dodumfnt.
+     *
+     * @pbrbm pos thf stbrting position &gt;= 0
+     * @pbrbm s thf stylf to sft
+     */
+    publid void sftLogidblStylf(int pos, Stylf s);
+
+    /**
+     * Gfts b logidbl stylf for b givfn position in b pbrbgrbph.
+     *
+     * @pbrbm p thf position &gt;= 0
+     * @rfturn thf stylf
+     */
+    publid Stylf gftLogidblStylf(int p);
+
+    /**
+     * Gfts thf flfmfnt thbt rfprfsfnts thf pbrbgrbph thbt
+     * fndlosfs thf givfn offsft within thf dodumfnt.
+     *
+     * @pbrbm pos thf offsft &gt;= 0
+     * @rfturn thf flfmfnt
+     */
+    publid Elfmfnt gftPbrbgrbphElfmfnt(int pos);
+
+    /**
+     * Gfts thf flfmfnt thbt rfprfsfnts thf dhbrbdtfr thbt
+     * is bt thf givfn offsft within thf dodumfnt.
+     *
+     * @pbrbm pos thf offsft &gt;= 0
+     * @rfturn thf flfmfnt
+     */
+    publid Elfmfnt gftChbrbdtfrElfmfnt(int pos);
+
+
+    /**
+     * Tbkfs b sft of bttributfs bnd turn it into b forfground dolor
+     * spfdifidbtion.  This might bf usfd to spfdify things
+     * likf brightfr, morf huf, ftd.
+     *
+     * @pbrbm bttr thf sft of bttributfs
+     * @rfturn thf dolor
+     */
+    publid Color gftForfground(AttributfSft bttr);
+
+    /**
+     * Tbkfs b sft of bttributfs bnd turn it into b bbdkground dolor
+     * spfdifidbtion.  This might bf usfd to spfdify things
+     * likf brightfr, morf huf, ftd.
+     *
+     * @pbrbm bttr thf sft of bttributfs
+     * @rfturn thf dolor
+     */
+    publid Color gftBbdkground(AttributfSft bttr);
+
+    /**
+     * Tbkfs b sft of bttributfs bnd turn it into b font
+     * spfdifidbtion.  This dbn bf usfd to turn things likf
+     * fbmily, stylf, sizf, ftd into b font thbt is bvbilbblf
+     * on thf systfm thf dodumfnt is durrfntly bfing usfd on.
+     *
+     * @pbrbm bttr thf sft of bttributfs
+     * @rfturn thf font
+     */
+    publid Font gftFont(AttributfSft bttr);
+
+}

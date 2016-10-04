@@ -1,384 +1,384 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.text.*;
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.Rectangle2D;
+import jbvb.tfxt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.font.*;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
 /**
- * A class to perform rendering of the glyphs.
- * This can be implemented to be stateless, or
- * to hold some information as a cache to
- * facilitate faster rendering and model/view
- * translation.  At a minimum, the GlyphPainter
- * allows a View implementation to perform its
- * duties independent of a particular version
- * of JVM and selection of capabilities (i.e.
- * shaping for i18n, etc).
+ * A dlbss to pfrform rfndfring of tif glypis.
+ * Tiis dbn bf implfmfntfd to bf stbtflfss, or
+ * to iold somf informbtion bs b dbdif to
+ * fbdilitbtf fbstfr rfndfring bnd modfl/vifw
+ * trbnslbtion.  At b minimum, tif GlypiPbintfr
+ * bllows b Vifw implfmfntbtion to pfrform its
+ * dutifs indfpfndfnt of b pbrtidulbr vfrsion
+ * of JVM bnd sflfdtion of dbpbbilitifs (i.f.
+ * sibping for i18n, ftd).
  * <p>
- * This implementation is intended for operation
- * under the JDK.  It uses the
- * java.awt.font.TextLayout class to do i18n capable
- * rendering.
+ * Tiis implfmfntbtion is intfndfd for opfrbtion
+ * undfr tif JDK.  It usfs tif
+ * jbvb.bwt.font.TfxtLbyout dlbss to do i18n dbpbblf
+ * rfndfring.
  *
- * @author  Timothy Prinzing
- * @see GlyphView
+ * @butior  Timotiy Prinzing
+ * @sff GlypiVifw
  */
-class GlyphPainter2 extends GlyphView.GlyphPainter {
+dlbss GlypiPbintfr2 fxtfnds GlypiVifw.GlypiPbintfr {
 
-    public GlyphPainter2(TextLayout layout) {
-        this.layout = layout;
+    publid GlypiPbintfr2(TfxtLbyout lbyout) {
+        tiis.lbyout = lbyout;
     }
 
     /**
-     * Create a painter to use for the given GlyphView.
+     * Crfbtf b pbintfr to usf for tif givfn GlypiVifw.
      */
-    public GlyphView.GlyphPainter getPainter(GlyphView v, int p0, int p1) {
-        return null;
+    publid GlypiVifw.GlypiPbintfr gftPbintfr(GlypiVifw v, int p0, int p1) {
+        rfturn null;
     }
 
     /**
-     * Determine the span the glyphs given a start location
-     * (for tab expansion).  This implementation assumes it
-     * has no tabs (i.e. TextLayout doesn't deal with tab
-     * expansion).
+     * Dftfrminf tif spbn tif glypis givfn b stbrt lodbtion
+     * (for tbb fxpbnsion).  Tiis implfmfntbtion bssumfs it
+     * ibs no tbbs (i.f. TfxtLbyout dofsn't dfbl witi tbb
+     * fxpbnsion).
      */
-    public float getSpan(GlyphView v, int p0, int p1,
-                         TabExpander e, float x) {
+    publid flobt gftSpbn(GlypiVifw v, int p0, int p1,
+                         TbbExpbndfr f, flobt x) {
 
-        if ((p0 == v.getStartOffset()) && (p1 == v.getEndOffset())) {
-            return layout.getAdvance();
+        if ((p0 == v.gftStbrtOffsft()) && (p1 == v.gftEndOffsft())) {
+            rfturn lbyout.gftAdvbndf();
         }
-        int p = v.getStartOffset();
-        int index0 = p0 - p;
-        int index1 = p1 - p;
+        int p = v.gftStbrtOffsft();
+        int indfx0 = p0 - p;
+        int indfx1 = p1 - p;
 
-        TextHitInfo hit0 = TextHitInfo.afterOffset(index0);
-        TextHitInfo hit1 = TextHitInfo.beforeOffset(index1);
-        float[] locs = layout.getCaretInfo(hit0);
-        float x0 = locs[0];
-        locs = layout.getCaretInfo(hit1);
-        float x1 = locs[0];
-        return (x1 > x0) ? x1 - x0 : x0 - x1;
+        TfxtHitInfo iit0 = TfxtHitInfo.bftfrOffsft(indfx0);
+        TfxtHitInfo iit1 = TfxtHitInfo.bfforfOffsft(indfx1);
+        flobt[] lods = lbyout.gftCbrftInfo(iit0);
+        flobt x0 = lods[0];
+        lods = lbyout.gftCbrftInfo(iit1);
+        flobt x1 = lods[0];
+        rfturn (x1 > x0) ? x1 - x0 : x0 - x1;
     }
 
-    public float getHeight(GlyphView v) {
-        return layout.getAscent() + layout.getDescent() + layout.getLeading();
-    }
-
-    /**
-     * Fetch the ascent above the baseline for the glyphs
-     * corresponding to the given range in the model.
-     */
-    public float getAscent(GlyphView v) {
-        return layout.getAscent();
+    publid flobt gftHfigit(GlypiVifw v) {
+        rfturn lbyout.gftAsdfnt() + lbyout.gftDfsdfnt() + lbyout.gftLfbding();
     }
 
     /**
-     * Fetch the descent below the baseline for the glyphs
-     * corresponding to the given range in the model.
+     * Fftdi tif bsdfnt bbovf tif bbsflinf for tif glypis
+     * dorrfsponding to tif givfn rbngf in tif modfl.
      */
-    public float getDescent(GlyphView v) {
-        return layout.getDescent();
+    publid flobt gftAsdfnt(GlypiVifw v) {
+        rfturn lbyout.gftAsdfnt();
     }
 
     /**
-     * Paint the glyphs for the given view.  This is implemented
-     * to only render if the Graphics is of type Graphics2D which
-     * is required by TextLayout (and this should be the case if
-     * running on the JDK).
+     * Fftdi tif dfsdfnt bflow tif bbsflinf for tif glypis
+     * dorrfsponding to tif givfn rbngf in tif modfl.
      */
-    public void paint(GlyphView v, Graphics g, Shape a, int p0, int p1) {
-        if (g instanceof Graphics2D) {
-            Rectangle2D alloc = a.getBounds2D();
-            Graphics2D g2d = (Graphics2D)g;
-            float y = (float) alloc.getY() + layout.getAscent() + layout.getLeading();
-            float x = (float) alloc.getX();
-            if( p0 > v.getStartOffset() || p1 < v.getEndOffset() ) {
+    publid flobt gftDfsdfnt(GlypiVifw v) {
+        rfturn lbyout.gftDfsdfnt();
+    }
+
+    /**
+     * Pbint tif glypis for tif givfn vifw.  Tiis is implfmfntfd
+     * to only rfndfr if tif Grbpiids is of typf Grbpiids2D wiidi
+     * is rfquirfd by TfxtLbyout (bnd tiis siould bf tif dbsf if
+     * running on tif JDK).
+     */
+    publid void pbint(GlypiVifw v, Grbpiids g, Sibpf b, int p0, int p1) {
+        if (g instbndfof Grbpiids2D) {
+            Rfdtbnglf2D bllod = b.gftBounds2D();
+            Grbpiids2D g2d = (Grbpiids2D)g;
+            flobt y = (flobt) bllod.gftY() + lbyout.gftAsdfnt() + lbyout.gftLfbding();
+            flobt x = (flobt) bllod.gftX();
+            if( p0 > v.gftStbrtOffsft() || p1 < v.gftEndOffsft() ) {
                 try {
-                    //TextLayout can't render only part of it's range, so if a
-                    //partial range is required, add a clip region.
-                    Shape s = v.modelToView(p0, Position.Bias.Forward,
-                                            p1, Position.Bias.Backward, a);
-                    Shape savedClip = g.getClip();
-                    g2d.clip(s);
-                    layout.draw(g2d, x, y);
-                    g.setClip(savedClip);
-                } catch (BadLocationException e) {}
-            } else {
-                layout.draw(g2d, x, y);
+                    //TfxtLbyout dbn't rfndfr only pbrt of it's rbngf, so if b
+                    //pbrtibl rbngf is rfquirfd, bdd b dlip rfgion.
+                    Sibpf s = v.modflToVifw(p0, Position.Bibs.Forwbrd,
+                                            p1, Position.Bibs.Bbdkwbrd, b);
+                    Sibpf sbvfdClip = g.gftClip();
+                    g2d.dlip(s);
+                    lbyout.drbw(g2d, x, y);
+                    g.sftClip(sbvfdClip);
+                } dbtdi (BbdLodbtionExdfption f) {}
+            } flsf {
+                lbyout.drbw(g2d, x, y);
             }
         }
     }
 
-    public Shape modelToView(GlyphView v, int pos, Position.Bias bias,
-                             Shape a) throws BadLocationException {
-        int offs = pos - v.getStartOffset();
-        Rectangle2D alloc = a.getBounds2D();
-        TextHitInfo hit = (bias == Position.Bias.Forward) ?
-            TextHitInfo.afterOffset(offs) : TextHitInfo.beforeOffset(offs);
-        float[] locs = layout.getCaretInfo(hit);
+    publid Sibpf modflToVifw(GlypiVifw v, int pos, Position.Bibs bibs,
+                             Sibpf b) tirows BbdLodbtionExdfption {
+        int offs = pos - v.gftStbrtOffsft();
+        Rfdtbnglf2D bllod = b.gftBounds2D();
+        TfxtHitInfo iit = (bibs == Position.Bibs.Forwbrd) ?
+            TfxtHitInfo.bftfrOffsft(offs) : TfxtHitInfo.bfforfOffsft(offs);
+        flobt[] lods = lbyout.gftCbrftInfo(iit);
 
-        // vertical at the baseline, should use slope and check if glyphs
-        // are being rendered vertically.
-        alloc.setRect(alloc.getX() + locs[0], alloc.getY(), 1, alloc.getHeight());
-        return alloc;
+        // vfrtidbl bt tif bbsflinf, siould usf slopf bnd difdk if glypis
+        // brf bfing rfndfrfd vfrtidblly.
+        bllod.sftRfdt(bllod.gftX() + lods[0], bllod.gftY(), 1, bllod.gftHfigit());
+        rfturn bllod;
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
      *
-     * @param v the view containing the view coordinates
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     * @param a the allocated region to render into
-     * @param biasReturn either <code>Position.Bias.Forward</code>
-     *  or <code>Position.Bias.Backward</code> is returned as the
-     *  zero-th element of this array
-     * @return the location within the model that best represents the
-     *  given point of view
-     * @see View#viewToModel
+     * @pbrbm v tif vifw dontbining tif vifw doordinbtfs
+     * @pbrbm x tif X doordinbtf
+     * @pbrbm y tif Y doordinbtf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm bibsRfturn fitifr <dodf>Position.Bibs.Forwbrd</dodf>
+     *  or <dodf>Position.Bibs.Bbdkwbrd</dodf> is rfturnfd bs tif
+     *  zfro-ti flfmfnt of tiis brrby
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point of vifw
+     * @sff Vifw#vifwToModfl
      */
-    public int viewToModel(GlyphView v, float x, float y, Shape a,
-                           Position.Bias[] biasReturn) {
+    publid int vifwToModfl(GlypiVifw v, flobt x, flobt y, Sibpf b,
+                           Position.Bibs[] bibsRfturn) {
 
-        Rectangle2D alloc = (a instanceof Rectangle2D) ? (Rectangle2D)a : a.getBounds2D();
-        //Move the y co-ord of the hit onto the baseline.  This is because TextLayout supports
-        //italic carets and we do not.
-        TextHitInfo hit = layout.hitTestChar(x - (float)alloc.getX(), 0);
-        int pos = hit.getInsertionIndex();
+        Rfdtbnglf2D bllod = (b instbndfof Rfdtbnglf2D) ? (Rfdtbnglf2D)b : b.gftBounds2D();
+        //Movf tif y do-ord of tif iit onto tif bbsflinf.  Tiis is bfdbusf TfxtLbyout supports
+        //itblid dbrfts bnd wf do not.
+        TfxtHitInfo iit = lbyout.iitTfstCibr(x - (flobt)bllod.gftX(), 0);
+        int pos = iit.gftInsfrtionIndfx();
 
-        if (pos == v.getEndOffset()) {
+        if (pos == v.gftEndOffsft()) {
             pos--;
         }
 
-        biasReturn[0] = hit.isLeadingEdge() ? Position.Bias.Forward : Position.Bias.Backward;
-        return pos + v.getStartOffset();
+        bibsRfturn[0] = iit.isLfbdingEdgf() ? Position.Bibs.Forwbrd : Position.Bibs.Bbdkwbrd;
+        rfturn pos + v.gftStbrtOffsft();
     }
 
     /**
-     * Determines the model location that represents the
-     * maximum advance that fits within the given span.
-     * This could be used to break the given view.  The result
-     * should be a location just shy of the given advance.  This
-     * differs from viewToModel which returns the closest
-     * position which might be proud of the maximum advance.
+     * Dftfrminfs tif modfl lodbtion tibt rfprfsfnts tif
+     * mbximum bdvbndf tibt fits witiin tif givfn spbn.
+     * Tiis dould bf usfd to brfbk tif givfn vifw.  Tif rfsult
+     * siould bf b lodbtion just siy of tif givfn bdvbndf.  Tiis
+     * difffrs from vifwToModfl wiidi rfturns tif dlosfst
+     * position wiidi migit bf proud of tif mbximum bdvbndf.
      *
-     * @param v the view to find the model location to break at.
-     * @param p0 the location in the model where the
-     *  fragment should start it's representation >= 0.
-     * @param pos the graphic location along the axis that the
-     *  broken view would occupy >= 0.  This may be useful for
-     *  things like tab calculations.
-     * @param len specifies the distance into the view
-     *  where a potential break is desired >= 0.
-     * @return the maximum model location possible for a break.
-     * @see View#breakView
+     * @pbrbm v tif vifw to find tif modfl lodbtion to brfbk bt.
+     * @pbrbm p0 tif lodbtion in tif modfl wifrf tif
+     *  frbgmfnt siould stbrt it's rfprfsfntbtion >= 0.
+     * @pbrbm pos tif grbpiid lodbtion blong tif bxis tibt tif
+     *  brokfn vifw would oddupy >= 0.  Tiis mby bf usfful for
+     *  tiings likf tbb dbldulbtions.
+     * @pbrbm lfn spfdififs tif distbndf into tif vifw
+     *  wifrf b potfntibl brfbk is dfsirfd >= 0.
+     * @rfturn tif mbximum modfl lodbtion possiblf for b brfbk.
+     * @sff Vifw#brfbkVifw
      */
-    public int getBoundedPosition(GlyphView v, int p0, float x, float len) {
-        if( len < 0 )
-            throw new IllegalArgumentException("Length must be >= 0.");
-        // note: this only works because swing uses TextLayouts that are
-        // only pure rtl or pure ltr
-        TextHitInfo hit;
-        if (layout.isLeftToRight()) {
-            hit = layout.hitTestChar(len, 0);
-        } else {
-            hit = layout.hitTestChar(layout.getAdvance() - len, 0);
+    publid int gftBoundfdPosition(GlypiVifw v, int p0, flobt x, flobt lfn) {
+        if( lfn < 0 )
+            tirow nfw IllfgblArgumfntExdfption("Lfngti must bf >= 0.");
+        // notf: tiis only works bfdbusf swing usfs TfxtLbyouts tibt brf
+        // only purf rtl or purf ltr
+        TfxtHitInfo iit;
+        if (lbyout.isLfftToRigit()) {
+            iit = lbyout.iitTfstCibr(lfn, 0);
+        } flsf {
+            iit = lbyout.iitTfstCibr(lbyout.gftAdvbndf() - lfn, 0);
         }
-        return v.getStartOffset() + hit.getCharIndex();
+        rfturn v.gftStbrtOffsft() + iit.gftCibrIndfx();
     }
 
     /**
-         * Provides a way to determine the next visually represented model
-         * location that one might place a caret.  Some views may not be
-         * visible, they might not be in the same order found in the model, or
-         * they just might not allow access to some of the locations in the
-         * model.
+         * Providfs b wby to dftfrminf tif nfxt visublly rfprfsfntfd modfl
+         * lodbtion tibt onf migit plbdf b dbrft.  Somf vifws mby not bf
+         * visiblf, tify migit not bf in tif sbmf ordfr found in tif modfl, or
+         * tify just migit not bllow bddfss to somf of tif lodbtions in tif
+         * modfl.
          *
-         * @param v the view to use
-         * @param pos the position to convert >= 0
-         * @param a the allocated region to render into
-         * @param direction the direction from the current position that can
-         *  be thought of as the arrow keys typically found on a keyboard.
-         *  This may be SwingConstants.WEST, SwingConstants.EAST,
-         *  SwingConstants.NORTH, or SwingConstants.SOUTH.
-         * @return the location within the model that best represents the next
-         *  location visual position.
-         * @exception BadLocationException
-         * @exception IllegalArgumentException for an invalid direction
+         * @pbrbm v tif vifw to usf
+         * @pbrbm pos tif position to donvfrt >= 0
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @pbrbm dirfdtion tif dirfdtion from tif durrfnt position tibt dbn
+         *  bf tiougit of bs tif brrow kfys typidblly found on b kfybobrd.
+         *  Tiis mby bf SwingConstbnts.WEST, SwingConstbnts.EAST,
+         *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH.
+         * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif nfxt
+         *  lodbtion visubl position.
+         * @fxdfption BbdLodbtionExdfption
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid dirfdtion
          */
-        public int getNextVisualPositionFrom(GlyphView v, int pos,
-                                             Position.Bias b, Shape a,
-                                             int direction,
-                                             Position.Bias[] biasRet)
-            throws BadLocationException {
+        publid int gftNfxtVisublPositionFrom(GlypiVifw v, int pos,
+                                             Position.Bibs b, Sibpf b,
+                                             int dirfdtion,
+                                             Position.Bibs[] bibsRft)
+            tirows BbdLodbtionExdfption {
 
-            Document doc = v.getDocument();
-            int startOffset = v.getStartOffset();
-            int endOffset = v.getEndOffset();
-            Segment text;
-            boolean viewIsLeftToRight;
-            TextHitInfo currentHit, nextHit;
+            Dodumfnt dod = v.gftDodumfnt();
+            int stbrtOffsft = v.gftStbrtOffsft();
+            int fndOffsft = v.gftEndOffsft();
+            Sfgmfnt tfxt;
+            boolfbn vifwIsLfftToRigit;
+            TfxtHitInfo durrfntHit, nfxtHit;
 
-            switch (direction) {
-            case View.NORTH:
-                break;
-            case View.SOUTH:
-                break;
-            case View.EAST:
-                viewIsLeftToRight = AbstractDocument.isLeftToRight(doc, startOffset, endOffset);
+            switdi (dirfdtion) {
+            dbsf Vifw.NORTH:
+                brfbk;
+            dbsf Vifw.SOUTH:
+                brfbk;
+            dbsf Vifw.EAST:
+                vifwIsLfftToRigit = AbstrbdtDodumfnt.isLfftToRigit(dod, stbrtOffsft, fndOffsft);
 
-                if(startOffset == doc.getLength()) {
+                if(stbrtOffsft == dod.gftLfngti()) {
                     if(pos == -1) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRft[0] = Position.Bibs.Forwbrd;
+                        rfturn stbrtOffsft;
                     }
-                    // End case for bidi text where newline is at beginning
-                    // of line.
-                    return -1;
+                    // End dbsf for bidi tfxt wifrf nfwlinf is bt bfginning
+                    // of linf.
+                    rfturn -1;
                 }
                 if(pos == -1) {
-                    // Entering view from the left.
-                    if( viewIsLeftToRight ) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
-                    } else {
-                        text = v.getText(endOffset - 1, endOffset);
-                        char c = text.array[text.offset];
-                        SegmentCache.releaseSharedSegment(text);
-                        if(c == '\n') {
-                            biasRet[0] = Position.Bias.Forward;
-                            return endOffset-1;
+                    // Entfring vifw from tif lfft.
+                    if( vifwIsLfftToRigit ) {
+                        bibsRft[0] = Position.Bibs.Forwbrd;
+                        rfturn stbrtOffsft;
+                    } flsf {
+                        tfxt = v.gftTfxt(fndOffsft - 1, fndOffsft);
+                        dibr d = tfxt.brrby[tfxt.offsft];
+                        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
+                        if(d == '\n') {
+                            bibsRft[0] = Position.Bibs.Forwbrd;
+                            rfturn fndOffsft-1;
                         }
-                        biasRet[0] = Position.Bias.Backward;
-                        return endOffset;
+                        bibsRft[0] = Position.Bibs.Bbdkwbrd;
+                        rfturn fndOffsft;
                     }
                 }
-                if( b==Position.Bias.Forward )
-                    currentHit = TextHitInfo.afterOffset(pos-startOffset);
-                else
-                    currentHit = TextHitInfo.beforeOffset(pos-startOffset);
-                nextHit = layout.getNextRightHit(currentHit);
-                if( nextHit == null ) {
-                    return -1;
+                if( b==Position.Bibs.Forwbrd )
+                    durrfntHit = TfxtHitInfo.bftfrOffsft(pos-stbrtOffsft);
+                flsf
+                    durrfntHit = TfxtHitInfo.bfforfOffsft(pos-stbrtOffsft);
+                nfxtHit = lbyout.gftNfxtRigitHit(durrfntHit);
+                if( nfxtHit == null ) {
+                    rfturn -1;
                 }
-                if( viewIsLeftToRight != layout.isLeftToRight() ) {
-                    // If the layout's base direction is different from
-                    // this view's run direction, we need to use the weak
-                    // carrat.
-                    nextHit = layout.getVisualOtherHit(nextHit);
+                if( vifwIsLfftToRigit != lbyout.isLfftToRigit() ) {
+                    // If tif lbyout's bbsf dirfdtion is difffrfnt from
+                    // tiis vifw's run dirfdtion, wf nffd to usf tif wfbk
+                    // dbrrbt.
+                    nfxtHit = lbyout.gftVisublOtifrHit(nfxtHit);
                 }
-                pos = nextHit.getInsertionIndex() + startOffset;
+                pos = nfxtHit.gftInsfrtionIndfx() + stbrtOffsft;
 
-                if(pos == endOffset) {
-                    // A move to the right from an internal position will
-                    // only take us to the endOffset in a left to right run.
-                    text = v.getText(endOffset - 1, endOffset);
-                    char c = text.array[text.offset];
-                    SegmentCache.releaseSharedSegment(text);
-                    if(c == '\n') {
-                        return -1;
+                if(pos == fndOffsft) {
+                    // A movf to tif rigit from bn intfrnbl position will
+                    // only tbkf us to tif fndOffsft in b lfft to rigit run.
+                    tfxt = v.gftTfxt(fndOffsft - 1, fndOffsft);
+                    dibr d = tfxt.brrby[tfxt.offsft];
+                    SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
+                    if(d == '\n') {
+                        rfturn -1;
                     }
-                    biasRet[0] = Position.Bias.Backward;
+                    bibsRft[0] = Position.Bibs.Bbdkwbrd;
                 }
-                else {
-                    biasRet[0] = Position.Bias.Forward;
+                flsf {
+                    bibsRft[0] = Position.Bibs.Forwbrd;
                 }
-                return pos;
-            case View.WEST:
-                viewIsLeftToRight = AbstractDocument.isLeftToRight(doc, startOffset, endOffset);
+                rfturn pos;
+            dbsf Vifw.WEST:
+                vifwIsLfftToRigit = AbstrbdtDodumfnt.isLfftToRigit(dod, stbrtOffsft, fndOffsft);
 
-                if(startOffset == doc.getLength()) {
+                if(stbrtOffsft == dod.gftLfngti()) {
                     if(pos == -1) {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRft[0] = Position.Bibs.Forwbrd;
+                        rfturn stbrtOffsft;
                     }
-                    // End case for bidi text where newline is at beginning
-                    // of line.
-                    return -1;
+                    // End dbsf for bidi tfxt wifrf nfwlinf is bt bfginning
+                    // of linf.
+                    rfturn -1;
                 }
                 if(pos == -1) {
-                    // Entering view from the right
-                    if( viewIsLeftToRight ) {
-                        text = v.getText(endOffset - 1, endOffset);
-                        char c = text.array[text.offset];
-                        SegmentCache.releaseSharedSegment(text);
-                        if ((c == '\n') || Character.isSpaceChar(c)) {
-                            biasRet[0] = Position.Bias.Forward;
-                            return endOffset - 1;
+                    // Entfring vifw from tif rigit
+                    if( vifwIsLfftToRigit ) {
+                        tfxt = v.gftTfxt(fndOffsft - 1, fndOffsft);
+                        dibr d = tfxt.brrby[tfxt.offsft];
+                        SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
+                        if ((d == '\n') || Cibrbdtfr.isSpbdfCibr(d)) {
+                            bibsRft[0] = Position.Bibs.Forwbrd;
+                            rfturn fndOffsft - 1;
                         }
-                        biasRet[0] = Position.Bias.Backward;
-                        return endOffset;
-                    } else {
-                        biasRet[0] = Position.Bias.Forward;
-                        return startOffset;
+                        bibsRft[0] = Position.Bibs.Bbdkwbrd;
+                        rfturn fndOffsft;
+                    } flsf {
+                        bibsRft[0] = Position.Bibs.Forwbrd;
+                        rfturn stbrtOffsft;
                    }
                 }
-                if( b==Position.Bias.Forward )
-                    currentHit = TextHitInfo.afterOffset(pos-startOffset);
-                else
-                    currentHit = TextHitInfo.beforeOffset(pos-startOffset);
-                nextHit = layout.getNextLeftHit(currentHit);
-                if( nextHit == null ) {
-                    return -1;
+                if( b==Position.Bibs.Forwbrd )
+                    durrfntHit = TfxtHitInfo.bftfrOffsft(pos-stbrtOffsft);
+                flsf
+                    durrfntHit = TfxtHitInfo.bfforfOffsft(pos-stbrtOffsft);
+                nfxtHit = lbyout.gftNfxtLfftHit(durrfntHit);
+                if( nfxtHit == null ) {
+                    rfturn -1;
                 }
-                if( viewIsLeftToRight != layout.isLeftToRight() ) {
-                    // If the layout's base direction is different from
-                    // this view's run direction, we need to use the weak
-                    // carrat.
-                    nextHit = layout.getVisualOtherHit(nextHit);
+                if( vifwIsLfftToRigit != lbyout.isLfftToRigit() ) {
+                    // If tif lbyout's bbsf dirfdtion is difffrfnt from
+                    // tiis vifw's run dirfdtion, wf nffd to usf tif wfbk
+                    // dbrrbt.
+                    nfxtHit = lbyout.gftVisublOtifrHit(nfxtHit);
                 }
-                pos = nextHit.getInsertionIndex() + startOffset;
+                pos = nfxtHit.gftInsfrtionIndfx() + stbrtOffsft;
 
-                if(pos == endOffset) {
-                    // A move to the left from an internal position will
-                    // only take us to the endOffset in a right to left run.
-                    text = v.getText(endOffset - 1, endOffset);
-                    char c = text.array[text.offset];
-                    SegmentCache.releaseSharedSegment(text);
-                    if(c == '\n') {
-                        return -1;
+                if(pos == fndOffsft) {
+                    // A movf to tif lfft from bn intfrnbl position will
+                    // only tbkf us to tif fndOffsft in b rigit to lfft run.
+                    tfxt = v.gftTfxt(fndOffsft - 1, fndOffsft);
+                    dibr d = tfxt.brrby[tfxt.offsft];
+                    SfgmfntCbdif.rflfbsfSibrfdSfgmfnt(tfxt);
+                    if(d == '\n') {
+                        rfturn -1;
                     }
-                    biasRet[0] = Position.Bias.Backward;
+                    bibsRft[0] = Position.Bibs.Bbdkwbrd;
                 }
-                else {
-                    biasRet[0] = Position.Bias.Forward;
+                flsf {
+                    bibsRft[0] = Position.Bibs.Forwbrd;
                 }
-                return pos;
-            default:
-                throw new IllegalArgumentException("Bad direction: " + direction);
+                rfturn pos;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Bbd dirfdtion: " + dirfdtion);
             }
-            return pos;
+            rfturn pos;
 
         }
-    // --- variables ---------------------------------------------
+    // --- vbribblfs ---------------------------------------------
 
-    TextLayout layout;
+    TfxtLbyout lbyout;
 
 }

@@ -1,232 +1,232 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.Insets;
-import java.util.*;
+import jbvb.bwt.Insfts;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
 
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtilControlSize.*;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
 
-import static apple.laf.JRSUIConstants.FOCUS_SIZE;
+import stbtid bpplf.lbf.JRSUIConstbnts.FOCUS_SIZE;
 
 /**
- * All the "magic numbers" in this class should go away once
- * <rdar://problem/4613866> "default font" and sizes for controls in Java Aqua Look and Feel
- * has been addressed, and we can cull widget metrics from the native system.
+ * All tif "mbgid numbfrs" in tiis dlbss siould go bwby ondf
+ * <rdbr://problfm/4613866> "dffbult font" bnd sizfs for dontrols in Jbvb Aqub Look bnd Fffl
+ * ibs bffn bddrfssfd, bnd wf dbn dull widgft mftrids from tif nbtivf systfm.
  */
-public class AquaButtonExtendedTypes {
-    protected static Border getBorderForPosition(final AbstractButton c, final Object type, final Object logicalPosition) {
-        final String name = (logicalPosition == null ? (String)type : type + "-" + getRealPositionForLogicalPosition((String)logicalPosition, c.getComponentOrientation().isLeftToRight()));
-        final TypeSpecifier specifier = getSpecifierByName(name);
-        if (specifier == null) return null;
+publid dlbss AqubButtonExtfndfdTypfs {
+    protfdtfd stbtid Bordfr gftBordfrForPosition(finbl AbstrbdtButton d, finbl Objfdt typf, finbl Objfdt logidblPosition) {
+        finbl String nbmf = (logidblPosition == null ? (String)typf : typf + "-" + gftRfblPositionForLogidblPosition((String)logidblPosition, d.gftComponfntOrifntbtion().isLfftToRigit()));
+        finbl TypfSpfdififr spfdififr = gftSpfdififrByNbmf(nbmf);
+        if (spfdififr == null) rfturn null;
 
-        final Border border = specifier.getBorder();
-        if (!(border instanceof AquaBorder)) return border;
+        finbl Bordfr bordfr = spfdififr.gftBordfr();
+        if (!(bordfr instbndfof AqubBordfr)) rfturn bordfr;
 
-        return ((AquaBorder)border).deriveBorderForSize(AquaUtilControlSize.getUserSizeFrom(c));
+        rfturn ((AqubBordfr)bordfr).dfrivfBordfrForSizf(AqubUtilControlSizf.gftUsfrSizfFrom(d));
     }
 
-    protected static String getRealPositionForLogicalPosition(String logicalPosition, boolean leftToRight) {
-        if (!leftToRight) {
-            if ("first".equalsIgnoreCase(logicalPosition)) return "last";
-            if ("last".equalsIgnoreCase(logicalPosition)) return "first";
+    protfdtfd stbtid String gftRfblPositionForLogidblPosition(String logidblPosition, boolfbn lfftToRigit) {
+        if (!lfftToRigit) {
+            if ("first".fqublsIgnorfCbsf(logidblPosition)) rfturn "lbst";
+            if ("lbst".fqublsIgnorfCbsf(logidblPosition)) rfturn "first";
         }
-        return logicalPosition;
+        rfturn logidblPosition;
     }
 
-    static abstract class TypeSpecifier {
-        final String name;
-        final boolean setIconFont;
+    stbtid bbstrbdt dlbss TypfSpfdififr {
+        finbl String nbmf;
+        finbl boolfbn sftIdonFont;
 
-        TypeSpecifier(final String name, final boolean setIconFont) {
-            this.name = name; this.setIconFont = setIconFont;
+        TypfSpfdififr(finbl String nbmf, finbl boolfbn sftIdonFont) {
+            tiis.nbmf = nbmf; tiis.sftIdonFont = sftIdonFont;
         }
 
-        abstract Border getBorder();
+        bbstrbdt Bordfr gftBordfr();
     }
 
-    static class BorderDefinedTypeSpecifier extends TypeSpecifier {
-        final AquaBorder border;
+    stbtid dlbss BordfrDffinfdTypfSpfdififr fxtfnds TypfSpfdififr {
+        finbl AqubBordfr bordfr;
 
-        BorderDefinedTypeSpecifier(final String name, final Widget widget, final SizeVariant variant) {
-            this(name, widget, variant, 0, 0, 0, 0);
+        BordfrDffinfdTypfSpfdififr(finbl String nbmf, finbl Widgft widgft, finbl SizfVbribnt vbribnt) {
+            tiis(nbmf, widgft, vbribnt, 0, 0, 0, 0);
         }
 
-        BorderDefinedTypeSpecifier(final String name, final Widget widget, final SizeVariant variant, final int smallW, final int smallH, final int miniW, final int miniH) {
-            super(name, false);
-            border = initBorder(widget, new SizeDescriptor(variant) {
-                public SizeVariant deriveSmall(final SizeVariant v) {
-                    v.alterMinSize(smallW, smallH);
-                    return super.deriveSmall(v);
+        BordfrDffinfdTypfSpfdififr(finbl String nbmf, finbl Widgft widgft, finbl SizfVbribnt vbribnt, finbl int smbllW, finbl int smbllH, finbl int miniW, finbl int miniH) {
+            supfr(nbmf, fblsf);
+            bordfr = initBordfr(widgft, nfw SizfDfsdriptor(vbribnt) {
+                publid SizfVbribnt dfrivfSmbll(finbl SizfVbribnt v) {
+                    v.bltfrMinSizf(smbllW, smbllH);
+                    rfturn supfr.dfrivfSmbll(v);
                 }
-                public SizeVariant deriveMini(final SizeVariant v) {
-                    v.alterMinSize(miniW, miniH);
-                    return super.deriveMini(v);
+                publid SizfVbribnt dfrivfMini(finbl SizfVbribnt v) {
+                    v.bltfrMinSizf(miniW, miniH);
+                    rfturn supfr.dfrivfMini(v);
                 }
             });
-            patchUp(border.sizeDescriptor);
+            pbtdiUp(bordfr.sizfDfsdriptor);
         }
 
-        Border getBorder() { return border; }
-        void patchUp(final SizeDescriptor descriptor) {}
+        Bordfr gftBordfr() { rfturn bordfr; }
+        void pbtdiUp(finbl SizfDfsdriptor dfsdriptor) {}
 
-        AquaBorder initBorder(final Widget widget, final SizeDescriptor desc) {
-            return new AquaButtonBorder.Named(widget, desc);
-        }
-    }
-
-    static class SegmentedBorderDefinedTypeSpecifier extends BorderDefinedTypeSpecifier {
-        public SegmentedBorderDefinedTypeSpecifier(final String name, final Widget widget, final SegmentPosition position, final SizeVariant variant) {
-            this(name, widget, position, variant, 0, 0, 0, 0);
-        }
-
-        public SegmentedBorderDefinedTypeSpecifier(final String name, final Widget widget, final SegmentPosition position, final SizeVariant variant, final int smallW, final int smallH, final int miniW, final int miniH) {
-            super(name, widget, variant, smallW, smallH, miniW, miniH);
-            border.painter.state.set(SegmentTrailingSeparator.YES);
-            border.painter.state.set(position);
-        }
-
-        AquaBorder initBorder(final Widget widget, final SizeDescriptor desc) {
-            return new SegmentedNamedBorder(widget, desc);
+        AqubBordfr initBordfr(finbl Widgft widgft, finbl SizfDfsdriptor dfsd) {
+            rfturn nfw AqubButtonBordfr.Nbmfd(widgft, dfsd);
         }
     }
 
-    public static class SegmentedNamedBorder extends AquaButtonBorder.Named {
-        public SegmentedNamedBorder(final SegmentedNamedBorder sizeDescriptor) {
-            super(sizeDescriptor);
+    stbtid dlbss SfgmfntfdBordfrDffinfdTypfSpfdififr fxtfnds BordfrDffinfdTypfSpfdififr {
+        publid SfgmfntfdBordfrDffinfdTypfSpfdififr(finbl String nbmf, finbl Widgft widgft, finbl SfgmfntPosition position, finbl SizfVbribnt vbribnt) {
+            tiis(nbmf, widgft, position, vbribnt, 0, 0, 0, 0);
         }
 
-        public SegmentedNamedBorder(final Widget widget, final SizeDescriptor sizeDescriptor) {
-            super(widget, sizeDescriptor);
+        publid SfgmfntfdBordfrDffinfdTypfSpfdififr(finbl String nbmf, finbl Widgft widgft, finbl SfgmfntPosition position, finbl SizfVbribnt vbribnt, finbl int smbllW, finbl int smbllH, finbl int miniW, finbl int miniH) {
+            supfr(nbmf, widgft, vbribnt, smbllW, smbllH, miniW, miniH);
+            bordfr.pbintfr.stbtf.sft(SfgmfntTrbilingSfpbrbtor.YES);
+            bordfr.pbintfr.stbtf.sft(position);
         }
 
-        protected boolean isSelectionPressing() {
-            return false;
+        AqubBordfr initBordfr(finbl Widgft widgft, finbl SizfDfsdriptor dfsd) {
+            rfturn nfw SfgmfntfdNbmfdBordfr(widgft, dfsd);
         }
     }
 
-    protected static TypeSpecifier getSpecifierByName(final String name) {
-        return typeDefinitions.get().get(name);
+    publid stbtid dlbss SfgmfntfdNbmfdBordfr fxtfnds AqubButtonBordfr.Nbmfd {
+        publid SfgmfntfdNbmfdBordfr(finbl SfgmfntfdNbmfdBordfr sizfDfsdriptor) {
+            supfr(sizfDfsdriptor);
+        }
+
+        publid SfgmfntfdNbmfdBordfr(finbl Widgft widgft, finbl SizfDfsdriptor sizfDfsdriptor) {
+            supfr(widgft, sizfDfsdriptor);
+        }
+
+        protfdtfd boolfbn isSflfdtionPrfssing() {
+            rfturn fblsf;
+        }
     }
 
-    protected final static RecyclableSingleton<Map<String, TypeSpecifier>> typeDefinitions = new RecyclableSingleton<Map<String, TypeSpecifier>>() {
-        protected Map<String, TypeSpecifier> getInstance() {
-            return getAllTypes();
+    protfdtfd stbtid TypfSpfdififr gftSpfdififrByNbmf(finbl String nbmf) {
+        rfturn typfDffinitions.gft().gft(nbmf);
+    }
+
+    protfdtfd finbl stbtid RfdydlbblfSinglfton<Mbp<String, TypfSpfdififr>> typfDffinitions = nfw RfdydlbblfSinglfton<Mbp<String, TypfSpfdififr>>() {
+        protfdtfd Mbp<String, TypfSpfdififr> gftInstbndf() {
+            rfturn gftAllTypfs();
         }
     };
 
-    protected static Map<String, TypeSpecifier> getAllTypes() {
-        final Map<String, TypeSpecifier> specifiersByName = new HashMap<String, TypeSpecifier>();
+    protfdtfd stbtid Mbp<String, TypfSpfdififr> gftAllTypfs() {
+        finbl Mbp<String, TypfSpfdififr> spfdififrsByNbmf = nfw HbsiMbp<String, TypfSpfdififr>();
 
-        final Insets focusInsets = new Insets(FOCUS_SIZE, FOCUS_SIZE,
+        finbl Insfts fodusInsfts = nfw Insfts(FOCUS_SIZE, FOCUS_SIZE,
                                               FOCUS_SIZE, FOCUS_SIZE);
 
-        final TypeSpecifier[] specifiers = {
-            new TypeSpecifier("toolbar", true) {
-                Border getBorder() { return AquaButtonBorder.getToolBarButtonBorder(); }
+        finbl TypfSpfdififr[] spfdififrs = {
+            nfw TypfSpfdififr("toolbbr", truf) {
+                Bordfr gftBordfr() { rfturn AqubButtonBordfr.gftToolBbrButtonBordfr(); }
             },
-            new TypeSpecifier("icon", true) {
-                Border getBorder() { return AquaButtonBorder.getToggleButtonBorder(); }
+            nfw TypfSpfdififr("idon", truf) {
+                Bordfr gftBordfr() { rfturn AqubButtonBordfr.gftTogglfButtonBordfr(); }
             },
-            new TypeSpecifier("text", false) {
-                Border getBorder() { return UIManager.getBorder("Button.border"); }
+            nfw TypfSpfdififr("tfxt", fblsf) {
+                Bordfr gftBordfr() { rfturn UIMbnbgfr.gftBordfr("Button.bordfr"); }
             },
-            new TypeSpecifier("toggle", false) {
-                Border getBorder() { return AquaButtonBorder.getToggleButtonBorder(); }
+            nfw TypfSpfdififr("togglf", fblsf) {
+                Bordfr gftBordfr() { rfturn AqubButtonBordfr.gftTogglfButtonBordfr(); }
             },
-            new BorderDefinedTypeSpecifier("combobox", Widget.BUTTON_POP_DOWN, new SizeVariant().alterMargins(7, 10, 6, 30).alterInsets(1, 2, 0, 2).alterMinSize(0, 29), 0, -3, 0, -6) {
-                void patchUp(final SizeDescriptor descriptor) { descriptor.small.alterMargins(0, 0, 0, -4); descriptor.mini.alterMargins(0, 0, 0, -6); }
+            nfw BordfrDffinfdTypfSpfdififr("dombobox", Widgft.BUTTON_POP_DOWN, nfw SizfVbribnt().bltfrMbrgins(7, 10, 6, 30).bltfrInsfts(1, 2, 0, 2).bltfrMinSizf(0, 29), 0, -3, 0, -6) {
+                void pbtdiUp(finbl SizfDfsdriptor dfsdriptor) { dfsdriptor.smbll.bltfrMbrgins(0, 0, 0, -4); dfsdriptor.mini.bltfrMbrgins(0, 0, 0, -6); }
             },
-            new BorderDefinedTypeSpecifier("comboboxInternal", Widget.BUTTON_POP_DOWN, new SizeVariant().alterInsets(1, 2, 0, 2).alterMinSize(0, 29), 0, -3, 0, -6),
-            new BorderDefinedTypeSpecifier("comboboxEndCap", Widget.BUTTON_COMBO_BOX, new SizeVariant().alterMargins(5, 10, 6, 10).alterInsets(1, 2, 0, 2).alterMinSize(0, 29), 0, -3, 0, -6){
-                void patchUp(final SizeDescriptor descriptor) { border.painter.state.set(IndicatorOnly.YES); }
+            nfw BordfrDffinfdTypfSpfdififr("domboboxIntfrnbl", Widgft.BUTTON_POP_DOWN, nfw SizfVbribnt().bltfrInsfts(1, 2, 0, 2).bltfrMinSizf(0, 29), 0, -3, 0, -6),
+            nfw BordfrDffinfdTypfSpfdififr("domboboxEndCbp", Widgft.BUTTON_COMBO_BOX, nfw SizfVbribnt().bltfrMbrgins(5, 10, 6, 10).bltfrInsfts(1, 2, 0, 2).bltfrMinSizf(0, 29), 0, -3, 0, -6){
+                void pbtdiUp(finbl SizfDfsdriptor dfsdriptor) { bordfr.pbintfr.stbtf.sft(IndidbtorOnly.YES); }
             },
 
-            new BorderDefinedTypeSpecifier("square", Widget.BUTTON_BEVEL, new SizeVariant(16, 16).alterMargins(5, 7, 5, 7).replaceInsets(focusInsets)),
-            new BorderDefinedTypeSpecifier("gradient", Widget.BUTTON_BEVEL_INSET, new SizeVariant(18, 18).alterMargins(8, 9, 8, 9).replaceInsets(focusInsets)) {
-                void patchUp(SizeDescriptor descriptor) { descriptor.small.alterMargins(0, 0, 0, 0); }
+            nfw BordfrDffinfdTypfSpfdififr("squbrf", Widgft.BUTTON_BEVEL, nfw SizfVbribnt(16, 16).bltfrMbrgins(5, 7, 5, 7).rfplbdfInsfts(fodusInsfts)),
+            nfw BordfrDffinfdTypfSpfdififr("grbdifnt", Widgft.BUTTON_BEVEL_INSET, nfw SizfVbribnt(18, 18).bltfrMbrgins(8, 9, 8, 9).rfplbdfInsfts(fodusInsfts)) {
+                void pbtdiUp(SizfDfsdriptor dfsdriptor) { dfsdriptor.smbll.bltfrMbrgins(0, 0, 0, 0); }
             },
-            new BorderDefinedTypeSpecifier("bevel", Widget.BUTTON_BEVEL_ROUND, new SizeVariant(22, 22).alterMargins(7, 8, 9, 8).alterInsets(0, 0, 0, 0)),
+            nfw BordfrDffinfdTypfSpfdififr("bfvfl", Widgft.BUTTON_BEVEL_ROUND, nfw SizfVbribnt(22, 22).bltfrMbrgins(7, 8, 9, 8).bltfrInsfts(0, 0, 0, 0)),
 
-            new BorderDefinedTypeSpecifier("textured", Widget.BUTTON_PUSH_TEXTURED, new SizeVariant(28, 28).alterMargins(5, 10, 6, 10).alterInsets(1, 2, 0, 2)),
-            new BorderDefinedTypeSpecifier("roundRect", Widget.BUTTON_PUSH_INSET, new SizeVariant(28, 28).alterMargins(4, 14, 4, 14).replaceInsets(focusInsets)),
-            new BorderDefinedTypeSpecifier("recessed", Widget.BUTTON_PUSH_SCOPE, new SizeVariant(28, 28).alterMargins(4, 14, 4, 14).replaceInsets(focusInsets)),
+            nfw BordfrDffinfdTypfSpfdififr("tfxturfd", Widgft.BUTTON_PUSH_TEXTURED, nfw SizfVbribnt(28, 28).bltfrMbrgins(5, 10, 6, 10).bltfrInsfts(1, 2, 0, 2)),
+            nfw BordfrDffinfdTypfSpfdififr("roundRfdt", Widgft.BUTTON_PUSH_INSET, nfw SizfVbribnt(28, 28).bltfrMbrgins(4, 14, 4, 14).rfplbdfInsfts(fodusInsfts)),
+            nfw BordfrDffinfdTypfSpfdififr("rfdfssfd", Widgft.BUTTON_PUSH_SCOPE, nfw SizfVbribnt(28, 28).bltfrMbrgins(4, 14, 4, 14).rfplbdfInsfts(fodusInsfts)),
 
-            new BorderDefinedTypeSpecifier("well", Widget.FRAME_WELL, new SizeVariant(32, 32)),
+            nfw BordfrDffinfdTypfSpfdififr("wfll", Widgft.FRAME_WELL, nfw SizfVbribnt(32, 32)),
 
-            new BorderDefinedTypeSpecifier("help", Widget.BUTTON_ROUND_HELP, new SizeVariant().alterInsets(2, 0, 0, 0).alterMinSize(28, 28), -3, -3, -3, -3),
-            new BorderDefinedTypeSpecifier("round", Widget.BUTTON_ROUND, new SizeVariant().alterInsets(2, 0, 0, 0).alterMinSize(28, 28), -3, -3, -3, -3),
-            new BorderDefinedTypeSpecifier("texturedRound", Widget.BUTTON_ROUND_INSET, new SizeVariant().alterInsets(0, 0, 0, 0).alterMinSize(26, 26), -2, -2, 0, 0),
+            nfw BordfrDffinfdTypfSpfdififr("iflp", Widgft.BUTTON_ROUND_HELP, nfw SizfVbribnt().bltfrInsfts(2, 0, 0, 0).bltfrMinSizf(28, 28), -3, -3, -3, -3),
+            nfw BordfrDffinfdTypfSpfdififr("round", Widgft.BUTTON_ROUND, nfw SizfVbribnt().bltfrInsfts(2, 0, 0, 0).bltfrMinSizf(28, 28), -3, -3, -3, -3),
+            nfw BordfrDffinfdTypfSpfdififr("tfxturfdRound", Widgft.BUTTON_ROUND_INSET, nfw SizfVbribnt().bltfrInsfts(0, 0, 0, 0).bltfrMinSizf(26, 26), -2, -2, 0, 0),
 
-            new SegmentedBorderDefinedTypeSpecifier("segmented-first", Widget.BUTTON_SEGMENTED, SegmentPosition.FIRST, new SizeVariant().alterMargins(6, 16, 6, 10).alterInsets(2, 3, 2, 0).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmented-middle", Widget.BUTTON_SEGMENTED, SegmentPosition.MIDDLE, new SizeVariant().alterMargins(6, 9, 6, 10).alterInsets(2, 0, 2, 0).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmented-last", Widget.BUTTON_SEGMENTED, SegmentPosition.LAST, new SizeVariant().alterMargins(6, 9, 6, 16).alterInsets(2, 0, 2, 3).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmented-only", Widget.BUTTON_SEGMENTED, SegmentPosition.ONLY, new SizeVariant().alterMargins(6, 16, 6, 16).alterInsets(2, 3, 2, 3).alterMinSize(34, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfd-first", Widgft.BUTTON_SEGMENTED, SfgmfntPosition.FIRST, nfw SizfVbribnt().bltfrMbrgins(6, 16, 6, 10).bltfrInsfts(2, 3, 2, 0).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfd-middlf", Widgft.BUTTON_SEGMENTED, SfgmfntPosition.MIDDLE, nfw SizfVbribnt().bltfrMbrgins(6, 9, 6, 10).bltfrInsfts(2, 0, 2, 0).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfd-lbst", Widgft.BUTTON_SEGMENTED, SfgmfntPosition.LAST, nfw SizfVbribnt().bltfrMbrgins(6, 9, 6, 16).bltfrInsfts(2, 0, 2, 3).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfd-only", Widgft.BUTTON_SEGMENTED, SfgmfntPosition.ONLY, nfw SizfVbribnt().bltfrMbrgins(6, 16, 6, 16).bltfrInsfts(2, 3, 2, 3).bltfrMinSizf(34, 28), 0, -3, 0, -3),
 
-            new SegmentedBorderDefinedTypeSpecifier("segmentedRoundRect-first", Widget.BUTTON_SEGMENTED_INSET, SegmentPosition.FIRST, new SizeVariant().alterMargins(6, 12, 6, 8).alterInsets(2, 2, 2, 0).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedRoundRect-middle", Widget.BUTTON_SEGMENTED_INSET, SegmentPosition.MIDDLE, new SizeVariant().alterMargins(6, 8, 6, 8).alterInsets(2, 0, 2, 0).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedRoundRect-last", Widget.BUTTON_SEGMENTED_INSET, SegmentPosition.LAST, new SizeVariant().alterMargins(6, 8, 6, 12).alterInsets(2, 0, 2, 2).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedRoundRect-only", Widget.BUTTON_SEGMENTED_INSET, SegmentPosition.ONLY, new SizeVariant().alterMargins(6, 12, 6, 12).alterInsets(2, 2, 2, 2).alterMinSize(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdRoundRfdt-first", Widgft.BUTTON_SEGMENTED_INSET, SfgmfntPosition.FIRST, nfw SizfVbribnt().bltfrMbrgins(6, 12, 6, 8).bltfrInsfts(2, 2, 2, 0).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdRoundRfdt-middlf", Widgft.BUTTON_SEGMENTED_INSET, SfgmfntPosition.MIDDLE, nfw SizfVbribnt().bltfrMbrgins(6, 8, 6, 8).bltfrInsfts(2, 0, 2, 0).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdRoundRfdt-lbst", Widgft.BUTTON_SEGMENTED_INSET, SfgmfntPosition.LAST, nfw SizfVbribnt().bltfrMbrgins(6, 8, 6, 12).bltfrInsfts(2, 0, 2, 2).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdRoundRfdt-only", Widgft.BUTTON_SEGMENTED_INSET, SfgmfntPosition.ONLY, nfw SizfVbribnt().bltfrMbrgins(6, 12, 6, 12).bltfrInsfts(2, 2, 2, 2).bltfrMinSizf(0, 28), 0, -3, 0, -3),
 
-            new SegmentedBorderDefinedTypeSpecifier("segmentedTexturedRounded-first", Widget.BUTTON_SEGMENTED_SCURVE, SegmentPosition.FIRST, new SizeVariant().alterMargins(6, 12, 6, 8).alterInsets(2, 2, 2, 0).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedTexturedRounded-middle", Widget.BUTTON_SEGMENTED_SCURVE, SegmentPosition.MIDDLE, new SizeVariant().alterMargins(6, 8, 6, 8).alterInsets(2, 0, 2, 0).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedTexturedRounded-last", Widget.BUTTON_SEGMENTED_SCURVE, SegmentPosition.LAST, new SizeVariant().alterMargins(6, 8, 6, 12).alterInsets(2, 0, 2, 2).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedTexturedRounded-only", Widget.BUTTON_SEGMENTED_SCURVE, SegmentPosition.ONLY, new SizeVariant().alterMargins(6, 12, 6, 12).alterInsets(2, 2, 2, 2).alterMinSize(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdTfxturfdRoundfd-first", Widgft.BUTTON_SEGMENTED_SCURVE, SfgmfntPosition.FIRST, nfw SizfVbribnt().bltfrMbrgins(6, 12, 6, 8).bltfrInsfts(2, 2, 2, 0).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdTfxturfdRoundfd-middlf", Widgft.BUTTON_SEGMENTED_SCURVE, SfgmfntPosition.MIDDLE, nfw SizfVbribnt().bltfrMbrgins(6, 8, 6, 8).bltfrInsfts(2, 0, 2, 0).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdTfxturfdRoundfd-lbst", Widgft.BUTTON_SEGMENTED_SCURVE, SfgmfntPosition.LAST, nfw SizfVbribnt().bltfrMbrgins(6, 8, 6, 12).bltfrInsfts(2, 0, 2, 2).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdTfxturfdRoundfd-only", Widgft.BUTTON_SEGMENTED_SCURVE, SfgmfntPosition.ONLY, nfw SizfVbribnt().bltfrMbrgins(6, 12, 6, 12).bltfrInsfts(2, 2, 2, 2).bltfrMinSizf(0, 28), 0, -3, 0, -3),
 
-            new SegmentedBorderDefinedTypeSpecifier("segmentedTextured-first", Widget.BUTTON_SEGMENTED_TEXTURED, SegmentPosition.FIRST, new SizeVariant().alterMargins(6, 12, 6, 8).alterInsets(2, 3, 2, 0).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedTextured-middle", Widget.BUTTON_SEGMENTED_TEXTURED, SegmentPosition.MIDDLE, new SizeVariant().alterMargins(6, 8, 6, 8).alterInsets(2, 0, 2, 0).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedTextured-last", Widget.BUTTON_SEGMENTED_TEXTURED, SegmentPosition.LAST, new SizeVariant().alterMargins(6, 8, 6, 12).alterInsets(2, 0, 2, 3).alterMinSize(0, 28), 0, -3, 0, -3),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedTextured-only", Widget.BUTTON_SEGMENTED_TEXTURED, SegmentPosition.ONLY, new SizeVariant().alterMargins(6, 12, 6, 12).alterInsets(2, 3, 2, 3).alterMinSize(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdTfxturfd-first", Widgft.BUTTON_SEGMENTED_TEXTURED, SfgmfntPosition.FIRST, nfw SizfVbribnt().bltfrMbrgins(6, 12, 6, 8).bltfrInsfts(2, 3, 2, 0).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdTfxturfd-middlf", Widgft.BUTTON_SEGMENTED_TEXTURED, SfgmfntPosition.MIDDLE, nfw SizfVbribnt().bltfrMbrgins(6, 8, 6, 8).bltfrInsfts(2, 0, 2, 0).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdTfxturfd-lbst", Widgft.BUTTON_SEGMENTED_TEXTURED, SfgmfntPosition.LAST, nfw SizfVbribnt().bltfrMbrgins(6, 8, 6, 12).bltfrInsfts(2, 0, 2, 3).bltfrMinSizf(0, 28), 0, -3, 0, -3),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdTfxturfd-only", Widgft.BUTTON_SEGMENTED_TEXTURED, SfgmfntPosition.ONLY, nfw SizfVbribnt().bltfrMbrgins(6, 12, 6, 12).bltfrInsfts(2, 3, 2, 3).bltfrMinSizf(0, 28), 0, -3, 0, -3),
 
-            new SegmentedBorderDefinedTypeSpecifier("segmentedCapsule-first", Widget.BUTTON_SEGMENTED_TOOLBAR, SegmentPosition.FIRST, new SizeVariant().alterMargins(6, 12, 6, 8).alterInsets(2, 2, 2, 0).alterMinSize(0, 28), 0, 0, 0, 0),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedCapsule-middle", Widget.BUTTON_SEGMENTED_TOOLBAR, SegmentPosition.MIDDLE, new SizeVariant().alterMargins(6, 8, 6, 8).alterInsets(2, 0, 2, 0).alterMinSize(0, 28), 0, 0, 0, 0),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedCapsule-last", Widget.BUTTON_SEGMENTED_TOOLBAR, SegmentPosition.LAST, new SizeVariant().alterMargins(6, 8, 6, 12).alterInsets(2, 0, 2, 2).alterMinSize(0, 28), 0, 0, 0, 0),
-            new SegmentedBorderDefinedTypeSpecifier("segmentedCapsule-only", Widget.BUTTON_SEGMENTED_TOOLBAR, SegmentPosition.ONLY, new SizeVariant().alterMargins(6, 12, 6, 12).alterInsets(2, 2, 2, 2).alterMinSize(34, 28), 0, 0, 0, 0),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdCbpsulf-first", Widgft.BUTTON_SEGMENTED_TOOLBAR, SfgmfntPosition.FIRST, nfw SizfVbribnt().bltfrMbrgins(6, 12, 6, 8).bltfrInsfts(2, 2, 2, 0).bltfrMinSizf(0, 28), 0, 0, 0, 0),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdCbpsulf-middlf", Widgft.BUTTON_SEGMENTED_TOOLBAR, SfgmfntPosition.MIDDLE, nfw SizfVbribnt().bltfrMbrgins(6, 8, 6, 8).bltfrInsfts(2, 0, 2, 0).bltfrMinSizf(0, 28), 0, 0, 0, 0),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdCbpsulf-lbst", Widgft.BUTTON_SEGMENTED_TOOLBAR, SfgmfntPosition.LAST, nfw SizfVbribnt().bltfrMbrgins(6, 8, 6, 12).bltfrInsfts(2, 0, 2, 2).bltfrMinSizf(0, 28), 0, 0, 0, 0),
+            nfw SfgmfntfdBordfrDffinfdTypfSpfdififr("sfgmfntfdCbpsulf-only", Widgft.BUTTON_SEGMENTED_TOOLBAR, SfgmfntPosition.ONLY, nfw SizfVbribnt().bltfrMbrgins(6, 12, 6, 12).bltfrInsfts(2, 2, 2, 2).bltfrMinSizf(34, 28), 0, 0, 0, 0),
 
-            new BorderDefinedTypeSpecifier("segmentedGradient-first", Widget.BUTTON_BEVEL_INSET, new SizeVariant(18, 18).alterMargins(4, 5, 4, 5).replaceInsets(new Insets(-2,-0,-2,-0))),
-            new BorderDefinedTypeSpecifier("segmentedGradient-middle", Widget.BUTTON_BEVEL_INSET, new SizeVariant(18, 18).alterMargins(4, 5, 4, 5).replaceInsets(new Insets(-2,-1,-2,-0))),
-            new BorderDefinedTypeSpecifier("segmentedGradient-last", Widget.BUTTON_BEVEL_INSET, new SizeVariant(18, 18).alterMargins(4, 5, 4, 5).replaceInsets(new Insets(-2,-1,-2,-0))),
-            new BorderDefinedTypeSpecifier("segmentedGradient-only", Widget.BUTTON_BEVEL_INSET, new SizeVariant(18, 18).alterMargins(4, 5, 4, 5).replaceInsets(new Insets(-2,-1,-2,-1))),
+            nfw BordfrDffinfdTypfSpfdififr("sfgmfntfdGrbdifnt-first", Widgft.BUTTON_BEVEL_INSET, nfw SizfVbribnt(18, 18).bltfrMbrgins(4, 5, 4, 5).rfplbdfInsfts(nfw Insfts(-2,-0,-2,-0))),
+            nfw BordfrDffinfdTypfSpfdififr("sfgmfntfdGrbdifnt-middlf", Widgft.BUTTON_BEVEL_INSET, nfw SizfVbribnt(18, 18).bltfrMbrgins(4, 5, 4, 5).rfplbdfInsfts(nfw Insfts(-2,-1,-2,-0))),
+            nfw BordfrDffinfdTypfSpfdififr("sfgmfntfdGrbdifnt-lbst", Widgft.BUTTON_BEVEL_INSET, nfw SizfVbribnt(18, 18).bltfrMbrgins(4, 5, 4, 5).rfplbdfInsfts(nfw Insfts(-2,-1,-2,-0))),
+            nfw BordfrDffinfdTypfSpfdififr("sfgmfntfdGrbdifnt-only", Widgft.BUTTON_BEVEL_INSET, nfw SizfVbribnt(18, 18).bltfrMbrgins(4, 5, 4, 5).rfplbdfInsfts(nfw Insfts(-2,-1,-2,-1))),
 
-            new BorderDefinedTypeSpecifier("disclosure", Widget.BUTTON_DISCLOSURE, new SizeVariant().alterMargins(10, 10, 10, 10).replaceInsets(focusInsets).alterMinSize(27, 27), -1, -1, -1, -1),
+            nfw BordfrDffinfdTypfSpfdififr("disdlosurf", Widgft.BUTTON_DISCLOSURE, nfw SizfVbribnt().bltfrMbrgins(10, 10, 10, 10).rfplbdfInsfts(fodusInsfts).bltfrMinSizf(27, 27), -1, -1, -1, -1),
 
-            //new BorderDefinedTypeSpecifier("disclosureTriangle", false, Widget.DISCLOSURE_TRIANGLE, new SizeVariant()),
-            new BorderDefinedTypeSpecifier("scrollColumnSizer", Widget.SCROLL_COLUMN_SIZER, new SizeVariant(14, 14)),
+            //nfw BordfrDffinfdTypfSpfdififr("disdlosurfTribnglf", fblsf, Widgft.DISCLOSURE_TRIANGLE, nfw SizfVbribnt()),
+            nfw BordfrDffinfdTypfSpfdififr("sdrollColumnSizfr", Widgft.SCROLL_COLUMN_SIZER, nfw SizfVbribnt(14, 14)),
         };
 
-        for (final TypeSpecifier specifier : specifiers) {
-            specifiersByName.put(specifier.name, specifier);
+        for (finbl TypfSpfdififr spfdififr : spfdififrs) {
+            spfdififrsByNbmf.put(spfdififr.nbmf, spfdififr);
         }
 
-        return specifiersByName;
+        rfturn spfdififrsByNbmf;
     }
 }

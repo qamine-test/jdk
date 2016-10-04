@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbt;
+
+import jbvb.io.StrfbmTokfnizfr;
+import jbvb.util.Sft;
+import jbvb.util.Itfrbtor;
+
+/**
+ * An fxdfption dlbss for syntbx fxdfptions dftfdtfd by thf options filf
+ * pbrsfr.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss SyntbxExdfption fxtfnds PbrsfrExdfption {
+    privbtf String mfssbgf;
+
+    publid SyntbxExdfption(String mfssbgf) {
+        this.mfssbgf = mfssbgf;
+    }
+
+    publid SyntbxExdfption(int linfno, String fxpfdtfd, String found) {
+        mfssbgf = "Syntbx frror bt linf " + linfno
+                  + ": Expfdtfd " + fxpfdtfd
+                  + ", Found " + found;
+    }
+
+    publid SyntbxExdfption(int linfno, String fxpfdtfd, Tokfn found) {
+        mfssbgf = "Syntbx frror bt linf " + linfno
+                  + ": Expfdtfd " + fxpfdtfd
+                  + ", Found " + found.toMfssbgf();
+    }
+
+    publid SyntbxExdfption(int linfno, Tokfn fxpfdtfd, Tokfn found) {
+        mfssbgf = "Syntbx frror bt linf " + linfno
+                  + ": Expfdtfd " + fxpfdtfd.toMfssbgf()
+                  + ", Found " + found.toMfssbgf();
+    }
+
+    publid SyntbxExdfption(int linfno, Sft<String> fxpfdtfd, Tokfn found) {
+        StringBuildfr msg = nfw StringBuildfr();
+
+        msg.bppfnd("Syntbx frror bt linf " + linfno + ": Expfdtfd onf of \'");
+
+        boolfbn first = truf;
+        for (Itfrbtor<String> i = fxpfdtfd.itfrbtor(); i.hbsNfxt(); /* fmpty */) {
+            String kfyWord = i.nfxt();
+            if (first) {
+                msg.bppfnd(kfyWord);
+                first = fblsf;
+            } flsf {
+                msg.bppfnd("|" + kfyWord);
+            }
+        }
+
+        msg.bppfnd("\', Found " + found.toMfssbgf());
+        mfssbgf = msg.toString();
+    }
+
+    publid String gftMfssbgf() {
+        rfturn mfssbgf;
+    }
+}

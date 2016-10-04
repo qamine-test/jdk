@@ -1,323 +1,323 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import java.util.HashMap;
+import jbvb.util.HbsiMbp;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * An abstract class for drop protocols on X11 systems.
- * Contains protocol-independent drop target code.
+ * An bbstrbdt dlbss for drop protodols on X11 systfms.
+ * Contbins protodol-indfpfndfnt drop tbrgft dodf.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-abstract class XDropTargetProtocol {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDropTargetProtocol");
+bbstrbdt dlbss XDropTbrgftProtodol {
+    privbtf stbtid finbl PlbtformLoggfr loggfr =
+        PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.xdnd.XDropTbrgftProtodol");
 
-    private final XDropTargetProtocolListener listener;
+    privbtf finbl XDropTbrgftProtodolListfnfr listfnfr;
 
-    public static final int EMBEDDER_ALREADY_REGISTERED = 0;
+    publid stbtid finbl int EMBEDDER_ALREADY_REGISTERED = 0;
 
-    public static final int UNKNOWN_MESSAGE = 0;
-    public static final int ENTER_MESSAGE   = 1;
-    public static final int MOTION_MESSAGE  = 2;
-    public static final int LEAVE_MESSAGE   = 3;
-    public static final int DROP_MESSAGE    = 4;
+    publid stbtid finbl int UNKNOWN_MESSAGE = 0;
+    publid stbtid finbl int ENTER_MESSAGE   = 1;
+    publid stbtid finbl int MOTION_MESSAGE  = 2;
+    publid stbtid finbl int LEAVE_MESSAGE   = 3;
+    publid stbtid finbl int DROP_MESSAGE    = 4;
 
-    protected XDropTargetProtocol(XDropTargetProtocolListener listener) {
-        if (listener == null) {
-            throw new NullPointerException("Null XDropTargetProtocolListener");
+    protfdtfd XDropTbrgftProtodol(XDropTbrgftProtodolListfnfr listfnfr) {
+        if (listfnfr == null) {
+            tirow nfw NullPointfrExdfption("Null XDropTbrgftProtodolListfnfr");
         }
-        this.listener = listener;
+        tiis.listfnfr = listfnfr;
     }
 
-    protected final XDropTargetProtocolListener getProtocolListener() {
-        return listener;
+    protfdtfd finbl XDropTbrgftProtodolListfnfr gftProtodolListfnfr() {
+        rfturn listfnfr;
     }
 
     /**
-     * Returns the protocol name. The protocol name cannot be null.
+     * Rfturns tif protodol nbmf. Tif protodol nbmf dbnnot bf null.
      */
-    public abstract String getProtocolName();
+    publid bbstrbdt String gftProtodolNbmf();
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void registerDropTarget(long window);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    publid bbstrbdt void rfgistfrDropTbrgft(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void unregisterDropTarget(long window);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    publid bbstrbdt void unrfgistfrDropTbrgft(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void registerEmbedderDropSite(long window);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    publid bbstrbdt void rfgistfrEmbfddfrDropSitf(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void unregisterEmbedderDropSite(long window);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    publid bbstrbdt void unrfgistfrEmbfddfrDropSitf(long window);
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract void registerEmbeddedDropSite(long embedded);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    publid bbstrbdt void rfgistfrEmbfddfdDropSitf(long fmbfddfd);
 
-    /* The caller must hold AWT_LOCK. */
-    public final void unregisterEmbeddedDropSite(long embedded) {
-        removeEmbedderRegistryEntry(embedded);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    publid finbl void unrfgistfrEmbfddfdDropSitf(long fmbfddfd) {
+        rfmovfEmbfddfrRfgistryEntry(fmbfddfd);
     }
 
 
-    /* The caller must hold AWT_LOCK. */
-    public abstract boolean isProtocolSupported(long window);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    publid bbstrbdt boolfbn isProtodolSupportfd(long window);
 
-    public abstract int getMessageType(XClientMessageEvent xclient);
+    publid bbstrbdt int gftMfssbgfTypf(XClifntMfssbgfEvfnt xdlifnt);
 
-    /* The caller must hold AWT_LOCK. */
-    public final boolean processClientMessage(XClientMessageEvent xclient) {
-        int type = getMessageType(xclient);
-        boolean processed = processClientMessageImpl(xclient);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    publid finbl boolfbn prodfssClifntMfssbgf(XClifntMfssbgfEvfnt xdlifnt) {
+        int typf = gftMfssbgfTypf(xdlifnt);
+        boolfbn prodfssfd = prodfssClifntMfssbgfImpl(xdlifnt);
 
-        postProcessClientMessage(xclient, processed, type);
+        postProdfssClifntMfssbgf(xdlifnt, prodfssfd, typf);
 
-        return processed;
+        rfturn prodfssfd;
     }
 
-    /* The caller must hold AWT_LOCK. */
-    protected abstract boolean processClientMessageImpl(XClientMessageEvent xclient);
+    /* Tif dbllfr must iold AWT_LOCK. */
+    protfdtfd bbstrbdt boolfbn prodfssClifntMfssbgfImpl(XClifntMfssbgfEvfnt xdlifnt);
 
     /*
-     * Forwards a drag notification to the embedding toplevel modifying the event
-     * to match the protocol version supported by the toplevel.
-     * The caller must hold AWT_LOCK.
-     * Returns True if the event is sent, False otherwise.
+     * Forwbrds b drbg notifidbtion to tif fmbfdding toplfvfl modifying tif fvfnt
+     * to mbtdi tif protodol vfrsion supportfd by tif toplfvfl.
+     * Tif dbllfr must iold AWT_LOCK.
+     * Rfturns Truf if tif fvfnt is sfnt, Fblsf otifrwisf.
      */
-    protected final boolean forwardClientMessageToToplevel(long toplevel,
-                                                           XClientMessageEvent xclient) {
-        EmbedderRegistryEntry entry = getEmbedderRegistryEntry(toplevel);
+    protfdtfd finbl boolfbn forwbrdClifntMfssbgfToToplfvfl(long toplfvfl,
+                                                           XClifntMfssbgfEvfnt xdlifnt) {
+        EmbfddfrRfgistryEntry fntry = gftEmbfddfrRfgistryEntry(toplfvfl);
 
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-            logger.finest("        entry={0}", entry);
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("        fntry={0}", fntry);
         }
-        // Window not registered as an embedder for this protocol.
-        if (entry == null) {
-            return false;
-        }
-
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-            logger.finest("        entry.isOverriden()={0}", entry.isOverriden());
-        }
-        // Window didn't have an associated drop site, so there is no need
-        // to forward the message.
-        if (!entry.isOverriden()) {
-            return false;
+        // Window not rfgistfrfd bs bn fmbfddfr for tiis protodol.
+        if (fntry == null) {
+            rfturn fblsf;
         }
 
-        adjustEventForForwarding(xclient, entry);
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("        fntry.isOvfrridfn()={0}", fntry.isOvfrridfn());
+        }
+        // Window didn't ibvf bn bssodibtfd drop sitf, so tifrf is no nffd
+        // to forwbrd tif mfssbgf.
+        if (!fntry.isOvfrridfn()) {
+            rfturn fblsf;
+        }
 
-        long proxy = entry.getProxy();
+        bdjustEvfntForForwbrding(xdlifnt, fntry);
 
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-            logger.finest("        proxy={0} toplevel={1}", proxy, toplevel);
+        long proxy = fntry.gftProxy();
+
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("        proxy={0} toplfvfl={1}", proxy, toplfvfl);
         }
         if (proxy == 0) {
-            proxy = toplevel;
+            proxy = toplfvfl;
         }
 
-        xclient.set_window(toplevel);
+        xdlifnt.sft_window(toplfvfl);
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XSendEvent(XToolkit.getDisplay(), proxy, false,
-                                   XConstants.NoEventMask, xclient.pData);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), proxy, fblsf,
+                                   XConstbnts.NoEvfntMbsk, xdlifnt.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        return true;
+        rfturn truf;
     }
 
 
-    /* True iff the previous notification was MotionEvent and it was
-       forwarded to the browser. */
-    private boolean motionPassedAlong = false;
+    /* Truf iff tif prfvious notifidbtion wbs MotionEvfnt bnd it wbs
+       forwbrdfd to tif browsfr. */
+    privbtf boolfbn motionPbssfdAlong = fblsf;
 
-    protected abstract void sendEnterMessageToToplevel(long toplevel,
-                                                       XClientMessageEvent xclient);
+    protfdtfd bbstrbdt void sfndEntfrMfssbgfToToplfvfl(long toplfvfl,
+                                                       XClifntMfssbgfEvfnt xdlifnt);
 
-    protected abstract void sendLeaveMessageToToplevel(long toplevel,
-                                                       XClientMessageEvent xclient);
+    protfdtfd bbstrbdt void sfndLfbvfMfssbgfToToplfvfl(long toplfvfl,
+                                                       XClifntMfssbgfEvfnt xdlifnt);
 
-    private void postProcessClientMessage(XClientMessageEvent xclient,
-                                          boolean processed,
-                                          int type) {
-        long toplevel = xclient.get_window();
+    privbtf void postProdfssClifntMfssbgf(XClifntMfssbgfEvfnt xdlifnt,
+                                          boolfbn prodfssfd,
+                                          int typf) {
+        long toplfvfl = xdlifnt.gft_window();
 
-        if (getEmbedderRegistryEntry(toplevel) != null) {
+        if (gftEmbfddfrRfgistryEntry(toplfvfl) != null) {
             /*
-             * This code forwards drag notifications to the browser according to the
-             * following rules:
-             *  - the messages that we failed to process are always forwarded to the
-             *    browser;
-             *  - MotionEvents and DropEvents are forwarded if and only if the drag
-             *    is not over a plugin window;
-             *  - XDnD: EnterEvents and LeaveEvents are never forwarded, instead, we
-             *    send synthesized EnterEvents or LeaveEvents when the drag
-             *    respectively exits or enters plugin windows;
-             *  - Motif DnD: EnterEvents and LeaveEvents are always forwarded.
-             * Synthetic EnterEvents and LeaveEvents are needed, because the XDnD drop
-             * site implemented Netscape 6.2 has a nice feature: when it receives
-             * the first XdndPosition it continuously sends XdndStatus messages to
-             * the source (every 100ms) until the drag terminates or leaves the drop
-             * site. When the mouse is dragged over plugin window embedded in the
-             * browser frame, these XdndStatus messages are mixed with the XdndStatus
-             * messages sent from the plugin.
-             * For Motif DnD, synthetic events cause Motif warnings being displayed,
-             * so these events are always forwarded. However, Motif DnD drop site in
-             * Netscape 6.2 is implemented in the same way, so there could be similar
-             * problems if the drag source choose Motif DnD for communication.
+             * Tiis dodf forwbrds drbg notifidbtions to tif browsfr bddording to tif
+             * following rulfs:
+             *  - tif mfssbgfs tibt wf fbilfd to prodfss brf blwbys forwbrdfd to tif
+             *    browsfr;
+             *  - MotionEvfnts bnd DropEvfnts brf forwbrdfd if bnd only if tif drbg
+             *    is not ovfr b plugin window;
+             *  - XDnD: EntfrEvfnts bnd LfbvfEvfnts brf nfvfr forwbrdfd, instfbd, wf
+             *    sfnd syntifsizfd EntfrEvfnts or LfbvfEvfnts wifn tif drbg
+             *    rfspfdtivfly fxits or fntfrs plugin windows;
+             *  - Motif DnD: EntfrEvfnts bnd LfbvfEvfnts brf blwbys forwbrdfd.
+             * Syntiftid EntfrEvfnts bnd LfbvfEvfnts brf nffdfd, bfdbusf tif XDnD drop
+             * sitf implfmfntfd Nftsdbpf 6.2 ibs b nidf ffbturf: wifn it rfdfivfs
+             * tif first XdndPosition it dontinuously sfnds XdndStbtus mfssbgfs to
+             * tif sourdf (fvfry 100ms) until tif drbg tfrminbtfs or lfbvfs tif drop
+             * sitf. Wifn tif mousf is drbggfd ovfr plugin window fmbfddfd in tif
+             * browsfr frbmf, tifsf XdndStbtus mfssbgfs brf mixfd witi tif XdndStbtus
+             * mfssbgfs sfnt from tif plugin.
+             * For Motif DnD, syntiftid fvfnts dbusf Motif wbrnings bfing displbyfd,
+             * so tifsf fvfnts brf blwbys forwbrdfd. Howfvfr, Motif DnD drop sitf in
+             * Nftsdbpf 6.2 is implfmfntfd in tif sbmf wby, so tifrf dould bf similbr
+             * problfms if tif drbg sourdf dioosf Motif DnD for dommunidbtion.
              */
-            if (!processed) {
-                forwardClientMessageToToplevel(toplevel, xclient);
-            } else {
-                boolean motifProtocol =
-                    xclient.get_message_type() ==
-                    MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom();
+            if (!prodfssfd) {
+                forwbrdClifntMfssbgfToToplfvfl(toplfvfl, xdlifnt);
+            } flsf {
+                boolfbn motifProtodol =
+                    xdlifnt.gft_mfssbgf_typf() ==
+                    MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.gftAtom();
 
-                switch (type) {
-                case XDropTargetProtocol.MOTION_MESSAGE:
-                    if (!isDragOverComponent()) {
-                        if (!motionPassedAlong && !motifProtocol) {
-                            sendEnterMessageToToplevel(toplevel, xclient);
+                switdi (typf) {
+                dbsf XDropTbrgftProtodol.MOTION_MESSAGE:
+                    if (!isDrbgOvfrComponfnt()) {
+                        if (!motionPbssfdAlong && !motifProtodol) {
+                            sfndEntfrMfssbgfToToplfvfl(toplfvfl, xdlifnt);
                         }
-                        forwardClientMessageToToplevel(toplevel, xclient);
-                        motionPassedAlong = true;
-                    } else {
-                        if (motionPassedAlong && !motifProtocol) {
-                            sendLeaveMessageToToplevel(toplevel, xclient);
+                        forwbrdClifntMfssbgfToToplfvfl(toplfvfl, xdlifnt);
+                        motionPbssfdAlong = truf;
+                    } flsf {
+                        if (motionPbssfdAlong && !motifProtodol) {
+                            sfndLfbvfMfssbgfToToplfvfl(toplfvfl, xdlifnt);
                         }
-                        motionPassedAlong = false;
+                        motionPbssfdAlong = fblsf;
                     }
-                    break;
-                case XDropTargetProtocol.DROP_MESSAGE:
-                    if (!isDragOverComponent()) {
-                        forwardClientMessageToToplevel(toplevel, xclient);
+                    brfbk;
+                dbsf XDropTbrgftProtodol.DROP_MESSAGE:
+                    if (!isDrbgOvfrComponfnt()) {
+                        forwbrdClifntMfssbgfToToplfvfl(toplfvfl, xdlifnt);
                     }
-                    motionPassedAlong = false;
-                    break;
-                case XDropTargetProtocol.ENTER_MESSAGE:
-                case XDropTargetProtocol.LEAVE_MESSAGE:
-                    if (motifProtocol) {
-                        forwardClientMessageToToplevel(toplevel, xclient);
+                    motionPbssfdAlong = fblsf;
+                    brfbk;
+                dbsf XDropTbrgftProtodol.ENTER_MESSAGE:
+                dbsf XDropTbrgftProtodol.LEAVE_MESSAGE:
+                    if (motifProtodol) {
+                        forwbrdClifntMfssbgfToToplfvfl(toplfvfl, xdlifnt);
                     }
-                    motionPassedAlong = false;
-                    break;
+                    motionPbssfdAlong = fblsf;
+                    brfbk;
                 }
             }
         }
     }
 
-    public abstract boolean sendResponse(long ctxt, int eventID, int action);
+    publid bbstrbdt boolfbn sfndRfsponsf(long dtxt, int fvfntID, int bdtion);
 
     /*
-     * Retrieves the data from the drag source in the specified format.
+     * Rftrifvfs tif dbtb from tif drbg sourdf in tif spfdififd formbt.
      *
-     * @param ctxt a pointer to the XClientMessageEvent structure for this
-     *             protocol's drop message.
-     * @param format the format in which the data should be retrieved.
+     * @pbrbm dtxt b pointfr to tif XClifntMfssbgfEvfnt strudturf for tiis
+     *             protodol's drop mfssbgf.
+     * @pbrbm formbt tif formbt in wiidi tif dbtb siould bf rftrifvfd.
      *
-     * @throws IllegalArgumentException if ctxt doesn't point to the
-     *         XClientMessageEvent structure for this protocol's drop message.
-     * @throws IOException if data retrieval failed.
+     * @tirows IllfgblArgumfntExdfption if dtxt dofsn't point to tif
+     *         XClifntMfssbgfEvfnt strudturf for tiis protodol's drop mfssbgf.
+     * @tirows IOExdfption if dbtb rftrifvbl fbilfd.
      */
-    public abstract Object getData(long ctxt, long format)
-      throws IllegalArgumentException, IOException;
+    publid bbstrbdt Objfdt gftDbtb(long dtxt, long formbt)
+      tirows IllfgblArgumfntExdfption, IOExdfption;
 
-    public abstract boolean sendDropDone(long ctxt, boolean success,
-                                         int dropAction);
+    publid bbstrbdt boolfbn sfndDropDonf(long dtxt, boolfbn suddfss,
+                                         int dropAdtion);
 
-    public abstract long getSourceWindow();
+    publid bbstrbdt long gftSourdfWindow();
 
-    public abstract void cleanup();
+    publid bbstrbdt void dlfbnup();
 
-    public abstract boolean isDragOverComponent();
+    publid bbstrbdt boolfbn isDrbgOvfrComponfnt();
 
-    public void adjustEventForForwarding(XClientMessageEvent xclient,
-        EmbedderRegistryEntry entry) {}
+    publid void bdjustEvfntForForwbrding(XClifntMfssbgfEvfnt xdlifnt,
+        EmbfddfrRfgistryEntry fntry) {}
 
-    public abstract boolean forwardEventToEmbedded(long embedded, long ctxt,
-                                                   int eventID);
+    publid bbstrbdt boolfbn forwbrdEvfntToEmbfddfd(long fmbfddfd, long dtxt,
+                                                   int fvfntID);
 
     /*
-     * Returns true if the XEmbed protocol prescribes that an XEmbed server must
-     * support this DnD protocol for drop sites associated with XEmbed clients.
+     * Rfturns truf if tif XEmbfd protodol prfsdribfs tibt bn XEmbfd sfrvfr must
+     * support tiis DnD protodol for drop sitfs bssodibtfd witi XEmbfd dlifnts.
      */
-    public abstract boolean isXEmbedSupported();
+    publid bbstrbdt boolfbn isXEmbfdSupportfd();
 
-    protected static final class EmbedderRegistryEntry {
-        private final boolean overriden;
-        private final int version;
-        private final long proxy;
-        EmbedderRegistryEntry(boolean overriden, int version, long proxy) {
-            this.overriden = overriden;
-            this.version = version;
-            this.proxy = proxy;
+    protfdtfd stbtid finbl dlbss EmbfddfrRfgistryEntry {
+        privbtf finbl boolfbn ovfrridfn;
+        privbtf finbl int vfrsion;
+        privbtf finbl long proxy;
+        EmbfddfrRfgistryEntry(boolfbn ovfrridfn, int vfrsion, long proxy) {
+            tiis.ovfrridfn = ovfrridfn;
+            tiis.vfrsion = vfrsion;
+            tiis.proxy = proxy;
         }
-        public boolean isOverriden() {
-            return overriden;
+        publid boolfbn isOvfrridfn() {
+            rfturn ovfrridfn;
         }
-        public int getVersion() {
-            return version;
+        publid int gftVfrsion() {
+            rfturn vfrsion;
         }
-        public long getProxy() {
-            return proxy;
+        publid long gftProxy() {
+            rfturn proxy;
         }
     }
 
-    /* Access to HashMap is synchronized on this XDropTargetProtocol instance. */
-    private final HashMap<Long, EmbedderRegistryEntry> embedderRegistry =
-        new HashMap<>();
+    /* Addfss to HbsiMbp is syndironizfd on tiis XDropTbrgftProtodol instbndf. */
+    privbtf finbl HbsiMbp<Long, EmbfddfrRfgistryEntry> fmbfddfrRfgistry =
+        nfw HbsiMbp<>();
 
-    protected final void putEmbedderRegistryEntry(long embedder,
-                                                  boolean overriden,
-                                                  int version,
+    protfdtfd finbl void putEmbfddfrRfgistryEntry(long fmbfddfr,
+                                                  boolfbn ovfrridfn,
+                                                  int vfrsion,
                                                   long proxy) {
-        synchronized (this) {
-            embedderRegistry.put(Long.valueOf(embedder),
-                                 new EmbedderRegistryEntry(overriden, version,
+        syndironizfd (tiis) {
+            fmbfddfrRfgistry.put(Long.vblufOf(fmbfddfr),
+                                 nfw EmbfddfrRfgistryEntry(ovfrridfn, vfrsion,
                                                            proxy));
         }
     }
 
-    protected final EmbedderRegistryEntry getEmbedderRegistryEntry(long embedder) {
-        synchronized (this) {
-            return embedderRegistry.get(Long.valueOf(embedder));
+    protfdtfd finbl EmbfddfrRfgistryEntry gftEmbfddfrRfgistryEntry(long fmbfddfr) {
+        syndironizfd (tiis) {
+            rfturn fmbfddfrRfgistry.gft(Long.vblufOf(fmbfddfr));
         }
     }
 
-    protected final void removeEmbedderRegistryEntry(long embedder) {
-        synchronized (this) {
-            embedderRegistry.remove(Long.valueOf(embedder));
+    protfdtfd finbl void rfmovfEmbfddfrRfgistryEntry(long fmbfddfr) {
+        syndironizfd (tiis) {
+            fmbfddfrRfgistry.rfmovf(Long.vblufOf(fmbfddfr));
         }
     }
 }

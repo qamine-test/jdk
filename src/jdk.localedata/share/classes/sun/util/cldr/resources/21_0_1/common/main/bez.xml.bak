@@ -1,707 +1,707 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="bez"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">Hiakan</language>
-			<language type="am">Hiamhari</language>
-			<language type="ar">Hiharabu</language>
-			<language type="be">Hibelarusi</language>
-			<language type="bez">Hibena</language>
-			<language type="bg">Hibulgaria</language>
-			<language type="bn">Hibangla</language>
-			<language type="cs">Hicheki</language>
-			<language type="de">Hijerumani</language>
-			<language type="el">Higiriki</language>
-			<language type="en">Hiingereza</language>
-			<language type="es">Hihispania</language>
-			<language type="fa">Hiajemi</language>
-			<language type="fr">Hifaransa</language>
-			<language type="ha">Hihausa</language>
-			<language type="hi">Hihindi</language>
-			<language type="hu">Hihungari</language>
-			<language type="id">Hiindonesia</language>
-			<language type="ig">Hiibo</language>
-			<language type="it">Hiitaliano</language>
-			<language type="ja">Hijapani</language>
-			<language type="jv">Hijava</language>
-			<language type="km">Hikambodia</language>
-			<language type="ko">Hikorea</language>
-			<language type="ms">Himalesia</language>
-			<language type="my">Hiburma</language>
-			<language type="ne">Hinepali</language>
-			<language type="nl">Hiholanzi</language>
-			<language type="pa">Hipunjabi</language>
-			<language type="pl">Hipolandi</language>
-			<language type="pt">Hileno</language>
-			<language type="ro">Hilomania</language>
-			<language type="ru">Hilusi</language>
-			<language type="rw">Hinyarwanda</language>
-			<language type="so">Hisomali</language>
-			<language type="sv">Hiswidi</language>
-			<language type="ta">Hitamil</language>
-			<language type="th">Hitailand</language>
-			<language type="tr">Hituluki</language>
-			<language type="uk">Hiukrania</language>
-			<language type="ur">Hiurdu</language>
-			<language type="vi">Hivietinamu</language>
-			<language type="yo">Hiyoruba</language>
-			<language type="zh">Hichina</language>
-			<language type="zu">Hizulu</language>
-		</languages>
-		<territories>
-			<territory type="AD">Huandola</territory>
-			<territory type="AE">Hufalme dza Hihalabu</territory>
-			<territory type="AF">Huafuganistani</territory>
-			<territory type="AG">Huantigua na Hubarubuda</territory>
-			<territory type="AI">Huanguila</territory>
-			<territory type="AL">Hualbania</territory>
-			<territory type="AM">Huamenia</territory>
-			<territory type="AN">Huantili dza Huuholanzi</territory>
-			<territory type="AO">Huangola</territory>
-			<territory type="AR">Huajendina</territory>
-			<territory type="AS">Husamoa ya Humalekani</territory>
-			<territory type="AT">Huastlia</territory>
-			<territory type="AU">Huaustlalia</territory>
-			<territory type="AW">Hualuba</territory>
-			<territory type="AZ">Huazabajani</territory>
-			<territory type="BA">Hubosinia na Huhezegovina</territory>
-			<territory type="BB">Hubabadosi</territory>
-			<territory type="BD">Hubangaladeshi</territory>
-			<territory type="BE">Huubelgiji</territory>
-			<territory type="BF">Hubukinafaso</territory>
-			<territory type="BG">Hubulgaria</territory>
-			<territory type="BH">Hubahaleni</territory>
-			<territory type="BI">Huburundi</territory>
-			<territory type="BJ">Hubenini</territory>
-			<territory type="BM">Hubelmuda</territory>
-			<territory type="BN">Hubrunei</territory>
-			<territory type="BO">Hubolivia</territory>
-			<territory type="BR">Hublazili</territory>
-			<territory type="BS">Hubahama</territory>
-			<territory type="BT">Hubutani</territory>
-			<territory type="BW">Hubotiswana</territory>
-			<territory type="BY">Hubelalusi</territory>
-			<territory type="BZ">Hubelize</territory>
-			<territory type="CA">Hukanada</territory>
-			<territory type="CD">Ijamhuri ya Hidemokrasi ya Hukongo</territory>
-			<territory type="CF">Ijamhuri ya Afrika ya Pagati</territory>
-			<territory type="CG">Hukongo</territory>
-			<territory type="CH">Huuswisi</territory>
-			<territory type="CI">Hukodivaa</territory>
-			<territory type="CK">Ifisima fya Kook</territory>
-			<territory type="CL">Huchile</territory>
-			<territory type="CM">Hukameruni</territory>
-			<territory type="CN">Huchina</territory>
-			<territory type="CO">Hukolombia</territory>
-			<territory type="CR">Hukostarika</territory>
-			<territory type="CS">Huselbia na Humonteneglo</territory>
-			<territory type="CU">Hukuba</territory>
-			<territory type="CV">Hukepuvede</territory>
-			<territory type="CY">Hukuprosi</territory>
-			<territory type="CZ">Ijamhuri ya Cheki</territory>
-			<territory type="DE">Huujerumani</territory>
-			<territory type="DJ">Hujibuti</territory>
-			<territory type="DK">Hudenmaki</territory>
-			<territory type="DM">Hudominika</territory>
-			<territory type="DO">Ijamhuri ya Hudominika</territory>
-			<territory type="DZ">Hualjelia</territory>
-			<territory type="EC">Huekwado</territory>
-			<territory type="EE">Huestonia</territory>
-			<territory type="EG">Humisri</territory>
-			<territory type="ER">Hueritrea</territory>
-			<territory type="ES">Huhispania</territory>
-			<territory type="ET">Huuhabeshi</territory>
-			<territory type="FI">Huufini</territory>
-			<territory type="FJ">Hufiji</territory>
-			<territory type="FK">Ifisima fya Falkland</territory>
-			<territory type="FM">Humikronesia</territory>
-			<territory type="FR">Huufaransa</territory>
-			<territory type="GA">Hugaboni</territory>
-			<territory type="GB">Huuingereza</territory>
-			<territory type="GD">Hugrenada</territory>
-			<territory type="GE">Hujojia</territory>
-			<territory type="GF">Hugwiyana ya Huufaransa</territory>
-			<territory type="GH">Hughana</territory>
-			<territory type="GI">Hujiblalta</territory>
-			<territory type="GL">Hujinlandi</territory>
-			<territory type="GM">Hugambia</territory>
-			<territory type="GN">Hujine</territory>
-			<territory type="GP">Hugwadelupe</territory>
-			<territory type="GQ">Huginekweta</territory>
-			<territory type="GR">Huugiliki</territory>
-			<territory type="GT">Hugwatemala</territory>
-			<territory type="GU">Hugwam</territory>
-			<territory type="GW">Huginebisau</territory>
-			<territory type="GY">Huguyana</territory>
-			<territory type="HN">Huhondulasi</territory>
-			<territory type="HR">Hukorasia</territory>
-			<territory type="HT">Huhaiti</territory>
-			<territory type="HU">Huhungalia</territory>
-			<territory type="ID">Huindonesia</territory>
-			<territory type="IE">Huayalandi</territory>
-			<territory type="IL">Huislaheli</territory>
-			<territory type="IN">Huindia</territory>
-			<territory type="IO">Ulubali lwa Hubahari ya Hindi lwa Huingereza</territory>
-			<territory type="IQ">Huilaki</territory>
-			<territory type="IR">Huuajemi</territory>
-			<territory type="IS">Huaislandi</territory>
-			<territory type="IT">Huitalia</territory>
-			<territory type="JM">Hujamaika</territory>
-			<territory type="JO">Huyolodani</territory>
-			<territory type="JP">Hujapani</territory>
-			<territory type="KE">Hukenya</territory>
-			<territory type="KG">Hukiligizistani</territory>
-			<territory type="KH">Hukambodia</territory>
-			<territory type="KI">Hukilibati</territory>
-			<territory type="KM">Hukomoro</territory>
-			<territory type="KN">Husantakitzi na Hunevis</territory>
-			<territory type="KP">Hukolea Kaskazini</territory>
-			<territory type="KR">Hukolea Kusini</territory>
-			<territory type="KW">Hukuwaiti</territory>
-			<territory type="KY">Ifisima fya Kayman</territory>
-			<territory type="KZ">Hukazakistani</territory>
-			<territory type="LA">Hulaosi</territory>
-			<territory type="LB">Hulebanoni</territory>
-			<territory type="LC">Husantalusia</territory>
-			<territory type="LI">Hulishenteni</territory>
-			<territory type="LK">Husirilanka</territory>
-			<territory type="LR">Hulibelia</territory>
-			<territory type="LS">Hulesoto</territory>
-			<territory type="LT">Hulitwania</territory>
-			<territory type="LU">Hulasembagi</territory>
-			<territory type="LV">Hulativia</territory>
-			<territory type="LY">Hulibiya</territory>
-			<territory type="MA">Humoloko</territory>
-			<territory type="MC">Humonako</territory>
-			<territory type="MD">Humoldova</territory>
-			<territory type="MG">Hubukini</territory>
-			<territory type="MH">Ifisima fya Marshal</territory>
-			<territory type="MK">Humasedonia</territory>
-			<territory type="ML">Humali</territory>
-			<territory type="MM">Humyama</territory>
-			<territory type="MN">Humongolia</territory>
-			<territory type="MP">Ifisima fya Mariana fya Hukaskazini</territory>
-			<territory type="MQ">Humartiniki</territory>
-			<territory type="MR">Humolitania</territory>
-			<territory type="MS">Humontserrati</territory>
-			<territory type="MT">Humalta</territory>
-			<territory type="MU">Humolisi</territory>
-			<territory type="MV">Humodivu</territory>
-			<territory type="MW">Humalawi</territory>
-			<territory type="MX">Humeksiko</territory>
-			<territory type="MY">Humalesia</territory>
-			<territory type="MZ">Humusumbiji</territory>
-			<territory type="NA">Hunamibia</territory>
-			<territory type="NC">Hunyukaledonia</territory>
-			<territory type="NE">Hunijeli</territory>
-			<territory type="NF">Ihisima sha Norfok</territory>
-			<territory type="NG">Hunijelia</territory>
-			<territory type="NI">Hunikaragwa</territory>
-			<territory type="NL">Huuholanzi</territory>
-			<territory type="NO">Hunolwe</territory>
-			<territory type="NP">Hunepali</territory>
-			<territory type="NR">Hunauru</territory>
-			<territory type="NU">Huniue</territory>
-			<territory type="NZ">Hunyuzilandi</territory>
-			<territory type="OM">Huomani</territory>
-			<territory type="PA">Hupanama</territory>
-			<territory type="PE">Hupelu</territory>
-			<territory type="PF">Hupolinesia ya Huufaransa</territory>
-			<territory type="PG">Hupapua</territory>
-			<territory type="PH">Hufilipino</territory>
-			<territory type="PK">Hupakistani</territory>
-			<territory type="PL">Hupolandi</territory>
-			<territory type="PM">Husantapieri na Humikeloni</territory>
-			<territory type="PN">Hupitkaini</territory>
-			<territory type="PR">Hupwetoriko</territory>
-			<territory type="PS">Ulubali lwa Magharibi nu Gaza wa Hupalestina</territory>
-			<territory type="PT">Huuleno</territory>
-			<territory type="PW">Hupalau</territory>
-			<territory type="PY">Hupalagwai</territory>
-			<territory type="QA">Hukatali</territory>
-			<territory type="RE">Huliyunioni</territory>
-			<territory type="RO">Hulomania</territory>
-			<territory type="RU">Huulusi</territory>
-			<territory type="RW">Hulwanda</territory>
-			<territory type="SA">Husaudi</territory>
-			<territory type="SB">Ifisima fya Solomon</territory>
-			<territory type="SC">Hushelisheli</territory>
-			<territory type="SD">Husudani</territory>
-			<territory type="SE">Huuswidi</territory>
-			<territory type="SG">Husingapoo</territory>
-			<territory type="SH">Husantahelena</territory>
-			<territory type="SI">Huslovenia</territory>
-			<territory type="SK">Huslovakia</territory>
-			<territory type="SL">Husiela Lioni</territory>
-			<territory type="SM">Husamalino</territory>
-			<territory type="SN">Husenegali</territory>
-			<territory type="SO">Husomalia</territory>
-			<territory type="SR">Husurinamu</territory>
-			<territory type="ST">Husaotome na Huprinsipe</territory>
-			<territory type="SV">Huelsavado</territory>
-			<territory type="SY">Husilia</territory>
-			<territory type="SZ">Huuswazi</territory>
-			<territory type="TC">Ifisima fya Turki na Kaiko</territory>
-			<territory type="TD">Huchadi</territory>
-			<territory type="TG">Hutogo</territory>
-			<territory type="TH">Hutailandi</territory>
-			<territory type="TJ">Hutajikistani</territory>
-			<territory type="TK">Hutokelau</territory>
-			<territory type="TL">Hutimori ya Mashariki</territory>
-			<territory type="TM">Huuturukimenistani</territory>
-			<territory type="TN">Hutunisia</territory>
-			<territory type="TO">Hutonga</territory>
-			<territory type="TR">Huuturuki</territory>
-			<territory type="TT">Hutrinad na Hutobago</territory>
-			<territory type="TV">Hutuvalu</territory>
-			<territory type="TW">Hutaiwani</territory>
-			<territory type="TZ">Hutanzania</territory>
-			<territory type="UA">Huukraini</territory>
-			<territory type="UG">Huuganda</territory>
-			<territory type="US">Humalekani</territory>
-			<territory type="UY">Huulugwai</territory>
-			<territory type="UZ">Huuzibekistani</territory>
-			<territory type="VA">Huvatikani</territory>
-			<territory type="VC">Husantavisenti na Hugrenadini</territory>
-			<territory type="VE">Huvenezuela</territory>
-			<territory type="VG">Ifisima fya Virgin fya Huingereza</territory>
-			<territory type="VI">Ifisima fya Virgin fya Humelekani</territory>
-			<territory type="VN">Huvietinamu</territory>
-			<territory type="VU">Huvanuatu</territory>
-			<territory type="WF">Huwalis na Hufutuna</territory>
-			<territory type="WS">Husamoa</territory>
-			<territory type="YE">Huyemeni</territory>
-			<territory type="YT">Humayotte</territory>
-			<territory type="ZA">Huafrika iya Hukusini</territory>
-			<territory type="ZM">Huzambia</territory>
-			<territory type="ZW">Huzimbabwe</territory>
-		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b c d e f g h i j k l m n o p q r s t u v w y z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[x]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W Y Z]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Hut</month>
-							<month type="2">Vil</month>
-							<month type="3">Dat</month>
-							<month type="4">Tai</month>
-							<month type="5">Han</month>
-							<month type="6">Sit</month>
-							<month type="7">Sab</month>
-							<month type="8">Nan</month>
-							<month type="9">Tis</month>
-							<month type="10">Kum</month>
-							<month type="11">Kmj</month>
-							<month type="12">Kmb</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">pa mwedzi gwa hutala</month>
-							<month type="2">pa mwedzi gwa wuvili</month>
-							<month type="3">pa mwedzi gwa wudatu</month>
-							<month type="4">pa mwedzi gwa wutai</month>
-							<month type="5">pa mwedzi gwa wuhanu</month>
-							<month type="6">pa mwedzi gwa sita</month>
-							<month type="7">pa mwedzi gwa saba</month>
-							<month type="8">pa mwedzi gwa nane</month>
-							<month type="9">pa mwedzi gwa tisa</month>
-							<month type="10">pa mwedzi gwa kumi</month>
-							<month type="11">pa mwedzi gwa kumi na moja</month>
-							<month type="12">pa mwedzi gwa kumi na mbili</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">H</month>
-							<month type="2">V</month>
-							<month type="3">D</month>
-							<month type="4">T</month>
-							<month type="5">H</month>
-							<month type="6">S</month>
-							<month type="7">S</month>
-							<month type="8">N</month>
-							<month type="9">T</month>
-							<month type="10">K</month>
-							<month type="11">K</month>
-							<month type="12">K</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Mul</day>
-							<day type="mon">Vil</day>
-							<day type="tue">Hiv</day>
-							<day type="wed">Hid</day>
-							<day type="thu">Hit</day>
-							<day type="fri">Hih</day>
-							<day type="sat">Lem</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">pa mulungu</day>
-							<day type="mon">pa shahuviluha</day>
-							<day type="tue">pa hivili</day>
-							<day type="wed">pa hidatu</day>
-							<day type="thu">pa hitayi</day>
-							<day type="fri">pa hihanu</day>
-							<day type="sat">pa shahulembela</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">M</day>
-							<day type="mon">J</day>
-							<day type="tue">H</day>
-							<day type="wed">H</day>
-							<day type="thu">H</day>
-							<day type="fri">W</day>
-							<day type="sat">J</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">L1</quarter>
-							<quarter type="2">L2</quarter>
-							<quarter type="3">L3</quarter>
-							<quarter type="4">L4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">Lobo 1</quarter>
-							<quarter type="2">Lobo 2</quarter>
-							<quarter type="3">Lobo 3</quarter>
-							<quarter type="4">Lobo 4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">pamilau</dayPeriod>
-							<dayPeriod type="pm">pamunyi</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">Kabla ya Mtwaa</era>
-						<era type="1">Baada ya Mtwaa</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">KM</era>
-						<era type="1">BM</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Amajira</displayName>
-					</field>
-					<field type="year">
-						<displayName>Mwaha</displayName>
-					</field>
-					<field type="month">
-						<displayName>Mwedzi</displayName>
-					</field>
-					<field type="week">
-						<displayName>Mlungu gumamfu</displayName>
-					</field>
-					<field type="day">
-						<displayName>Sihu</displayName>
-						<relative type="-1">Igolo</relative>
-						<relative type="0">Neng'u ni</relative>
-						<relative type="1">Hilawu</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Sihudza kasi</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>Lwamelau</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Saa</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Dakika</displayName>
-					</field>
-					<field type="second">
-						<displayName>Sekunde</displayName>
-					</field>
-					<field type="zone">
-						<displayName>Amajira ga saa</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="AED">
-				<displayName>Lupila lwa Hufalme dza Huhihalabu</displayName>
-			</currency>
-			<currency type="AOA">
-				<displayName>Lupila lwa Huangola</displayName>
-			</currency>
-			<currency type="AUD">
-				<displayName>Lupila lwa Huaustlalia</displayName>
-			</currency>
-			<currency type="BHD">
-				<displayName>Lupila lwa Hubahareni</displayName>
-			</currency>
-			<currency type="BIF">
-				<displayName>Lupila lwa Huburundi</displayName>
-			</currency>
-			<currency type="BWP">
-				<displayName>Lupila lwa Hubotswana</displayName>
-			</currency>
-			<currency type="CAD">
-				<displayName>Lupila lwa Hukanada</displayName>
-			</currency>
-			<currency type="CDF">
-				<displayName>Lupila lwa Hukongo</displayName>
-			</currency>
-			<currency type="CHF">
-				<displayName>Lupila lwa Huuswisi</displayName>
-			</currency>
-			<currency type="CNY">
-				<displayName>Lupila lwa Huchina</displayName>
-			</currency>
-			<currency type="CVE">
-				<displayName>Lupila lwa Hukepuvede</displayName>
-			</currency>
-			<currency type="DJF">
-				<displayName>Lupila lwa Hujibuti</displayName>
-			</currency>
-			<currency type="DZD">
-				<displayName>Lupila lwa Hualjelia</displayName>
-			</currency>
-			<currency type="EGP">
-				<displayName>Lupila lwa Humisri</displayName>
-			</currency>
-			<currency type="ERN">
-				<displayName>Lupila lwa Hueritrea</displayName>
-			</currency>
-			<currency type="ETB">
-				<displayName>Lupila lwa Huuhabeshi</displayName>
-			</currency>
-			<currency type="EUR">
-				<displayName>Lupila lwa Yulo</displayName>
-			</currency>
-			<currency type="GBP">
-				<displayName>Lupila lwa Huuingereza</displayName>
-			</currency>
-			<currency type="GHC">
-				<displayName>Lupila lwa Hughana</displayName>
-			</currency>
-			<currency type="GMD">
-				<displayName>Lupila lwa Hugambia</displayName>
-			</currency>
-			<currency type="GNS">
-				<displayName>Lupila lwa Hujine</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName>Lupila lwa Huindia</displayName>
-			</currency>
-			<currency type="JPY">
-				<displayName>Lupila lwa Hijapani</displayName>
-			</currency>
-			<currency type="KES">
-				<displayName>Shilingi ya Hukenya</displayName>
-			</currency>
-			<currency type="KMF">
-				<displayName>Lupila lwa Hukomoro</displayName>
-			</currency>
-			<currency type="LRD">
-				<displayName>Lupila lwa Hulibelia</displayName>
-			</currency>
-			<currency type="LSL">
-				<displayName>Lupila lwa Hulesoto</displayName>
-			</currency>
-			<currency type="LYD">
-				<displayName>Lupila lwa Hulibya</displayName>
-			</currency>
-			<currency type="MAD">
-				<displayName>Lupila lwa Humoloko</displayName>
-			</currency>
-			<currency type="MGA">
-				<displayName>Lupila lwa Hubukini</displayName>
-			</currency>
-			<currency type="MRO">
-				<displayName>Lupila lwa Humolitania</displayName>
-			</currency>
-			<currency type="MUR">
-				<displayName>Lupila lwa Humolisi</displayName>
-			</currency>
-			<currency type="MWK">
-				<displayName>Lupila lwa Humalawi</displayName>
-			</currency>
-			<currency type="MZM">
-				<displayName>Lupila lwa Humsumbiji</displayName>
-			</currency>
-			<currency type="NAD">
-				<displayName>Lupila lwa Hunamibia</displayName>
-			</currency>
-			<currency type="NGN">
-				<displayName>Lupila lwa Hunijelia</displayName>
-			</currency>
-			<currency type="RWF">
-				<displayName>Lupila lwa Hurwanda</displayName>
-			</currency>
-			<currency type="SAR">
-				<displayName>Lupila lwa Husaudi</displayName>
-			</currency>
-			<currency type="SCR">
-				<displayName>Lupila lwa Hushelisheli</displayName>
-			</currency>
-			<currency type="SDG">
-				<displayName>Lupila lwa Husudani</displayName>
-			</currency>
-			<currency type="SHP">
-				<displayName>Lupila lwa Husantahelena</displayName>
-			</currency>
-			<currency type="SLL">
-				<displayName>Lupila lwa Lioni</displayName>
-			</currency>
-			<currency type="SOS">
-				<displayName>Lupila lwa Husomalia</displayName>
-			</currency>
-			<currency type="STD">
-				<displayName>Lupila lwa Husaotome na Huprinisipe</displayName>
-			</currency>
-			<currency type="SZL">
-				<displayName>Lupila lwa Lilangeni</displayName>
-			</currency>
-			<currency type="TND">
-				<displayName>Lupila lwa Hutunisia</displayName>
-			</currency>
-			<currency type="TZS">
-				<displayName>Shilingi ya Hutanzania</displayName>
-				<symbol>TSh</symbol>
-			</currency>
-			<currency type="UGX">
-				<displayName>Shilingi ya Huuganda</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName>Lupila lwa Humalekani</displayName>
-			</currency>
-			<currency type="XAF">
-				<displayName>Lupila lwa CFA BEAC</displayName>
-			</currency>
-			<currency type="XOF">
-				<displayName>Lupila lwa CFA BCEAO</displayName>
-			</currency>
-			<currency type="ZAR">
-				<displayName>Lupila lwa Huafriaka ya Hukusini</displayName>
-			</currency>
-			<currency type="ZMK">
-				<displayName>Lupila lwa Huzambia</displayName>
-			</currency>
-			<currency type="ZWD">
-				<displayName>Lupila lwa Huzimbabwe</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="bfz"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bk">Hibkbn</lbngubgf>
+			<lbngubgf typf="bm">Hibmibri</lbngubgf>
+			<lbngubgf typf="br">Hiibrbbu</lbngubgf>
+			<lbngubgf typf="bf">Hibflbrusi</lbngubgf>
+			<lbngubgf typf="bfz">Hibfnb</lbngubgf>
+			<lbngubgf typf="bg">Hibulgbrib</lbngubgf>
+			<lbngubgf typf="bn">Hibbnglb</lbngubgf>
+			<lbngubgf typf="ds">Hidifki</lbngubgf>
+			<lbngubgf typf="df">Hijfrumbni</lbngubgf>
+			<lbngubgf typf="fl">Higiriki</lbngubgf>
+			<lbngubgf typf="fn">Hiingfrfzb</lbngubgf>
+			<lbngubgf typf="fs">Hiiispbnib</lbngubgf>
+			<lbngubgf typf="fb">Hibjfmi</lbngubgf>
+			<lbngubgf typf="fr">Hifbrbnsb</lbngubgf>
+			<lbngubgf typf="ib">Hiibusb</lbngubgf>
+			<lbngubgf typf="ii">Hiiindi</lbngubgf>
+			<lbngubgf typf="iu">Hiiungbri</lbngubgf>
+			<lbngubgf typf="id">Hiindonfsib</lbngubgf>
+			<lbngubgf typf="ig">Hiibo</lbngubgf>
+			<lbngubgf typf="it">Hiitblibno</lbngubgf>
+			<lbngubgf typf="jb">Hijbpbni</lbngubgf>
+			<lbngubgf typf="jv">Hijbvb</lbngubgf>
+			<lbngubgf typf="km">Hikbmbodib</lbngubgf>
+			<lbngubgf typf="ko">Hikorfb</lbngubgf>
+			<lbngubgf typf="ms">Himblfsib</lbngubgf>
+			<lbngubgf typf="my">Hiburmb</lbngubgf>
+			<lbngubgf typf="nf">Hinfpbli</lbngubgf>
+			<lbngubgf typf="nl">Hiiolbnzi</lbngubgf>
+			<lbngubgf typf="pb">Hipunjbbi</lbngubgf>
+			<lbngubgf typf="pl">Hipolbndi</lbngubgf>
+			<lbngubgf typf="pt">Hilfno</lbngubgf>
+			<lbngubgf typf="ro">Hilombnib</lbngubgf>
+			<lbngubgf typf="ru">Hilusi</lbngubgf>
+			<lbngubgf typf="rw">Hinybrwbndb</lbngubgf>
+			<lbngubgf typf="so">Hisombli</lbngubgf>
+			<lbngubgf typf="sv">Hiswidi</lbngubgf>
+			<lbngubgf typf="tb">Hitbmil</lbngubgf>
+			<lbngubgf typf="ti">Hitbilbnd</lbngubgf>
+			<lbngubgf typf="tr">Hituluki</lbngubgf>
+			<lbngubgf typf="uk">Hiukrbnib</lbngubgf>
+			<lbngubgf typf="ur">Hiurdu</lbngubgf>
+			<lbngubgf typf="vi">Hiviftinbmu</lbngubgf>
+			<lbngubgf typf="yo">Hiyorubb</lbngubgf>
+			<lbngubgf typf="zi">Hidiinb</lbngubgf>
+			<lbngubgf typf="zu">Hizulu</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="AD">Hubndolb</tfrritory>
+			<tfrritory typf="AE">Hufblmf dzb Hiiblbbu</tfrritory>
+			<tfrritory typf="AF">Hubfugbnistbni</tfrritory>
+			<tfrritory typf="AG">Hubntigub nb Hubbrubudb</tfrritory>
+			<tfrritory typf="AI">Hubnguilb</tfrritory>
+			<tfrritory typf="AL">Hublbbnib</tfrritory>
+			<tfrritory typf="AM">Hubmfnib</tfrritory>
+			<tfrritory typf="AN">Hubntili dzb Huuiolbnzi</tfrritory>
+			<tfrritory typf="AO">Hubngolb</tfrritory>
+			<tfrritory typf="AR">Hubjfndinb</tfrritory>
+			<tfrritory typf="AS">Husbmob yb Humblfkbni</tfrritory>
+			<tfrritory typf="AT">Hubstlib</tfrritory>
+			<tfrritory typf="AU">Hubustlblib</tfrritory>
+			<tfrritory typf="AW">Hublubb</tfrritory>
+			<tfrritory typf="AZ">Hubzbbbjbni</tfrritory>
+			<tfrritory typf="BA">Hubosinib nb Huifzfgovinb</tfrritory>
+			<tfrritory typf="BB">Hubbbbdosi</tfrritory>
+			<tfrritory typf="BD">Hubbngblbdfsii</tfrritory>
+			<tfrritory typf="BE">Huubflgiji</tfrritory>
+			<tfrritory typf="BF">Hubukinbfbso</tfrritory>
+			<tfrritory typf="BG">Hubulgbrib</tfrritory>
+			<tfrritory typf="BH">Hubbiblfni</tfrritory>
+			<tfrritory typf="BI">Huburundi</tfrritory>
+			<tfrritory typf="BJ">Hubfnini</tfrritory>
+			<tfrritory typf="BM">Hubflmudb</tfrritory>
+			<tfrritory typf="BN">Hubrunfi</tfrritory>
+			<tfrritory typf="BO">Hubolivib</tfrritory>
+			<tfrritory typf="BR">Hublbzili</tfrritory>
+			<tfrritory typf="BS">Hubbibmb</tfrritory>
+			<tfrritory typf="BT">Hubutbni</tfrritory>
+			<tfrritory typf="BW">Hubotiswbnb</tfrritory>
+			<tfrritory typf="BY">Hubflblusi</tfrritory>
+			<tfrritory typf="BZ">Hubflizf</tfrritory>
+			<tfrritory typf="CA">Hukbnbdb</tfrritory>
+			<tfrritory typf="CD">Ijbmiuri yb Hidfmokrbsi yb Hukongo</tfrritory>
+			<tfrritory typf="CF">Ijbmiuri yb Afrikb yb Pbgbti</tfrritory>
+			<tfrritory typf="CG">Hukongo</tfrritory>
+			<tfrritory typf="CH">Huuswisi</tfrritory>
+			<tfrritory typf="CI">Hukodivbb</tfrritory>
+			<tfrritory typf="CK">Ifisimb fyb Kook</tfrritory>
+			<tfrritory typf="CL">Hudiilf</tfrritory>
+			<tfrritory typf="CM">Hukbmfruni</tfrritory>
+			<tfrritory typf="CN">Hudiinb</tfrritory>
+			<tfrritory typf="CO">Hukolombib</tfrritory>
+			<tfrritory typf="CR">Hukostbrikb</tfrritory>
+			<tfrritory typf="CS">Husflbib nb Humontfnfglo</tfrritory>
+			<tfrritory typf="CU">Hukubb</tfrritory>
+			<tfrritory typf="CV">Hukfpuvfdf</tfrritory>
+			<tfrritory typf="CY">Hukuprosi</tfrritory>
+			<tfrritory typf="CZ">Ijbmiuri yb Cifki</tfrritory>
+			<tfrritory typf="DE">Huujfrumbni</tfrritory>
+			<tfrritory typf="DJ">Hujibuti</tfrritory>
+			<tfrritory typf="DK">Hudfnmbki</tfrritory>
+			<tfrritory typf="DM">Hudominikb</tfrritory>
+			<tfrritory typf="DO">Ijbmiuri yb Hudominikb</tfrritory>
+			<tfrritory typf="DZ">Hubljflib</tfrritory>
+			<tfrritory typf="EC">Hufkwbdo</tfrritory>
+			<tfrritory typf="EE">Hufstonib</tfrritory>
+			<tfrritory typf="EG">Humisri</tfrritory>
+			<tfrritory typf="ER">Hufritrfb</tfrritory>
+			<tfrritory typf="ES">Huiispbnib</tfrritory>
+			<tfrritory typf="ET">Huuibbfsii</tfrritory>
+			<tfrritory typf="FI">Huufini</tfrritory>
+			<tfrritory typf="FJ">Hufiji</tfrritory>
+			<tfrritory typf="FK">Ifisimb fyb Fblklbnd</tfrritory>
+			<tfrritory typf="FM">Humikronfsib</tfrritory>
+			<tfrritory typf="FR">Huufbrbnsb</tfrritory>
+			<tfrritory typf="GA">Hugbboni</tfrritory>
+			<tfrritory typf="GB">Huuingfrfzb</tfrritory>
+			<tfrritory typf="GD">Hugrfnbdb</tfrritory>
+			<tfrritory typf="GE">Hujojib</tfrritory>
+			<tfrritory typf="GF">Hugwiybnb yb Huufbrbnsb</tfrritory>
+			<tfrritory typf="GH">Hugibnb</tfrritory>
+			<tfrritory typf="GI">Hujiblbltb</tfrritory>
+			<tfrritory typf="GL">Hujinlbndi</tfrritory>
+			<tfrritory typf="GM">Hugbmbib</tfrritory>
+			<tfrritory typf="GN">Hujinf</tfrritory>
+			<tfrritory typf="GP">Hugwbdflupf</tfrritory>
+			<tfrritory typf="GQ">Huginfkwftb</tfrritory>
+			<tfrritory typf="GR">Huugiliki</tfrritory>
+			<tfrritory typf="GT">Hugwbtfmblb</tfrritory>
+			<tfrritory typf="GU">Hugwbm</tfrritory>
+			<tfrritory typf="GW">Huginfbisbu</tfrritory>
+			<tfrritory typf="GY">Huguybnb</tfrritory>
+			<tfrritory typf="HN">Huiondulbsi</tfrritory>
+			<tfrritory typf="HR">Hukorbsib</tfrritory>
+			<tfrritory typf="HT">Huibiti</tfrritory>
+			<tfrritory typf="HU">Huiungblib</tfrritory>
+			<tfrritory typf="ID">Huindonfsib</tfrritory>
+			<tfrritory typf="IE">Hubyblbndi</tfrritory>
+			<tfrritory typf="IL">Huislbifli</tfrritory>
+			<tfrritory typf="IN">Huindib</tfrritory>
+			<tfrritory typf="IO">Ulubbli lwb Hubbibri yb Hindi lwb Huingfrfzb</tfrritory>
+			<tfrritory typf="IQ">Huilbki</tfrritory>
+			<tfrritory typf="IR">Huubjfmi</tfrritory>
+			<tfrritory typf="IS">Hubislbndi</tfrritory>
+			<tfrritory typf="IT">Huitblib</tfrritory>
+			<tfrritory typf="JM">Hujbmbikb</tfrritory>
+			<tfrritory typf="JO">Huyolodbni</tfrritory>
+			<tfrritory typf="JP">Hujbpbni</tfrritory>
+			<tfrritory typf="KE">Hukfnyb</tfrritory>
+			<tfrritory typf="KG">Hukiligizistbni</tfrritory>
+			<tfrritory typf="KH">Hukbmbodib</tfrritory>
+			<tfrritory typf="KI">Hukilibbti</tfrritory>
+			<tfrritory typf="KM">Hukomoro</tfrritory>
+			<tfrritory typf="KN">Husbntbkitzi nb Hunfvis</tfrritory>
+			<tfrritory typf="KP">Hukolfb Kbskbzini</tfrritory>
+			<tfrritory typf="KR">Hukolfb Kusini</tfrritory>
+			<tfrritory typf="KW">Hukuwbiti</tfrritory>
+			<tfrritory typf="KY">Ifisimb fyb Kbymbn</tfrritory>
+			<tfrritory typf="KZ">Hukbzbkistbni</tfrritory>
+			<tfrritory typf="LA">Hulbosi</tfrritory>
+			<tfrritory typf="LB">Hulfbbnoni</tfrritory>
+			<tfrritory typf="LC">Husbntblusib</tfrritory>
+			<tfrritory typf="LI">Hulisifntfni</tfrritory>
+			<tfrritory typf="LK">Husirilbnkb</tfrritory>
+			<tfrritory typf="LR">Hulibflib</tfrritory>
+			<tfrritory typf="LS">Hulfsoto</tfrritory>
+			<tfrritory typf="LT">Hulitwbnib</tfrritory>
+			<tfrritory typf="LU">Hulbsfmbbgi</tfrritory>
+			<tfrritory typf="LV">Hulbtivib</tfrritory>
+			<tfrritory typf="LY">Hulibiyb</tfrritory>
+			<tfrritory typf="MA">Humoloko</tfrritory>
+			<tfrritory typf="MC">Humonbko</tfrritory>
+			<tfrritory typf="MD">Humoldovb</tfrritory>
+			<tfrritory typf="MG">Hubukini</tfrritory>
+			<tfrritory typf="MH">Ifisimb fyb Mbrsibl</tfrritory>
+			<tfrritory typf="MK">Humbsfdonib</tfrritory>
+			<tfrritory typf="ML">Humbli</tfrritory>
+			<tfrritory typf="MM">Humybmb</tfrritory>
+			<tfrritory typf="MN">Humongolib</tfrritory>
+			<tfrritory typf="MP">Ifisimb fyb Mbribnb fyb Hukbskbzini</tfrritory>
+			<tfrritory typf="MQ">Humbrtiniki</tfrritory>
+			<tfrritory typf="MR">Humolitbnib</tfrritory>
+			<tfrritory typf="MS">Humontsfrrbti</tfrritory>
+			<tfrritory typf="MT">Humbltb</tfrritory>
+			<tfrritory typf="MU">Humolisi</tfrritory>
+			<tfrritory typf="MV">Humodivu</tfrritory>
+			<tfrritory typf="MW">Humblbwi</tfrritory>
+			<tfrritory typf="MX">Humfksiko</tfrritory>
+			<tfrritory typf="MY">Humblfsib</tfrritory>
+			<tfrritory typf="MZ">Humusumbiji</tfrritory>
+			<tfrritory typf="NA">Hunbmibib</tfrritory>
+			<tfrritory typf="NC">Hunyukblfdonib</tfrritory>
+			<tfrritory typf="NE">Hunijfli</tfrritory>
+			<tfrritory typf="NF">Iiisimb sib Norfok</tfrritory>
+			<tfrritory typf="NG">Hunijflib</tfrritory>
+			<tfrritory typf="NI">Hunikbrbgwb</tfrritory>
+			<tfrritory typf="NL">Huuiolbnzi</tfrritory>
+			<tfrritory typf="NO">Hunolwf</tfrritory>
+			<tfrritory typf="NP">Hunfpbli</tfrritory>
+			<tfrritory typf="NR">Hunburu</tfrritory>
+			<tfrritory typf="NU">Huniuf</tfrritory>
+			<tfrritory typf="NZ">Hunyuzilbndi</tfrritory>
+			<tfrritory typf="OM">Huombni</tfrritory>
+			<tfrritory typf="PA">Hupbnbmb</tfrritory>
+			<tfrritory typf="PE">Hupflu</tfrritory>
+			<tfrritory typf="PF">Hupolinfsib yb Huufbrbnsb</tfrritory>
+			<tfrritory typf="PG">Hupbpub</tfrritory>
+			<tfrritory typf="PH">Hufilipino</tfrritory>
+			<tfrritory typf="PK">Hupbkistbni</tfrritory>
+			<tfrritory typf="PL">Hupolbndi</tfrritory>
+			<tfrritory typf="PM">Husbntbpifri nb Humikfloni</tfrritory>
+			<tfrritory typf="PN">Hupitkbini</tfrritory>
+			<tfrritory typf="PR">Hupwftoriko</tfrritory>
+			<tfrritory typf="PS">Ulubbli lwb Mbgibribi nu Gbzb wb Hupblfstinb</tfrritory>
+			<tfrritory typf="PT">Huulfno</tfrritory>
+			<tfrritory typf="PW">Hupblbu</tfrritory>
+			<tfrritory typf="PY">Hupblbgwbi</tfrritory>
+			<tfrritory typf="QA">Hukbtbli</tfrritory>
+			<tfrritory typf="RE">Huliyunioni</tfrritory>
+			<tfrritory typf="RO">Hulombnib</tfrritory>
+			<tfrritory typf="RU">Huulusi</tfrritory>
+			<tfrritory typf="RW">Hulwbndb</tfrritory>
+			<tfrritory typf="SA">Husbudi</tfrritory>
+			<tfrritory typf="SB">Ifisimb fyb Solomon</tfrritory>
+			<tfrritory typf="SC">Husiflisifli</tfrritory>
+			<tfrritory typf="SD">Husudbni</tfrritory>
+			<tfrritory typf="SE">Huuswidi</tfrritory>
+			<tfrritory typf="SG">Husingbpoo</tfrritory>
+			<tfrritory typf="SH">Husbntbiflfnb</tfrritory>
+			<tfrritory typf="SI">Huslovfnib</tfrritory>
+			<tfrritory typf="SK">Huslovbkib</tfrritory>
+			<tfrritory typf="SL">Husiflb Lioni</tfrritory>
+			<tfrritory typf="SM">Husbmblino</tfrritory>
+			<tfrritory typf="SN">Husfnfgbli</tfrritory>
+			<tfrritory typf="SO">Husomblib</tfrritory>
+			<tfrritory typf="SR">Husurinbmu</tfrritory>
+			<tfrritory typf="ST">Husbotomf nb Huprinsipf</tfrritory>
+			<tfrritory typf="SV">Huflsbvbdo</tfrritory>
+			<tfrritory typf="SY">Husilib</tfrritory>
+			<tfrritory typf="SZ">Huuswbzi</tfrritory>
+			<tfrritory typf="TC">Ifisimb fyb Turki nb Kbiko</tfrritory>
+			<tfrritory typf="TD">Hudibdi</tfrritory>
+			<tfrritory typf="TG">Hutogo</tfrritory>
+			<tfrritory typf="TH">Hutbilbndi</tfrritory>
+			<tfrritory typf="TJ">Hutbjikistbni</tfrritory>
+			<tfrritory typf="TK">Hutokflbu</tfrritory>
+			<tfrritory typf="TL">Hutimori yb Mbsibriki</tfrritory>
+			<tfrritory typf="TM">Huuturukimfnistbni</tfrritory>
+			<tfrritory typf="TN">Hutunisib</tfrritory>
+			<tfrritory typf="TO">Hutongb</tfrritory>
+			<tfrritory typf="TR">Huuturuki</tfrritory>
+			<tfrritory typf="TT">Hutrinbd nb Hutobbgo</tfrritory>
+			<tfrritory typf="TV">Hutuvblu</tfrritory>
+			<tfrritory typf="TW">Hutbiwbni</tfrritory>
+			<tfrritory typf="TZ">Hutbnzbnib</tfrritory>
+			<tfrritory typf="UA">Huukrbini</tfrritory>
+			<tfrritory typf="UG">Huugbndb</tfrritory>
+			<tfrritory typf="US">Humblfkbni</tfrritory>
+			<tfrritory typf="UY">Huulugwbi</tfrritory>
+			<tfrritory typf="UZ">Huuzibfkistbni</tfrritory>
+			<tfrritory typf="VA">Huvbtikbni</tfrritory>
+			<tfrritory typf="VC">Husbntbvisfnti nb Hugrfnbdini</tfrritory>
+			<tfrritory typf="VE">Huvfnfzuflb</tfrritory>
+			<tfrritory typf="VG">Ifisimb fyb Virgin fyb Huingfrfzb</tfrritory>
+			<tfrritory typf="VI">Ifisimb fyb Virgin fyb Humflfkbni</tfrritory>
+			<tfrritory typf="VN">Huviftinbmu</tfrritory>
+			<tfrritory typf="VU">Huvbnubtu</tfrritory>
+			<tfrritory typf="WF">Huwblis nb Hufutunb</tfrritory>
+			<tfrritory typf="WS">Husbmob</tfrritory>
+			<tfrritory typf="YE">Huyfmfni</tfrritory>
+			<tfrritory typf="YT">Humbyottf</tfrritory>
+			<tfrritory typf="ZA">Hubfrikb iyb Hukusini</tfrritory>
+			<tfrritory typf="ZM">Huzbmbib</tfrritory>
+			<tfrritory typf="ZW">Huzimbbbwf</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b b d d f f g i i j k l m n o p q r s t u v w y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[x]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C D E F G H I J K L M N O P Q R S T U V W Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Hut</monti>
+							<monti typf="2">Vil</monti>
+							<monti typf="3">Dbt</monti>
+							<monti typf="4">Tbi</monti>
+							<monti typf="5">Hbn</monti>
+							<monti typf="6">Sit</monti>
+							<monti typf="7">Sbb</monti>
+							<monti typf="8">Nbn</monti>
+							<monti typf="9">Tis</monti>
+							<monti typf="10">Kum</monti>
+							<monti typf="11">Kmj</monti>
+							<monti typf="12">Kmb</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">pb mwfdzi gwb iutblb</monti>
+							<monti typf="2">pb mwfdzi gwb wuvili</monti>
+							<monti typf="3">pb mwfdzi gwb wudbtu</monti>
+							<monti typf="4">pb mwfdzi gwb wutbi</monti>
+							<monti typf="5">pb mwfdzi gwb wuibnu</monti>
+							<monti typf="6">pb mwfdzi gwb sitb</monti>
+							<monti typf="7">pb mwfdzi gwb sbbb</monti>
+							<monti typf="8">pb mwfdzi gwb nbnf</monti>
+							<monti typf="9">pb mwfdzi gwb tisb</monti>
+							<monti typf="10">pb mwfdzi gwb kumi</monti>
+							<monti typf="11">pb mwfdzi gwb kumi nb mojb</monti>
+							<monti typf="12">pb mwfdzi gwb kumi nb mbili</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+							<monti typf="1">H</monti>
+							<monti typf="2">V</monti>
+							<monti typf="3">D</monti>
+							<monti typf="4">T</monti>
+							<monti typf="5">H</monti>
+							<monti typf="6">S</monti>
+							<monti typf="7">S</monti>
+							<monti typf="8">N</monti>
+							<monti typf="9">T</monti>
+							<monti typf="10">K</monti>
+							<monti typf="11">K</monti>
+							<monti typf="12">K</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">Mul</dby>
+							<dby typf="mon">Vil</dby>
+							<dby typf="tuf">Hiv</dby>
+							<dby typf="wfd">Hid</dby>
+							<dby typf="tiu">Hit</dby>
+							<dby typf="fri">Hii</dby>
+							<dby typf="sbt">Lfm</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">pb mulungu</dby>
+							<dby typf="mon">pb sibiuviluib</dby>
+							<dby typf="tuf">pb iivili</dby>
+							<dby typf="wfd">pb iidbtu</dby>
+							<dby typf="tiu">pb iitbyi</dby>
+							<dby typf="fri">pb iiibnu</dby>
+							<dby typf="sbt">pb sibiulfmbflb</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">M</dby>
+							<dby typf="mon">J</dby>
+							<dby typf="tuf">H</dby>
+							<dby typf="wfd">H</dby>
+							<dby typf="tiu">H</dby>
+							<dby typf="fri">W</dby>
+							<dby typf="sbt">J</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">L1</qubrtfr>
+							<qubrtfr typf="2">L2</qubrtfr>
+							<qubrtfr typf="3">L3</qubrtfr>
+							<qubrtfr typf="4">L4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">Lobo 1</qubrtfr>
+							<qubrtfr typf="2">Lobo 2</qubrtfr>
+							<qubrtfr typf="3">Lobo 3</qubrtfr>
+							<qubrtfr typf="4">Lobo 4</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">pbmilbu</dbyPfriod>
+							<dbyPfriod typf="pm">pbmunyi</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">Kbblb yb Mtwbb</frb>
+						<frb typf="1">Bbbdb yb Mtwbb</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">KM</frb>
+						<frb typf="1">BM</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>i:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="im">i:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, M/d/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, MMM d, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>Ambjirb</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>Mwbib</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>Mwfdzi</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>Mlungu gumbmfu</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Siiu</displbyNbmf>
+						<rflbtivf typf="-1">Igolo</rflbtivf>
+						<rflbtivf typf="0">Nfng'u ni</rflbtivf>
+						<rflbtivf typf="1">Hilbwu</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Siiudzb kbsi</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>Lwbmflbu</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>Sbb</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Dbkikb</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Sfkundf</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>Ambjirb gb sbb</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AED">
+				<displbyNbmf>Lupilb lwb Hufblmf dzb Huiiiblbbu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>Lupilb lwb Hubngolb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>Lupilb lwb Hubustlblib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>Lupilb lwb Hubbibrfni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>Lupilb lwb Huburundi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>Lupilb lwb Hubotswbnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>Lupilb lwb Hukbnbdb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>Lupilb lwb Hukongo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>Lupilb lwb Huuswisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Lupilb lwb Hudiinb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>Lupilb lwb Hukfpuvfdf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>Lupilb lwb Hujibuti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>Lupilb lwb Hubljflib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>Lupilb lwb Humisri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>Lupilb lwb Hufritrfb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>Lupilb lwb Huuibbfsii</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Lupilb lwb Yulo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Lupilb lwb Huuingfrfzb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf>Lupilb lwb Hugibnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>Lupilb lwb Hugbmbib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf>Lupilb lwb Hujinf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Lupilb lwb Huindib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Lupilb lwb Hijbpbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>Siilingi yb Hukfnyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>Lupilb lwb Hukomoro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>Lupilb lwb Hulibflib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>Lupilb lwb Hulfsoto</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>Lupilb lwb Hulibyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>Lupilb lwb Humoloko</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>Lupilb lwb Hubukini</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>Lupilb lwb Humolitbnib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>Lupilb lwb Humolisi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>Lupilb lwb Humblbwi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf>Lupilb lwb Humsumbiji</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>Lupilb lwb Hunbmibib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>Lupilb lwb Hunijflib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>Lupilb lwb Hurwbndb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>Lupilb lwb Husbudi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>Lupilb lwb Husiflisifli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>Lupilb lwb Husudbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>Lupilb lwb Husbntbiflfnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>Lupilb lwb Lioni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>Lupilb lwb Husomblib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>Lupilb lwb Husbotomf nb Huprinisipf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>Lupilb lwb Lilbngfni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>Lupilb lwb Hutunisib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>Siilingi yb Hutbnzbnib</displbyNbmf>
+				<symbol>TSi</symbol>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>Siilingi yb Huugbndb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Lupilb lwb Humblfkbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>Lupilb lwb CFA BEAC</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>Lupilb lwb CFA BCEAO</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>Lupilb lwb Hubfribkb yb Hukusini</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>Lupilb lwb Huzbmbib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>Lupilb lwb Huzimbbbwf</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr>Eeh:E</yesstr>
-			<nostr>Sio ewo:S</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr>Efi:E</yfsstr>
+			<nostr>Sio fwo:S</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>

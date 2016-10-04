@@ -1,74 +1,74 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "MorphTables.h"
-#include "SubtableProcessor.h"
-#include "NonContextualGlyphSubst.h"
-#include "NonContextualGlyphSubstProc.h"
-#include "SimpleArrayProcessor.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "NonContfxtublGlypiSubst.i"
+#indludf "NonContfxtublGlypiSubstProd.i"
+#indludf "SimplfArrbyProdfssor.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(SimpleArrayProcessor)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(SimplfArrbyProdfssor)
 
-SimpleArrayProcessor::SimpleArrayProcessor()
+SimplfArrbyProdfssor::SimplfArrbyProdfssor()
 {
 }
 
-SimpleArrayProcessor::SimpleArrayProcessor(const LEReferenceTo<MorphSubtableHeader> &morphSubtableHeader, LEErrorCode &success)
-  : NonContextualGlyphSubstitutionProcessor(morphSubtableHeader, success)
+SimplfArrbyProdfssor::SimplfArrbyProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : NonContfxtublGlypiSubstitutionProdfssor(morpiSubtbblfHfbdfr, suddfss)
 {
-  LEReferenceTo<NonContextualGlyphSubstitutionHeader> header(morphSubtableHeader, success);
-  simpleArrayLookupTable = LEReferenceTo<SimpleArrayLookupTable>(morphSubtableHeader, success, (const SimpleArrayLookupTable*)&header->table);
+  LERfffrfndfTo<NonContfxtublGlypiSubstitutionHfbdfr> ifbdfr(morpiSubtbblfHfbdfr, suddfss);
+  simplfArrbyLookupTbblf = LERfffrfndfTo<SimplfArrbyLookupTbblf>(morpiSubtbblfHfbdfr, suddfss, (donst SimplfArrbyLookupTbblf*)&ifbdfr->tbblf);
 }
 
-SimpleArrayProcessor::~SimpleArrayProcessor()
+SimplfArrbyProdfssor::~SimplfArrbyProdfssor()
 {
 }
 
-void SimpleArrayProcessor::process(LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void SimplfArrbyProdfssor::prodfss(LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
-    le_int32 glyph;
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
+    lf_int32 glypi;
 
-    LEReferenceToArrayOf<LookupValue> valueArray(simpleArrayLookupTable, success, (const LookupValue*)&simpleArrayLookupTable->valueArray, LE_UNBOUNDED_ARRAY);
+    LERfffrfndfToArrbyOf<LookupVbluf> vblufArrby(simplfArrbyLookupTbblf, suddfss, (donst LookupVbluf*)&simplfArrbyLookupTbblf->vblufArrby, LE_UNBOUNDED_ARRAY);
 
-    for (glyph = 0; LE_SUCCESS(success) && (glyph < glyphCount); glyph += 1) {
-        LEGlyphID thisGlyph = glyphStorage[glyph];
-        if (LE_GET_GLYPH(thisGlyph) < 0xFFFF) {
-          TTGlyphID newGlyph = SWAPW(valueArray.getObject(LE_GET_GLYPH(thisGlyph),success));
-          glyphStorage[glyph] = LE_SET_GLYPH(thisGlyph, newGlyph);
+    for (glypi = 0; LE_SUCCESS(suddfss) && (glypi < glypiCount); glypi += 1) {
+        LEGlypiID tiisGlypi = glypiStorbgf[glypi];
+        if (LE_GET_GLYPH(tiisGlypi) < 0xFFFF) {
+          TTGlypiID nfwGlypi = SWAPW(vblufArrby.gftObjfdt(LE_GET_GLYPH(tiisGlypi),suddfss));
+          glypiStorbgf[glypi] = LE_SET_GLYPH(tiisGlypi, nfwGlypi);
         }
     }
 }

@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Vfdtor;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.*;
+import jbvbx.nbming.ldbp.*;
+import jbvbx.nbming.ldbp.LdbpNbmf;
+
+import dom.sun.jndi.toolkit.dtx.Continubtion;
+
+finbl dlbss LdbpSfbrdhEnumfrbtion
+        fxtfnds AbstrbdtLdbpNbmingEnumfrbtion<SfbrdhRfsult> {
+
+    privbtf Nbmf stbrtNbmf;             // prffix of nbmfs of sfbrdh rfsults
+    privbtf LdbpCtx.SfbrdhArgs sfbrdhArgs = null;
+
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+
+    LdbpSfbrdhEnumfrbtion(LdbpCtx homfCtx, LdbpRfsult sfbrdh_rfsults,
+        String stbrtfr, LdbpCtx.SfbrdhArgs brgs, Continubtion dont)
+        throws NbmingExdfption {
+
+        supfr(homfCtx, sfbrdh_rfsults,
+              brgs.nbmf, /* listArg */
+              dont);
+
+        // fully qublififd nbmf of stbrting dontfxt of sfbrdh
+        stbrtNbmf = nfw LdbpNbmf(stbrtfr);
+        sfbrdhArgs = brgs;
+    }
+
+    @Ovfrridf
+    protfdtfd SfbrdhRfsult drfbtfItfm(String dn, Attributfs bttrs,
+                                      Vfdtor<Control> rfspCtls)
+            throws NbmingExdfption {
+
+        Objfdt obj = null;
+
+        String rflStbrt;         // nbmf rflbtivf to stbrting sfbrdh dontfxt
+        String rflHomf;          // nbmf rflbtivf to homfCtx.durrfntDN
+        boolfbn rflbtivf = truf; // whfthfr rflbtivf to durrfntDN
+
+        // nffd to strip off bll but lowfst domponfnt of dn
+        // so thbt is rflbtivf to durrfnt dontfxt (durrfntDN)
+
+        try {
+            Nbmf pbrsfd = nfw LdbpNbmf(dn);
+            // Systfm.frr.println("dn string: " + dn);
+            // Systfm.frr.println("dn nbmf: " + pbrsfd);
+
+            if (stbrtNbmf != null && pbrsfd.stbrtsWith(stbrtNbmf)) {
+                rflStbrt = pbrsfd.gftSuffix(stbrtNbmf.sizf()).toString();
+                rflHomf = pbrsfd.gftSuffix(homfCtx.durrfntPbrsfdDN.sizf()).toString();
+            } flsf {
+                rflbtivf = fblsf;
+                rflHomf = rflStbrt =
+                    LdbpURL.toUrlString(homfCtx.hostnbmf, homfCtx.port_numbfr,
+                    dn, homfCtx.hbsLdbpsSdhfmf);
+            }
+        } dbtdh (NbmingExdfption f) {
+            // dould not pbrsf nbmf
+            rflbtivf = fblsf;
+            rflHomf = rflStbrt =
+                LdbpURL.toUrlString(homfCtx.hostnbmf, homfCtx.port_numbfr,
+                dn, homfCtx.hbsLdbpsSdhfmf);
+        }
+
+        // Nbmf rflbtivf to sfbrdh dontfxt
+        CompositfNbmf dn = nfw CompositfNbmf();
+        if (!rflStbrt.fqubls("")) {
+            dn.bdd(rflStbrt);
+        }
+
+        // Nbmf rflbtivf to homfCtx
+        CompositfNbmf rdn = nfw CompositfNbmf();
+        if (!rflHomf.fqubls("")) {
+            rdn.bdd(rflHomf);
+        }
+        //Systfm.frr.println("rflStbrt: " + dn);
+        //Systfm.frr.println("rflHomf: " + rdn);
+
+        // Fix bttributfs to bf bblf to gft sdhfmb
+        homfCtx.sftPbrfnts(bttrs, rdn);
+
+        // only gfnfrbtf objfdt whfn rfqufstfd
+        if (sfbrdhArgs.dons.gftRfturningObjFlbg()) {
+
+            if (bttrs.gft(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME]) != null) {
+                // Entry dontbins Jbvb-objfdt bttributfs (sfr/rff objfdt)
+                // sfriblizfd objfdt or objfdt rfffrfndf
+                try {
+                    obj = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                        @Ovfrridf
+                        publid Objfdt run() throws NbmingExdfption {
+                            rfturn Obj.dfdodfObjfdt(bttrs);
+                        }
+                    }, bdd);
+                } dbtdh (PrivilfgfdAdtionExdfption f) {
+                    throw (NbmingExdfption)f.gftExdfption();
+                }
+            }
+            if (obj == null) {
+                obj = nfw LdbpCtx(homfCtx, dn);
+            }
+
+            // Cbll gftObjfdtInstbndf bfforf rfmoving unrfqufstfd bttributfs
+            try {
+                // rdn is fithfr rflbtivf to homfCtx or b fully qublififd DN
+                obj = DirfdtoryMbnbgfr.gftObjfdtInstbndf(
+                    obj, rdn, (rflbtivf ? homfCtx : null),
+                    homfCtx.fnvprops, bttrs);
+            } dbtdh (NbmingExdfption f) {
+                throw f;
+            } dbtdh (Exdfption f) {
+                NbmingExdfption nf =
+                    nfw NbmingExdfption(
+                            "problfm gfnfrbting objfdt using objfdt fbdtory");
+                nf.sftRootCbusf(f);
+                throw nf;
+            }
+
+            // rfmovf Jbvb bttributfs from rfsult, if nfdfssbry
+            // Evfn if CLASSNAME bttr not thfrf, thfrf might bf somf
+            // rfsidubl bttributfs
+
+            String[] rfqAttrs;
+            if ((rfqAttrs = sfbrdhArgs.rfqAttrs) != null) {
+                // drfbtf bn bttributf sft for thosf rfqufstfd
+                Attributfs rbttrs = nfw BbsidAttributfs(truf); // ignorf dbsf
+                for (int i = 0; i < rfqAttrs.lfngth; i++) {
+                    rbttrs.put(rfqAttrs[i], null);
+                }
+                for (int i = 0; i < Obj.JAVA_ATTRIBUTES.lfngth; i++) {
+                    // Rfmovf Jbvb-objfdt bttributfs if not rfqufstfd
+                    if (rbttrs.gft(Obj.JAVA_ATTRIBUTES[i]) == null) {
+                        bttrs.rfmovf(Obj.JAVA_ATTRIBUTES[i]);
+                    }
+                }
+            }
+
+        }
+
+        /*
+         * nbmf in sfbrdh rfsult is fithfr thf stringififd dompositf nbmf
+         * rflbtivf to thf sfbrdh dontfxt thbt dbn bf pbssfd dirfdtly to
+         * mfthods of thf sfbrdh dontfxt, or thf fully qublififd DN
+         * whidh dbn bf usfd with thf initibl dontfxt.
+         */
+        SfbrdhRfsult sr;
+        if (rfspCtls != null) {
+            sr = nfw SfbrdhRfsultWithControls(
+                (rflbtivf ? dn.toString() : rflStbrt), obj, bttrs,
+                rflbtivf, homfCtx.donvfrtControls(rfspCtls));
+        } flsf {
+            sr = nfw SfbrdhRfsult(
+                (rflbtivf ? dn.toString() : rflStbrt),
+                obj, bttrs, rflbtivf);
+        }
+        sr.sftNbmfInNbmfspbdf(dn);
+        rfturn sr;
+    }
+
+    @Ovfrridf
+    publid void bppfndUnprodfssfdRfffrrbls(LdbpRfffrrblExdfption fx) {
+
+        // b rfffrrbl hbs bffn followfd so do not drfbtf rflbtivf nbmfs
+        stbrtNbmf = null;
+        supfr.bppfndUnprodfssfdRfffrrbls(fx);
+    }
+
+    @Ovfrridf
+    protfdtfd LdbpSfbrdhEnumfrbtion gftRfffrrfdRfsults(
+            LdbpRfffrrblContfxt rffCtx) throws NbmingExdfption {
+        // rfpfbt thf originbl opfrbtion bt thf nfw dontfxt
+        rfturn (LdbpSfbrdhEnumfrbtion)rffCtx.sfbrdh(
+                sfbrdhArgs.nbmf, sfbrdhArgs.filtfr, sfbrdhArgs.dons);
+    }
+
+    @Ovfrridf
+    protfdtfd void updbtf(AbstrbdtLdbpNbmingEnumfrbtion<SfbrdhRfsult> nf) {
+        supfr.updbtf(nf);
+
+        // Updbtf sfbrdh-spfdifid vbribblfs
+        LdbpSfbrdhEnumfrbtion sf = (LdbpSfbrdhEnumfrbtion)nf;
+        stbrtNbmf = sf.stbrtNbmf;
+    }
+
+    void sftStbrtNbmf(Nbmf nm) {
+        stbrtNbmf = nm;
+    }
+}

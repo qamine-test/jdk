@@ -1,0 +1,816 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "NbtivfUtil.h"
+#indludf "NbtivfFund.h"
+#indludf "jlong.h"
+#indludf <jni.h>
+
+donst int JAVA_DUPLICATE_TOKEN_CODE = 19; /* DUPLICATE_TOKEN */
+donst int JAVA_OLD_TOKEN_CODE = 20; /* OLD_TOKEN */
+donst int JAVA_UNSEQ_TOKEN_CODE = 21; /* UNSEQ_TOKEN */
+donst int JAVA_GAP_TOKEN_CODE = 22; /* GAP_TOKEN */
+donst int JAVA_ERROR_CODE[] = {
+  2,  /* BAD_MECH */
+  3,  /* BAD_NAME */
+  4,  /* BAD_NAMETYPE */
+  1,  /* BAD_BINDINGS */
+  5,  /* BAD_STATUS */
+  6,  /* BAD_MIC */
+  13, /* NO_CRED */
+  12, /* NO_CONTEXT */
+  10, /* DEFECTIVE_TOKEN */
+  9,  /* DEFECTIVE_CREDENTIAL */
+  8,  /* CREDENTIAL_EXPIRED */
+  7,  /* CONTEXT_EXPIRED */
+  11, /* FAILURE */
+  14, /* BAD_QOP */
+  15, /* UNAUTHORIZED */
+  16, /* UNAVAILABLE */
+  17, /* DUPLICATE_ELEMENT */
+  18, /* NAME_NOT_MN */
+};
+donst dhbr SPNEGO_BYTES[] = {
+ 0x2b, 0x06, 0x01, 0x05, 0x05, 0x02
+};
+
+jdlbss CLS_Objfdt;
+jdlbss CLS_String;
+jdlbss CLS_Oid;
+jdlbss CLS_GSSExdfption;
+jdlbss CLS_GSSNbmfElfmfnt;
+jdlbss CLS_GSSCrfdElfmfnt;
+jdlbss CLS_NbtivfGSSContfxt;
+jdlbss CLS_SunNbtivfProvidfr;
+jmfthodID MID_String_dtor;
+jmfthodID MID_Oid_dtor1;
+jmfthodID MID_Oid_gftDER;
+jmfthodID MID_MfssbgfProp_gftPrivbdy;
+jmfthodID MID_MfssbgfProp_gftQOP;
+jmfthodID MID_MfssbgfProp_sftPrivbdy;
+jmfthodID MID_MfssbgfProp_sftQOP;
+jmfthodID MID_MfssbgfProp_sftSupplfmfntbryStbtfs;
+jmfthodID MID_GSSExdfption_dtor3;
+jmfthodID MID_ChbnnflBinding_gftInitibtorAddr;
+jmfthodID MID_ChbnnflBinding_gftAddfptorAddr;
+jmfthodID MID_ChbnnflBinding_gftAppDbtb;
+jmfthodID MID_InftAddrfss_gftAddr;
+jmfthodID MID_GSSNbmfElfmfnt_dtor;
+jmfthodID MID_GSSCrfdElfmfnt_dtor;
+jmfthodID MID_NbtivfGSSContfxt_dtor;
+jfifldID FID_GSSLibStub_pMfdh;
+jfifldID FID_NbtivfGSSContfxt_pContfxt;
+jfifldID FID_NbtivfGSSContfxt_srdNbmf;
+jfifldID FID_NbtivfGSSContfxt_tbrgftNbmf;
+jfifldID FID_NbtivfGSSContfxt_isInitibtor;
+jfifldID FID_NbtivfGSSContfxt_isEstbblishfd;
+jfifldID FID_NbtivfGSSContfxt_dflfgbtfdCrfd;
+jfifldID FID_NbtivfGSSContfxt_flbgs;
+jfifldID FID_NbtivfGSSContfxt_lifftimf;
+jfifldID FID_NbtivfGSSContfxt_bdtublMfdh;
+
+int JGSS_DEBUG;
+
+JNIEXPORT jint JNICALL
+JNI_OnLobd(JbvbVM *jvm, void *rfsfrvfd) {
+  JNIEnv *fnv;
+  jdlbss dls;
+
+  if ((*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2)) {
+    rfturn JNI_EVERSION; /* JNI vfrsion not supportfd */
+  }
+  /* Rftrifvf bnd storf thf dlbssfs in globbl rff */
+  dls = (*fnv)->FindClbss(fnv, "jbvb/lbng/Objfdt");
+  if (dls == NULL) {
+    printf("Couldn't find Objfdt dlbss\n");
+    rfturn JNI_ERR;
+  }
+  CLS_Objfdt = (*fnv)->NfwGlobblRff(fnv, dls);
+  if (CLS_Objfdt == NULL) {
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+  if (dls == NULL) {
+    printf("Couldn't find String dlbss\n");
+    rfturn JNI_ERR;
+  }
+  CLS_String = (*fnv)->NfwGlobblRff(fnv, dls);
+  if (CLS_String == NULL) {
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "org/iftf/jgss/Oid");
+  if (dls == NULL) {
+    printf("Couldn't find org.iftf.jgss.Oid dlbss\n");
+    rfturn JNI_ERR;
+  }
+  CLS_Oid = (*fnv)->NfwGlobblRff(fnv, dls);
+  if (CLS_Oid == NULL) {
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "org/iftf/jgss/GSSExdfption");
+  if (dls == NULL) {
+    printf("Couldn't find org.iftf.jgss.GSSExdfption dlbss\n");
+    rfturn JNI_ERR;
+  }
+  CLS_GSSExdfption = (*fnv)->NfwGlobblRff(fnv, dls);
+  if (CLS_GSSExdfption == NULL) {
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "sun/sfdurity/jgss/wrbppfr/GSSNbmfElfmfnt");
+  if (dls == NULL) {
+    printf("Couldn't find sun.sfdurity.jgss.wrbppfr.GSSNbmfElfmfnt dlbss\n");
+    rfturn JNI_ERR;
+  }
+  CLS_GSSNbmfElfmfnt = (*fnv)->NfwGlobblRff(fnv, dls);
+  if (CLS_GSSExdfption == NULL) {
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "sun/sfdurity/jgss/wrbppfr/GSSCrfdElfmfnt");
+  if (dls == NULL) {
+    printf("Couldn't find sun.sfdurity.jgss.wrbppfr.GSSCrfdElfmfnt dlbss\n");
+    rfturn JNI_ERR;
+  }
+  CLS_GSSCrfdElfmfnt = (*fnv)->NfwGlobblRff(fnv, dls);
+  if (CLS_GSSCrfdElfmfnt == NULL) {
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "sun/sfdurity/jgss/wrbppfr/NbtivfGSSContfxt");
+  if (dls == NULL) {
+    printf("Couldn't find sun.sfdurity.jgss.wrbppfr.NbtivfGSSContfxt dlbss\n");
+    rfturn JNI_ERR;
+  }
+  CLS_NbtivfGSSContfxt = (*fnv)->NfwGlobblRff(fnv, dls);
+  if (CLS_NbtivfGSSContfxt == NULL) {
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "sun/sfdurity/jgss/wrbppfr/SunNbtivfProvidfr");
+  if (dls == NULL) {
+    printf("Couldn't find sun.sfdurity.jgss.wrbppfr.SunNbtivfProvidfr dlbss\n");
+    rfturn JNI_ERR;
+  }
+  CLS_SunNbtivfProvidfr = (*fnv)->NfwGlobblRff(fnv, dls);
+  if (CLS_SunNbtivfProvidfr == NULL) {
+    rfturn JNI_ERR;
+  }
+  /* Computf bnd dbdhf thf mfthod ID */
+  MID_String_dtor = (*fnv)->GftMfthodID(fnv, CLS_String,
+                                        "<init>", "([B)V");
+  if (MID_String_dtor == NULL) {
+    printf("Couldn't find String(bytf[]) donstrudtor\n");
+    rfturn JNI_ERR;
+  }
+  MID_Oid_dtor1 =
+    (*fnv)->GftMfthodID(fnv, CLS_Oid, "<init>", "([B)V");
+  if (MID_Oid_dtor1 == NULL) {
+    printf("Couldn't find Oid(bytf[]) donstrudtor\n");
+    rfturn JNI_ERR;
+  }
+  MID_Oid_gftDER = (*fnv)->GftMfthodID(fnv, CLS_Oid, "gftDER", "()[B");
+  if (MID_Oid_gftDER == NULL) {
+    printf("Couldn't find Oid.gftDER() mfthod\n");
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "org/iftf/jgss/MfssbgfProp");
+  if (dls == NULL) {
+    printf("Couldn't find org.iftf.jgss.MfssbgfProp dlbss\n");
+    rfturn JNI_ERR;
+  }
+  MID_MfssbgfProp_gftPrivbdy =
+    (*fnv)->GftMfthodID(fnv, dls, "gftPrivbdy", "()Z");
+  if (MID_MfssbgfProp_gftPrivbdy == NULL) {
+    printf("Couldn't find MfssbgfProp.gftPrivbdy() mfthod\n");
+    rfturn JNI_ERR;
+  }
+  MID_MfssbgfProp_gftQOP = (*fnv)->GftMfthodID(fnv, dls, "gftQOP", "()I");
+  if (MID_MfssbgfProp_gftQOP == NULL) {
+    printf("Couldn't find MfssbgfProp.gftQOP() mfthod\n");
+    rfturn JNI_ERR;
+  }
+  MID_MfssbgfProp_sftPrivbdy =
+    (*fnv)->GftMfthodID(fnv, dls, "sftPrivbdy", "(Z)V");
+  if (MID_MfssbgfProp_sftPrivbdy == NULL) {
+    printf("Couldn't find MfssbgfProp.sftPrivbdy(boolfbn) mfthod\n");
+    rfturn JNI_ERR;
+  }
+  MID_MfssbgfProp_sftQOP = (*fnv)->GftMfthodID(fnv, dls, "sftQOP", "(I)V");
+  if (MID_MfssbgfProp_sftQOP == NULL) {
+    printf("Couldn't find MfssbgfProp.sftQOP(int) mfthod\n");
+    rfturn JNI_ERR;
+  }
+  MID_MfssbgfProp_sftSupplfmfntbryStbtfs =
+    (*fnv)->GftMfthodID(fnv, dls, "sftSupplfmfntbryStbtfs",
+                        "(ZZZZILjbvb/lbng/String;)V");
+  if (MID_MfssbgfProp_sftSupplfmfntbryStbtfs == NULL) {
+    printf("Couldn't find MfssbgfProp.sftSupplfmfntbryStbtfs(...) mfthod\n");
+    rfturn JNI_ERR;
+  }
+  MID_GSSExdfption_dtor3 = (*fnv)->GftMfthodID
+    (fnv, CLS_GSSExdfption, "<init>", "(IILjbvb/lbng/String;)V");
+  if (MID_GSSExdfption_dtor3 == NULL) {
+    printf("Couldn't find GSSExdfption(int, int, String) donstrudtor\n");
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "org/iftf/jgss/ChbnnflBinding");
+  if (dls == NULL) {
+    printf("Couldn't find org.iftf.jgss.ChbnnflBinding dlbss\n");
+    rfturn JNI_ERR;
+  }
+  MID_ChbnnflBinding_gftInitibtorAddr =
+    (*fnv)->GftMfthodID(fnv, dls, "gftInitibtorAddrfss",
+                        "()Ljbvb/nft/InftAddrfss;");
+  if (MID_ChbnnflBinding_gftInitibtorAddr == NULL) {
+    printf("Couldn't find ChbnnflBinding.gftInitibtorAddrfss() mfthod\n");
+    rfturn JNI_ERR;
+  }
+  MID_ChbnnflBinding_gftAddfptorAddr =
+    (*fnv)->GftMfthodID(fnv, dls, "gftAddfptorAddrfss",
+                        "()Ljbvb/nft/InftAddrfss;");
+  if (MID_ChbnnflBinding_gftAddfptorAddr == NULL) {
+    printf("Couldn't find ChbnnflBinding.gftAddfptorAddrfss() mfthod\n");
+    rfturn JNI_ERR;
+  }
+  MID_ChbnnflBinding_gftAppDbtb =
+    (*fnv)->GftMfthodID(fnv, dls, "gftApplidbtionDbtb", "()[B");
+  if (MID_ChbnnflBinding_gftAppDbtb == NULL) {
+    printf("Couldn't find ChbnnflBinding.gftApplidbtionDbtb() mfthod\n");
+    rfturn JNI_ERR;
+  }
+  dls = (*fnv)->FindClbss(fnv, "jbvb/nft/InftAddrfss");
+  if (dls == NULL) {
+    printf("Couldn't find jbvb.nft.InftAddrfss dlbss\n");
+    rfturn JNI_ERR;
+  }
+  MID_InftAddrfss_gftAddr = (*fnv)->GftMfthodID(fnv, dls, "gftAddrfss",
+                                                "()[B");
+  if (MID_InftAddrfss_gftAddr == NULL) {
+    printf("Couldn't find InftAddrfss.gftAddrfss() mfthod\n");
+    rfturn JNI_ERR;
+  }
+  MID_GSSNbmfElfmfnt_dtor =
+    (*fnv)->GftMfthodID(fnv, CLS_GSSNbmfElfmfnt,
+                        "<init>", "(JLsun/sfdurity/jgss/wrbppfr/GSSLibStub;)V");
+  if (MID_GSSNbmfElfmfnt_dtor == NULL) {
+    printf("Couldn't find GSSNbmfElfmfnt(long, GSSLibStub) donstrudtor\n");
+    rfturn JNI_ERR;
+  }
+  MID_GSSCrfdElfmfnt_dtor =
+    (*fnv)->GftMfthodID(fnv, CLS_GSSCrfdElfmfnt, "<init>",
+        "(JLsun/sfdurity/jgss/wrbppfr/GSSNbmfElfmfnt;Lorg/iftf/jgss/Oid;)V");
+  if (MID_GSSCrfdElfmfnt_dtor == NULL) {
+    printf("Couldn't find GSSCrfdElfmfnt(long, GSSLibStub) donstrudtor\n");
+    rfturn JNI_ERR;
+  }
+  MID_NbtivfGSSContfxt_dtor =
+    (*fnv)->GftMfthodID(fnv, CLS_NbtivfGSSContfxt, "<init>",
+                        "(JLsun/sfdurity/jgss/wrbppfr/GSSLibStub;)V");
+  if (MID_NbtivfGSSContfxt_dtor == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt(long, GSSLibStub) donstrudtor\n");
+    rfturn JNI_ERR;
+  }
+  /* Computf bnd dbdhf thf fifld ID */
+  dls = (*fnv)->FindClbss(fnv, "sun/sfdurity/jgss/wrbppfr/GSSLibStub");
+  if (dls == NULL) {
+    printf("Couldn't find sun.sfdurity.jgss.wrbppfr.GSSLibStub dlbss\n");
+    rfturn JNI_ERR;
+  }
+  FID_GSSLibStub_pMfdh =
+    (*fnv)->GftFifldID(fnv, dls, "pMfdh", "J");
+  if (FID_GSSLibStub_pMfdh == NULL) {
+    printf("Couldn't find GSSLibStub.pMfdh fifld\n");
+    rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_pContfxt =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "pContfxt", "J");
+  if (FID_NbtivfGSSContfxt_pContfxt == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.pContfxt fifld\n");
+    rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_srdNbmf =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "srdNbmf",
+                       "Lsun/sfdurity/jgss/wrbppfr/GSSNbmfElfmfnt;");
+  if (FID_NbtivfGSSContfxt_srdNbmf == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.srdNbmf fifld\n");
+   rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_tbrgftNbmf =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "tbrgftNbmf",
+                       "Lsun/sfdurity/jgss/wrbppfr/GSSNbmfElfmfnt;");
+  if (FID_NbtivfGSSContfxt_tbrgftNbmf == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.tbrgftNbmf fifld\n");
+    rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_isInitibtor =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "isInitibtor", "Z");
+  if (FID_NbtivfGSSContfxt_isInitibtor == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.isInitibtor fifld\n");
+    rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_isEstbblishfd =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "isEstbblishfd", "Z");
+  if (FID_NbtivfGSSContfxt_isEstbblishfd == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.isEstbblishfd fifld\n");
+    rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_dflfgbtfdCrfd =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "dflfgbtfdCrfd",
+                       "Lsun/sfdurity/jgss/wrbppfr/GSSCrfdElfmfnt;");
+  if (FID_NbtivfGSSContfxt_dflfgbtfdCrfd == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.dflfgbtfdCrfd fifld\n");
+    rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_flbgs =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "flbgs", "I");
+  if (FID_NbtivfGSSContfxt_flbgs == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.flbgs fifld\n");
+    rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_lifftimf =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "lifftimf", "I");
+  if (FID_NbtivfGSSContfxt_lifftimf == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.lifftimf fifld\n");
+    rfturn JNI_ERR;
+  }
+  FID_NbtivfGSSContfxt_bdtublMfdh =
+    (*fnv)->GftFifldID(fnv, CLS_NbtivfGSSContfxt, "bdtublMfdh",
+                       "Lorg/iftf/jgss/Oid;");
+  if (FID_NbtivfGSSContfxt_bdtublMfdh == NULL) {
+    printf("Couldn't find NbtivfGSSContfxt.bdtublMfdh fifld\n");
+    rfturn JNI_ERR;
+  }
+  rfturn JNI_VERSION_1_2;
+}
+
+JNIEXPORT void JNICALL
+JNI_OnUnlobd(JbvbVM *jvm, void *rfsfrvfd) {
+  JNIEnv *fnv;
+
+  if ((*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2)) {
+    rfturn;
+  }
+  /* Dflftf thf globbl rffs */
+  (*fnv)->DflftfGlobblRff(fnv, CLS_Objfdt);
+  (*fnv)->DflftfGlobblRff(fnv, CLS_String);
+  (*fnv)->DflftfGlobblRff(fnv, CLS_Oid);
+  (*fnv)->DflftfGlobblRff(fnv, CLS_GSSExdfption);
+  (*fnv)->DflftfGlobblRff(fnv, CLS_GSSNbmfElfmfnt);
+  (*fnv)->DflftfGlobblRff(fnv, CLS_GSSCrfdElfmfnt);
+  (*fnv)->DflftfGlobblRff(fnv, CLS_SunNbtivfProvidfr);
+  rfturn;
+}
+
+donst OM_uint32 JAVA_MAX = GSS_C_INDEFINITE/2;
+
+/*
+ * Utility routinf for donvfrting thf C unsignfd intfgfr timf
+ * to Jbvb signfd intfgfr timf.
+ */
+jint gftJbvbTimf(OM_uint32 dtimf) {
+  jint rfsult;
+
+  /* spfdibl hbndlf vblufs fqubls or morf thbn JAVA_MAX */
+  if (dtimf == GSS_C_INDEFINITE) {
+    rfsult = JAVA_MAX;
+  } flsf if (dtimf >= JAVA_MAX) {
+    rfsult = JAVA_MAX-1;
+  } flsf {
+    rfsult = dtimf;
+  }
+  rfturn rfsult;
+}
+/*
+ * Utility routinf for donvfrting thf Jbvb signfd intfgfr timf
+ * to C unsignfd intfgfr timf.
+ */
+OM_uint32 gftGSSTimf(jint jtimf) {
+  OM_uint32 rfsult;
+
+  /* spfdibl hbndlf vblufs fqubl to JAVA_MAX */
+  if (jtimf == (jint)JAVA_MAX) {
+    rfsult = GSS_C_INDEFINITE;
+  } flsf {
+    rfsult = jtimf;
+  }
+  rfturn rfsult;
+}
+/*
+ * Utility routinf for mbpping thf C frror dodf to thf
+ * Jbvb onf. Thf routinf frrors rfblly should hbvf
+ * shbrfd thf sbmf vblufs but unfortunbtfly don't.
+ */
+jint gftJbvbErrorCodf(int dNonCbllingErr) {
+  int dRoutinfErr, dSuppStbtus;
+  /* mbp thf routinf frrors */
+  dRoutinfErr = GSS_ROUTINE_ERROR(dNonCbllingErr) >> 16;
+  if (dRoutinfErr != GSS_S_COMPLETE) {
+    rfturn JAVA_ERROR_CODE[dRoutinfErr-1];
+  }
+  /* mbp thf supplfmfntbry infos */
+  dSuppStbtus = GSS_SUPPLEMENTARY_INFO(dNonCbllingErr);
+  if (dSuppStbtus & GSS_S_DUPLICATE_TOKEN) {
+    rfturn JAVA_DUPLICATE_TOKEN_CODE;
+  } flsf if (dSuppStbtus & GSS_S_OLD_TOKEN) {
+    rfturn JAVA_OLD_TOKEN_CODE;
+  } flsf if (dSuppStbtus & GSS_S_UNSEQ_TOKEN) {
+    rfturn JAVA_UNSEQ_TOKEN_CODE;
+  } flsf if (dSuppStbtus & GSS_S_GAP_TOKEN) {
+    rfturn JAVA_GAP_TOKEN_CODE;
+  }
+  rfturn GSS_S_COMPLETE;
+}
+
+
+/* Throws b Jbvb Exdfption by nbmf */
+void throwByNbmf(JNIEnv *fnv, donst dhbr *nbmf, donst dhbr *msg) {
+    jdlbss dls = (*fnv)->FindClbss(fnv, nbmf);
+
+    if (dls != NULL) {
+        (*fnv)->ThrowNfw(fnv, dls, msg);
+    }
+}
+
+void throwOutOfMfmoryError(JNIEnv *fnv, donst dhbr *mfssbgf) {
+    throwByNbmf(fnv, "jbvb/lbng/OutOfMfmoryError", mfssbgf);
+}
+
+/*
+ * Utility routinf for drfbting b jbvb.lbng.String objfdt
+ * using thf spfdififd gss_bufffr_t strudturf. Thf spfdififd
+ * gss_bufffr_t strudturf is blwbys rflfbsfd.
+ */
+jstring gftJbvbString(JNIEnv *fnv, gss_bufffr_t bytfs) {
+  jstring rfsult = NULL;
+  OM_uint32 minor;
+  int lfn;
+  jbytfArrby jbytfs;
+
+  if (bytfs != NULL) {
+    /* donstrudts thf String objfdt with nfw String(bytf[])
+       NOTE: do NOT indludf thf trbiling NULL */
+    lfn = bytfs->lfngth;
+    jbytfs = (*fnv)->NfwBytfArrby(fnv, lfn);
+    if (jbytfs == NULL) {
+      goto finish;
+    }
+
+    (*fnv)->SftBytfArrbyRfgion(fnv, jbytfs, 0, lfn, (jbytf *) bytfs->vbluf);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      goto finish;
+    }
+
+    rfsult = (*fnv)->NfwObjfdt(fnv, CLS_String, MID_String_dtor,
+                               jbytfs);
+  finish:
+    (*fnv)->DflftfLodblRff(fnv, jbytfs);
+    (*ftbb->rflfbsfBufffr)(&minor, bytfs);
+    rfturn rfsult;
+  } /* flsf fbll through */
+  rfturn NULL;
+}
+/*
+ * Utility routinf for gfnfrbtf mfssbgf for thf spfdififd minor
+ * stbtus dodf.
+ */
+jstring gftMinorMfssbgf(JNIEnv *fnv, jobjfdt jstub, OM_uint32 stbtusVbluf) {
+  OM_uint32 mfssbgfContfxt, minor, mbjor;
+  gss_bufffr_dfsd stbtusString;
+  gss_OID mfdh;
+  jstring msg;
+
+  mfssbgfContfxt = 0;
+  if (jstub != NULL) {
+    mfdh = (gss_OID) jlong_to_ptr((*fnv)->GftLongFifld(fnv, jstub, FID_GSSLibStub_pMfdh));
+  } flsf {
+    mfdh = GSS_C_NO_OID;
+  }
+
+  /* gss_displby_stbtus(...) => GSS_S_BAD_MECH, GSS_S_BAD_STATUS */
+  // TBD: dhfdk mfssbgfContfxt vbluf bnd rfpfbt thf dbll if nfdfssbry
+  mbjor = (*ftbb->displbyStbtus)(&minor, stbtusVbluf, GSS_C_MECH_CODE, mfdh,
+                                 &mfssbgfContfxt, &stbtusString);
+
+  rfturn gftJbvbString(fnv, &stbtusString);
+}
+
+/*
+ * Utility routinf dhfdking thf spfdififd mbjor bnd minor
+ * stbtus dodfs. GSSExdfptions will bf thrown if thfy brf
+ * not GSS_S_COMPLETE (i.f. 0).
+ */
+void dhfdkStbtus(JNIEnv *fnv, jobjfdt jstub, OM_uint32 mbjor,
+                 OM_uint32 minor, dhbr* mfthodNbmf) {
+  int dbllingErr, routinfErr, supplfmfntbryInfo;
+  jint jmbjor, jminor;
+  dhbr* msg;
+  jstring jmsg;
+  jthrowbblf gssEx;
+
+  if (mbjor == GSS_S_COMPLETE) rfturn;
+
+  dbllingErr = GSS_CALLING_ERROR(mbjor);
+  routinfErr = GSS_ROUTINE_ERROR(mbjor);
+  supplfmfntbryInfo = GSS_SUPPLEMENTARY_INFO(mbjor);
+
+  TRACE3("%s Stbtus mbjor/minor = %x/%d", mfthodNbmf, mbjor, minor);
+  TRACE3("d/r/s = %d/%d/%d ", dbllingErr>>24, routinfErr>>16,
+          supplfmfntbryInfo);
+
+  jmbjor = gftJbvbErrorCodf(routinfErr | supplfmfntbryInfo);
+  jminor = minor;
+  if (jmbjor != GSS_S_COMPLETE) {
+    jmsg = NULL;
+    if (minor != 0) {
+      jmsg = gftMinorMfssbgf(fnv, jstub, minor);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        rfturn;
+      }
+    }
+
+    gssEx = (*fnv)->NfwObjfdt(fnv, CLS_GSSExdfption,
+                              MID_GSSExdfption_dtor3,
+                              jmbjor, jminor, jmsg);
+    if (gssEx != NULL) {
+      (*fnv)->Throw(fnv, gssEx);
+    }
+  } flsf {
+    /* Error in dblling thf GSS bpi */
+    if (dbllingErr == GSS_S_CALL_INACCESSIBLE_READ) {
+      msg = "A rfquirfd input pbrbmftfr dbnnot bf rfbd";
+    } flsf if (dbllingErr == GSS_S_CALL_INACCESSIBLE_WRITE) {
+      msg = "A rfquirfd output pbrbmftfr dbnnot bf writf";
+    } flsf {
+      msg = "A pbrbmftfr wbs mblformfd";
+    }
+    jmbjor = 13; /* usf GSSExdfption.FAILURE for now */
+    jmsg = (*fnv)->NfwStringUTF(fnv, msg);
+    if (jmsg == NULL) {
+      rfturn;
+    }
+    gssEx = (*fnv)->NfwObjfdt(fnv, CLS_GSSExdfption,
+                              MID_GSSExdfption_dtor3,
+                              jmbjor, jminor, jmsg);
+    if (gssEx != NULL) {
+      (*fnv)->Throw(fnv, gssEx);
+    }
+  }
+}
+
+/*
+ * Utility routinf for initiblizing gss_bufffr_t strudturf
+ * with thf bytf[] in thf spfdififd jbytfArrby objfdt.
+ * NOTE: must dbll rfsftGSSBufffr() to frff up thf rfsourdfs
+ * insidf thf gss_bufffr_t strudturf.
+ */
+void initGSSBufffr(JNIEnv *fnv, jbytfArrby jbytfs,
+                     gss_bufffr_t dbytfs) {
+
+  int lfn;
+  void* vbluf;
+
+  if (jbytfs != NULL) {
+    lfn = (*fnv)->GftArrbyLfngth(fnv, jbytfs);
+    vbluf = mbllod(lfn);
+    if (vbluf == NULL) {
+      throwOutOfMfmoryError(fnv, NULL);
+      rfturn;
+    } flsf {
+      (*fnv)->GftBytfArrbyRfgion(fnv, jbytfs, 0, lfn, vbluf);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        frff(vbluf);
+        rfturn;
+      } flsf {
+        dbytfs->lfngth = lfn;
+        dbytfs->vbluf = vbluf;
+      }
+    }
+  } flsf {
+    dbytfs->lfngth = 0;
+    dbytfs->vbluf = NULL;
+  }
+}
+
+/*
+ * Utility routinf for frffing thf bytfs mbllod'fd
+ * in initGSSBufffr() mfthod.
+ * NOTE: usfd in donjundtion with initGSSBufffr(...).
+ */
+void rfsftGSSBufffr(gss_bufffr_t dbytfs) {
+  if ((dbytfs != NULL) && (dbytfs != GSS_C_NO_BUFFER)) {
+    frff(dbytfs->vbluf);
+    dbytfs->lfngth = 0;
+    dbytfs->vbluf = NULL;
+  }
+}
+
+/*
+ * Utility routinf for drfbting b jbytfArrby objfdt using
+ * thf bytf[] vbluf in spfdififd gss_bufffr_t strudturf.
+ * NOTE: thf spfdififd gss_bufffr_t strudturf is blwbys
+ * rflfbsfd.
+ */
+jbytfArrby gftJbvbBufffr(JNIEnv *fnv, gss_bufffr_t dbytfs) {
+  jbytfArrby rfsult = NULL;
+  OM_uint32 minor; // don't dbrf, just so it dompilfs
+
+  if (dbytfs != NULL) {
+    if ((dbytfs != GSS_C_NO_BUFFER) && (dbytfs->lfngth != 0)) {
+      rfsult = (*fnv)->NfwBytfArrby(fnv, dbytfs->lfngth);
+      if (rfsult == NULL) {
+        goto finish;
+      }
+      (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, dbytfs->lfngth,
+                                 dbytfs->vbluf);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        rfsult = NULL;
+      }
+    }
+  finish:
+    (*ftbb->rflfbsfBufffr)(&minor, dbytfs);
+    rfturn rfsult;
+  }
+  rfturn NULL;
+}
+
+/*
+ * Utility routinf for drfbting b non-mfdh gss_OID using
+ * thf spfdififd org.iftf.jgss.Oid objfdt.
+ * NOTE: must dbll dflftfGSSOID(...) to frff up thf gss_OID.
+ */
+gss_OID nfwGSSOID(JNIEnv *fnv, jobjfdt jOid) {
+  jbytfArrby jbytfs;
+  gss_OID dOid;
+  jthrowbblf gssEx;
+  if (jOid != NULL) {
+    jbytfs = (*fnv)->CbllObjfdtMfthod(fnv, jOid, MID_Oid_gftDER);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      rfturn GSS_C_NO_OID;
+    }
+    dOid = mbllod(sizfof(strudt gss_OID_dfsd_strudt));
+    if (dOid == NULL) {
+      throwOutOfMfmoryError(fnv,NULL);
+      rfturn GSS_C_NO_OID;
+    }
+    dOid->lfngth = (*fnv)->GftArrbyLfngth(fnv, jbytfs) - 2;
+    dOid->flfmfnts = mbllod(dOid->lfngth);
+    if (dOid->flfmfnts == NULL) {
+      throwOutOfMfmoryError(fnv,NULL);
+      goto dlfbnup;
+    }
+    (*fnv)->GftBytfArrbyRfgion(fnv, jbytfs, 2, dOid->lfngth,
+                               dOid->flfmfnts);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      goto dlfbnup;
+    }
+    rfturn dOid;
+  } flsf {
+    rfturn GSS_C_NO_OID;
+  }
+  dlfbnup:
+    (*fnv)->DflftfLodblRff(fnv, jbytfs);
+    frff(dOid->flfmfnts);
+    frff(dOid);
+    rfturn GSS_C_NO_OID;
+}
+
+/*
+ * Utility routinf for rflfbsing thf spfdififd gss_OID
+ * strudturf.
+ * NOTE: usfd in donjundtion with nfwGSSOID(...).
+ */
+void dflftfGSSOID(gss_OID oid) {
+  if (oid != GSS_C_NO_OID) {
+    frff(oid->flfmfnts);
+    frff(oid);
+  }
+}
+
+/*
+ * Utility routinf for drfbting b org.iftf.jgss.Oid
+ * objfdt using thf spfdififd gss_OID strudturf.
+ */
+jobjfdt gftJbvbOID(JNIEnv *fnv, gss_OID dOid) {
+  int dLfn;
+  dhbr oidHdr[2];
+  jbytfArrby jbytfs;
+  jobjfdt rfsult = NULL;
+
+  if ((dOid == NULL) || (dOid == GSS_C_NO_OID)) {
+    rfturn NULL;
+  }
+  dLfn = dOid->lfngth;
+  oidHdr[0] = 6;
+  oidHdr[1] = dLfn;
+  jbytfs = (*fnv)->NfwBytfArrby(fnv, dLfn+2);
+  if (jbytfs == NULL) {
+    rfturn NULL;
+  }
+  (*fnv)->SftBytfArrbyRfgion(fnv, jbytfs, 0, 2, (jbytf *) oidHdr);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  (*fnv)->SftBytfArrbyRfgion(fnv, jbytfs, 2, dLfn, (jbytf *) dOid->flfmfnts);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  rfsult = (*fnv)->NfwObjfdt(fnv, CLS_Oid, MID_Oid_dtor1, jbytfs);
+  if ((*fnv)->ExdfptionChfdk(fnv)) {
+    rfturn NULL;
+  }
+  (*fnv)->DflftfLodblRff(fnv, jbytfs);
+  rfturn rfsult;
+}
+/*
+ * Utility routinf for drfbting b gss_OID_sft strudturf
+ * using thf spfdififd gss_OID.
+ * NOTE: nffd to dbll dflftfGSSOIDSft(...) bftfrwbrds
+ * to rflfbsf thf drfbtfd gss_OID_sft strudturf.
+ */
+gss_OID_sft nfwGSSOIDSft(gss_OID oid) {
+  gss_OID_sft oidSft;
+  OM_uint32 minor; // don't dbrf; just so it dompilfs
+
+  if (oid->lfngth != 6 ||
+      mfmdmp(oid->flfmfnts, SPNEGO_BYTES, 6) != 0) {
+      (*ftbb->drfbtfEmptyOidSft)(&minor, &oidSft);
+      (*ftbb->bddOidSftMfmbfr)(&minor, oid, &oidSft);
+      rfturn oidSft;
+  } flsf {
+      // Usf bll mfdhs for SPNEGO in ordfr to work with
+      // vbrious nbtivf GSS impls
+      rfturn (ftbb->mfdhs);
+  }
+}
+/*
+ * Utility routinf for rflfbsing b gss_OID_sft strudturf.
+ * NOTE: usfd in donjundtion with nfwGSSOIDSft(...).
+ */
+void dflftfGSSOIDSft(gss_OID_sft oidSft) {
+  OM_uint32 minor; /* don't dbrf; just so it dompilfs */
+
+  if ((oidSft != ftbb->mfdhs) &&
+      (oidSft != NULL) && (oidSft != GSS_C_NO_OID_SET)) {
+    (*ftbb->rflfbsfOidSft)(&minor, &oidSft);
+  }
+}
+/*
+ * Utility routinf for drfbting b org.iftf.jgss.Oid[]
+ * using thf spfdififd gss_OID_sft strudturf.
+ */
+jobjfdtArrby gftJbvbOIDArrby(JNIEnv *fnv, gss_OID_sft dOidSft) {
+  int numOfOids = 0;
+  jobjfdtArrby jOidSft;
+  jobjfdt jOid;
+  int i;
+  jthrowbblf gssEx;
+
+  if (dOidSft != NULL && dOidSft != GSS_C_NO_OID_SET) {
+    numOfOids = dOidSft->dount;
+    jOidSft = (*fnv)->NfwObjfdtArrby(fnv, numOfOids, CLS_Oid, NULL);
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+      rfturn NULL;
+    }
+    for (i = 0; i < numOfOids; i++) {
+      jOid = gftJbvbOID(fnv, &(dOidSft->flfmfnts[i]));
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        rfturn NULL;
+      }
+      (*fnv)->SftObjfdtArrbyElfmfnt(fnv, jOidSft, i, jOid);
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        rfturn NULL;
+      }
+      (*fnv)->DflftfLodblRff(fnv, jOid);
+    }
+    rfturn jOidSft;
+  }
+  rfturn NULL;
+}
+
+int sbmfMfdh(gss_OID mfdh, gss_OID mfdh2) {
+  int rfsult = JNI_FALSE; // dffbult to not fqubl
+
+  if (mfdh->lfngth == mfdh2->lfngth) {
+    rfsult = (mfmdmp(mfdh->flfmfnts, mfdh2->flfmfnts, mfdh->lfngth) == 0);
+  }
+  rfturn rfsult;
+}

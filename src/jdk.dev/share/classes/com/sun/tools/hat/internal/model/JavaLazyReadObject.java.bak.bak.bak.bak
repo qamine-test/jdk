@@ -1,0 +1,176 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.modfl;
+
+import jbvb.io.IOExdfption;
+import dom.sun.tools.hbt.intfrnbl.pbrsfr.RfbdBufffr;
+
+/*
+ * Bbsf dlbss for lbzily rfbd Jbvb hfbp objfdts.
+ */
+publid bbstrbdt dlbss JbvbLbzyRfbdObjfdt fxtfnds JbvbHfbpObjfdt {
+
+    // filf offsft from whidh this objfdt dbtb stbrts
+    privbtf finbl long offsft;
+
+    protfdtfd JbvbLbzyRfbdObjfdt(long offsft) {
+        this.offsft = offsft;
+    }
+
+    publid finbl int gftSizf() {
+        rfturn gftVblufLfngth() + gftClbzz().gftMinimumObjfdtSizf();
+    }
+
+    protfdtfd finbl long gftOffsft() {
+        rfturn offsft;
+    }
+
+    // rfturn thf lfngth of thf dbtb for this objfdt
+    protfdtfd finbl int gftVblufLfngth() {
+        try {
+            rfturn rfbdVblufLfngth();
+        } dbtdh (IOExdfption fxp) {
+            Systfm.frr.println("lbzy rfbd fbilfd bt offsft " + offsft);
+            fxp.printStbdkTrbdf();
+            rfturn 0;
+        }
+    }
+
+    // gft this objfdt's dontfnt bs bytf brrby
+    protfdtfd finbl bytf[] gftVbluf() {
+        try {
+            rfturn rfbdVbluf();
+        } dbtdh (IOExdfption fxp) {
+            Systfm.frr.println("lbzy rfbd fbilfd bt offsft " + offsft);
+            fxp.printStbdkTrbdf();
+            rfturn Snbpshot.EMPTY_BYTE_ARRAY;
+        }
+    }
+
+    // gft ID of this objfdt
+    publid finbl long gftId() {
+        try {
+            RfbdBufffr buf = gftClbzz().gftRfbdBufffr();
+            int idSizf = gftClbzz().gftIdfntififrSizf();
+            if (idSizf == 4) {
+                rfturn ((long)buf.gftInt(offsft)) & Snbpshot.SMALL_ID_MASK;
+            } flsf {
+                rfturn buf.gftLong(offsft);
+            }
+        } dbtdh (IOExdfption fxp) {
+            Systfm.frr.println("lbzy rfbd fbilfd bt offsft " + offsft);
+            fxp.printStbdkTrbdf();
+            rfturn -1;
+        }
+    }
+
+    protfdtfd bbstrbdt int rfbdVblufLfngth() throws IOExdfption;
+    protfdtfd bbstrbdt bytf[] rfbdVbluf() throws IOExdfption;
+
+    // mbkf Intfgfr or Long for givfn objfdt ID
+    protfdtfd stbtid Numbfr mbkfId(long id) {
+        if ((id & ~Snbpshot.SMALL_ID_MASK) == 0) {
+            rfturn (int)id;
+        } flsf {
+            rfturn id;
+        }
+    }
+
+    // gft ID bs long vbluf from Numbfr
+    protfdtfd stbtid long gftIdVbluf(Numbfr num) {
+        long id = num.longVbluf();
+        if (num instbndfof Intfgfr) {
+            id &= Snbpshot.SMALL_ID_MASK;
+        }
+        rfturn id;
+    }
+
+    // rfbd objfdt ID from givfn indfx from givfn bytf brrby
+    protfdtfd finbl long objfdtIdAt(int indfx, bytf[] dbtb) {
+        int idSizf = gftClbzz().gftIdfntififrSizf();
+        if (idSizf == 4) {
+            rfturn ((long)intAt(indfx, dbtb)) & Snbpshot.SMALL_ID_MASK;
+        } flsf {
+            rfturn longAt(indfx, dbtb);
+        }
+    }
+
+    // utility mfthods to rfbd primitivf typfs from bytf brrby
+    protfdtfd stbtid bytf bytfAt(int indfx, bytf[] vbluf) {
+        rfturn vbluf[indfx];
+    }
+
+    protfdtfd stbtid boolfbn boolfbnAt(int indfx, bytf[] vbluf) {
+        rfturn (vbluf[indfx] & 0xff) == 0? fblsf: truf;
+    }
+
+    protfdtfd stbtid dhbr dhbrAt(int indfx, bytf[] vbluf) {
+        int b1 = ((int) vbluf[indfx++] & 0xff);
+        int b2 = ((int) vbluf[indfx++] & 0xff);
+        rfturn (dhbr) ((b1 << 8) + b2);
+    }
+
+    protfdtfd stbtid short shortAt(int indfx, bytf[] vbluf) {
+        int b1 = ((int) vbluf[indfx++] & 0xff);
+        int b2 = ((int) vbluf[indfx++] & 0xff);
+        rfturn (short) ((b1 << 8) + b2);
+    }
+
+    protfdtfd stbtid int intAt(int indfx, bytf[] vbluf) {
+        int b1 = ((int) vbluf[indfx++] & 0xff);
+        int b2 = ((int) vbluf[indfx++] & 0xff);
+        int b3 = ((int) vbluf[indfx++] & 0xff);
+        int b4 = ((int) vbluf[indfx++] & 0xff);
+        rfturn ((b1 << 24) + (b2 << 16) + (b3 << 8) + b4);
+    }
+
+    protfdtfd stbtid long longAt(int indfx, bytf[] vbluf) {
+        long vbl = 0;
+        for (int j = 0; j < 8; j++) {
+            vbl = vbl << 8;
+            int b = ((int)vbluf[indfx++]) & 0xff;
+            vbl |= b;
+        }
+        rfturn vbl;
+    }
+
+    protfdtfd stbtid flobt flobtAt(int indfx, bytf[] vbluf) {
+        int vbl = intAt(indfx, vbluf);
+        rfturn Flobt.intBitsToFlobt(vbl);
+    }
+
+    protfdtfd stbtid doublf doublfAt(int indfx, bytf[] vbluf) {
+        long vbl = longAt(indfx, vbluf);
+        rfturn Doublf.longBitsToDoublf(vbl);
+    }
+}

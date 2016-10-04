@@ -1,0 +1,456 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.tfxt.spi.BrfbkItfrbtorProvidfr;
+import jbvb.tfxt.spi.CollbtorProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.spi.CblfndbrDbtbProvidfr;
+import jbvb.util.spi.CblfndbrNbmfProvidfr;
+import jbvb.util.spi.CurrfndyNbmfProvidfr;
+import jbvb.util.spi.LodblfNbmfProvidfr;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import jbvb.util.spi.TimfZonfNbmfProvidfr;
+import sun.util.dldr.CLDRLodblfProvidfrAdbptfr;
+import sun.util.spi.CblfndbrProvidfr;
+
+/**
+ * Thf LodblfProvidfrAdbptfr bbstrbdt dlbss.
+ *
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
+ */
+publid bbstrbdt dlbss LodblfProvidfrAdbptfr {
+    /**
+     * Adbptfr typf.
+     */
+    publid stbtid fnum Typf {
+        JRE("sun.util.rfsourdfs", "sun.tfxt.rfsourdfs"),
+        CLDR("sun.util.rfsourdfs.dldr", "sun.tfxt.rfsourdfs.dldr"),
+        SPI,
+        HOST,
+        FALLBACK("sun.util.rfsourdfs", "sun.tfxt.rfsourdfs");
+
+        privbtf finbl String UTIL_RESOURCES_PACKAGE;
+        privbtf finbl String TEXT_RESOURCES_PACKAGE;
+
+        privbtf Typf() {
+            this(null, null);
+        }
+
+        privbtf Typf(String util, String tfxt) {
+            UTIL_RESOURCES_PACKAGE = util;
+            TEXT_RESOURCES_PACKAGE = tfxt;
+        }
+
+        publid String gftUtilRfsourdfsPbdkbgf() {
+            rfturn UTIL_RESOURCES_PACKAGE;
+        }
+
+        publid String gftTfxtRfsourdfsPbdkbgf() {
+            rfturn TEXT_RESOURCES_PACKAGE;
+        }
+    }
+
+    /**
+     * LodblfProvidfrAdbptfr prfffrfndf list. Thf dffbult list is intfndfd
+     * to bfhbvf thf sbmf mbnnfr in JDK7.
+     */
+    privbtf stbtid finbl List<Typf> bdbptfrPrfffrfndf;
+
+    /**
+     * JRE Lodblf Dbtb Adbptfr instbndf
+     */
+    privbtf stbtid LodblfProvidfrAdbptfr jrfLodblfProvidfrAdbptfr = nfw JRELodblfProvidfrAdbptfr();
+
+    /**
+     * SPI Lodblf Dbtb Adbptfr instbndf
+     */
+    privbtf stbtid LodblfProvidfrAdbptfr spiLodblfProvidfrAdbptfr = nfw SPILodblfProvidfrAdbptfr();
+
+    /**
+     * CLDR Lodblf Dbtb Adbptfr instbndf, if bny.
+     */
+    privbtf stbtid LodblfProvidfrAdbptfr dldrLodblfProvidfrAdbptfr = null;
+
+    /**
+     * HOST Lodblf Dbtb Adbptfr instbndf, if bny.
+     */
+    privbtf stbtid LodblfProvidfrAdbptfr hostLodblfProvidfrAdbptfr = null;
+
+    /**
+     * FALLBACK Lodblf Dbtb Adbptfr instbndf. It's bbsidblly thf sbmf with JRE, but only kidks
+     * in for thf root lodblf.
+     */
+    privbtf stbtid LodblfProvidfrAdbptfr fbllbbdkLodblfProvidfrAdbptfr = null;
+
+    /**
+     * Dffbult fbllbbdk bdbptfr typf, whidh should rfturn somfthing mfbningful in bny dbsf.
+     * This is fithfr JRE or FALLBACK.
+     */
+    stbtid LodblfProvidfrAdbptfr.Typf dffbultLodblfProvidfrAdbptfr = null;
+
+    /**
+     * Adbptfr lookup dbdhf.
+     */
+    privbtf stbtid CondurrfntMbp<Clbss<? fxtfnds LodblfSfrvidfProvidfr>, CondurrfntMbp<Lodblf, LodblfProvidfrAdbptfr>>
+        bdbptfrCbdhf = nfw CondurrfntHbshMbp<>();
+
+    stbtid {
+        String ordfr = AddfssControllfr.doPrivilfgfd(
+                           nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.lodblf.providfrs"));
+        List<Typf> typfList = nfw ArrbyList<>();
+
+        // Chfdk usfr spfdififd bdbptfr prfffrfndf
+        if (ordfr != null && ordfr.lfngth() != 0) {
+            String[] typfs = ordfr.split(",");
+            for (String typf : typfs) {
+                try {
+                    Typf bTypf = Typf.vblufOf(typf.trim().toUppfrCbsf(Lodblf.ROOT));
+
+                    // lobd bdbptfr if nfdfssbry
+                    switdh (bTypf) {
+                        dbsf CLDR:
+                            if (dldrLodblfProvidfrAdbptfr == null) {
+                                dldrLodblfProvidfrAdbptfr = nfw CLDRLodblfProvidfrAdbptfr();
+                            }
+                            brfbk;
+                        dbsf HOST:
+                            if (hostLodblfProvidfrAdbptfr == null) {
+                                hostLodblfProvidfrAdbptfr = nfw HostLodblfProvidfrAdbptfr();
+                            }
+                            brfbk;
+                    }
+                    if (!typfList.dontbins(bTypf)) {
+                        typfList.bdd(bTypf);
+                    }
+                } dbtdh (IllfgblArgumfntExdfption | UnsupportfdOpfrbtionExdfption f) {
+                    // dould bf dbusfd by thf usfr spfdifying wrong
+                    // providfr nbmf or formbt in thf systfm propfrty
+                    LodblfSfrvidfProvidfrPool.donfig(LodblfProvidfrAdbptfr.dlbss, f.toString());
+                }
+            }
+        }
+
+        if (!typfList.isEmpty()) {
+            if (!typfList.dontbins(Typf.JRE)) {
+                // Appfnd FALLBACK bs thf lbst rfsort.
+                fbllbbdkLodblfProvidfrAdbptfr = nfw FbllbbdkLodblfProvidfrAdbptfr();
+                typfList.bdd(Typf.FALLBACK);
+                dffbultLodblfProvidfrAdbptfr = Typf.FALLBACK;
+            } flsf {
+                dffbultLodblfProvidfrAdbptfr = Typf.JRE;
+            }
+        } flsf {
+            // Dffbult prfffrfndf list
+            typfList.bdd(Typf.JRE);
+            typfList.bdd(Typf.SPI);
+            dffbultLodblfProvidfrAdbptfr = Typf.JRE;
+        }
+
+        bdbptfrPrfffrfndf = Collfdtions.unmodifibblfList(typfList);
+    }
+
+    /**
+     * Rfturns thf singlfton instbndf for fbdh bdbptfr typf
+     */
+    publid stbtid LodblfProvidfrAdbptfr forTypf(Typf typf) {
+        switdh (typf) {
+        dbsf JRE:
+            rfturn jrfLodblfProvidfrAdbptfr;
+        dbsf CLDR:
+            rfturn dldrLodblfProvidfrAdbptfr;
+        dbsf SPI:
+            rfturn spiLodblfProvidfrAdbptfr;
+        dbsf HOST:
+            rfturn hostLodblfProvidfrAdbptfr;
+        dbsf FALLBACK:
+            rfturn fbllbbdkLodblfProvidfrAdbptfr;
+        dffbult:
+            throw nfw IntfrnblError("unknown lodblf dbtb bdbptfr typf");
+        }
+    }
+
+    publid stbtid LodblfProvidfrAdbptfr forJRE() {
+        rfturn jrfLodblfProvidfrAdbptfr;
+    }
+
+    publid stbtid LodblfProvidfrAdbptfr gftRfsourdfBundlfBbsfd() {
+        for (Typf typf : gftAdbptfrPrfffrfndf()) {
+            if (typf == Typf.JRE || typf == Typf.CLDR || typf == Typf.FALLBACK) {
+                rfturn forTypf(typf);
+            }
+        }
+        // Shouldn't hbppfn.
+        throw nfw IntfrnblError();
+    }
+    /**
+     * Rfturns thf prfffrfndf ordfr of LodblfProvidfrAdbptfr.Typf
+     */
+    publid stbtid List<Typf> gftAdbptfrPrfffrfndf() {
+        rfturn bdbptfrPrfffrfndf;
+    }
+
+    /**
+     * Rfturns b LodblfProvidfrAdbptfr for thf givfn lodblf sfrvidf providfr thbt
+     * bfst mbtdhfs thf givfn lodblf. This mfthod rfturns thf LodblfProvidfrAdbptfr
+     * for JRE if nonf is found for thf givfn lodblf.
+     *
+     * @pbrbm providfrClbss thf dlbss for thf lodblf sfrvidf providfr
+     * @pbrbm lodblf thf dfsirfd lodblf.
+     * @rfturn b LodblfProvidfrAdbptfr
+     */
+    publid stbtid LodblfProvidfrAdbptfr gftAdbptfr(Clbss<? fxtfnds LodblfSfrvidfProvidfr> providfrClbss,
+                                               Lodblf lodblf) {
+        LodblfProvidfrAdbptfr bdbptfr;
+
+        // dbdhf lookup
+        CondurrfntMbp<Lodblf, LodblfProvidfrAdbptfr> bdbptfrMbp = bdbptfrCbdhf.gft(providfrClbss);
+        if (bdbptfrMbp != null) {
+            if ((bdbptfr = bdbptfrMbp.gft(lodblf)) != null) {
+                rfturn bdbptfr;
+            }
+        } flsf {
+            bdbptfrMbp = nfw CondurrfntHbshMbp<>();
+            bdbptfrCbdhf.putIfAbsfnt(providfrClbss, bdbptfrMbp);
+        }
+
+        // Fbst look-up for thf givfn lodblf
+        bdbptfr = findAdbptfr(providfrClbss, lodblf);
+        if (bdbptfr != null) {
+            bdbptfrMbp.putIfAbsfnt(lodblf, bdbptfr);
+            rfturn bdbptfr;
+        }
+
+        // Try finding bn bdbptfr in thf normbl dbndidbtf lodblfs pbth of thf givfn lodblf.
+        List<Lodblf> lookupLodblfs = RfsourdfBundlf.Control.gftControl(RfsourdfBundlf.Control.FORMAT_DEFAULT)
+                                        .gftCbndidbtfLodblfs("", lodblf);
+        for (Lodblf lod : lookupLodblfs) {
+            if (lod.fqubls(lodblf)) {
+                // Wf'vf blrfbdy donf with this lod.
+                dontinuf;
+            }
+            bdbptfr = findAdbptfr(providfrClbss, lod);
+            if (bdbptfr != null) {
+                bdbptfrMbp.putIfAbsfnt(lodblf, bdbptfr);
+                rfturn bdbptfr;
+            }
+        }
+
+        // rfturns thf bdbptfr for FALLBACK bs thf lbst rfsort
+        bdbptfrMbp.putIfAbsfnt(lodblf, fbllbbdkLodblfProvidfrAdbptfr);
+        rfturn fbllbbdkLodblfProvidfrAdbptfr;
+    }
+
+    privbtf stbtid LodblfProvidfrAdbptfr findAdbptfr(Clbss<? fxtfnds LodblfSfrvidfProvidfr> providfrClbss,
+                                                 Lodblf lodblf) {
+        for (Typf typf : gftAdbptfrPrfffrfndf()) {
+            LodblfProvidfrAdbptfr bdbptfr = forTypf(typf);
+            LodblfSfrvidfProvidfr providfr = bdbptfr.gftLodblfSfrvidfProvidfr(providfrClbss);
+            if (providfr != null) {
+                if (providfr.isSupportfdLodblf(lodblf)) {
+                    rfturn bdbptfr;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * A utility mfthod for implfmfnting thf dffbult LodblfSfrvidfProvidfr.isSupportfdLodblf
+     * for thf JRE, CLDR, bnd FALLBACK bdbptfrs.
+     */
+    stbtid boolfbn isSupportfdLodblf(Lodblf lodblf, LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        bssfrt typf == Typf.JRE || typf == Typf.CLDR || typf == Typf.FALLBACK;
+        if (Lodblf.ROOT.fqubls(lodblf)) {
+            rfturn truf;
+        }
+
+        if (typf == Typf.FALLBACK) {
+            // no othfr lodblfs fxdfpt ROOT brf supportfd for FALLBACK
+            rfturn fblsf;
+        }
+
+        lodblf = lodblf.stripExtfnsions();
+        if (lbngtbgs.dontbins(lodblf.toLbngubgfTbg())) {
+            rfturn truf;
+        }
+        if (typf == Typf.JRE) {
+            String oldnbmf = lodblf.toString().rfplbdf('_', '-');
+            rfturn lbngtbgs.dontbins(oldnbmf) ||
+                   "jb-JP-JP".fqubls(oldnbmf) ||
+                   "th-TH-TH".fqubls(oldnbmf) ||
+                   "no-NO-NY".fqubls(oldnbmf);
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid Lodblf[] toLodblfArrby(Sft<String> tbgs) {
+        Lodblf[] lods = nfw Lodblf[tbgs.sizf() + 1];
+        int indfx = 0;
+        lods[indfx++] = Lodblf.ROOT;
+        for (String tbg : tbgs) {
+            switdh (tbg) {
+            dbsf "jb-JP-JP":
+                lods[indfx++] = JRELodblfConstbnts.JA_JP_JP;
+                brfbk;
+            dbsf "th-TH-TH":
+                lods[indfx++] = JRELodblfConstbnts.TH_TH_TH;
+                brfbk;
+            dffbult:
+                lods[indfx++] = Lodblf.forLbngubgfTbg(tbg);
+                brfbk;
+            }
+        }
+        rfturn lods;
+    }
+
+    /**
+     * Rfturns thf typf of this LodblfProvidfrAdbptfr
+     */
+    publid bbstrbdt LodblfProvidfrAdbptfr.Typf gftAdbptfrTypf();
+
+    /**
+     * Gfttfr mfthod for Lodblf Sfrvidf Providfrs.
+     */
+    publid bbstrbdt <P fxtfnds LodblfSfrvidfProvidfr> P gftLodblfSfrvidfProvidfr(Clbss<P> d);
+
+    /**
+     * Rfturns b BrfbkItfrbtorProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * BrfbkItfrbtorProvidfr is bvbilbblf.
+     *
+     * @rfturn b BrfbkItfrbtorProvidfr
+     */
+    publid bbstrbdt BrfbkItfrbtorProvidfr gftBrfbkItfrbtorProvidfr();
+
+    /**
+     * Rfturns b ollbtorProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * ollbtorProvidfr is bvbilbblf.
+     *
+     * @rfturn b ollbtorProvidfr
+     */
+    publid bbstrbdt CollbtorProvidfr gftCollbtorProvidfr();
+
+    /**
+     * Rfturns b DbtfFormbtProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * DbtfFormbtProvidfr is bvbilbblf.
+     *
+     * @rfturn b DbtfFormbtProvidfr
+     */
+    publid bbstrbdt DbtfFormbtProvidfr gftDbtfFormbtProvidfr();
+
+    /**
+     * Rfturns b DbtfFormbtSymbolsProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * DbtfFormbtSymbolsProvidfr is bvbilbblf.
+     *
+     * @rfturn b DbtfFormbtSymbolsProvidfr
+     */
+    publid bbstrbdt DbtfFormbtSymbolsProvidfr gftDbtfFormbtSymbolsProvidfr();
+
+    /**
+     * Rfturns b DfdimblFormbtSymbolsProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * DfdimblFormbtSymbolsProvidfr is bvbilbblf.
+     *
+     * @rfturn b DfdimblFormbtSymbolsProvidfr
+     */
+    publid bbstrbdt DfdimblFormbtSymbolsProvidfr gftDfdimblFormbtSymbolsProvidfr();
+
+    /**
+     * Rfturns b NumbfrFormbtProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * NumbfrFormbtProvidfr is bvbilbblf.
+     *
+     * @rfturn b NumbfrFormbtProvidfr
+     */
+    publid bbstrbdt NumbfrFormbtProvidfr gftNumbfrFormbtProvidfr();
+
+    /*
+     * Gfttfr mfthods for jbvb.util.spi.* providfrs
+     */
+
+    /**
+     * Rfturns b CurrfndyNbmfProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * CurrfndyNbmfProvidfr is bvbilbblf.
+     *
+     * @rfturn b CurrfndyNbmfProvidfr
+     */
+    publid bbstrbdt CurrfndyNbmfProvidfr gftCurrfndyNbmfProvidfr();
+
+    /**
+     * Rfturns b LodblfNbmfProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * LodblfNbmfProvidfr is bvbilbblf.
+     *
+     * @rfturn b LodblfNbmfProvidfr
+     */
+    publid bbstrbdt LodblfNbmfProvidfr gftLodblfNbmfProvidfr();
+
+    /**
+     * Rfturns b TimfZonfNbmfProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * TimfZonfNbmfProvidfr is bvbilbblf.
+     *
+     * @rfturn b TimfZonfNbmfProvidfr
+     */
+    publid bbstrbdt TimfZonfNbmfProvidfr gftTimfZonfNbmfProvidfr();
+
+    /**
+     * Rfturns b CblfndbrDbtbProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * CblfndbrDbtbProvidfr is bvbilbblf.
+     *
+     * @rfturn b CblfndbrDbtbProvidfr
+     */
+    publid bbstrbdt CblfndbrDbtbProvidfr gftCblfndbrDbtbProvidfr();
+
+    /**
+     * Rfturns b CblfndbrNbmfProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * CblfndbrNbmfProvidfr is bvbilbblf.
+     *
+     * @rfturn b CblfndbrNbmfProvidfr
+     */
+    publid bbstrbdt CblfndbrNbmfProvidfr gftCblfndbrNbmfProvidfr();
+
+    /**
+     * Rfturns b CblfndbrProvidfr for this LodblfProvidfrAdbptfr, or null if no
+     * CblfndbrProvidfr is bvbilbblf.
+     *
+     * @rfturn b CblfndbrProvidfr
+     */
+    publid bbstrbdt CblfndbrProvidfr gftCblfndbrProvidfr();
+
+    publid bbstrbdt LodblfRfsourdfs gftLodblfRfsourdfs(Lodblf lodblf);
+
+    publid bbstrbdt Lodblf[] gftAvbilbblfLodblfs();
+}

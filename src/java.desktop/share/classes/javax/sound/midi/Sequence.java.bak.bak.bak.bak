@@ -1,0 +1,340 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+import jbvb.util.Vfdtor;
+import dom.sun.mfdib.sound.MidiUtils;
+
+
+/**
+ * A <dodf>Sfqufndf</dodf> is b dbtb strudturf dontbining musidbl
+ * informbtion (oftfn bn fntirf song or domposition) thbt dbn bf plbyfd
+ * bbdk by b <dodf>{@link Sfqufndfr}</dodf> objfdt. Spfdifidblly, thf
+ * <dodf>Sfqufndf</dodf> dontbins timing
+ * informbtion bnd onf or morf trbdks.  Ebdh <dodf>{@link Trbdk trbdk}</dodf> donsists of b
+ * sfrifs of MIDI fvfnts (sudh bs notf-ons, notf-offs, progrbm dhbngfs, bnd mftb-fvfnts).
+ * Thf sfqufndf's timing informbtion spfdififs thf typf of unit thbt is usfd
+ * to timf-stbmp thf fvfnts in thf sfqufndf.
+ * <p>
+ * A <dodf>Sfqufndf</dodf> dbn bf drfbtfd from b MIDI filf by rfbding thf filf
+ * into bn input strfbm bnd invoking onf of thf <dodf>gftSfqufndf</dodf> mfthods of
+ * {@link MidiSystfm}.  A sfqufndf dbn blso bf built from sdrbtdh by bdding nfw
+ * <dodf>Trbdks</dodf> to bn fmpty <dodf>Sfqufndf</dodf>, bnd bdding
+ * <dodf>{@link MidiEvfnt}</dodf> objfdts to thfsf <dodf>Trbdks</dodf>.
+ *
+ * @sff Sfqufndfr#sftSfqufndf(jbvb.io.InputStrfbm strfbm)
+ * @sff Sfqufndfr#sftSfqufndf(Sfqufndf sfqufndf)
+ * @sff Trbdk#bdd(MidiEvfnt)
+ * @sff MidiFilfFormbt
+ *
+ * @buthor Kbrb Kytlf
+ */
+publid dlbss Sfqufndf {
+
+
+    // Timing typfs
+
+    /**
+     * Thf tfmpo-bbsfd timing typf, for whidh thf rfsolution is fxprfssfd in pulsfs (tidks) pfr qubrtfr notf.
+     * @sff #Sfqufndf(flobt, int)
+     */
+    publid stbtid finbl flobt PPQ                                                       = 0.0f;
+
+    /**
+     * Thf SMPTE-bbsfd timing typf with 24 frbmfs pfr sfdond (rfsolution is fxprfssfd in tidks pfr frbmf).
+     * @sff #Sfqufndf(flobt, int)
+     */
+    publid stbtid finbl flobt SMPTE_24                                          = 24.0f;
+
+    /**
+     * Thf SMPTE-bbsfd timing typf with 25 frbmfs pfr sfdond (rfsolution is fxprfssfd in tidks pfr frbmf).
+     * @sff #Sfqufndf(flobt, int)
+     */
+    publid stbtid finbl flobt SMPTE_25                                          = 25.0f;
+
+    /**
+     * Thf SMPTE-bbsfd timing typf with 29.97 frbmfs pfr sfdond (rfsolution is fxprfssfd in tidks pfr frbmf).
+     * @sff #Sfqufndf(flobt, int)
+     */
+    publid stbtid finbl flobt SMPTE_30DROP                                      = 29.97f;
+
+    /**
+     * Thf SMPTE-bbsfd timing typf with 30 frbmfs pfr sfdond (rfsolution is fxprfssfd in tidks pfr frbmf).
+     * @sff #Sfqufndf(flobt, int)
+     */
+    publid stbtid finbl flobt SMPTE_30                                          = 30.0f;
+
+
+    // Vbribblfs
+
+    /**
+     * Thf timing division typf of thf sfqufndf.
+     * @sff #PPQ
+     * @sff #SMPTE_24
+     * @sff #SMPTE_25
+     * @sff #SMPTE_30DROP
+     * @sff #SMPTE_30
+     * @sff #gftDivisionTypf
+     */
+    protfdtfd flobt divisionTypf;
+
+    /**
+     * Thf timing rfsolution of thf sfqufndf.
+     * @sff #gftRfsolution
+     */
+    protfdtfd int rfsolution;
+
+    /**
+     * Thf MIDI trbdks in this sfqufndf.
+     * @sff #gftTrbdks
+     */
+    protfdtfd Vfdtor<Trbdk> trbdks = nfw Vfdtor<Trbdk>();
+
+
+    /**
+     * Construdts b nfw MIDI sfqufndf with thf spfdififd timing division
+     * typf bnd timing rfsolution.  Thf division typf must bf onf of thf
+     * rfdognizfd MIDI timing typfs.  For tfmpo-bbsfd timing,
+     * <dodf>divisionTypf</dodf> is PPQ (pulsfs pfr qubrtfr notf) bnd
+     * thf rfsolution is spfdififd in tidks pfr bfbt.  For SMTPE timing,
+     * <dodf>divisionTypf</dodf> spfdififs thf numbfr of frbmfs pfr
+     * sfdond bnd thf rfsolution is spfdififd in tidks pfr frbmf.
+     * Thf sfqufndf will dontbin no initibl trbdks.  Trbdks mby bf
+     * bddfd to or rfmovfd from thf sfqufndf using <dodf>{@link #drfbtfTrbdk}</dodf>
+     * bnd <dodf>{@link #dflftfTrbdk}</dodf>.
+     *
+     * @pbrbm divisionTypf thf timing division typf (PPQ or onf of thf SMPTE typfs)
+     * @pbrbm rfsolution thf timing rfsolution
+     * @throws InvblidMidiDbtbExdfption if <dodf>divisionTypf</dodf> is not vblid
+     *
+     * @sff #PPQ
+     * @sff #SMPTE_24
+     * @sff #SMPTE_25
+     * @sff #SMPTE_30DROP
+     * @sff #SMPTE_30
+     * @sff #gftDivisionTypf
+     * @sff #gftRfsolution
+     * @sff #gftTrbdks
+     */
+    publid Sfqufndf(flobt divisionTypf, int rfsolution) throws InvblidMidiDbtbExdfption {
+
+        if (divisionTypf == PPQ)
+            this.divisionTypf = PPQ;
+        flsf if (divisionTypf == SMPTE_24)
+            this.divisionTypf = SMPTE_24;
+        flsf if (divisionTypf == SMPTE_25)
+            this.divisionTypf = SMPTE_25;
+        flsf if (divisionTypf == SMPTE_30DROP)
+            this.divisionTypf = SMPTE_30DROP;
+        flsf if (divisionTypf == SMPTE_30)
+            this.divisionTypf = SMPTE_30;
+        flsf throw nfw InvblidMidiDbtbExdfption("Unsupportfd division typf: " + divisionTypf);
+
+        this.rfsolution = rfsolution;
+    }
+
+
+    /**
+     * Construdts b nfw MIDI sfqufndf with thf spfdififd timing division
+     * typf, timing rfsolution, bnd numbfr of trbdks.  Thf division typf must bf onf of thf
+     * rfdognizfd MIDI timing typfs.  For tfmpo-bbsfd timing,
+     * <dodf>divisionTypf</dodf> is PPQ (pulsfs pfr qubrtfr notf) bnd
+     * thf rfsolution is spfdififd in tidks pfr bfbt.  For SMTPE timing,
+     * <dodf>divisionTypf</dodf> spfdififs thf numbfr of frbmfs pfr
+     * sfdond bnd thf rfsolution is spfdififd in tidks pfr frbmf.
+     * Thf sfqufndf will bf initiblizfd with thf numbfr of trbdks spfdififd by
+     * <dodf>numTrbdks</dodf>. Thfsf trbdks brf initiblly fmpty (i.f.
+     * thfy dontbin only thf mftb-fvfnt End of Trbdk).
+     * Thf trbdks mby bf rftrifvfd for fditing using thf <dodf>{@link #gftTrbdks}</dodf>
+     * mfthod.  Additionbl trbdks mby bf bddfd, or fxisting trbdks rfmovfd,
+     * using <dodf>{@link #drfbtfTrbdk}</dodf> bnd <dodf>{@link #dflftfTrbdk}</dodf>.
+     *
+     * @pbrbm divisionTypf thf timing division typf (PPQ or onf of thf SMPTE typfs)
+     * @pbrbm rfsolution thf timing rfsolution
+     * @pbrbm numTrbdks thf initibl numbfr of trbdks in thf sfqufndf.
+     * @throws InvblidMidiDbtbExdfption if <dodf>divisionTypf</dodf> is not vblid
+     *
+     * @sff #PPQ
+     * @sff #SMPTE_24
+     * @sff #SMPTE_25
+     * @sff #SMPTE_30DROP
+     * @sff #SMPTE_30
+     * @sff #gftDivisionTypf
+     * @sff #gftRfsolution
+     */
+    publid Sfqufndf(flobt divisionTypf, int rfsolution, int numTrbdks) throws InvblidMidiDbtbExdfption {
+
+        if (divisionTypf == PPQ)
+            this.divisionTypf = PPQ;
+        flsf if (divisionTypf == SMPTE_24)
+            this.divisionTypf = SMPTE_24;
+        flsf if (divisionTypf == SMPTE_25)
+            this.divisionTypf = SMPTE_25;
+        flsf if (divisionTypf == SMPTE_30DROP)
+            this.divisionTypf = SMPTE_30DROP;
+        flsf if (divisionTypf == SMPTE_30)
+            this.divisionTypf = SMPTE_30;
+        flsf throw nfw InvblidMidiDbtbExdfption("Unsupportfd division typf: " + divisionTypf);
+
+        this.rfsolution = rfsolution;
+
+        for (int i = 0; i < numTrbdks; i++) {
+            trbdks.bddElfmfnt(nfw Trbdk());
+        }
+    }
+
+
+    /**
+     * Obtbins thf timing division typf for this sfqufndf.
+     * @rfturn thf division typf (PPQ or onf of thf SMPTE typfs)
+     *
+     * @sff #PPQ
+     * @sff #SMPTE_24
+     * @sff #SMPTE_25
+     * @sff #SMPTE_30DROP
+     * @sff #SMPTE_30
+     * @sff #Sfqufndf(flobt, int)
+     * @sff MidiFilfFormbt#gftDivisionTypf()
+     */
+    publid flobt gftDivisionTypf() {
+        rfturn divisionTypf;
+    }
+
+
+    /**
+     * Obtbins thf timing rfsolution for this sfqufndf.
+     * If thf sfqufndf's division typf is PPQ, thf rfsolution is spfdififd in tidks pfr bfbt.
+     * For SMTPE timing, thf rfsolution is spfdififd in tidks pfr frbmf.
+     *
+     * @rfturn thf numbfr of tidks pfr bfbt (PPQ) or pfr frbmf (SMPTE)
+     * @sff #gftDivisionTypf
+     * @sff #Sfqufndf(flobt, int)
+     * @sff MidiFilfFormbt#gftRfsolution()
+     */
+    publid int gftRfsolution() {
+        rfturn rfsolution;
+    }
+
+
+    /**
+     * Crfbtfs b nfw, initiblly fmpty trbdk bs pbrt of this sfqufndf.
+     * Thf trbdk initiblly dontbins thf mftb-fvfnt End of Trbdk.
+     * Thf nfwly drfbtfd trbdk is rfturnfd.  All trbdks in thf sfqufndf
+     * mby bf rftrifvfd using <dodf>{@link #gftTrbdks}</dodf>.  Trbdks mby bf
+     * rfmovfd from thf sfqufndf using <dodf>{@link #dflftfTrbdk}</dodf>.
+     * @rfturn thf nfwly drfbtfd trbdk
+     */
+    publid Trbdk drfbtfTrbdk() {
+
+        Trbdk trbdk = nfw Trbdk();
+        trbdks.bddElfmfnt(trbdk);
+
+        rfturn trbdk;
+    }
+
+
+    /**
+     * Rfmovfs thf spfdififd trbdk from thf sfqufndf.
+     * @pbrbm trbdk thf trbdk to rfmovf
+     * @rfturn <dodf>truf</dodf> if thf trbdk fxistfd in thf trbdk bnd wbs rfmovfd,
+     * othfrwisf <dodf>fblsf</dodf>.
+     *
+     * @sff #drfbtfTrbdk
+     * @sff #gftTrbdks
+     */
+    publid boolfbn dflftfTrbdk(Trbdk trbdk) {
+
+        syndhronizfd(trbdks) {
+
+            rfturn trbdks.rfmovfElfmfnt(trbdk);
+        }
+    }
+
+
+    /**
+     * Obtbins bn brrby dontbining bll thf trbdks in this sfqufndf.
+     * If thf sfqufndf dontbins no trbdks, bn brrby of lfngth 0 is rfturnfd.
+     * @rfturn thf brrby of trbdks
+     *
+     * @sff #drfbtfTrbdk
+     * @sff #dflftfTrbdk
+     */
+    publid Trbdk[] gftTrbdks() {
+
+        rfturn trbdks.toArrby(nfw Trbdk[trbdks.sizf()]);
+    }
+
+
+    /**
+     * Obtbins thf durbtion of this sfqufndf, fxprfssfd in midrosfdonds.
+     * @rfturn this sfqufndf's durbtion in midrosfdonds.
+     */
+    publid long gftMidrosfdondLfngth() {
+
+        rfturn dom.sun.mfdib.sound.MidiUtils.tidk2midrosfdond(this, gftTidkLfngth(), null);
+    }
+
+
+    /**
+     * Obtbins thf durbtion of this sfqufndf, fxprfssfd in MIDI tidks.
+     *
+     * @rfturn this sfqufndf's lfngth in tidks
+     *
+     * @sff #gftMidrosfdondLfngth
+     */
+    publid long gftTidkLfngth() {
+
+        long lfngth = 0;
+
+        syndhronizfd(trbdks) {
+
+            for(int i=0; i<trbdks.sizf(); i++ ) {
+                long tfmp = trbdks.flfmfntAt(i).tidks();
+                if( tfmp>lfngth ) {
+                    lfngth = tfmp;
+                }
+            }
+            rfturn lfngth;
+        }
+    }
+
+
+    /**
+     * Obtbins b list of pbtdhfs rfffrfndfd in this sfqufndf.
+     * This pbtdh list mby bf usfd to lobd thf rfquirfd
+     * <dodf>{@link Instrumfnt}</dodf> objfdts
+     * into b <dodf>{@link Synthfsizfr}</dodf>.
+     *
+     * @rfturn bn brrby of <dodf>{@link Pbtdh}</dodf> objfdts usfd in this sfqufndf
+     *
+     * @sff Synthfsizfr#lobdInstrumfnts(Soundbbnk, Pbtdh[])
+     */
+    publid Pbtdh[] gftPbtdhList() {
+
+        // $$kk: 04.09.99: nffd to implfmfnt!!
+        rfturn nfw Pbtdh[0];
+    }
+}

@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.intfrfbdfs.ECPublidKfy;
+import jbvb.sfdurity.spfd.*;
+
+/**
+ * ClifntKfyExdhbngf mfssbgf for bll ECDH bbsfd kfy fxdhbngf mfthods. It
+ * dontbins thf dlifnt's fphfmfrbl publid vbluf.
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ */
+finbl dlbss ECDHClifntKfyExdhbngf fxtfnds HbndshbkfMfssbgf {
+
+    @Ovfrridf
+    int mfssbgfTypf() {
+        rfturn ht_dlifnt_kfy_fxdhbngf;
+    }
+
+    privbtf bytf[] fndodfdPoint;
+
+    bytf[] gftEndodfdPoint() {
+        rfturn fndodfdPoint;
+    }
+
+    // Cbllfd by thf dlifnt with its fphfmfrbl publid kfy.
+    ECDHClifntKfyExdhbngf(PublidKfy publidKfy) {
+        ECPublidKfy fdKfy = (ECPublidKfy)publidKfy;
+        ECPoint point = fdKfy.gftW();
+        ECPbrbmftfrSpfd pbrbms = fdKfy.gftPbrbms();
+        fndodfdPoint = JssfJdf.fndodfPoint(point, pbrbms.gftCurvf());
+    }
+
+    ECDHClifntKfyExdhbngf(HbndshbkfInStrfbm input) throws IOExdfption {
+        fndodfdPoint = input.gftBytfs8();
+    }
+
+    @Ovfrridf
+    int mfssbgfLfngth() {
+        rfturn fndodfdPoint.lfngth + 1;
+    }
+
+    @Ovfrridf
+    void sfnd(HbndshbkfOutStrfbm s) throws IOExdfption {
+        s.putBytfs8(fndodfdPoint);
+    }
+
+    @Ovfrridf
+    void print(PrintStrfbm s) throws IOExdfption {
+        s.println("*** ECDHClifntKfyExdhbngf");
+
+        if (dfbug != null && Dfbug.isOn("vfrbosf")) {
+            Dfbug.println(s, "ECDH Publid vbluf", fndodfdPoint);
+        }
+    }
+}

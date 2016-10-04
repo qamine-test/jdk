@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
 
-import sun.misc.Perf;
-import sun.jvmstat.monitor.*;
-import java.util.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.nio.ByteBuffer;
+import sun.misd.Pfrf;
+import sun.jvmstbt.monitor.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.nio.BytfBufffr;
 
 /**
- * Abstraction for the HotSpot PerfData instrumentation buffer. This class
- * is responsible for acquiring access to the instrumentation buffer for
- * a target HotSpot Java Virtual Machine and providing method level access
- * to its contents.
+ * Abstrbdtion for tif HotSpot PfrfDbtb instrumfntbtion bufffr. Tiis dlbss
+ * is rfsponsiblf for bdquiring bddfss to tif instrumfntbtion bufffr for
+ * b tbrgft HotSpot Jbvb Virtubl Mbdiinf bnd providing mftiod lfvfl bddfss
+ * to its dontfnts.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public abstract class AbstractPerfDataBuffer {
+publid bbstrbdt dlbss AbstrbdtPfrfDbtbBufffr {
 
     /**
-     * Reference to the concrete instance created by the
-     * {@link #createPerfDataBuffer} method.
+     * Rfffrfndf to tif dondrftf instbndf drfbtfd by tif
+     * {@link #drfbtfPfrfDbtbBufffr} mftiod.
      */
-    protected PerfDataBufferImpl impl;
+    protfdtfd PfrfDbtbBufffrImpl impl;
 
     /**
-     * Get the Local Java Virtual Machine Identifier, or <em>lvmid</em>
-     * for the target JVM associated with this instrumentation buffer.
+     * Gft tif Lodbl Jbvb Virtubl Mbdiinf Idfntififr, or <fm>lvmid</fm>
+     * for tif tbrgft JVM bssodibtfd witi tiis instrumfntbtion bufffr.
      *
-     * @return int - the lvmid
+     * @rfturn int - tif lvmid
      */
-    public int getLocalVmId() {
-        return impl.getLocalVmId();
+    publid int gftLodblVmId() {
+        rfturn impl.gftLodblVmId();
     }
 
     /**
-     * Get a copy of the raw instrumentation data.
-     * This method is used to get a copy of the current bytes in the
-     * instrumentation buffer. It is generally used for transporting
-     * those bytes over the network.
+     * Gft b dopy of tif rbw instrumfntbtion dbtb.
+     * Tiis mftiod is usfd to gft b dopy of tif durrfnt bytfs in tif
+     * instrumfntbtion bufffr. It is gfnfrblly usfd for trbnsporting
+     * tiosf bytfs ovfr tif nftwork.
      *
-     * @return byte[] - a copy of the bytes in the instrumentation buffer.
+     * @rfturn bytf[] - b dopy of tif bytfs in tif instrumfntbtion bufffr.
      */
-    public byte[] getBytes() {
-        return impl.getBytes();
+    publid bytf[] gftBytfs() {
+        rfturn impl.gftBytfs();
     }
 
     /**
-     * Get the capacity of the instrumentation buffer.
+     * Gft tif dbpbdity of tif instrumfntbtion bufffr.
      *
-     * @return int - the capacity, or size, of the instrumentation buffer.
+     * @rfturn int - tif dbpbdity, or sizf, of tif instrumfntbtion bufffr.
      */
-    public int getCapacity() {
-        return impl.getCapacity();
+    publid int gftCbpbdity() {
+        rfturn impl.gftCbpbdity();
     }
 
     /**
-     * Find a named Instrumentation object.
+     * Find b nbmfd Instrumfntbtion objfdt.
      *
-     * This method will look for the named instrumentation object in the
-     * instrumentation exported by this Java Virtual Machine. If an
-     * instrumentation object with the given name exists, a Monitor interface
-     * to that object will be return. Otherwise, the method returns
+     * Tiis mftiod will look for tif nbmfd instrumfntbtion objfdt in tif
+     * instrumfntbtion fxportfd by tiis Jbvb Virtubl Mbdiinf. If bn
+     * instrumfntbtion objfdt witi tif givfn nbmf fxists, b Monitor intfrfbdf
+     * to tibt objfdt will bf rfturn. Otifrwisf, tif mftiod rfturns
      * <tt>null</tt>.
      *
-     * @param name the name of the Instrumentation object to find.
-     * @return Monitor - the {@link Monitor} object that can be used to
-     *                   monitor the the named instrumentation object, or
-     *                   <tt>null</tt> if the named object doesn't exist.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
+     * @pbrbm nbmf tif nbmf of tif Instrumfntbtion objfdt to find.
+     * @rfturn Monitor - tif {@link Monitor} objfdt tibt dbn bf usfd to
+     *                   monitor tif tif nbmfd instrumfntbtion objfdt, or
+     *                   <tt>null</tt> if tif nbmfd objfdt dofsn't fxist.
+     * @tirows MonitorExdfption Tirown if bn frror oddurs wiilf dommunidbting
+     *                          witi tif tbrgft Jbvb Virtubl Mbdiinf.
      */
-    public Monitor findByName(String name) throws MonitorException {
-        return impl.findByName(name);
+    publid Monitor findByNbmf(String nbmf) tirows MonitorExdfption {
+        rfturn impl.findByNbmf(nbmf);
     }
 
     /**
-     * Find all Instrumentation objects with names matching the given pattern.
+     * Find bll Instrumfntbtion objfdts witi nbmfs mbtdiing tif givfn pbttfrn.
      *
-     * This method returns a {@link List} of Monitor objects such that
-     * the name of each object matches the given pattern.
+     * Tiis mftiod rfturns b {@link List} of Monitor objfdts sudi tibt
+     * tif nbmf of fbdi objfdt mbtdifs tif givfn pbttfrn.
      *
-     * @param patternString  a string containing a pattern as described in
-     *                       {@link java.util.regex.Pattern}.
-     * @return List<Monitor> - a List of {@link Monitor} objects that can be used to
-     *                monitor the instrumentation objects whose names match
-     *                the given pattern. If no instrumentation objects have`
-     *                names matching the given pattern, then an empty List
-     *                is returned.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
-     * @see java.util.regex.Pattern
+     * @pbrbm pbttfrnString  b string dontbining b pbttfrn bs dfsdribfd in
+     *                       {@link jbvb.util.rfgfx.Pbttfrn}.
+     * @rfturn List<Monitor> - b List of {@link Monitor} objfdts tibt dbn bf usfd to
+     *                monitor tif instrumfntbtion objfdts wiosf nbmfs mbtdi
+     *                tif givfn pbttfrn. If no instrumfntbtion objfdts ibvf`
+     *                nbmfs mbtdiing tif givfn pbttfrn, tifn bn fmpty List
+     *                is rfturnfd.
+     * @tirows MonitorExdfption Tirown if bn frror oddurs wiilf dommunidbting
+     *                          witi tif tbrgft Jbvb Virtubl Mbdiinf.
+     * @sff jbvb.util.rfgfx.Pbttfrn
      */
-    public List<Monitor> findByPattern(String patternString) throws MonitorException {
-        return impl.findByPattern(patternString);
+    publid List<Monitor> findByPbttfrn(String pbttfrnString) tirows MonitorExdfption {
+        rfturn impl.findByPbttfrn(pbttfrnString);
     }
 
     /**
-     * Get a list of the inserted and removed monitors since last called.
+     * Gft b list of tif insfrtfd bnd rfmovfd monitors sindf lbst dbllfd.
      *
-     * @return MonitorStatus - the status of available Monitors for the
-     *                         target Java Virtual Machine.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @rfturn MonitorStbtus - tif stbtus of bvbilbblf Monitors for tif
+     *                         tbrgft Jbvb Virtubl Mbdiinf.
+     * @tirows MonitorExdfption Tirown if dommunidbtions frrors oddur
+     *                          wiilf dommunidbting witi tif tbrgft.
      */
-    public MonitorStatus getMonitorStatus() throws MonitorException {
-        return impl.getMonitorStatus();
+    publid MonitorStbtus gftMonitorStbtus() tirows MonitorExdfption {
+        rfturn impl.gftMonitorStbtus();
     }
 
     /**
-     * Get the ByteBuffer containing the instrumentation data.
+     * Gft tif BytfBufffr dontbining tif instrumfntbtion dbtb.
      *
-     * @return ByteBuffer - a ByteBuffer object that refers to the
-     *                      instrumentation data.
+     * @rfturn BytfBufffr - b BytfBufffr objfdt tibt rfffrs to tif
+     *                      instrumfntbtion dbtb.
      */
-    public ByteBuffer getByteBuffer() {
-        return impl.getByteBuffer();
+    publid BytfBufffr gftBytfBufffr() {
+        rfturn impl.gftBytfBufffr();
     }
 
     /**
-     * Create the perfdata instrumentation buffer for the given lvmid
-     * using the given ByteBuffer object as the source of the instrumentation
-     * data. This method parses the instrumentation buffer header to determine
-     * key characteristics of the instrumentation buffer and then dynamically
-     * loads the appropriate class to handle the particular instrumentation
-     * version.
+     * Crfbtf tif pfrfdbtb instrumfntbtion bufffr for tif givfn lvmid
+     * using tif givfn BytfBufffr objfdt bs tif sourdf of tif instrumfntbtion
+     * dbtb. Tiis mftiod pbrsfs tif instrumfntbtion bufffr ifbdfr to dftfrminf
+     * kfy dibrbdtfristids of tif instrumfntbtion bufffr bnd tifn dynbmidblly
+     * lobds tif bppropribtf dlbss to ibndlf tif pbrtidulbr instrumfntbtion
+     * vfrsion.
      *
-     * @param bb the ByteBuffer that references the instrumentation data.
-     * @param lvmid the Local Java Virtual Machine identifier for this
-     *              instrumentation buffer.
+     * @pbrbm bb tif BytfBufffr tibt rfffrfndfs tif instrumfntbtion dbtb.
+     * @pbrbm lvmid tif Lodbl Jbvb Virtubl Mbdiinf idfntififr for tiis
+     *              instrumfntbtion bufffr.
      *
-     * @throws MonitorException
+     * @tirows MonitorExdfption
      */
-    protected void createPerfDataBuffer(ByteBuffer bb, int lvmid)
-                   throws MonitorException {
-        int majorVersion = AbstractPerfDataBufferPrologue.getMajorVersion(bb);
-        int minorVersion = AbstractPerfDataBufferPrologue.getMinorVersion(bb);
+    protfdtfd void drfbtfPfrfDbtbBufffr(BytfBufffr bb, int lvmid)
+                   tirows MonitorExdfption {
+        int mbjorVfrsion = AbstrbdtPfrfDbtbBufffrProloguf.gftMbjorVfrsion(bb);
+        int minorVfrsion = AbstrbdtPfrfDbtbBufffrProloguf.gftMinorVfrsion(bb);
 
-        // instantiate the version specific class
-        String classname = "sun.jvmstat.perfdata.monitor.v"
-                           + majorVersion + "_" + minorVersion
-                           + ".PerfDataBuffer";
+        // instbntibtf tif vfrsion spfdifid dlbss
+        String dlbssnbmf = "sun.jvmstbt.pfrfdbtb.monitor.v"
+                           + mbjorVfrsion + "_" + minorVfrsion
+                           + ".PfrfDbtbBufffr";
 
         try {
-            Class<?> implClass = Class.forName(classname);
-            Constructor<?> cons = implClass.getConstructor(new Class<?>[] {
-                    Class.forName("java.nio.ByteBuffer"),
-                    Integer.TYPE
+            Clbss<?> implClbss = Clbss.forNbmf(dlbssnbmf);
+            Construdtor<?> dons = implClbss.gftConstrudtor(nfw Clbss<?>[] {
+                    Clbss.forNbmf("jbvb.nio.BytfBufffr"),
+                    Intfgfr.TYPE
             });
 
-            impl = (PerfDataBufferImpl)cons.newInstance(new Object[] {
+            impl = (PfrfDbtbBufffrImpl)dons.nfwInstbndf(nfw Objfdt[] {
                      bb, lvmid
             });
 
-        } catch (ClassNotFoundException e) {
-            // from Class.forName();
-            throw new IllegalArgumentException(
-                    "Could not find " + classname + ": " + e.getMessage(), e);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            // from Clbss.forNbmf();
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Could not find " + dlbssnbmf + ": " + f.gftMfssbgf(), f);
 
-        } catch (NoSuchMethodException e) {
-            // from Class.getConstructor();
-            throw new IllegalArgumentException(
-                    "Expected constructor missing in " + classname + ": "
-                    + e.getMessage(), e);
+        } dbtdi (NoSudiMftiodExdfption f) {
+            // from Clbss.gftConstrudtor();
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Expfdtfd donstrudtor missing in " + dlbssnbmf + ": "
+                    + f.gftMfssbgf(), f);
 
-        } catch (IllegalAccessException e) {
-            // from Constructor.newInstance()
-            throw new IllegalArgumentException(
-                   "Unexpected constructor access in " + classname + ": "
-                   + e.getMessage(), e);
+        } dbtdi (IllfgblAddfssExdfption f) {
+            // from Construdtor.nfwInstbndf()
+            tirow nfw IllfgblArgumfntExdfption(
+                   "Unfxpfdtfd donstrudtor bddfss in " + dlbssnbmf + ": "
+                   + f.gftMfssbgf(), f);
 
-        } catch (InstantiationException e) {
-            throw new IllegalArgumentException(
-                    classname + "is abstract: " + e.getMessage(), e);
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    dlbssnbmf + "is bbstrbdt: " + f.gftMfssbgf(), f);
 
-        } catch (InvocationTargetException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof MonitorException) {
-                throw (MonitorException)cause;
+        } dbtdi (InvodbtionTbrgftExdfption f) {
+            Tirowbblf dbusf = f.gftCbusf();
+            if (dbusf instbndfof MonitorExdfption) {
+                tirow (MonitorExdfption)dbusf;
             }
-            throw new RuntimeException("Unexpected exception: "
-                                       + e.getMessage() , e);
+            tirow nfw RuntimfExdfption("Unfxpfdtfd fxdfption: "
+                                       + f.gftMfssbgf() , f);
         }
     }
 }

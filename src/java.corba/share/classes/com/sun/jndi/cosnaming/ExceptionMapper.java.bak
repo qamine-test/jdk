@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.cosnaming;
+pbdkbgf dom.sun.jndi.dosnbming;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.*;
 
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
+import org.omg.CosNbming.*;
+import org.omg.CosNbming.NbmingContfxtPbdkbgf.*;
 import org.omg.CORBA.*;
 
 /**
-  * A convenience class to map the COS Naming exceptions to the JNDI exceptions.
-  * @author Raj Krishnamurthy
+  * A donvfnifndf dlbss to mbp tif COS Nbming fxdfptions to tif JNDI fxdfptions.
+  * @butior Rbj Krisinbmurtiy
   */
 
-public final class ExceptionMapper {
-    private ExceptionMapper() {} // ensure no instance
-    private static final boolean debug = false;
+publid finbl dlbss ExdfptionMbppfr {
+    privbtf ExdfptionMbppfr() {} // fnsurf no instbndf
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
 
-    public static final NamingException mapException(Exception e,
-        CNCtx ctx, NameComponent[] inputName) throws NamingException {
-        if (e instanceof NamingException) {
-            return (NamingException)e;
+    publid stbtid finbl NbmingExdfption mbpExdfption(Exdfption f,
+        CNCtx dtx, NbmfComponfnt[] inputNbmf) tirows NbmingExdfption {
+        if (f instbndfof NbmingExdfption) {
+            rfturn (NbmingExdfption)f;
         }
 
-        if (e instanceof RuntimeException) {
-            throw (RuntimeException)e;
+        if (f instbndfof RuntimfExdfption) {
+            tirow (RuntimfExdfption)f;
         }
 
-        NamingException ne;
-        if (e instanceof NotFound) {
-            if (ctx.federation) {
-                return tryFed((NotFound)e, ctx, inputName);
+        NbmingExdfption nf;
+        if (f instbndfof NotFound) {
+            if (dtx.ffdfrbtion) {
+                rfturn tryFfd((NotFound)f, dtx, inputNbmf);
 
-            } else {
-                ne = new NameNotFoundException();
+            } flsf {
+                nf = nfw NbmfNotFoundExdfption();
             }
 
-        } else if (e instanceof CannotProceed) {
+        } flsf if (f instbndfof CbnnotProdffd) {
 
-            ne = new CannotProceedException();
-            NamingContext nc = ((CannotProceed) e).cxt;
-            NameComponent[] rest = ((CannotProceed) e).rest_of_name;
+            nf = nfw CbnnotProdffdExdfption();
+            NbmingContfxt nd = ((CbnnotProdffd) f).dxt;
+            NbmfComponfnt[] rfst = ((CbnnotProdffd) f).rfst_of_nbmf;
 
-            // %%% We assume that rest returns *all* unprocessed components.
-            // Don't' know if that is a good assumption, given
-            // NotFound doesn't set rest as expected. -RL
-            if (inputName != null && (inputName.length > rest.length)) {
-                NameComponent[] resolvedName =
-                    new NameComponent[inputName.length - rest.length];
-                System.arraycopy(inputName, 0, resolvedName, 0, resolvedName.length);
-                // Wrap resolved NamingContext inside a CNCtx
-                // Guess that its name (which is relative to ctx)
-                // is the part of inputName minus rest_of_name
-                ne.setResolvedObj(new CNCtx(ctx._orb, ctx.orbTracker, nc,
-                                                ctx._env,
-                    ctx.makeFullName(resolvedName)));
-            } else {
-                ne.setResolvedObj(ctx);
+            // %%% Wf bssumf tibt rfst rfturns *bll* unprodfssfd domponfnts.
+            // Don't' know if tibt is b good bssumption, givfn
+            // NotFound dofsn't sft rfst bs fxpfdtfd. -RL
+            if (inputNbmf != null && (inputNbmf.lfngti > rfst.lfngti)) {
+                NbmfComponfnt[] rfsolvfdNbmf =
+                    nfw NbmfComponfnt[inputNbmf.lfngti - rfst.lfngti];
+                Systfm.brrbydopy(inputNbmf, 0, rfsolvfdNbmf, 0, rfsolvfdNbmf.lfngti);
+                // Wrbp rfsolvfd NbmingContfxt insidf b CNCtx
+                // Gufss tibt its nbmf (wiidi is rflbtivf to dtx)
+                // is tif pbrt of inputNbmf minus rfst_of_nbmf
+                nf.sftRfsolvfdObj(nfw CNCtx(dtx._orb, dtx.orbTrbdkfr, nd,
+                                                dtx._fnv,
+                    dtx.mbkfFullNbmf(rfsolvfdNbmf)));
+            } flsf {
+                nf.sftRfsolvfdObj(dtx);
             }
 
-            ne.setRemainingName(CNNameParser.cosNameToName(rest));
+            nf.sftRfmbiningNbmf(CNNbmfPbrsfr.dosNbmfToNbmf(rfst));
 
-        } else if (e instanceof InvalidName) {
-            ne = new InvalidNameException();
-        } else if (e instanceof AlreadyBound) {
-            ne = new NameAlreadyBoundException();
-        } else if (e instanceof NotEmpty) {
-            ne = new ContextNotEmptyException();
-        } else {
-            ne = new NamingException("Unknown reasons");
+        } flsf if (f instbndfof InvblidNbmf) {
+            nf = nfw InvblidNbmfExdfption();
+        } flsf if (f instbndfof AlrfbdyBound) {
+            nf = nfw NbmfAlrfbdyBoundExdfption();
+        } flsf if (f instbndfof NotEmpty) {
+            nf = nfw ContfxtNotEmptyExdfption();
+        } flsf {
+            nf = nfw NbmingExdfption("Unknown rfbsons");
         }
 
-        ne.setRootCause(e);
-        return ne;
+        nf.sftRootCbusf(f);
+        rfturn nf;
     }
 
-    private static final NamingException tryFed(NotFound e, CNCtx ctx,
-        NameComponent[] inputName) throws NamingException {
-        NameComponent[] rest = e.rest_of_name;
+    privbtf stbtid finbl NbmingExdfption tryFfd(NotFound f, CNCtx dtx,
+        NbmfComponfnt[] inputNbmf) tirows NbmingExdfption {
+        NbmfComponfnt[] rfst = f.rfst_of_nbmf;
 
-        if (debug) {
-            System.out.println(e.why.value());
-            System.out.println(rest.length);
+        if (dfbug) {
+            Systfm.out.println(f.wiy.vbluf());
+            Systfm.out.println(rfst.lfngti);
         }
 
-        // %%% Using 1.2 & 1.3 Sun's tnameserv, 'rest' contains only the first
-        // component that failed, not *rest* as advertized. This is useless
-        // because what if you have something like aa/aa/aa/aa/aa.
-        // If one of those is not found, you get "aa" as 'rest'.
-        if (rest.length == 1 && inputName != null) {
-            // Check that we're not talking to 1.2/1.3 Sun tnameserv
-            NameComponent lastIn = inputName[inputName.length-1];
-            if (rest[0].id.equals(lastIn.id) &&
-                rest[0].kind != null &&
-                rest[0].kind.equals(lastIn.kind)) {
-                // Might be legit
+        // %%% Using 1.2 & 1.3 Sun's tnbmfsfrv, 'rfst' dontbins only tif first
+        // domponfnt tibt fbilfd, not *rfst* bs bdvfrtizfd. Tiis is usflfss
+        // bfdbusf wibt if you ibvf somftiing likf bb/bb/bb/bb/bb.
+        // If onf of tiosf is not found, you gft "bb" bs 'rfst'.
+        if (rfst.lfngti == 1 && inputNbmf != null) {
+            // Cifdk tibt wf'rf not tblking to 1.2/1.3 Sun tnbmfsfrv
+            NbmfComponfnt lbstIn = inputNbmf[inputNbmf.lfngti-1];
+            if (rfst[0].id.fqubls(lbstIn.id) &&
+                rfst[0].kind != null &&
+                rfst[0].kind.fqubls(lbstIn.kind)) {
+                // Migit bf lfgit
                 ;
-            } else {
-                // Due to 1.2/1.3 bug that always returns single-item 'rest'
-                NamingException ne = new NameNotFoundException();
-                ne.setRemainingName(CNNameParser.cosNameToName(rest));
-                ne.setRootCause(e);
-                throw ne;
+            } flsf {
+                // Duf to 1.2/1.3 bug tibt blwbys rfturns singlf-itfm 'rfst'
+                NbmingExdfption nf = nfw NbmfNotFoundExdfption();
+                nf.sftRfmbiningNbmf(CNNbmfPbrsfr.dosNbmfToNbmf(rfst));
+                nf.sftRootCbusf(f);
+                tirow nf;
             }
         }
-        // Fixed in 1.4; perform calculations based on correct (1.4) behavior
+        // Fixfd in 1.4; pfrform dbldulbtions bbsfd on dorrfdt (1.4) bfibvior
 
-        // Calculate the components of the name that has been resolved
-        NameComponent[] resolvedName = null;
-        int len = 0;
-        if (inputName != null && (inputName.length >= rest.length)) {
+        // Cbldulbtf tif domponfnts of tif nbmf tibt ibs bffn rfsolvfd
+        NbmfComponfnt[] rfsolvfdNbmf = null;
+        int lfn = 0;
+        if (inputNbmf != null && (inputNbmf.lfngti >= rfst.lfngti)) {
 
-            if (e.why == NotFoundReason.not_context) {
-                // First component of rest is found but not a context; keep it
-                // as part of resolved name
-                len = inputName.length - (rest.length - 1);
+            if (f.wiy == NotFoundRfbson.not_dontfxt) {
+                // First domponfnt of rfst is found but not b dontfxt; kffp it
+                // bs pbrt of rfsolvfd nbmf
+                lfn = inputNbmf.lfngti - (rfst.lfngti - 1);
 
-                // Remove resolved component from rest
-                if (rest.length == 1) {
-                    // No more remaining
-                    rest = null;
-                } else {
-                    NameComponent[] tmp = new NameComponent[rest.length-1];
-                    System.arraycopy(rest, 1, tmp, 0, tmp.length);
-                    rest = tmp;
+                // Rfmovf rfsolvfd domponfnt from rfst
+                if (rfst.lfngti == 1) {
+                    // No morf rfmbining
+                    rfst = null;
+                } flsf {
+                    NbmfComponfnt[] tmp = nfw NbmfComponfnt[rfst.lfngti-1];
+                    Systfm.brrbydopy(rfst, 1, tmp, 0, tmp.lfngti);
+                    rfst = tmp;
                 }
-            } else {
-                len = inputName.length - rest.length;
+            } flsf {
+                lfn = inputNbmf.lfngti - rfst.lfngti;
             }
 
-            if (len > 0) {
-                resolvedName = new NameComponent[len];
-                System.arraycopy(inputName, 0, resolvedName, 0, len);
+            if (lfn > 0) {
+                rfsolvfdNbmf = nfw NbmfComponfnt[lfn];
+                Systfm.brrbydopy(inputNbmf, 0, rfsolvfdNbmf, 0, lfn);
             }
         }
 
-        // Create CPE and set common fields
-        CannotProceedException cpe = new CannotProceedException();
-        cpe.setRootCause(e);
-        if (rest != null && rest.length > 0) {
-            cpe.setRemainingName(CNNameParser.cosNameToName(rest));
+        // Crfbtf CPE bnd sft dommon fiflds
+        CbnnotProdffdExdfption dpf = nfw CbnnotProdffdExdfption();
+        dpf.sftRootCbusf(f);
+        if (rfst != null && rfst.lfngti > 0) {
+            dpf.sftRfmbiningNbmf(CNNbmfPbrsfr.dosNbmfToNbmf(rfst));
         }
-        cpe.setEnvironment(ctx._env);
+        dpf.sftEnvironmfnt(dtx._fnv);
 
-        if (debug) {
-            System.out.println("rest of name: " + cpe.getRemainingName());
+        if (dfbug) {
+            Systfm.out.println("rfst of nbmf: " + dpf.gftRfmbiningNbmf());
         }
 
-        // Lookup resolved name to get resolved object
-        final java.lang.Object resolvedObj =
-            (resolvedName != null) ? ctx.callResolve(resolvedName) : ctx;
+        // Lookup rfsolvfd nbmf to gft rfsolvfd objfdt
+        finbl jbvb.lbng.Objfdt rfsolvfdObj =
+            (rfsolvfdNbmf != null) ? dtx.dbllRfsolvf(rfsolvfdNbmf) : dtx;
 
-        if (resolvedObj instanceof javax.naming.Context) {
-            // obj is a context and child is not found
-            // try getting its nns dynamically by constructing
-            // a Reference containing obj.
-            RefAddr addr = new RefAddr("nns") {
-                public java.lang.Object getContent() {
-                    return resolvedObj;
+        if (rfsolvfdObj instbndfof jbvbx.nbming.Contfxt) {
+            // obj is b dontfxt bnd diild is not found
+            // try gftting its nns dynbmidblly by donstrudting
+            // b Rfffrfndf dontbining obj.
+            RffAddr bddr = nfw RffAddr("nns") {
+                publid jbvb.lbng.Objfdt gftContfnt() {
+                    rfturn rfsolvfdObj;
                 }
-                private static final long serialVersionUID =
+                privbtf stbtid finbl long sfriblVfrsionUID =
                     669984699392133792L;
             };
-            Reference ref = new Reference("java.lang.Object", addr);
+            Rfffrfndf rff = nfw Rfffrfndf("jbvb.lbng.Objfdt", bddr);
 
-            // Resolved name has trailing slash to indicate nns
-            CompositeName cname = new CompositeName();
-            cname.add(""); // add trailing slash
+            // Rfsolvfd nbmf ibs trbiling slbsi to indidbtf nns
+            CompositfNbmf dnbmf = nfw CompositfNbmf();
+            dnbmf.bdd(""); // bdd trbiling slbsi
 
-            cpe.setResolvedObj(ref);
-            cpe.setAltName(cname);
-            cpe.setAltNameCtx((javax.naming.Context)resolvedObj);
+            dpf.sftRfsolvfdObj(rff);
+            dpf.sftAltNbmf(dnbmf);
+            dpf.sftAltNbmfCtx((jbvbx.nbming.Contfxt)rfsolvfdObj);
 
-            return cpe;
-        } else {
-            // Not a context, use object factory to transform object.
+            rfturn dpf;
+        } flsf {
+            // Not b dontfxt, usf objfdt fbdtory to trbnsform objfdt.
 
-            Name cname = CNNameParser.cosNameToName(resolvedName);
-            java.lang.Object resolvedObj2;
+            Nbmf dnbmf = CNNbmfPbrsfr.dosNbmfToNbmf(rfsolvfdNbmf);
+            jbvb.lbng.Objfdt rfsolvfdObj2;
             try {
-                resolvedObj2 = NamingManager.getObjectInstance(resolvedObj,
-                    cname, ctx, ctx._env);
-            } catch (NamingException ge) {
-                throw ge;
-            } catch (Exception ge) {
-                NamingException ne = new NamingException(
-                    "problem generating object using object factory");
-                ne.setRootCause(ge);
-                throw ne;
+                rfsolvfdObj2 = NbmingMbnbgfr.gftObjfdtInstbndf(rfsolvfdObj,
+                    dnbmf, dtx, dtx._fnv);
+            } dbtdi (NbmingExdfption gf) {
+                tirow gf;
+            } dbtdi (Exdfption gf) {
+                NbmingExdfption nf = nfw NbmingExdfption(
+                    "problfm gfnfrbting objfdt using objfdt fbdtory");
+                nf.sftRootCbusf(gf);
+                tirow nf;
             }
 
-            // If a context, continue operation with context
-            if (resolvedObj2 instanceof javax.naming.Context) {
-                cpe.setResolvedObj(resolvedObj2);
-            } else {
-                // Add trailing slash
-                cname.add("");
-                cpe.setAltName(cname);
+            // If b dontfxt, dontinuf opfrbtion witi dontfxt
+            if (rfsolvfdObj2 instbndfof jbvbx.nbming.Contfxt) {
+                dpf.sftRfsolvfdObj(rfsolvfdObj2);
+            } flsf {
+                // Add trbiling slbsi
+                dnbmf.bdd("");
+                dpf.sftAltNbmf(dnbmf);
 
-                // Create nns reference
-                final java.lang.Object rf2 = resolvedObj2;
-                RefAddr addr = new RefAddr("nns") {
-                    public java.lang.Object getContent() {
-                        return rf2;
+                // Crfbtf nns rfffrfndf
+                finbl jbvb.lbng.Objfdt rf2 = rfsolvfdObj2;
+                RffAddr bddr = nfw RffAddr("nns") {
+                    publid jbvb.lbng.Objfdt gftContfnt() {
+                        rfturn rf2;
                     }
-                    private static final long serialVersionUID =
+                    privbtf stbtid finbl long sfriblVfrsionUID =
                         -785132553978269772L;
                 };
-                Reference ref = new Reference("java.lang.Object", addr);
-                cpe.setResolvedObj(ref);
-                cpe.setAltNameCtx(ctx);
+                Rfffrfndf rff = nfw Rfffrfndf("jbvb.lbng.Objfdt", bddr);
+                dpf.sftRfsolvfdObj(rff);
+                dpf.sftAltNbmfCtx(dtx);
             }
-            return cpe;
+            rfturn dpf;
         }
     }
 }

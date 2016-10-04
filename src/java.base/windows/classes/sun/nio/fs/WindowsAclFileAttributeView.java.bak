@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.ProviderMismatchException;
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.filf.ProvidfrMismbtdiExdfption;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Windows implementation of AclFileAttributeView.
+ * Windows implfmfntbtion of AdlFilfAttributfVifw.
  */
 
-class WindowsAclFileAttributeView
-    extends AbstractAclFileAttributeView
+dlbss WindowsAdlFilfAttributfVifw
+    fxtfnds AbstrbdtAdlFilfAttributfVifw
 {
     /**
-     * typedef struct _SECURITY_DESCRIPTOR {
-     *     BYTE  Revision;
+     * typfdff strudt _SECURITY_DESCRIPTOR {
+     *     BYTE  Rfvision;
      *     BYTE  Sbz1;
      *     SECURITY_DESCRIPTOR_CONTROL Control;
-     *     PSID Owner;
+     *     PSID Ownfr;
      *     PSID Group;
-     *     PACL Sacl;
-     *     PACL Dacl;
+     *     PACL Sbdl;
+     *     PACL Dbdl;
      * } SECURITY_DESCRIPTOR;
      */
-    private static final short SIZEOF_SECURITY_DESCRIPTOR   = 20;
+    privbtf stbtid finbl siort SIZEOF_SECURITY_DESCRIPTOR   = 20;
 
-    private final WindowsPath file;
-    private final boolean followLinks;
+    privbtf finbl WindowsPbti filf;
+    privbtf finbl boolfbn followLinks;
 
-    WindowsAclFileAttributeView(WindowsPath file, boolean followLinks) {
-        this.file = file;
-        this.followLinks = followLinks;
+    WindowsAdlFilfAttributfVifw(WindowsPbti filf, boolfbn followLinks) {
+        tiis.filf = filf;
+        tiis.followLinks = followLinks;
     }
 
-    // permission check
-    private void checkAccess(WindowsPath file,
-                             boolean checkRead,
-                             boolean checkWrite)
+    // pfrmission difdk
+    privbtf void difdkAddfss(WindowsPbti filf,
+                             boolfbn difdkRfbd,
+                             boolfbn difdkWritf)
     {
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            if (checkRead)
-                sm.checkRead(file.getPathForPermissionCheck());
-            if (checkWrite)
-                sm.checkWrite(file.getPathForPermissionCheck());
-            sm.checkPermission(new RuntimePermission("accessUserInformation"));
+            if (difdkRfbd)
+                sm.difdkRfbd(filf.gftPbtiForPfrmissionCifdk());
+            if (difdkWritf)
+                sm.difdkWritf(filf.gftPbtiForPfrmissionCifdk());
+            sm.difdkPfrmission(nfw RuntimfPfrmission("bddfssUsfrInformbtion"));
         }
     }
 
-    // invokes GetFileSecurity to get requested security information
-    static NativeBuffer getFileSecurity(String path, int request)
-        throws IOException
+    // invokfs GftFilfSfdurity to gft rfqufstfd sfdurity informbtion
+    stbtid NbtivfBufffr gftFilfSfdurity(String pbti, int rfqufst)
+        tirows IOExdfption
     {
-        // invoke get to buffer size
-        int size = 0;
+        // invokf gft to bufffr sizf
+        int sizf = 0;
         try {
-            size = GetFileSecurity(path, request, 0L, 0);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(path);
+            sizf = GftFilfSfdurity(pbti, rfqufst, 0L, 0);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(pbti);
         }
-        assert size > 0;
+        bssfrt sizf > 0;
 
-        // allocate buffer and re-invoke to get security information
-        NativeBuffer buffer = NativeBuffers.getNativeBuffer(size);
+        // bllodbtf bufffr bnd rf-invokf to gft sfdurity informbtion
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
         try {
             for (;;) {
-                int newSize = GetFileSecurity(path, request, buffer.address(), size);
-                if (newSize <= size)
-                    return buffer;
+                int nfwSizf = GftFilfSfdurity(pbti, rfqufst, bufffr.bddrfss(), sizf);
+                if (nfwSizf <= sizf)
+                    rfturn bufffr;
 
-                // buffer was insufficient
-                buffer.release();
-                buffer = NativeBuffers.getNativeBuffer(newSize);
-                size = newSize;
+                // bufffr wbs insuffidifnt
+                bufffr.rflfbsf();
+                bufffr = NbtivfBufffrs.gftNbtivfBufffr(nfwSizf);
+                sizf = nfwSizf;
             }
-        } catch (WindowsException x) {
-            buffer.release();
-            x.rethrowAsIOException(path);
-            return null;
+        } dbtdi (WindowsExdfption x) {
+            bufffr.rflfbsf();
+            x.rftirowAsIOExdfption(pbti);
+            rfturn null;
         }
     }
 
-    @Override
-    public UserPrincipal getOwner()
-        throws IOException
+    @Ovfrridf
+    publid UsfrPrindipbl gftOwnfr()
+        tirows IOExdfption
     {
-        checkAccess(file, true, false);
+        difdkAddfss(filf, truf, fblsf);
 
-        // GetFileSecurity does not follow links so when following links we
-        // need the final target
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
-        NativeBuffer buffer = getFileSecurity(path, OWNER_SECURITY_INFORMATION);
+        // GftFilfSfdurity dofs not follow links so wifn following links wf
+        // nffd tif finbl tbrgft
+        String pbti = WindowsLinkSupport.gftFinblPbti(filf, followLinks);
+        NbtivfBufffr bufffr = gftFilfSfdurity(pbti, OWNER_SECURITY_INFORMATION);
         try {
-            // get the address of the SID
-            long sidAddress = GetSecurityDescriptorOwner(buffer.address());
-            if (sidAddress == 0L)
-                throw new IOException("no owner");
-            return WindowsUserPrincipals.fromSid(sidAddress);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(file);
-            return null;
-        } finally {
-            buffer.release();
+            // gft tif bddrfss of tif SID
+            long sidAddrfss = GftSfdurityDfsdriptorOwnfr(bufffr.bddrfss());
+            if (sidAddrfss == 0L)
+                tirow nfw IOExdfption("no ownfr");
+            rfturn WindowsUsfrPrindipbls.fromSid(sidAddrfss);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(filf);
+            rfturn null;
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
 
-    @Override
-    public List<AclEntry> getAcl()
-        throws IOException
+    @Ovfrridf
+    publid List<AdlEntry> gftAdl()
+        tirows IOExdfption
     {
-        checkAccess(file, true, false);
+        difdkAddfss(filf, truf, fblsf);
 
-        // GetFileSecurity does not follow links so when following links we
-        // need the final target
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
+        // GftFilfSfdurity dofs not follow links so wifn following links wf
+        // nffd tif finbl tbrgft
+        String pbti = WindowsLinkSupport.gftFinblPbti(filf, followLinks);
 
-        // ALLOW and DENY entries in DACL;
-        // AUDIT entries in SACL (ignore for now as it requires privileges)
-        NativeBuffer buffer = getFileSecurity(path, DACL_SECURITY_INFORMATION);
+        // ALLOW bnd DENY fntrifs in DACL;
+        // AUDIT fntrifs in SACL (ignorf for now bs it rfquirfs privilfgfs)
+        NbtivfBufffr bufffr = gftFilfSfdurity(pbti, DACL_SECURITY_INFORMATION);
         try {
-            return WindowsSecurityDescriptor.getAcl(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn WindowsSfdurityDfsdriptor.gftAdl(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
 
-    @Override
-    public void setOwner(UserPrincipal obj)
-        throws IOException
+    @Ovfrridf
+    publid void sftOwnfr(UsfrPrindipbl obj)
+        tirows IOExdfption
     {
         if (obj == null)
-            throw new NullPointerException("'owner' is null");
-        if (!(obj instanceof WindowsUserPrincipals.User))
-            throw new ProviderMismatchException();
-        WindowsUserPrincipals.User owner = (WindowsUserPrincipals.User)obj;
+            tirow nfw NullPointfrExdfption("'ownfr' is null");
+        if (!(obj instbndfof WindowsUsfrPrindipbls.Usfr))
+            tirow nfw ProvidfrMismbtdiExdfption();
+        WindowsUsfrPrindipbls.Usfr ownfr = (WindowsUsfrPrindipbls.Usfr)obj;
 
-        // permission check
-        checkAccess(file, false, true);
+        // pfrmission difdk
+        difdkAddfss(filf, fblsf, truf);
 
-        // SetFileSecurity does not follow links so when following links we
-        // need the final target
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
+        // SftFilfSfdurity dofs not follow links so wifn following links wf
+        // nffd tif finbl tbrgft
+        String pbti = WindowsLinkSupport.gftFinblPbti(filf, followLinks);
 
-        // ConvertStringSidToSid allocates memory for SID so must invoke
-        // LocalFree to free it when we are done
-        long pOwner = 0L;
+        // ConvfrtStringSidToSid bllodbtfs mfmory for SID so must invokf
+        // LodblFrff to frff it wifn wf brf donf
+        long pOwnfr = 0L;
         try {
-            pOwner = ConvertStringSidToSid(owner.sidString());
-        } catch (WindowsException x) {
-            throw new IOException("Failed to get SID for " + owner.getName()
-                + ": " + x.errorString());
+            pOwnfr = ConvfrtStringSidToSid(ownfr.sidString());
+        } dbtdi (WindowsExdfption x) {
+            tirow nfw IOExdfption("Fbilfd to gft SID for " + ownfr.gftNbmf()
+                + ": " + x.frrorString());
         }
 
-        // Allocate buffer for security descriptor, initialize it, set
-        // owner information and update the file.
+        // Allodbtf bufffr for sfdurity dfsdriptor, initiblizf it, sft
+        // ownfr informbtion bnd updbtf tif filf.
         try {
-            NativeBuffer buffer = NativeBuffers.getNativeBuffer(SIZEOF_SECURITY_DESCRIPTOR);
+            NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(SIZEOF_SECURITY_DESCRIPTOR);
             try {
-                InitializeSecurityDescriptor(buffer.address());
-                SetSecurityDescriptorOwner(buffer.address(), pOwner);
-                // may need SeRestorePrivilege to set the owner
-                WindowsSecurity.Privilege priv =
-                    WindowsSecurity.enablePrivilege("SeRestorePrivilege");
+                InitiblizfSfdurityDfsdriptor(bufffr.bddrfss());
+                SftSfdurityDfsdriptorOwnfr(bufffr.bddrfss(), pOwnfr);
+                // mby nffd SfRfstorfPrivilfgf to sft tif ownfr
+                WindowsSfdurity.Privilfgf priv =
+                    WindowsSfdurity.fnbblfPrivilfgf("SfRfstorfPrivilfgf");
                 try {
-                    SetFileSecurity(path,
+                    SftFilfSfdurity(pbti,
                                     OWNER_SECURITY_INFORMATION,
-                                    buffer.address());
-                } finally {
+                                    bufffr.bddrfss());
+                } finblly {
                     priv.drop();
                 }
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(file);
-            } finally {
-                buffer.release();
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(filf);
+            } finblly {
+                bufffr.rflfbsf();
             }
-        } finally {
-            LocalFree(pOwner);
+        } finblly {
+            LodblFrff(pOwnfr);
         }
     }
 
-    @Override
-    public void setAcl(List<AclEntry> acl) throws IOException {
-        checkAccess(file, false, true);
+    @Ovfrridf
+    publid void sftAdl(List<AdlEntry> bdl) tirows IOExdfption {
+        difdkAddfss(filf, fblsf, truf);
 
-        // SetFileSecurity does not follow links so when following links we
-        // need the final target
-        String path = WindowsLinkSupport.getFinalPath(file, followLinks);
-        WindowsSecurityDescriptor sd = WindowsSecurityDescriptor.create(acl);
+        // SftFilfSfdurity dofs not follow links so wifn following links wf
+        // nffd tif finbl tbrgft
+        String pbti = WindowsLinkSupport.gftFinblPbti(filf, followLinks);
+        WindowsSfdurityDfsdriptor sd = WindowsSfdurityDfsdriptor.drfbtf(bdl);
         try {
-            SetFileSecurity(path, DACL_SECURITY_INFORMATION, sd.address());
-        } catch (WindowsException x) {
-             x.rethrowAsIOException(file);
-        } finally {
-            sd.release();
+            SftFilfSfdurity(pbti, DACL_SECURITY_INFORMATION, sd.bddrfss());
+        } dbtdi (WindowsExdfption x) {
+             x.rftirowAsIOExdfption(filf);
+        } finblly {
+            sd.rflfbsf();
         }
     }
 }

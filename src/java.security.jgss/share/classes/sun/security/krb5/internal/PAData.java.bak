@@ -1,324 +1,324 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.KrbException;
-import sun.security.util.*;
-import sun.security.krb5.Asn1Exception;
-import java.io.IOException;
-import sun.security.krb5.internal.util.KerberosString;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosString;
 
 /**
- * Implements the ASN.1 PA-DATA type.
+ * Implfmfnts tif ASN.1 PA-DATA typf.
  *
  * <xmp>
  * PA-DATA         ::= SEQUENCE {
- *         -- NOTE: first tag is [1], not [0]
- *         padata-type     [1] Int32,
- *         padata-value    [2] OCTET STRING -- might be encoded AP-REQ
+ *         -- NOTE: first tbg is [1], not [0]
+ *         pbdbtb-typf     [1] Int32,
+ *         pbdbtb-vbluf    [2] OCTET STRING -- migit bf fndodfd AP-REQ
  * }
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
 
-public class PAData {
-    private int pADataType;
-    private byte[] pADataValue = null;
-    private static final byte TAG_PATYPE = 1;
-    private static final byte TAG_PAVALUE = 2;
+publid dlbss PADbtb {
+    privbtf int pADbtbTypf;
+    privbtf bytf[] pADbtbVbluf = null;
+    privbtf stbtid finbl bytf TAG_PATYPE = 1;
+    privbtf stbtid finbl bytf TAG_PAVALUE = 2;
 
-    private PAData() {
+    privbtf PADbtb() {
     }
 
-    public PAData(int new_pADataType, byte[] new_pADataValue) {
-        pADataType = new_pADataType;
-        if (new_pADataValue != null) {
-            pADataValue = new_pADataValue.clone();
+    publid PADbtb(int nfw_pADbtbTypf, bytf[] nfw_pADbtbVbluf) {
+        pADbtbTypf = nfw_pADbtbTypf;
+        if (nfw_pADbtbVbluf != null) {
+            pADbtbVbluf = nfw_pADbtbVbluf.dlonf();
         }
     }
 
-    public Object clone() {
-        PAData new_pAData = new PAData();
-        new_pAData.pADataType = pADataType;
-        if (pADataValue != null) {
-            new_pAData.pADataValue = new byte[pADataValue.length];
-            System.arraycopy(pADataValue, 0, new_pAData.pADataValue,
-                             0, pADataValue.length);
+    publid Objfdt dlonf() {
+        PADbtb nfw_pADbtb = nfw PADbtb();
+        nfw_pADbtb.pADbtbTypf = pADbtbTypf;
+        if (pADbtbVbluf != null) {
+            nfw_pADbtb.pADbtbVbluf = nfw bytf[pADbtbVbluf.lfngti];
+            Systfm.brrbydopy(pADbtbVbluf, 0, nfw_pADbtb.pADbtbVbluf,
+                             0, pADbtbVbluf.lfngti);
         }
-        return new_pAData;
+        rfturn nfw_pADbtb;
     }
 
     /**
-     * Constructs a PAData object.
-     * @param encoding a Der-encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Construdts b PADbtb objfdt.
+     * @pbrbm fndoding b Dfr-fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public PAData(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der = null;
-        if (encoding.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    publid PADbtb(DfrVbluf fndoding) tirows Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr = null;
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x1F) == 0x01) {
-            this.pADataType = der.getData().getBigInteger().intValue();
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x01) {
+            tiis.pADbtbTypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
         }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x1F) == 0x02) {
-            this.pADataValue = der.getData().getOctetString();
+        flsf
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x02) {
+            tiis.pADbtbVbluf = dfr.gftDbtb().gftOdtftString();
         }
-        if (encoding.getData().available() > 0)
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
     }
 
     /**
-     * Encodes this object to an OutputStream.
+     * Endodfs tiis objfdt to bn OutputStrfbm.
      *
-     * @return byte array of the encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception Asn1Exception on encoding errors.
+     * @rfturn bytf brrby of tif fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @fxdfption Asn1Exdfption on fndoding frrors.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
 
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
 
-        temp.putInteger(pADataType);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_PATYPE), temp);
-        temp = new DerOutputStream();
-        temp.putOctetString(pADataValue);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_PAVALUE), temp);
+        tfmp.putIntfgfr(pADbtbTypf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_PATYPE), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOdtftString(pADbtbVbluf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_PAVALUE), tfmp);
 
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
     }
 
-    // accessor methods
-    public int getType() {
-        return pADataType;
+    // bddfssor mftiods
+    publid int gftTypf() {
+        rfturn pADbtbTypf;
     }
 
-    public byte[] getValue() {
-        return ((pADataValue == null) ? null : pADataValue.clone());
+    publid bytf[] gftVbluf() {
+        rfturn ((pADbtbVbluf == null) ? null : pADbtbVbluf.dlonf());
     }
 
     /**
-     * Gets the preferred etype from the PAData array.
-     * 1. ETYPE-INFO2-ENTRY with unknown s2kparams ignored
-     * 2. ETYPE-INFO2 preferred to ETYPE-INFO
-     * 3. multiple entries for same etype in one PA-DATA, use the first one.
-     * 4. Multiple PA-DATA with same type, choose the last one
-     * (This is useful when PA-DATAs from KRB-ERROR and AS-REP are combined).
-     * @return the etype, or defaultEType if not enough info
-     * @throws Asn1Exception|IOException if there is an encoding error
+     * Gfts tif prfffrrfd ftypf from tif PADbtb brrby.
+     * 1. ETYPE-INFO2-ENTRY witi unknown s2kpbrbms ignorfd
+     * 2. ETYPE-INFO2 prfffrrfd to ETYPE-INFO
+     * 3. multiplf fntrifs for sbmf ftypf in onf PA-DATA, usf tif first onf.
+     * 4. Multiplf PA-DATA witi sbmf typf, dioosf tif lbst onf
+     * (Tiis is usfful wifn PA-DATAs from KRB-ERROR bnd AS-REP brf dombinfd).
+     * @rfturn tif ftypf, or dffbultETypf if not fnougi info
+     * @tirows Asn1Exdfption|IOExdfption if tifrf is bn fndoding frror
      */
-    public static int getPreferredEType(PAData[] pas, int defaultEType)
-            throws IOException, Asn1Exception {
+    publid stbtid int gftPrfffrrfdETypf(PADbtb[] pbs, int dffbultETypf)
+            tirows IOExdfption, Asn1Exdfption {
 
-        if (pas == null) return defaultEType;
+        if (pbs == null) rfturn dffbultETypf;
 
-        DerValue d = null, d2 = null;
-        for (PAData p: pas) {
-            if (p.getValue() == null) continue;
-            switch (p.getType()) {
-                case Krb5.PA_ETYPE_INFO:
-                    d = new DerValue(p.getValue());
-                    break;
-                case Krb5.PA_ETYPE_INFO2:
-                    d2 = new DerValue(p.getValue());
-                    break;
+        DfrVbluf d = null, d2 = null;
+        for (PADbtb p: pbs) {
+            if (p.gftVbluf() == null) dontinuf;
+            switdi (p.gftTypf()) {
+                dbsf Krb5.PA_ETYPE_INFO:
+                    d = nfw DfrVbluf(p.gftVbluf());
+                    brfbk;
+                dbsf Krb5.PA_ETYPE_INFO2:
+                    d2 = nfw DfrVbluf(p.gftVbluf());
+                    brfbk;
             }
         }
         if (d2 != null) {
-            while (d2.data.available() > 0) {
-                DerValue value = d2.data.getDerValue();
-                ETypeInfo2 tmp = new ETypeInfo2(value);
-                if (tmp.getParams() == null) {
-                    // we don't support non-null s2kparams
-                    return tmp.getEType();
+            wiilf (d2.dbtb.bvbilbblf() > 0) {
+                DfrVbluf vbluf = d2.dbtb.gftDfrVbluf();
+                ETypfInfo2 tmp = nfw ETypfInfo2(vbluf);
+                if (tmp.gftPbrbms() == null) {
+                    // wf don't support non-null s2kpbrbms
+                    rfturn tmp.gftETypf();
                 }
             }
         }
         if (d != null) {
-            while (d.data.available() > 0) {
-                DerValue value = d.data.getDerValue();
-                ETypeInfo tmp = new ETypeInfo(value);
-                return tmp.getEType();
+            wiilf (d.dbtb.bvbilbblf() > 0) {
+                DfrVbluf vbluf = d.dbtb.gftDfrVbluf();
+                ETypfInfo tmp = nfw ETypfInfo(vbluf);
+                rfturn tmp.gftETypf();
             }
         }
-        return defaultEType;
+        rfturn dffbultETypf;
     }
 
     /**
-     * A place to store a pair of salt and s2kparams.
-     * An empty salt is changed to null, to be interoperable
-     * with Windows 2000 server. This is in fact not correct.
+     * A plbdf to storf b pbir of sblt bnd s2kpbrbms.
+     * An fmpty sblt is dibngfd to null, to bf intfropfrbblf
+     * witi Windows 2000 sfrvfr. Tiis is in fbdt not dorrfdt.
      */
-    public static class SaltAndParams {
-        public final String salt;
-        public final byte[] params;
-        public SaltAndParams(String s, byte[] p) {
+    publid stbtid dlbss SbltAndPbrbms {
+        publid finbl String sblt;
+        publid finbl bytf[] pbrbms;
+        publid SbltAndPbrbms(String s, bytf[] p) {
             if (s != null && s.isEmpty()) s = null;
-            this.salt = s;
-            this.params = p;
+            tiis.sblt = s;
+            tiis.pbrbms = p;
         }
     }
 
     /**
-     * Fetches salt and s2kparams value for eType in a series of PA-DATAs.
-     * 1. ETYPE-INFO2-ENTRY with unknown s2kparams ignored
-     * 2. PA-ETYPE-INFO2 preferred to PA-ETYPE-INFO preferred to PA-PW-SALT.
-     * 3. multiple entries for same etype in one PA-DATA, use the first one.
-     * 4. Multiple PA-DATA with same type, choose the last one
-     * (This is useful when PA-DATAs from KRB-ERROR and AS-REP are combined).
-     * @return salt and s2kparams. can be null if not found
+     * Fftdifs sblt bnd s2kpbrbms vbluf for fTypf in b sfrifs of PA-DATAs.
+     * 1. ETYPE-INFO2-ENTRY witi unknown s2kpbrbms ignorfd
+     * 2. PA-ETYPE-INFO2 prfffrrfd to PA-ETYPE-INFO prfffrrfd to PA-PW-SALT.
+     * 3. multiplf fntrifs for sbmf ftypf in onf PA-DATA, usf tif first onf.
+     * 4. Multiplf PA-DATA witi sbmf typf, dioosf tif lbst onf
+     * (Tiis is usfful wifn PA-DATAs from KRB-ERROR bnd AS-REP brf dombinfd).
+     * @rfturn sblt bnd s2kpbrbms. dbn bf null if not found
      */
-    public static SaltAndParams getSaltAndParams(int eType, PAData[] pas)
-            throws Asn1Exception, IOException {
+    publid stbtid SbltAndPbrbms gftSbltAndPbrbms(int fTypf, PADbtb[] pbs)
+            tirows Asn1Exdfption, IOExdfption {
 
-        if (pas == null) return null;
+        if (pbs == null) rfturn null;
 
-        DerValue d = null, d2 = null;
-        String paPwSalt = null;
+        DfrVbluf d = null, d2 = null;
+        String pbPwSblt = null;
 
-        for (PAData p: pas) {
-            if (p.getValue() == null) continue;
-            switch (p.getType()) {
-                case Krb5.PA_PW_SALT:
-                    paPwSalt = new String(p.getValue(),
-                            KerberosString.MSNAME?"UTF8":"8859_1");
-                    break;
-                case Krb5.PA_ETYPE_INFO:
-                    d = new DerValue(p.getValue());
-                    break;
-                case Krb5.PA_ETYPE_INFO2:
-                    d2 = new DerValue(p.getValue());
-                    break;
+        for (PADbtb p: pbs) {
+            if (p.gftVbluf() == null) dontinuf;
+            switdi (p.gftTypf()) {
+                dbsf Krb5.PA_PW_SALT:
+                    pbPwSblt = nfw String(p.gftVbluf(),
+                            KfrbfrosString.MSNAME?"UTF8":"8859_1");
+                    brfbk;
+                dbsf Krb5.PA_ETYPE_INFO:
+                    d = nfw DfrVbluf(p.gftVbluf());
+                    brfbk;
+                dbsf Krb5.PA_ETYPE_INFO2:
+                    d2 = nfw DfrVbluf(p.gftVbluf());
+                    brfbk;
             }
         }
         if (d2 != null) {
-            while (d2.data.available() > 0) {
-                DerValue value = d2.data.getDerValue();
-                ETypeInfo2 tmp = new ETypeInfo2(value);
-                if (tmp.getParams() == null && tmp.getEType() == eType) {
-                    // we don't support non-null s2kparams
-                    return new SaltAndParams(tmp.getSalt(), tmp.getParams());
+            wiilf (d2.dbtb.bvbilbblf() > 0) {
+                DfrVbluf vbluf = d2.dbtb.gftDfrVbluf();
+                ETypfInfo2 tmp = nfw ETypfInfo2(vbluf);
+                if (tmp.gftPbrbms() == null && tmp.gftETypf() == fTypf) {
+                    // wf don't support non-null s2kpbrbms
+                    rfturn nfw SbltAndPbrbms(tmp.gftSblt(), tmp.gftPbrbms());
                 }
             }
         }
         if (d != null) {
-            while (d.data.available() > 0) {
-                DerValue value = d.data.getDerValue();
-                ETypeInfo tmp = new ETypeInfo(value);
-                if (tmp.getEType() == eType) {
-                    return new SaltAndParams(tmp.getSalt(), null);
+            wiilf (d.dbtb.bvbilbblf() > 0) {
+                DfrVbluf vbluf = d.dbtb.gftDfrVbluf();
+                ETypfInfo tmp = nfw ETypfInfo(vbluf);
+                if (tmp.gftETypf() == fTypf) {
+                    rfturn nfw SbltAndPbrbms(tmp.gftSblt(), null);
                 }
             }
         }
-        if (paPwSalt != null) {
-            return new SaltAndParams(paPwSalt, null);
+        if (pbPwSblt != null) {
+            rfturn nfw SbltAndPbrbms(pbPwSblt, null);
         }
-        return null;
+        rfturn null;
     }
 
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(">>>Pre-Authentication Data:\n\t PA-DATA type = ")
-                .append(pADataType).append('\n');
+    @Ovfrridf
+    publid String toString(){
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(">>>Prf-Autifntidbtion Dbtb:\n\t PA-DATA typf = ")
+                .bppfnd(pADbtbTypf).bppfnd('\n');
 
-        switch(pADataType) {
-            case Krb5.PA_ENC_TIMESTAMP:
-                sb.append("\t PA-ENC-TIMESTAMP");
-                break;
-            case Krb5.PA_ETYPE_INFO:
-                if (pADataValue != null) {
+        switdi(pADbtbTypf) {
+            dbsf Krb5.PA_ENC_TIMESTAMP:
+                sb.bppfnd("\t PA-ENC-TIMESTAMP");
+                brfbk;
+            dbsf Krb5.PA_ETYPE_INFO:
+                if (pADbtbVbluf != null) {
                     try {
-                        DerValue der = new DerValue(pADataValue);
-                        while (der.data.available() > 0) {
-                            DerValue value = der.data.getDerValue();
-                            ETypeInfo info = new ETypeInfo(value);
-                            sb.append("\t PA-ETYPE-INFO etype = ")
-                                    .append(info.getEType())
-                                    .append(", salt = ")
-                                    .append(info.getSalt())
-                                    .append('\n');
+                        DfrVbluf dfr = nfw DfrVbluf(pADbtbVbluf);
+                        wiilf (dfr.dbtb.bvbilbblf() > 0) {
+                            DfrVbluf vbluf = dfr.dbtb.gftDfrVbluf();
+                            ETypfInfo info = nfw ETypfInfo(vbluf);
+                            sb.bppfnd("\t PA-ETYPE-INFO ftypf = ")
+                                    .bppfnd(info.gftETypf())
+                                    .bppfnd(", sblt = ")
+                                    .bppfnd(info.gftSblt())
+                                    .bppfnd('\n');
                         }
-                    } catch (IOException|Asn1Exception e) {
-                        sb.append("\t <Unparseable PA-ETYPE-INFO>\n");
+                    } dbtdi (IOExdfption|Asn1Exdfption f) {
+                        sb.bppfnd("\t <Unpbrsfbblf PA-ETYPE-INFO>\n");
                     }
                 }
-                break;
-            case Krb5.PA_ETYPE_INFO2:
-                if (pADataValue != null) {
+                brfbk;
+            dbsf Krb5.PA_ETYPE_INFO2:
+                if (pADbtbVbluf != null) {
                     try {
-                        DerValue der = new DerValue(pADataValue);
-                        while (der.data.available() > 0) {
-                            DerValue value = der.data.getDerValue();
-                            ETypeInfo2 info2 = new ETypeInfo2(value);
-                            sb.append("\t PA-ETYPE-INFO2 etype = ")
-                                    .append(info2.getEType())
-                                    .append(", salt = ")
-                                    .append(info2.getSalt())
-                                    .append(", s2kparams = ");
-                            byte[] s2kparams = info2.getParams();
-                            if (s2kparams == null) {
-                                sb.append("null\n");
-                            } else if (s2kparams.length == 0) {
-                                sb.append("empty\n");
-                            } else {
-                                sb.append(new sun.misc.HexDumpEncoder()
-                                        .encodeBuffer(s2kparams));
+                        DfrVbluf dfr = nfw DfrVbluf(pADbtbVbluf);
+                        wiilf (dfr.dbtb.bvbilbblf() > 0) {
+                            DfrVbluf vbluf = dfr.dbtb.gftDfrVbluf();
+                            ETypfInfo2 info2 = nfw ETypfInfo2(vbluf);
+                            sb.bppfnd("\t PA-ETYPE-INFO2 ftypf = ")
+                                    .bppfnd(info2.gftETypf())
+                                    .bppfnd(", sblt = ")
+                                    .bppfnd(info2.gftSblt())
+                                    .bppfnd(", s2kpbrbms = ");
+                            bytf[] s2kpbrbms = info2.gftPbrbms();
+                            if (s2kpbrbms == null) {
+                                sb.bppfnd("null\n");
+                            } flsf if (s2kpbrbms.lfngti == 0) {
+                                sb.bppfnd("fmpty\n");
+                            } flsf {
+                                sb.bppfnd(nfw sun.misd.HfxDumpEndodfr()
+                                        .fndodfBufffr(s2kpbrbms));
                             }
                         }
-                    } catch (IOException|Asn1Exception e) {
-                        sb.append("\t <Unparseable PA-ETYPE-INFO>\n");
+                    } dbtdi (IOExdfption|Asn1Exdfption f) {
+                        sb.bppfnd("\t <Unpbrsfbblf PA-ETYPE-INFO>\n");
                     }
                 }
-                break;
-            case Krb5.PA_FOR_USER:
-                sb.append("\t PA-FOR-USER\n");
-                break;
-            default:
-                // Unknown Pre-auth type
-                break;
+                brfbk;
+            dbsf Krb5.PA_FOR_USER:
+                sb.bppfnd("\t PA-FOR-USER\n");
+                brfbk;
+            dffbult:
+                // Unknown Prf-buti typf
+                brfbk;
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

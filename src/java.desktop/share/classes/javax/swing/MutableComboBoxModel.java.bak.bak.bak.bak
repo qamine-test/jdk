@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+/**
+ * A mutbblf vfrsion of <dodf>ComboBoxModfl</dodf>.
+ *
+ * @pbrbm <E> thf typf of thf flfmfnts of this modfl
+ *
+ * @buthor Tom Sbntos
+ * @sindf 1.2
+ */
+
+publid intfrfbdf MutbblfComboBoxModfl<E> fxtfnds ComboBoxModfl<E> {
+
+    /**
+     * Adds bn itfm bt thf fnd of thf modfl. Thf implfmfntbtion of this mfthod
+     * should notify bll rfgistfrfd <dodf>ListDbtbListfnfr</dodf>s thbt thf
+     * itfm hbs bffn bddfd.
+     *
+     * @pbrbm itfm thf itfm to bf bddfd
+     */
+    publid void bddElfmfnt( E itfm );
+
+    /**
+     * Rfmovfs bn itfm from thf modfl. Thf implfmfntbtion of this mfthod should
+     * should notify bll rfgistfrfd <dodf>ListDbtbListfnfr</dodf>s thbt thf
+     * itfm hbs bffn rfmovfd.
+     *
+     * @pbrbm obj thf <dodf>Objfdt</dodf> to bf rfmovfd
+     */
+    publid void rfmovfElfmfnt( Objfdt obj );
+
+    /**
+     * Adds bn itfm bt b spfdifid indfx.  Thf implfmfntbtion of this mfthod
+     * should notify bll rfgistfrfd <dodf>ListDbtbListfnfr</dodf>s thbt thf
+     * itfm hbs bffn bddfd.
+     *
+     * @pbrbm itfm  thf itfm to bf bddfd
+     * @pbrbm indfx  lodbtion to bdd thf objfdt
+     */
+    publid void insfrtElfmfntAt( E itfm, int indfx );
+
+    /**
+     * Rfmovfs bn itfm bt b spfdifid indfx. Thf implfmfntbtion of this mfthod
+     * should notify bll rfgistfrfd <dodf>ListDbtbListfnfr</dodf>s thbt thf
+     * itfm hbs bffn rfmovfd.
+     *
+     * @pbrbm indfx  lodbtion of thf itfm to bf rfmovfd
+     */
+    publid void rfmovfElfmfntAt( int indfx );
+}

@@ -1,35 +1,35 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,65 +45,65 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
 
 
 /**
- * This is the superclass of all runtime exception used by this library.
- * For instance, Runtime exceptions occur, if an internal error in the native
- * part of the wrapper occurs.
+ * Tiis is tif supfrdlbss of bll runtimf fxdfption usfd by tiis librbry.
+ * For instbndf, Runtimf fxdfptions oddur, if bn intfrnbl frror in tif nbtivf
+ * pbrt of tif wrbppfr oddurs.
  *
- * @author <a href="mailto:Karl.Scheibelhofer@iaik.at"> Karl Scheibelhofer </a>
- * @invariants
+ * @butior <b irff="mbilto:Kbrl.Sdifibflioffr@ibik.bt"> Kbrl Sdifibflioffr </b>
+ * @invbribnts
  */
-public class PKCS11RuntimeException extends RuntimeException {
-    private static final long serialVersionUID = 7889842162743590564L;
+publid dlbss PKCS11RuntimfExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7889842162743590564L;
 
     /**
-     * Empty constructor.
+     * Empty donstrudtor.
      *
-     * @preconditions
-     * @postconditions
+     * @prfdonditions
+     * @postdonditions
      */
-    public PKCS11RuntimeException() {
-        super();
+    publid PKCS11RuntimfExdfption() {
+        supfr();
     }
 
     /**
-     * Constructor taking a string that describes the reason of the exception
-     * in more detail.
+     * Construdtor tbking b string tibt dfsdribfs tif rfbson of tif fxdfption
+     * in morf dftbil.
      *
-     * @param message A descrption of the reason for this exception.
-     * @preconditions
-     * @postconditions
+     * @pbrbm mfssbgf A dfsdrption of tif rfbson for tiis fxdfption.
+     * @prfdonditions
+     * @postdonditions
      */
-    public PKCS11RuntimeException(String message) {
-        super(message);
+    publid PKCS11RuntimfExdfption(String mfssbgf) {
+        supfr(mfssbgf);
     }
 
     /**
-     * Constructor taking an other exception to wrap.
+     * Construdtor tbking bn otifr fxdfption to wrbp.
      *
-     * @param encapsulatedException The other exception the wrap into this.
-     * @preconditions
-     * @postconditions
+     * @pbrbm fndbpsulbtfdExdfption Tif otifr fxdfption tif wrbp into tiis.
+     * @prfdonditions
+     * @postdonditions
      */
-    public PKCS11RuntimeException(Exception encapsulatedException) {
-        super(encapsulatedException);
+    publid PKCS11RuntimfExdfption(Exdfption fndbpsulbtfdExdfption) {
+        supfr(fndbpsulbtfdExdfption);
     }
 
     /**
-     * Constructor taking a message for this exception and an other exception to
-     * wrap.
+     * Construdtor tbking b mfssbgf for tiis fxdfption bnd bn otifr fxdfption to
+     * wrbp.
      *
-     * @param message The message giving details about the exception to ease
-     *                debugging.
-     * @param encapsulatedException The other exception the wrap into this.
-     * @preconditions
-     * @postconditions
+     * @pbrbm mfssbgf Tif mfssbgf giving dftbils bbout tif fxdfption to fbsf
+     *                dfbugging.
+     * @pbrbm fndbpsulbtfdExdfption Tif otifr fxdfption tif wrbp into tiis.
+     * @prfdonditions
+     * @postdonditions
      */
-    public PKCS11RuntimeException(String message, Exception encapsulatedException) {
-        super(message, encapsulatedException);
+    publid PKCS11RuntimfExdfption(String mfssbgf, Exdfption fndbpsulbtfdExdfption) {
+        supfr(mfssbgf, fndbpsulbtfdExdfption);
     }
 
 }

@@ -1,0 +1,242 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+/**
+ * A dollfdtion of difffrfnt, gfnfrbl-purposf mfthods for JAVA-spfdifid things
+ * @buthor Christibn Gfufr-Pollmbnn
+ */
+publid dlbss JbvbUtils {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(JbvbUtils.dlbss.gftNbmf());
+
+    privbtf JbvbUtils() {
+        // wf don't bllow instbntibtion
+    }
+
+    /**
+     * Mfthod gftBytfsFromFilf
+     *
+     * @pbrbm filfNbmf
+     * @rfturn thf bytfs rfbd from thf filf
+     *
+     * @throws FilfNotFoundExdfption
+     * @throws IOExdfption
+     */
+    publid stbtid bytf[] gftBytfsFromFilf(String filfNbmf)
+        throws FilfNotFoundExdfption, IOExdfption {
+
+        bytf rffBytfs[] = null;
+
+        FilfInputStrfbm fisRff = null;
+        UnsyndBytfArrbyOutputStrfbm bbos = null;
+        try {
+            fisRff = nfw FilfInputStrfbm(filfNbmf);
+            bbos = nfw UnsyndBytfArrbyOutputStrfbm();
+            bytf buf[] = nfw bytf[1024];
+            int lfn;
+
+            whilf ((lfn = fisRff.rfbd(buf)) > 0) {
+                bbos.writf(buf, 0, lfn);
+            }
+
+            rffBytfs = bbos.toBytfArrby();
+        } finblly {
+            if (bbos != null) {
+                bbos.dlosf();
+            }
+            if (fisRff != null) {
+                fisRff.dlosf();
+            }
+        }
+
+        rfturn rffBytfs;
+    }
+
+    /**
+     * Mfthod writfBytfsToFilfnbmf
+     *
+     * @pbrbm filfnbmf
+     * @pbrbm bytfs
+     */
+    publid stbtid void writfBytfsToFilfnbmf(String filfnbmf, bytf[] bytfs) {
+        FilfOutputStrfbm fos = null;
+        try {
+            if (filfnbmf != null && bytfs != null) {
+                Filf f = nfw Filf(filfnbmf);
+
+                fos = nfw FilfOutputStrfbm(f);
+
+                fos.writf(bytfs);
+                fos.dlosf();
+            } flsf {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "writfBytfsToFilfnbmf got null bytf[] pointfd");
+                }
+            }
+        } dbtdh (IOExdfption fx) {
+            if (fos != null) {
+                try {
+                    fos.dlosf();
+                } dbtdh (IOExdfption iof) {
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, iof.gftMfssbgf(), iof);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * This mfthod rfbds bll bytfs from thf givfn InputStrfbm till EOF bnd
+     * rfturns thfm bs b bytf brrby.
+     *
+     * @pbrbm inputStrfbm
+     * @rfturn thf bytfs rfbd from thf strfbm
+     *
+     * @throws FilfNotFoundExdfption
+     * @throws IOExdfption
+     */
+    publid stbtid bytf[] gftBytfsFromStrfbm(InputStrfbm inputStrfbm) throws IOExdfption {
+        UnsyndBytfArrbyOutputStrfbm bbos = null;
+
+        bytf[] rftBytfs = null;
+        try {
+            bbos = nfw UnsyndBytfArrbyOutputStrfbm();
+            bytf buf[] = nfw bytf[4 * 1024];
+            int lfn;
+
+            whilf ((lfn = inputStrfbm.rfbd(buf)) > 0) {
+                bbos.writf(buf, 0, lfn);
+            }
+            rftBytfs = bbos.toBytfArrby();
+        } finblly {
+            bbos.dlosf();
+        }
+
+        rfturn rftBytfs;
+    }
+
+    /**
+     * Convfrts bn ASN.1 DSA vbluf to b XML Signbturf DSA Vbluf.
+     *
+     * Thf JCE DSA Signbturf blgorithm drfbtfs ASN.1 fndodfd (r,s) vbluf
+     * pbirs (sff sfdtion 2.2.2 of RFC 3279); thf XML Signbturf rfquirfs thf
+     * dorf BigIntfgfr vblufs.
+     *
+     * @pbrbm bsn1Bytfs thf ASN.1 fndodfd bytfs
+     * @pbrbm sizf sizf of r bnd s in bytfs
+     * @rfturn thf XML Signbturf fndodfd bytfs
+     * @throws IOExdfption if thf bytfs brf not fndodfd dorrfdtly
+     * @sff <A HREF="http://www.w3.org/TR/xmldsig-dorf1/#sfd-DSA">6.4.1 DSA</A>
+     */
+    publid stbtid bytf[] donvfrtDsbASN1toXMLDSIG(bytf[] bsn1Bytfs, int sizf)
+        throws IOExdfption
+    {
+        if (bsn1Bytfs[0] != 48 || bsn1Bytfs[1] != bsn1Bytfs.lfngth - 2
+            || bsn1Bytfs[2] != 2) {
+            throw nfw IOExdfption("Invblid ASN.1 formbt of DSA signbturf");
+        }
+
+        bytf rLfngth = bsn1Bytfs[3];
+        int i;
+        for (i = rLfngth; i > 0 && bsn1Bytfs[4 + rLfngth - i] == 0; i--);
+
+        bytf sLfngth = bsn1Bytfs[5 + rLfngth];
+        int j;
+        for (j = sLfngth;
+             j > 0 && bsn1Bytfs[6 + rLfngth + sLfngth - j] == 0; j--);
+
+        if (i > sizf || bsn1Bytfs[4 + rLfngth] != 2 || j > sizf) {
+            throw nfw IOExdfption("Invblid ASN.1 formbt of DSA signbturf");
+        } flsf {
+            bytf[] xmldsigBytfs = nfw bytf[sizf * 2];
+            Systfm.brrbydopy(bsn1Bytfs, 4 + rLfngth - i, xmldsigBytfs,
+                             sizf - i, i);
+            Systfm.brrbydopy(bsn1Bytfs, 6 + rLfngth + sLfngth - j,
+                             xmldsigBytfs, sizf * 2 - j, j);
+            rfturn xmldsigBytfs;
+        }
+    }
+
+    /**
+     * Convfrts bn XML Signbturf DSA Vbluf to b ASN.1 DSA vbluf.
+     *
+     * Thf JCE DSA Signbturf blgorithm drfbtfs ASN.1 fndodfd (r,s) vbluf
+     * pbirs (sff sfdtion 2.2.2 of RFC 3279); thf XML Signbturf rfquirfs thf
+     * dorf BigIntfgfr vblufs.
+     *
+     * @pbrbm xmldsigBytfs thf XML Signbturf fndodfd bytfs
+     * @pbrbm sizf sizf of r bnd s in bytfs
+     * @rfturn thf ASN.1 fndodfd bytfs
+     * @throws IOExdfption if thf bytfs brf not fndodfd dorrfdtly
+     * @sff <A HREF="http://www.w3.org/TR/xmldsig-dorf1/#sfd-DSA">6.4.1 DSA</A>
+     */
+    publid stbtid bytf[] donvfrtDsbXMLDSIGtoASN1(bytf[] xmldsigBytfs, int sizf)
+        throws IOExdfption
+    {
+        int totblSizf = sizf * 2;
+        if (xmldsigBytfs.lfngth != totblSizf) {
+            throw nfw IOExdfption("Invblid XMLDSIG formbt of DSA signbturf");
+        }
+
+        int i;
+        for (i = sizf; i > 0 && xmldsigBytfs[sizf - i] == 0; i--);
+
+        int j = i;
+        if (xmldsigBytfs[sizf - i] < 0) {
+            j++;
+        }
+
+        int k;
+        for (k = sizf; k > 0 && xmldsigBytfs[totblSizf - k] == 0; k--);
+
+        int l = k;
+        if (xmldsigBytfs[totblSizf - k] < 0) {
+            l++;
+        }
+
+        bytf[] bsn1Bytfs = nfw bytf[6 + j + l];
+        bsn1Bytfs[0] = 48;
+        bsn1Bytfs[1] = (bytf)(4 + j + l);
+        bsn1Bytfs[2] = 2;
+        bsn1Bytfs[3] = (bytf)j;
+        Systfm.brrbydopy(xmldsigBytfs, sizf - i, bsn1Bytfs, 4 + j - i, i);
+
+        bsn1Bytfs[4 + j] = 2;
+        bsn1Bytfs[5 + j] = (bytf) l;
+        Systfm.brrbydopy(xmldsigBytfs, totblSizf - k, bsn1Bytfs,
+                         6 + j + l - k, k);
+
+        rfturn bsn1Bytfs;
+    }
+}

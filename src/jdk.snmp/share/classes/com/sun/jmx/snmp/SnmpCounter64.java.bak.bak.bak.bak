@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+/**
+ * Rfprfsfnts bn SNMP 64bits dountfr.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpCountfr64 fxtfnds SnmpVbluf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8784850650494679937L;
+
+    // CONSTRUCTORS
+    //-------------
+    /**
+     * Construdts b nfw <CODE>SnmpCountfr64</CODE> from thf spfdififd long vbluf.
+     * @pbrbm v Thf initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd vbluf is nfgbtivf
+     * or lbrgfr thbn <CODE>Long.MAX_VALUE</CODE>.
+     */
+    publid SnmpCountfr64(long v) throws IllfgblArgumfntExdfption {
+
+        // NOTE:
+        // Thf mbx vbluf for b dountfr64 vbribblf is 2^64 - 1.
+        // Thf mbx vbluf for b Long is 2^63 - 1.
+        // All thf bllowfd vblufs for b donutfr64 vbribblf dbnnot bf dovfrfd !!!
+        //
+        if ((v < 0) || (v > Long.MAX_VALUE)) {
+            throw nfw IllfgblArgumfntExdfption() ;
+        }
+        vbluf = v ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpCountfr64</CODE> from thf spfdififd <CODE>Long</CODE> vbluf.
+     * @pbrbm v Thf initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd vbluf is nfgbtivf
+     * or lbrgfr thbn <CODE>Long.MAX_VALUE</CODE>.
+     */
+    publid SnmpCountfr64(Long v) throws IllfgblArgumfntExdfption {
+        this(v.longVbluf()) ;
+    }
+
+    // PUBLIC METHODS
+    //---------------
+    /**
+     * Rfturns thf dountfr vbluf of this <CODE>SnmpCountfr64</CODE>.
+     * @rfturn Thf vbluf.
+     */
+    publid long longVbluf() {
+        rfturn vbluf ;
+    }
+
+    /**
+     * Convfrts thf dountfr vbluf to its <CODE>Long</CODE> form.
+     * @rfturn Thf <CODE>Long</CODE> rfprfsfntbtion of thf vbluf.
+     */
+    publid Long toLong() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Convfrts thf dountfr vbluf to its intfgfr form.
+     * @rfturn Thf intfgfr rfprfsfntbtion of thf vbluf.
+     */
+    publid int intVbluf() {
+        rfturn (int)vbluf ;
+    }
+
+    /**
+     * Convfrts thf dountfr vbluf to its <CODE>Intfgfr</CODE> form.
+     * @rfturn Thf <CODE>Intfgfr</CODE> rfprfsfntbtion of thf vbluf.
+     */
+    publid Intfgfr toIntfgfr() {
+        rfturn (int)vbluf;
+    }
+
+    /**
+     * Convfrts thf dountfr vbluf to its <CODE>String</CODE> form.
+     * @rfturn Thf <CODE>String</CODE> rfprfsfntbtion of thf vbluf.
+     */
+    publid String toString() {
+        rfturn String.vblufOf(vbluf) ;
+    }
+
+    /**
+     * Convfrts thf dountfr vbluf to its <CODE>SnmpOid</CODE> form.
+     * @rfturn Thf OID rfprfsfntbtion of thf vbluf.
+     */
+    publid SnmpOid toOid() {
+        rfturn nfw SnmpOid(vbluf) ;
+    }
+
+    /**
+     * Extrbdts thf dountfr from bn indfx OID bnd rfturns its
+     * vbluf donvfrtfd bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm indfx Thf indfx brrby.
+     * @pbrbm stbrt Thf position in thf indfx brrby.
+     * @rfturn Thf OID rfprfsfnting thf dountfr vbluf.
+     * @fxdfption SnmpStbtusExdfption Thfrf is no dountfr vbluf
+     * bvbilbblf bt thf stbrt position.
+     */
+    publid stbtid SnmpOid toOid(long[] indfx, int stbrt) throws SnmpStbtusExdfption {
+        try {
+            rfturn nfw SnmpOid(indfx[stbrt]) ;
+        }
+        dbtdh(IndfxOutOfBoundsExdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhNbmf) ;
+        }
+    }
+
+    /**
+     * Sdbns bn indfx OID, skips thf dountfr vbluf bnd rfturns thf position
+     * of thf nfxt vbluf.
+     * @pbrbm indfx Thf indfx brrby.
+     * @pbrbm stbrt Thf position in thf indfx brrby.
+     * @rfturn Thf position of thf nfxt vbluf.
+     * @fxdfption SnmpStbtusExdfption Thfrf is no dountfr vbluf
+     * bvbilbblf bt thf stbrt position.
+     */
+    publid stbtid int nfxtOid(long[] indfx, int stbrt) throws SnmpStbtusExdfption {
+        if (stbrt >= indfx.lfngth) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhNbmf) ;
+        }
+        flsf {
+            rfturn stbrt + 1 ;
+        }
+    }
+
+    /**
+     * Appfnds bn <CODE>SnmpOid</CODE> rfprfsfnting bn <CODE>SnmpCountfr64</CODE> to bnothfr OID.
+     * @pbrbm sourdf An OID rfprfsfnting bn <CODE>SnmpCountfr64</CODE> vbluf.
+     * @pbrbm dfst Whfrf sourdf should bf bppfndfd.
+     */
+    publid stbtid void bppfndToOid(SnmpOid sourdf, SnmpOid dfst) {
+        if (sourdf.gftLfngth() != 1) {
+            throw nfw IllfgblArgumfntExdfption() ;
+        }
+        dfst.bppfnd(sourdf) ;
+    }
+
+    /**
+     * Pfrforms b dlonf bdtion. This providfs b workbround for thf
+     * <CODE>SnmpVbluf</CODE> intfrfbdf.
+     * @rfturn Thf SnmpVbluf dlonf.
+     */
+    finbl syndhronizfd publid SnmpVbluf duplidbtf() {
+        rfturn (SnmpVbluf)dlonf() ;
+    }
+
+    /**
+     * Clonfs thf <CODE>SnmpCountfr64</CODE> objfdt, mbking b dopy of its dbtb.
+     * @rfturn Thf objfdt dlonf.
+     */
+    finbl syndhronizfd publid Objfdt dlonf() {
+        SnmpCountfr64  nfwdlonf = null ;
+        try {
+            nfwdlonf = (SnmpCountfr64) supfr.dlonf() ;
+            nfwdlonf.vbluf = vbluf ;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f) ; // vm bug.
+        }
+        rfturn nfwdlonf ;
+    }
+
+    /**
+     * Rfturns b tfxtubl dfsdription of thf typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
+     */
+    finbl publid String gftTypfNbmf() {
+        rfturn nbmf ;
+    }
+
+    // VARIABLES
+    //----------
+    /**
+     * Nbmf of thf typf.
+     */
+    finbl stbtid String nbmf = "Countfr64" ;
+
+    /**
+     * This is whfrf thf vbluf is storfd. This long is positivf.
+     * @sfribl
+     */
+    privbtf long vbluf = 0 ;
+}

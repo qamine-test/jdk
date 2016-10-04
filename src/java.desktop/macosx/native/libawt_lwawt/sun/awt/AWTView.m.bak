@@ -1,1407 +1,1407 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "CGLGraphicsConfig.h"
+#import "CGLGrbpiidsConfig.i"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
-#import "jni_util.h"
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.i>
+#import "jni_util.i"
 
-#import "ThreadUtilities.h"
-#import "AWTView.h"
-#import "AWTEvent.h"
-#import "AWTWindow.h"
-#import "LWCToolkit.h"
-#import "JavaComponentAccessibility.h"
-#import "JavaTextAccessibility.h"
-#import "GeomUtilities.h"
-#import "OSVersion.h"
-#import "CGLLayer.h"
+#import "TirfbdUtilitifs.i"
+#import "AWTVifw.i"
+#import "AWTEvfnt.i"
+#import "AWTWindow.i"
+#import "LWCToolkit.i"
+#import "JbvbComponfntAddfssibility.i"
+#import "JbvbTfxtAddfssibility.i"
+#import "GfomUtilitifs.i"
+#import "OSVfrsion.i"
+#import "CGLLbyfr.i"
 
-@interface AWTView()
-@property (retain) CDropTarget *_dropTarget;
-@property (retain) CDragSource *_dragSource;
+@intfrfbdf AWTVifw()
+@propfrty (rftbin) CDropTbrgft *_dropTbrgft;
+@propfrty (rftbin) CDrbgSourdf *_drbgSourdf;
 
--(void) deliverResize: (NSRect) rect;
--(void) resetTrackingArea;
--(void) deliverJavaKeyEventHelper: (NSEvent*) event;
-@end
+-(void) dflivfrRfsizf: (NSRfdt) rfdt;
+-(void) rfsftTrbdkingArfb;
+-(void) dflivfrJbvbKfyEvfntHflpfr: (NSEvfnt*) fvfnt;
+@fnd
 
-// Uncomment this line to see fprintfs of each InputMethod API being called on this View
-//#define IM_DEBUG TRUE
-//#define EXTRA_DEBUG
+// Undommfnt tiis linf to sff fprintfs of fbdi InputMftiod API bfing dbllfd on tiis Vifw
+//#dffinf IM_DEBUG TRUE
+//#dffinf EXTRA_DEBUG
 
-static BOOL shouldUsePressAndHold() {
-    static int shouldUsePressAndHold = -1;
-    if (shouldUsePressAndHold != -1) return shouldUsePressAndHold;
-    shouldUsePressAndHold = !isSnowLeopardOrLower();
-    return shouldUsePressAndHold;
+stbtid BOOL siouldUsfPrfssAndHold() {
+    stbtid int siouldUsfPrfssAndHold = -1;
+    if (siouldUsfPrfssAndHold != -1) rfturn siouldUsfPrfssAndHold;
+    siouldUsfPrfssAndHold = !isSnowLfopbrdOrLowfr();
+    rfturn siouldUsfPrfssAndHold;
 }
 
-@implementation AWTView
+@implfmfntbtion AWTVifw
 
-@synthesize _dropTarget;
-@synthesize _dragSource;
-@synthesize cglLayer;
-@synthesize mouseIsOver;
+@syntifsizf _dropTbrgft;
+@syntifsizf _drbgSourdf;
+@syntifsizf dglLbyfr;
+@syntifsizf mousfIsOvfr;
 
-// Note: Must be called on main (AppKit) thread only
-- (id) initWithRect: (NSRect) rect
-       platformView: (jobject) cPlatformView
-       windowLayer: (CALayer*) windowLayer
+// Notf: Must bf dbllfd on mbin (AppKit) tirfbd only
+- (id) initWitiRfdt: (NSRfdt) rfdt
+       plbtformVifw: (jobjfdt) dPlbtformVifw
+       windowLbyfr: (CALbyfr*) windowLbyfr
 {
 AWT_ASSERT_APPKIT_THREAD;
-    // Initialize ourselves
-    self = [super initWithFrame: rect];
-    if (self == nil) return self;
+    // Initiblizf oursflvfs
+    sflf = [supfr initWitiFrbmf: rfdt];
+    if (sflf == nil) rfturn sflf;
 
-    m_cPlatformView = cPlatformView;
-    fInputMethodLOCKABLE = NULL;
-    fKeyEventsNeeded = NO;
-    fProcessingKeystroke = NO;
+    m_dPlbtformVifw = dPlbtformVifw;
+    fInputMftiodLOCKABLE = NULL;
+    fKfyEvfntsNffdfd = NO;
+    fProdfssingKfystrokf = NO;
 
-    fEnablePressAndHold = shouldUsePressAndHold();
-    fInPressAndHold = NO;
-    fPAHNeedsToSelect = NO;
+    fEnbblfPrfssAndHold = siouldUsfPrfssAndHold();
+    fInPrfssAndHold = NO;
+    fPAHNffdsToSflfdt = NO;
 
-    mouseIsOver = NO;
-    [self resetTrackingArea];
-    [self setAutoresizesSubviews:NO];
+    mousfIsOvfr = NO;
+    [sflf rfsftTrbdkingArfb];
+    [sflf sftAutorfsizfsSubvifws:NO];
 
-    if (windowLayer != nil) {
-        self.cglLayer = windowLayer;
-        //Layer hosting view
-        [self setLayer: cglLayer];
-        [self setWantsLayer: YES];
-        //Layer backed view
-        //[self.layer addSublayer: (CALayer *)cglLayer];
-        //[self setLayerContentsRedrawPolicy: NSViewLayerContentsRedrawDuringViewResize];
-        //[self setLayerContentsPlacement: NSViewLayerContentsPlacementTopLeft];
-        //[self setAutoresizingMask: NSViewHeightSizable | NSViewWidthSizable];
+    if (windowLbyfr != nil) {
+        sflf.dglLbyfr = windowLbyfr;
+        //Lbyfr iosting vifw
+        [sflf sftLbyfr: dglLbyfr];
+        [sflf sftWbntsLbyfr: YES];
+        //Lbyfr bbdkfd vifw
+        //[sflf.lbyfr bddSublbyfr: (CALbyfr *)dglLbyfr];
+        //[sflf sftLbyfrContfntsRfdrbwPolidy: NSVifwLbyfrContfntsRfdrbwDuringVifwRfsizf];
+        //[sflf sftLbyfrContfntsPlbdfmfnt: NSVifwLbyfrContfntsPlbdfmfntTopLfft];
+        //[sflf sftAutorfsizingMbsk: NSVifwHfigitSizbblf | NSVifwWidtiSizbblf];
 
-#ifdef REMOTELAYER
-        CGLLayer *parentLayer = (CGLLayer*)self.cglLayer;
-        parentLayer.parentLayer = NULL;
-        parentLayer.remoteLayer = NULL;
-        if (JRSRemotePort != 0 && remoteSocketFD > 0) {
-            CGLLayer *remoteLayer = [[CGLLayer alloc] initWithJavaLayer: parentLayer.javaLayer];
-            remoteLayer.target = GL_TEXTURE_2D;
-            NSLog(@"Creating Parent=%p, Remote=%p", parentLayer, remoteLayer);
-            parentLayer.remoteLayer = remoteLayer;
-            remoteLayer.parentLayer = parentLayer;
-            remoteLayer.remoteLayer = NULL;
-            remoteLayer.jrsRemoteLayer = [remoteLayer createRemoteLayerBoundTo:JRSRemotePort];
-            [remoteLayer retain];  // REMIND
-            remoteLayer.frame = CGRectMake(0, 0, 720, 500); // REMIND
-            [remoteLayer.jrsRemoteLayer retain]; // REMIND
-            int layerID = [remoteLayer.jrsRemoteLayer layerID];
-            NSLog(@"layer id to send = %d", layerID);
-            sendLayerID(layerID);
+#ifdff REMOTELAYER
+        CGLLbyfr *pbrfntLbyfr = (CGLLbyfr*)sflf.dglLbyfr;
+        pbrfntLbyfr.pbrfntLbyfr = NULL;
+        pbrfntLbyfr.rfmotfLbyfr = NULL;
+        if (JRSRfmotfPort != 0 && rfmotfSodkftFD > 0) {
+            CGLLbyfr *rfmotfLbyfr = [[CGLLbyfr bllod] initWitiJbvbLbyfr: pbrfntLbyfr.jbvbLbyfr];
+            rfmotfLbyfr.tbrgft = GL_TEXTURE_2D;
+            NSLog(@"Crfbting Pbrfnt=%p, Rfmotf=%p", pbrfntLbyfr, rfmotfLbyfr);
+            pbrfntLbyfr.rfmotfLbyfr = rfmotfLbyfr;
+            rfmotfLbyfr.pbrfntLbyfr = pbrfntLbyfr;
+            rfmotfLbyfr.rfmotfLbyfr = NULL;
+            rfmotfLbyfr.jrsRfmotfLbyfr = [rfmotfLbyfr drfbtfRfmotfLbyfrBoundTo:JRSRfmotfPort];
+            [rfmotfLbyfr rftbin];  // REMIND
+            rfmotfLbyfr.frbmf = CGRfdtMbkf(0, 0, 720, 500); // REMIND
+            [rfmotfLbyfr.jrsRfmotfLbyfr rftbin]; // REMIND
+            int lbyfrID = [rfmotfLbyfr.jrsRfmotfLbyfr lbyfrID];
+            NSLog(@"lbyfr id to sfnd = %d", lbyfrID);
+            sfndLbyfrID(lbyfrID);
         }
-#endif /* REMOTELAYER */
+#fndif /* REMOTELAYER */
     }
 
-    return self;
+    rfturn sflf;
 }
 
-- (void) dealloc {
+- (void) dfbllod {
 AWT_ASSERT_APPKIT_THREAD;
 
-    self.cglLayer = nil;
+    sflf.dglLbyfr = nil;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-    (*env)->DeleteGlobalRef(env, m_cPlatformView);
-    m_cPlatformView = NULL;
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+    (*fnv)->DflftfGlobblRff(fnv, m_dPlbtformVifw);
+    m_dPlbtformVifw = NULL;
 
-    if (fInputMethodLOCKABLE != NULL)
+    if (fInputMftiodLOCKABLE != NULL)
     {
-        JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
+        JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
 
-        JNFDeleteGlobalRef(env, fInputMethodLOCKABLE);
-        fInputMethodLOCKABLE = NULL;
+        JNFDflftfGlobblRff(fnv, fInputMftiodLOCKABLE);
+        fInputMftiodLOCKABLE = NULL;
     }
 
 
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-- (void) viewDidMoveToWindow {
+- (void) vifwDidMovfToWindow {
 AWT_ASSERT_APPKIT_THREAD;
 
-    [AWTToolkit eventCountPlusPlus];
+    [AWTToolkit fvfntCountPlusPlus];
 
-    [JNFRunLoop performOnMainThreadWaiting:NO withBlock:^() {
-        [[self window] makeFirstResponder: self];
+    [JNFRunLoop pfrformOnMbinTirfbdWbiting:NO witiBlodk:^() {
+        [[sflf window] mbkfFirstRfspondfr: sflf];
     }];
-    if ([self window] != NULL) {
-        [self resetTrackingArea];
+    if ([sflf window] != NULL) {
+        [sflf rfsftTrbdkingArfb];
     }
 }
 
-- (BOOL) acceptsFirstMouse: (NSEvent *)event {
-    return YES;
+- (BOOL) bddfptsFirstMousf: (NSEvfnt *)fvfnt {
+    rfturn YES;
 }
 
-- (BOOL) acceptsFirstResponder {
-    return YES;
+- (BOOL) bddfptsFirstRfspondfr {
+    rfturn YES;
 }
 
-- (BOOL) becomeFirstResponder {
-    return YES;
+- (BOOL) bfdomfFirstRfspondfr {
+    rfturn YES;
 }
 
-- (BOOL) preservesContentDuringLiveResize {
-    return YES;
-}
-
-/*
- * Automatically triggered functions.
- */
-
-- (void)resizeWithOldSuperviewSize:(NSSize)oldBoundsSize {
-    [super resizeWithOldSuperviewSize: oldBoundsSize];
-    [self deliverResize: [self frame]];
+- (BOOL) prfsfrvfsContfntDuringLivfRfsizf {
+    rfturn YES;
 }
 
 /*
- * MouseEvents support
+ * Autombtidblly triggfrfd fundtions.
  */
 
-- (void) mouseDown: (NSEvent *)event {
-    NSInputManager *inputManager = [NSInputManager currentInputManager];
-    if ([inputManager wantsToHandleMouseEvents]) {
+- (void)rfsizfWitiOldSupfrvifwSizf:(NSSizf)oldBoundsSizf {
+    [supfr rfsizfWitiOldSupfrvifwSizf: oldBoundsSizf];
+    [sflf dflivfrRfsizf: [sflf frbmf]];
+}
+
+/*
+ * MousfEvfnts support
+ */
+
+- (void) mousfDown: (NSEvfnt *)fvfnt {
+    NSInputMbnbgfr *inputMbnbgfr = [NSInputMbnbgfr durrfntInputMbnbgfr];
+    if ([inputMbnbgfr wbntsToHbndlfMousfEvfnts]) {
 #if IM_DEBUG
-        NSLog(@"-> IM wants to handle event");
-#endif
-        if (![inputManager handleMouseEvent:event]) {
-            [self deliverJavaMouseEvent: event];
-        } else {
+        NSLog(@"-> IM wbnts to ibndlf fvfnt");
+#fndif
+        if (![inputMbnbgfr ibndlfMousfEvfnt:fvfnt]) {
+            [sflf dflivfrJbvbMousfEvfnt: fvfnt];
+        } flsf {
 #if IM_DEBUG
-            NSLog(@"-> Event was handled.");
-#endif
+            NSLog(@"-> Evfnt wbs ibndlfd.");
+#fndif
         }
-    } else {
+    } flsf {
 #if IM_DEBUG
-        NSLog(@"-> IM does not want to handle event");
-#endif
-        [self deliverJavaMouseEvent: event];
+        NSLog(@"-> IM dofs not wbnt to ibndlf fvfnt");
+#fndif
+        [sflf dflivfrJbvbMousfEvfnt: fvfnt];
     }
 }
 
-- (void) mouseUp: (NSEvent *)event {
-    [self deliverJavaMouseEvent: event];
+- (void) mousfUp: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) rightMouseDown: (NSEvent *)event {
-    [self deliverJavaMouseEvent: event];
+- (void) rigitMousfDown: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) rightMouseUp: (NSEvent *)event {
-    [self deliverJavaMouseEvent: event];
+- (void) rigitMousfUp: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) otherMouseDown: (NSEvent *)event {
-    [self deliverJavaMouseEvent: event];
+- (void) otifrMousfDown: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) otherMouseUp: (NSEvent *)event {
-    [self deliverJavaMouseEvent: event];
+- (void) otifrMousfUp: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) mouseMoved: (NSEvent *)event {
-    // TODO: better way to redirect move events to the "under" view
+- (void) mousfMovfd: (NSEvfnt *)fvfnt {
+    // TODO: bfttfr wby to rfdirfdt movf fvfnts to tif "undfr" vifw
     
-    NSPoint eventLocation = [event locationInWindow];
-    NSPoint localPoint = [self convertPoint: eventLocation fromView: nil];
+    NSPoint fvfntLodbtion = [fvfnt lodbtionInWindow];
+    NSPoint lodblPoint = [sflf donvfrtPoint: fvfntLodbtion fromVifw: nil];
 
-    if  ([self mouse: localPoint inRect: [self bounds]]) {
-        [self deliverJavaMouseEvent: event];
-    } else {
-        [[self nextResponder] mouseDown:event];
+    if  ([sflf mousf: lodblPoint inRfdt: [sflf bounds]]) {
+        [sflf dflivfrJbvbMousfEvfnt: fvfnt];
+    } flsf {
+        [[sflf nfxtRfspondfr] mousfDown:fvfnt];
     }
 }
 
-- (void) mouseDragged: (NSEvent *)event {
-    [self deliverJavaMouseEvent: event];
+- (void) mousfDrbggfd: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) rightMouseDragged: (NSEvent *)event {
-    [self deliverJavaMouseEvent: event];
+- (void) rigitMousfDrbggfd: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) otherMouseDragged: (NSEvent *)event {
-    [self deliverJavaMouseEvent: event];
+- (void) otifrMousfDrbggfd: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) mouseEntered: (NSEvent *)event {
-    [[self window] setAcceptsMouseMovedEvents:YES];
-    //[[self window] makeFirstResponder:self];
-    [self deliverJavaMouseEvent: event];
+- (void) mousfEntfrfd: (NSEvfnt *)fvfnt {
+    [[sflf window] sftAddfptsMousfMovfdEvfnts:YES];
+    //[[sflf window] mbkfFirstRfspondfr:sflf];
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) mouseExited: (NSEvent *)event {
-    [[self window] setAcceptsMouseMovedEvents:NO];
-    [self deliverJavaMouseEvent: event];
-    //Restore the cursor back.
-    //[CCursorManager _setCursor: [NSCursor arrowCursor]];
+- (void) mousfExitfd: (NSEvfnt *)fvfnt {
+    [[sflf window] sftAddfptsMousfMovfdEvfnts:NO];
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
+    //Rfstorf tif dursor bbdk.
+    //[CCursorMbnbgfr _sftCursor: [NSCursor brrowCursor]];
 }
 
-- (void) scrollWheel: (NSEvent*) event {
-    [self deliverJavaMouseEvent: event];
+- (void) sdrollWiffl: (NSEvfnt*) fvfnt {
+    [sflf dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
 /*
- * KeyEvents support
+ * KfyEvfnts support
  */
 
-- (void) keyDown: (NSEvent *)event {
-    fProcessingKeystroke = YES;
-    fKeyEventsNeeded = YES;
+- (void) kfyDown: (NSEvfnt *)fvfnt {
+    fProdfssingKfystrokf = YES;
+    fKfyEvfntsNffdfd = YES;
 
-    // Allow TSM to look at the event and potentially send back NSTextInputClient messages.
-    [self interpretKeyEvents:[NSArray arrayWithObject:event]];
+    // Allow TSM to look bt tif fvfnt bnd potfntiblly sfnd bbdk NSTfxtInputClifnt mfssbgfs.
+    [sflf intfrprftKfyEvfnts:[NSArrby brrbyWitiObjfdt:fvfnt]];
 
-    if (fEnablePressAndHold && [event willBeHandledByComplexInputMethod]) {
-        fProcessingKeystroke = NO;
-        if (!fInPressAndHold) {
-            fInPressAndHold = YES;
-            fPAHNeedsToSelect = YES;
+    if (fEnbblfPrfssAndHold && [fvfnt willBfHbndlfdByComplfxInputMftiod]) {
+        fProdfssingKfystrokf = NO;
+        if (!fInPrfssAndHold) {
+            fInPrfssAndHold = YES;
+            fPAHNffdsToSflfdt = YES;
         }
-        return;
+        rfturn;
     }
 
-    NSString *eventCharacters = [event characters];
-    BOOL isDeadKey = (eventCharacters != nil && [eventCharacters length] == 0);
+    NSString *fvfntCibrbdtfrs = [fvfnt dibrbdtfrs];
+    BOOL isDfbdKfy = (fvfntCibrbdtfrs != nil && [fvfntCibrbdtfrs lfngti] == 0);
 
-    if ((![self hasMarkedText] && fKeyEventsNeeded) || isDeadKey) {
-        [self deliverJavaKeyEventHelper: event];
+    if ((![sflf ibsMbrkfdTfxt] && fKfyEvfntsNffdfd) || isDfbdKfy) {
+        [sflf dflivfrJbvbKfyEvfntHflpfr: fvfnt];
     }
 
-    fProcessingKeystroke = NO;
+    fProdfssingKfystrokf = NO;
 }
 
-- (void) keyUp: (NSEvent *)event {
-    [self deliverJavaKeyEventHelper: event];
+- (void) kfyUp: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbKfyEvfntHflpfr: fvfnt];
 }
 
-- (void) flagsChanged: (NSEvent *)event {
-    [self deliverJavaKeyEventHelper: event];
+- (void) flbgsCibngfd: (NSEvfnt *)fvfnt {
+    [sflf dflivfrJbvbKfyEvfntHflpfr: fvfnt];
 }
 
-- (BOOL) performKeyEquivalent: (NSEvent *) event {
-    [self deliverJavaKeyEventHelper: event];
+- (BOOL) pfrformKfyEquivblfnt: (NSEvfnt *) fvfnt {
+    [sflf dflivfrJbvbKfyEvfntHflpfr: fvfnt];
 
-    // Workaround for 8020209: special case for "Cmd =" and "Cmd ." 
-    // because Cocoa calls performKeyEquivalent twice for these keystrokes  
-    NSUInteger modFlags = [event modifierFlags] & 
-        (NSCommandKeyMask | NSAlternateKeyMask | NSShiftKeyMask | NSControlKeyMask);
-    if (modFlags == NSCommandKeyMask) {
-        NSString *eventChars = [event charactersIgnoringModifiers];
-        if ([eventChars length] == 1) {
-            unichar ch = [eventChars characterAtIndex:0];
-            if (ch == '=' || ch == '.') {
-                [[NSApp mainMenu] performKeyEquivalent: event];
-                return YES;
+    // Workbround for 8020209: spfdibl dbsf for "Cmd =" bnd "Cmd ." 
+    // bfdbusf Codob dblls pfrformKfyEquivblfnt twidf for tifsf kfystrokfs  
+    NSUIntfgfr modFlbgs = [fvfnt modififrFlbgs] & 
+        (NSCommbndKfyMbsk | NSAltfrnbtfKfyMbsk | NSSiiftKfyMbsk | NSControlKfyMbsk);
+    if (modFlbgs == NSCommbndKfyMbsk) {
+        NSString *fvfntCibrs = [fvfnt dibrbdtfrsIgnoringModififrs];
+        if ([fvfntCibrs lfngti] == 1) {
+            unidibr di = [fvfntCibrs dibrbdtfrAtIndfx:0];
+            if (di == '=' || di == '.') {
+                [[NSApp mbinMfnu] pfrformKfyEquivblfnt: fvfnt];
+                rfturn YES;
             }
         }
 
     }
 
-    return NO;
+    rfturn NO;
 }
 
 /**
- * Utility methods and accessors
+ * Utility mftiods bnd bddfssors
  */
 
--(void) deliverJavaMouseEvent: (NSEvent *) event {
-    BOOL isEnabled = YES;
-    NSWindow* window = [self window];
-    if ([window isKindOfClass: [AWTWindow_Panel class]] || [window isKindOfClass: [AWTWindow_Normal class]]) {
-        isEnabled = [(AWTWindow*)[window delegate] isEnabled];
+-(void) dflivfrJbvbMousfEvfnt: (NSEvfnt *) fvfnt {
+    BOOL isEnbblfd = YES;
+    NSWindow* window = [sflf window];
+    if ([window isKindOfClbss: [AWTWindow_Pbnfl dlbss]] || [window isKindOfClbss: [AWTWindow_Normbl dlbss]]) {
+        isEnbblfd = [(AWTWindow*)[window dflfgbtf] isEnbblfd];
     }
 
-    if (!isEnabled) {
-        return;
+    if (!isEnbblfd) {
+        rfturn;
     }
 
-    NSEventType type = [event type];
+    NSEvfntTypf typf = [fvfnt typf];
 
-    // check synthesized mouse entered/exited events
-    if ((type == NSMouseEntered && mouseIsOver) || (type == NSMouseExited && !mouseIsOver)) {
-        return;
-    }else if ((type == NSMouseEntered && !mouseIsOver) || (type == NSMouseExited && mouseIsOver)) {
-        mouseIsOver = !mouseIsOver;
+    // difdk syntifsizfd mousf fntfrfd/fxitfd fvfnts
+    if ((typf == NSMousfEntfrfd && mousfIsOvfr) || (typf == NSMousfExitfd && !mousfIsOvfr)) {
+        rfturn;
+    }flsf if ((typf == NSMousfEntfrfd && !mousfIsOvfr) || (typf == NSMousfExitfd && mousfIsOvfr)) {
+        mousfIsOvfr = !mousfIsOvfr;
     }
 
-    [AWTToolkit eventCountPlusPlus];
+    [AWTToolkit fvfntCountPlusPlus];
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    NSPoint eventLocation = [event locationInWindow];
-    NSPoint localPoint = [self convertPoint: eventLocation fromView: nil];
-    NSPoint absP = [NSEvent mouseLocation];
+    NSPoint fvfntLodbtion = [fvfnt lodbtionInWindow];
+    NSPoint lodblPoint = [sflf donvfrtPoint: fvfntLodbtion fromVifw: nil];
+    NSPoint bbsP = [NSEvfnt mousfLodbtion];
 
-    // Convert global numbers between Cocoa's coordinate system and Java.
-    // TODO: need consitent way for doing that both with global as well as with local coordinates.
-    // The reason to do it here is one more native method for getting screen dimension otherwise.
+    // Convfrt globbl numbfrs bftwffn Codob's doordinbtf systfm bnd Jbvb.
+    // TODO: nffd donsitfnt wby for doing tibt boti witi globbl bs wfll bs witi lodbl doordinbtfs.
+    // Tif rfbson to do it ifrf is onf morf nbtivf mftiod for gftting sdrffn dimfnsion otifrwisf.
 
-    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
-    absP.y = screenRect.size.height - absP.y;
-    jint clickCount;
+    NSRfdt sdrffnRfdt = [[[NSSdrffn sdrffns] objfdtAtIndfx:0] frbmf];
+    bbsP.y = sdrffnRfdt.sizf.ifigit - bbsP.y;
+    jint dlidkCount;
 
-    if (type == NSMouseEntered ||
-        type == NSMouseExited ||
-        type == NSScrollWheel ||
-        type == NSMouseMoved) {
-        clickCount = 0;
-    } else {
-        clickCount = [event clickCount];
+    if (typf == NSMousfEntfrfd ||
+        typf == NSMousfExitfd ||
+        typf == NSSdrollWiffl ||
+        typf == NSMousfMovfd) {
+        dlidkCount = 0;
+    } flsf {
+        dlidkCount = [fvfnt dlidkCount];
     }
 
-    static JNF_CLASS_CACHE(jc_NSEvent, "sun/lwawt/macosx/NSEvent");
-    static JNF_CTOR_CACHE(jctor_NSEvent, jc_NSEvent, "(IIIIIIIIDD)V");
-    jobject jEvent = JNFNewObject(env, jctor_NSEvent,
-                                  [event type],
-                                  [event modifierFlags],
-                                  clickCount,
-                                  [event buttonNumber],
-                                  (jint)localPoint.x, (jint)localPoint.y,
-                                  (jint)absP.x, (jint)absP.y,
-                                  [event deltaY],
-                                  [event deltaX]);
-    CHECK_NULL(jEvent);
+    stbtid JNF_CLASS_CACHE(jd_NSEvfnt, "sun/lwbwt/mbdosx/NSEvfnt");
+    stbtid JNF_CTOR_CACHE(jdtor_NSEvfnt, jd_NSEvfnt, "(IIIIIIIIDD)V");
+    jobjfdt jEvfnt = JNFNfwObjfdt(fnv, jdtor_NSEvfnt,
+                                  [fvfnt typf],
+                                  [fvfnt modififrFlbgs],
+                                  dlidkCount,
+                                  [fvfnt buttonNumbfr],
+                                  (jint)lodblPoint.x, (jint)lodblPoint.y,
+                                  (jint)bbsP.x, (jint)bbsP.y,
+                                  [fvfnt dfltbY],
+                                  [fvfnt dfltbX]);
+    CHECK_NULL(jEvfnt);
 
-    static JNF_CLASS_CACHE(jc_PlatformView, "sun/lwawt/macosx/CPlatformView");
-    static JNF_MEMBER_CACHE(jm_deliverMouseEvent, jc_PlatformView, "deliverMouseEvent", "(Lsun/lwawt/macosx/NSEvent;)V");
-    JNFCallVoidMethod(env, m_cPlatformView, jm_deliverMouseEvent, jEvent);
-    (*env)->DeleteLocalRef(env, jEvent);
+    stbtid JNF_CLASS_CACHE(jd_PlbtformVifw, "sun/lwbwt/mbdosx/CPlbtformVifw");
+    stbtid JNF_MEMBER_CACHE(jm_dflivfrMousfEvfnt, jd_PlbtformVifw, "dflivfrMousfEvfnt", "(Lsun/lwbwt/mbdosx/NSEvfnt;)V");
+    JNFCbllVoidMftiod(fnv, m_dPlbtformVifw, jm_dflivfrMousfEvfnt, jEvfnt);
+    (*fnv)->DflftfLodblRff(fnv, jEvfnt);
 }
 
-- (void) resetTrackingArea {
-    if (rolloverTrackingArea != nil) {
-        [self removeTrackingArea:rolloverTrackingArea];
-        [rolloverTrackingArea release];
+- (void) rfsftTrbdkingArfb {
+    if (rollovfrTrbdkingArfb != nil) {
+        [sflf rfmovfTrbdkingArfb:rollovfrTrbdkingArfb];
+        [rollovfrTrbdkingArfb rflfbsf];
     }
 
-    int options = (NSTrackingActiveAlways | NSTrackingMouseEnteredAndExited |
-                   NSTrackingMouseMoved | NSTrackingEnabledDuringMouseDrag);
+    int options = (NSTrbdkingAdtivfAlwbys | NSTrbdkingMousfEntfrfdAndExitfd |
+                   NSTrbdkingMousfMovfd | NSTrbdkingEnbblfdDuringMousfDrbg);
 
-    rolloverTrackingArea = [[NSTrackingArea alloc] initWithRect:[self visibleRect]
+    rollovfrTrbdkingArfb = [[NSTrbdkingArfb bllod] initWitiRfdt:[sflf visiblfRfdt]
                                                         options: options
-                                                          owner:self
-                                                       userInfo:nil
+                                                          ownfr:sflf
+                                                       usfrInfo:nil
                             ];
-    [self addTrackingArea:rolloverTrackingArea];
+    [sflf bddTrbdkingArfb:rollovfrTrbdkingArfb];
 }
 
-- (void)updateTrackingAreas {
-    [super updateTrackingAreas];
-    [self resetTrackingArea];
+- (void)updbtfTrbdkingArfbs {
+    [supfr updbtfTrbdkingArfbs];
+    [sflf rfsftTrbdkingArfb];
 }
 
-- (void) resetCursorRects {
-    [super resetCursorRects];
-    [self resetTrackingArea];
+- (void) rfsftCursorRfdts {
+    [supfr rfsftCursorRfdts];
+    [sflf rfsftTrbdkingArfb];
 }
 
--(void) deliverJavaKeyEventHelper: (NSEvent *) event {
-    static NSEvent* sLastKeyEvent = nil;
-    if (event == sLastKeyEvent) {
-        // The event is repeatedly delivered by keyDown: after performKeyEquivalent:
-        return;
+-(void) dflivfrJbvbKfyEvfntHflpfr: (NSEvfnt *) fvfnt {
+    stbtid NSEvfnt* sLbstKfyEvfnt = nil;
+    if (fvfnt == sLbstKfyEvfnt) {
+        // Tif fvfnt is rfpfbtfdly dflivfrfd by kfyDown: bftfr pfrformKfyEquivblfnt:
+        rfturn;
     }
-    [sLastKeyEvent release];
-    sLastKeyEvent = [event retain];
+    [sLbstKfyEvfnt rflfbsf];
+    sLbstKfyEvfnt = [fvfnt rftbin];
 
-    [AWTToolkit eventCountPlusPlus];
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    [AWTToolkit fvfntCountPlusPlus];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    jstring characters = NULL;
-    jstring charactersIgnoringModifiers = NULL;
-    if ([event type] != NSFlagsChanged) {
-        characters = JNFNSToJavaString(env, [event characters]);
-        charactersIgnoringModifiers = JNFNSToJavaString(env, [event charactersIgnoringModifiers]);
+    jstring dibrbdtfrs = NULL;
+    jstring dibrbdtfrsIgnoringModififrs = NULL;
+    if ([fvfnt typf] != NSFlbgsCibngfd) {
+        dibrbdtfrs = JNFNSToJbvbString(fnv, [fvfnt dibrbdtfrs]);
+        dibrbdtfrsIgnoringModififrs = JNFNSToJbvbString(fnv, [fvfnt dibrbdtfrsIgnoringModififrs]);
     }
 
-    static JNF_CLASS_CACHE(jc_NSEvent, "sun/lwawt/macosx/NSEvent");
-    static JNF_CTOR_CACHE(jctor_NSEvent, jc_NSEvent, "(IISLjava/lang/String;Ljava/lang/String;)V");
-    jobject jEvent = JNFNewObject(env, jctor_NSEvent,
-                                  [event type],
-                                  [event modifierFlags],
-                                  [event keyCode],
-                                  characters,
-                                  charactersIgnoringModifiers);
-    CHECK_NULL(jEvent);
+    stbtid JNF_CLASS_CACHE(jd_NSEvfnt, "sun/lwbwt/mbdosx/NSEvfnt");
+    stbtid JNF_CTOR_CACHE(jdtor_NSEvfnt, jd_NSEvfnt, "(IISLjbvb/lbng/String;Ljbvb/lbng/String;)V");
+    jobjfdt jEvfnt = JNFNfwObjfdt(fnv, jdtor_NSEvfnt,
+                                  [fvfnt typf],
+                                  [fvfnt modififrFlbgs],
+                                  [fvfnt kfyCodf],
+                                  dibrbdtfrs,
+                                  dibrbdtfrsIgnoringModififrs);
+    CHECK_NULL(jEvfnt);
 
-    static JNF_CLASS_CACHE(jc_PlatformView, "sun/lwawt/macosx/CPlatformView");
-    static JNF_MEMBER_CACHE(jm_deliverKeyEvent, jc_PlatformView,
-                            "deliverKeyEvent", "(Lsun/lwawt/macosx/NSEvent;)V");
-    JNFCallVoidMethod(env, m_cPlatformView, jm_deliverKeyEvent, jEvent);
+    stbtid JNF_CLASS_CACHE(jd_PlbtformVifw, "sun/lwbwt/mbdosx/CPlbtformVifw");
+    stbtid JNF_MEMBER_CACHE(jm_dflivfrKfyEvfnt, jd_PlbtformVifw,
+                            "dflivfrKfyEvfnt", "(Lsun/lwbwt/mbdosx/NSEvfnt;)V");
+    JNFCbllVoidMftiod(fnv, m_dPlbtformVifw, jm_dflivfrKfyEvfnt, jEvfnt);
 
-    if (characters != NULL) {
-        (*env)->DeleteLocalRef(env, characters);
+    if (dibrbdtfrs != NULL) {
+        (*fnv)->DflftfLodblRff(fnv, dibrbdtfrs);
     }
-    (*env)->DeleteLocalRef(env, jEvent);
+    (*fnv)->DflftfLodblRff(fnv, jEvfnt);
 }
 
--(void) deliverResize: (NSRect) rect {
-    jint x = (jint) rect.origin.x;
-    jint y = (jint) rect.origin.y;
-    jint w = (jint) rect.size.width;
-    jint h = (jint) rect.size.height;
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    static JNF_CLASS_CACHE(jc_PlatformView, "sun/lwawt/macosx/CPlatformView");
-    static JNF_MEMBER_CACHE(jm_deliverResize, jc_PlatformView, "deliverResize", "(IIII)V");
-    JNFCallVoidMethod(env, m_cPlatformView, jm_deliverResize, x,y,w,h);
+-(void) dflivfrRfsizf: (NSRfdt) rfdt {
+    jint x = (jint) rfdt.origin.x;
+    jint y = (jint) rfdt.origin.y;
+    jint w = (jint) rfdt.sizf.widti;
+    jint i = (jint) rfdt.sizf.ifigit;
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    stbtid JNF_CLASS_CACHE(jd_PlbtformVifw, "sun/lwbwt/mbdosx/CPlbtformVifw");
+    stbtid JNF_MEMBER_CACHE(jm_dflivfrRfsizf, jd_PlbtformVifw, "dflivfrRfsizf", "(IIII)V");
+    JNFCbllVoidMftiod(fnv, m_dPlbtformVifw, jm_dflivfrRfsizf, x,y,w,i);
 }
 
 
-- (void) drawRect:(NSRect)dirtyRect {
+- (void) drbwRfdt:(NSRfdt)dirtyRfdt {
 AWT_ASSERT_APPKIT_THREAD;
 
-    [super drawRect:dirtyRect];
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    if (env != NULL) {
+    [supfr drbwRfdt:dirtyRfdt];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    if (fnv != NULL) {
 /*
-        if ([self inLiveResize]) {
-        NSRect rs[4];
-        NSInteger count;
-        [self getRectsExposedDuringLiveResize:rs count:&count];
-        for (int i = 0; i < count; i++) {
-            JNU_CallMethodByName(env, NULL, [m_awtWindow cPlatformView],
-                 "deliverWindowDidExposeEvent", "(FFFF)V",
-                 (jfloat)rs[i].origin.x, (jfloat)rs[i].origin.y,
-                 (jfloat)rs[i].size.width, (jfloat)rs[i].size.height);
-        if ((*env)->ExceptionOccurred(env)) {
-            (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
+        if ([sflf inLivfRfsizf]) {
+        NSRfdt rs[4];
+        NSIntfgfr dount;
+        [sflf gftRfdtsExposfdDuringLivfRfsizf:rs dount:&dount];
+        for (int i = 0; i < dount; i++) {
+            JNU_CbllMftiodByNbmf(fnv, NULL, [m_bwtWindow dPlbtformVifw],
+                 "dflivfrWindowDidExposfEvfnt", "(FFFF)V",
+                 (jflobt)rs[i].origin.x, (jflobt)rs[i].origin.y,
+                 (jflobt)rs[i].sizf.widti, (jflobt)rs[i].sizf.ifigit);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            (*fnv)->ExdfptionDfsdribf(fnv);
+            (*fnv)->ExdfptionClfbr(fnv);
         }
         }
-        } else {
+        } flsf {
 */
-        static JNF_CLASS_CACHE(jc_CPlatformView, "sun/lwawt/macosx/CPlatformView");
-        static JNF_MEMBER_CACHE(jm_deliverWindowDidExposeEvent, jc_CPlatformView, "deliverWindowDidExposeEvent", "()V");
-        JNFCallVoidMethod(env, m_cPlatformView, jm_deliverWindowDidExposeEvent);
+        stbtid JNF_CLASS_CACHE(jd_CPlbtformVifw, "sun/lwbwt/mbdosx/CPlbtformVifw");
+        stbtid JNF_MEMBER_CACHE(jm_dflivfrWindowDidExposfEvfnt, jd_CPlbtformVifw, "dflivfrWindowDidExposfEvfnt", "()V");
+        JNFCbllVoidMftiod(fnv, m_dPlbtformVifw, jm_dflivfrWindowDidExposfEvfnt);
 /*
         }
 */
     }
 }
 
-// NSAccessibility support
-- (jobject)awtComponent:(JNIEnv*)env
+// NSAddfssibility support
+- (jobjfdt)bwtComponfnt:(JNIEnv*)fnv
 {
-    static JNF_CLASS_CACHE(jc_CPlatformView, "sun/lwawt/macosx/CPlatformView");
-    static JNF_MEMBER_CACHE(jf_Peer, jc_CPlatformView, "peer", "Lsun/lwawt/LWWindowPeer;");
-    if ((env == NULL) || (m_cPlatformView == NULL)) {
-        NSLog(@"Apple AWT : Error AWTView:awtComponent given bad parameters.");
-        if (env != NULL)
+    stbtid JNF_CLASS_CACHE(jd_CPlbtformVifw, "sun/lwbwt/mbdosx/CPlbtformVifw");
+    stbtid JNF_MEMBER_CACHE(jf_Pffr, jd_CPlbtformVifw, "pffr", "Lsun/lwbwt/LWWindowPffr;");
+    if ((fnv == NULL) || (m_dPlbtformVifw == NULL)) {
+        NSLog(@"Applf AWT : Error AWTVifw:bwtComponfnt givfn bbd pbrbmftfrs.");
+        if (fnv != NULL)
         {
-            JNFDumpJavaStack(env);
+            JNFDumpJbvbStbdk(fnv);
         }
-        return NULL;
+        rfturn NULL;
     }
-    jobject peer = JNFGetObjectField(env, m_cPlatformView, jf_Peer);
-    static JNF_CLASS_CACHE(jc_LWWindowPeer, "sun/lwawt/LWWindowPeer");
-    static JNF_MEMBER_CACHE(jf_Target, jc_LWWindowPeer, "target", "Ljava/awt/Component;");
-    if (peer == NULL) {
-        NSLog(@"Apple AWT : Error AWTView:awtComponent got null peer from CPlatformView");
-        JNFDumpJavaStack(env);
-        return NULL;
+    jobjfdt pffr = JNFGftObjfdtFifld(fnv, m_dPlbtformVifw, jf_Pffr);
+    stbtid JNF_CLASS_CACHE(jd_LWWindowPffr, "sun/lwbwt/LWWindowPffr");
+    stbtid JNF_MEMBER_CACHE(jf_Tbrgft, jd_LWWindowPffr, "tbrgft", "Ljbvb/bwt/Componfnt;");
+    if (pffr == NULL) {
+        NSLog(@"Applf AWT : Error AWTVifw:bwtComponfnt got null pffr from CPlbtformVifw");
+        JNFDumpJbvbStbdk(fnv);
+        rfturn NULL;
     }
-    return JNFGetObjectField(env, peer, jf_Target);
+    rfturn JNFGftObjfdtFifld(fnv, pffr, jf_Tbrgft);
 }
 
-- (id)getAxData:(JNIEnv*)env
+- (id)gftAxDbtb:(JNIEnv*)fnv
 {
-    return [[[JavaComponentAccessibility alloc] initWithParent:self withEnv:env withAccessible:[self awtComponent:env] withIndex:-1 withView:self withJavaRole:nil] autorelease];
+    rfturn [[[JbvbComponfntAddfssibility bllod] initWitiPbrfnt:sflf witiEnv:fnv witiAddfssiblf:[sflf bwtComponfnt:fnv] witiIndfx:-1 witiVifw:sflf witiJbvbRolf:nil] butorflfbsf];
 }
 
-- (NSArray *)accessibilityAttributeNames
+- (NSArrby *)bddfssibilityAttributfNbmfs
 {
-    return [[super accessibilityAttributeNames] arrayByAddingObject:NSAccessibilityChildrenAttribute];
+    rfturn [[supfr bddfssibilityAttributfNbmfs] brrbyByAddingObjfdt:NSAddfssibilityCiildrfnAttributf];
 }
 
-// NSAccessibility messages
-// attribute methods
-- (id)accessibilityAttributeValue:(NSString *)attribute
+// NSAddfssibility mfssbgfs
+// bttributf mftiods
+- (id)bddfssibilityAttributfVbluf:(NSString *)bttributf
 {
     AWT_ASSERT_APPKIT_THREAD;
 
-    if ([attribute isEqualToString:NSAccessibilityChildrenAttribute])
+    if ([bttributf isEqublToString:NSAddfssibilityCiildrfnAttributf])
     {
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
+        JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-        (*env)->PushLocalFrame(env, 4);
+        (*fnv)->PusiLodblFrbmf(fnv, 4);
 
-        id result = NSAccessibilityUnignoredChildrenForOnlyChild([self getAxData:env]);
+        id rfsult = NSAddfssibilityUnignorfdCiildrfnForOnlyCiild([sflf gftAxDbtb:fnv]);
 
-        (*env)->PopLocalFrame(env, NULL);
+        (*fnv)->PopLodblFrbmf(fnv, NULL);
 
-        return result;
+        rfturn rfsult;
     }
-    else
+    flsf
     {
-        return [super accessibilityAttributeValue:attribute];
+        rfturn [supfr bddfssibilityAttributfVbluf:bttributf];
     }
 }
-- (BOOL)accessibilityIsIgnored
+- (BOOL)bddfssibilityIsIgnorfd
 {
-    return YES;
+    rfturn YES;
 }
 
-- (id)accessibilityHitTest:(NSPoint)point
+- (id)bddfssibilityHitTfst:(NSPoint)point
 {
     AWT_ASSERT_APPKIT_THREAD;
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    (*env)->PushLocalFrame(env, 4);
+    (*fnv)->PusiLodblFrbmf(fnv, 4);
 
-    id result = [[self getAxData:env] accessibilityHitTest:point withEnv:env];
+    id rfsult = [[sflf gftAxDbtb:fnv] bddfssibilityHitTfst:point witiEnv:fnv];
 
-    (*env)->PopLocalFrame(env, NULL);
+    (*fnv)->PopLodblFrbmf(fnv, NULL);
 
-    return result;
+    rfturn rfsult;
 }
 
-- (id)accessibilityFocusedUIElement
+- (id)bddfssibilityFodusfdUIElfmfnt
 {
     AWT_ASSERT_APPKIT_THREAD;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    (*env)->PushLocalFrame(env, 4);
+    (*fnv)->PusiLodblFrbmf(fnv, 4);
 
-    id result = [[self getAxData:env] accessibilityFocusedUIElement];
+    id rfsult = [[sflf gftAxDbtb:fnv] bddfssibilityFodusfdUIElfmfnt];
 
-    (*env)->PopLocalFrame(env, NULL);
+    (*fnv)->PopLodblFrbmf(fnv, NULL);
 
-    return result;
+    rfturn rfsult;
 }
 
-// --- Services menu support for lightweights ---
+// --- Sfrvidfs mfnu support for ligitwfigits ---
 
-// finds the focused accessible element, and if it is a text element, obtains the text from it
-- (NSString *)accessibleSelectedText
+// finds tif fodusfd bddfssiblf flfmfnt, bnd if it is b tfxt flfmfnt, obtbins tif tfxt from it
+- (NSString *)bddfssiblfSflfdtfdTfxt
 {
-    id focused = [self accessibilityFocusedUIElement];
-    if (![focused isKindOfClass:[JavaTextAccessibility class]]) return nil;
-    return [(JavaTextAccessibility *)focused accessibilitySelectedTextAttribute];
+    id fodusfd = [sflf bddfssibilityFodusfdUIElfmfnt];
+    if (![fodusfd isKindOfClbss:[JbvbTfxtAddfssibility dlbss]]) rfturn nil;
+    rfturn [(JbvbTfxtAddfssibility *)fodusfd bddfssibilitySflfdtfdTfxtAttributf];
 }
 
-// same as above, but converts to RTFD
-- (NSData *)accessibleSelectedTextAsRTFD
+// sbmf bs bbovf, but donvfrts to RTFD
+- (NSDbtb *)bddfssiblfSflfdtfdTfxtAsRTFD
 {
-    NSString *selectedText = [self accessibleSelectedText];
-    NSAttributedString *styledText = [[NSAttributedString alloc] initWithString:selectedText];
-    NSData *rtfdData = [styledText RTFDFromRange:NSMakeRange(0, [styledText length]) documentAttributes:nil];
-    [styledText release];
-    return rtfdData;
+    NSString *sflfdtfdTfxt = [sflf bddfssiblfSflfdtfdTfxt];
+    NSAttributfdString *stylfdTfxt = [[NSAttributfdString bllod] initWitiString:sflfdtfdTfxt];
+    NSDbtb *rtfdDbtb = [stylfdTfxt RTFDFromRbngf:NSMbkfRbngf(0, [stylfdTfxt lfngti]) dodumfntAttributfs:nil];
+    [stylfdTfxt rflfbsf];
+    rfturn rtfdDbtb;
 }
 
-// finds the focused accessible element, and if it is a text element, sets the text in it
-- (BOOL)replaceAccessibleTextSelection:(NSString *)text
+// finds tif fodusfd bddfssiblf flfmfnt, bnd if it is b tfxt flfmfnt, sfts tif tfxt in it
+- (BOOL)rfplbdfAddfssiblfTfxtSflfdtion:(NSString *)tfxt
 {
-    id focused = [self accessibilityFocusedUIElement];
-    if (![focused isKindOfClass:[JavaTextAccessibility class]]) return NO;
-    [(JavaTextAccessibility *)focused accessibilitySetSelectedTextAttribute:text];
-    return YES;
+    id fodusfd = [sflf bddfssibilityFodusfdUIElfmfnt];
+    if (![fodusfd isKindOfClbss:[JbvbTfxtAddfssibility dlbss]]) rfturn NO;
+    [(JbvbTfxtAddfssibility *)fodusfd bddfssibilitySftSflfdtfdTfxtAttributf:tfxt];
+    rfturn YES;
 }
 
-// called for each service in the Services menu - only handle text for now
-- (id)validRequestorForSendType:(NSString *)sendType returnType:(NSString *)returnType
+// dbllfd for fbdi sfrvidf in tif Sfrvidfs mfnu - only ibndlf tfxt for now
+- (id)vblidRfqufstorForSfndTypf:(NSString *)sfndTypf rfturnTypf:(NSString *)rfturnTypf
 {
-    if ([[self window] firstResponder] != self) return nil; // let AWT components handle themselves
+    if ([[sflf window] firstRfspondfr] != sflf) rfturn nil; // lft AWT domponfnts ibndlf tifmsflvfs
 
-    if ([sendType isEqual:NSStringPboardType] || [returnType isEqual:NSStringPboardType]) {
-        NSString *selectedText = [self accessibleSelectedText];
-        if (selectedText) return self;
+    if ([sfndTypf isEqubl:NSStringPbobrdTypf] || [rfturnTypf isEqubl:NSStringPbobrdTypf]) {
+        NSString *sflfdtfdTfxt = [sflf bddfssiblfSflfdtfdTfxt];
+        if (sflfdtfdTfxt) rfturn sflf;
     }
 
-    return nil;
+    rfturn nil;
 }
 
-// fetch text from Java and hand off to the service
-- (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pboard types:(NSArray *)types
+// fftdi tfxt from Jbvb bnd ibnd off to tif sfrvidf
+- (BOOL)writfSflfdtionToPbstfbobrd:(NSPbstfbobrd *)pbobrd typfs:(NSArrby *)typfs
 {
-    if ([types containsObject:NSStringPboardType])
+    if ([typfs dontbinsObjfdt:NSStringPbobrdTypf])
     {
-        [pboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-        return [pboard setString:[self accessibleSelectedText] forType:NSStringPboardType];
+        [pbobrd dfdlbrfTypfs:[NSArrby brrbyWitiObjfdt:NSStringPbobrdTypf] ownfr:nil];
+        rfturn [pbobrd sftString:[sflf bddfssiblfSflfdtfdTfxt] forTypf:NSStringPbobrdTypf];
     }
 
-    if ([types containsObject:NSRTFDPboardType])
+    if ([typfs dontbinsObjfdt:NSRTFDPbobrdTypf])
     {
-        [pboard declareTypes:[NSArray arrayWithObject:NSRTFDPboardType] owner:nil];
-        return [pboard setData:[self accessibleSelectedTextAsRTFD] forType:NSRTFDPboardType];
+        [pbobrd dfdlbrfTypfs:[NSArrby brrbyWitiObjfdt:NSRTFDPbobrdTypf] ownfr:nil];
+        rfturn [pbobrd sftDbtb:[sflf bddfssiblfSflfdtfdTfxtAsRTFD] forTypf:NSRTFDPbobrdTypf];
     }
 
-    return NO;
+    rfturn NO;
 }
 
-// write text back to Java from the service
-- (BOOL)readSelectionFromPasteboard:(NSPasteboard *)pboard
+// writf tfxt bbdk to Jbvb from tif sfrvidf
+- (BOOL)rfbdSflfdtionFromPbstfbobrd:(NSPbstfbobrd *)pbobrd
 {
-    if ([[pboard types] containsObject:NSStringPboardType])
+    if ([[pbobrd typfs] dontbinsObjfdt:NSStringPbobrdTypf])
     {
-        NSString *text = [pboard stringForType:NSStringPboardType];
-        return [self replaceAccessibleTextSelection:text];
+        NSString *tfxt = [pbobrd stringForTypf:NSStringPbobrdTypf];
+        rfturn [sflf rfplbdfAddfssiblfTfxtSflfdtion:tfxt];
     }
 
-    if ([[pboard types] containsObject:NSRTFDPboardType])
+    if ([[pbobrd typfs] dontbinsObjfdt:NSRTFDPbobrdTypf])
     {
-        NSData *rtfdData = [pboard dataForType:NSRTFDPboardType];
-        NSAttributedString *styledText = [[NSAttributedString alloc] initWithRTFD:rtfdData documentAttributes:nil];
-        NSString *text = [styledText string];
-        [styledText release];
+        NSDbtb *rtfdDbtb = [pbobrd dbtbForTypf:NSRTFDPbobrdTypf];
+        NSAttributfdString *stylfdTfxt = [[NSAttributfdString bllod] initWitiRTFD:rtfdDbtb dodumfntAttributfs:nil];
+        NSString *tfxt = [stylfdTfxt string];
+        [stylfdTfxt rflfbsf];
 
-        return [self replaceAccessibleTextSelection:text];
+        rfturn [sflf rfplbdfAddfssiblfTfxtSflfdtion:tfxt];
     }
 
-    return NO;
+    rfturn NO;
 }
 
 
--(void) setDragSource:(CDragSource *)source {
-    self._dragSource = source;
+-(void) sftDrbgSourdf:(CDrbgSourdf *)sourdf {
+    sflf._drbgSourdf = sourdf;
 }
 
 
-- (void) setDropTarget:(CDropTarget *)target {
-    self._dropTarget = target;
-    [ThreadUtilities performOnMainThread:@selector(controlModelControlValid) on:self._dropTarget withObject:nil waitUntilDone:YES];
+- (void) sftDropTbrgft:(CDropTbrgft *)tbrgft {
+    sflf._dropTbrgft = tbrgft;
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(dontrolModflControlVblid) on:sflf._dropTbrgft witiObjfdt:nil wbitUntilDonf:YES];
 }
 
-/********************************  BEGIN NSDraggingSource Interface  ********************************/
+/********************************  BEGIN NSDrbggingSourdf Intfrfbdf  ********************************/
 
-- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)flag
+- (NSDrbgOpfrbtion)drbggingSourdfOpfrbtionMbskForLodbl:(BOOL)flbg
 {
-    // If draggingSource is nil route the message to the superclass (if responding to the selector):
-    CDragSource *dragSource = self._dragSource;
-    NSDragOperation dragOp = NSDragOperationNone;
+    // If drbggingSourdf is nil routf tif mfssbgf to tif supfrdlbss (if rfsponding to tif sflfdtor):
+    CDrbgSourdf *drbgSourdf = sflf._drbgSourdf;
+    NSDrbgOpfrbtion drbgOp = NSDrbgOpfrbtionNonf;
 
-    if (dragSource != nil)
-        dragOp = [dragSource draggingSourceOperationMaskForLocal:flag];
-    else if ([super respondsToSelector:@selector(draggingSourceOperationMaskForLocal:)])
-        dragOp = [super draggingSourceOperationMaskForLocal:flag];
+    if (drbgSourdf != nil)
+        drbgOp = [drbgSourdf drbggingSourdfOpfrbtionMbskForLodbl:flbg];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(drbggingSourdfOpfrbtionMbskForLodbl:)])
+        drbgOp = [supfr drbggingSourdfOpfrbtionMbskForLodbl:flbg];
 
-    return dragOp;
+    rfturn drbgOp;
 }
 
-- (NSArray *)namesOfPromisedFilesDroppedAtDestination:(NSURL *)dropDestination
+- (NSArrby *)nbmfsOfPromisfdFilfsDroppfdAtDfstinbtion:(NSURL *)dropDfstinbtion
 {
-    // If draggingSource is nil route the message to the superclass (if responding to the selector):
-    CDragSource *dragSource = self._dragSource;
-    NSArray* array = nil;
+    // If drbggingSourdf is nil routf tif mfssbgf to tif supfrdlbss (if rfsponding to tif sflfdtor):
+    CDrbgSourdf *drbgSourdf = sflf._drbgSourdf;
+    NSArrby* brrby = nil;
 
-    if (dragSource != nil)
-        array = [dragSource namesOfPromisedFilesDroppedAtDestination:dropDestination];
-    else if ([super respondsToSelector:@selector(namesOfPromisedFilesDroppedAtDestination:)])
-        array = [super namesOfPromisedFilesDroppedAtDestination:dropDestination];
+    if (drbgSourdf != nil)
+        brrby = [drbgSourdf nbmfsOfPromisfdFilfsDroppfdAtDfstinbtion:dropDfstinbtion];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(nbmfsOfPromisfdFilfsDroppfdAtDfstinbtion:)])
+        brrby = [supfr nbmfsOfPromisfdFilfsDroppfdAtDfstinbtion:dropDfstinbtion];
 
-    return array;
+    rfturn brrby;
 }
 
-- (void)draggedImage:(NSImage *)image beganAt:(NSPoint)screenPoint
+- (void)drbggfdImbgf:(NSImbgf *)imbgf bfgbnAt:(NSPoint)sdrffnPoint
 {
-    // If draggingSource is nil route the message to the superclass (if responding to the selector):
-    CDragSource *dragSource = self._dragSource;
+    // If drbggingSourdf is nil routf tif mfssbgf to tif supfrdlbss (if rfsponding to tif sflfdtor):
+    CDrbgSourdf *drbgSourdf = sflf._drbgSourdf;
 
-    if (dragSource != nil)
-        [dragSource draggedImage:image beganAt:screenPoint];
-    else if ([super respondsToSelector:@selector(draggedImage::)])
-        [super draggedImage:image beganAt:screenPoint];
+    if (drbgSourdf != nil)
+        [drbgSourdf drbggfdImbgf:imbgf bfgbnAt:sdrffnPoint];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(drbggfdImbgf::)])
+        [supfr drbggfdImbgf:imbgf bfgbnAt:sdrffnPoint];
 }
 
-- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation
+- (void)drbggfdImbgf:(NSImbgf *)imbgf fndfdAt:(NSPoint)sdrffnPoint opfrbtion:(NSDrbgOpfrbtion)opfrbtion
 {
-    // If draggingSource is nil route the message to the superclass (if responding to the selector):
-    CDragSource *dragSource = self._dragSource;
+    // If drbggingSourdf is nil routf tif mfssbgf to tif supfrdlbss (if rfsponding to tif sflfdtor):
+    CDrbgSourdf *drbgSourdf = sflf._drbgSourdf;
 
-    if (dragSource != nil)
-        [dragSource draggedImage:image endedAt:screenPoint operation:operation];
-    else if ([super respondsToSelector:@selector(draggedImage:::)])
-        [super draggedImage:image endedAt:screenPoint operation:operation];
+    if (drbgSourdf != nil)
+        [drbgSourdf drbggfdImbgf:imbgf fndfdAt:sdrffnPoint opfrbtion:opfrbtion];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(drbggfdImbgf:::)])
+        [supfr drbggfdImbgf:imbgf fndfdAt:sdrffnPoint opfrbtion:opfrbtion];
 }
 
-- (void)draggedImage:(NSImage *)image movedTo:(NSPoint)screenPoint
+- (void)drbggfdImbgf:(NSImbgf *)imbgf movfdTo:(NSPoint)sdrffnPoint
 {
-    // If draggingSource is nil route the message to the superclass (if responding to the selector):
-    CDragSource *dragSource = self._dragSource;
+    // If drbggingSourdf is nil routf tif mfssbgf to tif supfrdlbss (if rfsponding to tif sflfdtor):
+    CDrbgSourdf *drbgSourdf = sflf._drbgSourdf;
 
-    if (dragSource != nil)
-        [dragSource draggedImage:image movedTo:screenPoint];
-    else if ([super respondsToSelector:@selector(draggedImage::)])
-        [super draggedImage:image movedTo:screenPoint];
+    if (drbgSourdf != nil)
+        [drbgSourdf drbggfdImbgf:imbgf movfdTo:sdrffnPoint];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(drbggfdImbgf::)])
+        [supfr drbggfdImbgf:imbgf movfdTo:sdrffnPoint];
 }
 
-- (BOOL)ignoreModifierKeysWhileDragging
+- (BOOL)ignorfModififrKfysWiilfDrbgging
 {
-    // If draggingSource is nil route the message to the superclass (if responding to the selector):
-    CDragSource *dragSource = self._dragSource;
-    BOOL result = FALSE;
+    // If drbggingSourdf is nil routf tif mfssbgf to tif supfrdlbss (if rfsponding to tif sflfdtor):
+    CDrbgSourdf *drbgSourdf = sflf._drbgSourdf;
+    BOOL rfsult = FALSE;
 
-    if (dragSource != nil)
-        result = [dragSource ignoreModifierKeysWhileDragging];
-    else if ([super respondsToSelector:@selector(ignoreModifierKeysWhileDragging)])
-        result = [super ignoreModifierKeysWhileDragging];
+    if (drbgSourdf != nil)
+        rfsult = [drbgSourdf ignorfModififrKfysWiilfDrbgging];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(ignorfModififrKfysWiilfDrbgging)])
+        rfsult = [supfr ignorfModififrKfysWiilfDrbgging];
 
-    return result;
+    rfturn rfsult;
 }
 
-/********************************  END NSDraggingSource Interface  ********************************/
+/********************************  END NSDrbggingSourdf Intfrfbdf  ********************************/
 
-/********************************  BEGIN NSDraggingDestination Interface  ********************************/
+/********************************  BEGIN NSDrbggingDfstinbtion Intfrfbdf  ********************************/
 
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
+- (NSDrbgOpfrbtion)drbggingEntfrfd:(id <NSDrbggingInfo>)sfndfr
 {
-    // If draggingDestination is nil route the message to the superclass:
-    CDropTarget *dropTarget = self._dropTarget;
-    NSDragOperation dragOp = NSDragOperationNone;
+    // If drbggingDfstinbtion is nil routf tif mfssbgf to tif supfrdlbss:
+    CDropTbrgft *dropTbrgft = sflf._dropTbrgft;
+    NSDrbgOpfrbtion drbgOp = NSDrbgOpfrbtionNonf;
 
-    if (dropTarget != nil)
-        dragOp = [dropTarget draggingEntered:sender];
-    else if ([super respondsToSelector:@selector(draggingEntered:)])
-        dragOp = [super draggingEntered:sender];
+    if (dropTbrgft != nil)
+        drbgOp = [dropTbrgft drbggingEntfrfd:sfndfr];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(drbggingEntfrfd:)])
+        drbgOp = [supfr drbggingEntfrfd:sfndfr];
 
-    return dragOp;
+    rfturn drbgOp;
 }
 
-- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender
+- (NSDrbgOpfrbtion)drbggingUpdbtfd:(id <NSDrbggingInfo>)sfndfr
 {
-    // If draggingDestination is nil route the message to the superclass:
-    CDropTarget *dropTarget = self._dropTarget;
-    NSDragOperation dragOp = NSDragOperationNone;
+    // If drbggingDfstinbtion is nil routf tif mfssbgf to tif supfrdlbss:
+    CDropTbrgft *dropTbrgft = sflf._dropTbrgft;
+    NSDrbgOpfrbtion drbgOp = NSDrbgOpfrbtionNonf;
 
-    if (dropTarget != nil)
-        dragOp = [dropTarget draggingUpdated:sender];
-    else if ([super respondsToSelector:@selector(draggingUpdated:)])
-        dragOp = [super draggingUpdated:sender];
+    if (dropTbrgft != nil)
+        drbgOp = [dropTbrgft drbggingUpdbtfd:sfndfr];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(drbggingUpdbtfd:)])
+        drbgOp = [supfr drbggingUpdbtfd:sfndfr];
 
-    return dragOp;
+    rfturn drbgOp;
 }
 
-- (void)draggingExited:(id <NSDraggingInfo>)sender
+- (void)drbggingExitfd:(id <NSDrbggingInfo>)sfndfr
 {
-    // If draggingDestination is nil route the message to the superclass:
-    CDropTarget *dropTarget = self._dropTarget;
+    // If drbggingDfstinbtion is nil routf tif mfssbgf to tif supfrdlbss:
+    CDropTbrgft *dropTbrgft = sflf._dropTbrgft;
 
-    if (dropTarget != nil)
-        [dropTarget draggingExited:sender];
-    else if ([super respondsToSelector:@selector(draggingExited:)])
-        [super draggingExited:sender];
+    if (dropTbrgft != nil)
+        [dropTbrgft drbggingExitfd:sfndfr];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(drbggingExitfd:)])
+        [supfr drbggingExitfd:sfndfr];
 }
 
-- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender
+- (BOOL)prfpbrfForDrbgOpfrbtion:(id <NSDrbggingInfo>)sfndfr
 {
-    // If draggingDestination is nil route the message to the superclass:
-    CDropTarget *dropTarget = self._dropTarget;
-    BOOL result = FALSE;
+    // If drbggingDfstinbtion is nil routf tif mfssbgf to tif supfrdlbss:
+    CDropTbrgft *dropTbrgft = sflf._dropTbrgft;
+    BOOL rfsult = FALSE;
 
-    if (dropTarget != nil)
-        result = [dropTarget prepareForDragOperation:sender];
-    else if ([super respondsToSelector:@selector(prepareForDragOperation:)])
-        result = [super prepareForDragOperation:sender];
+    if (dropTbrgft != nil)
+        rfsult = [dropTbrgft prfpbrfForDrbgOpfrbtion:sfndfr];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(prfpbrfForDrbgOpfrbtion:)])
+        rfsult = [supfr prfpbrfForDrbgOpfrbtion:sfndfr];
 
-    return result;
+    rfturn rfsult;
 }
 
-- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
+- (BOOL)pfrformDrbgOpfrbtion:(id <NSDrbggingInfo>)sfndfr
 {
-    // If draggingDestination is nil route the message to the superclass:
-    CDropTarget *dropTarget = self._dropTarget;
-    BOOL result = FALSE;
+    // If drbggingDfstinbtion is nil routf tif mfssbgf to tif supfrdlbss:
+    CDropTbrgft *dropTbrgft = sflf._dropTbrgft;
+    BOOL rfsult = FALSE;
 
-    if (dropTarget != nil)
-        result = [dropTarget performDragOperation:sender];
-    else if ([super respondsToSelector:@selector(performDragOperation:)])
-        result = [super performDragOperation:sender];
+    if (dropTbrgft != nil)
+        rfsult = [dropTbrgft pfrformDrbgOpfrbtion:sfndfr];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(pfrformDrbgOpfrbtion:)])
+        rfsult = [supfr pfrformDrbgOpfrbtion:sfndfr];
 
-    return result;
+    rfturn rfsult;
 }
 
-- (void)concludeDragOperation:(id <NSDraggingInfo>)sender
+- (void)dondludfDrbgOpfrbtion:(id <NSDrbggingInfo>)sfndfr
 {
-    // If draggingDestination is nil route the message to the superclass:
-    CDropTarget *dropTarget = self._dropTarget;
+    // If drbggingDfstinbtion is nil routf tif mfssbgf to tif supfrdlbss:
+    CDropTbrgft *dropTbrgft = sflf._dropTbrgft;
 
-    if (dropTarget != nil)
-        [dropTarget concludeDragOperation:sender];
-    else if ([super respondsToSelector:@selector(concludeDragOperation:)])
-        [super concludeDragOperation:sender];
+    if (dropTbrgft != nil)
+        [dropTbrgft dondludfDrbgOpfrbtion:sfndfr];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(dondludfDrbgOpfrbtion:)])
+        [supfr dondludfDrbgOpfrbtion:sfndfr];
 }
 
-- (void)draggingEnded:(id <NSDraggingInfo>)sender
+- (void)drbggingEndfd:(id <NSDrbggingInfo>)sfndfr
 {
-    // If draggingDestination is nil route the message to the superclass:
-    CDropTarget *dropTarget = self._dropTarget;
+    // If drbggingDfstinbtion is nil routf tif mfssbgf to tif supfrdlbss:
+    CDropTbrgft *dropTbrgft = sflf._dropTbrgft;
 
-    if (dropTarget != nil)
-        [dropTarget draggingEnded:sender];
-    else if ([super respondsToSelector:@selector(draggingEnded:)])
-        [super draggingEnded:sender];
+    if (dropTbrgft != nil)
+        [dropTbrgft drbggingEndfd:sfndfr];
+    flsf if ([supfr rfspondsToSflfdtor:@sflfdtor(drbggingEndfd:)])
+        [supfr drbggingEndfd:sfndfr];
 }
 
-/********************************  END NSDraggingDestination Interface  ********************************/
+/********************************  END NSDrbggingDfstinbtion Intfrfbdf  ********************************/
 
-/********************************  BEGIN NSTextInputClient Protocol  ********************************/
+/********************************  BEGIN NSTfxtInputClifnt Protodol  ********************************/
 
 
-JNF_CLASS_CACHE(jc_CInputMethod, "sun/lwawt/macosx/CInputMethod");
+JNF_CLASS_CACHE(jd_CInputMftiod, "sun/lwbwt/mbdosx/CInputMftiod");
 
-- (void) insertText:(id)aString replacementRange:(NSRange)replacementRange
+- (void) insfrtTfxt:(id)bString rfplbdfmfntRbngf:(NSRbngf)rfplbdfmfntRbngf
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [insertText]: %s\n", [aString UTF8String]);
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [insfrtTfxt]: %s\n", [bString UTF8String]);
+#fndif // IM_DEBUG
 
-    if (fInputMethodLOCKABLE == NULL) {
-        return;
+    if (fInputMftiodLOCKABLE == NULL) {
+        rfturn;
     }
 
-    // Insert happens at the end of PAH
-    fInPressAndHold = NO;
+    // Insfrt ibppfns bt tif fnd of PAH
+    fInPrfssAndHold = NO;
 
-    // insertText gets called when the user commits text generated from an input method.  It also gets
-    // called during ordinary input as well.  We only need to send an input method event when we have marked
-    // text, or 'text in progress'.  We also need to send the event if we get an insert text out of the blue!
-    // (i.e., when the user uses the Character palette or Inkwell), or when the string to insert is a complex
-    // Unicode value.
-    NSUInteger utf8Length = [aString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    // insfrtTfxt gfts dbllfd wifn tif usfr dommits tfxt gfnfrbtfd from bn input mftiod.  It blso gfts
+    // dbllfd during ordinbry input bs wfll.  Wf only nffd to sfnd bn input mftiod fvfnt wifn wf ibvf mbrkfd
+    // tfxt, or 'tfxt in progrfss'.  Wf blso nffd to sfnd tif fvfnt if wf gft bn insfrt tfxt out of tif bluf!
+    // (i.f., wifn tif usfr usfs tif Cibrbdtfr pblfttf or Inkwfll), or wifn tif string to insfrt is b domplfx
+    // Unidodf vbluf.
+    NSUIntfgfr utf8Lfngti = [bString lfngtiOfBytfsUsingEndoding:NSUTF8StringEndoding];
 
-    if ([self hasMarkedText] || !fProcessingKeystroke || (utf8Length > 1)) {
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
+    if ([sflf ibsMbrkfdTfxt] || !fProdfssingKfystrokf || (utf8Lfngti > 1)) {
+        JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-        static JNF_MEMBER_CACHE(jm_selectPreviousGlyph, jc_CInputMethod, "selectPreviousGlyph", "()V");
-        // We need to select the previous glyph so that it is overwritten.
-        if (fPAHNeedsToSelect) {
-            JNFCallVoidMethod(env, fInputMethodLOCKABLE, jm_selectPreviousGlyph);
-            fPAHNeedsToSelect = NO;
+        stbtid JNF_MEMBER_CACHE(jm_sflfdtPrfviousGlypi, jd_CInputMftiod, "sflfdtPrfviousGlypi", "()V");
+        // Wf nffd to sflfdt tif prfvious glypi so tibt it is ovfrwrittfn.
+        if (fPAHNffdsToSflfdt) {
+            JNFCbllVoidMftiod(fnv, fInputMftiodLOCKABLE, jm_sflfdtPrfviousGlypi);
+            fPAHNffdsToSflfdt = NO;
         }
 
-        static JNF_MEMBER_CACHE(jm_insertText, jc_CInputMethod, "insertText", "(Ljava/lang/String;)V");
-        jstring insertedText =  JNFNSToJavaString(env, aString);
-        JNFCallVoidMethod(env, fInputMethodLOCKABLE, jm_insertText, insertedText); // AWT_THREADING Safe (AWTRunLoopMode)
-        (*env)->DeleteLocalRef(env, insertedText);
+        stbtid JNF_MEMBER_CACHE(jm_insfrtTfxt, jd_CInputMftiod, "insfrtTfxt", "(Ljbvb/lbng/String;)V");
+        jstring insfrtfdTfxt =  JNFNSToJbvbString(fnv, bString);
+        JNFCbllVoidMftiod(fnv, fInputMftiodLOCKABLE, jm_insfrtTfxt, insfrtfdTfxt); // AWT_THREADING Sbff (AWTRunLoopModf)
+        (*fnv)->DflftfLodblRff(fnv, insfrtfdTfxt);
 
-        // The input method event will create psuedo-key events for each character in the committed string.
-        // We also don't want to send the character that triggered the insertText, usually a return. [3337563]
-        fKeyEventsNeeded = NO;
+        // Tif input mftiod fvfnt will drfbtf psufdo-kfy fvfnts for fbdi dibrbdtfr in tif dommittfd string.
+        // Wf blso don't wbnt to sfnd tif dibrbdtfr tibt triggfrfd tif insfrtTfxt, usublly b rfturn. [3337563]
+        fKfyEvfntsNffdfd = NO;
     }
 
-    fPAHNeedsToSelect = NO;
+    fPAHNffdsToSflfdt = NO;
 
 }
 
-- (void) doCommandBySelector:(SEL)aSelector
+- (void) doCommbndBySflfdtor:(SEL)bSflfdtor
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [doCommandBySelector]\n");
-    NSLog(@"%@", NSStringFromSelector(aSelector));
-#endif // IM_DEBUG
-    if (@selector(insertNewline:) == aSelector || @selector(insertTab:) == aSelector || @selector(deleteBackward:) == aSelector)
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [doCommbndBySflfdtor]\n");
+    NSLog(@"%@", NSStringFromSflfdtor(bSflfdtor));
+#fndif // IM_DEBUG
+    if (@sflfdtor(insfrtNfwlinf:) == bSflfdtor || @sflfdtor(insfrtTbb:) == bSflfdtor || @sflfdtor(dflftfBbdkwbrd:) == bSflfdtor)
     {
-        fKeyEventsNeeded = YES;
+        fKfyEvfntsNffdfd = YES;
     }
 }
 
-// setMarkedText: cannot take a nil first argument. aString can be NSString or NSAttributedString
-- (void) setMarkedText:(id)aString selectedRange:(NSRange)selectionRange replacementRange:(NSRange)replacementRange
+// sftMbrkfdTfxt: dbnnot tbkf b nil first brgumfnt. bString dbn bf NSString or NSAttributfdString
+- (void) sftMbrkfdTfxt:(id)bString sflfdtfdRbngf:(NSRbngf)sflfdtionRbngf rfplbdfmfntRbngf:(NSRbngf)rfplbdfmfntRbngf
 {
-    if (!fInputMethodLOCKABLE)
-        return;
+    if (!fInputMftiodLOCKABLE)
+        rfturn;
 
-    BOOL isAttributedString = [aString isKindOfClass:[NSAttributedString class]];
-    NSAttributedString *attrString = (isAttributedString ? (NSAttributedString *)aString : nil);
-    NSString *incomingString = (isAttributedString ? [aString string] : aString);
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [setMarkedText] \"%s\", loc=%lu, length=%lu\n", [incomingString UTF8String], (unsigned long)selectionRange.location, (unsigned long)selectionRange.length);
-#endif // IM_DEBUG
-    static JNF_MEMBER_CACHE(jm_startIMUpdate, jc_CInputMethod, "startIMUpdate", "(Ljava/lang/String;)V");
-    static JNF_MEMBER_CACHE(jm_addAttribute, jc_CInputMethod, "addAttribute", "(ZZII)V");
-    static JNF_MEMBER_CACHE(jm_dispatchText, jc_CInputMethod, "dispatchText", "(IIZ)V");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    BOOL isAttributfdString = [bString isKindOfClbss:[NSAttributfdString dlbss]];
+    NSAttributfdString *bttrString = (isAttributfdString ? (NSAttributfdString *)bString : nil);
+    NSString *indomingString = (isAttributfdString ? [bString string] : bString);
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [sftMbrkfdTfxt] \"%s\", lod=%lu, lfngti=%lu\n", [indomingString UTF8String], (unsignfd long)sflfdtionRbngf.lodbtion, (unsignfd long)sflfdtionRbngf.lfngti);
+#fndif // IM_DEBUG
+    stbtid JNF_MEMBER_CACHE(jm_stbrtIMUpdbtf, jd_CInputMftiod, "stbrtIMUpdbtf", "(Ljbvb/lbng/String;)V");
+    stbtid JNF_MEMBER_CACHE(jm_bddAttributf, jd_CInputMftiod, "bddAttributf", "(ZZII)V");
+    stbtid JNF_MEMBER_CACHE(jm_dispbtdiTfxt, jd_CInputMftiod, "dispbtdiTfxt", "(IIZ)V");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    // NSInputContext already did the analysis of the TSM event and created attributes indicating
-    // the underlining and color that should be done to the string.  We need to look at the underline
-    // style and color to determine what kind of Java hilighting needs to be done.
-    jstring inProcessText = JNFNSToJavaString(env, incomingString);
-    JNFCallVoidMethod(env, fInputMethodLOCKABLE, jm_startIMUpdate, inProcessText); // AWT_THREADING Safe (AWTRunLoopMode)
-    (*env)->DeleteLocalRef(env, inProcessText);
+    // NSInputContfxt blrfbdy did tif bnblysis of tif TSM fvfnt bnd drfbtfd bttributfs indidbting
+    // tif undfrlining bnd dolor tibt siould bf donf to tif string.  Wf nffd to look bt tif undfrlinf
+    // stylf bnd dolor to dftfrminf wibt kind of Jbvb iiligiting nffds to bf donf.
+    jstring inProdfssTfxt = JNFNSToJbvbString(fnv, indomingString);
+    JNFCbllVoidMftiod(fnv, fInputMftiodLOCKABLE, jm_stbrtIMUpdbtf, inProdfssTfxt); // AWT_THREADING Sbff (AWTRunLoopModf)
+    (*fnv)->DflftfLodblRff(fnv, inProdfssTfxt);
 
-    if (isAttributedString) {
-        NSUInteger length;
-        NSRange effectiveRange;
-        NSDictionary *attributes;
-        length = [attrString length];
-        effectiveRange = NSMakeRange(0, 0);
-        while (NSMaxRange(effectiveRange) < length) {
-            attributes = [attrString attributesAtIndex:NSMaxRange(effectiveRange)
-                                        effectiveRange:&effectiveRange];
-            if (attributes) {
-                BOOL isThickUnderline, isGray;
-                NSNumber *underlineSizeObj =
-                (NSNumber *)[attributes objectForKey:NSUnderlineStyleAttributeName];
-                NSInteger underlineSize = [underlineSizeObj integerValue];
-                isThickUnderline = (underlineSize > 1);
+    if (isAttributfdString) {
+        NSUIntfgfr lfngti;
+        NSRbngf ffffdtivfRbngf;
+        NSDidtionbry *bttributfs;
+        lfngti = [bttrString lfngti];
+        ffffdtivfRbngf = NSMbkfRbngf(0, 0);
+        wiilf (NSMbxRbngf(ffffdtivfRbngf) < lfngti) {
+            bttributfs = [bttrString bttributfsAtIndfx:NSMbxRbngf(ffffdtivfRbngf)
+                                        ffffdtivfRbngf:&ffffdtivfRbngf];
+            if (bttributfs) {
+                BOOL isTiidkUndfrlinf, isGrby;
+                NSNumbfr *undfrlinfSizfObj =
+                (NSNumbfr *)[bttributfs objfdtForKfy:NSUndfrlinfStylfAttributfNbmf];
+                NSIntfgfr undfrlinfSizf = [undfrlinfSizfObj intfgfrVbluf];
+                isTiidkUndfrlinf = (undfrlinfSizf > 1);
 
-                NSColor *underlineColorObj =
-                (NSColor *)[attributes objectForKey:NSUnderlineColorAttributeName];
-                isGray = !([underlineColorObj isEqual:[NSColor blackColor]]);
+                NSColor *undfrlinfColorObj =
+                (NSColor *)[bttributfs objfdtForKfy:NSUndfrlinfColorAttributfNbmf];
+                isGrby = !([undfrlinfColorObj isEqubl:[NSColor blbdkColor]]);
 
-                JNFCallVoidMethod(env, fInputMethodLOCKABLE, jm_addAttribute, isThickUnderline, isGray, effectiveRange.location, effectiveRange.length); // AWT_THREADING Safe (AWTRunLoopMode)
+                JNFCbllVoidMftiod(fnv, fInputMftiodLOCKABLE, jm_bddAttributf, isTiidkUndfrlinf, isGrby, ffffdtivfRbngf.lodbtion, ffffdtivfRbngf.lfngti); // AWT_THREADING Sbff (AWTRunLoopModf)
             }
         }
     }
 
-    static JNF_MEMBER_CACHE(jm_selectPreviousGlyph, jc_CInputMethod, "selectPreviousGlyph", "()V");
-    // We need to select the previous glyph so that it is overwritten.
-    if (fPAHNeedsToSelect) {
-        JNFCallVoidMethod(env, fInputMethodLOCKABLE, jm_selectPreviousGlyph);
-        fPAHNeedsToSelect = NO;
+    stbtid JNF_MEMBER_CACHE(jm_sflfdtPrfviousGlypi, jd_CInputMftiod, "sflfdtPrfviousGlypi", "()V");
+    // Wf nffd to sflfdt tif prfvious glypi so tibt it is ovfrwrittfn.
+    if (fPAHNffdsToSflfdt) {
+        JNFCbllVoidMftiod(fnv, fInputMftiodLOCKABLE, jm_sflfdtPrfviousGlypi);
+        fPAHNffdsToSflfdt = NO;
     }
 
-    JNFCallVoidMethod(env, fInputMethodLOCKABLE, jm_dispatchText, selectionRange.location, selectionRange.length, JNI_FALSE); // AWT_THREADING Safe (AWTRunLoopMode)
+    JNFCbllVoidMftiod(fnv, fInputMftiodLOCKABLE, jm_dispbtdiTfxt, sflfdtionRbngf.lodbtion, sflfdtionRbngf.lfngti, JNI_FALSE); // AWT_THREADING Sbff (AWTRunLoopModf)
 
-    // If the marked text is being cleared (zero-length string) don't handle the key event.
-    if ([incomingString length] == 0) {
-        fKeyEventsNeeded = NO;
+    // If tif mbrkfd tfxt is bfing dlfbrfd (zfro-lfngti string) don't ibndlf tif kfy fvfnt.
+    if ([indomingString lfngti] == 0) {
+        fKfyEvfntsNffdfd = NO;
     }
 }
 
-- (void) unmarkText
+- (void) unmbrkTfxt
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [unmarkText]\n");
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [unmbrkTfxt]\n");
+#fndif // IM_DEBUG
 
-    if (!fInputMethodLOCKABLE) {
-        return;
+    if (!fInputMftiodLOCKABLE) {
+        rfturn;
     }
 
-    // unmarkText cancels any input in progress and commits it to the text field.
-    static JNF_MEMBER_CACHE(jm_unmarkText, jc_CInputMethod, "unmarkText", "()V");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    JNFCallVoidMethod(env, fInputMethodLOCKABLE, jm_unmarkText); // AWT_THREADING Safe (AWTRunLoopMode)
+    // unmbrkTfxt dbndfls bny input in progrfss bnd dommits it to tif tfxt fifld.
+    stbtid JNF_MEMBER_CACHE(jm_unmbrkTfxt, jd_CInputMftiod, "unmbrkTfxt", "()V");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    JNFCbllVoidMftiod(fnv, fInputMftiodLOCKABLE, jm_unmbrkTfxt); // AWT_THREADING Sbff (AWTRunLoopModf)
 
 }
 
-- (BOOL) hasMarkedText
+- (BOOL) ibsMbrkfdTfxt
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [hasMarkedText]\n");
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [ibsMbrkfdTfxt]\n");
+#fndif // IM_DEBUG
 
-    if (!fInputMethodLOCKABLE) {
-        return NO;
+    if (!fInputMftiodLOCKABLE) {
+        rfturn NO;
     }
 
-    static JNF_MEMBER_CACHE(jf_fCurrentText, jc_CInputMethod, "fCurrentText", "Ljava/text/AttributedString;");
-    static JNF_MEMBER_CACHE(jf_fCurrentTextLength, jc_CInputMethod, "fCurrentTextLength", "I");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject currentText = JNFGetObjectField(env, fInputMethodLOCKABLE, jf_fCurrentText);
+    stbtid JNF_MEMBER_CACHE(jf_fCurrfntTfxt, jd_CInputMftiod, "fCurrfntTfxt", "Ljbvb/tfxt/AttributfdString;");
+    stbtid JNF_MEMBER_CACHE(jf_fCurrfntTfxtLfngti, jd_CInputMftiod, "fCurrfntTfxtLfngti", "I");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    jobjfdt durrfntTfxt = JNFGftObjfdtFifld(fnv, fInputMftiodLOCKABLE, jf_fCurrfntTfxt);
 
-    jint currentTextLength = JNFGetIntField(env, fInputMethodLOCKABLE, jf_fCurrentTextLength);
+    jint durrfntTfxtLfngti = JNFGftIntFifld(fnv, fInputMftiodLOCKABLE, jf_fCurrfntTfxtLfngti);
 
-    BOOL hasMarkedText = (currentText != NULL && currentTextLength > 0);
+    BOOL ibsMbrkfdTfxt = (durrfntTfxt != NULL && durrfntTfxtLfngti > 0);
 
-    if (currentText != NULL) {
-        (*env)->DeleteLocalRef(env, currentText);
+    if (durrfntTfxt != NULL) {
+        (*fnv)->DflftfLodblRff(fnv, durrfntTfxt);
     }
 
-    return hasMarkedText;
+    rfturn ibsMbrkfdTfxt;
 }
 
-- (NSInteger) conversationIdentifier
+- (NSIntfgfr) donvfrsbtionIdfntififr
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [conversationIdentifier]\n");
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [donvfrsbtionIdfntififr]\n");
+#fndif // IM_DEBUG
 
-    return (NSInteger) self;
+    rfturn (NSIntfgfr) sflf;
 }
 
-/* Returns attributed string at the range.  This allows input mangers to
- query any range in backing-store (Andy's request)
+/* Rfturns bttributfd string bt tif rbngf.  Tiis bllows input mbngfrs to
+ qufry bny rbngf in bbdking-storf (Andy's rfqufst)
  */
-- (NSAttributedString *) attributedSubstringForProposedRange:(NSRange)theRange actualRange:(NSRangePointer)actualRange
+- (NSAttributfdString *) bttributfdSubstringForProposfdRbngf:(NSRbngf)tifRbngf bdtublRbngf:(NSRbngfPointfr)bdtublRbngf
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [attributedSubstringFromRange] location=%lu, length=%lu\n", (unsigned long)theRange.location, (unsigned long)theRange.length);
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [bttributfdSubstringFromRbngf] lodbtion=%lu, lfngti=%lu\n", (unsignfd long)tifRbngf.lodbtion, (unsignfd long)tifRbngf.lfngti);
+#fndif // IM_DEBUG
 
-    static JNF_MEMBER_CACHE(jm_substringFromRange, jc_CInputMethod, "attributedSubstringFromRange", "(II)Ljava/lang/String;");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject theString = JNFCallObjectMethod(env, fInputMethodLOCKABLE, jm_substringFromRange, theRange.location, theRange.length); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtid JNF_MEMBER_CACHE(jm_substringFromRbngf, jd_CInputMftiod, "bttributfdSubstringFromRbngf", "(II)Ljbvb/lbng/String;");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    jobjfdt tifString = JNFCbllObjfdtMftiod(fnv, fInputMftiodLOCKABLE, jm_substringFromRbngf, tifRbngf.lodbtion, tifRbngf.lfngti); // AWT_THREADING Sbff (AWTRunLoopModf)
 
-    id result = [[[NSAttributedString alloc] initWithString:JNFJavaToNSString(env, theString)] autorelease];
-#ifdef IM_DEBUG
-    NSLog(@"attributedSubstringFromRange returning \"%@\"", result);
-#endif // IM_DEBUG
+    id rfsult = [[[NSAttributfdString bllod] initWitiString:JNFJbvbToNSString(fnv, tifString)] butorflfbsf];
+#ifdff IM_DEBUG
+    NSLog(@"bttributfdSubstringFromRbngf rfturning \"%@\"", rfsult);
+#fndif // IM_DEBUG
 
-    (*env)->DeleteLocalRef(env, theString);
-    return result;
+    (*fnv)->DflftfLodblRff(fnv, tifString);
+    rfturn rfsult;
 }
 
-/* This method returns the range for marked region.  If hasMarkedText == false,
- it'll return NSNotFound location & 0 length range.
+/* Tiis mftiod rfturns tif rbngf for mbrkfd rfgion.  If ibsMbrkfdTfxt == fblsf,
+ it'll rfturn NSNotFound lodbtion & 0 lfngti rbngf.
  */
-- (NSRange) markedRange
+- (NSRbngf) mbrkfdRbngf
 {
 
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [markedRange]\n");
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [mbrkfdRbngf]\n");
+#fndif // IM_DEBUG
 
-    if (!fInputMethodLOCKABLE) {
-        return NSMakeRange(NSNotFound, 0);
+    if (!fInputMftiodLOCKABLE) {
+        rfturn NSMbkfRbngf(NSNotFound, 0);
     }
 
-    static JNF_MEMBER_CACHE(jm_markedRange, jc_CInputMethod, "markedRange", "()[I");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jarray array;
-    jboolean isCopy;
-    jint *_array;
-    NSRange range = NSMakeRange(NSNotFound, 0);
+    stbtid JNF_MEMBER_CACHE(jm_mbrkfdRbngf, jd_CInputMftiod, "mbrkfdRbngf", "()[I");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    jbrrby brrby;
+    jboolfbn isCopy;
+    jint *_brrby;
+    NSRbngf rbngf = NSMbkfRbngf(NSNotFound, 0);
 
-    array = JNFCallObjectMethod(env, fInputMethodLOCKABLE, jm_markedRange); // AWT_THREADING Safe (AWTRunLoopMode)
+    brrby = JNFCbllObjfdtMftiod(fnv, fInputMftiodLOCKABLE, jm_mbrkfdRbngf); // AWT_THREADING Sbff (AWTRunLoopModf)
 
-    if (array) {
-        _array = (*env)->GetIntArrayElements(env, array, &isCopy);
-        if (_array != NULL) {
-            range.location = _array[0];
-            range.length = _array[1];
-#ifdef IM_DEBUG
-            fprintf(stderr, "markedRange returning (%lu, %lu)\n",
-                    (unsigned long)range.location, (unsigned long)range.length);
-#endif // IM_DEBUG
-            (*env)->ReleaseIntArrayElements(env, array, _array, 0);
+    if (brrby) {
+        _brrby = (*fnv)->GftIntArrbyElfmfnts(fnv, brrby, &isCopy);
+        if (_brrby != NULL) {
+            rbngf.lodbtion = _brrby[0];
+            rbngf.lfngti = _brrby[1];
+#ifdff IM_DEBUG
+            fprintf(stdfrr, "mbrkfdRbngf rfturning (%lu, %lu)\n",
+                    (unsignfd long)rbngf.lodbtion, (unsignfd long)rbngf.lfngti);
+#fndif // IM_DEBUG
+            (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, brrby, _brrby, 0);
         }
-        (*env)->DeleteLocalRef(env, array);
+        (*fnv)->DflftfLodblRff(fnv, brrby);
     }
 
-    return range;
+    rfturn rbngf;
 }
 
-/* This method returns the range for selected region.  Just like markedRange method,
- its location field contains char index from the text beginning.
+/* Tiis mftiod rfturns tif rbngf for sflfdtfd rfgion.  Just likf mbrkfdRbngf mftiod,
+ its lodbtion fifld dontbins dibr indfx from tif tfxt bfginning.
  */
-- (NSRange) selectedRange
+- (NSRbngf) sflfdtfdRbngf
 {
-    if (!fInputMethodLOCKABLE) {
-        return NSMakeRange(NSNotFound, 0);
+    if (!fInputMftiodLOCKABLE) {
+        rfturn NSMbkfRbngf(NSNotFound, 0);
     }
 
-    static JNF_MEMBER_CACHE(jm_selectedRange, jc_CInputMethod, "selectedRange", "()[I");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jarray array;
-    jboolean isCopy;
-    jint *_array;
-    NSRange range = NSMakeRange(NSNotFound, 0);
+    stbtid JNF_MEMBER_CACHE(jm_sflfdtfdRbngf, jd_CInputMftiod, "sflfdtfdRbngf", "()[I");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    jbrrby brrby;
+    jboolfbn isCopy;
+    jint *_brrby;
+    NSRbngf rbngf = NSMbkfRbngf(NSNotFound, 0);
 
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [selectedRange]\n");
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [sflfdtfdRbngf]\n");
+#fndif // IM_DEBUG
 
-    array = JNFCallObjectMethod(env, fInputMethodLOCKABLE, jm_selectedRange); // AWT_THREADING Safe (AWTRunLoopMode)
-    if (array) {
-        _array = (*env)->GetIntArrayElements(env, array, &isCopy);
-        if (_array != NULL) {
-            range.location = _array[0];
-            range.length = _array[1];
-            (*env)->ReleaseIntArrayElements(env, array, _array, 0);
+    brrby = JNFCbllObjfdtMftiod(fnv, fInputMftiodLOCKABLE, jm_sflfdtfdRbngf); // AWT_THREADING Sbff (AWTRunLoopModf)
+    if (brrby) {
+        _brrby = (*fnv)->GftIntArrbyElfmfnts(fnv, brrby, &isCopy);
+        if (_brrby != NULL) {
+            rbngf.lodbtion = _brrby[0];
+            rbngf.lfngti = _brrby[1];
+            (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, brrby, _brrby, 0);
         }
-        (*env)->DeleteLocalRef(env, array);
+        (*fnv)->DflftfLodblRff(fnv, brrby);
     }
 
-    return range;
+    rfturn rbngf;
 }
 
-/* This method returns the first frame of rects for theRange in screen coordindate system.
+/* Tiis mftiod rfturns tif first frbmf of rfdts for tifRbngf in sdrffn doordindbtf systfm.
  */
-- (NSRect) firstRectForCharacterRange:(NSRange)theRange actualRange:(NSRangePointer)actualRange
+- (NSRfdt) firstRfdtForCibrbdtfrRbngf:(NSRbngf)tifRbngf bdtublRbngf:(NSRbngfPointfr)bdtublRbngf
 {
-    if (!fInputMethodLOCKABLE) {
-        return NSZeroRect;
+    if (!fInputMftiodLOCKABLE) {
+        rfturn NSZfroRfdt;
     }
 
-    static JNF_MEMBER_CACHE(jm_firstRectForCharacterRange, jc_CInputMethod,
-                            "firstRectForCharacterRange", "(I)[I");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jarray array;
-    jboolean isCopy;
-    jint *_array;
-    NSRect rect;
+    stbtid JNF_MEMBER_CACHE(jm_firstRfdtForCibrbdtfrRbngf, jd_CInputMftiod,
+                            "firstRfdtForCibrbdtfrRbngf", "(I)[I");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+    jbrrby brrby;
+    jboolfbn isCopy;
+    jint *_brrby;
+    NSRfdt rfdt;
 
-#ifdef IM_DEBUG
-    fprintf(stderr,
-            "AWTView InputMethod Selector Called : [firstRectForCharacterRange:] location=%lu, length=%lu\n",
-            (unsigned long)theRange.location, (unsigned long)theRange.length);
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr,
+            "AWTVifw InputMftiod Sflfdtor Cbllfd : [firstRfdtForCibrbdtfrRbngf:] lodbtion=%lu, lfngti=%lu\n",
+            (unsignfd long)tifRbngf.lodbtion, (unsignfd long)tifRbngf.lfngti);
+#fndif // IM_DEBUG
 
-    array = JNFCallObjectMethod(env, fInputMethodLOCKABLE, jm_firstRectForCharacterRange,
-                                theRange.location); // AWT_THREADING Safe (AWTRunLoopMode)
+    brrby = JNFCbllObjfdtMftiod(fnv, fInputMftiodLOCKABLE, jm_firstRfdtForCibrbdtfrRbngf,
+                                tifRbngf.lodbtion); // AWT_THREADING Sbff (AWTRunLoopModf)
 
-    _array = (*env)->GetIntArrayElements(env, array, &isCopy);
-    if (_array) {
-        rect = ConvertNSScreenRect(env, NSMakeRect(_array[0], _array[1], _array[2], _array[3]));
-        (*env)->ReleaseIntArrayElements(env, array, _array, 0);
-    } else {
-        rect = NSZeroRect;
+    _brrby = (*fnv)->GftIntArrbyElfmfnts(fnv, brrby, &isCopy);
+    if (_brrby) {
+        rfdt = ConvfrtNSSdrffnRfdt(fnv, NSMbkfRfdt(_brrby[0], _brrby[1], _brrby[2], _brrby[3]));
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, brrby, _brrby, 0);
+    } flsf {
+        rfdt = NSZfroRfdt;
     }
-    (*env)->DeleteLocalRef(env, array);
+    (*fnv)->DflftfLodblRff(fnv, brrby);
 
-#ifdef IM_DEBUG
-    fprintf(stderr,
-            "firstRectForCharacterRange returning x=%f, y=%f, width=%f, height=%f\n",
-            rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-#endif // IM_DEBUG
-    return rect;
+#ifdff IM_DEBUG
+    fprintf(stdfrr,
+            "firstRfdtForCibrbdtfrRbngf rfturning x=%f, y=%f, widti=%f, ifigit=%f\n",
+            rfdt.origin.x, rfdt.origin.y, rfdt.sizf.widti, rfdt.sizf.ifigit);
+#fndif // IM_DEBUG
+    rfturn rfdt;
 }
 
-/* This method returns the index for character that is nearest to thePoint.  thPoint is in
- screen coordinate system.
+/* Tiis mftiod rfturns tif indfx for dibrbdtfr tibt is nfbrfst to tifPoint.  tiPoint is in
+ sdrffn doordinbtf systfm.
  */
-- (NSUInteger)characterIndexForPoint:(NSPoint)thePoint
+- (NSUIntfgfr)dibrbdtfrIndfxForPoint:(NSPoint)tifPoint
 {
-    if (!fInputMethodLOCKABLE) {
-        return NSNotFound;
+    if (!fInputMftiodLOCKABLE) {
+        rfturn NSNotFound;
     }
 
-    static JNF_MEMBER_CACHE(jm_characterIndexForPoint, jc_CInputMethod,
-                            "characterIndexForPoint", "(II)I");
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    stbtid JNF_MEMBER_CACHE(jm_dibrbdtfrIndfxForPoint, jd_CInputMftiod,
+                            "dibrbdtfrIndfxForPoint", "(II)I");
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    NSPoint flippedLocation = ConvertNSScreenPoint(env, thePoint);
+    NSPoint flippfdLodbtion = ConvfrtNSSdrffnPoint(fnv, tifPoint);
 
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [characterIndexForPoint:(NSPoint)thePoint] x=%f, y=%f\n", flippedLocation.x, flippedLocation.y);
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [dibrbdtfrIndfxForPoint:(NSPoint)tifPoint] x=%f, y=%f\n", flippfdLodbtion.x, flippfdLodbtion.y);
+#fndif // IM_DEBUG
 
-    jint index = JNFCallIntMethod(env, fInputMethodLOCKABLE, jm_characterIndexForPoint, (jint)flippedLocation.x, (jint)flippedLocation.y); // AWT_THREADING Safe (AWTRunLoopMode)
+    jint indfx = JNFCbllIntMftiod(fnv, fInputMftiodLOCKABLE, jm_dibrbdtfrIndfxForPoint, (jint)flippfdLodbtion.x, (jint)flippfdLodbtion.y); // AWT_THREADING Sbff (AWTRunLoopModf)
 
-#ifdef IM_DEBUG
-    fprintf(stderr, "characterIndexForPoint returning %ld\n", index);
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "dibrbdtfrIndfxForPoint rfturning %ld\n", indfx);
+#fndif // IM_DEBUG
 
-    if (index == -1) {
-        return NSNotFound;
-    } else {
-        return (NSUInteger)index;
+    if (indfx == -1) {
+        rfturn NSNotFound;
+    } flsf {
+        rfturn (NSUIntfgfr)indfx;
     }
 }
 
-- (NSArray*) validAttributesForMarkedText
+- (NSArrby*) vblidAttributfsForMbrkfdTfxt
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [validAttributesForMarkedText]\n");
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [vblidAttributfsForMbrkfdTfxt]\n");
+#fndif // IM_DEBUG
 
-    return [NSArray array];
+    rfturn [NSArrby brrby];
 }
 
-- (void)setInputMethod:(jobject)inputMethod
+- (void)sftInputMftiod:(jobjfdt)inputMftiod
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [setInputMethod]\n");
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [sftInputMftiod]\n");
+#fndif // IM_DEBUG
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    // Get rid of the old one
-    if (fInputMethodLOCKABLE) {
-        JNFDeleteGlobalRef(env, fInputMethodLOCKABLE);
+    // Gft rid of tif old onf
+    if (fInputMftiodLOCKABLE) {
+        JNFDflftfGlobblRff(fnv, fInputMftiodLOCKABLE);
     }
 
-    // Save a global ref to the new input method.
-    if (inputMethod != NULL)
-        fInputMethodLOCKABLE = JNFNewGlobalRef(env, inputMethod);
-    else
-        fInputMethodLOCKABLE = NULL;
+    // Sbvf b globbl rff to tif nfw input mftiod.
+    if (inputMftiod != NULL)
+        fInputMftiodLOCKABLE = JNFNfwGlobblRff(fnv, inputMftiod);
+    flsf
+        fInputMftiodLOCKABLE = NULL;
 }
 
-- (void)abandonInput
+- (void)bbbndonInput
 {
-#ifdef IM_DEBUG
-    fprintf(stderr, "AWTView InputMethod Selector Called : [abandonInput]\n");
-#endif // IM_DEBUG
+#ifdff IM_DEBUG
+    fprintf(stdfrr, "AWTVifw InputMftiod Sflfdtor Cbllfd : [bbbndonInput]\n");
+#fndif // IM_DEBUG
 
-    [ThreadUtilities performOnMainThread:@selector(markedTextAbandoned:) on:[NSInputManager currentInputManager] withObject:self waitUntilDone:YES];
-    [self unmarkText];
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(mbrkfdTfxtAbbndonfd:) on:[NSInputMbnbgfr durrfntInputMbnbgfr] witiObjfdt:sflf wbitUntilDonf:YES];
+    [sflf unmbrkTfxt];
 }
 
-/********************************   END NSTextInputClient Protocol   ********************************/
+/********************************   END NSTfxtInputClifnt Protodol   ********************************/
 
 
 
 
-@end // AWTView
+@fnd // AWTVifw
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformView
- * Method:    nativeCreateView
- * Signature: (IIII)J
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformVifw
+ * Mftiod:    nbtivfCrfbtfVifw
+ * Signbturf: (IIII)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_lwawt_macosx_CPlatformView_nativeCreateView
-(JNIEnv *env, jobject obj, jint originX, jint originY, jint width, jint height, jlong windowLayerPtr)
+Jbvb_sun_lwbwt_mbdosx_CPlbtformVifw_nbtivfCrfbtfVifw
+(JNIEnv *fnv, jobjfdt obj, jint originX, jint originY, jint widti, jint ifigit, jlong windowLbyfrPtr)
 {
-    __block AWTView *newView = nil;
+    __blodk AWTVifw *nfwVifw = nil;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    NSRect rect = NSMakeRect(originX, originY, width, height);
-    jobject cPlatformView = (*env)->NewGlobalRef(env, obj);
+    NSRfdt rfdt = NSMbkfRfdt(originX, originY, widti, ifigit);
+    jobjfdt dPlbtformVifw = (*fnv)->NfwGlobblRff(fnv, obj);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
 
-        CALayer *windowLayer = jlong_to_ptr(windowLayerPtr);
-        newView = [[AWTView alloc] initWithRect:rect
-                                   platformView:cPlatformView
-                                    windowLayer:windowLayer];
+        CALbyfr *windowLbyfr = jlong_to_ptr(windowLbyfrPtr);
+        nfwVifw = [[AWTVifw bllod] initWitiRfdt:rfdt
+                                   plbtformVifw:dPlbtformVifw
+                                    windowLbyfr:windowLbyfr];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-    return ptr_to_jlong(newView);
+    rfturn ptr_to_jlong(nfwVifw);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformView
- * Method:    nativeSetAutoResizable
- * Signature: (JZ)V;
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformVifw
+ * Mftiod:    nbtivfSftAutoRfsizbblf
+ * Signbturf: (JZ)V;
  */
 
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CPlatformView_nativeSetAutoResizable
-(JNIEnv *env, jclass cls, jlong viewPtr, jboolean toResize)
+Jbvb_sun_lwbwt_mbdosx_CPlbtformVifw_nbtivfSftAutoRfsizbblf
+(JNIEnv *fnv, jdlbss dls, jlong vifwPtr, jboolfbn toRfsizf)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
     
-    NSView *view = (NSView *)jlong_to_ptr(viewPtr);    
+    NSVifw *vifw = (NSVifw *)jlong_to_ptr(vifwPtr);    
 
-   [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
+   [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
 
-       if (toResize) {
-           [view setAutoresizingMask: NSViewHeightSizable | NSViewWidthSizable];
-       } else {
-           [view setAutoresizingMask: NSViewMinYMargin | NSViewMaxXMargin];
+       if (toRfsizf) {
+           [vifw sftAutorfsizingMbsk: NSVifwHfigitSizbblf | NSVifwWidtiSizbblf];
+       } flsf {
+           [vifw sftAutorfsizingMbsk: NSVifwMinYMbrgin | NSVifwMbxXMbrgin];
        }
        
-       if ([view superview] != nil) {
-           [[view superview] setAutoresizesSubviews:(BOOL)toResize];
+       if ([vifw supfrvifw] != nil) {
+           [[vifw supfrvifw] sftAutorfsizfsSubvifws:(BOOL)toRfsizf];
        }
        
     }];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformView
- * Method:    nativeGetNSViewDisplayID
- * Signature: (J)I;
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformVifw
+ * Mftiod:    nbtivfGftNSVifwDisplbyID
+ * Signbturf: (J)I;
  */
 
 JNIEXPORT jint JNICALL
-Java_sun_lwawt_macosx_CPlatformView_nativeGetNSViewDisplayID
-(JNIEnv *env, jclass cls, jlong viewPtr)
+Jbvb_sun_lwbwt_mbdosx_CPlbtformVifw_nbtivfGftNSVifwDisplbyID
+(JNIEnv *fnv, jdlbss dls, jlong vifwPtr)
 {
-    __block jint ret; //CGDirectDisplayID
+    __blodk jint rft; //CGDirfdtDisplbyID
     
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
     
-    NSView *view = (NSView *)jlong_to_ptr(viewPtr);    
-    NSWindow *window = [view window];
+    NSVifw *vifw = (NSVifw *)jlong_to_ptr(vifwPtr);    
+    NSWindow *window = [vifw window];
     
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
 
-            ret = (jint)[[AWTWindow getNSWindowDisplayID_AppKitThread: window] intValue];
+            rft = (jint)[[AWTWindow gftNSWindowDisplbyID_AppKitTirfbd: window] intVbluf];
     }];
     
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
     
-    return ret;
+    rfturn rft;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformView
- * Method:    nativeGetLocationOnScreen
- * Signature: (J)Ljava/awt/Rectangle;
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformVifw
+ * Mftiod:    nbtivfGftLodbtionOnSdrffn
+ * Signbturf: (J)Ljbvb/bwt/Rfdtbnglf;
  */
 
-JNIEXPORT jobject JNICALL
-Java_sun_lwawt_macosx_CPlatformView_nativeGetLocationOnScreen
-(JNIEnv *env, jclass cls, jlong viewPtr)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_lwbwt_mbdosx_CPlbtformVifw_nbtivfGftLodbtionOnSdrffn
+(JNIEnv *fnv, jdlbss dls, jlong vifwPtr)
 {
-    jobject jRect = NULL;
+    jobjfdt jRfdt = NULL;
     
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
     
-    __block NSRect rect = NSZeroRect;
+    __blodk NSRfdt rfdt = NSZfroRfdt;
     
-    NSView *view = (NSView *)jlong_to_ptr(viewPtr);    
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
+    NSVifw *vifw = (NSVifw *)jlong_to_ptr(vifwPtr);    
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
 
-        NSRect viewBounds = [view bounds];
-        NSRect frameInWindow = [view convertRect:viewBounds toView:nil];
-        rect = [[view window] convertRectToScreen:frameInWindow];
-        NSRect screenRect = [[NSScreen mainScreen] frame];
-        //Convert coordinates to top-left corner origin
-        rect.origin.y = screenRect.size.height - rect.origin.y - viewBounds.size.height;
+        NSRfdt vifwBounds = [vifw bounds];
+        NSRfdt frbmfInWindow = [vifw donvfrtRfdt:vifwBounds toVifw:nil];
+        rfdt = [[vifw window] donvfrtRfdtToSdrffn:frbmfInWindow];
+        NSRfdt sdrffnRfdt = [[NSSdrffn mbinSdrffn] frbmf];
+        //Convfrt doordinbtfs to top-lfft dornfr origin
+        rfdt.origin.y = sdrffnRfdt.sizf.ifigit - rfdt.origin.y - vifwBounds.sizf.ifigit;
     }];
-    jRect = NSToJavaRect(env, rect);
+    jRfdt = NSToJbvbRfdt(fnv, rfdt);
     
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
     
-    return jRect;
+    rfturn jRfdt;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformView
- * Method:    nativeIsViewUnderMouse
- * Signature: (J)Z;
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformVifw
+ * Mftiod:    nbtivfIsVifwUndfrMousf
+ * Signbturf: (J)Z;
  */
 
-JNIEXPORT jboolean JNICALL Java_sun_lwawt_macosx_CPlatformView_nativeIsViewUnderMouse
-(JNIEnv *env, jclass clazz, jlong viewPtr)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformVifw_nbtivfIsVifwUndfrMousf
+(JNIEnv *fnv, jdlbss dlbzz, jlong vifwPtr)
 {
-    __block jboolean underMouse = JNI_FALSE;
+    __blodk jboolfbn undfrMousf = JNI_FALSE;
     
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
     
-    NSView *nsView = OBJC(viewPtr);
-   [ThreadUtilities performOnMainThreadWaiting:YES block:^(){       
-       NSPoint ptWindowCoords = [[nsView window] mouseLocationOutsideOfEventStream];
-       NSPoint ptViewCoords = [nsView convertPoint:ptWindowCoords fromView:nil];
-       underMouse = [nsView hitTest:ptViewCoords] != nil;
+    NSVifw *nsVifw = OBJC(vifwPtr);
+   [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){       
+       NSPoint ptWindowCoords = [[nsVifw window] mousfLodbtionOutsidfOfEvfntStrfbm];
+       NSPoint ptVifwCoords = [nsVifw donvfrtPoint:ptWindowCoords fromVifw:nil];
+       undfrMousf = [nsVifw iitTfst:ptVifwCoords] != nil;
     }];
     
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
     
-    return underMouse;
+    rfturn undfrMousf;
 }
 
 

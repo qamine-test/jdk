@@ -1,0 +1,409 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.nio.dhbrsft.ChbrbdtfrCodingExdfption;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import sun.nio.ds.US_ASCII;
+
+publid dlbss ISO2022_CN
+    fxtfnds Chbrsft
+    implfmfnts HistoridbllyNbmfdChbrsft
+{
+    privbtf stbtid finbl bytf ISO_ESC = 0x1b;
+    privbtf stbtid finbl bytf ISO_SI = 0x0f;
+    privbtf stbtid finbl bytf ISO_SO = 0x0f;
+    privbtf stbtid finbl bytf ISO_SS2_7 = 0x4f;
+    privbtf stbtid finbl bytf ISO_SS3_7 = 0x4f;
+    privbtf stbtid finbl bytf MSB = (bytf)0x80;
+    privbtf stbtid finbl dhbr REPLACE_CHAR = '\uFFFD';
+
+    privbtf stbtid finbl bytf SODfsigGB = 0;
+    privbtf stbtid finbl bytf SODfsigCNS = 1;
+
+    publid ISO2022_CN() {
+        supfr("ISO-2022-CN", ExtfndfdChbrsfts.blibsfsFor("ISO-2022-CN"));
+    }
+
+    publid String historidblNbmf() {
+        rfturn "ISO2022CN";
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds instbndfof EUC_CN)     // GB2312-80 rfpfrtoirf
+                || (ds instbndfof US_ASCII)
+                || (ds instbndfof EUC_TW)  // CNS11643 rfpfrtoirf
+                || (ds instbndfof ISO2022_CN));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    publid boolfbn dbnEndodf() {
+        rfturn fblsf;
+    }
+
+    stbtid dlbss Dfdodfr fxtfnds ChbrsftDfdodfr {
+        privbtf boolfbn shiftOut;
+        privbtf bytf durrfntSODfsig;
+
+        privbtf stbtid finbl Chbrsft gb2312 = nfw EUC_CN();
+        privbtf stbtid finbl Chbrsft dns = nfw EUC_TW();
+        privbtf finbl DoublfBytf.Dfdodfr gb2312Dfdodfr;
+        privbtf finbl EUC_TW.Dfdodfr dnsDfdodfr;
+
+        Dfdodfr(Chbrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
+            shiftOut = fblsf;
+            durrfntSODfsig = SODfsigGB;
+            gb2312Dfdodfr = (DoublfBytf.Dfdodfr)gb2312.nfwDfdodfr();
+            dnsDfdodfr = (EUC_TW.Dfdodfr)dns.nfwDfdodfr();
+        }
+
+        protfdtfd void implRfsft() {
+            shiftOut= fblsf;
+            durrfntSODfsig = SODfsigGB;
+        }
+
+        privbtf dhbr dnsDfdodf(bytf bytf1, bytf bytf2, bytf SS) {
+            bytf1 |= MSB;
+            bytf2 |= MSB;
+            int p = 0;
+            if (SS == ISO_SS2_7)
+                p = 1;    //plbnf 2, indfx -- 1
+            flsf if (SS == ISO_SS3_7)
+                p = 2;    //plbnf 3, indfx -- 2
+            flsf
+                rfturn REPLACE_CHAR;  //nfvfr hbppfn.
+            dhbr[] rft = dnsDfdodfr.toUnidodf(bytf1 & 0xff,
+                                              bytf2 & 0xff,
+                                              p);
+            if (rft == null || rft.lfngth == 2)
+                rfturn REPLACE_CHAR;
+            rfturn rft[0];
+        }
+
+        privbtf dhbr SODfdodf(bytf bytf1, bytf bytf2, bytf SOD) {
+            bytf1 |= MSB;
+            bytf2 |= MSB;
+            if (SOD == SODfsigGB) {
+                rfturn gb2312Dfdodfr.dfdodfDoublf(bytf1 & 0xff,
+                                                  bytf2 & 0xff);
+            } flsf {    // SOD == SODfsigCNS
+                dhbr[] rft = dnsDfdodfr.toUnidodf(bytf1 & 0xff,
+                                                  bytf2 & 0xff,
+                                                  0);
+                if (rft == null)
+                    rfturn REPLACE_CHAR;
+                rfturn rft[0];
+            }
+        }
+
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             ChbrBufffr dst)
+        {
+            int mbrk = srd.position();
+            bytf b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            int inputSizf = 0;
+            dhbr d = REPLACE_CHAR;
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    b1 = srd.gft();
+                    inputSizf = 1;
+
+                    whilf (b1 == ISO_ESC ||
+                           b1 == ISO_SO ||
+                           b1 == ISO_SI) {
+                        if (b1 == ISO_ESC) {  // ESC
+                            durrfntSODfsig = SODfsigGB;
+
+                            if (srd.rfmbining() < 1)
+                                rfturn CodfrRfsult.UNDERFLOW;
+
+                            b2 = srd.gft();
+                            inputSizf++;
+
+                            if ((b2 & (bytf)0x80) != 0)
+                                rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+
+                            if (b2 == (bytf)0x24) {
+                                if (srd.rfmbining() < 1)
+                                    rfturn CodfrRfsult.UNDERFLOW;
+
+                                b3 = srd.gft();
+                                inputSizf++;
+
+                                if ((b3 & (bytf)0x80) != 0)
+                                    rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                if (b3 == 'A'){              // "$A"
+                                    durrfntSODfsig = SODfsigGB;
+                                } flsf if (b3 == ')') {
+                                    if (srd.rfmbining() < 1)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = srd.gft();
+                                    inputSizf++;
+                                    if (b4 == 'A'){          // "$)A"
+                                        durrfntSODfsig = SODfsigGB;
+                                    } flsf if (b4 == 'G'){   // "$)G"
+                                        durrfntSODfsig = SODfsigCNS;
+                                    } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                    }
+                                } flsf if (b3 == '*') {
+                                    if (srd.rfmbining() < 1)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = srd.gft();
+                                    inputSizf++;
+                                    if (b4 != 'H') {         // "$*H"
+                                        //SS2Dfsig -> CNS-P1
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                    }
+                                } flsf if (b3 == '+') {
+                                    if (srd.rfmbining() < 1)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = srd.gft();
+                                    inputSizf++;
+                                    if (b4 != 'I'){          // "$+I"
+                                        //SS3Dfsig -> CNS-P2.
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                    }
+                                } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                }
+                            } flsf if (b2 == ISO_SS2_7 || b2 == ISO_SS3_7) {
+                                if (srd.rfmbining() < 2)
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                b3 = srd.gft();
+                                b4 = srd.gft();
+                                inputSizf += 2;
+                                if (dst.rfmbining() < 1)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                //SS2->CNS-P2, SS3->CNS-P3
+                                d = dnsDfdodf(b3, b4, b2);
+                                if (d == REPLACE_CHAR)
+                                    rfturn CodfrRfsult.unmbppbblfForLfngth(inputSizf);
+                                dst.put(d);
+                            } flsf {
+                                rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                            }
+                        } flsf if (b1 == ISO_SO) {
+                            shiftOut = truf;
+                        } flsf if (b1 == ISO_SI) { // shift bbdk in
+                            shiftOut = fblsf;
+                        }
+                        mbrk += inputSizf;
+                        if (srd.rfmbining() < 1)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        b1 = srd.gft();
+                        inputSizf = 1;
+                    }
+
+                    if (dst.rfmbining() < 1)
+                        rfturn CodfrRfsult.OVERFLOW;
+
+                    if (!shiftOut) {
+                        dst.put((dhbr)(b1 & 0xff));  //dlfbr thf uppfr bytf
+                        mbrk += inputSizf;
+                    } flsf {
+                        if (srd.rfmbining() < 1)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        b2 = srd.gft();
+                        inputSizf++;
+                        d = SODfdodf(b1, b2, durrfntSODfsig);
+                        if (d == REPLACE_CHAR)
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(inputSizf);
+                        dst.put(d);
+                        mbrk += inputSizf;
+                    }
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            ChbrBufffr dst)
+        {
+            int inputSizf = 0;
+            bytf b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            dhbr d = REPLACE_CHAR;
+
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
+            sp = (sp <= sl ? sp : sl);
+
+            dhbr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
+            dp = (dp <= dl ? dp : dl);
+
+            try {
+                whilf (sp < sl) {
+                    b1 = sb[sp];
+                    inputSizf = 1;
+
+                    whilf (b1 == ISO_ESC || b1 == ISO_SO || b1 == ISO_SI) {
+                        if (b1 == ISO_ESC) {  // ESC
+                            durrfntSODfsig = SODfsigGB;
+
+                            if (sp + 2 > sl)
+                                rfturn CodfrRfsult.UNDERFLOW;
+
+                            b2 = sb[sp + 1];
+                            inputSizf++;
+
+                            if ((b2 & (bytf)0x80) != 0)
+                                rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                            if (b2 == (bytf)0x24) {
+                                if (sp + 3 > sl)
+                                    rfturn CodfrRfsult.UNDERFLOW;
+
+                                b3 = sb[sp + 2];
+                                inputSizf++;
+
+                                if ((b3 & (bytf)0x80) != 0)
+                                    rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                if (b3 == 'A'){              // "$A"
+                                    /* <ESC>$A is not b lfgbl dfsignbtor sfqufndf for
+                                       ISO2022_CN, it is listfd bs bn fsdbpf sfqufndf
+                                       for GB2312 in ISO2022-JP-2. Kffp it hfrf just for
+                                       thf sbkf of "dompbtibility".
+                                     */
+                                    durrfntSODfsig = SODfsigGB;
+                                } flsf if (b3 == ')') {
+                                    if (sp + 4 > sl)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = sb[sp + 3];
+                                    inputSizf++;
+
+                                    if (b4 == 'A'){          // "$)A"
+                                        durrfntSODfsig = SODfsigGB;
+                                    } flsf if (b4 == 'G'){   // "$)G"
+                                        durrfntSODfsig = SODfsigCNS;
+                                    } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                    }
+                                } flsf if (b3 == '*') {
+                                    if (sp + 4 > sl)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = sb[sp + 3];
+                                    inputSizf++;
+                                    if (b4 != 'H'){          // "$*H"
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                    }
+                                } flsf if (b3 == '+') {
+                                    if (sp + 4 > sl)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = sb[sp + 3];
+                                    inputSizf++;
+                                    if (b4 != 'I'){          // "$+I"
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                    }
+                                } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                }
+                            } flsf if (b2 == ISO_SS2_7 || b2 == ISO_SS3_7) {
+                                if (sp + 4 > sl) {
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                }
+                                b3 = sb[sp + 2];
+                                b4 = sb[sp + 3];
+                                if (dl - dp < 1)  {
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                }
+                                inputSizf += 2;
+                                d = dnsDfdodf(b3, b4, b2);
+                                if (d == REPLACE_CHAR)
+                                    rfturn CodfrRfsult.unmbppbblfForLfngth(inputSizf);
+                                db[dp++] = d;
+                            } flsf {
+                                rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                            }
+                        } flsf if (b1 == ISO_SO) {
+                            shiftOut = truf;
+                        } flsf if (b1 == ISO_SI) { // shift bbdk in
+                            shiftOut = fblsf;
+                        }
+                        sp += inputSizf;
+                        if (sp + 1 > sl)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        b1 = sb[sp];
+                        inputSizf = 1;
+                    }
+
+                    if (dl - dp < 1) {
+                        rfturn CodfrRfsult.OVERFLOW;
+                    }
+
+                    if (!shiftOut) {
+                        db[dp++] = (dhbr)(b1 & 0xff);  //dlfbr thf uppfr bytf
+                    } flsf {
+                        if (sp + 2 > sl)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        b2 = sb[sp + 1];
+                        inputSizf++;
+                        d = SODfdodf(b1, b2, durrfntSODfsig);
+                        if (d == REPLACE_CHAR)
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(inputSizf);
+                        db[dp++] = d;
+                    }
+                    sp += inputSizf;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd,
+                                         ChbrBufffr dst)
+        {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
+        }
+    }
+}

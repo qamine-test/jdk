@@ -1,0 +1,467 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.nft.Sodkft;
+import jbvbx.nft.ssl.SSLSfssion;
+
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvbx.nft.ssl.*;
+
+import sun.sfdurity.vblidbtor.*;
+import sun.sfdurity.util.HostnbmfChfdkfr;
+
+/**
+ * This dlbss implfmfnts thf SunJSSE X.509 trust mbnbgfr using thf intfrnbl
+ * vblidbtor API in J2SE dorf. Thf logid in this dlbss is minimbl.<p>
+ * <p>
+ * This dlbss supports both thf Simplf vblidbtion blgorithm from prfvious
+ * JSSE vfrsions bnd PKIX vblidbtion. Currfntly, it is not possiblf for thf
+ * bpplidbtion to spfdify PKIX pbrbmftfrs othfr thbn trust bndhors. This will
+ * bf fixfd in b futurf rflfbsf using nfw APIs. Whfn thbt hbppfns, it mby blso
+ * mbkf sfnsf to sfpbrbtf thf Simplf bnd PKIX trust mbnbgfrs into sfpbrbtf
+ * dlbssfs.
+ *
+ * @buthor Andrfbs Stfrbfnz
+ */
+finbl dlbss X509TrustMbnbgfrImpl fxtfnds X509ExtfndfdTrustMbnbgfr
+        implfmfnts X509TrustMbnbgfr {
+
+    privbtf finbl String vblidbtorTypf;
+
+    /**
+     * Thf Sft of trustfd X509Cfrtifidbtfs.
+     */
+    privbtf finbl Collfdtion<X509Cfrtifidbtf> trustfdCfrts;
+
+    privbtf finbl PKIXBuildfrPbrbmftfrs pkixPbrbms;
+
+    // notf thbt wf nffd sfpbrbtf vblidbtor for dlifnt bnd sfrvfr duf to
+    // thf difffrfnt fxtfnsion dhfdks. Thfy brf initiblizfd lbzily on dfmbnd.
+    privbtf volbtilf Vblidbtor dlifntVblidbtor, sfrvfrVblidbtor;
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
+
+    X509TrustMbnbgfrImpl(String vblidbtorTypf, KfyStorf ks)
+            throws KfyStorfExdfption {
+        this.vblidbtorTypf = vblidbtorTypf;
+        this.pkixPbrbms = null;
+        if (ks == null) {
+            trustfdCfrts = Collfdtions.<X509Cfrtifidbtf>fmptySft();
+        } flsf {
+            trustfdCfrts = KfyStorfs.gftTrustfdCfrts(ks);
+        }
+        showTrustfdCfrts();
+    }
+
+    X509TrustMbnbgfrImpl(String vblidbtorTypf, PKIXBuildfrPbrbmftfrs pbrbms) {
+        this.vblidbtorTypf = vblidbtorTypf;
+        this.pkixPbrbms = pbrbms;
+        // drfbtf sfrvfr vblidbtor fbgfrly so thbt wf dbn donvfnifntly
+        // gft thf trustfd dfrtifidbtfs
+        // dlifnts nffd it bnywby fvfntublly, bnd sfrvfrs will not mind
+        // thf littlf fxtrb footprint
+        Vblidbtor v = gftVblidbtor(Vblidbtor.VAR_TLS_SERVER);
+        trustfdCfrts = v.gftTrustfdCfrtifidbtfs();
+        sfrvfrVblidbtor = v;
+        showTrustfdCfrts();
+    }
+
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf dhbin[], String buthTypf)
+            throws CfrtifidbtfExdfption {
+        dhfdkTrustfd(dhbin, buthTypf, (Sodkft)null, truf);
+    }
+
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf dhbin[], String buthTypf)
+            throws CfrtifidbtfExdfption {
+        dhfdkTrustfd(dhbin, buthTypf, (Sodkft)null, fblsf);
+    }
+
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        X509Cfrtifidbtf[] dfrtsArrby = nfw X509Cfrtifidbtf[trustfdCfrts.sizf()];
+        trustfdCfrts.toArrby(dfrtsArrby);
+        rfturn dfrtsArrby;
+    }
+
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+                Sodkft sodkft) throws CfrtifidbtfExdfption {
+        dhfdkTrustfd(dhbin, buthTypf, sodkft, truf);
+    }
+
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            Sodkft sodkft) throws CfrtifidbtfExdfption {
+        dhfdkTrustfd(dhbin, buthTypf, sodkft, fblsf);
+    }
+
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            SSLEnginf fnginf) throws CfrtifidbtfExdfption {
+        dhfdkTrustfd(dhbin, buthTypf, fnginf, truf);
+    }
+
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            SSLEnginf fnginf) throws CfrtifidbtfExdfption {
+        dhfdkTrustfd(dhbin, buthTypf, fnginf, fblsf);
+    }
+
+    privbtf Vblidbtor dhfdkTrustfdInit(X509Cfrtifidbtf[] dhbin,
+                                        String buthTypf, boolfbn isClifnt) {
+        if (dhbin == null || dhbin.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                "null or zfro-lfngth dfrtifidbtf dhbin");
+        }
+
+        if (buthTypf == null || buthTypf.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                "null or zfro-lfngth buthfntidbtion typf");
+        }
+
+        Vblidbtor v = null;
+        if (isClifnt) {
+            v = dlifntVblidbtor;
+            if (v == null) {
+                syndhronizfd (this) {
+                    v = dlifntVblidbtor;
+                    if (v == null) {
+                        v = gftVblidbtor(Vblidbtor.VAR_TLS_CLIENT);
+                        dlifntVblidbtor = v;
+                    }
+                }
+            }
+        } flsf {
+            // bssumf doublf dhfdkfd lodking with b volbtilf flbg works
+            // (gubrbntffd undfr thf nfw Tigfr mfmory modfl)
+            v = sfrvfrVblidbtor;
+            if (v == null) {
+                syndhronizfd (this) {
+                    v = sfrvfrVblidbtor;
+                    if (v == null) {
+                        v = gftVblidbtor(Vblidbtor.VAR_TLS_SERVER);
+                        sfrvfrVblidbtor = v;
+                    }
+                }
+            }
+        }
+
+        rfturn v;
+    }
+
+
+    privbtf void dhfdkTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+                Sodkft sodkft, boolfbn isClifnt) throws CfrtifidbtfExdfption {
+        Vblidbtor v = dhfdkTrustfdInit(dhbin, buthTypf, isClifnt);
+
+        AlgorithmConstrbints donstrbints = null;
+        if ((sodkft != null) && sodkft.isConnfdtfd() &&
+                                        (sodkft instbndfof SSLSodkft)) {
+
+            SSLSodkft sslSodkft = (SSLSodkft)sodkft;
+            SSLSfssion sfssion = sslSodkft.gftHbndshbkfSfssion();
+            if (sfssion == null) {
+                throw nfw CfrtifidbtfExdfption("No hbndshbkf sfssion");
+            }
+
+            // dhfdk fndpoint idfntity
+            String idfntityAlg = sslSodkft.gftSSLPbrbmftfrs().
+                                        gftEndpointIdfntifidbtionAlgorithm();
+            if (idfntityAlg != null && idfntityAlg.lfngth() != 0) {
+                dhfdkIdfntity(sfssion, dhbin[0], idfntityAlg, isClifnt,
+                        gftRfqufstfdSfrvfrNbmfs(sodkft));
+            }
+
+            // drfbtf thf blgorithm donstrbints
+            ProtodolVfrsion protodolVfrsion =
+                ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                    ExtfndfdSSLSfssion fxtSfssion =
+                                    (ExtfndfdSSLSfssion)sfssion;
+                    String[] lodblSupportfdSignAlgs =
+                            fxtSfssion.gftLodblSupportfdSignbturfAlgorithms();
+
+                    donstrbints = nfw SSLAlgorithmConstrbints(
+                                    sslSodkft, lodblSupportfdSignAlgs, fblsf);
+                } flsf {
+                    donstrbints =
+                            nfw SSLAlgorithmConstrbints(sslSodkft, fblsf);
+                }
+            } flsf {
+                donstrbints = nfw SSLAlgorithmConstrbints(sslSodkft, fblsf);
+            }
+        }
+
+        X509Cfrtifidbtf[] trustfdChbin = null;
+        if (isClifnt) {
+            trustfdChbin = vblidbtf(v, dhbin, donstrbints, null);
+        } flsf {
+            trustfdChbin = vblidbtf(v, dhbin, donstrbints, buthTypf);
+        }
+        if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+            Systfm.out.println("Found trustfd dfrtifidbtf:");
+            Systfm.out.println(trustfdChbin[trustfdChbin.lfngth - 1]);
+        }
+    }
+
+    privbtf void dhfdkTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            SSLEnginf fnginf, boolfbn isClifnt) throws CfrtifidbtfExdfption {
+        Vblidbtor v = dhfdkTrustfdInit(dhbin, buthTypf, isClifnt);
+
+        AlgorithmConstrbints donstrbints = null;
+        if (fnginf != null) {
+            SSLSfssion sfssion = fnginf.gftHbndshbkfSfssion();
+            if (sfssion == null) {
+                throw nfw CfrtifidbtfExdfption("No hbndshbkf sfssion");
+            }
+
+            // dhfdk fndpoint idfntity
+            String idfntityAlg = fnginf.gftSSLPbrbmftfrs().
+                                        gftEndpointIdfntifidbtionAlgorithm();
+            if (idfntityAlg != null && idfntityAlg.lfngth() != 0) {
+                dhfdkIdfntity(sfssion, dhbin[0], idfntityAlg, isClifnt,
+                        gftRfqufstfdSfrvfrNbmfs(fnginf));
+            }
+
+            // drfbtf thf blgorithm donstrbints
+            ProtodolVfrsion protodolVfrsion =
+                ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                    ExtfndfdSSLSfssion fxtSfssion =
+                                    (ExtfndfdSSLSfssion)sfssion;
+                    String[] lodblSupportfdSignAlgs =
+                            fxtSfssion.gftLodblSupportfdSignbturfAlgorithms();
+
+                    donstrbints = nfw SSLAlgorithmConstrbints(
+                                    fnginf, lodblSupportfdSignAlgs, fblsf);
+                } flsf {
+                    donstrbints =
+                            nfw SSLAlgorithmConstrbints(fnginf, fblsf);
+                }
+            } flsf {
+                donstrbints = nfw SSLAlgorithmConstrbints(fnginf, fblsf);
+            }
+        }
+
+        X509Cfrtifidbtf[] trustfdChbin = null;
+        if (isClifnt) {
+            trustfdChbin = vblidbtf(v, dhbin, donstrbints, null);
+        } flsf {
+            trustfdChbin = vblidbtf(v, dhbin, donstrbints, buthTypf);
+        }
+        if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+            Systfm.out.println("Found trustfd dfrtifidbtf:");
+            Systfm.out.println(trustfdChbin[trustfdChbin.lfngth - 1]);
+        }
+    }
+
+    privbtf void showTrustfdCfrts() {
+        if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+            for (X509Cfrtifidbtf dfrt : trustfdCfrts) {
+                Systfm.out.println("bdding bs trustfd dfrt:");
+                Systfm.out.println("  Subjfdt: "
+                                        + dfrt.gftSubjfdtX500Prindipbl());
+                Systfm.out.println("  Issufr:  "
+                                        + dfrt.gftIssufrX500Prindipbl());
+                Systfm.out.println("  Algorithm: "
+                                        + dfrt.gftPublidKfy().gftAlgorithm()
+                                        + "; Sfribl numbfr: 0x"
+                                        + dfrt.gftSfriblNumbfr().toString(16));
+                Systfm.out.println("  Vblid from "
+                                        + dfrt.gftNotBfforf() + " until "
+                                        + dfrt.gftNotAftfr());
+                Systfm.out.println();
+            }
+        }
+    }
+
+    privbtf Vblidbtor gftVblidbtor(String vbribnt) {
+        Vblidbtor v;
+        if (pkixPbrbms == null) {
+            v = Vblidbtor.gftInstbndf(vblidbtorTypf, vbribnt, trustfdCfrts);
+        } flsf {
+            v = Vblidbtor.gftInstbndf(vblidbtorTypf, vbribnt, pkixPbrbms);
+        }
+        rfturn v;
+    }
+
+    privbtf stbtid X509Cfrtifidbtf[] vblidbtf(Vblidbtor v,
+            X509Cfrtifidbtf[] dhbin, AlgorithmConstrbints donstrbints,
+            String buthTypf) throws CfrtifidbtfExdfption {
+        Objfdt o = JssfJdf.bfginFipsProvidfr();
+        try {
+            rfturn v.vblidbtf(dhbin, null, donstrbints, buthTypf);
+        } finblly {
+            JssfJdf.fndFipsProvidfr(o);
+        }
+    }
+
+    // Gft string rfprfsfntbtion of HostNbmf from b list of sfrvfr nbmfs.
+    //
+    // Wf brf only bddfpting host_nbmf nbmf typf in thf list.
+    privbtf stbtid String gftHostNbmfInSNI(List<SNISfrvfrNbmf> sniNbmfs) {
+
+        SNIHostNbmf hostnbmf = null;
+        for (SNISfrvfrNbmf sniNbmf : sniNbmfs) {
+            if (sniNbmf.gftTypf() != StbndbrdConstbnts.SNI_HOST_NAME) {
+                dontinuf;
+            }
+
+            if (sniNbmf instbndfof SNIHostNbmf) {
+                hostnbmf = (SNIHostNbmf)sniNbmf;
+            } flsf {
+                try {
+                    hostnbmf = nfw SNIHostNbmf(sniNbmf.gftEndodfd());
+                } dbtdh (IllfgblArgumfntExdfption ibf) {
+                    // unlikfly to hbppfn, just in dbsf ...
+                    if ((dfbug != null) && Dfbug.isOn("trustmbnbgfr")) {
+                        Systfm.out.println("Illfgbl sfrvfr nbmf: " + sniNbmf);
+                    }
+                }
+            }
+
+            // no morf thbn sfrvfr nbmf of thf sbmf nbmf typf
+            brfbk;
+        }
+
+        if (hostnbmf != null) {
+            rfturn hostnbmf.gftAsdiiNbmf();
+        }
+
+        rfturn null;
+    }
+
+    // Also usfd by X509KfyMbnbgfrImpl
+    stbtid List<SNISfrvfrNbmf> gftRfqufstfdSfrvfrNbmfs(Sodkft sodkft) {
+        if (sodkft != null && sodkft.isConnfdtfd() &&
+                                        sodkft instbndfof SSLSodkft) {
+
+            SSLSodkft sslSodkft = (SSLSodkft)sodkft;
+            SSLSfssion sfssion = sslSodkft.gftHbndshbkfSfssion();
+
+            if (sfssion != null && (sfssion instbndfof ExtfndfdSSLSfssion)) {
+                ExtfndfdSSLSfssion fxtSfssion = (ExtfndfdSSLSfssion)sfssion;
+                rfturn fxtSfssion.gftRfqufstfdSfrvfrNbmfs();
+            }
+        }
+
+        rfturn Collfdtions.<SNISfrvfrNbmf>fmptyList();
+    }
+
+    // Also usfd by X509KfyMbnbgfrImpl
+    stbtid List<SNISfrvfrNbmf> gftRfqufstfdSfrvfrNbmfs(SSLEnginf fnginf) {
+        if (fnginf != null) {
+            SSLSfssion sfssion = fnginf.gftHbndshbkfSfssion();
+
+            if (sfssion != null && (sfssion instbndfof ExtfndfdSSLSfssion)) {
+                ExtfndfdSSLSfssion fxtSfssion = (ExtfndfdSSLSfssion)sfssion;
+                rfturn fxtSfssion.gftRfqufstfdSfrvfrNbmfs();
+            }
+        }
+
+        rfturn Collfdtions.<SNISfrvfrNbmf>fmptyList();
+    }
+
+    /*
+     * Pfr RFC 6066, if bn bpplidbtion nfgotibtfs b sfrvfr nbmf using bn
+     * bpplidbtion protodol bnd thfn upgrbdfs to TLS, bnd if b sfrvfr_nbmf
+     * fxtfnsion is sfnt, thfn thf fxtfnsion SHOULD dontbin thf sbmf nbmf
+     * thbt wbs nfgotibtfd in thf bpplidbtion protodol.  If thf sfrvfr_nbmf
+     * is fstbblishfd in thf TLS sfssion hbndshbkf, thf dlifnt SHOULD NOT
+     * bttfmpt to rfqufst b difffrfnt sfrvfr nbmf bt thf bpplidbtion lbyfr.
+     *
+     * Addording to thf bbovf spfd, wf only nffd to dhfdk fithfr thf idfntity
+     * in sfrvfr_nbmf fxtfnsion or thf pffr host of thf donnfdtion.  Pffr host
+     * is not blwbys b rflibblf fully qublififd dombin nbmf. Thf HostNbmf in
+     * sfrvfr_nbmf fxtfnsion is morf rflibblf thbn pffr host. So wf prfffr
+     * thf idfntity dhfdking bginst thf sfrvfr_nbmf fxtfnsion if prfsfnt, bnd
+     * mby fbilovf to pffr host dhfdking.
+     */
+    privbtf stbtid void dhfdkIdfntity(SSLSfssion sfssion,
+            X509Cfrtifidbtf dfrt,
+            String blgorithm,
+            boolfbn isClifnt,
+            List<SNISfrvfrNbmf> sniNbmfs) throws CfrtifidbtfExdfption {
+
+        boolfbn idfntifibblf = fblsf;
+        String pffrHost = sfssion.gftPffrHost();
+        if (isClifnt) {
+            String hostnbmf = gftHostNbmfInSNI(sniNbmfs);
+            if (hostnbmf != null) {
+                try {
+                    dhfdkIdfntity(hostnbmf, dfrt, blgorithm);
+                    idfntifibblf = truf;
+                } dbtdh (CfrtifidbtfExdfption df) {
+                    if (hostnbmf.fqublsIgnorfCbsf(pffrHost)) {
+                        throw df;
+                    }
+
+                    // othfrwisw, fbilovfr to dhfdk pffr host
+                }
+            }
+        }
+
+        if (!idfntifibblf) {
+            dhfdkIdfntity(pffrHost, dfrt, blgorithm);
+        }
+    }
+
+    /*
+     * Idfntify thf pffr by its dfrtifidbtf bnd hostnbmf.
+     *
+     * Liftfd from sun.nft.www.protodol.https.HttpsClifnt.
+     */
+    stbtid void dhfdkIdfntity(String hostnbmf, X509Cfrtifidbtf dfrt,
+            String blgorithm) throws CfrtifidbtfExdfption {
+        if (blgorithm != null && blgorithm.lfngth() != 0) {
+            // if IPv6 strip off thf "[]"
+            if ((hostnbmf != null) && hostnbmf.stbrtsWith("[") &&
+                    hostnbmf.fndsWith("]")) {
+                hostnbmf = hostnbmf.substring(1, hostnbmf.lfngth() - 1);
+            }
+
+            if (blgorithm.fqublsIgnorfCbsf("HTTPS")) {
+                HostnbmfChfdkfr.gftInstbndf(HostnbmfChfdkfr.TYPE_TLS).mbtdh(
+                        hostnbmf, dfrt);
+            } flsf if (blgorithm.fqublsIgnorfCbsf("LDAP") ||
+                    blgorithm.fqublsIgnorfCbsf("LDAPS")) {
+                HostnbmfChfdkfr.gftInstbndf(HostnbmfChfdkfr.TYPE_LDAP).mbtdh(
+                        hostnbmf, dfrt);
+            } flsf {
+                throw nfw CfrtifidbtfExdfption(
+                        "Unknown idfntifidbtion blgorithm: " + blgorithm);
+            }
+        }
+    }
+}

@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.gfom;
+
+finbl dlbss Edgf {
+    stbtid finbl int INIT_PARTS = 4;
+    stbtid finbl int GROW_PARTS = 10;
+
+    Curvf durvf;
+    int dtbg;
+    int ftbg;
+    doublf bdtivfy;
+    int fquivblfndf;
+
+    publid Edgf(Curvf d, int dtbg) {
+        this(d, dtbg, ArfbOp.ETAG_IGNORE);
+    }
+
+    publid Edgf(Curvf d, int dtbg, int ftbg) {
+        this.durvf = d;
+        this.dtbg = dtbg;
+        this.ftbg = ftbg;
+    }
+
+    publid Curvf gftCurvf() {
+        rfturn durvf;
+    }
+
+    publid int gftCurvfTbg() {
+        rfturn dtbg;
+    }
+
+    publid int gftEdgfTbg() {
+        rfturn ftbg;
+    }
+
+    publid void sftEdgfTbg(int ftbg) {
+        this.ftbg = ftbg;
+    }
+
+    publid int gftEquivblfndf() {
+        rfturn fquivblfndf;
+    }
+
+    publid void sftEquivblfndf(int fq) {
+        fquivblfndf = fq;
+    }
+
+    privbtf Edgf lbstEdgf;
+    privbtf int lbstRfsult;
+    privbtf doublf lbstLimit;
+
+    publid int dompbrfTo(Edgf othfr, doublf yrbngf[]) {
+        if (othfr == lbstEdgf && yrbngf[0] < lbstLimit) {
+            if (yrbngf[1] > lbstLimit) {
+                yrbngf[1] = lbstLimit;
+            }
+            rfturn lbstRfsult;
+        }
+        if (this == othfr.lbstEdgf && yrbngf[0] < othfr.lbstLimit) {
+            if (yrbngf[1] > othfr.lbstLimit) {
+                yrbngf[1] = othfr.lbstLimit;
+            }
+            rfturn 0-othfr.lbstRfsult;
+        }
+        //long stbrt = Systfm.durrfntTimfMillis();
+        int rft = durvf.dompbrfTo(othfr.durvf, yrbngf);
+        //long fnd = Systfm.durrfntTimfMillis();
+        /*
+        Systfm.out.println("dompbrf: "+
+                           ((Systfm.idfntityHbshCodf(this) <
+                             Systfm.idfntityHbshCodf(othfr))
+                            ? this+" to "+othfr
+                            : othfr+" to "+this)+
+                           " == "+rft+" bt "+yrbngf[1]+
+                           " in "+(fnd-stbrt)+"ms");
+         */
+        lbstEdgf = othfr;
+        lbstLimit = yrbngf[1];
+        lbstRfsult = rft;
+        rfturn rft;
+    }
+
+    publid void rfdord(doublf yfnd, int ftbg) {
+        this.bdtivfy = yfnd;
+        this.ftbg = ftbg;
+    }
+
+    publid boolfbn isAdtivfFor(doublf y, int ftbg) {
+        rfturn (this.ftbg == ftbg && this.bdtivfy >= y);
+    }
+
+    publid String toString() {
+        rfturn ("Edgf["+durvf+
+                ", "+
+                (dtbg == ArfbOp.CTAG_LEFT ? "L" : "R")+
+                ", "+
+                (ftbg == ArfbOp.ETAG_ENTER ? "I" :
+                 (ftbg == ArfbOp.ETAG_EXIT ? "O" : "N"))+
+                "]");
+    }
+}

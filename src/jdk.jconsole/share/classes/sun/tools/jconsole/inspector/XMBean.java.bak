@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-import java.io.IOException;
-import javax.management.*;
-import javax.swing.Icon;
-import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.MBeansTab;
-import sun.tools.jconsole.ProxyClient.SnapshotMBeanServerConnection;
+import jbvb.io.IOExdfption;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.swing.Idon;
+import sun.tools.jdonsolf.JConsolf;
+import sun.tools.jdonsolf.MBfbnsTbb;
+import sun.tools.jdonsolf.ProxyClifnt.SnbpsiotMBfbnSfrvfrConnfdtion;
 
-public class XMBean {
+publid dlbss XMBfbn {
 
-    private final MBeansTab mbeansTab;
-    private final ObjectName objectName;
-    private Icon icon;
-    private String text;
-    private Boolean broadcaster;
-    private final Object broadcasterLock = new Object();
-    private MBeanInfo mbeanInfo;
-    private final Object mbeanInfoLock = new Object();
+    privbtf finbl MBfbnsTbb mbfbnsTbb;
+    privbtf finbl ObjfdtNbmf objfdtNbmf;
+    privbtf Idon idon;
+    privbtf String tfxt;
+    privbtf Boolfbn brobddbstfr;
+    privbtf finbl Objfdt brobddbstfrLodk = nfw Objfdt();
+    privbtf MBfbnInfo mbfbnInfo;
+    privbtf finbl Objfdt mbfbnInfoLodk = nfw Objfdt();
 
-    public XMBean(ObjectName objectName, MBeansTab mbeansTab) {
-        this.mbeansTab = mbeansTab;
-        this.objectName = objectName;
-        text = objectName.getKeyProperty("name");
-        if (text == null) {
-            text = objectName.getDomain();
+    publid XMBfbn(ObjfdtNbmf objfdtNbmf, MBfbnsTbb mbfbnsTbb) {
+        tiis.mbfbnsTbb = mbfbnsTbb;
+        tiis.objfdtNbmf = objfdtNbmf;
+        tfxt = objfdtNbmf.gftKfyPropfrty("nbmf");
+        if (tfxt == null) {
+            tfxt = objfdtNbmf.gftDombin();
         }
-        if (MBeanServerDelegate.DELEGATE_NAME.equals(objectName)) {
-            icon = IconManager.MBEANSERVERDELEGATE;
-        } else {
-            icon = IconManager.MBEAN;
+        if (MBfbnSfrvfrDflfgbtf.DELEGATE_NAME.fqubls(objfdtNbmf)) {
+            idon = IdonMbnbgfr.MBEANSERVERDELEGATE;
+        } flsf {
+            idon = IdonMbnbgfr.MBEAN;
         }
     }
 
-    MBeanServerConnection getMBeanServerConnection() {
-        return mbeansTab.getMBeanServerConnection();
+    MBfbnSfrvfrConnfdtion gftMBfbnSfrvfrConnfdtion() {
+        rfturn mbfbnsTbb.gftMBfbnSfrvfrConnfdtion();
     }
 
-    SnapshotMBeanServerConnection getSnapshotMBeanServerConnection() {
-        return mbeansTab.getSnapshotMBeanServerConnection();
+    SnbpsiotMBfbnSfrvfrConnfdtion gftSnbpsiotMBfbnSfrvfrConnfdtion() {
+        rfturn mbfbnsTbb.gftSnbpsiotMBfbnSfrvfrConnfdtion();
     }
 
-    public Boolean isBroadcaster() {
-        synchronized (broadcasterLock) {
-            if (broadcaster == null) {
+    publid Boolfbn isBrobddbstfr() {
+        syndironizfd (brobddbstfrLodk) {
+            if (brobddbstfr == null) {
                 try {
-                    broadcaster = getMBeanServerConnection().isInstanceOf(
-                            getObjectName(),
-                            "javax.management.NotificationBroadcaster");
-                } catch (Exception e) {
-                    if (JConsole.isDebug()) {
-                        System.err.println("Couldn't check if MBean [" +
-                                objectName + "] is a notification broadcaster");
-                        e.printStackTrace();
+                    brobddbstfr = gftMBfbnSfrvfrConnfdtion().isInstbndfOf(
+                            gftObjfdtNbmf(),
+                            "jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr");
+                } dbtdi (Exdfption f) {
+                    if (JConsolf.isDfbug()) {
+                        Systfm.frr.println("Couldn't difdk if MBfbn [" +
+                                objfdtNbmf + "] is b notifidbtion brobddbstfr");
+                        f.printStbdkTrbdf();
                     }
-                    return false;
+                    rfturn fblsf;
                 }
             }
-            return broadcaster;
+            rfturn brobddbstfr;
         }
     }
 
-    public Object invoke(String operationName) throws Exception {
-        Object result = getMBeanServerConnection().invoke(
-                getObjectName(), operationName, new Object[0], new String[0]);
-        return result;
+    publid Objfdt invokf(String opfrbtionNbmf) tirows Exdfption {
+        Objfdt rfsult = gftMBfbnSfrvfrConnfdtion().invokf(
+                gftObjfdtNbmf(), opfrbtionNbmf, nfw Objfdt[0], nfw String[0]);
+        rfturn rfsult;
     }
 
-    public Object invoke(String operationName, Object params[], String sig[])
-            throws Exception {
-        Object result = getMBeanServerConnection().invoke(
-                getObjectName(), operationName, params, sig);
-        return result;
+    publid Objfdt invokf(String opfrbtionNbmf, Objfdt pbrbms[], String sig[])
+            tirows Exdfption {
+        Objfdt rfsult = gftMBfbnSfrvfrConnfdtion().invokf(
+                gftObjfdtNbmf(), opfrbtionNbmf, pbrbms, sig);
+        rfturn rfsult;
     }
 
-    public void setAttribute(Attribute attribute)
-            throws AttributeNotFoundException, InstanceNotFoundException,
-            InvalidAttributeValueException, MBeanException,
-            ReflectionException, IOException {
-        getMBeanServerConnection().setAttribute(getObjectName(), attribute);
+    publid void sftAttributf(Attributf bttributf)
+            tirows AttributfNotFoundExdfption, InstbndfNotFoundExdfption,
+            InvblidAttributfVblufExdfption, MBfbnExdfption,
+            RfflfdtionExdfption, IOExdfption {
+        gftMBfbnSfrvfrConnfdtion().sftAttributf(gftObjfdtNbmf(), bttributf);
     }
 
-    public Object getAttribute(String attributeName)
-            throws AttributeNotFoundException, InstanceNotFoundException,
-            MBeanException, ReflectionException, IOException {
-        return getSnapshotMBeanServerConnection().getAttribute(
-                getObjectName(), attributeName);
+    publid Objfdt gftAttributf(String bttributfNbmf)
+            tirows AttributfNotFoundExdfption, InstbndfNotFoundExdfption,
+            MBfbnExdfption, RfflfdtionExdfption, IOExdfption {
+        rfturn gftSnbpsiotMBfbnSfrvfrConnfdtion().gftAttributf(
+                gftObjfdtNbmf(), bttributfNbmf);
     }
 
-    public AttributeList getAttributes(String attributeNames[])
-            throws AttributeNotFoundException, InstanceNotFoundException,
-            MBeanException, ReflectionException, IOException {
-        return getSnapshotMBeanServerConnection().getAttributes(
-                getObjectName(), attributeNames);
+    publid AttributfList gftAttributfs(String bttributfNbmfs[])
+            tirows AttributfNotFoundExdfption, InstbndfNotFoundExdfption,
+            MBfbnExdfption, RfflfdtionExdfption, IOExdfption {
+        rfturn gftSnbpsiotMBfbnSfrvfrConnfdtion().gftAttributfs(
+                gftObjfdtNbmf(), bttributfNbmfs);
     }
 
-    public AttributeList getAttributes(MBeanAttributeInfo attributeNames[])
-            throws AttributeNotFoundException, InstanceNotFoundException,
-            MBeanException, ReflectionException, IOException {
-        String attributeString[] = new String[attributeNames.length];
-        for (int i = 0; i < attributeNames.length; i++) {
-            attributeString[i] = attributeNames[i].getName();
+    publid AttributfList gftAttributfs(MBfbnAttributfInfo bttributfNbmfs[])
+            tirows AttributfNotFoundExdfption, InstbndfNotFoundExdfption,
+            MBfbnExdfption, RfflfdtionExdfption, IOExdfption {
+        String bttributfString[] = nfw String[bttributfNbmfs.lfngti];
+        for (int i = 0; i < bttributfNbmfs.lfngti; i++) {
+            bttributfString[i] = bttributfNbmfs[i].gftNbmf();
         }
-        return getAttributes(attributeString);
+        rfturn gftAttributfs(bttributfString);
     }
 
-    public ObjectName getObjectName() {
-        return objectName;
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn objfdtNbmf;
     }
 
-    public MBeanInfo getMBeanInfo() throws InstanceNotFoundException,
-            IntrospectionException, ReflectionException, IOException {
-        synchronized (mbeanInfoLock) {
-            if (mbeanInfo == null) {
-                mbeanInfo = getMBeanServerConnection().getMBeanInfo(objectName);
+    publid MBfbnInfo gftMBfbnInfo() tirows InstbndfNotFoundExdfption,
+            IntrospfdtionExdfption, RfflfdtionExdfption, IOExdfption {
+        syndironizfd (mbfbnInfoLodk) {
+            if (mbfbnInfo == null) {
+                mbfbnInfo = gftMBfbnSfrvfrConnfdtion().gftMBfbnInfo(objfdtNbmf);
             }
-            return mbeanInfo;
+            rfturn mbfbnInfo;
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
         if (obj == null) {
-            return false;
+            rfturn fblsf;
         }
-        if (obj == this) {
-            return true;
+        if (obj == tiis) {
+            rfturn truf;
         }
-        if (!(obj instanceof XMBean)) {
-            return false;
+        if (!(obj instbndfof XMBfbn)) {
+            rfturn fblsf;
         }
-        XMBean that = (XMBean) obj;
-        return getObjectName().equals(that.getObjectName());
+        XMBfbn tibt = (XMBfbn) obj;
+        rfturn gftObjfdtNbmf().fqubls(tibt.gftObjfdtNbmf());
     }
 
-    @Override
-    public int hashCode() {
-        return (objectName == null ? 0 : objectName.hashCode());
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn (objfdtNbmf == null ? 0 : objfdtNbmf.ibsiCodf());
     }
 
-    public String getText() {
-        return text;
+    publid String gftTfxt() {
+        rfturn tfxt;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    publid void sftTfxt(String tfxt) {
+        tiis.tfxt = tfxt;
     }
 
-    public Icon getIcon() {
-        return icon;
+    publid Idon gftIdon() {
+        rfturn idon;
     }
 
-    public void setIcon(Icon icon) {
-        this.icon = icon;
+    publid void sftIdon(Idon idon) {
+        tiis.idon = idon;
     }
 
-    @Override
-    public String toString() {
-        return getText();
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftTfxt();
     }
 }

@@ -1,559 +1,559 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.io.*;
-import java.util.Hashtable;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
+import jbvb.io.*;
+import jbvb.util.Hbsitbblf;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.swing.tfxt.StylfConstbnts;
+import jbvbx.swing.tfxt.StylfContfxt;
 
 /**
- * Constants used in the <code>HTMLDocument</code>.  These
- * are basically tag and attribute definitions.
+ * Constbnts usfd in tif <dodf>HTMLDodumfnt</dodf>.  Tifsf
+ * brf bbsidblly tbg bnd bttributf dffinitions.
  *
- * @author  Timothy Prinzing
- * @author  Sunita Mani
+ * @butior  Timotiy Prinzing
+ * @butior  Sunitb Mbni
  *
  */
-public class HTML {
+publid dlbss HTML {
 
     /**
-     * Typesafe enumeration for an HTML tag.  Although the
-     * set of HTML tags is a closed set, we have left the
-     * set open so that people can add their own tag types
-     * to their custom parser and still communicate to the
-     * reader.
+     * Typfsbff fnumfrbtion for bn HTML tbg.  Altiougi tif
+     * sft of HTML tbgs is b dlosfd sft, wf ibvf lfft tif
+     * sft opfn so tibt pfoplf dbn bdd tifir own tbg typfs
+     * to tifir dustom pbrsfr bnd still dommunidbtf to tif
+     * rfbdfr.
      */
-    public static class Tag {
+    publid stbtid dlbss Tbg {
 
-        /** @since 1.3 */
-        public Tag() {}
+        /** @sindf 1.3 */
+        publid Tbg() {}
 
         /**
-         * Creates a new <code>Tag</code> with the specified <code>id</code>,
-         * and with <code>causesBreak</code> and <code>isBlock</code>
-         * set to <code>false</code>.
+         * Crfbtfs b nfw <dodf>Tbg</dodf> witi tif spfdififd <dodf>id</dodf>,
+         * bnd witi <dodf>dbusfsBrfbk</dodf> bnd <dodf>isBlodk</dodf>
+         * sft to <dodf>fblsf</dodf>.
          *
-         * @param id  the id of the new tag
+         * @pbrbm id  tif id of tif nfw tbg
          */
-        protected Tag(String id) {
-            this(id, false, false);
+        protfdtfd Tbg(String id) {
+            tiis(id, fblsf, fblsf);
         }
 
         /**
-         * Creates a new <code>Tag</code> with the specified <code>id</code>;
-         * <code>causesBreak</code> and <code>isBlock</code> are defined
-         * by the user.
+         * Crfbtfs b nfw <dodf>Tbg</dodf> witi tif spfdififd <dodf>id</dodf>;
+         * <dodf>dbusfsBrfbk</dodf> bnd <dodf>isBlodk</dodf> brf dffinfd
+         * by tif usfr.
          *
-         * @param id the id of the new tag
-         * @param causesBreak  <code>true</code> if this tag
-         *    causes a break to the flow of data
-         * @param isBlock <code>true</code> if the tag is used
-         *    to add structure to a document
+         * @pbrbm id tif id of tif nfw tbg
+         * @pbrbm dbusfsBrfbk  <dodf>truf</dodf> if tiis tbg
+         *    dbusfs b brfbk to tif flow of dbtb
+         * @pbrbm isBlodk <dodf>truf</dodf> if tif tbg is usfd
+         *    to bdd strudturf to b dodumfnt
          */
-        protected Tag(String id, boolean causesBreak, boolean isBlock) {
-            name = id;
-            this.breakTag = causesBreak;
-            this.blockTag = isBlock;
+        protfdtfd Tbg(String id, boolfbn dbusfsBrfbk, boolfbn isBlodk) {
+            nbmf = id;
+            tiis.brfbkTbg = dbusfsBrfbk;
+            tiis.blodkTbg = isBlodk;
         }
 
         /**
-         * Returns <code>true</code> if this tag is a block
-         * tag, which is a tag used to add structure to a
-         * document.
+         * Rfturns <dodf>truf</dodf> if tiis tbg is b blodk
+         * tbg, wiidi is b tbg usfd to bdd strudturf to b
+         * dodumfnt.
          *
-         * @return <code>true</code> if this tag is a block
-         *   tag, otherwise returns <code>false</code>
+         * @rfturn <dodf>truf</dodf> if tiis tbg is b blodk
+         *   tbg, otifrwisf rfturns <dodf>fblsf</dodf>
          */
-        public boolean isBlock() {
-            return blockTag;
+        publid boolfbn isBlodk() {
+            rfturn blodkTbg;
         }
 
         /**
-         * Returns <code>true</code> if this tag causes a
-         * line break to the flow of data, otherwise returns
-         * <code>false</code>.
+         * Rfturns <dodf>truf</dodf> if tiis tbg dbusfs b
+         * linf brfbk to tif flow of dbtb, otifrwisf rfturns
+         * <dodf>fblsf</dodf>.
          *
-         * @return <code>true</code> if this tag causes a
-         *   line break to the flow of data, otherwise returns
-         *   <code>false</code>
+         * @rfturn <dodf>truf</dodf> if tiis tbg dbusfs b
+         *   linf brfbk to tif flow of dbtb, otifrwisf rfturns
+         *   <dodf>fblsf</dodf>
          */
-        public boolean breaksFlow() {
-            return breakTag;
+        publid boolfbn brfbksFlow() {
+            rfturn brfbkTbg;
         }
 
         /**
-         * Returns <code>true</code> if this tag is pre-formatted,
-         * which is true if the tag is either <code>PRE</code> or
-         * <code>TEXTAREA</code>.
+         * Rfturns <dodf>truf</dodf> if tiis tbg is prf-formbttfd,
+         * wiidi is truf if tif tbg is fitifr <dodf>PRE</dodf> or
+         * <dodf>TEXTAREA</dodf>.
          *
-         * @return <code>true</code> if this tag is pre-formatted,
-         *   otherwise returns <code>false</code>
+         * @rfturn <dodf>truf</dodf> if tiis tbg is prf-formbttfd,
+         *   otifrwisf rfturns <dodf>fblsf</dodf>
          */
-        public boolean isPreformatted() {
-            return (this == PRE || this == TEXTAREA);
+        publid boolfbn isPrfformbttfd() {
+            rfturn (tiis == PRE || tiis == TEXTAREA);
         }
 
         /**
-         * Returns the string representation of the
-         * tag.
+         * Rfturns tif string rfprfsfntbtion of tif
+         * tbg.
          *
-         * @return the <code>String</code> representation of the tag
+         * @rfturn tif <dodf>String</dodf> rfprfsfntbtion of tif tbg
          */
-        public String toString() {
-            return name;
+        publid String toString() {
+            rfturn nbmf;
         }
 
         /**
-         * Returns <code>true</code> if this tag is considered to be a paragraph
-         * in the internal HTML model. <code>false</code> - otherwise.
+         * Rfturns <dodf>truf</dodf> if tiis tbg is donsidfrfd to bf b pbrbgrbpi
+         * in tif intfrnbl HTML modfl. <dodf>fblsf</dodf> - otifrwisf.
          *
-         * @return <code>true</code> if this tag is considered to be a paragraph
-         *         in the internal HTML model. <code>false</code> - otherwise.
-         * @see HTMLDocument.HTMLReader.ParagraphAction
+         * @rfturn <dodf>truf</dodf> if tiis tbg is donsidfrfd to bf b pbrbgrbpi
+         *         in tif intfrnbl HTML modfl. <dodf>fblsf</dodf> - otifrwisf.
+         * @sff HTMLDodumfnt.HTMLRfbdfr.PbrbgrbpiAdtion
          */
-        boolean isParagraph() {
-            return (
-                this == P
-                   || this == IMPLIED
-                   || this == DT
-                   || this == H1
-                   || this == H2
-                   || this == H3
-                   || this == H4
-                   || this == H5
-                   || this == H6
+        boolfbn isPbrbgrbpi() {
+            rfturn (
+                tiis == P
+                   || tiis == IMPLIED
+                   || tiis == DT
+                   || tiis == H1
+                   || tiis == H2
+                   || tiis == H3
+                   || tiis == H4
+                   || tiis == H5
+                   || tiis == H6
             );
         }
 
-        boolean blockTag;
-        boolean breakTag;
-        String name;
-        boolean unknown;
+        boolfbn blodkTbg;
+        boolfbn brfbkTbg;
+        String nbmf;
+        boolfbn unknown;
 
-        // --- Tag Names -----------------------------------
+        // --- Tbg Nbmfs -----------------------------------
 
         /**
-         * Tag &lt;a&gt;
+         * Tbg &lt;b&gt;
          */
-        public static final Tag A = new Tag("a");
+        publid stbtid finbl Tbg A = nfw Tbg("b");
 
         /**
-         * Tag &lt;address&gt;
+         * Tbg &lt;bddrfss&gt;
          */
-        public static final Tag ADDRESS = new Tag("address");
+        publid stbtid finbl Tbg ADDRESS = nfw Tbg("bddrfss");
         /**
-         * Tag &lt;applet&gt;
+         * Tbg &lt;bpplft&gt;
          */
-        public static final Tag APPLET = new Tag("applet");
+        publid stbtid finbl Tbg APPLET = nfw Tbg("bpplft");
 
         /**
-         * Tag &lt;area&gt;
+         * Tbg &lt;brfb&gt;
          */
-        public static final Tag AREA = new Tag("area");
+        publid stbtid finbl Tbg AREA = nfw Tbg("brfb");
 
         /**
-         * Tag &lt;b&gt;
+         * Tbg &lt;b&gt;
          */
-        public static final Tag B = new Tag("b");
+        publid stbtid finbl Tbg B = nfw Tbg("b");
 
         /**
-         * Tag &lt;base&gt;
+         * Tbg &lt;bbsf&gt;
          */
-        public static final Tag BASE = new Tag("base");
+        publid stbtid finbl Tbg BASE = nfw Tbg("bbsf");
 
         /**
-         * Tag &lt;basefont&gt;
+         * Tbg &lt;bbsffont&gt;
          */
-        public static final Tag BASEFONT = new Tag("basefont");
+        publid stbtid finbl Tbg BASEFONT = nfw Tbg("bbsffont");
 
         /**
-         * Tag &lt;big&gt;
+         * Tbg &lt;big&gt;
          */
-        public static final Tag BIG = new Tag("big");
+        publid stbtid finbl Tbg BIG = nfw Tbg("big");
 
         /**
-         * Tag &lt;blockquote&gt;
+         * Tbg &lt;blodkquotf&gt;
          */
-        public static final Tag BLOCKQUOTE = new Tag("blockquote", true, true);
+        publid stbtid finbl Tbg BLOCKQUOTE = nfw Tbg("blodkquotf", truf, truf);
 
         /**
-         * Tag &lt;body&gt;
+         * Tbg &lt;body&gt;
          */
-        public static final Tag BODY = new Tag("body", true, true);
+        publid stbtid finbl Tbg BODY = nfw Tbg("body", truf, truf);
 
         /**
-         * Tag &lt;br&gt;
+         * Tbg &lt;br&gt;
          */
-        public static final Tag BR = new Tag("br", true, false);
+        publid stbtid finbl Tbg BR = nfw Tbg("br", truf, fblsf);
 
         /**
-         * Tag &lt;caption&gt;
+         * Tbg &lt;dbption&gt;
          */
-        public static final Tag CAPTION = new Tag("caption");
+        publid stbtid finbl Tbg CAPTION = nfw Tbg("dbption");
 
         /**
-         * Tag &lt;center&gt;
+         * Tbg &lt;dfntfr&gt;
          */
-        public static final Tag CENTER = new Tag("center", true, false);
+        publid stbtid finbl Tbg CENTER = nfw Tbg("dfntfr", truf, fblsf);
 
         /**
-         * Tag &lt;cite&gt;
+         * Tbg &lt;ditf&gt;
          */
-        public static final Tag CITE = new Tag("cite");
+        publid stbtid finbl Tbg CITE = nfw Tbg("ditf");
 
         /**
-         * Tag &lt;code&gt;
+         * Tbg &lt;dodf&gt;
          */
-        public static final Tag CODE = new Tag("code");
+        publid stbtid finbl Tbg CODE = nfw Tbg("dodf");
 
         /**
-         * Tag &lt;dd&gt;
+         * Tbg &lt;dd&gt;
          */
-        public static final Tag DD = new Tag("dd", true, true);
+        publid stbtid finbl Tbg DD = nfw Tbg("dd", truf, truf);
 
         /**
-         * Tag &lt;dfn&gt;
+         * Tbg &lt;dfn&gt;
          */
-        public static final Tag DFN = new Tag("dfn");
+        publid stbtid finbl Tbg DFN = nfw Tbg("dfn");
 
         /**
-         * Tag &lt;dir&gt;
+         * Tbg &lt;dir&gt;
          */
-        public static final Tag DIR = new Tag("dir", true, true);
+        publid stbtid finbl Tbg DIR = nfw Tbg("dir", truf, truf);
 
         /**
-         * Tag &lt;div&gt;
+         * Tbg &lt;div&gt;
          */
-        public static final Tag DIV = new Tag("div", true, true);
+        publid stbtid finbl Tbg DIV = nfw Tbg("div", truf, truf);
 
         /**
-         * Tag &lt;dl&gt;
+         * Tbg &lt;dl&gt;
          */
-        public static final Tag DL = new Tag("dl", true, true);
+        publid stbtid finbl Tbg DL = nfw Tbg("dl", truf, truf);
 
         /**
-         * Tag &lt;dt&gt;
+         * Tbg &lt;dt&gt;
          */
-        public static final Tag DT = new Tag("dt", true, true);
+        publid stbtid finbl Tbg DT = nfw Tbg("dt", truf, truf);
 
         /**
-         * Tag &lt;em&gt;
+         * Tbg &lt;fm&gt;
          */
-        public static final Tag EM = new Tag("em");
+        publid stbtid finbl Tbg EM = nfw Tbg("fm");
 
         /**
-         * Tag &lt;font&gt;
+         * Tbg &lt;font&gt;
          */
-        public static final Tag FONT = new Tag("font");
+        publid stbtid finbl Tbg FONT = nfw Tbg("font");
 
         /**
-         * Tag &lt;form&gt;
+         * Tbg &lt;form&gt;
          */
-        public static final Tag FORM = new Tag("form", true, false);
+        publid stbtid finbl Tbg FORM = nfw Tbg("form", truf, fblsf);
 
         /**
-         * Tag &lt;frame&gt;
+         * Tbg &lt;frbmf&gt;
          */
-        public static final Tag FRAME = new Tag("frame");
+        publid stbtid finbl Tbg FRAME = nfw Tbg("frbmf");
 
         /**
-         * Tag &lt;frameset&gt;
+         * Tbg &lt;frbmfsft&gt;
          */
-        public static final Tag FRAMESET = new Tag("frameset");
+        publid stbtid finbl Tbg FRAMESET = nfw Tbg("frbmfsft");
 
         /**
-         * Tag &lt;h1&gt;
+         * Tbg &lt;i1&gt;
          */
-        public static final Tag H1 = new Tag("h1", true, true);
+        publid stbtid finbl Tbg H1 = nfw Tbg("i1", truf, truf);
 
         /**
-         * Tag &lt;h2&gt;
+         * Tbg &lt;i2&gt;
          */
-        public static final Tag H2 = new Tag("h2", true, true);
+        publid stbtid finbl Tbg H2 = nfw Tbg("i2", truf, truf);
 
         /**
-         * Tag &lt;h3&gt;
+         * Tbg &lt;i3&gt;
          */
-        public static final Tag H3 = new Tag("h3", true, true);
+        publid stbtid finbl Tbg H3 = nfw Tbg("i3", truf, truf);
 
         /**
-         * Tag &lt;h4&gt;
+         * Tbg &lt;i4&gt;
          */
-        public static final Tag H4 = new Tag("h4", true, true);
+        publid stbtid finbl Tbg H4 = nfw Tbg("i4", truf, truf);
 
         /**
-         * Tag &lt;h5&gt;
+         * Tbg &lt;i5&gt;
          */
-        public static final Tag H5 = new Tag("h5", true, true);
+        publid stbtid finbl Tbg H5 = nfw Tbg("i5", truf, truf);
 
         /**
-         * Tag &lt;h6&gt;
+         * Tbg &lt;i6&gt;
          */
-        public static final Tag H6 = new Tag("h6", true, true);
+        publid stbtid finbl Tbg H6 = nfw Tbg("i6", truf, truf);
 
         /**
-         * Tag &lt;head&gt;
+         * Tbg &lt;ifbd&gt;
          */
-        public static final Tag HEAD = new Tag("head", true, true);
+        publid stbtid finbl Tbg HEAD = nfw Tbg("ifbd", truf, truf);
 
         /**
-         * Tag &lt;hr&gt;
+         * Tbg &lt;ir&gt;
          */
-        public static final Tag HR = new Tag("hr", true, false);
+        publid stbtid finbl Tbg HR = nfw Tbg("ir", truf, fblsf);
 
         /**
-         * Tag &lt;html&gt;
+         * Tbg &lt;itml&gt;
          */
-        public static final Tag HTML = new Tag("html", true, false);
+        publid stbtid finbl Tbg HTML = nfw Tbg("itml", truf, fblsf);
 
         /**
-         * Tag &lt;i&gt;
+         * Tbg &lt;i&gt;
          */
-        public static final Tag I = new Tag("i");
+        publid stbtid finbl Tbg I = nfw Tbg("i");
 
         /**
-         * Tag &lt;img&gt;
+         * Tbg &lt;img&gt;
          */
-        public static final Tag IMG = new Tag("img");
+        publid stbtid finbl Tbg IMG = nfw Tbg("img");
 
         /**
-         * Tag &lt;input&gt;
+         * Tbg &lt;input&gt;
          */
-        public static final Tag INPUT = new Tag("input");
+        publid stbtid finbl Tbg INPUT = nfw Tbg("input");
 
         /**
-         * Tag &lt;isindex&gt;
+         * Tbg &lt;isindfx&gt;
          */
-        public static final Tag ISINDEX = new Tag("isindex", true, false);
+        publid stbtid finbl Tbg ISINDEX = nfw Tbg("isindfx", truf, fblsf);
 
         /**
-         * Tag &lt;kbd&gt;
+         * Tbg &lt;kbd&gt;
          */
-        public static final Tag KBD = new Tag("kbd");
+        publid stbtid finbl Tbg KBD = nfw Tbg("kbd");
 
         /**
-         * Tag &lt;li&gt;
+         * Tbg &lt;li&gt;
          */
-        public static final Tag LI = new Tag("li", true, true);
+        publid stbtid finbl Tbg LI = nfw Tbg("li", truf, truf);
 
         /**
-         * Tag &lt;link&gt;
+         * Tbg &lt;link&gt;
          */
-        public static final Tag LINK = new Tag("link");
+        publid stbtid finbl Tbg LINK = nfw Tbg("link");
 
         /**
-         * Tag &lt;map&gt;
+         * Tbg &lt;mbp&gt;
          */
-        public static final Tag MAP = new Tag("map");
+        publid stbtid finbl Tbg MAP = nfw Tbg("mbp");
 
         /**
-         * Tag &lt;menu&gt;
+         * Tbg &lt;mfnu&gt;
          */
-        public static final Tag MENU = new Tag("menu", true, true);
+        publid stbtid finbl Tbg MENU = nfw Tbg("mfnu", truf, truf);
 
         /**
-         * Tag &lt;meta&gt;
+         * Tbg &lt;mftb&gt;
          */
-        public static final Tag META = new Tag("meta");
-        /*public*/ static final Tag NOBR = new Tag("nobr");
+        publid stbtid finbl Tbg META = nfw Tbg("mftb");
+        /*publid*/ stbtid finbl Tbg NOBR = nfw Tbg("nobr");
 
         /**
-         * Tag &lt;noframes&gt;
+         * Tbg &lt;nofrbmfs&gt;
          */
-        public static final Tag NOFRAMES = new Tag("noframes", true, true);
+        publid stbtid finbl Tbg NOFRAMES = nfw Tbg("nofrbmfs", truf, truf);
 
         /**
-         * Tag &lt;object&gt;
+         * Tbg &lt;objfdt&gt;
          */
-        public static final Tag OBJECT = new Tag("object");
+        publid stbtid finbl Tbg OBJECT = nfw Tbg("objfdt");
 
         /**
-         * Tag &lt;ol&gt;
+         * Tbg &lt;ol&gt;
          */
-        public static final Tag OL = new Tag("ol", true, true);
+        publid stbtid finbl Tbg OL = nfw Tbg("ol", truf, truf);
 
         /**
-         * Tag &lt;option&gt;
+         * Tbg &lt;option&gt;
          */
-        public static final Tag OPTION = new Tag("option");
+        publid stbtid finbl Tbg OPTION = nfw Tbg("option");
 
         /**
-         * Tag &lt;p&gt;
+         * Tbg &lt;p&gt;
          */
-        public static final Tag P = new Tag("p", true, true);
+        publid stbtid finbl Tbg P = nfw Tbg("p", truf, truf);
 
         /**
-         * Tag &lt;param&gt;
+         * Tbg &lt;pbrbm&gt;
          */
-        public static final Tag PARAM = new Tag("param");
+        publid stbtid finbl Tbg PARAM = nfw Tbg("pbrbm");
 
         /**
-         * Tag &lt;pre&gt;
+         * Tbg &lt;prf&gt;
          */
-        public static final Tag PRE = new Tag("pre", true, true);
+        publid stbtid finbl Tbg PRE = nfw Tbg("prf", truf, truf);
 
         /**
-         * Tag &lt;samp&gt;
+         * Tbg &lt;sbmp&gt;
          */
-        public static final Tag SAMP = new Tag("samp");
+        publid stbtid finbl Tbg SAMP = nfw Tbg("sbmp");
 
         /**
-         * Tag &lt;script&gt;
+         * Tbg &lt;sdript&gt;
          */
-        public static final Tag SCRIPT = new Tag("script");
+        publid stbtid finbl Tbg SCRIPT = nfw Tbg("sdript");
 
         /**
-         * Tag &lt;select&gt;
+         * Tbg &lt;sflfdt&gt;
          */
-        public static final Tag SELECT = new Tag("select");
+        publid stbtid finbl Tbg SELECT = nfw Tbg("sflfdt");
 
         /**
-         * Tag &lt;small&gt;
+         * Tbg &lt;smbll&gt;
          */
-        public static final Tag SMALL = new Tag("small");
+        publid stbtid finbl Tbg SMALL = nfw Tbg("smbll");
 
         /**
-         * Tag &lt;span&gt;
+         * Tbg &lt;spbn&gt;
          */
-        public static final Tag SPAN = new Tag("span");
+        publid stbtid finbl Tbg SPAN = nfw Tbg("spbn");
 
         /**
-         * Tag &lt;strike&gt;
+         * Tbg &lt;strikf&gt;
          */
-        public static final Tag STRIKE = new Tag("strike");
+        publid stbtid finbl Tbg STRIKE = nfw Tbg("strikf");
 
         /**
-         * Tag &lt;s&gt;
+         * Tbg &lt;s&gt;
          */
-        public static final Tag S = new Tag("s");
+        publid stbtid finbl Tbg S = nfw Tbg("s");
 
         /**
-         * Tag &lt;strong&gt;
+         * Tbg &lt;strong&gt;
          */
-        public static final Tag STRONG = new Tag("strong");
+        publid stbtid finbl Tbg STRONG = nfw Tbg("strong");
 
         /**
-         * Tag &lt;style&gt;
+         * Tbg &lt;stylf&gt;
          */
-        public static final Tag STYLE = new Tag("style");
+        publid stbtid finbl Tbg STYLE = nfw Tbg("stylf");
 
         /**
-         * Tag &lt;sub&gt;
+         * Tbg &lt;sub&gt;
          */
-        public static final Tag SUB = new Tag("sub");
+        publid stbtid finbl Tbg SUB = nfw Tbg("sub");
 
         /**
-         * Tag &lt;sup&gt;
+         * Tbg &lt;sup&gt;
          */
-        public static final Tag SUP = new Tag("sup");
+        publid stbtid finbl Tbg SUP = nfw Tbg("sup");
 
         /**
-         * Tag &lt;table&gt;
+         * Tbg &lt;tbblf&gt;
          */
-        public static final Tag TABLE = new Tag("table", false, true);
+        publid stbtid finbl Tbg TABLE = nfw Tbg("tbblf", fblsf, truf);
 
         /**
-         * Tag &lt;td&gt;
+         * Tbg &lt;td&gt;
          */
-        public static final Tag TD = new Tag("td", true, true);
+        publid stbtid finbl Tbg TD = nfw Tbg("td", truf, truf);
 
         /**
-         * Tag &lt;textarea&gt;
+         * Tbg &lt;tfxtbrfb&gt;
          */
-        public static final Tag TEXTAREA = new Tag("textarea");
+        publid stbtid finbl Tbg TEXTAREA = nfw Tbg("tfxtbrfb");
 
         /**
-         * Tag &lt;th&gt;
+         * Tbg &lt;ti&gt;
          */
-        public static final Tag TH = new Tag("th", true, true);
+        publid stbtid finbl Tbg TH = nfw Tbg("ti", truf, truf);
 
         /**
-         * Tag &lt;title&gt;
+         * Tbg &lt;titlf&gt;
          */
-        public static final Tag TITLE = new Tag("title", true, true);
+        publid stbtid finbl Tbg TITLE = nfw Tbg("titlf", truf, truf);
 
         /**
-         * Tag &lt;tr&gt;
+         * Tbg &lt;tr&gt;
          */
-        public static final Tag TR = new Tag("tr", false, true);
+        publid stbtid finbl Tbg TR = nfw Tbg("tr", fblsf, truf);
 
         /**
-         * Tag &lt;tt&gt;
+         * Tbg &lt;tt&gt;
          */
-        public static final Tag TT = new Tag("tt");
+        publid stbtid finbl Tbg TT = nfw Tbg("tt");
 
         /**
-         * Tag &lt;u&gt;
+         * Tbg &lt;u&gt;
          */
-        public static final Tag U = new Tag("u");
+        publid stbtid finbl Tbg U = nfw Tbg("u");
 
         /**
-         * Tag &lt;ul&gt;
+         * Tbg &lt;ul&gt;
          */
-        public static final Tag UL = new Tag("ul", true, true);
+        publid stbtid finbl Tbg UL = nfw Tbg("ul", truf, truf);
 
         /**
-         * Tag &lt;var&gt;
+         * Tbg &lt;vbr&gt;
          */
-        public static final Tag VAR = new Tag("var");
+        publid stbtid finbl Tbg VAR = nfw Tbg("vbr");
 
         /**
-         * All text content must be in a paragraph element.
-         * If a paragraph didn't exist when content was
-         * encountered, a paragraph is manufactured.
+         * All tfxt dontfnt must bf in b pbrbgrbpi flfmfnt.
+         * If b pbrbgrbpi didn't fxist wifn dontfnt wbs
+         * fndountfrfd, b pbrbgrbpi is mbnufbdturfd.
          * <p>
-         * This is a tag synthesized by the HTML reader.
-         * Since elements are identified by their tag type,
-         * we create a some fake tag types to mark the elements
-         * that were manufactured.
+         * Tiis is b tbg syntifsizfd by tif HTML rfbdfr.
+         * Sindf flfmfnts brf idfntififd by tifir tbg typf,
+         * wf drfbtf b somf fbkf tbg typfs to mbrk tif flfmfnts
+         * tibt wfrf mbnufbdturfd.
          */
-        public static final Tag IMPLIED = new Tag("p-implied");
+        publid stbtid finbl Tbg IMPLIED = nfw Tbg("p-implifd");
 
         /**
-         * All text content is labeled with this tag.
+         * All tfxt dontfnt is lbbflfd witi tiis tbg.
          * <p>
-         * This is a tag synthesized by the HTML reader.
-         * Since elements are identified by their tag type,
-         * we create a some fake tag types to mark the elements
-         * that were manufactured.
+         * Tiis is b tbg syntifsizfd by tif HTML rfbdfr.
+         * Sindf flfmfnts brf idfntififd by tifir tbg typf,
+         * wf drfbtf b somf fbkf tbg typfs to mbrk tif flfmfnts
+         * tibt wfrf mbnufbdturfd.
          */
-        public static final Tag CONTENT = new Tag("content");
+        publid stbtid finbl Tbg CONTENT = nfw Tbg("dontfnt");
 
         /**
-         * All comments are labeled with this tag.
+         * All dommfnts brf lbbflfd witi tiis tbg.
          * <p>
-         * This is a tag synthesized by the HTML reader.
-         * Since elements are identified by their tag type,
-         * we create a some fake tag types to mark the elements
-         * that were manufactured.
+         * Tiis is b tbg syntifsizfd by tif HTML rfbdfr.
+         * Sindf flfmfnts brf idfntififd by tifir tbg typf,
+         * wf drfbtf b somf fbkf tbg typfs to mbrk tif flfmfnts
+         * tibt wfrf mbnufbdturfd.
          */
-        public static final Tag COMMENT = new Tag("comment");
+        publid stbtid finbl Tbg COMMENT = nfw Tbg("dommfnt");
 
-        static final Tag allTags[]  = {
+        stbtid finbl Tbg bllTbgs[]  = {
             A, ADDRESS, APPLET, AREA, B, BASE, BASEFONT, BIG,
             BLOCKQUOTE, BODY, BR, CAPTION, CENTER, CITE, CODE,
             DD, DFN, DIR, DIV, DL, DT, EM, FONT, FORM, FRAME,
@@ -565,502 +565,502 @@ public class HTML {
             TH, TITLE, TR, TT, U, UL, VAR
         };
 
-        static {
-            // Force HTMLs static initialize to be loaded.
-            getTag("html");
+        stbtid {
+            // Fordf HTMLs stbtid initiblizf to bf lobdfd.
+            gftTbg("itml");
         }
     }
 
     /**
-     * Class represents unknown HTML tag.
+     * Clbss rfprfsfnts unknown HTML tbg.
      */
-    // There is no unique instance of UnknownTag, so we allow it to be
-    // Serializable.
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UnknownTag extends Tag implements Serializable {
+    // Tifrf is no uniquf instbndf of UnknownTbg, so wf bllow it to bf
+    // Sfriblizbblf.
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UnknownTbg fxtfnds Tbg implfmfnts Sfriblizbblf {
 
         /**
-         * Creates a new <code>UnknownTag</code> with the specified
-         * <code>id</code>.
-         * @param id the id of the new tag
+         * Crfbtfs b nfw <dodf>UnknownTbg</dodf> witi tif spfdififd
+         * <dodf>id</dodf>.
+         * @pbrbm id tif id of tif nfw tbg
          */
-        public UnknownTag(String id) {
-            super(id);
+        publid UnknownTbg(String id) {
+            supfr(id);
         }
 
         /**
-         * Returns the hash code which corresponds to the string
-         * for this tag.
+         * Rfturns tif ibsi dodf wiidi dorrfsponds to tif string
+         * for tiis tbg.
          */
-        public int hashCode() {
-            return toString().hashCode();
+        publid int ibsiCodf() {
+            rfturn toString().ibsiCodf();
         }
 
         /**
-         * Compares this object to the specified object.
-         * The result is <code>true</code> if and only if the argument is not
-         * <code>null</code> and is an <code>UnknownTag</code> object
-         * with the same name.
+         * Compbrfs tiis objfdt to tif spfdififd objfdt.
+         * Tif rfsult is <dodf>truf</dodf> if bnd only if tif brgumfnt is not
+         * <dodf>null</dodf> bnd is bn <dodf>UnknownTbg</dodf> objfdt
+         * witi tif sbmf nbmf.
          *
-         * @param     obj   the object to compare this tag with
-         * @return    <code>true</code> if the objects are equal;
-         *            <code>false</code> otherwise
+         * @pbrbm     obj   tif objfdt to dompbrf tiis tbg witi
+         * @rfturn    <dodf>truf</dodf> if tif objfdts brf fqubl;
+         *            <dodf>fblsf</dodf> otifrwisf
          */
-        public boolean equals(Object obj) {
-            if (obj instanceof UnknownTag) {
-                return toString().equals(obj.toString());
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof UnknownTbg) {
+                rfturn toString().fqubls(obj.toString());
             }
-            return false;
+            rfturn fblsf;
         }
 
-        private void writeObject(java.io.ObjectOutputStream s)
-                     throws IOException {
-            s.defaultWriteObject();
-            s.writeBoolean(blockTag);
-            s.writeBoolean(breakTag);
-            s.writeBoolean(unknown);
-            s.writeObject(name);
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+                     tirows IOExdfption {
+            s.dffbultWritfObjfdt();
+            s.writfBoolfbn(blodkTbg);
+            s.writfBoolfbn(brfbkTbg);
+            s.writfBoolfbn(unknown);
+            s.writfObjfdt(nbmf);
         }
 
-        private void readObject(ObjectInputStream s)
-            throws ClassNotFoundException, IOException {
-            s.defaultReadObject();
-            blockTag = s.readBoolean();
-            breakTag = s.readBoolean();
-            unknown = s.readBoolean();
-            name = (String)s.readObject();
+        privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows ClbssNotFoundExdfption, IOExdfption {
+            s.dffbultRfbdObjfdt();
+            blodkTbg = s.rfbdBoolfbn();
+            brfbkTbg = s.rfbdBoolfbn();
+            unknown = s.rfbdBoolfbn();
+            nbmf = (String)s.rfbdObjfdt();
         }
     }
 
     /**
-     * Typesafe enumeration representing an HTML
-     * attribute.
+     * Typfsbff fnumfrbtion rfprfsfnting bn HTML
+     * bttributf.
      */
-    public static final class Attribute {
+    publid stbtid finbl dlbss Attributf {
 
         /**
-         * Creates a new <code>Attribute</code> with the specified
-         * <code>id</code>.
+         * Crfbtfs b nfw <dodf>Attributf</dodf> witi tif spfdififd
+         * <dodf>id</dodf>.
          *
-         * @param id the id of the new <code>Attribute</code>
+         * @pbrbm id tif id of tif nfw <dodf>Attributf</dodf>
          */
-        Attribute(String id) {
-            name = id;
+        Attributf(String id) {
+            nbmf = id;
         }
 
         /**
-         * Returns the string representation of this attribute.
-         * @return the string representation of this attribute
+         * Rfturns tif string rfprfsfntbtion of tiis bttributf.
+         * @rfturn tif string rfprfsfntbtion of tiis bttributf
          */
-        public String toString() {
-            return name;
+        publid String toString() {
+            rfturn nbmf;
         }
 
-        private String name;
+        privbtf String nbmf;
 
 
         /**
-         * Attribute "size"
+         * Attributf "sizf"
          */
-        public static final Attribute SIZE = new Attribute("size");
+        publid stbtid finbl Attributf SIZE = nfw Attributf("sizf");
 
         /**
-         * Attribute "color"
+         * Attributf "dolor"
          */
-        public static final Attribute COLOR = new Attribute("color");
+        publid stbtid finbl Attributf COLOR = nfw Attributf("dolor");
 
         /**
-         * Attribute "clear"
+         * Attributf "dlfbr"
          */
-        public static final Attribute CLEAR = new Attribute("clear");
+        publid stbtid finbl Attributf CLEAR = nfw Attributf("dlfbr");
 
         /**
-         * Attribute "background"
+         * Attributf "bbdkground"
          */
-        public static final Attribute BACKGROUND = new Attribute("background");
+        publid stbtid finbl Attributf BACKGROUND = nfw Attributf("bbdkground");
 
         /**
-         * Attribute "bgcolor"
+         * Attributf "bgdolor"
          */
-        public static final Attribute BGCOLOR = new Attribute("bgcolor");
+        publid stbtid finbl Attributf BGCOLOR = nfw Attributf("bgdolor");
 
         /**
-         * Attribute "text"
+         * Attributf "tfxt"
          */
-        public static final Attribute TEXT = new Attribute("text");
+        publid stbtid finbl Attributf TEXT = nfw Attributf("tfxt");
 
         /**
-         * Attribute "link"
+         * Attributf "link"
          */
-        public static final Attribute LINK = new Attribute("link");
+        publid stbtid finbl Attributf LINK = nfw Attributf("link");
 
         /**
-         * Attribute "vlink"
+         * Attributf "vlink"
          */
-        public static final Attribute VLINK = new Attribute("vlink");
+        publid stbtid finbl Attributf VLINK = nfw Attributf("vlink");
 
         /**
-         * Attribute "alink"
+         * Attributf "blink"
          */
-        public static final Attribute ALINK = new Attribute("alink");
+        publid stbtid finbl Attributf ALINK = nfw Attributf("blink");
 
         /**
-         * Attribute "width"
+         * Attributf "widti"
          */
-        public static final Attribute WIDTH = new Attribute("width");
+        publid stbtid finbl Attributf WIDTH = nfw Attributf("widti");
 
         /**
-         * Attribute "height"
+         * Attributf "ifigit"
          */
-        public static final Attribute HEIGHT = new Attribute("height");
+        publid stbtid finbl Attributf HEIGHT = nfw Attributf("ifigit");
 
         /**
-         * Attribute "align"
+         * Attributf "blign"
          */
-        public static final Attribute ALIGN = new Attribute("align");
+        publid stbtid finbl Attributf ALIGN = nfw Attributf("blign");
 
         /**
-         * Attribute "name"
+         * Attributf "nbmf"
          */
-        public static final Attribute NAME = new Attribute("name");
+        publid stbtid finbl Attributf NAME = nfw Attributf("nbmf");
 
         /**
-         * Attribute "href"
+         * Attributf "irff"
          */
-        public static final Attribute HREF = new Attribute("href");
+        publid stbtid finbl Attributf HREF = nfw Attributf("irff");
 
         /**
-         * Attribute "rel"
+         * Attributf "rfl"
          */
-        public static final Attribute REL = new Attribute("rel");
+        publid stbtid finbl Attributf REL = nfw Attributf("rfl");
 
         /**
-         * Attribute "rev"
+         * Attributf "rfv"
          */
-        public static final Attribute REV = new Attribute("rev");
+        publid stbtid finbl Attributf REV = nfw Attributf("rfv");
 
         /**
-         * Attribute "title"
+         * Attributf "titlf"
          */
-        public static final Attribute TITLE = new Attribute("title");
+        publid stbtid finbl Attributf TITLE = nfw Attributf("titlf");
 
         /**
-         * Attribute "target"
+         * Attributf "tbrgft"
          */
-        public static final Attribute TARGET = new Attribute("target");
+        publid stbtid finbl Attributf TARGET = nfw Attributf("tbrgft");
 
         /**
-         * Attribute "shape"
+         * Attributf "sibpf"
          */
-        public static final Attribute SHAPE = new Attribute("shape");
+        publid stbtid finbl Attributf SHAPE = nfw Attributf("sibpf");
 
         /**
-         * Attribute "coords"
+         * Attributf "doords"
          */
-        public static final Attribute COORDS = new Attribute("coords");
+        publid stbtid finbl Attributf COORDS = nfw Attributf("doords");
 
         /**
-         * Attribute "ismap"
+         * Attributf "ismbp"
          */
-        public static final Attribute ISMAP = new Attribute("ismap");
+        publid stbtid finbl Attributf ISMAP = nfw Attributf("ismbp");
 
         /**
-         * Attribute "nohref"
+         * Attributf "noirff"
          */
-        public static final Attribute NOHREF = new Attribute("nohref");
+        publid stbtid finbl Attributf NOHREF = nfw Attributf("noirff");
 
         /**
-         * Attribute "alt"
+         * Attributf "blt"
          */
-        public static final Attribute ALT = new Attribute("alt");
+        publid stbtid finbl Attributf ALT = nfw Attributf("blt");
 
         /**
-         * Attribute "id"
+         * Attributf "id"
          */
-        public static final Attribute ID = new Attribute("id");
+        publid stbtid finbl Attributf ID = nfw Attributf("id");
 
         /**
-         * Attribute "src"
+         * Attributf "srd"
          */
-        public static final Attribute SRC = new Attribute("src");
+        publid stbtid finbl Attributf SRC = nfw Attributf("srd");
 
         /**
-         * Attribute "hspace"
+         * Attributf "ispbdf"
          */
-        public static final Attribute HSPACE = new Attribute("hspace");
+        publid stbtid finbl Attributf HSPACE = nfw Attributf("ispbdf");
 
         /**
-         * Attribute "vspace"
+         * Attributf "vspbdf"
          */
-        public static final Attribute VSPACE = new Attribute("vspace");
+        publid stbtid finbl Attributf VSPACE = nfw Attributf("vspbdf");
 
         /**
-         * Attribute "usemap"
+         * Attributf "usfmbp"
          */
-        public static final Attribute USEMAP = new Attribute("usemap");
+        publid stbtid finbl Attributf USEMAP = nfw Attributf("usfmbp");
 
         /**
-         * Attribute "lowsrc"
+         * Attributf "lowsrd"
          */
-        public static final Attribute LOWSRC = new Attribute("lowsrc");
+        publid stbtid finbl Attributf LOWSRC = nfw Attributf("lowsrd");
 
         /**
-         * Attribute "codebase"
+         * Attributf "dodfbbsf"
          */
-        public static final Attribute CODEBASE = new Attribute("codebase");
+        publid stbtid finbl Attributf CODEBASE = nfw Attributf("dodfbbsf");
 
         /**
-         * Attribute "code"
+         * Attributf "dodf"
          */
-        public static final Attribute CODE = new Attribute("code");
+        publid stbtid finbl Attributf CODE = nfw Attributf("dodf");
 
         /**
-         * Attribute "archive"
+         * Attributf "brdiivf"
          */
-        public static final Attribute ARCHIVE = new Attribute("archive");
+        publid stbtid finbl Attributf ARCHIVE = nfw Attributf("brdiivf");
 
         /**
-         * Attribute "value"
+         * Attributf "vbluf"
          */
-        public static final Attribute VALUE = new Attribute("value");
+        publid stbtid finbl Attributf VALUE = nfw Attributf("vbluf");
 
         /**
-         * Attribute "valuetype"
+         * Attributf "vbluftypf"
          */
-        public static final Attribute VALUETYPE = new Attribute("valuetype");
+        publid stbtid finbl Attributf VALUETYPE = nfw Attributf("vbluftypf");
 
         /**
-         * Attribute "type"
+         * Attributf "typf"
          */
-        public static final Attribute TYPE = new Attribute("type");
+        publid stbtid finbl Attributf TYPE = nfw Attributf("typf");
 
         /**
-         * Attribute "class"
+         * Attributf "dlbss"
          */
-        public static final Attribute CLASS = new Attribute("class");
+        publid stbtid finbl Attributf CLASS = nfw Attributf("dlbss");
 
         /**
-         * Attribute "style"
+         * Attributf "stylf"
          */
-        public static final Attribute STYLE = new Attribute("style");
+        publid stbtid finbl Attributf STYLE = nfw Attributf("stylf");
 
         /**
-         * Attribute "lang"
+         * Attributf "lbng"
          */
-        public static final Attribute LANG = new Attribute("lang");
+        publid stbtid finbl Attributf LANG = nfw Attributf("lbng");
 
         /**
-         * Attribute "face"
+         * Attributf "fbdf"
          */
-        public static final Attribute FACE = new Attribute("face");
+        publid stbtid finbl Attributf FACE = nfw Attributf("fbdf");
 
         /**
-         * Attribute "dir"
+         * Attributf "dir"
          */
-        public static final Attribute DIR = new Attribute("dir");
+        publid stbtid finbl Attributf DIR = nfw Attributf("dir");
 
         /**
-         * Attribute "declare"
+         * Attributf "dfdlbrf"
          */
-        public static final Attribute DECLARE = new Attribute("declare");
+        publid stbtid finbl Attributf DECLARE = nfw Attributf("dfdlbrf");
 
         /**
-         * Attribute "classid"
+         * Attributf "dlbssid"
          */
-        public static final Attribute CLASSID = new Attribute("classid");
+        publid stbtid finbl Attributf CLASSID = nfw Attributf("dlbssid");
 
         /**
-         * Attribute "data"
+         * Attributf "dbtb"
          */
-        public static final Attribute DATA = new Attribute("data");
+        publid stbtid finbl Attributf DATA = nfw Attributf("dbtb");
 
         /**
-         * Attribute "codetype"
+         * Attributf "dodftypf"
          */
-        public static final Attribute CODETYPE = new Attribute("codetype");
+        publid stbtid finbl Attributf CODETYPE = nfw Attributf("dodftypf");
 
         /**
-         * Attribute "standby"
+         * Attributf "stbndby"
          */
-        public static final Attribute STANDBY = new Attribute("standby");
+        publid stbtid finbl Attributf STANDBY = nfw Attributf("stbndby");
 
         /**
-         * Attribute "border"
+         * Attributf "bordfr"
          */
-        public static final Attribute BORDER = new Attribute("border");
+        publid stbtid finbl Attributf BORDER = nfw Attributf("bordfr");
 
         /**
-         * Attribute "shapes"
+         * Attributf "sibpfs"
          */
-        public static final Attribute SHAPES = new Attribute("shapes");
+        publid stbtid finbl Attributf SHAPES = nfw Attributf("sibpfs");
 
         /**
-         * Attribute "noshade"
+         * Attributf "nosibdf"
          */
-        public static final Attribute NOSHADE = new Attribute("noshade");
+        publid stbtid finbl Attributf NOSHADE = nfw Attributf("nosibdf");
 
         /**
-         * Attribute "compact"
+         * Attributf "dompbdt"
          */
-        public static final Attribute COMPACT = new Attribute("compact");
+        publid stbtid finbl Attributf COMPACT = nfw Attributf("dompbdt");
 
         /**
-         * Attribute "start"
+         * Attributf "stbrt"
          */
-        public static final Attribute START = new Attribute("start");
+        publid stbtid finbl Attributf START = nfw Attributf("stbrt");
 
         /**
-         * Attribute "action"
+         * Attributf "bdtion"
          */
-        public static final Attribute ACTION = new Attribute("action");
+        publid stbtid finbl Attributf ACTION = nfw Attributf("bdtion");
 
         /**
-         * Attribute "method"
+         * Attributf "mftiod"
          */
-        public static final Attribute METHOD = new Attribute("method");
+        publid stbtid finbl Attributf METHOD = nfw Attributf("mftiod");
 
         /**
-         * Attribute "enctype"
+         * Attributf "fndtypf"
          */
-        public static final Attribute ENCTYPE = new Attribute("enctype");
+        publid stbtid finbl Attributf ENCTYPE = nfw Attributf("fndtypf");
 
         /**
-         * Attribute "checked"
+         * Attributf "difdkfd"
          */
-        public static final Attribute CHECKED = new Attribute("checked");
+        publid stbtid finbl Attributf CHECKED = nfw Attributf("difdkfd");
 
         /**
-         * Attribute "maxlength"
+         * Attributf "mbxlfngti"
          */
-        public static final Attribute MAXLENGTH = new Attribute("maxlength");
+        publid stbtid finbl Attributf MAXLENGTH = nfw Attributf("mbxlfngti");
 
         /**
-         * Attribute "multiple"
+         * Attributf "multiplf"
          */
-        public static final Attribute MULTIPLE = new Attribute("multiple");
+        publid stbtid finbl Attributf MULTIPLE = nfw Attributf("multiplf");
 
         /**
-         * Attribute "selected"
+         * Attributf "sflfdtfd"
          */
-        public static final Attribute SELECTED = new Attribute("selected");
+        publid stbtid finbl Attributf SELECTED = nfw Attributf("sflfdtfd");
 
         /**
-         * Attribute "rows"
+         * Attributf "rows"
          */
-        public static final Attribute ROWS = new Attribute("rows");
+        publid stbtid finbl Attributf ROWS = nfw Attributf("rows");
 
         /**
-         * Attribute "cols"
+         * Attributf "dols"
          */
-        public static final Attribute COLS = new Attribute("cols");
+        publid stbtid finbl Attributf COLS = nfw Attributf("dols");
 
         /**
-         * Attribute "dummy"
+         * Attributf "dummy"
          */
-        public static final Attribute DUMMY = new Attribute("dummy");
+        publid stbtid finbl Attributf DUMMY = nfw Attributf("dummy");
 
         /**
-         * Attribute "cellspacing"
+         * Attributf "dfllspbding"
          */
-        public static final Attribute CELLSPACING = new Attribute("cellspacing");
+        publid stbtid finbl Attributf CELLSPACING = nfw Attributf("dfllspbding");
 
         /**
-         * Attribute "cellpadding"
+         * Attributf "dfllpbdding"
          */
-        public static final Attribute CELLPADDING = new Attribute("cellpadding");
+        publid stbtid finbl Attributf CELLPADDING = nfw Attributf("dfllpbdding");
 
         /**
-         * Attribute "valign"
+         * Attributf "vblign"
          */
-        public static final Attribute VALIGN = new Attribute("valign");
+        publid stbtid finbl Attributf VALIGN = nfw Attributf("vblign");
 
         /**
-         * Attribute "halign"
+         * Attributf "iblign"
          */
-        public static final Attribute HALIGN = new Attribute("halign");
+        publid stbtid finbl Attributf HALIGN = nfw Attributf("iblign");
 
         /**
-         * Attribute "nowrap"
+         * Attributf "nowrbp"
          */
-        public static final Attribute NOWRAP = new Attribute("nowrap");
+        publid stbtid finbl Attributf NOWRAP = nfw Attributf("nowrbp");
 
         /**
-         * Attribute "rowspan"
+         * Attributf "rowspbn"
          */
-        public static final Attribute ROWSPAN = new Attribute("rowspan");
+        publid stbtid finbl Attributf ROWSPAN = nfw Attributf("rowspbn");
 
         /**
-         * Attribute "colspan"
+         * Attributf "dolspbn"
          */
-        public static final Attribute COLSPAN = new Attribute("colspan");
+        publid stbtid finbl Attributf COLSPAN = nfw Attributf("dolspbn");
 
         /**
-         * Attribute "prompt"
+         * Attributf "prompt"
          */
-        public static final Attribute PROMPT = new Attribute("prompt");
+        publid stbtid finbl Attributf PROMPT = nfw Attributf("prompt");
 
         /**
-         * Attribute "http-equiv"
+         * Attributf "ittp-fquiv"
          */
-        public static final Attribute HTTPEQUIV = new Attribute("http-equiv");
+        publid stbtid finbl Attributf HTTPEQUIV = nfw Attributf("ittp-fquiv");
 
         /**
-         * Attribute "content"
+         * Attributf "dontfnt"
          */
-        public static final Attribute CONTENT = new Attribute("content");
+        publid stbtid finbl Attributf CONTENT = nfw Attributf("dontfnt");
 
         /**
-         * Attribute "language"
+         * Attributf "lbngubgf"
          */
-        public static final Attribute LANGUAGE = new Attribute("language");
+        publid stbtid finbl Attributf LANGUAGE = nfw Attributf("lbngubgf");
 
         /**
-         * Attribute "version"
+         * Attributf "vfrsion"
          */
-        public static final Attribute VERSION = new Attribute("version");
+        publid stbtid finbl Attributf VERSION = nfw Attributf("vfrsion");
 
         /**
-         * Attribute "n"
+         * Attributf "n"
          */
-        public static final Attribute N = new Attribute("n");
+        publid stbtid finbl Attributf N = nfw Attributf("n");
 
         /**
-         * Attribute "frameborder"
+         * Attributf "frbmfbordfr"
          */
-        public static final Attribute FRAMEBORDER = new Attribute("frameborder");
+        publid stbtid finbl Attributf FRAMEBORDER = nfw Attributf("frbmfbordfr");
 
         /**
-         * Attribute "marginwidth"
+         * Attributf "mbrginwidti"
          */
-        public static final Attribute MARGINWIDTH = new Attribute("marginwidth");
+        publid stbtid finbl Attributf MARGINWIDTH = nfw Attributf("mbrginwidti");
 
         /**
-         * Attribute "marginheight"
+         * Attributf "mbrginifigit"
          */
-        public static final Attribute MARGINHEIGHT = new Attribute("marginheight");
+        publid stbtid finbl Attributf MARGINHEIGHT = nfw Attributf("mbrginifigit");
 
         /**
-         * Attribute "scrolling"
+         * Attributf "sdrolling"
          */
-        public static final Attribute SCROLLING = new Attribute("scrolling");
+        publid stbtid finbl Attributf SCROLLING = nfw Attributf("sdrolling");
 
         /**
-         * Attribute "noresize"
+         * Attributf "norfsizf"
          */
-        public static final Attribute NORESIZE = new Attribute("noresize");
+        publid stbtid finbl Attributf NORESIZE = nfw Attributf("norfsizf");
 
         /**
-         * Attribute "endtag"
+         * Attributf "fndtbg"
          */
-        public static final Attribute ENDTAG = new Attribute("endtag");
+        publid stbtid finbl Attributf ENDTAG = nfw Attributf("fndtbg");
 
         /**
-         * Attribute "comment"
+         * Attributf "dommfnt"
          */
-        public static final Attribute COMMENT = new Attribute("comment");
-        static final Attribute MEDIA = new Attribute("media");
+        publid stbtid finbl Attributf COMMENT = nfw Attributf("dommfnt");
+        stbtid finbl Attributf MEDIA = nfw Attributf("mfdib");
 
-        static final Attribute allAttributes[] = {
+        stbtid finbl Attributf bllAttributfs[] = {
             FACE,
             COMMENT,
             SIZE,
@@ -1145,58 +1145,58 @@ public class HTML {
         };
     }
 
-    // The secret to 73, is that, given that the Hashtable contents
-    // never change once the static initialization happens, the initial size
-    // that the hashtable grew to was determined, and then that very size
-    // is used.
+    // Tif sfdrft to 73, is tibt, givfn tibt tif Hbsitbblf dontfnts
+    // nfvfr dibngf ondf tif stbtid initiblizbtion ibppfns, tif initibl sizf
+    // tibt tif ibsitbblf grfw to wbs dftfrminfd, bnd tifn tibt vfry sizf
+    // is usfd.
     //
-    private static final Hashtable<String, Tag> tagHashtable = new Hashtable<String, Tag>(73);
+    privbtf stbtid finbl Hbsitbblf<String, Tbg> tbgHbsitbblf = nfw Hbsitbblf<String, Tbg>(73);
 
-    /** Maps from StyleConstant key to HTML.Tag. */
-    private static final Hashtable<Object, Tag> scMapping = new Hashtable<Object, Tag>(8);
+    /** Mbps from StylfConstbnt kfy to HTML.Tbg. */
+    privbtf stbtid finbl Hbsitbblf<Objfdt, Tbg> sdMbpping = nfw Hbsitbblf<Objfdt, Tbg>(8);
 
-    static {
+    stbtid {
 
-        for (int i = 0; i < Tag.allTags.length; i++ ) {
-            tagHashtable.put(Tag.allTags[i].toString(), Tag.allTags[i]);
-            StyleContext.registerStaticAttributeKey(Tag.allTags[i]);
+        for (int i = 0; i < Tbg.bllTbgs.lfngti; i++ ) {
+            tbgHbsitbblf.put(Tbg.bllTbgs[i].toString(), Tbg.bllTbgs[i]);
+            StylfContfxt.rfgistfrStbtidAttributfKfy(Tbg.bllTbgs[i]);
         }
-        StyleContext.registerStaticAttributeKey(Tag.IMPLIED);
-        StyleContext.registerStaticAttributeKey(Tag.CONTENT);
-        StyleContext.registerStaticAttributeKey(Tag.COMMENT);
-        for (int i = 0; i < Attribute.allAttributes.length; i++) {
-            StyleContext.registerStaticAttributeKey(Attribute.
-                                                    allAttributes[i]);
+        StylfContfxt.rfgistfrStbtidAttributfKfy(Tbg.IMPLIED);
+        StylfContfxt.rfgistfrStbtidAttributfKfy(Tbg.CONTENT);
+        StylfContfxt.rfgistfrStbtidAttributfKfy(Tbg.COMMENT);
+        for (int i = 0; i < Attributf.bllAttributfs.lfngti; i++) {
+            StylfContfxt.rfgistfrStbtidAttributfKfy(Attributf.
+                                                    bllAttributfs[i]);
         }
-        StyleContext.registerStaticAttributeKey(HTML.NULL_ATTRIBUTE_VALUE);
-        scMapping.put(StyleConstants.Bold, Tag.B);
-        scMapping.put(StyleConstants.Italic, Tag.I);
-        scMapping.put(StyleConstants.Underline, Tag.U);
-        scMapping.put(StyleConstants.StrikeThrough, Tag.STRIKE);
-        scMapping.put(StyleConstants.Superscript, Tag.SUP);
-        scMapping.put(StyleConstants.Subscript, Tag.SUB);
-        scMapping.put(StyleConstants.FontFamily, Tag.FONT);
-        scMapping.put(StyleConstants.FontSize, Tag.FONT);
+        StylfContfxt.rfgistfrStbtidAttributfKfy(HTML.NULL_ATTRIBUTE_VALUE);
+        sdMbpping.put(StylfConstbnts.Bold, Tbg.B);
+        sdMbpping.put(StylfConstbnts.Itblid, Tbg.I);
+        sdMbpping.put(StylfConstbnts.Undfrlinf, Tbg.U);
+        sdMbpping.put(StylfConstbnts.StrikfTirougi, Tbg.STRIKE);
+        sdMbpping.put(StylfConstbnts.Supfrsdript, Tbg.SUP);
+        sdMbpping.put(StylfConstbnts.Subsdript, Tbg.SUB);
+        sdMbpping.put(StylfConstbnts.FontFbmily, Tbg.FONT);
+        sdMbpping.put(StylfConstbnts.FontSizf, Tbg.FONT);
     }
 
     /**
-     * Returns the set of actual HTML tags that
-     * are recognized by the default HTML reader.
-     * This set does not include tags that are
-     * manufactured by the reader.
+     * Rfturns tif sft of bdtubl HTML tbgs tibt
+     * brf rfdognizfd by tif dffbult HTML rfbdfr.
+     * Tiis sft dofs not indludf tbgs tibt brf
+     * mbnufbdturfd by tif rfbdfr.
      *
-     * @return the set of actual HTML tags that
-     * are recognized by the default HTML reader
+     * @rfturn tif sft of bdtubl HTML tbgs tibt
+     * brf rfdognizfd by tif dffbult HTML rfbdfr
      */
-    public static Tag[] getAllTags() {
-        Tag[] tags = new Tag[Tag.allTags.length];
-        System.arraycopy(Tag.allTags, 0, tags, 0, Tag.allTags.length);
-        return tags;
+    publid stbtid Tbg[] gftAllTbgs() {
+        Tbg[] tbgs = nfw Tbg[Tbg.bllTbgs.lfngti];
+        Systfm.brrbydopy(Tbg.bllTbgs, 0, tbgs, 0, Tbg.bllTbgs.lfngti);
+        rfturn tbgs;
     }
 
     /**
-     * Fetches a tag constant for a well-known tag name (i.e. one of
-     * the tags in the set {A, ADDRESS, APPLET, AREA, B,
+     * Fftdifs b tbg donstbnt for b wfll-known tbg nbmf (i.f. onf of
+     * tif tbgs in tif sft {A, ADDRESS, APPLET, AREA, B,
      * BASE, BASEFONT, BIG,
      * BLOCKQUOTE, BODY, BR, CAPTION, CENTER, CITE, CODE,
      * DD, DFN, DIR, DIV, DL, DT, EM, FONT, FORM, FRAME,
@@ -1205,89 +1205,89 @@ public class HTML {
      * META, NOBR, NOFRAMES, OBJECT, OL, OPTION, P, PARAM,
      * PRE, SAMP, SCRIPT, SELECT, SMALL, SPAN, STRIKE, S,
      * STRONG, STYLE, SUB, SUP, TABLE, TD, TEXTAREA,
-     * TH, TITLE, TR, TT, U, UL, VAR}.  If the given
-     * name does not represent one of the well-known tags, then
-     * <code>null</code> will be returned.
+     * TH, TITLE, TR, TT, U, UL, VAR}.  If tif givfn
+     * nbmf dofs not rfprfsfnt onf of tif wfll-known tbgs, tifn
+     * <dodf>null</dodf> will bf rfturnfd.
      *
-     * @param tagName the <code>String</code> name requested
-     * @return a tag constant corresponding to the <code>tagName</code>,
-     *    or <code>null</code> if not found
+     * @pbrbm tbgNbmf tif <dodf>String</dodf> nbmf rfqufstfd
+     * @rfturn b tbg donstbnt dorrfsponding to tif <dodf>tbgNbmf</dodf>,
+     *    or <dodf>null</dodf> if not found
      */
-    public static Tag getTag(String tagName) {
+    publid stbtid Tbg gftTbg(String tbgNbmf) {
 
-        Tag t =  tagHashtable.get(tagName);
-        return (t == null ? null : t);
+        Tbg t =  tbgHbsitbblf.gft(tbgNbmf);
+        rfturn (t == null ? null : t);
     }
 
     /**
-     * Returns the HTML <code>Tag</code> associated with the
-     * <code>StyleConstants</code> key <code>sc</code>.
-     * If no matching <code>Tag</code> is found, returns
-     * <code>null</code>.
+     * Rfturns tif HTML <dodf>Tbg</dodf> bssodibtfd witi tif
+     * <dodf>StylfConstbnts</dodf> kfy <dodf>sd</dodf>.
+     * If no mbtdiing <dodf>Tbg</dodf> is found, rfturns
+     * <dodf>null</dodf>.
      *
-     * @param sc the <code>StyleConstants</code> key
-     * @return tag which corresponds to <code>sc</code>, or
-     *   <code>null</code> if not found
+     * @pbrbm sd tif <dodf>StylfConstbnts</dodf> kfy
+     * @rfturn tbg wiidi dorrfsponds to <dodf>sd</dodf>, or
+     *   <dodf>null</dodf> if not found
      */
-    static Tag getTagForStyleConstantsKey(StyleConstants sc) {
-        return scMapping.get(sc);
+    stbtid Tbg gftTbgForStylfConstbntsKfy(StylfConstbnts sd) {
+        rfturn sdMbpping.gft(sd);
     }
 
     /**
-     * Fetches an integer attribute value.  Attribute values
-     * are stored as a string, and this is a convenience method
-     * to convert to an actual integer.
+     * Fftdifs bn intfgfr bttributf vbluf.  Attributf vblufs
+     * brf storfd bs b string, bnd tiis is b donvfnifndf mftiod
+     * to donvfrt to bn bdtubl intfgfr.
      *
-     * @param attr the set of attributes to use to try to fetch a value
-     * @param key the key to use to fetch the value
-     * @param def the default value to use if the attribute isn't
-     *  defined or there is an error converting to an integer
-     * @return an attribute value
+     * @pbrbm bttr tif sft of bttributfs to usf to try to fftdi b vbluf
+     * @pbrbm kfy tif kfy to usf to fftdi tif vbluf
+     * @pbrbm dff tif dffbult vbluf to usf if tif bttributf isn't
+     *  dffinfd or tifrf is bn frror donvfrting to bn intfgfr
+     * @rfturn bn bttributf vbluf
      */
-    public static int getIntegerAttributeValue(AttributeSet attr,
-                                               Attribute key, int def) {
-        int value = def;
-        String istr = (String) attr.getAttribute(key);
+    publid stbtid int gftIntfgfrAttributfVbluf(AttributfSft bttr,
+                                               Attributf kfy, int dff) {
+        int vbluf = dff;
+        String istr = (String) bttr.gftAttributf(kfy);
         if (istr != null) {
             try {
-                value = Integer.valueOf(istr).intValue();
-            } catch (NumberFormatException e) {
-                value = def;
+                vbluf = Intfgfr.vblufOf(istr).intVbluf();
+            } dbtdi (NumbfrFormbtExdfption f) {
+                vbluf = dff;
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     *  {@code NULL_ATTRIBUTE_VALUE} used in cases where the value for the attribute has not
-     *  been specified.
+     *  {@dodf NULL_ATTRIBUTE_VALUE} usfd in dbsfs wifrf tif vbluf for tif bttributf ibs not
+     *  bffn spfdififd.
      */
-    public static final String NULL_ATTRIBUTE_VALUE = "#DEFAULT";
+    publid stbtid finbl String NULL_ATTRIBUTE_VALUE = "#DEFAULT";
 
-    // size determined similar to size of tagHashtable
-    private static final Hashtable<String, Attribute> attHashtable = new Hashtable<String, Attribute>(77);
+    // sizf dftfrminfd similbr to sizf of tbgHbsitbblf
+    privbtf stbtid finbl Hbsitbblf<String, Attributf> bttHbsitbblf = nfw Hbsitbblf<String, Attributf>(77);
 
-    static {
+    stbtid {
 
-        for (int i = 0; i < Attribute.allAttributes.length; i++ ) {
-            attHashtable.put(Attribute.allAttributes[i].toString(), Attribute.allAttributes[i]);
+        for (int i = 0; i < Attributf.bllAttributfs.lfngti; i++ ) {
+            bttHbsitbblf.put(Attributf.bllAttributfs[i].toString(), Attributf.bllAttributfs[i]);
         }
     }
 
     /**
-     * Returns the set of HTML attributes recognized.
-     * @return the set of HTML attributes recognized
+     * Rfturns tif sft of HTML bttributfs rfdognizfd.
+     * @rfturn tif sft of HTML bttributfs rfdognizfd
      */
-    public static Attribute[] getAllAttributeKeys() {
-        Attribute[] attributes = new Attribute[Attribute.allAttributes.length];
-        System.arraycopy(Attribute.allAttributes, 0,
-                         attributes, 0, Attribute.allAttributes.length);
-        return attributes;
+    publid stbtid Attributf[] gftAllAttributfKfys() {
+        Attributf[] bttributfs = nfw Attributf[Attributf.bllAttributfs.lfngti];
+        Systfm.brrbydopy(Attributf.bllAttributfs, 0,
+                         bttributfs, 0, Attributf.bllAttributfs.lfngti);
+        rfturn bttributfs;
     }
 
     /**
-     * Fetches an attribute constant for a well-known attribute name
-     * (i.e. one of the attributes in the set {FACE, COMMENT, SIZE,
+     * Fftdifs bn bttributf donstbnt for b wfll-known bttributf nbmf
+     * (i.f. onf of tif bttributfs in tif sft {FACE, COMMENT, SIZE,
      * COLOR, CLEAR, BACKGROUND, BGCOLOR, TEXT, LINK, VLINK, ALINK,
      * WIDTH, HEIGHT, ALIGN, NAME, HREF, REL, REV, TITLE, TARGET,
      * SHAPE, COORDS, ISMAP, NOHREF, ALT, ID, SRC, HSPACE, VSPACE,
@@ -1299,18 +1299,18 @@ public class HTML {
      * COLSPAN, PROMPT, HTTPEQUIV, CONTENT, LANGUAGE, VERSION, N,
      * FRAMEBORDER, MARGINWIDTH, MARGINHEIGHT, SCROLLING, NORESIZE,
      * MEDIA, ENDTAG}).
-     * If the given name does not represent one of the well-known attributes,
-     * then <code>null</code> will be returned.
+     * If tif givfn nbmf dofs not rfprfsfnt onf of tif wfll-known bttributfs,
+     * tifn <dodf>null</dodf> will bf rfturnfd.
      *
-     * @param attName the <code>String</code> requested
-     * @return the <code>Attribute</code> corresponding to <code>attName</code>
+     * @pbrbm bttNbmf tif <dodf>String</dodf> rfqufstfd
+     * @rfturn tif <dodf>Attributf</dodf> dorrfsponding to <dodf>bttNbmf</dodf>
      */
-    public static Attribute getAttributeKey(String attName) {
-        Attribute a = attHashtable.get(attName);
-        if (a == null) {
-          return null;
+    publid stbtid Attributf gftAttributfKfy(String bttNbmf) {
+        Attributf b = bttHbsitbblf.gft(bttNbmf);
+        if (b == null) {
+          rfturn null;
         }
-        return a;
+        rfturn b;
     }
 
 }

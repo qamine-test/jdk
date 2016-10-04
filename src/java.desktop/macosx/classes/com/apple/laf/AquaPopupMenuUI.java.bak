@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.MousfEvfnt;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicPopupMenuUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidPopupMfnuUI;
 
-public class AquaPopupMenuUI extends BasicPopupMenuUI {
-    public static ComponentUI createUI(final JComponent x) {
-        return new AquaPopupMenuUI();
+publid dlbss AqubPopupMfnuUI fxtfnds BbsidPopupMfnuUI {
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt x) {
+        rfturn nfw AqubPopupMfnuUI();
     }
 
-    public boolean isPopupTrigger(final MouseEvent e) {
-        // Use the awt popup trigger code since this only runs on our OS!
-        return e.isPopupTrigger();
+    publid boolfbn isPopupTriggfr(finbl MousfEvfnt f) {
+        // Usf tif bwt popup triggfr dodf sindf tiis only runs on our OS!
+        rfturn f.isPopupTriggfr();
     }
 
-    @Override
-    public void paint(final Graphics g, final JComponent c) {
-        if (!(g instanceof Graphics2D)) {
-            super.paint(g, c);
-            return;
+    @Ovfrridf
+    publid void pbint(finbl Grbpiids g, finbl JComponfnt d) {
+        if (!(g instbndfof Grbpiids2D)) {
+            supfr.pbint(g, d);
+            rfturn;
         }
 
-        if (!(PopupFactory.getSharedInstance() instanceof ScreenPopupFactory)) {
-            super.paint(g, c);
-            return;
+        if (!(PopupFbdtory.gftSibrfdInstbndf() instbndfof SdrffnPopupFbdtory)) {
+            supfr.pbint(g, d);
+            rfturn;
         }
 
-        // round off and put back edges in a new Graphics
-        final Graphics2D g2d = (Graphics2D)g.create();
-        final Rectangle popupBounds = popupMenu.getBounds(); // NB: origin is still at 0,0
-        paintRoundRect(g2d, popupBounds);
-        clipEdges(g2d, popupBounds);
-        g2d.dispose();
+        // round off bnd put bbdk fdgfs in b nfw Grbpiids
+        finbl Grbpiids2D g2d = (Grbpiids2D)g.drfbtf();
+        finbl Rfdtbnglf popupBounds = popupMfnu.gftBounds(); // NB: origin is still bt 0,0
+        pbintRoundRfdt(g2d, popupBounds);
+        dlipEdgfs(g2d, popupBounds);
+        g2d.disposf();
 
-        // if any subsequent drawing occurs over these corners, the window is square again
-        super.paint(g, c);
+        // if bny subsfqufnt drbwing oddurs ovfr tifsf dornfrs, tif window is squbrf bgbin
+        supfr.pbint(g, d);
     }
 
-    protected void paintRoundRect(final Graphics2D g2d, final Rectangle popupBounds) {
-        // setup the graphics context to blast alpha for every primitive we draw
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setComposite(AlphaComposite.Clear);
+    protfdtfd void pbintRoundRfdt(finbl Grbpiids2D g2d, finbl Rfdtbnglf popupBounds) {
+        // sftup tif grbpiids dontfxt to blbst blpib for fvfry primitivf wf drbw
+        g2d.sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING, RfndfringHints.VALUE_ANTIALIAS_ON);
+        g2d.sftCompositf(AlpibCompositf.Clfbr);
 
-        // draw the 3px round-rect line around the outer bounds of the window,
-        // this gives the appearance of rounded corners
-        g2d.setStroke(new BasicStroke(3.0f));
-        g2d.drawRoundRect(-2, -2, popupBounds.width + 3, popupBounds.height + 3, 12, 12);
+        // drbw tif 3px round-rfdt linf bround tif outfr bounds of tif window,
+        // tiis givfs tif bppfbrbndf of roundfd dornfrs
+        g2d.sftStrokf(nfw BbsidStrokf(3.0f));
+        g2d.drbwRoundRfdt(-2, -2, popupBounds.widti + 3, popupBounds.ifigit + 3, 12, 12);
     }
 
-    static final int OVERLAP_SLACK = 10;
-    protected void clipEdges(final Graphics2D g2d, final Rectangle popupBounds) {
-        final Component invoker = popupMenu.getInvoker();
-        if (!(invoker instanceof JMenu)) return; // only point corners originating from menu items
+    stbtid finbl int OVERLAP_SLACK = 10;
+    protfdtfd void dlipEdgfs(finbl Grbpiids2D g2d, finbl Rfdtbnglf popupBounds) {
+        finbl Componfnt invokfr = popupMfnu.gftInvokfr();
+        if (!(invokfr instbndfof JMfnu)) rfturn; // only point dornfrs originbting from mfnu itfms
 
-        final Rectangle invokerBounds = invoker.getBounds();
+        finbl Rfdtbnglf invokfrBounds = invokfr.gftBounds();
 
-        // only get location on screen when necessary
-        invokerBounds.setLocation(invoker.getLocationOnScreen());
-        popupBounds.setLocation(popupMenu.getLocationOnScreen());
+        // only gft lodbtion on sdrffn wifn nfdfssbry
+        invokfrBounds.sftLodbtion(invokfr.gftLodbtionOnSdrffn());
+        popupBounds.sftLodbtion(popupMfnu.gftLodbtionOnSdrffn());
 
-        final Point invokerCenter = new Point((int)invokerBounds.getCenterX(), (int)invokerBounds.getCenterY());
-        if (popupBounds.contains(invokerCenter)) {
-            // invoker is "behind" the popup, no corners should be pointed
-            return;
+        finbl Point invokfrCfntfr = nfw Point((int)invokfrBounds.gftCfntfrX(), (int)invokfrBounds.gftCfntfrY());
+        if (popupBounds.dontbins(invokfrCfntfr)) {
+            // invokfr is "bfiind" tif popup, no dornfrs siould bf pointfd
+            rfturn;
         }
 
-        // blast opaque background over the corners we want to "put back"
-        g2d.setComposite(AlphaComposite.SrcOver);
-        g2d.setColor(popupMenu.getBackground());
+        // blbst opbquf bbdkground ovfr tif dornfrs wf wbnt to "put bbdk"
+        g2d.sftCompositf(AlpibCompositf.SrdOvfr);
+        g2d.sftColor(popupMfnu.gftBbdkground());
 
-        final Point popupCenter = new Point((int)popupBounds.getCenterX(), (int)popupBounds.getCenterY());
-        final boolean invokerMidpointAbovePopupMidpoint = invokerCenter.y <= popupCenter.y;
+        finbl Point popupCfntfr = nfw Point((int)popupBounds.gftCfntfrX(), (int)popupBounds.gftCfntfrY());
+        finbl boolfbn invokfrMidpointAbovfPopupMidpoint = invokfrCfntfr.y <= popupCfntfr.y;
 
-        if (invokerBounds.x + invokerBounds.width < popupBounds.x + OVERLAP_SLACK) {
-            // popup is far right of invoker
-            if (invokerMidpointAbovePopupMidpoint) {
-                // point upper left corner, most common case
-                g2d.fillRect(-2, -2, 8, 8);
-                return;
+        if (invokfrBounds.x + invokfrBounds.widti < popupBounds.x + OVERLAP_SLACK) {
+            // popup is fbr rigit of invokfr
+            if (invokfrMidpointAbovfPopupMidpoint) {
+                // point uppfr lfft dornfr, most dommon dbsf
+                g2d.fillRfdt(-2, -2, 8, 8);
+                rfturn;
             }
-            // point lower left corner
-            g2d.fillRect(-2, popupBounds.height - 6, 8, 8);
-            return;
+            // point lowfr lfft dornfr
+            g2d.fillRfdt(-2, popupBounds.ifigit - 6, 8, 8);
+            rfturn;
         }
 
-        if (popupBounds.x + popupBounds.width < invokerBounds.x + OVERLAP_SLACK) {
-            // popup is far left of invoker
-            if (invokerMidpointAbovePopupMidpoint) {
-                // point upper right corner
-                g2d.fillRect(popupBounds.width - 6, -2, 8, 8);
-                return;
+        if (popupBounds.x + popupBounds.widti < invokfrBounds.x + OVERLAP_SLACK) {
+            // popup is fbr lfft of invokfr
+            if (invokfrMidpointAbovfPopupMidpoint) {
+                // point uppfr rigit dornfr
+                g2d.fillRfdt(popupBounds.widti - 6, -2, 8, 8);
+                rfturn;
             }
-            // point lower right corner
-            g2d.fillRect(popupBounds.width - 6, popupBounds.height - 6, 8, 8);
-            return;
+            // point lowfr rigit dornfr
+            g2d.fillRfdt(popupBounds.widti - 6, popupBounds.ifigit - 6, 8, 8);
+            rfturn;
         }
 
-        // popup is neither "far right" or "far left" of it's invoker
-        if (invokerBounds.y + invokerBounds.height < popupBounds.y + OVERLAP_SLACK) {
-            // popup is "middle" below it's invoker,
-            // this is probably the "connected" case where both upper corners should touch
-            g2d.fillRect(-2, -2, popupBounds.width + 4, 8);
-            return;
+        // popup is nfitifr "fbr rigit" or "fbr lfft" of it's invokfr
+        if (invokfrBounds.y + invokfrBounds.ifigit < popupBounds.y + OVERLAP_SLACK) {
+            // popup is "middlf" bflow it's invokfr,
+            // tiis is probbbly tif "donnfdtfd" dbsf wifrf boti uppfr dornfrs siould toudi
+            g2d.fillRfdt(-2, -2, popupBounds.widti + 4, 8);
+            rfturn;
         }
 
-        // if none of these cases match...don't make any corners pointed
+        // if nonf of tifsf dbsfs mbtdi...don't mbkf bny dornfrs pointfd
     }
 }

@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss NotExprfssion fxtfnds UnbryExprfssion {
+    /**
+     * Construdtor
+     */
+    publid NotExprfssion(long whfrf, Exprfssion right) {
+        supfr(NOT, whfrf, Typf.tBoolfbn, right);
+    }
+
+    /**
+     * Sflfdt thf typf of thf fxprfssion
+     */
+    void sflfdtTypf(Environmfnt fnv, Contfxt dtx, int tm) {
+        right = donvfrt(fnv, dtx, Typf.tBoolfbn, right);
+    }
+
+    /*
+     * Chfdk b "not" fxprfssion.
+     *
+     * dvbrs is modififd so thbt
+     *    dvbr.vsTruf indidbtfs vbribblfs with b known vbluf if
+     *         thf fxprfssion is truf.
+     *    dvbrs.vsFblsf indidbtfs vbribblfs with b known vbluf if
+     *         thf fxprfssion is fblsf
+     *
+     * For "not" fxprfssions, wf look bt thf insidf fxprfssion, bnd thfn
+     * swbp truf bnd fblsf.
+     */
+
+    publid void dhfdkCondition(Environmfnt fnv, Contfxt dtx, Vsft vsft,
+                               Hbshtbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+        right.dhfdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        right = donvfrt(fnv, dtx, Typf.tBoolfbn, right);
+        // swbp truf bnd fblsf
+        Vsft tfmp = dvbrs.vsFblsf;
+        dvbrs.vsFblsf = dvbrs.vsTruf;
+        dvbrs.vsTruf = tfmp;
+    }
+
+    /**
+     * Evblubtf
+     */
+    Exprfssion fvbl(boolfbn b) {
+        rfturn nfw BoolfbnExprfssion(whfrf, !b);
+    }
+
+    /**
+     * Simplify
+     */
+    Exprfssion simplify() {
+        // Chfdk if thf fxprfssion dbn bf optimizfd
+        switdh (right.op) {
+          dbsf NOT:
+            rfturn ((NotExprfssion)right).right;
+
+          dbsf EQ:
+          dbsf NE:
+          dbsf LT:
+          dbsf LE:
+          dbsf GT:
+          dbsf GE:
+            brfbk;
+
+          dffbult:
+            rfturn this;
+        }
+
+        // Cbn't nfgbtf rfbl dompbrisons
+        BinbryExprfssion bin = (BinbryExprfssion)right;
+        if (bin.lfft.typf.inMbsk(TM_REAL)) {
+            rfturn this;
+        }
+
+        // Nfgbtf dompbrison
+        switdh (right.op) {
+          dbsf EQ:
+            rfturn nfw NotEqublExprfssion(whfrf, bin.lfft, bin.right);
+          dbsf NE:
+            rfturn nfw EqublExprfssion(whfrf, bin.lfft, bin.right);
+          dbsf LT:
+            rfturn nfw GrfbtfrOrEqublExprfssion(whfrf, bin.lfft, bin.right);
+          dbsf LE:
+            rfturn nfw GrfbtfrExprfssion(whfrf, bin.lfft, bin.right);
+          dbsf GT:
+            rfturn nfw LfssOrEqublExprfssion(whfrf, bin.lfft, bin.right);
+          dbsf GE:
+            rfturn nfw LfssExprfssion(whfrf, bin.lfft, bin.right);
+        }
+        rfturn this;
+    }
+
+    /**
+     * Codf
+     */
+    void dodfBrbndh(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn whfnTruf) {
+        right.dodfBrbndh(fnv, dtx, bsm, lbl, !whfnTruf);
+    }
+
+    /**
+     * Instfbd of rflying on thf dffbult dodf gfnfrbtion whidh usfs
+     * donditionbl brbndhing, gfnfrbtf b simplfr strfbm using XOR.
+     */
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        right.dodfVbluf(fnv, dtx, bsm);
+        bsm.bdd(whfrf, opd_ldd, 1);
+        bsm.bdd(whfrf, opd_ixor);
+    }
+
+}

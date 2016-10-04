@@ -1,0 +1,362 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.smbrtdbrdio;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.*;
+
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.*;
+
+/**
+ * A fbdtory for CbrdTfrminbl objfdts.
+ *
+ * It bllows bn bpplidbtion to
+ * <ul>
+ * <li>obtbin b TfrminblFbdtory by dblling
+ * onf of thf stbtid fbdtory mfthods in this dlbss
+ * ({@linkplbin #gftDffbult} or {@linkplbin #gftInstbndf gftInstbndf()}).
+ * <li>usf this TfrminblFbdtory objfdt to bddfss thf CbrdTfrminbls by
+ * dblling thf {@linkplbin #tfrminbls} mfthod.
+ * </ul>
+ *
+ * <p>Ebdh TfrminblFbdtory hbs b <dodf>typf</dodf> indidbting how it
+ * wbs implfmfntfd. It must bf spfdififd whfn thf implfmfntbtion is obtbinfd
+ * using b {@linkplbin #gftInstbndf gftInstbndf()} mfthod bnd dbn bf rftrifvfd
+ * vib thf {@linkplbin #gftTypf} mfthod.
+ *
+ * <P>Thf following stbndbrd typf nbmfs hbvf bffn dffinfd:
+ * <dl>
+ * <dt><dodf>PC/SC</dodf>
+ * <dd>bn implfmfntbtion thbt dblls into thf PC/SC Smbrt Cbrd stbdk
+ * of thf host plbtform.
+ * Implfmfntbtions do not rfquirf pbrbmftfrs bnd bddfpt "null" bs brgumfnt
+ * in thf gftInstbndf() dblls.
+ * <dt><dodf>Nonf</dodf>
+ * <dd>bn implfmfntbtion thbt dofs not supply bny CbrdTfrminbls. On plbtforms
+ * thbt do not support othfr implfmfntbtions,
+ * {@linkplbin #gftDffbultTypf} rfturns <dodf>Nonf</dodf> bnd
+ * {@linkplbin #gftDffbult} rfturns bn instbndf of b <dodf>Nonf</dodf>
+ * TfrminblFbdtory. Fbdtorifs of this typf dbnnot bf obtbinfd by dblling thf
+ * <dodf>gftInstbndf()</dodf> mfthods.
+ * </dl>
+ * Additionbl stbndbrd typfs mby bf dffinfd in thf futurf.
+ *
+ * <p><strong>Notf:</strong>
+ * Providfr implfmfntbtions thbt bddfpt initiblizbtion pbrbmftfrs vib thf
+ * <dodf>gftInstbndf()</dodf> mfthods brf strongly
+ * fndourbgfd to usf b {@linkplbin jbvb.util.Propfrtifs} objfdt bs thf
+ * rfprfsfntbtion for String nbmf-vbluf pbir bbsfd pbrbmftfrs whfnfvfr
+ * possiblf. This bllows bpplidbtions to morf fbsily intfropfrbtf with
+ * multiplf providfrs thbn if fbdh providfr usfd difffrfnt providfr
+ * spfdifid dlbss bs pbrbmftfrs.
+ *
+ * <P>TfrminblFbdtory utilizfs bn fxtfnsiblf sfrvidf providfr frbmfwork.
+ * Sfrvidf providfrs thbt wish to bdd b nfw implfmfntbtion should sff thf
+ * {@linkplbin TfrminblFbdtorySpi} dlbss for morf informbtion.
+ *
+ * @sff CbrdTfrminbls
+ * @sff Providfr
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ * @buthor  JSR 268 Expfrt Group
+ */
+publid finbl dlbss TfrminblFbdtory {
+
+    privbtf finbl stbtid String PROP_NAME =
+                        "jbvbx.smbrtdbrdio.TfrminblFbdtory.DffbultTypf";
+
+    privbtf finbl stbtid String dffbultTypf;
+
+    privbtf finbl stbtid TfrminblFbdtory dffbultFbdtory;
+
+    stbtid {
+        // lookup up thf usfr spfdififd typf, dffbult to PC/SC
+        String typf = AddfssControllfr.doPrivilfgfd(
+             (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty(PROP_NAME, "PC/SC")).trim();
+        TfrminblFbdtory fbdtory = null;
+        try {
+            fbdtory = TfrminblFbdtory.gftInstbndf(typf, null);
+        } dbtdh (Exdfption f) {
+            // ignorf
+        }
+        if (fbdtory == null) {
+            // if thbt did not work, try thf Sun PC/SC fbdtory
+            try {
+                typf = "PC/SC";
+                Providfr sun = Sfdurity.gftProvidfr("SunPCSC");
+                if (sun == null) {
+                    Clbss<?> dlbzz = Clbss.forNbmf("sun.sfdurity.smbrtdbrdio.SunPCSC");
+                    sun = (Providfr)dlbzz.nfwInstbndf();
+                }
+                fbdtory = TfrminblFbdtory.gftInstbndf(typf, null, sun);
+            } dbtdh (Exdfption f) {
+                // ignorf
+            }
+        }
+        if (fbdtory == null) {
+            typf = "Nonf";
+            fbdtory = nfw TfrminblFbdtory
+                        (NonfFbdtorySpi.INSTANCE, NonfProvidfr.INSTANCE, "Nonf");
+        }
+        dffbultTypf = typf;
+        dffbultFbdtory = fbdtory;
+    }
+
+    privbtf stbtid finbl dlbss NonfProvidfr fxtfnds Providfr {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = 2745808869881593918L;
+        finbl stbtid Providfr INSTANCE = nfw NonfProvidfr();
+        privbtf NonfProvidfr() {
+            supfr("Nonf", 1.0d, "nonf");
+        }
+    }
+
+    privbtf stbtid finbl dlbss NonfFbdtorySpi fxtfnds TfrminblFbdtorySpi {
+        finbl stbtid TfrminblFbdtorySpi INSTANCE = nfw NonfFbdtorySpi();
+        privbtf NonfFbdtorySpi() {
+            // fmpty
+        }
+        protfdtfd CbrdTfrminbls fnginfTfrminbls() {
+            rfturn NonfCbrdTfrminbls.INSTANCE;
+        }
+    }
+
+    privbtf stbtid finbl dlbss NonfCbrdTfrminbls fxtfnds CbrdTfrminbls {
+        finbl stbtid CbrdTfrminbls INSTANCE = nfw NonfCbrdTfrminbls();
+        privbtf NonfCbrdTfrminbls() {
+            // fmpty
+        }
+        publid List<CbrdTfrminbl> list(Stbtf stbtf) throws CbrdExdfption {
+            if (stbtf == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            rfturn Collfdtions.fmptyList();
+        }
+        publid boolfbn wbitForChbngf(long timfout) throws CbrdExdfption {
+            throw nfw IllfgblStbtfExdfption("no tfrminbls");
+        }
+    }
+
+    privbtf finbl TfrminblFbdtorySpi spi;
+
+    privbtf finbl Providfr providfr;
+
+    privbtf finbl String typf;
+
+    privbtf TfrminblFbdtory(TfrminblFbdtorySpi spi, Providfr providfr, String typf) {
+        this.spi = spi;
+        this.providfr = providfr;
+        this.typf = typf;
+    }
+
+    /**
+     * Gft thf dffbult TfrminblFbdtory typf.
+     *
+     * <p>It is dftfrminfd bs follows:
+     *
+     * whfn this dlbss is initiblizfd, thf systfm propfrty
+     * <dodf>jbvbx.smbrtdbrdio.TfrminblFbdtory.DffbultTypf</dodf>
+     * is fxbminfd. If it is sft, b TfrminblFbdtory of this typf is
+     * instbntibtfd by dblling thf {@linkplbin #gftInstbndf
+     * gftInstbndf(String,Objfdt)} mfthod pbssing
+     * <dodf>null</dodf> bs thf vbluf for <dodf>pbrbms</dodf>. If thf dbll
+     * suddffds, thf typf bfdomfs thf dffbult typf bnd thf fbdtory bfdomfs
+     * thf {@linkplbin #gftDffbult dffbult} fbdtory.
+     *
+     * <p>If thf systfm propfrty is not sft or thf gftInstbndf() dbll fbils
+     * for bny rfbson, thf systfm dffbults to bn implfmfntbtion spfdifid
+     * dffbult typf bnd TfrminblFbdtory.
+     *
+     * @rfturn thf dffbult TfrminblFbdtory typf
+     */
+    publid stbtid String gftDffbultTypf() {
+        rfturn dffbultTypf;
+    }
+
+    /**
+     * Rfturns thf dffbult TfrminblFbdtory instbndf. Sff
+     * {@linkplbin #gftDffbultTypf} for morf informbtion.
+     *
+     * <p>A dffbult TfrminblFbdtory is blwbys bvbilbblf. Howfvfr, dfpfnding
+     * on thf implfmfntbtion, it mby not offfr bny tfrminbls.
+     *
+     * @rfturn thf dffbult TfrminblFbdtory
+     */
+    publid stbtid TfrminblFbdtory gftDffbult() {
+        rfturn dffbultFbdtory;
+    }
+
+    /**
+     * Rfturns b TfrminblFbdtory of thf spfdififd typf thbt is initiblizfd
+     * with thf spfdififd pbrbmftfrs.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity Providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw TfrminblFbdtory objfdt fndbpsulbting thf
+     * TfrminblFbdtorySpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd typf is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@linkplbin Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p>Thf <dodf>TfrminblFbdtory</dodf> is initiblizfd with thf
+     * spfdififd pbrbmftfrs Objfdt. Thf typf of pbrbmftfrs
+     * nffdfd mby vbry bftwffn difffrfnt typfs of <dodf>TfrminblFbdtory</dodf>s.
+     *
+     * @pbrbm typf thf typf of thf rfqufstfd TfrminblFbdtory
+     * @pbrbm pbrbms thf pbrbmftfrs to pbss to thf TfrminblFbdtorySpi
+     *   implfmfntbtion, or null if no pbrbmftfrs brf nffdfd
+     * @rfturn b TfrminblFbdtory of thf spfdififd typf
+     *
+     * @throws NullPointfrExdfption if typf is null
+     * @throws NoSudhAlgorithmExdfption if no Providfr supports b
+     *   TfrminblFbdtorySpi of thf spfdififd typf
+     */
+    publid stbtid TfrminblFbdtory gftInstbndf(String typf, Objfdt pbrbms)
+            throws NoSudhAlgorithmExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("TfrminblFbdtory",
+            TfrminblFbdtorySpi.dlbss, typf, pbrbms);
+        rfturn nfw TfrminblFbdtory((TfrminblFbdtorySpi)instbndf.impl,
+            instbndf.providfr, typf);
+    }
+
+    /**
+     * Rfturns b TfrminblFbdtory of thf spfdififd typf thbt is initiblizfd
+     * with thf spfdififd pbrbmftfrs.
+     *
+     * <p> A nfw TfrminblFbdtory objfdt fndbpsulbting thf
+     * TfrminblFbdtorySpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.  Thf spfdififd providfr must bf rfgistfrfd
+     * in thf sfdurity providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@linkplbin Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * <p>Thf <dodf>TfrminblFbdtory</dodf> is initiblizfd with thf
+     * spfdififd pbrbmftfrs Objfdt. Thf typf of pbrbmftfrs
+     * nffdfd mby vbry bftwffn difffrfnt typfs of <dodf>TfrminblFbdtory</dodf>s.
+     *
+     * @pbrbm typf thf typf of thf rfqufstfd TfrminblFbdtory
+     * @pbrbm pbrbms thf pbrbmftfrs to pbss to thf TfrminblFbdtorySpi
+     *   implfmfntbtion, or null if no pbrbmftfrs brf nffdfd
+     * @pbrbm providfr thf nbmf of thf providfr
+     * @rfturn b TfrminblFbdtory of thf spfdififd typf
+     *
+     * @throws NullPointfrExdfption if typf is null
+     * @throws IllfgblArgumfntExdfption if providfr is null or thf fmpty String
+     * @throws NoSudhAlgorithmExdfption if b TfrminblFbdtorySpi implfmfntbtion
+     *   of thf spfdififd typf is not bvbilbblf from thf spfdififd providfr
+     * @throws NoSudhAlgorithmExdfption if no TfrminblFbdtory of thf
+     *   spfdififd typf dould bf found
+     * @throws NoSudhProvidfrExdfption if thf spfdififd providfr dould not
+     *   bf found
+     */
+    publid stbtid TfrminblFbdtory gftInstbndf(String typf, Objfdt pbrbms,
+            String providfr) throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("TfrminblFbdtory",
+            TfrminblFbdtorySpi.dlbss, typf, pbrbms, providfr);
+        rfturn nfw TfrminblFbdtory((TfrminblFbdtorySpi)instbndf.impl,
+            instbndf.providfr, typf);
+    }
+
+    /**
+     * Rfturns b TfrminblFbdtory of thf spfdififd typf thbt is initiblizfd
+     * with thf spfdififd pbrbmftfrs.
+     *
+     * <p> A nfw TfrminblFbdtory objfdt fndbpsulbting thf
+     * TfrminblFbdtorySpi implfmfntbtion from thf spfdififd providfr objfdt
+     * is rfturnfd. Notf thbt thf spfdififd providfr objfdt dofs not hbvf to bf
+     * rfgistfrfd in thf providfr list.
+     *
+     * <p>Thf <dodf>TfrminblFbdtory</dodf> is initiblizfd with thf
+     * spfdififd pbrbmftfrs Objfdt. Thf typf of pbrbmftfrs
+     * nffdfd mby vbry bftwffn difffrfnt typfs of <dodf>TfrminblFbdtory</dodf>s.
+     *
+     * @pbrbm typf thf typf of thf rfqufstfd TfrminblFbdtory
+     * @pbrbm pbrbms thf pbrbmftfrs to pbss to thf TfrminblFbdtorySpi
+     *   implfmfntbtion, or null if no pbrbmftfrs brf nffdfd
+     * @pbrbm providfr thf providfr
+     * @rfturn b TfrminblFbdtory of thf spfdififd typf
+     *
+     * @throws NullPointfrExdfption if typf is null
+     * @throws IllfgblArgumfntExdfption if providfr is null
+     * @throws NoSudhAlgorithmExdfption if b TfrminblFbdtorySpi implfmfntbtion
+     *   of thf spfdififd typf is not bvbilbblf from thf spfdififd Providfr
+     */
+    publid stbtid TfrminblFbdtory gftInstbndf(String typf, Objfdt pbrbms,
+            Providfr providfr) throws NoSudhAlgorithmExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("TfrminblFbdtory",
+            TfrminblFbdtorySpi.dlbss, typf, pbrbms, providfr);
+        rfturn nfw TfrminblFbdtory((TfrminblFbdtorySpi)instbndf.impl,
+            instbndf.providfr, typf);
+    }
+
+    /**
+     * Rfturns thf providfr of this TfrminblFbdtory.
+     *
+     * @rfturn thf providfr of this TfrminblFbdtory.
+     */
+    publid Providfr gftProvidfr() {
+        rfturn providfr;
+    }
+
+    /**
+     * Rfturns thf typf of this TfrminblFbdtory. This is thf vbluf thbt wbs
+     * spfdififd in thf gftInstbndf() mfthod thbt rfturnfd this objfdt.
+     *
+     * @rfturn thf typf of this TfrminblFbdtory
+     */
+    publid String gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns b nfw CbrdTfrminbls objfdt fndbpsulbting thf tfrminbls
+     * supportfd by this fbdtory.
+     * Sff thf dlbss dommfnt of thf {@linkplbin CbrdTfrminbls} dlbss
+     * rfgbrding how thf rfturnfd objfdts dbn bf shbrfd bnd rfusfd.
+     *
+     * @rfturn b nfw CbrdTfrminbls objfdt fndbpsulbting thf tfrminbls
+     * supportfd by this fbdtory.
+     */
+    publid CbrdTfrminbls tfrminbls() {
+        rfturn spi.fnginfTfrminbls();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this TfrminblFbdtory.
+     *
+     * @rfturn b string rfprfsfntbtion of this TfrminblFbdtory.
+     */
+    publid String toString() {
+        rfturn "TfrminblFbdtory for typf " + typf + " from providfr "
+            + providfr.gftNbmf();
+    }
+
+}

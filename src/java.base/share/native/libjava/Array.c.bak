@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jvm.h"
-#include "java_lang_reflect_Array.h"
+#indludf "jni.i"
+#indludf "jvm.i"
+#indludf "jbvb_lbng_rfflfdt_Arrby.i"
 
 /*
- * Native code for java.lang.reflect.Array.
+ * Nbtivf dodf for jbvb.lbng.rfflfdt.Arrby.
  *
- * TODO: Performance
+ * TODO: Pfrformbndf
  */
 
 /*
  *
  */
 JNIEXPORT jint JNICALL
-Java_java_lang_reflect_Array_getLength(JNIEnv *env, jclass ignore, jobject arr)
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftLfngti(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr)
 {
-    return JVM_GetArrayLength(env, arr);
+    rfturn JVM_GftArrbyLfngti(fnv, brr);
 }
 
 /*
  *
  */
-JNIEXPORT jobject JNICALL
-Java_java_lang_reflect_Array_get(JNIEnv *env, jclass ignore, jobject arr,
-                                 jint index)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gft(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                 jint indfx)
 {
-    return JVM_GetArrayElement(env, arr, index);
+    rfturn JVM_GftArrbyElfmfnt(fnv, brr, indfx);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_lang_reflect_Array_getBoolean(JNIEnv *env, jclass ignore, jobject arr,
-                                        jint index)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftBoolfbn(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                        jint indfx)
 {
-    return JVM_GetPrimitiveArrayElement(env, arr, index, JVM_T_BOOLEAN).z;
+    rfturn JVM_GftPrimitivfArrbyElfmfnt(fnv, brr, indfx, JVM_T_BOOLEAN).z;
 }
 
-JNIEXPORT jbyte JNICALL
-Java_java_lang_reflect_Array_getByte(JNIEnv *env, jclass ignore, jobject arr,
-                                     jint index)
+JNIEXPORT jbytf JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftBytf(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                     jint indfx)
 {
-    return JVM_GetPrimitiveArrayElement(env, arr, index, JVM_T_BYTE).b;
+    rfturn JVM_GftPrimitivfArrbyElfmfnt(fnv, brr, indfx, JVM_T_BYTE).b;
 }
 
-JNIEXPORT jchar JNICALL
-Java_java_lang_reflect_Array_getChar(JNIEnv *env, jclass ignore, jobject arr,
-                                     jint index)
+JNIEXPORT jdibr JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftCibr(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                     jint indfx)
 {
-    return JVM_GetPrimitiveArrayElement(env, arr, index, JVM_T_CHAR).c;
+    rfturn JVM_GftPrimitivfArrbyElfmfnt(fnv, brr, indfx, JVM_T_CHAR).d;
 }
 
-JNIEXPORT jshort JNICALL
-Java_java_lang_reflect_Array_getShort(JNIEnv *env, jclass ignore, jobject arr,
-                                     jint index)
+JNIEXPORT jsiort JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftSiort(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                     jint indfx)
 {
-    return JVM_GetPrimitiveArrayElement(env, arr, index, JVM_T_SHORT).s;
+    rfturn JVM_GftPrimitivfArrbyElfmfnt(fnv, brr, indfx, JVM_T_SHORT).s;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_reflect_Array_getInt(JNIEnv *env, jclass ignore, jobject arr,
-                                     jint index)
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftInt(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                     jint indfx)
 {
-    return JVM_GetPrimitiveArrayElement(env, arr, index, JVM_T_INT).i;
+    rfturn JVM_GftPrimitivfArrbyElfmfnt(fnv, brr, indfx, JVM_T_INT).i;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_lang_reflect_Array_getLong(JNIEnv *env, jclass ignore, jobject arr,
-                                     jint index)
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftLong(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                     jint indfx)
 {
-    return JVM_GetPrimitiveArrayElement(env, arr, index, JVM_T_LONG).j;
+    rfturn JVM_GftPrimitivfArrbyElfmfnt(fnv, brr, indfx, JVM_T_LONG).j;
 }
 
-JNIEXPORT jfloat JNICALL
-Java_java_lang_reflect_Array_getFloat(JNIEnv *env, jclass ignore, jobject arr,
-                                     jint index)
+JNIEXPORT jflobt JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftFlobt(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                     jint indfx)
 {
-    return JVM_GetPrimitiveArrayElement(env, arr, index, JVM_T_FLOAT).f;
+    rfturn JVM_GftPrimitivfArrbyElfmfnt(fnv, brr, indfx, JVM_T_FLOAT).f;
 }
 
-JNIEXPORT jdouble JNICALL
-Java_java_lang_reflect_Array_getDouble(JNIEnv *env, jclass ignore, jobject arr,
-                                     jint index)
+JNIEXPORT jdoublf JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_gftDoublf(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                     jint indfx)
 {
-    return JVM_GetPrimitiveArrayElement(env, arr, index, JVM_T_DOUBLE).d;
+    rfturn JVM_GftPrimitivfArrbyElfmfnt(fnv, brr, indfx, JVM_T_DOUBLE).d;
 }
 
 /*
  *
  */
 JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_set(JNIEnv *env, jclass ignore, jobject arr,
-                                 jint index, jobject val)
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sft(JNIEnv *fnv, jdlbss ignorf, jobjfdt brr,
+                                 jint indfx, jobjfdt vbl)
 {
-    JVM_SetArrayElement(env, arr, index, val);
+    JVM_SftArrbyElfmfnt(fnv, brr, indfx, vbl);
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_setBoolean(JNIEnv *env, jclass ignore,
-                                        jobject arr, jint index, jboolean z)
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sftBoolfbn(JNIEnv *fnv, jdlbss ignorf,
+                                        jobjfdt brr, jint indfx, jboolfbn z)
 {
-    jvalue v;
+    jvbluf v;
     v.z = z;
-    JVM_SetPrimitiveArrayElement(env, arr, index, v, JVM_T_BOOLEAN);
+    JVM_SftPrimitivfArrbyElfmfnt(fnv, brr, indfx, v, JVM_T_BOOLEAN);
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_setByte(JNIEnv *env, jclass ignore,
-                                        jobject arr, jint index, jbyte b)
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sftBytf(JNIEnv *fnv, jdlbss ignorf,
+                                        jobjfdt brr, jint indfx, jbytf b)
 {
-    jvalue v;
+    jvbluf v;
     v.b = b;
-    JVM_SetPrimitiveArrayElement(env, arr, index, v, JVM_T_BYTE);
+    JVM_SftPrimitivfArrbyElfmfnt(fnv, brr, indfx, v, JVM_T_BYTE);
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_setChar(JNIEnv *env, jclass ignore,
-                                        jobject arr, jint index, jchar c)
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sftCibr(JNIEnv *fnv, jdlbss ignorf,
+                                        jobjfdt brr, jint indfx, jdibr d)
 {
-    jvalue v;
-    v.c = c;
-    JVM_SetPrimitiveArrayElement(env, arr, index, v, JVM_T_CHAR);
-}
-
-JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_setShort(JNIEnv *env, jclass ignore,
-                                        jobject arr, jint index, jshort s)
-{
-    jvalue v;
-    v.s = s;
-    JVM_SetPrimitiveArrayElement(env, arr, index, v, JVM_T_SHORT);
-}
-
-JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_setInt(JNIEnv *env, jclass ignore,
-                                        jobject arr, jint index, jint i)
-{
-    jvalue v;
-    v.i = i;
-    JVM_SetPrimitiveArrayElement(env, arr, index, v, JVM_T_INT);
-}
-
-JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_setLong(JNIEnv *env, jclass ignore,
-                                        jobject arr, jint index, jlong j)
-{
-    jvalue v;
-    v.j = j;
-    JVM_SetPrimitiveArrayElement(env, arr, index, v, JVM_T_LONG);
-}
-
-JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_setFloat(JNIEnv *env, jclass ignore,
-                                        jobject arr, jint index, jfloat f)
-{
-    jvalue v;
-    v.f = f;
-    JVM_SetPrimitiveArrayElement(env, arr, index, v, JVM_T_FLOAT);
-}
-
-JNIEXPORT void JNICALL
-Java_java_lang_reflect_Array_setDouble(JNIEnv *env, jclass ignore,
-                                        jobject arr, jint index, jdouble d)
-{
-    jvalue v;
+    jvbluf v;
     v.d = d;
-    JVM_SetPrimitiveArrayElement(env, arr, index, v, JVM_T_DOUBLE);
+    JVM_SftPrimitivfArrbyElfmfnt(fnv, brr, indfx, v, JVM_T_CHAR);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sftSiort(JNIEnv *fnv, jdlbss ignorf,
+                                        jobjfdt brr, jint indfx, jsiort s)
+{
+    jvbluf v;
+    v.s = s;
+    JVM_SftPrimitivfArrbyElfmfnt(fnv, brr, indfx, v, JVM_T_SHORT);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sftInt(JNIEnv *fnv, jdlbss ignorf,
+                                        jobjfdt brr, jint indfx, jint i)
+{
+    jvbluf v;
+    v.i = i;
+    JVM_SftPrimitivfArrbyElfmfnt(fnv, brr, indfx, v, JVM_T_INT);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sftLong(JNIEnv *fnv, jdlbss ignorf,
+                                        jobjfdt brr, jint indfx, jlong j)
+{
+    jvbluf v;
+    v.j = j;
+    JVM_SftPrimitivfArrbyElfmfnt(fnv, brr, indfx, v, JVM_T_LONG);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sftFlobt(JNIEnv *fnv, jdlbss ignorf,
+                                        jobjfdt brr, jint indfx, jflobt f)
+{
+    jvbluf v;
+    v.f = f;
+    JVM_SftPrimitivfArrbyElfmfnt(fnv, brr, indfx, v, JVM_T_FLOAT);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_sftDoublf(JNIEnv *fnv, jdlbss ignorf,
+                                        jobjfdt brr, jint indfx, jdoublf d)
+{
+    jvbluf v;
+    v.d = d;
+    JVM_SftPrimitivfArrbyElfmfnt(fnv, brr, indfx, v, JVM_T_DOUBLE);
 }
 
 /*
  *
  */
-JNIEXPORT jobject JNICALL
-Java_java_lang_reflect_Array_newArray(JNIEnv *env, jclass ignore,
-                                      jclass eltClass, jint length)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_nfwArrby(JNIEnv *fnv, jdlbss ignorf,
+                                      jdlbss fltClbss, jint lfngti)
 {
-    return JVM_NewArray(env, eltClass, length);
+    rfturn JVM_NfwArrby(fnv, fltClbss, lfngti);
 }
 
-JNIEXPORT jobject JNICALL
-Java_java_lang_reflect_Array_multiNewArray(JNIEnv *env, jclass ignore,
-                                           jclass eltClass, jintArray dim)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_lbng_rfflfdt_Arrby_multiNfwArrby(JNIEnv *fnv, jdlbss ignorf,
+                                           jdlbss fltClbss, jintArrby dim)
 {
-    return JVM_NewMultiArray(env, eltClass, dim);
+    rfturn JVM_NfwMultiArrby(fnv, fltClbss, dim);
 }

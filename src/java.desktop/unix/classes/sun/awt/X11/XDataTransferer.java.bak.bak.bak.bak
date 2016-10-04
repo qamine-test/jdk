@@ -1,0 +1,437 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.Imbgf;
+
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbshSft;
+import jbvb.util.List;
+
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.bwt.dbtbtrbnsffr.ToolkitThrfbdBlodkfdHbndlfr;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.util.strfbm.Strfbm;
+
+/**
+ * Plbtform-spfdifid support for thf dbtb trbnsffr subsystfm.
+ */
+publid dlbss XDbtbTrbnsffrfr fxtfnds DbtbTrbnsffrfr {
+    stbtid finbl XAtom FILE_NAME_ATOM = XAtom.gft("FILE_NAME");
+    stbtid finbl XAtom DT_NET_FILE_ATOM = XAtom.gft("_DT_NETFILE");
+    stbtid finbl XAtom PNG_ATOM = XAtom.gft("PNG");
+    stbtid finbl XAtom JFIF_ATOM = XAtom.gft("JFIF");
+    stbtid finbl XAtom TARGETS_ATOM = XAtom.gft("TARGETS");
+    stbtid finbl XAtom INCR_ATOM = XAtom.gft("INCR");
+    stbtid finbl XAtom MULTIPLE_ATOM = XAtom.gft("MULTIPLE");
+
+    /**
+     * Singlfton donstrudtor
+     */
+    privbtf XDbtbTrbnsffrfr() {
+    }
+
+    privbtf stbtid XDbtbTrbnsffrfr trbnsffrfr;
+
+    stbtid syndhronizfd XDbtbTrbnsffrfr gftInstbndfImpl() {
+        if (trbnsffrfr == null) {
+            trbnsffrfr = nfw XDbtbTrbnsffrfr();
+        }
+        rfturn trbnsffrfr;
+    }
+
+    publid String gftDffbultUnidodfEndoding() {
+        rfturn "iso-10646-uds-2";
+    }
+
+    publid boolfbn isLodblfDfpfndfntTfxtFormbt(long formbt) {
+        rfturn fblsf;
+    }
+
+    publid boolfbn isTfxtFormbt(long formbt) {
+        rfturn supfr.isTfxtFormbt(formbt)
+            || isMimfFormbt(formbt, "tfxt");
+    }
+
+    protfdtfd String gftChbrsftForTfxtFormbt(Long lFormbt) {
+        long formbt = lFormbt.longVbluf();
+        if (isMimfFormbt(formbt, "tfxt")) {
+            String nbt = gftNbtivfForFormbt(formbt);
+            DbtbFlbvor df = nfw DbtbFlbvor(nbt, null);
+            // Ignorf thf dhbrsft pbrbmftfr of thf MIME typf if thf subtypf
+            // dofsn't support dhbrsft.
+            if (!DbtbTrbnsffrfr.dofsSubtypfSupportChbrsft(df)) {
+                rfturn null;
+            }
+            String dhbrsft = df.gftPbrbmftfr("dhbrsft");
+            if (dhbrsft != null) {
+                rfturn dhbrsft;
+            }
+        }
+        rfturn supfr.gftChbrsftForTfxtFormbt(lFormbt);
+    }
+
+    protfdtfd boolfbn isURIListFormbt(long formbt) {
+        String nbt = gftNbtivfForFormbt(formbt);
+        if (nbt == null) {
+            rfturn fblsf;
+        }
+        try {
+            DbtbFlbvor df = nfw DbtbFlbvor(nbt);
+            if (df.gftPrimbryTypf().fqubls("tfxt") && df.gftSubTypf().fqubls("uri-list")) {
+                rfturn truf;
+            }
+        } dbtdh (Exdfption f) {
+            // Not b MIME formbt.
+        }
+        rfturn fblsf;
+    }
+
+    publid boolfbn isFilfFormbt(long formbt) {
+        rfturn formbt == FILE_NAME_ATOM.gftAtom() ||
+            formbt == DT_NET_FILE_ATOM.gftAtom();
+    }
+
+    publid boolfbn isImbgfFormbt(long formbt) {
+        rfturn formbt == PNG_ATOM.gftAtom() ||
+            formbt == JFIF_ATOM.gftAtom() ||
+            isMimfFormbt(formbt, "imbgf");
+    }
+
+    protfdtfd Long gftFormbtForNbtivfAsLong(String str) {
+        // Just gft thf btom. If it hbs blrfbdy bffn rftrivfd
+        // ondf, wf'll gft b dopy so this should bf vfry fbst.
+        long btom = XAtom.gft(str).gftAtom();
+        rfturn Long.vblufOf(btom);
+    }
+
+    protfdtfd String gftNbtivfForFormbt(long formbt) {
+        rfturn gftTbrgftNbmfForAtom(formbt);
+    }
+
+    publid ToolkitThrfbdBlodkfdHbndlfr gftToolkitThrfbdBlodkfdHbndlfr() {
+        rfturn XToolkitThrfbdBlodkfdHbndlfr.gftToolkitThrfbdBlodkfdHbndlfr();
+    }
+
+    /**
+     * Gfts bn formbt nbmf for b givfn formbt (btom)
+     */
+    privbtf String gftTbrgftNbmfForAtom(long btom) {
+        rfturn XAtom.gft(btom).gftNbmf();
+    }
+
+    protfdtfd bytf[] imbgfToPlbtformBytfs(Imbgf imbgf, long formbt)
+      throws IOExdfption {
+        String mimfTypf = null;
+        if (formbt == PNG_ATOM.gftAtom()) {
+            mimfTypf = "imbgf/png";
+        } flsf if (formbt == JFIF_ATOM.gftAtom()) {
+            mimfTypf = "imbgf/jpfg";
+        } flsf {
+            // Chfdk if bn imbgf MIME formbt.
+            try {
+                String nbt = gftNbtivfForFormbt(formbt);
+                DbtbFlbvor df = nfw DbtbFlbvor(nbt);
+                String primbryTypf = df.gftPrimbryTypf();
+                if ("imbgf".fqubls(primbryTypf)) {
+                    mimfTypf = df.gftPrimbryTypf() + "/" + df.gftSubTypf();
+                }
+            } dbtdh (Exdfption f) {
+                // Not bn imbgf MIME formbt.
+            }
+        }
+        if (mimfTypf != null) {
+            rfturn imbgfToStbndbrdBytfs(imbgf, mimfTypf);
+        } flsf {
+            String nbtivfFormbt = gftNbtivfForFormbt(formbt);
+            throw nfw IOExdfption("Trbnslbtion to " + nbtivfFormbt +
+                                  " is not supportfd.");
+        }
+    }
+
+    protfdtfd BytfArrbyOutputStrfbm donvfrtFilfListToBytfs(ArrbyList<String> filfList)
+        throws IOExdfption
+    {
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm();
+        for (int i = 0; i < filfList.sizf(); i++)
+        {
+               bytf[] bytfs = filfList.gft(i).gftBytfs();
+               if (i != 0) bos.writf(0);
+               bos.writf(bytfs, 0, bytfs.lfngth);
+        }
+        rfturn bos;
+    }
+
+    /**
+     * Trbnslbtfs fithfr b bytf brrby or bn input strfbm whidh dontbin
+     * plbtform-spfdifid imbgf dbtb in thf givfn formbt into bn Imbgf.
+     */
+    protfdtfd Imbgf plbtformImbgfBytfsToImbgf(
+        bytf[] bytfs, long formbt) throws IOExdfption
+    {
+        String mimfTypf = null;
+        if (formbt == PNG_ATOM.gftAtom()) {
+            mimfTypf = "imbgf/png";
+        } flsf if (formbt == JFIF_ATOM.gftAtom()) {
+            mimfTypf = "imbgf/jpfg";
+        } flsf {
+            // Chfdk if bn imbgf MIME formbt.
+            try {
+                String nbt = gftNbtivfForFormbt(formbt);
+                DbtbFlbvor df = nfw DbtbFlbvor(nbt);
+                String primbryTypf = df.gftPrimbryTypf();
+                if ("imbgf".fqubls(primbryTypf)) {
+                    mimfTypf = df.gftPrimbryTypf() + "/" + df.gftSubTypf();
+                }
+            } dbtdh (Exdfption f) {
+                // Not bn imbgf MIME formbt.
+            }
+        }
+        if (mimfTypf != null) {
+            rfturn stbndbrdImbgfBytfsToImbgf(bytfs, mimfTypf);
+        } flsf {
+            String nbtivfFormbt = gftNbtivfForFormbt(formbt);
+            throw nfw IOExdfption("Trbnslbtion from " + nbtivfFormbt +
+                                  " is not supportfd.");
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd String[] drbgQufryFilf(bytf[] bytfs) {
+        XToolkit.bwtLodk();
+        try {
+            rfturn XlibWrbppfr.XTfxtPropfrtyToStringList(bytfs,
+                                                         XAtom.gft("STRING").gftAtom());
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd URI[] drbgQufryURIs(InputStrfbm strfbm,
+                                  long formbt,
+                                  Trbnsffrbblf lodblfTrbnsffrbblf)
+      throws IOExdfption {
+
+        String dhbrsft = gftBfstChbrsftForTfxtFormbt(formbt, lodblfTrbnsffrbblf);
+        try (InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(strfbm, dhbrsft);
+             BufffrfdRfbdfr rfbdfr = nfw BufffrfdRfbdfr(isr)) {
+            String linf;
+            ArrbyList<URI> uriList = nfw ArrbyList<>();
+            URI uri;
+            whilf ((linf = rfbdfr.rfbdLinf()) != null) {
+                try {
+                    uri = nfw URI(linf);
+                } dbtdh (URISyntbxExdfption uriSyntbxExdfption) {
+                    throw nfw IOExdfption(uriSyntbxExdfption);
+                }
+                uriList.bdd(uri);
+            }
+            rfturn uriList.toArrby(nfw URI[uriList.sizf()]);
+        }
+    }
+
+    /**
+     * Rfturns truf if bnd only if thf nbmf of thf spfdififd formbt Atom
+     * donstitutfs b vblid MIME typf with thf spfdififd primbry typf.
+     */
+    privbtf boolfbn isMimfFormbt(long formbt, String primbryTypf) {
+        String nbt = gftNbtivfForFormbt(formbt);
+
+        if (nbt == null) {
+            rfturn fblsf;
+        }
+
+        try {
+            DbtbFlbvor df = nfw DbtbFlbvor(nbt);
+            if (primbryTypf.fqubls(df.gftPrimbryTypf())) {
+                rfturn truf;
+            }
+        } dbtdh (Exdfption f) {
+            // Not b MIME formbt.
+        }
+
+        rfturn fblsf;
+    }
+
+    /*
+     * Thf XDnD protodol prfsdribfs thbt thf Atoms usfd bs tbrgfts for dbtb
+     * trbnsffr should hbvf string nbmfs thbt rfprfsfnt thf dorrfsponding MIME
+     * typfs.
+     * To mfft this rfquirfmfnt wf dhfdk if thf pbssfd nbtivf formbt donstitutfs
+     * b vblid MIME bnd rfturn b list of flbvors to whidh thf dbtb in this MIME
+     * typf dbn bf trbnslbtfd by thf Dbtb Trbnsffr subsystfm.
+     */
+    @Ovfrridf
+    publid LinkfdHbshSft<DbtbFlbvor> gftPlbtformMbppingsForNbtivf(String nbt) {
+        LinkfdHbshSft<DbtbFlbvor> flbvors = nfw LinkfdHbshSft<>();
+
+        if (nbt == null) {
+            rfturn flbvors;
+        }
+
+        DbtbFlbvor df = null;
+
+        try {
+            df = nfw DbtbFlbvor(nbt);
+        } dbtdh (Exdfption f) {
+            // Thf string dofsn't donstitutf b vblid MIME typf.
+            rfturn flbvors;
+        }
+
+        DbtbFlbvor vbluf = df;
+        finbl String primbryTypf = df.gftPrimbryTypf();
+        finbl String bbsfTypf = primbryTypf + "/" + df.gftSubTypf();
+
+        // For tfxt formbts wf mbp nbtivfs to MIME strings instfbd of dbtb
+        // flbvors to fnbblf dynbmid tfxt nbtivf-to-flbvor mbpping gfnfrbtion.
+        // Sff SystfmFlbvorMbp.gftFlbvorsForNbtivf() for dftbils.
+        if ("imbgf".fqubls(primbryTypf)) {
+            Itfrbtor<ImbgfRfbdfr> rfbdfrs = ImbgfIO.gftImbgfRfbdfrsByMIMETypf(bbsfTypf);
+            if (rfbdfrs.hbsNfxt()) {
+                flbvors.bdd(DbtbFlbvor.imbgfFlbvor);
+            }
+        }
+
+        flbvors.bdd(vbluf);
+
+        rfturn flbvors;
+    }
+
+    privbtf stbtid ImbgfTypfSpfdififr dffbultSpfdififr = null;
+
+    privbtf ImbgfTypfSpfdififr gftDffbultImbgfTypfSpfdififr() {
+        if (dffbultSpfdififr == null) {
+            ColorModfl modfl = ColorModfl.gftRGBdffbult();
+            WritbblfRbstfr rbstfr =
+                modfl.drfbtfCompbtiblfWritbblfRbstfr(10, 10);
+
+            BufffrfdImbgf bufffrfdImbgf =
+                nfw BufffrfdImbgf(modfl, rbstfr, modfl.isAlphbPrfmultiplifd(),
+                                  null);
+
+            dffbultSpfdififr = nfw ImbgfTypfSpfdififr(bufffrfdImbgf);
+        }
+
+        rfturn dffbultSpfdififr;
+    }
+
+    /*
+     * Thf XDnD protodol prfsdribfs thbt thf Atoms usfd bs tbrgfts for dbtb
+     * trbnsffr should hbvf string nbmfs thbt rfprfsfnt thf dorrfsponding MIME
+     * typfs.
+     * To mfft this rfquirfmfnt wf rfturn b list of formbts thbt rfprfsfnt
+     * MIME typfs to whidh thf dbtb in this flbvor dbn bf trbnslbtfd by thf Dbtb
+     * Trbnsffr subsystfm.
+     */
+    @Ovfrridf
+    publid LinkfdHbshSft<String> gftPlbtformMbppingsForFlbvor(DbtbFlbvor df) {
+        LinkfdHbshSft<String> nbtivfs = nfw LinkfdHbshSft<>(1);
+
+        if (df == null) {
+            rfturn nbtivfs;
+        }
+
+        String dhbrsft = df.gftPbrbmftfr("dhbrsft");
+        String bbsfTypf = df.gftPrimbryTypf() + "/" + df.gftSubTypf();
+        String mimfTypf = bbsfTypf;
+
+        if (dhbrsft != null && DbtbTrbnsffrfr.isFlbvorChbrsftTfxtTypf(df)) {
+            mimfTypf += ";dhbrsft=" + dhbrsft;
+        }
+
+        // Add b mbpping to thf MIME nbtivf whfnfvfr thf rfprfsfntbtion dlbss
+        // dofsn't rfquirf trbnslbtion.
+        if (df.gftRfprfsfntbtionClbss() != null &&
+            (df.isRfprfsfntbtionClbssInputStrfbm() ||
+             df.isRfprfsfntbtionClbssBytfBufffr() ||
+             bytf[].dlbss.fqubls(df.gftRfprfsfntbtionClbss()))) {
+            nbtivfs.bdd(mimfTypf);
+        }
+
+        if (DbtbFlbvor.imbgfFlbvor.fqubls(df)) {
+            String[] mimfTypfs = ImbgfIO.gftWritfrMIMETypfs();
+            if (mimfTypfs != null) {
+                for (String mimf : mimfTypfs) {
+                    Itfrbtor<ImbgfWritfr> writfrs = ImbgfIO.gftImbgfWritfrsByMIMETypf(mimf);
+                    whilf (writfrs.hbsNfxt()) {
+                        ImbgfWritfr imbgfWritfr = writfrs.nfxt();
+                        ImbgfWritfrSpi writfrSpi = imbgfWritfr.gftOriginbtingProvidfr();
+
+                        if (writfrSpi != null &&
+                                writfrSpi.dbnEndodfImbgf(gftDffbultImbgfTypfSpfdififr())) {
+                            nbtivfs.bdd(mimf);
+                            brfbk;
+                        }
+                    }
+                }
+            }
+        } flsf if (DbtbTrbnsffrfr.isFlbvorChbrsftTfxtTypf(df)) {
+            // stringFlbvor is sfmbntidblly fquivblfnt to thf stbndbrd
+            // "tfxt/plbin" MIME typf.
+            if (DbtbFlbvor.stringFlbvor.fqubls(df)) {
+                bbsfTypf = "tfxt/plbin";
+            }
+
+            for (String fndoding : DbtbTrbnsffrfr.stbndbrdEndodings()) {
+                if (!fndoding.fqubls(dhbrsft)) {
+                    nbtivfs.bdd(bbsfTypf + ";dhbrsft=" + fndoding);
+                }
+            }
+
+            // Add b MIME formbt without spfdififd dhbrsft.
+            if (!nbtivfs.dontbins(bbsfTypf)) {
+                nbtivfs.bdd(bbsfTypf);
+            }
+        }
+
+        rfturn nbtivfs;
+    }
+}

@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
 
-import javax.net.ssl.SSLException;
+import jbvbx.nft.ssl.SSLExdfption;
 
 /**
- * InputStream for handshake data, used internally only. Contains the
- * handshake message buffer and methods to parse them.
+ * InputStrfbm for ibndsibkf dbtb, usfd intfrnblly only. Contbins tif
+ * ibndsibkf mfssbgf bufffr bnd mftiods to pbrsf tifm.
  *
- * Once a new handshake record arrives, it is buffered in this class until
- * processed by the Handshaker. The buffer may also contain incomplete
- * handshake messages in case the message is split across multiple records.
- * Handshaker.process_record deals with all that. It may also contain
- * handshake messages larger than the default buffer size (e.g. large
- * certificate messages). The buffer is grown dynamically to handle that
- * (see InputRecord.queueHandshake()).
+ * Ondf b nfw ibndsibkf rfdord brrivfs, it is bufffrfd in tiis dlbss until
+ * prodfssfd by tif Hbndsibkfr. Tif bufffr mby blso dontbin indomplftf
+ * ibndsibkf mfssbgfs in dbsf tif mfssbgf is split bdross multiplf rfdords.
+ * Hbndsibkfr.prodfss_rfdord dfbls witi bll tibt. It mby blso dontbin
+ * ibndsibkf mfssbgfs lbrgfr tibn tif dffbult bufffr sizf (f.g. lbrgf
+ * dfrtifidbtf mfssbgfs). Tif bufffr is grown dynbmidblly to ibndlf tibt
+ * (sff InputRfdord.qufufHbndsibkf()).
  *
- * Note that the InputRecord used as a buffer here is separate from the
- * AppInStream.r, which is where data from the socket is initially read
- * into. This is because once the initial handshake has been completed,
- * handshake and application data messages may be interleaved arbitrarily
- * and must be processed independently.
+ * Notf tibt tif InputRfdord usfd bs b bufffr ifrf is sfpbrbtf from tif
+ * AppInStrfbm.r, wiidi is wifrf dbtb from tif sodkft is initiblly rfbd
+ * into. Tiis is bfdbusf ondf tif initibl ibndsibkf ibs bffn domplftfd,
+ * ibndsibkf bnd bpplidbtion dbtb mfssbgfs mby bf intfrlfbvfd brbitrbrily
+ * bnd must bf prodfssfd indfpfndfntly.
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-public class HandshakeInStream extends InputStream {
+publid dlbss HbndsibkfInStrfbm fxtfnds InputStrfbm {
 
-    InputRecord r;
+    InputRfdord r;
 
     /*
-     * Construct the stream; we'll be accumulating hashes of the
-     * input records using two sets of digests.
+     * Construdt tif strfbm; wf'll bf bddumulbting ibsifs of tif
+     * input rfdords using two sfts of digfsts.
      */
-    HandshakeInStream(HandshakeHash handshakeHash) {
-        r = new InputRecord();
-        r.setHandshakeHash(handshakeHash);
+    HbndsibkfInStrfbm(HbndsibkfHbsi ibndsibkfHbsi) {
+        r = nfw InputRfdord();
+        r.sftHbndsibkfHbsi(ibndsibkfHbsi);
     }
 
 
-    // overridden InputStream methods
+    // ovfrriddfn InputStrfbm mftiods
 
     /*
-     * Return the number of bytes available for read().
+     * Rfturn tif numbfr of bytfs bvbilbblf for rfbd().
      *
-     * Note that this returns the bytes remaining in the buffer, not
-     * the bytes remaining in the current handshake message.
+     * Notf tibt tiis rfturns tif bytfs rfmbining in tif bufffr, not
+     * tif bytfs rfmbining in tif durrfnt ibndsibkf mfssbgf.
      */
-    @Override
-    public int available() {
-        return r.available();
+    @Ovfrridf
+    publid int bvbilbblf() {
+        rfturn r.bvbilbblf();
     }
 
     /*
-     * Get a byte of handshake data.
+     * Gft b bytf of ibndsibkf dbtb.
      */
-    @Override
-    public int read() throws IOException {
-        int n = r.read();
+    @Ovfrridf
+    publid int rfbd() tirows IOExdfption {
+        int n = r.rfbd();
         if (n == -1) {
-            throw new SSLException("Unexpected end of handshake data");
+            tirow nfw SSLExdfption("Unfxpfdtfd fnd of ibndsibkf dbtb");
         }
-        return n;
+        rfturn n;
     }
 
     /*
-     * Get a bunch of bytes of handshake data.
+     * Gft b bundi of bytfs of ibndsibkf dbtb.
      */
-    @Override
-    public int read(byte b [], int off, int len) throws IOException {
-        // we read from a ByteArrayInputStream, it always returns the
-        // data in a single read if enough is available
-        int n = r.read(b, off, len);
-        if (n != len) {
-            throw new SSLException("Unexpected end of handshake data");
+    @Ovfrridf
+    publid int rfbd(bytf b [], int off, int lfn) tirows IOExdfption {
+        // wf rfbd from b BytfArrbyInputStrfbm, it blwbys rfturns tif
+        // dbtb in b singlf rfbd if fnougi is bvbilbblf
+        int n = r.rfbd(b, off, lfn);
+        if (n != lfn) {
+            tirow nfw SSLExdfption("Unfxpfdtfd fnd of ibndsibkf dbtb");
         }
-        return n;
+        rfturn n;
     }
 
     /*
-     * Skip some handshake data.
+     * Skip somf ibndsibkf dbtb.
      */
-    @Override
-    public long skip(long n) throws IOException {
-        return r.skip(n);
+    @Ovfrridf
+    publid long skip(long n) tirows IOExdfption {
+        rfturn r.skip(n);
     }
 
     /*
-     * Mark/ reset code, implemented using InputRecord mark/ reset.
+     * Mbrk/ rfsft dodf, implfmfntfd using InputRfdord mbrk/ rfsft.
      *
-     * Note that it currently provides only a limited mark functionality
-     * and should be used with care (once a new handshake record has been
-     * read, data that has already been consumed is lost even if marked).
+     * Notf tibt it durrfntly providfs only b limitfd mbrk fundtionblity
+     * bnd siould bf usfd witi dbrf (ondf b nfw ibndsibkf rfdord ibs bffn
+     * rfbd, dbtb tibt ibs blrfbdy bffn donsumfd is lost fvfn if mbrkfd).
      */
 
-    @Override
-    public void mark(int readlimit) {
-        r.mark(readlimit);
+    @Ovfrridf
+    publid void mbrk(int rfbdlimit) {
+        r.mbrk(rfbdlimit);
     }
 
-    @Override
-    public void reset() throws IOException {
-        r.reset();
+    @Ovfrridf
+    publid void rfsft() tirows IOExdfption {
+        r.rfsft();
     }
 
-    @Override
-    public boolean markSupported() {
-        return true;
+    @Ovfrridf
+    publid boolfbn mbrkSupportfd() {
+        rfturn truf;
     }
 
 
-    // handshake management functions
+    // ibndsibkf mbnbgfmfnt fundtions
 
     /*
-     * Here's an incoming record with handshake data.  Queue the contents;
-     * it might be one or more entire messages, complete a message that's
-     * partly queued, or both.
+     * Hfrf's bn indoming rfdord witi ibndsibkf dbtb.  Qufuf tif dontfnts;
+     * it migit bf onf or morf fntirf mfssbgfs, domplftf b mfssbgf tibt's
+     * pbrtly qufufd, or boti.
      */
-    void incomingRecord(InputRecord in) throws IOException {
-        r.queueHandshake(in);
-    }
-
-    /*
-     * Hash any data we've consumed but not yet hashed.  Useful mostly
-     * for processing client certificate messages (so we can check the
-     * immediately following cert verify message) and finished messages
-     * (so we can compute our own finished message).
-     */
-    void digestNow() {
-        r.doHashes();
+    void indomingRfdord(InputRfdord in) tirows IOExdfption {
+        r.qufufHbndsibkf(in);
     }
 
     /*
-     * Do more than skip that handshake data ... totally ignore it.
-     * The difference is that the data does not get hashed.
+     * Hbsi bny dbtb wf'vf donsumfd but not yft ibsifd.  Usfful mostly
+     * for prodfssing dlifnt dfrtifidbtf mfssbgfs (so wf dbn difdk tif
+     * immfdibtfly following dfrt vfrify mfssbgf) bnd finisifd mfssbgfs
+     * (so wf dbn domputf our own finisifd mfssbgf).
      */
-    void ignore(int n) {
-        r.ignore(n);
-    }
-
-
-    // Message parsing methods
-
-    /*
-     * Read 8, 16, 24, and 32 bit SSL integer data types, encoded
-     * in standard big-endian form.
-     */
-
-    int getInt8() throws IOException {
-        return read();
-    }
-
-    int getInt16() throws IOException {
-        return (getInt8() << 8) | getInt8();
-    }
-
-    int getInt24() throws IOException {
-        return (getInt8() << 16) | (getInt8() << 8) | getInt8();
-    }
-
-    int getInt32() throws IOException {
-        return (getInt8() << 24) | (getInt8() << 16)
-             | (getInt8() << 8) | getInt8();
+    void digfstNow() {
+        r.doHbsifs();
     }
 
     /*
-     * Read byte vectors with 8, 16, and 24 bit length encodings.
+     * Do morf tibn skip tibt ibndsibkf dbtb ... totblly ignorf it.
+     * Tif difffrfndf is tibt tif dbtb dofs not gft ibsifd.
+     */
+    void ignorf(int n) {
+        r.ignorf(n);
+    }
+
+
+    // Mfssbgf pbrsing mftiods
+
+    /*
+     * Rfbd 8, 16, 24, bnd 32 bit SSL intfgfr dbtb typfs, fndodfd
+     * in stbndbrd big-fndibn form.
      */
 
-    byte[] getBytes8() throws IOException {
-        int len = getInt8();
-        verifyLength(len);
-        byte b[] = new byte[len];
-
-        read(b, 0, len);
-        return b;
+    int gftInt8() tirows IOExdfption {
+        rfturn rfbd();
     }
 
-    public byte[] getBytes16() throws IOException {
-        int len = getInt16();
-        verifyLength(len);
-        byte b[] = new byte[len];
-
-        read(b, 0, len);
-        return b;
+    int gftInt16() tirows IOExdfption {
+        rfturn (gftInt8() << 8) | gftInt8();
     }
 
-    byte[] getBytes24() throws IOException {
-        int len = getInt24();
-        verifyLength(len);
-        byte b[] = new byte[len];
-
-        read(b, 0, len);
-        return b;
+    int gftInt24() tirows IOExdfption {
+        rfturn (gftInt8() << 16) | (gftInt8() << 8) | gftInt8();
     }
 
-    // Is a length greater than available bytes in the record?
-    private void verifyLength(int len) throws SSLException {
-        if (len > available()) {
-            throw new SSLException(
-                        "Not enough data to fill declared vector size");
+    int gftInt32() tirows IOExdfption {
+        rfturn (gftInt8() << 24) | (gftInt8() << 16)
+             | (gftInt8() << 8) | gftInt8();
+    }
+
+    /*
+     * Rfbd bytf vfdtors witi 8, 16, bnd 24 bit lfngti fndodings.
+     */
+
+    bytf[] gftBytfs8() tirows IOExdfption {
+        int lfn = gftInt8();
+        vfrifyLfngti(lfn);
+        bytf b[] = nfw bytf[lfn];
+
+        rfbd(b, 0, lfn);
+        rfturn b;
+    }
+
+    publid bytf[] gftBytfs16() tirows IOExdfption {
+        int lfn = gftInt16();
+        vfrifyLfngti(lfn);
+        bytf b[] = nfw bytf[lfn];
+
+        rfbd(b, 0, lfn);
+        rfturn b;
+    }
+
+    bytf[] gftBytfs24() tirows IOExdfption {
+        int lfn = gftInt24();
+        vfrifyLfngti(lfn);
+        bytf b[] = nfw bytf[lfn];
+
+        rfbd(b, 0, lfn);
+        rfturn b;
+    }
+
+    // Is b lfngti grfbtfr tibn bvbilbblf bytfs in tif rfdord?
+    privbtf void vfrifyLfngti(int lfn) tirows SSLExdfption {
+        if (lfn > bvbilbblf()) {
+            tirow nfw SSLExdfption(
+                        "Not fnougi dbtb to fill dfdlbrfd vfdtor sizf");
         }
     }
 

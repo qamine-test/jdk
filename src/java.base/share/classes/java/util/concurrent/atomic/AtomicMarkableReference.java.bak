@@ -1,212 +1,212 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.atomic;
+pbdkbgf jbvb.util.dondurrfnt.btomid;
 
 /**
- * An {@code AtomicMarkableReference} maintains an object reference
- * along with a mark bit, that can be updated atomically.
+ * An {@dodf AtomidMbrkbblfRfffrfndf} mbintbins bn objfdt rfffrfndf
+ * blong witi b mbrk bit, tibt dbn bf updbtfd btomidblly.
  *
- * <p>Implementation note: This implementation maintains markable
- * references by creating internal objects representing "boxed"
- * [reference, boolean] pairs.
+ * <p>Implfmfntbtion notf: Tiis implfmfntbtion mbintbins mbrkbblf
+ * rfffrfndfs by drfbting intfrnbl objfdts rfprfsfnting "boxfd"
+ * [rfffrfndf, boolfbn] pbirs.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <V> The type of object referred to by this reference
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <V> Tif typf of objfdt rfffrrfd to by tiis rfffrfndf
  */
-public class AtomicMarkableReference<V> {
+publid dlbss AtomidMbrkbblfRfffrfndf<V> {
 
-    private static class Pair<T> {
-        final T reference;
-        final boolean mark;
-        private Pair(T reference, boolean mark) {
-            this.reference = reference;
-            this.mark = mark;
+    privbtf stbtid dlbss Pbir<T> {
+        finbl T rfffrfndf;
+        finbl boolfbn mbrk;
+        privbtf Pbir(T rfffrfndf, boolfbn mbrk) {
+            tiis.rfffrfndf = rfffrfndf;
+            tiis.mbrk = mbrk;
         }
-        static <T> Pair<T> of(T reference, boolean mark) {
-            return new Pair<T>(reference, mark);
+        stbtid <T> Pbir<T> of(T rfffrfndf, boolfbn mbrk) {
+            rfturn nfw Pbir<T>(rfffrfndf, mbrk);
         }
     }
 
-    private volatile Pair<V> pair;
+    privbtf volbtilf Pbir<V> pbir;
 
     /**
-     * Creates a new {@code AtomicMarkableReference} with the given
-     * initial values.
+     * Crfbtfs b nfw {@dodf AtomidMbrkbblfRfffrfndf} witi tif givfn
+     * initibl vblufs.
      *
-     * @param initialRef the initial reference
-     * @param initialMark the initial mark
+     * @pbrbm initiblRff tif initibl rfffrfndf
+     * @pbrbm initiblMbrk tif initibl mbrk
      */
-    public AtomicMarkableReference(V initialRef, boolean initialMark) {
-        pair = Pair.of(initialRef, initialMark);
-    }
-
-    /**
-     * Returns the current value of the reference.
-     *
-     * @return the current value of the reference
-     */
-    public V getReference() {
-        return pair.reference;
+    publid AtomidMbrkbblfRfffrfndf(V initiblRff, boolfbn initiblMbrk) {
+        pbir = Pbir.of(initiblRff, initiblMbrk);
     }
 
     /**
-     * Returns the current value of the mark.
+     * Rfturns tif durrfnt vbluf of tif rfffrfndf.
      *
-     * @return the current value of the mark
+     * @rfturn tif durrfnt vbluf of tif rfffrfndf
      */
-    public boolean isMarked() {
-        return pair.mark;
+    publid V gftRfffrfndf() {
+        rfturn pbir.rfffrfndf;
     }
 
     /**
-     * Returns the current values of both the reference and the mark.
-     * Typical usage is {@code boolean[1] holder; ref = v.get(holder); }.
+     * Rfturns tif durrfnt vbluf of tif mbrk.
      *
-     * @param markHolder an array of size of at least one. On return,
-     * {@code markholder[0]} will hold the value of the mark.
-     * @return the current value of the reference
+     * @rfturn tif durrfnt vbluf of tif mbrk
      */
-    public V get(boolean[] markHolder) {
-        Pair<V> pair = this.pair;
-        markHolder[0] = pair.mark;
-        return pair.reference;
+    publid boolfbn isMbrkfd() {
+        rfturn pbir.mbrk;
     }
 
     /**
-     * Atomically sets the value of both the reference and mark
-     * to the given update values if the
-     * current reference is {@code ==} to the expected reference
-     * and the current mark is equal to the expected mark.
+     * Rfturns tif durrfnt vblufs of boti tif rfffrfndf bnd tif mbrk.
+     * Typidbl usbgf is {@dodf boolfbn[1] ioldfr; rff = v.gft(ioldfr); }.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
-     *
-     * @param expectedReference the expected value of the reference
-     * @param newReference the new value for the reference
-     * @param expectedMark the expected value of the mark
-     * @param newMark the new value for the mark
-     * @return {@code true} if successful
+     * @pbrbm mbrkHoldfr bn brrby of sizf of bt lfbst onf. On rfturn,
+     * {@dodf mbrkioldfr[0]} will iold tif vbluf of tif mbrk.
+     * @rfturn tif durrfnt vbluf of tif rfffrfndf
      */
-    public boolean weakCompareAndSet(V       expectedReference,
-                                     V       newReference,
-                                     boolean expectedMark,
-                                     boolean newMark) {
-        return compareAndSet(expectedReference, newReference,
-                             expectedMark, newMark);
+    publid V gft(boolfbn[] mbrkHoldfr) {
+        Pbir<V> pbir = tiis.pbir;
+        mbrkHoldfr[0] = pbir.mbrk;
+        rfturn pbir.rfffrfndf;
     }
 
     /**
-     * Atomically sets the value of both the reference and mark
-     * to the given update values if the
-     * current reference is {@code ==} to the expected reference
-     * and the current mark is equal to the expected mark.
+     * Atomidblly sfts tif vbluf of boti tif rfffrfndf bnd mbrk
+     * to tif givfn updbtf vblufs if tif
+     * durrfnt rfffrfndf is {@dodf ==} to tif fxpfdtfd rfffrfndf
+     * bnd tif durrfnt mbrk is fqubl to tif fxpfdtfd mbrk.
      *
-     * @param expectedReference the expected value of the reference
-     * @param newReference the new value for the reference
-     * @param expectedMark the expected value of the mark
-     * @param newMark the new value for the mark
-     * @return {@code true} if successful
+     * <p><b irff="pbdkbgf-summbry.itml#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm fxpfdtfdRfffrfndf tif fxpfdtfd vbluf of tif rfffrfndf
+     * @pbrbm nfwRfffrfndf tif nfw vbluf for tif rfffrfndf
+     * @pbrbm fxpfdtfdMbrk tif fxpfdtfd vbluf of tif mbrk
+     * @pbrbm nfwMbrk tif nfw vbluf for tif mbrk
+     * @rfturn {@dodf truf} if suddfssful
      */
-    public boolean compareAndSet(V       expectedReference,
-                                 V       newReference,
-                                 boolean expectedMark,
-                                 boolean newMark) {
-        Pair<V> current = pair;
-        return
-            expectedReference == current.reference &&
-            expectedMark == current.mark &&
-            ((newReference == current.reference &&
-              newMark == current.mark) ||
-             casPair(current, Pair.of(newReference, newMark)));
+    publid boolfbn wfbkCompbrfAndSft(V       fxpfdtfdRfffrfndf,
+                                     V       nfwRfffrfndf,
+                                     boolfbn fxpfdtfdMbrk,
+                                     boolfbn nfwMbrk) {
+        rfturn dompbrfAndSft(fxpfdtfdRfffrfndf, nfwRfffrfndf,
+                             fxpfdtfdMbrk, nfwMbrk);
     }
 
     /**
-     * Unconditionally sets the value of both the reference and mark.
+     * Atomidblly sfts tif vbluf of boti tif rfffrfndf bnd mbrk
+     * to tif givfn updbtf vblufs if tif
+     * durrfnt rfffrfndf is {@dodf ==} to tif fxpfdtfd rfffrfndf
+     * bnd tif durrfnt mbrk is fqubl to tif fxpfdtfd mbrk.
      *
-     * @param newReference the new value for the reference
-     * @param newMark the new value for the mark
+     * @pbrbm fxpfdtfdRfffrfndf tif fxpfdtfd vbluf of tif rfffrfndf
+     * @pbrbm nfwRfffrfndf tif nfw vbluf for tif rfffrfndf
+     * @pbrbm fxpfdtfdMbrk tif fxpfdtfd vbluf of tif mbrk
+     * @pbrbm nfwMbrk tif nfw vbluf for tif mbrk
+     * @rfturn {@dodf truf} if suddfssful
      */
-    public void set(V newReference, boolean newMark) {
-        Pair<V> current = pair;
-        if (newReference != current.reference || newMark != current.mark)
-            this.pair = Pair.of(newReference, newMark);
+    publid boolfbn dompbrfAndSft(V       fxpfdtfdRfffrfndf,
+                                 V       nfwRfffrfndf,
+                                 boolfbn fxpfdtfdMbrk,
+                                 boolfbn nfwMbrk) {
+        Pbir<V> durrfnt = pbir;
+        rfturn
+            fxpfdtfdRfffrfndf == durrfnt.rfffrfndf &&
+            fxpfdtfdMbrk == durrfnt.mbrk &&
+            ((nfwRfffrfndf == durrfnt.rfffrfndf &&
+              nfwMbrk == durrfnt.mbrk) ||
+             dbsPbir(durrfnt, Pbir.of(nfwRfffrfndf, nfwMbrk)));
     }
 
     /**
-     * Atomically sets the value of the mark to the given update value
-     * if the current reference is {@code ==} to the expected
-     * reference.  Any given invocation of this operation may fail
-     * (return {@code false}) spuriously, but repeated invocation
-     * when the current value holds the expected value and no other
-     * thread is also attempting to set the value will eventually
-     * succeed.
+     * Undonditionblly sfts tif vbluf of boti tif rfffrfndf bnd mbrk.
      *
-     * @param expectedReference the expected value of the reference
-     * @param newMark the new value for the mark
-     * @return {@code true} if successful
+     * @pbrbm nfwRfffrfndf tif nfw vbluf for tif rfffrfndf
+     * @pbrbm nfwMbrk tif nfw vbluf for tif mbrk
      */
-    public boolean attemptMark(V expectedReference, boolean newMark) {
-        Pair<V> current = pair;
-        return
-            expectedReference == current.reference &&
-            (newMark == current.mark ||
-             casPair(current, Pair.of(expectedReference, newMark)));
+    publid void sft(V nfwRfffrfndf, boolfbn nfwMbrk) {
+        Pbir<V> durrfnt = pbir;
+        if (nfwRfffrfndf != durrfnt.rfffrfndf || nfwMbrk != durrfnt.mbrk)
+            tiis.pbir = Pbir.of(nfwRfffrfndf, nfwMbrk);
     }
 
-    // Unsafe mechanics
-
-    private static final sun.misc.Unsafe UNSAFE = sun.misc.Unsafe.getUnsafe();
-    private static final long pairOffset =
-        objectFieldOffset(UNSAFE, "pair", AtomicMarkableReference.class);
-
-    private boolean casPair(Pair<V> cmp, Pair<V> val) {
-        return UNSAFE.compareAndSwapObject(this, pairOffset, cmp, val);
+    /**
+     * Atomidblly sfts tif vbluf of tif mbrk to tif givfn updbtf vbluf
+     * if tif durrfnt rfffrfndf is {@dodf ==} to tif fxpfdtfd
+     * rfffrfndf.  Any givfn invodbtion of tiis opfrbtion mby fbil
+     * (rfturn {@dodf fblsf}) spuriously, but rfpfbtfd invodbtion
+     * wifn tif durrfnt vbluf iolds tif fxpfdtfd vbluf bnd no otifr
+     * tirfbd is blso bttfmpting to sft tif vbluf will fvfntublly
+     * suddffd.
+     *
+     * @pbrbm fxpfdtfdRfffrfndf tif fxpfdtfd vbluf of tif rfffrfndf
+     * @pbrbm nfwMbrk tif nfw vbluf for tif mbrk
+     * @rfturn {@dodf truf} if suddfssful
+     */
+    publid boolfbn bttfmptMbrk(V fxpfdtfdRfffrfndf, boolfbn nfwMbrk) {
+        Pbir<V> durrfnt = pbir;
+        rfturn
+            fxpfdtfdRfffrfndf == durrfnt.rfffrfndf &&
+            (nfwMbrk == durrfnt.mbrk ||
+             dbsPbir(durrfnt, Pbir.of(fxpfdtfdRfffrfndf, nfwMbrk)));
     }
 
-    static long objectFieldOffset(sun.misc.Unsafe UNSAFE,
-                                  String field, Class<?> klazz) {
+    // Unsbff mfdibnids
+
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE = sun.misd.Unsbff.gftUnsbff();
+    privbtf stbtid finbl long pbirOffsft =
+        objfdtFifldOffsft(UNSAFE, "pbir", AtomidMbrkbblfRfffrfndf.dlbss);
+
+    privbtf boolfbn dbsPbir(Pbir<V> dmp, Pbir<V> vbl) {
+        rfturn UNSAFE.dompbrfAndSwbpObjfdt(tiis, pbirOffsft, dmp, vbl);
+    }
+
+    stbtid long objfdtFifldOffsft(sun.misd.Unsbff UNSAFE,
+                                  String fifld, Clbss<?> klbzz) {
         try {
-            return UNSAFE.objectFieldOffset(klazz.getDeclaredField(field));
-        } catch (NoSuchFieldException e) {
-            // Convert Exception to corresponding Error
-            NoSuchFieldError error = new NoSuchFieldError(field);
-            error.initCause(e);
-            throw error;
+            rfturn UNSAFE.objfdtFifldOffsft(klbzz.gftDfdlbrfdFifld(fifld));
+        } dbtdi (NoSudiFifldExdfption f) {
+            // Convfrt Exdfption to dorrfsponding Error
+            NoSudiFifldError frror = nfw NoSudiFifldError(fifld);
+            frror.initCbusf(f);
+            tirow frror;
         }
     }
 }

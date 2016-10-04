@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
 /**
- * Signals that some part of a graphics pipeline is not in an appropriate
- * state for the requested operation.  The most likely cause of this is
- * an asynchronous change to the configuration of the destination surface
- * since the current set of rendering loops was chosen.  Other potential
- * causes are the appearance or disappearance of overlapping opaque
- * windows which toggle the need to use platform graphics or direct
- * graphics access.
+ * Signbls tibt somf pbrt of b grbpiids pipflinf is not in bn bppropribtf
+ * stbtf for tif rfqufstfd opfrbtion.  Tif most likfly dbusf of tiis is
+ * bn bsyndironous dibngf to tif donfigurbtion of tif dfstinbtion surfbdf
+ * sindf tif durrfnt sft of rfndfring loops wbs diosfn.  Otifr potfntibl
+ * dbusfs brf tif bppfbrbndf or disbppfbrbndf of ovfrlbpping opbquf
+ * windows wiidi togglf tif nffd to usf plbtform grbpiids or dirfdt
+ * grbpiids bddfss.
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class InvalidPipeException extends IllegalStateException {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss InvblidPipfExdfption fxtfnds IllfgblStbtfExdfption {
     /**
-     * Constructs an InvalidPipeException with no detail message.
-     * A detail message is a String that describes this particular exception.
+     * Construdts bn InvblidPipfExdfption witi no dftbil mfssbgf.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
      */
-    public InvalidPipeException() {
-        super();
+    publid InvblidPipfExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs an InvalidPipeException with the specified detail
-     * message.  A detail message is a String that describes this particular
-     * exception.
-     * @param s the String that contains a detailed message
+     * Construdts bn InvblidPipfExdfption witi tif spfdififd dftbil
+     * mfssbgf.  A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr
+     * fxdfption.
+     * @pbrbm s tif String tibt dontbins b dftbilfd mfssbgf
      */
-    public InvalidPipeException(String s) {
-        super(s);
+    publid InvblidPipfExdfption(String s) {
+        supfr(s);
     }
 }

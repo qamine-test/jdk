@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.nio.ch.sctp;
+pbdkbgf sun.nio.di.sdtp;
 
-import com.sun.nio.sctp.SctpSocketOption;
-import java.lang.annotation.Native;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
-public class SctpStdSocketOption<T>
-    implements SctpSocketOption<T>
+publid dlbss SdtpStdSodkftOption<T>
+    implfmfnts SdtpSodkftOption<T>
 {
-    /* for native mapping of int options */
-    @Native public static final int SCTP_DISABLE_FRAGMENTS = 1;
-    @Native public static final int SCTP_EXPLICIT_COMPLETE = 2;
-    @Native public static final int SCTP_FRAGMENT_INTERLEAVE = 3;
-    @Native public static final int SCTP_NODELAY = 4;
-    @Native public static final int SO_SNDBUF = 5;
-    @Native public static final int SO_RCVBUF = 6;
-    @Native public static final int SO_LINGER = 7;
+    /* for nbtivf mbpping of int options */
+    @Nbtivf publid stbtid finbl int SCTP_DISABLE_FRAGMENTS = 1;
+    @Nbtivf publid stbtid finbl int SCTP_EXPLICIT_COMPLETE = 2;
+    @Nbtivf publid stbtid finbl int SCTP_FRAGMENT_INTERLEAVE = 3;
+    @Nbtivf publid stbtid finbl int SCTP_NODELAY = 4;
+    @Nbtivf publid stbtid finbl int SO_SNDBUF = 5;
+    @Nbtivf publid stbtid finbl int SO_RCVBUF = 6;
+    @Nbtivf publid stbtid finbl int SO_LINGER = 7;
 
-    private final String name;
-    private final Class<T> type;
+    privbtf finbl String nbmf;
+    privbtf finbl Clbss<T> typf;
 
-    /* for native mapping of int options */
-    private int constValue;
+    /* for nbtivf mbpping of int options */
+    privbtf int donstVbluf;
 
-    public SctpStdSocketOption(String name, Class<T> type) {
-        this.name = name;
-        this.type = type;
+    publid SdtpStdSodkftOption(String nbmf, Clbss<T> typf) {
+        tiis.nbmf = nbmf;
+        tiis.typf = typf;
     }
 
-    public SctpStdSocketOption(String name, Class<T> type, int constValue) {
-        this.name = name;
-        this.type = type;
-        this.constValue = constValue;
+    publid SdtpStdSodkftOption(String nbmf, Clbss<T> typf, int donstVbluf) {
+        tiis.nbmf = nbmf;
+        tiis.typf = typf;
+        tiis.donstVbluf = donstVbluf;
     }
 
-    @Override
-    public String name() {
-        return name;
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn nbmf;
     }
 
-    @Override
-    public Class<T> type() {
-        return type;
+    @Ovfrridf
+    publid Clbss<T> typf() {
+        rfturn typf;
     }
 
-    @Override
-    public String toString() {
-        return name;
+    @Ovfrridf
+    publid String toString() {
+        rfturn nbmf;
     }
 
-    int constValue() {
-        return constValue;
+    int donstVbluf() {
+        rfturn donstVbluf;
     }
 }

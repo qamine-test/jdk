@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff OGLSurfbdfDbtb_h_Indludfd
+#dffinf OGLSurfbdfDbtb_h_Indludfd
+
+#indludf "jbvb_bwt_imbgf_AffinfTrbnsformOp.h"
+#indludf "sun_jbvb2d_opfngl_OGLSurfbdfDbtb.h"
+#indludf "sun_jbvb2d_pipf_hw_AddflSurfbdf.h"
+
+#indludf "J2D_GL/gl.h"
+#indludf "SurfbdfDbtb.h"
+#indludf "Trbdf.h"
+#indludf "OGLFunds.h"
+
+typfdff strudt _OGLSDOps OGLSDOps;
+
+/**
+ * Thf OGLPixflFormbt strudturf dontbins bll thf informbtion OpfnGL nffds to
+ * know whfn dopying from or into b pbrtidulbr systfm mfmory imbgf bufffr (vib
+ * glDrbwPixfls(), glRfbdPixfls, glTfxSubImbgf2D(), ftd).
+ *
+ *     GLfnum formbt;
+ * Thf pixfl formbt pbrbmftfr usfd in glDrbwPixfls() bnd othfr similbr dblls.
+ * Indidbtfs thf domponfnt ordfring for fbdh pixfl (f.g. GL_BGRA).
+ *
+ *     GLfnum typf;
+ * Thf pixfl dbtb typf pbrbmftfr usfd in glDrbwPixfls() bnd othfr similbr
+ * dblls.  Indidbtfs thf dbtb typf for bn fntirf pixfl or for fbdh domponfnt
+ * in b pixfl (f.g. GL_UNSIGNED_BYTE with GL_BGR mfbns b pixfl donsists of
+ * 3 unsignfd bytf domponfnts, bluf first, thfn grffn, thfn rfd;
+ * GL_UNSIGNED_INT_8_8_8_8_REV with GL_BGRA mfbns b pixfl donsists of 1
+ * unsignfd intfgfr domprisfd of four bytf domponfnts, blphb first, thfn rfd,
+ * thfn grffn, thfn bluf).
+ *
+ *     jint blignmfnt;
+ * Thf bytf blignmfnt pbrbmftfr usfd in glPixflStorfi(GL_UNPACK_ALIGNMENT).  A
+ * vbluf of 4 indidbtfs thbt fbdh pixfl stbrts on b 4-bytf blignfd rfgion in
+ * mfmory, bnd so on.  This blignmfnt pbrbmftfr hflps OpfnGL spffd up pixfl
+ * trbnsffr opfrbtions by trbnsffrring mfmory in blignfd blodks.
+ *
+ *     jboolfbn hbsAlphb;
+ * If truf, indidbtfs thbt this pixfl formbt dontbins bn blphb domponfnt.
+ *
+ *     jboolfbn isPrfmult;
+ * If truf, indidbtfs thbt this pixfl formbt dontbins dolor domponfnts thbt
+ * hbvf bffn prf-multiplifd by thfir dorrfsponding blphb domponfnt.
+ */
+typfdff strudt {
+    GLfnum   formbt;
+    GLfnum   typf;
+    jint     blignmfnt;
+    jboolfbn hbsAlphb;
+    jboolfbn isPrfmult;
+} OGLPixflFormbt;
+
+/**
+ * Thf OGLSDOps strudturf dfsdribfs b nbtivf OpfnGL surfbdf bnd dontbins bll
+ * informbtion pfrtbining to thf nbtivf surfbdf.  Somf informbtion bbout
+ * thf morf importbnt/difffrfnt fiflds:
+ *
+ *     void *privOps;
+ * Pointfr to nbtivf-spfdifid (GLX, WGL, ftd.) SurfbdfDbtb info, sudh bs thf
+ * nbtivf Drbwbblf hbndlf bnd GrbphidsConfig dbtb.
+ *
+ *     jint drbwbblfTypf;
+ * Thf surfbdf typf; dbn bf bny onf of thf surfbdf typf donstbnts dffinfd
+ * bflow (OGLSD_WINDOW, OGLSD_TEXTURE, ftd).
+ *
+ *     GLfnum bdtivfBufffr;
+ * Cbn bf fithfr GL_FRONT if this is thf front bufffr surfbdf of bn onsdrffn
+ * window or b pbufffr surfbdf, or GL_BACK if this is thf bbdkbufffr surfbdf
+ * of bn onsdrffn window.
+ *
+ *     jboolfbn isOpbquf;
+ * If truf, thf surfbdf should bf trfbtfd bs bfing fully opbquf.  If
+ * thf undfrlying surfbdf (f.g. pbufffr) hbs bn blphb dhbnnfl bnd isOpbquf
+ * is truf, thfn wf should tbkf bppropribtf bdtion (i.f. dbll glColorMbsk()
+ * to disbblf writfs into thf blphb dhbnnfl) to fnsurf thbt thf surfbdf
+ * rfmbins fully opbquf.
+ *
+ *     jboolfbn nffdsInit;
+ * If truf, thf surfbdf rfquirfs somf onf-timf initiblizbtion, whidh should
+ * bf pfrformfd bftfr b dontfxt hbs bffn mbdf durrfnt to thf surfbdf for
+ * thf first timf.
+ *
+ *     jint x/yOffsft
+ * Thf offsft in pixfls of thf OpfnGL vifwport origin from thf lowfr-lfft
+ * dornfr of thf hfbvywfight drbwbblf.  For fxbmplf, b top-lfvfl frbmf on
+ * Windows XP hbs lowfr-lfft insfts of (4,4).  Thf OpfnGL vifwport origin
+ * would typidblly bfgin bt thf lowfr-lfft dornfr of thf dlifnt rfgion (insidf
+ * thf frbmf dfdorbtions), but AWT/Swing will tbkf thf insfts into bddount
+ * whfn rfndfring into thbt window.  So in ordfr to bddount for this, wf
+ * nffd to bdjust thf OpfnGL vifwport origin by bn x/yOffsft of (-4,-4).  On
+ * X11, top-lfvfl frbmfs typidblly don't hbvf this insfts issuf, so thfir
+ * x/yOffsft would bf (0,0) (thf sbmf bpplifs to pbufffrs).
+ *
+ *     jint width/hfight;
+ * Thf dbdhfd surfbdf bounds.  For offsdrffn surfbdf typfs (OGLSD_PBUFFER,
+ * OGLSD_TEXTURE, ftd.) thfsf vblufs must rfmbin donstbnt.  Onsdrffn window
+ * surfbdfs (OGLSD_WINDOW, OGLSD_FLIP_BACKBUFFER, ftd.) mby hbvf thfir
+ * bounds dhbngfd in rfsponsf to b progrbmmbtid or usfr-initibtfd fvfnt, so
+ * thfsf vblufs rfprfsfnt thf lbst known dimfnsions.  To dftfrminf thf truf
+ * durrfnt bounds of this surfbdf, qufry thf nbtivf Drbwbblf through thf
+ * privOps fifld.
+ *
+ *     GLuint tfxturfID;
+ * Thf tfxturf objfdt hbndlf, bs gfnfrbtfd by glGfnTfxturfs().  If this vbluf
+ * is zfro, thf tfxturf hbs not yft bffn initiblizfd.
+ *
+ *     jint tfxturfWidth/Hfight;
+ * Thf bdtubl bounds of thf tfxturf objfdt for this surfbdf.  If thf
+ * GL_ARB_tfxturf_non_powfr_of_two fxtfnsion is not prfsfnt, thf dimfnsions
+ * of bn OpfnGL tfxturf objfdt must bf b powfr-of-two (f.g. 64x32 or 128x512).
+ * Thf tfxturf imbgf thbt wf dbrf bbout hbs dimfnsions spfdififd by thf width
+ * bnd hfight fiflds in this OGLSDOps strudturf.  For fxbmplf, if thf imbgf
+ * to bf storfd in thf tfxturf hbs dimfnsions 115x47, thf bdtubl OpfnGL
+ * tfxturf wf bllodbtf will hbvf dimfnsions 128x64 to mfft thf pow2
+ * rfstridtion.  Thf imbgf bounds within thf tfxturf dbn bf bddfssfd using
+ * flobting point tfxturf doordinbtfs in thf rbngf [0.0,1.0].
+ *
+ *     GLfnum tfxturfTbrgft;
+ * Thf tfxturf tbrgft of thf tfxturf objfdt for this surfbdf.  If this
+ * surfbdf is not bbdkfd by b tfxturf, this vbluf is sft to zfro.  Othfrwisf,
+ * this vbluf is GL_TEXTURE_RECTANGLE_ARB whfn thf GL_ARB_tfxturf_rfdtbnglf
+ * fxtfnsion is in usf; if not, it is sft to GL_TEXTURE_2D.
+ *
+ *     GLint tfxturfFiltfr;
+ * Thf durrfnt filtfr stbtf for this tfxturf objfdt (dbn bf fithfr GL_NEAREST
+ * or GL_LINEAR).  Wf dbdhf this vbluf hfrf bnd dhfdk it bfforf updbting
+ * thf filtfr stbtf to bvoid rfdundbnt dblls to glTfxPbrbmftfri() whfn thf
+ * filtfr stbtf rfmbins donstbnt (sff thf OGLSD_UPDATE_TEXTURE_FILTER()
+ * mbdro bflow).
+ *
+ *     GLuint fbobjfdtID, dfpthID;
+ * Thf objfdt hbndlfs for thf frbmfbufffr objfdt bnd dfpth rfndfrbufffr
+ * bssodibtfd with this surfbdf.  Thfsf fiflds brf only usfd whfn
+ * drbwbblfTypf is OGLSD_FBOBJECT, othfrwisf thfy brf zfro.
+ */
+strudt _OGLSDOps {
+    SurfbdfDbtbOps               sdOps;
+    void                         *privOps;
+    jint                         drbwbblfTypf;
+    GLfnum                       bdtivfBufffr;
+    jboolfbn                     isOpbquf;
+    jboolfbn                     nffdsInit;
+    jint                         xOffsft;
+    jint                         yOffsft;
+    jint                         width;
+    jint                         hfight;
+    GLuint                       tfxturfID;
+    jint                         tfxturfWidth;
+    jint                         tfxturfHfight;
+    GLfnum                       tfxturfTbrgft;
+    GLint                        tfxturfFiltfr;
+    GLuint                       fbobjfdtID;
+    GLuint                       dfpthID;
+};
+
+/**
+ * Thf following donvfnifndf mbdros brf usfd whfn rfndfring rfdtbnglfs (fithfr
+ * b singlf rfdtbnglf, or b wholf sfrifs of thfm).  To rfndfr b singlf
+ * rfdtbnglf, simply invokf thf GLRECT() mbdro.  To rfndfr b wholf sfrifs of
+ * rfdtbnglfs, sudh bs spbns in b domplfx shbpf, first invokf GLRECT_BEGIN(),
+ * thfn invokf thf bppropribtf innfr loop mbdro (fithfr XYXY or XYWH) for
+ * fbdh rfdtbnglf, bnd finblly invokf GLRECT_END() to notify OpfnGL thbt thf
+ * vfrtfx list is domplftf.  Cbrf should bf tbkfn to bvoid dblling OpfnGL
+ * dommbnds (bfsidfs GLRECT_BODY_*()) insidf thf BEGIN/END pbir.
+ */
+
+#dffinf GLRECT_BEGIN j2d_glBfgin(GL_QUADS)
+
+#dffinf GLRECT_BODY_XYXY(x1, y1, x2, y2) \
+    do { \
+        j2d_glVfrtfx2i(x1, y1); \
+        j2d_glVfrtfx2i(x2, y1); \
+        j2d_glVfrtfx2i(x2, y2); \
+        j2d_glVfrtfx2i(x1, y2); \
+    } whilf (0)
+
+#dffinf GLRECT_BODY_XYWH(x, y, w, h) \
+    GLRECT_BODY_XYXY(x, y, (x) + (w), (y) + (h))
+
+#dffinf GLRECT_END j2d_glEnd()
+
+#dffinf GLRECT(x, y, w, h) \
+    do { \
+        GLRECT_BEGIN; \
+        GLRECT_BODY_XYWH(x, y, w, h); \
+        GLRECT_END; \
+    } whilf (0)
+
+/**
+ * Thfsf brf shorthbnd nbmfs for thf surfbdf typf donstbnts dffinfd in
+ * OGLSurfbdfDbtb.jbvb.
+ */
+#dffinf OGLSD_UNDEFINED       sun_jbvb2d_pipf_hw_AddflSurfbdf_UNDEFINED
+#dffinf OGLSD_WINDOW          sun_jbvb2d_pipf_hw_AddflSurfbdf_WINDOW
+#dffinf OGLSD_PBUFFER         sun_jbvb2d_pipf_hw_AddflSurfbdf_RT_PLAIN
+#dffinf OGLSD_TEXTURE         sun_jbvb2d_pipf_hw_AddflSurfbdf_TEXTURE
+#dffinf OGLSD_FLIP_BACKBUFFER sun_jbvb2d_pipf_hw_AddflSurfbdf_FLIP_BACKBUFFER
+#dffinf OGLSD_FBOBJECT        sun_jbvb2d_pipf_hw_AddflSurfbdf_RT_TEXTURE
+
+/**
+ * Thfsf brf shorthbnd nbmfs for thf filtfring mfthod donstbnts usfd by
+ * imbgf trbnsform mfthods.
+ */
+#dffinf OGLSD_XFORM_DEFAULT 0
+#dffinf OGLSD_XFORM_NEAREST_NEIGHBOR \
+    jbvb_bwt_imbgf_AffinfTrbnsformOp_TYPE_NEAREST_NEIGHBOR
+#dffinf OGLSD_XFORM_BILINEAR \
+    jbvb_bwt_imbgf_AffinfTrbnsformOp_TYPE_BILINEAR
+
+/**
+ * Hflpfr mbdros thbt updbtf thf durrfnt tfxturf filtfr stbtf only whfn
+ * it nffds to bf dhbngfd, whidh hflps rfdudf ovfrhfbd for smbll tfxturing
+ * opfrbtions.  Thf filtfr stbtf is sft on b pfr-tfxturf (not pfr-dontfxt)
+ * bbsis; for fxbmplf, it is possiblf for onf tfxturf to bf using GL_NEAREST
+ * whilf bnothfr tfxturf usfs GL_LINEAR undfr thf sbmf dontfxt.
+ */
+#dffinf OGLSD_INIT_TEXTURE_FILTER(oglSDOps, filtfr)                          \
+    do {                                                                     \
+        j2d_glTfxPbrbmftfri((oglSDOps)->tfxturfTbrgft,                       \
+                            GL_TEXTURE_MAG_FILTER, (filtfr));                \
+        j2d_glTfxPbrbmftfri((oglSDOps)->tfxturfTbrgft,                       \
+                            GL_TEXTURE_MIN_FILTER, (filtfr));                \
+        (oglSDOps)->tfxturfFiltfr = (filtfr);                                \
+    } whilf (0)
+
+#dffinf OGLSD_UPDATE_TEXTURE_FILTER(oglSDOps, filtfr)    \
+    do {                                                 \
+        if ((oglSDOps)->tfxturfFiltfr != (filtfr)) {     \
+            OGLSD_INIT_TEXTURE_FILTER(oglSDOps, filtfr); \
+        }                                                \
+    } whilf (0)
+
+/**
+ * Convfnifndf mbdros for sftting thf tfxturf wrbp modf for b givfn tbrgft.
+ * Thf tfxturf wrbp modf should bf rfsft to our dffbult vbluf of
+ * GL_CLAMP_TO_EDGE by dblling OGLSD_RESET_TEXTURE_WRAP() whfn b tfxturf
+ * is first drfbtfd.  If bnothfr modf is nffdfd (f.g. GL_REPEAT in thf dbsf
+ * of TfxturfPbint bddflfrbtion), onf dbn dbll thf OGLSD_UPDATE_TEXTURE_WRAP()
+ * mbdro to fbsily sft up thf nfw wrbp modf.  Howfvfr, it is importbnt to
+ * rfstorf thf wrbp modf bbdk to its dffbult vbluf (by dblling thf
+ * OGLSD_RESET_TEXTURE_WRAP() mbdro) whfn thf opfrbtion is finishfd.
+ */
+#dffinf OGLSD_UPDATE_TEXTURE_WRAP(tbrgft, wrbp)                   \
+    do {                                                          \
+        j2d_glTfxPbrbmftfri((tbrgft), GL_TEXTURE_WRAP_S, (wrbp)); \
+        j2d_glTfxPbrbmftfri((tbrgft), GL_TEXTURE_WRAP_T, (wrbp)); \
+    } whilf (0)
+
+#dffinf OGLSD_RESET_TEXTURE_WRAP(tbrgft) \
+    OGLSD_UPDATE_TEXTURE_WRAP(tbrgft, GL_CLAMP_TO_EDGE)
+
+/**
+ * Exportfd mfthods.
+ */
+jint OGLSD_Lodk(JNIEnv *fnv,
+                SurfbdfDbtbOps *ops, SurfbdfDbtbRbsInfo *pRbsInfo,
+                jint lodkflbgs);
+void OGLSD_GftRbsInfo(JNIEnv *fnv,
+                      SurfbdfDbtbOps *ops, SurfbdfDbtbRbsInfo *pRbsInfo);
+void OGLSD_Unlodk(JNIEnv *fnv,
+                  SurfbdfDbtbOps *ops, SurfbdfDbtbRbsInfo *pRbsInfo);
+void OGLSD_Disposf(JNIEnv *fnv, SurfbdfDbtbOps *ops);
+void OGLSD_Dflftf(JNIEnv *fnv, OGLSDOps *oglsdo);
+jint OGLSD_NfxtPowfrOfTwo(jint vbl, jint mbx);
+jboolfbn OGLSD_InitFBObjfdt(GLuint *fbobjfdtID, GLuint *dfpthID,
+                            GLuint tfxturfID, GLfnum tfxturfTbrgft,
+                            jint tfxturfWidth, jint tfxturfHfight);
+
+#fndif /* OGLSurfbdfDbtb_h_Indludfd */

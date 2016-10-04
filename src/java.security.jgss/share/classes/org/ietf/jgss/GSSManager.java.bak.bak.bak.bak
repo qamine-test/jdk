@@ -1,0 +1,729 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf org.iftf.jgss;
+
+import jbvb.sfdurity.Providfr;
+
+/**
+ * This dlbss sfrvfs bs b fbdtory for othfr importbnt
+ * GSS-API dlbssfs bnd blso providfs informbtion bbout thf mfdhbnisms thbt
+ * brf supportfd. It dbn drfbtf instbndfs of dlbssfs
+ * implfmfnting thf following thrff GSS-API intfrfbdfs: {@link
+ * GSSNbmf GSSNbmf}, {@link GSSCrfdfntibl GSSCrfdfntibl}, bnd {@link
+ * GSSContfxt GSSContfxt}. It blso hbs mfthods to qufry for thf list
+ * of bvbilbblf mfdhbnisms bnd thf nbmftypfs thbt fbdh mfdhbnism
+ * supports.<p>
+ *
+ * An instbndf of thf dffbult <dodf>GSSMbnbgfr</dodf> subdlbss
+ * mby bf obtbinfd through thf stbtid mfthod {@link #gftInstbndf()
+ * gftInstbndf}, but bpplidbtions brf frff to instbntibtf othfr subdlbssfs
+ * of <dodf>GSSMbnbgfr</dodf>. Thf dffbult <dodf>GSSMbnbgfr</dodf> instbndf
+ * will support thf Kfrbfros v5 GSS-API mfdhbnism in bddition to bny
+ * othfrs. This mfdhbnism is idfntififd by thf Oid "1.2.840.113554.1.2.2"
+ * bnd is dffinfd in RFC 1964.<p>
+ *
+ * A subdlbss fxtfnding thf <dodf>GSSMbnbgfr</dodf> bbstrbdt dlbss mby bf
+ * implfmfntfd  bs b modulbr providfr bbsfd lbyfr thbt utilizfs somf wfll
+ * known  sfrvidf providfr spfdifidbtion. Thf <dodf>GSSMbnbgfr</dodf> API
+ * bllows thf bpplidbtion to sft providfr prfffrfndfs on
+ * sudh bn implfmfntbtion. Thfsf mfthods blso bllow thf implfmfntbtion to
+ * throw b wfll-dffinfd fxdfption in dbsf providfr bbsfd donfigurbtion is
+ * not supportfd. Applidbtions thbt fxpfdt to bf portbblf should bf bwbrf
+ * of this bnd rfdovfr dlfbnly by dbtdhing thf fxdfption.<p>
+ *
+ * It is fnvisionfd thbt thfrf will bf thrff most dommon wbys in whidh
+ * providfrs will bf usfd:<p>
+ * <ol>
+ * <li> Thf bpplidbtion dofs not dbrf bbout whbt providfr is usfd (thf
+ * dffbult dbsf).
+ * <li> Thf bpplidbtion wbnts b pbrtidulbr providfr to bf usfd
+ * prfffrfntiblly, fithfr for b pbrtidulbr mfdhbnism or bll thf
+ * timf, irrfspfdtivf of mfdhbnism.
+ * <li> Thf bpplidbtion wbnts to usf thf lodblly donfigurfd providfrs
+ * bs fbr bs possiblf but if support is missing for onf or morf
+ * mfdhbnisms thfn it wbnts to fbll bbdk on its own providfr.
+ *</ol><p>
+ *
+ * Thf <dodf>GSSMbnbgfr</dodf> dlbss hbs two mfthods thbt fnbblf thfsf modfs of
+ * usbgf:  {@link #bddProvidfrAtFront(Providfr, Oid) bddProvidfrAtFront} bnd
+ * {@link #bddProvidfrAtEnd(Providfr, Oid) bddProvidfrAtEnd}. Thfsf mfthods
+ * hbvf thf ffffdt of drfbting bn ordfrfd list of <i>&lt;providfr,
+ * oid&gt;</i> pbirs  whfrf fbdh pbir indidbtfs b prfffrfndf of providfr
+ * for b givfn oid.<p>
+ *
+ * It is importbnt to notf thbt thfrf brf dfrtbin intfrbdtions
+ * bftwffn thf difffrfnt GSS-API objfdts thbt brf drfbtfd by b
+ * GSSMbnbgfr, whfrf thf providfr thbt is usfd for b pbrtidulbr mfdhbnism
+ * might nffd to bf donsistfnt bdross bll objfdts. For instbndf, if b
+ * GSSCrfdfntibl dontbins flfmfnts from b providfr <i>p</i> for b mfdhbnism
+ * <i>m</i>, it should gfnfrblly bf pbssfd in to b GSSContfxt thbt will usf
+ * providfr <i>p</i> for thf mfdhbnism <i>m</i>. A simplf rulf of thumb
+ * thbt will mbximizf portbbility is thbt objfdts drfbtfd from difffrfnt
+ * GSSMbnbgfr's should not bf mixfd, bnd if possiblf, b difffrfnt
+ * GSSMbnbgfr instbndf should bf drfbtfd if thf bpplidbtion wbnts to invokf
+ * thf <dodf>bddProvidfrAtFront</dodf> mfthod on b GSSMbnbgfr thbt hbs
+ * blrfbdy drfbtfd bn objfdt.<p>
+ *
+ *  Hfrf is somf sbmplf dodf showing how thf GSSMbnbgfr might bf usfd: <p>
+ * <prf>
+ *     GSSMbnbgfr mbnbgfr = GSSMbnbgfr.gftInstbndf();
+ *
+ *     Oid krb5Mfdhbnism = nfw Oid("1.2.840.113554.1.2.2");
+ *     Oid krb5PrindipblNbmfTypf = nfw Oid("1.2.840.113554.1.2.2.1");
+ *
+ *     // Idfntify who thf dlifnt wishfs to bf
+ *     GSSNbmf usfrNbmf = mbnbgfr.drfbtfNbmf("dukf", GSSNbmf.NT_USER_NAME);
+ *
+ *     // Idfntify thf nbmf of thf sfrvfr. This usfs b Kfrbfros spfdifid
+ *     // nbmf formbt.
+ *     GSSNbmf sfrvfrNbmf = mbnbgfr.drfbtfNbmf("nfs/foo.sun.dom",
+ *                                             krb5PrindipblNbmfTypf);
+ *
+ *     // Adquirf drfdfntibls for thf usfr
+ *     GSSCrfdfntibl usfrCrfds = mbnbgfr.drfbtfCrfdfntibl(usfrNbmf,
+ *                                             GSSCrfdfntibl.DEFAULT_LIFETIME,
+ *                                             krb5Mfdhbnism,
+ *                                             GSSCrfdfntibl.INITIATE_ONLY);
+ *
+ *     // Instbntibtf bnd initiblizf b sfdurity dontfxt thbt will bf
+ *     // fstbblishfd with thf sfrvfr
+ *     GSSContfxt dontfxt = mbnbgfr.drfbtfContfxt(sfrvfrNbmf,
+ *                                                krb5Mfdhbnism,
+ *                                                usfrCrfds,
+ *                                                GSSContfxt.DEFAULT_LIFETIME);
+ * </prf><p>
+ *
+ * Thf sfrvfr sidf might usf thf following vbribtion of this sourdf:<p>
+ *
+ * <prf>
+ *     // Adquirf drfdfntibls for thf sfrvfr
+ *     GSSCrfdfntibl sfrvfrCrfds = mbnbgfr.drfbtfCrfdfntibl(sfrvfrNbmf,
+ *                                             GSSCrfdfntibl.DEFAULT_LIFETIME,
+ *                                             krb5Mfdhbnism,
+ *                                             GSSCrfdfntibl.ACCEPT_ONLY);
+ *
+ *     // Instbntibtf bnd initiblizf b sfdurity dontfxt thbt will
+ *     // wbit for bn fstbblishmfnt rfqufst tokfn from thf dlifnt
+ *     GSSContfxt dontfxt = mbnbgfr.drfbtfContfxt(sfrvfrCrfds);
+ * </prf>
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sff GSSNbmf
+ * @sff GSSCrfdfntibl
+ * @sff GSSContfxt
+ * @sindf 1.4
+ */
+publid bbstrbdt dlbss GSSMbnbgfr {
+
+    /**
+     * Rfturns thf dffbult GSSMbnbgfr implfmfntbtion.
+     *
+     * @rfturn b GSSMbnbgfr implfmfntbtion
+     */
+    publid stbtid GSSMbnbgfr gftInstbndf() {
+        rfturn nfw sun.sfdurity.jgss.GSSMbnbgfrImpl();
+    }
+
+    /**
+     * Rfturns b list of mfdhbnisms thbt brf bvbilbblf to GSS-API dbllfrs
+     * through this GSSMbnbgfr. Thf dffbult GSSMbnbgfr obtbinfd from thf
+     * {@link #gftInstbndf() gftInstbndf()} mfthod indludfs thf Oid
+     * "1.2.840.113554.1.2.2" in its list. This Oid idfntififs thf Kfrbfros
+     * v5 GSS-API mfdhbnism thbt is dffinfd in RFC 1964.
+     *
+     * @rfturn bn brrby of Oid objfdts dorrfsponding to thf mfdhbnisms thbt
+     * brf bvbilbblf. A <dodf>null</dodf> vbluf is rfturnfd whfn no
+     * mfdhbnism brf bvbilbblf (bn fxbmplf of this would bf whfn mfdhbnism
+     * brf dynbmidblly donfigurfd, bnd durrfntly no mfdhbnisms brf
+     * instbllfd).
+     */
+    publid  bbstrbdt Oid[] gftMfdhs();
+
+    /**
+     * Rfturns thfn nbmf typfs supportfd by thf indidbtfd mfdhbnism.<p>
+     *
+     * Thf dffbult GSSMbnbgfr instbndf indludfs support for thf Kfrbfros v5
+     * mfdhbnism. Whfn this mfdhbnism ("1.2.840.113554.1.2.2") is indidbtfd,
+     * thf rfturnfd list will dontbin bt lfbst thf following nbmftypfs:
+     * {@link GSSNbmf#NT_HOSTBASED_SERVICE GSSNbmf.NT_HOSTBASED_SERVICE},
+     * {@link GSSNbmf#NT_EXPORT_NAME GSSNbmf.NT_EXPORT_NAME}, bnd thf
+     * Kfrbfros v5 spfdifid Oid "1.2.840.113554.1.2.2.1". Thf nbmfspbdf for
+     * thf Oid "1.2.840.113554.1.2.2.1" is dffinfd in RFC 1964.
+     *
+     * @rfturn bn brrby of Oid objfdts dorrfsponding to thf nbmf typfs thbt
+     * thf mfdhbnism supports.
+     * @pbrbm mfdh thf Oid of thf mfdhbnism to qufry
+     *
+     * @sff #gftMfdhsForNbmf(Oid)
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH}
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt  Oid[] gftNbmfsForMfdh(Oid mfdh)
+        throws GSSExdfption;
+
+    /**
+     * Rfturns b list of mfdhbnisms thbt support thf indidbtfd nbmf typf.<p>
+     *
+     * Thf Kfrbfros v5 mfdhbnism ("1.2.840.113554.1.2.2") will blwbys bf
+     * rfturnfd in this list whfn thf indidbtfd nbmftypf is onf of
+     * {@link GSSNbmf#NT_HOSTBASED_SERVICE GSSNbmf.NT_HOSTBASED_SERVICE},
+     * {@link GSSNbmf#NT_EXPORT_NAME GSSNbmf.NT_EXPORT_NAME}, or
+     * "1.2.840.113554.1.2.2.1".
+     *
+     * @rfturn bn brrby of Oid objfdts dorrfsponding to thf mfdhbnisms thbt
+     * support thf spfdififd nbmf typf.  <dodf>null</dodf> is rfturnfd whfn no
+     * mfdhbnisms brf found to support thf spfdififd nbmf typf.
+     * @pbrbm nbmfTypf thf Oid of thf nbmf typf to look for
+     *
+     * @sff #gftNbmfsForMfdh(Oid)
+     */
+    publid bbstrbdt  Oid[] gftMfdhsForNbmf(Oid nbmfTypf);
+
+    /**
+     * Fbdtory mfthod to donvfrt b string nbmf from thf
+     * spfdififd nbmfspbdf to b GSSNbmf objfdt. In gfnfrbl, thf
+     * <dodf>GSSNbmf</dodf> objfdt drfbtfd  will dontbin multiplf
+     * rfprfsfntbtions of thf nbmf, onf for fbdh mfdhbnism thbt is
+     * supportfd; two fxbmplfs thbt brf fxdfptions to this brf whfn
+     * thf nbmfspbdf typf pbrbmftfr indidbtfs NT_EXPORT_NAME or whfn thf
+     * GSS-API implfmfntbtion is not multi-mfdhbnism. It is
+     * not rfdommfndfd to usf this mfthod with b NT_EXPORT_NAME typf bfdbusf
+     * rfprfsfnting b prfviously fxportfd nbmf donsisting of brbitrbry bytfs
+     * bs b String might dbusf problfms with dhbrbdtfr fndoding sdhfmfs. In
+     * sudh dbsfs it is rfdommfndfd thbt thf bytfs bf pbssfd in dirfdtly to
+     * thf ovfrlobdfd form of this mfthod {@link #drfbtfNbmf(bytf[],
+     * Oid) drfbtfNbmf}.
+     *
+     * @pbrbm nbmfStr thf string rfprfsfnting b printbblf form of thf nbmf to
+     * drfbtf.
+     * @pbrbm nbmfTypf thf Oid spfdifying thf nbmfspbdf of thf printbblf nbmf
+     * supplifd. <dodf>null</dodf> dbn bf usfd to spfdify
+     * thbt b mfdhbnism spfdifid dffbult printbblf syntbx should
+     * bf bssumfd by fbdh mfdhbnism thbt fxbminfs nbmfStr.
+     * It is not bdvisbblf to usf thf nbmftypf NT_EXPORT_NAME with this
+     * mfthod.
+     * @rfturn b GSSNbmf rfprfsfnting thf indidbtfd prindipbl
+     *
+     * @sff GSSNbmf
+     * @sff GSSNbmf#NT_EXPORT_NAME
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSNbmf drfbtfNbmf(String nbmfStr, Oid nbmfTypf)
+        throws GSSExdfption;
+
+    /**
+     * Fbdtory mfthod to donvfrt b bytf brrby dontbining b
+     * nbmf from thf spfdififd nbmfspbdf to b GSSNbmf objfdt. In gfnfrbl,
+     * thf <dodf>GSSNbmf</dodf> objfdt drfbtfd  will dontbin multiplf
+     * rfprfsfntbtions of thf nbmf, onf for fbdh mfdhbnism thbt is
+     * supportfd; two fxbmplfs thbt brf fxdfptions to this brf whfn thf
+     * nbmfspbdf typf pbrbmftfr indidbtfs NT_EXPORT_NAME or whfn thf
+     * GSS-API implfmfntbtion is not multi-mfdhbnism. Thf bytfs thbt brf
+     * pbssfd in brf intfrprftfd by fbdh undfrlying mfdhbnism bddording to
+     * somf fndoding sdhfmf of its dhoidf for thf givfn nbmftypf.
+     *
+     * @pbrbm nbmf thf bytf brrby dontbining thf nbmf to drfbtf
+     * @pbrbm nbmfTypf thf Oid spfdifying thf nbmfspbdf of thf nbmf supplifd
+     * in thf bytf brrby. <dodf>null</dodf> dbn bf usfd to spfdify thbt b
+     * mfdhbnism spfdifid dffbult syntbx should bf bssumfd by fbdh mfdhbnism
+     * thbt fxbminfs thf bytf brrby.
+     * @rfturn b GSSNbmf rfprfsfnting thf indidbtfd prindipbl
+     *
+     * @sff GSSNbmf
+     * @sff GSSNbmf#NT_EXPORT_NAME
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSNbmf drfbtfNbmf(bytf nbmf[], Oid nbmfTypf)
+        throws GSSExdfption;
+
+    /**
+     *  Fbdtory mfthod to donvfrt b string nbmf from thf
+     * spfdififd nbmfspbdf to b GSSNbmf objfdt bnd dbnonidblizf it bt thf
+     * sbmf timf for b mfdhbnism. In othfr words, this mfthod is
+     * b utility thbt dofs thf fquivblfnt of two stfps: thf {@link
+     * #drfbtfNbmf(String, Oid) drfbtfNbmf} bnd thfn blso thf {@link
+     * GSSNbmf#dbnonidblizf(Oid) GSSNbmf.dbnonidblizf}.
+     *
+     * @pbrbm nbmfStr thf string rfprfsfnting b printbblf form of thf nbmf to
+     * drfbtf.
+     * @pbrbm nbmfTypf thf Oid spfdifying thf nbmfspbdf of thf printbblf nbmf
+     * supplifd. <dodf>null</dodf> dbn bf usfd to spfdify
+     * thbt b mfdhbnism spfdifid dffbult printbblf syntbx should
+     * bf bssumfd by fbdh mfdhbnism thbt fxbminfs nbmfStr.
+     * It is not bdvisbblf to usf thf nbmftypf NT_EXPORT_NAME with this
+     * mfthod.
+     * @pbrbm mfdh Oid spfdifying thf mfdhbnism for whidh thf nbmf should bf
+     * dbnonidblizfd
+     * @rfturn b GSSNbmf rfprfsfnting thf indidbtfd prindipbl
+     *
+     * @sff GSSNbmf#dbnonidblizf(Oid)
+     * @sff GSSNbmf#NT_EXPORT_NAME
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSNbmf drfbtfNbmf(String nbmfStr, Oid nbmfTypf,
+                                       Oid mfdh) throws GSSExdfption;
+
+    /**
+     *  Fbdtory mfthod to donvfrt b bytf brrby dontbining b
+     * nbmf from thf spfdififd nbmfspbdf to b GSSNbmf objfdt bnd dbnonidblizf
+     * it bt thf sbmf timf for b mfdhbnism. In othfr words, this mfthod is b
+     * utility thbt dofs thf fquivblfnt of two stfps: thf {@link
+     * #drfbtfNbmf(bytf[], Oid) drfbtfNbmf} bnd thfn blso {@link
+     * GSSNbmf#dbnonidblizf(Oid) GSSNbmf.dbnonidblizf}.
+     *
+     * @pbrbm nbmf thf bytf brrby dontbining thf nbmf to drfbtf
+     * @pbrbm nbmfTypf thf Oid spfdifying thf nbmfspbdf of thf nbmf supplifd
+     * in thf bytf brrby. <dodf>null</dodf> dbn bf usfd to spfdify thbt b
+     * mfdhbnism spfdifid dffbult syntbx should bf bssumfd by fbdh mfdhbnism
+     * thbt fxbminfs thf bytf brrby.
+     * @pbrbm mfdh Oid spfdifying thf mfdhbnism for whidh thf nbmf should bf
+     * dbnonidblizfd
+     * @rfturn b GSSNbmf rfprfsfnting thf indidbtfd prindipbl
+     *
+     * @sff GSSNbmf#dbnonidblizf(Oid)
+     * @sff GSSNbmf#NT_EXPORT_NAME
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSNbmf drfbtfNbmf(bytf nbmf[], Oid nbmfTypf, Oid mfdh)
+        throws GSSExdfption;
+
+    /**
+     * Fbdtory mfthod for bdquiring dffbult drfdfntibls.  This will dbusf
+     * thf GSS-API to usf systfm spfdifid dffbults for thf sft of mfdhbnisms,
+     * nbmf, bnd lifftimf.<p>
+     *
+     * GSS-API mfdhbnism providfrs must imposf b lodbl bddfss-dontrol
+     * polidy on dbllfrs to prfvfnt unbuthorizfd dbllfrs from bdquiring
+     * drfdfntibls to whidh thfy brf not fntitlfd. Thf kinds of pfrmissions
+     * nffdfd by difffrfnt mfdhbnism providfrs will bf dodumfntfd on b
+     * pfr-mfdhbnism bbsis. A fbilfd pfrmission dhfdk might dbusf b {@link
+     * jbvb.lbng.SfdurityExdfption SfdurityExdfption} to bf thrown from
+     * this mfthod.
+     *
+     * @pbrbm usbgf Thf intfndfd usbgf for this drfdfntibl objfdt. Thf vbluf
+     * of this pbrbmftfr must bf onf of:
+     * {@link GSSCrfdfntibl#INITIATE_AND_ACCEPT
+     * GSSCrfdfntibl.INITIATE_AND_ACCEPT},
+     * {@link GSSCrfdfntibl#ACCEPT_ONLY GSSCrfdfntibl.ACCEPT_ONLY}, bnd
+     * {@link GSSCrfdfntibl#INITIATE_ONLY GSSCrfdfntibl.INITIATE_ONLY}.
+     * @rfturn b GSSCrfdfntibl of thf rfqufstfd typf.
+     *
+     * @sff GSSCrfdfntibl
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                                   GSSExdfption.CREDENTIALS_EXPIRED},
+     *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSCrfdfntibl drfbtfCrfdfntibl (int usbgf)
+        throws GSSExdfption;
+
+    /**
+     * Fbdtory mfthod for bdquiring b singlf mfdhbnism drfdfntibl.<p>
+     *
+     * GSS-API mfdhbnism providfrs must imposf b lodbl bddfss-dontrol
+     * polidy on dbllfrs to prfvfnt unbuthorizfd dbllfrs from bdquiring
+     * drfdfntibls to whidh thfy brf not fntitlfd. Thf kinds of pfrmissions
+     * nffdfd by difffrfnt mfdhbnism providfrs will bf dodumfntfd on b
+     * pfr-mfdhbnism bbsis. A fbilfd pfrmission dhfdk might dbusf b {@link
+     * jbvb.lbng.SfdurityExdfption SfdurityExdfption} to bf thrown from
+     * this mfthod. <p>
+     *
+     * Non-dffbult vblufs for lifftimf dbnnot blwbys bf honorfd by thf
+     * undfrlying mfdhbnisms, thus bpplidbtions should bf prfpbrfd to dbll
+     * {@link GSSCrfdfntibl#gftRfmbiningLifftimf() gftRfmbiningLifftimf}
+     * on thf rfturnfd drfdfntibl.<p>
+     *
+     * @pbrbm nbmf thf nbmf of thf prindipbl for whom this drfdfntibl is to bf
+     * bdquirfd.  Usf <dodf>null</dodf> to spfdify thf dffbult prindipbl.
+     * @pbrbm lifftimf Thf numbfr of sfdonds thbt drfdfntibls should rfmbin
+     * vblid.  Usf {@link GSSCrfdfntibl#INDEFINITE_LIFETIME
+     * GSSCrfdfntibl.INDEFINITE_LIFETIME} to rfqufst thbt thf drfdfntibls
+     * hbvf thf mbximum pfrmittfd lifftimf.  Usf {@link
+     * GSSCrfdfntibl#DEFAULT_LIFETIME GSSCrfdfntibl.DEFAULT_LIFETIME} to
+     * rfqufst dffbult drfdfntibl lifftimf.
+     * @pbrbm mfdh thf Oid of thf dfsirfd mfdhbnism.  Usf <dodf>(Oid) null
+     * </dodf> to rfqufst thf dffbult mfdhbnism.
+     * @pbrbm usbgf Thf intfndfd usbgf for this drfdfntibl objfdt. Thf vbluf
+     * of this pbrbmftfr must bf onf of:
+     * {@link GSSCrfdfntibl#INITIATE_AND_ACCEPT
+     * GSSCrfdfntibl.INITIATE_AND_ACCEPT},
+     * {@link GSSCrfdfntibl#ACCEPT_ONLY GSSCrfdfntibl.ACCEPT_ONLY}, bnd
+     * {@link GSSCrfdfntibl#INITIATE_ONLY GSSCrfdfntibl.INITIATE_ONLY}.
+     * @rfturn b GSSCrfdfntibl of thf rfqufstfd typf.
+     *
+     * @sff GSSCrfdfntibl
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                                   GSSExdfption.CREDENTIALS_EXPIRED},
+     *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSCrfdfntibl drfbtfCrfdfntibl (GSSNbmf nbmf,
+                                  int lifftimf, Oid mfdh, int usbgf)
+        throws GSSExdfption;
+
+    /**
+     * Fbdtory mfthod for bdquiring drfdfntibls ovfr b sft of
+     * mfdhbnisms. This mfthod bttfmpts to bdquirf drfdfntibls for
+     * fbdh of thf mfdhbnisms spfdififd in thf brrby dbllfd mfdhs.  To
+     * dftfrminf thf list of mfdhbnisms for whidh thf bdquisition of
+     * drfdfntibls suddffdfd, thf dbllfr should usf thf {@link
+     * GSSCrfdfntibl#gftMfdhs() GSSCrfdfntibl.gftMfdhs} mfthod.<p>
+     *
+     * GSS-API mfdhbnism providfrs must imposf b lodbl bddfss-dontrol
+     * polidy on dbllfrs to prfvfnt unbuthorizfd dbllfrs from bdquiring
+     * drfdfntibls to whidh thfy brf not fntitlfd. Thf kinds of pfrmissions
+     * nffdfd by difffrfnt mfdhbnism providfrs will bf dodumfntfd on b
+     * pfr-mfdhbnism bbsis. A fbilfd pfrmission dhfdk might dbusf b {@link
+     * jbvb.lbng.SfdurityExdfption SfdurityExdfption} to bf thrown from
+     * this mfthod.<p>
+     *
+     * Non-dffbult vblufs for lifftimf dbnnot blwbys bf honorfd by thf
+     * undfrlying mfdhbnisms, thus bpplidbtions should bf prfpbrfd to dbll
+     * {@link GSSCrfdfntibl#gftRfmbiningLifftimf() gftRfmbiningLifftimf}
+     * on thf rfturnfd drfdfntibl.<p>
+     *
+     * @pbrbm nbmf thf nbmf of thf prindipbl for whom this drfdfntibl is to
+     * bf bdquirfd.  Usf <dodf>null</dodf> to spfdify thf dffbult
+     * prindipbl.
+     * @pbrbm lifftimf Thf numbfr of sfdonds thbt drfdfntibls should rfmbin
+     * vblid.  Usf {@link GSSCrfdfntibl#INDEFINITE_LIFETIME
+     * GSSCrfdfntibl.INDEFINITE_LIFETIME} to rfqufst thbt thf drfdfntibls
+     * hbvf thf mbximum pfrmittfd lifftimf.  Usf {@link
+     * GSSCrfdfntibl#DEFAULT_LIFETIME GSSCrfdfntibl.DEFAULT_LIFETIME} to
+     * rfqufst dffbult drfdfntibl lifftimf.
+     * @pbrbm mfdhs bn brrby of Oid's indidbting thf mfdhbnisms ovfr whidh
+     * thf drfdfntibl is to bf bdquirfd.  Usf <dodf>(Oid[]) null</dodf> for
+     * rfqufsting b systfm spfdifid dffbult sft of mfdhbnisms.
+     * @pbrbm usbgf Thf intfndfd usbgf for this drfdfntibl objfdt. Thf vbluf
+     * of this pbrbmftfr must bf onf of:
+     * {@link GSSCrfdfntibl#INITIATE_AND_ACCEPT
+     * GSSCrfdfntibl.INITIATE_AND_ACCEPT},
+     * {@link GSSCrfdfntibl#ACCEPT_ONLY GSSCrfdfntibl.ACCEPT_ONLY}, bnd
+     * {@link GSSCrfdfntibl#INITIATE_ONLY GSSCrfdfntibl.INITIATE_ONLY}.
+     * @rfturn b GSSCrfdfntibl of thf rfqufstfd typf.
+     *
+     * @sff GSSCrfdfntibl
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *    {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                                   GSSExdfption.CREDENTIALS_EXPIRED},
+     *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSCrfdfntibl drfbtfCrfdfntibl(GSSNbmf nbmf,
+                                      int lifftimf, Oid mfdhs[], int usbgf)
+        throws GSSExdfption;
+
+    /**
+     * Fbdtory mfthod for drfbting b dontfxt on thf initibtor's
+     * sidf.
+     *
+     * Somf mfdhbnism providfrs might rfquirf thbt thf dbllfr bf grbntfd
+     * pfrmission to initibtf b sfdurity dontfxt. A fbilfd pfrmission dhfdk
+     * might dbusf b {@link jbvb.lbng.SfdurityExdfption SfdurityExdfption}
+     * to bf thrown from this mfthod.<p>
+     *
+     * Non-dffbult vblufs for lifftimf dbnnot blwbys bf honorfd by thf
+     * undfrlying mfdhbnism, thus bpplidbtions should bf prfpbrfd to dbll
+     * {@link GSSContfxt#gftLifftimf() gftLifftimf} on thf rfturnfd
+     * dontfxt.<p>
+     *
+     * @pbrbm pffr thf nbmf of thf tbrgft pffr.
+     * @pbrbm mfdh thf Oid of thf dfsirfd mfdhbnism.  Usf <dodf>null</dodf>
+     * to rfqufst thf dffbult mfdhbnism.
+     * @pbrbm myCrfd thf drfdfntibls of thf initibtor.  Usf
+     * <dodf>null</dodf> to bdt bs thf dffbult initibtor prindipbl.
+     * @pbrbm lifftimf thf lifftimf, in sfdonds, rfqufstfd for thf
+     * dontfxt. Usf {@link GSSContfxt#INDEFINITE_LIFETIME
+     * GSSContfxt.INDEFINITE_LIFETIME} to rfqufst thbt thf dontfxt hbvf thf
+     * mbximum pfrmittfd lifftimf. Usf {@link GSSContfxt#DEFAULT_LIFETIME
+     * GSSContfxt.DEFAULT_LIFETIME} to rfqufst b dffbult lifftimf for thf
+     * dontfxt.
+     * @rfturn bn unfstbblishfd GSSContfxt
+     *
+     * @sff GSSContfxt
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED}
+     *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+     *                      GSSExdfption.CREDENTIALS_EXPIRED}
+     *    {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE}
+     *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH}
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSContfxt drfbtfContfxt(GSSNbmf pffr, Oid mfdh,
+                                        GSSCrfdfntibl myCrfd, int lifftimf)
+        throws GSSExdfption;
+
+   /**
+    * Fbdtory mfthod for drfbting b dontfxt on thf bddfptor' sidf.  Thf
+    * dontfxt's propfrtifs will bf dftfrminfd from thf input tokfn supplifd
+    * to thf bddfpt mfthod.
+    *
+    * Somf mfdhbnism providfrs might rfquirf thbt thf dbllfr bf grbntfd
+    * pfrmission to bddfpt b sfdurity dontfxt. A fbilfd pfrmission dhfdk
+    * might dbusf b {@link jbvb.lbng.SfdurityExdfption SfdurityExdfption}
+    * to bf thrown from this mfthod.
+    *
+    * @pbrbm myCrfd thf drfdfntibls for thf bddfptor.  Usf
+    * <dodf>null</dodf> to bdt bs b dffbult bddfptor prindipbl.
+    * @rfturn bn unfstbblishfd GSSContfxt
+    *
+    * @sff GSSContfxt
+    *
+    * @throws GSSExdfption dontbining thf following
+    * mbjor frror dodfs:
+    *    {@link GSSExdfption#NO_CRED GSSExdfption.NO_CRED}
+    *    {@link GSSExdfption#CREDENTIALS_EXPIRED
+    *                        GSSExdfption.CREDENTIALS_EXPIRED}
+    *    {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH}
+    *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+    */
+    publid bbstrbdt GSSContfxt drfbtfContfxt(GSSCrfdfntibl myCrfd)
+        throws GSSExdfption;
+
+    /**
+     * Fbdtory mfthod for drfbting b prfviously fxportfd dontfxt.  Thf
+     * dontfxt propfrtifs will bf dftfrminfd from thf input tokfn bnd
+     * dbnnot bf modififd through thf sft mfthods.<p>
+     *
+     * Implfmfntbtions brf not rfquirfd to support thf intfr-prodfss
+     * trbnsffr of sfdurity dontfxts.  Bfforf fxporting b dontfxt, dblling
+     * thf {@link GSSContfxt#isTrbnsffrbblf() GSSContfxt.isTrbnsffrbblf}
+     * will indidbtf if thf dontfxt is trbnsffrbblf. Cblling this mfthod in
+     * bn implfmfntbtion thbt dofs not support it will rfsult in b
+     * <dodf>GSSExdfption</dodf> with thf frror
+     * dodf {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE}.
+     *
+     * Somf mfdhbnism providfrs might rfquirf thbt thf dbllfr bf grbntfd
+     * pfrmission to initibtf or bddfpt b sfdurity dontfxt. A fbilfd
+     * pfrmission dhfdk might dbusf b {@link jbvb.lbng.SfdurityExdfption
+     * SfdurityExdfption} to bf thrown from this mfthod.
+     *
+     * @pbrbm intfrProdfssTokfn thf tokfn prfviously fmittfd from thf
+     * fxport mfthod.
+     * @rfturn thf prfviously fstbblishfd GSSContfxt
+     *
+     * @sff GSSContfxt
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#NO_CONTEXT GSSExdfption.NO_CONTEXT},
+     *    {@link GSSExdfption#DEFECTIVE_TOKEN GSSExdfption.DEFECTIVE_TOKEN},
+     *    {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE},
+     *    {@link GSSExdfption#UNAUTHORIZED GSSExdfption.UNAUTHORIZED},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt GSSContfxt drfbtfContfxt(bytf [] intfrProdfssTokfn)
+        throws GSSExdfption;
+
+    /**
+     * This mfthod is usfd to indidbtf to thf GSSMbnbgfr thbt thf
+     * bpplidbtion would likf b pbrtidulbr providfr to bf usfd bhfbd of bll
+     * othfrs whfn support is dfsirfd for thf givfn mfdhbnism. Whfn b vbluf
+     * of null is usfd instfbd of bn <dodf>Oid</dodf> for thf mfdhbnism,
+     * thf GSSMbnbgfr must usf thf indidbtfd providfr bhfbd of bll othfrs
+     * no mbttfr whbt thf mfdhbnism is. Only whfn thf indidbtfd providfr
+     * dofs not support thf nffdfd mfdhbnism should thf GSSMbnbgfr movf on
+     * to b difffrfnt providfr.<p>
+     *
+     * Cblling this mfthod rfpfbtfdly prfsfrvfs thf oldfr sfttings but
+     * lowfrs thfm in prfffrfndf thus forming bn ordfrfd list of providfr
+     * bnd <dodf>Oid</dodf> pbirs thbt grows bt thf top.<p>
+     *
+     * Cblling bddProvidfrAtFront with b null <dodf>Oid</dodf> will rfmovf
+     * bll prfvious prfffrfndfs thbt wfrf sft for this providfr in thf
+     * GSSMbnbgfr instbndf. Cblling bddProvidfrAtFront with b non-null
+     * <dodf>Oid</dodf> will rfmovf bny prfvious prfffrfndf thbt wbs sft
+     * using this mfdhbnism bnd this providfr togfthfr.<p>
+     *
+     * If thf GSSMbnbgfr implfmfntbtion dofs not support bn SPI with b
+     * pluggbblf providfr brdhitfdturf it should throw b GSSExdfption with
+     * thf stbtus dodf GSSExdfption.UNAVAILABLE to indidbtf thbt thf
+     * opfrbtion is unbvbilbblf.<p>
+     *
+     * Supposf bn bpplidbtion dfsirfd thbt thf providfr A blwbys bf dhfdkfd
+     * first whfn bny mfdhbnism is nffdfd, it would dbll:<p>
+     * <prf>
+     *         GSSMbnbgfr mgr = GSSMbnbgfr.gftInstbndf();
+     *         // mgr mby bt this point hbvf its own prf-donfigurfd list
+     *         // of providfr prfffrfndfs. Thf following will prfpfnd to
+     *         // bny sudh list:
+     *
+     *         mgr.bddProvidfrAtFront(A, null);
+     * </prf>
+     * Now if it blso dfsirfd thbt thf mfdhbnism of Oid m1 blwbys bf
+     * obtbinfd from thf providfr B bfforf thf prfviously sft A wbs dhfdkfd,
+     * it would dbll:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtFront(B, m1);
+     * </prf>
+     * Thf GSSMbnbgfr would thfn first dhfdk with B if m1 wbs nffdfd. In
+     * dbsf B did not providf support for m1, thf GSSMbnbgfr would dontinuf
+     * on to dhfdk with A.  If bny mfdhbnism m2 is nffdfd whfrf m2 is
+     * difffrfnt from m1 thfn thf GSSMbnbgfr would skip B bnd dhfdk with A
+     * dirfdtly.<p>
+     *
+     * Supposf bt b lbtfr timf thf following dbll is mbdf to thf sbmf
+     * GSSMbnbgfr instbndf:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtFront(B, null)
+     * </prf>
+     * thfn thf prfvious sftting with thf pbir (B, m1) is subsumfd by this
+     * bnd should bf rfmovfd. Efffdtivfly thf list of prfffrfndfs now
+     * bfdomfs {(B, null), (A, null),
+     *         ... //followfd by thf prf-donfigurfd list.<p>
+     *
+     * Plfbsf notf, howfvfr, thbt thf following dbll:
+     * <prf>
+     *         mgr.bddProvidfrAtFront(A, m3)
+     * </prf>
+     * dofs not subsumf thf prfvious sftting of (A, null) bnd thf list will
+     * ffffdtivfly bfdomf {(A, m3), (B, null), (A, null), ...}
+     *
+     * @pbrbm p thf providfr instbndf thbt should bf usfd whfnfvfr support
+     * is nffdfd for mfdh.
+     * @pbrbm mfdh thf mfdhbnism for whidh thf providfr is bfing sft
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt void bddProvidfrAtFront(Providfr p, Oid mfdh)
+        throws GSSExdfption;
+
+    /**
+     * This mfthod is usfd to indidbtf to thf GSSMbnbgfr thbt thf
+     * bpplidbtion would likf b pbrtidulbr providfr to bf usfd if no othfr
+     * providfr dbn bf found thbt supports thf givfn mfdhbnism. Whfn b vbluf
+     * of null is usfd instfbd of bn Oid for thf mfdhbnism, thf GSSMbnbgfr
+     * must usf thf indidbtfd providfr for bny mfdhbnism.<p>
+     *
+     * Cblling this mfthod rfpfbtfdly prfsfrvfs thf oldfr sfttings but
+     * rbisfs thfm bbovf nfwfr onfs in prfffrfndf thus forming bn ordfrfd
+     * list of providfrs bnd Oid pbirs thbt grows bt thf bottom. Thus thf
+     * oldfr providfr sfttings will bf utilizfd first bfforf this onf is.<p>
+     *
+     * If thfrf brf bny prfviously fxisting prfffrfndfs thbt donflidt with
+     * thf prfffrfndf bfing sft hfrf, thfn thf GSSMbnbgfr should ignorf this
+     * rfqufst.<p>
+     *
+     * If thf GSSMbnbgfr implfmfntbtion dofs not support bn SPI with b
+     * pluggbblf providfr brdhitfdturf it should throw b GSSExdfption with
+     * thf stbtus dodf GSSExdfption.UNAVAILABLE to indidbtf thbt thf
+     * opfrbtion is unbvbilbblf.<p>
+     *
+     * Supposf bn bpplidbtion dfsirfd thbt whfn b mfdhbnism of Oid m1 is
+     * nffdfd thf systfm dffbult providfrs blwbys bf dhfdkfd first, bnd only
+     * whfn thfy do not support m1 should b providfr A bf dhfdkfd. It would
+     * thfn mbkf thf dbll:<p>
+     * <prf>
+     *         GSSMbnbgfr mgr = GSSMbnbgfr.gftInstbndf();
+     *         mgr.bddProvidfrAtEnd(A, m1);
+     * </prf>
+     * Now, if it blso dfsirfd thbt for bll mfdhbnisms thf providfr B bf
+     * dhfdkfd bftfr bll donfigurfd providfrs hbvf bffn dhfdkfd, it would
+     * thfn dbll:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtEnd(B, null);
+     * </prf>
+     * Efffdtivfly thf list of prfffrfndfs now bfdomfs {..., (A, m1), (B,
+     * null)}.<p>
+     *
+     * Supposf bt b lbtfr timf thf following dbll is mbdf to thf sbmf
+     * GSSMbnbgfr instbndf:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtEnd(B, m2)
+     * </prf>
+     * thfn thf prfvious sftting with thf pbir (B, null) subsumfs this bnd
+     * thfrfforf this rfqufst should bf ignorfd. Thf sbmf would hbppfn if b
+     * rfqufst is mbdf for thf blrfbdy fxisting pbirs of (A, m1) or (B,
+     * null).<p>
+     *
+     * Plfbsf notf, howfvfr, thbt thf following dbll:<p>
+     * <prf>
+     *         mgr.bddProvidfrAtEnd(A, null)
+     * </prf>
+     * is not subsumfd by thf prfvious sftting of (A, m1) bnd thf list will
+     * ffffdtivfly bfdomf {..., (A, m1), (B, null), (A, null)}
+     *
+     * @pbrbm p thf providfr instbndf thbt should bf usfd whfnfvfr support
+     * is nffdfd for mfdh.
+     * @pbrbm mfdh thf mfdhbnism for whidh thf providfr is bfing sft
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *    {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE},
+     *    {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bbstrbdt void bddProvidfrAtEnd(Providfr p, Oid mfdh)
+        throws GSSExdfption;
+}

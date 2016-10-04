@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,188 +30,188 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion, bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.rfgfx.Pbttfrn;
 
 /**
- * WC - Prints newline, word, and character counts for each file. See
- * the {@link #usage} method for instructions and command line parameters. This
- * sample shows usages of:
+ * WC - Prints nfwlinf, word, bnd dibrbdtfr dounts for fbdi filf. Sff
+ * tif {@link #usbgf} mftiod for instrudtions bnd dommbnd linf pbrbmftfrs. Tiis
+ * sbmplf siows usbgfs of:
  * <ul>
- * <li>Lambda and bulk operations. Shows how to create a custom collector to
- * gather custom statistics. Implements the collection of statistics using a
+ * <li>Lbmbdb bnd bulk opfrbtions. Siows iow to drfbtf b dustom dollfdtor to
+ * gbtifr dustom stbtistids. Implfmfnts tif dollfdtion of stbtistids using b
  * built-in API.</li>
- * <li>Constructor reference.</li>
- * <li>Try-with-resources feature.</li>
+ * <li>Construdtor rfffrfndf.</li>
+ * <li>Try-witi-rfsourdfs ffbturf.</li>
  * </ul>
  *
  */
-public class WC {
+publid dlbss WC {
 
-    //The number of characters that may be read.
-    private static final int READ_AHEAD_LIMIT = 100_000_000;
+    //Tif numbfr of dibrbdtfrs tibt mby bf rfbd.
+    privbtf stbtid finbl int READ_AHEAD_LIMIT = 100_000_000;
 
-    //The pattern for splitting strings by non word characters to get words.
-    private static final Pattern nonWordPattern = Pattern.compile("\\W");
+    //Tif pbttfrn for splitting strings by non word dibrbdtfrs to gft words.
+    privbtf stbtid finbl Pbttfrn nonWordPbttfrn = Pbttfrn.dompilf("\\W");
 
     /**
-     * The main method for the WC program. Run the program with an empty
-     * argument list to see possible arguments.
+     * Tif mbin mftiod for tif WC progrbm. Run tif progrbm witi bn fmpty
+     * brgumfnt list to sff possiblf brgumfnts.
      *
-     * @param args the argument list for WC
-     * @throws java.io.IOException If an input exception occurred.
+     * @pbrbm brgs tif brgumfnt list for WC
+     * @tirows jbvb.io.IOExdfption If bn input fxdfption oddurrfd.
      */
-    public static void main(String[] args) throws IOException {
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
 
-        if (args.length != 1) {
-            usage();
-            return;
+        if (brgs.lfngti != 1) {
+            usbgf();
+            rfturn;
         }
 
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader(args[0]))) {
-            reader.mark(READ_AHEAD_LIMIT);
+        try (BufffrfdRfbdfr rfbdfr = nfw BufffrfdRfbdfr(
+                nfw FilfRfbdfr(brgs[0]))) {
+            rfbdfr.mbrk(READ_AHEAD_LIMIT);
             /*
-             * Statistics can be gathered in four passes using a built-in API.
-             * The method demonstrates how separate operations can be
-             * implemented using a built-in API.
+             * Stbtistids dbn bf gbtifrfd in four pbssfs using b built-in API.
+             * Tif mftiod dfmonstrbtfs iow sfpbrbtf opfrbtions dbn bf
+             * implfmfntfd using b built-in API.
              */
-            collectInFourPasses(reader);
+            dollfdtInFourPbssfs(rfbdfr);
             /*
-             * Usage of several passes to collect data is not the best way.
-             * Statistics can be gathered by a custom collector in one pass.
+             * Usbgf of sfvfrbl pbssfs to dollfdt dbtb is not tif bfst wby.
+             * Stbtistids dbn bf gbtifrfd by b dustom dollfdtor in onf pbss.
              */
-            reader.reset();
-            collectInOnePass(reader);
-        } catch (FileNotFoundException e) {
-            usage();
-            System.err.println(e);
+            rfbdfr.rfsft();
+            dollfdtInOnfPbss(rfbdfr);
+        } dbtdi (FilfNotFoundExdfption f) {
+            usbgf();
+            Systfm.frr.println(f);
         }
     }
 
-    private static void collectInFourPasses(BufferedReader reader)
-            throws IOException {
+    privbtf stbtid void dollfdtInFourPbssfs(BufffrfdRfbdfr rfbdfr)
+            tirows IOExdfption {
         /*
-         * Input is read as a stream of lines by lines().
-         * Every line is turned into a stream of chars by the flatMapToInt(...)
-         * method.
-         * Length of the stream is counted by count().
+         * Input is rfbd bs b strfbm of linfs by linfs().
+         * Evfry linf is turnfd into b strfbm of dibrs by tif flbtMbpToInt(...)
+         * mftiod.
+         * Lfngti of tif strfbm is dountfd by dount().
          */
-        System.out.println("Character count = "
-                + reader.lines().flatMapToInt(String::chars).count());
+        Systfm.out.println("Cibrbdtfr dount = "
+                + rfbdfr.linfs().flbtMbpToInt(String::dibrs).dount());
         /*
-         * Input is read as a stream of lines by lines().
-         * Every line is split by nonWordPattern into words by flatMap(...)
-         * method.
-         * Empty lines are removed by the filter(...) method.
-         * Length of the stream is counted by count().
+         * Input is rfbd bs b strfbm of linfs by linfs().
+         * Evfry linf is split by nonWordPbttfrn into words by flbtMbp(...)
+         * mftiod.
+         * Empty linfs brf rfmovfd by tif filtfr(...) mftiod.
+         * Lfngti of tif strfbm is dountfd by dount().
          */
-        reader.reset();
-        System.out.println("Word count = "
-                + reader.lines()
-                .flatMap(nonWordPattern::splitAsStream)
-                .filter(str -> !str.isEmpty()).count());
+        rfbdfr.rfsft();
+        Systfm.out.println("Word dount = "
+                + rfbdfr.linfs()
+                .flbtMbp(nonWordPbttfrn::splitAsStrfbm)
+                .filtfr(str -> !str.isEmpty()).dount());
 
-        reader.reset();
-        System.out.println("Newline count = " + reader.lines().count());
+        rfbdfr.rfsft();
+        Systfm.out.println("Nfwlinf dount = " + rfbdfr.linfs().dount());
         /*
-         * Input is read as a stream of lines by lines().
-         * Every line is mapped to its length.
-         * Maximum of the lengths is calculated.
+         * Input is rfbd bs b strfbm of linfs by linfs().
+         * Evfry linf is mbppfd to its lfngti.
+         * Mbximum of tif lfngtis is dbldulbtfd.
          */
-        reader.reset();
-        System.out.println("Max line length = "
-                + reader.lines().mapToInt(String::length).max().getAsInt());
+        rfbdfr.rfsft();
+        Systfm.out.println("Mbx linf lfngti = "
+                + rfbdfr.linfs().mbpToInt(String::lfngti).mbx().gftAsInt());
     }
 
-    private static void collectInOnePass(BufferedReader reader) {
+    privbtf stbtid void dollfdtInOnfPbss(BufffrfdRfbdfr rfbdfr) {
         /*
-         * The collect() method has three parameters:
-         * The first parameter is the {@code WCStatistic} constructor reference.
-         * collect() will create {@code WCStatistics} instances, where
-         * statistics will be aggregated.
-         * The second parameter shows how {@code WCStatistics} will process
+         * Tif dollfdt() mftiod ibs tirff pbrbmftfrs:
+         * Tif first pbrbmftfr is tif {@dodf WCStbtistid} donstrudtor rfffrfndf.
+         * dollfdt() will drfbtf {@dodf WCStbtistids} instbndfs, wifrf
+         * stbtistids will bf bggrfgbtfd.
+         * Tif sfdond pbrbmftfr siows iow {@dodf WCStbtistids} will prodfss
          * String.
-         * The third parameter shows how to merge two {@code WCStatistic}
-         * instances.
+         * Tif tiird pbrbmftfr siows iow to mfrgf two {@dodf WCStbtistid}
+         * instbndfs.
          *
-         * Also {@code Collector} can be used, which would be more reusable
-         * solution. See {@code CSVProcessor} example for how {@code Collector}
-         * can be implemented.
+         * Also {@dodf Collfdtor} dbn bf usfd, wiidi would bf morf rfusbblf
+         * solution. Sff {@dodf CSVProdfssor} fxbmplf for iow {@dodf Collfdtor}
+         * dbn bf implfmfntfd.
          *
-         * Note that the any performance increase when going parallel will
-         * depend on the size of the input (lines) and the cost per-element.
+         * Notf tibt tif bny pfrformbndf indrfbsf wifn going pbrbllfl will
+         * dfpfnd on tif sizf of tif input (linfs) bnd tif dost pfr-flfmfnt.
          */
-        WCStatistics wc = reader.lines().parallel()
-                .collect(WCStatistics::new,
-                        WCStatistics::accept,
-                        WCStatistics::combine);
-        System.out.println(wc);
+        WCStbtistids wd = rfbdfr.linfs().pbrbllfl()
+                .dollfdt(WCStbtistids::nfw,
+                        WCStbtistids::bddfpt,
+                        WCStbtistids::dombinf);
+        Systfm.out.println(wd);
     }
 
-    private static void usage() {
-        System.out.println("Usage: " + WC.class.getSimpleName() + " FILE");
-        System.out.println("Print newline, word,"
-                + "  character counts and max line length for FILE.");
+    privbtf stbtid void usbgf() {
+        Systfm.out.println("Usbgf: " + WC.dlbss.gftSimplfNbmf() + " FILE");
+        Systfm.out.println("Print nfwlinf, word,"
+                + "  dibrbdtfr dounts bnd mbx linf lfngti for FILE.");
     }
 
-    private static class WCStatistics implements Consumer<String> {
+    privbtf stbtid dlbss WCStbtistids implfmfnts Consumfr<String> {
         /*
-         * @implNote This implementation does not need to be thread safe because
-         * the parallel implementation of
-         * {@link java.util.stream.Stream#collect Stream.collect()}
-         * provides the necessary partitioning and isolation for safe parallel
-         * execution.
+         * @implNotf Tiis implfmfntbtion dofs not nffd to bf tirfbd sbff bfdbusf
+         * tif pbrbllfl implfmfntbtion of
+         * {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+         * providfs tif nfdfssbry pbrtitioning bnd isolbtion for sbff pbrbllfl
+         * fxfdution.
          */
 
-        private long characterCount;
-        private long lineCount;
-        private long wordCount;
-        private long maxLineLength;
+        privbtf long dibrbdtfrCount;
+        privbtf long linfCount;
+        privbtf long wordCount;
+        privbtf long mbxLinfLfngti;
 
 
         /*
-         * Processes line.
+         * Prodfssfs linf.
          */
-        @Override
-        public void accept(String line) {
-            characterCount += line.length();
-            lineCount++;
-            wordCount += nonWordPattern.splitAsStream(line)
-                    .filter(str -> !str.isEmpty()).count();
-            maxLineLength = Math.max(maxLineLength, line.length());
+        @Ovfrridf
+        publid void bddfpt(String linf) {
+            dibrbdtfrCount += linf.lfngti();
+            linfCount++;
+            wordCount += nonWordPbttfrn.splitAsStrfbm(linf)
+                    .filtfr(str -> !str.isEmpty()).dount();
+            mbxLinfLfngti = Mbti.mbx(mbxLinfLfngti, linf.lfngti());
         }
 
         /*
-         * Merges two WCStatistics.
+         * Mfrgfs two WCStbtistids.
          */
-        public void combine(WCStatistics stat) {
-            wordCount += stat.wordCount;
-            lineCount += stat.lineCount;
-            characterCount += stat.characterCount;
-            maxLineLength = Math.max(maxLineLength, stat.maxLineLength);
+        publid void dombinf(WCStbtistids stbt) {
+            wordCount += stbt.wordCount;
+            linfCount += stbt.linfCount;
+            dibrbdtfrCount += stbt.dibrbdtfrCount;
+            mbxLinfLfngti = Mbti.mbx(mbxLinfLfngti, stbt.mbxLinfLfngti);
         }
 
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("#------WCStatistic------#\n");
-            sb.append("Character count = ").append(characterCount).append('\n');
-            sb.append("Word count = ").append(wordCount).append('\n');
-            sb.append("Newline count = ").append(lineCount).append('\n');
-            sb.append("Max line length = ").append(maxLineLength).append('\n');
-            return sb.toString();
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("#------WCStbtistid------#\n");
+            sb.bppfnd("Cibrbdtfr dount = ").bppfnd(dibrbdtfrCount).bppfnd('\n');
+            sb.bppfnd("Word dount = ").bppfnd(wordCount).bppfnd('\n');
+            sb.bppfnd("Nfwlinf dount = ").bppfnd(linfCount).bppfnd('\n');
+            sb.bppfnd("Mbx linf lfngti = ").bppfnd(mbxLinfLfngti).bppfnd('\n');
+            rfturn sb.toString();
         }
     }
 }

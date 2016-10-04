@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Providfs dlbssfs bnd intfrfbdfs for pbrsing bnd mbnbging
+ * dfrtifidbtfs, dfrtifidbtf rfvodbtion lists (CRLs), bnd
+ * dfrtifidbtion pbths. It dontbins support for X.509 v3
+ * dfrtifidbtfs bnd X.509 v2 CRLs.
+ *
+ * <h2>Pbdkbgf Spfdifidbtion</h2>
+ *
+ * <ul>
+ *   <li><b hrff="{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html">
+ *     <b>Jbvb&trbdf;
+ *     Cryptogrbphy Ardhitfdturf (JCA) Rfffrfndf Guidf</b></b>
+ *   <li>RFC 5280: Intfrnft X.509 Publid Kfy Infrbstrudturf Cfrtifidbtf bnd
+ *     Cfrtifidbtf Rfvodbtion List (CRL) Profilf
+ *   <li>RFC 2560: X.509 Intfrnft Publid Kfy Infrbstrudturf Onlinf Cfrtifidbtf
+ *     Stbtus Protodol - OCSP
+ *   <li><b hrff="{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html">
+ *     <b>Jbvb&trbdf;
+ *     Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf
+ *     Dodumfntbtion</b></b></li>
+ * </ul>
+ *
+ * <h2>Rflbtfd Dodumfntbtion</h2>
+ *
+ * For informbtion bbout X.509 dfrtifidbtfs bnd CRLs, plfbsf sff:
+ * <ul>
+ *   <li><b hrff="http://www.iftf.org/rfd/rfd5280.txt">
+ *     http://www.iftf.org/rfd/rfd5280.txt</b>
+ *   <li><b hrff=
+ *     "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/dfrtpbth/CfrtPbthProgGuidf.html">
+ *     <b>Jbvb&trbdf;
+ *     PKI Progrbmmfr's Guidf</b></b>
+ *   <li><b hrff="{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/dfrt3.html">
+ *     <b>X.509 Cfrtifidbtfs bnd Cfrtifidbtf Rfvodbtion Lists (CRLs)</b></b>
+ * </ul>
+ *
+ * @sindf 1.2
+ */
+pbdkbgf jbvb.sfdurity.dfrt;

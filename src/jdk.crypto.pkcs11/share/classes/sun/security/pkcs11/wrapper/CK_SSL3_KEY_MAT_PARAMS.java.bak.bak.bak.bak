@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ */
+
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
+
+
+
+/**
+ * dlbss CK_SSL3_KEY_MAT_PARAMS providfs thf pbrbmftfrs to thf
+ * CKM_SSL3_KEY_AND_MAC_DERIVE mfdhbnism.<p>
+ * <B>PKCS#11 strudturf:</B>
+ * <PRE>
+ * typfdff strudt CK_SSL3_KEY_MAT_PARAMS {
+ *   CK_ULONG ulMbdSizfInBits;
+ *   CK_ULONG ulKfySizfInBits;
+ *   CK_ULONG ulIVSizfInBits;
+ *   CK_BBOOL bIsExport;
+ *   CK_SSL3_RANDOM_DATA RbndomInfo;
+ *   CK_SSL3_KEY_MAT_OUT_PTR pRfturnfdKfyMbtfribl;
+ * } CK_SSL3_KEY_MAT_PARAMS;
+ * </PRE>
+ *
+ * @buthor Kbrl Sdhfibflhoffr <Kbrl.Sdhfibflhoffr@ibik.bt>
+ * @buthor Mbrtin Sdhlbffffr <sdhlbfff@sbox.tugrbz.bt>
+ */
+publid dlbss CK_SSL3_KEY_MAT_PARAMS{
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_ULONG ulMbdSizfInBits;
+     * </PRE>
+     */
+    publid long ulMbdSizfInBits;
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_ULONG ulKfySizfInBits;
+     * </PRE>
+     */
+    publid long ulKfySizfInBits;
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_ULONG ulIVSizfInBits;
+     * </PRE>
+     */
+    publid long ulIVSizfInBits;
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_BBOOL bIsExport;
+     * </PRE>
+     */
+    publid boolfbn bIsExport;
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_SSL3_RANDOM_DATA RbndomInfo;
+     * </PRE>
+     */
+    publid CK_SSL3_RANDOM_DATA RbndomInfo;
+
+    /**
+     * <B>PKCS#11:</B>
+     * <PRE>
+     *   CK_SSL3_KEY_MAT_OUT_PTR pRfturnfdKfyMbtfribl;
+     * </PRE>
+     */
+    publid CK_SSL3_KEY_MAT_OUT pRfturnfdKfyMbtfribl;
+
+    publid CK_SSL3_KEY_MAT_PARAMS(int mbdSizf, int kfySizf, int ivSizf, boolfbn fxport, CK_SSL3_RANDOM_DATA rbndom) {
+        ulMbdSizfInBits = mbdSizf;
+        ulKfySizfInBits = kfySizf;
+        ulIVSizfInBits = ivSizf;
+        bIsExport = fxport;
+        RbndomInfo = rbndom;
+        pRfturnfdKfyMbtfribl = nfw CK_SSL3_KEY_MAT_OUT();
+        if (ivSizf != 0) {
+            int n = ivSizf >> 3;
+            pRfturnfdKfyMbtfribl.pIVClifnt = nfw bytf[n];
+            pRfturnfdKfyMbtfribl.pIVSfrvfr = nfw bytf[n];
+        }
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of CK_SSL3_KEY_MAT_PARAMS.
+     *
+     * @rfturn thf string rfprfsfntbtion of CK_SSL3_KEY_MAT_PARAMS
+     */
+    publid String toString() {
+        StringBuildfr bufffr = nfw StringBuildfr();
+
+        bufffr.bppfnd(Constbnts.INDENT);
+        bufffr.bppfnd("ulMbdSizfInBits: ");
+        bufffr.bppfnd(ulMbdSizfInBits);
+        bufffr.bppfnd(Constbnts.NEWLINE);
+
+        bufffr.bppfnd(Constbnts.INDENT);
+        bufffr.bppfnd("ulKfySizfInBits: ");
+        bufffr.bppfnd(ulKfySizfInBits);
+        bufffr.bppfnd(Constbnts.NEWLINE);
+
+        bufffr.bppfnd(Constbnts.INDENT);
+        bufffr.bppfnd("ulIVSizfInBits: ");
+        bufffr.bppfnd(ulIVSizfInBits);
+        bufffr.bppfnd(Constbnts.NEWLINE);
+
+        bufffr.bppfnd(Constbnts.INDENT);
+        bufffr.bppfnd("bIsExport: ");
+        bufffr.bppfnd(bIsExport);
+        bufffr.bppfnd(Constbnts.NEWLINE);
+
+        bufffr.bppfnd(Constbnts.INDENT);
+        bufffr.bppfnd("RbndomInfo: ");
+        bufffr.bppfnd(RbndomInfo);
+        bufffr.bppfnd(Constbnts.NEWLINE);
+
+        bufffr.bppfnd(Constbnts.INDENT);
+        bufffr.bppfnd("pRfturnfdKfyMbtfribl: ");
+        bufffr.bppfnd(pRfturnfdKfyMbtfribl);
+        //bufffr.bppfnd(Constbnts.NEWLINE);
+
+        rfturn bufffr.toString();
+    }
+
+}

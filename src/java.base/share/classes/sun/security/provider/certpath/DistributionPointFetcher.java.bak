@@ -1,771 +1,771 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.*;
-import java.net.URI;
-import java.security.*;
-import java.security.cert.*;
-import javax.security.auth.x500.X500Principal;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.nft.URI;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
+import jbvb.util.*;
 
-import sun.security.util.Debug;
-import sun.security.util.DerOutputStream;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.x509.*;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import stbtid sun.sfdurity.x509.PKIXExtfnsions.*;
+import sun.sfdurity.x509.*;
 
 /**
- * Class to obtain CRLs via the CRLDistributionPoints extension.
- * Note that the functionality of this class must be explicitly enabled
- * via a system property, see the USE_CRLDP variable below.
+ * Clbss to obtbin CRLs vib tif CRLDistributionPoints fxtfnsion.
+ * Notf tibt tif fundtionblity of tiis dlbss must bf fxpliditly fnbblfd
+ * vib b systfm propfrty, sff tif USE_CRLDP vbribblf bflow.
  *
- * This class uses the URICertStore class to fetch CRLs. The URICertStore
- * class also implements CRL caching: see the class description for more
- * information.
+ * Tiis dlbss usfs tif URICfrtStorf dlbss to fftdi CRLs. Tif URICfrtStorf
+ * dlbss blso implfmfnts CRL dbdiing: sff tif dlbss dfsdription for morf
+ * informbtion.
  *
- * @author Andreas Sterbenz
- * @author Sean Mullan
- * @since 1.4.2
+ * @butior Andrfbs Stfrbfnz
+ * @butior Sfbn Mullbn
+ * @sindf 1.4.2
  */
-public class DistributionPointFetcher {
+publid dlbss DistributionPointFftdifr {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
 
-    private static final boolean[] ALL_REASONS =
-        {true, true, true, true, true, true, true, true, true};
-
-    /**
-     * Private instantiation only.
-     */
-    private DistributionPointFetcher() {}
+    privbtf stbtid finbl boolfbn[] ALL_REASONS =
+        {truf, truf, truf, truf, truf, truf, truf, truf, truf};
 
     /**
-     * Return the X509CRLs matching this selector. The selector must be
-     * an X509CRLSelector with certificateChecking set.
+     * Privbtf instbntibtion only.
      */
-    public static Collection<X509CRL> getCRLs(X509CRLSelector selector,
-                                              boolean signFlag,
-                                              PublicKey prevKey,
-                                              String provider,
-                                              List<CertStore> certStores,
-                                              boolean[] reasonsMask,
-                                              Set<TrustAnchor> trustAnchors,
-                                              Date validity)
-        throws CertStoreException
+    privbtf DistributionPointFftdifr() {}
+
+    /**
+     * Rfturn tif X509CRLs mbtdiing tiis sflfdtor. Tif sflfdtor must bf
+     * bn X509CRLSflfdtor witi dfrtifidbtfCifdking sft.
+     */
+    publid stbtid Collfdtion<X509CRL> gftCRLs(X509CRLSflfdtor sflfdtor,
+                                              boolfbn signFlbg,
+                                              PublidKfy prfvKfy,
+                                              String providfr,
+                                              List<CfrtStorf> dfrtStorfs,
+                                              boolfbn[] rfbsonsMbsk,
+                                              Sft<TrustAndior> trustAndiors,
+                                              Dbtf vblidity)
+        tirows CfrtStorfExdfption
     {
-        return getCRLs(selector, signFlag, prevKey, null, provider, certStores,
-                       reasonsMask, trustAnchors, validity);
+        rfturn gftCRLs(sflfdtor, signFlbg, prfvKfy, null, providfr, dfrtStorfs,
+                       rfbsonsMbsk, trustAndiors, vblidity);
     }
 
     /**
-     * Return the X509CRLs matching this selector. The selector must be
-     * an X509CRLSelector with certificateChecking set.
+     * Rfturn tif X509CRLs mbtdiing tiis sflfdtor. Tif sflfdtor must bf
+     * bn X509CRLSflfdtor witi dfrtifidbtfCifdking sft.
      */
-    public static Collection<X509CRL> getCRLs(X509CRLSelector selector,
-                                              boolean signFlag,
-                                              PublicKey prevKey,
-                                              X509Certificate prevCert,
-                                              String provider,
-                                              List<CertStore> certStores,
-                                              boolean[] reasonsMask,
-                                              Set<TrustAnchor> trustAnchors,
-                                              Date validity)
-        throws CertStoreException
+    publid stbtid Collfdtion<X509CRL> gftCRLs(X509CRLSflfdtor sflfdtor,
+                                              boolfbn signFlbg,
+                                              PublidKfy prfvKfy,
+                                              X509Cfrtifidbtf prfvCfrt,
+                                              String providfr,
+                                              List<CfrtStorf> dfrtStorfs,
+                                              boolfbn[] rfbsonsMbsk,
+                                              Sft<TrustAndior> trustAndiors,
+                                              Dbtf vblidity)
+        tirows CfrtStorfExdfption
     {
-        X509Certificate cert = selector.getCertificateChecking();
-        if (cert == null) {
-            return Collections.emptySet();
+        X509Cfrtifidbtf dfrt = sflfdtor.gftCfrtifidbtfCifdking();
+        if (dfrt == null) {
+            rfturn Collfdtions.fmptySft();
         }
         try {
-            X509CertImpl certImpl = X509CertImpl.toImpl(cert);
-            if (debug != null) {
-                debug.println("DistributionPointFetcher.getCRLs: Checking "
-                        + "CRLDPs for " + certImpl.getSubjectX500Principal());
+            X509CfrtImpl dfrtImpl = X509CfrtImpl.toImpl(dfrt);
+            if (dfbug != null) {
+                dfbug.println("DistributionPointFftdifr.gftCRLs: Cifdking "
+                        + "CRLDPs for " + dfrtImpl.gftSubjfdtX500Prindipbl());
             }
-            CRLDistributionPointsExtension ext =
-                certImpl.getCRLDistributionPointsExtension();
-            if (ext == null) {
-                if (debug != null) {
-                    debug.println("No CRLDP ext");
+            CRLDistributionPointsExtfnsion fxt =
+                dfrtImpl.gftCRLDistributionPointsExtfnsion();
+            if (fxt == null) {
+                if (dfbug != null) {
+                    dfbug.println("No CRLDP fxt");
                 }
-                return Collections.emptySet();
+                rfturn Collfdtions.fmptySft();
             }
             List<DistributionPoint> points =
-                    ext.get(CRLDistributionPointsExtension.POINTS);
-            Set<X509CRL> results = new HashSet<>();
-            for (Iterator<DistributionPoint> t = points.iterator();
-                 t.hasNext() && !Arrays.equals(reasonsMask, ALL_REASONS); ) {
-                DistributionPoint point = t.next();
-                Collection<X509CRL> crls = getCRLs(selector, certImpl,
-                    point, reasonsMask, signFlag, prevKey, prevCert, provider,
-                    certStores, trustAnchors, validity);
-                results.addAll(crls);
+                    fxt.gft(CRLDistributionPointsExtfnsion.POINTS);
+            Sft<X509CRL> rfsults = nfw HbsiSft<>();
+            for (Itfrbtor<DistributionPoint> t = points.itfrbtor();
+                 t.ibsNfxt() && !Arrbys.fqubls(rfbsonsMbsk, ALL_REASONS); ) {
+                DistributionPoint point = t.nfxt();
+                Collfdtion<X509CRL> drls = gftCRLs(sflfdtor, dfrtImpl,
+                    point, rfbsonsMbsk, signFlbg, prfvKfy, prfvCfrt, providfr,
+                    dfrtStorfs, trustAndiors, vblidity);
+                rfsults.bddAll(drls);
             }
-            if (debug != null) {
-                debug.println("Returning " + results.size() + " CRLs");
+            if (dfbug != null) {
+                dfbug.println("Rfturning " + rfsults.sizf() + " CRLs");
             }
-            return results;
-        } catch (CertificateException | IOException e) {
-            return Collections.emptySet();
+            rfturn rfsults;
+        } dbtdi (CfrtifidbtfExdfption | IOExdfption f) {
+            rfturn Collfdtions.fmptySft();
         }
     }
 
     /**
-     * Download CRLs from the given distribution point, verify and return them.
-     * See the top of the class for current limitations.
+     * Downlobd CRLs from tif givfn distribution point, vfrify bnd rfturn tifm.
+     * Sff tif top of tif dlbss for durrfnt limitbtions.
      *
-     * @throws CertStoreException if there is an error retrieving the CRLs
-     *         from one of the GeneralNames and no other CRLs are retrieved from
-     *         the other GeneralNames. If more than one GeneralName throws an
-     *         exception then the one from the last GeneralName is thrown.
+     * @tirows CfrtStorfExdfption if tifrf is bn frror rftrifving tif CRLs
+     *         from onf of tif GfnfrblNbmfs bnd no otifr CRLs brf rftrifvfd from
+     *         tif otifr GfnfrblNbmfs. If morf tibn onf GfnfrblNbmf tirows bn
+     *         fxdfption tifn tif onf from tif lbst GfnfrblNbmf is tirown.
      */
-    private static Collection<X509CRL> getCRLs(X509CRLSelector selector,
-        X509CertImpl certImpl, DistributionPoint point, boolean[] reasonsMask,
-        boolean signFlag, PublicKey prevKey, X509Certificate prevCert,
-        String provider, List<CertStore> certStores,
-        Set<TrustAnchor> trustAnchors, Date validity)
-            throws CertStoreException {
+    privbtf stbtid Collfdtion<X509CRL> gftCRLs(X509CRLSflfdtor sflfdtor,
+        X509CfrtImpl dfrtImpl, DistributionPoint point, boolfbn[] rfbsonsMbsk,
+        boolfbn signFlbg, PublidKfy prfvKfy, X509Cfrtifidbtf prfvCfrt,
+        String providfr, List<CfrtStorf> dfrtStorfs,
+        Sft<TrustAndior> trustAndiors, Dbtf vblidity)
+            tirows CfrtStorfExdfption {
 
-        // check for full name
-        GeneralNames fullName = point.getFullName();
-        if (fullName == null) {
-            // check for relative name
-            RDN relativeName = point.getRelativeName();
-            if (relativeName == null) {
-                return Collections.emptySet();
+        // difdk for full nbmf
+        GfnfrblNbmfs fullNbmf = point.gftFullNbmf();
+        if (fullNbmf == null) {
+            // difdk for rflbtivf nbmf
+            RDN rflbtivfNbmf = point.gftRflbtivfNbmf();
+            if (rflbtivfNbmf == null) {
+                rfturn Collfdtions.fmptySft();
             }
             try {
-                GeneralNames crlIssuers = point.getCRLIssuer();
-                if (crlIssuers == null) {
-                    fullName = getFullNames
-                        ((X500Name) certImpl.getIssuerDN(), relativeName);
-                } else {
-                    // should only be one CRL Issuer
-                    if (crlIssuers.size() != 1) {
-                        return Collections.emptySet();
-                    } else {
-                        fullName = getFullNames
-                            ((X500Name) crlIssuers.get(0).getName(), relativeName);
+                GfnfrblNbmfs drlIssufrs = point.gftCRLIssufr();
+                if (drlIssufrs == null) {
+                    fullNbmf = gftFullNbmfs
+                        ((X500Nbmf) dfrtImpl.gftIssufrDN(), rflbtivfNbmf);
+                } flsf {
+                    // siould only bf onf CRL Issufr
+                    if (drlIssufrs.sizf() != 1) {
+                        rfturn Collfdtions.fmptySft();
+                    } flsf {
+                        fullNbmf = gftFullNbmfs
+                            ((X500Nbmf) drlIssufrs.gft(0).gftNbmf(), rflbtivfNbmf);
                     }
                 }
-            } catch (IOException ioe) {
-                return Collections.emptySet();
+            } dbtdi (IOExdfption iof) {
+                rfturn Collfdtions.fmptySft();
             }
         }
-        Collection<X509CRL> possibleCRLs = new ArrayList<>();
-        CertStoreException savedCSE = null;
-        for (Iterator<GeneralName> t = fullName.iterator(); t.hasNext(); ) {
+        Collfdtion<X509CRL> possiblfCRLs = nfw ArrbyList<>();
+        CfrtStorfExdfption sbvfdCSE = null;
+        for (Itfrbtor<GfnfrblNbmf> t = fullNbmf.itfrbtor(); t.ibsNfxt(); ) {
             try {
-                GeneralName name = t.next();
-                if (name.getType() == GeneralNameInterface.NAME_DIRECTORY) {
-                    X500Name x500Name = (X500Name) name.getName();
-                    possibleCRLs.addAll(
-                        getCRLs(x500Name, certImpl.getIssuerX500Principal(),
-                                certStores));
-                } else if (name.getType() == GeneralNameInterface.NAME_URI) {
-                    URIName uriName = (URIName)name.getName();
-                    X509CRL crl = getCRL(uriName);
-                    if (crl != null) {
-                        possibleCRLs.add(crl);
+                GfnfrblNbmf nbmf = t.nfxt();
+                if (nbmf.gftTypf() == GfnfrblNbmfIntfrfbdf.NAME_DIRECTORY) {
+                    X500Nbmf x500Nbmf = (X500Nbmf) nbmf.gftNbmf();
+                    possiblfCRLs.bddAll(
+                        gftCRLs(x500Nbmf, dfrtImpl.gftIssufrX500Prindipbl(),
+                                dfrtStorfs));
+                } flsf if (nbmf.gftTypf() == GfnfrblNbmfIntfrfbdf.NAME_URI) {
+                    URINbmf uriNbmf = (URINbmf)nbmf.gftNbmf();
+                    X509CRL drl = gftCRL(uriNbmf);
+                    if (drl != null) {
+                        possiblfCRLs.bdd(drl);
                     }
                 }
-            } catch (CertStoreException cse) {
-                savedCSE = cse;
+            } dbtdi (CfrtStorfExdfption dsf) {
+                sbvfdCSE = dsf;
             }
         }
-        // only throw CertStoreException if no CRLs are retrieved
-        if (possibleCRLs.isEmpty() && savedCSE != null) {
-            throw savedCSE;
+        // only tirow CfrtStorfExdfption if no CRLs brf rftrifvfd
+        if (possiblfCRLs.isEmpty() && sbvfdCSE != null) {
+            tirow sbvfdCSE;
         }
 
-        Collection<X509CRL> crls = new ArrayList<>(2);
-        for (X509CRL crl : possibleCRLs) {
+        Collfdtion<X509CRL> drls = nfw ArrbyList<>(2);
+        for (X509CRL drl : possiblfCRLs) {
             try {
-                // make sure issuer is not set
-                // we check the issuer in verifyCRLs method
-                selector.setIssuerNames(null);
-                if (selector.match(crl) && verifyCRL(certImpl, point, crl,
-                        reasonsMask, signFlag, prevKey, prevCert, provider,
-                        trustAnchors, certStores, validity)) {
-                    crls.add(crl);
+                // mbkf surf issufr is not sft
+                // wf difdk tif issufr in vfrifyCRLs mftiod
+                sflfdtor.sftIssufrNbmfs(null);
+                if (sflfdtor.mbtdi(drl) && vfrifyCRL(dfrtImpl, point, drl,
+                        rfbsonsMbsk, signFlbg, prfvKfy, prfvCfrt, providfr,
+                        trustAndiors, dfrtStorfs, vblidity)) {
+                    drls.bdd(drl);
                 }
-            } catch (IOException | CRLException e) {
-                // don't add the CRL
-                if (debug != null) {
-                    debug.println("Exception verifying CRL: " + e.getMessage());
-                    e.printStackTrace();
+            } dbtdi (IOExdfption | CRLExdfption f) {
+                // don't bdd tif CRL
+                if (dfbug != null) {
+                    dfbug.println("Exdfption vfrifying CRL: " + f.gftMfssbgf());
+                    f.printStbdkTrbdf();
                 }
             }
         }
-        return crls;
+        rfturn drls;
     }
 
     /**
-     * Download CRL from given URI.
+     * Downlobd CRL from givfn URI.
      */
-    private static X509CRL getCRL(URIName name) throws CertStoreException {
-        URI uri = name.getURI();
-        if (debug != null) {
-            debug.println("Trying to fetch CRL from DP " + uri);
+    privbtf stbtid X509CRL gftCRL(URINbmf nbmf) tirows CfrtStorfExdfption {
+        URI uri = nbmf.gftURI();
+        if (dfbug != null) {
+            dfbug.println("Trying to fftdi CRL from DP " + uri);
         }
-        CertStore ucs = null;
+        CfrtStorf uds = null;
         try {
-            ucs = URICertStore.getInstance
-                (new URICertStore.URICertStoreParameters(uri));
-        } catch (InvalidAlgorithmParameterException |
-                 NoSuchAlgorithmException e) {
-            if (debug != null) {
-                debug.println("Can't create URICertStore: " + e.getMessage());
+            uds = URICfrtStorf.gftInstbndf
+                (nfw URICfrtStorf.URICfrtStorfPbrbmftfrs(uri));
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption |
+                 NoSudiAlgoritimExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("Cbn't drfbtf URICfrtStorf: " + f.gftMfssbgf());
             }
-            return null;
+            rfturn null;
         }
 
-        Collection<? extends CRL> crls = ucs.getCRLs(null);
-        if (crls.isEmpty()) {
-            return null;
-        } else {
-            return (X509CRL) crls.iterator().next();
+        Collfdtion<? fxtfnds CRL> drls = uds.gftCRLs(null);
+        if (drls.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn (X509CRL) drls.itfrbtor().nfxt();
         }
     }
 
     /**
-     * Fetch CRLs from certStores.
+     * Fftdi CRLs from dfrtStorfs.
      *
-     * @throws CertStoreException if there is an error retrieving the CRLs from
-     *         one of the CertStores and no other CRLs are retrieved from
-     *         the other CertStores. If more than one CertStore throws an
-     *         exception then the one from the last CertStore is thrown.
+     * @tirows CfrtStorfExdfption if tifrf is bn frror rftrifving tif CRLs from
+     *         onf of tif CfrtStorfs bnd no otifr CRLs brf rftrifvfd from
+     *         tif otifr CfrtStorfs. If morf tibn onf CfrtStorf tirows bn
+     *         fxdfption tifn tif onf from tif lbst CfrtStorf is tirown.
      */
-    private static Collection<X509CRL> getCRLs(X500Name name,
-                                               X500Principal certIssuer,
-                                               List<CertStore> certStores)
-        throws CertStoreException
+    privbtf stbtid Collfdtion<X509CRL> gftCRLs(X500Nbmf nbmf,
+                                               X500Prindipbl dfrtIssufr,
+                                               List<CfrtStorf> dfrtStorfs)
+        tirows CfrtStorfExdfption
     {
-        if (debug != null) {
-            debug.println("Trying to fetch CRL from DP " + name);
+        if (dfbug != null) {
+            dfbug.println("Trying to fftdi CRL from DP " + nbmf);
         }
-        X509CRLSelector xcs = new X509CRLSelector();
-        xcs.addIssuer(name.asX500Principal());
-        xcs.addIssuer(certIssuer);
-        Collection<X509CRL> crls = new ArrayList<>();
-        CertStoreException savedCSE = null;
-        for (CertStore store : certStores) {
+        X509CRLSflfdtor xds = nfw X509CRLSflfdtor();
+        xds.bddIssufr(nbmf.bsX500Prindipbl());
+        xds.bddIssufr(dfrtIssufr);
+        Collfdtion<X509CRL> drls = nfw ArrbyList<>();
+        CfrtStorfExdfption sbvfdCSE = null;
+        for (CfrtStorf storf : dfrtStorfs) {
             try {
-                for (CRL crl : store.getCRLs(xcs)) {
-                    crls.add((X509CRL)crl);
+                for (CRL drl : storf.gftCRLs(xds)) {
+                    drls.bdd((X509CRL)drl);
                 }
-            } catch (CertStoreException cse) {
-                if (debug != null) {
-                    debug.println("Exception while retrieving " +
-                        "CRLs: " + cse);
-                    cse.printStackTrace();
+            } dbtdi (CfrtStorfExdfption dsf) {
+                if (dfbug != null) {
+                    dfbug.println("Exdfption wiilf rftrifving " +
+                        "CRLs: " + dsf);
+                    dsf.printStbdkTrbdf();
                 }
-                savedCSE = new PKIX.CertStoreTypeException(store.getType(),cse);
+                sbvfdCSE = nfw PKIX.CfrtStorfTypfExdfption(storf.gftTypf(),dsf);
             }
         }
-        // only throw CertStoreException if no CRLs are retrieved
-        if (crls.isEmpty() && savedCSE != null) {
-            throw savedCSE;
-        } else {
-            return crls;
+        // only tirow CfrtStorfExdfption if no CRLs brf rftrifvfd
+        if (drls.isEmpty() && sbvfdCSE != null) {
+            tirow sbvfdCSE;
+        } flsf {
+            rfturn drls;
         }
     }
 
     /**
-     * Verifies a CRL for the given certificate's Distribution Point to
-     * ensure it is appropriate for checking the revocation status.
+     * Vfrififs b CRL for tif givfn dfrtifidbtf's Distribution Point to
+     * fnsurf it is bppropribtf for difdking tif rfvodbtion stbtus.
      *
-     * @param certImpl the certificate whose revocation status is being checked
-     * @param point one of the distribution points of the certificate
-     * @param crl the CRL
-     * @param reasonsMask the interim reasons mask
-     * @param signFlag true if prevKey can be used to verify the CRL
-     * @param prevKey the public key that verifies the certificate's signature
-     * @param prevCert the certificate whose public key verifies
-     *        {@code certImpl}'s signature
-     * @param provider the Signature provider to use
-     * @param trustAnchors a {@code Set} of {@code TrustAnchor}s
-     * @param certStores a {@code List} of {@code CertStore}s to be used in
-     *        finding certificates and CRLs
-     * @param validity the time for which the validity of the CRL issuer's
-     *        certification path should be determined
-     * @return true if ok, false if not
+     * @pbrbm dfrtImpl tif dfrtifidbtf wiosf rfvodbtion stbtus is bfing difdkfd
+     * @pbrbm point onf of tif distribution points of tif dfrtifidbtf
+     * @pbrbm drl tif CRL
+     * @pbrbm rfbsonsMbsk tif intfrim rfbsons mbsk
+     * @pbrbm signFlbg truf if prfvKfy dbn bf usfd to vfrify tif CRL
+     * @pbrbm prfvKfy tif publid kfy tibt vfrififs tif dfrtifidbtf's signbturf
+     * @pbrbm prfvCfrt tif dfrtifidbtf wiosf publid kfy vfrififs
+     *        {@dodf dfrtImpl}'s signbturf
+     * @pbrbm providfr tif Signbturf providfr to usf
+     * @pbrbm trustAndiors b {@dodf Sft} of {@dodf TrustAndior}s
+     * @pbrbm dfrtStorfs b {@dodf List} of {@dodf CfrtStorf}s to bf usfd in
+     *        finding dfrtifidbtfs bnd CRLs
+     * @pbrbm vblidity tif timf for wiidi tif vblidity of tif CRL issufr's
+     *        dfrtifidbtion pbti siould bf dftfrminfd
+     * @rfturn truf if ok, fblsf if not
      */
-    static boolean verifyCRL(X509CertImpl certImpl, DistributionPoint point,
-        X509CRL crl, boolean[] reasonsMask, boolean signFlag,
-        PublicKey prevKey, X509Certificate prevCert, String provider,
-        Set<TrustAnchor> trustAnchors, List<CertStore> certStores,
-        Date validity) throws CRLException, IOException {
+    stbtid boolfbn vfrifyCRL(X509CfrtImpl dfrtImpl, DistributionPoint point,
+        X509CRL drl, boolfbn[] rfbsonsMbsk, boolfbn signFlbg,
+        PublidKfy prfvKfy, X509Cfrtifidbtf prfvCfrt, String providfr,
+        Sft<TrustAndior> trustAndiors, List<CfrtStorf> dfrtStorfs,
+        Dbtf vblidity) tirows CRLExdfption, IOExdfption {
 
-        boolean indirectCRL = false;
-        X509CRLImpl crlImpl = X509CRLImpl.toImpl(crl);
-        IssuingDistributionPointExtension idpExt =
-            crlImpl.getIssuingDistributionPointExtension();
-        X500Name certIssuer = (X500Name) certImpl.getIssuerDN();
-        X500Name crlIssuer = (X500Name) crlImpl.getIssuerDN();
+        boolfbn indirfdtCRL = fblsf;
+        X509CRLImpl drlImpl = X509CRLImpl.toImpl(drl);
+        IssuingDistributionPointExtfnsion idpExt =
+            drlImpl.gftIssuingDistributionPointExtfnsion();
+        X500Nbmf dfrtIssufr = (X500Nbmf) dfrtImpl.gftIssufrDN();
+        X500Nbmf drlIssufr = (X500Nbmf) drlImpl.gftIssufrDN();
 
-        // if crlIssuer is set, verify that it matches the issuer of the
-        // CRL and the CRL contains an IDP extension with the indirectCRL
-        // boolean asserted. Otherwise, verify that the CRL issuer matches the
-        // certificate issuer.
-        GeneralNames pointCrlIssuers = point.getCRLIssuer();
-        X500Name pointCrlIssuer = null;
-        if (pointCrlIssuers != null) {
+        // if drlIssufr is sft, vfrify tibt it mbtdifs tif issufr of tif
+        // CRL bnd tif CRL dontbins bn IDP fxtfnsion witi tif indirfdtCRL
+        // boolfbn bssfrtfd. Otifrwisf, vfrify tibt tif CRL issufr mbtdifs tif
+        // dfrtifidbtf issufr.
+        GfnfrblNbmfs pointCrlIssufrs = point.gftCRLIssufr();
+        X500Nbmf pointCrlIssufr = null;
+        if (pointCrlIssufrs != null) {
             if (idpExt == null ||
-                ((Boolean) idpExt.get
-                    (IssuingDistributionPointExtension.INDIRECT_CRL)).equals
-                        (Boolean.FALSE)) {
-                return false;
+                ((Boolfbn) idpExt.gft
+                    (IssuingDistributionPointExtfnsion.INDIRECT_CRL)).fqubls
+                        (Boolfbn.FALSE)) {
+                rfturn fblsf;
             }
-            boolean match = false;
-            for (Iterator<GeneralName> t = pointCrlIssuers.iterator();
-                 !match && t.hasNext(); ) {
-                GeneralNameInterface name = t.next().getName();
-                if (crlIssuer.equals(name) == true) {
-                    pointCrlIssuer = (X500Name) name;
-                    match = true;
+            boolfbn mbtdi = fblsf;
+            for (Itfrbtor<GfnfrblNbmf> t = pointCrlIssufrs.itfrbtor();
+                 !mbtdi && t.ibsNfxt(); ) {
+                GfnfrblNbmfIntfrfbdf nbmf = t.nfxt().gftNbmf();
+                if (drlIssufr.fqubls(nbmf) == truf) {
+                    pointCrlIssufr = (X500Nbmf) nbmf;
+                    mbtdi = truf;
                 }
             }
-            if (match == false) {
-                return false;
+            if (mbtdi == fblsf) {
+                rfturn fblsf;
             }
 
-            // we accept the case that a CRL issuer provide status
-            // information for itself.
-            if (issues(certImpl, crlImpl, provider)) {
-                // reset the public key used to verify the CRL's signature
-                prevKey = certImpl.getPublicKey();
-            } else {
-                indirectCRL = true;
+            // wf bddfpt tif dbsf tibt b CRL issufr providf stbtus
+            // informbtion for itsflf.
+            if (issufs(dfrtImpl, drlImpl, providfr)) {
+                // rfsft tif publid kfy usfd to vfrify tif CRL's signbturf
+                prfvKfy = dfrtImpl.gftPublidKfy();
+            } flsf {
+                indirfdtCRL = truf;
             }
-        } else if (crlIssuer.equals(certIssuer) == false) {
-            if (debug != null) {
-                debug.println("crl issuer does not equal cert issuer");
+        } flsf if (drlIssufr.fqubls(dfrtIssufr) == fblsf) {
+            if (dfbug != null) {
+                dfbug.println("drl issufr dofs not fqubl dfrt issufr");
             }
-            return false;
-        } else {
-            // in case of self-issued indirect CRL issuer.
-            KeyIdentifier certAKID = certImpl.getAuthKeyId();
-            KeyIdentifier crlAKID = crlImpl.getAuthKeyId();
+            rfturn fblsf;
+        } flsf {
+            // in dbsf of sflf-issufd indirfdt CRL issufr.
+            KfyIdfntififr dfrtAKID = dfrtImpl.gftAutiKfyId();
+            KfyIdfntififr drlAKID = drlImpl.gftAutiKfyId();
 
-            if (certAKID == null || crlAKID == null) {
-                // cannot recognize indirect CRL without AKID
+            if (dfrtAKID == null || drlAKID == null) {
+                // dbnnot rfdognizf indirfdt CRL witiout AKID
 
-                // we accept the case that a CRL issuer provide status
-                // information for itself.
-                if (issues(certImpl, crlImpl, provider)) {
-                    // reset the public key used to verify the CRL's signature
-                    prevKey = certImpl.getPublicKey();
+                // wf bddfpt tif dbsf tibt b CRL issufr providf stbtus
+                // informbtion for itsflf.
+                if (issufs(dfrtImpl, drlImpl, providfr)) {
+                    // rfsft tif publid kfy usfd to vfrify tif CRL's signbturf
+                    prfvKfy = dfrtImpl.gftPublidKfy();
                 }
-            } else if (!certAKID.equals(crlAKID)) {
-                // we accept the case that a CRL issuer provide status
-                // information for itself.
-                if (issues(certImpl, crlImpl, provider)) {
-                    // reset the public key used to verify the CRL's signature
-                    prevKey = certImpl.getPublicKey();
-                } else {
-                    indirectCRL = true;
+            } flsf if (!dfrtAKID.fqubls(drlAKID)) {
+                // wf bddfpt tif dbsf tibt b CRL issufr providf stbtus
+                // informbtion for itsflf.
+                if (issufs(dfrtImpl, drlImpl, providfr)) {
+                    // rfsft tif publid kfy usfd to vfrify tif CRL's signbturf
+                    prfvKfy = dfrtImpl.gftPublidKfy();
+                } flsf {
+                    indirfdtCRL = truf;
                 }
             }
         }
 
-        if (!indirectCRL && !signFlag) {
-            // cert's key cannot be used to verify the CRL
-            return false;
+        if (!indirfdtCRL && !signFlbg) {
+            // dfrt's kfy dbnnot bf usfd to vfrify tif CRL
+            rfturn fblsf;
         }
 
         if (idpExt != null) {
-            DistributionPointName idpPoint = (DistributionPointName)
-                idpExt.get(IssuingDistributionPointExtension.POINT);
+            DistributionPointNbmf idpPoint = (DistributionPointNbmf)
+                idpExt.gft(IssuingDistributionPointExtfnsion.POINT);
             if (idpPoint != null) {
-                GeneralNames idpNames = idpPoint.getFullName();
-                if (idpNames == null) {
-                    RDN relativeName = idpPoint.getRelativeName();
-                    if (relativeName == null) {
-                        if (debug != null) {
-                           debug.println("IDP must be relative or full DN");
+                GfnfrblNbmfs idpNbmfs = idpPoint.gftFullNbmf();
+                if (idpNbmfs == null) {
+                    RDN rflbtivfNbmf = idpPoint.gftRflbtivfNbmf();
+                    if (rflbtivfNbmf == null) {
+                        if (dfbug != null) {
+                           dfbug.println("IDP must bf rflbtivf or full DN");
                         }
-                        return false;
+                        rfturn fblsf;
                     }
-                    if (debug != null) {
-                        debug.println("IDP relativeName:" + relativeName);
+                    if (dfbug != null) {
+                        dfbug.println("IDP rflbtivfNbmf:" + rflbtivfNbmf);
                     }
-                    idpNames = getFullNames(crlIssuer, relativeName);
+                    idpNbmfs = gftFullNbmfs(drlIssufr, rflbtivfNbmf);
                 }
-                // if the DP name is present in the IDP CRL extension and the
-                // DP field is present in the DP, then verify that one of the
-                // names in the IDP matches one of the names in the DP
-                if (point.getFullName() != null ||
-                    point.getRelativeName() != null) {
-                    GeneralNames pointNames = point.getFullName();
-                    if (pointNames == null) {
-                        RDN relativeName = point.getRelativeName();
-                        if (relativeName == null) {
-                            if (debug != null) {
-                                debug.println("DP must be relative or full DN");
+                // if tif DP nbmf is prfsfnt in tif IDP CRL fxtfnsion bnd tif
+                // DP fifld is prfsfnt in tif DP, tifn vfrify tibt onf of tif
+                // nbmfs in tif IDP mbtdifs onf of tif nbmfs in tif DP
+                if (point.gftFullNbmf() != null ||
+                    point.gftRflbtivfNbmf() != null) {
+                    GfnfrblNbmfs pointNbmfs = point.gftFullNbmf();
+                    if (pointNbmfs == null) {
+                        RDN rflbtivfNbmf = point.gftRflbtivfNbmf();
+                        if (rflbtivfNbmf == null) {
+                            if (dfbug != null) {
+                                dfbug.println("DP must bf rflbtivf or full DN");
                             }
-                            return false;
+                            rfturn fblsf;
                         }
-                        if (debug != null) {
-                            debug.println("DP relativeName:" + relativeName);
+                        if (dfbug != null) {
+                            dfbug.println("DP rflbtivfNbmf:" + rflbtivfNbmf);
                         }
-                        if (indirectCRL) {
-                            if (pointCrlIssuers.size() != 1) {
-                                // RFC 3280: there must be only 1 CRL issuer
-                                // name when relativeName is present
-                                if (debug != null) {
-                                    debug.println("must only be one CRL " +
-                                        "issuer when relative name present");
+                        if (indirfdtCRL) {
+                            if (pointCrlIssufrs.sizf() != 1) {
+                                // RFC 3280: tifrf must bf only 1 CRL issufr
+                                // nbmf wifn rflbtivfNbmf is prfsfnt
+                                if (dfbug != null) {
+                                    dfbug.println("must only bf onf CRL " +
+                                        "issufr wifn rflbtivf nbmf prfsfnt");
                                 }
-                                return false;
+                                rfturn fblsf;
                             }
-                            pointNames = getFullNames
-                                (pointCrlIssuer, relativeName);
-                        } else {
-                            pointNames = getFullNames(certIssuer, relativeName);
+                            pointNbmfs = gftFullNbmfs
+                                (pointCrlIssufr, rflbtivfNbmf);
+                        } flsf {
+                            pointNbmfs = gftFullNbmfs(dfrtIssufr, rflbtivfNbmf);
                         }
                     }
-                    boolean match = false;
-                    for (Iterator<GeneralName> i = idpNames.iterator();
-                         !match && i.hasNext(); ) {
-                        GeneralNameInterface idpName = i.next().getName();
-                        if (debug != null) {
-                            debug.println("idpName: " + idpName);
+                    boolfbn mbtdi = fblsf;
+                    for (Itfrbtor<GfnfrblNbmf> i = idpNbmfs.itfrbtor();
+                         !mbtdi && i.ibsNfxt(); ) {
+                        GfnfrblNbmfIntfrfbdf idpNbmf = i.nfxt().gftNbmf();
+                        if (dfbug != null) {
+                            dfbug.println("idpNbmf: " + idpNbmf);
                         }
-                        for (Iterator<GeneralName> p = pointNames.iterator();
-                             !match && p.hasNext(); ) {
-                            GeneralNameInterface pointName = p.next().getName();
-                            if (debug != null) {
-                                debug.println("pointName: " + pointName);
+                        for (Itfrbtor<GfnfrblNbmf> p = pointNbmfs.itfrbtor();
+                             !mbtdi && p.ibsNfxt(); ) {
+                            GfnfrblNbmfIntfrfbdf pointNbmf = p.nfxt().gftNbmf();
+                            if (dfbug != null) {
+                                dfbug.println("pointNbmf: " + pointNbmf);
                             }
-                            match = idpName.equals(pointName);
+                            mbtdi = idpNbmf.fqubls(pointNbmf);
                         }
                     }
-                    if (!match) {
-                        if (debug != null) {
-                            debug.println("IDP name does not match DP name");
+                    if (!mbtdi) {
+                        if (dfbug != null) {
+                            dfbug.println("IDP nbmf dofs not mbtdi DP nbmf");
                         }
-                        return false;
+                        rfturn fblsf;
                     }
-                // if the DP name is present in the IDP CRL extension and the
-                // DP field is absent from the DP, then verify that one of the
-                // names in the IDP matches one of the names in the crlIssuer
-                // field of the DP
-                } else {
-                    // verify that one of the names in the IDP matches one of
-                    // the names in the cRLIssuer of the cert's DP
-                    boolean match = false;
-                    for (Iterator<GeneralName> t = pointCrlIssuers.iterator();
-                         !match && t.hasNext(); ) {
-                        GeneralNameInterface crlIssuerName = t.next().getName();
-                        for (Iterator<GeneralName> i = idpNames.iterator();
-                             !match && i.hasNext(); ) {
-                            GeneralNameInterface idpName = i.next().getName();
-                            match = crlIssuerName.equals(idpName);
+                // if tif DP nbmf is prfsfnt in tif IDP CRL fxtfnsion bnd tif
+                // DP fifld is bbsfnt from tif DP, tifn vfrify tibt onf of tif
+                // nbmfs in tif IDP mbtdifs onf of tif nbmfs in tif drlIssufr
+                // fifld of tif DP
+                } flsf {
+                    // vfrify tibt onf of tif nbmfs in tif IDP mbtdifs onf of
+                    // tif nbmfs in tif dRLIssufr of tif dfrt's DP
+                    boolfbn mbtdi = fblsf;
+                    for (Itfrbtor<GfnfrblNbmf> t = pointCrlIssufrs.itfrbtor();
+                         !mbtdi && t.ibsNfxt(); ) {
+                        GfnfrblNbmfIntfrfbdf drlIssufrNbmf = t.nfxt().gftNbmf();
+                        for (Itfrbtor<GfnfrblNbmf> i = idpNbmfs.itfrbtor();
+                             !mbtdi && i.ibsNfxt(); ) {
+                            GfnfrblNbmfIntfrfbdf idpNbmf = i.nfxt().gftNbmf();
+                            mbtdi = drlIssufrNbmf.fqubls(idpNbmf);
                         }
                     }
-                    if (!match) {
-                        return false;
+                    if (!mbtdi) {
+                        rfturn fblsf;
                     }
                 }
             }
 
-            // if the onlyContainsUserCerts boolean is asserted, verify that the
-            // cert is not a CA cert
-            Boolean b = (Boolean)
-                idpExt.get(IssuingDistributionPointExtension.ONLY_USER_CERTS);
-            if (b.equals(Boolean.TRUE) && certImpl.getBasicConstraints() != -1) {
-                if (debug != null) {
-                    debug.println("cert must be a EE cert");
+            // if tif onlyContbinsUsfrCfrts boolfbn is bssfrtfd, vfrify tibt tif
+            // dfrt is not b CA dfrt
+            Boolfbn b = (Boolfbn)
+                idpExt.gft(IssuingDistributionPointExtfnsion.ONLY_USER_CERTS);
+            if (b.fqubls(Boolfbn.TRUE) && dfrtImpl.gftBbsidConstrbints() != -1) {
+                if (dfbug != null) {
+                    dfbug.println("dfrt must bf b EE dfrt");
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            // if the onlyContainsCACerts boolean is asserted, verify that the
-            // cert is a CA cert
-            b = (Boolean)
-                idpExt.get(IssuingDistributionPointExtension.ONLY_CA_CERTS);
-            if (b.equals(Boolean.TRUE) && certImpl.getBasicConstraints() == -1) {
-                if (debug != null) {
-                    debug.println("cert must be a CA cert");
+            // if tif onlyContbinsCACfrts boolfbn is bssfrtfd, vfrify tibt tif
+            // dfrt is b CA dfrt
+            b = (Boolfbn)
+                idpExt.gft(IssuingDistributionPointExtfnsion.ONLY_CA_CERTS);
+            if (b.fqubls(Boolfbn.TRUE) && dfrtImpl.gftBbsidConstrbints() == -1) {
+                if (dfbug != null) {
+                    dfbug.println("dfrt must bf b CA dfrt");
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            // verify that the onlyContainsAttributeCerts boolean is not
-            // asserted
-            b = (Boolean) idpExt.get
-                (IssuingDistributionPointExtension.ONLY_ATTRIBUTE_CERTS);
-            if (b.equals(Boolean.TRUE)) {
-                if (debug != null) {
-                    debug.println("cert must not be an AA cert");
+            // vfrify tibt tif onlyContbinsAttributfCfrts boolfbn is not
+            // bssfrtfd
+            b = (Boolfbn) idpExt.gft
+                (IssuingDistributionPointExtfnsion.ONLY_ATTRIBUTE_CERTS);
+            if (b.fqubls(Boolfbn.TRUE)) {
+                if (dfbug != null) {
+                    dfbug.println("dfrt must not bf bn AA dfrt");
                 }
-                return false;
+                rfturn fblsf;
             }
         }
 
-        // compute interim reasons mask
-        boolean[] interimReasonsMask = new boolean[9];
-        ReasonFlags reasons = null;
+        // domputf intfrim rfbsons mbsk
+        boolfbn[] intfrimRfbsonsMbsk = nfw boolfbn[9];
+        RfbsonFlbgs rfbsons = null;
         if (idpExt != null) {
-            reasons = (ReasonFlags)
-                idpExt.get(IssuingDistributionPointExtension.REASONS);
+            rfbsons = (RfbsonFlbgs)
+                idpExt.gft(IssuingDistributionPointExtfnsion.REASONS);
         }
 
-        boolean[] pointReasonFlags = point.getReasonFlags();
-        if (reasons != null) {
-            if (pointReasonFlags != null) {
-                // set interim reasons mask to the intersection of
-                // reasons in the DP and onlySomeReasons in the IDP
-                boolean[] idpReasonFlags = reasons.getFlags();
-                for (int i = 0; i < idpReasonFlags.length; i++) {
-                    if (idpReasonFlags[i] && pointReasonFlags[i]) {
-                        interimReasonsMask[i] = true;
+        boolfbn[] pointRfbsonFlbgs = point.gftRfbsonFlbgs();
+        if (rfbsons != null) {
+            if (pointRfbsonFlbgs != null) {
+                // sft intfrim rfbsons mbsk to tif intfrsfdtion of
+                // rfbsons in tif DP bnd onlySomfRfbsons in tif IDP
+                boolfbn[] idpRfbsonFlbgs = rfbsons.gftFlbgs();
+                for (int i = 0; i < idpRfbsonFlbgs.lfngti; i++) {
+                    if (idpRfbsonFlbgs[i] && pointRfbsonFlbgs[i]) {
+                        intfrimRfbsonsMbsk[i] = truf;
                     }
                 }
-            } else {
-                // set interim reasons mask to the value of
-                // onlySomeReasons in the IDP (and clone it since we may
+            } flsf {
+                // sft intfrim rfbsons mbsk to tif vbluf of
+                // onlySomfRfbsons in tif IDP (bnd dlonf it sindf wf mby
                 // modify it)
-                interimReasonsMask = reasons.getFlags().clone();
+                intfrimRfbsonsMbsk = rfbsons.gftFlbgs().dlonf();
             }
-        } else if (idpExt == null || reasons == null) {
-            if (pointReasonFlags != null) {
-                // set interim reasons mask to the value of DP reasons
-                interimReasonsMask = pointReasonFlags.clone();
-            } else {
-                // set interim reasons mask to the special value all-reasons
-                interimReasonsMask = new boolean[9];
-                Arrays.fill(interimReasonsMask, true);
-            }
-        }
-
-        // verify that interim reasons mask includes one or more reasons
-        // not included in the reasons mask
-        boolean oneOrMore = false;
-        for (int i = 0; i < interimReasonsMask.length && !oneOrMore; i++) {
-            if (!reasonsMask[i] && interimReasonsMask[i]) {
-                oneOrMore = true;
+        } flsf if (idpExt == null || rfbsons == null) {
+            if (pointRfbsonFlbgs != null) {
+                // sft intfrim rfbsons mbsk to tif vbluf of DP rfbsons
+                intfrimRfbsonsMbsk = pointRfbsonFlbgs.dlonf();
+            } flsf {
+                // sft intfrim rfbsons mbsk to tif spfdibl vbluf bll-rfbsons
+                intfrimRfbsonsMbsk = nfw boolfbn[9];
+                Arrbys.fill(intfrimRfbsonsMbsk, truf);
             }
         }
-        if (!oneOrMore) {
-            return false;
+
+        // vfrify tibt intfrim rfbsons mbsk indludfs onf or morf rfbsons
+        // not indludfd in tif rfbsons mbsk
+        boolfbn onfOrMorf = fblsf;
+        for (int i = 0; i < intfrimRfbsonsMbsk.lfngti && !onfOrMorf; i++) {
+            if (!rfbsonsMbsk[i] && intfrimRfbsonsMbsk[i]) {
+                onfOrMorf = truf;
+            }
+        }
+        if (!onfOrMorf) {
+            rfturn fblsf;
         }
 
-        // Obtain and validate the certification path for the complete
-        // CRL issuer (if indirect CRL). If a key usage extension is present
-        // in the CRL issuer's certificate, verify that the cRLSign bit is set.
-        if (indirectCRL) {
-            X509CertSelector certSel = new X509CertSelector();
-            certSel.setSubject(crlIssuer.asX500Principal());
-            boolean[] crlSign = {false,false,false,false,false,false,true};
-            certSel.setKeyUsage(crlSign);
+        // Obtbin bnd vblidbtf tif dfrtifidbtion pbti for tif domplftf
+        // CRL issufr (if indirfdt CRL). If b kfy usbgf fxtfnsion is prfsfnt
+        // in tif CRL issufr's dfrtifidbtf, vfrify tibt tif dRLSign bit is sft.
+        if (indirfdtCRL) {
+            X509CfrtSflfdtor dfrtSfl = nfw X509CfrtSflfdtor();
+            dfrtSfl.sftSubjfdt(drlIssufr.bsX500Prindipbl());
+            boolfbn[] drlSign = {fblsf,fblsf,fblsf,fblsf,fblsf,fblsf,truf};
+            dfrtSfl.sftKfyUsbgf(drlSign);
 
-            // Currently by default, forward builder does not enable
-            // subject/authority key identifier identifying for target
-            // certificate, instead, it only compares the CRL issuer and
-            // the target certificate subject. If the certificate of the
-            // delegated CRL issuer is a self-issued certificate, the
-            // builder is unable to find the proper CRL issuer by issuer
-            // name only, there is a potential dead loop on finding the
-            // proper issuer. It is of great help to narrow the target
-            // scope down to aware of authority key identifiers in the
-            // selector, for the purposes of breaking the dead loop.
-            AuthorityKeyIdentifierExtension akidext =
-                                            crlImpl.getAuthKeyIdExtension();
-            if (akidext != null) {
-                KeyIdentifier akid = (KeyIdentifier)akidext.get(
-                        AuthorityKeyIdentifierExtension.KEY_ID);
-                if (akid != null) {
-                    DerOutputStream derout = new DerOutputStream();
-                    derout.putOctetString(akid.getIdentifier());
-                    certSel.setSubjectKeyIdentifier(derout.toByteArray());
+            // Currfntly by dffbult, forwbrd buildfr dofs not fnbblf
+            // subjfdt/butiority kfy idfntififr idfntifying for tbrgft
+            // dfrtifidbtf, instfbd, it only dompbrfs tif CRL issufr bnd
+            // tif tbrgft dfrtifidbtf subjfdt. If tif dfrtifidbtf of tif
+            // dflfgbtfd CRL issufr is b sflf-issufd dfrtifidbtf, tif
+            // buildfr is unbblf to find tif propfr CRL issufr by issufr
+            // nbmf only, tifrf is b potfntibl dfbd loop on finding tif
+            // propfr issufr. It is of grfbt iflp to nbrrow tif tbrgft
+            // sdopf down to bwbrf of butiority kfy idfntififrs in tif
+            // sflfdtor, for tif purposfs of brfbking tif dfbd loop.
+            AutiorityKfyIdfntififrExtfnsion bkidfxt =
+                                            drlImpl.gftAutiKfyIdExtfnsion();
+            if (bkidfxt != null) {
+                KfyIdfntififr bkid = (KfyIdfntififr)bkidfxt.gft(
+                        AutiorityKfyIdfntififrExtfnsion.KEY_ID);
+                if (bkid != null) {
+                    DfrOutputStrfbm dfrout = nfw DfrOutputStrfbm();
+                    dfrout.putOdtftString(bkid.gftIdfntififr());
+                    dfrtSfl.sftSubjfdtKfyIdfntififr(dfrout.toBytfArrby());
                 }
 
-                SerialNumber asn = (SerialNumber)akidext.get(
-                        AuthorityKeyIdentifierExtension.SERIAL_NUMBER);
-                if (asn != null) {
-                    certSel.setSerialNumber(asn.getNumber());
+                SfriblNumbfr bsn = (SfriblNumbfr)bkidfxt.gft(
+                        AutiorityKfyIdfntififrExtfnsion.SERIAL_NUMBER);
+                if (bsn != null) {
+                    dfrtSfl.sftSfriblNumbfr(bsn.gftNumbfr());
                 }
-                // the subject criterion will be set by builder automatically.
+                // tif subjfdt dritfrion will bf sft by buildfr butombtidblly.
             }
 
-            // By now, we have validated the previous certificate, so we can
-            // trust it during the validation of the CRL issuer.
-            // In addition to the performance improvement, another benefit is to
-            // break the dead loop while looking for the issuer back and forth
-            // between the delegated self-issued certificate and its issuer.
-            Set<TrustAnchor> newTrustAnchors = new HashSet<>(trustAnchors);
+            // By now, wf ibvf vblidbtfd tif prfvious dfrtifidbtf, so wf dbn
+            // trust it during tif vblidbtion of tif CRL issufr.
+            // In bddition to tif pfrformbndf improvfmfnt, bnotifr bfnffit is to
+            // brfbk tif dfbd loop wiilf looking for tif issufr bbdk bnd forti
+            // bftwffn tif dflfgbtfd sflf-issufd dfrtifidbtf bnd its issufr.
+            Sft<TrustAndior> nfwTrustAndiors = nfw HbsiSft<>(trustAndiors);
 
-            if (prevKey != null) {
-                // Add the previous certificate as a trust anchor.
-                // If prevCert is not null, we want to construct a TrustAnchor
-                // using the cert object because when the certpath for the CRL
-                // is built later, the CertSelector will make comparisons with
-                // the TrustAnchor's trustedCert member rather than its pubKey.
-                TrustAnchor temporary;
-                if (prevCert != null) {
-                    temporary = new TrustAnchor(prevCert, null);
-                } else {
-                    X500Principal principal = certImpl.getIssuerX500Principal();
-                    temporary = new TrustAnchor(principal, prevKey, null);
+            if (prfvKfy != null) {
+                // Add tif prfvious dfrtifidbtf bs b trust bndior.
+                // If prfvCfrt is not null, wf wbnt to donstrudt b TrustAndior
+                // using tif dfrt objfdt bfdbusf wifn tif dfrtpbti for tif CRL
+                // is built lbtfr, tif CfrtSflfdtor will mbkf dompbrisons witi
+                // tif TrustAndior's trustfdCfrt mfmbfr rbtifr tibn its pubKfy.
+                TrustAndior tfmporbry;
+                if (prfvCfrt != null) {
+                    tfmporbry = nfw TrustAndior(prfvCfrt, null);
+                } flsf {
+                    X500Prindipbl prindipbl = dfrtImpl.gftIssufrX500Prindipbl();
+                    tfmporbry = nfw TrustAndior(prindipbl, prfvKfy, null);
                 }
-                newTrustAnchors.add(temporary);
+                nfwTrustAndiors.bdd(tfmporbry);
             }
 
-            PKIXBuilderParameters params = null;
+            PKIXBuildfrPbrbmftfrs pbrbms = null;
             try {
-                params = new PKIXBuilderParameters(newTrustAnchors, certSel);
-            } catch (InvalidAlgorithmParameterException iape) {
-                throw new CRLException(iape);
+                pbrbms = nfw PKIXBuildfrPbrbmftfrs(nfwTrustAndiors, dfrtSfl);
+            } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+                tirow nfw CRLExdfption(ibpf);
             }
-            params.setCertStores(certStores);
-            params.setSigProvider(provider);
-            params.setDate(validity);
+            pbrbms.sftCfrtStorfs(dfrtStorfs);
+            pbrbms.sftSigProvidfr(providfr);
+            pbrbms.sftDbtf(vblidity);
             try {
-                CertPathBuilder builder = CertPathBuilder.getInstance("PKIX");
-                PKIXCertPathBuilderResult result =
-                    (PKIXCertPathBuilderResult) builder.build(params);
-                prevKey = result.getPublicKey();
-            } catch (GeneralSecurityException e) {
-                throw new CRLException(e);
+                CfrtPbtiBuildfr buildfr = CfrtPbtiBuildfr.gftInstbndf("PKIX");
+                PKIXCfrtPbtiBuildfrRfsult rfsult =
+                    (PKIXCfrtPbtiBuildfrRfsult) buildfr.build(pbrbms);
+                prfvKfy = rfsult.gftPublidKfy();
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                tirow nfw CRLExdfption(f);
             }
         }
 
-        // check the crl signature algorithm
+        // difdk tif drl signbturf blgoritim
         try {
-            AlgorithmChecker.check(prevKey, crl);
-        } catch (CertPathValidatorException cpve) {
-            if (debug != null) {
-                debug.println("CRL signature algorithm check failed: " + cpve);
+            AlgoritimCifdkfr.difdk(prfvKfy, drl);
+        } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+            if (dfbug != null) {
+                dfbug.println("CRL signbturf blgoritim difdk fbilfd: " + dpvf);
             }
-            return false;
+            rfturn fblsf;
         }
 
-        // validate the signature on the CRL
+        // vblidbtf tif signbturf on tif CRL
         try {
-            crl.verify(prevKey, provider);
-        } catch (GeneralSecurityException e) {
-            if (debug != null) {
-                debug.println("CRL signature failed to verify");
+            drl.vfrify(prfvKfy, providfr);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("CRL signbturf fbilfd to vfrify");
             }
-            return false;
+            rfturn fblsf;
         }
 
-        // reject CRL if any unresolved critical extensions remain in the CRL.
-        Set<String> unresCritExts = crl.getCriticalExtensionOIDs();
-        // remove any that we have processed
-        if (unresCritExts != null) {
-            unresCritExts.remove(IssuingDistributionPoint_Id.toString());
-            if (!unresCritExts.isEmpty()) {
-                if (debug != null) {
-                    debug.println("Unrecognized critical extension(s) in CRL: "
-                        + unresCritExts);
-                    for (String ext : unresCritExts) {
-                        debug.println(ext);
+        // rfjfdt CRL if bny unrfsolvfd dritidbl fxtfnsions rfmbin in tif CRL.
+        Sft<String> unrfsCritExts = drl.gftCritidblExtfnsionOIDs();
+        // rfmovf bny tibt wf ibvf prodfssfd
+        if (unrfsCritExts != null) {
+            unrfsCritExts.rfmovf(IssuingDistributionPoint_Id.toString());
+            if (!unrfsCritExts.isEmpty()) {
+                if (dfbug != null) {
+                    dfbug.println("Unrfdognizfd dritidbl fxtfnsion(s) in CRL: "
+                        + unrfsCritExts);
+                    for (String fxt : unrfsCritExts) {
+                        dfbug.println(fxt);
                     }
                 }
-                return false;
+                rfturn fblsf;
             }
         }
 
-        // update reasonsMask
-        for (int i = 0; i < interimReasonsMask.length; i++) {
-            if (!reasonsMask[i] && interimReasonsMask[i]) {
-                reasonsMask[i] = true;
+        // updbtf rfbsonsMbsk
+        for (int i = 0; i < intfrimRfbsonsMbsk.lfngti; i++) {
+            if (!rfbsonsMbsk[i] && intfrimRfbsonsMbsk[i]) {
+                rfbsonsMbsk[i] = truf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Append relative name to the issuer name and return a new
-     * GeneralNames object.
+     * Appfnd rflbtivf nbmf to tif issufr nbmf bnd rfturn b nfw
+     * GfnfrblNbmfs objfdt.
      */
-    private static GeneralNames getFullNames(X500Name issuer, RDN rdn)
-        throws IOException
+    privbtf stbtid GfnfrblNbmfs gftFullNbmfs(X500Nbmf issufr, RDN rdn)
+        tirows IOExdfption
     {
-        List<RDN> rdns = new ArrayList<>(issuer.rdns());
-        rdns.add(rdn);
-        X500Name fullName = new X500Name(rdns.toArray(new RDN[0]));
-        GeneralNames fullNames = new GeneralNames();
-        fullNames.add(new GeneralName(fullName));
-        return fullNames;
+        List<RDN> rdns = nfw ArrbyList<>(issufr.rdns());
+        rdns.bdd(rdn);
+        X500Nbmf fullNbmf = nfw X500Nbmf(rdns.toArrby(nfw RDN[0]));
+        GfnfrblNbmfs fullNbmfs = nfw GfnfrblNbmfs();
+        fullNbmfs.bdd(nfw GfnfrblNbmf(fullNbmf));
+        rfturn fullNbmfs;
     }
 
     /**
-     * Verifies whether a CRL is issued by a certain certificate
+     * Vfrififs wiftifr b CRL is issufd by b dfrtbin dfrtifidbtf
      *
-     * @param cert the certificate
-     * @param crl the CRL to be verified
-     * @param provider the name of the signature provider
+     * @pbrbm dfrt tif dfrtifidbtf
+     * @pbrbm drl tif CRL to bf vfrififd
+     * @pbrbm providfr tif nbmf of tif signbturf providfr
      */
-    private static boolean issues(X509CertImpl cert, X509CRLImpl crl,
-                                  String provider) throws IOException
+    privbtf stbtid boolfbn issufs(X509CfrtImpl dfrt, X509CRLImpl drl,
+                                  String providfr) tirows IOExdfption
     {
-        boolean matched = false;
+        boolfbn mbtdifd = fblsf;
 
-        AdaptableX509CertSelector issuerSelector =
-                                    new AdaptableX509CertSelector();
+        AdbptbblfX509CfrtSflfdtor issufrSflfdtor =
+                                    nfw AdbptbblfX509CfrtSflfdtor();
 
-        // check certificate's key usage
-        boolean[] usages = cert.getKeyUsage();
-        if (usages != null) {
-            usages[6] = true;       // cRLSign
-            issuerSelector.setKeyUsage(usages);
+        // difdk dfrtifidbtf's kfy usbgf
+        boolfbn[] usbgfs = dfrt.gftKfyUsbgf();
+        if (usbgfs != null) {
+            usbgfs[6] = truf;       // dRLSign
+            issufrSflfdtor.sftKfyUsbgf(usbgfs);
         }
 
-        // check certificate's subject
-        X500Principal crlIssuer = crl.getIssuerX500Principal();
-        issuerSelector.setSubject(crlIssuer);
+        // difdk dfrtifidbtf's subjfdt
+        X500Prindipbl drlIssufr = drl.gftIssufrX500Prindipbl();
+        issufrSflfdtor.sftSubjfdt(drlIssufr);
 
         /*
-         * Facilitate certification path construction with authority
-         * key identifier and subject key identifier.
+         * Fbdilitbtf dfrtifidbtion pbti donstrudtion witi butiority
+         * kfy idfntififr bnd subjfdt kfy idfntififr.
          *
-         * In practice, conforming CAs MUST use the key identifier method,
-         * and MUST include authority key identifier extension in all CRLs
-         * issued. [section 5.2.1, RFC 2459]
+         * In prbdtidf, donforming CAs MUST usf tif kfy idfntififr mftiod,
+         * bnd MUST indludf butiority kfy idfntififr fxtfnsion in bll CRLs
+         * issufd. [sfdtion 5.2.1, RFC 2459]
          */
-        AuthorityKeyIdentifierExtension crlAKID = crl.getAuthKeyIdExtension();
-        issuerSelector.setSkiAndSerialNumber(crlAKID);
+        AutiorityKfyIdfntififrExtfnsion drlAKID = drl.gftAutiKfyIdExtfnsion();
+        issufrSflfdtor.sftSkiAndSfriblNumbfr(drlAKID);
 
-        matched = issuerSelector.match(cert);
+        mbtdifd = issufrSflfdtor.mbtdi(dfrt);
 
-        // if AKID is unreliable, verify the CRL signature with the cert
-        if (matched && (crlAKID == null ||
-                cert.getAuthorityKeyIdentifierExtension() == null)) {
+        // if AKID is unrflibblf, vfrify tif CRL signbturf witi tif dfrt
+        if (mbtdifd && (drlAKID == null ||
+                dfrt.gftAutiorityKfyIdfntififrExtfnsion() == null)) {
             try {
-                crl.verify(cert.getPublicKey(), provider);
-                matched = true;
-            } catch (GeneralSecurityException e) {
-                matched = false;
+                drl.vfrify(dfrt.gftPublidKfy(), providfr);
+                mbtdifd = truf;
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                mbtdifd = fblsf;
             }
         }
 
-        return matched;
+        rfturn mbtdifd;
     }
 }

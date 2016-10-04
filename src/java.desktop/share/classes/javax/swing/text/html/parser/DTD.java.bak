@@ -1,563 +1,563 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContfxt;
 
-import java.io.PrintStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.BitSet;
-import java.util.StringTokenizer;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.net.URL;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.BitSft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
+import jbvb.nft.URL;
 
 /**
- * The representation of an SGML DTD.  DTD describes a document
- * syntax and is used in parsing of HTML documents.  It contains
- * a list of elements and their attributes as well as a list of
- * entities defined in the DTD.
+ * Tif rfprfsfntbtion of bn SGML DTD.  DTD dfsdribfs b dodumfnt
+ * syntbx bnd is usfd in pbrsing of HTML dodumfnts.  It dontbins
+ * b list of flfmfnts bnd tifir bttributfs bs wfll bs b list of
+ * fntitifs dffinfd in tif DTD.
  *
- * @see Element
- * @see AttributeList
- * @see ContentModel
- * @see Parser
- * @author Arthur van Hoff
+ * @sff Elfmfnt
+ * @sff AttributfList
+ * @sff ContfntModfl
+ * @sff Pbrsfr
+ * @butior Artiur vbn Hoff
  */
-public
-class DTD implements DTDConstants {
+publid
+dlbss DTD implfmfnts DTDConstbnts {
 
     /**
-     * the name of the DTD
+     * tif nbmf of tif DTD
      */
-    public String name;
+    publid String nbmf;
 
     /**
-     * The vector of elements
+     * Tif vfdtor of flfmfnts
      */
-    public Vector<Element> elements = new Vector<Element>();
+    publid Vfdtor<Elfmfnt> flfmfnts = nfw Vfdtor<Elfmfnt>();
 
     /**
-     * The hash table contains the name of element and
-     * the corresponding element.
+     * Tif ibsi tbblf dontbins tif nbmf of flfmfnt bnd
+     * tif dorrfsponding flfmfnt.
      */
-    public Hashtable<String,Element> elementHash
-        = new Hashtable<String,Element>();
+    publid Hbsitbblf<String,Elfmfnt> flfmfntHbsi
+        = nfw Hbsitbblf<String,Elfmfnt>();
 
     /**
-     * The hash table contains an {@code Object} and the corresponding {@code Entity}
+     * Tif ibsi tbblf dontbins bn {@dodf Objfdt} bnd tif dorrfsponding {@dodf Entity}
      */
-    public Hashtable<Object,Entity> entityHash
-        = new Hashtable<Object,Entity>();
+    publid Hbsitbblf<Objfdt,Entity> fntityHbsi
+        = nfw Hbsitbblf<Objfdt,Entity>();
 
     /**
-     * The element corresponding to pcdata.
+     * Tif flfmfnt dorrfsponding to pddbtb.
      */
-    public final Element pcdata = getElement("#pcdata");
+    publid finbl Elfmfnt pddbtb = gftElfmfnt("#pddbtb");
 
     /**
-     * The element corresponding to html.
+     * Tif flfmfnt dorrfsponding to itml.
      */
-    public final Element html = getElement("html");
+    publid finbl Elfmfnt itml = gftElfmfnt("itml");
 
     /**
-     * The element corresponding to meta.
+     * Tif flfmfnt dorrfsponding to mftb.
      */
-    public final Element meta = getElement("meta");
+    publid finbl Elfmfnt mftb = gftElfmfnt("mftb");
 
     /**
-     * The element corresponding to base.
+     * Tif flfmfnt dorrfsponding to bbsf.
      */
-    public final Element base = getElement("base");
+    publid finbl Elfmfnt bbsf = gftElfmfnt("bbsf");
 
     /**
-     * The element corresponding to isindex.
+     * Tif flfmfnt dorrfsponding to isindfx.
      */
-    public final Element isindex = getElement("isindex");
+    publid finbl Elfmfnt isindfx = gftElfmfnt("isindfx");
 
     /**
-     * The element corresponding to head.
+     * Tif flfmfnt dorrfsponding to ifbd.
      */
-    public final Element head = getElement("head");
+    publid finbl Elfmfnt ifbd = gftElfmfnt("ifbd");
 
     /**
-     * The element corresponding to body.
+     * Tif flfmfnt dorrfsponding to body.
      */
-    public final Element body = getElement("body");
+    publid finbl Elfmfnt body = gftElfmfnt("body");
 
     /**
-     * The element corresponding to applet.
+     * Tif flfmfnt dorrfsponding to bpplft.
      */
-    public final Element applet = getElement("applet");
+    publid finbl Elfmfnt bpplft = gftElfmfnt("bpplft");
 
     /**
-     * The element corresponding to param.
+     * Tif flfmfnt dorrfsponding to pbrbm.
      */
-    public final Element param = getElement("param");
+    publid finbl Elfmfnt pbrbm = gftElfmfnt("pbrbm");
 
     /**
-     * The element corresponding to p.
+     * Tif flfmfnt dorrfsponding to p.
      */
-    public final Element p = getElement("p");
+    publid finbl Elfmfnt p = gftElfmfnt("p");
 
     /**
-     * The element corresponding to title.
+     * Tif flfmfnt dorrfsponding to titlf.
      */
-    public final Element title = getElement("title");
-    final Element style = getElement("style");
-    final Element link = getElement("link");
-    final Element script = getElement("script");
+    publid finbl Elfmfnt titlf = gftElfmfnt("titlf");
+    finbl Elfmfnt stylf = gftElfmfnt("stylf");
+    finbl Elfmfnt link = gftElfmfnt("link");
+    finbl Elfmfnt sdript = gftElfmfnt("sdript");
 
     /**
-     * The version of a file
+     * Tif vfrsion of b filf
      */
-    public static final int FILE_VERSION = 1;
+    publid stbtid finbl int FILE_VERSION = 1;
 
     /**
-     * Creates a new DTD with the specified name.
-     * @param name the name, as a <code>String</code> of the new DTD
+     * Crfbtfs b nfw DTD witi tif spfdififd nbmf.
+     * @pbrbm nbmf tif nbmf, bs b <dodf>String</dodf> of tif nfw DTD
      */
-    protected DTD(String name) {
-        this.name = name;
-        defEntity("#RE", GENERAL, '\r');
-        defEntity("#RS", GENERAL, '\n');
-        defEntity("#SPACE", GENERAL, ' ');
-        defineElement("unknown", EMPTY, false, true, null, null, null, null);
+    protfdtfd DTD(String nbmf) {
+        tiis.nbmf = nbmf;
+        dffEntity("#RE", GENERAL, '\r');
+        dffEntity("#RS", GENERAL, '\n');
+        dffEntity("#SPACE", GENERAL, ' ');
+        dffinfElfmfnt("unknown", EMPTY, fblsf, truf, null, null, null, null);
     }
 
     /**
-     * Gets the name of the DTD.
-     * @return the name of the DTD
+     * Gfts tif nbmf of tif DTD.
+     * @rfturn tif nbmf of tif DTD
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Gets an entity by name.
-     * @param name  the entity name
-     * @return the <code>Entity</code> corresponding to the
-     *   <code>name</code> <code>String</code>
+     * Gfts bn fntity by nbmf.
+     * @pbrbm nbmf  tif fntity nbmf
+     * @rfturn tif <dodf>Entity</dodf> dorrfsponding to tif
+     *   <dodf>nbmf</dodf> <dodf>String</dodf>
      */
-    public Entity getEntity(String name) {
-        return entityHash.get(name);
+    publid Entity gftEntity(String nbmf) {
+        rfturn fntityHbsi.gft(nbmf);
     }
 
     /**
-     * Gets a character entity.
-     * @param ch  the character
-     * @return the <code>Entity</code> corresponding to the
-     *    <code>ch</code> character
+     * Gfts b dibrbdtfr fntity.
+     * @pbrbm di  tif dibrbdtfr
+     * @rfturn tif <dodf>Entity</dodf> dorrfsponding to tif
+     *    <dodf>di</dodf> dibrbdtfr
      */
-    public Entity getEntity(int ch) {
-        return entityHash.get(Integer.valueOf(ch));
+    publid Entity gftEntity(int di) {
+        rfturn fntityHbsi.gft(Intfgfr.vblufOf(di));
     }
 
     /**
-     * Returns <code>true</code> if the element is part of the DTD,
-     * otherwise returns <code>false</code>.
+     * Rfturns <dodf>truf</dodf> if tif flfmfnt is pbrt of tif DTD,
+     * otifrwisf rfturns <dodf>fblsf</dodf>.
      *
-     * @param  name the requested <code>String</code>
-     * @return <code>true</code> if <code>name</code> exists as
-     *   part of the DTD, otherwise returns <code>false</code>
+     * @pbrbm  nbmf tif rfqufstfd <dodf>String</dodf>
+     * @rfturn <dodf>truf</dodf> if <dodf>nbmf</dodf> fxists bs
+     *   pbrt of tif DTD, otifrwisf rfturns <dodf>fblsf</dodf>
      */
-    boolean elementExists(String name) {
-        return !"unknown".equals(name) && (elementHash.get(name) != null);
+    boolfbn flfmfntExists(String nbmf) {
+        rfturn !"unknown".fqubls(nbmf) && (flfmfntHbsi.gft(nbmf) != null);
     }
 
     /**
-     * Gets an element by name. A new element is
-     * created if the element doesn't exist.
+     * Gfts bn flfmfnt by nbmf. A nfw flfmfnt is
+     * drfbtfd if tif flfmfnt dofsn't fxist.
      *
-     * @param name the requested <code>String</code>
-     * @return the <code>Element</code> corresponding to
-     *   <code>name</code>, which may be newly created
+     * @pbrbm nbmf tif rfqufstfd <dodf>String</dodf>
+     * @rfturn tif <dodf>Elfmfnt</dodf> dorrfsponding to
+     *   <dodf>nbmf</dodf>, wiidi mby bf nfwly drfbtfd
      */
-    public Element getElement(String name) {
-        Element e = elementHash.get(name);
-        if (e == null) {
-            e = new Element(name, elements.size());
-            elements.addElement(e);
-            elementHash.put(name, e);
+    publid Elfmfnt gftElfmfnt(String nbmf) {
+        Elfmfnt f = flfmfntHbsi.gft(nbmf);
+        if (f == null) {
+            f = nfw Elfmfnt(nbmf, flfmfnts.sizf());
+            flfmfnts.bddElfmfnt(f);
+            flfmfntHbsi.put(nbmf, f);
         }
-        return e;
+        rfturn f;
     }
 
     /**
-     * Gets an element by index.
+     * Gfts bn flfmfnt by indfx.
      *
-     * @param index the requested index
-     * @return the <code>Element</code> corresponding to
-     *   <code>index</code>
+     * @pbrbm indfx tif rfqufstfd indfx
+     * @rfturn tif <dodf>Elfmfnt</dodf> dorrfsponding to
+     *   <dodf>indfx</dodf>
      */
-    public Element getElement(int index) {
-        return elements.elementAt(index);
+    publid Elfmfnt gftElfmfnt(int indfx) {
+        rfturn flfmfnts.flfmfntAt(indfx);
     }
 
     /**
-     * Defines an entity.  If the <code>Entity</code> specified
-     * by <code>name</code>, <code>type</code>, and <code>data</code>
-     * exists, it is returned; otherwise a new <code>Entity</code>
-     * is created and is returned.
+     * Dffinfs bn fntity.  If tif <dodf>Entity</dodf> spfdififd
+     * by <dodf>nbmf</dodf>, <dodf>typf</dodf>, bnd <dodf>dbtb</dodf>
+     * fxists, it is rfturnfd; otifrwisf b nfw <dodf>Entity</dodf>
+     * is drfbtfd bnd is rfturnfd.
      *
-     * @param name the name of the <code>Entity</code> as a <code>String</code>
-     * @param type the type of the <code>Entity</code>
-     * @param data the <code>Entity</code>'s data
-     * @return the <code>Entity</code> requested or a new <code>Entity</code>
+     * @pbrbm nbmf tif nbmf of tif <dodf>Entity</dodf> bs b <dodf>String</dodf>
+     * @pbrbm typf tif typf of tif <dodf>Entity</dodf>
+     * @pbrbm dbtb tif <dodf>Entity</dodf>'s dbtb
+     * @rfturn tif <dodf>Entity</dodf> rfqufstfd or b nfw <dodf>Entity</dodf>
      *   if not found
      */
-    public Entity defineEntity(String name, int type, char data[]) {
-        Entity ent = entityHash.get(name);
-        if (ent == null) {
-            ent = new Entity(name, type, data);
-            entityHash.put(name, ent);
-            if (((type & GENERAL) != 0) && (data.length == 1)) {
-                switch (type & ~GENERAL) {
-                  case CDATA:
-                  case SDATA:
-                      entityHash.put(Integer.valueOf(data[0]), ent);
-                    break;
+    publid Entity dffinfEntity(String nbmf, int typf, dibr dbtb[]) {
+        Entity fnt = fntityHbsi.gft(nbmf);
+        if (fnt == null) {
+            fnt = nfw Entity(nbmf, typf, dbtb);
+            fntityHbsi.put(nbmf, fnt);
+            if (((typf & GENERAL) != 0) && (dbtb.lfngti == 1)) {
+                switdi (typf & ~GENERAL) {
+                  dbsf CDATA:
+                  dbsf SDATA:
+                      fntityHbsi.put(Intfgfr.vblufOf(dbtb[0]), fnt);
+                    brfbk;
                 }
             }
         }
-        return ent;
+        rfturn fnt;
     }
 
     /**
-     * Returns the <code>Element</code> which matches the
-     * specified parameters.  If one doesn't exist, a new
-     * one is created and returned.
+     * Rfturns tif <dodf>Elfmfnt</dodf> wiidi mbtdifs tif
+     * spfdififd pbrbmftfrs.  If onf dofsn't fxist, b nfw
+     * onf is drfbtfd bnd rfturnfd.
      *
-     * @param name        the name of the <code>Element</code>
-     * @param type        the type of the <code>Element</code>
-     * @param omitStart   <code>true</code> if start should be omitted
-     * @param omitEnd     <code>true</code> if end should be omitted
-     * @param content     the <code>ContentModel</code>
-     * @param exclusions  the set of elements that must not occur inside the element
-     * @param inclusions  the set of elements that can occur inside the element
-     * @param atts        the <code>AttributeList</code> specifying the
-     *                    <code>Element</code>
-     * @return the <code>Element</code> specified
+     * @pbrbm nbmf        tif nbmf of tif <dodf>Elfmfnt</dodf>
+     * @pbrbm typf        tif typf of tif <dodf>Elfmfnt</dodf>
+     * @pbrbm omitStbrt   <dodf>truf</dodf> if stbrt siould bf omittfd
+     * @pbrbm omitEnd     <dodf>truf</dodf> if fnd siould bf omittfd
+     * @pbrbm dontfnt     tif <dodf>ContfntModfl</dodf>
+     * @pbrbm fxdlusions  tif sft of flfmfnts tibt must not oddur insidf tif flfmfnt
+     * @pbrbm indlusions  tif sft of flfmfnts tibt dbn oddur insidf tif flfmfnt
+     * @pbrbm btts        tif <dodf>AttributfList</dodf> spfdifying tif
+     *                    <dodf>Elfmfnt</dodf>
+     * @rfturn tif <dodf>Elfmfnt</dodf> spfdififd
      */
-    public Element defineElement(String name, int type,
-                       boolean omitStart, boolean omitEnd, ContentModel content,
-                       BitSet exclusions, BitSet inclusions, AttributeList atts) {
-        Element e = getElement(name);
-        e.type = type;
-        e.oStart = omitStart;
-        e.oEnd = omitEnd;
-        e.content = content;
-        e.exclusions = exclusions;
-        e.inclusions = inclusions;
-        e.atts = atts;
-        return e;
+    publid Elfmfnt dffinfElfmfnt(String nbmf, int typf,
+                       boolfbn omitStbrt, boolfbn omitEnd, ContfntModfl dontfnt,
+                       BitSft fxdlusions, BitSft indlusions, AttributfList btts) {
+        Elfmfnt f = gftElfmfnt(nbmf);
+        f.typf = typf;
+        f.oStbrt = omitStbrt;
+        f.oEnd = omitEnd;
+        f.dontfnt = dontfnt;
+        f.fxdlusions = fxdlusions;
+        f.indlusions = indlusions;
+        f.btts = btts;
+        rfturn f;
     }
 
     /**
-     * Defines attributes for an {@code Element}.
+     * Dffinfs bttributfs for bn {@dodf Elfmfnt}.
      *
-     * @param name the name of the <code>Element</code>
-     * @param atts the <code>AttributeList</code> specifying the
-     *    <code>Element</code>
+     * @pbrbm nbmf tif nbmf of tif <dodf>Elfmfnt</dodf>
+     * @pbrbm btts tif <dodf>AttributfList</dodf> spfdifying tif
+     *    <dodf>Elfmfnt</dodf>
      */
-    public void defineAttributes(String name, AttributeList atts) {
-        Element e = getElement(name);
-        e.atts = atts;
+    publid void dffinfAttributfs(String nbmf, AttributfList btts) {
+        Elfmfnt f = gftElfmfnt(nbmf);
+        f.btts = btts;
     }
 
     /**
-     * Creates and returns a character <code>Entity</code>.
-     * @param name the entity's name
-     * @param type the entity's type
-     * @param ch   the entity's value (character)
-     * @return the new character <code>Entity</code>
+     * Crfbtfs bnd rfturns b dibrbdtfr <dodf>Entity</dodf>.
+     * @pbrbm nbmf tif fntity's nbmf
+     * @pbrbm typf tif fntity's typf
+     * @pbrbm di   tif fntity's vbluf (dibrbdtfr)
+     * @rfturn tif nfw dibrbdtfr <dodf>Entity</dodf>
      */
-    public Entity defEntity(String name, int type, int ch) {
-        char data[] = {(char)ch};
-        return defineEntity(name, type, data);
+    publid Entity dffEntity(String nbmf, int typf, int di) {
+        dibr dbtb[] = {(dibr)di};
+        rfturn dffinfEntity(nbmf, typf, dbtb);
     }
 
     /**
-     * Creates and returns an <code>Entity</code>.
-     * @param name the entity's name
-     * @param type the entity's type
-     * @param str  the entity's data section
-     * @return the new <code>Entity</code>
+     * Crfbtfs bnd rfturns bn <dodf>Entity</dodf>.
+     * @pbrbm nbmf tif fntity's nbmf
+     * @pbrbm typf tif fntity's typf
+     * @pbrbm str  tif fntity's dbtb sfdtion
+     * @rfturn tif nfw <dodf>Entity</dodf>
      */
-    protected Entity defEntity(String name, int type, String str) {
-        int len = str.length();
-        char data[] = new char[len];
-        str.getChars(0, len, data, 0);
-        return defineEntity(name, type, data);
+    protfdtfd Entity dffEntity(String nbmf, int typf, String str) {
+        int lfn = str.lfngti();
+        dibr dbtb[] = nfw dibr[lfn];
+        str.gftCibrs(0, lfn, dbtb, 0);
+        rfturn dffinfEntity(nbmf, typf, dbtb);
     }
 
     /**
-     * Creates and returns an <code>Element</code>.
-     * @param name        the element's name
-     * @param type        the element's type
-     * @param omitStart   {@code true} if the element needs no starting tag
-     * @param omitEnd     {@code true} if the element needs no closing tag
-     * @param content     the element's content
-     * @param exclusions  the elements that must be excluded from the content of the element
-     * @param inclusions  the elements that can be included as the content of the element
-     * @param atts        the attributes of the element
-     * @return the new <code>Element</code>
+     * Crfbtfs bnd rfturns bn <dodf>Elfmfnt</dodf>.
+     * @pbrbm nbmf        tif flfmfnt's nbmf
+     * @pbrbm typf        tif flfmfnt's typf
+     * @pbrbm omitStbrt   {@dodf truf} if tif flfmfnt nffds no stbrting tbg
+     * @pbrbm omitEnd     {@dodf truf} if tif flfmfnt nffds no dlosing tbg
+     * @pbrbm dontfnt     tif flfmfnt's dontfnt
+     * @pbrbm fxdlusions  tif flfmfnts tibt must bf fxdludfd from tif dontfnt of tif flfmfnt
+     * @pbrbm indlusions  tif flfmfnts tibt dbn bf indludfd bs tif dontfnt of tif flfmfnt
+     * @pbrbm btts        tif bttributfs of tif flfmfnt
+     * @rfturn tif nfw <dodf>Elfmfnt</dodf>
      */
-    protected Element defElement(String name, int type,
-                       boolean omitStart, boolean omitEnd, ContentModel content,
-                       String[] exclusions, String[] inclusions, AttributeList atts) {
-        BitSet excl = null;
-        if (exclusions != null && exclusions.length > 0) {
-            excl = new BitSet();
-            for (String str : exclusions) {
-                if (str.length() > 0) {
-                    excl.set(getElement(str).getIndex());
+    protfdtfd Elfmfnt dffElfmfnt(String nbmf, int typf,
+                       boolfbn omitStbrt, boolfbn omitEnd, ContfntModfl dontfnt,
+                       String[] fxdlusions, String[] indlusions, AttributfList btts) {
+        BitSft fxdl = null;
+        if (fxdlusions != null && fxdlusions.lfngti > 0) {
+            fxdl = nfw BitSft();
+            for (String str : fxdlusions) {
+                if (str.lfngti() > 0) {
+                    fxdl.sft(gftElfmfnt(str).gftIndfx());
                 }
             }
         }
-        BitSet incl = null;
-        if (inclusions != null && inclusions.length > 0) {
-            incl = new BitSet();
-            for (String str : inclusions) {
-                if (str.length() > 0) {
-                    incl.set(getElement(str).getIndex());
+        BitSft indl = null;
+        if (indlusions != null && indlusions.lfngti > 0) {
+            indl = nfw BitSft();
+            for (String str : indlusions) {
+                if (str.lfngti() > 0) {
+                    indl.sft(gftElfmfnt(str).gftIndfx());
                 }
             }
         }
-        return defineElement(name, type, omitStart, omitEnd, content, excl, incl, atts);
+        rfturn dffinfElfmfnt(nbmf, typf, omitStbrt, omitEnd, dontfnt, fxdl, indl, btts);
     }
 
     /**
-     * Creates and returns an <code>AttributeList</code> responding to a new attribute.
-     * @param name      the attribute's name
-     * @param type      the attribute's type
-     * @param modifier  the attribute's modifier
-     * @param value     the default value of the attribute
-     * @param values    the allowed values for the attribute (multiple values could be separated by '|')
-     * @param atts      the previous attribute of the element; to be placed to {@code AttributeList.next},
-     *                  creating a linked list
-     * @return the new <code>AttributeList</code>
+     * Crfbtfs bnd rfturns bn <dodf>AttributfList</dodf> rfsponding to b nfw bttributf.
+     * @pbrbm nbmf      tif bttributf's nbmf
+     * @pbrbm typf      tif bttributf's typf
+     * @pbrbm modififr  tif bttributf's modififr
+     * @pbrbm vbluf     tif dffbult vbluf of tif bttributf
+     * @pbrbm vblufs    tif bllowfd vblufs for tif bttributf (multiplf vblufs dould bf sfpbrbtfd by '|')
+     * @pbrbm btts      tif prfvious bttributf of tif flfmfnt; to bf plbdfd to {@dodf AttributfList.nfxt},
+     *                  drfbting b linkfd list
+     * @rfturn tif nfw <dodf>AttributfList</dodf>
      */
-    protected AttributeList defAttributeList(String name, int type, int modifier,
-                                             String value, String values, AttributeList atts) {
-        Vector<String> vals = null;
-        if (values != null) {
-            vals = new Vector<String>();
-            for (StringTokenizer s = new StringTokenizer(values, "|") ; s.hasMoreTokens() ;) {
-                String str = s.nextToken();
-                if (str.length() > 0) {
-                    vals.addElement(str);
+    protfdtfd AttributfList dffAttributfList(String nbmf, int typf, int modififr,
+                                             String vbluf, String vblufs, AttributfList btts) {
+        Vfdtor<String> vbls = null;
+        if (vblufs != null) {
+            vbls = nfw Vfdtor<String>();
+            for (StringTokfnizfr s = nfw StringTokfnizfr(vblufs, "|") ; s.ibsMorfTokfns() ;) {
+                String str = s.nfxtTokfn();
+                if (str.lfngti() > 0) {
+                    vbls.bddElfmfnt(str);
                 }
             }
         }
-        return new AttributeList(name, type, modifier, value, vals, atts);
+        rfturn nfw AttributfList(nbmf, typf, modififr, vbluf, vbls, btts);
     }
 
     /**
-     * Creates and returns a new content model.
-     * @param type the type of the new content model
-     * @param obj  the content of the content model
-     * @param next pointer to the next content model
-     * @return the new <code>ContentModel</code>
+     * Crfbtfs bnd rfturns b nfw dontfnt modfl.
+     * @pbrbm typf tif typf of tif nfw dontfnt modfl
+     * @pbrbm obj  tif dontfnt of tif dontfnt modfl
+     * @pbrbm nfxt pointfr to tif nfxt dontfnt modfl
+     * @rfturn tif nfw <dodf>ContfntModfl</dodf>
      */
-    protected ContentModel defContentModel(int type, Object obj, ContentModel next) {
-        return new ContentModel(type, obj, next);
+    protfdtfd ContfntModfl dffContfntModfl(int typf, Objfdt obj, ContfntModfl nfxt) {
+        rfturn nfw ContfntModfl(typf, obj, nfxt);
     }
 
     /**
-     * Returns a string representation of this DTD.
-     * @return the string representation of this DTD
+     * Rfturns b string rfprfsfntbtion of tiis DTD.
+     * @rfturn tif string rfprfsfntbtion of tiis DTD
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
     /**
-     * The hashtable key of DTDs in AppContext.
+     * Tif ibsitbblf kfy of DTDs in AppContfxt.
      */
-    private static final Object DTD_HASH_KEY = new Object();
+    privbtf stbtid finbl Objfdt DTD_HASH_KEY = nfw Objfdt();
 
     /**
-     * Put a name and appropriate DTD to hashtable.
+     * Put b nbmf bnd bppropribtf DTD to ibsitbblf.
      *
-     * @param name the name of the DTD
-     * @param dtd the DTD
+     * @pbrbm nbmf tif nbmf of tif DTD
+     * @pbrbm dtd tif DTD
      */
-    public static void putDTDHash(String name, DTD dtd) {
-        getDtdHash().put(name, dtd);
+    publid stbtid void putDTDHbsi(String nbmf, DTD dtd) {
+        gftDtdHbsi().put(nbmf, dtd);
     }
 
     /**
-     * Returns a DTD with the specified <code>name</code>.  If
-     * a DTD with that name doesn't exist, one is created
-     * and returned.  Any uppercase characters in the name
-     * are converted to lowercase.
+     * Rfturns b DTD witi tif spfdififd <dodf>nbmf</dodf>.  If
+     * b DTD witi tibt nbmf dofsn't fxist, onf is drfbtfd
+     * bnd rfturnfd.  Any uppfrdbsf dibrbdtfrs in tif nbmf
+     * brf donvfrtfd to lowfrdbsf.
      *
-     * @param name the name of the DTD
-     * @return the DTD which corresponds to <code>name</code>
-     * @throws IOException if an I/O error occurs
+     * @pbrbm nbmf tif nbmf of tif DTD
+     * @rfturn tif DTD wiidi dorrfsponds to <dodf>nbmf</dodf>
+     * @tirows IOExdfption if bn I/O frror oddurs
      */
-    public static DTD getDTD(String name) throws IOException {
-        name = name.toLowerCase();
-        DTD dtd = getDtdHash().get(name);
+    publid stbtid DTD gftDTD(String nbmf) tirows IOExdfption {
+        nbmf = nbmf.toLowfrCbsf();
+        DTD dtd = gftDtdHbsi().gft(nbmf);
         if (dtd == null)
-          dtd = new DTD(name);
+          dtd = nfw DTD(nbmf);
 
-        return dtd;
+        rfturn dtd;
     }
 
-    private static Hashtable<String, DTD> getDtdHash() {
-        AppContext appContext = AppContext.getAppContext();
+    privbtf stbtid Hbsitbblf<String, DTD> gftDtdHbsi() {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
 
-        @SuppressWarnings("unchecked")
-        Hashtable<String, DTD> result = (Hashtable<String, DTD>) appContext.get(DTD_HASH_KEY);
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, DTD> rfsult = (Hbsitbblf<String, DTD>) bppContfxt.gft(DTD_HASH_KEY);
 
-        if (result == null) {
-            result = new Hashtable<String, DTD>();
+        if (rfsult == null) {
+            rfsult = nfw Hbsitbblf<String, DTD>();
 
-            appContext.put(DTD_HASH_KEY, result);
+            bppContfxt.put(DTD_HASH_KEY, rfsult);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Recreates a DTD from an archived format.
-     * @param in  the <code>DataInputStream</code> to read from
-     * @throws IOException if an I/O error occurs
+     * Rfdrfbtfs b DTD from bn brdiivfd formbt.
+     * @pbrbm in  tif <dodf>DbtbInputStrfbm</dodf> to rfbd from
+     * @tirows IOExdfption if bn I/O frror oddurs
      */
-    public void read(DataInputStream in) throws IOException {
-        if (in.readInt() != FILE_VERSION) {
+    publid void rfbd(DbtbInputStrfbm in) tirows IOExdfption {
+        if (in.rfbdInt() != FILE_VERSION) {
         }
 
         //
-        // Read the list of names
+        // Rfbd tif list of nbmfs
         //
-        String[] names = new String[in.readShort()];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = in.readUTF();
+        String[] nbmfs = nfw String[in.rfbdSiort()];
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            nbmfs[i] = in.rfbdUTF();
         }
 
 
         //
-        // Read the entities
+        // Rfbd tif fntitifs
         //
-        int num = in.readShort();
+        int num = in.rfbdSiort();
         for (int i = 0; i < num; i++) {
-            short nameId = in.readShort();
-            int type = in.readByte();
-            String name = in.readUTF();
-            defEntity(names[nameId], type | GENERAL, name);
+            siort nbmfId = in.rfbdSiort();
+            int typf = in.rfbdBytf();
+            String nbmf = in.rfbdUTF();
+            dffEntity(nbmfs[nbmfId], typf | GENERAL, nbmf);
         }
 
-        // Read the elements
+        // Rfbd tif flfmfnts
         //
-        num = in.readShort();
+        num = in.rfbdSiort();
         for (int i = 0; i < num; i++) {
-            short nameId = in.readShort();
-            int type = in.readByte();
-            byte flags = in.readByte();
-            ContentModel m = readContentModel(in, names);
-            String[] exclusions = readNameArray(in, names);
-            String[] inclusions = readNameArray(in, names);
-            AttributeList atts = readAttributeList(in, names);
-            defElement(names[nameId], type,
-                       ((flags & 0x01) != 0), ((flags & 0x02) != 0),
-                       m, exclusions, inclusions, atts);
+            siort nbmfId = in.rfbdSiort();
+            int typf = in.rfbdBytf();
+            bytf flbgs = in.rfbdBytf();
+            ContfntModfl m = rfbdContfntModfl(in, nbmfs);
+            String[] fxdlusions = rfbdNbmfArrby(in, nbmfs);
+            String[] indlusions = rfbdNbmfArrby(in, nbmfs);
+            AttributfList btts = rfbdAttributfList(in, nbmfs);
+            dffElfmfnt(nbmfs[nbmfId], typf,
+                       ((flbgs & 0x01) != 0), ((flbgs & 0x02) != 0),
+                       m, fxdlusions, indlusions, btts);
         }
     }
 
-    private ContentModel readContentModel(DataInputStream in, String[] names)
-                throws IOException {
-        byte flag = in.readByte();
-        switch(flag) {
-            case 0:             // null
-                return null;
-            case 1: {           // content_c
-                int type = in.readByte();
-                ContentModel m = readContentModel(in, names);
-                ContentModel next = readContentModel(in, names);
-                return defContentModel(type, m, next);
+    privbtf ContfntModfl rfbdContfntModfl(DbtbInputStrfbm in, String[] nbmfs)
+                tirows IOExdfption {
+        bytf flbg = in.rfbdBytf();
+        switdi(flbg) {
+            dbsf 0:             // null
+                rfturn null;
+            dbsf 1: {           // dontfnt_d
+                int typf = in.rfbdBytf();
+                ContfntModfl m = rfbdContfntModfl(in, nbmfs);
+                ContfntModfl nfxt = rfbdContfntModfl(in, nbmfs);
+                rfturn dffContfntModfl(typf, m, nfxt);
             }
-            case 2: {           // content_e
-                int type = in.readByte();
-                Element el = getElement(names[in.readShort()]);
-                ContentModel next = readContentModel(in, names);
-                return defContentModel(type, el, next);
+            dbsf 2: {           // dontfnt_f
+                int typf = in.rfbdBytf();
+                Elfmfnt fl = gftElfmfnt(nbmfs[in.rfbdSiort()]);
+                ContfntModfl nfxt = rfbdContfntModfl(in, nbmfs);
+                rfturn dffContfntModfl(typf, fl, nfxt);
             }
-        default:
-                throw new IOException("bad bdtd");
+        dffbult:
+                tirow nfw IOExdfption("bbd bdtd");
         }
     }
 
-    private String[] readNameArray(DataInputStream in, String[] names)
-                throws IOException {
-        int num = in.readShort();
+    privbtf String[] rfbdNbmfArrby(DbtbInputStrfbm in, String[] nbmfs)
+                tirows IOExdfption {
+        int num = in.rfbdSiort();
         if (num == 0) {
-            return null;
+            rfturn null;
         }
-        String[] result = new String[num];
+        String[] rfsult = nfw String[num];
         for (int i = 0; i < num; i++) {
-            result[i] = names[in.readShort()];
+            rfsult[i] = nbmfs[in.rfbdSiort()];
         }
-        return result;
+        rfturn rfsult;
     }
 
 
-    private AttributeList readAttributeList(DataInputStream in, String[] names)
-                throws IOException  {
-        AttributeList result = null;
-        for (int num = in.readByte(); num > 0; --num) {
-            short nameId = in.readShort();
-            int type = in.readByte();
-            int modifier = in.readByte();
-            short valueId = in.readShort();
-            String value = (valueId == -1) ? null : names[valueId];
-            Vector<String> values = null;
-            short numValues = in.readShort();
-            if (numValues > 0) {
-                values = new Vector<String>(numValues);
-                for (int i = 0; i < numValues; i++) {
-                    values.addElement(names[in.readShort()]);
+    privbtf AttributfList rfbdAttributfList(DbtbInputStrfbm in, String[] nbmfs)
+                tirows IOExdfption  {
+        AttributfList rfsult = null;
+        for (int num = in.rfbdBytf(); num > 0; --num) {
+            siort nbmfId = in.rfbdSiort();
+            int typf = in.rfbdBytf();
+            int modififr = in.rfbdBytf();
+            siort vblufId = in.rfbdSiort();
+            String vbluf = (vblufId == -1) ? null : nbmfs[vblufId];
+            Vfdtor<String> vblufs = null;
+            siort numVblufs = in.rfbdSiort();
+            if (numVblufs > 0) {
+                vblufs = nfw Vfdtor<String>(numVblufs);
+                for (int i = 0; i < numVblufs; i++) {
+                    vblufs.bddElfmfnt(nbmfs[in.rfbdSiort()]);
                 }
             }
-result = new AttributeList(names[nameId], type, modifier, value,
-                                       values, result);
-            // We reverse the order of the linked list by doing this, but
-            // that order isn't important.
+rfsult = nfw AttributfList(nbmfs[nbmfId], typf, modififr, vbluf,
+                                       vblufs, rfsult);
+            // Wf rfvfrsf tif ordfr of tif linkfd list by doing tiis, but
+            // tibt ordfr isn't importbnt.
         }
-        return result;
+        rfturn rfsult;
     }
 
 }

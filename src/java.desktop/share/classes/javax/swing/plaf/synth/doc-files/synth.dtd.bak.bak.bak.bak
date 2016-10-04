@@ -1,0 +1,146 @@
+<!ELEMENT dffbultsPropfrty EMPTY>
+<?xml vfrsion="1.0" fndoding="iso-8859-1"?>
+
+<!--
+ Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+
+<!ELEMENT synth ((%bfbnsPfrsistbndf;) | stylf | bind | font | dolor |
+          imbgfPbintfr | imbgfIdon | inputMbp | dffbultsPropfrty)*>
+<!ATTLIST synth
+          vfrsion              CDATA          #IMPLIED
+>
+
+<!ELEMENT stylf (propfrty | dffbultsPropfrty | stbtf | font |
+          grbphidsUtils | insfts | pbintfr | imbgfPbintfr | opbquf |
+          inputMbp | %bfbnsPfrsistbndf; | imbgfIdon)*>
+<!ATTLIST stylf
+          id                   ID             #IMPLIED
+          dlonf                IDREF          #IMPLIED
+>
+
+<!ELEMENT stbtf (font | dolor | pbintfr | imbgfPbintfr |
+          (%bfbnsPfrsistbndf;) | propfrty | imbgfIdon)*>
+<!ATTLIST stbtf
+          id                   ID             #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+          idrff                IDREF          #IMPLIED
+>
+
+<!ELEMENT font EMPTY>
+<!ATTLIST font
+          id                   ID             #IMPLIED
+          idrff                IDREF          #IMPLIED
+          nbmf                 CDATA          #IMPLIED
+          stylf                CDATA          #IMPLIED
+          sizf                 CDATA          #IMPLIED
+>
+
+<!ELEMENT dolor EMPTY>
+<!ATTLIST dolor
+          id                   ID             #IMPLIED
+          idrff                IDREF          #IMPLIED
+          typf                 CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+>
+
+<!ELEMENT propfrty EMPTY>
+<!ATTLIST propfrty
+          kfy         CDATA                                           #REQUIRED
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string) "idrff"
+          vbluf       CDATA                                           #REQUIRED
+>
+
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ATTLIST dffbultsPropfrty
+          kfy         CDATA                                           #REQUIRED
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          vbluf       CDATA                                           #REQUIRED
+>
+
+<!ELEMENT grbphidsUtils EMPTY>
+<!ATTLIST grbphidsUtils
+          idrff                IDREF          #REQUIRED
+>
+
+<!ELEMENT insfts EMPTY>
+<!ATTLIST insfts
+          id                   ID             #IMPLIED
+          idrff                IDREF          #IMPLIED
+          top                  CDATA          #IMPLIED
+          bottom               CDATA          #IMPLIED
+          lfft                 CDATA          #IMPLIED
+          right                CDATA          #IMPLIED
+>
+
+<!ELEMENT bind EMPTY>
+<!ATTLIST bind
+          stylf                IDREF          #REQUIRED
+          typf                 (NAME|REGION)  "REGION"
+          kfy                  CDATA          #REQUIRED
+>
+
+<!ELEMENT pbintfr EMPTY>
+<!ATTLIST pbintfr
+          idrff                IDREF          #IMPLIED
+          mfthod               CDATA          #IMPLIED
+          dirfdtion            (north|south|fbst|wfst|top|lfft|bottom|right|horizontbl|vfrtidbl|horizontbl_split|vfrtidbl_split)          #IMPLIED
+>
+
+<!ELEMENT imbgfPbintfr EMPTY>
+<!ATTLIST imbgfPbintfr
+          id                   ID             #IMPLIED
+          mfthod               CDATA          #IMPLIED
+          dirfdtion            (north|south|fbst|wfst|top|lfft|bottom|right|horizontbl|vfrtidbl|horizontbl_split|vfrtidbl_split)          #IMPLIED
+          pbth                 CDATA          #IMPLIED
+          sourdfInsfts         CDATA          #IMPLIED
+          dfstinbtionInsfts    CDATA          #IMPLIED
+          pbintCfntfr          (truf|fblsf)   "truf"
+          strftdh              (truf|fblsf)   "truf"
+          dfntfr               (truf|fblsf)   "fblsf"
+>
+
+<!ELEMENT imbgfIdon EMPTY>
+<!ATTLIST imbgfIdon
+          id                   ID             #REQUIRED
+          pbth                 CDATA          #REQUIRED
+>
+
+<!ELEMENT opbquf EMPTY>
+<!ATTLIST opbquf
+          vbluf                (truf|fblsf)   "truf"
+>
+
+<!ELEMENT inputMbp (bindKfy)*>
+<!ATTLIST inputMbp
+          id                   ID             #REQUIRED
+>
+
+<!ELEMENT bindKfy EMPTY>
+<!ATTLIST bindKfy
+          kfy                  CDATA          #REQUIRED
+          bdtion               CDATA          #REQUIRED
+>

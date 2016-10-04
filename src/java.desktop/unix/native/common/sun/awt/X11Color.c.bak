@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *      Image dithering and rendering code for X11.
+ *      Imbgf ditifring bnd rfndfring dodf for X11.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#ifndef HEADLESS
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
-#endif /* !HEADLESS */
-#include "awt_p.h"
-#include "java_awt_Color.h"
-#include "java_awt_SystemColor.h"
-#include "java_awt_color_ColorSpace.h"
-#include "java_awt_Transparency.h"
-#include "java_awt_image_DataBuffer.h"
-#include "img_colors.h"
-#include "imageInitIDs.h"
-#include "dither.h"
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <mbti.i>
+#indludf <sys/timf.i>
+#indludf <sys/rfsourdf.i>
+#ifndff HEADLESS
+#indludf <X11/Xlib.i>
+#indludf <X11/Xbtom.i>
+#indludf <X11/Xutil.i>
+#fndif /* !HEADLESS */
+#indludf "bwt_p.i"
+#indludf "jbvb_bwt_Color.i"
+#indludf "jbvb_bwt_SystfmColor.i"
+#indludf "jbvb_bwt_dolor_ColorSpbdf.i"
+#indludf "jbvb_bwt_Trbnspbrfndy.i"
+#indludf "jbvb_bwt_imbgf_DbtbBufffr.i"
+#indludf "img_dolors.i"
+#indludf "imbgfInitIDs.i"
+#indludf "ditifr.i"
 
-#include <jni.h>
-#include <jni_util.h>
+#indludf <jni.i>
+#indludf <jni_util.i>
 
-#ifdef DEBUG
-static int debug_colormap = 0;
-#endif
+#ifdff DEBUG
+stbtid int dfbug_dolormbp = 0;
+#fndif
 
-#define MAX_PALETTE8_SIZE (256)
-#define MAX_PALETTE12_SIZE (4096)
-#define MAX_PALETTE_SIZE MAX_PALETTE12_SIZE
+#dffinf MAX_PALETTE8_SIZE (256)
+#dffinf MAX_PALETTE12_SIZE (4096)
+#dffinf MAX_PALETTE_SIZE MAX_PALETTE12_SIZE
 
-/* returns the absolute value x */
-#define ABS(x) ((x) < 0 ? -(x) : (x))
+/* rfturns tif bbsolutf vbluf x */
+#dffinf ABS(x) ((x) < 0 ? -(x) : (x))
 
-#define CLIP(val,min,max)       ((val < min) ? min : ((val > max) ? max : val))
+#dffinf CLIP(vbl,min,mbx)       ((vbl < min) ? min : ((vbl > mbx) ? mbx : vbl))
 
-#define RGBTOGRAY(r, g, b) ((int) (.299 * r + .587 * g + .114 * b + 0.5))
+#dffinf RGBTOGRAY(r, g, b) ((int) (.299 * r + .587 * g + .114 * b + 0.5))
 
-enum {
+fnum {
     FREE_COLOR          = 0,
     LIKELY_COLOR        = 1,
     UNAVAILABLE_COLOR   = 2,
@@ -74,1343 +74,1343 @@ enum {
 };
 
 /*
- * Constants to control the filling of the colormap.
- * By default, try to allocate colors in the default colormap until
- * CMAP_ALLOC_DEFAULT colors are being used (by Java and/or other
- * applications).
- * For cases where the default colormap may already have a large
- * number of colors in it, make sure that we ourselves try to add
- * at least CMAP_ALLOC_MIN new colors, even if we need to allocate
- * more than the DEFAULT to do that.
- * Under no circumstances will the colormap be filled to more than
- * CMAP_ALLOC_MAX colors.
+ * Constbnts to dontrol tif filling of tif dolormbp.
+ * By dffbult, try to bllodbtf dolors in tif dffbult dolormbp until
+ * CMAP_ALLOC_DEFAULT dolors brf bfing usfd (by Jbvb bnd/or otifr
+ * bpplidbtions).
+ * For dbsfs wifrf tif dffbult dolormbp mby blrfbdy ibvf b lbrgf
+ * numbfr of dolors in it, mbkf surf tibt wf oursflvfs try to bdd
+ * bt lfbst CMAP_ALLOC_MIN nfw dolors, fvfn if wf nffd to bllodbtf
+ * morf tibn tif DEFAULT to do tibt.
+ * Undfr no dirdumstbndfs will tif dolormbp bf fillfd to morf tibn
+ * CMAP_ALLOC_MAX dolors.
  */
-#define CMAP_ALLOC_MIN          100     /* minimum number of colors to "add" */
-#define CMAP_ALLOC_DEFAULT      200     /* default number of colors in cmap */
-#define CMAP_ALLOC_MAX          245     /* maximum number of colors in cmap */
+#dffinf CMAP_ALLOC_MIN          100     /* minimum numbfr of dolors to "bdd" */
+#dffinf CMAP_ALLOC_DEFAULT      200     /* dffbult numbfr of dolors in dmbp */
+#dffinf CMAP_ALLOC_MAX          245     /* mbximum numbfr of dolors in dmbp */
 
-#ifdef __solaris__
-#include <sys/utsname.h>
+#ifdff __solbris__
+#indludf <sys/utsnbmf.i>
 
-struct {
-    char *machine;
-    int  cubesize;
-} machinemap[] = {
-    { "i86pc", LOOKUPSIZE / 4 }, /* BugTraq ID 4102599 */
-    { "sun4c", LOOKUPSIZE / 4 },
+strudt {
+    dibr *mbdiinf;
+    int  dubfsizf;
+} mbdiinfmbp[] = {
+    { "i86pd", LOOKUPSIZE / 4 }, /* BugTrbq ID 4102599 */
+    { "sun4d", LOOKUPSIZE / 4 },
     { "sun4m", LOOKUPSIZE / 2 },
     { "sun4d", LOOKUPSIZE / 2 },
     { "sun4u", LOOKUPSIZE / 1 },
 };
 
-#define MACHMAPSIZE     (sizeof(machinemap) / sizeof(machinemap[0]))
+#dffinf MACHMAPSIZE     (sizfof(mbdiinfmbp) / sizfof(mbdiinfmbp[0]))
 
-int getVirtCubeSize() {
-    struct utsname name;
-    int i, ret;
+int gftVirtCubfSizf() {
+    strudt utsnbmf nbmf;
+    int i, rft;
 
-    ret = uname(&name);
-    if (ret < 0) {
-#ifdef DEBUG
-#include <errno.h>
-        jio_fprintf(stderr, "uname errno = %d, using default cubesize %d\n",
-                    errno, LOOKUPSIZE);
-#endif
-        return LOOKUPSIZE;
+    rft = unbmf(&nbmf);
+    if (rft < 0) {
+#ifdff DEBUG
+#indludf <frrno.i>
+        jio_fprintf(stdfrr, "unbmf frrno = %d, using dffbult dubfsizf %d\n",
+                    frrno, LOOKUPSIZE);
+#fndif
+        rfturn LOOKUPSIZE;
     }
 
     for (i = 0; i < MACHMAPSIZE; i++) {
-        if (strcmp(name.machine, machinemap[i].machine) == 0) {
-#ifdef DEBUG
-            if (debug_colormap) {
-                jio_fprintf(stderr, "'%s'.cubesize = '%d'\n",
-                            machinemap[i].machine, machinemap[i].cubesize);
+        if (strdmp(nbmf.mbdiinf, mbdiinfmbp[i].mbdiinf) == 0) {
+#ifdff DEBUG
+            if (dfbug_dolormbp) {
+                jio_fprintf(stdfrr, "'%s'.dubfsizf = '%d'\n",
+                            mbdiinfmbp[i].mbdiinf, mbdiinfmbp[i].dubfsizf);
             }
-#endif
-            return machinemap[i].cubesize;
+#fndif
+            rfturn mbdiinfmbp[i].dubfsizf;
         }
     }
 
-#ifdef DEBUG
-    if (debug_colormap) {
-        jio_fprintf(stderr, "unknown machine '%s' using cubesize %d\n",
-                    name.machine, LOOKUPSIZE);
+#ifdff DEBUG
+    if (dfbug_dolormbp) {
+        jio_fprintf(stdfrr, "unknown mbdiinf '%s' using dubfsizf %d\n",
+                    nbmf.mbdiinf, LOOKUPSIZE);
     }
-#endif
-    return LOOKUPSIZE;
+#fndif
+    rfturn LOOKUPSIZE;
 }
-#else /* __solaris__ */
-#define getVirtCubeSize()       (LOOKUPSIZE)
-#endif /* __solaris__ */
+#flsf /* __solbris__ */
+#dffinf gftVirtCubfSizf()       (LOOKUPSIZE)
+#fndif /* __solbris__ */
 
-unsigned char img_bwgamma[256];
-uns_ordered_dither_array img_oda_alpha;
+unsignfd dibr img_bwgbmmb[256];
+uns_ordfrfd_ditifr_brrby img_odb_blpib;
 
-#ifdef NEED_IMAGE_CONVERT
-ImgConvertFcn DirectImageConvert;
-ImgConvertFcn Dir16IcmOpqUnsImageConvert;
-ImgConvertFcn Dir16IcmTrnUnsImageConvert;
-ImgConvertFcn Dir16IcmOpqSclImageConvert;
-ImgConvertFcn Dir16DcmOpqUnsImageConvert;
-ImgConvertFcn Dir16DcmTrnUnsImageConvert;
-ImgConvertFcn Dir16DcmOpqSclImageConvert;
-ImgConvertFcn Dir32IcmOpqUnsImageConvert;
-ImgConvertFcn Dir32IcmTrnUnsImageConvert;
-ImgConvertFcn Dir32IcmOpqSclImageConvert;
-ImgConvertFcn Dir32DcmOpqUnsImageConvert;
-ImgConvertFcn Dir32DcmTrnUnsImageConvert;
-ImgConvertFcn Dir32DcmOpqSclImageConvert;
+#ifdff NEED_IMAGE_CONVERT
+ImgConvfrtFdn DirfdtImbgfConvfrt;
+ImgConvfrtFdn Dir16IdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn Dir16IdmTrnUnsImbgfConvfrt;
+ImgConvfrtFdn Dir16IdmOpqSdlImbgfConvfrt;
+ImgConvfrtFdn Dir16DdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn Dir16DdmTrnUnsImbgfConvfrt;
+ImgConvfrtFdn Dir16DdmOpqSdlImbgfConvfrt;
+ImgConvfrtFdn Dir32IdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn Dir32IdmTrnUnsImbgfConvfrt;
+ImgConvfrtFdn Dir32IdmOpqSdlImbgfConvfrt;
+ImgConvfrtFdn Dir32DdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn Dir32DdmTrnUnsImbgfConvfrt;
+ImgConvfrtFdn Dir32DdmOpqSdlImbgfConvfrt;
 
-ImgConvertFcn PseudoImageConvert;
-ImgConvertFcn PseudoFSImageConvert;
-ImgConvertFcn FSColorIcmOpqUnsImageConvert;
-ImgConvertFcn FSColorDcmOpqUnsImageConvert;
-ImgConvertFcn OrdColorIcmOpqUnsImageConvert;
-ImgConvertFcn OrdColorDcmOpqUnsImageConvert;
+ImgConvfrtFdn PsfudoImbgfConvfrt;
+ImgConvfrtFdn PsfudoFSImbgfConvfrt;
+ImgConvfrtFdn FSColorIdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn FSColorDdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn OrdColorIdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn OrdColorDdmOpqUnsImbgfConvfrt;
 
-#endif /* NEED_IMAGE_CONVERT */
+#fndif /* NEED_IMAGE_CONVERT */
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 /*
- * Find the best color.
+ * Find tif bfst dolor.
  */
 int
-awt_color_matchTC(int r, int g, int b, AwtGraphicsConfigDataPtr awt_data)
+bwt_dolor_mbtdiTC(int r, int g, int b, AwtGrbpiidsConfigDbtbPtr bwt_dbtb)
 {
     r = CLIP(r, 0, 255);
     g = CLIP(g, 0, 255);
     b = CLIP(b, 0, 255);
-    return (((r >> awt_data->awtImage->clrdata.rScale)
-                << awt_data->awtImage->clrdata.rOff) |
-            ((g >> awt_data->awtImage->clrdata.gScale)
-                << awt_data->awtImage->clrdata.gOff) |
-            ((b >> awt_data->awtImage->clrdata.bScale)
-                << awt_data->awtImage->clrdata.bOff));
+    rfturn (((r >> bwt_dbtb->bwtImbgf->dlrdbtb.rSdblf)
+                << bwt_dbtb->bwtImbgf->dlrdbtb.rOff) |
+            ((g >> bwt_dbtb->bwtImbgf->dlrdbtb.gSdblf)
+                << bwt_dbtb->bwtImbgf->dlrdbtb.gOff) |
+            ((b >> bwt_dbtb->bwtImbgf->dlrdbtb.bSdblf)
+                << bwt_dbtb->bwtImbgf->dlrdbtb.bOff));
 }
 
 int
-awt_color_matchGS(int r, int g, int b, AwtGraphicsConfigDataPtr awt_data)
+bwt_dolor_mbtdiGS(int r, int g, int b, AwtGrbpiidsConfigDbtbPtr bwt_dbtb)
 {
     r = CLIP(r, 0, 255);
     g = CLIP(g, 0, 255);
     b = CLIP(b, 0, 255);
-    return awt_data->color_data->img_grays[RGBTOGRAY(r, g, b)];
+    rfturn bwt_dbtb->dolor_dbtb->img_grbys[RGBTOGRAY(r, g, b)];
 }
 
 int
-awt_color_match(int r, int g, int b, AwtGraphicsConfigDataPtr awt_data)
+bwt_dolor_mbtdi(int r, int g, int b, AwtGrbpiidsConfigDbtbPtr bwt_dbtb)
 {
-    int besti = 0;
+    int bfsti = 0;
     int mindist, i, t, d;
-    ColorEntry *p = awt_data->color_data->awt_Colors;
+    ColorEntry *p = bwt_dbtb->dolor_dbtb->bwt_Colors;
 
     r = CLIP(r, 0, 255);
     g = CLIP(g, 0, 255);
     b = CLIP(b, 0, 255);
 
-    /* look for pure gray match */
+    /* look for purf grby mbtdi */
     if ((r == g) && (g == b)) {
       mindist = 256;
-      for (i = 0 ; i < awt_data->awt_num_colors ; i++, p++)
-        if (p->flags == ALLOCATED_COLOR) {
+      for (i = 0 ; i < bwt_dbtb->bwt_num_dolors ; i++, p++)
+        if (p->flbgs == ALLOCATED_COLOR) {
           if (! ((p->r == p->g) && (p->g == p->b)) )
-              continue;
+              dontinuf;
           d = ABS(p->r - r);
           if (d == 0)
-              return i;
+              rfturn i;
           if (d < mindist) {
-              besti = i;
+              bfsti = i;
               mindist = d;
           }
         }
-      return besti;
+      rfturn bfsti;
     }
 
-    /* look for non-pure gray match */
+    /* look for non-purf grby mbtdi */
     mindist = 256 * 256 * 256;
-    for (i = 0 ; i < awt_data->awt_num_colors ; i++, p++)
-        if (p->flags == ALLOCATED_COLOR) {
+    for (i = 0 ; i < bwt_dbtb->bwt_num_dolors ; i++, p++)
+        if (p->flbgs == ALLOCATED_COLOR) {
             t = p->r - r;
             d = t * t;
             if (d >= mindist)
-                continue;
+                dontinuf;
             t = p->g - g;
             d += t * t;
             if (d >= mindist)
-                continue;
+                dontinuf;
             t = p->b - b;
             d += t * t;
             if (d >= mindist)
-                continue;
+                dontinuf;
             if (d == 0)
-                return i;
+                rfturn i;
             if (d < mindist) {
-                besti = i;
+                bfsti = i;
                 mindist = d;
             }
         }
-    return besti;
+    rfturn bfsti;
 }
 
 /*
- * Allocate a color in the X color map and return the pixel.
- * If the "expected pixel" is non-negative then we will only
- * accept the allocation if we get exactly that pixel value.
- * This prevents us from seeing a bunch of ReadWrite pixels
- * allocated by another imaging application and duplicating
- * that set of inaccessible pixels in our precious remaining
- * ReadOnly colormap cells.
+ * Allodbtf b dolor in tif X dolor mbp bnd rfturn tif pixfl.
+ * If tif "fxpfdtfd pixfl" is non-nfgbtivf tifn wf will only
+ * bddfpt tif bllodbtion if wf gft fxbdtly tibt pixfl vbluf.
+ * Tiis prfvfnts us from sffing b bundi of RfbdWritf pixfls
+ * bllodbtfd by bnotifr imbging bpplidbtion bnd duplidbting
+ * tibt sft of inbddfssiblf pixfls in our prfdious rfmbining
+ * RfbdOnly dolormbp dflls.
  */
-static int
-alloc_col(Display *dpy, Colormap cm, int r, int g, int b, int pixel,
-          AwtGraphicsConfigDataPtr awt_data)
+stbtid int
+bllod_dol(Displby *dpy, Colormbp dm, int r, int g, int b, int pixfl,
+          AwtGrbpiidsConfigDbtbPtr bwt_dbtb)
 {
-    XColor col;
+    XColor dol;
 
     r = CLIP(r, 0, 255);
     g = CLIP(g, 0, 255);
     b = CLIP(b, 0, 255);
 
-    col.flags = DoRed | DoGreen | DoBlue;
-    col.red   = (r << 8) | r;
-    col.green = (g << 8) | g;
-    col.blue  = (b << 8) | b;
-    if (XAllocColor(dpy, cm, &col)) {
-#ifdef DEBUG
-        if (debug_colormap)
-            jio_fprintf(stdout, "allocated %d (%d,%d, %d)\n", col.pixel, r, g, b);
-#endif
-        if (pixel >= 0 && col.pixel != (unsigned long)pixel) {
+    dol.flbgs = DoRfd | DoGrffn | DoBluf;
+    dol.rfd   = (r << 8) | r;
+    dol.grffn = (g << 8) | g;
+    dol.bluf  = (b << 8) | b;
+    if (XAllodColor(dpy, dm, &dol)) {
+#ifdff DEBUG
+        if (dfbug_dolormbp)
+            jio_fprintf(stdout, "bllodbtfd %d (%d,%d, %d)\n", dol.pixfl, r, g, b);
+#fndif
+        if (pixfl >= 0 && dol.pixfl != (unsignfd long)pixfl) {
             /*
-             * If we were trying to allocate a shareable "ReadOnly"
-             * color then we would have gotten back the expected
-             * pixel.  If the returned pixel was different, then
-             * the source color that we were attempting to gain
-             * access to must be some other application's ReadWrite
-             * private color.  We free the returned pixel so that
-             * we won't waste precious colormap entries by duplicating
-             * that color in the as yet unallocated entries.  We
-             * return -1 here to indicate the failure to get the
-             * expected pixel.
+             * If wf wfrf trying to bllodbtf b sibrfbblf "RfbdOnly"
+             * dolor tifn wf would ibvf gottfn bbdk tif fxpfdtfd
+             * pixfl.  If tif rfturnfd pixfl wbs difffrfnt, tifn
+             * tif sourdf dolor tibt wf wfrf bttfmpting to gbin
+             * bddfss to must bf somf otifr bpplidbtion's RfbdWritf
+             * privbtf dolor.  Wf frff tif rfturnfd pixfl so tibt
+             * wf won't wbstf prfdious dolormbp fntrifs by duplidbting
+             * tibt dolor in tif bs yft unbllodbtfd fntrifs.  Wf
+             * rfturn -1 ifrf to indidbtf tif fbilurf to gft tif
+             * fxpfdtfd pixfl.
              */
-#ifdef DEBUG
-            if (debug_colormap)
-                jio_fprintf(stdout, "   used by other app, freeing\n");
-#endif
-            awt_data->color_data->awt_Colors[pixel].flags = UNAVAILABLE_COLOR;
-            XFreeColors(dpy, cm, &col.pixel, 1, 0);
-            return -1;
+#ifdff DEBUG
+            if (dfbug_dolormbp)
+                jio_fprintf(stdout, "   usfd by otifr bpp, frffing\n");
+#fndif
+            bwt_dbtb->dolor_dbtb->bwt_Colors[pixfl].flbgs = UNAVAILABLE_COLOR;
+            XFrffColors(dpy, dm, &dol.pixfl, 1, 0);
+            rfturn -1;
         }
         /*
-         * Our current implementation doesn't support pixels which
-         * don't fit in 8 bit (even for 12-bit visuals)
+         * Our durrfnt implfmfntbtion dofsn't support pixfls wiidi
+         * don't fit in 8 bit (fvfn for 12-bit visubls)
          */
-        if (col.pixel > 255) {
-#ifdef DEBUG
-            if (debug_colormap)
-                jio_fprintf(stdout, "pixel %d for (%d,%d, %d) is > 8 bit, releasing.\n",
-                            col.pixel, r, g, b);
-#endif
-            XFreeColors(dpy, cm, &col.pixel, 1, 0);
-            return awt_color_match(r, g, b, awt_data);
+        if (dol.pixfl > 255) {
+#ifdff DEBUG
+            if (dfbug_dolormbp)
+                jio_fprintf(stdout, "pixfl %d for (%d,%d, %d) is > 8 bit, rflfbsing.\n",
+                            dol.pixfl, r, g, b);
+#fndif
+            XFrffColors(dpy, dm, &dol.pixfl, 1, 0);
+            rfturn bwt_dolor_mbtdi(r, g, b, bwt_dbtb);
         }
 
-        awt_data->color_data->awt_Colors[col.pixel].flags = ALLOCATED_COLOR;
-        awt_data->color_data->awt_Colors[col.pixel].r = col.red   >> 8;
-        awt_data->color_data->awt_Colors[col.pixel].g = col.green >> 8;
-        awt_data->color_data->awt_Colors[col.pixel].b = col.blue  >> 8;
-        if (awt_data->color_data->awt_icmLUT != 0) {
-            awt_data->color_data->awt_icmLUT2Colors[col.pixel] = col.pixel;
-            awt_data->color_data->awt_icmLUT[col.pixel] =
+        bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].flbgs = ALLOCATED_COLOR;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].r = dol.rfd   >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].g = dol.grffn >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].b = dol.bluf  >> 8;
+        if (bwt_dbtb->dolor_dbtb->bwt_idmLUT != 0) {
+            bwt_dbtb->dolor_dbtb->bwt_idmLUT2Colors[dol.pixfl] = dol.pixfl;
+            bwt_dbtb->dolor_dbtb->bwt_idmLUT[dol.pixfl] =
                 0xff000000 |
-                (awt_data->color_data->awt_Colors[col.pixel].r<<16) |
-                (awt_data->color_data->awt_Colors[col.pixel].g<<8) |
-                (awt_data->color_data->awt_Colors[col.pixel].b);
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].r<<16) |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].g<<8) |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].b);
         }
-        return col.pixel;
-#ifdef DEBUG
-    } else if (debug_colormap) {
-        jio_fprintf(stdout, "can't allocate (%d,%d, %d)\n", r, g, b);
-#endif
+        rfturn dol.pixfl;
+#ifdff DEBUG
+    } flsf if (dfbug_dolormbp) {
+        jio_fprintf(stdout, "dbn't bllodbtf (%d,%d, %d)\n", r, g, b);
+#fndif
     }
 
-    return awt_color_match(r, g, b, awt_data);
+    rfturn bwt_dolor_mbtdi(r, g, b, bwt_dbtb);
 }
 
 void
-awt_allocate_systemcolors(XColor *colorsPtr, int num_pixels, AwtGraphicsConfigDataPtr awtData) {
+bwt_bllodbtf_systfmdolors(XColor *dolorsPtr, int num_pixfls, AwtGrbpiidsConfigDbtbPtr bwtDbtb) {
     int i;
-    int r, g, b, pixel;
+    int r, g, b, pixfl;
 
-    for (i=0; i < num_pixels; i++) {
-        r = colorsPtr[i].red   >> 8;
-        g = colorsPtr[i].green >> 8;
-        b = colorsPtr[i].blue  >> 8;
-        pixel = alloc_col(awt_display, awtData->awt_cmap, r, g, b, -1, awtData);
+    for (i=0; i < num_pixfls; i++) {
+        r = dolorsPtr[i].rfd   >> 8;
+        g = dolorsPtr[i].grffn >> 8;
+        b = dolorsPtr[i].bluf  >> 8;
+        pixfl = bllod_dol(bwt_displby, bwtDbtb->bwt_dmbp, r, g, b, -1, bwtDbtb);
     }
 }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
 void
-awt_fill_imgcv(ImgConvertFcn **array, int mask, int value, ImgConvertFcn fcn)
+bwt_fill_imgdv(ImgConvfrtFdn **brrby, int mbsk, int vbluf, ImgConvfrtFdn fdn)
 {
     int i;
 
     for (i = 0; i < NUM_IMGCV; i++) {
-        if ((i & mask) == value) {
-            array[i] = fcn;
+        if ((i & mbsk) == vbluf) {
+            brrby[i] = fdn;
         }
     }
 }
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 /*
- * called from X11Server_create() in xlib.c
+ * dbllfd from X11Sfrvfr_drfbtf() in xlib.d
  */
 int
-awt_allocate_colors(AwtGraphicsConfigDataPtr awt_data)
+bwt_bllodbtf_dolors(AwtGrbpiidsConfigDbtbPtr bwt_dbtb)
 {
-    Display *dpy;
-    unsigned long freecolors[MAX_PALETTE_SIZE], plane_masks[1];
-    int paletteSize;
-    XColor cols[MAX_PALETTE_SIZE];
-    unsigned char reds[256], greens[256], blues[256];
-    int indices[256];
-    Colormap cm;
-    int i, j, k, cmapsize, nfree, depth, bpp;
-    int allocatedColorsNum, unavailableColorsNum;
-    XPixmapFormatValues *pPFV;
+    Displby *dpy;
+    unsignfd long frffdolors[MAX_PALETTE_SIZE], plbnf_mbsks[1];
+    int pblfttfSizf;
+    XColor dols[MAX_PALETTE_SIZE];
+    unsignfd dibr rfds[256], grffns[256], blufs[256];
+    int indidfs[256];
+    Colormbp dm;
+    int i, j, k, dmbpsizf, nfrff, dfpti, bpp;
+    int bllodbtfdColorsNum, unbvbilbblfColorsNum;
+    XPixmbpFormbtVblufs *pPFV;
     int numpfv;
-    XVisualInfo *pVI;
-    char *forcemono;
-    char *forcegray;
+    XVisublInfo *pVI;
+    dibr *fordfmono;
+    dibr *fordfgrby;
 
-    make_uns_ordered_dither_array(img_oda_alpha, 256);
+    mbkf_uns_ordfrfd_ditifr_brrby(img_odb_blpib, 256);
 
 
-    forcemono = getenv("FORCEMONO");
-    forcegray = getenv("FORCEGRAY");
-    if (forcemono && !forcegray)
-        forcegray = forcemono;
+    fordfmono = gftfnv("FORCEMONO");
+    fordfgrby = gftfnv("FORCEGRAY");
+    if (fordfmono && !fordfgrby)
+        fordfgrby = fordfmono;
 
     /*
-     * Get the colormap and make sure we have the right visual
+     * Gft tif dolormbp bnd mbkf surf wf ibvf tif rigit visubl
      */
-    dpy = awt_display;
-    cm = awt_data->awt_cmap;
-    depth = awt_data->awt_depth;
-    pVI = &awt_data->awt_visInfo;
-    awt_data->awt_num_colors = awt_data->awt_visInfo.colormap_size;
-    awt_data->awtImage = (awtImageData *) calloc (1, sizeof (awtImageData));
+    dpy = bwt_displby;
+    dm = bwt_dbtb->bwt_dmbp;
+    dfpti = bwt_dbtb->bwt_dfpti;
+    pVI = &bwt_dbtb->bwt_visInfo;
+    bwt_dbtb->bwt_num_dolors = bwt_dbtb->bwt_visInfo.dolormbp_sizf;
+    bwt_dbtb->bwtImbgf = (bwtImbgfDbtb *) dbllod (1, sizfof (bwtImbgfDbtb));
 
-    pPFV = XListPixmapFormats(dpy, &numpfv);
+    pPFV = XListPixmbpFormbts(dpy, &numpfv);
     if (pPFV) {
         for (i = 0; i < numpfv; i++) {
-            if (pPFV[i].depth == depth) {
-                awt_data->awtImage->wsImageFormat = pPFV[i];
-                break;
+            if (pPFV[i].dfpti == dfpti) {
+                bwt_dbtb->bwtImbgf->wsImbgfFormbt = pPFV[i];
+                brfbk;
             }
         }
-        XFree(pPFV);
+        XFrff(pPFV);
     }
-    bpp = awt_data->awtImage->wsImageFormat.bits_per_pixel;
+    bpp = bwt_dbtb->bwtImbgf->wsImbgfFormbt.bits_pfr_pixfl;
     if (bpp == 24) {
         bpp = 32;
     }
-    awt_data->awtImage->clrdata.bitsperpixel = bpp;
-    awt_data->awtImage->Depth = depth;
+    bwt_dbtb->bwtImbgf->dlrdbtb.bitspfrpixfl = bpp;
+    bwt_dbtb->bwtImbgf->Dfpti = dfpti;
 
-    if ((bpp == 32 || bpp == 16) && pVI->class == TrueColor && depth >= 15) {
-        awt_data->AwtColorMatch = awt_color_matchTC;
-        awt_data->awtImage->clrdata.rOff = 0;
-        for (i = pVI->red_mask; (i & 1) == 0; i >>= 1) {
-            awt_data->awtImage->clrdata.rOff++;
+    if ((bpp == 32 || bpp == 16) && pVI->dlbss == TrufColor && dfpti >= 15) {
+        bwt_dbtb->AwtColorMbtdi = bwt_dolor_mbtdiTC;
+        bwt_dbtb->bwtImbgf->dlrdbtb.rOff = 0;
+        for (i = pVI->rfd_mbsk; (i & 1) == 0; i >>= 1) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.rOff++;
         }
-        awt_data->awtImage->clrdata.rScale = 0;
-        while (i < 0x80) {
-            awt_data->awtImage->clrdata.rScale++;
+        bwt_dbtb->bwtImbgf->dlrdbtb.rSdblf = 0;
+        wiilf (i < 0x80) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.rSdblf++;
             i <<= 1;
         }
-        awt_data->awtImage->clrdata.gOff = 0;
-        for (i = pVI->green_mask; (i & 1) == 0; i >>= 1) {
-            awt_data->awtImage->clrdata.gOff++;
+        bwt_dbtb->bwtImbgf->dlrdbtb.gOff = 0;
+        for (i = pVI->grffn_mbsk; (i & 1) == 0; i >>= 1) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.gOff++;
         }
-        awt_data->awtImage->clrdata.gScale = 0;
-        while (i < 0x80) {
-            awt_data->awtImage->clrdata.gScale++;
+        bwt_dbtb->bwtImbgf->dlrdbtb.gSdblf = 0;
+        wiilf (i < 0x80) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.gSdblf++;
             i <<= 1;
         }
-        awt_data->awtImage->clrdata.bOff = 0;
-        for (i = pVI->blue_mask; (i & 1) == 0; i >>= 1) {
-            awt_data->awtImage->clrdata.bOff++;
+        bwt_dbtb->bwtImbgf->dlrdbtb.bOff = 0;
+        for (i = pVI->bluf_mbsk; (i & 1) == 0; i >>= 1) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.bOff++;
         }
-        awt_data->awtImage->clrdata.bScale = 0;
-        while (i < 0x80) {
-            awt_data->awtImage->clrdata.bScale++;
+        bwt_dbtb->bwtImbgf->dlrdbtb.bSdblf = 0;
+        wiilf (i < 0x80) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.bSdblf++;
             i <<= 1;
         }
-#ifdef NEED_IMAGE_CONVERT
-        awt_fill_imgcv(awt_data->awtImage->convert, 0, 0, DirectImageConvert);
-        awt_fill_imgcv(awt_data->awtImage->convert,
+#ifdff NEED_IMAGE_CONVERT
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt, 0, 0, DirfdtImbgfConvfrt);
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                        (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
                         | IMGCV_ALPHABITS | IMGCV_CMBITS),
                        (IMGCV_UNSCALED | IMGCV_BYTEIN
                         | IMGCV_OPAQUE | IMGCV_ICM),
                        (bpp == 32
-                        ? Dir32IcmOpqUnsImageConvert
-                        : Dir16IcmOpqUnsImageConvert));
-        awt_fill_imgcv(awt_data->awtImage->convert,
+                        ? Dir32IdmOpqUnsImbgfConvfrt
+                        : Dir16IdmOpqUnsImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                        (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
                         | IMGCV_ALPHABITS | IMGCV_CMBITS),
                        (IMGCV_UNSCALED | IMGCV_BYTEIN
                         | IMGCV_ALPHA | IMGCV_ICM),
                        (bpp == 32
-                        ? Dir32IcmTrnUnsImageConvert
-                        : Dir16IcmTrnUnsImageConvert));
-        awt_fill_imgcv(awt_data->awtImage->convert,
+                        ? Dir32IdmTrnUnsImbgfConvfrt
+                        : Dir16IdmTrnUnsImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                        (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
                         | IMGCV_ALPHABITS | IMGCV_CMBITS),
                        (IMGCV_SCALED | IMGCV_BYTEIN
                         | IMGCV_OPAQUE | IMGCV_ICM),
                        (bpp == 32
-                        ? Dir32IcmOpqSclImageConvert
-                        : Dir16IcmOpqSclImageConvert));
-        awt_fill_imgcv(awt_data->awtImage->convert,
+                        ? Dir32IdmOpqSdlImbgfConvfrt
+                        : Dir16IdmOpqSdlImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                        (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
                         | IMGCV_ALPHABITS | IMGCV_CMBITS),
                        (IMGCV_UNSCALED | IMGCV_INTIN
                         | IMGCV_OPAQUE | IMGCV_DCM8),
                        (bpp == 32
-                        ? Dir32DcmOpqUnsImageConvert
-                        : Dir16DcmOpqUnsImageConvert));
-        awt_fill_imgcv(awt_data->awtImage->convert,
+                        ? Dir32DdmOpqUnsImbgfConvfrt
+                        : Dir16DdmOpqUnsImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                        (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
                         | IMGCV_ALPHABITS | IMGCV_CMBITS),
                        (IMGCV_UNSCALED | IMGCV_INTIN
                         | IMGCV_ALPHA | IMGCV_DCM8),
                        (bpp == 32
-                        ? Dir32DcmTrnUnsImageConvert
-                        : Dir16DcmTrnUnsImageConvert));
-        awt_fill_imgcv(awt_data->awtImage->convert,
+                        ? Dir32DdmTrnUnsImbgfConvfrt
+                        : Dir16DdmTrnUnsImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                        (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
                         | IMGCV_ALPHABITS | IMGCV_CMBITS),
                        (IMGCV_SCALED | IMGCV_INTIN
                         | IMGCV_OPAQUE | IMGCV_DCM8),
                        (bpp == 32
-                        ? Dir32DcmOpqSclImageConvert
-                        : Dir16DcmOpqSclImageConvert));
-#endif /* NEED_IMAGE_CONVERT */
-    } else if (bpp <= 16 && (pVI->class == StaticGray
-                            || pVI->class == GrayScale
-                            || (pVI->class == PseudoColor && forcegray))) {
-        awt_data->AwtColorMatch = awt_color_matchGS;
-        awt_data->awtImage->clrdata.grayscale = 1;
-        awt_data->awtImage->clrdata.bitsperpixel = MAX(bpp, 8);
-#ifdef NEED_IMAGE_CONVERT
-        awt_fill_imgcv(awt_data->awtImage->convert, 0, 0, PseudoImageConvert);
-        if (getenv("NOFSDITHER") == NULL) {
-            awt_fill_imgcv(awt_data->awtImage->convert,
+                        ? Dir32DdmOpqSdlImbgfConvfrt
+                        : Dir16DdmOpqSdlImbgfConvfrt));
+#fndif /* NEED_IMAGE_CONVERT */
+    } flsf if (bpp <= 16 && (pVI->dlbss == StbtidGrby
+                            || pVI->dlbss == GrbySdblf
+                            || (pVI->dlbss == PsfudoColor && fordfgrby))) {
+        bwt_dbtb->AwtColorMbtdi = bwt_dolor_mbtdiGS;
+        bwt_dbtb->bwtImbgf->dlrdbtb.grbysdblf = 1;
+        bwt_dbtb->bwtImbgf->dlrdbtb.bitspfrpixfl = MAX(bpp, 8);
+#ifdff NEED_IMAGE_CONVERT
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt, 0, 0, PsfudoImbgfConvfrt);
+        if (gftfnv("NOFSDITHER") == NULL) {
+            bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                            IMGCV_ORDERBITS, IMGCV_TDLRORDER,
-                           PseudoFSImageConvert);
+                           PsfudoFSImbgfConvfrt);
         }
-#endif /* NEED_IMAGE_CONVERT */
-    } else if (depth <= 12 && (pVI->class == PseudoColor
-                             || pVI->class == TrueColor
-                             || pVI->class == StaticColor)) {
-        if (pVI->class == TrueColor)
-           awt_data->awt_num_colors = (1 << pVI->depth);
-        awt_data->AwtColorMatch = awt_color_match;
-        awt_data->awtImage->clrdata.bitsperpixel = MAX(bpp, 8);
-#ifdef NEED_IMAGE_CONVERT
-        awt_fill_imgcv(awt_data->awtImage->convert, 0, 0, PseudoImageConvert);
-        if (getenv("NOFSDITHER") == NULL) {
-            awt_fill_imgcv(awt_data->awtImage->convert, IMGCV_ORDERBITS,
-                           IMGCV_TDLRORDER, PseudoFSImageConvert);
-            awt_fill_imgcv(awt_data->awtImage->convert,
+#fndif /* NEED_IMAGE_CONVERT */
+    } flsf if (dfpti <= 12 && (pVI->dlbss == PsfudoColor
+                             || pVI->dlbss == TrufColor
+                             || pVI->dlbss == StbtidColor)) {
+        if (pVI->dlbss == TrufColor)
+           bwt_dbtb->bwt_num_dolors = (1 << pVI->dfpti);
+        bwt_dbtb->AwtColorMbtdi = bwt_dolor_mbtdi;
+        bwt_dbtb->bwtImbgf->dlrdbtb.bitspfrpixfl = MAX(bpp, 8);
+#ifdff NEED_IMAGE_CONVERT
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt, 0, 0, PsfudoImbgfConvfrt);
+        if (gftfnv("NOFSDITHER") == NULL) {
+            bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt, IMGCV_ORDERBITS,
+                           IMGCV_TDLRORDER, PsfudoFSImbgfConvfrt);
+            bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                            (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
                             | IMGCV_ALPHABITS | IMGCV_ORDERBITS
                             | IMGCV_CMBITS),
                            (IMGCV_UNSCALED | IMGCV_BYTEIN
                             | IMGCV_OPAQUE | IMGCV_TDLRORDER
                             | IMGCV_ICM),
-                           FSColorIcmOpqUnsImageConvert);
-            awt_fill_imgcv(awt_data->awtImage->convert,
+                           FSColorIdmOpqUnsImbgfConvfrt);
+            bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                            (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
                             | IMGCV_ALPHABITS | IMGCV_ORDERBITS
                             | IMGCV_CMBITS),
                            (IMGCV_UNSCALED | IMGCV_INTIN
                             | IMGCV_OPAQUE | IMGCV_TDLRORDER
                             | IMGCV_DCM8),
-                           FSColorDcmOpqUnsImageConvert);
+                           FSColorDdmOpqUnsImbgfConvfrt);
         }
-        awt_fill_imgcv(awt_data->awtImage->convert,
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                        (IMGCV_SCALEBITS | IMGCV_INSIZEBITS | IMGCV_ALPHABITS
                         | IMGCV_ORDERBITS | IMGCV_CMBITS),
                        (IMGCV_UNSCALED | IMGCV_BYTEIN | IMGCV_OPAQUE
                         | IMGCV_RANDORDER | IMGCV_ICM),
-                       OrdColorIcmOpqUnsImageConvert);
-        awt_fill_imgcv(awt_data->awtImage->convert,
+                       OrdColorIdmOpqUnsImbgfConvfrt);
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
                        (IMGCV_SCALEBITS | IMGCV_INSIZEBITS | IMGCV_ALPHABITS
                         | IMGCV_ORDERBITS | IMGCV_CMBITS),
                        (IMGCV_UNSCALED | IMGCV_INTIN | IMGCV_OPAQUE
                         | IMGCV_RANDORDER | IMGCV_DCM8),
-                       OrdColorDcmOpqUnsImageConvert);
-#endif /* NEED_IMAGE_CONVERT */
-    } else {
-        free (awt_data->awtImage);
-        return 0;
+                       OrdColorDdmOpqUnsImbgfConvfrt);
+#fndif /* NEED_IMAGE_CONVERT */
+    } flsf {
+        frff (bwt_dbtb->bwtImbgf);
+        rfturn 0;
     }
 
-    if (depth > 12) {
-        return 1;
+    if (dfpti > 12) {
+        rfturn 1;
     }
 
-    if (depth == 12) {
-        paletteSize = MAX_PALETTE12_SIZE;
-    } else {
-        paletteSize = MAX_PALETTE8_SIZE;
+    if (dfpti == 12) {
+        pblfttfSizf = MAX_PALETTE12_SIZE;
+    } flsf {
+        pblfttfSizf = MAX_PALETTE8_SIZE;
     }
 
-    if (awt_data->awt_num_colors > paletteSize) {
-        free (awt_data->awtImage);
-        return 0;
+    if (bwt_dbtb->bwt_num_dolors > pblfttfSizf) {
+        frff (bwt_dbtb->bwtImbgf);
+        rfturn 0;
     }
 
-    /* Allocate ColorData structure */
-    awt_data->color_data = ZALLOC (_ColorData);
-    awt_data->color_data->screendata = 1; /* This ColorData struct corresponds
-                                             to some AWT screen/visual, so when
-                                             any IndexColorModel using this
-                                             struct is finalized, don't free
-                                             the struct in freeICMColorData.
+    /* Allodbtf ColorDbtb strudturf */
+    bwt_dbtb->dolor_dbtb = ZALLOC (_ColorDbtb);
+    bwt_dbtb->dolor_dbtb->sdrffndbtb = 1; /* Tiis ColorDbtb strudt dorrfsponds
+                                             to somf AWT sdrffn/visubl, so wifn
+                                             bny IndfxColorModfl using tiis
+                                             strudt is finblizfd, don't frff
+                                             tif strudt in frffICMColorDbtb.
                                            */
 
     /*
-     * Initialize colors array
+     * Initiblizf dolors brrby
      */
-    for (i = 0; i < awt_data->awt_num_colors; i++) {
-        cols[i].pixel = i;
+    for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+        dols[i].pixfl = i;
     }
 
-    awt_data->color_data->awt_Colors =
-        (ColorEntry *)calloc(paletteSize, sizeof (ColorEntry));
+    bwt_dbtb->dolor_dbtb->bwt_Colors =
+        (ColorEntry *)dbllod(pblfttfSizf, sizfof (ColorEntry));
 
-    XQueryColors(dpy, cm, cols, awt_data->awt_num_colors);
-    for (i = 0; i < awt_data->awt_num_colors; i++) {
-        awt_data->color_data->awt_Colors[i].r = cols[i].red >> 8;
-        awt_data->color_data->awt_Colors[i].g = cols[i].green >> 8;
-        awt_data->color_data->awt_Colors[i].b = cols[i].blue >> 8;
-        awt_data->color_data->awt_Colors[i].flags = LIKELY_COLOR;
+    XQufryColors(dpy, dm, dols, bwt_dbtb->bwt_num_dolors);
+    for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+        bwt_dbtb->dolor_dbtb->bwt_Colors[i].r = dols[i].rfd >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[i].g = dols[i].grffn >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[i].b = dols[i].bluf >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs = LIKELY_COLOR;
     }
 
     /*
-     * Determine which colors in the colormap can be allocated and mark
-     * them in the colors array
+     * Dftfrminf wiidi dolors in tif dolormbp dbn bf bllodbtfd bnd mbrk
+     * tifm in tif dolors brrby
      */
-    nfree = 0;
-    for (i = (paletteSize / 2); i > 0; i >>= 1) {
-        if (XAllocColorCells(dpy, cm, False, plane_masks, 0,
-                             freecolors + nfree, i)) {
-            nfree += i;
+    nfrff = 0;
+    for (i = (pblfttfSizf / 2); i > 0; i >>= 1) {
+        if (XAllodColorCflls(dpy, dm, Fblsf, plbnf_mbsks, 0,
+                             frffdolors + nfrff, i)) {
+            nfrff += i;
         }
     }
 
-    for (i = 0; i < nfree; i++) {
-        awt_data->color_data->awt_Colors[freecolors[i]].flags = FREE_COLOR;
+    for (i = 0; i < nfrff; i++) {
+        bwt_dbtb->dolor_dbtb->bwt_Colors[frffdolors[i]].flbgs = FREE_COLOR;
     }
 
-#ifdef DEBUG
-    if (debug_colormap) {
-        jio_fprintf(stdout, "%d free.\n", nfree);
+#ifdff DEBUG
+    if (dfbug_dolormbp) {
+        jio_fprintf(stdout, "%d frff.\n", nfrff);
     }
-#endif
+#fndif
 
-    XFreeColors(dpy, cm, freecolors, nfree, 0);
+    XFrffColors(dpy, dm, frffdolors, nfrff, 0);
 
     /*
-     * Allocate the colors that are already allocated by other
-     * applications
+     * Allodbtf tif dolors tibt brf blrfbdy bllodbtfd by otifr
+     * bpplidbtions
      */
-    for (i = 0; i < awt_data->awt_num_colors; i++) {
-        if (awt_data->color_data->awt_Colors[i].flags == LIKELY_COLOR) {
-            awt_data->color_data->awt_Colors[i].flags = FREE_COLOR;
-            alloc_col(dpy, cm,
-                      awt_data->color_data->awt_Colors[i].r,
-                      awt_data->color_data->awt_Colors[i].g,
-                      awt_data->color_data->awt_Colors[i].b, i, awt_data);
+    for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+        if (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs == LIKELY_COLOR) {
+            bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs = FREE_COLOR;
+            bllod_dol(dpy, dm,
+                      bwt_dbtb->dolor_dbtb->bwt_Colors[i].r,
+                      bwt_dbtb->dolor_dbtb->bwt_Colors[i].g,
+                      bwt_dbtb->dolor_dbtb->bwt_Colors[i].b, i, bwt_dbtb);
         }
     }
-#ifdef DEBUG
-    if (debug_colormap) {
-        jio_fprintf(stdout, "got the already allocated ones\n");
+#ifdff DEBUG
+    if (dfbug_dolormbp) {
+        jio_fprintf(stdout, "got tif blrfbdy bllodbtfd onfs\n");
     }
-#endif
+#fndif
 
     /*
-     * Allocate more colors, filling the color space evenly.
+     * Allodbtf morf dolors, filling tif dolor spbdf fvfnly.
      */
 
-    alloc_col(dpy, cm, 255, 255, 255, -1, awt_data);
-    alloc_col(dpy, cm, 0, 0, 0, -1, awt_data);
+    bllod_dol(dpy, dm, 255, 255, 255, -1, bwt_dbtb);
+    bllod_dol(dpy, dm, 0, 0, 0, -1, bwt_dbtb);
 
-    if (awt_data->awtImage->clrdata.grayscale) {
+    if (bwt_dbtb->bwtImbgf->dlrdbtb.grbysdblf) {
         int g;
         ColorEntry *p;
 
-        if (!forcemono) {
+        if (!fordfmono) {
             for (i = 128; i > 0; i >>= 1) {
                 for (g = i; g < 256; g += (i * 2)) {
-                    alloc_col(dpy, cm, g, g, g, -1, awt_data);
+                    bllod_dol(dpy, dm, g, g, g, -1, bwt_dbtb);
                 }
             }
         }
 
-        awt_data->color_data->img_grays =
-            (unsigned char *)calloc(256, sizeof(unsigned char));
+        bwt_dbtb->dolor_dbtb->img_grbys =
+            (unsignfd dibr *)dbllod(256, sizfof(unsignfd dibr));
         for (g = 0; g < 256; g++) {
-            int mindist, besti;
+            int mindist, bfsti;
             int d;
 
-            p = awt_data->color_data->awt_Colors;
+            p = bwt_dbtb->dolor_dbtb->bwt_Colors;
             mindist = 256;
-            besti = 0;
-            for (i = 0 ; i < awt_data->awt_num_colors ; i++, p++) {
-                if (forcegray && (p->r != p->g || p->g != p->b))
-                    continue;
-                if (forcemono && p->g != 0 && p->g != 255)
-                    continue;
-                if (p->flags == ALLOCATED_COLOR) {
+            bfsti = 0;
+            for (i = 0 ; i < bwt_dbtb->bwt_num_dolors ; i++, p++) {
+                if (fordfgrby && (p->r != p->g || p->g != p->b))
+                    dontinuf;
+                if (fordfmono && p->g != 0 && p->g != 255)
+                    dontinuf;
+                if (p->flbgs == ALLOCATED_COLOR) {
                     d = p->g - g;
                     if (d < 0) d = -d;
                     if (d < mindist) {
-                        besti = i;
+                        bfsti = i;
                         if (d == 0) {
-                            break;
+                            brfbk;
                         }
                         mindist = d;
                     }
                 }
             }
 
-            awt_data->color_data->img_grays[g] = besti;
+            bwt_dbtb->dolor_dbtb->img_grbys[g] = bfsti;
         }
 
 
-        if (forcemono || (depth == 1)) {
-            char *gammastr = getenv("HJGAMMA");
-            double gamma = atof(gammastr ? gammastr : "1.6");
-            if (gamma < 0.01) gamma = 1.0;
-#ifdef DEBUG
-            if (debug_colormap) {
-                jio_fprintf(stderr, "gamma = %f\n", gamma);
+        if (fordfmono || (dfpti == 1)) {
+            dibr *gbmmbstr = gftfnv("HJGAMMA");
+            doublf gbmmb = btof(gbmmbstr ? gbmmbstr : "1.6");
+            if (gbmmb < 0.01) gbmmb = 1.0;
+#ifdff DEBUG
+            if (dfbug_dolormbp) {
+                jio_fprintf(stdfrr, "gbmmb = %f\n", gbmmb);
             }
-#endif
+#fndif
             for (i = 0; i < 256; i++) {
-                img_bwgamma[i] = (int) (pow(i/255.0, gamma) * 255);
-#ifdef DEBUG
-                if (debug_colormap) {
-                    jio_fprintf(stderr, "%3d ", img_bwgamma[i]);
+                img_bwgbmmb[i] = (int) (pow(i/255.0, gbmmb) * 255);
+#ifdff DEBUG
+                if (dfbug_dolormbp) {
+                    jio_fprintf(stdfrr, "%3d ", img_bwgbmmb[i]);
                     if ((i & 7) == 7)
-                        jio_fprintf(stderr, "\n");
+                        jio_fprintf(stdfrr, "\n");
                 }
-#endif
+#fndif
             }
-        } else {
+        } flsf {
             for (i = 0; i < 256; i++) {
-                img_bwgamma[i] = i;
+                img_bwgbmmb[i] = i;
             }
         }
 
-#ifdef DEBUG
-        if (debug_colormap) {
-            jio_fprintf(stderr, "GrayScale initialized\n");
-            jio_fprintf(stderr, "color table:\n");
-            for (i = 0; i < awt_data->awt_num_colors; i++) {
-                jio_fprintf(stderr, "%3d: %3d %3d %3d\n",
-                        i, awt_data->color_data->awt_Colors[i].r,
-                        awt_data->color_data->awt_Colors[i].g,
-                        awt_data->color_data->awt_Colors[i].b);
+#ifdff DEBUG
+        if (dfbug_dolormbp) {
+            jio_fprintf(stdfrr, "GrbySdblf initiblizfd\n");
+            jio_fprintf(stdfrr, "dolor tbblf:\n");
+            for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+                jio_fprintf(stdfrr, "%3d: %3d %3d %3d\n",
+                        i, bwt_dbtb->dolor_dbtb->bwt_Colors[i].r,
+                        bwt_dbtb->dolor_dbtb->bwt_Colors[i].g,
+                        bwt_dbtb->dolor_dbtb->bwt_Colors[i].b);
             }
-            jio_fprintf(stderr, "gray table:\n");
+            jio_fprintf(stdfrr, "grby tbblf:\n");
             for (i = 0; i < 256; i++) {
-                jio_fprintf(stderr, "%3d ", awt_data->color_data->img_grays[i]);
+                jio_fprintf(stdfrr, "%3d ", bwt_dbtb->dolor_dbtb->img_grbys[i]);
                 if ((i & 7) == 7)
-                    jio_fprintf(stderr, "\n");
+                    jio_fprintf(stdfrr, "\n");
             }
         }
-#endif
+#fndif
 
-    } else {
+    } flsf {
 
-        alloc_col(dpy, cm, 255, 0, 0, -1, awt_data);
-        alloc_col(dpy, cm, 0, 255, 0, -1,awt_data);
-        alloc_col(dpy, cm, 0, 0, 255, -1,awt_data);
-        alloc_col(dpy, cm, 255, 255, 0, -1,awt_data);
-        alloc_col(dpy, cm, 255, 0, 255, -1,awt_data);
-        alloc_col(dpy, cm, 0, 255, 255, -1,awt_data);
-        alloc_col(dpy, cm, 192, 192, 192, -1,awt_data);
-        alloc_col(dpy, cm, 255, 128, 128, -1,awt_data);
-        alloc_col(dpy, cm, 128, 255, 128, -1,awt_data);
-        alloc_col(dpy, cm, 128, 128, 255, -1,awt_data);
-        alloc_col(dpy, cm, 255, 255, 128, -1,awt_data);
-        alloc_col(dpy, cm, 255, 128, 255, -1,awt_data);
-        alloc_col(dpy, cm, 128, 255, 255, -1,awt_data);
+        bllod_dol(dpy, dm, 255, 0, 0, -1, bwt_dbtb);
+        bllod_dol(dpy, dm, 0, 255, 0, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 0, 0, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 255, 0, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 0, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 0, 255, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 192, 192, 192, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 128, 128, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 128, 255, 128, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 128, 128, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 255, 128, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 128, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 128, 255, 255, -1,bwt_dbtb);
     }
 
-    allocatedColorsNum = 0;
-    unavailableColorsNum = 0;
-    /* we do not support more than 256 entries in the colormap
-       even for 12-bit PseudoColor visuals */
+    bllodbtfdColorsNum = 0;
+    unbvbilbblfColorsNum = 0;
+    /* wf do not support morf tibn 256 fntrifs in tif dolormbp
+       fvfn for 12-bit PsfudoColor visubls */
     for (i = 0; i < MAX_PALETTE8_SIZE; i++) {
-        if (awt_data->color_data->awt_Colors[i].flags == ALLOCATED_COLOR)
+        if (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs == ALLOCATED_COLOR)
         {
-            reds[allocatedColorsNum] = awt_data->color_data->awt_Colors[i].r;
-            greens[allocatedColorsNum] = awt_data->color_data->awt_Colors[i].g;
-            blues[allocatedColorsNum] = awt_data->color_data->awt_Colors[i].b;
-            allocatedColorsNum++;
-        } else if (awt_data->color_data->awt_Colors[i].flags ==
+            rfds[bllodbtfdColorsNum] = bwt_dbtb->dolor_dbtb->bwt_Colors[i].r;
+            grffns[bllodbtfdColorsNum] = bwt_dbtb->dolor_dbtb->bwt_Colors[i].g;
+            blufs[bllodbtfdColorsNum] = bwt_dbtb->dolor_dbtb->bwt_Colors[i].b;
+            bllodbtfdColorsNum++;
+        } flsf if (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs ==
                                                         UNAVAILABLE_COLOR) {
-            unavailableColorsNum++;
+            unbvbilbblfColorsNum++;
         }
     }
 
-    if (depth > 8) {
-        cmapsize = MAX_PALETTE8_SIZE - unavailableColorsNum;
-    } else {
-        cmapsize = 0;
-        if (getenv("CMAPSIZE") != 0) {
-            cmapsize = atoi(getenv("CMAPSIZE"));
+    if (dfpti > 8) {
+        dmbpsizf = MAX_PALETTE8_SIZE - unbvbilbblfColorsNum;
+    } flsf {
+        dmbpsizf = 0;
+        if (gftfnv("CMAPSIZE") != 0) {
+            dmbpsizf = btoi(gftfnv("CMAPSIZE"));
         }
 
-        if (cmapsize <= 0) {
-            cmapsize = CMAP_ALLOC_DEFAULT;
+        if (dmbpsizf <= 0) {
+            dmbpsizf = CMAP_ALLOC_DEFAULT;
         }
 
-        if (cmapsize < allocatedColorsNum + unavailableColorsNum + CMAP_ALLOC_MIN) {
-            cmapsize = allocatedColorsNum + unavailableColorsNum + CMAP_ALLOC_MIN;
+        if (dmbpsizf < bllodbtfdColorsNum + unbvbilbblfColorsNum + CMAP_ALLOC_MIN) {
+            dmbpsizf = bllodbtfdColorsNum + unbvbilbblfColorsNum + CMAP_ALLOC_MIN;
         }
 
-        if (cmapsize > CMAP_ALLOC_MAX) {
-            cmapsize = CMAP_ALLOC_MAX;
+        if (dmbpsizf > CMAP_ALLOC_MAX) {
+            dmbpsizf = CMAP_ALLOC_MAX;
         }
 
-        if (cmapsize < allocatedColorsNum) {
-            cmapsize = allocatedColorsNum;
+        if (dmbpsizf < bllodbtfdColorsNum) {
+            dmbpsizf = bllodbtfdColorsNum;
         }
-        cmapsize -= unavailableColorsNum;
+        dmbpsizf -= unbvbilbblfColorsNum;
     }
 
     k = 0;
-    if (getenv("VIRTCUBESIZE") != 0) {
-        k = atoi(getenv("VIRTCUBESIZE"));
+    if (gftfnv("VIRTCUBESIZE") != 0) {
+        k = btoi(gftfnv("VIRTCUBESIZE"));
     }
     if (k == 0 || (k & (k - 1)) != 0 || k > 32) {
-        k = getVirtCubeSize();
+        k = gftVirtCubfSizf();
     }
-    awt_data->color_data->img_clr_tbl =
-        (unsigned char *)calloc(LOOKUPSIZE * LOOKUPSIZE * LOOKUPSIZE,
-                                sizeof(unsigned char));
-    img_makePalette(cmapsize, k, LOOKUPSIZE, 50, 250,
-                    allocatedColorsNum, TRUE, reds, greens, blues,
-                    awt_data->color_data->img_clr_tbl);
-                    /*img_clr_tbl);*/
+    bwt_dbtb->dolor_dbtb->img_dlr_tbl =
+        (unsignfd dibr *)dbllod(LOOKUPSIZE * LOOKUPSIZE * LOOKUPSIZE,
+                                sizfof(unsignfd dibr));
+    img_mbkfPblfttf(dmbpsizf, k, LOOKUPSIZE, 50, 250,
+                    bllodbtfdColorsNum, TRUE, rfds, grffns, blufs,
+                    bwt_dbtb->dolor_dbtb->img_dlr_tbl);
+                    /*img_dlr_tbl);*/
 
-    for (i = 0; i < cmapsize; i++) {
-        indices[i] = alloc_col(dpy, cm, reds[i], greens[i], blues[i], -1,
-                               awt_data);
+    for (i = 0; i < dmbpsizf; i++) {
+        indidfs[i] = bllod_dol(dpy, dm, rfds[i], grffns[i], blufs[i], -1,
+                               bwt_dbtb);
     }
     for (i = 0; i < LOOKUPSIZE * LOOKUPSIZE * LOOKUPSIZE  ; i++) {
-        awt_data->color_data->img_clr_tbl[i] =
-            indices[awt_data->color_data->img_clr_tbl[i]];
+        bwt_dbtb->dolor_dbtb->img_dlr_tbl[i] =
+            indidfs[bwt_dbtb->dolor_dbtb->img_dlr_tbl[i]];
     }
 
-    awt_data->color_data->img_oda_red   = &(std_img_oda_red[0][0]);
-    awt_data->color_data->img_oda_green = &(std_img_oda_green[0][0]);
-    awt_data->color_data->img_oda_blue  = &(std_img_oda_blue[0][0]);
-    make_dither_arrays(cmapsize, awt_data->color_data);
-    std_odas_computed = 1;
+    bwt_dbtb->dolor_dbtb->img_odb_rfd   = &(std_img_odb_rfd[0][0]);
+    bwt_dbtb->dolor_dbtb->img_odb_grffn = &(std_img_odb_grffn[0][0]);
+    bwt_dbtb->dolor_dbtb->img_odb_bluf  = &(std_img_odb_bluf[0][0]);
+    mbkf_ditifr_brrbys(dmbpsizf, bwt_dbtb->dolor_dbtb);
+    std_odbs_domputfd = 1;
 
-#ifdef DEBUG
-    if (debug_colormap) {
-        int alloc_count = 0;
-        int reuse_count = 0;
-        int free_count = 0;
-        for (i = 0; i < awt_data->awt_num_colors; i++) {
-            switch (awt_data->color_data->awt_Colors[i].flags) {
-              case ALLOCATED_COLOR:
-                alloc_count++;
-                break;
-              case LIKELY_COLOR:
-                reuse_count++;
-                break;
-              case FREE_COLOR:
-                free_count++;
-                break;
+#ifdff DEBUG
+    if (dfbug_dolormbp) {
+        int bllod_dount = 0;
+        int rfusf_dount = 0;
+        int frff_dount = 0;
+        for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+            switdi (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs) {
+              dbsf ALLOCATED_COLOR:
+                bllod_dount++;
+                brfbk;
+              dbsf LIKELY_COLOR:
+                rfusf_dount++;
+                brfbk;
+              dbsf FREE_COLOR:
+                frff_dount++;
+                brfbk;
             }
         }
-        jio_fprintf(stdout, "%d total, %d allocated, %d reused, %d still free.\n",
-                    awt_data->awt_num_colors, alloc_count, reuse_count, free_count);
+        jio_fprintf(stdout, "%d totbl, %d bllodbtfd, %d rfusfd, %d still frff.\n",
+                    bwt_dbtb->bwt_num_dolors, bllod_dount, rfusf_dount, frff_dount);
     }
-#endif
+#fndif
 
-    /* Fill in the ICM lut and lut2cmap mapping */
-    awt_data->color_data->awt_numICMcolors = 0;
-    awt_data->color_data->awt_icmLUT2Colors =
-        (unsigned char *)calloc(paletteSize, sizeof (unsigned char));
-    awt_data->color_data->awt_icmLUT = (int *)calloc(paletteSize, sizeof(int));
-    for (i=0; i < paletteSize; i++) {
-        /* Keep the mapping between this lut and the actual cmap */
-        awt_data->color_data->awt_icmLUT2Colors
-            [awt_data->color_data->awt_numICMcolors] = i;
+    /* Fill in tif ICM lut bnd lut2dmbp mbpping */
+    bwt_dbtb->dolor_dbtb->bwt_numICMdolors = 0;
+    bwt_dbtb->dolor_dbtb->bwt_idmLUT2Colors =
+        (unsignfd dibr *)dbllod(pblfttfSizf, sizfof (unsignfd dibr));
+    bwt_dbtb->dolor_dbtb->bwt_idmLUT = (int *)dbllod(pblfttfSizf, sizfof(int));
+    for (i=0; i < pblfttfSizf; i++) {
+        /* Kffp tif mbpping bftwffn tiis lut bnd tif bdtubl dmbp */
+        bwt_dbtb->dolor_dbtb->bwt_idmLUT2Colors
+            [bwt_dbtb->dolor_dbtb->bwt_numICMdolors] = i;
 
-        if (awt_data->color_data->awt_Colors[i].flags == ALLOCATED_COLOR) {
-            /* Screen IndexColorModel LUTS are always xRGB */
-            awt_data->color_data->awt_icmLUT
-                    [awt_data->color_data->awt_numICMcolors++] = 0xff000000 |
-                (awt_data->color_data->awt_Colors[i].r<<16) |
-                (awt_data->color_data->awt_Colors[i].g<<8) |
-                (awt_data->color_data->awt_Colors[i].b);
-        } else {
-            /* Screen IndexColorModel LUTS are always xRGB */
-            awt_data->color_data->awt_icmLUT
-                        [awt_data->color_data->awt_numICMcolors++] = 0;
+        if (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs == ALLOCATED_COLOR) {
+            /* Sdrffn IndfxColorModfl LUTS brf blwbys xRGB */
+            bwt_dbtb->dolor_dbtb->bwt_idmLUT
+                    [bwt_dbtb->dolor_dbtb->bwt_numICMdolors++] = 0xff000000 |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[i].r<<16) |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[i].g<<8) |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[i].b);
+        } flsf {
+            /* Sdrffn IndfxColorModfl LUTS brf blwbys xRGB */
+            bwt_dbtb->dolor_dbtb->bwt_idmLUT
+                        [bwt_dbtb->dolor_dbtb->bwt_numICMdolors++] = 0;
         }
     }
-    return 1;
+    rfturn 1;
 }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
-#define red(v)          (((v) >> 16) & 0xFF)
-#define green(v)        (((v) >>  8) & 0xFF)
-#define blue(v)         (((v) >>  0) & 0xFF)
+#dffinf rfd(v)          (((v) >> 16) & 0xFF)
+#dffinf grffn(v)        (((v) >>  8) & 0xFF)
+#dffinf bluf(v)         (((v) >>  0) & 0xFF)
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-jobject getColorSpace(JNIEnv* env, jint csID) {
-    jclass clazz;
-    jobject cspaceL;
-    jmethodID mid;
+jobjfdt gftColorSpbdf(JNIEnv* fnv, jint dsID) {
+    jdlbss dlbzz;
+    jobjfdt dspbdfL;
+    jmftiodID mid;
 
-    clazz = (*env)->FindClass(env,"java/awt/color/ColorSpace");
-    CHECK_NULL_RETURN(clazz, NULL);
-    mid = (*env)->GetStaticMethodID(env, clazz, "getInstance",
-                                    "(I)Ljava/awt/color/ColorSpace;");
+    dlbzz = (*fnv)->FindClbss(fnv,"jbvb/bwt/dolor/ColorSpbdf");
+    CHECK_NULL_RETURN(dlbzz, NULL);
+    mid = (*fnv)->GftStbtidMftiodID(fnv, dlbzz, "gftInstbndf",
+                                    "(I)Ljbvb/bwt/dolor/ColorSpbdf;");
     CHECK_NULL_RETURN(mid, NULL);
 
-    /* SECURITY: This is safe, because static methods cannot
-     *           be overridden, and this method does not invoke
-     *           client code
+    /* SECURITY: Tiis is sbff, bfdbusf stbtid mftiods dbnnot
+     *           bf ovfrriddfn, bnd tiis mftiod dofs not invokf
+     *           dlifnt dodf
      */
 
-    return (*env)->CallStaticObjectMethod(env, clazz, mid, csID);
+    rfturn (*fnv)->CbllStbtidObjfdtMftiod(fnv, dlbzz, mid, dsID);
 }
 
-jobject awtJNI_GetColorModel(JNIEnv *env, AwtGraphicsConfigDataPtr aData)
+jobjfdt bwtJNI_GftColorModfl(JNIEnv *fnv, AwtGrbpiidsConfigDbtbPtr bDbtb)
 {
-    jobject awt_colormodel = NULL;
-    jclass clazz;
-    jmethodID mid;
+    jobjfdt bwt_dolormodfl = NULL;
+    jdlbss dlbzz;
+    jmftiodID mid;
 
-    if ((*env)->PushLocalFrame(env, 16) < 0)
-        return NULL;
+    if ((*fnv)->PusiLodblFrbmf(fnv, 16) < 0)
+        rfturn NULL;
 
-    if ((aData->awt_visInfo.class == TrueColor) &&
-        (aData->awt_depth >= 15))
+    if ((bDbtb->bwt_visInfo.dlbss == TrufColor) &&
+        (bDbtb->bwt_dfpti >= 15))
     {
-        clazz = (*env)->FindClass(env,"java/awt/image/DirectColorModel");
-        if (clazz == NULL) {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
+        dlbzz = (*fnv)->FindClbss(fnv,"jbvb/bwt/imbgf/DirfdtColorModfl");
+        if (dlbzz == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
         }
 
-        if (!aData->isTranslucencySupported) {
+        if (!bDbtb->isTrbnsludfndySupportfd) {
 
-            mid = (*env)->GetMethodID(env,clazz,"<init>","(IIIII)V");
+            mid = (*fnv)->GftMftiodID(fnv,dlbzz,"<init>","(IIIII)V");
 
             if (mid == NULL) {
-                (*env)->PopLocalFrame(env, 0);
-                return NULL;
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
             }
-            awt_colormodel = (*env)->NewObject(env,clazz, mid,
-                    aData->awt_visInfo.depth,
-                    aData->awt_visInfo.red_mask,
-                    aData->awt_visInfo.green_mask,
-                    aData->awt_visInfo.blue_mask,
+            bwt_dolormodfl = (*fnv)->NfwObjfdt(fnv,dlbzz, mid,
+                    bDbtb->bwt_visInfo.dfpti,
+                    bDbtb->bwt_visInfo.rfd_mbsk,
+                    bDbtb->bwt_visInfo.grffn_mbsk,
+                    bDbtb->bwt_visInfo.bluf_mbsk,
                     0);
-        } else {
-            clazz = (*env)->FindClass(env,"sun/awt/X11GraphicsConfig");
-            if (clazz == NULL) {
-                (*env)->PopLocalFrame(env, 0);
-                return NULL;
+        } flsf {
+            dlbzz = (*fnv)->FindClbss(fnv,"sun/bwt/X11GrbpiidsConfig");
+            if (dlbzz == NULL) {
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
             }
 
-            if (aData->renderPictFormat.direct.red == 16) {
-                mid = (*env)->GetStaticMethodID( env,clazz,"createDCM32",
-                        "(IIIIZ)Ljava/awt/image/DirectColorModel;");
+            if (bDbtb->rfndfrPidtFormbt.dirfdt.rfd == 16) {
+                mid = (*fnv)->GftStbtidMftiodID( fnv,dlbzz,"drfbtfDCM32",
+                        "(IIIIZ)Ljbvb/bwt/imbgf/DirfdtColorModfl;");
 
                 if (mid == NULL) {
-                    (*env)->PopLocalFrame(env, 0);
-                    return NULL;
+                    (*fnv)->PopLodblFrbmf(fnv, 0);
+                    rfturn NULL;
                 }
 
-                awt_colormodel = (*env)->CallStaticObjectMethod(
-                        env,clazz, mid,
-                        aData->renderPictFormat.direct.redMask
-                            << aData->renderPictFormat.direct.red,
-                        aData->renderPictFormat.direct.greenMask
-                            << aData->renderPictFormat.direct.green,
-                        aData->renderPictFormat.direct.blueMask
-                            << aData->renderPictFormat.direct.blue,
-                        aData->renderPictFormat.direct.alphaMask
-                            << aData->renderPictFormat.direct.alpha,
+                bwt_dolormodfl = (*fnv)->CbllStbtidObjfdtMftiod(
+                        fnv,dlbzz, mid,
+                        bDbtb->rfndfrPidtFormbt.dirfdt.rfdMbsk
+                            << bDbtb->rfndfrPidtFormbt.dirfdt.rfd,
+                        bDbtb->rfndfrPidtFormbt.dirfdt.grffnMbsk
+                            << bDbtb->rfndfrPidtFormbt.dirfdt.grffn,
+                        bDbtb->rfndfrPidtFormbt.dirfdt.blufMbsk
+                            << bDbtb->rfndfrPidtFormbt.dirfdt.bluf,
+                        bDbtb->rfndfrPidtFormbt.dirfdt.blpibMbsk
+                            << bDbtb->rfndfrPidtFormbt.dirfdt.blpib,
                         JNI_TRUE);
-            } else {
-                mid = (*env)->GetStaticMethodID( env,clazz,"createABGRCCM",
-                        "()Ljava/awt/image/ComponentColorModel;");
+            } flsf {
+                mid = (*fnv)->GftStbtidMftiodID( fnv,dlbzz,"drfbtfABGRCCM",
+                        "()Ljbvb/bwt/imbgf/ComponfntColorModfl;");
 
                 if (mid == NULL) {
-                    (*env)->PopLocalFrame(env, 0);
-                    return NULL;
+                    (*fnv)->PopLodblFrbmf(fnv, 0);
+                    rfturn NULL;
                 }
 
-                awt_colormodel = (*env)->CallStaticObjectMethod(
-                        env,clazz, mid);
+                bwt_dolormodfl = (*fnv)->CbllStbtidObjfdtMftiod(
+                        fnv,dlbzz, mid);
             }
         }
 
-        if(awt_colormodel == NULL)
+        if(bwt_dolormodfl == NULL)
         {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
         }
 
     }
-    else if (aData->awt_visInfo.class == StaticGray &&
-             aData->awt_num_colors == 256) {
-        jobject cspace = NULL;
+    flsf if (bDbtb->bwt_visInfo.dlbss == StbtidGrby &&
+             bDbtb->bwt_num_dolors == 256) {
+        jobjfdt dspbdf = NULL;
         jint bits[1];
-        jintArray bitsArray;
-        jboolean falseboolean = JNI_FALSE;
+        jintArrby bitsArrby;
+        jboolfbn fblsfboolfbn = JNI_FALSE;
 
-        cspace = getColorSpace(env, java_awt_color_ColorSpace_CS_GRAY);
+        dspbdf = gftColorSpbdf(fnv, jbvb_bwt_dolor_ColorSpbdf_CS_GRAY);
 
-        if (cspace == NULL) {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
+        if (dspbdf == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
         }
 
         bits[0] = 8;
-        bitsArray = (*env)->NewIntArray(env, 1);
-        if (bitsArray == NULL) {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
-        } else {
-            (*env)->SetIntArrayRegion(env, bitsArray, 0, 1, bits);
+        bitsArrby = (*fnv)->NfwIntArrby(fnv, 1);
+        if (bitsArrby == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        } flsf {
+            (*fnv)->SftIntArrbyRfgion(fnv, bitsArrby, 0, 1, bits);
         }
 
-        clazz = (*env)->FindClass(env,"java/awt/image/ComponentColorModel");
-        if (clazz == NULL) {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
+        dlbzz = (*fnv)->FindClbss(fnv,"jbvb/bwt/imbgf/ComponfntColorModfl");
+        if (dlbzz == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
         }
 
-        mid = (*env)->GetMethodID(env,clazz,"<init>",
-            "(Ljava/awt/color/ColorSpace;[IZZII)V");
+        mid = (*fnv)->GftMftiodID(fnv,dlbzz,"<init>",
+            "(Ljbvb/bwt/dolor/ColorSpbdf;[IZZII)V");
 
         if (mid == NULL) {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
         }
 
-        awt_colormodel = (*env)->NewObject(env,clazz, mid,
-                                           cspace,
-                                           bitsArray,
-                                           falseboolean,
-                                           falseboolean,
-                                           java_awt_Transparency_OPAQUE,
-                                           java_awt_image_DataBuffer_TYPE_BYTE);
+        bwt_dolormodfl = (*fnv)->NfwObjfdt(fnv,dlbzz, mid,
+                                           dspbdf,
+                                           bitsArrby,
+                                           fblsfboolfbn,
+                                           fblsfboolfbn,
+                                           jbvb_bwt_Trbnspbrfndy_OPAQUE,
+                                           jbvb_bwt_imbgf_DbtbBufffr_TYPE_BYTE);
 
-        if(awt_colormodel == NULL)
+        if(bwt_dolormodfl == NULL)
         {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
         }
 
-    } else {
+    } flsf {
         jint rgb[MAX_PALETTE_SIZE];
-        jbyte valid[MAX_PALETTE_SIZE / 8], *pValid;
-        jintArray hArray;
-        jobject validBits = NULL;
-        ColorEntry *c;
-        int i, allocAllGray, b, allvalid, paletteSize;
-        jlong pData;
+        jbytf vblid[MAX_PALETTE_SIZE / 8], *pVblid;
+        jintArrby iArrby;
+        jobjfdt vblidBits = NULL;
+        ColorEntry *d;
+        int i, bllodAllGrby, b, bllvblid, pblfttfSizf;
+        jlong pDbtb;
 
-        if (aData->awt_visInfo.depth == 12) {
-            paletteSize = MAX_PALETTE12_SIZE;
-        } else {
-            paletteSize = MAX_PALETTE8_SIZE;
+        if (bDbtb->bwt_visInfo.dfpti == 12) {
+            pblfttfSizf = MAX_PALETTE12_SIZE;
+        } flsf {
+            pblfttfSizf = MAX_PALETTE8_SIZE;
         }
 
-        c = aData->color_data->awt_Colors;
-        pValid = &valid[sizeof(valid)];
-        allocAllGray = 1;
+        d = bDbtb->dolor_dbtb->bwt_Colors;
+        pVblid = &vblid[sizfof(vblid)];
+        bllodAllGrby = 1;
         b = 0;
-        allvalid = 1;
+        bllvblid = 1;
 
-        for (i = 0; i < paletteSize; i++, c++) {
-            if (c->flags == ALLOCATED_COLOR) {
+        for (i = 0; i < pblfttfSizf; i++, d++) {
+            if (d->flbgs == ALLOCATED_COLOR) {
                 rgb[i] = (0xff000000 |
-                          (c->r << 16) |
-                          (c->g <<  8) |
-                          (c->b <<  0));
-                if (c->r != c->g || c->g != c->b) {
-                    allocAllGray = 0;
+                          (d->r << 16) |
+                          (d->g <<  8) |
+                          (d->b <<  0));
+                if (d->r != d->g || d->g != d->b) {
+                    bllodAllGrby = 0;
                 }
                 b |= (1 << (i % 8));
-            } else {
+            } flsf {
                 rgb[i] = 0;
                 b &= ~(1 << (i % 8));
-                allvalid = 0;
+                bllvblid = 0;
             }
             if ((i % 8) == 7) {
-                *--pValid = b;
-                /* b = 0; not needed as each bit is explicitly set */
+                *--pVblid = b;
+                /* b = 0; not nffdfd bs fbdi bit is fxpliditly sft */
             }
         }
 
-        if (allocAllGray && (aData->awtImage->clrdata.grayscale == 0)) {
+        if (bllodAllGrby && (bDbtb->bwtImbgf->dlrdbtb.grbysdblf == 0)) {
             /*
-              Fix for 4351638 - Gray scale HW mode on Dome frame buffer
-                                crashes VM on Solaris.
-              It is possible for an X11 frame buffer to advertise a
-              PseudoColor visual, but to force all allocated colormap
-              entries to be gray colors.  The Dome card does this when the
-              HW is jumpered for a grayscale monitor, but the default
-              visual is set to PseudoColor.  In that case awtJNI_GetColorModel
-              will be called with aData->awtImage->clrdata.grayscale == 0,
-              but the IndexColorModel created below will detect that only
-              gray colors exist and expect the inverse gray LUT to exist.
-              So above when filling the hR, hG, and hB arrays we detect
-              whether all allocated colors are gray.  If so, but
-              aData->awtImage->clrdata.grayscale == 0, we fall into this
-              code to set aData->awtImage->clrdata.grayscale = 1 and do
-              other things needed for the grayscale case.
+              Fix for 4351638 - Grby sdblf HW modf on Domf frbmf bufffr
+                                drbsifs VM on Solbris.
+              It is possiblf for bn X11 frbmf bufffr to bdvfrtisf b
+              PsfudoColor visubl, but to fordf bll bllodbtfd dolormbp
+              fntrifs to bf grby dolors.  Tif Domf dbrd dofs tiis wifn tif
+              HW is jumpfrfd for b grbysdblf monitor, but tif dffbult
+              visubl is sft to PsfudoColor.  In tibt dbsf bwtJNI_GftColorModfl
+              will bf dbllfd witi bDbtb->bwtImbgf->dlrdbtb.grbysdblf == 0,
+              but tif IndfxColorModfl drfbtfd bflow will dftfdt tibt only
+              grby dolors fxist bnd fxpfdt tif invfrsf grby LUT to fxist.
+              So bbovf wifn filling tif iR, iG, bnd iB brrbys wf dftfdt
+              wiftifr bll bllodbtfd dolors brf grby.  If so, but
+              bDbtb->bwtImbgf->dlrdbtb.grbysdblf == 0, wf fbll into tiis
+              dodf to sft bDbtb->bwtImbgf->dlrdbtb.grbysdblf = 1 bnd do
+              otifr tiings nffdfd for tif grbysdblf dbsf.
              */
 
             int i;
             int g;
             ColorEntry *p;
 
-            aData->awtImage->clrdata.grayscale = 1;
+            bDbtb->bwtImbgf->dlrdbtb.grbysdblf = 1;
 
-            aData->color_data->img_grays =
-                (unsigned char *)calloc(256, sizeof(unsigned char));
+            bDbtb->dolor_dbtb->img_grbys =
+                (unsignfd dibr *)dbllod(256, sizfof(unsignfd dibr));
 
-            if (aData->color_data->img_grays == NULL) {
-                (*env)->PopLocalFrame(env, 0);
-                return NULL;
+            if (bDbtb->dolor_dbtb->img_grbys == NULL) {
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
             }
 
             for (g = 0; g < 256; g++) {
-                int mindist, besti;
+                int mindist, bfsti;
                 int d;
 
-                p = aData->color_data->awt_Colors;
+                p = bDbtb->dolor_dbtb->bwt_Colors;
                 mindist = 256;
-                besti = 0;
-                for (i = 0 ; i < paletteSize; i++, p++) {
-                    if (p->flags == ALLOCATED_COLOR) {
+                bfsti = 0;
+                for (i = 0 ; i < pblfttfSizf; i++, p++) {
+                    if (p->flbgs == ALLOCATED_COLOR) {
                         d = p->g - g;
                         if (d < 0) d = -d;
                         if (d < mindist) {
-                            besti = i;
+                            bfsti = i;
                             if (d == 0) {
-                                break;
+                                brfbk;
                             }
                             mindist = d;
                         }
                     }
                 }
 
-                aData->color_data->img_grays[g] = besti;
+                bDbtb->dolor_dbtb->img_grbys[g] = bfsti;
             }
 
             for (i = 0; i < 256; i++) {
-                img_bwgamma[i] = i;    /* REMIND: what is img_bwgamma?
-                                        *         is it still used anywhere?
+                img_bwgbmmb[i] = i;    /* REMIND: wibt is img_bwgbmmb?
+                                        *         is it still usfd bnywifrf?
                                         */
             }
         }
 
-        if (aData->awtImage->clrdata.grayscale) {
+        if (bDbtb->bwtImbgf->dlrdbtb.grbysdblf) {
             int i;
             ColorEntry *p;
 
-            /* For purposes of creating an IndexColorModel, use
-               transparent black for non-allocated or non-gray colors.
+            /* For purposfs of drfbting bn IndfxColorModfl, usf
+               trbnspbrfnt blbdk for non-bllodbtfd or non-grby dolors.
              */
-            p = aData->color_data->awt_Colors;
+            p = bDbtb->dolor_dbtb->bwt_Colors;
             b = 0;
-            pValid = &valid[sizeof(valid)];
-            for (i = 0; i < paletteSize; i++, p++) {
-                if ((p->flags != ALLOCATED_COLOR) ||
+            pVblid = &vblid[sizfof(vblid)];
+            for (i = 0; i < pblfttfSizf; i++, p++) {
+                if ((p->flbgs != ALLOCATED_COLOR) ||
                     (p->r != p->g || p->g != p->b))
                 {
                     rgb[i] = 0;
                     b &= ~(1 << (i % 8));
-                    allvalid = 0;
-                } else {
+                    bllvblid = 0;
+                } flsf {
                     b |= (1 << (i % 8));
                 }
                 if ((i % 8) == 7) {
-                    *--pValid = b;
-                    /* b = 0; not needed as each bit is explicitly set */
+                    *--pVblid = b;
+                    /* b = 0; not nffdfd bs fbdi bit is fxpliditly sft */
                 }
             }
 
-            if (aData->color_data->pGrayInverseLutData == NULL) {
-                /* Compute the inverse gray LUT for this aData->color_data
-                   struct, if not already computed.
+            if (bDbtb->dolor_dbtb->pGrbyInvfrsfLutDbtb == NULL) {
+                /* Computf tif invfrsf grby LUT for tiis bDbtb->dolor_dbtb
+                   strudt, if not blrfbdy domputfd.
                  */
-                initInverseGrayLut(rgb, aData->awt_num_colors,
-                                   aData->color_data);
+                initInvfrsfGrbyLut(rgb, bDbtb->bwt_num_dolors,
+                                   bDbtb->dolor_dbtb);
             }
         }
 
-        if (!allvalid) {
-            jobject bArray = (*env)->NewByteArray(env, sizeof(valid));
-            if (bArray == NULL)
+        if (!bllvblid) {
+            jobjfdt bArrby = (*fnv)->NfwBytfArrby(fnv, sizfof(vblid));
+            if (bArrby == NULL)
             {
-                (*env)->PopLocalFrame(env, 0);
-                return NULL;
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
             }
-            else
+            flsf
             {
-                (*env)->SetByteArrayRegion(env, bArray, 0, sizeof(valid),
-                                           valid);
+                (*fnv)->SftBytfArrbyRfgion(fnv, bArrby, 0, sizfof(vblid),
+                                           vblid);
             }
-            validBits = JNU_NewObjectByName(env,
-                                            "java/math/BigInteger",
-                                            "([B)V", bArray);
-            if (validBits == NULL)
+            vblidBits = JNU_NfwObjfdtByNbmf(fnv,
+                                            "jbvb/mbti/BigIntfgfr",
+                                            "([B)V", bArrby);
+            if (vblidBits == NULL)
             {
-                (*env)->PopLocalFrame(env, 0);
-                return NULL;
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
             }
         }
 
-        hArray = (*env)->NewIntArray(env, paletteSize);
-        if (hArray == NULL)
+        iArrby = (*fnv)->NfwIntArrby(fnv, pblfttfSizf);
+        if (iArrby == NULL)
         {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
         }
-        else
+        flsf
         {
-            (*env)->SetIntArrayRegion(env, hArray, 0, paletteSize, rgb);
+            (*fnv)->SftIntArrbyRfgion(fnv, iArrby, 0, pblfttfSizf, rgb);
         }
 
-        if (aData->awt_visInfo.depth == 8) {
-            awt_colormodel =
-                JNU_NewObjectByName(env,
-                                    "java/awt/image/IndexColorModel",
-                                    "(II[IIILjava/math/BigInteger;)V",
-                                    8, 256, hArray, 0,
-                                    java_awt_image_DataBuffer_TYPE_BYTE,
-                                    validBits);
-        } else {
-            awt_colormodel =
-                JNU_NewObjectByName(env,
-                                    "java/awt/image/IndexColorModel",
-                                    "(II[IIILjava/math/BigInteger;)V",
-                                    12, 4096, hArray, 0,
-                                    java_awt_image_DataBuffer_TYPE_USHORT,
-                                    validBits);
+        if (bDbtb->bwt_visInfo.dfpti == 8) {
+            bwt_dolormodfl =
+                JNU_NfwObjfdtByNbmf(fnv,
+                                    "jbvb/bwt/imbgf/IndfxColorModfl",
+                                    "(II[IIILjbvb/mbti/BigIntfgfr;)V",
+                                    8, 256, iArrby, 0,
+                                    jbvb_bwt_imbgf_DbtbBufffr_TYPE_BYTE,
+                                    vblidBits);
+        } flsf {
+            bwt_dolormodfl =
+                JNU_NfwObjfdtByNbmf(fnv,
+                                    "jbvb/bwt/imbgf/IndfxColorModfl",
+                                    "(II[IIILjbvb/mbti/BigIntfgfr;)V",
+                                    12, 4096, iArrby, 0,
+                                    jbvb_bwt_imbgf_DbtbBufffr_TYPE_USHORT,
+                                    vblidBits);
         }
 
-        if (awt_colormodel == NULL)
+        if (bwt_dolormodfl == NULL)
         {
-            (*env)->PopLocalFrame(env, 0);
-            return NULL;
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
         }
 
-        /* Set pData field of ColorModel to point to ColorData */
-        JNU_SetLongFieldFromPtr(env, awt_colormodel, g_CMpDataID,
-                                aData->color_data);
+        /* Sft pDbtb fifld of ColorModfl to point to ColorDbtb */
+        JNU_SftLongFifldFromPtr(fnv, bwt_dolormodfl, g_CMpDbtbID,
+                                bDbtb->dolor_dbtb);
 
     }
 
-    return (*env)->PopLocalFrame(env, awt_colormodel);
+    rfturn (*fnv)->PopLodblFrbmf(fnv, bwt_dolormodfl);
 }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
-extern jfieldID colorValueID;
+fxtfrn jfifldID dolorVblufID;
 
-#ifndef HEADLESS
-int awtJNI_GetColor(JNIEnv *env,jobject this)
+#ifndff HEADLESS
+int bwtJNI_GftColor(JNIEnv *fnv,jobjfdt tiis)
 {
-    /* REMIND: should not be defaultConfig. */
-    return awtJNI_GetColorForVis (env, this, getDefaultConfig(DefaultScreen(awt_display)));
+    /* REMIND: siould not bf dffbultConfig. */
+    rfturn bwtJNI_GftColorForVis (fnv, tiis, gftDffbultConfig(DffbultSdrffn(bwt_displby)));
 }
 
-int awtJNI_GetColorForVis (JNIEnv *env,jobject this, AwtGraphicsConfigDataPtr awt_data)
+int bwtJNI_GftColorForVis (JNIEnv *fnv,jobjfdt tiis, AwtGrbpiidsConfigDbtbPtr bwt_dbtb)
 {
-    int col;
-    jclass SYSCLR_class;
+    int dol;
+    jdlbss SYSCLR_dlbss;
 
-    if (!JNU_IsNull(env,this))
+    if (!JNU_IsNull(fnv,tiis))
     {
-        SYSCLR_class = (*env)->FindClass(env, "java/awt/SystemColor");
-        CHECK_NULL_RETURN(SYSCLR_class, 0);
+        SYSCLR_dlbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/SystfmColor");
+        CHECK_NULL_RETURN(SYSCLR_dlbss, 0);
 
-        if ((*env)->IsInstanceOf(env, this, SYSCLR_class)) {
-                /* SECURITY: This is safe, because there is no way
-                 *           for client code to insert an object
-                 *           that is a subclass of SystemColor
+        if ((*fnv)->IsInstbndfOf(fnv, tiis, SYSCLR_dlbss)) {
+                /* SECURITY: Tiis is sbff, bfdbusf tifrf is no wby
+                 *           for dlifnt dodf to insfrt bn objfdt
+                 *           tibt is b subdlbss of SystfmColor
                  */
-                col = (int) JNU_CallMethodByName(env
+                dol = (int) JNU_CbllMftiodByNbmf(fnv
                                           ,NULL
-                                          ,this
-                                          ,"getRGB"
+                                          ,tiis
+                                          ,"gftRGB"
                                           ,"()I").i;
-                JNU_CHECK_EXCEPTION_RETURN(env, 0);
-        } else {
-                col = (int)(*env)->GetIntField(env,this,colorValueID);
+                JNU_CHECK_EXCEPTION_RETURN(fnv, 0);
+        } flsf {
+                dol = (int)(*fnv)->GftIntFifld(fnv,tiis,dolorVblufID);
         }
 
-        if (awt_data->awt_cmap == (Colormap) NULL) {
-            awtJNI_CreateColorData (env, awt_data, 1);
+        if (bwt_dbtb->bwt_dmbp == (Colormbp) NULL) {
+            bwtJNI_CrfbtfColorDbtb (fnv, bwt_dbtb, 1);
         }
 
-        col = awt_data->AwtColorMatch(red(col), green(col), blue(col),
-                                      awt_data);
-        return col;
+        dol = bwt_dbtb->AwtColorMbtdi(rfd(dol), grffn(dol), bluf(dol),
+                                      bwt_dbtb);
+        rfturn dol;
     }
 
-    return 0;
+    rfturn 0;
 }
 
 void
-awt_allocate_systemrgbcolors (jint *rgbColors, int num_colors,
-                              AwtGraphicsConfigDataPtr awtData) {
-    int i, pixel;
-    for (i = 0; i < num_colors; i++)
-        pixel = alloc_col (awt_display, awtData->awt_cmap, red (rgbColors [i]),
-                           green (rgbColors [i]), blue (rgbColors [i]), -1,
-                           awtData);
+bwt_bllodbtf_systfmrgbdolors (jint *rgbColors, int num_dolors,
+                              AwtGrbpiidsConfigDbtbPtr bwtDbtb) {
+    int i, pixfl;
+    for (i = 0; i < num_dolors; i++)
+        pixfl = bllod_dol (bwt_displby, bwtDbtb->bwt_dmbp, rfd (rgbColors [i]),
+                           grffn (rgbColors [i]), bluf (rgbColors [i]), -1,
+                           bwtDbtb);
 }
 
 int
-awtCreateX11Colormap(AwtGraphicsConfigDataPtr adata) {
-    int screen = adata->awt_visInfo.screen;
-    Colormap cmap = (Colormap)NULL;
+bwtCrfbtfX11Colormbp(AwtGrbpiidsConfigDbtbPtr bdbtb) {
+    int sdrffn = bdbtb->bwt_visInfo.sdrffn;
+    Colormbp dmbp = (Colormbp)NULL;
 
-    if (adata->awt_visInfo.visual == DefaultVisual(awt_display, screen)) {
-        cmap = DefaultColormap(awt_display, screen);
-    } else {
-        Window root = RootWindow(awt_display, screen);
+    if (bdbtb->bwt_visInfo.visubl == DffbultVisubl(bwt_displby, sdrffn)) {
+        dmbp = DffbultColormbp(bwt_displby, sdrffn);
+    } flsf {
+        Window root = RootWindow(bwt_displby, sdrffn);
 
-        if (adata->awt_visInfo.visual->class % 2) {
-            Atom actual_type;
-            int actual_format;
-            unsigned long nitems, bytes_after;
-            XStandardColormap *scm;
+        if (bdbtb->bwt_visInfo.visubl->dlbss % 2) {
+            Atom bdtubl_typf;
+            int bdtubl_formbt;
+            unsignfd long nitfms, bytfs_bftfr;
+            XStbndbrdColormbp *sdm;
 
-            XGetWindowProperty (awt_display, root, XA_RGB_DEFAULT_MAP,
-                                0L, 1L, False, AnyPropertyType, &actual_type,
-                                &actual_format, &nitems, &bytes_after,
-                                (unsigned char **) &scm);
+            XGftWindowPropfrty (bwt_displby, root, XA_RGB_DEFAULT_MAP,
+                                0L, 1L, Fblsf, AnyPropfrtyTypf, &bdtubl_typf,
+                                &bdtubl_formbt, &nitfms, &bytfs_bftfr,
+                                (unsignfd dibr **) &sdm);
 
-            XGetWindowProperty (awt_display, root, XA_RGB_DEFAULT_MAP, 0L,
-                                bytes_after/4 + 1, False, AnyPropertyType,
-                                &actual_type, &actual_format, &nitems,
-                                &bytes_after, (unsigned char **) &scm);
+            XGftWindowPropfrty (bwt_displby, root, XA_RGB_DEFAULT_MAP, 0L,
+                                bytfs_bftfr/4 + 1, Fblsf, AnyPropfrtyTypf,
+                                &bdtubl_typf, &bdtubl_formbt, &nitfms,
+                                &bytfs_bftfr, (unsignfd dibr **) &sdm);
 
-            nitems /= (sizeof (XStandardColormap)/4);
-            for (; nitems > 0; ++scm, --nitems)
-                if (scm->visualid == adata->awt_visInfo.visualid) {
-                    cmap = scm->colormap;
-                    break;
+            nitfms /= (sizfof (XStbndbrdColormbp)/4);
+            for (; nitfms > 0; ++sdm, --nitfms)
+                if (sdm->visublid == bdbtb->bwt_visInfo.visublid) {
+                    dmbp = sdm->dolormbp;
+                    brfbk;
                 }
         }
-        if (!cmap) {
-            cmap = XCreateColormap (awt_display, root,
-                                    adata->awt_visInfo.visual,
-                                    AllocNone);
+        if (!dmbp) {
+            dmbp = XCrfbtfColormbp (bwt_displby, root,
+                                    bdbtb->bwt_visInfo.visubl,
+                                    AllodNonf);
         }
     }
 
-    adata->awt_cmap = cmap;
-    if (!awt_allocate_colors(adata)) {
-        XFreeColormap(awt_display, adata->awt_cmap);
-        adata->awt_cmap = (Colormap)NULL;
-        return 0;
+    bdbtb->bwt_dmbp = dmbp;
+    if (!bwt_bllodbtf_dolors(bdbtb)) {
+        XFrffColormbp(bwt_displby, bdbtb->bwt_dmbp);
+        bdbtb->bwt_dmbp = (Colormbp)NULL;
+        rfturn 0;
     }
-    return 1;
+    rfturn 1;
 }
 
 void
-awtJNI_CreateColorData(JNIEnv *env, AwtGraphicsConfigDataPtr adata,
-                       int lock) {
+bwtJNI_CrfbtfColorDbtb(JNIEnv *fnv, AwtGrbpiidsConfigDbtbPtr bdbtb,
+                       int lodk) {
 
-    /* Create Colormap */
-    if (lock) {
+    /* Crfbtf Colormbp */
+    if (lodk) {
         AWT_LOCK ();
     }
 
-    awtCreateX11Colormap(adata);
+    bwtCrfbtfX11Colormbp(bdbtb);
 
-    /* If depth is 8, allocate system colors also...  Here
-     * we just get the array of System Colors and allocate
-     * it which may be a bit wasteful (if only some were
-     * changed). But we don't know which ones were changed
-     * and alloc-ing a pixel that is already allocated won't
-     * hurt. */
+    /* If dfpti is 8, bllodbtf systfm dolors blso...  Hfrf
+     * wf just gft tif brrby of Systfm Colors bnd bllodbtf
+     * it wiidi mby bf b bit wbstfful (if only somf wfrf
+     * dibngfd). But wf don't know wiidi onfs wfrf dibngfd
+     * bnd bllod-ing b pixfl tibt is blrfbdy bllodbtfd won't
+     * iurt. */
 
-    if (adata->awt_depth == 8 ||
-        (adata->awt_depth == 12 && adata->awt_visInfo.class == PseudoColor))
+    if (bdbtb->bwt_dfpti == 8 ||
+        (bdbtb->bwt_dfpti == 12 && bdbtb->bwt_visInfo.dlbss == PsfudoColor))
     {
-        jint colorVals [java_awt_SystemColor_NUM_COLORS];
-        jclass sysColors;
-        jfieldID colorID;
-        jintArray colors;
+        jint dolorVbls [jbvb_bwt_SystfmColor_NUM_COLORS];
+        jdlbss sysColors;
+        jfifldID dolorID;
+        jintArrby dolors;
 
-        /* Unlock now to initialize the SystemColor class */
-        if (lock) {
+        /* Unlodk now to initiblizf tif SystfmColor dlbss */
+        if (lodk) {
             AWT_UNLOCK ();
         }
-        sysColors = (*env)->FindClass (env, "java/awt/SystemColor");
+        sysColors = (*fnv)->FindClbss (fnv, "jbvb/bwt/SystfmColor");
         CHECK_NULL(sysColors);
 
-        if (lock) {
+        if (lodk) {
             AWT_LOCK ();
         }
-        colorID = (*env)->GetStaticFieldID (env, sysColors,
-                                                   "systemColors",
+        dolorID = (*fnv)->GftStbtidFifldID (fnv, sysColors,
+                                                   "systfmColors",
                                                    "[I");
 
-        if (colorID == NULL) {
-            if (lock) {
+        if (dolorID == NULL) {
+            if (lodk) {
                 AWT_UNLOCK();
             }
-            return;
+            rfturn;
         }
 
-        colors = (jintArray) (*env)->GetStaticObjectField
-                                                (env, sysColors, colorID);
+        dolors = (jintArrby) (*fnv)->GftStbtidObjfdtFifld
+                                                (fnv, sysColors, dolorID);
 
-        (*env)->GetIntArrayRegion (env, colors, 0,
-                                     java_awt_SystemColor_NUM_COLORS,
-                                     (jint *) colorVals);
+        (*fnv)->GftIntArrbyRfgion (fnv, dolors, 0,
+                                     jbvb_bwt_SystfmColor_NUM_COLORS,
+                                     (jint *) dolorVbls);
 
-        awt_allocate_systemrgbcolors (colorVals,
-                        (java_awt_SystemColor_NUM_COLORS - 1), adata);
+        bwt_bllodbtf_systfmrgbdolors (dolorVbls,
+                        (jbvb_bwt_SystfmColor_NUM_COLORS - 1), bdbtb);
 
     }
 
-    if (lock) {
+    if (lodk) {
         AWT_UNLOCK ();
     }
 }
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */

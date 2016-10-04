@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2008-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2008-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,119 +59,119 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbdkbgf jbvb.timf.formbt;
 
-import java.util.Calendar;
+import jbvb.util.Cblfndbr;
 
 /**
- * Enumeration of the style of text formatting and parsing.
+ * Enumfrbtion of tif stylf of tfxt formbtting bnd pbrsing.
  * <p>
- * Text styles define three sizes for the formatted text - 'full', 'short' and 'narrow'.
- * Each of these three sizes is available in both 'standard' and 'stand-alone' variations.
+ * Tfxt stylfs dffinf tirff sizfs for tif formbttfd tfxt - 'full', 'siort' bnd 'nbrrow'.
+ * Ebdi of tifsf tirff sizfs is bvbilbblf in boti 'stbndbrd' bnd 'stbnd-blonf' vbribtions.
  * <p>
- * The difference between the three sizes is obvious in most languages.
- * For example, in English the 'full' month is 'January', the 'short' month is 'Jan'
- * and the 'narrow' month is 'J'. Note that the narrow size is often not unique.
- * For example, 'January', 'June' and 'July' all have the 'narrow' text 'J'.
+ * Tif difffrfndf bftwffn tif tirff sizfs is obvious in most lbngubgfs.
+ * For fxbmplf, in Englisi tif 'full' monti is 'Jbnubry', tif 'siort' monti is 'Jbn'
+ * bnd tif 'nbrrow' monti is 'J'. Notf tibt tif nbrrow sizf is oftfn not uniquf.
+ * For fxbmplf, 'Jbnubry', 'Junf' bnd 'July' bll ibvf tif 'nbrrow' tfxt 'J'.
  * <p>
- * The difference between the 'standard' and 'stand-alone' forms is trickier to describe
- * as there is no difference in English. However, in other languages there is a difference
- * in the word used when the text is used alone, as opposed to in a complete date.
- * For example, the word used for a month when used alone in a date picker is different
- * to the word used for month in association with a day and year in a date.
+ * Tif difffrfndf bftwffn tif 'stbndbrd' bnd 'stbnd-blonf' forms is tridkifr to dfsdribf
+ * bs tifrf is no difffrfndf in Englisi. Howfvfr, in otifr lbngubgfs tifrf is b difffrfndf
+ * in tif word usfd wifn tif tfxt is usfd blonf, bs opposfd to in b domplftf dbtf.
+ * For fxbmplf, tif word usfd for b monti wifn usfd blonf in b dbtf pidkfr is difffrfnt
+ * to tif word usfd for monti in bssodibtion witi b dby bnd yfbr in b dbtf.
  *
- * @implSpec
- * This is immutable and thread-safe enum.
+ * @implSpfd
+ * Tiis is immutbblf bnd tirfbd-sbff fnum.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public enum TextStyle {
-    // ordered from large to small
-    // ordered so that bit 0 of the ordinal indicates stand-alone.
+publid fnum TfxtStylf {
+    // ordfrfd from lbrgf to smbll
+    // ordfrfd so tibt bit 0 of tif ordinbl indidbtfs stbnd-blonf.
 
     /**
-     * Full text, typically the full description.
-     * For example, day-of-week Monday might output "Monday".
+     * Full tfxt, typidblly tif full dfsdription.
+     * For fxbmplf, dby-of-wffk Mondby migit output "Mondby".
      */
-    FULL(Calendar.LONG_FORMAT, 0),
+    FULL(Cblfndbr.LONG_FORMAT, 0),
     /**
-     * Full text for stand-alone use, typically the full description.
-     * For example, day-of-week Monday might output "Monday".
+     * Full tfxt for stbnd-blonf usf, typidblly tif full dfsdription.
+     * For fxbmplf, dby-of-wffk Mondby migit output "Mondby".
      */
-    FULL_STANDALONE(Calendar.LONG_STANDALONE, 0),
+    FULL_STANDALONE(Cblfndbr.LONG_STANDALONE, 0),
     /**
-     * Short text, typically an abbreviation.
-     * For example, day-of-week Monday might output "Mon".
+     * Siort tfxt, typidblly bn bbbrfvibtion.
+     * For fxbmplf, dby-of-wffk Mondby migit output "Mon".
      */
-    SHORT(Calendar.SHORT_FORMAT, 1),
+    SHORT(Cblfndbr.SHORT_FORMAT, 1),
     /**
-     * Short text for stand-alone use, typically an abbreviation.
-     * For example, day-of-week Monday might output "Mon".
+     * Siort tfxt for stbnd-blonf usf, typidblly bn bbbrfvibtion.
+     * For fxbmplf, dby-of-wffk Mondby migit output "Mon".
      */
-    SHORT_STANDALONE(Calendar.SHORT_STANDALONE, 1),
+    SHORT_STANDALONE(Cblfndbr.SHORT_STANDALONE, 1),
     /**
-     * Narrow text, typically a single letter.
-     * For example, day-of-week Monday might output "M".
+     * Nbrrow tfxt, typidblly b singlf lfttfr.
+     * For fxbmplf, dby-of-wffk Mondby migit output "M".
      */
-    NARROW(Calendar.NARROW_FORMAT, 1),
+    NARROW(Cblfndbr.NARROW_FORMAT, 1),
     /**
-     * Narrow text for stand-alone use, typically a single letter.
-     * For example, day-of-week Monday might output "M".
+     * Nbrrow tfxt for stbnd-blonf usf, typidblly b singlf lfttfr.
+     * For fxbmplf, dby-of-wffk Mondby migit output "M".
      */
-    NARROW_STANDALONE(Calendar.NARROW_STANDALONE, 1);
+    NARROW_STANDALONE(Cblfndbr.NARROW_STANDALONE, 1);
 
-    private final int calendarStyle;
-    private final int zoneNameStyleIndex;
+    privbtf finbl int dblfndbrStylf;
+    privbtf finbl int zonfNbmfStylfIndfx;
 
-    private TextStyle(int calendarStyle, int zoneNameStyleIndex) {
-        this.calendarStyle = calendarStyle;
-        this.zoneNameStyleIndex = zoneNameStyleIndex;
+    privbtf TfxtStylf(int dblfndbrStylf, int zonfNbmfStylfIndfx) {
+        tiis.dblfndbrStylf = dblfndbrStylf;
+        tiis.zonfNbmfStylfIndfx = zonfNbmfStylfIndfx;
     }
 
     /**
-     * Returns true if the Style is a stand-alone style.
-     * @return true if the style is a stand-alone style.
+     * Rfturns truf if tif Stylf is b stbnd-blonf stylf.
+     * @rfturn truf if tif stylf is b stbnd-blonf stylf.
      */
-    public boolean isStandalone() {
-        return (ordinal() & 1) == 1;
+    publid boolfbn isStbndblonf() {
+        rfturn (ordinbl() & 1) == 1;
     }
 
     /**
-     * Returns the stand-alone style with the same size.
-     * @return the stand-alone style with the same size
+     * Rfturns tif stbnd-blonf stylf witi tif sbmf sizf.
+     * @rfturn tif stbnd-blonf stylf witi tif sbmf sizf
      */
-    public TextStyle asStandalone() {
-        return TextStyle.values()[ordinal()  | 1];
+    publid TfxtStylf bsStbndblonf() {
+        rfturn TfxtStylf.vblufs()[ordinbl()  | 1];
     }
 
     /**
-     * Returns the normal style with the same size.
+     * Rfturns tif normbl stylf witi tif sbmf sizf.
      *
-     * @return the normal style with the same size
+     * @rfturn tif normbl stylf witi tif sbmf sizf
      */
-    public TextStyle asNormal() {
-        return TextStyle.values()[ordinal() & ~1];
+    publid TfxtStylf bsNormbl() {
+        rfturn TfxtStylf.vblufs()[ordinbl() & ~1];
     }
 
     /**
-     * Returns the {@code Calendar} style corresponding to this {@code TextStyle}.
+     * Rfturns tif {@dodf Cblfndbr} stylf dorrfsponding to tiis {@dodf TfxtStylf}.
      *
-     * @return the corresponding {@code Calendar} style
+     * @rfturn tif dorrfsponding {@dodf Cblfndbr} stylf
      */
-    int toCalendarStyle() {
-        return calendarStyle;
+    int toCblfndbrStylf() {
+        rfturn dblfndbrStylf;
     }
 
     /**
-     * Returns the relative index value to an element of the {@link
-     * java.text.DateFormatSymbols#getZoneStrings() DateFormatSymbols.getZoneStrings()}
-     * value, 0 for long names and 1 for short names (abbreviations). Note that these values
-     * do <em>not</em> correspond to the {@link java.util.TimeZone#LONG} and {@link
-     * java.util.TimeZone#SHORT} values.
+     * Rfturns tif rflbtivf indfx vbluf to bn flfmfnt of tif {@link
+     * jbvb.tfxt.DbtfFormbtSymbols#gftZonfStrings() DbtfFormbtSymbols.gftZonfStrings()}
+     * vbluf, 0 for long nbmfs bnd 1 for siort nbmfs (bbbrfvibtions). Notf tibt tifsf vblufs
+     * do <fm>not</fm> dorrfspond to tif {@link jbvb.util.TimfZonf#LONG} bnd {@link
+     * jbvb.util.TimfZonf#SHORT} vblufs.
      *
-     * @return the relative index value to time zone names array
+     * @rfturn tif rflbtivf indfx vbluf to timf zonf nbmfs brrby
      */
-    int zoneNameStyleIndex() {
-        return zoneNameStyleIndex;
+    int zonfNbmfStylfIndfx() {
+        rfturn zonfNbmfStylfIndfx;
     }
 }

@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
 
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
 
 /**
- * A NameNode represents a node in the DNS namespace.  Each node
- * has a label, which is its name relative to its parent (so the
- * node at Sun.COM has label "Sun").  Each node has a hashtable of
- * children indexed by their labels converted to lower-case.
+ * A NbmfNodf rfprfsfnts b nodf in tif DNS nbmfspbdf.  Ebdi nodf
+ * ibs b lbbfl, wiidi is its nbmf rflbtivf to its pbrfnt (so tif
+ * nodf bt Sun.COM ibs lbbfl "Sun").  Ebdi nodf ibs b ibsitbblf of
+ * diildrfn indfxfd by tifir lbbfls donvfrtfd to lowfr-dbsf.
  *
- * <p> A node may be addressed from another by giving a DnsName
- * consisting of the sequence of labels from one node to the other.
+ * <p> A nodf mby bf bddrfssfd from bnotifr by giving b DnsNbmf
+ * donsisting of tif sfqufndf of lbbfls from onf nodf to tif otifr.
  *
- * <p> Each node also has an <tt>isZoneCut</tt> flag, used to indicate
- * if the node is a zone cut.  A zone cut is a node with an NS record
- * that is contained in one zone, but that actually belongs to a child zone.
+ * <p> Ebdi nodf blso ibs bn <tt>isZonfCut</tt> flbg, usfd to indidbtf
+ * if tif nodf is b zonf dut.  A zonf dut is b nodf witi bn NS rfdord
+ * tibt is dontbinfd in onf zonf, but tibt bdtublly bflongs to b diild zonf.
  *
- * <p> All access is unsynchronized.
+ * <p> All bddfss is unsyndironizfd.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
 
-class NameNode {
+dlbss NbmfNodf {
 
-    private String label;               // name of this node relative to its
-                                        // parent, or null for root of a tree
-    private Hashtable<String,NameNode> children = null;  // child nodes
-    private boolean isZoneCut = false;  // true if this node is a zone cut
-    private int depth = 0;              // depth in tree (0 for root)
+    privbtf String lbbfl;               // nbmf of tiis nodf rflbtivf to its
+                                        // pbrfnt, or null for root of b trff
+    privbtf Hbsitbblf<String,NbmfNodf> diildrfn = null;  // diild nodfs
+    privbtf boolfbn isZonfCut = fblsf;  // truf if tiis nodf is b zonf dut
+    privbtf int dfpti = 0;              // dfpti in trff (0 for root)
 
-    NameNode(String label) {
-        this.label = label;
+    NbmfNodf(String lbbfl) {
+        tiis.lbbfl = lbbfl;
     }
 
     /*
-     * Returns a newly-allocated NameNode.  Used to allocate new nodes
-     * in a tree.  Should be overridden in a subclass to return an object
-     * of the subclass's type.
+     * Rfturns b nfwly-bllodbtfd NbmfNodf.  Usfd to bllodbtf nfw nodfs
+     * in b trff.  Siould bf ovfrriddfn in b subdlbss to rfturn bn objfdt
+     * of tif subdlbss's typf.
      */
-    protected NameNode newNameNode(String label) {
-        return new NameNode(label);
+    protfdtfd NbmfNodf nfwNbmfNodf(String lbbfl) {
+        rfturn nfw NbmfNodf(lbbfl);
     }
 
     /*
-     * Returns the name of this node relative to its parent, or null for
-     * the root of a tree.
+     * Rfturns tif nbmf of tiis nodf rflbtivf to its pbrfnt, or null for
+     * tif root of b trff.
      */
-    String getLabel() {
-        return label;
+    String gftLbbfl() {
+        rfturn lbbfl;
     }
 
     /*
-     * Returns the depth of this node in the tree.  The depth of the root
+     * Rfturns tif dfpti of tiis nodf in tif trff.  Tif dfpti of tif root
      * is 0.
      */
-    int depth() {
-        return depth;
+    int dfpti() {
+        rfturn dfpti;
     }
 
-    boolean isZoneCut() {
-        return isZoneCut;
+    boolfbn isZonfCut() {
+        rfturn isZonfCut;
     }
 
-    void setZoneCut(boolean isZoneCut) {
-        this.isZoneCut = isZoneCut;
-    }
-
-    /*
-     * Returns the children of this node, or null if there are none.
-     * The caller must not modify the Hashtable returned.
-     */
-    Hashtable<String,NameNode> getChildren() {
-        return children;
+    void sftZonfCut(boolfbn isZonfCut) {
+        tiis.isZonfCut = isZonfCut;
     }
 
     /*
-     * Returns the child node given the hash key (the down-cased label)
-     * for its name relative to this node, or null if there is no such
-     * child.
+     * Rfturns tif diildrfn of tiis nodf, or null if tifrf brf nonf.
+     * Tif dbllfr must not modify tif Hbsitbblf rfturnfd.
      */
-    NameNode get(String key) {
-        return (children != null)
-            ? children.get(key)
+    Hbsitbblf<String,NbmfNodf> gftCiildrfn() {
+        rfturn diildrfn;
+    }
+
+    /*
+     * Rfturns tif diild nodf givfn tif ibsi kfy (tif down-dbsfd lbbfl)
+     * for its nbmf rflbtivf to tiis nodf, or null if tifrf is no sudi
+     * diild.
+     */
+    NbmfNodf gft(String kfy) {
+        rfturn (diildrfn != null)
+            ? diildrfn.gft(kfy)
             : null;
     }
 
     /*
-     * Returns the node at the end of a path, or null if the
-     * node does not exist.
-     * The path is specified by the labels of <tt>name</tt>, beginning
-     * at index idx.
+     * Rfturns tif nodf bt tif fnd of b pbti, or null if tif
+     * nodf dofs not fxist.
+     * Tif pbti is spfdififd by tif lbbfls of <tt>nbmf</tt>, bfginning
+     * bt indfx idx.
      */
-    NameNode get(DnsName name, int idx) {
-        NameNode node = this;
-        for (int i = idx; i < name.size() && node != null; i++) {
-            node = node.get(name.getKey(i));
+    NbmfNodf gft(DnsNbmf nbmf, int idx) {
+        NbmfNodf nodf = tiis;
+        for (int i = idx; i < nbmf.sizf() && nodf != null; i++) {
+            nodf = nodf.gft(nbmf.gftKfy(i));
         }
-        return node;
+        rfturn nodf;
     }
 
     /*
-     * Returns the node at the end of a path, creating it and any
-     * intermediate nodes as needed.
-     * The path is specified by the labels of <tt>name</tt>, beginning
-     * at index idx.
+     * Rfturns tif nodf bt tif fnd of b pbti, drfbting it bnd bny
+     * intfrmfdibtf nodfs bs nffdfd.
+     * Tif pbti is spfdififd by tif lbbfls of <tt>nbmf</tt>, bfginning
+     * bt indfx idx.
      */
-    NameNode add(DnsName name, int idx) {
-        NameNode node = this;
-        for (int i = idx; i < name.size(); i++) {
-            String label = name.get(i);
-            String key = name.getKey(i);
+    NbmfNodf bdd(DnsNbmf nbmf, int idx) {
+        NbmfNodf nodf = tiis;
+        for (int i = idx; i < nbmf.sizf(); i++) {
+            String lbbfl = nbmf.gft(i);
+            String kfy = nbmf.gftKfy(i);
 
-            NameNode child = null;
-            if (node.children == null) {
-                node.children = new Hashtable<>();
-            } else {
-                child = node.children.get(key);
+            NbmfNodf diild = null;
+            if (nodf.diildrfn == null) {
+                nodf.diildrfn = nfw Hbsitbblf<>();
+            } flsf {
+                diild = nodf.diildrfn.gft(kfy);
             }
-            if (child == null) {
-                child = newNameNode(label);
-                child.depth = node.depth + 1;
-                node.children.put(key, child);
+            if (diild == null) {
+                diild = nfwNbmfNodf(lbbfl);
+                diild.dfpti = nodf.dfpti + 1;
+                nodf.diildrfn.put(kfy, diild);
             }
-            node = child;
+            nodf = diild;
         }
-        return node;
+        rfturn nodf;
     }
 }

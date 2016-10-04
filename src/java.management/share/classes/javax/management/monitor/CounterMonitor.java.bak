@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.monitor;
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
 
-import static com.sun.jmx.defaults.JmxProperties.MONITOR_LOGGER;
-import java.util.logging.Level;
-import javax.management.ObjectName;
-import javax.management.MBeanNotificationInfo;
-import static javax.management.monitor.Monitor.NumericalType.*;
-import static javax.management.monitor.MonitorNotification.*;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MONITOR_LOGGER;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import stbtid jbvbx.mbnbgfmfnt.monitor.Monitor.NumfridblTypf.*;
+import stbtid jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion.*;
 
 /**
- * Defines a monitor MBean designed to observe the values of a counter
- * attribute.
+ * Dffinfs b monitor MBfbn dfsignfd to obsfrvf tif vblufs of b dountfr
+ * bttributf.
  *
- * <P> A counter monitor sends a {@link
- * MonitorNotification#THRESHOLD_VALUE_EXCEEDED threshold
- * notification} when the value of the counter reaches or exceeds a
- * threshold known as the comparison level.  The notify flag must be
- * set to <CODE>true</CODE>.
+ * <P> A dountfr monitor sfnds b {@link
+ * MonitorNotifidbtion#THRESHOLD_VALUE_EXCEEDED tirfsiold
+ * notifidbtion} wifn tif vbluf of tif dountfr rfbdifs or fxdffds b
+ * tirfsiold known bs tif dompbrison lfvfl.  Tif notify flbg must bf
+ * sft to <CODE>truf</CODE>.
  *
- * <P> In addition, an offset mechanism enables particular counting
- * intervals to be detected.  If the offset value is not zero,
- * whenever the threshold is triggered by the counter value reaching a
- * comparison level, that comparison level is incremented by the
- * offset value.  This is regarded as taking place instantaneously,
- * that is, before the count is incremented.  Thus, for each level,
- * the threshold triggers an event notification every time the count
- * increases by an interval equal to the offset value.
+ * <P> In bddition, bn offsft mfdibnism fnbblfs pbrtidulbr dounting
+ * intfrvbls to bf dftfdtfd.  If tif offsft vbluf is not zfro,
+ * wifnfvfr tif tirfsiold is triggfrfd by tif dountfr vbluf rfbdiing b
+ * dompbrison lfvfl, tibt dompbrison lfvfl is indrfmfntfd by tif
+ * offsft vbluf.  Tiis is rfgbrdfd bs tbking plbdf instbntbnfously,
+ * tibt is, bfforf tif dount is indrfmfntfd.  Tius, for fbdi lfvfl,
+ * tif tirfsiold triggfrs bn fvfnt notifidbtion fvfry timf tif dount
+ * indrfbsfs by bn intfrvbl fqubl to tif offsft vbluf.
  *
- * <P> If the counter can wrap around its maximum value, the modulus
- * needs to be specified.  The modulus is the value at which the
- * counter is reset to zero.
+ * <P> If tif dountfr dbn wrbp bround its mbximum vbluf, tif modulus
+ * nffds to bf spfdififd.  Tif modulus is tif vbluf bt wiidi tif
+ * dountfr is rfsft to zfro.
  *
- * <P> If the counter difference mode is used, the value of the
- * derived gauge is calculated as the difference between the observed
- * counter values for two successive observations.  If this difference
- * is negative, the value of the derived gauge is incremented by the
- * value of the modulus.  The derived gauge value (V[t]) is calculated
- * using the following method:
+ * <P> If tif dountfr difffrfndf modf is usfd, tif vbluf of tif
+ * dfrivfd gbugf is dbldulbtfd bs tif difffrfndf bftwffn tif obsfrvfd
+ * dountfr vblufs for two suddfssivf obsfrvbtions.  If tiis difffrfndf
+ * is nfgbtivf, tif vbluf of tif dfrivfd gbugf is indrfmfntfd by tif
+ * vbluf of tif modulus.  Tif dfrivfd gbugf vbluf (V[t]) is dbldulbtfd
+ * using tif following mftiod:
  *
  * <UL>
- * <LI>if (counter[t] - counter[t-GP]) is positive then
- * V[t] = counter[t] - counter[t-GP]
- * <LI>if (counter[t] - counter[t-GP]) is negative then
- * V[t] = counter[t] - counter[t-GP] + MODULUS
+ * <LI>if (dountfr[t] - dountfr[t-GP]) is positivf tifn
+ * V[t] = dountfr[t] - dountfr[t-GP]
+ * <LI>if (dountfr[t] - dountfr[t-GP]) is nfgbtivf tifn
+ * V[t] = dountfr[t] - dountfr[t-GP] + MODULUS
  * </UL>
  *
- * This implementation of the counter monitor requires the observed
- * attribute to be of the type integer (<CODE>Byte</CODE>,
- * <CODE>Integer</CODE>, <CODE>Short</CODE>, <CODE>Long</CODE>).
+ * Tiis implfmfntbtion of tif dountfr monitor rfquirfs tif obsfrvfd
+ * bttributf to bf of tif typf intfgfr (<CODE>Bytf</CODE>,
+ * <CODE>Intfgfr</CODE>, <CODE>Siort</CODE>, <CODE>Long</CODE>).
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class CounterMonitor extends Monitor implements CounterMonitorMBean {
+publid dlbss CountfrMonitor fxtfnds Monitor implfmfnts CountfrMonitorMBfbn {
 
     /*
      * ------------------------------------------
@@ -84,67 +84,67 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      * ------------------------------------------
      */
 
-    static class CounterMonitorObservedObject extends ObservedObject {
+    stbtid dlbss CountfrMonitorObsfrvfdObjfdt fxtfnds ObsfrvfdObjfdt {
 
-        public CounterMonitorObservedObject(ObjectName observedObject) {
-            super(observedObject);
-        }
-
-        public final synchronized Number getThreshold() {
-            return threshold;
-        }
-        public final synchronized void setThreshold(Number threshold) {
-            this.threshold = threshold;
-        }
-        public final synchronized Number getPreviousScanCounter() {
-            return previousScanCounter;
-        }
-        public final synchronized void setPreviousScanCounter(
-                                                  Number previousScanCounter) {
-            this.previousScanCounter = previousScanCounter;
-        }
-        public final synchronized boolean getModulusExceeded() {
-            return modulusExceeded;
-        }
-        public final synchronized void setModulusExceeded(
-                                                 boolean modulusExceeded) {
-            this.modulusExceeded = modulusExceeded;
-        }
-        public final synchronized Number getDerivedGaugeExceeded() {
-            return derivedGaugeExceeded;
-        }
-        public final synchronized void setDerivedGaugeExceeded(
-                                                 Number derivedGaugeExceeded) {
-            this.derivedGaugeExceeded = derivedGaugeExceeded;
-        }
-        public final synchronized boolean getDerivedGaugeValid() {
-            return derivedGaugeValid;
-        }
-        public final synchronized void setDerivedGaugeValid(
-                                                 boolean derivedGaugeValid) {
-            this.derivedGaugeValid = derivedGaugeValid;
-        }
-        public final synchronized boolean getEventAlreadyNotified() {
-            return eventAlreadyNotified;
-        }
-        public final synchronized void setEventAlreadyNotified(
-                                               boolean eventAlreadyNotified) {
-            this.eventAlreadyNotified = eventAlreadyNotified;
-        }
-        public final synchronized NumericalType getType() {
-            return type;
-        }
-        public final synchronized void setType(NumericalType type) {
-            this.type = type;
+        publid CountfrMonitorObsfrvfdObjfdt(ObjfdtNbmf obsfrvfdObjfdt) {
+            supfr(obsfrvfdObjfdt);
         }
 
-        private Number threshold;
-        private Number previousScanCounter;
-        private boolean modulusExceeded;
-        private Number derivedGaugeExceeded;
-        private boolean derivedGaugeValid;
-        private boolean eventAlreadyNotified;
-        private NumericalType type;
+        publid finbl syndironizfd Numbfr gftTirfsiold() {
+            rfturn tirfsiold;
+        }
+        publid finbl syndironizfd void sftTirfsiold(Numbfr tirfsiold) {
+            tiis.tirfsiold = tirfsiold;
+        }
+        publid finbl syndironizfd Numbfr gftPrfviousSdbnCountfr() {
+            rfturn prfviousSdbnCountfr;
+        }
+        publid finbl syndironizfd void sftPrfviousSdbnCountfr(
+                                                  Numbfr prfviousSdbnCountfr) {
+            tiis.prfviousSdbnCountfr = prfviousSdbnCountfr;
+        }
+        publid finbl syndironizfd boolfbn gftModulusExdffdfd() {
+            rfturn modulusExdffdfd;
+        }
+        publid finbl syndironizfd void sftModulusExdffdfd(
+                                                 boolfbn modulusExdffdfd) {
+            tiis.modulusExdffdfd = modulusExdffdfd;
+        }
+        publid finbl syndironizfd Numbfr gftDfrivfdGbugfExdffdfd() {
+            rfturn dfrivfdGbugfExdffdfd;
+        }
+        publid finbl syndironizfd void sftDfrivfdGbugfExdffdfd(
+                                                 Numbfr dfrivfdGbugfExdffdfd) {
+            tiis.dfrivfdGbugfExdffdfd = dfrivfdGbugfExdffdfd;
+        }
+        publid finbl syndironizfd boolfbn gftDfrivfdGbugfVblid() {
+            rfturn dfrivfdGbugfVblid;
+        }
+        publid finbl syndironizfd void sftDfrivfdGbugfVblid(
+                                                 boolfbn dfrivfdGbugfVblid) {
+            tiis.dfrivfdGbugfVblid = dfrivfdGbugfVblid;
+        }
+        publid finbl syndironizfd boolfbn gftEvfntAlrfbdyNotififd() {
+            rfturn fvfntAlrfbdyNotififd;
+        }
+        publid finbl syndironizfd void sftEvfntAlrfbdyNotififd(
+                                               boolfbn fvfntAlrfbdyNotififd) {
+            tiis.fvfntAlrfbdyNotififd = fvfntAlrfbdyNotififd;
+        }
+        publid finbl syndironizfd NumfridblTypf gftTypf() {
+            rfturn typf;
+        }
+        publid finbl syndironizfd void sftTypf(NumfridblTypf typf) {
+            tiis.typf = typf;
+        }
+
+        privbtf Numbfr tirfsiold;
+        privbtf Numbfr prfviousSdbnCountfr;
+        privbtf boolfbn modulusExdffdfd;
+        privbtf Numbfr dfrivfdGbugfExdffdfd;
+        privbtf boolfbn dfrivfdGbugfVblid;
+        privbtf boolfbn fvfntAlrfbdyNotififd;
+        privbtf NumfridblTypf typf;
     }
 
     /*
@@ -154,42 +154,42 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Counter modulus.
-     * <BR>The default value is a null Integer object.
+     * Countfr modulus.
+     * <BR>Tif dffbult vbluf is b null Intfgfr objfdt.
      */
-    private Number modulus = INTEGER_ZERO;
+    privbtf Numbfr modulus = INTEGER_ZERO;
 
     /**
-     * Counter offset.
-     * <BR>The default value is a null Integer object.
+     * Countfr offsft.
+     * <BR>Tif dffbult vbluf is b null Intfgfr objfdt.
      */
-    private Number offset = INTEGER_ZERO;
+    privbtf Numbfr offsft = INTEGER_ZERO;
 
     /**
-     * Flag indicating if the counter monitor notifies when exceeding
-     * the threshold.  The default value is set to
-     * <CODE>false</CODE>.
+     * Flbg indidbting if tif dountfr monitor notififs wifn fxdffding
+     * tif tirfsiold.  Tif dffbult vbluf is sft to
+     * <CODE>fblsf</CODE>.
      */
-    private boolean notify = false;
+    privbtf boolfbn notify = fblsf;
 
     /**
-     * Flag indicating if the counter difference mode is used.  If the
-     * counter difference mode is used, the derived gauge is the
-     * difference between two consecutive observed values.  Otherwise,
-     * the derived gauge is directly the value of the observed
-     * attribute.  The default value is set to <CODE>false</CODE>.
+     * Flbg indidbting if tif dountfr difffrfndf modf is usfd.  If tif
+     * dountfr difffrfndf modf is usfd, tif dfrivfd gbugf is tif
+     * difffrfndf bftwffn two donsfdutivf obsfrvfd vblufs.  Otifrwisf,
+     * tif dfrivfd gbugf is dirfdtly tif vbluf of tif obsfrvfd
+     * bttributf.  Tif dffbult vbluf is sft to <CODE>fblsf</CODE>.
      */
-    private boolean differenceMode = false;
+    privbtf boolfbn difffrfndfModf = fblsf;
 
     /**
-     * Initial counter threshold.  This value is used to initialize
-     * the threshold when a new object is added to the list and reset
-     * the threshold to its initial value each time the counter
-     * resets.
+     * Initibl dountfr tirfsiold.  Tiis vbluf is usfd to initiblizf
+     * tif tirfsiold wifn b nfw objfdt is bddfd to tif list bnd rfsft
+     * tif tirfsiold to its initibl vbluf fbdi timf tif dountfr
+     * rfsfts.
      */
-    private Number initThreshold = INTEGER_ZERO;
+    privbtf Numbfr initTirfsiold = INTEGER_ZERO;
 
-    private static final String[] types = {
+    privbtf stbtid finbl String[] typfs = {
         RUNTIME_ERROR,
         OBSERVED_OBJECT_ERROR,
         OBSERVED_ATTRIBUTE_ERROR,
@@ -198,11 +198,11 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
         THRESHOLD_VALUE_EXCEEDED
     };
 
-    private static final MBeanNotificationInfo[] notifsInfo = {
-        new MBeanNotificationInfo(
-            types,
-            "javax.management.monitor.MonitorNotification",
-            "Notifications sent by the CounterMonitor MBean")
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] notifsInfo = {
+        nfw MBfbnNotifidbtionInfo(
+            typfs,
+            "jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion",
+            "Notifidbtions sfnt by tif CountfrMonitor MBfbn")
     };
 
     /*
@@ -212,9 +212,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public CounterMonitor() {
+    publid CountfrMonitor() {
     }
 
     /*
@@ -224,31 +224,31 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Starts the counter monitor.
+     * Stbrts tif dountfr monitor.
      */
-    public synchronized void start() {
-        if (isActive()) {
-            MONITOR_LOGGER.logp(Level.FINER, CounterMonitor.class.getName(),
-                    "start", "the monitor is already active");
-            return;
+    publid syndironizfd void stbrt() {
+        if (isAdtivf()) {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, CountfrMonitor.dlbss.gftNbmf(),
+                    "stbrt", "tif monitor is blrfbdy bdtivf");
+            rfturn;
         }
-        // Reset values.
+        // Rfsft vblufs.
         //
-        for (ObservedObject o : observedObjects) {
-            final CounterMonitorObservedObject cmo =
-                (CounterMonitorObservedObject) o;
-            cmo.setThreshold(initThreshold);
-            cmo.setModulusExceeded(false);
-            cmo.setEventAlreadyNotified(false);
-            cmo.setPreviousScanCounter(null);
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl CountfrMonitorObsfrvfdObjfdt dmo =
+                (CountfrMonitorObsfrvfdObjfdt) o;
+            dmo.sftTirfsiold(initTirfsiold);
+            dmo.sftModulusExdffdfd(fblsf);
+            dmo.sftEvfntAlrfbdyNotififd(fblsf);
+            dmo.sftPrfviousSdbnCountfr(null);
         }
-        doStart();
+        doStbrt();
     }
 
     /**
-     * Stops the counter monitor.
+     * Stops tif dountfr monitor.
      */
-    public synchronized void stop() {
+    publid syndironizfd void stop() {
         doStop();
     }
 
@@ -256,350 +256,350 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     //--------------------
 
     /**
-     * Gets the derived gauge of the specified object, if this object is
-     * contained in the set of observed MBeans, or <code>null</code> otherwise.
+     * Gfts tif dfrivfd gbugf of tif spfdififd objfdt, if tiis objfdt is
+     * dontbinfd in tif sft of obsfrvfd MBfbns, or <dodf>null</dodf> otifrwisf.
      *
-     * @param object the name of the object whose derived gauge is to
-     * be returned.
+     * @pbrbm objfdt tif nbmf of tif objfdt wiosf dfrivfd gbugf is to
+     * bf rfturnfd.
      *
-     * @return The derived gauge of the specified object.
+     * @rfturn Tif dfrivfd gbugf of tif spfdififd objfdt.
      *
      */
-    @Override
-    public synchronized Number getDerivedGauge(ObjectName object) {
-        return (Number) super.getDerivedGauge(object);
+    @Ovfrridf
+    publid syndironizfd Numbfr gftDfrivfdGbugf(ObjfdtNbmf objfdt) {
+        rfturn (Numbfr) supfr.gftDfrivfdGbugf(objfdt);
     }
 
     /**
-     * Gets the derived gauge timestamp of the specified object, if
-     * this object is contained in the set of observed MBeans, or
-     * <code>0</code> otherwise.
+     * Gfts tif dfrivfd gbugf timfstbmp of tif spfdififd objfdt, if
+     * tiis objfdt is dontbinfd in tif sft of obsfrvfd MBfbns, or
+     * <dodf>0</dodf> otifrwisf.
      *
-     * @param object the name of the object whose derived gauge
-     * timestamp is to be returned.
+     * @pbrbm objfdt tif nbmf of tif objfdt wiosf dfrivfd gbugf
+     * timfstbmp is to bf rfturnfd.
      *
-     * @return The derived gauge timestamp of the specified object.
+     * @rfturn Tif dfrivfd gbugf timfstbmp of tif spfdififd objfdt.
      *
      */
-    @Override
-    public synchronized long getDerivedGaugeTimeStamp(ObjectName object) {
-        return super.getDerivedGaugeTimeStamp(object);
+    @Ovfrridf
+    publid syndironizfd long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt) {
+        rfturn supfr.gftDfrivfdGbugfTimfStbmp(objfdt);
     }
 
     /**
-     * Gets the current threshold value of the specified object, if
-     * this object is contained in the set of observed MBeans, or
-     * <code>null</code> otherwise.
+     * Gfts tif durrfnt tirfsiold vbluf of tif spfdififd objfdt, if
+     * tiis objfdt is dontbinfd in tif sft of obsfrvfd MBfbns, or
+     * <dodf>null</dodf> otifrwisf.
      *
-     * @param object the name of the object whose threshold is to be
-     * returned.
+     * @pbrbm objfdt tif nbmf of tif objfdt wiosf tirfsiold is to bf
+     * rfturnfd.
      *
-     * @return The threshold value of the specified object.
+     * @rfturn Tif tirfsiold vbluf of tif spfdififd objfdt.
      *
      */
-    public synchronized Number getThreshold(ObjectName object) {
-        final CounterMonitorObservedObject o =
-            (CounterMonitorObservedObject) getObservedObject(object);
+    publid syndironizfd Numbfr gftTirfsiold(ObjfdtNbmf objfdt) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
         if (o == null)
-            return null;
+            rfturn null;
 
-        // If the counter that is monitored rolls over when it reaches a
-        // maximum value, then the modulus value needs to be set to that
-        // maximum value. The threshold will then also roll over whenever
-        // it strictly exceeds the modulus value. When the threshold rolls
-        // over, it is reset to the value that was specified through the
-        // latest call to the monitor's setInitThreshold method, before
-        // any offsets were applied.
+        // If tif dountfr tibt is monitorfd rolls ovfr wifn it rfbdifs b
+        // mbximum vbluf, tifn tif modulus vbluf nffds to bf sft to tibt
+        // mbximum vbluf. Tif tirfsiold will tifn blso roll ovfr wifnfvfr
+        // it stridtly fxdffds tif modulus vbluf. Wifn tif tirfsiold rolls
+        // ovfr, it is rfsft to tif vbluf tibt wbs spfdififd tirougi tif
+        // lbtfst dbll to tif monitor's sftInitTirfsiold mftiod, bfforf
+        // bny offsfts wfrf bpplifd.
         //
-        if (offset.longValue() > 0L &&
-            modulus.longValue() > 0L &&
-            o.getThreshold().longValue() > modulus.longValue()) {
-            return initThreshold;
-        } else {
-            return o.getThreshold();
+        if (offsft.longVbluf() > 0L &&
+            modulus.longVbluf() > 0L &&
+            o.gftTirfsiold().longVbluf() > modulus.longVbluf()) {
+            rfturn initTirfsiold;
+        } flsf {
+            rfturn o.gftTirfsiold();
         }
     }
 
     /**
-     * Gets the initial threshold value common to all observed objects.
+     * Gfts tif initibl tirfsiold vbluf dommon to bll obsfrvfd objfdts.
      *
-     * @return The initial threshold.
+     * @rfturn Tif initibl tirfsiold.
      *
-     * @see #setInitThreshold
+     * @sff #sftInitTirfsiold
      *
      */
-    public synchronized Number getInitThreshold() {
-        return initThreshold;
+    publid syndironizfd Numbfr gftInitTirfsiold() {
+        rfturn initTirfsiold;
     }
 
     /**
-     * Sets the initial threshold value common to all observed objects.
+     * Sfts tif initibl tirfsiold vbluf dommon to bll obsfrvfd objfdts.
      *
-     * <BR>The current threshold of every object in the set of
-     * observed MBeans is updated consequently.
+     * <BR>Tif durrfnt tirfsiold of fvfry objfdt in tif sft of
+     * obsfrvfd MBfbns is updbtfd donsfqufntly.
      *
-     * @param value The initial threshold value.
+     * @pbrbm vbluf Tif initibl tirfsiold vbluf.
      *
-     * @exception IllegalArgumentException The specified
-     * threshold is null or the threshold value is less than zero.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd
+     * tirfsiold is null or tif tirfsiold vbluf is lfss tibn zfro.
      *
-     * @see #getInitThreshold
+     * @sff #gftInitTirfsiold
      *
      */
-    public synchronized void setInitThreshold(Number value)
-        throws IllegalArgumentException {
+    publid syndironizfd void sftInitTirfsiold(Numbfr vbluf)
+        tirows IllfgblArgumfntExdfption {
 
-        if (value == null) {
-            throw new IllegalArgumentException("Null threshold");
+        if (vbluf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null tirfsiold");
         }
-        if (value.longValue() < 0L) {
-            throw new IllegalArgumentException("Negative threshold");
+        if (vbluf.longVbluf() < 0L) {
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf tirfsiold");
         }
 
-        if (initThreshold.equals(value))
-            return;
-        initThreshold = value;
+        if (initTirfsiold.fqubls(vbluf))
+            rfturn;
+        initTirfsiold = vbluf;
 
-        // Reset values.
+        // Rfsft vblufs.
         //
-        int index = 0;
-        for (ObservedObject o : observedObjects) {
-            resetAlreadyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
-            final CounterMonitorObservedObject cmo =
-                (CounterMonitorObservedObject) o;
-            cmo.setThreshold(value);
-            cmo.setModulusExceeded(false);
-            cmo.setEventAlreadyNotified(false);
+        int indfx = 0;
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            rfsftAlrfbdyNotififd(o, indfx++, THRESHOLD_ERROR_NOTIFIED);
+            finbl CountfrMonitorObsfrvfdObjfdt dmo =
+                (CountfrMonitorObsfrvfdObjfdt) o;
+            dmo.sftTirfsiold(vbluf);
+            dmo.sftModulusExdffdfd(fblsf);
+            dmo.sftEvfntAlrfbdyNotififd(fblsf);
         }
     }
 
     /**
-     * Returns the derived gauge of the first object in the set of
-     * observed MBeans.
+     * Rfturns tif dfrivfd gbugf of tif first objfdt in tif sft of
+     * obsfrvfd MBfbns.
      *
-     * @return The derived gauge.
+     * @rfturn Tif dfrivfd gbugf.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGauge(ObjectName)}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugf(ObjfdtNbmf)}
      */
-    @Deprecated
-    public synchronized Number getDerivedGauge() {
-        if (observedObjects.isEmpty()) {
-            return null;
-        } else {
-            return (Number) observedObjects.get(0).getDerivedGauge();
+    @Dfprfdbtfd
+    publid syndironizfd Numbfr gftDfrivfdGbugf() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn (Numbfr) obsfrvfdObjfdts.gft(0).gftDfrivfdGbugf();
         }
     }
 
     /**
-     * Gets the derived gauge timestamp of the first object in the set
-     * of observed MBeans.
+     * Gfts tif dfrivfd gbugf timfstbmp of tif first objfdt in tif sft
+     * of obsfrvfd MBfbns.
      *
-     * @return The derived gauge timestamp.
+     * @rfturn Tif dfrivfd gbugf timfstbmp.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGaugeTimeStamp(ObjectName)}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf)}
      */
-    @Deprecated
-    public synchronized long getDerivedGaugeTimeStamp() {
-        if (observedObjects.isEmpty()) {
-            return 0;
-        } else {
-            return observedObjects.get(0).getDerivedGaugeTimeStamp();
+    @Dfprfdbtfd
+    publid syndironizfd long gftDfrivfdGbugfTimfStbmp() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn 0;
+        } flsf {
+            rfturn obsfrvfdObjfdts.gft(0).gftDfrivfdGbugfTimfStbmp();
         }
     }
 
     /**
-     * Gets the threshold value of the first object in the set of
-     * observed MBeans.
+     * Gfts tif tirfsiold vbluf of tif first objfdt in tif sft of
+     * obsfrvfd MBfbns.
      *
-     * @return The threshold value.
+     * @rfturn Tif tirfsiold vbluf.
      *
-     * @see #setThreshold
+     * @sff #sftTirfsiold
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #getThreshold(ObjectName)}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftTirfsiold(ObjfdtNbmf)}
      */
-    @Deprecated
-    public synchronized Number getThreshold() {
-        return getThreshold(getObservedObject());
+    @Dfprfdbtfd
+    publid syndironizfd Numbfr gftTirfsiold() {
+        rfturn gftTirfsiold(gftObsfrvfdObjfdt());
     }
 
     /**
-     * Sets the initial threshold value.
+     * Sfts tif initibl tirfsiold vbluf.
      *
-     * @param value The initial threshold value.
+     * @pbrbm vbluf Tif initibl tirfsiold vbluf.
      *
-     * @exception IllegalArgumentException The specified threshold is
-     * null or the threshold value is less than zero.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd tirfsiold is
+     * null or tif tirfsiold vbluf is lfss tibn zfro.
      *
-     * @see #getThreshold()
+     * @sff #gftTirfsiold()
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #setInitThreshold}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #sftInitTirfsiold}
      */
-    @Deprecated
-    public synchronized void setThreshold(Number value)
-        throws IllegalArgumentException {
-        setInitThreshold(value);
+    @Dfprfdbtfd
+    publid syndironizfd void sftTirfsiold(Numbfr vbluf)
+        tirows IllfgblArgumfntExdfption {
+        sftInitTirfsiold(vbluf);
     }
 
     /**
-     * Gets the offset value common to all observed MBeans.
+     * Gfts tif offsft vbluf dommon to bll obsfrvfd MBfbns.
      *
-     * @return The offset value.
+     * @rfturn Tif offsft vbluf.
      *
-     * @see #setOffset
+     * @sff #sftOffsft
      */
-    public synchronized Number getOffset() {
-        return offset;
+    publid syndironizfd Numbfr gftOffsft() {
+        rfturn offsft;
     }
 
     /**
-     * Sets the offset value common to all observed MBeans.
+     * Sfts tif offsft vbluf dommon to bll obsfrvfd MBfbns.
      *
-     * @param value The offset value.
+     * @pbrbm vbluf Tif offsft vbluf.
      *
-     * @exception IllegalArgumentException The specified
-     * offset is null or the offset value is less than zero.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd
+     * offsft is null or tif offsft vbluf is lfss tibn zfro.
      *
-     * @see #getOffset
+     * @sff #gftOffsft
      */
-    public synchronized void setOffset(Number value)
-        throws IllegalArgumentException {
+    publid syndironizfd void sftOffsft(Numbfr vbluf)
+        tirows IllfgblArgumfntExdfption {
 
-        if (value == null) {
-            throw new IllegalArgumentException("Null offset");
+        if (vbluf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null offsft");
         }
-        if (value.longValue() < 0L) {
-            throw new IllegalArgumentException("Negative offset");
+        if (vbluf.longVbluf() < 0L) {
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf offsft");
         }
 
-        if (offset.equals(value))
-            return;
-        offset = value;
+        if (offsft.fqubls(vbluf))
+            rfturn;
+        offsft = vbluf;
 
-        int index = 0;
-        for (ObservedObject o : observedObjects) {
-            resetAlreadyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
+        int indfx = 0;
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            rfsftAlrfbdyNotififd(o, indfx++, THRESHOLD_ERROR_NOTIFIED);
         }
     }
 
     /**
-     * Gets the modulus value common to all observed MBeans.
+     * Gfts tif modulus vbluf dommon to bll obsfrvfd MBfbns.
      *
-     * @see #setModulus
+     * @sff #sftModulus
      *
-     * @return The modulus value.
+     * @rfturn Tif modulus vbluf.
      */
-    public synchronized Number getModulus() {
-        return modulus;
+    publid syndironizfd Numbfr gftModulus() {
+        rfturn modulus;
     }
 
     /**
-     * Sets the modulus value common to all observed MBeans.
+     * Sfts tif modulus vbluf dommon to bll obsfrvfd MBfbns.
      *
-     * @param value The modulus value.
+     * @pbrbm vbluf Tif modulus vbluf.
      *
-     * @exception IllegalArgumentException The specified
-     * modulus is null or the modulus value is less than zero.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd
+     * modulus is null or tif modulus vbluf is lfss tibn zfro.
      *
-     * @see #getModulus
+     * @sff #gftModulus
      */
-    public synchronized void setModulus(Number value)
-        throws IllegalArgumentException {
+    publid syndironizfd void sftModulus(Numbfr vbluf)
+        tirows IllfgblArgumfntExdfption {
 
-        if (value == null) {
-            throw new IllegalArgumentException("Null modulus");
+        if (vbluf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null modulus");
         }
-        if (value.longValue() < 0L) {
-            throw new IllegalArgumentException("Negative modulus");
+        if (vbluf.longVbluf() < 0L) {
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf modulus");
         }
 
-        if (modulus.equals(value))
-            return;
-        modulus = value;
+        if (modulus.fqubls(vbluf))
+            rfturn;
+        modulus = vbluf;
 
-        // Reset values.
+        // Rfsft vblufs.
         //
-        int index = 0;
-        for (ObservedObject o : observedObjects) {
-            resetAlreadyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
-            final CounterMonitorObservedObject cmo =
-                (CounterMonitorObservedObject) o;
-            cmo.setModulusExceeded(false);
+        int indfx = 0;
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            rfsftAlrfbdyNotififd(o, indfx++, THRESHOLD_ERROR_NOTIFIED);
+            finbl CountfrMonitorObsfrvfdObjfdt dmo =
+                (CountfrMonitorObsfrvfdObjfdt) o;
+            dmo.sftModulusExdffdfd(fblsf);
         }
     }
 
     /**
-     * Gets the notification's on/off switch value common to all
-     * observed MBeans.
+     * Gfts tif notifidbtion's on/off switdi vbluf dommon to bll
+     * obsfrvfd MBfbns.
      *
-     * @return <CODE>true</CODE> if the counter monitor notifies when
-     * exceeding the threshold, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif dountfr monitor notififs wifn
+     * fxdffding tif tirfsiold, <CODE>fblsf</CODE> otifrwisf.
      *
-     * @see #setNotify
+     * @sff #sftNotify
      */
-    public synchronized boolean getNotify() {
-        return notify;
+    publid syndironizfd boolfbn gftNotify() {
+        rfturn notify;
     }
 
     /**
-     * Sets the notification's on/off switch value common to all
-     * observed MBeans.
+     * Sfts tif notifidbtion's on/off switdi vbluf dommon to bll
+     * obsfrvfd MBfbns.
      *
-     * @param value The notification's on/off switch value.
+     * @pbrbm vbluf Tif notifidbtion's on/off switdi vbluf.
      *
-     * @see #getNotify
+     * @sff #gftNotify
      */
-    public synchronized void setNotify(boolean value) {
-        if (notify == value)
-            return;
-        notify = value;
+    publid syndironizfd void sftNotify(boolfbn vbluf) {
+        if (notify == vbluf)
+            rfturn;
+        notify = vbluf;
     }
 
     /**
-     * Gets the difference mode flag value common to all observed MBeans.
+     * Gfts tif difffrfndf modf flbg vbluf dommon to bll obsfrvfd MBfbns.
      *
-     * @return <CODE>true</CODE> if the difference mode is used,
-     * <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif difffrfndf modf is usfd,
+     * <CODE>fblsf</CODE> otifrwisf.
      *
-     * @see #setDifferenceMode
+     * @sff #sftDifffrfndfModf
      */
-    public synchronized boolean getDifferenceMode() {
-        return differenceMode;
+    publid syndironizfd boolfbn gftDifffrfndfModf() {
+        rfturn difffrfndfModf;
     }
 
     /**
-     * Sets the difference mode flag value common to all observed MBeans.
+     * Sfts tif difffrfndf modf flbg vbluf dommon to bll obsfrvfd MBfbns.
      *
-     * @param value The difference mode flag value.
+     * @pbrbm vbluf Tif difffrfndf modf flbg vbluf.
      *
-     * @see #getDifferenceMode
+     * @sff #gftDifffrfndfModf
      */
-    public synchronized void setDifferenceMode(boolean value) {
-        if (differenceMode == value)
-            return;
-        differenceMode = value;
+    publid syndironizfd void sftDifffrfndfModf(boolfbn vbluf) {
+        if (difffrfndfModf == vbluf)
+            rfturn;
+        difffrfndfModf = vbluf;
 
-        // Reset values.
+        // Rfsft vblufs.
         //
-        for (ObservedObject o : observedObjects) {
-            final CounterMonitorObservedObject cmo =
-                (CounterMonitorObservedObject) o;
-            cmo.setThreshold(initThreshold);
-            cmo.setModulusExceeded(false);
-            cmo.setEventAlreadyNotified(false);
-            cmo.setPreviousScanCounter(null);
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl CountfrMonitorObsfrvfdObjfdt dmo =
+                (CountfrMonitorObsfrvfdObjfdt) o;
+            dmo.sftTirfsiold(initTirfsiold);
+            dmo.sftModulusExdffdfd(fblsf);
+            dmo.sftEvfntAlrfbdyNotififd(fblsf);
+            dmo.sftPrfviousSdbnCountfr(null);
         }
     }
 
     /**
-     * Returns a <CODE>NotificationInfo</CODE> object containing the
-     * name of the Java class of the notification and the notification
-     * types sent by the counter monitor.
+     * Rfturns b <CODE>NotifidbtionInfo</CODE> objfdt dontbining tif
+     * nbmf of tif Jbvb dlbss of tif notifidbtion bnd tif notifidbtion
+     * typfs sfnt by tif dountfr monitor.
      */
-    @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return notifsInfo.clone();
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn notifsInfo.dlonf();
     }
 
     /*
@@ -609,220 +609,220 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Updates the derived gauge attribute of the observed object.
+     * Updbtfs tif dfrivfd gbugf bttributf of tif obsfrvfd objfdt.
      *
-     * @param scanCounter The value of the observed attribute.
-     * @param o The observed object.
-     * @return <CODE>true</CODE> if the derived gauge value is valid,
-     * <CODE>false</CODE> otherwise.  The derived gauge value is
-     * invalid when the differenceMode flag is set to
-     * <CODE>true</CODE> and it is the first notification (so we
-     * haven't 2 consecutive values to update the derived gauge).
+     * @pbrbm sdbnCountfr Tif vbluf of tif obsfrvfd bttributf.
+     * @pbrbm o Tif obsfrvfd objfdt.
+     * @rfturn <CODE>truf</CODE> if tif dfrivfd gbugf vbluf is vblid,
+     * <CODE>fblsf</CODE> otifrwisf.  Tif dfrivfd gbugf vbluf is
+     * invblid wifn tif difffrfndfModf flbg is sft to
+     * <CODE>truf</CODE> bnd it is tif first notifidbtion (so wf
+     * ibvfn't 2 donsfdutivf vblufs to updbtf tif dfrivfd gbugf).
      */
-    private synchronized boolean updateDerivedGauge(
-        Object scanCounter, CounterMonitorObservedObject o) {
+    privbtf syndironizfd boolfbn updbtfDfrivfdGbugf(
+        Objfdt sdbnCountfr, CountfrMonitorObsfrvfdObjfdt o) {
 
-        boolean is_derived_gauge_valid;
+        boolfbn is_dfrivfd_gbugf_vblid;
 
-        // The counter difference mode is used.
+        // Tif dountfr difffrfndf modf is usfd.
         //
-        if (differenceMode) {
+        if (difffrfndfModf) {
 
-            // The previous scan counter has been initialized.
+            // Tif prfvious sdbn dountfr ibs bffn initiblizfd.
             //
-            if (o.getPreviousScanCounter() != null) {
-                setDerivedGaugeWithDifference((Number)scanCounter, null, o);
+            if (o.gftPrfviousSdbnCountfr() != null) {
+                sftDfrivfdGbugfWitiDifffrfndf((Numbfr)sdbnCountfr, null, o);
 
-                // If derived gauge is negative it means that the
-                // counter has wrapped around and the value of the
-                // threshold needs to be reset to its initial value.
+                // If dfrivfd gbugf is nfgbtivf it mfbns tibt tif
+                // dountfr ibs wrbppfd bround bnd tif vbluf of tif
+                // tirfsiold nffds to bf rfsft to its initibl vbluf.
                 //
-                if (((Number)o.getDerivedGauge()).longValue() < 0L) {
-                    if (modulus.longValue() > 0L) {
-                        setDerivedGaugeWithDifference((Number)scanCounter,
+                if (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() < 0L) {
+                    if (modulus.longVbluf() > 0L) {
+                        sftDfrivfdGbugfWitiDifffrfndf((Numbfr)sdbnCountfr,
                                                       modulus, o);
                     }
-                    o.setThreshold(initThreshold);
-                    o.setEventAlreadyNotified(false);
+                    o.sftTirfsiold(initTirfsiold);
+                    o.sftEvfntAlrfbdyNotififd(fblsf);
                 }
-                is_derived_gauge_valid = true;
+                is_dfrivfd_gbugf_vblid = truf;
             }
-            // The previous scan counter has not been initialized.
-            // We cannot update the derived gauge...
+            // Tif prfvious sdbn dountfr ibs not bffn initiblizfd.
+            // Wf dbnnot updbtf tif dfrivfd gbugf...
             //
-            else {
-                is_derived_gauge_valid = false;
+            flsf {
+                is_dfrivfd_gbugf_vblid = fblsf;
             }
-            o.setPreviousScanCounter((Number)scanCounter);
+            o.sftPrfviousSdbnCountfr((Numbfr)sdbnCountfr);
         }
-        // The counter difference mode is not used.
+        // Tif dountfr difffrfndf modf is not usfd.
         //
-        else {
-            o.setDerivedGauge((Number)scanCounter);
-            is_derived_gauge_valid = true;
+        flsf {
+            o.sftDfrivfdGbugf((Numbfr)sdbnCountfr);
+            is_dfrivfd_gbugf_vblid = truf;
         }
-        return is_derived_gauge_valid;
+        rfturn is_dfrivfd_gbugf_vblid;
     }
 
     /**
-     * Updates the notification attribute of the observed object
-     * and notifies the listeners only once if the notify flag
-     * is set to <CODE>true</CODE>.
-     * @param o The observed object.
+     * Updbtfs tif notifidbtion bttributf of tif obsfrvfd objfdt
+     * bnd notififs tif listfnfrs only ondf if tif notify flbg
+     * is sft to <CODE>truf</CODE>.
+     * @pbrbm o Tif obsfrvfd objfdt.
      */
-    private synchronized MonitorNotification updateNotifications(
-        CounterMonitorObservedObject o) {
+    privbtf syndironizfd MonitorNotifidbtion updbtfNotifidbtions(
+        CountfrMonitorObsfrvfdObjfdt o) {
 
-        MonitorNotification n = null;
+        MonitorNotifidbtion n = null;
 
-        // Send notification if notify is true.
+        // Sfnd notifidbtion if notify is truf.
         //
-        if (!o.getEventAlreadyNotified()) {
-            if (((Number)o.getDerivedGauge()).longValue() >=
-                o.getThreshold().longValue()) {
+        if (!o.gftEvfntAlrfbdyNotififd()) {
+            if (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() >=
+                o.gftTirfsiold().longVbluf()) {
                 if (notify) {
-                    n = new MonitorNotification(THRESHOLD_VALUE_EXCEEDED,
-                                                this,
+                    n = nfw MonitorNotifidbtion(THRESHOLD_VALUE_EXCEEDED,
+                                                tiis,
                                                 0,
                                                 0,
                                                 "",
                                                 null,
                                                 null,
                                                 null,
-                                                o.getThreshold());
+                                                o.gftTirfsiold());
                 }
-                if (!differenceMode) {
-                    o.setEventAlreadyNotified(true);
+                if (!difffrfndfModf) {
+                    o.sftEvfntAlrfbdyNotififd(truf);
                 }
             }
-        } else {
-            if (MONITOR_LOGGER.isLoggable(Level.FINER)) {
-                final StringBuilder strb = new StringBuilder()
-                .append("The notification:")
-                .append("\n\tNotification observed object = ")
-                .append(o.getObservedObject())
-                .append("\n\tNotification observed attribute = ")
-                .append(getObservedAttribute())
-                .append("\n\tNotification threshold level = ")
-                .append(o.getThreshold())
-                .append("\n\tNotification derived gauge = ")
-                .append(o.getDerivedGauge())
-                .append("\nhas already been sent");
-                MONITOR_LOGGER.logp(Level.FINER, CounterMonitor.class.getName(),
-                        "updateNotifications", strb.toString());
+        } flsf {
+            if (MONITOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                finbl StringBuildfr strb = nfw StringBuildfr()
+                .bppfnd("Tif notifidbtion:")
+                .bppfnd("\n\tNotifidbtion obsfrvfd objfdt = ")
+                .bppfnd(o.gftObsfrvfdObjfdt())
+                .bppfnd("\n\tNotifidbtion obsfrvfd bttributf = ")
+                .bppfnd(gftObsfrvfdAttributf())
+                .bppfnd("\n\tNotifidbtion tirfsiold lfvfl = ")
+                .bppfnd(o.gftTirfsiold())
+                .bppfnd("\n\tNotifidbtion dfrivfd gbugf = ")
+                .bppfnd(o.gftDfrivfdGbugf())
+                .bppfnd("\nibs blrfbdy bffn sfnt");
+                MONITOR_LOGGER.logp(Lfvfl.FINER, CountfrMonitor.dlbss.gftNbmf(),
+                        "updbtfNotifidbtions", strb.toString());
             }
         }
 
-        return n;
+        rfturn n;
     }
 
     /**
-     * Updates the threshold attribute of the observed object.
-     * @param o The observed object.
+     * Updbtfs tif tirfsiold bttributf of tif obsfrvfd objfdt.
+     * @pbrbm o Tif obsfrvfd objfdt.
      */
-    private synchronized void updateThreshold(CounterMonitorObservedObject o) {
+    privbtf syndironizfd void updbtfTirfsiold(CountfrMonitorObsfrvfdObjfdt o) {
 
-        // Calculate the new threshold value if the threshold has been
-        // exceeded and if the offset value is greater than zero.
+        // Cbldulbtf tif nfw tirfsiold vbluf if tif tirfsiold ibs bffn
+        // fxdffdfd bnd if tif offsft vbluf is grfbtfr tibn zfro.
         //
-        if (((Number)o.getDerivedGauge()).longValue() >=
-            o.getThreshold().longValue()) {
+        if (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() >=
+            o.gftTirfsiold().longVbluf()) {
 
-            if (offset.longValue() > 0L) {
+            if (offsft.longVbluf() > 0L) {
 
-                // Increment the threshold until its value is greater
-                // than the one for the current derived gauge.
+                // Indrfmfnt tif tirfsiold until its vbluf is grfbtfr
+                // tibn tif onf for tif durrfnt dfrivfd gbugf.
                 //
-                long threshold_value = o.getThreshold().longValue();
-                while (((Number)o.getDerivedGauge()).longValue() >=
-                       threshold_value) {
-                    threshold_value += offset.longValue();
+                long tirfsiold_vbluf = o.gftTirfsiold().longVbluf();
+                wiilf (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() >=
+                       tirfsiold_vbluf) {
+                    tirfsiold_vbluf += offsft.longVbluf();
                 }
 
-                // Set threshold attribute.
+                // Sft tirfsiold bttributf.
                 //
-                switch (o.getType()) {
-                    case INTEGER:
-                        o.setThreshold(Integer.valueOf((int)threshold_value));
-                        break;
-                    case BYTE:
-                        o.setThreshold(Byte.valueOf((byte)threshold_value));
-                        break;
-                    case SHORT:
-                        o.setThreshold(Short.valueOf((short)threshold_value));
-                        break;
-                    case LONG:
-                        o.setThreshold(Long.valueOf(threshold_value));
-                        break;
-                    default:
-                        // Should never occur...
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                CounterMonitor.class.getName(),
-                                "updateThreshold",
-                                "the threshold type is invalid");
-                        break;
+                switdi (o.gftTypf()) {
+                    dbsf INTEGER:
+                        o.sftTirfsiold(Intfgfr.vblufOf((int)tirfsiold_vbluf));
+                        brfbk;
+                    dbsf BYTE:
+                        o.sftTirfsiold(Bytf.vblufOf((bytf)tirfsiold_vbluf));
+                        brfbk;
+                    dbsf SHORT:
+                        o.sftTirfsiold(Siort.vblufOf((siort)tirfsiold_vbluf));
+                        brfbk;
+                    dbsf LONG:
+                        o.sftTirfsiold(Long.vblufOf(tirfsiold_vbluf));
+                        brfbk;
+                    dffbult:
+                        // Siould nfvfr oddur...
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                CountfrMonitor.dlbss.gftNbmf(),
+                                "updbtfTirfsiold",
+                                "tif tirfsiold typf is invblid");
+                        brfbk;
                 }
 
-                // If the counter can wrap around when it reaches
-                // its maximum and we are not dealing with counter
-                // differences then we need to reset the threshold
-                // to its initial value too.
+                // If tif dountfr dbn wrbp bround wifn it rfbdifs
+                // its mbximum bnd wf brf not dfbling witi dountfr
+                // difffrfndfs tifn wf nffd to rfsft tif tirfsiold
+                // to its initibl vbluf too.
                 //
-                if (!differenceMode) {
-                    if (modulus.longValue() > 0L) {
-                        if (o.getThreshold().longValue() >
-                            modulus.longValue()) {
-                            o.setModulusExceeded(true);
-                            o.setDerivedGaugeExceeded(
-                                (Number) o.getDerivedGauge());
+                if (!difffrfndfModf) {
+                    if (modulus.longVbluf() > 0L) {
+                        if (o.gftTirfsiold().longVbluf() >
+                            modulus.longVbluf()) {
+                            o.sftModulusExdffdfd(truf);
+                            o.sftDfrivfdGbugfExdffdfd(
+                                (Numbfr) o.gftDfrivfdGbugf());
                         }
                     }
                 }
 
-                // Threshold value has been modified so we can notify again.
+                // Tirfsiold vbluf ibs bffn modififd so wf dbn notify bgbin.
                 //
-                o.setEventAlreadyNotified(false);
-            } else {
-                o.setModulusExceeded(true);
-                o.setDerivedGaugeExceeded((Number) o.getDerivedGauge());
+                o.sftEvfntAlrfbdyNotififd(fblsf);
+            } flsf {
+                o.sftModulusExdffdfd(truf);
+                o.sftDfrivfdGbugfExdffdfd((Numbfr) o.gftDfrivfdGbugf());
             }
         }
     }
 
     /**
-     * Sets the derived gauge of the specified observed object when the
-     * differenceMode flag is set to <CODE>true</CODE>.  Integer types
-     * only are allowed.
+     * Sfts tif dfrivfd gbugf of tif spfdififd obsfrvfd objfdt wifn tif
+     * difffrfndfModf flbg is sft to <CODE>truf</CODE>.  Intfgfr typfs
+     * only brf bllowfd.
      *
-     * @param scanCounter The value of the observed attribute.
-     * @param mod The counter modulus value.
-     * @param o The observed object.
+     * @pbrbm sdbnCountfr Tif vbluf of tif obsfrvfd bttributf.
+     * @pbrbm mod Tif dountfr modulus vbluf.
+     * @pbrbm o Tif obsfrvfd objfdt.
      */
-    private synchronized void setDerivedGaugeWithDifference(
-        Number scanCounter, Number mod, CounterMonitorObservedObject o) {
-        /* We do the arithmetic using longs here even though the
-           result may end up in a smaller type.  Since
-           l == (byte)l (mod 256) for any long l,
-           (byte) ((byte)l1 + (byte)l2) == (byte) (l1 + l2),
-           and likewise for subtraction.  So it's the same as if
-           we had done the arithmetic in the smaller type.*/
+    privbtf syndironizfd void sftDfrivfdGbugfWitiDifffrfndf(
+        Numbfr sdbnCountfr, Numbfr mod, CountfrMonitorObsfrvfdObjfdt o) {
+        /* Wf do tif britimftid using longs ifrf fvfn tiougi tif
+           rfsult mby fnd up in b smbllfr typf.  Sindf
+           l == (bytf)l (mod 256) for bny long l,
+           (bytf) ((bytf)l1 + (bytf)l2) == (bytf) (l1 + l2),
+           bnd likfwisf for subtrbdtion.  So it's tif sbmf bs if
+           wf ibd donf tif britimftid in tif smbllfr typf.*/
 
-        long derived =
-            scanCounter.longValue() - o.getPreviousScanCounter().longValue();
+        long dfrivfd =
+            sdbnCountfr.longVbluf() - o.gftPrfviousSdbnCountfr().longVbluf();
         if (mod != null)
-            derived += modulus.longValue();
+            dfrivfd += modulus.longVbluf();
 
-        switch (o.getType()) {
-        case INTEGER: o.setDerivedGauge(Integer.valueOf((int) derived)); break;
-        case BYTE: o.setDerivedGauge(Byte.valueOf((byte) derived)); break;
-        case SHORT: o.setDerivedGauge(Short.valueOf((short) derived)); break;
-        case LONG: o.setDerivedGauge(Long.valueOf(derived)); break;
-        default:
-            // Should never occur...
-            MONITOR_LOGGER.logp(Level.FINEST, CounterMonitor.class.getName(),
-                    "setDerivedGaugeWithDifference",
-                    "the threshold type is invalid");
-            break;
+        switdi (o.gftTypf()) {
+        dbsf INTEGER: o.sftDfrivfdGbugf(Intfgfr.vblufOf((int) dfrivfd)); brfbk;
+        dbsf BYTE: o.sftDfrivfdGbugf(Bytf.vblufOf((bytf) dfrivfd)); brfbk;
+        dbsf SHORT: o.sftDfrivfdGbugf(Siort.vblufOf((siort) dfrivfd)); brfbk;
+        dbsf LONG: o.sftDfrivfdGbugf(Long.vblufOf(dfrivfd)); brfbk;
+        dffbult:
+            // Siould nfvfr oddur...
+            MONITOR_LOGGER.logp(Lfvfl.FINEST, CountfrMonitor.dlbss.gftNbmf(),
+                    "sftDfrivfdGbugfWitiDifffrfndf",
+                    "tif tirfsiold typf is invblid");
+            brfbk;
         }
     }
 
@@ -833,149 +833,149 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      */
 
     /**
-     * Factory method for ObservedObject creation.
+     * Fbdtory mftiod for ObsfrvfdObjfdt drfbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    @Override
-    ObservedObject createObservedObject(ObjectName object) {
-        final CounterMonitorObservedObject cmo =
-            new CounterMonitorObservedObject(object);
-        cmo.setThreshold(initThreshold);
-        cmo.setModulusExceeded(false);
-        cmo.setEventAlreadyNotified(false);
-        cmo.setPreviousScanCounter(null);
-        return cmo;
+    @Ovfrridf
+    ObsfrvfdObjfdt drfbtfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        finbl CountfrMonitorObsfrvfdObjfdt dmo =
+            nfw CountfrMonitorObsfrvfdObjfdt(objfdt);
+        dmo.sftTirfsiold(initTirfsiold);
+        dmo.sftModulusExdffdfd(fblsf);
+        dmo.sftEvfntAlrfbdyNotififd(fblsf);
+        dmo.sftPrfviousSdbnCountfr(null);
+        rfturn dmo;
     }
 
     /**
-     * This method globally sets the derived gauge type for the given
-     * "object" and "attribute" after checking that the type of the
-     * supplied observed attribute value is one of the value types
-     * supported by this monitor.
+     * Tiis mftiod globblly sfts tif dfrivfd gbugf typf for tif givfn
+     * "objfdt" bnd "bttributf" bftfr difdking tibt tif typf of tif
+     * supplifd obsfrvfd bttributf vbluf is onf of tif vbluf typfs
+     * supportfd by tiis monitor.
      */
-    @Override
-    synchronized boolean isComparableTypeValid(ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        final CounterMonitorObservedObject o =
-            (CounterMonitorObservedObject) getObservedObject(object);
+    @Ovfrridf
+    syndironizfd boolfbn isCompbrbblfTypfVblid(ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
         if (o == null)
-            return false;
+            rfturn fblsf;
 
-        // Check that the observed attribute is of type "Integer".
+        // Cifdk tibt tif obsfrvfd bttributf is of typf "Intfgfr".
         //
-        if (value instanceof Integer) {
-            o.setType(INTEGER);
-        } else if (value instanceof Byte) {
-            o.setType(BYTE);
-        } else if (value instanceof Short) {
-            o.setType(SHORT);
-        } else if (value instanceof Long) {
-            o.setType(LONG);
-        } else {
-            return false;
+        if (vbluf instbndfof Intfgfr) {
+            o.sftTypf(INTEGER);
+        } flsf if (vbluf instbndfof Bytf) {
+            o.sftTypf(BYTE);
+        } flsf if (vbluf instbndfof Siort) {
+            o.sftTypf(SHORT);
+        } flsf if (vbluf instbndfof Long) {
+            o.sftTypf(LONG);
+        } flsf {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    synchronized Comparable<?> getDerivedGaugeFromComparable(
-                                                  ObjectName object,
-                                                  String attribute,
-                                                  Comparable<?> value) {
-        final CounterMonitorObservedObject o =
-            (CounterMonitorObservedObject) getObservedObject(object);
+    @Ovfrridf
+    syndironizfd Compbrbblf<?> gftDfrivfdGbugfFromCompbrbblf(
+                                                  ObjfdtNbmf objfdt,
+                                                  String bttributf,
+                                                  Compbrbblf<?> vbluf) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
         if (o == null)
-            return null;
+            rfturn null;
 
-        // Check if counter has wrapped around.
+        // Cifdk if dountfr ibs wrbppfd bround.
         //
-        if (o.getModulusExceeded()) {
-            if (((Number)o.getDerivedGauge()).longValue() <
-                o.getDerivedGaugeExceeded().longValue()) {
-                    o.setThreshold(initThreshold);
-                    o.setModulusExceeded(false);
-                    o.setEventAlreadyNotified(false);
+        if (o.gftModulusExdffdfd()) {
+            if (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() <
+                o.gftDfrivfdGbugfExdffdfd().longVbluf()) {
+                    o.sftTirfsiold(initTirfsiold);
+                    o.sftModulusExdffdfd(fblsf);
+                    o.sftEvfntAlrfbdyNotififd(fblsf);
             }
         }
 
-        // Update the derived gauge attributes and check the
-        // validity of the new value. The derived gauge value
-        // is invalid when the differenceMode flag is set to
-        // true and it is the first notification, i.e. we
-        // haven't got 2 consecutive values to update the
-        // derived gauge.
+        // Updbtf tif dfrivfd gbugf bttributfs bnd difdk tif
+        // vblidity of tif nfw vbluf. Tif dfrivfd gbugf vbluf
+        // is invblid wifn tif difffrfndfModf flbg is sft to
+        // truf bnd it is tif first notifidbtion, i.f. wf
+        // ibvfn't got 2 donsfdutivf vblufs to updbtf tif
+        // dfrivfd gbugf.
         //
-        o.setDerivedGaugeValid(updateDerivedGauge(value, o));
+        o.sftDfrivfdGbugfVblid(updbtfDfrivfdGbugf(vbluf, o));
 
-        return (Comparable<?>) o.getDerivedGauge();
+        rfturn (Compbrbblf<?>) o.gftDfrivfdGbugf();
     }
 
-    @Override
-    synchronized void onErrorNotification(MonitorNotification notification) {
-        final CounterMonitorObservedObject o = (CounterMonitorObservedObject)
-            getObservedObject(notification.getObservedObject());
+    @Ovfrridf
+    syndironizfd void onErrorNotifidbtion(MonitorNotifidbtion notifidbtion) {
+        finbl CountfrMonitorObsfrvfdObjfdt o = (CountfrMonitorObsfrvfdObjfdt)
+            gftObsfrvfdObjfdt(notifidbtion.gftObsfrvfdObjfdt());
         if (o == null)
-            return;
+            rfturn;
 
-        // Reset values.
+        // Rfsft vblufs.
         //
-        o.setModulusExceeded(false);
-        o.setEventAlreadyNotified(false);
-        o.setPreviousScanCounter(null);
+        o.sftModulusExdffdfd(fblsf);
+        o.sftEvfntAlrfbdyNotififd(fblsf);
+        o.sftPrfviousSdbnCountfr(null);
     }
 
-    @Override
-    synchronized MonitorNotification buildAlarmNotification(
-                                               ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        final CounterMonitorObservedObject o =
-            (CounterMonitorObservedObject) getObservedObject(object);
+    @Ovfrridf
+    syndironizfd MonitorNotifidbtion buildAlbrmNotifidbtion(
+                                               ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
         if (o == null)
-            return null;
+            rfturn null;
 
-        // Notify the listeners and update the threshold if
-        // the updated derived gauge value is valid.
+        // Notify tif listfnfrs bnd updbtf tif tirfsiold if
+        // tif updbtfd dfrivfd gbugf vbluf is vblid.
         //
-        final MonitorNotification alarm;
-        if (o.getDerivedGaugeValid()) {
-            alarm = updateNotifications(o);
-            updateThreshold(o);
-        } else {
-            alarm = null;
+        finbl MonitorNotifidbtion blbrm;
+        if (o.gftDfrivfdGbugfVblid()) {
+            blbrm = updbtfNotifidbtions(o);
+            updbtfTirfsiold(o);
+        } flsf {
+            blbrm = null;
         }
-        return alarm;
+        rfturn blbrm;
     }
 
     /**
-     * Tests if the threshold, offset and modulus of the specified observed
-     * object are of the same type as the counter. Only integer types are
-     * allowed.
+     * Tfsts if tif tirfsiold, offsft bnd modulus of tif spfdififd obsfrvfd
+     * objfdt brf of tif sbmf typf bs tif dountfr. Only intfgfr typfs brf
+     * bllowfd.
      *
-     * Note:
-     *   If the optional offset or modulus have not been initialized, their
-     *   default value is an Integer object with a value equal to zero.
+     * Notf:
+     *   If tif optionbl offsft or modulus ibvf not bffn initiblizfd, tifir
+     *   dffbult vbluf is bn Intfgfr objfdt witi b vbluf fqubl to zfro.
      *
-     * @param object The observed object.
-     * @param attribute The observed attribute.
-     * @param value The sample value.
-     * @return <CODE>true</CODE> if type is the same,
-     * <CODE>false</CODE> otherwise.
+     * @pbrbm objfdt Tif obsfrvfd objfdt.
+     * @pbrbm bttributf Tif obsfrvfd bttributf.
+     * @pbrbm vbluf Tif sbmplf vbluf.
+     * @rfturn <CODE>truf</CODE> if typf is tif sbmf,
+     * <CODE>fblsf</CODE> otifrwisf.
      */
-    @Override
-    synchronized boolean isThresholdTypeValid(ObjectName object,
-                                              String attribute,
-                                              Comparable<?> value) {
-        final CounterMonitorObservedObject o =
-            (CounterMonitorObservedObject) getObservedObject(object);
+    @Ovfrridf
+    syndironizfd boolfbn isTirfsioldTypfVblid(ObjfdtNbmf objfdt,
+                                              String bttributf,
+                                              Compbrbblf<?> vbluf) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
         if (o == null)
-            return false;
+            rfturn fblsf;
 
-        Class<? extends Number> c = classForType(o.getType());
-        return (c.isInstance(o.getThreshold()) &&
-                isValidForType(offset, c) &&
-                isValidForType(modulus, c));
+        Clbss<? fxtfnds Numbfr> d = dlbssForTypf(o.gftTypf());
+        rfturn (d.isInstbndf(o.gftTirfsiold()) &&
+                isVblidForTypf(offsft, d) &&
+                isVblidForTypf(modulus, d));
     }
 }

@@ -1,0 +1,277 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.EOFExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+
+/**
+ * A jittfr dorrfdtor to bf usfd with SoftAudioPushfr.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftJittfrCorrfdtor fxtfnds AudioInputStrfbm {
+
+    privbtf stbtid dlbss JittfrStrfbm fxtfnds InputStrfbm {
+
+        stbtid int MAX_BUFFER_SIZE = 1048576;
+        boolfbn bdtivf = truf;
+        Thrfbd thrfbd;
+        AudioInputStrfbm strfbm;
+        // Cydlid bufffr
+        int writfpos = 0;
+        int rfbdpos = 0;
+        bytf[][] bufffrs;
+        privbtf finbl Objfdt bufffrs_mutfx = nfw Objfdt();
+
+        // Adbpbtivf Drift Stbtistids
+        int w_dount = 1000;
+        int w_min_tol = 2;
+        int w_mbx_tol = 10;
+        int w = 0;
+        int w_min = -1;
+        // Currfnt rfbd bufffr
+        int bbufffr_pos = 0;
+        int bbufffr_mbx = 0;
+        bytf[] bbufffr = null;
+
+        publid bytf[] nfxtRfbdBufffr() {
+            syndhronizfd (bufffrs_mutfx) {
+                if (writfpos > rfbdpos) {
+                    int w_m = writfpos - rfbdpos;
+                    if (w_m < w_min)
+                        w_min = w_m;
+
+                    int buffpos = rfbdpos;
+                    rfbdpos++;
+                    rfturn bufffrs[buffpos % bufffrs.lfngth];
+                }
+                w_min = -1;
+                w = w_dount - 1;
+            }
+            whilf (truf) {
+                try {
+                    Thrfbd.slffp(1);
+                } dbtdh (IntfrruptfdExdfption f) {
+                    //f.printStbdkTrbdf();
+                    rfturn null;
+                }
+                syndhronizfd (bufffrs_mutfx) {
+                    if (writfpos > rfbdpos) {
+                        w = 0;
+                        w_min = -1;
+                        w = w_dount - 1;
+                        int buffpos = rfbdpos;
+                        rfbdpos++;
+                        rfturn bufffrs[buffpos % bufffrs.lfngth];
+                    }
+                }
+            }
+        }
+
+        publid bytf[] nfxtWritfBufffr() {
+            syndhronizfd (bufffrs_mutfx) {
+                rfturn bufffrs[writfpos % bufffrs.lfngth];
+            }
+        }
+
+        publid void dommit() {
+            syndhronizfd (bufffrs_mutfx) {
+                writfpos++;
+                if ((writfpos - rfbdpos) > bufffrs.lfngth) {
+                    int nfwsizf = (writfpos - rfbdpos) + 10;
+                    nfwsizf = Mbth.mbx(bufffrs.lfngth * 2, nfwsizf);
+                    bufffrs = nfw bytf[nfwsizf][bufffrs[0].lfngth];
+                }
+            }
+        }
+
+        JittfrStrfbm(AudioInputStrfbm s, int bufffrsizf,
+                int smbllbufffrsizf) {
+            this.w_dount = 10 * (bufffrsizf / smbllbufffrsizf);
+            if (w_dount < 100)
+                w_dount = 100;
+            this.bufffrs
+                    = nfw bytf[(bufffrsizf/smbllbufffrsizf)+10][smbllbufffrsizf];
+            this.bbufffr_mbx = MAX_BUFFER_SIZE / smbllbufffrsizf;
+            this.strfbm = s;
+
+
+            Runnbblf runnbblf = nfw Runnbblf() {
+
+                publid void run() {
+                    AudioFormbt formbt = strfbm.gftFormbt();
+                    int bufflfn = bufffrs[0].lfngth;
+                    int frbmfs = bufflfn / formbt.gftFrbmfSizf();
+                    long nbnos = (long) (frbmfs * 1000000000.0
+                                            / formbt.gftSbmplfRbtf());
+                    long now = Systfm.nbnoTimf();
+                    long nfxt = now + nbnos;
+                    int dorrfdtion = 0;
+                    whilf (truf) {
+                        syndhronizfd (JittfrStrfbm.this) {
+                            if (!bdtivf)
+                                brfbk;
+                        }
+                        int durbuffsizf;
+                        syndhronizfd (bufffrs) {
+                            durbuffsizf = writfpos - rfbdpos;
+                            if (dorrfdtion == 0) {
+                                w++;
+                                if (w_min != Intfgfr.MAX_VALUE) {
+                                    if (w == w_dount) {
+                                        dorrfdtion = 0;
+                                        if (w_min < w_min_tol) {
+                                            dorrfdtion = (w_min_tol + w_mbx_tol)
+                                                            / 2 - w_min;
+                                        }
+                                        if (w_min > w_mbx_tol) {
+                                            dorrfdtion = (w_min_tol + w_mbx_tol)
+                                                            / 2 - w_min;
+                                        }
+                                        w = 0;
+                                        w_min = Intfgfr.MAX_VALUE;
+                                    }
+                                }
+                            }
+                        }
+                        whilf (durbuffsizf > bbufffr_mbx) {
+                            syndhronizfd (bufffrs) {
+                                durbuffsizf = writfpos - rfbdpos;
+                            }
+                            syndhronizfd (JittfrStrfbm.this) {
+                                if (!bdtivf)
+                                    brfbk;
+                            }
+                            try {
+                                Thrfbd.slffp(1);
+                            } dbtdh (IntfrruptfdExdfption f) {
+                                //f.printStbdkTrbdf();
+                            }
+                        }
+
+                        if (dorrfdtion < 0)
+                            dorrfdtion++;
+                        flsf {
+                            bytf[] buff = nfxtWritfBufffr();
+                            try {
+                                int n = 0;
+                                whilf (n != buff.lfngth) {
+                                    int s = strfbm.rfbd(buff, n, buff.lfngth
+                                            - n);
+                                    if (s < 0)
+                                        throw nfw EOFExdfption();
+                                    if (s == 0)
+                                        Thrfbd.yifld();
+                                    n += s;
+                                }
+                            } dbtdh (IOExdfption f1) {
+                                //f1.printStbdkTrbdf();
+                            }
+                            dommit();
+                        }
+
+                        if (dorrfdtion > 0) {
+                            dorrfdtion--;
+                            nfxt = Systfm.nbnoTimf() + nbnos;
+                            dontinuf;
+                        }
+                        long wbit = nfxt - Systfm.nbnoTimf();
+                        if (wbit > 0) {
+                            try {
+                                Thrfbd.slffp(wbit / 1000000L);
+                            } dbtdh (IntfrruptfdExdfption f) {
+                                //f.printStbdkTrbdf();
+                            }
+                        }
+                        nfxt += nbnos;
+                    }
+                }
+            };
+
+            thrfbd = nfw Thrfbd(runnbblf);
+            thrfbd.sftDbfmon(truf);
+            thrfbd.sftPriority(Thrfbd.MAX_PRIORITY);
+            thrfbd.stbrt();
+        }
+
+        publid void dlosf() throws IOExdfption {
+            syndhronizfd (this) {
+                bdtivf = fblsf;
+            }
+            try {
+                thrfbd.join();
+            } dbtdh (IntfrruptfdExdfption f) {
+                //f.printStbdkTrbdf();
+            }
+            strfbm.dlosf();
+        }
+
+        publid int rfbd() throws IOExdfption {
+            bytf[] b = nfw bytf[1];
+            if (rfbd(b) == -1)
+                rfturn -1;
+            rfturn b[0] & 0xFF;
+        }
+
+        publid void fillBufffr() {
+            bbufffr = nfxtRfbdBufffr();
+            bbufffr_pos = 0;
+        }
+
+        publid int rfbd(bytf[] b, int off, int lfn) {
+            if (bbufffr == null)
+                fillBufffr();
+            int bbufffr_lfn = bbufffr.lfngth;
+            int offlfn = off + lfn;
+            whilf (off < offlfn) {
+                if (bvbilbblf() == 0)
+                    fillBufffr();
+                flsf {
+                    bytf[] bbufffr = this.bbufffr;
+                    int bbufffr_pos = this.bbufffr_pos;
+                    whilf (off < offlfn && bbufffr_pos < bbufffr_lfn)
+                        b[off++] = bbufffr[bbufffr_pos++];
+                    this.bbufffr_pos = bbufffr_pos;
+                }
+            }
+            rfturn lfn;
+        }
+
+        publid int bvbilbblf() {
+            rfturn bbufffr.lfngth - bbufffr_pos;
+        }
+    }
+
+    publid SoftJittfrCorrfdtor(AudioInputStrfbm strfbm, int bufffrsizf,
+            int smbllbufffrsizf) {
+        supfr(nfw JittfrStrfbm(strfbm, bufffrsizf, smbllbufffrsizf),
+                strfbm.gftFormbt(), strfbm.gftFrbmfLfngth());
+    }
+}

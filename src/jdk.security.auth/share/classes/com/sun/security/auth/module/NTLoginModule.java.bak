@@ -1,401 +1,401 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth.module;
+pbdkbgf dom.sun.sfdurity.buti.modulf;
 
-import java.util.*;
-import java.io.IOException;
-import javax.security.auth.*;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
-import java.security.Principal;
-import com.sun.security.auth.NTUserPrincipal;
-import com.sun.security.auth.NTSidUserPrincipal;
-import com.sun.security.auth.NTDomainPrincipal;
-import com.sun.security.auth.NTSidDomainPrincipal;
-import com.sun.security.auth.NTSidPrimaryGroupPrincipal;
-import com.sun.security.auth.NTSidGroupPrincipal;
-import com.sun.security.auth.NTNumericCredential;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.spi.*;
+import jbvb.sfdurity.Prindipbl;
+import dom.sun.sfdurity.buti.NTUsfrPrindipbl;
+import dom.sun.sfdurity.buti.NTSidUsfrPrindipbl;
+import dom.sun.sfdurity.buti.NTDombinPrindipbl;
+import dom.sun.sfdurity.buti.NTSidDombinPrindipbl;
+import dom.sun.sfdurity.buti.NTSidPrimbryGroupPrindipbl;
+import dom.sun.sfdurity.buti.NTSidGroupPrindipbl;
+import dom.sun.sfdurity.buti.NTNumfridCrfdfntibl;
 
 /**
- * <p> This <code>LoginModule</code>
- * renders a user's NT security information as some number of
- * <code>Principal</code>s
- * and associates them with a <code>Subject</code>.
+ * <p> Tiis <dodf>LoginModulf</dodf>
+ * rfndfrs b usfr's NT sfdurity informbtion bs somf numbfr of
+ * <dodf>Prindipbl</dodf>s
+ * bnd bssodibtfs tifm witi b <dodf>Subjfdt</dodf>.
  *
- * <p> This LoginModule recognizes the debug option.
- * If set to true in the login Configuration,
- * debug messages will be output to the output stream, System.out.
+ * <p> Tiis LoginModulf rfdognizfs tif dfbug option.
+ * If sft to truf in tif login Configurbtion,
+ * dfbug mfssbgfs will bf output to tif output strfbm, Systfm.out.
  *
- * <p> This LoginModule also recognizes the debugNative option.
- * If set to true in the login Configuration,
- * debug messages from the native component of the module
- * will be output to the output stream, System.out.
+ * <p> Tiis LoginModulf blso rfdognizfs tif dfbugNbtivf option.
+ * If sft to truf in tif login Configurbtion,
+ * dfbug mfssbgfs from tif nbtivf domponfnt of tif modulf
+ * will bf output to tif output strfbm, Systfm.out.
  *
- * @see javax.security.auth.spi.LoginModule
+ * @sff jbvbx.sfdurity.buti.spi.LoginModulf
  */
-@jdk.Exported
-public class NTLoginModule implements LoginModule {
+@jdk.Exportfd
+publid dlbss NTLoginModulf implfmfnts LoginModulf {
 
-    private NTSystem ntSystem;
+    privbtf NTSystfm ntSystfm;
 
-    // initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, ?> sharedState;
-    private Map<String, ?> options;
+    // initibl stbtf
+    privbtf Subjfdt subjfdt;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String, ?> sibrfdStbtf;
+    privbtf Mbp<String, ?> options;
 
-    // configurable option
-    private boolean debug = false;
-    private boolean debugNative = false;
+    // donfigurbblf option
+    privbtf boolfbn dfbug = fblsf;
+    privbtf boolfbn dfbugNbtivf = fblsf;
 
-    // the authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
+    // tif butifntidbtion stbtus
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
 
-    private NTUserPrincipal userPrincipal;              // user name
-    private NTSidUserPrincipal userSID;                 // user SID
-    private NTDomainPrincipal userDomain;               // user domain
-    private NTSidDomainPrincipal domainSID;             // domain SID
-    private NTSidPrimaryGroupPrincipal primaryGroup;    // primary group
-    private NTSidGroupPrincipal groups[];               // supplementary groups
-    private NTNumericCredential iToken;                 // impersonation token
+    privbtf NTUsfrPrindipbl usfrPrindipbl;              // usfr nbmf
+    privbtf NTSidUsfrPrindipbl usfrSID;                 // usfr SID
+    privbtf NTDombinPrindipbl usfrDombin;               // usfr dombin
+    privbtf NTSidDombinPrindipbl dombinSID;             // dombin SID
+    privbtf NTSidPrimbryGroupPrindipbl primbryGroup;    // primbry group
+    privbtf NTSidGroupPrindipbl groups[];               // supplfmfntbry groups
+    privbtf NTNumfridCrfdfntibl iTokfn;                 // impfrsonbtion tokfn
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
      *
      * <p>
      *
-     * @param subject the <code>Subject</code> to be authenticated. <p>
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd. <p>
      *
-     * @param callbackHandler a <code>CallbackHandler</code> for communicating
-     *          with the end user (prompting for usernames and
-     *          passwords, for example). This particular LoginModule only
-     *          extracts the underlying NT system information, so this
-     *          parameter is ignored.<p>
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> for dommunidbting
+     *          witi tif fnd usfr (prompting for usfrnbmfs bnd
+     *          pbsswords, for fxbmplf). Tiis pbrtidulbr LoginModulf only
+     *          fxtrbdts tif undfrlying NT systfm informbtion, so tiis
+     *          pbrbmftfr is ignorfd.<p>
      *
-     * @param sharedState shared <code>LoginModule</code> state. <p>
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf. <p>
      *
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
-     *                  <code>LoginModule</code>.
+     * @pbrbm options options spfdififd in tif login
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>LoginModulf</dodf>.
      */
-    public void initialize(Subject subject, CallbackHandler callbackHandler,
-                           Map<String,?> sharedState,
-                           Map<String,?> options)
+    publid void initiblizf(Subjfdt subjfdt, CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                           Mbp<String,?> sibrfdStbtf,
+                           Mbp<String,?> options)
     {
 
-        this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = sharedState;
-        this.options = options;
+        tiis.subjfdt = subjfdt;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.sibrfdStbtf = sibrfdStbtf;
+        tiis.options = options;
 
-        // initialize any configured options
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
-        debugNative="true".equalsIgnoreCase((String)options.get("debugNative"));
+        // initiblizf bny donfigurfd options
+        dfbug = "truf".fqublsIgnorfCbsf((String)options.gft("dfbug"));
+        dfbugNbtivf="truf".fqublsIgnorfCbsf((String)options.gft("dfbugNbtivf"));
 
-        if (debugNative == true) {
-            debug = true;
+        if (dfbugNbtivf == truf) {
+            dfbug = truf;
         }
     }
 
     /**
-     * Import underlying NT system identity information.
+     * Import undfrlying NT systfm idfntity informbtion.
      *
      * <p>
      *
-     * @return true in all cases since this <code>LoginModule</code>
-     *          should not be ignored.
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
      *
-     * @exception FailedLoginException if the authentication fails. <p>
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils. <p>
      *
-     * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     *          is unbblf to pfrform tif butifntidbtion.
      */
-    public boolean login() throws LoginException {
+    publid boolfbn login() tirows LoginExdfption {
 
-        succeeded = false; // Indicate not yet successful
+        suddffdfd = fblsf; // Indidbtf not yft suddfssful
 
         try {
-            ntSystem = new NTSystem(debugNative);
-        } catch (UnsatisfiedLinkError ule) {
-            if (debug) {
-                System.out.println("\t\t[NTLoginModule] " +
-                                   "Failed in NT login");
+            ntSystfm = nfw NTSystfm(dfbugNbtivf);
+        } dbtdi (UnsbtisfifdLinkError ulf) {
+            if (dfbug) {
+                Systfm.out.println("\t\t[NTLoginModulf] " +
+                                   "Fbilfd in NT login");
             }
-            throw new FailedLoginException
-                ("Failed in attempt to import the " +
-                 "underlying NT system identity information" +
-                 " on " + System.getProperty("os.name"));
+            tirow nfw FbilfdLoginExdfption
+                ("Fbilfd in bttfmpt to import tif " +
+                 "undfrlying NT systfm idfntity informbtion" +
+                 " on " + Systfm.gftPropfrty("os.nbmf"));
         }
 
-        if (ntSystem.getName() == null) {
-            throw new FailedLoginException
-                ("Failed in attempt to import the " +
-                 "underlying NT system identity information");
+        if (ntSystfm.gftNbmf() == null) {
+            tirow nfw FbilfdLoginExdfption
+                ("Fbilfd in bttfmpt to import tif " +
+                 "undfrlying NT systfm idfntity informbtion");
         }
-        userPrincipal = new NTUserPrincipal(ntSystem.getName());
-        if (debug) {
-            System.out.println("\t\t[NTLoginModule] " +
-                               "succeeded importing info: ");
-            System.out.println("\t\t\tuser name = " +
-                userPrincipal.getName());
+        usfrPrindipbl = nfw NTUsfrPrindipbl(ntSystfm.gftNbmf());
+        if (dfbug) {
+            Systfm.out.println("\t\t[NTLoginModulf] " +
+                               "suddffdfd importing info: ");
+            Systfm.out.println("\t\t\tusfr nbmf = " +
+                usfrPrindipbl.gftNbmf());
         }
 
-        if (ntSystem.getUserSID() != null) {
-            userSID = new NTSidUserPrincipal(ntSystem.getUserSID());
-            if (debug) {
-                System.out.println("\t\t\tuser SID = " +
-                        userSID.getName());
+        if (ntSystfm.gftUsfrSID() != null) {
+            usfrSID = nfw NTSidUsfrPrindipbl(ntSystfm.gftUsfrSID());
+            if (dfbug) {
+                Systfm.out.println("\t\t\tusfr SID = " +
+                        usfrSID.gftNbmf());
             }
         }
-        if (ntSystem.getDomain() != null) {
-            userDomain = new NTDomainPrincipal(ntSystem.getDomain());
-            if (debug) {
-                System.out.println("\t\t\tuser domain = " +
-                        userDomain.getName());
+        if (ntSystfm.gftDombin() != null) {
+            usfrDombin = nfw NTDombinPrindipbl(ntSystfm.gftDombin());
+            if (dfbug) {
+                Systfm.out.println("\t\t\tusfr dombin = " +
+                        usfrDombin.gftNbmf());
             }
         }
-        if (ntSystem.getDomainSID() != null) {
-            domainSID =
-                new NTSidDomainPrincipal(ntSystem.getDomainSID());
-            if (debug) {
-                System.out.println("\t\t\tuser domain SID = " +
-                        domainSID.getName());
+        if (ntSystfm.gftDombinSID() != null) {
+            dombinSID =
+                nfw NTSidDombinPrindipbl(ntSystfm.gftDombinSID());
+            if (dfbug) {
+                Systfm.out.println("\t\t\tusfr dombin SID = " +
+                        dombinSID.gftNbmf());
             }
         }
-        if (ntSystem.getPrimaryGroupID() != null) {
-            primaryGroup =
-                new NTSidPrimaryGroupPrincipal(ntSystem.getPrimaryGroupID());
-            if (debug) {
-                System.out.println("\t\t\tuser primary group = " +
-                        primaryGroup.getName());
+        if (ntSystfm.gftPrimbryGroupID() != null) {
+            primbryGroup =
+                nfw NTSidPrimbryGroupPrindipbl(ntSystfm.gftPrimbryGroupID());
+            if (dfbug) {
+                Systfm.out.println("\t\t\tusfr primbry group = " +
+                        primbryGroup.gftNbmf());
             }
         }
-        if (ntSystem.getGroupIDs() != null &&
-            ntSystem.getGroupIDs().length > 0) {
+        if (ntSystfm.gftGroupIDs() != null &&
+            ntSystfm.gftGroupIDs().lfngti > 0) {
 
-            String groupSIDs[] = ntSystem.getGroupIDs();
-            groups = new NTSidGroupPrincipal[groupSIDs.length];
-            for (int i = 0; i < groupSIDs.length; i++) {
-                groups[i] = new NTSidGroupPrincipal(groupSIDs[i]);
-                if (debug) {
-                    System.out.println("\t\t\tuser group = " +
-                        groups[i].getName());
+            String groupSIDs[] = ntSystfm.gftGroupIDs();
+            groups = nfw NTSidGroupPrindipbl[groupSIDs.lfngti];
+            for (int i = 0; i < groupSIDs.lfngti; i++) {
+                groups[i] = nfw NTSidGroupPrindipbl(groupSIDs[i]);
+                if (dfbug) {
+                    Systfm.out.println("\t\t\tusfr group = " +
+                        groups[i].gftNbmf());
                 }
             }
         }
-        if (ntSystem.getImpersonationToken() != 0) {
-            iToken = new NTNumericCredential(ntSystem.getImpersonationToken());
-            if (debug) {
-                System.out.println("\t\t\timpersonation token = " +
-                        ntSystem.getImpersonationToken());
+        if (ntSystfm.gftImpfrsonbtionTokfn() != 0) {
+            iTokfn = nfw NTNumfridCrfdfntibl(ntSystfm.gftImpfrsonbtionTokfn());
+            if (dfbug) {
+                Systfm.out.println("\t\t\timpfrsonbtion tokfn = " +
+                        ntSystfm.gftImpfrsonbtionTokfn());
             }
         }
 
-        succeeded = true;
-        return succeeded;
+        suddffdfd = truf;
+        rfturn suddffdfd;
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
-     * succeeded).
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * ovfrbll butifntidbtion suddffdfd
+     * (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * suddffdfd).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates some
-     * number of various <code>Principal</code>s
-     * with the <code>Subject</code> located in the
-     * <code>LoginModuleContext</code>.  If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs somf
+     * numbfr of vbrious <dodf>Prindipbl</dodf>s
+     * witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>LoginModulfContfxt</dodf>.  If tiis LoginModulf's own
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * bny stbtf tibt wbs originblly sbvfd.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails.
+     * @fxdfption LoginExdfption if tif dommit fbils.
      *
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
      */
-    public boolean commit() throws LoginException {
-        if (succeeded == false) {
-            if (debug) {
-                System.out.println("\t\t[NTLoginModule]: " +
-                    "did not add any Principals to Subject " +
-                    "because own authentication failed.");
+    publid boolfbn dommit() tirows LoginExdfption {
+        if (suddffdfd == fblsf) {
+            if (dfbug) {
+                Systfm.out.println("\t\t[NTLoginModulf]: " +
+                    "did not bdd bny Prindipbls to Subjfdt " +
+                    "bfdbusf own butifntidbtion fbilfd.");
             }
-            return false;
+            rfturn fblsf;
         }
-        if (subject.isReadOnly()) {
-            throw new LoginException ("Subject is ReadOnly");
+        if (subjfdt.isRfbdOnly()) {
+            tirow nfw LoginExdfption ("Subjfdt is RfbdOnly");
         }
-        Set<Principal> principals = subject.getPrincipals();
+        Sft<Prindipbl> prindipbls = subjfdt.gftPrindipbls();
 
-        // we must have a userPrincipal - everything else is optional
-        if (!principals.contains(userPrincipal)) {
-            principals.add(userPrincipal);
+        // wf must ibvf b usfrPrindipbl - fvfrytiing flsf is optionbl
+        if (!prindipbls.dontbins(usfrPrindipbl)) {
+            prindipbls.bdd(usfrPrindipbl);
         }
-        if (userSID != null && !principals.contains(userSID)) {
-            principals.add(userSID);
-        }
-
-        if (userDomain != null && !principals.contains(userDomain)) {
-            principals.add(userDomain);
-        }
-        if (domainSID != null && !principals.contains(domainSID)) {
-            principals.add(domainSID);
+        if (usfrSID != null && !prindipbls.dontbins(usfrSID)) {
+            prindipbls.bdd(usfrSID);
         }
 
-        if (primaryGroup != null && !principals.contains(primaryGroup)) {
-            principals.add(primaryGroup);
+        if (usfrDombin != null && !prindipbls.dontbins(usfrDombin)) {
+            prindipbls.bdd(usfrDombin);
         }
-        for (int i = 0; groups != null && i < groups.length; i++) {
-            if (!principals.contains(groups[i])) {
-                principals.add(groups[i]);
+        if (dombinSID != null && !prindipbls.dontbins(dombinSID)) {
+            prindipbls.bdd(dombinSID);
+        }
+
+        if (primbryGroup != null && !prindipbls.dontbins(primbryGroup)) {
+            prindipbls.bdd(primbryGroup);
+        }
+        for (int i = 0; groups != null && i < groups.lfngti; i++) {
+            if (!prindipbls.dontbins(groups[i])) {
+                prindipbls.bdd(groups[i]);
             }
         }
 
-        Set<Object> pubCreds = subject.getPublicCredentials();
-        if (iToken != null && !pubCreds.contains(iToken)) {
-            pubCreds.add(iToken);
+        Sft<Objfdt> pubCrfds = subjfdt.gftPublidCrfdfntibls();
+        if (iTokfn != null && !pubCrfds.dontbins(iTokfn)) {
+            pubCrfds.bdd(iTokfn);
         }
-        commitSucceeded = true;
-        return true;
+        dommitSuddffdfd = truf;
+        rfturn truf;
     }
 
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
-     * did not succeed).
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * ovfrbll butifntidbtion fbilfd.
+     * (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModulfs
+     * did not suddffd).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails.
+     * @fxdfption LoginExdfption if tif bbort fbils.
      *
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     *          fbilfd, bnd truf otifrwisf.
      */
-    public boolean abort() throws LoginException {
-        if (debug) {
-            System.out.println("\t\t[NTLoginModule]: " +
-                "aborted authentication attempt");
+    publid boolfbn bbort() tirows LoginExdfption {
+        if (dfbug) {
+            Systfm.out.println("\t\t[NTLoginModulf]: " +
+                "bbortfd butifntidbtion bttfmpt");
         }
 
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
-            ntSystem = null;
-            userPrincipal = null;
-            userSID = null;
-            userDomain = null;
-            domainSID = null;
-            primaryGroup = null;
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+            ntSystfm = null;
+            usfrPrindipbl = null;
+            usfrSID = null;
+            usfrDombin = null;
+            dombinSID = null;
+            primbryGroup = null;
             groups = null;
-            iToken = null;
-            succeeded = false;
-        } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            iTokfn = null;
+            suddffdfd = fblsf;
+        } flsf {
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // but somfonf flsf's dommit fbilfd
             logout();
         }
-        return succeeded;
+        rfturn suddffdfd;
     }
 
     /**
-     * Logout the user.
+     * Logout tif usfr.
      *
-     * <p> This method removes the <code>NTUserPrincipal</code>,
-     * <code>NTDomainPrincipal</code>, <code>NTSidUserPrincipal</code>,
-     * <code>NTSidDomainPrincipal</code>, <code>NTSidGroupPrincipal</code>s,
-     * and <code>NTSidPrimaryGroupPrincipal</code>
-     * that may have been added by the <code>commit</code> method.
+     * <p> Tiis mftiod rfmovfs tif <dodf>NTUsfrPrindipbl</dodf>,
+     * <dodf>NTDombinPrindipbl</dodf>, <dodf>NTSidUsfrPrindipbl</dodf>,
+     * <dodf>NTSidDombinPrindipbl</dodf>, <dodf>NTSidGroupPrindipbl</dodf>s,
+     * bnd <dodf>NTSidPrimbryGroupPrindipbl</dodf>
+     * tibt mby ibvf bffn bddfd by tif <dodf>dommit</dodf> mftiod.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails.
+     * @fxdfption LoginExdfption if tif logout fbils.
      *
-     * @return true in all cases since this <code>LoginModule</code>
-     *          should not be ignored.
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
      */
-    public boolean logout() throws LoginException {
+    publid boolfbn logout() tirows LoginExdfption {
 
-        if (subject.isReadOnly()) {
-            throw new LoginException ("Subject is ReadOnly");
+        if (subjfdt.isRfbdOnly()) {
+            tirow nfw LoginExdfption ("Subjfdt is RfbdOnly");
         }
-        Set<Principal> principals = subject.getPrincipals();
-        if (principals.contains(userPrincipal)) {
-            principals.remove(userPrincipal);
+        Sft<Prindipbl> prindipbls = subjfdt.gftPrindipbls();
+        if (prindipbls.dontbins(usfrPrindipbl)) {
+            prindipbls.rfmovf(usfrPrindipbl);
         }
-        if (principals.contains(userSID)) {
-            principals.remove(userSID);
+        if (prindipbls.dontbins(usfrSID)) {
+            prindipbls.rfmovf(usfrSID);
         }
-        if (principals.contains(userDomain)) {
-            principals.remove(userDomain);
+        if (prindipbls.dontbins(usfrDombin)) {
+            prindipbls.rfmovf(usfrDombin);
         }
-        if (principals.contains(domainSID)) {
-            principals.remove(domainSID);
+        if (prindipbls.dontbins(dombinSID)) {
+            prindipbls.rfmovf(dombinSID);
         }
-        if (principals.contains(primaryGroup)) {
-            principals.remove(primaryGroup);
+        if (prindipbls.dontbins(primbryGroup)) {
+            prindipbls.rfmovf(primbryGroup);
         }
-        for (int i = 0; groups != null && i < groups.length; i++) {
-            if (principals.contains(groups[i])) {
-                principals.remove(groups[i]);
+        for (int i = 0; groups != null && i < groups.lfngti; i++) {
+            if (prindipbls.dontbins(groups[i])) {
+                prindipbls.rfmovf(groups[i]);
             }
         }
 
-        Set<Object> pubCreds = subject.getPublicCredentials();
-        if (pubCreds.contains(iToken)) {
-            pubCreds.remove(iToken);
+        Sft<Objfdt> pubCrfds = subjfdt.gftPublidCrfdfntibls();
+        if (pubCrfds.dontbins(iTokfn)) {
+            pubCrfds.rfmovf(iTokfn);
         }
 
-        succeeded = false;
-        commitSucceeded = false;
-        userPrincipal = null;
-        userDomain = null;
-        userSID = null;
-        domainSID = null;
+        suddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
+        usfrPrindipbl = null;
+        usfrDombin = null;
+        usfrSID = null;
+        dombinSID = null;
         groups = null;
-        primaryGroup = null;
-        iToken = null;
-        ntSystem = null;
+        primbryGroup = null;
+        iTokfn = null;
+        ntSystfm = null;
 
-        if (debug) {
-                System.out.println("\t\t[NTLoginModule] " +
-                                "completed logout processing");
+        if (dfbug) {
+                Systfm.out.println("\t\t[NTLoginModulf] " +
+                                "domplftfd logout prodfssing");
         }
-        return true;
+        rfturn truf;
     }
 }

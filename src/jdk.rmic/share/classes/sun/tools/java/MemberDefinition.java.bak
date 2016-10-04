@@ -1,1006 +1,1006 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import sun.tools.tree.Node;
-import sun.tools.tree.Vset;
-import sun.tools.tree.Expression;
-import sun.tools.tree.Statement;
-import sun.tools.tree.Context;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Vector;
-import java.util.Map;
-import java.util.HashMap;
+import sun.tools.trff.Nodf;
+import sun.tools.trff.Vsft;
+import sun.tools.trff.Exprfssion;
+import sun.tools.trff.Stbtfmfnt;
+import sun.tools.trff.Contfxt;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Vfdtor;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
 
 /**
- * This class defines a member of a Java class:
- * a variable, a method, or an inner class.
+ * Tiis dlbss dffinfs b mfmbfr of b Jbvb dlbss:
+ * b vbribblf, b mftiod, or bn innfr dlbss.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class MemberDefinition implements Constants {
-    protected long where;
-    protected int modifiers;
-    protected Type type;
-    protected String documentation;
-    protected IdentifierToken expIds[];
-    protected ClassDeclaration exp[];
-    protected Node value;
-    protected ClassDefinition clazz;
-    protected Identifier name;
-    protected ClassDefinition innerClass;
-    protected MemberDefinition nextMember;
-    protected MemberDefinition nextMatch;
-    protected MemberDefinition accessPeer;
-    protected boolean superAccessMethod;
+publid
+dlbss MfmbfrDffinition implfmfnts Constbnts {
+    protfdtfd long wifrf;
+    protfdtfd int modififrs;
+    protfdtfd Typf typf;
+    protfdtfd String dodumfntbtion;
+    protfdtfd IdfntififrTokfn fxpIds[];
+    protfdtfd ClbssDfdlbrbtion fxp[];
+    protfdtfd Nodf vbluf;
+    protfdtfd ClbssDffinition dlbzz;
+    protfdtfd Idfntififr nbmf;
+    protfdtfd ClbssDffinition innfrClbss;
+    protfdtfd MfmbfrDffinition nfxtMfmbfr;
+    protfdtfd MfmbfrDffinition nfxtMbtdi;
+    protfdtfd MfmbfrDffinition bddfssPffr;
+    protfdtfd boolfbn supfrAddfssMftiod;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public MemberDefinition(long where, ClassDefinition clazz, int modifiers,
-                            Type type, Identifier name,
-                            IdentifierToken expIds[], Node value) {
-        if (expIds == null) {
-            expIds = new IdentifierToken[0];
+    publid MfmbfrDffinition(long wifrf, ClbssDffinition dlbzz, int modififrs,
+                            Typf typf, Idfntififr nbmf,
+                            IdfntififrTokfn fxpIds[], Nodf vbluf) {
+        if (fxpIds == null) {
+            fxpIds = nfw IdfntififrTokfn[0];
         }
-        this.where = where;
-        this.clazz = clazz;
-        this.modifiers = modifiers;
-        this.type = type;
-        this.name = name;
-        this.expIds = expIds;
-        this.value = value;
+        tiis.wifrf = wifrf;
+        tiis.dlbzz = dlbzz;
+        tiis.modififrs = modififrs;
+        tiis.typf = typf;
+        tiis.nbmf = nbmf;
+        tiis.fxpIds = fxpIds;
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Constructor for an inner class.
-     * Inner classes are represented as fields right along with
-     * variables and methods for simplicity of data structure,
-     * and to reflect properly the textual declaration order.
+     * Construdtor for bn innfr dlbss.
+     * Innfr dlbssfs brf rfprfsfntfd bs fiflds rigit blong witi
+     * vbribblfs bnd mftiods for simplidity of dbtb strudturf,
+     * bnd to rfflfdt propfrly tif tfxtubl dfdlbrbtion ordfr.
      * <p>
-     * This constructor calls the generic constructor for this
-     * class, extracting all necessary values from the innerClass.
+     * Tiis donstrudtor dblls tif gfnfrid donstrudtor for tiis
+     * dlbss, fxtrbdting bll nfdfssbry vblufs from tif innfrClbss.
      */
-    public MemberDefinition(ClassDefinition innerClass) {
-        this(innerClass.getWhere(),
-             innerClass.getOuterClass(),
-             innerClass.getModifiers(),
-             innerClass.getType(),
-             innerClass.getName().getFlatName().getName(),
+    publid MfmbfrDffinition(ClbssDffinition innfrClbss) {
+        tiis(innfrClbss.gftWifrf(),
+             innfrClbss.gftOutfrClbss(),
+             innfrClbss.gftModififrs(),
+             innfrClbss.gftTypf(),
+             innfrClbss.gftNbmf().gftFlbtNbmf().gftNbmf(),
              null, null);
-        this.innerClass = innerClass;
+        tiis.innfrClbss = innfrClbss;
     }
 
     /**
-     * A cache of previously created proxy members.  Used to ensure
-     * uniqueness of proxy objects.  See the makeProxyMember method
-     * defined below.
+     * A dbdif of prfviously drfbtfd proxy mfmbfrs.  Usfd to fnsurf
+     * uniqufnfss of proxy objfdts.  Sff tif mbkfProxyMfmbfr mftiod
+     * dffinfd bflow.
      */
-    static private Map<String,MemberDefinition> proxyCache;
+    stbtid privbtf Mbp<String,MfmbfrDffinition> proxyCbdif;
 
     /**
-     * Create a member which is externally the same as `field' but
-     * is defined in class `classDef'.  This is used by code
-     * in sun.tools.tree.(MethodExpression,FieldExpression) as
-     * part of the fix for bug 4135692.
+     * Crfbtf b mfmbfr wiidi is fxtfrnblly tif sbmf bs `fifld' but
+     * is dffinfd in dlbss `dlbssDff'.  Tiis is usfd by dodf
+     * in sun.tools.trff.(MftiodExprfssion,FifldExprfssion) bs
+     * pbrt of tif fix for bug 4135692.
      *
-     * Proxy members should not be added, ala addMember(), to classes.
-     * They are merely "stand-ins" to produce modified MethodRef
-     * constant pool entries during code generation.
+     * Proxy mfmbfrs siould not bf bddfd, blb bddMfmbfr(), to dlbssfs.
+     * Tify brf mfrfly "stbnd-ins" to produdf modififd MftiodRff
+     * donstbnt pool fntrifs during dodf gfnfrbtion.
      *
-     * We keep a cache of previously created proxy members not to
-     * save time or space, but to ensure uniqueness of the proxy
-     * member for any (field,classDef) pair.  If these are not made
-     * unique then we can end up generating duplicate MethodRef
-     * constant pool entries during code generation.
+     * Wf kffp b dbdif of prfviously drfbtfd proxy mfmbfrs not to
+     * sbvf timf or spbdf, but to fnsurf uniqufnfss of tif proxy
+     * mfmbfr for bny (fifld,dlbssDff) pbir.  If tifsf brf not mbdf
+     * uniquf tifn wf dbn fnd up gfnfrbting duplidbtf MftiodRff
+     * donstbnt pool fntrifs during dodf gfnfrbtion.
      */
-    public static MemberDefinition makeProxyMember(MemberDefinition field,
-                                                   ClassDefinition classDef,
-                                                   Environment env) {
+    publid stbtid MfmbfrDffinition mbkfProxyMfmbfr(MfmbfrDffinition fifld,
+                                                   ClbssDffinition dlbssDff,
+                                                   Environmfnt fnv) {
 
-        if (proxyCache == null) {
-            proxyCache = new HashMap<>();
+        if (proxyCbdif == null) {
+            proxyCbdif = nfw HbsiMbp<>();
         }
 
-        String key = field.toString() + "@" + classDef.toString();
-        // System.out.println("Key is : " + key);
-        MemberDefinition proxy = proxyCache.get(key);
+        String kfy = fifld.toString() + "@" + dlbssDff.toString();
+        // Systfm.out.println("Kfy is : " + kfy);
+        MfmbfrDffinition proxy = proxyCbdif.gft(kfy);
 
         if (proxy != null)
-            return proxy;
+            rfturn proxy;
 
-        proxy = new MemberDefinition(field.getWhere(), classDef,
-                                     field.getModifiers(), field.getType(),
-                                     field.getName(), field.getExceptionIds(),
+        proxy = nfw MfmbfrDffinition(fifld.gftWifrf(), dlbssDff,
+                                     fifld.gftModififrs(), fifld.gftTypf(),
+                                     fifld.gftNbmf(), fifld.gftExdfptionIds(),
                                      null);
-        proxy.exp = field.getExceptions(env);
-        proxyCache.put(key, proxy);
+        proxy.fxp = fifld.gftExdfptions(fnv);
+        proxyCbdif.put(kfy, proxy);
 
-        return proxy;
-    }
-
-    /**
-     * Get the position in the input
-     */
-    public final long getWhere() {
-        return where;
+        rfturn proxy;
     }
 
     /**
-     * Get the class declaration
+     * Gft tif position in tif input
      */
-    public final ClassDeclaration getClassDeclaration() {
-        return clazz.getClassDeclaration();
+    publid finbl long gftWifrf() {
+        rfturn wifrf;
     }
 
     /**
-     * A stub.  Subclasses can do more checking.
+     * Gft tif dlbss dfdlbrbtion
      */
-    public void resolveTypeStructure(Environment env) {
+    publid finbl ClbssDfdlbrbtion gftClbssDfdlbrbtion() {
+        rfturn dlbzz.gftClbssDfdlbrbtion();
     }
 
     /**
-     * Get the class declaration in which the field is actually defined
+     * A stub.  Subdlbssfs dbn do morf difdking.
      */
-    public ClassDeclaration getDefiningClassDeclaration() {
-        return getClassDeclaration();
+    publid void rfsolvfTypfStrudturf(Environmfnt fnv) {
     }
 
     /**
-     * Get the class definition
+     * Gft tif dlbss dfdlbrbtion in wiidi tif fifld is bdtublly dffinfd
      */
-    public final ClassDefinition getClassDefinition() {
-        return clazz;
+    publid ClbssDfdlbrbtion gftDffiningClbssDfdlbrbtion() {
+        rfturn gftClbssDfdlbrbtion();
     }
 
     /**
-     * Get the field's top-level enclosing class
+     * Gft tif dlbss dffinition
      */
-    public final ClassDefinition getTopClass() {
-        return clazz.getTopClass();
+    publid finbl ClbssDffinition gftClbssDffinition() {
+        rfturn dlbzz;
     }
 
     /**
-     * Get the field's modifiers
+     * Gft tif fifld's top-lfvfl fndlosing dlbss
      */
-    public final int getModifiers() {
-        return modifiers;
-    }
-    public final void subModifiers(int mod) {
-        modifiers &= ~mod;
-    }
-    public final void addModifiers(int mod) {
-        modifiers |= mod;
+    publid finbl ClbssDffinition gftTopClbss() {
+        rfturn dlbzz.gftTopClbss();
     }
 
     /**
-     * Get the field's type
+     * Gft tif fifld's modififrs
      */
-    public final Type getType() {
-        return type;
+    publid finbl int gftModififrs() {
+        rfturn modififrs;
+    }
+    publid finbl void subModififrs(int mod) {
+        modififrs &= ~mod;
+    }
+    publid finbl void bddModififrs(int mod) {
+        modififrs |= mod;
     }
 
     /**
-     * Get the field's name
+     * Gft tif fifld's typf
      */
-    public final Identifier getName() {
-        return name;
+    publid finbl Typf gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Get arguments (a vector of LocalMember)
+     * Gft tif fifld's nbmf
      */
-    public Vector<MemberDefinition> getArguments() {
-        return isMethod() ? new Vector<>() : null;
+    publid finbl Idfntififr gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Get the exceptions that are thrown by this method.
+     * Gft brgumfnts (b vfdtor of LodblMfmbfr)
      */
-    public ClassDeclaration[] getExceptions(Environment env) {
-        if (expIds != null && exp == null) {
-            if (expIds.length == 0)
-                exp = new ClassDeclaration[0];
-            else
-                // we should have translated this already!
-                throw new CompilerError("getExceptions "+this);
+    publid Vfdtor<MfmbfrDffinition> gftArgumfnts() {
+        rfturn isMftiod() ? nfw Vfdtor<>() : null;
+    }
+
+    /**
+     * Gft tif fxdfptions tibt brf tirown by tiis mftiod.
+     */
+    publid ClbssDfdlbrbtion[] gftExdfptions(Environmfnt fnv) {
+        if (fxpIds != null && fxp == null) {
+            if (fxpIds.lfngti == 0)
+                fxp = nfw ClbssDfdlbrbtion[0];
+            flsf
+                // wf siould ibvf trbnslbtfd tiis blrfbdy!
+                tirow nfw CompilfrError("gftExdfptions "+tiis);
         }
-        return exp;
+        rfturn fxp;
     }
 
-    public final IdentifierToken[] getExceptionIds() {
-        return expIds;
-    }
-
-    /**
-     * Get an inner class.
-     */
-    public ClassDefinition getInnerClass() {
-        return innerClass;
+    publid finbl IdfntififrTokfn[] gftExdfptionIds() {
+        rfturn fxpIds;
     }
 
     /**
-     * Is this a synthetic field which holds a copy of,
-     * or reference to, a local variable or enclosing instance?
+     * Gft bn innfr dlbss.
      */
-    public boolean isUplevelValue() {
-        if (!isSynthetic() || !isVariable() || isStatic()) {
-            return false;
+    publid ClbssDffinition gftInnfrClbss() {
+        rfturn innfrClbss;
+    }
+
+    /**
+     * Is tiis b syntiftid fifld wiidi iolds b dopy of,
+     * or rfffrfndf to, b lodbl vbribblf or fndlosing instbndf?
+     */
+    publid boolfbn isUplfvflVbluf() {
+        if (!isSyntiftid() || !isVbribblf() || isStbtid()) {
+            rfturn fblsf;
         }
-        String name = this.name.toString();
-        return name.startsWith(prefixVal)
-            || name.startsWith(prefixLoc)
-            || name.startsWith(prefixThis);
+        String nbmf = tiis.nbmf.toString();
+        rfturn nbmf.stbrtsWiti(prffixVbl)
+            || nbmf.stbrtsWiti(prffixLod)
+            || nbmf.stbrtsWiti(prffixTiis);
     }
 
-    public boolean isAccessMethod() {
-        // This no longer works, because access methods
-        // for constructors do not use the standard naming
-        // scheme.
-        //    return isSynthetic() && isMethod()
-        //        && name.toString().startsWith(prefixAccess);
-        // Assume that a method is an access method if it has
-        // an access peer.  NOTE: An access method will not be
-        // recognized as such until 'setAccessMethodTarget' has
-        // been called on it.
-        return isSynthetic() && isMethod() && (accessPeer != null);
+    publid boolfbn isAddfssMftiod() {
+        // Tiis no longfr works, bfdbusf bddfss mftiods
+        // for donstrudtors do not usf tif stbndbrd nbming
+        // sdifmf.
+        //    rfturn isSyntiftid() && isMftiod()
+        //        && nbmf.toString().stbrtsWiti(prffixAddfss);
+        // Assumf tibt b mftiod is bn bddfss mftiod if it ibs
+        // bn bddfss pffr.  NOTE: An bddfss mftiod will not bf
+        // rfdognizfd bs sudi until 'sftAddfssMftiodTbrgft' ibs
+        // bffn dbllfd on it.
+        rfturn isSyntiftid() && isMftiod() && (bddfssPffr != null);
     }
 
     /**
-     * Is this a synthetic method which provides access to a
-     * visible private member?
+     * Is tiis b syntiftid mftiod wiidi providfs bddfss to b
+     * visiblf privbtf mfmbfr?
      */
-    public MemberDefinition getAccessMethodTarget() {
-        if (isAccessMethod()) {
-            for (MemberDefinition f = accessPeer; f != null; f = f.accessPeer) {
-                // perhaps skip over another access for the same field
-                if (!f.isAccessMethod()) {
-                    return f;
+    publid MfmbfrDffinition gftAddfssMftiodTbrgft() {
+        if (isAddfssMftiod()) {
+            for (MfmbfrDffinition f = bddfssPffr; f != null; f = f.bddfssPffr) {
+                // pfribps skip ovfr bnotifr bddfss for tif sbmf fifld
+                if (!f.isAddfssMftiod()) {
+                    rfturn f;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
 
-    public void setAccessMethodTarget(MemberDefinition target) {
-        if (getAccessMethodTarget() != target) {
+    publid void sftAddfssMftiodTbrgft(MfmbfrDffinition tbrgft) {
+        if (gftAddfssMftiodTbrgft() != tbrgft) {
             /*-------------------*
-            if (!isAccessMethod() || accessPeer != null ||
-                    target.accessPeer != null) {
-                throw new CompilerError("accessPeer");
+            if (!isAddfssMftiod() || bddfssPffr != null ||
+                    tbrgft.bddfssPffr != null) {
+                tirow nfw CompilfrError("bddfssPffr");
             }
             *-------------------*/
-            if (accessPeer != null || target.accessPeer != null) {
-                throw new CompilerError("accessPeer");
+            if (bddfssPffr != null || tbrgft.bddfssPffr != null) {
+                tirow nfw CompilfrError("bddfssPffr");
             }
-            accessPeer = target;
+            bddfssPffr = tbrgft;
         }
     }
 
     /**
-     * If this method is a getter for a private field, return the setter.
+     * If tiis mftiod is b gfttfr for b privbtf fifld, rfturn tif sfttfr.
      */
-    public MemberDefinition getAccessUpdateMember() {
-        if (isAccessMethod()) {
-            for (MemberDefinition f = accessPeer; f != null; f = f.accessPeer) {
-                if (f.isAccessMethod()) {
-                    return f;
+    publid MfmbfrDffinition gftAddfssUpdbtfMfmbfr() {
+        if (isAddfssMftiod()) {
+            for (MfmbfrDffinition f = bddfssPffr; f != null; f = f.bddfssPffr) {
+                if (f.isAddfssMftiod()) {
+                    rfturn f;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public void setAccessUpdateMember(MemberDefinition updater) {
-        if (getAccessUpdateMember() != updater) {
-            if (!isAccessMethod() ||
-                    updater.getAccessMethodTarget() != getAccessMethodTarget()) {
-                throw new CompilerError("accessPeer");
+    publid void sftAddfssUpdbtfMfmbfr(MfmbfrDffinition updbtfr) {
+        if (gftAddfssUpdbtfMfmbfr() != updbtfr) {
+            if (!isAddfssMftiod() ||
+                    updbtfr.gftAddfssMftiodTbrgft() != gftAddfssMftiodTbrgft()) {
+                tirow nfw CompilfrError("bddfssPffr");
             }
-            updater.accessPeer = accessPeer;
-            accessPeer = updater;
+            updbtfr.bddfssPffr = bddfssPffr;
+            bddfssPffr = updbtfr;
         }
     }
 
     /**
-     * Is this an access method for a field selection or method call
-     * of the form '...super.foo' or '...super.foo()'?
+     * Is tiis bn bddfss mftiod for b fifld sflfdtion or mftiod dbll
+     * of tif form '...supfr.foo' or '...supfr.foo()'?
      */
-    public final boolean isSuperAccessMethod() {
-        return superAccessMethod;
+    publid finbl boolfbn isSupfrAddfssMftiod() {
+        rfturn supfrAddfssMftiod;
     }
 
     /**
-     * Mark this member as an access method for a field selection
-     * or method call via the 'super' keyword.
+     * Mbrk tiis mfmbfr bs bn bddfss mftiod for b fifld sflfdtion
+     * or mftiod dbll vib tif 'supfr' kfyword.
      */
-    public final void setIsSuperAccessMethod(boolean b) {
-        superAccessMethod = b;
+    publid finbl void sftIsSupfrAddfssMftiod(boolfbn b) {
+        supfrAddfssMftiod = b;
     }
 
     /**
-     * Tell if this is a final variable without an initializer.
-     * Such variables are subject to definite single assignment.
+     * Tfll if tiis is b finbl vbribblf witiout bn initiblizfr.
+     * Sudi vbribblfs brf subjfdt to dffinitf singlf bssignmfnt.
      */
-    public final boolean isBlankFinal() {
-        return isFinal() && !isSynthetic() && getValue() == null;
+    publid finbl boolfbn isBlbnkFinbl() {
+        rfturn isFinbl() && !isSyntiftid() && gftVbluf() == null;
     }
 
-    public boolean isNeverNull() {
-        if (isUplevelValue()) {
-            // loc$x and this$C are never null
-            return !name.toString().startsWith(prefixVal);
+    publid boolfbn isNfvfrNull() {
+        if (isUplfvflVbluf()) {
+            // lod$x bnd tiis$C brf nfvfr null
+            rfturn !nbmf.toString().stbrtsWiti(prffixVbl);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Get the field's final value (may return null)
+     * Gft tif fifld's finbl vbluf (mby rfturn null)
      */
-    public Node getValue(Environment env) throws ClassNotFound {
-        return value;
+    publid Nodf gftVbluf(Environmfnt fnv) tirows ClbssNotFound {
+        rfturn vbluf;
     }
-    public final Node getValue() {
-        return value;
+    publid finbl Nodf gftVbluf() {
+        rfturn vbluf;
     }
-    public final void setValue(Node value) {
-        this.value = value;
+    publid finbl void sftVbluf(Nodf vbluf) {
+        tiis.vbluf = vbluf;
     }
-    public Object getInitialValue() {
-        return null;
+    publid Objfdt gftInitiblVbluf() {
+        rfturn null;
     }
 
     /**
-     * Get the next field or the next match
+     * Gft tif nfxt fifld or tif nfxt mbtdi
      */
-    public final MemberDefinition getNextMember() {
-        return nextMember;
+    publid finbl MfmbfrDffinition gftNfxtMfmbfr() {
+        rfturn nfxtMfmbfr;
     }
-    public final MemberDefinition getNextMatch() {
-        return nextMatch;
+    publid finbl MfmbfrDffinition gftNfxtMbtdi() {
+        rfturn nfxtMbtdi;
     }
 
     /**
-     * Get the field's documentation
+     * Gft tif fifld's dodumfntbtion
      */
-    public String getDocumentation() {
-        return documentation;
+    publid String gftDodumfntbtion() {
+        rfturn dodumfntbtion;
     }
 
     /**
-     * Request a check of the field definition.
+     * Rfqufst b difdk of tif fifld dffinition.
      */
-    public void check(Environment env) throws ClassNotFound {
+    publid void difdk(Environmfnt fnv) tirows ClbssNotFound {
     }
 
     /**
-     * Really check the field definition.
+     * Rfblly difdk tif fifld dffinition.
      */
-    public Vset check(Environment env, Context ctx, Vset vset) throws ClassNotFound {
-        return vset;
+    publid Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft) tirows ClbssNotFound {
+        rfturn vsft;
     }
 
     /**
-     * Generate code
+     * Gfnfrbtf dodf
      */
-    public void code(Environment env, Assembler asm) throws ClassNotFound {
-        throw new CompilerError("code");
+    publid void dodf(Environmfnt fnv, Assfmblfr bsm) tirows ClbssNotFound {
+        tirow nfw CompilfrError("dodf");
     }
-    public void codeInit(Environment env, Context ctx, Assembler asm) throws ClassNotFound {
-        throw new CompilerError("codeInit");
-    }
-
-    /**
-     * Tells whether to report a deprecation error for this field.
-     */
-    public boolean reportDeprecated(Environment env) {
-        return (isDeprecated() || clazz.reportDeprecated(env));
+    publid void dodfInit(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) tirows ClbssNotFound {
+        tirow nfw CompilfrError("dodfInit");
     }
 
     /**
-     * Check if a field can reach another field (only considers
-     * forward references, not the access modifiers).
+     * Tflls wiftifr to rfport b dfprfdbtion frror for tiis fifld.
      */
-    public final boolean canReach(Environment env, MemberDefinition f) {
-        if (f.isLocal() || !f.isVariable() || !(isVariable() || isInitializer()))
-            return true;
-        if ((getClassDeclaration().equals(f.getClassDeclaration())) &&
-            (isStatic() == f.isStatic())) {
-            // They are located in the same class, and are either both
-            // static or both non-static.  Check the initialization order.
-            while (((f = f.getNextMember()) != null) && (f != this));
-            return f != null;
+    publid boolfbn rfportDfprfdbtfd(Environmfnt fnv) {
+        rfturn (isDfprfdbtfd() || dlbzz.rfportDfprfdbtfd(fnv));
+    }
+
+    /**
+     * Cifdk if b fifld dbn rfbdi bnotifr fifld (only donsidfrs
+     * forwbrd rfffrfndfs, not tif bddfss modififrs).
+     */
+    publid finbl boolfbn dbnRfbdi(Environmfnt fnv, MfmbfrDffinition f) {
+        if (f.isLodbl() || !f.isVbribblf() || !(isVbribblf() || isInitiblizfr()))
+            rfturn truf;
+        if ((gftClbssDfdlbrbtion().fqubls(f.gftClbssDfdlbrbtion())) &&
+            (isStbtid() == f.isStbtid())) {
+            // Tify brf lodbtfd in tif sbmf dlbss, bnd brf fitifr boti
+            // stbtid or boti non-stbtid.  Cifdk tif initiblizbtion ordfr.
+            wiilf (((f = f.gftNfxtMfmbfr()) != null) && (f != tiis));
+            rfturn f != null;
         }
-        return true;
+        rfturn truf;
     }
 
     //-----------------------------------------------------------------
-    // The code in this section is intended to test certain kinds of
-    // compatibility between methods.  There are two kinds of compatibility
-    // that the compiler may need to test.  The first is whether one
-    // method can legally override another.  The second is whether two
-    // method definitions can legally coexist.  We use the word `meet'
-    // to mean the intersection of two legally coexisting methods.
-    // For more information on these kinds of compatibility, see the
-    // comments/code for checkOverride() and checkMeet() below.
+    // Tif dodf in tiis sfdtion is intfndfd to tfst dfrtbin kinds of
+    // dompbtibility bftwffn mftiods.  Tifrf brf two kinds of dompbtibility
+    // tibt tif dompilfr mby nffd to tfst.  Tif first is wiftifr onf
+    // mftiod dbn lfgblly ovfrridf bnotifr.  Tif sfdond is wiftifr two
+    // mftiod dffinitions dbn lfgblly dofxist.  Wf usf tif word `mfft'
+    // to mfbn tif intfrsfdtion of two lfgblly dofxisting mftiods.
+    // For morf informbtion on tifsf kinds of dompbtibility, sff tif
+    // dommfnts/dodf for difdkOvfrridf() bnd difdkMfft() bflow.
 
     /**
-     * Constants used by getAccessLevel() to represent the access
-     * modifiers as numbers.
+     * Constbnts usfd by gftAddfssLfvfl() to rfprfsfnt tif bddfss
+     * modififrs bs numbfrs.
      */
-    static final int PUBLIC_ACCESS = 1;
-    static final int PROTECTED_ACCESS = 2;
-    static final int PACKAGE_ACCESS = 3;
-    static final int PRIVATE_ACCESS = 4;
+    stbtid finbl int PUBLIC_ACCESS = 1;
+    stbtid finbl int PROTECTED_ACCESS = 2;
+    stbtid finbl int PACKAGE_ACCESS = 3;
+    stbtid finbl int PRIVATE_ACCESS = 4;
 
     /**
-     * Return the access modifier of this member as a number.  The idea
-     * is that this number may be used to check properties like "the
-     * access modifier of x is more restrictive than the access
-     * modifier of y" with a simple inequality test:
-     * "x.getAccessLevel() > y.getAccessLevel.
+     * Rfturn tif bddfss modififr of tiis mfmbfr bs b numbfr.  Tif idfb
+     * is tibt tiis numbfr mby bf usfd to difdk propfrtifs likf "tif
+     * bddfss modififr of x is morf rfstridtivf tibn tif bddfss
+     * modififr of y" witi b simplf infqublity tfst:
+     * "x.gftAddfssLfvfl() > y.gftAddfssLfvfl.
      *
-     * This is an internal utility method.
+     * Tiis is bn intfrnbl utility mftiod.
      */
-    private int getAccessLevel() {
-        // Could just compute this once instead of recomputing.
-        // Check to see if this is worth it.
-        if (isPublic()) {
-            return PUBLIC_ACCESS;
-        } else if (isProtected()) {
-            return PROTECTED_ACCESS;
-        } else if (isPackagePrivate()) {
-            return PACKAGE_ACCESS;
-        } else if (isPrivate()) {
-            return PRIVATE_ACCESS;
-        } else {
-            throw new CompilerError("getAccessLevel()");
+    privbtf int gftAddfssLfvfl() {
+        // Could just domputf tiis ondf instfbd of rfdomputing.
+        // Cifdk to sff if tiis is worti it.
+        if (isPublid()) {
+            rfturn PUBLIC_ACCESS;
+        } flsf if (isProtfdtfd()) {
+            rfturn PROTECTED_ACCESS;
+        } flsf if (isPbdkbgfPrivbtf()) {
+            rfturn PACKAGE_ACCESS;
+        } flsf if (isPrivbtf()) {
+            rfturn PRIVATE_ACCESS;
+        } flsf {
+            tirow nfw CompilfrError("gftAddfssLfvfl()");
         }
     }
 
     /**
-     * Munge our error message to report whether the override conflict
-     * came from an inherited method or a declared method.
+     * Mungf our frror mfssbgf to rfport wiftifr tif ovfrridf donflidt
+     * dbmf from bn inifritfd mftiod or b dfdlbrfd mftiod.
      */
-    private void reportError(Environment env, String errorString,
-                             ClassDeclaration clazz,
-                             MemberDefinition method) {
+    privbtf void rfportError(Environmfnt fnv, String frrorString,
+                             ClbssDfdlbrbtion dlbzz,
+                             MfmbfrDffinition mftiod) {
 
-        if (clazz == null) {
-            // For example:
-            // "Instance method BLAH inherited from CLASSBLAH1 cannot be
-            //  overridden by the static method declared in CLASSBLAH2."
-            env.error(getWhere(), errorString,
-                      this, getClassDeclaration(),
-                      method.getClassDeclaration());
-        } else {
-            // For example:
-            // "In CLASSBLAH1, instance method BLAH inherited from CLASSBLAH2
-            //  cannot be overridden by the static method inherited from
+        if (dlbzz == null) {
+            // For fxbmplf:
+            // "Instbndf mftiod BLAH inifritfd from CLASSBLAH1 dbnnot bf
+            //  ovfrriddfn by tif stbtid mftiod dfdlbrfd in CLASSBLAH2."
+            fnv.frror(gftWifrf(), frrorString,
+                      tiis, gftClbssDfdlbrbtion(),
+                      mftiod.gftClbssDfdlbrbtion());
+        } flsf {
+            // For fxbmplf:
+            // "In CLASSBLAH1, instbndf mftiod BLAH inifritfd from CLASSBLAH2
+            //  dbnnot bf ovfrriddfn by tif stbtid mftiod inifritfd from
             //  CLASSBLAH3."
-            env.error(clazz.getClassDefinition().getWhere(),
-                      //"inherit." + errorString,
-                      errorString,
-                      //clazz,
-                      this, getClassDeclaration(),
-                      method.getClassDeclaration());
+            fnv.frror(dlbzz.gftClbssDffinition().gftWifrf(),
+                      //"inifrit." + frrorString,
+                      frrorString,
+                      //dlbzz,
+                      tiis, gftClbssDfdlbrbtion(),
+                      mftiod.gftClbssDfdlbrbtion());
         }
     }
 
     /**
-     * Convenience method to see if two methods return the same type
+     * Convfnifndf mftiod to sff if two mftiods rfturn tif sbmf typf
      */
-    public boolean sameReturnType(MemberDefinition method) {
-        // Make sure both are methods.
-        if (!isMethod() || !method.isMethod()) {
-            throw new CompilerError("sameReturnType: not method");
+    publid boolfbn sbmfRfturnTypf(MfmbfrDffinition mftiod) {
+        // Mbkf surf boti brf mftiods.
+        if (!isMftiod() || !mftiod.isMftiod()) {
+            tirow nfw CompilfrError("sbmfRfturnTypf: not mftiod");
         }
 
-        Type myReturnType = getType().getReturnType();
-        Type yourReturnType = method.getType().getReturnType();
+        Typf myRfturnTypf = gftTypf().gftRfturnTypf();
+        Typf yourRfturnTypf = mftiod.gftTypf().gftRfturnTypf();
 
-        return (myReturnType == yourReturnType);
+        rfturn (myRfturnTypf == yourRfturnTypf);
     }
 
     /**
-     * Check to see if `this' can override/hide `method'.  Caller is
-     * responsible for verifying that `method' has the same signature
-     * as `this'.  Caller is also responsible for verifying that
-     * `method' is visible to the class where this override is occurring.
-     * This method is called for the case when class B extends A and both
-     * A and B define some method.
-     * <pre>
-     *       A - void foo() throws e1
+     * Cifdk to sff if `tiis' dbn ovfrridf/iidf `mftiod'.  Cbllfr is
+     * rfsponsiblf for vfrifying tibt `mftiod' ibs tif sbmf signbturf
+     * bs `tiis'.  Cbllfr is blso rfsponsiblf for vfrifying tibt
+     * `mftiod' is visiblf to tif dlbss wifrf tiis ovfrridf is oddurring.
+     * Tiis mftiod is dbllfd for tif dbsf wifn dlbss B fxtfnds A bnd boti
+     * A bnd B dffinf somf mftiod.
+     * <prf>
+     *       A - void foo() tirows f1
      *       |
      *       |
-     *       B - void foo() throws e2
-     * </pre>
+     *       B - void foo() tirows f2
+     * </prf>
      */
-    public boolean checkOverride(Environment env, MemberDefinition method) {
-        return checkOverride(env, method, null);
+    publid boolfbn difdkOvfrridf(Environmfnt fnv, MfmbfrDffinition mftiod) {
+        rfturn difdkOvfrridf(fnv, mftiod, null);
     }
 
     /**
-     * Checks whether `this' can override `method'.  It `clazz' is
-     * null, it reports the errors in the class where `this' is
-     * declared.  If `clazz' is not null, it reports the error in `clazz'.
+     * Cifdks wiftifr `tiis' dbn ovfrridf `mftiod'.  It `dlbzz' is
+     * null, it rfports tif frrors in tif dlbss wifrf `tiis' is
+     * dfdlbrfd.  If `dlbzz' is not null, it rfports tif frror in `dlbzz'.
      */
-    private boolean checkOverride(Environment env,
-                                  MemberDefinition method,
-                                  ClassDeclaration clazz) {
-        // This section of code is largely based on section 8.4.6.3
-        // of the JLS.
+    privbtf boolfbn difdkOvfrridf(Environmfnt fnv,
+                                  MfmbfrDffinition mftiod,
+                                  ClbssDfdlbrbtion dlbzz) {
+        // Tiis sfdtion of dodf is lbrgfly bbsfd on sfdtion 8.4.6.3
+        // of tif JLS.
 
-        boolean success = true;
+        boolfbn suddfss = truf;
 
-        // Sanity
-        if (!isMethod()) {
-            throw new CompilerError("checkOverride(), expected method");
+        // Sbnity
+        if (!isMftiod()) {
+            tirow nfw CompilfrError("difdkOvfrridf(), fxpfdtfd mftiod");
         }
 
-        // Suppress checks for synthetic methods, as the compiler presumably
-        // knows what it is doing, e.g., access methods.
-        if (isSynthetic()) {
-            // Sanity check: We generally do not intend for one synthetic
-            // method to override another, though hiding of static members
-            // is expected.  This check may need to be changed if new uses
-            // of synthetic methods are devised.
+        // Supprfss difdks for syntiftid mftiods, bs tif dompilfr prfsumbbly
+        // knows wibt it is doing, f.g., bddfss mftiods.
+        if (isSyntiftid()) {
+            // Sbnity difdk: Wf gfnfrblly do not intfnd for onf syntiftid
+            // mftiod to ovfrridf bnotifr, tiougi iiding of stbtid mfmbfrs
+            // is fxpfdtfd.  Tiis difdk mby nffd to bf dibngfd if nfw usfs
+            // of syntiftid mftiods brf dfvisfd.
             //
-            // Query: this code was copied from elsewhere.  What
-            // exactly is the role of the !isStatic() in the test?
-            if (method.isFinal() ||
-                (!method.isConstructor() &&
-                 !method.isStatic() && !isStatic())) {
+            // Qufry: tiis dodf wbs dopifd from flsfwifrf.  Wibt
+            // fxbdtly is tif rolf of tif !isStbtid() in tif tfst?
+            if (mftiod.isFinbl() ||
+                (!mftiod.isConstrudtor() &&
+                 !mftiod.isStbtid() && !isStbtid())) {
                 ////////////////////////////////////////////////////////////
-                // NMG 2003-01-28 removed the following test because it is
-                // invalidated by bridge methods inserted by the "generic"
-                // (1.5) Java compiler.  In 1.5, this code is used,
-                // indirectly, by rmic
+                // NMG 2003-01-28 rfmovfd tif following tfst bfdbusf it is
+                // invblidbtfd by bridgf mftiods insfrtfd by tif "gfnfrid"
+                // (1.5) Jbvb dompilfr.  In 1.5, tiis dodf is usfd,
+                // indirfdtly, by rmid
                 ////////////////////////////////////////////////////////////
-                // throw new CompilerError("checkOverride() synthetic");
+                // tirow nfw CompilfrError("difdkOvfrridf() syntiftid");
                 ////////////////////////////////////////////////////////////
             }
 
-            // We trust the compiler.  (Ha!)  We're done checking.
-            return true;
+            // Wf trust tif dompilfr.  (Hb!)  Wf'rf donf difdking.
+            rfturn truf;
         }
 
-        // Our caller should have verified that the method had the
-        // same signature.
-        if (getName() != method.getName() ||
-            !getType().equalArguments(method.getType())) {
+        // Our dbllfr siould ibvf vfrififd tibt tif mftiod ibd tif
+        // sbmf signbturf.
+        if (gftNbmf() != mftiod.gftNbmf() ||
+            !gftTypf().fqublArgumfnts(mftiod.gftTypf())) {
 
-            throw new CompilerError("checkOverride(), signature mismatch");
+            tirow nfw CompilfrError("difdkOvfrridf(), signbturf mismbtdi");
         }
 
-        // It is forbidden to `override' a static method with an instance
-        // method.
-        if (method.isStatic() && !isStatic()) {
-            reportError(env, "override.static.with.instance", clazz, method);
-            success = false;
+        // It is forbiddfn to `ovfrridf' b stbtid mftiod witi bn instbndf
+        // mftiod.
+        if (mftiod.isStbtid() && !isStbtid()) {
+            rfportError(fnv, "ovfrridf.stbtid.witi.instbndf", dlbzz, mftiod);
+            suddfss = fblsf;
         }
 
-        // It is forbidden to `hide' an instance method with a static
-        // method.
-        if (!method.isStatic() && isStatic()) {
-            reportError(env, "hide.instance.with.static", clazz, method);
-            success = false;
+        // It is forbiddfn to `iidf' bn instbndf mftiod witi b stbtid
+        // mftiod.
+        if (!mftiod.isStbtid() && isStbtid()) {
+            rfportError(fnv, "iidf.instbndf.witi.stbtid", dlbzz, mftiod);
+            suddfss = fblsf;
         }
 
-        // We cannot override a final method.
-        if (method.isFinal()) {
-            reportError(env, "override.final.method", clazz, method);
-            success = false;
+        // Wf dbnnot ovfrridf b finbl mftiod.
+        if (mftiod.isFinbl()) {
+            rfportError(fnv, "ovfrridf.finbl.mftiod", dlbzz, mftiod);
+            suddfss = fblsf;
         }
 
-        // Give a warning when we override a deprecated method with
-        // a non-deprecated one.
+        // Givf b wbrning wifn wf ovfrridf b dfprfdbtfd mftiod witi
+        // b non-dfprfdbtfd onf.
         //
-        // We bend over backwards to suppress this warning if
-        // the `method' has not been already compiled or
-        // `this' has been already compiled.
-        if (method.reportDeprecated(env) && !isDeprecated()
-               && this instanceof sun.tools.javac.SourceMember) {
-            reportError(env, "warn.override.is.deprecated",
-                        clazz, method);
+        // Wf bfnd ovfr bbdkwbrds to supprfss tiis wbrning if
+        // tif `mftiod' ibs not bffn blrfbdy dompilfd or
+        // `tiis' ibs bffn blrfbdy dompilfd.
+        if (mftiod.rfportDfprfdbtfd(fnv) && !isDfprfdbtfd()
+               && tiis instbndfof sun.tools.jbvbd.SourdfMfmbfr) {
+            rfportError(fnv, "wbrn.ovfrridf.is.dfprfdbtfd",
+                        dlbzz, mftiod);
         }
 
-        // Visibility may not be more restrictive
-        if (getAccessLevel() > method.getAccessLevel()) {
-            reportError(env, "override.more.restrictive", clazz, method);
-            success = false;
+        // Visibility mby not bf morf rfstridtivf
+        if (gftAddfssLfvfl() > mftiod.gftAddfssLfvfl()) {
+            rfportError(fnv, "ovfrridf.morf.rfstridtivf", dlbzz, mftiod);
+            suddfss = fblsf;
         }
 
-        // Return type equality
-        if (!sameReturnType(method)) {
+        // Rfturn typf fqublity
+        if (!sbmfRfturnTypf(mftiod)) {
             ////////////////////////////////////////////////////////////
-            // PCJ 2003-07-30 removed the following error because it is
-            // invalidated by the covariant return type feature of the
-            // 1.5 compiler.  The resulting check is now much looser
-            // than the actual 1.5 language spec, but that should be OK
-            // because this code is only still used by rmic.  See 4892308.
+            // PCJ 2003-07-30 rfmovfd tif following frror bfdbusf it is
+            // invblidbtfd by tif dovbribnt rfturn typf ffbturf of tif
+            // 1.5 dompilfr.  Tif rfsulting difdk is now mudi loosfr
+            // tibn tif bdtubl 1.5 lbngubgf spfd, but tibt siould bf OK
+            // bfdbusf tiis dodf is only still usfd by rmid.  Sff 4892308.
             ////////////////////////////////////////////////////////////
-            // reportError(env, "override.different.return", clazz, method);
-            // success = false;
+            // rfportError(fnv, "ovfrridf.difffrfnt.rfturn", dlbzz, mftiod);
+            // suddfss = fblsf;
             ////////////////////////////////////////////////////////////
         }
 
-        // Exception agreeement
-        if (!exceptionsFit(env, method)) {
-            reportError(env, "override.incompatible.exceptions",
-                        clazz, method);
-            success = false;
+        // Exdfption bgrfffmfnt
+        if (!fxdfptionsFit(fnv, mftiod)) {
+            rfportError(fnv, "ovfrridf.indompbtiblf.fxdfptions",
+                        dlbzz, mftiod);
+            suddfss = fblsf;
         }
 
-        return success;
+        rfturn suddfss;
     }
 
     /**
-     * Check to see if two method definitions are compatible, that is
-     * do they have a `meet'.  The meet of two methods is essentially
-     * and `intersection' of
-     * two methods.  This method is called when some class C inherits
-     * declarations for some method foo from two parents (superclass,
-     * interfaces) but it does not, itself, have a declaration of foo.
-     * Caller is responsible for making sure that both methods are
-     * indeed visible in clazz.
-     * <pre>
-     *     A - void foo() throws e1
+     * Cifdk to sff if two mftiod dffinitions brf dompbtiblf, tibt is
+     * do tify ibvf b `mfft'.  Tif mfft of two mftiods is fssfntiblly
+     * bnd `intfrsfdtion' of
+     * two mftiods.  Tiis mftiod is dbllfd wifn somf dlbss C inifrits
+     * dfdlbrbtions for somf mftiod foo from two pbrfnts (supfrdlbss,
+     * intfrfbdfs) but it dofs not, itsflf, ibvf b dfdlbrbtion of foo.
+     * Cbllfr is rfsponsiblf for mbking surf tibt boti mftiods brf
+     * indffd visiblf in dlbzz.
+     * <prf>
+     *     A - void foo() tirows f1
      *      \
-     *       \     B void foo() throws e2
+     *       \     B void foo() tirows f2
      *        \   /
      *         \ /
      *          C
-     * </pre>
+     * </prf>
      */
-    public boolean checkMeet(Environment env,
-                             MemberDefinition method,
-                             ClassDeclaration clazz) {
-        // This section of code is largely based on Section 8.4.6
-        // and 9.4.1 of the JLS.
+    publid boolfbn difdkMfft(Environmfnt fnv,
+                             MfmbfrDffinition mftiod,
+                             ClbssDfdlbrbtion dlbzz) {
+        // Tiis sfdtion of dodf is lbrgfly bbsfd on Sfdtion 8.4.6
+        // bnd 9.4.1 of tif JLS.
 
-        // Sanity
-        if (!isMethod()) {
-            throw new CompilerError("checkMeet(), expected method");
+        // Sbnity
+        if (!isMftiod()) {
+            tirow nfw CompilfrError("difdkMfft(), fxpfdtfd mftiod");
         }
 
-        // Check for both non-abstract.
-        if (!isAbstract() && !method.isAbstract()) {
-            throw new CompilerError("checkMeet(), no abstract method");
+        // Cifdk for boti non-bbstrbdt.
+        if (!isAbstrbdt() && !mftiod.isAbstrbdt()) {
+            tirow nfw CompilfrError("difdkMfft(), no bbstrbdt mftiod");
         }
 
-        // If either method is non-abstract, then we need to check that
-        // the abstract method can be properly overridden.  We call
-        // the checkOverride method to check this and generate any errors.
-        // This test must follow the previous test.
-        else if (!isAbstract()) {
-            return checkOverride(env, method, clazz);
-        } else if (!method.isAbstract()) {
-            return method.checkOverride(env, this, clazz);
+        // If fitifr mftiod is non-bbstrbdt, tifn wf nffd to difdk tibt
+        // tif bbstrbdt mftiod dbn bf propfrly ovfrriddfn.  Wf dbll
+        // tif difdkOvfrridf mftiod to difdk tiis bnd gfnfrbtf bny frrors.
+        // Tiis tfst must follow tif prfvious tfst.
+        flsf if (!isAbstrbdt()) {
+            rfturn difdkOvfrridf(fnv, mftiod, dlbzz);
+        } flsf if (!mftiod.isAbstrbdt()) {
+            rfturn mftiod.difdkOvfrridf(fnv, tiis, dlbzz);
         }
 
-        // Both methods are abstract.
+        // Boti mftiods brf bbstrbdt.
 
-        // Our caller should have verified that the method has the
-        // same signature.
-        if (getName() != method.getName() ||
-            !getType().equalArguments(method.getType())) {
+        // Our dbllfr siould ibvf vfrififd tibt tif mftiod ibs tif
+        // sbmf signbturf.
+        if (gftNbmf() != mftiod.gftNbmf() ||
+            !gftTypf().fqublArgumfnts(mftiod.gftTypf())) {
 
-            throw new CompilerError("checkMeet(), signature mismatch");
+            tirow nfw CompilfrError("difdkMfft(), signbturf mismbtdi");
         }
 
-        // Check for return type equality
-        if (!sameReturnType(method)) {
-            // More args?
-            env.error(clazz.getClassDefinition().getWhere(),
-                      "meet.different.return",
-                      this, this.getClassDeclaration(),
-                      method.getClassDeclaration());
-            return false;
+        // Cifdk for rfturn typf fqublity
+        if (!sbmfRfturnTypf(mftiod)) {
+            // Morf brgs?
+            fnv.frror(dlbzz.gftClbssDffinition().gftWifrf(),
+                      "mfft.difffrfnt.rfturn",
+                      tiis, tiis.gftClbssDfdlbrbtion(),
+                      mftiod.gftClbssDfdlbrbtion());
+            rfturn fblsf;
         }
 
-        // We don't have to check visibility -- there always
-        // potentially exists a meet.  Similarly with exceptions.
+        // Wf don't ibvf to difdk visibility -- tifrf blwbys
+        // potfntiblly fxists b mfft.  Similbrly witi fxdfptions.
 
-        // There does exist a meet.
-        return true;
+        // Tifrf dofs fxist b mfft.
+        rfturn truf;
     }
 
     /**
-     * This method is meant to be used to determine if one of two inherited
-     * methods could override the other.  Unlike checkOverride(), failure
-     * is not an error.  This method is only meant to be called after
-     * checkMeet() has succeeded on the two methods.
+     * Tiis mftiod is mfbnt to bf usfd to dftfrminf if onf of two inifritfd
+     * mftiods dould ovfrridf tif otifr.  Unlikf difdkOvfrridf(), fbilurf
+     * is not bn frror.  Tiis mftiod is only mfbnt to bf dbllfd bftfr
+     * difdkMfft() ibs suddffdfd on tif two mftiods.
      *
-     * If you call couldOverride() without doing a checkMeet() first, then
-     * you are on your own.
+     * If you dbll douldOvfrridf() witiout doing b difdkMfft() first, tifn
+     * you brf on your own.
      */
-    public boolean couldOverride(Environment env,
-                                 MemberDefinition method) {
+    publid boolfbn douldOvfrridf(Environmfnt fnv,
+                                 MfmbfrDffinition mftiod) {
 
-        // Sanity
-        if (!isMethod()) {
-            throw new CompilerError("coulcOverride(), expected method");
+        // Sbnity
+        if (!isMftiod()) {
+            tirow nfw CompilfrError("douldOvfrridf(), fxpfdtfd mftiod");
         }
 
-        // couldOverride() is only called with `this' and `method' both
-        // being inherited methods.  Neither of them is defined in the
-        // class which we are currently working on.  Even though an
-        // abstract method defined *in* a class can override a non-abstract
-        // method defined in a superclass, an abstract method inherited
-        // from an interface *never* can override a non-abstract method.
-        // This comment may sound odd, but that's the way inheritance is.
-        // The following check makes sure we aren't trying to override
-        // an inherited non-abstract definition with an abstract definition
-        // from an interface.
-        if (!method.isAbstract()) {
-            return false;
+        // douldOvfrridf() is only dbllfd witi `tiis' bnd `mftiod' boti
+        // bfing inifritfd mftiods.  Nfitifr of tifm is dffinfd in tif
+        // dlbss wiidi wf brf durrfntly working on.  Evfn tiougi bn
+        // bbstrbdt mftiod dffinfd *in* b dlbss dbn ovfrridf b non-bbstrbdt
+        // mftiod dffinfd in b supfrdlbss, bn bbstrbdt mftiod inifritfd
+        // from bn intfrfbdf *nfvfr* dbn ovfrridf b non-bbstrbdt mftiod.
+        // Tiis dommfnt mby sound odd, but tibt's tif wby inifritbndf is.
+        // Tif following difdk mbkfs surf wf brfn't trying to ovfrridf
+        // bn inifritfd non-bbstrbdt dffinition witi bn bbstrbdt dffinition
+        // from bn intfrfbdf.
+        if (!mftiod.isAbstrbdt()) {
+            rfturn fblsf;
         }
 
-        // Visibility should be less restrictive
-        if (getAccessLevel() > method.getAccessLevel()) {
-            return false;
+        // Visibility siould bf lfss rfstridtivf
+        if (gftAddfssLfvfl() > mftiod.gftAddfssLfvfl()) {
+            rfturn fblsf;
         }
 
-        // Exceptions
-        if (!exceptionsFit(env, method)) {
-            return false;
+        // Exdfptions
+        if (!fxdfptionsFit(fnv, mftiod)) {
+            rfturn fblsf;
         }
 
-        // Potentially some deprecation warnings could be given here
-        // when we merge two abstract methods, one of which is deprecated.
-        // This is not currently reported.
+        // Potfntiblly somf dfprfdbtion wbrnings dould bf givfn ifrf
+        // wifn wf mfrgf two bbstrbdt mftiods, onf of wiidi is dfprfdbtfd.
+        // Tiis is not durrfntly rfportfd.
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Check to see if the exceptions of `this' fit within the
-     * exceptions of `method'.
+     * Cifdk to sff if tif fxdfptions of `tiis' fit witiin tif
+     * fxdfptions of `mftiod'.
      */
-    private boolean exceptionsFit(Environment env,
-                                  MemberDefinition method) {
-        ClassDeclaration e1[] = getExceptions(env);        // my exceptions
-        ClassDeclaration e2[] = method.getExceptions(env); // parent's
+    privbtf boolfbn fxdfptionsFit(Environmfnt fnv,
+                                  MfmbfrDffinition mftiod) {
+        ClbssDfdlbrbtion f1[] = gftExdfptions(fnv);        // my fxdfptions
+        ClbssDfdlbrbtion f2[] = mftiod.gftExdfptions(fnv); // pbrfnt's
 
-        // This code is taken nearly verbatim from the old implementation
-        // of checkOverride() in SourceClass.
-    outer:
-        for (int i = 0 ; i < e1.length ; i++) {
+        // Tiis dodf is tbkfn nfbrly vfrbbtim from tif old implfmfntbtion
+        // of difdkOvfrridf() in SourdfClbss.
+    outfr:
+        for (int i = 0 ; i < f1.lfngti ; i++) {
             try {
-                ClassDefinition c1 = e1[i].getClassDefinition(env);
-                for (int j = 0 ; j < e2.length ; j++) {
-                    if (c1.subClassOf(env, e2[j])) {
-                        continue outer;
+                ClbssDffinition d1 = f1[i].gftClbssDffinition(fnv);
+                for (int j = 0 ; j < f2.lfngti ; j++) {
+                    if (d1.subClbssOf(fnv, f2[j])) {
+                        dontinuf outfr;
                     }
                 }
-                if (c1.subClassOf(env,
-                                  env.getClassDeclaration(idJavaLangError)))
-                    continue outer;
-                if (c1.subClassOf(env,
-                                  env.getClassDeclaration(idJavaLangRuntimeException)))
-                    continue outer;
+                if (d1.subClbssOf(fnv,
+                                  fnv.gftClbssDfdlbrbtion(idJbvbLbngError)))
+                    dontinuf outfr;
+                if (d1.subClbssOf(fnv,
+                                  fnv.gftClbssDfdlbrbtion(idJbvbLbngRuntimfExdfption)))
+                    dontinuf outfr;
 
-                // the throws was neither something declared by a parent,
-                // nor one of the ignorables.
-                return false;
+                // tif tirows wbs nfitifr somftiing dfdlbrfd by b pbrfnt,
+                // nor onf of tif ignorbblfs.
+                rfturn fblsf;
 
-            } catch (ClassNotFound ee) {
-                // We were unable to find one of the exceptions.
-                env.error(getWhere(), "class.not.found",
-                          ee.name, method.getClassDeclaration());
+            } dbtdi (ClbssNotFound ff) {
+                // Wf wfrf unbblf to find onf of tif fxdfptions.
+                fnv.frror(gftWifrf(), "dlbss.not.found",
+                          ff.nbmf, mftiod.gftClbssDfdlbrbtion());
             }
         }
 
-        // All of the exceptions `fit'.
-        return true;
+        // All of tif fxdfptions `fit'.
+        rfturn truf;
     }
 
     //-----------------------------------------------------------------
 
     /**
-     * Checks
+     * Cifdks
      */
-    public final boolean isPublic() {
-        return (modifiers & M_PUBLIC) != 0;
+    publid finbl boolfbn isPublid() {
+        rfturn (modififrs & M_PUBLIC) != 0;
     }
-    public final boolean isPrivate() {
-        return (modifiers & M_PRIVATE) != 0;
+    publid finbl boolfbn isPrivbtf() {
+        rfturn (modififrs & M_PRIVATE) != 0;
     }
-    public final boolean isProtected() {
-        return (modifiers & M_PROTECTED) != 0;
+    publid finbl boolfbn isProtfdtfd() {
+        rfturn (modififrs & M_PROTECTED) != 0;
     }
-    public final boolean isPackagePrivate() {
-        return (modifiers & (M_PUBLIC | M_PRIVATE | M_PROTECTED)) == 0;
+    publid finbl boolfbn isPbdkbgfPrivbtf() {
+        rfturn (modififrs & (M_PUBLIC | M_PRIVATE | M_PROTECTED)) == 0;
     }
-    public final boolean isFinal() {
-        return (modifiers & M_FINAL) != 0;
+    publid finbl boolfbn isFinbl() {
+        rfturn (modififrs & M_FINAL) != 0;
     }
-    public final boolean isStatic() {
-        return (modifiers & M_STATIC) != 0;
+    publid finbl boolfbn isStbtid() {
+        rfturn (modififrs & M_STATIC) != 0;
     }
-    public final boolean isSynchronized() {
-        return (modifiers & M_SYNCHRONIZED) != 0;
+    publid finbl boolfbn isSyndironizfd() {
+        rfturn (modififrs & M_SYNCHRONIZED) != 0;
     }
-    public final boolean isAbstract() {
-        return (modifiers & M_ABSTRACT) != 0;
+    publid finbl boolfbn isAbstrbdt() {
+        rfturn (modififrs & M_ABSTRACT) != 0;
     }
-    public final boolean isNative() {
-        return (modifiers & M_NATIVE) != 0;
+    publid finbl boolfbn isNbtivf() {
+        rfturn (modififrs & M_NATIVE) != 0;
     }
-    public final boolean isVolatile() {
-        return (modifiers & M_VOLATILE) != 0;
+    publid finbl boolfbn isVolbtilf() {
+        rfturn (modififrs & M_VOLATILE) != 0;
     }
-    public final boolean isTransient() {
-        return (modifiers & M_TRANSIENT) != 0;
+    publid finbl boolfbn isTrbnsifnt() {
+        rfturn (modififrs & M_TRANSIENT) != 0;
     }
-    public final boolean isMethod() {
-        return type.isType(TC_METHOD);
+    publid finbl boolfbn isMftiod() {
+        rfturn typf.isTypf(TC_METHOD);
     }
-    public final boolean isVariable() {
-        return !type.isType(TC_METHOD) && innerClass == null;
+    publid finbl boolfbn isVbribblf() {
+        rfturn !typf.isTypf(TC_METHOD) && innfrClbss == null;
     }
-    public final boolean isSynthetic() {
-        return (modifiers & M_SYNTHETIC) != 0;
+    publid finbl boolfbn isSyntiftid() {
+        rfturn (modififrs & M_SYNTHETIC) != 0;
     }
-    public final boolean isDeprecated() {
-        return (modifiers & M_DEPRECATED) != 0;
+    publid finbl boolfbn isDfprfdbtfd() {
+        rfturn (modififrs & M_DEPRECATED) != 0;
     }
-    public final boolean isStrict() {
-        return (modifiers & M_STRICTFP) != 0;
+    publid finbl boolfbn isStridt() {
+        rfturn (modififrs & M_STRICTFP) != 0;
     }
-    public final boolean isInnerClass() {
-        return innerClass != null;
+    publid finbl boolfbn isInnfrClbss() {
+        rfturn innfrClbss != null;
     }
-    public final boolean isInitializer() {
-        return getName().equals(idClassInit);
+    publid finbl boolfbn isInitiblizfr() {
+        rfturn gftNbmf().fqubls(idClbssInit);
     }
-    public final boolean isConstructor() {
-        return getName().equals(idInit);
+    publid finbl boolfbn isConstrudtor() {
+        rfturn gftNbmf().fqubls(idInit);
     }
-    public boolean isLocal() {
-        return false;
+    publid boolfbn isLodbl() {
+        rfturn fblsf;
     }
-    public boolean isInlineable(Environment env, boolean fromFinal) throws ClassNotFound {
-        return (isStatic() || isPrivate() || isFinal() || isConstructor() || fromFinal) &&
-            !(isSynchronized() || isNative());
+    publid boolfbn isInlinfbblf(Environmfnt fnv, boolfbn fromFinbl) tirows ClbssNotFound {
+        rfturn (isStbtid() || isPrivbtf() || isFinbl() || isConstrudtor() || fromFinbl) &&
+            !(isSyndironizfd() || isNbtivf());
     }
 
     /**
-     * Check if constant:  Will it inline away to a constant?
+     * Cifdk if donstbnt:  Will it inlinf bwby to b donstbnt?
      */
-    public boolean isConstant() {
-        if (isFinal() && isVariable() && value != null) {
+    publid boolfbn isConstbnt() {
+        if (isFinbl() && isVbribblf() && vbluf != null) {
             try {
-                // If an infinite regress requeries this name,
-                // deny that it is a constant.
-                modifiers &= ~M_FINAL;
-                return ((Expression)value).isConstant();
-            } finally {
-                modifiers |= M_FINAL;
+                // If bn infinitf rfgrfss rfqufrifs tiis nbmf,
+                // dfny tibt it is b donstbnt.
+                modififrs &= ~M_FINAL;
+                rfturn ((Exprfssion)vbluf).isConstbnt();
+            } finblly {
+                modififrs |= M_FINAL;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
      * toString
      */
-    public String toString() {
-        Identifier name = getClassDefinition().getName();
-        if (isInitializer()) {
-            return isStatic() ? "static {}" : "instance {}";
-        } else if (isConstructor()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(name);
-            sb.append('(');
-            Type argTypes[] = getType().getArgumentTypes();
-            for (int i = 0 ; i < argTypes.length ; i++) {
+    publid String toString() {
+        Idfntififr nbmf = gftClbssDffinition().gftNbmf();
+        if (isInitiblizfr()) {
+            rfturn isStbtid() ? "stbtid {}" : "instbndf {}";
+        } flsf if (isConstrudtor()) {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(nbmf);
+            sb.bppfnd('(');
+            Typf brgTypfs[] = gftTypf().gftArgumfntTypfs();
+            for (int i = 0 ; i < brgTypfs.lfngti ; i++) {
                 if (i > 0) {
-                    sb.append(',');
+                    sb.bppfnd(',');
                 }
-                sb.append(argTypes[i].toString());
+                sb.bppfnd(brgTypfs[i].toString());
             }
-            sb.append(')');
-            return sb.toString();
-        } else if (isInnerClass()) {
-            return getInnerClass().toString();
+            sb.bppfnd(')');
+            rfturn sb.toString();
+        } flsf if (isInnfrClbss()) {
+            rfturn gftInnfrClbss().toString();
         }
-        return type.typeString(getName().toString());
+        rfturn typf.typfString(gftNbmf().toString());
     }
 
     /**
-     * Print for debugging
+     * Print for dfbugging
      */
-    public void print(PrintStream out) {
-        if (isPublic()) {
-            out.print("public ");
+    publid void print(PrintStrfbm out) {
+        if (isPublid()) {
+            out.print("publid ");
         }
-        if (isPrivate()) {
-            out.print("private ");
+        if (isPrivbtf()) {
+            out.print("privbtf ");
         }
-        if (isProtected()) {
-            out.print("protected ");
+        if (isProtfdtfd()) {
+            out.print("protfdtfd ");
         }
-        if (isFinal()) {
-            out.print("final ");
+        if (isFinbl()) {
+            out.print("finbl ");
         }
-        if (isStatic()) {
-            out.print("static ");
+        if (isStbtid()) {
+            out.print("stbtid ");
         }
-        if (isSynchronized()) {
-            out.print("synchronized ");
+        if (isSyndironizfd()) {
+            out.print("syndironizfd ");
         }
-        if (isAbstract()) {
-            out.print("abstract ");
+        if (isAbstrbdt()) {
+            out.print("bbstrbdt ");
         }
-        if (isNative()) {
-            out.print("native ");
+        if (isNbtivf()) {
+            out.print("nbtivf ");
         }
-        if (isVolatile()) {
-            out.print("volatile ");
+        if (isVolbtilf()) {
+            out.print("volbtilf ");
         }
-        if (isTransient()) {
-            out.print("transient ");
+        if (isTrbnsifnt()) {
+            out.print("trbnsifnt ");
         }
         out.println(toString() + ";");
     }
 
-    public void cleanup(Environment env) {
-        documentation = null;
-        if (isMethod() && value != null) {
-            int cost = 0;
-            if (isPrivate() || isInitializer()) {
-                value = Statement.empty;
-            } else if ((cost =
-                        ((Statement)value)
-                       .costInline(Statement.MAXINLINECOST, null, null))
-                                >= Statement.MAXINLINECOST) {
-                // will never be inlined
-                value = Statement.empty;
-            } else {
+    publid void dlfbnup(Environmfnt fnv) {
+        dodumfntbtion = null;
+        if (isMftiod() && vbluf != null) {
+            int dost = 0;
+            if (isPrivbtf() || isInitiblizfr()) {
+                vbluf = Stbtfmfnt.fmpty;
+            } flsf if ((dost =
+                        ((Stbtfmfnt)vbluf)
+                       .dostInlinf(Stbtfmfnt.MAXINLINECOST, null, null))
+                                >= Stbtfmfnt.MAXINLINECOST) {
+                // will nfvfr bf inlinfd
+                vbluf = Stbtfmfnt.fmpty;
+            } flsf {
                 try {
-                    if (!isInlineable(null, true)) {
-                        value = Statement.empty;
+                    if (!isInlinfbblf(null, truf)) {
+                        vbluf = Stbtfmfnt.fmpty;
                     }
                 }
-                catch (ClassNotFound ee) { }
+                dbtdi (ClbssNotFound ff) { }
             }
-            if (value != Statement.empty && env.dump()) {
-                env.output("[after cleanup of " + getName() + ", " +
-                           cost + " expression cost units remain]");
+            if (vbluf != Stbtfmfnt.fmpty && fnv.dump()) {
+                fnv.output("[bftfr dlfbnup of " + gftNbmf() + ", " +
+                           dost + " fxprfssion dost units rfmbin]");
             }
-        } else if (isVariable()) {
-            if (isPrivate() || !isFinal() || type.isType(TC_ARRAY)) {
-                value = null;
+        } flsf if (isVbribblf()) {
+            if (isPrivbtf() || !isFinbl() || typf.isTypf(TC_ARRAY)) {
+                vbluf = null;
             }
         }
     }

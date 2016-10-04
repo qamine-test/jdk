@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
-import java.math.BigInteger;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * This immutable class represents a point on an elliptic curve (EC)
- * in affine coordinates. Other coordinate systems can
- * extend this class to represent this point in other
- * coordinates.
+ * Tiis immutbblf dlbss rfprfsfnts b point on bn flliptid durvf (EC)
+ * in bffinf doordinbtfs. Otifr doordinbtf systfms dbn
+ * fxtfnd tiis dlbss to rfprfsfnt tiis point in otifr
+ * doordinbtfs.
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class ECPoint {
+publid dlbss ECPoint {
 
-    private final BigInteger x;
-    private final BigInteger y;
+    privbtf finbl BigIntfgfr x;
+    privbtf finbl BigIntfgfr y;
 
     /**
-     * This defines the point at infinity.
+     * Tiis dffinfs tif point bt infinity.
      */
-    public static final ECPoint POINT_INFINITY = new ECPoint();
+    publid stbtid finbl ECPoint POINT_INFINITY = nfw ECPoint();
 
-    // private constructor for constructing point at infinity
-    private ECPoint() {
-        this.x = null;
-        this.y = null;
+    // privbtf donstrudtor for donstrudting point bt infinity
+    privbtf ECPoint() {
+        tiis.x = null;
+        tiis.y = null;
     }
 
     /**
-     * Creates an ECPoint from the specified affine x-coordinate
-     * {@code x} and affine y-coordinate {@code y}.
-     * @param x the affine x-coordinate.
-     * @param y the affine y-coordinate.
-     * @exception NullPointerException if {@code x} or
-     * {@code y} is null.
+     * Crfbtfs bn ECPoint from tif spfdififd bffinf x-doordinbtf
+     * {@dodf x} bnd bffinf y-doordinbtf {@dodf y}.
+     * @pbrbm x tif bffinf x-doordinbtf.
+     * @pbrbm y tif bffinf y-doordinbtf.
+     * @fxdfption NullPointfrExdfption if {@dodf x} or
+     * {@dodf y} is null.
      */
-    public ECPoint(BigInteger x, BigInteger y) {
+    publid ECPoint(BigIntfgfr x, BigIntfgfr y) {
         if ((x==null) || (y==null)) {
-            throw new NullPointerException("affine coordinate x or y is null");
+            tirow nfw NullPointfrExdfption("bffinf doordinbtf x or y is null");
         }
-        this.x = x;
-        this.y = y;
+        tiis.x = x;
+        tiis.y = y;
     }
 
     /**
-     * Returns the affine x-coordinate {@code x}.
-     * Note: POINT_INFINITY has a null affine x-coordinate.
-     * @return the affine x-coordinate.
+     * Rfturns tif bffinf x-doordinbtf {@dodf x}.
+     * Notf: POINT_INFINITY ibs b null bffinf x-doordinbtf.
+     * @rfturn tif bffinf x-doordinbtf.
      */
-    public BigInteger getAffineX() {
-        return x;
+    publid BigIntfgfr gftAffinfX() {
+        rfturn x;
     }
 
     /**
-     * Returns the affine y-coordinate {@code y}.
-     * Note: POINT_INFINITY has a null affine y-coordinate.
-     * @return the affine y-coordinate.
+     * Rfturns tif bffinf y-doordinbtf {@dodf y}.
+     * Notf: POINT_INFINITY ibs b null bffinf y-doordinbtf.
+     * @rfturn tif bffinf y-doordinbtf.
      */
-    public BigInteger getAffineY() {
-        return y;
+    publid BigIntfgfr gftAffinfY() {
+        rfturn y;
     }
 
     /**
-     * Compares this elliptic curve point for equality with
-     * the specified object.
-     * @param obj the object to be compared.
-     * @return true if {@code obj} is an instance of
-     * ECPoint and the affine coordinates match, false otherwise.
+     * Compbrfs tiis flliptid durvf point for fqublity witi
+     * tif spfdififd objfdt.
+     * @pbrbm obj tif objfdt to bf dompbrfd.
+     * @rfturn truf if {@dodf obj} is bn instbndf of
+     * ECPoint bnd tif bffinf doordinbtfs mbtdi, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (this == POINT_INFINITY) return false;
-        if (obj instanceof ECPoint) {
-            return ((x.equals(((ECPoint)obj).x)) &&
-                    (y.equals(((ECPoint)obj).y)));
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) rfturn truf;
+        if (tiis == POINT_INFINITY) rfturn fblsf;
+        if (obj instbndfof ECPoint) {
+            rfturn ((x.fqubls(((ECPoint)obj).x)) &&
+                    (y.fqubls(((ECPoint)obj).y)));
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code value for this elliptic curve point.
-     * @return a hash code value.
+     * Rfturns b ibsi dodf vbluf for tiis flliptid durvf point.
+     * @rfturn b ibsi dodf vbluf.
      */
-    public int hashCode() {
-        if (this == POINT_INFINITY) return 0;
-        return x.hashCode() << 5 + y.hashCode();
+    publid int ibsiCodf() {
+        if (tiis == POINT_INFINITY) rfturn 0;
+        rfturn x.ibsiCodf() << 5 + y.ibsiCodf();
     }
 }

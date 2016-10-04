@@ -1,0 +1,637 @@
+#
+# Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+jbvbd.frr.intfrnbl=\
+	Intfrnbl frror.
+jbvbd.frr.fof.in.dommfnt=\
+	Commfnt not tfrminbtfd bt fnd of input.
+jbvbd.frr.fof.in.string=\
+	String not tfrminbtfd bt fnd of input.
+jbvbd.frr.nfwlinf.in.string=\
+	String not tfrminbtfd bt fnd of linf.
+jbvbd.frr.invblid.dhbr.donstbnt=\
+	Invblid dhbrbdtfr donstbnt.
+jbvbd.frr.unbblbndfd.pbrfn=\
+	Unbblbndfd pbrfnthfsfs.
+jbvbd.frr.invblid.fsdbpf.dhbr=\
+	Invblid fsdbpf dhbrbdtfr.
+jbvbd.frr.invblid.hfx.numbfr=\
+	Hfxbdfdimbl numbfrs must dontbin bt lfbst onf hfxbdfdimbl digit.
+jbvbd.frr.invblid.odtbl.numbfr=\
+	Invblid dhbrbdtfr in odtbl numbfr.
+jbvbd.frr.invblid.numbfr=\
+	Invblid dhbrbdtfr in numbfr.
+jbvbd.frr.funny.dhbr=\
+	Invblid dhbrbdtfr in input.
+jbvbd.frr.flobt.formbt=\
+	Invblid flobting point formbt.
+jbvbd.frr.ovfrflow.int.odt=\
+	Intfgfr litfrbl out of rbngf.  Odtbl int litfrbls must bf in \
+	thf rbngf 00 to 037777777777.
+jbvbd.frr.ovfrflow.int.dfd=\
+	Intfgfr litfrbl out of rbngf.  Dfdimbl int litfrbls must bf in \
+	thf rbngf -2147483648 to 2147483647.
+jbvbd.frr.ovfrflow.int.hfx=\
+	Intfgfr litfrbl out of rbngf.  Hfxbdfdimbl int litfrbls must bf in \
+	thf rbngf 0x0 to 0xffffffff.
+jbvbd.frr.ovfrflow.long.odt=\
+	Intfgfr litfrbl out of rbngf.  Odtbl long litfrbls must bf in \
+	thf rbngf 00L to 01777777777777777777777L.
+jbvbd.frr.ovfrflow.long.dfd=\
+	Intfgfr litfrbl out of rbngf.  Dfdimbl long litfrbls must bf in \
+	thf rbngf -9223372036854775808L to 9223372036854775807L.
+jbvbd.frr.ovfrflow.long.hfx=\
+	Intfgfr litfrbl out of rbngf.  Hfxbdfdimbl long litfrbls must bf in \
+	thf rbngf 0x0L to 0xffffffffffffffffL.
+jbvbd.frr.ovfrflow.flobt=\
+	Numfrid ovfrflow: flobt litfrbl too lbrgf.
+jbvbd.frr.ovfrflow.doublf=\
+	Numfrid ovfrflow: doublf litfrbl too lbrgf.
+jbvbd.frr.undfrflow.flobt=\
+	Numfrid undfrflow: flobt litfrbl too smbll.
+jbvbd.frr.undfrflow.doublf=\
+	Numfrid undfrflow: doublf litfrbl too smbll.
+jbvbd.frr.tokfn.fxpfdtfd=\
+	''{0}'' fxpfdtfd.
+jbvbd.frr.stbtfmfnt.fxpfdtfd=\
+	Stbtfmfnt fxpfdtfd.
+jbvbd.frr.typf.fxpfdtfd=\
+	Typf fxpfdtfd.
+jbvbd.frr.idfntififr.fxpfdtfd=\
+	Idfntififr fxpfdtfd.
+jbvbd.frr.dlbss.fxpfdtfd=\
+	''dlbss'' or ''intfrfbdf'' kfyword fxpfdtfd.
+jbvbd.frr.toplfvfl.fxpfdtfd=\
+	Clbss or intfrfbdf dfdlbrbtion fxpfdtfd.
+jbvbd.frr.missing.tfrm=\
+	Missing tfrm.
+jbvbd.frr.bssign.in.donditionblfxpr=\
+	Assignmfnt fxprfssions brf not pfrmittfd bs thf third subfxprfssion \
+	of b donditionbl fxprfssion (thbt is, b ? : fxprfssion).  \
+	Try pbrfnthfsizing this bssignmfnt fxprfssion.
+jbvbd.frr.flsf.without.if=\
+	''flsf'' without ''if''.
+jbvbd.frr.dbtdh.without.try=\
+	''dbtdh'' without ''try''.
+jbvbd.frr.finblly.without.try=\
+	''finblly'' without ''try''.
+jbvbd.frr.try.without.dbtdh.finblly=\
+	''try'' without ''dbtdh'' or ''finblly''.
+jbvbd.frr.dbsf.without.switdh=\
+	''dbsf'' outsidf switdh stbtfmfnt.
+jbvbd.frr.dffbult.without.switdh=\
+	''dffbult'' outsidf switdh stbtfmfnt.
+jbvbd.frr.io.fxdfption=\
+	I/O frror in {0}.
+jbvbd.frr.io.fxdfption.pbdkbgf=\
+	I/O frror whilf dhfdking for fxistfndf of pbdkbgf {0}.
+jbvbd.frr.mblformfd.bttributf=\
+	Thf dlbss filf dontbining {0} hbs b mblformfd ''{1}'' bttributf.
+jbvbd.frr.brrby.indfx.rfquirfd=\
+	Arrby indfx rfquirfd.
+jbvbd.frr.not.brrby=\
+	[] dbn only bf bpplifd to brrbys. It dbn''t bf bpplifd to {0}.
+jbvbd.frr.brrby.dim.in.dfdl=\
+	Cbn''t spfdify brrby dimfnsion in b dfdlbrbtion.
+jbvbd.frr.brrby.dim.in.typf=\
+	Cbn''t spfdify brrby dimfnsion in b typf fxprfssion.
+jbvbd.frr.invblid.brrby.fxpr=\
+	Arrby donstbnts dbn only bf usfd in initiblizfrs.
+jbvbd.frr.invblid.brrby.init=\
+	Invblid initiblizfr for typf {0}.
+jbvbd.frr.invblid.lhs.bssignmfnt=\
+	Invblid lfft hbnd sidf of bssignmfnt.
+jbvbd.frr.invblid.brgs=\
+	Invblid brgumfnts to {0}.
+jbvbd.frr.invblid.dbst=\
+	Invblid dbst from {0} to {1}.
+jbvbd.frr.invblid.instbndfof=\
+	Impossiblf for {0} to bf instbndf of {1}.
+jbvbd.frr.invblid.typf.fxpr=\
+	Invblid typf fxprfssion.
+jbvbd.frr.bnonymous.fxtfnds=\
+	Only nbmfd dlbssfs dbn hbvf ''fxtfnds'' or ''implfmfnts'' dlbusfs.
+jbvbd.frr.invblid.fifld.rfffrfndf=\
+	Attfmpt to rfffrfndf fifld {0} in b {1}.
+jbvbd.frr.no.sudh.fifld=\
+	No vbribblf {0} dffinfd in {1}.
+jbvbd.frr.no.fifld.bddfss=\
+	Vbribblf {0} in {1} not bddfssiblf from {2}.
+jbvbd.frr.no.typf.bddfss=\
+	Innfr typf {0} in {1} not bddfssiblf from {2}.
+jbvbd.frr.dbnt.bddfss.mfmbfr.typf=\
+	Thf typf {1} to whidh thf mfmbfr {0} bflongs is not bddfssiblf from {2}.
+jbvbd.frr.innfr.dlbss.fxpfdtfd=\
+	No innfr dlbss {0} found in {1}.
+jbvbd.frr.no.stbtid.fifld.bddfss=\
+	Cbn''t mbkf b stbtid rfffrfndf to nonstbtid vbribblf {0} in {1}.
+jbvbd.frr.innfr.stbtid.rff=\
+	Cbn''t mbkf b stbtid rfffrfndf to innfr dlbss {0}.
+jbvbd.frr.bmbig.fifld=\
+	Rfffrfndf to {0} is bmbiguous. It is dffinfd in {1} bnd {2}.
+jbvbd.frr.invblid.fifld=\
+	Attfmpt to rfffrfndf mfthod {0} in {1} bs bn instbndf vbribblf.
+jbvbd.frr.bssign.to.finbl=\
+	Cbn''t bssign b vbluf to b finbl vbribblf: {0}
+jbvbd.frr.bssign.to.blbnk.finbl=\
+	Cbn''t bssign b sfdond vbluf to b blbnk finbl vbribblf: {0}
+jbvbd.frr.qublififd.stbtid.finbl.bssign=\
+	Thf vbribblf in bn bssignmfnt to b stbtid blbnk finbl must bf b simplf nbmf (it mby not follow b dot ''.'').
+jbvbd.frr.bbd.qublififd.finbl.bssign=\
+	Thf vbribblf in bn bssignmfnt to b blbnk finbl must bf b simplf nbmf or b simplf nbmf qublififd by ''this'': ''{0}'' or ''this.{0}''.
+jbvbd.frr.bssign.to.blbnk.finbl.in.loop=\
+	Attfmpt to bssign b blbnk finbl vbribblf {0} in b loop. Thf initiblizbtion must oddur fxbdtly ondf.
+jbvbd.frr.bssign.to.uplfvfl=\
+	Attfmpt to bssign to b vbribblf {0} in b difffrfnt mfthod. From fndlosing blodks, only finbl lodbl vbribblfs brf bvbilbblf.
+jbvbd.frr.invblid.uplfvfl=\
+	Attfmpt to usf b non-finbl vbribblf {0} from b difffrfnt mfthod. From fndlosing blodks, only finbl lodbl vbribblfs brf bvbilbblf.
+jbvbd.frr.undff.vbr=\
+	Undffinfd vbribblf: {0}
+jbvbd.frr.undff.vbr.supfr=\
+	Undffinfd vbribblf: {0}.  Thf "supfr" kfyword mby only bf usfd for mfmbfr bddfss bnd donstrudtor invodbtion.
+jbvbd.frr.undff.vbr.or.pbdkbgf=\
+	Undffinfd vbribblf or pbdkbgf nbmf: {0}
+jbvbd.frr.undff.dlbss.or.pbdkbgf=\
+	Undffinfd dlbss or pbdkbgf nbmf: {0}
+jbvbd.frr.undff.vbr.dlbss.or.pbdkbgf=\
+	Undffinfd vbribblf, dlbss, or pbdkbgf nbmf: {0}
+jbvbd.frr.undff.dlbss=\
+	Undffinfd dlbss nbmf: {0}
+jbvbd.frr.undff.vbr.or.dlbss=\
+	Undffinfd vbribblf or dlbss nbmf: {0}
+jbvbd.frr.vbr.not.initiblizfd=\
+	Vbribblf {0} mby not hbvf bffn initiblizfd.
+jbvbd.frr.finbl.vbr.not.initiblizfd=\
+	Blbnk finbl vbribblf ''{0}'' mby not hbvf bffn initiblizfd. It must bf bssignfd b vbluf in bn initiblizfr, or in fvfry donstrudtor.
+jbvbd.frr.bddfss.inst.bfforf.supfr=\
+	Cbn''t rfffrfndf {0} bfforf thf supfrdlbss donstrudtor hbs bffn dbllfd.
+jbvbd.frr.bmbig.dlbss=\
+	Ambiguous dlbss: {0} bnd {1}
+jbvbd.frr.invblid.brg=\
+	Invblid brgumfnt to {0}.
+jbvbd.frr.invblid.brg.typf=\
+	Invblid brgumfnt typf {0} for {1}.
+jbvbd.frr.invblid.lfngth=\
+	''lfngth'' bpplifd to {0}, whidh is not bn brrby.
+jbvbd.frr.invblid.donstr.invokf=\
+	Only donstrudtors dbn invokf donstrudtors.
+jbvbd.frr.donstr.invokf.not.first=\
+	Construdtor invodbtion must bf thf first thing in b mfthod.
+jbvbd.frr.invblid.mfthod.invokf=\
+	Cbn''t invokf b mfthod on b {0}.
+jbvbd.frr.undff.mfth=\
+	Mfthod {0} not found in {1}.
+jbvbd.frr.no.mfth.bddfss=\
+	Mfthod {0} in {1} is not bddfssiblf from {2}.
+#wbrning:
+jbvbd.frr.no.ovfrridf.bddfss=\
+	Notf: Mfthod {0} in {1} dofs not ovfrridf thf dorrfsponding mfthod in {2}.  If you brf trying to ovfrridf this mfthod, you dbnnot do so bfdbusf it is privbtf to b difffrfnt pbdkbgf.
+jbvbd.frr.no.stbtid.mfth.bddfss=\
+	Cbn''t mbkf stbtid rfffrfndf to mfthod {0} in {1}.
+jbvbd.frr.invblid.protfdtfd.mfthod.usf=\
+	Cbn''t bddfss protfdtfd mfthod {0} in {1}. {2} is not b subdlbss of thf durrfnt dlbss.
+jbvbd.frr.invblid.protfdtfd.fifld.usf=\
+	Cbn''t bddfss protfdtfd fifld {0} in {1}. {2} is not b subdlbss of thf durrfnt dlbss.
+jbvbd.frr.invblid.protfdtfd.typf.usf=\
+	Cbn''t bddfss protfdtfd innfr typf {0} in {1}. {2} is not b subdlbss of thf durrfnt dlbss.
+jbvbd.frr.invblid.protfdtfd.donstrudtor.usf=\
+	Cbn''t bddfss protfdtfd donstrudtor of {0}.  Instbndf drfbtion is pfrmittfd only within thf pbdkbgf in whidh thf donstrudtor is dffinfd.
+jbvbd.frr.invblid.mfthod=\
+	Rfffrfndf to vbribblf {0} in {1} bs if it wfrf b mfthod.
+jbvbd.frr.invblid.vbr=\
+	Rfffrfndf to mfthod {0} in {1} bs if it wfrf b vbribblf.
+jbvbd.frr.syndhronizfd.null=\
+	Thf null litfrbl is not b lfgbl brgumfnt for thf syndhronizfd stbtfmfnt.
+#bll mfssbgfs rflbtfd to dfprfdbtion brf wbrnings:
+jbvbd.frr.dlbss.is.dfprfdbtfd=\
+	Notf: {0} hbs bffn dfprfdbtfd.
+jbvbd.frr.mfth.is.dfprfdbtfd=\
+	Notf: Thf mfthod {0} in {1} hbs bffn dfprfdbtfd.
+jbvbd.frr.donstr.is.dfprfdbtfd=\
+	Notf: Thf donstrudtor {0} hbs bffn dfprfdbtfd.
+jbvbd.frr.fifld.is.dfprfdbtfd=\
+	Notf: Thf vbribblf {0} in {1} hbs bffn dfprfdbtfd.
+jbvbd.frr.notf.dfprfdbtions=\
+	Notf: {0} filfs usf or ovfrridf b dfprfdbtfd API.  Plfbsf donsult thf dodumfntbtion for b bfttfr bltfrnbtivf in fbdh dbsf.
+jbvbd.frr.notf.1dfprfdbtion=\
+	Notf: {0} usfs or ovfrridfs b dfprfdbtfd API.  Plfbsf donsult thf dodumfntbtion for b bfttfr bltfrnbtivf.
+jbvbd.frr.notf.dfprfdbtions.silfnt=\
+	Notf: {0} filfs usf or ovfrridf b dfprfdbtfd API.  Rfdompilf with "-dfprfdbtion" for dftbils.
+jbvbd.frr.notf.1dfprfdbtion.silfnt=\
+	Notf: {0} usfs or ovfrridfs b dfprfdbtfd API.  Rfdompilf with "-dfprfdbtion" for dftbils.
+jbvbd.frr.invblid.brrby.dim=\
+	Invblid brrby dimfnsion.
+jbvbd.frr.bmbig.donstr=\
+	Construdtor is bmbiguous: {0}, {1}
+jbvbd.frr.fxplidit.dbst.nffdfd=\
+	Indompbtiblf typf for {0}. Explidit dbst nffdfd to donvfrt {1} to {2}.
+jbvbd.frr.indompbtiblf.typf=\
+	Indompbtiblf typf for {0}. Cbn''t donvfrt {1} to {2}.
+jbvbd.frr.invblid.tfrm=\
+	Invblid tfrm.
+jbvbd.frr.bbstrbdt.dlbss=\
+	{0} must bf dfdlbrfd bbstrbdt. It dofs not dffinf {1} from {2}.
+jbvbd.frr.bbstrbdt.dlbss.dbnnot.ovfrridf=\
+	{0} must bf dfdlbrfd bbstrbdt.  Thf pbdkbgf-privbtf bbstrbdt mfthod {1} in supfrdlbss {2} is inbddfssiblf bnd dbnnot bf ovfrriddfn.
+jbvbd.frr.nfw.intf=\
+	{0} is bn intfrfbdf. It dbn''t bf instbntibtfd.
+jbvbd.frr.invokf.bbstrbdt=\
+	Cbn''t dirfdtly invokf bbstrbdt mfthod {0} in {1}.
+jbvbd.frr.unmbtdhfd.mfth=\
+	No mfthod mbtdhing {0} found in {1}.
+jbvbd.frr.unmbtdhfd.donstr=\
+	No donstrudtor mbtdhing {0} found in {1}.
+jbvbd.frr.wrong.numbfr.brgs=\
+	Wrong numbfr of brgumfnts in {0}.
+jbvbd.frr.wrong.numbfr.brgs=\
+	Wrong numbfr of brgumfnts in {0}.
+jbvbd.frr.forwbrd.rff=\
+	Cbn''t mbkf forwbrd rfffrfndf to {0} in {1}.
+jbvbd.frr.brrby.dim.missing=\
+	Arrby dimfnsion missing.
+jbvbd.frr.nfw.bbstrbdt=\
+	{0} is bn bbstrbdt dlbss. It dbn''t bf instbntibtfd.
+jbvbd.frr.lbbfl.not.found=\
+	No lbbfl dffinition found for {0}.
+jbvbd.frr.invblid.brfbk=\
+	''brfbk'' must bf in loop or switdh.
+jbvbd.frr.invblid.dontinuf=\
+	''dontinuf'' must bf in loop.
+jbvbd.frr.brbndh.to.uplfvfl=\
+	b ''brfbk'' or ''dontinuf'' must trbnsffr dontrol within thf sbmf mfthod.
+jbvbd.frr.invblid.dfdl=\
+	Invblid dfdlbrbtion.
+jbvbd.frr.rfturn.with.vbluf=\
+	''rfturn'' with vbluf from {0}.
+jbvbd.frr.rfturn.without.vbluf=\
+	''rfturn'' without vbluf from {0}.
+jbvbd.frr.rfturn.insidf.stbtid.initiblizfr=\
+	''rfturn'' insidf stbtid initiblizfr.
+jbvbd.frr.invblid.lbbfl=\
+	Invblid lbbfl.
+jbvbd.frr.rfturn.rfquirfd.bt.fnd=\
+	Rfturn rfquirfd bt fnd of {0}.
+jbvbd.frr.duplidbtf.lbbfl=\
+	Duplidbtf dbsf lbbfl: {0}
+jbvbd.frr.switdh.ovfrflow=\
+	Cbsf lbbfl {0} too lbrgf for ''switdh'' on {1}
+jbvbd.frr.nfstfd.duplidbtf.lbbfl=\
+	A stbtfmfnt dbnnot bf lbbflfd with thf sbmf idfntififr bs onf of its fndlosing stbtfmfnts: {0}
+jbvbd.frr.dfdlbrbtion.with.lbbfl=\
+	A dfdlbrbtion dbnnot bf lbbflfd: {0}
+jbvbd.frr.donst.fxpr.rfquirfd=\
+	Constbnt fxprfssion rfquirfd.
+jbvbd.frr.duplidbtf.dffbult=\
+	Duplidbtf ''dffbult'' lbbfl.
+jbvbd.frr.not.supportfd=\
+	''{0}'' not supportfd.
+jbvbd.frr.rfturn.with.vbluf.donstr=\
+	''rfturn'' with vbluf from donstrudtor: {0}
+jbvbd.frr.pbdkbgf.rfpfbtfd=\
+	Only onf pbdkbgf dfdlbrbtion bllowfd.
+jbvbd.frr.dlbss.multidff=\
+	Clbss {0} blrfbdy dffinfd in {1}.
+jbvbd.frr.dlbss.multidff.import=\
+	Clbss nbmf {0} dlbshfs with importfd dlbss {1}.
+jbvbd.frr.intf.donstrudtor=\
+	Intfrfbdfs dbn''t hbvf donstrudtors.
+jbvbd.frr.donstr.modififr=\
+	Construdtors dbn''t bf nbtivf, bbstrbdt, stbtid, syndhronizfd, or finbl: {0}
+jbvbd.frr.intf.initiblizfr=\
+	Intfrfbdfs dbn''t hbvf stbtid initiblizfrs.
+jbvbd.frr.intf.modififr.mfthod=\
+	Intfrfbdf mfthods dbn''t bf nbtivf, stbtid, syndhronizfd, finbl, privbtf, or protfdtfd : {0}
+jbvbd.frr.intf.modififr.fifld=\
+	Intfrfbdf fiflds dbn''t bf privbtf or protfdtfd: {0}
+jbvbd.frr.trbnsifnt.mfth=\
+	Mfthod {0} dbn''t bf trbnsifnt. Only vbribblfs dbn bf trbnsifnt.
+jbvbd.frr.volbtilf.mfth=\
+	Mfthod {0} dbn''t bf volbtilf. Only vbribblfs dbn bf volbtilf.
+jbvbd.frr.bbstrbdt.privbtf.modififr=\
+	Abstrbdt mfthods dbn''t bf privbtf: {0}
+jbvbd.frr.bbstrbdt.stbtid.modififr=\
+	Abstrbdt mfthods dbn''t bf stbtid: {0}
+jbvbd.frr.bbstrbdt.finbl.modififr=\
+	Abstrbdt mfthods dbn''t bf finbl: {0}
+jbvbd.frr.bbstrbdt.nbtivf.modififr=\
+	Abstrbdt mfthods dbn''t bf nbtivf: {0}
+jbvbd.frr.bbstrbdt.syndhronizfd.modififr=\
+	Abstrbdt mfthods dbn''t bf syndhronizfd: {0}
+jbvbd.frr.invblid.mfth.body=\
+	Abstrbdt bnd nbtivf mfthods dbn''t hbvf b body: {0}
+jbvbd.frr.vbr.modififr=\
+	Vbribblfs dbn''t bf syndhronizfd, bbstrbdt or nbtivf: {0}
+jbvbd.frr.vbr.flobtmodififr=\
+	Vbribblfs dbn''t bf dfdlbrfd stridt: {0}
+jbvbd.frr.innfr.modififr=\
+	Innfr dlbssfs dbn''t bf volbtilf, trbnsifnt, nbtivf, or syndhronizfd: {0}
+jbvbd.frr.trbnsifnt.modififr=\
+	Trbnsifnt vbribblfs dbn''t bf mfmbfrs of intfrfbdfs: {0}
+jbvbd.frr.volbtilf.modififr=\
+	Volbtilf vbribblfs dbn''t bf finbl or mfmbfrs of intfrfbdfs: {0}
+jbvbd.frr.initiblizfr.nffdfd=\
+	This finbl vbribblf must bf initiblizfd: {0}
+jbvbd.frr.mfth.multidff=\
+	Duplidbtf mfthod dfdlbrbtion: {0}
+jbvbd.frr.mfth.rfdff.rfttypf=\
+	Mfthods dbn''t bf rfdffinfd with b difffrfnt rfturn typf: {0} wbs {1}
+jbvbd.frr.vbr.multidff=\
+	Duplidbtf vbribblf dfdlbrbtion: {0} wbs {1}
+jbvbd.frr.innfr.dlbss.multidff=\
+	Duplidbtf innfr dlbss dfdlbrbtion: {0} is blrfbdy dffinfd in this sdopf.
+jbvbd.frr.intf.supfr.dlbss=\
+	Supfrdlbss of {0} dbn''t bf bn intfrfbdf: {1}
+jbvbd.frr.dbnt.bddfss.dlbss=\
+	Cbn''t bddfss {0}. Clbss or intfrfbdf must bf publid, in sbmf pbdkbgf, or bn bddfssiblf mfmbfr dlbss.
+jbvbd.frr.unqublififd.nbmf.rfquirfd=\
+	Thf typf nbmf in b qublififd 'nfw' fxprfssion must bf bn unqublififd idfntififr.
+jbvbd.frr.rfpfbtfd.modififr=\
+	Rfpfbtfd modififr.
+jbvbd.frr.indonsistfnt.modififr=\
+	Indonsistfnt mfmbfr dfdlbrbtion. At most onf of publid, privbtf, or protfdtfd mby bf spfdififd.
+jbvbd.frr.supfr.is.finbl=\
+	Cbn''t subdlbss finbl dlbssfs: {0}
+jbvbd.frr.supfr.is.intf=\
+	Cbn''t subdlbss intfrfbdfs: {0}
+jbvbd.frr.dydlid.supfr=\
+	Cydlid dlbss inhfritbndf.
+jbvbd.frr.supfr.is.innfr=\
+	Cydlid dlbss inhfritbndf:  A subdlbss dbnnot fndlosf b supfrdlbss.
+jbvbd.frr.dydlid.intf=\
+	Cydlid intfrfbdf inhfritbndf.
+jbvbd.frr.dydlid.sdoping=\
+	Cydlid dlbss inhfritbndf or sdoping.
+jbvbd.frr.not.intf=\
+	{0} must bf bn intfrfbdf.
+jbvbd.frr.finbl.intf=\
+	Intfrfbdfs dbn''t bf finbl: {0}
+jbvbd.frr.intf.impl.intf=\
+	An intfrfbdf dbn''t implfmfnt bnything; it dbn only fxtfnd othfr intfrfbdfs.
+jbvbd.frr.multiplf.inhfrit=\
+	Multiplf inhfritbndf is not supportfd.
+jbvbd.frr.intf.rfpfbtfd=\
+	Intfrfbdf {0} rfpfbtfd.
+jbvbd.frr.dlbss.formbt=\
+	Invblid dlbss filf formbt in {0}.  {1}
+jbvbd.frr.trundbtfd.dlbss=\
+	Unfxpfdtfd fnd of filf fndountfrfd whilf rfbding thf dlbss filf {0}.
+jbvbd.frr.no.mfth.body=\
+	Mfthod {0} rfquirfs b mfthod body. Othfrwisf dfdlbrf it bs bbstrbdt.
+jbvbd.frr.no.donstrudtor.body=\
+	Construdtor {0} rfquirfs b mfthod body.
+jbvbd.frr.bbd.donstrudtor.modififr=\
+	Construdtors mby not bf modififd by stridtfp.
+jbvbd.frr.void.inst.vbr=\
+	Instbndf vbribblfs dbn''t bf void: {0}
+jbvbd.frr.invblid.mfthod.dfdl=\
+	Invblid mfthod dfdlbrbtion; rfturn typf rfquirfd.
+jbvbd.frr.invblid.mfthod.dfdl.nbmf=\
+	Invblid mfthod dfdlbrbtion; mfthod nbmf rfquirfd.
+jbvbd.frr.invblid.mfthod.dfdl.qubl=\
+	Invblid qublififd donstrudtor nbmf.
+jbvbd.frr.supfr.not.found=\
+	Supfrdlbss {0} of {1} not found.
+jbvbd.frr.intf.not.found=\
+	Intfrfbdf {0} of {1} not found.
+jbvbd.frr.finbl.bbstrbdt=\
+        Clbss {0} dbn''t bf dfdlbrfd both bbstrbdt bnd finbl.
+jbvbd.frr.void.brrby=\
+	Arrby of void is not b vblid typf.
+jbvbd.frr.void.brgumfnt=\
+	Argumfnt dbn''t hbvf typf void: {0}
+jbvbd.frr.invblid.fxpr=\
+	Invblid fxprfssion stbtfmfnt.
+jbvbd.frr.dbtdh.not.rfbdhfd=\
+	dbtdh not rfbdhfd.
+jbvbd.frr.stbt.not.rfbdhfd=\
+	Stbtfmfnt not rfbdhfd.
+jbvbd.frr.init.no.normbl.domplftion=\
+	Initiblizfr must bf bblf to domplftf normblly.
+jbvbd.frr.brithmftid.fxdfption=\
+	Arithmftid fxdfption.
+jbvbd.frr.gfnfrid=\
+	{0}
+jbvbd.frr.publid.dlbss.filf=\
+	Publid {0} must bf dffinfd in b filf dbllfd "{1}".
+jbvbd.frr.pbdkbgf.dlbss.filf=\
+	{0} is dffinfd in {1}. Bfdbusf it is usfd outsidf of its sourdf filf, it should bf dffinfd in b filf dbllfd "{2}".
+jbvbd.frr.losf.prfdision=\
+	Possiblf loss of prfdision. Usf bn fxplidit dbst to donvfrt {0} to {1}.
+jbvbd.frr.duplidbtf.brgumfnt=\
+	Vbribblf ''{0}'' is usfd twidf in thf brgumfnt list of this mfthod.
+jbvbd.frr.lodbl.rfdffinfd=\
+	Vbribblf ''{0}'' is blrfbdy dffinfd in this mfthod.
+jbvbd.frr.lodbl.dlbss.rfdffinfd=\
+	Lodbl dlbss ''{0}'' is blrfbdy dffinfd in this mfthod.
+jbvbd.frr.innfr.rfdffinfd=\
+	Thf dlbss nbmf ''{0}'' is blrfbdy dffinfd in this sdopf.  An innfr dlbss mby not hbvf thf sbmf simplf nbmf bs bny of its fndlosing dlbssfs.
+jbvbd.frr.inhfritfd.hidfs.fifld=\
+	Vbribblf ''{0}'' is inhfritfd in {1}, bnd hidfs b vbribblf of thf sbmf nbmf in {2}. An fxplidit ''this'' qublififr must bf usfd to sflfdt thf dfsirfd instbndf.
+jbvbd.frr.inhfritfd.hidfs.lodbl=\
+	Vbribblf ''{0}'' is inhfritfd in {1}, bnd hidfs b lodbl vbribblf of thf sbmf nbmf. An fxplidit ''this'' qublififr must bf usfd to sflfdt thf vbribblf, or thf lodbl must bf rfnbmfd.
+jbvbd.frr.inhfritfd.hidfs.mfthod=\
+	Mfthod ''{0}'' is inhfritfd in {1}, bnd hidfs b mfthod of thf sbmf nbmf in {2}. An fxplidit ''this'' qublififr must bf usfd to sflfdt thf dfsirfd instbndf.
+jbvbd.frr.inhfritfd.hidfs.typf=\
+	Typf ''{0}'' is inhfritfd in {1}, bnd hidfs b typf of thf sbmf nbmf in bn fndlosing sdopf. An fxplidit qublififr prffix must bf usfd to nbmf this typf.
+jbvbd.frr.privbtf.dlbss=\
+	Thf typf {0} dbn''t bf privbtf. Pbdkbgf mfmbfrs brf blwbys bddfssiblf within thf durrfnt pbdkbgf.
+jbvbd.frr.stbtid.dlbss=\
+	Thf typf {0} dbn''t bf dfdlbrfd stbtid. It is blrfbdy top-lfvfl, sindf it is b mfmbfr of b pbdkbgf.
+jbvbd.frr.protfdtfd.dlbss=\
+	Thf typf {0} dbn''t bf mbdf protfdtfd. Pbdkbgf mfmbfrs dbn fithfr bf publid or lodbl to thf durrfnt pbdkbgf.
+jbvbd.frr.rfdursivf.donstr=\
+	Rfdursivf donstrudtor invodbtion: {0}.
+jbvbd.frr.wrong.dlbss=\
+	Filf {0} dofs not dontbin {1} bs fxpfdtfd, but {2}. Plfbsf rfmovf thf filf, or mbkf surf it bppfbrs in thf dorrfdt subdirfdtory of thf dlbss pbth.
+jbvbd.frr.wrong.sourdf=\
+	Filf {0} dofs not dontbin {1} bs fxpfdtfd. Plfbsf bdjust thf dlbss pbth so thbt thf filf dofs not bppfbr in thf {2}.
+jbvbd.frr.dlbss.not.found=\
+	Clbss {0} not found in {1}.
+jbvbd.frr.dlbss.not.found.no.dontfxt=\
+	Clbss {0} not found.
+jbvbd.frr.pbdkbgf.not.found=\
+	Pbdkbgf {0} not found in {1}.
+jbvbd.frr.pbdkbgf.not.found.strong=\
+	Pbdkbgf {0} not found.  Plfbsf bdjust thf dlbsspbth so thbt pbdkbgf {0} is bddfssiblf.
+jbvbd.frr.dlbss.pbdkbgf.donflidt=\
+	A typf bnd b pbdkbgf dbnnot hbvf thf sbmf nbmf.  Thf nbmf {0} dbnnot bf usfd to nbmf b dlbss whilf thf pbdkbgf {0} is bddfssiblf.
+jbvbd.frr.pbdkbgf.dlbss.donflidt=\
+	A typf bnd b pbdkbgf dbnnot hbvf thf sbmf nbmf.  Thf nbmf {0} dbnnot bf usfd to nbmf b pbdkbgf whilf thf dlbss {1} is bddfssiblf.
+jbvbd.frr.pbdkbgf.dlbss.donflidt.strong=\
+	Thf nbmf {0} must rfffr to b pbdkbgf.  It is illfgbl for thfrf to bf bn bddfssiblf dlbss nbmfd {1} bfdbusf typfs bnd pbdkbgfs dbnnot hbvf thf sbmf nbmf.  Thf dlbss {1} should bf rfnbmfd or tbkfn off thf dlbsspbth.
+jbvbd.frr.illfgbl.mbnglfd.nbmf=\
+	Invblid nbmf {0} for {1}.
+jbvbd.frr.dlbss.bnd.pbdkbgf=\
+	Ambiguous nbmf: {0} is both b dlbss bnd b pbdkbgf.
+jbvbd.frr.throws.not.throwbblf=\
+	{0} in throws dlbusf must bf b subdlbss of dlbss jbvb.lbng.Throwbblf.
+jbvbd.frr.throw.not.throwbblf=\
+	Cbn''t throw {0}; it must bf b subdlbss of dlbss jbvb.lbng.Throwbblf.
+jbvbd.frr.dbtdh.not.throwbblf=\
+	Cbn''t dbtdh {0}; it must bf b subdlbss of dlbss jbvb.lbng.Throwbblf.
+jbvbd.frr.initiblizfr.fxdfption=\
+	Exdfption {0} dbn''t bf thrown in initiblizfr.
+jbvbd.frr.dbnt.rfbd=\
+	Cbn''t rfbd: {0}
+jbvbd.frr.dbnt.writf=\
+	Cbn''t writf: {0}
+jbvbd.frr.fbtbl.frror=\
+	An frror hbs oddurrfd in thf dompilfr; plfbsf filf b bug rfport (http://bugrfport.sun.dom/bugrfport/).
+jbvbd.frr.fbtbl.fxdfption=\
+	An fxdfption hbs oddurrfd in thf dompilfr; plfbsf filf b bug rfport (http://bugrfport.sun.dom/bugrfport/).
+jbvbd.frr.no.innfr.dlbssfs=\
+	Support for innfr dlbssfs hbs bffn disbblfd.
+jbvbd.frr.undbught.fxdfption=\
+	Exdfption {0} must bf dbught, or it must bf dfdlbrfd in thf throws dlbusf of this mfthod.
+jbvbd.frr.donstrudtor.fxdfption=\
+	Exdfption {0} must bf dbught, or it must bf dfdlbrfd in thf throws dlbusf of this donstrudtor.
+jbvbd.frr.dff.donstrudtor.fxdfption=\
+	A dffbult donstrudtor dbnnot bf drfbtfd for this dlbss bfdbusf thf donstrudtor of its supfrdlbss throws thf fxdfption {0}.  Dffinf thf donstrudtor for this dlbss fxpliditly.
+jbvbd.frr.dbtdh.not.thrown=\
+	Exdfption {0} is nfvfr thrown in thf body of thf dorrfsponding try stbtfmfnt.
+#wbrning:
+jbvbd.frr.brrby.dlonf.supportfd=\
+	Notf: Thf dloning of bn brrby dofs not throw bny dhfdkfd fxdfptions, bnd thfrfforf dofs not rfquirf bny dbtdh dlbusfs.  Plfbsf rfmovf unusfd dbtdh dlbusfs, or if you wish to rftbin dompbtibility with oldfr dompilfrs, you mby insfrt bn brtifidibl throw bs follows:  if (fblsf) throw nfw ClonfNotSupportfdExdfption();
+jbvbd.frr.no.outfr.brg=\
+	No fndlosing instbndf of {0} is in sdopf; \
+	bn fxplidit onf must bf providfd whfn drfbting {1}, \
+	bs in "outfr. nfw Innfr()" or "outfr. supfr()".
+jbvbd.frr.no.dffbult.outfr.brg=\
+	No fndlosing instbndf of {0} is in sdopf; \
+	dbnnot drfbtf b dffbult donstrudtor for {1}.
+jbvbd.frr.no.outfr.bbsf=\
+	No fndlosing instbndf of {0} is in sdopf; \
+	bn fxplidit onf must bf providfd whfn bddfssing {1}, \
+	bs in "outfr.mfmbfr".
+jbvbd.frr.innfr.intfrfbdf=\
+	Mfmbfr intfrfbdfs dbn only oddur in intfrfbdfs bnd top-lfvfl dlbssfs.
+jbvbd.frr.stbtid.innfr.dlbss=\
+	Thf typf {0} dbn''t bf stbtid.  Stbtid mfmbfrs dbn only oddur in intfrfbdfs bnd top-lfvfl dlbssfs.
+jbvbd.frr.stbtid.innfr.fifld=\
+	Vbribblf {0} dbn''t bf stbtid in {1}.  Only mfmbfrs of intfrfbdfs bnd top-lfvfl dlbssfs dbn bf stbtid.
+jbvbd.frr.stbtid.innfr.mfthod=\
+	Mfthod {0} dbn''t bf stbtid in {1}.  Only mfmbfrs of intfrfbdfs bnd top-lfvfl dlbssfs dbn bf stbtid.
+jbvbd.frr.too.mbny.frrors=\
+	Too mbny frrors.  (Thf limit on rfportfd frrors is {0}.)
+jbvbd.frr.ovfrridf.stbtid.with.instbndf=\
+	Thf instbndf mfthod {0} dfdlbrfd in {1} dbnnot ovfrridf thf stbtid \
+	mfthod of thf sbmf signbturf dfdlbrfd in {2}.  It is illfgbl to \
+	ovfrridf b stbtid mfthod.
+jbvbd.frr.hidf.instbndf.with.stbtid=\
+	Thf stbtid mfthod {0} dfdlbrfd in {1} dbnnot hidf thf instbndf \
+	mfthod of thf sbmf signbturf dfdlbrfd in {2}.  It is illfgbl to \
+	hidf bn instbndf mfthod.
+jbvbd.frr.ovfrridf.finbl.mfthod=\
+	Thf mfthod {0} dfdlbrfd in {1} dbnnot ovfrridf thf finbl mfthod of \
+	thf sbmf signbturf dfdlbrfd in {2}.  Finbl mfthods dbnnot bf \
+	ovfrriddfn.
+jbvbd.frr.ovfrridf.is.dfprfdbtfd=\
+	Thf mfthod {0} dfdlbrfd in {1} is not dfprfdbtfd, but \
+	ovfrridfs b dfprfdbtfd mfthod of thf \
+	sbmf signbturf dfdlbrfd in {2}.
+jbvbd.frr.ovfrridf.morf.rfstridtivf=\
+	Thf mfthod {0} dfdlbrfd in {1} dbnnot ovfrridf thf mfthod of thf \
+	sbmf signbturf dfdlbrfd in {2}.  Thf bddfss modififr is mbdf morf \
+	rfstridtivf.
+jbvbd.frr.ovfrridf.difffrfnt.rfturn=\
+	Thf mfthod {0} dfdlbrfd in {1} dbnnot ovfrridf thf mfthod of thf \
+	sbmf signbturf dfdlbrfd in {2}.  Thfy must hbvf thf sbmf rfturn \
+	typf.	
+jbvbd.frr.ovfrridf.indompbtiblf.fxdfptions=\
+	Thf mfthod {0} dfdlbrfd in {1} dbnnot ovfrridf thf mfthod of thf \
+	sbmf signbturf dfdlbrfd in {2}.  Thfir throws dlbusfs brf \
+	indompbtiblf.
+jbvbd.frr.mfft.difffrfnt.rfturn=\
+	Thf mfthod {0} inhfritfd from {1} is indompbtiblf with thf mfthod of \
+	thf sbmf signbturf inhfritfd from {2}.  Thfy must hbvf thf sbmf \
+	rfturn typf.
+jbvbd.frr.nontrivibl.mfft=\
+	Thf dffinitions of mfthod {0} inhfritfd from {1} bnd {2} brf \
+	dompbtiblf, but thf dombinbtion of thfm is nontrivibl bnd hbs not \
+	bffn implfmfntfd.  As b workbround, dfdlbrf {0} fxpliditly in this \
+	dlbss.
+jbvbd.frr.mfthod.too.long=\
+	This dodf rfquirfs gfnfrbting b mfthod with morf thbn \
+	64K bytfs.  Virtubl mbdhinfs mby rffusf thf rfsulting dlbss filf.
+#
+jbvbd.frr.vfrsion.too.old=\
+	Thf mbjor vfrsion ''{0}'' is too old for this tool to undfrstbnd.
+jbvbd.frr.vfrsion.too.rfdfnt=\
+	Thf mbjor.minor vfrsion ''{0}'' is too rfdfnt for this tool \
+	to undfrstbnd.
+#
+bfnv.pbrsfd_in=[pbrsfd {0} in {1} ms]
+bfnv.lobdfd_in=[lobdfd {0} in {1} ms]
+bfnv.fbilfd_to_dlosf_dlbss_pbth=fbilfd to dlosf dlbss pbth: {0}
+#
+mbin.usbgf=\
+Usbgf: {0} <options> <sourdf filfs>\n\
+\n\
+whfrf <options> indludfs:\n\
+\ \ -g                     Gfnfrbtf bll dfbugging info\n\
+\ \ -g:nonf                Gfnfrbtf no dfbugging info\n\
+\ \ -g:'{'linfs,vbrs,sourdf'}' Gfnfrbtf only somf dfbugging info\n\
+\ \ -O                     Optimizf; mby hindfr dfbugging or fnlbrgf dlbss filfs\n\
+\ \ -nowbrn                Gfnfrbtf no wbrnings\n\
+\ \ -vfrbosf               Output mfssbgfs bbout whbt thf dompilfr is doing\n\
+\ \ -dfprfdbtion           Output sourdf lodbtions whfrf dfprfdbtfd APIs brf usfd\n\
+\ \ -dlbsspbth <pbth>      Spfdify whfrf to find usfr dlbss filfs\n\
+\ \ -sourdfpbth <pbth>     Spfdify whfrf to find input sourdf filfs\n\
+\ \ -bootdlbsspbth <pbth>  Ovfrridf lodbtion of bootstrbp dlbss filfs\n\
+\ \ -fxtdirs <dirs>        Ovfrridf lodbtion of instbllfd fxtfnsions\n\
+\ \ -d <dirfdtory>         Spfdify whfrf to plbdf gfnfrbtfd dlbss filfs\n\
+\ \ -fndoding <fndoding>   Spfdify dhbrbdtfr fndoding usfd by sourdf filfs\n\
+\ \ -tbrgft <rflfbsf>      Gfnfrbtf dlbss filfs for spfdifid VM vfrsion
+#
+mbin.unsupportfd.usbgf=\
+\ \ -Xdfpfnd         Rfdursivfly sfbrdh for morf rfdfnt sourdf filfs to rfdompilf\n\
+\ \ -Xstdout         Sfnd mfssbgfs to Systfm.out\n\
+\ \ -Xvfrbosfpbth    Dfsdribf how pbths bnd stbndbrd fxtfnsions wfrf sfbrdhfd\n\
+\ \ -J<runtimf flbg> Pbss brgumfnt to thf jbvb intfrprftfr\n\
+\n\
+Thf -X bnd -J options brf non-stbndbrd bnd subjfdt to dhbngf without notidf.
+#
+mbin.donflidting.options=Thf options {0} bnd {1} mby not bf usfd bt thf sbmf timf.
+mbin.option.blrfbdy.sffn=Thf {0} option mby bf spfdififd no morf thbn ondf.
+mbin.option.rfquirfs.brgumfnt=Thf {0} option rfquirfs bn brgumfnt.
+mbin.bbd.dfbug.option=Thf {0} option is not wfll formfd.  Only spfdify "linfs", "vbrs", bnd "sourdf" sfpbrbtfd by dommbs.
+mbin.no.sudh.dirfdtory=Thf {0} dirfdtory dofs not fxist.
+mbin.no.sudh.option={0} is bn invblid option or brgumfnt.
+mbin.unknown.rflfbsf=Thf rflfbsf ''{0}'' is unknown to this dompilfr.
+mbin.wrotf=[wrotf {0}]
+mbin.frrors={0} frrors
+mbin.1frror=1 frror
+mbin.wbrnings={0} wbrnings
+mbin.1wbrning=1 wbrning
+mbin.donf_in=[donf in {0} ms]
+mbin.no.mfmory=\
+	Thf dompilfr hbs run out of mfmory.  Considfr using thf "-J-mx<numbfr>" dommbnd linf option to indrfbsf thf mbximum hfbp sizf.
+mbin.stbdk.ovfrflow=\
+	Thf dompilfr hbs run out of stbdk spbdf.  Considfr using thf "-J-oss<numbfr>" dommbnd linf option to indrfbsf thf mfmory bllodbtfd for thf Jbvb stbdk.
+mbin.pbth.msg=\
+	[Thf sourdf dlbsspbth is "{0}"]\n\
+	[Thf librbry dlbsspbth is "{1}"]
+jbvbd.frr.invblid.fndoding.dhbr=\
+	Thf sourdf filf fndoding mby bf difffrfnt with this plbtform fndoding. Plfbsf usf -fndoding option to bdjust filf fndoding, or bpply nbtivf2bsdii utility to mbkf sourdf filf ASCII fndoding.

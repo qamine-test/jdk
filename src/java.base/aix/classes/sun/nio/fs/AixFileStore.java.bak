@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
- * Copyright 2013 SAP AG. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit 2013 SAP AG. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
 
 /**
- * AIX implementation of FileStore
+ * AIX implfmfntbtion of FilfStorf
  */
 
-class AixFileStore
-    extends UnixFileStore
+dlbss AixFilfStorf
+    fxtfnds UnixFilfStorf
 {
 
-    AixFileStore(UnixPath file) throws IOException {
-        super(file);
+    AixFilfStorf(UnixPbti filf) tirows IOExdfption {
+        supfr(filf);
     }
 
-    AixFileStore(UnixFileSystem fs, UnixMountEntry entry) throws IOException {
-        super(fs, entry);
+    AixFilfStorf(UnixFilfSystfm fs, UnixMountEntry fntry) tirows IOExdfption {
+        supfr(fs, fntry);
     }
 
     /**
-     * Finds, and returns, the mount entry for the file system where the file
-     * resides.
+     * Finds, bnd rfturns, tif mount fntry for tif filf systfm wifrf tif filf
+     * rfsidfs.
      */
-    @Override
-    UnixMountEntry findMountEntry() throws IOException {
-        AixFileSystem fs = (AixFileSystem)file().getFileSystem();
+    @Ovfrridf
+    UnixMountEntry findMountEntry() tirows IOExdfption {
+        AixFilfSystfm fs = (AixFilfSystfm)filf().gftFilfSystfm();
 
-        // step 1: get realpath
-        UnixPath path = null;
+        // stfp 1: gft rfblpbti
+        UnixPbti pbti = null;
         try {
-            byte[] rp = UnixNativeDispatcher.realpath(file());
-            path = new UnixPath(fs, rp);
-        } catch (UnixException x) {
-            x.rethrowAsIOException(file());
+            bytf[] rp = UnixNbtivfDispbtdifr.rfblpbti(filf());
+            pbti = nfw UnixPbti(fs, rp);
+        } dbtdi (UnixExdfption x) {
+            x.rftirowAsIOExdfption(filf());
         }
 
-        // step 2: find mount point
-        UnixPath parent = path.getParent();
-        while (parent != null) {
-            UnixFileAttributes attrs = null;
+        // stfp 2: find mount point
+        UnixPbti pbrfnt = pbti.gftPbrfnt();
+        wiilf (pbrfnt != null) {
+            UnixFilfAttributfs bttrs = null;
             try {
-                attrs = UnixFileAttributes.get(parent, true);
-            } catch (UnixException x) {
-                x.rethrowAsIOException(parent);
+                bttrs = UnixFilfAttributfs.gft(pbrfnt, truf);
+            } dbtdi (UnixExdfption x) {
+                x.rftirowAsIOExdfption(pbrfnt);
             }
-            if (attrs.dev() != dev())
-                break;
-            path = parent;
-            parent = parent.getParent();
+            if (bttrs.dfv() != dfv())
+                brfbk;
+            pbti = pbrfnt;
+            pbrfnt = pbrfnt.gftPbrfnt();
         }
 
-        // step 3: lookup mounted file systems
-        byte[] dir = path.asByteArray();
-        for (UnixMountEntry entry: fs.getMountEntries()) {
-            if (Arrays.equals(dir, entry.dir()))
-                return entry;
+        // stfp 3: lookup mountfd filf systfms
+        bytf[] dir = pbti.bsBytfArrby();
+        for (UnixMountEntry fntry: fs.gftMountEntrifs()) {
+            if (Arrbys.fqubls(dir, fntry.dir()))
+                rfturn fntry;
         }
 
-        throw new IOException("Mount point not found");
+        tirow nfw IOExdfption("Mount point not found");
     }
 
-    // returns true if extended attributes enabled on file system where given
-    // file resides, returns false if disabled or unable to determine.
-    private boolean isExtendedAttributesEnabled(UnixPath path) {
-        return false;
+    // rfturns truf if fxtfndfd bttributfs fnbblfd on filf systfm wifrf givfn
+    // filf rfsidfs, rfturns fblsf if disbblfd or unbblf to dftfrminf.
+    privbtf boolfbn isExtfndfdAttributfsEnbblfd(UnixPbti pbti) {
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
-        return super.supportsFileAttributeView(type);
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(Clbss<? fxtfnds FilfAttributfVifw> typf) {
+        rfturn supfr.supportsFilfAttributfVifw(typf);
     }
 
-    @Override
-    public boolean supportsFileAttributeView(String name) {
-        return super.supportsFileAttributeView(name);
+    @Ovfrridf
+    publid boolfbn supportsFilfAttributfVifw(String nbmf) {
+        rfturn supfr.supportsFilfAttributfVifw(nbmf);
     }
 }

@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2010 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,353 +53,353 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
-//      inter PCS conversions XYZ <-> CIE L* a* b*
+//      intfr PCS donvfrsions XYZ <-> CIE L* b* b*
 /*
 
 
-       CIE 15:2004 CIELab is defined as:
+       CIE 15:2004 CIELbb is dffinfd bs:
 
        L* = 116*f(Y/Yn) - 16                     0 <= L* <= 100
-       a* = 500*[f(X/Xn) - f(Y/Yn)]
+       b* = 500*[f(X/Xn) - f(Y/Yn)]
        b* = 200*[f(Y/Yn) - f(Z/Zn)]
 
-       and
+       bnd
 
               f(t) = t^(1/3)                     1 >= t >  (24/116)^3
                      (841/108)*t + (16/116)      0 <= t <= (24/116)^3
 
 
-       Reverse transform is:
+       Rfvfrsf trbnsform is:
 
-       X = Xn*[a* / 500 + (L* + 16) / 116] ^ 3   if (X/Xn) > (24/116)
-         = Xn*(a* / 500 + L* / 116) / 7.787      if (X/Xn) <= (24/116)
+       X = Xn*[b* / 500 + (L* + 16) / 116] ^ 3   if (X/Xn) > (24/116)
+         = Xn*(b* / 500 + L* / 116) / 7.787      if (X/Xn) <= (24/116)
 
 
 
-       PCS in Lab2 is encoded as:
+       PCS in Lbb2 is fndodfd bs:
 
-              8 bit Lab PCS:
+              8 bit Lbb PCS:
 
-                     L*      0..100 into a 0..ff byte.
-                     a*      t + 128 range is -128.0  +127.0
+                     L*      0..100 into b 0..ff bytf.
+                     b*      t + 128 rbngf is -128.0  +127.0
                      b*
 
-             16 bit Lab PCS:
+             16 bit Lbb PCS:
 
-                     L*     0..100  into a 0..ff00 word.
-                     a*     t + 128  range is  -128.0  +127.9961
+                     L*     0..100  into b 0..ff00 word.
+                     b*     t + 128  rbngf is  -128.0  +127.9961
                      b*
 
 
 
-Interchange Space   Component     Actual Range        Encoded Range
+Intfrdibngf Spbdf   Componfnt     Adtubl Rbngf        Endodfd Rbngf
 CIE XYZ             X             0 -> 1.99997        0x0000 -> 0xffff
 CIE XYZ             Y             0 -> 1.99997        0x0000 -> 0xffff
 CIE XYZ             Z             0 -> 1.99997        0x0000 -> 0xffff
 
-Version 2,3
+Vfrsion 2,3
 -----------
 
 CIELAB (16 bit)     L*            0 -> 100.0          0x0000 -> 0xff00
-CIELAB (16 bit)     a*            -128.0 -> +127.996  0x0000 -> 0x8000 -> 0xffff
+CIELAB (16 bit)     b*            -128.0 -> +127.996  0x0000 -> 0x8000 -> 0xffff
 CIELAB (16 bit)     b*            -128.0 -> +127.996  0x0000 -> 0x8000 -> 0xffff
 
 
-Version 4
+Vfrsion 4
 ---------
 
 CIELAB (16 bit)     L*            0 -> 100.0          0x0000 -> 0xffff
-CIELAB (16 bit)     a*            -128.0 -> +127      0x0000 -> 0x8080 -> 0xffff
+CIELAB (16 bit)     b*            -128.0 -> +127      0x0000 -> 0x8080 -> 0xffff
 CIELAB (16 bit)     b*            -128.0 -> +127      0x0000 -> 0x8080 -> 0xffff
 
 */
 
-// Conversions
-void CMSEXPORT cmsXYZ2xyY(cmsCIExyY* Dest, const cmsCIEXYZ* Source)
+// Convfrsions
+void CMSEXPORT dmsXYZ2xyY(dmsCIExyY* Dfst, donst dmsCIEXYZ* Sourdf)
 {
-    cmsFloat64Number ISum;
+    dmsFlobt64Numbfr ISum;
 
-    ISum = 1./(Source -> X + Source -> Y + Source -> Z);
+    ISum = 1./(Sourdf -> X + Sourdf -> Y + Sourdf -> Z);
 
-    Dest -> x = (Source -> X) * ISum;
-    Dest -> y = (Source -> Y) * ISum;
-    Dest -> Y = Source -> Y;
+    Dfst -> x = (Sourdf -> X) * ISum;
+    Dfst -> y = (Sourdf -> Y) * ISum;
+    Dfst -> Y = Sourdf -> Y;
 }
 
-void CMSEXPORT cmsxyY2XYZ(cmsCIEXYZ* Dest, const cmsCIExyY* Source)
+void CMSEXPORT dmsxyY2XYZ(dmsCIEXYZ* Dfst, donst dmsCIExyY* Sourdf)
 {
-    Dest -> X = (Source -> x / Source -> y) * Source -> Y;
-    Dest -> Y = Source -> Y;
-    Dest -> Z = ((1 - Source -> x - Source -> y) / Source -> y) * Source -> Y;
+    Dfst -> X = (Sourdf -> x / Sourdf -> y) * Sourdf -> Y;
+    Dfst -> Y = Sourdf -> Y;
+    Dfst -> Z = ((1 - Sourdf -> x - Sourdf -> y) / Sourdf -> y) * Sourdf -> Y;
 }
 
-static
-cmsFloat64Number f(cmsFloat64Number t)
+stbtid
+dmsFlobt64Numbfr f(dmsFlobt64Numbfr t)
 {
-    const cmsFloat64Number Limit = (24.0/116.0) * (24.0/116.0) * (24.0/116.0);
+    donst dmsFlobt64Numbfr Limit = (24.0/116.0) * (24.0/116.0) * (24.0/116.0);
 
     if (t <= Limit)
-        return (841.0/108.0) * t + (16.0/116.0);
-    else
-        return pow(t, 1.0/3.0);
+        rfturn (841.0/108.0) * t + (16.0/116.0);
+    flsf
+        rfturn pow(t, 1.0/3.0);
 }
 
-static
-cmsFloat64Number f_1(cmsFloat64Number t)
+stbtid
+dmsFlobt64Numbfr f_1(dmsFlobt64Numbfr t)
 {
-    const cmsFloat64Number Limit = (24.0/116.0);
+    donst dmsFlobt64Numbfr Limit = (24.0/116.0);
 
     if (t <= Limit) {
-        return (108.0/841.0) * (t - (16.0/116.0));
+        rfturn (108.0/841.0) * (t - (16.0/116.0));
     }
 
-    return t * t * t;
+    rfturn t * t * t;
 }
 
 
-// Standard XYZ to Lab. it can handle negative XZY numbers in some cases
-void CMSEXPORT cmsXYZ2Lab(const cmsCIEXYZ* WhitePoint, cmsCIELab* Lab, const cmsCIEXYZ* xyz)
+// Stbndbrd XYZ to Lbb. it dbn ibndlf nfgbtivf XZY numbfrs in somf dbsfs
+void CMSEXPORT dmsXYZ2Lbb(donst dmsCIEXYZ* WiitfPoint, dmsCIELbb* Lbb, donst dmsCIEXYZ* xyz)
 {
-    cmsFloat64Number fx, fy, fz;
+    dmsFlobt64Numbfr fx, fy, fz;
 
-    if (WhitePoint == NULL)
-        WhitePoint = cmsD50_XYZ();
+    if (WiitfPoint == NULL)
+        WiitfPoint = dmsD50_XYZ();
 
-    fx = f(xyz->X / WhitePoint->X);
-    fy = f(xyz->Y / WhitePoint->Y);
-    fz = f(xyz->Z / WhitePoint->Z);
+    fx = f(xyz->X / WiitfPoint->X);
+    fy = f(xyz->Y / WiitfPoint->Y);
+    fz = f(xyz->Z / WiitfPoint->Z);
 
-    Lab->L = 116.0*fy - 16.0;
-    Lab->a = 500.0*(fx - fy);
-    Lab->b = 200.0*(fy - fz);
+    Lbb->L = 116.0*fy - 16.0;
+    Lbb->b = 500.0*(fx - fy);
+    Lbb->b = 200.0*(fy - fz);
 }
 
 
-// Standard XYZ to Lab. It can return negative XYZ in some cases
-void CMSEXPORT cmsLab2XYZ(const cmsCIEXYZ* WhitePoint, cmsCIEXYZ* xyz,  const cmsCIELab* Lab)
+// Stbndbrd XYZ to Lbb. It dbn rfturn nfgbtivf XYZ in somf dbsfs
+void CMSEXPORT dmsLbb2XYZ(donst dmsCIEXYZ* WiitfPoint, dmsCIEXYZ* xyz,  donst dmsCIELbb* Lbb)
 {
-    cmsFloat64Number x, y, z;
+    dmsFlobt64Numbfr x, y, z;
 
-    if (WhitePoint == NULL)
-        WhitePoint = cmsD50_XYZ();
+    if (WiitfPoint == NULL)
+        WiitfPoint = dmsD50_XYZ();
 
-    y = (Lab-> L + 16.0) / 116.0;
-    x = y + 0.002 * Lab -> a;
-    z = y - 0.005 * Lab -> b;
+    y = (Lbb-> L + 16.0) / 116.0;
+    x = y + 0.002 * Lbb -> b;
+    z = y - 0.005 * Lbb -> b;
 
-    xyz -> X = f_1(x) * WhitePoint -> X;
-    xyz -> Y = f_1(y) * WhitePoint -> Y;
-    xyz -> Z = f_1(z) * WhitePoint -> Z;
+    xyz -> X = f_1(x) * WiitfPoint -> X;
+    xyz -> Y = f_1(y) * WiitfPoint -> Y;
+    xyz -> Z = f_1(z) * WiitfPoint -> Z;
 
 }
 
-static
-cmsFloat64Number L2float2(cmsUInt16Number v)
+stbtid
+dmsFlobt64Numbfr L2flobt2(dmsUInt16Numbfr v)
 {
-    return (cmsFloat64Number) v / 652.800;
+    rfturn (dmsFlobt64Numbfr) v / 652.800;
 }
 
-// the a/b part
-static
-cmsFloat64Number ab2float2(cmsUInt16Number v)
+// tif b/b pbrt
+stbtid
+dmsFlobt64Numbfr bb2flobt2(dmsUInt16Numbfr v)
 {
-    return ((cmsFloat64Number) v / 256.0) - 128.0;
+    rfturn ((dmsFlobt64Numbfr) v / 256.0) - 128.0;
 }
 
-static
-cmsUInt16Number L2Fix2(cmsFloat64Number L)
+stbtid
+dmsUInt16Numbfr L2Fix2(dmsFlobt64Numbfr L)
 {
-    return _cmsQuickSaturateWord(L *  652.8);
+    rfturn _dmsQuidkSbturbtfWord(L *  652.8);
 }
 
-static
-cmsUInt16Number ab2Fix2(cmsFloat64Number ab)
+stbtid
+dmsUInt16Numbfr bb2Fix2(dmsFlobt64Numbfr bb)
 {
-    return _cmsQuickSaturateWord((ab + 128.0) * 256.0);
-}
-
-
-static
-cmsFloat64Number L2float4(cmsUInt16Number v)
-{
-    return (cmsFloat64Number) v / 655.35;
-}
-
-// the a/b part
-static
-cmsFloat64Number ab2float4(cmsUInt16Number v)
-{
-    return ((cmsFloat64Number) v / 257.0) - 128.0;
+    rfturn _dmsQuidkSbturbtfWord((bb + 128.0) * 256.0);
 }
 
 
-void CMSEXPORT cmsLabEncoded2FloatV2(cmsCIELab* Lab, const cmsUInt16Number wLab[3])
+stbtid
+dmsFlobt64Numbfr L2flobt4(dmsUInt16Numbfr v)
 {
-        Lab->L = L2float2(wLab[0]);
-        Lab->a = ab2float2(wLab[1]);
-        Lab->b = ab2float2(wLab[2]);
+    rfturn (dmsFlobt64Numbfr) v / 655.35;
+}
+
+// tif b/b pbrt
+stbtid
+dmsFlobt64Numbfr bb2flobt4(dmsUInt16Numbfr v)
+{
+    rfturn ((dmsFlobt64Numbfr) v / 257.0) - 128.0;
 }
 
 
-void CMSEXPORT cmsLabEncoded2Float(cmsCIELab* Lab, const cmsUInt16Number wLab[3])
+void CMSEXPORT dmsLbbEndodfd2FlobtV2(dmsCIELbb* Lbb, donst dmsUInt16Numbfr wLbb[3])
 {
-        Lab->L = L2float4(wLab[0]);
-        Lab->a = ab2float4(wLab[1]);
-        Lab->b = ab2float4(wLab[2]);
+        Lbb->L = L2flobt2(wLbb[0]);
+        Lbb->b = bb2flobt2(wLbb[1]);
+        Lbb->b = bb2flobt2(wLbb[2]);
 }
 
-static
-cmsFloat64Number Clamp_L_doubleV2(cmsFloat64Number L)
+
+void CMSEXPORT dmsLbbEndodfd2Flobt(dmsCIELbb* Lbb, donst dmsUInt16Numbfr wLbb[3])
 {
-    const cmsFloat64Number L_max = (cmsFloat64Number) (0xFFFF * 100.0) / 0xFF00;
+        Lbb->L = L2flobt4(wLbb[0]);
+        Lbb->b = bb2flobt4(wLbb[1]);
+        Lbb->b = bb2flobt4(wLbb[2]);
+}
+
+stbtid
+dmsFlobt64Numbfr Clbmp_L_doublfV2(dmsFlobt64Numbfr L)
+{
+    donst dmsFlobt64Numbfr L_mbx = (dmsFlobt64Numbfr) (0xFFFF * 100.0) / 0xFF00;
 
     if (L < 0) L = 0;
-    if (L > L_max) L = L_max;
+    if (L > L_mbx) L = L_mbx;
 
-    return L;
+    rfturn L;
 }
 
 
-static
-cmsFloat64Number Clamp_ab_doubleV2(cmsFloat64Number ab)
+stbtid
+dmsFlobt64Numbfr Clbmp_bb_doublfV2(dmsFlobt64Numbfr bb)
 {
-    if (ab < MIN_ENCODEABLE_ab2) ab = MIN_ENCODEABLE_ab2;
-    if (ab > MAX_ENCODEABLE_ab2) ab = MAX_ENCODEABLE_ab2;
+    if (bb < MIN_ENCODEABLE_bb2) bb = MIN_ENCODEABLE_bb2;
+    if (bb > MAX_ENCODEABLE_bb2) bb = MAX_ENCODEABLE_bb2;
 
-    return ab;
+    rfturn bb;
 }
 
-void CMSEXPORT cmsFloat2LabEncodedV2(cmsUInt16Number wLab[3], const cmsCIELab* fLab)
+void CMSEXPORT dmsFlobt2LbbEndodfdV2(dmsUInt16Numbfr wLbb[3], donst dmsCIELbb* fLbb)
 {
-    cmsCIELab Lab;
+    dmsCIELbb Lbb;
 
-    Lab.L = Clamp_L_doubleV2(fLab ->L);
-    Lab.a = Clamp_ab_doubleV2(fLab ->a);
-    Lab.b = Clamp_ab_doubleV2(fLab ->b);
+    Lbb.L = Clbmp_L_doublfV2(fLbb ->L);
+    Lbb.b = Clbmp_bb_doublfV2(fLbb ->b);
+    Lbb.b = Clbmp_bb_doublfV2(fLbb ->b);
 
-    wLab[0] = L2Fix2(Lab.L);
-    wLab[1] = ab2Fix2(Lab.a);
-    wLab[2] = ab2Fix2(Lab.b);
+    wLbb[0] = L2Fix2(Lbb.L);
+    wLbb[1] = bb2Fix2(Lbb.b);
+    wLbb[2] = bb2Fix2(Lbb.b);
 }
 
 
-static
-cmsFloat64Number Clamp_L_doubleV4(cmsFloat64Number L)
+stbtid
+dmsFlobt64Numbfr Clbmp_L_doublfV4(dmsFlobt64Numbfr L)
 {
     if (L < 0) L = 0;
     if (L > 100.0) L = 100.0;
 
-    return L;
+    rfturn L;
 }
 
-static
-cmsFloat64Number Clamp_ab_doubleV4(cmsFloat64Number ab)
+stbtid
+dmsFlobt64Numbfr Clbmp_bb_doublfV4(dmsFlobt64Numbfr bb)
 {
-    if (ab < MIN_ENCODEABLE_ab4) ab = MIN_ENCODEABLE_ab4;
-    if (ab > MAX_ENCODEABLE_ab4) ab = MAX_ENCODEABLE_ab4;
+    if (bb < MIN_ENCODEABLE_bb4) bb = MIN_ENCODEABLE_bb4;
+    if (bb > MAX_ENCODEABLE_bb4) bb = MAX_ENCODEABLE_bb4;
 
-    return ab;
+    rfturn bb;
 }
 
-static
-cmsUInt16Number L2Fix4(cmsFloat64Number L)
+stbtid
+dmsUInt16Numbfr L2Fix4(dmsFlobt64Numbfr L)
 {
-    return _cmsQuickSaturateWord(L *  655.35);
+    rfturn _dmsQuidkSbturbtfWord(L *  655.35);
 }
 
-static
-cmsUInt16Number ab2Fix4(cmsFloat64Number ab)
+stbtid
+dmsUInt16Numbfr bb2Fix4(dmsFlobt64Numbfr bb)
 {
-    return _cmsQuickSaturateWord((ab + 128.0) * 257.0);
+    rfturn _dmsQuidkSbturbtfWord((bb + 128.0) * 257.0);
 }
 
-void CMSEXPORT cmsFloat2LabEncoded(cmsUInt16Number wLab[3], const cmsCIELab* fLab)
+void CMSEXPORT dmsFlobt2LbbEndodfd(dmsUInt16Numbfr wLbb[3], donst dmsCIELbb* fLbb)
 {
-    cmsCIELab Lab;
+    dmsCIELbb Lbb;
 
-    Lab.L = Clamp_L_doubleV4(fLab ->L);
-    Lab.a = Clamp_ab_doubleV4(fLab ->a);
-    Lab.b = Clamp_ab_doubleV4(fLab ->b);
+    Lbb.L = Clbmp_L_doublfV4(fLbb ->L);
+    Lbb.b = Clbmp_bb_doublfV4(fLbb ->b);
+    Lbb.b = Clbmp_bb_doublfV4(fLbb ->b);
 
-    wLab[0] = L2Fix4(Lab.L);
-    wLab[1] = ab2Fix4(Lab.a);
-    wLab[2] = ab2Fix4(Lab.b);
+    wLbb[0] = L2Fix4(Lbb.L);
+    wLbb[1] = bb2Fix4(Lbb.b);
+    wLbb[2] = bb2Fix4(Lbb.b);
 }
 
-// Auxiliar: convert to Radians
-static
-cmsFloat64Number RADIANS(cmsFloat64Number deg)
+// Auxilibr: donvfrt to Rbdibns
+stbtid
+dmsFlobt64Numbfr RADIANS(dmsFlobt64Numbfr dfg)
 {
-    return (deg * M_PI) / 180.;
-}
-
-
-// Auxiliar: atan2 but operating in degrees and returning 0 if a==b==0
-static
-cmsFloat64Number atan2deg(cmsFloat64Number a, cmsFloat64Number b)
-{
-   cmsFloat64Number h;
-
-   if (a == 0 && b == 0)
-            h   = 0;
-    else
-            h = atan2(a, b);
-
-    h *= (180. / M_PI);
-
-    while (h > 360.)
-        h -= 360.;
-
-    while ( h < 0)
-        h += 360.;
-
-    return h;
+    rfturn (dfg * M_PI) / 180.;
 }
 
 
-// Auxiliar: Square
-static
-cmsFloat64Number Sqr(cmsFloat64Number v)
+// Auxilibr: btbn2 but opfrbting in dfgrffs bnd rfturning 0 if b==b==0
+stbtid
+dmsFlobt64Numbfr btbn2dfg(dmsFlobt64Numbfr b, dmsFlobt64Numbfr b)
 {
-    return v *  v;
-}
-// From cylindrical coordinates. No check is performed, then negative values are allowed
-void CMSEXPORT cmsLab2LCh(cmsCIELCh* LCh, const cmsCIELab* Lab)
-{
-    LCh -> L = Lab -> L;
-    LCh -> C = pow(Sqr(Lab ->a) + Sqr(Lab ->b), 0.5);
-    LCh -> h = atan2deg(Lab ->b, Lab ->a);
-}
+   dmsFlobt64Numbfr i;
 
+   if (b == 0 && b == 0)
+            i   = 0;
+    flsf
+            i = btbn2(b, b);
 
-// To cylindrical coordinates. No check is performed, then negative values are allowed
-void CMSEXPORT cmsLCh2Lab(cmsCIELab* Lab, const cmsCIELCh* LCh)
-{
-    cmsFloat64Number h = (LCh -> h * M_PI) / 180.0;
+    i *= (180. / M_PI);
 
-    Lab -> L = LCh -> L;
-    Lab -> a = LCh -> C * cos(h);
-    Lab -> b = LCh -> C * sin(h);
+    wiilf (i > 360.)
+        i -= 360.;
+
+    wiilf ( i < 0)
+        i += 360.;
+
+    rfturn i;
 }
 
-// In XYZ All 3 components are encoded using 1.15 fixed point
-static
-cmsUInt16Number XYZ2Fix(cmsFloat64Number d)
+
+// Auxilibr: Squbrf
+stbtid
+dmsFlobt64Numbfr Sqr(dmsFlobt64Numbfr v)
 {
-    return _cmsQuickSaturateWord(d * 32768.0);
+    rfturn v *  v;
+}
+// From dylindridbl doordinbtfs. No difdk is pfrformfd, tifn nfgbtivf vblufs brf bllowfd
+void CMSEXPORT dmsLbb2LCi(dmsCIELCi* LCi, donst dmsCIELbb* Lbb)
+{
+    LCi -> L = Lbb -> L;
+    LCi -> C = pow(Sqr(Lbb ->b) + Sqr(Lbb ->b), 0.5);
+    LCi -> i = btbn2dfg(Lbb ->b, Lbb ->b);
 }
 
-void CMSEXPORT cmsFloat2XYZEncoded(cmsUInt16Number XYZ[3], const cmsCIEXYZ* fXYZ)
+
+// To dylindridbl doordinbtfs. No difdk is pfrformfd, tifn nfgbtivf vblufs brf bllowfd
+void CMSEXPORT dmsLCi2Lbb(dmsCIELbb* Lbb, donst dmsCIELCi* LCi)
 {
-    cmsCIEXYZ xyz;
+    dmsFlobt64Numbfr i = (LCi -> i * M_PI) / 180.0;
+
+    Lbb -> L = LCi -> L;
+    Lbb -> b = LCi -> C * dos(i);
+    Lbb -> b = LCi -> C * sin(i);
+}
+
+// In XYZ All 3 domponfnts brf fndodfd using 1.15 fixfd point
+stbtid
+dmsUInt16Numbfr XYZ2Fix(dmsFlobt64Numbfr d)
+{
+    rfturn _dmsQuidkSbturbtfWord(d * 32768.0);
+}
+
+void CMSEXPORT dmsFlobt2XYZEndodfd(dmsUInt16Numbfr XYZ[3], donst dmsCIEXYZ* fXYZ)
+{
+    dmsCIEXYZ xyz;
 
     xyz.X = fXYZ -> X;
     xyz.Y = fXYZ -> Y;
     xyz.Z = fXYZ -> Z;
 
-    // Clamp to encodeable values.
+    // Clbmp to fndodfbblf vblufs.
     if (xyz.Y <= 0) {
 
         xyz.X = 0;
@@ -432,529 +432,529 @@ void CMSEXPORT cmsFloat2XYZEncoded(cmsUInt16Number XYZ[3], const cmsCIEXYZ* fXYZ
 }
 
 
-//  To convert from Fixed 1.15 point to cmsFloat64Number
-static
-cmsFloat64Number XYZ2float(cmsUInt16Number v)
+//  To donvfrt from Fixfd 1.15 point to dmsFlobt64Numbfr
+stbtid
+dmsFlobt64Numbfr XYZ2flobt(dmsUInt16Numbfr v)
 {
-    cmsS15Fixed16Number fix32;
+    dmsS15Fixfd16Numbfr fix32;
 
     // From 1.15 to 15.16
     fix32 = v << 1;
 
-    // From fixed 15.16 to cmsFloat64Number
-    return _cms15Fixed16toDouble(fix32);
+    // From fixfd 15.16 to dmsFlobt64Numbfr
+    rfturn _dms15Fixfd16toDoublf(fix32);
 }
 
 
-void CMSEXPORT cmsXYZEncoded2Float(cmsCIEXYZ* fXYZ, const cmsUInt16Number XYZ[3])
+void CMSEXPORT dmsXYZEndodfd2Flobt(dmsCIEXYZ* fXYZ, donst dmsUInt16Numbfr XYZ[3])
 {
-    fXYZ -> X = XYZ2float(XYZ[0]);
-    fXYZ -> Y = XYZ2float(XYZ[1]);
-    fXYZ -> Z = XYZ2float(XYZ[2]);
+    fXYZ -> X = XYZ2flobt(XYZ[0]);
+    fXYZ -> Y = XYZ2flobt(XYZ[1]);
+    fXYZ -> Z = XYZ2flobt(XYZ[2]);
 }
 
 
-// Returns dE on two Lab values
-cmsFloat64Number CMSEXPORT cmsDeltaE(const cmsCIELab* Lab1, const cmsCIELab* Lab2)
+// Rfturns dE on two Lbb vblufs
+dmsFlobt64Numbfr CMSEXPORT dmsDfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2)
 {
-    cmsFloat64Number dL, da, db;
+    dmsFlobt64Numbfr dL, db, db;
 
-    dL = fabs(Lab1 -> L - Lab2 -> L);
-    da = fabs(Lab1 -> a - Lab2 -> a);
-    db = fabs(Lab1 -> b - Lab2 -> b);
+    dL = fbbs(Lbb1 -> L - Lbb2 -> L);
+    db = fbbs(Lbb1 -> b - Lbb2 -> b);
+    db = fbbs(Lbb1 -> b - Lbb2 -> b);
 
-    return pow(Sqr(dL) + Sqr(da) + Sqr(db), 0.5);
+    rfturn pow(Sqr(dL) + Sqr(db) + Sqr(db), 0.5);
 }
 
 
-// Return the CIE94 Delta E
-cmsFloat64Number CMSEXPORT cmsCIE94DeltaE(const cmsCIELab* Lab1, const cmsCIELab* Lab2)
+// Rfturn tif CIE94 Dfltb E
+dmsFlobt64Numbfr CMSEXPORT dmsCIE94DfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2)
 {
-    cmsCIELCh LCh1, LCh2;
-    cmsFloat64Number dE, dL, dC, dh, dhsq;
-    cmsFloat64Number c12, sc, sh;
+    dmsCIELCi LCi1, LCi2;
+    dmsFlobt64Numbfr dE, dL, dC, di, disq;
+    dmsFlobt64Numbfr d12, sd, si;
 
-    dL = fabs(Lab1 ->L - Lab2 ->L);
+    dL = fbbs(Lbb1 ->L - Lbb2 ->L);
 
-    cmsLab2LCh(&LCh1, Lab1);
-    cmsLab2LCh(&LCh2, Lab2);
+    dmsLbb2LCi(&LCi1, Lbb1);
+    dmsLbb2LCi(&LCi2, Lbb2);
 
-    dC  = fabs(LCh1.C - LCh2.C);
-    dE  = cmsDeltaE(Lab1, Lab2);
+    dC  = fbbs(LCi1.C - LCi2.C);
+    dE  = dmsDfltbE(Lbb1, Lbb2);
 
-    dhsq = Sqr(dE) - Sqr(dL) - Sqr(dC);
-    if (dhsq < 0)
-        dh = 0;
-    else
-        dh = pow(dhsq, 0.5);
+    disq = Sqr(dE) - Sqr(dL) - Sqr(dC);
+    if (disq < 0)
+        di = 0;
+    flsf
+        di = pow(disq, 0.5);
 
-    c12 = sqrt(LCh1.C * LCh2.C);
+    d12 = sqrt(LCi1.C * LCi2.C);
 
-    sc = 1.0 + (0.048 * c12);
-    sh = 1.0 + (0.014 * c12);
+    sd = 1.0 + (0.048 * d12);
+    si = 1.0 + (0.014 * d12);
 
-    return sqrt(Sqr(dL)  + Sqr(dC) / Sqr(sc) + Sqr(dh) / Sqr(sh));
+    rfturn sqrt(Sqr(dL)  + Sqr(dC) / Sqr(sd) + Sqr(di) / Sqr(si));
 }
 
 
-// Auxiliary
-static
-cmsFloat64Number ComputeLBFD(const cmsCIELab* Lab)
+// Auxilibry
+stbtid
+dmsFlobt64Numbfr ComputfLBFD(donst dmsCIELbb* Lbb)
 {
-  cmsFloat64Number yt;
+  dmsFlobt64Numbfr yt;
 
-  if (Lab->L > 7.996969)
-        yt = (Sqr((Lab->L+16)/116)*((Lab->L+16)/116))*100;
-  else
-        yt = 100 * (Lab->L / 903.3);
+  if (Lbb->L > 7.996969)
+        yt = (Sqr((Lbb->L+16)/116)*((Lbb->L+16)/116))*100;
+  flsf
+        yt = 100 * (Lbb->L / 903.3);
 
-  return (54.6 * (M_LOG10E * (log(yt + 1.5))) - 9.6);
+  rfturn (54.6 * (M_LOG10E * (log(yt + 1.5))) - 9.6);
 }
 
 
 
-// bfd - gets BFD(1:1) difference between Lab1, Lab2
-cmsFloat64Number CMSEXPORT cmsBFDdeltaE(const cmsCIELab* Lab1, const cmsCIELab* Lab2)
+// bfd - gfts BFD(1:1) difffrfndf bftwffn Lbb1, Lbb2
+dmsFlobt64Numbfr CMSEXPORT dmsBFDdfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2)
 {
-    cmsFloat64Number lbfd1,lbfd2,AveC,Aveh,dE,deltaL,
-        deltaC,deltah,dc,t,g,dh,rh,rc,rt,bfd;
-    cmsCIELCh LCh1, LCh2;
+    dmsFlobt64Numbfr lbfd1,lbfd2,AvfC,Avfi,dE,dfltbL,
+        dfltbC,dfltbi,dd,t,g,di,ri,rd,rt,bfd;
+    dmsCIELCi LCi1, LCi2;
 
 
-    lbfd1 = ComputeLBFD(Lab1);
-    lbfd2 = ComputeLBFD(Lab2);
-    deltaL = lbfd2 - lbfd1;
+    lbfd1 = ComputfLBFD(Lbb1);
+    lbfd2 = ComputfLBFD(Lbb2);
+    dfltbL = lbfd2 - lbfd1;
 
-    cmsLab2LCh(&LCh1, Lab1);
-    cmsLab2LCh(&LCh2, Lab2);
+    dmsLbb2LCi(&LCi1, Lbb1);
+    dmsLbb2LCi(&LCi2, Lbb2);
 
-    deltaC = LCh2.C - LCh1.C;
-    AveC = (LCh1.C+LCh2.C)/2;
-    Aveh = (LCh1.h+LCh2.h)/2;
+    dfltbC = LCi2.C - LCi1.C;
+    AvfC = (LCi1.C+LCi2.C)/2;
+    Avfi = (LCi1.i+LCi2.i)/2;
 
-    dE = cmsDeltaE(Lab1, Lab2);
+    dE = dmsDfltbE(Lbb1, Lbb2);
 
-    if (Sqr(dE)>(Sqr(Lab2->L-Lab1->L)+Sqr(deltaC)))
-        deltah = sqrt(Sqr(dE)-Sqr(Lab2->L-Lab1->L)-Sqr(deltaC));
-    else
-        deltah =0;
+    if (Sqr(dE)>(Sqr(Lbb2->L-Lbb1->L)+Sqr(dfltbC)))
+        dfltbi = sqrt(Sqr(dE)-Sqr(Lbb2->L-Lbb1->L)-Sqr(dfltbC));
+    flsf
+        dfltbi =0;
 
 
-    dc   = 0.035 * AveC / (1 + 0.00365 * AveC)+0.521;
-    g    = sqrt(Sqr(Sqr(AveC))/(Sqr(Sqr(AveC))+14000));
-    t    = 0.627+(0.055*cos((Aveh-254)/(180/M_PI))-
-           0.040*cos((2*Aveh-136)/(180/M_PI))+
-           0.070*cos((3*Aveh-31)/(180/M_PI))+
-           0.049*cos((4*Aveh+114)/(180/M_PI))-
-           0.015*cos((5*Aveh-103)/(180/M_PI)));
+    dd   = 0.035 * AvfC / (1 + 0.00365 * AvfC)+0.521;
+    g    = sqrt(Sqr(Sqr(AvfC))/(Sqr(Sqr(AvfC))+14000));
+    t    = 0.627+(0.055*dos((Avfi-254)/(180/M_PI))-
+           0.040*dos((2*Avfi-136)/(180/M_PI))+
+           0.070*dos((3*Avfi-31)/(180/M_PI))+
+           0.049*dos((4*Avfi+114)/(180/M_PI))-
+           0.015*dos((5*Avfi-103)/(180/M_PI)));
 
-    dh    = dc*(g*t+1-g);
-    rh    = -0.260*cos((Aveh-308)/(180/M_PI))-
-           0.379*cos((2*Aveh-160)/(180/M_PI))-
-           0.636*cos((3*Aveh+254)/(180/M_PI))+
-           0.226*cos((4*Aveh+140)/(180/M_PI))-
-           0.194*cos((5*Aveh+280)/(180/M_PI));
+    di    = dd*(g*t+1-g);
+    ri    = -0.260*dos((Avfi-308)/(180/M_PI))-
+           0.379*dos((2*Avfi-160)/(180/M_PI))-
+           0.636*dos((3*Avfi+254)/(180/M_PI))+
+           0.226*dos((4*Avfi+140)/(180/M_PI))-
+           0.194*dos((5*Avfi+280)/(180/M_PI));
 
-    rc = sqrt((AveC*AveC*AveC*AveC*AveC*AveC)/((AveC*AveC*AveC*AveC*AveC*AveC)+70000000));
-    rt = rh*rc;
+    rd = sqrt((AvfC*AvfC*AvfC*AvfC*AvfC*AvfC)/((AvfC*AvfC*AvfC*AvfC*AvfC*AvfC)+70000000));
+    rt = ri*rd;
 
-    bfd = sqrt(Sqr(deltaL)+Sqr(deltaC/dc)+Sqr(deltah/dh)+(rt*(deltaC/dc)*(deltah/dh)));
+    bfd = sqrt(Sqr(dfltbL)+Sqr(dfltbC/dd)+Sqr(dfltbi/di)+(rt*(dfltbC/dd)*(dfltbi/di)));
 
-    return bfd;
+    rfturn bfd;
 }
 
 
-//  cmc - CMC(l:c) difference between Lab1, Lab2
-cmsFloat64Number CMSEXPORT cmsCMCdeltaE(const cmsCIELab* Lab1, const cmsCIELab* Lab2, cmsFloat64Number l, cmsFloat64Number c)
+//  dmd - CMC(l:d) difffrfndf bftwffn Lbb1, Lbb2
+dmsFlobt64Numbfr CMSEXPORT dmsCMCdfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2, dmsFlobt64Numbfr l, dmsFlobt64Numbfr d)
 {
-  cmsFloat64Number dE,dL,dC,dh,sl,sc,sh,t,f,cmc;
-  cmsCIELCh LCh1, LCh2;
+  dmsFlobt64Numbfr dE,dL,dC,di,sl,sd,si,t,f,dmd;
+  dmsCIELCi LCi1, LCi2;
 
-  if (Lab1 ->L == 0 && Lab2 ->L == 0) return 0;
+  if (Lbb1 ->L == 0 && Lbb2 ->L == 0) rfturn 0;
 
-  cmsLab2LCh(&LCh1, Lab1);
-  cmsLab2LCh(&LCh2, Lab2);
+  dmsLbb2LCi(&LCi1, Lbb1);
+  dmsLbb2LCi(&LCi2, Lbb2);
 
 
-  dL = Lab2->L-Lab1->L;
-  dC = LCh2.C-LCh1.C;
+  dL = Lbb2->L-Lbb1->L;
+  dC = LCi2.C-LCi1.C;
 
-  dE = cmsDeltaE(Lab1, Lab2);
+  dE = dmsDfltbE(Lbb1, Lbb2);
 
   if (Sqr(dE)>(Sqr(dL)+Sqr(dC)))
-            dh = sqrt(Sqr(dE)-Sqr(dL)-Sqr(dC));
-  else
-            dh =0;
+            di = sqrt(Sqr(dE)-Sqr(dL)-Sqr(dC));
+  flsf
+            di =0;
 
-  if ((LCh1.h > 164) && (LCh1.h < 345))
-      t = 0.56 + fabs(0.2 * cos(((LCh1.h + 168)/(180/M_PI))));
-  else
-      t = 0.36 + fabs(0.4 * cos(((LCh1.h + 35 )/(180/M_PI))));
+  if ((LCi1.i > 164) && (LCi1.i < 345))
+      t = 0.56 + fbbs(0.2 * dos(((LCi1.i + 168)/(180/M_PI))));
+  flsf
+      t = 0.36 + fbbs(0.4 * dos(((LCi1.i + 35 )/(180/M_PI))));
 
-   sc  = 0.0638   * LCh1.C / (1 + 0.0131  * LCh1.C) + 0.638;
-   sl  = 0.040975 * Lab1->L /(1 + 0.01765 * Lab1->L);
+   sd  = 0.0638   * LCi1.C / (1 + 0.0131  * LCi1.C) + 0.638;
+   sl  = 0.040975 * Lbb1->L /(1 + 0.01765 * Lbb1->L);
 
-   if (Lab1->L<16)
+   if (Lbb1->L<16)
          sl = 0.511;
 
-   f   = sqrt((LCh1.C * LCh1.C * LCh1.C * LCh1.C)/((LCh1.C * LCh1.C * LCh1.C * LCh1.C)+1900));
-   sh  = sc*(t*f+1-f);
-   cmc = sqrt(Sqr(dL/(l*sl))+Sqr(dC/(c*sc))+Sqr(dh/sh));
+   f   = sqrt((LCi1.C * LCi1.C * LCi1.C * LCi1.C)/((LCi1.C * LCi1.C * LCi1.C * LCi1.C)+1900));
+   si  = sd*(t*f+1-f);
+   dmd = sqrt(Sqr(dL/(l*sl))+Sqr(dC/(d*sd))+Sqr(di/si));
 
-   return cmc;
+   rfturn dmd;
 }
 
-// dE2000 The weightings KL, KC and KH can be modified to reflect the relative
-// importance of lightness, chroma and hue in different industrial applications
-cmsFloat64Number CMSEXPORT cmsCIE2000DeltaE(const cmsCIELab* Lab1, const cmsCIELab* Lab2,
-                                  cmsFloat64Number Kl, cmsFloat64Number Kc, cmsFloat64Number Kh)
+// dE2000 Tif wfigitings KL, KC bnd KH dbn bf modififd to rfflfdt tif rflbtivf
+// importbndf of ligitnfss, diromb bnd iuf in difffrfnt industribl bpplidbtions
+dmsFlobt64Numbfr CMSEXPORT dmsCIE2000DfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2,
+                                  dmsFlobt64Numbfr Kl, dmsFlobt64Numbfr Kd, dmsFlobt64Numbfr Ki)
 {
-    cmsFloat64Number L1  = Lab1->L;
-    cmsFloat64Number a1  = Lab1->a;
-    cmsFloat64Number b1  = Lab1->b;
-    cmsFloat64Number C   = sqrt( Sqr(a1) + Sqr(b1) );
+    dmsFlobt64Numbfr L1  = Lbb1->L;
+    dmsFlobt64Numbfr b1  = Lbb1->b;
+    dmsFlobt64Numbfr b1  = Lbb1->b;
+    dmsFlobt64Numbfr C   = sqrt( Sqr(b1) + Sqr(b1) );
 
-    cmsFloat64Number Ls = Lab2 ->L;
-    cmsFloat64Number as = Lab2 ->a;
-    cmsFloat64Number bs = Lab2 ->b;
-    cmsFloat64Number Cs = sqrt( Sqr(as) + Sqr(bs) );
+    dmsFlobt64Numbfr Ls = Lbb2 ->L;
+    dmsFlobt64Numbfr bs = Lbb2 ->b;
+    dmsFlobt64Numbfr bs = Lbb2 ->b;
+    dmsFlobt64Numbfr Cs = sqrt( Sqr(bs) + Sqr(bs) );
 
-    cmsFloat64Number G = 0.5 * ( 1 - sqrt(pow((C + Cs) / 2 , 7.0) / (pow((C + Cs) / 2, 7.0) + pow(25.0, 7.0) ) ));
+    dmsFlobt64Numbfr G = 0.5 * ( 1 - sqrt(pow((C + Cs) / 2 , 7.0) / (pow((C + Cs) / 2, 7.0) + pow(25.0, 7.0) ) ));
 
-    cmsFloat64Number a_p = (1 + G ) * a1;
-    cmsFloat64Number b_p = b1;
-    cmsFloat64Number C_p = sqrt( Sqr(a_p) + Sqr(b_p));
-    cmsFloat64Number h_p = atan2deg(b_p, a_p);
-
-
-    cmsFloat64Number a_ps = (1 + G) * as;
-    cmsFloat64Number b_ps = bs;
-    cmsFloat64Number C_ps = sqrt(Sqr(a_ps) + Sqr(b_ps));
-    cmsFloat64Number h_ps = atan2deg(b_ps, a_ps);
-
-    cmsFloat64Number meanC_p =(C_p + C_ps) / 2;
-
-    cmsFloat64Number hps_plus_hp  = h_ps + h_p;
-    cmsFloat64Number hps_minus_hp = h_ps - h_p;
-
-    cmsFloat64Number meanh_p = fabs(hps_minus_hp) <= 180.000001 ? (hps_plus_hp)/2 :
-                            (hps_plus_hp) < 360 ? (hps_plus_hp + 360)/2 :
-                                                 (hps_plus_hp - 360)/2;
-
-    cmsFloat64Number delta_h = (hps_minus_hp) <= -180.000001 ?  (hps_minus_hp + 360) :
-                            (hps_minus_hp) > 180 ? (hps_minus_hp - 360) :
-                                                    (hps_minus_hp);
-    cmsFloat64Number delta_L = (Ls - L1);
-    cmsFloat64Number delta_C = (C_ps - C_p );
+    dmsFlobt64Numbfr b_p = (1 + G ) * b1;
+    dmsFlobt64Numbfr b_p = b1;
+    dmsFlobt64Numbfr C_p = sqrt( Sqr(b_p) + Sqr(b_p));
+    dmsFlobt64Numbfr i_p = btbn2dfg(b_p, b_p);
 
 
-    cmsFloat64Number delta_H =2 * sqrt(C_ps*C_p) * sin(RADIANS(delta_h) / 2);
+    dmsFlobt64Numbfr b_ps = (1 + G) * bs;
+    dmsFlobt64Numbfr b_ps = bs;
+    dmsFlobt64Numbfr C_ps = sqrt(Sqr(b_ps) + Sqr(b_ps));
+    dmsFlobt64Numbfr i_ps = btbn2dfg(b_ps, b_ps);
 
-    cmsFloat64Number T = 1 - 0.17 * cos(RADIANS(meanh_p-30))
-                 + 0.24 * cos(RADIANS(2*meanh_p))
-                 + 0.32 * cos(RADIANS(3*meanh_p + 6))
-                 - 0.2  * cos(RADIANS(4*meanh_p - 63));
+    dmsFlobt64Numbfr mfbnC_p =(C_p + C_ps) / 2;
 
-    cmsFloat64Number Sl = 1 + (0.015 * Sqr((Ls + L1) /2- 50) )/ sqrt(20 + Sqr( (Ls+L1)/2 - 50) );
+    dmsFlobt64Numbfr ips_plus_ip  = i_ps + i_p;
+    dmsFlobt64Numbfr ips_minus_ip = i_ps - i_p;
 
-    cmsFloat64Number Sc = 1 + 0.045 * (C_p + C_ps)/2;
-    cmsFloat64Number Sh = 1 + 0.015 * ((C_ps + C_p)/2) * T;
+    dmsFlobt64Numbfr mfbni_p = fbbs(ips_minus_ip) <= 180.000001 ? (ips_plus_ip)/2 :
+                            (ips_plus_ip) < 360 ? (ips_plus_ip + 360)/2 :
+                                                 (ips_plus_ip - 360)/2;
 
-    cmsFloat64Number delta_ro = 30 * exp( -Sqr(((meanh_p - 275 ) / 25)));
+    dmsFlobt64Numbfr dfltb_i = (ips_minus_ip) <= -180.000001 ?  (ips_minus_ip + 360) :
+                            (ips_minus_ip) > 180 ? (ips_minus_ip - 360) :
+                                                    (ips_minus_ip);
+    dmsFlobt64Numbfr dfltb_L = (Ls - L1);
+    dmsFlobt64Numbfr dfltb_C = (C_ps - C_p );
 
-    cmsFloat64Number Rc = 2 * sqrt(( pow(meanC_p, 7.0) )/( pow(meanC_p, 7.0) + pow(25.0, 7.0)));
 
-    cmsFloat64Number Rt = -sin(2 * RADIANS(delta_ro)) * Rc;
+    dmsFlobt64Numbfr dfltb_H =2 * sqrt(C_ps*C_p) * sin(RADIANS(dfltb_i) / 2);
 
-    cmsFloat64Number deltaE00 = sqrt( Sqr(delta_L /(Sl * Kl)) +
-                            Sqr(delta_C/(Sc * Kc))  +
-                            Sqr(delta_H/(Sh * Kh))  +
-                            Rt*(delta_C/(Sc * Kc)) * (delta_H / (Sh * Kh)));
+    dmsFlobt64Numbfr T = 1 - 0.17 * dos(RADIANS(mfbni_p-30))
+                 + 0.24 * dos(RADIANS(2*mfbni_p))
+                 + 0.32 * dos(RADIANS(3*mfbni_p + 6))
+                 - 0.2  * dos(RADIANS(4*mfbni_p - 63));
 
-    return deltaE00;
+    dmsFlobt64Numbfr Sl = 1 + (0.015 * Sqr((Ls + L1) /2- 50) )/ sqrt(20 + Sqr( (Ls+L1)/2 - 50) );
+
+    dmsFlobt64Numbfr Sd = 1 + 0.045 * (C_p + C_ps)/2;
+    dmsFlobt64Numbfr Si = 1 + 0.015 * ((C_ps + C_p)/2) * T;
+
+    dmsFlobt64Numbfr dfltb_ro = 30 * fxp( -Sqr(((mfbni_p - 275 ) / 25)));
+
+    dmsFlobt64Numbfr Rd = 2 * sqrt(( pow(mfbnC_p, 7.0) )/( pow(mfbnC_p, 7.0) + pow(25.0, 7.0)));
+
+    dmsFlobt64Numbfr Rt = -sin(2 * RADIANS(dfltb_ro)) * Rd;
+
+    dmsFlobt64Numbfr dfltbE00 = sqrt( Sqr(dfltb_L /(Sl * Kl)) +
+                            Sqr(dfltb_C/(Sd * Kd))  +
+                            Sqr(dfltb_H/(Si * Ki))  +
+                            Rt*(dfltb_C/(Sd * Kd)) * (dfltb_H / (Si * Ki)));
+
+    rfturn dfltbE00;
 }
 
-// This function returns a number of gridpoints to be used as LUT table. It assumes same number
-// of gripdpoints in all dimensions. Flags may override the choice.
-int _cmsReasonableGridpointsByColorspace(cmsColorSpaceSignature Colorspace, cmsUInt32Number dwFlags)
+// Tiis fundtion rfturns b numbfr of gridpoints to bf usfd bs LUT tbblf. It bssumfs sbmf numbfr
+// of gripdpoints in bll dimfnsions. Flbgs mby ovfrridf tif dioidf.
+int _dmsRfbsonbblfGridpointsByColorspbdf(dmsColorSpbdfSignbturf Colorspbdf, dmsUInt32Numbfr dwFlbgs)
 {
-    int nChannels;
+    int nCibnnfls;
 
-    // Already specified?
-    if (dwFlags & 0x00FF0000) {
-            // Yes, grab'em
-            return (dwFlags >> 16) & 0xFF;
+    // Alrfbdy spfdififd?
+    if (dwFlbgs & 0x00FF0000) {
+            // Yfs, grbb'fm
+            rfturn (dwFlbgs >> 16) & 0xFF;
     }
 
-    nChannels = cmsChannelsOf(Colorspace);
+    nCibnnfls = dmsCibnnflsOf(Colorspbdf);
 
-    // HighResPrecalc is maximum resolution
-    if (dwFlags & cmsFLAGS_HIGHRESPRECALC) {
+    // HigiRfsPrfdbld is mbximum rfsolution
+    if (dwFlbgs & dmsFLAGS_HIGHRESPRECALC) {
 
-        if (nChannels > 4)
-                return 7;       // 7 for Hifi
+        if (nCibnnfls > 4)
+                rfturn 7;       // 7 for Hifi
 
-        if (nChannels == 4)     // 23 for CMYK
-                return 23;
+        if (nCibnnfls == 4)     // 23 for CMYK
+                rfturn 23;
 
-        return 49;      // 49 for RGB and others
+        rfturn 49;      // 49 for RGB bnd otifrs
     }
 
 
-    // LowResPrecal is lower resolution
-    if (dwFlags & cmsFLAGS_LOWRESPRECALC) {
+    // LowRfsPrfdbl is lowfr rfsolution
+    if (dwFlbgs & dmsFLAGS_LOWRESPRECALC) {
 
-        if (nChannels > 4)
-                return 6;       // 6 for more than 4 channels
+        if (nCibnnfls > 4)
+                rfturn 6;       // 6 for morf tibn 4 dibnnfls
 
-        if (nChannels == 1)
-                return 33;      // For monochrome
+        if (nCibnnfls == 1)
+                rfturn 33;      // For monodiromf
 
-        return 17;              // 17 for remaining
+        rfturn 17;              // 17 for rfmbining
     }
 
-    // Default values
-    if (nChannels > 4)
-                return 7;       // 7 for Hifi
+    // Dffbult vblufs
+    if (nCibnnfls > 4)
+                rfturn 7;       // 7 for Hifi
 
-    if (nChannels == 4)
-                return 17;      // 17 for CMYK
+    if (nCibnnfls == 4)
+                rfturn 17;      // 17 for CMYK
 
-    return 33;                  // 33 for RGB
+    rfturn 33;                  // 33 for RGB
 }
 
 
-cmsBool  _cmsEndPointsBySpace(cmsColorSpaceSignature Space,
-                             cmsUInt16Number **White,
-                             cmsUInt16Number **Black,
-                             cmsUInt32Number *nOutputs)
+dmsBool  _dmsEndPointsBySpbdf(dmsColorSpbdfSignbturf Spbdf,
+                             dmsUInt16Numbfr **Wiitf,
+                             dmsUInt16Numbfr **Blbdk,
+                             dmsUInt32Numbfr *nOutputs)
 {
-       // Only most common spaces
+       // Only most dommon spbdfs
 
-       static cmsUInt16Number RGBblack[4]  = { 0, 0, 0 };
-       static cmsUInt16Number RGBwhite[4]  = { 0xffff, 0xffff, 0xffff };
-       static cmsUInt16Number CMYKblack[4] = { 0xffff, 0xffff, 0xffff, 0xffff };   // 400% of ink
-       static cmsUInt16Number CMYKwhite[4] = { 0, 0, 0, 0 };
-       static cmsUInt16Number LABblack[4]  = { 0, 0x8080, 0x8080 };               // V4 Lab encoding
-       static cmsUInt16Number LABwhite[4]  = { 0xFFFF, 0x8080, 0x8080 };
-       static cmsUInt16Number CMYblack[4]  = { 0xffff, 0xffff, 0xffff };
-       static cmsUInt16Number CMYwhite[4]  = { 0, 0, 0 };
-       static cmsUInt16Number Grayblack[4] = { 0 };
-       static cmsUInt16Number GrayWhite[4] = { 0xffff };
+       stbtid dmsUInt16Numbfr RGBblbdk[4]  = { 0, 0, 0 };
+       stbtid dmsUInt16Numbfr RGBwiitf[4]  = { 0xffff, 0xffff, 0xffff };
+       stbtid dmsUInt16Numbfr CMYKblbdk[4] = { 0xffff, 0xffff, 0xffff, 0xffff };   // 400% of ink
+       stbtid dmsUInt16Numbfr CMYKwiitf[4] = { 0, 0, 0, 0 };
+       stbtid dmsUInt16Numbfr LABblbdk[4]  = { 0, 0x8080, 0x8080 };               // V4 Lbb fndoding
+       stbtid dmsUInt16Numbfr LABwiitf[4]  = { 0xFFFF, 0x8080, 0x8080 };
+       stbtid dmsUInt16Numbfr CMYblbdk[4]  = { 0xffff, 0xffff, 0xffff };
+       stbtid dmsUInt16Numbfr CMYwiitf[4]  = { 0, 0, 0 };
+       stbtid dmsUInt16Numbfr Grbyblbdk[4] = { 0 };
+       stbtid dmsUInt16Numbfr GrbyWiitf[4] = { 0xffff };
 
-       switch (Space) {
+       switdi (Spbdf) {
 
-       case cmsSigGrayData: if (White)    *White = GrayWhite;
-                           if (Black)    *Black = Grayblack;
+       dbsf dmsSigGrbyDbtb: if (Wiitf)    *Wiitf = GrbyWiitf;
+                           if (Blbdk)    *Blbdk = Grbyblbdk;
                            if (nOutputs) *nOutputs = 1;
-                           return TRUE;
+                           rfturn TRUE;
 
-       case cmsSigRgbData:  if (White)    *White = RGBwhite;
-                           if (Black)    *Black = RGBblack;
+       dbsf dmsSigRgbDbtb:  if (Wiitf)    *Wiitf = RGBwiitf;
+                           if (Blbdk)    *Blbdk = RGBblbdk;
                            if (nOutputs) *nOutputs = 3;
-                           return TRUE;
+                           rfturn TRUE;
 
-       case cmsSigLabData:  if (White)    *White = LABwhite;
-                           if (Black)    *Black = LABblack;
+       dbsf dmsSigLbbDbtb:  if (Wiitf)    *Wiitf = LABwiitf;
+                           if (Blbdk)    *Blbdk = LABblbdk;
                            if (nOutputs) *nOutputs = 3;
-                           return TRUE;
+                           rfturn TRUE;
 
-       case cmsSigCmykData: if (White)    *White = CMYKwhite;
-                           if (Black)    *Black = CMYKblack;
+       dbsf dmsSigCmykDbtb: if (Wiitf)    *Wiitf = CMYKwiitf;
+                           if (Blbdk)    *Blbdk = CMYKblbdk;
                            if (nOutputs) *nOutputs = 4;
-                           return TRUE;
+                           rfturn TRUE;
 
-       case cmsSigCmyData:  if (White)    *White = CMYwhite;
-                           if (Black)    *Black = CMYblack;
+       dbsf dmsSigCmyDbtb:  if (Wiitf)    *Wiitf = CMYwiitf;
+                           if (Blbdk)    *Blbdk = CMYblbdk;
                            if (nOutputs) *nOutputs = 3;
-                           return TRUE;
+                           rfturn TRUE;
 
-       default:;
+       dffbult:;
        }
 
-  return FALSE;
+  rfturn FALSE;
 }
 
 
 
-// Several utilities -------------------------------------------------------
+// Sfvfrbl utilitifs -------------------------------------------------------
 
-// Translate from our colorspace to ICC representation
+// Trbnslbtf from our dolorspbdf to ICC rfprfsfntbtion
 
-cmsColorSpaceSignature CMSEXPORT _cmsICCcolorSpace(int OurNotation)
+dmsColorSpbdfSignbturf CMSEXPORT _dmsICCdolorSpbdf(int OurNotbtion)
 {
-       switch (OurNotation) {
+       switdi (OurNotbtion) {
 
-       case 1:
-       case PT_GRAY: return cmsSigGrayData;
+       dbsf 1:
+       dbsf PT_GRAY: rfturn dmsSigGrbyDbtb;
 
-       case 2:
-       case PT_RGB:  return cmsSigRgbData;
+       dbsf 2:
+       dbsf PT_RGB:  rfturn dmsSigRgbDbtb;
 
-       case PT_CMY:  return cmsSigCmyData;
-       case PT_CMYK: return cmsSigCmykData;
-       case PT_YCbCr:return cmsSigYCbCrData;
-       case PT_YUV:  return cmsSigLuvData;
-       case PT_XYZ:  return cmsSigXYZData;
+       dbsf PT_CMY:  rfturn dmsSigCmyDbtb;
+       dbsf PT_CMYK: rfturn dmsSigCmykDbtb;
+       dbsf PT_YCbCr:rfturn dmsSigYCbCrDbtb;
+       dbsf PT_YUV:  rfturn dmsSigLuvDbtb;
+       dbsf PT_XYZ:  rfturn dmsSigXYZDbtb;
 
-       case PT_LabV2:
-       case PT_Lab:  return cmsSigLabData;
+       dbsf PT_LbbV2:
+       dbsf PT_Lbb:  rfturn dmsSigLbbDbtb;
 
-       case PT_YUVK: return cmsSigLuvKData;
-       case PT_HSV:  return cmsSigHsvData;
-       case PT_HLS:  return cmsSigHlsData;
-       case PT_Yxy:  return cmsSigYxyData;
+       dbsf PT_YUVK: rfturn dmsSigLuvKDbtb;
+       dbsf PT_HSV:  rfturn dmsSigHsvDbtb;
+       dbsf PT_HLS:  rfturn dmsSigHlsDbtb;
+       dbsf PT_Yxy:  rfturn dmsSigYxyDbtb;
 
-       case PT_MCH1: return cmsSigMCH1Data;
-       case PT_MCH2: return cmsSigMCH2Data;
-       case PT_MCH3: return cmsSigMCH3Data;
-       case PT_MCH4: return cmsSigMCH4Data;
-       case PT_MCH5: return cmsSigMCH5Data;
-       case PT_MCH6: return cmsSigMCH6Data;
-       case PT_MCH7: return cmsSigMCH7Data;
-       case PT_MCH8: return cmsSigMCH8Data;
+       dbsf PT_MCH1: rfturn dmsSigMCH1Dbtb;
+       dbsf PT_MCH2: rfturn dmsSigMCH2Dbtb;
+       dbsf PT_MCH3: rfturn dmsSigMCH3Dbtb;
+       dbsf PT_MCH4: rfturn dmsSigMCH4Dbtb;
+       dbsf PT_MCH5: rfturn dmsSigMCH5Dbtb;
+       dbsf PT_MCH6: rfturn dmsSigMCH6Dbtb;
+       dbsf PT_MCH7: rfturn dmsSigMCH7Dbtb;
+       dbsf PT_MCH8: rfturn dmsSigMCH8Dbtb;
 
-       case PT_MCH9:  return cmsSigMCH9Data;
-       case PT_MCH10: return cmsSigMCHAData;
-       case PT_MCH11: return cmsSigMCHBData;
-       case PT_MCH12: return cmsSigMCHCData;
-       case PT_MCH13: return cmsSigMCHDData;
-       case PT_MCH14: return cmsSigMCHEData;
-       case PT_MCH15: return cmsSigMCHFData;
+       dbsf PT_MCH9:  rfturn dmsSigMCH9Dbtb;
+       dbsf PT_MCH10: rfturn dmsSigMCHADbtb;
+       dbsf PT_MCH11: rfturn dmsSigMCHBDbtb;
+       dbsf PT_MCH12: rfturn dmsSigMCHCDbtb;
+       dbsf PT_MCH13: rfturn dmsSigMCHDDbtb;
+       dbsf PT_MCH14: rfturn dmsSigMCHEDbtb;
+       dbsf PT_MCH15: rfturn dmsSigMCHFDbtb;
 
-       default:  return (cmsColorSpaceSignature) (-1);
+       dffbult:  rfturn (dmsColorSpbdfSignbturf) (-1);
        }
 }
 
 
-int CMSEXPORT _cmsLCMScolorSpace(cmsColorSpaceSignature ProfileSpace)
+int CMSEXPORT _dmsLCMSdolorSpbdf(dmsColorSpbdfSignbturf ProfilfSpbdf)
 {
-    switch (ProfileSpace) {
+    switdi (ProfilfSpbdf) {
 
-    case cmsSigGrayData: return  PT_GRAY;
-    case cmsSigRgbData:  return  PT_RGB;
-    case cmsSigCmyData:  return  PT_CMY;
-    case cmsSigCmykData: return  PT_CMYK;
-    case cmsSigYCbCrData:return  PT_YCbCr;
-    case cmsSigLuvData:  return  PT_YUV;
-    case cmsSigXYZData:  return  PT_XYZ;
-    case cmsSigLabData:  return  PT_Lab;
-    case cmsSigLuvKData: return  PT_YUVK;
-    case cmsSigHsvData:  return  PT_HSV;
-    case cmsSigHlsData:  return  PT_HLS;
-    case cmsSigYxyData:  return  PT_Yxy;
+    dbsf dmsSigGrbyDbtb: rfturn  PT_GRAY;
+    dbsf dmsSigRgbDbtb:  rfturn  PT_RGB;
+    dbsf dmsSigCmyDbtb:  rfturn  PT_CMY;
+    dbsf dmsSigCmykDbtb: rfturn  PT_CMYK;
+    dbsf dmsSigYCbCrDbtb:rfturn  PT_YCbCr;
+    dbsf dmsSigLuvDbtb:  rfturn  PT_YUV;
+    dbsf dmsSigXYZDbtb:  rfturn  PT_XYZ;
+    dbsf dmsSigLbbDbtb:  rfturn  PT_Lbb;
+    dbsf dmsSigLuvKDbtb: rfturn  PT_YUVK;
+    dbsf dmsSigHsvDbtb:  rfturn  PT_HSV;
+    dbsf dmsSigHlsDbtb:  rfturn  PT_HLS;
+    dbsf dmsSigYxyDbtb:  rfturn  PT_Yxy;
 
-    case cmsSig1colorData:
-    case cmsSigMCH1Data: return PT_MCH1;
+    dbsf dmsSig1dolorDbtb:
+    dbsf dmsSigMCH1Dbtb: rfturn PT_MCH1;
 
-    case cmsSig2colorData:
-    case cmsSigMCH2Data: return PT_MCH2;
+    dbsf dmsSig2dolorDbtb:
+    dbsf dmsSigMCH2Dbtb: rfturn PT_MCH2;
 
-    case cmsSig3colorData:
-    case cmsSigMCH3Data: return PT_MCH3;
+    dbsf dmsSig3dolorDbtb:
+    dbsf dmsSigMCH3Dbtb: rfturn PT_MCH3;
 
-    case cmsSig4colorData:
-    case cmsSigMCH4Data: return PT_MCH4;
+    dbsf dmsSig4dolorDbtb:
+    dbsf dmsSigMCH4Dbtb: rfturn PT_MCH4;
 
-    case cmsSig5colorData:
-    case cmsSigMCH5Data: return PT_MCH5;
+    dbsf dmsSig5dolorDbtb:
+    dbsf dmsSigMCH5Dbtb: rfturn PT_MCH5;
 
-    case cmsSig6colorData:
-    case cmsSigMCH6Data: return PT_MCH6;
+    dbsf dmsSig6dolorDbtb:
+    dbsf dmsSigMCH6Dbtb: rfturn PT_MCH6;
 
-    case cmsSigMCH7Data:
-    case cmsSig7colorData:return PT_MCH7;
+    dbsf dmsSigMCH7Dbtb:
+    dbsf dmsSig7dolorDbtb:rfturn PT_MCH7;
 
-    case cmsSigMCH8Data:
-    case cmsSig8colorData:return PT_MCH8;
+    dbsf dmsSigMCH8Dbtb:
+    dbsf dmsSig8dolorDbtb:rfturn PT_MCH8;
 
-    case cmsSigMCH9Data:
-    case cmsSig9colorData:return PT_MCH9;
+    dbsf dmsSigMCH9Dbtb:
+    dbsf dmsSig9dolorDbtb:rfturn PT_MCH9;
 
-    case cmsSigMCHAData:
-    case cmsSig10colorData:return PT_MCH10;
+    dbsf dmsSigMCHADbtb:
+    dbsf dmsSig10dolorDbtb:rfturn PT_MCH10;
 
-    case cmsSigMCHBData:
-    case cmsSig11colorData:return PT_MCH11;
+    dbsf dmsSigMCHBDbtb:
+    dbsf dmsSig11dolorDbtb:rfturn PT_MCH11;
 
-    case cmsSigMCHCData:
-    case cmsSig12colorData:return PT_MCH12;
+    dbsf dmsSigMCHCDbtb:
+    dbsf dmsSig12dolorDbtb:rfturn PT_MCH12;
 
-    case cmsSigMCHDData:
-    case cmsSig13colorData:return PT_MCH13;
+    dbsf dmsSigMCHDDbtb:
+    dbsf dmsSig13dolorDbtb:rfturn PT_MCH13;
 
-    case cmsSigMCHEData:
-    case cmsSig14colorData:return PT_MCH14;
+    dbsf dmsSigMCHEDbtb:
+    dbsf dmsSig14dolorDbtb:rfturn PT_MCH14;
 
-    case cmsSigMCHFData:
-    case cmsSig15colorData:return PT_MCH15;
+    dbsf dmsSigMCHFDbtb:
+    dbsf dmsSig15dolorDbtb:rfturn PT_MCH15;
 
-    default:  return (cmsColorSpaceSignature) (-1);
+    dffbult:  rfturn (dmsColorSpbdfSignbturf) (-1);
     }
 }
 
 
-cmsUInt32Number CMSEXPORT cmsChannelsOf(cmsColorSpaceSignature ColorSpace)
+dmsUInt32Numbfr CMSEXPORT dmsCibnnflsOf(dmsColorSpbdfSignbturf ColorSpbdf)
 {
-    switch (ColorSpace) {
+    switdi (ColorSpbdf) {
 
-    case cmsSigMCH1Data:
-    case cmsSig1colorData:
-    case cmsSigGrayData: return 1;
+    dbsf dmsSigMCH1Dbtb:
+    dbsf dmsSig1dolorDbtb:
+    dbsf dmsSigGrbyDbtb: rfturn 1;
 
-    case cmsSigMCH2Data:
-    case cmsSig2colorData:  return 2;
+    dbsf dmsSigMCH2Dbtb:
+    dbsf dmsSig2dolorDbtb:  rfturn 2;
 
-    case cmsSigXYZData:
-    case cmsSigLabData:
-    case cmsSigLuvData:
-    case cmsSigYCbCrData:
-    case cmsSigYxyData:
-    case cmsSigRgbData:
-    case cmsSigHsvData:
-    case cmsSigHlsData:
-    case cmsSigCmyData:
-    case cmsSigMCH3Data:
-    case cmsSig3colorData:  return 3;
+    dbsf dmsSigXYZDbtb:
+    dbsf dmsSigLbbDbtb:
+    dbsf dmsSigLuvDbtb:
+    dbsf dmsSigYCbCrDbtb:
+    dbsf dmsSigYxyDbtb:
+    dbsf dmsSigRgbDbtb:
+    dbsf dmsSigHsvDbtb:
+    dbsf dmsSigHlsDbtb:
+    dbsf dmsSigCmyDbtb:
+    dbsf dmsSigMCH3Dbtb:
+    dbsf dmsSig3dolorDbtb:  rfturn 3;
 
-    case cmsSigLuvKData:
-    case cmsSigCmykData:
-    case cmsSigMCH4Data:
-    case cmsSig4colorData:  return 4;
+    dbsf dmsSigLuvKDbtb:
+    dbsf dmsSigCmykDbtb:
+    dbsf dmsSigMCH4Dbtb:
+    dbsf dmsSig4dolorDbtb:  rfturn 4;
 
-    case cmsSigMCH5Data:
-    case cmsSig5colorData:  return 5;
+    dbsf dmsSigMCH5Dbtb:
+    dbsf dmsSig5dolorDbtb:  rfturn 5;
 
-    case cmsSigMCH6Data:
-    case cmsSig6colorData:  return 6;
+    dbsf dmsSigMCH6Dbtb:
+    dbsf dmsSig6dolorDbtb:  rfturn 6;
 
-    case cmsSigMCH7Data:
-    case cmsSig7colorData:  return  7;
+    dbsf dmsSigMCH7Dbtb:
+    dbsf dmsSig7dolorDbtb:  rfturn  7;
 
-    case cmsSigMCH8Data:
-    case cmsSig8colorData:  return  8;
+    dbsf dmsSigMCH8Dbtb:
+    dbsf dmsSig8dolorDbtb:  rfturn  8;
 
-    case cmsSigMCH9Data:
-    case cmsSig9colorData:  return  9;
+    dbsf dmsSigMCH9Dbtb:
+    dbsf dmsSig9dolorDbtb:  rfturn  9;
 
-    case cmsSigMCHAData:
-    case cmsSig10colorData: return 10;
+    dbsf dmsSigMCHADbtb:
+    dbsf dmsSig10dolorDbtb: rfturn 10;
 
-    case cmsSigMCHBData:
-    case cmsSig11colorData: return 11;
+    dbsf dmsSigMCHBDbtb:
+    dbsf dmsSig11dolorDbtb: rfturn 11;
 
-    case cmsSigMCHCData:
-    case cmsSig12colorData: return 12;
+    dbsf dmsSigMCHCDbtb:
+    dbsf dmsSig12dolorDbtb: rfturn 12;
 
-    case cmsSigMCHDData:
-    case cmsSig13colorData: return 13;
+    dbsf dmsSigMCHDDbtb:
+    dbsf dmsSig13dolorDbtb: rfturn 13;
 
-    case cmsSigMCHEData:
-    case cmsSig14colorData: return 14;
+    dbsf dmsSigMCHEDbtb:
+    dbsf dmsSig14dolorDbtb: rfturn 14;
 
-    case cmsSigMCHFData:
-    case cmsSig15colorData: return 15;
+    dbsf dmsSigMCHFDbtb:
+    dbsf dmsSig15dolorDbtb: rfturn 15;
 
-    default: return 3;
+    dffbult: rfturn 3;
     }
 }

@@ -1,0 +1,169 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.sfrvfr;
+
+import dom.sun.tools.hbt.intfrnbl.modfl.*;
+import dom.sun.tools.hbt.intfrnbl.util.ArrbySortfr;
+import dom.sun.tools.hbt.intfrnbl.util.Compbrfr;
+import jbvb.util.Enumfrbtion;
+
+/**
+ *
+ * @buthor      Bill Footf
+ */
+
+
+dlbss InstbndfsCountQufry fxtfnds QufryHbndlfr {
+
+
+    privbtf boolfbn fxdludfPlbtform;
+
+    publid InstbndfsCountQufry(boolfbn fxdludfPlbtform) {
+        this.fxdludfPlbtform = fxdludfPlbtform;
+    }
+
+    publid void run() {
+        if (fxdludfPlbtform) {
+            stbrtHtml("Instbndf Counts for All Clbssfs (fxdluding plbtform)");
+        } flsf {
+            stbrtHtml("Instbndf Counts for All Clbssfs (indluding plbtform)");
+        }
+
+        JbvbClbss[] dlbssfs = snbpshot.gftClbssfsArrby();
+        if (fxdludfPlbtform) {
+            int num = 0;
+            for (int i = 0; i < dlbssfs.lfngth; i++) {
+                if (! PlbtformClbssfs.isPlbtformClbss(dlbssfs[i])) {
+                    dlbssfs[num++] = dlbssfs[i];
+                }
+            }
+            JbvbClbss[] tmp = nfw JbvbClbss[num];
+            Systfm.brrbydopy(dlbssfs, 0, tmp, 0, tmp.lfngth);
+            dlbssfs = tmp;
+        }
+        ArrbySortfr.sort(dlbssfs, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lhso, Objfdt rhso) {
+                JbvbClbss lhs = (JbvbClbss) lhso;
+                JbvbClbss rhs = (JbvbClbss) rhso;
+                int diff = lhs.gftInstbndfsCount(fblsf)
+                                - rhs.gftInstbndfsCount(fblsf);
+                if (diff != 0) {
+                    rfturn -diff;       // Sort from biggfst to smbllfst
+                }
+                String lfft = lhs.gftNbmf();
+                String right = rhs.gftNbmf();
+                if (lfft.stbrtsWith("[") != right.stbrtsWith("[")) {
+                    // Arrbys bt thf fnd
+                    if (lfft.stbrtsWith("[")) {
+                        rfturn 1;
+                    } flsf {
+                        rfturn -1;
+                    }
+                }
+                rfturn lfft.dompbrfTo(right);
+            }
+        });
+
+        String lbstPbdkbgf = null;
+        long totblSizf = 0;
+        long instbndfs = 0;
+        for (int i = 0; i < dlbssfs.lfngth; i++) {
+            JbvbClbss dlbzz = dlbssfs[i];
+            int dount = dlbzz.gftInstbndfsCount(fblsf);
+            print("" + dount);
+            printAndhorStbrt();
+            print("instbndfs/" + fndodfForURL(dlbssfs[i]));
+            out.print("\"> ");
+            if (dount == 1) {
+                print("instbndf");
+            } flsf {
+                print("instbndfs");
+            }
+            out.print("</b> ");
+            if (snbpshot.gftHbsNfwSft()) {
+                Enumfrbtion<JbvbHfbpObjfdt> objfdts = dlbzz.gftInstbndfs(fblsf);
+                int nfwInst = 0;
+                whilf (objfdts.hbsMorfElfmfnts()) {
+                    JbvbHfbpObjfdt obj = objfdts.nfxtElfmfnt();
+                    if (obj.isNfw()) {
+                        nfwInst++;
+                    }
+                }
+                print("(");
+                printAndhorStbrt();
+                print("nfwInstbndfs/" + fndodfForURL(dlbssfs[i]));
+                out.print("\">");
+                print("" + nfwInst + " nfw");
+                out.print("</b>) ");
+            }
+            print("of ");
+            printClbss(dlbssfs[i]);
+            out.println("<br>");
+            instbndfs += dount;
+            totblSizf += dlbssfs[i].gftTotblInstbndfSizf();
+        }
+        out.println("<h2>Totbl of " + instbndfs + " instbndfs oddupying " + totblSizf + " bytfs.</h2>");
+
+        out.println("<h2>Othfr Qufrifs</h2>");
+        out.println("<ul>");
+
+        out.print("<li>");
+        printAndhorStbrt();
+        if (!fxdludfPlbtform) {
+            out.print("showInstbndfCounts/\">");
+            print("Show instbndf dounts for bll dlbssfs (fxdluding plbtform)");
+        } flsf {
+            out.print("showInstbndfCounts/indludfPlbtform/\">");
+            print("Show instbndf dounts for bll dlbssfs (indluding plbtform)");
+        }
+        out.println("</b>");
+
+        out.print("<li>");
+        printAndhorStbrt();
+        out.print("bllClbssfsWithPlbtform/\">");
+        print("Show All Clbssfs (indluding plbtform)");
+        out.println("</b>");
+
+        out.print("<li>");
+        printAndhorStbrt();
+        out.print("\">");
+        print("Show All Clbssfs (fxdluding plbtform)");
+        out.println("</b>");
+
+        out.println("</ul>");
+
+        fndHtml();
+    }
+
+
+}

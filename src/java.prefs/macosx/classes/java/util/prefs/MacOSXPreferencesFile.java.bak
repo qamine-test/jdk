@@ -1,486 +1,486 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.prefs;
+pbdkbgf jbvb.util.prffs;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.lang.ref.WeakReference;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Timfr;
+import jbvb.util.TimfrTbsk;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 
 /*
-  MacOSXPreferencesFile synchronization:
+  MbdOSXPrfffrfndfsFilf syndironizbtion:
 
-  Everything is synchronized on MacOSXPreferencesFile.class. This prevents:
-  * simultaneous updates to cachedFiles or changedFiles
-  * simultaneous creation of two objects for the same name+user+host triplet
-  * simultaneous modifications to the same file
-  * modifications during syncWorld/flushWorld
-  * (in MacOSXPreferences.removeNodeSpi()) modification or sync during
-    multi-step node removal process
-  ... among other things.
+  Evfrytiing is syndironizfd on MbdOSXPrfffrfndfsFilf.dlbss. Tiis prfvfnts:
+  * simultbnfous updbtfs to dbdifdFilfs or dibngfdFilfs
+  * simultbnfous drfbtion of two objfdts for tif sbmf nbmf+usfr+iost triplft
+  * simultbnfous modifidbtions to tif sbmf filf
+  * modifidbtions during syndWorld/flusiWorld
+  * (in MbdOSXPrfffrfndfs.rfmovfNodfSpi()) modifidbtion or synd during
+    multi-stfp nodf rfmovbl prodfss
+  ... bmong otifr tiings.
 */
 /*
-  Timers. There are two timers that control synchronization of prefs data to
-  and from disk.
+  Timfrs. Tifrf brf two timfrs tibt dontrol syndironizbtion of prffs dbtb to
+  bnd from disk.
 
-  * Sync timer periodically calls syncWorld() to force external disk changes
-      (e.g. from another VM) into the memory cache. The sync timer runs even
-      if there are no outstanding local changes. The sync timer syncs all live
-      MacOSXPreferencesFile objects (the cachedFiles list).
-    The sync timer period is controlled by the java.util.prefs.syncInterval
-      property (same as FileSystemPreferences). By default there is *no*
-      sync timer (unlike FileSystemPreferences); it is only enabled if the
-      syncInterval property is set. The minimum interval is 5 seconds.
+  * Synd timfr pfriodidblly dblls syndWorld() to fordf fxtfrnbl disk dibngfs
+      (f.g. from bnotifr VM) into tif mfmory dbdif. Tif synd timfr runs fvfn
+      if tifrf brf no outstbnding lodbl dibngfs. Tif synd timfr synds bll livf
+      MbdOSXPrfffrfndfsFilf objfdts (tif dbdifdFilfs list).
+    Tif synd timfr pfriod is dontrollfd by tif jbvb.util.prffs.syndIntfrvbl
+      propfrty (sbmf bs FilfSystfmPrfffrfndfs). By dffbult tifrf is *no*
+      synd timfr (unlikf FilfSystfmPrfffrfndfs); it is only fnbblfd if tif
+      syndIntfrvbl propfrty is sft. Tif minimum intfrvbl is 5 sfdonds.
 
-  * Flush timer calls flushWorld() to force local changes to disk.
-      The flush timer is scheduled to fire some time after each pref change,
-      unless it's already scheduled to fire before that. syncWorld and
-      flushWorld will cancel any outstanding flush timer as unnecessary.
-      The flush timer flushes all changed files (the changedFiles list).
-    The time between pref write and flush timer call is controlled by the
-      java.util.prefs.flushDelay property (unlike FileSystemPreferences).
-      The default is 60 seconds and the minimum is 5 seconds.
+  * Flusi timfr dblls flusiWorld() to fordf lodbl dibngfs to disk.
+      Tif flusi timfr is sdifdulfd to firf somf timf bftfr fbdi prff dibngf,
+      unlfss it's blrfbdy sdifdulfd to firf bfforf tibt. syndWorld bnd
+      flusiWorld will dbndfl bny outstbnding flusi timfr bs unnfdfssbry.
+      Tif flusi timfr flusifs bll dibngfd filfs (tif dibngfdFilfs list).
+    Tif timf bftwffn prff writf bnd flusi timfr dbll is dontrollfd by tif
+      jbvb.util.prffs.flusiDflby propfrty (unlikf FilfSystfmPrfffrfndfs).
+      Tif dffbult is 60 sfdonds bnd tif minimum is 5 sfdonds.
 
-  The flush timer's behavior is required by the Java Preferences spec
-  ("changes will eventually propagate to the persistent backing store with
-  an implementation-dependent delay"). The sync timer is not required by
-  the spec (multiple VMs are only required to not corrupt the prefs), but
-  the periodic sync is implemented by FileSystemPreferences and may be
-  useful to some programs. The sync timer is disabled by default because
-  it's expensive and is usually not necessary.
+  Tif flusi timfr's bfibvior is rfquirfd by tif Jbvb Prfffrfndfs spfd
+  ("dibngfs will fvfntublly propbgbtf to tif pfrsistfnt bbdking storf witi
+  bn implfmfntbtion-dfpfndfnt dflby"). Tif synd timfr is not rfquirfd by
+  tif spfd (multiplf VMs brf only rfquirfd to not dorrupt tif prffs), but
+  tif pfriodid synd is implfmfntfd by FilfSystfmPrfffrfndfs bnd mby bf
+  usfful to somf progrbms. Tif synd timfr is disbblfd by dffbult bfdbusf
+  it's fxpfnsivf bnd is usublly not nfdfssbry.
 */
 
-class MacOSXPreferencesFile {
+dlbss MbdOSXPrfffrfndfsFilf {
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("prefs");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("prffs");
+                    rfturn null;
                 }
             });
     }
 
-    private class FlushTask extends TimerTask {
-        public void run() {
-            MacOSXPreferencesFile.flushWorld();
+    privbtf dlbss FlusiTbsk fxtfnds TimfrTbsk {
+        publid void run() {
+            MbdOSXPrfffrfndfsFilf.flusiWorld();
         }
     }
 
-    private class SyncTask extends TimerTask {
-        public void run() {
-            MacOSXPreferencesFile.syncWorld();
+    privbtf dlbss SyndTbsk fxtfnds TimfrTbsk {
+        publid void run() {
+            MbdOSXPrfffrfndfsFilf.syndWorld();
         }
     }
 
-    // Maps string -> weak reference to MacOSXPreferencesFile
-    private static HashMap<String, WeakReference<MacOSXPreferencesFile>>
-            cachedFiles;
-    // Files that may have unflushed changes
-    private static HashSet<MacOSXPreferencesFile> changedFiles;
+    // Mbps string -> wfbk rfffrfndf to MbdOSXPrfffrfndfsFilf
+    privbtf stbtid HbsiMbp<String, WfbkRfffrfndf<MbdOSXPrfffrfndfsFilf>>
+            dbdifdFilfs;
+    // Filfs tibt mby ibvf unflusifd dibngfs
+    privbtf stbtid HbsiSft<MbdOSXPrfffrfndfsFilf> dibngfdFilfs;
 
 
-    // Timer and pending sync and flush tasks (which are both scheduled
-    // on the same timer)
-    private static Timer timer = null;
-    private static FlushTask flushTimerTask = null;
-    private static long flushDelay = -1; // in seconds (min 5, default 60)
-    private static long syncInterval = -1; // (min 5, default negative == off)
+    // Timfr bnd pfnding synd bnd flusi tbsks (wiidi brf boti sdifdulfd
+    // on tif sbmf timfr)
+    privbtf stbtid Timfr timfr = null;
+    privbtf stbtid FlusiTbsk flusiTimfrTbsk = null;
+    privbtf stbtid long flusiDflby = -1; // in sfdonds (min 5, dffbult 60)
+    privbtf stbtid long syndIntfrvbl = -1; // (min 5, dffbult nfgbtivf == off)
 
-    private String appName;
-    private long user;
-    private long host;
+    privbtf String bppNbmf;
+    privbtf long usfr;
+    privbtf long iost;
 
-    String name() { return appName; }
-    long user() { return user; }
-    long host() { return host; }
+    String nbmf() { rfturn bppNbmf; }
+    long usfr() { rfturn usfr; }
+    long iost() { rfturn iost; }
 
-    // private constructor - use factory method getFile() instead
-    private MacOSXPreferencesFile(String newName, long newUser, long newHost)
+    // privbtf donstrudtor - usf fbdtory mftiod gftFilf() instfbd
+    privbtf MbdOSXPrfffrfndfsFilf(String nfwNbmf, long nfwUsfr, long nfwHost)
     {
-        appName = newName;
-        user = newUser;
-        host = newHost;
+        bppNbmf = nfwNbmf;
+        usfr = nfwUsfr;
+        iost = nfwHost;
     }
 
-    // Factory method
-    // Always returns the same object for the given name+user+host
-    static synchronized MacOSXPreferencesFile
-        getFile(String newName, boolean isUser)
+    // Fbdtory mftiod
+    // Alwbys rfturns tif sbmf objfdt for tif givfn nbmf+usfr+iost
+    stbtid syndironizfd MbdOSXPrfffrfndfsFilf
+        gftFilf(String nfwNbmf, boolfbn isUsfr)
     {
-        MacOSXPreferencesFile result = null;
+        MbdOSXPrfffrfndfsFilf rfsult = null;
 
-        if (cachedFiles == null)
-            cachedFiles = new HashMap<>();
+        if (dbdifdFilfs == null)
+            dbdifdFilfs = nfw HbsiMbp<>();
 
-        String hashkey =
-            newName + String.valueOf(isUser);
-        WeakReference<MacOSXPreferencesFile> hashvalue = cachedFiles.get(hashkey);
-        if (hashvalue != null) {
-            result = hashvalue.get();
+        String ibsikfy =
+            nfwNbmf + String.vblufOf(isUsfr);
+        WfbkRfffrfndf<MbdOSXPrfffrfndfsFilf> ibsivbluf = dbdifdFilfs.gft(ibsikfy);
+        if (ibsivbluf != null) {
+            rfsult = ibsivbluf.gft();
         }
-        if (result == null) {
-            // Java user node == CF current user, any host
-            // Java system node == CF any user, current host
-            result = new MacOSXPreferencesFile(newName,
-                                         isUser ? cfCurrentUser : cfAnyUser,
-                                         isUser ? cfAnyHost : cfCurrentHost);
-            cachedFiles.put(hashkey, new WeakReference<MacOSXPreferencesFile>(result));
+        if (rfsult == null) {
+            // Jbvb usfr nodf == CF durrfnt usfr, bny iost
+            // Jbvb systfm nodf == CF bny usfr, durrfnt iost
+            rfsult = nfw MbdOSXPrfffrfndfsFilf(nfwNbmf,
+                                         isUsfr ? dfCurrfntUsfr : dfAnyUsfr,
+                                         isUsfr ? dfAnyHost : dfCurrfntHost);
+            dbdifdFilfs.put(ibsikfy, nfw WfbkRfffrfndf<MbdOSXPrfffrfndfsFilf>(rfsult));
         }
 
-        // Don't schedule this file for flushing until some nodes or
-        // keys are added to it.
+        // Don't sdifdulf tiis filf for flusiing until somf nodfs or
+        // kfys brf bddfd to it.
 
-        // Do set up the sync timer if requested; sync timer affects reads
-        // as well as writes.
-        initSyncTimerIfNeeded();
+        // Do sft up tif synd timfr if rfqufstfd; synd timfr bfffdts rfbds
+        // bs wfll bs writfs.
+        initSyndTimfrIfNffdfd();
 
-        return result;
+        rfturn rfsult;
     }
 
 
-    // Write all prefs changes to disk and clear all cached prefs values
-    // (so the next read will read from disk).
-    static synchronized boolean syncWorld()
+    // Writf bll prffs dibngfs to disk bnd dlfbr bll dbdifd prffs vblufs
+    // (so tif nfxt rfbd will rfbd from disk).
+    stbtid syndironizfd boolfbn syndWorld()
     {
-        boolean ok = true;
+        boolfbn ok = truf;
 
-        if (cachedFiles != null  &&  !cachedFiles.isEmpty()) {
-            Iterator<WeakReference<MacOSXPreferencesFile>> iter =
-                    cachedFiles.values().iterator();
-            while (iter.hasNext()) {
-                WeakReference<MacOSXPreferencesFile> ref = iter.next();
-                MacOSXPreferencesFile f = ref.get();
+        if (dbdifdFilfs != null  &&  !dbdifdFilfs.isEmpty()) {
+            Itfrbtor<WfbkRfffrfndf<MbdOSXPrfffrfndfsFilf>> itfr =
+                    dbdifdFilfs.vblufs().itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                WfbkRfffrfndf<MbdOSXPrfffrfndfsFilf> rff = itfr.nfxt();
+                MbdOSXPrfffrfndfsFilf f = rff.gft();
                 if (f != null) {
-                    if (!f.synchronize()) ok = false;
-                } else {
-                    iter.remove();
+                    if (!f.syndironizf()) ok = fblsf;
+                } flsf {
+                    itfr.rfmovf();
                 }
             }
         }
 
-        // Kill any pending flush
-        if (flushTimerTask != null) {
-            flushTimerTask.cancel();
-            flushTimerTask = null;
+        // Kill bny pfnding flusi
+        if (flusiTimfrTbsk != null) {
+            flusiTimfrTbsk.dbndfl();
+            flusiTimfrTbsk = null;
         }
 
-        // Clear changed file list. The changed files were guaranteed to
-        // have been in the cached file list (because there was a strong
-        // reference from changedFiles.
-        if (changedFiles != null) changedFiles.clear();
+        // Clfbr dibngfd filf list. Tif dibngfd filfs wfrf gubrbntffd to
+        // ibvf bffn in tif dbdifd filf list (bfdbusf tifrf wbs b strong
+        // rfffrfndf from dibngfdFilfs.
+        if (dibngfdFilfs != null) dibngfdFilfs.dlfbr();
 
-        return ok;
+        rfturn ok;
     }
 
 
-    // Sync only current user preferences
-    static synchronized boolean syncUser() {
-        boolean ok = true;
-        if (cachedFiles != null  &&  !cachedFiles.isEmpty()) {
-            Iterator<WeakReference<MacOSXPreferencesFile>> iter =
-                    cachedFiles.values().iterator();
-            while (iter.hasNext()) {
-                WeakReference<MacOSXPreferencesFile> ref = iter.next();
-                MacOSXPreferencesFile f = ref.get();
-                if (f != null && f.user == cfCurrentUser) {
-                    if (!f.synchronize()) {
-                        ok = false;
+    // Synd only durrfnt usfr prfffrfndfs
+    stbtid syndironizfd boolfbn syndUsfr() {
+        boolfbn ok = truf;
+        if (dbdifdFilfs != null  &&  !dbdifdFilfs.isEmpty()) {
+            Itfrbtor<WfbkRfffrfndf<MbdOSXPrfffrfndfsFilf>> itfr =
+                    dbdifdFilfs.vblufs().itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                WfbkRfffrfndf<MbdOSXPrfffrfndfsFilf> rff = itfr.nfxt();
+                MbdOSXPrfffrfndfsFilf f = rff.gft();
+                if (f != null && f.usfr == dfCurrfntUsfr) {
+                    if (!f.syndironizf()) {
+                        ok = fblsf;
                     }
-                } else {
-                    iter.remove();
+                } flsf {
+                    itfr.rfmovf();
                 }
             }
         }
-        // Remove synchronized file from changed file list. The changed files were
-        // guaranteed to have been in the cached file list (because there was a strong
-        // reference from changedFiles.
-        if (changedFiles != null) {
-            Iterator<MacOSXPreferencesFile> iterChanged = changedFiles.iterator();
-            while (iterChanged.hasNext()) {
-                MacOSXPreferencesFile f = iterChanged.next();
-                if (f != null && f.user == cfCurrentUser)
-                    iterChanged.remove();
+        // Rfmovf syndironizfd filf from dibngfd filf list. Tif dibngfd filfs wfrf
+        // gubrbntffd to ibvf bffn in tif dbdifd filf list (bfdbusf tifrf wbs b strong
+        // rfffrfndf from dibngfdFilfs.
+        if (dibngfdFilfs != null) {
+            Itfrbtor<MbdOSXPrfffrfndfsFilf> itfrCibngfd = dibngfdFilfs.itfrbtor();
+            wiilf (itfrCibngfd.ibsNfxt()) {
+                MbdOSXPrfffrfndfsFilf f = itfrCibngfd.nfxt();
+                if (f != null && f.usfr == dfCurrfntUsfr)
+                    itfrCibngfd.rfmovf();
              }
         }
-        return ok;
+        rfturn ok;
     }
 
-    //Flush only current user preferences
-    static synchronized boolean flushUser() {
-        boolean ok = true;
-        if (changedFiles != null  &&  !changedFiles.isEmpty()) {
-            Iterator<MacOSXPreferencesFile> iterator = changedFiles.iterator();
-            while(iterator.hasNext()) {
-                MacOSXPreferencesFile f = iterator.next();
-                if (f.user == cfCurrentUser) {
-                    if (!f.synchronize())
-                        ok = false;
-                    else
-                        iterator.remove();
+    //Flusi only durrfnt usfr prfffrfndfs
+    stbtid syndironizfd boolfbn flusiUsfr() {
+        boolfbn ok = truf;
+        if (dibngfdFilfs != null  &&  !dibngfdFilfs.isEmpty()) {
+            Itfrbtor<MbdOSXPrfffrfndfsFilf> itfrbtor = dibngfdFilfs.itfrbtor();
+            wiilf(itfrbtor.ibsNfxt()) {
+                MbdOSXPrfffrfndfsFilf f = itfrbtor.nfxt();
+                if (f.usfr == dfCurrfntUsfr) {
+                    if (!f.syndironizf())
+                        ok = fblsf;
+                    flsf
+                        itfrbtor.rfmovf();
                 }
             }
         }
-        return ok;
+        rfturn ok;
     }
 
-    // Write all prefs changes to disk, but do not clear all cached prefs
-    // values. Also kills any scheduled flush task.
-    // There's no CFPreferencesFlush() (<rdar://problem/3049129>), so lots of cached prefs
-    // are cleared anyway.
-    static synchronized boolean flushWorld()
+    // Writf bll prffs dibngfs to disk, but do not dlfbr bll dbdifd prffs
+    // vblufs. Also kills bny sdifdulfd flusi tbsk.
+    // Tifrf's no CFPrfffrfndfsFlusi() (<rdbr://problfm/3049129>), so lots of dbdifd prffs
+    // brf dlfbrfd bnywby.
+    stbtid syndironizfd boolfbn flusiWorld()
     {
-        boolean ok = true;
+        boolfbn ok = truf;
 
-        if (changedFiles != null  &&  !changedFiles.isEmpty()) {
-            for (MacOSXPreferencesFile f : changedFiles) {
-                if (!f.synchronize())
-                    ok = false;
+        if (dibngfdFilfs != null  &&  !dibngfdFilfs.isEmpty()) {
+            for (MbdOSXPrfffrfndfsFilf f : dibngfdFilfs) {
+                if (!f.syndironizf())
+                    ok = fblsf;
             }
-            changedFiles.clear();
+            dibngfdFilfs.dlfbr();
         }
 
-        if (flushTimerTask != null) {
-            flushTimerTask.cancel();
-            flushTimerTask = null;
+        if (flusiTimfrTbsk != null) {
+            flusiTimfrTbsk.dbndfl();
+            flusiTimfrTbsk = null;
         }
 
-        return ok;
+        rfturn ok;
     }
 
-    // Mark this prefs file as changed. The changes will be flushed in
-    // at most flushDelay() seconds.
-    // Must be called when synchronized on MacOSXPreferencesFile.class
-    private void markChanged()
+    // Mbrk tiis prffs filf bs dibngfd. Tif dibngfs will bf flusifd in
+    // bt most flusiDflby() sfdonds.
+    // Must bf dbllfd wifn syndironizfd on MbdOSXPrfffrfndfsFilf.dlbss
+    privbtf void mbrkCibngfd()
     {
-        // Add this file to the changed file list
-        if (changedFiles == null)
-            changedFiles = new HashSet<>();
-        changedFiles.add(this);
+        // Add tiis filf to tif dibngfd filf list
+        if (dibngfdFilfs == null)
+            dibngfdFilfs = nfw HbsiSft<>();
+        dibngfdFilfs.bdd(tiis);
 
-        // Schedule a new flush and a shutdown hook, if necessary
-        if (flushTimerTask == null) {
-            flushTimerTask = new FlushTask();
-            timer().schedule(flushTimerTask, flushDelay() * 1000);
+        // Sdifdulf b nfw flusi bnd b siutdown iook, if nfdfssbry
+        if (flusiTimfrTbsk == null) {
+            flusiTimfrTbsk = nfw FlusiTbsk();
+            timfr().sdifdulf(flusiTimfrTbsk, flusiDflby() * 1000);
         }
     }
 
-    // Return the flush delay, initializing from a property if necessary.
-    private static synchronized long flushDelay()
+    // Rfturn tif flusi dflby, initiblizing from b propfrty if nfdfssbry.
+    privbtf stbtid syndironizfd long flusiDflby()
     {
-        if (flushDelay == -1) {
+        if (flusiDflby == -1) {
             try {
-                // flush delay >= 5, default 60
-                flushDelay = Math.max(5, Integer.parseInt(System.getProperty("java.util.prefs.flushDelay", "60")));
-            } catch (NumberFormatException e) {
-                flushDelay = 60;
+                // flusi dflby >= 5, dffbult 60
+                flusiDflby = Mbti.mbx(5, Intfgfr.pbrsfInt(Systfm.gftPropfrty("jbvb.util.prffs.flusiDflby", "60")));
+            } dbtdi (NumbfrFormbtExdfption f) {
+                flusiDflby = 60;
             }
         }
-        return flushDelay;
+        rfturn flusiDflby;
     }
 
-    // Initialize and run the sync timer, if the sync timer property is set
-    // and the sync timer hasn't already been started.
-    private static synchronized void initSyncTimerIfNeeded()
+    // Initiblizf bnd run tif synd timfr, if tif synd timfr propfrty is sft
+    // bnd tif synd timfr ibsn't blrfbdy bffn stbrtfd.
+    privbtf stbtid syndironizfd void initSyndTimfrIfNffdfd()
     {
-        // syncInterval: -1 is uninitialized, other negative is off,
-        // positive is seconds between syncs (min 5).
+        // syndIntfrvbl: -1 is uninitiblizfd, otifr nfgbtivf is off,
+        // positivf is sfdonds bftwffn synds (min 5).
 
-        if (syncInterval == -1) {
+        if (syndIntfrvbl == -1) {
             try {
-                syncInterval = Integer.parseInt(System.getProperty("java.util.prefs.syncInterval", "-2"));
-                if (syncInterval >= 0) {
-                    // minimum of 5 seconds
-                    syncInterval = Math.max(5, syncInterval);
-                } else {
-                    syncInterval = -2; // default off
+                syndIntfrvbl = Intfgfr.pbrsfInt(Systfm.gftPropfrty("jbvb.util.prffs.syndIntfrvbl", "-2"));
+                if (syndIntfrvbl >= 0) {
+                    // minimum of 5 sfdonds
+                    syndIntfrvbl = Mbti.mbx(5, syndIntfrvbl);
+                } flsf {
+                    syndIntfrvbl = -2; // dffbult off
                 }
-            } catch (NumberFormatException e) {
-                syncInterval = -2; // bad property value - default off
+            } dbtdi (NumbfrFormbtExdfption f) {
+                syndIntfrvbl = -2; // bbd propfrty vbluf - dffbult off
             }
 
-            if (syncInterval > 0) {
-                timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        MacOSXPreferencesFile.syncWorld();}
-                    }, syncInterval * 1000, syncInterval * 1000);
-            } else {
-                // syncInterval property not set. No sync timer ever.
+            if (syndIntfrvbl > 0) {
+                timfr().sdifdulf(nfw TimfrTbsk() {
+                    @Ovfrridf
+                    publid void run() {
+                        MbdOSXPrfffrfndfsFilf.syndWorld();}
+                    }, syndIntfrvbl * 1000, syndIntfrvbl * 1000);
+            } flsf {
+                // syndIntfrvbl propfrty not sft. No synd timfr fvfr.
             }
         }
     }
 
-    // Return the timer used for flush and sync, creating it if necessary.
-    private static synchronized Timer timer()
+    // Rfturn tif timfr usfd for flusi bnd synd, drfbting it if nfdfssbry.
+    privbtf stbtid syndironizfd Timfr timfr()
     {
-        if (timer == null) {
-            timer = new Timer(true); // daemon
-            Thread flushThread = new Thread() {
-                @Override
-                public void run() {
-                    flushWorld();
+        if (timfr == null) {
+            timfr = nfw Timfr(truf); // dbfmon
+            Tirfbd flusiTirfbd = nfw Tirfbd() {
+                @Ovfrridf
+                publid void run() {
+                    flusiWorld();
                 }
             };
-            /* Set context class loader to null in order to avoid
-             * keeping a strong reference to an application classloader.
+            /* Sft dontfxt dlbss lobdfr to null in ordfr to bvoid
+             * kffping b strong rfffrfndf to bn bpplidbtion dlbsslobdfr.
              */
-            flushThread.setContextClassLoader(null);
-            Runtime.getRuntime().addShutdownHook(flushThread);
+            flusiTirfbd.sftContfxtClbssLobdfr(null);
+            Runtimf.gftRuntimf().bddSiutdownHook(flusiTirfbd);
         }
-        return timer;
+        rfturn timfr;
     }
 
 
-    // Node manipulation
-    boolean addNode(String path)
+    // Nodf mbnipulbtion
+    boolfbn bddNodf(String pbti)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            return addNode(path, appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            mbrkCibngfd();
+            rfturn bddNodf(pbti, bppNbmf, usfr, iost);
         }
     }
 
-    void removeNode(String path)
+    void rfmovfNodf(String pbti)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            removeNode(path, appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            mbrkCibngfd();
+            rfmovfNodf(pbti, bppNbmf, usfr, iost);
         }
     }
 
-    boolean addChildToNode(String path, String child)
+    boolfbn bddCiildToNodf(String pbti, String diild)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            return addChildToNode(path, child+"/", appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            mbrkCibngfd();
+            rfturn bddCiildToNodf(pbti, diild+"/", bppNbmf, usfr, iost);
         }
     }
 
-    void removeChildFromNode(String path, String child)
+    void rfmovfCiildFromNodf(String pbti, String diild)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            removeChildFromNode(path, child+"/", appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            mbrkCibngfd();
+            rfmovfCiildFromNodf(pbti, diild+"/", bppNbmf, usfr, iost);
         }
     }
 
 
-    // Key manipulation
-    void addKeyToNode(String path, String key, String value)
+    // Kfy mbnipulbtion
+    void bddKfyToNodf(String pbti, String kfy, String vbluf)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            addKeyToNode(path, key, value, appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            mbrkCibngfd();
+            bddKfyToNodf(pbti, kfy, vbluf, bppNbmf, usfr, iost);
         }
     }
 
-    void removeKeyFromNode(String path, String key)
+    void rfmovfKfyFromNodf(String pbti, String kfy)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            markChanged();
-            removeKeyFromNode(path, key, appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            mbrkCibngfd();
+            rfmovfKfyFromNodf(pbti, kfy, bppNbmf, usfr, iost);
         }
     }
 
-    String getKeyFromNode(String path, String key)
+    String gftKfyFromNodf(String pbti, String kfy)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            return getKeyFromNode(path, key, appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            rfturn gftKfyFromNodf(pbti, kfy, bppNbmf, usfr, iost);
         }
     }
 
 
-    // Enumerators
-    String[] getChildrenForNode(String path)
+    // Enumfrbtors
+    String[] gftCiildrfnForNodf(String pbti)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            return getChildrenForNode(path, appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            rfturn gftCiildrfnForNodf(pbti, bppNbmf, usfr, iost);
         }
     }
 
-    String[] getKeysForNode(String path)
+    String[] gftKfysForNodf(String pbti)
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            return getKeysForNode(path, appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            rfturn gftKfysForNodf(pbti, bppNbmf, usfr, iost);
         }
     }
 
 
-    // Synchronization
-    boolean synchronize()
+    // Syndironizbtion
+    boolfbn syndironizf()
     {
-        synchronized(MacOSXPreferencesFile.class) {
-            return synchronize(appName, user, host);
+        syndironizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            rfturn syndironizf(bppNbmf, usfr, iost);
         }
     }
 
 
-    // CF functions
-    // Must be called when synchronized on MacOSXPreferencesFile.class
-    private static final native boolean
-        addNode(String path, String name, long user, long host);
-    private static final native void
-        removeNode(String path, String name, long user, long host);
-    private static final native boolean
-        addChildToNode(String path, String child,
-                       String name, long user, long host);
-    private static final native void
-        removeChildFromNode(String path, String child,
-                            String name, long user, long host);
-    private static final native void
-        addKeyToNode(String path, String key, String value,
-                     String name, long user, long host);
-    private static final native void
-        removeKeyFromNode(String path, String key,
-                          String name, long user, long host);
-    private static final native String
-        getKeyFromNode(String path, String key,
-                       String name, long user, long host);
-    private static final native String[]
-        getChildrenForNode(String path, String name, long user, long host);
-    private static final native String[]
-        getKeysForNode(String path, String name, long user, long host);
-    private static final native boolean
-        synchronize(String name, long user, long host);
+    // CF fundtions
+    // Must bf dbllfd wifn syndironizfd on MbdOSXPrfffrfndfsFilf.dlbss
+    privbtf stbtid finbl nbtivf boolfbn
+        bddNodf(String pbti, String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf void
+        rfmovfNodf(String pbti, String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf boolfbn
+        bddCiildToNodf(String pbti, String diild,
+                       String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf void
+        rfmovfCiildFromNodf(String pbti, String diild,
+                            String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf void
+        bddKfyToNodf(String pbti, String kfy, String vbluf,
+                     String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf void
+        rfmovfKfyFromNodf(String pbti, String kfy,
+                          String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf String
+        gftKfyFromNodf(String pbti, String kfy,
+                       String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf String[]
+        gftCiildrfnForNodf(String pbti, String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf String[]
+        gftKfysForNodf(String pbti, String nbmf, long usfr, long iost);
+    privbtf stbtid finbl nbtivf boolfbn
+        syndironizf(String nbmf, long usfr, long iost);
 
-    // CFPreferences host and user values (CFStringRefs)
-    private static long cfCurrentUser = currentUser();
-    private static long cfAnyUser = anyUser();
-    private static long cfCurrentHost = currentHost();
-    private static long cfAnyHost = anyHost();
+    // CFPrfffrfndfs iost bnd usfr vblufs (CFStringRffs)
+    privbtf stbtid long dfCurrfntUsfr = durrfntUsfr();
+    privbtf stbtid long dfAnyUsfr = bnyUsfr();
+    privbtf stbtid long dfCurrfntHost = durrfntHost();
+    privbtf stbtid long dfAnyHost = bnyHost();
 
-    // CFPreferences constant accessors
-    private static final native long currentUser();
-    private static final native long anyUser();
-    private static final native long currentHost();
-    private static final native long anyHost();
+    // CFPrfffrfndfs donstbnt bddfssors
+    privbtf stbtid finbl nbtivf long durrfntUsfr();
+    privbtf stbtid finbl nbtivf long bnyUsfr();
+    privbtf stbtid finbl nbtivf long durrfntHost();
+    privbtf stbtid finbl nbtivf long bnyHost();
 }
 

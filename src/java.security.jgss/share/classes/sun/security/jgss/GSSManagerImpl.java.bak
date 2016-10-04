@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss;
+pbdkbgf sun.sfdurity.jgss;
 
-import org.ietf.jgss.*;
-import sun.security.jgss.spi.*;
-import java.security.Provider;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.spi.*;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * This class provides the default implementation of the GSSManager
- * interface.
+ * Tiis dlbss providfs tif dffbult implfmfntbtion of tif GSSMbnbgfr
+ * intfrfbdf.
  */
-public class GSSManagerImpl extends GSSManager {
+publid dlbss GSSMbnbgfrImpl fxtfnds GSSMbnbgfr {
 
-    // Undocumented property
-    private static final String USE_NATIVE_PROP =
-        "sun.security.jgss.native";
-    private static final Boolean USE_NATIVE;
+    // Undodumfntfd propfrty
+    privbtf stbtid finbl String USE_NATIVE_PROP =
+        "sun.sfdurity.jgss.nbtivf";
+    privbtf stbtid finbl Boolfbn USE_NATIVE;
 
-    static {
+    stbtid {
         USE_NATIVE =
-            AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-                    public Boolean run() {
-                            String osname = System.getProperty("os.name");
-                            if (osname.startsWith("SunOS") ||
-                                osname.contains("OS X") ||
-                                osname.startsWith("Linux")) {
-                                return Boolean.valueOf(System.getProperty
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Boolfbn>() {
+                    publid Boolfbn run() {
+                            String osnbmf = Systfm.gftPropfrty("os.nbmf");
+                            if (osnbmf.stbrtsWiti("SunOS") ||
+                                osnbmf.dontbins("OS X") ||
+                                osnbmf.stbrtsWiti("Linux")) {
+                                rfturn Boolfbn.vblufOf(Systfm.gftPropfrty
                                         (USE_NATIVE_PROP));
                             }
-                            return Boolean.FALSE;
+                            rfturn Boolfbn.FALSE;
                     }
             });
 
     }
 
-    private ProviderList list;
+    privbtf ProvidfrList list;
 
-    // Used by java SPNEGO impl to make sure native is disabled
-    public GSSManagerImpl(GSSCaller caller, boolean useNative) {
-        list = new ProviderList(caller, useNative);
+    // Usfd by jbvb SPNEGO impl to mbkf surf nbtivf is disbblfd
+    publid GSSMbnbgfrImpl(GSSCbllfr dbllfr, boolfbn usfNbtivf) {
+        list = nfw ProvidfrList(dbllfr, usfNbtivf);
     }
 
-    // Used by HTTP/SPNEGO NegotiatorImpl
-    public GSSManagerImpl(GSSCaller caller) {
-        list = new ProviderList(caller, USE_NATIVE);
+    // Usfd by HTTP/SPNEGO NfgotibtorImpl
+    publid GSSMbnbgfrImpl(GSSCbllfr dbllfr) {
+        list = nfw ProvidfrList(dbllfr, USE_NATIVE);
     }
 
-    public GSSManagerImpl() {
-        list = new ProviderList(GSSCaller.CALLER_UNKNOWN, USE_NATIVE);
+    publid GSSMbnbgfrImpl() {
+        list = nfw ProvidfrList(GSSCbllfr.CALLER_UNKNOWN, USE_NATIVE);
     }
 
-    public Oid[] getMechs(){
-        return list.getMechs();
+    publid Oid[] gftMfdis(){
+        rfturn list.gftMfdis();
     }
 
-    public Oid[] getNamesForMech(Oid mech)
-        throws GSSException {
-        MechanismFactory factory = list.getMechFactory(mech);
-        return factory.getNameTypes().clone();
+    publid Oid[] gftNbmfsForMfdi(Oid mfdi)
+        tirows GSSExdfption {
+        MfdibnismFbdtory fbdtory = list.gftMfdiFbdtory(mfdi);
+        rfturn fbdtory.gftNbmfTypfs().dlonf();
     }
 
-    public Oid[] getMechsForName(Oid nameType){
-        Oid[] mechs = list.getMechs();
-        Oid[] retVal = new Oid[mechs.length];
+    publid Oid[] gftMfdisForNbmf(Oid nbmfTypf){
+        Oid[] mfdis = list.gftMfdis();
+        Oid[] rftVbl = nfw Oid[mfdis.lfngti];
         int pos = 0;
 
-        // Compatibility with RFC 2853 old NT_HOSTBASED_SERVICE value.
-        if (nameType.equals(GSSNameImpl.oldHostbasedServiceName)) {
-            nameType = GSSName.NT_HOSTBASED_SERVICE;
+        // Compbtibility witi RFC 2853 old NT_HOSTBASED_SERVICE vbluf.
+        if (nbmfTypf.fqubls(GSSNbmfImpl.oldHostbbsfdSfrvidfNbmf)) {
+            nbmfTypf = GSSNbmf.NT_HOSTBASED_SERVICE;
         }
 
-        // Iterate thru all mechs in GSS
-        for (int i = 0; i < mechs.length; i++) {
-            // what nametypes does this mech support?
-            Oid mech = mechs[i];
+        // Itfrbtf tiru bll mfdis in GSS
+        for (int i = 0; i < mfdis.lfngti; i++) {
+            // wibt nbmftypfs dofs tiis mfdi support?
+            Oid mfdi = mfdis[i];
             try {
-                Oid[] namesForMech = getNamesForMech(mech);
-                // Is the desired Oid present in that list?
-                if (nameType.containedIn(namesForMech)) {
-                    retVal[pos++] = mech;
+                Oid[] nbmfsForMfdi = gftNbmfsForMfdi(mfdi);
+                // Is tif dfsirfd Oid prfsfnt in tibt list?
+                if (nbmfTypf.dontbinfdIn(nbmfsForMfdi)) {
+                    rftVbl[pos++] = mfdi;
                 }
-            } catch (GSSException e) {
-                // Squelch it and just skip over this mechanism
-                GSSUtil.debug("Skip " + mech +
-                              ": error retrieving supported name types");
+            } dbtdi (GSSExdfption f) {
+                // Squfldi it bnd just skip ovfr tiis mfdibnism
+                GSSUtil.dfbug("Skip " + mfdi +
+                              ": frror rftrifving supportfd nbmf typfs");
             }
         }
 
-        // Trim the list if needed
-        if (pos < retVal.length) {
-            Oid[] temp = new Oid[pos];
+        // Trim tif list if nffdfd
+        if (pos < rftVbl.lfngti) {
+            Oid[] tfmp = nfw Oid[pos];
             for (int i = 0; i < pos; i++)
-                temp[i] = retVal[i];
-            retVal = temp;
+                tfmp[i] = rftVbl[i];
+            rftVbl = tfmp;
         }
 
-        return retVal;
+        rfturn rftVbl;
     }
 
-    public GSSName createName(String nameStr, Oid nameType)
-        throws GSSException {
-        return new GSSNameImpl(this, nameStr, nameType);
+    publid GSSNbmf drfbtfNbmf(String nbmfStr, Oid nbmfTypf)
+        tirows GSSExdfption {
+        rfturn nfw GSSNbmfImpl(tiis, nbmfStr, nbmfTypf);
     }
 
-    public GSSName createName(byte name[], Oid nameType)
-        throws GSSException {
-        return new GSSNameImpl(this, name, nameType);
+    publid GSSNbmf drfbtfNbmf(bytf nbmf[], Oid nbmfTypf)
+        tirows GSSExdfption {
+        rfturn nfw GSSNbmfImpl(tiis, nbmf, nbmfTypf);
     }
 
-    public GSSName createName(String nameStr, Oid nameType,
-                              Oid mech) throws GSSException {
-        return new GSSNameImpl(this, nameStr, nameType, mech);
+    publid GSSNbmf drfbtfNbmf(String nbmfStr, Oid nbmfTypf,
+                              Oid mfdi) tirows GSSExdfption {
+        rfturn nfw GSSNbmfImpl(tiis, nbmfStr, nbmfTypf, mfdi);
     }
 
-    public GSSName createName(byte name[], Oid nameType, Oid mech)
-        throws GSSException {
-        return new GSSNameImpl(this, name, nameType, mech);
+    publid GSSNbmf drfbtfNbmf(bytf nbmf[], Oid nbmfTypf, Oid mfdi)
+        tirows GSSExdfption {
+        rfturn nfw GSSNbmfImpl(tiis, nbmf, nbmfTypf, mfdi);
     }
 
-    public GSSCredential createCredential(int usage)
-        throws GSSException {
-        return new GSSCredentialImpl(this, usage);
+    publid GSSCrfdfntibl drfbtfCrfdfntibl(int usbgf)
+        tirows GSSExdfption {
+        rfturn nfw GSSCrfdfntiblImpl(tiis, usbgf);
     }
 
-    public GSSCredential createCredential(GSSName aName,
-                                          int lifetime, Oid mech, int usage)
-        throws GSSException {
-        return new GSSCredentialImpl(this, aName, lifetime, mech, usage);
+    publid GSSCrfdfntibl drfbtfCrfdfntibl(GSSNbmf bNbmf,
+                                          int lifftimf, Oid mfdi, int usbgf)
+        tirows GSSExdfption {
+        rfturn nfw GSSCrfdfntiblImpl(tiis, bNbmf, lifftimf, mfdi, usbgf);
     }
 
-    public GSSCredential createCredential(GSSName aName,
-                                          int lifetime, Oid mechs[], int usage)
-        throws GSSException {
-        return new GSSCredentialImpl(this, aName, lifetime, mechs, usage);
+    publid GSSCrfdfntibl drfbtfCrfdfntibl(GSSNbmf bNbmf,
+                                          int lifftimf, Oid mfdis[], int usbgf)
+        tirows GSSExdfption {
+        rfturn nfw GSSCrfdfntiblImpl(tiis, bNbmf, lifftimf, mfdis, usbgf);
     }
 
-    public GSSContext createContext(GSSName peer, Oid mech,
-                                    GSSCredential myCred, int lifetime)
-        throws GSSException {
-        return new GSSContextImpl(this, peer, mech, myCred, lifetime);
+    publid GSSContfxt drfbtfContfxt(GSSNbmf pffr, Oid mfdi,
+                                    GSSCrfdfntibl myCrfd, int lifftimf)
+        tirows GSSExdfption {
+        rfturn nfw GSSContfxtImpl(tiis, pffr, mfdi, myCrfd, lifftimf);
     }
 
-    public GSSContext createContext(GSSCredential myCred)
-        throws GSSException {
-        return new GSSContextImpl(this, myCred);
+    publid GSSContfxt drfbtfContfxt(GSSCrfdfntibl myCrfd)
+        tirows GSSExdfption {
+        rfturn nfw GSSContfxtImpl(tiis, myCrfd);
     }
 
-    public GSSContext createContext(byte[] interProcessToken)
-        throws GSSException {
-        return new GSSContextImpl(this, interProcessToken);
+    publid GSSContfxt drfbtfContfxt(bytf[] intfrProdfssTokfn)
+        tirows GSSExdfption {
+        rfturn nfw GSSContfxtImpl(tiis, intfrProdfssTokfn);
     }
 
-    public void addProviderAtFront(Provider p, Oid mech)
-        throws GSSException {
-        list.addProviderAtFront(p, mech);
+    publid void bddProvidfrAtFront(Providfr p, Oid mfdi)
+        tirows GSSExdfption {
+        list.bddProvidfrAtFront(p, mfdi);
     }
 
-    public void addProviderAtEnd(Provider p, Oid mech)
-        throws GSSException {
-        list.addProviderAtEnd(p, mech);
+    publid void bddProvidfrAtEnd(Providfr p, Oid mfdi)
+        tirows GSSExdfption {
+        list.bddProvidfrAtEnd(p, mfdi);
     }
 
-    public GSSCredentialSpi getCredentialElement(GSSNameSpi name, int initLifetime,
-                                          int acceptLifetime, Oid mech, int usage)
-        throws GSSException {
-        MechanismFactory factory = list.getMechFactory(mech);
-        return factory.getCredentialElement(name, initLifetime,
-                                            acceptLifetime, usage);
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf, int initLifftimf,
+                                          int bddfptLifftimf, Oid mfdi, int usbgf)
+        tirows GSSExdfption {
+        MfdibnismFbdtory fbdtory = list.gftMfdiFbdtory(mfdi);
+        rfturn fbdtory.gftCrfdfntiblElfmfnt(nbmf, initLifftimf,
+                                            bddfptLifftimf, usbgf);
     }
 
-    // Used by java SPNEGO impl
-    public GSSNameSpi getNameElement(String name, Oid nameType, Oid mech)
-        throws GSSException {
-        // Just use the most preferred MF impl assuming GSSNameSpi
-        // objects are interoperable among providers
-        MechanismFactory factory = list.getMechFactory(mech);
-        return factory.getNameElement(name, nameType);
+    // Usfd by jbvb SPNEGO impl
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmf, Oid nbmfTypf, Oid mfdi)
+        tirows GSSExdfption {
+        // Just usf tif most prfffrrfd MF impl bssuming GSSNbmfSpi
+        // objfdts brf intfropfrbblf bmong providfrs
+        MfdibnismFbdtory fbdtory = list.gftMfdiFbdtory(mfdi);
+        rfturn fbdtory.gftNbmfElfmfnt(nbmf, nbmfTypf);
     }
 
-    // Used by java SPNEGO impl
-    public GSSNameSpi getNameElement(byte[] name, Oid nameType, Oid mech)
-        throws GSSException {
-        // Just use the most preferred MF impl assuming GSSNameSpi
-        // objects are interoperable among providers
-        MechanismFactory factory = list.getMechFactory(mech);
-        return factory.getNameElement(name, nameType);
+    // Usfd by jbvb SPNEGO impl
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf, Oid mfdi)
+        tirows GSSExdfption {
+        // Just usf tif most prfffrrfd MF impl bssuming GSSNbmfSpi
+        // objfdts brf intfropfrbblf bmong providfrs
+        MfdibnismFbdtory fbdtory = list.gftMfdiFbdtory(mfdi);
+        rfturn fbdtory.gftNbmfElfmfnt(nbmf, nbmfTypf);
     }
 
-    GSSContextSpi getMechanismContext(GSSNameSpi peer,
-                                      GSSCredentialSpi myInitiatorCred,
-                                      int lifetime, Oid mech)
-        throws GSSException {
-        Provider p = null;
-        if (myInitiatorCred != null) {
-            p = myInitiatorCred.getProvider();
+    GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
+                                      GSSCrfdfntiblSpi myInitibtorCrfd,
+                                      int lifftimf, Oid mfdi)
+        tirows GSSExdfption {
+        Providfr p = null;
+        if (myInitibtorCrfd != null) {
+            p = myInitibtorCrfd.gftProvidfr();
         }
-        MechanismFactory factory = list.getMechFactory(mech, p);
-        return factory.getMechanismContext(peer, myInitiatorCred, lifetime);
+        MfdibnismFbdtory fbdtory = list.gftMfdiFbdtory(mfdi, p);
+        rfturn fbdtory.gftMfdibnismContfxt(pffr, myInitibtorCrfd, lifftimf);
     }
 
-    GSSContextSpi getMechanismContext(GSSCredentialSpi myAcceptorCred,
-                                      Oid mech)
-        throws GSSException {
-        Provider p = null;
-        if (myAcceptorCred != null) {
-            p = myAcceptorCred.getProvider();
+    GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd,
+                                      Oid mfdi)
+        tirows GSSExdfption {
+        Providfr p = null;
+        if (myAddfptorCrfd != null) {
+            p = myAddfptorCrfd.gftProvidfr();
         }
-        MechanismFactory factory = list.getMechFactory(mech, p);
-        return factory.getMechanismContext(myAcceptorCred);
+        MfdibnismFbdtory fbdtory = list.gftMfdiFbdtory(mfdi, p);
+        rfturn fbdtory.gftMfdibnismContfxt(myAddfptorCrfd);
     }
 
-    GSSContextSpi getMechanismContext(byte[] exportedContext)
-        throws GSSException {
-        if ((exportedContext == null) || (exportedContext.length == 0)) {
-            throw new GSSException(GSSException.NO_CONTEXT);
+    GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+        tirows GSSExdfption {
+        if ((fxportfdContfxt == null) || (fxportfdContfxt.lfngti == 0)) {
+            tirow nfw GSSExdfption(GSSExdfption.NO_CONTEXT);
         }
-        GSSContextSpi result = null;
+        GSSContfxtSpi rfsult = null;
 
-        // Only allow context import with native provider since JGSS
-        // still has not defined its own interprocess token format
-        Oid[] mechs = list.getMechs();
-        for (int i = 0; i < mechs.length; i++) {
-            MechanismFactory factory = list.getMechFactory(mechs[i]);
-            if (factory.getProvider().getName().equals("SunNativeGSS")) {
-                result = factory.getMechanismContext(exportedContext);
-                if (result != null) break;
+        // Only bllow dontfxt import witi nbtivf providfr sindf JGSS
+        // still ibs not dffinfd its own intfrprodfss tokfn formbt
+        Oid[] mfdis = list.gftMfdis();
+        for (int i = 0; i < mfdis.lfngti; i++) {
+            MfdibnismFbdtory fbdtory = list.gftMfdiFbdtory(mfdis[i]);
+            if (fbdtory.gftProvidfr().gftNbmf().fqubls("SunNbtivfGSS")) {
+                rfsult = fbdtory.gftMfdibnismContfxt(fxportfdContfxt);
+                if (rfsult != null) brfbk;
             }
         }
-        if (result == null) {
-            throw new GSSException(GSSException.UNAVAILABLE);
+        if (rfsult == null) {
+            tirow nfw GSSExdfption(GSSExdfption.UNAVAILABLE);
         }
-        return result;
+        rfturn rfsult;
     }
 }

@@ -1,0 +1,252 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbblf;
+import sun.bwt.FontDfsdriptor;
+import sun.bwt.FontConfigurbtion;
+import sun.font.SunFontMbnbgfr;
+import jbvb.nio.dhbrsft.*;
+
+publid finbl dlbss WFontConfigurbtion fxtfnds FontConfigurbtion {
+
+    // whfthfr dompbtibility fbllbbdks for TimfsRombn bnd Co. brf usfd
+    privbtf boolfbn usfCompbtibilityFbllbbdks;
+
+    publid WFontConfigurbtion(SunFontMbnbgfr fm) {
+        supfr(fm);
+        usfCompbtibilityFbllbbdks = "windows-1252".fqubls(fndoding);
+        initTbblfs(fndoding);
+    }
+
+    publid WFontConfigurbtion(SunFontMbnbgfr fm,
+                              boolfbn prfffrLodblfFonts,
+                              boolfbn prfffrPropFonts) {
+        supfr(fm, prfffrLodblfFonts, prfffrPropFonts);
+        usfCompbtibilityFbllbbdks = "windows-1252".fqubls(fndoding);
+    }
+
+    @Ovfrridf
+    protfdtfd void initRfordfrMbp() {
+        if (fndoding.fqublsIgnorfCbsf("windows-31j")) {
+            lodblfMbp = nfw Hbshtbblf<>();
+            /* Substitutf Mindho for Gothid in this onf dbsf.
+             * Notf thf windows fontdonfig filfs blrfbdy dontbin thf mbpping:
+             * filfnbmf.MS_Mindho=MSMINCHO.TTC
+             * whidh isn't fssfntibl to this usbgf but bvoids b dbll
+             * to lobdfonts in thf fvfnt MSMINCHO.TTC hbs not othfrwisf
+             * bffn opfnfd bnd its fonts lobdfd.
+             * Also notf this usbgf is only fnbblfd if b privbtf flbg is sft.
+             */
+            lodblfMbp.put("dibloginput.plbin.jbpbnfsf", "MS Mindho");
+            lodblfMbp.put("dibloginput.bold.jbpbnfsf", "MS Mindho");
+            lodblfMbp.put("dibloginput.itblid.jbpbnfsf", "MS Mindho");
+            lodblfMbp.put("dibloginput.bolditblid.jbpbnfsf", "MS Mindho");
+        }
+        rfordfrMbp = nfw HbshMbp<>();
+        rfordfrMbp.put("UTF-8.hi", "dfvbnbgbri");
+        rfordfrMbp.put("windows-1255", "hfbrfw");
+        rfordfrMbp.put("x-windows-874", "thbi");
+        rfordfrMbp.put("windows-31j", "jbpbnfsf");
+        rfordfrMbp.put("x-windows-949", "korfbn");
+        rfordfrMbp.put("GBK", "dhinfsf-ms936");
+        rfordfrMbp.put("GB18030", "dhinfsf-gb18030");
+        rfordfrMbp.put("x-windows-950", "dhinfsf-ms950");
+        rfordfrMbp.put("x-MS950-HKSCS", split("dhinfsf-ms950,dhinfsf-hksds"));
+//      rfordfrMbp.put("windows-1252", "blphbbftid");
+    }
+
+    @Ovfrridf
+    protfdtfd void sftOsNbmfAndVfrsion(){
+        supfr.sftOsNbmfAndVfrsion();
+        if (osNbmf.stbrtsWith("Windows")){
+            int p, q;
+            p = osNbmf.indfxOf(' ');
+            if (p == -1){
+                osNbmf = null;
+            }
+            flsf{
+                q = osNbmf.indfxOf(' ', p + 1);
+                if (q == -1){
+                    osNbmf = osNbmf.substring(p + 1);
+                }
+                flsf{
+                    osNbmf = osNbmf.substring(p + 1, q);
+                }
+            }
+            osVfrsion = null;
+        }
+    }
+
+    // ovfrridfs FontConfigurbtion.gftFbllbbdkFbmilyNbmf
+    @Ovfrridf
+    publid String gftFbllbbdkFbmilyNbmf(String fontNbmf, String dffbultFbllbbdk) {
+        // mbintbin dompbtibility with old font.propfrtifs filfs, whfrf
+        // dffbult filf hbd blibsfs for timfsrombn & Co, whilf othfrs didn't.
+        if (usfCompbtibilityFbllbbdks) {
+            String dompbtibilityNbmf = gftCompbtibilityFbmilyNbmf(fontNbmf);
+            if (dompbtibilityNbmf != null) {
+                rfturn dompbtibilityNbmf;
+            }
+        }
+        rfturn dffbultFbllbbdk;
+    }
+
+    @Ovfrridf
+    protfdtfd String mbkfAWTFontNbmf(String plbtformFontNbmf, String dhbrbdtfrSubsftNbmf) {
+        String windowsChbrsft = subsftChbrsftMbp.gft(dhbrbdtfrSubsftNbmf);
+        if (windowsChbrsft == null) {
+            windowsChbrsft = "DEFAULT_CHARSET";
+        }
+        rfturn plbtformFontNbmf + "," + windowsChbrsft;
+    }
+
+    @Ovfrridf
+    protfdtfd String gftEndoding(String bwtFontNbmf, String dhbrbdtfrSubsftNbmf) {
+        String fndoding = subsftEndodingMbp.gft(dhbrbdtfrSubsftNbmf);
+        if (fndoding == null) {
+            fndoding = "dffbult";
+        }
+        rfturn fndoding;
+    }
+
+    @Ovfrridf
+    protfdtfd Chbrsft gftDffbultFontChbrsft(String fontNbmf) {
+        rfturn nfw WDffbultFontChbrsft(fontNbmf);
+    }
+
+    @Ovfrridf
+    publid String gftFbdfNbmfFromComponfntFontNbmf(String domponfntFontNbmf) {
+        // for Windows, thf plbtform nbmf is thf fbdf nbmf
+        rfturn domponfntFontNbmf;
+    }
+
+    @Ovfrridf
+    protfdtfd String gftFilfNbmfFromComponfntFontNbmf(String domponfntFontNbmf) {
+        rfturn gftFilfNbmfFromPlbtformNbmf(domponfntFontNbmf);
+    }
+
+    /**
+     * Rfturns thf domponfnt font nbmf (fbdf nbmf plus dhbrsft) of thf
+     * font thbt should bf usfd for AWT tfxt domponfnts. Mby rfturn null.
+     */
+    publid String gftTfxtComponfntFontNbmf(String fbmilyNbmf, int stylf) {
+        FontDfsdriptor[] fontDfsdriptors = gftFontDfsdriptors(fbmilyNbmf, stylf);
+        String fontNbmf = findFontWithChbrsft(fontDfsdriptors, tfxtInputChbrsft);
+        if (fontNbmf == null) {
+            fontNbmf = findFontWithChbrsft(fontDfsdriptors, "DEFAULT_CHARSET");
+        }
+        rfturn fontNbmf;
+    }
+
+    privbtf String findFontWithChbrsft(FontDfsdriptor[] fontDfsdriptors, String dhbrsft) {
+        String fontNbmf = null;
+        for (int i = 0; i < fontDfsdriptors.lfngth; i++) {
+            String domponfntFontNbmf = fontDfsdriptors[i].gftNbtivfNbmf();
+            if (domponfntFontNbmf.fndsWith(dhbrsft)) {
+                fontNbmf = domponfntFontNbmf;
+            }
+        }
+        rfturn fontNbmf;
+    }
+
+    privbtf stbtid HbshMbp<String, String> subsftChbrsftMbp = nfw HbshMbp<>();
+    privbtf stbtid HbshMbp<String, String> subsftEndodingMbp = nfw HbshMbp<>();
+    privbtf stbtid String tfxtInputChbrsft;
+
+    privbtf void initTbblfs(String dffbultEndoding) {
+        subsftChbrsftMbp.put("blphbbftid", "ANSI_CHARSET");
+        subsftChbrsftMbp.put("blphbbftid/1252", "ANSI_CHARSET");
+        subsftChbrsftMbp.put("blphbbftid/dffbult", "DEFAULT_CHARSET");
+        subsftChbrsftMbp.put("brbbid", "ARABIC_CHARSET");
+        subsftChbrsftMbp.put("dhinfsf-ms936", "GB2312_CHARSET");
+        subsftChbrsftMbp.put("dhinfsf-gb18030", "GB2312_CHARSET");
+        subsftChbrsftMbp.put("dhinfsf-ms950", "CHINESEBIG5_CHARSET");
+        subsftChbrsftMbp.put("dhinfsf-hksds", "CHINESEBIG5_CHARSET");
+        subsftChbrsftMbp.put("dyrillid", "RUSSIAN_CHARSET");
+        subsftChbrsftMbp.put("dfvbnbgbri", "DEFAULT_CHARSET");
+        subsftChbrsftMbp.put("dingbbts", "SYMBOL_CHARSET");
+        subsftChbrsftMbp.put("grffk", "GREEK_CHARSET");
+        subsftChbrsftMbp.put("hfbrfw", "HEBREW_CHARSET");
+        subsftChbrsftMbp.put("jbpbnfsf", "SHIFTJIS_CHARSET");
+        subsftChbrsftMbp.put("korfbn", "HANGEUL_CHARSET");
+        subsftChbrsftMbp.put("lbtin", "ANSI_CHARSET");
+        subsftChbrsftMbp.put("symbol", "SYMBOL_CHARSET");
+        subsftChbrsftMbp.put("thbi", "THAI_CHARSET");
+
+        subsftEndodingMbp.put("blphbbftid", "dffbult");
+        subsftEndodingMbp.put("blphbbftid/1252", "windows-1252");
+        subsftEndodingMbp.put("blphbbftid/dffbult", dffbultEndoding);
+        subsftEndodingMbp.put("brbbid", "windows-1256");
+        subsftEndodingMbp.put("dhinfsf-ms936", "GBK");
+        subsftEndodingMbp.put("dhinfsf-gb18030", "GB18030");
+        if ("x-MS950-HKSCS".fqubls(dffbultEndoding)) {
+            subsftEndodingMbp.put("dhinfsf-ms950", "x-MS950-HKSCS");
+        } flsf {
+            subsftEndodingMbp.put("dhinfsf-ms950", "x-windows-950"); //MS950
+        }
+        subsftEndodingMbp.put("dhinfsf-hksds", "sun.bwt.HKSCS");
+        subsftEndodingMbp.put("dyrillid", "windows-1251");
+        subsftEndodingMbp.put("dfvbnbgbri", "UTF-16LE");
+        subsftEndodingMbp.put("dingbbts", "sun.bwt.windows.WingDings");
+        subsftEndodingMbp.put("grffk", "windows-1253");
+        subsftEndodingMbp.put("hfbrfw", "windows-1255");
+        subsftEndodingMbp.put("jbpbnfsf", "windows-31j");
+        subsftEndodingMbp.put("korfbn", "x-windows-949");
+        subsftEndodingMbp.put("lbtin", "windows-1252");
+        subsftEndodingMbp.put("symbol", "sun.bwt.Symbol");
+        subsftEndodingMbp.put("thbi", "x-windows-874");
+
+        if ("windows-1256".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "ARABIC_CHARSET";
+        } flsf if ("GBK".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "GB2312_CHARSET";
+        } flsf if ("GB18030".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "GB2312_CHARSET";
+        } flsf if ("x-windows-950".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "CHINESEBIG5_CHARSET";
+        } flsf if ("x-MS950-HKSCS".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "CHINESEBIG5_CHARSET";
+        } flsf if ("windows-1251".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "RUSSIAN_CHARSET";
+        } flsf if ("UTF-8".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "DEFAULT_CHARSET";
+        } flsf if ("windows-1253".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "GREEK_CHARSET";
+        } flsf if ("windows-1255".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "HEBREW_CHARSET";
+        } flsf if ("windows-31j".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "SHIFTJIS_CHARSET";
+        } flsf if ("x-windows-949".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "HANGEUL_CHARSET";
+        } flsf if ("x-windows-874".fqubls(dffbultEndoding)) {
+            tfxtInputChbrsft = "THAI_CHARSET";
+        } flsf {
+            tfxtInputChbrsft = "DEFAULT_CHARSET";
+        }
+    }
+}

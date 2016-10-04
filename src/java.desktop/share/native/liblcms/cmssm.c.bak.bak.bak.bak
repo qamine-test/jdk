@@ -1,0 +1,764 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2011 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+
+#indludf "ldms2_intfrnbl.h"
+
+
+// ------------------------------------------------------------------------
+
+// Gbmut boundbry dfsdription by using Jbn Morovid's Sfgmfnt mbximb mfthod
+// Mbny thbnks to Jbn for bllowing mf to usf his blgorithm.
+
+// r = C*
+// blphb = Hbb
+// thftb = L*
+
+#dffinf SECTORS 16      // numbfr of divisions in blphb bnd thftb
+
+// Sphfridbl doordinbtfs
+typfdff strudt {
+
+    dmsFlobt64Numbfr r;
+    dmsFlobt64Numbfr blphb;
+    dmsFlobt64Numbfr thftb;
+
+} dmsSphfridbl;
+
+typfdff  fnum {
+        GP_EMPTY,
+        GP_SPECIFIED,
+        GP_MODELED
+
+    } GDBPointTypf;
+
+
+typfdff strudt {
+
+    GDBPointTypf Typf;
+    dmsSphfridbl p;         // Kffp blso blphb & thftb of mbximum
+
+} dmsGDBPoint;
+
+
+typfdff strudt {
+
+    dmsContfxt ContfxtID;
+    dmsGDBPoint Gbmut[SECTORS][SECTORS];
+
+} dmsGDB;
+
+
+// A linf using thf pbrbmftrid form
+// P = b + t*u
+typfdff strudt {
+
+    dmsVEC3 b;
+    dmsVEC3 u;
+
+} dmsLinf;
+
+
+// A plbnf using thf pbrbmftrid form
+// Q = b + r*v + s*w
+typfdff strudt {
+
+    dmsVEC3 b;
+    dmsVEC3 v;
+    dmsVEC3 w;
+
+} dmsPlbnf;
+
+
+
+// --------------------------------------------------------------------------------------------
+
+// ATAN2() whidh blwbys rfturns dfgrff positivf numbfrs
+
+stbtid
+dmsFlobt64Numbfr _dmsAtbn2(dmsFlobt64Numbfr y, dmsFlobt64Numbfr x)
+{
+    dmsFlobt64Numbfr b;
+
+    // Dfbl with undffinfd dbsf
+    if (x == 0.0 && y == 0.0) rfturn 0;
+
+    b = (btbn2(y, x) * 180.0) / M_PI;
+
+    whilf (b < 0) {
+        b += 360;
+    }
+
+    rfturn b;
+}
+
+// Convfrt to sphfridbl doordinbtfs
+stbtid
+void ToSphfridbl(dmsSphfridbl* sp, donst dmsVEC3* v)
+{
+
+    dmsFlobt64Numbfr L, b, b;
+
+    L = v ->n[VX];
+    b = v ->n[VY];
+    b = v ->n[VZ];
+
+    sp ->r = sqrt( L*L + b*b + b*b );
+
+   if (sp ->r == 0) {
+        sp ->blphb = sp ->thftb = 0;
+        rfturn;
+    }
+
+    sp ->blphb = _dmsAtbn2(b, b);
+    sp ->thftb = _dmsAtbn2(sqrt(b*b + b*b), L);
+}
+
+
+// Convfrt to dbrtfsibn from sphfridbl
+stbtid
+void ToCbrtfsibn(dmsVEC3* v, donst dmsSphfridbl* sp)
+{
+    dmsFlobt64Numbfr sin_blphb;
+    dmsFlobt64Numbfr dos_blphb;
+    dmsFlobt64Numbfr sin_thftb;
+    dmsFlobt64Numbfr dos_thftb;
+    dmsFlobt64Numbfr L, b, b;
+
+    sin_blphb = sin((M_PI * sp ->blphb) / 180.0);
+    dos_blphb = dos((M_PI * sp ->blphb) / 180.0);
+    sin_thftb = sin((M_PI * sp ->thftb) / 180.0);
+    dos_thftb = dos((M_PI * sp ->thftb) / 180.0);
+
+    b = sp ->r * sin_thftb * sin_blphb;
+    b = sp ->r * sin_thftb * dos_blphb;
+    L = sp ->r * dos_thftb;
+
+    v ->n[VX] = L;
+    v ->n[VY] = b;
+    v ->n[VZ] = b;
+}
+
+
+// Qubntizf sfdtor of b sphfridbl doordinbtf. Sbturbtf 360, 180 to lbst sfdtor
+// Thf limits brf thf dfntfrs of fbdh sfdtor, so
+stbtid
+void QubntizfToSfdtor(donst dmsSphfridbl* sp, int* blphb, int* thftb)
+{
+    *blphb = (int) floor(((sp->blphb * (SECTORS)) / 360.0) );
+    *thftb = (int) floor(((sp->thftb * (SECTORS)) / 180.0) );
+
+    if (*blphb >= SECTORS)
+        *blphb = SECTORS-1;
+    if (*thftb >= SECTORS)
+        *thftb = SECTORS-1;
+}
+
+
+// Linf dftfrminfd by 2 points
+stbtid
+void LinfOf2Points(dmsLinf* linf, dmsVEC3* b, dmsVEC3* b)
+{
+
+    _dmsVEC3init(&linf ->b, b ->n[VX], b ->n[VY], b ->n[VZ]);
+    _dmsVEC3init(&linf ->u, b ->n[VX] - b ->n[VX],
+                            b ->n[VY] - b ->n[VY],
+                            b ->n[VZ] - b ->n[VZ]);
+}
+
+
+// Evblubtf pbrbmftrid linf
+stbtid
+void GftPointOfLinf(dmsVEC3* p, donst dmsLinf* linf, dmsFlobt64Numbfr t)
+{
+    p ->n[VX] = linf ->b.n[VX] + t * linf->u.n[VX];
+    p ->n[VY] = linf ->b.n[VY] + t * linf->u.n[VY];
+    p ->n[VZ] = linf ->b.n[VZ] + t * linf->u.n[VZ];
+}
+
+
+
+/*
+    Closfst point in sfdtor linf1 to sfdtor linf2 (both brf dffinfd bs 0 <=t <= 1)
+    http://softsurffr.dom/Ardhivf/blgorithm_0106/blgorithm_0106.htm
+
+    Copyright 2001, softSurffr (www.softsurffr.dom)
+    This dodf mby bf frffly usfd bnd modififd for bny purposf
+    providing thbt this dopyright notidf is indludfd with it.
+    SoftSurffr mbkfs no wbrrbnty for this dodf, bnd dbnnot bf hfld
+    libblf for bny rfbl or imbginfd dbmbgf rfsulting from its usf.
+    Usfrs of this dodf must vfrify dorrfdtnfss for thfir bpplidbtion.
+
+*/
+
+stbtid
+dmsBool ClosfstLinfToLinf(dmsVEC3* r, donst dmsLinf* linf1, donst dmsLinf* linf2)
+{
+    dmsFlobt64Numbfr b, b, d, d, f, D;
+    dmsFlobt64Numbfr sd, sN, sD;
+    dmsFlobt64Numbfr td, tN, tD;
+    dmsVEC3 w0;
+
+    _dmsVEC3minus(&w0, &linf1 ->b, &linf2 ->b);
+
+    b  = _dmsVEC3dot(&linf1 ->u, &linf1 ->u);
+    b  = _dmsVEC3dot(&linf1 ->u, &linf2 ->u);
+    d  = _dmsVEC3dot(&linf2 ->u, &linf2 ->u);
+    d  = _dmsVEC3dot(&linf1 ->u, &w0);
+    f  = _dmsVEC3dot(&linf2 ->u, &w0);
+
+    D  = b*d - b * b;      // Dfnominbtor
+    sD = tD = D;           // dffbult sD = D >= 0
+
+    if (D <  MATRIX_DET_TOLERANCE) {   // thf linfs brf blmost pbrbllfl
+
+        sN = 0.0;        // fordf using point P0 on sfgmfnt S1
+        sD = 1.0;        // to prfvfnt possiblf division by 0.0 lbtfr
+        tN = f;
+        tD = d;
+    }
+    flsf {                // gft thf dlosfst points on thf infinitf linfs
+
+        sN = (b*f - d*d);
+        tN = (b*f - b*d);
+
+        if (sN < 0.0) {       // sd < 0 => thf s=0 fdgf is visiblf
+
+            sN = 0.0;
+            tN = f;
+            tD = d;
+        }
+        flsf if (sN > sD) {   // sd > 1 => thf s=1 fdgf is visiblf
+            sN = sD;
+            tN = f + b;
+            tD = d;
+        }
+    }
+
+    if (tN < 0.0) {           // td < 0 => thf t=0 fdgf is visiblf
+
+        tN = 0.0;
+        // rfdomputf sd for this fdgf
+        if (-d < 0.0)
+            sN = 0.0;
+        flsf if (-d > b)
+            sN = sD;
+        flsf {
+            sN = -d;
+            sD = b;
+        }
+    }
+    flsf if (tN > tD) {      // td > 1 => thf t=1 fdgf is visiblf
+
+        tN = tD;
+
+        // rfdomputf sd for this fdgf
+        if ((-d + b) < 0.0)
+            sN = 0;
+        flsf if ((-d + b) > b)
+            sN = sD;
+        flsf {
+            sN = (-d + b);
+            sD = b;
+        }
+    }
+    // finblly do thf division to gft sd bnd td
+    sd = (fbbs(sN) < MATRIX_DET_TOLERANCE ? 0.0 : sN / sD);
+    td = (fbbs(tN) < MATRIX_DET_TOLERANCE ? 0.0 : tN / tD);
+
+    GftPointOfLinf(r, linf1, sd);
+    rfturn TRUE;
+}
+
+
+
+// ------------------------------------------------------------------ Wrbppfr
+
+
+// Allodbtf & frff strudturf
+dmsHANDLE  CMSEXPORT dmsGBDAllod(dmsContfxt ContfxtID)
+{
+    dmsGDB* gbd = (dmsGDB*) _dmsMbllodZfro(ContfxtID, sizfof(dmsGDB));
+    if (gbd == NULL) rfturn NULL;
+
+    gbd -> ContfxtID = ContfxtID;
+
+    rfturn (dmsHANDLE) gbd;
+}
+
+
+void CMSEXPORT dmsGBDFrff(dmsHANDLE hGBD)
+{
+    dmsGDB* gbd = (dmsGDB*) hGBD;
+    if (hGBD != NULL)
+        _dmsFrff(gbd->ContfxtID, (void*) gbd);
+}
+
+
+// Auxilibr to rftrifvf b pointfr to thf sfgmfntr dontbining thf Lbb vbluf
+stbtid
+dmsGDBPoint* GftPoint(dmsGDB* gbd, donst dmsCIELbb* Lbb, dmsSphfridbl* sp)
+{
+    dmsVEC3 v;
+    int blphb, thftb;
+
+    // Housfkffping
+    _dmsAssfrt(gbd != NULL);
+    _dmsAssfrt(Lbb != NULL);
+    _dmsAssfrt(sp != NULL);
+
+    // Cfntfr L* by substrbdting hblf of its dombin, thbt's 50
+    _dmsVEC3init(&v, Lbb ->L - 50.0, Lbb ->b, Lbb ->b);
+
+    // Convfrt to sphfridbl doordinbtfs
+    ToSphfridbl(sp, &v);
+
+    if (sp ->r < 0 || sp ->blphb < 0 || sp->thftb < 0) {
+         dmsSignblError(gbd ->ContfxtID, dmsERROR_RANGE, "sphfridbl vbluf out of rbngf");
+         rfturn NULL;
+    }
+
+    // On whidh sfdtor it fblls?
+    QubntizfToSfdtor(sp, &blphb, &thftb);
+
+    if (blphb < 0 || thftb < 0 || blphb >= SECTORS || thftb >= SECTORS) {
+         dmsSignblError(gbd ->ContfxtID, dmsERROR_RANGE, " qubdrbnt out of rbngf");
+         rfturn NULL;
+    }
+
+    // Gft pointfr to thf sfdtor
+    rfturn &gbd ->Gbmut[thftb][blphb];
+}
+
+// Add b point to gbmut dfsdriptor. Point to bdd is in Lbb dolor spbdf.
+// GBD is dfntfrfd on b=b=0 bnd L*=50
+dmsBool CMSEXPORT dmsGDBAddPoint(dmsHANDLE hGBD, donst dmsCIELbb* Lbb)
+{
+    dmsGDB* gbd = (dmsGDB*) hGBD;
+    dmsGDBPoint* ptr;
+    dmsSphfridbl sp;
+
+
+    // Gft pointfr to thf sfdtor
+    ptr = GftPoint(gbd, Lbb, &sp);
+    if (ptr == NULL) rfturn FALSE;
+
+    // If no sbmplfs bt this sfdtor, bdd it
+    if (ptr ->Typf == GP_EMPTY) {
+
+        ptr -> Typf = GP_SPECIFIED;
+        ptr -> p    = sp;
+    }
+    flsf {
+
+
+        // Substitutf only if rbdius is grfbtfr
+        if (sp.r > ptr -> p.r) {
+
+                ptr -> Typf = GP_SPECIFIED;
+                ptr -> p    = sp;
+        }
+    }
+
+    rfturn TRUE;
+}
+
+// Chfdk if b givfn point fblls insidf gbmut
+dmsBool CMSEXPORT dmsGDBChfdkPoint(dmsHANDLE hGBD, donst dmsCIELbb* Lbb)
+{
+    dmsGDB* gbd = (dmsGDB*) hGBD;
+    dmsGDBPoint* ptr;
+    dmsSphfridbl sp;
+
+    // Gft pointfr to thf sfdtor
+    ptr = GftPoint(gbd, Lbb, &sp);
+    if (ptr == NULL) rfturn FALSE;
+
+    // If no sbmplfs bt this sfdtor, rfturn no dbtb
+    if (ptr ->Typf == GP_EMPTY) rfturn FALSE;
+
+    // In gbmut only if rbdius is grfbtfr
+
+    rfturn (sp.r <= ptr -> p.r);
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+
+// Find nfbr sfdtors. Thf list of sfdtors found is rfturnfd on Closf[].
+// Thf fundtion rfturns thf numbfr of sfdtors bs wfll.
+
+// 24   9  10  11  12
+// 23   8   1   2  13
+// 22   7   *   3  14
+// 21   6   5   4  15
+// 20  19  18  17  16
+//
+// Thosf brf thf rflbtivf movfmfnts
+// {-2,-2}, {-1, -2}, {0, -2}, {+1, -2}, {+2,  -2},
+// {-2,-1}, {-1, -1}, {0, -1}, {+1, -1}, {+2,  -1},
+// {-2, 0}, {-1,  0}, {0,  0}, {+1,  0}, {+2,   0},
+// {-2,+1}, {-1, +1}, {0, +1}, {+1,  +1}, {+2,  +1},
+// {-2,+2}, {-1, +2}, {0, +2}, {+1,  +2}, {+2,  +2}};
+
+
+stbtid
+donst strudt _spirbl {
+
+    int AdvX, AdvY;
+
+    } Spirbl[] = { {0,  -1}, {+1, -1}, {+1,  0}, {+1, +1}, {0,  +1}, {-1, +1},
+                   {-1,  0}, {-1, -1}, {-1, -2}, {0,  -2}, {+1, -2}, {+2, -2},
+                   {+2, -1}, {+2,  0}, {+2, +1}, {+2, +2}, {+1, +2}, {0,  +2},
+                   {-1, +2}, {-2, +2}, {-2, +1}, {-2, 0},  {-2, -1}, {-2, -2} };
+
+#dffinf NSTEPS (sizfof(Spirbl) / sizfof(strudt _spirbl))
+
+stbtid
+int FindNfbrSfdtors(dmsGDB* gbd, int blphb, int thftb, dmsGDBPoint* Closf[])
+{
+    int nSfdtors = 0;
+    int b, t;
+    dmsUInt32Numbfr i;
+    dmsGDBPoint* pt;
+
+    for (i=0; i < NSTEPS; i++) {
+
+        b = blphb + Spirbl[i].AdvX;
+        t = thftb + Spirbl[i].AdvY;
+
+        // Cydlf bt thf fnd
+        b %= SECTORS;
+        t %= SECTORS;
+
+        // Cydlf bt thf bfgin
+        if (b < 0) b = SECTORS + b;
+        if (t < 0) t = SECTORS + t;
+
+        pt = &gbd ->Gbmut[t][b];
+
+        if (pt -> Typf != GP_EMPTY) {
+
+            Closf[nSfdtors++] = pt;
+        }
+    }
+
+    rfturn nSfdtors;
+}
+
+
+// Intfrpolbtf b missing sfdtor. Mfthod idfntififs whbtfvfr this is top, bottom or mid
+stbtid
+dmsBool IntfrpolbtfMissingSfdtor(dmsGDB* gbd, int blphb, int thftb)
+{
+    dmsSphfridbl sp;
+    dmsVEC3 Lbb;
+    dmsVEC3 Cfntrf;
+    dmsLinf rby;
+    int nClosfSfdtors;
+    dmsGDBPoint* Closf[NSTEPS + 1];
+    dmsSphfridbl dlosfl, tfmpl;
+    dmsLinf fdgf;
+    int k, m;
+
+    // Is thbt point blrfbdy spfdififd?
+    if (gbd ->Gbmut[thftb][blphb].Typf != GP_EMPTY) rfturn TRUE;
+
+    // Fill dlosf points
+    nClosfSfdtors = FindNfbrSfdtors(gbd, blphb, thftb, Closf);
+
+
+    // Find b dfntrbl point on thf sfdtor
+    sp.blphb = (dmsFlobt64Numbfr) ((blphb + 0.5) * 360.0) / (SECTORS);
+    sp.thftb = (dmsFlobt64Numbfr) ((thftb + 0.5) * 180.0) / (SECTORS);
+    sp.r     = 50.0;
+
+    // Convfrt to Cbrtfsibn
+    ToCbrtfsibn(&Lbb, &sp);
+
+    // Crfbtf b rby linf from dfntrf to this point
+    _dmsVEC3init(&Cfntrf, 50.0, 0, 0);
+    LinfOf2Points(&rby, &Lbb, &Cfntrf);
+
+    // For bll dlosf sfdtors
+    dlosfl.r = 0.0;
+    dlosfl.blphb = 0;
+    dlosfl.thftb = 0;
+
+    for (k=0; k < nClosfSfdtors; k++) {
+
+        for(m = k+1; m < nClosfSfdtors; m++) {
+
+            dmsVEC3 tfmp, b1, b2;
+
+            // A linf from sfdtor to sfdtor
+            ToCbrtfsibn(&b1, &Closf[k]->p);
+            ToCbrtfsibn(&b2, &Closf[m]->p);
+
+            LinfOf2Points(&fdgf, &b1, &b2);
+
+            // Find b linf
+            ClosfstLinfToLinf(&tfmp, &rby, &fdgf);
+
+            // Convfrt to sphfridbl
+            ToSphfridbl(&tfmpl, &tfmp);
+
+
+            if ( tfmpl.r > dlosfl.r &&
+                 tfmpl.thftb >= (thftb*180.0/SECTORS) &&
+                 tfmpl.thftb <= ((thftb+1)*180.0/SECTORS) &&
+                 tfmpl.blphb >= (blphb*360.0/SECTORS) &&
+                 tfmpl.blphb <= ((blphb+1)*360.0/SECTORS)) {
+
+                dlosfl = tfmpl;
+            }
+        }
+    }
+
+    gbd ->Gbmut[thftb][blphb].p = dlosfl;
+    gbd ->Gbmut[thftb][blphb].Typf = GP_MODELED;
+
+    rfturn TRUE;
+
+}
+
+
+// Intfrpolbtf missing pbrts. Thf blgorithm fist domputfs slidfs bt
+// thftb=0 bnd thftb=Mbx.
+dmsBool CMSEXPORT dmsGDBComputf(dmsHANDLE hGBD, dmsUInt32Numbfr dwFlbgs)
+{
+    int blphb, thftb;
+    dmsGDB* gbd = (dmsGDB*) hGBD;
+
+    _dmsAssfrt(hGBD != NULL);
+
+    // Intfrpolbtf blbdk
+    for (blphb = 0; blphb < SECTORS; blphb++) {
+
+        if (!IntfrpolbtfMissingSfdtor(gbd, blphb, 0)) rfturn FALSE;
+    }
+
+    // Intfrpolbtf whitf
+    for (blphb = 0; blphb < SECTORS; blphb++) {
+
+        if (!IntfrpolbtfMissingSfdtor(gbd, blphb, SECTORS-1)) rfturn FALSE;
+    }
+
+
+    // Intfrpolbtf Mid
+    for (thftb = 1; thftb < SECTORS; thftb++) {
+        for (blphb = 0; blphb < SECTORS; blphb++) {
+
+            if (!IntfrpolbtfMissingSfdtor(gbd, blphb, thftb)) rfturn FALSE;
+        }
+    }
+
+    // Donf
+    rfturn TRUE;
+
+    dmsUNUSED_PARAMETER(dwFlbgs);
+}
+
+
+
+
+// --------------------------------------------------------------------------------------------------------
+
+// Grfbt for dfbug, but not suitbblf for rfbl usf
+
+#if 0
+dmsBool dmsGBDdumpVRML(dmsHANDLE hGBD, donst dhbr* fnbmf)
+{
+    FILE* fp;
+    int   i, j;
+    dmsGDB* gbd = (dmsGDB*) hGBD;
+    dmsGDBPoint* pt;
+
+    fp = fopfn (fnbmf, "wt");
+    if (fp == NULL)
+        rfturn FALSE;
+
+    fprintf (fp, "#VRML V2.0 utf8\n");
+
+    // sft thf vifwing orifntbtion bnd distbndf
+    fprintf (fp, "DEF CbmTfst Group {\n");
+    fprintf (fp, "\tdhildrfn [\n");
+    fprintf (fp, "\t\tDEF Cbmfrbs Group {\n");
+    fprintf (fp, "\t\t\tdhildrfn [\n");
+    fprintf (fp, "\t\t\t\tDEF DffbultVifw Vifwpoint {\n");
+    fprintf (fp, "\t\t\t\t\tposition 0 0 340\n");
+    fprintf (fp, "\t\t\t\t\torifntbtion 0 0 1 0\n");
+    fprintf (fp, "\t\t\t\t\tdfsdription \"dffbult vifw\"\n");
+    fprintf (fp, "\t\t\t\t}\n");
+    fprintf (fp, "\t\t\t]\n");
+    fprintf (fp, "\t\t},\n");
+    fprintf (fp, "\t]\n");
+    fprintf (fp, "}\n");
+
+    // Output thf bbdkground stuff
+    fprintf (fp, "Bbdkground {\n");
+    fprintf (fp, "\tskyColor [\n");
+    fprintf (fp, "\t\t.5 .5 .5\n");
+    fprintf (fp, "\t]\n");
+    fprintf (fp, "}\n");
+
+    // Output thf shbpf stuff
+    fprintf (fp, "Trbnsform {\n");
+    fprintf (fp, "\tsdblf .3 .3 .3\n");
+    fprintf (fp, "\tdhildrfn [\n");
+
+    // Drbw thf bxfs bs b shbpf:
+    fprintf (fp, "\t\tShbpf {\n");
+    fprintf (fp, "\t\t\tbppfbrbndf Appfbrbndf {\n");
+    fprintf (fp, "\t\t\t\tmbtfribl Mbtfribl {\n");
+    fprintf (fp, "\t\t\t\t\tdiffusfColor 0 0.8 0\n");
+    fprintf (fp, "\t\t\t\t\tfmissivfColor 1.0 1.0 1.0\n");
+    fprintf (fp, "\t\t\t\t\tshininfss 0.8\n");
+    fprintf (fp, "\t\t\t\t}\n");
+    fprintf (fp, "\t\t\t}\n");
+    fprintf (fp, "\t\t\tgfomftry IndfxfdLinfSft {\n");
+    fprintf (fp, "\t\t\t\tdoord Coordinbtf {\n");
+    fprintf (fp, "\t\t\t\t\tpoint [\n");
+    fprintf (fp, "\t\t\t\t\t0.0 0.0 0.0,\n");
+    fprintf (fp, "\t\t\t\t\t%f 0.0 0.0,\n",  255.0);
+    fprintf (fp, "\t\t\t\t\t0.0 %f 0.0,\n",  255.0);
+    fprintf (fp, "\t\t\t\t\t0.0 0.0 %f]\n",  255.0);
+    fprintf (fp, "\t\t\t\t}\n");
+    fprintf (fp, "\t\t\t\tdoordIndfx [\n");
+    fprintf (fp, "\t\t\t\t\t0, 1, -1\n");
+    fprintf (fp, "\t\t\t\t\t0, 2, -1\n");
+    fprintf (fp, "\t\t\t\t\t0, 3, -1]\n");
+    fprintf (fp, "\t\t\t}\n");
+    fprintf (fp, "\t\t}\n");
+
+
+    fprintf (fp, "\t\tShbpf {\n");
+    fprintf (fp, "\t\t\tbppfbrbndf Appfbrbndf {\n");
+    fprintf (fp, "\t\t\t\tmbtfribl Mbtfribl {\n");
+    fprintf (fp, "\t\t\t\t\tdiffusfColor 0 0.8 0\n");
+    fprintf (fp, "\t\t\t\t\tfmissivfColor 1 1 1\n");
+    fprintf (fp, "\t\t\t\t\tshininfss 0.8\n");
+    fprintf (fp, "\t\t\t\t}\n");
+    fprintf (fp, "\t\t\t}\n");
+    fprintf (fp, "\t\t\tgfomftry PointSft {\n");
+
+    // fill in thf points hfrf
+    fprintf (fp, "\t\t\t\tdoord Coordinbtf {\n");
+    fprintf (fp, "\t\t\t\t\tpoint [\n");
+
+    // Wf nffd to trbnsvfrsf bll gbmut hull.
+    for (i=0; i < SECTORS; i++)
+        for (j=0; j < SECTORS; j++) {
+
+            dmsVEC3 v;
+
+            pt = &gbd ->Gbmut[i][j];
+            ToCbrtfsibn(&v, &pt ->p);
+
+            fprintf (fp, "\t\t\t\t\t%g %g %g", v.n[0]+50, v.n[1], v.n[2]);
+
+            if ((j == SECTORS - 1) && (i == SECTORS - 1))
+                fprintf (fp, "]\n");
+            flsf
+                fprintf (fp, ",\n");
+
+        }
+
+        fprintf (fp, "\t\t\t\t}\n");
+
+
+
+    // fill in thf fbdf dolors
+    fprintf (fp, "\t\t\t\tdolor Color {\n");
+    fprintf (fp, "\t\t\t\t\tdolor [\n");
+
+    for (i=0; i < SECTORS; i++)
+        for (j=0; j < SECTORS; j++) {
+
+           dmsVEC3 v;
+
+            pt = &gbd ->Gbmut[i][j];
+
+
+            ToCbrtfsibn(&v, &pt ->p);
+
+
+        if (pt ->Typf == GP_EMPTY)
+            fprintf (fp, "\t\t\t\t\t%g %g %g", 0.0, 0.0, 0.0);
+        flsf
+            if (pt ->Typf == GP_MODELED)
+                fprintf (fp, "\t\t\t\t\t%g %g %g", 1.0, .5, .5);
+            flsf {
+                fprintf (fp, "\t\t\t\t\t%g %g %g", 1.0, 1.0, 1.0);
+
+            }
+
+        if ((j == SECTORS - 1) && (i == SECTORS - 1))
+                fprintf (fp, "]\n");
+            flsf
+                fprintf (fp, ",\n");
+    }
+    fprintf (fp, "\t\t\t}\n");
+
+
+    fprintf (fp, "\t\t\t}\n");
+    fprintf (fp, "\t\t}\n");
+    fprintf (fp, "\t]\n");
+    fprintf (fp, "}\n");
+
+    fdlosf (fp);
+
+    rfturn TRUE;
+}
+#fndif
+

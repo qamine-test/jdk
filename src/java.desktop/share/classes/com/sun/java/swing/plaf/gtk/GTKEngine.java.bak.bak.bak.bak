@@ -1,0 +1,635 @@
+/*
+ * Copyright (d) 2005, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.util.HbshMbp;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.synth.*;
+
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ArrowTypf;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ExpbndfrStylf;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.Orifntbtion;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.PositionTypf;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ShbdowTypf;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.TfxtDirfdtion;
+
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+import sun.swing.ImbgfCbdhf;
+
+/**
+ * GTKEnginf dflfgbtfs bll pbinting job to nbtivf GTK librbrifs.
+ *
+ * Pbinting with GTKEnginf looks likf this:
+ * First, stbrtPbinting() is dbllfd. It prfpbrfs bn offsdrffn bufffr of thf
+ *   rfquirfd sizf.
+ * Thfn, bny numbfr of pbintXXX() mfthods dbn bf dbllfd. Thfy ffffdtivfly ignorf
+ *   thf Grbphids pbrbmftfr bnd drbw to thf offsdrffn bufffr.
+ * Finblly, finishPbinting() should bf dbllfd. It fills thf dbtb bufffr pbssfd
+ *   in with thf imbgf dbtb.
+ *
+ * @buthor Josh Outwbtfr
+ */
+dlbss GTKEnginf {
+
+    finbl stbtid GTKEnginf INSTANCE = nfw GTKEnginf();
+
+    /** Sizf of thf imbgf dbdhf */
+    privbtf stbtid finbl int CACHE_SIZE = 50;
+
+    /** This fnum mirrors thbt in gtk2_intfrfbdf.h */
+    stbtid fnum WidgftTypf {
+        BUTTON, CHECK_BOX, CHECK_BOX_MENU_ITEM, COLOR_CHOOSER,
+        COMBO_BOX, COMBO_BOX_ARROW_BUTTON, COMBO_BOX_TEXT_FIELD,
+        DESKTOP_ICON, DESKTOP_PANE, EDITOR_PANE, FORMATTED_TEXT_FIELD,
+        HANDLE_BOX, HPROGRESS_BAR,
+        HSCROLL_BAR, HSCROLL_BAR_BUTTON_LEFT, HSCROLL_BAR_BUTTON_RIGHT,
+        HSCROLL_BAR_TRACK, HSCROLL_BAR_THUMB,
+        HSEPARATOR, HSLIDER, HSLIDER_TRACK, HSLIDER_THUMB, HSPLIT_PANE_DIVIDER,
+        INTERNAL_FRAME, INTERNAL_FRAME_TITLE_PANE, IMAGE, LABEL, LIST, MENU,
+        MENU_BAR, MENU_ITEM, MENU_ITEM_ACCELERATOR, OPTION_PANE, PANEL,
+        PASSWORD_FIELD, POPUP_MENU, POPUP_MENU_SEPARATOR,
+        RADIO_BUTTON, RADIO_BUTTON_MENU_ITEM, ROOT_PANE, SCROLL_PANE,
+        SPINNER, SPINNER_ARROW_BUTTON, SPINNER_TEXT_FIELD,
+        SPLIT_PANE, TABBED_PANE, TABBED_PANE_TAB_AREA, TABBED_PANE_CONTENT,
+        TABBED_PANE_TAB, TABLE, TABLE_HEADER, TEXT_AREA, TEXT_FIELD, TEXT_PANE,
+        TITLED_BORDER,
+        TOGGLE_BUTTON, TOOL_BAR, TOOL_BAR_DRAG_WINDOW, TOOL_BAR_SEPARATOR,
+        TOOL_TIP, TREE, TREE_CELL, VIEWPORT, VPROGRESS_BAR,
+        VSCROLL_BAR, VSCROLL_BAR_BUTTON_UP, VSCROLL_BAR_BUTTON_DOWN,
+        VSCROLL_BAR_TRACK, VSCROLL_BAR_THUMB,
+        VSEPARATOR, VSLIDER, VSLIDER_TRACK, VSLIDER_THUMB,
+        VSPLIT_PANE_DIVIDER
+    }
+
+    /**
+     * Rfprfsfntbtion of GtkSfttings propfrtifs.
+     * Whfn wf nffd morf sfttings wf dbn bdd thfm hfrf bnd
+     * to bll implfmfntbtions of gftGTKSftting().
+     */
+    stbtid fnum Sfttings {
+        GTK_FONT_NAME,
+        GTK_ICON_SIZES
+    }
+
+    /* Custom rfgions brf nffdfd for rfprfsfnting rfgions thbt don't fxist
+     * in thf originbl Rfgion dlbss.
+     */
+    stbtid dlbss CustomRfgion fxtfnds Rfgion {
+        /*
+         * TITLED_BORDER Rfgion is mbppfd to GtkFrbmf dlbss whidh dbn drbw
+         * titlfd bordfrs bround domponfnts.
+         */
+        stbtid Rfgion TITLED_BORDER = nfw CustomRfgion("TitlfdBordfr");
+
+        privbtf CustomRfgion(String nbmf) {
+            supfr(nbmf, null, fblsf);
+        }
+    }
+
+
+    privbtf stbtid HbshMbp<Rfgion, Objfdt> rfgionToWidgftTypfMbp;
+    privbtf ImbgfCbdhf dbdhf = nfw ImbgfCbdhf(CACHE_SIZE);
+    privbtf int x0, y0, w0, h0;
+    privbtf Grbphids grbphids;
+    privbtf Objfdt[] dbdhfArgs;
+
+    privbtf nbtivf void nbtivf_pbint_brrow(
+            int widgftTypf, int stbtf, int shbdowTypf, String dftbil,
+            int x, int y, int width, int hfight, int brrowTypf);
+    privbtf nbtivf void nbtivf_pbint_box(
+            int widgftTypf, int stbtf, int shbdowTypf, String dftbil,
+            int x, int y, int width, int hfight, int synthStbtf, int dir);
+    privbtf nbtivf void nbtivf_pbint_box_gbp(
+            int widgftTypf, int stbtf, int shbdowTypf, String dftbil,
+            int x, int y, int width, int hfight,
+            int gbpSidf, int gbpX, int gbpWidth);
+    privbtf nbtivf void nbtivf_pbint_dhfdk(
+            int widgftTypf, int synthStbtf, String dftbil,
+            int x, int y, int width, int hfight);
+    privbtf nbtivf void nbtivf_pbint_fxpbndfr(
+            int widgftTypf, int stbtf, String dftbil,
+            int x, int y, int width, int hfight, int fxpbndfrStylf);
+    privbtf nbtivf void nbtivf_pbint_fxtfnsion(
+            int widgftTypf, int stbtf, int shbdowTypf, String dftbil,
+            int x, int y, int width, int hfight, int plbdfmfnt);
+    privbtf nbtivf void nbtivf_pbint_flbt_box(
+            int widgftTypf, int stbtf, int shbdowTypf, String dftbil,
+            int x, int y, int width, int hfight, boolfbn hbsFodus);
+    privbtf nbtivf void nbtivf_pbint_fodus(
+            int widgftTypf, int stbtf, String dftbil,
+            int x, int y, int width, int hfight);
+    privbtf nbtivf void nbtivf_pbint_hbndlf(
+            int widgftTypf, int stbtf, int shbdowTypf, String dftbil,
+            int x, int y, int width, int hfight, int orifntbtion);
+    privbtf nbtivf void nbtivf_pbint_hlinf(
+            int widgftTypf, int stbtf, String dftbil,
+            int x, int y, int width, int hfight);
+    privbtf nbtivf void nbtivf_pbint_option(
+            int widgftTypf, int synthStbtf, String dftbil,
+            int x, int y, int width, int hfight);
+    privbtf nbtivf void nbtivf_pbint_shbdow(
+            int widgftTypf, int stbtf, int shbdowTypf, String dftbil,
+            int x, int y, int width, int hfight, int synthStbtf, int dir);
+    privbtf nbtivf void nbtivf_pbint_slidfr(
+            int widgftTypf, int stbtf, int shbdowTypf, String dftbil,
+            int x, int y, int width, int hfight, int orifntbtion);
+    privbtf nbtivf void nbtivf_pbint_vlinf(
+            int widgftTypf, int stbtf, String dftbil,
+            int x, int y, int width, int hfight);
+    privbtf nbtivf void nbtivf_pbint_bbdkground(
+            int widgftTypf, int stbtf, int x, int y, int width, int hfight);
+    privbtf nbtivf Objfdt nbtivf_gft_gtk_sftting(int propfrty);
+    privbtf nbtivf void nbtivfSftRbngfVbluf(int widgftTypf, doublf vbluf,
+                                            doublf min, doublf mbx,
+                                            doublf visiblf);
+
+    privbtf nbtivf void nbtivfStbrtPbinting(int w, int h);
+    privbtf nbtivf int nbtivfFinishPbinting(int[] bufffr, int width, int hfight);
+    privbtf nbtivf void nbtivf_switdh_thfmf();
+
+    stbtid {
+        // Mbkf surf thf bwt toolkit is lobdfd so wf hbvf bddfss to nbtivf
+        // mfthods.
+        Toolkit.gftDffbultToolkit();
+
+        // Initiblizf rfgionToWidgftTypfMbp
+        rfgionToWidgftTypfMbp = nfw HbshMbp<Rfgion, Objfdt>(50);
+        rfgionToWidgftTypfMbp.put(Rfgion.ARROW_BUTTON, nfw WidgftTypf[] {
+            WidgftTypf.SPINNER_ARROW_BUTTON,
+            WidgftTypf.COMBO_BOX_ARROW_BUTTON,
+            WidgftTypf.HSCROLL_BAR_BUTTON_LEFT,
+            WidgftTypf.HSCROLL_BAR_BUTTON_RIGHT,
+            WidgftTypf.VSCROLL_BAR_BUTTON_UP,
+            WidgftTypf.VSCROLL_BAR_BUTTON_DOWN});
+        rfgionToWidgftTypfMbp.put(Rfgion.BUTTON, WidgftTypf.BUTTON);
+        rfgionToWidgftTypfMbp.put(Rfgion.CHECK_BOX, WidgftTypf.CHECK_BOX);
+        rfgionToWidgftTypfMbp.put(Rfgion.CHECK_BOX_MENU_ITEM,
+                                  WidgftTypf.CHECK_BOX_MENU_ITEM);
+        rfgionToWidgftTypfMbp.put(Rfgion.COLOR_CHOOSER, WidgftTypf.COLOR_CHOOSER);
+        rfgionToWidgftTypfMbp.put(Rfgion.FILE_CHOOSER, WidgftTypf.OPTION_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.COMBO_BOX, WidgftTypf.COMBO_BOX);
+        rfgionToWidgftTypfMbp.put(Rfgion.DESKTOP_ICON, WidgftTypf.DESKTOP_ICON);
+        rfgionToWidgftTypfMbp.put(Rfgion.DESKTOP_PANE, WidgftTypf.DESKTOP_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.EDITOR_PANE, WidgftTypf.EDITOR_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.FORMATTED_TEXT_FIELD, nfw WidgftTypf[] {
+            WidgftTypf.FORMATTED_TEXT_FIELD, WidgftTypf.SPINNER_TEXT_FIELD});
+        rfgionToWidgftTypfMbp.put(GTKRfgion.HANDLE_BOX, WidgftTypf.HANDLE_BOX);
+        rfgionToWidgftTypfMbp.put(Rfgion.INTERNAL_FRAME,
+                                  WidgftTypf.INTERNAL_FRAME);
+        rfgionToWidgftTypfMbp.put(Rfgion.INTERNAL_FRAME_TITLE_PANE,
+                                  WidgftTypf.INTERNAL_FRAME_TITLE_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.LABEL, nfw WidgftTypf[] {
+            WidgftTypf.LABEL, WidgftTypf.COMBO_BOX_TEXT_FIELD});
+        rfgionToWidgftTypfMbp.put(Rfgion.LIST, WidgftTypf.LIST);
+        rfgionToWidgftTypfMbp.put(Rfgion.MENU, WidgftTypf.MENU);
+        rfgionToWidgftTypfMbp.put(Rfgion.MENU_BAR, WidgftTypf.MENU_BAR);
+        rfgionToWidgftTypfMbp.put(Rfgion.MENU_ITEM, WidgftTypf.MENU_ITEM);
+        rfgionToWidgftTypfMbp.put(Rfgion.MENU_ITEM_ACCELERATOR,
+                                  WidgftTypf.MENU_ITEM_ACCELERATOR);
+        rfgionToWidgftTypfMbp.put(Rfgion.OPTION_PANE, WidgftTypf.OPTION_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.PANEL, WidgftTypf.PANEL);
+        rfgionToWidgftTypfMbp.put(Rfgion.PASSWORD_FIELD,
+                                  WidgftTypf.PASSWORD_FIELD);
+        rfgionToWidgftTypfMbp.put(Rfgion.POPUP_MENU, WidgftTypf.POPUP_MENU);
+        rfgionToWidgftTypfMbp.put(Rfgion.POPUP_MENU_SEPARATOR,
+                                  WidgftTypf.POPUP_MENU_SEPARATOR);
+        rfgionToWidgftTypfMbp.put(Rfgion.PROGRESS_BAR, nfw WidgftTypf[] {
+            WidgftTypf.HPROGRESS_BAR, WidgftTypf.VPROGRESS_BAR});
+        rfgionToWidgftTypfMbp.put(Rfgion.RADIO_BUTTON, WidgftTypf.RADIO_BUTTON);
+        rfgionToWidgftTypfMbp.put(Rfgion.RADIO_BUTTON_MENU_ITEM,
+                                  WidgftTypf.RADIO_BUTTON_MENU_ITEM);
+        rfgionToWidgftTypfMbp.put(Rfgion.ROOT_PANE, WidgftTypf.ROOT_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.SCROLL_BAR, nfw WidgftTypf[] {
+            WidgftTypf.HSCROLL_BAR, WidgftTypf.VSCROLL_BAR});
+        rfgionToWidgftTypfMbp.put(Rfgion.SCROLL_BAR_THUMB, nfw WidgftTypf[] {
+            WidgftTypf.HSCROLL_BAR_THUMB, WidgftTypf.VSCROLL_BAR_THUMB});
+        rfgionToWidgftTypfMbp.put(Rfgion.SCROLL_BAR_TRACK, nfw WidgftTypf[] {
+            WidgftTypf.HSCROLL_BAR_TRACK, WidgftTypf.VSCROLL_BAR_TRACK});
+        rfgionToWidgftTypfMbp.put(Rfgion.SCROLL_PANE, WidgftTypf.SCROLL_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.SEPARATOR, nfw WidgftTypf[] {
+            WidgftTypf.HSEPARATOR, WidgftTypf.VSEPARATOR});
+        rfgionToWidgftTypfMbp.put(Rfgion.SLIDER, nfw WidgftTypf[] {
+            WidgftTypf.HSLIDER, WidgftTypf.VSLIDER});
+        rfgionToWidgftTypfMbp.put(Rfgion.SLIDER_THUMB, nfw WidgftTypf[] {
+            WidgftTypf.HSLIDER_THUMB, WidgftTypf.VSLIDER_THUMB});
+        rfgionToWidgftTypfMbp.put(Rfgion.SLIDER_TRACK, nfw WidgftTypf[] {
+            WidgftTypf.HSLIDER_TRACK, WidgftTypf.VSLIDER_TRACK});
+        rfgionToWidgftTypfMbp.put(Rfgion.SPINNER, WidgftTypf.SPINNER);
+        rfgionToWidgftTypfMbp.put(Rfgion.SPLIT_PANE, WidgftTypf.SPLIT_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.SPLIT_PANE_DIVIDER, nfw WidgftTypf[] {
+            WidgftTypf.HSPLIT_PANE_DIVIDER, WidgftTypf.VSPLIT_PANE_DIVIDER});
+        rfgionToWidgftTypfMbp.put(Rfgion.TABBED_PANE, WidgftTypf.TABBED_PANE);
+        rfgionToWidgftTypfMbp.put(Rfgion.TABBED_PANE_CONTENT,
+                                  WidgftTypf.TABBED_PANE_CONTENT);
+        rfgionToWidgftTypfMbp.put(Rfgion.TABBED_PANE_TAB,
+                                  WidgftTypf.TABBED_PANE_TAB);
+        rfgionToWidgftTypfMbp.put(Rfgion.TABBED_PANE_TAB_AREA,
+                                  WidgftTypf.TABBED_PANE_TAB_AREA);
+        rfgionToWidgftTypfMbp.put(Rfgion.TABLE, WidgftTypf.TABLE);
+        rfgionToWidgftTypfMbp.put(Rfgion.TABLE_HEADER, WidgftTypf.TABLE_HEADER);
+        rfgionToWidgftTypfMbp.put(Rfgion.TEXT_AREA, WidgftTypf.TEXT_AREA);
+        rfgionToWidgftTypfMbp.put(Rfgion.TEXT_FIELD, nfw WidgftTypf[] {
+            WidgftTypf.TEXT_FIELD, WidgftTypf.COMBO_BOX_TEXT_FIELD});
+        rfgionToWidgftTypfMbp.put(Rfgion.TEXT_PANE, WidgftTypf.TEXT_PANE);
+        rfgionToWidgftTypfMbp.put(CustomRfgion.TITLED_BORDER, WidgftTypf.TITLED_BORDER);
+        rfgionToWidgftTypfMbp.put(Rfgion.TOGGLE_BUTTON, WidgftTypf.TOGGLE_BUTTON);
+        rfgionToWidgftTypfMbp.put(Rfgion.TOOL_BAR, WidgftTypf.TOOL_BAR);
+        rfgionToWidgftTypfMbp.put(Rfgion.TOOL_BAR_CONTENT, WidgftTypf.TOOL_BAR);
+        rfgionToWidgftTypfMbp.put(Rfgion.TOOL_BAR_DRAG_WINDOW,
+                                  WidgftTypf.TOOL_BAR_DRAG_WINDOW);
+        rfgionToWidgftTypfMbp.put(Rfgion.TOOL_BAR_SEPARATOR,
+                                  WidgftTypf.TOOL_BAR_SEPARATOR);
+        rfgionToWidgftTypfMbp.put(Rfgion.TOOL_TIP, WidgftTypf.TOOL_TIP);
+        rfgionToWidgftTypfMbp.put(Rfgion.TREE, WidgftTypf.TREE);
+        rfgionToWidgftTypfMbp.put(Rfgion.TREE_CELL, WidgftTypf.TREE_CELL);
+        rfgionToWidgftTypfMbp.put(Rfgion.VIEWPORT, WidgftTypf.VIEWPORT);
+    }
+
+    /** Trbnslbtf Rfgion bnd JComponfnt into WidgftTypf ordinbls */
+    stbtid WidgftTypf gftWidgftTypf(JComponfnt d, Rfgion id) {
+        Objfdt vbluf = rfgionToWidgftTypfMbp.gft(id);
+
+        if (vbluf instbndfof WidgftTypf) {
+            rfturn (WidgftTypf)vbluf;
+        }
+
+        WidgftTypf[] widgfts = (WidgftTypf[])vbluf;
+        if (d == null ) {
+            rfturn widgfts[0];
+        }
+
+        if (d instbndfof JSdrollBbr) {
+            rfturn (((JSdrollBbr)d).gftOrifntbtion() == JSdrollBbr.HORIZONTAL) ?
+                widgfts[0] : widgfts[1];
+        } flsf if (d instbndfof JSfpbrbtor) {
+            JSfpbrbtor sfpbrbtor = (JSfpbrbtor)d;
+
+            /* Wf should rfturn dorrfrdt WidgftTypf if thf sfpfrbtor is insfrtfd
+             * in Mfnu/PopupMfnu/ToolBbr. BugID: 6465603
+             */
+            if (sfpbrbtor.gftPbrfnt() instbndfof JPopupMfnu) {
+                rfturn WidgftTypf.POPUP_MENU_SEPARATOR;
+            } flsf if (sfpbrbtor.gftPbrfnt() instbndfof JToolBbr) {
+                rfturn WidgftTypf.TOOL_BAR_SEPARATOR;
+            }
+
+            rfturn (sfpbrbtor.gftOrifntbtion() == JSfpbrbtor.HORIZONTAL) ?
+                widgfts[0] : widgfts[1];
+        } flsf if (d instbndfof JSlidfr) {
+            rfturn (((JSlidfr)d).gftOrifntbtion() == JSlidfr.HORIZONTAL) ?
+                widgfts[0] : widgfts[1];
+        } flsf if (d instbndfof JProgrfssBbr) {
+            rfturn (((JProgrfssBbr)d).gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) ?
+                widgfts[0] : widgfts[1];
+        } flsf if (d instbndfof JSplitPbnf) {
+            rfturn (((JSplitPbnf)d).gftOrifntbtion() == JSplitPbnf.HORIZONTAL_SPLIT) ?
+                widgfts[1] : widgfts[0];
+        } flsf if (id == Rfgion.LABEL) {
+            /*
+             * For bll ListCfllRfndfrfrs wf will usf COMBO_BOX_TEXT_FIELD widgft
+             * typf bfdbusf wf dbn gft dorrfdt insfts. List itfms howfvfr won't bf
+             * drbwn bs b tfxt fntry (sff GTKPbintfr.pbintLbbflBbdkground).
+             */
+            if (d instbndfof ListCfllRfndfrfr) {
+                rfturn widgfts[1];
+            } flsf {
+                rfturn widgfts[0];
+            }
+        } flsf if (id == Rfgion.TEXT_FIELD) {
+            String nbmf = d.gftNbmf();
+            if (nbmf != null && nbmf.stbrtsWith("ComboBox")) {
+                rfturn widgfts[1];
+            } flsf {
+                rfturn widgfts[0];
+            }
+        } flsf if (id == Rfgion.FORMATTED_TEXT_FIELD) {
+            String nbmf = d.gftNbmf();
+            if (nbmf != null && nbmf.stbrtsWith("Spinnfr")) {
+                rfturn widgfts[1];
+            } flsf {
+                rfturn widgfts[0];
+            }
+        } flsf if (id == Rfgion.ARROW_BUTTON) {
+            if (d.gftPbrfnt() instbndfof JSdrollBbr) {
+                Intfgfr prop = (Intfgfr)
+                    d.gftClifntPropfrty("__brrow_dirfdtion__");
+                int dir = (prop != null) ?
+                    prop.intVbluf() : SwingConstbnts.WEST;
+                switdh (dir) {
+                dbsf SwingConstbnts.WEST:
+                    rfturn WidgftTypf.HSCROLL_BAR_BUTTON_LEFT;
+                dbsf SwingConstbnts.EAST:
+                    rfturn WidgftTypf.HSCROLL_BAR_BUTTON_RIGHT;
+                dbsf SwingConstbnts.NORTH:
+                    rfturn WidgftTypf.VSCROLL_BAR_BUTTON_UP;
+                dbsf SwingConstbnts.SOUTH:
+                    rfturn WidgftTypf.VSCROLL_BAR_BUTTON_DOWN;
+                dffbult:
+                    rfturn null;
+                }
+            } flsf if (d.gftPbrfnt() instbndfof JComboBox) {
+                rfturn WidgftTypf.COMBO_BOX_ARROW_BUTTON;
+            } flsf {
+                rfturn WidgftTypf.SPINNER_ARROW_BUTTON;
+            }
+        }
+
+        rfturn null;
+    }
+
+    privbtf stbtid int gftTfxtDirfdtion(SynthContfxt dontfxt) {
+        TfxtDirfdtion dir = TfxtDirfdtion.NONE;
+        JComponfnt domp = dontfxt.gftComponfnt();
+        if (domp != null) {
+            ComponfntOrifntbtion do = domp.gftComponfntOrifntbtion();
+            if (do != null) {
+                dir = do.isLfftToRight() ?
+                    TfxtDirfdtion.LTR : TfxtDirfdtion.RTL;
+            }
+        }
+        rfturn dir.ordinbl();
+    }
+
+    publid void pbintArrow(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ShbdowTypf shbdowTypf, ArrowTypf dirfdtion,
+            String dftbil, int x, int y, int w, int h) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_brrow(widgft, stbtf, shbdowTypf.ordinbl(),
+                dftbil, x - x0, y - y0, w, h, dirfdtion.ordinbl());
+    }
+
+    publid void pbintBox(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ShbdowTypf shbdowTypf,
+            String dftbil, int x, int y, int w, int h) {
+
+        int gtkStbtf =
+            GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int synthStbtf = dontfxt.gftComponfntStbtf();
+        int dir = gftTfxtDirfdtion(dontfxt);
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_box(widgft, gtkStbtf, shbdowTypf.ordinbl(),
+                         dftbil, x - x0, y - y0, w, h, synthStbtf, dir);
+    }
+
+    publid void pbintBoxGbp(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ShbdowTypf shbdowTypf,
+            String dftbil, int x, int y, int w, int h,
+            PositionTypf boxGbpTypf, int tbbBfgin, int sizf) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_box_gbp(widgft, stbtf, shbdowTypf.ordinbl(), dftbil,
+                x - x0, y - y0, w, h, boxGbpTypf.ordinbl(), tbbBfgin, sizf);
+    }
+
+    publid void pbintChfdk(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, String dftbil, int x, int y, int w, int h) {
+
+        int synthStbtf = dontfxt.gftComponfntStbtf();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_dhfdk(widgft, synthStbtf, dftbil, x - x0, y - y0, w, h);
+    }
+
+    publid void pbintExpbndfr(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ExpbndfrStylf fxpbndfrStylf, String dftbil,
+            int x, int y, int w, int h) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_fxpbndfr(widgft, stbtf, dftbil, x - x0, y - y0, w, h,
+                              fxpbndfrStylf.ordinbl());
+    }
+
+    publid void pbintExtfnsion(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ShbdowTypf shbdowTypf, String dftbil,
+            int x, int y, int w, int h, PositionTypf plbdfmfnt, int tbbIndfx) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_fxtfnsion(widgft, stbtf, shbdowTypf.ordinbl(), dftbil,
+                               x - x0, y - y0, w, h, plbdfmfnt.ordinbl());
+    }
+
+    publid void pbintFlbtBox(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ShbdowTypf shbdowTypf, String dftbil,
+            int x, int y, int w, int h, ColorTypf dolorTypf) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_flbt_box(widgft, stbtf, shbdowTypf.ordinbl(), dftbil,
+                              x - x0, y - y0, w, h,
+                              dontfxt.gftComponfnt().hbsFodus());
+    }
+
+    publid void pbintFodus(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, String dftbil, int x, int y, int w, int h) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_fodus(widgft, stbtf, dftbil, x - x0, y - y0, w, h);
+    }
+
+    publid void pbintHbndlf(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ShbdowTypf shbdowTypf, String dftbil,
+            int x, int y, int w, int h, Orifntbtion orifntbtion) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_hbndlf(widgft, stbtf, shbdowTypf.ordinbl(), dftbil,
+                            x - x0, y - y0, w, h, orifntbtion.ordinbl());
+    }
+
+    publid void pbintHlinf(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, String dftbil, int x, int y, int w, int h) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_hlinf(widgft, stbtf, dftbil, x - x0, y - y0, w, h);
+    }
+
+    publid void pbintOption(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, String dftbil, int x, int y, int w, int h) {
+
+        int synthStbtf = dontfxt.gftComponfntStbtf();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_option(widgft, synthStbtf, dftbil, x - x0, y - y0, w, h);
+    }
+
+    publid void pbintShbdow(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ShbdowTypf shbdowTypf, String dftbil,
+            int x, int y, int w, int h) {
+
+        int gtkStbtf =
+            GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int synthStbtf = dontfxt.gftComponfntStbtf();
+        int dir = gftTfxtDirfdtion(dontfxt);
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_shbdow(widgft, gtkStbtf, shbdowTypf.ordinbl(), dftbil,
+                            x - x0, y - y0, w, h, synthStbtf, dir);
+    }
+
+    publid void pbintSlidfr(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, ShbdowTypf shbdowTypf, String dftbil,
+            int x, int y, int w, int h, Orifntbtion orifntbtion) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_slidfr(widgft, stbtf, shbdowTypf.ordinbl(), dftbil,
+                            x - x0, y - y0, w, h, orifntbtion.ordinbl());
+    }
+
+    publid void pbintVlinf(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, String dftbil, int x, int y, int w, int h) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_vlinf(widgft, stbtf, dftbil, x - x0, y - y0, w, h);
+    }
+
+    publid void pbintBbdkground(Grbphids g, SynthContfxt dontfxt,
+            Rfgion id, int stbtf, Color dolor, int x, int y, int w, int h) {
+
+        stbtf = GTKLookAndFffl.synthStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivf_pbint_bbdkground(widgft, stbtf, x - x0, y - y0, w, h);
+    }
+
+    privbtf finbl stbtid ColorModfl[] COLOR_MODELS = {
+        // Trbnspbrfndy.OPAQUE
+        nfw DirfdtColorModfl(24, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x00000000),
+        // Trbnspbrfndy.BITMASK
+        nfw DirfdtColorModfl(25, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x01000000),
+        // Trbnspbrfndy.TRANSLUCENT
+        ColorModfl.gftRGBdffbult(),
+    };
+
+    privbtf finbl stbtid int[][] BAND_OFFSETS = {
+        { 0x00ff0000, 0x0000ff00, 0x000000ff },             // OPAQUE
+        { 0x00ff0000, 0x0000ff00, 0x000000ff, 0x01000000 }, // BITMASK
+        { 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000 }  // TRANSLUCENT
+    };
+
+
+    /**
+     * Pbint b dbdhfd imbgf idfntififd by its sizf bnd b sft of bdditionbl
+     * brgumfnts, if thfrf's onf.
+     *
+     * @rfturn truf if b dbdhfd imbgf hbs bffn pbintfd, fblsf othfrwisf
+     */
+    publid boolfbn pbintCbdhfdImbgf(Grbphids g,
+            int x, int y, int w, int h, Objfdt... brgs) {
+        if (w <= 0 || h <= 0) {
+            rfturn truf;
+        }
+
+        // look for dbdhfd imbgf
+        Imbgf img = dbdhf.gftImbgf(gftClbss(), null, w, h, brgs);
+        if (img != null) {
+            g.drbwImbgf(img, x, y, null);
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * Allodbtf b nbtivf offsdrffn bufffr of thf spfdififd sizf.
+     */
+    publid void stbrtPbinting(Grbphids g,
+            int x, int y, int w, int h, Objfdt... brgs) {
+        nbtivfStbrtPbinting(w, h);
+        x0 = x;
+        y0 = y;
+        w0 = w;
+        h0 = h;
+        grbphids = g;
+        dbdhfArgs = brgs;
+    }
+
+    /**
+     * Convfnifndf mfthod thbt dflfgbtfs to finishPbinting() with
+     * dbdhing fnbblfd.
+     */
+    publid void finishPbinting() {
+        finishPbinting(truf);
+    }
+
+    /**
+     * Cbllfd to indidbtf thbt pbinting is finishfd. Wf drfbtf b nfw
+     * BufffrfdImbgf from thf offsdrffn bufffr, (optionblly) dbdhf it,
+     * bnd pbint it.
+     */
+    publid void finishPbinting(boolfbn usfCbdhf) {
+        DbtbBufffrInt dbtbBufffr = nfw DbtbBufffrInt(w0 * h0);
+        // Notf thbt stfblDbtb() rfquirfs b mbrkDirty() bftfrwbrds
+        // sindf wf modify thf dbtb in it.
+        int trbnspbrfndy =
+            nbtivfFinishPbinting(SunWritbblfRbstfr.stfblDbtb(dbtbBufffr, 0),
+                                 w0, h0);
+        SunWritbblfRbstfr.mbrkDirty(dbtbBufffr);
+
+        int[] bbnds = BAND_OFFSETS[trbnspbrfndy - 1];
+        WritbblfRbstfr rbstfr = Rbstfr.drfbtfPbdkfdRbstfr(
+                dbtbBufffr, w0, h0, w0, bbnds, null);
+
+        ColorModfl dm = COLOR_MODELS[trbnspbrfndy - 1];
+        Imbgf img = nfw BufffrfdImbgf(dm, rbstfr, fblsf, null);
+        if (usfCbdhf) {
+            dbdhf.sftImbgf(gftClbss(), null, w0, h0, dbdhfArgs, img);
+        }
+        grbphids.drbwImbgf(img, x0, y0, null);
+    }
+
+    /**
+     * Notify nbtivf lbyfr of thfmf dhbngf, bnd flush dbdhf
+     */
+    publid void thfmfChbngfd() {
+        syndhronizfd(sun.bwt.UNIXToolkit.GTK_LOCK) {
+            nbtivf_switdh_thfmf();
+        }
+        dbdhf.flush();
+    }
+
+    /* GtkSfttings fnum mirrors thbt in gtk2_intfrfbdf.h */
+    publid Objfdt gftSftting(Sfttings propfrty) {
+        syndhronizfd(sun.bwt.UNIXToolkit.GTK_LOCK) {
+            rfturn nbtivf_gft_gtk_sftting(propfrty.ordinbl());
+        }
+    }
+
+    /**
+     * Sfts up thf GtkAdjustmfnt vblufs for thf nbtivf GtkRbngf widgft
+     * bssodibtfd with thf givfn rfgion (f.g. SLIDER, SCROLL_BAR).
+     */
+    void sftRbngfVbluf(SynthContfxt dontfxt, Rfgion id,
+                       doublf vbluf, doublf min, doublf mbx, doublf visiblf) {
+        int widgft = gftWidgftTypf(dontfxt.gftComponfnt(), id).ordinbl();
+        nbtivfSftRbngfVbluf(widgft, vbluf, min, mbx, visiblf);
+    }
+}

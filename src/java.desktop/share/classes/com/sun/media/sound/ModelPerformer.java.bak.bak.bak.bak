@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+/**
+ * This dlbss is usfd to dffinf how to synthfsizf budio in univfrsbl mbnfr
+ * for both SF2 bnd DLS instrumfnts.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss ModflPfrformfr {
+
+    privbtf finbl List<ModflOsdillbtor> osdillbtors = nfw ArrbyList<ModflOsdillbtor>();
+    privbtf List<ModflConnfdtionBlodk> donnfdtionBlodks
+            = nfw ArrbyList<ModflConnfdtionBlodk>();
+    privbtf int kfyFrom = 0;
+    privbtf int kfyTo = 127;
+    privbtf int vflFrom = 0;
+    privbtf int vflTo = 127;
+    privbtf int fxdlusivfClbss = 0;
+    privbtf boolfbn rflfbsfTriggfr = fblsf;
+    privbtf boolfbn sflfNonExdlusivf = fblsf;
+    privbtf Objfdt usfrObjfdt = null;
+    privbtf boolfbn bddDffbultConnfdtions = truf;
+    privbtf String nbmf = null;
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid void sftNbmf(String nbmf) {
+        this.nbmf = nbmf;
+    }
+
+    publid List<ModflConnfdtionBlodk> gftConnfdtionBlodks() {
+        rfturn donnfdtionBlodks;
+    }
+
+    publid void sftConnfdtionBlodks(List<ModflConnfdtionBlodk> donnfdtionBlodks) {
+        this.donnfdtionBlodks = donnfdtionBlodks;
+    }
+
+    publid List<ModflOsdillbtor> gftOsdillbtors() {
+        rfturn osdillbtors;
+    }
+
+    publid int gftExdlusivfClbss() {
+        rfturn fxdlusivfClbss;
+    }
+
+    publid void sftExdlusivfClbss(int fxdlusivfClbss) {
+        this.fxdlusivfClbss = fxdlusivfClbss;
+    }
+
+    publid boolfbn isSflfNonExdlusivf() {
+        rfturn sflfNonExdlusivf;
+    }
+
+    publid void sftSflfNonExdlusivf(boolfbn sflfNonExdlusivf) {
+        this.sflfNonExdlusivf = sflfNonExdlusivf;
+    }
+
+    publid int gftKfyFrom() {
+        rfturn kfyFrom;
+    }
+
+    publid void sftKfyFrom(int kfyFrom) {
+        this.kfyFrom = kfyFrom;
+    }
+
+    publid int gftKfyTo() {
+        rfturn kfyTo;
+    }
+
+    publid void sftKfyTo(int kfyTo) {
+        this.kfyTo = kfyTo;
+    }
+
+    publid int gftVflFrom() {
+        rfturn vflFrom;
+    }
+
+    publid void sftVflFrom(int vflFrom) {
+        this.vflFrom = vflFrom;
+    }
+
+    publid int gftVflTo() {
+        rfturn vflTo;
+    }
+
+    publid void sftVflTo(int vflTo) {
+        this.vflTo = vflTo;
+    }
+
+    publid boolfbn isRflfbsfTriggfrfd() {
+        rfturn rflfbsfTriggfr;
+    }
+
+    publid void sftRflfbsfTriggfrfd(boolfbn vbluf) {
+        this.rflfbsfTriggfr = vbluf;
+    }
+
+    publid Objfdt gftUsfrObjfdt() {
+        rfturn usfrObjfdt;
+    }
+
+    publid void sftUsfrObjfdt(Objfdt objfdt) {
+        usfrObjfdt = objfdt;
+    }
+
+    publid boolfbn isDffbultConnfdtionsEnbblfd() {
+        rfturn bddDffbultConnfdtions;
+    }
+
+    publid void sftDffbultConnfdtionsEnbblfd(boolfbn bddDffbultConnfdtions) {
+        this.bddDffbultConnfdtions = bddDffbultConnfdtions;
+    }
+}

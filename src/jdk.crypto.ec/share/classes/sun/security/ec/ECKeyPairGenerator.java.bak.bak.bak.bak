@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.fd;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.ECGfnPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.ECPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.ECPoint;
+
+import sun.sfdurity.fd.ECPrivbtfKfyImpl;
+import sun.sfdurity.fd.ECPublidKfyImpl;
+import sun.sfdurity.jdb.JCAUtil;
+import sun.sfdurity.util.ECPbrbmftfrs;
+import sun.sfdurity.util.ECUtil;
+
+/**
+ * EC kfypbir gfnfrbtor.
+ * Stbndbrd blgorithm, minimum kfy lfngth is 112 bits, mbximum is 571 bits.
+ *
+ * @sindf 1.7
+ */
+publid finbl dlbss ECKfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtorSpi {
+
+    privbtf stbtid finbl int KEY_SIZE_MIN = 112; // min bits (sff fdd_impl.h)
+    privbtf stbtid finbl int KEY_SIZE_MAX = 571; // mbx bits (sff fdd_impl.h)
+    privbtf stbtid finbl int KEY_SIZE_DEFAULT = 256;
+
+    // usfd to sffd thf kfypbir gfnfrbtor
+    privbtf SfdurfRbndom rbndom;
+
+    // sizf of thf kfy to gfnfrbtf, KEY_SIZE_MIN <= kfySizf <= KEY_SIZE_MAX
+    privbtf int kfySizf;
+
+    // pbrbmftfrs spfdififd vib init, if bny
+    privbtf AlgorithmPbrbmftfrSpfd pbrbms = null;
+
+    /**
+     * Construdts b nfw ECKfyPbirGfnfrbtor.
+     */
+    publid ECKfyPbirGfnfrbtor() {
+        // initiblizf to dffbult in dbsf thf bpp dofs not dbll initiblizf()
+        initiblizf(KEY_SIZE_DEFAULT, null);
+    }
+
+    // initiblizf thf gfnfrbtor. Sff JCA dod
+    @Ovfrridf
+    publid void initiblizf(int kfySizf, SfdurfRbndom rbndom) {
+
+        dhfdkKfySizf(kfySizf);
+        this.pbrbms = ECUtil.gftECPbrbmftfrSpfd(null, kfySizf);
+        if (pbrbms == null) {
+            throw nfw InvblidPbrbmftfrExdfption(
+                "No EC pbrbmftfrs bvbilbblf for kfy sizf " + kfySizf + " bits");
+        }
+        this.rbndom = rbndom;
+    }
+
+    // sfdond initiblizf mfthod. Sff JCA dod
+    @Ovfrridf
+    publid void initiblizf(AlgorithmPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+
+        if (pbrbms instbndfof ECPbrbmftfrSpfd) {
+            this.pbrbms = ECUtil.gftECPbrbmftfrSpfd(null,
+                                                    (ECPbrbmftfrSpfd)pbrbms);
+            if (this.pbrbms == null) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                    "Unsupportfd durvf: " + pbrbms);
+            }
+        } flsf if (pbrbms instbndfof ECGfnPbrbmftfrSpfd) {
+            String nbmf = ((ECGfnPbrbmftfrSpfd)pbrbms).gftNbmf();
+            this.pbrbms = ECUtil.gftECPbrbmftfrSpfd(null, nbmf);
+            if (this.pbrbms == null) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                    "Unknown durvf nbmf: " + nbmf);
+            }
+        } flsf {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "ECPbrbmftfrSpfd or ECGfnPbrbmftfrSpfd rfquirfd for EC");
+        }
+        this.kfySizf =
+            ((ECPbrbmftfrSpfd)this.pbrbms).gftCurvf().gftFifld().gftFifldSizf();
+        this.rbndom = rbndom;
+    }
+
+    // gfnfrbtf thf kfypbir. Sff JCA dod
+    @Ovfrridf
+    publid KfyPbir gfnfrbtfKfyPbir() {
+
+        bytf[] fndodfdPbrbms =
+            ECUtil.fndodfECPbrbmftfrSpfd(null, (ECPbrbmftfrSpfd)pbrbms);
+
+        // sffd is twidf thf kfy sizf (in bytfs) plus 1
+        bytf[] sffd = nfw bytf[(((kfySizf + 7) >> 3) + 1) * 2];
+        if (rbndom == null) {
+            rbndom = JCAUtil.gftSfdurfRbndom();
+        }
+        rbndom.nfxtBytfs(sffd);
+
+        try {
+
+            Objfdt[] kfyBytfs = gfnfrbtfECKfyPbir(kfySizf, fndodfdPbrbms, sffd);
+
+            // Thf 'pbrbms' objfdt supplifd bbovf is fquivblfnt to thf nbtivf
+            // onf so thfrf is no nffd to fftdh it.
+            // kfyBytfs[0] is thf fndoding of thf nbtivf privbtf kfy
+            BigIntfgfr s = nfw BigIntfgfr(1, (bytf[])kfyBytfs[0]);
+
+            PrivbtfKfy privbtfKfy =
+                nfw ECPrivbtfKfyImpl(s, (ECPbrbmftfrSpfd)pbrbms);
+
+            // kfyBytfs[1] is thf fndoding of thf nbtivf publid kfy
+            ECPoint w = ECUtil.dfdodfPoint((bytf[])kfyBytfs[1],
+                ((ECPbrbmftfrSpfd)pbrbms).gftCurvf());
+            PublidKfy publidKfy =
+                nfw ECPublidKfyImpl(w, (ECPbrbmftfrSpfd)pbrbms);
+
+            rfturn nfw KfyPbir(publidKfy, privbtfKfy);
+
+        } dbtdh (Exdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        }
+    }
+
+    privbtf void dhfdkKfySizf(int kfySizf) throws InvblidPbrbmftfrExdfption {
+        if (kfySizf < KEY_SIZE_MIN) {
+            throw nfw InvblidPbrbmftfrExdfption
+                ("Kfy sizf must bf bt lfbst " + KEY_SIZE_MIN + " bits");
+        }
+        if (kfySizf > KEY_SIZE_MAX) {
+            throw nfw InvblidPbrbmftfrExdfption
+                ("Kfy sizf must bf bt most " + KEY_SIZE_MAX + " bits");
+        }
+        this.kfySizf = kfySizf;
+    }
+
+    /*
+     * Gfnfrbtfs thf kfypbir bnd rfturns b 2-flfmfnt brrby of fndoding bytfs.
+     * Thf first onf is for thf privbtf kfy, thf sfdond for thf publid kfy.
+     */
+    privbtf stbtid nbtivf Objfdt[] gfnfrbtfECKfyPbir(int kfySizf,
+        bytf[] fndodfdPbrbms, bytf[] sffd) throws GfnfrblSfdurityExdfption;
+}

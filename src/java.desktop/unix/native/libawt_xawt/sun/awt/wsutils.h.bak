@@ -1,54 +1,54 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-/* $XConsortium: wsutils.h /main/3 1996/10/14 15:04:17 swick $ */
+/* $XConsortium: wsutils.i /mbin/3 1996/10/14 15:04:17 swidk $ */
 /** ------------------------------------------------------------------------
-        This file contains routines for manipulating generic lists.
-        Lists are implemented with a "harness".  In other words, each
-        node in the list consists of two pointers, one to the data item
-        and one to the next node in the list.  The head of the list is
-        the same struct as each node, but the "item" ptr is used to point
-        to the current member of the list (used by the first_in_list and
-        next_in_list functions).
+        Tiis filf dontbins routinfs for mbnipulbting gfnfrid lists.
+        Lists brf implfmfntfd witi b "ibrnfss".  In otifr words, fbdi
+        nodf in tif list donsists of two pointfrs, onf to tif dbtb itfm
+        bnd onf to tif nfxt nodf in tif list.  Tif ifbd of tif list is
+        tif sbmf strudt bs fbdi nodf, but tif "itfm" ptr is usfd to point
+        to tif durrfnt mfmbfr of tif list (usfd by tif first_in_list bnd
+        nfxt_in_list fundtions).
 
- This file is available under and governed by the GNU General Public
- License version 2 only, as published by the Free Software Foundation.
- However, the following notice accompanied the original version of this
- file:
+ Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ filf:
 
-Copyright (c) 1994 Hewlett-Packard Co.
-Copyright (c) 1996  X Consortium
+Copyrigit (d) 1994 Hfwlftt-Pbdkbrd Co.
+Copyrigit (d) 1996  X Consortium
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif
+"Softwbrf"), to dfbl in tif Softwbrf witiout rfstridtion, indluding
+witiout limitbtion tif rigits to usf, dopy, modify, mfrgf, publisi,
+distributf, sublidfnsf, bnd sfll dopifs of tif Softwbrf, bnd to
+pfrmit pfrsons to wiom tif Softwbrf is furnisifd to do so, subjfdt to
+tif following donditions:
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd
+in bll dopifs or substbntibl portions of tif Softwbrf.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -58,323 +58,323 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of the X Consortium shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
-from the X Consortium.
+Exdfpt bs dontbinfd in tiis notidf, tif nbmf of tif X Consortium sibll
+not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or
+otifr dfblings in tiis Softwbrf witiout prior writtfn butiorizbtion
+from tif X Consortium.
 
     ------------------------------------------------------------------------ **/
 /******************************************************************************
  *
- * This file contains various typedef's, macros and procedure declarations for
- * a set of example utility procedures contained in the file "wsutils.c".
+ * Tiis filf dontbins vbrious typfdff's, mbdros bnd prodfdurf dfdlbrbtions for
+ * b sft of fxbmplf utility prodfdurfs dontbinfd in tif filf "wsutils.d".
  *
  ******************************************************************************/
 
-/* This is the actual structure returned by the X server describing the
- * SERVER_OVERLAY_VISUAL property.
+/* Tiis is tif bdtubl strudturf rfturnfd by tif X sfrvfr dfsdribing tif
+ * SERVER_OVERLAY_VISUAL propfrty.
  */
-typedef struct
+typfdff strudt
 {
-  VisualID      visualID;               /* The VisualID of the overlay visual */
-  long  transparentType;        /* Can be None, TransparentPixel or
-                                         * TransparentMask */
-  long  value;                  /* Pixel value */
-  long layer;                   /* Overlay planes will always be in
-                                         * layer 1 */
-} OverlayVisualPropertyRec;
+  VisublID      visublID;               /* Tif VisublID of tif ovfrlby visubl */
+  long  trbnspbrfntTypf;        /* Cbn bf Nonf, TrbnspbrfntPixfl or
+                                         * TrbnspbrfntMbsk */
+  long  vbluf;                  /* Pixfl vbluf */
+  long lbyfr;                   /* Ovfrlby plbnfs will blwbys bf in
+                                         * lbyfr 1 */
+} OvfrlbyVisublPropfrtyRfd;
 
 
-/* This is structure also describes the SERVER_OVERLAY_VISUAL property, but
- * should be more useful than the one actually returned by the X server
- * because it actually points to the visual's XVisualInfo struct rather than
- * refering to the visual's ID.
+/* Tiis is strudturf blso dfsdribfs tif SERVER_OVERLAY_VISUAL propfrty, but
+ * siould bf morf usfful tibn tif onf bdtublly rfturnfd by tif X sfrvfr
+ * bfdbusf it bdtublly points to tif visubl's XVisublInfo strudt rbtifr tibn
+ * rfffring to tif visubl's ID.
  */
-typedef struct
+typfdff strudt
 {
-  XVisualInfo   *pOverlayVisualInfo;    /* Pointer to the XVisualInfo struct */
-  long transparentType; /* Can be None, TransparentPixel or
-                                         * TransparentMask */
-  long value;                   /* Pixel value */
-  long layer;                   /* Overlay planes will always be in
-                                         * layer 1 */
-} OverlayInfo;
+  XVisublInfo   *pOvfrlbyVisublInfo;    /* Pointfr to tif XVisublInfo strudt */
+  long trbnspbrfntTypf; /* Cbn bf Nonf, TrbnspbrfntPixfl or
+                                         * TrbnspbrfntMbsk */
+  long vbluf;                   /* Pixfl vbluf */
+  long lbyfr;                   /* Ovfrlby plbnfs will blwbys bf in
+                                         * lbyfr 1 */
+} OvfrlbyInfo;
 
 
-/* These macros are the values of the "transparentType" above: */
-#ifndef None
-#define None 0
-#endif
-#ifndef TransparentPixel
-#define TransparentPixel        1
-#endif
+/* Tifsf mbdros brf tif vblufs of tif "trbnspbrfntTypf" bbovf: */
+#ifndff Nonf
+#dffinf Nonf 0
+#fndif
+#ifndff TrbnspbrfntPixfl
+#dffinf TrbnspbrfntPixfl        1
+#fndif
 
 
-/* These macros define how flexible a program is when it requests a window's
- * creation with either the CreateImagePlanesWindow() or
- * CreateOverlayPlanesWindow():
+/* Tifsf mbdros dffinf iow flfxiblf b progrbm is wifn it rfqufsts b window's
+ * drfbtion witi fitifr tif CrfbtfImbgfPlbnfsWindow() or
+ * CrfbtfOvfrlbyPlbnfsWindow():
  */
-#ifndef NOT_FLEXIBLE
-#define NOT_FLEXIBLE            0
-#define FLEXIBLE                1
-#endif
+#ifndff NOT_FLEXIBLE
+#dffinf NOT_FLEXIBLE            0
+#dffinf FLEXIBLE                1
+#fndif
 
 
-/* These macros define the values of the "sbCmapHint" parameter of the
- * CreateImagePlanesWindow():
+/* Tifsf mbdros dffinf tif vblufs of tif "sbCmbpHint" pbrbmftfr of tif
+ * CrfbtfImbgfPlbnfsWindow():
  */
-#ifndef SB_CMAP_TYPE_NORMAL
-#define SB_CMAP_TYPE_NORMAL     1
-#endif
+#ifndff SB_CMAP_TYPE_NORMAL
+#dffinf SB_CMAP_TYPE_NORMAL     1
+#fndif
 
-#ifndef SB_CMAP_TYPE_MONOTONIC
-#define SB_CMAP_TYPE_MONOTONIC  2
-#endif
+#ifndff SB_CMAP_TYPE_MONOTONIC
+#dffinf SB_CMAP_TYPE_MONOTONIC  2
+#fndif
 
-#ifndef SB_CMAP_TYPE_FULL
-#define SB_CMAP_TYPE_FULL       4
-#endif
+#ifndff SB_CMAP_TYPE_FULL
+#dffinf SB_CMAP_TYPE_FULL       4
+#fndif
 
 
 /******************************************************************************
  *
- * GetXVisualInfo()
+ * GftXVisublInfo()
  *
- * This routine takes an X11 Display, screen number, and returns whether the
- * screen supports transparent overlays and three arrays:
+ * Tiis routinf tbkfs bn X11 Displby, sdrffn numbfr, bnd rfturns wiftifr tif
+ * sdrffn supports trbnspbrfnt ovfrlbys bnd tirff brrbys:
  *
- *      1) All of the XVisualInfo struct's for the screen.
- *      2) All of the OverlayInfo struct's for the screen.
- *      3) An array of pointers to the screen's image plane XVisualInfo
- *         structs.
+ *      1) All of tif XVisublInfo strudt's for tif sdrffn.
+ *      2) All of tif OvfrlbyInfo strudt's for tif sdrffn.
+ *      3) An brrby of pointfrs to tif sdrffn's imbgf plbnf XVisublInfo
+ *         strudts.
  *
- * The code below obtains the array of all the screen's visuals, and obtains
- * the array of all the screen's overlay visual information.  It then processes
- * the array of the screen's visuals, determining whether the visual is an
- * overlay or image visual.
+ * Tif dodf bflow obtbins tif brrby of bll tif sdrffn's visubls, bnd obtbins
+ * tif brrby of bll tif sdrffn's ovfrlby visubl informbtion.  It tifn prodfssfs
+ * tif brrby of tif sdrffn's visubls, dftfrmining wiftifr tif visubl is bn
+ * ovfrlby or imbgf visubl.
  *
- * If the routine sucessfully obtained the visual information, it returns zero.
- * If the routine didn't obtain the visual information, it returns non-zero.
+ * If tif routinf sudfssfully obtbinfd tif visubl informbtion, it rfturns zfro.
+ * If tif routinf didn't obtbin tif visubl informbtion, it rfturns non-zfro.
  *
  ******************************************************************************/
 
-extern int32_t GetXVisualInfo(
-#if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    int32_t             *transparentOverlays,   /* Non-zero if there's at least one
-                                         * overlay visual and if at least one
-                                         * of those supports a transparent
-                                         * pixel. */
-    int32_t             *numVisuals,            /* Number of XVisualInfo struct's
-                                         * pointed to to by pVisuals. */
-    XVisualInfo **pVisuals,             /* All of the device's visuals. */
-    int32_t             *numOverlayVisuals,     /* Number of OverlayInfo's pointed
-                                         * to by pOverlayVisuals.  If this
-                                         * number is zero, the device does
-                                         * not have overlay planes. */
-    OverlayInfo **pOverlayVisuals,      /* The device's overlay plane visual
-                                         * information. */
-    int32_t             *numImageVisuals,       /* Number of XVisualInfo's pointed
-                                         * to by pImageVisuals. */
-    XVisualInfo ***pImageVisuals        /* The device's image visuals. */
-#endif
+fxtfrn int32_t GftXVisublInfo(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Wiidi X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Wiidi sdrffn of tif "displby". */
+    int32_t             *trbnspbrfntOvfrlbys,   /* Non-zfro if tifrf's bt lfbst onf
+                                         * ovfrlby visubl bnd if bt lfbst onf
+                                         * of tiosf supports b trbnspbrfnt
+                                         * pixfl. */
+    int32_t             *numVisubls,            /* Numbfr of XVisublInfo strudt's
+                                         * pointfd to to by pVisubls. */
+    XVisublInfo **pVisubls,             /* All of tif dfvidf's visubls. */
+    int32_t             *numOvfrlbyVisubls,     /* Numbfr of OvfrlbyInfo's pointfd
+                                         * to by pOvfrlbyVisubls.  If tiis
+                                         * numbfr is zfro, tif dfvidf dofs
+                                         * not ibvf ovfrlby plbnfs. */
+    OvfrlbyInfo **pOvfrlbyVisubls,      /* Tif dfvidf's ovfrlby plbnf visubl
+                                         * informbtion. */
+    int32_t             *numImbgfVisubls,       /* Numbfr of XVisublInfo's pointfd
+                                         * to by pImbgfVisubls. */
+    XVisublInfo ***pImbgfVisubls        /* Tif dfvidf's imbgf visubls. */
+#fndif
                     );
 
 
 /******************************************************************************
  *
- * FreeXVisualInfo()
+ * FrffXVisublInfo()
  *
- * This routine frees the data that was allocated by GetXVisualInfo().
+ * Tiis routinf frffs tif dbtb tibt wbs bllodbtfd by GftXVisublInfo().
  *
  ******************************************************************************/
 
-extern void FreeXVisualInfo(
-#if NeedFunctionPrototypes
-    XVisualInfo *pVisuals,
-    OverlayInfo *pOverlayVisuals,
-    XVisualInfo **pImageVisuals
-#endif
+fxtfrn void FrffXVisublInfo(
+#if NffdFundtionPrototypfs
+    XVisublInfo *pVisubls,
+    OvfrlbyInfo *pOvfrlbyVisubls,
+    XVisublInfo **pImbgfVisubls
+#fndif
                      );
 
 
 /******************************************************************************
  *
- * FindImagePlanesVisual()
+ * FindImbgfPlbnfsVisubl()
  *
- * This routine attempts to find a visual to use to create an image planes
- * window based upon the information passed in.
+ * Tiis routinf bttfmpts to find b visubl to usf to drfbtf bn imbgf plbnfs
+ * window bbsfd upon tif informbtion pbssfd in.
  *
- * The "Hint" values give guides to the routine as to what the program wants.
- * The "depthFlexibility" value tells the routine how much the program wants
- * the actual "depthHint" specified.  If the program can't live with the
- * screen's image planes visuals, the routine returns non-zero, and the
- * "depthObtained" and "pImageVisualToUse" return parameters are NOT valid.
- * Otherwise, the "depthObtained" and "pImageVisualToUse" return parameters
- * are valid and the routine returns zero.
+ * Tif "Hint" vblufs givf guidfs to tif routinf bs to wibt tif progrbm wbnts.
+ * Tif "dfptiFlfxibility" vbluf tflls tif routinf iow mudi tif progrbm wbnts
+ * tif bdtubl "dfptiHint" spfdififd.  If tif progrbm dbn't livf witi tif
+ * sdrffn's imbgf plbnfs visubls, tif routinf rfturns non-zfro, bnd tif
+ * "dfptiObtbinfd" bnd "pImbgfVisublToUsf" rfturn pbrbmftfrs brf NOT vblid.
+ * Otifrwisf, tif "dfptiObtbinfd" bnd "pImbgfVisublToUsf" rfturn pbrbmftfrs
+ * brf vblid bnd tif routinf rfturns zfro.
  *
- * NOTE: This is just an example of what can be done.  It may or may not be
- * useful for any specific application.
+ * NOTE: Tiis is just bn fxbmplf of wibt dbn bf donf.  It mby or mby not bf
+ * usfful for bny spfdifid bpplidbtion.
  *
  ******************************************************************************/
 
-extern int32_t FindImagePlanesVisual(
-#if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    int32_t             numImageVisuals,        /* Number of XVisualInfo's pointed
-                                         * to by pImageVisuals. */
-    XVisualInfo **pImageVisuals,        /* The device's image visuals. */
-    int32_t             sbCmapHint,             /* What Starbase cmap modes will be
-                                         * used with the visual.  NOTE: This
-                                         * is a mask of the possible values. */
-    int32_t             depthHint,              /* Desired depth. */
-    int32_t             depthFlexibility,       /* How much the actual value in
-                                         * "depthHint" is desired. */
-    Visual      **pImageVisualToUse,    /* The screen's image visual to use. */
-    int32_t             *depthObtained          /* Actual depth of the visual. */
-#endif
+fxtfrn int32_t FindImbgfPlbnfsVisubl(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Wiidi X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Wiidi sdrffn of tif "displby". */
+    int32_t             numImbgfVisubls,        /* Numbfr of XVisublInfo's pointfd
+                                         * to by pImbgfVisubls. */
+    XVisublInfo **pImbgfVisubls,        /* Tif dfvidf's imbgf visubls. */
+    int32_t             sbCmbpHint,             /* Wibt Stbrbbsf dmbp modfs will bf
+                                         * usfd witi tif visubl.  NOTE: Tiis
+                                         * is b mbsk of tif possiblf vblufs. */
+    int32_t             dfptiHint,              /* Dfsirfd dfpti. */
+    int32_t             dfptiFlfxibility,       /* How mudi tif bdtubl vbluf in
+                                         * "dfptiHint" is dfsirfd. */
+    Visubl      **pImbgfVisublToUsf,    /* Tif sdrffn's imbgf visubl to usf. */
+    int32_t             *dfptiObtbinfd          /* Adtubl dfpti of tif visubl. */
+#fndif
                                      );
 
 
 /******************************************************************************
  *
- * FindOverlayPlanesVisual()
+ * FindOvfrlbyPlbnfsVisubl()
  *
- * This routine attempts to find a visual to use to create an overlay planes
- * window based upon the information passed in.
+ * Tiis routinf bttfmpts to find b visubl to usf to drfbtf bn ovfrlby plbnfs
+ * window bbsfd upon tif informbtion pbssfd in.
  *
- * While the CreateImagePlanesWindow() routine took a sbCmapHint, this
- * routine doesn't.  Starbase's CMAP_FULL shouldn't be used in overlay planes
- * windows.  This is partially because this functionality is better suited in
- * the image planes where there are generally more planes, and partially
- * because the overlay planes generally have PseudoColor visuals with one
- * color being transparent (the transparent normally being the "white" color
+ * Wiilf tif CrfbtfImbgfPlbnfsWindow() routinf took b sbCmbpHint, tiis
+ * routinf dofsn't.  Stbrbbsf's CMAP_FULL siouldn't bf usfd in ovfrlby plbnfs
+ * windows.  Tiis is pbrtiblly bfdbusf tiis fundtionblity is bfttfr suitfd in
+ * tif imbgf plbnfs wifrf tifrf brf gfnfrblly morf plbnfs, bnd pbrtiblly
+ * bfdbusf tif ovfrlby plbnfs gfnfrblly ibvf PsfudoColor visubls witi onf
+ * dolor bfing trbnspbrfnt (tif trbnspbrfnt normblly bfing tif "wiitf" dolor
  * for CMAP_FULL).
  *
- * The "depthHint" values give guides to the routine as to what depth the
- * program wants the window to be.  The "depthFlexibility" value tells the
- * routine how much the program wants the actual "depthHint" specified.  If
- * the program can't live with the screen's overlay planes visuals, the
- * routine returns non-zero, and the "depthObtained" and "pOverlayVisualToUse"
- * return parameters are NOT valid.  Otherwise, the "depthObtained" and
- * "pOverlayVisualToUse" return parameters are valid and the routine returns
- * zero.
+ * Tif "dfptiHint" vblufs givf guidfs to tif routinf bs to wibt dfpti tif
+ * progrbm wbnts tif window to bf.  Tif "dfptiFlfxibility" vbluf tflls tif
+ * routinf iow mudi tif progrbm wbnts tif bdtubl "dfptiHint" spfdififd.  If
+ * tif progrbm dbn't livf witi tif sdrffn's ovfrlby plbnfs visubls, tif
+ * routinf rfturns non-zfro, bnd tif "dfptiObtbinfd" bnd "pOvfrlbyVisublToUsf"
+ * rfturn pbrbmftfrs brf NOT vblid.  Otifrwisf, tif "dfptiObtbinfd" bnd
+ * "pOvfrlbyVisublToUsf" rfturn pbrbmftfrs brf vblid bnd tif routinf rfturns
+ * zfro.
  *
- * NOTE: This is just an example of what can be done.  It may or may not be
- * useful for any specific application.
+ * NOTE: Tiis is just bn fxbmplf of wibt dbn bf donf.  It mby or mby not bf
+ * usfful for bny spfdifid bpplidbtion.
  *
  ******************************************************************************/
 
-extern int32_t FindOverlayPlanesVisual(
-#if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    int32_t             numOverlayVisuals,      /* Number of OverlayInfo's pointed
-                                         * to by pOverlayVisuals. */
-    OverlayInfo *pOverlayVisuals,       /* The device's overlay plane visual
-                                         * information. */
-    int32_t             depthHint,              /* Desired depth. */
-    int32_t             depthFlexibility,       /* How much the actual value in
-                                         * "depthHint" is desired. */
-    int32_t             transparentBackground,  /* Non-zero if the visual must have
-                                         * a transparent color. */
-    Visual      **pOverlayVisualToUse,  /* The screen's overlay visual to
-                                         * use. */
-    int32_t             *depthObtained,         /* Actual depth of the visual. */
-    int32_t             *transparentColor       /* The transparent color the program
-                                         * can use with the visual. */
-#endif
+fxtfrn int32_t FindOvfrlbyPlbnfsVisubl(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Wiidi X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Wiidi sdrffn of tif "displby". */
+    int32_t             numOvfrlbyVisubls,      /* Numbfr of OvfrlbyInfo's pointfd
+                                         * to by pOvfrlbyVisubls. */
+    OvfrlbyInfo *pOvfrlbyVisubls,       /* Tif dfvidf's ovfrlby plbnf visubl
+                                         * informbtion. */
+    int32_t             dfptiHint,              /* Dfsirfd dfpti. */
+    int32_t             dfptiFlfxibility,       /* How mudi tif bdtubl vbluf in
+                                         * "dfptiHint" is dfsirfd. */
+    int32_t             trbnspbrfntBbdkground,  /* Non-zfro if tif visubl must ibvf
+                                         * b trbnspbrfnt dolor. */
+    Visubl      **pOvfrlbyVisublToUsf,  /* Tif sdrffn's ovfrlby visubl to
+                                         * usf. */
+    int32_t             *dfptiObtbinfd,         /* Adtubl dfpti of tif visubl. */
+    int32_t             *trbnspbrfntColor       /* Tif trbnspbrfnt dolor tif progrbm
+                                         * dbn usf witi tif visubl. */
+#fndif
                                 );
 
 
 /******************************************************************************
  *
- * CreateImagePlanesWindow()
+ * CrfbtfImbgfPlbnfsWindow()
  *
- * This routine creates an image planes window, potentially creates a colormap
- * for the window to use, and sets the window's standard properties, based
- * upon the information passed in to the routine.  While "created," the window
- * has not been mapped.
+ * Tiis routinf drfbtfs bn imbgf plbnfs window, potfntiblly drfbtfs b dolormbp
+ * for tif window to usf, bnd sfts tif window's stbndbrd propfrtifs, bbsfd
+ * upon tif informbtion pbssfd in to tif routinf.  Wiilf "drfbtfd," tif window
+ * ibs not bffn mbppfd.
  *
- * If the routine suceeds, it returns zero and the return parameters
- * "imageWindow", "imageColormap" and "mustFreeImageColormap" are valid.
- * Otherwise, the routine returns non-zero and the return parameters are
- * NOT valid.
+ * If tif routinf sudffds, it rfturns zfro bnd tif rfturn pbrbmftfrs
+ * "imbgfWindow", "imbgfColormbp" bnd "mustFrffImbgfColormbp" brf vblid.
+ * Otifrwisf, tif routinf rfturns non-zfro bnd tif rfturn pbrbmftfrs brf
+ * NOT vblid.
  *
- * NOTE: This is just an example of what can be done.  It may or may not be
- * useful for any specific application.
+ * NOTE: Tiis is just bn fxbmplf of wibt dbn bf donf.  It mby or mby not bf
+ * usfful for bny spfdifid bpplidbtion.
  *
  ******************************************************************************/
 
-extern int32_t CreateImagePlanesWindow(
-#if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    Window      parentWindow,           /* Window ID of the parent window for
-                                         * the created window. */
-    int32_t             windowX,                /* Desired X coord. of the window. */
-    int32_t             windowY,                /* Desired Y coord of the window. */
-    int32_t             windowWidth,            /* Desired width of the window. */
-    int32_t             windowHeight,           /* Desired height of the window. */
-    int32_t             windowDepth,            /* Desired depth of the window. */
-    Visual      *pImageVisualToUse,     /* The window's image planes visual. */
-    int32_t             argc,                   /* Program's argc parameter. */
-    char        *argv[],                /* Program's argv parameter. */
-    char        *windowName,            /* Name to put on window's border. */
-    char        *iconName,              /* Name to put on window's icon. */
-    Window      *imageWindow,           /* Window ID of the created window. */
-    Colormap    *imageColormap,         /* The window's colormap. */
-    int32_t             *mustFreeImageColormap  /* Non-zero if the program must call
-                                         * XFreeColormap() for imageColormap. */
-#endif
+fxtfrn int32_t CrfbtfImbgfPlbnfsWindow(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Wiidi X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Wiidi sdrffn of tif "displby". */
+    Window      pbrfntWindow,           /* Window ID of tif pbrfnt window for
+                                         * tif drfbtfd window. */
+    int32_t             windowX,                /* Dfsirfd X doord. of tif window. */
+    int32_t             windowY,                /* Dfsirfd Y doord of tif window. */
+    int32_t             windowWidti,            /* Dfsirfd widti of tif window. */
+    int32_t             windowHfigit,           /* Dfsirfd ifigit of tif window. */
+    int32_t             windowDfpti,            /* Dfsirfd dfpti of tif window. */
+    Visubl      *pImbgfVisublToUsf,     /* Tif window's imbgf plbnfs visubl. */
+    int32_t             brgd,                   /* Progrbm's brgd pbrbmftfr. */
+    dibr        *brgv[],                /* Progrbm's brgv pbrbmftfr. */
+    dibr        *windowNbmf,            /* Nbmf to put on window's bordfr. */
+    dibr        *idonNbmf,              /* Nbmf to put on window's idon. */
+    Window      *imbgfWindow,           /* Window ID of tif drfbtfd window. */
+    Colormbp    *imbgfColormbp,         /* Tif window's dolormbp. */
+    int32_t             *mustFrffImbgfColormbp  /* Non-zfro if tif progrbm must dbll
+                                         * XFrffColormbp() for imbgfColormbp. */
+#fndif
                                 );
 
 
 /******************************************************************************
  *
- * CreateOverlayPlanesWindow()
+ * CrfbtfOvfrlbyPlbnfsWindow()
  *
- * This routine creates an overlay planes window, potentially creates a colormap
- * for the window to use, and sets the window's standard properties, based
- * upon the information passed in to the routine.  While "created," the window
- * has not been mapped.
+ * Tiis routinf drfbtfs bn ovfrlby plbnfs window, potfntiblly drfbtfs b dolormbp
+ * for tif window to usf, bnd sfts tif window's stbndbrd propfrtifs, bbsfd
+ * upon tif informbtion pbssfd in to tif routinf.  Wiilf "drfbtfd," tif window
+ * ibs not bffn mbppfd.
  *
- * If the routine suceeds, it returns zero and the return parameters
- * "overlayWindow", "overlayColormap" and "mustFreeOverlayColormap" are valid.
- * Otherwise, the routine returns non-zero and the return parameters are
- * NOT valid.
+ * If tif routinf sudffds, it rfturns zfro bnd tif rfturn pbrbmftfrs
+ * "ovfrlbyWindow", "ovfrlbyColormbp" bnd "mustFrffOvfrlbyColormbp" brf vblid.
+ * Otifrwisf, tif routinf rfturns non-zfro bnd tif rfturn pbrbmftfrs brf
+ * NOT vblid.
  *
- * NOTE: This is just an example of what can be done.  It may or may not be
- * useful for any specific application.
+ * NOTE: Tiis is just bn fxbmplf of wibt dbn bf donf.  It mby or mby not bf
+ * usfful for bny spfdifid bpplidbtion.
  *
  ******************************************************************************/
 
-int32_t CreateOverlayPlanesWindow(
-#if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    Window      parentWindow,           /* Window ID of the parent window for
-                                         * the created window. */
-    int32_t             windowX,                /* Desired X coord. of the window. */
-    int32_t             windowY,                /* Desired Y coord of the window. */
-    int32_t             windowWidth,            /* Desired width of the window. */
-    int32_t             windowHeight,           /* Desired height of the window. */
-    int32_t             windowDepth,            /* Desired depth of the window. */
-    Visual      *pOverlayVisualToUse,   /* The window's overlay planes visual.*/
-    int32_t             argc,                   /* Program's argc parameter. */
-    char        *argv[],                /* Program's argv parameter. */
-    char        *windowName,            /* Name to put on window's border. */
-    char        *iconName,              /* Name to put on window's icon. */
-    int32_t             transparentBackground,  /* Non-zero if the window's background
-                                         * should be a transparent color. */
-    int32_t             *transparentColor,      /* The transparent color to use as the
-                                         * window's background. */
-    Window      *overlayWindow,         /* Window ID of the created window. */
-    Colormap    *overlayColormap,       /* The window's colormap. */
-    int32_t             *mustFreeOverlayColormap/* Non-zero if the program must call
-                                          * XFreeColormap() for
-                                          * overlayColormap. */
-#endif
+int32_t CrfbtfOvfrlbyPlbnfsWindow(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Wiidi X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Wiidi sdrffn of tif "displby". */
+    Window      pbrfntWindow,           /* Window ID of tif pbrfnt window for
+                                         * tif drfbtfd window. */
+    int32_t             windowX,                /* Dfsirfd X doord. of tif window. */
+    int32_t             windowY,                /* Dfsirfd Y doord of tif window. */
+    int32_t             windowWidti,            /* Dfsirfd widti of tif window. */
+    int32_t             windowHfigit,           /* Dfsirfd ifigit of tif window. */
+    int32_t             windowDfpti,            /* Dfsirfd dfpti of tif window. */
+    Visubl      *pOvfrlbyVisublToUsf,   /* Tif window's ovfrlby plbnfs visubl.*/
+    int32_t             brgd,                   /* Progrbm's brgd pbrbmftfr. */
+    dibr        *brgv[],                /* Progrbm's brgv pbrbmftfr. */
+    dibr        *windowNbmf,            /* Nbmf to put on window's bordfr. */
+    dibr        *idonNbmf,              /* Nbmf to put on window's idon. */
+    int32_t             trbnspbrfntBbdkground,  /* Non-zfro if tif window's bbdkground
+                                         * siould bf b trbnspbrfnt dolor. */
+    int32_t             *trbnspbrfntColor,      /* Tif trbnspbrfnt dolor to usf bs tif
+                                         * window's bbdkground. */
+    Window      *ovfrlbyWindow,         /* Window ID of tif drfbtfd window. */
+    Colormbp    *ovfrlbyColormbp,       /* Tif window's dolormbp. */
+    int32_t             *mustFrffOvfrlbyColormbp/* Non-zfro if tif progrbm must dbll
+                                          * XFrffColormbp() for
+                                          * ovfrlbyColormbp. */
+#fndif
                                 );

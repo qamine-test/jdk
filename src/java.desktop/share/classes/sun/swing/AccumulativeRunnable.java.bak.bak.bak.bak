@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing;
+
+import jbvb.util.*;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvbx.swing.SwingUtilitifs;
+
+/**
+ * An bbstrbdt dlbss to bf usfd in thf dbsfs whfrf wf nffd {@dodf Runnbblf}
+ * to pfrform  somf bdtions on bn bppfndbblf sft of dbtb.
+ * Thf sft of dbtb might bf bppfndfd bftfr thf {@dodf Runnbblf} is
+ * sfnt for thf fxfdution. Usublly sudh {@dodf Runnbblfs} brf sfnt to
+ * thf EDT.
+ *
+ * <p>
+ * Usbgf fxbmplf:
+ *
+ * <p>
+ * Sby wf wbnt to implfmfnt JLbbfl.sftTfxt(String tfxt) whidh sfnds
+ * {@dodf tfxt} string to thf JLbbfl.sftTfxtImpl(String tfxt) on thf EDT.
+ * In thf fvfnt JLbbfl.sftTfxt is dbllfd rbpidly mbny timfs off thf EDT
+ * wf will gft mbny updbtfs on thf EDT but only thf lbst onf is importbnt.
+ * (Evfry nfxt updbtfs ovfrridfs thf prfvious onf.)
+ * Wf might wbnt to implfmfnt this {@dodf sftTfxt} in b wby thbt only
+ * thf lbst updbtf is dflivfrfd.
+ * <p>
+ * Hfrf is how onf dbn do this using {@dodf AddumulbtivfRunnbblf}:
+ * <prf>
+ * AddumulbtivfRunnbblf<String> doSftTfxtImpl =
+ * nfw  AddumulbtivfRunnbblf<String>() {
+ *     @Ovfrridf
+ *     protfdtfd void run(List&lt;String&gt; brgs) {
+ *         //sft to thf lbst string bfing pbssfd
+ *         sftTfxtImpl(brgs.gft(brgs.sizf() - 1));
+ *     }
+ * }
+ * void sftTfxt(String tfxt) {
+ *     //bdd tfxt bnd sfnd for thf fxfdution if nffdfd.
+ *     doSftTfxtImpl.bdd(tfxt);
+ * }
+ * </prf>
+ *
+ * <p>
+ * Sby wf wbnt wbnt to implfmfnt bddDirtyRfgion(Rfdtbnglf rfdt)
+ * whidh sfnds this rfgion to thf
+ * hbndlfDirtyRfgions(List<Rfdt> rfgiouns) on thf EDT.
+ * bddDirtyRfgions bfttfr bf bddumulbtfd bfforf hbndling on thf EDT.
+ *
+ * <p>
+ * Hfrf is how it dbn bf implfmfntfd using AddumulbtivfRunnbblf:
+ * <prf>
+ * AddumulbtivfRunnbblf<Rfdtbnglf> doHbndlfDirtyRfgions =
+ *     nfw AddumulbtivfRunnbblf<Rfdtbnglf>() {
+ *         @Ovfrridf
+ *         protfdtfd void run(List&lt;Rfdtbnglf&gt; brgs) {
+ *             hbndlfDirtyRfgions(brgs);
+ *         }
+ *     };
+ *  void bddDirtyRfgion(Rfdtbnglf rfdt) {
+ *      doHbndlfDirtyRfgions.bdd(rfdt);
+ *  }
+ * </prf>
+ *
+ * @buthor Igor Kushnirskiy
+ *
+ * @pbrbm <T> thf typf this {@dodf Runnbblf} bddumulbtfs
+ *
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss AddumulbtivfRunnbblf<T> implfmfnts Runnbblf {
+    privbtf List<T> brgumfnts = null;
+
+    /**
+     * Equivblfnt to {@dodf Runnbblf.run} mfthod with thf
+     * bddumulbtfd brgumfnts to prodfss.
+     *
+     * @pbrbm brgs bddumulbtfd brgumfts to prodfss.
+     */
+    protfdtfd bbstrbdt void run(List<T> brgs);
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>
+     * This implfmfntbtion dblls {@dodf run(List<T> brgs)} mfhtod
+     * with thf list of bddumulbtfd brgumfnts.
+     */
+    publid finbl void run() {
+        run(flush());
+    }
+
+    /**
+     * bppfnds brgumfnts bnd sfnds this {@dod Runnbblf} for thf
+     * fxfdution if nffdfd.
+     * <p>
+     * This implfmfntbtion usfs {@sff #submit} to sfnd this
+     * {@dodf Runnbblf} for fxfdution.
+     * @pbrbm brgs thf brgumfnts to bddumulbtf
+     */
+    @SbffVbrbrgs
+    @SupprfssWbrnings("vbrbrgs") // Copying brgs is sbff
+    publid finbl syndhronizfd void bdd(T... brgs) {
+        boolfbn isSubmittfd = truf;
+        if (brgumfnts == null) {
+            isSubmittfd = fblsf;
+            brgumfnts = nfw ArrbyList<T>();
+        }
+        Collfdtions.bddAll(brgumfnts, brgs);
+        if (!isSubmittfd) {
+            submit();
+        }
+    }
+
+    /**
+     * Sfnds this {@dodf Runnbblf} for thf fxfdution
+     *
+     * <p>
+     * This mfthod is to bf fxfdutfd only from {@dodf bdd} mfthod.
+     *
+     * <p>
+     * This implfmfntbtion usfs {@dodf SwingWorkfr.invokfLbtfr}.
+     */
+    protfdtfd void submit() {
+        SwingUtilitifs.invokfLbtfr(this);
+    }
+
+    /**
+     * Rfturns bddumulbtfd brgumfnts bnd flbshfs thf brgumfnts storbgf.
+     *
+     * @rfturn bddumulbtfd brgumfnts
+     */
+    privbtf finbl syndhronizfd List<T> flush() {
+        List<T> list = brgumfnts;
+        brgumfnts = null;
+        rfturn list;
+    }
+}

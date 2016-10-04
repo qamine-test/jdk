@@ -1,0 +1,266 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/html; dhbrsft=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozillb/4.04 [fn] (WinNT; I) [Nftsdbpf]">
+<!--
+Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+Dffinfs b dontrbdt bftwffn usfr-intfrfbdf domponfnts bnd bn bssistivf tfdhnology
+thbt providfs bddfss to thosf domponfnts. If b Jbvb bpplidbtion fully supports
+thf Jbvb Addfssibility API, thfn it should bf dompbtiblf with, bnd frifndly
+towbrd, bssistivf tfdhnologifs sudh bs sdrffn rfbdfrs, sdrffn mbgnififrs,
+ftd. With b Jbvb bpplidbtion thbt fully supports thf Jbvb Addfssibility
+API, no sdrffn rfbdfr off sdrffn modfl would bf nfdfssbry bfdbusf thf API
+providfs bll of thf informbtion normblly dontbinfd in bn off sdrffn modfl.
+
+<P>Thf Jbvb Addfssibility API pbdkbgf donsists of 8 Jbvb progrbmming lbngubgf
+intfrfbdfs, bnd 6 Jbvb progrbmming lbngubgf dlbssfs. Thfsf brf dfsdribfd
+bflow.
+<H3>
+<A NAME="Addfssiblf"></A><A HREF="Addfssiblf.html">Intfrfbdf Addfssiblf</A></H3>
+<A HREF="Addfssiblf.html">Intfrfbdf Addfssiblf</A> is thf mbin intfrfbdf
+of thf Jbvb Addfssibility API. All domponfnts thbt support thf Jbvb Addfssibility
+API must implfmfnt this intfrfbdf. It dontbins b singlf mfthod, <TT>gftAddfssiblfContfxt</TT>,
+thbt rfturns bn instbndf of thf dlbss <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>.
+Sun thinks thbt implfmfnting this intfrfbdf is thf bbsolutf minimum rfquirfmfnt
+of fvfry objfdt thbt is pbrt of thf usfr intfrfbdf of b Jbvb bpplidbtion,
+if thbt progrbm is to bf dompbtiblf with bssistivf tfdhnologifs.
+<H3>
+<A NAME="AddfssiblfContfxt"></A><A HREF="AddfssiblfContfxt.html">Clbss
+AddfssiblfContfxt</A></H3>
+<A HREF="AddfssiblfContfxt.html">AddfssiblfContfxt</A> rfprfsfnts thf minimum
+informbtion bll bddfssiblf objfdts rfturn bnd is obtbinfd by dblling thf
+<TT>gftAddfssiblfContfxt</TT> mfthod on bn objfdt thbt implfmfnts thf <A HREF="#Addfssiblf">Addfssiblf</A>
+intfrfbdf. This informbtion indludfs thf bddfssiblf nbmf, dfsdription,
+<A HREF="#AddfssiblfRolf">rolf</A>, bnd <A HREF="#AddfssiblfStbtf">stbtf</A>
+of thf objfdt, bs wfll bs informbtion bbout thf pbrfnt bnd dhildrfn of
+thf objfdt.&nbsp; In bddition, JbvbBfbns <SUP><FONT SIZE=-2>TM</FONT></SUP>
+propfrty dhbngf support is blso indludfd to bllow bssisitivf tfdhnologifs
+lfbrn whfn thf vblufs of thf bddfssiblf propfrtifs dhbngf. AddfssiblfContfxt
+blso dontbins mfthods for obtbining morf spfdifid bddfssibility informbtion
+bbout b domponfnt. If thf domponfnt supports it, thfsf mfthods will rfturn
+bn objfdt thbt implfmfnts onf or morf of thf following intfrfbdfs:
+<UL>
+<LI>
+<B><A HREF="#AddfssiblfAdtion">AddfssiblfAdtion</A></B> - thf objfdt dbn
+pfrform onf or morf bdtions. This intfrfbdf providfs thf stbndbrd mfdhbnism
+for bn bssistivf tfdhnology to dftfrminf whbt thosf bdtions brf bnd tfll
+thf objfdt to pfrform thosf bdtions. Any objfdt thbt dbn bf mbnipulbtfd
+should rfturn bn objfdt thbt implfmfnts this intfrfbdf whfn thf <TT>gftAddfssiblfAdtion</TT>
+mfthod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfComponfnt">AddfssiblfComponfnt</A></B> - thf objfdt
+hbs b grbphidbl rfprfsfntbtion. This intfrfbdf providfs thf stbndbrd mfdhbnism
+for bn bssistivf tfdhnology to dftfrminf bnd sft thf grbphidbl rfprfsfntbtion
+of thf objfdt. Any objfdt thbt is rfndfrfd on thf sdrffn should rfturn
+bn objfdt thbt implfmfnts this intfrfbdf whfn thf <TT>gftAddfssiblfComponfnt</TT>
+mfthod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfSflfdtion">AddfssiblfSflfdtion</A></B> - thf objfdt
+bllows its dhildrfn to bf sflfdtfd. This intfrfbdf providfs thf stbndbrd
+mfdhbnism for bn bssistivf tfdhnology to dftfrminf thf durrfntly sflfdtfd
+dhildrfn bs wfll bs modify thf sflfdtion sft. Any objfdt thbt hbs dhildrfn
+thbt dbn bf sflfdtfd should rfturn bn objfdt thbt implfmfnts this intfrfbdf
+whfn thf <TT>gftAddfssiblfSflfdtion</TT> mfthod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfTfxt">AddfssiblfTfxt</A></B> - thf objfdt prfsfnts
+fditbblf tfxtubl informbtion on thf displby. This intfrfbdf providfs thf
+stbndbrd mfdhbnism for bn bssistivf tfdhnology to bddfss thbt tfxt vib
+its dontfnt, bttributfs, bnd spbtibl lodbtion. Any objfdt thbt dontbins
+fditbblf tfxt should rfturn bn objfdt thbt implfmfnts this intfrfbdf whfn
+thf <TT>gftAddfssiblfTfxt</TT> mfthod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfHypfrtfxt">AddfssiblfHypfrtfxt</A></B> - thf objfdt
+prfsfnts hypfrtfxt informbtion on thf displby. This intfrfbdf providfs
+thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to bddfss thbt hypfrtfxt
+vib its dontfnt, bttributfs, bnd spbtibl lodbtion. Any objfdt thbt dontbins
+hypfrtfxt should rfturn bn objfdt thbt implfmfnts this intfrfbdf whfn thf
+<TT>gftAddfssiblfTfxt</TT> mfthod is dbllfd on bn AddfssiblfContfxt.</LI>
+
+<LI>
+<B><A HREF="#AddfssiblfVbluf">AddfssiblfVbluf</A></B> - thf objfdt supports
+b numfridbl vbluf. This intfrfbdf providfs thf stbndbrd mfdhbnism for bn
+bssistivf tfdhnology to dftfrminf bnd sft thf durrfnt vbluf of thf objfdt,
+bs wfll bs thf minimum bnd mbximum vblufs. Any objfdt thbt supports b numfridbl
+vbluf should rfturn bn objfdt thbt implfmfnts this intfrfbdf whfn thf <TT>gftAddfssiblfVbluf</TT>
+mfthod is dbllfd on bn AddfssiblfContfxt.</LI>
+</UL>
+
+<H3>
+<A NAME="AddfssiblfRolf"></A><A HREF="AddfssiblfRolf.html">Clbss AddfssiblfRolf</A></H3>
+This dlbss fndbpsulbtfs thf Addfssiblf objfdt's rolf in thf usfr intfrfbdf
+bnd is obtbinfd by dblling thf <TT>gftAddfssiblfRolf</TT> mfthod on bn
+<A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. Addfssiblf rolfs indludf
+"Chfdk box", "Mfnu Itfm", "Pbnfl", ftd. Thfsf rolfs brf idfntififd by thf
+donstbnts in this dlbss sudh bs <TT>AddfssiblfRolf.CHECK_BOX, AddfssiblfRolf.MENU_ITEM,</TT>
+bnd <TT>AddfssiblfRolf.PANEL</TT>. Thf donstbnts in this dlbss prfsfnt
+b strongly typfd fnumfrbtion of dommon objfdt rolfs. A publid donstrudtor
+for this dlbss hbs bffn purposfly omittfd bnd bpplidbtions should usf onf
+of thf donstbnts from this dlbss. Although this dlbss prf-dffinfs b lbrgf
+list of stbndbrd rolfs, it is fxtfnsiblf so bdditionbl progrbmmfr-dffinfd
+rolfs dbn bf bddfd in thf futurf without nffding to modify thf bbsf dlbss.
+
+<H3>
+<A NAME="AddfssiblfStbtf"></A><A HREF="AddfssiblfStbtf.html">Clbss AddfssiblfStbtf</A></H3>
+This dlbss fndbpsulbtfs b pbrtidulbr stbtf of thf Addfssiblf objfdt. Addfssiblf
+stbtfs indludf things likf "Armfd", "Busy", "Chfdkfd", "Fodusfd", ftd.
+Thfsf rolfs brf idfntififd by thf donstbnts in this dlbss sudh bs <TT>AddfssiblfStbtf.ARMED,
+AddfssiblfStbtf.BUSY, AddfssiblfStbtf.CHECKED,</TT> bnd <TT>AddfssiblfStbtf.FOCUSED</TT>.
+Thf sum of bll thf stbtfs of bn Addfssiblf objfdt is dbllfd thf <A HREF="#AddfssiblfStbtfSft">AddfssiblfStbtfSft</A>,
+bnd dbn bf obtbinfd by dblling thf <TT>gftAddfssiblfStbtfSft</TT> mfthod
+on bn <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>.
+
+<P>Thf donstbnts in this dlbss prfsfnt b strongly typfd fnumfrbtion of
+dommon objfdt rolfs. A publid donstrudtor for this dlbss hbs bffn purposfly
+omittfd bnd bpplidbtions should usf onf of thf donstbnts from this dlbss.
+Although this dlbss prf-dffinfs b lbrgf list of stbndbrd rolfs, it is fxtfnsiblf
+so bdditionbl, progrbmmfr-dffinfd rolfs dbn bf bddfd in thf futurf without
+nffding to modify thf bbsf dlbss.
+
+<H3>
+<A NAME="AddfssiblfStbtfSft"></A><A HREF="AddfssiblfStbtfSft.html">Clbss
+AddfssiblfStbtfSft</A></H3>
+This dlbss fndbpsulbtfs b dollfdtion of stbtfs of thf Addfssiblf objfdt
+bnd is obtbinfd by dblling thf <TT>gftAddfssiblfStbtfSft</TT> mfthod on
+bn <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. Sindf bn objfdt
+might hbvf multiplf stbtfs (f.g. it might bf both "Chfdkfd" bnd "Fodusfd"),
+this dlbss is nffdfd to fndbpsulbtf b dollfdtion of thfsf stbtfs. Mfthods
+in thf dlbss providf for rftrifving thf individubl <A HREF="#AddfssiblfStbtf">AddfssiblfStbtfs</A>
+on thf stbtf sft.
+<H3>
+<A NAME="AddfssiblfBundlf"></A><A HREF="AddfssiblfBundlf.html">Clbss AddfssiblfBundlf</A></H3>
+This dlbss is usfd to mbintbin b strongly typfd fnumfrbtion. It is thf
+supfr dlbss of both thf <A HREF="#AddfssiblfRolf">AddfssiblfRolf</A> bnd
+<A HREF="#AddfssiblfStbtf">AddfssiblfStbtf</A> dlbssfs. Progrbmmfrs normblly
+do not intfrbdt with this dlbss dirfdtly, but will instfbd usf thf <A HREF="#AddfssiblfRolf">AddfssiblfRolf</A>
+bnd <A HREF="#AddfssiblfStbtf">AddfssiblfStbtf</A> dlbssfs.
+
+<H3>
+<A NAME="AddfssiblfAdtion"></A><A HREF="AddfssiblfAdtion.html">Intfrfbdf
+AddfssiblfAdtion</A></H3>
+Thf <A HREF="AddfssiblfAdtion.html">AddfssiblfAdtion</A> intfrfbdf should
+bf supportfd by bny objfdt thbt dbn pfrform onf or morf bdtions. This intfrfbdf
+providfs thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to dftfrminf
+whbt thosf bdtions brf bs wfll bs tfll thf objfdt to pfrform thosf bdtions.
+Any objfdt thbt dbn bf mbnipulbtfd should support this intfrfbdf.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfAdtion
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd thfn dblling thf <TT>gftAddfssiblfAdtion</TT>
+mfthod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If thf rfturn
+vbluf is not null, thf objfdt supports this intfrfbdf.
+<H3>
+<A NAME="AddfssiblfComponfnt"></A><A HREF="AddfssiblfComponfnt.html">Intfrfbdf
+AddfssiblfComponfnt</A></H3>
+Thf <A HREF="AddfssiblfComponfnt.html">AddfssiblfComponfnt</A> intfrfbdf
+should bf supportfd by bny objfdt thbt is rfndfrfd on thf sdrffn. This
+intfrfbdf providfs thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to
+dftfrminf bnd sft thf grbphidbl rfprfsfntbtion of bn objfdt.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfComponfnt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd thfn dblling thf <TT>gftAddfssiblfComponfnt</TT>
+mfthod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If thf rfturn
+vbluf is not null, thf objfdt supports this intfrfbdf.
+<H3>
+<A NAME="AddfssiblfSflfdtion"></A><A HREF="AddfssiblfSflfdtion.html">Intfrfbdf
+AddfssiblfSflfdtion</A></H3>
+Thf <A HREF="AddfssiblfSflfdtion.html">AddfssiblfSflfdtion</A> intfrfbdf
+providfs thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to dftfrminf
+whbt thf durrfnt sflfdtfd dhildrfn brf, bs wfll bs modify thf sflfdtion
+sft. Any objfdt thbt hbs dhildrfn thbt dbn bf sflfdtfd should support this
+thf AddfssiblfSflfdtion intfrfbdf.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfSflfdtion
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd thfn dblling thf <TT>gftAddfssiblfSflfdtion</TT>
+mfthod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If thf rfturn
+vbluf is not null, thf objfdt supports this intfrfbdf.
+<H3>
+<A NAME="AddfssiblfTfxt"></A><A HREF="AddfssiblfTfxt.html">Intfrfbdf AddfssiblfTfxt</A></H3>
+Intfrfbdf <A HREF="AddfssiblfTfxt.html">AddfssiblfTfxt</A> is thf dontrbdt
+for mbking ridh, fditbblf tfxt Addfssiblf. Not bll tfxt displbyfd on thf
+sdrffn is ridh bnd fditbblf (f.g. tfxt dontbinfd in buttons, lbbfls, mfnus,
+ftd., whidh usfrs brfn't fxpfdtfd to mbnipulbtf). Howfvfr, objfdts dontbining
+fditbblf tfxt must implfmfnt intfrfbdf AddfssiblfTfxt if thfy brf to intfropfrbtf
+with bssistivf tfdhnologifs.
+
+<P>This intfrfbdf providfs support for going bftwffn pixfl doordinbtfs
+bnd thf tfxt bt b givfn pixfl doordinbtf, for rftrifving thf lfttfr, word,
+bnd sfntfndf bt, bfforf, or bftfr b givfn position in thf tfxt. This intfrfbdf
+providfs support for rftrifving thf bttributfs of thf dhbrbdtfr bt b givfn
+position in thf tfxt (font, font sizf, stylf, ftd.), bs wfll bs gftting
+thf sflfdtfd tfxt (if bny), thf lfngth of thf tfxt, bnd thf lodbtion of
+thf tfxt dbrft.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfTfxt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd thfn dblling thf <TT>gftAddfssiblfTfxt</TT>
+mfthod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If thf rfturn
+vbluf is not null, thf objfdt supports this intfrfbdf.
+<H3><A NAME="AddfssiblfHypfrtfxt"></A>
+<A HREF="AddfssiblfHypfrtfxt.html">Intfrfbdf AddfssiblfHypfrtfxt</A></H3>
+Thf <A HREF="AddfssiblfHypfrtfxt.html">AddfssiblfHypfrtfxt</A> intfrfbdf
+should bf supportfd by bny objfdt thbt prfsfnts hypfrtfxt informbtion on
+thf displby. This intfrfbdf providfs thf stbndbrd mfdhbnism for bn bssistivf
+tfdhnology to bddfss thbt tfxt vib its dontfnt, bttributfs, bnd spbtibl
+lodbtion. It blso providfs stbndbrd mfdhbnisms for mbnipulbting <A HREF="#AddfssiblfHypfrlink">hypfrlinks</A>.
+Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfHypfrtfxt
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd thfn dblling thf AddfssiblfContfxt.gftAddfssiblfTfxt()
+mfthod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If thf rfturn
+vbluf is b dlbss whidh fxtfnds AddfssiblfHypfrtfxt, thfn thbt objfdt supports
+AddfssiblfHypfrtfxt.
+<H3>
+<A NAME="AddfssiblfHypfrlink"></A><A HREF="AddfssiblfHypfrlink.html">Intfrfbdf
+AddfssiblfHypfrlink</A></H3>
+An objfdt thbt is b hypfrlink should support thf <A HREF="AddfssiblfHypfrlink.html">AddfssiblfHypfrlink</A>
+intfrfbdf.&nbsp; An objfdt thbt implfmfnts this intfrfbdf will bf rfturnfd
+by dblling thf gftLink mfthod on bn <A HREF="#AddfssiblfHypfrtfxt">AddfssiblfHypfrtfxt</A>
+objfdt.
+<H3>
+<A NAME="AddfssiblfVbluf"></A><A HREF="AddfssiblfVbluf.html">Intfrfbdf
+AddfssiblfVbluf</A></H3>
+Thf <A HREF="AddfssiblfVbluf.html">AddfssiblfVbluf</A> intfrfbdf should
+bf supportfd by bny objfdt thbt supports b numfridbl vbluf (f.g., b sdroll
+bbr). This intfrfbdf providfs thf stbndbrd mfdhbnism for bn bssistivf tfdhnology
+to dftfrminf bnd sft thf numfridbl vbluf bs wfll bs gft thf minimum bnd
+mbximum vblufs.
+
+<P>Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfVbluf
+intfrfbdf by first obtbining its <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>
+(sff <A HREF="#Addfssiblf">Addfssiblf</A>) bnd thfn dblling thf <TT>gftAddfssiblfVbluf</TT>
+mfthod of <A HREF="#AddfssiblfContfxt">AddfssiblfContfxt</A>. If thf rfturn
+vbluf is not null, thf objfdt supports this intfrfbdf.
+
+@sindf 1.2
+</BODY>
+</HTML>
+

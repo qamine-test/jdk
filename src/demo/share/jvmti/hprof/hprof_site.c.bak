@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,876 +30,876 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Allocation site table. */
+/* Allodbtion sitf tbblf. */
 
 /*
- * Every object allocation will have a place where it was allocated,
- *  this is the purpose of the SiteIndex.
+ * Evfry objfdt bllodbtion will ibvf b plbdf wifrf it wbs bllodbtfd,
+ *  tiis is tif purposf of tif SitfIndfx.
  *
- * The allocation site or SiteIndex is unique via a (class,trace) pair.
+ * Tif bllodbtion sitf or SitfIndfx is uniquf vib b (dlbss,trbdf) pbir.
  *
- * The allocation statistics are accumulated in the SiteInfo for each
- *   site.
+ * Tif bllodbtion stbtistids brf bddumulbtfd in tif SitfInfo for fbdi
+ *   sitf.
  *
- * This file also contains the heap iterate logic, which is closely
- *   associated with the site table, the object table, and the
- *   reference table. Each object has an element in the object table
- *   and as the heap is traversed, and information contained in each
- *   object is saved as a linked list of references.
+ * Tiis filf blso dontbins tif ifbp itfrbtf logid, wiidi is dlosfly
+ *   bssodibtfd witi tif sitf tbblf, tif objfdt tbblf, bnd tif
+ *   rfffrfndf tbblf. Ebdi objfdt ibs bn flfmfnt in tif objfdt tbblf
+ *   bnd bs tif ifbp is trbvfrsfd, bnd informbtion dontbinfd in fbdi
+ *   objfdt is sbvfd bs b linkfd list of rfffrfndfs.
  *
  */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-typedef struct SiteKey {
-    ClassIndex cnum;         /* Unique class number */
-    TraceIndex trace_index;  /* Trace number */
-} SiteKey;
+typfdff strudt SitfKfy {
+    ClbssIndfx dnum;         /* Uniquf dlbss numbfr */
+    TrbdfIndfx trbdf_indfx;  /* Trbdf numbfr */
+} SitfKfy;
 
-typedef struct SiteInfo {
-    int         changed;               /* Objects at this site changed? */
-    unsigned    n_alloced_instances;   /* Total allocated instances */
-    unsigned    n_alloced_bytes;       /* Total bytes allocated from here */
-    unsigned    n_live_instances;      /* Live instances for this site. */
-    unsigned    n_live_bytes;          /* Live byte count for this site. */
-} SiteInfo;
+typfdff strudt SitfInfo {
+    int         dibngfd;               /* Objfdts bt tiis sitf dibngfd? */
+    unsignfd    n_bllodfd_instbndfs;   /* Totbl bllodbtfd instbndfs */
+    unsignfd    n_bllodfd_bytfs;       /* Totbl bytfs bllodbtfd from ifrf */
+    unsignfd    n_livf_instbndfs;      /* Livf instbndfs for tiis sitf. */
+    unsignfd    n_livf_bytfs;          /* Livf bytf dount for tiis sitf. */
+} SitfInfo;
 
-typedef struct IterateInfo {
-    SiteIndex * site_nums;
-    int         count;
-    int         changed_only;
-} IterateInfo;
+typfdff strudt ItfrbtfInfo {
+    SitfIndfx * sitf_nums;
+    int         dount;
+    int         dibngfd_only;
+} ItfrbtfInfo;
 
-/* Private internal functions. */
+/* Privbtf intfrnbl fundtions. */
 
-static SiteKey*
-get_pkey(SiteIndex index)
+stbtid SitfKfy*
+gft_pkfy(SitfIndfx indfx)
 {
-    void *key_ptr;
-    int   key_len;
+    void *kfy_ptr;
+    int   kfy_lfn;
 
-    table_get_key(gdata->site_table, index, &key_ptr, &key_len);
-    HPROF_ASSERT(key_len==sizeof(SiteKey));
-    HPROF_ASSERT(key_ptr!=NULL);
-    return (SiteKey*)key_ptr;
+    tbblf_gft_kfy(gdbtb->sitf_tbblf, indfx, &kfy_ptr, &kfy_lfn);
+    HPROF_ASSERT(kfy_lfn==sizfof(SitfKfy));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    rfturn (SitfKfy*)kfy_ptr;
 }
 
-ClassIndex
-site_get_class_index(SiteIndex index)
+ClbssIndfx
+sitf_gft_dlbss_indfx(SitfIndfx indfx)
 {
-    SiteKey *pkey;
+    SitfKfy *pkfy;
 
-    pkey = get_pkey(index);
-    return pkey->cnum;
+    pkfy = gft_pkfy(indfx);
+    rfturn pkfy->dnum;
 }
 
-TraceIndex
-site_get_trace_index(SiteIndex index)
+TrbdfIndfx
+sitf_gft_trbdf_indfx(SitfIndfx indfx)
 {
-    SiteKey *pkey;
+    SitfKfy *pkfy;
 
-    pkey = get_pkey(index);
-    return pkey->trace_index;
+    pkfy = gft_pkfy(indfx);
+    rfturn pkfy->trbdf_indfx;
 }
 
-static SiteInfo *
-get_info(SiteIndex index)
+stbtid SitfInfo *
+gft_info(SitfIndfx indfx)
 {
-    SiteInfo *info;
+    SitfInfo *info;
 
-    info = (SiteInfo*)table_get_info(gdata->site_table, index);
-    return info;
+    info = (SitfInfo*)tbblf_gft_info(gdbtb->sitf_tbblf, indfx);
+    rfturn info;
 }
 
-static void
-list_item(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+list_itfm(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    SiteKey         *pkey;
-    jlong            n_alloced_instances;
-    jlong            n_alloced_bytes;
-    jlong            n_live_instances;
-    jlong            n_live_bytes;
+    SitfKfy         *pkfy;
+    jlong            n_bllodfd_instbndfs;
+    jlong            n_bllodfd_bytfs;
+    jlong            n_livf_instbndfs;
+    jlong            n_livf_bytfs;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(SiteKey));
-    pkey = (SiteKey*)key_ptr;
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(SitfKfy));
+    pkfy = (SitfKfy*)kfy_ptr;
 
     if ( info_ptr != NULL ) {
-        SiteInfo *info;
+        SitfInfo *info;
 
-        info = (SiteInfo *)info_ptr;
-        n_alloced_instances    = info->n_alloced_instances;
-        n_alloced_bytes        = info->n_alloced_bytes;
-        n_live_instances       = info->n_live_instances;
-        n_live_bytes           = info->n_live_bytes;
-    } else {
-        n_alloced_instances    = 0;
-        n_alloced_bytes        = 0;
-        n_live_instances       = 0;
-        n_live_bytes           = 0;
+        info = (SitfInfo *)info_ptr;
+        n_bllodfd_instbndfs    = info->n_bllodfd_instbndfs;
+        n_bllodfd_bytfs        = info->n_bllodfd_bytfs;
+        n_livf_instbndfs       = info->n_livf_instbndfs;
+        n_livf_bytfs           = info->n_livf_bytfs;
+    } flsf {
+        n_bllodfd_instbndfs    = 0;
+        n_bllodfd_bytfs        = 0;
+        n_livf_instbndfs       = 0;
+        n_livf_bytfs           = 0;
     }
 
-    debug_message( "Site 0x%08x: class=0x%08x, trace=0x%08x, "
-                          "Ninst=(%d,%d), Nbytes=(%d,%d), "
-                          "Nlive=(%d,%d), NliveBytes=(%d,%d)\n",
+    dfbug_mfssbgf( "Sitf 0x%08x: dlbss=0x%08x, trbdf=0x%08x, "
+                          "Ninst=(%d,%d), Nbytfs=(%d,%d), "
+                          "Nlivf=(%d,%d), NlivfBytfs=(%d,%d)\n",
              i,
-             pkey->cnum,
-             pkey->trace_index,
-             jlong_high(n_alloced_instances), jlong_low(n_alloced_instances),
-             jlong_high(n_alloced_bytes),     jlong_low(n_alloced_bytes),
-             jlong_high(n_live_instances),    jlong_low(n_live_instances),
-             jlong_high(n_live_bytes),        jlong_low(n_live_bytes));
+             pkfy->dnum,
+             pkfy->trbdf_indfx,
+             jlong_iigi(n_bllodfd_instbndfs), jlong_low(n_bllodfd_instbndfs),
+             jlong_iigi(n_bllodfd_bytfs),     jlong_low(n_bllodfd_bytfs),
+             jlong_iigi(n_livf_instbndfs),    jlong_low(n_livf_instbndfs),
+             jlong_iigi(n_livf_bytfs),        jlong_low(n_livf_bytfs));
 }
 
-static void
-collect_iterator(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dollfdt_itfrbtor(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    IterateInfo     *iterate;
+    ItfrbtfInfo     *itfrbtf;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(SiteKey));
-    HPROF_ASSERT(arg!=NULL);
-    iterate = (IterateInfo *)arg;
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(SitfKfy));
+    HPROF_ASSERT(brg!=NULL);
+    itfrbtf = (ItfrbtfInfo *)brg;
 
-    if ( iterate->changed_only ) {
-        SiteInfo *info;
+    if ( itfrbtf->dibngfd_only ) {
+        SitfInfo *info;
 
-        info = (SiteInfo *)info_ptr;
-        if ( info==NULL || !info->changed ) {
-            return;
+        info = (SitfInfo *)info_ptr;
+        if ( info==NULL || !info->dibngfd ) {
+            rfturn;
         }
     }
-    iterate->site_nums[iterate->count++] = i;
+    itfrbtf->sitf_nums[itfrbtf->dount++] = i;
 }
 
-static void
-mark_unchanged_iterator(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+mbrk_undibngfd_itfrbtor(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    SiteInfo *info;
+    SitfInfo *info;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len==sizeof(SiteKey));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(SitfKfy));
 
-    info = (SiteInfo *)info_ptr;
+    info = (SitfInfo *)info_ptr;
     if ( info != NULL ) {
-        info->changed = 0;
+        info->dibngfd = 0;
     }
 }
 
-static int
-qsort_compare_allocated_bytes(const void *p_site1, const void *p_site2)
+stbtid int
+qsort_dompbrf_bllodbtfd_bytfs(donst void *p_sitf1, donst void *p_sitf2)
 {
-    SiteIndex  site1;
-    SiteIndex  site2;
-    SiteInfo  *info1;
-    SiteInfo  *info2;
+    SitfIndfx  sitf1;
+    SitfIndfx  sitf2;
+    SitfInfo  *info1;
+    SitfInfo  *info2;
 
-    HPROF_ASSERT(p_site1!=NULL);
-    HPROF_ASSERT(p_site2!=NULL);
-    site1 = *(SiteIndex *)p_site1;
-    site2 = *(SiteIndex *)p_site2;
-    info1 = get_info(site1);
-    info2 = get_info(site2);
-    return info2->n_alloced_bytes - info1->n_alloced_bytes;
+    HPROF_ASSERT(p_sitf1!=NULL);
+    HPROF_ASSERT(p_sitf2!=NULL);
+    sitf1 = *(SitfIndfx *)p_sitf1;
+    sitf2 = *(SitfIndfx *)p_sitf2;
+    info1 = gft_info(sitf1);
+    info2 = gft_info(sitf2);
+    rfturn info2->n_bllodfd_bytfs - info1->n_bllodfd_bytfs;
 }
 
-static int
-qsort_compare_live_bytes(const void *p_site1, const void *p_site2)
+stbtid int
+qsort_dompbrf_livf_bytfs(donst void *p_sitf1, donst void *p_sitf2)
 {
-    SiteIndex  site1;
-    SiteIndex  site2;
-    SiteInfo  *info1;
-    SiteInfo  *info2;
+    SitfIndfx  sitf1;
+    SitfIndfx  sitf2;
+    SitfInfo  *info1;
+    SitfInfo  *info2;
 
-    HPROF_ASSERT(p_site1!=NULL);
-    HPROF_ASSERT(p_site2!=NULL);
-    site1 = *(SiteIndex *)p_site1;
-    site2 = *(SiteIndex *)p_site2;
-    info1 = get_info(site1);
-    info2 = get_info(site2);
-    return info2->n_live_bytes - info1->n_live_bytes;
+    HPROF_ASSERT(p_sitf1!=NULL);
+    HPROF_ASSERT(p_sitf2!=NULL);
+    sitf1 = *(SitfIndfx *)p_sitf1;
+    sitf2 = *(SitfIndfx *)p_sitf2;
+    info1 = gft_info(sitf1);
+    info2 = gft_info(sitf2);
+    rfturn info2->n_livf_bytfs - info1->n_livf_bytfs;
 }
 
-static ClassIndex
-find_cnum(jlong class_tag)
+stbtid ClbssIndfx
+find_dnum(jlong dlbss_tbg)
 {
-    ClassIndex  cnum;
-    ObjectIndex class_object_index;
-    SiteIndex   class_site_index;
-    SiteKey    *pkey;
+    ClbssIndfx  dnum;
+    ObjfdtIndfx dlbss_objfdt_indfx;
+    SitfIndfx   dlbss_sitf_indfx;
+    SitfKfy    *pkfy;
 
-    HPROF_ASSERT(class_tag!=(jlong)0);
-    class_object_index = tag_extract(class_tag);
-    class_site_index = object_get_site(class_object_index);
-    pkey = get_pkey(class_site_index);
-    cnum = pkey->cnum;
-    return cnum;
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    dlbss_objfdt_indfx = tbg_fxtrbdt(dlbss_tbg);
+    dlbss_sitf_indfx = objfdt_gft_sitf(dlbss_objfdt_indfx);
+    pkfy = gft_pkfy(dlbss_sitf_indfx);
+    dnum = pkfy->dnum;
+    rfturn dnum;
 }
 
-/* Create tag and object entry for an untagged object (should be rare) */
-static jlong
-make_new_tag(jlong class_tag, jlong size, TraceIndex trace_index,
-                  SerialNumber thread_serial_num,
-                  ObjectIndex *pindex, SiteIndex *psite)
+/* Crfbtf tbg bnd objfdt fntry for bn untbggfd objfdt (siould bf rbrf) */
+stbtid jlong
+mbkf_nfw_tbg(jlong dlbss_tbg, jlong sizf, TrbdfIndfx trbdf_indfx,
+                  SfriblNumbfr tirfbd_sfribl_num,
+                  ObjfdtIndfx *pindfx, SitfIndfx *psitf)
 {
-    ObjectIndex object_index;
-    SiteIndex   object_site_index;
+    ObjfdtIndfx objfdt_indfx;
+    SitfIndfx   objfdt_sitf_indfx;
 
-    HPROF_ASSERT(class_tag!=(jlong)0);
-    object_site_index = site_find_or_create(find_cnum(class_tag), trace_index);
-    object_index      = object_new(object_site_index, (jint)size,
-                                   OBJECT_SYSTEM, thread_serial_num);
-    if ( pindex != NULL ) {
-        *pindex = object_index;
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    objfdt_sitf_indfx = sitf_find_or_drfbtf(find_dnum(dlbss_tbg), trbdf_indfx);
+    objfdt_indfx      = objfdt_nfw(objfdt_sitf_indfx, (jint)sizf,
+                                   OBJECT_SYSTEM, tirfbd_sfribl_num);
+    if ( pindfx != NULL ) {
+        *pindfx = objfdt_indfx;
     }
-    if ( psite != NULL ) {
-        *psite = object_site_index;
+    if ( psitf != NULL ) {
+        *psitf = objfdt_sitf_indfx;
     }
-    return tag_create(object_index);
+    rfturn tbg_drfbtf(objfdt_indfx);
 }
 
-/* Setup tag on root object, if tagged return object index and site index */
-static void
-setup_tag_on_root(jlong *tag_ptr, jlong class_tag, jlong size,
-                  SerialNumber thread_serial_num,
-                  ObjectIndex *pindex, SiteIndex *psite)
+/* Sftup tbg on root objfdt, if tbggfd rfturn objfdt indfx bnd sitf indfx */
+stbtid void
+sftup_tbg_on_root(jlong *tbg_ptr, jlong dlbss_tbg, jlong sizf,
+                  SfriblNumbfr tirfbd_sfribl_num,
+                  ObjfdtIndfx *pindfx, SitfIndfx *psitf)
 {
-    HPROF_ASSERT(class_tag!=(jlong)0);
-    if ( (*tag_ptr) != (jlong)0 ) {
-        if ( pindex != NULL ) {
-            *pindex = tag_extract(*tag_ptr);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    if ( (*tbg_ptr) != (jlong)0 ) {
+        if ( pindfx != NULL ) {
+            *pindfx = tbg_fxtrbdt(*tbg_ptr);
         }
-        if ( psite != NULL ) {
-            *psite = object_get_site(tag_extract(*tag_ptr));
+        if ( psitf != NULL ) {
+            *psitf = objfdt_gft_sitf(tbg_fxtrbdt(*tbg_ptr));
         }
-    } else {
-        /* Create and set the tag. */
-        *tag_ptr = make_new_tag(class_tag, size, gdata->system_trace_index,
-                  thread_serial_num, pindex, psite);
+    } flsf {
+        /* Crfbtf bnd sft tif tbg. */
+        *tbg_ptr = mbkf_nfw_tbg(dlbss_tbg, sizf, gdbtb->systfm_trbdf_indfx,
+                  tirfbd_sfribl_num, pindfx, psitf);
     }
 }
 
-/* External interfaces */
+/* Extfrnbl intfrfbdfs */
 
-SiteIndex
-site_find_or_create(ClassIndex cnum, TraceIndex trace_index)
+SitfIndfx
+sitf_find_or_drfbtf(ClbssIndfx dnum, TrbdfIndfx trbdf_indfx)
 {
-    SiteIndex index;
-    static SiteKey  empty_key;
-    SiteKey   key;
+    SitfIndfx indfx;
+    stbtid SitfKfy  fmpty_kfy;
+    SitfKfy   kfy;
 
-    key = empty_key;
-    HPROF_ASSERT(cnum!=0);
-    HPROF_ASSERT(trace_index!=0);
-    key.cnum        = cnum;
-    key.trace_index = trace_index;
-    index = table_find_or_create_entry(gdata->site_table,
-                            &key, (int)sizeof(key), NULL, NULL);
-    return index;
+    kfy = fmpty_kfy;
+    HPROF_ASSERT(dnum!=0);
+    HPROF_ASSERT(trbdf_indfx!=0);
+    kfy.dnum        = dnum;
+    kfy.trbdf_indfx = trbdf_indfx;
+    indfx = tbblf_find_or_drfbtf_fntry(gdbtb->sitf_tbblf,
+                            &kfy, (int)sizfof(kfy), NULL, NULL);
+    rfturn indfx;
 }
 
 void
-site_init(void)
+sitf_init(void)
 {
-    HPROF_ASSERT(gdata->site_table==NULL);
-    gdata->site_table = table_initialize("Site",
-                            1024, 1024, 511, (int)sizeof(SiteInfo));
+    HPROF_ASSERT(gdbtb->sitf_tbblf==NULL);
+    gdbtb->sitf_tbblf = tbblf_initiblizf("Sitf",
+                            1024, 1024, 511, (int)sizfof(SitfInfo));
 }
 
 void
-site_list(void)
+sitf_list(void)
 {
-    debug_message(
-        "--------------------- Site Table ------------------------\n");
-    table_walk_items(gdata->site_table, &list_item, NULL);
-    debug_message(
+    dfbug_mfssbgf(
+        "--------------------- Sitf Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->sitf_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
         "----------------------------------------------------------\n");
 }
 
 void
-site_cleanup(void)
+sitf_dlfbnup(void)
 {
-    table_cleanup(gdata->site_table, NULL, NULL);
-    gdata->site_table = NULL;
+    tbblf_dlfbnup(gdbtb->sitf_tbblf, NULL, NULL);
+    gdbtb->sitf_tbblf = NULL;
 }
 
 void
-site_update_stats(SiteIndex index, jint size, jint hits)
+sitf_updbtf_stbts(SitfIndfx indfx, jint sizf, jint iits)
 {
-    SiteInfo *info;
+    SitfInfo *info;
 
-    table_lock_enter(gdata->site_table); {
-        info = get_info(index);
+    tbblf_lodk_fntfr(gdbtb->sitf_tbblf); {
+        info = gft_info(indfx);
 
-        info->n_live_instances          += hits;
-        info->n_live_bytes              += size;
-        info->changed                   = 1;
+        info->n_livf_instbndfs          += iits;
+        info->n_livf_bytfs              += sizf;
+        info->dibngfd                   = 1;
 
-        gdata->total_live_bytes         += size;
-        gdata->total_live_instances     += hits;
+        gdbtb->totbl_livf_bytfs         += sizf;
+        gdbtb->totbl_livf_instbndfs     += iits;
 
-        if ( size > 0 ) {
-            info->n_alloced_instances   += hits;
-            info->n_alloced_bytes       += size;
-            gdata->total_alloced_bytes =
-                jlong_add(gdata->total_alloced_bytes, jint_to_jlong(size));
-            gdata->total_alloced_instances =
-                jlong_add(gdata->total_alloced_instances, jint_to_jlong(hits));
+        if ( sizf > 0 ) {
+            info->n_bllodfd_instbndfs   += iits;
+            info->n_bllodfd_bytfs       += sizf;
+            gdbtb->totbl_bllodfd_bytfs =
+                jlong_bdd(gdbtb->totbl_bllodfd_bytfs, jint_to_jlong(sizf));
+            gdbtb->totbl_bllodfd_instbndfs =
+                jlong_bdd(gdbtb->totbl_bllodfd_instbndfs, jint_to_jlong(iits));
         }
-    } table_lock_exit(gdata->site_table);
+    } tbblf_lodk_fxit(gdbtb->sitf_tbblf);
 }
 
-/* Output allocation sites, up to the given cut-off point, and according
- * to the given flags:
+/* Output bllodbtion sitfs, up to tif givfn dut-off point, bnd bddording
+ * to tif givfn flbgs:
  *
- *      SITE_DUMP_INCREMENTAL only dump what's changed since last dump.
- *      SITE_SORT_BY_ALLOC    sort sites by total allocation rather
- *                                  than live data.
- *      SITE_FORCE_GC         force a GC before the site dump.
+ *      SITE_DUMP_INCREMENTAL only dump wibt's dibngfd sindf lbst dump.
+ *      SITE_SORT_BY_ALLOC    sort sitfs by totbl bllodbtion rbtifr
+ *                                  tibn livf dbtb.
+ *      SITE_FORCE_GC         fordf b GC bfforf tif sitf dump.
  */
 
 void
-site_write(JNIEnv *env, int flags, double cutoff)
+sitf_writf(JNIEnv *fnv, int flbgs, doublf dutoff)
 {
-    HPROF_ASSERT(gdata->site_table!=NULL);
-    LOG3("site_write", "flags", flags);
+    HPROF_ASSERT(gdbtb->sitf_tbblf!=NULL);
+    LOG3("sitf_writf", "flbgs", flbgs);
 
-    if (flags & SITE_FORCE_GC) {
+    if (flbgs & SITE_FORCE_GC) {
         runGC();
     }
 
-    HPROF_ASSERT(gdata->total_live_bytes!=0);
+    HPROF_ASSERT(gdbtb->totbl_livf_bytfs!=0);
 
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-        IterateInfo     iterate;
-        int             site_table_size;
-        double          accum_percent;
-        void *          comment_str;
+        ItfrbtfInfo     itfrbtf;
+        int             sitf_tbblf_sizf;
+        doublf          bddum_pfrdfnt;
+        void *          dommfnt_str;
         int             i;
-        int             cutoff_count;
-        int             nbytes;
+        int             dutoff_dount;
+        int             nbytfs;
 
-        accum_percent = 0;
-        site_table_size = table_element_count(gdata->site_table);
+        bddum_pfrdfnt = 0;
+        sitf_tbblf_sizf = tbblf_flfmfnt_dount(gdbtb->sitf_tbblf);
 
-        (void)memset(&iterate, 0, sizeof(iterate));
-        nbytes            = site_table_size * (int)sizeof(SiteIndex);
-        if ( nbytes > 0 ) {
-            iterate.site_nums = HPROF_MALLOC(nbytes);
-            (void)memset(iterate.site_nums, 0, nbytes);
+        (void)mfmsft(&itfrbtf, 0, sizfof(itfrbtf));
+        nbytfs            = sitf_tbblf_sizf * (int)sizfof(SitfIndfx);
+        if ( nbytfs > 0 ) {
+            itfrbtf.sitf_nums = HPROF_MALLOC(nbytfs);
+            (void)mfmsft(itfrbtf.sitf_nums, 0, nbytfs);
         }
-        iterate.count   = 0;
-        iterate.changed_only = flags & SITE_DUMP_INCREMENTAL;
-        table_walk_items(gdata->site_table, &collect_iterator, &iterate);
+        itfrbtf.dount   = 0;
+        itfrbtf.dibngfd_only = flbgs & SITE_DUMP_INCREMENTAL;
+        tbblf_wblk_itfms(gdbtb->sitf_tbblf, &dollfdt_itfrbtor, &itfrbtf);
 
-        site_table_size = iterate.count;
+        sitf_tbblf_sizf = itfrbtf.dount;
 
-        if (flags & SITE_SORT_BY_ALLOC) {
-            comment_str = "allocated bytes";
-            qsort(iterate.site_nums, site_table_size, sizeof(SiteIndex),
-                    &qsort_compare_allocated_bytes);
-        } else {
-            comment_str = "live bytes";
-            qsort(iterate.site_nums, site_table_size, sizeof(SiteIndex),
-                    &qsort_compare_live_bytes);
+        if (flbgs & SITE_SORT_BY_ALLOC) {
+            dommfnt_str = "bllodbtfd bytfs";
+            qsort(itfrbtf.sitf_nums, sitf_tbblf_sizf, sizfof(SitfIndfx),
+                    &qsort_dompbrf_bllodbtfd_bytfs);
+        } flsf {
+            dommfnt_str = "livf bytfs";
+            qsort(itfrbtf.sitf_nums, sitf_tbblf_sizf, sizfof(SitfIndfx),
+                    &qsort_dompbrf_livf_bytfs);
         }
 
-        trace_output_unmarked(env);
+        trbdf_output_unmbrkfd(fnv);
 
-        cutoff_count = 0;
-        for (i = 0; i < site_table_size; i++) {
-            SiteInfo   *info;
-            SiteIndex   index;
-            double      ratio;
+        dutoff_dount = 0;
+        for (i = 0; i < sitf_tbblf_sizf; i++) {
+            SitfInfo   *info;
+            SitfIndfx   indfx;
+            doublf      rbtio;
 
-            index= iterate.site_nums[i];
-            HPROF_ASSERT(index!=0);
-            info        = get_info(index);
-            ratio       = (double)info->n_live_bytes / (double)gdata->total_live_bytes;
-            if (ratio < cutoff) {
-                break;
+            indfx= itfrbtf.sitf_nums[i];
+            HPROF_ASSERT(indfx!=0);
+            info        = gft_info(indfx);
+            rbtio       = (doublf)info->n_livf_bytfs / (doublf)gdbtb->totbl_livf_bytfs;
+            if (rbtio < dutoff) {
+                brfbk;
             }
-            cutoff_count++;
+            dutoff_dount++;
         }
 
-        io_write_sites_header(  comment_str,
-                                flags,
-                                cutoff,
-                                gdata->total_live_bytes,
-                                gdata->total_live_instances,
-                                gdata->total_alloced_bytes,
-                                gdata->total_alloced_instances,
-                                cutoff_count);
+        io_writf_sitfs_ifbdfr(  dommfnt_str,
+                                flbgs,
+                                dutoff,
+                                gdbtb->totbl_livf_bytfs,
+                                gdbtb->totbl_livf_instbndfs,
+                                gdbtb->totbl_bllodfd_bytfs,
+                                gdbtb->totbl_bllodfd_instbndfs,
+                                dutoff_dount);
 
-        for (i = 0; i < cutoff_count; i++) {
-            SiteInfo     *info;
-            SiteKey      *pkey;
-            SiteIndex     index;
-            char         *class_signature;
-            double        ratio;
+        for (i = 0; i < dutoff_dount; i++) {
+            SitfInfo     *info;
+            SitfKfy      *pkfy;
+            SitfIndfx     indfx;
+            dibr         *dlbss_signbturf;
+            doublf        rbtio;
 
-            index = iterate.site_nums[i];
-            pkey         = get_pkey(index);
-            info         = get_info(index);
+            indfx = itfrbtf.sitf_nums[i];
+            pkfy         = gft_pkfy(indfx);
+            info         = gft_info(indfx);
 
-            ratio       = (double)info->n_live_bytes / (double)gdata->total_live_bytes;
-            accum_percent += ratio;
+            rbtio       = (doublf)info->n_livf_bytfs / (doublf)gdbtb->totbl_livf_bytfs;
+            bddum_pfrdfnt += rbtio;
 
-            class_signature  = string_get(class_get_signature(pkey->cnum));
+            dlbss_signbturf  = string_gft(dlbss_gft_signbturf(pkfy->dnum));
 
-            io_write_sites_elem(i + 1,
-                                ratio,
-                                accum_percent,
-                                class_signature,
-                                class_get_serial_number(pkey->cnum),
-                                trace_get_serial_number(pkey->trace_index),
-                                info->n_live_bytes,
-                                info->n_live_instances,
-                                info->n_alloced_bytes,
-                                info->n_alloced_instances);
+            io_writf_sitfs_flfm(i + 1,
+                                rbtio,
+                                bddum_pfrdfnt,
+                                dlbss_signbturf,
+                                dlbss_gft_sfribl_numbfr(pkfy->dnum),
+                                trbdf_gft_sfribl_numbfr(pkfy->trbdf_indfx),
+                                info->n_livf_bytfs,
+                                info->n_livf_instbndfs,
+                                info->n_bllodfd_bytfs,
+                                info->n_bllodfd_instbndfs);
         }
 
-        io_write_sites_footer();
+        io_writf_sitfs_footfr();
 
-        table_walk_items(gdata->site_table, &mark_unchanged_iterator, NULL);
+        tbblf_wblk_itfms(gdbtb->sitf_tbblf, &mbrk_undibngfd_itfrbtor, NULL);
 
-        if ( iterate.site_nums != NULL ) {
-            HPROF_FREE(iterate.site_nums);
+        if ( itfrbtf.sitf_nums != NULL ) {
+            HPROF_FREE(itfrbtf.sitf_nums);
         }
 
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }
 
-/* Primitive array data callback for FollowReferences */
-static jint JNICALL
-cbPrimArrayData(jlong class_tag, jlong size, jlong* tag_ptr,
-         jint element_count, jvmtiPrimitiveType element_type,
-         const void* elements, void* user_data)
+/* Primitivf brrby dbtb dbllbbdk for FollowRfffrfndfs */
+stbtid jint JNICALL
+dbPrimArrbyDbtb(jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr,
+         jint flfmfnt_dount, jvmtiPrimitivfTypf flfmfnt_typf,
+         donst void* flfmfnts, void* usfr_dbtb)
 {
-    ObjectIndex   object_index;
-    RefIndex      ref_index;
-    RefIndex      prev_ref_index;
+    ObjfdtIndfx   objfdt_indfx;
+    RffIndfx      rff_indfx;
+    RffIndfx      prfv_rff_indfx;
 
-    HPROF_ASSERT(tag_ptr!=NULL);
-    HPROF_ASSERT(class_tag!=(jlong)0);
-    HPROF_ASSERT((*tag_ptr)!=(jlong)0);
-    if ( class_tag == (jlong)0 || (*tag_ptr) == (jlong)0 ) {
-        /* We can't do anything with a class_tag==0, just skip it */
-        return JVMTI_VISIT_OBJECTS;
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    HPROF_ASSERT((*tbg_ptr)!=(jlong)0);
+    if ( dlbss_tbg == (jlong)0 || (*tbg_ptr) == (jlong)0 ) {
+        /* Wf dbn't do bnytiing witi b dlbss_tbg==0, just skip it */
+        rfturn JVMTI_VISIT_OBJECTS;
     }
 
-    /* Assume object has been tagged, get object index */
-    object_index = tag_extract((*tag_ptr));
+    /* Assumf objfdt ibs bffn tbggfd, gft objfdt indfx */
+    objfdt_indfx = tbg_fxtrbdt((*tbg_ptr));
 
-    /* Save string data */
-    prev_ref_index = object_get_references(object_index);
-    ref_index = reference_prim_array(prev_ref_index,
-                  element_type, elements, element_count);
-    object_set_references(object_index, ref_index);
+    /* Sbvf string dbtb */
+    prfv_rff_indfx = objfdt_gft_rfffrfndfs(objfdt_indfx);
+    rff_indfx = rfffrfndf_prim_brrby(prfv_rff_indfx,
+                  flfmfnt_typf, flfmfnts, flfmfnt_dount);
+    objfdt_sft_rfffrfndfs(objfdt_indfx, rff_indfx);
 
-    return JVMTI_VISIT_OBJECTS;
+    rfturn JVMTI_VISIT_OBJECTS;
 }
 
-/* Primitive field data callback for FollowReferences */
-static jint JNICALL
-cbPrimFieldData(jvmtiHeapReferenceKind reference_kind,
-         const jvmtiHeapReferenceInfo* reference_info, jlong class_tag,
-         jlong* tag_ptr, jvalue value, jvmtiPrimitiveType value_type,
-         void* user_data)
+/* Primitivf fifld dbtb dbllbbdk for FollowRfffrfndfs */
+stbtid jint JNICALL
+dbPrimFifldDbtb(jvmtiHfbpRfffrfndfKind rfffrfndf_kind,
+         donst jvmtiHfbpRfffrfndfInfo* rfffrfndf_info, jlong dlbss_tbg,
+         jlong* tbg_ptr, jvbluf vbluf, jvmtiPrimitivfTypf vbluf_typf,
+         void* usfr_dbtb)
 {
-    ObjectIndex   object_index;
-    jint          field_index;
-    RefIndex      ref_index;
-    RefIndex      prev_ref_index;
+    ObjfdtIndfx   objfdt_indfx;
+    jint          fifld_indfx;
+    RffIndfx      rff_indfx;
+    RffIndfx      prfv_rff_indfx;
 
-    HPROF_ASSERT(tag_ptr!=NULL);
-    HPROF_ASSERT(class_tag!=(jlong)0);
-    HPROF_ASSERT((*tag_ptr)!=(jlong)0);
-    if ( class_tag == (jlong)0 || (*tag_ptr) == (jlong)0 ) {
-        /* We can't do anything with a class_tag==0, just skip it */
-        return JVMTI_VISIT_OBJECTS;
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    HPROF_ASSERT((*tbg_ptr)!=(jlong)0);
+    if ( dlbss_tbg == (jlong)0 || (*tbg_ptr) == (jlong)0 ) {
+        /* Wf dbn't do bnytiing witi b dlbss_tbg==0, just skip it */
+        rfturn JVMTI_VISIT_OBJECTS;
     }
 
-    /* If the field is 0, just skip it, we assume 0 */
-    if ( value.j == (jlong)0 ) {
-        return JVMTI_VISIT_OBJECTS;
+    /* If tif fifld is 0, just skip it, wf bssumf 0 */
+    if ( vbluf.j == (jlong)0 ) {
+        rfturn JVMTI_VISIT_OBJECTS;
     }
 
-    /* Get field index */
-    field_index = reference_info->field.index;
+    /* Gft fifld indfx */
+    fifld_indfx = rfffrfndf_info->fifld.indfx;
 
-    /* We assume the object was tagged */
-    object_index = tag_extract((*tag_ptr));
+    /* Wf bssumf tif objfdt wbs tbggfd */
+    objfdt_indfx = tbg_fxtrbdt((*tbg_ptr));
 
-    /* Save primitive field data */
-    prev_ref_index = object_get_references(object_index);
-    ref_index = reference_prim_field(prev_ref_index, reference_kind,
-                  value_type, value, field_index);
-    object_set_references(object_index, ref_index);
+    /* Sbvf primitivf fifld dbtb */
+    prfv_rff_indfx = objfdt_gft_rfffrfndfs(objfdt_indfx);
+    rff_indfx = rfffrfndf_prim_fifld(prfv_rff_indfx, rfffrfndf_kind,
+                  vbluf_typf, vbluf, fifld_indfx);
+    objfdt_sft_rfffrfndfs(objfdt_indfx, rff_indfx);
 
-    return JVMTI_VISIT_OBJECTS;
+    rfturn JVMTI_VISIT_OBJECTS;
 }
 
-static SerialNumber
-checkThreadSerialNumber(SerialNumber thread_serial_num)
+stbtid SfriblNumbfr
+difdkTirfbdSfriblNumbfr(SfriblNumbfr tirfbd_sfribl_num)
 {
-    TlsIndex tls_index;
+    TlsIndfx tls_indfx;
 
-    if ( thread_serial_num == gdata->unknown_thread_serial_num ) {
-        return thread_serial_num;
+    if ( tirfbd_sfribl_num == gdbtb->unknown_tirfbd_sfribl_num ) {
+        rfturn tirfbd_sfribl_num;
     }
-    tls_index = tls_find(thread_serial_num);
-    if ( tls_index != 0 && tls_get_in_heap_dump(tls_index) != 0 ) {
-        return thread_serial_num;
+    tls_indfx = tls_find(tirfbd_sfribl_num);
+    if ( tls_indfx != 0 && tls_gft_in_ifbp_dump(tls_indfx) != 0 ) {
+        rfturn tirfbd_sfribl_num;
     }
-    return gdata->unknown_thread_serial_num;
+    rfturn gdbtb->unknown_tirfbd_sfribl_num;
 }
 
-/* Get the object index and thread serial number for this local object */
-static void
-localReference(jlong *tag_ptr, jlong class_tag, jlong thread_tag,
-     jlong size, ObjectIndex *pobject_index, SerialNumber *pthread_serial_num)
+/* Gft tif objfdt indfx bnd tirfbd sfribl numbfr for tiis lodbl objfdt */
+stbtid void
+lodblRfffrfndf(jlong *tbg_ptr, jlong dlbss_tbg, jlong tirfbd_tbg,
+     jlong sizf, ObjfdtIndfx *pobjfdt_indfx, SfriblNumbfr *ptirfbd_sfribl_num)
 {
-    ObjectIndex  object_index;
-    SerialNumber thread_serial_num;
+    ObjfdtIndfx  objfdt_indfx;
+    SfriblNumbfr tirfbd_sfribl_num;
 
-    HPROF_ASSERT(pobject_index!=NULL);
-    HPROF_ASSERT(pthread_serial_num!=NULL);
-    HPROF_ASSERT(tag_ptr!=NULL);
-    HPROF_ASSERT(class_tag!=(jlong)0);
+    HPROF_ASSERT(pobjfdt_indfx!=NULL);
+    HPROF_ASSERT(ptirfbd_sfribl_num!=NULL);
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
 
-    if ( (*tag_ptr) != (jlong)0 ) {
-        object_index = tag_extract(*tag_ptr);
-        thread_serial_num = object_get_thread_serial_number(object_index);
-        thread_serial_num = checkThreadSerialNumber(thread_serial_num);
-    } else {
-        if ( thread_tag != (jlong)0 ) {
-            ObjectIndex thread_object_index;
+    if ( (*tbg_ptr) != (jlong)0 ) {
+        objfdt_indfx = tbg_fxtrbdt(*tbg_ptr);
+        tirfbd_sfribl_num = objfdt_gft_tirfbd_sfribl_numbfr(objfdt_indfx);
+        tirfbd_sfribl_num = difdkTirfbdSfriblNumbfr(tirfbd_sfribl_num);
+    } flsf {
+        if ( tirfbd_tbg != (jlong)0 ) {
+            ObjfdtIndfx tirfbd_objfdt_indfx;
 
-            thread_object_index = tag_extract(thread_tag);
-            thread_serial_num =
-                   object_get_thread_serial_number(thread_object_index);
-            thread_serial_num = checkThreadSerialNumber(thread_serial_num);
-        } else {
-            thread_serial_num = gdata->unknown_thread_serial_num;
+            tirfbd_objfdt_indfx = tbg_fxtrbdt(tirfbd_tbg);
+            tirfbd_sfribl_num =
+                   objfdt_gft_tirfbd_sfribl_numbfr(tirfbd_objfdt_indfx);
+            tirfbd_sfribl_num = difdkTirfbdSfriblNumbfr(tirfbd_sfribl_num);
+        } flsf {
+            tirfbd_sfribl_num = gdbtb->unknown_tirfbd_sfribl_num;
         }
-        /* Create and set the tag. */
-        *tag_ptr = make_new_tag(class_tag, size, gdata->system_trace_index,
-                  thread_serial_num, &object_index, NULL);
+        /* Crfbtf bnd sft tif tbg. */
+        *tbg_ptr = mbkf_nfw_tbg(dlbss_tbg, sizf, gdbtb->systfm_trbdf_indfx,
+                  tirfbd_sfribl_num, &objfdt_indfx, NULL);
     }
 
-    HPROF_ASSERT(thread_serial_num!=0);
-    HPROF_ASSERT(object_index!=0);
-    *pobject_index      = object_index;
-    *pthread_serial_num = thread_serial_num;
+    HPROF_ASSERT(tirfbd_sfribl_num!=0);
+    HPROF_ASSERT(objfdt_indfx!=0);
+    *pobjfdt_indfx      = objfdt_indfx;
+    *ptirfbd_sfribl_num = tirfbd_sfribl_num;
 }
 
-/* Store away plain object reference information */
-static jint
-objectReference(jvmtiHeapReferenceKind reference_kind,
-                  const jvmtiHeapReferenceInfo* reference_info,
-                  jlong class_tag, jlong size, jlong* tag_ptr,
-                  jlong* referrer_tag_ptr, jint length)
+/* Storf bwby plbin objfdt rfffrfndf informbtion */
+stbtid jint
+objfdtRfffrfndf(jvmtiHfbpRfffrfndfKind rfffrfndf_kind,
+                  donst jvmtiHfbpRfffrfndfInfo* rfffrfndf_info,
+                  jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr,
+                  jlong* rfffrrfr_tbg_ptr, jint lfngti)
 {
-    ObjectIndex   object_index;
-    jint          reference_index;
-    RefIndex      ref_index;
-    RefIndex      prev_ref_index;
-    ObjectIndex   referrer_object_index;
-    jlong         object_tag;
+    ObjfdtIndfx   objfdt_indfx;
+    jint          rfffrfndf_indfx;
+    RffIndfx      rff_indfx;
+    RffIndfx      prfv_rff_indfx;
+    ObjfdtIndfx   rfffrrfr_objfdt_indfx;
+    jlong         objfdt_tbg;
 
-    HPROF_ASSERT(tag_ptr!=NULL);
-    HPROF_ASSERT(class_tag!=(jlong)0);
-    HPROF_ASSERT(referrer_tag_ptr!=NULL);
-    HPROF_ASSERT((*referrer_tag_ptr)!=(jlong)0);
-    if ( class_tag == (jlong)0 || (*referrer_tag_ptr) == (jlong)0 ) {
-        /* We can't do anything with a class_tag==0, just skip it */
-        return JVMTI_VISIT_OBJECTS;
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    HPROF_ASSERT(rfffrrfr_tbg_ptr!=NULL);
+    HPROF_ASSERT((*rfffrrfr_tbg_ptr)!=(jlong)0);
+    if ( dlbss_tbg == (jlong)0 || (*rfffrrfr_tbg_ptr) == (jlong)0 ) {
+        /* Wf dbn't do bnytiing witi b dlbss_tbg==0, just skip it */
+        rfturn JVMTI_VISIT_OBJECTS;
     }
 
-    switch ( reference_kind ) {
-        case JVMTI_HEAP_REFERENCE_CLASS_LOADER:
-        case JVMTI_HEAP_REFERENCE_INTERFACE:
-        default:
-            /* Currently we don't need these */
-            return JVMTI_VISIT_OBJECTS;
-        case JVMTI_HEAP_REFERENCE_FIELD:
-        case JVMTI_HEAP_REFERENCE_STATIC_FIELD:
-            reference_index = reference_info->field.index;
-            break;
-        case JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
-            reference_index = reference_info->array.index;
-            break;
-        case JVMTI_HEAP_REFERENCE_CONSTANT_POOL:
-            reference_index = reference_info->constant_pool.index;
-            break;
-        case JVMTI_HEAP_REFERENCE_SIGNERS:
-        case JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
-            reference_index = 0;
-            break;
+    switdi ( rfffrfndf_kind ) {
+        dbsf JVMTI_HEAP_REFERENCE_CLASS_LOADER:
+        dbsf JVMTI_HEAP_REFERENCE_INTERFACE:
+        dffbult:
+            /* Currfntly wf don't nffd tifsf */
+            rfturn JVMTI_VISIT_OBJECTS;
+        dbsf JVMTI_HEAP_REFERENCE_FIELD:
+        dbsf JVMTI_HEAP_REFERENCE_STATIC_FIELD:
+            rfffrfndf_indfx = rfffrfndf_info->fifld.indfx;
+            brfbk;
+        dbsf JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
+            rfffrfndf_indfx = rfffrfndf_info->brrby.indfx;
+            brfbk;
+        dbsf JVMTI_HEAP_REFERENCE_CONSTANT_POOL:
+            rfffrfndf_indfx = rfffrfndf_info->donstbnt_pool.indfx;
+            brfbk;
+        dbsf JVMTI_HEAP_REFERENCE_SIGNERS:
+        dbsf JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
+            rfffrfndf_indfx = 0;
+            brfbk;
     }
 
-    /* We assume the referrer is tagged */
-    referrer_object_index = tag_extract((*referrer_tag_ptr));
+    /* Wf bssumf tif rfffrrfr is tbggfd */
+    rfffrrfr_objfdt_indfx = tbg_fxtrbdt((*rfffrrfr_tbg_ptr));
 
-    /* Now check the referree */
-    object_tag = *tag_ptr;
-    if ( object_tag != (jlong)0 ) {
-        object_index = tag_extract(object_tag);
-    } else {
-        /* Create and set the tag. */
-        object_tag = make_new_tag(class_tag, size, gdata->system_trace_index,
-                                  gdata->unknown_thread_serial_num,
-                                  &object_index, NULL);
-        *tag_ptr   = object_tag;
+    /* Now difdk tif rfffrrff */
+    objfdt_tbg = *tbg_ptr;
+    if ( objfdt_tbg != (jlong)0 ) {
+        objfdt_indfx = tbg_fxtrbdt(objfdt_tbg);
+    } flsf {
+        /* Crfbtf bnd sft tif tbg. */
+        objfdt_tbg = mbkf_nfw_tbg(dlbss_tbg, sizf, gdbtb->systfm_trbdf_indfx,
+                                  gdbtb->unknown_tirfbd_sfribl_num,
+                                  &objfdt_indfx, NULL);
+        *tbg_ptr   = objfdt_tbg;
     }
-    HPROF_ASSERT(object_index!=0);
+    HPROF_ASSERT(objfdt_indfx!=0);
 
-    /* Save reference information */
-    prev_ref_index = object_get_references(referrer_object_index);
-    ref_index = reference_obj(prev_ref_index, reference_kind,
-                    object_index, reference_index, length);
-    object_set_references(referrer_object_index, ref_index);
+    /* Sbvf rfffrfndf informbtion */
+    prfv_rff_indfx = objfdt_gft_rfffrfndfs(rfffrrfr_objfdt_indfx);
+    rff_indfx = rfffrfndf_obj(prfv_rff_indfx, rfffrfndf_kind,
+                    objfdt_indfx, rfffrfndf_indfx, lfngti);
+    objfdt_sft_rfffrfndfs(rfffrrfr_objfdt_indfx, rff_indfx);
 
-    return JVMTI_VISIT_OBJECTS;
+    rfturn JVMTI_VISIT_OBJECTS;
 }
 
-/* FollowReferences heap_reference_callback */
-static jint JNICALL
-cbReference(jvmtiHeapReferenceKind reference_kind,
-                  const jvmtiHeapReferenceInfo* reference_info,
-                  jlong class_tag, jlong referrer_class_tag,
-                  jlong size, jlong* tag_ptr,
-                  jlong* referrer_tag_ptr, jint length, void* user_data)
+/* FollowRfffrfndfs ifbp_rfffrfndf_dbllbbdk */
+stbtid jint JNICALL
+dbRfffrfndf(jvmtiHfbpRfffrfndfKind rfffrfndf_kind,
+                  donst jvmtiHfbpRfffrfndfInfo* rfffrfndf_info,
+                  jlong dlbss_tbg, jlong rfffrrfr_dlbss_tbg,
+                  jlong sizf, jlong* tbg_ptr,
+                  jlong* rfffrrfr_tbg_ptr, jint lfngti, void* usfr_dbtb)
 {
-    ObjectIndex   object_index;
+    ObjfdtIndfx   objfdt_indfx;
 
-   /* Only calls to Allocate, Deallocate, RawMonitorEnter & RawMonitorExit
-    *   are allowed here (see the JVMTI Spec).
+   /* Only dblls to Allodbtf, Dfbllodbtf, RbwMonitorEntfr & RbwMonitorExit
+    *   brf bllowfd ifrf (sff tif JVMTI Spfd).
     */
 
-    HPROF_ASSERT(tag_ptr!=NULL);
-    HPROF_ASSERT(class_tag!=(jlong)0);
-    if ( class_tag == (jlong)0 ) {
-        /* We can't do anything with a class_tag==0, just skip it */
-        return JVMTI_VISIT_OBJECTS;
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    if ( dlbss_tbg == (jlong)0 ) {
+        /* Wf dbn't do bnytiing witi b dlbss_tbg==0, just skip it */
+        rfturn JVMTI_VISIT_OBJECTS;
     }
 
-    switch ( reference_kind ) {
+    switdi ( rfffrfndf_kind ) {
 
-        case JVMTI_HEAP_REFERENCE_FIELD:
-        case JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
-        case JVMTI_HEAP_REFERENCE_CLASS_LOADER:
-        case JVMTI_HEAP_REFERENCE_SIGNERS:
-        case JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
-        case JVMTI_HEAP_REFERENCE_INTERFACE:
-        case JVMTI_HEAP_REFERENCE_STATIC_FIELD:
-        case JVMTI_HEAP_REFERENCE_CONSTANT_POOL:
-            return objectReference(reference_kind, reference_info,
-                   class_tag, size, tag_ptr, referrer_tag_ptr, length);
+        dbsf JVMTI_HEAP_REFERENCE_FIELD:
+        dbsf JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
+        dbsf JVMTI_HEAP_REFERENCE_CLASS_LOADER:
+        dbsf JVMTI_HEAP_REFERENCE_SIGNERS:
+        dbsf JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
+        dbsf JVMTI_HEAP_REFERENCE_INTERFACE:
+        dbsf JVMTI_HEAP_REFERENCE_STATIC_FIELD:
+        dbsf JVMTI_HEAP_REFERENCE_CONSTANT_POOL:
+            rfturn objfdtRfffrfndf(rfffrfndf_kind, rfffrfndf_info,
+                   dlbss_tbg, sizf, tbg_ptr, rfffrrfr_tbg_ptr, lfngti);
 
-        case JVMTI_HEAP_REFERENCE_JNI_GLOBAL: {
-                SerialNumber trace_serial_num;
-                SerialNumber gref_serial_num;
-                TraceIndex   trace_index;
-                SiteIndex    object_site_index;
+        dbsf JVMTI_HEAP_REFERENCE_JNI_GLOBAL: {
+                SfriblNumbfr trbdf_sfribl_num;
+                SfriblNumbfr grff_sfribl_num;
+                TrbdfIndfx   trbdf_indfx;
+                SitfIndfx    objfdt_sitf_indfx;
 
-                setup_tag_on_root(tag_ptr, class_tag, size,
-                                  gdata->unknown_thread_serial_num,
-                                  &object_index, &object_site_index);
-                if ( object_site_index != 0 ) {
-                    SiteKey     *pkey;
+                sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                                  gdbtb->unknown_tirfbd_sfribl_num,
+                                  &objfdt_indfx, &objfdt_sitf_indfx);
+                if ( objfdt_sitf_indfx != 0 ) {
+                    SitfKfy     *pkfy;
 
-                    pkey = get_pkey(object_site_index);
-                    trace_index = pkey->trace_index;
-                } else {
-                    trace_index = gdata->system_trace_index;
+                    pkfy = gft_pkfy(objfdt_sitf_indfx);
+                    trbdf_indfx = pkfy->trbdf_indfx;
+                } flsf {
+                    trbdf_indfx = gdbtb->systfm_trbdf_indfx;
                 }
-                trace_serial_num = trace_get_serial_number(trace_index);
-                gref_serial_num  = gdata->gref_serial_number_counter++;
-                io_heap_root_jni_global(object_index, gref_serial_num,
-                                        trace_serial_num);
+                trbdf_sfribl_num = trbdf_gft_sfribl_numbfr(trbdf_indfx);
+                grff_sfribl_num  = gdbtb->grff_sfribl_numbfr_dountfr++;
+                io_ifbp_root_jni_globbl(objfdt_indfx, grff_sfribl_num,
+                                        trbdf_sfribl_num);
             }
-            break;
+            brfbk;
 
-        case JVMTI_HEAP_REFERENCE_SYSTEM_CLASS: {
-                char        *sig;
-                SerialNumber class_serial_num;
-                SiteIndex    object_site_index;
+        dbsf JVMTI_HEAP_REFERENCE_SYSTEM_CLASS: {
+                dibr        *sig;
+                SfriblNumbfr dlbss_sfribl_num;
+                SitfIndfx    objfdt_sitf_indfx;
 
-                setup_tag_on_root(tag_ptr, class_tag, size,
-                                  gdata->unknown_thread_serial_num,
-                                  &object_index, &object_site_index);
+                sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                                  gdbtb->unknown_tirfbd_sfribl_num,
+                                  &objfdt_indfx, &objfdt_sitf_indfx);
                 sig = "Unknown";
-                class_serial_num = 0;
-                if ( object_site_index != 0 ) {
-                    SiteKey *pkey;
+                dlbss_sfribl_num = 0;
+                if ( objfdt_sitf_indfx != 0 ) {
+                    SitfKfy *pkfy;
 
-                    pkey = get_pkey(object_site_index);
-                    sig = string_get(class_get_signature(pkey->cnum));
-                    class_serial_num = class_get_serial_number(pkey->cnum);
+                    pkfy = gft_pkfy(objfdt_sitf_indfx);
+                    sig = string_gft(dlbss_gft_signbturf(pkfy->dnum));
+                    dlbss_sfribl_num = dlbss_gft_sfribl_numbfr(pkfy->dnum);
                 }
-                io_heap_root_system_class(object_index, sig, class_serial_num);
+                io_ifbp_root_systfm_dlbss(objfdt_indfx, sig, dlbss_sfribl_num);
             }
-            break;
+            brfbk;
 
-        case JVMTI_HEAP_REFERENCE_MONITOR:
-            setup_tag_on_root(tag_ptr, class_tag, size,
-                              gdata->unknown_thread_serial_num,
-                              &object_index, NULL);
-            io_heap_root_monitor(object_index);
-            break;
+        dbsf JVMTI_HEAP_REFERENCE_MONITOR:
+            sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                              gdbtb->unknown_tirfbd_sfribl_num,
+                              &objfdt_indfx, NULL);
+            io_ifbp_root_monitor(objfdt_indfx);
+            brfbk;
 
-        case JVMTI_HEAP_REFERENCE_STACK_LOCAL:  {
-                SerialNumber thread_serial_num;
-                jlong        thread_tag;
+        dbsf JVMTI_HEAP_REFERENCE_STACK_LOCAL:  {
+                SfriblNumbfr tirfbd_sfribl_num;
+                jlong        tirfbd_tbg;
 
-                thread_tag = reference_info->stack_local.thread_tag;
-                localReference(tag_ptr, class_tag, thread_tag, size,
-                             &object_index, &thread_serial_num);
-                io_heap_root_java_frame(object_index, thread_serial_num,
-                             reference_info->stack_local.depth);
+                tirfbd_tbg = rfffrfndf_info->stbdk_lodbl.tirfbd_tbg;
+                lodblRfffrfndf(tbg_ptr, dlbss_tbg, tirfbd_tbg, sizf,
+                             &objfdt_indfx, &tirfbd_sfribl_num);
+                io_ifbp_root_jbvb_frbmf(objfdt_indfx, tirfbd_sfribl_num,
+                             rfffrfndf_info->stbdk_lodbl.dfpti);
             }
-            break;
+            brfbk;
 
-        case JVMTI_HEAP_REFERENCE_JNI_LOCAL: {
-                SerialNumber thread_serial_num;
-                jlong        thread_tag;
+        dbsf JVMTI_HEAP_REFERENCE_JNI_LOCAL: {
+                SfriblNumbfr tirfbd_sfribl_num;
+                jlong        tirfbd_tbg;
 
-                thread_tag = reference_info->jni_local.thread_tag;
-                localReference(tag_ptr, class_tag, thread_tag, size,
-                             &object_index, &thread_serial_num);
-                io_heap_root_jni_local(object_index, thread_serial_num,
-                             reference_info->jni_local.depth);
+                tirfbd_tbg = rfffrfndf_info->jni_lodbl.tirfbd_tbg;
+                lodblRfffrfndf(tbg_ptr, dlbss_tbg, tirfbd_tbg, sizf,
+                             &objfdt_indfx, &tirfbd_sfribl_num);
+                io_ifbp_root_jni_lodbl(objfdt_indfx, tirfbd_sfribl_num,
+                             rfffrfndf_info->jni_lodbl.dfpti);
             }
-            break;
+            brfbk;
 
-        case JVMTI_HEAP_REFERENCE_THREAD: {
-                SerialNumber thread_serial_num;
-                SerialNumber trace_serial_num;
-                TraceIndex   trace_index;
-                SiteIndex    object_site_index;
-                TlsIndex     tls_index;
+        dbsf JVMTI_HEAP_REFERENCE_THREAD: {
+                SfriblNumbfr tirfbd_sfribl_num;
+                SfriblNumbfr trbdf_sfribl_num;
+                TrbdfIndfx   trbdf_indfx;
+                SitfIndfx    objfdt_sitf_indfx;
+                TlsIndfx     tls_indfx;
 
-                /* It is assumed that tag_ptr is referring to a
-                 *      java.lang.Thread object here.
+                /* It is bssumfd tibt tbg_ptr is rfffrring to b
+                 *      jbvb.lbng.Tirfbd objfdt ifrf.
                  */
-                if ( (*tag_ptr) != (jlong)0 ) {
-                    setup_tag_on_root(tag_ptr, class_tag, size, 0,
-                                      &object_index, &object_site_index);
-                    trace_index       = site_get_trace_index(object_site_index);
-                    /* Hopefully the ThreadStart event put this thread's
-                     *   correct serial number on it's object.
+                if ( (*tbg_ptr) != (jlong)0 ) {
+                    sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf, 0,
+                                      &objfdt_indfx, &objfdt_sitf_indfx);
+                    trbdf_indfx       = sitf_gft_trbdf_indfx(objfdt_sitf_indfx);
+                    /* Hopffully tif TirfbdStbrt fvfnt put tiis tirfbd's
+                     *   dorrfdt sfribl numbfr on it's objfdt.
                      */
-                    thread_serial_num = object_get_thread_serial_number(object_index);
-                } else {
-                    /* Rare situation that a Thread object is not tagged.
-                     *   Create special unique thread serial number in this
-                     *   case, probably means we never saw a thread start
-                     *   or thread end, or even an allocation of the thread
-                     *   object.
+                    tirfbd_sfribl_num = objfdt_gft_tirfbd_sfribl_numbfr(objfdt_indfx);
+                } flsf {
+                    /* Rbrf situbtion tibt b Tirfbd objfdt is not tbggfd.
+                     *   Crfbtf spfdibl uniquf tirfbd sfribl numbfr in tiis
+                     *   dbsf, probbbly mfbns wf nfvfr sbw b tirfbd stbrt
+                     *   or tirfbd fnd, or fvfn bn bllodbtion of tif tirfbd
+                     *   objfdt.
                      */
-                    thread_serial_num = gdata->thread_serial_number_counter++;
-                    setup_tag_on_root(tag_ptr, class_tag, size,
-                                      thread_serial_num,
-                                      &object_index, &object_site_index);
-                    trace_index = gdata->system_trace_index;
+                    tirfbd_sfribl_num = gdbtb->tirfbd_sfribl_numbfr_dountfr++;
+                    sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                                      tirfbd_sfribl_num,
+                                      &objfdt_indfx, &objfdt_sitf_indfx);
+                    trbdf_indfx = gdbtb->systfm_trbdf_indfx;
                 }
-                /* Get tls_index and set in_heap_dump, if we find it. */
-                tls_index = tls_find(thread_serial_num);
-                if ( tls_index != 0 ) {
-                    tls_set_in_heap_dump(tls_index, 1);
+                /* Gft tls_indfx bnd sft in_ifbp_dump, if wf find it. */
+                tls_indfx = tls_find(tirfbd_sfribl_num);
+                if ( tls_indfx != 0 ) {
+                    tls_sft_in_ifbp_dump(tls_indfx, 1);
                 }
-                trace_serial_num = trace_get_serial_number(trace_index);
-                /* Issue thread object (must be before thread root) */
-                io_heap_root_thread_object(object_index,
-                                 thread_serial_num, trace_serial_num);
-                /* Issue thread root */
-                io_heap_root_thread(object_index, thread_serial_num);
+                trbdf_sfribl_num = trbdf_gft_sfribl_numbfr(trbdf_indfx);
+                /* Issuf tirfbd objfdt (must bf bfforf tirfbd root) */
+                io_ifbp_root_tirfbd_objfdt(objfdt_indfx,
+                                 tirfbd_sfribl_num, trbdf_sfribl_num);
+                /* Issuf tirfbd root */
+                io_ifbp_root_tirfbd(objfdt_indfx, tirfbd_sfribl_num);
             }
-            break;
+            brfbk;
 
-        case JVMTI_HEAP_REFERENCE_OTHER:
-            setup_tag_on_root(tag_ptr, class_tag, size,
-                              gdata->unknown_thread_serial_num,
-                              &object_index, NULL);
-            io_heap_root_unknown(object_index);
-            break;
+        dbsf JVMTI_HEAP_REFERENCE_OTHER:
+            sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                              gdbtb->unknown_tirfbd_sfribl_num,
+                              &objfdt_indfx, NULL);
+            io_ifbp_root_unknown(objfdt_indfx);
+            brfbk;
 
-       default:
-            /* Ignore anything else */
-            break;
+       dffbult:
+            /* Ignorf bnytiing flsf */
+            brfbk;
 
     }
 
-    return JVMTI_VISIT_OBJECTS;
+    rfturn JVMTI_VISIT_OBJECTS;
 }
 
 void
-site_heapdump(JNIEnv *env)
+sitf_ifbpdump(JNIEnv *fnv)
 {
 
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-        jvmtiHeapCallbacks heapCallbacks;
+        jvmtiHfbpCbllbbdks ifbpCbllbbdks;
 
-        /* Remove class dumped status, all classes must be dumped */
-        class_all_status_remove(CLASS_DUMPED);
+        /* Rfmovf dlbss dumpfd stbtus, bll dlbssfs must bf dumpfd */
+        dlbss_bll_stbtus_rfmovf(CLASS_DUMPED);
 
-        /* Clear in_heap_dump flag */
-        tls_clear_in_heap_dump();
+        /* Clfbr in_ifbp_dump flbg */
+        tls_dlfbr_in_ifbp_dump();
 
-        /* Dump the last thread traces and get the lists back we need */
-        tls_dump_traces(env);
+        /* Dump tif lbst tirfbd trbdfs bnd gft tif lists bbdk wf nffd */
+        tls_dump_trbdfs(fnv);
 
-        /* Write header for heap dump */
-        io_heap_header(gdata->total_live_instances, gdata->total_live_bytes);
+        /* Writf ifbdfr for ifbp dump */
+        io_ifbp_ifbdfr(gdbtb->totbl_livf_instbndfs, gdbtb->totbl_livf_bytfs);
 
-        /* Setup a clean reference table */
-        reference_init();
+        /* Sftup b dlfbn rfffrfndf tbblf */
+        rfffrfndf_init();
 
-        /* Walk over all reachable objects and dump out roots */
-        gdata->gref_serial_number_counter = gdata->gref_serial_number_start;
+        /* Wblk ovfr bll rfbdibblf objfdts bnd dump out roots */
+        gdbtb->grff_sfribl_numbfr_dountfr = gdbtb->grff_sfribl_numbfr_stbrt;
 
-        /* Issue thread object for fake non-existent unknown thread
-         *   just in case someone refers to it. Real threads are handled
-         *   during iterate over reachable objects.
+        /* Issuf tirfbd objfdt for fbkf non-fxistfnt unknown tirfbd
+         *   just in dbsf somfonf rfffrs to it. Rfbl tirfbds brf ibndlfd
+         *   during itfrbtf ovfr rfbdibblf objfdts.
          */
-        io_heap_root_thread_object(0, gdata->unknown_thread_serial_num,
-                        trace_get_serial_number(gdata->system_trace_index));
+        io_ifbp_root_tirfbd_objfdt(0, gdbtb->unknown_tirfbd_sfribl_num,
+                        trbdf_gft_sfribl_numbfr(gdbtb->systfm_trbdf_indfx));
 
-        /* Iterate over heap and get the real stuff */
-        (void)memset(&heapCallbacks, 0, sizeof(heapCallbacks));
+        /* Itfrbtf ovfr ifbp bnd gft tif rfbl stuff */
+        (void)mfmsft(&ifbpCbllbbdks, 0, sizfof(ifbpCbllbbdks));
 
-        /* Select callbacks */
-        heapCallbacks.heap_reference_callback       = &cbReference;
-        if ( gdata->primfields == JNI_TRUE ) {
-            heapCallbacks.primitive_field_callback  = &cbPrimFieldData;
+        /* Sflfdt dbllbbdks */
+        ifbpCbllbbdks.ifbp_rfffrfndf_dbllbbdk       = &dbRfffrfndf;
+        if ( gdbtb->primfiflds == JNI_TRUE ) {
+            ifbpCbllbbdks.primitivf_fifld_dbllbbdk  = &dbPrimFifldDbtb;
         }
-        if ( gdata->primarrays == JNI_TRUE ) {
-            heapCallbacks.array_primitive_value_callback  = &cbPrimArrayData;
+        if ( gdbtb->primbrrbys == JNI_TRUE ) {
+            ifbpCbllbbdks.brrby_primitivf_vbluf_dbllbbdk  = &dbPrimArrbyDbtb;
         }
-        followReferences(&heapCallbacks, (void*)NULL);
+        followRfffrfndfs(&ifbpCbllbbdks, (void*)NULL);
 
-        /* Process reference information. */
-        object_reference_dump(env);
-        object_clear_references();
-        reference_cleanup();
+        /* Prodfss rfffrfndf informbtion. */
+        objfdt_rfffrfndf_dump(fnv);
+        objfdt_dlfbr_rfffrfndfs();
+        rfffrfndf_dlfbnup();
 
-        /* Dump the last thread traces and get the lists back we need */
-        tls_dump_traces(env);
+        /* Dump tif lbst tirfbd trbdfs bnd gft tif lists bbdk wf nffd */
+        tls_dump_trbdfs(fnv);
 
-        /* Write out footer for heap dump */
-        io_heap_footer();
+        /* Writf out footfr for ifbp dump */
+        io_ifbp_footfr();
 
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }

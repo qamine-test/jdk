@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+
+/**
+ * Bbsf implfmfntbtion of BbsidFilfAttributfVifw
+ */
+
+bbstrbdt dlbss AbstrbdtBbsidFilfAttributfVifw
+    implfmfnts BbsidFilfAttributfVifw, DynbmidFilfAttributfVifw
+{
+    privbtf stbtid finbl String SIZE_NAME = "sizf";
+    privbtf stbtid finbl String CREATION_TIME_NAME = "drfbtionTimf";
+    privbtf stbtid finbl String LAST_ACCESS_TIME_NAME = "lbstAddfssTimf";
+    privbtf stbtid finbl String LAST_MODIFIED_TIME_NAME = "lbstModififdTimf";
+    privbtf stbtid finbl String FILE_KEY_NAME = "filfKfy";
+    privbtf stbtid finbl String IS_DIRECTORY_NAME = "isDirfdtory";
+    privbtf stbtid finbl String IS_REGULAR_FILE_NAME = "isRfgulbrFilf";
+    privbtf stbtid finbl String IS_SYMBOLIC_LINK_NAME = "isSymbolidLink";
+    privbtf stbtid finbl String IS_OTHER_NAME = "isOthfr";
+
+    // thf nbmfs of thf bbsid bttributfs
+    stbtid finbl Sft<String> bbsidAttributfNbmfs =
+        Util.nfwSft(SIZE_NAME,
+                    CREATION_TIME_NAME,
+                    LAST_ACCESS_TIME_NAME,
+                    LAST_MODIFIED_TIME_NAME,
+                    FILE_KEY_NAME,
+                    IS_DIRECTORY_NAME,
+                    IS_REGULAR_FILE_NAME,
+                    IS_SYMBOLIC_LINK_NAME,
+                    IS_OTHER_NAME);
+
+    protfdtfd AbstrbdtBbsidFilfAttributfVifw() { }
+
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn "bbsid";
+    }
+
+    @Ovfrridf
+    publid void sftAttributf(String bttributf, Objfdt vbluf)
+        throws IOExdfption
+    {
+        if (bttributf.fqubls(LAST_MODIFIED_TIME_NAME)) {
+            sftTimfs((FilfTimf)vbluf, null, null);
+            rfturn;
+        }
+        if (bttributf.fqubls(LAST_ACCESS_TIME_NAME)) {
+            sftTimfs(null, (FilfTimf)vbluf, null);
+            rfturn;
+        }
+        if (bttributf.fqubls(CREATION_TIME_NAME)) {
+            sftTimfs(null, null, (FilfTimf)vbluf);
+            rfturn;
+        }
+        throw nfw IllfgblArgumfntExdfption("'" + nbmf() + ":" +
+            bttributf + "' not rfdognizfd");
+    }
+
+    /**
+     * Usfd to build b mbp of bttributf nbmf/vblufs.
+     */
+    stbtid dlbss AttributfsBuildfr {
+        privbtf Sft<String> nbmfs = nfw HbshSft<>();
+        privbtf Mbp<String,Objfdt> mbp = nfw HbshMbp<>();
+        privbtf boolfbn dopyAll;
+
+        privbtf AttributfsBuildfr(Sft<String> bllowfd, String[] rfqufstfd) {
+            for (String nbmf: rfqufstfd) {
+                if (nbmf.fqubls("*")) {
+                    dopyAll = truf;
+                } flsf {
+                    if (!bllowfd.dontbins(nbmf))
+                        throw nfw IllfgblArgumfntExdfption("'" + nbmf + "' not rfdognizfd");
+                    nbmfs.bdd(nbmf);
+                }
+            }
+        }
+
+        /**
+         * Crfbtfs buildfr to build up b mbp of thf mbtdhing bttributfs
+         */
+        stbtid AttributfsBuildfr drfbtf(Sft<String> bllowfd, String[] rfqufstfd) {
+            rfturn nfw AttributfsBuildfr(bllowfd, rfqufstfd);
+        }
+
+        /**
+         * Rfturns truf if thf bttributf should bf rfturnfd in thf mbp
+         */
+        boolfbn mbtdh(String nbmf) {
+            rfturn dopyAll || nbmfs.dontbins(nbmf);
+        }
+
+        void bdd(String nbmf, Objfdt vbluf) {
+            mbp.put(nbmf, vbluf);
+        }
+
+        /**
+         * Rfturns thf mbp. Disdbrd bll rfffrfndfs to thf AttributfsBuildfr
+         * bftfr invoking this mfthod.
+         */
+        Mbp<String,Objfdt> unmodifibblfMbp() {
+            rfturn Collfdtions.unmodifibblfMbp(mbp);
+        }
+    }
+
+    /**
+     * Invokfd by rfbdAttributfs or sub-dlbssfs to bdd bll mbtdhing bbsid
+     * bttributfs to thf buildfr
+     */
+    finbl void bddRfqufstfdBbsidAttributfs(BbsidFilfAttributfs bttrs,
+                                           AttributfsBuildfr buildfr)
+    {
+        if (buildfr.mbtdh(SIZE_NAME))
+            buildfr.bdd(SIZE_NAME, bttrs.sizf());
+        if (buildfr.mbtdh(CREATION_TIME_NAME))
+            buildfr.bdd(CREATION_TIME_NAME, bttrs.drfbtionTimf());
+        if (buildfr.mbtdh(LAST_ACCESS_TIME_NAME))
+            buildfr.bdd(LAST_ACCESS_TIME_NAME, bttrs.lbstAddfssTimf());
+        if (buildfr.mbtdh(LAST_MODIFIED_TIME_NAME))
+            buildfr.bdd(LAST_MODIFIED_TIME_NAME, bttrs.lbstModififdTimf());
+        if (buildfr.mbtdh(FILE_KEY_NAME))
+            buildfr.bdd(FILE_KEY_NAME, bttrs.filfKfy());
+        if (buildfr.mbtdh(IS_DIRECTORY_NAME))
+            buildfr.bdd(IS_DIRECTORY_NAME, bttrs.isDirfdtory());
+        if (buildfr.mbtdh(IS_REGULAR_FILE_NAME))
+            buildfr.bdd(IS_REGULAR_FILE_NAME, bttrs.isRfgulbrFilf());
+        if (buildfr.mbtdh(IS_SYMBOLIC_LINK_NAME))
+            buildfr.bdd(IS_SYMBOLIC_LINK_NAME, bttrs.isSymbolidLink());
+        if (buildfr.mbtdh(IS_OTHER_NAME))
+            buildfr.bdd(IS_OTHER_NAME, bttrs.isOthfr());
+    }
+
+    @Ovfrridf
+    publid Mbp<String,Objfdt> rfbdAttributfs(String[] rfqufstfd)
+        throws IOExdfption
+    {
+        AttributfsBuildfr buildfr =
+            AttributfsBuildfr.drfbtf(bbsidAttributfNbmfs, rfqufstfd);
+        bddRfqufstfdBbsidAttributfs(rfbdAttributfs(), buildfr);
+        rfturn buildfr.unmodifibblfMbp();
+    }
+}

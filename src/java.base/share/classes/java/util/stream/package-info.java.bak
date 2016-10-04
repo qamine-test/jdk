@@ -1,740 +1,740 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * Classes to support functional-style operations on streams of elements, such
- * as map-reduce transformations on collections.  For example:
+ * Clbssfs to support fundtionbl-stylf opfrbtions on strfbms of flfmfnts, sudi
+ * bs mbp-rfdudf trbnsformbtions on dollfdtions.  For fxbmplf:
  *
- * <pre>{@code
- *     int sum = widgets.stream()
- *                      .filter(b -> b.getColor() == RED)
- *                      .mapToInt(b -> b.getWeight())
+ * <prf>{@dodf
+ *     int sum = widgfts.strfbm()
+ *                      .filtfr(b -> b.gftColor() == RED)
+ *                      .mbpToInt(b -> b.gftWfigit())
  *                      .sum();
- * }</pre>
+ * }</prf>
  *
- * <p>Here we use {@code widgets}, a {@code Collection<Widget>},
- * as a source for a stream, and then perform a filter-map-reduce on the stream
- * to obtain the sum of the weights of the red widgets.  (Summation is an
- * example of a <a href="package-summary.html#Reduction">reduction</a>
- * operation.)
+ * <p>Hfrf wf usf {@dodf widgfts}, b {@dodf Collfdtion<Widgft>},
+ * bs b sourdf for b strfbm, bnd tifn pfrform b filtfr-mbp-rfdudf on tif strfbm
+ * to obtbin tif sum of tif wfigits of tif rfd widgfts.  (Summbtion is bn
+ * fxbmplf of b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>
+ * opfrbtion.)
  *
- * <p>The key abstraction introduced in this package is <em>stream</em>.  The
- * classes {@link java.util.stream.Stream}, {@link java.util.stream.IntStream},
- * {@link java.util.stream.LongStream}, and {@link java.util.stream.DoubleStream}
- * are streams over objects and the primitive {@code int}, {@code long} and
- * {@code double} types.  Streams differ from collections in several ways:
+ * <p>Tif kfy bbstrbdtion introdudfd in tiis pbdkbgf is <fm>strfbm</fm>.  Tif
+ * dlbssfs {@link jbvb.util.strfbm.Strfbm}, {@link jbvb.util.strfbm.IntStrfbm},
+ * {@link jbvb.util.strfbm.LongStrfbm}, bnd {@link jbvb.util.strfbm.DoublfStrfbm}
+ * brf strfbms ovfr objfdts bnd tif primitivf {@dodf int}, {@dodf long} bnd
+ * {@dodf doublf} typfs.  Strfbms difffr from dollfdtions in sfvfrbl wbys:
  *
  * <ul>
- *     <li>No storage.  A stream is not a data structure that stores elements;
- *     instead, it conveys elements from a source such as a data structure,
- *     an array, a generator function, or an I/O channel, through a pipeline of
- *     computational operations.</li>
- *     <li>Functional in nature.  An operation on a stream produces a result,
- *     but does not modify its source.  For example, filtering a {@code Stream}
- *     obtained from a collection produces a new {@code Stream} without the
- *     filtered elements, rather than removing elements from the source
- *     collection.</li>
- *     <li>Laziness-seeking.  Many stream operations, such as filtering, mapping,
- *     or duplicate removal, can be implemented lazily, exposing opportunities
- *     for optimization.  For example, "find the first {@code String} with
- *     three consecutive vowels" need not examine all the input strings.
- *     Stream operations are divided into intermediate ({@code Stream}-producing)
- *     operations and terminal (value- or side-effect-producing) operations.
- *     Intermediate operations are always lazy.</li>
- *     <li>Possibly unbounded.  While collections have a finite size, streams
- *     need not.  Short-circuiting operations such as {@code limit(n)} or
- *     {@code findFirst()} can allow computations on infinite streams to
- *     complete in finite time.</li>
- *     <li>Consumable. The elements of a stream are only visited once during
- *     the life of a stream. Like an {@link java.util.Iterator}, a new stream
- *     must be generated to revisit the same elements of the source.
+ *     <li>No storbgf.  A strfbm is not b dbtb strudturf tibt storfs flfmfnts;
+ *     instfbd, it donvfys flfmfnts from b sourdf sudi bs b dbtb strudturf,
+ *     bn brrby, b gfnfrbtor fundtion, or bn I/O dibnnfl, tirougi b pipflinf of
+ *     domputbtionbl opfrbtions.</li>
+ *     <li>Fundtionbl in nbturf.  An opfrbtion on b strfbm produdfs b rfsult,
+ *     but dofs not modify its sourdf.  For fxbmplf, filtfring b {@dodf Strfbm}
+ *     obtbinfd from b dollfdtion produdfs b nfw {@dodf Strfbm} witiout tif
+ *     filtfrfd flfmfnts, rbtifr tibn rfmoving flfmfnts from tif sourdf
+ *     dollfdtion.</li>
+ *     <li>Lbzinfss-sffking.  Mbny strfbm opfrbtions, sudi bs filtfring, mbpping,
+ *     or duplidbtf rfmovbl, dbn bf implfmfntfd lbzily, fxposing opportunitifs
+ *     for optimizbtion.  For fxbmplf, "find tif first {@dodf String} witi
+ *     tirff donsfdutivf vowfls" nffd not fxbminf bll tif input strings.
+ *     Strfbm opfrbtions brf dividfd into intfrmfdibtf ({@dodf Strfbm}-produding)
+ *     opfrbtions bnd tfrminbl (vbluf- or sidf-ffffdt-produding) opfrbtions.
+ *     Intfrmfdibtf opfrbtions brf blwbys lbzy.</li>
+ *     <li>Possibly unboundfd.  Wiilf dollfdtions ibvf b finitf sizf, strfbms
+ *     nffd not.  Siort-dirduiting opfrbtions sudi bs {@dodf limit(n)} or
+ *     {@dodf findFirst()} dbn bllow domputbtions on infinitf strfbms to
+ *     domplftf in finitf timf.</li>
+ *     <li>Consumbblf. Tif flfmfnts of b strfbm brf only visitfd ondf during
+ *     tif liff of b strfbm. Likf bn {@link jbvb.util.Itfrbtor}, b nfw strfbm
+ *     must bf gfnfrbtfd to rfvisit tif sbmf flfmfnts of tif sourdf.
  *     </li>
  * </ul>
  *
- * Streams can be obtained in a number of ways. Some examples include:
+ * Strfbms dbn bf obtbinfd in b numbfr of wbys. Somf fxbmplfs indludf:
  * <ul>
- *     <li>From a {@link java.util.Collection} via the {@code stream()} and
- *     {@code parallelStream()} methods;</li>
- *     <li>From an array via {@link java.util.Arrays#stream(Object[])};</li>
- *     <li>From static factory methods on the stream classes, such as
- *     {@link java.util.stream.Stream#of(Object[])},
- *     {@link java.util.stream.IntStream#range(int, int)}
- *     or {@link java.util.stream.Stream#iterate(Object, UnaryOperator)};</li>
- *     <li>The lines of a file can be obtained from {@link java.io.BufferedReader#lines()};</li>
- *     <li>Streams of file paths can be obtained from methods in {@link java.nio.file.Files};</li>
- *     <li>Streams of random numbers can be obtained from {@link java.util.Random#ints()};</li>
- *     <li>Numerous other stream-bearing methods in the JDK, including
- *     {@link java.util.BitSet#stream()},
- *     {@link java.util.regex.Pattern#splitAsStream(java.lang.CharSequence)},
- *     and {@link java.util.jar.JarFile#stream()}.</li>
+ *     <li>From b {@link jbvb.util.Collfdtion} vib tif {@dodf strfbm()} bnd
+ *     {@dodf pbrbllflStrfbm()} mftiods;</li>
+ *     <li>From bn brrby vib {@link jbvb.util.Arrbys#strfbm(Objfdt[])};</li>
+ *     <li>From stbtid fbdtory mftiods on tif strfbm dlbssfs, sudi bs
+ *     {@link jbvb.util.strfbm.Strfbm#of(Objfdt[])},
+ *     {@link jbvb.util.strfbm.IntStrfbm#rbngf(int, int)}
+ *     or {@link jbvb.util.strfbm.Strfbm#itfrbtf(Objfdt, UnbryOpfrbtor)};</li>
+ *     <li>Tif linfs of b filf dbn bf obtbinfd from {@link jbvb.io.BufffrfdRfbdfr#linfs()};</li>
+ *     <li>Strfbms of filf pbtis dbn bf obtbinfd from mftiods in {@link jbvb.nio.filf.Filfs};</li>
+ *     <li>Strfbms of rbndom numbfrs dbn bf obtbinfd from {@link jbvb.util.Rbndom#ints()};</li>
+ *     <li>Numfrous otifr strfbm-bfbring mftiods in tif JDK, indluding
+ *     {@link jbvb.util.BitSft#strfbm()},
+ *     {@link jbvb.util.rfgfx.Pbttfrn#splitAsStrfbm(jbvb.lbng.CibrSfqufndf)},
+ *     bnd {@link jbvb.util.jbr.JbrFilf#strfbm()}.</li>
  * </ul>
  *
- * <p>Additional stream sources can be provided by third-party libraries using
- * <a href="package-summary.html#StreamSources">these techniques</a>.
+ * <p>Additionbl strfbm sourdfs dbn bf providfd by tiird-pbrty librbrifs using
+ * <b irff="pbdkbgf-summbry.itml#StrfbmSourdfs">tifsf tfdiniqufs</b>.
  *
- * <h2><a name="StreamOps">Stream operations and pipelines</a></h2>
+ * <i2><b nbmf="StrfbmOps">Strfbm opfrbtions bnd pipflinfs</b></i2>
  *
- * <p>Stream operations are divided into <em>intermediate</em> and
- * <em>terminal</em> operations, and are combined to form <em>stream
- * pipelines</em>.  A stream pipeline consists of a source (such as a
- * {@code Collection}, an array, a generator function, or an I/O channel);
- * followed by zero or more intermediate operations such as
- * {@code Stream.filter} or {@code Stream.map}; and a terminal operation such
- * as {@code Stream.forEach} or {@code Stream.reduce}.
+ * <p>Strfbm opfrbtions brf dividfd into <fm>intfrmfdibtf</fm> bnd
+ * <fm>tfrminbl</fm> opfrbtions, bnd brf dombinfd to form <fm>strfbm
+ * pipflinfs</fm>.  A strfbm pipflinf donsists of b sourdf (sudi bs b
+ * {@dodf Collfdtion}, bn brrby, b gfnfrbtor fundtion, or bn I/O dibnnfl);
+ * followfd by zfro or morf intfrmfdibtf opfrbtions sudi bs
+ * {@dodf Strfbm.filtfr} or {@dodf Strfbm.mbp}; bnd b tfrminbl opfrbtion sudi
+ * bs {@dodf Strfbm.forEbdi} or {@dodf Strfbm.rfdudf}.
  *
- * <p>Intermediate operations return a new stream.  They are always
- * <em>lazy</em>; executing an intermediate operation such as
- * {@code filter()} does not actually perform any filtering, but instead
- * creates a new stream that, when traversed, contains the elements of
- * the initial stream that match the given predicate.  Traversal
- * of the pipeline source does not begin until the terminal operation of the
- * pipeline is executed.
+ * <p>Intfrmfdibtf opfrbtions rfturn b nfw strfbm.  Tify brf blwbys
+ * <fm>lbzy</fm>; fxfduting bn intfrmfdibtf opfrbtion sudi bs
+ * {@dodf filtfr()} dofs not bdtublly pfrform bny filtfring, but instfbd
+ * drfbtfs b nfw strfbm tibt, wifn trbvfrsfd, dontbins tif flfmfnts of
+ * tif initibl strfbm tibt mbtdi tif givfn prfdidbtf.  Trbvfrsbl
+ * of tif pipflinf sourdf dofs not bfgin until tif tfrminbl opfrbtion of tif
+ * pipflinf is fxfdutfd.
  *
- * <p>Terminal operations, such as {@code Stream.forEach} or
- * {@code IntStream.sum}, may traverse the stream to produce a result or a
- * side-effect. After the terminal operation is performed, the stream pipeline
- * is considered consumed, and can no longer be used; if you need to traverse
- * the same data source again, you must return to the data source to get a new
- * stream.  In almost all cases, terminal operations are <em>eager</em>,
- * completing their traversal of the data source and processing of the pipeline
- * before returning.  Only the terminal operations {@code iterator()} and
- * {@code spliterator()} are not; these are provided as an "escape hatch" to enable
- * arbitrary client-controlled pipeline traversals in the event that the
- * existing operations are not sufficient to the task.
+ * <p>Tfrminbl opfrbtions, sudi bs {@dodf Strfbm.forEbdi} or
+ * {@dodf IntStrfbm.sum}, mby trbvfrsf tif strfbm to produdf b rfsult or b
+ * sidf-ffffdt. Aftfr tif tfrminbl opfrbtion is pfrformfd, tif strfbm pipflinf
+ * is donsidfrfd donsumfd, bnd dbn no longfr bf usfd; if you nffd to trbvfrsf
+ * tif sbmf dbtb sourdf bgbin, you must rfturn to tif dbtb sourdf to gft b nfw
+ * strfbm.  In blmost bll dbsfs, tfrminbl opfrbtions brf <fm>fbgfr</fm>,
+ * domplfting tifir trbvfrsbl of tif dbtb sourdf bnd prodfssing of tif pipflinf
+ * bfforf rfturning.  Only tif tfrminbl opfrbtions {@dodf itfrbtor()} bnd
+ * {@dodf splitfrbtor()} brf not; tifsf brf providfd bs bn "fsdbpf ibtdi" to fnbblf
+ * brbitrbry dlifnt-dontrollfd pipflinf trbvfrsbls in tif fvfnt tibt tif
+ * fxisting opfrbtions brf not suffidifnt to tif tbsk.
  *
- * <p> Processing streams lazily allows for significant efficiencies; in a
- * pipeline such as the filter-map-sum example above, filtering, mapping, and
- * summing can be fused into a single pass on the data, with minimal
- * intermediate state. Laziness also allows avoiding examining all the data
- * when it is not necessary; for operations such as "find the first string
- * longer than 1000 characters", it is only necessary to examine just enough
- * strings to find one that has the desired characteristics without examining
- * all of the strings available from the source. (This behavior becomes even
- * more important when the input stream is infinite and not merely large.)
+ * <p> Prodfssing strfbms lbzily bllows for signifidbnt fffidifndifs; in b
+ * pipflinf sudi bs tif filtfr-mbp-sum fxbmplf bbovf, filtfring, mbpping, bnd
+ * summing dbn bf fusfd into b singlf pbss on tif dbtb, witi minimbl
+ * intfrmfdibtf stbtf. Lbzinfss blso bllows bvoiding fxbmining bll tif dbtb
+ * wifn it is not nfdfssbry; for opfrbtions sudi bs "find tif first string
+ * longfr tibn 1000 dibrbdtfrs", it is only nfdfssbry to fxbminf just fnougi
+ * strings to find onf tibt ibs tif dfsirfd dibrbdtfristids witiout fxbmining
+ * bll of tif strings bvbilbblf from tif sourdf. (Tiis bfibvior bfdomfs fvfn
+ * morf importbnt wifn tif input strfbm is infinitf bnd not mfrfly lbrgf.)
  *
- * <p>Intermediate operations are further divided into <em>stateless</em>
- * and <em>stateful</em> operations. Stateless operations, such as {@code filter}
- * and {@code map}, retain no state from previously seen element when processing
- * a new element -- each element can be processed
- * independently of operations on other elements.  Stateful operations, such as
- * {@code distinct} and {@code sorted}, may incorporate state from previously
- * seen elements when processing new elements.
+ * <p>Intfrmfdibtf opfrbtions brf furtifr dividfd into <fm>stbtflfss</fm>
+ * bnd <fm>stbtfful</fm> opfrbtions. Stbtflfss opfrbtions, sudi bs {@dodf filtfr}
+ * bnd {@dodf mbp}, rftbin no stbtf from prfviously sffn flfmfnt wifn prodfssing
+ * b nfw flfmfnt -- fbdi flfmfnt dbn bf prodfssfd
+ * indfpfndfntly of opfrbtions on otifr flfmfnts.  Stbtfful opfrbtions, sudi bs
+ * {@dodf distindt} bnd {@dodf sortfd}, mby indorporbtf stbtf from prfviously
+ * sffn flfmfnts wifn prodfssing nfw flfmfnts.
  *
- * <p>Stateful operations may need to process the entire input
- * before producing a result.  For example, one cannot produce any results from
- * sorting a stream until one has seen all elements of the stream.  As a result,
- * under parallel computation, some pipelines containing stateful intermediate
- * operations may require multiple passes on the data or may need to buffer
- * significant data.  Pipelines containing exclusively stateless intermediate
- * operations can be processed in a single pass, whether sequential or parallel,
- * with minimal data buffering.
+ * <p>Stbtfful opfrbtions mby nffd to prodfss tif fntirf input
+ * bfforf produding b rfsult.  For fxbmplf, onf dbnnot produdf bny rfsults from
+ * sorting b strfbm until onf ibs sffn bll flfmfnts of tif strfbm.  As b rfsult,
+ * undfr pbrbllfl domputbtion, somf pipflinfs dontbining stbtfful intfrmfdibtf
+ * opfrbtions mby rfquirf multiplf pbssfs on tif dbtb or mby nffd to bufffr
+ * signifidbnt dbtb.  Pipflinfs dontbining fxdlusivfly stbtflfss intfrmfdibtf
+ * opfrbtions dbn bf prodfssfd in b singlf pbss, wiftifr sfqufntibl or pbrbllfl,
+ * witi minimbl dbtb bufffring.
  *
- * <p>Further, some operations are deemed <em>short-circuiting</em> operations.
- * An intermediate operation is short-circuiting if, when presented with
- * infinite input, it may produce a finite stream as a result.  A terminal
- * operation is short-circuiting if, when presented with infinite input, it may
- * terminate in finite time.  Having a short-circuiting operation in the pipeline
- * is a necessary, but not sufficient, condition for the processing of an infinite
- * stream to terminate normally in finite time.
+ * <p>Furtifr, somf opfrbtions brf dffmfd <fm>siort-dirduiting</fm> opfrbtions.
+ * An intfrmfdibtf opfrbtion is siort-dirduiting if, wifn prfsfntfd witi
+ * infinitf input, it mby produdf b finitf strfbm bs b rfsult.  A tfrminbl
+ * opfrbtion is siort-dirduiting if, wifn prfsfntfd witi infinitf input, it mby
+ * tfrminbtf in finitf timf.  Hbving b siort-dirduiting opfrbtion in tif pipflinf
+ * is b nfdfssbry, but not suffidifnt, dondition for tif prodfssing of bn infinitf
+ * strfbm to tfrminbtf normblly in finitf timf.
  *
- * <h3>Parallelism</h3>
+ * <i3>Pbrbllflism</i3>
  *
- * <p>Processing elements with an explicit {@code for-}loop is inherently serial.
- * Streams facilitate parallel execution by reframing the computation as a pipeline of
- * aggregate operations, rather than as imperative operations on each individual
- * element.  All streams operations can execute either in serial or in parallel.
- * The stream implementations in the JDK create serial streams unless parallelism is
- * explicitly requested.  For example, {@code Collection} has methods
- * {@link java.util.Collection#stream} and {@link java.util.Collection#parallelStream},
- * which produce sequential and parallel streams respectively; other
- * stream-bearing methods such as {@link java.util.stream.IntStream#range(int, int)}
- * produce sequential streams but these streams can be efficiently parallelized by
- * invoking their {@link java.util.stream.BaseStream#parallel()} method.
- * To execute the prior "sum of weights of widgets" query in parallel, we would
+ * <p>Prodfssing flfmfnts witi bn fxplidit {@dodf for-}loop is inifrfntly sfribl.
+ * Strfbms fbdilitbtf pbrbllfl fxfdution by rffrbming tif domputbtion bs b pipflinf of
+ * bggrfgbtf opfrbtions, rbtifr tibn bs impfrbtivf opfrbtions on fbdi individubl
+ * flfmfnt.  All strfbms opfrbtions dbn fxfdutf fitifr in sfribl or in pbrbllfl.
+ * Tif strfbm implfmfntbtions in tif JDK drfbtf sfribl strfbms unlfss pbrbllflism is
+ * fxpliditly rfqufstfd.  For fxbmplf, {@dodf Collfdtion} ibs mftiods
+ * {@link jbvb.util.Collfdtion#strfbm} bnd {@link jbvb.util.Collfdtion#pbrbllflStrfbm},
+ * wiidi produdf sfqufntibl bnd pbrbllfl strfbms rfspfdtivfly; otifr
+ * strfbm-bfbring mftiods sudi bs {@link jbvb.util.strfbm.IntStrfbm#rbngf(int, int)}
+ * produdf sfqufntibl strfbms but tifsf strfbms dbn bf fffidifntly pbrbllflizfd by
+ * invoking tifir {@link jbvb.util.strfbm.BbsfStrfbm#pbrbllfl()} mftiod.
+ * To fxfdutf tif prior "sum of wfigits of widgfts" qufry in pbrbllfl, wf would
  * do:
  *
- * <pre>{@code
- *     int sumOfWeights = widgets.}<code><b>parallelStream()</b></code>{@code
- *                               .filter(b -> b.getColor() == RED)
- *                               .mapToInt(b -> b.getWeight())
+ * <prf>{@dodf
+ *     int sumOfWfigits = widgfts.}<dodf><b>pbrbllflStrfbm()</b></dodf>{@dodf
+ *                               .filtfr(b -> b.gftColor() == RED)
+ *                               .mbpToInt(b -> b.gftWfigit())
  *                               .sum();
- * }</pre>
+ * }</prf>
  *
- * <p>The only difference between the serial and parallel versions of this
- * example is the creation of the initial stream, using "{@code parallelStream()}"
- * instead of "{@code stream()}".  When the terminal operation is initiated,
- * the stream pipeline is executed sequentially or in parallel depending on the
- * orientation of the stream on which it is invoked.  Whether a stream will execute in serial or
- * parallel can be determined with the {@code isParallel()} method, and the
- * orientation of a stream can be modified with the
- * {@link java.util.stream.BaseStream#sequential()} and
- * {@link java.util.stream.BaseStream#parallel()} operations.  When the terminal
- * operation is initiated, the stream pipeline is executed sequentially or in
- * parallel depending on the mode of the stream on which it is invoked.
+ * <p>Tif only difffrfndf bftwffn tif sfribl bnd pbrbllfl vfrsions of tiis
+ * fxbmplf is tif drfbtion of tif initibl strfbm, using "{@dodf pbrbllflStrfbm()}"
+ * instfbd of "{@dodf strfbm()}".  Wifn tif tfrminbl opfrbtion is initibtfd,
+ * tif strfbm pipflinf is fxfdutfd sfqufntiblly or in pbrbllfl dfpfnding on tif
+ * orifntbtion of tif strfbm on wiidi it is invokfd.  Wiftifr b strfbm will fxfdutf in sfribl or
+ * pbrbllfl dbn bf dftfrminfd witi tif {@dodf isPbrbllfl()} mftiod, bnd tif
+ * orifntbtion of b strfbm dbn bf modififd witi tif
+ * {@link jbvb.util.strfbm.BbsfStrfbm#sfqufntibl()} bnd
+ * {@link jbvb.util.strfbm.BbsfStrfbm#pbrbllfl()} opfrbtions.  Wifn tif tfrminbl
+ * opfrbtion is initibtfd, tif strfbm pipflinf is fxfdutfd sfqufntiblly or in
+ * pbrbllfl dfpfnding on tif modf of tif strfbm on wiidi it is invokfd.
  *
- * <p>Except for operations identified as explicitly nondeterministic, such
- * as {@code findAny()}, whether a stream executes sequentially or in parallel
- * should not change the result of the computation.
+ * <p>Exdfpt for opfrbtions idfntififd bs fxpliditly nondftfrministid, sudi
+ * bs {@dodf findAny()}, wiftifr b strfbm fxfdutfs sfqufntiblly or in pbrbllfl
+ * siould not dibngf tif rfsult of tif domputbtion.
  *
- * <p>Most stream operations accept parameters that describe user-specified
- * behavior, which are often lambda expressions.  To preserve correct behavior,
- * these <em>behavioral parameters</em> must be <em>non-interfering</em>, and in
- * most cases must be <em>stateless</em>.  Such parameters are always instances
- * of a <a href="../function/package-summary.html">functional interface</a> such
- * as {@link java.util.function.Function}, and are often lambda expressions or
- * method references.
+ * <p>Most strfbm opfrbtions bddfpt pbrbmftfrs tibt dfsdribf usfr-spfdififd
+ * bfibvior, wiidi brf oftfn lbmbdb fxprfssions.  To prfsfrvf dorrfdt bfibvior,
+ * tifsf <fm>bfibviorbl pbrbmftfrs</fm> must bf <fm>non-intfrffring</fm>, bnd in
+ * most dbsfs must bf <fm>stbtflfss</fm>.  Sudi pbrbmftfrs brf blwbys instbndfs
+ * of b <b irff="../fundtion/pbdkbgf-summbry.itml">fundtionbl intfrfbdf</b> sudi
+ * bs {@link jbvb.util.fundtion.Fundtion}, bnd brf oftfn lbmbdb fxprfssions or
+ * mftiod rfffrfndfs.
  *
- * <h3><a name="NonInterference">Non-interference</a></h3>
+ * <i3><b nbmf="NonIntfrffrfndf">Non-intfrffrfndf</b></i3>
  *
- * Streams enable you to execute possibly-parallel aggregate operations over a
- * variety of data sources, including even non-thread-safe collections such as
- * {@code ArrayList}. This is possible only if we can prevent
- * <em>interference</em> with the data source during the execution of a stream
- * pipeline.  Except for the escape-hatch operations {@code iterator()} and
- * {@code spliterator()}, execution begins when the terminal operation is
- * invoked, and ends when the terminal operation completes.  For most data
- * sources, preventing interference means ensuring that the data source is
- * <em>not modified at all</em> during the execution of the stream pipeline.
- * The notable exception to this are streams whose sources are concurrent
- * collections, which are specifically designed to handle concurrent modification.
- * Concurrent stream sources are those whose {@code Spliterator} reports the
- * {@code CONCURRENT} characteristic.
+ * Strfbms fnbblf you to fxfdutf possibly-pbrbllfl bggrfgbtf opfrbtions ovfr b
+ * vbrifty of dbtb sourdfs, indluding fvfn non-tirfbd-sbff dollfdtions sudi bs
+ * {@dodf ArrbyList}. Tiis is possiblf only if wf dbn prfvfnt
+ * <fm>intfrffrfndf</fm> witi tif dbtb sourdf during tif fxfdution of b strfbm
+ * pipflinf.  Exdfpt for tif fsdbpf-ibtdi opfrbtions {@dodf itfrbtor()} bnd
+ * {@dodf splitfrbtor()}, fxfdution bfgins wifn tif tfrminbl opfrbtion is
+ * invokfd, bnd fnds wifn tif tfrminbl opfrbtion domplftfs.  For most dbtb
+ * sourdfs, prfvfnting intfrffrfndf mfbns fnsuring tibt tif dbtb sourdf is
+ * <fm>not modififd bt bll</fm> during tif fxfdution of tif strfbm pipflinf.
+ * Tif notbblf fxdfption to tiis brf strfbms wiosf sourdfs brf dondurrfnt
+ * dollfdtions, wiidi brf spfdifidblly dfsignfd to ibndlf dondurrfnt modifidbtion.
+ * Condurrfnt strfbm sourdfs brf tiosf wiosf {@dodf Splitfrbtor} rfports tif
+ * {@dodf CONCURRENT} dibrbdtfristid.
  *
- * <p>Accordingly, behavioral parameters in stream pipelines whose source might
- * not be concurrent should never modify the stream's data source.
- * A behavioral parameter is said to <em>interfere</em> with a non-concurrent
- * data source if it modifies, or causes to be
- * modified, the stream's data source.  The need for non-interference applies
- * to all pipelines, not just parallel ones.  Unless the stream source is
- * concurrent, modifying a stream's data source during execution of a stream
- * pipeline can cause exceptions, incorrect answers, or nonconformant behavior.
+ * <p>Addordingly, bfibviorbl pbrbmftfrs in strfbm pipflinfs wiosf sourdf migit
+ * not bf dondurrfnt siould nfvfr modify tif strfbm's dbtb sourdf.
+ * A bfibviorbl pbrbmftfr is sbid to <fm>intfrffrf</fm> witi b non-dondurrfnt
+ * dbtb sourdf if it modififs, or dbusfs to bf
+ * modififd, tif strfbm's dbtb sourdf.  Tif nffd for non-intfrffrfndf bpplifs
+ * to bll pipflinfs, not just pbrbllfl onfs.  Unlfss tif strfbm sourdf is
+ * dondurrfnt, modifying b strfbm's dbtb sourdf during fxfdution of b strfbm
+ * pipflinf dbn dbusf fxdfptions, indorrfdt bnswfrs, or nondonformbnt bfibvior.
  *
- * For well-behaved stream sources, the source can be modified before the
- * terminal operation commences and those modifications will be reflected in
- * the covered elements.  For example, consider the following code:
+ * For wfll-bfibvfd strfbm sourdfs, tif sourdf dbn bf modififd bfforf tif
+ * tfrminbl opfrbtion dommfndfs bnd tiosf modifidbtions will bf rfflfdtfd in
+ * tif dovfrfd flfmfnts.  For fxbmplf, donsidfr tif following dodf:
  *
- * <pre>{@code
- *     List<String> l = new ArrayList(Arrays.asList("one", "two"));
- *     Stream<String> sl = l.stream();
- *     l.add("three");
- *     String s = sl.collect(joining(" "));
- * }</pre>
+ * <prf>{@dodf
+ *     List<String> l = nfw ArrbyList(Arrbys.bsList("onf", "two"));
+ *     Strfbm<String> sl = l.strfbm();
+ *     l.bdd("tirff");
+ *     String s = sl.dollfdt(joining(" "));
+ * }</prf>
  *
- * First a list is created consisting of two strings: "one"; and "two". Then a
- * stream is created from that list. Next the list is modified by adding a third
- * string: "three". Finally the elements of the stream are collected and joined
- * together. Since the list was modified before the terminal {@code collect}
- * operation commenced the result will be a string of "one two three". All the
- * streams returned from JDK collections, and most other JDK classes,
- * are well-behaved in this manner; for streams generated by other libraries, see
- * <a href="package-summary.html#StreamSources">Low-level stream
- * construction</a> for requirements for building well-behaved streams.
+ * First b list is drfbtfd donsisting of two strings: "onf"; bnd "two". Tifn b
+ * strfbm is drfbtfd from tibt list. Nfxt tif list is modififd by bdding b tiird
+ * string: "tirff". Finblly tif flfmfnts of tif strfbm brf dollfdtfd bnd joinfd
+ * togftifr. Sindf tif list wbs modififd bfforf tif tfrminbl {@dodf dollfdt}
+ * opfrbtion dommfndfd tif rfsult will bf b string of "onf two tirff". All tif
+ * strfbms rfturnfd from JDK dollfdtions, bnd most otifr JDK dlbssfs,
+ * brf wfll-bfibvfd in tiis mbnnfr; for strfbms gfnfrbtfd by otifr librbrifs, sff
+ * <b irff="pbdkbgf-summbry.itml#StrfbmSourdfs">Low-lfvfl strfbm
+ * donstrudtion</b> for rfquirfmfnts for building wfll-bfibvfd strfbms.
  *
- * <h3><a name="Statelessness">Stateless behaviors</a></h3>
+ * <i3><b nbmf="Stbtflfssnfss">Stbtflfss bfibviors</b></i3>
  *
- * Stream pipeline results may be nondeterministic or incorrect if the behavioral
- * parameters to the stream operations are <em>stateful</em>.  A stateful lambda
- * (or other object implementing the appropriate functional interface) is one
- * whose result depends on any state which might change during the execution
- * of the stream pipeline.  An example of a stateful lambda is the parameter
- * to {@code map()} in:
+ * Strfbm pipflinf rfsults mby bf nondftfrministid or indorrfdt if tif bfibviorbl
+ * pbrbmftfrs to tif strfbm opfrbtions brf <fm>stbtfful</fm>.  A stbtfful lbmbdb
+ * (or otifr objfdt implfmfnting tif bppropribtf fundtionbl intfrfbdf) is onf
+ * wiosf rfsult dfpfnds on bny stbtf wiidi migit dibngf during tif fxfdution
+ * of tif strfbm pipflinf.  An fxbmplf of b stbtfful lbmbdb is tif pbrbmftfr
+ * to {@dodf mbp()} in:
  *
- * <pre>{@code
- *     Set<Integer> seen = Collections.synchronizedSet(new HashSet<>());
- *     stream.parallel().map(e -> { if (seen.add(e)) return 0; else return e; })...
- * }</pre>
+ * <prf>{@dodf
+ *     Sft<Intfgfr> sffn = Collfdtions.syndironizfdSft(nfw HbsiSft<>());
+ *     strfbm.pbrbllfl().mbp(f -> { if (sffn.bdd(f)) rfturn 0; flsf rfturn f; })...
+ * }</prf>
  *
- * Here, if the mapping operation is performed in parallel, the results for the
- * same input could vary from run to run, due to thread scheduling differences,
- * whereas, with a stateless lambda expression the results would always be the
- * same.
+ * Hfrf, if tif mbpping opfrbtion is pfrformfd in pbrbllfl, tif rfsults for tif
+ * sbmf input dould vbry from run to run, duf to tirfbd sdifduling difffrfndfs,
+ * wifrfbs, witi b stbtflfss lbmbdb fxprfssion tif rfsults would blwbys bf tif
+ * sbmf.
  *
- * <p>Note also that attempting to access mutable state from behavioral parameters
- * presents you with a bad choice with respect to safety and performance; if
- * you do not synchronize access to that state, you have a data race and
- * therefore your code is broken, but if you do synchronize access to that
- * state, you risk having contention undermine the parallelism you are seeking
- * to benefit from.  The best approach is to avoid stateful behavioral
- * parameters to stream operations entirely; there is usually a way to
- * restructure the stream pipeline to avoid statefulness.
+ * <p>Notf blso tibt bttfmpting to bddfss mutbblf stbtf from bfibviorbl pbrbmftfrs
+ * prfsfnts you witi b bbd dioidf witi rfspfdt to sbffty bnd pfrformbndf; if
+ * you do not syndironizf bddfss to tibt stbtf, you ibvf b dbtb rbdf bnd
+ * tifrfforf your dodf is brokfn, but if you do syndironizf bddfss to tibt
+ * stbtf, you risk ibving dontfntion undfrminf tif pbrbllflism you brf sffking
+ * to bfnffit from.  Tif bfst bpprobdi is to bvoid stbtfful bfibviorbl
+ * pbrbmftfrs to strfbm opfrbtions fntirfly; tifrf is usublly b wby to
+ * rfstrudturf tif strfbm pipflinf to bvoid stbtffulnfss.
  *
- * <h3>Side-effects</h3>
+ * <i3>Sidf-ffffdts</i3>
  *
- * Side-effects in behavioral parameters to stream operations are, in general,
- * discouraged, as they can often lead to unwitting violations of the
- * statelessness requirement, as well as other thread-safety hazards.
+ * Sidf-ffffdts in bfibviorbl pbrbmftfrs to strfbm opfrbtions brf, in gfnfrbl,
+ * disdourbgfd, bs tify dbn oftfn lfbd to unwitting violbtions of tif
+ * stbtflfssnfss rfquirfmfnt, bs wfll bs otifr tirfbd-sbffty ibzbrds.
  *
- * <p>If the behavioral parameters do have side-effects, unless explicitly
- * stated, there are no guarantees as to the
- * <a href="../concurrent/package-summary.html#MemoryVisibility"><i>visibility</i></a>
- * of those side-effects to other threads, nor are there any guarantees that
- * different operations on the "same" element within the same stream pipeline
- * are executed in the same thread.  Further, the ordering of those effects
- * may be surprising.  Even when a pipeline is constrained to produce a
- * <em>result</em> that is consistent with the encounter order of the stream
- * source (for example, {@code IntStream.range(0,5).parallel().map(x -> x*2).toArray()}
- * must produce {@code [0, 2, 4, 6, 8]}), no guarantees are made as to the order
- * in which the mapper function is applied to individual elements, or in what
- * thread any behavioral parameter is executed for a given element.
+ * <p>If tif bfibviorbl pbrbmftfrs do ibvf sidf-ffffdts, unlfss fxpliditly
+ * stbtfd, tifrf brf no gubrbntffs bs to tif
+ * <b irff="../dondurrfnt/pbdkbgf-summbry.itml#MfmoryVisibility"><i>visibility</i></b>
+ * of tiosf sidf-ffffdts to otifr tirfbds, nor brf tifrf bny gubrbntffs tibt
+ * difffrfnt opfrbtions on tif "sbmf" flfmfnt witiin tif sbmf strfbm pipflinf
+ * brf fxfdutfd in tif sbmf tirfbd.  Furtifr, tif ordfring of tiosf ffffdts
+ * mby bf surprising.  Evfn wifn b pipflinf is donstrbinfd to produdf b
+ * <fm>rfsult</fm> tibt is donsistfnt witi tif fndountfr ordfr of tif strfbm
+ * sourdf (for fxbmplf, {@dodf IntStrfbm.rbngf(0,5).pbrbllfl().mbp(x -> x*2).toArrby()}
+ * must produdf {@dodf [0, 2, 4, 6, 8]}), no gubrbntffs brf mbdf bs to tif ordfr
+ * in wiidi tif mbppfr fundtion is bpplifd to individubl flfmfnts, or in wibt
+ * tirfbd bny bfibviorbl pbrbmftfr is fxfdutfd for b givfn flfmfnt.
  *
- * <p>Many computations where one might be tempted to use side effects can be more
- * safely and efficiently expressed without side-effects, such as using
- * <a href="package-summary.html#Reduction">reduction</a> instead of mutable
- * accumulators. However, side-effects such as using {@code println()} for debugging
- * purposes are usually harmless.  A small number of stream operations, such as
- * {@code forEach()} and {@code peek()}, can operate only via side-effects;
- * these should be used with care.
+ * <p>Mbny domputbtions wifrf onf migit bf tfmptfd to usf sidf ffffdts dbn bf morf
+ * sbffly bnd fffidifntly fxprfssfd witiout sidf-ffffdts, sudi bs using
+ * <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> instfbd of mutbblf
+ * bddumulbtors. Howfvfr, sidf-ffffdts sudi bs using {@dodf println()} for dfbugging
+ * purposfs brf usublly ibrmlfss.  A smbll numbfr of strfbm opfrbtions, sudi bs
+ * {@dodf forEbdi()} bnd {@dodf pffk()}, dbn opfrbtf only vib sidf-ffffdts;
+ * tifsf siould bf usfd witi dbrf.
  *
- * <p>As an example of how to transform a stream pipeline that inappropriately
- * uses side-effects to one that does not, the following code searches a stream
- * of strings for those matching a given regular expression, and puts the
- * matches in a list.
+ * <p>As bn fxbmplf of iow to trbnsform b strfbm pipflinf tibt inbppropribtfly
+ * usfs sidf-ffffdts to onf tibt dofs not, tif following dodf sfbrdifs b strfbm
+ * of strings for tiosf mbtdiing b givfn rfgulbr fxprfssion, bnd puts tif
+ * mbtdifs in b list.
  *
- * <pre>{@code
- *     ArrayList<String> results = new ArrayList<>();
- *     stream.filter(s -> pattern.matcher(s).matches())
- *           .forEach(s -> results.add(s));  // Unnecessary use of side-effects!
- * }</pre>
+ * <prf>{@dodf
+ *     ArrbyList<String> rfsults = nfw ArrbyList<>();
+ *     strfbm.filtfr(s -> pbttfrn.mbtdifr(s).mbtdifs())
+ *           .forEbdi(s -> rfsults.bdd(s));  // Unnfdfssbry usf of sidf-ffffdts!
+ * }</prf>
  *
- * This code unnecessarily uses side-effects.  If executed in parallel, the
- * non-thread-safety of {@code ArrayList} would cause incorrect results, and
- * adding needed synchronization would cause contention, undermining the
- * benefit of parallelism.  Furthermore, using side-effects here is completely
- * unnecessary; the {@code forEach()} can simply be replaced with a reduction
- * operation that is safer, more efficient, and more amenable to
- * parallelization:
+ * Tiis dodf unnfdfssbrily usfs sidf-ffffdts.  If fxfdutfd in pbrbllfl, tif
+ * non-tirfbd-sbffty of {@dodf ArrbyList} would dbusf indorrfdt rfsults, bnd
+ * bdding nffdfd syndironizbtion would dbusf dontfntion, undfrmining tif
+ * bfnffit of pbrbllflism.  Furtifrmorf, using sidf-ffffdts ifrf is domplftfly
+ * unnfdfssbry; tif {@dodf forEbdi()} dbn simply bf rfplbdfd witi b rfdudtion
+ * opfrbtion tibt is sbffr, morf fffidifnt, bnd morf bmfnbblf to
+ * pbrbllflizbtion:
  *
- * <pre>{@code
- *     List<String>results =
- *         stream.filter(s -> pattern.matcher(s).matches())
- *               .collect(Collectors.toList());  // No side-effects!
- * }</pre>
+ * <prf>{@dodf
+ *     List<String>rfsults =
+ *         strfbm.filtfr(s -> pbttfrn.mbtdifr(s).mbtdifs())
+ *               .dollfdt(Collfdtors.toList());  // No sidf-ffffdts!
+ * }</prf>
  *
- * <h3><a name="Ordering">Ordering</a></h3>
+ * <i3><b nbmf="Ordfring">Ordfring</b></i3>
  *
- * <p>Streams may or may not have a defined <em>encounter order</em>.  Whether
- * or not a stream has an encounter order depends on the source and the
- * intermediate operations.  Certain stream sources (such as {@code List} or
- * arrays) are intrinsically ordered, whereas others (such as {@code HashSet})
- * are not.  Some intermediate operations, such as {@code sorted()}, may impose
- * an encounter order on an otherwise unordered stream, and others may render an
- * ordered stream unordered, such as {@link java.util.stream.BaseStream#unordered()}.
- * Further, some terminal operations may ignore encounter order, such as
- * {@code forEach()}.
+ * <p>Strfbms mby or mby not ibvf b dffinfd <fm>fndountfr ordfr</fm>.  Wiftifr
+ * or not b strfbm ibs bn fndountfr ordfr dfpfnds on tif sourdf bnd tif
+ * intfrmfdibtf opfrbtions.  Cfrtbin strfbm sourdfs (sudi bs {@dodf List} or
+ * brrbys) brf intrinsidblly ordfrfd, wifrfbs otifrs (sudi bs {@dodf HbsiSft})
+ * brf not.  Somf intfrmfdibtf opfrbtions, sudi bs {@dodf sortfd()}, mby imposf
+ * bn fndountfr ordfr on bn otifrwisf unordfrfd strfbm, bnd otifrs mby rfndfr bn
+ * ordfrfd strfbm unordfrfd, sudi bs {@link jbvb.util.strfbm.BbsfStrfbm#unordfrfd()}.
+ * Furtifr, somf tfrminbl opfrbtions mby ignorf fndountfr ordfr, sudi bs
+ * {@dodf forEbdi()}.
  *
- * <p>If a stream is ordered, most operations are constrained to operate on the
- * elements in their encounter order; if the source of a stream is a {@code List}
- * containing {@code [1, 2, 3]}, then the result of executing {@code map(x -> x*2)}
- * must be {@code [2, 4, 6]}.  However, if the source has no defined encounter
- * order, then any permutation of the values {@code [2, 4, 6]} would be a valid
- * result.
+ * <p>If b strfbm is ordfrfd, most opfrbtions brf donstrbinfd to opfrbtf on tif
+ * flfmfnts in tifir fndountfr ordfr; if tif sourdf of b strfbm is b {@dodf List}
+ * dontbining {@dodf [1, 2, 3]}, tifn tif rfsult of fxfduting {@dodf mbp(x -> x*2)}
+ * must bf {@dodf [2, 4, 6]}.  Howfvfr, if tif sourdf ibs no dffinfd fndountfr
+ * ordfr, tifn bny pfrmutbtion of tif vblufs {@dodf [2, 4, 6]} would bf b vblid
+ * rfsult.
  *
- * <p>For sequential streams, the presence or absence of an encounter order does
- * not affect performance, only determinism.  If a stream is ordered, repeated
- * execution of identical stream pipelines on an identical source will produce
- * an identical result; if it is not ordered, repeated execution might produce
- * different results.
+ * <p>For sfqufntibl strfbms, tif prfsfndf or bbsfndf of bn fndountfr ordfr dofs
+ * not bfffdt pfrformbndf, only dftfrminism.  If b strfbm is ordfrfd, rfpfbtfd
+ * fxfdution of idfntidbl strfbm pipflinfs on bn idfntidbl sourdf will produdf
+ * bn idfntidbl rfsult; if it is not ordfrfd, rfpfbtfd fxfdution migit produdf
+ * difffrfnt rfsults.
  *
- * <p>For parallel streams, relaxing the ordering constraint can sometimes enable
- * more efficient execution.  Certain aggregate operations,
- * such as filtering duplicates ({@code distinct()}) or grouped reductions
- * ({@code Collectors.groupingBy()}) can be implemented more efficiently if ordering of elements
- * is not relevant.  Similarly, operations that are intrinsically tied to encounter order,
- * such as {@code limit()}, may require
- * buffering to ensure proper ordering, undermining the benefit of parallelism.
- * In cases where the stream has an encounter order, but the user does not
- * particularly <em>care</em> about that encounter order, explicitly de-ordering
- * the stream with {@link java.util.stream.BaseStream#unordered() unordered()} may
- * improve parallel performance for some stateful or terminal operations.
- * However, most stream pipelines, such as the "sum of weight of blocks" example
- * above, still parallelize efficiently even under ordering constraints.
+ * <p>For pbrbllfl strfbms, rflbxing tif ordfring donstrbint dbn somftimfs fnbblf
+ * morf fffidifnt fxfdution.  Cfrtbin bggrfgbtf opfrbtions,
+ * sudi bs filtfring duplidbtfs ({@dodf distindt()}) or groupfd rfdudtions
+ * ({@dodf Collfdtors.groupingBy()}) dbn bf implfmfntfd morf fffidifntly if ordfring of flfmfnts
+ * is not rflfvbnt.  Similbrly, opfrbtions tibt brf intrinsidblly tifd to fndountfr ordfr,
+ * sudi bs {@dodf limit()}, mby rfquirf
+ * bufffring to fnsurf propfr ordfring, undfrmining tif bfnffit of pbrbllflism.
+ * In dbsfs wifrf tif strfbm ibs bn fndountfr ordfr, but tif usfr dofs not
+ * pbrtidulbrly <fm>dbrf</fm> bbout tibt fndountfr ordfr, fxpliditly df-ordfring
+ * tif strfbm witi {@link jbvb.util.strfbm.BbsfStrfbm#unordfrfd() unordfrfd()} mby
+ * improvf pbrbllfl pfrformbndf for somf stbtfful or tfrminbl opfrbtions.
+ * Howfvfr, most strfbm pipflinfs, sudi bs tif "sum of wfigit of blodks" fxbmplf
+ * bbovf, still pbrbllflizf fffidifntly fvfn undfr ordfring donstrbints.
  *
- * <h2><a name="Reduction">Reduction operations</a></h2>
+ * <i2><b nbmf="Rfdudtion">Rfdudtion opfrbtions</b></i2>
  *
- * A <em>reduction</em> operation (also called a <em>fold</em>) takes a sequence
- * of input elements and combines them into a single summary result by repeated
- * application of a combining operation, such as finding the sum or maximum of
- * a set of numbers, or accumulating elements into a list.  The streams classes have
- * multiple forms of general reduction operations, called
- * {@link java.util.stream.Stream#reduce(java.util.function.BinaryOperator) reduce()}
- * and {@link java.util.stream.Stream#collect(java.util.stream.Collector) collect()},
- * as well as multiple specialized reduction forms such as
- * {@link java.util.stream.IntStream#sum() sum()}, {@link java.util.stream.IntStream#max() max()},
- * or {@link java.util.stream.IntStream#count() count()}.
+ * A <fm>rfdudtion</fm> opfrbtion (blso dbllfd b <fm>fold</fm>) tbkfs b sfqufndf
+ * of input flfmfnts bnd dombinfs tifm into b singlf summbry rfsult by rfpfbtfd
+ * bpplidbtion of b dombining opfrbtion, sudi bs finding tif sum or mbximum of
+ * b sft of numbfrs, or bddumulbting flfmfnts into b list.  Tif strfbms dlbssfs ibvf
+ * multiplf forms of gfnfrbl rfdudtion opfrbtions, dbllfd
+ * {@link jbvb.util.strfbm.Strfbm#rfdudf(jbvb.util.fundtion.BinbryOpfrbtor) rfdudf()}
+ * bnd {@link jbvb.util.strfbm.Strfbm#dollfdt(jbvb.util.strfbm.Collfdtor) dollfdt()},
+ * bs wfll bs multiplf spfdiblizfd rfdudtion forms sudi bs
+ * {@link jbvb.util.strfbm.IntStrfbm#sum() sum()}, {@link jbvb.util.strfbm.IntStrfbm#mbx() mbx()},
+ * or {@link jbvb.util.strfbm.IntStrfbm#dount() dount()}.
  *
- * <p>Of course, such operations can be readily implemented as simple sequential
- * loops, as in:
- * <pre>{@code
+ * <p>Of doursf, sudi opfrbtions dbn bf rfbdily implfmfntfd bs simplf sfqufntibl
+ * loops, bs in:
+ * <prf>{@dodf
  *    int sum = 0;
- *    for (int x : numbers) {
+ *    for (int x : numbfrs) {
  *       sum += x;
  *    }
- * }</pre>
- * However, there are good reasons to prefer a reduce operation
- * over a mutative accumulation such as the above.  Not only is a reduction
- * "more abstract" -- it operates on the stream as a whole rather than individual
- * elements -- but a properly constructed reduce operation is inherently
- * parallelizable, so long as the function(s) used to process the elements
- * are <a href="package-summary.html#Associativity">associative</a> and
- * <a href="package-summary.html#NonInterfering">stateless</a>.
- * For example, given a stream of numbers for which we want to find the sum, we
- * can write:
- * <pre>{@code
- *    int sum = numbers.stream().reduce(0, (x,y) -> x+y);
- * }</pre>
+ * }</prf>
+ * Howfvfr, tifrf brf good rfbsons to prfffr b rfdudf opfrbtion
+ * ovfr b mutbtivf bddumulbtion sudi bs tif bbovf.  Not only is b rfdudtion
+ * "morf bbstrbdt" -- it opfrbtfs on tif strfbm bs b wiolf rbtifr tibn individubl
+ * flfmfnts -- but b propfrly donstrudtfd rfdudf opfrbtion is inifrfntly
+ * pbrbllflizbblf, so long bs tif fundtion(s) usfd to prodfss tif flfmfnts
+ * brf <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b> bnd
+ * <b irff="pbdkbgf-summbry.itml#NonIntfrffring">stbtflfss</b>.
+ * For fxbmplf, givfn b strfbm of numbfrs for wiidi wf wbnt to find tif sum, wf
+ * dbn writf:
+ * <prf>{@dodf
+ *    int sum = numbfrs.strfbm().rfdudf(0, (x,y) -> x+y);
+ * }</prf>
  * or:
- * <pre>{@code
- *    int sum = numbers.stream().reduce(0, Integer::sum);
- * }</pre>
+ * <prf>{@dodf
+ *    int sum = numbfrs.strfbm().rfdudf(0, Intfgfr::sum);
+ * }</prf>
  *
- * <p>These reduction operations can run safely in parallel with almost no
- * modification:
- * <pre>{@code
- *    int sum = numbers.parallelStream().reduce(0, Integer::sum);
- * }</pre>
+ * <p>Tifsf rfdudtion opfrbtions dbn run sbffly in pbrbllfl witi blmost no
+ * modifidbtion:
+ * <prf>{@dodf
+ *    int sum = numbfrs.pbrbllflStrfbm().rfdudf(0, Intfgfr::sum);
+ * }</prf>
  *
- * <p>Reduction parallellizes well because the implementation
- * can operate on subsets of the data in parallel, and then combine the
- * intermediate results to get the final correct answer.  (Even if the language
- * had a "parallel for-each" construct, the mutative accumulation approach would
- * still required the developer to provide
- * thread-safe updates to the shared accumulating variable {@code sum}, and
- * the required synchronization would then likely eliminate any performance gain from
- * parallelism.)  Using {@code reduce()} instead removes all of the
- * burden of parallelizing the reduction operation, and the library can provide
- * an efficient parallel implementation with no additional synchronization
- * required.
+ * <p>Rfdudtion pbrbllfllizfs wfll bfdbusf tif implfmfntbtion
+ * dbn opfrbtf on subsfts of tif dbtb in pbrbllfl, bnd tifn dombinf tif
+ * intfrmfdibtf rfsults to gft tif finbl dorrfdt bnswfr.  (Evfn if tif lbngubgf
+ * ibd b "pbrbllfl for-fbdi" donstrudt, tif mutbtivf bddumulbtion bpprobdi would
+ * still rfquirfd tif dfvflopfr to providf
+ * tirfbd-sbff updbtfs to tif sibrfd bddumulbting vbribblf {@dodf sum}, bnd
+ * tif rfquirfd syndironizbtion would tifn likfly fliminbtf bny pfrformbndf gbin from
+ * pbrbllflism.)  Using {@dodf rfdudf()} instfbd rfmovfs bll of tif
+ * burdfn of pbrbllflizing tif rfdudtion opfrbtion, bnd tif librbry dbn providf
+ * bn fffidifnt pbrbllfl implfmfntbtion witi no bdditionbl syndironizbtion
+ * rfquirfd.
  *
- * <p>The "widgets" examples shown earlier shows how reduction combines with
- * other operations to replace for loops with bulk operations.  If {@code widgets}
- * is a collection of {@code Widget} objects, which have a {@code getWeight} method,
- * we can find the heaviest widget with:
- * <pre>{@code
- *     OptionalInt heaviest = widgets.parallelStream()
- *                                   .mapToInt(Widget::getWeight)
- *                                   .max();
- * }</pre>
+ * <p>Tif "widgfts" fxbmplfs siown fbrlifr siows iow rfdudtion dombinfs witi
+ * otifr opfrbtions to rfplbdf for loops witi bulk opfrbtions.  If {@dodf widgfts}
+ * is b dollfdtion of {@dodf Widgft} objfdts, wiidi ibvf b {@dodf gftWfigit} mftiod,
+ * wf dbn find tif ifbvifst widgft witi:
+ * <prf>{@dodf
+ *     OptionblInt ifbvifst = widgfts.pbrbllflStrfbm()
+ *                                   .mbpToInt(Widgft::gftWfigit)
+ *                                   .mbx();
+ * }</prf>
  *
- * <p>In its more general form, a {@code reduce} operation on elements of type
- * {@code <T>} yielding a result of type {@code <U>} requires three parameters:
- * <pre>{@code
- * <U> U reduce(U identity,
- *              BiFunction<U, ? super T, U> accumulator,
- *              BinaryOperator<U> combiner);
- * }</pre>
- * Here, the <em>identity</em> element is both an initial seed value for the reduction
- * and a default result if there are no input elements. The <em>accumulator</em>
- * function takes a partial result and the next element, and produces a new
- * partial result. The <em>combiner</em> function combines two partial results
- * to produce a new partial result.  (The combiner is necessary in parallel
- * reductions, where the input is partitioned, a partial accumulation computed
- * for each partition, and then the partial results are combined to produce a
- * final result.)
+ * <p>In its morf gfnfrbl form, b {@dodf rfdudf} opfrbtion on flfmfnts of typf
+ * {@dodf <T>} yiflding b rfsult of typf {@dodf <U>} rfquirfs tirff pbrbmftfrs:
+ * <prf>{@dodf
+ * <U> U rfdudf(U idfntity,
+ *              BiFundtion<U, ? supfr T, U> bddumulbtor,
+ *              BinbryOpfrbtor<U> dombinfr);
+ * }</prf>
+ * Hfrf, tif <fm>idfntity</fm> flfmfnt is boti bn initibl sffd vbluf for tif rfdudtion
+ * bnd b dffbult rfsult if tifrf brf no input flfmfnts. Tif <fm>bddumulbtor</fm>
+ * fundtion tbkfs b pbrtibl rfsult bnd tif nfxt flfmfnt, bnd produdfs b nfw
+ * pbrtibl rfsult. Tif <fm>dombinfr</fm> fundtion dombinfs two pbrtibl rfsults
+ * to produdf b nfw pbrtibl rfsult.  (Tif dombinfr is nfdfssbry in pbrbllfl
+ * rfdudtions, wifrf tif input is pbrtitionfd, b pbrtibl bddumulbtion domputfd
+ * for fbdi pbrtition, bnd tifn tif pbrtibl rfsults brf dombinfd to produdf b
+ * finbl rfsult.)
  *
- * <p>More formally, the {@code identity} value must be an <em>identity</em> for
- * the combiner function. This means that for all {@code u},
- * {@code combiner.apply(identity, u)} is equal to {@code u}. Additionally, the
- * {@code combiner} function must be <a href="package-summary.html#Associativity">associative</a> and
- * must be compatible with the {@code accumulator} function: for all {@code u}
- * and {@code t}, {@code combiner.apply(u, accumulator.apply(identity, t))} must
- * be {@code equals()} to {@code accumulator.apply(u, t)}.
+ * <p>Morf formblly, tif {@dodf idfntity} vbluf must bf bn <fm>idfntity</fm> for
+ * tif dombinfr fundtion. Tiis mfbns tibt for bll {@dodf u},
+ * {@dodf dombinfr.bpply(idfntity, u)} is fqubl to {@dodf u}. Additionblly, tif
+ * {@dodf dombinfr} fundtion must bf <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b> bnd
+ * must bf dompbtiblf witi tif {@dodf bddumulbtor} fundtion: for bll {@dodf u}
+ * bnd {@dodf t}, {@dodf dombinfr.bpply(u, bddumulbtor.bpply(idfntity, t))} must
+ * bf {@dodf fqubls()} to {@dodf bddumulbtor.bpply(u, t)}.
  *
- * <p>The three-argument form is a generalization of the two-argument form,
- * incorporating a mapping step into the accumulation step.  We could
- * re-cast the simple sum-of-weights example using the more general form as
+ * <p>Tif tirff-brgumfnt form is b gfnfrblizbtion of tif two-brgumfnt form,
+ * indorporbting b mbpping stfp into tif bddumulbtion stfp.  Wf dould
+ * rf-dbst tif simplf sum-of-wfigits fxbmplf using tif morf gfnfrbl form bs
  * follows:
- * <pre>{@code
- *     int sumOfWeights = widgets.stream()
- *                               .reduce(0,
- *                                       (sum, b) -> sum + b.getWeight(),
- *                                       Integer::sum);
- * }</pre>
- * though the explicit map-reduce form is more readable and therefore should
- * usually be preferred. The generalized form is provided for cases where
- * significant work can be optimized away by combining mapping and reducing
- * into a single function.
+ * <prf>{@dodf
+ *     int sumOfWfigits = widgfts.strfbm()
+ *                               .rfdudf(0,
+ *                                       (sum, b) -> sum + b.gftWfigit(),
+ *                                       Intfgfr::sum);
+ * }</prf>
+ * tiougi tif fxplidit mbp-rfdudf form is morf rfbdbblf bnd tifrfforf siould
+ * usublly bf prfffrrfd. Tif gfnfrblizfd form is providfd for dbsfs wifrf
+ * signifidbnt work dbn bf optimizfd bwby by dombining mbpping bnd rfduding
+ * into b singlf fundtion.
  *
- * <h3><a name="MutableReduction">Mutable reduction</a></h3>
+ * <i3><b nbmf="MutbblfRfdudtion">Mutbblf rfdudtion</b></i3>
  *
- * A <em>mutable reduction operation</em> accumulates input elements into a
- * mutable result container, such as a {@code Collection} or {@code StringBuilder},
- * as it processes the elements in the stream.
+ * A <fm>mutbblf rfdudtion opfrbtion</fm> bddumulbtfs input flfmfnts into b
+ * mutbblf rfsult dontbinfr, sudi bs b {@dodf Collfdtion} or {@dodf StringBuildfr},
+ * bs it prodfssfs tif flfmfnts in tif strfbm.
  *
- * <p>If we wanted to take a stream of strings and concatenate them into a
- * single long string, we <em>could</em> achieve this with ordinary reduction:
- * <pre>{@code
- *     String concatenated = strings.reduce("", String::concat)
- * }</pre>
+ * <p>If wf wbntfd to tbkf b strfbm of strings bnd dondbtfnbtf tifm into b
+ * singlf long string, wf <fm>dould</fm> bdiifvf tiis witi ordinbry rfdudtion:
+ * <prf>{@dodf
+ *     String dondbtfnbtfd = strings.rfdudf("", String::dondbt)
+ * }</prf>
  *
- * <p>We would get the desired result, and it would even work in parallel.  However,
- * we might not be happy about the performance!  Such an implementation would do
- * a great deal of string copying, and the run time would be <em>O(n^2)</em> in
- * the number of characters.  A more performant approach would be to accumulate
- * the results into a {@link java.lang.StringBuilder}, which is a mutable
- * container for accumulating strings.  We can use the same technique to
- * parallelize mutable reduction as we do with ordinary reduction.
+ * <p>Wf would gft tif dfsirfd rfsult, bnd it would fvfn work in pbrbllfl.  Howfvfr,
+ * wf migit not bf ibppy bbout tif pfrformbndf!  Sudi bn implfmfntbtion would do
+ * b grfbt dfbl of string dopying, bnd tif run timf would bf <fm>O(n^2)</fm> in
+ * tif numbfr of dibrbdtfrs.  A morf pfrformbnt bpprobdi would bf to bddumulbtf
+ * tif rfsults into b {@link jbvb.lbng.StringBuildfr}, wiidi is b mutbblf
+ * dontbinfr for bddumulbting strings.  Wf dbn usf tif sbmf tfdiniquf to
+ * pbrbllflizf mutbblf rfdudtion bs wf do witi ordinbry rfdudtion.
  *
- * <p>The mutable reduction operation is called
- * {@link java.util.stream.Stream#collect(Collector) collect()},
- * as it collects together the desired results into a result container such
- * as a {@code Collection}.
- * A {@code collect} operation requires three functions:
- * a supplier function to construct new instances of the result container, an
- * accumulator function to incorporate an input element into a result
- * container, and a combining function to merge the contents of one result
- * container into another.  The form of this is very similar to the general
- * form of ordinary reduction:
- * <pre>{@code
- * <R> R collect(Supplier<R> supplier,
- *               BiConsumer<R, ? super T> accumulator,
- *               BiConsumer<R, R> combiner);
- * }</pre>
- * <p>As with {@code reduce()}, a benefit of expressing {@code collect} in this
- * abstract way is that it is directly amenable to parallelization: we can
- * accumulate partial results in parallel and then combine them, so long as the
- * accumulation and combining functions satisfy the appropriate requirements.
- * For example, to collect the String representations of the elements in a
- * stream into an {@code ArrayList}, we could write the obvious sequential
- * for-each form:
- * <pre>{@code
- *     ArrayList<String> strings = new ArrayList<>();
- *     for (T element : stream) {
- *         strings.add(element.toString());
+ * <p>Tif mutbblf rfdudtion opfrbtion is dbllfd
+ * {@link jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) dollfdt()},
+ * bs it dollfdts togftifr tif dfsirfd rfsults into b rfsult dontbinfr sudi
+ * bs b {@dodf Collfdtion}.
+ * A {@dodf dollfdt} opfrbtion rfquirfs tirff fundtions:
+ * b supplifr fundtion to donstrudt nfw instbndfs of tif rfsult dontbinfr, bn
+ * bddumulbtor fundtion to indorporbtf bn input flfmfnt into b rfsult
+ * dontbinfr, bnd b dombining fundtion to mfrgf tif dontfnts of onf rfsult
+ * dontbinfr into bnotifr.  Tif form of tiis is vfry similbr to tif gfnfrbl
+ * form of ordinbry rfdudtion:
+ * <prf>{@dodf
+ * <R> R dollfdt(Supplifr<R> supplifr,
+ *               BiConsumfr<R, ? supfr T> bddumulbtor,
+ *               BiConsumfr<R, R> dombinfr);
+ * }</prf>
+ * <p>As witi {@dodf rfdudf()}, b bfnffit of fxprfssing {@dodf dollfdt} in tiis
+ * bbstrbdt wby is tibt it is dirfdtly bmfnbblf to pbrbllflizbtion: wf dbn
+ * bddumulbtf pbrtibl rfsults in pbrbllfl bnd tifn dombinf tifm, so long bs tif
+ * bddumulbtion bnd dombining fundtions sbtisfy tif bppropribtf rfquirfmfnts.
+ * For fxbmplf, to dollfdt tif String rfprfsfntbtions of tif flfmfnts in b
+ * strfbm into bn {@dodf ArrbyList}, wf dould writf tif obvious sfqufntibl
+ * for-fbdi form:
+ * <prf>{@dodf
+ *     ArrbyList<String> strings = nfw ArrbyList<>();
+ *     for (T flfmfnt : strfbm) {
+ *         strings.bdd(flfmfnt.toString());
  *     }
- * }</pre>
- * Or we could use a parallelizable collect form:
- * <pre>{@code
- *     ArrayList<String> strings = stream.collect(() -> new ArrayList<>(),
- *                                                (c, e) -> c.add(e.toString()),
- *                                                (c1, c2) -> c1.addAll(c2));
- * }</pre>
- * or, pulling the mapping operation out of the accumulator function, we could
- * express it more succinctly as:
- * <pre>{@code
- *     List<String> strings = stream.map(Object::toString)
- *                                  .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
- * }</pre>
- * Here, our supplier is just the {@link java.util.ArrayList#ArrayList()
- * ArrayList constructor}, the accumulator adds the stringified element to an
- * {@code ArrayList}, and the combiner simply uses {@link java.util.ArrayList#addAll addAll}
- * to copy the strings from one container into the other.
+ * }</prf>
+ * Or wf dould usf b pbrbllflizbblf dollfdt form:
+ * <prf>{@dodf
+ *     ArrbyList<String> strings = strfbm.dollfdt(() -> nfw ArrbyList<>(),
+ *                                                (d, f) -> d.bdd(f.toString()),
+ *                                                (d1, d2) -> d1.bddAll(d2));
+ * }</prf>
+ * or, pulling tif mbpping opfrbtion out of tif bddumulbtor fundtion, wf dould
+ * fxprfss it morf suddindtly bs:
+ * <prf>{@dodf
+ *     List<String> strings = strfbm.mbp(Objfdt::toString)
+ *                                  .dollfdt(ArrbyList::nfw, ArrbyList::bdd, ArrbyList::bddAll);
+ * }</prf>
+ * Hfrf, our supplifr is just tif {@link jbvb.util.ArrbyList#ArrbyList()
+ * ArrbyList donstrudtor}, tif bddumulbtor bdds tif stringififd flfmfnt to bn
+ * {@dodf ArrbyList}, bnd tif dombinfr simply usfs {@link jbvb.util.ArrbyList#bddAll bddAll}
+ * to dopy tif strings from onf dontbinfr into tif otifr.
  *
- * <p>The three aspects of {@code collect} -- supplier, accumulator, and
- * combiner -- are tightly coupled.  We can use the abstraction of a
- * {@link java.util.stream.Collector} to capture all three aspects.  The
- * above example for collecting strings into a {@code List} can be rewritten
- * using a standard {@code Collector} as:
- * <pre>{@code
- *     List<String> strings = stream.map(Object::toString)
- *                                  .collect(Collectors.toList());
- * }</pre>
+ * <p>Tif tirff bspfdts of {@dodf dollfdt} -- supplifr, bddumulbtor, bnd
+ * dombinfr -- brf tigitly douplfd.  Wf dbn usf tif bbstrbdtion of b
+ * {@link jbvb.util.strfbm.Collfdtor} to dbpturf bll tirff bspfdts.  Tif
+ * bbovf fxbmplf for dollfdting strings into b {@dodf List} dbn bf rfwrittfn
+ * using b stbndbrd {@dodf Collfdtor} bs:
+ * <prf>{@dodf
+ *     List<String> strings = strfbm.mbp(Objfdt::toString)
+ *                                  .dollfdt(Collfdtors.toList());
+ * }</prf>
  *
- * <p>Packaging mutable reductions into a Collector has another advantage:
- * composability.  The class {@link java.util.stream.Collectors} contains a
- * number of predefined factories for collectors, including combinators
- * that transform one collector into another.  For example, suppose we have a
- * collector that computes the sum of the salaries of a stream of
- * employees, as follows:
+ * <p>Pbdkbging mutbblf rfdudtions into b Collfdtor ibs bnotifr bdvbntbgf:
+ * domposbbility.  Tif dlbss {@link jbvb.util.strfbm.Collfdtors} dontbins b
+ * numbfr of prfdffinfd fbdtorifs for dollfdtors, indluding dombinbtors
+ * tibt trbnsform onf dollfdtor into bnotifr.  For fxbmplf, supposf wf ibvf b
+ * dollfdtor tibt domputfs tif sum of tif sblbrifs of b strfbm of
+ * fmployffs, bs follows:
  *
- * <pre>{@code
- *     Collector<Employee, ?, Integer> summingSalaries
- *         = Collectors.summingInt(Employee::getSalary);
- * }</pre>
+ * <prf>{@dodf
+ *     Collfdtor<Employff, ?, Intfgfr> summingSblbrifs
+ *         = Collfdtors.summingInt(Employff::gftSblbry);
+ * }</prf>
  *
- * (The {@code ?} for the second type parameter merely indicates that we don't
- * care about the intermediate representation used by this collector.)
- * If we wanted to create a collector to tabulate the sum of salaries by
- * department, we could reuse {@code summingSalaries} using
- * {@link java.util.stream.Collectors#groupingBy(java.util.function.Function, java.util.stream.Collector) groupingBy}:
+ * (Tif {@dodf ?} for tif sfdond typf pbrbmftfr mfrfly indidbtfs tibt wf don't
+ * dbrf bbout tif intfrmfdibtf rfprfsfntbtion usfd by tiis dollfdtor.)
+ * If wf wbntfd to drfbtf b dollfdtor to tbbulbtf tif sum of sblbrifs by
+ * dfpbrtmfnt, wf dould rfusf {@dodf summingSblbrifs} using
+ * {@link jbvb.util.strfbm.Collfdtors#groupingBy(jbvb.util.fundtion.Fundtion, jbvb.util.strfbm.Collfdtor) groupingBy}:
  *
- * <pre>{@code
- *     Map<Department, Integer> salariesByDept
- *         = employees.stream().collect(Collectors.groupingBy(Employee::getDepartment,
- *                                                            summingSalaries));
- * }</pre>
+ * <prf>{@dodf
+ *     Mbp<Dfpbrtmfnt, Intfgfr> sblbrifsByDfpt
+ *         = fmployffs.strfbm().dollfdt(Collfdtors.groupingBy(Employff::gftDfpbrtmfnt,
+ *                                                            summingSblbrifs));
+ * }</prf>
  *
- * <p>As with the regular reduction operation, {@code collect()} operations can
- * only be parallelized if appropriate conditions are met.  For any partially
- * accumulated result, combining it with an empty result container must
- * produce an equivalent result.  That is, for a partially accumulated result
- * {@code p} that is the result of any series of accumulator and combiner
- * invocations, {@code p} must be equivalent to
- * {@code combiner.apply(p, supplier.get())}.
+ * <p>As witi tif rfgulbr rfdudtion opfrbtion, {@dodf dollfdt()} opfrbtions dbn
+ * only bf pbrbllflizfd if bppropribtf donditions brf mft.  For bny pbrtiblly
+ * bddumulbtfd rfsult, dombining it witi bn fmpty rfsult dontbinfr must
+ * produdf bn fquivblfnt rfsult.  Tibt is, for b pbrtiblly bddumulbtfd rfsult
+ * {@dodf p} tibt is tif rfsult of bny sfrifs of bddumulbtor bnd dombinfr
+ * invodbtions, {@dodf p} must bf fquivblfnt to
+ * {@dodf dombinfr.bpply(p, supplifr.gft())}.
  *
- * <p>Further, however the computation is split, it must produce an equivalent
- * result.  For any input elements {@code t1} and {@code t2}, the results
- * {@code r1} and {@code r2} in the computation below must be equivalent:
- * <pre>{@code
- *     A a1 = supplier.get();
- *     accumulator.accept(a1, t1);
- *     accumulator.accept(a1, t2);
- *     R r1 = finisher.apply(a1);  // result without splitting
+ * <p>Furtifr, iowfvfr tif domputbtion is split, it must produdf bn fquivblfnt
+ * rfsult.  For bny input flfmfnts {@dodf t1} bnd {@dodf t2}, tif rfsults
+ * {@dodf r1} bnd {@dodf r2} in tif domputbtion bflow must bf fquivblfnt:
+ * <prf>{@dodf
+ *     A b1 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b1, t1);
+ *     bddumulbtor.bddfpt(b1, t2);
+ *     R r1 = finisifr.bpply(b1);  // rfsult witiout splitting
  *
- *     A a2 = supplier.get();
- *     accumulator.accept(a2, t1);
- *     A a3 = supplier.get();
- *     accumulator.accept(a3, t2);
- *     R r2 = finisher.apply(combiner.apply(a2, a3));  // result with splitting
- * }</pre>
+ *     A b2 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b2, t1);
+ *     A b3 = supplifr.gft();
+ *     bddumulbtor.bddfpt(b3, t2);
+ *     R r2 = finisifr.bpply(dombinfr.bpply(b2, b3));  // rfsult witi splitting
+ * }</prf>
  *
- * <p>Here, equivalence generally means according to {@link java.lang.Object#equals(Object)}.
- * but in some cases equivalence may be relaxed to account for differences in
- * order.
+ * <p>Hfrf, fquivblfndf gfnfrblly mfbns bddording to {@link jbvb.lbng.Objfdt#fqubls(Objfdt)}.
+ * but in somf dbsfs fquivblfndf mby bf rflbxfd to bddount for difffrfndfs in
+ * ordfr.
  *
- * <h3><a name="ConcurrentReduction">Reduction, concurrency, and ordering</a></h3>
+ * <i3><b nbmf="CondurrfntRfdudtion">Rfdudtion, dondurrfndy, bnd ordfring</b></i3>
  *
- * With some complex reduction operations, for example a {@code collect()} that
- * produces a {@code Map}, such as:
- * <pre>{@code
- *     Map<Buyer, List<Transaction>> salesByBuyer
- *         = txns.parallelStream()
- *               .collect(Collectors.groupingBy(Transaction::getBuyer));
- * }</pre>
- * it may actually be counterproductive to perform the operation in parallel.
- * This is because the combining step (merging one {@code Map} into another by
- * key) can be expensive for some {@code Map} implementations.
+ * Witi somf domplfx rfdudtion opfrbtions, for fxbmplf b {@dodf dollfdt()} tibt
+ * produdfs b {@dodf Mbp}, sudi bs:
+ * <prf>{@dodf
+ *     Mbp<Buyfr, List<Trbnsbdtion>> sblfsByBuyfr
+ *         = txns.pbrbllflStrfbm()
+ *               .dollfdt(Collfdtors.groupingBy(Trbnsbdtion::gftBuyfr));
+ * }</prf>
+ * it mby bdtublly bf dountfrprodudtivf to pfrform tif opfrbtion in pbrbllfl.
+ * Tiis is bfdbusf tif dombining stfp (mfrging onf {@dodf Mbp} into bnotifr by
+ * kfy) dbn bf fxpfnsivf for somf {@dodf Mbp} implfmfntbtions.
  *
- * <p>Suppose, however, that the result container used in this reduction
- * was a concurrently modifiable collection -- such as a
- * {@link java.util.concurrent.ConcurrentHashMap}. In that case, the parallel
- * invocations of the accumulator could actually deposit their results
- * concurrently into the same shared result container, eliminating the need for
- * the combiner to merge distinct result containers. This potentially provides
- * a boost to the parallel execution performance. We call this a
- * <em>concurrent</em> reduction.
+ * <p>Supposf, iowfvfr, tibt tif rfsult dontbinfr usfd in tiis rfdudtion
+ * wbs b dondurrfntly modifibblf dollfdtion -- sudi bs b
+ * {@link jbvb.util.dondurrfnt.CondurrfntHbsiMbp}. In tibt dbsf, tif pbrbllfl
+ * invodbtions of tif bddumulbtor dould bdtublly dfposit tifir rfsults
+ * dondurrfntly into tif sbmf sibrfd rfsult dontbinfr, fliminbting tif nffd for
+ * tif dombinfr to mfrgf distindt rfsult dontbinfrs. Tiis potfntiblly providfs
+ * b boost to tif pbrbllfl fxfdution pfrformbndf. Wf dbll tiis b
+ * <fm>dondurrfnt</fm> rfdudtion.
  *
- * <p>A {@link java.util.stream.Collector} that supports concurrent reduction is
- * marked with the {@link java.util.stream.Collector.Characteristics#CONCURRENT}
- * characteristic.  However, a concurrent collection also has a downside.  If
- * multiple threads are depositing results concurrently into a shared container,
- * the order in which results are deposited is non-deterministic. Consequently,
- * a concurrent reduction is only possible if ordering is not important for the
- * stream being processed. The {@link java.util.stream.Stream#collect(Collector)}
- * implementation will only perform a concurrent reduction if
+ * <p>A {@link jbvb.util.strfbm.Collfdtor} tibt supports dondurrfnt rfdudtion is
+ * mbrkfd witi tif {@link jbvb.util.strfbm.Collfdtor.Cibrbdtfristids#CONCURRENT}
+ * dibrbdtfristid.  Howfvfr, b dondurrfnt dollfdtion blso ibs b downsidf.  If
+ * multiplf tirfbds brf dfpositing rfsults dondurrfntly into b sibrfd dontbinfr,
+ * tif ordfr in wiidi rfsults brf dfpositfd is non-dftfrministid. Consfqufntly,
+ * b dondurrfnt rfdudtion is only possiblf if ordfring is not importbnt for tif
+ * strfbm bfing prodfssfd. Tif {@link jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor)}
+ * implfmfntbtion will only pfrform b dondurrfnt rfdudtion if
  * <ul>
- * <li>The stream is parallel;</li>
- * <li>The collector has the
- * {@link java.util.stream.Collector.Characteristics#CONCURRENT} characteristic,
- * and;</li>
- * <li>Either the stream is unordered, or the collector has the
- * {@link java.util.stream.Collector.Characteristics#UNORDERED} characteristic.
+ * <li>Tif strfbm is pbrbllfl;</li>
+ * <li>Tif dollfdtor ibs tif
+ * {@link jbvb.util.strfbm.Collfdtor.Cibrbdtfristids#CONCURRENT} dibrbdtfristid,
+ * bnd;</li>
+ * <li>Eitifr tif strfbm is unordfrfd, or tif dollfdtor ibs tif
+ * {@link jbvb.util.strfbm.Collfdtor.Cibrbdtfristids#UNORDERED} dibrbdtfristid.
  * </ul>
- * You can ensure the stream is unordered by using the
- * {@link java.util.stream.BaseStream#unordered()} method.  For example:
- * <pre>{@code
- *     Map<Buyer, List<Transaction>> salesByBuyer
- *         = txns.parallelStream()
- *               .unordered()
- *               .collect(groupingByConcurrent(Transaction::getBuyer));
- * }</pre>
- * (where {@link java.util.stream.Collectors#groupingByConcurrent} is the
- * concurrent equivalent of {@code groupingBy}).
+ * You dbn fnsurf tif strfbm is unordfrfd by using tif
+ * {@link jbvb.util.strfbm.BbsfStrfbm#unordfrfd()} mftiod.  For fxbmplf:
+ * <prf>{@dodf
+ *     Mbp<Buyfr, List<Trbnsbdtion>> sblfsByBuyfr
+ *         = txns.pbrbllflStrfbm()
+ *               .unordfrfd()
+ *               .dollfdt(groupingByCondurrfnt(Trbnsbdtion::gftBuyfr));
+ * }</prf>
+ * (wifrf {@link jbvb.util.strfbm.Collfdtors#groupingByCondurrfnt} is tif
+ * dondurrfnt fquivblfnt of {@dodf groupingBy}).
  *
- * <p>Note that if it is important that the elements for a given key appear in
- * the order they appear in the source, then we cannot use a concurrent
- * reduction, as ordering is one of the casualties of concurrent insertion.
- * We would then be constrained to implement either a sequential reduction or
- * a merge-based parallel reduction.
+ * <p>Notf tibt if it is importbnt tibt tif flfmfnts for b givfn kfy bppfbr in
+ * tif ordfr tify bppfbr in tif sourdf, tifn wf dbnnot usf b dondurrfnt
+ * rfdudtion, bs ordfring is onf of tif dbsubltifs of dondurrfnt insfrtion.
+ * Wf would tifn bf donstrbinfd to implfmfnt fitifr b sfqufntibl rfdudtion or
+ * b mfrgf-bbsfd pbrbllfl rfdudtion.
  *
- * <h3><a name="Associativity">Associativity</a></h3>
+ * <i3><b nbmf="Assodibtivity">Assodibtivity</b></i3>
  *
- * An operator or function {@code op} is <em>associative</em> if the following
- * holds:
- * <pre>{@code
- *     (a op b) op c == a op (b op c)
- * }</pre>
- * The importance of this to parallel evaluation can be seen if we expand this
- * to four terms:
- * <pre>{@code
- *     a op b op c op d == (a op b) op (c op d)
- * }</pre>
- * So we can evaluate {@code (a op b)} in parallel with {@code (c op d)}, and
- * then invoke {@code op} on the results.
+ * An opfrbtor or fundtion {@dodf op} is <fm>bssodibtivf</fm> if tif following
+ * iolds:
+ * <prf>{@dodf
+ *     (b op b) op d == b op (b op d)
+ * }</prf>
+ * Tif importbndf of tiis to pbrbllfl fvblubtion dbn bf sffn if wf fxpbnd tiis
+ * to four tfrms:
+ * <prf>{@dodf
+ *     b op b op d op d == (b op b) op (d op d)
+ * }</prf>
+ * So wf dbn fvblubtf {@dodf (b op b)} in pbrbllfl witi {@dodf (d op d)}, bnd
+ * tifn invokf {@dodf op} on tif rfsults.
  *
- * <p>Examples of associative operations include numeric addition, min, and
- * max, and string concatenation.
+ * <p>Exbmplfs of bssodibtivf opfrbtions indludf numfrid bddition, min, bnd
+ * mbx, bnd string dondbtfnbtion.
  *
- * <h2><a name="StreamSources">Low-level stream construction</a></h2>
+ * <i2><b nbmf="StrfbmSourdfs">Low-lfvfl strfbm donstrudtion</b></i2>
  *
- * So far, all the stream examples have used methods like
- * {@link java.util.Collection#stream()} or {@link java.util.Arrays#stream(Object[])}
- * to obtain a stream.  How are those stream-bearing methods implemented?
+ * So fbr, bll tif strfbm fxbmplfs ibvf usfd mftiods likf
+ * {@link jbvb.util.Collfdtion#strfbm()} or {@link jbvb.util.Arrbys#strfbm(Objfdt[])}
+ * to obtbin b strfbm.  How brf tiosf strfbm-bfbring mftiods implfmfntfd?
  *
- * <p>The class {@link java.util.stream.StreamSupport} has a number of
- * low-level methods for creating a stream, all using some form of a
- * {@link java.util.Spliterator}. A spliterator is the parallel analogue of an
- * {@link java.util.Iterator}; it describes a (possibly infinite) collection of
- * elements, with support for sequentially advancing, bulk traversal, and
- * splitting off some portion of the input into another spliterator which can
- * be processed in parallel.  At the lowest level, all streams are driven by a
- * spliterator.
+ * <p>Tif dlbss {@link jbvb.util.strfbm.StrfbmSupport} ibs b numbfr of
+ * low-lfvfl mftiods for drfbting b strfbm, bll using somf form of b
+ * {@link jbvb.util.Splitfrbtor}. A splitfrbtor is tif pbrbllfl bnbloguf of bn
+ * {@link jbvb.util.Itfrbtor}; it dfsdribfs b (possibly infinitf) dollfdtion of
+ * flfmfnts, witi support for sfqufntiblly bdvbnding, bulk trbvfrsbl, bnd
+ * splitting off somf portion of tif input into bnotifr splitfrbtor wiidi dbn
+ * bf prodfssfd in pbrbllfl.  At tif lowfst lfvfl, bll strfbms brf drivfn by b
+ * splitfrbtor.
  *
- * <p>There are a number of implementation choices in implementing a
- * spliterator, nearly all of which are tradeoffs between simplicity of
- * implementation and runtime performance of streams using that spliterator.
- * The simplest, but least performant, way to create a spliterator is to
- * create one from an iterator using
- * {@link java.util.Spliterators#spliteratorUnknownSize(java.util.Iterator, int)}.
- * While such a spliterator will work, it will likely offer poor parallel
- * performance, since we have lost sizing information (how big is the
- * underlying data set), as well as being constrained to a simplistic
- * splitting algorithm.
+ * <p>Tifrf brf b numbfr of implfmfntbtion dioidfs in implfmfnting b
+ * splitfrbtor, nfbrly bll of wiidi brf trbdfoffs bftwffn simplidity of
+ * implfmfntbtion bnd runtimf pfrformbndf of strfbms using tibt splitfrbtor.
+ * Tif simplfst, but lfbst pfrformbnt, wby to drfbtf b splitfrbtor is to
+ * drfbtf onf from bn itfrbtor using
+ * {@link jbvb.util.Splitfrbtors#splitfrbtorUnknownSizf(jbvb.util.Itfrbtor, int)}.
+ * Wiilf sudi b splitfrbtor will work, it will likfly offfr poor pbrbllfl
+ * pfrformbndf, sindf wf ibvf lost sizing informbtion (iow big is tif
+ * undfrlying dbtb sft), bs wfll bs bfing donstrbinfd to b simplistid
+ * splitting blgoritim.
  *
- * <p>A higher-quality spliterator will provide balanced and known-size
- * splits, accurate sizing information, and a number of other
- * {@link java.util.Spliterator#characteristics() characteristics} of the
- * spliterator or data that can be used by implementations to optimize
- * execution.
+ * <p>A iigifr-qublity splitfrbtor will providf bblbndfd bnd known-sizf
+ * splits, bddurbtf sizing informbtion, bnd b numbfr of otifr
+ * {@link jbvb.util.Splitfrbtor#dibrbdtfristids() dibrbdtfristids} of tif
+ * splitfrbtor or dbtb tibt dbn bf usfd by implfmfntbtions to optimizf
+ * fxfdution.
  *
- * <p>Spliterators for mutable data sources have an additional challenge;
- * timing of binding to the data, since the data could change between the time
- * the spliterator is created and the time the stream pipeline is executed.
- * Ideally, a spliterator for a stream would report a characteristic of
+ * <p>Splitfrbtors for mutbblf dbtb sourdfs ibvf bn bdditionbl dibllfngf;
+ * timing of binding to tif dbtb, sindf tif dbtb dould dibngf bftwffn tif timf
+ * tif splitfrbtor is drfbtfd bnd tif timf tif strfbm pipflinf is fxfdutfd.
+ * Idfblly, b splitfrbtor for b strfbm would rfport b dibrbdtfristid of
 
- * {@code IMMUTABLE} or {@code CONCURRENT}; if not it should be
- * <a href="../Spliterator.html#binding"><em>late-binding</em></a>. If a source
- * cannot directly supply a recommended spliterator, it may indirectly supply
- * a spliterator using a {@code Supplier}, and construct a stream via the
- * {@code Supplier}-accepting versions of
- * {@link java.util.stream.StreamSupport#stream(Supplier, int, boolean) stream()}.
- * The spliterator is obtained from the supplier only after the terminal
- * operation of the stream pipeline commences.
+ * {@dodf IMMUTABLE} or {@dodf CONCURRENT}; if not it siould bf
+ * <b irff="../Splitfrbtor.itml#binding"><fm>lbtf-binding</fm></b>. If b sourdf
+ * dbnnot dirfdtly supply b rfdommfndfd splitfrbtor, it mby indirfdtly supply
+ * b splitfrbtor using b {@dodf Supplifr}, bnd donstrudt b strfbm vib tif
+ * {@dodf Supplifr}-bddfpting vfrsions of
+ * {@link jbvb.util.strfbm.StrfbmSupport#strfbm(Supplifr, int, boolfbn) strfbm()}.
+ * Tif splitfrbtor is obtbinfd from tif supplifr only bftfr tif tfrminbl
+ * opfrbtion of tif strfbm pipflinf dommfndfs.
  *
- * <p>These requirements significantly reduce the scope of potential
- * interference between mutations of the stream source and execution of stream
- * pipelines. Streams based on spliterators with the desired characteristics,
- * or those using the Supplier-based factory forms, are immune to
- * modifications of the data source prior to commencement of the terminal
- * operation (provided the behavioral parameters to the stream operations meet
- * the required criteria for non-interference and statelessness).  See
- * <a href="package-summary.html#NonInterference">Non-Interference</a>
- * for more details.
+ * <p>Tifsf rfquirfmfnts signifidbntly rfdudf tif sdopf of potfntibl
+ * intfrffrfndf bftwffn mutbtions of tif strfbm sourdf bnd fxfdution of strfbm
+ * pipflinfs. Strfbms bbsfd on splitfrbtors witi tif dfsirfd dibrbdtfristids,
+ * or tiosf using tif Supplifr-bbsfd fbdtory forms, brf immunf to
+ * modifidbtions of tif dbtb sourdf prior to dommfndfmfnt of tif tfrminbl
+ * opfrbtion (providfd tif bfibviorbl pbrbmftfrs to tif strfbm opfrbtions mfft
+ * tif rfquirfd dritfrib for non-intfrffrfndf bnd stbtflfssnfss).  Sff
+ * <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">Non-Intfrffrfndf</b>
+ * for morf dftbils.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.function.BinaryOperator;
-import java.util.function.UnaryOperator;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.UnbryOpfrbtor;

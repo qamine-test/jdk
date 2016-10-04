@@ -1,104 +1,104 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.ktab;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ktbb;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.util.KrbDataOutputStream;
-import java.io.IOException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.util.KrbDbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
- * This class implements a buffered input stream. It is used for parsing key table
- * data to memory.
+ * Tiis dlbss implfmfnts b bufffrfd input strfbm. It is usfd for pbrsing kfy tbblf
+ * dbtb to mfmory.
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  *
  */
-public class KeyTabOutputStream extends KrbDataOutputStream implements KeyTabConstants {
-    private KeyTabEntry entry;
-    private int keyType;
-    private byte[] keyValue;
-    public int version;
+publid dlbss KfyTbbOutputStrfbm fxtfnds KrbDbtbOutputStrfbm implfmfnts KfyTbbConstbnts {
+    privbtf KfyTbbEntry fntry;
+    privbtf int kfyTypf;
+    privbtf bytf[] kfyVbluf;
+    publid int vfrsion;
 
-    public KeyTabOutputStream(OutputStream os) {
-        super(os);
+    publid KfyTbbOutputStrfbm(OutputStrfbm os) {
+        supfr(os);
     }
 
-    public void writeVersion(int num) throws IOException {
-        version = num;
-        write16(num);           //we use the standard version.
+    publid void writfVfrsion(int num) tirows IOExdfption {
+        vfrsion = num;
+        writf16(num);           //wf usf tif stbndbrd vfrsion.
     }
 
-    public void writeEntry(KeyTabEntry entry) throws IOException {
-        write32(entry.entryLength());
-        String[] serviceNames =  entry.service.getNameStrings();
-        int comp_num = serviceNames.length;
-        if (version == KRB5_KT_VNO_1) {
-            write16(comp_num + 1);
+    publid void writfEntry(KfyTbbEntry fntry) tirows IOExdfption {
+        writf32(fntry.fntryLfngti());
+        String[] sfrvidfNbmfs =  fntry.sfrvidf.gftNbmfStrings();
+        int domp_num = sfrvidfNbmfs.lfngti;
+        if (vfrsion == KRB5_KT_VNO_1) {
+            writf16(domp_num + 1);
         }
-        else write16(comp_num);
+        flsf writf16(domp_num);
 
-        byte[] realm = null;
+        bytf[] rfblm = null;
         try {
-            realm = entry.service.getRealmString().getBytes("8859_1");
-        } catch (UnsupportedEncodingException exc) {
+            rfblm = fntry.sfrvidf.gftRfblmString().gftBytfs("8859_1");
+        } dbtdi (UnsupportfdEndodingExdfption fxd) {
         }
 
-        write16(realm.length);
-        write(realm);
-        for (int i = 0; i < comp_num; i++) {
+        writf16(rfblm.lfngti);
+        writf(rfblm);
+        for (int i = 0; i < domp_num; i++) {
             try {
-                write16(serviceNames[i].getBytes("8859_1").length);
-                write(serviceNames[i].getBytes("8859_1"));
-            } catch (UnsupportedEncodingException exc) {
+                writf16(sfrvidfNbmfs[i].gftBytfs("8859_1").lfngti);
+                writf(sfrvidfNbmfs[i].gftBytfs("8859_1"));
+            } dbtdi (UnsupportfdEndodingExdfption fxd) {
             }
         }
-        write32(entry.service.getNameType());
-        //time is long, but we only use 4 bytes to store the data.
-        write32((int)(entry.timestamp.getTime()/1000));
+        writf32(fntry.sfrvidf.gftNbmfTypf());
+        //timf is long, but wf only usf 4 bytfs to storf tif dbtb.
+        writf32((int)(fntry.timfstbmp.gftTimf()/1000));
 
-        // the key version might be a 32 bit extended number.
-        write8(entry.keyVersion % 256 );
-        write16(entry.keyType);
-        write16(entry.keyblock.length);
-        write(entry.keyblock);
+        // tif kfy vfrsion migit bf b 32 bit fxtfndfd numbfr.
+        writf8(fntry.kfyVfrsion % 256 );
+        writf16(fntry.kfyTypf);
+        writf16(fntry.kfyblodk.lfngti);
+        writf(fntry.kfyblodk);
 
-        // if the key version isn't smaller than 256, it could be saved as
-        // extension key version number in 4 bytes. The nonzero extension
-        // key version number will be trusted. However, it isn't standardized
-        // yet, we won't support it.
-        // if (entry.keyVersion >= 256) {
-        //    write32(entry.keyVersion);
+        // if tif kfy vfrsion isn't smbllfr tibn 256, it dould bf sbvfd bs
+        // fxtfnsion kfy vfrsion numbfr in 4 bytfs. Tif nonzfro fxtfnsion
+        // kfy vfrsion numbfr will bf trustfd. Howfvfr, it isn't stbndbrdizfd
+        // yft, wf won't support it.
+        // if (fntry.kfyVfrsion >= 256) {
+        //    writf32(fntry.kfyVfrsion);
         //}
     }
 }

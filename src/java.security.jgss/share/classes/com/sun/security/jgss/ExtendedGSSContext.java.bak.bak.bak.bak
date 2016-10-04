@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.jgss;
+
+import org.iftf.jgss.*;
+
+/**
+ * Thf fxtfndfd GSSContfxt intfrfbdf for supporting bdditionbl
+ * fundtionblitifs not dffinfd by {@dodf org.iftf.jgss.GSSContfxt},
+ * sudh bs qufrying dontfxt-spfdifid bttributfs.
+ */
+@jdk.Exportfd
+publid intfrfbdf ExtfndfdGSSContfxt fxtfnds GSSContfxt {
+    /**
+     * Rfturn thf mfdhbnism-spfdifid bttributf bssodibtfd with {@dodf typf}.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, bn {@link InquirfSfdContfxtPfrmission}
+     * with thf nbmf {@dodf typf.mfdh} must bf grbntfd. Othfrwisf, this dould
+     * rfsult in b {@link SfdurityExdfption}.<p>
+     *
+     * Exbmplf:
+     * <prf>
+     *      GSSContfxt dtxt = m.drfbtfContfxt(...)
+     *      // Estbblishing thf dontfxt
+     *      if (dtxt instbndfof ExtfndfdGSSContfxt) {
+     *          ExtfndfdGSSContfxt fx = (ExtfndfdGSSContfxt)dtxt;
+     *          try {
+     *              Kfy kfy = (kfy)fx.inquirfSfdContfxt(
+     *                      InquirfTypf.KRB5_GET_SESSION_KEY);
+     *              // rfbd kfy info
+     *          } dbtdh (GSSExdfption gssf) {
+     *              // dfbl with fxdfption
+     *          }
+     *      }
+     * </prf>
+     * @pbrbm typf thf typf of thf bttributf rfqufstfd
+     * @rfturn thf bttributf, sff thf mfthod dodumfntbtion for dftbils.
+     * @throws GSSExdfption dontbining  thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH} if thf mfdhbnism
+     *   dofs not support this mfthod,
+     *   {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE} if thf
+     *   typf spfdififd is not supportfd,
+     *   {@link GSSExdfption#NO_CONTEXT GSSExdfption.NO_CONTEXT} if thf
+     *   sfdurity dontfxt is invblid,
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE} for othfr
+     *   unspfdififd fbilurfs.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd b propfr
+     *   {@link InquirfSfdContfxtPfrmission} is not grbntfd.
+     * @sff InquirfSfdContfxtPfrmission
+     * @sff InquirfTypf
+     */
+    publid Objfdt inquirfSfdContfxt(InquirfTypf typf)
+            throws GSSExdfption;
+
+    /**
+     * Rfqufsts thbt thf dflfgbtion polidy bf rfspfdtfd. Whfn b truf vbluf is
+     * rfqufstfd, thf undfrlying dontfxt would usf thf dflfgbtion polidy
+     * dffinfd by thf fnvironmfnt bs b hint to dftfrminf whfthfr drfdfntibls
+     * dflfgbtion should bf pfrformfd. This rfqufst dbn only bf mbdf on thf
+     * dontfxt initibtor's sidf bnd it hbs to bf donf prior to thf first
+     * dbll to <dodf>initSfdContfxt</dodf>.
+     * <p>
+     * Whfn this flbg is fblsf, dflfgbtion will only bf trifd whfn thf
+     * {@link GSSContfxt#rfqufstCrfdDflfg(boolfbn) drfdfntibls dflfgbtion flbg}
+     * is truf.
+     * <p>
+     * Whfn this flbg is truf but thf
+     * {@link GSSContfxt#rfqufstCrfdDflfg(boolfbn) drfdfntibls dflfgbtion flbg}
+     * is fblsf, dflfgbtion will bf only trifd if thf dflfgbtion polidy pfrmits
+     * dflfgbtion.
+     * <p>
+     * Whfn both this flbg bnd thf
+     * {@link GSSContfxt#rfqufstCrfdDflfg(boolfbn) drfdfntibls dflfgbtion flbg}
+     * brf truf, dflfgbtion will bf blwbys trifd. Howfvfr, if thf dflfgbtion
+     * polidy dofs not pfrmit dflfgbtion, thf vbluf of
+     * {@link #gftDflfgPolidyStbtf} will bf fblsf, fvfn
+     * if dflfgbtion is pfrformfd suddfssfully.
+     * <p>
+     * In bny dbsf, if thf dflfgbtion is not suddfssful, thf vbluf rfturnfd
+     * by {@link GSSContfxt#gftCrfdDflfgStbtf()} is fblsf, bnd thf vbluf
+     * rfturnfd by {@link #gftDflfgPolidyStbtf()} is blso fblsf.
+     * <p>
+     * Not bll mfdhbnisms support dflfgbtion polidy. Thfrfforf, thf
+     * bpplidbtion should dhfdk to sff if thf rfqufst wbs honorfd with thf
+     * {@link #gftDflfgPolidyStbtf() gftDflfgPolidyStbtf} mfthod. Whfn
+     * dflfgbtion polidy is not supportfd, <dodf>rfqufstDflfgPolidy</dodf>
+     * should rfturn silfntly without throwing bn fxdfption.
+     * <p>
+     * Notf: for thf Kfrbfros 5 mfdhbnism, thf dflfgbtion polidy is fxprfssfd
+     * through thf OK-AS-DELEGATE flbg in thf sfrvidf tidkft. Whfn it's truf,
+     * thf KDC pfrmits dflfgbtion to thf tbrgft sfrvfr. In b dross-rfblm
+     * fnvironmfnt, in ordfr for dflfgbtion bf pfrmittfd, bll dross-rfblm TGTs
+     * on thf buthfntidbtion pbth must blso hbvf thf OK-AS-DELAGATE flbgs sft.
+     * @pbrbm stbtf truf if thf polidy should bf rfspfdtfd
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid void rfqufstDflfgPolidy(boolfbn stbtf) throws GSSExdfption;
+
+    /**
+     * Rfturns thf dflfgbtion polidy rfsponsf. Cbllfd bftfr b sfdurity dontfxt
+     * is fstbblishfd. This mfthod dbn bf only dbllfd on thf initibtor's sidf.
+     * Sff {@link ExtfndfdGSSContfxt#rfqufstDflfgPolidy}.
+     * @rfturn thf dflfgbtion polidy rfsponsf
+     */
+    publid boolfbn gftDflfgPolidyStbtf();
+}

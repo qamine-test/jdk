@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.acl;
+pbdkbgf sun.sfdurity.bdl;
 
-import java.util.*;
-import java.security.*;
-import java.security.acl.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.bdl.*;
 
 /**
- * Class implementing the Owner interface. The
- * initial owner principal is configured as
- * part of the constructor.
- * @author      Satish Dharmaraj
+ * Clbss implfmfnting tif Ownfr intfrfbdf. Tif
+ * initibl ownfr prindipbl is donfigurfd bs
+ * pbrt of tif donstrudtor.
+ * @butior      Sbtisi Dibrmbrbj
  */
-public class OwnerImpl implements Owner {
-    private Group ownerGroup;
+publid dlbss OwnfrImpl implfmfnts Ownfr {
+    privbtf Group ownfrGroup;
 
-    public OwnerImpl(Principal owner) {
-        ownerGroup = new GroupImpl("AclOwners");
-        ownerGroup.addMember(owner);
+    publid OwnfrImpl(Prindipbl ownfr) {
+        ownfrGroup = nfw GroupImpl("AdlOwnfrs");
+        ownfrGroup.bddMfmbfr(ownfr);
     }
 
     /**
-     * Adds an owner. Owners can modify ACL contents and can disassociate
-     * ACLs from the objects they protect in the AclConfig interface.
-     * The caller principal must be a part of the owners list of the ACL in
-     * order to invoke this method. The initial owner is configured
-     * at ACL construction time.
-     * @param caller the principal who is invoking this method.
-     * @param owner The owner that should be added to the owners list.
-     * @return true if success, false if already an owner.
-     * @exception NotOwnerException if the caller principal is not on
-     * the owners list of the Acl.
+     * Adds bn ownfr. Ownfrs dbn modify ACL dontfnts bnd dbn disbssodibtf
+     * ACLs from tif objfdts tify protfdt in tif AdlConfig intfrfbdf.
+     * Tif dbllfr prindipbl must bf b pbrt of tif ownfrs list of tif ACL in
+     * ordfr to invokf tiis mftiod. Tif initibl ownfr is donfigurfd
+     * bt ACL donstrudtion timf.
+     * @pbrbm dbllfr tif prindipbl wio is invoking tiis mftiod.
+     * @pbrbm ownfr Tif ownfr tibt siould bf bddfd to tif ownfrs list.
+     * @rfturn truf if suddfss, fblsf if blrfbdy bn ownfr.
+     * @fxdfption NotOwnfrExdfption if tif dbllfr prindipbl is not on
+     * tif ownfrs list of tif Adl.
      */
-    public synchronized boolean addOwner(Principal caller, Principal owner)
-      throws NotOwnerException
+    publid syndironizfd boolfbn bddOwnfr(Prindipbl dbllfr, Prindipbl ownfr)
+      tirows NotOwnfrExdfption
     {
-        if (!isOwner(caller))
-            throw new NotOwnerException();
+        if (!isOwnfr(dbllfr))
+            tirow nfw NotOwnfrExdfption();
 
-        ownerGroup.addMember(owner);
-        return false;
+        ownfrGroup.bddMfmbfr(ownfr);
+        rfturn fblsf;
     }
 
     /**
-     * Delete owner. If this is the last owner in the ACL, an exception is
-     * raised.
-     * The caller principal must be a part of the owners list of the ACL in
-     * order to invoke this method.
-     * @param caller the principal who is invoking this method.
-     * @param owner The owner to be removed from the owners list.
-     * @return true if the owner is removed, false if the owner is not part
-     * of the owners list.
-     * @exception NotOwnerException if the caller principal is not on
-     * the owners list of the Acl.
-     * @exception LastOwnerException if there is only one owner left in the group, then
-     * deleteOwner would leave the ACL owner-less. This exception is raised in such a case.
+     * Dflftf ownfr. If tiis is tif lbst ownfr in tif ACL, bn fxdfption is
+     * rbisfd.
+     * Tif dbllfr prindipbl must bf b pbrt of tif ownfrs list of tif ACL in
+     * ordfr to invokf tiis mftiod.
+     * @pbrbm dbllfr tif prindipbl wio is invoking tiis mftiod.
+     * @pbrbm ownfr Tif ownfr to bf rfmovfd from tif ownfrs list.
+     * @rfturn truf if tif ownfr is rfmovfd, fblsf if tif ownfr is not pbrt
+     * of tif ownfrs list.
+     * @fxdfption NotOwnfrExdfption if tif dbllfr prindipbl is not on
+     * tif ownfrs list of tif Adl.
+     * @fxdfption LbstOwnfrExdfption if tifrf is only onf ownfr lfft in tif group, tifn
+     * dflftfOwnfr would lfbvf tif ACL ownfr-lfss. Tiis fxdfption is rbisfd in sudi b dbsf.
      */
-    public synchronized boolean deleteOwner(Principal caller, Principal owner)
-      throws NotOwnerException, LastOwnerException
+    publid syndironizfd boolfbn dflftfOwnfr(Prindipbl dbllfr, Prindipbl ownfr)
+      tirows NotOwnfrExdfption, LbstOwnfrExdfption
     {
-        if (!isOwner(caller))
-            throw new NotOwnerException();
+        if (!isOwnfr(dbllfr))
+            tirow nfw NotOwnfrExdfption();
 
-        Enumeration<? extends Principal> e = ownerGroup.members();
+        Enumfrbtion<? fxtfnds Prindipbl> f = ownfrGroup.mfmbfrs();
         //
-        // check if there is atleast 2 members left.
+        // difdk if tifrf is btlfbst 2 mfmbfrs lfft.
         //
-        Object o = e.nextElement();
-        if (e.hasMoreElements())
-            return ownerGroup.removeMember(owner);
-        else
-            throw new LastOwnerException();
+        Objfdt o = f.nfxtElfmfnt();
+        if (f.ibsMorfElfmfnts())
+            rfturn ownfrGroup.rfmovfMfmbfr(ownfr);
+        flsf
+            tirow nfw LbstOwnfrExdfption();
 
     }
 
     /**
-     * returns if the given principal belongs to the owner list.
-     * @param owner The owner to check if part of the owners list
-     * @return true if the passed principal is in the owner list, false if not.
+     * rfturns if tif givfn prindipbl bflongs to tif ownfr list.
+     * @pbrbm ownfr Tif ownfr to difdk if pbrt of tif ownfrs list
+     * @rfturn truf if tif pbssfd prindipbl is in tif ownfr list, fblsf if not.
      */
-    public synchronized boolean isOwner(Principal owner) {
-        return ownerGroup.isMember(owner);
+    publid syndironizfd boolfbn isOwnfr(Prindipbl ownfr) {
+        rfturn ownfrGroup.isMfmbfr(ownfr);
     }
 }

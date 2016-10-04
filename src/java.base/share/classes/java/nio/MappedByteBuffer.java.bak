@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio;
+pbdkbgf jbvb.nio;
 
-import java.io.FileDescriptor;
-import sun.misc.Unsafe;
+import jbvb.io.FilfDfsdriptor;
+import sun.misd.Unsbff;
 
 
 /**
- * A direct byte buffer whose content is a memory-mapped region of a file.
+ * A dirfdt bytf bufffr wiosf dontfnt is b mfmory-mbppfd rfgion of b filf.
  *
- * <p> Mapped byte buffers are created via the {@link
- * java.nio.channels.FileChannel#map FileChannel.map} method.  This class
- * extends the {@link ByteBuffer} class with operations that are specific to
- * memory-mapped file regions.
+ * <p> Mbppfd bytf bufffrs brf drfbtfd vib tif {@link
+ * jbvb.nio.dibnnfls.FilfCibnnfl#mbp FilfCibnnfl.mbp} mftiod.  Tiis dlbss
+ * fxtfnds tif {@link BytfBufffr} dlbss witi opfrbtions tibt brf spfdifid to
+ * mfmory-mbppfd filf rfgions.
  *
- * <p> A mapped byte buffer and the file mapping that it represents remain
- * valid until the buffer itself is garbage-collected.
+ * <p> A mbppfd bytf bufffr bnd tif filf mbpping tibt it rfprfsfnts rfmbin
+ * vblid until tif bufffr itsflf is gbrbbgf-dollfdtfd.
  *
- * <p> The content of a mapped byte buffer can change at any time, for example
- * if the content of the corresponding region of the mapped file is changed by
- * this program or another.  Whether or not such changes occur, and when they
- * occur, is operating-system dependent and therefore unspecified.
+ * <p> Tif dontfnt of b mbppfd bytf bufffr dbn dibngf bt bny timf, for fxbmplf
+ * if tif dontfnt of tif dorrfsponding rfgion of tif mbppfd filf is dibngfd by
+ * tiis progrbm or bnotifr.  Wiftifr or not sudi dibngfs oddur, bnd wifn tify
+ * oddur, is opfrbting-systfm dfpfndfnt bnd tifrfforf unspfdififd.
  *
- * <a name="inaccess"></a><p> All or part of a mapped byte buffer may become
- * inaccessible at any time, for example if the mapped file is truncated.  An
- * attempt to access an inaccessible region of a mapped byte buffer will not
- * change the buffer's content and will cause an unspecified exception to be
- * thrown either at the time of the access or at some later time.  It is
- * therefore strongly recommended that appropriate precautions be taken to
- * avoid the manipulation of a mapped file by this program, or by a
- * concurrently running program, except to read or write the file's content.
+ * <b nbmf="inbddfss"></b><p> All or pbrt of b mbppfd bytf bufffr mby bfdomf
+ * inbddfssiblf bt bny timf, for fxbmplf if tif mbppfd filf is trundbtfd.  An
+ * bttfmpt to bddfss bn inbddfssiblf rfgion of b mbppfd bytf bufffr will not
+ * dibngf tif bufffr's dontfnt bnd will dbusf bn unspfdififd fxdfption to bf
+ * tirown fitifr bt tif timf of tif bddfss or bt somf lbtfr timf.  It is
+ * tifrfforf strongly rfdommfndfd tibt bppropribtf prfdbutions bf tbkfn to
+ * bvoid tif mbnipulbtion of b mbppfd filf by tiis progrbm, or by b
+ * dondurrfntly running progrbm, fxdfpt to rfbd or writf tif filf's dontfnt.
  *
- * <p> Mapped byte buffers otherwise behave no differently than ordinary direct
- * byte buffers. </p>
+ * <p> Mbppfd bytf bufffrs otifrwisf bfibvf no difffrfntly tibn ordinbry dirfdt
+ * bytf bufffrs. </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public abstract class MappedByteBuffer
-    extends ByteBuffer
+publid bbstrbdt dlbss MbppfdBytfBufffr
+    fxtfnds BytfBufffr
 {
 
-    // This is a little bit backwards: By rights MappedByteBuffer should be a
-    // subclass of DirectByteBuffer, but to keep the spec clear and simple, and
-    // for optimization purposes, it's easier to do it the other way around.
-    // This works because DirectByteBuffer is a package-private class.
+    // Tiis is b littlf bit bbdkwbrds: By rigits MbppfdBytfBufffr siould bf b
+    // subdlbss of DirfdtBytfBufffr, but to kffp tif spfd dlfbr bnd simplf, bnd
+    // for optimizbtion purposfs, it's fbsifr to do it tif otifr wby bround.
+    // Tiis works bfdbusf DirfdtBytfBufffr is b pbdkbgf-privbtf dlbss.
 
-    // For mapped buffers, a FileDescriptor that may be used for mapping
-    // operations if valid; null if the buffer is not mapped.
-    private final FileDescriptor fd;
+    // For mbppfd bufffrs, b FilfDfsdriptor tibt mby bf usfd for mbpping
+    // opfrbtions if vblid; null if tif bufffr is not mbppfd.
+    privbtf finbl FilfDfsdriptor fd;
 
-    // This should only be invoked by the DirectByteBuffer constructors
+    // Tiis siould only bf invokfd by tif DirfdtBytfBufffr donstrudtors
     //
-    MappedByteBuffer(int mark, int pos, int lim, int cap, // package-private
-                     FileDescriptor fd)
+    MbppfdBytfBufffr(int mbrk, int pos, int lim, int dbp, // pbdkbgf-privbtf
+                     FilfDfsdriptor fd)
     {
-        super(mark, pos, lim, cap);
-        this.fd = fd;
+        supfr(mbrk, pos, lim, dbp);
+        tiis.fd = fd;
     }
 
-    MappedByteBuffer(int mark, int pos, int lim, int cap) { // package-private
-        super(mark, pos, lim, cap);
-        this.fd = null;
+    MbppfdBytfBufffr(int mbrk, int pos, int lim, int dbp) { // pbdkbgf-privbtf
+        supfr(mbrk, pos, lim, dbp);
+        tiis.fd = null;
     }
 
-    private void checkMapped() {
+    privbtf void difdkMbppfd() {
         if (fd == null)
-            // Can only happen if a luser explicitly casts a direct byte buffer
-            throw new UnsupportedOperationException();
+            // Cbn only ibppfn if b lusfr fxpliditly dbsts b dirfdt bytf bufffr
+            tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    // Returns the distance (in bytes) of the buffer from the page aligned address
-    // of the mapping. Computed each time to avoid storing in every direct buffer.
-    private long mappingOffset() {
-        int ps = Bits.pageSize();
-        long offset = address % ps;
-        return (offset >= 0) ? offset : (ps + offset);
+    // Rfturns tif distbndf (in bytfs) of tif bufffr from tif pbgf blignfd bddrfss
+    // of tif mbpping. Computfd fbdi timf to bvoid storing in fvfry dirfdt bufffr.
+    privbtf long mbppingOffsft() {
+        int ps = Bits.pbgfSizf();
+        long offsft = bddrfss % ps;
+        rfturn (offsft >= 0) ? offsft : (ps + offsft);
     }
 
-    private long mappingAddress(long mappingOffset) {
-        return address - mappingOffset;
+    privbtf long mbppingAddrfss(long mbppingOffsft) {
+        rfturn bddrfss - mbppingOffsft;
     }
 
-    private long mappingLength(long mappingOffset) {
-        return (long)capacity() + mappingOffset;
+    privbtf long mbppingLfngti(long mbppingOffsft) {
+        rfturn (long)dbpbdity() + mbppingOffsft;
     }
 
     /**
-     * Tells whether or not this buffer's content is resident in physical
-     * memory.
+     * Tflls wiftifr or not tiis bufffr's dontfnt is rfsidfnt in piysidbl
+     * mfmory.
      *
-     * <p> A return value of <tt>true</tt> implies that it is highly likely
-     * that all of the data in this buffer is resident in physical memory and
-     * may therefore be accessed without incurring any virtual-memory page
-     * faults or I/O operations.  A return value of <tt>false</tt> does not
-     * necessarily imply that the buffer's content is not resident in physical
-     * memory.
+     * <p> A rfturn vbluf of <tt>truf</tt> implifs tibt it is iigily likfly
+     * tibt bll of tif dbtb in tiis bufffr is rfsidfnt in piysidbl mfmory bnd
+     * mby tifrfforf bf bddfssfd witiout indurring bny virtubl-mfmory pbgf
+     * fbults or I/O opfrbtions.  A rfturn vbluf of <tt>fblsf</tt> dofs not
+     * nfdfssbrily imply tibt tif bufffr's dontfnt is not rfsidfnt in piysidbl
+     * mfmory.
      *
-     * <p> The returned value is a hint, rather than a guarantee, because the
-     * underlying operating system may have paged out some of the buffer's data
-     * by the time that an invocation of this method returns.  </p>
+     * <p> Tif rfturnfd vbluf is b iint, rbtifr tibn b gubrbntff, bfdbusf tif
+     * undfrlying opfrbting systfm mby ibvf pbgfd out somf of tif bufffr's dbtb
+     * by tif timf tibt bn invodbtion of tiis mftiod rfturns.  </p>
      *
-     * @return  <tt>true</tt> if it is likely that this buffer's content
-     *          is resident in physical memory
+     * @rfturn  <tt>truf</tt> if it is likfly tibt tiis bufffr's dontfnt
+     *          is rfsidfnt in piysidbl mfmory
      */
-    public final boolean isLoaded() {
-        checkMapped();
-        if ((address == 0) || (capacity() == 0))
-            return true;
-        long offset = mappingOffset();
-        long length = mappingLength(offset);
-        return isLoaded0(mappingAddress(offset), length, Bits.pageCount(length));
+    publid finbl boolfbn isLobdfd() {
+        difdkMbppfd();
+        if ((bddrfss == 0) || (dbpbdity() == 0))
+            rfturn truf;
+        long offsft = mbppingOffsft();
+        long lfngti = mbppingLfngti(offsft);
+        rfturn isLobdfd0(mbppingAddrfss(offsft), lfngti, Bits.pbgfCount(lfngti));
     }
 
-    // not used, but a potential target for a store, see load() for details.
-    private static byte unused;
+    // not usfd, but b potfntibl tbrgft for b storf, sff lobd() for dftbils.
+    privbtf stbtid bytf unusfd;
 
     /**
-     * Loads this buffer's content into physical memory.
+     * Lobds tiis bufffr's dontfnt into piysidbl mfmory.
      *
-     * <p> This method makes a best effort to ensure that, when it returns,
-     * this buffer's content is resident in physical memory.  Invoking this
-     * method may cause some number of page faults and I/O operations to
-     * occur. </p>
+     * <p> Tiis mftiod mbkfs b bfst fffort to fnsurf tibt, wifn it rfturns,
+     * tiis bufffr's dontfnt is rfsidfnt in piysidbl mfmory.  Invoking tiis
+     * mftiod mby dbusf somf numbfr of pbgf fbults bnd I/O opfrbtions to
+     * oddur. </p>
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      */
-    public final MappedByteBuffer load() {
-        checkMapped();
-        if ((address == 0) || (capacity() == 0))
-            return this;
-        long offset = mappingOffset();
-        long length = mappingLength(offset);
-        load0(mappingAddress(offset), length);
+    publid finbl MbppfdBytfBufffr lobd() {
+        difdkMbppfd();
+        if ((bddrfss == 0) || (dbpbdity() == 0))
+            rfturn tiis;
+        long offsft = mbppingOffsft();
+        long lfngti = mbppingLfngti(offsft);
+        lobd0(mbppingAddrfss(offsft), lfngti);
 
-        // Read a byte from each page to bring it into memory. A checksum
-        // is computed as we go along to prevent the compiler from otherwise
-        // considering the loop as dead code.
-        Unsafe unsafe = Unsafe.getUnsafe();
-        int ps = Bits.pageSize();
-        int count = Bits.pageCount(length);
-        long a = mappingAddress(offset);
-        byte x = 0;
-        for (int i=0; i<count; i++) {
-            x ^= unsafe.getByte(a);
-            a += ps;
+        // Rfbd b bytf from fbdi pbgf to bring it into mfmory. A difdksum
+        // is domputfd bs wf go blong to prfvfnt tif dompilfr from otifrwisf
+        // donsidfring tif loop bs dfbd dodf.
+        Unsbff unsbff = Unsbff.gftUnsbff();
+        int ps = Bits.pbgfSizf();
+        int dount = Bits.pbgfCount(lfngti);
+        long b = mbppingAddrfss(offsft);
+        bytf x = 0;
+        for (int i=0; i<dount; i++) {
+            x ^= unsbff.gftBytf(b);
+            b += ps;
         }
-        if (unused != 0)
-            unused = x;
+        if (unusfd != 0)
+            unusfd = x;
 
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Forces any changes made to this buffer's content to be written to the
-     * storage device containing the mapped file.
+     * Fordfs bny dibngfs mbdf to tiis bufffr's dontfnt to bf writtfn to tif
+     * storbgf dfvidf dontbining tif mbppfd filf.
      *
-     * <p> If the file mapped into this buffer resides on a local storage
-     * device then when this method returns it is guaranteed that all changes
-     * made to the buffer since it was created, or since this method was last
-     * invoked, will have been written to that device.
+     * <p> If tif filf mbppfd into tiis bufffr rfsidfs on b lodbl storbgf
+     * dfvidf tifn wifn tiis mftiod rfturns it is gubrbntffd tibt bll dibngfs
+     * mbdf to tif bufffr sindf it wbs drfbtfd, or sindf tiis mftiod wbs lbst
+     * invokfd, will ibvf bffn writtfn to tibt dfvidf.
      *
-     * <p> If the file does not reside on a local device then no such guarantee
-     * is made.
+     * <p> If tif filf dofs not rfsidf on b lodbl dfvidf tifn no sudi gubrbntff
+     * is mbdf.
      *
-     * <p> If this buffer was not mapped in read/write mode ({@link
-     * java.nio.channels.FileChannel.MapMode#READ_WRITE}) then invoking this
-     * method has no effect. </p>
+     * <p> If tiis bufffr wbs not mbppfd in rfbd/writf modf ({@link
+     * jbvb.nio.dibnnfls.FilfCibnnfl.MbpModf#READ_WRITE}) tifn invoking tiis
+     * mftiod ibs no ffffdt. </p>
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      */
-    public final MappedByteBuffer force() {
-        checkMapped();
-        if ((address != 0) && (capacity() != 0)) {
-            long offset = mappingOffset();
-            force0(fd, mappingAddress(offset), mappingLength(offset));
+    publid finbl MbppfdBytfBufffr fordf() {
+        difdkMbppfd();
+        if ((bddrfss != 0) && (dbpbdity() != 0)) {
+            long offsft = mbppingOffsft();
+            fordf0(fd, mbppingAddrfss(offsft), mbppingLfngti(offsft));
         }
-        return this;
+        rfturn tiis;
     }
 
-    private native boolean isLoaded0(long address, long length, int pageCount);
-    private native void load0(long address, long length);
-    private native void force0(FileDescriptor fd, long address, long length);
+    privbtf nbtivf boolfbn isLobdfd0(long bddrfss, long lfngti, int pbgfCount);
+    privbtf nbtivf void lobd0(long bddrfss, long lfngti);
+    privbtf nbtivf void fordf0(FilfDfsdriptor fd, long bddrfss, long lfngti);
 }

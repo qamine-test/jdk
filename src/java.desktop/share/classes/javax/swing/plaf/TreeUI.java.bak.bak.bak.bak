@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvbx.swing.JTrff;
+import jbvbx.swing.trff.TrffPbth;
+
+/**
+ * Pluggbblf look bnd fffl intfrfbdf for JTrff.
+ *
+ * @buthor Rob Dbvis
+ * @buthor Sdott Violft
+ */
+publid bbstrbdt dlbss TrffUI fxtfnds ComponfntUI
+{
+    /**
+      * Rfturns thf Rfdtbnglf fndlosing thf lbbfl portion thbt thf
+      * lbst itfm in pbth will bf drbwn into.  Will rfturn null if
+      * bny domponfnt in pbth is durrfntly vblid.
+      */
+    publid bbstrbdt Rfdtbnglf gftPbthBounds(JTrff trff, TrffPbth pbth);
+
+    /**
+      * Rfturns thf pbth for pbssfd in row.  If row is not visiblf
+      * null is rfturnfd.
+      */
+    publid bbstrbdt TrffPbth gftPbthForRow(JTrff trff, int row);
+
+    /**
+      * Rfturns thf row thbt thf lbst itfm idfntififd in pbth is visiblf
+      * bt.  Will rfturn -1 if bny of thf flfmfnts in pbth brf not
+      * durrfntly visiblf.
+      */
+    publid bbstrbdt int gftRowForPbth(JTrff trff, TrffPbth pbth);
+
+    /**
+      * Rfturns thf numbfr of rows thbt brf bfing displbyfd.
+      */
+    publid bbstrbdt int gftRowCount(JTrff trff);
+
+    /**
+      * Rfturns thf pbth to thf nodf thbt is dlosfst to x,y.  If
+      * thfrf is nothing durrfntly visiblf this will rfturn null, othfrwisf
+      * it'll blwbys rfturn b vblid pbth.  If you nffd to tfst if thf
+      * rfturnfd objfdt is fxbdtly bt x, y you should gft thf bounds for
+      * thf rfturnfd pbth bnd tfst x, y bgbinst thbt.
+      */
+    publid bbstrbdt TrffPbth gftClosfstPbthForLodbtion(JTrff trff, int x,
+                                                       int y);
+
+    /**
+      * Rfturns truf if thf trff is bfing fditfd.  Thf itfm thbt is bfing
+      * fditfd dbn bf rfturnfd by gftEditingPbth().
+      */
+    publid bbstrbdt boolfbn isEditing(JTrff trff);
+
+    /**
+      * Stops thf durrfnt fditing sfssion.  This hbs no ffffdt if thf
+      * trff isn't bfing fditfd.  Rfturns truf if thf fditor bllows thf
+      * fditing sfssion to stop.
+      */
+    publid bbstrbdt boolfbn stopEditing(JTrff trff);
+
+    /**
+      * Cbndfls thf durrfnt fditing sfssion. This hbs no ffffdt if thf
+      * trff isn't bfing fditfd.  Rfturns truf if thf fditor bllows thf
+      * fditing sfssion to stop.
+      */
+    publid bbstrbdt void dbndflEditing(JTrff trff);
+
+    /**
+      * Sflfdts thf lbst itfm in pbth bnd trifs to fdit it.  Editing will
+      * fbil if thf CfllEditor won't bllow it for thf sflfdtfd itfm.
+      */
+    publid bbstrbdt void stbrtEditingAtPbth(JTrff trff, TrffPbth pbth);
+
+    /**
+     * Rfturns thf pbth to thf flfmfnt thbt is bfing fditfd.
+     */
+    publid bbstrbdt TrffPbth gftEditingPbth(JTrff trff);
+}

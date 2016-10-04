@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.util;
+
+import sun.tools.jbvb.*;
+
+
+/**
+ *   A dlbss whosf instbndfs brf filtfrs ovfr Modififr bits.
+ *   Filtfring is donf by rfturning boolfbn vblufs.
+ *   Clbssfs, mfthods bnd fiflds dbn bf filtfrfd, or filtfring
+ *   dbn bf donf dirfdtly on modififr bits.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ *
+ *   @sff jbvb.lbng.rfflfdt.Modififr
+ *   @buthor Robfrt Fifld
+ */
+
+publid
+dlbss ModififrFiltfr fxtfnds jbvb.lbng.rfflfdt.Modififr {
+
+    /**
+    * Pbdkbgf privbtf bddfss.
+    * A "psfudo-" modififr bit thbt dbn bf usfd in thf
+    * donstrudtors of this dlbss to spfdify pbdkbgf privbtf
+    * bddfss. This is nffdfd sindf thfrf is no Modififr.PACKAGE.
+    */
+    publid stbtid finbl long PACKAGE = 0x8000000000000000L;
+
+    /**
+    * All bddfss modififrs.
+    * A short-hbnd sft of modififr bits thbt dbn bf usfd in thf
+    * donstrudtors of this dlbss to spfdify bll bddfss modififrs,
+    * Sbmf bs PRIVATE | PROTECTED | PUBLIC | PACKAGE.
+    */
+    publid stbtid finbl long ALL_ACCESS =
+                PRIVATE | PROTECTED | PUBLIC | PACKAGE;
+
+    privbtf long onfOf;
+    privbtf long must;
+    privbtf long dbnnot;
+
+    privbtf stbtid finbl int ACCESS_BITS = PRIVATE | PROTECTED | PUBLIC;
+
+    /**
+     * Construdtor - Spfdify b filtfr.
+     *
+     * @pbrbm   onfOf   If zfro, fvfrything pbssfs thf filtfr.
+     *                  If non-zfro, bt lfbst onf of thf spfdififd
+     *                  bits must bf on in thf modififr bits to
+     *                  pbss thf filtfr.
+     */
+    publid
+    ModififrFiltfr(long onfOf) {
+        this(onfOf, 0, 0);
+    }
+
+    /**
+     * Construdtor - Spfdify b filtfr.
+     * For fxbmplf, thf filtfr bflow  will only pbss syndhronizfd
+     * mfthods thbt brf privbtf or pbdkbgf privbtf bddfss bnd brf
+     * not nbtivf or stbtid.
+     * <prf>
+     * ModififrFiltfr(  Modififr.PRIVATE | ModififrFiltfr.PACKAGE,
+     *                  Modififr.SYNCHRONIZED,
+     *                  Modififr.NATIVE | Modififr.STATIC)
+     * </prf><p>
+     * Ebdh of thf thrff brgumfnts must fithfr bf
+     * zfro or thf or'fd dombinbtion of thf bits spfdififd in thf
+     * dlbss Modififr or this dlbss. During filtfring, thfsf vblufs
+     * brf dompbrfd bgbinst thf modififr bits bs follows:
+     *
+     * @pbrbm   onfOf   If zfro, ignorf this brgumfnt.
+     *                  If non-zfro, bt lfbst onf of thf bits must bf on.
+     * @pbrbm   must    All bits spfdififd must bf on.
+     * @pbrbm   dbnnot  Nonf of thf bits spfdififd dbn bf on.
+     */
+    publid
+    ModififrFiltfr(long onfOf, long must, long dbnnot) {
+        this.onfOf = onfOf;
+        this.must = must;
+        this.dbnnot = dbnnot;
+    }
+
+    /**
+     * Filtfr on modififr bits.
+     *
+     * @pbrbm   modififrBits    Bits bs spfdififd in thf Modififr dlbss
+     *
+     * @rfturn                  Whfthfr thf modififrBits pbss this filtfr.
+     */
+    publid boolfbn dhfdkModififr(int modififrBits) {
+        // Add in thf "psfudo-" modififr bit PACKAGE, if nffdfd
+        long fmod = ((modififrBits & ACCESS_BITS) == 0) ?
+                        modififrBits | PACKAGE :
+                        modififrBits;
+        rfturn ((onfOf == 0) || ((onfOf & fmod) != 0)) &&
+                ((must & fmod) == must) &&
+                ((dbnnot & fmod) == 0);
+    }
+
+    /**
+     * Filtfr b MfmbfrDffinition.
+     *
+     * @pbrbm   fifld           A MfmbfrDffinition
+     *
+     * @rfturn                  Whfthfr thf modififr of thf fifld
+     *                          pbssfs this filtfr.
+     *
+     * @sff sun.tools.MfmbfrDffinition
+     */
+    publid boolfbn dhfdkMfmbfr(MfmbfrDffinition fifld) {
+        rfturn dhfdkModififr(fifld.gftModififrs());
+    }
+
+    /**
+     * Filtfr b ClbssDffinition.
+     *
+     * @pbrbm   ddff            A ClbssDffinition
+     *
+     * @rfturn                  Whfthfr thf modififr of thf dlbss
+     *                          pbssfs this filtfr.
+     *
+     * @sff sun.tools.ClbssDffinition
+     */
+    publid boolfbn dhfdkClbss(ClbssDffinition ddff) {
+        rfturn dhfdkModififr(ddff.gftModififrs());
+    }
+
+} // fnd ModififrFiltfr

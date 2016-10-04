@@ -1,540 +1,540 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.peer;
+pbdkbgf jbvb.bwt.pffr;
 
-import java.awt.*;
-import java.awt.event.PaintEvent;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.VolatileImage;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.PbintEvfnt;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
 
-import sun.awt.CausedFocusEvent;
-import sun.java2d.pipe.Region;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.jbvb2d.pipf.Rfgion;
 
 
 /**
- * The peer interface for {@link Component}. This is the top level peer
- * interface for widgets and defines the bulk of methods for AWT component
- * peers. Most component peers have to implement this interface (via one
- * of the subinterfaces), except menu components, which implement
- * {@link MenuComponentPeer}.
+ * Tif pffr intfrfbdf for {@link Componfnt}. Tiis is tif top lfvfl pffr
+ * intfrfbdf for widgfts bnd dffinfs tif bulk of mftiods for AWT domponfnt
+ * pffrs. Most domponfnt pffrs ibvf to implfmfnt tiis intfrfbdf (vib onf
+ * of tif subintfrfbdfs), fxdfpt mfnu domponfnts, wiidi implfmfnt
+ * {@link MfnuComponfntPffr}.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * Tif pffr intfrfbdfs brf intfndfd only for usf in porting
+ * tif AWT. Tify brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs siould not implfmfnt pffrs
+ * nor invokf bny of tif pffr mftiods dirfdtly on tif pffr
+ * instbndfs.
  */
-public interface ComponentPeer {
+publid intfrfbdf ComponfntPffr {
 
     /**
-     * Operation for {@link #setBounds(int, int, int, int, int)}, indicating
-     * a change in the component location only.
+     * Opfrbtion for {@link #sftBounds(int, int, int, int, int)}, indidbting
+     * b dibngf in tif domponfnt lodbtion only.
      *
-     * @see #setBounds(int, int, int, int, int)
+     * @sff #sftBounds(int, int, int, int, int)
      */
-    public static final int SET_LOCATION = 1;
+    publid stbtid finbl int SET_LOCATION = 1;
 
     /**
-     * Operation for {@link #setBounds(int, int, int, int, int)}, indicating
-     * a change in the component size only.
+     * Opfrbtion for {@link #sftBounds(int, int, int, int, int)}, indidbting
+     * b dibngf in tif domponfnt sizf only.
      *
-     * @see #setBounds(int, int, int, int, int)
+     * @sff #sftBounds(int, int, int, int, int)
      */
-    public static final int SET_SIZE = 2;
+    publid stbtid finbl int SET_SIZE = 2;
 
     /**
-     * Operation for {@link #setBounds(int, int, int, int, int)}, indicating
-     * a change in the component size and location.
+     * Opfrbtion for {@link #sftBounds(int, int, int, int, int)}, indidbting
+     * b dibngf in tif domponfnt sizf bnd lodbtion.
      *
-     * @see #setBounds(int, int, int, int, int)
+     * @sff #sftBounds(int, int, int, int, int)
      */
-    public static final int SET_BOUNDS = 3;
+    publid stbtid finbl int SET_BOUNDS = 3;
 
     /**
-     * Operation for {@link #setBounds(int, int, int, int, int)}, indicating
-     * a change in the component client size. This is used for setting
-     * the 'inside' size of windows, without the border insets.
+     * Opfrbtion for {@link #sftBounds(int, int, int, int, int)}, indidbting
+     * b dibngf in tif domponfnt dlifnt sizf. Tiis is usfd for sftting
+     * tif 'insidf' sizf of windows, witiout tif bordfr insfts.
      *
-     * @see #setBounds(int, int, int, int, int)
+     * @sff #sftBounds(int, int, int, int, int)
      */
-    public static final int SET_CLIENT_SIZE = 4;
+    publid stbtid finbl int SET_CLIENT_SIZE = 4;
 
     /**
-     * Resets the setBounds() operation to DEFAULT_OPERATION. This is not
-     * passed into {@link #setBounds(int, int, int, int, int)}.
+     * Rfsfts tif sftBounds() opfrbtion to DEFAULT_OPERATION. Tiis is not
+     * pbssfd into {@link #sftBounds(int, int, int, int, int)}.
      *
-     * TODO: This is only used internally and should probably be moved outside
-     *       the peer interface.
+     * TODO: Tiis is only usfd intfrnblly bnd siould probbbly bf movfd outsidf
+     *       tif pffr intfrfbdf.
      *
-     * @see Component#setBoundsOp
+     * @sff Componfnt#sftBoundsOp
      */
-    public static final int RESET_OPERATION = 5;
+    publid stbtid finbl int RESET_OPERATION = 5;
 
     /**
-     * A flag that is used to suppress checks for embedded frames.
+     * A flbg tibt is usfd to supprfss difdks for fmbfddfd frbmfs.
      *
-     * TODO: This is only used internally and should probably be moved outside
-     *       the peer interface.
+     * TODO: Tiis is only usfd intfrnblly bnd siould probbbly bf movfd outsidf
+     *       tif pffr intfrfbdf.
      */
-    public static final int NO_EMBEDDED_CHECK = (1 << 14);
+    publid stbtid finbl int NO_EMBEDDED_CHECK = (1 << 14);
 
     /**
-     * The default operation, which is to set size and location.
+     * Tif dffbult opfrbtion, wiidi is to sft sizf bnd lodbtion.
      *
-     * TODO: This is only used internally and should probably be moved outside
-     *       the peer interface.
+     * TODO: Tiis is only usfd intfrnblly bnd siould probbbly bf movfd outsidf
+     *       tif pffr intfrfbdf.
      *
-     * @see Component#setBoundsOp
+     * @sff Componfnt#sftBoundsOp
      */
-    public static final int DEFAULT_OPERATION = SET_BOUNDS;
+    publid stbtid finbl int DEFAULT_OPERATION = SET_BOUNDS;
 
     /**
-     * Determines if a component has been obscured, i.e. by an overlapping
-     * window or similar. This is used by JViewport for optimizing performance.
-     * This doesn't have to be implemented, when
-     * {@link #canDetermineObscurity()} returns {@code false}.
+     * Dftfrminfs if b domponfnt ibs bffn obsdurfd, i.f. by bn ovfrlbpping
+     * window or similbr. Tiis is usfd by JVifwport for optimizing pfrformbndf.
+     * Tiis dofsn't ibvf to bf implfmfntfd, wifn
+     * {@link #dbnDftfrminfObsdurity()} rfturns {@dodf fblsf}.
      *
-     * @return {@code true} when the component has been obscured,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} wifn tif domponfnt ibs bffn obsdurfd,
+     *         {@dodf fblsf} otifrwisf
      *
-     * @see #canDetermineObscurity()
-     * @see javax.swing.JViewport#needsRepaintAfterBlit
+     * @sff #dbnDftfrminfObsdurity()
+     * @sff jbvbx.swing.JVifwport#nffdsRfpbintAftfrBlit
      */
-    boolean isObscured();
+    boolfbn isObsdurfd();
 
     /**
-     * Returns {@code true} when the peer can determine if a component
-     * has been obscured, {@code false} false otherwise.
+     * Rfturns {@dodf truf} wifn tif pffr dbn dftfrminf if b domponfnt
+     * ibs bffn obsdurfd, {@dodf fblsf} fblsf otifrwisf.
      *
-     * @return {@code true} when the peer can determine if a component
-     *         has been obscured, {@code false} false otherwise
+     * @rfturn {@dodf truf} wifn tif pffr dbn dftfrminf if b domponfnt
+     *         ibs bffn obsdurfd, {@dodf fblsf} fblsf otifrwisf
      *
-     * @see #isObscured()
-     * @see javax.swing.JViewport#needsRepaintAfterBlit
+     * @sff #isObsdurfd()
+     * @sff jbvbx.swing.JVifwport#nffdsRfpbintAftfrBlit
      */
-    boolean canDetermineObscurity();
+    boolfbn dbnDftfrminfObsdurity();
 
     /**
-     * Makes a component visible or invisible.
+     * Mbkfs b domponfnt visiblf or invisiblf.
      *
-     * @param v {@code true} to make a component visible,
-     *          {@code false} to make it invisible
+     * @pbrbm v {@dodf truf} to mbkf b domponfnt visiblf,
+     *          {@dodf fblsf} to mbkf it invisiblf
      *
-     * @see Component#setVisible(boolean)
+     * @sff Componfnt#sftVisiblf(boolfbn)
      */
-    void setVisible(boolean v);
+    void sftVisiblf(boolfbn v);
 
     /**
-     * Enables or disables a component. Disabled components are usually grayed
-     * out and cannot be activated.
+     * Enbblfs or disbblfs b domponfnt. Disbblfd domponfnts brf usublly grbyfd
+     * out bnd dbnnot bf bdtivbtfd.
      *
-     * @param e {@code true} to enable the component, {@code false}
-     *          to disable it
+     * @pbrbm f {@dodf truf} to fnbblf tif domponfnt, {@dodf fblsf}
+     *          to disbblf it
      *
-     * @see Component#setEnabled(boolean)
+     * @sff Componfnt#sftEnbblfd(boolfbn)
      */
-    void setEnabled(boolean e);
+    void sftEnbblfd(boolfbn f);
 
     /**
-     * Paints the component to the specified graphics context. This is called
-     * by {@link Component#paintAll(Graphics)} to paint the component.
+     * Pbints tif domponfnt to tif spfdififd grbpiids dontfxt. Tiis is dbllfd
+     * by {@link Componfnt#pbintAll(Grbpiids)} to pbint tif domponfnt.
      *
-     * @param g the graphics context to paint to
+     * @pbrbm g tif grbpiids dontfxt to pbint to
      *
-     * @see Component#paintAll(Graphics)
+     * @sff Componfnt#pbintAll(Grbpiids)
      */
-    void paint(Graphics g);
+    void pbint(Grbpiids g);
 
     /**
-     * Prints the component to the specified graphics context. This is called
-     * by {@link Component#printAll(Graphics)} to print the component.
+     * Prints tif domponfnt to tif spfdififd grbpiids dontfxt. Tiis is dbllfd
+     * by {@link Componfnt#printAll(Grbpiids)} to print tif domponfnt.
      *
-     * @param g the graphics context to print to
+     * @pbrbm g tif grbpiids dontfxt to print to
      *
-     * @see Component#printAll(Graphics)
+     * @sff Componfnt#printAll(Grbpiids)
      */
-    void print(Graphics g);
+    void print(Grbpiids g);
 
     /**
-     * Sets the location or size or both of the component. The location is
-     * specified relative to the component's parent. The {@code op}
-     * parameter specifies which properties change. If it is
-     * {@link #SET_LOCATION}, then only the location changes (and the size
-     * parameters can be ignored). If {@code op} is {@link #SET_SIZE},
-     * then only the size changes (and the location can be ignored). If
-     * {@code op} is {@link #SET_BOUNDS}, then both change. There is a
-     * special value {@link #SET_CLIENT_SIZE}, which is used only for
-     * window-like components to set the size of the client (i.e. the 'inner'
-     * size, without the insets of the window borders).
+     * Sfts tif lodbtion or sizf or boti of tif domponfnt. Tif lodbtion is
+     * spfdififd rflbtivf to tif domponfnt's pbrfnt. Tif {@dodf op}
+     * pbrbmftfr spfdififs wiidi propfrtifs dibngf. If it is
+     * {@link #SET_LOCATION}, tifn only tif lodbtion dibngfs (bnd tif sizf
+     * pbrbmftfrs dbn bf ignorfd). If {@dodf op} is {@link #SET_SIZE},
+     * tifn only tif sizf dibngfs (bnd tif lodbtion dbn bf ignorfd). If
+     * {@dodf op} is {@link #SET_BOUNDS}, tifn boti dibngf. Tifrf is b
+     * spfdibl vbluf {@link #SET_CLIENT_SIZE}, wiidi is usfd only for
+     * window-likf domponfnts to sft tif sizf of tif dlifnt (i.f. tif 'innfr'
+     * sizf, witiout tif insfts of tif window bordfrs).
      *
-     * @param x the X location of the component
-     * @param y the Y location of the component
-     * @param width the width of the component
-     * @param height the height of the component
-     * @param op the operation flag
+     * @pbrbm x tif X lodbtion of tif domponfnt
+     * @pbrbm y tif Y lodbtion of tif domponfnt
+     * @pbrbm widti tif widti of tif domponfnt
+     * @pbrbm ifigit tif ifigit of tif domponfnt
+     * @pbrbm op tif opfrbtion flbg
      *
-     * @see #SET_BOUNDS
-     * @see #SET_LOCATION
-     * @see #SET_SIZE
-     * @see #SET_CLIENT_SIZE
+     * @sff #SET_BOUNDS
+     * @sff #SET_LOCATION
+     * @sff #SET_SIZE
+     * @sff #SET_CLIENT_SIZE
      */
-    void setBounds(int x, int y, int width, int height, int op);
+    void sftBounds(int x, int y, int widti, int ifigit, int op);
 
     /**
-     * Called to let the component peer handle events.
+     * Cbllfd to lft tif domponfnt pffr ibndlf fvfnts.
      *
-     * @param e the AWT event to handle
+     * @pbrbm f tif AWT fvfnt to ibndlf
      *
-     * @see Component#dispatchEvent(AWTEvent)
+     * @sff Componfnt#dispbtdiEvfnt(AWTEvfnt)
      */
-    void handleEvent(AWTEvent e);
+    void ibndlfEvfnt(AWTEvfnt f);
 
     /**
-     * Called to coalesce paint events.
+     * Cbllfd to doblfsdf pbint fvfnts.
      *
-     * @param e the paint event to consider to coalesce
+     * @pbrbm f tif pbint fvfnt to donsidfr to doblfsdf
      *
-     * @see EventQueue#coalescePaintEvent
+     * @sff EvfntQufuf#doblfsdfPbintEvfnt
      */
-    void coalescePaintEvent(PaintEvent e);
+    void doblfsdfPbintEvfnt(PbintEvfnt f);
 
     /**
-     * Determines the location of the component on the screen.
+     * Dftfrminfs tif lodbtion of tif domponfnt on tif sdrffn.
      *
-     * @return the location of the component on the screen
+     * @rfturn tif lodbtion of tif domponfnt on tif sdrffn
      *
-     * @see Component#getLocationOnScreen()
+     * @sff Componfnt#gftLodbtionOnSdrffn()
      */
-    Point getLocationOnScreen();
+    Point gftLodbtionOnSdrffn();
 
     /**
-     * Determines the preferred size of the component.
+     * Dftfrminfs tif prfffrrfd sizf of tif domponfnt.
      *
-     * @return the preferred size of the component
+     * @rfturn tif prfffrrfd sizf of tif domponfnt
      *
-     * @see Component#getPreferredSize()
+     * @sff Componfnt#gftPrfffrrfdSizf()
      */
-    Dimension getPreferredSize();
+    Dimfnsion gftPrfffrrfdSizf();
 
     /**
-     * Determines the minimum size of the component.
+     * Dftfrminfs tif minimum sizf of tif domponfnt.
      *
-     * @return the minimum size of the component
+     * @rfturn tif minimum sizf of tif domponfnt
      *
-     * @see Component#getMinimumSize()
+     * @sff Componfnt#gftMinimumSizf()
      */
-    Dimension getMinimumSize();
+    Dimfnsion gftMinimumSizf();
 
     /**
-     * Returns the color model used by the component.
+     * Rfturns tif dolor modfl usfd by tif domponfnt.
      *
-     * @return the color model used by the component
+     * @rfturn tif dolor modfl usfd by tif domponfnt
      *
-     * @see Component#getColorModel()
+     * @sff Componfnt#gftColorModfl()
      */
-    ColorModel getColorModel();
+    ColorModfl gftColorModfl();
 
     /**
-     * Returns a graphics object to paint on the component.
+     * Rfturns b grbpiids objfdt to pbint on tif domponfnt.
      *
-     * @return a graphics object to paint on the component
+     * @rfturn b grbpiids objfdt to pbint on tif domponfnt
      *
-     * @see Component#getGraphics()
+     * @sff Componfnt#gftGrbpiids()
      */
-    // TODO: Maybe change this to force Graphics2D, since many things will
-    // break with plain Graphics nowadays.
-    Graphics getGraphics();
+    // TODO: Mbybf dibngf tiis to fordf Grbpiids2D, sindf mbny tiings will
+    // brfbk witi plbin Grbpiids nowbdbys.
+    Grbpiids gftGrbpiids();
 
     /**
-     * Returns a font metrics object to determine the metrics properties of
-     * the specified font.
+     * Rfturns b font mftrids objfdt to dftfrminf tif mftrids propfrtifs of
+     * tif spfdififd font.
      *
-     * @param font the font to determine the metrics for
+     * @pbrbm font tif font to dftfrminf tif mftrids for
      *
-     * @return a font metrics object to determine the metrics properties of
-     *         the specified font
+     * @rfturn b font mftrids objfdt to dftfrminf tif mftrids propfrtifs of
+     *         tif spfdififd font
      *
-     * @see Component#getFontMetrics(Font)
+     * @sff Componfnt#gftFontMftrids(Font)
      */
-    FontMetrics getFontMetrics(Font font);
+    FontMftrids gftFontMftrids(Font font);
 
     /**
-     * Disposes all resources held by the component peer. This is called
-     * when the component has been disconnected from the component hierarchy
-     * and is about to be garbage collected.
+     * Disposfs bll rfsourdfs ifld by tif domponfnt pffr. Tiis is dbllfd
+     * wifn tif domponfnt ibs bffn disdonnfdtfd from tif domponfnt iifrbrdiy
+     * bnd is bbout to bf gbrbbgf dollfdtfd.
      *
-     * @see Component#removeNotify()
+     * @sff Componfnt#rfmovfNotify()
      */
-    void dispose();
+    void disposf();
 
     /**
-     * Sets the foreground color of this component.
+     * Sfts tif forfground dolor of tiis domponfnt.
      *
-     * @param c the foreground color to set
+     * @pbrbm d tif forfground dolor to sft
      *
-     * @see Component#setForeground(Color)
+     * @sff Componfnt#sftForfground(Color)
      */
-    void setForeground(Color c);
+    void sftForfground(Color d);
 
     /**
-     * Sets the background color of this component.
+     * Sfts tif bbdkground dolor of tiis domponfnt.
      *
-     * @param c the background color to set
+     * @pbrbm d tif bbdkground dolor to sft
      *
-     * @see Component#setBackground(Color)
+     * @sff Componfnt#sftBbdkground(Color)
      */
-    void setBackground(Color c);
+    void sftBbdkground(Color d);
 
     /**
-     * Sets the font of this component.
+     * Sfts tif font of tiis domponfnt.
      *
-     * @param f the font of this component
+     * @pbrbm f tif font of tiis domponfnt
      *
-     * @see Component#setFont(Font)
+     * @sff Componfnt#sftFont(Font)
      */
-    void setFont(Font f);
+    void sftFont(Font f);
 
     /**
-     * Updates the cursor of the component.
+     * Updbtfs tif dursor of tif domponfnt.
      *
-     * @see Component#updateCursorImmediately
+     * @sff Componfnt#updbtfCursorImmfdibtfly
      */
-    void updateCursorImmediately();
+    void updbtfCursorImmfdibtfly();
 
     /**
-     * Requests focus on this component.
+     * Rfqufsts fodus on tiis domponfnt.
      *
-     * @param lightweightChild the actual lightweight child that requests the
-     *        focus
-     * @param temporary {@code true} if the focus change is temporary,
-     *        {@code false} otherwise
-     * @param focusedWindowChangeAllowed {@code true} if changing the
-     *        focus of the containing window is allowed or not
-     * @param time the time of the focus change request
-     * @param cause the cause of the focus change request
+     * @pbrbm ligitwfigitCiild tif bdtubl ligitwfigit diild tibt rfqufsts tif
+     *        fodus
+     * @pbrbm tfmporbry {@dodf truf} if tif fodus dibngf is tfmporbry,
+     *        {@dodf fblsf} otifrwisf
+     * @pbrbm fodusfdWindowCibngfAllowfd {@dodf truf} if dibnging tif
+     *        fodus of tif dontbining window is bllowfd or not
+     * @pbrbm timf tif timf of tif fodus dibngf rfqufst
+     * @pbrbm dbusf tif dbusf of tif fodus dibngf rfqufst
      *
-     * @return {@code true} if the focus change is guaranteed to be
-     *         granted, {@code false} otherwise
+     * @rfturn {@dodf truf} if tif fodus dibngf is gubrbntffd to bf
+     *         grbntfd, {@dodf fblsf} otifrwisf
      */
-    boolean requestFocus(Component lightweightChild, boolean temporary,
-                         boolean focusedWindowChangeAllowed, long time,
-                         CausedFocusEvent.Cause cause);
+    boolfbn rfqufstFodus(Componfnt ligitwfigitCiild, boolfbn tfmporbry,
+                         boolfbn fodusfdWindowCibngfAllowfd, long timf,
+                         CbusfdFodusEvfnt.Cbusf dbusf);
 
     /**
-     * Returns {@code true} when the component takes part in the focus
-     * traversal, {@code false} otherwise.
+     * Rfturns {@dodf truf} wifn tif domponfnt tbkfs pbrt in tif fodus
+     * trbvfrsbl, {@dodf fblsf} otifrwisf.
      *
-     * @return {@code true} when the component takes part in the focus
-     *         traversal, {@code false} otherwise
+     * @rfturn {@dodf truf} wifn tif domponfnt tbkfs pbrt in tif fodus
+     *         trbvfrsbl, {@dodf fblsf} otifrwisf
      */
-    boolean isFocusable();
+    boolfbn isFodusbblf();
 
     /**
-     * Creates an image using the specified image producer.
+     * Crfbtfs bn imbgf using tif spfdififd imbgf produdfr.
      *
-     * @param producer the image producer from which the image pixels will be
-     *        produced
+     * @pbrbm produdfr tif imbgf produdfr from wiidi tif imbgf pixfls will bf
+     *        produdfd
      *
-     * @return the created image
+     * @rfturn tif drfbtfd imbgf
      *
-     * @see Component#createImage(ImageProducer)
+     * @sff Componfnt#drfbtfImbgf(ImbgfProdudfr)
      */
-    Image createImage(ImageProducer producer);
+    Imbgf drfbtfImbgf(ImbgfProdudfr produdfr);
 
     /**
-     * Creates an empty image with the specified width and height. This is
-     * generally used as a non-accelerated backbuffer for drawing onto the
-     * component (e.g. by Swing).
+     * Crfbtfs bn fmpty imbgf witi tif spfdififd widti bnd ifigit. Tiis is
+     * gfnfrblly usfd bs b non-bddflfrbtfd bbdkbufffr for drbwing onto tif
+     * domponfnt (f.g. by Swing).
      *
-     * @param width the width of the image
-     * @param height the height of the image
+     * @pbrbm widti tif widti of tif imbgf
+     * @pbrbm ifigit tif ifigit of tif imbgf
      *
-     * @return the created image
+     * @rfturn tif drfbtfd imbgf
      *
-     * @see Component#createImage(int, int)
+     * @sff Componfnt#drfbtfImbgf(int, int)
      */
-    // TODO: Maybe make that return a BufferedImage, because some stuff will
-    // break if a different kind of image is returned.
-    Image createImage(int width, int height);
+    // TODO: Mbybf mbkf tibt rfturn b BufffrfdImbgf, bfdbusf somf stuff will
+    // brfbk if b difffrfnt kind of imbgf is rfturnfd.
+    Imbgf drfbtfImbgf(int widti, int ifigit);
 
     /**
-     * Creates an empty volatile image with the specified width and height.
-     * This is generally used as an accelerated backbuffer for drawing onto
-     * the component (e.g. by Swing).
+     * Crfbtfs bn fmpty volbtilf imbgf witi tif spfdififd widti bnd ifigit.
+     * Tiis is gfnfrblly usfd bs bn bddflfrbtfd bbdkbufffr for drbwing onto
+     * tif domponfnt (f.g. by Swing).
      *
-     * @param width the width of the image
-     * @param height the height of the image
+     * @pbrbm widti tif widti of tif imbgf
+     * @pbrbm ifigit tif ifigit of tif imbgf
      *
-     * @return the created volatile image
+     * @rfturn tif drfbtfd volbtilf imbgf
      *
-     * @see Component#createVolatileImage(int, int)
+     * @sff Componfnt#drfbtfVolbtilfImbgf(int, int)
      */
-    // TODO: Include capabilities here and fix Component#createVolatileImage
-    VolatileImage createVolatileImage(int width, int height);
+    // TODO: Indludf dbpbbilitifs ifrf bnd fix Componfnt#drfbtfVolbtilfImbgf
+    VolbtilfImbgf drfbtfVolbtilfImbgf(int widti, int ifigit);
 
     /**
-     * Prepare the specified image for rendering on this component. This should
-     * start loading the image (if not already loaded) and create an
-     * appropriate screen representation.
+     * Prfpbrf tif spfdififd imbgf for rfndfring on tiis domponfnt. Tiis siould
+     * stbrt lobding tif imbgf (if not blrfbdy lobdfd) bnd drfbtf bn
+     * bppropribtf sdrffn rfprfsfntbtion.
      *
-     * @param img the image to prepare
-     * @param w the width of the screen representation
-     * @param h the height of the screen representation
-     * @param o an image observer to observe the progress
+     * @pbrbm img tif imbgf to prfpbrf
+     * @pbrbm w tif widti of tif sdrffn rfprfsfntbtion
+     * @pbrbm i tif ifigit of tif sdrffn rfprfsfntbtion
+     * @pbrbm o bn imbgf obsfrvfr to obsfrvf tif progrfss
      *
-     * @return {@code true} if the image is already fully prepared,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif imbgf is blrfbdy fully prfpbrfd,
+     *         {@dodf fblsf} otifrwisf
      *
-     * @see Component#prepareImage(Image, int, int, ImageObserver)
+     * @sff Componfnt#prfpbrfImbgf(Imbgf, int, int, ImbgfObsfrvfr)
      */
-    boolean prepareImage(Image img, int w, int h, ImageObserver o);
+    boolfbn prfpbrfImbgf(Imbgf img, int w, int i, ImbgfObsfrvfr o);
 
     /**
-     * Determines the status of the construction of the screen representaion
-     * of the specified image.
+     * Dftfrminfs tif stbtus of tif donstrudtion of tif sdrffn rfprfsfntbion
+     * of tif spfdififd imbgf.
      *
-     * @param img the image to check
-     * @param w the target width
-     * @param h the target height
-     * @param o the image observer to notify
+     * @pbrbm img tif imbgf to difdk
+     * @pbrbm w tif tbrgft widti
+     * @pbrbm i tif tbrgft ifigit
+     * @pbrbm o tif imbgf obsfrvfr to notify
      *
-     * @return the status as bitwise ORed ImageObserver flags
+     * @rfturn tif stbtus bs bitwisf ORfd ImbgfObsfrvfr flbgs
      *
-     * @see Component#checkImage(Image, int, int, ImageObserver)
+     * @sff Componfnt#difdkImbgf(Imbgf, int, int, ImbgfObsfrvfr)
      */
-    int checkImage(Image img, int w, int h, ImageObserver o);
+    int difdkImbgf(Imbgf img, int w, int i, ImbgfObsfrvfr o);
 
     /**
-     * Returns the graphics configuration that corresponds to this component.
+     * Rfturns tif grbpiids donfigurbtion tibt dorrfsponds to tiis domponfnt.
      *
-     * @return the graphics configuration that corresponds to this component
+     * @rfturn tif grbpiids donfigurbtion tibt dorrfsponds to tiis domponfnt
      *
-     * @see Component#getGraphicsConfiguration()
+     * @sff Componfnt#gftGrbpiidsConfigurbtion()
      */
-    GraphicsConfiguration getGraphicsConfiguration();
+    GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion();
 
     /**
-     * Determines if the component handles wheel scrolling itself. Otherwise
-     * it is delegated to the component's parent.
+     * Dftfrminfs if tif domponfnt ibndlfs wiffl sdrolling itsflf. Otifrwisf
+     * it is dflfgbtfd to tif domponfnt's pbrfnt.
      *
-     * @return {@code true} if the component handles wheel scrolling,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif domponfnt ibndlfs wiffl sdrolling,
+     *         {@dodf fblsf} otifrwisf
      *
-     * @see Component#dispatchEventImpl(AWTEvent)
+     * @sff Componfnt#dispbtdiEvfntImpl(AWTEvfnt)
      */
-    boolean handlesWheelScrolling();
+    boolfbn ibndlfsWifflSdrolling();
 
     /**
-     * Create {@code numBuffers} flipping buffers with the specified
-     * buffer capabilities.
+     * Crfbtf {@dodf numBufffrs} flipping bufffrs witi tif spfdififd
+     * bufffr dbpbbilitifs.
      *
-     * @param numBuffers the number of buffers to create
-     * @param caps the buffer capabilities
+     * @pbrbm numBufffrs tif numbfr of bufffrs to drfbtf
+     * @pbrbm dbps tif bufffr dbpbbilitifs
      *
-     * @throws AWTException if flip buffering is not supported
+     * @tirows AWTExdfption if flip bufffring is not supportfd
      */
-    void createBuffers(int numBuffers, BufferCapabilities caps)
-         throws AWTException;
+    void drfbtfBufffrs(int numBufffrs, BufffrCbpbbilitifs dbps)
+         tirows AWTExdfption;
 
     /**
-     * Returns the back buffer as image.
+     * Rfturns tif bbdk bufffr bs imbgf.
      *
-     * @return the back buffer as image
+     * @rfturn tif bbdk bufffr bs imbgf
      */
-    Image getBackBuffer();
+    Imbgf gftBbdkBufffr();
 
     /**
-     * Move the back buffer to the front buffer.
+     * Movf tif bbdk bufffr to tif front bufffr.
      *
-     * @param x1 the area to be flipped, upper left X coordinate
-     * @param y1 the area to be flipped, upper left Y coordinate
-     * @param x2 the area to be flipped, lower right X coordinate
-     * @param y2 the area to be flipped, lower right Y coordinate
-     * @param flipAction the flip action to perform
+     * @pbrbm x1 tif brfb to bf flippfd, uppfr lfft X doordinbtf
+     * @pbrbm y1 tif brfb to bf flippfd, uppfr lfft Y doordinbtf
+     * @pbrbm x2 tif brfb to bf flippfd, lowfr rigit X doordinbtf
+     * @pbrbm y2 tif brfb to bf flippfd, lowfr rigit Y doordinbtf
+     * @pbrbm flipAdtion tif flip bdtion to pfrform
      */
-    void flip(int x1, int y1, int x2, int y2, BufferCapabilities.FlipContents flipAction);
+    void flip(int x1, int y1, int x2, int y2, BufffrCbpbbilitifs.FlipContfnts flipAdtion);
 
     /**
-     * Destroys all created buffers.
+     * Dfstroys bll drfbtfd bufffrs.
      */
-    void destroyBuffers();
+    void dfstroyBufffrs();
 
     /**
-     * Reparents this peer to the new parent referenced by
-     * {@code newContainer} peer. Implementation depends on toolkit and
-     * container.
+     * Rfpbrfnts tiis pffr to tif nfw pbrfnt rfffrfndfd by
+     * {@dodf nfwContbinfr} pffr. Implfmfntbtion dfpfnds on toolkit bnd
+     * dontbinfr.
      *
-     * @param newContainer peer of the new parent container
+     * @pbrbm nfwContbinfr pffr of tif nfw pbrfnt dontbinfr
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    void reparent(ContainerPeer newContainer);
+    void rfpbrfnt(ContbinfrPffr nfwContbinfr);
 
     /**
-     * Returns whether this peer supports reparenting to another parent without
-     * destroying the peer.
+     * Rfturns wiftifr tiis pffr supports rfpbrfnting to bnotifr pbrfnt witiout
+     * dfstroying tif pffr.
      *
-     * @return true if appropriate reparent is supported, false otherwise
+     * @rfturn truf if bppropribtf rfpbrfnt is supportfd, fblsf otifrwisf
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    boolean isReparentSupported();
+    boolfbn isRfpbrfntSupportfd();
 
     /**
-     * Used by lightweight implementations to tell a ComponentPeer to layout
-     * its sub-elements.  For instance, a lightweight Checkbox needs to layout
-     * the box, as well as the text label.
+     * Usfd by ligitwfigit implfmfntbtions to tfll b ComponfntPffr to lbyout
+     * its sub-flfmfnts.  For instbndf, b ligitwfigit Cifdkbox nffds to lbyout
+     * tif box, bs wfll bs tif tfxt lbbfl.
      *
-     * @see Component#validate()
+     * @sff Componfnt#vblidbtf()
      */
-    void layout();
+    void lbyout();
 
     /**
-     * Applies the shape to the native component window.
-     * @param shape the shape to apply
-     * @since 1.7
+     * Applifs tif sibpf to tif nbtivf domponfnt window.
+     * @pbrbm sibpf tif sibpf to bpply
+     * @sindf 1.7
      *
-     * @see Component#applyCompoundShape
+     * @sff Componfnt#bpplyCompoundSibpf
      */
-    void applyShape(Region shape);
+    void bpplySibpf(Rfgion sibpf);
 
     /**
-     * Lowers this component at the bottom of the above HW peer. If the above parameter
-     * is null then the method places this component at the top of the Z-order.
-     * @param above the peer to lower this component with respect to
+     * Lowfrs tiis domponfnt bt tif bottom of tif bbovf HW pffr. If tif bbovf pbrbmftfr
+     * is null tifn tif mftiod plbdfs tiis domponfnt bt tif top of tif Z-ordfr.
+     * @pbrbm bbovf tif pffr to lowfr tiis domponfnt witi rfspfdt to
      */
-    void setZOrder(ComponentPeer above);
+    void sftZOrdfr(ComponfntPffr bbovf);
 
     /**
-     * Updates internal data structures related to the component's GC.
-     * @param gc the reference graphics configuration
-     * @return if the peer needs to be recreated for the changes to take effect
-     * @since 1.7
+     * Updbtfs intfrnbl dbtb strudturfs rflbtfd to tif domponfnt's GC.
+     * @pbrbm gd tif rfffrfndf grbpiids donfigurbtion
+     * @rfturn if tif pffr nffds to bf rfdrfbtfd for tif dibngfs to tbkf ffffdt
+     * @sindf 1.7
      */
-    boolean updateGraphicsData(GraphicsConfiguration gc);
+    boolfbn updbtfGrbpiidsDbtb(GrbpiidsConfigurbtion gd);
 }

@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.internal.spec;
+pbdkbgf sun.sfdurity.intfrnbl.spfd;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import javax.crypto.SecretKey;
+import jbvbx.drypto.SfdrftKfy;
 
 /**
- * Parameters for the TLS PRF (pseudo-random function). The PRF function
- * is defined in RFC 2246.
- * This class is used to initialize KeyGenerators of the type "TlsPrf".
+ * Pbrbmftfrs for tif TLS PRF (psfudo-rbndom fundtion). Tif PRF fundtion
+ * is dffinfd in RFC 2246.
+ * Tiis dlbss is usfd to initiblizf KfyGfnfrbtors of tif typf "TlsPrf".
  *
- * <p>Instances of this class are immutable.
+ * <p>Instbndfs of tiis dlbss brf immutbblf.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
- * @deprecated Sun JDK internal use only --- WILL BE REMOVED in a future
- * release.
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @dfprfdbtfd Sun JDK intfrnbl usf only --- WILL BE REMOVED in b futurf
+ * rflfbsf.
  */
-@Deprecated
-public class TlsPrfParameterSpec implements AlgorithmParameterSpec {
+@Dfprfdbtfd
+publid dlbss TlsPrfPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    private final SecretKey secret;
-    private final String label;
-    private final byte[] seed;
-    private final int outputLength;
-    private final String prfHashAlg;
-    private final int prfHashLength;
-    private final int prfBlockSize;
+    privbtf finbl SfdrftKfy sfdrft;
+    privbtf finbl String lbbfl;
+    privbtf finbl bytf[] sffd;
+    privbtf finbl int outputLfngti;
+    privbtf finbl String prfHbsiAlg;
+    privbtf finbl int prfHbsiLfngti;
+    privbtf finbl int prfBlodkSizf;
 
     /**
-     * Constructs a new TlsPrfParameterSpec.
+     * Construdts b nfw TlsPrfPbrbmftfrSpfd.
      *
-     * @param secret the secret to use in the calculation (or null)
-     * @param label the label to use in the calculation
-     * @param seed the random seed to use in the calculation
-     * @param outputLength the length in bytes of the output key to be produced
-     * @param prfHashAlg the name of the TLS PRF hash algorithm to use.
-     *        Used only for TLS 1.2+.  TLS1.1 and earlier use a fixed PRF.
-     * @param prfHashLength the output length of the TLS PRF hash algorithm.
-     *        Used only for TLS 1.2+.
-     * @param prfBlockSize the input block size of the TLS PRF hash algorithm.
-     *        Used only for TLS 1.2+.
+     * @pbrbm sfdrft tif sfdrft to usf in tif dbldulbtion (or null)
+     * @pbrbm lbbfl tif lbbfl to usf in tif dbldulbtion
+     * @pbrbm sffd tif rbndom sffd to usf in tif dbldulbtion
+     * @pbrbm outputLfngti tif lfngti in bytfs of tif output kfy to bf produdfd
+     * @pbrbm prfHbsiAlg tif nbmf of tif TLS PRF ibsi blgoritim to usf.
+     *        Usfd only for TLS 1.2+.  TLS1.1 bnd fbrlifr usf b fixfd PRF.
+     * @pbrbm prfHbsiLfngti tif output lfngti of tif TLS PRF ibsi blgoritim.
+     *        Usfd only for TLS 1.2+.
+     * @pbrbm prfBlodkSizf tif input blodk sizf of tif TLS PRF ibsi blgoritim.
+     *        Usfd only for TLS 1.2+.
      *
-     * @throws NullPointerException if label or seed is null
-     * @throws IllegalArgumentException if outputLength is negative
+     * @tirows NullPointfrExdfption if lbbfl or sffd is null
+     * @tirows IllfgblArgumfntExdfption if outputLfngti is nfgbtivf
      */
-    public TlsPrfParameterSpec(SecretKey secret, String label,
-            byte[] seed, int outputLength,
-            String prfHashAlg, int prfHashLength, int prfBlockSize) {
-        if ((label == null) || (seed == null)) {
-            throw new NullPointerException("label and seed must not be null");
+    publid TlsPrfPbrbmftfrSpfd(SfdrftKfy sfdrft, String lbbfl,
+            bytf[] sffd, int outputLfngti,
+            String prfHbsiAlg, int prfHbsiLfngti, int prfBlodkSizf) {
+        if ((lbbfl == null) || (sffd == null)) {
+            tirow nfw NullPointfrExdfption("lbbfl bnd sffd must not bf null");
         }
-        if (outputLength <= 0) {
-            throw new IllegalArgumentException("outputLength must be positive");
+        if (outputLfngti <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("outputLfngti must bf positivf");
         }
-        this.secret = secret;
-        this.label = label;
-        this.seed = seed.clone();
-        this.outputLength = outputLength;
-        this.prfHashAlg = prfHashAlg;
-        this.prfHashLength = prfHashLength;
-        this.prfBlockSize = prfBlockSize;
+        tiis.sfdrft = sfdrft;
+        tiis.lbbfl = lbbfl;
+        tiis.sffd = sffd.dlonf();
+        tiis.outputLfngti = outputLfngti;
+        tiis.prfHbsiAlg = prfHbsiAlg;
+        tiis.prfHbsiLfngti = prfHbsiLfngti;
+        tiis.prfBlodkSizf = prfBlodkSizf;
     }
 
     /**
-     * Returns the secret to use in the PRF calculation, or null if there is no
-     * secret.
+     * Rfturns tif sfdrft to usf in tif PRF dbldulbtion, or null if tifrf is no
+     * sfdrft.
      *
-     * @return the secret to use in the PRF calculation, or null if there is no
-     * secret.
+     * @rfturn tif sfdrft to usf in tif PRF dbldulbtion, or null if tifrf is no
+     * sfdrft.
      */
-    public SecretKey getSecret() {
-        return secret;
+    publid SfdrftKfy gftSfdrft() {
+        rfturn sfdrft;
     }
 
     /**
-     * Returns the label to use in the PRF calcuation.
+     * Rfturns tif lbbfl to usf in tif PRF dbldubtion.
      *
-     * @return the label to use in the PRF calcuation.
+     * @rfturn tif lbbfl to usf in tif PRF dbldubtion.
      */
-    public String getLabel() {
-        return label;
+    publid String gftLbbfl() {
+        rfturn lbbfl;
     }
 
     /**
-     * Returns a copy of the seed to use in the PRF calcuation.
+     * Rfturns b dopy of tif sffd to usf in tif PRF dbldubtion.
      *
-     * @return a copy of the seed to use in the PRF calcuation.
+     * @rfturn b dopy of tif sffd to usf in tif PRF dbldubtion.
      */
-    public byte[] getSeed() {
-        return seed.clone();
+    publid bytf[] gftSffd() {
+        rfturn sffd.dlonf();
     }
 
     /**
-     * Returns the length in bytes of the output key to be produced.
+     * Rfturns tif lfngti in bytfs of tif output kfy to bf produdfd.
      *
-     * @return the length in bytes of the output key to be produced.
+     * @rfturn tif lfngti in bytfs of tif output kfy to bf produdfd.
      */
-    public int getOutputLength() {
-        return outputLength;
+    publid int gftOutputLfngti() {
+        rfturn outputLfngti;
     }
 
     /**
-     * Obtains the PRF hash algorithm to use in the PRF calculation.
+     * Obtbins tif PRF ibsi blgoritim to usf in tif PRF dbldulbtion.
      *
-     * @return the hash algorithm, or null if no algorithm was specified.
+     * @rfturn tif ibsi blgoritim, or null if no blgoritim wbs spfdififd.
      */
-    public String getPRFHashAlg() {
-        return prfHashAlg;
+    publid String gftPRFHbsiAlg() {
+        rfturn prfHbsiAlg;
     }
 
     /**
-     * Obtains the length of PRF hash algorithm.
+     * Obtbins tif lfngti of PRF ibsi blgoritim.
      *
-     * It would have been preferred to use MessageDigest.getDigestLength(),
-     * but the API does not require implementations to support the method.
+     * It would ibvf bffn prfffrrfd to usf MfssbgfDigfst.gftDigfstLfngti(),
+     * but tif API dofs not rfquirf implfmfntbtions to support tif mftiod.
      *
-     * @return the hash algorithm length.
+     * @rfturn tif ibsi blgoritim lfngti.
      */
-    public int getPRFHashLength() {
-        return prfHashLength;
+    publid int gftPRFHbsiLfngti() {
+        rfturn prfHbsiLfngti;
     }
 
     /**
-     * Obtains the length of PRF hash algorithm.
+     * Obtbins tif lfngti of PRF ibsi blgoritim.
      *
-     * @return the hash algorithm length.
+     * @rfturn tif ibsi blgoritim lfngti.
      */
-    public int getPRFBlockSize() {
-        return prfBlockSize;
+    publid int gftPRFBlodkSizf() {
+        rfturn prfBlodkSizf;
     }
 }

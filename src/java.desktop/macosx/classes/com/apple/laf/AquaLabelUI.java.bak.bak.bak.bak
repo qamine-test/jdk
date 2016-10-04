@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+import sun.swing.SwingUtilitifs2;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
+
+publid dlbss AqubLbbflUI fxtfnds BbsidLbbflUI {
+    protfdtfd stbtid finbl  RfdydlbblfSinglfton<AqubLbbflUI> bqubLbbflUI = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubLbbflUI>(AqubLbbflUI.dlbss);
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn bqubLbbflUI.gft();
+    }
+
+    protfdtfd void instbllListfnfrs(finbl JLbbfl d) {
+        supfr.instbllListfnfrs(d);
+        AqubUtilControlSizf.bddSizfPropfrtyListfnfr(d);
+    }
+
+    protfdtfd void uninstbllListfnfrs(finbl JLbbfl d) {
+        AqubUtilControlSizf.rfmovfSizfPropfrtyListfnfr(d);
+        supfr.uninstbllListfnfrs(d);
+    }
+
+    protfdtfd void pbintEnbblfdTfxt(finbl JLbbfl l, finbl Grbphids g, finbl String s, finbl int tfxtX, finbl int tfxtY) {
+        int mnfmIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        if (AqubMnfmonidHbndlfr.isMnfmonidHiddfn()) {
+            mnfmIndfx = -1;
+        }
+
+        g.sftColor(l.gftForfground());
+        SwingUtilitifs2.drbwStringUndfrlinfChbrAt(l, g, s, mnfmIndfx, tfxtX, tfxtY);
+    }
+
+    /**
+     * Pbint dlippfdTfxt bt tfxtX, tfxtY with bbdkground.lightfr() bnd thfn
+     * shiftfd down bnd to thf right by onf pixfl with bbdkground.dbrkfr().
+     *
+     * @sff #pbint
+     * @sff #pbintEnbblfdTfxt
+     */
+    protfdtfd void pbintDisbblfdTfxt(finbl JLbbfl l, finbl Grbphids g, finbl String s, finbl int tfxtX, finbl int tfxtY) {
+        int bddChbr = l.gftDisplbyfdMnfmonidIndfx();
+        if (AqubMnfmonidHbndlfr.isMnfmonidHiddfn()) {
+            bddChbr = -1;
+        }
+
+        finbl Color bbdkground = l.gftBbdkground();
+
+        // if our bbdkground is still somfthing wf sft thfn wf dbn usf our hbppy bbdkground dolor.
+        if (bbdkground instbndfof UIRfsourdf) {
+            g.sftColor(gftDisbblfdLbbflColor(l));
+            SwingUtilitifs2.drbwStringUndfrlinfChbrAt(l, g, s, bddChbr, tfxtX, tfxtY);
+        } flsf {
+            supfr.pbintDisbblfdTfxt(l, g, s, tfxtX, tfxtY);
+        }
+    }
+
+    stbtid finbl String DISABLED_COLOR_KEY = "Lbbfl.disbblfdForfgroundColor";
+    protfdtfd Color gftDisbblfdLbbflColor(finbl JLbbfl lbbfl) {
+        finbl Color fg = lbbfl.gftForfground();
+
+        finbl Objfdt dolorPropfrty = lbbfl.gftClifntPropfrty(DISABLED_COLOR_KEY);
+        if (dolorPropfrty instbndfof Color) {
+            finbl Color disbblfdColor = (Color)dolorPropfrty;
+            if ((fg.gftRGB() << 8) == (disbblfdColor.gftRGB() << 8)) rfturn disbblfdColor;
+        }
+
+        finbl Color nfwDisbblfdColor = nfw Color(fg.gftRfd(), fg.gftGrffn(), fg.gftBluf(), fg.gftAlphb() / 2);
+        lbbfl.putClifntPropfrty(DISABLED_COLOR_KEY, nfwDisbblfdColor);
+        rfturn nfwDisbblfdColor;
+    }
+}

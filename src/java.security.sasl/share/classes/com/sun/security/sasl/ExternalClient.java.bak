@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl;
+pbdkbgf dom.sun.sfdurity.sbsl;
 
-import javax.security.sasl.*;
+import jbvbx.sfdurity.sbsl.*;
 
 /**
-  * Implements the EXTERNAL SASL client mechanism.
-  * (<A HREF="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</A>).
-  * The EXTERNAL mechanism returns the optional authorization ID as
-  * the initial response. It processes no challenges.
+  * Implfmfnts tif EXTERNAL SASL dlifnt mfdibnism.
+  * (<A HREF="ittp://www.iftf.org/rfd/rfd2222.txt">RFC 2222</A>).
+  * Tif EXTERNAL mfdibnism rfturns tif optionbl butiorizbtion ID bs
+  * tif initibl rfsponsf. It prodfssfs no dibllfngfs.
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
-final class ExternalClient implements SaslClient {
-    private byte[] username;
-    private boolean completed = false;
+finbl dlbss ExtfrnblClifnt implfmfnts SbslClifnt {
+    privbtf bytf[] usfrnbmf;
+    privbtf boolfbn domplftfd = fblsf;
 
     /**
-     * Constructs an External mechanism with optional authorization ID.
+     * Construdts bn Extfrnbl mfdibnism witi optionbl butiorizbtion ID.
      *
-     * @param authorizationID If non-null, used to specify authorization ID.
-     * @throws SaslException if cannot convert authorizationID into UTF-8
-     *     representation.
+     * @pbrbm butiorizbtionID If non-null, usfd to spfdify butiorizbtion ID.
+     * @tirows SbslExdfption if dbnnot donvfrt butiorizbtionID into UTF-8
+     *     rfprfsfntbtion.
      */
-    ExternalClient(String authorizationID) throws SaslException {
-        if (authorizationID != null) {
+    ExtfrnblClifnt(String butiorizbtionID) tirows SbslExdfption {
+        if (butiorizbtionID != null) {
             try {
-                username = authorizationID.getBytes("UTF8");
-            } catch (java.io.UnsupportedEncodingException e) {
-                throw new SaslException("Cannot convert " + authorizationID +
-                    " into UTF-8", e);
+                usfrnbmf = butiorizbtionID.gftBytfs("UTF8");
+            } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+                tirow nfw SbslExdfption("Cbnnot donvfrt " + butiorizbtionID +
+                    " into UTF-8", f);
             }
-        } else {
-            username = new byte[0];
+        } flsf {
+            usfrnbmf = nfw bytf[0];
         }
     }
 
     /**
-     * Retrieves this mechanism's name for initiating the "EXTERNAL" protocol
-     * exchange.
+     * Rftrifvfs tiis mfdibnism's nbmf for initibting tif "EXTERNAL" protodol
+     * fxdibngf.
      *
-     * @return  The string "EXTERNAL".
+     * @rfturn  Tif string "EXTERNAL".
      */
-    public String getMechanismName() {
-        return "EXTERNAL";
+    publid String gftMfdibnismNbmf() {
+        rfturn "EXTERNAL";
     }
 
     /**
-     * This mechanism has an initial response.
+     * Tiis mfdibnism ibs bn initibl rfsponsf.
      */
-    public boolean hasInitialResponse() {
-        return true;
+    publid boolfbn ibsInitiblRfsponsf() {
+        rfturn truf;
     }
 
-    public void dispose() throws SaslException {
+    publid void disposf() tirows SbslExdfption {
     }
 
     /**
-     * Processes the challenge data.
-     * It returns the EXTERNAL mechanism's initial response,
-     * which is the authorization id encoded in UTF-8.
-     * This is the optional information that is sent along with the SASL command.
-     * After this method is called, isComplete() returns true.
+     * Prodfssfs tif dibllfngf dbtb.
+     * It rfturns tif EXTERNAL mfdibnism's initibl rfsponsf,
+     * wiidi is tif butiorizbtion id fndodfd in UTF-8.
+     * Tiis is tif optionbl informbtion tibt is sfnt blong witi tif SASL dommbnd.
+     * Aftfr tiis mftiod is dbllfd, isComplftf() rfturns truf.
      *
-     * @param challengeData Ignored.
-     * @return The possible empty initial response.
-     * @throws SaslException If authentication has already been called.
+     * @pbrbm dibllfngfDbtb Ignorfd.
+     * @rfturn Tif possiblf fmpty initibl rfsponsf.
+     * @tirows SbslExdfption If butifntidbtion ibs blrfbdy bffn dbllfd.
      */
-    public byte[] evaluateChallenge(byte[] challengeData)
-        throws SaslException {
-        if (completed) {
-            throw new IllegalStateException(
-                "EXTERNAL authentication already completed");
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngfDbtb)
+        tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "EXTERNAL butifntidbtion blrfbdy domplftfd");
         }
-        completed = true;
-        return username;
+        domplftfd = truf;
+        rfturn usfrnbmf;
     }
 
     /**
-     * Returns whether this mechanism is complete.
-     * @return true if initial response has been sent; false otherwise.
+     * Rfturns wiftifr tiis mfdibnism is domplftf.
+     * @rfturn truf if initibl rfsponsf ibs bffn sfnt; fblsf otifrwisf.
      */
-    public boolean isComplete() {
-        return completed;
+    publid boolfbn isComplftf() {
+        rfturn domplftfd;
     }
 
     /**
-      * Unwraps the incoming buffer.
+      * Unwrbps tif indoming bufffr.
       *
-      * @throws SaslException Not applicable to this mechanism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
       */
-    public byte[] unwrap(byte[] incoming, int offset, int len)
-        throws SaslException {
-        if (completed) {
-            throw new SaslException("EXTERNAL has no supported QOP");
-        } else {
-            throw new IllegalStateException(
-                "EXTERNAL authentication Not completed");
+    publid bytf[] unwrbp(bytf[] indoming, int offsft, int lfn)
+        tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw SbslExdfption("EXTERNAL ibs no supportfd QOP");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption(
+                "EXTERNAL butifntidbtion Not domplftfd");
         }
     }
 
     /**
-      * Wraps the outgoing buffer.
+      * Wrbps tif outgoing bufffr.
       *
-      * @throws SaslException Not applicable to this mechanism.
+      * @tirows SbslExdfption Not bpplidbblf to tiis mfdibnism.
       */
-    public byte[] wrap(byte[] outgoing, int offset, int len)
-        throws SaslException {
-        if (completed) {
-            throw new SaslException("EXTERNAL has no supported QOP");
-        } else {
-            throw new IllegalStateException(
-                "EXTERNAL authentication not completed");
+    publid bytf[] wrbp(bytf[] outgoing, int offsft, int lfn)
+        tirows SbslExdfption {
+        if (domplftfd) {
+            tirow nfw SbslExdfption("EXTERNAL ibs no supportfd QOP");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption(
+                "EXTERNAL butifntidbtion not domplftfd");
         }
     }
 
     /**
-     * Retrieves the negotiated property.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when <tt>isComplete()</tt> returns true); otherwise, a
-     * <tt>IllegalStateException</tt> is thrown.
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * Tiis mftiod dbn bf dbllfd only bftfr tif butifntidbtion fxdibngf ibs
+     * domplftfd (i.f., wifn <tt>isComplftf()</tt> rfturns truf); otifrwisf, b
+     * <tt>IllfgblStbtfExdfption</tt> is tirown.
      *
-     * @return null No property is applicable to this mechanism.
-     * @exception IllegalStateException if this authentication exchange
-     * has not completed
+     * @rfturn null No propfrty is bpplidbblf to tiis mfdibnism.
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf
+     * ibs not domplftfd
      */
-    public Object getNegotiatedProperty(String propName) {
-        if (completed) {
-            return null;
-        } else {
-            throw new IllegalStateException(
-                "EXTERNAL authentication not completed");
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (domplftfd) {
+            rfturn null;
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption(
+                "EXTERNAL butifntidbtion not domplftfd");
         }
     }
 }

@@ -1,0 +1,179 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import sun.tfxt.normblizfr.NormblizfrBbsf;
+import sun.tfxt.normblizfr.NormblizfrImpl;
+
+/**
+ * This dlbss providfs thf mfthod <dodf>normblizf</dodf> whidh trbnsforms Unidodf
+ * tfxt into bn fquivblfnt domposfd or dfdomposfd form, bllowing for fbsifr
+ * sorting bnd sfbrdhing of tfxt.
+ * Thf <dodf>normblizf</dodf> mfthod supports thf stbndbrd normblizbtion forms
+ * dfsdribfd in
+ * <b hrff="http://www.unidodf.org/unidodf/rfports/tr15/tr15-23.html">
+ * Unidodf Stbndbrd Annfx #15 &mdbsh; Unidodf Normblizbtion Forms</b>.
+ * <p>
+ * Chbrbdtfrs with bddfnts or othfr bdornmfnts dbn bf fndodfd in
+ * sfvfrbl difffrfnt wbys in Unidodf.  For fxbmplf, tbkf thf dhbrbdtfr A-bdutf.
+ * In Unidodf, this dbn bf fndodfd bs b singlf dhbrbdtfr (thf "domposfd" form):
+ *
+ * <prf>
+ *      U+00C1    LATIN CAPITAL LETTER A WITH ACUTE</prf>
+ *
+ * or bs two sfpbrbtf dhbrbdtfrs (thf "dfdomposfd" form):
+ *
+ * <prf>
+ *      U+0041    LATIN CAPITAL LETTER A
+ *      U+0301    COMBINING ACUTE ACCENT</prf>
+ *
+ * To b usfr of your progrbm, howfvfr, both of thfsf sfqufndfs should bf
+ * trfbtfd bs thf sbmf "usfr-lfvfl" dhbrbdtfr "A with bdutf bddfnt".  Whfn you
+ * brf sfbrdhing or dompbring tfxt, you must fnsurf thbt thfsf two sfqufndfs brf
+ * trfbtfd bs fquivblfnt.  In bddition, you must hbndlf dhbrbdtfrs with morf thbn
+ * onf bddfnt. Somftimfs thf ordfr of b dhbrbdtfr's dombining bddfnts is
+ * signifidbnt, whilf in othfr dbsfs bddfnt sfqufndfs in difffrfnt ordfrs brf
+ * rfblly fquivblfnt.
+ * <p>
+ * Similbrly, thf string "ffi" dbn bf fndodfd bs thrff sfpbrbtf lfttfrs:
+ *
+ * <prf>
+ *      U+0066    LATIN SMALL LETTER F
+ *      U+0066    LATIN SMALL LETTER F
+ *      U+0069    LATIN SMALL LETTER I</prf>
+ *
+ * or bs thf singlf dhbrbdtfr
+ *
+ * <prf>
+ *      U+FB03    LATIN SMALL LIGATURE FFI</prf>
+ *
+ * Thf ffi ligbturf is not b distindt sfmbntid dhbrbdtfr, bnd stridtly spfbking
+ * it shouldn't bf in Unidodf bt bll, but it wbs indludfd for dompbtibility
+ * with fxisting dhbrbdtfr sfts thbt blrfbdy providfd it.  Thf Unidodf stbndbrd
+ * idfntififs sudh dhbrbdtfrs by giving thfm "dompbtibility" dfdompositions
+ * into thf dorrfsponding sfmbntid dhbrbdtfrs.  Whfn sorting bnd sfbrdhing, you
+ * will oftfn wbnt to usf thfsf mbppings.
+ * <p>
+ * Thf <dodf>normblizf</dodf> mfthod hflps solvf thfsf problfms by trbnsforming
+ * tfxt into thf dbnonidbl domposfd bnd dfdomposfd forms bs shown in thf first
+ * fxbmplf bbovf. In bddition, you dbn hbvf it pfrform dompbtibility
+ * dfdompositions so thbt you dbn trfbt dompbtibility dhbrbdtfrs thf sbmf bs
+ * thfir fquivblfnts.
+ * Finblly, thf <dodf>normblizf</dodf> mfthod rfbrrbngfs bddfnts into thf
+ * propfr dbnonidbl ordfr, so thbt you do not hbvf to worry bbout bddfnt
+ * rfbrrbngfmfnt on your own.
+ * <p>
+ * Thf W3C gfnfrblly rfdommfnds to fxdhbngf tfxts in NFC.
+ * Notf blso thbt most lfgbdy dhbrbdtfr fndodings usf only prfdomposfd forms bnd
+ * oftfn do not fndodf bny dombining mbrks by thfmsflvfs. For donvfrsion to sudh
+ * dhbrbdtfr fndodings thf Unidodf tfxt nffds to bf normblizfd to NFC.
+ * For morf usbgf fxbmplfs, sff thf Unidodf Stbndbrd Annfx.
+ *
+ * @sindf 1.6
+ */
+publid finbl dlbss Normblizfr {
+
+   privbtf Normblizfr() {};
+
+    /**
+     * This fnum providfs donstbnts of thf four Unidodf normblizbtion forms
+     * thbt brf dfsdribfd in
+     * <b hrff="http://www.unidodf.org/unidodf/rfports/tr15/tr15-23.html">
+     * Unidodf Stbndbrd Annfx #15 &mdbsh; Unidodf Normblizbtion Forms</b>
+     * bnd two mfthods to bddfss thfm.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid fnum Form {
+
+        /**
+         * Cbnonidbl dfdomposition.
+         */
+        NFD,
+
+        /**
+         * Cbnonidbl dfdomposition, followfd by dbnonidbl domposition.
+         */
+        NFC,
+
+        /**
+         * Compbtibility dfdomposition.
+         */
+        NFKD,
+
+        /**
+         * Compbtibility dfdomposition, followfd by dbnonidbl domposition.
+         */
+        NFKC
+    }
+
+    /**
+     * Normblizf b sfqufndf of dhbr vblufs.
+     * Thf sfqufndf will bf normblizfd bddording to thf spfdififd normblizbtion
+     * from.
+     * @pbrbm srd        Thf sfqufndf of dhbr vblufs to normblizf.
+     * @pbrbm form       Thf normblizbtion form; onf of
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFC},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFD},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFKC},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFKD}
+     * @rfturn Thf normblizfd String
+     * @throws NullPointfrExdfption If <dodf>srd</dodf> or <dodf>form</dodf>
+     * is null.
+     */
+    publid stbtid String normblizf(ChbrSfqufndf srd, Form form) {
+        rfturn NormblizfrBbsf.normblizf(srd.toString(), form);
+    }
+
+    /**
+     * Dftfrminfs if thf givfn sfqufndf of dhbr vblufs is normblizfd.
+     * @pbrbm srd        Thf sfqufndf of dhbr vblufs to bf dhfdkfd.
+     * @pbrbm form       Thf normblizbtion form; onf of
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFC},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFD},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFKC},
+     *                   {@link jbvb.tfxt.Normblizfr.Form#NFKD}
+     * @rfturn truf if thf sfqufndf of dhbr vblufs is normblizfd;
+     * fblsf othfrwisf.
+     * @throws NullPointfrExdfption If <dodf>srd</dodf> or <dodf>form</dodf>
+     * is null.
+     */
+    publid stbtid boolfbn isNormblizfd(ChbrSfqufndf srd, Form form) {
+        rfturn NormblizfrBbsf.isNormblizfd(srd.toString(), form);
+    }
+}

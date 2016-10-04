@@ -1,0 +1,111 @@
+'\" t
+.\"  Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Rfmotf Mfthod Invodbtion (RMI) Tools
+.\"     Titlf: sfriblvfr.1
+.\"
+.if n .pl 99999
+.TH sfriblvfr 1 "21 Novfmbfr 2013" "JDK 8" "Rfmotf Mfthod Invodbtion (RMI) Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+sfriblvfr \- Rfturns thf sfribl vfrsion UID for spfdififd dlbssfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBsfriblvfr\fR [ \fIoptions\fR ] [ \fIdlbssnbmfs\fR ]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIdlbssnbmfs\fR
+Thf dlbssfs for whidh thf \f3sfriblVfrsionUID\fR is to bf rfturnfd\&.
+.SH DESCRIPTION    
+Thf \f3sfriblvfr\fR dommbnd rfturns thf \f3sfriblVfrsionUID\fR for onf or morf dlbssfs in b form suitbblf for dopying into bn fvolving dlbss\&. Whfn dbllfd with no brgumfnts, thf \f3sfriblvfr\fR dommbnd prints b usbgf linf\&.
+.SH OPTIONS    
+.TP
+-dlbsspbth \fIpbth-filfs\fR
+.br
+Sfts thf sfbrdh pbth for bpplidbtion dlbssfs bnd rfsourdfs\&. Sfpbrbtf dlbssfs bnd rfsourdfs with b dolon (:)\&.
+.TP
+-show
+.br
+Displbys b simplf usfr intfrfbdf\&. Entfr thf full dlbss nbmf bnd prfss fithfr thf \fIEntfr\fR kfy or thf \fIShow\fR button to displby thf \f3sfriblVfrsionUID\fR\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to thf Jbvb Virtubl Mbdhinf, whfrf option is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.SH NOTES    
+Thf \f3sfriblvfr\fR dommbnd lobds bnd initiblizfs thf spfdififd dlbssfs in its virtubl mbdhinf, bnd by dffbult, it dofs not sft b sfdurity mbnbgfr\&. If thf \f3sfriblvfr\fR dommbnd is to bf run with untrustfd dlbssfs, thfn b sfdurity mbnbgfr dbn bf sft with thf following option:
+.sp     
+.nf     
+\f3\-J\-Djbvb\&.sfdurity\&.mbnbgfr\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Whfn nfdfssbry, b sfdurity polidy dbn bf spfdififd with thf following option:
+.sp     
+.nf     
+\f3\-J\-Djbvb\&.sfdurity\&.polidy=<polidy filf>\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+polidytool(1)
+.TP 0.2i    
+\(bu
+Thf \f3jbvb\&.io\&.ObjfdtStrfbm\fR dlbss dfsdription bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/io/ObjfdtStrfbmClbss\&.html
+.RE
+.br
+'pl 8.5i
+'bp

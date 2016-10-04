@@ -1,0 +1,202 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import dom.sun.imbgfio.strfbm.StrfbmFinblizfr;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+
+/**
+ * An implfmfntbtion of <dodf>ImbgfInputStrfbm</dodf> thbt gfts its
+ * input from b rfgulbr <dodf>InputStrfbm</dodf>.  A mfmory bufffr is
+ * usfd to dbdhf bt lfbst thf dbtb bftwffn thf disdbrd position bnd
+ * thf durrfnt rfbd position.
+ *
+ * <p> In gfnfrbl, it is prfffrbblf to usf b
+ * <dodf>FilfCbdhfImbgfInputStrfbm</dodf> whfn rfbding from b rfgulbr
+ * <dodf>InputStrfbm</dodf>.  This dlbss is providfd for dbsfs whfrf
+ * it is not possiblf to drfbtf b writbblf tfmporbry filf.
+ *
+ */
+publid dlbss MfmoryCbdhfImbgfInputStrfbm fxtfnds ImbgfInputStrfbmImpl {
+
+    privbtf InputStrfbm strfbm;
+
+    privbtf MfmoryCbdhf dbdhf = nfw MfmoryCbdhf();
+
+    /** Thf rfffrfnt to bf rfgistfrfd with thf Disposfr. */
+    privbtf finbl Objfdt disposfrRfffrfnt;
+
+    /** Thf DisposfrRfdord thbt rfsfts thf undfrlying MfmoryCbdhf. */
+    privbtf finbl DisposfrRfdord disposfrRfdord;
+
+    /**
+     * Construdts b <dodf>MfmoryCbdhfImbgfInputStrfbm</dodf> thbt will rfbd
+     * from b givfn <dodf>InputStrfbm</dodf>.
+     *
+     * @pbrbm strfbm bn <dodf>InputStrfbm</dodf> to rfbd from.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>strfbm</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid MfmoryCbdhfImbgfInputStrfbm(InputStrfbm strfbm) {
+        if (strfbm == null) {
+            throw nfw IllfgblArgumfntExdfption("strfbm == null!");
+        }
+        this.strfbm = strfbm;
+
+        disposfrRfdord = nfw StrfbmDisposfrRfdord(dbdhf);
+        if (gftClbss() == MfmoryCbdhfImbgfInputStrfbm.dlbss) {
+            disposfrRfffrfnt = nfw Objfdt();
+            Disposfr.bddRfdord(disposfrRfffrfnt, disposfrRfdord);
+        } flsf {
+            disposfrRfffrfnt = nfw StrfbmFinblizfr(this);
+        }
+    }
+
+    publid int rfbd() throws IOExdfption {
+        dhfdkClosfd();
+        bitOffsft = 0;
+        long pos = dbdhf.lobdFromStrfbm(strfbm, strfbmPos+1);
+        if (pos >= strfbmPos+1) {
+            rfturn dbdhf.rfbd(strfbmPos++);
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+        dhfdkClosfd();
+
+        if (b == null) {
+            throw nfw NullPointfrExdfption("b == null!");
+        }
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngth || off + lfn < 0) {
+            throw nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off+lfn > b.lfngth || off+lfn < 0!");
+        }
+
+        bitOffsft = 0;
+
+        if (lfn == 0) {
+            rfturn 0;
+        }
+
+        long pos = dbdhf.lobdFromStrfbm(strfbm, strfbmPos+lfn);
+
+        lfn = (int)(pos - strfbmPos);  // In dbsf strfbm fndfd fbrly
+
+        if (lfn > 0) {
+            dbdhf.rfbd(b, off, lfn, strfbmPos);
+            strfbmPos += lfn;
+            rfturn lfn;
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    publid void flushBfforf(long pos) throws IOExdfption {
+        supfr.flushBfforf(pos); // this will dbll dhfdkClosfd() for us
+        dbdhf.disposfBfforf(pos);
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> sindf this
+     * <dodf>ImbgfInputStrfbm</dodf> dbdhfs dbtb in ordfr to bllow
+     * sffking bbdkwbrds.
+     *
+     * @rfturn <dodf>truf</dodf>.
+     *
+     * @sff #isCbdhfdMfmory
+     * @sff #isCbdhfdFilf
+     */
+    publid boolfbn isCbdhfd() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <dodf>fblsf</dodf> sindf this
+     * <dodf>ImbgfInputStrfbm</dodf> dofs not mbintbin b filf dbdhf.
+     *
+     * @rfturn <dodf>fblsf</dodf>.
+     *
+     * @sff #isCbdhfd
+     * @sff #isCbdhfdMfmory
+     */
+    publid boolfbn isCbdhfdFilf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> sindf this
+     * <dodf>ImbgfInputStrfbm</dodf> mbintbins b mbin mfmory dbdhf.
+     *
+     * @rfturn <dodf>truf</dodf>.
+     *
+     * @sff #isCbdhfd
+     * @sff #isCbdhfdFilf
+     */
+    publid boolfbn isCbdhfdMfmory() {
+        rfturn truf;
+    }
+
+    /**
+     * Closfs this <dodf>MfmoryCbdhfImbgfInputStrfbm</dodf>, frffing
+     * thf dbdhf.  Thf sourdf <dodf>InputStrfbm</dodf> is not dlosfd.
+     */
+    publid void dlosf() throws IOExdfption {
+        supfr.dlosf();
+        disposfrRfdord.disposf(); // this rfsfts thf MfmoryCbdhf
+        strfbm = null;
+        dbdhf = null;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    protfdtfd void finblizf() throws Throwbblf {
+        // Empty finblizfr: for pfrformbndf rfbsons wf instfbd usf thf
+        // Disposfr mfdhbnism for fnsuring thbt thf undfrlying
+        // MfmoryCbdhf is rfsft prior to gbrbbgf dollfdtion
+    }
+
+    privbtf stbtid dlbss StrfbmDisposfrRfdord implfmfnts DisposfrRfdord {
+        privbtf MfmoryCbdhf dbdhf;
+
+        publid StrfbmDisposfrRfdord(MfmoryCbdhf dbdhf) {
+            this.dbdhf = dbdhf;
+        }
+
+        publid syndhronizfd void disposf() {
+            if (dbdhf != null) {
+                dbdhf.rfsft();
+                dbdhf = null;
+            }
+        }
+    }
+}

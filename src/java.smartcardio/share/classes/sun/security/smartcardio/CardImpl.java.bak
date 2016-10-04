@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.smartcardio;
+pbdkbgf sun.sfdurity.smbrtdbrdio;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.BytfBufffr;
 
-import javax.smartcardio.*;
+import jbvbx.smbrtdbrdio.*;
 
-import static sun.security.smartcardio.PCSC.*;
+import stbtid sun.sfdurity.smbrtdbrdio.PCSC.*;
 
 /**
- * Card implementation.
+ * Cbrd implfmfntbtion.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-final class CardImpl extends Card {
+finbl dlbss CbrdImpl fxtfnds Cbrd {
 
-    private static enum State { OK, REMOVED, DISCONNECTED };
+    privbtf stbtid fnum Stbtf { OK, REMOVED, DISCONNECTED };
 
-    // the terminal that created this card
-    private final TerminalImpl terminal;
+    // tif tfrminbl tibt drfbtfd tiis dbrd
+    privbtf finbl TfrminblImpl tfrminbl;
 
-    // the native SCARDHANDLE
-    final long cardId;
+    // tif nbtivf SCARDHANDLE
+    finbl long dbrdId;
 
-    // atr of this card
-    private final ATR atr;
+    // btr of tiis dbrd
+    privbtf finbl ATR btr;
 
-    // protocol in use, one of SCARD_PROTOCOL_T0 and SCARD_PROTOCOL_T1
-    final int protocol;
+    // protodol in usf, onf of SCARD_PROTOCOL_T0 bnd SCARD_PROTOCOL_T1
+    finbl int protodol;
 
-    // the basic logical channel (channel 0)
-    private final ChannelImpl basicChannel;
+    // tif bbsid logidbl dibnnfl (dibnnfl 0)
+    privbtf finbl CibnnflImpl bbsidCibnnfl;
 
-    // state of this card connection
-    private volatile State state;
+    // stbtf of tiis dbrd donnfdtion
+    privbtf volbtilf Stbtf stbtf;
 
-    // thread holding exclusive access to the card, or null
-    private volatile Thread exclusiveThread;
+    // tirfbd iolding fxdlusivf bddfss to tif dbrd, or null
+    privbtf volbtilf Tirfbd fxdlusivfTirfbd;
 
-    CardImpl(TerminalImpl terminal, String protocol) throws PCSCException {
-        this.terminal = terminal;
-        int sharingMode = SCARD_SHARE_SHARED;
-        int connectProtocol;
-        if (protocol.equals("*")) {
-            connectProtocol = SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1;
-        } else if (protocol.equalsIgnoreCase("T=0")) {
-            connectProtocol = SCARD_PROTOCOL_T0;
-        } else if (protocol.equalsIgnoreCase("T=1")) {
-            connectProtocol = SCARD_PROTOCOL_T1;
-        } else if (protocol.equalsIgnoreCase("direct")) {
-            // testing
-            connectProtocol = 0;
-            sharingMode = SCARD_SHARE_DIRECT;
-        } else {
-            throw new IllegalArgumentException("Unsupported protocol " + protocol);
+    CbrdImpl(TfrminblImpl tfrminbl, String protodol) tirows PCSCExdfption {
+        tiis.tfrminbl = tfrminbl;
+        int sibringModf = SCARD_SHARE_SHARED;
+        int donnfdtProtodol;
+        if (protodol.fqubls("*")) {
+            donnfdtProtodol = SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1;
+        } flsf if (protodol.fqublsIgnorfCbsf("T=0")) {
+            donnfdtProtodol = SCARD_PROTOCOL_T0;
+        } flsf if (protodol.fqublsIgnorfCbsf("T=1")) {
+            donnfdtProtodol = SCARD_PROTOCOL_T1;
+        } flsf if (protodol.fqublsIgnorfCbsf("dirfdt")) {
+            // tfsting
+            donnfdtProtodol = 0;
+            sibringModf = SCARD_SHARE_DIRECT;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd protodol " + protodol);
         }
-        cardId = SCardConnect(terminal.contextId, terminal.name,
-                    sharingMode, connectProtocol);
-        byte[] status = new byte[2];
-        byte[] atrBytes = SCardStatus(cardId, status);
-        atr = new ATR(atrBytes);
-        this.protocol = status[1] & 0xff;
-        basicChannel = new ChannelImpl(this, 0);
-        state = State.OK;
+        dbrdId = SCbrdConnfdt(tfrminbl.dontfxtId, tfrminbl.nbmf,
+                    sibringModf, donnfdtProtodol);
+        bytf[] stbtus = nfw bytf[2];
+        bytf[] btrBytfs = SCbrdStbtus(dbrdId, stbtus);
+        btr = nfw ATR(btrBytfs);
+        tiis.protodol = stbtus[1] & 0xff;
+        bbsidCibnnfl = nfw CibnnflImpl(tiis, 0);
+        stbtf = Stbtf.OK;
     }
 
-    void checkState()  {
-        State s = state;
-        if (s == State.DISCONNECTED) {
-            throw new IllegalStateException("Card has been disconnected");
-        } else if (s == State.REMOVED) {
-            throw new IllegalStateException("Card has been removed");
+    void difdkStbtf()  {
+        Stbtf s = stbtf;
+        if (s == Stbtf.DISCONNECTED) {
+            tirow nfw IllfgblStbtfExdfption("Cbrd ibs bffn disdonnfdtfd");
+        } flsf if (s == Stbtf.REMOVED) {
+            tirow nfw IllfgblStbtfExdfption("Cbrd ibs bffn rfmovfd");
         }
     }
 
-    boolean isValid() {
-        if (state != State.OK) {
-            return false;
+    boolfbn isVblid() {
+        if (stbtf != Stbtf.OK) {
+            rfturn fblsf;
         }
-        // ping card via SCardStatus
+        // ping dbrd vib SCbrdStbtus
         try {
-            SCardStatus(cardId, new byte[2]);
-            return true;
-        } catch (PCSCException e) {
-            state = State.REMOVED;
-            return false;
+            SCbrdStbtus(dbrdId, nfw bytf[2]);
+            rfturn truf;
+        } dbtdi (PCSCExdfption f) {
+            stbtf = Stbtf.REMOVED;
+            rfturn fblsf;
         }
     }
 
-    private void checkSecurity(String action) {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf void difdkSfdurity(String bdtion) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new CardPermission(terminal.name, action));
+            sm.difdkPfrmission(nfw CbrdPfrmission(tfrminbl.nbmf, bdtion));
         }
     }
 
-    void handleError(PCSCException e) {
-        if (e.code == SCARD_W_REMOVED_CARD) {
-            state = State.REMOVED;
+    void ibndlfError(PCSCExdfption f) {
+        if (f.dodf == SCARD_W_REMOVED_CARD) {
+            stbtf = Stbtf.REMOVED;
         }
     }
 
-    public ATR getATR() {
-        return atr;
+    publid ATR gftATR() {
+        rfturn btr;
     }
 
-    public String getProtocol() {
-        switch (protocol) {
-        case SCARD_PROTOCOL_T0:
-            return "T=0";
-        case SCARD_PROTOCOL_T1:
-            return "T=1";
-        default:
-            // should never occur
-            return "Unknown protocol " + protocol;
+    publid String gftProtodol() {
+        switdi (protodol) {
+        dbsf SCARD_PROTOCOL_T0:
+            rfturn "T=0";
+        dbsf SCARD_PROTOCOL_T1:
+            rfturn "T=1";
+        dffbult:
+            // siould nfvfr oddur
+            rfturn "Unknown protodol " + protodol;
         }
     }
 
-    public CardChannel getBasicChannel() {
-        checkSecurity("getBasicChannel");
-        checkState();
-        return basicChannel;
+    publid CbrdCibnnfl gftBbsidCibnnfl() {
+        difdkSfdurity("gftBbsidCibnnfl");
+        difdkStbtf();
+        rfturn bbsidCibnnfl;
     }
 
-    private static int getSW(byte[] b) {
-        if (b.length < 2) {
-            return -1;
+    privbtf stbtid int gftSW(bytf[] b) {
+        if (b.lfngti < 2) {
+            rfturn -1;
         }
-        int sw1 = b[b.length - 2] & 0xff;
-        int sw2 = b[b.length - 1] & 0xff;
-        return (sw1 << 8) | sw2;
+        int sw1 = b[b.lfngti - 2] & 0xff;
+        int sw2 = b[b.lfngti - 1] & 0xff;
+        rfturn (sw1 << 8) | sw2;
     }
 
-    private static byte[] commandOpenChannel = new byte[] {0, 0x70, 0, 0, 1};
+    privbtf stbtid bytf[] dommbndOpfnCibnnfl = nfw bytf[] {0, 0x70, 0, 0, 1};
 
-    public CardChannel openLogicalChannel() throws CardException {
-        checkSecurity("openLogicalChannel");
-        checkState();
-        checkExclusive();
+    publid CbrdCibnnfl opfnLogidblCibnnfl() tirows CbrdExdfption {
+        difdkSfdurity("opfnLogidblCibnnfl");
+        difdkStbtf();
+        difdkExdlusivf();
         try {
-            byte[] response = SCardTransmit
-                (cardId, protocol, commandOpenChannel, 0, commandOpenChannel.length);
-            if ((response.length != 3) || (getSW(response) != 0x9000)) {
-                throw new CardException
-                        ("openLogicalChannel() failed, card response: "
-                        + PCSC.toString(response));
+            bytf[] rfsponsf = SCbrdTrbnsmit
+                (dbrdId, protodol, dommbndOpfnCibnnfl, 0, dommbndOpfnCibnnfl.lfngti);
+            if ((rfsponsf.lfngti != 3) || (gftSW(rfsponsf) != 0x9000)) {
+                tirow nfw CbrdExdfption
+                        ("opfnLogidblCibnnfl() fbilfd, dbrd rfsponsf: "
+                        + PCSC.toString(rfsponsf));
             }
-            return new ChannelImpl(this, response[0]);
-        } catch (PCSCException e) {
-            handleError(e);
-            throw new CardException("openLogicalChannel() failed", e);
+            rfturn nfw CibnnflImpl(tiis, rfsponsf[0]);
+        } dbtdi (PCSCExdfption f) {
+            ibndlfError(f);
+            tirow nfw CbrdExdfption("opfnLogidblCibnnfl() fbilfd", f);
         }
     }
 
-    void checkExclusive() throws CardException {
-        Thread t = exclusiveThread;
+    void difdkExdlusivf() tirows CbrdExdfption {
+        Tirfbd t = fxdlusivfTirfbd;
         if (t == null) {
-            return;
+            rfturn;
         }
-        if (t != Thread.currentThread()) {
-            throw new CardException("Exclusive access established by another Thread");
+        if (t != Tirfbd.durrfntTirfbd()) {
+            tirow nfw CbrdExdfption("Exdlusivf bddfss fstbblisifd by bnotifr Tirfbd");
         }
     }
 
-    public synchronized void beginExclusive() throws CardException {
-        checkSecurity("exclusive");
-        checkState();
-        if (exclusiveThread != null) {
-            throw new CardException
-                    ("Exclusive access has already been assigned to Thread "
-                    + exclusiveThread.getName());
+    publid syndironizfd void bfginExdlusivf() tirows CbrdExdfption {
+        difdkSfdurity("fxdlusivf");
+        difdkStbtf();
+        if (fxdlusivfTirfbd != null) {
+            tirow nfw CbrdExdfption
+                    ("Exdlusivf bddfss ibs blrfbdy bffn bssignfd to Tirfbd "
+                    + fxdlusivfTirfbd.gftNbmf());
         }
         try {
-            SCardBeginTransaction(cardId);
-        } catch (PCSCException e) {
-            handleError(e);
-            throw new CardException("beginExclusive() failed", e);
+            SCbrdBfginTrbnsbdtion(dbrdId);
+        } dbtdi (PCSCExdfption f) {
+            ibndlfError(f);
+            tirow nfw CbrdExdfption("bfginExdlusivf() fbilfd", f);
         }
-        exclusiveThread = Thread.currentThread();
+        fxdlusivfTirfbd = Tirfbd.durrfntTirfbd();
     }
 
-    public synchronized void endExclusive() throws CardException {
-        checkState();
-        if (exclusiveThread != Thread.currentThread()) {
-            throw new IllegalStateException
-                    ("Exclusive access not assigned to current Thread");
+    publid syndironizfd void fndExdlusivf() tirows CbrdExdfption {
+        difdkStbtf();
+        if (fxdlusivfTirfbd != Tirfbd.durrfntTirfbd()) {
+            tirow nfw IllfgblStbtfExdfption
+                    ("Exdlusivf bddfss not bssignfd to durrfnt Tirfbd");
         }
         try {
-            SCardEndTransaction(cardId, SCARD_LEAVE_CARD);
-        } catch (PCSCException e) {
-            handleError(e);
-            throw new CardException("endExclusive() failed", e);
-        } finally {
-            exclusiveThread = null;
+            SCbrdEndTrbnsbdtion(dbrdId, SCARD_LEAVE_CARD);
+        } dbtdi (PCSCExdfption f) {
+            ibndlfError(f);
+            tirow nfw CbrdExdfption("fndExdlusivf() fbilfd", f);
+        } finblly {
+            fxdlusivfTirfbd = null;
         }
     }
 
-    public byte[] transmitControlCommand(int controlCode, byte[] command)
-            throws CardException {
-        checkSecurity("transmitControl");
-        checkState();
-        checkExclusive();
-        if (command == null) {
-            throw new NullPointerException();
+    publid bytf[] trbnsmitControlCommbnd(int dontrolCodf, bytf[] dommbnd)
+            tirows CbrdExdfption {
+        difdkSfdurity("trbnsmitControl");
+        difdkStbtf();
+        difdkExdlusivf();
+        if (dommbnd == null) {
+            tirow nfw NullPointfrExdfption();
         }
         try {
-            byte[] r = SCardControl(cardId, controlCode, command);
-            return r;
-        } catch (PCSCException e) {
-            handleError(e);
-            throw new CardException("transmitControlCommand() failed", e);
+            bytf[] r = SCbrdControl(dbrdId, dontrolCodf, dommbnd);
+            rfturn r;
+        } dbtdi (PCSCExdfption f) {
+            ibndlfError(f);
+            tirow nfw CbrdExdfption("trbnsmitControlCommbnd() fbilfd", f);
         }
     }
 
-    public void disconnect(boolean reset) throws CardException {
-        if (reset) {
-            checkSecurity("reset");
+    publid void disdonnfdt(boolfbn rfsft) tirows CbrdExdfption {
+        if (rfsft) {
+            difdkSfdurity("rfsft");
         }
-        if (state != State.OK) {
-            return;
+        if (stbtf != Stbtf.OK) {
+            rfturn;
         }
-        checkExclusive();
+        difdkExdlusivf();
         try {
-            SCardDisconnect(cardId, (reset ? SCARD_RESET_CARD : SCARD_LEAVE_CARD));
-        } catch (PCSCException e) {
-            throw new CardException("disconnect() failed", e);
-        } finally {
-            state = State.DISCONNECTED;
-            exclusiveThread = null;
+            SCbrdDisdonnfdt(dbrdId, (rfsft ? SCARD_RESET_CARD : SCARD_LEAVE_CARD));
+        } dbtdi (PCSCExdfption f) {
+            tirow nfw CbrdExdfption("disdonnfdt() fbilfd", f);
+        } finblly {
+            stbtf = Stbtf.DISCONNECTED;
+            fxdlusivfTirfbd = null;
         }
     }
 
-    public String toString() {
-        return "PC/SC card in " + terminal.getName()
-            + ", protocol " + getProtocol() + ", state " + state;
+    publid String toString() {
+        rfturn "PC/SC dbrd in " + tfrminbl.gftNbmf()
+            + ", protodol " + gftProtodol() + ", stbtf " + stbtf;
     }
 
-    protected void finalize() throws Throwable {
+    protfdtfd void finblizf() tirows Tirowbblf {
         try {
-            if (state == State.OK) {
-                SCardDisconnect(cardId, SCARD_LEAVE_CARD);
+            if (stbtf == Stbtf.OK) {
+                SCbrdDisdonnfdt(dbrdId, SCARD_LEAVE_CARD);
             }
-        } finally {
-            super.finalize();
+        } finblly {
+            supfr.finblizf();
         }
     }
 

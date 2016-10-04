@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.lwawt;
+pbdkbgf sun.lwbwt;
 
-import java.awt.Checkbox;
-import java.awt.CheckboxGroup;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.peer.CheckboxPeer;
-import java.beans.Transient;
+import jbvb.bwt.Cifdkbox;
+import jbvb.bwt.CifdkboxGroup;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.fvfnt.ItfmListfnfr;
+import jbvb.bwt.pffr.CifdkboxPffr;
+import jbvb.bfbns.Trbnsifnt;
 
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JRadioButton;
-import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
+import jbvbx.swing.JCifdkBox;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JRbdioButton;
+import jbvbx.swing.JTogglfButton;
+import jbvbx.swing.SwingUtilitifs;
 
 /**
- * Lightweight implementation of {@link CheckboxPeer}. Delegates most of the
- * work to the {@link JCheckBox} and {@link JRadioButton}, which are placed
- * inside an empty {@link JComponent}.
+ * Ligitwfigit implfmfntbtion of {@link CifdkboxPffr}. Dflfgbtfs most of tif
+ * work to tif {@link JCifdkBox} bnd {@link JRbdioButton}, wiidi brf plbdfd
+ * insidf bn fmpty {@link JComponfnt}.
  */
-final class LWCheckboxPeer
-        extends LWComponentPeer<Checkbox, LWCheckboxPeer.CheckboxDelegate>
-        implements CheckboxPeer, ItemListener {
+finbl dlbss LWCifdkboxPffr
+        fxtfnds LWComponfntPffr<Cifdkbox, LWCifdkboxPffr.CifdkboxDflfgbtf>
+        implfmfnts CifdkboxPffr, ItfmListfnfr {
 
-    LWCheckboxPeer(final Checkbox target,
-                   final PlatformComponent platformComponent) {
-        super(target, platformComponent);
+    LWCifdkboxPffr(finbl Cifdkbox tbrgft,
+                   finbl PlbtformComponfnt plbtformComponfnt) {
+        supfr(tbrgft, plbtformComponfnt);
     }
 
-    @Override
-    CheckboxDelegate createDelegate() {
-        return new CheckboxDelegate();
+    @Ovfrridf
+    CifdkboxDflfgbtf drfbtfDflfgbtf() {
+        rfturn nfw CifdkboxDflfgbtf();
     }
 
-    @Override
-    Component getDelegateFocusOwner() {
-        return getDelegate().getCurrentButton();
+    @Ovfrridf
+    Componfnt gftDflfgbtfFodusOwnfr() {
+        rfturn gftDflfgbtf().gftCurrfntButton();
     }
 
-    @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        setLabel(getTarget().getLabel());
-        setState(getTarget().getState());
-        setCheckboxGroup(getTarget().getCheckboxGroup());
+    @Ovfrridf
+    void initiblizfImpl() {
+        supfr.initiblizfImpl();
+        sftLbbfl(gftTbrgft().gftLbbfl());
+        sftStbtf(gftTbrgft().gftStbtf());
+        sftCifdkboxGroup(gftTbrgft().gftCifdkboxGroup());
     }
 
-    @Override
-    public void itemStateChanged(final ItemEvent e) {
-        // group.setSelectedCheckbox() will repaint the component
-        // to let LWCheckboxPeer correctly handle it we should call it
-        // after the current event is processed
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                boolean postEvent = true;
-                final CheckboxGroup group = getTarget().getCheckboxGroup();
+    @Ovfrridf
+    publid void itfmStbtfCibngfd(finbl ItfmEvfnt f) {
+        // group.sftSflfdtfdCifdkbox() will rfpbint tif domponfnt
+        // to lft LWCifdkboxPffr dorrfdtly ibndlf it wf siould dbll it
+        // bftfr tif durrfnt fvfnt is prodfssfd
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                boolfbn postEvfnt = truf;
+                finbl CifdkboxGroup group = gftTbrgft().gftCifdkboxGroup();
                 if (group != null) {
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        if (group.getSelectedCheckbox() != getTarget()) {
-                            group.setSelectedCheckbox(getTarget());
-                        } else {
-                            postEvent = false;
+                    if (f.gftStbtfCibngf() == ItfmEvfnt.SELECTED) {
+                        if (group.gftSflfdtfdCifdkbox() != gftTbrgft()) {
+                            group.sftSflfdtfdCifdkbox(gftTbrgft());
+                        } flsf {
+                            postEvfnt = fblsf;
                         }
-                    } else {
-                        postEvent = false;
-                        if (group.getSelectedCheckbox() == getTarget()) {
-                            // Don't want to leave the group with no selected
-                            // checkbox.
-                            getTarget().setState(true);
+                    } flsf {
+                        postEvfnt = fblsf;
+                        if (group.gftSflfdtfdCifdkbox() == gftTbrgft()) {
+                            // Don't wbnt to lfbvf tif group witi no sflfdtfd
+                            // difdkbox.
+                            gftTbrgft().sftStbtf(truf);
                         }
                     }
-                } else {
-                    getTarget().setState(e.getStateChange()
-                                         == ItemEvent.SELECTED);
+                } flsf {
+                    gftTbrgft().sftStbtf(f.gftStbtfCibngf()
+                                         == ItfmEvfnt.SELECTED);
                 }
-                if (postEvent) {
-                    postEvent(new ItemEvent(getTarget(),
-                                            ItemEvent.ITEM_STATE_CHANGED,
-                                            getTarget().getLabel(),
-                                            e.getStateChange()));
+                if (postEvfnt) {
+                    postEvfnt(nfw ItfmEvfnt(gftTbrgft(),
+                                            ItfmEvfnt.ITEM_STATE_CHANGED,
+                                            gftTbrgft().gftLbbfl(),
+                                            f.gftStbtfCibngf()));
                 }
             }
         });
     }
 
-    @Override
-    public void setCheckboxGroup(final CheckboxGroup g) {
-        synchronized (getDelegateLock()) {
-            getDelegate().getCurrentButton().removeItemListener(this);
-            getDelegate().setRadioButton(g != null);
-            getDelegate().getCurrentButton().addItemListener(this);
+    @Ovfrridf
+    publid void sftCifdkboxGroup(finbl CifdkboxGroup g) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().gftCurrfntButton().rfmovfItfmListfnfr(tiis);
+            gftDflfgbtf().sftRbdioButton(g != null);
+            gftDflfgbtf().gftCurrfntButton().bddItfmListfnfr(tiis);
         }
-        repaintPeer();
+        rfpbintPffr();
     }
 
-    @Override
-    public void setLabel(final String label) {
-        synchronized (getDelegateLock()) {
-            getDelegate().setText(label);
+    @Ovfrridf
+    publid void sftLbbfl(finbl String lbbfl) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().sftTfxt(lbbfl);
         }
     }
 
-    @Override
-    public void setState(final boolean state) {
-        synchronized (getDelegateLock()) {
-            getDelegate().setSelected(state);
+    @Ovfrridf
+    publid void sftStbtf(finbl boolfbn stbtf) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().sftSflfdtfd(stbtf);
         }
-        repaintPeer();
+        rfpbintPffr();
     }
 
-    @Override
-    public boolean isFocusable() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
     }
 
-    @SuppressWarnings("serial")// Safe: outer class is non-serializable.
-    final class CheckboxDelegate extends JComponent {
+    @SupprfssWbrnings("sfribl")// Sbff: outfr dlbss is non-sfriblizbblf.
+    finbl dlbss CifdkboxDflfgbtf fxtfnds JComponfnt {
 
-        private final JCheckBox cb;
-        private final JRadioButton rb;
+        privbtf finbl JCifdkBox db;
+        privbtf finbl JRbdioButton rb;
 
-        CheckboxDelegate() {
-            super();
-            cb = new JCheckBox() {
-                @Override
-                public boolean hasFocus() {
-                    return getTarget().hasFocus();
+        CifdkboxDflfgbtf() {
+            supfr();
+            db = nfw JCifdkBox() {
+                @Ovfrridf
+                publid boolfbn ibsFodus() {
+                    rfturn gftTbrgft().ibsFodus();
                 }
             };
-            rb = new JRadioButton() {
-                @Override
-                public boolean hasFocus() {
-                    return getTarget().hasFocus();
+            rb = nfw JRbdioButton() {
+                @Ovfrridf
+                publid boolfbn ibsFodus() {
+                    rfturn gftTbrgft().ibsFodus();
                 }
             };
-            setLayout(null);
-            setRadioButton(false);
-            add(rb);
-            add(cb);
+            sftLbyout(null);
+            sftRbdioButton(fblsf);
+            bdd(rb);
+            bdd(db);
         }
 
-        @Override
-        public void setEnabled(final boolean enabled) {
-            super.setEnabled(enabled);
-            rb.setEnabled(enabled);
-            cb.setEnabled(enabled);
+        @Ovfrridf
+        publid void sftEnbblfd(finbl boolfbn fnbblfd) {
+            supfr.sftEnbblfd(fnbblfd);
+            rb.sftEnbblfd(fnbblfd);
+            db.sftEnbblfd(fnbblfd);
         }
 
-        @Override
-        public void setOpaque(final boolean isOpaque) {
-            super.setOpaque(isOpaque);
-            rb.setOpaque(isOpaque);
-            cb.setOpaque(isOpaque);
+        @Ovfrridf
+        publid void sftOpbquf(finbl boolfbn isOpbquf) {
+            supfr.sftOpbquf(isOpbquf);
+            rb.sftOpbquf(isOpbquf);
+            db.sftOpbquf(isOpbquf);
         }
 
-        @Override
-        @Deprecated
-        public void reshape(final int x, final int y, final int w,
-                            final int h) {
-            super.reshape(x, y, w, h);
-            cb.setBounds(0, 0, w, h);
-            rb.setBounds(0, 0, w, h);
+        @Ovfrridf
+        @Dfprfdbtfd
+        publid void rfsibpf(finbl int x, finbl int y, finbl int w,
+                            finbl int i) {
+            supfr.rfsibpf(x, y, w, i);
+            db.sftBounds(0, 0, w, i);
+            rb.sftBounds(0, 0, w, i);
         }
 
-        @Override
-        public Dimension getPreferredSize() {
-            return getCurrentButton().getPreferredSize();
+        @Ovfrridf
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            rfturn gftCurrfntButton().gftPrfffrrfdSizf();
         }
 
-        @Override
-        @Transient
-        public Dimension getMinimumSize() {
-            return getCurrentButton().getMinimumSize();
+        @Ovfrridf
+        @Trbnsifnt
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn gftCurrfntButton().gftMinimumSizf();
         }
 
-        void setRadioButton(final boolean showRadioButton) {
-            rb.setVisible(showRadioButton);
-            cb.setVisible(!showRadioButton);
+        void sftRbdioButton(finbl boolfbn siowRbdioButton) {
+            rb.sftVisiblf(siowRbdioButton);
+            db.sftVisiblf(!siowRbdioButton);
         }
 
-        @Transient
-        JToggleButton getCurrentButton() {
-            return cb.isVisible() ? cb : rb;
+        @Trbnsifnt
+        JTogglfButton gftCurrfntButton() {
+            rfturn db.isVisiblf() ? db : rb;
         }
 
-        void setText(final String label) {
-            cb.setText(label);
-            rb.setText(label);
+        void sftTfxt(finbl String lbbfl) {
+            db.sftTfxt(lbbfl);
+            rb.sftTfxt(lbbfl);
         }
 
-        void setSelected(final boolean state) {
-            cb.setSelected(state);
-            rb.setSelected(state);
+        void sftSflfdtfd(finbl boolfbn stbtf) {
+            db.sftSflfdtfd(stbtf);
+            rb.sftSflfdtfd(stbtf);
         }
     }
 }

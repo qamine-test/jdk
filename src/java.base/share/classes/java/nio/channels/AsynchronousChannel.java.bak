@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.io.IOException;
-import java.util.concurrent.Future;  // javadoc
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.Futurf;  // jbvbdod
 
 /**
- * A channel that supports asynchronous I/O operations. Asynchronous I/O
- * operations will usually take one of two forms:
+ * A dibnnfl tibt supports bsyndironous I/O opfrbtions. Asyndironous I/O
+ * opfrbtions will usublly tbkf onf of two forms:
  *
  * <ol>
- * <li><pre>{@link Future}&lt;V&gt; <em>operation</em>(<em>...</em>)</pre></li>
- * <li><pre>void <em>operation</em>(<em>...</em> A attachment, {@link
- *   CompletionHandler}&lt;V,? super A&gt; handler)</pre></li>
+ * <li><prf>{@link Futurf}&lt;V&gt; <fm>opfrbtion</fm>(<fm>...</fm>)</prf></li>
+ * <li><prf>void <fm>opfrbtion</fm>(<fm>...</fm> A bttbdimfnt, {@link
+ *   ComplftionHbndlfr}&lt;V,? supfr A&gt; ibndlfr)</prf></li>
  * </ol>
  *
- * where <i>operation</i> is the name of the I/O operation (read or write for
- * example), <i>V</i> is the result type of the I/O operation, and <i>A</i> is
- * the type of an object attached to the I/O operation to provide context when
- * consuming the result. The attachment is important for cases where a
- * <em>state-less</em> {@code CompletionHandler} is used to consume the result
- * of many I/O operations.
+ * wifrf <i>opfrbtion</i> is tif nbmf of tif I/O opfrbtion (rfbd or writf for
+ * fxbmplf), <i>V</i> is tif rfsult typf of tif I/O opfrbtion, bnd <i>A</i> is
+ * tif typf of bn objfdt bttbdifd to tif I/O opfrbtion to providf dontfxt wifn
+ * donsuming tif rfsult. Tif bttbdimfnt is importbnt for dbsfs wifrf b
+ * <fm>stbtf-lfss</fm> {@dodf ComplftionHbndlfr} is usfd to donsumf tif rfsult
+ * of mbny I/O opfrbtions.
  *
- * <p> In the first form, the methods defined by the {@link Future Future}
- * interface may be used to check if the operation has completed, wait for its
- * completion, and to retrieve the result. In the second form, a {@link
- * CompletionHandler} is invoked to consume the result of the I/O operation when
- * it completes or fails.
+ * <p> In tif first form, tif mftiods dffinfd by tif {@link Futurf Futurf}
+ * intfrfbdf mby bf usfd to difdk if tif opfrbtion ibs domplftfd, wbit for its
+ * domplftion, bnd to rftrifvf tif rfsult. In tif sfdond form, b {@link
+ * ComplftionHbndlfr} is invokfd to donsumf tif rfsult of tif I/O opfrbtion wifn
+ * it domplftfs or fbils.
  *
- * <p> A channel that implements this interface is <em>asynchronously
- * closeable</em>: If an I/O operation is outstanding on the channel and the
- * channel's {@link #close close} method is invoked, then the I/O operation
- * fails with the exception {@link AsynchronousCloseException}.
+ * <p> A dibnnfl tibt implfmfnts tiis intfrfbdf is <fm>bsyndironously
+ * dlosfbblf</fm>: If bn I/O opfrbtion is outstbnding on tif dibnnfl bnd tif
+ * dibnnfl's {@link #dlosf dlosf} mftiod is invokfd, tifn tif I/O opfrbtion
+ * fbils witi tif fxdfption {@link AsyndironousClosfExdfption}.
  *
- * <p> Asynchronous channels are safe for use by multiple concurrent threads.
- * Some channel implementations may support concurrent reading and writing, but
- * may not allow more than one read and one write operation to be outstanding at
- * any given time.
+ * <p> Asyndironous dibnnfls brf sbff for usf by multiplf dondurrfnt tirfbds.
+ * Somf dibnnfl implfmfntbtions mby support dondurrfnt rfbding bnd writing, but
+ * mby not bllow morf tibn onf rfbd bnd onf writf opfrbtion to bf outstbnding bt
+ * bny givfn timf.
  *
- * <h2>Cancellation</h2>
+ * <i2>Cbndfllbtion</i2>
  *
- * <p> The {@code Future} interface defines the {@link Future#cancel cancel}
- * method to cancel execution. This causes all threads waiting on the result of
- * the I/O operation to throw {@link java.util.concurrent.CancellationException}.
- * Whether the underlying I/O operation can be cancelled is highly implementation
- * specific and therefore not specified. Where cancellation leaves the channel,
- * or the entity to which it is connected, in an inconsistent state, then the
- * channel is put into an implementation specific <em>error state</em> that
- * prevents further attempts to initiate I/O operations that are <i>similar</i>
- * to the operation that was cancelled. For example, if a read operation is
- * cancelled but the implementation cannot guarantee that bytes have not been
- * read from the channel then it puts the channel into an error state; further
- * attempts to initiate a {@code read} operation cause an unspecified runtime
- * exception to be thrown. Similarly, if a write operation is cancelled but the
- * implementation cannot guarantee that bytes have not been written to the
- * channel then subsequent attempts to initiate a {@code write} will fail with
- * an unspecified runtime exception.
+ * <p> Tif {@dodf Futurf} intfrfbdf dffinfs tif {@link Futurf#dbndfl dbndfl}
+ * mftiod to dbndfl fxfdution. Tiis dbusfs bll tirfbds wbiting on tif rfsult of
+ * tif I/O opfrbtion to tirow {@link jbvb.util.dondurrfnt.CbndfllbtionExdfption}.
+ * Wiftifr tif undfrlying I/O opfrbtion dbn bf dbndfllfd is iigily implfmfntbtion
+ * spfdifid bnd tifrfforf not spfdififd. Wifrf dbndfllbtion lfbvfs tif dibnnfl,
+ * or tif fntity to wiidi it is donnfdtfd, in bn indonsistfnt stbtf, tifn tif
+ * dibnnfl is put into bn implfmfntbtion spfdifid <fm>frror stbtf</fm> tibt
+ * prfvfnts furtifr bttfmpts to initibtf I/O opfrbtions tibt brf <i>similbr</i>
+ * to tif opfrbtion tibt wbs dbndfllfd. For fxbmplf, if b rfbd opfrbtion is
+ * dbndfllfd but tif implfmfntbtion dbnnot gubrbntff tibt bytfs ibvf not bffn
+ * rfbd from tif dibnnfl tifn it puts tif dibnnfl into bn frror stbtf; furtifr
+ * bttfmpts to initibtf b {@dodf rfbd} opfrbtion dbusf bn unspfdififd runtimf
+ * fxdfption to bf tirown. Similbrly, if b writf opfrbtion is dbndfllfd but tif
+ * implfmfntbtion dbnnot gubrbntff tibt bytfs ibvf not bffn writtfn to tif
+ * dibnnfl tifn subsfqufnt bttfmpts to initibtf b {@dodf writf} will fbil witi
+ * bn unspfdififd runtimf fxdfption.
  *
- * <p> Where the {@link Future#cancel cancel} method is invoked with the {@code
- * mayInterruptIfRunning} parameter set to {@code true} then the I/O operation
- * may be interrupted by closing the channel. In that case all threads waiting
- * on the result of the I/O operation throw {@code CancellationException} and
- * any other I/O operations outstanding on the channel complete with the
- * exception {@link AsynchronousCloseException}.
+ * <p> Wifrf tif {@link Futurf#dbndfl dbndfl} mftiod is invokfd witi tif {@dodf
+ * mbyIntfrruptIfRunning} pbrbmftfr sft to {@dodf truf} tifn tif I/O opfrbtion
+ * mby bf intfrruptfd by dlosing tif dibnnfl. In tibt dbsf bll tirfbds wbiting
+ * on tif rfsult of tif I/O opfrbtion tirow {@dodf CbndfllbtionExdfption} bnd
+ * bny otifr I/O opfrbtions outstbnding on tif dibnnfl domplftf witi tif
+ * fxdfption {@link AsyndironousClosfExdfption}.
  *
- * <p> Where the {@code cancel} method is invoked to cancel read or write
- * operations then it is recommended that all buffers used in the I/O operations
- * be discarded or care taken to ensure that the buffers are not accessed while
- * the channel remains open.
+ * <p> Wifrf tif {@dodf dbndfl} mftiod is invokfd to dbndfl rfbd or writf
+ * opfrbtions tifn it is rfdommfndfd tibt bll bufffrs usfd in tif I/O opfrbtions
+ * bf disdbrdfd or dbrf tbkfn to fnsurf tibt tif bufffrs brf not bddfssfd wiilf
+ * tif dibnnfl rfmbins opfn.
  *
- *  @since 1.7
+ *  @sindf 1.7
  */
 
-public interface AsynchronousChannel
-    extends Channel
+publid intfrfbdf AsyndironousCibnnfl
+    fxtfnds Cibnnfl
 {
     /**
-     * Closes this channel.
+     * Closfs tiis dibnnfl.
      *
-     * <p> Any outstanding asynchronous operations upon this channel will
-     * complete with the exception {@link AsynchronousCloseException}. After a
-     * channel is closed, further attempts to initiate asynchronous I/O
-     * operations complete immediately with cause {@link ClosedChannelException}.
+     * <p> Any outstbnding bsyndironous opfrbtions upon tiis dibnnfl will
+     * domplftf witi tif fxdfption {@link AsyndironousClosfExdfption}. Aftfr b
+     * dibnnfl is dlosfd, furtifr bttfmpts to initibtf bsyndironous I/O
+     * opfrbtions domplftf immfdibtfly witi dbusf {@link ClosfdCibnnflExdfption}.
      *
-     * <p>  This method otherwise behaves exactly as specified by the {@link
-     * Channel} interface.
+     * <p>  Tiis mftiod otifrwisf bfibvfs fxbdtly bs spfdififd by tif {@link
+     * Cibnnfl} intfrfbdf.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    @Override
-    void close() throws IOException;
+    @Ovfrridf
+    void dlosf() tirows IOExdfption;
 }

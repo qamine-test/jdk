@@ -1,643 +1,643 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
 /**
- * The management interface for a memory pool.  A memory pool
- * represents the memory resource managed by the Java virtual machine
- * and is managed by one or more {@link MemoryManagerMXBean memory managers}.
+ * Tif mbnbgfmfnt intfrfbdf for b mfmory pool.  A mfmory pool
+ * rfprfsfnts tif mfmory rfsourdf mbnbgfd by tif Jbvb virtubl mbdiinf
+ * bnd is mbnbgfd by onf or morf {@link MfmoryMbnbgfrMXBfbn mfmory mbnbgfrs}.
  *
- * <p> A Java virtual machine has one or more instances of the
- * implementation class of this interface.  An instance
- * implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getMemoryPoolMXBeans} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbdiinf ibs onf or morf instbndfs of tif
+ * implfmfntbtion dlbss of tiis intfrfbdf.  An instbndf
+ * implfmfnting tiis intfrfbdf is
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * tibt dbn bf obtbinfd by dblling
+ * tif {@link MbnbgfmfntFbdtory#gftMfmoryPoolMXBfbns} mftiod or
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * a memory pool within an <tt>MBeanServer</tt> is:
- * <blockquote>
- *    {@link ManagementFactory#MEMORY_POOL_MXBEAN_DOMAIN_TYPE
- *    <tt>java.lang:type=MemoryPool</tt>}<tt>,name=</tt><i>pool's name</i>
- * </blockquote>
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * b mfmory pool witiin bn <tt>MBfbnSfrvfr</tt> is:
+ * <blodkquotf>
+ *    {@link MbnbgfmfntFbdtory#MEMORY_POOL_MXBEAN_DOMAIN_TYPE
+ *    <tt>jbvb.lbng:typf=MfmoryPool</tt>}<tt>,nbmf=</tt><i>pool's nbmf</i>
+ * </blodkquotf>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It dbn bf obtbinfd by dblling tif
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
  *
- * <h3>Memory Type</h3>
- * <p>The Java virtual machine has a heap for object allocation and also
- * maintains non-heap memory for the method area and the Java virtual
- * machine execution.  The Java virtual machine can have one or more
- * memory pools.  Each memory pool represents a memory area
- * of one of the following types:
+ * <i3>Mfmory Typf</i3>
+ * <p>Tif Jbvb virtubl mbdiinf ibs b ifbp for objfdt bllodbtion bnd blso
+ * mbintbins non-ifbp mfmory for tif mftiod brfb bnd tif Jbvb virtubl
+ * mbdiinf fxfdution.  Tif Jbvb virtubl mbdiinf dbn ibvf onf or morf
+ * mfmory pools.  Ebdi mfmory pool rfprfsfnts b mfmory brfb
+ * of onf of tif following typfs:
  * <ul>
- *   <li>{@link MemoryType#HEAP heap}</li>
- *   <li>{@link MemoryType#NON_HEAP non-heap}</li>
+ *   <li>{@link MfmoryTypf#HEAP ifbp}</li>
+ *   <li>{@link MfmoryTypf#NON_HEAP non-ifbp}</li>
  * </ul>
  *
- * <h3>Memory Usage Monitoring</h3>
+ * <i3>Mfmory Usbgf Monitoring</i3>
  *
- * A memory pool has the following attributes:
+ * A mfmory pool ibs tif following bttributfs:
  * <ul>
- *   <li><a href="#Usage">Memory usage</a></li>
- *   <li><a href="#PeakUsage">Peak memory usage</a></li>
- *   <li><a href="#UsageThreshold">Usage Threshold</a></li>
- *   <li><a href="#CollectionThreshold">Collection Usage Threshold</a>
- *       (only supported by some <em>garbage-collected</em> memory pools)</li>
+ *   <li><b irff="#Usbgf">Mfmory usbgf</b></li>
+ *   <li><b irff="#PfbkUsbgf">Pfbk mfmory usbgf</b></li>
+ *   <li><b irff="#UsbgfTirfsiold">Usbgf Tirfsiold</b></li>
+ *   <li><b irff="#CollfdtionTirfsiold">Collfdtion Usbgf Tirfsiold</b>
+ *       (only supportfd by somf <fm>gbrbbgf-dollfdtfd</fm> mfmory pools)</li>
  * </ul>
  *
- * <h3><a name="Usage">1. Memory Usage</a></h3>
+ * <i3><b nbmf="Usbgf">1. Mfmory Usbgf</b></i3>
  *
- * The {@link #getUsage} method provides an estimate
- * of the current usage of a memory pool.
- * For a garbage-collected memory pool, the amount of used memory
- * includes the memory occupied by all objects in the pool
- * including both <em>reachable</em> and <em>unreachable</em> objects.
+ * Tif {@link #gftUsbgf} mftiod providfs bn fstimbtf
+ * of tif durrfnt usbgf of b mfmory pool.
+ * For b gbrbbgf-dollfdtfd mfmory pool, tif bmount of usfd mfmory
+ * indludfs tif mfmory oddupifd by bll objfdts in tif pool
+ * indluding boti <fm>rfbdibblf</fm> bnd <fm>unrfbdibblf</fm> objfdts.
  *
- * <p>In general, this method is a lightweight operation for getting
- * an approximate memory usage.  For some memory pools, for example,
- * when objects are not packed contiguously, this method may be
- * an expensive operation that requires some computation to determine
- * the current memory usage.  An implementation should document when
- * this is the case.
+ * <p>In gfnfrbl, tiis mftiod is b ligitwfigit opfrbtion for gftting
+ * bn bpproximbtf mfmory usbgf.  For somf mfmory pools, for fxbmplf,
+ * wifn objfdts brf not pbdkfd dontiguously, tiis mftiod mby bf
+ * bn fxpfnsivf opfrbtion tibt rfquirfs somf domputbtion to dftfrminf
+ * tif durrfnt mfmory usbgf.  An implfmfntbtion siould dodumfnt wifn
+ * tiis is tif dbsf.
  *
- * <h3><a name="PeakUsage">2. Peak Memory Usage</a></h3>
+ * <i3><b nbmf="PfbkUsbgf">2. Pfbk Mfmory Usbgf</b></i3>
  *
- * The Java virtual machine maintains the peak memory usage of a memory
- * pool since the virtual machine was started or the peak was reset.
- * The peak memory usage is returned by the {@link #getPeakUsage} method
- * and reset by calling the {@link #resetPeakUsage} method.
+ * Tif Jbvb virtubl mbdiinf mbintbins tif pfbk mfmory usbgf of b mfmory
+ * pool sindf tif virtubl mbdiinf wbs stbrtfd or tif pfbk wbs rfsft.
+ * Tif pfbk mfmory usbgf is rfturnfd by tif {@link #gftPfbkUsbgf} mftiod
+ * bnd rfsft by dblling tif {@link #rfsftPfbkUsbgf} mftiod.
  *
- * <h3><a name="UsageThreshold">3. Usage Threshold</a></h3>
+ * <i3><b nbmf="UsbgfTirfsiold">3. Usbgf Tirfsiold</b></i3>
  *
- * Each memory pool has a manageable attribute
- * called the <i>usage threshold</i> which has a default value supplied
- * by the Java virtual machine.  The default value is platform-dependent.
- * The usage threshold can be set via the
- * {@link #setUsageThreshold setUsageThreshold} method.
- * If the threshold is set to a positive value, the usage threshold crossing
- * checking is enabled in this memory pool.
- * If the usage threshold is set to zero, usage
- * threshold crossing checking on this memory pool is disabled.
- * The {@link MemoryPoolMXBean#isUsageThresholdSupported} method can
- * be used to determine if this functionality is supported.
+ * Ebdi mfmory pool ibs b mbnbgfbblf bttributf
+ * dbllfd tif <i>usbgf tirfsiold</i> wiidi ibs b dffbult vbluf supplifd
+ * by tif Jbvb virtubl mbdiinf.  Tif dffbult vbluf is plbtform-dfpfndfnt.
+ * Tif usbgf tirfsiold dbn bf sft vib tif
+ * {@link #sftUsbgfTirfsiold sftUsbgfTirfsiold} mftiod.
+ * If tif tirfsiold is sft to b positivf vbluf, tif usbgf tirfsiold drossing
+ * difdking is fnbblfd in tiis mfmory pool.
+ * If tif usbgf tirfsiold is sft to zfro, usbgf
+ * tirfsiold drossing difdking on tiis mfmory pool is disbblfd.
+ * Tif {@link MfmoryPoolMXBfbn#isUsbgfTirfsioldSupportfd} mftiod dbn
+ * bf usfd to dftfrminf if tiis fundtionblity is supportfd.
  * <p>
- * A Java virtual machine performs usage threshold crossing checking on a
- * memory pool basis at its best appropriate time, typically,
- * at garbage collection time.
- * Each memory pool maintains a {@link #getUsageThresholdCount
- * usage threshold count} that will get incremented
- * every time when the Java virtual machine
- * detects that the memory pool usage is crossing the threshold.
+ * A Jbvb virtubl mbdiinf pfrforms usbgf tirfsiold drossing difdking on b
+ * mfmory pool bbsis bt its bfst bppropribtf timf, typidblly,
+ * bt gbrbbgf dollfdtion timf.
+ * Ebdi mfmory pool mbintbins b {@link #gftUsbgfTirfsioldCount
+ * usbgf tirfsiold dount} tibt will gft indrfmfntfd
+ * fvfry timf wifn tif Jbvb virtubl mbdiinf
+ * dftfdts tibt tif mfmory pool usbgf is drossing tif tirfsiold.
  * <p>
- * This manageable usage threshold attribute is designed for monitoring the
- * increasing trend of memory usage with low overhead.
- * Usage threshold may not be appropriate for some memory pools.
- * For example, a generational garbage collector, a common garbage collection
- * algorithm used in many Java virtual machine implementations,
- * manages two or more generations segregating objects by age.
- * Most of the objects are allocated in
- * the <em>youngest generation</em> (say a nursery memory pool).
- * The nursery memory pool is designed to be filled up and
- * collecting the nursery memory pool will free most of its memory space
- * since it is expected to contain mostly short-lived objects
- * and mostly are unreachable at garbage collection time.
- * In this case, it is more appropriate for the nursery memory pool
- * not to support a usage threshold.  In addition,
- * if the cost of an object allocation
- * in one memory pool is very low (for example, just atomic pointer exchange),
- * the Java virtual machine would probably not support the usage threshold
- * for that memory pool since the overhead in comparing the usage with
- * the threshold is higher than the cost of object allocation.
+ * Tiis mbnbgfbblf usbgf tirfsiold bttributf is dfsignfd for monitoring tif
+ * indrfbsing trfnd of mfmory usbgf witi low ovfrifbd.
+ * Usbgf tirfsiold mby not bf bppropribtf for somf mfmory pools.
+ * For fxbmplf, b gfnfrbtionbl gbrbbgf dollfdtor, b dommon gbrbbgf dollfdtion
+ * blgoritim usfd in mbny Jbvb virtubl mbdiinf implfmfntbtions,
+ * mbnbgfs two or morf gfnfrbtions sfgrfgbting objfdts by bgf.
+ * Most of tif objfdts brf bllodbtfd in
+ * tif <fm>youngfst gfnfrbtion</fm> (sby b nursfry mfmory pool).
+ * Tif nursfry mfmory pool is dfsignfd to bf fillfd up bnd
+ * dollfdting tif nursfry mfmory pool will frff most of its mfmory spbdf
+ * sindf it is fxpfdtfd to dontbin mostly siort-livfd objfdts
+ * bnd mostly brf unrfbdibblf bt gbrbbgf dollfdtion timf.
+ * In tiis dbsf, it is morf bppropribtf for tif nursfry mfmory pool
+ * not to support b usbgf tirfsiold.  In bddition,
+ * if tif dost of bn objfdt bllodbtion
+ * in onf mfmory pool is vfry low (for fxbmplf, just btomid pointfr fxdibngf),
+ * tif Jbvb virtubl mbdiinf would probbbly not support tif usbgf tirfsiold
+ * for tibt mfmory pool sindf tif ovfrifbd in dompbring tif usbgf witi
+ * tif tirfsiold is iigifr tibn tif dost of objfdt bllodbtion.
  *
  * <p>
- * The memory usage of the system can be monitored using
- * <a href="#Polling">polling</a> or
- * <a href="#ThresholdNotification">threshold notification</a> mechanisms.
+ * Tif mfmory usbgf of tif systfm dbn bf monitorfd using
+ * <b irff="#Polling">polling</b> or
+ * <b irff="#TirfsioldNotifidbtion">tirfsiold notifidbtion</b> mfdibnisms.
  *
- * <ol type="a">
- *   <li><a name="Polling"><b>Polling</b></a>
+ * <ol typf="b">
+ *   <li><b nbmf="Polling"><b>Polling</b></b>
  *       <p>
- *       An application can continuously monitor its memory usage
- *       by calling either the {@link #getUsage} method for all
- *       memory pools or the {@link #isUsageThresholdExceeded} method
- *       for those memory pools that support a usage threshold.
- *       Below is example code that has a thread dedicated for
- *       task distribution and processing.  At every interval,
- *       it will determine if it should receive and process new tasks based
- *       on its memory usage.  If the memory usage exceeds its usage threshold,
- *       it will redistribute all outstanding tasks to other VMs and
- *       stop receiving new tasks until the memory usage returns
- *       below its usage threshold.
+ *       An bpplidbtion dbn dontinuously monitor its mfmory usbgf
+ *       by dblling fitifr tif {@link #gftUsbgf} mftiod for bll
+ *       mfmory pools or tif {@link #isUsbgfTirfsioldExdffdfd} mftiod
+ *       for tiosf mfmory pools tibt support b usbgf tirfsiold.
+ *       Bflow is fxbmplf dodf tibt ibs b tirfbd dfdidbtfd for
+ *       tbsk distribution bnd prodfssing.  At fvfry intfrvbl,
+ *       it will dftfrminf if it siould rfdfivf bnd prodfss nfw tbsks bbsfd
+ *       on its mfmory usbgf.  If tif mfmory usbgf fxdffds its usbgf tirfsiold,
+ *       it will rfdistributf bll outstbnding tbsks to otifr VMs bnd
+ *       stop rfdfiving nfw tbsks until tif mfmory usbgf rfturns
+ *       bflow its usbgf tirfsiold.
  *
- *       <pre>
- *       // Assume the usage threshold is supported for this pool.
- *       // Set the threshold to myThreshold above which no new tasks
- *       // should be taken.
- *       pool.setUsageThreshold(myThreshold);
+ *       <prf>
+ *       // Assumf tif usbgf tirfsiold is supportfd for tiis pool.
+ *       // Sft tif tirfsiold to myTirfsiold bbovf wiidi no nfw tbsks
+ *       // siould bf tbkfn.
+ *       pool.sftUsbgfTirfsiold(myTirfsiold);
  *       ....
  *
- *       boolean lowMemory = false;
- *       while (true) {
- *          if (pool.isUsageThresholdExceeded()) {
- *              // potential low memory, so redistribute tasks to other VMs
- *              lowMemory = true;
- *              redistributeTasks();
- *              // stop receiving new tasks
- *              stopReceivingTasks();
- *          } else {
- *              if (lowMemory) {
- *                  // resume receiving tasks
- *                  lowMemory = false;
- *                  resumeReceivingTasks();
+ *       boolfbn lowMfmory = fblsf;
+ *       wiilf (truf) {
+ *          if (pool.isUsbgfTirfsioldExdffdfd()) {
+ *              // potfntibl low mfmory, so rfdistributf tbsks to otifr VMs
+ *              lowMfmory = truf;
+ *              rfdistributfTbsks();
+ *              // stop rfdfiving nfw tbsks
+ *              stopRfdfivingTbsks();
+ *          } flsf {
+ *              if (lowMfmory) {
+ *                  // rfsumf rfdfiving tbsks
+ *                  lowMfmory = fblsf;
+ *                  rfsumfRfdfivingTbsks();
  *              }
- *              // processing outstanding task
+ *              // prodfssing outstbnding tbsk
  *              ...
  *          }
- *          // sleep for sometime
+ *          // slffp for somftimf
  *          try {
- *              Thread.sleep(sometime);
- *          } catch (InterruptedException e) {
+ *              Tirfbd.slffp(somftimf);
+ *          } dbtdi (IntfrruptfdExdfption f) {
  *              ...
  *          }
  *       }
- *       </pre>
+ *       </prf>
  *
- * <hr>
- *       The above example does not differentiate the case where
- *       the memory usage has temporarily dropped below the usage threshold
- *       from the case where the memory usage remains above the threshold
- *       between two iterations.  The usage threshold count returned by
- *       the {@link #getUsageThresholdCount} method
- *       can be used to determine
- *       if the memory usage has returned below the threshold
- *       between two polls.
+ * <ir>
+ *       Tif bbovf fxbmplf dofs not difffrfntibtf tif dbsf wifrf
+ *       tif mfmory usbgf ibs tfmporbrily droppfd bflow tif usbgf tirfsiold
+ *       from tif dbsf wifrf tif mfmory usbgf rfmbins bbovf tif tirfsiold
+ *       bftwffn two itfrbtions.  Tif usbgf tirfsiold dount rfturnfd by
+ *       tif {@link #gftUsbgfTirfsioldCount} mftiod
+ *       dbn bf usfd to dftfrminf
+ *       if tif mfmory usbgf ibs rfturnfd bflow tif tirfsiold
+ *       bftwffn two polls.
  *       <p>
- *       Below shows another example that takes some action if a
- *       memory pool is under low memory and ignores the memory usage
- *       changes during the action processing time.
+ *       Bflow siows bnotifr fxbmplf tibt tbkfs somf bdtion if b
+ *       mfmory pool is undfr low mfmory bnd ignorfs tif mfmory usbgf
+ *       dibngfs during tif bdtion prodfssing timf.
  *
- *       <pre>
- *       // Assume the usage threshold is supported for this pool.
- *       // Set the threshold to myThreshold which determines if
- *       // the application will take some action under low memory condition.
- *       pool.setUsageThreshold(myThreshold);
+ *       <prf>
+ *       // Assumf tif usbgf tirfsiold is supportfd for tiis pool.
+ *       // Sft tif tirfsiold to myTirfsiold wiidi dftfrminfs if
+ *       // tif bpplidbtion will tbkf somf bdtion undfr low mfmory dondition.
+ *       pool.sftUsbgfTirfsiold(myTirfsiold);
  *
- *       int prevCrossingCount = 0;
- *       while (true) {
- *           // A busy loop to detect when the memory usage
- *           // has exceeded the threshold.
- *           while (!pool.isUsageThresholdExceeded() ||
- *                  pool.getUsageThresholdCount() == prevCrossingCount) {
+ *       int prfvCrossingCount = 0;
+ *       wiilf (truf) {
+ *           // A busy loop to dftfdt wifn tif mfmory usbgf
+ *           // ibs fxdffdfd tif tirfsiold.
+ *           wiilf (!pool.isUsbgfTirfsioldExdffdfd() ||
+ *                  pool.gftUsbgfTirfsioldCount() == prfvCrossingCount) {
  *               try {
- *                   Thread.sleep(sometime)
- *               } catch (InterruptException e) {
+ *                   Tirfbd.slffp(somftimf)
+ *               } dbtdi (IntfrruptExdfption f) {
  *                   ....
  *               }
  *           }
  *
- *           // Do some processing such as check for memory usage
- *           // and issue a warning
+ *           // Do somf prodfssing sudi bs difdk for mfmory usbgf
+ *           // bnd issuf b wbrning
  *           ....
  *
- *           // Gets the current threshold count. The busy loop will then
- *           // ignore any crossing of threshold happens during the processing.
- *           prevCrossingCount = pool.getUsageThresholdCount();
+ *           // Gfts tif durrfnt tirfsiold dount. Tif busy loop will tifn
+ *           // ignorf bny drossing of tirfsiold ibppfns during tif prodfssing.
+ *           prfvCrossingCount = pool.gftUsbgfTirfsioldCount();
  *       }
- *       </pre><hr>
+ *       </prf><ir>
  *   </li>
- *   <li><a name="ThresholdNotification"><b>Usage Threshold Notifications</b></a>
+ *   <li><b nbmf="TirfsioldNotifidbtion"><b>Usbgf Tirfsiold Notifidbtions</b></b>
  *       <p>
- *       Usage threshold notification will be emitted by {@link MemoryMXBean}.
- *       When the Java virtual machine detects that the memory usage of
- *       a memory pool has reached or exceeded the usage threshold
- *       the virtual machine will trigger the <tt>MemoryMXBean</tt> to emit an
- *       {@link MemoryNotificationInfo#MEMORY_THRESHOLD_EXCEEDED
- *       usage threshold exceeded notification}.
- *       Another usage threshold exceeded notification will not be
- *       generated until the usage has fallen below the threshold and
- *       then exceeded it again.
+ *       Usbgf tirfsiold notifidbtion will bf fmittfd by {@link MfmoryMXBfbn}.
+ *       Wifn tif Jbvb virtubl mbdiinf dftfdts tibt tif mfmory usbgf of
+ *       b mfmory pool ibs rfbdifd or fxdffdfd tif usbgf tirfsiold
+ *       tif virtubl mbdiinf will triggfr tif <tt>MfmoryMXBfbn</tt> to fmit bn
+ *       {@link MfmoryNotifidbtionInfo#MEMORY_THRESHOLD_EXCEEDED
+ *       usbgf tirfsiold fxdffdfd notifidbtion}.
+ *       Anotifr usbgf tirfsiold fxdffdfd notifidbtion will not bf
+ *       gfnfrbtfd until tif usbgf ibs fbllfn bflow tif tirfsiold bnd
+ *       tifn fxdffdfd it bgbin.
  *       <p>
- *       Below is an example code implementing the same logic as the
- *       first example above but using the usage threshold notification
- *       mechanism to detect low memory conditions instead of polling.
- *       In this example code, upon receiving notification, the notification
- *       listener notifies another thread to perform the actual action
- *       such as to redistribute outstanding tasks, stop receiving tasks,
- *       or resume receiving tasks.
- *       The <tt>handleNotification</tt> method should be designed to
- *       do a very minimal amount of work and return without delay to avoid
- *       causing delay in delivering subsequent notifications.  Time-consuming
- *       actions should be performed by a separate thread.
- *       The notification listener may be invoked by multiple threads
- *       concurrently; so the tasks performed by the listener
- *       should be properly synchronized.
+ *       Bflow is bn fxbmplf dodf implfmfnting tif sbmf logid bs tif
+ *       first fxbmplf bbovf but using tif usbgf tirfsiold notifidbtion
+ *       mfdibnism to dftfdt low mfmory donditions instfbd of polling.
+ *       In tiis fxbmplf dodf, upon rfdfiving notifidbtion, tif notifidbtion
+ *       listfnfr notififs bnotifr tirfbd to pfrform tif bdtubl bdtion
+ *       sudi bs to rfdistributf outstbnding tbsks, stop rfdfiving tbsks,
+ *       or rfsumf rfdfiving tbsks.
+ *       Tif <tt>ibndlfNotifidbtion</tt> mftiod siould bf dfsignfd to
+ *       do b vfry minimbl bmount of work bnd rfturn witiout dflby to bvoid
+ *       dbusing dflby in dflivfring subsfqufnt notifidbtions.  Timf-donsuming
+ *       bdtions siould bf pfrformfd by b sfpbrbtf tirfbd.
+ *       Tif notifidbtion listfnfr mby bf invokfd by multiplf tirfbds
+ *       dondurrfntly; so tif tbsks pfrformfd by tif listfnfr
+ *       siould bf propfrly syndironizfd.
  *
- *       <pre>
- *       class MyListener implements javax.management.NotificationListener {
- *            public void handleNotification(Notification notification, Object handback)  {
- *                String notifType = notification.getType();
- *                if (notifType.equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED)) {
- *                    // potential low memory, notify another thread
- *                    // to redistribute outstanding tasks to other VMs
- *                    // and stop receiving new tasks.
- *                    lowMemory = true;
- *                    notifyAnotherThread(lowMemory);
+ *       <prf>
+ *       dlbss MyListfnfr implfmfnts jbvbx.mbnbgfmfnt.NotifidbtionListfnfr {
+ *            publid void ibndlfNotifidbtion(Notifidbtion notifidbtion, Objfdt ibndbbdk)  {
+ *                String notifTypf = notifidbtion.gftTypf();
+ *                if (notifTypf.fqubls(MfmoryNotifidbtionInfo.MEMORY_THRESHOLD_EXCEEDED)) {
+ *                    // potfntibl low mfmory, notify bnotifr tirfbd
+ *                    // to rfdistributf outstbnding tbsks to otifr VMs
+ *                    // bnd stop rfdfiving nfw tbsks.
+ *                    lowMfmory = truf;
+ *                    notifyAnotifrTirfbd(lowMfmory);
  *                }
  *            }
  *       }
  *
- *       // Register MyListener with MemoryMXBean
- *       MemoryMXBean mbean = ManagementFactory.getMemoryMXBean();
- *       NotificationEmitter emitter = (NotificationEmitter) mbean;
- *       MyListener listener = new MyListener();
- *       emitter.addNotificationListener(listener, null, null);
+ *       // Rfgistfr MyListfnfr witi MfmoryMXBfbn
+ *       MfmoryMXBfbn mbfbn = MbnbgfmfntFbdtory.gftMfmoryMXBfbn();
+ *       NotifidbtionEmittfr fmittfr = (NotifidbtionEmittfr) mbfbn;
+ *       MyListfnfr listfnfr = nfw MyListfnfr();
+ *       fmittfr.bddNotifidbtionListfnfr(listfnfr, null, null);
  *
- *       // Assume this pool supports a usage threshold.
- *       // Set the threshold to myThreshold above which no new tasks
- *       // should be taken.
- *       pool.setUsageThreshold(myThreshold);
+ *       // Assumf tiis pool supports b usbgf tirfsiold.
+ *       // Sft tif tirfsiold to myTirfsiold bbovf wiidi no nfw tbsks
+ *       // siould bf tbkfn.
+ *       pool.sftUsbgfTirfsiold(myTirfsiold);
  *
- *       // Usage threshold detection is enabled and notification will be
- *       // handled by MyListener.  Continue for other processing.
+ *       // Usbgf tirfsiold dftfdtion is fnbblfd bnd notifidbtion will bf
+ *       // ibndlfd by MyListfnfr.  Continuf for otifr prodfssing.
  *       ....
  *
- *       </pre>
- * <hr>
+ *       </prf>
+ * <ir>
  *       <p>
- *       There is no guarantee about when the <tt>MemoryMXBean</tt> will emit
- *       a threshold notification and when the notification will be delivered.
- *       When a notification listener is invoked, the memory usage of
- *       the memory pool may have crossed the usage threshold more
- *       than once.
- *       The {@link MemoryNotificationInfo#getCount} method returns the number
- *       of times that the memory usage has crossed the usage threshold
- *       at the point in time when the notification was constructed.
- *       It can be compared with the current usage threshold count returned
- *       by the {@link #getUsageThresholdCount} method to determine if
- *       such situation has occurred.
+ *       Tifrf is no gubrbntff bbout wifn tif <tt>MfmoryMXBfbn</tt> will fmit
+ *       b tirfsiold notifidbtion bnd wifn tif notifidbtion will bf dflivfrfd.
+ *       Wifn b notifidbtion listfnfr is invokfd, tif mfmory usbgf of
+ *       tif mfmory pool mby ibvf drossfd tif usbgf tirfsiold morf
+ *       tibn ondf.
+ *       Tif {@link MfmoryNotifidbtionInfo#gftCount} mftiod rfturns tif numbfr
+ *       of timfs tibt tif mfmory usbgf ibs drossfd tif usbgf tirfsiold
+ *       bt tif point in timf wifn tif notifidbtion wbs donstrudtfd.
+ *       It dbn bf dompbrfd witi tif durrfnt usbgf tirfsiold dount rfturnfd
+ *       by tif {@link #gftUsbgfTirfsioldCount} mftiod to dftfrminf if
+ *       sudi situbtion ibs oddurrfd.
  *   </li>
  * </ol>
  *
- * <h3><a name="CollectionThreshold">4. Collection Usage Threshold</a></h3>
+ * <i3><b nbmf="CollfdtionTirfsiold">4. Collfdtion Usbgf Tirfsiold</b></i3>
  *
- * Collection usage threshold is a manageable attribute only applicable
- * to some garbage-collected memory pools.
- * After a Java virtual machine has expended effort in reclaiming memory
- * space by recycling unused objects in a memory pool at garbage collection
- * time, some number of bytes in the memory pools that are garbaged
- * collected will still be in use.  The collection usage threshold
- * allows a value to be set for this number of bytes such
- * that if the threshold is exceeded,
- * a {@link MemoryNotificationInfo#MEMORY_THRESHOLD_EXCEEDED
- * collection usage threshold exceeded notification}
- * will be emitted by the {@link MemoryMXBean}.
- * In addition, the {@link #getCollectionUsageThresholdCount
- * collection usage threshold count} will then be incremented.
- *
- * <p>
- * The {@link MemoryPoolMXBean#isCollectionUsageThresholdSupported} method can
- * be used to determine if this functionality is supported.
+ * Collfdtion usbgf tirfsiold is b mbnbgfbblf bttributf only bpplidbblf
+ * to somf gbrbbgf-dollfdtfd mfmory pools.
+ * Aftfr b Jbvb virtubl mbdiinf ibs fxpfndfd fffort in rfdlbiming mfmory
+ * spbdf by rfdydling unusfd objfdts in b mfmory pool bt gbrbbgf dollfdtion
+ * timf, somf numbfr of bytfs in tif mfmory pools tibt brf gbrbbgfd
+ * dollfdtfd will still bf in usf.  Tif dollfdtion usbgf tirfsiold
+ * bllows b vbluf to bf sft for tiis numbfr of bytfs sudi
+ * tibt if tif tirfsiold is fxdffdfd,
+ * b {@link MfmoryNotifidbtionInfo#MEMORY_THRESHOLD_EXCEEDED
+ * dollfdtion usbgf tirfsiold fxdffdfd notifidbtion}
+ * will bf fmittfd by tif {@link MfmoryMXBfbn}.
+ * In bddition, tif {@link #gftCollfdtionUsbgfTirfsioldCount
+ * dollfdtion usbgf tirfsiold dount} will tifn bf indrfmfntfd.
  *
  * <p>
- * A Java virtual machine performs collection usage threshold checking
- * on a memory pool basis.  This checking is enabled if the collection
- * usage threshold is set to a positive value.
- * If the collection usage threshold is set to zero, this checking
- * is disabled on this memory pool.  Default value is zero.
- * The Java virtual machine performs the collection usage threshold
- * checking at garbage collection time.
+ * Tif {@link MfmoryPoolMXBfbn#isCollfdtionUsbgfTirfsioldSupportfd} mftiod dbn
+ * bf usfd to dftfrminf if tiis fundtionblity is supportfd.
  *
  * <p>
- * Some garbage-collected memory pools may
- * choose not to support the collection usage threshold.  For example,
- * a memory pool is only managed by a continuous concurrent garbage
- * collector.  Objects can be allocated in this memory pool by some thread
- * while the unused objects are reclaimed by the concurrent garbage
- * collector simultaneously.  Unless there is a well-defined
- * garbage collection time which is the best appropriate time
- * to check the memory usage, the collection usage threshold should not
- * be supported.
+ * A Jbvb virtubl mbdiinf pfrforms dollfdtion usbgf tirfsiold difdking
+ * on b mfmory pool bbsis.  Tiis difdking is fnbblfd if tif dollfdtion
+ * usbgf tirfsiold is sft to b positivf vbluf.
+ * If tif dollfdtion usbgf tirfsiold is sft to zfro, tiis difdking
+ * is disbblfd on tiis mfmory pool.  Dffbult vbluf is zfro.
+ * Tif Jbvb virtubl mbdiinf pfrforms tif dollfdtion usbgf tirfsiold
+ * difdking bt gbrbbgf dollfdtion timf.
  *
  * <p>
- * The collection usage threshold is designed for monitoring the memory usage
- * after the Java virtual machine has expended effort in reclaiming
- * memory space.  The collection usage could also be monitored
- * by the polling and threshold notification mechanism
- * described above for the <a href="#UsageThreshold">usage threshold</a>
- * in a similar fashion.
+ * Somf gbrbbgf-dollfdtfd mfmory pools mby
+ * dioosf not to support tif dollfdtion usbgf tirfsiold.  For fxbmplf,
+ * b mfmory pool is only mbnbgfd by b dontinuous dondurrfnt gbrbbgf
+ * dollfdtor.  Objfdts dbn bf bllodbtfd in tiis mfmory pool by somf tirfbd
+ * wiilf tif unusfd objfdts brf rfdlbimfd by tif dondurrfnt gbrbbgf
+ * dollfdtor simultbnfously.  Unlfss tifrf is b wfll-dffinfd
+ * gbrbbgf dollfdtion timf wiidi is tif bfst bppropribtf timf
+ * to difdk tif mfmory usbgf, tif dollfdtion usbgf tirfsiold siould not
+ * bf supportfd.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * <p>
+ * Tif dollfdtion usbgf tirfsiold is dfsignfd for monitoring tif mfmory usbgf
+ * bftfr tif Jbvb virtubl mbdiinf ibs fxpfndfd fffort in rfdlbiming
+ * mfmory spbdf.  Tif dollfdtion usbgf dould blso bf monitorfd
+ * by tif polling bnd tirfsiold notifidbtion mfdibnism
+ * dfsdribfd bbovf for tif <b irff="#UsbgfTirfsiold">usbgf tirfsiold</b>
+ * in b similbr fbsiion.
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
+ *
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
-public interface MemoryPoolMXBean extends PlatformManagedObject {
+publid intfrfbdf MfmoryPoolMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
     /**
-     * Returns the name representing this memory pool.
+     * Rfturns tif nbmf rfprfsfnting tiis mfmory pool.
      *
-     * @return the name of this memory pool.
+     * @rfturn tif nbmf of tiis mfmory pool.
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Returns the type of this memory pool.
+     * Rfturns tif typf of tiis mfmory pool.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>MemoryType</tt> is <tt>String</tt>
-     * and the value is the name of the <tt>MemoryType</tt>.
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Tif mbppfd typf of <tt>MfmoryTypf</tt> is <tt>String</tt>
+     * bnd tif vbluf is tif nbmf of tif <tt>MfmoryTypf</tt>.
      *
-     * @return the type of this memory pool.
+     * @rfturn tif typf of tiis mfmory pool.
      */
-    public MemoryType getType();
+    publid MfmoryTypf gftTypf();
 
     /**
-     * Returns an estimate of the memory usage of this memory pool.
-     * This method returns <tt>null</tt>
-     * if this memory pool is not valid (i.e. no longer exists).
+     * Rfturns bn fstimbtf of tif mfmory usbgf of tiis mfmory pool.
+     * Tiis mftiod rfturns <tt>null</tt>
+     * if tiis mfmory pool is not vblid (i.f. no longfr fxists).
      *
      * <p>
-     * This method requests the Java virtual machine to make
-     * a best-effort estimate of the current memory usage of this
-     * memory pool. For some memory pools, this method may be an
-     * expensive operation that requires some computation to determine
-     * the estimate.  An implementation should document when
-     * this is the case.
+     * Tiis mftiod rfqufsts tif Jbvb virtubl mbdiinf to mbkf
+     * b bfst-fffort fstimbtf of tif durrfnt mfmory usbgf of tiis
+     * mfmory pool. For somf mfmory pools, tiis mftiod mby bf bn
+     * fxpfnsivf opfrbtion tibt rfquirfs somf domputbtion to dftfrminf
+     * tif fstimbtf.  An implfmfntbtion siould dodumfnt wifn
+     * tiis is tif dbsf.
      *
-     * <p>This method is designed for use in monitoring system
-     * memory usage and detecting low memory condition.
-     *
-     * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>MemoryUsage</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in
-     * {@link MemoryUsage#from MemoryUsage}.
-     *
-     * @return a {@link MemoryUsage} object; or <tt>null</tt> if
-     * this pool not valid.
-     */
-    public MemoryUsage getUsage();
-
-    /**
-     * Returns the peak memory usage of this memory pool since the
-     * Java virtual machine was started or since the peak was reset.
-     * This method returns <tt>null</tt>
-     * if this memory pool is not valid (i.e. no longer exists).
+     * <p>Tiis mftiod is dfsignfd for usf in monitoring systfm
+     * mfmory usbgf bnd dftfdting low mfmory dondition.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>MemoryUsage</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in
-     * {@link MemoryUsage#from MemoryUsage}.
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Tif mbppfd typf of <tt>MfmoryUsbgf</tt> is
+     * <tt>CompositfDbtb</tt> witi bttributfs bs spfdififd in
+     * {@link MfmoryUsbgf#from MfmoryUsbgf}.
      *
-     * @return a {@link MemoryUsage} object representing the peak
-     * memory usage; or <tt>null</tt> if this pool is not valid.
-     *
+     * @rfturn b {@link MfmoryUsbgf} objfdt; or <tt>null</tt> if
+     * tiis pool not vblid.
      */
-    public MemoryUsage getPeakUsage();
+    publid MfmoryUsbgf gftUsbgf();
 
     /**
-     * Resets the peak memory usage statistic of this memory pool
-     * to the current memory usage.
-     *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
-     */
-    public void resetPeakUsage();
-
-    /**
-     * Tests if this memory pool is valid in the Java virtual
-     * machine.  A memory pool becomes invalid once the Java virtual
-     * machine removes it from the memory system.
-     *
-     * @return <tt>true</tt> if the memory pool is valid in the running
-     *              Java virtual machine;
-     *         <tt>false</tt> otherwise.
-     */
-    public boolean isValid();
-
-    /**
-     * Returns the name of memory managers that manages this memory pool.
-     * Each memory pool will be managed by at least one memory manager.
-     *
-     * @return an array of <tt>String</tt> objects, each is the name of
-     * a memory manager managing this memory pool.
-     */
-    public String[] getMemoryManagerNames();
-
-    /**
-     * Returns the usage threshold value of this memory pool in bytes.
-     * Each memory pool has a platform-dependent default threshold value.
-     * The current usage threshold can be changed via the
-     * {@link #setUsageThreshold setUsageThreshold} method.
-     *
-     * @return the usage threshold value of this memory pool in bytes.
-     *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a usage threshold.
-     *
-     * @see #isUsageThresholdSupported
-     */
-    public long getUsageThreshold();
-
-    /**
-     * Sets the threshold of this memory pool to the given <tt>threshold</tt>
-     * value if this memory pool supports the usage threshold.
-     * The usage threshold crossing checking is enabled in this memory pool
-     * if the threshold is set to a positive value.
-     * The usage threshold crossing checking is disabled
-     * if it is set to zero.
-     *
-     * @param threshold the new threshold value in bytes. Must be non-negative.
-     *
-     * @throws IllegalArgumentException if <tt>threshold</tt> is negative
-     *         or greater than the maximum amount of memory for
-     *         this memory pool if defined.
-     *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a usage threshold.
-     *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
-     *
-     * @see #isUsageThresholdSupported
-     * @see <a href="#UsageThreshold">Usage threshold</a>
-     */
-    public void setUsageThreshold(long threshold);
-
-    /**
-     * Tests if the memory usage of this memory pool
-     * reaches or exceeds its usage threshold value.
-     *
-     * @return <tt>true</tt> if the memory usage of
-     * this memory pool reaches or exceeds the threshold value;
-     * <tt>false</tt> otherwise.
-     *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a usage threshold.
-     */
-    public boolean isUsageThresholdExceeded();
-
-    /**
-     * Returns the number of times that the memory usage has crossed
-     * the usage threshold.
-     *
-     * @return the number of times that the memory usage
-     * has crossed its usage threshold value.
-     *
-     * @throws UnsupportedOperationException if this memory pool
-     * does not support a usage threshold.
-     */
-    public long getUsageThresholdCount();
-
-    /**
-     * Tests if this memory pool supports usage threshold.
-     *
-     * @return <tt>true</tt> if this memory pool supports usage threshold;
-     * <tt>false</tt> otherwise.
-     */
-    public boolean isUsageThresholdSupported();
-
-    /**
-     * Returns the collection usage threshold value of this memory pool
-     * in bytes.  The default value is zero. The collection usage
-     * threshold can be changed via the
-     * {@link #setCollectionUsageThreshold setCollectionUsageThreshold} method.
-     *
-     * @return the collection usage threshold of this memory pool in bytes.
-     *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a collection usage threshold.
-     *
-     * @see #isCollectionUsageThresholdSupported
-     */
-    public long getCollectionUsageThreshold();
-
-    /**
-     * Sets the collection usage threshold of this memory pool to
-     * the given <tt>threshold</tt> value.
-     * When this threshold is set to positive, the Java virtual machine
-     * will check the memory usage at its best appropriate time after it has
-     * expended effort in recycling unused objects in this memory pool.
-     * <p>
-     * The collection usage threshold crossing checking is enabled
-     * in this memory pool if the threshold is set to a positive value.
-     * The collection usage threshold crossing checking is disabled
-     * if it is set to zero.
-     *
-     * @param threshold the new collection usage threshold value in bytes.
-     *              Must be non-negative.
-     *
-     * @throws IllegalArgumentException if <tt>threshold</tt> is negative
-     *         or greater than the maximum amount of memory for
-     *         this memory pool if defined.
-     *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a collection usage threshold.
-     *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
-     *
-     * @see #isCollectionUsageThresholdSupported
-     * @see <a href="#CollectionThreshold">Collection usage threshold</a>
-     */
-    public void setCollectionUsageThreshold(long threshold);
-
-    /**
-     * Tests if the memory usage of this memory pool after
-     * the most recent collection on which the Java virtual
-     * machine has expended effort has reached or
-     * exceeded its collection usage threshold.
-     * This method does not request the Java virtual
-     * machine to perform any garbage collection other than its normal
-     * automatic memory management.
-     *
-     * @return <tt>true</tt> if the memory usage of this memory pool
-     * reaches or exceeds the collection usage threshold value
-     * in the most recent collection;
-     * <tt>false</tt> otherwise.
-     *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a usage threshold.
-     */
-    public boolean isCollectionUsageThresholdExceeded();
-
-    /**
-     * Returns the number of times that the Java virtual machine
-     * has detected that the memory usage has reached or
-     * exceeded the collection usage threshold.
-     *
-     * @return the number of times that the memory
-     * usage has reached or exceeded the collection usage threshold.
-     *
-     * @throws UnsupportedOperationException if this memory pool
-     *         does not support a collection usage threshold.
-     *
-     * @see #isCollectionUsageThresholdSupported
-     */
-    public long getCollectionUsageThresholdCount();
-
-    /**
-     * Returns the memory usage after the Java virtual machine
-     * most recently expended effort in recycling unused objects
-     * in this memory pool.
-     * This method does not request the Java virtual
-     * machine to perform any garbage collection other than its normal
-     * automatic memory management.
-     * This method returns <tt>null</tt> if the Java virtual
-     * machine does not support this method.
+     * Rfturns tif pfbk mfmory usbgf of tiis mfmory pool sindf tif
+     * Jbvb virtubl mbdiinf wbs stbrtfd or sindf tif pfbk wbs rfsft.
+     * Tiis mftiod rfturns <tt>null</tt>
+     * if tiis mfmory pool is not vblid (i.f. no longfr fxists).
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>MemoryUsage</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in
-     * {@link MemoryUsage#from MemoryUsage}.
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Tif mbppfd typf of <tt>MfmoryUsbgf</tt> is
+     * <tt>CompositfDbtb</tt> witi bttributfs bs spfdififd in
+     * {@link MfmoryUsbgf#from MfmoryUsbgf}.
      *
-     * @return a {@link MemoryUsage} representing the memory usage of
-     * this memory pool after the Java virtual machine most recently
-     * expended effort in recycling unused objects;
-     * <tt>null</tt> if this method is not supported.
+     * @rfturn b {@link MfmoryUsbgf} objfdt rfprfsfnting tif pfbk
+     * mfmory usbgf; or <tt>null</tt> if tiis pool is not vblid.
+     *
      */
-    public MemoryUsage getCollectionUsage();
+    publid MfmoryUsbgf gftPfbkUsbgf();
 
     /**
-     * Tests if this memory pool supports a collection usage threshold.
+     * Rfsfts tif pfbk mfmory usbgf stbtistid of tiis mfmory pool
+     * to tif durrfnt mfmory usbgf.
      *
-     * @return <tt>true</tt> if this memory pool supports the
-     * collection usage threshold; <tt>false</tt> otherwise.
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         MbnbgfmfntPfrmission("dontrol").
      */
-    public boolean isCollectionUsageThresholdSupported();
+    publid void rfsftPfbkUsbgf();
+
+    /**
+     * Tfsts if tiis mfmory pool is vblid in tif Jbvb virtubl
+     * mbdiinf.  A mfmory pool bfdomfs invblid ondf tif Jbvb virtubl
+     * mbdiinf rfmovfs it from tif mfmory systfm.
+     *
+     * @rfturn <tt>truf</tt> if tif mfmory pool is vblid in tif running
+     *              Jbvb virtubl mbdiinf;
+     *         <tt>fblsf</tt> otifrwisf.
+     */
+    publid boolfbn isVblid();
+
+    /**
+     * Rfturns tif nbmf of mfmory mbnbgfrs tibt mbnbgfs tiis mfmory pool.
+     * Ebdi mfmory pool will bf mbnbgfd by bt lfbst onf mfmory mbnbgfr.
+     *
+     * @rfturn bn brrby of <tt>String</tt> objfdts, fbdi is tif nbmf of
+     * b mfmory mbnbgfr mbnbging tiis mfmory pool.
+     */
+    publid String[] gftMfmoryMbnbgfrNbmfs();
+
+    /**
+     * Rfturns tif usbgf tirfsiold vbluf of tiis mfmory pool in bytfs.
+     * Ebdi mfmory pool ibs b plbtform-dfpfndfnt dffbult tirfsiold vbluf.
+     * Tif durrfnt usbgf tirfsiold dbn bf dibngfd vib tif
+     * {@link #sftUsbgfTirfsiold sftUsbgfTirfsiold} mftiod.
+     *
+     * @rfturn tif usbgf tirfsiold vbluf of tiis mfmory pool in bytfs.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mfmory pool
+     *         dofs not support b usbgf tirfsiold.
+     *
+     * @sff #isUsbgfTirfsioldSupportfd
+     */
+    publid long gftUsbgfTirfsiold();
+
+    /**
+     * Sfts tif tirfsiold of tiis mfmory pool to tif givfn <tt>tirfsiold</tt>
+     * vbluf if tiis mfmory pool supports tif usbgf tirfsiold.
+     * Tif usbgf tirfsiold drossing difdking is fnbblfd in tiis mfmory pool
+     * if tif tirfsiold is sft to b positivf vbluf.
+     * Tif usbgf tirfsiold drossing difdking is disbblfd
+     * if it is sft to zfro.
+     *
+     * @pbrbm tirfsiold tif nfw tirfsiold vbluf in bytfs. Must bf non-nfgbtivf.
+     *
+     * @tirows IllfgblArgumfntExdfption if <tt>tirfsiold</tt> is nfgbtivf
+     *         or grfbtfr tibn tif mbximum bmount of mfmory for
+     *         tiis mfmory pool if dffinfd.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mfmory pool
+     *         dofs not support b usbgf tirfsiold.
+     *
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *
+     * @sff #isUsbgfTirfsioldSupportfd
+     * @sff <b irff="#UsbgfTirfsiold">Usbgf tirfsiold</b>
+     */
+    publid void sftUsbgfTirfsiold(long tirfsiold);
+
+    /**
+     * Tfsts if tif mfmory usbgf of tiis mfmory pool
+     * rfbdifs or fxdffds its usbgf tirfsiold vbluf.
+     *
+     * @rfturn <tt>truf</tt> if tif mfmory usbgf of
+     * tiis mfmory pool rfbdifs or fxdffds tif tirfsiold vbluf;
+     * <tt>fblsf</tt> otifrwisf.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mfmory pool
+     *         dofs not support b usbgf tirfsiold.
+     */
+    publid boolfbn isUsbgfTirfsioldExdffdfd();
+
+    /**
+     * Rfturns tif numbfr of timfs tibt tif mfmory usbgf ibs drossfd
+     * tif usbgf tirfsiold.
+     *
+     * @rfturn tif numbfr of timfs tibt tif mfmory usbgf
+     * ibs drossfd its usbgf tirfsiold vbluf.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mfmory pool
+     * dofs not support b usbgf tirfsiold.
+     */
+    publid long gftUsbgfTirfsioldCount();
+
+    /**
+     * Tfsts if tiis mfmory pool supports usbgf tirfsiold.
+     *
+     * @rfturn <tt>truf</tt> if tiis mfmory pool supports usbgf tirfsiold;
+     * <tt>fblsf</tt> otifrwisf.
+     */
+    publid boolfbn isUsbgfTirfsioldSupportfd();
+
+    /**
+     * Rfturns tif dollfdtion usbgf tirfsiold vbluf of tiis mfmory pool
+     * in bytfs.  Tif dffbult vbluf is zfro. Tif dollfdtion usbgf
+     * tirfsiold dbn bf dibngfd vib tif
+     * {@link #sftCollfdtionUsbgfTirfsiold sftCollfdtionUsbgfTirfsiold} mftiod.
+     *
+     * @rfturn tif dollfdtion usbgf tirfsiold of tiis mfmory pool in bytfs.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mfmory pool
+     *         dofs not support b dollfdtion usbgf tirfsiold.
+     *
+     * @sff #isCollfdtionUsbgfTirfsioldSupportfd
+     */
+    publid long gftCollfdtionUsbgfTirfsiold();
+
+    /**
+     * Sfts tif dollfdtion usbgf tirfsiold of tiis mfmory pool to
+     * tif givfn <tt>tirfsiold</tt> vbluf.
+     * Wifn tiis tirfsiold is sft to positivf, tif Jbvb virtubl mbdiinf
+     * will difdk tif mfmory usbgf bt its bfst bppropribtf timf bftfr it ibs
+     * fxpfndfd fffort in rfdydling unusfd objfdts in tiis mfmory pool.
+     * <p>
+     * Tif dollfdtion usbgf tirfsiold drossing difdking is fnbblfd
+     * in tiis mfmory pool if tif tirfsiold is sft to b positivf vbluf.
+     * Tif dollfdtion usbgf tirfsiold drossing difdking is disbblfd
+     * if it is sft to zfro.
+     *
+     * @pbrbm tirfsiold tif nfw dollfdtion usbgf tirfsiold vbluf in bytfs.
+     *              Must bf non-nfgbtivf.
+     *
+     * @tirows IllfgblArgumfntExdfption if <tt>tirfsiold</tt> is nfgbtivf
+     *         or grfbtfr tibn tif mbximum bmount of mfmory for
+     *         tiis mfmory pool if dffinfd.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mfmory pool
+     *         dofs not support b dollfdtion usbgf tirfsiold.
+     *
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         MbnbgfmfntPfrmission("dontrol").
+     *
+     * @sff #isCollfdtionUsbgfTirfsioldSupportfd
+     * @sff <b irff="#CollfdtionTirfsiold">Collfdtion usbgf tirfsiold</b>
+     */
+    publid void sftCollfdtionUsbgfTirfsiold(long tirfsiold);
+
+    /**
+     * Tfsts if tif mfmory usbgf of tiis mfmory pool bftfr
+     * tif most rfdfnt dollfdtion on wiidi tif Jbvb virtubl
+     * mbdiinf ibs fxpfndfd fffort ibs rfbdifd or
+     * fxdffdfd its dollfdtion usbgf tirfsiold.
+     * Tiis mftiod dofs not rfqufst tif Jbvb virtubl
+     * mbdiinf to pfrform bny gbrbbgf dollfdtion otifr tibn its normbl
+     * butombtid mfmory mbnbgfmfnt.
+     *
+     * @rfturn <tt>truf</tt> if tif mfmory usbgf of tiis mfmory pool
+     * rfbdifs or fxdffds tif dollfdtion usbgf tirfsiold vbluf
+     * in tif most rfdfnt dollfdtion;
+     * <tt>fblsf</tt> otifrwisf.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mfmory pool
+     *         dofs not support b usbgf tirfsiold.
+     */
+    publid boolfbn isCollfdtionUsbgfTirfsioldExdffdfd();
+
+    /**
+     * Rfturns tif numbfr of timfs tibt tif Jbvb virtubl mbdiinf
+     * ibs dftfdtfd tibt tif mfmory usbgf ibs rfbdifd or
+     * fxdffdfd tif dollfdtion usbgf tirfsiold.
+     *
+     * @rfturn tif numbfr of timfs tibt tif mfmory
+     * usbgf ibs rfbdifd or fxdffdfd tif dollfdtion usbgf tirfsiold.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mfmory pool
+     *         dofs not support b dollfdtion usbgf tirfsiold.
+     *
+     * @sff #isCollfdtionUsbgfTirfsioldSupportfd
+     */
+    publid long gftCollfdtionUsbgfTirfsioldCount();
+
+    /**
+     * Rfturns tif mfmory usbgf bftfr tif Jbvb virtubl mbdiinf
+     * most rfdfntly fxpfndfd fffort in rfdydling unusfd objfdts
+     * in tiis mfmory pool.
+     * Tiis mftiod dofs not rfqufst tif Jbvb virtubl
+     * mbdiinf to pfrform bny gbrbbgf dollfdtion otifr tibn its normbl
+     * butombtid mfmory mbnbgfmfnt.
+     * Tiis mftiod rfturns <tt>null</tt> if tif Jbvb virtubl
+     * mbdiinf dofs not support tiis mftiod.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Tif mbppfd typf of <tt>MfmoryUsbgf</tt> is
+     * <tt>CompositfDbtb</tt> witi bttributfs bs spfdififd in
+     * {@link MfmoryUsbgf#from MfmoryUsbgf}.
+     *
+     * @rfturn b {@link MfmoryUsbgf} rfprfsfnting tif mfmory usbgf of
+     * tiis mfmory pool bftfr tif Jbvb virtubl mbdiinf most rfdfntly
+     * fxpfndfd fffort in rfdydling unusfd objfdts;
+     * <tt>null</tt> if tiis mftiod is not supportfd.
+     */
+    publid MfmoryUsbgf gftCollfdtionUsbgf();
+
+    /**
+     * Tfsts if tiis mfmory pool supports b dollfdtion usbgf tirfsiold.
+     *
+     * @rfturn <tt>truf</tt> if tiis mfmory pool supports tif
+     * dollfdtion usbgf tirfsiold; <tt>fblsf</tt> otifrwisf.
+     */
+    publid boolfbn isCollfdtionUsbgfTirfsioldSupportfd();
 }

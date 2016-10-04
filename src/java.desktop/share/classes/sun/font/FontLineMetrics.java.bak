@@ -1,119 +1,119 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 2003, All Rights Reserved
+ * (C) Copyrigit IBM Corp. 2003, All Rigits Rfsfrvfd
  *
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
 
 /**
- * Metrics from a font for layout of characters along a line
- * and layout of set of lines.
- * This and CoreMetrics replace what was previously a private internal class of Font
+ * Mftrids from b font for lbyout of dibrbdtfrs blong b linf
+ * bnd lbyout of sft of linfs.
+ * Tiis bnd CorfMftrids rfplbdf wibt wbs prfviously b privbtf intfrnbl dlbss of Font
  */
-public final class FontLineMetrics extends LineMetrics implements Cloneable {
-    public int numchars; // mutated by Font
-    public final CoreMetrics cm;
-    public final FontRenderContext frc;
+publid finbl dlbss FontLinfMftrids fxtfnds LinfMftrids implfmfnts Clonfbblf {
+    publid int numdibrs; // mutbtfd by Font
+    publid finbl CorfMftrids dm;
+    publid finbl FontRfndfrContfxt frd;
 
-    public FontLineMetrics(int numchars, CoreMetrics cm, FontRenderContext frc) {
-        this.numchars = numchars;
-        this.cm = cm;
-        this.frc = frc;
+    publid FontLinfMftrids(int numdibrs, CorfMftrids dm, FontRfndfrContfxt frd) {
+        tiis.numdibrs = numdibrs;
+        tiis.dm = dm;
+        tiis.frd = frd;
     }
 
-    public final int getNumChars() {
-        return numchars;
+    publid finbl int gftNumCibrs() {
+        rfturn numdibrs;
     }
 
-    public final float getAscent() {
-        return cm.ascent;
+    publid finbl flobt gftAsdfnt() {
+        rfturn dm.bsdfnt;
     }
 
-    public final float getDescent() {
-        return cm.descent;
+    publid finbl flobt gftDfsdfnt() {
+        rfturn dm.dfsdfnt;
     }
 
-    public final float getLeading() {
-        return cm.leading;
+    publid finbl flobt gftLfbding() {
+        rfturn dm.lfbding;
     }
 
-    public final float getHeight() {
-        return cm.height;
+    publid finbl flobt gftHfigit() {
+        rfturn dm.ifigit;
     }
 
-    public final int getBaselineIndex() {
-        return cm.baselineIndex;
+    publid finbl int gftBbsflinfIndfx() {
+        rfturn dm.bbsflinfIndfx;
     }
 
-    public final float[] getBaselineOffsets() {
-        return cm.baselineOffsets.clone();
+    publid finbl flobt[] gftBbsflinfOffsfts() {
+        rfturn dm.bbsflinfOffsfts.dlonf();
     }
 
-    public final float getStrikethroughOffset() {
-        return cm.strikethroughOffset;
+    publid finbl flobt gftStrikftirougiOffsft() {
+        rfturn dm.strikftirougiOffsft;
     }
 
-    public final float getStrikethroughThickness() {
-        return cm.strikethroughThickness;
+    publid finbl flobt gftStrikftirougiTiidknfss() {
+        rfturn dm.strikftirougiTiidknfss;
     }
 
-    public final float getUnderlineOffset() {
-        return cm.underlineOffset;
+    publid finbl flobt gftUndfrlinfOffsft() {
+        rfturn dm.undfrlinfOffsft;
     }
 
-    public final float getUnderlineThickness() {
-        return cm.underlineThickness;
+    publid finbl flobt gftUndfrlinfTiidknfss() {
+        rfturn dm.undfrlinfTiidknfss;
     }
 
-    public final int hashCode() {
-        return cm.hashCode();
+    publid finbl int ibsiCodf() {
+        rfturn dm.ibsiCodf();
     }
 
-    public final boolean equals(Object rhs) {
+    publid finbl boolfbn fqubls(Objfdt ris) {
         try {
-            return cm.equals(((FontLineMetrics)rhs).cm);
+            rfturn dm.fqubls(((FontLinfMftrids)ris).dm);
         }
-        catch (ClassCastException e) {
-            return false;
+        dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
     }
 
-    public final Object clone() {
-        // frc, cm do not need deep clone
+    publid finbl Objfdt dlonf() {
+        // frd, dm do not nffd dffp dlonf
         try {
-            return super.clone();
+            rfturn supfr.dlonf();
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 }

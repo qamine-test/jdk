@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 1994, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thrown to indidbtf thbt thf bpplidbtion hbs bttfmptfd to donvfrt
+ * b string to onf of thf numfrid typfs, but thbt thf string dofs not
+ * hbvf thf bppropribtf formbt.
+ *
+ * @buthor  unbsdribfd
+ * @sff     jbvb.lbng.Intfgfr#pbrsfInt(String)
+ * @sindf   1.0
+ */
+publid
+dlbss NumbfrFormbtExdfption fxtfnds IllfgblArgumfntExdfption {
+    stbtid finbl long sfriblVfrsionUID = -2848938806368998894L;
+
+    /**
+     * Construdts b <dodf>NumbfrFormbtExdfption</dodf> with no dftbil mfssbgf.
+     */
+    publid NumbfrFormbtExdfption () {
+        supfr();
+    }
+
+    /**
+     * Construdts b <dodf>NumbfrFormbtExdfption</dodf> with thf
+     * spfdififd dftbil mfssbgf.
+     *
+     * @pbrbm   s   thf dftbil mfssbgf.
+     */
+    publid NumbfrFormbtExdfption (String s) {
+        supfr (s);
+    }
+
+    /**
+     * Fbdtory mfthod for mbking b {@dodf NumbfrFormbtExdfption}
+     * givfn thf spfdififd input whidh dbusfd thf frror.
+     *
+     * @pbrbm   s   thf input dbusing thf frror
+     */
+    stbtid NumbfrFormbtExdfption forInputString(String s) {
+        rfturn nfw NumbfrFormbtExdfption("For input string: \"" + s + "\"");
+    }
+
+    /**
+     * Fbdtory mfthod for mbking b {@dodf NumbfrFormbtExdfption}
+     * givfn thf spfdififd input whidh dbusfd thf frror.
+     *
+     * @pbrbm   s   thf input dbusing thf frror
+     * @pbrbm   bfginIndfx   thf bfginning indfx, indlusivf.
+     * @pbrbm   fndIndfx     thf fnding indfx, fxdlusivf.
+     * @pbrbm   frrorIndfx   thf indfx of thf first frror in s
+     */
+    stbtid NumbfrFormbtExdfption forChbrSfqufndf(ChbrSfqufndf s,
+            int bfginIndfx, int fndIndfx, int frrorIndfx) {
+        rfturn nfw NumbfrFormbtExdfption("Error bt indfx "
+                + (frrorIndfx - bfginIndfx) + " in: \""
+                + s.subSfqufndf(bfginIndfx, fndIndfx) + "\"");
+    }
+}

@@ -1,0 +1,56 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * Thf listfnfr intfrfbdf for rfdfiving window stbtf fvfnts.
+ * <p>
+ * Thf dlbss thbt is intfrfstfd in prodfssing b window stbtf fvfnt
+ * fithfr implfmfnts this intfrfbdf (bnd bll thf mfthods it dontbins)
+ * or fxtfnds thf bbstrbdt <dodf>WindowAdbptfr</dodf> dlbss
+ * (ovfrriding only thf mfthods of intfrfst).
+ * <p>
+ * Thf listfnfr objfdt drfbtfd from thbt dlbss is thfn rfgistfrfd with
+ * b window using thf <dodf>Window</dodf>'s
+ * <dodf>bddWindowStbtfListfnfr</dodf> mfthod.  Whfn thf window's
+ * stbtf dhbngfs by virtuf of bfing idonififd, mbximizfd ftd., thf
+ * <dodf>windowStbtfChbngfd</dodf> mfthod in thf listfnfr objfdt is
+ * invokfd, bnd thf <dodf>WindowEvfnt</dodf> is pbssfd to it.
+ *
+ * @sff jbvb.bwt.fvfnt.WindowAdbptfr
+ * @sff jbvb.bwt.fvfnt.WindowEvfnt
+ *
+ * @sindf 1.4
+ */
+publid intfrfbdf WindowStbtfListfnfr fxtfnds EvfntListfnfr {
+    /**
+     * Invokfd whfn window stbtf is dhbngfd.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void windowStbtfChbngfd(WindowEvfnt f);
+}

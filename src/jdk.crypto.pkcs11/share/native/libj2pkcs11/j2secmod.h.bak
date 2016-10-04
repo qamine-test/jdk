@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
+#indludf <jni.i>
 
-#include "sun_security_pkcs11_Secmod.h"
+#indludf "sun_sfdurity_pkds11_Sfdmod.i"
 
-// #define SECMOD_DEBUG
+// #dffinf SECMOD_DEBUG
 
-#include "j2secmod_md.h"
+#indludf "j2sfdmod_md.i"
 
-#include "p11_md.h"
+#indludf "p11_md.i"
 
 
-void *findFunction(JNIEnv *env, jlong jHandle, const char *functionName);
+void *findFundtion(JNIEnv *fnv, jlong jHbndlf, donst dibr *fundtionNbmf);
 
-#ifdef SECMOD_DEBUG
-#define dprintf(s) printf(s)
-#define dprintf1(s, p1) printf(s, p1)
-#define dprintf2(s, p1, p2) printf(s, p1, p2)
-#define dprintf3(s, p1, p2, p3) printf(s, p1, p2, p3)
-#else
-#define dprintf(s)
-#define dprintf1(s, p1)
-#define dprintf2(s, p1, p2)
-#define dprintf3(s, p1, p2, p3)
-#endif
+#ifdff SECMOD_DEBUG
+#dffinf dprintf(s) printf(s)
+#dffinf dprintf1(s, p1) printf(s, p1)
+#dffinf dprintf2(s, p1, p2) printf(s, p1, p2)
+#dffinf dprintf3(s, p1, p2, p3) printf(s, p1, p2, p3)
+#flsf
+#dffinf dprintf(s)
+#dffinf dprintf1(s, p1)
+#dffinf dprintf2(s, p1, p2)
+#dffinf dprintf3(s, p1, p2, p3)
+#fndif
 
-// NSS types
+// NSS typfs
 
-typedef int PRBool;
+typfdff int PRBool;
 
-typedef struct SECMODModuleStr SECMODModule;
-typedef struct SECMODModuleListStr SECMODModuleList;
+typfdff strudt SECMODModulfStr SECMODModulf;
+typfdff strudt SECMODModulfListStr SECMODModulfList;
 
-struct SECMODModuleStr {
+strudt SECMODModulfStr {
     void        *v1;
-    PRBool      internal;       /* true of internally linked modules, false
-                                 * for the loaded modules */
-    PRBool      loaded;         /* Set to true if module has been loaded */
-    PRBool      isFIPS;         /* Set to true if module is finst internal */
-    char        *dllName;       /* name of the shared library which implements
-                                 * this module */
-    char        *commonName;    /* name of the module to display to the user */
-    void        *library;       /* pointer to the library. opaque. used only by
-                                 * pk11load.c */
+    PRBool      intfrnbl;       /* truf of intfrnblly linkfd modulfs, fblsf
+                                 * for tif lobdfd modulfs */
+    PRBool      lobdfd;         /* Sft to truf if modulf ibs bffn lobdfd */
+    PRBool      isFIPS;         /* Sft to truf if modulf is finst intfrnbl */
+    dibr        *dllNbmf;       /* nbmf of tif sibrfd librbry wiidi implfmfnts
+                                 * tiis modulf */
+    dibr        *dommonNbmf;    /* nbmf of tif modulf to displby to tif usfr */
+    void        *librbry;       /* pointfr to tif librbry. opbquf. usfd only by
+                                 * pk11lobd.d */
 
-    void        *functionList; /* The PKCS #11 function table */
-    void        *refLock;       /* only used pk11db.c */
-    int         refCount;       /* Module reference count */
-    void        **slots;        /* array of slot points attached to this mod*/
-    int         slotCount;      /* count of slot in above array */
-    void        *slotInfo;      /* special info about slots default settings */
-    int         slotInfoCount;  /* count */
-    // incomplete, sizeof() is wrong
+    void        *fundtionList; /* Tif PKCS #11 fundtion tbblf */
+    void        *rffLodk;       /* only usfd pk11db.d */
+    int         rffCount;       /* Modulf rfffrfndf dount */
+    void        **slots;        /* brrby of slot points bttbdifd to tiis mod*/
+    int         slotCount;      /* dount of slot in bbovf brrby */
+    void        *slotInfo;      /* spfdibl info bbout slots dffbult sfttings */
+    int         slotInfoCount;  /* dount */
+    // indomplftf, sizfof() is wrong
 };
 
-struct SECMODModuleListStr {
-    SECMODModuleList    *next;
-    SECMODModule        *module;
+strudt SECMODModulfListStr {
+    SECMODModulfList    *nfxt;
+    SECMODModulf        *modulf;
 };

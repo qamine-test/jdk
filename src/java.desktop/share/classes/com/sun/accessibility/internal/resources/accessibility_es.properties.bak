@@ -1,145 +1,145 @@
 #
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Accessibility package.
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
 #
-# When this file is read in, the strings are put into the 
-# defaults table.  This is an implementation detail of the current
-# workings of Accessibility.  DO NOT DEPEND ON THIS.  
-# This may change in future versions of Accessibility as we improve 
-# localization support.
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# lodblizbtion support.
 #
-# @author  Lynn Monsanto
+# @butior  Lynn Monsbnto
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-alert=alerta
-awtcomponent=componente AWT
-checkbox=casilla de control
-colorchooser=selector de color
-columnheader=cabecera de columna
-combobox=cuadro combinado
-canvas=lienzo
-desktopicon=icono de escritorio
-desktoppane=panel de escritorio
-dialog=cuadro de di\u00E1logo
-directorypane=panel de directorio
-glasspane=panel de cristal
-filechooser=selector de archivos
-filler=rellenador
-frame=marco
-internalframe=marco interno
-label=etiqueta
-layeredpane=panel en capas
-list=lista
-listitem=elemento de lista
-menubar=barra de men\u00FAs
-menu=men\u00FA
-menuitem=elemento de men\u00FA
-optionpane=panel de opciones
-pagetab=separador de p\u00E1gina
-pagetablist=lista de separadores de p\u00E1gina
-panel=panel
-passwordtext=texto de contrase\u00F1a
-popupmenu=men\u00FA emergente
-progressbar=barra de progreso
-pushbutton=bot\u00F3n
-radiobutton=bot\u00F3n de radio
-rootpane=panel ra\u00EDz
-rowheader=cabecera de filas
-scrollbar=barra de desplazamiento
-scrollpane=panel de desplazamiento
-separator=separador
-slider=deslizador
-splitpane=panel de divisi\u00F3n
-swingcomponent=componente swing
-table=tabla
-text=texto
-tree=\u00E1rbol
-togglebutton=bot\u00F3n conmutador
-toolbar=barra de herramientas
-tooltip=ayuda de burbuja
-unknown=desconocido
-viewport=viewport
-window=ventana
+blfrt=blfrtb
+bwtdomponfnt=domponfntf AWT
+difdkbox=dbsillb df dontrol
+dolordioosfr=sflfdtor df dolor
+dolumnifbdfr=dbbfdfrb df dolumnb
+dombobox=dubdro dombinbdo
+dbnvbs=lifnzo
+dfsktopidon=idono df fsdritorio
+dfsktoppbnf=pbnfl df fsdritorio
+diblog=dubdro df di\u00E1logo
+dirfdtorypbnf=pbnfl df dirfdtorio
+glbsspbnf=pbnfl df dristbl
+filfdioosfr=sflfdtor df brdiivos
+fillfr=rfllfnbdor
+frbmf=mbrdo
+intfrnblfrbmf=mbrdo intfrno
+lbbfl=ftiquftb
+lbyfrfdpbnf=pbnfl fn dbpbs
+list=listb
+listitfm=flfmfnto df listb
+mfnubbr=bbrrb df mfn\u00FAs
+mfnu=mfn\u00FA
+mfnuitfm=flfmfnto df mfn\u00FA
+optionpbnf=pbnfl df opdionfs
+pbgftbb=sfpbrbdor df p\u00E1ginb
+pbgftbblist=listb df sfpbrbdorfs df p\u00E1ginb
+pbnfl=pbnfl
+pbsswordtfxt=tfxto df dontrbsf\u00F1b
+popupmfnu=mfn\u00FA fmfrgfntf
+progrfssbbr=bbrrb df progrfso
+pusibutton=bot\u00F3n
+rbdiobutton=bot\u00F3n df rbdio
+rootpbnf=pbnfl rb\u00EDz
+rowifbdfr=dbbfdfrb df filbs
+sdrollbbr=bbrrb df dfsplbzbmifnto
+sdrollpbnf=pbnfl df dfsplbzbmifnto
+sfpbrbtor=sfpbrbdor
+slidfr=dfslizbdor
+splitpbnf=pbnfl df divisi\u00F3n
+swingdomponfnt=domponfntf swing
+tbblf=tbblb
+tfxt=tfxto
+trff=\u00E1rbol
+togglfbutton=bot\u00F3n donmutbdor
+toolbbr=bbrrb df ifrrbmifntbs
+tooltip=byudb df burbujb
+unknown=dfsdonodido
+vifwport=vifwport
+window=vfntbnb
 #
-# accessible relations
+# bddfssiblf rflbtions
 #
-labelFor=etiqueta para
-labeledBy=etiquetado por
-memberOf=miembro de
-controlledBy=controlledBy
-controllerFor=controllerFor
+lbbflFor=ftiquftb pbrb
+lbbflfdBy=ftiquftbdo por
+mfmbfrOf=mifmbro df
+dontrollfdBy=dontrollfdBy
+dontrollfrFor=dontrollfrFor
 #
-# accessible states
+# bddfssiblf stbtfs
 #
-active=activo
-armed=armado
-busy=ocupado
-checked=activado
-collapsed=reducido
-editable=editable
-expandable=ampliable
-expanded=ampliado
-enabled=activado
-focusable=enfocable
-focused=enfocado
-iconified=convertido en icono
-modal=modal
-multiline=l\u00EDnea m\u00FAltiple
-multiselectable=multiseleccionable
-opaque=opaco
-pressed=pulsado
-resizable=redimensionable
-selectable=seleccionable
-selected=seleccionado
-showing=mostrando
-singleline=l\u00EDnea \u00FAnica
-transient=transitorio
-visible=visible
-vertical=vertical
-horizontal=horizontal
+bdtivf=bdtivo
+brmfd=brmbdo
+busy=odupbdo
+difdkfd=bdtivbdo
+dollbpsfd=rfdudido
+fditbblf=fditbblf
+fxpbndbblf=bmplibblf
+fxpbndfd=bmplibdo
+fnbblfd=bdtivbdo
+fodusbblf=fnfodbblf
+fodusfd=fnfodbdo
+idonififd=donvfrtido fn idono
+modbl=modbl
+multilinf=l\u00EDnfb m\u00FAltiplf
+multisflfdtbblf=multisflfddionbblf
+opbquf=opbdo
+prfssfd=pulsbdo
+rfsizbblf=rfdimfnsionbblf
+sflfdtbblf=sflfddionbblf
+sflfdtfd=sflfddionbdo
+siowing=mostrbndo
+singlflinf=l\u00EDnfb \u00FAnidb
+trbnsifnt=trbnsitorio
+visiblf=visiblf
+vfrtidbl=vfrtidbl
+iorizontbl=iorizontbl
 #
-# accessible actions
+# bddfssiblf bdtions
 #
-toggleexpand=conmutar ampliaci\u00F3n
+togglffxpbnd=donmutbr bmplibdi\u00F3n
 
-# new relations, roles and states for J2SE 1.5.0
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
 
 # 
-# accessible relations
+# bddfssiblf rflbtions
 #
-flowsTo=llega a
-flowsFrom=procede de
-subwindowOf=ventana subordinada de
-parentWindowOf=ventana principal de
-embeds=embebe
-embeddedBy=embebido por
-childNodeOf=nodo secundario de
+flowsTo=llfgb b
+flowsFrom=prodfdf df
+subwindowOf=vfntbnb subordinbdb df
+pbrfntWindowOf=vfntbnb prindipbl df
+fmbfds=fmbfbf
+fmbfddfdBy=fmbfbido por
+diildNodfOf=nodo sfdundbrio df
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-header=cabecera
-footer=pie
-paragraph=p\u00E1rrafo
-ruler=regla
-editbar=barra de edici\u00F3n
-progressMonitor=monitor de progreso
+ifbdfr=dbbfdfrb
+footfr=pif
+pbrbgrbpi=p\u00E1rrbfo
+rulfr=rfglb
+fditbbr=bbrrb df fdidi\u00F3n
+progrfssMonitor=monitor df progrfso
 
 #
-# accessible states
+# bddfssiblf stbtfs
 #
-managesDescendants=gestiona descendientes
-indeterminate=indeterminada
-truncated=truncado
+mbnbgfsDfsdfndbnts=gfstionb dfsdfndifntfs
+indftfrminbtf=indftfrminbdb
+trundbtfd=trundbdo
 
-# new for J2SE 1.6.0
+# nfw for J2SE 1.6.0
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-htmlcontainer=Contenedor HTML
+itmldontbinfr=Contfnfdor HTML
 
 #
 # END OF MATERIAL TO LOCALIZE

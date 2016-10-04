@@ -1,408 +1,408 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.*;
-import com.sun.nio.file.SensitivityWatchEventModifier;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import dom.sun.nio.filf.SfnsitivityWbtdiEvfntModififr;
 
 /**
- * Simple WatchService implementation that uses periodic tasks to poll
- * registered directories for changes.  This implementation is for use on
- * operating systems that do not have native file change notification support.
+ * Simplf WbtdiSfrvidf implfmfntbtion tibt usfs pfriodid tbsks to poll
+ * rfgistfrfd dirfdtorifs for dibngfs.  Tiis implfmfntbtion is for usf on
+ * opfrbting systfms tibt do not ibvf nbtivf filf dibngf notifidbtion support.
  */
 
-class PollingWatchService
-    extends AbstractWatchService
+dlbss PollingWbtdiSfrvidf
+    fxtfnds AbstrbdtWbtdiSfrvidf
 {
-    // map of registrations
-    private final Map<Object,PollingWatchKey> map =
-        new HashMap<Object,PollingWatchKey>();
+    // mbp of rfgistrbtions
+    privbtf finbl Mbp<Objfdt,PollingWbtdiKfy> mbp =
+        nfw HbsiMbp<Objfdt,PollingWbtdiKfy>();
 
-    // used to execute the periodic tasks that poll for changes
-    private final ScheduledExecutorService scheduledExecutor;
+    // usfd to fxfdutf tif pfriodid tbsks tibt poll for dibngfs
+    privbtf finbl SdifdulfdExfdutorSfrvidf sdifdulfdExfdutor;
 
-    PollingWatchService() {
-        // TBD: Make the number of threads configurable
-        scheduledExecutor = Executors
-            .newSingleThreadScheduledExecutor(new ThreadFactory() {
-                 @Override
-                 public Thread newThread(Runnable r) {
-                     Thread t = new Thread(r);
-                     t.setDaemon(true);
-                     return t;
+    PollingWbtdiSfrvidf() {
+        // TBD: Mbkf tif numbfr of tirfbds donfigurbblf
+        sdifdulfdExfdutor = Exfdutors
+            .nfwSinglfTirfbdSdifdulfdExfdutor(nfw TirfbdFbdtory() {
+                 @Ovfrridf
+                 publid Tirfbd nfwTirfbd(Runnbblf r) {
+                     Tirfbd t = nfw Tirfbd(r);
+                     t.sftDbfmon(truf);
+                     rfturn t;
                  }});
     }
 
     /**
-     * Register the given file with this watch service
+     * Rfgistfr tif givfn filf witi tiis wbtdi sfrvidf
      */
-    @Override
-    WatchKey register(final Path path,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
-         throws IOException
+    @Ovfrridf
+    WbtdiKfy rfgistfr(finbl Pbti pbti,
+                      WbtdiEvfnt.Kind<?>[] fvfnts,
+                      WbtdiEvfnt.Modififr... modififrs)
+         tirows IOExdfption
     {
-        // check events - CCE will be thrown if there are invalid elements
-        final Set<WatchEvent.Kind<?>> eventSet =
-            new HashSet<WatchEvent.Kind<?>>(events.length);
-        for (WatchEvent.Kind<?> event: events) {
-            // standard events
-            if (event == StandardWatchEventKinds.ENTRY_CREATE ||
-                event == StandardWatchEventKinds.ENTRY_MODIFY ||
-                event == StandardWatchEventKinds.ENTRY_DELETE)
+        // difdk fvfnts - CCE will bf tirown if tifrf brf invblid flfmfnts
+        finbl Sft<WbtdiEvfnt.Kind<?>> fvfntSft =
+            nfw HbsiSft<WbtdiEvfnt.Kind<?>>(fvfnts.lfngti);
+        for (WbtdiEvfnt.Kind<?> fvfnt: fvfnts) {
+            // stbndbrd fvfnts
+            if (fvfnt == StbndbrdWbtdiEvfntKinds.ENTRY_CREATE ||
+                fvfnt == StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY ||
+                fvfnt == StbndbrdWbtdiEvfntKinds.ENTRY_DELETE)
             {
-                eventSet.add(event);
-                continue;
+                fvfntSft.bdd(fvfnt);
+                dontinuf;
             }
 
-            // OVERFLOW is ignored
-            if (event == StandardWatchEventKinds.OVERFLOW) {
-                continue;
+            // OVERFLOW is ignorfd
+            if (fvfnt == StbndbrdWbtdiEvfntKinds.OVERFLOW) {
+                dontinuf;
             }
 
-            // null/unsupported
-            if (event == null)
-                throw new NullPointerException("An element in event set is 'null'");
-            throw new UnsupportedOperationException(event.name());
+            // null/unsupportfd
+            if (fvfnt == null)
+                tirow nfw NullPointfrExdfption("An flfmfnt in fvfnt sft is 'null'");
+            tirow nfw UnsupportfdOpfrbtionExdfption(fvfnt.nbmf());
         }
-        if (eventSet.isEmpty())
-            throw new IllegalArgumentException("No events to register");
+        if (fvfntSft.isEmpty())
+            tirow nfw IllfgblArgumfntExdfption("No fvfnts to rfgistfr");
 
-        // A modifier may be used to specify the sensitivity level
-        SensitivityWatchEventModifier sensivity = SensitivityWatchEventModifier.MEDIUM;
-        if (modifiers.length > 0) {
-            for (WatchEvent.Modifier modifier: modifiers) {
-                if (modifier == null)
-                    throw new NullPointerException();
-                if (modifier instanceof SensitivityWatchEventModifier) {
-                    sensivity = (SensitivityWatchEventModifier)modifier;
-                    continue;
+        // A modififr mby bf usfd to spfdify tif sfnsitivity lfvfl
+        SfnsitivityWbtdiEvfntModififr sfnsivity = SfnsitivityWbtdiEvfntModififr.MEDIUM;
+        if (modififrs.lfngti > 0) {
+            for (WbtdiEvfnt.Modififr modififr: modififrs) {
+                if (modififr == null)
+                    tirow nfw NullPointfrExdfption();
+                if (modififr instbndfof SfnsitivityWbtdiEvfntModififr) {
+                    sfnsivity = (SfnsitivityWbtdiEvfntModififr)modififr;
+                    dontinuf;
                 }
-                throw new UnsupportedOperationException("Modifier not supported");
+                tirow nfw UnsupportfdOpfrbtionExdfption("Modififr not supportfd");
             }
         }
 
-        // check if watch service is closed
-        if (!isOpen())
-            throw new ClosedWatchServiceException();
+        // difdk if wbtdi sfrvidf is dlosfd
+        if (!isOpfn())
+            tirow nfw ClosfdWbtdiSfrvidfExdfption();
 
-        // registration is done in privileged block as it requires the
-        // attributes of the entries in the directory.
+        // rfgistrbtion is donf in privilfgfd blodk bs it rfquirfs tif
+        // bttributfs of tif fntrifs in tif dirfdtory.
         try {
-            final SensitivityWatchEventModifier s = sensivity;
-            return AccessController.doPrivileged(
-                new PrivilegedExceptionAction<PollingWatchKey>() {
-                    @Override
-                    public PollingWatchKey run() throws IOException {
-                        return doPrivilegedRegister(path, eventSet, s);
+            finbl SfnsitivityWbtdiEvfntModififr s = sfnsivity;
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<PollingWbtdiKfy>() {
+                    @Ovfrridf
+                    publid PollingWbtdiKfy run() tirows IOExdfption {
+                        rfturn doPrivilfgfdRfgistfr(pbti, fvfntSft, s);
                     }
                 });
-        } catch (PrivilegedActionException pae) {
-            Throwable cause = pae.getCause();
-            if (cause != null && cause instanceof IOException)
-                throw (IOException)cause;
-            throw new AssertionError(pae);
+        } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+            Tirowbblf dbusf = pbf.gftCbusf();
+            if (dbusf != null && dbusf instbndfof IOExdfption)
+                tirow (IOExdfption)dbusf;
+            tirow nfw AssfrtionError(pbf);
         }
     }
 
-    // registers directory returning a new key if not already registered or
-    // existing key if already registered
-    private PollingWatchKey doPrivilegedRegister(Path path,
-                                                 Set<? extends WatchEvent.Kind<?>> events,
-                                                 SensitivityWatchEventModifier sensivity)
-        throws IOException
+    // rfgistfrs dirfdtory rfturning b nfw kfy if not blrfbdy rfgistfrfd or
+    // fxisting kfy if blrfbdy rfgistfrfd
+    privbtf PollingWbtdiKfy doPrivilfgfdRfgistfr(Pbti pbti,
+                                                 Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts,
+                                                 SfnsitivityWbtdiEvfntModififr sfnsivity)
+        tirows IOExdfption
     {
-        // check file is a directory and get its file key if possible
-        BasicFileAttributes attrs = Files.readAttributes(path, BasicFileAttributes.class);
-        if (!attrs.isDirectory()) {
-            throw new NotDirectoryException(path.toString());
+        // difdk filf is b dirfdtory bnd gft its filf kfy if possiblf
+        BbsidFilfAttributfs bttrs = Filfs.rfbdAttributfs(pbti, BbsidFilfAttributfs.dlbss);
+        if (!bttrs.isDirfdtory()) {
+            tirow nfw NotDirfdtoryExdfption(pbti.toString());
         }
-        Object fileKey = attrs.fileKey();
-        if (fileKey == null)
-            throw new AssertionError("File keys must be supported");
+        Objfdt filfKfy = bttrs.filfKfy();
+        if (filfKfy == null)
+            tirow nfw AssfrtionError("Filf kfys must bf supportfd");
 
-        // grab close lock to ensure that watch service cannot be closed
-        synchronized (closeLock()) {
-            if (!isOpen())
-                throw new ClosedWatchServiceException();
+        // grbb dlosf lodk to fnsurf tibt wbtdi sfrvidf dbnnot bf dlosfd
+        syndironizfd (dlosfLodk()) {
+            if (!isOpfn())
+                tirow nfw ClosfdWbtdiSfrvidfExdfption();
 
-            PollingWatchKey watchKey;
-            synchronized (map) {
-                watchKey = map.get(fileKey);
-                if (watchKey == null) {
-                    // new registration
-                    watchKey = new PollingWatchKey(path, this, fileKey);
-                    map.put(fileKey, watchKey);
-                } else {
-                    // update to existing registration
-                    watchKey.disable();
+            PollingWbtdiKfy wbtdiKfy;
+            syndironizfd (mbp) {
+                wbtdiKfy = mbp.gft(filfKfy);
+                if (wbtdiKfy == null) {
+                    // nfw rfgistrbtion
+                    wbtdiKfy = nfw PollingWbtdiKfy(pbti, tiis, filfKfy);
+                    mbp.put(filfKfy, wbtdiKfy);
+                } flsf {
+                    // updbtf to fxisting rfgistrbtion
+                    wbtdiKfy.disbblf();
                 }
             }
-            watchKey.enable(events, sensivity.sensitivityValueInSeconds());
-            return watchKey;
+            wbtdiKfy.fnbblf(fvfnts, sfnsivity.sfnsitivityVblufInSfdonds());
+            rfturn wbtdiKfy;
         }
 
     }
 
-    @Override
-    void implClose() throws IOException {
-        synchronized (map) {
-            for (Map.Entry<Object,PollingWatchKey> entry: map.entrySet()) {
-                PollingWatchKey watchKey = entry.getValue();
-                watchKey.disable();
-                watchKey.invalidate();
+    @Ovfrridf
+    void implClosf() tirows IOExdfption {
+        syndironizfd (mbp) {
+            for (Mbp.Entry<Objfdt,PollingWbtdiKfy> fntry: mbp.fntrySft()) {
+                PollingWbtdiKfy wbtdiKfy = fntry.gftVbluf();
+                wbtdiKfy.disbblf();
+                wbtdiKfy.invblidbtf();
             }
-            map.clear();
+            mbp.dlfbr();
         }
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
-                scheduledExecutor.shutdown();
-                return null;
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                sdifdulfdExfdutor.siutdown();
+                rfturn null;
             }
          });
     }
 
     /**
-     * Entry in directory cache to record file last-modified-time and tick-count
+     * Entry in dirfdtory dbdif to rfdord filf lbst-modififd-timf bnd tidk-dount
      */
-    private static class CacheEntry {
-        private long lastModified;
-        private int lastTickCount;
+    privbtf stbtid dlbss CbdifEntry {
+        privbtf long lbstModififd;
+        privbtf int lbstTidkCount;
 
-        CacheEntry(long lastModified, int lastTickCount) {
-            this.lastModified = lastModified;
-            this.lastTickCount = lastTickCount;
+        CbdifEntry(long lbstModififd, int lbstTidkCount) {
+            tiis.lbstModififd = lbstModififd;
+            tiis.lbstTidkCount = lbstTidkCount;
         }
 
-        int lastTickCount() {
-            return lastTickCount;
+        int lbstTidkCount() {
+            rfturn lbstTidkCount;
         }
 
-        long lastModified() {
-            return lastModified;
+        long lbstModififd() {
+            rfturn lbstModififd;
         }
 
-        void update(long lastModified, int tickCount) {
-            this.lastModified = lastModified;
-            this.lastTickCount = tickCount;
+        void updbtf(long lbstModififd, int tidkCount) {
+            tiis.lbstModififd = lbstModififd;
+            tiis.lbstTidkCount = tidkCount;
         }
     }
 
     /**
-     * WatchKey implementation that encapsulates a map of the entries of the
-     * entries in the directory. Polling the key causes it to re-scan the
-     * directory and queue keys when entries are added, modified, or deleted.
+     * WbtdiKfy implfmfntbtion tibt fndbpsulbtfs b mbp of tif fntrifs of tif
+     * fntrifs in tif dirfdtory. Polling tif kfy dbusfs it to rf-sdbn tif
+     * dirfdtory bnd qufuf kfys wifn fntrifs brf bddfd, modififd, or dflftfd.
      */
-    private class PollingWatchKey extends AbstractWatchKey {
-        private final Object fileKey;
+    privbtf dlbss PollingWbtdiKfy fxtfnds AbstrbdtWbtdiKfy {
+        privbtf finbl Objfdt filfKfy;
 
-        // current event set
-        private Set<? extends WatchEvent.Kind<?>> events;
+        // durrfnt fvfnt sft
+        privbtf Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts;
 
-        // the result of the periodic task that causes this key to be polled
-        private ScheduledFuture<?> poller;
+        // tif rfsult of tif pfriodid tbsk tibt dbusfs tiis kfy to bf pollfd
+        privbtf SdifdulfdFuturf<?> pollfr;
 
-        // indicates if the key is valid
-        private volatile boolean valid;
+        // indidbtfs if tif kfy is vblid
+        privbtf volbtilf boolfbn vblid;
 
-        // used to detect files that have been deleted
-        private int tickCount;
+        // usfd to dftfdt filfs tibt ibvf bffn dflftfd
+        privbtf int tidkCount;
 
-        // map of entries in directory
-        private Map<Path,CacheEntry> entries;
+        // mbp of fntrifs in dirfdtory
+        privbtf Mbp<Pbti,CbdifEntry> fntrifs;
 
-        PollingWatchKey(Path dir, PollingWatchService watcher, Object fileKey)
-            throws IOException
+        PollingWbtdiKfy(Pbti dir, PollingWbtdiSfrvidf wbtdifr, Objfdt filfKfy)
+            tirows IOExdfption
         {
-            super(dir, watcher);
-            this.fileKey = fileKey;
-            this.valid = true;
-            this.tickCount = 0;
-            this.entries = new HashMap<Path,CacheEntry>();
+            supfr(dir, wbtdifr);
+            tiis.filfKfy = filfKfy;
+            tiis.vblid = truf;
+            tiis.tidkCount = 0;
+            tiis.fntrifs = nfw HbsiMbp<Pbti,CbdifEntry>();
 
-            // get the initial entries in the directory
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
-                for (Path entry: stream) {
+            // gft tif initibl fntrifs in tif dirfdtory
+            try (DirfdtoryStrfbm<Pbti> strfbm = Filfs.nfwDirfdtoryStrfbm(dir)) {
+                for (Pbti fntry: strfbm) {
                     // don't follow links
-                    long lastModified =
-                        Files.getLastModifiedTime(entry, LinkOption.NOFOLLOW_LINKS).toMillis();
-                    entries.put(entry.getFileName(), new CacheEntry(lastModified, tickCount));
+                    long lbstModififd =
+                        Filfs.gftLbstModififdTimf(fntry, LinkOption.NOFOLLOW_LINKS).toMillis();
+                    fntrifs.put(fntry.gftFilfNbmf(), nfw CbdifEntry(lbstModififd, tidkCount));
                 }
-            } catch (DirectoryIteratorException e) {
-                throw e.getCause();
+            } dbtdi (DirfdtoryItfrbtorExdfption f) {
+                tirow f.gftCbusf();
             }
         }
 
-        Object fileKey() {
-            return fileKey;
+        Objfdt filfKfy() {
+            rfturn filfKfy;
         }
 
-        @Override
-        public boolean isValid() {
-            return valid;
+        @Ovfrridf
+        publid boolfbn isVblid() {
+            rfturn vblid;
         }
 
-        void invalidate() {
-            valid = false;
+        void invblidbtf() {
+            vblid = fblsf;
         }
 
-        // enables periodic polling
-        void enable(Set<? extends WatchEvent.Kind<?>> events, long period) {
-            synchronized (this) {
-                // update the events
-                this.events = events;
+        // fnbblfs pfriodid polling
+        void fnbblf(Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts, long pfriod) {
+            syndironizfd (tiis) {
+                // updbtf tif fvfnts
+                tiis.fvfnts = fvfnts;
 
-                // create the periodic task
-                Runnable thunk = new Runnable() { public void run() { poll(); }};
-                this.poller = scheduledExecutor
-                    .scheduleAtFixedRate(thunk, period, period, TimeUnit.SECONDS);
+                // drfbtf tif pfriodid tbsk
+                Runnbblf tiunk = nfw Runnbblf() { publid void run() { poll(); }};
+                tiis.pollfr = sdifdulfdExfdutor
+                    .sdifdulfAtFixfdRbtf(tiunk, pfriod, pfriod, TimfUnit.SECONDS);
             }
         }
 
-        // disables periodic polling
-        void disable() {
-            synchronized (this) {
-                if (poller != null)
-                    poller.cancel(false);
+        // disbblfs pfriodid polling
+        void disbblf() {
+            syndironizfd (tiis) {
+                if (pollfr != null)
+                    pollfr.dbndfl(fblsf);
             }
         }
 
-        @Override
-        public void cancel() {
-            valid = false;
-            synchronized (map) {
-                map.remove(fileKey());
+        @Ovfrridf
+        publid void dbndfl() {
+            vblid = fblsf;
+            syndironizfd (mbp) {
+                mbp.rfmovf(filfKfy());
             }
-            disable();
+            disbblf();
         }
 
         /**
-         * Polls the directory to detect for new files, modified files, or
-         * deleted files.
+         * Polls tif dirfdtory to dftfdt for nfw filfs, modififd filfs, or
+         * dflftfd filfs.
          */
-        synchronized void poll() {
-            if (!valid) {
-                return;
+        syndironizfd void poll() {
+            if (!vblid) {
+                rfturn;
             }
 
-            // update tick
-            tickCount++;
+            // updbtf tidk
+            tidkCount++;
 
-            // open directory
-            DirectoryStream<Path> stream = null;
+            // opfn dirfdtory
+            DirfdtoryStrfbm<Pbti> strfbm = null;
             try {
-                stream = Files.newDirectoryStream(watchable());
-            } catch (IOException x) {
-                // directory is no longer accessible so cancel key
-                cancel();
-                signal();
-                return;
+                strfbm = Filfs.nfwDirfdtoryStrfbm(wbtdibblf());
+            } dbtdi (IOExdfption x) {
+                // dirfdtory is no longfr bddfssiblf so dbndfl kfy
+                dbndfl();
+                signbl();
+                rfturn;
             }
 
-            // iterate over all entries in directory
+            // itfrbtf ovfr bll fntrifs in dirfdtory
             try {
-                for (Path entry: stream) {
-                    long lastModified = 0L;
+                for (Pbti fntry: strfbm) {
+                    long lbstModififd = 0L;
                     try {
-                        lastModified =
-                            Files.getLastModifiedTime(entry, LinkOption.NOFOLLOW_LINKS).toMillis();
-                    } catch (IOException x) {
-                        // unable to get attributes of entry. If file has just
-                        // been deleted then we'll report it as deleted on the
-                        // next poll
-                        continue;
+                        lbstModififd =
+                            Filfs.gftLbstModififdTimf(fntry, LinkOption.NOFOLLOW_LINKS).toMillis();
+                    } dbtdi (IOExdfption x) {
+                        // unbblf to gft bttributfs of fntry. If filf ibs just
+                        // bffn dflftfd tifn wf'll rfport it bs dflftfd on tif
+                        // nfxt poll
+                        dontinuf;
                     }
 
-                    // lookup cache
-                    CacheEntry e = entries.get(entry.getFileName());
-                    if (e == null) {
-                        // new file found
-                        entries.put(entry.getFileName(),
-                                     new CacheEntry(lastModified, tickCount));
+                    // lookup dbdif
+                    CbdifEntry f = fntrifs.gft(fntry.gftFilfNbmf());
+                    if (f == null) {
+                        // nfw filf found
+                        fntrifs.put(fntry.gftFilfNbmf(),
+                                     nfw CbdifEntry(lbstModififd, tidkCount));
 
-                        // queue ENTRY_CREATE if event enabled
-                        if (events.contains(StandardWatchEventKinds.ENTRY_CREATE)) {
-                            signalEvent(StandardWatchEventKinds.ENTRY_CREATE, entry.getFileName());
-                            continue;
-                        } else {
-                            // if ENTRY_CREATE is not enabled and ENTRY_MODIFY is
-                            // enabled then queue event to avoid missing out on
-                            // modifications to the file immediately after it is
-                            // created.
-                            if (events.contains(StandardWatchEventKinds.ENTRY_MODIFY)) {
-                                signalEvent(StandardWatchEventKinds.ENTRY_MODIFY, entry.getFileName());
+                        // qufuf ENTRY_CREATE if fvfnt fnbblfd
+                        if (fvfnts.dontbins(StbndbrdWbtdiEvfntKinds.ENTRY_CREATE)) {
+                            signblEvfnt(StbndbrdWbtdiEvfntKinds.ENTRY_CREATE, fntry.gftFilfNbmf());
+                            dontinuf;
+                        } flsf {
+                            // if ENTRY_CREATE is not fnbblfd bnd ENTRY_MODIFY is
+                            // fnbblfd tifn qufuf fvfnt to bvoid missing out on
+                            // modifidbtions to tif filf immfdibtfly bftfr it is
+                            // drfbtfd.
+                            if (fvfnts.dontbins(StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY)) {
+                                signblEvfnt(StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY, fntry.gftFilfNbmf());
                             }
                         }
-                        continue;
+                        dontinuf;
                     }
 
-                    // check if file has changed
-                    if (e.lastModified != lastModified) {
-                        if (events.contains(StandardWatchEventKinds.ENTRY_MODIFY)) {
-                            signalEvent(StandardWatchEventKinds.ENTRY_MODIFY,
-                                        entry.getFileName());
+                    // difdk if filf ibs dibngfd
+                    if (f.lbstModififd != lbstModififd) {
+                        if (fvfnts.dontbins(StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY)) {
+                            signblEvfnt(StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY,
+                                        fntry.gftFilfNbmf());
                         }
                     }
-                    // entry in cache so update poll time
-                    e.update(lastModified, tickCount);
+                    // fntry in dbdif so updbtf poll timf
+                    f.updbtf(lbstModififd, tidkCount);
 
                 }
-            } catch (DirectoryIteratorException e) {
-                // ignore for now; if the directory is no longer accessible
-                // then the key will be cancelled on the next poll
-            } finally {
+            } dbtdi (DirfdtoryItfrbtorExdfption f) {
+                // ignorf for now; if tif dirfdtory is no longfr bddfssiblf
+                // tifn tif kfy will bf dbndfllfd on tif nfxt poll
+            } finblly {
 
-                // close directory stream
+                // dlosf dirfdtory strfbm
                 try {
-                    stream.close();
-                } catch (IOException x) {
-                    // ignore
+                    strfbm.dlosf();
+                } dbtdi (IOExdfption x) {
+                    // ignorf
                 }
             }
 
-            // iterate over cache to detect entries that have been deleted
-            Iterator<Map.Entry<Path,CacheEntry>> i = entries.entrySet().iterator();
-            while (i.hasNext()) {
-                Map.Entry<Path,CacheEntry> mapEntry = i.next();
-                CacheEntry entry = mapEntry.getValue();
-                if (entry.lastTickCount() != tickCount) {
-                    Path name = mapEntry.getKey();
-                    // remove from map and queue delete event (if enabled)
-                    i.remove();
-                    if (events.contains(StandardWatchEventKinds.ENTRY_DELETE)) {
-                        signalEvent(StandardWatchEventKinds.ENTRY_DELETE, name);
+            // itfrbtf ovfr dbdif to dftfdt fntrifs tibt ibvf bffn dflftfd
+            Itfrbtor<Mbp.Entry<Pbti,CbdifEntry>> i = fntrifs.fntrySft().itfrbtor();
+            wiilf (i.ibsNfxt()) {
+                Mbp.Entry<Pbti,CbdifEntry> mbpEntry = i.nfxt();
+                CbdifEntry fntry = mbpEntry.gftVbluf();
+                if (fntry.lbstTidkCount() != tidkCount) {
+                    Pbti nbmf = mbpEntry.gftKfy();
+                    // rfmovf from mbp bnd qufuf dflftf fvfnt (if fnbblfd)
+                    i.rfmovf();
+                    if (fvfnts.dontbins(StbndbrdWbtdiEvfntKinds.ENTRY_DELETE)) {
+                        signblEvfnt(StbndbrdWbtdiEvfntKinds.ENTRY_DELETE, nbmf);
                     }
                 }
             }

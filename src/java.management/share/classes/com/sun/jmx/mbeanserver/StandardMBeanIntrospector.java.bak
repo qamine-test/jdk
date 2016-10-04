@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.WeakHashMap;
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.IntrospectionException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanOperationInfo;
-import javax.management.NotCompliantMBeanException;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationBroadcasterSupport;
-import sun.reflect.misc.MethodUtil;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.WfbkHbsiMbp;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.IntrospfdtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import sun.rfflfdt.misd.MftiodUtil;
 
 /**
- * @since 1.6
+ * @sindf 1.6
  */
-class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
-    private static final StandardMBeanIntrospector instance =
-        new StandardMBeanIntrospector();
+dlbss StbndbrdMBfbnIntrospfdtor fxtfnds MBfbnIntrospfdtor<Mftiod> {
+    privbtf stbtid finbl StbndbrdMBfbnIntrospfdtor instbndf =
+        nfw StbndbrdMBfbnIntrospfdtor();
 
-    static StandardMBeanIntrospector getInstance() {
-        return instance;
+    stbtid StbndbrdMBfbnIntrospfdtor gftInstbndf() {
+        rfturn instbndf;
     }
 
-    @Override
-    PerInterfaceMap<Method> getPerInterfaceMap() {
-        return perInterfaceMap;
+    @Ovfrridf
+    PfrIntfrfbdfMbp<Mftiod> gftPfrIntfrfbdfMbp() {
+        rfturn pfrIntfrfbdfMbp;
     }
 
-    @Override
-    MBeanInfoMap getMBeanInfoMap() {
-        return mbeanInfoMap;
+    @Ovfrridf
+    MBfbnInfoMbp gftMBfbnInfoMbp() {
+        rfturn mbfbnInfoMbp;
     }
 
-    @Override
-    MBeanAnalyzer<Method> getAnalyzer(Class<?> mbeanInterface)
-            throws NotCompliantMBeanException {
-        return MBeanAnalyzer.analyzer(mbeanInterface, this);
+    @Ovfrridf
+    MBfbnAnblyzfr<Mftiod> gftAnblyzfr(Clbss<?> mbfbnIntfrfbdf)
+            tirows NotComplibntMBfbnExdfption {
+        rfturn MBfbnAnblyzfr.bnblyzfr(mbfbnIntfrfbdf, tiis);
     }
 
-    @Override
-    boolean isMXBean() {
-        return false;
+    @Ovfrridf
+    boolfbn isMXBfbn() {
+        rfturn fblsf;
     }
 
-    @Override
-    Method mFrom(Method m) {
-        return m;
+    @Ovfrridf
+    Mftiod mFrom(Mftiod m) {
+        rfturn m;
     }
 
-    @Override
-    String getName(Method m) {
-        return m.getName();
+    @Ovfrridf
+    String gftNbmf(Mftiod m) {
+        rfturn m.gftNbmf();
     }
 
-    @Override
-    Type getGenericReturnType(Method m) {
-        return m.getGenericReturnType();
+    @Ovfrridf
+    Typf gftGfnfridRfturnTypf(Mftiod m) {
+        rfturn m.gftGfnfridRfturnTypf();
     }
 
-    @Override
-    Type[] getGenericParameterTypes(Method m) {
-        return m.getGenericParameterTypes();
+    @Ovfrridf
+    Typf[] gftGfnfridPbrbmftfrTypfs(Mftiod m) {
+        rfturn m.gftGfnfridPbrbmftfrTypfs();
     }
 
-    @Override
-    String[] getSignature(Method m) {
-        Class<?>[] params = m.getParameterTypes();
-        String[] sig = new String[params.length];
-        for (int i = 0; i < params.length; i++)
-            sig[i] = params[i].getName();
-        return sig;
+    @Ovfrridf
+    String[] gftSignbturf(Mftiod m) {
+        Clbss<?>[] pbrbms = m.gftPbrbmftfrTypfs();
+        String[] sig = nfw String[pbrbms.lfngti];
+        for (int i = 0; i < pbrbms.lfngti; i++)
+            sig[i] = pbrbms[i].gftNbmf();
+        rfturn sig;
     }
 
-    @Override
-    void checkMethod(Method m) {
+    @Ovfrridf
+    void difdkMftiod(Mftiod m) {
     }
 
-    @Override
-    Object invokeM2(Method m, Object target, Object[] args, Object cookie)
-            throws InvocationTargetException, IllegalAccessException,
-                   MBeanException {
-        return MethodUtil.invoke(m, target, args);
+    @Ovfrridf
+    Objfdt invokfM2(Mftiod m, Objfdt tbrgft, Objfdt[] brgs, Objfdt dookif)
+            tirows InvodbtionTbrgftExdfption, IllfgblAddfssExdfption,
+                   MBfbnExdfption {
+        rfturn MftiodUtil.invokf(m, tbrgft, brgs);
     }
 
-    @Override
-    boolean validParameter(Method m, Object value, int paramNo, Object cookie) {
-        return isValidParameter(m, value, paramNo);
+    @Ovfrridf
+    boolfbn vblidPbrbmftfr(Mftiod m, Objfdt vbluf, int pbrbmNo, Objfdt dookif) {
+        rfturn isVblidPbrbmftfr(m, vbluf, pbrbmNo);
     }
 
-    @Override
-    MBeanAttributeInfo getMBeanAttributeInfo(String attributeName,
-            Method getter, Method setter) {
+    @Ovfrridf
+    MBfbnAttributfInfo gftMBfbnAttributfInfo(String bttributfNbmf,
+            Mftiod gfttfr, Mftiod sfttfr) {
 
-        final String description = "Attribute exposed for management";
+        finbl String dfsdription = "Attributf fxposfd for mbnbgfmfnt";
         try {
-            return new MBeanAttributeInfo(attributeName, description,
-                                          getter, setter);
-        } catch (IntrospectionException e) {
-            throw new RuntimeException(e); // should not happen
+            rfturn nfw MBfbnAttributfInfo(bttributfNbmf, dfsdription,
+                                          gfttfr, sfttfr);
+        } dbtdi (IntrospfdtionExdfption f) {
+            tirow nfw RuntimfExdfption(f); // siould not ibppfn
         }
     }
 
-    @Override
-    MBeanOperationInfo getMBeanOperationInfo(String operationName,
-            Method operation) {
-        final String description = "Operation exposed for management";
-        return new MBeanOperationInfo(description, operation);
+    @Ovfrridf
+    MBfbnOpfrbtionInfo gftMBfbnOpfrbtionInfo(String opfrbtionNbmf,
+            Mftiod opfrbtion) {
+        finbl String dfsdription = "Opfrbtion fxposfd for mbnbgfmfnt";
+        rfturn nfw MBfbnOpfrbtionInfo(dfsdription, opfrbtion);
     }
 
-    @Override
-    Descriptor getBasicMBeanDescriptor() {
-        /* We don't bother saying mxbean=false, and we can't know whether
-           the info is immutable until we know whether the MBean class
-           (not interface) is a NotificationBroadcaster. */
-        return ImmutableDescriptor.EMPTY_DESCRIPTOR;
+    @Ovfrridf
+    Dfsdriptor gftBbsidMBfbnDfsdriptor() {
+        /* Wf don't botifr sbying mxbfbn=fblsf, bnd wf dbn't know wiftifr
+           tif info is immutbblf until wf know wiftifr tif MBfbn dlbss
+           (not intfrfbdf) is b NotifidbtionBrobddbstfr. */
+        rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
     }
 
-    @Override
-    Descriptor getMBeanDescriptor(Class<?> resourceClass) {
-        boolean immutable = isDefinitelyImmutableInfo(resourceClass);
-        return new ImmutableDescriptor("mxbean=false",
-                                       "immutableInfo=" + immutable);
+    @Ovfrridf
+    Dfsdriptor gftMBfbnDfsdriptor(Clbss<?> rfsourdfClbss) {
+        boolfbn immutbblf = isDffinitflyImmutbblfInfo(rfsourdfClbss);
+        rfturn nfw ImmutbblfDfsdriptor("mxbfbn=fblsf",
+                                       "immutbblfInfo=" + immutbblf);
     }
 
-    /* Return true if and only if we can be sure that the given MBean implementation
-     * class has immutable MBeanInfo.  A Standard MBean that is a
-     * NotificationBroadcaster is allowed to return different values at
-     * different times from its getNotificationInfo() method, which is when
-     * we might not know if it is immutable.  But if it is a subclass of
-     * NotificationBroadcasterSupport and does not override
-     * getNotificationInfo(), then we know it won't change.
+    /* Rfturn truf if bnd only if wf dbn bf surf tibt tif givfn MBfbn implfmfntbtion
+     * dlbss ibs immutbblf MBfbnInfo.  A Stbndbrd MBfbn tibt is b
+     * NotifidbtionBrobddbstfr is bllowfd to rfturn difffrfnt vblufs bt
+     * difffrfnt timfs from its gftNotifidbtionInfo() mftiod, wiidi is wifn
+     * wf migit not know if it is immutbblf.  But if it is b subdlbss of
+     * NotifidbtionBrobddbstfrSupport bnd dofs not ovfrridf
+     * gftNotifidbtionInfo(), tifn wf know it won't dibngf.
      */
-    static boolean isDefinitelyImmutableInfo(Class<?> implClass) {
-        if (!NotificationBroadcaster.class.isAssignableFrom(implClass))
-            return true;
-        synchronized (definitelyImmutable) {
-            Boolean immutable = definitelyImmutable.get(implClass);
-            if (immutable == null) {
-                final Class<NotificationBroadcasterSupport> nbs =
-                        NotificationBroadcasterSupport.class;
-                if (nbs.isAssignableFrom(implClass)) {
+    stbtid boolfbn isDffinitflyImmutbblfInfo(Clbss<?> implClbss) {
+        if (!NotifidbtionBrobddbstfr.dlbss.isAssignbblfFrom(implClbss))
+            rfturn truf;
+        syndironizfd (dffinitflyImmutbblf) {
+            Boolfbn immutbblf = dffinitflyImmutbblf.gft(implClbss);
+            if (immutbblf == null) {
+                finbl Clbss<NotifidbtionBrobddbstfrSupport> nbs =
+                        NotifidbtionBrobddbstfrSupport.dlbss;
+                if (nbs.isAssignbblfFrom(implClbss)) {
                     try {
-                        Method m = implClass.getMethod("getNotificationInfo");
-                        immutable = (m.getDeclaringClass() == nbs);
-                    } catch (Exception e) {
-                        // Too bad, we'll say no for now.
-                        return false;
+                        Mftiod m = implClbss.gftMftiod("gftNotifidbtionInfo");
+                        immutbblf = (m.gftDfdlbringClbss() == nbs);
+                    } dbtdi (Exdfption f) {
+                        // Too bbd, wf'll sby no for now.
+                        rfturn fblsf;
                     }
-                } else
-                    immutable = false;
-                definitelyImmutable.put(implClass, immutable);
+                } flsf
+                    immutbblf = fblsf;
+                dffinitflyImmutbblf.put(implClbss, immutbblf);
             }
-            return immutable;
+            rfturn immutbblf;
         }
     }
-    private static final WeakHashMap<Class<?>, Boolean> definitelyImmutable =
-            new WeakHashMap<Class<?>, Boolean>();
+    privbtf stbtid finbl WfbkHbsiMbp<Clbss<?>, Boolfbn> dffinitflyImmutbblf =
+            nfw WfbkHbsiMbp<Clbss<?>, Boolfbn>();
 
-    private static final PerInterfaceMap<Method>
-        perInterfaceMap = new PerInterfaceMap<Method>();
+    privbtf stbtid finbl PfrIntfrfbdfMbp<Mftiod>
+        pfrIntfrfbdfMbp = nfw PfrIntfrfbdfMbp<Mftiod>();
 
-    private static final MBeanInfoMap mbeanInfoMap = new MBeanInfoMap();
+    privbtf stbtid finbl MBfbnInfoMbp mbfbnInfoMbp = nfw MBfbnInfoMbp();
 }

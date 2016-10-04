@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.Reader;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Rfbdfr;
 
-import javax.print.attribute.DocAttributeSet;
+import jbvbx.print.bttributf.DodAttributfSft;
 
 
 /**
- * Interface Doc specifies the interface for an object that supplies one piece
- * of print data for a Print Job. "Doc" is a short, easy-to-pronounce term
- * that means "a piece of print data." The client passes to the Print Job an
- * object that implements interface Doc, and the Print Job calls methods on
- * that object to obtain the print data. The Doc interface lets a Print Job:
+ * Intfrfbdf Dod spfdififs tif intfrfbdf for bn objfdt tibt supplifs onf pifdf
+ * of print dbtb for b Print Job. "Dod" is b siort, fbsy-to-pronoundf tfrm
+ * tibt mfbns "b pifdf of print dbtb." Tif dlifnt pbssfs to tif Print Job bn
+ * objfdt tibt implfmfnts intfrfbdf Dod, bnd tif Print Job dblls mftiods on
+ * tibt objfdt to obtbin tif print dbtb. Tif Dod intfrfbdf lfts b Print Job:
  * <UL>
  * <LI>
- * Determine the format, or "doc flavor" (class {@link DocFlavor DocFlavor}),
- * in which the print data is available. A doc flavor designates the print
- * data format (a MIME type) and the representation class of the object
- * from which the print data comes.
+ * Dftfrminf tif formbt, or "dod flbvor" (dlbss {@link DodFlbvor DodFlbvor}),
+ * in wiidi tif print dbtb is bvbilbblf. A dod flbvor dfsignbtfs tif print
+ * dbtb formbt (b MIME typf) bnd tif rfprfsfntbtion dlbss of tif objfdt
+ * from wiidi tif print dbtb domfs.
  *
  * <LI>
- * Obtain the print data representation object, which is an instance of the
- * doc flavor's representation class. The Print Job can then obtain the actual
- * print data from the representation object.
+ * Obtbin tif print dbtb rfprfsfntbtion objfdt, wiidi is bn instbndf of tif
+ * dod flbvor's rfprfsfntbtion dlbss. Tif Print Job dbn tifn obtbin tif bdtubl
+ * print dbtb from tif rfprfsfntbtion objfdt.
  *
  * <LI>
- * Obtain the printing attributes that specify additional characteristics of
- * the doc or that specify processing instructions to be applied to the doc.
- * Printing attributes are defined in package {@link javax.print.attribute
- * javax.print.attribute}. The doc returns its printing attributes stored in
- * an {@link javax.print.attribute.DocAttributeSet javax.print.attribute.DocAttributeSet}.
+ * Obtbin tif printing bttributfs tibt spfdify bdditionbl dibrbdtfristids of
+ * tif dod or tibt spfdify prodfssing instrudtions to bf bpplifd to tif dod.
+ * Printing bttributfs brf dffinfd in pbdkbgf {@link jbvbx.print.bttributf
+ * jbvbx.print.bttributf}. Tif dod rfturns its printing bttributfs storfd in
+ * bn {@link jbvbx.print.bttributf.DodAttributfSft jbvbx.print.bttributf.DodAttributfSft}.
  * </UL>
  * <P>
- * Each method in an implementation of interface Doc is permitted always to
- * return the same object each time the method is called.
- * This has implications
- * for a Print Job or other caller of a doc object whose print data
- * representation object "consumes" the print data as the caller obtains the
- * print data, such as a print data representation object which is a stream.
- * Once the Print Job has called {@link #getPrintData()
- * getPrintData()} and obtained the stream, any further calls to
- * {@link #getPrintData() getPrintData()} will return the same
- * stream object upon which reading may already be in progress, <I>not</I> a new
- * stream object that will re-read the print data from the beginning. Specifying
- * a doc object to behave this way simplifies the implementation of doc objects,
- * and is justified on the grounds that a particular doc is intended to convey
- * print data only to one Print Job, not to several different Print Jobs. (To
- * convey the same print data to several different Print Jobs, you have to
- * create several different doc objects on top of the same print data source.)
+ * Ebdi mftiod in bn implfmfntbtion of intfrfbdf Dod is pfrmittfd blwbys to
+ * rfturn tif sbmf objfdt fbdi timf tif mftiod is dbllfd.
+ * Tiis ibs implidbtions
+ * for b Print Job or otifr dbllfr of b dod objfdt wiosf print dbtb
+ * rfprfsfntbtion objfdt "donsumfs" tif print dbtb bs tif dbllfr obtbins tif
+ * print dbtb, sudi bs b print dbtb rfprfsfntbtion objfdt wiidi is b strfbm.
+ * Ondf tif Print Job ibs dbllfd {@link #gftPrintDbtb()
+ * gftPrintDbtb()} bnd obtbinfd tif strfbm, bny furtifr dblls to
+ * {@link #gftPrintDbtb() gftPrintDbtb()} will rfturn tif sbmf
+ * strfbm objfdt upon wiidi rfbding mby blrfbdy bf in progrfss, <I>not</I> b nfw
+ * strfbm objfdt tibt will rf-rfbd tif print dbtb from tif bfginning. Spfdifying
+ * b dod objfdt to bfibvf tiis wby simplififs tif implfmfntbtion of dod objfdts,
+ * bnd is justififd on tif grounds tibt b pbrtidulbr dod is intfndfd to donvfy
+ * print dbtb only to onf Print Job, not to sfvfrbl difffrfnt Print Jobs. (To
+ * donvfy tif sbmf print dbtb to sfvfrbl difffrfnt Print Jobs, you ibvf to
+ * drfbtf sfvfrbl difffrfnt dod objfdts on top of tif sbmf print dbtb sourdf.)
  * <P>
- * Interface Doc affords considerable implementation flexibility. The print data
- * might already be in existence when the doc object is constructed. In this
- * case the objects returned by the doc's methods can be supplied to the doc's
- * constructor, be stored in the doc ahead of time, and simply be returned when
- * called for. Alternatively, the print data might not exist yet when the doc
- * object is constructed. In this case the doc object might provide a "lazy"
- * implementation that generates the print data representation object (and/or
- * the print data) only when the Print Job calls for it (when the Print Job
- * calls the {@link #getPrintData() getPrintData()} method).
+ * Intfrfbdf Dod bffords donsidfrbblf implfmfntbtion flfxibility. Tif print dbtb
+ * migit blrfbdy bf in fxistfndf wifn tif dod objfdt is donstrudtfd. In tiis
+ * dbsf tif objfdts rfturnfd by tif dod's mftiods dbn bf supplifd to tif dod's
+ * donstrudtor, bf storfd in tif dod bifbd of timf, bnd simply bf rfturnfd wifn
+ * dbllfd for. Altfrnbtivfly, tif print dbtb migit not fxist yft wifn tif dod
+ * objfdt is donstrudtfd. In tiis dbsf tif dod objfdt migit providf b "lbzy"
+ * implfmfntbtion tibt gfnfrbtfs tif print dbtb rfprfsfntbtion objfdt (bnd/or
+ * tif print dbtb) only wifn tif Print Job dblls for it (wifn tif Print Job
+ * dblls tif {@link #gftPrintDbtb() gftPrintDbtb()} mftiod).
  * <P>
- * There is no restriction on the number of client threads that may be
- * simultaneously accessing the same doc. Therefore, all implementations of
- * interface Doc must be designed to be multiple thread safe.
+ * Tifrf is no rfstridtion on tif numbfr of dlifnt tirfbds tibt mby bf
+ * simultbnfously bddfssing tif sbmf dod. Tifrfforf, bll implfmfntbtions of
+ * intfrfbdf Dod must bf dfsignfd to bf multiplf tirfbd sbff.
  * <p>
- * However there can only be one consumer of the print data obtained from a
- * Doc.
+ * Howfvfr tifrf dbn only bf onf donsumfr of tif print dbtb obtbinfd from b
+ * Dod.
  * <p>
- * If print data is obtained from the client as a stream, by calling Doc's
- * <code>getReaderForText()</code> or <code>getStreamForBytes()</code>
- * methods, or because the print data source is already an InputStream or
- * Reader, then the print service should always close these streams for the
- * client on all job completion conditions. With the following caveat.
- * If the print data is itself a stream, the service will always close it.
- * If the print data is otherwise something that can be requested as a stream,
- * the service will only close the stream if it has obtained the stream before
- * terminating. That is, just because a print service might request data as
- * a stream does not mean that it will, with the implications that Doc
- * implementors which rely on the service to close them should create such
- * streams only in response to a request from the service.
+ * If print dbtb is obtbinfd from tif dlifnt bs b strfbm, by dblling Dod's
+ * <dodf>gftRfbdfrForTfxt()</dodf> or <dodf>gftStrfbmForBytfs()</dodf>
+ * mftiods, or bfdbusf tif print dbtb sourdf is blrfbdy bn InputStrfbm or
+ * Rfbdfr, tifn tif print sfrvidf siould blwbys dlosf tifsf strfbms for tif
+ * dlifnt on bll job domplftion donditions. Witi tif following dbvfbt.
+ * If tif print dbtb is itsflf b strfbm, tif sfrvidf will blwbys dlosf it.
+ * If tif print dbtb is otifrwisf somftiing tibt dbn bf rfqufstfd bs b strfbm,
+ * tif sfrvidf will only dlosf tif strfbm if it ibs obtbinfd tif strfbm bfforf
+ * tfrminbting. Tibt is, just bfdbusf b print sfrvidf migit rfqufst dbtb bs
+ * b strfbm dofs not mfbn tibt it will, witi tif implidbtions tibt Dod
+ * implfmfntors wiidi rfly on tif sfrvidf to dlosf tifm siould drfbtf sudi
+ * strfbms only in rfsponsf to b rfqufst from tif sfrvidf.
  * <HR>
  */
-public interface Doc {
+publid intfrfbdf Dod {
 
     /**
-     * Determines the doc flavor in which this doc object will supply its
-     * piece of print data.
+     * Dftfrminfs tif dod flbvor in wiidi tiis dod objfdt will supply its
+     * pifdf of print dbtb.
      *
-     * @return  Doc flavor.
+     * @rfturn  Dod flbvor.
      */
-    public DocFlavor getDocFlavor();
+    publid DodFlbvor gftDodFlbvor();
 
     /**
-     * Obtains the print data representation object that contains this doc
-     * object's piece of print data in the format corresponding to the
-     * supported doc flavor.
-     * The <CODE>getPrintData()</CODE> method returns an instance of
-     * the representation class whose name is given by <CODE>{@link
-     * #getDocFlavor() getDocFlavor()}.{@link
-     * DocFlavor#getRepresentationClassName()
-     * getRepresentationClassName()}</CODE>, and the return value can be cast
-     * from class Object to that representation class.
+     * Obtbins tif print dbtb rfprfsfntbtion objfdt tibt dontbins tiis dod
+     * objfdt's pifdf of print dbtb in tif formbt dorrfsponding to tif
+     * supportfd dod flbvor.
+     * Tif <CODE>gftPrintDbtb()</CODE> mftiod rfturns bn instbndf of
+     * tif rfprfsfntbtion dlbss wiosf nbmf is givfn by <CODE>{@link
+     * #gftDodFlbvor() gftDodFlbvor()}.{@link
+     * DodFlbvor#gftRfprfsfntbtionClbssNbmf()
+     * gftRfprfsfntbtionClbssNbmf()}</CODE>, bnd tif rfturn vbluf dbn bf dbst
+     * from dlbss Objfdt to tibt rfprfsfntbtion dlbss.
      *
-     * @return  Print data representation object.
+     * @rfturn  Print dbtb rfprfsfntbtion objfdt.
      *
-     * @exception  IOException
-     *     Thrown if the representation class is a stream and there was an I/O
-     *     error while constructing the stream.
+     * @fxdfption  IOExdfption
+     *     Tirown if tif rfprfsfntbtion dlbss is b strfbm bnd tifrf wbs bn I/O
+     *     frror wiilf donstrudting tif strfbm.
      */
-    public Object getPrintData() throws IOException;
+    publid Objfdt gftPrintDbtb() tirows IOExdfption;
 
     /**
-     * Obtains the set of printing attributes for this doc object. If the
-     * returned attribute set includes an instance of a particular attribute
-     * <I>X,</I> the printer must use that attribute value for this doc,
-     * overriding any value of attribute <I>X</I> in the job's attribute set.
-     * If the returned attribute set does not include an instance
-     * of a particular attribute <I>X</I> or if null is returned, the printer
-     * must consult the job's attribute set to obtain the value for
-     * attribute <I>X,</I> and if not found there, the printer must use an
-     * implementation-dependent default value. The returned attribute set is
-     * unmodifiable.
+     * Obtbins tif sft of printing bttributfs for tiis dod objfdt. If tif
+     * rfturnfd bttributf sft indludfs bn instbndf of b pbrtidulbr bttributf
+     * <I>X,</I> tif printfr must usf tibt bttributf vbluf for tiis dod,
+     * ovfrriding bny vbluf of bttributf <I>X</I> in tif job's bttributf sft.
+     * If tif rfturnfd bttributf sft dofs not indludf bn instbndf
+     * of b pbrtidulbr bttributf <I>X</I> or if null is rfturnfd, tif printfr
+     * must donsult tif job's bttributf sft to obtbin tif vbluf for
+     * bttributf <I>X,</I> bnd if not found tifrf, tif printfr must usf bn
+     * implfmfntbtion-dfpfndfnt dffbult vbluf. Tif rfturnfd bttributf sft is
+     * unmodifibblf.
      *
-     * @return  Unmodifiable set of printing attributes for this doc, or null
-     *          to obtain all attribute values from the job's attribute
-     *          set.
+     * @rfturn  Unmodifibblf sft of printing bttributfs for tiis dod, or null
+     *          to obtbin bll bttributf vblufs from tif job's bttributf
+     *          sft.
      */
-    public DocAttributeSet getAttributes();
+    publid DodAttributfSft gftAttributfs();
 
     /**
-     * Obtains a reader for extracting character print data from this doc.
-     * The Doc implementation is required to support this method if the
-     * DocFlavor has one of the following print data representation classes,
-     * and return null otherwise:
+     * Obtbins b rfbdfr for fxtrbdting dibrbdtfr print dbtb from tiis dod.
+     * Tif Dod implfmfntbtion is rfquirfd to support tiis mftiod if tif
+     * DodFlbvor ibs onf of tif following print dbtb rfprfsfntbtion dlbssfs,
+     * bnd rfturn null otifrwisf:
      * <UL>
-     * <LI> char[]
-     * <LI> java.lang.String
-     * <LI> java.io.Reader
+     * <LI> dibr[]
+     * <LI> jbvb.lbng.String
+     * <LI> jbvb.io.Rfbdfr
      * </UL>
-     * The doc's print data representation object is used to construct and
-     * return a Reader for reading the print data as a stream of characters
-     * from the print data representation object.
-     * However, if the print data representation object is itself a Reader,
-     * then the print data representation object is simply returned.
+     * Tif dod's print dbtb rfprfsfntbtion objfdt is usfd to donstrudt bnd
+     * rfturn b Rfbdfr for rfbding tif print dbtb bs b strfbm of dibrbdtfrs
+     * from tif print dbtb rfprfsfntbtion objfdt.
+     * Howfvfr, if tif print dbtb rfprfsfntbtion objfdt is itsflf b Rfbdfr,
+     * tifn tif print dbtb rfprfsfntbtion objfdt is simply rfturnfd.
      *
-     * @return  Reader for reading the print data characters from this doc.
-     *          If a reader cannot be provided because this doc does not meet
-     *          the criteria stated above, null is returned.
+     * @rfturn  Rfbdfr for rfbding tif print dbtb dibrbdtfrs from tiis dod.
+     *          If b rfbdfr dbnnot bf providfd bfdbusf tiis dod dofs not mfft
+     *          tif dritfrib stbtfd bbovf, null is rfturnfd.
      *
-     * @exception  IOException
-     *     Thrown if there was an I/O error while creating the reader.
+     * @fxdfption  IOExdfption
+     *     Tirown if tifrf wbs bn I/O frror wiilf drfbting tif rfbdfr.
      */
-    public Reader getReaderForText() throws IOException;
+    publid Rfbdfr gftRfbdfrForTfxt() tirows IOExdfption;
 
     /**
-     * Obtains an input stream for extracting byte print data from this
-     * doc.  The Doc implementation is required to support this method if
-     * the DocFlavor has one of the following print data representation
-     * classes, and return null otherwise:
+     * Obtbins bn input strfbm for fxtrbdting bytf print dbtb from tiis
+     * dod.  Tif Dod implfmfntbtion is rfquirfd to support tiis mftiod if
+     * tif DodFlbvor ibs onf of tif following print dbtb rfprfsfntbtion
+     * dlbssfs, bnd rfturn null otifrwisf:
      * <UL>
-     * <LI> byte[]
-     * <LI> java.io.InputStream
+     * <LI> bytf[]
+     * <LI> jbvb.io.InputStrfbm
      * </UL>
-     * This doc's print data representation object is obtained, then an input
-     * stream for reading the print data from the print data representation
-     * object as a stream of bytes is created and returned. However, if the
-     * print data representation object is itself an input stream, then the
-     * print data representation object is simply returned.
+     * Tiis dod's print dbtb rfprfsfntbtion objfdt is obtbinfd, tifn bn input
+     * strfbm for rfbding tif print dbtb from tif print dbtb rfprfsfntbtion
+     * objfdt bs b strfbm of bytfs is drfbtfd bnd rfturnfd. Howfvfr, if tif
+     * print dbtb rfprfsfntbtion objfdt is itsflf bn input strfbm, tifn tif
+     * print dbtb rfprfsfntbtion objfdt is simply rfturnfd.
      *
-     * @return  Input stream for reading the print data bytes from this doc. If
-     *          an input stream cannot be provided because this doc does not
-     *          meet the criteria stated above, null is returned.
+     * @rfturn  Input strfbm for rfbding tif print dbtb bytfs from tiis dod. If
+     *          bn input strfbm dbnnot bf providfd bfdbusf tiis dod dofs not
+     *          mfft tif dritfrib stbtfd bbovf, null is rfturnfd.
      *
-     * @exception  IOException
-     *     Thrown if there was an I/O error while creating the input stream.
+     * @fxdfption  IOExdfption
+     *     Tirown if tifrf wbs bn I/O frror wiilf drfbting tif input strfbm.
      */
-    public InputStream getStreamForBytes() throws IOException;
+    publid InputStrfbm gftStrfbmForBytfs() tirows IOExdfption;
 
 }

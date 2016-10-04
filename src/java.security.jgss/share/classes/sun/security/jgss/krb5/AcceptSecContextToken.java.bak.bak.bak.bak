@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import org.iftf.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.krb5.*;
+
+dlbss AddfptSfdContfxtTokfn fxtfnds InitiblTokfn {
+
+    privbtf KrbApRfp bpRfp = null;
+
+    /**
+     * Crfbtfs bn AddfptSfdContfxtTokfn for thf dontfxt bddfptor to sfnd to
+     * thf dontfxt initibtor.
+     */
+    publid AddfptSfdContfxtTokfn(Krb5Contfxt dontfxt,
+                                 KrbApRfq bpRfq)
+        throws KrbExdfption, IOExdfption, GSSExdfption {
+
+        boolfbn usfSubkfy = AddfssControllfr.doPrivilfgfd(
+                nfw GftBoolfbnAdtion("sun.sfdurity.krb5.bddfptor.subkfy"));
+
+        boolfbn usfSfqufndfNumbfr = truf;
+
+        EndryptionKfy subKfy = null;
+        if (usfSubkfy) {
+            subKfy = nfw EndryptionKfy(bpRfq.gftCrfds().gftSfssionKfy());
+            dontfxt.sftKfy(Krb5Contfxt.ACCEPTOR_SUBKEY, subKfy);
+        }
+        bpRfp = nfw KrbApRfp(bpRfq, usfSfqufndfNumbfr, subKfy);
+
+        dontfxt.rfsftMySfqufndfNumbfr(bpRfp.gftSfqNumbfr().intVbluf());
+
+        /*
+         * Notf: Thf bddfptor sidf dontfxt kfy wbs sft whfn thf
+         * InitSfdContfxtTokfn wbs rfdfivfd.
+         */
+    }
+
+    /**
+     * Crfbtfs bn AddfptSfdContfxtTokfn bt thf dontfxt initibtor's sidf
+     * using thf bytfs rfdfivfd from  thf bddfptor.
+     */
+    publid AddfptSfdContfxtTokfn(Krb5Contfxt dontfxt,
+                                 Crfdfntibls sfrvidfCrfds, KrbApRfq bpRfq,
+                                 InputStrfbm is)
+        throws IOExdfption, GSSExdfption, KrbExdfption  {
+
+        int tokfnId = ((is.rfbd()<<8) | is.rfbd());
+
+        if (tokfnId != Krb5Tokfn.AP_REP_ID)
+            throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   "AP_REP tokfn id dofs not mbtdh!");
+
+        bytf[] bpRfpBytfs =
+            nfw sun.sfdurity.util.DfrVbluf(is).toBytfArrby();
+
+        KrbApRfp bpRfp = nfw KrbApRfp(bpRfpBytfs, sfrvidfCrfds, bpRfq);
+
+        /*
+         * Allow thf dontfxt bddfptor to sft b subkfy if dfsirfd, fvfn
+         * though our dontfxt bddfptor will not do so.
+         */
+        EndryptionKfy subKfy = bpRfp.gftSubKfy();
+        if (subKfy != null) {
+            dontfxt.sftKfy(Krb5Contfxt.ACCEPTOR_SUBKEY, subKfy);
+            /*
+            Systfm.out.println("\n\nSub-Sfssion kfy from AP-REP is: " +
+                               gftHfxBytfs(subKfy.gftBytfs()) + "\n");
+            */
+        }
+
+        Intfgfr bpRfpSfqNumbfr = bpRfp.gftSfqNumbfr();
+        int pffrSfqNumbfr = (bpRfpSfqNumbfr != null ?
+                             bpRfpSfqNumbfr.intVbluf() :
+                             0);
+        dontfxt.rfsftPffrSfqufndfNumbfr(pffrSfqNumbfr);
+    }
+
+    publid finbl bytf[] fndodf() throws IOExdfption {
+        bytf[] bpRfpBytfs = bpRfp.gftMfssbgf();
+        bytf[] rftVbl = nfw bytf[2 + bpRfpBytfs.lfngth];
+        writfInt(Krb5Tokfn.AP_REP_ID, rftVbl, 0);
+        Systfm.brrbydopy(bpRfpBytfs, 0, rftVbl, 2, bpRfpBytfs.lfngth);
+        rfturn rftVbl;
+    }
+}

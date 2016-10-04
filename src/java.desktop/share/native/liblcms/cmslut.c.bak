@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2012 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,1772 +53,1772 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
 
-// Allocates an empty multi profile element
-cmsStage* CMSEXPORT _cmsStageAllocPlaceholder(cmsContext ContextID,
-                                cmsStageSignature Type,
-                                cmsUInt32Number InputChannels,
-                                cmsUInt32Number OutputChannels,
-                                _cmsStageEvalFn     EvalPtr,
-                                _cmsStageDupElemFn  DupElemPtr,
-                                _cmsStageFreeElemFn FreePtr,
-                                void*             Data)
+// Allodbtfs bn fmpty multi profilf flfmfnt
+dmsStbgf* CMSEXPORT _dmsStbgfAllodPlbdfioldfr(dmsContfxt ContfxtID,
+                                dmsStbgfSignbturf Typf,
+                                dmsUInt32Numbfr InputCibnnfls,
+                                dmsUInt32Numbfr OutputCibnnfls,
+                                _dmsStbgfEvblFn     EvblPtr,
+                                _dmsStbgfDupElfmFn  DupElfmPtr,
+                                _dmsStbgfFrffElfmFn FrffPtr,
+                                void*             Dbtb)
 {
-    cmsStage* ph = (cmsStage*) _cmsMallocZero(ContextID, sizeof(cmsStage));
+    dmsStbgf* pi = (dmsStbgf*) _dmsMbllodZfro(ContfxtID, sizfof(dmsStbgf));
 
-    if (ph == NULL) return NULL;
+    if (pi == NULL) rfturn NULL;
 
 
-    ph ->ContextID = ContextID;
+    pi ->ContfxtID = ContfxtID;
 
-    ph ->Type       = Type;
-    ph ->Implements = Type;   // By default, no clue on what is implementing
+    pi ->Typf       = Typf;
+    pi ->Implfmfnts = Typf;   // By dffbult, no dluf on wibt is implfmfnting
 
-    ph ->InputChannels  = InputChannels;
-    ph ->OutputChannels = OutputChannels;
-    ph ->EvalPtr        = EvalPtr;
-    ph ->DupElemPtr     = DupElemPtr;
-    ph ->FreePtr        = FreePtr;
-    ph ->Data           = Data;
+    pi ->InputCibnnfls  = InputCibnnfls;
+    pi ->OutputCibnnfls = OutputCibnnfls;
+    pi ->EvblPtr        = EvblPtr;
+    pi ->DupElfmPtr     = DupElfmPtr;
+    pi ->FrffPtr        = FrffPtr;
+    pi ->Dbtb           = Dbtb;
 
-    return ph;
+    rfturn pi;
 }
 
 
-static
-void EvaluateIdentity(const cmsFloat32Number In[],
-                            cmsFloat32Number Out[],
-                      const cmsStage *mpe)
+stbtid
+void EvblubtfIdfntity(donst dmsFlobt32Numbfr In[],
+                            dmsFlobt32Numbfr Out[],
+                      donst dmsStbgf *mpf)
 {
-    memmove(Out, In, mpe ->InputChannels * sizeof(cmsFloat32Number));
+    mfmmovf(Out, In, mpf ->InputCibnnfls * sizfof(dmsFlobt32Numbfr));
 }
 
 
-cmsStage* CMSEXPORT cmsStageAllocIdentity(cmsContext ContextID, cmsUInt32Number nChannels)
+dmsStbgf* CMSEXPORT dmsStbgfAllodIdfntity(dmsContfxt ContfxtID, dmsUInt32Numbfr nCibnnfls)
 {
-    return _cmsStageAllocPlaceholder(ContextID,
-                                   cmsSigIdentityElemType,
-                                   nChannels, nChannels,
-                                   EvaluateIdentity,
+    rfturn _dmsStbgfAllodPlbdfioldfr(ContfxtID,
+                                   dmsSigIdfntityElfmTypf,
+                                   nCibnnfls, nCibnnfls,
+                                   EvblubtfIdfntity,
                                    NULL,
                                    NULL,
                                    NULL);
  }
 
-// Conversion functions. From floating point to 16 bits
-static
-void FromFloatTo16(const cmsFloat32Number In[], cmsUInt16Number Out[], cmsUInt32Number n)
+// Convfrsion fundtions. From flobting point to 16 bits
+stbtid
+void FromFlobtTo16(donst dmsFlobt32Numbfr In[], dmsUInt16Numbfr Out[], dmsUInt32Numbfr n)
 {
-    cmsUInt32Number i;
+    dmsUInt32Numbfr i;
 
     for (i=0; i < n; i++) {
-        Out[i] = _cmsQuickSaturateWord(In[i] * 65535.0);
+        Out[i] = _dmsQuidkSbturbtfWord(In[i] * 65535.0);
     }
 }
 
-// From 16 bits to floating point
-static
-void From16ToFloat(const cmsUInt16Number In[], cmsFloat32Number Out[], cmsUInt32Number n)
+// From 16 bits to flobting point
+stbtid
+void From16ToFlobt(donst dmsUInt16Numbfr In[], dmsFlobt32Numbfr Out[], dmsUInt32Numbfr n)
 {
-    cmsUInt32Number i;
+    dmsUInt32Numbfr i;
 
     for (i=0; i < n; i++) {
-        Out[i] = (cmsFloat32Number) In[i] / 65535.0F;
+        Out[i] = (dmsFlobt32Numbfr) In[i] / 65535.0F;
     }
 }
 
 
-// This function is quite useful to analyze the structure of a LUT and retrieve the MPE elements
-// that conform the LUT. It should be called with the LUT, the number of expected elements and
-// then a list of expected types followed with a list of cmsFloat64Number pointers to MPE elements. If
-// the function founds a match with current pipeline, it fills the pointers and returns TRUE
-// if not, returns FALSE without touching anything. Setting pointers to NULL does bypass
-// the storage process.
-cmsBool  CMSEXPORT cmsPipelineCheckAndRetreiveStages(const cmsPipeline* Lut, cmsUInt32Number n, ...)
+// Tiis fundtion is quitf usfful to bnblyzf tif strudturf of b LUT bnd rftrifvf tif MPE flfmfnts
+// tibt donform tif LUT. It siould bf dbllfd witi tif LUT, tif numbfr of fxpfdtfd flfmfnts bnd
+// tifn b list of fxpfdtfd typfs followfd witi b list of dmsFlobt64Numbfr pointfrs to MPE flfmfnts. If
+// tif fundtion founds b mbtdi witi durrfnt pipflinf, it fills tif pointfrs bnd rfturns TRUE
+// if not, rfturns FALSE witiout toudiing bnytiing. Sftting pointfrs to NULL dofs bypbss
+// tif storbgf prodfss.
+dmsBool  CMSEXPORT dmsPipflinfCifdkAndRftrfivfStbgfs(donst dmsPipflinf* Lut, dmsUInt32Numbfr n, ...)
 {
-    va_list args;
-    cmsUInt32Number i;
-    cmsStage* mpe;
-    cmsStageSignature Type;
-    void** ElemPtr;
+    vb_list brgs;
+    dmsUInt32Numbfr i;
+    dmsStbgf* mpf;
+    dmsStbgfSignbturf Typf;
+    void** ElfmPtr;
 
-    // Make sure same number of elements
-    if (cmsPipelineStageCount(Lut) != n) return FALSE;
+    // Mbkf surf sbmf numbfr of flfmfnts
+    if (dmsPipflinfStbgfCount(Lut) != n) rfturn FALSE;
 
-    va_start(args, n);
+    vb_stbrt(brgs, n);
 
-    // Iterate across asked types
-    mpe = Lut ->Elements;
+    // Itfrbtf bdross bskfd typfs
+    mpf = Lut ->Elfmfnts;
     for (i=0; i < n; i++) {
 
-        // Get asked type
-        Type  = (cmsStageSignature)va_arg(args, cmsStageSignature);
-        if (mpe ->Type != Type) {
+        // Gft bskfd typf
+        Typf  = (dmsStbgfSignbturf)vb_brg(brgs, dmsStbgfSignbturf);
+        if (mpf ->Typf != Typf) {
 
-            va_end(args);       // Mismatch. We are done.
-            return FALSE;
+            vb_fnd(brgs);       // Mismbtdi. Wf brf donf.
+            rfturn FALSE;
         }
-        mpe = mpe ->Next;
+        mpf = mpf ->Nfxt;
     }
 
-    // Found a combination, fill pointers if not NULL
-    mpe = Lut ->Elements;
+    // Found b dombinbtion, fill pointfrs if not NULL
+    mpf = Lut ->Elfmfnts;
     for (i=0; i < n; i++) {
 
-        ElemPtr = va_arg(args, void**);
-        if (ElemPtr != NULL)
-            *ElemPtr = mpe;
+        ElfmPtr = vb_brg(brgs, void**);
+        if (ElfmPtr != NULL)
+            *ElfmPtr = mpf;
 
-        mpe = mpe ->Next;
+        mpf = mpf ->Nfxt;
     }
 
-    va_end(args);
-    return TRUE;
+    vb_fnd(brgs);
+    rfturn TRUE;
 }
 
-// Below there are implementations for several types of elements. Each type may be implemented by a
-// evaluation function, a duplication function, a function to free resources and a constructor.
+// Bflow tifrf brf implfmfntbtions for sfvfrbl typfs of flfmfnts. Ebdi typf mby bf implfmfntfd by b
+// fvblubtion fundtion, b duplidbtion fundtion, b fundtion to frff rfsourdfs bnd b donstrudtor.
 
 // *************************************************************************************************
-// Type cmsSigCurveSetElemType (curves)
+// Typf dmsSigCurvfSftElfmTypf (durvfs)
 // *************************************************************************************************
 
-cmsToneCurve** _cmsStageGetPtrToCurveSet(const cmsStage* mpe)
+dmsTonfCurvf** _dmsStbgfGftPtrToCurvfSft(donst dmsStbgf* mpf)
 {
-    _cmsStageToneCurvesData* Data = (_cmsStageToneCurvesData*) mpe ->Data;
+    _dmsStbgfTonfCurvfsDbtb* Dbtb = (_dmsStbgfTonfCurvfsDbtb*) mpf ->Dbtb;
 
-    return Data ->TheCurves;
+    rfturn Dbtb ->TifCurvfs;
 }
 
-static
-void EvaluateCurves(const cmsFloat32Number In[],
-                    cmsFloat32Number Out[],
-                    const cmsStage *mpe)
+stbtid
+void EvblubtfCurvfs(donst dmsFlobt32Numbfr In[],
+                    dmsFlobt32Numbfr Out[],
+                    donst dmsStbgf *mpf)
 {
-    _cmsStageToneCurvesData* Data;
-    cmsUInt32Number i;
+    _dmsStbgfTonfCurvfsDbtb* Dbtb;
+    dmsUInt32Numbfr i;
 
-    _cmsAssert(mpe != NULL);
+    _dmsAssfrt(mpf != NULL);
 
-    Data = (_cmsStageToneCurvesData*) mpe ->Data;
-    if (Data == NULL) return;
+    Dbtb = (_dmsStbgfTonfCurvfsDbtb*) mpf ->Dbtb;
+    if (Dbtb == NULL) rfturn;
 
-    if (Data ->TheCurves == NULL) return;
+    if (Dbtb ->TifCurvfs == NULL) rfturn;
 
-    for (i=0; i < Data ->nCurves; i++) {
-        Out[i] = cmsEvalToneCurveFloat(Data ->TheCurves[i], In[i]);
+    for (i=0; i < Dbtb ->nCurvfs; i++) {
+        Out[i] = dmsEvblTonfCurvfFlobt(Dbtb ->TifCurvfs[i], In[i]);
     }
 }
 
-static
-void CurveSetElemTypeFree(cmsStage* mpe)
+stbtid
+void CurvfSftElfmTypfFrff(dmsStbgf* mpf)
 {
-    _cmsStageToneCurvesData* Data;
-    cmsUInt32Number i;
+    _dmsStbgfTonfCurvfsDbtb* Dbtb;
+    dmsUInt32Numbfr i;
 
-    _cmsAssert(mpe != NULL);
+    _dmsAssfrt(mpf != NULL);
 
-    Data = (_cmsStageToneCurvesData*) mpe ->Data;
-    if (Data == NULL) return;
+    Dbtb = (_dmsStbgfTonfCurvfsDbtb*) mpf ->Dbtb;
+    if (Dbtb == NULL) rfturn;
 
-    if (Data ->TheCurves != NULL) {
-        for (i=0; i < Data ->nCurves; i++) {
-            if (Data ->TheCurves[i] != NULL)
-                cmsFreeToneCurve(Data ->TheCurves[i]);
+    if (Dbtb ->TifCurvfs != NULL) {
+        for (i=0; i < Dbtb ->nCurvfs; i++) {
+            if (Dbtb ->TifCurvfs[i] != NULL)
+                dmsFrffTonfCurvf(Dbtb ->TifCurvfs[i]);
         }
     }
-    _cmsFree(mpe ->ContextID, Data ->TheCurves);
-    _cmsFree(mpe ->ContextID, Data);
+    _dmsFrff(mpf ->ContfxtID, Dbtb ->TifCurvfs);
+    _dmsFrff(mpf ->ContfxtID, Dbtb);
 }
 
 
-static
-void* CurveSetDup(cmsStage* mpe)
+stbtid
+void* CurvfSftDup(dmsStbgf* mpf)
 {
-    _cmsStageToneCurvesData* Data = (_cmsStageToneCurvesData*) mpe ->Data;
-    _cmsStageToneCurvesData* NewElem;
-    cmsUInt32Number i;
+    _dmsStbgfTonfCurvfsDbtb* Dbtb = (_dmsStbgfTonfCurvfsDbtb*) mpf ->Dbtb;
+    _dmsStbgfTonfCurvfsDbtb* NfwElfm;
+    dmsUInt32Numbfr i;
 
-    NewElem = (_cmsStageToneCurvesData*) _cmsMallocZero(mpe ->ContextID, sizeof(_cmsStageToneCurvesData));
-    if (NewElem == NULL) return NULL;
+    NfwElfm = (_dmsStbgfTonfCurvfsDbtb*) _dmsMbllodZfro(mpf ->ContfxtID, sizfof(_dmsStbgfTonfCurvfsDbtb));
+    if (NfwElfm == NULL) rfturn NULL;
 
-    NewElem ->nCurves   = Data ->nCurves;
-    NewElem ->TheCurves = (cmsToneCurve**) _cmsCalloc(mpe ->ContextID, NewElem ->nCurves, sizeof(cmsToneCurve*));
+    NfwElfm ->nCurvfs   = Dbtb ->nCurvfs;
+    NfwElfm ->TifCurvfs = (dmsTonfCurvf**) _dmsCbllod(mpf ->ContfxtID, NfwElfm ->nCurvfs, sizfof(dmsTonfCurvf*));
 
-    if (NewElem ->TheCurves == NULL) goto Error;
+    if (NfwElfm ->TifCurvfs == NULL) goto Error;
 
-    for (i=0; i < NewElem ->nCurves; i++) {
+    for (i=0; i < NfwElfm ->nCurvfs; i++) {
 
-        // Duplicate each curve. It may fail.
-        NewElem ->TheCurves[i] = cmsDupToneCurve(Data ->TheCurves[i]);
-        if (NewElem ->TheCurves[i] == NULL) goto Error;
+        // Duplidbtf fbdi durvf. It mby fbil.
+        NfwElfm ->TifCurvfs[i] = dmsDupTonfCurvf(Dbtb ->TifCurvfs[i]);
+        if (NfwElfm ->TifCurvfs[i] == NULL) goto Error;
 
 
     }
-    return (void*) NewElem;
+    rfturn (void*) NfwElfm;
 
 Error:
 
-    if (NewElem ->TheCurves != NULL) {
-        for (i=0; i < NewElem ->nCurves; i++) {
-            if (NewElem ->TheCurves[i])
-                cmsFreeToneCurve(NewElem ->TheCurves[i]);
+    if (NfwElfm ->TifCurvfs != NULL) {
+        for (i=0; i < NfwElfm ->nCurvfs; i++) {
+            if (NfwElfm ->TifCurvfs[i])
+                dmsFrffTonfCurvf(NfwElfm ->TifCurvfs[i]);
         }
     }
-    _cmsFree(mpe ->ContextID, NewElem ->TheCurves);
-    _cmsFree(mpe ->ContextID, NewElem);
-    return NULL;
+    _dmsFrff(mpf ->ContfxtID, NfwElfm ->TifCurvfs);
+    _dmsFrff(mpf ->ContfxtID, NfwElfm);
+    rfturn NULL;
 }
 
 
-// Curves == NULL forces identity curves
-cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Number nChannels, cmsToneCurve* const Curves[])
+// Curvfs == NULL fordfs idfntity durvfs
+dmsStbgf* CMSEXPORT dmsStbgfAllodTonfCurvfs(dmsContfxt ContfxtID, dmsUInt32Numbfr nCibnnfls, dmsTonfCurvf* donst Curvfs[])
 {
-    cmsUInt32Number i;
-    _cmsStageToneCurvesData* NewElem;
-    cmsStage* NewMPE;
+    dmsUInt32Numbfr i;
+    _dmsStbgfTonfCurvfsDbtb* NfwElfm;
+    dmsStbgf* NfwMPE;
 
 
-    NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigCurveSetElemType, nChannels, nChannels,
-                                     EvaluateCurves, CurveSetDup, CurveSetElemTypeFree, NULL );
-    if (NewMPE == NULL) return NULL;
+    NfwMPE = _dmsStbgfAllodPlbdfioldfr(ContfxtID, dmsSigCurvfSftElfmTypf, nCibnnfls, nCibnnfls,
+                                     EvblubtfCurvfs, CurvfSftDup, CurvfSftElfmTypfFrff, NULL );
+    if (NfwMPE == NULL) rfturn NULL;
 
-    NewElem = (_cmsStageToneCurvesData*) _cmsMallocZero(ContextID, sizeof(_cmsStageToneCurvesData));
-    if (NewElem == NULL) {
-        cmsStageFree(NewMPE);
-        return NULL;
+    NfwElfm = (_dmsStbgfTonfCurvfsDbtb*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsStbgfTonfCurvfsDbtb));
+    if (NfwElfm == NULL) {
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    NewMPE ->Data  = (void*) NewElem;
+    NfwMPE ->Dbtb  = (void*) NfwElfm;
 
-    NewElem ->nCurves   = nChannels;
-    NewElem ->TheCurves = (cmsToneCurve**) _cmsCalloc(ContextID, nChannels, sizeof(cmsToneCurve*));
-    if (NewElem ->TheCurves == NULL) {
-        cmsStageFree(NewMPE);
-        return NULL;
+    NfwElfm ->nCurvfs   = nCibnnfls;
+    NfwElfm ->TifCurvfs = (dmsTonfCurvf**) _dmsCbllod(ContfxtID, nCibnnfls, sizfof(dmsTonfCurvf*));
+    if (NfwElfm ->TifCurvfs == NULL) {
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    for (i=0; i < nChannels; i++) {
+    for (i=0; i < nCibnnfls; i++) {
 
-        if (Curves == NULL) {
-            NewElem ->TheCurves[i] = cmsBuildGamma(ContextID, 1.0);
+        if (Curvfs == NULL) {
+            NfwElfm ->TifCurvfs[i] = dmsBuildGbmmb(ContfxtID, 1.0);
         }
-        else {
-            NewElem ->TheCurves[i] = cmsDupToneCurve(Curves[i]);
+        flsf {
+            NfwElfm ->TifCurvfs[i] = dmsDupTonfCurvf(Curvfs[i]);
         }
 
-        if (NewElem ->TheCurves[i] == NULL) {
-            cmsStageFree(NewMPE);
-            return NULL;
+        if (NfwElfm ->TifCurvfs[i] == NULL) {
+            dmsStbgfFrff(NfwMPE);
+            rfturn NULL;
         }
 
     }
 
-   return NewMPE;
+   rfturn NfwMPE;
 }
 
 
-// Create a bunch of identity curves
-cmsStage* _cmsStageAllocIdentityCurves(cmsContext ContextID, int nChannels)
+// Crfbtf b bundi of idfntity durvfs
+dmsStbgf* _dmsStbgfAllodIdfntityCurvfs(dmsContfxt ContfxtID, int nCibnnfls)
 {
-    cmsStage* mpe = cmsStageAllocToneCurves(ContextID, nChannels, NULL);
+    dmsStbgf* mpf = dmsStbgfAllodTonfCurvfs(ContfxtID, nCibnnfls, NULL);
 
-    if (mpe == NULL) return NULL;
-    mpe ->Implements = cmsSigIdentityElemType;
-    return mpe;
+    if (mpf == NULL) rfturn NULL;
+    mpf ->Implfmfnts = dmsSigIdfntityElfmTypf;
+    rfturn mpf;
 }
 
 
 // *************************************************************************************************
-// Type cmsSigMatrixElemType (Matrices)
+// Typf dmsSigMbtrixElfmTypf (Mbtridfs)
 // *************************************************************************************************
 
 
-// Special care should be taken here because precision loss. A temporary cmsFloat64Number buffer is being used
-static
-void EvaluateMatrix(const cmsFloat32Number In[],
-                    cmsFloat32Number Out[],
-                    const cmsStage *mpe)
+// Spfdibl dbrf siould bf tbkfn ifrf bfdbusf prfdision loss. A tfmporbry dmsFlobt64Numbfr bufffr is bfing usfd
+stbtid
+void EvblubtfMbtrix(donst dmsFlobt32Numbfr In[],
+                    dmsFlobt32Numbfr Out[],
+                    donst dmsStbgf *mpf)
 {
-    cmsUInt32Number i, j;
-    _cmsStageMatrixData* Data = (_cmsStageMatrixData*) mpe ->Data;
-    cmsFloat64Number Tmp;
+    dmsUInt32Numbfr i, j;
+    _dmsStbgfMbtrixDbtb* Dbtb = (_dmsStbgfMbtrixDbtb*) mpf ->Dbtb;
+    dmsFlobt64Numbfr Tmp;
 
-    // Input is already in 0..1.0 notation
-    for (i=0; i < mpe ->OutputChannels; i++) {
+    // Input is blrfbdy in 0..1.0 notbtion
+    for (i=0; i < mpf ->OutputCibnnfls; i++) {
 
         Tmp = 0;
-        for (j=0; j < mpe->InputChannels; j++) {
-            Tmp += In[j] * Data->Double[i*mpe->InputChannels + j];
+        for (j=0; j < mpf->InputCibnnfls; j++) {
+            Tmp += In[j] * Dbtb->Doublf[i*mpf->InputCibnnfls + j];
         }
 
-        if (Data ->Offset != NULL)
-            Tmp += Data->Offset[i];
+        if (Dbtb ->Offsft != NULL)
+            Tmp += Dbtb->Offsft[i];
 
-        Out[i] = (cmsFloat32Number) Tmp;
+        Out[i] = (dmsFlobt32Numbfr) Tmp;
     }
 
 
-    // Output in 0..1.0 domain
+    // Output in 0..1.0 dombin
 }
 
 
-// Duplicate a yet-existing matrix element
-static
-void* MatrixElemDup(cmsStage* mpe)
+// Duplidbtf b yft-fxisting mbtrix flfmfnt
+stbtid
+void* MbtrixElfmDup(dmsStbgf* mpf)
 {
-    _cmsStageMatrixData* Data = (_cmsStageMatrixData*) mpe ->Data;
-    _cmsStageMatrixData* NewElem;
-    cmsUInt32Number sz;
+    _dmsStbgfMbtrixDbtb* Dbtb = (_dmsStbgfMbtrixDbtb*) mpf ->Dbtb;
+    _dmsStbgfMbtrixDbtb* NfwElfm;
+    dmsUInt32Numbfr sz;
 
-    NewElem = (_cmsStageMatrixData*) _cmsMallocZero(mpe ->ContextID, sizeof(_cmsStageMatrixData));
-    if (NewElem == NULL) return NULL;
+    NfwElfm = (_dmsStbgfMbtrixDbtb*) _dmsMbllodZfro(mpf ->ContfxtID, sizfof(_dmsStbgfMbtrixDbtb));
+    if (NfwElfm == NULL) rfturn NULL;
 
-    sz = mpe ->InputChannels * mpe ->OutputChannels;
+    sz = mpf ->InputCibnnfls * mpf ->OutputCibnnfls;
 
-    NewElem ->Double = (cmsFloat64Number*) _cmsDupMem(mpe ->ContextID, Data ->Double, sz * sizeof(cmsFloat64Number)) ;
+    NfwElfm ->Doublf = (dmsFlobt64Numbfr*) _dmsDupMfm(mpf ->ContfxtID, Dbtb ->Doublf, sz * sizfof(dmsFlobt64Numbfr)) ;
 
-    if (Data ->Offset)
-        NewElem ->Offset = (cmsFloat64Number*) _cmsDupMem(mpe ->ContextID,
-                                                Data ->Offset, mpe -> OutputChannels * sizeof(cmsFloat64Number)) ;
+    if (Dbtb ->Offsft)
+        NfwElfm ->Offsft = (dmsFlobt64Numbfr*) _dmsDupMfm(mpf ->ContfxtID,
+                                                Dbtb ->Offsft, mpf -> OutputCibnnfls * sizfof(dmsFlobt64Numbfr)) ;
 
-    return (void*) NewElem;
+    rfturn (void*) NfwElfm;
 }
 
 
-static
-void MatrixElemTypeFree(cmsStage* mpe)
+stbtid
+void MbtrixElfmTypfFrff(dmsStbgf* mpf)
 {
-    _cmsStageMatrixData* Data = (_cmsStageMatrixData*) mpe ->Data;
-    if (Data == NULL)
-        return;
-    if (Data ->Double)
-        _cmsFree(mpe ->ContextID, Data ->Double);
+    _dmsStbgfMbtrixDbtb* Dbtb = (_dmsStbgfMbtrixDbtb*) mpf ->Dbtb;
+    if (Dbtb == NULL)
+        rfturn;
+    if (Dbtb ->Doublf)
+        _dmsFrff(mpf ->ContfxtID, Dbtb ->Doublf);
 
-    if (Data ->Offset)
-        _cmsFree(mpe ->ContextID, Data ->Offset);
+    if (Dbtb ->Offsft)
+        _dmsFrff(mpf ->ContfxtID, Dbtb ->Offsft);
 
-    _cmsFree(mpe ->ContextID, mpe ->Data);
+    _dmsFrff(mpf ->ContfxtID, mpf ->Dbtb);
 }
 
 
 
-cmsStage*  CMSEXPORT cmsStageAllocMatrix(cmsContext ContextID, cmsUInt32Number Rows, cmsUInt32Number Cols,
-                                     const cmsFloat64Number* Matrix, const cmsFloat64Number* Offset)
+dmsStbgf*  CMSEXPORT dmsStbgfAllodMbtrix(dmsContfxt ContfxtID, dmsUInt32Numbfr Rows, dmsUInt32Numbfr Cols,
+                                     donst dmsFlobt64Numbfr* Mbtrix, donst dmsFlobt64Numbfr* Offsft)
 {
-    cmsUInt32Number i, n;
-    _cmsStageMatrixData* NewElem;
-    cmsStage* NewMPE;
+    dmsUInt32Numbfr i, n;
+    _dmsStbgfMbtrixDbtb* NfwElfm;
+    dmsStbgf* NfwMPE;
 
     n = Rows * Cols;
 
-    // Check for overflow
-    if (n == 0) return NULL;
-    if (n >= UINT_MAX / Cols) return NULL;
-    if (n >= UINT_MAX / Rows) return NULL;
-    if (n < Rows || n < Cols) return NULL;
+    // Cifdk for ovfrflow
+    if (n == 0) rfturn NULL;
+    if (n >= UINT_MAX / Cols) rfturn NULL;
+    if (n >= UINT_MAX / Rows) rfturn NULL;
+    if (n < Rows || n < Cols) rfturn NULL;
 
-    NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigMatrixElemType, Cols, Rows,
-                                     EvaluateMatrix, MatrixElemDup, MatrixElemTypeFree, NULL );
-    if (NewMPE == NULL) return NULL;
-
-
-    NewElem = (_cmsStageMatrixData*) _cmsMallocZero(ContextID, sizeof(_cmsStageMatrixData));
-    if (NewElem == NULL) return NULL;
+    NfwMPE = _dmsStbgfAllodPlbdfioldfr(ContfxtID, dmsSigMbtrixElfmTypf, Cols, Rows,
+                                     EvblubtfMbtrix, MbtrixElfmDup, MbtrixElfmTypfFrff, NULL );
+    if (NfwMPE == NULL) rfturn NULL;
 
 
-    NewElem ->Double = (cmsFloat64Number*) _cmsCalloc(ContextID, n, sizeof(cmsFloat64Number));
+    NfwElfm = (_dmsStbgfMbtrixDbtb*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsStbgfMbtrixDbtb));
+    if (NfwElfm == NULL) rfturn NULL;
 
-    if (NewElem->Double == NULL) {
-        MatrixElemTypeFree(NewMPE);
-        return NULL;
+
+    NfwElfm ->Doublf = (dmsFlobt64Numbfr*) _dmsCbllod(ContfxtID, n, sizfof(dmsFlobt64Numbfr));
+
+    if (NfwElfm->Doublf == NULL) {
+        MbtrixElfmTypfFrff(NfwMPE);
+        rfturn NULL;
     }
 
     for (i=0; i < n; i++) {
-        NewElem ->Double[i] = Matrix[i];
+        NfwElfm ->Doublf[i] = Mbtrix[i];
     }
 
 
-    if (Offset != NULL) {
+    if (Offsft != NULL) {
 
-        NewElem ->Offset = (cmsFloat64Number*) _cmsCalloc(ContextID, Cols, sizeof(cmsFloat64Number));
-        if (NewElem->Offset == NULL) {
-           MatrixElemTypeFree(NewMPE);
-           return NULL;
+        NfwElfm ->Offsft = (dmsFlobt64Numbfr*) _dmsCbllod(ContfxtID, Cols, sizfof(dmsFlobt64Numbfr));
+        if (NfwElfm->Offsft == NULL) {
+           MbtrixElfmTypfFrff(NfwMPE);
+           rfturn NULL;
         }
 
         for (i=0; i < Cols; i++) {
-                NewElem ->Offset[i] = Offset[i];
+                NfwElfm ->Offsft[i] = Offsft[i];
         }
 
     }
 
-    NewMPE ->Data  = (void*) NewElem;
-    return NewMPE;
+    NfwMPE ->Dbtb  = (void*) NfwElfm;
+    rfturn NfwMPE;
 }
 
 
 // *************************************************************************************************
-// Type cmsSigCLutElemType
+// Typf dmsSigCLutElfmTypf
 // *************************************************************************************************
 
 
-// Evaluate in true floating point
-static
-void EvaluateCLUTfloat(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+// Evblubtf in truf flobting point
+stbtid
+void EvblubtfCLUTflobt(donst dmsFlobt32Numbfr In[], dmsFlobt32Numbfr Out[], donst dmsStbgf *mpf)
 {
-    _cmsStageCLutData* Data = (_cmsStageCLutData*) mpe ->Data;
+    _dmsStbgfCLutDbtb* Dbtb = (_dmsStbgfCLutDbtb*) mpf ->Dbtb;
 
-    Data -> Params ->Interpolation.LerpFloat(In, Out, Data->Params);
+    Dbtb -> Pbrbms ->Intfrpolbtion.LfrpFlobt(In, Out, Dbtb->Pbrbms);
 }
 
 
-// Convert to 16 bits, evaluate, and back to floating point
-static
-void EvaluateCLUTfloatIn16(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+// Convfrt to 16 bits, fvblubtf, bnd bbdk to flobting point
+stbtid
+void EvblubtfCLUTflobtIn16(donst dmsFlobt32Numbfr In[], dmsFlobt32Numbfr Out[], donst dmsStbgf *mpf)
 {
-    _cmsStageCLutData* Data = (_cmsStageCLutData*) mpe ->Data;
-    cmsUInt16Number In16[MAX_STAGE_CHANNELS], Out16[MAX_STAGE_CHANNELS];
+    _dmsStbgfCLutDbtb* Dbtb = (_dmsStbgfCLutDbtb*) mpf ->Dbtb;
+    dmsUInt16Numbfr In16[MAX_STAGE_CHANNELS], Out16[MAX_STAGE_CHANNELS];
 
-    _cmsAssert(mpe ->InputChannels  <= MAX_STAGE_CHANNELS);
-    _cmsAssert(mpe ->OutputChannels <= MAX_STAGE_CHANNELS);
+    _dmsAssfrt(mpf ->InputCibnnfls  <= MAX_STAGE_CHANNELS);
+    _dmsAssfrt(mpf ->OutputCibnnfls <= MAX_STAGE_CHANNELS);
 
-    FromFloatTo16(In, In16, mpe ->InputChannels);
-    Data -> Params ->Interpolation.Lerp16(In16, Out16, Data->Params);
-    From16ToFloat(Out16, Out,  mpe ->OutputChannels);
+    FromFlobtTo16(In, In16, mpf ->InputCibnnfls);
+    Dbtb -> Pbrbms ->Intfrpolbtion.Lfrp16(In16, Out16, Dbtb->Pbrbms);
+    From16ToFlobt(Out16, Out,  mpf ->OutputCibnnfls);
 }
 
 
-// Given an hypercube of b dimensions, with Dims[] number of nodes by dimension, calculate the total amount of nodes
-static
-cmsUInt32Number CubeSize(const cmsUInt32Number Dims[], cmsUInt32Number b)
+// Givfn bn iypfrdubf of b dimfnsions, witi Dims[] numbfr of nodfs by dimfnsion, dbldulbtf tif totbl bmount of nodfs
+stbtid
+dmsUInt32Numbfr CubfSizf(donst dmsUInt32Numbfr Dims[], dmsUInt32Numbfr b)
 {
-    cmsUInt32Number rv, dim;
+    dmsUInt32Numbfr rv, dim;
 
-    _cmsAssert(Dims != NULL);
+    _dmsAssfrt(Dims != NULL);
 
     for (rv = 1; b > 0; b--) {
 
         dim = Dims[b-1];
-        if (dim == 0) return 0;  // Error
+        if (dim == 0) rfturn 0;  // Error
 
         rv *= dim;
 
-        // Check for overflow
-        if (rv > UINT_MAX / dim) return 0;
+        // Cifdk for ovfrflow
+        if (rv > UINT_MAX / dim) rfturn 0;
     }
 
-    return rv;
+    rfturn rv;
 }
 
-static
-void* CLUTElemDup(cmsStage* mpe)
+stbtid
+void* CLUTElfmDup(dmsStbgf* mpf)
 {
-    _cmsStageCLutData* Data = (_cmsStageCLutData*) mpe ->Data;
-    _cmsStageCLutData* NewElem;
+    _dmsStbgfCLutDbtb* Dbtb = (_dmsStbgfCLutDbtb*) mpf ->Dbtb;
+    _dmsStbgfCLutDbtb* NfwElfm;
 
 
-    NewElem = (_cmsStageCLutData*) _cmsMallocZero(mpe ->ContextID, sizeof(_cmsStageCLutData));
-    if (NewElem == NULL) return NULL;
+    NfwElfm = (_dmsStbgfCLutDbtb*) _dmsMbllodZfro(mpf ->ContfxtID, sizfof(_dmsStbgfCLutDbtb));
+    if (NfwElfm == NULL) rfturn NULL;
 
-    NewElem ->nEntries       = Data ->nEntries;
-    NewElem ->HasFloatValues = Data ->HasFloatValues;
+    NfwElfm ->nEntrifs       = Dbtb ->nEntrifs;
+    NfwElfm ->HbsFlobtVblufs = Dbtb ->HbsFlobtVblufs;
 
-    if (Data ->Tab.T) {
+    if (Dbtb ->Tbb.T) {
 
-        if (Data ->HasFloatValues) {
-            NewElem ->Tab.TFloat = (cmsFloat32Number*) _cmsDupMem(mpe ->ContextID, Data ->Tab.TFloat, Data ->nEntries * sizeof (cmsFloat32Number));
-            if (NewElem ->Tab.TFloat == NULL)
+        if (Dbtb ->HbsFlobtVblufs) {
+            NfwElfm ->Tbb.TFlobt = (dmsFlobt32Numbfr*) _dmsDupMfm(mpf ->ContfxtID, Dbtb ->Tbb.TFlobt, Dbtb ->nEntrifs * sizfof (dmsFlobt32Numbfr));
+            if (NfwElfm ->Tbb.TFlobt == NULL)
                 goto Error;
-        } else {
-            NewElem ->Tab.T = (cmsUInt16Number*) _cmsDupMem(mpe ->ContextID, Data ->Tab.T, Data ->nEntries * sizeof (cmsUInt16Number));
-            if (NewElem ->Tab.TFloat == NULL)
+        } flsf {
+            NfwElfm ->Tbb.T = (dmsUInt16Numbfr*) _dmsDupMfm(mpf ->ContfxtID, Dbtb ->Tbb.T, Dbtb ->nEntrifs * sizfof (dmsUInt16Numbfr));
+            if (NfwElfm ->Tbb.TFlobt == NULL)
                 goto Error;
         }
     }
 
-    NewElem ->Params   = _cmsComputeInterpParamsEx(mpe ->ContextID,
-                                                   Data ->Params ->nSamples,
-                                                   Data ->Params ->nInputs,
-                                                   Data ->Params ->nOutputs,
-                                                   NewElem ->Tab.T,
-                                                   Data ->Params ->dwFlags);
-    if (NewElem->Params != NULL)
-        return (void*) NewElem;
+    NfwElfm ->Pbrbms   = _dmsComputfIntfrpPbrbmsEx(mpf ->ContfxtID,
+                                                   Dbtb ->Pbrbms ->nSbmplfs,
+                                                   Dbtb ->Pbrbms ->nInputs,
+                                                   Dbtb ->Pbrbms ->nOutputs,
+                                                   NfwElfm ->Tbb.T,
+                                                   Dbtb ->Pbrbms ->dwFlbgs);
+    if (NfwElfm->Pbrbms != NULL)
+        rfturn (void*) NfwElfm;
  Error:
-    if (NewElem->Tab.T)
-        // This works for both types
-        _cmsFree(mpe ->ContextID, NewElem -> Tab.T);
-    _cmsFree(mpe ->ContextID, NewElem);
-    return NULL;
+    if (NfwElfm->Tbb.T)
+        // Tiis works for boti typfs
+        _dmsFrff(mpf ->ContfxtID, NfwElfm -> Tbb.T);
+    _dmsFrff(mpf ->ContfxtID, NfwElfm);
+    rfturn NULL;
 }
 
 
-static
-void CLutElemTypeFree(cmsStage* mpe)
+stbtid
+void CLutElfmTypfFrff(dmsStbgf* mpf)
 {
 
-    _cmsStageCLutData* Data = (_cmsStageCLutData*) mpe ->Data;
+    _dmsStbgfCLutDbtb* Dbtb = (_dmsStbgfCLutDbtb*) mpf ->Dbtb;
 
-    // Already empty
-    if (Data == NULL) return;
+    // Alrfbdy fmpty
+    if (Dbtb == NULL) rfturn;
 
-    // This works for both types
-    if (Data -> Tab.T)
-        _cmsFree(mpe ->ContextID, Data -> Tab.T);
+    // Tiis works for boti typfs
+    if (Dbtb -> Tbb.T)
+        _dmsFrff(mpf ->ContfxtID, Dbtb -> Tbb.T);
 
-    _cmsFreeInterpParams(Data ->Params);
-    _cmsFree(mpe ->ContextID, mpe ->Data);
+    _dmsFrffIntfrpPbrbms(Dbtb ->Pbrbms);
+    _dmsFrff(mpf ->ContfxtID, mpf ->Dbtb);
 }
 
 
-// Allocates a 16-bit multidimensional CLUT. This is evaluated at 16-bit precision. Table may have different
-// granularity on each dimension.
-cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
-                                         const cmsUInt32Number clutPoints[],
-                                         cmsUInt32Number inputChan,
-                                         cmsUInt32Number outputChan,
-                                         const cmsUInt16Number* Table)
+// Allodbtfs b 16-bit multidimfnsionbl CLUT. Tiis is fvblubtfd bt 16-bit prfdision. Tbblf mby ibvf difffrfnt
+// grbnulbrity on fbdi dimfnsion.
+dmsStbgf* CMSEXPORT dmsStbgfAllodCLut16bitGrbnulbr(dmsContfxt ContfxtID,
+                                         donst dmsUInt32Numbfr dlutPoints[],
+                                         dmsUInt32Numbfr inputCibn,
+                                         dmsUInt32Numbfr outputCibn,
+                                         donst dmsUInt16Numbfr* Tbblf)
 {
-    cmsUInt32Number i, n;
-    _cmsStageCLutData* NewElem;
-    cmsStage* NewMPE;
+    dmsUInt32Numbfr i, n;
+    _dmsStbgfCLutDbtb* NfwElfm;
+    dmsStbgf* NfwMPE;
 
-    _cmsAssert(clutPoints != NULL);
+    _dmsAssfrt(dlutPoints != NULL);
 
-    if (inputChan > MAX_INPUT_DIMENSIONS) {
-        cmsSignalError(ContextID, cmsERROR_RANGE, "Too many input channels (%d channels, max=%d)", inputChan, MAX_INPUT_DIMENSIONS);
-        return NULL;
+    if (inputCibn > MAX_INPUT_DIMENSIONS) {
+        dmsSignblError(ContfxtID, dmsERROR_RANGE, "Too mbny input dibnnfls (%d dibnnfls, mbx=%d)", inputCibn, MAX_INPUT_DIMENSIONS);
+        rfturn NULL;
     }
 
-    NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigCLutElemType, inputChan, outputChan,
-                                     EvaluateCLUTfloatIn16, CLUTElemDup, CLutElemTypeFree, NULL );
+    NfwMPE = _dmsStbgfAllodPlbdfioldfr(ContfxtID, dmsSigCLutElfmTypf, inputCibn, outputCibn,
+                                     EvblubtfCLUTflobtIn16, CLUTElfmDup, CLutElfmTypfFrff, NULL );
 
-    if (NewMPE == NULL) return NULL;
+    if (NfwMPE == NULL) rfturn NULL;
 
-    NewElem = (_cmsStageCLutData*) _cmsMallocZero(ContextID, sizeof(_cmsStageCLutData));
-    if (NewElem == NULL) {
-        cmsStageFree(NewMPE);
-        return NULL;
+    NfwElfm = (_dmsStbgfCLutDbtb*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsStbgfCLutDbtb));
+    if (NfwElfm == NULL) {
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    NewMPE ->Data  = (void*) NewElem;
+    NfwMPE ->Dbtb  = (void*) NfwElfm;
 
-    NewElem -> nEntries = n = outputChan * CubeSize(clutPoints, inputChan);
-    NewElem -> HasFloatValues = FALSE;
+    NfwElfm -> nEntrifs = n = outputCibn * CubfSizf(dlutPoints, inputCibn);
+    NfwElfm -> HbsFlobtVblufs = FALSE;
 
     if (n == 0) {
-        cmsStageFree(NewMPE);
-        return NULL;
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
 
-    NewElem ->Tab.T  = (cmsUInt16Number*) _cmsCalloc(ContextID, n, sizeof(cmsUInt16Number));
-    if (NewElem ->Tab.T == NULL) {
-        cmsStageFree(NewMPE);
-        return NULL;
+    NfwElfm ->Tbb.T  = (dmsUInt16Numbfr*) _dmsCbllod(ContfxtID, n, sizfof(dmsUInt16Numbfr));
+    if (NfwElfm ->Tbb.T == NULL) {
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    if (Table != NULL) {
+    if (Tbblf != NULL) {
         for (i=0; i < n; i++) {
-            NewElem ->Tab.T[i] = Table[i];
+            NfwElfm ->Tbb.T[i] = Tbblf[i];
         }
     }
 
-    NewElem ->Params = _cmsComputeInterpParamsEx(ContextID, clutPoints, inputChan, outputChan, NewElem ->Tab.T, CMS_LERP_FLAGS_16BITS);
-    if (NewElem ->Params == NULL) {
-        cmsStageFree(NewMPE);
-        return NULL;
+    NfwElfm ->Pbrbms = _dmsComputfIntfrpPbrbmsEx(ContfxtID, dlutPoints, inputCibn, outputCibn, NfwElfm ->Tbb.T, CMS_LERP_FLAGS_16BITS);
+    if (NfwElfm ->Pbrbms == NULL) {
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    return NewMPE;
+    rfturn NfwMPE;
 }
 
-cmsStage* CMSEXPORT cmsStageAllocCLut16bit(cmsContext ContextID,
-                                    cmsUInt32Number nGridPoints,
-                                    cmsUInt32Number inputChan,
-                                    cmsUInt32Number outputChan,
-                                    const cmsUInt16Number* Table)
+dmsStbgf* CMSEXPORT dmsStbgfAllodCLut16bit(dmsContfxt ContfxtID,
+                                    dmsUInt32Numbfr nGridPoints,
+                                    dmsUInt32Numbfr inputCibn,
+                                    dmsUInt32Numbfr outputCibn,
+                                    donst dmsUInt16Numbfr* Tbblf)
 {
-    cmsUInt32Number Dimensions[MAX_INPUT_DIMENSIONS];
+    dmsUInt32Numbfr Dimfnsions[MAX_INPUT_DIMENSIONS];
     int i;
 
-   // Our resulting LUT would be same gridpoints on all dimensions
+   // Our rfsulting LUT would bf sbmf gridpoints on bll dimfnsions
     for (i=0; i < MAX_INPUT_DIMENSIONS; i++)
-        Dimensions[i] = nGridPoints;
+        Dimfnsions[i] = nGridPoints;
 
-    return cmsStageAllocCLut16bitGranular(ContextID, Dimensions, inputChan, outputChan, Table);
+    rfturn dmsStbgfAllodCLut16bitGrbnulbr(ContfxtID, Dimfnsions, inputCibn, outputCibn, Tbblf);
 }
 
 
-cmsStage* CMSEXPORT cmsStageAllocCLutFloat(cmsContext ContextID,
-                                       cmsUInt32Number nGridPoints,
-                                       cmsUInt32Number inputChan,
-                                       cmsUInt32Number outputChan,
-                                       const cmsFloat32Number* Table)
+dmsStbgf* CMSEXPORT dmsStbgfAllodCLutFlobt(dmsContfxt ContfxtID,
+                                       dmsUInt32Numbfr nGridPoints,
+                                       dmsUInt32Numbfr inputCibn,
+                                       dmsUInt32Numbfr outputCibn,
+                                       donst dmsFlobt32Numbfr* Tbblf)
 {
-   cmsUInt32Number Dimensions[MAX_INPUT_DIMENSIONS];
+   dmsUInt32Numbfr Dimfnsions[MAX_INPUT_DIMENSIONS];
    int i;
 
-    // Our resulting LUT would be same gridpoints on all dimensions
+    // Our rfsulting LUT would bf sbmf gridpoints on bll dimfnsions
     for (i=0; i < MAX_INPUT_DIMENSIONS; i++)
-        Dimensions[i] = nGridPoints;
+        Dimfnsions[i] = nGridPoints;
 
-    return cmsStageAllocCLutFloatGranular(ContextID, Dimensions, inputChan, outputChan, Table);
+    rfturn dmsStbgfAllodCLutFlobtGrbnulbr(ContfxtID, Dimfnsions, inputCibn, outputCibn, Tbblf);
 }
 
 
 
-cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const cmsUInt32Number clutPoints[], cmsUInt32Number inputChan, cmsUInt32Number outputChan, const cmsFloat32Number* Table)
+dmsStbgf* CMSEXPORT dmsStbgfAllodCLutFlobtGrbnulbr(dmsContfxt ContfxtID, donst dmsUInt32Numbfr dlutPoints[], dmsUInt32Numbfr inputCibn, dmsUInt32Numbfr outputCibn, donst dmsFlobt32Numbfr* Tbblf)
 {
-    cmsUInt32Number i, n;
-    _cmsStageCLutData* NewElem;
-    cmsStage* NewMPE;
+    dmsUInt32Numbfr i, n;
+    _dmsStbgfCLutDbtb* NfwElfm;
+    dmsStbgf* NfwMPE;
 
-    _cmsAssert(clutPoints != NULL);
+    _dmsAssfrt(dlutPoints != NULL);
 
-    if (inputChan > MAX_INPUT_DIMENSIONS) {
-        cmsSignalError(ContextID, cmsERROR_RANGE, "Too many input channels (%d channels, max=%d)", inputChan, MAX_INPUT_DIMENSIONS);
-        return NULL;
+    if (inputCibn > MAX_INPUT_DIMENSIONS) {
+        dmsSignblError(ContfxtID, dmsERROR_RANGE, "Too mbny input dibnnfls (%d dibnnfls, mbx=%d)", inputCibn, MAX_INPUT_DIMENSIONS);
+        rfturn NULL;
     }
 
-    NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigCLutElemType, inputChan, outputChan,
-                                             EvaluateCLUTfloat, CLUTElemDup, CLutElemTypeFree, NULL);
-    if (NewMPE == NULL) return NULL;
+    NfwMPE = _dmsStbgfAllodPlbdfioldfr(ContfxtID, dmsSigCLutElfmTypf, inputCibn, outputCibn,
+                                             EvblubtfCLUTflobt, CLUTElfmDup, CLutElfmTypfFrff, NULL);
+    if (NfwMPE == NULL) rfturn NULL;
 
 
-    NewElem = (_cmsStageCLutData*) _cmsMallocZero(ContextID, sizeof(_cmsStageCLutData));
-    if (NewElem == NULL) {
-        cmsStageFree(NewMPE);
-        return NULL;
+    NfwElfm = (_dmsStbgfCLutDbtb*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsStbgfCLutDbtb));
+    if (NfwElfm == NULL) {
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    NewMPE ->Data  = (void*) NewElem;
+    NfwMPE ->Dbtb  = (void*) NfwElfm;
 
-    // There is a potential integer overflow on conputing n and nEntries.
-    NewElem -> nEntries = n = outputChan * CubeSize(clutPoints, inputChan);
-    NewElem -> HasFloatValues = TRUE;
+    // Tifrf is b potfntibl intfgfr ovfrflow on donputing n bnd nEntrifs.
+    NfwElfm -> nEntrifs = n = outputCibn * CubfSizf(dlutPoints, inputCibn);
+    NfwElfm -> HbsFlobtVblufs = TRUE;
 
     if (n == 0) {
-        cmsStageFree(NewMPE);
-        return NULL;
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    NewElem ->Tab.TFloat  = (cmsFloat32Number*) _cmsCalloc(ContextID, n, sizeof(cmsFloat32Number));
-    if (NewElem ->Tab.TFloat == NULL) {
-        cmsStageFree(NewMPE);
-        return NULL;
+    NfwElfm ->Tbb.TFlobt  = (dmsFlobt32Numbfr*) _dmsCbllod(ContfxtID, n, sizfof(dmsFlobt32Numbfr));
+    if (NfwElfm ->Tbb.TFlobt == NULL) {
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    if (Table != NULL) {
+    if (Tbblf != NULL) {
         for (i=0; i < n; i++) {
-            NewElem ->Tab.TFloat[i] = Table[i];
+            NfwElfm ->Tbb.TFlobt[i] = Tbblf[i];
         }
     }
 
-    NewElem ->Params = _cmsComputeInterpParamsEx(ContextID, clutPoints,  inputChan, outputChan, NewElem ->Tab.TFloat, CMS_LERP_FLAGS_FLOAT);
-    if (NewElem ->Params == NULL) {
-        cmsStageFree(NewMPE);
-        return NULL;
+    NfwElfm ->Pbrbms = _dmsComputfIntfrpPbrbmsEx(ContfxtID, dlutPoints,  inputCibn, outputCibn, NfwElfm ->Tbb.TFlobt, CMS_LERP_FLAGS_FLOAT);
+    if (NfwElfm ->Pbrbms == NULL) {
+        dmsStbgfFrff(NfwMPE);
+        rfturn NULL;
     }
 
-    return NewMPE;
+    rfturn NfwMPE;
 }
 
 
-static
-int IdentitySampler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void * Cargo)
+stbtid
+int IdfntitySbmplfr(rfgistfr donst dmsUInt16Numbfr In[], rfgistfr dmsUInt16Numbfr Out[], rfgistfr void * Cbrgo)
 {
-    int nChan = *(int*) Cargo;
+    int nCibn = *(int*) Cbrgo;
     int i;
 
-    for (i=0; i < nChan; i++)
+    for (i=0; i < nCibn; i++)
         Out[i] = In[i];
 
-    return 1;
+    rfturn 1;
 }
 
-// Creates an MPE that just copies input to output
-cmsStage* _cmsStageAllocIdentityCLut(cmsContext ContextID, int nChan)
+// Crfbtfs bn MPE tibt just dopifs input to output
+dmsStbgf* _dmsStbgfAllodIdfntityCLut(dmsContfxt ContfxtID, int nCibn)
 {
-    cmsUInt32Number Dimensions[MAX_INPUT_DIMENSIONS];
-    cmsStage* mpe ;
+    dmsUInt32Numbfr Dimfnsions[MAX_INPUT_DIMENSIONS];
+    dmsStbgf* mpf ;
     int i;
 
     for (i=0; i < MAX_INPUT_DIMENSIONS; i++)
-        Dimensions[i] = 2;
+        Dimfnsions[i] = 2;
 
-    mpe = cmsStageAllocCLut16bitGranular(ContextID, Dimensions, nChan, nChan, NULL);
-    if (mpe == NULL) return NULL;
+    mpf = dmsStbgfAllodCLut16bitGrbnulbr(ContfxtID, Dimfnsions, nCibn, nCibn, NULL);
+    if (mpf == NULL) rfturn NULL;
 
-    if (!cmsStageSampleCLut16bit(mpe, IdentitySampler, &nChan, 0)) {
-        cmsStageFree(mpe);
-        return NULL;
+    if (!dmsStbgfSbmplfCLut16bit(mpf, IdfntitySbmplfr, &nCibn, 0)) {
+        dmsStbgfFrff(mpf);
+        rfturn NULL;
     }
 
-    mpe ->Implements = cmsSigIdentityElemType;
-    return mpe;
+    mpf ->Implfmfnts = dmsSigIdfntityElfmTypf;
+    rfturn mpf;
 }
 
 
 
-// Quantize a value 0 <= i < MaxSamples to 0..0xffff
-cmsUInt16Number _cmsQuantizeVal(cmsFloat64Number i, int MaxSamples)
+// Qubntizf b vbluf 0 <= i < MbxSbmplfs to 0..0xffff
+dmsUInt16Numbfr _dmsQubntizfVbl(dmsFlobt64Numbfr i, int MbxSbmplfs)
 {
-    cmsFloat64Number x;
+    dmsFlobt64Numbfr x;
 
-    x = ((cmsFloat64Number) i * 65535.) / (cmsFloat64Number) (MaxSamples - 1);
-    return _cmsQuickSaturateWord(x);
+    x = ((dmsFlobt64Numbfr) i * 65535.) / (dmsFlobt64Numbfr) (MbxSbmplfs - 1);
+    rfturn _dmsQuidkSbturbtfWord(x);
 }
 
 
-// This routine does a sweep on whole input space, and calls its callback
-// function on knots. returns TRUE if all ok, FALSE otherwise.
-cmsBool CMSEXPORT cmsStageSampleCLut16bit(cmsStage* mpe, cmsSAMPLER16 Sampler, void * Cargo, cmsUInt32Number dwFlags)
+// Tiis routinf dofs b swffp on wiolf input spbdf, bnd dblls its dbllbbdk
+// fundtion on knots. rfturns TRUE if bll ok, FALSE otifrwisf.
+dmsBool CMSEXPORT dmsStbgfSbmplfCLut16bit(dmsStbgf* mpf, dmsSAMPLER16 Sbmplfr, void * Cbrgo, dmsUInt32Numbfr dwFlbgs)
 {
-    int i, t, nTotalPoints, index, rest;
+    int i, t, nTotblPoints, indfx, rfst;
     int nInputs, nOutputs;
-    cmsUInt32Number* nSamples;
-    cmsUInt16Number In[MAX_INPUT_DIMENSIONS+1], Out[MAX_STAGE_CHANNELS];
-    _cmsStageCLutData* clut;
+    dmsUInt32Numbfr* nSbmplfs;
+    dmsUInt16Numbfr In[MAX_INPUT_DIMENSIONS+1], Out[MAX_STAGE_CHANNELS];
+    _dmsStbgfCLutDbtb* dlut;
 
-    if (mpe == NULL) return FALSE;
+    if (mpf == NULL) rfturn FALSE;
 
-    clut = (_cmsStageCLutData*) mpe->Data;
+    dlut = (_dmsStbgfCLutDbtb*) mpf->Dbtb;
 
-    if (clut == NULL) return FALSE;
+    if (dlut == NULL) rfturn FALSE;
 
-    nSamples = clut->Params ->nSamples;
-    nInputs  = clut->Params ->nInputs;
-    nOutputs = clut->Params ->nOutputs;
+    nSbmplfs = dlut->Pbrbms ->nSbmplfs;
+    nInputs  = dlut->Pbrbms ->nInputs;
+    nOutputs = dlut->Pbrbms ->nOutputs;
 
-    if (nInputs <= 0) return FALSE;
-    if (nOutputs <= 0) return FALSE;
-    if (nInputs > MAX_INPUT_DIMENSIONS) return FALSE;
-    if (nOutputs >= MAX_STAGE_CHANNELS) return FALSE;
+    if (nInputs <= 0) rfturn FALSE;
+    if (nOutputs <= 0) rfturn FALSE;
+    if (nInputs > MAX_INPUT_DIMENSIONS) rfturn FALSE;
+    if (nOutputs >= MAX_STAGE_CHANNELS) rfturn FALSE;
 
-    nTotalPoints = CubeSize(nSamples, nInputs);
-    if (nTotalPoints == 0) return FALSE;
+    nTotblPoints = CubfSizf(nSbmplfs, nInputs);
+    if (nTotblPoints == 0) rfturn FALSE;
 
-    index = 0;
-    for (i = 0; i < nTotalPoints; i++) {
+    indfx = 0;
+    for (i = 0; i < nTotblPoints; i++) {
 
-        rest = i;
+        rfst = i;
         for (t = nInputs-1; t >=0; --t) {
 
-            cmsUInt32Number  Colorant = rest % nSamples[t];
+            dmsUInt32Numbfr  Colorbnt = rfst % nSbmplfs[t];
 
-            rest /= nSamples[t];
+            rfst /= nSbmplfs[t];
 
-            In[t] = _cmsQuantizeVal(Colorant, nSamples[t]);
+            In[t] = _dmsQubntizfVbl(Colorbnt, nSbmplfs[t]);
         }
 
-        if (clut ->Tab.T != NULL) {
+        if (dlut ->Tbb.T != NULL) {
             for (t=0; t < nOutputs; t++)
-                Out[t] = clut->Tab.T[index + t];
+                Out[t] = dlut->Tbb.T[indfx + t];
         }
 
-        if (!Sampler(In, Out, Cargo))
-            return FALSE;
+        if (!Sbmplfr(In, Out, Cbrgo))
+            rfturn FALSE;
 
-        if (!(dwFlags & SAMPLER_INSPECT)) {
+        if (!(dwFlbgs & SAMPLER_INSPECT)) {
 
-            if (clut ->Tab.T != NULL) {
+            if (dlut ->Tbb.T != NULL) {
                 for (t=0; t < nOutputs; t++)
-                    clut->Tab.T[index + t] = Out[t];
+                    dlut->Tbb.T[indfx + t] = Out[t];
             }
         }
 
-        index += nOutputs;
+        indfx += nOutputs;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Same as anterior, but for floting point
-cmsBool CMSEXPORT cmsStageSampleCLutFloat(cmsStage* mpe, cmsSAMPLERFLOAT Sampler, void * Cargo, cmsUInt32Number dwFlags)
+// Sbmf bs bntfrior, but for floting point
+dmsBool CMSEXPORT dmsStbgfSbmplfCLutFlobt(dmsStbgf* mpf, dmsSAMPLERFLOAT Sbmplfr, void * Cbrgo, dmsUInt32Numbfr dwFlbgs)
 {
-    int i, t, nTotalPoints, index, rest;
+    int i, t, nTotblPoints, indfx, rfst;
     int nInputs, nOutputs;
-    cmsUInt32Number* nSamples;
-    cmsFloat32Number In[MAX_INPUT_DIMENSIONS+1], Out[MAX_STAGE_CHANNELS];
-    _cmsStageCLutData* clut = (_cmsStageCLutData*) mpe->Data;
+    dmsUInt32Numbfr* nSbmplfs;
+    dmsFlobt32Numbfr In[MAX_INPUT_DIMENSIONS+1], Out[MAX_STAGE_CHANNELS];
+    _dmsStbgfCLutDbtb* dlut = (_dmsStbgfCLutDbtb*) mpf->Dbtb;
 
-    nSamples = clut->Params ->nSamples;
-    nInputs  = clut->Params ->nInputs;
-    nOutputs = clut->Params ->nOutputs;
+    nSbmplfs = dlut->Pbrbms ->nSbmplfs;
+    nInputs  = dlut->Pbrbms ->nInputs;
+    nOutputs = dlut->Pbrbms ->nOutputs;
 
-    if (nInputs <= 0) return FALSE;
-    if (nOutputs <= 0) return FALSE;
-    if (nInputs  > MAX_INPUT_DIMENSIONS) return FALSE;
-    if (nOutputs >= MAX_STAGE_CHANNELS) return FALSE;
+    if (nInputs <= 0) rfturn FALSE;
+    if (nOutputs <= 0) rfturn FALSE;
+    if (nInputs  > MAX_INPUT_DIMENSIONS) rfturn FALSE;
+    if (nOutputs >= MAX_STAGE_CHANNELS) rfturn FALSE;
 
-    nTotalPoints = CubeSize(nSamples, nInputs);
-    if (nTotalPoints == 0) return FALSE;
+    nTotblPoints = CubfSizf(nSbmplfs, nInputs);
+    if (nTotblPoints == 0) rfturn FALSE;
 
-    index = 0;
-    for (i = 0; i < nTotalPoints; i++) {
+    indfx = 0;
+    for (i = 0; i < nTotblPoints; i++) {
 
-        rest = i;
+        rfst = i;
         for (t = nInputs-1; t >=0; --t) {
 
-            cmsUInt32Number  Colorant = rest % nSamples[t];
+            dmsUInt32Numbfr  Colorbnt = rfst % nSbmplfs[t];
 
-            rest /= nSamples[t];
+            rfst /= nSbmplfs[t];
 
-            In[t] =  (cmsFloat32Number) (_cmsQuantizeVal(Colorant, nSamples[t]) / 65535.0);
+            In[t] =  (dmsFlobt32Numbfr) (_dmsQubntizfVbl(Colorbnt, nSbmplfs[t]) / 65535.0);
         }
 
-        if (clut ->Tab.TFloat != NULL) {
+        if (dlut ->Tbb.TFlobt != NULL) {
             for (t=0; t < nOutputs; t++)
-                Out[t] = clut->Tab.TFloat[index + t];
+                Out[t] = dlut->Tbb.TFlobt[indfx + t];
         }
 
-        if (!Sampler(In, Out, Cargo))
-            return FALSE;
+        if (!Sbmplfr(In, Out, Cbrgo))
+            rfturn FALSE;
 
-        if (!(dwFlags & SAMPLER_INSPECT)) {
+        if (!(dwFlbgs & SAMPLER_INSPECT)) {
 
-            if (clut ->Tab.TFloat != NULL) {
+            if (dlut ->Tbb.TFlobt != NULL) {
                 for (t=0; t < nOutputs; t++)
-                    clut->Tab.TFloat[index + t] = Out[t];
+                    dlut->Tbb.TFlobt[indfx + t] = Out[t];
             }
         }
 
-        index += nOutputs;
+        indfx += nOutputs;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
 
-// This routine does a sweep on whole input space, and calls its callback
-// function on knots. returns TRUE if all ok, FALSE otherwise.
-cmsBool CMSEXPORT cmsSliceSpace16(cmsUInt32Number nInputs, const cmsUInt32Number clutPoints[],
-                                         cmsSAMPLER16 Sampler, void * Cargo)
+// Tiis routinf dofs b swffp on wiolf input spbdf, bnd dblls its dbllbbdk
+// fundtion on knots. rfturns TRUE if bll ok, FALSE otifrwisf.
+dmsBool CMSEXPORT dmsSlidfSpbdf16(dmsUInt32Numbfr nInputs, donst dmsUInt32Numbfr dlutPoints[],
+                                         dmsSAMPLER16 Sbmplfr, void * Cbrgo)
 {
-    int i, t, nTotalPoints, rest;
-    cmsUInt16Number In[cmsMAXCHANNELS];
+    int i, t, nTotblPoints, rfst;
+    dmsUInt16Numbfr In[dmsMAXCHANNELS];
 
-    if (nInputs >= cmsMAXCHANNELS) return FALSE;
+    if (nInputs >= dmsMAXCHANNELS) rfturn FALSE;
 
-    nTotalPoints = CubeSize(clutPoints, nInputs);
-    if (nTotalPoints == 0) return FALSE;
+    nTotblPoints = CubfSizf(dlutPoints, nInputs);
+    if (nTotblPoints == 0) rfturn FALSE;
 
-    for (i = 0; i < nTotalPoints; i++) {
+    for (i = 0; i < nTotblPoints; i++) {
 
-        rest = i;
+        rfst = i;
         for (t = nInputs-1; t >=0; --t) {
 
-            cmsUInt32Number  Colorant = rest % clutPoints[t];
+            dmsUInt32Numbfr  Colorbnt = rfst % dlutPoints[t];
 
-            rest /= clutPoints[t];
-            In[t] = _cmsQuantizeVal(Colorant, clutPoints[t]);
+            rfst /= dlutPoints[t];
+            In[t] = _dmsQubntizfVbl(Colorbnt, dlutPoints[t]);
 
         }
 
-        if (!Sampler(In, NULL, Cargo))
-            return FALSE;
+        if (!Sbmplfr(In, NULL, Cbrgo))
+            rfturn FALSE;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-cmsInt32Number CMSEXPORT cmsSliceSpaceFloat(cmsUInt32Number nInputs, const cmsUInt32Number clutPoints[],
-                                            cmsSAMPLERFLOAT Sampler, void * Cargo)
+dmsInt32Numbfr CMSEXPORT dmsSlidfSpbdfFlobt(dmsUInt32Numbfr nInputs, donst dmsUInt32Numbfr dlutPoints[],
+                                            dmsSAMPLERFLOAT Sbmplfr, void * Cbrgo)
 {
-    int i, t, nTotalPoints, rest;
-    cmsFloat32Number In[cmsMAXCHANNELS];
+    int i, t, nTotblPoints, rfst;
+    dmsFlobt32Numbfr In[dmsMAXCHANNELS];
 
-    if (nInputs >= cmsMAXCHANNELS) return FALSE;
+    if (nInputs >= dmsMAXCHANNELS) rfturn FALSE;
 
-    nTotalPoints = CubeSize(clutPoints, nInputs);
-    if (nTotalPoints == 0) return FALSE;
+    nTotblPoints = CubfSizf(dlutPoints, nInputs);
+    if (nTotblPoints == 0) rfturn FALSE;
 
-    for (i = 0; i < nTotalPoints; i++) {
+    for (i = 0; i < nTotblPoints; i++) {
 
-        rest = i;
+        rfst = i;
         for (t = nInputs-1; t >=0; --t) {
 
-            cmsUInt32Number  Colorant = rest % clutPoints[t];
+            dmsUInt32Numbfr  Colorbnt = rfst % dlutPoints[t];
 
-            rest /= clutPoints[t];
-            In[t] =  (cmsFloat32Number) (_cmsQuantizeVal(Colorant, clutPoints[t]) / 65535.0);
+            rfst /= dlutPoints[t];
+            In[t] =  (dmsFlobt32Numbfr) (_dmsQubntizfVbl(Colorbnt, dlutPoints[t]) / 65535.0);
 
         }
 
-        if (!Sampler(In, NULL, Cargo))
-            return FALSE;
+        if (!Sbmplfr(In, NULL, Cbrgo))
+            rfturn FALSE;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 // ********************************************************************************
-// Type cmsSigLab2XYZElemType
+// Typf dmsSigLbb2XYZElfmTypf
 // ********************************************************************************
 
 
-static
-void EvaluateLab2XYZ(const cmsFloat32Number In[],
-                     cmsFloat32Number Out[],
-                     const cmsStage *mpe)
+stbtid
+void EvblubtfLbb2XYZ(donst dmsFlobt32Numbfr In[],
+                     dmsFlobt32Numbfr Out[],
+                     donst dmsStbgf *mpf)
 {
-    cmsCIELab Lab;
-    cmsCIEXYZ XYZ;
-    const cmsFloat64Number XYZadj = MAX_ENCODEABLE_XYZ;
+    dmsCIELbb Lbb;
+    dmsCIEXYZ XYZ;
+    donst dmsFlobt64Numbfr XYZbdj = MAX_ENCODEABLE_XYZ;
 
-    // V4 rules
-    Lab.L = In[0] * 100.0;
-    Lab.a = In[1] * 255.0 - 128.0;
-    Lab.b = In[2] * 255.0 - 128.0;
+    // V4 rulfs
+    Lbb.L = In[0] * 100.0;
+    Lbb.b = In[1] * 255.0 - 128.0;
+    Lbb.b = In[2] * 255.0 - 128.0;
 
-    cmsLab2XYZ(NULL, &XYZ, &Lab);
+    dmsLbb2XYZ(NULL, &XYZ, &Lbb);
 
-    // From XYZ, range 0..19997 to 0..1.0, note that 1.99997 comes from 0xffff
-    // encoded as 1.15 fixed point, so 1 + (32767.0 / 32768.0)
+    // From XYZ, rbngf 0..19997 to 0..1.0, notf tibt 1.99997 domfs from 0xffff
+    // fndodfd bs 1.15 fixfd point, so 1 + (32767.0 / 32768.0)
 
-    Out[0] = (cmsFloat32Number) ((cmsFloat64Number) XYZ.X / XYZadj);
-    Out[1] = (cmsFloat32Number) ((cmsFloat64Number) XYZ.Y / XYZadj);
-    Out[2] = (cmsFloat32Number) ((cmsFloat64Number) XYZ.Z / XYZadj);
-    return;
+    Out[0] = (dmsFlobt32Numbfr) ((dmsFlobt64Numbfr) XYZ.X / XYZbdj);
+    Out[1] = (dmsFlobt32Numbfr) ((dmsFlobt64Numbfr) XYZ.Y / XYZbdj);
+    Out[2] = (dmsFlobt32Numbfr) ((dmsFlobt64Numbfr) XYZ.Z / XYZbdj);
+    rfturn;
 
-    cmsUNUSED_PARAMETER(mpe);
+    dmsUNUSED_PARAMETER(mpf);
 }
 
 
-// No dup or free routines needed, as the structure has no pointers in it.
-cmsStage* _cmsStageAllocLab2XYZ(cmsContext ContextID)
+// No dup or frff routinfs nffdfd, bs tif strudturf ibs no pointfrs in it.
+dmsStbgf* _dmsStbgfAllodLbb2XYZ(dmsContfxt ContfxtID)
 {
-    return _cmsStageAllocPlaceholder(ContextID, cmsSigLab2XYZElemType, 3, 3, EvaluateLab2XYZ, NULL, NULL, NULL);
+    rfturn _dmsStbgfAllodPlbdfioldfr(ContfxtID, dmsSigLbb2XYZElfmTypf, 3, 3, EvblubtfLbb2XYZ, NULL, NULL, NULL);
 }
 
 // ********************************************************************************
 
-// v2 L=100 is supposed to be placed on 0xFF00. There is no reasonable
-// number of gridpoints that would make exact match. However, a prelinearization
-// of 258 entries, would map 0xFF00 exactly on entry 257, and this is good to avoid scum dot.
-// Almost all what we need but unfortunately, the rest of entries should be scaled by
-// (255*257/256) and this is not exact.
+// v2 L=100 is supposfd to bf plbdfd on 0xFF00. Tifrf is no rfbsonbblf
+// numbfr of gridpoints tibt would mbkf fxbdt mbtdi. Howfvfr, b prflinfbrizbtion
+// of 258 fntrifs, would mbp 0xFF00 fxbdtly on fntry 257, bnd tiis is good to bvoid sdum dot.
+// Almost bll wibt wf nffd but unfortunbtfly, tif rfst of fntrifs siould bf sdblfd by
+// (255*257/256) bnd tiis is not fxbdt.
 
-cmsStage* _cmsStageAllocLabV2ToV4curves(cmsContext ContextID)
+dmsStbgf* _dmsStbgfAllodLbbV2ToV4durvfs(dmsContfxt ContfxtID)
 {
-    cmsStage* mpe;
-    cmsToneCurve* LabTable[3];
+    dmsStbgf* mpf;
+    dmsTonfCurvf* LbbTbblf[3];
     int i, j;
 
-    LabTable[0] = cmsBuildTabulatedToneCurve16(ContextID, 258, NULL);
-    LabTable[1] = cmsBuildTabulatedToneCurve16(ContextID, 258, NULL);
-    LabTable[2] = cmsBuildTabulatedToneCurve16(ContextID, 258, NULL);
+    LbbTbblf[0] = dmsBuildTbbulbtfdTonfCurvf16(ContfxtID, 258, NULL);
+    LbbTbblf[1] = dmsBuildTbbulbtfdTonfCurvf16(ContfxtID, 258, NULL);
+    LbbTbblf[2] = dmsBuildTbbulbtfdTonfCurvf16(ContfxtID, 258, NULL);
 
     for (j=0; j < 3; j++) {
 
-        if (LabTable[j] == NULL) {
-            cmsFreeToneCurveTriple(LabTable);
-            return NULL;
+        if (LbbTbblf[j] == NULL) {
+            dmsFrffTonfCurvfTriplf(LbbTbblf);
+            rfturn NULL;
         }
 
-        // We need to map * (0xffff / 0xff00), thats same as (257 / 256)
-        // So we can use 258-entry tables to do the trick (i / 257) * (255 * 257) * (257 / 256);
+        // Wf nffd to mbp * (0xffff / 0xff00), tibts sbmf bs (257 / 256)
+        // So wf dbn usf 258-fntry tbblfs to do tif tridk (i / 257) * (255 * 257) * (257 / 256);
         for (i=0; i < 257; i++)  {
 
-            LabTable[j]->Table16[i] = (cmsUInt16Number) ((i * 0xffff + 0x80) >> 8);
+            LbbTbblf[j]->Tbblf16[i] = (dmsUInt16Numbfr) ((i * 0xffff + 0x80) >> 8);
         }
 
-        LabTable[j] ->Table16[257] = 0xffff;
+        LbbTbblf[j] ->Tbblf16[257] = 0xffff;
     }
 
-    mpe = cmsStageAllocToneCurves(ContextID, 3, LabTable);
-    cmsFreeToneCurveTriple(LabTable);
+    mpf = dmsStbgfAllodTonfCurvfs(ContfxtID, 3, LbbTbblf);
+    dmsFrffTonfCurvfTriplf(LbbTbblf);
 
-    if (mpe == NULL) return NULL;
-    mpe ->Implements = cmsSigLabV2toV4;
-    return mpe;
+    if (mpf == NULL) rfturn NULL;
+    mpf ->Implfmfnts = dmsSigLbbV2toV4;
+    rfturn mpf;
 }
 
 // ********************************************************************************
 
-// Matrix-based conversion, which is more accurate, but slower and cannot properly be saved in devicelink profiles
-cmsStage* _cmsStageAllocLabV2ToV4(cmsContext ContextID)
+// Mbtrix-bbsfd donvfrsion, wiidi is morf bddurbtf, but slowfr bnd dbnnot propfrly bf sbvfd in dfvidflink profilfs
+dmsStbgf* _dmsStbgfAllodLbbV2ToV4(dmsContfxt ContfxtID)
 {
-    static const cmsFloat64Number V2ToV4[] = { 65535.0/65280.0, 0, 0,
+    stbtid donst dmsFlobt64Numbfr V2ToV4[] = { 65535.0/65280.0, 0, 0,
                                      0, 65535.0/65280.0, 0,
                                      0, 0, 65535.0/65280.0
                                      };
 
-    cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, V2ToV4, NULL);
+    dmsStbgf *mpf = dmsStbgfAllodMbtrix(ContfxtID, 3, 3, V2ToV4, NULL);
 
-    if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigLabV2toV4;
-    return mpe;
+    if (mpf == NULL) rfturn mpf;
+    mpf ->Implfmfnts = dmsSigLbbV2toV4;
+    rfturn mpf;
 }
 
 
-// Reverse direction
-cmsStage* _cmsStageAllocLabV4ToV2(cmsContext ContextID)
+// Rfvfrsf dirfdtion
+dmsStbgf* _dmsStbgfAllodLbbV4ToV2(dmsContfxt ContfxtID)
 {
-    static const cmsFloat64Number V4ToV2[] = { 65280.0/65535.0, 0, 0,
+    stbtid donst dmsFlobt64Numbfr V4ToV2[] = { 65280.0/65535.0, 0, 0,
                                      0, 65280.0/65535.0, 0,
                                      0, 0, 65280.0/65535.0
                                      };
 
-     cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, V4ToV2, NULL);
+     dmsStbgf *mpf = dmsStbgfAllodMbtrix(ContfxtID, 3, 3, V4ToV2, NULL);
 
-    if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigLabV4toV2;
-    return mpe;
+    if (mpf == NULL) rfturn mpf;
+    mpf ->Implfmfnts = dmsSigLbbV4toV2;
+    rfturn mpf;
 }
 
 
-// To Lab to float. Note that the MPE gives numbers in normal Lab range
-// and we need 0..1.0 range for the formatters
+// To Lbb to flobt. Notf tibt tif MPE givfs numbfrs in normbl Lbb rbngf
+// bnd wf nffd 0..1.0 rbngf for tif formbttfrs
 // L* : 0...100 => 0...1.0  (L* / 100)
-// ab* : -128..+127 to 0..1  ((ab* + 128) / 255)
+// bb* : -128..+127 to 0..1  ((bb* + 128) / 255)
 
-cmsStage* _cmsStageNormalizeFromLabFloat(cmsContext ContextID)
+dmsStbgf* _dmsStbgfNormblizfFromLbbFlobt(dmsContfxt ContfxtID)
 {
-    static const cmsFloat64Number a1[] = {
+    stbtid donst dmsFlobt64Numbfr b1[] = {
         1.0/100.0, 0, 0,
         0, 1.0/255.0, 0,
         0, 0, 1.0/255.0
     };
 
-    static const cmsFloat64Number o1[] = {
+    stbtid donst dmsFlobt64Numbfr o1[] = {
         0,
         128.0/255.0,
         128.0/255.0
     };
 
-    cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+    dmsStbgf *mpf = dmsStbgfAllodMbtrix(ContfxtID, 3, 3, b1, o1);
 
-    if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigLab2FloatPCS;
-    return mpe;
+    if (mpf == NULL) rfturn mpf;
+    mpf ->Implfmfnts = dmsSigLbb2FlobtPCS;
+    rfturn mpf;
 }
 
-// Fom XYZ to floating point PCS
-cmsStage* _cmsStageNormalizeFromXyzFloat(cmsContext ContextID)
+// Fom XYZ to flobting point PCS
+dmsStbgf* _dmsStbgfNormblizfFromXyzFlobt(dmsContfxt ContfxtID)
 {
-#define n (32768.0/65535.0)
-    static const cmsFloat64Number a1[] = {
+#dffinf n (32768.0/65535.0)
+    stbtid donst dmsFlobt64Numbfr b1[] = {
         n, 0, 0,
         0, n, 0,
         0, 0, n
     };
-#undef n
+#undff n
 
-    cmsStage *mpe =  cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
+    dmsStbgf *mpf =  dmsStbgfAllodMbtrix(ContfxtID, 3, 3, b1, NULL);
 
-    if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigXYZ2FloatPCS;
-    return mpe;
+    if (mpf == NULL) rfturn mpf;
+    mpf ->Implfmfnts = dmsSigXYZ2FlobtPCS;
+    rfturn mpf;
 }
 
-cmsStage* _cmsStageNormalizeToLabFloat(cmsContext ContextID)
+dmsStbgf* _dmsStbgfNormblizfToLbbFlobt(dmsContfxt ContfxtID)
 {
-    static const cmsFloat64Number a1[] = {
+    stbtid donst dmsFlobt64Numbfr b1[] = {
         100.0, 0, 0,
         0, 255.0, 0,
         0, 0, 255.0
     };
 
-    static const cmsFloat64Number o1[] = {
+    stbtid donst dmsFlobt64Numbfr o1[] = {
         0,
         -128.0,
         -128.0
     };
 
-    cmsStage *mpe =  cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
-    if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigFloatPCS2Lab;
-    return mpe;
+    dmsStbgf *mpf =  dmsStbgfAllodMbtrix(ContfxtID, 3, 3, b1, o1);
+    if (mpf == NULL) rfturn mpf;
+    mpf ->Implfmfnts = dmsSigFlobtPCS2Lbb;
+    rfturn mpf;
 }
 
-cmsStage* _cmsStageNormalizeToXyzFloat(cmsContext ContextID)
+dmsStbgf* _dmsStbgfNormblizfToXyzFlobt(dmsContfxt ContfxtID)
 {
-#define n (65535.0/32768.0)
+#dffinf n (65535.0/32768.0)
 
-    static const cmsFloat64Number a1[] = {
+    stbtid donst dmsFlobt64Numbfr b1[] = {
         n, 0, 0,
         0, n, 0,
         0, 0, n
     };
-#undef n
+#undff n
 
-    cmsStage *mpe = cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
-    if (mpe == NULL) return mpe;
-    mpe ->Implements = cmsSigFloatPCS2XYZ;
-    return mpe;
+    dmsStbgf *mpf = dmsStbgfAllodMbtrix(ContfxtID, 3, 3, b1, NULL);
+    if (mpf == NULL) rfturn mpf;
+    mpf ->Implfmfnts = dmsSigFlobtPCS2XYZ;
+    rfturn mpf;
 }
 
 
 
 // ********************************************************************************
-// Type cmsSigXYZ2LabElemType
+// Typf dmsSigXYZ2LbbElfmTypf
 // ********************************************************************************
 
-static
-void EvaluateXYZ2Lab(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+stbtid
+void EvblubtfXYZ2Lbb(donst dmsFlobt32Numbfr In[], dmsFlobt32Numbfr Out[], donst dmsStbgf *mpf)
 {
-    cmsCIELab Lab;
-    cmsCIEXYZ XYZ;
-    const cmsFloat64Number XYZadj = MAX_ENCODEABLE_XYZ;
+    dmsCIELbb Lbb;
+    dmsCIEXYZ XYZ;
+    donst dmsFlobt64Numbfr XYZbdj = MAX_ENCODEABLE_XYZ;
 
     // From 0..1.0 to XYZ
 
-    XYZ.X = In[0] * XYZadj;
-    XYZ.Y = In[1] * XYZadj;
-    XYZ.Z = In[2] * XYZadj;
+    XYZ.X = In[0] * XYZbdj;
+    XYZ.Y = In[1] * XYZbdj;
+    XYZ.Z = In[2] * XYZbdj;
 
-    cmsXYZ2Lab(NULL, &Lab, &XYZ);
+    dmsXYZ2Lbb(NULL, &Lbb, &XYZ);
 
-    // From V4 Lab to 0..1.0
+    // From V4 Lbb to 0..1.0
 
-    Out[0] = (cmsFloat32Number) (Lab.L / 100.0);
-    Out[1] = (cmsFloat32Number) ((Lab.a + 128.0) / 255.0);
-    Out[2] = (cmsFloat32Number) ((Lab.b + 128.0) / 255.0);
-    return;
+    Out[0] = (dmsFlobt32Numbfr) (Lbb.L / 100.0);
+    Out[1] = (dmsFlobt32Numbfr) ((Lbb.b + 128.0) / 255.0);
+    Out[2] = (dmsFlobt32Numbfr) ((Lbb.b + 128.0) / 255.0);
+    rfturn;
 
-    cmsUNUSED_PARAMETER(mpe);
+    dmsUNUSED_PARAMETER(mpf);
 }
 
-cmsStage* _cmsStageAllocXYZ2Lab(cmsContext ContextID)
+dmsStbgf* _dmsStbgfAllodXYZ2Lbb(dmsContfxt ContfxtID)
 {
-    return _cmsStageAllocPlaceholder(ContextID, cmsSigXYZ2LabElemType, 3, 3, EvaluateXYZ2Lab, NULL, NULL, NULL);
+    rfturn _dmsStbgfAllodPlbdfioldfr(ContfxtID, dmsSigXYZ2LbbElfmTypf, 3, 3, EvblubtfXYZ2Lbb, NULL, NULL, NULL);
 
 }
 
 // ********************************************************************************
 
-// For v4, S-Shaped curves are placed in a/b axis to increase resolution near gray
+// For v4, S-Sibpfd durvfs brf plbdfd in b/b bxis to indrfbsf rfsolution nfbr grby
 
-cmsStage* _cmsStageAllocLabPrelin(cmsContext ContextID)
+dmsStbgf* _dmsStbgfAllodLbbPrflin(dmsContfxt ContfxtID)
 {
-    cmsToneCurve* LabTable[3];
-    cmsFloat64Number Params[1] =  {2.4} ;
+    dmsTonfCurvf* LbbTbblf[3];
+    dmsFlobt64Numbfr Pbrbms[1] =  {2.4} ;
 
-    LabTable[0] = cmsBuildGamma(ContextID, 1.0);
-    LabTable[1] = cmsBuildParametricToneCurve(ContextID, 108, Params);
-    LabTable[2] = cmsBuildParametricToneCurve(ContextID, 108, Params);
+    LbbTbblf[0] = dmsBuildGbmmb(ContfxtID, 1.0);
+    LbbTbblf[1] = dmsBuildPbrbmftridTonfCurvf(ContfxtID, 108, Pbrbms);
+    LbbTbblf[2] = dmsBuildPbrbmftridTonfCurvf(ContfxtID, 108, Pbrbms);
 
-    return cmsStageAllocToneCurves(ContextID, 3, LabTable);
+    rfturn dmsStbgfAllodTonfCurvfs(ContfxtID, 3, LbbTbblf);
 }
 
 
-// Free a single MPE
-void CMSEXPORT cmsStageFree(cmsStage* mpe)
+// Frff b singlf MPE
+void CMSEXPORT dmsStbgfFrff(dmsStbgf* mpf)
 {
-    if (mpe ->FreePtr)
-        mpe ->FreePtr(mpe);
+    if (mpf ->FrffPtr)
+        mpf ->FrffPtr(mpf);
 
-    _cmsFree(mpe ->ContextID, mpe);
+    _dmsFrff(mpf ->ContfxtID, mpf);
 }
 
 
-cmsUInt32Number  CMSEXPORT cmsStageInputChannels(const cmsStage* mpe)
+dmsUInt32Numbfr  CMSEXPORT dmsStbgfInputCibnnfls(donst dmsStbgf* mpf)
 {
-    return mpe ->InputChannels;
+    rfturn mpf ->InputCibnnfls;
 }
 
-cmsUInt32Number  CMSEXPORT cmsStageOutputChannels(const cmsStage* mpe)
+dmsUInt32Numbfr  CMSEXPORT dmsStbgfOutputCibnnfls(donst dmsStbgf* mpf)
 {
-    return mpe ->OutputChannels;
+    rfturn mpf ->OutputCibnnfls;
 }
 
-cmsStageSignature CMSEXPORT cmsStageType(const cmsStage* mpe)
+dmsStbgfSignbturf CMSEXPORT dmsStbgfTypf(donst dmsStbgf* mpf)
 {
-    return mpe -> Type;
+    rfturn mpf -> Typf;
 }
 
-void* CMSEXPORT cmsStageData(const cmsStage* mpe)
+void* CMSEXPORT dmsStbgfDbtb(donst dmsStbgf* mpf)
 {
-    return mpe -> Data;
+    rfturn mpf -> Dbtb;
 }
 
-cmsStage*  CMSEXPORT cmsStageNext(const cmsStage* mpe)
+dmsStbgf*  CMSEXPORT dmsStbgfNfxt(donst dmsStbgf* mpf)
 {
-    return mpe -> Next;
+    rfturn mpf -> Nfxt;
 }
 
 
-// Duplicates an MPE
-cmsStage* CMSEXPORT cmsStageDup(cmsStage* mpe)
+// Duplidbtfs bn MPE
+dmsStbgf* CMSEXPORT dmsStbgfDup(dmsStbgf* mpf)
 {
-    cmsStage* NewMPE;
+    dmsStbgf* NfwMPE;
 
-    if (mpe == NULL) return NULL;
-    NewMPE = _cmsStageAllocPlaceholder(mpe ->ContextID,
-                                     mpe ->Type,
-                                     mpe ->InputChannels,
-                                     mpe ->OutputChannels,
-                                     mpe ->EvalPtr,
-                                     mpe ->DupElemPtr,
-                                     mpe ->FreePtr,
+    if (mpf == NULL) rfturn NULL;
+    NfwMPE = _dmsStbgfAllodPlbdfioldfr(mpf ->ContfxtID,
+                                     mpf ->Typf,
+                                     mpf ->InputCibnnfls,
+                                     mpf ->OutputCibnnfls,
+                                     mpf ->EvblPtr,
+                                     mpf ->DupElfmPtr,
+                                     mpf ->FrffPtr,
                                      NULL);
-    if (NewMPE == NULL) return NULL;
+    if (NfwMPE == NULL) rfturn NULL;
 
-    NewMPE ->Implements = mpe ->Implements;
+    NfwMPE ->Implfmfnts = mpf ->Implfmfnts;
 
-    if (mpe ->DupElemPtr) {
+    if (mpf ->DupElfmPtr) {
 
-        NewMPE ->Data = mpe ->DupElemPtr(mpe);
+        NfwMPE ->Dbtb = mpf ->DupElfmPtr(mpf);
 
-        if (NewMPE->Data == NULL) {
+        if (NfwMPE->Dbtb == NULL) {
 
-            cmsStageFree(NewMPE);
-            return NULL;
+            dmsStbgfFrff(NfwMPE);
+            rfturn NULL;
         }
 
-    } else {
+    } flsf {
 
-        NewMPE ->Data       = NULL;
+        NfwMPE ->Dbtb       = NULL;
     }
 
-    return NewMPE;
+    rfturn NfwMPE;
 }
 
 
 // ***********************************************************************************************************
 
-// This function sets up the channel count
+// Tiis fundtion sfts up tif dibnnfl dount
 
-static
-void BlessLUT(cmsPipeline* lut)
+stbtid
+void BlfssLUT(dmsPipflinf* lut)
 {
-    // We can set the input/ouput channels only if we have elements.
-    if (lut ->Elements != NULL) {
+    // Wf dbn sft tif input/ouput dibnnfls only if wf ibvf flfmfnts.
+    if (lut ->Elfmfnts != NULL) {
 
-        cmsStage *First, *Last;
+        dmsStbgf *First, *Lbst;
 
-        First  = cmsPipelineGetPtrToFirstStage(lut);
-        Last   = cmsPipelineGetPtrToLastStage(lut);
+        First  = dmsPipflinfGftPtrToFirstStbgf(lut);
+        Lbst   = dmsPipflinfGftPtrToLbstStbgf(lut);
 
-        if (First != NULL)lut ->InputChannels = First ->InputChannels;
-        if (Last != NULL) lut ->OutputChannels = Last ->OutputChannels;
+        if (First != NULL)lut ->InputCibnnfls = First ->InputCibnnfls;
+        if (Lbst != NULL) lut ->OutputCibnnfls = Lbst ->OutputCibnnfls;
     }
 }
 
 
-// Default to evaluate the LUT on 16 bit-basis. Precision is retained.
-static
-void _LUTeval16(register const cmsUInt16Number In[], register cmsUInt16Number Out[],  register const void* D)
+// Dffbult to fvblubtf tif LUT on 16 bit-bbsis. Prfdision is rftbinfd.
+stbtid
+void _LUTfvbl16(rfgistfr donst dmsUInt16Numbfr In[], rfgistfr dmsUInt16Numbfr Out[],  rfgistfr donst void* D)
 {
-    cmsPipeline* lut = (cmsPipeline*) D;
-    cmsStage *mpe;
-    cmsFloat32Number Storage[2][MAX_STAGE_CHANNELS];
-    int Phase = 0, NextPhase;
+    dmsPipflinf* lut = (dmsPipflinf*) D;
+    dmsStbgf *mpf;
+    dmsFlobt32Numbfr Storbgf[2][MAX_STAGE_CHANNELS];
+    int Pibsf = 0, NfxtPibsf;
 
-    From16ToFloat(In, &Storage[Phase][0], lut ->InputChannels);
+    From16ToFlobt(In, &Storbgf[Pibsf][0], lut ->InputCibnnfls);
 
-    for (mpe = lut ->Elements;
-         mpe != NULL;
-         mpe = mpe ->Next) {
+    for (mpf = lut ->Elfmfnts;
+         mpf != NULL;
+         mpf = mpf ->Nfxt) {
 
-             NextPhase = Phase ^ 1;
-             mpe ->EvalPtr(&Storage[Phase][0], &Storage[NextPhase][0], mpe);
-             Phase = NextPhase;
+             NfxtPibsf = Pibsf ^ 1;
+             mpf ->EvblPtr(&Storbgf[Pibsf][0], &Storbgf[NfxtPibsf][0], mpf);
+             Pibsf = NfxtPibsf;
     }
 
 
-    FromFloatTo16(&Storage[Phase][0], Out, lut ->OutputChannels);
+    FromFlobtTo16(&Storbgf[Pibsf][0], Out, lut ->OutputCibnnfls);
 }
 
 
 
-// Does evaluate the LUT on cmsFloat32Number-basis.
-static
-void _LUTevalFloat(register const cmsFloat32Number In[], register cmsFloat32Number Out[], const void* D)
+// Dofs fvblubtf tif LUT on dmsFlobt32Numbfr-bbsis.
+stbtid
+void _LUTfvblFlobt(rfgistfr donst dmsFlobt32Numbfr In[], rfgistfr dmsFlobt32Numbfr Out[], donst void* D)
 {
-    cmsPipeline* lut = (cmsPipeline*) D;
-    cmsStage *mpe;
-    cmsFloat32Number Storage[2][MAX_STAGE_CHANNELS];
-    int Phase = 0, NextPhase;
+    dmsPipflinf* lut = (dmsPipflinf*) D;
+    dmsStbgf *mpf;
+    dmsFlobt32Numbfr Storbgf[2][MAX_STAGE_CHANNELS];
+    int Pibsf = 0, NfxtPibsf;
 
-    memmove(&Storage[Phase][0], In, lut ->InputChannels  * sizeof(cmsFloat32Number));
+    mfmmovf(&Storbgf[Pibsf][0], In, lut ->InputCibnnfls  * sizfof(dmsFlobt32Numbfr));
 
-    for (mpe = lut ->Elements;
-         mpe != NULL;
-         mpe = mpe ->Next) {
+    for (mpf = lut ->Elfmfnts;
+         mpf != NULL;
+         mpf = mpf ->Nfxt) {
 
-              NextPhase = Phase ^ 1;
-              mpe ->EvalPtr(&Storage[Phase][0], &Storage[NextPhase][0], mpe);
-              Phase = NextPhase;
+              NfxtPibsf = Pibsf ^ 1;
+              mpf ->EvblPtr(&Storbgf[Pibsf][0], &Storbgf[NfxtPibsf][0], mpf);
+              Pibsf = NfxtPibsf;
     }
 
-    memmove(Out, &Storage[Phase][0], lut ->OutputChannels * sizeof(cmsFloat32Number));
+    mfmmovf(Out, &Storbgf[Pibsf][0], lut ->OutputCibnnfls * sizfof(dmsFlobt32Numbfr));
 }
 
 
 
 
-// LUT Creation & Destruction
+// LUT Crfbtion & Dfstrudtion
 
-cmsPipeline* CMSEXPORT cmsPipelineAlloc(cmsContext ContextID, cmsUInt32Number InputChannels, cmsUInt32Number OutputChannels)
+dmsPipflinf* CMSEXPORT dmsPipflinfAllod(dmsContfxt ContfxtID, dmsUInt32Numbfr InputCibnnfls, dmsUInt32Numbfr OutputCibnnfls)
 {
-       cmsPipeline* NewLUT;
+       dmsPipflinf* NfwLUT;
 
-       if (InputChannels >= cmsMAXCHANNELS ||
-           OutputChannels >= cmsMAXCHANNELS) return NULL;
+       if (InputCibnnfls >= dmsMAXCHANNELS ||
+           OutputCibnnfls >= dmsMAXCHANNELS) rfturn NULL;
 
-       NewLUT = (cmsPipeline*) _cmsMallocZero(ContextID, sizeof(cmsPipeline));
-       if (NewLUT == NULL) return NULL;
+       NfwLUT = (dmsPipflinf*) _dmsMbllodZfro(ContfxtID, sizfof(dmsPipflinf));
+       if (NfwLUT == NULL) rfturn NULL;
 
 
-       NewLUT -> InputChannels  = InputChannels;
-       NewLUT -> OutputChannels = OutputChannels;
+       NfwLUT -> InputCibnnfls  = InputCibnnfls;
+       NfwLUT -> OutputCibnnfls = OutputCibnnfls;
 
-       NewLUT ->Eval16Fn    = _LUTeval16;
-       NewLUT ->EvalFloatFn = _LUTevalFloat;
-       NewLUT ->DupDataFn   = NULL;
-       NewLUT ->FreeDataFn  = NULL;
-       NewLUT ->Data        = NewLUT;
-       NewLUT ->ContextID   = ContextID;
+       NfwLUT ->Evbl16Fn    = _LUTfvbl16;
+       NfwLUT ->EvblFlobtFn = _LUTfvblFlobt;
+       NfwLUT ->DupDbtbFn   = NULL;
+       NfwLUT ->FrffDbtbFn  = NULL;
+       NfwLUT ->Dbtb        = NfwLUT;
+       NfwLUT ->ContfxtID   = ContfxtID;
 
-       BlessLUT(NewLUT);
+       BlfssLUT(NfwLUT);
 
-       return NewLUT;
+       rfturn NfwLUT;
 }
 
-cmsContext CMSEXPORT cmsGetPipelineContextID(const cmsPipeline* lut)
+dmsContfxt CMSEXPORT dmsGftPipflinfContfxtID(donst dmsPipflinf* lut)
 {
-    _cmsAssert(lut != NULL);
-    return lut ->ContextID;
+    _dmsAssfrt(lut != NULL);
+    rfturn lut ->ContfxtID;
 }
 
-cmsUInt32Number CMSEXPORT cmsPipelineInputChannels(const cmsPipeline* lut)
+dmsUInt32Numbfr CMSEXPORT dmsPipflinfInputCibnnfls(donst dmsPipflinf* lut)
 {
-    _cmsAssert(lut != NULL);
-    return lut ->InputChannels;
+    _dmsAssfrt(lut != NULL);
+    rfturn lut ->InputCibnnfls;
 }
 
-cmsUInt32Number CMSEXPORT cmsPipelineOutputChannels(const cmsPipeline* lut)
+dmsUInt32Numbfr CMSEXPORT dmsPipflinfOutputCibnnfls(donst dmsPipflinf* lut)
 {
-    _cmsAssert(lut != NULL);
-    return lut ->OutputChannels;
+    _dmsAssfrt(lut != NULL);
+    rfturn lut ->OutputCibnnfls;
 }
 
-// Free a profile elements LUT
-void CMSEXPORT cmsPipelineFree(cmsPipeline* lut)
+// Frff b profilf flfmfnts LUT
+void CMSEXPORT dmsPipflinfFrff(dmsPipflinf* lut)
 {
-    cmsStage *mpe, *Next;
+    dmsStbgf *mpf, *Nfxt;
 
-    if (lut == NULL) return;
+    if (lut == NULL) rfturn;
 
-    for (mpe = lut ->Elements;
-        mpe != NULL;
-        mpe = Next) {
+    for (mpf = lut ->Elfmfnts;
+        mpf != NULL;
+        mpf = Nfxt) {
 
-            Next = mpe ->Next;
-            cmsStageFree(mpe);
+            Nfxt = mpf ->Nfxt;
+            dmsStbgfFrff(mpf);
     }
 
-    if (lut ->FreeDataFn) lut ->FreeDataFn(lut ->ContextID, lut ->Data);
+    if (lut ->FrffDbtbFn) lut ->FrffDbtbFn(lut ->ContfxtID, lut ->Dbtb);
 
-    _cmsFree(lut ->ContextID, lut);
+    _dmsFrff(lut ->ContfxtID, lut);
 }
 
 
-// Default to evaluate the LUT on 16 bit-basis.
-void CMSEXPORT cmsPipelineEval16(const cmsUInt16Number In[], cmsUInt16Number Out[],  const cmsPipeline* lut)
+// Dffbult to fvblubtf tif LUT on 16 bit-bbsis.
+void CMSEXPORT dmsPipflinfEvbl16(donst dmsUInt16Numbfr In[], dmsUInt16Numbfr Out[],  donst dmsPipflinf* lut)
 {
-    _cmsAssert(lut != NULL);
-    lut ->Eval16Fn(In, Out, lut->Data);
+    _dmsAssfrt(lut != NULL);
+    lut ->Evbl16Fn(In, Out, lut->Dbtb);
 }
 
 
-// Does evaluate the LUT on cmsFloat32Number-basis.
-void CMSEXPORT cmsPipelineEvalFloat(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsPipeline* lut)
+// Dofs fvblubtf tif LUT on dmsFlobt32Numbfr-bbsis.
+void CMSEXPORT dmsPipflinfEvblFlobt(donst dmsFlobt32Numbfr In[], dmsFlobt32Numbfr Out[], donst dmsPipflinf* lut)
 {
-    _cmsAssert(lut != NULL);
-    lut ->EvalFloatFn(In, Out, lut);
+    _dmsAssfrt(lut != NULL);
+    lut ->EvblFlobtFn(In, Out, lut);
 }
 
 
 
-// Duplicates a LUT
-cmsPipeline* CMSEXPORT cmsPipelineDup(const cmsPipeline* lut)
+// Duplidbtfs b LUT
+dmsPipflinf* CMSEXPORT dmsPipflinfDup(donst dmsPipflinf* lut)
 {
-    cmsPipeline* NewLUT;
-    cmsStage *NewMPE, *Anterior = NULL, *mpe;
-    cmsBool  First = TRUE;
+    dmsPipflinf* NfwLUT;
+    dmsStbgf *NfwMPE, *Antfrior = NULL, *mpf;
+    dmsBool  First = TRUE;
 
-    if (lut == NULL) return NULL;
+    if (lut == NULL) rfturn NULL;
 
-    NewLUT = cmsPipelineAlloc(lut ->ContextID, lut ->InputChannels, lut ->OutputChannels);
-    if (NewLUT == NULL) return NULL;
+    NfwLUT = dmsPipflinfAllod(lut ->ContfxtID, lut ->InputCibnnfls, lut ->OutputCibnnfls);
+    if (NfwLUT == NULL) rfturn NULL;
 
-    for (mpe = lut ->Elements;
-         mpe != NULL;
-         mpe = mpe ->Next) {
+    for (mpf = lut ->Elfmfnts;
+         mpf != NULL;
+         mpf = mpf ->Nfxt) {
 
-             NewMPE = cmsStageDup(mpe);
+             NfwMPE = dmsStbgfDup(mpf);
 
-             if (NewMPE == NULL) {
-                 cmsPipelineFree(NewLUT);
-                 return NULL;
+             if (NfwMPE == NULL) {
+                 dmsPipflinfFrff(NfwLUT);
+                 rfturn NULL;
              }
 
              if (First) {
-                 NewLUT ->Elements = NewMPE;
+                 NfwLUT ->Elfmfnts = NfwMPE;
                  First = FALSE;
              }
-             else {
-                Anterior ->Next = NewMPE;
+             flsf {
+                Antfrior ->Nfxt = NfwMPE;
              }
 
-            Anterior = NewMPE;
+            Antfrior = NfwMPE;
     }
 
-    NewLUT ->Eval16Fn    = lut ->Eval16Fn;
-    NewLUT ->EvalFloatFn = lut ->EvalFloatFn;
-    NewLUT ->DupDataFn   = lut ->DupDataFn;
-    NewLUT ->FreeDataFn  = lut ->FreeDataFn;
+    NfwLUT ->Evbl16Fn    = lut ->Evbl16Fn;
+    NfwLUT ->EvblFlobtFn = lut ->EvblFlobtFn;
+    NfwLUT ->DupDbtbFn   = lut ->DupDbtbFn;
+    NfwLUT ->FrffDbtbFn  = lut ->FrffDbtbFn;
 
-    if (NewLUT ->DupDataFn != NULL)
-        NewLUT ->Data = NewLUT ->DupDataFn(lut ->ContextID, lut->Data);
+    if (NfwLUT ->DupDbtbFn != NULL)
+        NfwLUT ->Dbtb = NfwLUT ->DupDbtbFn(lut ->ContfxtID, lut->Dbtb);
 
 
-    NewLUT ->SaveAs8Bits    = lut ->SaveAs8Bits;
+    NfwLUT ->SbvfAs8Bits    = lut ->SbvfAs8Bits;
 
-    BlessLUT(NewLUT);
-    return NewLUT;
+    BlfssLUT(NfwLUT);
+    rfturn NfwLUT;
 }
 
 
-int CMSEXPORT cmsPipelineInsertStage(cmsPipeline* lut, cmsStageLoc loc, cmsStage* mpe)
+int CMSEXPORT dmsPipflinfInsfrtStbgf(dmsPipflinf* lut, dmsStbgfLod lod, dmsStbgf* mpf)
 {
-    cmsStage* Anterior = NULL, *pt;
+    dmsStbgf* Antfrior = NULL, *pt;
 
-    if (lut == NULL || mpe == NULL)
-        return FALSE;
+    if (lut == NULL || mpf == NULL)
+        rfturn FALSE;
 
-    switch (loc) {
+    switdi (lod) {
 
-        case cmsAT_BEGIN:
-            mpe ->Next = lut ->Elements;
-            lut ->Elements = mpe;
-            break;
+        dbsf dmsAT_BEGIN:
+            mpf ->Nfxt = lut ->Elfmfnts;
+            lut ->Elfmfnts = mpf;
+            brfbk;
 
-        case cmsAT_END:
+        dbsf dmsAT_END:
 
-            if (lut ->Elements == NULL)
-                lut ->Elements = mpe;
-            else {
+            if (lut ->Elfmfnts == NULL)
+                lut ->Elfmfnts = mpf;
+            flsf {
 
-                for (pt = lut ->Elements;
+                for (pt = lut ->Elfmfnts;
                      pt != NULL;
-                     pt = pt -> Next) Anterior = pt;
+                     pt = pt -> Nfxt) Antfrior = pt;
 
-                Anterior ->Next = mpe;
-                mpe ->Next = NULL;
+                Antfrior ->Nfxt = mpf;
+                mpf ->Nfxt = NULL;
             }
-            break;
-        default:;
-            return FALSE;
+            brfbk;
+        dffbult:;
+            rfturn FALSE;
     }
 
-    BlessLUT(lut);
-    return TRUE;
+    BlfssLUT(lut);
+    rfturn TRUE;
 }
 
-// Unlink an element and return the pointer to it
-void CMSEXPORT cmsPipelineUnlinkStage(cmsPipeline* lut, cmsStageLoc loc, cmsStage** mpe)
+// Unlink bn flfmfnt bnd rfturn tif pointfr to it
+void CMSEXPORT dmsPipflinfUnlinkStbgf(dmsPipflinf* lut, dmsStbgfLod lod, dmsStbgf** mpf)
 {
-    cmsStage *Anterior, *pt, *Last;
-    cmsStage *Unlinked = NULL;
+    dmsStbgf *Antfrior, *pt, *Lbst;
+    dmsStbgf *Unlinkfd = NULL;
 
 
-    // If empty LUT, there is nothing to remove
-    if (lut ->Elements == NULL) {
-        if (mpe) *mpe = NULL;
-        return;
+    // If fmpty LUT, tifrf is notiing to rfmovf
+    if (lut ->Elfmfnts == NULL) {
+        if (mpf) *mpf = NULL;
+        rfturn;
     }
 
-    // On depending on the strategy...
-    switch (loc) {
+    // On dfpfnding on tif strbtfgy...
+    switdi (lod) {
 
-        case cmsAT_BEGIN:
+        dbsf dmsAT_BEGIN:
             {
-                cmsStage* elem = lut ->Elements;
+                dmsStbgf* flfm = lut ->Elfmfnts;
 
-                lut ->Elements = elem -> Next;
-                elem ->Next = NULL;
-                Unlinked = elem;
+                lut ->Elfmfnts = flfm -> Nfxt;
+                flfm ->Nfxt = NULL;
+                Unlinkfd = flfm;
 
             }
-            break;
+            brfbk;
 
-        case cmsAT_END:
-            Anterior = Last = NULL;
-            for (pt = lut ->Elements;
+        dbsf dmsAT_END:
+            Antfrior = Lbst = NULL;
+            for (pt = lut ->Elfmfnts;
                 pt != NULL;
-                pt = pt -> Next) {
-                    Anterior = Last;
-                    Last = pt;
+                pt = pt -> Nfxt) {
+                    Antfrior = Lbst;
+                    Lbst = pt;
             }
 
-            Unlinked = Last;  // Next already points to NULL
+            Unlinkfd = Lbst;  // Nfxt blrfbdy points to NULL
 
-            // Truncate the chain
-            if (Anterior)
-                Anterior ->Next = NULL;
-            else
-                lut ->Elements = NULL;
-            break;
-        default:;
+            // Trundbtf tif dibin
+            if (Antfrior)
+                Antfrior ->Nfxt = NULL;
+            flsf
+                lut ->Elfmfnts = NULL;
+            brfbk;
+        dffbult:;
     }
 
-    if (mpe)
-        *mpe = Unlinked;
-    else
-        cmsStageFree(Unlinked);
+    if (mpf)
+        *mpf = Unlinkfd;
+    flsf
+        dmsStbgfFrff(Unlinkfd);
 
-    BlessLUT(lut);
+    BlfssLUT(lut);
 }
 
 
-// Concatenate two LUT into a new single one
-cmsBool  CMSEXPORT cmsPipelineCat(cmsPipeline* l1, const cmsPipeline* l2)
+// Condbtfnbtf two LUT into b nfw singlf onf
+dmsBool  CMSEXPORT dmsPipflinfCbt(dmsPipflinf* l1, donst dmsPipflinf* l2)
 {
-    cmsStage* mpe;
+    dmsStbgf* mpf;
 
-    // If both LUTS does not have elements, we need to inherit
-    // the number of channels
-    if (l1 ->Elements == NULL && l2 ->Elements == NULL) {
-        l1 ->InputChannels  = l2 ->InputChannels;
-        l1 ->OutputChannels = l2 ->OutputChannels;
+    // If boti LUTS dofs not ibvf flfmfnts, wf nffd to inifrit
+    // tif numbfr of dibnnfls
+    if (l1 ->Elfmfnts == NULL && l2 ->Elfmfnts == NULL) {
+        l1 ->InputCibnnfls  = l2 ->InputCibnnfls;
+        l1 ->OutputCibnnfls = l2 ->OutputCibnnfls;
     }
 
-    // Cat second
-    for (mpe = l2 ->Elements;
-         mpe != NULL;
-         mpe = mpe ->Next) {
+    // Cbt sfdond
+    for (mpf = l2 ->Elfmfnts;
+         mpf != NULL;
+         mpf = mpf ->Nfxt) {
 
-            // We have to dup each element
-            if (!cmsPipelineInsertStage(l1, cmsAT_END, cmsStageDup(mpe)))
-                return FALSE;
+            // Wf ibvf to dup fbdi flfmfnt
+            if (!dmsPipflinfInsfrtStbgf(l1, dmsAT_END, dmsStbgfDup(mpf)))
+                rfturn FALSE;
     }
 
-    BlessLUT(l1);
-    return TRUE;
+    BlfssLUT(l1);
+    rfturn TRUE;
 }
 
 
-cmsBool CMSEXPORT cmsPipelineSetSaveAs8bitsFlag(cmsPipeline* lut, cmsBool On)
+dmsBool CMSEXPORT dmsPipflinfSftSbvfAs8bitsFlbg(dmsPipflinf* lut, dmsBool On)
 {
-    cmsBool Anterior = lut ->SaveAs8Bits;
+    dmsBool Antfrior = lut ->SbvfAs8Bits;
 
-    lut ->SaveAs8Bits = On;
-    return Anterior;
+    lut ->SbvfAs8Bits = On;
+    rfturn Antfrior;
 }
 
 
-cmsStage* CMSEXPORT cmsPipelineGetPtrToFirstStage(const cmsPipeline* lut)
+dmsStbgf* CMSEXPORT dmsPipflinfGftPtrToFirstStbgf(donst dmsPipflinf* lut)
 {
-    return lut ->Elements;
+    rfturn lut ->Elfmfnts;
 }
 
-cmsStage* CMSEXPORT cmsPipelineGetPtrToLastStage(const cmsPipeline* lut)
+dmsStbgf* CMSEXPORT dmsPipflinfGftPtrToLbstStbgf(donst dmsPipflinf* lut)
 {
-    cmsStage *mpe, *Anterior = NULL;
+    dmsStbgf *mpf, *Antfrior = NULL;
 
-    for (mpe = lut ->Elements; mpe != NULL; mpe = mpe ->Next)
-        Anterior = mpe;
+    for (mpf = lut ->Elfmfnts; mpf != NULL; mpf = mpf ->Nfxt)
+        Antfrior = mpf;
 
-    return Anterior;
+    rfturn Antfrior;
 }
 
-cmsUInt32Number CMSEXPORT cmsPipelineStageCount(const cmsPipeline* lut)
+dmsUInt32Numbfr CMSEXPORT dmsPipflinfStbgfCount(donst dmsPipflinf* lut)
 {
-    cmsStage *mpe;
-    cmsUInt32Number n;
+    dmsStbgf *mpf;
+    dmsUInt32Numbfr n;
 
-    for (n=0, mpe = lut ->Elements; mpe != NULL; mpe = mpe ->Next)
+    for (n=0, mpf = lut ->Elfmfnts; mpf != NULL; mpf = mpf ->Nfxt)
             n++;
 
-    return n;
+    rfturn n;
 }
 
-// This function may be used to set the optional evaluator and a block of private data. If private data is being used, an optional
-// duplicator and free functions should also be specified in order to duplicate the LUT construct. Use NULL to inhibit such functionality.
-void CMSEXPORT _cmsPipelineSetOptimizationParameters(cmsPipeline* Lut,
-                                        _cmsOPTeval16Fn Eval16,
-                                        void* PrivateData,
-                                        _cmsFreeUserDataFn FreePrivateDataFn,
-                                        _cmsDupUserDataFn  DupPrivateDataFn)
+// Tiis fundtion mby bf usfd to sft tif optionbl fvblubtor bnd b blodk of privbtf dbtb. If privbtf dbtb is bfing usfd, bn optionbl
+// duplidbtor bnd frff fundtions siould blso bf spfdififd in ordfr to duplidbtf tif LUT donstrudt. Usf NULL to iniibit sudi fundtionblity.
+void CMSEXPORT _dmsPipflinfSftOptimizbtionPbrbmftfrs(dmsPipflinf* Lut,
+                                        _dmsOPTfvbl16Fn Evbl16,
+                                        void* PrivbtfDbtb,
+                                        _dmsFrffUsfrDbtbFn FrffPrivbtfDbtbFn,
+                                        _dmsDupUsfrDbtbFn  DupPrivbtfDbtbFn)
 {
 
-    Lut ->Eval16Fn = Eval16;
-    Lut ->DupDataFn = DupPrivateDataFn;
-    Lut ->FreeDataFn = FreePrivateDataFn;
-    Lut ->Data = PrivateData;
+    Lut ->Evbl16Fn = Evbl16;
+    Lut ->DupDbtbFn = DupPrivbtfDbtbFn;
+    Lut ->FrffDbtbFn = FrffPrivbtfDbtbFn;
+    Lut ->Dbtb = PrivbtfDbtb;
 }
 
 
-// ----------------------------------------------------------- Reverse interpolation
-// Here's how it goes. The derivative Df(x) of the function f is the linear
-// transformation that best approximates f near the point x. It can be represented
-// by a matrix A whose entries are the partial derivatives of the components of f
-// with respect to all the coordinates. This is know as the Jacobian
+// ----------------------------------------------------------- Rfvfrsf intfrpolbtion
+// Hfrf's iow it gofs. Tif dfrivbtivf Df(x) of tif fundtion f is tif linfbr
+// trbnsformbtion tibt bfst bpproximbtfs f nfbr tif point x. It dbn bf rfprfsfntfd
+// by b mbtrix A wiosf fntrifs brf tif pbrtibl dfrivbtivfs of tif domponfnts of f
+// witi rfspfdt to bll tif doordinbtfs. Tiis is know bs tif Jbdobibn
 //
-// The best linear approximation to f is given by the matrix equation:
+// Tif bfst linfbr bpproximbtion to f is givfn by tif mbtrix fqubtion:
 //
 // y-y0 = A (x-x0)
 //
-// So, if x0 is a good "guess" for the zero of f, then solving for the zero of this
-// linear approximation will give a "better guess" for the zero of f. Thus let y=0,
-// and since y0=f(x0) one can solve the above equation for x. This leads to the
-// Newton's method formula:
+// So, if x0 is b good "gufss" for tif zfro of f, tifn solving for tif zfro of tiis
+// linfbr bpproximbtion will givf b "bfttfr gufss" for tif zfro of f. Tius lft y=0,
+// bnd sindf y0=f(x0) onf dbn solvf tif bbovf fqubtion for x. Tiis lfbds to tif
+// Nfwton's mftiod formulb:
 //
 // xn+1 = xn - A-1 f(xn)
 //
-// where xn+1 denotes the (n+1)-st guess, obtained from the n-th guess xn in the
-// fashion described above. Iterating this will give better and better approximations
-// if you have a "good enough" initial guess.
+// wifrf xn+1 dfnotfs tif (n+1)-st gufss, obtbinfd from tif n-ti gufss xn in tif
+// fbsiion dfsdribfd bbovf. Itfrbting tiis will givf bfttfr bnd bfttfr bpproximbtions
+// if you ibvf b "good fnougi" initibl gufss.
 
 
-#define JACOBIAN_EPSILON            0.001f
-#define INVERSION_MAX_ITERATIONS    30
+#dffinf JACOBIAN_EPSILON            0.001f
+#dffinf INVERSION_MAX_ITERATIONS    30
 
-// Increment with reflexion on boundary
-static
-void IncDelta(cmsFloat32Number *Val)
+// Indrfmfnt witi rfflfxion on boundbry
+stbtid
+void IndDfltb(dmsFlobt32Numbfr *Vbl)
 {
-    if (*Val < (1.0 - JACOBIAN_EPSILON))
+    if (*Vbl < (1.0 - JACOBIAN_EPSILON))
 
-        *Val += JACOBIAN_EPSILON;
+        *Vbl += JACOBIAN_EPSILON;
 
-    else
-        *Val -= JACOBIAN_EPSILON;
+    flsf
+        *Vbl -= JACOBIAN_EPSILON;
 
 }
 
 
 
-// Euclidean distance between two vectors of n elements each one
-static
-cmsFloat32Number EuclideanDistance(cmsFloat32Number a[], cmsFloat32Number b[], int n)
+// Eudlidfbn distbndf bftwffn two vfdtors of n flfmfnts fbdi onf
+stbtid
+dmsFlobt32Numbfr EudlidfbnDistbndf(dmsFlobt32Numbfr b[], dmsFlobt32Numbfr b[], int n)
 {
-    cmsFloat32Number sum = 0;
+    dmsFlobt32Numbfr sum = 0;
     int i;
 
     for (i=0; i < n; i++) {
-        cmsFloat32Number dif = b[i] - a[i];
+        dmsFlobt32Numbfr dif = b[i] - b[i];
         sum +=  dif * dif;
     }
 
-    return sqrtf(sum);
+    rfturn sqrtf(sum);
 }
 
 
-// Evaluate a LUT in reverse direction. It only searches on 3->3 LUT. Uses Newton method
+// Evblubtf b LUT in rfvfrsf dirfdtion. It only sfbrdifs on 3->3 LUT. Usfs Nfwton mftiod
 //
 // x1 <- x - [J(x)]^-1 * f(x)
 //
-// lut: The LUT on where to do the search
-// Target: LabK, 3 values of Lab plus destination K which is fixed
-// Result: The obtained CMYK
-// Hint:   Location where begin the search
+// lut: Tif LUT on wifrf to do tif sfbrdi
+// Tbrgft: LbbK, 3 vblufs of Lbb plus dfstinbtion K wiidi is fixfd
+// Rfsult: Tif obtbinfd CMYK
+// Hint:   Lodbtion wifrf bfgin tif sfbrdi
 
-cmsBool CMSEXPORT cmsPipelineEvalReverseFloat(cmsFloat32Number Target[],
-                                              cmsFloat32Number Result[],
-                                              cmsFloat32Number Hint[],
-                                              const cmsPipeline* lut)
+dmsBool CMSEXPORT dmsPipflinfEvblRfvfrsfFlobt(dmsFlobt32Numbfr Tbrgft[],
+                                              dmsFlobt32Numbfr Rfsult[],
+                                              dmsFlobt32Numbfr Hint[],
+                                              donst dmsPipflinf* lut)
 {
-    cmsUInt32Number  i, j;
-    cmsFloat64Number  error, LastError = 1E20;
-    cmsFloat32Number  fx[4], x[4], xd[4], fxd[4];
-    cmsVEC3 tmp, tmp2;
-    cmsMAT3 Jacobian;
+    dmsUInt32Numbfr  i, j;
+    dmsFlobt64Numbfr  frror, LbstError = 1E20;
+    dmsFlobt32Numbfr  fx[4], x[4], xd[4], fxd[4];
+    dmsVEC3 tmp, tmp2;
+    dmsMAT3 Jbdobibn;
 
-    // Only 3->3 and 4->3 are supported
-    if (lut ->InputChannels != 3 && lut ->InputChannels != 4) return FALSE;
-    if (lut ->OutputChannels != 3) return FALSE;
+    // Only 3->3 bnd 4->3 brf supportfd
+    if (lut ->InputCibnnfls != 3 && lut ->InputCibnnfls != 4) rfturn FALSE;
+    if (lut ->OutputCibnnfls != 3) rfturn FALSE;
 
-    // Take the hint as starting point if specified
+    // Tbkf tif iint bs stbrting point if spfdififd
     if (Hint == NULL) {
 
-        // Begin at any point, we choose 1/3 of CMY axis
+        // Bfgin bt bny point, wf dioosf 1/3 of CMY bxis
         x[0] = x[1] = x[2] = 0.3f;
     }
-    else {
+    flsf {
 
-        // Only copy 3 channels from hint...
+        // Only dopy 3 dibnnfls from iint...
         for (j=0; j < 3; j++)
             x[j] = Hint[j];
     }
 
-    // If Lut is 4-dimensions, then grab target[3], which is fixed
-    if (lut ->InputChannels == 4) {
-        x[3] = Target[3];
+    // If Lut is 4-dimfnsions, tifn grbb tbrgft[3], wiidi is fixfd
+    if (lut ->InputCibnnfls == 4) {
+        x[3] = Tbrgft[3];
     }
-    else x[3] = 0; // To keep lint happy
+    flsf x[3] = 0; // To kffp lint ibppy
 
 
-    // Iterate
+    // Itfrbtf
     for (i = 0; i < INVERSION_MAX_ITERATIONS; i++) {
 
-        // Get beginning fx
-        cmsPipelineEvalFloat(x, fx, lut);
+        // Gft bfginning fx
+        dmsPipflinfEvblFlobt(x, fx, lut);
 
-        // Compute error
-        error = EuclideanDistance(fx, Target, 3);
+        // Computf frror
+        frror = EudlidfbnDistbndf(fx, Tbrgft, 3);
 
-        // If not convergent, return last safe value
-        if (error >= LastError)
-            break;
+        // If not donvfrgfnt, rfturn lbst sbff vbluf
+        if (frror >= LbstError)
+            brfbk;
 
-        // Keep latest values
-        LastError     = error;
-        for (j=0; j < lut ->InputChannels; j++)
-                Result[j] = x[j];
+        // Kffp lbtfst vblufs
+        LbstError     = frror;
+        for (j=0; j < lut ->InputCibnnfls; j++)
+                Rfsult[j] = x[j];
 
-        // Found an exact match?
-        if (error <= 0)
-            break;
+        // Found bn fxbdt mbtdi?
+        if (frror <= 0)
+            brfbk;
 
-        // Obtain slope (the Jacobian)
+        // Obtbin slopf (tif Jbdobibn)
         for (j = 0; j < 3; j++) {
 
             xd[0] = x[0];
             xd[1] = x[1];
             xd[2] = x[2];
-            xd[3] = x[3];  // Keep fixed channel
+            xd[3] = x[3];  // Kffp fixfd dibnnfl
 
-            IncDelta(&xd[j]);
+            IndDfltb(&xd[j]);
 
-            cmsPipelineEvalFloat(xd, fxd, lut);
+            dmsPipflinfEvblFlobt(xd, fxd, lut);
 
-            Jacobian.v[0].n[j] = ((fxd[0] - fx[0]) / JACOBIAN_EPSILON);
-            Jacobian.v[1].n[j] = ((fxd[1] - fx[1]) / JACOBIAN_EPSILON);
-            Jacobian.v[2].n[j] = ((fxd[2] - fx[2]) / JACOBIAN_EPSILON);
+            Jbdobibn.v[0].n[j] = ((fxd[0] - fx[0]) / JACOBIAN_EPSILON);
+            Jbdobibn.v[1].n[j] = ((fxd[1] - fx[1]) / JACOBIAN_EPSILON);
+            Jbdobibn.v[2].n[j] = ((fxd[2] - fx[2]) / JACOBIAN_EPSILON);
         }
 
-        // Solve system
-        tmp2.n[0] = fx[0] - Target[0];
-        tmp2.n[1] = fx[1] - Target[1];
-        tmp2.n[2] = fx[2] - Target[2];
+        // Solvf systfm
+        tmp2.n[0] = fx[0] - Tbrgft[0];
+        tmp2.n[1] = fx[1] - Tbrgft[1];
+        tmp2.n[2] = fx[2] - Tbrgft[2];
 
-        if (!_cmsMAT3solve(&tmp, &Jacobian, &tmp2))
-            return FALSE;
+        if (!_dmsMAT3solvf(&tmp, &Jbdobibn, &tmp2))
+            rfturn FALSE;
 
-        // Move our guess
-        x[0] -= (cmsFloat32Number) tmp.n[0];
-        x[1] -= (cmsFloat32Number) tmp.n[1];
-        x[2] -= (cmsFloat32Number) tmp.n[2];
+        // Movf our gufss
+        x[0] -= (dmsFlobt32Numbfr) tmp.n[0];
+        x[1] -= (dmsFlobt32Numbfr) tmp.n[1];
+        x[2] -= (dmsFlobt32Numbfr) tmp.n[2];
 
-        // Some clipping....
+        // Somf dlipping....
         for (j=0; j < 3; j++) {
             if (x[j] < 0) x[j] = 0;
-            else
+            flsf
                 if (x[j] > 1.0) x[j] = 1.0;
         }
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 

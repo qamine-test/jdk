@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+/**
+ * An <dodf>Evfnt</dodf> objfdt gfnfrbtfd whfn bn fvfnt oddurs to b
+ * <dodf>RowSft</dodf> objfdt.  A <dodf>RowSftEvfnt</dodf> objfdt is
+ * gfnfrbtfd whfn b singlf row in b rowsft is dhbngfd, thf wholf rowsft
+ * is dhbngfd, or thf rowsft dursor movfs.
+ * <P>
+ * Whfn bn fvfnt oddurs on b <dodf>RowSft</dodf> objfdt, onf of thf
+ * <dodf>RowSftListfnfr</dodf> mfthods will bf sfnt to bll rfgistfrfd
+ * listfnfrs to notify thfm of thf fvfnt.  An <dodf>Evfnt</dodf> objfdt
+ * is supplifd to thf <dodf>RowSftListfnfr</dodf> mfthod so thbt thf
+ * listfnfr dbn usf it to find out whidh <dodf>RowSft</dodf> objfdt is
+ * thf sourdf of thf fvfnt.
+ *
+ * @sindf 1.4
+ */
+
+publid dlbss RowSftEvfnt fxtfnds jbvb.util.EvfntObjfdt {
+
+  /**
+   * Construdts b <dodf>RowSftEvfnt</dodf> objfdt initiblizfd with thf
+   * givfn <dodf>RowSft</dodf> objfdt.
+   *
+   * @pbrbm sourdf thf <dodf>RowSft</dodf> objfdt whosf dbtb hbs dhbngfd or
+   *        whosf dursor hbs movfd
+   * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null.
+   */
+  publid RowSftEvfnt(RowSft sourdf)
+    { supfr(sourdf); }
+
+  /**
+   * Privbtf sfribl vfrsion uniquf ID to fnsurf sfriblizbtion
+   * dompbtibility.
+   */
+  stbtid finbl long sfriblVfrsionUID = -1875450876546332005L;
+}

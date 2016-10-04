@@ -1,301 +1,301 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import com.sun.jmx.mbeanserver.Util;
-import java.util.List;
-import java.util.Map;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import com.sun.jmx.snmp.SnmpCounter;
-import com.sun.jmx.snmp.SnmpCounter64;
-import com.sun.jmx.snmp.SnmpGauge;
-import com.sun.jmx.snmp.SnmpInt;
-import com.sun.jmx.snmp.SnmpUnsignedInt;
-import com.sun.jmx.snmp.SnmpIpAddress;
-import com.sun.jmx.snmp.SnmpTimeticks;
-import com.sun.jmx.snmp.SnmpOpaque;
-import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpStringFixed;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpNull;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import dom.sun.jmx.snmp.SnmpCountfr;
+import dom.sun.jmx.snmp.SnmpCountfr64;
+import dom.sun.jmx.snmp.SnmpGbugf;
+import dom.sun.jmx.snmp.SnmpInt;
+import dom.sun.jmx.snmp.SnmpUnsignfdInt;
+import dom.sun.jmx.snmp.SnmpIpAddrfss;
+import dom.sun.jmx.snmp.SnmpTimftidks;
+import dom.sun.jmx.snmp.SnmpOpbquf;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStringFixfd;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpNull;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpIndex;
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.agent.SnmpMibTable;
-import com.sun.jmx.snmp.agent.SnmpMibSubRequest;
-import com.sun.jmx.snmp.agent.SnmpStandardObjectServer;
+import dom.sun.jmx.snmp.bgfnt.SnmpIndfx;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibSubRfqufst;
+import dom.sun.jmx.snmp.bgfnt.SnmpStbndbrdObjfdtSfrvfr;
 
-import sun.management.snmp.jvmmib.JvmRTClassPathTableMeta;
-import sun.management.snmp.util.SnmpCachedData;
-import sun.management.snmp.util.SnmpTableCache;
-import sun.management.snmp.util.SnmpTableHandler;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmRTClbssPbtiTbblfMftb;
+import sun.mbnbgfmfnt.snmp.util.SnmpCbdifdDbtb;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfCbdif;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
 
 /**
- * The class is used for implementing the "JvmRTClassPathTable".
+ * Tif dlbss is usfd for implfmfnting tif "JvmRTClbssPbtiTbblf".
   */
-public class JvmRTClassPathTableMetaImpl extends JvmRTClassPathTableMeta {
+publid dlbss JvmRTClbssPbtiTbblfMftbImpl fxtfnds JvmRTClbssPbtiTbblfMftb {
 
-    static final long serialVersionUID = -6914494148818455166L;
+    stbtid finbl long sfriblVfrsionUID = -6914494148818455166L;
 
-    private SnmpTableCache cache;
+    privbtf SnmpTbblfCbdif dbdif;
 
      /**
-     * A concrete implementation of {@link SnmpTableCache}, for the
-     * JvmRTClassPathTable.
+     * A dondrftf implfmfntbtion of {@link SnmpTbblfCbdif}, for tif
+     * JvmRTClbssPbtiTbblf.
      **/
-    private static class JvmRTClassPathTableCache extends SnmpTableCache {
-        static final long serialVersionUID = 3805032372592117315L;
-        private JvmRTClassPathTableMetaImpl meta;
+    privbtf stbtid dlbss JvmRTClbssPbtiTbblfCbdif fxtfnds SnmpTbblfCbdif {
+        stbtid finbl long sfriblVfrsionUID = 3805032372592117315L;
+        privbtf JvmRTClbssPbtiTbblfMftbImpl mftb;
 
-        JvmRTClassPathTableCache(JvmRTClassPathTableMetaImpl meta,
-                                 long validity) {
-            this.meta = meta;
-            this.validity = validity;
+        JvmRTClbssPbtiTbblfCbdif(JvmRTClbssPbtiTbblfMftbImpl mftb,
+                                 long vblidity) {
+            tiis.mftb = mftb;
+            tiis.vblidity = vblidity;
         }
 
         /**
-         * Call <code>getTableDatas(JvmContextFactory.getUserData())</code>.
+         * Cbll <dodf>gftTbblfDbtbs(JvmContfxtFbdtory.gftUsfrDbtb())</dodf>.
          **/
-        public SnmpTableHandler getTableHandler() {
-            final Map<Object, Object> userData = JvmContextFactory.getUserData();
-            return getTableDatas(userData);
+        publid SnmpTbblfHbndlfr gftTbblfHbndlfr() {
+            finbl Mbp<Objfdt, Objfdt> usfrDbtb = JvmContfxtFbdtory.gftUsfrDbtb();
+            rfturn gftTbblfDbtbs(usfrDbtb);
         }
 
 
         /**
-         * Return a table handler containing the Thread indexes.
-         * Indexes are computed from the ThreadId.
+         * Rfturn b tbblf ibndlfr dontbining tif Tirfbd indfxfs.
+         * Indfxfs brf domputfd from tif TirfbdId.
          **/
-        protected SnmpCachedData updateCachedDatas(Object userData) {
+        protfdtfd SnmpCbdifdDbtb updbtfCbdifdDbtbs(Objfdt usfrDbtb) {
 
 
-            // We are getting all the input args
-            final String[] path =
-                JvmRuntimeImpl.getClassPath(userData);
+            // Wf brf gftting bll tif input brgs
+            finbl String[] pbti =
+                JvmRuntimfImpl.gftClbssPbti(usfrDbtb);
 
-            // Time stamp for the cache
-            final long time = System.currentTimeMillis();
-            final int len = path.length;
+            // Timf stbmp for tif dbdif
+            finbl long timf = Systfm.durrfntTimfMillis();
+            finbl int lfn = pbti.lfngti;
 
-            SnmpOid indexes[] = new SnmpOid[len];
+            SnmpOid indfxfs[] = nfw SnmpOid[lfn];
 
-            for(int i = 0; i < len; i++) {
-                indexes[i] = new SnmpOid(i + 1);
+            for(int i = 0; i < lfn; i++) {
+                indfxfs[i] = nfw SnmpOid(i + 1);
             }
 
-            return new SnmpCachedData(time, indexes, path);
+            rfturn nfw SnmpCbdifdDbtb(timf, indfxfs, pbti);
         }
     }
 
     /**
-     * Constructor for the table. Initialize metadata for
-     * "JvmRTClassPathTableMeta".
-     * The reference on the MBean server is updated so the entries
-     * created through an SNMP SET will be AUTOMATICALLY REGISTERED
-     * in Java DMK.
+     * Construdtor for tif tbblf. Initiblizf mftbdbtb for
+     * "JvmRTClbssPbtiTbblfMftb".
+     * Tif rfffrfndf on tif MBfbn sfrvfr is updbtfd so tif fntrifs
+     * drfbtfd tirougi bn SNMP SET will bf AUTOMATICALLY REGISTERED
+     * in Jbvb DMK.
      */
-    public JvmRTClassPathTableMetaImpl(SnmpMib myMib,
-                                       SnmpStandardObjectServer objserv) {
-        super(myMib, objserv);
-        cache = new JvmRTClassPathTableCache(this, -1);
+    publid JvmRTClbssPbtiTbblfMftbImpl(SnmpMib myMib,
+                                       SnmpStbndbrdObjfdtSfrvfr objsfrv) {
+        supfr(myMib, objsfrv);
+        dbdif = nfw JvmRTClbssPbtiTbblfCbdif(tiis, -1);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected SnmpOid getNextOid(Object userData)
-        throws SnmpStatusException {
-        // null means get the first OID.
-        return getNextOid(null,userData);
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        // null mfbns gft tif first OID.
+        rfturn gftNfxtOid(null,usfrDbtb);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected SnmpOid getNextOid(SnmpOid oid, Object userData)
-        throws SnmpStatusException {
-        final boolean dbg = log.isDebugOn();
-        if (dbg) log.debug("getNextOid", "previous=" + oid);
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        finbl boolfbn dbg = log.isDfbugOn();
+        if (dbg) log.dfbug("gftNfxtOid", "prfvious=" + oid);
 
 
-        // Get the data handler.
+        // Gft tif dbtb ibndlfr.
         //
-        SnmpTableHandler handler = getHandler(userData);
-        if (handler == null) {
-            // This should never happen.
-            // If we get here it's a bug.
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
+        if (ibndlfr == null) {
+            // Tiis siould nfvfr ibppfn.
+            // If wf gft ifrf it's b bug.
             //
-            if (dbg) log.debug("getNextOid", "handler is null!");
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            if (dbg) log.dfbug("gftNfxtOid", "ibndlfr is null!");
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
         }
 
-        // Get the next oid
+        // Gft tif nfxt oid
         //
-        final SnmpOid next = handler.getNext(oid);
-        if (dbg) log.debug("*** **** **** **** getNextOid", "next=" + next);
+        finbl SnmpOid nfxt = ibndlfr.gftNfxt(oid);
+        if (dbg) log.dfbug("*** **** **** **** gftNfxtOid", "nfxt=" + nfxt);
 
-        // if next is null: we reached the end of the table.
+        // if nfxt is null: wf rfbdifd tif fnd of tif tbblf.
         //
-        if (next == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (nfxt == null)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
 
-        return next;
+        rfturn nfxt;
     }
 
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected boolean contains(SnmpOid oid, Object userData) {
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
 
-        // Get the handler.
+        // Gft tif ibndlfr.
         //
-        SnmpTableHandler handler = getHandler(userData);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(usfrDbtb);
 
-        // handler should never be null.
+        // ibndlfr siould nfvfr bf null.
         //
-        if (handler == null)
-            return false;
+        if (ibndlfr == null)
+            rfturn fblsf;
 
-        return handler.contains(oid);
+        rfturn ibndlfr.dontbins(oid);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    public Object getEntry(SnmpOid oid)
-        throws SnmpStatusException {
-        final boolean dbg = log.isDebugOn();
-        if (dbg) log.debug("getEntry", "oid [" + oid + "]");
-        if (oid == null || oid.getLength() != 1) {
-            if (dbg) log.debug("getEntry", "Invalid oid [" + oid + "]");
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+    // Sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
+    publid Objfdt gftEntry(SnmpOid oid)
+        tirows SnmpStbtusExdfption {
+        finbl boolfbn dbg = log.isDfbugOn();
+        if (dbg) log.dfbug("gftEntry", "oid [" + oid + "]");
+        if (oid == null || oid.gftLfngti() != 1) {
+            if (dbg) log.dfbug("gftEntry", "Invblid oid [" + oid + "]");
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
         }
 
-        // Get the request contextual cache (userData).
+        // Gft tif rfqufst dontfxtubl dbdif (usfrDbtb).
         //
-        final Map<Object, Object> m = JvmContextFactory.getUserData();
+        finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
 
-        // We're going to use this name to store/retrieve the entry in
-        // the request contextual cache.
+        // Wf'rf going to usf tiis nbmf to storf/rftrifvf tif fntry in
+        // tif rfqufst dontfxtubl dbdif.
         //
-        // Revisit: Probably better programming to put all these strings
-        //          in some interface.
+        // Rfvisit: Probbbly bfttfr progrbmming to put bll tifsf strings
+        //          in somf intfrfbdf.
         //
-        final String entryTag = ((m==null)?null:
-                                 ("JvmRTClassPathTable.entry." +
+        finbl String fntryTbg = ((m==null)?null:
+                                 ("JvmRTClbssPbtiTbblf.fntry." +
                                   oid.toString()));
 
-        // If the entry is in the cache, simply return it.
+        // If tif fntry is in tif dbdif, simply rfturn it.
         //
         if (m != null) {
-            final Object entry = m.get(entryTag);
-            if (entry != null) {
+            finbl Objfdt fntry = m.gft(fntryTbg);
+            if (fntry != null) {
                 if (dbg)
-                    log.debug("getEntry", "Entry is already in the cache");
-                return entry;
-            } else
-                if (dbg) log.debug("getEntry", "Entry is not in the cache");
+                    log.dfbug("gftEntry", "Entry is blrfbdy in tif dbdif");
+                rfturn fntry;
+            } flsf
+                if (dbg) log.dfbug("gftEntry", "Entry is not in tif dbdif");
         }
 
-        // The entry was not in the cache, make a new one.
+        // Tif fntry wbs not in tif dbdif, mbkf b nfw onf.
         //
-        // Get the data hanler.
+        // Gft tif dbtb ibnlfr.
         //
-        SnmpTableHandler handler = getHandler(m);
+        SnmpTbblfHbndlfr ibndlfr = gftHbndlfr(m);
 
-        // handler should never be null.
+        // ibndlfr siould nfvfr bf null.
         //
-        if (handler == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (ibndlfr == null)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
 
-        // Get the data associated with our entry.
+        // Gft tif dbtb bssodibtfd witi our fntry.
         //
-        final Object data = handler.getData(oid);
+        finbl Objfdt dbtb = ibndlfr.gftDbtb(oid);
 
-        // data may be null if the OID we were given is not valid.
+        // dbtb mby bf null if tif OID wf wfrf givfn is not vblid.
         //
-        if (data == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (dbtb == null)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
 
-        // make the new entry (transient object that will be kept only
-        // for the duration of the request.
+        // mbkf tif nfw fntry (trbnsifnt objfdt tibt will bf kfpt only
+        // for tif durbtion of tif rfqufst.
         //
         if (dbg)
-            log.debug("getEntry","data is a: " + data.getClass().getName());
-        final Object entry =
-            new JvmRTClassPathEntryImpl((String) data, (int) oid.getOidArc(0));
+            log.dfbug("gftEntry","dbtb is b: " + dbtb.gftClbss().gftNbmf());
+        finbl Objfdt fntry =
+            nfw JvmRTClbssPbtiEntryImpl((String) dbtb, (int) oid.gftOidArd(0));
 
-        // Put the entry in the cache in case we need it later while processing
-        // the request.
+        // Put tif fntry in tif dbdif in dbsf wf nffd it lbtfr wiilf prodfssing
+        // tif rfqufst.
         //
-        if (m != null && entry != null) {
-            m.put(entryTag,entry);
+        if (m != null && fntry != null) {
+            m.put(fntryTbg,fntry);
         }
 
-        return entry;
+        rfturn fntry;
     }
 
     /**
-     * Get the SnmpTableHandler that holds the jvmThreadInstanceTable data.
-     * First look it up in the request contextual cache, and if it is
-     * not found, obtain it from the weak cache.
-     * <br>The request contextual cache will be released at the end of the
-     * current requests, and is used only to process this request.
-     * <br>The weak cache is shared by all requests, and is only
-     * recomputed when it is found to be obsolete.
-     * <br>Note that the data put in the request contextual cache is
-     *     never considered to be obsolete, in order to preserve data
-     *     coherency.
+     * Gft tif SnmpTbblfHbndlfr tibt iolds tif jvmTirfbdInstbndfTbblf dbtb.
+     * First look it up in tif rfqufst dontfxtubl dbdif, bnd if it is
+     * not found, obtbin it from tif wfbk dbdif.
+     * <br>Tif rfqufst dontfxtubl dbdif will bf rflfbsfd bt tif fnd of tif
+     * durrfnt rfqufsts, bnd is usfd only to prodfss tiis rfqufst.
+     * <br>Tif wfbk dbdif is sibrfd by bll rfqufsts, bnd is only
+     * rfdomputfd wifn it is found to bf obsolftf.
+     * <br>Notf tibt tif dbtb put in tif rfqufst dontfxtubl dbdif is
+     *     nfvfr donsidfrfd to bf obsolftf, in ordfr to prfsfrvf dbtb
+     *     doifrfndy.
      **/
-    protected SnmpTableHandler getHandler(Object userData) {
-        final Map<Object, Object> m;
-        if (userData instanceof Map) m=Util.cast(userData);
-        else m=null;
+    protfdtfd SnmpTbblfHbndlfr gftHbndlfr(Objfdt usfrDbtb) {
+        finbl Mbp<Objfdt, Objfdt> m;
+        if (usfrDbtb instbndfof Mbp) m=Util.dbst(usfrDbtb);
+        flsf m=null;
 
-        // Look in the contextual cache.
+        // Look in tif dontfxtubl dbdif.
         if (m != null) {
-            final SnmpTableHandler handler =
-                (SnmpTableHandler)m.get("JvmRTClassPathTable.handler");
-            if (handler != null) return handler;
+            finbl SnmpTbblfHbndlfr ibndlfr =
+                (SnmpTbblfHbndlfr)m.gft("JvmRTClbssPbtiTbblf.ibndlfr");
+            if (ibndlfr != null) rfturn ibndlfr;
         }
 
-        // No handler in contextual cache, make a new one.
-        final SnmpTableHandler handler = cache.getTableHandler();
+        // No ibndlfr in dontfxtubl dbdif, mbkf b nfw onf.
+        finbl SnmpTbblfHbndlfr ibndlfr = dbdif.gftTbblfHbndlfr();
 
-        if (m != null && handler != null )
-            m.put("JvmRTClassPathTable.handler",handler);
+        if (m != null && ibndlfr != null )
+            m.put("JvmRTClbssPbtiTbblf.ibndlfr",ibndlfr);
 
-        return handler;
+        rfturn ibndlfr;
     }
 
-    static final MibLogger log =
-        new MibLogger(JvmRTClassPathTableMetaImpl.class);
+    stbtid finbl MibLoggfr log =
+        nfw MibLoggfr(JvmRTClbssPbtiTbblfMftbImpl.dlbss);
 }

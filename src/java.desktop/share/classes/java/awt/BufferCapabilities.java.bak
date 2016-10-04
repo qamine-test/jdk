@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * Capabilities and properties of buffers.
+ * Cbpbbilitifs bnd propfrtifs of bufffrs.
  *
- * @see java.awt.image.BufferStrategy#getCapabilities()
- * @see GraphicsConfiguration#getBufferCapabilities
- * @author Michael Martak
- * @since 1.4
+ * @sff jbvb.bwt.imbgf.BufffrStrbtfgy#gftCbpbbilitifs()
+ * @sff GrbpiidsConfigurbtion#gftBufffrCbpbbilitifs
+ * @butior Midibfl Mbrtbk
+ * @sindf 1.4
  */
-public class BufferCapabilities implements Cloneable {
+publid dlbss BufffrCbpbbilitifs implfmfnts Clonfbblf {
 
-    private ImageCapabilities frontCaps;
-    private ImageCapabilities backCaps;
-    private FlipContents flipContents;
+    privbtf ImbgfCbpbbilitifs frontCbps;
+    privbtf ImbgfCbpbbilitifs bbdkCbps;
+    privbtf FlipContfnts flipContfnts;
 
     /**
-     * Creates a new object for specifying buffering capabilities
-     * @param frontCaps the capabilities of the front buffer; cannot be
-     * <code>null</code>
-     * @param backCaps the capabilities of the back and intermediate buffers;
-     * cannot be <code>null</code>
-     * @param flipContents the contents of the back buffer after page-flipping,
-     * <code>null</code> if page flipping is not used (implies blitting)
-     * @exception IllegalArgumentException if frontCaps or backCaps are
-     * <code>null</code>
+     * Crfbtfs b nfw objfdt for spfdifying bufffring dbpbbilitifs
+     * @pbrbm frontCbps tif dbpbbilitifs of tif front bufffr; dbnnot bf
+     * <dodf>null</dodf>
+     * @pbrbm bbdkCbps tif dbpbbilitifs of tif bbdk bnd intfrmfdibtf bufffrs;
+     * dbnnot bf <dodf>null</dodf>
+     * @pbrbm flipContfnts tif dontfnts of tif bbdk bufffr bftfr pbgf-flipping,
+     * <dodf>null</dodf> if pbgf flipping is not usfd (implifs blitting)
+     * @fxdfption IllfgblArgumfntExdfption if frontCbps or bbdkCbps brf
+     * <dodf>null</dodf>
      */
-    public BufferCapabilities(ImageCapabilities frontCaps,
-        ImageCapabilities backCaps, FlipContents flipContents) {
-        if (frontCaps == null || backCaps == null) {
-            throw new IllegalArgumentException(
-                "Image capabilities specified cannot be null");
+    publid BufffrCbpbbilitifs(ImbgfCbpbbilitifs frontCbps,
+        ImbgfCbpbbilitifs bbdkCbps, FlipContfnts flipContfnts) {
+        if (frontCbps == null || bbdkCbps == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Imbgf dbpbbilitifs spfdififd dbnnot bf null");
         }
-        this.frontCaps = frontCaps;
-        this.backCaps = backCaps;
-        this.flipContents = flipContents;
+        tiis.frontCbps = frontCbps;
+        tiis.bbdkCbps = bbdkCbps;
+        tiis.flipContfnts = flipContfnts;
     }
 
     /**
-     * @return the image capabilities of the front (displayed) buffer
+     * @rfturn tif imbgf dbpbbilitifs of tif front (displbyfd) bufffr
      */
-    public ImageCapabilities getFrontBufferCapabilities() {
-        return frontCaps;
+    publid ImbgfCbpbbilitifs gftFrontBufffrCbpbbilitifs() {
+        rfturn frontCbps;
     }
 
     /**
-     * @return the image capabilities of all back buffers (intermediate buffers
-     * are considered back buffers)
+     * @rfturn tif imbgf dbpbbilitifs of bll bbdk bufffrs (intfrmfdibtf bufffrs
+     * brf donsidfrfd bbdk bufffrs)
      */
-    public ImageCapabilities getBackBufferCapabilities() {
-        return backCaps;
+    publid ImbgfCbpbbilitifs gftBbdkBufffrCbpbbilitifs() {
+        rfturn bbdkCbps;
     }
 
     /**
-     * @return whether or not the buffer strategy uses page flipping; a set of
-     * buffers that uses page flipping
-     * can swap the contents internally between the front buffer and one or
-     * more back buffers by switching the video pointer (or by copying memory
-     * internally).  A non-flipping set of
-     * buffers uses blitting to copy the contents from one buffer to
-     * another; when this is the case, <code>getFlipContents</code> returns
-     * <code>null</code>
+     * @rfturn wiftifr or not tif bufffr strbtfgy usfs pbgf flipping; b sft of
+     * bufffrs tibt usfs pbgf flipping
+     * dbn swbp tif dontfnts intfrnblly bftwffn tif front bufffr bnd onf or
+     * morf bbdk bufffrs by switdiing tif vidfo pointfr (or by dopying mfmory
+     * intfrnblly).  A non-flipping sft of
+     * bufffrs usfs blitting to dopy tif dontfnts from onf bufffr to
+     * bnotifr; wifn tiis is tif dbsf, <dodf>gftFlipContfnts</dodf> rfturns
+     * <dodf>null</dodf>
      */
-    public boolean isPageFlipping() {
-        return (getFlipContents() != null);
+    publid boolfbn isPbgfFlipping() {
+        rfturn (gftFlipContfnts() != null);
     }
 
     /**
-     * @return the resulting contents of the back buffer after page-flipping.
-     * This value is <code>null</code> when the <code>isPageFlipping</code>
-     * returns <code>false</code>, implying blitting.  It can be one of
-     * <code>FlipContents.UNDEFINED</code>
-     * (the assumed default), <code>FlipContents.BACKGROUND</code>,
-     * <code>FlipContents.PRIOR</code>, or
-     * <code>FlipContents.COPIED</code>.
-     * @see #isPageFlipping
-     * @see FlipContents#UNDEFINED
-     * @see FlipContents#BACKGROUND
-     * @see FlipContents#PRIOR
-     * @see FlipContents#COPIED
+     * @rfturn tif rfsulting dontfnts of tif bbdk bufffr bftfr pbgf-flipping.
+     * Tiis vbluf is <dodf>null</dodf> wifn tif <dodf>isPbgfFlipping</dodf>
+     * rfturns <dodf>fblsf</dodf>, implying blitting.  It dbn bf onf of
+     * <dodf>FlipContfnts.UNDEFINED</dodf>
+     * (tif bssumfd dffbult), <dodf>FlipContfnts.BACKGROUND</dodf>,
+     * <dodf>FlipContfnts.PRIOR</dodf>, or
+     * <dodf>FlipContfnts.COPIED</dodf>.
+     * @sff #isPbgfFlipping
+     * @sff FlipContfnts#UNDEFINED
+     * @sff FlipContfnts#BACKGROUND
+     * @sff FlipContfnts#PRIOR
+     * @sff FlipContfnts#COPIED
      */
-    public FlipContents getFlipContents() {
-        return flipContents;
+    publid FlipContfnts gftFlipContfnts() {
+        rfturn flipContfnts;
     }
 
     /**
-     * @return whether page flipping is only available in full-screen mode.  If this
-     * is <code>true</code>, full-screen exclusive mode is required for
-     * page-flipping.
-     * @see #isPageFlipping
-     * @see GraphicsDevice#setFullScreenWindow
+     * @rfturn wiftifr pbgf flipping is only bvbilbblf in full-sdrffn modf.  If tiis
+     * is <dodf>truf</dodf>, full-sdrffn fxdlusivf modf is rfquirfd for
+     * pbgf-flipping.
+     * @sff #isPbgfFlipping
+     * @sff GrbpiidsDfvidf#sftFullSdrffnWindow
      */
-    public boolean isFullScreenRequired() {
-        return false;
+    publid boolfbn isFullSdrffnRfquirfd() {
+        rfturn fblsf;
     }
 
     /**
-     * @return whether or not
-     * page flipping can be performed using more than two buffers (one or more
-     * intermediate buffers as well as the front and back buffer).
-     * @see #isPageFlipping
+     * @rfturn wiftifr or not
+     * pbgf flipping dbn bf pfrformfd using morf tibn two bufffrs (onf or morf
+     * intfrmfdibtf bufffrs bs wfll bs tif front bnd bbdk bufffr).
+     * @sff #isPbgfFlipping
      */
-    public boolean isMultiBufferAvailable() {
-        return false;
+    publid boolfbn isMultiBufffrAvbilbblf() {
+        rfturn fblsf;
     }
 
     /**
-     * @return a copy of this BufferCapabilities object.
+     * @rfturn b dopy of tiis BufffrCbpbbilitifs objfdt.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // Since we implement Cloneable, this should never happen
-            throw new InternalError(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // Sindf wf implfmfnt Clonfbblf, tiis siould nfvfr ibppfn
+            tirow nfw IntfrnblError(f);
         }
     }
 
-    // Inner class FlipContents
+    // Innfr dlbss FlipContfnts
     /**
-     * A type-safe enumeration of the possible back buffer contents after
-     * page-flipping
-     * @since 1.4
+     * A typf-sbff fnumfrbtion of tif possiblf bbdk bufffr dontfnts bftfr
+     * pbgf-flipping
+     * @sindf 1.4
      */
-    public static final class FlipContents extends AttributeValue {
+    publid stbtid finbl dlbss FlipContfnts fxtfnds AttributfVbluf {
 
-        private static int I_UNDEFINED = 0;
-        private static int I_BACKGROUND = 1;
-        private static int I_PRIOR = 2;
-        private static int I_COPIED = 3;
+        privbtf stbtid int I_UNDEFINED = 0;
+        privbtf stbtid int I_BACKGROUND = 1;
+        privbtf stbtid int I_PRIOR = 2;
+        privbtf stbtid int I_COPIED = 3;
 
-        private static final String NAMES[] =
-            { "undefined", "background", "prior", "copied" };
+        privbtf stbtid finbl String NAMES[] =
+            { "undffinfd", "bbdkground", "prior", "dopifd" };
 
         /**
-         * When flip contents are <code>UNDEFINED</code>, the
-         * contents of the back buffer are undefined after flipping.
-         * @see #isPageFlipping
-         * @see #getFlipContents
-         * @see #BACKGROUND
-         * @see #PRIOR
-         * @see #COPIED
+         * Wifn flip dontfnts brf <dodf>UNDEFINED</dodf>, tif
+         * dontfnts of tif bbdk bufffr brf undffinfd bftfr flipping.
+         * @sff #isPbgfFlipping
+         * @sff #gftFlipContfnts
+         * @sff #BACKGROUND
+         * @sff #PRIOR
+         * @sff #COPIED
          */
-        public static final FlipContents UNDEFINED =
-            new FlipContents(I_UNDEFINED);
+        publid stbtid finbl FlipContfnts UNDEFINED =
+            nfw FlipContfnts(I_UNDEFINED);
 
         /**
-         * When flip contents are <code>BACKGROUND</code>, the
-         * contents of the back buffer are cleared with the background color after
+         * Wifn flip dontfnts brf <dodf>BACKGROUND</dodf>, tif
+         * dontfnts of tif bbdk bufffr brf dlfbrfd witi tif bbdkground dolor bftfr
          * flipping.
-         * @see #isPageFlipping
-         * @see #getFlipContents
-         * @see #UNDEFINED
-         * @see #PRIOR
-         * @see #COPIED
+         * @sff #isPbgfFlipping
+         * @sff #gftFlipContfnts
+         * @sff #UNDEFINED
+         * @sff #PRIOR
+         * @sff #COPIED
          */
-        public static final FlipContents BACKGROUND =
-            new FlipContents(I_BACKGROUND);
+        publid stbtid finbl FlipContfnts BACKGROUND =
+            nfw FlipContfnts(I_BACKGROUND);
 
         /**
-         * When flip contents are <code>PRIOR</code>, the
-         * contents of the back buffer are the prior contents of the front buffer
-         * (a true page flip).
-         * @see #isPageFlipping
-         * @see #getFlipContents
-         * @see #UNDEFINED
-         * @see #BACKGROUND
-         * @see #COPIED
+         * Wifn flip dontfnts brf <dodf>PRIOR</dodf>, tif
+         * dontfnts of tif bbdk bufffr brf tif prior dontfnts of tif front bufffr
+         * (b truf pbgf flip).
+         * @sff #isPbgfFlipping
+         * @sff #gftFlipContfnts
+         * @sff #UNDEFINED
+         * @sff #BACKGROUND
+         * @sff #COPIED
          */
-        public static final FlipContents PRIOR =
-            new FlipContents(I_PRIOR);
+        publid stbtid finbl FlipContfnts PRIOR =
+            nfw FlipContfnts(I_PRIOR);
 
         /**
-         * When flip contents are <code>COPIED</code>, the
-         * contents of the back buffer are copied to the front buffer when
+         * Wifn flip dontfnts brf <dodf>COPIED</dodf>, tif
+         * dontfnts of tif bbdk bufffr brf dopifd to tif front bufffr wifn
          * flipping.
-         * @see #isPageFlipping
-         * @see #getFlipContents
-         * @see #UNDEFINED
-         * @see #BACKGROUND
-         * @see #PRIOR
+         * @sff #isPbgfFlipping
+         * @sff #gftFlipContfnts
+         * @sff #UNDEFINED
+         * @sff #BACKGROUND
+         * @sff #PRIOR
          */
-        public static final FlipContents COPIED =
-            new FlipContents(I_COPIED);
+        publid stbtid finbl FlipContfnts COPIED =
+            nfw FlipContfnts(I_COPIED);
 
-        private FlipContents(int type) {
-            super(type, NAMES);
+        privbtf FlipContfnts(int typf) {
+            supfr(typf, NAMES);
         }
 
-    } // Inner class FlipContents
+    } // Innfr dlbss FlipContfnts
 
 }

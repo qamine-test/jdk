@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.util.Arrbys;
+import jbvb.nio.BytfBufffr;
+
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+import jbvbx.drypto.spfd.PBEPbrbmftfrSpfd;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+/**
+ * This is bn implfmfntbtion of thf HMAC-PBESHA1 blgorithm bs dffinfd
+ * in PKCS#12 v1.0 stbndbrd.
+ *
+ * @buthor Vblfrif Pfng
+ */
+publid finbl dlbss HmbdPKCS12PBESHA1 fxtfnds HmbdCorf {
+
+    /**
+     * Stbndbrd donstrudtor, drfbtfs b nfw HmbdSHA1 instbndf.
+     */
+    publid HmbdPKCS12PBESHA1() throws NoSudhAlgorithmExdfption {
+        supfr("SHA1", 64);
+    }
+
+    /**
+     * Initiblizfs thf HMAC with thf givfn sfdrft kfy bnd blgorithm pbrbmftfrs.
+     *
+     * @pbrbm kfy thf sfdrft kfy.
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs.
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this MAC.
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this MAC.
+     */
+    protfdtfd void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
+        throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        dhbr[] pbsswdChbrs;
+        bytf[] sblt = null;
+        int iCount = 0;
+        if (kfy instbndfof jbvbx.drypto.intfrfbdfs.PBEKfy) {
+            jbvbx.drypto.intfrfbdfs.PBEKfy pbfKfy =
+                (jbvbx.drypto.intfrfbdfs.PBEKfy) kfy;
+            pbsswdChbrs = pbfKfy.gftPbssword();
+            sblt = pbfKfy.gftSblt(); // mbybf null if unspfdififd
+            iCount = pbfKfy.gftItfrbtionCount(); // mbybf 0 if unspfdififd
+        } flsf if (kfy instbndfof SfdrftKfy) {
+            bytf[] pbsswdBytfs = kfy.gftEndodfd();
+            if ((pbsswdBytfs == null) ||
+                !(kfy.gftAlgorithm().rfgionMbtdhfs(truf, 0, "PBE", 0, 3))) {
+                throw nfw InvblidKfyExdfption("Missing pbssword");
+            }
+            pbsswdChbrs = nfw dhbr[pbsswdBytfs.lfngth];
+            for (int i=0; i<pbsswdChbrs.lfngth; i++) {
+                pbsswdChbrs[i] = (dhbr) (pbsswdBytfs[i] & 0x7f);
+            }
+        } flsf {
+            throw nfw InvblidKfyExdfption("SfdrftKfy of PBE typf rfquirfd");
+        }
+        if (pbrbms == null) {
+            // should not buto-gfnfrbtf dffbult vblufs sindf durrfnt
+            // jbvbx.drypto.Mbd bpi dofs not hbvf bny mfthod for dbllfr to
+            // rftrifvf thf gfnfrbtfd dffbults.
+            if ((sblt == null) || (iCount == 0)) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("PBEPbrbmftfrSpfd rfquirfd for sblt bnd itfrbtion dount");
+            }
+        } flsf if (!(pbrbms instbndfof PBEPbrbmftfrSpfd)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("PBEPbrbmftfrSpfd typf rfquirfd");
+        } flsf {
+            PBEPbrbmftfrSpfd pbfPbrbms = (PBEPbrbmftfrSpfd) pbrbms;
+            // mbkf surf thf pbrbmftfr vblufs brf donsistfnt
+            if (sblt != null) {
+                if (!Arrbys.fqubls(sblt, pbfPbrbms.gftSblt())) {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("Indonsistfnt vbluf of sblt bftwffn kfy bnd pbrbms");
+                }
+            } flsf {
+                sblt = pbfPbrbms.gftSblt();
+            }
+            if (iCount != 0) {
+                if (iCount != pbfPbrbms.gftItfrbtionCount()) {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("Difffrfnt itfrbtion dount bftwffn kfy bnd pbrbms");
+                }
+            } flsf {
+                iCount = pbfPbrbms.gftItfrbtionCount();
+            }
+        }
+        // For sfdurity purposf, wf nffd to fnfordf b minimum lfngth
+        // for sblt; just rfquirf thf minimum sblt lfngth to bf 8-bytf
+        // whidh is whbt PKCS#5 rfdommfnds bnd opfnssl dofs.
+        if (sblt.lfngth < 8) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Sblt must bf bt lfbst 8 bytfs long");
+        }
+        if (iCount <= 0) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("ItfrbtionCount must bf b positivf numbfr");
+        }
+        bytf[] dfrivfdKfy = PKCS12PBECiphfrCorf.dfrivf(pbsswdChbrs, sblt,
+            iCount, fnginfGftMbdLfngth(), PKCS12PBECiphfrCorf.MAC_KEY);
+        SfdrftKfy diphfrKfy = nfw SfdrftKfySpfd(dfrivfdKfy, "HmbdSHA1");
+        supfr.fnginfInit(diphfrKfy, null);
+    }
+}

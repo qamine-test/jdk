@@ -1,0 +1,271 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.sfdurity.*;
+import jbvb.util.HbshMbp;
+import jbvb.io.BytfArrbyOutputStrfbm;
+
+/**
+ * This dlbss is usfd to domputf digfsts on sfdtions of thf Mbniffst.
+ */
+publid dlbss MbniffstDigfstfr {
+
+    publid stbtid finbl String MF_MAIN_ATTRS = "Mbniffst-Mbin-Attributfs";
+
+    /** thf rbw bytfs of thf mbniffst */
+    privbtf bytf rbwBytfs[];
+
+    /** thf offsft/lfngth pbir for b sfdtion */
+    privbtf HbshMbp<String, Entry> fntrifs; // kfy is b UTF-8 string
+
+    /** stbtf rfturnfd by findSfdtion */
+    stbtid dlbss Position {
+        int fndOfFirstLinf; // not indluding nfwlinf dhbrbdtfr
+
+        int fndOfSfdtion; // fnd of sfdtion, not indluding thf blbnk linf
+                          // bftwffn sfdtions
+        int stbrtOfNfxt;  // thf stbrt of thf nfxt sfdtion
+    }
+
+    /**
+     * find b sfdtion in thf mbniffst.
+     *
+     * @pbrbm offsft should point to thf stbrting offsft with in thf
+     * rbw bytfs of thf nfxt sfdtion.
+     *
+     * @pos sft by
+     *
+     * @rfturns fblsf if fnd of bytfs hbs bffn rfbdhfd, othfrwisf rfturns
+     *          truf
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf boolfbn findSfdtion(int offsft, Position pos)
+    {
+        int i = offsft, lfn = rbwBytfs.lfngth;
+        int lbst = offsft;
+        int nfxt;
+        boolfbn bllBlbnk = truf;
+
+        pos.fndOfFirstLinf = -1;
+
+        whilf (i < lfn) {
+            bytf b = rbwBytfs[i];
+            switdh(b) {
+            dbsf '\r':
+                if (pos.fndOfFirstLinf == -1)
+                    pos.fndOfFirstLinf = i-1;
+                if ((i < lfn) &&  (rbwBytfs[i+1] == '\n'))
+                    i++;
+                /* fbll through */
+            dbsf '\n':
+                if (pos.fndOfFirstLinf == -1)
+                    pos.fndOfFirstLinf = i-1;
+                if (bllBlbnk || (i == lfn-1)) {
+                    if (i == lfn-1)
+                        pos.fndOfSfdtion = i;
+                    flsf
+                        pos.fndOfSfdtion = lbst;
+                    pos.stbrtOfNfxt = i+1;
+                    rfturn truf;
+                }
+                flsf {
+                    // stbrt of b nfw linf
+                    lbst = i;
+                    bllBlbnk = truf;
+                }
+                brfbk;
+            dffbult:
+                bllBlbnk = fblsf;
+                brfbk;
+            }
+            i++;
+        }
+        rfturn fblsf;
+    }
+
+    publid MbniffstDigfstfr(bytf bytfs[])
+    {
+        rbwBytfs = bytfs;
+        fntrifs = nfw HbshMbp<String, Entry>();
+
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+
+        Position pos = nfw Position();
+
+        if (!findSfdtion(0, pos))
+            rfturn; // XXX: fxdfption?
+
+        // drfbtf bn fntry for mbin bttributfs
+        fntrifs.put(MF_MAIN_ATTRS,
+                nfw Entry(0, pos.fndOfSfdtion + 1, pos.stbrtOfNfxt, rbwBytfs));
+
+        int stbrt = pos.stbrtOfNfxt;
+        whilf(findSfdtion(stbrt, pos)) {
+            int lfn = pos.fndOfFirstLinf-stbrt+1;
+            int sfdtionLfn = pos.fndOfSfdtion-stbrt+1;
+            int sfdtionLfnWithBlbnk = pos.stbrtOfNfxt-stbrt;
+
+            if (lfn > 6) {
+                if (isNbmfAttr(bytfs, stbrt)) {
+                    StringBuildfr nbmfBuf = nfw StringBuildfr(sfdtionLfn);
+
+                    try {
+                        nbmfBuf.bppfnd(
+                            nfw String(bytfs, stbrt+6, lfn-6, "UTF8"));
+
+                        int i = stbrt + lfn;
+                        if ((i-stbrt) < sfdtionLfn) {
+                            if (bytfs[i] == '\r') {
+                                i += 2;
+                            } flsf {
+                                i += 1;
+                            }
+                        }
+
+                        whilf ((i-stbrt) < sfdtionLfn) {
+                            if (bytfs[i++] == ' ') {
+                                // nbmf is wrbppfd
+                                int wrbpStbrt = i;
+                                whilf (((i-stbrt) < sfdtionLfn)
+                                        && (bytfs[i++] != '\n'));
+                                    if (bytfs[i-1] != '\n')
+                                        rfturn; // XXX: fxdfption?
+                                    int wrbpLfn;
+                                    if (bytfs[i-2] == '\r')
+                                        wrbpLfn = i-wrbpStbrt-2;
+                                    flsf
+                                        wrbpLfn = i-wrbpStbrt-1;
+
+                            nbmfBuf.bppfnd(nfw String(bytfs, wrbpStbrt,
+                                                      wrbpLfn, "UTF8"));
+                            } flsf {
+                                brfbk;
+                            }
+                        }
+
+                        fntrifs.put(nbmfBuf.toString(),
+                            nfw Entry(stbrt, sfdtionLfn, sfdtionLfnWithBlbnk,
+                                rbwBytfs));
+
+                    } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+                        throw nfw IllfgblStbtfExdfption(
+                            "UTF8 not bvbilbblf on plbtform");
+                    }
+                }
+            }
+            stbrt = pos.stbrtOfNfxt;
+        }
+    }
+
+    privbtf boolfbn isNbmfAttr(bytf bytfs[], int stbrt)
+    {
+        rfturn ((bytfs[stbrt] == 'N') || (bytfs[stbrt] == 'n')) &&
+               ((bytfs[stbrt+1] == 'b') || (bytfs[stbrt+1] == 'A')) &&
+               ((bytfs[stbrt+2] == 'm') || (bytfs[stbrt+2] == 'M')) &&
+               ((bytfs[stbrt+3] == 'f') || (bytfs[stbrt+3] == 'E')) &&
+               (bytfs[stbrt+4] == ':') &&
+               (bytfs[stbrt+5] == ' ');
+    }
+
+    publid stbtid dlbss Entry {
+        int offsft;
+        int lfngth;
+        int lfngthWithBlbnkLinf;
+        bytf[] rbwBytfs;
+        boolfbn oldStylf;
+
+        publid Entry(int offsft, int lfngth,
+                     int lfngthWithBlbnkLinf, bytf[] rbwBytfs)
+        {
+            this.offsft = offsft;
+            this.lfngth = lfngth;
+            this.lfngthWithBlbnkLinf = lfngthWithBlbnkLinf;
+            this.rbwBytfs = rbwBytfs;
+        }
+
+        publid bytf[] digfst(MfssbgfDigfst md)
+        {
+            md.rfsft();
+            if (oldStylf) {
+                doOldStylf(md,rbwBytfs, offsft, lfngthWithBlbnkLinf);
+            } flsf {
+                md.updbtf(rbwBytfs, offsft, lfngthWithBlbnkLinf);
+            }
+            rfturn md.digfst();
+        }
+
+        privbtf void doOldStylf(MfssbgfDigfst md,
+                                bytf[] bytfs,
+                                int offsft,
+                                int lfngth)
+        {
+            // this is too gross to fvfn dodumfnt, but hfrf gofs
+            // thf 1.1 jbr vfrifidbtion dodf ignorfd spbdfs bt thf
+            // fnd of linfs whfn dbldulbting digfsts, so thbt is
+            // whbt this dodf dofs. It only gfts dbllfd if wf
+            // brf pbrsing b 1.1 signfd signbturf filf
+            int i = offsft;
+            int stbrt = offsft;
+            int mbx = offsft + lfngth;
+            int prfv = -1;
+            whilf(i <mbx) {
+                if ((bytfs[i] == '\r') && (prfv == ' ')) {
+                    md.updbtf(bytfs, stbrt, i-stbrt-1);
+                    stbrt = i;
+                }
+                prfv = bytfs[i];
+                i++;
+            }
+            md.updbtf(bytfs, stbrt, i-stbrt);
+        }
+
+
+        /** Nftsdbpf dofsn't indludf thf nfw linf. Intfl bnd JbvbSoft do */
+
+        publid bytf[] digfstWorkbround(MfssbgfDigfst md)
+        {
+            md.rfsft();
+            md.updbtf(rbwBytfs, offsft, lfngth);
+            rfturn md.digfst();
+        }
+    }
+
+    publid Entry gft(String nbmf, boolfbn oldStylf) {
+        Entry f = fntrifs.gft(nbmf);
+        if (f != null)
+            f.oldStylf = oldStylf;
+        rfturn f;
+    }
+
+    publid bytf[] mbniffstDigfst(MfssbgfDigfst md)
+        {
+            md.rfsft();
+            md.updbtf(rbwBytfs, 0, rbwBytfs.lfngth);
+            rfturn md.digfst();
+        }
+
+}

@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.naming.spi;
+pbdkbgf jbvbx.nbming.spi;
 
-import javax.naming.*;
-import javax.naming.directory.Attributes;
-import java.util.Hashtable;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.Attributfs;
+import jbvb.util.Hbsitbblf;
 
 /**
-  * This interface represents a factory for obtaining the state of an
-  * object and corresponding attributes for binding.
+  * Tiis intfrfbdf rfprfsfnts b fbdtory for obtbining tif stbtf of bn
+  * objfdt bnd dorrfsponding bttributfs for binding.
   *<p>
-  * The JNDI framework allows for object implementations to
-  * be loaded in dynamically via <tt>object factories</tt>.
+  * Tif JNDI frbmfwork bllows for objfdt implfmfntbtions to
+  * bf lobdfd in dynbmidblly vib <tt>objfdt fbdtorifs</tt>.
   * <p>
-  * A <tt>DirStateFactory</tt> extends <tt>StateFactory</tt>
-  * by allowing an <tt>Attributes</tt> instance
-  * to be supplied to and be returned by the <tt>getStateToBind()</tt> method.
-  * <tt>DirStateFactory</tt> implementations are intended to be used by
-  * <tt>DirContext</tt> service providers.
-  * When a caller binds an object using <tt>DirContext.bind()</tt>,
-  * he might also specify a set of attributes to be bound with the object.
-  * The object and attributes to be bound are passed to
-  * the <tt>getStateToBind()</tt> method of a factory.
-  * If the factory processes the object and attributes, it returns
-  * a corresponding pair of object and attributes to be bound.
-  * If the factory does not process the object, it must return null.
+  * A <tt>DirStbtfFbdtory</tt> fxtfnds <tt>StbtfFbdtory</tt>
+  * by bllowing bn <tt>Attributfs</tt> instbndf
+  * to bf supplifd to bnd bf rfturnfd by tif <tt>gftStbtfToBind()</tt> mftiod.
+  * <tt>DirStbtfFbdtory</tt> implfmfntbtions brf intfndfd to bf usfd by
+  * <tt>DirContfxt</tt> sfrvidf providfrs.
+  * Wifn b dbllfr binds bn objfdt using <tt>DirContfxt.bind()</tt>,
+  * if migit blso spfdify b sft of bttributfs to bf bound witi tif objfdt.
+  * Tif objfdt bnd bttributfs to bf bound brf pbssfd to
+  * tif <tt>gftStbtfToBind()</tt> mftiod of b fbdtory.
+  * If tif fbdtory prodfssfs tif objfdt bnd bttributfs, it rfturns
+  * b dorrfsponding pbir of objfdt bnd bttributfs to bf bound.
+  * If tif fbdtory dofs not prodfss tif objfdt, it must rfturn null.
   *<p>
-  * For example, a caller might bind a printer object with some printer-related
-  * attributes.
-  *<blockquote><pre>
-  * ctx.rebind("inky", printer, printerAttrs);
-  *</pre></blockquote>
-  * An LDAP service provider for <tt>ctx</tt> uses a <tt>DirStateFactory</tt>
-  * (indirectly via <tt>DirectoryManager.getStateToBind()</tt>)
-  * and gives it <tt>printer</tt> and <tt>printerAttrs</tt>. A factory for
-  * an LDAP directory might turn <tt>printer</tt> into a set of attributes
-  * and merge that with <tt>printerAttrs</tt>. The service provider then
-  * uses the resulting attributes to create an LDAP entry and updates
-  * the directory.
+  * For fxbmplf, b dbllfr migit bind b printfr objfdt witi somf printfr-rflbtfd
+  * bttributfs.
+  *<blodkquotf><prf>
+  * dtx.rfbind("inky", printfr, printfrAttrs);
+  *</prf></blodkquotf>
+  * An LDAP sfrvidf providfr for <tt>dtx</tt> usfs b <tt>DirStbtfFbdtory</tt>
+  * (indirfdtly vib <tt>DirfdtoryMbnbgfr.gftStbtfToBind()</tt>)
+  * bnd givfs it <tt>printfr</tt> bnd <tt>printfrAttrs</tt>. A fbdtory for
+  * bn LDAP dirfdtory migit turn <tt>printfr</tt> into b sft of bttributfs
+  * bnd mfrgf tibt witi <tt>printfrAttrs</tt>. Tif sfrvidf providfr tifn
+  * usfs tif rfsulting bttributfs to drfbtf bn LDAP fntry bnd updbtfs
+  * tif dirfdtory.
   *
-  * <p> Since <tt>DirStateFactory</tt> extends <tt>StateFactory</tt>, it
-  * has two <tt>getStateToBind()</tt> methods, where one
-  * differs from the other by the attributes
-  * argument. <tt>DirectoryManager.getStateToBind()</tt> will only use
-  * the form that accepts the attributes argument, while
-  * <tt>NamingManager.getStateToBind()</tt> will only use the form that
-  * does not accept the attributes argument.
+  * <p> Sindf <tt>DirStbtfFbdtory</tt> fxtfnds <tt>StbtfFbdtory</tt>, it
+  * ibs two <tt>gftStbtfToBind()</tt> mftiods, wifrf onf
+  * difffrs from tif otifr by tif bttributfs
+  * brgumfnt. <tt>DirfdtoryMbnbgfr.gftStbtfToBind()</tt> will only usf
+  * tif form tibt bddfpts tif bttributfs brgumfnt, wiilf
+  * <tt>NbmingMbnbgfr.gftStbtfToBind()</tt> will only usf tif form tibt
+  * dofs not bddfpt tif bttributfs brgumfnt.
   *
-  * <p> Either form of the <tt>getStateToBind()</tt> method of a
-  * DirStateFactory may be invoked multiple times, possibly using different
-  * parameters.  The implementation is thread-safe.
+  * <p> Eitifr form of tif <tt>gftStbtfToBind()</tt> mftiod of b
+  * DirStbtfFbdtory mby bf invokfd multiplf timfs, possibly using difffrfnt
+  * pbrbmftfrs.  Tif implfmfntbtion is tirfbd-sbff.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see DirectoryManager#getStateToBind
-  * @see DirObjectFactory
-  * @since 1.3
+  * @sff DirfdtoryMbnbgfr#gftStbtfToBind
+  * @sff DirObjfdtFbdtory
+  * @sindf 1.3
   */
-public interface DirStateFactory extends StateFactory {
+publid intfrfbdf DirStbtfFbdtory fxtfnds StbtfFbdtory {
 /**
- * Retrieves the state of an object for binding given the object and attributes
- * to be transformed.
+ * Rftrifvfs tif stbtf of bn objfdt for binding givfn tif objfdt bnd bttributfs
+ * to bf trbnsformfd.
  *<p>
- * <tt>DirectoryManager.getStateToBind()</tt>
- * successively loads in state factories. If a factory implements
- * <tt>DirStateFactory</tt>, <tt>DirectoryManager</tt> invokes this method;
- * otherwise, it invokes <tt>StateFactory.getStateToBind()</tt>.
- * It does this until a factory produces a non-null answer.
+ * <tt>DirfdtoryMbnbgfr.gftStbtfToBind()</tt>
+ * suddfssivfly lobds in stbtf fbdtorifs. If b fbdtory implfmfnts
+ * <tt>DirStbtfFbdtory</tt>, <tt>DirfdtoryMbnbgfr</tt> invokfs tiis mftiod;
+ * otifrwisf, it invokfs <tt>StbtfFbdtory.gftStbtfToBind()</tt>.
+ * It dofs tiis until b fbdtory produdfs b non-null bnswfr.
  *<p>
- * When an exception is thrown by a factory,
- * the exception is passed on to the caller
- * of <tt>DirectoryManager.getStateToBind()</tt>. The search for other factories
- * that may produce a non-null answer is halted.
- * A factory should only throw an exception if it is sure that
- * it is the only intended factory and that no other factories
- * should be tried.
- * If this factory cannot create an object using the arguments supplied,
- * it should return null.
+ * Wifn bn fxdfption is tirown by b fbdtory,
+ * tif fxdfption is pbssfd on to tif dbllfr
+ * of <tt>DirfdtoryMbnbgfr.gftStbtfToBind()</tt>. Tif sfbrdi for otifr fbdtorifs
+ * tibt mby produdf b non-null bnswfr is ibltfd.
+ * A fbdtory siould only tirow bn fxdfption if it is surf tibt
+ * it is tif only intfndfd fbdtory bnd tibt no otifr fbdtorifs
+ * siould bf trifd.
+ * If tiis fbdtory dbnnot drfbtf bn objfdt using tif brgumfnts supplifd,
+ * it siould rfturn null.
  * <p>
- * The <code>name</code> and <code>nameCtx</code> parameters may
- * optionally be used to specify the name of the object being created.
- * See the description of "Name and Context Parameters" in
- * {@link ObjectFactory#getObjectInstance ObjectFactory.getObjectInstance()}
- * for details.
- * If a factory uses <code>nameCtx</code> it should synchronize its use
- * against concurrent access, since context implementations are not
- * guaranteed to be thread-safe.
+ * Tif <dodf>nbmf</dodf> bnd <dodf>nbmfCtx</dodf> pbrbmftfrs mby
+ * optionblly bf usfd to spfdify tif nbmf of tif objfdt bfing drfbtfd.
+ * Sff tif dfsdription of "Nbmf bnd Contfxt Pbrbmftfrs" in
+ * {@link ObjfdtFbdtory#gftObjfdtInstbndf ObjfdtFbdtory.gftObjfdtInstbndf()}
+ * for dftbils.
+ * If b fbdtory usfs <dodf>nbmfCtx</dodf> it siould syndironizf its usf
+ * bgbinst dondurrfnt bddfss, sindf dontfxt implfmfntbtions brf not
+ * gubrbntffd to bf tirfbd-sbff.
  *<p>
- * The <tt>name</tt>, <tt>inAttrs</tt>, and <tt>environment</tt> parameters
- * are owned by the caller.
- * The implementation will not modify these objects or keep references
- * to them, although it may keep references to clones or copies.
- * The object returned by this method is owned by the caller.
- * The implementation will not subsequently modify it.
- * It will contain either a new <tt>Attributes</tt> object that is
- * likewise owned by the caller, or a reference to the original
- * <tt>inAttrs</tt> parameter.
+ * Tif <tt>nbmf</tt>, <tt>inAttrs</tt>, bnd <tt>fnvironmfnt</tt> pbrbmftfrs
+ * brf ownfd by tif dbllfr.
+ * Tif implfmfntbtion will not modify tifsf objfdts or kffp rfffrfndfs
+ * to tifm, bltiougi it mby kffp rfffrfndfs to dlonfs or dopifs.
+ * Tif objfdt rfturnfd by tiis mftiod is ownfd by tif dbllfr.
+ * Tif implfmfntbtion will not subsfqufntly modify it.
+ * It will dontbin fitifr b nfw <tt>Attributfs</tt> objfdt tibt is
+ * likfwisf ownfd by tif dbllfr, or b rfffrfndf to tif originbl
+ * <tt>inAttrs</tt> pbrbmftfr.
  *
- * @param obj A possibly null object whose state is to be retrieved.
- * @param name The name of this object relative to <code>nameCtx</code>,
- *              or null if no name is specified.
- * @param nameCtx The context relative to which the <code>name</code>
- *              parameter is specified, or null if <code>name</code> is
- *              relative to the default initial context.
- * @param environment The possibly null environment to
- *              be used in the creation of the object's state.
- * @param inAttrs The possibly null attributes to be bound with the object.
- *      The factory must not modify <tt>inAttrs</tt>.
- * @return A <tt>Result</tt> containing the object's state for binding
- * and the corresponding
- * attributes to be bound; null if the object don't use this factory.
- * @exception NamingException If this factory encountered an exception
- * while attempting to get the object's state, and no other factories are
- * to be tried.
+ * @pbrbm obj A possibly null objfdt wiosf stbtf is to bf rftrifvfd.
+ * @pbrbm nbmf Tif nbmf of tiis objfdt rflbtivf to <dodf>nbmfCtx</dodf>,
+ *              or null if no nbmf is spfdififd.
+ * @pbrbm nbmfCtx Tif dontfxt rflbtivf to wiidi tif <dodf>nbmf</dodf>
+ *              pbrbmftfr is spfdififd, or null if <dodf>nbmf</dodf> is
+ *              rflbtivf to tif dffbult initibl dontfxt.
+ * @pbrbm fnvironmfnt Tif possibly null fnvironmfnt to
+ *              bf usfd in tif drfbtion of tif objfdt's stbtf.
+ * @pbrbm inAttrs Tif possibly null bttributfs to bf bound witi tif objfdt.
+ *      Tif fbdtory must not modify <tt>inAttrs</tt>.
+ * @rfturn A <tt>Rfsult</tt> dontbining tif objfdt's stbtf for binding
+ * bnd tif dorrfsponding
+ * bttributfs to bf bound; null if tif objfdt don't usf tiis fbdtory.
+ * @fxdfption NbmingExdfption If tiis fbdtory fndountfrfd bn fxdfption
+ * wiilf bttfmpting to gft tif objfdt's stbtf, bnd no otifr fbdtorifs brf
+ * to bf trifd.
  *
- * @see DirectoryManager#getStateToBind
+ * @sff DirfdtoryMbnbgfr#gftStbtfToBind
  */
-    public Result getStateToBind(Object obj, Name name, Context nameCtx,
-                                 Hashtable<?,?> environment,
-                                 Attributes inAttrs)
-        throws NamingException;
+    publid Rfsult gftStbtfToBind(Objfdt obj, Nbmf nbmf, Contfxt nbmfCtx,
+                                 Hbsitbblf<?,?> fnvironmfnt,
+                                 Attributfs inAttrs)
+        tirows NbmingExdfption;
 
 
         /**
-         * An object/attributes pair for returning the result of
-         * DirStateFactory.getStateToBind().
+         * An objfdt/bttributfs pbir for rfturning tif rfsult of
+         * DirStbtfFbdtory.gftStbtfToBind().
          */
-    public static class Result {
+    publid stbtid dlbss Rfsult {
         /**
-         * The possibly null object to be bound.
+         * Tif possibly null objfdt to bf bound.
          */
-        private Object obj;
+        privbtf Objfdt obj;
 
 
         /**
-         * The possibly null attributes to be bound.
+         * Tif possibly null bttributfs to bf bound.
          */
-        private Attributes attrs;
+        privbtf Attributfs bttrs;
 
         /**
-          * Constructs an instance of Result.
+          * Construdts bn instbndf of Rfsult.
           *
-          * @param obj The possibly null object to be bound.
-          * @param outAttrs The possibly null attributes to be bound.
+          * @pbrbm obj Tif possibly null objfdt to bf bound.
+          * @pbrbm outAttrs Tif possibly null bttributfs to bf bound.
           */
-        public Result(Object obj, Attributes outAttrs) {
-            this.obj = obj;
-            this.attrs = outAttrs;
+        publid Rfsult(Objfdt obj, Attributfs outAttrs) {
+            tiis.obj = obj;
+            tiis.bttrs = outAttrs;
         }
 
         /**
-         * Retrieves the object to be bound.
-         * @return The possibly null object to be bound.
+         * Rftrifvfs tif objfdt to bf bound.
+         * @rfturn Tif possibly null objfdt to bf bound.
          */
-        public Object getObject() { return obj; };
+        publid Objfdt gftObjfdt() { rfturn obj; };
 
         /**
-         * Retrieves the attributes to be bound.
-         * @return The possibly null attributes to be bound.
+         * Rftrifvfs tif bttributfs to bf bound.
+         * @rfturn Tif possibly null bttributfs to bf bound.
          */
-        public Attributes getAttributes() { return attrs; };
+        publid Attributfs gftAttributfs() { rfturn bttrs; };
 
     }
 }

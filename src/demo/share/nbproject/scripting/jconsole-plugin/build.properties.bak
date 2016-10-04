@@ -1,23 +1,23 @@
-main.dir=${basedir}/../../../scripting/jconsole-plugin
+mbin.dir=${bbsfdir}/../../../sdripting/jdonsolf-plugin
 
-src.dir=${main.dir}/src
+srd.dir=${mbin.dir}/srd
 
 build.dir=build
-classes.dir=${build.dir}/classes
-jar=${main.dir}/jconsole-plugin.jar
-javadoc.dir=${build.dir}/javadoc
+dlbssfs.dir=${build.dir}/dlbssfs
+jbr=${mbin.dir}/jdonsolf-plugin.jbr
+jbvbdod.dir=${build.dir}/jbvbdod
 
-build.sysclasspath=ignore
+build.sysdlbsspbti=ignorf
 
-nbjdk.home=${basedir}/../../../..
+nbjdk.iomf=${bbsfdir}/../../../..
 
-# E.g.: cp=lib/x.jar:lib/y.jar
-cp=${nbjdk.home}/lib/jconsole.jar
-extra.run.cp=
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+dp=${nbjdk.iomf}/lib/jdonsolf.jbr
+fxtrb.run.dp=
 
-main.class=jconsole-plugin
+mbin.dlbss=jdonsolf-plugin
 
-run.cp=${cp}:${classes.dir}:${extra.run.cp}
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
 
-debug=true
-deprecation=false
+dfbug=truf
+dfprfdbtion=fblsf

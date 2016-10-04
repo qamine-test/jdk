@@ -1,235 +1,235 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.c14n.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffSft;
 
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.helper.C14nHelper;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.iflpfr.C14nHflpfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+import org.xml.sbx.SAXExdfption;
 
 /**
- * Implements <A HREF="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">Canonical
- * XML Version 1.0</A>, a W3C Recommendation from 15 March 2001.
+ * Implfmfnts <A HREF="ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315">Cbnonidbl
+ * XML Vfrsion 1.0</A>, b W3C Rfdommfndbtion from 15 Mbrdi 2001.
  *
- * @author Christian Geuer-Pollmann <geuerp@apache.org>
+ * @butior Ciristibn Gfufr-Pollmbnn <gfufrp@bpbdif.org>
  */
-public abstract class Canonicalizer20010315 extends CanonicalizerBase {
-    private static final String XMLNS_URI = Constants.NamespaceSpecNS;
-    private static final String XML_LANG_URI = Constants.XML_LANG_SPACE_SpecNS;
+publid bbstrbdt dlbss Cbnonidblizfr20010315 fxtfnds CbnonidblizfrBbsf {
+    privbtf stbtid finbl String XMLNS_URI = Constbnts.NbmfspbdfSpfdNS;
+    privbtf stbtid finbl String XML_LANG_URI = Constbnts.XML_LANG_SPACE_SpfdNS;
 
-    private boolean firstCall = true;
-    private final SortedSet<Attr> result = new TreeSet<Attr>(COMPARE);
+    privbtf boolfbn firstCbll = truf;
+    privbtf finbl SortfdSft<Attr> rfsult = nfw TrffSft<Attr>(COMPARE);
 
-    private static class XmlAttrStack {
-        static class XmlsStackElement {
-            int level;
-            boolean rendered = false;
-            List<Attr> nodes = new ArrayList<Attr>();
+    privbtf stbtid dlbss XmlAttrStbdk {
+        stbtid dlbss XmlsStbdkElfmfnt {
+            int lfvfl;
+            boolfbn rfndfrfd = fblsf;
+            List<Attr> nodfs = nfw ArrbyList<Attr>();
         };
 
-        int currentLevel = 0;
-        int lastlevel = 0;
-        XmlsStackElement cur;
-        List<XmlsStackElement> levels = new ArrayList<XmlsStackElement>();
+        int durrfntLfvfl = 0;
+        int lbstlfvfl = 0;
+        XmlsStbdkElfmfnt dur;
+        List<XmlsStbdkElfmfnt> lfvfls = nfw ArrbyList<XmlsStbdkElfmfnt>();
 
-        void push(int level) {
-            currentLevel = level;
-            if (currentLevel == -1) {
-                return;
+        void pusi(int lfvfl) {
+            durrfntLfvfl = lfvfl;
+            if (durrfntLfvfl == -1) {
+                rfturn;
             }
-            cur = null;
-            while (lastlevel >= currentLevel) {
-                levels.remove(levels.size() - 1);
-                int newSize = levels.size();
-                if (newSize == 0) {
-                    lastlevel = 0;
-                    return;
+            dur = null;
+            wiilf (lbstlfvfl >= durrfntLfvfl) {
+                lfvfls.rfmovf(lfvfls.sizf() - 1);
+                int nfwSizf = lfvfls.sizf();
+                if (nfwSizf == 0) {
+                    lbstlfvfl = 0;
+                    rfturn;
                 }
-                lastlevel = (levels.get(newSize - 1)).level;
+                lbstlfvfl = (lfvfls.gft(nfwSizf - 1)).lfvfl;
             }
         }
 
-        void addXmlnsAttr(Attr n) {
-            if (cur == null) {
-                cur = new XmlsStackElement();
-                cur.level = currentLevel;
-                levels.add(cur);
-                lastlevel = currentLevel;
+        void bddXmlnsAttr(Attr n) {
+            if (dur == null) {
+                dur = nfw XmlsStbdkElfmfnt();
+                dur.lfvfl = durrfntLfvfl;
+                lfvfls.bdd(dur);
+                lbstlfvfl = durrfntLfvfl;
             }
-            cur.nodes.add(n);
+            dur.nodfs.bdd(n);
         }
 
-        void getXmlnsAttr(Collection<Attr> col) {
-            int size = levels.size() - 1;
-            if (cur == null) {
-                cur = new XmlsStackElement();
-                cur.level = currentLevel;
-                lastlevel = currentLevel;
-                levels.add(cur);
+        void gftXmlnsAttr(Collfdtion<Attr> dol) {
+            int sizf = lfvfls.sizf() - 1;
+            if (dur == null) {
+                dur = nfw XmlsStbdkElfmfnt();
+                dur.lfvfl = durrfntLfvfl;
+                lbstlfvfl = durrfntLfvfl;
+                lfvfls.bdd(dur);
             }
-            boolean parentRendered = false;
-            XmlsStackElement e = null;
-            if (size == -1) {
-                parentRendered = true;
-            } else {
-                e = levels.get(size);
-                if (e.rendered && e.level + 1 == currentLevel) {
-                    parentRendered = true;
+            boolfbn pbrfntRfndfrfd = fblsf;
+            XmlsStbdkElfmfnt f = null;
+            if (sizf == -1) {
+                pbrfntRfndfrfd = truf;
+            } flsf {
+                f = lfvfls.gft(sizf);
+                if (f.rfndfrfd && f.lfvfl + 1 == durrfntLfvfl) {
+                    pbrfntRfndfrfd = truf;
                 }
             }
-            if (parentRendered) {
-                col.addAll(cur.nodes);
-                cur.rendered = true;
-                return;
+            if (pbrfntRfndfrfd) {
+                dol.bddAll(dur.nodfs);
+                dur.rfndfrfd = truf;
+                rfturn;
             }
 
-            Map<String, Attr> loa = new HashMap<String, Attr>();
-            for (; size >= 0; size--) {
-                e = levels.get(size);
-                Iterator<Attr> it = e.nodes.iterator();
-                while (it.hasNext()) {
-                    Attr n = it.next();
-                    if (!loa.containsKey(n.getName())) {
-                        loa.put(n.getName(), n);
+            Mbp<String, Attr> lob = nfw HbsiMbp<String, Attr>();
+            for (; sizf >= 0; sizf--) {
+                f = lfvfls.gft(sizf);
+                Itfrbtor<Attr> it = f.nodfs.itfrbtor();
+                wiilf (it.ibsNfxt()) {
+                    Attr n = it.nfxt();
+                    if (!lob.dontbinsKfy(n.gftNbmf())) {
+                        lob.put(n.gftNbmf(), n);
                     }
                 }
             }
 
-            cur.rendered = true;
-            col.addAll(loa.values());
+            dur.rfndfrfd = truf;
+            dol.bddAll(lob.vblufs());
         }
 
     }
 
-    private XmlAttrStack xmlattrStack = new XmlAttrStack();
+    privbtf XmlAttrStbdk xmlbttrStbdk = nfw XmlAttrStbdk();
 
     /**
-     * Constructor Canonicalizer20010315
+     * Construdtor Cbnonidblizfr20010315
      *
-     * @param includeComments
+     * @pbrbm indludfCommfnts
      */
-    public Canonicalizer20010315(boolean includeComments) {
-        super(includeComments);
+    publid Cbnonidblizfr20010315(boolfbn indludfCommfnts) {
+        supfr(indludfCommfnts);
     }
 
     /**
-     * Always throws a CanonicalizationException because this is inclusive c14n.
+     * Alwbys tirows b CbnonidblizbtionExdfption bfdbusf tiis is indlusivf d14n.
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @return none it always fails
-     * @throws CanonicalizationException always
+     * @pbrbm xpbtiNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn nonf it blwbys fbils
+     * @tirows CbnonidblizbtionExdfption blwbys
      */
-    public byte[] engineCanonicalizeXPathNodeSet(Set<Node> xpathNodeSet, String inclusiveNamespaces)
-        throws CanonicalizationException {
+    publid bytf[] fnginfCbnonidblizfXPbtiNodfSft(Sft<Nodf> xpbtiNodfSft, String indlusivfNbmfspbdfs)
+        tirows CbnonidblizbtionExdfption {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ wfll, siould wf tirow UnsupportfdOpfrbtionExdfption ? */
+        tirow nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
     }
 
     /**
-     * Always throws a CanonicalizationException because this is inclusive c14n.
+     * Alwbys tirows b CbnonidblizbtionExdfption bfdbusf tiis is indlusivf d14n.
      *
-     * @param rootNode
-     * @param inclusiveNamespaces
-     * @return none it always fails
-     * @throws CanonicalizationException
+     * @pbrbm rootNodf
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn nonf it blwbys fbils
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalizeSubTree(Node rootNode, String inclusiveNamespaces)
-        throws CanonicalizationException {
+    publid bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf, String indlusivfNbmfspbdfs)
+        tirows CbnonidblizbtionExdfption {
 
-        /** $todo$ well, should we throw UnsupportedOperationException ? */
-        throw new CanonicalizationException("c14n.Canonicalizer.UnsupportedOperation");
+        /** $todo$ wfll, siould wf tirow UnsupportfdOpfrbtionExdfption ? */
+        tirow nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
     }
 
     /**
-     * Returns the Attr[]s to be output for the given element.
+     * Rfturns tif Attr[]s to bf output for tif givfn flfmfnt.
      * <br>
-     * The code of this method is a copy of {@link #handleAttributes(Element,
-     * NameSpaceSymbTable)},
-     * whereas it takes into account that subtree-c14n is -- well -- subtree-based.
-     * So if the element in question isRoot of c14n, it's parent is not in the
-     * node set, as well as all other ancestors.
+     * Tif dodf of tiis mftiod is b dopy of {@link #ibndlfAttributfs(Elfmfnt,
+     * NbmfSpbdfSymbTbblf)},
+     * wifrfbs it tbkfs into bddount tibt subtrff-d14n is -- wfll -- subtrff-bbsfd.
+     * So if tif flfmfnt in qufstion isRoot of d14n, it's pbrfnt is not in tif
+     * nodf sft, bs wfll bs bll otifr bndfstors.
      *
-     * @param element
-     * @param ns
-     * @return the Attr[]s to be output
-     * @throws CanonicalizationException
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn tif Attr[]s to bf output
+     * @tirows CbnonidblizbtionExdfption
      */
-    @Override
-    protected Iterator<Attr> handleAttributesSubtree(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        if (!element.hasAttributes() && !firstCall) {
-            return null;
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> ibndlfAttributfsSubtrff(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        tirows CbnonidblizbtionExdfption {
+        if (!flfmfnt.ibsAttributfs() && !firstCbll) {
+            rfturn null;
         }
-        // result will contain the attrs which have to be output
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+        // rfsult will dontbin tif bttrs wiidi ibvf to bf output
+        finbl SortfdSft<Attr> rfsult = tiis.rfsult;
+        rfsult.dlfbr();
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
+        if (flfmfnt.ibsAttributfs()) {
+            NbmfdNodfMbp bttrs = flfmfnt.gftAttributfs();
+            int bttrsLfngti = bttrs.gftLfngti();
 
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
-                String NUri = attribute.getNamespaceURI();
-                String NName = attribute.getLocalName();
-                String NValue = attribute.getValue();
+            for (int i = 0; i < bttrsLfngti; i++) {
+                Attr bttributf = (Attr) bttrs.itfm(i);
+                String NUri = bttributf.gftNbmfspbdfURI();
+                String NNbmf = bttributf.gftLodblNbmf();
+                String NVbluf = bttributf.gftVbluf();
 
-                if (!XMLNS_URI.equals(NUri)) {
-                    //It's not a namespace attr node. Add to the result and continue.
-                    result.add(attribute);
-                } else if (!(XML.equals(NName) && XML_LANG_URI.equals(NValue))) {
-                    //The default mapping for xml must not be output.
-                    Node n = ns.addMappingAndRender(NName, NValue, attribute);
+                if (!XMLNS_URI.fqubls(NUri)) {
+                    //It's not b nbmfspbdf bttr nodf. Add to tif rfsult bnd dontinuf.
+                    rfsult.bdd(bttributf);
+                } flsf if (!(XML.fqubls(NNbmf) && XML_LANG_URI.fqubls(NVbluf))) {
+                    //Tif dffbult mbpping for xml must not bf output.
+                    Nodf n = ns.bddMbppingAndRfndfr(NNbmf, NVbluf, bttributf);
 
                     if (n != null) {
-                        //Render the ns definition
-                        result.add((Attr)n);
-                        if (C14nHelper.namespaceIsRelative(attribute)) {
-                            Object exArgs[] = { element.getTagName(), NName, attribute.getNodeValue() };
-                            throw new CanonicalizationException(
-                                "c14n.Canonicalizer.RelativeNamespace", exArgs
+                        //Rfndfr tif ns dffinition
+                        rfsult.bdd((Attr)n);
+                        if (C14nHflpfr.nbmfspbdfIsRflbtivf(bttributf)) {
+                            Objfdt fxArgs[] = { flfmfnt.gftTbgNbmf(), NNbmf, bttributf.gftNodfVbluf() };
+                            tirow nfw CbnonidblizbtionExdfption(
+                                "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
                             );
                         }
                     }
@@ -237,159 +237,159 @@ public abstract class Canonicalizer20010315 extends CanonicalizerBase {
             }
         }
 
-        if (firstCall) {
-            //It is the first node of the subtree
-            //Obtain all the namespaces defined in the parents, and added to the output.
-            ns.getUnrenderedNodes(result);
-            //output the attributes in the xml namespace.
-            xmlattrStack.getXmlnsAttr(result);
-            firstCall = false;
+        if (firstCbll) {
+            //It is tif first nodf of tif subtrff
+            //Obtbin bll tif nbmfspbdfs dffinfd in tif pbrfnts, bnd bddfd to tif output.
+            ns.gftUnrfndfrfdNodfs(rfsult);
+            //output tif bttributfs in tif xml nbmfspbdf.
+            xmlbttrStbdk.gftXmlnsAttr(rfsult);
+            firstCbll = fblsf;
         }
 
-        return result.iterator();
+        rfturn rfsult.itfrbtor();
     }
 
     /**
-     * Returns the Attr[]s to be output for the given element.
+     * Rfturns tif Attr[]s to bf output for tif givfn flfmfnt.
      * <br>
-     * IMPORTANT: This method expects to work on a modified DOM tree, i.e. a DOM which has
-     * been prepared using {@link com.sun.org.apache.xml.internal.security.utils.XMLUtils#circumventBug2650(
-     * org.w3c.dom.Document)}.
+     * IMPORTANT: Tiis mftiod fxpfdts to work on b modififd DOM trff, i.f. b DOM wiidi ibs
+     * bffn prfpbrfd using {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils#dirdumvfntBug2650(
+     * org.w3d.dom.Dodumfnt)}.
      *
-     * @param element
-     * @param ns
-     * @return the Attr[]s to be output
-     * @throws CanonicalizationException
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn tif Attr[]s to bf output
+     * @tirows CbnonidblizbtionExdfption
      */
-    @Override
-    protected Iterator<Attr> handleAttributes(Element element, NameSpaceSymbTable ns)
-        throws CanonicalizationException {
-        // result will contain the attrs which have to be output
-        xmlattrStack.push(ns.getLevel());
-        boolean isRealVisible = isVisibleDO(element, ns.getLevel()) == 1;
-        final SortedSet<Attr> result = this.result;
-        result.clear();
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> ibndlfAttributfs(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        tirows CbnonidblizbtionExdfption {
+        // rfsult will dontbin tif bttrs wiidi ibvf to bf output
+        xmlbttrStbdk.pusi(ns.gftLfvfl());
+        boolfbn isRfblVisiblf = isVisiblfDO(flfmfnt, ns.gftLfvfl()) == 1;
+        finbl SortfdSft<Attr> rfsult = tiis.rfsult;
+        rfsult.dlfbr();
 
-        if (element.hasAttributes()) {
-            NamedNodeMap attrs = element.getAttributes();
-            int attrsLength = attrs.getLength();
+        if (flfmfnt.ibsAttributfs()) {
+            NbmfdNodfMbp bttrs = flfmfnt.gftAttributfs();
+            int bttrsLfngti = bttrs.gftLfngti();
 
-            for (int i = 0; i < attrsLength; i++) {
-                Attr attribute = (Attr) attrs.item(i);
-                String NUri = attribute.getNamespaceURI();
-                String NName = attribute.getLocalName();
-                String NValue = attribute.getValue();
+            for (int i = 0; i < bttrsLfngti; i++) {
+                Attr bttributf = (Attr) bttrs.itfm(i);
+                String NUri = bttributf.gftNbmfspbdfURI();
+                String NNbmf = bttributf.gftLodblNbmf();
+                String NVbluf = bttributf.gftVbluf();
 
-                if (!XMLNS_URI.equals(NUri)) {
-                    //A non namespace definition node.
-                    if (XML_LANG_URI.equals(NUri)) {
-                        xmlattrStack.addXmlnsAttr(attribute);
-                    } else if (isRealVisible) {
-                        //The node is visible add the attribute to the list of output attributes.
-                        result.add(attribute);
+                if (!XMLNS_URI.fqubls(NUri)) {
+                    //A non nbmfspbdf dffinition nodf.
+                    if (XML_LANG_URI.fqubls(NUri)) {
+                        xmlbttrStbdk.bddXmlnsAttr(bttributf);
+                    } flsf if (isRfblVisiblf) {
+                        //Tif nodf is visiblf bdd tif bttributf to tif list of output bttributfs.
+                        rfsult.bdd(bttributf);
                     }
-                } else if (!XML.equals(NName) || !XML_LANG_URI.equals(NValue)) {
-                    /* except omit namespace node with local name xml, which defines
-                     * the xml prefix, if its string value is http://www.w3.org/XML/1998/namespace.
+                } flsf if (!XML.fqubls(NNbmf) || !XML_LANG_URI.fqubls(NVbluf)) {
+                    /* fxdfpt omit nbmfspbdf nodf witi lodbl nbmf xml, wiidi dffinfs
+                     * tif xml prffix, if its string vbluf is ittp://www.w3.org/XML/1998/nbmfspbdf.
                      */
-                    //add the prefix binding to the ns symb table.
-                    if (isVisible(attribute))  {
-                        if (isRealVisible || !ns.removeMappingIfRender(NName)) {
-                            //The xpath select this node output it if needed.
-                            Node n = ns.addMappingAndRender(NName, NValue, attribute);
+                    //bdd tif prffix binding to tif ns symb tbblf.
+                    if (isVisiblf(bttributf))  {
+                        if (isRfblVisiblf || !ns.rfmovfMbppingIfRfndfr(NNbmf)) {
+                            //Tif xpbti sflfdt tiis nodf output it if nffdfd.
+                            Nodf n = ns.bddMbppingAndRfndfr(NNbmf, NVbluf, bttributf);
                             if (n != null) {
-                                result.add((Attr)n);
-                                if (C14nHelper.namespaceIsRelative(attribute)) {
-                                    Object exArgs[] = { element.getTagName(), NName, attribute.getNodeValue() };
-                                    throw new CanonicalizationException(
-                                        "c14n.Canonicalizer.RelativeNamespace", exArgs
+                                rfsult.bdd((Attr)n);
+                                if (C14nHflpfr.nbmfspbdfIsRflbtivf(bttributf)) {
+                                    Objfdt fxArgs[] = { flfmfnt.gftTbgNbmf(), NNbmf, bttributf.gftNodfVbluf() };
+                                    tirow nfw CbnonidblizbtionExdfption(
+                                        "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
                                     );
                                 }
                             }
                         }
-                    } else {
-                        if (isRealVisible && !XMLNS.equals(NName)) {
-                            ns.removeMapping(NName);
-                        } else {
-                            ns.addMapping(NName, NValue, attribute);
+                    } flsf {
+                        if (isRfblVisiblf && !XMLNS.fqubls(NNbmf)) {
+                            ns.rfmovfMbpping(NNbmf);
+                        } flsf {
+                            ns.bddMbpping(NNbmf, NVbluf, bttributf);
                         }
                     }
                 }
             }
         }
-        if (isRealVisible) {
-            //The element is visible, handle the xmlns definition
-            Attr xmlns = element.getAttributeNodeNS(XMLNS_URI, XMLNS);
-            Node n = null;
+        if (isRfblVisiblf) {
+            //Tif flfmfnt is visiblf, ibndlf tif xmlns dffinition
+            Attr xmlns = flfmfnt.gftAttributfNodfNS(XMLNS_URI, XMLNS);
+            Nodf n = null;
             if (xmlns == null) {
-                //No xmlns def just get the already defined.
-                n = ns.getMapping(XMLNS);
-            } else if (!isVisible(xmlns)) {
-                //There is a definition but the xmlns is not selected by the xpath.
-                //then xmlns=""
-                n = ns.addMappingAndRender(
-                        XMLNS, "", getNullNode(xmlns.getOwnerDocument()));
+                //No xmlns dff just gft tif blrfbdy dffinfd.
+                n = ns.gftMbpping(XMLNS);
+            } flsf if (!isVisiblf(xmlns)) {
+                //Tifrf is b dffinition but tif xmlns is not sflfdtfd by tif xpbti.
+                //tifn xmlns=""
+                n = ns.bddMbppingAndRfndfr(
+                        XMLNS, "", gftNullNodf(xmlns.gftOwnfrDodumfnt()));
             }
-            //output the xmlns def if needed.
+            //output tif xmlns dff if nffdfd.
             if (n != null) {
-                result.add((Attr)n);
+                rfsult.bdd((Attr)n);
             }
-            //Float all xml:* attributes of the unselected parent elements to this one.
-            xmlattrStack.getXmlnsAttr(result);
-            ns.getUnrenderedNodes(result);
+            //Flobt bll xml:* bttributfs of tif unsflfdtfd pbrfnt flfmfnts to tiis onf.
+            xmlbttrStbdk.gftXmlnsAttr(rfsult);
+            ns.gftUnrfndfrfdNodfs(rfsult);
         }
 
-        return result.iterator();
+        rfturn rfsult.itfrbtor();
     }
 
-    protected void circumventBugIfNeeded(XMLSignatureInput input)
-        throws CanonicalizationException, ParserConfigurationException, IOException, SAXException {
-        if (!input.isNeedsToBeExpanded()) {
-            return;
+    protfdtfd void dirdumvfntBugIfNffdfd(XMLSignbturfInput input)
+        tirows CbnonidblizbtionExdfption, PbrsfrConfigurbtionExdfption, IOExdfption, SAXExdfption {
+        if (!input.isNffdsToBfExpbndfd()) {
+            rfturn;
         }
-        Document doc = null;
-        if (input.getSubNode() != null) {
-            doc = XMLUtils.getOwnerDocument(input.getSubNode());
-        } else {
-            doc = XMLUtils.getOwnerDocument(input.getNodeSet());
+        Dodumfnt dod = null;
+        if (input.gftSubNodf() != null) {
+            dod = XMLUtils.gftOwnfrDodumfnt(input.gftSubNodf());
+        } flsf {
+            dod = XMLUtils.gftOwnfrDodumfnt(input.gftNodfSft());
         }
-        XMLUtils.circumventBug2650(doc);
+        XMLUtils.dirdumvfntBug2650(dod);
     }
 
-    @Override
-    protected void handleParent(Element e, NameSpaceSymbTable ns) {
-        if (!e.hasAttributes() && e.getNamespaceURI() == null) {
-            return;
+    @Ovfrridf
+    protfdtfd void ibndlfPbrfnt(Elfmfnt f, NbmfSpbdfSymbTbblf ns) {
+        if (!f.ibsAttributfs() && f.gftNbmfspbdfURI() == null) {
+            rfturn;
         }
-        xmlattrStack.push(-1);
-        NamedNodeMap attrs = e.getAttributes();
-        int attrsLength = attrs.getLength();
-        for (int i = 0; i < attrsLength; i++) {
-            Attr attribute = (Attr) attrs.item(i);
-            String NName = attribute.getLocalName();
-            String NValue = attribute.getNodeValue();
+        xmlbttrStbdk.pusi(-1);
+        NbmfdNodfMbp bttrs = f.gftAttributfs();
+        int bttrsLfngti = bttrs.gftLfngti();
+        for (int i = 0; i < bttrsLfngti; i++) {
+            Attr bttributf = (Attr) bttrs.itfm(i);
+            String NNbmf = bttributf.gftLodblNbmf();
+            String NVbluf = bttributf.gftNodfVbluf();
 
-            if (Constants.NamespaceSpecNS.equals(attribute.getNamespaceURI())) {
-                if (!XML.equals(NName) || !Constants.XML_LANG_SPACE_SpecNS.equals(NValue)) {
-                    ns.addMapping(NName, NValue, attribute);
+            if (Constbnts.NbmfspbdfSpfdNS.fqubls(bttributf.gftNbmfspbdfURI())) {
+                if (!XML.fqubls(NNbmf) || !Constbnts.XML_LANG_SPACE_SpfdNS.fqubls(NVbluf)) {
+                    ns.bddMbpping(NNbmf, NVbluf, bttributf);
                 }
-            } else if (XML_LANG_URI.equals(attribute.getNamespaceURI())) {
-                xmlattrStack.addXmlnsAttr(attribute);
+            } flsf if (XML_LANG_URI.fqubls(bttributf.gftNbmfspbdfURI())) {
+                xmlbttrStbdk.bddXmlnsAttr(bttributf);
             }
         }
-        if (e.getNamespaceURI() != null) {
-            String NName = e.getPrefix();
-            String NValue = e.getNamespaceURI();
-            String Name;
-            if (NName == null || NName.equals("")) {
-                NName = "xmlns";
-                Name = "xmlns";
-            } else {
-                Name = "xmlns:" + NName;
+        if (f.gftNbmfspbdfURI() != null) {
+            String NNbmf = f.gftPrffix();
+            String NVbluf = f.gftNbmfspbdfURI();
+            String Nbmf;
+            if (NNbmf == null || NNbmf.fqubls("")) {
+                NNbmf = "xmlns";
+                Nbmf = "xmlns";
+            } flsf {
+                Nbmf = "xmlns:" + NNbmf;
             }
-            Attr n = e.getOwnerDocument().createAttributeNS("http://www.w3.org/2000/xmlns/", Name);
-            n.setValue(NValue);
-            ns.addMapping(NName, NValue, n);
+            Attr n = f.gftOwnfrDodumfnt().drfbtfAttributfNS("ittp://www.w3.org/2000/xmlns/", Nbmf);
+            n.sftVbluf(NVbluf);
+            ns.bddMbpping(NNbmf, NVbluf, n);
         }
     }
 }

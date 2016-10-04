@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.rmid.nfwrmid.jrmp;
+
+/**
+ * Constbnts spfdifid to thf JRMP rmid gfnfrbtor.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ *
+ * @buthor Pftfr Jonfs
+ **/
+finbl dlbss Constbnts {
+
+    privbtf Constbnts() { throw nfw AssfrtionError(); }
+
+    /*
+     * fully-qublififd nbmfs of typfs usfd by rmid
+     */
+    stbtid finbl String REMOTE_OBJECT = "jbvb.rmi.sfrvfr.RfmotfObjfdt";
+    stbtid finbl String REMOTE_STUB = "jbvb.rmi.sfrvfr.RfmotfStub";
+    stbtid finbl String REMOTE_REF = "jbvb.rmi.sfrvfr.RfmotfRff";
+    stbtid finbl String OPERATION = "jbvb.rmi.sfrvfr.Opfrbtion";
+    stbtid finbl String SKELETON = "jbvb.rmi.sfrvfr.Skflfton";
+    stbtid finbl String SKELETON_MISMATCH_EXCEPTION =
+        "jbvb.rmi.sfrvfr.SkflftonMismbtdhExdfption";
+    stbtid finbl String REMOTE_CALL = "jbvb.rmi.sfrvfr.RfmotfCbll";
+    stbtid finbl String MARSHAL_EXCEPTION = "jbvb.rmi.MbrshblExdfption";
+    stbtid finbl String UNMARSHAL_EXCEPTION = "jbvb.rmi.UnmbrshblExdfption";
+    stbtid finbl String UNEXPECTED_EXCEPTION = "jbvb.rmi.UnfxpfdtfdExdfption";
+
+    /*
+     * stub protodol vfrsions
+     */
+    fnum StubVfrsion { V1_1, VCOMPAT, V1_2 };
+
+    /*
+     * sfriblVfrsionUID for bll stubs thbt dbn usf 1.2 protodol
+     */
+    stbtid finbl long STUB_SERIAL_VERSION_UID = 2;
+
+    /*
+     * vfrsion numbfr usfd to sffd intfrfbdf hbsh domputbtion
+     */
+    stbtid finbl int INTERFACE_HASH_STUB_VERSION = 1;
+}

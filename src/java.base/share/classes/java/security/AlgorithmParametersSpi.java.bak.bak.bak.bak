@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf {@dodf AlgorithmPbrbmftfrs} dlbss, whidh is usfd to mbnbgf
+ * blgorithm pbrbmftfrs.
+ *
+ * <p> All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply pbrbmftfr mbnbgfmfnt
+ * for b pbrtidulbr blgorithm.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff AlgorithmPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd
+ * @sff jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd
+ *
+ * @sindf 1.2
+ */
+
+publid bbstrbdt dlbss AlgorithmPbrbmftfrsSpi {
+
+    /**
+     * Initiblizfs this pbrbmftfrs objfdt using thf pbrbmftfrs
+     * spfdififd in {@dodf pbrbmSpfd}.
+     *
+     * @pbrbm pbrbmSpfd thf pbrbmftfr spfdifidbtion.
+     *
+     * @fxdfption InvblidPbrbmftfrSpfdExdfption if thf givfn pbrbmftfr
+     * spfdifidbtion is inbppropribtf for thf initiblizbtion of this pbrbmftfr
+     * objfdt.
+     */
+    protfdtfd bbstrbdt void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption;
+
+    /**
+     * Imports thf spfdififd pbrbmftfrs bnd dfdodfs thfm
+     * bddording to thf primbry dfdoding formbt for pbrbmftfrs.
+     * Thf primbry dfdoding formbt for pbrbmftfrs is ASN.1, if bn ASN.1
+     * spfdifidbtion for this typf of pbrbmftfrs fxists.
+     *
+     * @pbrbm pbrbms thf fndodfd pbrbmftfrs.
+     *
+     * @fxdfption IOExdfption on dfdoding frrors
+     */
+    protfdtfd bbstrbdt void fnginfInit(bytf[] pbrbms)
+        throws IOExdfption;
+
+    /**
+     * Imports thf pbrbmftfrs from {@dodf pbrbms} bnd
+     * dfdodfs thfm bddording to thf spfdififd dfdoding formbt.
+     * If {@dodf formbt} is null, thf
+     * primbry dfdoding formbt for pbrbmftfrs is usfd. Thf primbry dfdoding
+     * formbt is ASN.1, if bn ASN.1 spfdifidbtion for thfsf pbrbmftfrs
+     * fxists.
+     *
+     * @pbrbm pbrbms thf fndodfd pbrbmftfrs.
+     *
+     * @pbrbm formbt thf nbmf of thf dfdoding formbt.
+     *
+     * @fxdfption IOExdfption on dfdoding frrors
+     */
+    protfdtfd bbstrbdt void fnginfInit(bytf[] pbrbms, String formbt)
+        throws IOExdfption;
+
+    /**
+     * Rfturns b (trbnspbrfnt) spfdifidbtion of this pbrbmftfrs
+     * objfdt.
+     * {@dodf pbrbmSpfd} idfntififs thf spfdifidbtion dlbss in whidh
+     * thf pbrbmftfrs should bf rfturnfd. It dould, for fxbmplf, bf
+     * {@dodf DSAPbrbmftfrSpfd.dlbss}, to indidbtf thbt thf
+     * pbrbmftfrs should bf rfturnfd in bn instbndf of thf
+     * {@dodf DSAPbrbmftfrSpfd} dlbss.
+     *
+     * @pbrbm <T> thf typf of thf pbrbmftfr spfdifidbtion to bf rfturnfd
+     *
+     * @pbrbm pbrbmSpfd thf spfdifidbtion dlbss in whidh
+     * thf pbrbmftfrs should bf rfturnfd.
+     *
+     * @rfturn thf pbrbmftfr spfdifidbtion.
+     *
+     * @fxdfption InvblidPbrbmftfrSpfdExdfption if thf rfqufstfd pbrbmftfr
+     * spfdifidbtion is inbppropribtf for this pbrbmftfr objfdt.
+     */
+    protfdtfd bbstrbdt
+        <T fxtfnds AlgorithmPbrbmftfrSpfd>
+        T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption;
+
+    /**
+     * Rfturns thf pbrbmftfrs in thfir primbry fndoding formbt.
+     * Thf primbry fndoding formbt for pbrbmftfrs is ASN.1, if bn ASN.1
+     * spfdifidbtion for this typf of pbrbmftfrs fxists.
+     *
+     * @rfturn thf pbrbmftfrs fndodfd using thfir primbry fndoding formbt.
+     *
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    protfdtfd bbstrbdt bytf[] fnginfGftEndodfd() throws IOExdfption;
+
+    /**
+     * Rfturns thf pbrbmftfrs fndodfd in thf spfdififd formbt.
+     * If {@dodf formbt} is null, thf
+     * primbry fndoding formbt for pbrbmftfrs is usfd. Thf primbry fndoding
+     * formbt is ASN.1, if bn ASN.1 spfdifidbtion for thfsf pbrbmftfrs
+     * fxists.
+     *
+     * @pbrbm formbt thf nbmf of thf fndoding formbt.
+     *
+     * @rfturn thf pbrbmftfrs fndodfd using thf spfdififd fndoding sdhfmf.
+     *
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    protfdtfd bbstrbdt bytf[] fnginfGftEndodfd(String formbt)
+        throws IOExdfption;
+
+    /**
+     * Rfturns b formbttfd string dfsdribing thf pbrbmftfrs.
+     *
+     * @rfturn b formbttfd string dfsdribing thf pbrbmftfrs.
+     */
+    protfdtfd bbstrbdt String fnginfToString();
+}

@@ -1,518 +1,518 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.lang.reflect.Method;
-import java.rmi.MarshalException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.ServerException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.Operation;
-import java.rmi.server.RemoteCall;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteRef;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.rmi.runtime.Log;
-import sun.rmi.transport.Connection;
-import sun.rmi.transport.LiveRef;
-import sun.rmi.transport.StreamRemoteCall;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.rmi.MbrsiblExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.SfrvfrExdfption;
+import jbvb.rmi.UnmbrsiblExdfption;
+import jbvb.rmi.sfrvfr.Opfrbtion;
+import jbvb.rmi.sfrvfr.RfmotfCbll;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.rmi.runtimf.Log;
+import sun.rmi.trbnsport.Connfdtion;
+import sun.rmi.trbnsport.LivfRff;
+import sun.rmi.trbnsport.StrfbmRfmotfCbll;
 
 /**
- * NOTE: There is a JDK-internal dependency on the existence of this
- * class's getLiveRef method (as it is inherited by UnicastRef2) in
- * the implementation of javax.management.remote.rmi.RMIConnector.
+ * NOTE: Tifrf is b JDK-intfrnbl dfpfndfndy on tif fxistfndf of tiis
+ * dlbss's gftLivfRff mftiod (bs it is inifritfd by UnidbstRff2) in
+ * tif implfmfntbtion of jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
  */
-@SuppressWarnings("deprecation")
-public class UnicastRef implements RemoteRef {
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss UnidbstRff implfmfnts RfmotfRff {
 
     /**
-     * Client-side transport log.
+     * Clifnt-sidf trbnsport log.
      */
-    public static final Log clientRefLog =
-        Log.getLog("sun.rmi.client.ref", "transport",  Util.logLevel);
+    publid stbtid finbl Log dlifntRffLog =
+        Log.gftLog("sun.rmi.dlifnt.rff", "trbnsport",  Util.logLfvfl);
 
     /**
-     * Client-side call log.
+     * Clifnt-sidf dbll log.
      */
-    public static final Log clientCallLog =
-        Log.getLog("sun.rmi.client.call", "RMI",
-                   AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
-                       Boolean.getBoolean("sun.rmi.client.logCalls")));
-    private static final long serialVersionUID = 8258372400816541186L;
+    publid stbtid finbl Log dlifntCbllLog =
+        Log.gftLog("sun.rmi.dlifnt.dbll", "RMI",
+                   AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Boolfbn>) () ->
+                       Boolfbn.gftBoolfbn("sun.rmi.dlifnt.logCblls")));
+    privbtf stbtid finbl long sfriblVfrsionUID = 8258372400816541186L;
 
-    protected LiveRef ref;
+    protfdtfd LivfRff rff;
 
     /**
-     * Create a new (empty) Unicast remote reference.
+     * Crfbtf b nfw (fmpty) Unidbst rfmotf rfffrfndf.
      */
-    public UnicastRef() {
+    publid UnidbstRff() {
     }
 
     /**
-     * Create a new Unicast RemoteRef.
+     * Crfbtf b nfw Unidbst RfmotfRff.
      */
-    public UnicastRef(LiveRef liveRef) {
-        ref = liveRef;
+    publid UnidbstRff(LivfRff livfRff) {
+        rff = livfRff;
     }
 
     /**
-     * Returns the current value of this UnicastRef's underlying
-     * LiveRef.
+     * Rfturns tif durrfnt vbluf of tiis UnidbstRff's undfrlying
+     * LivfRff.
      *
-     * NOTE: There is a JDK-internal dependency on the existence of
-     * this method (as it is inherited by UnicastRef) in the
-     * implementation of javax.management.remote.rmi.RMIConnector.
+     * NOTE: Tifrf is b JDK-intfrnbl dfpfndfndy on tif fxistfndf of
+     * tiis mftiod (bs it is inifritfd by UnidbstRff) in tif
+     * implfmfntbtion of jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
      **/
-    public LiveRef getLiveRef() {
-        return ref;
+    publid LivfRff gftLivfRff() {
+        rfturn rff;
     }
 
     /**
-     * Invoke a method. This form of delegating method invocation
-     * to the reference allows the reference to take care of
-     * setting up the connection to the remote host, marshalling
-     * some representation for the method and parameters, then
-     * communicating the method invocation to the remote host.
-     * This method either returns the result of a method invocation
-     * on the remote object which resides on the remote host or
-     * throws a RemoteException if the call failed or an
-     * application-level exception if the remote invocation throws
-     * an exception.
+     * Invokf b mftiod. Tiis form of dflfgbting mftiod invodbtion
+     * to tif rfffrfndf bllows tif rfffrfndf to tbkf dbrf of
+     * sftting up tif donnfdtion to tif rfmotf iost, mbrsiblling
+     * somf rfprfsfntbtion for tif mftiod bnd pbrbmftfrs, tifn
+     * dommunidbting tif mftiod invodbtion to tif rfmotf iost.
+     * Tiis mftiod fitifr rfturns tif rfsult of b mftiod invodbtion
+     * on tif rfmotf objfdt wiidi rfsidfs on tif rfmotf iost or
+     * tirows b RfmotfExdfption if tif dbll fbilfd or bn
+     * bpplidbtion-lfvfl fxdfption if tif rfmotf invodbtion tirows
+     * bn fxdfption.
      *
-     * @param obj the proxy for the remote object
-     * @param method the method to be invoked
-     * @param params the parameter list
-     * @param opnum  a hash that may be used to represent the method
-     * @since 1.2
+     * @pbrbm obj tif proxy for tif rfmotf objfdt
+     * @pbrbm mftiod tif mftiod to bf invokfd
+     * @pbrbm pbrbms tif pbrbmftfr list
+     * @pbrbm opnum  b ibsi tibt mby bf usfd to rfprfsfnt tif mftiod
+     * @sindf 1.2
      */
-    public Object invoke(Remote obj,
-                         Method method,
-                         Object[] params,
+    publid Objfdt invokf(Rfmotf obj,
+                         Mftiod mftiod,
+                         Objfdt[] pbrbms,
                          long opnum)
-        throws Exception
+        tirows Exdfption
     {
-        if (clientRefLog.isLoggable(Log.VERBOSE)) {
-            clientRefLog.log(Log.VERBOSE, "method: " + method);
+        if (dlifntRffLog.isLoggbblf(Log.VERBOSE)) {
+            dlifntRffLog.log(Log.VERBOSE, "mftiod: " + mftiod);
         }
 
-        if (clientCallLog.isLoggable(Log.VERBOSE)) {
-            logClientCall(obj, method);
+        if (dlifntCbllLog.isLoggbblf(Log.VERBOSE)) {
+            logClifntCbll(obj, mftiod);
         }
 
-        Connection conn = ref.getChannel().newConnection();
-        RemoteCall call = null;
-        boolean reuse = true;
+        Connfdtion donn = rff.gftCibnnfl().nfwConnfdtion();
+        RfmotfCbll dbll = null;
+        boolfbn rfusf = truf;
 
-        /* If the call connection is "reused" early, remember not to
-         * reuse again.
+        /* If tif dbll donnfdtion is "rfusfd" fbrly, rfmfmbfr not to
+         * rfusf bgbin.
          */
-        boolean alreadyFreed = false;
+        boolfbn blrfbdyFrffd = fblsf;
 
         try {
-            if (clientRefLog.isLoggable(Log.VERBOSE)) {
-                clientRefLog.log(Log.VERBOSE, "opnum = " + opnum);
+            if (dlifntRffLog.isLoggbblf(Log.VERBOSE)) {
+                dlifntRffLog.log(Log.VERBOSE, "opnum = " + opnum);
             }
 
-            // create call context
-            call = new StreamRemoteCall(conn, ref.getObjID(), -1, opnum);
+            // drfbtf dbll dontfxt
+            dbll = nfw StrfbmRfmotfCbll(donn, rff.gftObjID(), -1, opnum);
 
-            // marshal parameters
+            // mbrsibl pbrbmftfrs
             try {
-                ObjectOutput out = call.getOutputStream();
-                marshalCustomCallData(out);
-                Class<?>[] types = method.getParameterTypes();
-                for (int i = 0; i < types.length; i++) {
-                    marshalValue(types[i], params[i], out);
+                ObjfdtOutput out = dbll.gftOutputStrfbm();
+                mbrsiblCustomCbllDbtb(out);
+                Clbss<?>[] typfs = mftiod.gftPbrbmftfrTypfs();
+                for (int i = 0; i < typfs.lfngti; i++) {
+                    mbrsiblVbluf(typfs[i], pbrbms[i], out);
                 }
-            } catch (IOException e) {
-                clientRefLog.log(Log.BRIEF,
-                    "IOException marshalling arguments: ", e);
-                throw new MarshalException("error marshalling arguments", e);
+            } dbtdi (IOExdfption f) {
+                dlifntRffLog.log(Log.BRIEF,
+                    "IOExdfption mbrsiblling brgumfnts: ", f);
+                tirow nfw MbrsiblExdfption("frror mbrsiblling brgumfnts", f);
             }
 
-            // unmarshal return
-            call.executeCall();
+            // unmbrsibl rfturn
+            dbll.fxfdutfCbll();
 
             try {
-                Class<?> rtype = method.getReturnType();
-                if (rtype == void.class)
-                    return null;
-                ObjectInput in = call.getInputStream();
+                Clbss<?> rtypf = mftiod.gftRfturnTypf();
+                if (rtypf == void.dlbss)
+                    rfturn null;
+                ObjfdtInput in = dbll.gftInputStrfbm();
 
-                /* StreamRemoteCall.done() does not actually make use
-                 * of conn, therefore it is safe to reuse this
-                 * connection before the dirty call is sent for
-                 * registered refs.
+                /* StrfbmRfmotfCbll.donf() dofs not bdtublly mbkf usf
+                 * of donn, tifrfforf it is sbff to rfusf tiis
+                 * donnfdtion bfforf tif dirty dbll is sfnt for
+                 * rfgistfrfd rffs.
                  */
-                Object returnValue = unmarshalValue(rtype, in);
+                Objfdt rfturnVbluf = unmbrsiblVbluf(rtypf, in);
 
-                /* we are freeing the connection now, do not free
-                 * again or reuse.
+                /* wf brf frffing tif donnfdtion now, do not frff
+                 * bgbin or rfusf.
                  */
-                alreadyFreed = true;
+                blrfbdyFrffd = truf;
 
-                /* if we got to this point, reuse must have been true. */
-                clientRefLog.log(Log.BRIEF, "free connection (reuse = true)");
+                /* if wf got to tiis point, rfusf must ibvf bffn truf. */
+                dlifntRffLog.log(Log.BRIEF, "frff donnfdtion (rfusf = truf)");
 
-                /* Free the call's connection early. */
-                ref.getChannel().free(conn, true);
+                /* Frff tif dbll's donnfdtion fbrly. */
+                rff.gftCibnnfl().frff(donn, truf);
 
-                return returnValue;
+                rfturn rfturnVbluf;
 
-            } catch (IOException e) {
-                clientRefLog.log(Log.BRIEF,
-                                 "IOException unmarshalling return: ", e);
-                throw new UnmarshalException("error unmarshalling return", e);
-            } catch (ClassNotFoundException e) {
-                clientRefLog.log(Log.BRIEF,
-                    "ClassNotFoundException unmarshalling return: ", e);
+            } dbtdi (IOExdfption f) {
+                dlifntRffLog.log(Log.BRIEF,
+                                 "IOExdfption unmbrsiblling rfturn: ", f);
+                tirow nfw UnmbrsiblExdfption("frror unmbrsiblling rfturn", f);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                dlifntRffLog.log(Log.BRIEF,
+                    "ClbssNotFoundExdfption unmbrsiblling rfturn: ", f);
 
-                throw new UnmarshalException("error unmarshalling return", e);
-            } finally {
+                tirow nfw UnmbrsiblExdfption("frror unmbrsiblling rfturn", f);
+            } finblly {
                 try {
-                    call.done();
-                } catch (IOException e) {
-                    /* WARNING: If the conn has been reused early,
-                     * then it is too late to recover from thrown
-                     * IOExceptions caught here. This code is relying
-                     * on StreamRemoteCall.done() not actually
-                     * throwing IOExceptions.
+                    dbll.donf();
+                } dbtdi (IOExdfption f) {
+                    /* WARNING: If tif donn ibs bffn rfusfd fbrly,
+                     * tifn it is too lbtf to rfdovfr from tirown
+                     * IOExdfptions dbugit ifrf. Tiis dodf is rflying
+                     * on StrfbmRfmotfCbll.donf() not bdtublly
+                     * tirowing IOExdfptions.
                      */
-                    reuse = false;
+                    rfusf = fblsf;
                 }
             }
 
-        } catch (RuntimeException e) {
+        } dbtdi (RuntimfExdfption f) {
             /*
-             * Need to distinguish between client (generated by the
-             * invoke method itself) and server RuntimeExceptions.
-             * Client side RuntimeExceptions are likely to have
-             * corrupted the call connection and those from the server
-             * are not likely to have done so.  If the exception came
-             * from the server the call connection should be reused.
+             * Nffd to distinguisi bftwffn dlifnt (gfnfrbtfd by tif
+             * invokf mftiod itsflf) bnd sfrvfr RuntimfExdfptions.
+             * Clifnt sidf RuntimfExdfptions brf likfly to ibvf
+             * dorruptfd tif dbll donnfdtion bnd tiosf from tif sfrvfr
+             * brf not likfly to ibvf donf so.  If tif fxdfption dbmf
+             * from tif sfrvfr tif dbll donnfdtion siould bf rfusfd.
              */
-            if ((call == null) ||
-                (((StreamRemoteCall) call).getServerException() != e))
+            if ((dbll == null) ||
+                (((StrfbmRfmotfCbll) dbll).gftSfrvfrExdfption() != f))
             {
-                reuse = false;
+                rfusf = fblsf;
             }
-            throw e;
+            tirow f;
 
-        } catch (RemoteException e) {
+        } dbtdi (RfmotfExdfption f) {
             /*
-             * Some failure during call; assume connection cannot
-             * be reused.  Must assume failure even if ServerException
-             * or ServerError occurs since these failures can happen
-             * during parameter deserialization which would leave
-             * the connection in a corrupted state.
+             * Somf fbilurf during dbll; bssumf donnfdtion dbnnot
+             * bf rfusfd.  Must bssumf fbilurf fvfn if SfrvfrExdfption
+             * or SfrvfrError oddurs sindf tifsf fbilurfs dbn ibppfn
+             * during pbrbmftfr dfsfriblizbtion wiidi would lfbvf
+             * tif donnfdtion in b dorruptfd stbtf.
              */
-            reuse = false;
-            throw e;
+            rfusf = fblsf;
+            tirow f;
 
-        } catch (Error e) {
-            /* If errors occurred, the connection is most likely not
-             *  reusable.
+        } dbtdi (Error f) {
+            /* If frrors oddurrfd, tif donnfdtion is most likfly not
+             *  rfusbblf.
              */
-            reuse = false;
-            throw e;
+            rfusf = fblsf;
+            tirow f;
 
-        } finally {
+        } finblly {
 
-            /* alreadyFreed ensures that we do not log a reuse that
-             * may have already happened.
+            /* blrfbdyFrffd fnsurfs tibt wf do not log b rfusf tibt
+             * mby ibvf blrfbdy ibppfnfd.
              */
-            if (!alreadyFreed) {
-                if (clientRefLog.isLoggable(Log.BRIEF)) {
-                    clientRefLog.log(Log.BRIEF, "free connection (reuse = " +
-                                           reuse + ")");
+            if (!blrfbdyFrffd) {
+                if (dlifntRffLog.isLoggbblf(Log.BRIEF)) {
+                    dlifntRffLog.log(Log.BRIEF, "frff donnfdtion (rfusf = " +
+                                           rfusf + ")");
                 }
-                ref.getChannel().free(conn, reuse);
+                rff.gftCibnnfl().frff(donn, rfusf);
             }
         }
     }
 
-    protected void marshalCustomCallData(ObjectOutput out) throws IOException
+    protfdtfd void mbrsiblCustomCbllDbtb(ObjfdtOutput out) tirows IOExdfption
     {}
 
     /**
-     * Marshal value to an ObjectOutput sink using RMI's serialization
-     * format for parameters or return values.
+     * Mbrsibl vbluf to bn ObjfdtOutput sink using RMI's sfriblizbtion
+     * formbt for pbrbmftfrs or rfturn vblufs.
      */
-    protected static void marshalValue(Class<?> type, Object value,
-                                       ObjectOutput out)
-        throws IOException
+    protfdtfd stbtid void mbrsiblVbluf(Clbss<?> typf, Objfdt vbluf,
+                                       ObjfdtOutput out)
+        tirows IOExdfption
     {
-        if (type.isPrimitive()) {
-            if (type == int.class) {
-                out.writeInt(((Integer) value).intValue());
-            } else if (type == boolean.class) {
-                out.writeBoolean(((Boolean) value).booleanValue());
-            } else if (type == byte.class) {
-                out.writeByte(((Byte) value).byteValue());
-            } else if (type == char.class) {
-                out.writeChar(((Character) value).charValue());
-            } else if (type == short.class) {
-                out.writeShort(((Short) value).shortValue());
-            } else if (type == long.class) {
-                out.writeLong(((Long) value).longValue());
-            } else if (type == float.class) {
-                out.writeFloat(((Float) value).floatValue());
-            } else if (type == double.class) {
-                out.writeDouble(((Double) value).doubleValue());
-            } else {
-                throw new Error("Unrecognized primitive type: " + type);
+        if (typf.isPrimitivf()) {
+            if (typf == int.dlbss) {
+                out.writfInt(((Intfgfr) vbluf).intVbluf());
+            } flsf if (typf == boolfbn.dlbss) {
+                out.writfBoolfbn(((Boolfbn) vbluf).boolfbnVbluf());
+            } flsf if (typf == bytf.dlbss) {
+                out.writfBytf(((Bytf) vbluf).bytfVbluf());
+            } flsf if (typf == dibr.dlbss) {
+                out.writfCibr(((Cibrbdtfr) vbluf).dibrVbluf());
+            } flsf if (typf == siort.dlbss) {
+                out.writfSiort(((Siort) vbluf).siortVbluf());
+            } flsf if (typf == long.dlbss) {
+                out.writfLong(((Long) vbluf).longVbluf());
+            } flsf if (typf == flobt.dlbss) {
+                out.writfFlobt(((Flobt) vbluf).flobtVbluf());
+            } flsf if (typf == doublf.dlbss) {
+                out.writfDoublf(((Doublf) vbluf).doublfVbluf());
+            } flsf {
+                tirow nfw Error("Unrfdognizfd primitivf typf: " + typf);
             }
-        } else {
-            out.writeObject(value);
+        } flsf {
+            out.writfObjfdt(vbluf);
         }
     }
 
     /**
-     * Unmarshal value from an ObjectInput source using RMI's serialization
-     * format for parameters or return values.
+     * Unmbrsibl vbluf from bn ObjfdtInput sourdf using RMI's sfriblizbtion
+     * formbt for pbrbmftfrs or rfturn vblufs.
      */
-    protected static Object unmarshalValue(Class<?> type, ObjectInput in)
-        throws IOException, ClassNotFoundException
+    protfdtfd stbtid Objfdt unmbrsiblVbluf(Clbss<?> typf, ObjfdtInput in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        if (type.isPrimitive()) {
-            if (type == int.class) {
-                return Integer.valueOf(in.readInt());
-            } else if (type == boolean.class) {
-                return Boolean.valueOf(in.readBoolean());
-            } else if (type == byte.class) {
-                return Byte.valueOf(in.readByte());
-            } else if (type == char.class) {
-                return Character.valueOf(in.readChar());
-            } else if (type == short.class) {
-                return Short.valueOf(in.readShort());
-            } else if (type == long.class) {
-                return Long.valueOf(in.readLong());
-            } else if (type == float.class) {
-                return Float.valueOf(in.readFloat());
-            } else if (type == double.class) {
-                return Double.valueOf(in.readDouble());
-            } else {
-                throw new Error("Unrecognized primitive type: " + type);
+        if (typf.isPrimitivf()) {
+            if (typf == int.dlbss) {
+                rfturn Intfgfr.vblufOf(in.rfbdInt());
+            } flsf if (typf == boolfbn.dlbss) {
+                rfturn Boolfbn.vblufOf(in.rfbdBoolfbn());
+            } flsf if (typf == bytf.dlbss) {
+                rfturn Bytf.vblufOf(in.rfbdBytf());
+            } flsf if (typf == dibr.dlbss) {
+                rfturn Cibrbdtfr.vblufOf(in.rfbdCibr());
+            } flsf if (typf == siort.dlbss) {
+                rfturn Siort.vblufOf(in.rfbdSiort());
+            } flsf if (typf == long.dlbss) {
+                rfturn Long.vblufOf(in.rfbdLong());
+            } flsf if (typf == flobt.dlbss) {
+                rfturn Flobt.vblufOf(in.rfbdFlobt());
+            } flsf if (typf == doublf.dlbss) {
+                rfturn Doublf.vblufOf(in.rfbdDoublf());
+            } flsf {
+                tirow nfw Error("Unrfdognizfd primitivf typf: " + typf);
             }
-        } else {
-            return in.readObject();
+        } flsf {
+            rfturn in.rfbdObjfdt();
         }
     }
 
     /**
-     * Create an appropriate call object for a new call on this object.
-     * Passing operation array and index, allows the stubs generator to
-     * assign the operation indexes and interpret them. The RemoteRef
-     * may need the operation to encode in for the call.
+     * Crfbtf bn bppropribtf dbll objfdt for b nfw dbll on tiis objfdt.
+     * Pbssing opfrbtion brrby bnd indfx, bllows tif stubs gfnfrbtor to
+     * bssign tif opfrbtion indfxfs bnd intfrprft tifm. Tif RfmotfRff
+     * mby nffd tif opfrbtion to fndodf in for tif dbll.
      */
-    public RemoteCall newCall(RemoteObject obj, Operation[] ops, int opnum,
-                              long hash)
-        throws RemoteException
+    publid RfmotfCbll nfwCbll(RfmotfObjfdt obj, Opfrbtion[] ops, int opnum,
+                              long ibsi)
+        tirows RfmotfExdfption
     {
-        clientRefLog.log(Log.BRIEF, "get connection");
+        dlifntRffLog.log(Log.BRIEF, "gft donnfdtion");
 
-        Connection conn = ref.getChannel().newConnection();
+        Connfdtion donn = rff.gftCibnnfl().nfwConnfdtion();
         try {
-            clientRefLog.log(Log.VERBOSE, "create call context");
+            dlifntRffLog.log(Log.VERBOSE, "drfbtf dbll dontfxt");
 
-            /* log information about the outgoing call */
-            if (clientCallLog.isLoggable(Log.VERBOSE)) {
-                logClientCall(obj, ops[opnum]);
+            /* log informbtion bbout tif outgoing dbll */
+            if (dlifntCbllLog.isLoggbblf(Log.VERBOSE)) {
+                logClifntCbll(obj, ops[opnum]);
             }
 
-            RemoteCall call =
-                new StreamRemoteCall(conn, ref.getObjID(), opnum, hash);
+            RfmotfCbll dbll =
+                nfw StrfbmRfmotfCbll(donn, rff.gftObjID(), opnum, ibsi);
             try {
-                marshalCustomCallData(call.getOutputStream());
-            } catch (IOException e) {
-                throw new MarshalException("error marshaling " +
-                                           "custom call data");
+                mbrsiblCustomCbllDbtb(dbll.gftOutputStrfbm());
+            } dbtdi (IOExdfption f) {
+                tirow nfw MbrsiblExdfption("frror mbrsibling " +
+                                           "dustom dbll dbtb");
             }
-            return call;
-        } catch (RemoteException e) {
-            ref.getChannel().free(conn, false);
-            throw e;
+            rfturn dbll;
+        } dbtdi (RfmotfExdfption f) {
+            rff.gftCibnnfl().frff(donn, fblsf);
+            tirow f;
         }
     }
 
     /**
-     * Invoke makes the remote call present in the RemoteCall object.
+     * Invokf mbkfs tif rfmotf dbll prfsfnt in tif RfmotfCbll objfdt.
      *
-     * Invoke will raise any "user" exceptions which
-     * should pass through and not be caught by the stub.  If any
-     * exception is raised during the remote invocation, invoke should
-     * take care of cleaning up the connection before raising the
-     * "user" or remote exception.
+     * Invokf will rbisf bny "usfr" fxdfptions wiidi
+     * siould pbss tirougi bnd not bf dbugit by tif stub.  If bny
+     * fxdfption is rbisfd during tif rfmotf invodbtion, invokf siould
+     * tbkf dbrf of dlfbning up tif donnfdtion bfforf rbising tif
+     * "usfr" or rfmotf fxdfption.
      */
-    public void invoke(RemoteCall call) throws Exception {
+    publid void invokf(RfmotfCbll dbll) tirows Exdfption {
         try {
-            clientRefLog.log(Log.VERBOSE, "execute call");
+            dlifntRffLog.log(Log.VERBOSE, "fxfdutf dbll");
 
-            call.executeCall();
+            dbll.fxfdutfCbll();
 
-        } catch (RemoteException e) {
+        } dbtdi (RfmotfExdfption f) {
             /*
-             * Call did not complete; connection can't be reused.
+             * Cbll did not domplftf; donnfdtion dbn't bf rfusfd.
              */
-            clientRefLog.log(Log.BRIEF, "exception: ", e);
-            free(call, false);
-            throw e;
+            dlifntRffLog.log(Log.BRIEF, "fxdfption: ", f);
+            frff(dbll, fblsf);
+            tirow f;
 
-        } catch (Error e) {
-            /* If errors occurred, the connection is most likely not
-             *  reusable.
+        } dbtdi (Error f) {
+            /* If frrors oddurrfd, tif donnfdtion is most likfly not
+             *  rfusbblf.
              */
-            clientRefLog.log(Log.BRIEF, "error: ", e);
-            free(call, false);
-            throw e;
+            dlifntRffLog.log(Log.BRIEF, "frror: ", f);
+            frff(dbll, fblsf);
+            tirow f;
 
-        } catch (RuntimeException e) {
+        } dbtdi (RuntimfExdfption f) {
             /*
-             * REMIND: Since runtime exceptions are no longer wrapped,
-             * we can't assue that the connection was left in
-             * a reusable state. Is this okay?
+             * REMIND: Sindf runtimf fxdfptions brf no longfr wrbppfd,
+             * wf dbn't bssuf tibt tif donnfdtion wbs lfft in
+             * b rfusbblf stbtf. Is tiis okby?
              */
-            clientRefLog.log(Log.BRIEF, "exception: ", e);
-            free(call, false);
-            throw e;
+            dlifntRffLog.log(Log.BRIEF, "fxdfption: ", f);
+            frff(dbll, fblsf);
+            tirow f;
 
-        } catch (Exception e) {
+        } dbtdi (Exdfption f) {
             /*
-             * Assume that these other exceptions are user exceptions
-             * and leave the connection in a reusable state.
+             * Assumf tibt tifsf otifr fxdfptions brf usfr fxdfptions
+             * bnd lfbvf tif donnfdtion in b rfusbblf stbtf.
              */
-            clientRefLog.log(Log.BRIEF, "exception: ", e);
-            free(call, true);
-            /* reraise user (and unknown) exceptions. */
-            throw e;
+            dlifntRffLog.log(Log.BRIEF, "fxdfption: ", f);
+            frff(dbll, truf);
+            /* rfrbisf usfr (bnd unknown) fxdfptions. */
+            tirow f;
         }
 
         /*
-         * Don't free the connection if an exception did not
-         * occur because the stub needs to unmarshal the
-         * return value. The connection will be freed
-         * by a call to the "done" method.
+         * Don't frff tif donnfdtion if bn fxdfption did not
+         * oddur bfdbusf tif stub nffds to unmbrsibl tif
+         * rfturn vbluf. Tif donnfdtion will bf frffd
+         * by b dbll to tif "donf" mftiod.
          */
     }
 
     /**
-     * Private method to free a connection.
+     * Privbtf mftiod to frff b donnfdtion.
      */
-    private void free(RemoteCall call, boolean reuse) throws RemoteException {
-        Connection conn = ((StreamRemoteCall)call).getConnection();
-        ref.getChannel().free(conn, reuse);
+    privbtf void frff(RfmotfCbll dbll, boolfbn rfusf) tirows RfmotfExdfption {
+        Connfdtion donn = ((StrfbmRfmotfCbll)dbll).gftConnfdtion();
+        rff.gftCibnnfl().frff(donn, rfusf);
     }
 
     /**
-     * Done should only be called if the invoke returns successfully
-     * (non-exceptionally) to the stub. It allows the remote reference to
-     * clean up (or reuse) the connection.
+     * Donf siould only bf dbllfd if tif invokf rfturns suddfssfully
+     * (non-fxdfptionblly) to tif stub. It bllows tif rfmotf rfffrfndf to
+     * dlfbn up (or rfusf) tif donnfdtion.
      */
-    public void done(RemoteCall call) throws RemoteException {
+    publid void donf(RfmotfCbll dbll) tirows RfmotfExdfption {
 
-        /* Done only uses the connection inside the call to obtain the
-         * channel the connection uses.  Once all information is read
-         * from the connection, the connection may be freed.
+        /* Donf only usfs tif donnfdtion insidf tif dbll to obtbin tif
+         * dibnnfl tif donnfdtion usfs.  Ondf bll informbtion is rfbd
+         * from tif donnfdtion, tif donnfdtion mby bf frffd.
          */
-        clientRefLog.log(Log.BRIEF, "free connection (reuse = true)");
+        dlifntRffLog.log(Log.BRIEF, "frff donnfdtion (rfusf = truf)");
 
-        /* Free the call connection early. */
-        free(call, true);
+        /* Frff tif dbll donnfdtion fbrly. */
+        frff(dbll, truf);
 
         try {
-            call.done();
-        } catch (IOException e) {
-            /* WARNING: If the conn has been reused early, then it is
-             * too late to recover from thrown IOExceptions caught
-             * here. This code is relying on StreamRemoteCall.done()
-             * not actually throwing IOExceptions.
+            dbll.donf();
+        } dbtdi (IOExdfption f) {
+            /* WARNING: If tif donn ibs bffn rfusfd fbrly, tifn it is
+             * too lbtf to rfdovfr from tirown IOExdfptions dbugit
+             * ifrf. Tiis dodf is rflying on StrfbmRfmotfCbll.donf()
+             * not bdtublly tirowing IOExdfptions.
              */
         }
     }
 
     /**
-     * Log the details of an outgoing call.  The method parameter is either of
-     * type java.lang.reflect.Method or java.rmi.server.Operation.
+     * Log tif dftbils of bn outgoing dbll.  Tif mftiod pbrbmftfr is fitifr of
+     * typf jbvb.lbng.rfflfdt.Mftiod or jbvb.rmi.sfrvfr.Opfrbtion.
      */
-    void logClientCall(Object obj, Object method) {
-        clientCallLog.log(Log.VERBOSE, "outbound call: " +
-            ref + " : " + obj.getClass().getName() +
-            ref.getObjID().toString() + ": " + method);
+    void logClifntCbll(Objfdt obj, Objfdt mftiod) {
+        dlifntCbllLog.log(Log.VERBOSE, "outbound dbll: " +
+            rff + " : " + obj.gftClbss().gftNbmf() +
+            rff.gftObjID().toString() + ": " + mftiod);
     }
 
     /**
-     * Returns the class of the ref type to be serialized
+     * Rfturns tif dlbss of tif rff typf to bf sfriblizfd
      */
-    public String getRefClass(ObjectOutput out) {
-        return "UnicastRef";
+    publid String gftRffClbss(ObjfdtOutput out) {
+        rfturn "UnidbstRff";
     }
 
     /**
-     * Write out external representation for remote ref.
+     * Writf out fxtfrnbl rfprfsfntbtion for rfmotf rff.
      */
-    public void writeExternal(ObjectOutput out) throws IOException {
-        ref.write(out, false);
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        rff.writf(out, fblsf);
     }
 
     /**
-     * Read in external representation for remote ref.
-     * @exception ClassNotFoundException If the class for an object
-     * being restored cannot be found.
+     * Rfbd in fxtfrnbl rfprfsfntbtion for rfmotf rff.
+     * @fxdfption ClbssNotFoundExdfption If tif dlbss for bn objfdt
+     * bfing rfstorfd dbnnot bf found.
      */
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    publid void rfbdExtfrnbl(ObjfdtInput in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        ref = LiveRef.read(in, false);
+        rff = LivfRff.rfbd(in, fblsf);
     }
 
     //----------------------------------------------------------------------;
     /**
-     * Method from object, forward from RemoteObject
+     * Mftiod from objfdt, forwbrd from RfmotfObjfdt
      */
-    public String remoteToString() {
-        return Util.getUnqualifiedName(getClass()) + " [liveRef: " + ref + "]";
+    publid String rfmotfToString() {
+        rfturn Util.gftUnqublififdNbmf(gftClbss()) + " [livfRff: " + rff + "]";
     }
 
     /**
-     * default implementation of hashCode for remote objects
+     * dffbult implfmfntbtion of ibsiCodf for rfmotf objfdts
      */
-    public int remoteHashCode() {
-        return ref.hashCode();
+    publid int rfmotfHbsiCodf() {
+        rfturn rff.ibsiCodf();
     }
 
-    /** default implementation of equals for remote objects
+    /** dffbult implfmfntbtion of fqubls for rfmotf objfdts
      */
-    public boolean remoteEquals(RemoteRef sub) {
-        if (sub instanceof UnicastRef)
-            return ref.remoteEquals(((UnicastRef)sub).ref);
-        return false;
+    publid boolfbn rfmotfEqubls(RfmotfRff sub) {
+        if (sub instbndfof UnidbstRff)
+            rfturn rff.rfmotfEqubls(((UnidbstRff)sub).rff);
+        rfturn fblsf;
     }
 }

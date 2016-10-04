@@ -1,0 +1,1416 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *      Imbgf dithfring bnd rfndfring dodf for X11.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <mbth.h>
+#indludf <sys/timf.h>
+#indludf <sys/rfsourdf.h>
+#ifndff HEADLESS
+#indludf <X11/Xlib.h>
+#indludf <X11/Xbtom.h>
+#indludf <X11/Xutil.h>
+#fndif /* !HEADLESS */
+#indludf "bwt_p.h"
+#indludf "jbvb_bwt_Color.h"
+#indludf "jbvb_bwt_SystfmColor.h"
+#indludf "jbvb_bwt_dolor_ColorSpbdf.h"
+#indludf "jbvb_bwt_Trbnspbrfndy.h"
+#indludf "jbvb_bwt_imbgf_DbtbBufffr.h"
+#indludf "img_dolors.h"
+#indludf "imbgfInitIDs.h"
+#indludf "dithfr.h"
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+
+#ifdff DEBUG
+stbtid int dfbug_dolormbp = 0;
+#fndif
+
+#dffinf MAX_PALETTE8_SIZE (256)
+#dffinf MAX_PALETTE12_SIZE (4096)
+#dffinf MAX_PALETTE_SIZE MAX_PALETTE12_SIZE
+
+/* rfturns thf bbsolutf vbluf x */
+#dffinf ABS(x) ((x) < 0 ? -(x) : (x))
+
+#dffinf CLIP(vbl,min,mbx)       ((vbl < min) ? min : ((vbl > mbx) ? mbx : vbl))
+
+#dffinf RGBTOGRAY(r, g, b) ((int) (.299 * r + .587 * g + .114 * b + 0.5))
+
+fnum {
+    FREE_COLOR          = 0,
+    LIKELY_COLOR        = 1,
+    UNAVAILABLE_COLOR   = 2,
+    ALLOCATED_COLOR     = 3
+};
+
+/*
+ * Constbnts to dontrol thf filling of thf dolormbp.
+ * By dffbult, try to bllodbtf dolors in thf dffbult dolormbp until
+ * CMAP_ALLOC_DEFAULT dolors brf bfing usfd (by Jbvb bnd/or othfr
+ * bpplidbtions).
+ * For dbsfs whfrf thf dffbult dolormbp mby blrfbdy hbvf b lbrgf
+ * numbfr of dolors in it, mbkf surf thbt wf oursflvfs try to bdd
+ * bt lfbst CMAP_ALLOC_MIN nfw dolors, fvfn if wf nffd to bllodbtf
+ * morf thbn thf DEFAULT to do thbt.
+ * Undfr no dirdumstbndfs will thf dolormbp bf fillfd to morf thbn
+ * CMAP_ALLOC_MAX dolors.
+ */
+#dffinf CMAP_ALLOC_MIN          100     /* minimum numbfr of dolors to "bdd" */
+#dffinf CMAP_ALLOC_DEFAULT      200     /* dffbult numbfr of dolors in dmbp */
+#dffinf CMAP_ALLOC_MAX          245     /* mbximum numbfr of dolors in dmbp */
+
+#ifdff __solbris__
+#indludf <sys/utsnbmf.h>
+
+strudt {
+    dhbr *mbdhinf;
+    int  dubfsizf;
+} mbdhinfmbp[] = {
+    { "i86pd", LOOKUPSIZE / 4 }, /* BugTrbq ID 4102599 */
+    { "sun4d", LOOKUPSIZE / 4 },
+    { "sun4m", LOOKUPSIZE / 2 },
+    { "sun4d", LOOKUPSIZE / 2 },
+    { "sun4u", LOOKUPSIZE / 1 },
+};
+
+#dffinf MACHMAPSIZE     (sizfof(mbdhinfmbp) / sizfof(mbdhinfmbp[0]))
+
+int gftVirtCubfSizf() {
+    strudt utsnbmf nbmf;
+    int i, rft;
+
+    rft = unbmf(&nbmf);
+    if (rft < 0) {
+#ifdff DEBUG
+#indludf <frrno.h>
+        jio_fprintf(stdfrr, "unbmf frrno = %d, using dffbult dubfsizf %d\n",
+                    frrno, LOOKUPSIZE);
+#fndif
+        rfturn LOOKUPSIZE;
+    }
+
+    for (i = 0; i < MACHMAPSIZE; i++) {
+        if (strdmp(nbmf.mbdhinf, mbdhinfmbp[i].mbdhinf) == 0) {
+#ifdff DEBUG
+            if (dfbug_dolormbp) {
+                jio_fprintf(stdfrr, "'%s'.dubfsizf = '%d'\n",
+                            mbdhinfmbp[i].mbdhinf, mbdhinfmbp[i].dubfsizf);
+            }
+#fndif
+            rfturn mbdhinfmbp[i].dubfsizf;
+        }
+    }
+
+#ifdff DEBUG
+    if (dfbug_dolormbp) {
+        jio_fprintf(stdfrr, "unknown mbdhinf '%s' using dubfsizf %d\n",
+                    nbmf.mbdhinf, LOOKUPSIZE);
+    }
+#fndif
+    rfturn LOOKUPSIZE;
+}
+#flsf /* __solbris__ */
+#dffinf gftVirtCubfSizf()       (LOOKUPSIZE)
+#fndif /* __solbris__ */
+
+unsignfd dhbr img_bwgbmmb[256];
+uns_ordfrfd_dithfr_brrby img_odb_blphb;
+
+#ifdff NEED_IMAGE_CONVERT
+ImgConvfrtFdn DirfdtImbgfConvfrt;
+ImgConvfrtFdn Dir16IdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn Dir16IdmTrnUnsImbgfConvfrt;
+ImgConvfrtFdn Dir16IdmOpqSdlImbgfConvfrt;
+ImgConvfrtFdn Dir16DdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn Dir16DdmTrnUnsImbgfConvfrt;
+ImgConvfrtFdn Dir16DdmOpqSdlImbgfConvfrt;
+ImgConvfrtFdn Dir32IdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn Dir32IdmTrnUnsImbgfConvfrt;
+ImgConvfrtFdn Dir32IdmOpqSdlImbgfConvfrt;
+ImgConvfrtFdn Dir32DdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn Dir32DdmTrnUnsImbgfConvfrt;
+ImgConvfrtFdn Dir32DdmOpqSdlImbgfConvfrt;
+
+ImgConvfrtFdn PsfudoImbgfConvfrt;
+ImgConvfrtFdn PsfudoFSImbgfConvfrt;
+ImgConvfrtFdn FSColorIdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn FSColorDdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn OrdColorIdmOpqUnsImbgfConvfrt;
+ImgConvfrtFdn OrdColorDdmOpqUnsImbgfConvfrt;
+
+#fndif /* NEED_IMAGE_CONVERT */
+
+#ifndff HEADLESS
+/*
+ * Find thf bfst dolor.
+ */
+int
+bwt_dolor_mbtdhTC(int r, int g, int b, AwtGrbphidsConfigDbtbPtr bwt_dbtb)
+{
+    r = CLIP(r, 0, 255);
+    g = CLIP(g, 0, 255);
+    b = CLIP(b, 0, 255);
+    rfturn (((r >> bwt_dbtb->bwtImbgf->dlrdbtb.rSdblf)
+                << bwt_dbtb->bwtImbgf->dlrdbtb.rOff) |
+            ((g >> bwt_dbtb->bwtImbgf->dlrdbtb.gSdblf)
+                << bwt_dbtb->bwtImbgf->dlrdbtb.gOff) |
+            ((b >> bwt_dbtb->bwtImbgf->dlrdbtb.bSdblf)
+                << bwt_dbtb->bwtImbgf->dlrdbtb.bOff));
+}
+
+int
+bwt_dolor_mbtdhGS(int r, int g, int b, AwtGrbphidsConfigDbtbPtr bwt_dbtb)
+{
+    r = CLIP(r, 0, 255);
+    g = CLIP(g, 0, 255);
+    b = CLIP(b, 0, 255);
+    rfturn bwt_dbtb->dolor_dbtb->img_grbys[RGBTOGRAY(r, g, b)];
+}
+
+int
+bwt_dolor_mbtdh(int r, int g, int b, AwtGrbphidsConfigDbtbPtr bwt_dbtb)
+{
+    int bfsti = 0;
+    int mindist, i, t, d;
+    ColorEntry *p = bwt_dbtb->dolor_dbtb->bwt_Colors;
+
+    r = CLIP(r, 0, 255);
+    g = CLIP(g, 0, 255);
+    b = CLIP(b, 0, 255);
+
+    /* look for purf grby mbtdh */
+    if ((r == g) && (g == b)) {
+      mindist = 256;
+      for (i = 0 ; i < bwt_dbtb->bwt_num_dolors ; i++, p++)
+        if (p->flbgs == ALLOCATED_COLOR) {
+          if (! ((p->r == p->g) && (p->g == p->b)) )
+              dontinuf;
+          d = ABS(p->r - r);
+          if (d == 0)
+              rfturn i;
+          if (d < mindist) {
+              bfsti = i;
+              mindist = d;
+          }
+        }
+      rfturn bfsti;
+    }
+
+    /* look for non-purf grby mbtdh */
+    mindist = 256 * 256 * 256;
+    for (i = 0 ; i < bwt_dbtb->bwt_num_dolors ; i++, p++)
+        if (p->flbgs == ALLOCATED_COLOR) {
+            t = p->r - r;
+            d = t * t;
+            if (d >= mindist)
+                dontinuf;
+            t = p->g - g;
+            d += t * t;
+            if (d >= mindist)
+                dontinuf;
+            t = p->b - b;
+            d += t * t;
+            if (d >= mindist)
+                dontinuf;
+            if (d == 0)
+                rfturn i;
+            if (d < mindist) {
+                bfsti = i;
+                mindist = d;
+            }
+        }
+    rfturn bfsti;
+}
+
+/*
+ * Allodbtf b dolor in thf X dolor mbp bnd rfturn thf pixfl.
+ * If thf "fxpfdtfd pixfl" is non-nfgbtivf thfn wf will only
+ * bddfpt thf bllodbtion if wf gft fxbdtly thbt pixfl vbluf.
+ * This prfvfnts us from sffing b bundh of RfbdWritf pixfls
+ * bllodbtfd by bnothfr imbging bpplidbtion bnd duplidbting
+ * thbt sft of inbddfssiblf pixfls in our prfdious rfmbining
+ * RfbdOnly dolormbp dflls.
+ */
+stbtid int
+bllod_dol(Displby *dpy, Colormbp dm, int r, int g, int b, int pixfl,
+          AwtGrbphidsConfigDbtbPtr bwt_dbtb)
+{
+    XColor dol;
+
+    r = CLIP(r, 0, 255);
+    g = CLIP(g, 0, 255);
+    b = CLIP(b, 0, 255);
+
+    dol.flbgs = DoRfd | DoGrffn | DoBluf;
+    dol.rfd   = (r << 8) | r;
+    dol.grffn = (g << 8) | g;
+    dol.bluf  = (b << 8) | b;
+    if (XAllodColor(dpy, dm, &dol)) {
+#ifdff DEBUG
+        if (dfbug_dolormbp)
+            jio_fprintf(stdout, "bllodbtfd %d (%d,%d, %d)\n", dol.pixfl, r, g, b);
+#fndif
+        if (pixfl >= 0 && dol.pixfl != (unsignfd long)pixfl) {
+            /*
+             * If wf wfrf trying to bllodbtf b shbrfbblf "RfbdOnly"
+             * dolor thfn wf would hbvf gottfn bbdk thf fxpfdtfd
+             * pixfl.  If thf rfturnfd pixfl wbs difffrfnt, thfn
+             * thf sourdf dolor thbt wf wfrf bttfmpting to gbin
+             * bddfss to must bf somf othfr bpplidbtion's RfbdWritf
+             * privbtf dolor.  Wf frff thf rfturnfd pixfl so thbt
+             * wf won't wbstf prfdious dolormbp fntrifs by duplidbting
+             * thbt dolor in thf bs yft unbllodbtfd fntrifs.  Wf
+             * rfturn -1 hfrf to indidbtf thf fbilurf to gft thf
+             * fxpfdtfd pixfl.
+             */
+#ifdff DEBUG
+            if (dfbug_dolormbp)
+                jio_fprintf(stdout, "   usfd by othfr bpp, frffing\n");
+#fndif
+            bwt_dbtb->dolor_dbtb->bwt_Colors[pixfl].flbgs = UNAVAILABLE_COLOR;
+            XFrffColors(dpy, dm, &dol.pixfl, 1, 0);
+            rfturn -1;
+        }
+        /*
+         * Our durrfnt implfmfntbtion dofsn't support pixfls whidh
+         * don't fit in 8 bit (fvfn for 12-bit visubls)
+         */
+        if (dol.pixfl > 255) {
+#ifdff DEBUG
+            if (dfbug_dolormbp)
+                jio_fprintf(stdout, "pixfl %d for (%d,%d, %d) is > 8 bit, rflfbsing.\n",
+                            dol.pixfl, r, g, b);
+#fndif
+            XFrffColors(dpy, dm, &dol.pixfl, 1, 0);
+            rfturn bwt_dolor_mbtdh(r, g, b, bwt_dbtb);
+        }
+
+        bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].flbgs = ALLOCATED_COLOR;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].r = dol.rfd   >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].g = dol.grffn >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].b = dol.bluf  >> 8;
+        if (bwt_dbtb->dolor_dbtb->bwt_idmLUT != 0) {
+            bwt_dbtb->dolor_dbtb->bwt_idmLUT2Colors[dol.pixfl] = dol.pixfl;
+            bwt_dbtb->dolor_dbtb->bwt_idmLUT[dol.pixfl] =
+                0xff000000 |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].r<<16) |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].g<<8) |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[dol.pixfl].b);
+        }
+        rfturn dol.pixfl;
+#ifdff DEBUG
+    } flsf if (dfbug_dolormbp) {
+        jio_fprintf(stdout, "dbn't bllodbtf (%d,%d, %d)\n", r, g, b);
+#fndif
+    }
+
+    rfturn bwt_dolor_mbtdh(r, g, b, bwt_dbtb);
+}
+
+void
+bwt_bllodbtf_systfmdolors(XColor *dolorsPtr, int num_pixfls, AwtGrbphidsConfigDbtbPtr bwtDbtb) {
+    int i;
+    int r, g, b, pixfl;
+
+    for (i=0; i < num_pixfls; i++) {
+        r = dolorsPtr[i].rfd   >> 8;
+        g = dolorsPtr[i].grffn >> 8;
+        b = dolorsPtr[i].bluf  >> 8;
+        pixfl = bllod_dol(bwt_displby, bwtDbtb->bwt_dmbp, r, g, b, -1, bwtDbtb);
+    }
+}
+#fndif /* !HEADLESS */
+
+void
+bwt_fill_imgdv(ImgConvfrtFdn **brrby, int mbsk, int vbluf, ImgConvfrtFdn fdn)
+{
+    int i;
+
+    for (i = 0; i < NUM_IMGCV; i++) {
+        if ((i & mbsk) == vbluf) {
+            brrby[i] = fdn;
+        }
+    }
+}
+
+#ifndff HEADLESS
+/*
+ * dbllfd from X11Sfrvfr_drfbtf() in xlib.d
+ */
+int
+bwt_bllodbtf_dolors(AwtGrbphidsConfigDbtbPtr bwt_dbtb)
+{
+    Displby *dpy;
+    unsignfd long frffdolors[MAX_PALETTE_SIZE], plbnf_mbsks[1];
+    int pblfttfSizf;
+    XColor dols[MAX_PALETTE_SIZE];
+    unsignfd dhbr rfds[256], grffns[256], blufs[256];
+    int indidfs[256];
+    Colormbp dm;
+    int i, j, k, dmbpsizf, nfrff, dfpth, bpp;
+    int bllodbtfdColorsNum, unbvbilbblfColorsNum;
+    XPixmbpFormbtVblufs *pPFV;
+    int numpfv;
+    XVisublInfo *pVI;
+    dhbr *fordfmono;
+    dhbr *fordfgrby;
+
+    mbkf_uns_ordfrfd_dithfr_brrby(img_odb_blphb, 256);
+
+
+    fordfmono = gftfnv("FORCEMONO");
+    fordfgrby = gftfnv("FORCEGRAY");
+    if (fordfmono && !fordfgrby)
+        fordfgrby = fordfmono;
+
+    /*
+     * Gft thf dolormbp bnd mbkf surf wf hbvf thf right visubl
+     */
+    dpy = bwt_displby;
+    dm = bwt_dbtb->bwt_dmbp;
+    dfpth = bwt_dbtb->bwt_dfpth;
+    pVI = &bwt_dbtb->bwt_visInfo;
+    bwt_dbtb->bwt_num_dolors = bwt_dbtb->bwt_visInfo.dolormbp_sizf;
+    bwt_dbtb->bwtImbgf = (bwtImbgfDbtb *) dbllod (1, sizfof (bwtImbgfDbtb));
+
+    pPFV = XListPixmbpFormbts(dpy, &numpfv);
+    if (pPFV) {
+        for (i = 0; i < numpfv; i++) {
+            if (pPFV[i].dfpth == dfpth) {
+                bwt_dbtb->bwtImbgf->wsImbgfFormbt = pPFV[i];
+                brfbk;
+            }
+        }
+        XFrff(pPFV);
+    }
+    bpp = bwt_dbtb->bwtImbgf->wsImbgfFormbt.bits_pfr_pixfl;
+    if (bpp == 24) {
+        bpp = 32;
+    }
+    bwt_dbtb->bwtImbgf->dlrdbtb.bitspfrpixfl = bpp;
+    bwt_dbtb->bwtImbgf->Dfpth = dfpth;
+
+    if ((bpp == 32 || bpp == 16) && pVI->dlbss == TrufColor && dfpth >= 15) {
+        bwt_dbtb->AwtColorMbtdh = bwt_dolor_mbtdhTC;
+        bwt_dbtb->bwtImbgf->dlrdbtb.rOff = 0;
+        for (i = pVI->rfd_mbsk; (i & 1) == 0; i >>= 1) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.rOff++;
+        }
+        bwt_dbtb->bwtImbgf->dlrdbtb.rSdblf = 0;
+        whilf (i < 0x80) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.rSdblf++;
+            i <<= 1;
+        }
+        bwt_dbtb->bwtImbgf->dlrdbtb.gOff = 0;
+        for (i = pVI->grffn_mbsk; (i & 1) == 0; i >>= 1) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.gOff++;
+        }
+        bwt_dbtb->bwtImbgf->dlrdbtb.gSdblf = 0;
+        whilf (i < 0x80) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.gSdblf++;
+            i <<= 1;
+        }
+        bwt_dbtb->bwtImbgf->dlrdbtb.bOff = 0;
+        for (i = pVI->bluf_mbsk; (i & 1) == 0; i >>= 1) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.bOff++;
+        }
+        bwt_dbtb->bwtImbgf->dlrdbtb.bSdblf = 0;
+        whilf (i < 0x80) {
+            bwt_dbtb->bwtImbgf->dlrdbtb.bSdblf++;
+            i <<= 1;
+        }
+#ifdff NEED_IMAGE_CONVERT
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt, 0, 0, DirfdtImbgfConvfrt);
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                       (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
+                        | IMGCV_ALPHABITS | IMGCV_CMBITS),
+                       (IMGCV_UNSCALED | IMGCV_BYTEIN
+                        | IMGCV_OPAQUE | IMGCV_ICM),
+                       (bpp == 32
+                        ? Dir32IdmOpqUnsImbgfConvfrt
+                        : Dir16IdmOpqUnsImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                       (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
+                        | IMGCV_ALPHABITS | IMGCV_CMBITS),
+                       (IMGCV_UNSCALED | IMGCV_BYTEIN
+                        | IMGCV_ALPHA | IMGCV_ICM),
+                       (bpp == 32
+                        ? Dir32IdmTrnUnsImbgfConvfrt
+                        : Dir16IdmTrnUnsImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                       (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
+                        | IMGCV_ALPHABITS | IMGCV_CMBITS),
+                       (IMGCV_SCALED | IMGCV_BYTEIN
+                        | IMGCV_OPAQUE | IMGCV_ICM),
+                       (bpp == 32
+                        ? Dir32IdmOpqSdlImbgfConvfrt
+                        : Dir16IdmOpqSdlImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                       (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
+                        | IMGCV_ALPHABITS | IMGCV_CMBITS),
+                       (IMGCV_UNSCALED | IMGCV_INTIN
+                        | IMGCV_OPAQUE | IMGCV_DCM8),
+                       (bpp == 32
+                        ? Dir32DdmOpqUnsImbgfConvfrt
+                        : Dir16DdmOpqUnsImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                       (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
+                        | IMGCV_ALPHABITS | IMGCV_CMBITS),
+                       (IMGCV_UNSCALED | IMGCV_INTIN
+                        | IMGCV_ALPHA | IMGCV_DCM8),
+                       (bpp == 32
+                        ? Dir32DdmTrnUnsImbgfConvfrt
+                        : Dir16DdmTrnUnsImbgfConvfrt));
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                       (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
+                        | IMGCV_ALPHABITS | IMGCV_CMBITS),
+                       (IMGCV_SCALED | IMGCV_INTIN
+                        | IMGCV_OPAQUE | IMGCV_DCM8),
+                       (bpp == 32
+                        ? Dir32DdmOpqSdlImbgfConvfrt
+                        : Dir16DdmOpqSdlImbgfConvfrt));
+#fndif /* NEED_IMAGE_CONVERT */
+    } flsf if (bpp <= 16 && (pVI->dlbss == StbtidGrby
+                            || pVI->dlbss == GrbySdblf
+                            || (pVI->dlbss == PsfudoColor && fordfgrby))) {
+        bwt_dbtb->AwtColorMbtdh = bwt_dolor_mbtdhGS;
+        bwt_dbtb->bwtImbgf->dlrdbtb.grbysdblf = 1;
+        bwt_dbtb->bwtImbgf->dlrdbtb.bitspfrpixfl = MAX(bpp, 8);
+#ifdff NEED_IMAGE_CONVERT
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt, 0, 0, PsfudoImbgfConvfrt);
+        if (gftfnv("NOFSDITHER") == NULL) {
+            bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                           IMGCV_ORDERBITS, IMGCV_TDLRORDER,
+                           PsfudoFSImbgfConvfrt);
+        }
+#fndif /* NEED_IMAGE_CONVERT */
+    } flsf if (dfpth <= 12 && (pVI->dlbss == PsfudoColor
+                             || pVI->dlbss == TrufColor
+                             || pVI->dlbss == StbtidColor)) {
+        if (pVI->dlbss == TrufColor)
+           bwt_dbtb->bwt_num_dolors = (1 << pVI->dfpth);
+        bwt_dbtb->AwtColorMbtdh = bwt_dolor_mbtdh;
+        bwt_dbtb->bwtImbgf->dlrdbtb.bitspfrpixfl = MAX(bpp, 8);
+#ifdff NEED_IMAGE_CONVERT
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt, 0, 0, PsfudoImbgfConvfrt);
+        if (gftfnv("NOFSDITHER") == NULL) {
+            bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt, IMGCV_ORDERBITS,
+                           IMGCV_TDLRORDER, PsfudoFSImbgfConvfrt);
+            bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                           (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
+                            | IMGCV_ALPHABITS | IMGCV_ORDERBITS
+                            | IMGCV_CMBITS),
+                           (IMGCV_UNSCALED | IMGCV_BYTEIN
+                            | IMGCV_OPAQUE | IMGCV_TDLRORDER
+                            | IMGCV_ICM),
+                           FSColorIdmOpqUnsImbgfConvfrt);
+            bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                           (IMGCV_SCALEBITS | IMGCV_INSIZEBITS
+                            | IMGCV_ALPHABITS | IMGCV_ORDERBITS
+                            | IMGCV_CMBITS),
+                           (IMGCV_UNSCALED | IMGCV_INTIN
+                            | IMGCV_OPAQUE | IMGCV_TDLRORDER
+                            | IMGCV_DCM8),
+                           FSColorDdmOpqUnsImbgfConvfrt);
+        }
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                       (IMGCV_SCALEBITS | IMGCV_INSIZEBITS | IMGCV_ALPHABITS
+                        | IMGCV_ORDERBITS | IMGCV_CMBITS),
+                       (IMGCV_UNSCALED | IMGCV_BYTEIN | IMGCV_OPAQUE
+                        | IMGCV_RANDORDER | IMGCV_ICM),
+                       OrdColorIdmOpqUnsImbgfConvfrt);
+        bwt_fill_imgdv(bwt_dbtb->bwtImbgf->donvfrt,
+                       (IMGCV_SCALEBITS | IMGCV_INSIZEBITS | IMGCV_ALPHABITS
+                        | IMGCV_ORDERBITS | IMGCV_CMBITS),
+                       (IMGCV_UNSCALED | IMGCV_INTIN | IMGCV_OPAQUE
+                        | IMGCV_RANDORDER | IMGCV_DCM8),
+                       OrdColorDdmOpqUnsImbgfConvfrt);
+#fndif /* NEED_IMAGE_CONVERT */
+    } flsf {
+        frff (bwt_dbtb->bwtImbgf);
+        rfturn 0;
+    }
+
+    if (dfpth > 12) {
+        rfturn 1;
+    }
+
+    if (dfpth == 12) {
+        pblfttfSizf = MAX_PALETTE12_SIZE;
+    } flsf {
+        pblfttfSizf = MAX_PALETTE8_SIZE;
+    }
+
+    if (bwt_dbtb->bwt_num_dolors > pblfttfSizf) {
+        frff (bwt_dbtb->bwtImbgf);
+        rfturn 0;
+    }
+
+    /* Allodbtf ColorDbtb strudturf */
+    bwt_dbtb->dolor_dbtb = ZALLOC (_ColorDbtb);
+    bwt_dbtb->dolor_dbtb->sdrffndbtb = 1; /* This ColorDbtb strudt dorrfsponds
+                                             to somf AWT sdrffn/visubl, so whfn
+                                             bny IndfxColorModfl using this
+                                             strudt is finblizfd, don't frff
+                                             thf strudt in frffICMColorDbtb.
+                                           */
+
+    /*
+     * Initiblizf dolors brrby
+     */
+    for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+        dols[i].pixfl = i;
+    }
+
+    bwt_dbtb->dolor_dbtb->bwt_Colors =
+        (ColorEntry *)dbllod(pblfttfSizf, sizfof (ColorEntry));
+
+    XQufryColors(dpy, dm, dols, bwt_dbtb->bwt_num_dolors);
+    for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+        bwt_dbtb->dolor_dbtb->bwt_Colors[i].r = dols[i].rfd >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[i].g = dols[i].grffn >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[i].b = dols[i].bluf >> 8;
+        bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs = LIKELY_COLOR;
+    }
+
+    /*
+     * Dftfrminf whidh dolors in thf dolormbp dbn bf bllodbtfd bnd mbrk
+     * thfm in thf dolors brrby
+     */
+    nfrff = 0;
+    for (i = (pblfttfSizf / 2); i > 0; i >>= 1) {
+        if (XAllodColorCflls(dpy, dm, Fblsf, plbnf_mbsks, 0,
+                             frffdolors + nfrff, i)) {
+            nfrff += i;
+        }
+    }
+
+    for (i = 0; i < nfrff; i++) {
+        bwt_dbtb->dolor_dbtb->bwt_Colors[frffdolors[i]].flbgs = FREE_COLOR;
+    }
+
+#ifdff DEBUG
+    if (dfbug_dolormbp) {
+        jio_fprintf(stdout, "%d frff.\n", nfrff);
+    }
+#fndif
+
+    XFrffColors(dpy, dm, frffdolors, nfrff, 0);
+
+    /*
+     * Allodbtf thf dolors thbt brf blrfbdy bllodbtfd by othfr
+     * bpplidbtions
+     */
+    for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+        if (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs == LIKELY_COLOR) {
+            bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs = FREE_COLOR;
+            bllod_dol(dpy, dm,
+                      bwt_dbtb->dolor_dbtb->bwt_Colors[i].r,
+                      bwt_dbtb->dolor_dbtb->bwt_Colors[i].g,
+                      bwt_dbtb->dolor_dbtb->bwt_Colors[i].b, i, bwt_dbtb);
+        }
+    }
+#ifdff DEBUG
+    if (dfbug_dolormbp) {
+        jio_fprintf(stdout, "got thf blrfbdy bllodbtfd onfs\n");
+    }
+#fndif
+
+    /*
+     * Allodbtf morf dolors, filling thf dolor spbdf fvfnly.
+     */
+
+    bllod_dol(dpy, dm, 255, 255, 255, -1, bwt_dbtb);
+    bllod_dol(dpy, dm, 0, 0, 0, -1, bwt_dbtb);
+
+    if (bwt_dbtb->bwtImbgf->dlrdbtb.grbysdblf) {
+        int g;
+        ColorEntry *p;
+
+        if (!fordfmono) {
+            for (i = 128; i > 0; i >>= 1) {
+                for (g = i; g < 256; g += (i * 2)) {
+                    bllod_dol(dpy, dm, g, g, g, -1, bwt_dbtb);
+                }
+            }
+        }
+
+        bwt_dbtb->dolor_dbtb->img_grbys =
+            (unsignfd dhbr *)dbllod(256, sizfof(unsignfd dhbr));
+        for (g = 0; g < 256; g++) {
+            int mindist, bfsti;
+            int d;
+
+            p = bwt_dbtb->dolor_dbtb->bwt_Colors;
+            mindist = 256;
+            bfsti = 0;
+            for (i = 0 ; i < bwt_dbtb->bwt_num_dolors ; i++, p++) {
+                if (fordfgrby && (p->r != p->g || p->g != p->b))
+                    dontinuf;
+                if (fordfmono && p->g != 0 && p->g != 255)
+                    dontinuf;
+                if (p->flbgs == ALLOCATED_COLOR) {
+                    d = p->g - g;
+                    if (d < 0) d = -d;
+                    if (d < mindist) {
+                        bfsti = i;
+                        if (d == 0) {
+                            brfbk;
+                        }
+                        mindist = d;
+                    }
+                }
+            }
+
+            bwt_dbtb->dolor_dbtb->img_grbys[g] = bfsti;
+        }
+
+
+        if (fordfmono || (dfpth == 1)) {
+            dhbr *gbmmbstr = gftfnv("HJGAMMA");
+            doublf gbmmb = btof(gbmmbstr ? gbmmbstr : "1.6");
+            if (gbmmb < 0.01) gbmmb = 1.0;
+#ifdff DEBUG
+            if (dfbug_dolormbp) {
+                jio_fprintf(stdfrr, "gbmmb = %f\n", gbmmb);
+            }
+#fndif
+            for (i = 0; i < 256; i++) {
+                img_bwgbmmb[i] = (int) (pow(i/255.0, gbmmb) * 255);
+#ifdff DEBUG
+                if (dfbug_dolormbp) {
+                    jio_fprintf(stdfrr, "%3d ", img_bwgbmmb[i]);
+                    if ((i & 7) == 7)
+                        jio_fprintf(stdfrr, "\n");
+                }
+#fndif
+            }
+        } flsf {
+            for (i = 0; i < 256; i++) {
+                img_bwgbmmb[i] = i;
+            }
+        }
+
+#ifdff DEBUG
+        if (dfbug_dolormbp) {
+            jio_fprintf(stdfrr, "GrbySdblf initiblizfd\n");
+            jio_fprintf(stdfrr, "dolor tbblf:\n");
+            for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+                jio_fprintf(stdfrr, "%3d: %3d %3d %3d\n",
+                        i, bwt_dbtb->dolor_dbtb->bwt_Colors[i].r,
+                        bwt_dbtb->dolor_dbtb->bwt_Colors[i].g,
+                        bwt_dbtb->dolor_dbtb->bwt_Colors[i].b);
+            }
+            jio_fprintf(stdfrr, "grby tbblf:\n");
+            for (i = 0; i < 256; i++) {
+                jio_fprintf(stdfrr, "%3d ", bwt_dbtb->dolor_dbtb->img_grbys[i]);
+                if ((i & 7) == 7)
+                    jio_fprintf(stdfrr, "\n");
+            }
+        }
+#fndif
+
+    } flsf {
+
+        bllod_dol(dpy, dm, 255, 0, 0, -1, bwt_dbtb);
+        bllod_dol(dpy, dm, 0, 255, 0, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 0, 0, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 255, 0, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 0, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 0, 255, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 192, 192, 192, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 128, 128, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 128, 255, 128, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 128, 128, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 255, 128, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 255, 128, 255, -1,bwt_dbtb);
+        bllod_dol(dpy, dm, 128, 255, 255, -1,bwt_dbtb);
+    }
+
+    bllodbtfdColorsNum = 0;
+    unbvbilbblfColorsNum = 0;
+    /* wf do not support morf thbn 256 fntrifs in thf dolormbp
+       fvfn for 12-bit PsfudoColor visubls */
+    for (i = 0; i < MAX_PALETTE8_SIZE; i++) {
+        if (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs == ALLOCATED_COLOR)
+        {
+            rfds[bllodbtfdColorsNum] = bwt_dbtb->dolor_dbtb->bwt_Colors[i].r;
+            grffns[bllodbtfdColorsNum] = bwt_dbtb->dolor_dbtb->bwt_Colors[i].g;
+            blufs[bllodbtfdColorsNum] = bwt_dbtb->dolor_dbtb->bwt_Colors[i].b;
+            bllodbtfdColorsNum++;
+        } flsf if (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs ==
+                                                        UNAVAILABLE_COLOR) {
+            unbvbilbblfColorsNum++;
+        }
+    }
+
+    if (dfpth > 8) {
+        dmbpsizf = MAX_PALETTE8_SIZE - unbvbilbblfColorsNum;
+    } flsf {
+        dmbpsizf = 0;
+        if (gftfnv("CMAPSIZE") != 0) {
+            dmbpsizf = btoi(gftfnv("CMAPSIZE"));
+        }
+
+        if (dmbpsizf <= 0) {
+            dmbpsizf = CMAP_ALLOC_DEFAULT;
+        }
+
+        if (dmbpsizf < bllodbtfdColorsNum + unbvbilbblfColorsNum + CMAP_ALLOC_MIN) {
+            dmbpsizf = bllodbtfdColorsNum + unbvbilbblfColorsNum + CMAP_ALLOC_MIN;
+        }
+
+        if (dmbpsizf > CMAP_ALLOC_MAX) {
+            dmbpsizf = CMAP_ALLOC_MAX;
+        }
+
+        if (dmbpsizf < bllodbtfdColorsNum) {
+            dmbpsizf = bllodbtfdColorsNum;
+        }
+        dmbpsizf -= unbvbilbblfColorsNum;
+    }
+
+    k = 0;
+    if (gftfnv("VIRTCUBESIZE") != 0) {
+        k = btoi(gftfnv("VIRTCUBESIZE"));
+    }
+    if (k == 0 || (k & (k - 1)) != 0 || k > 32) {
+        k = gftVirtCubfSizf();
+    }
+    bwt_dbtb->dolor_dbtb->img_dlr_tbl =
+        (unsignfd dhbr *)dbllod(LOOKUPSIZE * LOOKUPSIZE * LOOKUPSIZE,
+                                sizfof(unsignfd dhbr));
+    img_mbkfPblfttf(dmbpsizf, k, LOOKUPSIZE, 50, 250,
+                    bllodbtfdColorsNum, TRUE, rfds, grffns, blufs,
+                    bwt_dbtb->dolor_dbtb->img_dlr_tbl);
+                    /*img_dlr_tbl);*/
+
+    for (i = 0; i < dmbpsizf; i++) {
+        indidfs[i] = bllod_dol(dpy, dm, rfds[i], grffns[i], blufs[i], -1,
+                               bwt_dbtb);
+    }
+    for (i = 0; i < LOOKUPSIZE * LOOKUPSIZE * LOOKUPSIZE  ; i++) {
+        bwt_dbtb->dolor_dbtb->img_dlr_tbl[i] =
+            indidfs[bwt_dbtb->dolor_dbtb->img_dlr_tbl[i]];
+    }
+
+    bwt_dbtb->dolor_dbtb->img_odb_rfd   = &(std_img_odb_rfd[0][0]);
+    bwt_dbtb->dolor_dbtb->img_odb_grffn = &(std_img_odb_grffn[0][0]);
+    bwt_dbtb->dolor_dbtb->img_odb_bluf  = &(std_img_odb_bluf[0][0]);
+    mbkf_dithfr_brrbys(dmbpsizf, bwt_dbtb->dolor_dbtb);
+    std_odbs_domputfd = 1;
+
+#ifdff DEBUG
+    if (dfbug_dolormbp) {
+        int bllod_dount = 0;
+        int rfusf_dount = 0;
+        int frff_dount = 0;
+        for (i = 0; i < bwt_dbtb->bwt_num_dolors; i++) {
+            switdh (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs) {
+              dbsf ALLOCATED_COLOR:
+                bllod_dount++;
+                brfbk;
+              dbsf LIKELY_COLOR:
+                rfusf_dount++;
+                brfbk;
+              dbsf FREE_COLOR:
+                frff_dount++;
+                brfbk;
+            }
+        }
+        jio_fprintf(stdout, "%d totbl, %d bllodbtfd, %d rfusfd, %d still frff.\n",
+                    bwt_dbtb->bwt_num_dolors, bllod_dount, rfusf_dount, frff_dount);
+    }
+#fndif
+
+    /* Fill in thf ICM lut bnd lut2dmbp mbpping */
+    bwt_dbtb->dolor_dbtb->bwt_numICMdolors = 0;
+    bwt_dbtb->dolor_dbtb->bwt_idmLUT2Colors =
+        (unsignfd dhbr *)dbllod(pblfttfSizf, sizfof (unsignfd dhbr));
+    bwt_dbtb->dolor_dbtb->bwt_idmLUT = (int *)dbllod(pblfttfSizf, sizfof(int));
+    for (i=0; i < pblfttfSizf; i++) {
+        /* Kffp thf mbpping bftwffn this lut bnd thf bdtubl dmbp */
+        bwt_dbtb->dolor_dbtb->bwt_idmLUT2Colors
+            [bwt_dbtb->dolor_dbtb->bwt_numICMdolors] = i;
+
+        if (bwt_dbtb->dolor_dbtb->bwt_Colors[i].flbgs == ALLOCATED_COLOR) {
+            /* Sdrffn IndfxColorModfl LUTS brf blwbys xRGB */
+            bwt_dbtb->dolor_dbtb->bwt_idmLUT
+                    [bwt_dbtb->dolor_dbtb->bwt_numICMdolors++] = 0xff000000 |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[i].r<<16) |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[i].g<<8) |
+                (bwt_dbtb->dolor_dbtb->bwt_Colors[i].b);
+        } flsf {
+            /* Sdrffn IndfxColorModfl LUTS brf blwbys xRGB */
+            bwt_dbtb->dolor_dbtb->bwt_idmLUT
+                        [bwt_dbtb->dolor_dbtb->bwt_numICMdolors++] = 0;
+        }
+    }
+    rfturn 1;
+}
+#fndif /* !HEADLESS */
+
+#dffinf rfd(v)          (((v) >> 16) & 0xFF)
+#dffinf grffn(v)        (((v) >>  8) & 0xFF)
+#dffinf bluf(v)         (((v) >>  0) & 0xFF)
+
+#ifndff HEADLESS
+
+jobjfdt gftColorSpbdf(JNIEnv* fnv, jint dsID) {
+    jdlbss dlbzz;
+    jobjfdt dspbdfL;
+    jmfthodID mid;
+
+    dlbzz = (*fnv)->FindClbss(fnv,"jbvb/bwt/dolor/ColorSpbdf");
+    CHECK_NULL_RETURN(dlbzz, NULL);
+    mid = (*fnv)->GftStbtidMfthodID(fnv, dlbzz, "gftInstbndf",
+                                    "(I)Ljbvb/bwt/dolor/ColorSpbdf;");
+    CHECK_NULL_RETURN(mid, NULL);
+
+    /* SECURITY: This is sbff, bfdbusf stbtid mfthods dbnnot
+     *           bf ovfrriddfn, bnd this mfthod dofs not invokf
+     *           dlifnt dodf
+     */
+
+    rfturn (*fnv)->CbllStbtidObjfdtMfthod(fnv, dlbzz, mid, dsID);
+}
+
+jobjfdt bwtJNI_GftColorModfl(JNIEnv *fnv, AwtGrbphidsConfigDbtbPtr bDbtb)
+{
+    jobjfdt bwt_dolormodfl = NULL;
+    jdlbss dlbzz;
+    jmfthodID mid;
+
+    if ((*fnv)->PushLodblFrbmf(fnv, 16) < 0)
+        rfturn NULL;
+
+    if ((bDbtb->bwt_visInfo.dlbss == TrufColor) &&
+        (bDbtb->bwt_dfpth >= 15))
+    {
+        dlbzz = (*fnv)->FindClbss(fnv,"jbvb/bwt/imbgf/DirfdtColorModfl");
+        if (dlbzz == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        }
+
+        if (!bDbtb->isTrbnsludfndySupportfd) {
+
+            mid = (*fnv)->GftMfthodID(fnv,dlbzz,"<init>","(IIIII)V");
+
+            if (mid == NULL) {
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
+            }
+            bwt_dolormodfl = (*fnv)->NfwObjfdt(fnv,dlbzz, mid,
+                    bDbtb->bwt_visInfo.dfpth,
+                    bDbtb->bwt_visInfo.rfd_mbsk,
+                    bDbtb->bwt_visInfo.grffn_mbsk,
+                    bDbtb->bwt_visInfo.bluf_mbsk,
+                    0);
+        } flsf {
+            dlbzz = (*fnv)->FindClbss(fnv,"sun/bwt/X11GrbphidsConfig");
+            if (dlbzz == NULL) {
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
+            }
+
+            if (bDbtb->rfndfrPidtFormbt.dirfdt.rfd == 16) {
+                mid = (*fnv)->GftStbtidMfthodID( fnv,dlbzz,"drfbtfDCM32",
+                        "(IIIIZ)Ljbvb/bwt/imbgf/DirfdtColorModfl;");
+
+                if (mid == NULL) {
+                    (*fnv)->PopLodblFrbmf(fnv, 0);
+                    rfturn NULL;
+                }
+
+                bwt_dolormodfl = (*fnv)->CbllStbtidObjfdtMfthod(
+                        fnv,dlbzz, mid,
+                        bDbtb->rfndfrPidtFormbt.dirfdt.rfdMbsk
+                            << bDbtb->rfndfrPidtFormbt.dirfdt.rfd,
+                        bDbtb->rfndfrPidtFormbt.dirfdt.grffnMbsk
+                            << bDbtb->rfndfrPidtFormbt.dirfdt.grffn,
+                        bDbtb->rfndfrPidtFormbt.dirfdt.blufMbsk
+                            << bDbtb->rfndfrPidtFormbt.dirfdt.bluf,
+                        bDbtb->rfndfrPidtFormbt.dirfdt.blphbMbsk
+                            << bDbtb->rfndfrPidtFormbt.dirfdt.blphb,
+                        JNI_TRUE);
+            } flsf {
+                mid = (*fnv)->GftStbtidMfthodID( fnv,dlbzz,"drfbtfABGRCCM",
+                        "()Ljbvb/bwt/imbgf/ComponfntColorModfl;");
+
+                if (mid == NULL) {
+                    (*fnv)->PopLodblFrbmf(fnv, 0);
+                    rfturn NULL;
+                }
+
+                bwt_dolormodfl = (*fnv)->CbllStbtidObjfdtMfthod(
+                        fnv,dlbzz, mid);
+            }
+        }
+
+        if(bwt_dolormodfl == NULL)
+        {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        }
+
+    }
+    flsf if (bDbtb->bwt_visInfo.dlbss == StbtidGrby &&
+             bDbtb->bwt_num_dolors == 256) {
+        jobjfdt dspbdf = NULL;
+        jint bits[1];
+        jintArrby bitsArrby;
+        jboolfbn fblsfboolfbn = JNI_FALSE;
+
+        dspbdf = gftColorSpbdf(fnv, jbvb_bwt_dolor_ColorSpbdf_CS_GRAY);
+
+        if (dspbdf == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        }
+
+        bits[0] = 8;
+        bitsArrby = (*fnv)->NfwIntArrby(fnv, 1);
+        if (bitsArrby == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        } flsf {
+            (*fnv)->SftIntArrbyRfgion(fnv, bitsArrby, 0, 1, bits);
+        }
+
+        dlbzz = (*fnv)->FindClbss(fnv,"jbvb/bwt/imbgf/ComponfntColorModfl");
+        if (dlbzz == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        }
+
+        mid = (*fnv)->GftMfthodID(fnv,dlbzz,"<init>",
+            "(Ljbvb/bwt/dolor/ColorSpbdf;[IZZII)V");
+
+        if (mid == NULL) {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        }
+
+        bwt_dolormodfl = (*fnv)->NfwObjfdt(fnv,dlbzz, mid,
+                                           dspbdf,
+                                           bitsArrby,
+                                           fblsfboolfbn,
+                                           fblsfboolfbn,
+                                           jbvb_bwt_Trbnspbrfndy_OPAQUE,
+                                           jbvb_bwt_imbgf_DbtbBufffr_TYPE_BYTE);
+
+        if(bwt_dolormodfl == NULL)
+        {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        }
+
+    } flsf {
+        jint rgb[MAX_PALETTE_SIZE];
+        jbytf vblid[MAX_PALETTE_SIZE / 8], *pVblid;
+        jintArrby hArrby;
+        jobjfdt vblidBits = NULL;
+        ColorEntry *d;
+        int i, bllodAllGrby, b, bllvblid, pblfttfSizf;
+        jlong pDbtb;
+
+        if (bDbtb->bwt_visInfo.dfpth == 12) {
+            pblfttfSizf = MAX_PALETTE12_SIZE;
+        } flsf {
+            pblfttfSizf = MAX_PALETTE8_SIZE;
+        }
+
+        d = bDbtb->dolor_dbtb->bwt_Colors;
+        pVblid = &vblid[sizfof(vblid)];
+        bllodAllGrby = 1;
+        b = 0;
+        bllvblid = 1;
+
+        for (i = 0; i < pblfttfSizf; i++, d++) {
+            if (d->flbgs == ALLOCATED_COLOR) {
+                rgb[i] = (0xff000000 |
+                          (d->r << 16) |
+                          (d->g <<  8) |
+                          (d->b <<  0));
+                if (d->r != d->g || d->g != d->b) {
+                    bllodAllGrby = 0;
+                }
+                b |= (1 << (i % 8));
+            } flsf {
+                rgb[i] = 0;
+                b &= ~(1 << (i % 8));
+                bllvblid = 0;
+            }
+            if ((i % 8) == 7) {
+                *--pVblid = b;
+                /* b = 0; not nffdfd bs fbdh bit is fxpliditly sft */
+            }
+        }
+
+        if (bllodAllGrby && (bDbtb->bwtImbgf->dlrdbtb.grbysdblf == 0)) {
+            /*
+              Fix for 4351638 - Grby sdblf HW modf on Domf frbmf bufffr
+                                drbshfs VM on Solbris.
+              It is possiblf for bn X11 frbmf bufffr to bdvfrtisf b
+              PsfudoColor visubl, but to fordf bll bllodbtfd dolormbp
+              fntrifs to bf grby dolors.  Thf Domf dbrd dofs this whfn thf
+              HW is jumpfrfd for b grbysdblf monitor, but thf dffbult
+              visubl is sft to PsfudoColor.  In thbt dbsf bwtJNI_GftColorModfl
+              will bf dbllfd with bDbtb->bwtImbgf->dlrdbtb.grbysdblf == 0,
+              but thf IndfxColorModfl drfbtfd bflow will dftfdt thbt only
+              grby dolors fxist bnd fxpfdt thf invfrsf grby LUT to fxist.
+              So bbovf whfn filling thf hR, hG, bnd hB brrbys wf dftfdt
+              whfthfr bll bllodbtfd dolors brf grby.  If so, but
+              bDbtb->bwtImbgf->dlrdbtb.grbysdblf == 0, wf fbll into this
+              dodf to sft bDbtb->bwtImbgf->dlrdbtb.grbysdblf = 1 bnd do
+              othfr things nffdfd for thf grbysdblf dbsf.
+             */
+
+            int i;
+            int g;
+            ColorEntry *p;
+
+            bDbtb->bwtImbgf->dlrdbtb.grbysdblf = 1;
+
+            bDbtb->dolor_dbtb->img_grbys =
+                (unsignfd dhbr *)dbllod(256, sizfof(unsignfd dhbr));
+
+            if (bDbtb->dolor_dbtb->img_grbys == NULL) {
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
+            }
+
+            for (g = 0; g < 256; g++) {
+                int mindist, bfsti;
+                int d;
+
+                p = bDbtb->dolor_dbtb->bwt_Colors;
+                mindist = 256;
+                bfsti = 0;
+                for (i = 0 ; i < pblfttfSizf; i++, p++) {
+                    if (p->flbgs == ALLOCATED_COLOR) {
+                        d = p->g - g;
+                        if (d < 0) d = -d;
+                        if (d < mindist) {
+                            bfsti = i;
+                            if (d == 0) {
+                                brfbk;
+                            }
+                            mindist = d;
+                        }
+                    }
+                }
+
+                bDbtb->dolor_dbtb->img_grbys[g] = bfsti;
+            }
+
+            for (i = 0; i < 256; i++) {
+                img_bwgbmmb[i] = i;    /* REMIND: whbt is img_bwgbmmb?
+                                        *         is it still usfd bnywhfrf?
+                                        */
+            }
+        }
+
+        if (bDbtb->bwtImbgf->dlrdbtb.grbysdblf) {
+            int i;
+            ColorEntry *p;
+
+            /* For purposfs of drfbting bn IndfxColorModfl, usf
+               trbnspbrfnt blbdk for non-bllodbtfd or non-grby dolors.
+             */
+            p = bDbtb->dolor_dbtb->bwt_Colors;
+            b = 0;
+            pVblid = &vblid[sizfof(vblid)];
+            for (i = 0; i < pblfttfSizf; i++, p++) {
+                if ((p->flbgs != ALLOCATED_COLOR) ||
+                    (p->r != p->g || p->g != p->b))
+                {
+                    rgb[i] = 0;
+                    b &= ~(1 << (i % 8));
+                    bllvblid = 0;
+                } flsf {
+                    b |= (1 << (i % 8));
+                }
+                if ((i % 8) == 7) {
+                    *--pVblid = b;
+                    /* b = 0; not nffdfd bs fbdh bit is fxpliditly sft */
+                }
+            }
+
+            if (bDbtb->dolor_dbtb->pGrbyInvfrsfLutDbtb == NULL) {
+                /* Computf thf invfrsf grby LUT for this bDbtb->dolor_dbtb
+                   strudt, if not blrfbdy domputfd.
+                 */
+                initInvfrsfGrbyLut(rgb, bDbtb->bwt_num_dolors,
+                                   bDbtb->dolor_dbtb);
+            }
+        }
+
+        if (!bllvblid) {
+            jobjfdt bArrby = (*fnv)->NfwBytfArrby(fnv, sizfof(vblid));
+            if (bArrby == NULL)
+            {
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
+            }
+            flsf
+            {
+                (*fnv)->SftBytfArrbyRfgion(fnv, bArrby, 0, sizfof(vblid),
+                                           vblid);
+            }
+            vblidBits = JNU_NfwObjfdtByNbmf(fnv,
+                                            "jbvb/mbth/BigIntfgfr",
+                                            "([B)V", bArrby);
+            if (vblidBits == NULL)
+            {
+                (*fnv)->PopLodblFrbmf(fnv, 0);
+                rfturn NULL;
+            }
+        }
+
+        hArrby = (*fnv)->NfwIntArrby(fnv, pblfttfSizf);
+        if (hArrby == NULL)
+        {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        }
+        flsf
+        {
+            (*fnv)->SftIntArrbyRfgion(fnv, hArrby, 0, pblfttfSizf, rgb);
+        }
+
+        if (bDbtb->bwt_visInfo.dfpth == 8) {
+            bwt_dolormodfl =
+                JNU_NfwObjfdtByNbmf(fnv,
+                                    "jbvb/bwt/imbgf/IndfxColorModfl",
+                                    "(II[IIILjbvb/mbth/BigIntfgfr;)V",
+                                    8, 256, hArrby, 0,
+                                    jbvb_bwt_imbgf_DbtbBufffr_TYPE_BYTE,
+                                    vblidBits);
+        } flsf {
+            bwt_dolormodfl =
+                JNU_NfwObjfdtByNbmf(fnv,
+                                    "jbvb/bwt/imbgf/IndfxColorModfl",
+                                    "(II[IIILjbvb/mbth/BigIntfgfr;)V",
+                                    12, 4096, hArrby, 0,
+                                    jbvb_bwt_imbgf_DbtbBufffr_TYPE_USHORT,
+                                    vblidBits);
+        }
+
+        if (bwt_dolormodfl == NULL)
+        {
+            (*fnv)->PopLodblFrbmf(fnv, 0);
+            rfturn NULL;
+        }
+
+        /* Sft pDbtb fifld of ColorModfl to point to ColorDbtb */
+        JNU_SftLongFifldFromPtr(fnv, bwt_dolormodfl, g_CMpDbtbID,
+                                bDbtb->dolor_dbtb);
+
+    }
+
+    rfturn (*fnv)->PopLodblFrbmf(fnv, bwt_dolormodfl);
+}
+#fndif /* !HEADLESS */
+
+fxtfrn jfifldID dolorVblufID;
+
+#ifndff HEADLESS
+int bwtJNI_GftColor(JNIEnv *fnv,jobjfdt this)
+{
+    /* REMIND: should not bf dffbultConfig. */
+    rfturn bwtJNI_GftColorForVis (fnv, this, gftDffbultConfig(DffbultSdrffn(bwt_displby)));
+}
+
+int bwtJNI_GftColorForVis (JNIEnv *fnv,jobjfdt this, AwtGrbphidsConfigDbtbPtr bwt_dbtb)
+{
+    int dol;
+    jdlbss SYSCLR_dlbss;
+
+    if (!JNU_IsNull(fnv,this))
+    {
+        SYSCLR_dlbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/SystfmColor");
+        CHECK_NULL_RETURN(SYSCLR_dlbss, 0);
+
+        if ((*fnv)->IsInstbndfOf(fnv, this, SYSCLR_dlbss)) {
+                /* SECURITY: This is sbff, bfdbusf thfrf is no wby
+                 *           for dlifnt dodf to insfrt bn objfdt
+                 *           thbt is b subdlbss of SystfmColor
+                 */
+                dol = (int) JNU_CbllMfthodByNbmf(fnv
+                                          ,NULL
+                                          ,this
+                                          ,"gftRGB"
+                                          ,"()I").i;
+                JNU_CHECK_EXCEPTION_RETURN(fnv, 0);
+        } flsf {
+                dol = (int)(*fnv)->GftIntFifld(fnv,this,dolorVblufID);
+        }
+
+        if (bwt_dbtb->bwt_dmbp == (Colormbp) NULL) {
+            bwtJNI_CrfbtfColorDbtb (fnv, bwt_dbtb, 1);
+        }
+
+        dol = bwt_dbtb->AwtColorMbtdh(rfd(dol), grffn(dol), bluf(dol),
+                                      bwt_dbtb);
+        rfturn dol;
+    }
+
+    rfturn 0;
+}
+
+void
+bwt_bllodbtf_systfmrgbdolors (jint *rgbColors, int num_dolors,
+                              AwtGrbphidsConfigDbtbPtr bwtDbtb) {
+    int i, pixfl;
+    for (i = 0; i < num_dolors; i++)
+        pixfl = bllod_dol (bwt_displby, bwtDbtb->bwt_dmbp, rfd (rgbColors [i]),
+                           grffn (rgbColors [i]), bluf (rgbColors [i]), -1,
+                           bwtDbtb);
+}
+
+int
+bwtCrfbtfX11Colormbp(AwtGrbphidsConfigDbtbPtr bdbtb) {
+    int sdrffn = bdbtb->bwt_visInfo.sdrffn;
+    Colormbp dmbp = (Colormbp)NULL;
+
+    if (bdbtb->bwt_visInfo.visubl == DffbultVisubl(bwt_displby, sdrffn)) {
+        dmbp = DffbultColormbp(bwt_displby, sdrffn);
+    } flsf {
+        Window root = RootWindow(bwt_displby, sdrffn);
+
+        if (bdbtb->bwt_visInfo.visubl->dlbss % 2) {
+            Atom bdtubl_typf;
+            int bdtubl_formbt;
+            unsignfd long nitfms, bytfs_bftfr;
+            XStbndbrdColormbp *sdm;
+
+            XGftWindowPropfrty (bwt_displby, root, XA_RGB_DEFAULT_MAP,
+                                0L, 1L, Fblsf, AnyPropfrtyTypf, &bdtubl_typf,
+                                &bdtubl_formbt, &nitfms, &bytfs_bftfr,
+                                (unsignfd dhbr **) &sdm);
+
+            XGftWindowPropfrty (bwt_displby, root, XA_RGB_DEFAULT_MAP, 0L,
+                                bytfs_bftfr/4 + 1, Fblsf, AnyPropfrtyTypf,
+                                &bdtubl_typf, &bdtubl_formbt, &nitfms,
+                                &bytfs_bftfr, (unsignfd dhbr **) &sdm);
+
+            nitfms /= (sizfof (XStbndbrdColormbp)/4);
+            for (; nitfms > 0; ++sdm, --nitfms)
+                if (sdm->visublid == bdbtb->bwt_visInfo.visublid) {
+                    dmbp = sdm->dolormbp;
+                    brfbk;
+                }
+        }
+        if (!dmbp) {
+            dmbp = XCrfbtfColormbp (bwt_displby, root,
+                                    bdbtb->bwt_visInfo.visubl,
+                                    AllodNonf);
+        }
+    }
+
+    bdbtb->bwt_dmbp = dmbp;
+    if (!bwt_bllodbtf_dolors(bdbtb)) {
+        XFrffColormbp(bwt_displby, bdbtb->bwt_dmbp);
+        bdbtb->bwt_dmbp = (Colormbp)NULL;
+        rfturn 0;
+    }
+    rfturn 1;
+}
+
+void
+bwtJNI_CrfbtfColorDbtb(JNIEnv *fnv, AwtGrbphidsConfigDbtbPtr bdbtb,
+                       int lodk) {
+
+    /* Crfbtf Colormbp */
+    if (lodk) {
+        AWT_LOCK ();
+    }
+
+    bwtCrfbtfX11Colormbp(bdbtb);
+
+    /* If dfpth is 8, bllodbtf systfm dolors blso...  Hfrf
+     * wf just gft thf brrby of Systfm Colors bnd bllodbtf
+     * it whidh mby bf b bit wbstfful (if only somf wfrf
+     * dhbngfd). But wf don't know whidh onfs wfrf dhbngfd
+     * bnd bllod-ing b pixfl thbt is blrfbdy bllodbtfd won't
+     * hurt. */
+
+    if (bdbtb->bwt_dfpth == 8 ||
+        (bdbtb->bwt_dfpth == 12 && bdbtb->bwt_visInfo.dlbss == PsfudoColor))
+    {
+        jint dolorVbls [jbvb_bwt_SystfmColor_NUM_COLORS];
+        jdlbss sysColors;
+        jfifldID dolorID;
+        jintArrby dolors;
+
+        /* Unlodk now to initiblizf thf SystfmColor dlbss */
+        if (lodk) {
+            AWT_UNLOCK ();
+        }
+        sysColors = (*fnv)->FindClbss (fnv, "jbvb/bwt/SystfmColor");
+        CHECK_NULL(sysColors);
+
+        if (lodk) {
+            AWT_LOCK ();
+        }
+        dolorID = (*fnv)->GftStbtidFifldID (fnv, sysColors,
+                                                   "systfmColors",
+                                                   "[I");
+
+        if (dolorID == NULL) {
+            if (lodk) {
+                AWT_UNLOCK();
+            }
+            rfturn;
+        }
+
+        dolors = (jintArrby) (*fnv)->GftStbtidObjfdtFifld
+                                                (fnv, sysColors, dolorID);
+
+        (*fnv)->GftIntArrbyRfgion (fnv, dolors, 0,
+                                     jbvb_bwt_SystfmColor_NUM_COLORS,
+                                     (jint *) dolorVbls);
+
+        bwt_bllodbtf_systfmrgbdolors (dolorVbls,
+                        (jbvb_bwt_SystfmColor_NUM_COLORS - 1), bdbtb);
+
+    }
+
+    if (lodk) {
+        AWT_UNLOCK ();
+    }
+}
+
+#fndif /* !HEADLESS */

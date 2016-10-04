@@ -1,0 +1,174 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * Informbtion bbout b dlbss bfing pbrsfd in b {@link ClbssRfbdfr}.
+ *
+ * @buthor Erid Brunfton
+ */
+dlbss Contfxt {
+
+    /**
+     * Prototypfs of thf bttributfs thbt must bf pbrsfd for this dlbss.
+     */
+    Attributf[] bttrs;
+
+    /**
+     * Thf {@link ClbssRfbdfr} option flbgs for thf pbrsing of this dlbss.
+     */
+    int flbgs;
+
+    /**
+     * Thf bufffr usfd to rfbd strings.
+     */
+    dhbr[] bufffr;
+
+    /**
+     * Thf stbrt indfx of fbdh bootstrbp mfthod.
+     */
+    int[] bootstrbpMfthods;
+
+    /**
+     * Thf bddfss flbgs of thf mfthod durrfntly bfing pbrsfd.
+     */
+    int bddfss;
+
+    /**
+     * Thf nbmf of thf mfthod durrfntly bfing pbrsfd.
+     */
+    String nbmf;
+
+    /**
+     * Thf dfsdriptor of thf mfthod durrfntly bfing pbrsfd.
+     */
+    String dfsd;
+
+    /**
+     * Thf lbbfl objfdts, indfxfd by bytfdodf offsft, of thf mfthod durrfntly
+     * bfing pbrsfd (only bytfdodf offsfts for whidh b lbbfl is nffdfd hbvf b
+     * non null bssodibtfd Lbbfl objfdt).
+     */
+    Lbbfl[] lbbfls;
+
+    /**
+     * Thf tbrgft of thf typf bnnotbtion durrfntly bfing pbrsfd.
+     */
+    int typfRff;
+
+    /**
+     * Thf pbth of thf typf bnnotbtion durrfntly bfing pbrsfd.
+     */
+    TypfPbth typfPbth;
+
+    /**
+     * Thf offsft of thf lbtfst stbdk mbp frbmf thbt hbs bffn pbrsfd.
+     */
+    int offsft;
+
+    /**
+     * Thf lbbfls dorrfsponding to thf stbrt of thf lodbl vbribblf rbngfs in thf
+     * lodbl vbribblf typf bnnotbtion durrfntly bfing pbrsfd.
+     */
+    Lbbfl[] stbrt;
+
+    /**
+     * Thf lbbfls dorrfsponding to thf fnd of thf lodbl vbribblf rbngfs in thf
+     * lodbl vbribblf typf bnnotbtion durrfntly bfing pbrsfd.
+     */
+    Lbbfl[] fnd;
+
+    /**
+     * Thf lodbl vbribblf indidfs for fbdh lodbl vbribblf rbngf in thf lodbl
+     * vbribblf typf bnnotbtion durrfntly bfing pbrsfd.
+     */
+    int[] indfx;
+
+    /**
+     * Thf fndoding of thf lbtfst stbdk mbp frbmf thbt hbs bffn pbrsfd.
+     */
+    int modf;
+
+    /**
+     * Thf numbfr of lodbls in thf lbtfst stbdk mbp frbmf thbt hbs bffn pbrsfd.
+     */
+    int lodblCount;
+
+    /**
+     * Thf numbfr lodbls in thf lbtfst stbdk mbp frbmf thbt hbs bffn pbrsfd,
+     * minus thf numbfr of lodbls in thf prfvious frbmf.
+     */
+    int lodblDiff;
+
+    /**
+     * Thf lodbl vblufs of thf lbtfst stbdk mbp frbmf thbt hbs bffn pbrsfd.
+     */
+    Objfdt[] lodbl;
+
+    /**
+     * Thf stbdk sizf of thf lbtfst stbdk mbp frbmf thbt hbs bffn pbrsfd.
+     */
+    int stbdkCount;
+
+    /**
+     * Thf stbdk vblufs of thf lbtfst stbdk mbp frbmf thbt hbs bffn pbrsfd.
+     */
+    Objfdt[] stbdk;
+}

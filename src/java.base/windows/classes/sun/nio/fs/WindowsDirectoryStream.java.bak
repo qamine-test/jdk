@@ -1,232 +1,232 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.io.IOException;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.io.IOExdfption;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Windows implementation of DirectoryStream
+ * Windows implfmfntbtion of DirfdtoryStrfbm
  */
 
-class WindowsDirectoryStream
-    implements DirectoryStream<Path>
+dlbss WindowsDirfdtoryStrfbm
+    implfmfnts DirfdtoryStrfbm<Pbti>
 {
-    private final WindowsPath dir;
-    private final DirectoryStream.Filter<? super Path> filter;
+    privbtf finbl WindowsPbti dir;
+    privbtf finbl DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr;
 
-    // handle to directory
-    private final long handle;
-    // first entry in the directory
-    private final String firstName;
+    // ibndlf to dirfdtory
+    privbtf finbl long ibndlf;
+    // first fntry in tif dirfdtory
+    privbtf finbl String firstNbmf;
 
-    // buffer for WIN32_FIND_DATA structure that receives information about file
-    private final NativeBuffer findDataBuffer;
+    // bufffr for WIN32_FIND_DATA strudturf tibt rfdfivfs informbtion bbout filf
+    privbtf finbl NbtivfBufffr findDbtbBufffr;
 
-    private final Object closeLock = new Object();
+    privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
 
-    // need closeLock to access these
-    private boolean isOpen = true;
-    private Iterator<Path> iterator;
+    // nffd dlosfLodk to bddfss tifsf
+    privbtf boolfbn isOpfn = truf;
+    privbtf Itfrbtor<Pbti> itfrbtor;
 
 
-    WindowsDirectoryStream(WindowsPath dir, DirectoryStream.Filter<? super Path> filter)
-        throws IOException
+    WindowsDirfdtoryStrfbm(WindowsPbti dir, DirfdtoryStrfbm.Filtfr<? supfr Pbti> filtfr)
+        tirows IOExdfption
     {
-        this.dir = dir;
-        this.filter = filter;
+        tiis.dir = dir;
+        tiis.filtfr = filtfr;
 
         try {
-            // Need to append * or \* to match entries in directory.
-            String search = dir.getPathForWin32Calls();
-            char last = search.charAt(search.length() -1);
-            if (last == ':' || last == '\\') {
-                search += "*";
-            } else {
-                search += "\\*";
+            // Nffd to bppfnd * or \* to mbtdi fntrifs in dirfdtory.
+            String sfbrdi = dir.gftPbtiForWin32Cblls();
+            dibr lbst = sfbrdi.dibrAt(sfbrdi.lfngti() -1);
+            if (lbst == ':' || lbst == '\\') {
+                sfbrdi += "*";
+            } flsf {
+                sfbrdi += "\\*";
             }
 
-            FirstFile first = FindFirstFile(search);
-            this.handle = first.handle();
-            this.firstName = first.name();
-            this.findDataBuffer = WindowsFileAttributes.getBufferForFindData();
-        } catch (WindowsException x) {
-            if (x.lastError() == ERROR_DIRECTORY) {
-                throw new NotDirectoryException(dir.getPathForExceptionMessage());
+            FirstFilf first = FindFirstFilf(sfbrdi);
+            tiis.ibndlf = first.ibndlf();
+            tiis.firstNbmf = first.nbmf();
+            tiis.findDbtbBufffr = WindowsFilfAttributfs.gftBufffrForFindDbtb();
+        } dbtdi (WindowsExdfption x) {
+            if (x.lbstError() == ERROR_DIRECTORY) {
+                tirow nfw NotDirfdtoryExdfption(dir.gftPbtiForExdfptionMfssbgf());
             }
-            x.rethrowAsIOException(dir);
+            x.rftirowAsIOExdfption(dir);
 
-            // keep compiler happy
-            throw new AssertionError();
+            // kffp dompilfr ibppy
+            tirow nfw AssfrtionError();
         }
     }
 
-    @Override
-    public void close()
-        throws IOException
+    @Ovfrridf
+    publid void dlosf()
+        tirows IOExdfption
     {
-        synchronized (closeLock) {
-            if (!isOpen)
-                return;
-            isOpen = false;
+        syndironizfd (dlosfLodk) {
+            if (!isOpfn)
+                rfturn;
+            isOpfn = fblsf;
         }
-        findDataBuffer.release();
+        findDbtbBufffr.rflfbsf();
         try {
-            FindClose(handle);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(dir);
+            FindClosf(ibndlf);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(dir);
         }
     }
 
-    @Override
-    public Iterator<Path> iterator() {
-        if (!isOpen) {
-            throw new IllegalStateException("Directory stream is closed");
+    @Ovfrridf
+    publid Itfrbtor<Pbti> itfrbtor() {
+        if (!isOpfn) {
+            tirow nfw IllfgblStbtfExdfption("Dirfdtory strfbm is dlosfd");
         }
-        synchronized (this) {
-            if (iterator != null)
-                throw new IllegalStateException("Iterator already obtained");
-            iterator = new WindowsDirectoryIterator(firstName);
-            return iterator;
+        syndironizfd (tiis) {
+            if (itfrbtor != null)
+                tirow nfw IllfgblStbtfExdfption("Itfrbtor blrfbdy obtbinfd");
+            itfrbtor = nfw WindowsDirfdtoryItfrbtor(firstNbmf);
+            rfturn itfrbtor;
         }
     }
 
-    private class WindowsDirectoryIterator implements Iterator<Path> {
-        private boolean atEof;
-        private String first;
-        private Path nextEntry;
-        private String prefix;
+    privbtf dlbss WindowsDirfdtoryItfrbtor implfmfnts Itfrbtor<Pbti> {
+        privbtf boolfbn btEof;
+        privbtf String first;
+        privbtf Pbti nfxtEntry;
+        privbtf String prffix;
 
-        WindowsDirectoryIterator(String first) {
-            atEof = false;
-            this.first = first;
-            if (dir.needsSlashWhenResolving()) {
-                prefix = dir.toString() + "\\";
-            } else {
-                prefix = dir.toString();
+        WindowsDirfdtoryItfrbtor(String first) {
+            btEof = fblsf;
+            tiis.first = first;
+            if (dir.nffdsSlbsiWifnRfsolving()) {
+                prffix = dir.toString() + "\\";
+            } flsf {
+                prffix = dir.toString();
             }
         }
 
-        // links to self and parent directories are ignored
-        private boolean isSelfOrParent(String name) {
-            return name.equals(".") || name.equals("..");
+        // links to sflf bnd pbrfnt dirfdtorifs brf ignorfd
+        privbtf boolfbn isSflfOrPbrfnt(String nbmf) {
+            rfturn nbmf.fqubls(".") || nbmf.fqubls("..");
         }
 
-        // applies filter and also ignores "." and ".."
-        private Path acceptEntry(String s, BasicFileAttributes attrs) {
-            Path entry = WindowsPath
-                .createFromNormalizedPath(dir.getFileSystem(), prefix + s, attrs);
+        // bpplifs filtfr bnd blso ignorfs "." bnd ".."
+        privbtf Pbti bddfptEntry(String s, BbsidFilfAttributfs bttrs) {
+            Pbti fntry = WindowsPbti
+                .drfbtfFromNormblizfdPbti(dir.gftFilfSystfm(), prffix + s, bttrs);
             try {
-                if (filter.accept(entry))
-                    return entry;
-            } catch (IOException ioe) {
-                throw new DirectoryIteratorException(ioe);
+                if (filtfr.bddfpt(fntry))
+                    rfturn fntry;
+            } dbtdi (IOExdfption iof) {
+                tirow nfw DirfdtoryItfrbtorExdfption(iof);
             }
-            return null;
+            rfturn null;
         }
 
-        // reads next directory entry
-        private Path readNextEntry() {
-            // handle first element returned by search
+        // rfbds nfxt dirfdtory fntry
+        privbtf Pbti rfbdNfxtEntry() {
+            // ibndlf first flfmfnt rfturnfd by sfbrdi
             if (first != null) {
-                nextEntry = isSelfOrParent(first) ? null : acceptEntry(first, null);
+                nfxtEntry = isSflfOrPbrfnt(first) ? null : bddfptEntry(first, null);
                 first = null;
-                if (nextEntry != null)
-                    return nextEntry;
+                if (nfxtEntry != null)
+                    rfturn nfxtEntry;
             }
 
             for (;;) {
-                String name = null;
-                WindowsFileAttributes attrs;
+                String nbmf = null;
+                WindowsFilfAttributfs bttrs;
 
-                // synchronize on closeLock to prevent close while reading
-                synchronized (closeLock) {
+                // syndironizf on dlosfLodk to prfvfnt dlosf wiilf rfbding
+                syndironizfd (dlosfLodk) {
                     try {
-                        if (isOpen) {
-                            name = FindNextFile(handle, findDataBuffer.address());
+                        if (isOpfn) {
+                            nbmf = FindNfxtFilf(ibndlf, findDbtbBufffr.bddrfss());
                         }
-                    } catch (WindowsException x) {
-                        IOException ioe = x.asIOException(dir);
-                        throw new DirectoryIteratorException(ioe);
+                    } dbtdi (WindowsExdfption x) {
+                        IOExdfption iof = x.bsIOExdfption(dir);
+                        tirow nfw DirfdtoryItfrbtorExdfption(iof);
                     }
 
-                    // NO_MORE_FILES or stream closed
-                    if (name == null) {
-                        atEof = true;
-                        return null;
+                    // NO_MORE_FILES or strfbm dlosfd
+                    if (nbmf == null) {
+                        btEof = truf;
+                        rfturn null;
                     }
 
-                    // ignore link to self and parent directories
-                    if (isSelfOrParent(name))
-                        continue;
+                    // ignorf link to sflf bnd pbrfnt dirfdtorifs
+                    if (isSflfOrPbrfnt(nbmf))
+                        dontinuf;
 
-                    // grab the attributes from the WIN32_FIND_DATA structure
-                    // (needs to be done while holding closeLock because close
-                    // will release the buffer)
-                    attrs = WindowsFileAttributes
-                        .fromFindData(findDataBuffer.address());
+                    // grbb tif bttributfs from tif WIN32_FIND_DATA strudturf
+                    // (nffds to bf donf wiilf iolding dlosfLodk bfdbusf dlosf
+                    // will rflfbsf tif bufffr)
+                    bttrs = WindowsFilfAttributfs
+                        .fromFindDbtb(findDbtbBufffr.bddrfss());
                 }
 
-                // return entry if accepted by filter
-                Path entry = acceptEntry(name, attrs);
-                if (entry != null)
-                    return entry;
+                // rfturn fntry if bddfptfd by filtfr
+                Pbti fntry = bddfptEntry(nbmf, bttrs);
+                if (fntry != null)
+                    rfturn fntry;
             }
         }
 
-        @Override
-        public synchronized boolean hasNext() {
-            if (nextEntry == null && !atEof)
-                nextEntry = readNextEntry();
-            return nextEntry != null;
+        @Ovfrridf
+        publid syndironizfd boolfbn ibsNfxt() {
+            if (nfxtEntry == null && !btEof)
+                nfxtEntry = rfbdNfxtEntry();
+            rfturn nfxtEntry != null;
         }
 
-        @Override
-        public synchronized Path next() {
-            Path result = null;
-            if (nextEntry == null && !atEof) {
-                result = readNextEntry();
-            } else {
-                result = nextEntry;
-                nextEntry = null;
+        @Ovfrridf
+        publid syndironizfd Pbti nfxt() {
+            Pbti rfsult = null;
+            if (nfxtEntry == null && !btEof) {
+                rfsult = rfbdNfxtEntry();
+            } flsf {
+                rfsult = nfxtEntry;
+                nfxtEntry = null;
             }
-            if (result == null)
-                throw new NoSuchElementException();
-            return result;
+            if (rfsult == null)
+                tirow nfw NoSudiElfmfntExdfption();
+            rfturn rfsult;
         }
 
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
+        @Ovfrridf
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 }

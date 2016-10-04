@@ -1,331 +1,331 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net.ftp;
+pbdkbgf sun.nft.ftp;
 
-import java.util.Date;
-import java.util.HashMap;
+import jbvb.util.Dbtf;
+import jbvb.util.HbsiMbp;
 
 /**
- * A {@code FtpDirEntry} is a class agregating all the information that the FTP client
- * can gather from the server by doing a {@code LST} (or {@code NLST}) command and
- * parsing the output. It will typically contain the name, type, size, last modification
- * time, owner and group of the file, although some of these could be unavailable
- * due to specific FTP server limitations.
+ * A {@dodf FtpDirEntry} is b dlbss bgrfgbting bll tif informbtion tibt tif FTP dlifnt
+ * dbn gbtifr from tif sfrvfr by doing b {@dodf LST} (or {@dodf NLST}) dommbnd bnd
+ * pbrsing tif output. It will typidblly dontbin tif nbmf, typf, sizf, lbst modifidbtion
+ * timf, ownfr bnd group of tif filf, bltiougi somf of tifsf dould bf unbvbilbblf
+ * duf to spfdifid FTP sfrvfr limitbtions.
  *
- * @see sun.net.ftp.FtpDirParser
- * @since 1.7
+ * @sff sun.nft.ftp.FtpDirPbrsfr
+ * @sindf 1.7
  */
-public class FtpDirEntry {
+publid dlbss FtpDirEntry {
 
-    public enum Type {
+    publid fnum Typf {
 
         FILE, DIR, PDIR, CDIR, LINK
     };
 
-    public enum Permission {
+    publid fnum Pfrmission {
 
         USER(0), GROUP(1), OTHERS(2);
-        int value;
+        int vbluf;
 
-        Permission(int v) {
-            value = v;
+        Pfrmission(int v) {
+            vbluf = v;
         }
     };
-    private final String name;
-    private String user = null;
-    private String group = null;
-    private long size = -1;
-    private java.util.Date created = null;
-    private java.util.Date lastModified = null;
-    private Type type = Type.FILE;
-    private boolean[][] permissions = null;
-    private HashMap<String, String> facts = new HashMap<String, String>();
+    privbtf finbl String nbmf;
+    privbtf String usfr = null;
+    privbtf String group = null;
+    privbtf long sizf = -1;
+    privbtf jbvb.util.Dbtf drfbtfd = null;
+    privbtf jbvb.util.Dbtf lbstModififd = null;
+    privbtf Typf typf = Typf.FILE;
+    privbtf boolfbn[][] pfrmissions = null;
+    privbtf HbsiMbp<String, String> fbdts = nfw HbsiMbp<String, String>();
 
-    private FtpDirEntry() {
-        name = null;
+    privbtf FtpDirEntry() {
+        nbmf = null;
     }
 
     /**
-     * Creates an FtpDirEntry instance with only the name being set.
+     * Crfbtfs bn FtpDirEntry instbndf witi only tif nbmf bfing sft.
      *
-     * @param name The name of the file
+     * @pbrbm nbmf Tif nbmf of tif filf
      */
-    public FtpDirEntry(String name) {
-        this.name = name;
+    publid FtpDirEntry(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Returns the name of the remote file.
+     * Rfturns tif nbmf of tif rfmotf filf.
      *
-     * @return a {@code String} containing the name of the remote file.
+     * @rfturn b {@dodf String} dontbining tif nbmf of tif rfmotf filf.
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the user name of the owner of the file as returned by the FTP
-     * server, if provided. This could be a name or a user id (number).
+     * Rfturns tif usfr nbmf of tif ownfr of tif filf bs rfturnfd by tif FTP
+     * sfrvfr, if providfd. Tiis dould bf b nbmf or b usfr id (numbfr).
      *
-     * @return a {@code String} containing the user name or
-     *         {@code null} if that information is not available.
+     * @rfturn b {@dodf String} dontbining tif usfr nbmf or
+     *         {@dodf null} if tibt informbtion is not bvbilbblf.
      */
-    public String getUser() {
-        return user;
+    publid String gftUsfr() {
+        rfturn usfr;
     }
 
     /**
-     * Sets the user name of the owner of the file. Intended mostly to be
-     * used from inside a {@link java.net.FtpDirParser} implementation.
+     * Sfts tif usfr nbmf of tif ownfr of tif filf. Intfndfd mostly to bf
+     * usfd from insidf b {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
      *
-     * @param user The user name of the owner of the file, or {@code null}
-     * if that information is not available.
-     * @return this FtpDirEntry
+     * @pbrbm usfr Tif usfr nbmf of tif ownfr of tif filf, or {@dodf null}
+     * if tibt informbtion is not bvbilbblf.
+     * @rfturn tiis FtpDirEntry
      */
-    public FtpDirEntry setUser(String user) {
-        this.user = user;
-        return this;
+    publid FtpDirEntry sftUsfr(String usfr) {
+        tiis.usfr = usfr;
+        rfturn tiis;
     }
 
     /**
-     * Returns the group name of the file as returned by the FTP
-     * server, if provided. This could be a name or a group id (number).
+     * Rfturns tif group nbmf of tif filf bs rfturnfd by tif FTP
+     * sfrvfr, if providfd. Tiis dould bf b nbmf or b group id (numbfr).
      *
-     * @return a {@code String} containing the group name or
-     *         {@code null} if that information is not available.
+     * @rfturn b {@dodf String} dontbining tif group nbmf or
+     *         {@dodf null} if tibt informbtion is not bvbilbblf.
      */
-    public String getGroup() {
-        return group;
+    publid String gftGroup() {
+        rfturn group;
     }
 
     /**
-     * Sets the name of the group to which the file belong. Intended mostly to be
-     * used from inside a {@link java.net.FtpDirParser} implementation.
+     * Sfts tif nbmf of tif group to wiidi tif filf bflong. Intfndfd mostly to bf
+     * usfd from insidf b {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
      *
-     * @param group The name of the group to which the file belong, or {@code null}
-     * if that information is not available.
-     * @return this FtpDirEntry
+     * @pbrbm group Tif nbmf of tif group to wiidi tif filf bflong, or {@dodf null}
+     * if tibt informbtion is not bvbilbblf.
+     * @rfturn tiis FtpDirEntry
      */
-    public FtpDirEntry setGroup(String group) {
-        this.group = group;
-        return this;
+    publid FtpDirEntry sftGroup(String group) {
+        tiis.group = group;
+        rfturn tiis;
     }
 
     /**
-     * Returns the size of the remote file as it was returned by the FTP
-     * server, if provided.
+     * Rfturns tif sizf of tif rfmotf filf bs it wbs rfturnfd by tif FTP
+     * sfrvfr, if providfd.
      *
-     * @return the size of the file or -1 if that information is not available.
+     * @rfturn tif sizf of tif filf or -1 if tibt informbtion is not bvbilbblf.
      */
-    public long getSize() {
-        return size;
+    publid long gftSizf() {
+        rfturn sizf;
     }
 
     /**
-     * Sets the size of that file. Intended mostly to be used from inside an
-     * {@link java.net.FtpDirParser} implementation.
+     * Sfts tif sizf of tibt filf. Intfndfd mostly to bf usfd from insidf bn
+     * {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
      *
-     * @param size The size, in bytes, of that file. or -1 if unknown.
-     * @return this FtpDirEntry
+     * @pbrbm sizf Tif sizf, in bytfs, of tibt filf. or -1 if unknown.
+     * @rfturn tiis FtpDirEntry
      */
-    public FtpDirEntry setSize(long size) {
-        this.size = size;
-        return this;
+    publid FtpDirEntry sftSizf(long sizf) {
+        tiis.sizf = sizf;
+        rfturn tiis;
     }
 
     /**
-     * Returns the type of the remote file as it was returned by the FTP
-     * server, if provided.
-     * It returns a FtpDirEntry.Type enum and the values can be:
-     * - FtpDirEntry.Type.FILE for a normal file
-     * - FtpDirEntry.Type.DIR for a directory
-     * - FtpDirEntry.Type.LINK for a symbolic link
+     * Rfturns tif typf of tif rfmotf filf bs it wbs rfturnfd by tif FTP
+     * sfrvfr, if providfd.
+     * It rfturns b FtpDirEntry.Typf fnum bnd tif vblufs dbn bf:
+     * - FtpDirEntry.Typf.FILE for b normbl filf
+     * - FtpDirEntry.Typf.DIR for b dirfdtory
+     * - FtpDirEntry.Typf.LINK for b symbolid link
      *
-     * @return a {@code FtpDirEntry.Type} describing the type of the file
-     *         or {@code null} if that information is not available.
+     * @rfturn b {@dodf FtpDirEntry.Typf} dfsdribing tif typf of tif filf
+     *         or {@dodf null} if tibt informbtion is not bvbilbblf.
      */
-    public Type getType() {
-        return type;
+    publid Typf gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Sets the type of the file. Intended mostly to be used from inside an
-     * {@link java.net.FtpDirParser} implementation.
+     * Sfts tif typf of tif filf. Intfndfd mostly to bf usfd from insidf bn
+     * {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
      *
-     * @param type the type of this file or {@code null} if that information
-     * is not available.
-     * @return this FtpDirEntry
+     * @pbrbm typf tif typf of tiis filf or {@dodf null} if tibt informbtion
+     * is not bvbilbblf.
+     * @rfturn tiis FtpDirEntry
      */
-    public FtpDirEntry setType(Type type) {
-        this.type = type;
-        return this;
+    publid FtpDirEntry sftTypf(Typf typf) {
+        tiis.typf = typf;
+        rfturn tiis;
     }
 
     /**
-     * Returns the last modification time of the remote file as it was returned
-     * by the FTP server, if provided, {@code null} otherwise.
+     * Rfturns tif lbst modifidbtion timf of tif rfmotf filf bs it wbs rfturnfd
+     * by tif FTP sfrvfr, if providfd, {@dodf null} otifrwisf.
      *
-     * @return a <code>Date</code> representing the last time the file was
-     *         modified on the server, or {@code null} if that
-     *         information is not available.
+     * @rfturn b <dodf>Dbtf</dodf> rfprfsfnting tif lbst timf tif filf wbs
+     *         modififd on tif sfrvfr, or {@dodf null} if tibt
+     *         informbtion is not bvbilbblf.
      */
-    public java.util.Date getLastModified() {
-        return this.lastModified;
+    publid jbvb.util.Dbtf gftLbstModififd() {
+        rfturn tiis.lbstModififd;
     }
 
     /**
-     * Sets the last modification time of the file. Intended mostly to be used
-     * from inside an {@link java.net.FtpDirParser} implementation.
+     * Sfts tif lbst modifidbtion timf of tif filf. Intfndfd mostly to bf usfd
+     * from insidf bn {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
      *
-     * @param lastModified The Date representing the last modification time, or
-     * {@code null} if that information is not available.
-     * @return this FtpDirEntry
+     * @pbrbm lbstModififd Tif Dbtf rfprfsfnting tif lbst modifidbtion timf, or
+     * {@dodf null} if tibt informbtion is not bvbilbblf.
+     * @rfturn tiis FtpDirEntry
      */
-    public FtpDirEntry setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
-        return this;
+    publid FtpDirEntry sftLbstModififd(Dbtf lbstModififd) {
+        tiis.lbstModififd = lbstModififd;
+        rfturn tiis;
     }
 
     /**
-     * Returns whether read access is granted for a specific permission.
+     * Rfturns wiftifr rfbd bddfss is grbntfd for b spfdifid pfrmission.
      *
-     * @param p the Permission (user, group, others) to check.
-     * @return {@code true} if read access is granted.
+     * @pbrbm p tif Pfrmission (usfr, group, otifrs) to difdk.
+     * @rfturn {@dodf truf} if rfbd bddfss is grbntfd.
      */
-    public boolean canRead(Permission p) {
-        if (permissions != null) {
-            return permissions[p.value][0];
+    publid boolfbn dbnRfbd(Pfrmission p) {
+        if (pfrmissions != null) {
+            rfturn pfrmissions[p.vbluf][0];
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns whether write access is granted for a specific permission.
+     * Rfturns wiftifr writf bddfss is grbntfd for b spfdifid pfrmission.
      *
-     * @param p the Permission (user, group, others) to check.
-     * @return {@code true} if write access is granted.
+     * @pbrbm p tif Pfrmission (usfr, group, otifrs) to difdk.
+     * @rfturn {@dodf truf} if writf bddfss is grbntfd.
      */
-    public boolean canWrite(Permission p) {
-        if (permissions != null) {
-            return permissions[p.value][1];
+    publid boolfbn dbnWritf(Pfrmission p) {
+        if (pfrmissions != null) {
+            rfturn pfrmissions[p.vbluf][1];
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns whether execute access is granted for a specific permission.
+     * Rfturns wiftifr fxfdutf bddfss is grbntfd for b spfdifid pfrmission.
      *
-     * @param p the Permission (user, group, others) to check.
-     * @return {@code true} if execute access is granted.
+     * @pbrbm p tif Pfrmission (usfr, group, otifrs) to difdk.
+     * @rfturn {@dodf truf} if fxfdutf bddfss is grbntfd.
      */
-    public boolean canExexcute(Permission p) {
-        if (permissions != null) {
-            return permissions[p.value][2];
+    publid boolfbn dbnExfxdutf(Pfrmission p) {
+        if (pfrmissions != null) {
+            rfturn pfrmissions[p.vbluf][2];
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Sets the permissions for that file. Intended mostly to be used
-     * from inside an {@link java.net.FtpDirParser} implementation.
-     * The permissions array is a 3x3 {@code boolean} array, the first index being
-     * the User, group or owner (0, 1 and 2 respectively) while the second
-     * index is read, write or execute (0, 1 and 2 respectively again).
-     * <p>E.G.: {@code permissions[1][2]} is the group/execute permission.</p>
+     * Sfts tif pfrmissions for tibt filf. Intfndfd mostly to bf usfd
+     * from insidf bn {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
+     * Tif pfrmissions brrby is b 3x3 {@dodf boolfbn} brrby, tif first indfx bfing
+     * tif Usfr, group or ownfr (0, 1 bnd 2 rfspfdtivfly) wiilf tif sfdond
+     * indfx is rfbd, writf or fxfdutf (0, 1 bnd 2 rfspfdtivfly bgbin).
+     * <p>E.G.: {@dodf pfrmissions[1][2]} is tif group/fxfdutf pfrmission.</p>
      *
-     * @param permissions a 3x3 {@code boolean} array
-     * @return this {@code FtpDirEntry}
+     * @pbrbm pfrmissions b 3x3 {@dodf boolfbn} brrby
+     * @rfturn tiis {@dodf FtpDirEntry}
      */
-    public FtpDirEntry setPermissions(boolean[][] permissions) {
-        this.permissions = permissions;
-        return this;
+    publid FtpDirEntry sftPfrmissions(boolfbn[][] pfrmissions) {
+        tiis.pfrmissions = pfrmissions;
+        rfturn tiis;
     }
 
     /**
-     * Adds a 'fact', as defined in RFC 3659, to the list of facts of this file.
-     * Intended mostly to be used from inside a {@link java.net.FtpDirParser}
-     * implementation.
+     * Adds b 'fbdt', bs dffinfd in RFC 3659, to tif list of fbdts of tiis filf.
+     * Intfndfd mostly to bf usfd from insidf b {@link jbvb.nft.FtpDirPbrsfr}
+     * implfmfntbtion.
      *
-     * @param fact the name of the fact (e.g. "Media-Type"). It is not case-sensitive.
-     * @param value the value associated with this fact.
-     * @return this {@code FtpDirEntry}
+     * @pbrbm fbdt tif nbmf of tif fbdt (f.g. "Mfdib-Typf"). It is not dbsf-sfnsitivf.
+     * @pbrbm vbluf tif vbluf bssodibtfd witi tiis fbdt.
+     * @rfturn tiis {@dodf FtpDirEntry}
      */
-    public FtpDirEntry addFact(String fact, String value) {
-        facts.put(fact.toLowerCase(), value);
-        return this;
+    publid FtpDirEntry bddFbdt(String fbdt, String vbluf) {
+        fbdts.put(fbdt.toLowfrCbsf(), vbluf);
+        rfturn tiis;
     }
 
     /**
-     * Returns the requested 'fact', as defined in RFC 3659, if available.
+     * Rfturns tif rfqufstfd 'fbdt', bs dffinfd in RFC 3659, if bvbilbblf.
      *
-     * @param fact The name of the fact *e.g. "Media-Type"). It is not case sensitive.
-     * @return The value of the fact or, {@code null} if that fact wasn't
-     * provided by the server.
+     * @pbrbm fbdt Tif nbmf of tif fbdt *f.g. "Mfdib-Typf"). It is not dbsf sfnsitivf.
+     * @rfturn Tif vbluf of tif fbdt or, {@dodf null} if tibt fbdt wbsn't
+     * providfd by tif sfrvfr.
      */
-    public String getFact(String fact) {
-        return facts.get(fact.toLowerCase());
+    publid String gftFbdt(String fbdt) {
+        rfturn fbdts.gft(fbdt.toLowfrCbsf());
     }
 
     /**
-     * Returns the creation time of the file, when provided by the server.
+     * Rfturns tif drfbtion timf of tif filf, wifn providfd by tif sfrvfr.
      *
-     * @return The Date representing the creation time, or {@code null}
-     * if the server didn't provide that information.
+     * @rfturn Tif Dbtf rfprfsfnting tif drfbtion timf, or {@dodf null}
+     * if tif sfrvfr didn't providf tibt informbtion.
      */
-    public Date getCreated() {
-        return created;
+    publid Dbtf gftCrfbtfd() {
+        rfturn drfbtfd;
     }
 
     /**
-     * Sets the creation time for that file. Intended mostly to be used from
-     * inside a {@link java.net.FtpDirParser} implementation.
+     * Sfts tif drfbtion timf for tibt filf. Intfndfd mostly to bf usfd from
+     * insidf b {@link jbvb.nft.FtpDirPbrsfr} implfmfntbtion.
      *
-     * @param created the Date representing the creation time for that file, or
-     * {@code null} if that information is not available.
-     * @return this FtpDirEntry
+     * @pbrbm drfbtfd tif Dbtf rfprfsfnting tif drfbtion timf for tibt filf, or
+     * {@dodf null} if tibt informbtion is not bvbilbblf.
+     * @rfturn tiis FtpDirEntry
      */
-    public FtpDirEntry setCreated(Date created) {
-        this.created = created;
-        return this;
+    publid FtpDirEntry sftCrfbtfd(Dbtf drfbtfd) {
+        tiis.drfbtfd = drfbtfd;
+        rfturn tiis;
     }
 
     /**
-     * Returns a string representation of the object.
-     * The {@code toString} method for class {@code FtpDirEntry}
-     * returns a string consisting of the name of the file, followed by its
-     * type between brackets, followed by the user and group between
-     * parenthesis, then size between '{', and, finally, the lastModified of last
-     * modification if it's available.
+     * Rfturns b string rfprfsfntbtion of tif objfdt.
+     * Tif {@dodf toString} mftiod for dlbss {@dodf FtpDirEntry}
+     * rfturns b string donsisting of tif nbmf of tif filf, followfd by its
+     * typf bftwffn brbdkfts, followfd by tif usfr bnd group bftwffn
+     * pbrfntifsis, tifn sizf bftwffn '{', bnd, finblly, tif lbstModififd of lbst
+     * modifidbtion if it's bvbilbblf.
      *
-     * @return  a string representation of the object.
+     * @rfturn  b string rfprfsfntbtion of tif objfdt.
      */
-    @Override
-    public String toString() {
-        if (lastModified == null) {
-            return name + " [" + type + "] (" + user + " / " + group + ") " + size;
+    @Ovfrridf
+    publid String toString() {
+        if (lbstModififd == null) {
+            rfturn nbmf + " [" + typf + "] (" + usfr + " / " + group + ") " + sizf;
         }
-        return name + " [" + type + "] (" + user + " / " + group + ") {" + size + "} " + java.text.DateFormat.getDateInstance().format(lastModified);
+        rfturn nbmf + " [" + typf + "] (" + usfr + " / " + group + ") {" + sizf + "} " + jbvb.tfxt.DbtfFormbt.gftDbtfInstbndf().formbt(lbstModififd);
     }
 }

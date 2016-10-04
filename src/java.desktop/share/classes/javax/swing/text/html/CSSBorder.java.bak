@@ -1,437 +1,437 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.border.AbstractBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.View;
-import javax.swing.text.html.CSS.Attribute;
-import javax.swing.text.html.CSS.BorderStyle;
-import javax.swing.text.html.CSS.BorderWidthValue;
-import javax.swing.text.html.CSS.ColorValue;
-import javax.swing.text.html.CSS.CssValue;
-import javax.swing.text.html.CSS.LengthValue;
-import javax.swing.text.html.CSS.Value;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Polygon;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvbx.swing.bordfr.AbstrbdtBordfr;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.swing.tfxt.Vifw;
+import jbvbx.swing.tfxt.itml.CSS.Attributf;
+import jbvbx.swing.tfxt.itml.CSS.BordfrStylf;
+import jbvbx.swing.tfxt.itml.CSS.BordfrWidtiVbluf;
+import jbvbx.swing.tfxt.itml.CSS.ColorVbluf;
+import jbvbx.swing.tfxt.itml.CSS.CssVbluf;
+import jbvbx.swing.tfxt.itml.CSS.LfngtiVbluf;
+import jbvbx.swing.tfxt.itml.CSS.Vbluf;
 
 /**
- * CSS-style borders for HTML elements.
+ * CSS-stylf bordfrs for HTML flfmfnts.
  *
- * @author Sergey Groznyh
+ * @butior Sfrgfy Groznyi
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class CSSBorder extends AbstractBorder {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss CSSBordfr fxtfnds AbstrbdtBordfr {
 
-    /** Indices for the attribute groups.  */
-    final static int COLOR = 0, STYLE = 1, WIDTH = 2;
+    /** Indidfs for tif bttributf groups.  */
+    finbl stbtid int COLOR = 0, STYLE = 1, WIDTH = 2;
 
-    /** Indices for the box sides within the attribute group.  */
-    final static int TOP = 0, RIGHT = 1, BOTTOM = 2, LEFT = 3;
+    /** Indidfs for tif box sidfs witiin tif bttributf group.  */
+    finbl stbtid int TOP = 0, RIGHT = 1, BOTTOM = 2, LEFT = 3;
 
-    /** The attribute groups.  */
-    final static Attribute[][] ATTRIBUTES = {
-        { Attribute.BORDER_TOP_COLOR, Attribute.BORDER_RIGHT_COLOR,
-          Attribute.BORDER_BOTTOM_COLOR, Attribute.BORDER_LEFT_COLOR, },
-        { Attribute.BORDER_TOP_STYLE, Attribute.BORDER_RIGHT_STYLE,
-          Attribute.BORDER_BOTTOM_STYLE, Attribute.BORDER_LEFT_STYLE, },
-        { Attribute.BORDER_TOP_WIDTH, Attribute.BORDER_RIGHT_WIDTH,
-          Attribute.BORDER_BOTTOM_WIDTH, Attribute.BORDER_LEFT_WIDTH, },
+    /** Tif bttributf groups.  */
+    finbl stbtid Attributf[][] ATTRIBUTES = {
+        { Attributf.BORDER_TOP_COLOR, Attributf.BORDER_RIGHT_COLOR,
+          Attributf.BORDER_BOTTOM_COLOR, Attributf.BORDER_LEFT_COLOR, },
+        { Attributf.BORDER_TOP_STYLE, Attributf.BORDER_RIGHT_STYLE,
+          Attributf.BORDER_BOTTOM_STYLE, Attributf.BORDER_LEFT_STYLE, },
+        { Attributf.BORDER_TOP_WIDTH, Attributf.BORDER_RIGHT_WIDTH,
+          Attributf.BORDER_BOTTOM_WIDTH, Attributf.BORDER_LEFT_WIDTH, },
     };
 
-    /** Parsers for the border properties.  */
-    final static CssValue PARSERS[] = {
-        new ColorValue(), new BorderStyle(), new BorderWidthValue(null, 0),
+    /** Pbrsfrs for tif bordfr propfrtifs.  */
+    finbl stbtid CssVbluf PARSERS[] = {
+        nfw ColorVbluf(), nfw BordfrStylf(), nfw BordfrWidtiVbluf(null, 0),
     };
 
-    /** Default values for the border properties.  */
-    final static Object[] DEFAULTS = {
-        Attribute.BORDER_COLOR, // marker: value will be computed on request
-        PARSERS[1].parseCssValue(Attribute.BORDER_STYLE.getDefaultValue()),
-        PARSERS[2].parseCssValue(Attribute.BORDER_WIDTH.getDefaultValue()),
+    /** Dffbult vblufs for tif bordfr propfrtifs.  */
+    finbl stbtid Objfdt[] DEFAULTS = {
+        Attributf.BORDER_COLOR, // mbrkfr: vbluf will bf domputfd on rfqufst
+        PARSERS[1].pbrsfCssVbluf(Attributf.BORDER_STYLE.gftDffbultVbluf()),
+        PARSERS[2].pbrsfCssVbluf(Attributf.BORDER_WIDTH.gftDffbultVbluf()),
     };
 
-    /** Attribute set containing border properties.  */
-    final AttributeSet attrs;
+    /** Attributf sft dontbining bordfr propfrtifs.  */
+    finbl AttributfSft bttrs;
 
     /**
-     * Initialize the attribute set.
+     * Initiblizf tif bttributf sft.
      */
-    CSSBorder(AttributeSet attrs) {
-        this.attrs = attrs;
+    CSSBordfr(AttributfSft bttrs) {
+        tiis.bttrs = bttrs;
     }
 
     /**
-     * Return the border color for the given side.
+     * Rfturn tif bordfr dolor for tif givfn sidf.
      */
-    private Color getBorderColor(int side) {
-        Object o = attrs.getAttribute(ATTRIBUTES[COLOR][side]);
-        ColorValue cv;
-        if (o instanceof ColorValue) {
-            cv = (ColorValue) o;
-        } else {
-            // Marker for the default value.  Use 'color' property value as the
-            // computed value of the 'border-color' property (CSS2 8.5.2)
-            cv = (ColorValue) attrs.getAttribute(Attribute.COLOR);
-            if (cv == null) {
-                cv = (ColorValue) PARSERS[COLOR].parseCssValue(
-                                            Attribute.COLOR.getDefaultValue());
+    privbtf Color gftBordfrColor(int sidf) {
+        Objfdt o = bttrs.gftAttributf(ATTRIBUTES[COLOR][sidf]);
+        ColorVbluf dv;
+        if (o instbndfof ColorVbluf) {
+            dv = (ColorVbluf) o;
+        } flsf {
+            // Mbrkfr for tif dffbult vbluf.  Usf 'dolor' propfrty vbluf bs tif
+            // domputfd vbluf of tif 'bordfr-dolor' propfrty (CSS2 8.5.2)
+            dv = (ColorVbluf) bttrs.gftAttributf(Attributf.COLOR);
+            if (dv == null) {
+                dv = (ColorVbluf) PARSERS[COLOR].pbrsfCssVbluf(
+                                            Attributf.COLOR.gftDffbultVbluf());
             }
         }
-        return cv.getValue();
+        rfturn dv.gftVbluf();
     }
 
     /**
-     * Return the border width for the given side.
+     * Rfturn tif bordfr widti for tif givfn sidf.
      */
-    private int getBorderWidth(int side) {
-        int width = 0;
-        BorderStyle bs = (BorderStyle) attrs.getAttribute(
-                                                    ATTRIBUTES[STYLE][side]);
-        if ((bs != null) && (bs.getValue() != Value.NONE)) {
-            // The 'border-style' value of "none" forces the computed value
-            // of 'border-width' to be 0 (CSS2 8.5.3)
-            LengthValue bw = (LengthValue) attrs.getAttribute(
-                                                    ATTRIBUTES[WIDTH][side]);
+    privbtf int gftBordfrWidti(int sidf) {
+        int widti = 0;
+        BordfrStylf bs = (BordfrStylf) bttrs.gftAttributf(
+                                                    ATTRIBUTES[STYLE][sidf]);
+        if ((bs != null) && (bs.gftVbluf() != Vbluf.NONE)) {
+            // Tif 'bordfr-stylf' vbluf of "nonf" fordfs tif domputfd vbluf
+            // of 'bordfr-widti' to bf 0 (CSS2 8.5.3)
+            LfngtiVbluf bw = (LfngtiVbluf) bttrs.gftAttributf(
+                                                    ATTRIBUTES[WIDTH][sidf]);
             if (bw == null) {
-                bw = (LengthValue) DEFAULTS[WIDTH];
+                bw = (LfngtiVbluf) DEFAULTS[WIDTH];
             }
-            width = (int) bw.getValue(true);
+            widti = (int) bw.gftVbluf(truf);
         }
-        return width;
+        rfturn widti;
     }
 
     /**
-     * Return an array of border widths in the TOP, RIGHT, BOTTOM, LEFT order.
+     * Rfturn bn brrby of bordfr widtis in tif TOP, RIGHT, BOTTOM, LEFT ordfr.
      */
-    private int[] getWidths() {
-        int[] widths = new int[4];
-        for (int i = 0; i < widths.length; i++) {
-            widths[i] = getBorderWidth(i);
+    privbtf int[] gftWidtis() {
+        int[] widtis = nfw int[4];
+        for (int i = 0; i < widtis.lfngti; i++) {
+            widtis[i] = gftBordfrWidti(i);
         }
-        return widths;
+        rfturn widtis;
     }
 
     /**
-     * Return the border style for the given side.
+     * Rfturn tif bordfr stylf for tif givfn sidf.
      */
-    private Value getBorderStyle(int side) {
-        BorderStyle style =
-                    (BorderStyle) attrs.getAttribute(ATTRIBUTES[STYLE][side]);
-        if (style == null) {
-            style = (BorderStyle) DEFAULTS[STYLE];
+    privbtf Vbluf gftBordfrStylf(int sidf) {
+        BordfrStylf stylf =
+                    (BordfrStylf) bttrs.gftAttributf(ATTRIBUTES[STYLE][sidf]);
+        if (stylf == null) {
+            stylf = (BordfrStylf) DEFAULTS[STYLE];
         }
-        return style.getValue();
+        rfturn stylf.gftVbluf();
     }
 
     /**
-     * Return border shape for {@code side} as if the border has zero interior
-     * length.  Shape start is at (0,0); points are added clockwise.
+     * Rfturn bordfr sibpf for {@dodf sidf} bs if tif bordfr ibs zfro intfrior
+     * lfngti.  Sibpf stbrt is bt (0,0); points brf bddfd dlodkwisf.
      */
-    private Polygon getBorderShape(int side) {
-        Polygon shape = null;
-        int[] widths = getWidths();
-        if (widths[side] != 0) {
-            shape = new Polygon(new int[4], new int[4], 0);
-            shape.addPoint(0, 0);
-            shape.addPoint(-widths[(side + 3) % 4], -widths[side]);
-            shape.addPoint(widths[(side + 1) % 4], -widths[side]);
-            shape.addPoint(0, 0);
+    privbtf Polygon gftBordfrSibpf(int sidf) {
+        Polygon sibpf = null;
+        int[] widtis = gftWidtis();
+        if (widtis[sidf] != 0) {
+            sibpf = nfw Polygon(nfw int[4], nfw int[4], 0);
+            sibpf.bddPoint(0, 0);
+            sibpf.bddPoint(-widtis[(sidf + 3) % 4], -widtis[sidf]);
+            sibpf.bddPoint(widtis[(sidf + 1) % 4], -widtis[sidf]);
+            sibpf.bddPoint(0, 0);
         }
-        return shape;
+        rfturn sibpf;
     }
 
     /**
-     * Return the border painter appropriate for the given side.
+     * Rfturn tif bordfr pbintfr bppropribtf for tif givfn sidf.
      */
-    private BorderPainter getBorderPainter(int side) {
-        Value style = getBorderStyle(side);
-        return borderPainters.get(style);
+    privbtf BordfrPbintfr gftBordfrPbintfr(int sidf) {
+        Vbluf stylf = gftBordfrStylf(sidf);
+        rfturn bordfrPbintfrs.gft(stylf);
     }
 
     /**
-     * Return the color with brightness adjusted by the specified factor.
+     * Rfturn tif dolor witi brigitnfss bdjustfd by tif spfdififd fbdtor.
      *
-     * The factor values are between 0.0 (no change) and 1.0 (turn into white).
-     * Negative factor values decrease brigthness (ie, 1.0 turns into black).
+     * Tif fbdtor vblufs brf bftwffn 0.0 (no dibngf) bnd 1.0 (turn into wiitf).
+     * Nfgbtivf fbdtor vblufs dfdrfbsf brigtinfss (if, 1.0 turns into blbdk).
      */
-    static Color getAdjustedColor(Color c, double factor) {
-        double f = 1 - Math.min(Math.abs(factor), 1);
-        double inc = (factor > 0 ? 255 * (1 - f) : 0);
-        return new Color((int) (c.getRed() * f + inc),
-                         (int) (c.getGreen() * f + inc),
-                         (int) (c.getBlue() * f + inc));
+    stbtid Color gftAdjustfdColor(Color d, doublf fbdtor) {
+        doublf f = 1 - Mbti.min(Mbti.bbs(fbdtor), 1);
+        doublf ind = (fbdtor > 0 ? 255 * (1 - f) : 0);
+        rfturn nfw Color((int) (d.gftRfd() * f + ind),
+                         (int) (d.gftGrffn() * f + ind),
+                         (int) (d.gftBluf() * f + ind));
     }
 
 
-    /* The javax.swing.border.Border methods.  */
+    /* Tif jbvbx.swing.bordfr.Bordfr mftiods.  */
 
-    public Insets getBorderInsets(Component c, Insets insets) {
-        int[] widths = getWidths();
-        insets.set(widths[TOP], widths[LEFT], widths[BOTTOM], widths[RIGHT]);
-        return insets;
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        int[] widtis = gftWidtis();
+        insfts.sft(widtis[TOP], widtis[LEFT], widtis[BOTTOM], widtis[RIGHT]);
+        rfturn insfts;
     }
 
-    public void paintBorder(Component c, Graphics g,
-                                        int x, int y, int width, int height) {
-        if (!(g instanceof Graphics2D)) {
-            return;
+    publid void pbintBordfr(Componfnt d, Grbpiids g,
+                                        int x, int y, int widti, int ifigit) {
+        if (!(g instbndfof Grbpiids2D)) {
+            rfturn;
         }
 
-        Graphics2D g2 = (Graphics2D) g.create();
+        Grbpiids2D g2 = (Grbpiids2D) g.drfbtf();
 
-        int[] widths = getWidths();
+        int[] widtis = gftWidtis();
 
-        // Position and size of the border interior.
-        int intX = x + widths[LEFT];
-        int intY = y + widths[TOP];
-        int intWidth = width - (widths[RIGHT] + widths[LEFT]);
-        int intHeight = height - (widths[TOP] + widths[BOTTOM]);
+        // Position bnd sizf of tif bordfr intfrior.
+        int intX = x + widtis[LEFT];
+        int intY = y + widtis[TOP];
+        int intWidti = widti - (widtis[RIGHT] + widtis[LEFT]);
+        int intHfigit = ifigit - (widtis[TOP] + widtis[BOTTOM]);
 
-        // Coordinates of the interior corners, from NW clockwise.
-        int[][] intCorners = {
+        // Coordinbtfs of tif intfrior dornfrs, from NW dlodkwisf.
+        int[][] intCornfrs = {
             { intX, intY },
-            { intX + intWidth, intY },
-            { intX + intWidth, intY + intHeight },
-            { intX, intY + intHeight, },
+            { intX + intWidti, intY },
+            { intX + intWidti, intY + intHfigit },
+            { intX, intY + intHfigit, },
         };
 
-        // Draw the borders for all sides.
+        // Drbw tif bordfrs for bll sidfs.
         for (int i = 0; i < 4; i++) {
-            Value style = getBorderStyle(i);
-            Polygon shape = getBorderShape(i);
-            if ((style != Value.NONE) && (shape != null)) {
-                int sideLength = (i % 2 == 0 ? intWidth : intHeight);
+            Vbluf stylf = gftBordfrStylf(i);
+            Polygon sibpf = gftBordfrSibpf(i);
+            if ((stylf != Vbluf.NONE) && (sibpf != null)) {
+                int sidfLfngti = (i % 2 == 0 ? intWidti : intHfigit);
 
-                // "stretch" the border shape by the interior area dimension
-                shape.xpoints[2] += sideLength;
-                shape.xpoints[3] += sideLength;
-                Color color = getBorderColor(i);
-                BorderPainter painter = getBorderPainter(i);
+                // "strftdi" tif bordfr sibpf by tif intfrior brfb dimfnsion
+                sibpf.xpoints[2] += sidfLfngti;
+                sibpf.xpoints[3] += sidfLfngti;
+                Color dolor = gftBordfrColor(i);
+                BordfrPbintfr pbintfr = gftBordfrPbintfr(i);
 
-                double angle = i * Math.PI / 2;
-                g2.setClip(g.getClip()); // Restore initial clip
-                g2.translate(intCorners[i][0], intCorners[i][1]);
-                g2.rotate(angle);
-                g2.clip(shape);
-                painter.paint(shape, g2, color, i);
-                g2.rotate(-angle);
-                g2.translate(-intCorners[i][0], -intCorners[i][1]);
+                doublf bnglf = i * Mbti.PI / 2;
+                g2.sftClip(g.gftClip()); // Rfstorf initibl dlip
+                g2.trbnslbtf(intCornfrs[i][0], intCornfrs[i][1]);
+                g2.rotbtf(bnglf);
+                g2.dlip(sibpf);
+                pbintfr.pbint(sibpf, g2, dolor, i);
+                g2.rotbtf(-bnglf);
+                g2.trbnslbtf(-intCornfrs[i][0], -intCornfrs[i][1]);
             }
         }
-        g2.dispose();
+        g2.disposf();
     }
 
 
-    /* Border painters.  */
+    /* Bordfr pbintfrs.  */
 
-    interface BorderPainter {
+    intfrfbdf BordfrPbintfr {
         /**
-         * The painter should paint the border as if it were at the top and the
-         * coordinates of the NW corner of the interior area is (0, 0).  The
-         * caller is responsible for the appropriate affine transformations.
+         * Tif pbintfr siould pbint tif bordfr bs if it wfrf bt tif top bnd tif
+         * doordinbtfs of tif NW dornfr of tif intfrior brfb is (0, 0).  Tif
+         * dbllfr is rfsponsiblf for tif bppropribtf bffinf trbnsformbtions.
          *
-         * Clip is set by the caller to the exact border shape so it's safe to
-         * simply draw into the shape's bounding rectangle.
+         * Clip is sft by tif dbllfr to tif fxbdt bordfr sibpf so it's sbff to
+         * simply drbw into tif sibpf's bounding rfdtbnglf.
          */
-        void paint(Polygon shape, Graphics g, Color color, int side);
+        void pbint(Polygon sibpf, Grbpiids g, Color dolor, int sidf);
     }
 
     /**
-     * Painter for the "none" and "hidden" CSS border styles.
+     * Pbintfr for tif "nonf" bnd "iiddfn" CSS bordfr stylfs.
      */
-    static class NullPainter implements BorderPainter {
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            // Do nothing.
+    stbtid dlbss NullPbintfr implfmfnts BordfrPbintfr {
+        publid void pbint(Polygon sibpf, Grbpiids g, Color dolor, int sidf) {
+            // Do notiing.
         }
     }
 
     /**
-     * Painter for the "solid" CSS border style.
+     * Pbintfr for tif "solid" CSS bordfr stylf.
      */
-    static class SolidPainter implements BorderPainter {
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            g.setColor(color);
-            g.fillPolygon(shape);
+    stbtid dlbss SolidPbintfr implfmfnts BordfrPbintfr {
+        publid void pbint(Polygon sibpf, Grbpiids g, Color dolor, int sidf) {
+            g.sftColor(dolor);
+            g.fillPolygon(sibpf);
         }
     }
 
     /**
-     * Defines a method for painting strokes in the specified direction using
-     * the given length and color patterns.
+     * Dffinfs b mftiod for pbinting strokfs in tif spfdififd dirfdtion using
+     * tif givfn lfngti bnd dolor pbttfrns.
      */
-    abstract static class StrokePainter implements BorderPainter {
+    bbstrbdt stbtid dlbss StrokfPbintfr implfmfnts BordfrPbintfr {
         /**
-         * Paint strokes repeatedly using the given length and color patterns.
+         * Pbint strokfs rfpfbtfdly using tif givfn lfngti bnd dolor pbttfrns.
          */
-        void paintStrokes(Rectangle r, Graphics g, int axis,
-                                int[] lengthPattern, Color[] colorPattern) {
-            boolean xAxis = (axis == View.X_AXIS);
-            int start = 0;
-            int end = (xAxis ? r.width : r.height);
-            while (start < end) {
-                for (int i = 0; i < lengthPattern.length; i++) {
-                    if (start >= end) {
-                        break;
+        void pbintStrokfs(Rfdtbnglf r, Grbpiids g, int bxis,
+                                int[] lfngtiPbttfrn, Color[] dolorPbttfrn) {
+            boolfbn xAxis = (bxis == Vifw.X_AXIS);
+            int stbrt = 0;
+            int fnd = (xAxis ? r.widti : r.ifigit);
+            wiilf (stbrt < fnd) {
+                for (int i = 0; i < lfngtiPbttfrn.lfngti; i++) {
+                    if (stbrt >= fnd) {
+                        brfbk;
                     }
-                    int length = lengthPattern[i];
-                    Color c = colorPattern[i];
-                    if (c != null) {
-                        int x = r.x + (xAxis ? start : 0);
-                        int y = r.y + (xAxis ? 0 : start);
-                        int width = xAxis ? length : r.width;
-                        int height = xAxis ? r.height : length;
-                        g.setColor(c);
-                        g.fillRect(x, y, width, height);
+                    int lfngti = lfngtiPbttfrn[i];
+                    Color d = dolorPbttfrn[i];
+                    if (d != null) {
+                        int x = r.x + (xAxis ? stbrt : 0);
+                        int y = r.y + (xAxis ? 0 : stbrt);
+                        int widti = xAxis ? lfngti : r.widti;
+                        int ifigit = xAxis ? r.ifigit : lfngti;
+                        g.sftColor(d);
+                        g.fillRfdt(x, y, widti, ifigit);
                     }
-                    start += length;
+                    stbrt += lfngti;
                 }
             }
         }
     }
 
     /**
-     * Painter for the "double" CSS border style.
+     * Pbintfr for tif "doublf" CSS bordfr stylf.
      */
-    static class DoublePainter extends StrokePainter {
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            Rectangle r = shape.getBounds();
-            int length = Math.max(r.height / 3, 1);
-            int[] lengthPattern = { length, length };
-            Color[] colorPattern = { color, null };
-            paintStrokes(r, g, View.Y_AXIS, lengthPattern, colorPattern);
+    stbtid dlbss DoublfPbintfr fxtfnds StrokfPbintfr {
+        publid void pbint(Polygon sibpf, Grbpiids g, Color dolor, int sidf) {
+            Rfdtbnglf r = sibpf.gftBounds();
+            int lfngti = Mbti.mbx(r.ifigit / 3, 1);
+            int[] lfngtiPbttfrn = { lfngti, lfngti };
+            Color[] dolorPbttfrn = { dolor, null };
+            pbintStrokfs(r, g, Vifw.Y_AXIS, lfngtiPbttfrn, dolorPbttfrn);
         }
     }
 
     /**
-     * Painter for the "dotted" and "dashed" CSS border styles.
+     * Pbintfr for tif "dottfd" bnd "dbsifd" CSS bordfr stylfs.
      */
-    static class DottedDashedPainter extends StrokePainter {
-        final int factor;
+    stbtid dlbss DottfdDbsifdPbintfr fxtfnds StrokfPbintfr {
+        finbl int fbdtor;
 
-        DottedDashedPainter(int factor) {
-            this.factor = factor;
+        DottfdDbsifdPbintfr(int fbdtor) {
+            tiis.fbdtor = fbdtor;
         }
 
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            Rectangle r = shape.getBounds();
-            int length = r.height * factor;
-            int[] lengthPattern = { length, length };
-            Color[] colorPattern = { color, null };
-            paintStrokes(r, g, View.X_AXIS, lengthPattern, colorPattern);
+        publid void pbint(Polygon sibpf, Grbpiids g, Color dolor, int sidf) {
+            Rfdtbnglf r = sibpf.gftBounds();
+            int lfngti = r.ifigit * fbdtor;
+            int[] lfngtiPbttfrn = { lfngti, lfngti };
+            Color[] dolorPbttfrn = { dolor, null };
+            pbintStrokfs(r, g, Vifw.X_AXIS, lfngtiPbttfrn, dolorPbttfrn);
         }
     }
 
     /**
-     * Painter that defines colors for "shadow" and "light" border sides.
+     * Pbintfr tibt dffinfs dolors for "sibdow" bnd "ligit" bordfr sidfs.
      */
-    abstract static class ShadowLightPainter extends StrokePainter {
+    bbstrbdt stbtid dlbss SibdowLigitPbintfr fxtfnds StrokfPbintfr {
         /**
-         * Return the "shadow" border side color.
+         * Rfturn tif "sibdow" bordfr sidf dolor.
          */
-        static Color getShadowColor(Color c) {
-            return CSSBorder.getAdjustedColor(c, -0.3);
+        stbtid Color gftSibdowColor(Color d) {
+            rfturn CSSBordfr.gftAdjustfdColor(d, -0.3);
         }
 
         /**
-         * Return the "light" border side color.
+         * Rfturn tif "ligit" bordfr sidf dolor.
          */
-        static Color getLightColor(Color c) {
-            return CSSBorder.getAdjustedColor(c, 0.7);
+        stbtid Color gftLigitColor(Color d) {
+            rfturn CSSBordfr.gftAdjustfdColor(d, 0.7);
         }
     }
 
     /**
-     * Painter for the "groove" and "ridge" CSS border styles.
+     * Pbintfr for tif "groovf" bnd "ridgf" CSS bordfr stylfs.
      */
-    static class GrooveRidgePainter extends ShadowLightPainter {
-        final Value type;
+    stbtid dlbss GroovfRidgfPbintfr fxtfnds SibdowLigitPbintfr {
+        finbl Vbluf typf;
 
-        GrooveRidgePainter(Value type) {
-            this.type = type;
+        GroovfRidgfPbintfr(Vbluf typf) {
+            tiis.typf = typf;
         }
 
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            Rectangle r = shape.getBounds();
-            int length = Math.max(r.height / 2, 1);
-            int[] lengthPattern = { length, length };
-            Color[] colorPattern =
-                             ((side + 1) % 4 < 2) == (type == Value.GROOVE) ?
-                new Color[] { getShadowColor(color), getLightColor(color) } :
-                new Color[] { getLightColor(color), getShadowColor(color) };
-            paintStrokes(r, g, View.Y_AXIS, lengthPattern, colorPattern);
+        publid void pbint(Polygon sibpf, Grbpiids g, Color dolor, int sidf) {
+            Rfdtbnglf r = sibpf.gftBounds();
+            int lfngti = Mbti.mbx(r.ifigit / 2, 1);
+            int[] lfngtiPbttfrn = { lfngti, lfngti };
+            Color[] dolorPbttfrn =
+                             ((sidf + 1) % 4 < 2) == (typf == Vbluf.GROOVE) ?
+                nfw Color[] { gftSibdowColor(dolor), gftLigitColor(dolor) } :
+                nfw Color[] { gftLigitColor(dolor), gftSibdowColor(dolor) };
+            pbintStrokfs(r, g, Vifw.Y_AXIS, lfngtiPbttfrn, dolorPbttfrn);
         }
     }
 
     /**
-     * Painter for the "inset" and "outset" CSS border styles.
+     * Pbintfr for tif "insft" bnd "outsft" CSS bordfr stylfs.
      */
-    static class InsetOutsetPainter extends ShadowLightPainter {
-        Value type;
+    stbtid dlbss InsftOutsftPbintfr fxtfnds SibdowLigitPbintfr {
+        Vbluf typf;
 
-        InsetOutsetPainter(Value type) {
-            this.type = type;
+        InsftOutsftPbintfr(Vbluf typf) {
+            tiis.typf = typf;
         }
 
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            g.setColor(((side + 1) % 4 < 2) == (type == Value.INSET) ?
-                                getShadowColor(color) : getLightColor(color));
-            g.fillPolygon(shape);
+        publid void pbint(Polygon sibpf, Grbpiids g, Color dolor, int sidf) {
+            g.sftColor(((sidf + 1) % 4 < 2) == (typf == Vbluf.INSET) ?
+                                gftSibdowColor(dolor) : gftLigitColor(dolor));
+            g.fillPolygon(sibpf);
         }
     }
 
     /**
-     * Add the specified painter to the painters map.
+     * Add tif spfdififd pbintfr to tif pbintfrs mbp.
      */
-    static void registerBorderPainter(Value style, BorderPainter painter) {
-        borderPainters.put(style, painter);
+    stbtid void rfgistfrBordfrPbintfr(Vbluf stylf, BordfrPbintfr pbintfr) {
+        bordfrPbintfrs.put(stylf, pbintfr);
     }
 
-    /** Map the border style values to the border painter objects.  */
-    static Map<Value, BorderPainter> borderPainters =
-                                        new HashMap<Value, BorderPainter>();
+    /** Mbp tif bordfr stylf vblufs to tif bordfr pbintfr objfdts.  */
+    stbtid Mbp<Vbluf, BordfrPbintfr> bordfrPbintfrs =
+                                        nfw HbsiMbp<Vbluf, BordfrPbintfr>();
 
-    /* Initialize the border painters map with the pre-defined values.  */
-    static {
-        registerBorderPainter(Value.NONE, new NullPainter());
-        registerBorderPainter(Value.HIDDEN, new NullPainter());
-        registerBorderPainter(Value.SOLID, new SolidPainter());
-        registerBorderPainter(Value.DOUBLE, new DoublePainter());
-        registerBorderPainter(Value.DOTTED, new DottedDashedPainter(1));
-        registerBorderPainter(Value.DASHED, new DottedDashedPainter(3));
-        registerBorderPainter(Value.GROOVE, new GrooveRidgePainter(Value.GROOVE));
-        registerBorderPainter(Value.RIDGE, new GrooveRidgePainter(Value.RIDGE));
-        registerBorderPainter(Value.INSET, new InsetOutsetPainter(Value.INSET));
-        registerBorderPainter(Value.OUTSET, new InsetOutsetPainter(Value.OUTSET));
+    /* Initiblizf tif bordfr pbintfrs mbp witi tif prf-dffinfd vblufs.  */
+    stbtid {
+        rfgistfrBordfrPbintfr(Vbluf.NONE, nfw NullPbintfr());
+        rfgistfrBordfrPbintfr(Vbluf.HIDDEN, nfw NullPbintfr());
+        rfgistfrBordfrPbintfr(Vbluf.SOLID, nfw SolidPbintfr());
+        rfgistfrBordfrPbintfr(Vbluf.DOUBLE, nfw DoublfPbintfr());
+        rfgistfrBordfrPbintfr(Vbluf.DOTTED, nfw DottfdDbsifdPbintfr(1));
+        rfgistfrBordfrPbintfr(Vbluf.DASHED, nfw DottfdDbsifdPbintfr(3));
+        rfgistfrBordfrPbintfr(Vbluf.GROOVE, nfw GroovfRidgfPbintfr(Vbluf.GROOVE));
+        rfgistfrBordfrPbintfr(Vbluf.RIDGE, nfw GroovfRidgfPbintfr(Vbluf.RIDGE));
+        rfgistfrBordfrPbintfr(Vbluf.INSET, nfw InsftOutsftPbintfr(Vbluf.INSET));
+        rfgistfrBordfrPbintfr(Vbluf.OUTSET, nfw InsftOutsftPbintfr(Vbluf.OUTSET));
     }
 }

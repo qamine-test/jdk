@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.dnd;
+pbdkbgf sun.bwt.dnd;
 
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.EventQueue;
-import java.awt.Image;
-import java.awt.Point;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Point;
 
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
 
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragSourceContext;
-import java.awt.dnd.DragSourceEvent;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DrbgSourdfContfxt;
+import jbvb.bwt.dnd.DrbgSourdfEvfnt;
+import jbvb.bwt.dnd.DrbgSourdfDropEvfnt;
+import jbvb.bwt.dnd.DrbgSourdfDrbgEvfnt;
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
 
-import java.awt.dnd.peer.DragSourceContextPeer;
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
 
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
 
-import java.util.Map;
-import java.util.SortedMap;
+import jbvb.util.Mbp;
+import jbvb.util.SortfdMbp;
 
-import sun.awt.SunToolkit;
-import sun.awt.datatransfer.DataTransferer;
-import java.awt.datatransfer.DataFlavor;
+import sun.bwt.SunToolkit;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
 
 
 /**
@@ -60,441 +60,441 @@ import java.awt.datatransfer.DataFlavor;
  * TBC
  * </p>
  *
- * @since 1.3.1
+ * @sindf 1.3.1
  *
  */
-public abstract class SunDragSourceContextPeer implements DragSourceContextPeer {
+publid bbstrbdt dlbss SunDrbgSourdfContfxtPffr implfmfnts DrbgSourdfContfxtPffr {
 
-    private DragGestureEvent  trigger;
-    private Component         component;
-    private Cursor            cursor;
-    private Image             dragImage;
-    private Point             dragImageOffset;
-    private long              nativeCtxt;
-    private DragSourceContext dragSourceContext;
-    private int               sourceActions;
+    privbtf DrbgGfsturfEvfnt  triggfr;
+    privbtf Componfnt         domponfnt;
+    privbtf Cursor            dursor;
+    privbtf Imbgf             drbgImbgf;
+    privbtf Point             drbgImbgfOffsft;
+    privbtf long              nbtivfCtxt;
+    privbtf DrbgSourdfContfxt drbgSourdfContfxt;
+    privbtf int               sourdfAdtions;
 
-    private static boolean    dragDropInProgress = false;
-    private static boolean    discardingMouseEvents = false;
+    privbtf stbtid boolfbn    drbgDropInProgrfss = fblsf;
+    privbtf stbtid boolfbn    disdbrdingMousfEvfnts = fblsf;
 
     /*
-     * dispatch constants
+     * dispbtdi donstbnts
      */
 
-    protected final static int DISPATCH_ENTER   = 1;
-    protected final static int DISPATCH_MOTION  = 2;
-    protected final static int DISPATCH_CHANGED = 3;
-    protected final static int DISPATCH_EXIT    = 4;
-    protected final static int DISPATCH_FINISH  = 5;
-    protected final static int DISPATCH_MOUSE_MOVED  = 6;
+    protfdtfd finbl stbtid int DISPATCH_ENTER   = 1;
+    protfdtfd finbl stbtid int DISPATCH_MOTION  = 2;
+    protfdtfd finbl stbtid int DISPATCH_CHANGED = 3;
+    protfdtfd finbl stbtid int DISPATCH_EXIT    = 4;
+    protfdtfd finbl stbtid int DISPATCH_FINISH  = 5;
+    protfdtfd finbl stbtid int DISPATCH_MOUSE_MOVED  = 6;
 
     /**
-     * construct a new SunDragSourceContextPeer
+     * donstrudt b nfw SunDrbgSourdfContfxtPffr
      */
 
-    public SunDragSourceContextPeer(DragGestureEvent dge) {
-        trigger = dge;
-        if (trigger != null) {
-            component = trigger.getComponent();
-        } else {
-            component = null;
+    publid SunDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) {
+        triggfr = dgf;
+        if (triggfr != null) {
+            domponfnt = triggfr.gftComponfnt();
+        } flsf {
+            domponfnt = null;
         }
     }
 
     /**
-     * Synchro messages in AWT
+     * Syndiro mfssbgfs in AWT
      */
-    public void startSecondaryEventLoop(){}
-    public void quitSecondaryEventLoop(){}
+    publid void stbrtSfdondbryEvfntLoop(){}
+    publid void quitSfdondbryEvfntLoop(){}
 
     /**
-     * initiate a DnD operation ...
+     * initibtf b DnD opfrbtion ...
      */
 
-    public void startDrag(DragSourceContext dsc, Cursor c, Image di, Point p)
-      throws InvalidDnDOperationException {
+    publid void stbrtDrbg(DrbgSourdfContfxt dsd, Cursor d, Imbgf di, Point p)
+      tirows InvblidDnDOpfrbtionExdfption {
 
-        /* Fix for 4354044: don't initiate a drag if event sequence provided by
-         * DragGestureRecognizer is empty */
-        if (getTrigger().getTriggerEvent() == null) {
-            throw new InvalidDnDOperationException("DragGestureEvent has a null trigger");
+        /* Fix for 4354044: don't initibtf b drbg if fvfnt sfqufndf providfd by
+         * DrbgGfsturfRfdognizfr is fmpty */
+        if (gftTriggfr().gftTriggfrEvfnt() == null) {
+            tirow nfw InvblidDnDOpfrbtionExdfption("DrbgGfsturfEvfnt ibs b null triggfr");
         }
 
-        dragSourceContext = dsc;
-        cursor            = c;
-        sourceActions     = getDragSourceContext().getSourceActions();
-        dragImage         = di;
-        dragImageOffset   = p;
+        drbgSourdfContfxt = dsd;
+        dursor            = d;
+        sourdfAdtions     = gftDrbgSourdfContfxt().gftSourdfAdtions();
+        drbgImbgf         = di;
+        drbgImbgfOffsft   = p;
 
-        Transferable transferable  = getDragSourceContext().getTransferable();
-        SortedMap<Long,DataFlavor> formatMap = DataTransferer.getInstance().
-            getFormatsForTransferable(transferable, DataTransferer.adaptFlavorMap
-                (getTrigger().getDragSource().getFlavorMap()));
-        long[] formats = DataTransferer.keysToLongArray(formatMap);
-        startDrag(transferable, formats, formatMap);
+        Trbnsffrbblf trbnsffrbblf  = gftDrbgSourdfContfxt().gftTrbnsffrbblf();
+        SortfdMbp<Long,DbtbFlbvor> formbtMbp = DbtbTrbnsffrfr.gftInstbndf().
+            gftFormbtsForTrbnsffrbblf(trbnsffrbblf, DbtbTrbnsffrfr.bdbptFlbvorMbp
+                (gftTriggfr().gftDrbgSourdf().gftFlbvorMbp()));
+        long[] formbts = DbtbTrbnsffrfr.kfysToLongArrby(formbtMbp);
+        stbrtDrbg(trbnsffrbblf, formbts, formbtMbp);
 
         /*
          * Fix for 4613903.
-         * Filter out all mouse events that are currently on the event queue.
+         * Filtfr out bll mousf fvfnts tibt brf durrfntly on tif fvfnt qufuf.
          */
-        discardingMouseEvents = true;
-        EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    discardingMouseEvents = false;
+        disdbrdingMousfEvfnts = truf;
+        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    disdbrdingMousfEvfnts = fblsf;
                 }
             });
     }
 
-    protected abstract void startDrag(Transferable trans,
-                                      long[] formats, Map<Long, DataFlavor> formatMap);
+    protfdtfd bbstrbdt void stbrtDrbg(Trbnsffrbblf trbns,
+                                      long[] formbts, Mbp<Long, DbtbFlbvor> formbtMbp);
 
     /**
-     * set cursor
+     * sft dursor
      */
 
-    public void setCursor(Cursor c) throws InvalidDnDOperationException {
-        synchronized (this) {
-            if (cursor == null || !cursor.equals(c)) {
-                cursor = c;
-                // NOTE: native context can be null at this point.
-                // setNativeCursor() should handle it properly.
-                setNativeCursor(getNativeContext(), c,
-                                c != null ? c.getType() : 0);
+    publid void sftCursor(Cursor d) tirows InvblidDnDOpfrbtionExdfption {
+        syndironizfd (tiis) {
+            if (dursor == null || !dursor.fqubls(d)) {
+                dursor = d;
+                // NOTE: nbtivf dontfxt dbn bf null bt tiis point.
+                // sftNbtivfCursor() siould ibndlf it propfrly.
+                sftNbtivfCursor(gftNbtivfContfxt(), d,
+                                d != null ? d.gftTypf() : 0);
             }
         }
     }
 
     /**
-     * return cursor
+     * rfturn dursor
      */
 
-    public Cursor getCursor() {
-        return cursor;
+    publid Cursor gftCursor() {
+        rfturn dursor;
     }
 
     /**
-     * Returns the drag image. If there is no image to drag,
-     * the returned value is {@code null}
+     * Rfturns tif drbg imbgf. If tifrf is no imbgf to drbg,
+     * tif rfturnfd vbluf is {@dodf null}
      *
-     * @return the reference to the drag image
+     * @rfturn tif rfffrfndf to tif drbg imbgf
      */
-    public Image getDragImage() {
-        return dragImage;
+    publid Imbgf gftDrbgImbgf() {
+        rfturn drbgImbgf;
     }
 
     /**
-     * Returns an anchor offset for the image to drag.
+     * Rfturns bn bndior offsft for tif imbgf to drbg.
      *
-     * @return a {@code Point} object that corresponds
-     * to coordinates of an anchor offset of the image
-     * relative to the upper left corner of the image.
-     * The point {@code (0,0)} returns by default.
+     * @rfturn b {@dodf Point} objfdt tibt dorrfsponds
+     * to doordinbtfs of bn bndior offsft of tif imbgf
+     * rflbtivf to tif uppfr lfft dornfr of tif imbgf.
+     * Tif point {@dodf (0,0)} rfturns by dffbult.
      */
-    public Point getDragImageOffset() {
-        if (dragImageOffset == null) {
-            return new Point(0,0);
+    publid Point gftDrbgImbgfOffsft() {
+        if (drbgImbgfOffsft == null) {
+            rfturn nfw Point(0,0);
         }
-        return new Point(dragImageOffset);
+        rfturn nfw Point(drbgImbgfOffsft);
     }
 
     /**
-     * downcall into native code
+     * downdbll into nbtivf dodf
      */
 
 
-    protected abstract void setNativeCursor(long nativeCtxt, Cursor c,
-                                            int cType);
+    protfdtfd bbstrbdt void sftNbtivfCursor(long nbtivfCtxt, Cursor d,
+                                            int dTypf);
 
-    protected synchronized void setTrigger(DragGestureEvent dge) {
-        trigger = dge;
-        if (trigger != null) {
-            component = trigger.getComponent();
-        } else {
-            component = null;
+    protfdtfd syndironizfd void sftTriggfr(DrbgGfsturfEvfnt dgf) {
+        triggfr = dgf;
+        if (triggfr != null) {
+            domponfnt = triggfr.gftComponfnt();
+        } flsf {
+            domponfnt = null;
         }
     }
 
-    protected DragGestureEvent getTrigger() {
-        return trigger;
+    protfdtfd DrbgGfsturfEvfnt gftTriggfr() {
+        rfturn triggfr;
     }
 
-    protected Component getComponent() {
-        return component;
+    protfdtfd Componfnt gftComponfnt() {
+        rfturn domponfnt;
     }
 
-    protected synchronized void setNativeContext(long ctxt) {
-        nativeCtxt = ctxt;
+    protfdtfd syndironizfd void sftNbtivfContfxt(long dtxt) {
+        nbtivfCtxt = dtxt;
     }
 
-    protected synchronized long getNativeContext() {
-        return nativeCtxt;
+    protfdtfd syndironizfd long gftNbtivfContfxt() {
+        rfturn nbtivfCtxt;
     }
 
-    protected DragSourceContext getDragSourceContext() {
-        return dragSourceContext;
+    protfdtfd DrbgSourdfContfxt gftDrbgSourdfContfxt() {
+        rfturn drbgSourdfContfxt;
     }
 
     /**
-     * Notify the peer that the transferables' DataFlavors have changed.
+     * Notify tif pffr tibt tif trbnsffrbblfs' DbtbFlbvors ibvf dibngfd.
      *
-     * No longer useful as the transferables are determined at the time
-     * of the drag.
+     * No longfr usfful bs tif trbnsffrbblfs brf dftfrminfd bt tif timf
+     * of tif drbg.
      */
 
-    public void transferablesFlavorsChanged() {
+    publid void trbnsffrbblfsFlbvorsCibngfd() {
     }
 
 
 
 
 
-    protected final void postDragSourceDragEvent(final int targetAction,
-                                                 final int modifiers,
-                                                 final int x, final int y,
-                                                 final int dispatchType) {
+    protfdtfd finbl void postDrbgSourdfDrbgEvfnt(finbl int tbrgftAdtion,
+                                                 finbl int modififrs,
+                                                 finbl int x, finbl int y,
+                                                 finbl int dispbtdiTypf) {
 
-        final int dropAction =
-            SunDragSourceContextPeer.convertModifiersToDropAction(modifiers,
-                                                                  sourceActions);
+        finbl int dropAdtion =
+            SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(modififrs,
+                                                                  sourdfAdtions);
 
-        DragSourceDragEvent event =
-            new DragSourceDragEvent(getDragSourceContext(),
-                                    dropAction,
-                                    targetAction & sourceActions,
-                                    modifiers, x, y);
-        EventDispatcher dispatcher = new EventDispatcher(dispatchType, event);
+        DrbgSourdfDrbgEvfnt fvfnt =
+            nfw DrbgSourdfDrbgEvfnt(gftDrbgSourdfContfxt(),
+                                    dropAdtion,
+                                    tbrgftAdtion & sourdfAdtions,
+                                    modififrs, x, y);
+        EvfntDispbtdifr dispbtdifr = nfw EvfntDispbtdifr(dispbtdiTypf, fvfnt);
 
-        SunToolkit.invokeLaterOnAppContext(
-            SunToolkit.targetToAppContext(getComponent()), dispatcher);
+        SunToolkit.invokfLbtfrOnAppContfxt(
+            SunToolkit.tbrgftToAppContfxt(gftComponfnt()), dispbtdifr);
 
-        startSecondaryEventLoop();
-    }
-
-    /**
-     * upcall from native code
-     */
-
-    protected void dragEnter(final int targetActions,
-                           final int modifiers,
-                           final int x, final int y) {
-        postDragSourceDragEvent(targetActions, modifiers, x, y, DISPATCH_ENTER);
+        stbrtSfdondbryEvfntLoop();
     }
 
     /**
-     * upcall from native code
+     * updbll from nbtivf dodf
      */
 
-    private void dragMotion(final int targetActions,
-                            final int modifiers,
-                            final int x, final int y) {
-        postDragSourceDragEvent(targetActions, modifiers, x, y, DISPATCH_MOTION);
+    protfdtfd void drbgEntfr(finbl int tbrgftAdtions,
+                           finbl int modififrs,
+                           finbl int x, finbl int y) {
+        postDrbgSourdfDrbgEvfnt(tbrgftAdtions, modififrs, x, y, DISPATCH_ENTER);
     }
 
     /**
-     * upcall from native code
+     * updbll from nbtivf dodf
      */
 
-    private void operationChanged(final int targetActions,
-                                  final int modifiers,
-                                  final int x, final int y) {
-        postDragSourceDragEvent(targetActions, modifiers, x, y, DISPATCH_CHANGED);
+    privbtf void drbgMotion(finbl int tbrgftAdtions,
+                            finbl int modififrs,
+                            finbl int x, finbl int y) {
+        postDrbgSourdfDrbgEvfnt(tbrgftAdtions, modififrs, x, y, DISPATCH_MOTION);
     }
 
     /**
-     * upcall from native code
+     * updbll from nbtivf dodf
      */
 
-    protected final void dragExit(final int x, final int y) {
-        DragSourceEvent event =
-            new DragSourceEvent(getDragSourceContext(), x, y);
-        EventDispatcher dispatcher =
-            new EventDispatcher(DISPATCH_EXIT, event);
-
-        SunToolkit.invokeLaterOnAppContext(
-            SunToolkit.targetToAppContext(getComponent()), dispatcher);
-
-        startSecondaryEventLoop();
+    privbtf void opfrbtionCibngfd(finbl int tbrgftAdtions,
+                                  finbl int modififrs,
+                                  finbl int x, finbl int y) {
+        postDrbgSourdfDrbgEvfnt(tbrgftAdtions, modififrs, x, y, DISPATCH_CHANGED);
     }
 
     /**
-     * upcall from native code
+     * updbll from nbtivf dodf
      */
 
-    private void dragMouseMoved(final int targetActions,
-                                final int modifiers,
-                                final int x, final int y) {
-        postDragSourceDragEvent(targetActions, modifiers, x, y,
+    protfdtfd finbl void drbgExit(finbl int x, finbl int y) {
+        DrbgSourdfEvfnt fvfnt =
+            nfw DrbgSourdfEvfnt(gftDrbgSourdfContfxt(), x, y);
+        EvfntDispbtdifr dispbtdifr =
+            nfw EvfntDispbtdifr(DISPATCH_EXIT, fvfnt);
+
+        SunToolkit.invokfLbtfrOnAppContfxt(
+            SunToolkit.tbrgftToAppContfxt(gftComponfnt()), dispbtdifr);
+
+        stbrtSfdondbryEvfntLoop();
+    }
+
+    /**
+     * updbll from nbtivf dodf
+     */
+
+    privbtf void drbgMousfMovfd(finbl int tbrgftAdtions,
+                                finbl int modififrs,
+                                finbl int x, finbl int y) {
+        postDrbgSourdfDrbgEvfnt(tbrgftAdtions, modififrs, x, y,
                                 DISPATCH_MOUSE_MOVED);
     }
 
     /**
-     * upcall from native code via implemented class (do)
+     * updbll from nbtivf dodf vib implfmfntfd dlbss (do)
      */
 
-    protected final void dragDropFinished(final boolean success,
-                                          final int operations,
-                                          final int x, final int y) {
-        DragSourceEvent event =
-            new DragSourceDropEvent(getDragSourceContext(),
-                                    operations & sourceActions,
-                                    success, x, y);
-        EventDispatcher dispatcher =
-            new EventDispatcher(DISPATCH_FINISH, event);
+    protfdtfd finbl void drbgDropFinisifd(finbl boolfbn suddfss,
+                                          finbl int opfrbtions,
+                                          finbl int x, finbl int y) {
+        DrbgSourdfEvfnt fvfnt =
+            nfw DrbgSourdfDropEvfnt(gftDrbgSourdfContfxt(),
+                                    opfrbtions & sourdfAdtions,
+                                    suddfss, x, y);
+        EvfntDispbtdifr dispbtdifr =
+            nfw EvfntDispbtdifr(DISPATCH_FINISH, fvfnt);
 
-        SunToolkit.invokeLaterOnAppContext(
-            SunToolkit.targetToAppContext(getComponent()), dispatcher);
+        SunToolkit.invokfLbtfrOnAppContfxt(
+            SunToolkit.tbrgftToAppContfxt(gftComponfnt()), dispbtdifr);
 
-        startSecondaryEventLoop();
-        setNativeContext(0);
-        dragImage = null;
-        dragImageOffset = null;
+        stbrtSfdondbryEvfntLoop();
+        sftNbtivfContfxt(0);
+        drbgImbgf = null;
+        drbgImbgfOffsft = null;
     }
 
-    public static void setDragDropInProgress(boolean b)
-      throws InvalidDnDOperationException {
-        synchronized (SunDragSourceContextPeer.class) {
-            if (dragDropInProgress == b) {
-                throw new InvalidDnDOperationException(getExceptionMessage(b));
+    publid stbtid void sftDrbgDropInProgrfss(boolfbn b)
+      tirows InvblidDnDOpfrbtionExdfption {
+        syndironizfd (SunDrbgSourdfContfxtPffr.dlbss) {
+            if (drbgDropInProgrfss == b) {
+                tirow nfw InvblidDnDOpfrbtionExdfption(gftExdfptionMfssbgf(b));
             }
-            dragDropInProgress = b;
+            drbgDropInProgrfss = b;
         }
     }
 
     /**
-     * Filters out all mouse events that were on the java event queue when
-     * startDrag was called.
+     * Filtfrs out bll mousf fvfnts tibt wfrf on tif jbvb fvfnt qufuf wifn
+     * stbrtDrbg wbs dbllfd.
      */
-    public static boolean checkEvent(AWTEvent event) {
-        if (discardingMouseEvents && event instanceof MouseEvent) {
-            MouseEvent mouseEvent = (MouseEvent)event;
-            if (!(mouseEvent instanceof SunDropTargetEvent)) {
-                return false;
+    publid stbtid boolfbn difdkEvfnt(AWTEvfnt fvfnt) {
+        if (disdbrdingMousfEvfnts && fvfnt instbndfof MousfEvfnt) {
+            MousfEvfnt mousfEvfnt = (MousfEvfnt)fvfnt;
+            if (!(mousfEvfnt instbndfof SunDropTbrgftEvfnt)) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    public static void checkDragDropInProgress()
-      throws InvalidDnDOperationException {
-        if (dragDropInProgress) {
-            throw new InvalidDnDOperationException(getExceptionMessage(true));
+    publid stbtid void difdkDrbgDropInProgrfss()
+      tirows InvblidDnDOpfrbtionExdfption {
+        if (drbgDropInProgrfss) {
+            tirow nfw InvblidDnDOpfrbtionExdfption(gftExdfptionMfssbgf(truf));
         }
     }
 
-    private static String getExceptionMessage(boolean b) {
-        return b ? "Drag and drop in progress" : "No drag in progress";
+    privbtf stbtid String gftExdfptionMfssbgf(boolfbn b) {
+        rfturn b ? "Drbg bnd drop in progrfss" : "No drbg in progrfss";
     }
 
-    public static int convertModifiersToDropAction(final int modifiers,
-                                                   final int supportedActions) {
-        int dropAction = DnDConstants.ACTION_NONE;
+    publid stbtid int donvfrtModififrsToDropAdtion(finbl int modififrs,
+                                                   finbl int supportfdAdtions) {
+        int dropAdtion = DnDConstbnts.ACTION_NONE;
 
         /*
          * Fix for 4285634.
-         * Calculate the drop action to match Motif DnD behavior.
-         * If the user selects an operation (by pressing a modifier key),
-         * return the selected operation or ACTION_NONE if the selected
-         * operation is not supported by the drag source.
-         * If the user doesn't select an operation search the set of operations
-         * supported by the drag source for ACTION_MOVE, then for
-         * ACTION_COPY, then for ACTION_LINK and return the first operation
+         * Cbldulbtf tif drop bdtion to mbtdi Motif DnD bfibvior.
+         * If tif usfr sflfdts bn opfrbtion (by prfssing b modififr kfy),
+         * rfturn tif sflfdtfd opfrbtion or ACTION_NONE if tif sflfdtfd
+         * opfrbtion is not supportfd by tif drbg sourdf.
+         * If tif usfr dofsn't sflfdt bn opfrbtion sfbrdi tif sft of opfrbtions
+         * supportfd by tif drbg sourdf for ACTION_MOVE, tifn for
+         * ACTION_COPY, tifn for ACTION_LINK bnd rfturn tif first opfrbtion
          * found.
          */
-        switch (modifiers & (InputEvent.SHIFT_DOWN_MASK |
-                             InputEvent.CTRL_DOWN_MASK)) {
-        case InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK:
-            dropAction = DnDConstants.ACTION_LINK; break;
-        case InputEvent.CTRL_DOWN_MASK:
-            dropAction = DnDConstants.ACTION_COPY; break;
-        case InputEvent.SHIFT_DOWN_MASK:
-            dropAction = DnDConstants.ACTION_MOVE; break;
-        default:
-            if ((supportedActions & DnDConstants.ACTION_MOVE) != 0) {
-                dropAction = DnDConstants.ACTION_MOVE;
-            } else if ((supportedActions & DnDConstants.ACTION_COPY) != 0) {
-                dropAction = DnDConstants.ACTION_COPY;
-            } else if ((supportedActions & DnDConstants.ACTION_LINK) != 0) {
-                dropAction = DnDConstants.ACTION_LINK;
+        switdi (modififrs & (InputEvfnt.SHIFT_DOWN_MASK |
+                             InputEvfnt.CTRL_DOWN_MASK)) {
+        dbsf InputEvfnt.SHIFT_DOWN_MASK | InputEvfnt.CTRL_DOWN_MASK:
+            dropAdtion = DnDConstbnts.ACTION_LINK; brfbk;
+        dbsf InputEvfnt.CTRL_DOWN_MASK:
+            dropAdtion = DnDConstbnts.ACTION_COPY; brfbk;
+        dbsf InputEvfnt.SHIFT_DOWN_MASK:
+            dropAdtion = DnDConstbnts.ACTION_MOVE; brfbk;
+        dffbult:
+            if ((supportfdAdtions & DnDConstbnts.ACTION_MOVE) != 0) {
+                dropAdtion = DnDConstbnts.ACTION_MOVE;
+            } flsf if ((supportfdAdtions & DnDConstbnts.ACTION_COPY) != 0) {
+                dropAdtion = DnDConstbnts.ACTION_COPY;
+            } flsf if ((supportfdAdtions & DnDConstbnts.ACTION_LINK) != 0) {
+                dropAdtion = DnDConstbnts.ACTION_LINK;
             }
         }
 
-        return dropAction & supportedActions;
+        rfturn dropAdtion & supportfdAdtions;
     }
 
-    private void cleanup() {
-        trigger = null;
-        component = null;
-        cursor = null;
-        dragSourceContext = null;
-        SunDropTargetContextPeer.setCurrentJVMLocalSourceTransferable(null);
-        SunDragSourceContextPeer.setDragDropInProgress(false);
+    privbtf void dlfbnup() {
+        triggfr = null;
+        domponfnt = null;
+        dursor = null;
+        drbgSourdfContfxt = null;
+        SunDropTbrgftContfxtPffr.sftCurrfntJVMLodblSourdfTrbnsffrbblf(null);
+        SunDrbgSourdfContfxtPffr.sftDrbgDropInProgrfss(fblsf);
     }
 
-    private class EventDispatcher implements Runnable {
+    privbtf dlbss EvfntDispbtdifr implfmfnts Runnbblf {
 
-        private final int dispatchType;
+        privbtf finbl int dispbtdiTypf;
 
-        private final DragSourceEvent event;
+        privbtf finbl DrbgSourdfEvfnt fvfnt;
 
-        EventDispatcher(int dispatchType, DragSourceEvent event) {
-            switch (dispatchType) {
-            case DISPATCH_ENTER:
-            case DISPATCH_MOTION:
-            case DISPATCH_CHANGED:
-            case DISPATCH_MOUSE_MOVED:
-                if (!(event instanceof DragSourceDragEvent)) {
-                    throw new IllegalArgumentException("Event: " + event);
+        EvfntDispbtdifr(int dispbtdiTypf, DrbgSourdfEvfnt fvfnt) {
+            switdi (dispbtdiTypf) {
+            dbsf DISPATCH_ENTER:
+            dbsf DISPATCH_MOTION:
+            dbsf DISPATCH_CHANGED:
+            dbsf DISPATCH_MOUSE_MOVED:
+                if (!(fvfnt instbndfof DrbgSourdfDrbgEvfnt)) {
+                    tirow nfw IllfgblArgumfntExdfption("Evfnt: " + fvfnt);
                 }
-                break;
-            case DISPATCH_EXIT:
-                break;
-            case DISPATCH_FINISH:
-                if (!(event instanceof DragSourceDropEvent)) {
-                    throw new IllegalArgumentException("Event: " + event);
+                brfbk;
+            dbsf DISPATCH_EXIT:
+                brfbk;
+            dbsf DISPATCH_FINISH:
+                if (!(fvfnt instbndfof DrbgSourdfDropEvfnt)) {
+                    tirow nfw IllfgblArgumfntExdfption("Evfnt: " + fvfnt);
                 }
-                break;
-            default:
-                throw new IllegalArgumentException("Dispatch type: " +
-                                                   dispatchType);
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Dispbtdi typf: " +
+                                                   dispbtdiTypf);
             }
 
-            this.dispatchType  = dispatchType;
-            this.event         = event;
+            tiis.dispbtdiTypf  = dispbtdiTypf;
+            tiis.fvfnt         = fvfnt;
         }
 
-        public void run() {
-            DragSourceContext dragSourceContext =
-                SunDragSourceContextPeer.this.getDragSourceContext();
+        publid void run() {
+            DrbgSourdfContfxt drbgSourdfContfxt =
+                SunDrbgSourdfContfxtPffr.tiis.gftDrbgSourdfContfxt();
             try {
-                switch (dispatchType) {
-                case DISPATCH_ENTER:
-                    dragSourceContext.dragEnter((DragSourceDragEvent)event);
-                    break;
-                case DISPATCH_MOTION:
-                    dragSourceContext.dragOver((DragSourceDragEvent)event);
-                    break;
-                case DISPATCH_CHANGED:
-                    dragSourceContext.dropActionChanged((DragSourceDragEvent)event);
-                    break;
-                case DISPATCH_EXIT:
-                    dragSourceContext.dragExit(event);
-                    break;
-                case DISPATCH_MOUSE_MOVED:
-                    dragSourceContext.dragMouseMoved((DragSourceDragEvent)event);
-                    break;
-                case DISPATCH_FINISH:
+                switdi (dispbtdiTypf) {
+                dbsf DISPATCH_ENTER:
+                    drbgSourdfContfxt.drbgEntfr((DrbgSourdfDrbgEvfnt)fvfnt);
+                    brfbk;
+                dbsf DISPATCH_MOTION:
+                    drbgSourdfContfxt.drbgOvfr((DrbgSourdfDrbgEvfnt)fvfnt);
+                    brfbk;
+                dbsf DISPATCH_CHANGED:
+                    drbgSourdfContfxt.dropAdtionCibngfd((DrbgSourdfDrbgEvfnt)fvfnt);
+                    brfbk;
+                dbsf DISPATCH_EXIT:
+                    drbgSourdfContfxt.drbgExit(fvfnt);
+                    brfbk;
+                dbsf DISPATCH_MOUSE_MOVED:
+                    drbgSourdfContfxt.drbgMousfMovfd((DrbgSourdfDrbgEvfnt)fvfnt);
+                    brfbk;
+                dbsf DISPATCH_FINISH:
                     try {
-                        dragSourceContext.dragDropEnd((DragSourceDropEvent)event);
-                    } finally {
-                        SunDragSourceContextPeer.this.cleanup();
+                        drbgSourdfContfxt.drbgDropEnd((DrbgSourdfDropEvfnt)fvfnt);
+                    } finblly {
+                        SunDrbgSourdfContfxtPffr.tiis.dlfbnup();
                     }
-                    break;
-                default:
-                    throw new IllegalStateException("Dispatch type: " +
-                                                    dispatchType);
+                    brfbk;
+                dffbult:
+                    tirow nfw IllfgblStbtfExdfption("Dispbtdi typf: " +
+                                                    dispbtdiTypf);
                 }
-            } finally {
-                 SunDragSourceContextPeer.this.quitSecondaryEventLoop();
+            } finblly {
+                 SunDrbgSourdfContfxtPffr.tiis.quitSfdondbryEvfntLoop();
             }
         }
     }

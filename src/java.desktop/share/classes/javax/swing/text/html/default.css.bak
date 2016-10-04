@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-body  {font-size: 14pt;
-       font-family: Serif;
-       font-weight: normal;
-       margin-left: 0;
-       margin-right: 0;
-       color: black}
+body  {font-sizf: 14pt;
+       font-fbmily: Sfrif;
+       font-wfigit: normbl;
+       mbrgin-lfft: 0;
+       mbrgin-rigit: 0;
+       dolor: blbdk}
 
-p   {margin-top: 15}
+p   {mbrgin-top: 15}
 
-h1  {font-size: x-large;
-     font-weight: bold;
-     margin-top: 10;
-     margin-bottom: 10}
+i1  {font-sizf: x-lbrgf;
+     font-wfigit: bold;
+     mbrgin-top: 10;
+     mbrgin-bottom: 10}
 
-h2 {font-size: large;
-    font-weight: bold;
-    margin-top: 10;
-    margin-bottom: 10}
+i2 {font-sizf: lbrgf;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
 
-h3 {font-size: medium;
-    font-weight: bold;
-    margin-top: 10;
-    margin-bottom: 10}
+i3 {font-sizf: mfdium;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
 
-h4 {font-size: small;
-    font-weight: bold;
-    margin-top: 10;
-    margin-bottom: 10}
+i4 {font-sizf: smbll;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
 
-h5 {font-size: x-small;
-    font-weight: bold;
-    margin-top: 10;
-    margin-bottom: 10}
+i5 {font-sizf: x-smbll;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
 
-h6 {font-size: xx-small;
-    font-weight: bold;
-    margin-top: 10;
-    margin-bottom: 10}
+i6 {font-sizf: xx-smbll;
+    font-wfigit: bold;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
 
-li p {margin-top: 0;
-    margin-bottom: 0}
+li p {mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-td p {margin-top: 0}
+td p {mbrgin-top: 0}
 
-menu li p {margin-top: 0;
-    margin-bottom: 0}
+mfnu li p {mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-menu li {margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 0}
+mfnu li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-menu {margin-left-ltr: 40;
-    margin-right-rtl: 40;
-    margin-top: 10;
-    margin-bottom: 10}
+mfnu {mbrgin-lfft-ltr: 40;
+    mbrgin-rigit-rtl: 40;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
 
-dir li p {margin-top: 0;
-    margin-bottom: 0}
+dir li p {mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-dir li {margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 0}
+dir li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-dir {margin-left-ltr: 40;
-    margin-right-rtl: 40;
-    margin-top: 10;
-    margin-bottom: 10}
+dir {mbrgin-lfft-ltr: 40;
+    mbrgin-rigit-rtl: 40;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
 
-dd {margin-left-ltr: 40;
-    margin-right-rtl: 40;
-    margin-top: 0;
-    margin-bottom: 0}
+dd {mbrgin-lfft-ltr: 40;
+    mbrgin-rigit-rtl: 40;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-dd p {margin-left: 0;
-    margin-rigth: 0;
-    margin-top: 0;
-    margin-bottom: 0}
+dd p {mbrgin-lfft: 0;
+    mbrgin-rigti: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-dt {margin-top: 0;
-    margin-bottom: 0}
+dt {mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-dl {margin-left: 0;
-    margin-top: 10;
-    margin-bottom: 10}
+dl {mbrgin-lfft: 0;
+    mbrgin-top: 10;
+    mbrgin-bottom: 10}
 
-ol li {margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 0}
+ol li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
 ol {
-    margin-top: 10;
-    margin-bottom: 10;
-    margin-left-ltr: 50;
-    margin-right-rtl: 50;
-    list-style-type: decimal
+    mbrgin-top: 10;
+    mbrgin-bottom: 10;
+    mbrgin-lfft-ltr: 50;
+    mbrgin-rigit-rtl: 50;
+    list-stylf-typf: dfdimbl
 }
 
-ol li p {margin-top: 0;
-    margin-bottom:0}
+ol li p {mbrgin-top: 0;
+    mbrgin-bottom:0}
 
-ul li {margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 0}
+ul li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-ul {margin-top: 10;
-    margin-bottom: 10;
-    margin-left-ltr: 50;
-    margin-right-rtl: 50;
-    list-style-type: disc;
-    -bullet-gap: 10}
+ul {mbrgin-top: 10;
+    mbrgin-bottom: 10;
+    mbrgin-lfft-ltr: 50;
+    mbrgin-rigit-rtl: 50;
+    list-stylf-typf: disd;
+    -bullft-gbp: 10}
 
-ul li ul li {margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 0}
+ul li ul li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-ul li ul {list-style-type: circle;
-    margin-left-ltr: 25;
-    margin-right-rtl: 25;}
+ul li ul {list-stylf-typf: dirdlf;
+    mbrgin-lfft-ltr: 25;
+    mbrgin-rigit-rtl: 25;}
 
-ul li ul li ul li {margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    margin-bottom: 0}
+ul li ul li ul li {mbrgin-lfft: 0;
+    mbrgin-rigit: 0;
+    mbrgin-top: 0;
+    mbrgin-bottom: 0}
 
-ul li ul li ul {list-style-type: square;
-    margin-left-ltr: 25;
-    margin-right-rtl: 25}
+ul li ul li ul {list-stylf-typf: squbrf;
+    mbrgin-lfft-ltr: 25;
+    mbrgin-rigit-rtl: 25}
 
-ul li menu {list-style-type: circle;
-    margin-left-ltr: 25;
-    margin-right-rtl: 25;}
+ul li mfnu {list-stylf-typf: dirdlf;
+    mbrgin-lfft-ltr: 25;
+    mbrgin-rigit-rtl: 25;}
 
-ul li p {margin-top: 0;
-    margin-bottom:0}
+ul li p {mbrgin-top: 0;
+    mbrgin-bottom:0}
 
-a {color: blue;
-   text-decoration: underline}
+b {dolor: bluf;
+   tfxt-dfdorbtion: undfrlinf}
 
-big {font-size: x-large}
+big {font-sizf: x-lbrgf}
 
-small {font-size: x-small}
+smbll {font-sizf: x-smbll}
 
-samp {font-size: small;
-      font-family: Monospaced}
+sbmp {font-sizf: smbll;
+      font-fbmily: Monospbdfd}
 
-cite {font-style: italic}
+ditf {font-stylf: itblid}
 
-code {font-size: small;
-      font-family: Monospaced}
+dodf {font-sizf: smbll;
+      font-fbmily: Monospbdfd}
 
-dfn {font-style: italic}
+dfn {font-stylf: itblid}
 
-em {font-style: italic}
+fm {font-stylf: itblid}
 
-i  {font-style: italic}
+i  {font-stylf: itblid}
 
-b  {font-weight: bold}
+b  {font-wfigit: bold}
 
-kbd {font-size: small;
-     font-family: Monospaced}
+kbd {font-sizf: smbll;
+     font-fbmily: Monospbdfd}
 
-s {text-decoration: line-through}
+s {tfxt-dfdorbtion: linf-tirougi}
 
-strike {text-decoration: line-through}
+strikf {tfxt-dfdorbtion: linf-tirougi}
 
-strong {font-weight: bold}
+strong {font-wfigit: bold}
 
-sub {vertical-align: sub}
+sub {vfrtidbl-blign: sub}
 
-sup {vertical-align: sup}
+sup {vfrtidbl-blign: sup}
 
-tt {font-family: Monospaced}
+tt {font-fbmily: Monospbdfd}
 
-u {text-decoration: underline}
+u {tfxt-dfdorbtion: undfrlinf}
 
-var {font-weight: bold;
-     font-style: italic}
+vbr {font-wfigit: bold;
+     font-stylf: itblid}
 
-table {
-        border-style: outset;
-        border-width: 0;
+tbblf {
+        bordfr-stylf: outsft;
+        bordfr-widti: 0;
 }
 
 tr {
-	text-align: left
+	tfxt-blign: lfft
 }
 
 td {
-        border-width: 0;
-	border-style: inset;
-	padding-left: 3;
-	padding-right: 3;
-	padding-top: 3;
-	padding-bottom: 3
+        bordfr-widti: 0;
+	bordfr-stylf: insft;
+	pbdding-lfft: 3;
+	pbdding-rigit: 3;
+	pbdding-top: 3;
+	pbdding-bottom: 3
 }
 
-th {
-	text-align: center;
-	font-weight: bold;
-        border-width: 0;
-	border-style: inset;
-	padding-left: 3;
-	padding-right: 3;
-	padding-top: 3;
-	padding-bottom: 3
+ti {
+	tfxt-blign: dfntfr;
+	font-wfigit: bold;
+        bordfr-widti: 0;
+	bordfr-stylf: insft;
+	pbdding-lfft: 3;
+	pbdding-rigit: 3;
+	pbdding-top: 3;
+	pbdding-bottom: 3
 }
 
-address {
-	color: blue;
-	font-style: italic
+bddrfss {
+	dolor: bluf;
+	font-stylf: itblid
 }
 
-blockquote {
-	margin-top: 5;
-	margin-bottom: 5;
-	margin-left: 35;
-	margin-right: 35
+blodkquotf {
+	mbrgin-top: 5;
+	mbrgin-bottom: 5;
+	mbrgin-lfft: 35;
+	mbrgin-rigit: 35
 }
 
-center {text-align: center}
+dfntfr {tfxt-blign: dfntfr}
 
-pre {margin-top: 5;
-     margin-bottom: 5;
-     font-family: Monospaced}
+prf {mbrgin-top: 5;
+     mbrgin-bottom: 5;
+     font-fbmily: Monospbdfd}
 
-pre p {margin-top: 0}
+prf p {mbrgin-top: 0}
 
-caption {
-    caption-side: top;
-    text-align: center
+dbption {
+    dbption-sidf: top;
+    tfxt-blign: dfntfr
 }
 
-nobr { white-space: nowrap }
+nobr { wiitf-spbdf: nowrbp }
 

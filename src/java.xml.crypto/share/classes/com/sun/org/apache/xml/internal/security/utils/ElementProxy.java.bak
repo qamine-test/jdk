@@ -1,518 +1,518 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
 
-import java.math.BigInteger;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Map;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.Mbp;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.Tfxt;
 
 /**
- * This is the base class to all Objects which have a direct 1:1 mapping to an
- * Element in a particular namespace.
+ * Tiis is tif bbsf dlbss to bll Objfdts wiidi ibvf b dirfdt 1:1 mbpping to bn
+ * Elfmfnt in b pbrtidulbr nbmfspbdf.
  */
-public abstract class ElementProxy {
+publid bbstrbdt dlbss ElfmfntProxy {
 
-    protected static final java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ElementProxy.class.getName());
+    protfdtfd stbtid finbl jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(ElfmfntProxy.dlbss.gftNbmf());
 
-    /** Field constructionElement */
-    protected Element constructionElement = null;
+    /** Fifld donstrudtionElfmfnt */
+    protfdtfd Elfmfnt donstrudtionElfmfnt = null;
 
-    /** Field baseURI */
-    protected String baseURI = null;
+    /** Fifld bbsfURI */
+    protfdtfd String bbsfURI = null;
 
-    /** Field doc */
-    protected Document doc = null;
+    /** Fifld dod */
+    protfdtfd Dodumfnt dod = null;
 
-    /** Field prefixMappings */
-    private static Map<String, String> prefixMappings = new ConcurrentHashMap<String, String>();
+    /** Fifld prffixMbppings */
+    privbtf stbtid Mbp<String, String> prffixMbppings = nfw CondurrfntHbsiMbp<String, String>();
 
     /**
-     * Constructor ElementProxy
+     * Construdtor ElfmfntProxy
      *
      */
-    public ElementProxy() {
+    publid ElfmfntProxy() {
     }
 
     /**
-     * Constructor ElementProxy
+     * Construdtor ElfmfntProxy
      *
-     * @param doc
+     * @pbrbm dod
      */
-    public ElementProxy(Document doc) {
-        if (doc == null) {
-            throw new RuntimeException("Document is null");
+    publid ElfmfntProxy(Dodumfnt dod) {
+        if (dod == null) {
+            tirow nfw RuntimfExdfption("Dodumfnt is null");
         }
 
-        this.doc = doc;
-        this.constructionElement =
-            createElementForFamilyLocal(this.doc, this.getBaseNamespace(), this.getBaseLocalName());
+        tiis.dod = dod;
+        tiis.donstrudtionElfmfnt =
+            drfbtfElfmfntForFbmilyLodbl(tiis.dod, tiis.gftBbsfNbmfspbdf(), tiis.gftBbsfLodblNbmf());
     }
 
     /**
-     * Constructor ElementProxy
+     * Construdtor ElfmfntProxy
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public ElementProxy(Element element, String BaseURI) throws XMLSecurityException {
-        if (element == null) {
-            throw new XMLSecurityException("ElementProxy.nullElement");
+    publid ElfmfntProxy(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+        if (flfmfnt == null) {
+            tirow nfw XMLSfdurityExdfption("ElfmfntProxy.nullElfmfnt");
         }
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "setElement(\"" + element.getTagName() + "\", \"" + BaseURI + "\")");
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "sftElfmfnt(\"" + flfmfnt.gftTbgNbmf() + "\", \"" + BbsfURI + "\")");
         }
 
-        this.doc = element.getOwnerDocument();
-        this.constructionElement = element;
-        this.baseURI = BaseURI;
+        tiis.dod = flfmfnt.gftOwnfrDodumfnt();
+        tiis.donstrudtionElfmfnt = flfmfnt;
+        tiis.bbsfURI = BbsfURI;
 
-        this.guaranteeThatElementInCorrectSpace();
+        tiis.gubrbntffTibtElfmfntInCorrfdtSpbdf();
     }
 
     /**
-     * Returns the namespace of the Elements of the sub-class.
+     * Rfturns tif nbmfspbdf of tif Elfmfnts of tif sub-dlbss.
      *
-     * @return the namespace of the Elements of the sub-class.
+     * @rfturn tif nbmfspbdf of tif Elfmfnts of tif sub-dlbss.
      */
-    public abstract String getBaseNamespace();
+    publid bbstrbdt String gftBbsfNbmfspbdf();
 
     /**
-     * Returns the localname of the Elements of the sub-class.
+     * Rfturns tif lodblnbmf of tif Elfmfnts of tif sub-dlbss.
      *
-     * @return the localname of the Elements of the sub-class.
+     * @rfturn tif lodblnbmf of tif Elfmfnts of tif sub-dlbss.
      */
-    public abstract String getBaseLocalName();
+    publid bbstrbdt String gftBbsfLodblNbmf();
 
 
-    protected Element createElementForFamilyLocal(
-        Document doc, String namespace, String localName
+    protfdtfd Elfmfnt drfbtfElfmfntForFbmilyLodbl(
+        Dodumfnt dod, String nbmfspbdf, String lodblNbmf
     ) {
-        Element result = null;
-        if (namespace == null) {
-            result = doc.createElementNS(null, localName);
-        } else {
-            String baseName = this.getBaseNamespace();
-            String prefix = ElementProxy.getDefaultPrefix(baseName);
-            if ((prefix == null) || (prefix.length() == 0)) {
-                result = doc.createElementNS(namespace, localName);
-                result.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", namespace);
-            } else {
-                result = doc.createElementNS(namespace, prefix + ":" + localName);
-                result.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:" + prefix, namespace);
+        Elfmfnt rfsult = null;
+        if (nbmfspbdf == null) {
+            rfsult = dod.drfbtfElfmfntNS(null, lodblNbmf);
+        } flsf {
+            String bbsfNbmf = tiis.gftBbsfNbmfspbdf();
+            String prffix = ElfmfntProxy.gftDffbultPrffix(bbsfNbmf);
+            if ((prffix == null) || (prffix.lfngti() == 0)) {
+                rfsult = dod.drfbtfElfmfntNS(nbmfspbdf, lodblNbmf);
+                rfsult.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, "xmlns", nbmfspbdf);
+            } flsf {
+                rfsult = dod.drfbtfElfmfntNS(nbmfspbdf, prffix + ":" + lodblNbmf);
+                rfsult.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, "xmlns:" + prffix, nbmfspbdf);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
 
     /**
-     * This method creates an Element in a given namespace with a given localname.
-     * It uses the {@link ElementProxy#getDefaultPrefix} method to decide whether
-     * a particular prefix is bound to that namespace.
+     * Tiis mftiod drfbtfs bn Elfmfnt in b givfn nbmfspbdf witi b givfn lodblnbmf.
+     * It usfs tif {@link ElfmfntProxy#gftDffbultPrffix} mftiod to dfdidf wiftifr
+     * b pbrtidulbr prffix is bound to tibt nbmfspbdf.
      * <BR />
-     * This method was refactored out of the constructor.
+     * Tiis mftiod wbs rffbdtorfd out of tif donstrudtor.
      *
-     * @param doc
-     * @param namespace
-     * @param localName
-     * @return The element created.
+     * @pbrbm dod
+     * @pbrbm nbmfspbdf
+     * @pbrbm lodblNbmf
+     * @rfturn Tif flfmfnt drfbtfd.
      */
-    public static Element createElementForFamily(Document doc, String namespace, String localName) {
-        Element result = null;
-        String prefix = ElementProxy.getDefaultPrefix(namespace);
+    publid stbtid Elfmfnt drfbtfElfmfntForFbmily(Dodumfnt dod, String nbmfspbdf, String lodblNbmf) {
+        Elfmfnt rfsult = null;
+        String prffix = ElfmfntProxy.gftDffbultPrffix(nbmfspbdf);
 
-        if (namespace == null) {
-            result = doc.createElementNS(null, localName);
-        } else {
-            if ((prefix == null) || (prefix.length() == 0)) {
-                result = doc.createElementNS(namespace, localName);
-                result.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", namespace);
-            } else {
-                result = doc.createElementNS(namespace, prefix + ":" + localName);
-                result.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:" + prefix, namespace);
+        if (nbmfspbdf == null) {
+            rfsult = dod.drfbtfElfmfntNS(null, lodblNbmf);
+        } flsf {
+            if ((prffix == null) || (prffix.lfngti() == 0)) {
+                rfsult = dod.drfbtfElfmfntNS(nbmfspbdf, lodblNbmf);
+                rfsult.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, "xmlns", nbmfspbdf);
+            } flsf {
+                rfsult = dod.drfbtfElfmfntNS(nbmfspbdf, prffix + ":" + lodblNbmf);
+                rfsult.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, "xmlns:" + prffix, nbmfspbdf);
             }
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Method setElement
+     * Mftiod sftElfmfnt
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public void setElement(Element element, String BaseURI) throws XMLSecurityException {
-        if (element == null) {
-            throw new XMLSecurityException("ElementProxy.nullElement");
+    publid void sftElfmfnt(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+        if (flfmfnt == null) {
+            tirow nfw XMLSfdurityExdfption("ElfmfntProxy.nullElfmfnt");
         }
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "setElement(" + element.getTagName() + ", \"" + BaseURI + "\"");
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "sftElfmfnt(" + flfmfnt.gftTbgNbmf() + ", \"" + BbsfURI + "\"");
         }
 
-        this.doc = element.getOwnerDocument();
-        this.constructionElement = element;
-        this.baseURI = BaseURI;
+        tiis.dod = flfmfnt.gftOwnfrDodumfnt();
+        tiis.donstrudtionElfmfnt = flfmfnt;
+        tiis.bbsfURI = BbsfURI;
     }
 
 
     /**
-     * Returns the Element which was constructed by the Object.
+     * Rfturns tif Elfmfnt wiidi wbs donstrudtfd by tif Objfdt.
      *
-     * @return the Element which was constructed by the Object.
+     * @rfturn tif Elfmfnt wiidi wbs donstrudtfd by tif Objfdt.
      */
-    public final Element getElement() {
-        return this.constructionElement;
+    publid finbl Elfmfnt gftElfmfnt() {
+        rfturn tiis.donstrudtionElfmfnt;
     }
 
     /**
-     * Returns the Element plus a leading and a trailing CarriageReturn Text node.
+     * Rfturns tif Elfmfnt plus b lfbding bnd b trbiling CbrribgfRfturn Tfxt nodf.
      *
-     * @return the Element which was constructed by the Object.
+     * @rfturn tif Elfmfnt wiidi wbs donstrudtfd by tif Objfdt.
      */
-    public final NodeList getElementPlusReturns() {
+    publid finbl NodfList gftElfmfntPlusRfturns() {
 
-        HelperNodeList nl = new HelperNodeList();
+        HflpfrNodfList nl = nfw HflpfrNodfList();
 
-        nl.appendChild(this.doc.createTextNode("\n"));
-        nl.appendChild(this.getElement());
-        nl.appendChild(this.doc.createTextNode("\n"));
+        nl.bppfndCiild(tiis.dod.drfbtfTfxtNodf("\n"));
+        nl.bppfndCiild(tiis.gftElfmfnt());
+        nl.bppfndCiild(tiis.dod.drfbtfTfxtNodf("\n"));
 
-        return nl;
+        rfturn nl;
     }
 
     /**
-     * Method getDocument
+     * Mftiod gftDodumfnt
      *
-     * @return the Document where this element is contained.
+     * @rfturn tif Dodumfnt wifrf tiis flfmfnt is dontbinfd.
      */
-    public Document getDocument() {
-        return this.doc;
+    publid Dodumfnt gftDodumfnt() {
+        rfturn tiis.dod;
     }
 
     /**
-     * Method getBaseURI
+     * Mftiod gftBbsfURI
      *
-     * @return the base uri of the namespace of this element
+     * @rfturn tif bbsf uri of tif nbmfspbdf of tiis flfmfnt
      */
-    public String getBaseURI() {
-        return this.baseURI;
+    publid String gftBbsfURI() {
+        rfturn tiis.bbsfURI;
     }
 
     /**
-     * Method guaranteeThatElementInCorrectSpace
+     * Mftiod gubrbntffTibtElfmfntInCorrfdtSpbdf
      *
-     * @throws XMLSecurityException
+     * @tirows XMLSfdurityExdfption
      */
-    void guaranteeThatElementInCorrectSpace() throws XMLSecurityException {
+    void gubrbntffTibtElfmfntInCorrfdtSpbdf() tirows XMLSfdurityExdfption {
 
-        String expectedLocalName = this.getBaseLocalName();
-        String expectedNamespaceUri = this.getBaseNamespace();
+        String fxpfdtfdLodblNbmf = tiis.gftBbsfLodblNbmf();
+        String fxpfdtfdNbmfspbdfUri = tiis.gftBbsfNbmfspbdf();
 
-        String actualLocalName = this.constructionElement.getLocalName();
-        String actualNamespaceUri = this.constructionElement.getNamespaceURI();
+        String bdtublLodblNbmf = tiis.donstrudtionElfmfnt.gftLodblNbmf();
+        String bdtublNbmfspbdfUri = tiis.donstrudtionElfmfnt.gftNbmfspbdfURI();
 
-        if(!expectedNamespaceUri.equals(actualNamespaceUri)
-            && !expectedLocalName.equals(actualLocalName)) {
-            Object exArgs[] = { actualNamespaceUri + ":" + actualLocalName,
-                                expectedNamespaceUri + ":" + expectedLocalName};
-            throw new XMLSecurityException("xml.WrongElement", exArgs);
+        if(!fxpfdtfdNbmfspbdfUri.fqubls(bdtublNbmfspbdfUri)
+            && !fxpfdtfdLodblNbmf.fqubls(bdtublLodblNbmf)) {
+            Objfdt fxArgs[] = { bdtublNbmfspbdfUri + ":" + bdtublLodblNbmf,
+                                fxpfdtfdNbmfspbdfUri + ":" + fxpfdtfdLodblNbmf};
+            tirow nfw XMLSfdurityExdfption("xml.WrongElfmfnt", fxArgs);
         }
     }
 
     /**
-     * Method addBigIntegerElement
+     * Mftiod bddBigIntfgfrElfmfnt
      *
-     * @param bi
-     * @param localname
+     * @pbrbm bi
+     * @pbrbm lodblnbmf
      */
-    public void addBigIntegerElement(BigInteger bi, String localname) {
+    publid void bddBigIntfgfrElfmfnt(BigIntfgfr bi, String lodblnbmf) {
         if (bi != null) {
-            Element e = XMLUtils.createElementInSignatureSpace(this.doc, localname);
+            Elfmfnt f = XMLUtils.drfbtfElfmfntInSignbturfSpbdf(tiis.dod, lodblnbmf);
 
-            Base64.fillElementWithBigInteger(e, bi);
-            this.constructionElement.appendChild(e);
-            XMLUtils.addReturnToElement(this.constructionElement);
+            Bbsf64.fillElfmfntWitiBigIntfgfr(f, bi);
+            tiis.donstrudtionElfmfnt.bppfndCiild(f);
+            XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
         }
     }
 
     /**
-     * Method addBase64Element
+     * Mftiod bddBbsf64Elfmfnt
      *
-     * @param bytes
-     * @param localname
+     * @pbrbm bytfs
+     * @pbrbm lodblnbmf
      */
-    public void addBase64Element(byte[] bytes, String localname) {
-        if (bytes != null) {
-            Element e = Base64.encodeToElement(this.doc, localname, bytes);
+    publid void bddBbsf64Elfmfnt(bytf[] bytfs, String lodblnbmf) {
+        if (bytfs != null) {
+            Elfmfnt f = Bbsf64.fndodfToElfmfnt(tiis.dod, lodblnbmf, bytfs);
 
-            this.constructionElement.appendChild(e);
-            if (!XMLUtils.ignoreLineBreaks()) {
-                this.constructionElement.appendChild(this.doc.createTextNode("\n"));
+            tiis.donstrudtionElfmfnt.bppfndCiild(f);
+            if (!XMLUtils.ignorfLinfBrfbks()) {
+                tiis.donstrudtionElfmfnt.bppfndCiild(tiis.dod.drfbtfTfxtNodf("\n"));
             }
         }
     }
 
     /**
-     * Method addTextElement
+     * Mftiod bddTfxtElfmfnt
      *
-     * @param text
-     * @param localname
+     * @pbrbm tfxt
+     * @pbrbm lodblnbmf
      */
-    public void addTextElement(String text, String localname) {
-        Element e = XMLUtils.createElementInSignatureSpace(this.doc, localname);
-        Text t = this.doc.createTextNode(text);
+    publid void bddTfxtElfmfnt(String tfxt, String lodblnbmf) {
+        Elfmfnt f = XMLUtils.drfbtfElfmfntInSignbturfSpbdf(tiis.dod, lodblnbmf);
+        Tfxt t = tiis.dod.drfbtfTfxtNodf(tfxt);
 
-        e.appendChild(t);
-        this.constructionElement.appendChild(e);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        f.bppfndCiild(t);
+        tiis.donstrudtionElfmfnt.bppfndCiild(f);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method addBase64Text
+     * Mftiod bddBbsf64Tfxt
      *
-     * @param bytes
+     * @pbrbm bytfs
      */
-    public void addBase64Text(byte[] bytes) {
-        if (bytes != null) {
-            Text t = XMLUtils.ignoreLineBreaks()
-                ? this.doc.createTextNode(Base64.encode(bytes))
-                : this.doc.createTextNode("\n" + Base64.encode(bytes) + "\n");
-            this.constructionElement.appendChild(t);
+    publid void bddBbsf64Tfxt(bytf[] bytfs) {
+        if (bytfs != null) {
+            Tfxt t = XMLUtils.ignorfLinfBrfbks()
+                ? tiis.dod.drfbtfTfxtNodf(Bbsf64.fndodf(bytfs))
+                : tiis.dod.drfbtfTfxtNodf("\n" + Bbsf64.fndodf(bytfs) + "\n");
+            tiis.donstrudtionElfmfnt.bppfndCiild(t);
         }
     }
 
     /**
-     * Method addText
+     * Mftiod bddTfxt
      *
-     * @param text
+     * @pbrbm tfxt
      */
-    public void addText(String text) {
-        if (text != null) {
-            Text t = this.doc.createTextNode(text);
+    publid void bddTfxt(String tfxt) {
+        if (tfxt != null) {
+            Tfxt t = tiis.dod.drfbtfTfxtNodf(tfxt);
 
-            this.constructionElement.appendChild(t);
+            tiis.donstrudtionElfmfnt.bppfndCiild(t);
         }
     }
 
     /**
-     * Method getVal
+     * Mftiod gftVbl
      *
-     * @param localname
-     * @param namespace
-     * @return The biginteger contained in the given element
-     * @throws Base64DecodingException
+     * @pbrbm lodblnbmf
+     * @pbrbm nbmfspbdf
+     * @rfturn Tif bigintfgfr dontbinfd in tif givfn flfmfnt
+     * @tirows Bbsf64DfdodingExdfption
      */
-    public BigInteger getBigIntegerFromChildElement(
-        String localname, String namespace
-    ) throws Base64DecodingException {
-        return Base64.decodeBigIntegerFromText(
-            XMLUtils.selectNodeText(
-                this.constructionElement.getFirstChild(), namespace, localname, 0
+    publid BigIntfgfr gftBigIntfgfrFromCiildElfmfnt(
+        String lodblnbmf, String nbmfspbdf
+    ) tirows Bbsf64DfdodingExdfption {
+        rfturn Bbsf64.dfdodfBigIntfgfrFromTfxt(
+            XMLUtils.sflfdtNodfTfxt(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), nbmfspbdf, lodblnbmf, 0
             )
         );
     }
 
     /**
-     * Method getBytesFromChildElement
-     * @deprecated
-     * @param localname
-     * @param namespace
-     * @return the bytes
-     * @throws XMLSecurityException
+     * Mftiod gftBytfsFromCiildElfmfnt
+     * @dfprfdbtfd
+     * @pbrbm lodblnbmf
+     * @pbrbm nbmfspbdf
+     * @rfturn tif bytfs
+     * @tirows XMLSfdurityExdfption
      */
-    @Deprecated
-    public byte[] getBytesFromChildElement(String localname, String namespace)
-        throws XMLSecurityException {
-        Element e =
-            XMLUtils.selectNode(
-                this.constructionElement.getFirstChild(), namespace, localname, 0
+    @Dfprfdbtfd
+    publid bytf[] gftBytfsFromCiildElfmfnt(String lodblnbmf, String nbmfspbdf)
+        tirows XMLSfdurityExdfption {
+        Elfmfnt f =
+            XMLUtils.sflfdtNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), nbmfspbdf, lodblnbmf, 0
             );
 
-        return Base64.decode(e);
+        rfturn Bbsf64.dfdodf(f);
     }
 
     /**
-     * Method getTextFromChildElement
+     * Mftiod gftTfxtFromCiildElfmfnt
      *
-     * @param localname
-     * @param namespace
-     * @return the Text of the textNode
+     * @pbrbm lodblnbmf
+     * @pbrbm nbmfspbdf
+     * @rfturn tif Tfxt of tif tfxtNodf
      */
-    public String getTextFromChildElement(String localname, String namespace) {
-        return XMLUtils.selectNode(
-                this.constructionElement.getFirstChild(),
-                namespace,
-                localname,
-                0).getTextContent();
+    publid String gftTfxtFromCiildElfmfnt(String lodblnbmf, String nbmfspbdf) {
+        rfturn XMLUtils.sflfdtNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(),
+                nbmfspbdf,
+                lodblnbmf,
+                0).gftTfxtContfnt();
     }
 
     /**
-     * Method getBytesFromTextChild
+     * Mftiod gftBytfsFromTfxtCiild
      *
-     * @return The base64 bytes from the text children of this element
-     * @throws XMLSecurityException
+     * @rfturn Tif bbsf64 bytfs from tif tfxt diildrfn of tiis flfmfnt
+     * @tirows XMLSfdurityExdfption
      */
-    public byte[] getBytesFromTextChild() throws XMLSecurityException {
-        return Base64.decode(XMLUtils.getFullTextChildrenFromElement(this.constructionElement));
+    publid bytf[] gftBytfsFromTfxtCiild() tirows XMLSfdurityExdfption {
+        rfturn Bbsf64.dfdodf(XMLUtils.gftFullTfxtCiildrfnFromElfmfnt(tiis.donstrudtionElfmfnt));
     }
 
     /**
-     * Method getTextFromTextChild
+     * Mftiod gftTfxtFromTfxtCiild
      *
-     * @return the Text obtained by concatenating all the text nodes of this
-     *    element
+     * @rfturn tif Tfxt obtbinfd by dondbtfnbting bll tif tfxt nodfs of tiis
+     *    flfmfnt
      */
-    public String getTextFromTextChild() {
-        return XMLUtils.getFullTextChildrenFromElement(this.constructionElement);
+    publid String gftTfxtFromTfxtCiild() {
+        rfturn XMLUtils.gftFullTfxtCiildrfnFromElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method length
+     * Mftiod lfngti
      *
-     * @param namespace
-     * @param localname
-     * @return the number of elements {namespace}:localname under this element
+     * @pbrbm nbmfspbdf
+     * @pbrbm lodblnbmf
+     * @rfturn tif numbfr of flfmfnts {nbmfspbdf}:lodblnbmf undfr tiis flfmfnt
      */
-    public int length(String namespace, String localname) {
-        int number = 0;
-        Node sibling = this.constructionElement.getFirstChild();
-        while (sibling != null) {
-            if (localname.equals(sibling.getLocalName())
-                && namespace.equals(sibling.getNamespaceURI())) {
-                number++;
+    publid int lfngti(String nbmfspbdf, String lodblnbmf) {
+        int numbfr = 0;
+        Nodf sibling = tiis.donstrudtionElfmfnt.gftFirstCiild();
+        wiilf (sibling != null) {
+            if (lodblnbmf.fqubls(sibling.gftLodblNbmf())
+                && nbmfspbdf.fqubls(sibling.gftNbmfspbdfURI())) {
+                numbfr++;
             }
-            sibling = sibling.getNextSibling();
+            sibling = sibling.gftNfxtSibling();
         }
-        return number;
+        rfturn numbfr;
     }
 
     /**
-     * Adds an xmlns: definition to the Element. This can be called as follows:
+     * Adds bn xmlns: dffinition to tif Elfmfnt. Tiis dbn bf dbllfd bs follows:
      *
      * <PRE>
-     * // set namespace with ds prefix
-     * xpathContainer.setXPathNamespaceContext("ds", "http://www.w3.org/2000/09/xmldsig#");
-     * xpathContainer.setXPathNamespaceContext("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
+     * // sft nbmfspbdf witi ds prffix
+     * xpbtiContbinfr.sftXPbtiNbmfspbdfContfxt("ds", "ittp://www.w3.org/2000/09/xmldsig#");
+     * xpbtiContbinfr.sftXPbtiNbmfspbdfContfxt("xmlns:ds", "ittp://www.w3.org/2000/09/xmldsig#");
      * </PRE>
      *
-     * @param prefix
-     * @param uri
-     * @throws XMLSecurityException
+     * @pbrbm prffix
+     * @pbrbm uri
+     * @tirows XMLSfdurityExdfption
      */
-    public void setXPathNamespaceContext(String prefix, String uri)
-        throws XMLSecurityException {
+    publid void sftXPbtiNbmfspbdfContfxt(String prffix, String uri)
+        tirows XMLSfdurityExdfption {
         String ns;
 
-        if ((prefix == null) || (prefix.length() == 0)) {
-            throw new XMLSecurityException("defaultNamespaceCannotBeSetHere");
-        } else if (prefix.equals("xmlns")) {
-            throw new XMLSecurityException("defaultNamespaceCannotBeSetHere");
-        } else if (prefix.startsWith("xmlns:")) {
-            ns = prefix;//"xmlns:" + prefix.substring("xmlns:".length());
-        } else {
-            ns = "xmlns:" + prefix;
+        if ((prffix == null) || (prffix.lfngti() == 0)) {
+            tirow nfw XMLSfdurityExdfption("dffbultNbmfspbdfCbnnotBfSftHfrf");
+        } flsf if (prffix.fqubls("xmlns")) {
+            tirow nfw XMLSfdurityExdfption("dffbultNbmfspbdfCbnnotBfSftHfrf");
+        } flsf if (prffix.stbrtsWiti("xmlns:")) {
+            ns = prffix;//"xmlns:" + prffix.substring("xmlns:".lfngti());
+        } flsf {
+            ns = "xmlns:" + prffix;
         }
 
-        Attr a = this.constructionElement.getAttributeNodeNS(Constants.NamespaceSpecNS, ns);
+        Attr b = tiis.donstrudtionElfmfnt.gftAttributfNodfNS(Constbnts.NbmfspbdfSpfdNS, ns);
 
-        if (a != null) {
-            if (!a.getNodeValue().equals(uri)) {
-                Object exArgs[] = { ns, this.constructionElement.getAttributeNS(null, ns) };
+        if (b != null) {
+            if (!b.gftNodfVbluf().fqubls(uri)) {
+                Objfdt fxArgs[] = { ns, tiis.donstrudtionElfmfnt.gftAttributfNS(null, ns) };
 
-                throw new XMLSecurityException("namespacePrefixAlreadyUsedByOtherURI", exArgs);
+                tirow nfw XMLSfdurityExdfption("nbmfspbdfPrffixAlrfbdyUsfdByOtifrURI", fxArgs);
             }
-            return;
+            rfturn;
         }
 
-        this.constructionElement.setAttributeNS(Constants.NamespaceSpecNS, ns, uri);
+        tiis.donstrudtionElfmfnt.sftAttributfNS(Constbnts.NbmfspbdfSpfdNS, ns, uri);
     }
 
     /**
-     * Method setDefaultPrefix
+     * Mftiod sftDffbultPrffix
      *
-     * @param namespace
-     * @param prefix
-     * @throws XMLSecurityException
+     * @pbrbm nbmfspbdf
+     * @pbrbm prffix
+     * @tirows XMLSfdurityExdfption
      */
-    public static void setDefaultPrefix(String namespace, String prefix)
-        throws XMLSecurityException {
-        if (prefixMappings.containsValue(prefix)) {
-            String storedPrefix = prefixMappings.get(namespace);
-            if (!storedPrefix.equals(prefix)) {
-                Object exArgs[] = { prefix, namespace, storedPrefix };
+    publid stbtid void sftDffbultPrffix(String nbmfspbdf, String prffix)
+        tirows XMLSfdurityExdfption {
+        if (prffixMbppings.dontbinsVbluf(prffix)) {
+            String storfdPrffix = prffixMbppings.gft(nbmfspbdf);
+            if (!storfdPrffix.fqubls(prffix)) {
+                Objfdt fxArgs[] = { prffix, nbmfspbdf, storfdPrffix };
 
-                throw new XMLSecurityException("prefix.AlreadyAssigned", exArgs);
+                tirow nfw XMLSfdurityExdfption("prffix.AlrfbdyAssignfd", fxArgs);
             }
         }
 
-        if (Constants.SignatureSpecNS.equals(namespace)) {
-            XMLUtils.setDsPrefix(prefix);
+        if (Constbnts.SignbturfSpfdNS.fqubls(nbmfspbdf)) {
+            XMLUtils.sftDsPrffix(prffix);
         }
-        if (EncryptionConstants.EncryptionSpecNS.equals(namespace)) {
-            XMLUtils.setXencPrefix(prefix);
+        if (EndryptionConstbnts.EndryptionSpfdNS.fqubls(nbmfspbdf)) {
+            XMLUtils.sftXfndPrffix(prffix);
         }
-        prefixMappings.put(namespace, prefix);
+        prffixMbppings.put(nbmfspbdf, prffix);
     }
 
     /**
-     * This method registers the default prefixes.
+     * Tiis mftiod rfgistfrs tif dffbult prffixfs.
      */
-    public static void registerDefaultPrefixes() throws XMLSecurityException {
-        setDefaultPrefix("http://www.w3.org/2000/09/xmldsig#", "ds");
-        setDefaultPrefix("http://www.w3.org/2001/04/xmlenc#", "xenc");
-        setDefaultPrefix("http://www.w3.org/2009/xmlenc11#", "xenc11");
-        setDefaultPrefix("http://www.xmlsecurity.org/experimental#", "experimental");
-        setDefaultPrefix("http://www.w3.org/2002/04/xmldsig-filter2", "dsig-xpath-old");
-        setDefaultPrefix("http://www.w3.org/2002/06/xmldsig-filter2", "dsig-xpath");
-        setDefaultPrefix("http://www.w3.org/2001/10/xml-exc-c14n#", "ec");
-        setDefaultPrefix(
-            "http://www.nue.et-inf.uni-siegen.de/~geuer-pollmann/#xpathFilter", "xx"
+    publid stbtid void rfgistfrDffbultPrffixfs() tirows XMLSfdurityExdfption {
+        sftDffbultPrffix("ittp://www.w3.org/2000/09/xmldsig#", "ds");
+        sftDffbultPrffix("ittp://www.w3.org/2001/04/xmlfnd#", "xfnd");
+        sftDffbultPrffix("ittp://www.w3.org/2009/xmlfnd11#", "xfnd11");
+        sftDffbultPrffix("ittp://www.xmlsfdurity.org/fxpfrimfntbl#", "fxpfrimfntbl");
+        sftDffbultPrffix("ittp://www.w3.org/2002/04/xmldsig-filtfr2", "dsig-xpbti-old");
+        sftDffbultPrffix("ittp://www.w3.org/2002/06/xmldsig-filtfr2", "dsig-xpbti");
+        sftDffbultPrffix("ittp://www.w3.org/2001/10/xml-fxd-d14n#", "fd");
+        sftDffbultPrffix(
+            "ittp://www.nuf.ft-inf.uni-sifgfn.df/~gfufr-pollmbnn/#xpbtiFiltfr", "xx"
         );
     }
 
     /**
-     * Method getDefaultPrefix
+     * Mftiod gftDffbultPrffix
      *
-     * @param namespace
-     * @return the default prefix bind to this element.
+     * @pbrbm nbmfspbdf
+     * @rfturn tif dffbult prffix bind to tiis flfmfnt.
      */
-    public static String getDefaultPrefix(String namespace) {
-        return prefixMappings.get(namespace);
+    publid stbtid String gftDffbultPrffix(String nbmfspbdf) {
+        rfturn prffixMbppings.gft(nbmfspbdf);
     }
 
 }

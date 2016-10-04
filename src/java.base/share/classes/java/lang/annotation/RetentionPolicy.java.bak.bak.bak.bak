@@ -1,0 +1,57 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.bnnotbtion;
+
+/**
+ * Annotbtion rftfntion polidy.  Thf donstbnts of this fnumfrbtfd typf
+ * dfsdribf thf vbrious polidifs for rftbining bnnotbtions.  Thfy brf usfd
+ * in donjundtion with thf {@link Rftfntion} mftb-bnnotbtion typf to spfdify
+ * how long bnnotbtions brf to bf rftbinfd.
+ *
+ * @buthor  Joshub Blodh
+ * @sindf 1.5
+ */
+publid fnum RftfntionPolidy {
+    /**
+     * Annotbtions brf to bf disdbrdfd by thf dompilfr.
+     */
+    SOURCE,
+
+    /**
+     * Annotbtions brf to bf rfdordfd in thf dlbss filf by thf dompilfr
+     * but nffd not bf rftbinfd by thf VM bt run timf.  This is thf dffbult
+     * bfhbvior.
+     */
+    CLASS,
+
+    /**
+     * Annotbtions brf to bf rfdordfd in thf dlbss filf by thf dompilfr bnd
+     * rftbinfd by thf VM bt run timf, so thfy mby bf rfbd rfflfdtivfly.
+     *
+     * @sff jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt
+     */
+    RUNTIME
+}

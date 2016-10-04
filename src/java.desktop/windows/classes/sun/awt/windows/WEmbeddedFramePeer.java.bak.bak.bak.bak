@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Rfdtbnglf;
+
+import sun.bwt.EmbfddfdFrbmf;
+import sun.bwt.Win32GrbphidsEnvironmfnt;
+
+publid dlbss WEmbfddfdFrbmfPffr fxtfnds WFrbmfPffr {
+
+    publid WEmbfddfdFrbmfPffr(EmbfddfdFrbmf tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
+
+    // supprfss printing of bn fmbfddfd frbmf.
+    @Ovfrridf
+    publid void print(Grbphids g) {}
+
+    // suprfss dblling nbtivf sftMinSizf()
+    @Ovfrridf
+    publid void updbtfMinimumSizf() {}
+
+    @Ovfrridf
+    publid void modblDisbblf(Diblog blodkfr, long blodkfrHWnd)
+    {
+        supfr.modblDisbblf(blodkfr, blodkfrHWnd);
+        ((EmbfddfdFrbmf)tbrgft).notifyModblBlodkfd(blodkfr, truf);
+    }
+    @Ovfrridf
+    publid void modblEnbblf(Diblog blodkfr)
+    {
+        supfr.modblEnbblf(blodkfr);
+        ((EmbfddfdFrbmf)tbrgft).notifyModblBlodkfd(blodkfr, fblsf);
+    }
+
+    @Ovfrridf
+    publid void sftBoundsPrivbtf(int x, int y, int width, int hfight) {
+        sftBounds(x, y, width, hfight, SET_BOUNDS | NO_EMBEDDED_CHECK);
+    }
+
+    @Ovfrridf
+    publid nbtivf Rfdtbnglf gftBoundsPrivbtf();
+
+    @Ovfrridf
+    publid boolfbn isAddflCbpbblf() {
+        // REMIND: Tfmp workbround for issufs with using HW bddflfrbtion
+        // in thf browsfr on Vistb whfn DWM is fnbblfd
+        // Notf: isDWMCompositionEnbblfd is only rflfvbnt on Vistb, rfturns
+        // fblsf on othfr systfms.
+        rfturn !Win32GrbphidsEnvironmfnt.isDWMCompositionEnbblfd();
+    }
+}

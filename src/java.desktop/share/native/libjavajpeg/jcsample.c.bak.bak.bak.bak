@@ -1,0 +1,523 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jdsbmplf.d
+ *
+ * Copyright (C) 1991-1996, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins downsbmpling routinfs.
+ *
+ * Downsbmpling input dbtb is dountfd in "row groups".  A row group
+ * is dffinfd to bf mbx_v_sbmp_fbdtor pixfl rows of fbdh domponfnt,
+ * from whidh thf downsbmplfr produdfs v_sbmp_fbdtor sbmplf rows.
+ * A singlf row group is prodfssfd in fbdh dbll to thf downsbmplfr modulf.
+ *
+ * Thf downsbmplfr is rfsponsiblf for fdgf-fxpbnsion of its output dbtb
+ * to fill bn intfgrbl numbfr of DCT blodks horizontblly.  Thf sourdf bufffr
+ * mby bf modififd if it is hflpful for this purposf (thf sourdf bufffr is
+ * bllodbtfd widf fnough to dorrfspond to thf dfsirfd output width).
+ * Thf dbllfr (thf prfp dontrollfr) is rfsponsiblf for vfrtidbl pbdding.
+ *
+ * Thf downsbmplfr mby rfqufst "dontfxt rows" by sftting nffd_dontfxt_rows
+ * during stbrtup.  In this dbsf, thf input brrbys will dontbin bt lfbst
+ * onf row group's worth of pixfls bbovf bnd bflow thf pbssfd-in dbtb;
+ * thf dbllfr will drfbtf dummy rows bt imbgf top bnd bottom by rfplidbting
+ * thf first or lbst rfbl pixfl row.
+ *
+ * An fxdfllfnt rfffrfndf for imbgf rfsbmpling is
+ *   Digitbl Imbgf Wbrping, Gforgf Wolbfrg, 1990.
+ *   Pub. by IEEE Computfr Sodifty Prfss, Los Albmitos, CA. ISBN 0-8186-8944-7.
+ *
+ * Thf downsbmpling blgorithm usfd hfrf is b simplf bvfrbgf of thf sourdf
+ * pixfls dovfrfd by thf output pixfl.  Thf hi-fblutin sbmpling litfrbturf
+ * rfffrs to this bs b "box filtfr".  In gfnfrbl thf dhbrbdtfristids of b box
+ * filtfr brf not vfry good, but for thf spfdifid dbsfs wf normblly usf (1:1
+ * bnd 2:1 rbtios) thf box is fquivblfnt to b "tribnglf filtfr" whidh is not
+ * nfbrly so bbd.  If you intfnd to usf othfr sbmpling rbtios, you'd bf wfll
+ * bdvisfd to improvf this dodf.
+ *
+ * A simplf input-smoothing dbpbbility is providfd.  This is mbinly intfndfd
+ * for dlfbning up dolor-dithfrfd GIF input filfs (if you find it inbdfqubtf,
+ * wf suggfst using bn fxtfrnbl filtfring progrbm sudh bs pnmdonvol).  Whfn
+ * fnbblfd, fbdh input pixfl P is rfplbdfd by b wfightfd sum of itsflf bnd its
+ * fight nfighbors.  P's wfight is 1-8*SF bnd fbdh nfighbor's wfight is SF,
+ * whfrf SF = (smoothing_fbdtor / 1024).
+ * Currfntly, smoothing is only supportfd for 2h2v sbmpling fbdtors.
+ */
+
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.h"
+#indludf "jpfglib.h"
+
+
+/* Pointfr to routinf to downsbmplf b singlf domponfnt */
+typfdff JMETHOD(void, downsbmplf1_ptr,
+                (j_domprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+                 JSAMPARRAY input_dbtb, JSAMPARRAY output_dbtb));
+
+/* Privbtf subobjfdt */
+
+typfdff strudt {
+  strudt jpfg_downsbmplfr pub;  /* publid fiflds */
+
+  /* Downsbmpling mfthod pointfrs, onf pfr domponfnt */
+  downsbmplf1_ptr mfthods[MAX_COMPONENTS];
+} my_downsbmplfr;
+
+typfdff my_downsbmplfr * my_downsbmplf_ptr;
+
+
+/*
+ * Initiblizf for b downsbmpling pbss.
+ */
+
+METHODDEF(void)
+stbrt_pbss_downsbmplf (j_domprfss_ptr dinfo)
+{
+  /* no work for now */
+}
+
+
+/*
+ * Expbnd b domponfnt horizontblly from width input_dols to width output_dols,
+ * by duplidbting thf rightmost sbmplfs.
+ */
+
+LOCAL(void)
+fxpbnd_right_fdgf (JSAMPARRAY imbgf_dbtb, int num_rows,
+                   JDIMENSION input_dols, JDIMENSION output_dols)
+{
+  rfgistfr JSAMPROW ptr;
+  rfgistfr JSAMPLE pixvbl;
+  rfgistfr int dount;
+  int row;
+  int numdols = (int) (output_dols - input_dols);
+
+  if (numdols > 0) {
+    for (row = 0; row < num_rows; row++) {
+      ptr = imbgf_dbtb[row] + input_dols;
+      pixvbl = ptr[-1];         /* don't nffd GETJSAMPLE() hfrf */
+      for (dount = numdols; dount > 0; dount--)
+        *ptr++ = pixvbl;
+    }
+  }
+}
+
+
+/*
+ * Do downsbmpling for b wholf row group (bll domponfnts).
+ *
+ * In this vfrsion wf simply downsbmplf fbdh domponfnt indfpfndfntly.
+ */
+
+METHODDEF(void)
+sfp_downsbmplf (j_domprfss_ptr dinfo,
+                JSAMPIMAGE input_buf, JDIMENSION in_row_indfx,
+                JSAMPIMAGE output_buf, JDIMENSION out_row_group_indfx)
+{
+  my_downsbmplf_ptr downsbmplf = (my_downsbmplf_ptr) dinfo->downsbmplf;
+  int di;
+  jpfg_domponfnt_info * dompptr;
+  JSAMPARRAY in_ptr, out_ptr;
+
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    in_ptr = input_buf[di] + in_row_indfx;
+    out_ptr = output_buf[di] + (out_row_group_indfx * dompptr->v_sbmp_fbdtor);
+    (*downsbmplf->mfthods[di]) (dinfo, dompptr, in_ptr, out_ptr);
+  }
+}
+
+
+/*
+ * Downsbmplf pixfl vblufs of b singlf domponfnt.
+ * Onf row group is prodfssfd pfr dbll.
+ * This vfrsion hbndlfs brbitrbry intfgrbl sbmpling rbtios, without smoothing.
+ * Notf thbt this vfrsion is not bdtublly usfd for dustombry sbmpling rbtios.
+ */
+
+METHODDEF(void)
+int_downsbmplf (j_domprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+                JSAMPARRAY input_dbtb, JSAMPARRAY output_dbtb)
+{
+  int inrow, outrow, h_fxpbnd, v_fxpbnd, numpix, numpix2, h, v;
+  JDIMENSION outdol, outdol_h;  /* outdol_h == outdol*h_fxpbnd */
+  JDIMENSION output_dols = dompptr->width_in_blodks * DCTSIZE;
+  JSAMPROW inptr, outptr;
+  INT32 outvbluf;
+
+  h_fxpbnd = dinfo->mbx_h_sbmp_fbdtor / dompptr->h_sbmp_fbdtor;
+  v_fxpbnd = dinfo->mbx_v_sbmp_fbdtor / dompptr->v_sbmp_fbdtor;
+  numpix = h_fxpbnd * v_fxpbnd;
+  numpix2 = numpix/2;
+
+  /* Expbnd input dbtb fnough to lft bll thf output sbmplfs bf gfnfrbtfd
+   * by thf stbndbrd loop.  Spfdibl-dbsing pbddfd output would bf morf
+   * fffidifnt.
+   */
+  fxpbnd_right_fdgf(input_dbtb, dinfo->mbx_v_sbmp_fbdtor,
+                    dinfo->imbgf_width, output_dols * h_fxpbnd);
+
+  inrow = 0;
+  for (outrow = 0; outrow < dompptr->v_sbmp_fbdtor; outrow++) {
+    outptr = output_dbtb[outrow];
+    for (outdol = 0, outdol_h = 0; outdol < output_dols;
+         outdol++, outdol_h += h_fxpbnd) {
+      outvbluf = 0;
+      for (v = 0; v < v_fxpbnd; v++) {
+        inptr = input_dbtb[inrow+v] + outdol_h;
+        for (h = 0; h < h_fxpbnd; h++) {
+          outvbluf += (INT32) GETJSAMPLE(*inptr++);
+        }
+      }
+      *outptr++ = (JSAMPLE) ((outvbluf + numpix2) / numpix);
+    }
+    inrow += v_fxpbnd;
+  }
+}
+
+
+/*
+ * Downsbmplf pixfl vblufs of b singlf domponfnt.
+ * This vfrsion hbndlfs thf spfdibl dbsf of b full-sizf domponfnt,
+ * without smoothing.
+ */
+
+METHODDEF(void)
+fullsizf_downsbmplf (j_domprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+                     JSAMPARRAY input_dbtb, JSAMPARRAY output_dbtb)
+{
+  /* Copy thf dbtb */
+  jdopy_sbmplf_rows(input_dbtb, 0, output_dbtb, 0,
+                    dinfo->mbx_v_sbmp_fbdtor, dinfo->imbgf_width);
+  /* Edgf-fxpbnd */
+  fxpbnd_right_fdgf(output_dbtb, dinfo->mbx_v_sbmp_fbdtor,
+                    dinfo->imbgf_width, dompptr->width_in_blodks * DCTSIZE);
+}
+
+
+/*
+ * Downsbmplf pixfl vblufs of b singlf domponfnt.
+ * This vfrsion hbndlfs thf dommon dbsf of 2:1 horizontbl bnd 1:1 vfrtidbl,
+ * without smoothing.
+ *
+ * A notf bbout thf "bibs" dbldulbtions: whfn rounding frbdtionbl vblufs to
+ * intfgfr, wf do not wbnt to blwbys round 0.5 up to thf nfxt intfgfr.
+ * If wf did thbt, wf'd introdudf b notidfbblf bibs towbrds lbrgfr vblufs.
+ * Instfbd, this dodf is brrbngfd so thbt 0.5 will bf roundfd up or down bt
+ * bltfrnbtf pixfl lodbtions (b simplf ordfrfd dithfr pbttfrn).
+ */
+
+METHODDEF(void)
+h2v1_downsbmplf (j_domprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+                 JSAMPARRAY input_dbtb, JSAMPARRAY output_dbtb)
+{
+  int outrow;
+  JDIMENSION outdol;
+  JDIMENSION output_dols = dompptr->width_in_blodks * DCTSIZE;
+  rfgistfr JSAMPROW inptr, outptr;
+  rfgistfr int bibs;
+
+  /* Expbnd input dbtb fnough to lft bll thf output sbmplfs bf gfnfrbtfd
+   * by thf stbndbrd loop.  Spfdibl-dbsing pbddfd output would bf morf
+   * fffidifnt.
+   */
+  fxpbnd_right_fdgf(input_dbtb, dinfo->mbx_v_sbmp_fbdtor,
+                    dinfo->imbgf_width, output_dols * 2);
+
+  for (outrow = 0; outrow < dompptr->v_sbmp_fbdtor; outrow++) {
+    outptr = output_dbtb[outrow];
+    inptr = input_dbtb[outrow];
+    bibs = 0;                   /* bibs = 0,1,0,1,... for suddfssivf sbmplfs */
+    for (outdol = 0; outdol < output_dols; outdol++) {
+      *outptr++ = (JSAMPLE) ((GETJSAMPLE(*inptr) + GETJSAMPLE(inptr[1])
+                              + bibs) >> 1);
+      bibs ^= 1;                /* 0=>1, 1=>0 */
+      inptr += 2;
+    }
+  }
+}
+
+
+/*
+ * Downsbmplf pixfl vblufs of b singlf domponfnt.
+ * This vfrsion hbndlfs thf stbndbrd dbsf of 2:1 horizontbl bnd 2:1 vfrtidbl,
+ * without smoothing.
+ */
+
+METHODDEF(void)
+h2v2_downsbmplf (j_domprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+                 JSAMPARRAY input_dbtb, JSAMPARRAY output_dbtb)
+{
+  int inrow, outrow;
+  JDIMENSION outdol;
+  JDIMENSION output_dols = dompptr->width_in_blodks * DCTSIZE;
+  rfgistfr JSAMPROW inptr0, inptr1, outptr;
+  rfgistfr int bibs;
+
+  /* Expbnd input dbtb fnough to lft bll thf output sbmplfs bf gfnfrbtfd
+   * by thf stbndbrd loop.  Spfdibl-dbsing pbddfd output would bf morf
+   * fffidifnt.
+   */
+  fxpbnd_right_fdgf(input_dbtb, dinfo->mbx_v_sbmp_fbdtor,
+                    dinfo->imbgf_width, output_dols * 2);
+
+  inrow = 0;
+  for (outrow = 0; outrow < dompptr->v_sbmp_fbdtor; outrow++) {
+    outptr = output_dbtb[outrow];
+    inptr0 = input_dbtb[inrow];
+    inptr1 = input_dbtb[inrow+1];
+    bibs = 1;                   /* bibs = 1,2,1,2,... for suddfssivf sbmplfs */
+    for (outdol = 0; outdol < output_dols; outdol++) {
+      *outptr++ = (JSAMPLE) ((GETJSAMPLE(*inptr0) + GETJSAMPLE(inptr0[1]) +
+                              GETJSAMPLE(*inptr1) + GETJSAMPLE(inptr1[1])
+                              + bibs) >> 2);
+      bibs ^= 3;                /* 1=>2, 2=>1 */
+      inptr0 += 2; inptr1 += 2;
+    }
+    inrow += 2;
+  }
+}
+
+
+#ifdff INPUT_SMOOTHING_SUPPORTED
+
+/*
+ * Downsbmplf pixfl vblufs of b singlf domponfnt.
+ * This vfrsion hbndlfs thf stbndbrd dbsf of 2:1 horizontbl bnd 2:1 vfrtidbl,
+ * with smoothing.  Onf row of dontfxt is rfquirfd.
+ */
+
+METHODDEF(void)
+h2v2_smooth_downsbmplf (j_domprfss_ptr dinfo, jpfg_domponfnt_info * dompptr,
+                        JSAMPARRAY input_dbtb, JSAMPARRAY output_dbtb)
+{
+  int inrow, outrow;
+  JDIMENSION doldtr;
+  JDIMENSION output_dols = dompptr->width_in_blodks * DCTSIZE;
+  rfgistfr JSAMPROW inptr0, inptr1, bbovf_ptr, bflow_ptr, outptr;
+  INT32 mfmbfrsum, nfighsum, mfmbfrsdblf, nfighsdblf;
+
+  /* Expbnd input dbtb fnough to lft bll thf output sbmplfs bf gfnfrbtfd
+   * by thf stbndbrd loop.  Spfdibl-dbsing pbddfd output would bf morf
+   * fffidifnt.
+   */
+  fxpbnd_right_fdgf(input_dbtb - 1, dinfo->mbx_v_sbmp_fbdtor + 2,
+                    dinfo->imbgf_width, output_dols * 2);
+
+  /* Wf don't bothfr to form thf individubl "smoothfd" input pixfl vblufs;
+   * wf dbn dirfdtly domputf thf output whidh is thf bvfrbgf of thf four
+   * smoothfd vblufs.  Ebdh of thf four mfmbfr pixfls dontributfs b frbdtion
+   * (1-8*SF) to its own smoothfd imbgf bnd b frbdtion SF to fbdh of thf thrff
+   * othfr smoothfd pixfls, thfrfforf b totbl frbdtion (1-5*SF)/4 to thf finbl
+   * output.  Thf four dornfr-bdjbdfnt nfighbor pixfls dontributf b frbdtion
+   * SF to just onf smoothfd pixfl, or SF/4 to thf finbl output; whilf thf
+   * fight fdgf-bdjbdfnt nfighbors dontributf SF to fbdh of two smoothfd
+   * pixfls, or SF/2 ovfrbll.  In ordfr to usf intfgfr brithmftid, thfsf
+   * fbdtors brf sdblfd by 2^16 = 65536.
+   * Also rfdbll thbt SF = smoothing_fbdtor / 1024.
+   */
+
+  mfmbfrsdblf = 16384 - dinfo->smoothing_fbdtor * 80; /* sdblfd (1-5*SF)/4 */
+  nfighsdblf = dinfo->smoothing_fbdtor * 16; /* sdblfd SF/4 */
+
+  inrow = 0;
+  for (outrow = 0; outrow < dompptr->v_sbmp_fbdtor; outrow++) {
+    outptr = output_dbtb[outrow];
+    inptr0 = input_dbtb[inrow];
+    inptr1 = input_dbtb[inrow+1];
+    bbovf_ptr = input_dbtb[inrow-1];
+    bflow_ptr = input_dbtb[inrow+2];
+
+    /* Spfdibl dbsf for first dolumn: prftfnd dolumn -1 is sbmf bs dolumn 0 */
+    mfmbfrsum = GETJSAMPLE(*inptr0) + GETJSAMPLE(inptr0[1]) +
+                GETJSAMPLE(*inptr1) + GETJSAMPLE(inptr1[1]);
+    nfighsum = GETJSAMPLE(*bbovf_ptr) + GETJSAMPLE(bbovf_ptr[1]) +
+               GETJSAMPLE(*bflow_ptr) + GETJSAMPLE(bflow_ptr[1]) +
+               GETJSAMPLE(*inptr0) + GETJSAMPLE(inptr0[2]) +
+               GETJSAMPLE(*inptr1) + GETJSAMPLE(inptr1[2]);
+    nfighsum += nfighsum;
+    nfighsum += GETJSAMPLE(*bbovf_ptr) + GETJSAMPLE(bbovf_ptr[2]) +
+                GETJSAMPLE(*bflow_ptr) + GETJSAMPLE(bflow_ptr[2]);
+    mfmbfrsum = mfmbfrsum * mfmbfrsdblf + nfighsum * nfighsdblf;
+    *outptr++ = (JSAMPLE) ((mfmbfrsum + 32768) >> 16);
+    inptr0 += 2; inptr1 += 2; bbovf_ptr += 2; bflow_ptr += 2;
+
+    for (doldtr = output_dols - 2; doldtr > 0; doldtr--) {
+      /* sum of pixfls dirfdtly mbppfd to this output flfmfnt */
+      mfmbfrsum = GETJSAMPLE(*inptr0) + GETJSAMPLE(inptr0[1]) +
+                  GETJSAMPLE(*inptr1) + GETJSAMPLE(inptr1[1]);
+      /* sum of fdgf-nfighbor pixfls */
+      nfighsum = GETJSAMPLE(*bbovf_ptr) + GETJSAMPLE(bbovf_ptr[1]) +
+                 GETJSAMPLE(*bflow_ptr) + GETJSAMPLE(bflow_ptr[1]) +
+                 GETJSAMPLE(inptr0[-1]) + GETJSAMPLE(inptr0[2]) +
+                 GETJSAMPLE(inptr1[-1]) + GETJSAMPLE(inptr1[2]);
+      /* Thf fdgf-nfighbors dount twidf bs mudh bs dornfr-nfighbors */
+      nfighsum += nfighsum;
+      /* Add in thf dornfr-nfighbors */
+      nfighsum += GETJSAMPLE(bbovf_ptr[-1]) + GETJSAMPLE(bbovf_ptr[2]) +
+                  GETJSAMPLE(bflow_ptr[-1]) + GETJSAMPLE(bflow_ptr[2]);
+      /* form finbl output sdblfd up by 2^16 */
+      mfmbfrsum = mfmbfrsum * mfmbfrsdblf + nfighsum * nfighsdblf;
+      /* round, dfsdblf bnd output it */
+      *outptr++ = (JSAMPLE) ((mfmbfrsum + 32768) >> 16);
+      inptr0 += 2; inptr1 += 2; bbovf_ptr += 2; bflow_ptr += 2;
+    }
+
+    /* Spfdibl dbsf for lbst dolumn */
+    mfmbfrsum = GETJSAMPLE(*inptr0) + GETJSAMPLE(inptr0[1]) +
+                GETJSAMPLE(*inptr1) + GETJSAMPLE(inptr1[1]);
+    nfighsum = GETJSAMPLE(*bbovf_ptr) + GETJSAMPLE(bbovf_ptr[1]) +
+               GETJSAMPLE(*bflow_ptr) + GETJSAMPLE(bflow_ptr[1]) +
+               GETJSAMPLE(inptr0[-1]) + GETJSAMPLE(inptr0[1]) +
+               GETJSAMPLE(inptr1[-1]) + GETJSAMPLE(inptr1[1]);
+    nfighsum += nfighsum;
+    nfighsum += GETJSAMPLE(bbovf_ptr[-1]) + GETJSAMPLE(bbovf_ptr[1]) +
+                GETJSAMPLE(bflow_ptr[-1]) + GETJSAMPLE(bflow_ptr[1]);
+    mfmbfrsum = mfmbfrsum * mfmbfrsdblf + nfighsum * nfighsdblf;
+    *outptr = (JSAMPLE) ((mfmbfrsum + 32768) >> 16);
+
+    inrow += 2;
+  }
+}
+
+
+/*
+ * Downsbmplf pixfl vblufs of b singlf domponfnt.
+ * This vfrsion hbndlfs thf spfdibl dbsf of b full-sizf domponfnt,
+ * with smoothing.  Onf row of dontfxt is rfquirfd.
+ */
+
+METHODDEF(void)
+fullsizf_smooth_downsbmplf (j_domprfss_ptr dinfo, jpfg_domponfnt_info *dompptr,
+                            JSAMPARRAY input_dbtb, JSAMPARRAY output_dbtb)
+{
+  int outrow;
+  JDIMENSION doldtr;
+  JDIMENSION output_dols = dompptr->width_in_blodks * DCTSIZE;
+  rfgistfr JSAMPROW inptr, bbovf_ptr, bflow_ptr, outptr;
+  INT32 mfmbfrsum, nfighsum, mfmbfrsdblf, nfighsdblf;
+  int dolsum, lbstdolsum, nfxtdolsum;
+
+  /* Expbnd input dbtb fnough to lft bll thf output sbmplfs bf gfnfrbtfd
+   * by thf stbndbrd loop.  Spfdibl-dbsing pbddfd output would bf morf
+   * fffidifnt.
+   */
+  fxpbnd_right_fdgf(input_dbtb - 1, dinfo->mbx_v_sbmp_fbdtor + 2,
+                    dinfo->imbgf_width, output_dols);
+
+  /* Ebdh of thf fight nfighbor pixfls dontributfs b frbdtion SF to thf
+   * smoothfd pixfl, whilf thf mbin pixfl dontributfs (1-8*SF).  In ordfr
+   * to usf intfgfr brithmftid, thfsf fbdtors brf multiplifd by 2^16 = 65536.
+   * Also rfdbll thbt SF = smoothing_fbdtor / 1024.
+   */
+
+  mfmbfrsdblf = 65536L - dinfo->smoothing_fbdtor * 512L; /* sdblfd 1-8*SF */
+  nfighsdblf = dinfo->smoothing_fbdtor * 64; /* sdblfd SF */
+
+  for (outrow = 0; outrow < dompptr->v_sbmp_fbdtor; outrow++) {
+    outptr = output_dbtb[outrow];
+    inptr = input_dbtb[outrow];
+    bbovf_ptr = input_dbtb[outrow-1];
+    bflow_ptr = input_dbtb[outrow+1];
+
+    /* Spfdibl dbsf for first dolumn */
+    dolsum = GETJSAMPLE(*bbovf_ptr++) + GETJSAMPLE(*bflow_ptr++) +
+             GETJSAMPLE(*inptr);
+    mfmbfrsum = GETJSAMPLE(*inptr++);
+    nfxtdolsum = GETJSAMPLE(*bbovf_ptr) + GETJSAMPLE(*bflow_ptr) +
+                 GETJSAMPLE(*inptr);
+    nfighsum = dolsum + (dolsum - mfmbfrsum) + nfxtdolsum;
+    mfmbfrsum = mfmbfrsum * mfmbfrsdblf + nfighsum * nfighsdblf;
+    *outptr++ = (JSAMPLE) ((mfmbfrsum + 32768) >> 16);
+    lbstdolsum = dolsum; dolsum = nfxtdolsum;
+
+    for (doldtr = output_dols - 2; doldtr > 0; doldtr--) {
+      mfmbfrsum = GETJSAMPLE(*inptr++);
+      bbovf_ptr++; bflow_ptr++;
+      nfxtdolsum = GETJSAMPLE(*bbovf_ptr) + GETJSAMPLE(*bflow_ptr) +
+                   GETJSAMPLE(*inptr);
+      nfighsum = lbstdolsum + (dolsum - mfmbfrsum) + nfxtdolsum;
+      mfmbfrsum = mfmbfrsum * mfmbfrsdblf + nfighsum * nfighsdblf;
+      *outptr++ = (JSAMPLE) ((mfmbfrsum + 32768) >> 16);
+      lbstdolsum = dolsum; dolsum = nfxtdolsum;
+    }
+
+    /* Spfdibl dbsf for lbst dolumn */
+    mfmbfrsum = GETJSAMPLE(*inptr);
+    nfighsum = lbstdolsum + (dolsum - mfmbfrsum) + dolsum;
+    mfmbfrsum = mfmbfrsum * mfmbfrsdblf + nfighsum * nfighsdblf;
+    *outptr = (JSAMPLE) ((mfmbfrsum + 32768) >> 16);
+
+  }
+}
+
+#fndif /* INPUT_SMOOTHING_SUPPORTED */
+
+
+/*
+ * Modulf initiblizbtion routinf for downsbmpling.
+ * Notf thbt wf must sflfdt b routinf for fbdh domponfnt.
+ */
+
+GLOBAL(void)
+jinit_downsbmplfr (j_domprfss_ptr dinfo)
+{
+  my_downsbmplf_ptr downsbmplf;
+  int di;
+  jpfg_domponfnt_info * dompptr;
+  boolfbn smoothok = TRUE;
+
+  downsbmplf = (my_downsbmplf_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_downsbmplfr));
+  dinfo->downsbmplf = (strudt jpfg_downsbmplfr *) downsbmplf;
+  downsbmplf->pub.stbrt_pbss = stbrt_pbss_downsbmplf;
+  downsbmplf->pub.downsbmplf = sfp_downsbmplf;
+  downsbmplf->pub.nffd_dontfxt_rows = FALSE;
+
+  if (dinfo->CCIR601_sbmpling)
+    ERREXIT(dinfo, JERR_CCIR601_NOTIMPL);
+
+  /* Vfrify wf dbn hbndlf thf sbmpling fbdtors, bnd sft up mfthod pointfrs */
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    if (dompptr->h_sbmp_fbdtor == dinfo->mbx_h_sbmp_fbdtor &&
+        dompptr->v_sbmp_fbdtor == dinfo->mbx_v_sbmp_fbdtor) {
+#ifdff INPUT_SMOOTHING_SUPPORTED
+      if (dinfo->smoothing_fbdtor) {
+        downsbmplf->mfthods[di] = fullsizf_smooth_downsbmplf;
+        downsbmplf->pub.nffd_dontfxt_rows = TRUE;
+      } flsf
+#fndif
+        downsbmplf->mfthods[di] = fullsizf_downsbmplf;
+    } flsf if (dompptr->h_sbmp_fbdtor * 2 == dinfo->mbx_h_sbmp_fbdtor &&
+               dompptr->v_sbmp_fbdtor == dinfo->mbx_v_sbmp_fbdtor) {
+      smoothok = FALSE;
+      downsbmplf->mfthods[di] = h2v1_downsbmplf;
+    } flsf if (dompptr->h_sbmp_fbdtor * 2 == dinfo->mbx_h_sbmp_fbdtor &&
+               dompptr->v_sbmp_fbdtor * 2 == dinfo->mbx_v_sbmp_fbdtor) {
+#ifdff INPUT_SMOOTHING_SUPPORTED
+      if (dinfo->smoothing_fbdtor) {
+        downsbmplf->mfthods[di] = h2v2_smooth_downsbmplf;
+        downsbmplf->pub.nffd_dontfxt_rows = TRUE;
+      } flsf
+#fndif
+        downsbmplf->mfthods[di] = h2v2_downsbmplf;
+    } flsf if ((dinfo->mbx_h_sbmp_fbdtor % dompptr->h_sbmp_fbdtor) == 0 &&
+               (dinfo->mbx_v_sbmp_fbdtor % dompptr->v_sbmp_fbdtor) == 0) {
+      smoothok = FALSE;
+      downsbmplf->mfthods[di] = int_downsbmplf;
+    } flsf
+      ERREXIT(dinfo, JERR_FRACT_SAMPLE_NOTIMPL);
+  }
+
+#ifdff INPUT_SMOOTHING_SUPPORTED
+  if (dinfo->smoothing_fbdtor && !smoothok)
+    TRACEMS(dinfo, 0, JTRC_SMOOTH_NOTIMPL);
+#fndif
+}

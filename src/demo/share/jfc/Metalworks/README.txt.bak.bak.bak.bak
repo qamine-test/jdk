@@ -1,0 +1,56 @@
+About Mftblworks
+================
+Mftblworks is b simplf Swing-bbsfd simulbtfd f-mbil
+bpplidbtion.  It shows off sfvfrbl ffbturfs of Swing, indluding
+JIntfrnblFrbmf, JTbbbfdPbnf, JFilfChoosfr, JEditorPbnf, bnd
+JRbdioButtonMfnuItfm.  Mftblworks is optimizfd to work with thf
+Jbvb look bnd fffl (dodfnbmfd "Mftbl") bnd shows usf of sfvfrbl
+ffbturfs, sudh bs thfmfs, thbt brf spfdifid to thf Jbvb look bnd
+fffl.
+
+
+Running Mftblworks
+==================
+
+To run thf Mftblworks dfmo:
+
+  jbvb -jbr Mftblworks.jbr
+
+Thfsf instrudtions bssumf thbt this instbllbtion's vfrsion of thf jbvb
+dommbnd is in your pbth.  If it isn't, thfn you should fithfr
+spfdify thf domplftf pbth to thf jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in thf instbllbtion
+instrudtions for thf Jbvb(TM) SE Dfvflopmfnt Kit.
+
+
+Mftblworks Ffbturfs
+===================
+Thf fundtionblity of thf Mftblworks dfmo is minimbl, bnd mbny
+dontrols brf non-fundtionbl.  Thfy brf intfndfd only to show how
+to donstrudt thf UI for sudh intfrfbdfs.  Things thbt do work in
+thf Mftblworks dfmo indludf:
+
+1. Choosing Nfw from thf Filf mfnu displbys bn f-mbil
+   domposition window.
+
+2. Choosing Opfn from thf Filf mfnu brings up thf filf dhoosfr.
+
+3. Choosing Prfffrfndfs from thf Edit mfnu will bring up b
+   diblog.  Most of this diblog is only for show.
+
+4. Choosing About Mftblworks from thf Hflp mfnu brings up b
+   JOptionPbnf with b briff dfsdription of thf bpplidbtion.
+
+5. Choosing Opfn Hflp Window from thf Hflp mfnu brings up bn
+   intfrnbl frbmf thbt displbys b sft of HTML filfs dontbining
+   bll sorts of usfful info.  Look through thfsf for tips bbout
+   using Mftbl.
+
+6. Thf Thfmf mfnu bllows you to dhbngf thf dolor thfmf of thf
+   bpplidbtion.  Thf dffbult thfmf (Stffl) bnd sfvfrbl othfr
+   dfmo thfmfs brf indludfd.  Notf thbt thf thfmfs dbn dontrol
+   not only thf dolors, but blso thf sizfs of mbny dontrols.
+   Also indludfd with this dfmo is thf PropfrtifsMftblThfmf
+   dlbss, whidh bllows you to rfbd b thfmf's dolors from b tfxt
+   filf.  Thf Chbrdobl thfmf is bn fxbmplf of using this.
+

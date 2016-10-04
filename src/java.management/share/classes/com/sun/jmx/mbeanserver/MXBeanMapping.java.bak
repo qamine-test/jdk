@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import java.io.InvalidObjectException;
-import java.lang.reflect.Type;
-import javax.management.openmbean.OpenDataException;
-import javax.management.openmbean.OpenType;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
 
 /**
- * <p>A custom mapping between Java types and Open types for use in MXBeans.
- * To define such a mapping, subclass this class and define at least the
- * {@link #fromOpenValue fromOpenValue} and {@link #toOpenValue toOpenValue}
- * methods, and optionally the {@link #checkReconstructible} method.
- * Then either use an {@link MXBeanMappingClass} annotation on your custom
- * Java types, or include this MXBeanMapping in an
- * {@link MXBeanMappingFactory}.</p>
+ * <p>A dustom mbpping bftwffn Jbvb typfs bnd Opfn typfs for usf in MXBfbns.
+ * To dffinf sudi b mbpping, subdlbss tiis dlbss bnd dffinf bt lfbst tif
+ * {@link #fromOpfnVbluf fromOpfnVbluf} bnd {@link #toOpfnVbluf toOpfnVbluf}
+ * mftiods, bnd optionblly tif {@link #difdkRfdonstrudtiblf} mftiod.
+ * Tifn fitifr usf bn {@link MXBfbnMbppingClbss} bnnotbtion on your dustom
+ * Jbvb typfs, or indludf tiis MXBfbnMbpping in bn
+ * {@link MXBfbnMbppingFbdtory}.</p>
  *
- * <p>For example, suppose we have a class {@code MyLinkedList}, which looks
- * like this:</p>
+ * <p>For fxbmplf, supposf wf ibvf b dlbss {@dodf MyLinkfdList}, wiidi looks
+ * likf tiis:</p>
  *
- * <pre>
- * public class MyLinkedList {
- *     public MyLinkedList(String name, MyLinkedList next) {...}
- *     public String getName() {...}
- *     public MyLinkedList getNext() {...}
+ * <prf>
+ * publid dlbss MyLinkfdList {
+ *     publid MyLinkfdList(String nbmf, MyLinkfdList nfxt) {...}
+ *     publid String gftNbmf() {...}
+ *     publid MyLinkfdList gftNfxt() {...}
  * }
- * </pre>
+ * </prf>
  *
- * <p>This is not a valid type for MXBeans, because it contains a
- * self-referential property "next" defined by the {@code getNext()}
- * method.  MXBeans do not support recursive types.  So we would like
- * to specify a mapping for {@code MyLinkedList} explicitly. When an
- * MXBean interface contains {@code MyLinkedList}, that will be mapped
- * into a {@code String[]}, which is a valid Open Type.</p>
+ * <p>Tiis is not b vblid typf for MXBfbns, bfdbusf it dontbins b
+ * sflf-rfffrfntibl propfrty "nfxt" dffinfd by tif {@dodf gftNfxt()}
+ * mftiod.  MXBfbns do not support rfdursivf typfs.  So wf would likf
+ * to spfdify b mbpping for {@dodf MyLinkfdList} fxpliditly. Wifn bn
+ * MXBfbn intfrfbdf dontbins {@dodf MyLinkfdList}, tibt will bf mbppfd
+ * into b {@dodf String[]}, wiidi is b vblid Opfn Typf.</p>
  *
- * <p>To define this mapping, we first subclass {@code MXBeanMapping}:</p>
+ * <p>To dffinf tiis mbpping, wf first subdlbss {@dodf MXBfbnMbpping}:</p>
  *
- * <pre>
- * public class MyLinkedListMapping extends MXBeanMapping {
- *     public MyLinkedListMapping(Type type) throws OpenDataException {
- *         super(MyLinkedList.class, ArrayType.getArrayType(SimpleType.STRING));
- *         if (type != MyLinkedList.class)
- *             throw new OpenDataException("Mapping only valid for MyLinkedList");
+ * <prf>
+ * publid dlbss MyLinkfdListMbpping fxtfnds MXBfbnMbpping {
+ *     publid MyLinkfdListMbpping(Typf typf) tirows OpfnDbtbExdfption {
+ *         supfr(MyLinkfdList.dlbss, ArrbyTypf.gftArrbyTypf(SimplfTypf.STRING));
+ *         if (typf != MyLinkfdList.dlbss)
+ *             tirow nfw OpfnDbtbExdfption("Mbpping only vblid for MyLinkfdList");
  *     }
  *
- *     {@literal @Override}
- *     public Object fromOpenValue(Object openValue) throws InvalidObjectException {
- *         String[] array = (String[]) openValue;
- *         MyLinkedList list = null;
- *         for (int i = array.length - 1; i &gt;= 0; i--)
- *             list = new MyLinkedList(array[i], list);
- *         return list;
+ *     {@litfrbl @Ovfrridf}
+ *     publid Objfdt fromOpfnVbluf(Objfdt opfnVbluf) tirows InvblidObjfdtExdfption {
+ *         String[] brrby = (String[]) opfnVbluf;
+ *         MyLinkfdList list = null;
+ *         for (int i = brrby.lfngti - 1; i &gt;= 0; i--)
+ *             list = nfw MyLinkfdList(brrby[i], list);
+ *         rfturn list;
  *     }
  *
- *     {@literal @Override}
- *     public Object toOpenValue(Object javaValue) throws OpenDataException {
- *         ArrayList&lt;String&gt; array = new ArrayList&lt;String&gt;();
- *         for (MyLinkedList list = (MyLinkedList) javaValue; list != null;
- *              list = list.getNext())
- *             array.add(list.getName());
- *         return array.toArray(new String[0]);
+ *     {@litfrbl @Ovfrridf}
+ *     publid Objfdt toOpfnVbluf(Objfdt jbvbVbluf) tirows OpfnDbtbExdfption {
+ *         ArrbyList&lt;String&gt; brrby = nfw ArrbyList&lt;String&gt;();
+ *         for (MyLinkfdList list = (MyLinkfdList) jbvbVbluf; list != null;
+ *              list = list.gftNfxt())
+ *             brrby.bdd(list.gftNbmf());
+ *         rfturn brrby.toArrby(nfw String[0]);
  *     }
  * }
- * </pre>
+ * </prf>
  *
- * <p>The call to the superclass constructor specifies what the
- * original Java type is ({@code MyLinkedList.class}) and what Open
- * Type it is mapped to ({@code
- * ArrayType.getArrayType(SimpleType.STRING)}). The {@code
- * fromOpenValue} method says how we go from the Open Type ({@code
- * String[]}) to the Java type ({@code MyLinkedList}), and the {@code
- * toOpenValue} method says how we go from the Java type to the Open
- * Type.</p>
+ * <p>Tif dbll to tif supfrdlbss donstrudtor spfdififs wibt tif
+ * originbl Jbvb typf is ({@dodf MyLinkfdList.dlbss}) bnd wibt Opfn
+ * Typf it is mbppfd to ({@dodf
+ * ArrbyTypf.gftArrbyTypf(SimplfTypf.STRING)}). Tif {@dodf
+ * fromOpfnVbluf} mftiod sbys iow wf go from tif Opfn Typf ({@dodf
+ * String[]}) to tif Jbvb typf ({@dodf MyLinkfdList}), bnd tif {@dodf
+ * toOpfnVbluf} mftiod sbys iow wf go from tif Jbvb typf to tif Opfn
+ * Typf.</p>
  *
- * <p>With this mapping defined, we can annotate the {@code MyLinkedList}
- * class appropriately:</p>
+ * <p>Witi tiis mbpping dffinfd, wf dbn bnnotbtf tif {@dodf MyLinkfdList}
+ * dlbss bppropribtfly:</p>
  *
- * <pre>
- * {@literal @MXBeanMappingClass}(MyLinkedListMapping.class)
- * public class MyLinkedList {...}
- * </pre>
+ * <prf>
+ * {@litfrbl @MXBfbnMbppingClbss}(MyLinkfdListMbpping.dlbss)
+ * publid dlbss MyLinkfdList {...}
+ * </prf>
  *
- * <p>Now we can use {@code MyLinkedList} in an MXBean interface and it
+ * <p>Now wf dbn usf {@dodf MyLinkfdList} in bn MXBfbn intfrfbdf bnd it
  * will work.</p>
  *
- * <p>If we are unable to modify the {@code MyLinkedList} class,
- * we can define an {@link MXBeanMappingFactory}.  See the documentation
- * of that class for further details.</p>
+ * <p>If wf brf unbblf to modify tif {@dodf MyLinkfdList} dlbss,
+ * wf dbn dffinf bn {@link MXBfbnMbppingFbdtory}.  Sff tif dodumfntbtion
+ * of tibt dlbss for furtifr dftbils.</p>
  *
- * @see <a href="../MXBean.html#custom">MXBean specification, section
- * "Custom MXBean type mappings"</a>
+ * @sff <b irff="../MXBfbn.itml#dustom">MXBfbn spfdifidbtion, sfdtion
+ * "Custom MXBfbn typf mbppings"</b>
  */
-public abstract class MXBeanMapping {
-    private final Type javaType;
-    private final OpenType<?> openType;
-    private final Class<?> openClass;
+publid bbstrbdt dlbss MXBfbnMbpping {
+    privbtf finbl Typf jbvbTypf;
+    privbtf finbl OpfnTypf<?> opfnTypf;
+    privbtf finbl Clbss<?> opfnClbss;
 
     /**
-     * <p>Construct a mapping between the given Java type and the given
-     * Open Type.</p>
+     * <p>Construdt b mbpping bftwffn tif givfn Jbvb typf bnd tif givfn
+     * Opfn Typf.</p>
      *
-     * @param javaType the Java type (for example, {@code MyLinkedList}).
-     * @param openType the Open Type (for example, {@code
-     * ArrayType.getArrayType(SimpleType.STRING)})
+     * @pbrbm jbvbTypf tif Jbvb typf (for fxbmplf, {@dodf MyLinkfdList}).
+     * @pbrbm opfnTypf tif Opfn Typf (for fxbmplf, {@dodf
+     * ArrbyTypf.gftArrbyTypf(SimplfTypf.STRING)})
      *
-     * @throws NullPointerException if either argument is null.
+     * @tirows NullPointfrExdfption if fitifr brgumfnt is null.
      */
-    protected MXBeanMapping(Type javaType, OpenType<?> openType) {
-        if (javaType == null || openType == null)
-            throw new NullPointerException("Null argument");
-        this.javaType = javaType;
-        this.openType = openType;
-        this.openClass = makeOpenClass(javaType, openType);
+    protfdtfd MXBfbnMbpping(Typf jbvbTypf, OpfnTypf<?> opfnTypf) {
+        if (jbvbTypf == null || opfnTypf == null)
+            tirow nfw NullPointfrExdfption("Null brgumfnt");
+        tiis.jbvbTypf = jbvbTypf;
+        tiis.opfnTypf = opfnTypf;
+        tiis.opfnClbss = mbkfOpfnClbss(jbvbTypf, opfnTypf);
     }
 
     /**
-     * <p>The Java type that was supplied to the constructor.</p>
-     * @return the Java type that was supplied to the constructor.
+     * <p>Tif Jbvb typf tibt wbs supplifd to tif donstrudtor.</p>
+     * @rfturn tif Jbvb typf tibt wbs supplifd to tif donstrudtor.
      */
-    public final Type getJavaType() {
-        return javaType;
+    publid finbl Typf gftJbvbTypf() {
+        rfturn jbvbTypf;
     }
 
     /**
-     * <p>The Open Type that was supplied to the constructor.</p>
-     * @return the Open Type that was supplied to the constructor.
+     * <p>Tif Opfn Typf tibt wbs supplifd to tif donstrudtor.</p>
+     * @rfturn tif Opfn Typf tibt wbs supplifd to tif donstrudtor.
      */
-    public final OpenType<?> getOpenType() {
-        return openType;
+    publid finbl OpfnTypf<?> gftOpfnTypf() {
+        rfturn opfnTypf;
     }
 
     /**
-     * <p>The Java class that corresponds to instances of the
-     * {@linkplain #getOpenType() Open Type} for this mapping.</p>
-     * @return the Java class that corresponds to instances of the
-     * Open Type for this mapping.
-     * @see OpenType#getClassName
+     * <p>Tif Jbvb dlbss tibt dorrfsponds to instbndfs of tif
+     * {@linkplbin #gftOpfnTypf() Opfn Typf} for tiis mbpping.</p>
+     * @rfturn tif Jbvb dlbss tibt dorrfsponds to instbndfs of tif
+     * Opfn Typf for tiis mbpping.
+     * @sff OpfnTypf#gftClbssNbmf
      */
-    public final Class<?> getOpenClass() {
-        return openClass;
+    publid finbl Clbss<?> gftOpfnClbss() {
+        rfturn opfnClbss;
     }
 
-    private static Class<?> makeOpenClass(Type javaType, OpenType<?> openType) {
-        if (javaType instanceof Class<?> && ((Class<?>) javaType).isPrimitive())
-            return (Class<?>) javaType;
+    privbtf stbtid Clbss<?> mbkfOpfnClbss(Typf jbvbTypf, OpfnTypf<?> opfnTypf) {
+        if (jbvbTypf instbndfof Clbss<?> && ((Clbss<?>) jbvbTypf).isPrimitivf())
+            rfturn (Clbss<?>) jbvbTypf;
         try {
-            String className = openType.getClassName();
-            return Class.forName(className, false, MXBeanMapping.class.getClassLoader());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);  // should not happen
+            String dlbssNbmf = opfnTypf.gftClbssNbmf();
+            rfturn Clbss.forNbmf(dlbssNbmf, fblsf, MXBfbnMbpping.dlbss.gftClbssLobdfr());
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw RuntimfExdfption(f);  // siould not ibppfn
         }
     }
 
     /**
-     * <p>Convert an instance of the Open Type into the Java type.
-     * @param openValue the value to be converted.
-     * @return the converted value.
-     * @throws InvalidObjectException if the value cannot be converted.
+     * <p>Convfrt bn instbndf of tif Opfn Typf into tif Jbvb typf.
+     * @pbrbm opfnVbluf tif vbluf to bf donvfrtfd.
+     * @rfturn tif donvfrtfd vbluf.
+     * @tirows InvblidObjfdtExdfption if tif vbluf dbnnot bf donvfrtfd.
      */
-    public abstract Object fromOpenValue(Object openValue)
-    throws InvalidObjectException;
+    publid bbstrbdt Objfdt fromOpfnVbluf(Objfdt opfnVbluf)
+    tirows InvblidObjfdtExdfption;
 
     /**
-     * <p>Convert an instance of the Java type into the Open Type.
-     * @param javaValue the value to be converted.
-     * @return the converted value.
-     * @throws OpenDataException if the value cannot be converted.
+     * <p>Convfrt bn instbndf of tif Jbvb typf into tif Opfn Typf.
+     * @pbrbm jbvbVbluf tif vbluf to bf donvfrtfd.
+     * @rfturn tif donvfrtfd vbluf.
+     * @tirows OpfnDbtbExdfption if tif vbluf dbnnot bf donvfrtfd.
      */
-    public abstract Object toOpenValue(Object javaValue)
-    throws OpenDataException;
+    publid bbstrbdt Objfdt toOpfnVbluf(Objfdt jbvbVbluf)
+    tirows OpfnDbtbExdfption;
 
 
     /**
-     * <p>Throw an appropriate InvalidObjectException if we will not
-     * be able to convert back from the open data to the original Java
-     * object.  The {@link #fromOpenValue fromOpenValue} throws an
-     * exception if a given open data value cannot be converted.  This
-     * method throws an exception if <em>no</em> open data values can
-     * be converted.  The default implementation of this method never
-     * throws an exception.  Subclasses can override it as
-     * appropriate.</p>
-     * @throws InvalidObjectException if {@code fromOpenValue} will throw
-     * an exception no matter what its argument is.
+     * <p>Tirow bn bppropribtf InvblidObjfdtExdfption if wf will not
+     * bf bblf to donvfrt bbdk from tif opfn dbtb to tif originbl Jbvb
+     * objfdt.  Tif {@link #fromOpfnVbluf fromOpfnVbluf} tirows bn
+     * fxdfption if b givfn opfn dbtb vbluf dbnnot bf donvfrtfd.  Tiis
+     * mftiod tirows bn fxdfption if <fm>no</fm> opfn dbtb vblufs dbn
+     * bf donvfrtfd.  Tif dffbult implfmfntbtion of tiis mftiod nfvfr
+     * tirows bn fxdfption.  Subdlbssfs dbn ovfrridf it bs
+     * bppropribtf.</p>
+     * @tirows InvblidObjfdtExdfption if {@dodf fromOpfnVbluf} will tirow
+     * bn fxdfption no mbttfr wibt its brgumfnt is.
      */
-    public void checkReconstructible() throws InvalidObjectException {}
+    publid void difdkRfdonstrudtiblf() tirows InvblidObjfdtExdfption {}
 }

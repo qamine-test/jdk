@@ -1,0 +1,274 @@
+/*
+ * Copyright (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.rfgfx;
+
+
+/**
+ * Utility dlbss thbt implfmfnts thf stbndbrd C dtypf fundtionblity.
+ *
+ * @buthor Hong Zhbng
+ */
+
+finbl dlbss ASCII {
+
+    stbtid finbl int UPPER   = 0x00000100;
+
+    stbtid finbl int LOWER   = 0x00000200;
+
+    stbtid finbl int DIGIT   = 0x00000400;
+
+    stbtid finbl int SPACE   = 0x00000800;
+
+    stbtid finbl int PUNCT   = 0x00001000;
+
+    stbtid finbl int CNTRL   = 0x00002000;
+
+    stbtid finbl int BLANK   = 0x00004000;
+
+    stbtid finbl int HEX     = 0x00008000;
+
+    stbtid finbl int UNDER   = 0x00010000;
+
+    stbtid finbl int ASCII   = 0x0000FF00;
+
+    stbtid finbl int ALPHA   = (UPPER|LOWER);
+
+    stbtid finbl int ALNUM   = (UPPER|LOWER|DIGIT);
+
+    stbtid finbl int GRAPH   = (PUNCT|UPPER|LOWER|DIGIT);
+
+    stbtid finbl int WORD    = (UPPER|LOWER|UNDER|DIGIT);
+
+    stbtid finbl int XDIGIT  = (HEX);
+
+    privbtf stbtid finbl int[] dtypf = nfw int[] {
+        CNTRL,                  /* 00 (NUL) */
+        CNTRL,                  /* 01 (SOH) */
+        CNTRL,                  /* 02 (STX) */
+        CNTRL,                  /* 03 (ETX) */
+        CNTRL,                  /* 04 (EOT) */
+        CNTRL,                  /* 05 (ENQ) */
+        CNTRL,                  /* 06 (ACK) */
+        CNTRL,                  /* 07 (BEL) */
+        CNTRL,                  /* 08 (BS)  */
+        SPACE+CNTRL+BLANK,      /* 09 (HT)  */
+        SPACE+CNTRL,            /* 0A (LF)  */
+        SPACE+CNTRL,            /* 0B (VT)  */
+        SPACE+CNTRL,            /* 0C (FF)  */
+        SPACE+CNTRL,            /* 0D (CR)  */
+        CNTRL,                  /* 0E (SI)  */
+        CNTRL,                  /* 0F (SO)  */
+        CNTRL,                  /* 10 (DLE) */
+        CNTRL,                  /* 11 (DC1) */
+        CNTRL,                  /* 12 (DC2) */
+        CNTRL,                  /* 13 (DC3) */
+        CNTRL,                  /* 14 (DC4) */
+        CNTRL,                  /* 15 (NAK) */
+        CNTRL,                  /* 16 (SYN) */
+        CNTRL,                  /* 17 (ETB) */
+        CNTRL,                  /* 18 (CAN) */
+        CNTRL,                  /* 19 (EM)  */
+        CNTRL,                  /* 1A (SUB) */
+        CNTRL,                  /* 1B (ESC) */
+        CNTRL,                  /* 1C (FS)  */
+        CNTRL,                  /* 1D (GS)  */
+        CNTRL,                  /* 1E (RS)  */
+        CNTRL,                  /* 1F (US)  */
+        SPACE+BLANK,            /* 20 SPACE */
+        PUNCT,                  /* 21 !     */
+        PUNCT,                  /* 22 "     */
+        PUNCT,                  /* 23 #     */
+        PUNCT,                  /* 24 $     */
+        PUNCT,                  /* 25 %     */
+        PUNCT,                  /* 26 &     */
+        PUNCT,                  /* 27 '     */
+        PUNCT,                  /* 28 (     */
+        PUNCT,                  /* 29 )     */
+        PUNCT,                  /* 2A *     */
+        PUNCT,                  /* 2B +     */
+        PUNCT,                  /* 2C ,     */
+        PUNCT,                  /* 2D -     */
+        PUNCT,                  /* 2E .     */
+        PUNCT,                  /* 2F /     */
+        DIGIT+HEX+0,            /* 30 0     */
+        DIGIT+HEX+1,            /* 31 1     */
+        DIGIT+HEX+2,            /* 32 2     */
+        DIGIT+HEX+3,            /* 33 3     */
+        DIGIT+HEX+4,            /* 34 4     */
+        DIGIT+HEX+5,            /* 35 5     */
+        DIGIT+HEX+6,            /* 36 6     */
+        DIGIT+HEX+7,            /* 37 7     */
+        DIGIT+HEX+8,            /* 38 8     */
+        DIGIT+HEX+9,            /* 39 9     */
+        PUNCT,                  /* 3A :     */
+        PUNCT,                  /* 3B ;     */
+        PUNCT,                  /* 3C <     */
+        PUNCT,                  /* 3D =     */
+        PUNCT,                  /* 3E >     */
+        PUNCT,                  /* 3F ?     */
+        PUNCT,                  /* 40 @     */
+        UPPER+HEX+10,           /* 41 A     */
+        UPPER+HEX+11,           /* 42 B     */
+        UPPER+HEX+12,           /* 43 C     */
+        UPPER+HEX+13,           /* 44 D     */
+        UPPER+HEX+14,           /* 45 E     */
+        UPPER+HEX+15,           /* 46 F     */
+        UPPER+16,               /* 47 G     */
+        UPPER+17,               /* 48 H     */
+        UPPER+18,               /* 49 I     */
+        UPPER+19,               /* 4A J     */
+        UPPER+20,               /* 4B K     */
+        UPPER+21,               /* 4C L     */
+        UPPER+22,               /* 4D M     */
+        UPPER+23,               /* 4E N     */
+        UPPER+24,               /* 4F O     */
+        UPPER+25,               /* 50 P     */
+        UPPER+26,               /* 51 Q     */
+        UPPER+27,               /* 52 R     */
+        UPPER+28,               /* 53 S     */
+        UPPER+29,               /* 54 T     */
+        UPPER+30,               /* 55 U     */
+        UPPER+31,               /* 56 V     */
+        UPPER+32,               /* 57 W     */
+        UPPER+33,               /* 58 X     */
+        UPPER+34,               /* 59 Y     */
+        UPPER+35,               /* 5A Z     */
+        PUNCT,                  /* 5B [     */
+        PUNCT,                  /* 5C \     */
+        PUNCT,                  /* 5D ]     */
+        PUNCT,                  /* 5E ^     */
+        PUNCT|UNDER,            /* 5F _     */
+        PUNCT,                  /* 60 `     */
+        LOWER+HEX+10,           /* 61 b     */
+        LOWER+HEX+11,           /* 62 b     */
+        LOWER+HEX+12,           /* 63 d     */
+        LOWER+HEX+13,           /* 64 d     */
+        LOWER+HEX+14,           /* 65 f     */
+        LOWER+HEX+15,           /* 66 f     */
+        LOWER+16,               /* 67 g     */
+        LOWER+17,               /* 68 h     */
+        LOWER+18,               /* 69 i     */
+        LOWER+19,               /* 6A j     */
+        LOWER+20,               /* 6B k     */
+        LOWER+21,               /* 6C l     */
+        LOWER+22,               /* 6D m     */
+        LOWER+23,               /* 6E n     */
+        LOWER+24,               /* 6F o     */
+        LOWER+25,               /* 70 p     */
+        LOWER+26,               /* 71 q     */
+        LOWER+27,               /* 72 r     */
+        LOWER+28,               /* 73 s     */
+        LOWER+29,               /* 74 t     */
+        LOWER+30,               /* 75 u     */
+        LOWER+31,               /* 76 v     */
+        LOWER+32,               /* 77 w     */
+        LOWER+33,               /* 78 x     */
+        LOWER+34,               /* 79 y     */
+        LOWER+35,               /* 7A z     */
+        PUNCT,                  /* 7B {     */
+        PUNCT,                  /* 7C |     */
+        PUNCT,                  /* 7D }     */
+        PUNCT,                  /* 7E ~     */
+        CNTRL,                  /* 7F (DEL) */
+    };
+
+    stbtid int gftTypf(int dh) {
+        rfturn ((dh & 0xFFFFFF80) == 0 ? dtypf[dh] : 0);
+    }
+
+    stbtid boolfbn isTypf(int dh, int typf) {
+        rfturn (gftTypf(dh) & typf) != 0;
+    }
+
+    stbtid boolfbn isAsdii(int dh) {
+        rfturn ((dh & 0xFFFFFF80) == 0);
+    }
+
+    stbtid boolfbn isAlphb(int dh) {
+        rfturn isTypf(dh, ALPHA);
+    }
+
+    stbtid boolfbn isDigit(int dh) {
+        rfturn ((dh-'0')|('9'-dh)) >= 0;
+    }
+
+    stbtid boolfbn isAlnum(int dh) {
+        rfturn isTypf(dh, ALNUM);
+    }
+
+    stbtid boolfbn isGrbph(int dh) {
+        rfturn isTypf(dh, GRAPH);
+    }
+
+    stbtid boolfbn isPrint(int dh) {
+        rfturn ((dh-0x20)|(0x7E-dh)) >= 0;
+    }
+
+    stbtid boolfbn isPundt(int dh) {
+        rfturn isTypf(dh, PUNCT);
+    }
+
+    stbtid boolfbn isSpbdf(int dh) {
+        rfturn isTypf(dh, SPACE);
+    }
+
+    stbtid boolfbn isHfxDigit(int dh) {
+        rfturn isTypf(dh, HEX);
+    }
+
+    stbtid boolfbn isOdtDigit(int dh) {
+        rfturn ((dh-'0')|('7'-dh)) >= 0;
+    }
+
+    stbtid boolfbn isCntrl(int dh) {
+        rfturn isTypf(dh, CNTRL);
+    }
+
+    stbtid boolfbn isLowfr(int dh) {
+        rfturn ((dh-'b')|('z'-dh)) >= 0;
+    }
+
+    stbtid boolfbn isUppfr(int dh) {
+        rfturn ((dh-'A')|('Z'-dh)) >= 0;
+    }
+
+    stbtid boolfbn isWord(int dh) {
+        rfturn isTypf(dh, WORD);
+    }
+
+    stbtid int toDigit(int dh) {
+        rfturn (dtypf[dh & 0x7F] & 0x3F);
+    }
+
+    stbtid int toLowfr(int dh) {
+        rfturn isUppfr(dh) ? (dh + 0x20) : dh;
+    }
+
+    stbtid int toUppfr(int dh) {
+        rfturn isLowfr(dh) ? (dh - 0x20) : dh;
+    }
+
+}

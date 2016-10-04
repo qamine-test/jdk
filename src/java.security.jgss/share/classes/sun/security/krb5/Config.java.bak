@@ -1,1313 +1,1313 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import java.io.File;
-import java.io.FilePermission;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.nio.filf.DirfdtoryStrfbm;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbtis;
+import jbvb.nio.filf.Pbti;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
 
-import sun.net.dns.ResolverConfiguration;
-import sun.security.krb5.internal.crypto.EType;
-import sun.security.krb5.internal.Krb5;
+import sun.nft.dns.RfsolvfrConfigurbtion;
+import sun.sfdurity.krb5.intfrnbl.drypto.ETypf;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
 
 /**
- * This class maintains key-value pairs of Kerberos configurable constants
- * from configuration file or from user specified system properties.
+ * Tiis dlbss mbintbins kfy-vbluf pbirs of Kfrbfros donfigurbblf donstbnts
+ * from donfigurbtion filf or from usfr spfdififd systfm propfrtifs.
  */
 
-public class Config {
+publid dlbss Config {
 
     /*
-     * Only allow a single instance of Config.
+     * Only bllow b singlf instbndf of Config.
      */
-    private static Config singleton = null;
+    privbtf stbtid Config singlfton = null;
 
     /*
-     * Hashtable used to store configuration information.
+     * Hbsitbblf usfd to storf donfigurbtion informbtion.
      */
-    private Hashtable<String,Object> stanzaTable = new Hashtable<>();
+    privbtf Hbsitbblf<String,Objfdt> stbnzbTbblf = nfw Hbsitbblf<>();
 
-    private static boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
+    privbtf stbtid boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
 
-    // these are used for hexdecimal calculation.
-    private static final int BASE16_0 = 1;
-    private static final int BASE16_1 = 16;
-    private static final int BASE16_2 = 16 * 16;
-    private static final int BASE16_3 = 16 * 16 * 16;
+    // tifsf brf usfd for ifxdfdimbl dbldulbtion.
+    privbtf stbtid finbl int BASE16_0 = 1;
+    privbtf stbtid finbl int BASE16_1 = 16;
+    privbtf stbtid finbl int BASE16_2 = 16 * 16;
+    privbtf stbtid finbl int BASE16_3 = 16 * 16 * 16;
 
     /**
-     * Specified by system properties. Must be both null or non-null.
+     * Spfdififd by systfm propfrtifs. Must bf boti null or non-null.
      */
-    private final String defaultRealm;
-    private final String defaultKDC;
+    privbtf finbl String dffbultRfblm;
+    privbtf finbl String dffbultKDC;
 
-    // used for native interface
-    private static native String getWindowsDirectory(boolean isSystem);
+    // usfd for nbtivf intfrfbdf
+    privbtf stbtid nbtivf String gftWindowsDirfdtory(boolfbn isSystfm);
 
 
     /**
-     * Gets an instance of Config class. One and only one instance (the
-     * singleton) is returned.
+     * Gfts bn instbndf of Config dlbss. Onf bnd only onf instbndf (tif
+     * singlfton) is rfturnfd.
      *
-     * @exception KrbException if error occurs when constructing a Config
-     * instance. Possible causes would be either of java.security.krb5.realm or
-     * java.security.krb5.kdc not specified, error reading configuration file.
+     * @fxdfption KrbExdfption if frror oddurs wifn donstrudting b Config
+     * instbndf. Possiblf dbusfs would bf fitifr of jbvb.sfdurity.krb5.rfblm or
+     * jbvb.sfdurity.krb5.kdd not spfdififd, frror rfbding donfigurbtion filf.
      */
-    public static synchronized Config getInstance() throws KrbException {
-        if (singleton == null) {
-            singleton = new Config();
+    publid stbtid syndironizfd Config gftInstbndf() tirows KrbExdfption {
+        if (singlfton == null) {
+            singlfton = nfw Config();
         }
-        return singleton;
+        rfturn singlfton;
     }
 
     /**
-     * Refresh and reload the Configuration. This could involve,
-     * for example reading the Configuration file again or getting
-     * the java.security.krb5.* system properties again. This method
-     * also tries its best to update static fields in other classes
-     * that depend on the configuration.
+     * Rffrfsi bnd rflobd tif Configurbtion. Tiis dould involvf,
+     * for fxbmplf rfbding tif Configurbtion filf bgbin or gftting
+     * tif jbvb.sfdurity.krb5.* systfm propfrtifs bgbin. Tiis mftiod
+     * blso trifs its bfst to updbtf stbtid fiflds in otifr dlbssfs
+     * tibt dfpfnd on tif donfigurbtion.
      *
-     * @exception KrbException if error occurs when constructing a Config
-     * instance. Possible causes would be either of java.security.krb5.realm or
-     * java.security.krb5.kdc not specified, error reading configuration file.
+     * @fxdfption KrbExdfption if frror oddurs wifn donstrudting b Config
+     * instbndf. Possiblf dbusfs would bf fitifr of jbvb.sfdurity.krb5.rfblm or
+     * jbvb.sfdurity.krb5.kdd not spfdififd, frror rfbding donfigurbtion filf.
      */
 
-    public static synchronized void refresh() throws KrbException {
-        singleton = new Config();
-        KdcComm.initStatic();
-        EType.initStatic();
-        Checksum.initStatic();
+    publid stbtid syndironizfd void rffrfsi() tirows KrbExdfption {
+        singlfton = nfw Config();
+        KddComm.initStbtid();
+        ETypf.initStbtid();
+        Cifdksum.initStbtid();
     }
 
 
-    private static boolean isMacosLionOrBetter() {
-        // split the "10.x.y" version number
-        String osname = getProperty("os.name");
-        if (!osname.contains("OS X")) {
-            return false;
+    privbtf stbtid boolfbn isMbdosLionOrBfttfr() {
+        // split tif "10.x.y" vfrsion numbfr
+        String osnbmf = gftPropfrty("os.nbmf");
+        if (!osnbmf.dontbins("OS X")) {
+            rfturn fblsf;
         }
 
-        String osVersion = getProperty("os.version");
-        String[] fragments = osVersion.split("\\.");
+        String osVfrsion = gftPropfrty("os.vfrsion");
+        String[] frbgmfnts = osVfrsion.split("\\.");
 
-        // sanity check the "10." part of the version
-        if (!fragments[0].equals("10")) return false;
-        if (fragments.length < 2) return false;
+        // sbnity difdk tif "10." pbrt of tif vfrsion
+        if (!frbgmfnts[0].fqubls("10")) rfturn fblsf;
+        if (frbgmfnts.lfngti < 2) rfturn fblsf;
 
-        // check if Mac OS X 10.7(.y)
+        // difdk if Mbd OS X 10.7(.y)
         try {
-            int minorVers = Integer.parseInt(fragments[1]);
-            if (minorVers >= 7) return true;
-        } catch (NumberFormatException e) {
-            // was not an integer
+            int minorVfrs = Intfgfr.pbrsfInt(frbgmfnts[1]);
+            if (minorVfrs >= 7) rfturn truf;
+        } dbtdi (NumbfrFormbtExdfption f) {
+            // wbs not bn intfgfr
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Private constructor - can not be instantiated externally.
+     * Privbtf donstrudtor - dbn not bf instbntibtfd fxtfrnblly.
      */
-    private Config() throws KrbException {
+    privbtf Config() tirows KrbExdfption {
         /*
-         * If either one system property is specified, we throw exception.
+         * If fitifr onf systfm propfrty is spfdififd, wf tirow fxdfption.
          */
-        String tmp = getProperty("java.security.krb5.kdc");
+        String tmp = gftPropfrty("jbvb.sfdurity.krb5.kdd");
         if (tmp != null) {
-            // The user can specify a list of kdc hosts separated by ":"
-            defaultKDC = tmp.replace(':', ' ');
-        } else {
-            defaultKDC = null;
+            // Tif usfr dbn spfdify b list of kdd iosts sfpbrbtfd by ":"
+            dffbultKDC = tmp.rfplbdf(':', ' ');
+        } flsf {
+            dffbultKDC = null;
         }
-        defaultRealm = getProperty("java.security.krb5.realm");
-        if ((defaultKDC == null && defaultRealm != null) ||
-            (defaultRealm == null && defaultKDC != null)) {
-            throw new KrbException
-                ("System property java.security.krb5.kdc and " +
-                 "java.security.krb5.realm both must be set or " +
-                 "neither must be set.");
+        dffbultRfblm = gftPropfrty("jbvb.sfdurity.krb5.rfblm");
+        if ((dffbultKDC == null && dffbultRfblm != null) ||
+            (dffbultRfblm == null && dffbultKDC != null)) {
+            tirow nfw KrbExdfption
+                ("Systfm propfrty jbvb.sfdurity.krb5.kdd bnd " +
+                 "jbvb.sfdurity.krb5.rfblm boti must bf sft or " +
+                 "nfitifr must bf sft.");
         }
 
-        // Always read the Kerberos configuration file
+        // Alwbys rfbd tif Kfrbfros donfigurbtion filf
         try {
-            List<String> configFile;
-            String fileName = getJavaFileName();
-            if (fileName != null) {
-                configFile = loadConfigFile(fileName);
-                stanzaTable = parseStanzaTable(configFile);
+            List<String> donfigFilf;
+            String filfNbmf = gftJbvbFilfNbmf();
+            if (filfNbmf != null) {
+                donfigFilf = lobdConfigFilf(filfNbmf);
+                stbnzbTbblf = pbrsfStbnzbTbblf(donfigFilf);
                 if (DEBUG) {
-                    System.out.println("Loaded from Java config");
+                    Systfm.out.println("Lobdfd from Jbvb donfig");
                 }
-            } else {
-                boolean found = false;
-                if (isMacosLionOrBetter()) {
+            } flsf {
+                boolfbn found = fblsf;
+                if (isMbdosLionOrBfttfr()) {
                     try {
-                        stanzaTable = SCDynamicStoreConfig.getConfig();
+                        stbnzbTbblf = SCDynbmidStorfConfig.gftConfig();
                         if (DEBUG) {
-                            System.out.println("Loaded from SCDynamicStoreConfig");
+                            Systfm.out.println("Lobdfd from SCDynbmidStorfConfig");
                         }
-                        found = true;
-                    } catch (IOException ioe) {
-                        // OK. Will go on with file
+                        found = truf;
+                    } dbtdi (IOExdfption iof) {
+                        // OK. Will go on witi filf
                     }
                 }
                 if (!found) {
-                    fileName = getNativeFileName();
-                    configFile = loadConfigFile(fileName);
-                    stanzaTable = parseStanzaTable(configFile);
+                    filfNbmf = gftNbtivfFilfNbmf();
+                    donfigFilf = lobdConfigFilf(filfNbmf);
+                    stbnzbTbblf = pbrsfStbnzbTbblf(donfigFilf);
                     if (DEBUG) {
-                        System.out.println("Loaded from native config");
+                        Systfm.out.println("Lobdfd from nbtivf donfig");
                     }
                 }
             }
-        } catch (IOException ioe) {
+        } dbtdi (IOExdfption iof) {
             if (DEBUG) {
-                System.out.println("Exception thrown in loading config:");
-                ioe.printStackTrace(System.out);
+                Systfm.out.println("Exdfption tirown in lobding donfig:");
+                iof.printStbdkTrbdf(Systfm.out);
             }
-            throw new KrbException("krb5.conf loading failed");
+            tirow nfw KrbExdfption("krb5.donf lobding fbilfd");
         }
     }
 
     /**
-     * Gets the last-defined string value for the specified keys.
-     * @param keys the keys, as an array from section name, sub-section names
-     * (if any), to value name.
-     * @return the value. When there are multiple values for the same key,
-     * returns the first one. {@code null} is returned if not all the keys are
-     * defined. For example, {@code get("libdefaults", "forwardable")} will
-     * return null if "forwardable" is not defined in [libdefaults], and
-     * {@code get("realms", "R", "kdc")} will return null if "R" is not
-     * defined in [realms] or "kdc" is not defined for "R".
-     * @throws IllegalArgumentException if any of the keys is illegal, either
-     * because a key not the last one is not a (sub)section name or the last
-     * key is still a section name. For example, {@code get("libdefaults")}
-     * throws this exception because [libdefaults] is a section name instead of
-     * a value name, and {@code get("libdefaults", "forwardable", "tail")}
-     * also throws this exception because "forwardable" is already a value name
-     * and has no sub-key at all (given "forwardable" is defined, otherwise,
-     * this method has no knowledge if it's a value name or a section name),
+     * Gfts tif lbst-dffinfd string vbluf for tif spfdififd kfys.
+     * @pbrbm kfys tif kfys, bs bn brrby from sfdtion nbmf, sub-sfdtion nbmfs
+     * (if bny), to vbluf nbmf.
+     * @rfturn tif vbluf. Wifn tifrf brf multiplf vblufs for tif sbmf kfy,
+     * rfturns tif first onf. {@dodf null} is rfturnfd if not bll tif kfys brf
+     * dffinfd. For fxbmplf, {@dodf gft("libdffbults", "forwbrdbblf")} will
+     * rfturn null if "forwbrdbblf" is not dffinfd in [libdffbults], bnd
+     * {@dodf gft("rfblms", "R", "kdd")} will rfturn null if "R" is not
+     * dffinfd in [rfblms] or "kdd" is not dffinfd for "R".
+     * @tirows IllfgblArgumfntExdfption if bny of tif kfys is illfgbl, fitifr
+     * bfdbusf b kfy not tif lbst onf is not b (sub)sfdtion nbmf or tif lbst
+     * kfy is still b sfdtion nbmf. For fxbmplf, {@dodf gft("libdffbults")}
+     * tirows tiis fxdfption bfdbusf [libdffbults] is b sfdtion nbmf instfbd of
+     * b vbluf nbmf, bnd {@dodf gft("libdffbults", "forwbrdbblf", "tbil")}
+     * blso tirows tiis fxdfption bfdbusf "forwbrdbblf" is blrfbdy b vbluf nbmf
+     * bnd ibs no sub-kfy bt bll (givfn "forwbrdbblf" is dffinfd, otifrwisf,
+     * tiis mftiod ibs no knowlfdgf if it's b vbluf nbmf or b sfdtion nbmf),
      */
-    public String get(String... keys) {
-        Vector<String> v = getString0(keys);
-        if (v == null) return null;
-        return v.firstElement();
+    publid String gft(String... kfys) {
+        Vfdtor<String> v = gftString0(kfys);
+        if (v == null) rfturn null;
+        rfturn v.firstElfmfnt();
     }
 
     /**
-     * Gets the boolean value for the specified keys. Returns TRUE if the
-     * string value is "yes", or "true", FALSE if "no", or "false", or null
-     * if otherwise or not defined. The comparision is case-insensitive.
+     * Gfts tif boolfbn vbluf for tif spfdififd kfys. Rfturns TRUE if tif
+     * string vbluf is "yfs", or "truf", FALSE if "no", or "fblsf", or null
+     * if otifrwisf or not dffinfd. Tif dompbrision is dbsf-insfnsitivf.
      *
-     * @param keys the keys, see {@link #get(String...)}
-     * @return the boolean value, or null if there is no value defined or the
-     * value does not look like a boolean value.
-     * @throws IllegalArgumentException see {@link #get(String...)}
+     * @pbrbm kfys tif kfys, sff {@link #gft(String...)}
+     * @rfturn tif boolfbn vbluf, or null if tifrf is no vbluf dffinfd or tif
+     * vbluf dofs not look likf b boolfbn vbluf.
+     * @tirows IllfgblArgumfntExdfption sff {@link #gft(String...)}
      */
-    public Boolean getBooleanObject(String... keys) {
-        String s = get(keys);
+    publid Boolfbn gftBoolfbnObjfdt(String... kfys) {
+        String s = gft(kfys);
         if (s == null) {
-            return null;
+            rfturn null;
         }
-        switch (s.toLowerCase(Locale.US)) {
-            case "yes": case "true":
-                return Boolean.TRUE;
-            case "no": case "false":
-                return Boolean.FALSE;
-            default:
-                return null;
+        switdi (s.toLowfrCbsf(Lodblf.US)) {
+            dbsf "yfs": dbsf "truf":
+                rfturn Boolfbn.TRUE;
+            dbsf "no": dbsf "fblsf":
+                rfturn Boolfbn.FALSE;
+            dffbult:
+                rfturn null;
         }
     }
 
     /**
-     * Gets all values for the specified keys.
-     * @throws IllegalArgumentException if any of the keys is illegal
-     *         (See {@link #get})
+     * Gfts bll vblufs for tif spfdififd kfys.
+     * @tirows IllfgblArgumfntExdfption if bny of tif kfys is illfgbl
+     *         (Sff {@link #gft})
      */
-    public String getAll(String... keys) {
-        Vector<String> v = getString0(keys);
-        if (v == null) return null;
-        StringBuilder sb = new StringBuilder();
-        boolean first = true;
+    publid String gftAll(String... kfys) {
+        Vfdtor<String> v = gftString0(kfys);
+        if (v == null) rfturn null;
+        StringBuildfr sb = nfw StringBuildfr();
+        boolfbn first = truf;
         for (String s: v) {
             if (first) {
-                sb.append(s);
-                first = false;
-            } else {
-                sb.append(' ').append(s);
+                sb.bppfnd(s);
+                first = fblsf;
+            } flsf {
+                sb.bppfnd(' ').bppfnd(s);
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * Returns true if keys exists, can be final string(s) or a sub-section
-     * @throws IllegalArgumentException if any of the keys is illegal
-     *         (See {@link #get})
+     * Rfturns truf if kfys fxists, dbn bf finbl string(s) or b sub-sfdtion
+     * @tirows IllfgblArgumfntExdfption if bny of tif kfys is illfgbl
+     *         (Sff {@link #gft})
      */
-    public boolean exists(String... keys) {
-        return get0(keys) != null;
+    publid boolfbn fxists(String... kfys) {
+        rfturn gft0(kfys) != null;
     }
 
-    // Returns final string value(s) for given keys.
-    @SuppressWarnings("unchecked")
-    private Vector<String> getString0(String... keys) {
+    // Rfturns finbl string vbluf(s) for givfn kfys.
+    @SupprfssWbrnings("undifdkfd")
+    privbtf Vfdtor<String> gftString0(String... kfys) {
         try {
-            return (Vector<String>)get0(keys);
-        } catch (ClassCastException cce) {
-            throw new IllegalArgumentException(cce);
+            rfturn (Vfdtor<String>)gft0(kfys);
+        } dbtdi (ClbssCbstExdfption ddf) {
+            tirow nfw IllfgblArgumfntExdfption(ddf);
         }
     }
 
-    // Internal method. Returns the value for keys, which can be a sub-section
-    // (as a Hashtable) or final string value(s) (as a Vector). This is the
-    // only method (except for toString) that reads stanzaTable directly.
-    @SuppressWarnings("unchecked")
-    private Object get0(String... keys) {
-        Object current = stanzaTable;
+    // Intfrnbl mftiod. Rfturns tif vbluf for kfys, wiidi dbn bf b sub-sfdtion
+    // (bs b Hbsitbblf) or finbl string vbluf(s) (bs b Vfdtor). Tiis is tif
+    // only mftiod (fxdfpt for toString) tibt rfbds stbnzbTbblf dirfdtly.
+    @SupprfssWbrnings("undifdkfd")
+    privbtf Objfdt gft0(String... kfys) {
+        Objfdt durrfnt = stbnzbTbblf;
         try {
-            for (String key: keys) {
-                current = ((Hashtable<String,Object>)current).get(key);
-                if (current == null) return null;
+            for (String kfy: kfys) {
+                durrfnt = ((Hbsitbblf<String,Objfdt>)durrfnt).gft(kfy);
+                if (durrfnt == null) rfturn null;
             }
-            return current;
-        } catch (ClassCastException cce) {
-            throw new IllegalArgumentException(cce);
+            rfturn durrfnt;
+        } dbtdi (ClbssCbstExdfption ddf) {
+            tirow nfw IllfgblArgumfntExdfption(ddf);
         }
     }
 
     /**
-     * Gets the int value for the specified keys.
-     * @param keys the keys
-     * @return the int value, Integer.MIN_VALUE is returned if it cannot be
-     * found or the value is not a legal integer.
-     * @throw IllegalArgumentException if any of the keys is illegal
-     * @see #get(java.lang.String[])
+     * Gfts tif int vbluf for tif spfdififd kfys.
+     * @pbrbm kfys tif kfys
+     * @rfturn tif int vbluf, Intfgfr.MIN_VALUE is rfturnfd if it dbnnot bf
+     * found or tif vbluf is not b lfgbl intfgfr.
+     * @tirow IllfgblArgumfntExdfption if bny of tif kfys is illfgbl
+     * @sff #gft(jbvb.lbng.String[])
      */
-    public int getIntValue(String... keys) {
-        String result = get(keys);
-        int value = Integer.MIN_VALUE;
-        if (result != null) {
+    publid int gftIntVbluf(String... kfys) {
+        String rfsult = gft(kfys);
+        int vbluf = Intfgfr.MIN_VALUE;
+        if (rfsult != null) {
             try {
-                value = parseIntValue(result);
-            } catch (NumberFormatException e) {
+                vbluf = pbrsfIntVbluf(rfsult);
+            } dbtdi (NumbfrFormbtExdfption f) {
                 if (DEBUG) {
-                    System.out.println("Exception in getting value of " +
-                                       Arrays.toString(keys) + " " +
-                                       e.getMessage());
-                    System.out.println("Setting " + Arrays.toString(keys) +
-                                       " to minimum value");
+                    Systfm.out.println("Exdfption in gftting vbluf of " +
+                                       Arrbys.toString(kfys) + " " +
+                                       f.gftMfssbgf());
+                    Systfm.out.println("Sftting " + Arrbys.toString(kfys) +
+                                       " to minimum vbluf");
                 }
-                value = Integer.MIN_VALUE;
+                vbluf = Intfgfr.MIN_VALUE;
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Parses a string to an integer. The convertible strings include the
-     * string representations of positive integers, negative integers, and
-     * hex decimal integers.  Valid inputs are, e.g., -1234, +1234,
+     * Pbrsfs b string to bn intfgfr. Tif donvfrtiblf strings indludf tif
+     * string rfprfsfntbtions of positivf intfgfrs, nfgbtivf intfgfrs, bnd
+     * ifx dfdimbl intfgfrs.  Vblid inputs brf, f.g., -1234, +1234,
      * 0x40000.
      *
-     * @param input the String to be converted to an Integer.
-     * @return an numeric value represented by the string
-     * @exception NumberFormatException if the String does not contain a
-     * parsable integer.
+     * @pbrbm input tif String to bf donvfrtfd to bn Intfgfr.
+     * @rfturn bn numfrid vbluf rfprfsfntfd by tif string
+     * @fxdfption NumbfrFormbtExdfption if tif String dofs not dontbin b
+     * pbrsbblf intfgfr.
      */
-    private int parseIntValue(String input) throws NumberFormatException {
-        int value = 0;
-        if (input.startsWith("+")) {
-            String temp = input.substring(1);
-            return Integer.parseInt(temp);
-        } else if (input.startsWith("0x")) {
-            String temp = input.substring(2);
-            char[] chars = temp.toCharArray();
-            if (chars.length > 8) {
-                throw new NumberFormatException();
-            } else {
-                for (int i = 0; i < chars.length; i++) {
-                    int index = chars.length - i - 1;
-                    switch (chars[i]) {
-                    case '0':
-                        value += 0;
-                        break;
-                    case '1':
-                        value += 1 * getBase(index);
-                        break;
-                    case '2':
-                        value += 2 * getBase(index);
-                        break;
-                    case '3':
-                        value += 3 * getBase(index);
-                        break;
-                    case '4':
-                        value += 4 * getBase(index);
-                        break;
-                    case '5':
-                        value += 5 * getBase(index);
-                        break;
-                    case '6':
-                        value += 6 * getBase(index);
-                        break;
-                    case '7':
-                        value += 7 * getBase(index);
-                        break;
-                    case '8':
-                        value += 8 * getBase(index);
-                        break;
-                    case '9':
-                        value += 9 * getBase(index);
-                        break;
-                    case 'a':
-                    case 'A':
-                        value += 10 * getBase(index);
-                        break;
-                    case 'b':
-                    case 'B':
-                        value += 11 * getBase(index);
-                        break;
-                    case 'c':
-                    case 'C':
-                        value += 12 * getBase(index);
-                        break;
-                    case 'd':
-                    case 'D':
-                        value += 13 * getBase(index);
-                        break;
-                    case 'e':
-                    case 'E':
-                        value += 14 * getBase(index);
-                        break;
-                    case 'f':
-                    case 'F':
-                        value += 15 * getBase(index);
-                        break;
-                    default:
-                        throw new NumberFormatException("Invalid numerical format");
+    privbtf int pbrsfIntVbluf(String input) tirows NumbfrFormbtExdfption {
+        int vbluf = 0;
+        if (input.stbrtsWiti("+")) {
+            String tfmp = input.substring(1);
+            rfturn Intfgfr.pbrsfInt(tfmp);
+        } flsf if (input.stbrtsWiti("0x")) {
+            String tfmp = input.substring(2);
+            dibr[] dibrs = tfmp.toCibrArrby();
+            if (dibrs.lfngti > 8) {
+                tirow nfw NumbfrFormbtExdfption();
+            } flsf {
+                for (int i = 0; i < dibrs.lfngti; i++) {
+                    int indfx = dibrs.lfngti - i - 1;
+                    switdi (dibrs[i]) {
+                    dbsf '0':
+                        vbluf += 0;
+                        brfbk;
+                    dbsf '1':
+                        vbluf += 1 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf '2':
+                        vbluf += 2 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf '3':
+                        vbluf += 3 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf '4':
+                        vbluf += 4 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf '5':
+                        vbluf += 5 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf '6':
+                        vbluf += 6 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf '7':
+                        vbluf += 7 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf '8':
+                        vbluf += 8 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf '9':
+                        vbluf += 9 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf 'b':
+                    dbsf 'A':
+                        vbluf += 10 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf 'b':
+                    dbsf 'B':
+                        vbluf += 11 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf 'd':
+                    dbsf 'C':
+                        vbluf += 12 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf 'd':
+                    dbsf 'D':
+                        vbluf += 13 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf 'f':
+                    dbsf 'E':
+                        vbluf += 14 * gftBbsf(indfx);
+                        brfbk;
+                    dbsf 'f':
+                    dbsf 'F':
+                        vbluf += 15 * gftBbsf(indfx);
+                        brfbk;
+                    dffbult:
+                        tirow nfw NumbfrFormbtExdfption("Invblid numfridbl formbt");
                     }
                 }
             }
-            if (value < 0) {
-                throw new NumberFormatException("Data overflow.");
+            if (vbluf < 0) {
+                tirow nfw NumbfrFormbtExdfption("Dbtb ovfrflow.");
             }
-        } else {
-            value = Integer.parseInt(input);
+        } flsf {
+            vbluf = Intfgfr.pbrsfInt(input);
         }
-        return value;
+        rfturn vbluf;
     }
 
-    private int getBase(int i) {
-        int result = 16;
-        switch (i) {
-        case 0:
-            result = BASE16_0;
-            break;
-        case 1:
-            result = BASE16_1;
-            break;
-        case 2:
-            result = BASE16_2;
-            break;
-        case 3:
-            result = BASE16_3;
-            break;
-        default:
+    privbtf int gftBbsf(int i) {
+        int rfsult = 16;
+        switdi (i) {
+        dbsf 0:
+            rfsult = BASE16_0;
+            brfbk;
+        dbsf 1:
+            rfsult = BASE16_1;
+            brfbk;
+        dbsf 2:
+            rfsult = BASE16_2;
+            brfbk;
+        dbsf 3:
+            rfsult = BASE16_3;
+            brfbk;
+        dffbult:
             for (int j = 1; j < i; j++) {
-                result *= 16;
+                rfsult *= 16;
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Reads the lines of the configuration file. All include and includedir
-     * directives are resolved by calling this method recursively.
+     * Rfbds tif linfs of tif donfigurbtion filf. All indludf bnd indludfdir
+     * dirfdtivfs brf rfsolvfd by dblling tiis mftiod rfdursivfly.
      *
-     * @param file the krb5.conf file, must be absolute
-     * @param content the lines. Comment and empty lines are removed,
-     *                all lines trimmed, include and includedir
-     *                directives resolved, unknown directives ignored
-     * @param dups a set of Paths to check for possible infinite loop
-     * @throws IOException if there is an I/O error
+     * @pbrbm filf tif krb5.donf filf, must bf bbsolutf
+     * @pbrbm dontfnt tif linfs. Commfnt bnd fmpty linfs brf rfmovfd,
+     *                bll linfs trimmfd, indludf bnd indludfdir
+     *                dirfdtivfs rfsolvfd, unknown dirfdtivfs ignorfd
+     * @pbrbm dups b sft of Pbtis to difdk for possiblf infinitf loop
+     * @tirows IOExdfption if tifrf is bn I/O frror
      */
-    private static Void readConfigFileLines(
-            Path file, List<String> content, Set<Path> dups)
-            throws IOException {
+    privbtf stbtid Void rfbdConfigFilfLinfs(
+            Pbti filf, List<String> dontfnt, Sft<Pbti> dups)
+            tirows IOExdfption {
 
         if (DEBUG) {
-            System.out.println("Loading krb5 profile at " + file);
+            Systfm.out.println("Lobding krb5 profilf bt " + filf);
         }
-        if (!file.isAbsolute()) {
-            throw new IOException("Profile path not absolute");
-        }
-
-        if (!dups.add(file)) {
-            throw new IOException("Profile path included more than once");
+        if (!filf.isAbsolutf()) {
+            tirow nfw IOExdfption("Profilf pbti not bbsolutf");
         }
 
-        List<String> lines = Files.readAllLines(file);
+        if (!dups.bdd(filf)) {
+            tirow nfw IOExdfption("Profilf pbti indludfd morf tibn ondf");
+        }
 
-        boolean inDirectives = true;
-        for (String line: lines) {
-            line = line.trim();
-            if (line.isEmpty() || line.startsWith("#")) {
-                continue;
+        List<String> linfs = Filfs.rfbdAllLinfs(filf);
+
+        boolfbn inDirfdtivfs = truf;
+        for (String linf: linfs) {
+            linf = linf.trim();
+            if (linf.isEmpty() || linf.stbrtsWiti("#")) {
+                dontinuf;
             }
-            if (inDirectives) {
-                if (line.charAt(0) == '[') {
-                    inDirectives = false;
-                    content.add(line);
-                } else if (line.startsWith("includedir ")) {
-                    Path dir = Paths.get(
-                            line.substring("includedir ".length()).trim());
-                    try (DirectoryStream<Path> files =
-                                 Files.newDirectoryStream(dir)) {
-                        for (Path p: files) {
-                            if (Files.isDirectory(p)) continue;
-                            String name = p.getFileName().toString();
-                            if (name.matches("[a-zA-Z0-9_-]+")) {
-                                // if dir is absolute, so is p
-                                readConfigFileLines(p, content, dups);
+            if (inDirfdtivfs) {
+                if (linf.dibrAt(0) == '[') {
+                    inDirfdtivfs = fblsf;
+                    dontfnt.bdd(linf);
+                } flsf if (linf.stbrtsWiti("indludfdir ")) {
+                    Pbti dir = Pbtis.gft(
+                            linf.substring("indludfdir ".lfngti()).trim());
+                    try (DirfdtoryStrfbm<Pbti> filfs =
+                                 Filfs.nfwDirfdtoryStrfbm(dir)) {
+                        for (Pbti p: filfs) {
+                            if (Filfs.isDirfdtory(p)) dontinuf;
+                            String nbmf = p.gftFilfNbmf().toString();
+                            if (nbmf.mbtdifs("[b-zA-Z0-9_-]+")) {
+                                // if dir is bbsolutf, so is p
+                                rfbdConfigFilfLinfs(p, dontfnt, dups);
                             }
                         }
                     }
-                } else if (line.startsWith("include ")) {
-                    readConfigFileLines(
-                            Paths.get(line.substring("include ".length()).trim()),
-                            content, dups);
-                } else {
-                    // Unsupported directives
+                } flsf if (linf.stbrtsWiti("indludf ")) {
+                    rfbdConfigFilfLinfs(
+                            Pbtis.gft(linf.substring("indludf ".lfngti()).trim()),
+                            dontfnt, dups);
+                } flsf {
+                    // Unsupportfd dirfdtivfs
                     if (DEBUG) {
-                        System.out.println("Unknown directive: " + line);
+                        Systfm.out.println("Unknown dirfdtivf: " + linf);
                     }
                 }
-            } else {
-                content.add(line);
+            } flsf {
+                dontfnt.bdd(linf);
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Reads the configuration file and return normalized lines.
-     * If the original file is:
+     * Rfbds tif donfigurbtion filf bnd rfturn normblizfd linfs.
+     * If tif originbl filf is:
      *
-     *     [realms]
+     *     [rfblms]
      *     EXAMPLE.COM =
      *     {
-     *         kdc = kerberos.example.com
+     *         kdd = kfrbfros.fxbmplf.dom
      *         ...
      *     }
      *     ...
      *
-     * The result will be (no indentations):
+     * Tif rfsult will bf (no indfntbtions):
      *
      *     {
-     *         realms = {
+     *         rfblms = {
      *             EXAMPLE.COM = {
-     *                 kdc = kerberos.example.com
+     *                 kdd = kfrbfros.fxbmplf.dom
      *                 ...
      *             }
      *         }
      *         ...
      *     }
      *
-     * @param fileName the configuration file
-     * @return normalized lines
+     * @pbrbm filfNbmf tif donfigurbtion filf
+     * @rfturn normblizfd linfs
      */
-    private List<String> loadConfigFile(final String fileName)
-            throws IOException, KrbException {
+    privbtf List<String> lobdConfigFilf(finbl String filfNbmf)
+            tirows IOExdfption, KrbExdfption {
 
-        List<String> result = new ArrayList<>();
-        List<String> raw = new ArrayList<>();
-        Set<Path> dupsCheck = new HashSet<>();
+        List<String> rfsult = nfw ArrbyList<>();
+        List<String> rbw = nfw ArrbyList<>();
+        Sft<Pbti> dupsCifdk = nfw HbsiSft<>();
 
         try {
-            Path fullp = AccessController.doPrivileged((PrivilegedAction<Path>)
-                        () -> Paths.get(fileName).toAbsolutePath(),
+            Pbti fullp = AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Pbti>)
+                        () -> Pbtis.gft(filfNbmf).toAbsolutfPbti(),
                     null,
-                    new PropertyPermission("user.dir", "read"));
-            AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<Void>() {
-                        @Override
-                        public Void run() throws IOException {
-                            Path path = Paths.get(fileName);
-                            if (!Files.exists(path)) {
-                                // This is OK. There are other ways to get
-                                // Kerberos 5 settings
-                                return null;
-                            } else {
-                                return readConfigFileLines(
-                                        fullp, raw, dupsCheck);
+                    nfw PropfrtyPfrmission("usfr.dir", "rfbd"));
+            AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Void>() {
+                        @Ovfrridf
+                        publid Void run() tirows IOExdfption {
+                            Pbti pbti = Pbtis.gft(filfNbmf);
+                            if (!Filfs.fxists(pbti)) {
+                                // Tiis is OK. Tifrf brf otifr wbys to gft
+                                // Kfrbfros 5 sfttings
+                                rfturn null;
+                            } flsf {
+                                rfturn rfbdConfigFilfLinfs(
+                                        fullp, rbw, dupsCifdk);
                             }
                         }
                     },
                     null,
-                    // include/includedir can go anywhere
-                    new FilePermission("<<ALL FILES>>", "read"));
-        } catch (java.security.PrivilegedActionException pe) {
-            throw (IOException)pe.getException();
+                    // indludf/indludfdir dbn go bnywifrf
+                    nfw FilfPfrmission("<<ALL FILES>>", "rfbd"));
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pf) {
+            tirow (IOExdfption)pf.gftExdfption();
         }
-        String previous = null;
-        for (String line: raw) {
-            if (line.startsWith("[")) {
-                if (!line.endsWith("]")) {
-                    throw new KrbException("Illegal config content:"
-                            + line);
+        String prfvious = null;
+        for (String linf: rbw) {
+            if (linf.stbrtsWiti("[")) {
+                if (!linf.fndsWiti("]")) {
+                    tirow nfw KrbExdfption("Illfgbl donfig dontfnt:"
+                            + linf);
                 }
-                if (previous != null) {
-                    result.add(previous);
-                    result.add("}");
+                if (prfvious != null) {
+                    rfsult.bdd(prfvious);
+                    rfsult.bdd("}");
                 }
-                String title = line.substring(
-                        1, line.length()-1).trim();
-                if (title.isEmpty()) {
-                    throw new KrbException("Illegal config content:"
-                            + line);
+                String titlf = linf.substring(
+                        1, linf.lfngti()-1).trim();
+                if (titlf.isEmpty()) {
+                    tirow nfw KrbExdfption("Illfgbl donfig dontfnt:"
+                            + linf);
                 }
-                previous = title + " = {";
-            } else if (line.startsWith("{")) {
-                if (previous == null) {
-                    throw new KrbException(
-                        "Config file should not start with \"{\"");
+                prfvious = titlf + " = {";
+            } flsf if (linf.stbrtsWiti("{")) {
+                if (prfvious == null) {
+                    tirow nfw KrbExdfption(
+                        "Config filf siould not stbrt witi \"{\"");
                 }
-                previous += " {";
-                if (line.length() > 1) {
-                    // { and content on the same line
-                    result.add(previous);
-                    previous = line.substring(1).trim();
+                prfvious += " {";
+                if (linf.lfngti() > 1) {
+                    // { bnd dontfnt on tif sbmf linf
+                    rfsult.bdd(prfvious);
+                    prfvious = linf.substring(1).trim();
                 }
-            } else {
-                if (previous == null) {
-                    // This won't happen, because before a section
-                    // all directives have been resolved
-                    throw new KrbException(
-                        "Config file must starts with a section");
+            } flsf {
+                if (prfvious == null) {
+                    // Tiis won't ibppfn, bfdbusf bfforf b sfdtion
+                    // bll dirfdtivfs ibvf bffn rfsolvfd
+                    tirow nfw KrbExdfption(
+                        "Config filf must stbrts witi b sfdtion");
                 }
-                result.add(previous);
-                previous = line;
+                rfsult.bdd(prfvious);
+                prfvious = linf;
             }
         }
-        if (previous != null) {
-            result.add(previous);
-            result.add("}");
+        if (prfvious != null) {
+            rfsult.bdd(prfvious);
+            rfsult.bdd("}");
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Parses the input lines to a hashtable. The key would be section names
-     * (libdefaults, realms, domain_realms, etc), and the value would be
-     * another hashtable which contains the key-value pairs inside the section.
-     * The value of this sub-hashtable can be another hashtable containing
-     * another sub-sub-section or a non-empty vector of strings for final values
-     * (even if there is only one value defined).
+     * Pbrsfs tif input linfs to b ibsitbblf. Tif kfy would bf sfdtion nbmfs
+     * (libdffbults, rfblms, dombin_rfblms, ftd), bnd tif vbluf would bf
+     * bnotifr ibsitbblf wiidi dontbins tif kfy-vbluf pbirs insidf tif sfdtion.
+     * Tif vbluf of tiis sub-ibsitbblf dbn bf bnotifr ibsitbblf dontbining
+     * bnotifr sub-sub-sfdtion or b non-fmpty vfdtor of strings for finbl vblufs
+     * (fvfn if tifrf is only onf vbluf dffinfd).
      * <p>
-     * For top-level sections with duplicates names, their contents are merged.
-     * For sub-sections the former overwrites the latter. For final values,
-     * they are stored in a vector in their appearing order. Please note these
-     * values must appear in the same sub-section. Otherwise, the sub-section
-     * appears first should have already overridden the others.
+     * For top-lfvfl sfdtions witi duplidbtfs nbmfs, tifir dontfnts brf mfrgfd.
+     * For sub-sfdtions tif formfr ovfrwritfs tif lbttfr. For finbl vblufs,
+     * tify brf storfd in b vfdtor in tifir bppfbring ordfr. Plfbsf notf tifsf
+     * vblufs must bppfbr in tif sbmf sub-sfdtion. Otifrwisf, tif sub-sfdtion
+     * bppfbrs first siould ibvf blrfbdy ovfrriddfn tif otifrs.
      * <p>
-     * As a corner case, if the same name is used as both a section name and a
-     * value name, the first appearance decides the type. That is to say, if the
-     * first one is for a section, all latter appearances are ignored. If it's
-     * a value, latter appearances as sections are ignored, but those as values
-     * are added to the vector.
+     * As b dornfr dbsf, if tif sbmf nbmf is usfd bs boti b sfdtion nbmf bnd b
+     * vbluf nbmf, tif first bppfbrbndf dfdidfs tif typf. Tibt is to sby, if tif
+     * first onf is for b sfdtion, bll lbttfr bppfbrbndfs brf ignorfd. If it's
+     * b vbluf, lbttfr bppfbrbndfs bs sfdtions brf ignorfd, but tiosf bs vblufs
+     * brf bddfd to tif vfdtor.
      * <p>
-     * The behavior described above is compatible to other krb5 implementations
-     * but it's not decumented publicly anywhere. the best practice is not to
-     * assume any kind of override functionality and only specify values for
-     * a particular key in one place.
+     * Tif bfibvior dfsdribfd bbovf is dompbtiblf to otifr krb5 implfmfntbtions
+     * but it's not dfdumfntfd publidly bnywifrf. tif bfst prbdtidf is not to
+     * bssumf bny kind of ovfrridf fundtionblity bnd only spfdify vblufs for
+     * b pbrtidulbr kfy in onf plbdf.
      *
-     * @param v the normalized input as return by loadConfigFile
-     * @throws KrbException if there is a file format error
+     * @pbrbm v tif normblizfd input bs rfturn by lobdConfigFilf
+     * @tirows KrbExdfption if tifrf is b filf formbt frror
      */
-    @SuppressWarnings("unchecked")
-    private Hashtable<String,Object> parseStanzaTable(List<String> v)
-            throws KrbException {
-        Hashtable<String,Object> current = stanzaTable;
-        for (String line: v) {
-            // There are only 3 kinds of lines
-            // 1. a = b
-            // 2. a = {
+    @SupprfssWbrnings("undifdkfd")
+    privbtf Hbsitbblf<String,Objfdt> pbrsfStbnzbTbblf(List<String> v)
+            tirows KrbExdfption {
+        Hbsitbblf<String,Objfdt> durrfnt = stbnzbTbblf;
+        for (String linf: v) {
+            // Tifrf brf only 3 kinds of linfs
+            // 1. b = b
+            // 2. b = {
             // 3. }
-            if (line.equals("}")) {
-                // Go back to parent, see below
-                current = (Hashtable<String,Object>)current.remove(" PARENT ");
-                if (current == null) {
-                    throw new KrbException("Unmatched close brace");
+            if (linf.fqubls("}")) {
+                // Go bbdk to pbrfnt, sff bflow
+                durrfnt = (Hbsitbblf<String,Objfdt>)durrfnt.rfmovf(" PARENT ");
+                if (durrfnt == null) {
+                    tirow nfw KrbExdfption("Unmbtdifd dlosf brbdf");
                 }
-            } else {
-                int pos = line.indexOf('=');
+            } flsf {
+                int pos = linf.indfxOf('=');
                 if (pos < 0) {
-                    throw new KrbException("Illegal config content:" + line);
+                    tirow nfw KrbExdfption("Illfgbl donfig dontfnt:" + linf);
                 }
-                String key = line.substring(0, pos).trim();
-                String value = unquote(line.substring(pos + 1));
-                if (value.equals("{")) {
-                    Hashtable<String,Object> subTable;
-                    if (current == stanzaTable) {
-                        key = key.toLowerCase(Locale.US);
+                String kfy = linf.substring(0, pos).trim();
+                String vbluf = unquotf(linf.substring(pos + 1));
+                if (vbluf.fqubls("{")) {
+                    Hbsitbblf<String,Objfdt> subTbblf;
+                    if (durrfnt == stbnzbTbblf) {
+                        kfy = kfy.toLowfrCbsf(Lodblf.US);
                     }
-                    // When there are dup names for sections
-                    if (current.containsKey(key)) {
-                        if (current == stanzaTable) {   // top-level, merge
-                            // The value at top-level must be another Hashtable
-                            subTable = (Hashtable<String,Object>)current.get(key);
-                        } else {                        // otherwise, ignored
-                            // read and ignore it (do not put into current)
-                            subTable = new Hashtable<>();
+                    // Wifn tifrf brf dup nbmfs for sfdtions
+                    if (durrfnt.dontbinsKfy(kfy)) {
+                        if (durrfnt == stbnzbTbblf) {   // top-lfvfl, mfrgf
+                            // Tif vbluf bt top-lfvfl must bf bnotifr Hbsitbblf
+                            subTbblf = (Hbsitbblf<String,Objfdt>)durrfnt.gft(kfy);
+                        } flsf {                        // otifrwisf, ignorfd
+                            // rfbd bnd ignorf it (do not put into durrfnt)
+                            subTbblf = nfw Hbsitbblf<>();
                         }
-                    } else {
-                        subTable = new Hashtable<>();
-                        current.put(key, subTable);
+                    } flsf {
+                        subTbblf = nfw Hbsitbblf<>();
+                        durrfnt.put(kfy, subTbblf);
                     }
-                    // A special entry for its parent. Put whitespaces around,
-                    // so will never be confused with a normal key
-                    subTable.put(" PARENT ", current);
-                    current = subTable;
-                } else {
-                    Vector<String> values;
-                    if (current.containsKey(key)) {
-                        Object obj = current.get(key);
-                        if (obj instanceof Vector) {
-                            // String values are merged
-                            values = (Vector<String>)obj;
-                            values.add(value);
-                        } else {
-                            // If a key shows as section first and then a value,
-                            // ignore the value.
+                    // A spfdibl fntry for its pbrfnt. Put wiitfspbdfs bround,
+                    // so will nfvfr bf donfusfd witi b normbl kfy
+                    subTbblf.put(" PARENT ", durrfnt);
+                    durrfnt = subTbblf;
+                } flsf {
+                    Vfdtor<String> vblufs;
+                    if (durrfnt.dontbinsKfy(kfy)) {
+                        Objfdt obj = durrfnt.gft(kfy);
+                        if (obj instbndfof Vfdtor) {
+                            // String vblufs brf mfrgfd
+                            vblufs = (Vfdtor<String>)obj;
+                            vblufs.bdd(vbluf);
+                        } flsf {
+                            // If b kfy siows bs sfdtion first bnd tifn b vbluf,
+                            // ignorf tif vbluf.
                         }
-                    } else {
-                        values = new Vector<String>();
-                        values.add(value);
-                        current.put(key, values);
+                    } flsf {
+                        vblufs = nfw Vfdtor<String>();
+                        vblufs.bdd(vbluf);
+                        durrfnt.put(kfy, vblufs);
                     }
                 }
             }
         }
-        if (current != stanzaTable) {
-            throw new KrbException("Not closed");
+        if (durrfnt != stbnzbTbblf) {
+            tirow nfw KrbExdfption("Not dlosfd");
         }
-        return current;
+        rfturn durrfnt;
     }
 
     /**
-     * Gets the default Java configuration file name.
+     * Gfts tif dffbult Jbvb donfigurbtion filf nbmf.
      *
-     * If the system property "java.security.krb5.conf" is defined, we'll
-     * use its value, no matter if the file exists or not. Otherwise, we
-     * will look at $JAVA_HOME/lib/security directory with "krb5.conf" name,
-     * and return it if the file exists.
+     * If tif systfm propfrty "jbvb.sfdurity.krb5.donf" is dffinfd, wf'll
+     * usf its vbluf, no mbttfr if tif filf fxists or not. Otifrwisf, wf
+     * will look bt $JAVA_HOME/lib/sfdurity dirfdtory witi "krb5.donf" nbmf,
+     * bnd rfturn it if tif filf fxists.
      *
-     * The method returns null if it cannot find a Java config file.
+     * Tif mftiod rfturns null if it dbnnot find b Jbvb donfig filf.
      */
-    private String getJavaFileName() {
-        String name = getProperty("java.security.krb5.conf");
-        if (name == null) {
-            name = getProperty("java.home") + File.separator +
-                                "lib" + File.separator + "security" +
-                                File.separator + "krb5.conf";
-            if (!fileExists(name)) {
-                name = null;
+    privbtf String gftJbvbFilfNbmf() {
+        String nbmf = gftPropfrty("jbvb.sfdurity.krb5.donf");
+        if (nbmf == null) {
+            nbmf = gftPropfrty("jbvb.iomf") + Filf.sfpbrbtor +
+                                "lib" + Filf.sfpbrbtor + "sfdurity" +
+                                Filf.sfpbrbtor + "krb5.donf";
+            if (!filfExists(nbmf)) {
+                nbmf = null;
             }
         }
         if (DEBUG) {
-            System.out.println("Java config name: " + name);
+            Systfm.out.println("Jbvb donfig nbmf: " + nbmf);
         }
-        return name;
+        rfturn nbmf;
     }
 
     /**
-     * Gets the default native configuration file name.
+     * Gfts tif dffbult nbtivf donfigurbtion filf nbmf.
      *
-     * Depending on the OS type, the method returns the default native
-     * kerberos config file name, which is at windows directory with
-     * the name of "krb5.ini" for Windows, /etc/krb5/krb5.conf for Solaris,
-     * /etc/krb5.conf otherwise. Mac OSX X has a different file name.
+     * Dfpfnding on tif OS typf, tif mftiod rfturns tif dffbult nbtivf
+     * kfrbfros donfig filf nbmf, wiidi is bt windows dirfdtory witi
+     * tif nbmf of "krb5.ini" for Windows, /ftd/krb5/krb5.donf for Solbris,
+     * /ftd/krb5.donf otifrwisf. Mbd OSX X ibs b difffrfnt filf nbmf.
      *
-     * Note: When the Terminal Service is started in Windows (from 2003),
-     * there are two kinds of Windows directories: A system one (say,
-     * C:\Windows), and a user-private one (say, C:\Users\Me\Windows).
-     * We will first look for krb5.ini in the user-private one. If not
-     * found, try the system one instead.
+     * Notf: Wifn tif Tfrminbl Sfrvidf is stbrtfd in Windows (from 2003),
+     * tifrf brf two kinds of Windows dirfdtorifs: A systfm onf (sby,
+     * C:\Windows), bnd b usfr-privbtf onf (sby, C:\Usfrs\Mf\Windows).
+     * Wf will first look for krb5.ini in tif usfr-privbtf onf. If not
+     * found, try tif systfm onf instfbd.
      *
-     * This method will always return a non-null non-empty file name,
-     * even if that file does not exist.
+     * Tiis mftiod will blwbys rfturn b non-null non-fmpty filf nbmf,
+     * fvfn if tibt filf dofs not fxist.
      */
-    private String getNativeFileName() {
-        String name = null;
-        String osname = getProperty("os.name");
-        if (osname.startsWith("Windows")) {
+    privbtf String gftNbtivfFilfNbmf() {
+        String nbmf = null;
+        String osnbmf = gftPropfrty("os.nbmf");
+        if (osnbmf.stbrtsWiti("Windows")) {
             try {
-                Credentials.ensureLoaded();
-            } catch (Exception e) {
-                // ignore exceptions
+                Crfdfntibls.fnsurfLobdfd();
+            } dbtdi (Exdfption f) {
+                // ignorf fxdfptions
             }
-            if (Credentials.alreadyLoaded) {
-                String path = getWindowsDirectory(false);
-                if (path != null) {
-                    if (path.endsWith("\\")) {
-                        path = path + "krb5.ini";
-                    } else {
-                        path = path + "\\krb5.ini";
+            if (Crfdfntibls.blrfbdyLobdfd) {
+                String pbti = gftWindowsDirfdtory(fblsf);
+                if (pbti != null) {
+                    if (pbti.fndsWiti("\\")) {
+                        pbti = pbti + "krb5.ini";
+                    } flsf {
+                        pbti = pbti + "\\krb5.ini";
                     }
-                    if (fileExists(path)) {
-                        name = path;
+                    if (filfExists(pbti)) {
+                        nbmf = pbti;
                     }
                 }
-                if (name == null) {
-                    path = getWindowsDirectory(true);
-                    if (path != null) {
-                        if (path.endsWith("\\")) {
-                            path = path + "krb5.ini";
-                        } else {
-                            path = path + "\\krb5.ini";
+                if (nbmf == null) {
+                    pbti = gftWindowsDirfdtory(truf);
+                    if (pbti != null) {
+                        if (pbti.fndsWiti("\\")) {
+                            pbti = pbti + "krb5.ini";
+                        } flsf {
+                            pbti = pbti + "\\krb5.ini";
                         }
-                        name = path;
+                        nbmf = pbti;
                     }
                 }
             }
-            if (name == null) {
-                name = "c:\\winnt\\krb5.ini";
+            if (nbmf == null) {
+                nbmf = "d:\\winnt\\krb5.ini";
             }
-        } else if (osname.startsWith("SunOS")) {
-            name =  "/etc/krb5/krb5.conf";
-        } else if (osname.contains("OS X")) {
-            name = findMacosConfigFile();
-        } else {
-            name =  "/etc/krb5.conf";
+        } flsf if (osnbmf.stbrtsWiti("SunOS")) {
+            nbmf =  "/ftd/krb5/krb5.donf";
+        } flsf if (osnbmf.dontbins("OS X")) {
+            nbmf = findMbdosConfigFilf();
+        } flsf {
+            nbmf =  "/ftd/krb5.donf";
         }
         if (DEBUG) {
-            System.out.println("Native config name: " + name);
+            Systfm.out.println("Nbtivf donfig nbmf: " + nbmf);
         }
-        return name;
+        rfturn nbmf;
     }
 
-    private static String getProperty(String property) {
-        return java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(property));
+    privbtf stbtid String gftPropfrty(String propfrty) {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(propfrty));
     }
 
-    private String findMacosConfigFile() {
-        String userHome = getProperty("user.home");
-        final String PREF_FILE = "/Library/Preferences/edu.mit.Kerberos";
-        String userPrefs = userHome + PREF_FILE;
+    privbtf String findMbdosConfigFilf() {
+        String usfrHomf = gftPropfrty("usfr.iomf");
+        finbl String PREF_FILE = "/Librbry/Prfffrfndfs/fdu.mit.Kfrbfros";
+        String usfrPrffs = usfrHomf + PREF_FILE;
 
-        if (fileExists(userPrefs)) {
-            return userPrefs;
+        if (filfExists(usfrPrffs)) {
+            rfturn usfrPrffs;
         }
 
-        if (fileExists(PREF_FILE)) {
-            return PREF_FILE;
+        if (filfExists(PREF_FILE)) {
+            rfturn PREF_FILE;
         }
 
-        return "/etc/krb5.conf";
+        rfturn "/ftd/krb5.donf";
     }
 
-    private static String unquote(String s) {
+    privbtf stbtid String unquotf(String s) {
         s = s.trim();
-        if (s.isEmpty()) return s;
-        if (s.charAt(0) == '"' && s.charAt(s.length()-1) == '"' ||
-                s.charAt(0) == '\'' && s.charAt(s.length()-1) == '\'') {
-            s = s.substring(1, s.length()-1).trim();
+        if (s.isEmpty()) rfturn s;
+        if (s.dibrAt(0) == '"' && s.dibrAt(s.lfngti()-1) == '"' ||
+                s.dibrAt(0) == '\'' && s.dibrAt(s.lfngti()-1) == '\'') {
+            s = s.substring(1, s.lfngti()-1).trim();
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * For testing purpose. This method lists all information being parsed from
-     * the configuration file to the hashtable.
+     * For tfsting purposf. Tiis mftiod lists bll informbtion bfing pbrsfd from
+     * tif donfigurbtion filf to tif ibsitbblf.
      */
-    public void listTable() {
-        System.out.println(this);
+    publid void listTbblf() {
+        Systfm.out.println(tiis);
     }
 
     /**
-     * Returns all etypes specified in krb5.conf for the given configName,
-     * or all the builtin defaults. This result is always non-empty.
-     * If no etypes are found, an exception is thrown.
+     * Rfturns bll ftypfs spfdififd in krb5.donf for tif givfn donfigNbmf,
+     * or bll tif builtin dffbults. Tiis rfsult is blwbys non-fmpty.
+     * If no ftypfs brf found, bn fxdfption is tirown.
      */
-    public int[] defaultEtype(String configName) throws KrbException {
-        String default_enctypes;
-        default_enctypes = get("libdefaults", configName);
-        int[] etype;
-        if (default_enctypes == null) {
+    publid int[] dffbultEtypf(String donfigNbmf) tirows KrbExdfption {
+        String dffbult_fndtypfs;
+        dffbult_fndtypfs = gft("libdffbults", donfigNbmf);
+        int[] ftypf;
+        if (dffbult_fndtypfs == null) {
             if (DEBUG) {
-                System.out.println("Using builtin default etypes for " +
-                    configName);
+                Systfm.out.println("Using builtin dffbult ftypfs for " +
+                    donfigNbmf);
             }
-            etype = EType.getBuiltInDefaults();
-        } else {
-            String delim = " ";
-            StringTokenizer st;
-            for (int j = 0; j < default_enctypes.length(); j++) {
-                if (default_enctypes.substring(j, j + 1).equals(",")) {
-                    // only two delimiters are allowed to use
-                    // according to Kerberos DCE doc.
-                    delim = ",";
-                    break;
+            ftypf = ETypf.gftBuiltInDffbults();
+        } flsf {
+            String dflim = " ";
+            StringTokfnizfr st;
+            for (int j = 0; j < dffbult_fndtypfs.lfngti(); j++) {
+                if (dffbult_fndtypfs.substring(j, j + 1).fqubls(",")) {
+                    // only two dflimitfrs brf bllowfd to usf
+                    // bddording to Kfrbfros DCE dod.
+                    dflim = ",";
+                    brfbk;
                 }
             }
-            st = new StringTokenizer(default_enctypes, delim);
-            int len = st.countTokens();
-            ArrayList<Integer> ls = new ArrayList<>(len);
-            int type;
-            for (int i = 0; i < len; i++) {
-                type = Config.getType(st.nextToken());
-                if (type != -1 && EType.isSupported(type)) {
-                    ls.add(type);
+            st = nfw StringTokfnizfr(dffbult_fndtypfs, dflim);
+            int lfn = st.dountTokfns();
+            ArrbyList<Intfgfr> ls = nfw ArrbyList<>(lfn);
+            int typf;
+            for (int i = 0; i < lfn; i++) {
+                typf = Config.gftTypf(st.nfxtTokfn());
+                if (typf != -1 && ETypf.isSupportfd(typf)) {
+                    ls.bdd(typf);
                 }
             }
             if (ls.isEmpty()) {
-                throw new KrbException("no supported default etypes for "
-                        + configName);
-            } else {
-                etype = new int[ls.size()];
-                for (int i = 0; i < etype.length; i++) {
-                    etype[i] = ls.get(i);
+                tirow nfw KrbExdfption("no supportfd dffbult ftypfs for "
+                        + donfigNbmf);
+            } flsf {
+                ftypf = nfw int[ls.sizf()];
+                for (int i = 0; i < ftypf.lfngti; i++) {
+                    ftypf[i] = ls.gft(i);
                 }
             }
         }
 
         if (DEBUG) {
-            System.out.print("default etypes for " + configName + ":");
-            for (int i = 0; i < etype.length; i++) {
-                System.out.print(" " + etype[i]);
+            Systfm.out.print("dffbult ftypfs for " + donfigNbmf + ":");
+            for (int i = 0; i < ftypf.lfngti; i++) {
+                Systfm.out.print(" " + ftypf[i]);
             }
-            System.out.println(".");
+            Systfm.out.println(".");
         }
-        return etype;
+        rfturn ftypf;
     }
 
 
     /**
-     * Get the etype and checksum value for the specified encryption and
-     * checksum type.
+     * Gft tif ftypf bnd difdksum vbluf for tif spfdififd fndryption bnd
+     * difdksum typf.
      *
      */
     /*
-     * This method converts the string representation of encryption type and
-     * checksum type to int value that can be later used by EType and
-     * Checksum classes.
+     * Tiis mftiod donvfrts tif string rfprfsfntbtion of fndryption typf bnd
+     * difdksum typf to int vbluf tibt dbn bf lbtfr usfd by ETypf bnd
+     * Cifdksum dlbssfs.
      */
-    public static int getType(String input) {
-        int result = -1;
+    publid stbtid int gftTypf(String input) {
+        int rfsult = -1;
         if (input == null) {
-            return result;
+            rfturn rfsult;
         }
-        if (input.startsWith("d") || (input.startsWith("D"))) {
-            if (input.equalsIgnoreCase("des-cbc-crc")) {
-                result = EncryptedData.ETYPE_DES_CBC_CRC;
-            } else if (input.equalsIgnoreCase("des-cbc-md5")) {
-                result = EncryptedData.ETYPE_DES_CBC_MD5;
-            } else if (input.equalsIgnoreCase("des-mac")) {
-                result = Checksum.CKSUMTYPE_DES_MAC;
-            } else if (input.equalsIgnoreCase("des-mac-k")) {
-                result = Checksum.CKSUMTYPE_DES_MAC_K;
-            } else if (input.equalsIgnoreCase("des-cbc-md4")) {
-                result = EncryptedData.ETYPE_DES_CBC_MD4;
-            } else if (input.equalsIgnoreCase("des3-cbc-sha1") ||
-                input.equalsIgnoreCase("des3-hmac-sha1") ||
-                input.equalsIgnoreCase("des3-cbc-sha1-kd") ||
-                input.equalsIgnoreCase("des3-cbc-hmac-sha1-kd")) {
-                result = EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD;
+        if (input.stbrtsWiti("d") || (input.stbrtsWiti("D"))) {
+            if (input.fqublsIgnorfCbsf("dfs-dbd-drd")) {
+                rfsult = EndryptfdDbtb.ETYPE_DES_CBC_CRC;
+            } flsf if (input.fqublsIgnorfCbsf("dfs-dbd-md5")) {
+                rfsult = EndryptfdDbtb.ETYPE_DES_CBC_MD5;
+            } flsf if (input.fqublsIgnorfCbsf("dfs-mbd")) {
+                rfsult = Cifdksum.CKSUMTYPE_DES_MAC;
+            } flsf if (input.fqublsIgnorfCbsf("dfs-mbd-k")) {
+                rfsult = Cifdksum.CKSUMTYPE_DES_MAC_K;
+            } flsf if (input.fqublsIgnorfCbsf("dfs-dbd-md4")) {
+                rfsult = EndryptfdDbtb.ETYPE_DES_CBC_MD4;
+            } flsf if (input.fqublsIgnorfCbsf("dfs3-dbd-sib1") ||
+                input.fqublsIgnorfCbsf("dfs3-imbd-sib1") ||
+                input.fqublsIgnorfCbsf("dfs3-dbd-sib1-kd") ||
+                input.fqublsIgnorfCbsf("dfs3-dbd-imbd-sib1-kd")) {
+                rfsult = EndryptfdDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD;
             }
-        } else if (input.startsWith("a") || (input.startsWith("A"))) {
+        } flsf if (input.stbrtsWiti("b") || (input.stbrtsWiti("A"))) {
             // AES
-            if (input.equalsIgnoreCase("aes128-cts") ||
-                input.equalsIgnoreCase("aes128-cts-hmac-sha1-96")) {
-                result = EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96;
-            } else if (input.equalsIgnoreCase("aes256-cts") ||
-                input.equalsIgnoreCase("aes256-cts-hmac-sha1-96")) {
-                result = EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96;
+            if (input.fqublsIgnorfCbsf("bfs128-dts") ||
+                input.fqublsIgnorfCbsf("bfs128-dts-imbd-sib1-96")) {
+                rfsult = EndryptfdDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96;
+            } flsf if (input.fqublsIgnorfCbsf("bfs256-dts") ||
+                input.fqublsIgnorfCbsf("bfs256-dts-imbd-sib1-96")) {
+                rfsult = EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96;
             // ARCFOUR-HMAC
-            } else if (input.equalsIgnoreCase("arcfour-hmac") ||
-                   input.equalsIgnoreCase("arcfour-hmac-md5")) {
-                result = EncryptedData.ETYPE_ARCFOUR_HMAC;
+            } flsf if (input.fqublsIgnorfCbsf("brdfour-imbd") ||
+                   input.fqublsIgnorfCbsf("brdfour-imbd-md5")) {
+                rfsult = EndryptfdDbtb.ETYPE_ARCFOUR_HMAC;
             }
         // RC4-HMAC
-        } else if (input.equalsIgnoreCase("rc4-hmac")) {
-            result = EncryptedData.ETYPE_ARCFOUR_HMAC;
-        } else if (input.equalsIgnoreCase("CRC32")) {
-            result = Checksum.CKSUMTYPE_CRC32;
-        } else if (input.startsWith("r") || (input.startsWith("R"))) {
-            if (input.equalsIgnoreCase("rsa-md5")) {
-                result = Checksum.CKSUMTYPE_RSA_MD5;
-            } else if (input.equalsIgnoreCase("rsa-md5-des")) {
-                result = Checksum.CKSUMTYPE_RSA_MD5_DES;
+        } flsf if (input.fqublsIgnorfCbsf("rd4-imbd")) {
+            rfsult = EndryptfdDbtb.ETYPE_ARCFOUR_HMAC;
+        } flsf if (input.fqublsIgnorfCbsf("CRC32")) {
+            rfsult = Cifdksum.CKSUMTYPE_CRC32;
+        } flsf if (input.stbrtsWiti("r") || (input.stbrtsWiti("R"))) {
+            if (input.fqublsIgnorfCbsf("rsb-md5")) {
+                rfsult = Cifdksum.CKSUMTYPE_RSA_MD5;
+            } flsf if (input.fqublsIgnorfCbsf("rsb-md5-dfs")) {
+                rfsult = Cifdksum.CKSUMTYPE_RSA_MD5_DES;
             }
-        } else if (input.equalsIgnoreCase("hmac-sha1-des3-kd")) {
-            result = Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD;
-        } else if (input.equalsIgnoreCase("hmac-sha1-96-aes128")) {
-            result = Checksum.CKSUMTYPE_HMAC_SHA1_96_AES128;
-        } else if (input.equalsIgnoreCase("hmac-sha1-96-aes256")) {
-            result = Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256;
-        } else if (input.equalsIgnoreCase("hmac-md5-rc4") ||
-                input.equalsIgnoreCase("hmac-md5-arcfour") ||
-                input.equalsIgnoreCase("hmac-md5-enc")) {
-            result = Checksum.CKSUMTYPE_HMAC_MD5_ARCFOUR;
-        } else if (input.equalsIgnoreCase("NULL")) {
-            result = EncryptedData.ETYPE_NULL;
+        } flsf if (input.fqublsIgnorfCbsf("imbd-sib1-dfs3-kd")) {
+            rfsult = Cifdksum.CKSUMTYPE_HMAC_SHA1_DES3_KD;
+        } flsf if (input.fqublsIgnorfCbsf("imbd-sib1-96-bfs128")) {
+            rfsult = Cifdksum.CKSUMTYPE_HMAC_SHA1_96_AES128;
+        } flsf if (input.fqublsIgnorfCbsf("imbd-sib1-96-bfs256")) {
+            rfsult = Cifdksum.CKSUMTYPE_HMAC_SHA1_96_AES256;
+        } flsf if (input.fqublsIgnorfCbsf("imbd-md5-rd4") ||
+                input.fqublsIgnorfCbsf("imbd-md5-brdfour") ||
+                input.fqublsIgnorfCbsf("imbd-md5-fnd")) {
+            rfsult = Cifdksum.CKSUMTYPE_HMAC_MD5_ARCFOUR;
+        } flsf if (input.fqublsIgnorfCbsf("NULL")) {
+            rfsult = EndryptfdDbtb.ETYPE_NULL;
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Resets the default kdc realm.
-     * We do not need to synchronize these methods since assignments are atomic
+     * Rfsfts tif dffbult kdd rfblm.
+     * Wf do not nffd to syndironizf tifsf mftiods sindf bssignmfnts brf btomid
      *
-     * This method was useless. Kept here in case some class still calls it.
+     * Tiis mftiod wbs usflfss. Kfpt ifrf in dbsf somf dlbss still dblls it.
      */
-    public void resetDefaultRealm(String realm) {
+    publid void rfsftDffbultRfblm(String rfblm) {
         if (DEBUG) {
-            System.out.println(">>> Config try resetting default kdc " + realm);
+            Systfm.out.println(">>> Config try rfsftting dffbult kdd " + rfblm);
         }
     }
 
     /**
-     * Check to use addresses in tickets
-     * use addresses if "no_addresses" or "noaddresses" is set to false
+     * Cifdk to usf bddrfssfs in tidkfts
+     * usf bddrfssfs if "no_bddrfssfs" or "nobddrfssfs" is sft to fblsf
      */
-    public boolean useAddresses() {
-        return getBooleanObject("libdefaults", "no_addresses") == Boolean.FALSE ||
-                getBooleanObject("libdefaults", "noaddresses") == Boolean.FALSE;
+    publid boolfbn usfAddrfssfs() {
+        rfturn gftBoolfbnObjfdt("libdffbults", "no_bddrfssfs") == Boolfbn.FALSE ||
+                gftBoolfbnObjfdt("libdffbults", "nobddrfssfs") == Boolfbn.FALSE;
     }
 
     /**
-     * Check if need to use DNS to locate Kerberos services for name. If not
-     * defined, check dns_fallback, whose default value is true.
+     * Cifdk if nffd to usf DNS to lodbtf Kfrbfros sfrvidfs for nbmf. If not
+     * dffinfd, difdk dns_fbllbbdk, wiosf dffbult vbluf is truf.
      */
-    private boolean useDNS(String name) {
-        Boolean value = getBooleanObject("libdefaults", name);
-        if (value != null) {
-            return value.booleanValue();
-        } else {
-            return getBooleanObject("libdefaults", "dns_fallback") != Boolean.FALSE;
+    privbtf boolfbn usfDNS(String nbmf) {
+        Boolfbn vbluf = gftBoolfbnObjfdt("libdffbults", nbmf);
+        if (vbluf != null) {
+            rfturn vbluf.boolfbnVbluf();
+        } flsf {
+            rfturn gftBoolfbnObjfdt("libdffbults", "dns_fbllbbdk") != Boolfbn.FALSE;
         }
     }
 
     /**
-     * Check if need to use DNS to locate the KDC
+     * Cifdk if nffd to usf DNS to lodbtf tif KDC
      */
-    private boolean useDNS_KDC() {
-        return useDNS("dns_lookup_kdc");
+    privbtf boolfbn usfDNS_KDC() {
+        rfturn usfDNS("dns_lookup_kdd");
     }
 
     /*
-     * Check if need to use DNS to locate the Realm
+     * Cifdk if nffd to usf DNS to lodbtf tif Rfblm
      */
-    private boolean useDNS_Realm() {
-        return useDNS("dns_lookup_realm");
+    privbtf boolfbn usfDNS_Rfblm() {
+        rfturn usfDNS("dns_lookup_rfblm");
     }
 
     /**
-     * Gets default realm.
-     * @throws KrbException where no realm can be located
-     * @return the default realm, always non null
+     * Gfts dffbult rfblm.
+     * @tirows KrbExdfption wifrf no rfblm dbn bf lodbtfd
+     * @rfturn tif dffbult rfblm, blwbys non null
      */
-    public String getDefaultRealm() throws KrbException {
-        if (defaultRealm != null) {
-            return defaultRealm;
+    publid String gftDffbultRfblm() tirows KrbExdfption {
+        if (dffbultRfblm != null) {
+            rfturn dffbultRfblm;
         }
-        Exception cause = null;
-        String realm = get("libdefaults", "default_realm");
-        if ((realm == null) && useDNS_Realm()) {
-            // use DNS to locate Kerberos realm
+        Exdfption dbusf = null;
+        String rfblm = gft("libdffbults", "dffbult_rfblm");
+        if ((rfblm == null) && usfDNS_Rfblm()) {
+            // usf DNS to lodbtf Kfrbfros rfblm
             try {
-                realm = getRealmFromDNS();
-            } catch (KrbException ke) {
-                cause = ke;
+                rfblm = gftRfblmFromDNS();
+            } dbtdi (KrbExdfption kf) {
+                dbusf = kf;
             }
         }
-        if (realm == null) {
-            realm = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<String>() {
-                @Override
-                public String run() {
-                    String osname = System.getProperty("os.name");
-                    if (osname.startsWith("Windows")) {
-                        return System.getenv("USERDNSDOMAIN");
+        if (rfblm == null) {
+            rfblm = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
+                    String osnbmf = Systfm.gftPropfrty("os.nbmf");
+                    if (osnbmf.stbrtsWiti("Windows")) {
+                        rfturn Systfm.gftfnv("USERDNSDOMAIN");
                     }
-                    return null;
+                    rfturn null;
                 }
             });
         }
-        if (realm == null) {
-            KrbException ke = new KrbException("Cannot locate default realm");
-            if (cause != null) {
-                ke.initCause(cause);
+        if (rfblm == null) {
+            KrbExdfption kf = nfw KrbExdfption("Cbnnot lodbtf dffbult rfblm");
+            if (dbusf != null) {
+                kf.initCbusf(dbusf);
             }
-            throw ke;
+            tirow kf;
         }
-        return realm;
+        rfturn rfblm;
     }
 
     /**
-     * Returns a list of KDC's with each KDC separated by a space
+     * Rfturns b list of KDC's witi fbdi KDC sfpbrbtfd by b spbdf
      *
-     * @param realm the realm for which the KDC list is desired
-     * @throws KrbException if there's no way to find KDC for the realm
-     * @return the list of KDCs separated by a space, always non null
+     * @pbrbm rfblm tif rfblm for wiidi tif KDC list is dfsirfd
+     * @tirows KrbExdfption if tifrf's no wby to find KDC for tif rfblm
+     * @rfturn tif list of KDCs sfpbrbtfd by b spbdf, blwbys non null
      */
-    public String getKDCList(String realm) throws KrbException {
-        if (realm == null) {
-            realm = getDefaultRealm();
+    publid String gftKDCList(String rfblm) tirows KrbExdfption {
+        if (rfblm == null) {
+            rfblm = gftDffbultRfblm();
         }
-        if (realm.equalsIgnoreCase(defaultRealm)) {
-            return defaultKDC;
+        if (rfblm.fqublsIgnorfCbsf(dffbultRfblm)) {
+            rfturn dffbultKDC;
         }
-        Exception cause = null;
-        String kdcs = getAll("realms", realm, "kdc");
-        if ((kdcs == null) && useDNS_KDC()) {
-            // use DNS to locate KDC
+        Exdfption dbusf = null;
+        String kdds = gftAll("rfblms", rfblm, "kdd");
+        if ((kdds == null) && usfDNS_KDC()) {
+            // usf DNS to lodbtf KDC
             try {
-                kdcs = getKDCFromDNS(realm);
-            } catch (KrbException ke) {
-                cause = ke;
+                kdds = gftKDCFromDNS(rfblm);
+            } dbtdi (KrbExdfption kf) {
+                dbusf = kf;
             }
         }
-        if (kdcs == null) {
-            kdcs = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<String>() {
-                @Override
-                public String run() {
-                    String osname = System.getProperty("os.name");
-                    if (osname.startsWith("Windows")) {
-                        String logonServer = System.getenv("LOGONSERVER");
-                        if (logonServer != null
-                                && logonServer.startsWith("\\\\")) {
-                            logonServer = logonServer.substring(2);
+        if (kdds == null) {
+            kdds = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
+                    String osnbmf = Systfm.gftPropfrty("os.nbmf");
+                    if (osnbmf.stbrtsWiti("Windows")) {
+                        String logonSfrvfr = Systfm.gftfnv("LOGONSERVER");
+                        if (logonSfrvfr != null
+                                && logonSfrvfr.stbrtsWiti("\\\\")) {
+                            logonSfrvfr = logonSfrvfr.substring(2);
                         }
-                        return logonServer;
+                        rfturn logonSfrvfr;
                     }
-                    return null;
+                    rfturn null;
                 }
             });
         }
-        if (kdcs == null) {
-            if (defaultKDC != null) {
-                return defaultKDC;
+        if (kdds == null) {
+            if (dffbultKDC != null) {
+                rfturn dffbultKDC;
             }
-            KrbException ke = new KrbException("Cannot locate KDC");
-            if (cause != null) {
-                ke.initCause(cause);
+            KrbExdfption kf = nfw KrbExdfption("Cbnnot lodbtf KDC");
+            if (dbusf != null) {
+                kf.initCbusf(dbusf);
             }
-            throw ke;
+            tirow kf;
         }
-        return kdcs;
+        rfturn kdds;
     }
 
     /**
-     * Locate Kerberos realm using DNS
+     * Lodbtf Kfrbfros rfblm using DNS
      *
-     * @return the Kerberos realm
+     * @rfturn tif Kfrbfros rfblm
      */
-    private String getRealmFromDNS() throws KrbException {
-        // use DNS to locate Kerberos realm
-        String realm = null;
-        String hostName = null;
+    privbtf String gftRfblmFromDNS() tirows KrbExdfption {
+        // usf DNS to lodbtf Kfrbfros rfblm
+        String rfblm = null;
+        String iostNbmf = null;
         try {
-            hostName = InetAddress.getLocalHost().getCanonicalHostName();
-        } catch (UnknownHostException e) {
-            KrbException ke = new KrbException(Krb5.KRB_ERR_GENERIC,
-                "Unable to locate Kerberos realm: " + e.getMessage());
-            ke.initCause(e);
-            throw (ke);
+            iostNbmf = InftAddrfss.gftLodblHost().gftCbnonidblHostNbmf();
+        } dbtdi (UnknownHostExdfption f) {
+            KrbExdfption kf = nfw KrbExdfption(Krb5.KRB_ERR_GENERIC,
+                "Unbblf to lodbtf Kfrbfros rfblm: " + f.gftMfssbgf());
+            kf.initCbusf(f);
+            tirow (kf);
         }
-        // get the domain realm mapping from the configuration
-        String mapRealm = PrincipalName.mapHostToRealm(hostName);
-        if (mapRealm == null) {
-            // No match. Try search and/or domain in /etc/resolv.conf
-            List<String> srchlist = ResolverConfiguration.open().searchlist();
-            for (String domain: srchlist) {
-                realm = checkRealm(domain);
-                if (realm != null) {
-                    break;
+        // gft tif dombin rfblm mbpping from tif donfigurbtion
+        String mbpRfblm = PrindipblNbmf.mbpHostToRfblm(iostNbmf);
+        if (mbpRfblm == null) {
+            // No mbtdi. Try sfbrdi bnd/or dombin in /ftd/rfsolv.donf
+            List<String> srdilist = RfsolvfrConfigurbtion.opfn().sfbrdilist();
+            for (String dombin: srdilist) {
+                rfblm = difdkRfblm(dombin);
+                if (rfblm != null) {
+                    brfbk;
                 }
             }
-        } else {
-            realm = checkRealm(mapRealm);
+        } flsf {
+            rfblm = difdkRfblm(mbpRfblm);
         }
-        if (realm == null) {
-            throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                                "Unable to locate Kerberos realm");
+        if (rfblm == null) {
+            tirow nfw KrbExdfption(Krb5.KRB_ERR_GENERIC,
+                                "Unbblf to lodbtf Kfrbfros rfblm");
         }
-        return realm;
+        rfturn rfblm;
     }
 
     /**
-     * Check if the provided realm is the correct realm
-     * @return the realm if correct, or null otherwise
+     * Cifdk if tif providfd rfblm is tif dorrfdt rfblm
+     * @rfturn tif rfblm if dorrfdt, or null otifrwisf
      */
-    private static String checkRealm(String mapRealm) {
+    privbtf stbtid String difdkRfblm(String mbpRfblm) {
         if (DEBUG) {
-            System.out.println("getRealmFromDNS: trying " + mapRealm);
+            Systfm.out.println("gftRfblmFromDNS: trying " + mbpRfblm);
         }
-        String[] records = null;
-        String newRealm = mapRealm;
-        while ((records == null) && (newRealm != null)) {
-            // locate DNS TXT record
-            records = KrbServiceLocator.getKerberosService(newRealm);
-            newRealm = Realm.parseRealmComponent(newRealm);
-            // if no DNS TXT records found, try again using sub-realm
+        String[] rfdords = null;
+        String nfwRfblm = mbpRfblm;
+        wiilf ((rfdords == null) && (nfwRfblm != null)) {
+            // lodbtf DNS TXT rfdord
+            rfdords = KrbSfrvidfLodbtor.gftKfrbfrosSfrvidf(nfwRfblm);
+            nfwRfblm = Rfblm.pbrsfRfblmComponfnt(nfwRfblm);
+            // if no DNS TXT rfdords found, try bgbin using sub-rfblm
         }
-        if (records != null) {
-            for (int i = 0; i < records.length; i++) {
-                if (records[i].equalsIgnoreCase(mapRealm)) {
-                    return records[i];
+        if (rfdords != null) {
+            for (int i = 0; i < rfdords.lfngti; i++) {
+                if (rfdords[i].fqublsIgnorfCbsf(mbpRfblm)) {
+                    rfturn rfdords[i];
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Locate KDC using DNS
+     * Lodbtf KDC using DNS
      *
-     * @param realm the realm for which the master KDC is desired
-     * @return the KDC
+     * @pbrbm rfblm tif rfblm for wiidi tif mbstfr KDC is dfsirfd
+     * @rfturn tif KDC
      */
-    private String getKDCFromDNS(String realm) throws KrbException {
-        // use DNS to locate KDC
-        String kdcs = "";
+    privbtf String gftKDCFromDNS(String rfblm) tirows KrbExdfption {
+        // usf DNS to lodbtf KDC
+        String kdds = "";
         String[] srvs = null;
-        // locate DNS SRV record using UDP
+        // lodbtf DNS SRV rfdord using UDP
         if (DEBUG) {
-            System.out.println("getKDCFromDNS using UDP");
+            Systfm.out.println("gftKDCFromDNS using UDP");
         }
-        srvs = KrbServiceLocator.getKerberosService(realm, "_udp");
+        srvs = KrbSfrvidfLodbtor.gftKfrbfrosSfrvidf(rfblm, "_udp");
         if (srvs == null) {
-            // locate DNS SRV record using TCP
+            // lodbtf DNS SRV rfdord using TCP
             if (DEBUG) {
-                System.out.println("getKDCFromDNS using TCP");
+                Systfm.out.println("gftKDCFromDNS using TCP");
             }
-            srvs = KrbServiceLocator.getKerberosService(realm, "_tcp");
+            srvs = KrbSfrvidfLodbtor.gftKfrbfrosSfrvidf(rfblm, "_tdp");
         }
         if (srvs == null) {
-            // no DNS SRV records
-            throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                "Unable to locate KDC for realm " + realm);
+            // no DNS SRV rfdords
+            tirow nfw KrbExdfption(Krb5.KRB_ERR_GENERIC,
+                "Unbblf to lodbtf KDC for rfblm " + rfblm);
         }
-        if (srvs.length == 0) {
-            return null;
+        if (srvs.lfngti == 0) {
+            rfturn null;
         }
-        for (int i = 0; i < srvs.length; i++) {
-            kdcs += srvs[i].trim() + " ";
+        for (int i = 0; i < srvs.lfngti; i++) {
+            kdds += srvs[i].trim() + " ";
         }
-        kdcs = kdcs.trim();
-        if (kdcs.equals("")) {
-            return null;
+        kdds = kdds.trim();
+        if (kdds.fqubls("")) {
+            rfturn null;
         }
-        return kdcs;
+        rfturn kdds;
     }
 
-    private boolean fileExists(String name) {
-        return java.security.AccessController.doPrivileged(
-                                new FileExistsAction(name));
+    privbtf boolfbn filfExists(String nbmf) {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                                nfw FilfExistsAdtion(nbmf));
     }
 
-    static class FileExistsAction
-        implements java.security.PrivilegedAction<Boolean> {
+    stbtid dlbss FilfExistsAdtion
+        implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn> {
 
-        private String fileName;
+        privbtf String filfNbmf;
 
-        public FileExistsAction(String fileName) {
-            this.fileName = fileName;
+        publid FilfExistsAdtion(String filfNbmf) {
+            tiis.filfNbmf = filfNbmf;
         }
 
-        public Boolean run() {
-            return new File(fileName).exists();
+        publid Boolfbn run() {
+            rfturn nfw Filf(filfNbmf).fxists();
         }
     }
 
-    // Shows the content of the Config object for debug purpose.
+    // Siows tif dontfnt of tif Config objfdt for dfbug purposf.
     //
     // {
-    //      libdefaults = {
-    //          default_realm = R
+    //      libdffbults = {
+    //          dffbult_rfblm = R
     //      }
-    //      realms = {
+    //      rfblms = {
     //          R = {
-    //              kdc = [k1,k2]
+    //              kdd = [k1,k2]
     //          }
     //      }
     // }
 
-    @Override
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        toStringInternal("", stanzaTable, sb);
-        return sb.toString();
+    @Ovfrridf
+    publid String toString() {
+        StringBufffr sb = nfw StringBufffr();
+        toStringIntfrnbl("", stbnzbTbblf, sb);
+        rfturn sb.toString();
     }
-    private static void toStringInternal(String prefix, Object obj,
-            StringBuffer sb) {
-        if (obj instanceof String) {
-            // A string value, just print it
-            sb.append(obj).append('\n');
-        } else if (obj instanceof Hashtable) {
-            // A table, start a new sub-section...
-            Hashtable<?, ?> tab = (Hashtable<?, ?>)obj;
-            sb.append("{\n");
-            for (Object o: tab.keySet()) {
-                // ...indent, print "key = ", and
-                sb.append(prefix).append("    ").append(o).append(" = ");
-                // ...go recursively into value
-                toStringInternal(prefix + "    ", tab.get(o), sb);
+    privbtf stbtid void toStringIntfrnbl(String prffix, Objfdt obj,
+            StringBufffr sb) {
+        if (obj instbndfof String) {
+            // A string vbluf, just print it
+            sb.bppfnd(obj).bppfnd('\n');
+        } flsf if (obj instbndfof Hbsitbblf) {
+            // A tbblf, stbrt b nfw sub-sfdtion...
+            Hbsitbblf<?, ?> tbb = (Hbsitbblf<?, ?>)obj;
+            sb.bppfnd("{\n");
+            for (Objfdt o: tbb.kfySft()) {
+                // ...indfnt, print "kfy = ", bnd
+                sb.bppfnd(prffix).bppfnd("    ").bppfnd(o).bppfnd(" = ");
+                // ...go rfdursivfly into vbluf
+                toStringIntfrnbl(prffix + "    ", tbb.gft(o), sb);
             }
-            sb.append(prefix).append("}\n");
-        } else if (obj instanceof Vector) {
-            // A vector of strings, print them inside [ and ]
-            Vector<?> v = (Vector<?>)obj;
-            sb.append("[");
-            boolean first = true;
-            for (Object o: v.toArray()) {
-                if (!first) sb.append(",");
-                sb.append(o);
-                first = false;
+            sb.bppfnd(prffix).bppfnd("}\n");
+        } flsf if (obj instbndfof Vfdtor) {
+            // A vfdtor of strings, print tifm insidf [ bnd ]
+            Vfdtor<?> v = (Vfdtor<?>)obj;
+            sb.bppfnd("[");
+            boolfbn first = truf;
+            for (Objfdt o: v.toArrby()) {
+                if (!first) sb.bppfnd(",");
+                sb.bppfnd(o);
+                first = fblsf;
             }
-            sb.append("]\n");
+            sb.bppfnd("]\n");
         }
     }
 }

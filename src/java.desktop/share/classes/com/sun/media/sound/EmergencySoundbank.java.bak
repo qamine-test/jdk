@@ -1,2695 +1,2695 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.Random;
+import jbvb.util.Rbndom;
 
-import javax.sound.midi.Patch;
-import javax.sound.sampled.AudioFormat;
+import jbvbx.sound.midi.Pbtdi;
+import jbvbx.sound.sbmplfd.AudioFormbt;
 
 /**
- * Emergency Soundbank generator.
- * Used when no other default soundbank can be found.
+ * Emfrgfndy Soundbbnk gfnfrbtor.
+ * Usfd wifn no otifr dffbult soundbbnk dbn bf found.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class EmergencySoundbank {
+publid finbl dlbss EmfrgfndySoundbbnk {
 
-    private final static String[] general_midi_instruments = {
-        "Acoustic Grand Piano",
-        "Bright Acoustic Piano",
-        "Electric Grand Piano",
-        "Honky-tonk Piano",
-        "Electric Piano 1",
-        "Electric Piano 2",
-        "Harpsichord",
-        "Clavi",
-        "Celesta",
-        "Glockenspiel",
-        "Music Box",
-        "Vibraphone",
-        "Marimba",
-        "Xylophone",
-        "Tubular Bells",
-        "Dulcimer",
-        "Drawbar Organ",
-        "Percussive Organ",
-        "Rock Organ",
-        "Church Organ",
-        "Reed Organ",
-        "Accordion",
-        "Harmonica",
-        "Tango Accordion",
-        "Acoustic Guitar (nylon)",
-        "Acoustic Guitar (steel)",
-        "Electric Guitar (jazz)",
-        "Electric Guitar (clean)",
-        "Electric Guitar (muted)",
-        "Overdriven Guitar",
-        "Distortion Guitar",
-        "Guitar harmonics",
-        "Acoustic Bass",
-        "Electric Bass (finger)",
-        "Electric Bass (pick)",
-        "Fretless Bass",
-        "Slap Bass 1",
-        "Slap Bass 2",
-        "Synth Bass 1",
-        "Synth Bass 2",
+    privbtf finbl stbtid String[] gfnfrbl_midi_instrumfnts = {
+        "Adoustid Grbnd Pibno",
+        "Brigit Adoustid Pibno",
+        "Elfdtrid Grbnd Pibno",
+        "Honky-tonk Pibno",
+        "Elfdtrid Pibno 1",
+        "Elfdtrid Pibno 2",
+        "Hbrpsidiord",
+        "Clbvi",
+        "Cflfstb",
+        "Glodkfnspifl",
+        "Musid Box",
+        "Vibrbpionf",
+        "Mbrimbb",
+        "Xylopionf",
+        "Tubulbr Bflls",
+        "Duldimfr",
+        "Drbwbbr Orgbn",
+        "Pfrdussivf Orgbn",
+        "Rodk Orgbn",
+        "Ciurdi Orgbn",
+        "Rffd Orgbn",
+        "Addordion",
+        "Hbrmonidb",
+        "Tbngo Addordion",
+        "Adoustid Guitbr (nylon)",
+        "Adoustid Guitbr (stffl)",
+        "Elfdtrid Guitbr (jbzz)",
+        "Elfdtrid Guitbr (dlfbn)",
+        "Elfdtrid Guitbr (mutfd)",
+        "Ovfrdrivfn Guitbr",
+        "Distortion Guitbr",
+        "Guitbr ibrmonids",
+        "Adoustid Bbss",
+        "Elfdtrid Bbss (fingfr)",
+        "Elfdtrid Bbss (pidk)",
+        "Frftlfss Bbss",
+        "Slbp Bbss 1",
+        "Slbp Bbss 2",
+        "Synti Bbss 1",
+        "Synti Bbss 2",
         "Violin",
-        "Viola",
-        "Cello",
-        "Contrabass",
-        "Tremolo Strings",
-        "Pizzicato Strings",
-        "Orchestral Harp",
-        "Timpani",
-        "String Ensemble 1",
-        "String Ensemble 2",
-        "SynthStrings 1",
-        "SynthStrings 2",
-        "Choir Aahs",
-        "Voice Oohs",
-        "Synth Voice",
-        "Orchestra Hit",
-        "Trumpet",
-        "Trombone",
-        "Tuba",
-        "Muted Trumpet",
-        "French Horn",
-        "Brass Section",
-        "SynthBrass 1",
-        "SynthBrass 2",
-        "Soprano Sax",
-        "Alto Sax",
-        "Tenor Sax",
-        "Baritone Sax",
-        "Oboe",
-        "English Horn",
-        "Bassoon",
-        "Clarinet",
-        "Piccolo",
-        "Flute",
-        "Recorder",
-        "Pan Flute",
-        "Blown Bottle",
-        "Shakuhachi",
-        "Whistle",
-        "Ocarina",
-        "Lead 1 (square)",
-        "Lead 2 (sawtooth)",
-        "Lead 3 (calliope)",
-        "Lead 4 (chiff)",
-        "Lead 5 (charang)",
-        "Lead 6 (voice)",
-        "Lead 7 (fifths)",
-        "Lead 8 (bass + lead)",
-        "Pad 1 (new age)",
-        "Pad 2 (warm)",
-        "Pad 3 (polysynth)",
-        "Pad 4 (choir)",
-        "Pad 5 (bowed)",
-        "Pad 6 (metallic)",
-        "Pad 7 (halo)",
-        "Pad 8 (sweep)",
-        "FX 1 (rain)",
-        "FX 2 (soundtrack)",
-        "FX 3 (crystal)",
-        "FX 4 (atmosphere)",
-        "FX 5 (brightness)",
+        "Violb",
+        "Cfllo",
+        "Contrbbbss",
+        "Trfmolo Strings",
+        "Pizzidbto Strings",
+        "Ordifstrbl Hbrp",
+        "Timpbni",
+        "String Ensfmblf 1",
+        "String Ensfmblf 2",
+        "SyntiStrings 1",
+        "SyntiStrings 2",
+        "Cioir Abis",
+        "Voidf Oois",
+        "Synti Voidf",
+        "Ordifstrb Hit",
+        "Trumpft",
+        "Trombonf",
+        "Tubb",
+        "Mutfd Trumpft",
+        "Frfndi Horn",
+        "Brbss Sfdtion",
+        "SyntiBrbss 1",
+        "SyntiBrbss 2",
+        "Soprbno Sbx",
+        "Alto Sbx",
+        "Tfnor Sbx",
+        "Bbritonf Sbx",
+        "Obof",
+        "Englisi Horn",
+        "Bbssoon",
+        "Clbrinft",
+        "Piddolo",
+        "Flutf",
+        "Rfdordfr",
+        "Pbn Flutf",
+        "Blown Bottlf",
+        "Sibkuibdii",
+        "Wiistlf",
+        "Odbrinb",
+        "Lfbd 1 (squbrf)",
+        "Lfbd 2 (sbwtooti)",
+        "Lfbd 3 (dblliopf)",
+        "Lfbd 4 (diiff)",
+        "Lfbd 5 (dibrbng)",
+        "Lfbd 6 (voidf)",
+        "Lfbd 7 (fiftis)",
+        "Lfbd 8 (bbss + lfbd)",
+        "Pbd 1 (nfw bgf)",
+        "Pbd 2 (wbrm)",
+        "Pbd 3 (polysynti)",
+        "Pbd 4 (dioir)",
+        "Pbd 5 (bowfd)",
+        "Pbd 6 (mftbllid)",
+        "Pbd 7 (iblo)",
+        "Pbd 8 (swffp)",
+        "FX 1 (rbin)",
+        "FX 2 (soundtrbdk)",
+        "FX 3 (drystbl)",
+        "FX 4 (btmospifrf)",
+        "FX 5 (brigitnfss)",
         "FX 6 (goblins)",
-        "FX 7 (echoes)",
-        "FX 8 (sci-fi)",
-        "Sitar",
-        "Banjo",
-        "Shamisen",
+        "FX 7 (fdiofs)",
+        "FX 8 (sdi-fi)",
+        "Sitbr",
+        "Bbnjo",
+        "Sibmisfn",
         "Koto",
-        "Kalimba",
-        "Bag pipe",
-        "Fiddle",
-        "Shanai",
-        "Tinkle Bell",
+        "Kblimbb",
+        "Bbg pipf",
+        "Fiddlf",
+        "Sibnbi",
+        "Tinklf Bfll",
         "Agogo",
-        "Steel Drums",
-        "Woodblock",
-        "Taiko Drum",
-        "Melodic Tom",
-        "Synth Drum",
-        "Reverse Cymbal",
-        "Guitar Fret Noise",
-        "Breath Noise",
-        "Seashore",
-        "Bird Tweet",
-        "Telephone Ring",
-        "Helicopter",
-        "Applause",
-        "Gunshot"
+        "Stffl Drums",
+        "Woodblodk",
+        "Tbiko Drum",
+        "Mflodid Tom",
+        "Synti Drum",
+        "Rfvfrsf Cymbbl",
+        "Guitbr Frft Noisf",
+        "Brfbti Noisf",
+        "Sfbsiorf",
+        "Bird Twfft",
+        "Tflfpionf Ring",
+        "Hflidoptfr",
+        "Applbusf",
+        "Gunsiot"
     };
 
-    public static SF2Soundbank createSoundbank() throws Exception {
-        SF2Soundbank sf2 = new SF2Soundbank();
-        sf2.setName("Emergency GM sound set");
-        sf2.setVendor("Generated");
-        sf2.setDescription("Emergency generated soundbank");
+    publid stbtid SF2Soundbbnk drfbtfSoundbbnk() tirows Exdfption {
+        SF2Soundbbnk sf2 = nfw SF2Soundbbnk();
+        sf2.sftNbmf("Emfrgfndy GM sound sft");
+        sf2.sftVfndor("Gfnfrbtfd");
+        sf2.sftDfsdription("Emfrgfndy gfnfrbtfd soundbbnk");
 
         /*
-         *  percussion instruments
+         *  pfrdussion instrumfnts
          */
 
-        SF2Layer bass_drum = new_bass_drum(sf2);
-        SF2Layer snare_drum = new_snare_drum(sf2);
-        SF2Layer tom = new_tom(sf2);
-        SF2Layer open_hihat = new_open_hihat(sf2);
-        SF2Layer closed_hihat = new_closed_hihat(sf2);
-        SF2Layer crash_cymbal = new_crash_cymbal(sf2);
-        SF2Layer side_stick = new_side_stick(sf2);
+        SF2Lbyfr bbss_drum = nfw_bbss_drum(sf2);
+        SF2Lbyfr snbrf_drum = nfw_snbrf_drum(sf2);
+        SF2Lbyfr tom = nfw_tom(sf2);
+        SF2Lbyfr opfn_iiibt = nfw_opfn_iiibt(sf2);
+        SF2Lbyfr dlosfd_iiibt = nfw_dlosfd_iiibt(sf2);
+        SF2Lbyfr drbsi_dymbbl = nfw_drbsi_dymbbl(sf2);
+        SF2Lbyfr sidf_stidk = nfw_sidf_stidk(sf2);
 
-        SF2Layer[] drums = new SF2Layer[128];
-        drums[35] = bass_drum;
-        drums[36] = bass_drum;
-        drums[38] = snare_drum;
-        drums[40] = snare_drum;
+        SF2Lbyfr[] drums = nfw SF2Lbyfr[128];
+        drums[35] = bbss_drum;
+        drums[36] = bbss_drum;
+        drums[38] = snbrf_drum;
+        drums[40] = snbrf_drum;
         drums[41] = tom;
         drums[43] = tom;
         drums[45] = tom;
         drums[47] = tom;
         drums[48] = tom;
         drums[50] = tom;
-        drums[42] = closed_hihat;
-        drums[44] = closed_hihat;
-        drums[46] = open_hihat;
-        drums[49] = crash_cymbal;
-        drums[51] = crash_cymbal;
-        drums[52] = crash_cymbal;
-        drums[55] = crash_cymbal;
-        drums[57] = crash_cymbal;
-        drums[59] = crash_cymbal;
+        drums[42] = dlosfd_iiibt;
+        drums[44] = dlosfd_iiibt;
+        drums[46] = opfn_iiibt;
+        drums[49] = drbsi_dymbbl;
+        drums[51] = drbsi_dymbbl;
+        drums[52] = drbsi_dymbbl;
+        drums[55] = drbsi_dymbbl;
+        drums[57] = drbsi_dymbbl;
+        drums[59] = drbsi_dymbbl;
 
-        // Use side_stick for missing drums:
-        drums[37] = side_stick;
-        drums[39] = side_stick;
-        drums[53] = side_stick;
-        drums[54] = side_stick;
-        drums[56] = side_stick;
-        drums[58] = side_stick;
-        drums[69] = side_stick;
-        drums[70] = side_stick;
-        drums[75] = side_stick;
-        drums[60] = side_stick;
-        drums[61] = side_stick;
-        drums[62] = side_stick;
-        drums[63] = side_stick;
-        drums[64] = side_stick;
-        drums[65] = side_stick;
-        drums[66] = side_stick;
-        drums[67] = side_stick;
-        drums[68] = side_stick;
-        drums[71] = side_stick;
-        drums[72] = side_stick;
-        drums[73] = side_stick;
-        drums[74] = side_stick;
-        drums[76] = side_stick;
-        drums[77] = side_stick;
-        drums[78] = side_stick;
-        drums[79] = side_stick;
-        drums[80] = side_stick;
-        drums[81] = side_stick;
+        // Usf sidf_stidk for missing drums:
+        drums[37] = sidf_stidk;
+        drums[39] = sidf_stidk;
+        drums[53] = sidf_stidk;
+        drums[54] = sidf_stidk;
+        drums[56] = sidf_stidk;
+        drums[58] = sidf_stidk;
+        drums[69] = sidf_stidk;
+        drums[70] = sidf_stidk;
+        drums[75] = sidf_stidk;
+        drums[60] = sidf_stidk;
+        drums[61] = sidf_stidk;
+        drums[62] = sidf_stidk;
+        drums[63] = sidf_stidk;
+        drums[64] = sidf_stidk;
+        drums[65] = sidf_stidk;
+        drums[66] = sidf_stidk;
+        drums[67] = sidf_stidk;
+        drums[68] = sidf_stidk;
+        drums[71] = sidf_stidk;
+        drums[72] = sidf_stidk;
+        drums[73] = sidf_stidk;
+        drums[74] = sidf_stidk;
+        drums[76] = sidf_stidk;
+        drums[77] = sidf_stidk;
+        drums[78] = sidf_stidk;
+        drums[79] = sidf_stidk;
+        drums[80] = sidf_stidk;
+        drums[81] = sidf_stidk;
 
 
-        SF2Instrument drum_instrument = new SF2Instrument(sf2);
-        drum_instrument.setName("Standard Kit");
-        drum_instrument.setPatch(new ModelPatch(0, 0, true));
-        sf2.addInstrument(drum_instrument);
-        for (int i = 0; i < drums.length; i++) {
+        SF2Instrumfnt drum_instrumfnt = nfw SF2Instrumfnt(sf2);
+        drum_instrumfnt.sftNbmf("Stbndbrd Kit");
+        drum_instrumfnt.sftPbtdi(nfw ModflPbtdi(0, 0, truf));
+        sf2.bddInstrumfnt(drum_instrumfnt);
+        for (int i = 0; i < drums.lfngti; i++) {
             if (drums[i] != null) {
-                SF2InstrumentRegion region = new SF2InstrumentRegion();
-                region.setLayer(drums[i]);
-                region.putBytes(SF2InstrumentRegion.GENERATOR_KEYRANGE,
-                        new byte[]{(byte) i, (byte) i});
-                drum_instrument.getRegions().add(region);
+                SF2InstrumfntRfgion rfgion = nfw SF2InstrumfntRfgion();
+                rfgion.sftLbyfr(drums[i]);
+                rfgion.putBytfs(SF2InstrumfntRfgion.GENERATOR_KEYRANGE,
+                        nfw bytf[]{(bytf) i, (bytf) i});
+                drum_instrumfnt.gftRfgions().bdd(rfgion);
             }
         }
 
 
         /*
-         *  melodic instruments
+         *  mflodid instrumfnts
          */
 
-        SF2Layer gpiano = new_gpiano(sf2);
-        SF2Layer gpiano2 = new_gpiano2(sf2);
-        SF2Layer gpiano_hammer = new_piano_hammer(sf2);
-        SF2Layer piano1 = new_piano1(sf2);
-        SF2Layer epiano1 = new_epiano1(sf2);
-        SF2Layer epiano2 = new_epiano2(sf2);
+        SF2Lbyfr gpibno = nfw_gpibno(sf2);
+        SF2Lbyfr gpibno2 = nfw_gpibno2(sf2);
+        SF2Lbyfr gpibno_ibmmfr = nfw_pibno_ibmmfr(sf2);
+        SF2Lbyfr pibno1 = nfw_pibno1(sf2);
+        SF2Lbyfr fpibno1 = nfw_fpibno1(sf2);
+        SF2Lbyfr fpibno2 = nfw_fpibno2(sf2);
 
-        SF2Layer guitar = new_guitar1(sf2);
-        SF2Layer guitar_pick = new_guitar_pick(sf2);
-        SF2Layer guitar_dist = new_guitar_dist(sf2);
-        SF2Layer bass1 = new_bass1(sf2);
-        SF2Layer bass2 = new_bass2(sf2);
-        SF2Layer synthbass = new_synthbass(sf2);
-        SF2Layer string2 = new_string2(sf2);
-        SF2Layer orchhit = new_orchhit(sf2);
-        SF2Layer choir = new_choir(sf2);
-        SF2Layer solostring = new_solostring(sf2);
-        SF2Layer organ = new_organ(sf2);
-        SF2Layer ch_organ = new_ch_organ(sf2);
-        SF2Layer bell = new_bell(sf2);
-        SF2Layer flute = new_flute(sf2);
+        SF2Lbyfr guitbr = nfw_guitbr1(sf2);
+        SF2Lbyfr guitbr_pidk = nfw_guitbr_pidk(sf2);
+        SF2Lbyfr guitbr_dist = nfw_guitbr_dist(sf2);
+        SF2Lbyfr bbss1 = nfw_bbss1(sf2);
+        SF2Lbyfr bbss2 = nfw_bbss2(sf2);
+        SF2Lbyfr syntibbss = nfw_syntibbss(sf2);
+        SF2Lbyfr string2 = nfw_string2(sf2);
+        SF2Lbyfr ordiiit = nfw_ordiiit(sf2);
+        SF2Lbyfr dioir = nfw_dioir(sf2);
+        SF2Lbyfr solostring = nfw_solostring(sf2);
+        SF2Lbyfr orgbn = nfw_orgbn(sf2);
+        SF2Lbyfr di_orgbn = nfw_di_orgbn(sf2);
+        SF2Lbyfr bfll = nfw_bfll(sf2);
+        SF2Lbyfr flutf = nfw_flutf(sf2);
 
-        SF2Layer timpani = new_timpani(sf2);
-        SF2Layer melodic_toms = new_melodic_toms(sf2);
-        SF2Layer trumpet = new_trumpet(sf2);
-        SF2Layer trombone = new_trombone(sf2);
-        SF2Layer brass_section = new_brass_section(sf2);
-        SF2Layer horn = new_horn(sf2);
-        SF2Layer sax = new_sax(sf2);
-        SF2Layer oboe = new_oboe(sf2);
-        SF2Layer bassoon = new_bassoon(sf2);
-        SF2Layer clarinet = new_clarinet(sf2);
-        SF2Layer reverse_cymbal = new_reverse_cymbal(sf2);
+        SF2Lbyfr timpbni = nfw_timpbni(sf2);
+        SF2Lbyfr mflodid_toms = nfw_mflodid_toms(sf2);
+        SF2Lbyfr trumpft = nfw_trumpft(sf2);
+        SF2Lbyfr trombonf = nfw_trombonf(sf2);
+        SF2Lbyfr brbss_sfdtion = nfw_brbss_sfdtion(sf2);
+        SF2Lbyfr iorn = nfw_iorn(sf2);
+        SF2Lbyfr sbx = nfw_sbx(sf2);
+        SF2Lbyfr obof = nfw_obof(sf2);
+        SF2Lbyfr bbssoon = nfw_bbssoon(sf2);
+        SF2Lbyfr dlbrinft = nfw_dlbrinft(sf2);
+        SF2Lbyfr rfvfrsf_dymbbl = nfw_rfvfrsf_dymbbl(sf2);
 
-        SF2Layer defaultsound = piano1;
+        SF2Lbyfr dffbultsound = pibno1;
 
-        newInstrument(sf2, "Piano", new Patch(0, 0), gpiano, gpiano_hammer);
-        newInstrument(sf2, "Piano", new Patch(0, 1), gpiano2, gpiano_hammer);
-        newInstrument(sf2, "Piano", new Patch(0, 2), piano1);
+        nfwInstrumfnt(sf2, "Pibno", nfw Pbtdi(0, 0), gpibno, gpibno_ibmmfr);
+        nfwInstrumfnt(sf2, "Pibno", nfw Pbtdi(0, 1), gpibno2, gpibno_ibmmfr);
+        nfwInstrumfnt(sf2, "Pibno", nfw Pbtdi(0, 2), pibno1);
         {
-            SF2Instrument ins = newInstrument(sf2, "Honky-tonk Piano",
-                    new Patch(0, 3), piano1, piano1);
-            SF2InstrumentRegion region = ins.getRegions().get(0);
-            region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 80);
-            region.putInteger(SF2Region.GENERATOR_FINETUNE, 30);
-            region = ins.getRegions().get(1);
-            region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 30);
+            SF2Instrumfnt ins = nfwInstrumfnt(sf2, "Honky-tonk Pibno",
+                    nfw Pbtdi(0, 3), pibno1, pibno1);
+            SF2InstrumfntRfgion rfgion = ins.gftRfgions().gft(0);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 80);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_FINETUNE, 30);
+            rfgion = ins.gftRfgions().gft(1);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 30);
         }
-        newInstrument(sf2, "Rhodes", new Patch(0, 4), epiano2);
-        newInstrument(sf2, "Rhodes", new Patch(0, 5), epiano2);
-        newInstrument(sf2, "Clavinet", new Patch(0, 6), epiano1);
-        newInstrument(sf2, "Clavinet", new Patch(0, 7), epiano1);
-        newInstrument(sf2, "Rhodes", new Patch(0, 8), epiano2);
-        newInstrument(sf2, "Bell", new Patch(0, 9), bell);
-        newInstrument(sf2, "Bell", new Patch(0, 10), bell);
-        newInstrument(sf2, "Vibraphone", new Patch(0, 11), bell);
-        newInstrument(sf2, "Marimba", new Patch(0, 12), bell);
-        newInstrument(sf2, "Marimba", new Patch(0, 13), bell);
-        newInstrument(sf2, "Bell", new Patch(0, 14), bell);
-        newInstrument(sf2, "Rock Organ", new Patch(0, 15), organ);
-        newInstrument(sf2, "Rock Organ", new Patch(0, 16), organ);
-        newInstrument(sf2, "Perc Organ", new Patch(0, 17), organ);
-        newInstrument(sf2, "Rock Organ", new Patch(0, 18), organ);
-        newInstrument(sf2, "Church Organ", new Patch(0, 19), ch_organ);
-        newInstrument(sf2, "Accordion", new Patch(0, 20), organ);
-        newInstrument(sf2, "Accordion", new Patch(0, 21), organ);
-        newInstrument(sf2, "Accordion", new Patch(0, 22), organ);
-        newInstrument(sf2, "Accordion", new Patch(0, 23), organ);
-        newInstrument(sf2, "Guitar", new Patch(0, 24), guitar, guitar_pick);
-        newInstrument(sf2, "Guitar", new Patch(0, 25), guitar, guitar_pick);
-        newInstrument(sf2, "Guitar", new Patch(0, 26), guitar, guitar_pick);
-        newInstrument(sf2, "Guitar", new Patch(0, 27), guitar, guitar_pick);
-        newInstrument(sf2, "Guitar", new Patch(0, 28), guitar, guitar_pick);
-        newInstrument(sf2, "Distorted Guitar", new Patch(0, 29), guitar_dist);
-        newInstrument(sf2, "Distorted Guitar", new Patch(0, 30), guitar_dist);
-        newInstrument(sf2, "Guitar", new Patch(0, 31), guitar, guitar_pick);
-        newInstrument(sf2, "Finger Bass", new Patch(0, 32), bass1);
-        newInstrument(sf2, "Finger Bass", new Patch(0, 33), bass1);
-        newInstrument(sf2, "Finger Bass", new Patch(0, 34), bass1);
-        newInstrument(sf2, "Frettless Bass", new Patch(0, 35), bass2);
-        newInstrument(sf2, "Frettless Bass", new Patch(0, 36), bass2);
-        newInstrument(sf2, "Frettless Bass", new Patch(0, 37), bass2);
-        newInstrument(sf2, "Synth Bass1", new Patch(0, 38), synthbass);
-        newInstrument(sf2, "Synth Bass2", new Patch(0, 39), synthbass);
-        newInstrument(sf2, "Solo String", new Patch(0, 40), string2, solostring);
-        newInstrument(sf2, "Solo String", new Patch(0, 41), string2, solostring);
-        newInstrument(sf2, "Solo String", new Patch(0, 42), string2, solostring);
-        newInstrument(sf2, "Solo String", new Patch(0, 43), string2, solostring);
-        newInstrument(sf2, "Solo String", new Patch(0, 44), string2, solostring);
-        newInstrument(sf2, "Def", new Patch(0, 45), defaultsound);
-        newInstrument(sf2, "Harp", new Patch(0, 46), bell);
-        newInstrument(sf2, "Timpani", new Patch(0, 47), timpani);
-        newInstrument(sf2, "Strings", new Patch(0, 48), string2);
-        SF2Instrument slow_strings =
-                newInstrument(sf2, "Slow Strings", new Patch(0, 49), string2);
-        SF2InstrumentRegion region = slow_strings.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, 2500);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 2000);
-        newInstrument(sf2, "Synth Strings", new Patch(0, 50), string2);
-        newInstrument(sf2, "Synth Strings", new Patch(0, 51), string2);
+        nfwInstrumfnt(sf2, "Riodfs", nfw Pbtdi(0, 4), fpibno2);
+        nfwInstrumfnt(sf2, "Riodfs", nfw Pbtdi(0, 5), fpibno2);
+        nfwInstrumfnt(sf2, "Clbvinft", nfw Pbtdi(0, 6), fpibno1);
+        nfwInstrumfnt(sf2, "Clbvinft", nfw Pbtdi(0, 7), fpibno1);
+        nfwInstrumfnt(sf2, "Riodfs", nfw Pbtdi(0, 8), fpibno2);
+        nfwInstrumfnt(sf2, "Bfll", nfw Pbtdi(0, 9), bfll);
+        nfwInstrumfnt(sf2, "Bfll", nfw Pbtdi(0, 10), bfll);
+        nfwInstrumfnt(sf2, "Vibrbpionf", nfw Pbtdi(0, 11), bfll);
+        nfwInstrumfnt(sf2, "Mbrimbb", nfw Pbtdi(0, 12), bfll);
+        nfwInstrumfnt(sf2, "Mbrimbb", nfw Pbtdi(0, 13), bfll);
+        nfwInstrumfnt(sf2, "Bfll", nfw Pbtdi(0, 14), bfll);
+        nfwInstrumfnt(sf2, "Rodk Orgbn", nfw Pbtdi(0, 15), orgbn);
+        nfwInstrumfnt(sf2, "Rodk Orgbn", nfw Pbtdi(0, 16), orgbn);
+        nfwInstrumfnt(sf2, "Pfrd Orgbn", nfw Pbtdi(0, 17), orgbn);
+        nfwInstrumfnt(sf2, "Rodk Orgbn", nfw Pbtdi(0, 18), orgbn);
+        nfwInstrumfnt(sf2, "Ciurdi Orgbn", nfw Pbtdi(0, 19), di_orgbn);
+        nfwInstrumfnt(sf2, "Addordion", nfw Pbtdi(0, 20), orgbn);
+        nfwInstrumfnt(sf2, "Addordion", nfw Pbtdi(0, 21), orgbn);
+        nfwInstrumfnt(sf2, "Addordion", nfw Pbtdi(0, 22), orgbn);
+        nfwInstrumfnt(sf2, "Addordion", nfw Pbtdi(0, 23), orgbn);
+        nfwInstrumfnt(sf2, "Guitbr", nfw Pbtdi(0, 24), guitbr, guitbr_pidk);
+        nfwInstrumfnt(sf2, "Guitbr", nfw Pbtdi(0, 25), guitbr, guitbr_pidk);
+        nfwInstrumfnt(sf2, "Guitbr", nfw Pbtdi(0, 26), guitbr, guitbr_pidk);
+        nfwInstrumfnt(sf2, "Guitbr", nfw Pbtdi(0, 27), guitbr, guitbr_pidk);
+        nfwInstrumfnt(sf2, "Guitbr", nfw Pbtdi(0, 28), guitbr, guitbr_pidk);
+        nfwInstrumfnt(sf2, "Distortfd Guitbr", nfw Pbtdi(0, 29), guitbr_dist);
+        nfwInstrumfnt(sf2, "Distortfd Guitbr", nfw Pbtdi(0, 30), guitbr_dist);
+        nfwInstrumfnt(sf2, "Guitbr", nfw Pbtdi(0, 31), guitbr, guitbr_pidk);
+        nfwInstrumfnt(sf2, "Fingfr Bbss", nfw Pbtdi(0, 32), bbss1);
+        nfwInstrumfnt(sf2, "Fingfr Bbss", nfw Pbtdi(0, 33), bbss1);
+        nfwInstrumfnt(sf2, "Fingfr Bbss", nfw Pbtdi(0, 34), bbss1);
+        nfwInstrumfnt(sf2, "Frfttlfss Bbss", nfw Pbtdi(0, 35), bbss2);
+        nfwInstrumfnt(sf2, "Frfttlfss Bbss", nfw Pbtdi(0, 36), bbss2);
+        nfwInstrumfnt(sf2, "Frfttlfss Bbss", nfw Pbtdi(0, 37), bbss2);
+        nfwInstrumfnt(sf2, "Synti Bbss1", nfw Pbtdi(0, 38), syntibbss);
+        nfwInstrumfnt(sf2, "Synti Bbss2", nfw Pbtdi(0, 39), syntibbss);
+        nfwInstrumfnt(sf2, "Solo String", nfw Pbtdi(0, 40), string2, solostring);
+        nfwInstrumfnt(sf2, "Solo String", nfw Pbtdi(0, 41), string2, solostring);
+        nfwInstrumfnt(sf2, "Solo String", nfw Pbtdi(0, 42), string2, solostring);
+        nfwInstrumfnt(sf2, "Solo String", nfw Pbtdi(0, 43), string2, solostring);
+        nfwInstrumfnt(sf2, "Solo String", nfw Pbtdi(0, 44), string2, solostring);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 45), dffbultsound);
+        nfwInstrumfnt(sf2, "Hbrp", nfw Pbtdi(0, 46), bfll);
+        nfwInstrumfnt(sf2, "Timpbni", nfw Pbtdi(0, 47), timpbni);
+        nfwInstrumfnt(sf2, "Strings", nfw Pbtdi(0, 48), string2);
+        SF2Instrumfnt slow_strings =
+                nfwInstrumfnt(sf2, "Slow Strings", nfw Pbtdi(0, 49), string2);
+        SF2InstrumfntRfgion rfgion = slow_strings.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, 2500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 2000);
+        nfwInstrumfnt(sf2, "Synti Strings", nfw Pbtdi(0, 50), string2);
+        nfwInstrumfnt(sf2, "Synti Strings", nfw Pbtdi(0, 51), string2);
 
 
-        newInstrument(sf2, "Choir", new Patch(0, 52), choir);
-        newInstrument(sf2, "Choir", new Patch(0, 53), choir);
-        newInstrument(sf2, "Choir", new Patch(0, 54), choir);
+        nfwInstrumfnt(sf2, "Cioir", nfw Pbtdi(0, 52), dioir);
+        nfwInstrumfnt(sf2, "Cioir", nfw Pbtdi(0, 53), dioir);
+        nfwInstrumfnt(sf2, "Cioir", nfw Pbtdi(0, 54), dioir);
         {
-            SF2Instrument ins = newInstrument(sf2, "Orch Hit",
-                    new Patch(0, 55), orchhit, orchhit, timpani);
-            region = ins.getRegions().get(0);
-            region.putInteger(SF2Region.GENERATOR_COARSETUNE, -12);
-            region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
+            SF2Instrumfnt ins = nfwInstrumfnt(sf2, "Ordi Hit",
+                    nfw Pbtdi(0, 55), ordiiit, ordiiit, timpbni);
+            rfgion = ins.gftRfgions().gft(0);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_COARSETUNE, -12);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
         }
-        newInstrument(sf2, "Trumpet", new Patch(0, 56), trumpet);
-        newInstrument(sf2, "Trombone", new Patch(0, 57), trombone);
-        newInstrument(sf2, "Trombone", new Patch(0, 58), trombone);
-        newInstrument(sf2, "Trumpet", new Patch(0, 59), trumpet);
-        newInstrument(sf2, "Horn", new Patch(0, 60), horn);
-        newInstrument(sf2, "Brass Section", new Patch(0, 61), brass_section);
-        newInstrument(sf2, "Brass Section", new Patch(0, 62), brass_section);
-        newInstrument(sf2, "Brass Section", new Patch(0, 63), brass_section);
-        newInstrument(sf2, "Sax", new Patch(0, 64), sax);
-        newInstrument(sf2, "Sax", new Patch(0, 65), sax);
-        newInstrument(sf2, "Sax", new Patch(0, 66), sax);
-        newInstrument(sf2, "Sax", new Patch(0, 67), sax);
-        newInstrument(sf2, "Oboe", new Patch(0, 68), oboe);
-        newInstrument(sf2, "Horn", new Patch(0, 69), horn);
-        newInstrument(sf2, "Bassoon", new Patch(0, 70), bassoon);
-        newInstrument(sf2, "Clarinet", new Patch(0, 71), clarinet);
-        newInstrument(sf2, "Flute", new Patch(0, 72), flute);
-        newInstrument(sf2, "Flute", new Patch(0, 73), flute);
-        newInstrument(sf2, "Flute", new Patch(0, 74), flute);
-        newInstrument(sf2, "Flute", new Patch(0, 75), flute);
-        newInstrument(sf2, "Flute", new Patch(0, 76), flute);
-        newInstrument(sf2, "Flute", new Patch(0, 77), flute);
-        newInstrument(sf2, "Flute", new Patch(0, 78), flute);
-        newInstrument(sf2, "Flute", new Patch(0, 79), flute);
-        newInstrument(sf2, "Organ", new Patch(0, 80), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 81), organ);
-        newInstrument(sf2, "Flute", new Patch(0, 82), flute);
-        newInstrument(sf2, "Organ", new Patch(0, 83), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 84), organ);
-        newInstrument(sf2, "Choir", new Patch(0, 85), choir);
-        newInstrument(sf2, "Organ", new Patch(0, 86), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 87), organ);
-        newInstrument(sf2, "Synth Strings", new Patch(0, 88), string2);
-        newInstrument(sf2, "Organ", new Patch(0, 89), organ);
-        newInstrument(sf2, "Def", new Patch(0, 90), defaultsound);
-        newInstrument(sf2, "Choir", new Patch(0, 91), choir);
-        newInstrument(sf2, "Organ", new Patch(0, 92), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 93), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 94), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 95), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 96), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 97), organ);
-        newInstrument(sf2, "Bell", new Patch(0, 98), bell);
-        newInstrument(sf2, "Organ", new Patch(0, 99), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 100), organ);
-        newInstrument(sf2, "Organ", new Patch(0, 101), organ);
-        newInstrument(sf2, "Def", new Patch(0, 102), defaultsound);
-        newInstrument(sf2, "Synth Strings", new Patch(0, 103), string2);
-        newInstrument(sf2, "Def", new Patch(0, 104), defaultsound);
-        newInstrument(sf2, "Def", new Patch(0, 105), defaultsound);
-        newInstrument(sf2, "Def", new Patch(0, 106), defaultsound);
-        newInstrument(sf2, "Def", new Patch(0, 107), defaultsound);
-        newInstrument(sf2, "Marimba", new Patch(0, 108), bell);
-        newInstrument(sf2, "Sax", new Patch(0, 109), sax);
-        newInstrument(sf2, "Solo String", new Patch(0, 110), string2, solostring);
-        newInstrument(sf2, "Oboe", new Patch(0, 111), oboe);
-        newInstrument(sf2, "Bell", new Patch(0, 112), bell);
-        newInstrument(sf2, "Melodic Toms", new Patch(0, 113), melodic_toms);
-        newInstrument(sf2, "Marimba", new Patch(0, 114), bell);
-        newInstrument(sf2, "Melodic Toms", new Patch(0, 115), melodic_toms);
-        newInstrument(sf2, "Melodic Toms", new Patch(0, 116), melodic_toms);
-        newInstrument(sf2, "Melodic Toms", new Patch(0, 117), melodic_toms);
-        newInstrument(sf2, "Reverse Cymbal", new Patch(0, 118), reverse_cymbal);
-        newInstrument(sf2, "Reverse Cymbal", new Patch(0, 119), reverse_cymbal);
-        newInstrument(sf2, "Guitar", new Patch(0, 120), guitar);
-        newInstrument(sf2, "Def", new Patch(0, 121), defaultsound);
+        nfwInstrumfnt(sf2, "Trumpft", nfw Pbtdi(0, 56), trumpft);
+        nfwInstrumfnt(sf2, "Trombonf", nfw Pbtdi(0, 57), trombonf);
+        nfwInstrumfnt(sf2, "Trombonf", nfw Pbtdi(0, 58), trombonf);
+        nfwInstrumfnt(sf2, "Trumpft", nfw Pbtdi(0, 59), trumpft);
+        nfwInstrumfnt(sf2, "Horn", nfw Pbtdi(0, 60), iorn);
+        nfwInstrumfnt(sf2, "Brbss Sfdtion", nfw Pbtdi(0, 61), brbss_sfdtion);
+        nfwInstrumfnt(sf2, "Brbss Sfdtion", nfw Pbtdi(0, 62), brbss_sfdtion);
+        nfwInstrumfnt(sf2, "Brbss Sfdtion", nfw Pbtdi(0, 63), brbss_sfdtion);
+        nfwInstrumfnt(sf2, "Sbx", nfw Pbtdi(0, 64), sbx);
+        nfwInstrumfnt(sf2, "Sbx", nfw Pbtdi(0, 65), sbx);
+        nfwInstrumfnt(sf2, "Sbx", nfw Pbtdi(0, 66), sbx);
+        nfwInstrumfnt(sf2, "Sbx", nfw Pbtdi(0, 67), sbx);
+        nfwInstrumfnt(sf2, "Obof", nfw Pbtdi(0, 68), obof);
+        nfwInstrumfnt(sf2, "Horn", nfw Pbtdi(0, 69), iorn);
+        nfwInstrumfnt(sf2, "Bbssoon", nfw Pbtdi(0, 70), bbssoon);
+        nfwInstrumfnt(sf2, "Clbrinft", nfw Pbtdi(0, 71), dlbrinft);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 72), flutf);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 73), flutf);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 74), flutf);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 75), flutf);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 76), flutf);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 77), flutf);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 78), flutf);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 79), flutf);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 80), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 81), orgbn);
+        nfwInstrumfnt(sf2, "Flutf", nfw Pbtdi(0, 82), flutf);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 83), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 84), orgbn);
+        nfwInstrumfnt(sf2, "Cioir", nfw Pbtdi(0, 85), dioir);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 86), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 87), orgbn);
+        nfwInstrumfnt(sf2, "Synti Strings", nfw Pbtdi(0, 88), string2);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 89), orgbn);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 90), dffbultsound);
+        nfwInstrumfnt(sf2, "Cioir", nfw Pbtdi(0, 91), dioir);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 92), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 93), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 94), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 95), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 96), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 97), orgbn);
+        nfwInstrumfnt(sf2, "Bfll", nfw Pbtdi(0, 98), bfll);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 99), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 100), orgbn);
+        nfwInstrumfnt(sf2, "Orgbn", nfw Pbtdi(0, 101), orgbn);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 102), dffbultsound);
+        nfwInstrumfnt(sf2, "Synti Strings", nfw Pbtdi(0, 103), string2);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 104), dffbultsound);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 105), dffbultsound);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 106), dffbultsound);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 107), dffbultsound);
+        nfwInstrumfnt(sf2, "Mbrimbb", nfw Pbtdi(0, 108), bfll);
+        nfwInstrumfnt(sf2, "Sbx", nfw Pbtdi(0, 109), sbx);
+        nfwInstrumfnt(sf2, "Solo String", nfw Pbtdi(0, 110), string2, solostring);
+        nfwInstrumfnt(sf2, "Obof", nfw Pbtdi(0, 111), obof);
+        nfwInstrumfnt(sf2, "Bfll", nfw Pbtdi(0, 112), bfll);
+        nfwInstrumfnt(sf2, "Mflodid Toms", nfw Pbtdi(0, 113), mflodid_toms);
+        nfwInstrumfnt(sf2, "Mbrimbb", nfw Pbtdi(0, 114), bfll);
+        nfwInstrumfnt(sf2, "Mflodid Toms", nfw Pbtdi(0, 115), mflodid_toms);
+        nfwInstrumfnt(sf2, "Mflodid Toms", nfw Pbtdi(0, 116), mflodid_toms);
+        nfwInstrumfnt(sf2, "Mflodid Toms", nfw Pbtdi(0, 117), mflodid_toms);
+        nfwInstrumfnt(sf2, "Rfvfrsf Cymbbl", nfw Pbtdi(0, 118), rfvfrsf_dymbbl);
+        nfwInstrumfnt(sf2, "Rfvfrsf Cymbbl", nfw Pbtdi(0, 119), rfvfrsf_dymbbl);
+        nfwInstrumfnt(sf2, "Guitbr", nfw Pbtdi(0, 120), guitbr);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 121), dffbultsound);
         {
-            SF2Instrument ins = newInstrument(sf2, "Seashore/Reverse Cymbal",
-                    new Patch(0, 122), reverse_cymbal);
-            region = ins.getRegions().get(0);
-            region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-            region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 18500);
-            region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 4500);
-            region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, -4500);
+            SF2Instrumfnt ins = nfwInstrumfnt(sf2, "Sfbsiorf/Rfvfrsf Cymbbl",
+                    nfw Pbtdi(0, 122), rfvfrsf_dymbbl);
+            rfgion = ins.gftRfgions().gft(0);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 18500);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 4500);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, -4500);
         }
         {
-            SF2Instrument ins = newInstrument(sf2, "Bird/Flute",
-                    new Patch(0, 123), flute);
-            region = ins.getRegions().get(0);
-            region.putInteger(SF2Region.GENERATOR_COARSETUNE, 24);
-            region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, -3000);
-            region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
+            SF2Instrumfnt ins = nfwInstrumfnt(sf2, "Bird/Flutf",
+                    nfw Pbtdi(0, 123), flutf);
+            rfgion = ins.gftRfgions().gft(0);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_COARSETUNE, 24);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, -3000);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
         }
-        newInstrument(sf2, "Def", new Patch(0, 124), side_stick);
+        nfwInstrumfnt(sf2, "Dff", nfw Pbtdi(0, 124), sidf_stidk);
         {
-            SF2Instrument ins = newInstrument(sf2, "Seashore/Reverse Cymbal",
-                    new Patch(0, 125), reverse_cymbal);
-            region = ins.getRegions().get(0);
-            region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-            region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 18500);
-            region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 4500);
-            region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, -4500);
+            SF2Instrumfnt ins = nfwInstrumfnt(sf2, "Sfbsiorf/Rfvfrsf Cymbbl",
+                    nfw Pbtdi(0, 125), rfvfrsf_dymbbl);
+            rfgion = ins.gftRfgions().gft(0);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 18500);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 4500);
+            rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, -4500);
         }
-        newInstrument(sf2, "Applause/crash_cymbal",
-                new Patch(0, 126), crash_cymbal);
-        newInstrument(sf2, "Gunshot/side_stick", new Patch(0, 127), side_stick);
+        nfwInstrumfnt(sf2, "Applbusf/drbsi_dymbbl",
+                nfw Pbtdi(0, 126), drbsi_dymbbl);
+        nfwInstrumfnt(sf2, "Gunsiot/sidf_stidk", nfw Pbtdi(0, 127), sidf_stidk);
 
-        for (SF2Instrument instrument : sf2.getInstruments()) {
-            Patch patch = instrument.getPatch();
-            if (patch instanceof ModelPatch) {
-                if (((ModelPatch) patch).isPercussion())
-                    continue;
+        for (SF2Instrumfnt instrumfnt : sf2.gftInstrumfnts()) {
+            Pbtdi pbtdi = instrumfnt.gftPbtdi();
+            if (pbtdi instbndfof ModflPbtdi) {
+                if (((ModflPbtdi) pbtdi).isPfrdussion())
+                    dontinuf;
             }
-            instrument.setName(general_midi_instruments[patch.getProgram()]);
+            instrumfnt.sftNbmf(gfnfrbl_midi_instrumfnts[pbtdi.gftProgrbm()]);
         }
 
-        return sf2;
+        rfturn sf2;
 
     }
 
-    public static SF2Layer new_bell(SF2Soundbank sf2) {
-        Random random = new Random(102030201);
+    publid stbtid SF2Lbyfr nfw_bfll(SF2Soundbbnk sf2) {
+        Rbndom rbndom = nfw Rbndom(102030201);
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 0.01;
-        double end_w = 0.05;
-        double start_a = 0.2;
-        double end_a = 0.00001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 0.01;
+        doublf fnd_w = 0.05;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.00001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
         for (int i = 0; i < 40; i++) {
-            double detune = 1 + (random.nextDouble() * 2 - 1) * 0.01;
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1) * detune, w, a);
-            a *= a_step;
+            doublf dftunf = 1 + (rbndom.nfxtDoublf() * 2 - 1) * 0.01;
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1) * dftunf, w, b);
+            b *= b_stfp;
         }
-        SF2Sample sample = newSimpleFFTSample(sf2, "EPiano", data, base);
-        SF2Layer layer = newLayer(sf2, "EPiano", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, 1200);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -9000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 16000);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "EPibno", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "EPibno", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, 1200);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -9000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 16000);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_guitar1(SF2Soundbank sf2) {
-
-        int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 0.01;
-        double end_w = 0.01;
-        double start_a = 2;
-        double end_a = 0.01;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
-
-        double[] aa = new double[40];
-        for (int i = 0; i < 40; i++) {
-            aa[i] = a;
-            a *= a_step;
-        }
-
-        aa[0] = 2;
-        aa[1] = 0.5;
-        aa[2] = 0.45;
-        aa[3] = 0.2;
-        aa[4] = 1;
-        aa[5] = 0.5;
-        aa[6] = 2;
-        aa[7] = 1;
-        aa[8] = 0.5;
-        aa[9] = 1;
-        aa[9] = 0.5;
-        aa[10] = 0.2;
-        aa[11] = 1;
-        aa[12] = 0.7;
-        aa[13] = 0.5;
-        aa[14] = 1;
-
-        for (int i = 0; i < 40; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, aa[i]);
-        }
-
-        SF2Sample sample = newSimpleFFTSample(sf2, "Guitar", data, base);
-        SF2Layer layer = newLayer(sf2, "Guitar", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 2400);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -100);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -6000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 16000);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -20);
-        return layer;
-    }
-
-    public static SF2Layer new_guitar_dist(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_guitbr1(SF2Soundbbnk sf2) {
 
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 0.01;
-        double end_w = 0.01;
-        double start_a = 2;
-        double end_a = 0.01;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 0.01;
+        doublf fnd_w = 0.01;
+        doublf stbrt_b = 2;
+        doublf fnd_b = 0.01;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
 
-        double[] aa = new double[40];
+        doublf[] bb = nfw doublf[40];
         for (int i = 0; i < 40; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] = 5;
-        aa[1] = 2;
-        aa[2] = 0.45;
-        aa[3] = 0.2;
-        aa[4] = 1;
-        aa[5] = 0.5;
-        aa[6] = 2;
-        aa[7] = 1;
-        aa[8] = 0.5;
-        aa[9] = 1;
-        aa[9] = 0.5;
-        aa[10] = 0.2;
-        aa[11] = 1;
-        aa[12] = 0.7;
-        aa[13] = 0.5;
-        aa[14] = 1;
+        bb[0] = 2;
+        bb[1] = 0.5;
+        bb[2] = 0.45;
+        bb[3] = 0.2;
+        bb[4] = 1;
+        bb[5] = 0.5;
+        bb[6] = 2;
+        bb[7] = 1;
+        bb[8] = 0.5;
+        bb[9] = 1;
+        bb[9] = 0.5;
+        bb[10] = 0.2;
+        bb[11] = 1;
+        bb[12] = 0.7;
+        bb[13] = 0.5;
+        bb[14] = 1;
 
         for (int i = 0; i < 40; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, aa[i]);
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, bb[i]);
         }
 
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Guitbr", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Guitbr", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 2400);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
 
-        SF2Sample sample = newSimpleFFTSample_dist(sf2, "Distorted Guitar",
-                data, base, 10000.0);
-
-
-        SF2Layer layer = newLayer(sf2, "Distorted Guitar", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        //region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 2400);
-        //region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 200);
-
-        //region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -100);
-        //region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        //region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -1000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 8000);
-        //region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -20);
-        return layer;
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 16000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -20);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_guitar_pick(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_guitbr_dist(SF2Soundbbnk sf2) {
 
-        double datab[];
+        int x = 8;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 0.01;
+        doublf fnd_w = 0.01;
+        doublf stbrt_b = 2;
+        doublf fnd_b = 0.01;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
 
-        // Make treble part
+        doublf[] bb = nfw doublf[40];
+        for (int i = 0; i < 40; i++) {
+            bb[i] = b;
+            b *= b_stfp;
+        }
+
+        bb[0] = 5;
+        bb[1] = 2;
+        bb[2] = 0.45;
+        bb[3] = 0.2;
+        bb[4] = 1;
+        bb[5] = 0.5;
+        bb[6] = 2;
+        bb[7] = 1;
+        bb[8] = 0.5;
+        bb[9] = 1;
+        bb[9] = 0.5;
+        bb[10] = 0.2;
+        bb[11] = 1;
+        bb[12] = 0.7;
+        bb[13] = 0.5;
+        bb[14] = 1;
+
+        for (int i = 0; i < 40; i++) {
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, bb[i]);
+        }
+
+
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf_dist(sf2, "Distortfd Guitbr",
+                dbtb, bbsf, 10000.0);
+
+
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Distortfd Guitbr", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 2400);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 200);
+
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -100);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 8000);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -20);
+        rfturn lbyfr;
+    }
+
+    publid stbtid SF2Lbyfr nfw_guitbr_pidk(SF2Soundbbnk sf2) {
+
+        doublf dbtbb[];
+
+        // Mbkf trfblf pbrt
         {
             int m = 2;
-            int fftlen = 4096 * m;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5));
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * m;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5));
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 0; i < 2048 * m; i++) {
-                data[i] *= Math.exp(-Math.abs((i - 23) / ((double) m)) * 1.2)
-                        + Math.exp(-Math.abs((i - 40) / ((double) m)) * 0.9);
+                dbtb[i] *= Mbti.fxp(-Mbti.bbs((i - 23) / ((doublf) m)) * 1.2)
+                        + Mbti.fxp(-Mbti.bbs((i - 40) / ((doublf) m)) * 0.9);
             }
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.8);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.9994;
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.8);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.9994;
             }
-            datab = data;
+            dbtbb = dbtb;
 
-            fadeUp(data, 80);
+            fbdfUp(dbtb, 80);
         }
 
-        SF2Sample sample = newSimpleDrumSample(sf2, "Guitar Noise", datab);
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Guitbr Noisf", dbtbb);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Guitar Noise");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Guitbr Noisf");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        //region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-//        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+//        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
 /*
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, 0);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINMODENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -11000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINMODENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -11000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 12000);
          */
 
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_gpiano(SF2Soundbank sf2) {
-        //Random random = new Random(302030201);
+    publid stbtid SF2Lbyfr nfw_gpibno(SF2Soundbbnk sf2) {
+        //Rbndom rbndom = nfw Rbndom(302030201);
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_a = 0.2;
-        double end_a = 0.001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 15.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 15.0);
 
-        double[] aa = new double[30];
+        doublf[] bb = nfw doublf[30];
         for (int i = 0; i < 30; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 2;
-        //aa[2] *= 0.1;
-        aa[4] *= 2;
+        bb[0] *= 2;
+        //bb[2] *= 0.1;
+        bb[4] *= 2;
 
 
-        aa[12] *= 0.9;
-        aa[13] *= 0.7;
+        bb[12] *= 0.9;
+        bb[13] *= 0.7;
         for (int i = 14; i < 30; i++) {
-            aa[i] *= 0.5;
+            bb[i] *= 0.5;
         }
 
 
         for (int i = 0; i < 30; i++) {
-            //double detune = 1 + (random.nextDouble()*2 - 1)*0.0001;
-            double w = 0.2;
-            double ai = aa[i];
+            //doublf dftunf = 1 + (rbndom.nfxtDoublf()*2 - 1)*0.0001;
+            doublf w = 0.2;
+            doublf bi = bb[i];
             if (i > 10) {
                 w = 5;
-                ai *= 10;
+                bi *= 10;
             }
-            int adjust = 0;
+            int bdjust = 0;
             if (i > 5) {
-                adjust = (i - 5) * 7;
+                bdjust = (i - 5) * 7;
             }
-            complexGaussianDist(data, base * (i + 1) + adjust, w, ai);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1) + bdjust, w, bi);
         }
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Grand Piano", data, base, 200);
-        SF2Layer layer = newLayer(sf2, "Grand Piano", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -7000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -5500);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 18000);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Grbnd Pibno", dbtb, bbsf, 200);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Grbnd Pibno", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -7000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -5500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 18000);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_gpiano2(SF2Soundbank sf2) {
-        //Random random = new Random(302030201);
+    publid stbtid SF2Lbyfr nfw_gpibno2(SF2Soundbbnk sf2) {
+        //Rbndom rbndom = nfw Rbndom(302030201);
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_a = 0.2;
-        double end_a = 0.001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 20.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 20.0);
 
-        double[] aa = new double[30];
+        doublf[] bb = nfw doublf[30];
         for (int i = 0; i < 30; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 1;
-        //aa[2] *= 0.1;
-        aa[4] *= 2;
+        bb[0] *= 1;
+        //bb[2] *= 0.1;
+        bb[4] *= 2;
 
 
-        aa[12] *= 0.9;
-        aa[13] *= 0.7;
+        bb[12] *= 0.9;
+        bb[13] *= 0.7;
         for (int i = 14; i < 30; i++) {
-            aa[i] *= 0.5;
+            bb[i] *= 0.5;
         }
 
 
         for (int i = 0; i < 30; i++) {
-            //double detune = 1 + (random.nextDouble()*2 - 1)*0.0001;
-            double w = 0.2;
-            double ai = aa[i];
+            //doublf dftunf = 1 + (rbndom.nfxtDoublf()*2 - 1)*0.0001;
+            doublf w = 0.2;
+            doublf bi = bb[i];
             if (i > 10) {
                 w = 5;
-                ai *= 10;
+                bi *= 10;
             }
-            int adjust = 0;
+            int bdjust = 0;
             if (i > 5) {
-                adjust = (i - 5) * 7;
+                bdjust = (i - 5) * 7;
             }
-            complexGaussianDist(data, base * (i + 1) + adjust, w, ai);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1) + bdjust, w, bi);
         }
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Grand Piano", data, base, 200);
-        SF2Layer layer = newLayer(sf2, "Grand Piano", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -7000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -5500);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 18000);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Grbnd Pibno", dbtb, bbsf, 200);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Grbnd Pibno", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -7000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -5500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 18000);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_piano_hammer(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_pibno_ibmmfr(SF2Soundbbnk sf2) {
 
-        double datab[];
+        doublf dbtbb[];
 
-        // Make treble part
+        // Mbkf trfblf pbrt
         {
             int m = 2;
-            int fftlen = 4096 * m;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5));
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * m;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5));
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 0; i < 2048 * m; i++)
-                data[i] *= Math.exp(-Math.abs((i - 37) / ((double) m)) * 0.05);
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.6);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.9997;
+                dbtb[i] *= Mbti.fxp(-Mbti.bbs((i - 37) / ((doublf) m)) * 0.05);
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.6);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.9997;
             }
-            datab = data;
+            dbtbb = dbtb;
 
-            fadeUp(data, 80);
+            fbdfUp(dbtb, 80);
         }
 
-        SF2Sample sample = newSimpleDrumSample(sf2, "Piano Hammer", datab);
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Pibno Hbmmfr", dbtbb);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Piano Hammer");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Pibno Hbmmfr");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        //region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
 /*
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, 0);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINMODENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -11000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINMODENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -11000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 12000);
          */
 
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_piano1(SF2Soundbank sf2) {
-        //Random random = new Random(302030201);
+    publid stbtid SF2Lbyfr nfw_pibno1(SF2Soundbbnk sf2) {
+        //Rbndom rbndom = nfw Rbndom(302030201);
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_a = 0.2;
-        double end_a = 0.0001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.0001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
 
-        double[] aa = new double[30];
+        doublf[] bb = nfw doublf[30];
         for (int i = 0; i < 30; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 5;
-        aa[2] *= 0.1;
-        aa[7] *= 5;
+        bb[0] *= 5;
+        bb[2] *= 0.1;
+        bb[7] *= 5;
 
 
         for (int i = 0; i < 30; i++) {
-            //double detune = 1 + (random.nextDouble()*2 - 1)*0.0001;
-            double w = 0.2;
-            double ai = aa[i];
+            //doublf dftunf = 1 + (rbndom.nfxtDoublf()*2 - 1)*0.0001;
+            doublf w = 0.2;
+            doublf bi = bb[i];
             if (i > 12) {
                 w = 5;
-                ai *= 10;
+                bi *= 10;
             }
-            int adjust = 0;
+            int bdjust = 0;
             if (i > 5) {
-                adjust = (i - 5) * 7;
+                bdjust = (i - 5) * 7;
             }
-            complexGaussianDist(data, base * (i + 1) + adjust, w, ai);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1) + bdjust, w, bi);
         }
 
-        complexGaussianDist(data, base * (15.5), 1, 0.1);
-        complexGaussianDist(data, base * (17.5), 1, 0.01);
+        domplfxGbussibnDist(dbtb, bbsf * (15.5), 1, 0.1);
+        domplfxGbussibnDist(dbtb, bbsf * (17.5), 1, 0.01);
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "EPiano", data, base, 200);
-        SF2Layer layer = newLayer(sf2, "EPiano", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -1200);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -5500);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 16000);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "EPibno", dbtb, bbsf, 200);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "EPibno", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -1200);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -5500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 16000);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_epiano1(SF2Soundbank sf2) {
-        Random random = new Random(302030201);
+    publid stbtid SF2Lbyfr nfw_fpibno1(SF2Soundbbnk sf2) {
+        Rbndom rbndom = nfw Rbndom(302030201);
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 0.05;
-        double end_w = 0.05;
-        double start_a = 0.2;
-        double end_a = 0.0001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 0.05;
+        doublf fnd_w = 0.05;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.0001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
         for (int i = 0; i < 40; i++) {
-            double detune = 1 + (random.nextDouble() * 2 - 1) * 0.0001;
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1) * detune, w, a);
-            a *= a_step;
+            doublf dftunf = 1 + (rbndom.nfxtDoublf() * 2 - 1) * 0.0001;
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1) * dftunf, w, b);
+            b *= b_stfp;
         }
 
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "EPiano", data, base);
-        SF2Layer layer = newLayer(sf2, "EPiano", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, 1200);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -9000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 16000);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "EPibno", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "EPibno", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, 1200);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -9000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 16000);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_epiano2(SF2Soundbank sf2) {
-        Random random = new Random(302030201);
+    publid stbtid SF2Lbyfr nfw_fpibno2(SF2Soundbbnk sf2) {
+        Rbndom rbndom = nfw Rbndom(302030201);
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 0.01;
-        double end_w = 0.05;
-        double start_a = 0.2;
-        double end_a = 0.00001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 0.01;
+        doublf fnd_w = 0.05;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.00001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
         for (int i = 0; i < 40; i++) {
-            double detune = 1 + (random.nextDouble() * 2 - 1) * 0.0001;
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1) * detune, w, a);
-            a *= a_step;
+            doublf dftunf = 1 + (rbndom.nfxtDoublf() * 2 - 1) * 0.0001;
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1) * dftunf, w, b);
+            b *= b_stfp;
         }
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "EPiano", data, base);
-        SF2Layer layer = newLayer(sf2, "EPiano", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 8000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, 2400);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -9000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 16000);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "EPibno", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "EPibno", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 8000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, 2400);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -9000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 16000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_bass1(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_bbss1(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 0.05;
-        double end_w = 0.05;
-        double start_a = 0.2;
-        double end_a = 0.02;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 25.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 0.05;
+        doublf fnd_w = 0.05;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.02;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 25.0);
 
-        double[] aa = new double[25];
+        doublf[] bb = nfw doublf[25];
         for (int i = 0; i < 25; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 8;
-        aa[1] *= 4;
-        aa[3] *= 8;
-        aa[5] *= 8;
+        bb[0] *= 8;
+        bb[1] *= 4;
+        bb[3] *= 8;
+        bb[5] *= 8;
 
         for (int i = 0; i < 25; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, aa[i]);
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, bb[i]);
         }
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Bass", data, base);
-        SF2Layer layer = newLayer(sf2, "Bass", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -3000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -5000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 11000);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Bbss", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Bbss", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -3000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 11000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_synthbass(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_syntibbss(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 0.05;
-        double end_w = 0.05;
-        double start_a = 0.2;
-        double end_a = 0.02;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 25.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 0.05;
+        doublf fnd_w = 0.05;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.02;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 25.0);
 
-        double[] aa = new double[25];
+        doublf[] bb = nfw doublf[25];
         for (int i = 0; i < 25; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 16;
-        aa[1] *= 4;
-        aa[3] *= 16;
-        aa[5] *= 8;
+        bb[0] *= 16;
+        bb[1] *= 4;
+        bb[3] *= 16;
+        bb[5] *= 8;
 
         for (int i = 0; i < 25; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, aa[i]);
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, bb[i]);
         }
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Bass", data, base);
-        SF2Layer layer = newLayer(sf2, "Bass", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -3000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, -3000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERQ, 100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 8000);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Bbss", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Bbss", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -3000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, -3000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERQ, 100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 8000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_bass2(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_bbss2(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 0.05;
-        double end_w = 0.05;
-        double start_a = 0.2;
-        double end_a = 0.002;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 25.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 0.05;
+        doublf fnd_w = 0.05;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.002;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 25.0);
 
-        double[] aa = new double[25];
+        doublf[] bb = nfw doublf[25];
         for (int i = 0; i < 25; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 8;
-        aa[1] *= 4;
-        aa[3] *= 8;
-        aa[5] *= 8;
+        bb[0] *= 8;
+        bb[1] *= 4;
+        bb[3] *= 8;
+        bb[5] *= 8;
 
         for (int i = 0; i < 25; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, aa[i]);
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, bb[i]);
         }
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Bass2", data, base);
-        SF2Layer layer = newLayer(sf2, "Bass2", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -8000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 5000);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Bbss2", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Bbss2", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -8000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_solostring(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_solostring(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 2;
-        double end_w = 2;
-        double start_a = 0.2;
-        double end_a = 0.01;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 2;
+        doublf fnd_w = 2;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.01;
 
-        double[] aa = new double[18];
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
-        for (int i = 0; i < aa.length; i++) {
-            a *= a_step;
-            aa[i] = a;
+        doublf[] bb = nfw doublf[18];
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
+        for (int i = 0; i < bb.lfngti; i++) {
+            b *= b_stfp;
+            bb[i] = b;
         }
 
-        aa[0] *= 5;
-        aa[1] *= 5;
-        aa[2] *= 5;
-        aa[3] *= 4;
-        aa[4] *= 4;
-        aa[5] *= 3;
-        aa[6] *= 3;
-        aa[7] *= 2;
+        bb[0] *= 5;
+        bb[1] *= 5;
+        bb[2] *= 5;
+        bb[3] *= 4;
+        bb[4] *= 4;
+        bb[5] *= 3;
+        bb[6] *= 3;
+        bb[7] *= 2;
 
-        for (int i = 0; i < aa.length; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, a);
+        for (int i = 0; i < bb.lfngti; i++) {
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, b);
         }
-        SF2Sample sample = newSimpleFFTSample(sf2, "Strings", data, base);
-        SF2Layer layer = newLayer(sf2, "Strings", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -5000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        region.putInteger(SF2Region.GENERATOR_FREQVIBLFO, -1000);
-        region.putInteger(SF2Region.GENERATOR_VIBLFOTOPITCH, 15);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Strings", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Strings", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_FREQVIBLFO, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_VIBLFOTOPITCH, 15);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_orchhit(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_ordiiit(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 2;
-        double end_w = 80;
-        double start_a = 0.2;
-        double end_a = 0.001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 2;
+        doublf fnd_w = 80;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
         for (int i = 0; i < 40; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, a);
-            a *= a_step;
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, b);
+            b *= b_stfp;
         }
-        complexGaussianDist(data, base * 4, 300, 1);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 300, 1);
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Och Strings", data, base);
-        SF2Layer layer = newLayer(sf2, "Och Strings", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -5000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 200);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 200);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Odi Strings", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Odi Strings", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 200);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 200);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_string2(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_string2(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 2;
-        double end_w = 80;
-        double start_a = 0.2;
-        double end_a = 0.001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 2;
+        doublf fnd_w = 80;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
         for (int i = 0; i < 40; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, a);
-            a *= a_step;
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, b);
+            b *= b_stfp;
         }
-        SF2Sample sample = newSimpleFFTSample(sf2, "Strings", data, base);
-        SF2Layer layer = newLayer(sf2, "Strings", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -5000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Strings", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Strings", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_choir(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_dioir(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 25;
-        double start_w = 2;
-        double end_w = 80;
-        double start_a = 0.2;
-        double end_a = 0.001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
-        double[] aa = new double[40];
-        for (int i = 0; i < aa.length; i++) {
-            a *= a_step;
-            aa[i] = a;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 25;
+        doublf stbrt_w = 2;
+        doublf fnd_w = 80;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
+        doublf[] bb = nfw doublf[40];
+        for (int i = 0; i < bb.lfngti; i++) {
+            b *= b_stfp;
+            bb[i] = b;
         }
 
-        aa[5] *= 0.1;
-        aa[6] *= 0.01;
-        aa[7] *= 0.1;
-        aa[8] *= 0.1;
+        bb[5] *= 0.1;
+        bb[6] *= 0.01;
+        bb[7] *= 0.1;
+        bb[8] *= 0.1;
 
-        for (int i = 0; i < aa.length; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, aa[i]);
+        for (int i = 0; i < bb.lfngti; i++) {
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, bb[i]);
         }
-        SF2Sample sample = newSimpleFFTSample(sf2, "Strings", data, base);
-        SF2Layer layer = newLayer(sf2, "Strings", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -5000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Strings", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Strings", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_organ(SF2Soundbank sf2) {
-        Random random = new Random(102030201);
+    publid stbtid SF2Lbyfr nfw_orgbn(SF2Soundbbnk sf2) {
+        Rbndom rbndom = nfw Rbndom(102030201);
         int x = 1;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
-        double start_w = 0.01;
-        double end_w = 0.01;
-        double start_a = 0.2;
-        double end_a = 0.001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
+        doublf stbrt_w = 0.01;
+        doublf fnd_w = 0.01;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
 
         for (int i = 0; i < 12; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w,
-                    a * (0.5 + 3 * (random.nextDouble())));
-            a *= a_step;
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w,
+                    b * (0.5 + 3 * (rbndom.nfxtDoublf())));
+            b *= b_stfp;
         }
-        SF2Sample sample = newSimpleFFTSample(sf2, "Organ", data, base);
-        SF2Layer layer = newLayer(sf2, "Organ", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Orgbn", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Orgbn", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_ch_organ(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_di_orgbn(SF2Soundbbnk sf2) {
         int x = 1;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
-        double start_w = 0.01;
-        double end_w = 0.01;
-        double start_a = 0.2;
-        double end_a = 0.001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 60.0);
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
+        doublf stbrt_w = 0.01;
+        doublf fnd_w = 0.01;
+        doublf stbrt_b = 0.2;
+        doublf fnd_b = 0.001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 60.0);
 
-        double[] aa = new double[60];
-        for (int i = 0; i < aa.length; i++) {
-            a *= a_step;
-            aa[i] = a;
+        doublf[] bb = nfw doublf[60];
+        for (int i = 0; i < bb.lfngti; i++) {
+            b *= b_stfp;
+            bb[i] = b;
         }
 
-        aa[0] *= 5;
-        aa[1] *= 2;
-        aa[2] = 0;
-        aa[4] = 0;
-        aa[5] = 0;
-        aa[7] *= 7;
-        aa[9] = 0;
-        aa[10] = 0;
-        aa[12] = 0;
-        aa[15] *= 7;
-        aa[18] = 0;
-        aa[20] = 0;
-        aa[24] = 0;
-        aa[27] *= 5;
-        aa[29] = 0;
-        aa[30] = 0;
-        aa[33] = 0;
-        aa[36] *= 4;
-        aa[37] = 0;
-        aa[39] = 0;
-        aa[42] = 0;
-        aa[43] = 0;
-        aa[47] = 0;
-        aa[50] *= 4;
-        aa[52] = 0;
-        aa[55] = 0;
-        aa[57] = 0;
+        bb[0] *= 5;
+        bb[1] *= 2;
+        bb[2] = 0;
+        bb[4] = 0;
+        bb[5] = 0;
+        bb[7] *= 7;
+        bb[9] = 0;
+        bb[10] = 0;
+        bb[12] = 0;
+        bb[15] *= 7;
+        bb[18] = 0;
+        bb[20] = 0;
+        bb[24] = 0;
+        bb[27] *= 5;
+        bb[29] = 0;
+        bb[30] = 0;
+        bb[33] = 0;
+        bb[36] *= 4;
+        bb[37] = 0;
+        bb[39] = 0;
+        bb[42] = 0;
+        bb[43] = 0;
+        bb[47] = 0;
+        bb[50] *= 4;
+        bb[52] = 0;
+        bb[55] = 0;
+        bb[57] = 0;
 
 
-        aa[10] *= 0.1;
-        aa[11] *= 0.1;
-        aa[12] *= 0.1;
-        aa[13] *= 0.1;
+        bb[10] *= 0.1;
+        bb[11] *= 0.1;
+        bb[12] *= 0.1;
+        bb[13] *= 0.1;
 
-        aa[17] *= 0.1;
-        aa[18] *= 0.1;
-        aa[19] *= 0.1;
-        aa[20] *= 0.1;
+        bb[17] *= 0.1;
+        bb[18] *= 0.1;
+        bb[19] *= 0.1;
+        bb[20] *= 0.1;
 
         for (int i = 0; i < 60; i++) {
-            double w = start_w + (end_w - start_w) * (i / 40.0);
-            complexGaussianDist(data, base * (i + 1), w, aa[i]);
-            a *= a_step;
+            doublf w = stbrt_w + (fnd_w - stbrt_w) * (i / 40.0);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), w, bb[i]);
+            b *= b_stfp;
         }
-        SF2Sample sample = newSimpleFFTSample(sf2, "Organ", data, base);
-        SF2Layer layer = newLayer(sf2, "Organ", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -10000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Orgbn", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Orgbn", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -10000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_flute(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_flutf(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        complexGaussianDist(data, base * 1, 0.001, 0.5);
-        complexGaussianDist(data, base * 2, 0.001, 0.5);
-        complexGaussianDist(data, base * 3, 0.001, 0.5);
-        complexGaussianDist(data, base * 4, 0.01, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 1, 0.001, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 2, 0.001, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 3, 0.001, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 0.01, 0.5);
 
-        complexGaussianDist(data, base * 4, 100, 120);
-        complexGaussianDist(data, base * 6, 100, 40);
-        complexGaussianDist(data, base * 8, 100, 80);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 100, 120);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 100, 40);
+        domplfxGbussibnDist(dbtb, bbsf * 8, 100, 80);
 
-        complexGaussianDist(data, base * 5, 0.001, 0.05);
-        complexGaussianDist(data, base * 6, 0.001, 0.06);
-        complexGaussianDist(data, base * 7, 0.001, 0.04);
-        complexGaussianDist(data, base * 8, 0.005, 0.06);
-        complexGaussianDist(data, base * 9, 0.005, 0.06);
-        complexGaussianDist(data, base * 10, 0.01, 0.1);
-        complexGaussianDist(data, base * 11, 0.08, 0.7);
-        complexGaussianDist(data, base * 12, 0.08, 0.6);
-        complexGaussianDist(data, base * 13, 0.08, 0.6);
-        complexGaussianDist(data, base * 14, 0.08, 0.6);
-        complexGaussianDist(data, base * 15, 0.08, 0.5);
-        complexGaussianDist(data, base * 16, 0.08, 0.5);
-        complexGaussianDist(data, base * 17, 0.08, 0.2);
+        domplfxGbussibnDist(dbtb, bbsf * 5, 0.001, 0.05);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 0.001, 0.06);
+        domplfxGbussibnDist(dbtb, bbsf * 7, 0.001, 0.04);
+        domplfxGbussibnDist(dbtb, bbsf * 8, 0.005, 0.06);
+        domplfxGbussibnDist(dbtb, bbsf * 9, 0.005, 0.06);
+        domplfxGbussibnDist(dbtb, bbsf * 10, 0.01, 0.1);
+        domplfxGbussibnDist(dbtb, bbsf * 11, 0.08, 0.7);
+        domplfxGbussibnDist(dbtb, bbsf * 12, 0.08, 0.6);
+        domplfxGbussibnDist(dbtb, bbsf * 13, 0.08, 0.6);
+        domplfxGbussibnDist(dbtb, bbsf * 14, 0.08, 0.6);
+        domplfxGbussibnDist(dbtb, bbsf * 15, 0.08, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 16, 0.08, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 17, 0.08, 0.2);
 
 
-        complexGaussianDist(data, base * 1, 10, 8);
-        complexGaussianDist(data, base * 2, 10, 8);
-        complexGaussianDist(data, base * 3, 10, 8);
-        complexGaussianDist(data, base * 4, 10, 8);
-        complexGaussianDist(data, base * 5, 10, 8);
-        complexGaussianDist(data, base * 6, 20, 9);
-        complexGaussianDist(data, base * 7, 20, 9);
-        complexGaussianDist(data, base * 8, 20, 9);
-        complexGaussianDist(data, base * 9, 20, 8);
-        complexGaussianDist(data, base * 10, 30, 8);
-        complexGaussianDist(data, base * 11, 30, 9);
-        complexGaussianDist(data, base * 12, 30, 9);
-        complexGaussianDist(data, base * 13, 30, 8);
-        complexGaussianDist(data, base * 14, 30, 8);
-        complexGaussianDist(data, base * 15, 30, 7);
-        complexGaussianDist(data, base * 16, 30, 7);
-        complexGaussianDist(data, base * 17, 30, 6);
+        domplfxGbussibnDist(dbtb, bbsf * 1, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 2, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 3, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 5, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 20, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 7, 20, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 8, 20, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 9, 20, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 10, 30, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 11, 30, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 12, 30, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 13, 30, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 14, 30, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 15, 30, 7);
+        domplfxGbussibnDist(dbtb, bbsf * 16, 30, 7);
+        domplfxGbussibnDist(dbtb, bbsf * 17, 30, 6);
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Flute", data, base);
-        SF2Layer layer = newLayer(sf2, "Flute", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Flutf", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Flutf", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_horn(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_iorn(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        double start_a = 0.5;
-        double end_a = 0.00000000001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        doublf stbrt_b = 0.5;
+        doublf fnd_b = 0.00000000001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
         for (int i = 0; i < 40; i++) {
             if (i == 0)
-                complexGaussianDist(data, base * (i + 1), 0.1, a * 0.2);
-            else
-                complexGaussianDist(data, base * (i + 1), 0.1, a);
-            a *= a_step;
+                domplfxGbussibnDist(dbtb, bbsf * (i + 1), 0.1, b * 0.2);
+            flsf
+                domplfxGbussibnDist(dbtb, bbsf * (i + 1), 0.1, b);
+            b *= b_stfp;
         }
 
-        complexGaussianDist(data, base * 2, 100, 1);
+        domplfxGbussibnDist(dbtb, bbsf * 2, 100, 1);
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Horn", data, base);
-        SF2Layer layer = newLayer(sf2, "Horn", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Horn", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Horn", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
 
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -500);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, 5000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 4500);
-        return layer;
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, 5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 4500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_trumpet(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_trumpft(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        double start_a = 0.5;
-        double end_a = 0.00001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 80.0);
-        double[] aa = new double[80];
+        doublf stbrt_b = 0.5;
+        doublf fnd_b = 0.00001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 80.0);
+        doublf[] bb = nfw doublf[80];
         for (int i = 0; i < 80; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 0.05;
-        aa[1] *= 0.2;
-        aa[2] *= 0.5;
-        aa[3] *= 0.85;
+        bb[0] *= 0.05;
+        bb[1] *= 0.2;
+        bb[2] *= 0.5;
+        bb[3] *= 0.85;
 
         for (int i = 0; i < 80; i++) {
-            complexGaussianDist(data, base * (i + 1), 0.1, aa[i]);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), 0.1, bb[i]);
         }
 
-        complexGaussianDist(data, base * 5, 300, 3);
+        domplfxGbussibnDist(dbtb, bbsf * 5, 300, 3);
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Trumpet", data, base);
-        SF2Layer layer = newLayer(sf2, "Trumpet", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -10000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 0);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Trumpft", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Trumpft", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -10000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
 
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -4000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, -2500);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, 5000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 4500);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERQ, 10);
-        return layer;
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, -2500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, 5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 4500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERQ, 10);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_brass_section(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_brbss_sfdtion(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        double start_a = 0.5;
-        double end_a = 0.005;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 30.0);
-        double[] aa = new double[30];
+        doublf stbrt_b = 0.5;
+        doublf fnd_b = 0.005;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 30.0);
+        doublf[] bb = nfw doublf[30];
         for (int i = 0; i < 30; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 0.8;
-        aa[1] *= 0.9;
+        bb[0] *= 0.8;
+        bb[1] *= 0.9;
 
-        double w = 5;
+        doublf w = 5;
         for (int i = 0; i < 30; i++) {
-            complexGaussianDist(data, base * (i + 1), 0.1 * w, aa[i] * w);
-            w += 6; //*= w_step;
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), 0.1 * w, bb[i] * w);
+            w += 6; //*= w_stfp;
         }
 
-        complexGaussianDist(data, base * 6, 300, 2);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 300, 2);
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Brass Section", data, base);
-        SF2Layer layer = newLayer(sf2, "Brass Section", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -9200);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Brbss Sfdtion", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Brbss Sfdtion", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -9200);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
 
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -3000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, 5000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 4500);
-        return layer;
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -3000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, 5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 4500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_trombone(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_trombonf(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        double start_a = 0.5;
-        double end_a = 0.001;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 80.0);
-        double[] aa = new double[80];
+        doublf stbrt_b = 0.5;
+        doublf fnd_b = 0.001;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 80.0);
+        doublf[] bb = nfw doublf[80];
         for (int i = 0; i < 80; i++) {
-            aa[i] = a;
-            a *= a_step;
+            bb[i] = b;
+            b *= b_stfp;
         }
 
-        aa[0] *= 0.3;
-        aa[1] *= 0.7;
+        bb[0] *= 0.3;
+        bb[1] *= 0.7;
 
         for (int i = 0; i < 80; i++) {
-            complexGaussianDist(data, base * (i + 1), 0.1, aa[i]);
+            domplfxGbussibnDist(dbtb, bbsf * (i + 1), 0.1, bb[i]);
         }
 
-        complexGaussianDist(data, base * 6, 300, 2);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 300, 2);
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Trombone", data, base);
-        SF2Layer layer = newLayer(sf2, "Trombone", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -8000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Trombonf", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Trombonf", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -8000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
 
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -2000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, 5000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 4500);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERQ, 10);
-        return layer;
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -2000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, 5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 4500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERQ, 10);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_sax(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_sbx(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        double start_a = 0.5;
-        double end_a = 0.01;
-        double a = start_a;
-        double a_step = Math.pow(end_a / start_a, 1.0 / 40.0);
+        doublf stbrt_b = 0.5;
+        doublf fnd_b = 0.01;
+        doublf b = stbrt_b;
+        doublf b_stfp = Mbti.pow(fnd_b / stbrt_b, 1.0 / 40.0);
         for (int i = 0; i < 40; i++) {
             if (i == 0 || i == 2)
-                complexGaussianDist(data, base * (i + 1), 0.1, a * 4);
-            else
-                complexGaussianDist(data, base * (i + 1), 0.1, a);
-            a *= a_step;
+                domplfxGbussibnDist(dbtb, bbsf * (i + 1), 0.1, b * 4);
+            flsf
+                domplfxGbussibnDist(dbtb, bbsf * (i + 1), 0.1, b);
+            b *= b_stfp;
         }
 
-        complexGaussianDist(data, base * 4, 200, 1);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 200, 1);
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Sax", data, base);
-        SF2Layer layer = newLayer(sf2, "Sax", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Sbx", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Sbx", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
 
-        region.putInteger(SF2Region.GENERATOR_ATTACKMODENV, -3000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEMODENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_MODENVTOFILTERFC, 5000);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 4500);
-        return layer;
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKMODENV, -3000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEMODENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_MODENVTOFILTERFC, 5000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 4500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_oboe(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_obof(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        complexGaussianDist(data, base * 5, 100, 80);
-
-
-        complexGaussianDist(data, base * 1, 0.01, 0.53);
-        complexGaussianDist(data, base * 2, 0.01, 0.51);
-        complexGaussianDist(data, base * 3, 0.01, 0.48);
-        complexGaussianDist(data, base * 4, 0.01, 0.49);
-        complexGaussianDist(data, base * 5, 0.01, 5);
-        complexGaussianDist(data, base * 6, 0.01, 0.51);
-        complexGaussianDist(data, base * 7, 0.01, 0.50);
-        complexGaussianDist(data, base * 8, 0.01, 0.59);
-        complexGaussianDist(data, base * 9, 0.01, 0.61);
-        complexGaussianDist(data, base * 10, 0.01, 0.52);
-        complexGaussianDist(data, base * 11, 0.01, 0.49);
-        complexGaussianDist(data, base * 12, 0.01, 0.51);
-        complexGaussianDist(data, base * 13, 0.01, 0.48);
-        complexGaussianDist(data, base * 14, 0.01, 0.51);
-        complexGaussianDist(data, base * 15, 0.01, 0.46);
-        complexGaussianDist(data, base * 16, 0.01, 0.35);
-        complexGaussianDist(data, base * 17, 0.01, 0.20);
-        complexGaussianDist(data, base * 18, 0.01, 0.10);
-        complexGaussianDist(data, base * 19, 0.01, 0.5);
-        complexGaussianDist(data, base * 20, 0.01, 0.1);
+        domplfxGbussibnDist(dbtb, bbsf * 5, 100, 80);
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Oboe", data, base);
-        SF2Layer layer = newLayer(sf2, "Oboe", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        return layer;
+        domplfxGbussibnDist(dbtb, bbsf * 1, 0.01, 0.53);
+        domplfxGbussibnDist(dbtb, bbsf * 2, 0.01, 0.51);
+        domplfxGbussibnDist(dbtb, bbsf * 3, 0.01, 0.48);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 0.01, 0.49);
+        domplfxGbussibnDist(dbtb, bbsf * 5, 0.01, 5);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 0.01, 0.51);
+        domplfxGbussibnDist(dbtb, bbsf * 7, 0.01, 0.50);
+        domplfxGbussibnDist(dbtb, bbsf * 8, 0.01, 0.59);
+        domplfxGbussibnDist(dbtb, bbsf * 9, 0.01, 0.61);
+        domplfxGbussibnDist(dbtb, bbsf * 10, 0.01, 0.52);
+        domplfxGbussibnDist(dbtb, bbsf * 11, 0.01, 0.49);
+        domplfxGbussibnDist(dbtb, bbsf * 12, 0.01, 0.51);
+        domplfxGbussibnDist(dbtb, bbsf * 13, 0.01, 0.48);
+        domplfxGbussibnDist(dbtb, bbsf * 14, 0.01, 0.51);
+        domplfxGbussibnDist(dbtb, bbsf * 15, 0.01, 0.46);
+        domplfxGbussibnDist(dbtb, bbsf * 16, 0.01, 0.35);
+        domplfxGbussibnDist(dbtb, bbsf * 17, 0.01, 0.20);
+        domplfxGbussibnDist(dbtb, bbsf * 18, 0.01, 0.10);
+        domplfxGbussibnDist(dbtb, bbsf * 19, 0.01, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 20, 0.01, 0.1);
+
+
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Obof", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Obof", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_bassoon(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_bbssoon(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        complexGaussianDist(data, base * 2, 100, 40);
-        complexGaussianDist(data, base * 4, 100, 20);
+        domplfxGbussibnDist(dbtb, bbsf * 2, 100, 40);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 100, 20);
 
-        complexGaussianDist(data, base * 1, 0.01, 0.53);
-        complexGaussianDist(data, base * 2, 0.01, 5);
-        complexGaussianDist(data, base * 3, 0.01, 0.51);
-        complexGaussianDist(data, base * 4, 0.01, 0.48);
-        complexGaussianDist(data, base * 5, 0.01, 1.49);
-        complexGaussianDist(data, base * 6, 0.01, 0.51);
-        complexGaussianDist(data, base * 7, 0.01, 0.50);
-        complexGaussianDist(data, base * 8, 0.01, 0.59);
-        complexGaussianDist(data, base * 9, 0.01, 0.61);
-        complexGaussianDist(data, base * 10, 0.01, 0.52);
-        complexGaussianDist(data, base * 11, 0.01, 0.49);
-        complexGaussianDist(data, base * 12, 0.01, 0.51);
-        complexGaussianDist(data, base * 13, 0.01, 0.48);
-        complexGaussianDist(data, base * 14, 0.01, 0.51);
-        complexGaussianDist(data, base * 15, 0.01, 0.46);
-        complexGaussianDist(data, base * 16, 0.01, 0.35);
-        complexGaussianDist(data, base * 17, 0.01, 0.20);
-        complexGaussianDist(data, base * 18, 0.01, 0.10);
-        complexGaussianDist(data, base * 19, 0.01, 0.5);
-        complexGaussianDist(data, base * 20, 0.01, 0.1);
+        domplfxGbussibnDist(dbtb, bbsf * 1, 0.01, 0.53);
+        domplfxGbussibnDist(dbtb, bbsf * 2, 0.01, 5);
+        domplfxGbussibnDist(dbtb, bbsf * 3, 0.01, 0.51);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 0.01, 0.48);
+        domplfxGbussibnDist(dbtb, bbsf * 5, 0.01, 1.49);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 0.01, 0.51);
+        domplfxGbussibnDist(dbtb, bbsf * 7, 0.01, 0.50);
+        domplfxGbussibnDist(dbtb, bbsf * 8, 0.01, 0.59);
+        domplfxGbussibnDist(dbtb, bbsf * 9, 0.01, 0.61);
+        domplfxGbussibnDist(dbtb, bbsf * 10, 0.01, 0.52);
+        domplfxGbussibnDist(dbtb, bbsf * 11, 0.01, 0.49);
+        domplfxGbussibnDist(dbtb, bbsf * 12, 0.01, 0.51);
+        domplfxGbussibnDist(dbtb, bbsf * 13, 0.01, 0.48);
+        domplfxGbussibnDist(dbtb, bbsf * 14, 0.01, 0.51);
+        domplfxGbussibnDist(dbtb, bbsf * 15, 0.01, 0.46);
+        domplfxGbussibnDist(dbtb, bbsf * 16, 0.01, 0.35);
+        domplfxGbussibnDist(dbtb, bbsf * 17, 0.01, 0.20);
+        domplfxGbussibnDist(dbtb, bbsf * 18, 0.01, 0.10);
+        domplfxGbussibnDist(dbtb, bbsf * 19, 0.01, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 20, 0.01, 0.1);
 
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Flute", data, base);
-        SF2Layer layer = newLayer(sf2, "Flute", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Flutf", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Flutf", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_clarinet(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_dlbrinft(SF2Soundbbnk sf2) {
         int x = 8;
-        int fftsize = 4096 * x;
-        double[] data = new double[fftsize * 2];
-        double base = x * 15;
+        int fftsizf = 4096 * x;
+        doublf[] dbtb = nfw doublf[fftsizf * 2];
+        doublf bbsf = x * 15;
 
-        complexGaussianDist(data, base * 1, 0.001, 0.5);
-        complexGaussianDist(data, base * 2, 0.001, 0.02);
-        complexGaussianDist(data, base * 3, 0.001, 0.2);
-        complexGaussianDist(data, base * 4, 0.01, 0.1);
+        domplfxGbussibnDist(dbtb, bbsf * 1, 0.001, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 2, 0.001, 0.02);
+        domplfxGbussibnDist(dbtb, bbsf * 3, 0.001, 0.2);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 0.01, 0.1);
 
-        complexGaussianDist(data, base * 4, 100, 60);
-        complexGaussianDist(data, base * 6, 100, 20);
-        complexGaussianDist(data, base * 8, 100, 20);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 100, 60);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 100, 20);
+        domplfxGbussibnDist(dbtb, bbsf * 8, 100, 20);
 
-        complexGaussianDist(data, base * 5, 0.001, 0.1);
-        complexGaussianDist(data, base * 6, 0.001, 0.09);
-        complexGaussianDist(data, base * 7, 0.001, 0.02);
-        complexGaussianDist(data, base * 8, 0.005, 0.16);
-        complexGaussianDist(data, base * 9, 0.005, 0.96);
-        complexGaussianDist(data, base * 10, 0.01, 0.9);
-        complexGaussianDist(data, base * 11, 0.08, 1.2);
-        complexGaussianDist(data, base * 12, 0.08, 1.8);
-        complexGaussianDist(data, base * 13, 0.08, 1.6);
-        complexGaussianDist(data, base * 14, 0.08, 1.2);
-        complexGaussianDist(data, base * 15, 0.08, 0.9);
-        complexGaussianDist(data, base * 16, 0.08, 0.5);
-        complexGaussianDist(data, base * 17, 0.08, 0.2);
+        domplfxGbussibnDist(dbtb, bbsf * 5, 0.001, 0.1);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 0.001, 0.09);
+        domplfxGbussibnDist(dbtb, bbsf * 7, 0.001, 0.02);
+        domplfxGbussibnDist(dbtb, bbsf * 8, 0.005, 0.16);
+        domplfxGbussibnDist(dbtb, bbsf * 9, 0.005, 0.96);
+        domplfxGbussibnDist(dbtb, bbsf * 10, 0.01, 0.9);
+        domplfxGbussibnDist(dbtb, bbsf * 11, 0.08, 1.2);
+        domplfxGbussibnDist(dbtb, bbsf * 12, 0.08, 1.8);
+        domplfxGbussibnDist(dbtb, bbsf * 13, 0.08, 1.6);
+        domplfxGbussibnDist(dbtb, bbsf * 14, 0.08, 1.2);
+        domplfxGbussibnDist(dbtb, bbsf * 15, 0.08, 0.9);
+        domplfxGbussibnDist(dbtb, bbsf * 16, 0.08, 0.5);
+        domplfxGbussibnDist(dbtb, bbsf * 17, 0.08, 0.2);
 
 
-        complexGaussianDist(data, base * 1, 10, 8);
-        complexGaussianDist(data, base * 2, 10, 8);
-        complexGaussianDist(data, base * 3, 10, 8);
-        complexGaussianDist(data, base * 4, 10, 8);
-        complexGaussianDist(data, base * 5, 10, 8);
-        complexGaussianDist(data, base * 6, 20, 9);
-        complexGaussianDist(data, base * 7, 20, 9);
-        complexGaussianDist(data, base * 8, 20, 9);
-        complexGaussianDist(data, base * 9, 20, 8);
-        complexGaussianDist(data, base * 10, 30, 8);
-        complexGaussianDist(data, base * 11, 30, 9);
-        complexGaussianDist(data, base * 12, 30, 9);
-        complexGaussianDist(data, base * 13, 30, 8);
-        complexGaussianDist(data, base * 14, 30, 8);
-        complexGaussianDist(data, base * 15, 30, 7);
-        complexGaussianDist(data, base * 16, 30, 7);
-        complexGaussianDist(data, base * 17, 30, 6);
+        domplfxGbussibnDist(dbtb, bbsf * 1, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 2, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 3, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 4, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 5, 10, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 6, 20, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 7, 20, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 8, 20, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 9, 20, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 10, 30, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 11, 30, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 12, 30, 9);
+        domplfxGbussibnDist(dbtb, bbsf * 13, 30, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 14, 30, 8);
+        domplfxGbussibnDist(dbtb, bbsf * 15, 30, 7);
+        domplfxGbussibnDist(dbtb, bbsf * 16, 30, 7);
+        domplfxGbussibnDist(dbtb, bbsf * 17, 30, 6);
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Clarinet", data, base);
-        SF2Layer layer = newLayer(sf2, "Clarinet", sample);
-        SF2Region region = layer.getRegions().get(0);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -6000);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 4000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, -100);
-        region.putInteger(SF2Region.GENERATOR_INITIALFILTERFC, 9500);
-        return layer;
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Clbrinft", dbtb, bbsf);
+        SF2Lbyfr lbyfr = nfwLbyfr(sf2, "Clbrinft", sbmplf);
+        SF2Rfgion rfgion = lbyfr.gftRfgions().gft(0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -6000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 4000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, -100);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALFILTERFC, 9500);
+        rfturn lbyfr;
 
     }
 
-    public static SF2Layer new_timpani(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_timpbni(SF2Soundbbnk sf2) {
 
-        double datab[];
-        double datah[];
+        doublf dbtbb[];
+        doublf dbtbi[];
 
-        // Make Bass Part
+        // Mbkf Bbss Pbrt
         {
-            int fftlen = 4096 * 8;
-            double[] data = new double[2 * fftlen];
-            double base = 48;
-            complexGaussianDist(data, base * 2, 0.2, 1);
-            complexGaussianDist(data, base * 3, 0.2, 0.7);
-            complexGaussianDist(data, base * 5, 10, 1);
-            complexGaussianDist(data, base * 6, 9, 1);
-            complexGaussianDist(data, base * 8, 15, 1);
-            complexGaussianDist(data, base * 9, 18, 0.8);
-            complexGaussianDist(data, base * 11, 21, 0.5);
-            complexGaussianDist(data, base * 13, 28, 0.3);
-            complexGaussianDist(data, base * 14, 22, 0.1);
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.5);
-            data = realPart(data);
+            int fftlfn = 4096 * 8;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            doublf bbsf = 48;
+            domplfxGbussibnDist(dbtb, bbsf * 2, 0.2, 1);
+            domplfxGbussibnDist(dbtb, bbsf * 3, 0.2, 0.7);
+            domplfxGbussibnDist(dbtb, bbsf * 5, 10, 1);
+            domplfxGbussibnDist(dbtb, bbsf * 6, 9, 1);
+            domplfxGbussibnDist(dbtb, bbsf * 8, 15, 1);
+            domplfxGbussibnDist(dbtb, bbsf * 9, 18, 0.8);
+            domplfxGbussibnDist(dbtb, bbsf * 11, 21, 0.5);
+            domplfxGbussibnDist(dbtb, bbsf * 13, 28, 0.3);
+            domplfxGbussibnDist(dbtb, bbsf * 14, 22, 0.1);
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.5);
+            dbtb = rfblPbrt(dbtb);
 
-            double d_len = data.length;
-            for (int i = 0; i < data.length; i++) {
-                double g = (1.0 - (i / d_len));
-                data[i] *= g * g;
+            doublf d_lfn = dbtb.lfngti;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                doublf g = (1.0 - (i / d_lfn));
+                dbtb[i] *= g * g;
             }
-            fadeUp(data, 40);
-            datab = data;
+            fbdfUp(dbtb, 40);
+            dbtbb = dbtb;
         }
 
-        // Make treble part
+        // Mbkf trfblf pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2) {
-                data[i] = (2.0 * (random.nextDouble() - 0.5)) * 0.1;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2) {
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5)) * 0.1;
             }
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 1024 * 4; i < 2048 * 4; i++)
-                data[i] = 1.0 - (i - 4096) / 4096.0;
+                dbtb[i] = 1.0 - (i - 4096) / 4096.0;
             for (int i = 0; i < 300; i++) {
-                double g = (1.0 - (i / 300.0));
-                data[i] *= 1.0 + 20 * g * g;
+                doublf g = (1.0 - (i / 300.0));
+                dbtb[i] *= 1.0 + 20 * g * g;
             }
             for (int i = 0; i < 24; i++)
-                data[i] = 0;
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.9);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.9998;
+                dbtb[i] = 0;
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.9);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.9998;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
-        for (int i = 0; i < datah.length; i++)
-            datab[i] += datah[i] * 0.02;
+        for (int i = 0; i < dbtbi.lfngti; i++)
+            dbtbb[i] += dbtbi[i] * 0.02;
 
-        normalize(datab, 0.9);
+        normblizf(dbtbb, 0.9);
 
-        SF2Sample sample = newSimpleDrumSample(sf2, "Timpani", datab);
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Timpbni", dbtbb);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Timpani");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Timpbni");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_melodic_toms(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_mflodid_toms(SF2Soundbbnk sf2) {
 
-        double datab[];
-        double datah[];
+        doublf dbtbb[];
+        doublf dbtbi[];
 
-        // Make Bass Part
+        // Mbkf Bbss Pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            complexGaussianDist(data, 30, 0.5, 1);
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.8);
-            data = realPart(data);
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            domplfxGbussibnDist(dbtb, 30, 0.5, 1);
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.8);
+            dbtb = rfblPbrt(dbtb);
 
-            double d_len = data.length;
-            for (int i = 0; i < data.length; i++)
-                data[i] *= (1.0 - (i / d_len));
-            datab = data;
+            doublf d_lfn = dbtb.lfngti;
+            for (int i = 0; i < dbtb.lfngti; i++)
+                dbtb[i] *= (1.0 - (i / d_lfn));
+            dbtbb = dbtb;
         }
 
-        // Make treble part
+        // Mbkf trfblf pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5)) * 0.1;
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5)) * 0.1;
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 1024 * 4; i < 2048 * 4; i++)
-                data[i] = 1.0 - (i - 4096) / 4096.0;
+                dbtb[i] = 1.0 - (i - 4096) / 4096.0;
             for (int i = 0; i < 200; i++) {
-                double g = (1.0 - (i / 200.0));
-                data[i] *= 1.0 + 20 * g * g;
+                doublf g = (1.0 - (i / 200.0));
+                dbtb[i] *= 1.0 + 20 * g * g;
             }
             for (int i = 0; i < 30; i++)
-                data[i] = 0;
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.9);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.9996;
+                dbtb[i] = 0;
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.9);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.9996;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
-        for (int i = 0; i < datah.length; i++)
-            datab[i] += datah[i] * 0.5;
+        for (int i = 0; i < dbtbi.lfngti; i++)
+            dbtbb[i] += dbtbi[i] * 0.5;
         for (int i = 0; i < 5; i++)
-            datab[i] *= i / 5.0;
+            dbtbb[i] *= i / 5.0;
 
-        normalize(datab, 0.99);
+        normblizf(dbtbb, 0.99);
 
-        SF2Sample sample = newSimpleDrumSample(sf2, "Melodic Toms", datab);
-        sample.setOriginalPitch(63);
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Mflodid Toms", dbtbb);
+        sbmplf.sftOriginblPitdi(63);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Melodic Toms");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Mflodid Toms");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        //region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_reverse_cymbal(SF2Soundbank sf2) {
-        double datah[];
+    publid stbtid SF2Lbyfr nfw_rfvfrsf_dymbbl(SF2Soundbbnk sf2) {
+        doublf dbtbi[];
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5));
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5));
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 0; i < 100; i++)
-                data[i] = 0;
+                dbtb[i] = 0;
 
             for (int i = 0; i < 512 * 2; i++) {
-                double gain = (i / (512.0 * 2.0));
-                data[i] = 1 - gain;
+                doublf gbin = (i / (512.0 * 2.0));
+                dbtb[i] = 1 - gbin;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Reverse Cymbal",
-                datah, 100, 20);
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Rfvfrsf Cymbbl",
+                dbtbi, 100, 20);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Reverse Cymbal");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Rfvfrsf Cymbbl");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_ATTACKVOLENV, -200);
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, -12000);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, -1000);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_ATTACKVOLENV, -200);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, -12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, -1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_snare_drum(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_snbrf_drum(SF2Soundbbnk sf2) {
 
-        double datab[];
-        double datah[];
+        doublf dbtbb[];
+        doublf dbtbi[];
 
-        // Make Bass Part
+        // Mbkf Bbss Pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            complexGaussianDist(data, 24, 0.5, 1);
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.5);
-            data = realPart(data);
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            domplfxGbussibnDist(dbtb, 24, 0.5, 1);
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.5);
+            dbtb = rfblPbrt(dbtb);
 
-            double d_len = data.length;
-            for (int i = 0; i < data.length; i++)
-                data[i] *= (1.0 - (i / d_len));
-            datab = data;
+            doublf d_lfn = dbtb.lfngti;
+            for (int i = 0; i < dbtb.lfngti; i++)
+                dbtb[i] *= (1.0 - (i / d_lfn));
+            dbtbb = dbtb;
         }
 
-        // Make treble part
+        // Mbkf trfblf pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5)) * 0.1;
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5)) * 0.1;
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 1024 * 4; i < 2048 * 4; i++)
-                data[i] = 1.0 - (i - 4096) / 4096.0;
+                dbtb[i] = 1.0 - (i - 4096) / 4096.0;
             for (int i = 0; i < 300; i++) {
-                double g = (1.0 - (i / 300.0));
-                data[i] *= 1.0 + 20 * g * g;
+                doublf g = (1.0 - (i / 300.0));
+                dbtb[i] *= 1.0 + 20 * g * g;
             }
             for (int i = 0; i < 24; i++)
-                data[i] = 0;
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.9);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.9998;
+                dbtb[i] = 0;
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.9);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.9998;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
-        for (int i = 0; i < datah.length; i++)
-            datab[i] += datah[i];
+        for (int i = 0; i < dbtbi.lfngti; i++)
+            dbtbb[i] += dbtbi[i];
         for (int i = 0; i < 5; i++)
-            datab[i] *= i / 5.0;
+            dbtbb[i] *= i / 5.0;
 
-        SF2Sample sample = newSimpleDrumSample(sf2, "Snare Drum", datab);
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Snbrf Drum", dbtbb);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Snare Drum");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Snbrf Drum");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_bass_drum(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_bbss_drum(SF2Soundbbnk sf2) {
 
-        double datab[];
-        double datah[];
+        doublf dbtbb[];
+        doublf dbtbi[];
 
-        // Make Bass Part
+        // Mbkf Bbss Pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            complexGaussianDist(data, 1.8 * 5 + 1, 2, 1);
-            complexGaussianDist(data, 1.8 * 9 + 1, 2, 1);
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.9);
-            data = realPart(data);
-            double d_len = data.length;
-            for (int i = 0; i < data.length; i++)
-                data[i] *= (1.0 - (i / d_len));
-            datab = data;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            domplfxGbussibnDist(dbtb, 1.8 * 5 + 1, 2, 1);
+            domplfxGbussibnDist(dbtb, 1.8 * 9 + 1, 2, 1);
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.9);
+            dbtb = rfblPbrt(dbtb);
+            doublf d_lfn = dbtb.lfngti;
+            for (int i = 0; i < dbtb.lfngti; i++)
+                dbtb[i] *= (1.0 - (i / d_lfn));
+            dbtbb = dbtb;
         }
 
-        // Make treble part
+        // Mbkf trfblf pbrt
         {
-            int fftlen = 4096;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5)) * 0.1;
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5)) * 0.1;
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 1024; i < 2048; i++)
-                data[i] = 1.0 - (i - 1024) / 1024.0;
+                dbtb[i] = 1.0 - (i - 1024) / 1024.0;
             for (int i = 0; i < 512; i++)
-                data[i] = 10 * i / 512.0;
+                dbtb[i] = 10 * i / 512.0;
             for (int i = 0; i < 10; i++)
-                data[i] = 0;
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.9);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.999;
+                dbtb[i] = 0;
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.9);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.999;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
-        for (int i = 0; i < datah.length; i++)
-            datab[i] += datah[i] * 0.5;
+        for (int i = 0; i < dbtbi.lfngti; i++)
+            dbtbb[i] += dbtbi[i] * 0.5;
         for (int i = 0; i < 5; i++)
-            datab[i] *= i / 5.0;
+            dbtbb[i] *= i / 5.0;
 
-        SF2Sample sample = newSimpleDrumSample(sf2, "Bass Drum", datab);
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Bbss Drum", dbtbb);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Bass Drum");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Bbss Drum");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_tom(SF2Soundbank sf2) {
+    publid stbtid SF2Lbyfr nfw_tom(SF2Soundbbnk sf2) {
 
-        double datab[];
-        double datah[];
+        doublf dbtbb[];
+        doublf dbtbi[];
 
-        // Make Bass Part
+        // Mbkf Bbss Pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            complexGaussianDist(data, 30, 0.5, 1);
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.8);
-            data = realPart(data);
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            domplfxGbussibnDist(dbtb, 30, 0.5, 1);
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.8);
+            dbtb = rfblPbrt(dbtb);
 
-            double d_len = data.length;
-            for (int i = 0; i < data.length; i++)
-                data[i] *= (1.0 - (i / d_len));
-            datab = data;
+            doublf d_lfn = dbtb.lfngti;
+            for (int i = 0; i < dbtb.lfngti; i++)
+                dbtb[i] *= (1.0 - (i / d_lfn));
+            dbtbb = dbtb;
         }
 
-        // Make treble part
+        // Mbkf trfblf pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5)) * 0.1;
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5)) * 0.1;
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 1024 * 4; i < 2048 * 4; i++)
-                data[i] = 1.0 - (i - 4096) / 4096.0;
+                dbtb[i] = 1.0 - (i - 4096) / 4096.0;
             for (int i = 0; i < 200; i++) {
-                double g = (1.0 - (i / 200.0));
-                data[i] *= 1.0 + 20 * g * g;
+                doublf g = (1.0 - (i / 200.0));
+                dbtb[i] *= 1.0 + 20 * g * g;
             }
             for (int i = 0; i < 30; i++)
-                data[i] = 0;
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.9);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.9996;
+                dbtb[i] = 0;
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.9);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.9996;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
-        for (int i = 0; i < datah.length; i++)
-            datab[i] += datah[i] * 0.5;
+        for (int i = 0; i < dbtbi.lfngti; i++)
+            dbtbb[i] += dbtbi[i] * 0.5;
         for (int i = 0; i < 5; i++)
-            datab[i] *= i / 5.0;
+            dbtbb[i] *= i / 5.0;
 
-        normalize(datab, 0.99);
+        normblizf(dbtbb, 0.99);
 
-        SF2Sample sample = newSimpleDrumSample(sf2, "Tom", datab);
-        sample.setOriginalPitch(50);
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Tom", dbtbb);
+        sbmplf.sftOriginblPitdi(50);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Tom");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Tom");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        //region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -100);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        //rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -100);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_closed_hihat(SF2Soundbank sf2) {
-        double datah[];
+    publid stbtid SF2Lbyfr nfw_dlosfd_iiibt(SF2Soundbbnk sf2) {
+        doublf dbtbi[];
 
-        // Make treble part
+        // Mbkf trfblf pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5)) * 0.1;
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5)) * 0.1;
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 1024 * 4; i < 2048 * 4; i++)
-                data[i] = 1.0 - (i - 4096) / 4096.0;
+                dbtb[i] = 1.0 - (i - 4096) / 4096.0;
             for (int i = 0; i < 2048; i++)
-                data[i] = 0.2 + 0.8 * (i / 2048.0);
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.9);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.9996;
+                dbtb[i] = 0.2 + 0.8 * (i / 2048.0);
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.9);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.9996;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
         for (int i = 0; i < 5; i++)
-            datah[i] *= i / 5.0;
-        SF2Sample sample = newSimpleDrumSample(sf2, "Closed Hi-Hat", datah);
+            dbtbi[i] *= i / 5.0;
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Closfd Hi-Hbt", dbtbi);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Closed Hi-Hat");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Closfd Hi-Hbt");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-        region.putInteger(SF2Region.GENERATOR_EXCLUSIVECLASS, 1);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_EXCLUSIVECLASS, 1);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_open_hihat(SF2Soundbank sf2) {
-        double datah[];
+    publid stbtid SF2Lbyfr nfw_opfn_iiibt(SF2Soundbbnk sf2) {
+        doublf dbtbi[];
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5));
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5));
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 0; i < 200; i++)
-                data[i] = 0;
+                dbtb[i] = 0;
             for (int i = 0; i < 2048 * 4; i++) {
-                double gain = (i / (2048.0 * 4.0));
-                data[i] = gain;
+                doublf gbin = (i / (2048.0 * 4.0));
+                dbtb[i] = gbin;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Open Hi-Hat", datah, 1000, 5);
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Opfn Hi-Hbt", dbtbi, 1000, 5);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Open Hi-Hat");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Opfn Hi-Hbt");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 1500);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 1500);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-        region.putInteger(SF2Region.GENERATOR_EXCLUSIVECLASS, 1);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 1500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 1500);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_EXCLUSIVECLASS, 1);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_crash_cymbal(SF2Soundbank sf2) {
-        double datah[];
+    publid stbtid SF2Lbyfr nfw_drbsi_dymbbl(SF2Soundbbnk sf2) {
+        doublf dbtbi[];
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5));
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5));
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 0; i < 100; i++)
-                data[i] = 0;
+                dbtb[i] = 0;
             for (int i = 0; i < 512 * 2; i++) {
-                double gain = (i / (512.0 * 2.0));
-                data[i] = gain;
+                doublf gbin = (i / (512.0 * 2.0));
+                dbtb[i] = gbin;
             }
-            datah = data;
+            dbtbi = dbtb;
         }
 
-        SF2Sample sample = newSimpleFFTSample(sf2, "Crash Cymbal", datah, 1000, 5);
+        SF2Sbmplf sbmplf = nfwSimplfFFTSbmplf(sf2, "Crbsi Cymbbl", dbtbi, 1000, 5);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Crash Cymbal");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Crbsi Cymbbl");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_DECAYVOLENV, 1800);
-        region.putInteger(SF2Region.GENERATOR_SAMPLEMODES, 1);
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 1800);
-        region.putInteger(SF2Region.GENERATOR_SUSTAINVOLENV, 1000);
-        region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_DECAYVOLENV, 1800);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SAMPLEMODES, 1);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 1800);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SUSTAINVOLENV, 1000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Layer new_side_stick(SF2Soundbank sf2) {
-        double datab[];
+    publid stbtid SF2Lbyfr nfw_sidf_stidk(SF2Soundbbnk sf2) {
+        doublf dbtbb[];
 
-        // Make treble part
+        // Mbkf trfblf pbrt
         {
-            int fftlen = 4096 * 4;
-            double[] data = new double[2 * fftlen];
-            Random random = new Random(3049912);
-            for (int i = 0; i < data.length; i += 2)
-                data[i] = (2.0 * (random.nextDouble() - 0.5)) * 0.1;
-            fft(data);
-            // Remove all negative frequency
-            for (int i = fftlen / 2; i < data.length; i++)
-                data[i] = 0;
+            int fftlfn = 4096 * 4;
+            doublf[] dbtb = nfw doublf[2 * fftlfn];
+            Rbndom rbndom = nfw Rbndom(3049912);
+            for (int i = 0; i < dbtb.lfngti; i += 2)
+                dbtb[i] = (2.0 * (rbndom.nfxtDoublf() - 0.5)) * 0.1;
+            fft(dbtb);
+            // Rfmovf bll nfgbtivf frfqufndy
+            for (int i = fftlfn / 2; i < dbtb.lfngti; i++)
+                dbtb[i] = 0;
             for (int i = 1024 * 4; i < 2048 * 4; i++)
-                data[i] = 1.0 - (i - 4096) / 4096.0;
+                dbtb[i] = 1.0 - (i - 4096) / 4096.0;
             for (int i = 0; i < 200; i++) {
-                double g = (1.0 - (i / 200.0));
-                data[i] *= 1.0 + 20 * g * g;
+                doublf g = (1.0 - (i / 200.0));
+                dbtb[i] *= 1.0 + 20 * g * g;
             }
             for (int i = 0; i < 30; i++)
-                data[i] = 0;
-            randomPhase(data, new Random(3049912));
-            ifft(data);
-            normalize(data, 0.9);
-            data = realPart(data);
-            double gain = 1.0;
-            for (int i = 0; i < data.length; i++) {
-                data[i] *= gain;
-                gain *= 0.9996;
+                dbtb[i] = 0;
+            rbndomPibsf(dbtb, nfw Rbndom(3049912));
+            ifft(dbtb);
+            normblizf(dbtb, 0.9);
+            dbtb = rfblPbrt(dbtb);
+            doublf gbin = 1.0;
+            for (int i = 0; i < dbtb.lfngti; i++) {
+                dbtb[i] *= gbin;
+                gbin *= 0.9996;
             }
-            datab = data;
+            dbtbb = dbtb;
         }
 
         for (int i = 0; i < 10; i++)
-            datab[i] *= i / 10.0;
+            dbtbb[i] *= i / 10.0;
 
-        SF2Sample sample = newSimpleDrumSample(sf2, "Side Stick", datab);
+        SF2Sbmplf sbmplf = nfwSimplfDrumSbmplf(sf2, "Sidf Stidk", dbtbb);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName("Side Stick");
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf("Sidf Stidk");
 
-        SF2GlobalRegion global = new SF2GlobalRegion();
-        layer.setGlobalZone(global);
-        sf2.addResource(layer);
+        SF2GlobblRfgion globbl = nfw SF2GlobblRfgion();
+        lbyfr.sftGlobblZonf(globbl);
+        sf2.bddRfsourdf(lbyfr);
 
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.putInteger(SF2Region.GENERATOR_RELEASEVOLENV, 12000);
-        region.putInteger(SF2Region.GENERATOR_SCALETUNING, 0);
-        region.putInteger(SF2Region.GENERATOR_INITIALATTENUATION, -50);
-        region.setSample(sample);
-        layer.getRegions().add(region);
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_RELEASEVOLENV, 12000);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_SCALETUNING, 0);
+        rfgion.putIntfgfr(SF2Rfgion.GENERATOR_INITIALATTENUATION, -50);
+        rfgion.sftSbmplf(sbmplf);
+        lbyfr.gftRfgions().bdd(rfgion);
 
-        return layer;
+        rfturn lbyfr;
 
     }
 
-    public static SF2Sample newSimpleFFTSample(SF2Soundbank sf2, String name,
-            double[] data, double base) {
-        return newSimpleFFTSample(sf2, name, data, base, 10);
+    publid stbtid SF2Sbmplf nfwSimplfFFTSbmplf(SF2Soundbbnk sf2, String nbmf,
+            doublf[] dbtb, doublf bbsf) {
+        rfturn nfwSimplfFFTSbmplf(sf2, nbmf, dbtb, bbsf, 10);
     }
 
-    public static SF2Sample newSimpleFFTSample(SF2Soundbank sf2, String name,
-            double[] data, double base, int fadeuptime) {
+    publid stbtid SF2Sbmplf nfwSimplfFFTSbmplf(SF2Soundbbnk sf2, String nbmf,
+            doublf[] dbtb, doublf bbsf, int fbdfuptimf) {
 
-        int fftsize = data.length / 2;
-        AudioFormat format = new AudioFormat(44100, 16, 1, true, false);
-        double basefreq = (base / fftsize) * format.getSampleRate() * 0.5;
+        int fftsizf = dbtb.lfngti / 2;
+        AudioFormbt formbt = nfw AudioFormbt(44100, 16, 1, truf, fblsf);
+        doublf bbsffrfq = (bbsf / fftsizf) * formbt.gftSbmplfRbtf() * 0.5;
 
-        randomPhase(data);
-        ifft(data);
-        data = realPart(data);
-        normalize(data, 0.9);
-        float[] fdata = toFloat(data);
-        fdata = loopExtend(fdata, fdata.length + 512);
-        fadeUp(fdata, fadeuptime);
-        byte[] bdata = toBytes(fdata, format);
+        rbndomPibsf(dbtb);
+        ifft(dbtb);
+        dbtb = rfblPbrt(dbtb);
+        normblizf(dbtb, 0.9);
+        flobt[] fdbtb = toFlobt(dbtb);
+        fdbtb = loopExtfnd(fdbtb, fdbtb.lfngti + 512);
+        fbdfUp(fdbtb, fbdfuptimf);
+        bytf[] bdbtb = toBytfs(fdbtb, formbt);
 
         /*
-         * Create SoundFont2 sample.
+         * Crfbtf SoundFont2 sbmplf.
          */
-        SF2Sample sample = new SF2Sample(sf2);
-        sample.setName(name);
-        sample.setData(bdata);
-        sample.setStartLoop(256);
-        sample.setEndLoop(fftsize + 256);
-        sample.setSampleRate((long) format.getSampleRate());
-        double orgnote = (69 + 12)
-                + (12 * Math.log(basefreq / 440.0) / Math.log(2));
-        sample.setOriginalPitch((int) orgnote);
-        sample.setPitchCorrection((byte) (-(orgnote - (int) orgnote) * 100.0));
-        sf2.addResource(sample);
+        SF2Sbmplf sbmplf = nfw SF2Sbmplf(sf2);
+        sbmplf.sftNbmf(nbmf);
+        sbmplf.sftDbtb(bdbtb);
+        sbmplf.sftStbrtLoop(256);
+        sbmplf.sftEndLoop(fftsizf + 256);
+        sbmplf.sftSbmplfRbtf((long) formbt.gftSbmplfRbtf());
+        doublf orgnotf = (69 + 12)
+                + (12 * Mbti.log(bbsffrfq / 440.0) / Mbti.log(2));
+        sbmplf.sftOriginblPitdi((int) orgnotf);
+        sbmplf.sftPitdiCorrfdtion((bytf) (-(orgnotf - (int) orgnotf) * 100.0));
+        sf2.bddRfsourdf(sbmplf);
 
-        return sample;
+        rfturn sbmplf;
     }
 
-    public static SF2Sample newSimpleFFTSample_dist(SF2Soundbank sf2,
-            String name, double[] data, double base, double preamp) {
+    publid stbtid SF2Sbmplf nfwSimplfFFTSbmplf_dist(SF2Soundbbnk sf2,
+            String nbmf, doublf[] dbtb, doublf bbsf, doublf prfbmp) {
 
-        int fftsize = data.length / 2;
-        AudioFormat format = new AudioFormat(44100, 16, 1, true, false);
-        double basefreq = (base / fftsize) * format.getSampleRate() * 0.5;
+        int fftsizf = dbtb.lfngti / 2;
+        AudioFormbt formbt = nfw AudioFormbt(44100, 16, 1, truf, fblsf);
+        doublf bbsffrfq = (bbsf / fftsizf) * formbt.gftSbmplfRbtf() * 0.5;
 
-        randomPhase(data);
-        ifft(data);
-        data = realPart(data);
+        rbndomPibsf(dbtb);
+        ifft(dbtb);
+        dbtb = rfblPbrt(dbtb);
 
-        for (int i = 0; i < data.length; i++) {
-            data[i] = (1 - Math.exp(-Math.abs(data[i] * preamp)))
-                    * Math.signum(data[i]);
+        for (int i = 0; i < dbtb.lfngti; i++) {
+            dbtb[i] = (1 - Mbti.fxp(-Mbti.bbs(dbtb[i] * prfbmp)))
+                    * Mbti.signum(dbtb[i]);
         }
 
-        normalize(data, 0.9);
-        float[] fdata = toFloat(data);
-        fdata = loopExtend(fdata, fdata.length + 512);
-        fadeUp(fdata, 80);
-        byte[] bdata = toBytes(fdata, format);
+        normblizf(dbtb, 0.9);
+        flobt[] fdbtb = toFlobt(dbtb);
+        fdbtb = loopExtfnd(fdbtb, fdbtb.lfngti + 512);
+        fbdfUp(fdbtb, 80);
+        bytf[] bdbtb = toBytfs(fdbtb, formbt);
 
         /*
-         * Create SoundFont2 sample.
+         * Crfbtf SoundFont2 sbmplf.
          */
-        SF2Sample sample = new SF2Sample(sf2);
-        sample.setName(name);
-        sample.setData(bdata);
-        sample.setStartLoop(256);
-        sample.setEndLoop(fftsize + 256);
-        sample.setSampleRate((long) format.getSampleRate());
-        double orgnote = (69 + 12)
-                + (12 * Math.log(basefreq / 440.0) / Math.log(2));
-        sample.setOriginalPitch((int) orgnote);
-        sample.setPitchCorrection((byte) (-(orgnote - (int) orgnote) * 100.0));
-        sf2.addResource(sample);
+        SF2Sbmplf sbmplf = nfw SF2Sbmplf(sf2);
+        sbmplf.sftNbmf(nbmf);
+        sbmplf.sftDbtb(bdbtb);
+        sbmplf.sftStbrtLoop(256);
+        sbmplf.sftEndLoop(fftsizf + 256);
+        sbmplf.sftSbmplfRbtf((long) formbt.gftSbmplfRbtf());
+        doublf orgnotf = (69 + 12)
+                + (12 * Mbti.log(bbsffrfq / 440.0) / Mbti.log(2));
+        sbmplf.sftOriginblPitdi((int) orgnotf);
+        sbmplf.sftPitdiCorrfdtion((bytf) (-(orgnotf - (int) orgnotf) * 100.0));
+        sf2.bddRfsourdf(sbmplf);
 
-        return sample;
+        rfturn sbmplf;
     }
 
-    public static SF2Sample newSimpleDrumSample(SF2Soundbank sf2, String name,
-            double[] data) {
+    publid stbtid SF2Sbmplf nfwSimplfDrumSbmplf(SF2Soundbbnk sf2, String nbmf,
+            doublf[] dbtb) {
 
-        int fftsize = data.length;
-        AudioFormat format = new AudioFormat(44100, 16, 1, true, false);
+        int fftsizf = dbtb.lfngti;
+        AudioFormbt formbt = nfw AudioFormbt(44100, 16, 1, truf, fblsf);
 
-        byte[] bdata = toBytes(toFloat(realPart(data)), format);
+        bytf[] bdbtb = toBytfs(toFlobt(rfblPbrt(dbtb)), formbt);
 
         /*
-         * Create SoundFont2 sample.
+         * Crfbtf SoundFont2 sbmplf.
          */
-        SF2Sample sample = new SF2Sample(sf2);
-        sample.setName(name);
-        sample.setData(bdata);
-        sample.setStartLoop(256);
-        sample.setEndLoop(fftsize + 256);
-        sample.setSampleRate((long) format.getSampleRate());
-        sample.setOriginalPitch(60);
-        sf2.addResource(sample);
+        SF2Sbmplf sbmplf = nfw SF2Sbmplf(sf2);
+        sbmplf.sftNbmf(nbmf);
+        sbmplf.sftDbtb(bdbtb);
+        sbmplf.sftStbrtLoop(256);
+        sbmplf.sftEndLoop(fftsizf + 256);
+        sbmplf.sftSbmplfRbtf((long) formbt.gftSbmplfRbtf());
+        sbmplf.sftOriginblPitdi(60);
+        sf2.bddRfsourdf(sbmplf);
 
-        return sample;
+        rfturn sbmplf;
     }
 
-    public static SF2Layer newLayer(SF2Soundbank sf2, String name, SF2Sample sample) {
-        SF2LayerRegion region = new SF2LayerRegion();
-        region.setSample(sample);
+    publid stbtid SF2Lbyfr nfwLbyfr(SF2Soundbbnk sf2, String nbmf, SF2Sbmplf sbmplf) {
+        SF2LbyfrRfgion rfgion = nfw SF2LbyfrRfgion();
+        rfgion.sftSbmplf(sbmplf);
 
-        SF2Layer layer = new SF2Layer(sf2);
-        layer.setName(name);
-        layer.getRegions().add(region);
-        sf2.addResource(layer);
+        SF2Lbyfr lbyfr = nfw SF2Lbyfr(sf2);
+        lbyfr.sftNbmf(nbmf);
+        lbyfr.gftRfgions().bdd(rfgion);
+        sf2.bddRfsourdf(lbyfr);
 
-        return layer;
+        rfturn lbyfr;
     }
 
-    public static SF2Instrument newInstrument(SF2Soundbank sf2, String name,
-            Patch patch, SF2Layer... layers) {
+    publid stbtid SF2Instrumfnt nfwInstrumfnt(SF2Soundbbnk sf2, String nbmf,
+            Pbtdi pbtdi, SF2Lbyfr... lbyfrs) {
 
         /*
-         * Create SoundFont2 instrument.
+         * Crfbtf SoundFont2 instrumfnt.
          */
-        SF2Instrument ins = new SF2Instrument(sf2);
-        ins.setPatch(patch);
-        ins.setName(name);
-        sf2.addInstrument(ins);
+        SF2Instrumfnt ins = nfw SF2Instrumfnt(sf2);
+        ins.sftPbtdi(pbtdi);
+        ins.sftNbmf(nbmf);
+        sf2.bddInstrumfnt(ins);
 
         /*
-         * Create region for instrument.
+         * Crfbtf rfgion for instrumfnt.
          */
-        for (int i = 0; i < layers.length; i++) {
-            SF2InstrumentRegion insregion = new SF2InstrumentRegion();
-            insregion.setLayer(layers[i]);
-            ins.getRegions().add(insregion);
+        for (int i = 0; i < lbyfrs.lfngti; i++) {
+            SF2InstrumfntRfgion insrfgion = nfw SF2InstrumfntRfgion();
+            insrfgion.sftLbyfr(lbyfrs[i]);
+            ins.gftRfgions().bdd(insrfgion);
         }
 
-        return ins;
+        rfturn ins;
     }
 
-    static public void ifft(double[] data) {
-        new FFT(data.length / 2, 1).transform(data);
+    stbtid publid void ifft(doublf[] dbtb) {
+        nfw FFT(dbtb.lfngti / 2, 1).trbnsform(dbtb);
     }
 
-    static public void fft(double[] data) {
-        new FFT(data.length / 2, -1).transform(data);
+    stbtid publid void fft(doublf[] dbtb) {
+        nfw FFT(dbtb.lfngti / 2, -1).trbnsform(dbtb);
     }
 
-    public static void complexGaussianDist(double[] cdata, double m,
-            double s, double v) {
-        for (int x = 0; x < cdata.length / 4; x++) {
-            cdata[x * 2] += v * (1.0 / (s * Math.sqrt(2 * Math.PI))
-                    * Math.exp((-1.0 / 2.0) * Math.pow((x - m) / s, 2.0)));
-        }
-    }
-
-    static public void randomPhase(double[] data) {
-        for (int i = 0; i < data.length; i += 2) {
-            double phase = Math.random() * 2 * Math.PI;
-            double d = data[i];
-            data[i] = Math.sin(phase) * d;
-            data[i + 1] = Math.cos(phase) * d;
+    publid stbtid void domplfxGbussibnDist(doublf[] ddbtb, doublf m,
+            doublf s, doublf v) {
+        for (int x = 0; x < ddbtb.lfngti / 4; x++) {
+            ddbtb[x * 2] += v * (1.0 / (s * Mbti.sqrt(2 * Mbti.PI))
+                    * Mbti.fxp((-1.0 / 2.0) * Mbti.pow((x - m) / s, 2.0)));
         }
     }
 
-    static public void randomPhase(double[] data, Random random) {
-        for (int i = 0; i < data.length; i += 2) {
-            double phase = random.nextDouble() * 2 * Math.PI;
-            double d = data[i];
-            data[i] = Math.sin(phase) * d;
-            data[i + 1] = Math.cos(phase) * d;
+    stbtid publid void rbndomPibsf(doublf[] dbtb) {
+        for (int i = 0; i < dbtb.lfngti; i += 2) {
+            doublf pibsf = Mbti.rbndom() * 2 * Mbti.PI;
+            doublf d = dbtb[i];
+            dbtb[i] = Mbti.sin(pibsf) * d;
+            dbtb[i + 1] = Mbti.dos(pibsf) * d;
         }
     }
 
-    static public void normalize(double[] data, double target) {
-        double maxvalue = 0;
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] > maxvalue)
-                maxvalue = data[i];
-            if (-data[i] > maxvalue)
-                maxvalue = -data[i];
+    stbtid publid void rbndomPibsf(doublf[] dbtb, Rbndom rbndom) {
+        for (int i = 0; i < dbtb.lfngti; i += 2) {
+            doublf pibsf = rbndom.nfxtDoublf() * 2 * Mbti.PI;
+            doublf d = dbtb[i];
+            dbtb[i] = Mbti.sin(pibsf) * d;
+            dbtb[i + 1] = Mbti.dos(pibsf) * d;
         }
-        if (maxvalue == 0)
-            return;
-        double gain = target / maxvalue;
-        for (int i = 0; i < data.length; i++)
-            data[i] *= gain;
     }
 
-    static public void normalize(float[] data, double target) {
-        double maxvalue = 0.5;
-        for (int i = 0; i < data.length; i++) {
-            if (data[i * 2] > maxvalue)
-                maxvalue = data[i * 2];
-            if (-data[i * 2] > maxvalue)
-                maxvalue = -data[i * 2];
+    stbtid publid void normblizf(doublf[] dbtb, doublf tbrgft) {
+        doublf mbxvbluf = 0;
+        for (int i = 0; i < dbtb.lfngti; i++) {
+            if (dbtb[i] > mbxvbluf)
+                mbxvbluf = dbtb[i];
+            if (-dbtb[i] > mbxvbluf)
+                mbxvbluf = -dbtb[i];
         }
-        double gain = target / maxvalue;
-        for (int i = 0; i < data.length; i++)
-            data[i * 2] *= gain;
+        if (mbxvbluf == 0)
+            rfturn;
+        doublf gbin = tbrgft / mbxvbluf;
+        for (int i = 0; i < dbtb.lfngti; i++)
+            dbtb[i] *= gbin;
     }
 
-    static public double[] realPart(double[] in) {
-        double[] out = new double[in.length / 2];
-        for (int i = 0; i < out.length; i++) {
+    stbtid publid void normblizf(flobt[] dbtb, doublf tbrgft) {
+        doublf mbxvbluf = 0.5;
+        for (int i = 0; i < dbtb.lfngti; i++) {
+            if (dbtb[i * 2] > mbxvbluf)
+                mbxvbluf = dbtb[i * 2];
+            if (-dbtb[i * 2] > mbxvbluf)
+                mbxvbluf = -dbtb[i * 2];
+        }
+        doublf gbin = tbrgft / mbxvbluf;
+        for (int i = 0; i < dbtb.lfngti; i++)
+            dbtb[i * 2] *= gbin;
+    }
+
+    stbtid publid doublf[] rfblPbrt(doublf[] in) {
+        doublf[] out = nfw doublf[in.lfngti / 2];
+        for (int i = 0; i < out.lfngti; i++) {
             out[i] = in[i * 2];
         }
-        return out;
+        rfturn out;
     }
 
-    static public double[] imgPart(double[] in) {
-        double[] out = new double[in.length / 2];
-        for (int i = 0; i < out.length; i++) {
+    stbtid publid doublf[] imgPbrt(doublf[] in) {
+        doublf[] out = nfw doublf[in.lfngti / 2];
+        for (int i = 0; i < out.lfngti; i++) {
             out[i] = in[i * 2];
         }
-        return out;
+        rfturn out;
     }
 
-    static public float[] toFloat(double[] in) {
-        float[] out = new float[in.length];
-        for (int i = 0; i < out.length; i++) {
-            out[i] = (float) in[i];
+    stbtid publid flobt[] toFlobt(doublf[] in) {
+        flobt[] out = nfw flobt[in.lfngti];
+        for (int i = 0; i < out.lfngti; i++) {
+            out[i] = (flobt) in[i];
         }
-        return out;
+        rfturn out;
     }
 
-    static public byte[] toBytes(float[] in, AudioFormat format) {
-        byte[] out = new byte[in.length * format.getFrameSize()];
-        return AudioFloatConverter.getConverter(format).toByteArray(in, out);
+    stbtid publid bytf[] toBytfs(flobt[] in, AudioFormbt formbt) {
+        bytf[] out = nfw bytf[in.lfngti * formbt.gftFrbmfSizf()];
+        rfturn AudioFlobtConvfrtfr.gftConvfrtfr(formbt).toBytfArrby(in, out);
     }
 
-    static public void fadeUp(double[] data, int samples) {
-        double dsamples = samples;
-        for (int i = 0; i < samples; i++)
-            data[i] *= i / dsamples;
+    stbtid publid void fbdfUp(doublf[] dbtb, int sbmplfs) {
+        doublf dsbmplfs = sbmplfs;
+        for (int i = 0; i < sbmplfs; i++)
+            dbtb[i] *= i / dsbmplfs;
     }
 
-    static public void fadeUp(float[] data, int samples) {
-        double dsamples = samples;
-        for (int i = 0; i < samples; i++)
-            data[i] *= i / dsamples;
+    stbtid publid void fbdfUp(flobt[] dbtb, int sbmplfs) {
+        doublf dsbmplfs = sbmplfs;
+        for (int i = 0; i < sbmplfs; i++)
+            dbtb[i] *= i / dsbmplfs;
     }
 
-    static public double[] loopExtend(double[] data, int newsize) {
-        double[] outdata = new double[newsize];
-        int p_len = data.length;
+    stbtid publid doublf[] loopExtfnd(doublf[] dbtb, int nfwsizf) {
+        doublf[] outdbtb = nfw doublf[nfwsizf];
+        int p_lfn = dbtb.lfngti;
         int p_ps = 0;
-        for (int i = 0; i < outdata.length; i++) {
-            outdata[i] = data[p_ps];
+        for (int i = 0; i < outdbtb.lfngti; i++) {
+            outdbtb[i] = dbtb[p_ps];
             p_ps++;
-            if (p_ps == p_len)
+            if (p_ps == p_lfn)
                 p_ps = 0;
         }
-        return outdata;
+        rfturn outdbtb;
     }
 
-    static public float[] loopExtend(float[] data, int newsize) {
-        float[] outdata = new float[newsize];
-        int p_len = data.length;
+    stbtid publid flobt[] loopExtfnd(flobt[] dbtb, int nfwsizf) {
+        flobt[] outdbtb = nfw flobt[nfwsizf];
+        int p_lfn = dbtb.lfngti;
         int p_ps = 0;
-        for (int i = 0; i < outdata.length; i++) {
-            outdata[i] = data[p_ps];
+        for (int i = 0; i < outdbtb.lfngti; i++) {
+            outdbtb[i] = dbtb[p_ps];
             p_ps++;
-            if (p_ps == p_len)
+            if (p_ps == p_lfn)
                 p_ps = 0;
         }
-        return outdata;
+        rfturn outdbtb;
     }
 }

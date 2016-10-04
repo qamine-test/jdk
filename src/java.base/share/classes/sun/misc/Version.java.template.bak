@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
-import java.io.PrintStream;
+pbdkbgf sun.misd;
+import jbvb.io.PrintStrfbm;
 
-public class Version {
+publid dlbss Vfrsion {
 
 
-    private static final String launcher_name =
-        "@@launcher_name@@";
+    privbtf stbtid finbl String lbundifr_nbmf =
+        "@@lbundifr_nbmf@@";
 
-    private static final String java_version =
-        "@@java_version@@";
+    privbtf stbtid finbl String jbvb_vfrsion =
+        "@@jbvb_vfrsion@@";
 
-    private static final String java_runtime_name =
-        "@@java_runtime_name@@";
+    privbtf stbtid finbl String jbvb_runtimf_nbmf =
+        "@@jbvb_runtimf_nbmf@@";
 
-    private static final String java_profile_name =
-        "@@java_profile_name@@";
+    privbtf stbtid finbl String jbvb_profilf_nbmf =
+        "@@jbvb_profilf_nbmf@@";
 
-    private static final String java_runtime_version =
-        "@@java_runtime_version@@";
+    privbtf stbtid finbl String jbvb_runtimf_vfrsion =
+        "@@jbvb_runtimf_vfrsion@@";
 
-    static {
+    stbtid {
         init();
     }
 
-    public static void init() {
-        System.setProperty("java.version", java_version);
-        System.setProperty("java.runtime.version", java_runtime_version);
-        System.setProperty("java.runtime.name", java_runtime_name);
+    publid stbtid void init() {
+        Systfm.sftPropfrty("jbvb.vfrsion", jbvb_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.vfrsion", jbvb_runtimf_vfrsion);
+        Systfm.sftPropfrty("jbvb.runtimf.nbmf", jbvb_runtimf_nbmf);
     }
 
-    private static boolean versionsInitialized = false;
-    private static int jvm_major_version = 0;
-    private static int jvm_minor_version = 0;
-    private static int jvm_micro_version = 0;
-    private static int jvm_update_version = 0;
-    private static int jvm_build_number = 0;
-    private static String jvm_special_version = null;
-    private static int jdk_major_version = 0;
-    private static int jdk_minor_version = 0;
-    private static int jdk_micro_version = 0;
-    private static int jdk_update_version = 0;
-    private static int jdk_build_number = 0;
-    private static String jdk_special_version = null;
+    privbtf stbtid boolfbn vfrsionsInitiblizfd = fblsf;
+    privbtf stbtid int jvm_mbjor_vfrsion = 0;
+    privbtf stbtid int jvm_minor_vfrsion = 0;
+    privbtf stbtid int jvm_midro_vfrsion = 0;
+    privbtf stbtid int jvm_updbtf_vfrsion = 0;
+    privbtf stbtid int jvm_build_numbfr = 0;
+    privbtf stbtid String jvm_spfdibl_vfrsion = null;
+    privbtf stbtid int jdk_mbjor_vfrsion = 0;
+    privbtf stbtid int jdk_minor_vfrsion = 0;
+    privbtf stbtid int jdk_midro_vfrsion = 0;
+    privbtf stbtid int jdk_updbtf_vfrsion = 0;
+    privbtf stbtid int jdk_build_numbfr = 0;
+    privbtf stbtid String jdk_spfdibl_vfrsion = null;
 
     /**
-     * In case you were wondering this method is called by java -version.
-     * Sad that it prints to stderr; would be nicer if default printed on
+     * In dbsf you wfrf wondfring tiis mftiod is dbllfd by jbvb -vfrsion.
+     * Sbd tibt it prints to stdfrr; would bf nidfr if dffbult printfd on
      * stdout.
      */
-    public static void print() {
-        print(System.err);
+    publid stbtid void print() {
+        print(Systfm.frr);
     }
 
     /**
-     * This is the same as print except that it adds an extra line-feed
-     * at the end, typically used by the -showversion in the launcher
+     * Tiis is tif sbmf bs print fxdfpt tibt it bdds bn fxtrb linf-fffd
+     * bt tif fnd, typidblly usfd by tif -siowvfrsion in tif lbundifr
      */
-    public static void println() {
-        print(System.err);
-        System.err.println();
+    publid stbtid void println() {
+        print(Systfm.frr);
+        Systfm.frr.println();
     }
 
     /**
-     * Give a stream, it will print version info on it.
+     * Givf b strfbm, it will print vfrsion info on it.
      */
-    public static void print(PrintStream ps) {
-        boolean isHeadless = false;
+    publid stbtid void print(PrintStrfbm ps) {
+        boolfbn isHfbdlfss = fblsf;
 
-        /* Report that we're running headless if the property is true */
-        String headless = System.getProperty("java.awt.headless");
-        if ( (headless != null) && (headless.equalsIgnoreCase("true")) ) {
-            isHeadless = true;
+        /* Rfport tibt wf'rf running ifbdlfss if tif propfrty is truf */
+        String ifbdlfss = Systfm.gftPropfrty("jbvb.bwt.ifbdlfss");
+        if ( (ifbdlfss != null) && (ifbdlfss.fqublsIgnorfCbsf("truf")) ) {
+            isHfbdlfss = truf;
         }
 
-        /* First line: platform version. */
-        ps.println(launcher_name + " version \"" + java_version + "\"");
+        /* First linf: plbtform vfrsion. */
+        ps.println(lbundifr_nbmf + " vfrsion \"" + jbvb_vfrsion + "\"");
 
-        /* Second line: runtime version (ie, libraries). */
+        /* Sfdond linf: runtimf vfrsion (if, librbrifs). */
 
-        ps.print(java_runtime_name + " (build " + java_runtime_version);
+        ps.print(jbvb_runtimf_nbmf + " (build " + jbvb_runtimf_vfrsion);
 
-        if (java_profile_name.length() > 0) {
-            // profile name
-            ps.print(", profile " + java_profile_name);
+        if (jbvb_profilf_nbmf.lfngti() > 0) {
+            // profilf nbmf
+            ps.print(", profilf " + jbvb_profilf_nbmf);
         }
 
-        if (java_runtime_name.indexOf("Embedded") != -1 && isHeadless) {
-            // embedded builds report headless state
-            ps.print(", headless");
+        if (jbvb_runtimf_nbmf.indfxOf("Embfddfd") != -1 && isHfbdlfss) {
+            // fmbfddfd builds rfport ifbdlfss stbtf
+            ps.print(", ifbdlfss");
         }
         ps.println(')');
 
-        /* Third line: JVM information. */
-        String java_vm_name    = System.getProperty("java.vm.name");
-        String java_vm_version = System.getProperty("java.vm.version");
-        String java_vm_info    = System.getProperty("java.vm.info");
-        ps.println(java_vm_name + " (build " + java_vm_version + ", " +
-                   java_vm_info + ")");
+        /* Tiird linf: JVM informbtion. */
+        String jbvb_vm_nbmf    = Systfm.gftPropfrty("jbvb.vm.nbmf");
+        String jbvb_vm_vfrsion = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+        String jbvb_vm_info    = Systfm.gftPropfrty("jbvb.vm.info");
+        ps.println(jbvb_vm_nbmf + " (build " + jbvb_vm_vfrsion + ", " +
+                   jbvb_vm_info + ")");
     }
 
 
     /**
-     * Returns the major version of the running JVM if it's 1.6 or newer
-     * or any RE VM build. It will return 0 if it's an internal 1.5 or
+     * Rfturns tif mbjor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * 1.4.x build.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static synchronized int jvmMajorVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jvmMbjorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jvm_major_version;
+        rfturn jvm_mbjor_vfrsion;
     }
 
     /**
-     * Returns the minor version of the running JVM if it's 1.6 or newer
-     * or any RE VM build. It will return 0 if it's an internal 1.5 or
+     * Rfturns tif minor vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * 1.4.x build.
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static synchronized int jvmMinorVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jvmMinorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jvm_minor_version;
+        rfturn jvm_minor_vfrsion;
     }
 
 
     /**
-     * Returns the micro version of the running JVM if it's 1.6 or newer
-     * or any RE VM build. It will return 0 if it's an internal 1.5 or
+     * Rfturns tif midro vfrsion of tif running JVM if it's 1.6 or nfwfr
+     * or bny RE VM build. It will rfturn 0 if it's bn intfrnbl 1.5 or
      * 1.4.x build.
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static synchronized int jvmMicroVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jvmMidroVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jvm_micro_version;
+        rfturn jvm_midro_vfrsion;
     }
 
     /**
-     * Returns the update release version of the running JVM if it's
-     * a RE build. It will return 0 if it's an internal build.
-     * @since 1.6
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JVM if it's
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
      */
-    public static synchronized int jvmUpdateVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jvmUpdbtfVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jvm_update_version;
+        rfturn jvm_updbtf_vfrsion;
     }
 
-    public static synchronized String jvmSpecialVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd String jvmSpfdiblVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        if (jvm_special_version == null) {
-            jvm_special_version = getJvmSpecialVersion();
+        if (jvm_spfdibl_vfrsion == null) {
+            jvm_spfdibl_vfrsion = gftJvmSpfdiblVfrsion();
         }
-        return jvm_special_version;
+        rfturn jvm_spfdibl_vfrsion;
     }
-    public static native String getJvmSpecialVersion();
+    publid stbtid nbtivf String gftJvmSpfdiblVfrsion();
 
     /**
-     * Returns the build number of the running JVM if it's a RE build
-     * It will return 0 if it's an internal build.
-     * @since 1.6
+     * Rfturns tif build numbfr of tif running JVM if it's b RE build
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
      */
-    public static synchronized int jvmBuildNumber() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jvmBuildNumbfr() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jvm_build_number;
+        rfturn jvm_build_numbfr;
     }
 
     /**
-     * Returns the major version of the running JDK.
+     * Rfturns tif mbjor vfrsion of tif running JDK.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static synchronized int jdkMajorVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jdkMbjorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jdk_major_version;
+        rfturn jdk_mbjor_vfrsion;
     }
 
     /**
-     * Returns the minor version of the running JDK.
-     * @since 1.6
+     * Rfturns tif minor vfrsion of tif running JDK.
+     * @sindf 1.6
      */
-    public static synchronized int jdkMinorVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jdkMinorVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jdk_minor_version;
+        rfturn jdk_minor_vfrsion;
     }
 
     /**
-     * Returns the micro version of the running JDK.
-     * @since 1.6
+     * Rfturns tif midro vfrsion of tif running JDK.
+     * @sindf 1.6
      */
-    public static synchronized int jdkMicroVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jdkMidroVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jdk_micro_version;
+        rfturn jdk_midro_vfrsion;
     }
 
     /**
-     * Returns the update release version of the running JDK if it's
-     * a RE build. It will return 0 if it's an internal build.
-     * @since 1.6
+     * Rfturns tif updbtf rflfbsf vfrsion of tif running JDK if it's
+     * b RE build. It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
      */
-    public static synchronized int jdkUpdateVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jdkUpdbtfVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jdk_update_version;
+        rfturn jdk_updbtf_vfrsion;
     }
 
-    public static synchronized String jdkSpecialVersion() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd String jdkSpfdiblVfrsion() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        if (jdk_special_version == null) {
-            jdk_special_version = getJdkSpecialVersion();
+        if (jdk_spfdibl_vfrsion == null) {
+            jdk_spfdibl_vfrsion = gftJdkSpfdiblVfrsion();
         }
-        return jdk_special_version;
+        rfturn jdk_spfdibl_vfrsion;
     }
-    public static native String getJdkSpecialVersion();
+    publid stbtid nbtivf String gftJdkSpfdiblVfrsion();
 
     /**
-     * Returns the build number of the running JDK if it's a RE build
-     * It will return 0 if it's an internal build.
-     * @since 1.6
+     * Rfturns tif build numbfr of tif running JDK if it's b RE build
+     * It will rfturn 0 if it's bn intfrnbl build.
+     * @sindf 1.6
      */
-    public static synchronized int jdkBuildNumber() {
-        if (!versionsInitialized) {
-            initVersions();
+    publid stbtid syndironizfd int jdkBuildNumbfr() {
+        if (!vfrsionsInitiblizfd) {
+            initVfrsions();
         }
-        return jdk_build_number;
+        rfturn jdk_build_numbfr;
     }
 
-    // true if JVM exports the version info including the capabilities
-    private static boolean jvmVersionInfoAvailable;
-    private static synchronized void initVersions() {
-        if (versionsInitialized) {
-            return;
+    // truf if JVM fxports tif vfrsion info indluding tif dbpbbilitifs
+    privbtf stbtid boolfbn jvmVfrsionInfoAvbilbblf;
+    privbtf stbtid syndironizfd void initVfrsions() {
+        if (vfrsionsInitiblizfd) {
+            rfturn;
         }
-        jvmVersionInfoAvailable = getJvmVersionInfo();
-        if (!jvmVersionInfoAvailable) {
-            // parse java.vm.version for older JVM before the
-            // new JVM_GetVersionInfo is added.
-            // valid format of the version string is:
-            // n.n.n[_uu[c]][-<identifer>]-bxx
-            CharSequence cs = System.getProperty("java.vm.version");
-            if (cs.length() >= 5 &&
-                Character.isDigit(cs.charAt(0)) && cs.charAt(1) == '.' &&
-                Character.isDigit(cs.charAt(2)) && cs.charAt(3) == '.' &&
-                Character.isDigit(cs.charAt(4))) {
-                jvm_major_version = Character.digit(cs.charAt(0), 10);
-                jvm_minor_version = Character.digit(cs.charAt(2), 10);
-                jvm_micro_version = Character.digit(cs.charAt(4), 10);
-                cs = cs.subSequence(5, cs.length());
-                if (cs.charAt(0) == '_' && cs.length() >= 3 &&
-                    Character.isDigit(cs.charAt(1)) &&
-                    Character.isDigit(cs.charAt(2))) {
-                    int nextChar = 3;
+        jvmVfrsionInfoAvbilbblf = gftJvmVfrsionInfo();
+        if (!jvmVfrsionInfoAvbilbblf) {
+            // pbrsf jbvb.vm.vfrsion for oldfr JVM bfforf tif
+            // nfw JVM_GftVfrsionInfo is bddfd.
+            // vblid formbt of tif vfrsion string is:
+            // n.n.n[_uu[d]][-<idfntiffr>]-bxx
+            CibrSfqufndf ds = Systfm.gftPropfrty("jbvb.vm.vfrsion");
+            if (ds.lfngti() >= 5 &&
+                Cibrbdtfr.isDigit(ds.dibrAt(0)) && ds.dibrAt(1) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(2)) && ds.dibrAt(3) == '.' &&
+                Cibrbdtfr.isDigit(ds.dibrAt(4))) {
+                jvm_mbjor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(0), 10);
+                jvm_minor_vfrsion = Cibrbdtfr.digit(ds.dibrAt(2), 10);
+                jvm_midro_vfrsion = Cibrbdtfr.digit(ds.dibrAt(4), 10);
+                ds = ds.subSfqufndf(5, ds.lfngti());
+                if (ds.dibrAt(0) == '_' && ds.lfngti() >= 3 &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(1)) &&
+                    Cibrbdtfr.isDigit(ds.dibrAt(2))) {
+                    int nfxtCibr = 3;
                     try {
-                        String uu = cs.subSequence(1, 3).toString();
-                        jvm_update_version = Integer.valueOf(uu).intValue();
-                        if (cs.length() >= 4) {
-                            char c = cs.charAt(3);
-                            if (c >= 'a' && c <= 'z') {
-                                jvm_special_version = Character.toString(c);
-                                nextChar++;
+                        String uu = ds.subSfqufndf(1, 3).toString();
+                        jvm_updbtf_vfrsion = Intfgfr.vblufOf(uu).intVbluf();
+                        if (ds.lfngti() >= 4) {
+                            dibr d = ds.dibrAt(3);
+                            if (d >= 'b' && d <= 'z') {
+                                jvm_spfdibl_vfrsion = Cibrbdtfr.toString(d);
+                                nfxtCibr++;
                             }
                         }
-                    } catch (NumberFormatException e) {
-                        // not conforming to the naming convention
-                        return;
+                    } dbtdi (NumbfrFormbtExdfption f) {
+                        // not donforming to tif nbming donvfntion
+                        rfturn;
                     }
-                    cs = cs.subSequence(nextChar, cs.length());
+                    ds = ds.subSfqufndf(nfxtCibr, ds.lfngti());
                 }
-                if (cs.charAt(0) == '-') {
-                    // skip the first character
-                    // valid format: <identifier>-bxx or bxx
-                    // non-product VM will have -debug|-release appended
-                    cs = cs.subSequence(1, cs.length());
-                    String[] res = cs.toString().split("-");
-                    for (String s : res) {
-                        if (s.charAt(0) == 'b' && s.length() == 3 &&
-                            Character.isDigit(s.charAt(1)) &&
-                            Character.isDigit(s.charAt(2))) {
-                            jvm_build_number =
-                                Integer.valueOf(s.substring(1, 3)).intValue();
-                            break;
+                if (ds.dibrAt(0) == '-') {
+                    // skip tif first dibrbdtfr
+                    // vblid formbt: <idfntififr>-bxx or bxx
+                    // non-produdt VM will ibvf -dfbug|-rflfbsf bppfndfd
+                    ds = ds.subSfqufndf(1, ds.lfngti());
+                    String[] rfs = ds.toString().split("-");
+                    for (String s : rfs) {
+                        if (s.dibrAt(0) == 'b' && s.lfngti() == 3 &&
+                            Cibrbdtfr.isDigit(s.dibrAt(1)) &&
+                            Cibrbdtfr.isDigit(s.dibrAt(2))) {
+                            jvm_build_numbfr =
+                                Intfgfr.vblufOf(s.substring(1, 3)).intVbluf();
+                            brfbk;
                         }
                     }
                 }
             }
         }
-        getJdkVersionInfo();
-        versionsInitialized = true;
+        gftJdkVfrsionInfo();
+        vfrsionsInitiblizfd = truf;
     }
 
-    // Gets the JVM version info if available and sets the jvm_*_version fields
-    // and its capabilities.
+    // Gfts tif JVM vfrsion info if bvbilbblf bnd sfts tif jvm_*_vfrsion fiflds
+    // bnd its dbpbbilitifs.
     //
-    // Return false if not available which implies an old VM (Tiger or before).
-    private static native boolean getJvmVersionInfo();
-    private static native void getJdkVersionInfo();
+    // Rfturn fblsf if not bvbilbblf wiidi implifs bn old VM (Tigfr or bfforf).
+    privbtf stbtid nbtivf boolfbn gftJvmVfrsionInfo();
+    privbtf stbtid nbtivf void gftJdkVfrsionInfo();
 }
 
-// Help Emacs a little because this file doesn't end in .java.
+// Hflp Embds b littlf bfdbusf tiis filf dofsn't fnd in .jbvb.
 //
-// Local Variables: ***
-// mode: java ***
+// Lodbl Vbribblfs: ***
+// modf: jbvb ***
 // End: ***

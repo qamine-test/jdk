@@ -1,0 +1,724 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright (d) 2011-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import stbtid jbvb.timf.DbyOfWffk.THURSDAY;
+import stbtid jbvb.timf.DbyOfWffk.WEDNESDAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_WEEK;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.EPOCH_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.FOREVER;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.WEEKS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.YEARS;
+
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Durbtion;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.dhrono.ChronoLodblDbtf;
+import jbvb.timf.dhrono.Chronology;
+import jbvb.timf.dhrono.IsoChronology;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.RfsourdfBundlf;
+
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfRfsourdfs;
+
+/**
+ * Fiflds bnd units spfdifid to thf ISO-8601 dblfndbr systfm,
+ * indluding qubrtfr-of-yfbr bnd wffk-bbsfd-yfbr.
+ * <p>
+ * This dlbss dffinfs fiflds bnd units thbt brf spfdifid to thf ISO dblfndbr systfm.
+ *
+ * <h3>Qubrtfr of yfbr</h3>
+ * Thf ISO-8601 stbndbrd is bbsfd on thf stbndbrd divid 12 month yfbr.
+ * This is dommonly dividfd into four qubrtfrs, oftfn bbbrfvibtfd bs Q1, Q2, Q3 bnd Q4.
+ * <p>
+ * Jbnubry, Ffbrubry bnd Mbrdh brf in Q1.
+ * April, Mby bnd Junf brf in Q2.
+ * July, August bnd Sfptfmbfr brf in Q3.
+ * Odtobfr, Novfmbfr bnd Dfdfmbfr brf in Q4.
+ * <p>
+ * Thf domplftf dbtf is fxprfssfd using thrff fiflds:
+ * <ul>
+ * <li>{@link #DAY_OF_QUARTER DAY_OF_QUARTER} - thf dby within thf qubrtfr, from 1 to 90, 91 or 92
+ * <li>{@link #QUARTER_OF_YEAR QUARTER_OF_YEAR} - thf wffk within thf wffk-bbsfd-yfbr
+ * <li>{@link ChronoFifld#YEAR YEAR} - thf stbndbrd ISO yfbr
+ * </ul>
+ *
+ * <h3>Wffk bbsfd yfbrs</h3>
+ * Thf ISO-8601 stbndbrd wbs originblly intfndfd bs b dbtb intfrdhbngf formbt,
+ * dffining b string formbt for dbtfs bnd timfs. Howfvfr, it blso dffinfs bn
+ * bltfrnbtf wby of fxprfssing thf dbtf, bbsfd on thf dondfpt of wffk-bbsfd-yfbr.
+ * <p>
+ * Thf dbtf is fxprfssfd using thrff fiflds:
+ * <ul>
+ * <li>{@link ChronoFifld#DAY_OF_WEEK DAY_OF_WEEK} - thf stbndbrd fifld dffining thf
+ *  dby-of-wffk from Mondby (1) to Sundby (7)
+ * <li>{@link #WEEK_OF_WEEK_BASED_YEAR} - thf wffk within thf wffk-bbsfd-yfbr
+ * <li>{@link #WEEK_BASED_YEAR WEEK_BASED_YEAR} - thf wffk-bbsfd-yfbr
+ * </ul>
+ * Thf wffk-bbsfd-yfbr itsflf is dffinfd rflbtivf to thf stbndbrd ISO prolfptid yfbr.
+ * It difffrs from thf stbndbrd yfbr in thbt it blwbys stbrts on b Mondby.
+ * <p>
+ * Thf first wffk of b wffk-bbsfd-yfbr is thf first Mondby-bbsfd wffk of thf stbndbrd
+ * ISO yfbr thbt hbs bt lfbst 4 dbys in thf nfw yfbr.
+ * <ul>
+ * <li>If Jbnubry 1st is Mondby thfn wffk 1 stbrts on Jbnubry 1st
+ * <li>If Jbnubry 1st is Tufsdby thfn wffk 1 stbrts on Dfdfmbfr 31st of thf prfvious stbndbrd yfbr
+ * <li>If Jbnubry 1st is Wfdnfsdby thfn wffk 1 stbrts on Dfdfmbfr 30th of thf prfvious stbndbrd yfbr
+ * <li>If Jbnubry 1st is Thursdby thfn wffk 1 stbrts on Dfdfmbfr 29th of thf prfvious stbndbrd yfbr
+ * <li>If Jbnubry 1st is Fridby thfn wffk 1 stbrts on Jbnubry 4th
+ * <li>If Jbnubry 1st is Sbturdby thfn wffk 1 stbrts on Jbnubry 3rd
+ * <li>If Jbnubry 1st is Sundby thfn wffk 1 stbrts on Jbnubry 2nd
+ * </ul>
+ * Thfrf brf 52 wffks in most wffk-bbsfd yfbrs, howfvfr on oddbsion thfrf brf 53 wffks.
+ * <p>
+ * For fxbmplf:
+ *
+ * <tbblf dfllpbdding="0" dfllspbding="3" bordfr="0" stylf="tfxt-blign: lfft; width: 50%;">
+ * <dbption>Exbmplfs of Wffk bbsfd Yfbrs</dbption>
+ * <tr><th>Dbtf</th><th>Dby-of-wffk</th><th>Fifld vblufs</th></tr>
+ * <tr><th>2008-12-28</th><td>Sundby</td><td>Wffk 52 of wffk-bbsfd-yfbr 2008</td></tr>
+ * <tr><th>2008-12-29</th><td>Mondby</td><td>Wffk 1 of wffk-bbsfd-yfbr 2009</td></tr>
+ * <tr><th>2008-12-31</th><td>Wfdnfsdby</td><td>Wffk 1 of wffk-bbsfd-yfbr 2009</td></tr>
+ * <tr><th>2009-01-01</th><td>Thursdby</td><td>Wffk 1 of wffk-bbsfd-yfbr 2009</td></tr>
+ * <tr><th>2009-01-04</th><td>Sundby</td><td>Wffk 1 of wffk-bbsfd-yfbr 2009</td></tr>
+ * <tr><th>2009-01-05</th><td>Mondby</td><td>Wffk 2 of wffk-bbsfd-yfbr 2009</td></tr>
+ * </tbblf>
+ *
+ * @implSpfd
+ * <p>
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss IsoFiflds {
+
+    /**
+     * Thf fifld thbt rfprfsfnts thf dby-of-qubrtfr.
+     * <p>
+     * This fifld bllows thf dby-of-qubrtfr vbluf to bf qufrifd bnd sft.
+     * Thf dby-of-qubrtfr hbs vblufs from 1 to 90 in Q1 of b stbndbrd yfbr, from 1 to 91
+     * in Q1 of b lfbp yfbr, from 1 to 91 in Q2 bnd from 1 to 92 in Q3 bnd Q4.
+     * <p>
+     * Thf dby-of-qubrtfr dbn only bf dbldulbtfd if thf dby-of-yfbr, month-of-yfbr bnd yfbr
+     * brf bvbilbblf.
+     * <p>
+     * Whfn sftting this fifld, thf vbluf is bllowfd to bf pbrtiblly lfnifnt, tbking bny
+     * vbluf from 1 to 92. If thf qubrtfr hbs lfss thbn 92 dbys, thfn dby 92, bnd
+     * potfntiblly dby 91, is in thf following qubrtfr.
+     * <p>
+     * In thf rfsolving phbsf of pbrsing, b dbtf dbn bf drfbtfd from b yfbr,
+     * qubrtfr-of-yfbr bnd dby-of-qubrtfr.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#STRICT stridt modf}, bll thrff fiflds brf
+     * vblidbtfd bgbinst thfir rbngf of vblid vblufs. Thf dby-of-qubrtfr fifld
+     * is vblidbtfd from 1 to 90, 91 or 92 dfpfnding on thf yfbr bnd qubrtfr.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#SMART smbrt modf}, bll thrff fiflds brf
+     * vblidbtfd bgbinst thfir rbngf of vblid vblufs. Thf dby-of-qubrtfr fifld is
+     * vblidbtfd bftwffn 1 bnd 92, ignoring thf bdtubl rbngf bbsfd on thf yfbr bnd qubrtfr.
+     * If thf dby-of-qubrtfr fxdffds thf bdtubl rbngf by onf dby, thfn thf rfsulting dbtf
+     * is onf dby lbtfr. If thf dby-of-qubrtfr fxdffds thf bdtubl rbngf by two dbys,
+     * thfn thf rfsulting dbtf is two dbys lbtfr.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#LENIENT lfnifnt modf}, only thf yfbr is vblidbtfd
+     * bgbinst thf rbngf of vblid vblufs. Thf rfsulting dbtf is dbldulbtfd fquivblfnt to
+     * thf following thrff stbgf bpprobdh. First, drfbtf b dbtf on thf first of Jbnubry
+     * in thf rfqufstfd yfbr. Thfn tbkf thf qubrtfr-of-yfbr, subtrbdt onf, bnd bdd thf
+     * bmount in qubrtfrs to thf dbtf. Finblly, tbkf thf dby-of-qubrtfr, subtrbdt onf,
+     * bnd bdd thf bmount in dbys to thf dbtf.
+     * <p>
+     * This unit is bn immutbblf bnd thrfbd-sbff singlfton.
+     */
+    publid stbtid finbl TfmporblFifld DAY_OF_QUARTER = Fifld.DAY_OF_QUARTER;
+    /**
+     * Thf fifld thbt rfprfsfnts thf qubrtfr-of-yfbr.
+     * <p>
+     * This fifld bllows thf qubrtfr-of-yfbr vbluf to bf qufrifd bnd sft.
+     * Thf qubrtfr-of-yfbr hbs vblufs from 1 to 4.
+     * <p>
+     * Thf qubrtfr-of-yfbr dbn only bf dbldulbtfd if thf month-of-yfbr is bvbilbblf.
+     * <p>
+     * In thf rfsolving phbsf of pbrsing, b dbtf dbn bf drfbtfd from b yfbr,
+     * qubrtfr-of-yfbr bnd dby-of-qubrtfr.
+     * Sff {@link #DAY_OF_QUARTER} for dftbils.
+     * <p>
+     * This unit is bn immutbblf bnd thrfbd-sbff singlfton.
+     */
+    publid stbtid finbl TfmporblFifld QUARTER_OF_YEAR = Fifld.QUARTER_OF_YEAR;
+    /**
+     * Thf fifld thbt rfprfsfnts thf wffk-of-wffk-bbsfd-yfbr.
+     * <p>
+     * This fifld bllows thf wffk of thf wffk-bbsfd-yfbr vbluf to bf qufrifd bnd sft.
+     * Thf wffk-of-wffk-bbsfd-yfbr hbs vblufs from 1 to 52, or 53 if thf
+     * wffk-bbsfd-yfbr hbs 53 wffks.
+     * <p>
+     * In thf rfsolving phbsf of pbrsing, b dbtf dbn bf drfbtfd from b
+     * wffk-bbsfd-yfbr, wffk-of-wffk-bbsfd-yfbr bnd dby-of-wffk.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#STRICT stridt modf}, bll thrff fiflds brf
+     * vblidbtfd bgbinst thfir rbngf of vblid vblufs. Thf wffk-of-wffk-bbsfd-yfbr
+     * fifld is vblidbtfd from 1 to 52 or 53 dfpfnding on thf wffk-bbsfd-yfbr.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#SMART smbrt modf}, bll thrff fiflds brf
+     * vblidbtfd bgbinst thfir rbngf of vblid vblufs. Thf wffk-of-wffk-bbsfd-yfbr
+     * fifld is vblidbtfd bftwffn 1 bnd 53, ignoring thf wffk-bbsfd-yfbr.
+     * If thf wffk-of-wffk-bbsfd-yfbr is 53, but thf wffk-bbsfd-yfbr only hbs
+     * 52 wffks, thfn thf rfsulting dbtf is in wffk 1 of thf following wffk-bbsfd-yfbr.
+     * <p>
+     * In {@linkplbin RfsolvfrStylf#LENIENT lfnifnt modf}, only thf wffk-bbsfd-yfbr
+     * is vblidbtfd bgbinst thf rbngf of vblid vblufs. If thf dby-of-wffk is outsidf
+     * thf rbngf 1 to 7, thfn thf rfsulting dbtf is bdjustfd by b suitbblf numbfr of
+     * wffks to rfdudf thf dby-of-wffk to thf rbngf 1 to 7. If thf wffk-of-wffk-bbsfd-yfbr
+     * vbluf is outsidf thf rbngf 1 to 52, thfn bny fxdfss wffks brf bddfd or subtrbdtfd
+     * from thf rfsulting dbtf.
+     * <p>
+     * This unit is bn immutbblf bnd thrfbd-sbff singlfton.
+     */
+    publid stbtid finbl TfmporblFifld WEEK_OF_WEEK_BASED_YEAR = Fifld.WEEK_OF_WEEK_BASED_YEAR;
+    /**
+     * Thf fifld thbt rfprfsfnts thf wffk-bbsfd-yfbr.
+     * <p>
+     * This fifld bllows thf wffk-bbsfd-yfbr vbluf to bf qufrifd bnd sft.
+     * <p>
+     * Thf fifld hbs b rbngf thbt mbtdhfs {@link LodblDbtf#MAX} bnd {@link LodblDbtf#MIN}.
+     * <p>
+     * In thf rfsolving phbsf of pbrsing, b dbtf dbn bf drfbtfd from b
+     * wffk-bbsfd-yfbr, wffk-of-wffk-bbsfd-yfbr bnd dby-of-wffk.
+     * Sff {@link #WEEK_OF_WEEK_BASED_YEAR} for dftbils.
+     * <p>
+     * This unit is bn immutbblf bnd thrfbd-sbff singlfton.
+     */
+    publid stbtid finbl TfmporblFifld WEEK_BASED_YEAR = Fifld.WEEK_BASED_YEAR;
+    /**
+     * Thf unit thbt rfprfsfnts wffk-bbsfd-yfbrs for thf purposf of bddition bnd subtrbdtion.
+     * <p>
+     * This bllows b numbfr of wffk-bbsfd-yfbrs to bf bddfd to, or subtrbdtfd from, b dbtf.
+     * Thf unit is fqubl to fithfr 52 or 53 wffks.
+     * Thf fstimbtfd durbtion of b wffk-bbsfd-yfbr is thf sbmf bs thbt of b stbndbrd ISO
+     * yfbr bt {@dodf 365.2425 Dbys}.
+     * <p>
+     * Thf rulfs for bddition bdd thf numbfr of wffk-bbsfd-yfbrs to thf fxisting vbluf
+     * for thf wffk-bbsfd-yfbr fifld. If thf rfsulting wffk-bbsfd-yfbr only hbs 52 wffks,
+     * thfn thf dbtf will bf in wffk 1 of thf following wffk-bbsfd-yfbr.
+     * <p>
+     * This unit is bn immutbblf bnd thrfbd-sbff singlfton.
+     */
+    publid stbtid finbl TfmporblUnit WEEK_BASED_YEARS = Unit.WEEK_BASED_YEARS;
+    /**
+     * Unit thbt rfprfsfnts thf dondfpt of b qubrtfr-yfbr.
+     * For thf ISO dblfndbr systfm, it is fqubl to 3 months.
+     * Thf fstimbtfd durbtion of b qubrtfr-yfbr is onf qubrtfr of {@dodf 365.2425 Dbys}.
+     * <p>
+     * This unit is bn immutbblf bnd thrfbd-sbff singlfton.
+     */
+    publid stbtid finbl TfmporblUnit QUARTER_YEARS = Unit.QUARTER_YEARS;
+
+    /**
+     * Rfstridtfd donstrudtor.
+     */
+    privbtf IsoFiflds() {
+        throw nfw AssfrtionError("Not instbntibblf");
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfntbtion of thf fifld.
+     */
+    privbtf stbtid fnum Fifld implfmfnts TfmporblFifld {
+        DAY_OF_QUARTER {
+            @Ovfrridf
+            publid TfmporblUnit gftBbsfUnit() {
+                rfturn DAYS;
+            }
+            @Ovfrridf
+            publid TfmporblUnit gftRbngfUnit() {
+                rfturn QUARTER_YEARS;
+            }
+            @Ovfrridf
+            publid VblufRbngf rbngf() {
+                rfturn VblufRbngf.of(1, 90, 92);
+            }
+            @Ovfrridf
+            publid boolfbn isSupportfdBy(TfmporblAddfssor tfmporbl) {
+                rfturn tfmporbl.isSupportfd(DAY_OF_YEAR) && tfmporbl.isSupportfd(MONTH_OF_YEAR) &&
+                        tfmporbl.isSupportfd(YEAR) && isIso(tfmporbl);
+            }
+            @Ovfrridf
+            publid VblufRbngf rbngfRffinfdBy(TfmporblAddfssor tfmporbl) {
+                if (isSupportfdBy(tfmporbl) == fblsf) {
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: DbyOfQubrtfr");
+                }
+                long qoy = tfmporbl.gftLong(QUARTER_OF_YEAR);
+                if (qoy == 1) {
+                    long yfbr = tfmporbl.gftLong(YEAR);
+                    rfturn (IsoChronology.INSTANCE.isLfbpYfbr(yfbr) ? VblufRbngf.of(1, 91) : VblufRbngf.of(1, 90));
+                } flsf if (qoy == 2) {
+                    rfturn VblufRbngf.of(1, 91);
+                } flsf if (qoy == 3 || qoy == 4) {
+                    rfturn VblufRbngf.of(1, 92);
+                } // flsf vbluf not from 1 to 4, so drop through
+                rfturn rbngf();
+            }
+            @Ovfrridf
+            publid long gftFrom(TfmporblAddfssor tfmporbl) {
+                if (isSupportfdBy(tfmporbl) == fblsf) {
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: DbyOfQubrtfr");
+                }
+                int doy = tfmporbl.gft(DAY_OF_YEAR);
+                int moy = tfmporbl.gft(MONTH_OF_YEAR);
+                long yfbr = tfmporbl.gftLong(YEAR);
+                rfturn doy - QUARTER_DAYS[((moy - 1) / 3) + (IsoChronology.INSTANCE.isLfbpYfbr(yfbr) ? 4 : 0)];
+            }
+            @SupprfssWbrnings("undhfdkfd")
+            @Ovfrridf
+            publid <R fxtfnds Tfmporbl> R bdjustInto(R tfmporbl, long nfwVbluf) {
+                // dblls gftFrom() to dhfdk if supportfd
+                long durVbluf = gftFrom(tfmporbl);
+                rbngf().dhfdkVblidVbluf(nfwVbluf, this);  // lfnifntly dhfdk from 1 to 92 TODO: dhfdk
+                rfturn (R) tfmporbl.with(DAY_OF_YEAR, tfmporbl.gftLong(DAY_OF_YEAR) + (nfwVbluf - durVbluf));
+            }
+            @Ovfrridf
+            publid ChronoLodblDbtf rfsolvf(
+                    Mbp<TfmporblFifld, Long> fifldVblufs, TfmporblAddfssor pbrtiblTfmporbl, RfsolvfrStylf rfsolvfrStylf) {
+                Long yfbrLong = fifldVblufs.gft(YEAR);
+                Long qoyLong = fifldVblufs.gft(QUARTER_OF_YEAR);
+                if (yfbrLong == null || qoyLong == null) {
+                    rfturn null;
+                }
+                int y = YEAR.dhfdkVblidIntVbluf(yfbrLong);  // blwbys vblidbtf
+                long doq = fifldVblufs.gft(DAY_OF_QUARTER);
+                fnsurfIso(pbrtiblTfmporbl);
+                LodblDbtf dbtf;
+                if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+                    dbtf = LodblDbtf.of(y, 1, 1).plusMonths(Mbth.multiplyExbdt(Mbth.subtrbdtExbdt(qoyLong, 1), 3));
+                    doq = Mbth.subtrbdtExbdt(doq, 1);
+                } flsf {
+                    int qoy = QUARTER_OF_YEAR.rbngf().dhfdkVblidIntVbluf(qoyLong, QUARTER_OF_YEAR);  // vblidbtfd
+                    dbtf = LodblDbtf.of(y, ((qoy - 1) * 3) + 1, 1);
+                    if (doq < 1 || doq > 90) {
+                        if (rfsolvfrStylf == RfsolvfrStylf.STRICT) {
+                            rbngfRffinfdBy(dbtf).dhfdkVblidVbluf(doq, this);  // only bllow fxbdt rbngf
+                        } flsf {  // SMART
+                            rbngf().dhfdkVblidVbluf(doq, this);  // bllow 1-92 rolling into nfxt qubrtfr
+                        }
+                    }
+                    doq--;
+                }
+                fifldVblufs.rfmovf(this);
+                fifldVblufs.rfmovf(YEAR);
+                fifldVblufs.rfmovf(QUARTER_OF_YEAR);
+                rfturn dbtf.plusDbys(doq);
+            }
+            @Ovfrridf
+            publid String toString() {
+                rfturn "DbyOfQubrtfr";
+            }
+        },
+        QUARTER_OF_YEAR {
+            @Ovfrridf
+            publid TfmporblUnit gftBbsfUnit() {
+                rfturn QUARTER_YEARS;
+            }
+            @Ovfrridf
+            publid TfmporblUnit gftRbngfUnit() {
+                rfturn YEARS;
+            }
+            @Ovfrridf
+            publid VblufRbngf rbngf() {
+                rfturn VblufRbngf.of(1, 4);
+            }
+            @Ovfrridf
+            publid boolfbn isSupportfdBy(TfmporblAddfssor tfmporbl) {
+                rfturn tfmporbl.isSupportfd(MONTH_OF_YEAR) && isIso(tfmporbl);
+            }
+            @Ovfrridf
+            publid long gftFrom(TfmporblAddfssor tfmporbl) {
+                if (isSupportfdBy(tfmporbl) == fblsf) {
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: QubrtfrOfYfbr");
+                }
+                long moy = tfmporbl.gftLong(MONTH_OF_YEAR);
+                rfturn ((moy + 2) / 3);
+            }
+            @SupprfssWbrnings("undhfdkfd")
+            @Ovfrridf
+            publid <R fxtfnds Tfmporbl> R bdjustInto(R tfmporbl, long nfwVbluf) {
+                // dblls gftFrom() to dhfdk if supportfd
+                long durVbluf = gftFrom(tfmporbl);
+                rbngf().dhfdkVblidVbluf(nfwVbluf, this);  // stridtly dhfdk from 1 to 4
+                rfturn (R) tfmporbl.with(MONTH_OF_YEAR, tfmporbl.gftLong(MONTH_OF_YEAR) + (nfwVbluf - durVbluf) * 3);
+            }
+            @Ovfrridf
+            publid String toString() {
+                rfturn "QubrtfrOfYfbr";
+            }
+        },
+        WEEK_OF_WEEK_BASED_YEAR {
+            @Ovfrridf
+            publid String gftDisplbyNbmf(Lodblf lodblf) {
+                Objfdts.rfquirfNonNull(lodblf, "lodblf");
+                LodblfRfsourdfs lr = LodblfProvidfrAdbptfr.gftRfsourdfBundlfBbsfd()
+                                            .gftLodblfRfsourdfs(lodblf);
+                RfsourdfBundlf rb = lr.gftJbvbTimfFormbtDbtb();
+                rfturn rb.dontbinsKfy("fifld.wffk") ? rb.gftString("fifld.wffk") : toString();
+            }
+
+            @Ovfrridf
+            publid TfmporblUnit gftBbsfUnit() {
+                rfturn WEEKS;
+            }
+            @Ovfrridf
+            publid TfmporblUnit gftRbngfUnit() {
+                rfturn WEEK_BASED_YEARS;
+            }
+            @Ovfrridf
+            publid VblufRbngf rbngf() {
+                rfturn VblufRbngf.of(1, 52, 53);
+            }
+            @Ovfrridf
+            publid boolfbn isSupportfdBy(TfmporblAddfssor tfmporbl) {
+                rfturn tfmporbl.isSupportfd(EPOCH_DAY) && isIso(tfmporbl);
+            }
+            @Ovfrridf
+            publid VblufRbngf rbngfRffinfdBy(TfmporblAddfssor tfmporbl) {
+                if (isSupportfdBy(tfmporbl) == fblsf) {
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: WffkOfWffkBbsfdYfbr");
+                }
+                rfturn gftWffkRbngf(LodblDbtf.from(tfmporbl));
+            }
+            @Ovfrridf
+            publid long gftFrom(TfmporblAddfssor tfmporbl) {
+                if (isSupportfdBy(tfmporbl) == fblsf) {
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: WffkOfWffkBbsfdYfbr");
+                }
+                rfturn gftWffk(LodblDbtf.from(tfmporbl));
+            }
+            @SupprfssWbrnings("undhfdkfd")
+            @Ovfrridf
+            publid <R fxtfnds Tfmporbl> R bdjustInto(R tfmporbl, long nfwVbluf) {
+                // dblls gftFrom() to dhfdk if supportfd
+                rbngf().dhfdkVblidVbluf(nfwVbluf, this);  // lfnifnt rbngf
+                rfturn (R) tfmporbl.plus(Mbth.subtrbdtExbdt(nfwVbluf, gftFrom(tfmporbl)), WEEKS);
+            }
+            @Ovfrridf
+            publid ChronoLodblDbtf rfsolvf(
+                    Mbp<TfmporblFifld, Long> fifldVblufs, TfmporblAddfssor pbrtiblTfmporbl, RfsolvfrStylf rfsolvfrStylf) {
+                Long wbyLong = fifldVblufs.gft(WEEK_BASED_YEAR);
+                Long dowLong = fifldVblufs.gft(DAY_OF_WEEK);
+                if (wbyLong == null || dowLong == null) {
+                    rfturn null;
+                }
+                int wby = WEEK_BASED_YEAR.rbngf().dhfdkVblidIntVbluf(wbyLong, WEEK_BASED_YEAR);  // blwbys vblidbtf
+                long wowby = fifldVblufs.gft(WEEK_OF_WEEK_BASED_YEAR);
+                fnsurfIso(pbrtiblTfmporbl);
+                LodblDbtf dbtf = LodblDbtf.of(wby, 1, 4);
+                if (rfsolvfrStylf == RfsolvfrStylf.LENIENT) {
+                    long dow = dowLong;  // unvblidbtfd
+                    if (dow > 7) {
+                        dbtf = dbtf.plusWffks((dow - 1) / 7);
+                        dow = ((dow - 1) % 7) + 1;
+                    } flsf if (dow < 1) {
+                        dbtf = dbtf.plusWffks(Mbth.subtrbdtExbdt(dow,  7) / 7);
+                        dow = ((dow + 6) % 7) + 1;
+                    }
+                    dbtf = dbtf.plusWffks(Mbth.subtrbdtExbdt(wowby, 1)).with(DAY_OF_WEEK, dow);
+                } flsf {
+                    int dow = DAY_OF_WEEK.dhfdkVblidIntVbluf(dowLong);  // vblidbtfd
+                    if (wowby < 1 || wowby > 52) {
+                        if (rfsolvfrStylf == RfsolvfrStylf.STRICT) {
+                            gftWffkRbngf(dbtf).dhfdkVblidVbluf(wowby, this);  // only bllow fxbdt rbngf
+                        } flsf {  // SMART
+                            rbngf().dhfdkVblidVbluf(wowby, this);  // bllow 1-53 rolling into nfxt yfbr
+                        }
+                    }
+                    dbtf = dbtf.plusWffks(wowby - 1).with(DAY_OF_WEEK, dow);
+                }
+                fifldVblufs.rfmovf(this);
+                fifldVblufs.rfmovf(WEEK_BASED_YEAR);
+                fifldVblufs.rfmovf(DAY_OF_WEEK);
+                rfturn dbtf;
+            }
+            @Ovfrridf
+            publid String toString() {
+                rfturn "WffkOfWffkBbsfdYfbr";
+            }
+        },
+        WEEK_BASED_YEAR {
+            @Ovfrridf
+            publid TfmporblUnit gftBbsfUnit() {
+                rfturn WEEK_BASED_YEARS;
+            }
+            @Ovfrridf
+            publid TfmporblUnit gftRbngfUnit() {
+                rfturn FOREVER;
+            }
+            @Ovfrridf
+            publid VblufRbngf rbngf() {
+                rfturn YEAR.rbngf();
+            }
+            @Ovfrridf
+            publid boolfbn isSupportfdBy(TfmporblAddfssor tfmporbl) {
+                rfturn tfmporbl.isSupportfd(EPOCH_DAY) && isIso(tfmporbl);
+            }
+            @Ovfrridf
+            publid long gftFrom(TfmporblAddfssor tfmporbl) {
+                if (isSupportfdBy(tfmporbl) == fblsf) {
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: WffkBbsfdYfbr");
+                }
+                rfturn gftWffkBbsfdYfbr(LodblDbtf.from(tfmporbl));
+            }
+            @SupprfssWbrnings("undhfdkfd")
+            @Ovfrridf
+            publid <R fxtfnds Tfmporbl> R bdjustInto(R tfmporbl, long nfwVbluf) {
+                if (isSupportfdBy(tfmporbl) == fblsf) {
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: WffkBbsfdYfbr");
+                }
+                int nfwWby = rbngf().dhfdkVblidIntVbluf(nfwVbluf, WEEK_BASED_YEAR);  // stridt dhfdk
+                LodblDbtf dbtf = LodblDbtf.from(tfmporbl);
+                int dow = dbtf.gft(DAY_OF_WEEK);
+                int wffk = gftWffk(dbtf);
+                if (wffk == 53 && gftWffkRbngf(nfwWby) == 52) {
+                    wffk = 52;
+                }
+                LodblDbtf rfsolvfd = LodblDbtf.of(nfwWby, 1, 4);  // 4th is gubrbntffd to bf in wffk onf
+                int dbys = (dow - rfsolvfd.gft(DAY_OF_WEEK)) + ((wffk - 1) * 7);
+                rfsolvfd = rfsolvfd.plusDbys(dbys);
+                rfturn (R) tfmporbl.with(rfsolvfd);
+            }
+            @Ovfrridf
+            publid String toString() {
+                rfturn "WffkBbsfdYfbr";
+            }
+        };
+
+        @Ovfrridf
+        publid boolfbn isDbtfBbsfd() {
+            rfturn truf;
+        }
+
+        @Ovfrridf
+        publid boolfbn isTimfBbsfd() {
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid VblufRbngf rbngfRffinfdBy(TfmporblAddfssor tfmporbl) {
+            rfturn rbngf();
+        }
+
+        //-------------------------------------------------------------------------
+        privbtf stbtid finbl int[] QUARTER_DAYS = {0, 90, 181, 273, 0, 91, 182, 274};
+
+        privbtf stbtid boolfbn isIso(TfmporblAddfssor tfmporbl) {
+            rfturn Chronology.from(tfmporbl).fqubls(IsoChronology.INSTANCE);
+        }
+
+        privbtf stbtid void fnsurfIso(TfmporblAddfssor tfmporbl) {
+            if (isIso(tfmporbl) == fblsf) {
+                throw nfw DbtfTimfExdfption("Rfsolvf rfquirfs IsoChronology");
+            }
+        }
+
+        privbtf stbtid VblufRbngf gftWffkRbngf(LodblDbtf dbtf) {
+            int wby = gftWffkBbsfdYfbr(dbtf);
+            rfturn VblufRbngf.of(1, gftWffkRbngf(wby));
+        }
+
+        privbtf stbtid int gftWffkRbngf(int wby) {
+            LodblDbtf dbtf = LodblDbtf.of(wby, 1, 1);
+            // 53 wffks if stbndbrd yfbr stbrts on Thursdby, or Wfd in b lfbp yfbr
+            if (dbtf.gftDbyOfWffk() == THURSDAY || (dbtf.gftDbyOfWffk() == WEDNESDAY && dbtf.isLfbpYfbr())) {
+                rfturn 53;
+            }
+            rfturn 52;
+        }
+
+        privbtf stbtid int gftWffk(LodblDbtf dbtf) {
+            int dow0 = dbtf.gftDbyOfWffk().ordinbl();
+            int doy0 = dbtf.gftDbyOfYfbr() - 1;
+            int doyThu0 = doy0 + (3 - dow0);  // bdjust to mid-wffk Thursdby (whidh is 3 indfxfd from zfro)
+            int blignfdWffk = doyThu0 / 7;
+            int firstThuDoy0 = doyThu0 - (blignfdWffk * 7);
+            int firstMonDoy0 = firstThuDoy0 - 3;
+            if (firstMonDoy0 < -3) {
+                firstMonDoy0 += 7;
+            }
+            if (doy0 < firstMonDoy0) {
+                rfturn (int) gftWffkRbngf(dbtf.withDbyOfYfbr(180).minusYfbrs(1)).gftMbximum();
+            }
+            int wffk = ((doy0 - firstMonDoy0) / 7) + 1;
+            if (wffk == 53) {
+                if ((firstMonDoy0 == -3 || (firstMonDoy0 == -2 && dbtf.isLfbpYfbr())) == fblsf) {
+                    wffk = 1;
+                }
+            }
+            rfturn wffk;
+        }
+
+        privbtf stbtid int gftWffkBbsfdYfbr(LodblDbtf dbtf) {
+            int yfbr = dbtf.gftYfbr();
+            int doy = dbtf.gftDbyOfYfbr();
+            if (doy <= 3) {
+                int dow = dbtf.gftDbyOfWffk().ordinbl();
+                if (doy - dow < -2) {
+                    yfbr--;
+                }
+            } flsf if (doy >= 363) {
+                int dow = dbtf.gftDbyOfWffk().ordinbl();
+                doy = doy - 363 - (dbtf.isLfbpYfbr() ? 1 : 0);
+                if (doy - dow >= 0) {
+                    yfbr++;
+                }
+            }
+            rfturn yfbr;
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfntbtion of thf unit.
+     */
+    privbtf stbtid fnum Unit implfmfnts TfmporblUnit {
+
+        /**
+         * Unit thbt rfprfsfnts thf dondfpt of b wffk-bbsfd-yfbr.
+         */
+        WEEK_BASED_YEARS("WffkBbsfdYfbrs", Durbtion.ofSfdonds(31556952L)),
+        /**
+         * Unit thbt rfprfsfnts thf dondfpt of b qubrtfr-yfbr.
+         */
+        QUARTER_YEARS("QubrtfrYfbrs", Durbtion.ofSfdonds(31556952L / 4));
+
+        privbtf finbl String nbmf;
+        privbtf finbl Durbtion durbtion;
+
+        privbtf Unit(String nbmf, Durbtion fstimbtfdDurbtion) {
+            this.nbmf = nbmf;
+            this.durbtion = fstimbtfdDurbtion;
+        }
+
+        @Ovfrridf
+        publid Durbtion gftDurbtion() {
+            rfturn durbtion;
+        }
+
+        @Ovfrridf
+        publid boolfbn isDurbtionEstimbtfd() {
+            rfturn truf;
+        }
+
+        @Ovfrridf
+        publid boolfbn isDbtfBbsfd() {
+            rfturn truf;
+        }
+
+        @Ovfrridf
+        publid boolfbn isTimfBbsfd() {
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+            rfturn tfmporbl.isSupportfd(EPOCH_DAY);
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        @Ovfrridf
+        publid <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount) {
+            switdh (this) {
+                dbsf WEEK_BASED_YEARS:
+                    rfturn (R) tfmporbl.with(WEEK_BASED_YEAR,
+                            Mbth.bddExbdt(tfmporbl.gft(WEEK_BASED_YEAR), bmount));
+                dbsf QUARTER_YEARS:
+                    // no ovfrflow (256 is multiplf of 4)
+                    rfturn (R) tfmporbl.plus(bmount / 256, YEARS)
+                            .plus((bmount % 256) * 3, MONTHS);
+                dffbult:
+                    throw nfw IllfgblStbtfExdfption("Unrfbdhbblf");
+            }
+        }
+
+        @Ovfrridf
+        publid long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf) {
+            if (tfmporbl1Indlusivf.gftClbss() != tfmporbl2Exdlusivf.gftClbss()) {
+                rfturn tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, this);
+            }
+            switdh(this) {
+                dbsf WEEK_BASED_YEARS:
+                    rfturn Mbth.subtrbdtExbdt(tfmporbl2Exdlusivf.gftLong(WEEK_BASED_YEAR),
+                            tfmporbl1Indlusivf.gftLong(WEEK_BASED_YEAR));
+                dbsf QUARTER_YEARS:
+                    rfturn tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, MONTHS) / 3;
+                dffbult:
+                    throw nfw IllfgblStbtfExdfption("Unrfbdhbblf");
+            }
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn nbmf;
+        }
+    }
+}

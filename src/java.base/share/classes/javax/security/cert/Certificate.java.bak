@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.security.cert;
+pbdkbgf jbvbx.sfdurity.dfrt;
 
-import java.security.PublicKey;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.InvalidKeyException;
-import java.security.SignatureException;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
 
 /**
- * <p>Abstract class for managing a variety of identity certificates.
- * An identity certificate is a guarantee by a principal that
- * a public key is that of another principal.  (A principal represents
- * an entity such as an individual user, a group, or a corporation.)
+ * <p>Abstrbdt dlbss for mbnbging b vbrifty of idfntity dfrtifidbtfs.
+ * An idfntity dfrtifidbtf is b gubrbntff by b prindipbl tibt
+ * b publid kfy is tibt of bnotifr prindipbl.  (A prindipbl rfprfsfnts
+ * bn fntity sudi bs bn individubl usfr, b group, or b dorporbtion.)
  *<p>
- * This class is an abstraction for certificates that have different
- * formats but important common uses.  For example, different types of
- * certificates, such as X.509 and PGP, share general certificate
- * functionality (like encoding and verifying) and
- * some types of information (like a public key).
+ * Tiis dlbss is bn bbstrbdtion for dfrtifidbtfs tibt ibvf difffrfnt
+ * formbts but importbnt dommon usfs.  For fxbmplf, difffrfnt typfs of
+ * dfrtifidbtfs, sudi bs X.509 bnd PGP, sibrf gfnfrbl dfrtifidbtf
+ * fundtionblity (likf fndoding bnd vfrifying) bnd
+ * somf typfs of informbtion (likf b publid kfy).
  * <p>
- * X.509, PGP, and SDSI certificates can all be implemented by
- * subclassing the Certificate class, even though they contain different
- * sets of information, and they store and retrieve the information in
- * different ways.
+ * X.509, PGP, bnd SDSI dfrtifidbtfs dbn bll bf implfmfntfd by
+ * subdlbssing tif Cfrtifidbtf dlbss, fvfn tiougi tify dontbin difffrfnt
+ * sfts of informbtion, bnd tify storf bnd rftrifvf tif informbtion in
+ * difffrfnt wbys.
  *
- * <p><em>Note: The classes in the package {@code javax.security.cert}
- * exist for compatibility with earlier versions of the
- * Java Secure Sockets Extension (JSSE). New applications should instead
- * use the standard Java SE certificate classes located in
- * {@code java.security.cert}.</em></p>
+ * <p><fm>Notf: Tif dlbssfs in tif pbdkbgf {@dodf jbvbx.sfdurity.dfrt}
+ * fxist for dompbtibility witi fbrlifr vfrsions of tif
+ * Jbvb Sfdurf Sodkfts Extfnsion (JSSE). Nfw bpplidbtions siould instfbd
+ * usf tif stbndbrd Jbvb SE dfrtifidbtf dlbssfs lodbtfd in
+ * {@dodf jbvb.sfdurity.dfrt}.</fm></p>
  *
- * @since 1.4
- * @see X509Certificate
+ * @sindf 1.4
+ * @sff X509Cfrtifidbtf
  *
- * @author Hemma Prafullchandra
+ * @butior Hfmmb Prbfulldibndrb
  */
-public abstract class Certificate {
+publid bbstrbdt dlbss Cfrtifidbtf {
 
     /**
-     * Compares this certificate for equality with the specified
-     * object. If the {@code other} object is an
-     * {@code instanceof} {@code Certificate}, then
-     * its encoded form is retrieved and compared with the
-     * encoded form of this certificate.
+     * Compbrfs tiis dfrtifidbtf for fqublity witi tif spfdififd
+     * objfdt. If tif {@dodf otifr} objfdt is bn
+     * {@dodf instbndfof} {@dodf Cfrtifidbtf}, tifn
+     * its fndodfd form is rftrifvfd bnd dompbrfd witi tif
+     * fndodfd form of tiis dfrtifidbtf.
      *
-     * @param other the object to test for equality with this certificate.
-     * @return true if the encoded forms of the two certificates
-     *         match, false otherwise.
+     * @pbrbm otifr tif objfdt to tfst for fqublity witi tiis dfrtifidbtf.
+     * @rfturn truf if tif fndodfd forms of tif two dfrtifidbtfs
+     *         mbtdi, fblsf otifrwisf.
      */
-    public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof Certificate))
-            return false;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof Cfrtifidbtf))
+            rfturn fblsf;
         try {
-            byte[] thisCert = this.getEncoded();
-            byte[] otherCert = ((Certificate)other).getEncoded();
+            bytf[] tiisCfrt = tiis.gftEndodfd();
+            bytf[] otifrCfrt = ((Cfrtifidbtf)otifr).gftEndodfd();
 
-            if (thisCert.length != otherCert.length)
-                return false;
-            for (int i = 0; i < thisCert.length; i++)
-                 if (thisCert[i] != otherCert[i])
-                     return false;
-            return true;
-        } catch (CertificateException e) {
-            return false;
+            if (tiisCfrt.lfngti != otifrCfrt.lfngti)
+                rfturn fblsf;
+            for (int i = 0; i < tiisCfrt.lfngti; i++)
+                 if (tiisCfrt[i] != otifrCfrt[i])
+                     rfturn fblsf;
+            rfturn truf;
+        } dbtdi (CfrtifidbtfExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns a hashcode value for this certificate from its
-     * encoded form.
+     * Rfturns b ibsidodf vbluf for tiis dfrtifidbtf from its
+     * fndodfd form.
      *
-     * @return the hashcode value.
+     * @rfturn tif ibsidodf vbluf.
      */
-    public int hashCode() {
-        int     retval = 0;
+    publid int ibsiCodf() {
+        int     rftvbl = 0;
         try {
-            byte[] certData = this.getEncoded();
-            for (int i = 1; i < certData.length; i++) {
-                 retval += certData[i] * i;
+            bytf[] dfrtDbtb = tiis.gftEndodfd();
+            for (int i = 1; i < dfrtDbtb.lfngti; i++) {
+                 rftvbl += dfrtDbtb[i] * i;
             }
-            return (retval);
-        } catch (CertificateException e) {
-            return (retval);
+            rfturn (rftvbl);
+        } dbtdi (CfrtifidbtfExdfption f) {
+            rfturn (rftvbl);
         }
     }
 
     /**
-     * Returns the encoded form of this certificate. It is
-     * assumed that each certificate type would have only a single
-     * form of encoding; for example, X.509 certificates would
-     * be encoded as ASN.1 DER.
+     * Rfturns tif fndodfd form of tiis dfrtifidbtf. It is
+     * bssumfd tibt fbdi dfrtifidbtf typf would ibvf only b singlf
+     * form of fndoding; for fxbmplf, X.509 dfrtifidbtfs would
+     * bf fndodfd bs ASN.1 DER.
      *
-     * @return encoded form of this certificate
-     * @exception CertificateEncodingException on internal certificate
-     *            encoding failure
+     * @rfturn fndodfd form of tiis dfrtifidbtf
+     * @fxdfption CfrtifidbtfEndodingExdfption on intfrnbl dfrtifidbtf
+     *            fndoding fbilurf
      */
-    public abstract byte[] getEncoded() throws CertificateEncodingException;
+    publid bbstrbdt bytf[] gftEndodfd() tirows CfrtifidbtfEndodingExdfption;
 
     /**
-     * Verifies that this certificate was signed using the
-     * private key that corresponds to the specified public key.
+     * Vfrififs tibt tiis dfrtifidbtf wbs signfd using tif
+     * privbtf kfy tibt dorrfsponds to tif spfdififd publid kfy.
      *
-     * @param key the PublicKey used to carry out the verification.
+     * @pbrbm kfy tif PublidKfy usfd to dbrry out tif vfrifidbtion.
      *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception NoSuchProviderException if there's no default provider.
-     * @exception SignatureException on signature errors.
-     * @exception CertificateException on encoding errors.
+     * @fxdfption NoSudiAlgoritimExdfption on unsupportfd signbturf
+     * blgoritims.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudiProvidfrExdfption if tifrf's no dffbult providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CfrtifidbtfExdfption on fndoding frrors.
      */
-    public abstract void verify(PublicKey key)
-        throws CertificateException, NoSuchAlgorithmException,
-        InvalidKeyException, NoSuchProviderException,
-        SignatureException;
+    publid bbstrbdt void vfrify(PublidKfy kfy)
+        tirows CfrtifidbtfExdfption, NoSudiAlgoritimExdfption,
+        InvblidKfyExdfption, NoSudiProvidfrExdfption,
+        SignbturfExdfption;
 
     /**
-     * Verifies that this certificate was signed using the
-     * private key that corresponds to the specified public key.
-     * This method uses the signature verification engine
-     * supplied by the specified provider.
+     * Vfrififs tibt tiis dfrtifidbtf wbs signfd using tif
+     * privbtf kfy tibt dorrfsponds to tif spfdififd publid kfy.
+     * Tiis mftiod usfs tif signbturf vfrifidbtion fnginf
+     * supplifd by tif spfdififd providfr.
      *
-     * @param key the PublicKey used to carry out the verification.
-     * @param sigProvider the name of the signature provider.
-     * @exception NoSuchAlgorithmException on unsupported signature algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception NoSuchProviderException on incorrect provider.
-     * @exception SignatureException on signature errors.
-     * @exception CertificateException on encoding errors.
+     * @pbrbm kfy tif PublidKfy usfd to dbrry out tif vfrifidbtion.
+     * @pbrbm sigProvidfr tif nbmf of tif signbturf providfr.
+     * @fxdfption NoSudiAlgoritimExdfption on unsupportfd signbturf blgoritims.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudiProvidfrExdfption on indorrfdt providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CfrtifidbtfExdfption on fndoding frrors.
      */
-    public abstract void verify(PublicKey key, String sigProvider)
-        throws CertificateException, NoSuchAlgorithmException,
-        InvalidKeyException, NoSuchProviderException,
-        SignatureException;
+    publid bbstrbdt void vfrify(PublidKfy kfy, String sigProvidfr)
+        tirows CfrtifidbtfExdfption, NoSudiAlgoritimExdfption,
+        InvblidKfyExdfption, NoSudiProvidfrExdfption,
+        SignbturfExdfption;
 
     /**
-     * Returns a string representation of this certificate.
+     * Rfturns b string rfprfsfntbtion of tiis dfrtifidbtf.
      *
-     * @return a string representation of this certificate.
+     * @rfturn b string rfprfsfntbtion of tiis dfrtifidbtf.
      */
-    public abstract String toString();
+    publid bbstrbdt String toString();
 
     /**
-     * Gets the public key from this certificate.
+     * Gfts tif publid kfy from tiis dfrtifidbtf.
      *
-     * @return the public key.
+     * @rfturn tif publid kfy.
      */
-    public abstract PublicKey getPublicKey();
+    publid bbstrbdt PublidKfy gftPublidKfy();
 }

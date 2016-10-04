@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.ThreadInfo;
-import java.lang.management.MonitorInfo;
-import java.lang.management.LockInfo;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
-import javax.management.openmbean.OpenType;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.MonitorInfo;
+import jbvb.lbng.mbnbgfmfnt.LodkInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
 
 /**
- * A CompositeData for ThreadInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositfDbtb for TirfbdInfo for tif lodbl mbnbgfmfnt support.
+ * Tiis dlbss bvoids tif pfrformbndf pfnblty pbid to tif
+ * donstrudtion of b CompositfDbtb usf in tif lodbl dbsf.
  */
-public class ThreadInfoCompositeData extends LazyCompositeData {
-    private final ThreadInfo threadInfo;
-    private final CompositeData cdata;
-    private final boolean currentVersion;
+publid dlbss TirfbdInfoCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl TirfbdInfo tirfbdInfo;
+    privbtf finbl CompositfDbtb ddbtb;
+    privbtf finbl boolfbn durrfntVfrsion;
 
-    private ThreadInfoCompositeData(ThreadInfo ti) {
-        this.threadInfo = ti;
-        this.currentVersion = true;
-        this.cdata = null;
+    privbtf TirfbdInfoCompositfDbtb(TirfbdInfo ti) {
+        tiis.tirfbdInfo = ti;
+        tiis.durrfntVfrsion = truf;
+        tiis.ddbtb = null;
     }
 
-    private ThreadInfoCompositeData(CompositeData cd) {
-        this.threadInfo = null;
-        this.currentVersion = ThreadInfoCompositeData.isCurrentVersion(cd);
-        this.cdata = cd;
+    privbtf TirfbdInfoCompositfDbtb(CompositfDbtb dd) {
+        tiis.tirfbdInfo = null;
+        tiis.durrfntVfrsion = TirfbdInfoCompositfDbtb.isCurrfntVfrsion(dd);
+        tiis.ddbtb = dd;
     }
 
-    public ThreadInfo getThreadInfo() {
-        return threadInfo;
+    publid TirfbdInfo gftTirfbdInfo() {
+        rfturn tirfbdInfo;
     }
 
-    public boolean isCurrentVersion() {
-        return currentVersion;
+    publid boolfbn isCurrfntVfrsion() {
+        rfturn durrfntVfrsion;
     }
 
-    public static ThreadInfoCompositeData getInstance(CompositeData cd) {
-        validateCompositeData(cd);
-        return new ThreadInfoCompositeData(cd);
+    publid stbtid TirfbdInfoCompositfDbtb gftInstbndf(CompositfDbtb dd) {
+        vblidbtfCompositfDbtb(dd);
+        rfturn nfw TirfbdInfoCompositfDbtb(dd);
     }
 
-    public static CompositeData toCompositeData(ThreadInfo ti) {
-        ThreadInfoCompositeData ticd = new ThreadInfoCompositeData(ti);
-        return ticd.getCompositeData();
+    publid stbtid CompositfDbtb toCompositfDbtb(TirfbdInfo ti) {
+        TirfbdInfoCompositfDbtb tidd = nfw TirfbdInfoCompositfDbtb(ti);
+        rfturn tidd.gftCompositfDbtb();
     }
 
-    protected CompositeData getCompositeData() {
-        // Convert StackTraceElement[] to CompositeData[]
-        StackTraceElement[] stackTrace = threadInfo.getStackTrace();
-        CompositeData[] stackTraceData =
-            new CompositeData[stackTrace.length];
-        for (int i = 0; i < stackTrace.length; i++) {
-            StackTraceElement ste = stackTrace[i];
-            stackTraceData[i] = StackTraceElementCompositeData.toCompositeData(ste);
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
+        // Convfrt StbdkTrbdfElfmfnt[] to CompositfDbtb[]
+        StbdkTrbdfElfmfnt[] stbdkTrbdf = tirfbdInfo.gftStbdkTrbdf();
+        CompositfDbtb[] stbdkTrbdfDbtb =
+            nfw CompositfDbtb[stbdkTrbdf.lfngti];
+        for (int i = 0; i < stbdkTrbdf.lfngti; i++) {
+            StbdkTrbdfElfmfnt stf = stbdkTrbdf[i];
+            stbdkTrbdfDbtb[i] = StbdkTrbdfElfmfntCompositfDbtb.toCompositfDbtb(stf);
         }
 
-        // Convert MonitorInfo[] and LockInfo[] to CompositeData[]
-        CompositeData lockInfoData =
-            LockInfoCompositeData.toCompositeData(threadInfo.getLockInfo());
+        // Convfrt MonitorInfo[] bnd LodkInfo[] to CompositfDbtb[]
+        CompositfDbtb lodkInfoDbtb =
+            LodkInfoCompositfDbtb.toCompositfDbtb(tirfbdInfo.gftLodkInfo());
 
-        // Convert LockInfo[] and MonitorInfo[] to CompositeData[]
-        LockInfo[] lockedSyncs = threadInfo.getLockedSynchronizers();
-        CompositeData[] lockedSyncsData =
-            new CompositeData[lockedSyncs.length];
-        for (int i = 0; i < lockedSyncs.length; i++) {
-            LockInfo li = lockedSyncs[i];
-            lockedSyncsData[i] = LockInfoCompositeData.toCompositeData(li);
+        // Convfrt LodkInfo[] bnd MonitorInfo[] to CompositfDbtb[]
+        LodkInfo[] lodkfdSynds = tirfbdInfo.gftLodkfdSyndironizfrs();
+        CompositfDbtb[] lodkfdSyndsDbtb =
+            nfw CompositfDbtb[lodkfdSynds.lfngti];
+        for (int i = 0; i < lodkfdSynds.lfngti; i++) {
+            LodkInfo li = lodkfdSynds[i];
+            lodkfdSyndsDbtb[i] = LodkInfoCompositfDbtb.toCompositfDbtb(li);
         }
 
-        MonitorInfo[] lockedMonitors = threadInfo.getLockedMonitors();
-        CompositeData[] lockedMonitorsData =
-            new CompositeData[lockedMonitors.length];
-        for (int i = 0; i < lockedMonitors.length; i++) {
-            MonitorInfo mi = lockedMonitors[i];
-            lockedMonitorsData[i] = MonitorInfoCompositeData.toCompositeData(mi);
+        MonitorInfo[] lodkfdMonitors = tirfbdInfo.gftLodkfdMonitors();
+        CompositfDbtb[] lodkfdMonitorsDbtb =
+            nfw CompositfDbtb[lodkfdMonitors.lfngti];
+        for (int i = 0; i < lodkfdMonitors.lfngti; i++) {
+            MonitorInfo mi = lodkfdMonitors[i];
+            lodkfdMonitorsDbtb[i] = MonitorInfoCompositfDbtb.toCompositfDbtb(mi);
         }
 
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // threadInfoItemNames!
-        final Object[] threadInfoItemValues = {
-            threadInfo.getThreadId(),
-            threadInfo.getThreadName(),
-            threadInfo.getThreadState().name(),
-            threadInfo.getBlockedTime(),
-            threadInfo.getBlockedCount(),
-            threadInfo.getWaitedTime(),
-            threadInfo.getWaitedCount(),
-            lockInfoData,
-            threadInfo.getLockName(),
-            threadInfo.getLockOwnerId(),
-            threadInfo.getLockOwnerName(),
-            stackTraceData,
-                threadInfo.isSuspended(),
-                threadInfo.isInNative(),
-            lockedMonitorsData,
-            lockedSyncsData,
+        // tirfbdInfoItfmNbmfs!
+        finbl Objfdt[] tirfbdInfoItfmVblufs = {
+            tirfbdInfo.gftTirfbdId(),
+            tirfbdInfo.gftTirfbdNbmf(),
+            tirfbdInfo.gftTirfbdStbtf().nbmf(),
+            tirfbdInfo.gftBlodkfdTimf(),
+            tirfbdInfo.gftBlodkfdCount(),
+            tirfbdInfo.gftWbitfdTimf(),
+            tirfbdInfo.gftWbitfdCount(),
+            lodkInfoDbtb,
+            tirfbdInfo.gftLodkNbmf(),
+            tirfbdInfo.gftLodkOwnfrId(),
+            tirfbdInfo.gftLodkOwnfrNbmf(),
+            stbdkTrbdfDbtb,
+                tirfbdInfo.isSuspfndfd(),
+                tirfbdInfo.isInNbtivf(),
+            lodkfdMonitorsDbtb,
+            lodkfdSyndsDbtb,
         };
 
         try {
-            return new CompositeDataSupport(threadInfoCompositeType,
-                                            threadInfoItemNames,
-                                            threadInfoItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            rfturn nfw CompositfDbtbSupport(tirfbdInfoCompositfTypf,
+                                            tirfbdInfoItfmNbmfs,
+                                            tirfbdInfoItfmVblufs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    // Attribute names
-    private static final String THREAD_ID       = "threadId";
-    private static final String THREAD_NAME     = "threadName";
-    private static final String THREAD_STATE    = "threadState";
-    private static final String BLOCKED_TIME    = "blockedTime";
-    private static final String BLOCKED_COUNT   = "blockedCount";
-    private static final String WAITED_TIME     = "waitedTime";
-    private static final String WAITED_COUNT    = "waitedCount";
-    private static final String LOCK_INFO       = "lockInfo";
-    private static final String LOCK_NAME       = "lockName";
-    private static final String LOCK_OWNER_ID   = "lockOwnerId";
-    private static final String LOCK_OWNER_NAME = "lockOwnerName";
-    private static final String STACK_TRACE     = "stackTrace";
-    private static final String SUSPENDED       = "suspended";
-    private static final String IN_NATIVE       = "inNative";
-    private static final String LOCKED_MONITORS = "lockedMonitors";
-    private static final String LOCKED_SYNCS    = "lockedSynchronizers";
+    // Attributf nbmfs
+    privbtf stbtid finbl String THREAD_ID       = "tirfbdId";
+    privbtf stbtid finbl String THREAD_NAME     = "tirfbdNbmf";
+    privbtf stbtid finbl String THREAD_STATE    = "tirfbdStbtf";
+    privbtf stbtid finbl String BLOCKED_TIME    = "blodkfdTimf";
+    privbtf stbtid finbl String BLOCKED_COUNT   = "blodkfdCount";
+    privbtf stbtid finbl String WAITED_TIME     = "wbitfdTimf";
+    privbtf stbtid finbl String WAITED_COUNT    = "wbitfdCount";
+    privbtf stbtid finbl String LOCK_INFO       = "lodkInfo";
+    privbtf stbtid finbl String LOCK_NAME       = "lodkNbmf";
+    privbtf stbtid finbl String LOCK_OWNER_ID   = "lodkOwnfrId";
+    privbtf stbtid finbl String LOCK_OWNER_NAME = "lodkOwnfrNbmf";
+    privbtf stbtid finbl String STACK_TRACE     = "stbdkTrbdf";
+    privbtf stbtid finbl String SUSPENDED       = "suspfndfd";
+    privbtf stbtid finbl String IN_NATIVE       = "inNbtivf";
+    privbtf stbtid finbl String LOCKED_MONITORS = "lodkfdMonitors";
+    privbtf stbtid finbl String LOCKED_SYNCS    = "lodkfdSyndironizfrs";
 
-    private static final String[] threadInfoItemNames = {
+    privbtf stbtid finbl String[] tirfbdInfoItfmNbmfs = {
         THREAD_ID,
         THREAD_NAME,
         THREAD_STATE,
@@ -173,252 +173,252 @@ public class ThreadInfoCompositeData extends LazyCompositeData {
         LOCKED_SYNCS,
     };
 
-    // New attributes added in 6.0 ThreadInfo
-    private static final String[] threadInfoV6Attributes = {
+    // Nfw bttributfs bddfd in 6.0 TirfbdInfo
+    privbtf stbtid finbl String[] tirfbdInfoV6Attributfs = {
         LOCK_INFO,
         LOCKED_MONITORS,
         LOCKED_SYNCS,
     };
 
-    // Current version of ThreadInfo
-    private static final CompositeType threadInfoCompositeType;
-    // Previous version of ThreadInfo
-    private static final CompositeType threadInfoV5CompositeType;
-    private static final CompositeType lockInfoCompositeType;
-    static {
+    // Currfnt vfrsion of TirfbdInfo
+    privbtf stbtid finbl CompositfTypf tirfbdInfoCompositfTypf;
+    // Prfvious vfrsion of TirfbdInfo
+    privbtf stbtid finbl CompositfTypf tirfbdInfoV5CompositfTypf;
+    privbtf stbtid finbl CompositfTypf lodkInfoCompositfTypf;
+    stbtid {
         try {
-            threadInfoCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(ThreadInfo.class);
-            // Form a CompositeType for JDK 5.0 ThreadInfo version
-            String[] itemNames =
-                threadInfoCompositeType.keySet().toArray(new String[0]);
-            int numV5Attributes = threadInfoItemNames.length -
-                                      threadInfoV6Attributes.length;
-            String[] v5ItemNames = new String[numV5Attributes];
-            String[] v5ItemDescs = new String[numV5Attributes];
-            OpenType<?>[] v5ItemTypes = new OpenType<?>[numV5Attributes];
+            tirfbdInfoCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(TirfbdInfo.dlbss);
+            // Form b CompositfTypf for JDK 5.0 TirfbdInfo vfrsion
+            String[] itfmNbmfs =
+                tirfbdInfoCompositfTypf.kfySft().toArrby(nfw String[0]);
+            int numV5Attributfs = tirfbdInfoItfmNbmfs.lfngti -
+                                      tirfbdInfoV6Attributfs.lfngti;
+            String[] v5ItfmNbmfs = nfw String[numV5Attributfs];
+            String[] v5ItfmDfsds = nfw String[numV5Attributfs];
+            OpfnTypf<?>[] v5ItfmTypfs = nfw OpfnTypf<?>[numV5Attributfs];
             int i = 0;
-            for (String n : itemNames) {
-                if (isV5Attribute(n)) {
-                    v5ItemNames[i] = n;
-                    v5ItemDescs[i] = threadInfoCompositeType.getDescription(n);
-                    v5ItemTypes[i] = threadInfoCompositeType.getType(n);
+            for (String n : itfmNbmfs) {
+                if (isV5Attributf(n)) {
+                    v5ItfmNbmfs[i] = n;
+                    v5ItfmDfsds[i] = tirfbdInfoCompositfTypf.gftDfsdription(n);
+                    v5ItfmTypfs[i] = tirfbdInfoCompositfTypf.gftTypf(n);
                     i++;
                 }
             }
 
-            threadInfoV5CompositeType =
-                new CompositeType("java.lang.management.ThreadInfo",
-                                  "J2SE 5.0 java.lang.management.ThreadInfo",
-                                  v5ItemNames,
-                                  v5ItemDescs,
-                                  v5ItemTypes);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            tirfbdInfoV5CompositfTypf =
+                nfw CompositfTypf("jbvb.lbng.mbnbgfmfnt.TirfbdInfo",
+                                  "J2SE 5.0 jbvb.lbng.mbnbgfmfnt.TirfbdInfo",
+                                  v5ItfmNbmfs,
+                                  v5ItfmDfsds,
+                                  v5ItfmTypfs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
 
-        // Each CompositeData object has its CompositeType associated
-        // with it.  So we can get the CompositeType representing LockInfo
-        // from a mapped CompositeData for any LockInfo object.
-        // Thus we construct a random LockInfo object and pass it
-        // to LockInfoCompositeData to do the conversion.
-        Object o = new Object();
-        LockInfo li = new LockInfo(o.getClass().getName(),
-                                   System.identityHashCode(o));
-        CompositeData cd = LockInfoCompositeData.toCompositeData(li);
-        lockInfoCompositeType = cd.getCompositeType();
+        // Ebdi CompositfDbtb objfdt ibs its CompositfTypf bssodibtfd
+        // witi it.  So wf dbn gft tif CompositfTypf rfprfsfnting LodkInfo
+        // from b mbppfd CompositfDbtb for bny LodkInfo objfdt.
+        // Tius wf donstrudt b rbndom LodkInfo objfdt bnd pbss it
+        // to LodkInfoCompositfDbtb to do tif donvfrsion.
+        Objfdt o = nfw Objfdt();
+        LodkInfo li = nfw LodkInfo(o.gftClbss().gftNbmf(),
+                                   Systfm.idfntityHbsiCodf(o));
+        CompositfDbtb dd = LodkInfoCompositfDbtb.toCompositfDbtb(li);
+        lodkInfoCompositfTypf = dd.gftCompositfTypf();
     }
 
-    private static boolean isV5Attribute(String itemName) {
-        for (String n : threadInfoV6Attributes) {
-            if (itemName.equals(n)) {
-                return false;
+    privbtf stbtid boolfbn isV5Attributf(String itfmNbmf) {
+        for (String n : tirfbdInfoV6Attributfs) {
+            if (itfmNbmf.fqubls(n)) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    public static boolean isCurrentVersion(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid boolfbn isCurrfntVfrsion(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        return isTypeMatched(threadInfoCompositeType, cd.getCompositeType());
+        rfturn isTypfMbtdifd(tirfbdInfoCompositfTypf, dd.gftCompositfTypf());
     }
 
-    public long threadId() {
-        return getLong(cdata, THREAD_ID);
+    publid long tirfbdId() {
+        rfturn gftLong(ddbtb, THREAD_ID);
     }
 
-    public String threadName() {
-        // The ThreadName item cannot be null so we check that
-        // it is present with a non-null value.
-        String name = getString(cdata, THREAD_NAME);
-        if (name == null) {
-            throw new IllegalArgumentException("Invalid composite data: " +
-                "Attribute " + THREAD_NAME + " has null value");
+    publid String tirfbdNbmf() {
+        // Tif TirfbdNbmf itfm dbnnot bf null so wf difdk tibt
+        // it is prfsfnt witi b non-null vbluf.
+        String nbmf = gftString(ddbtb, THREAD_NAME);
+        if (nbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid dompositf dbtb: " +
+                "Attributf " + THREAD_NAME + " ibs null vbluf");
         }
-        return name;
+        rfturn nbmf;
     }
 
-    public Thread.State threadState() {
-        return Thread.State.valueOf(getString(cdata, THREAD_STATE));
+    publid Tirfbd.Stbtf tirfbdStbtf() {
+        rfturn Tirfbd.Stbtf.vblufOf(gftString(ddbtb, THREAD_STATE));
     }
 
-    public long blockedTime() {
-        return getLong(cdata, BLOCKED_TIME);
+    publid long blodkfdTimf() {
+        rfturn gftLong(ddbtb, BLOCKED_TIME);
     }
 
-    public long blockedCount() {
-        return getLong(cdata, BLOCKED_COUNT);
+    publid long blodkfdCount() {
+        rfturn gftLong(ddbtb, BLOCKED_COUNT);
     }
 
-    public long waitedTime() {
-        return getLong(cdata, WAITED_TIME);
+    publid long wbitfdTimf() {
+        rfturn gftLong(ddbtb, WAITED_TIME);
     }
 
-    public long waitedCount() {
-        return getLong(cdata, WAITED_COUNT);
+    publid long wbitfdCount() {
+        rfturn gftLong(ddbtb, WAITED_COUNT);
     }
 
-    public String lockName() {
-        // The LockName and LockOwnerName can legitimately be null,
-        // we don't bother to check the value
-        return getString(cdata, LOCK_NAME);
+    publid String lodkNbmf() {
+        // Tif LodkNbmf bnd LodkOwnfrNbmf dbn lfgitimbtfly bf null,
+        // wf don't botifr to difdk tif vbluf
+        rfturn gftString(ddbtb, LOCK_NAME);
     }
 
-    public long lockOwnerId() {
-        return getLong(cdata, LOCK_OWNER_ID);
+    publid long lodkOwnfrId() {
+        rfturn gftLong(ddbtb, LOCK_OWNER_ID);
     }
 
-    public String lockOwnerName() {
-        return getString(cdata, LOCK_OWNER_NAME);
+    publid String lodkOwnfrNbmf() {
+        rfturn gftString(ddbtb, LOCK_OWNER_NAME);
     }
 
-    public boolean suspended() {
-        return getBoolean(cdata, SUSPENDED);
+    publid boolfbn suspfndfd() {
+        rfturn gftBoolfbn(ddbtb, SUSPENDED);
     }
 
-    public boolean inNative() {
-        return getBoolean(cdata, IN_NATIVE);
+    publid boolfbn inNbtivf() {
+        rfturn gftBoolfbn(ddbtb, IN_NATIVE);
     }
 
-    public StackTraceElement[] stackTrace() {
-        CompositeData[] stackTraceData =
-            (CompositeData[]) cdata.get(STACK_TRACE);
+    publid StbdkTrbdfElfmfnt[] stbdkTrbdf() {
+        CompositfDbtb[] stbdkTrbdfDbtb =
+            (CompositfDbtb[]) ddbtb.gft(STACK_TRACE);
 
-        // The StackTrace item cannot be null, but if it is we will get
-        // a NullPointerException when we ask for its length.
-        StackTraceElement[] stackTrace =
-            new StackTraceElement[stackTraceData.length];
-        for (int i = 0; i < stackTraceData.length; i++) {
-            CompositeData cdi = stackTraceData[i];
-            stackTrace[i] = StackTraceElementCompositeData.from(cdi);
+        // Tif StbdkTrbdf itfm dbnnot bf null, but if it is wf will gft
+        // b NullPointfrExdfption wifn wf bsk for its lfngti.
+        StbdkTrbdfElfmfnt[] stbdkTrbdf =
+            nfw StbdkTrbdfElfmfnt[stbdkTrbdfDbtb.lfngti];
+        for (int i = 0; i < stbdkTrbdfDbtb.lfngti; i++) {
+            CompositfDbtb ddi = stbdkTrbdfDbtb[i];
+            stbdkTrbdf[i] = StbdkTrbdfElfmfntCompositfDbtb.from(ddi);
         }
-        return stackTrace;
+        rfturn stbdkTrbdf;
     }
 
-    // 6.0 new attributes
-    public LockInfo lockInfo() {
-        CompositeData lockInfoData = (CompositeData) cdata.get(LOCK_INFO);
-        return LockInfo.from(lockInfoData);
+    // 6.0 nfw bttributfs
+    publid LodkInfo lodkInfo() {
+        CompositfDbtb lodkInfoDbtb = (CompositfDbtb) ddbtb.gft(LOCK_INFO);
+        rfturn LodkInfo.from(lodkInfoDbtb);
     }
 
-    public MonitorInfo[] lockedMonitors() {
-        CompositeData[] lockedMonitorsData =
-            (CompositeData[]) cdata.get(LOCKED_MONITORS);
+    publid MonitorInfo[] lodkfdMonitors() {
+        CompositfDbtb[] lodkfdMonitorsDbtb =
+            (CompositfDbtb[]) ddbtb.gft(LOCKED_MONITORS);
 
-        // The LockedMonitors item cannot be null, but if it is we will get
-        // a NullPointerException when we ask for its length.
+        // Tif LodkfdMonitors itfm dbnnot bf null, but if it is wf will gft
+        // b NullPointfrExdfption wifn wf bsk for its lfngti.
         MonitorInfo[] monitors =
-            new MonitorInfo[lockedMonitorsData.length];
-        for (int i = 0; i < lockedMonitorsData.length; i++) {
-            CompositeData cdi = lockedMonitorsData[i];
-            monitors[i] = MonitorInfo.from(cdi);
+            nfw MonitorInfo[lodkfdMonitorsDbtb.lfngti];
+        for (int i = 0; i < lodkfdMonitorsDbtb.lfngti; i++) {
+            CompositfDbtb ddi = lodkfdMonitorsDbtb[i];
+            monitors[i] = MonitorInfo.from(ddi);
         }
-        return monitors;
+        rfturn monitors;
     }
 
-    public LockInfo[] lockedSynchronizers() {
-        CompositeData[] lockedSyncsData =
-            (CompositeData[]) cdata.get(LOCKED_SYNCS);
+    publid LodkInfo[] lodkfdSyndironizfrs() {
+        CompositfDbtb[] lodkfdSyndsDbtb =
+            (CompositfDbtb[]) ddbtb.gft(LOCKED_SYNCS);
 
-        // The LockedSynchronizers item cannot be null, but if it is we will
-        // get a NullPointerException when we ask for its length.
-        LockInfo[] locks = new LockInfo[lockedSyncsData.length];
-        for (int i = 0; i < lockedSyncsData.length; i++) {
-            CompositeData cdi = lockedSyncsData[i];
-            locks[i] = LockInfo.from(cdi);
+        // Tif LodkfdSyndironizfrs itfm dbnnot bf null, but if it is wf will
+        // gft b NullPointfrExdfption wifn wf bsk for its lfngti.
+        LodkInfo[] lodks = nfw LodkInfo[lodkfdSyndsDbtb.lfngti];
+        for (int i = 0; i < lodkfdSyndsDbtb.lfngti; i++) {
+            CompositfDbtb ddi = lodkfdSyndsDbtb[i];
+            lodks[i] = LodkInfo.from(ddi);
         }
-        return locks;
+        rfturn lodks;
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbtf if tif input CompositfDbtb ibs tif fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs witi fxpfdtfd
+     * nbmfs bnd typfs).
      */
-    public static void validateCompositeData(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        CompositeType type = cd.getCompositeType();
-        boolean currentVersion = true;
-        if (!isTypeMatched(threadInfoCompositeType, type)) {
-            currentVersion = false;
-            // check if cd is an older version
-            if (!isTypeMatched(threadInfoV5CompositeType, type)) {
-                throw new IllegalArgumentException(
-                    "Unexpected composite type for ThreadInfo");
+        CompositfTypf typf = dd.gftCompositfTypf();
+        boolfbn durrfntVfrsion = truf;
+        if (!isTypfMbtdifd(tirfbdInfoCompositfTypf, typf)) {
+            durrfntVfrsion = fblsf;
+            // difdk if dd is bn oldfr vfrsion
+            if (!isTypfMbtdifd(tirfbdInfoV5CompositfTypf, typf)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Unfxpfdtfd dompositf typf for TirfbdInfo");
             }
         }
 
-        CompositeData[] stackTraceData =
-            (CompositeData[]) cd.get(STACK_TRACE);
-        if (stackTraceData == null) {
-            throw new IllegalArgumentException(
-                "StackTraceElement[] is missing");
+        CompositfDbtb[] stbdkTrbdfDbtb =
+            (CompositfDbtb[]) dd.gft(STACK_TRACE);
+        if (stbdkTrbdfDbtb == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "StbdkTrbdfElfmfnt[] is missing");
         }
-        if (stackTraceData.length > 0) {
-            StackTraceElementCompositeData.validateCompositeData(stackTraceData[0]);
+        if (stbdkTrbdfDbtb.lfngti > 0) {
+            StbdkTrbdfElfmfntCompositfDbtb.vblidbtfCompositfDbtb(stbdkTrbdfDbtb[0]);
         }
 
-        // validate v6 attributes
-        if (currentVersion) {
-            CompositeData li = (CompositeData) cd.get(LOCK_INFO);
+        // vblidbtf v6 bttributfs
+        if (durrfntVfrsion) {
+            CompositfDbtb li = (CompositfDbtb) dd.gft(LOCK_INFO);
             if (li != null) {
-                if (!isTypeMatched(lockInfoCompositeType,
-                                   li.getCompositeType())) {
-                    throw new IllegalArgumentException(
-                        "Unexpected composite type for \"" +
-                        LOCK_INFO + "\" attribute.");
+                if (!isTypfMbtdifd(lodkInfoCompositfTypf,
+                                   li.gftCompositfTypf())) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "Unfxpfdtfd dompositf typf for \"" +
+                        LOCK_INFO + "\" bttributf.");
                 }
             }
 
-            CompositeData[] lms = (CompositeData[]) cd.get(LOCKED_MONITORS);
+            CompositfDbtb[] lms = (CompositfDbtb[]) dd.gft(LOCKED_MONITORS);
             if (lms == null) {
-                throw new IllegalArgumentException("MonitorInfo[] is null");
+                tirow nfw IllfgblArgumfntExdfption("MonitorInfo[] is null");
             }
-            if (lms.length > 0) {
-                MonitorInfoCompositeData.validateCompositeData(lms[0]);
+            if (lms.lfngti > 0) {
+                MonitorInfoCompositfDbtb.vblidbtfCompositfDbtb(lms[0]);
             }
 
-            CompositeData[] lsyncs = (CompositeData[]) cd.get(LOCKED_SYNCS);
-            if (lsyncs == null) {
-                throw new IllegalArgumentException("LockInfo[] is null");
+            CompositfDbtb[] lsynds = (CompositfDbtb[]) dd.gft(LOCKED_SYNCS);
+            if (lsynds == null) {
+                tirow nfw IllfgblArgumfntExdfption("LodkInfo[] is null");
             }
-            if (lsyncs.length > 0) {
-                if (!isTypeMatched(lockInfoCompositeType,
-                                   lsyncs[0].getCompositeType())) {
-                    throw new IllegalArgumentException(
-                        "Unexpected composite type for \"" +
-                        LOCKED_SYNCS + "\" attribute.");
+            if (lsynds.lfngti > 0) {
+                if (!isTypfMbtdifd(lodkInfoCompositfTypf,
+                                   lsynds[0].gftCompositfTypf())) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "Unfxpfdtfd dompositf typf for \"" +
+                        LOCKED_SYNCS + "\" bttributf.");
                 }
             }
 
         }
     }
 
-    private static final long serialVersionUID = 2464378539119753175L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2464378539119753175L;
 }

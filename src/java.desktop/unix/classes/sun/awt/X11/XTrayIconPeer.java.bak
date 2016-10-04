@@ -1,372 +1,372 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.TrayIconPeer;
-import sun.awt.*;
-import java.awt.image.*;
-import java.text.BreakIterator;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.lang.reflect.InvocationTargetException;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.TrbyIdonPffr;
+import sun.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import sun.util.logging.PlbtformLoggfr;
 
-public class XTrayIconPeer implements TrayIconPeer,
-       InfoWindow.Balloon.LiveArguments,
-       InfoWindow.Tooltip.LiveArguments
+publid dlbss XTrbyIdonPffr implfmfnts TrbyIdonPffr,
+       InfoWindow.Bblloon.LivfArgumfnts,
+       InfoWindow.Tooltip.LivfArgumfnts
 {
-    private static final PlatformLogger ctrLog = PlatformLogger.getLogger("sun.awt.X11.XTrayIconPeer.centering");
+    privbtf stbtid finbl PlbtformLoggfr dtrLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XTrbyIdonPffr.dfntfring");
 
-    TrayIcon target;
-    TrayIconEventProxy eventProxy;
-    XTrayIconEmbeddedFrame eframe;
-    TrayIconCanvas canvas;
-    InfoWindow.Balloon balloon;
+    TrbyIdon tbrgft;
+    TrbyIdonEvfntProxy fvfntProxy;
+    XTrbyIdonEmbfddfdFrbmf ffrbmf;
+    TrbyIdonCbnvbs dbnvbs;
+    InfoWindow.Bblloon bblloon;
     InfoWindow.Tooltip tooltip;
-    PopupMenu popup;
+    PopupMfnu popup;
     String tooltipString;
-    boolean isTrayIconDisplayed;
-    long eframeParentID;
-    final XEventDispatcher parentXED, eframeXED;
+    boolfbn isTrbyIdonDisplbyfd;
+    long ffrbmfPbrfntID;
+    finbl XEvfntDispbtdifr pbrfntXED, ffrbmfXED;
 
-    static final XEventDispatcher dummyXED = new XEventDispatcher() {
-            public void dispatchEvent(XEvent ev) {}
+    stbtid finbl XEvfntDispbtdifr dummyXED = nfw XEvfntDispbtdifr() {
+            publid void dispbtdiEvfnt(XEvfnt fv) {}
         };
 
-    volatile boolean isDisposed;
+    volbtilf boolfbn isDisposfd;
 
-    boolean isParentWindowLocated;
+    boolfbn isPbrfntWindowLodbtfd;
     int old_x, old_y;
-    int ex_width, ex_height;
+    int fx_widti, fx_ifigit;
 
-    final static int TRAY_ICON_WIDTH = 24;
-    final static int TRAY_ICON_HEIGHT = 24;
+    finbl stbtid int TRAY_ICON_WIDTH = 24;
+    finbl stbtid int TRAY_ICON_HEIGHT = 24;
 
-    XTrayIconPeer(TrayIcon target)
-      throws AWTException
+    XTrbyIdonPffr(TrbyIdon tbrgft)
+      tirows AWTExdfption
     {
-        this.target = target;
+        tiis.tbrgft = tbrgft;
 
-        eventProxy = new TrayIconEventProxy(this);
+        fvfntProxy = nfw TrbyIdonEvfntProxy(tiis);
 
-        canvas = new TrayIconCanvas(target, TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT);
+        dbnvbs = nfw TrbyIdonCbnvbs(tbrgft, TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT);
 
-        eframe = new XTrayIconEmbeddedFrame();
+        ffrbmf = nfw XTrbyIdonEmbfddfdFrbmf();
 
-        eframe.setSize(TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT);
-        eframe.add(canvas);
+        ffrbmf.sftSizf(TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT);
+        ffrbmf.bdd(dbnvbs);
 
-        // Fix for 6317038: as EmbeddedFrame is instance of Frame, it is blocked
-        // by modal dialogs, but in the case of TrayIcon it shouldn't. So we
-        // set ModalExclusion property on it.
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
-                eframe.setModalExclusionType(Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
-                return null;
+        // Fix for 6317038: bs EmbfddfdFrbmf is instbndf of Frbmf, it is blodkfd
+        // by modbl diblogs, but in tif dbsf of TrbyIdon it siouldn't. So wf
+        // sft ModblExdlusion propfrty on it.
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                ffrbmf.sftModblExdlusionTypf(Diblog.ModblExdlusionTypf.TOOLKIT_EXCLUDE);
+                rfturn null;
             }
         });
 
 
-        if (XWM.getWMID() != XWM.METACITY_WM) {
-            parentXED = dummyXED; // We don't like to leave it 'null'.
+        if (XWM.gftWMID() != XWM.METACITY_WM) {
+            pbrfntXED = dummyXED; // Wf don't likf to lfbvf it 'null'.
 
-        } else {
-            parentXED = new XEventDispatcher() {
-                // It's executed under AWTLock.
-                public void dispatchEvent(XEvent ev) {
-                    if (isDisposed() || ev.get_type() != XConstants.ConfigureNotify) {
-                        return;
+        } flsf {
+            pbrfntXED = nfw XEvfntDispbtdifr() {
+                // It's fxfdutfd undfr AWTLodk.
+                publid void dispbtdiEvfnt(XEvfnt fv) {
+                    if (isDisposfd() || fv.gft_typf() != XConstbnts.ConfigurfNotify) {
+                        rfturn;
                     }
 
-                    XConfigureEvent ce = ev.get_xconfigure();
+                    XConfigurfEvfnt df = fv.gft_xdonfigurf();
 
-                    if (ctrLog.isLoggable(PlatformLogger.Level.FINE)) {
-                        ctrLog.fine("ConfigureNotify on parent of {0}: {1}x{2}+{3}+{4} (old: {5}+{6})",
-                                XTrayIconPeer.this, ce.get_width(), ce.get_height(),
-                                ce.get_x(), ce.get_y(), old_x, old_y);
+                    if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        dtrLog.finf("ConfigurfNotify on pbrfnt of {0}: {1}x{2}+{3}+{4} (old: {5}+{6})",
+                                XTrbyIdonPffr.tiis, df.gft_widti(), df.gft_ifigit(),
+                                df.gft_x(), df.gft_y(), old_x, old_y);
                     }
 
-                    // A workaround for Gnome/Metacity (it doesn't affect the behaviour on KDE).
-                    // On Metacity the EmbeddedFrame's parent window bounds are larger
-                    // than TrayIcon size required (that is we need a square but a rectangle
-                    // is provided by the Panel Notification Area). The parent's background color
-                    // differs from the Panel's one. To hide the background we resize parent
-                    // window so that it fits the EmbeddedFrame.
-                    // However due to resizing the parent window it loses centering in the Panel.
-                    // We center it when discovering that some of its side is of size greater
-                    // than the fixed value. Centering is being done by "X" (when the parent's width
-                    // is greater) and by "Y" (when the parent's height is greater).
+                    // A workbround for Gnomf/Mftbdity (it dofsn't bfffdt tif bfibviour on KDE).
+                    // On Mftbdity tif EmbfddfdFrbmf's pbrfnt window bounds brf lbrgfr
+                    // tibn TrbyIdon sizf rfquirfd (tibt is wf nffd b squbrf but b rfdtbnglf
+                    // is providfd by tif Pbnfl Notifidbtion Arfb). Tif pbrfnt's bbdkground dolor
+                    // difffrs from tif Pbnfl's onf. To iidf tif bbdkground wf rfsizf pbrfnt
+                    // window so tibt it fits tif EmbfddfdFrbmf.
+                    // Howfvfr duf to rfsizing tif pbrfnt window it losfs dfntfring in tif Pbnfl.
+                    // Wf dfntfr it wifn disdovfring tibt somf of its sidf is of sizf grfbtfr
+                    // tibn tif fixfd vbluf. Cfntfring is bfing donf by "X" (wifn tif pbrfnt's widti
+                    // is grfbtfr) bnd by "Y" (wifn tif pbrfnt's ifigit is grfbtfr).
 
-                    // Actually we need this workaround until we could detect taskbar color.
+                    // Adtublly wf nffd tiis workbround until wf dould dftfdt tbskbbr dolor.
 
-                    if (ce.get_height() != TRAY_ICON_HEIGHT && ce.get_width() != TRAY_ICON_WIDTH) {
+                    if (df.gft_ifigit() != TRAY_ICON_HEIGHT && df.gft_widti() != TRAY_ICON_WIDTH) {
 
-                        // If both the height and the width differ from the fixed size then WM
-                        // must level at least one side to the fixed size. For some reason it may take
-                        // a few hops (even after reparenting) and we have to skip the intermediate ones.
-                        if (ctrLog.isLoggable(PlatformLogger.Level.FINE)) {
-                            ctrLog.fine("ConfigureNotify on parent of {0}. Skipping as intermediate resizing.",
-                                    XTrayIconPeer.this);
+                        // If boti tif ifigit bnd tif widti difffr from tif fixfd sizf tifn WM
+                        // must lfvfl bt lfbst onf sidf to tif fixfd sizf. For somf rfbson it mby tbkf
+                        // b ffw iops (fvfn bftfr rfpbrfnting) bnd wf ibvf to skip tif intfrmfdibtf onfs.
+                        if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Skipping bs intfrmfdibtf rfsizing.",
+                                    XTrbyIdonPffr.tiis);
                         }
-                        return;
+                        rfturn;
 
-                    } else if (ce.get_height() > TRAY_ICON_HEIGHT) {
+                    } flsf if (df.gft_ifigit() > TRAY_ICON_HEIGHT) {
 
-                        if (ctrLog.isLoggable(PlatformLogger.Level.FINE)) {
-                            ctrLog.fine("ConfigureNotify on parent of {0}. Centering by \"Y\".",
-                                    XTrayIconPeer.this);
+                        if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Cfntfring by \"Y\".",
+                                    XTrbyIdonPffr.tiis);
                         }
 
-                        XlibWrapper.XMoveResizeWindow(XToolkit.getDisplay(), eframeParentID,
-                                                      ce.get_x(),
-                                                      ce.get_y()+ce.get_height()/2-TRAY_ICON_HEIGHT/2,
+                        XlibWrbppfr.XMovfRfsizfWindow(XToolkit.gftDisplby(), ffrbmfPbrfntID,
+                                                      df.gft_x(),
+                                                      df.gft_y()+df.gft_ifigit()/2-TRAY_ICON_HEIGHT/2,
                                                       TRAY_ICON_WIDTH,
                                                       TRAY_ICON_HEIGHT);
-                        ex_height = ce.get_height();
-                        ex_width = 0;
+                        fx_ifigit = df.gft_ifigit();
+                        fx_widti = 0;
 
-                    } else if (ce.get_width() > TRAY_ICON_WIDTH) {
+                    } flsf if (df.gft_widti() > TRAY_ICON_WIDTH) {
 
-                        if (ctrLog.isLoggable(PlatformLogger.Level.FINE)) {
-                            ctrLog.fine("ConfigureNotify on parent of {0}. Centering by \"X\".",
-                                    XTrayIconPeer.this);
+                        if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Cfntfring by \"X\".",
+                                    XTrbyIdonPffr.tiis);
                         }
 
-                        XlibWrapper.XMoveResizeWindow(XToolkit.getDisplay(), eframeParentID,
-                                                      ce.get_x()+ce.get_width()/2 - TRAY_ICON_WIDTH/2,
-                                                      ce.get_y(),
+                        XlibWrbppfr.XMovfRfsizfWindow(XToolkit.gftDisplby(), ffrbmfPbrfntID,
+                                                      df.gft_x()+df.gft_widti()/2 - TRAY_ICON_WIDTH/2,
+                                                      df.gft_y(),
                                                       TRAY_ICON_WIDTH,
                                                       TRAY_ICON_HEIGHT);
-                        ex_width = ce.get_width();
-                        ex_height = 0;
+                        fx_widti = df.gft_widti();
+                        fx_ifigit = 0;
 
-                    } else if (isParentWindowLocated && ce.get_x() != old_x && ce.get_y() != old_y) {
-                        // If moving by both "X" and "Y".
-                        // When some tray icon gets removed from the tray, a Java icon may be repositioned.
-                        // In this case the parent window also lose centering. We have to restore it.
+                    } flsf if (isPbrfntWindowLodbtfd && df.gft_x() != old_x && df.gft_y() != old_y) {
+                        // If moving by boti "X" bnd "Y".
+                        // Wifn somf trby idon gfts rfmovfd from tif trby, b Jbvb idon mby bf rfpositionfd.
+                        // In tiis dbsf tif pbrfnt window blso losf dfntfring. Wf ibvf to rfstorf it.
 
-                        if (ex_height != 0) {
+                        if (fx_ifigit != 0) {
 
-                            if (ctrLog.isLoggable(PlatformLogger.Level.FINE)) {
-                                ctrLog.fine("ConfigureNotify on parent of {0}. Move detected. Centering by \"Y\".",
-                                        XTrayIconPeer.this);
+                            if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Movf dftfdtfd. Cfntfring by \"Y\".",
+                                        XTrbyIdonPffr.tiis);
                             }
 
-                            XlibWrapper.XMoveWindow(XToolkit.getDisplay(), eframeParentID,
-                                                    ce.get_x(),
-                                                    ce.get_y() + ex_height/2 - TRAY_ICON_HEIGHT/2);
+                            XlibWrbppfr.XMovfWindow(XToolkit.gftDisplby(), ffrbmfPbrfntID,
+                                                    df.gft_x(),
+                                                    df.gft_y() + fx_ifigit/2 - TRAY_ICON_HEIGHT/2);
 
-                        } else if (ex_width != 0) {
+                        } flsf if (fx_widti != 0) {
 
-                            if (ctrLog.isLoggable(PlatformLogger.Level.FINE)) {
-                                ctrLog.fine("ConfigureNotify on parent of {0}. Move detected. Centering by \"X\".",
-                                        XTrayIconPeer.this);
+                            if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Movf dftfdtfd. Cfntfring by \"X\".",
+                                        XTrbyIdonPffr.tiis);
                             }
 
-                            XlibWrapper.XMoveWindow(XToolkit.getDisplay(), eframeParentID,
-                                                    ce.get_x() + ex_width/2 - TRAY_ICON_WIDTH/2,
-                                                    ce.get_y());
-                        } else {
-                            if (ctrLog.isLoggable(PlatformLogger.Level.FINE)) {
-                                ctrLog.fine("ConfigureNotify on parent of {0}. Move detected. Skipping.",
-                                        XTrayIconPeer.this);
+                            XlibWrbppfr.XMovfWindow(XToolkit.gftDisplby(), ffrbmfPbrfntID,
+                                                    df.gft_x() + fx_widti/2 - TRAY_ICON_WIDTH/2,
+                                                    df.gft_y());
+                        } flsf {
+                            if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Movf dftfdtfd. Skipping.",
+                                        XTrbyIdonPffr.tiis);
                             }
                         }
                     }
-                    old_x = ce.get_x();
-                    old_y = ce.get_y();
-                    isParentWindowLocated = true;
+                    old_x = df.gft_x();
+                    old_y = df.gft_y();
+                    isPbrfntWindowLodbtfd = truf;
                 }
             };
         }
-        eframeXED = new XEventDispatcher() {
-                // It's executed under AWTLock.
-                XTrayIconPeer xtiPeer = XTrayIconPeer.this;
+        ffrbmfXED = nfw XEvfntDispbtdifr() {
+                // It's fxfdutfd undfr AWTLodk.
+                XTrbyIdonPffr xtiPffr = XTrbyIdonPffr.tiis;
 
-                public void dispatchEvent(XEvent ev) {
-                    if (isDisposed() || ev.get_type() != XConstants.ReparentNotify) {
-                        return;
+                publid void dispbtdiEvfnt(XEvfnt fv) {
+                    if (isDisposfd() || fv.gft_typf() != XConstbnts.RfpbrfntNotify) {
+                        rfturn;
                     }
 
-                    XReparentEvent re = ev.get_xreparent();
-                    eframeParentID = re.get_parent();
+                    XRfpbrfntEvfnt rf = fv.gft_xrfpbrfnt();
+                    ffrbmfPbrfntID = rf.gft_pbrfnt();
 
-                    if (eframeParentID == XToolkit.getDefaultRootWindow()) {
+                    if (ffrbmfPbrfntID == XToolkit.gftDffbultRootWindow()) {
 
-                        if (isTrayIconDisplayed) { // most likely Notification Area was removed
-                            SunToolkit.executeOnEventHandlerThread(xtiPeer.target, new Runnable() {
-                                    public void run() {
-                                        SystemTray.getSystemTray().remove(xtiPeer.target);
+                        if (isTrbyIdonDisplbyfd) { // most likfly Notifidbtion Arfb wbs rfmovfd
+                            SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(xtiPffr.tbrgft, nfw Runnbblf() {
+                                    publid void run() {
+                                        SystfmTrby.gftSystfmTrby().rfmovf(xtiPffr.tbrgft);
                                     }
                                 });
                         }
-                        return;
+                        rfturn;
                     }
 
-                    if (!isTrayIconDisplayed) {
-                        addXED(eframeParentID, parentXED, XConstants.StructureNotifyMask);
+                    if (!isTrbyIdonDisplbyfd) {
+                        bddXED(ffrbmfPbrfntID, pbrfntXED, XConstbnts.StrudturfNotifyMbsk);
 
-                        isTrayIconDisplayed = true;
-                        XToolkit.awtLockNotifyAll();
+                        isTrbyIdonDisplbyfd = truf;
+                        XToolkit.bwtLodkNotifyAll();
                     }
                 }
             };
 
-        addXED(getWindow(), eframeXED, XConstants.StructureNotifyMask);
+        bddXED(gftWindow(), ffrbmfXED, XConstbnts.StrudturfNotifyMbsk);
 
-        XSystemTrayPeer.getPeerInstance().addTrayIcon(this); // throws AWTException
+        XSystfmTrbyPffr.gftPffrInstbndf().bddTrbyIdon(tiis); // tirows AWTExdfption
 
-        // Wait till the EmbeddedFrame is reparented
-        long start = System.currentTimeMillis();
-        final long PERIOD = XToolkit.getTrayIconDisplayTimeout();
-        XToolkit.awtLock();
+        // Wbit till tif EmbfddfdFrbmf is rfpbrfntfd
+        long stbrt = Systfm.durrfntTimfMillis();
+        finbl long PERIOD = XToolkit.gftTrbyIdonDisplbyTimfout();
+        XToolkit.bwtLodk();
         try {
-            while (!isTrayIconDisplayed) {
+            wiilf (!isTrbyIdonDisplbyfd) {
                 try {
-                    XToolkit.awtLockWait(PERIOD);
-                } catch (InterruptedException e) {
-                    break;
+                    XToolkit.bwtLodkWbit(PERIOD);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    brfbk;
                 }
-                if (System.currentTimeMillis() - start > PERIOD) {
-                    break;
+                if (Systfm.durrfntTimfMillis() - stbrt > PERIOD) {
+                    brfbk;
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        // This is unlikely to happen.
-        if (!isTrayIconDisplayed || eframeParentID == 0 ||
-            eframeParentID == XToolkit.getDefaultRootWindow())
+        // Tiis is unlikfly to ibppfn.
+        if (!isTrbyIdonDisplbyfd || ffrbmfPbrfntID == 0 ||
+            ffrbmfPbrfntID == XToolkit.gftDffbultRootWindow())
         {
-            throw new AWTException("TrayIcon couldn't be displayed.");
+            tirow nfw AWTExdfption("TrbyIdon douldn't bf displbyfd.");
         }
 
-        eframe.setVisible(true);
-        updateImage();
+        ffrbmf.sftVisiblf(truf);
+        updbtfImbgf();
 
-        balloon = new InfoWindow.Balloon(eframe, target, this);
-        tooltip = new InfoWindow.Tooltip(eframe, target, this);
+        bblloon = nfw InfoWindow.Bblloon(ffrbmf, tbrgft, tiis);
+        tooltip = nfw InfoWindow.Tooltip(ffrbmf, tbrgft, tiis);
 
-        addListeners();
+        bddListfnfrs();
     }
 
-    public void dispose() {
-        if (SunToolkit.isDispatchThreadForAppContext(target)) {
-            disposeOnEDT();
-        } else {
+    publid void disposf() {
+        if (SunToolkit.isDispbtdiTirfbdForAppContfxt(tbrgft)) {
+            disposfOnEDT();
+        } flsf {
             try {
-                SunToolkit.executeOnEDTAndWait(target, new Runnable() {
-                        public void run() {
-                            disposeOnEDT();
+                SunToolkit.fxfdutfOnEDTAndWbit(tbrgft, nfw Runnbblf() {
+                        publid void run() {
+                            disposfOnEDT();
                         }
                     });
-            } catch (InterruptedException ie) {
-            } catch (InvocationTargetException ite) {}
+            } dbtdi (IntfrruptfdExdfption if) {
+            } dbtdi (InvodbtionTbrgftExdfption itf) {}
         }
     }
 
-    private void disposeOnEDT() {
-        // All actions that is to be synchronized with disposal
-        // should be executed either under AWTLock, or on EDT.
-        // isDisposed value must be checked.
-        XToolkit.awtLock();
-        isDisposed = true;
-        XToolkit.awtUnlock();
+    privbtf void disposfOnEDT() {
+        // All bdtions tibt is to bf syndironizfd witi disposbl
+        // siould bf fxfdutfd fitifr undfr AWTLodk, or on EDT.
+        // isDisposfd vbluf must bf difdkfd.
+        XToolkit.bwtLodk();
+        isDisposfd = truf;
+        XToolkit.bwtUnlodk();
 
-        removeXED(getWindow(), eframeXED);
-        removeXED(eframeParentID, parentXED);
-        eframe.realDispose();
-        balloon.dispose();
-        isTrayIconDisplayed = false;
-        XToolkit.targetDisposedPeer(target, this);
+        rfmovfXED(gftWindow(), ffrbmfXED);
+        rfmovfXED(ffrbmfPbrfntID, pbrfntXED);
+        ffrbmf.rfblDisposf();
+        bblloon.disposf();
+        isTrbyIdonDisplbyfd = fblsf;
+        XToolkit.tbrgftDisposfdPffr(tbrgft, tiis);
     }
 
-    public static void suppressWarningString(Window w) {
-        AWTAccessor.getWindowAccessor().setTrayIconWindow(w, true);
+    publid stbtid void supprfssWbrningString(Window w) {
+        AWTAddfssor.gftWindowAddfssor().sftTrbyIdonWindow(w, truf);
     }
 
-    public void setToolTip(String tooltip) {
+    publid void sftToolTip(String tooltip) {
         tooltipString = tooltip;
     }
 
-    public String getTooltipString() {
-        return tooltipString;
+    publid String gftTooltipString() {
+        rfturn tooltipString;
     }
 
-    public void updateImage() {
-        Runnable r = new Runnable() {
-                public void run() {
-                    canvas.updateImage(target.getImage());
+    publid void updbtfImbgf() {
+        Runnbblf r = nfw Runnbblf() {
+                publid void run() {
+                    dbnvbs.updbtfImbgf(tbrgft.gftImbgf());
                 }
             };
 
-        if (!SunToolkit.isDispatchThreadForAppContext(target)) {
-            SunToolkit.executeOnEventHandlerThread(target, r);
-        } else {
+        if (!SunToolkit.isDispbtdiTirfbdForAppContfxt(tbrgft)) {
+            SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, r);
+        } flsf {
             r.run();
         }
     }
 
-    public void displayMessage(String caption, String text, String messageType) {
-        Point loc = getLocationOnScreen();
-        Rectangle screen = eframe.getGraphicsConfiguration().getBounds();
+    publid void displbyMfssbgf(String dbption, String tfxt, String mfssbgfTypf) {
+        Point lod = gftLodbtionOnSdrffn();
+        Rfdtbnglf sdrffn = ffrbmf.gftGrbpiidsConfigurbtion().gftBounds();
 
-        // Check if the tray icon is in the bounds of a screen.
-        if (!(loc.x < screen.x || loc.x >= screen.x + screen.width ||
-              loc.y < screen.y || loc.y >= screen.y + screen.height))
+        // Cifdk if tif trby idon is in tif bounds of b sdrffn.
+        if (!(lod.x < sdrffn.x || lod.x >= sdrffn.x + sdrffn.widti ||
+              lod.y < sdrffn.y || lod.y >= sdrffn.y + sdrffn.ifigit))
         {
-            balloon.display(caption, text, messageType);
+            bblloon.displby(dbption, tfxt, mfssbgfTypf);
         }
     }
 
-    // It's synchronized with disposal by EDT.
-    public void showPopupMenu(int x, int y) {
-        if (isDisposed())
-            return;
+    // It's syndironizfd witi disposbl by EDT.
+    publid void siowPopupMfnu(int x, int y) {
+        if (isDisposfd())
+            rfturn;
 
-        assert SunToolkit.isDispatchThreadForAppContext(target);
+        bssfrt SunToolkit.isDispbtdiTirfbdForAppContfxt(tbrgft);
 
-        PopupMenu newPopup = target.getPopupMenu();
-        if (popup != newPopup) {
+        PopupMfnu nfwPopup = tbrgft.gftPopupMfnu();
+        if (popup != nfwPopup) {
             if (popup != null) {
-                eframe.remove(popup);
+                ffrbmf.rfmovf(popup);
             }
-            if (newPopup != null) {
-                eframe.add(newPopup);
+            if (nfwPopup != null) {
+                ffrbmf.bdd(nfwPopup);
             }
-            popup = newPopup;
+            popup = nfwPopup;
         }
 
         if (popup != null) {
-            Point loc = ((XBaseWindow)eframe.getPeer()).toLocal(new Point(x, y));
-            popup.show(eframe, loc.x, loc.y);
+            Point lod = ((XBbsfWindow)ffrbmf.gftPffr()).toLodbl(nfw Point(x, y));
+            popup.siow(ffrbmf, lod.x, lod.y);
         }
     }
 
@@ -375,257 +375,257 @@ public class XTrayIconPeer implements TrayIconPeer,
     // ******************************************************************
 
 
-    private void addXED(long window, XEventDispatcher xed, long mask) {
+    privbtf void bddXED(long window, XEvfntDispbtdifr xfd, long mbsk) {
         if (window == 0) {
-            return;
+            rfturn;
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XSelectInput(XToolkit.getDisplay(), window, mask);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), window, mbsk);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
-        XToolkit.addEventDispatcher(window, xed);
+        XToolkit.bddEvfntDispbtdifr(window, xfd);
     }
 
-    private void removeXED(long window, XEventDispatcher xed) {
+    privbtf void rfmovfXED(long window, XEvfntDispbtdifr xfd) {
         if (window == 0) {
-            return;
+            rfturn;
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XToolkit.removeEventDispatcher(window, xed);
-        } finally {
-            XToolkit.awtUnlock();
+            XToolkit.rfmovfEvfntDispbtdifr(window, xfd);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    // Private method for testing purposes.
-    private Point getLocationOnScreen() {
-        return eframe.getLocationOnScreen();
+    // Privbtf mftiod for tfsting purposfs.
+    privbtf Point gftLodbtionOnSdrffn() {
+        rfturn ffrbmf.gftLodbtionOnSdrffn();
     }
 
-    public Rectangle getBounds() {
-        Point loc = getLocationOnScreen();
-        return new Rectangle(loc.x, loc.y, loc.x + TRAY_ICON_WIDTH, loc.y + TRAY_ICON_HEIGHT);
+    publid Rfdtbnglf gftBounds() {
+        Point lod = gftLodbtionOnSdrffn();
+        rfturn nfw Rfdtbnglf(lod.x, lod.y, lod.x + TRAY_ICON_WIDTH, lod.y + TRAY_ICON_HEIGHT);
     }
 
-    void addListeners() {
-        canvas.addMouseListener(eventProxy);
-        canvas.addMouseMotionListener(eventProxy);
+    void bddListfnfrs() {
+        dbnvbs.bddMousfListfnfr(fvfntProxy);
+        dbnvbs.bddMousfMotionListfnfr(fvfntProxy);
     }
 
-    long getWindow() {
-        return ((XEmbeddedFramePeer)eframe.getPeer()).getWindow();
+    long gftWindow() {
+        rfturn ((XEmbfddfdFrbmfPffr)ffrbmf.gftPffr()).gftWindow();
     }
 
-    public boolean isDisposed() {
-        return isDisposed;
+    publid boolfbn isDisposfd() {
+        rfturn isDisposfd;
     }
 
-    public String getActionCommand() {
-        return target.getActionCommand();
+    publid String gftAdtionCommbnd() {
+        rfturn tbrgft.gftAdtionCommbnd();
     }
 
-    static class TrayIconEventProxy implements MouseListener, MouseMotionListener {
-        XTrayIconPeer xtiPeer;
+    stbtid dlbss TrbyIdonEvfntProxy implfmfnts MousfListfnfr, MousfMotionListfnfr {
+        XTrbyIdonPffr xtiPffr;
 
-        TrayIconEventProxy(XTrayIconPeer xtiPeer) {
-            this.xtiPeer = xtiPeer;
+        TrbyIdonEvfntProxy(XTrbyIdonPffr xtiPffr) {
+            tiis.xtiPffr = xtiPffr;
         }
 
-        public void handleEvent(MouseEvent e) {
-            //prevent DRAG events from being posted with TrayIcon source(CR 6565779)
-            if (e.getID() == MouseEvent.MOUSE_DRAGGED) {
-                return;
+        publid void ibndlfEvfnt(MousfEvfnt f) {
+            //prfvfnt DRAG fvfnts from bfing postfd witi TrbyIdon sourdf(CR 6565779)
+            if (f.gftID() == MousfEvfnt.MOUSE_DRAGGED) {
+                rfturn;
             }
 
-            // Event handling is synchronized with disposal by EDT.
-            if (xtiPeer.isDisposed()) {
-                return;
+            // Evfnt ibndling is syndironizfd witi disposbl by EDT.
+            if (xtiPffr.isDisposfd()) {
+                rfturn;
             }
-            Point coord = XBaseWindow.toOtherWindow(xtiPeer.getWindow(),
-                                                    XToolkit.getDefaultRootWindow(),
-                                                    e.getX(), e.getY());
+            Point doord = XBbsfWindow.toOtifrWindow(xtiPffr.gftWindow(),
+                                                    XToolkit.gftDffbultRootWindow(),
+                                                    f.gftX(), f.gftY());
 
-            if (e.isPopupTrigger()) {
-                xtiPeer.showPopupMenu(coord.x, coord.y);
+            if (f.isPopupTriggfr()) {
+                xtiPffr.siowPopupMfnu(doord.x, doord.y);
             }
 
-            e.translatePoint(coord.x - e.getX(), coord.y - e.getY());
-            // This is a hack in order to set non-Component source to MouseEvent
-            // instance.
-            // In some cases this could lead to unpredictable result (e.g. when
-            // other class tries to cast source field to Component).
-            // We already filter DRAG events out (CR 6565779).
-            e.setSource(xtiPeer.target);
-            XToolkit.postEvent(XToolkit.targetToAppContext(e.getSource()), e);
+            f.trbnslbtfPoint(doord.x - f.gftX(), doord.y - f.gftY());
+            // Tiis is b ibdk in ordfr to sft non-Componfnt sourdf to MousfEvfnt
+            // instbndf.
+            // In somf dbsfs tiis dould lfbd to unprfdidtbblf rfsult (f.g. wifn
+            // otifr dlbss trifs to dbst sourdf fifld to Componfnt).
+            // Wf blrfbdy filtfr DRAG fvfnts out (CR 6565779).
+            f.sftSourdf(xtiPffr.tbrgft);
+            XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(f.gftSourdf()), f);
         }
-        public void mouseClicked(MouseEvent e) {
-            if ((e.getClickCount() > 1 || xtiPeer.balloon.isVisible()) &&
-                e.getButton() == MouseEvent.BUTTON1)
+        publid void mousfClidkfd(MousfEvfnt f) {
+            if ((f.gftClidkCount() > 1 || xtiPffr.bblloon.isVisiblf()) &&
+                f.gftButton() == MousfEvfnt.BUTTON1)
             {
-                ActionEvent aev = new ActionEvent(xtiPeer.target, ActionEvent.ACTION_PERFORMED,
-                                                  xtiPeer.target.getActionCommand(), e.getWhen(),
-                                                  e.getModifiers());
-                XToolkit.postEvent(XToolkit.targetToAppContext(aev.getSource()), aev);
+                AdtionEvfnt bfv = nfw AdtionEvfnt(xtiPffr.tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                                  xtiPffr.tbrgft.gftAdtionCommbnd(), f.gftWifn(),
+                                                  f.gftModififrs());
+                XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(bfv.gftSourdf()), bfv);
             }
-            if (xtiPeer.balloon.isVisible()) {
-                xtiPeer.balloon.hide();
+            if (xtiPffr.bblloon.isVisiblf()) {
+                xtiPffr.bblloon.iidf();
             }
-            handleEvent(e);
+            ibndlfEvfnt(f);
         }
-        public void mouseEntered(MouseEvent e) {
-            xtiPeer.tooltip.enter();
-            handleEvent(e);
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            xtiPffr.tooltip.fntfr();
+            ibndlfEvfnt(f);
         }
-        public void mouseExited(MouseEvent e) {
-            xtiPeer.tooltip.exit();
-            handleEvent(e);
+        publid void mousfExitfd(MousfEvfnt f) {
+            xtiPffr.tooltip.fxit();
+            ibndlfEvfnt(f);
         }
-        public void mousePressed(MouseEvent e) {
-            handleEvent(e);
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            ibndlfEvfnt(f);
         }
-        public void mouseReleased(MouseEvent e) {
-            handleEvent(e);
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            ibndlfEvfnt(f);
         }
-        public void mouseDragged(MouseEvent e) {
-            handleEvent(e);
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            ibndlfEvfnt(f);
         }
-        public void mouseMoved(MouseEvent e) {
-            handleEvent(e);
+        publid void mousfMovfd(MousfEvfnt f) {
+            ibndlfEvfnt(f);
         }
     }
 
     // ***************************************
-    // Special embedded frame for tray icon
+    // Spfdibl fmbfddfd frbmf for trby idon
     // ***************************************
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private static class XTrayIconEmbeddedFrame extends XEmbeddedFrame {
-        public XTrayIconEmbeddedFrame(){
-            super(XToolkit.getDefaultRootWindow(), true, true);
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf stbtid dlbss XTrbyIdonEmbfddfdFrbmf fxtfnds XEmbfddfdFrbmf {
+        publid XTrbyIdonEmbfddfdFrbmf(){
+            supfr(XToolkit.gftDffbultRootWindow(), truf, truf);
         }
 
-        public boolean isUndecorated() {
-            return true;
+        publid boolfbn isUndfdorbtfd() {
+            rfturn truf;
         }
 
-        public boolean isResizable() {
-            return false;
+        publid boolfbn isRfsizbblf() {
+            rfturn fblsf;
         }
 
-        // embedded frame for tray icon shouldn't be disposed by anyone except tray icon
-        public void dispose(){
+        // fmbfddfd frbmf for trby idon siouldn't bf disposfd by bnyonf fxdfpt trby idon
+        publid void disposf(){
         }
 
-        public void realDispose(){
-            super.dispose();
+        publid void rfblDisposf(){
+            supfr.disposf();
         }
     };
 
     // ***************************************
-    // Classes for painting an image on canvas
+    // Clbssfs for pbinting bn imbgf on dbnvbs
     // ***************************************
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class TrayIconCanvas extends IconCanvas {
-        TrayIcon target;
-        boolean autosize;
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss TrbyIdonCbnvbs fxtfnds IdonCbnvbs {
+        TrbyIdon tbrgft;
+        boolfbn butosizf;
 
-        TrayIconCanvas(TrayIcon target, int width, int height) {
-            super(width, height);
-            this.target = target;
+        TrbyIdonCbnvbs(TrbyIdon tbrgft, int widti, int ifigit) {
+            supfr(widti, ifigit);
+            tiis.tbrgft = tbrgft;
         }
 
-        // Invoke on EDT.
-        protected void repaintImage(boolean doClear) {
-            boolean old_autosize = autosize;
-            autosize = target.isImageAutoSize();
+        // Invokf on EDT.
+        protfdtfd void rfpbintImbgf(boolfbn doClfbr) {
+            boolfbn old_butosizf = butosizf;
+            butosizf = tbrgft.isImbgfAutoSizf();
 
-            curW = autosize ? width : image.getWidth(observer);
-            curH = autosize ? height : image.getHeight(observer);
+            durW = butosizf ? widti : imbgf.gftWidti(obsfrvfr);
+            durH = butosizf ? ifigit : imbgf.gftHfigit(obsfrvfr);
 
-            super.repaintImage(doClear || (old_autosize != autosize));
+            supfr.rfpbintImbgf(doClfbr || (old_butosizf != butosizf));
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    public static class IconCanvas extends Canvas {
-        volatile Image image;
-        IconObserver observer;
-        int width, height;
-        int curW, curH;
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    publid stbtid dlbss IdonCbnvbs fxtfnds Cbnvbs {
+        volbtilf Imbgf imbgf;
+        IdonObsfrvfr obsfrvfr;
+        int widti, ifigit;
+        int durW, durH;
 
-        IconCanvas(int width, int height) {
-            this.width = curW = width;
-            this.height = curH = height;
+        IdonCbnvbs(int widti, int ifigit) {
+            tiis.widti = durW = widti;
+            tiis.ifigit = durH = ifigit;
         }
 
-        // Invoke on EDT.
-        public void updateImage(Image image) {
-            this.image = image;
-            if (observer == null) {
-                observer = new IconObserver();
+        // Invokf on EDT.
+        publid void updbtfImbgf(Imbgf imbgf) {
+            tiis.imbgf = imbgf;
+            if (obsfrvfr == null) {
+                obsfrvfr = nfw IdonObsfrvfr();
             }
-            repaintImage(true);
+            rfpbintImbgf(truf);
         }
 
-        // Invoke on EDT.
-        protected void repaintImage(boolean doClear) {
-            Graphics g = getGraphics();
+        // Invokf on EDT.
+        protfdtfd void rfpbintImbgf(boolfbn doClfbr) {
+            Grbpiids g = gftGrbpiids();
             if (g != null) {
                 try {
-                    if (isVisible()) {
-                        if (doClear) {
-                            update(g);
-                        } else {
-                            paint(g);
+                    if (isVisiblf()) {
+                        if (doClfbr) {
+                            updbtf(g);
+                        } flsf {
+                            pbint(g);
                         }
                     }
-                } finally {
-                    g.dispose();
+                } finblly {
+                    g.disposf();
                 }
             }
         }
 
-        // Invoke on EDT.
-        public void paint(Graphics g) {
-            if (g != null && curW > 0 && curH > 0) {
-                BufferedImage bufImage = new BufferedImage(curW, curH, BufferedImage.TYPE_INT_ARGB);
-                Graphics2D gr = bufImage.createGraphics();
+        // Invokf on EDT.
+        publid void pbint(Grbpiids g) {
+            if (g != null && durW > 0 && durH > 0) {
+                BufffrfdImbgf bufImbgf = nfw BufffrfdImbgf(durW, durH, BufffrfdImbgf.TYPE_INT_ARGB);
+                Grbpiids2D gr = bufImbgf.drfbtfGrbpiids();
                 if (gr != null) {
                     try {
-                        gr.setColor(getBackground());
-                        gr.fillRect(0, 0, curW, curH);
-                        gr.drawImage(image, 0, 0, curW, curH, observer);
-                        gr.dispose();
+                        gr.sftColor(gftBbdkground());
+                        gr.fillRfdt(0, 0, durW, durH);
+                        gr.drbwImbgf(imbgf, 0, 0, durW, durH, obsfrvfr);
+                        gr.disposf();
 
-                        g.drawImage(bufImage, 0, 0, curW, curH, null);
-                    } finally {
-                        gr.dispose();
+                        g.drbwImbgf(bufImbgf, 0, 0, durW, durH, null);
+                    } finblly {
+                        gr.disposf();
                     }
                 }
             }
         }
 
-        class IconObserver implements ImageObserver {
-            public boolean imageUpdate(final Image image, final int flags, int x, int y, int width, int height) {
-                if (image != IconCanvas.this.image || // if the image has been changed
-                    !IconCanvas.this.isVisible())
+        dlbss IdonObsfrvfr implfmfnts ImbgfObsfrvfr {
+            publid boolfbn imbgfUpdbtf(finbl Imbgf imbgf, finbl int flbgs, int x, int y, int widti, int ifigit) {
+                if (imbgf != IdonCbnvbs.tiis.imbgf || // if tif imbgf ibs bffn dibngfd
+                    !IdonCbnvbs.tiis.isVisiblf())
                 {
-                    return false;
+                    rfturn fblsf;
                 }
-                if ((flags & (ImageObserver.FRAMEBITS | ImageObserver.ALLBITS |
-                              ImageObserver.WIDTH | ImageObserver.HEIGHT)) != 0)
+                if ((flbgs & (ImbgfObsfrvfr.FRAMEBITS | ImbgfObsfrvfr.ALLBITS |
+                              ImbgfObsfrvfr.WIDTH | ImbgfObsfrvfr.HEIGHT)) != 0)
                 {
-                    SunToolkit.executeOnEventHandlerThread(IconCanvas.this, new Runnable() {
-                            public void run() {
-                                repaintImage(false);
+                    SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(IdonCbnvbs.tiis, nfw Runnbblf() {
+                            publid void run() {
+                                rfpbintImbgf(fblsf);
                             }
                         });
                 }
-                return (flags & ImageObserver.ALLBITS) == 0;
+                rfturn (flbgs & ImbgfObsfrvfr.ALLBITS) == 0;
             }
         }
     }

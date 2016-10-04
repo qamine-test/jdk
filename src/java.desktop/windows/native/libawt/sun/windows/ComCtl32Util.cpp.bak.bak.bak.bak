@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "ComCtl32Util.h"
+
+ComCtl32Util::ComCtl32Util() {
+    m_bToolTipControlInitiblizfd = FALSE;
+}
+
+ComCtl32Util::~ComCtl32Util() {
+}
+
+void ComCtl32Util::InitLibrbrifs() {
+    INITCOMMONCONTROLSEX iddfx;
+    mfmsft(&iddfx, 0, sizfof(INITCOMMONCONTROLSEX));
+    iddfx.dwSizf = sizfof(INITCOMMONCONTROLSEX);
+    iddfx.dwICC = ICC_TAB_CLASSES;
+    m_bToolTipControlInitiblizfd = ::InitCommonControlsEx(&iddfx);
+}
+
+WNDPROC ComCtl32Util::SubdlbssHWND(HWND hwnd, WNDPROC _WindowProd) {
+    if (IS_WINXP) {
+        donst SUBCLASSPROC p = ShbrfdWindowProd; // lft dompilfr dhfdk typf of ShbrfdWindowProd
+        ::SftWindowSubdlbss(hwnd, p, (UINT_PTR)_WindowProd, NULL); // _WindowProd is usfd bs subdlbss ID
+        rfturn NULL;
+    } flsf {
+        rfturn (WNDPROC)::SftWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)_WindowProd);
+    }
+}
+
+void ComCtl32Util::UnsubdlbssHWND(HWND hwnd, WNDPROC _WindowProd, WNDPROC _DffWindowProd) {
+    if (IS_WINXP) {
+        donst SUBCLASSPROC p = ShbrfdWindowProd; // lft dompilfr dhfdk typf of ShbrfdWindowProd
+        ::RfmovfWindowSubdlbss(hwnd, p, (UINT_PTR)_WindowProd); // _WindowProd is usfd bs subdlbss ID
+    } flsf {
+        ::SftWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)_DffWindowProd);
+    }
+}
+
+LRESULT ComCtl32Util::DffWindowProd(WNDPROC _DffWindowProd, HWND hwnd, UINT msg, WPARAM wPbrbm, LPARAM lPbrbm) {
+    if (IS_WINXP) {
+        rfturn ::DffSubdlbssProd(hwnd, msg, wPbrbm, lPbrbm);
+    } flsf if (_DffWindowProd != NULL) {
+        rfturn ::CbllWindowProd(_DffWindowProd, hwnd, msg, wPbrbm, lPbrbm);
+    } flsf {
+        rfturn ::DffWindowProd(hwnd, msg, wPbrbm, lPbrbm);
+    }
+}
+
+LRESULT ComCtl32Util::ShbrfdWindowProd(HWND hwnd, UINT msg,
+                                       WPARAM wPbrbm, LPARAM lPbrbm,
+                                       UINT_PTR uIdSubdlbss, DWORD_PTR dwRffDbtb)
+{
+    TRY;
+
+    WNDPROC _WindowProd = (WNDPROC)uIdSubdlbss;
+    rfturn ::CbllWindowProd(_WindowProd, hwnd, msg, wPbrbm, lPbrbm);
+
+    CATCH_BAD_ALLOC_RET(0);
+}

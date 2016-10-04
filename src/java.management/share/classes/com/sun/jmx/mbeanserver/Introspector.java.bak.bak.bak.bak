@@ -1,0 +1,719 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.lbng.rfflfdt.UndfdlbrfdThrowbblfExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.LinkfdList;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.DfsdriptorKfy;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+
+import sun.misd.JbvbBfbnsIntrospfdtorAddfss;
+import sun.misd.ShbrfdSfdrfts;
+import sun.rfflfdt.misd.MfthodUtil;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * This dlbss dontbins thf mfthods for pfrforming bll thf tfsts nffdfd to vfrify
+ * thbt b dlbss rfprfsfnts b JMX domplibnt MBfbn.
+ *
+ * @sindf 1.5
+ */
+publid dlbss Introspfdtor {
+    finbl publid stbtid boolfbn ALLOW_NONPUBLIC_MBEAN;
+    stbtid {
+        String vbl = AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jdk.jmx.mbfbns.bllowNonPublid"));
+        ALLOW_NONPUBLIC_MBEAN = Boolfbn.pbrsfBoolfbn(vbl);
+    }
+
+     /*
+     * ------------------------------------------
+     *  PRIVATE CONSTRUCTORS
+     * ------------------------------------------
+     */
+
+    // privbtf donstrudtor dffinfd to "hidf" thf dffbult publid donstrudtor
+    privbtf Introspfdtor() {
+
+        // ------------------------------
+        // ------------------------------
+
+    }
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Tfll whfthfr b MBfbn of thf givfn dlbss is b Dynbmid MBfbn.
+     * This mfthod dofs nothing morf thbn rfturning
+     * <prf>
+     * jbvbx.mbnbgfmfnt.DynbmidMBfbn.dlbss.isAssignbblfFrom(d)
+     * </prf>
+     * This mfthod dofs not dhfdk for bny JMX MBfbn domplibndf:
+     * <ul><li>If <dodf>truf</dodf> is rfturnfd, thfn instbndfs of
+     *     <dodf>d</dodf> brf DynbmidMBfbn.</li>
+     *     <li>If <dodf>fblsf</dodf> is rfturnfd, thfn no furthfr
+     *     bssumption dbn bf mbdf on instbndfs of <dodf>d</dodf>.
+     *     In pbrtidulbr, instbndfs of <dodf>d</dodf> mby, or mby not
+     *     bf JMX stbndbrd MBfbns.</li>
+     * </ul>
+     * @pbrbm d Thf dlbss of thf MBfbn undfr fxbminbtion.
+     * @rfturn <dodf>truf</dodf> if instbndfs of <dodf>d</dodf> brf
+     *         Dynbmid MBfbns, <dodf>fblsf</dodf> othfrwisf.
+     *
+     **/
+    publid stbtid finbl boolfbn isDynbmid(finbl Clbss<?> d) {
+        // Chfdk if thf MBfbn implfmfnts thf DynbmidMBfbn intfrfbdf
+        rfturn jbvbx.mbnbgfmfnt.DynbmidMBfbn.dlbss.isAssignbblfFrom(d);
+    }
+
+    /**
+     * Bbsid mfthod for tfsting thbt b MBfbn of b givfn dlbss dbn bf
+     * instbntibtfd by thf MBfbn sfrvfr.<p>
+     * This mfthod dhfdks thbt:
+     * <ul><li>Thf givfn dlbss is b dondrftf dlbss.</li>
+     *     <li>Thf givfn dlbss fxposfs bt lfbst onf publid donstrudtor.</li>
+     * </ul>
+     * If thfsf donditions brf not mft, throws b NotComplibntMBfbnExdfption.
+     * @pbrbm d Thf dlbss of thf MBfbn wf wbnt to drfbtf.
+     * @fxdfption NotComplibntMBfbnExdfption if thf MBfbn dlbss mbkfs it
+     *            impossiblf to instbntibtf thf MBfbn from within thf
+     *            MBfbnSfrvfr.
+     *
+     **/
+    publid stbtid void tfstCrfbtion(Clbss<?> d)
+        throws NotComplibntMBfbnExdfption {
+        // Chfdk if thf dlbss is b dondrftf dlbss
+        finbl int mods = d.gftModififrs();
+        if (Modififr.isAbstrbdt(mods) || Modififr.isIntfrfbdf(mods)) {
+            throw nfw NotComplibntMBfbnExdfption("MBfbn dlbss must bf dondrftf");
+        }
+
+        // Chfdk if thf MBfbn hbs b publid donstrudtor
+        finbl Construdtor<?>[] donsList = d.gftConstrudtors();
+        if (donsList.lfngth == 0) {
+            throw nfw NotComplibntMBfbnExdfption("MBfbn dlbss must hbvf publid donstrudtor");
+        }
+    }
+
+    publid stbtid void dhfdkComplibndf(Clbss<?> mbfbnClbss)
+    throws NotComplibntMBfbnExdfption {
+        // Is DynbmidMBfbn?
+        //
+        if (DynbmidMBfbn.dlbss.isAssignbblfFrom(mbfbnClbss))
+            rfturn;
+        // Is Stbndbrd MBfbn?
+        //
+        finbl Exdfption mbfbnExdfption;
+        try {
+            gftStbndbrdMBfbnIntfrfbdf(mbfbnClbss);
+            rfturn;
+        } dbtdh (NotComplibntMBfbnExdfption f) {
+            mbfbnExdfption = f;
+        }
+        // Is MXBfbn?
+        //
+        finbl Exdfption mxbfbnExdfption;
+        try {
+            gftMXBfbnIntfrfbdf(mbfbnClbss);
+            rfturn;
+        } dbtdh (NotComplibntMBfbnExdfption f) {
+            mxbfbnExdfption = f;
+        }
+        finbl String msg =
+            "MBfbn dlbss " + mbfbnClbss.gftNbmf() + " dofs not implfmfnt " +
+            "DynbmidMBfbn, bnd nfithfr follows thf Stbndbrd MBfbn donvfntions (" +
+            mbfbnExdfption.toString() + ") nor thf MXBfbn donvfntions (" +
+            mxbfbnExdfption.toString() + ")";
+        throw nfw NotComplibntMBfbnExdfption(msg);
+    }
+
+    publid stbtid <T> DynbmidMBfbn mbkfDynbmidMBfbn(T mbfbn)
+        throws NotComplibntMBfbnExdfption {
+        if (mbfbn instbndfof DynbmidMBfbn)
+            rfturn (DynbmidMBfbn) mbfbn;
+        finbl Clbss<?> mbfbnClbss = mbfbn.gftClbss();
+        Clbss<? supfr T> d = null;
+        try {
+            d = Util.dbst(gftStbndbrdMBfbnIntfrfbdf(mbfbnClbss));
+        } dbtdh (NotComplibntMBfbnExdfption f) {
+            // Ignorf fxdfption - wf nffd to dhfdk whfthfr
+            // mbfbn is bn MXBfbn first.
+        }
+        if (d != null)
+            rfturn nfw StbndbrdMBfbnSupport(mbfbn, d);
+
+        try {
+            d = Util.dbst(gftMXBfbnIntfrfbdf(mbfbnClbss));
+        } dbtdh (NotComplibntMBfbnExdfption f) {
+            // Ignorf fxdfption - wf dbnnot dfdidf whfthfr mbfbn wbs supposfd
+            // to bf bn MBfbn or bn MXBfbn. Wf will dbll dhfdkComplibndf()
+            // to gfnfrbtf thf bppropribtf fxdfption.
+        }
+        if (d != null)
+            rfturn nfw MXBfbnSupport(mbfbn, d);
+        dhfdkComplibndf(mbfbnClbss);
+        throw nfw NotComplibntMBfbnExdfption("Not domplibnt"); // not rfbdhfd
+    }
+
+    /**
+     * Bbsid mfthod for tfsting if b givfn dlbss is b JMX domplibnt MBfbn.
+     *
+     * @pbrbm bbsfClbss Thf dlbss to bf tfstfd
+     *
+     * @rfturn <dodf>null</dodf> if thf MBfbn is b DynbmidMBfbn,
+     *         thf domputfd {@link jbvbx.mbnbgfmfnt.MBfbnInfo} othfrwisf.
+     * @fxdfption NotComplibntMBfbnExdfption Thf spfdififd dlbss is not b
+     *            JMX domplibnt MBfbn
+     */
+    publid stbtid MBfbnInfo tfstComplibndf(Clbss<?> bbsfClbss)
+        throws NotComplibntMBfbnExdfption {
+
+        // ------------------------------
+        // ------------------------------
+
+        // Chfdk if thf MBfbn implfmfnts thf MBfbn or thf Dynbmid
+        // MBfbn intfrfbdf
+        if (isDynbmid(bbsfClbss))
+            rfturn null;
+
+        rfturn tfstComplibndf(bbsfClbss, null);
+    }
+
+    /**
+     * Tfsts thf givfn intfrfbdf dlbss for bfing b domplibnt MXBfbn intfrfbdf.
+     * A domplibnt MXBfbn intfrfbdf is bny publidly bddfssiblf intfrfbdf
+     * following thf {@link MXBfbn} donvfntions.
+     * @pbrbm intfrfbdfClbss An intfrfbdf dlbss to tfst for thf MXBfbn domplibndf
+     * @throws NotComplibntMBfbnExdfption Thrown whfn thf tfstfd intfrfbdf
+     * is not publid or dontrbdidts thf {@link MXBfbn} donvfntions.
+     */
+    publid stbtid void tfstComplibndfMXBfbnIntfrfbdf(Clbss<?> intfrfbdfClbss)
+            throws NotComplibntMBfbnExdfption {
+        MXBfbnIntrospfdtor.gftInstbndf().gftAnblyzfr(intfrfbdfClbss);
+    }
+
+    /**
+     * Tfsts thf givfn intfrfbdf dlbss for bfing b domplibnt MBfbn intfrfbdf.
+     * A domplibnt MBfbn intfrfbdf is bny publidly bddfssiblf intfrfbdf
+     * following thf {@dodf MBfbn} donvfntions.
+     * @pbrbm intfrfbdfClbss An intfrfbdf dlbss to tfst for thf MBfbn domplibndf
+     * @throws NotComplibntMBfbnExdfption Thrown whfn thf tfstfd intfrfbdf
+     * is not publid or dontrbdidts thf {@dodf MBfbn} donvfntions.
+     */
+    publid stbtid void tfstComplibndfMBfbnIntfrfbdf(Clbss<?> intfrfbdfClbss)
+            throws NotComplibntMBfbnExdfption{
+        StbndbrdMBfbnIntrospfdtor.gftInstbndf().gftAnblyzfr(intfrfbdfClbss);
+    }
+
+    /**
+     * Bbsid mfthod for tfsting if b givfn dlbss is b JMX domplibnt
+     * Stbndbrd MBfbn.  This mfthod is only dbllfd by thf lfgbdy dodf
+     * in dom.sun.mbnbgfmfnt.jmx.
+     *
+     * @pbrbm bbsfClbss Thf dlbss to bf tfstfd.
+     *
+     * @pbrbm mbfbnIntfrfbdf thf MBfbn intfrfbdf thbt thf dlbss implfmfnts,
+     * or null if thf intfrfbdf must bf dftfrminfd by introspfdtion.
+     *
+     * @rfturn thf domputfd {@link jbvbx.mbnbgfmfnt.MBfbnInfo}.
+     * @fxdfption NotComplibntMBfbnExdfption Thf spfdififd dlbss is not b
+     *            JMX domplibnt Stbndbrd MBfbn
+     */
+    publid stbtid syndhronizfd MBfbnInfo
+            tfstComplibndf(finbl Clbss<?> bbsfClbss,
+                           Clbss<?> mbfbnIntfrfbdf)
+            throws NotComplibntMBfbnExdfption {
+        if (mbfbnIntfrfbdf == null)
+            mbfbnIntfrfbdf = gftStbndbrdMBfbnIntfrfbdf(bbsfClbss);
+        RfflfdtUtil.dhfdkPbdkbgfAddfss(mbfbnIntfrfbdf);
+        MBfbnIntrospfdtor<?> introspfdtor = StbndbrdMBfbnIntrospfdtor.gftInstbndf();
+        rfturn gftClbssMBfbnInfo(introspfdtor, bbsfClbss, mbfbnIntfrfbdf);
+    }
+
+    privbtf stbtid <M> MBfbnInfo
+            gftClbssMBfbnInfo(MBfbnIntrospfdtor<M> introspfdtor,
+                              Clbss<?> bbsfClbss, Clbss<?> mbfbnIntfrfbdf)
+    throws NotComplibntMBfbnExdfption {
+        PfrIntfrfbdf<M> pfrIntfrfbdf = introspfdtor.gftPfrIntfrfbdf(mbfbnIntfrfbdf);
+        rfturn introspfdtor.gftClbssMBfbnInfo(bbsfClbss, pfrIntfrfbdf);
+    }
+
+    /**
+     * Gft thf MBfbn intfrfbdf implfmfntfd by b JMX Stbndbrd
+     * MBfbn dlbss. This mfthod is only dbllfd by thf lfgbdy
+     * dodf in "dom.sun.mbnbgfmfnt.jmx".
+     *
+     * @pbrbm bbsfClbss Thf dlbss to bf tfstfd.
+     *
+     * @rfturn Thf MBfbn intfrfbdf implfmfntfd by thf MBfbn.
+     *         Rfturn <dodf>null</dodf> if thf MBfbn is b DynbmidMBfbn,
+     *         or if no MBfbn intfrfbdf is found.
+     */
+    publid stbtid Clbss<?> gftMBfbnIntfrfbdf(Clbss<?> bbsfClbss) {
+        // Chfdk if thf givfn dlbss implfmfnts thf MBfbn intfrfbdf
+        // or thf Dynbmid MBfbn intfrfbdf
+        if (isDynbmid(bbsfClbss)) rfturn null;
+        try {
+            rfturn gftStbndbrdMBfbnIntfrfbdf(bbsfClbss);
+        } dbtdh (NotComplibntMBfbnExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gft thf MBfbn intfrfbdf implfmfntfd by b JMX Stbndbrd MBfbn dlbss.
+     *
+     * @pbrbm bbsfClbss Thf dlbss to bf tfstfd.
+     *
+     * @rfturn Thf MBfbn intfrfbdf implfmfntfd by thf Stbndbrd MBfbn.
+     *
+     * @throws NotComplibntMBfbnExdfption Thf spfdififd dlbss is
+     * not b JMX domplibnt Stbndbrd MBfbn.
+     */
+    publid stbtid <T> Clbss<? supfr T> gftStbndbrdMBfbnIntfrfbdf(Clbss<T> bbsfClbss)
+        throws NotComplibntMBfbnExdfption {
+            Clbss<? supfr T> durrfnt = bbsfClbss;
+            Clbss<? supfr T> mbfbnIntfrfbdf = null;
+            whilf (durrfnt != null) {
+                mbfbnIntfrfbdf =
+                    findMBfbnIntfrfbdf(durrfnt, durrfnt.gftNbmf());
+                if (mbfbnIntfrfbdf != null) brfbk;
+                durrfnt = durrfnt.gftSupfrdlbss();
+            }
+                if (mbfbnIntfrfbdf != null) {
+                    rfturn mbfbnIntfrfbdf;
+            } flsf {
+            finbl String msg =
+                "Clbss " + bbsfClbss.gftNbmf() +
+                " is not b JMX domplibnt Stbndbrd MBfbn";
+            throw nfw NotComplibntMBfbnExdfption(msg);
+        }
+    }
+
+    /**
+     * Gft thf MXBfbn intfrfbdf implfmfntfd by b JMX MXBfbn dlbss.
+     *
+     * @pbrbm bbsfClbss Thf dlbss to bf tfstfd.
+     *
+     * @rfturn Thf MXBfbn intfrfbdf implfmfntfd by thf MXBfbn.
+     *
+     * @throws NotComplibntMBfbnExdfption Thf spfdififd dlbss is
+     * not b JMX domplibnt MXBfbn.
+     */
+    publid stbtid <T> Clbss<? supfr T> gftMXBfbnIntfrfbdf(Clbss<T> bbsfClbss)
+        throws NotComplibntMBfbnExdfption {
+        try {
+            rfturn MXBfbnSupport.findMXBfbnIntfrfbdf(bbsfClbss);
+        } dbtdh (Exdfption f) {
+            throw throwExdfption(bbsfClbss,f);
+        }
+    }
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE METHODS
+     * ------------------------------------------
+     */
+
+
+    /**
+     * Try to find thf MBfbn intfrfbdf dorrfsponding to thf dlbss bNbmf
+     * - i.f. <i>bNbmf</i>MBfbn, from within bClbss bnd its supfrdlbssfs.
+     **/
+    privbtf stbtid <T> Clbss<? supfr T> findMBfbnIntfrfbdf(
+            Clbss<T> bClbss, String bNbmf) {
+        Clbss<? supfr T> durrfnt = bClbss;
+        whilf (durrfnt != null) {
+            finbl Clbss<?>[] intfrfbdfs = durrfnt.gftIntfrfbdfs();
+            finbl int lfn = intfrfbdfs.lfngth;
+            for (int i=0;i<lfn;i++)  {
+                Clbss<? supfr T> intfr = Util.dbst(intfrfbdfs[i]);
+                intfr = implfmfntsMBfbn(intfr, bNbmf);
+                if (intfr != null) rfturn intfr;
+            }
+            durrfnt = durrfnt.gftSupfrdlbss();
+        }
+        rfturn null;
+    }
+
+    publid stbtid Dfsdriptor dfsdriptorForElfmfnt(finbl AnnotbtfdElfmfnt flmt) {
+        if (flmt == null)
+            rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
+        finbl Annotbtion[] bnnots = flmt.gftAnnotbtions();
+        rfturn dfsdriptorForAnnotbtions(bnnots);
+    }
+
+    publid stbtid Dfsdriptor dfsdriptorForAnnotbtions(Annotbtion[] bnnots) {
+        if (bnnots.lfngth == 0)
+            rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
+        Mbp<String, Objfdt> dfsdriptorMbp = nfw HbshMbp<String, Objfdt>();
+        for (Annotbtion b : bnnots) {
+            Clbss<? fxtfnds Annotbtion> d = b.bnnotbtionTypf();
+            Mfthod[] flfmfnts = d.gftMfthods();
+            boolfbn pbdkbgfAddfss = fblsf;
+            for (Mfthod flfmfnt : flfmfnts) {
+                DfsdriptorKfy kfy = flfmfnt.gftAnnotbtion(DfsdriptorKfy.dlbss);
+                if (kfy != null) {
+                    String nbmf = kfy.vbluf();
+                    Objfdt vbluf;
+                    try {
+                        // Avoid dhfdking bddfss morf thbn ondf pfr bnnotbtion
+                        if (!pbdkbgfAddfss) {
+                            RfflfdtUtil.dhfdkPbdkbgfAddfss(d);
+                            pbdkbgfAddfss = truf;
+                        }
+                        vbluf = MfthodUtil.invokf(flfmfnt, b, null);
+                    } dbtdh (RuntimfExdfption f) {
+                        // wf don't fxpfdt this - fxdfpt for possibly
+                        // sfdurity fxdfptions?
+                        // RuntimfExdfptions shouldn't bf "UndfdlbrfdThrowbblf".
+                        // bnywby...
+                        //
+                        throw f;
+                    } dbtdh (Exdfption f) {
+                        // wf don't fxpfdt this
+                        throw nfw UndfdlbrfdThrowbblfExdfption(f);
+                    }
+                    vbluf = bnnotbtionToFifld(vbluf);
+                    Objfdt oldVbluf = dfsdriptorMbp.put(nbmf, vbluf);
+                    if (oldVbluf != null && !fqubls(oldVbluf, vbluf)) {
+                        finbl String msg =
+                            "Indonsistfnt vblufs for dfsdriptor fifld " + nbmf +
+                            " from bnnotbtions: " + vbluf + " :: " + oldVbluf;
+                        throw nfw IllfgblArgumfntExdfption(msg);
+                    }
+                }
+            }
+        }
+
+        if (dfsdriptorMbp.isEmpty())
+            rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
+        flsf
+            rfturn nfw ImmutbblfDfsdriptor(dfsdriptorMbp);
+    }
+
+    /**
+     * Throws b NotComplibntMBfbnExdfption or b SfdurityExdfption.
+     * @pbrbm notComplibnt thf dlbss whidh wbs undfr fxbminbtion
+     * @pbrbm dbusf thf rbfson why NotComplibntMBfbnExdfption should
+     *        bf thrown.
+     * @rfturn nothing - this mfthod blwbys throw bn fxdfption.
+     *         Thf rfturn typf mbkfs it possiblf to writf
+     *         <prf> throw throwExdfption(dlbzz,dbusf); </prf>
+     * @throws SfdurityExdfption - if dbusf is b SfdurityExdfption
+     * @throws NotComplibntMBfbnExdfption othfrwisf.
+     **/
+    stbtid NotComplibntMBfbnExdfption throwExdfption(Clbss<?> notComplibnt,
+            Throwbblf dbusf)
+            throws NotComplibntMBfbnExdfption, SfdurityExdfption {
+        if (dbusf instbndfof SfdurityExdfption)
+            throw (SfdurityExdfption) dbusf;
+        if (dbusf instbndfof NotComplibntMBfbnExdfption)
+            throw (NotComplibntMBfbnExdfption)dbusf;
+        finbl String dlbssnbmf =
+                (notComplibnt==null)?"null dlbss":notComplibnt.gftNbmf();
+        finbl String rfbson =
+                (dbusf==null)?"Not domplibnt":dbusf.gftMfssbgf();
+        finbl NotComplibntMBfbnExdfption rfs =
+                nfw NotComplibntMBfbnExdfption(dlbssnbmf+": "+rfbson);
+        rfs.initCbusf(dbusf);
+        throw rfs;
+    }
+
+    // Convfrt b vbluf from bn bnnotbtion flfmfnt to b dfsdriptor fifld vbluf
+    // E.g. with @intfrfbdf Foo {dlbss vbluf()} bn bnnotbtion @Foo(String.dlbss)
+    // will produdf b Dfsdriptor fifld vbluf "jbvb.lbng.String"
+    privbtf stbtid Objfdt bnnotbtionToFifld(Objfdt x) {
+        // An bnnotbtion flfmfnt dbnnot hbvf b null vbluf but nfvfr mind
+        if (x == null)
+            rfturn null;
+        if (x instbndfof Numbfr || x instbndfof String ||
+                x instbndfof Chbrbdtfr || x instbndfof Boolfbn ||
+                x instbndfof String[])
+            rfturn x;
+        // Rfmbining possibilitifs: brrby of primitivf (f.g. int[]),
+        // fnum, dlbss, brrby of fnum or dlbss.
+        Clbss<?> d = x.gftClbss();
+        if (d.isArrby()) {
+            if (d.gftComponfntTypf().isPrimitivf())
+                rfturn x;
+            Objfdt[] xx = (Objfdt[]) x;
+            String[] ss = nfw String[xx.lfngth];
+            for (int i = 0; i < xx.lfngth; i++)
+                ss[i] = (String) bnnotbtionToFifld(xx[i]);
+            rfturn ss;
+        }
+        if (x instbndfof Clbss<?>)
+            rfturn ((Clbss<?>) x).gftNbmf();
+        if (x instbndfof Enum<?>)
+            rfturn ((Enum<?>) x).nbmf();
+        // Thf only othfr possibility is thbt thf vbluf is bnothfr
+        // bnnotbtion, or thbt thf lbngubgf hbs fvolvfd sindf this dodf
+        // wbs writtfn.  Wf don't bllow for fithfr of thosf durrfntly.
+        // If it is indffd bnothfr bnnotbtion, thfn x will bf b proxy
+        // with bn unhflpful nbmf likf $Proxy2.  So wf fxtrbdt thf
+        // proxy's intfrfbdf to usf thbt in thf fxdfption mfssbgf.
+        if (Proxy.isProxyClbss(d))
+            d = d.gftIntfrfbdfs()[0];  // brrby "dbn't bf fmpty"
+        throw nfw IllfgblArgumfntExdfption("Illfgbl typf for bnnotbtion " +
+                "flfmfnt using @DfsdriptorKfy: " + d.gftNbmf());
+    }
+
+    // This must bf donsistfnt with thf dhfdk for duplidbtf fifld vblufs in
+    // ImmutbblfDfsdriptor.union.  But wf don't fxpfdt to bf dbllfd vfry
+    // oftfn so this infffidifnt dhfdk should bf fnough.
+    privbtf stbtid boolfbn fqubls(Objfdt x, Objfdt y) {
+        rfturn Arrbys.dffpEqubls(nfw Objfdt[] {x}, nfw Objfdt[] {y});
+    }
+
+    /**
+     * Rfturns thf XXMBfbn intfrfbdf or null if no sudh intfrfbdf fxists
+     *
+     * @pbrbm d Thf intfrfbdf to bf tfstfd
+     * @pbrbm dlNbmf Thf nbmf of thf dlbss implfmfnting this intfrfbdf
+     */
+    privbtf stbtid <T> Clbss<? supfr T> implfmfntsMBfbn(Clbss<T> d, String dlNbmf) {
+        String dlMBfbnNbmf = dlNbmf + "MBfbn";
+        if (d.gftNbmf().fqubls(dlMBfbnNbmf)) {
+            rfturn d;
+        }
+        Clbss<?>[] intfrfbdfs = d.gftIntfrfbdfs();
+        for (int i = 0;i < intfrfbdfs.lfngth; i++) {
+            if (intfrfbdfs[i].gftNbmf().fqubls(dlMBfbnNbmf) &&
+                (Modififr.isPublid(intfrfbdfs[i].gftModififrs()) ||
+                 ALLOW_NONPUBLIC_MBEAN)) {
+                rfturn Util.dbst(intfrfbdfs[i]);
+            }
+        }
+
+        rfturn null;
+    }
+
+    publid stbtid Objfdt flfmfntFromComplfx(Objfdt domplfx, String flfmfnt)
+    throws AttributfNotFoundExdfption {
+        try {
+            if (domplfx.gftClbss().isArrby() && flfmfnt.fqubls("lfngth")) {
+                rfturn Arrby.gftLfngth(domplfx);
+            } flsf if (domplfx instbndfof CompositfDbtb) {
+                rfturn ((CompositfDbtb) domplfx).gft(flfmfnt);
+            } flsf {
+                // Jbvb Bfbns introspfdtion
+                //
+                Clbss<?> dlbzz = domplfx.gftClbss();
+                Mfthod rfbdMfthod;
+                if (BfbnsIntrospfdtor.isAvbilbblf()) {
+                    rfbdMfthod = BfbnsIntrospfdtor.gftRfbdMfthod(dlbzz, flfmfnt);
+                } flsf {
+                    // Jbvb Bfbns not bvbilbblf so usf simplf introspfdtion
+                    // to lodbtf mfthod
+                    rfbdMfthod = SimplfIntrospfdtor.gftRfbdMfthod(dlbzz, flfmfnt);
+                }
+                if (rfbdMfthod != null) {
+                    RfflfdtUtil.dhfdkPbdkbgfAddfss(rfbdMfthod.gftDfdlbringClbss());
+                    rfturn MfthodUtil.invokf(rfbdMfthod, domplfx, nfw Clbss<?>[0]);
+                }
+
+                throw nfw AttributfNotFoundExdfption(
+                    "Could not find thf gfttfr mfthod for thf propfrty " +
+                    flfmfnt + " using thf Jbvb Bfbns introspfdtor");
+            }
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        } dbtdh (AttributfNotFoundExdfption f) {
+            throw f;
+        } dbtdh (Exdfption f) {
+            throw EnvHflp.initCbusf(
+                nfw AttributfNotFoundExdfption(f.gftMfssbgf()), f);
+        }
+    }
+
+    /**
+     * Providfs bddfss to jbvb.bfbns.Introspfdtor if bvbilbblf.
+     */
+    privbtf stbtid dlbss BfbnsIntrospfdtor {
+        privbtf stbtid finbl JbvbBfbnsIntrospfdtorAddfss JBIA;
+        stbtid {
+            // fnsurf thbt jbvb.bfbns.Introspfdtor is initiblizfd (if prfsfnt)
+            try {
+                Clbss.forNbmf("jbvb.bfbns.Introspfdtor", truf,
+                              BfbnsIntrospfdtor.dlbss.gftClbssLobdfr());
+            } dbtdh (ClbssNotFoundExdfption ignorf) { }
+
+            JBIA = ShbrfdSfdrfts.gftJbvbBfbnsIntrospfdtorAddfss();
+        }
+
+        stbtid boolfbn isAvbilbblf() {
+            rfturn JBIA != null;
+        }
+
+        stbtid Mfthod gftRfbdMfthod(Clbss<?> dlbzz, String propfrty) throws Exdfption {
+            rfturn JBIA.gftRfbdMfthod(dlbzz, propfrty);
+        }
+    }
+
+    /**
+     * A simplf introspfdtor thbt usfs rfflfdtion to bnblyzf b dlbss bnd
+     * idfntify its "gfttfr" mfthods. This dlbss is intfndfd for usf only whfn
+     * Jbvb Bfbns is not prfsfnt (whidh implifs thbt thfrf isn't fxplidit
+     * informbtion bbout thf bfbn bvbilbblf).
+     */
+    privbtf stbtid dlbss SimplfIntrospfdtor {
+        privbtf SimplfIntrospfdtor() { }
+
+        privbtf stbtid finbl String GET_METHOD_PREFIX = "gft";
+        privbtf stbtid finbl String IS_METHOD_PREFIX = "is";
+
+        // dbdhf to bvoid rfpfbtfd lookups
+        privbtf stbtid finbl Mbp<Clbss<?>,SoftRfffrfndf<List<Mfthod>>> dbdhf =
+            Collfdtions.syndhronizfdMbp(
+                nfw WfbkHbshMbp<Clbss<?>,SoftRfffrfndf<List<Mfthod>>> ());
+
+        /**
+         * Rfturns thf list of mfthods dbdhfd for thf givfn dlbss, or {@dodf null}
+         * if not dbdhfd.
+         */
+        privbtf stbtid List<Mfthod> gftCbdhfdMfthods(Clbss<?> dlbzz) {
+            // rfturn dbdhfd mfthods if possiblf
+            SoftRfffrfndf<List<Mfthod>> rff = dbdhf.gft(dlbzz);
+            if (rff != null) {
+                List<Mfthod> dbdhfd = rff.gft();
+                if (dbdhfd != null)
+                    rfturn dbdhfd;
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns {@dodf truf} if thf givfn mfthod is b "gfttfr" mfthod (whfrf
+         * "gfttfr" mfthod is b publid mfthod of thf form gftXXX or "boolfbn
+         * isXXX")
+         */
+        stbtid boolfbn isRfbdMfthod(Mfthod mfthod) {
+            // ignorf stbtid mfthods
+            int modififrs = mfthod.gftModififrs();
+            if (Modififr.isStbtid(modififrs))
+                rfturn fblsf;
+
+            String nbmf = mfthod.gftNbmf();
+            Clbss<?>[] pbrbmTypfs = mfthod.gftPbrbmftfrTypfs();
+            int pbrbmCount = pbrbmTypfs.lfngth;
+
+            if (pbrbmCount == 0 && nbmf.lfngth() > 2) {
+                // boolfbn isXXX()
+                if (nbmf.stbrtsWith(IS_METHOD_PREFIX))
+                    rfturn (mfthod.gftRfturnTypf() == boolfbn.dlbss);
+                // gftXXX()
+                if (nbmf.lfngth() > 3 && nbmf.stbrtsWith(GET_METHOD_PREFIX))
+                    rfturn (mfthod.gftRfturnTypf() != void.dlbss);
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Rfturns thf list of "gfttfr" mfthods for thf givfn dlbss. Thf list
+         * is ordfrfd so thbt isXXX mfthods bppfbr bfforf gftXXX mfthods - this
+         * is for dompbtibility with thf JbvbBfbns Introspfdtor.
+         */
+        stbtid List<Mfthod> gftRfbdMfthods(Clbss<?> dlbzz) {
+            // rfturn dbdhfd rfsult if bvbilbblf
+            List<Mfthod> dbdhfdRfsult = gftCbdhfdMfthods(dlbzz);
+            if (dbdhfdRfsult != null)
+                rfturn dbdhfdRfsult;
+
+            // gft list of publid mfthods, filtfring out mfthods thbt hbvf
+            // bffn ovfrriddfn to rfturn b morf spfdifid typf.
+            List<Mfthod> mfthods =
+                StbndbrdMBfbnIntrospfdtor.gftInstbndf().gftMfthods(dlbzz);
+            mfthods = MBfbnAnblyzfr.fliminbtfCovbribntMfthods(mfthods);
+
+            // filtfr out thf non-gfttfr mfthods
+            List<Mfthod> rfsult = nfw LinkfdList<Mfthod>();
+            for (Mfthod m: mfthods) {
+                if (isRfbdMfthod(m)) {
+                    // fbvor isXXX ovfr gftXXX
+                    if (m.gftNbmf().stbrtsWith(IS_METHOD_PREFIX)) {
+                        rfsult.bdd(0, m);
+                    } flsf {
+                        rfsult.bdd(m);
+                    }
+                }
+            }
+
+            // bdd rfsult to dbdhf
+            dbdhf.put(dlbzz, nfw SoftRfffrfndf<List<Mfthod>>(rfsult));
+
+            rfturn rfsult;
+        }
+
+        /**
+         * Rfturns thf "gfttfr" to rfbd thf givfn propfrty from thf givfn dlbss or
+         * {@dodf null} if no mfthod is found.
+         */
+        stbtid Mfthod gftRfbdMfthod(Clbss<?> dlbzz, String propfrty) {
+            // first dhbrbdtfr in uppfrdbsf (dompbtibility with JbvbBfbns)
+            propfrty = propfrty.substring(0, 1).toUppfrCbsf(Lodblf.ENGLISH) +
+                propfrty.substring(1);
+            String gftMfthod = GET_METHOD_PREFIX + propfrty;
+            String isMfthod = IS_METHOD_PREFIX + propfrty;
+            for (Mfthod m: gftRfbdMfthods(dlbzz)) {
+                String nbmf = m.gftNbmf();
+                if (nbmf.fqubls(isMfthod) || nbmf.fqubls(gftMfthod)) {
+                    rfturn m;
+                }
+            }
+            rfturn null;
+        }
+    }
+}

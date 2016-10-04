@@ -1,874 +1,874 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXReason;
-import java.security.cert.CertStore;
-import java.security.cert.CertStoreException;
-import java.security.cert.PKIXBuilderParameters;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.TrustAnchor;
-import java.security.cert.X509Certificate;
-import java.security.cert.X509CertSelector;
-import java.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.sfdurity.dfrt.CfrtStorf;
+import jbvb.sfdurity.dfrt.CfrtStorfExdfption;
+import jbvb.sfdurity.dfrt.PKIXBuildfrPbrbmftfrs;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbtiCifdkfr;
+import jbvb.sfdurity.dfrt.TrustAndior;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509CfrtSflfdtor;
+import jbvb.util.*;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.provider.certpath.PKIX.BuilderParams;
-import sun.security.util.Debug;
-import sun.security.x509.AccessDescription;
-import sun.security.x509.AuthorityInfoAccessExtension;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.x509.X500Name;
-import sun.security.x509.AuthorityKeyIdentifierExtension;
+import sun.sfdurity.providfr.dfrtpbti.PKIX.BuildfrPbrbms;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.x509.AddfssDfsdription;
+import sun.sfdurity.x509.AutiorityInfoAddfssExtfnsion;
+import stbtid sun.sfdurity.x509.PKIXExtfnsions.*;
+import sun.sfdurity.x509.X500Nbmf;
+import sun.sfdurity.x509.AutiorityKfyIdfntififrExtfnsion;
 
 /**
- * This class represents a forward builder, which is able to retrieve
- * matching certificates from CertStores and verify a particular certificate
- * against a ForwardState.
+ * Tiis dlbss rfprfsfnts b forwbrd buildfr, wiidi is bblf to rftrifvf
+ * mbtdiing dfrtifidbtfs from CfrtStorfs bnd vfrify b pbrtidulbr dfrtifidbtf
+ * bgbinst b ForwbrdStbtf.
  *
- * @since       1.4
- * @author      Yassir Elley
- * @author      Sean Mullan
+ * @sindf       1.4
+ * @butior      Ybssir Ellfy
+ * @butior      Sfbn Mullbn
  */
-class ForwardBuilder extends Builder {
+dlbss ForwbrdBuildfr fxtfnds Buildfr {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private final Set<X509Certificate> trustedCerts;
-    private final Set<X500Principal> trustedSubjectDNs;
-    private final Set<TrustAnchor> trustAnchors;
-    private X509CertSelector eeSelector;
-    private AdaptableX509CertSelector caSelector;
-    private X509CertSelector caTargetSelector;
-    TrustAnchor trustAnchor;
-    private Comparator<X509Certificate> comparator;
-    private boolean searchAllCertStores = true;
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    privbtf finbl Sft<X509Cfrtifidbtf> trustfdCfrts;
+    privbtf finbl Sft<X500Prindipbl> trustfdSubjfdtDNs;
+    privbtf finbl Sft<TrustAndior> trustAndiors;
+    privbtf X509CfrtSflfdtor ffSflfdtor;
+    privbtf AdbptbblfX509CfrtSflfdtor dbSflfdtor;
+    privbtf X509CfrtSflfdtor dbTbrgftSflfdtor;
+    TrustAndior trustAndior;
+    privbtf Compbrbtor<X509Cfrtifidbtf> dompbrbtor;
+    privbtf boolfbn sfbrdiAllCfrtStorfs = truf;
 
     /**
-     * Initialize the builder with the input parameters.
+     * Initiblizf tif buildfr witi tif input pbrbmftfrs.
      *
-     * @param params the parameter set used to build a certification path
+     * @pbrbm pbrbms tif pbrbmftfr sft usfd to build b dfrtifidbtion pbti
      */
-    ForwardBuilder(BuilderParams buildParams, boolean searchAllCertStores) {
-        super(buildParams);
+    ForwbrdBuildfr(BuildfrPbrbms buildPbrbms, boolfbn sfbrdiAllCfrtStorfs) {
+        supfr(buildPbrbms);
 
-        // populate sets of trusted certificates and subject DNs
-        trustAnchors = buildParams.trustAnchors();
-        trustedCerts = new HashSet<X509Certificate>(trustAnchors.size());
-        trustedSubjectDNs = new HashSet<X500Principal>(trustAnchors.size());
-        for (TrustAnchor anchor : trustAnchors) {
-            X509Certificate trustedCert = anchor.getTrustedCert();
-            if (trustedCert != null) {
-                trustedCerts.add(trustedCert);
-                trustedSubjectDNs.add(trustedCert.getSubjectX500Principal());
-            } else {
-                trustedSubjectDNs.add(anchor.getCA());
+        // populbtf sfts of trustfd dfrtifidbtfs bnd subjfdt DNs
+        trustAndiors = buildPbrbms.trustAndiors();
+        trustfdCfrts = nfw HbsiSft<X509Cfrtifidbtf>(trustAndiors.sizf());
+        trustfdSubjfdtDNs = nfw HbsiSft<X500Prindipbl>(trustAndiors.sizf());
+        for (TrustAndior bndior : trustAndiors) {
+            X509Cfrtifidbtf trustfdCfrt = bndior.gftTrustfdCfrt();
+            if (trustfdCfrt != null) {
+                trustfdCfrts.bdd(trustfdCfrt);
+                trustfdSubjfdtDNs.bdd(trustfdCfrt.gftSubjfdtX500Prindipbl());
+            } flsf {
+                trustfdSubjfdtDNs.bdd(bndior.gftCA());
             }
         }
-        comparator = new PKIXCertComparator(trustedSubjectDNs);
-        this.searchAllCertStores = searchAllCertStores;
+        dompbrbtor = nfw PKIXCfrtCompbrbtor(trustfdSubjfdtDNs);
+        tiis.sfbrdiAllCfrtStorfs = sfbrdiAllCfrtStorfs;
     }
 
     /**
-     * Retrieves all certs from the specified CertStores that satisfy the
-     * requirements specified in the parameters and the current
-     * PKIX state (name constraints, policy constraints, etc).
+     * Rftrifvfs bll dfrts from tif spfdififd CfrtStorfs tibt sbtisfy tif
+     * rfquirfmfnts spfdififd in tif pbrbmftfrs bnd tif durrfnt
+     * PKIX stbtf (nbmf donstrbints, polidy donstrbints, ftd).
      *
-     * @param currentState the current state.
-     *        Must be an instance of <code>ForwardState</code>
-     * @param certStores list of CertStores
+     * @pbrbm durrfntStbtf tif durrfnt stbtf.
+     *        Must bf bn instbndf of <dodf>ForwbrdStbtf</dodf>
+     * @pbrbm dfrtStorfs list of CfrtStorfs
      */
-    @Override
-    Collection<X509Certificate> getMatchingCerts(State currentState,
-                                                 List<CertStore> certStores)
-        throws CertStoreException, CertificateException, IOException
+    @Ovfrridf
+    Collfdtion<X509Cfrtifidbtf> gftMbtdiingCfrts(Stbtf durrfntStbtf,
+                                                 List<CfrtStorf> dfrtStorfs)
+        tirows CfrtStorfExdfption, CfrtifidbtfExdfption, IOExdfption
     {
-        if (debug != null) {
-            debug.println("ForwardBuilder.getMatchingCerts()...");
+        if (dfbug != null) {
+            dfbug.println("ForwbrdBuildfr.gftMbtdiingCfrts()...");
         }
 
-        ForwardState currState = (ForwardState) currentState;
+        ForwbrdStbtf durrStbtf = (ForwbrdStbtf) durrfntStbtf;
 
         /*
-         * We store certs in a Set because we don't want duplicates.
-         * As each cert is added, it is sorted based on the PKIXCertComparator
-         * algorithm.
+         * Wf storf dfrts in b Sft bfdbusf wf don't wbnt duplidbtfs.
+         * As fbdi dfrt is bddfd, it is sortfd bbsfd on tif PKIXCfrtCompbrbtor
+         * blgoritim.
          */
-        Set<X509Certificate> certs = new TreeSet<>(comparator);
+        Sft<X509Cfrtifidbtf> dfrts = nfw TrffSft<>(dompbrbtor);
 
         /*
-         * Only look for EE certs if search has just started.
+         * Only look for EE dfrts if sfbrdi ibs just stbrtfd.
          */
-        if (currState.isInitial()) {
-            getMatchingEECerts(currState, certStores, certs);
+        if (durrStbtf.isInitibl()) {
+            gftMbtdiingEECfrts(durrStbtf, dfrtStorfs, dfrts);
         }
-        getMatchingCACerts(currState, certStores, certs);
+        gftMbtdiingCACfrts(durrStbtf, dfrtStorfs, dfrts);
 
-        return certs;
+        rfturn dfrts;
     }
 
     /*
-     * Retrieves all end-entity certificates which satisfy constraints
-     * and requirements specified in the parameters and PKIX state.
+     * Rftrifvfs bll fnd-fntity dfrtifidbtfs wiidi sbtisfy donstrbints
+     * bnd rfquirfmfnts spfdififd in tif pbrbmftfrs bnd PKIX stbtf.
      */
-    private void getMatchingEECerts(ForwardState currentState,
-                                    List<CertStore> certStores,
-                                    Collection<X509Certificate> eeCerts)
-        throws IOException
+    privbtf void gftMbtdiingEECfrts(ForwbrdStbtf durrfntStbtf,
+                                    List<CfrtStorf> dfrtStorfs,
+                                    Collfdtion<X509Cfrtifidbtf> ffCfrts)
+        tirows IOExdfption
     {
-        if (debug != null) {
-            debug.println("ForwardBuilder.getMatchingEECerts()...");
+        if (dfbug != null) {
+            dfbug.println("ForwbrdBuildfr.gftMbtdiingEECfrts()...");
         }
         /*
-         * Compose a certificate matching rule to filter out
-         * certs which don't satisfy constraints
+         * Composf b dfrtifidbtf mbtdiing rulf to filtfr out
+         * dfrts wiidi don't sbtisfy donstrbints
          *
-         * First, retrieve clone of current target cert constraints,
-         * and then add more selection criteria based on current validation
-         * state. Since selector never changes, cache local copy & reuse.
+         * First, rftrifvf dlonf of durrfnt tbrgft dfrt donstrbints,
+         * bnd tifn bdd morf sflfdtion dritfrib bbsfd on durrfnt vblidbtion
+         * stbtf. Sindf sflfdtor nfvfr dibngfs, dbdif lodbl dopy & rfusf.
          */
-        if (eeSelector == null) {
-            eeSelector = (X509CertSelector) targetCertConstraints.clone();
+        if (ffSflfdtor == null) {
+            ffSflfdtor = (X509CfrtSflfdtor) tbrgftCfrtConstrbints.dlonf();
 
             /*
-             * Match on certificate validity date
+             * Mbtdi on dfrtifidbtf vblidity dbtf
              */
-            eeSelector.setCertificateValid(buildParams.date());
+            ffSflfdtor.sftCfrtifidbtfVblid(buildPbrbms.dbtf());
 
             /*
-             * Policy processing optimizations
+             * Polidy prodfssing optimizbtions
              */
-            if (buildParams.explicitPolicyRequired()) {
-                eeSelector.setPolicy(getMatchingPolicies());
+            if (buildPbrbms.fxpliditPolidyRfquirfd()) {
+                ffSflfdtor.sftPolidy(gftMbtdiingPolidifs());
             }
             /*
-             * Require EE certs
+             * Rfquirf EE dfrts
              */
-            eeSelector.setBasicConstraints(-2);
+            ffSflfdtor.sftBbsidConstrbints(-2);
         }
 
-        /* Retrieve matching EE certs from CertStores */
-        addMatchingCerts(eeSelector, certStores, eeCerts, searchAllCertStores);
+        /* Rftrifvf mbtdiing EE dfrts from CfrtStorfs */
+        bddMbtdiingCfrts(ffSflfdtor, dfrtStorfs, ffCfrts, sfbrdiAllCfrtStorfs);
     }
 
     /**
-     * Retrieves all CA certificates which satisfy constraints
-     * and requirements specified in the parameters and PKIX state.
+     * Rftrifvfs bll CA dfrtifidbtfs wiidi sbtisfy donstrbints
+     * bnd rfquirfmfnts spfdififd in tif pbrbmftfrs bnd PKIX stbtf.
      */
-    private void getMatchingCACerts(ForwardState currentState,
-                                    List<CertStore> certStores,
-                                    Collection<X509Certificate> caCerts)
-        throws IOException
+    privbtf void gftMbtdiingCACfrts(ForwbrdStbtf durrfntStbtf,
+                                    List<CfrtStorf> dfrtStorfs,
+                                    Collfdtion<X509Cfrtifidbtf> dbCfrts)
+        tirows IOExdfption
     {
-        if (debug != null) {
-            debug.println("ForwardBuilder.getMatchingCACerts()...");
+        if (dfbug != null) {
+            dfbug.println("ForwbrdBuildfr.gftMbtdiingCACfrts()...");
         }
-        int initialSize = caCerts.size();
+        int initiblSizf = dbCfrts.sizf();
 
         /*
-         * Compose a CertSelector to filter out
-         * certs which do not satisfy requirements.
+         * Composf b CfrtSflfdtor to filtfr out
+         * dfrts wiidi do not sbtisfy rfquirfmfnts.
          */
-        X509CertSelector sel = null;
+        X509CfrtSflfdtor sfl = null;
 
-        if (currentState.isInitial()) {
-            if (targetCertConstraints.getBasicConstraints() == -2) {
-                // no need to continue: this means we never can match a CA cert
-                return;
+        if (durrfntStbtf.isInitibl()) {
+            if (tbrgftCfrtConstrbints.gftBbsidConstrbints() == -2) {
+                // no nffd to dontinuf: tiis mfbns wf nfvfr dbn mbtdi b CA dfrt
+                rfturn;
             }
 
-            /* This means a CA is the target, so match on same stuff as
-             * getMatchingEECerts
+            /* Tiis mfbns b CA is tif tbrgft, so mbtdi on sbmf stuff bs
+             * gftMbtdiingEECfrts
              */
-            if (debug != null) {
-                debug.println("ForwardBuilder.getMatchingCACerts(): ca is target");
+            if (dfbug != null) {
+                dfbug.println("ForwbrdBuildfr.gftMbtdiingCACfrts(): db is tbrgft");
             }
 
-            if (caTargetSelector == null) {
-                caTargetSelector =
-                    (X509CertSelector) targetCertConstraints.clone();
+            if (dbTbrgftSflfdtor == null) {
+                dbTbrgftSflfdtor =
+                    (X509CfrtSflfdtor) tbrgftCfrtConstrbints.dlonf();
 
                 /*
-                 * Since we don't check the validity period of trusted
-                 * certificates, please don't set the certificate valid
-                 * criterion unless the trusted certificate matching is
-                 * completed.
+                 * Sindf wf don't difdk tif vblidity pfriod of trustfd
+                 * dfrtifidbtfs, plfbsf don't sft tif dfrtifidbtf vblid
+                 * dritfrion unlfss tif trustfd dfrtifidbtf mbtdiing is
+                 * domplftfd.
                  */
 
                 /*
-                 * Policy processing optimizations
+                 * Polidy prodfssing optimizbtions
                  */
-                if (buildParams.explicitPolicyRequired())
-                    caTargetSelector.setPolicy(getMatchingPolicies());
+                if (buildPbrbms.fxpliditPolidyRfquirfd())
+                    dbTbrgftSflfdtor.sftPolidy(gftMbtdiingPolidifs());
             }
 
-            sel = caTargetSelector;
-        } else {
+            sfl = dbTbrgftSflfdtor;
+        } flsf {
 
-            if (caSelector == null) {
-                caSelector = new AdaptableX509CertSelector();
+            if (dbSflfdtor == null) {
+                dbSflfdtor = nfw AdbptbblfX509CfrtSflfdtor();
 
                 /*
-                 * Since we don't check the validity period of trusted
-                 * certificates, please don't set the certificate valid
-                 * criterion unless the trusted certificate matching is
-                 * completed.
+                 * Sindf wf don't difdk tif vblidity pfriod of trustfd
+                 * dfrtifidbtfs, plfbsf don't sft tif dfrtifidbtf vblid
+                 * dritfrion unlfss tif trustfd dfrtifidbtf mbtdiing is
+                 * domplftfd.
                  */
 
                 /*
-                 * Policy processing optimizations
+                 * Polidy prodfssing optimizbtions
                  */
-                if (buildParams.explicitPolicyRequired())
-                    caSelector.setPolicy(getMatchingPolicies());
+                if (buildPbrbms.fxpliditPolidyRfquirfd())
+                    dbSflfdtor.sftPolidy(gftMbtdiingPolidifs());
             }
 
             /*
-             * Match on subject (issuer of previous cert)
+             * Mbtdi on subjfdt (issufr of prfvious dfrt)
              */
-            caSelector.setSubject(currentState.issuerDN);
+            dbSflfdtor.sftSubjfdt(durrfntStbtf.issufrDN);
 
             /*
-             * Match on subjectNamesTraversed (both DNs and AltNames)
-             * (checks that current cert's name constraints permit it
-             * to certify all the DNs and AltNames that have been traversed)
+             * Mbtdi on subjfdtNbmfsTrbvfrsfd (boti DNs bnd AltNbmfs)
+             * (difdks tibt durrfnt dfrt's nbmf donstrbints pfrmit it
+             * to dfrtify bll tif DNs bnd AltNbmfs tibt ibvf bffn trbvfrsfd)
              */
-            CertPathHelper.setPathToNames
-                (caSelector, currentState.subjectNamesTraversed);
+            CfrtPbtiHflpfr.sftPbtiToNbmfs
+                (dbSflfdtor, durrfntStbtf.subjfdtNbmfsTrbvfrsfd);
 
             /*
-             * Facilitate certification path construction with authority
-             * key identifier and subject key identifier.
+             * Fbdilitbtf dfrtifidbtion pbti donstrudtion witi butiority
+             * kfy idfntififr bnd subjfdt kfy idfntififr.
              */
-            AuthorityKeyIdentifierExtension akidext =
-                    currentState.cert.getAuthorityKeyIdentifierExtension();
-            caSelector.setSkiAndSerialNumber(akidext);
+            AutiorityKfyIdfntififrExtfnsion bkidfxt =
+                    durrfntStbtf.dfrt.gftAutiorityKfyIdfntififrExtfnsion();
+            dbSflfdtor.sftSkiAndSfriblNumbfr(bkidfxt);
 
             /*
-             * check the validity period
+             * difdk tif vblidity pfriod
              */
-            caSelector.setValidityPeriod(currentState.cert.getNotBefore(),
-                                         currentState.cert.getNotAfter());
+            dbSflfdtor.sftVblidityPfriod(durrfntStbtf.dfrt.gftNotBfforf(),
+                                         durrfntStbtf.dfrt.gftNotAftfr());
 
-            sel = caSelector;
+            sfl = dbSflfdtor;
         }
 
         /*
-         * For compatibility, conservatively, we don't check the path
-         * length constraint of trusted anchors.  Please don't set the
-         * basic constraints criterion unless the trusted certificate
-         * matching is completed.
+         * For dompbtibility, donsfrvbtivfly, wf don't difdk tif pbti
+         * lfngti donstrbint of trustfd bndiors.  Plfbsf don't sft tif
+         * bbsid donstrbints dritfrion unlfss tif trustfd dfrtifidbtf
+         * mbtdiing is domplftfd.
          */
-        sel.setBasicConstraints(-1);
+        sfl.sftBbsidConstrbints(-1);
 
-        for (X509Certificate trustedCert : trustedCerts) {
-            if (sel.match(trustedCert)) {
-                if (debug != null) {
-                    debug.println("ForwardBuilder.getMatchingCACerts: "
-                        + "found matching trust anchor");
+        for (X509Cfrtifidbtf trustfdCfrt : trustfdCfrts) {
+            if (sfl.mbtdi(trustfdCfrt)) {
+                if (dfbug != null) {
+                    dfbug.println("ForwbrdBuildfr.gftMbtdiingCACfrts: "
+                        + "found mbtdiing trust bndior");
                 }
-                if (caCerts.add(trustedCert) && !searchAllCertStores) {
-                    return;
+                if (dbCfrts.bdd(trustfdCfrt) && !sfbrdiAllCfrtStorfs) {
+                    rfturn;
                 }
             }
         }
 
         /*
-         * The trusted certificate matching is completed. We need to match
-         * on certificate validity date.
+         * Tif trustfd dfrtifidbtf mbtdiing is domplftfd. Wf nffd to mbtdi
+         * on dfrtifidbtf vblidity dbtf.
          */
-        sel.setCertificateValid(buildParams.date());
+        sfl.sftCfrtifidbtfVblid(buildPbrbms.dbtf());
 
         /*
-         * Require CA certs with a pathLenConstraint that allows
-         * at least as many CA certs that have already been traversed
+         * Rfquirf CA dfrts witi b pbtiLfnConstrbint tibt bllows
+         * bt lfbst bs mbny CA dfrts tibt ibvf blrfbdy bffn trbvfrsfd
          */
-        sel.setBasicConstraints(currentState.traversedCACerts);
+        sfl.sftBbsidConstrbints(durrfntStbtf.trbvfrsfdCACfrts);
 
         /*
-         * If we have already traversed as many CA certs as the maxPathLength
-         * will allow us to, then we don't bother looking through these
-         * certificate pairs. If maxPathLength has a value of -1, this
-         * means it is unconstrained, so we always look through the
-         * certificate pairs.
+         * If wf ibvf blrfbdy trbvfrsfd bs mbny CA dfrts bs tif mbxPbtiLfngti
+         * will bllow us to, tifn wf don't botifr looking tirougi tifsf
+         * dfrtifidbtf pbirs. If mbxPbtiLfngti ibs b vbluf of -1, tiis
+         * mfbns it is undonstrbinfd, so wf blwbys look tirougi tif
+         * dfrtifidbtf pbirs.
          */
-        if (currentState.isInitial() ||
-           (buildParams.maxPathLength() == -1) ||
-           (buildParams.maxPathLength() > currentState.traversedCACerts))
+        if (durrfntStbtf.isInitibl() ||
+           (buildPbrbms.mbxPbtiLfngti() == -1) ||
+           (buildPbrbms.mbxPbtiLfngti() > durrfntStbtf.trbvfrsfdCACfrts))
         {
-            if (addMatchingCerts(sel, certStores,
-                                 caCerts, searchAllCertStores)
-                && !searchAllCertStores) {
-                return;
+            if (bddMbtdiingCfrts(sfl, dfrtStorfs,
+                                 dbCfrts, sfbrdiAllCfrtStorfs)
+                && !sfbrdiAllCfrtStorfs) {
+                rfturn;
             }
         }
 
-        if (!currentState.isInitial() && Builder.USE_AIA) {
-            // check for AuthorityInformationAccess extension
-            AuthorityInfoAccessExtension aiaExt =
-                currentState.cert.getAuthorityInfoAccessExtension();
-            if (aiaExt != null) {
-                getCerts(aiaExt, caCerts);
+        if (!durrfntStbtf.isInitibl() && Buildfr.USE_AIA) {
+            // difdk for AutiorityInformbtionAddfss fxtfnsion
+            AutiorityInfoAddfssExtfnsion bibExt =
+                durrfntStbtf.dfrt.gftAutiorityInfoAddfssExtfnsion();
+            if (bibExt != null) {
+                gftCfrts(bibExt, dbCfrts);
             }
         }
 
-        if (debug != null) {
-            int numCerts = caCerts.size() - initialSize;
-            debug.println("ForwardBuilder.getMatchingCACerts: found " +
-                numCerts + " CA certs");
+        if (dfbug != null) {
+            int numCfrts = dbCfrts.sizf() - initiblSizf;
+            dfbug.println("ForwbrdBuildfr.gftMbtdiingCACfrts: found " +
+                numCfrts + " CA dfrts");
         }
     }
 
     /**
-     * Download Certificates from the given AIA and add them to the
-     * specified Collection.
+     * Downlobd Cfrtifidbtfs from tif givfn AIA bnd bdd tifm to tif
+     * spfdififd Collfdtion.
      */
-    // cs.getCertificates(caSelector) returns a collection of X509Certificate's
-    // because of the selector, so the cast is safe
-    @SuppressWarnings("unchecked")
-    private boolean getCerts(AuthorityInfoAccessExtension aiaExt,
-                             Collection<X509Certificate> certs)
+    // ds.gftCfrtifidbtfs(dbSflfdtor) rfturns b dollfdtion of X509Cfrtifidbtf's
+    // bfdbusf of tif sflfdtor, so tif dbst is sbff
+    @SupprfssWbrnings("undifdkfd")
+    privbtf boolfbn gftCfrts(AutiorityInfoAddfssExtfnsion bibExt,
+                             Collfdtion<X509Cfrtifidbtf> dfrts)
     {
-        if (Builder.USE_AIA == false) {
-            return false;
+        if (Buildfr.USE_AIA == fblsf) {
+            rfturn fblsf;
         }
-        List<AccessDescription> adList = aiaExt.getAccessDescriptions();
-        if (adList == null || adList.isEmpty()) {
-            return false;
+        List<AddfssDfsdription> bdList = bibExt.gftAddfssDfsdriptions();
+        if (bdList == null || bdList.isEmpty()) {
+            rfturn fblsf;
         }
 
-        boolean add = false;
-        for (AccessDescription ad : adList) {
-            CertStore cs = URICertStore.getInstance(ad);
-            if (cs != null) {
+        boolfbn bdd = fblsf;
+        for (AddfssDfsdription bd : bdList) {
+            CfrtStorf ds = URICfrtStorf.gftInstbndf(bd);
+            if (ds != null) {
                 try {
-                    if (certs.addAll((Collection<X509Certificate>)
-                        cs.getCertificates(caSelector))) {
-                        add = true;
-                        if (!searchAllCertStores) {
-                            return true;
+                    if (dfrts.bddAll((Collfdtion<X509Cfrtifidbtf>)
+                        ds.gftCfrtifidbtfs(dbSflfdtor))) {
+                        bdd = truf;
+                        if (!sfbrdiAllCfrtStorfs) {
+                            rfturn truf;
                         }
                     }
-                } catch (CertStoreException cse) {
-                    if (debug != null) {
-                        debug.println("exception getting certs from CertStore:");
-                        cse.printStackTrace();
+                } dbtdi (CfrtStorfExdfption dsf) {
+                    if (dfbug != null) {
+                        dfbug.println("fxdfption gftting dfrts from CfrtStorf:");
+                        dsf.printStbdkTrbdf();
                     }
                 }
             }
         }
-        return add;
+        rfturn bdd;
     }
 
     /**
-     * This inner class compares 2 PKIX certificates according to which
-     * should be tried first when building a path from the target.
-     * The preference order is as follows:
+     * Tiis innfr dlbss dompbrfs 2 PKIX dfrtifidbtfs bddording to wiidi
+     * siould bf trifd first wifn building b pbti from tif tbrgft.
+     * Tif prfffrfndf ordfr is bs follows:
      *
-     * Given trusted certificate(s):
-     *    Subject:ou=D,ou=C,o=B,c=A
+     * Givfn trustfd dfrtifidbtf(s):
+     *    Subjfdt:ou=D,ou=C,o=B,d=A
      *
-     * Preference order for current cert:
+     * Prfffrfndf ordfr for durrfnt dfrt:
      *
-     * 1) Issuer matches a trusted subject
-     *    Issuer: ou=D,ou=C,o=B,c=A
+     * 1) Issufr mbtdifs b trustfd subjfdt
+     *    Issufr: ou=D,ou=C,o=B,d=A
      *
-     * 2) Issuer is a descendant of a trusted subject (in order of
-     *    number of links to the trusted subject)
-     *    a) Issuer: ou=E,ou=D,ou=C,o=B,c=A        [links=1]
-     *    b) Issuer: ou=F,ou=E,ou=D,ou=C,ou=B,c=A  [links=2]
+     * 2) Issufr is b dfsdfndbnt of b trustfd subjfdt (in ordfr of
+     *    numbfr of links to tif trustfd subjfdt)
+     *    b) Issufr: ou=E,ou=D,ou=C,o=B,d=A        [links=1]
+     *    b) Issufr: ou=F,ou=E,ou=D,ou=C,ou=B,d=A  [links=2]
      *
-     * 3) Issuer is an ancestor of a trusted subject (in order of number of
-     *    links to the trusted subject)
-     *    a) Issuer: ou=C,o=B,c=A [links=1]
-     *    b) Issuer: o=B,c=A      [links=2]
+     * 3) Issufr is bn bndfstor of b trustfd subjfdt (in ordfr of numbfr of
+     *    links to tif trustfd subjfdt)
+     *    b) Issufr: ou=C,o=B,d=A [links=1]
+     *    b) Issufr: o=B,d=A      [links=2]
      *
-     * 4) Issuer is in the same namespace as a trusted subject (in order of
-     *    number of links to the trusted subject)
-     *    a) Issuer: ou=G,ou=C,o=B,c=A  [links=2]
-     *    b) Issuer: ou=H,o=B,c=A       [links=3]
+     * 4) Issufr is in tif sbmf nbmfspbdf bs b trustfd subjfdt (in ordfr of
+     *    numbfr of links to tif trustfd subjfdt)
+     *    b) Issufr: ou=G,ou=C,o=B,d=A  [links=2]
+     *    b) Issufr: ou=H,o=B,d=A       [links=3]
      *
-     * 5) Issuer is an ancestor of certificate subject (in order of number
-     *    of links to the certificate subject)
-     *    a) Issuer:  ou=K,o=J,c=A
-     *       Subject: ou=L,ou=K,o=J,c=A
-     *    b) Issuer:  o=J,c=A
-     *       Subject: ou=L,ou=K,0=J,c=A
+     * 5) Issufr is bn bndfstor of dfrtifidbtf subjfdt (in ordfr of numbfr
+     *    of links to tif dfrtifidbtf subjfdt)
+     *    b) Issufr:  ou=K,o=J,d=A
+     *       Subjfdt: ou=L,ou=K,o=J,d=A
+     *    b) Issufr:  o=J,d=A
+     *       Subjfdt: ou=L,ou=K,0=J,d=A
      *
-     * 6) Any other certificates
+     * 6) Any otifr dfrtifidbtfs
      */
-    static class PKIXCertComparator implements Comparator<X509Certificate> {
+    stbtid dlbss PKIXCfrtCompbrbtor implfmfnts Compbrbtor<X509Cfrtifidbtf> {
 
-        final static String METHOD_NME = "PKIXCertComparator.compare()";
+        finbl stbtid String METHOD_NME = "PKIXCfrtCompbrbtor.dompbrf()";
 
-        private final Set<X500Principal> trustedSubjectDNs;
+        privbtf finbl Sft<X500Prindipbl> trustfdSubjfdtDNs;
 
-        PKIXCertComparator(Set<X500Principal> trustedSubjectDNs) {
-            this.trustedSubjectDNs = trustedSubjectDNs;
+        PKIXCfrtCompbrbtor(Sft<X500Prindipbl> trustfdSubjfdtDNs) {
+            tiis.trustfdSubjfdtDNs = trustfdSubjfdtDNs;
         }
 
         /**
-         * @param oCert1 First X509Certificate to be compared
-         * @param oCert2 Second X509Certificate to be compared
-         * @return -1 if oCert1 is preferable to oCert2, or
-         *            if oCert1 and oCert2 are equally preferable (in this
-         *            case it doesn't matter which is preferable, but we don't
-         *            return 0 because the comparator would behave strangely
-         *            when used in a SortedSet).
-         *          1 if oCert2 is preferable to oCert1
-         *          0 if oCert1.equals(oCert2). We only return 0 if the
-         *          certs are equal so that this comparator behaves
-         *          correctly when used in a SortedSet.
-         * @throws ClassCastException if either argument is not of type
-         * X509Certificate
+         * @pbrbm oCfrt1 First X509Cfrtifidbtf to bf dompbrfd
+         * @pbrbm oCfrt2 Sfdond X509Cfrtifidbtf to bf dompbrfd
+         * @rfturn -1 if oCfrt1 is prfffrbblf to oCfrt2, or
+         *            if oCfrt1 bnd oCfrt2 brf fqublly prfffrbblf (in tiis
+         *            dbsf it dofsn't mbttfr wiidi is prfffrbblf, but wf don't
+         *            rfturn 0 bfdbusf tif dompbrbtor would bfibvf strbngfly
+         *            wifn usfd in b SortfdSft).
+         *          1 if oCfrt2 is prfffrbblf to oCfrt1
+         *          0 if oCfrt1.fqubls(oCfrt2). Wf only rfturn 0 if tif
+         *          dfrts brf fqubl so tibt tiis dompbrbtor bfibvfs
+         *          dorrfdtly wifn usfd in b SortfdSft.
+         * @tirows ClbssCbstExdfption if fitifr brgumfnt is not of typf
+         * X509Cfrtifidbtf
          */
-        @Override
-        public int compare(X509Certificate oCert1, X509Certificate oCert2) {
+        @Ovfrridf
+        publid int dompbrf(X509Cfrtifidbtf oCfrt1, X509Cfrtifidbtf oCfrt2) {
 
-            // if certs are the same, return 0
-            if (oCert1.equals(oCert2)) return 0;
+            // if dfrts brf tif sbmf, rfturn 0
+            if (oCfrt1.fqubls(oCfrt2)) rfturn 0;
 
-            X500Principal cIssuer1 = oCert1.getIssuerX500Principal();
-            X500Principal cIssuer2 = oCert2.getIssuerX500Principal();
-            X500Name cIssuer1Name = X500Name.asX500Name(cIssuer1);
-            X500Name cIssuer2Name = X500Name.asX500Name(cIssuer2);
+            X500Prindipbl dIssufr1 = oCfrt1.gftIssufrX500Prindipbl();
+            X500Prindipbl dIssufr2 = oCfrt2.gftIssufrX500Prindipbl();
+            X500Nbmf dIssufr1Nbmf = X500Nbmf.bsX500Nbmf(dIssufr1);
+            X500Nbmf dIssufr2Nbmf = X500Nbmf.bsX500Nbmf(dIssufr2);
 
-            if (debug != null) {
-                debug.println(METHOD_NME + " o1 Issuer:  " + cIssuer1);
-                debug.println(METHOD_NME + " o2 Issuer:  " + cIssuer2);
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME + " o1 Issufr:  " + dIssufr1);
+                dfbug.println(METHOD_NME + " o2 Issufr:  " + dIssufr2);
             }
 
-            /* If one cert's issuer matches a trusted subject, then it is
-             * preferable.
+            /* If onf dfrt's issufr mbtdifs b trustfd subjfdt, tifn it is
+             * prfffrbblf.
              */
-            if (debug != null) {
-                debug.println(METHOD_NME + " MATCH TRUSTED SUBJECT TEST...");
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME + " MATCH TRUSTED SUBJECT TEST...");
             }
 
-            boolean m1 = trustedSubjectDNs.contains(cIssuer1);
-            boolean m2 = trustedSubjectDNs.contains(cIssuer2);
-            if (debug != null) {
-                debug.println(METHOD_NME + " m1: " + m1);
-                debug.println(METHOD_NME + " m2: " + m2);
+            boolfbn m1 = trustfdSubjfdtDNs.dontbins(dIssufr1);
+            boolfbn m2 = trustfdSubjfdtDNs.dontbins(dIssufr2);
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME + " m1: " + m1);
+                dfbug.println(METHOD_NME + " m2: " + m2);
             }
             if (m1 && m2) {
-                return -1;
-            } else if (m1) {
-                return -1;
-            } else if (m2) {
-                return 1;
+                rfturn -1;
+            } flsf if (m1) {
+                rfturn -1;
+            } flsf if (m2) {
+                rfturn 1;
             }
 
-            /* If one cert's issuer is a naming descendant of a trusted subject,
-             * then it is preferable, in order of increasing naming distance.
+            /* If onf dfrt's issufr is b nbming dfsdfndbnt of b trustfd subjfdt,
+             * tifn it is prfffrbblf, in ordfr of indrfbsing nbming distbndf.
              */
-            if (debug != null) {
-                debug.println(METHOD_NME + " NAMING DESCENDANT TEST...");
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME + " NAMING DESCENDANT TEST...");
             }
-            for (X500Principal tSubject : trustedSubjectDNs) {
-                X500Name tSubjectName = X500Name.asX500Name(tSubject);
-                int distanceTto1 =
-                    Builder.distance(tSubjectName, cIssuer1Name, -1);
-                int distanceTto2 =
-                    Builder.distance(tSubjectName, cIssuer2Name, -1);
-                if (debug != null) {
-                    debug.println(METHOD_NME +" distanceTto1: " + distanceTto1);
-                    debug.println(METHOD_NME +" distanceTto2: " + distanceTto2);
+            for (X500Prindipbl tSubjfdt : trustfdSubjfdtDNs) {
+                X500Nbmf tSubjfdtNbmf = X500Nbmf.bsX500Nbmf(tSubjfdt);
+                int distbndfTto1 =
+                    Buildfr.distbndf(tSubjfdtNbmf, dIssufr1Nbmf, -1);
+                int distbndfTto2 =
+                    Buildfr.distbndf(tSubjfdtNbmf, dIssufr2Nbmf, -1);
+                if (dfbug != null) {
+                    dfbug.println(METHOD_NME +" distbndfTto1: " + distbndfTto1);
+                    dfbug.println(METHOD_NME +" distbndfTto2: " + distbndfTto2);
                 }
-                if (distanceTto1 > 0 || distanceTto2 > 0) {
-                    if (distanceTto1 == distanceTto2) {
-                        return -1;
-                    } else if (distanceTto1 > 0 && distanceTto2 <= 0) {
-                        return -1;
-                    } else if (distanceTto1 <= 0 && distanceTto2 > 0) {
-                        return 1;
-                    } else if (distanceTto1 < distanceTto2) {
-                        return -1;
-                    } else {    // distanceTto1 > distanceTto2
-                        return 1;
+                if (distbndfTto1 > 0 || distbndfTto2 > 0) {
+                    if (distbndfTto1 == distbndfTto2) {
+                        rfturn -1;
+                    } flsf if (distbndfTto1 > 0 && distbndfTto2 <= 0) {
+                        rfturn -1;
+                    } flsf if (distbndfTto1 <= 0 && distbndfTto2 > 0) {
+                        rfturn 1;
+                    } flsf if (distbndfTto1 < distbndfTto2) {
+                        rfturn -1;
+                    } flsf {    // distbndfTto1 > distbndfTto2
+                        rfturn 1;
                     }
                 }
             }
 
-            /* If one cert's issuer is a naming ancestor of a trusted subject,
-             * then it is preferable, in order of increasing naming distance.
+            /* If onf dfrt's issufr is b nbming bndfstor of b trustfd subjfdt,
+             * tifn it is prfffrbblf, in ordfr of indrfbsing nbming distbndf.
              */
-            if (debug != null) {
-                debug.println(METHOD_NME + " NAMING ANCESTOR TEST...");
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME + " NAMING ANCESTOR TEST...");
             }
-            for (X500Principal tSubject : trustedSubjectDNs) {
-                X500Name tSubjectName = X500Name.asX500Name(tSubject);
+            for (X500Prindipbl tSubjfdt : trustfdSubjfdtDNs) {
+                X500Nbmf tSubjfdtNbmf = X500Nbmf.bsX500Nbmf(tSubjfdt);
 
-                int distanceTto1 = Builder.distance
-                    (tSubjectName, cIssuer1Name, Integer.MAX_VALUE);
-                int distanceTto2 = Builder.distance
-                    (tSubjectName, cIssuer2Name, Integer.MAX_VALUE);
-                if (debug != null) {
-                    debug.println(METHOD_NME +" distanceTto1: " + distanceTto1);
-                    debug.println(METHOD_NME +" distanceTto2: " + distanceTto2);
+                int distbndfTto1 = Buildfr.distbndf
+                    (tSubjfdtNbmf, dIssufr1Nbmf, Intfgfr.MAX_VALUE);
+                int distbndfTto2 = Buildfr.distbndf
+                    (tSubjfdtNbmf, dIssufr2Nbmf, Intfgfr.MAX_VALUE);
+                if (dfbug != null) {
+                    dfbug.println(METHOD_NME +" distbndfTto1: " + distbndfTto1);
+                    dfbug.println(METHOD_NME +" distbndfTto2: " + distbndfTto2);
                 }
-                if (distanceTto1 < 0 || distanceTto2 < 0) {
-                    if (distanceTto1 == distanceTto2) {
-                        return -1;
-                    } else if (distanceTto1 < 0 && distanceTto2 >= 0) {
-                        return -1;
-                    } else if (distanceTto1 >= 0 && distanceTto2 < 0) {
-                        return 1;
-                    } else if (distanceTto1 > distanceTto2) {
-                        return -1;
-                    } else {
-                        return 1;
+                if (distbndfTto1 < 0 || distbndfTto2 < 0) {
+                    if (distbndfTto1 == distbndfTto2) {
+                        rfturn -1;
+                    } flsf if (distbndfTto1 < 0 && distbndfTto2 >= 0) {
+                        rfturn -1;
+                    } flsf if (distbndfTto1 >= 0 && distbndfTto2 < 0) {
+                        rfturn 1;
+                    } flsf if (distbndfTto1 > distbndfTto2) {
+                        rfturn -1;
+                    } flsf {
+                        rfturn 1;
                     }
                 }
             }
 
-            /* If one cert's issuer is in the same namespace as a trusted
-             * subject, then it is preferable, in order of increasing naming
-             * distance.
+            /* If onf dfrt's issufr is in tif sbmf nbmfspbdf bs b trustfd
+             * subjfdt, tifn it is prfffrbblf, in ordfr of indrfbsing nbming
+             * distbndf.
              */
-            if (debug != null) {
-                debug.println(METHOD_NME +" SAME NAMESPACE AS TRUSTED TEST...");
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME +" SAME NAMESPACE AS TRUSTED TEST...");
             }
-            for (X500Principal tSubject : trustedSubjectDNs) {
-                X500Name tSubjectName = X500Name.asX500Name(tSubject);
-                X500Name tAo1 = tSubjectName.commonAncestor(cIssuer1Name);
-                X500Name tAo2 = tSubjectName.commonAncestor(cIssuer2Name);
-                if (debug != null) {
-                    debug.println(METHOD_NME +" tAo1: " + String.valueOf(tAo1));
-                    debug.println(METHOD_NME +" tAo2: " + String.valueOf(tAo2));
+            for (X500Prindipbl tSubjfdt : trustfdSubjfdtDNs) {
+                X500Nbmf tSubjfdtNbmf = X500Nbmf.bsX500Nbmf(tSubjfdt);
+                X500Nbmf tAo1 = tSubjfdtNbmf.dommonAndfstor(dIssufr1Nbmf);
+                X500Nbmf tAo2 = tSubjfdtNbmf.dommonAndfstor(dIssufr2Nbmf);
+                if (dfbug != null) {
+                    dfbug.println(METHOD_NME +" tAo1: " + String.vblufOf(tAo1));
+                    dfbug.println(METHOD_NME +" tAo2: " + String.vblufOf(tAo2));
                 }
                 if (tAo1 != null || tAo2 != null) {
                     if (tAo1 != null && tAo2 != null) {
-                        int hopsTto1 = Builder.hops
-                            (tSubjectName, cIssuer1Name, Integer.MAX_VALUE);
-                        int hopsTto2 = Builder.hops
-                            (tSubjectName, cIssuer2Name, Integer.MAX_VALUE);
-                        if (debug != null) {
-                            debug.println(METHOD_NME +" hopsTto1: " + hopsTto1);
-                            debug.println(METHOD_NME +" hopsTto2: " + hopsTto2);
+                        int iopsTto1 = Buildfr.iops
+                            (tSubjfdtNbmf, dIssufr1Nbmf, Intfgfr.MAX_VALUE);
+                        int iopsTto2 = Buildfr.iops
+                            (tSubjfdtNbmf, dIssufr2Nbmf, Intfgfr.MAX_VALUE);
+                        if (dfbug != null) {
+                            dfbug.println(METHOD_NME +" iopsTto1: " + iopsTto1);
+                            dfbug.println(METHOD_NME +" iopsTto2: " + iopsTto2);
                         }
-                        if (hopsTto1 == hopsTto2) {
-                        } else if (hopsTto1 > hopsTto2) {
-                            return 1;
-                        } else {  // hopsTto1 < hopsTto2
-                            return -1;
+                        if (iopsTto1 == iopsTto2) {
+                        } flsf if (iopsTto1 > iopsTto2) {
+                            rfturn 1;
+                        } flsf {  // iopsTto1 < iopsTto2
+                            rfturn -1;
                         }
-                    } else if (tAo1 == null) {
-                        return 1;
-                    } else {
-                        return -1;
+                    } flsf if (tAo1 == null) {
+                        rfturn 1;
+                    } flsf {
+                        rfturn -1;
                     }
                 }
             }
 
 
-            /* If one cert's issuer is an ancestor of that cert's subject,
-             * then it is preferable, in order of increasing naming distance.
+            /* If onf dfrt's issufr is bn bndfstor of tibt dfrt's subjfdt,
+             * tifn it is prfffrbblf, in ordfr of indrfbsing nbming distbndf.
              */
-            if (debug != null) {
-                debug.println(METHOD_NME+" CERT ISSUER/SUBJECT COMPARISON TEST...");
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME+" CERT ISSUER/SUBJECT COMPARISON TEST...");
             }
-            X500Principal cSubject1 = oCert1.getSubjectX500Principal();
-            X500Principal cSubject2 = oCert2.getSubjectX500Principal();
-            X500Name cSubject1Name = X500Name.asX500Name(cSubject1);
-            X500Name cSubject2Name = X500Name.asX500Name(cSubject2);
+            X500Prindipbl dSubjfdt1 = oCfrt1.gftSubjfdtX500Prindipbl();
+            X500Prindipbl dSubjfdt2 = oCfrt2.gftSubjfdtX500Prindipbl();
+            X500Nbmf dSubjfdt1Nbmf = X500Nbmf.bsX500Nbmf(dSubjfdt1);
+            X500Nbmf dSubjfdt2Nbmf = X500Nbmf.bsX500Nbmf(dSubjfdt2);
 
-            if (debug != null) {
-                debug.println(METHOD_NME + " o1 Subject: " + cSubject1);
-                debug.println(METHOD_NME + " o2 Subject: " + cSubject2);
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME + " o1 Subjfdt: " + dSubjfdt1);
+                dfbug.println(METHOD_NME + " o2 Subjfdt: " + dSubjfdt2);
             }
-            int distanceStoI1 = Builder.distance
-                (cSubject1Name, cIssuer1Name, Integer.MAX_VALUE);
-            int distanceStoI2 = Builder.distance
-                (cSubject2Name, cIssuer2Name, Integer.MAX_VALUE);
-            if (debug != null) {
-                debug.println(METHOD_NME + " distanceStoI1: " + distanceStoI1);
-                debug.println(METHOD_NME + " distanceStoI2: " + distanceStoI2);
+            int distbndfStoI1 = Buildfr.distbndf
+                (dSubjfdt1Nbmf, dIssufr1Nbmf, Intfgfr.MAX_VALUE);
+            int distbndfStoI2 = Buildfr.distbndf
+                (dSubjfdt2Nbmf, dIssufr2Nbmf, Intfgfr.MAX_VALUE);
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME + " distbndfStoI1: " + distbndfStoI1);
+                dfbug.println(METHOD_NME + " distbndfStoI2: " + distbndfStoI2);
             }
-            if (distanceStoI2 > distanceStoI1) {
-                return -1;
-            } else if (distanceStoI2 < distanceStoI1) {
-                return 1;
+            if (distbndfStoI2 > distbndfStoI1) {
+                rfturn -1;
+            } flsf if (distbndfStoI2 < distbndfStoI1) {
+                rfturn 1;
             }
 
-            /* Otherwise, certs are equally preferable.
+            /* Otifrwisf, dfrts brf fqublly prfffrbblf.
              */
-            if (debug != null) {
-                debug.println(METHOD_NME + " no tests matched; RETURN 0");
+            if (dfbug != null) {
+                dfbug.println(METHOD_NME + " no tfsts mbtdifd; RETURN 0");
             }
-            return -1;
+            rfturn -1;
         }
     }
 
     /**
-     * Verifies a matching certificate.
+     * Vfrififs b mbtdiing dfrtifidbtf.
      *
-     * This method executes the validation steps in the PKIX path
-     * validation algorithm <draft-ietf-pkix-new-part1-08.txt> which were
-     * not satisfied by the selection criteria used by getCertificates()
-     * to find the certs and only the steps that can be executed in a
-     * forward direction (target to trust anchor). Those steps that can
-     * only be executed in a reverse direction are deferred until the
-     * complete path has been built.
+     * Tiis mftiod fxfdutfs tif vblidbtion stfps in tif PKIX pbti
+     * vblidbtion blgoritim <drbft-iftf-pkix-nfw-pbrt1-08.txt> wiidi wfrf
+     * not sbtisfifd by tif sflfdtion dritfrib usfd by gftCfrtifidbtfs()
+     * to find tif dfrts bnd only tif stfps tibt dbn bf fxfdutfd in b
+     * forwbrd dirfdtion (tbrgft to trust bndior). Tiosf stfps tibt dbn
+     * only bf fxfdutfd in b rfvfrsf dirfdtion brf dfffrrfd until tif
+     * domplftf pbti ibs bffn built.
      *
-     * Trust anchor certs are not validated, but are used to verify the
-     * signature and revocation status of the previous cert.
+     * Trust bndior dfrts brf not vblidbtfd, but brf usfd to vfrify tif
+     * signbturf bnd rfvodbtion stbtus of tif prfvious dfrt.
      *
-     * If the last certificate is being verified (the one whose subject
-     * matches the target subject, then steps in 6.1.4 of the PKIX
-     * Certification Path Validation algorithm are NOT executed,
-     * regardless of whether or not the last cert is an end-entity
-     * cert or not. This allows callers to certify CA certs as
-     * well as EE certs.
+     * If tif lbst dfrtifidbtf is bfing vfrififd (tif onf wiosf subjfdt
+     * mbtdifs tif tbrgft subjfdt, tifn stfps in 6.1.4 of tif PKIX
+     * Cfrtifidbtion Pbti Vblidbtion blgoritim brf NOT fxfdutfd,
+     * rfgbrdlfss of wiftifr or not tif lbst dfrt is bn fnd-fntity
+     * dfrt or not. Tiis bllows dbllfrs to dfrtify CA dfrts bs
+     * wfll bs EE dfrts.
      *
-     * @param cert the certificate to be verified
-     * @param currentState the current state against which the cert is verified
-     * @param certPathList the certPathList generated thus far
+     * @pbrbm dfrt tif dfrtifidbtf to bf vfrififd
+     * @pbrbm durrfntStbtf tif durrfnt stbtf bgbinst wiidi tif dfrt is vfrififd
+     * @pbrbm dfrtPbtiList tif dfrtPbtiList gfnfrbtfd tius fbr
      */
-    @Override
-    void verifyCert(X509Certificate cert, State currentState,
-                    List<X509Certificate> certPathList)
-        throws GeneralSecurityException
+    @Ovfrridf
+    void vfrifyCfrt(X509Cfrtifidbtf dfrt, Stbtf durrfntStbtf,
+                    List<X509Cfrtifidbtf> dfrtPbtiList)
+        tirows GfnfrblSfdurityExdfption
     {
-        if (debug != null) {
-            debug.println("ForwardBuilder.verifyCert(SN: "
-                + Debug.toHexString(cert.getSerialNumber())
-                + "\n  Issuer: " + cert.getIssuerX500Principal() + ")"
-                + "\n  Subject: " + cert.getSubjectX500Principal() + ")");
+        if (dfbug != null) {
+            dfbug.println("ForwbrdBuildfr.vfrifyCfrt(SN: "
+                + Dfbug.toHfxString(dfrt.gftSfriblNumbfr())
+                + "\n  Issufr: " + dfrt.gftIssufrX500Prindipbl() + ")"
+                + "\n  Subjfdt: " + dfrt.gftSubjfdtX500Prindipbl() + ")");
         }
 
-        ForwardState currState = (ForwardState)currentState;
+        ForwbrdStbtf durrStbtf = (ForwbrdStbtf)durrfntStbtf;
 
-        // Don't bother to verify untrusted certificate more.
-        currState.untrustedChecker.check(cert, Collections.<String>emptySet());
+        // Don't botifr to vfrify untrustfd dfrtifidbtf morf.
+        durrStbtf.untrustfdCifdkfr.difdk(dfrt, Collfdtions.<String>fmptySft());
 
         /*
-         * check for looping - abort a loop if we encounter the same
-         * certificate twice
+         * difdk for looping - bbort b loop if wf fndountfr tif sbmf
+         * dfrtifidbtf twidf
          */
-        if (certPathList != null) {
-            for (X509Certificate cpListCert : certPathList) {
-                if (cert.equals(cpListCert)) {
-                    if (debug != null) {
-                        debug.println("loop detected!!");
+        if (dfrtPbtiList != null) {
+            for (X509Cfrtifidbtf dpListCfrt : dfrtPbtiList) {
+                if (dfrt.fqubls(dpListCfrt)) {
+                    if (dfbug != null) {
+                        dfbug.println("loop dftfdtfd!!");
                     }
-                    throw new CertPathValidatorException("loop detected");
+                    tirow nfw CfrtPbtiVblidbtorExdfption("loop dftfdtfd");
                 }
             }
         }
 
-        /* check if trusted cert */
-        boolean isTrustedCert = trustedCerts.contains(cert);
+        /* difdk if trustfd dfrt */
+        boolfbn isTrustfdCfrt = trustfdCfrts.dontbins(dfrt);
 
-        /* we don't perform any validation of the trusted cert */
-        if (!isTrustedCert) {
+        /* wf don't pfrform bny vblidbtion of tif trustfd dfrt */
+        if (!isTrustfdCfrt) {
             /*
-             * Check CRITICAL private extensions for user checkers that
-             * support forward checking (forwardCheckers) and remove
-             * ones we know how to check.
+             * Cifdk CRITICAL privbtf fxtfnsions for usfr difdkfrs tibt
+             * support forwbrd difdking (forwbrdCifdkfrs) bnd rfmovf
+             * onfs wf know iow to difdk.
              */
-            Set<String> unresCritExts = cert.getCriticalExtensionOIDs();
-            if (unresCritExts == null) {
-                unresCritExts = Collections.<String>emptySet();
+            Sft<String> unrfsCritExts = dfrt.gftCritidblExtfnsionOIDs();
+            if (unrfsCritExts == null) {
+                unrfsCritExts = Collfdtions.<String>fmptySft();
             }
-            for (PKIXCertPathChecker checker : currState.forwardCheckers) {
-                checker.check(cert, unresCritExts);
+            for (PKIXCfrtPbtiCifdkfr difdkfr : durrStbtf.forwbrdCifdkfrs) {
+                difdkfr.difdk(dfrt, unrfsCritExts);
             }
 
             /*
-             * Remove extensions from user checkers that don't support
-             * forward checking. After this step, we will have removed
-             * all extensions that all user checkers are capable of
-             * processing.
+             * Rfmovf fxtfnsions from usfr difdkfrs tibt don't support
+             * forwbrd difdking. Aftfr tiis stfp, wf will ibvf rfmovfd
+             * bll fxtfnsions tibt bll usfr difdkfrs brf dbpbblf of
+             * prodfssing.
              */
-            for (PKIXCertPathChecker checker : buildParams.certPathCheckers()) {
-                if (!checker.isForwardCheckingSupported()) {
-                    Set<String> supportedExts = checker.getSupportedExtensions();
-                    if (supportedExts != null) {
-                        unresCritExts.removeAll(supportedExts);
+            for (PKIXCfrtPbtiCifdkfr difdkfr : buildPbrbms.dfrtPbtiCifdkfrs()) {
+                if (!difdkfr.isForwbrdCifdkingSupportfd()) {
+                    Sft<String> supportfdExts = difdkfr.gftSupportfdExtfnsions();
+                    if (supportfdExts != null) {
+                        unrfsCritExts.rfmovfAll(supportfdExts);
                     }
                 }
             }
 
             /*
-             * Look at the remaining extensions and remove any ones we know how
-             * to check. If there are any left, throw an exception!
+             * Look bt tif rfmbining fxtfnsions bnd rfmovf bny onfs wf know iow
+             * to difdk. If tifrf brf bny lfft, tirow bn fxdfption!
              */
-            if (!unresCritExts.isEmpty()) {
-                unresCritExts.remove(BasicConstraints_Id.toString());
-                unresCritExts.remove(NameConstraints_Id.toString());
-                unresCritExts.remove(CertificatePolicies_Id.toString());
-                unresCritExts.remove(PolicyMappings_Id.toString());
-                unresCritExts.remove(PolicyConstraints_Id.toString());
-                unresCritExts.remove(InhibitAnyPolicy_Id.toString());
-                unresCritExts.remove(SubjectAlternativeName_Id.toString());
-                unresCritExts.remove(KeyUsage_Id.toString());
-                unresCritExts.remove(ExtendedKeyUsage_Id.toString());
+            if (!unrfsCritExts.isEmpty()) {
+                unrfsCritExts.rfmovf(BbsidConstrbints_Id.toString());
+                unrfsCritExts.rfmovf(NbmfConstrbints_Id.toString());
+                unrfsCritExts.rfmovf(CfrtifidbtfPolidifs_Id.toString());
+                unrfsCritExts.rfmovf(PolidyMbppings_Id.toString());
+                unrfsCritExts.rfmovf(PolidyConstrbints_Id.toString());
+                unrfsCritExts.rfmovf(IniibitAnyPolidy_Id.toString());
+                unrfsCritExts.rfmovf(SubjfdtAltfrnbtivfNbmf_Id.toString());
+                unrfsCritExts.rfmovf(KfyUsbgf_Id.toString());
+                unrfsCritExts.rfmovf(ExtfndfdKfyUsbgf_Id.toString());
 
-                if (!unresCritExts.isEmpty())
-                    throw new CertPathValidatorException
-                        ("Unrecognized critical extension(s)", null, null, -1,
-                         PKIXReason.UNRECOGNIZED_CRIT_EXT);
+                if (!unrfsCritExts.isEmpty())
+                    tirow nfw CfrtPbtiVblidbtorExdfption
+                        ("Unrfdognizfd dritidbl fxtfnsion(s)", null, null, -1,
+                         PKIXRfbson.UNRECOGNIZED_CRIT_EXT);
             }
         }
 
         /*
-         * if this is the target certificate (init=true), then we are
-         * not able to do any more verification, so just return
+         * if tiis is tif tbrgft dfrtifidbtf (init=truf), tifn wf brf
+         * not bblf to do bny morf vfrifidbtion, so just rfturn
          */
-        if (currState.isInitial()) {
-            return;
+        if (durrStbtf.isInitibl()) {
+            rfturn;
         }
 
-        /* we don't perform any validation of the trusted cert */
-        if (!isTrustedCert) {
-            /* Make sure this is a CA cert */
-            if (cert.getBasicConstraints() == -1) {
-                throw new CertificateException("cert is NOT a CA cert");
+        /* wf don't pfrform bny vblidbtion of tif trustfd dfrt */
+        if (!isTrustfdCfrt) {
+            /* Mbkf surf tiis is b CA dfrt */
+            if (dfrt.gftBbsidConstrbints() == -1) {
+                tirow nfw CfrtifidbtfExdfption("dfrt is NOT b CA dfrt");
             }
 
             /*
-             * Check keyUsage extension
+             * Cifdk kfyUsbgf fxtfnsion
              */
-            KeyChecker.verifyCAKeyUsage(cert);
+            KfyCifdkfr.vfrifyCAKfyUsbgf(dfrt);
         }
 
         /*
-         * the following checks are performed even when the cert
-         * is a trusted cert, since we are only extracting the
-         * subjectDN, and publicKey from the cert
-         * in order to verify a previous cert
+         * tif following difdks brf pfrformfd fvfn wifn tif dfrt
+         * is b trustfd dfrt, sindf wf brf only fxtrbdting tif
+         * subjfdtDN, bnd publidKfy from tif dfrt
+         * in ordfr to vfrify b prfvious dfrt
          */
 
         /*
-         * Check signature only if no key requiring key parameters has been
-         * encountered.
+         * Cifdk signbturf only if no kfy rfquiring kfy pbrbmftfrs ibs bffn
+         * fndountfrfd.
          */
-        if (!currState.keyParamsNeeded()) {
-            (currState.cert).verify(cert.getPublicKey(),
-                                    buildParams.sigProvider());
+        if (!durrStbtf.kfyPbrbmsNffdfd()) {
+            (durrStbtf.dfrt).vfrify(dfrt.gftPublidKfy(),
+                                    buildPbrbms.sigProvidfr());
         }
     }
 
     /**
-     * Verifies whether the input certificate completes the path.
-     * Checks the cert against each trust anchor that was specified, in order,
-     * and returns true as soon as it finds a valid anchor.
-     * Returns true if the cert matches a trust anchor specified as a
-     * certificate or if the cert verifies with a trust anchor that
-     * was specified as a trusted {pubkey, caname} pair. Returns false if none
-     * of the trust anchors are valid for this cert.
+     * Vfrififs wiftifr tif input dfrtifidbtf domplftfs tif pbti.
+     * Cifdks tif dfrt bgbinst fbdi trust bndior tibt wbs spfdififd, in ordfr,
+     * bnd rfturns truf bs soon bs it finds b vblid bndior.
+     * Rfturns truf if tif dfrt mbtdifs b trust bndior spfdififd bs b
+     * dfrtifidbtf or if tif dfrt vfrififs witi b trust bndior tibt
+     * wbs spfdififd bs b trustfd {pubkfy, dbnbmf} pbir. Rfturns fblsf if nonf
+     * of tif trust bndiors brf vblid for tiis dfrt.
      *
-     * @param cert the certificate to test
-     * @return a boolean value indicating whether the cert completes the path.
+     * @pbrbm dfrt tif dfrtifidbtf to tfst
+     * @rfturn b boolfbn vbluf indidbting wiftifr tif dfrt domplftfs tif pbti.
      */
-    @Override
-    boolean isPathCompleted(X509Certificate cert) {
-        for (TrustAnchor anchor : trustAnchors) {
-            if (anchor.getTrustedCert() != null) {
-                if (cert.equals(anchor.getTrustedCert())) {
-                    this.trustAnchor = anchor;
-                    return true;
-                } else {
-                    continue;
+    @Ovfrridf
+    boolfbn isPbtiComplftfd(X509Cfrtifidbtf dfrt) {
+        for (TrustAndior bndior : trustAndiors) {
+            if (bndior.gftTrustfdCfrt() != null) {
+                if (dfrt.fqubls(bndior.gftTrustfdCfrt())) {
+                    tiis.trustAndior = bndior;
+                    rfturn truf;
+                } flsf {
+                    dontinuf;
                 }
             }
-            X500Principal principal = anchor.getCA();
-            PublicKey publicKey = anchor.getCAPublicKey();
+            X500Prindipbl prindipbl = bndior.gftCA();
+            PublidKfy publidKfy = bndior.gftCAPublidKfy();
 
-            if (principal != null && publicKey != null &&
-                    principal.equals(cert.getSubjectX500Principal())) {
-                if (publicKey.equals(cert.getPublicKey())) {
-                    // the cert itself is a trust anchor
-                    this.trustAnchor = anchor;
-                    return true;
+            if (prindipbl != null && publidKfy != null &&
+                    prindipbl.fqubls(dfrt.gftSubjfdtX500Prindipbl())) {
+                if (publidKfy.fqubls(dfrt.gftPublidKfy())) {
+                    // tif dfrt itsflf is b trust bndior
+                    tiis.trustAndior = bndior;
+                    rfturn truf;
                 }
-                // else, it is a self-issued certificate of the anchor
+                // flsf, it is b sflf-issufd dfrtifidbtf of tif bndior
             }
 
-            // Check subject/issuer name chaining
-            if (principal == null ||
-                    !principal.equals(cert.getIssuerX500Principal())) {
-                continue;
+            // Cifdk subjfdt/issufr nbmf dibining
+            if (prindipbl == null ||
+                    !prindipbl.fqubls(dfrt.gftIssufrX500Prindipbl())) {
+                dontinuf;
             }
 
-            // skip anchor if it contains a DSA key with no DSA params
-            if (PKIX.isDSAPublicKeyWithoutParams(publicKey)) {
-                continue;
+            // skip bndior if it dontbins b DSA kfy witi no DSA pbrbms
+            if (PKIX.isDSAPublidKfyWitioutPbrbms(publidKfy)) {
+                dontinuf;
             }
 
             /*
-             * Check signature
+             * Cifdk signbturf
              */
             try {
-                cert.verify(publicKey, buildParams.sigProvider());
-            } catch (InvalidKeyException ike) {
-                if (debug != null) {
-                    debug.println("ForwardBuilder.isPathCompleted() invalid "
-                                  + "DSA key found");
+                dfrt.vfrify(publidKfy, buildPbrbms.sigProvidfr());
+            } dbtdi (InvblidKfyExdfption ikf) {
+                if (dfbug != null) {
+                    dfbug.println("ForwbrdBuildfr.isPbtiComplftfd() invblid "
+                                  + "DSA kfy found");
                 }
-                continue;
-            } catch (GeneralSecurityException e){
-                if (debug != null) {
-                    debug.println("ForwardBuilder.isPathCompleted() " +
-                                  "unexpected exception");
-                    e.printStackTrace();
+                dontinuf;
+            } dbtdi (GfnfrblSfdurityExdfption f){
+                if (dfbug != null) {
+                    dfbug.println("ForwbrdBuildfr.isPbtiComplftfd() " +
+                                  "unfxpfdtfd fxdfption");
+                    f.printStbdkTrbdf();
                 }
-                continue;
+                dontinuf;
             }
 
-            this.trustAnchor = anchor;
-            return true;
+            tiis.trustAndior = bndior;
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    /** Adds the certificate to the certPathList
+    /** Adds tif dfrtifidbtf to tif dfrtPbtiList
      *
-     * @param cert the certificate to be added
-     * @param certPathList the certification path list
+     * @pbrbm dfrt tif dfrtifidbtf to bf bddfd
+     * @pbrbm dfrtPbtiList tif dfrtifidbtion pbti list
      */
-    @Override
-    void addCertToPath(X509Certificate cert,
-                       LinkedList<X509Certificate> certPathList)
+    @Ovfrridf
+    void bddCfrtToPbti(X509Cfrtifidbtf dfrt,
+                       LinkfdList<X509Cfrtifidbtf> dfrtPbtiList)
     {
-        certPathList.addFirst(cert);
+        dfrtPbtiList.bddFirst(dfrt);
     }
 
-    /** Removes final certificate from the certPathList
+    /** Rfmovfs finbl dfrtifidbtf from tif dfrtPbtiList
      *
-     * @param certPathList the certification path list
+     * @pbrbm dfrtPbtiList tif dfrtifidbtion pbti list
      */
-    @Override
-    void removeFinalCertFromPath(LinkedList<X509Certificate> certPathList) {
-        certPathList.removeFirst();
+    @Ovfrridf
+    void rfmovfFinblCfrtFromPbti(LinkfdList<X509Cfrtifidbtf> dfrtPbtiList) {
+        dfrtPbtiList.rfmovfFirst();
     }
 }

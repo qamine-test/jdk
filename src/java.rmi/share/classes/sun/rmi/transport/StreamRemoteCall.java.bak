@@ -1,315 +1,315 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.transport;
+pbdkbgf sun.rmi.trbnsport;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.StreamCorruptedException;
-import java.rmi.RemoteException;
-import java.rmi.MarshalException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.ObjID;
-import java.rmi.server.RemoteCall;
-import sun.rmi.runtime.Log;
-import sun.rmi.server.UnicastRef;
-import sun.rmi.transport.tcp.TCPEndpoint;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.MbrsiblExdfption;
+import jbvb.rmi.UnmbrsiblExdfption;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RfmotfCbll;
+import sun.rmi.runtimf.Log;
+import sun.rmi.sfrvfr.UnidbstRff;
+import sun.rmi.trbnsport.tdp.TCPEndpoint;
 
 /**
- * Stream-based implementation of the RemoteCall interface.
+ * Strfbm-bbsfd implfmfntbtion of tif RfmotfCbll intfrfbdf.
  *
- * @author Ann Wollrath
+ * @butior Ann Wollrbti
  */
-@SuppressWarnings("deprecation")
-public class StreamRemoteCall implements RemoteCall {
-    private ConnectionInputStream in = null;
-    private ConnectionOutputStream out = null;
-    private Connection conn;
-    private boolean resultStarted = false;
-    private Exception serverException = null;
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss StrfbmRfmotfCbll implfmfnts RfmotfCbll {
+    privbtf ConnfdtionInputStrfbm in = null;
+    privbtf ConnfdtionOutputStrfbm out = null;
+    privbtf Connfdtion donn;
+    privbtf boolfbn rfsultStbrtfd = fblsf;
+    privbtf Exdfption sfrvfrExdfption = null;
 
-    public StreamRemoteCall(Connection c) {
-        conn = c;
+    publid StrfbmRfmotfCbll(Connfdtion d) {
+        donn = d;
     }
 
-    public StreamRemoteCall(Connection c, ObjID id, int op, long hash)
-        throws RemoteException
+    publid StrfbmRfmotfCbll(Connfdtion d, ObjID id, int op, long ibsi)
+        tirows RfmotfExdfption
     {
         try {
-            conn = c;
-            Transport.transportLog.log(Log.VERBOSE,
-                "write remote call header...");
+            donn = d;
+            Trbnsport.trbnsportLog.log(Log.VERBOSE,
+                "writf rfmotf dbll ifbdfr...");
 
-            // write out remote call header info...
-            // call header, part 1 (read by Transport)
-            conn.getOutputStream().write(TransportConstants.Call);
-            getOutputStream();           // creates a MarshalOutputStream
-            id.write(out);               // object id (target of call)
-            // call header, part 2 (read by Dispatcher)
-            out.writeInt(op);            // method number (operation index)
-            out.writeLong(hash);         // stub/skeleton hash
-        } catch (IOException e) {
-            throw new MarshalException("Error marshaling call header", e);
+            // writf out rfmotf dbll ifbdfr info...
+            // dbll ifbdfr, pbrt 1 (rfbd by Trbnsport)
+            donn.gftOutputStrfbm().writf(TrbnsportConstbnts.Cbll);
+            gftOutputStrfbm();           // drfbtfs b MbrsiblOutputStrfbm
+            id.writf(out);               // objfdt id (tbrgft of dbll)
+            // dbll ifbdfr, pbrt 2 (rfbd by Dispbtdifr)
+            out.writfInt(op);            // mftiod numbfr (opfrbtion indfx)
+            out.writfLong(ibsi);         // stub/skflfton ibsi
+        } dbtdi (IOExdfption f) {
+            tirow nfw MbrsiblExdfption("Error mbrsibling dbll ifbdfr", f);
         }
     }
 
     /**
-     * Return the connection associated with this call.
+     * Rfturn tif donnfdtion bssodibtfd witi tiis dbll.
      */
-    public Connection getConnection() {
-        return conn;
+    publid Connfdtion gftConnfdtion() {
+        rfturn donn;
     }
 
     /**
-     * Return the output stream the stub/skeleton should put arguments/results
+     * Rfturn tif output strfbm tif stub/skflfton siould put brgumfnts/rfsults
      * into.
      */
-    public ObjectOutput getOutputStream() throws IOException {
-        return getOutputStream(false);
+    publid ObjfdtOutput gftOutputStrfbm() tirows IOExdfption {
+        rfturn gftOutputStrfbm(fblsf);
     }
 
-    private ObjectOutput getOutputStream(boolean resultStream)
-        throws IOException
+    privbtf ObjfdtOutput gftOutputStrfbm(boolfbn rfsultStrfbm)
+        tirows IOExdfption
     {
         if (out == null) {
-            Transport.transportLog.log(Log.VERBOSE, "getting output stream");
+            Trbnsport.trbnsportLog.log(Log.VERBOSE, "gftting output strfbm");
 
-            out = new ConnectionOutputStream(conn, resultStream);
+            out = nfw ConnfdtionOutputStrfbm(donn, rfsultStrfbm);
         }
-        return out;
+        rfturn out;
     }
 
     /**
-     * Release the outputStream  Currently, will not complain if the
-     * output stream is released more than once.
+     * Rflfbsf tif outputStrfbm  Currfntly, will not domplbin if tif
+     * output strfbm is rflfbsfd morf tibn ondf.
      */
-    public void releaseOutputStream() throws IOException {
+    publid void rflfbsfOutputStrfbm() tirows IOExdfption {
         try {
             if (out != null) {
                 try {
-                    out.flush();
-                } finally {
-                    out.done();         // always start DGC ack timer
+                    out.flusi();
+                } finblly {
+                    out.donf();         // blwbys stbrt DGC bdk timfr
                 }
             }
-            conn.releaseOutputStream();
-        } finally {
+            donn.rflfbsfOutputStrfbm();
+        } finblly {
             out = null;
         }
     }
 
     /**
-     * Get the InputStream the stub/skeleton should get results/arguments
+     * Gft tif InputStrfbm tif stub/skflfton siould gft rfsults/brgumfnts
      * from.
      */
-    public ObjectInput getInputStream() throws IOException {
+    publid ObjfdtInput gftInputStrfbm() tirows IOExdfption {
         if (in == null) {
-            Transport.transportLog.log(Log.VERBOSE, "getting input stream");
+            Trbnsport.trbnsportLog.log(Log.VERBOSE, "gftting input strfbm");
 
-            in = new ConnectionInputStream(conn.getInputStream());
+            in = nfw ConnfdtionInputStrfbm(donn.gftInputStrfbm());
         }
-        return in;
+        rfturn in;
     }
 
     /**
-     * Release the input stream, this would allow some transports to release
-     * the channel early.
+     * Rflfbsf tif input strfbm, tiis would bllow somf trbnsports to rflfbsf
+     * tif dibnnfl fbrly.
      */
-    public void releaseInputStream() throws IOException {
-        /* WARNING: Currently, the UnicastRef.java invoke methods rely
-         * upon this method not throwing an IOException.
+    publid void rflfbsfInputStrfbm() tirows IOExdfption {
+        /* WARNING: Currfntly, tif UnidbstRff.jbvb invokf mftiods rfly
+         * upon tiis mftiod not tirowing bn IOExdfption.
          */
 
         try {
             if (in != null) {
-                // execute MarshalInputStream "done" callbacks
+                // fxfdutf MbrsiblInputStrfbm "donf" dbllbbdks
                 try {
-                    in.done();
-                } catch (RuntimeException e) {
+                    in.donf();
+                } dbtdi (RuntimfExdfption f) {
                 }
 
-                // add saved references to DGC table
-                in.registerRefs();
+                // bdd sbvfd rfffrfndfs to DGC tbblf
+                in.rfgistfrRffs();
 
-                /* WARNING: The connection being passed to done may have
-                 * already been freed.
+                /* WARNING: Tif donnfdtion bfing pbssfd to donf mby ibvf
+                 * blrfbdy bffn frffd.
                  */
-                in.done(conn);
+                in.donf(donn);
             }
-            conn.releaseInputStream();
-        } finally {
+            donn.rflfbsfInputStrfbm();
+        } finblly {
             in = null;
         }
     }
 
     /**
-     * Returns an output stream (may put out header information
-     * relating to the success of the call).
-     * @param success If true, indicates normal return, else indicates
-     * exceptional return.
-     * @exception StreamCorruptedException If result stream previously
-     * acquired
-     * @exception IOException For any other problem with I/O.
+     * Rfturns bn output strfbm (mby put out ifbdfr informbtion
+     * rflbting to tif suddfss of tif dbll).
+     * @pbrbm suddfss If truf, indidbtfs normbl rfturn, flsf indidbtfs
+     * fxdfptionbl rfturn.
+     * @fxdfption StrfbmCorruptfdExdfption If rfsult strfbm prfviously
+     * bdquirfd
+     * @fxdfption IOExdfption For bny otifr problfm witi I/O.
      */
-    public ObjectOutput getResultStream(boolean success) throws IOException {
-        /* make sure result code only marshaled once. */
-        if (resultStarted)
-            throw new StreamCorruptedException("result already in progress");
-        else
-            resultStarted = true;
+    publid ObjfdtOutput gftRfsultStrfbm(boolfbn suddfss) tirows IOExdfption {
+        /* mbkf surf rfsult dodf only mbrsiblfd ondf. */
+        if (rfsultStbrtfd)
+            tirow nfw StrfbmCorruptfdExdfption("rfsult blrfbdy in progrfss");
+        flsf
+            rfsultStbrtfd = truf;
 
-        // write out return header
-        // return header, part 1 (read by Transport)
-        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-        wr.writeByte(TransportConstants.Return);// transport op
-        getOutputStream(true);  // creates a MarshalOutputStream
-        // return header, part 2 (read by client-side RemoteCall)
-        if (success)            //
-            out.writeByte(TransportConstants.NormalReturn);
-        else
-            out.writeByte(TransportConstants.ExceptionalReturn);
-        out.writeID();          // write id for gcAck
-        return out;
+        // writf out rfturn ifbdfr
+        // rfturn ifbdfr, pbrt 1 (rfbd by Trbnsport)
+        DbtbOutputStrfbm wr = nfw DbtbOutputStrfbm(donn.gftOutputStrfbm());
+        wr.writfBytf(TrbnsportConstbnts.Rfturn);// trbnsport op
+        gftOutputStrfbm(truf);  // drfbtfs b MbrsiblOutputStrfbm
+        // rfturn ifbdfr, pbrt 2 (rfbd by dlifnt-sidf RfmotfCbll)
+        if (suddfss)            //
+            out.writfBytf(TrbnsportConstbnts.NormblRfturn);
+        flsf
+            out.writfBytf(TrbnsportConstbnts.ExdfptionblRfturn);
+        out.writfID();          // writf id for gdAdk
+        rfturn out;
     }
 
     /**
-     * Do whatever it takes to execute the call.
+     * Do wibtfvfr it tbkfs to fxfdutf tif dbll.
      */
-    @SuppressWarnings("fallthrough")
-    public void executeCall() throws Exception {
-        byte returnType;
+    @SupprfssWbrnings("fblltirougi")
+    publid void fxfdutfCbll() tirows Exdfption {
+        bytf rfturnTypf;
 
-        // read result header
-        DGCAckHandler ackHandler = null;
+        // rfbd rfsult ifbdfr
+        DGCAdkHbndlfr bdkHbndlfr = null;
         try {
             if (out != null) {
-                ackHandler = out.getDGCAckHandler();
+                bdkHbndlfr = out.gftDGCAdkHbndlfr();
             }
-            releaseOutputStream();
-            DataInputStream rd = new DataInputStream(conn.getInputStream());
-            byte op = rd.readByte();
-            if (op != TransportConstants.Return) {
-                if (Transport.transportLog.isLoggable(Log.BRIEF)) {
-                    Transport.transportLog.log(Log.BRIEF,
-                        "transport return code invalid: " + op);
+            rflfbsfOutputStrfbm();
+            DbtbInputStrfbm rd = nfw DbtbInputStrfbm(donn.gftInputStrfbm());
+            bytf op = rd.rfbdBytf();
+            if (op != TrbnsportConstbnts.Rfturn) {
+                if (Trbnsport.trbnsportLog.isLoggbblf(Log.BRIEF)) {
+                    Trbnsport.trbnsportLog.log(Log.BRIEF,
+                        "trbnsport rfturn dodf invblid: " + op);
                 }
-                throw new UnmarshalException("Transport return code invalid");
+                tirow nfw UnmbrsiblExdfption("Trbnsport rfturn dodf invblid");
             }
-            getInputStream();
-            returnType = in.readByte();
-            in.readID();        // id for DGC acknowledgement
-        } catch (UnmarshalException e) {
-            throw e;
-        } catch (IOException e) {
-            throw new UnmarshalException("Error unmarshaling return header",
-                                         e);
-        } finally {
-            if (ackHandler != null) {
-                ackHandler.release();
+            gftInputStrfbm();
+            rfturnTypf = in.rfbdBytf();
+            in.rfbdID();        // id for DGC bdknowlfdgfmfnt
+        } dbtdi (UnmbrsiblExdfption f) {
+            tirow f;
+        } dbtdi (IOExdfption f) {
+            tirow nfw UnmbrsiblExdfption("Error unmbrsibling rfturn ifbdfr",
+                                         f);
+        } finblly {
+            if (bdkHbndlfr != null) {
+                bdkHbndlfr.rflfbsf();
             }
         }
 
-        // read return value
-        switch (returnType) {
-        case TransportConstants.NormalReturn:
-            break;
+        // rfbd rfturn vbluf
+        switdi (rfturnTypf) {
+        dbsf TrbnsportConstbnts.NormblRfturn:
+            brfbk;
 
-        case TransportConstants.ExceptionalReturn:
-            Object ex;
+        dbsf TrbnsportConstbnts.ExdfptionblRfturn:
+            Objfdt fx;
             try {
-                ex = in.readObject();
-            } catch (Exception e) {
-                throw new UnmarshalException("Error unmarshaling return", e);
+                fx = in.rfbdObjfdt();
+            } dbtdi (Exdfption f) {
+                tirow nfw UnmbrsiblExdfption("Error unmbrsibling rfturn", f);
             }
 
-            // An exception should have been received,
-            // if so throw it, else flag error
-            if (ex instanceof Exception) {
-                exceptionReceivedFromServer((Exception) ex);
-            } else {
-                throw new UnmarshalException("Return type not Exception");
+            // An fxdfption siould ibvf bffn rfdfivfd,
+            // if so tirow it, flsf flbg frror
+            if (fx instbndfof Exdfption) {
+                fxdfptionRfdfivfdFromSfrvfr((Exdfption) fx);
+            } flsf {
+                tirow nfw UnmbrsiblExdfption("Rfturn typf not Exdfption");
             }
-            // Exception is thrown before fallthrough can occur
-        default:
-            if (Transport.transportLog.isLoggable(Log.BRIEF)) {
-                Transport.transportLog.log(Log.BRIEF,
-                    "return code invalid: " + returnType);
+            // Exdfption is tirown bfforf fblltirougi dbn oddur
+        dffbult:
+            if (Trbnsport.trbnsportLog.isLoggbblf(Log.BRIEF)) {
+                Trbnsport.trbnsportLog.log(Log.BRIEF,
+                    "rfturn dodf invblid: " + rfturnTypf);
             }
-            throw new UnmarshalException("Return code invalid");
+            tirow nfw UnmbrsiblExdfption("Rfturn dodf invblid");
         }
     }
 
     /**
-     * Routine that causes the stack traces of remote exceptions to be
-     * filled in with the current stack trace on the client.  Detail
-     * exceptions are filled in iteratively.
+     * Routinf tibt dbusfs tif stbdk trbdfs of rfmotf fxdfptions to bf
+     * fillfd in witi tif durrfnt stbdk trbdf on tif dlifnt.  Dftbil
+     * fxdfptions brf fillfd in itfrbtivfly.
      */
-    protected void exceptionReceivedFromServer(Exception ex) throws Exception {
-        serverException = ex;
+    protfdtfd void fxdfptionRfdfivfdFromSfrvfr(Exdfption fx) tirows Exdfption {
+        sfrvfrExdfption = fx;
 
-        StackTraceElement[] serverTrace = ex.getStackTrace();
-        StackTraceElement[] clientTrace = (new Throwable()).getStackTrace();
-        StackTraceElement[] combinedTrace =
-            new StackTraceElement[serverTrace.length + clientTrace.length];
-        System.arraycopy(serverTrace, 0, combinedTrace, 0,
-                         serverTrace.length);
-        System.arraycopy(clientTrace, 0, combinedTrace, serverTrace.length,
-                         clientTrace.length);
-        ex.setStackTrace(combinedTrace);
+        StbdkTrbdfElfmfnt[] sfrvfrTrbdf = fx.gftStbdkTrbdf();
+        StbdkTrbdfElfmfnt[] dlifntTrbdf = (nfw Tirowbblf()).gftStbdkTrbdf();
+        StbdkTrbdfElfmfnt[] dombinfdTrbdf =
+            nfw StbdkTrbdfElfmfnt[sfrvfrTrbdf.lfngti + dlifntTrbdf.lfngti];
+        Systfm.brrbydopy(sfrvfrTrbdf, 0, dombinfdTrbdf, 0,
+                         sfrvfrTrbdf.lfngti);
+        Systfm.brrbydopy(dlifntTrbdf, 0, dombinfdTrbdf, sfrvfrTrbdf.lfngti,
+                         dlifntTrbdf.lfngti);
+        fx.sftStbdkTrbdf(dombinfdTrbdf);
 
         /*
-         * Log the details of a server exception thrown as a result of a
-         * remote method invocation.
+         * Log tif dftbils of b sfrvfr fxdfption tirown bs b rfsult of b
+         * rfmotf mftiod invodbtion.
          */
-        if (UnicastRef.clientCallLog.isLoggable(Log.BRIEF)) {
-            /* log call exception returned from server before it is rethrown */
-            TCPEndpoint ep = (TCPEndpoint) conn.getChannel().getEndpoint();
-            UnicastRef.clientCallLog.log(Log.BRIEF, "outbound call " +
-                "received exception: [" + ep.getHost() + ":" +
-                ep.getPort() + "] exception: ", ex);
+        if (UnidbstRff.dlifntCbllLog.isLoggbblf(Log.BRIEF)) {
+            /* log dbll fxdfption rfturnfd from sfrvfr bfforf it is rftirown */
+            TCPEndpoint fp = (TCPEndpoint) donn.gftCibnnfl().gftEndpoint();
+            UnidbstRff.dlifntCbllLog.log(Log.BRIEF, "outbound dbll " +
+                "rfdfivfd fxdfption: [" + fp.gftHost() + ":" +
+                fp.gftPort() + "] fxdfption: ", fx);
         }
 
-        throw ex;
+        tirow fx;
     }
 
     /*
-     * method to retrieve possible server side exceptions (which will
-     * be throw from exceptionReceivedFromServer(...) )
+     * mftiod to rftrifvf possiblf sfrvfr sidf fxdfptions (wiidi will
+     * bf tirow from fxdfptionRfdfivfdFromSfrvfr(...) )
      */
-    public Exception getServerException() {
-        return serverException;
+    publid Exdfption gftSfrvfrExdfption() {
+        rfturn sfrvfrExdfption;
     }
 
-    public void done() throws IOException {
-        /* WARNING: Currently, the UnicastRef.java invoke methods rely
-         * upon this method not throwing an IOException.
+    publid void donf() tirows IOExdfption {
+        /* WARNING: Currfntly, tif UnidbstRff.jbvb invokf mftiods rfly
+         * upon tiis mftiod not tirowing bn IOExdfption.
          */
 
-        releaseInputStream();
+        rflfbsfInputStrfbm();
     }
 }

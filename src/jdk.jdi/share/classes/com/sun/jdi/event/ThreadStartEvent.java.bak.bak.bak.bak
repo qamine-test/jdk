@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.fvfnt;
+
+import dom.sun.jdi.*;
+
+/**
+ * Notifidbtion of b nfw running thrfbd in thf tbrgft VM.
+ * Thf nfw thrfbd dbn bf thf rfsult of b dbll to
+ * <dodf>{@link jbvb.lbng.Thrfbd#stbrt}</dodf> or thf rfsult of
+ * bttbdhing b nfw thrfbd to thf VM though JNI. Thf
+ * notifidbtion is gfnfrbtfd by thf nfw thrfbd somf timf bfforf
+ * its fxfdution stbrts.
+ * Bfdbusf of this timing, it is possiblf to rfdfivf othfr fvfnts
+ * for thf thrfbd bfforf this fvfnt is rfdfivfd. (Notbbly,
+ * {@link MfthodEntryEvfnt}s bnd {@link MfthodExitEvfnt}s might oddur
+ * during thrfbd initiblizbtion.)
+ * It is blso possiblf for {@link VirtublMbdhinf#bllThrfbds} to rfturn
+ * b nfw stbrtfd thrfbd bfforf this fvfnt is rfdfivfd.
+ * <p>
+ * Notf thbt this fvfnt givfs no informbtion
+ * bbout thf drfbtion of thf thrfbd objfdt whidh mby hbvf hbppfnfd
+ * mudh fbrlifr, dfpfnding on thf VM bfing dfbuggfd.
+ *
+ * @sff EvfntQufuf
+ * @sff VirtublMbdhinf
+ * @sff ThrfbdRfffrfndf
+ *
+ * @buthor Robfrt Fifld
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ThrfbdStbrtEvfnt fxtfnds Evfnt {
+    /**
+     * Rfturns thf thrfbd whidh hbs stbrtfd.
+     *
+     * @rfturn b {@link ThrfbdRfffrfndf} whidh mirrors thf fvfnt's thrfbd in
+     * thf tbrgft VM.
+     */
+    publid ThrfbdRfffrfndf thrfbd();
+}

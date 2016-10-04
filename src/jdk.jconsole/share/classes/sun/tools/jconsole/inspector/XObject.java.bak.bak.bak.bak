@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+// jbvb import
+import jbvbx.swing.*;
+import jbvb.util.Objfdts;
+
+/**
+ * This providfs b wrbppfr to thf Objfdt dlbss to bllow it to bf
+ displbyfd/mbnipulbtfd bs b GUI objfdt.
+*/
+@SupprfssWbrnings("sfribl")
+publid dlbss XObjfdt fxtfnds JLbbfl {
+    privbtf Objfdt objfdt;
+    privbtf stbtid boolfbn usfHbshCodfRfprfsfntbtion = truf;
+    publid finbl stbtid XObjfdt NULL_OBJECT = nfw XObjfdt("null");
+    publid XObjfdt (Objfdt objfdt, Idon idon) {
+        this(objfdt);
+        sftIdon(idon);
+    }
+
+    publid XObjfdt (Objfdt objfdt) {
+        sftObjfdt(objfdt);
+        sftHorizontblAlignmfnt(SwingConstbnts.LEFT);
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof XObjfdt) {
+            rfturn Objfdts.fqubls(objfdt, ((XObjfdt)o).gftObjfdt());
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn objfdt.hbshCodf();
+    }
+
+
+    publid Objfdt gftObjfdt() {
+        rfturn objfdt;
+    }
+
+    //if truf thf thf objfdt.hbshdodf is bddfd to thf lbbfl
+    publid stbtid void
+        usfHbshCodfRfprfsfntbtion(boolfbn usfHbshCodfRfprfsfntbtion) {
+        XObjfdt.usfHbshCodfRfprfsfntbtion = usfHbshCodfRfprfsfntbtion;
+    }
+
+    publid stbtid boolfbn hbshCodfRfprfsfntbtion() {
+        rfturn usfHbshCodfRfprfsfntbtion;
+    }
+
+    publid void sftObjfdt(Objfdt objfdt) {
+        this.objfdt = objfdt;
+        // if thf objfdt is not  b swing domponfnt,
+        // usf dffbult idon
+        try {
+            String tfxt = null;
+            if (objfdt instbndfof JLbbfl) {
+                sftIdon(((JLbbfl)objfdt).gftIdon());
+                if (gftTfxt() != null) {
+                    tfxt = ((JLbbfl)objfdt).gftTfxt();
+
+                }
+            }
+            flsf if (objfdt instbndfof JButton) {
+                sftIdon(((JButton)objfdt).gftIdon());
+                if (gftTfxt() != null) {
+                    tfxt = ((JButton)objfdt).gftTfxt();
+                }
+            }
+            flsf if (gftTfxt() != null) {
+                tfxt = objfdt.toString();
+                sftIdon(IdonMbnbgfr.DEFAULT_XOBJECT);
+            }
+            if (tfxt != null) {
+                if (usfHbshCodfRfprfsfntbtion && (this != NULL_OBJECT)) {
+                    tfxt = tfxt + "     ("+objfdt.hbshCodf()+")";
+                }
+                sftTfxt(tfxt);
+            }
+        }
+        dbtdh (Exdfption f) {
+             Systfm.out.println("Error sftting XObjfdt objfdt :"+
+                                f.gftMfssbgf());
+        }
+    }
+}

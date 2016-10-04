@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 2000, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include <io.h>
-#include "nio.h"
-#include "nio_util.h"
-#include "sun_nio_ch_FileChannelImpl.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf <io.i>
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "sun_nio_di_FilfCibnnflImpl.i"
 
-static jfieldID chan_fd; /* id for jobject 'fd' in java.io.FileChannel */
+stbtid jfifldID dibn_fd; /* id for jobjfdt 'fd' in jbvb.io.FilfCibnnfl */
 
 /**************************************************************
- * static method to store field ID's in initializers
- * and retrieve the allocation granularity
+ * stbtid mftiod to storf fifld ID's in initiblizfrs
+ * bnd rftrifvf tif bllodbtion grbnulbrity
  */
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_di_FilfCibnnflImpl_initIDs(JNIEnv *fnv, jdlbss dlbzz)
 {
     SYSTEM_INFO si;
-    jint align;
-    GetSystemInfo(&si);
-    align = si.dwAllocationGranularity;
-    chan_fd = (*env)->GetFieldID(env, clazz, "fd", "Ljava/io/FileDescriptor;");
-    return align;
+    jint blign;
+    GftSystfmInfo(&si);
+    blign = si.dwAllodbtionGrbnulbrity;
+    dibn_fd = (*fnv)->GftFifldID(fnv, dlbzz, "fd", "Ljbvb/io/FilfDfsdriptor;");
+    rfturn blign;
 }
 
 
 /**************************************************************
- * Channel
+ * Cibnnfl
  */
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_map0(JNIEnv *env, jobject this,
-                               jint prot, jlong off, jlong len)
+Jbvb_sun_nio_di_FilfCibnnflImpl_mbp0(JNIEnv *fnv, jobjfdt tiis,
+                               jint prot, jlong off, jlong lfn)
 {
-    void *mapAddress = 0;
-    jint lowOffset = (jint)off;
-    jint highOffset = (jint)(off >> 32);
-    jlong maxSize = off + len;
-    jint lowLen = (jint)(maxSize);
-    jint highLen = (jint)(maxSize >> 32);
-    jobject fdo = (*env)->GetObjectField(env, this, chan_fd);
-    HANDLE fileHandle = (HANDLE)(handleval(env, fdo));
-    HANDLE mapping;
-    DWORD mapAccess = FILE_MAP_READ;
-    DWORD fileProtect = PAGE_READONLY;
-    DWORD mapError;
-    BOOL result;
+    void *mbpAddrfss = 0;
+    jint lowOffsft = (jint)off;
+    jint iigiOffsft = (jint)(off >> 32);
+    jlong mbxSizf = off + lfn;
+    jint lowLfn = (jint)(mbxSizf);
+    jint iigiLfn = (jint)(mbxSizf >> 32);
+    jobjfdt fdo = (*fnv)->GftObjfdtFifld(fnv, tiis, dibn_fd);
+    HANDLE filfHbndlf = (HANDLE)(ibndlfvbl(fnv, fdo));
+    HANDLE mbpping;
+    DWORD mbpAddfss = FILE_MAP_READ;
+    DWORD filfProtfdt = PAGE_READONLY;
+    DWORD mbpError;
+    BOOL rfsult;
 
-    if (prot == sun_nio_ch_FileChannelImpl_MAP_RO) {
-        fileProtect = PAGE_READONLY;
-        mapAccess = FILE_MAP_READ;
-    } else if (prot == sun_nio_ch_FileChannelImpl_MAP_RW) {
-        fileProtect = PAGE_READWRITE;
-        mapAccess = FILE_MAP_WRITE;
-    } else if (prot == sun_nio_ch_FileChannelImpl_MAP_PV) {
-        fileProtect = PAGE_WRITECOPY;
-        mapAccess = FILE_MAP_COPY;
+    if (prot == sun_nio_di_FilfCibnnflImpl_MAP_RO) {
+        filfProtfdt = PAGE_READONLY;
+        mbpAddfss = FILE_MAP_READ;
+    } flsf if (prot == sun_nio_di_FilfCibnnflImpl_MAP_RW) {
+        filfProtfdt = PAGE_READWRITE;
+        mbpAddfss = FILE_MAP_WRITE;
+    } flsf if (prot == sun_nio_di_FilfCibnnflImpl_MAP_PV) {
+        filfProtfdt = PAGE_WRITECOPY;
+        mbpAddfss = FILE_MAP_COPY;
     }
 
-    mapping = CreateFileMapping(
-        fileHandle,      /* Handle of file */
-        NULL,            /* Not inheritable */
-        fileProtect,     /* Read and write */
-        highLen,         /* High word of max size */
-        lowLen,          /* Low word of max size */
-        NULL);           /* No name for object */
+    mbpping = CrfbtfFilfMbpping(
+        filfHbndlf,      /* Hbndlf of filf */
+        NULL,            /* Not inifritbblf */
+        filfProtfdt,     /* Rfbd bnd writf */
+        iigiLfn,         /* Higi word of mbx sizf */
+        lowLfn,          /* Low word of mbx sizf */
+        NULL);           /* No nbmf for objfdt */
 
-    if (mapping == NULL) {
-        JNU_ThrowIOExceptionWithLastError(env, "Map failed");
-        return IOS_THROWN;
+    if (mbpping == NULL) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Mbp fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    mapAddress = MapViewOfFile(
-        mapping,             /* Handle of file mapping object */
-        mapAccess,           /* Read and write access */
-        highOffset,          /* High word of offset */
-        lowOffset,           /* Low word of offset */
-        (DWORD)len);         /* Number of bytes to map */
-    mapError = GetLastError();
+    mbpAddrfss = MbpVifwOfFilf(
+        mbpping,             /* Hbndlf of filf mbpping objfdt */
+        mbpAddfss,           /* Rfbd bnd writf bddfss */
+        iigiOffsft,          /* Higi word of offsft */
+        lowOffsft,           /* Low word of offsft */
+        (DWORD)lfn);         /* Numbfr of bytfs to mbp */
+    mbpError = GftLbstError();
 
-    result = CloseHandle(mapping);
-    if (result == 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "Map failed");
-        return IOS_THROWN;
+    rfsult = ClosfHbndlf(mbpping);
+    if (rfsult == 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Mbp fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    if (mapAddress == NULL) {
-        if (mapError == ERROR_NOT_ENOUGH_MEMORY)
-            JNU_ThrowOutOfMemoryError(env, "Map failed");
-        else
-            JNU_ThrowIOExceptionWithLastError(env, "Map failed");
-        return IOS_THROWN;
+    if (mbpAddrfss == NULL) {
+        if (mbpError == ERROR_NOT_ENOUGH_MEMORY)
+            JNU_TirowOutOfMfmoryError(fnv, "Mbp fbilfd");
+        flsf
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Mbp fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    return ptr_to_jlong(mapAddress);
+    rfturn ptr_to_jlong(mbpAddrfss);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileChannelImpl_unmap0(JNIEnv *env, jobject this,
-                                 jlong address, jlong len)
+Jbvb_sun_nio_di_FilfCibnnflImpl_unmbp0(JNIEnv *fnv, jobjfdt tiis,
+                                 jlong bddrfss, jlong lfn)
 {
-    BOOL result;
-    void *a = (void *) jlong_to_ptr(address);
+    BOOL rfsult;
+    void *b = (void *) jlong_to_ptr(bddrfss);
 
-    result = UnmapViewOfFile(a);
-    if (result == 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "Unmap failed");
-        return IOS_THROWN;
+    rfsult = UnmbpVifwOfFilf(b);
+    if (rfsult == 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Unmbp fbilfd");
+        rfturn IOS_THROWN;
     }
-    return 0;
+    rfturn 0;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_position0(JNIEnv *env, jobject this,
-                                          jobject fdo, jlong offset)
+Jbvb_sun_nio_di_FilfCibnnflImpl_position0(JNIEnv *fnv, jobjfdt tiis,
+                                          jobjfdt fdo, jlong offsft)
 {
     DWORD lowPos = 0;
-    long highPos = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    long iigiPos = 0;
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
 
-    if (offset < 0) {
-        lowPos = SetFilePointer(h, 0, &highPos, FILE_CURRENT);
-    } else {
-        lowPos = (DWORD)offset;
-        highPos = (long)(offset >> 32);
-        lowPos = SetFilePointer(h, lowPos, &highPos, FILE_BEGIN);
+    if (offsft < 0) {
+        lowPos = SftFilfPointfr(i, 0, &iigiPos, FILE_CURRENT);
+    } flsf {
+        lowPos = (DWORD)offsft;
+        iigiPos = (long)(offsft >> 32);
+        lowPos = SftFilfPointfr(i, lowPos, &iigiPos, FILE_BEGIN);
     }
     if (lowPos == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Seek failed");
-            return IOS_THROWN;
+        if (GftLbstError() != ERROR_SUCCESS) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Sffk fbilfd");
+            rfturn IOS_THROWN;
         }
     }
-    return (((jlong)highPos) << 32) | lowPos;
+    rfturn (((jlong)iigiPos) << 32) | lowPos;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileChannelImpl_close0(JNIEnv *env, jobject this, jobject fdo)
+Jbvb_sun_nio_di_FilfCibnnflImpl_dlosf0(JNIEnv *fnv, jobjfdt tiis, jobjfdt fdo)
 {
-    HANDLE h = (HANDLE)(handleval(env, fdo));
-    if (h != INVALID_HANDLE_VALUE) {
-        jint result = CloseHandle(h);
-        if (result < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, "Close failed");
+    HANDLE i = (HANDLE)(ibndlfvbl(fnv, fdo));
+    if (i != INVALID_HANDLE_VALUE) {
+        jint rfsult = ClosfHbndlf(i);
+        if (rfsult < 0) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Closf fbilfd");
         }
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
-                                            jint srcFD,
-                                            jlong position, jlong count,
+Jbvb_sun_nio_di_FilfCibnnflImpl_trbnsffrTo0(JNIEnv *fnv, jobjfdt tiis,
+                                            jint srdFD,
+                                            jlong position, jlong dount,
                                             jint dstFD)
 {
-    return IOS_UNSUPPORTED;
+    rfturn IOS_UNSUPPORTED;
 }

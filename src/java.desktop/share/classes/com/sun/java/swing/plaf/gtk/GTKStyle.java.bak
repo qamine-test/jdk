@@ -1,1141 +1,1141 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.gtk;
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
 
-import java.awt.*;
-import java.lang.reflect.*;
-import java.security.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.synth.*;
+import jbvb.bwt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.synti.*;
 
-import sun.awt.AppContext;
-import sun.awt.UNIXToolkit;
-import sun.swing.SwingUtilities2;
-import sun.swing.plaf.synth.SynthIcon;
+import sun.bwt.AppContfxt;
+import sun.bwt.UNIXToolkit;
+import sun.swing.SwingUtilitifs2;
+import sun.swing.plbf.synti.SyntiIdon;
 
-import com.sun.java.swing.plaf.gtk.GTKEngine.WidgetType;
+import dom.sun.jbvb.swing.plbf.gtk.GTKEnginf.WidgftTypf;
 
 /**
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-class GTKStyle extends SynthStyle implements GTKConstants {
+dlbss GTKStylf fxtfnds SyntiStylf implfmfnts GTKConstbnts {
 
-    private static native int nativeGetXThickness(int widgetType);
-    private static native int nativeGetYThickness(int widgetType);
-    private static native int nativeGetColorForState(int widgetType,
-                                                     int state, int typeID);
-    private static native Object nativeGetClassValue(int widgetType,
-                                                     String key);
-    private static native String nativeGetPangoFontName(int widgetType);
+    privbtf stbtid nbtivf int nbtivfGftXTiidknfss(int widgftTypf);
+    privbtf stbtid nbtivf int nbtivfGftYTiidknfss(int widgftTypf);
+    privbtf stbtid nbtivf int nbtivfGftColorForStbtf(int widgftTypf,
+                                                     int stbtf, int typfID);
+    privbtf stbtid nbtivf Objfdt nbtivfGftClbssVbluf(int widgftTypf,
+                                                     String kfy);
+    privbtf stbtid nbtivf String nbtivfGftPbngoFontNbmf(int widgftTypf);
 
-    private static final String ICON_PROPERTY_PREFIX = "gtk.icon.";
+    privbtf stbtid finbl String ICON_PROPERTY_PREFIX = "gtk.idon.";
 
-    static final Color BLACK_COLOR = new ColorUIResource(Color.BLACK);
-    static final Color WHITE_COLOR = new ColorUIResource(Color.WHITE);
+    stbtid finbl Color BLACK_COLOR = nfw ColorUIRfsourdf(Color.BLACK);
+    stbtid finbl Color WHITE_COLOR = nfw ColorUIRfsourdf(Color.WHITE);
 
-    static final Font DEFAULT_FONT = new FontUIResource("sansserif",
+    stbtid finbl Font DEFAULT_FONT = nfw FontUIRfsourdf("sbnssfrif",
                                                         Font.PLAIN, 10  );
-    static final Insets BUTTON_DEFAULT_BORDER_INSETS = new Insets(1, 1, 1, 1);
+    stbtid finbl Insfts BUTTON_DEFAULT_BORDER_INSETS = nfw Insfts(1, 1, 1, 1);
 
-    private static final GTKGraphicsUtils GTK_GRAPHICS = new GTKGraphicsUtils();
-
-    /**
-     * Maps from a key that is passed to Style.get to the equivalent class
-     * specific key.
-     */
-    private static final Map<String,String> CLASS_SPECIFIC_MAP;
+    privbtf stbtid finbl GTKGrbpiidsUtils GTK_GRAPHICS = nfw GTKGrbpiidsUtils();
 
     /**
-     * Backing style properties that are used if the style does not
-     * defined the property.
+     * Mbps from b kfy tibt is pbssfd to Stylf.gft to tif fquivblfnt dlbss
+     * spfdifid kfy.
      */
-    private static final Map<String,GTKStockIcon> ICONS_MAP;
+    privbtf stbtid finbl Mbp<String,String> CLASS_SPECIFIC_MAP;
 
     /**
-     * The font used for this particular style, as determined at
-     * construction time.
+     * Bbdking stylf propfrtifs tibt brf usfd if tif stylf dofs not
+     * dffinfd tif propfrty.
      */
-    private final Font font;
+    privbtf stbtid finbl Mbp<String,GTKStodkIdon> ICONS_MAP;
 
-    /** Widget type used when looking up class specific values. */
-    private final int widgetType;
+    /**
+     * Tif font usfd for tiis pbrtidulbr stylf, bs dftfrminfd bt
+     * donstrudtion timf.
+     */
+    privbtf finbl Font font;
 
-    /** The x/y thickness values for this particular style. */
-    private final int xThickness, yThickness;
+    /** Widgft typf usfd wifn looking up dlbss spfdifid vblufs. */
+    privbtf finbl int widgftTypf;
 
-    GTKStyle(Font userFont, WidgetType widgetType) {
-        this.widgetType = widgetType.ordinal();
+    /** Tif x/y tiidknfss vblufs for tiis pbrtidulbr stylf. */
+    privbtf finbl int xTiidknfss, yTiidknfss;
 
-        String pangoFontName;
-        synchronized (sun.awt.UNIXToolkit.GTK_LOCK) {
-            xThickness = nativeGetXThickness(this.widgetType);
-            yThickness = nativeGetYThickness(this.widgetType);
-            pangoFontName = nativeGetPangoFontName(this.widgetType);
+    GTKStylf(Font usfrFont, WidgftTypf widgftTypf) {
+        tiis.widgftTypf = widgftTypf.ordinbl();
+
+        String pbngoFontNbmf;
+        syndironizfd (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            xTiidknfss = nbtivfGftXTiidknfss(tiis.widgftTypf);
+            yTiidknfss = nbtivfGftYTiidknfss(tiis.widgftTypf);
+            pbngoFontNbmf = nbtivfGftPbngoFontNbmf(tiis.widgftTypf);
         }
 
-        Font pangoFont = null;
-        if (pangoFontName != null) {
-            pangoFont = PangoFonts.lookupFont(pangoFontName);
+        Font pbngoFont = null;
+        if (pbngoFontNbmf != null) {
+            pbngoFont = PbngoFonts.lookupFont(pbngoFontNbmf);
         }
-        if (pangoFont != null) {
-            this.font = pangoFont;
-        } else if (userFont != null) {
-            this.font = userFont;
-        } else {
-            this.font = DEFAULT_FONT;
+        if (pbngoFont != null) {
+            tiis.font = pbngoFont;
+        } flsf if (usfrFont != null) {
+            tiis.font = usfrFont;
+        } flsf {
+            tiis.font = DEFAULT_FONT;
         }
     }
 
-    @Override
-    public void installDefaults(SynthContext context) {
-        super.installDefaults(context);
-        if (!context.getRegion().isSubregion()) {
-            context.getComponent().putClientProperty(
-                SwingUtilities2.AA_TEXT_PROPERTY_KEY,
-                GTKLookAndFeel.aaTextInfo);
+    @Ovfrridf
+    publid void instbllDffbults(SyntiContfxt dontfxt) {
+        supfr.instbllDffbults(dontfxt);
+        if (!dontfxt.gftRfgion().isSubrfgion()) {
+            dontfxt.gftComponfnt().putClifntPropfrty(
+                SwingUtilitifs2.AA_TEXT_PROPERTY_KEY,
+                GTKLookAndFffl.bbTfxtInfo);
         }
     }
 
-    @Override
-    public SynthGraphicsUtils getGraphicsUtils(SynthContext context) {
-        return GTK_GRAPHICS;
+    @Ovfrridf
+    publid SyntiGrbpiidsUtils gftGrbpiidsUtils(SyntiContfxt dontfxt) {
+        rfturn GTK_GRAPHICS;
     }
 
     /**
-     * Returns a <code>SynthPainter</code> that will route the appropriate
-     * calls to a <code>GTKEngine</code>.
+     * Rfturns b <dodf>SyntiPbintfr</dodf> tibt will routf tif bppropribtf
+     * dblls to b <dodf>GTKEnginf</dodf>.
      *
-     * @param state SynthContext identifying requestor
-     * @return SynthPainter
+     * @pbrbm stbtf SyntiContfxt idfntifying rfqufstor
+     * @rfturn SyntiPbintfr
      */
-    @Override
-    public SynthPainter getPainter(SynthContext state) {
-        return GTKPainter.INSTANCE;
+    @Ovfrridf
+    publid SyntiPbintfr gftPbintfr(SyntiContfxt stbtf) {
+        rfturn GTKPbintfr.INSTANCE;
     }
 
-    protected Color getColorForState(SynthContext context, ColorType type) {
-        if (type == ColorType.FOCUS || type == GTKColorType.BLACK) {
-            return BLACK_COLOR;
+    protfdtfd Color gftColorForStbtf(SyntiContfxt dontfxt, ColorTypf typf) {
+        if (typf == ColorTypf.FOCUS || typf == GTKColorTypf.BLACK) {
+            rfturn BLACK_COLOR;
         }
-        else if (type == GTKColorType.WHITE) {
-            return WHITE_COLOR;
+        flsf if (typf == GTKColorTypf.WHITE) {
+            rfturn WHITE_COLOR;
         }
 
-        Region id = context.getRegion();
-        int state = context.getComponentState();
-        state = GTKLookAndFeel.synthStateToGTKState(id, state);
+        Rfgion id = dontfxt.gftRfgion();
+        int stbtf = dontfxt.gftComponfntStbtf();
+        stbtf = GTKLookAndFffl.syntiStbtfToGTKStbtf(id, stbtf);
 
-        if (type == ColorType.TEXT_FOREGROUND &&
-               (id == Region.BUTTON ||
-                id == Region.CHECK_BOX ||
-                id == Region.CHECK_BOX_MENU_ITEM ||
-                id == Region.MENU ||
-                id == Region.MENU_ITEM ||
-                id == Region.RADIO_BUTTON ||
-                id == Region.RADIO_BUTTON_MENU_ITEM ||
-                id == Region.TABBED_PANE_TAB ||
-                id == Region.TOGGLE_BUTTON ||
-                id == Region.TOOL_TIP ||
-                id == Region.MENU_ITEM_ACCELERATOR ||
-                id == Region.TABBED_PANE_TAB)) {
-            type = ColorType.FOREGROUND;
-        } else if (id == Region.TABLE ||
-                   id == Region.LIST ||
-                   id == Region.TREE ||
-                   id == Region.TREE_CELL) {
-            if (type == ColorType.FOREGROUND) {
-                type = ColorType.TEXT_FOREGROUND;
-                if (state == SynthConstants.PRESSED) {
-                    state = SynthConstants.SELECTED;
+        if (typf == ColorTypf.TEXT_FOREGROUND &&
+               (id == Rfgion.BUTTON ||
+                id == Rfgion.CHECK_BOX ||
+                id == Rfgion.CHECK_BOX_MENU_ITEM ||
+                id == Rfgion.MENU ||
+                id == Rfgion.MENU_ITEM ||
+                id == Rfgion.RADIO_BUTTON ||
+                id == Rfgion.RADIO_BUTTON_MENU_ITEM ||
+                id == Rfgion.TABBED_PANE_TAB ||
+                id == Rfgion.TOGGLE_BUTTON ||
+                id == Rfgion.TOOL_TIP ||
+                id == Rfgion.MENU_ITEM_ACCELERATOR ||
+                id == Rfgion.TABBED_PANE_TAB)) {
+            typf = ColorTypf.FOREGROUND;
+        } flsf if (id == Rfgion.TABLE ||
+                   id == Rfgion.LIST ||
+                   id == Rfgion.TREE ||
+                   id == Rfgion.TREE_CELL) {
+            if (typf == ColorTypf.FOREGROUND) {
+                typf = ColorTypf.TEXT_FOREGROUND;
+                if (stbtf == SyntiConstbnts.PRESSED) {
+                    stbtf = SyntiConstbnts.SELECTED;
                 }
-            } else if (type == ColorType.BACKGROUND) {
-                type = ColorType.TEXT_BACKGROUND;
+            } flsf if (typf == ColorTypf.BACKGROUND) {
+                typf = ColorTypf.TEXT_BACKGROUND;
             }
         }
 
-        return getStyleSpecificColor(context, state, type);
+        rfturn gftStylfSpfdifidColor(dontfxt, stbtf, typf);
     }
 
     /**
-     * Returns color specific to the current style. This method is
-     * invoked when other variants don't fit.
+     * Rfturns dolor spfdifid to tif durrfnt stylf. Tiis mftiod is
+     * invokfd wifn otifr vbribnts don't fit.
      */
-    private Color getStyleSpecificColor(SynthContext context, int state,
-                                        ColorType type)
+    privbtf Color gftStylfSpfdifidColor(SyntiContfxt dontfxt, int stbtf,
+                                        ColorTypf typf)
     {
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        synchronized (sun.awt.UNIXToolkit.GTK_LOCK) {
-            int rgb = nativeGetColorForState(widgetType, state,
-                                             type.getID());
-            return new ColorUIResource(rgb);
+        stbtf = GTKLookAndFffl.syntiStbtfToGTKStbtfTypf(stbtf).ordinbl();
+        syndironizfd (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            int rgb = nbtivfGftColorForStbtf(widgftTypf, stbtf,
+                                             typf.gftID());
+            rfturn nfw ColorUIRfsourdf(rgb);
         }
     }
 
-    Color getGTKColor(int state, ColorType type) {
-        return getGTKColor(null, state, type);
+    Color gftGTKColor(int stbtf, ColorTypf typf) {
+        rfturn gftGTKColor(null, stbtf, typf);
     }
 
     /**
-     * Returns the color for the specified state.
+     * Rfturns tif dolor for tif spfdififd stbtf.
      *
-     * @param context SynthContext identifying requestor
-     * @param state to get the color for
-     * @param type of the color
-     * @return Color to render with
+     * @pbrbm dontfxt SyntiContfxt idfntifying rfqufstor
+     * @pbrbm stbtf to gft tif dolor for
+     * @pbrbm typf of tif dolor
+     * @rfturn Color to rfndfr witi
      */
-    Color getGTKColor(SynthContext context, int state, ColorType type) {
-        if (context != null) {
-            JComponent c = context.getComponent();
-            Region id = context.getRegion();
+    Color gftGTKColor(SyntiContfxt dontfxt, int stbtf, ColorTypf typf) {
+        if (dontfxt != null) {
+            JComponfnt d = dontfxt.gftComponfnt();
+            Rfgion id = dontfxt.gftRfgion();
 
-            state = GTKLookAndFeel.synthStateToGTKState(id, state);
-            if (!id.isSubregion() &&
-                (state & SynthConstants.ENABLED) != 0) {
-                if (type == ColorType.BACKGROUND ||
-                    type == ColorType.TEXT_BACKGROUND) {
-                    Color bg = c.getBackground();
-                    if (!(bg instanceof UIResource)) {
-                        return bg;
+            stbtf = GTKLookAndFffl.syntiStbtfToGTKStbtf(id, stbtf);
+            if (!id.isSubrfgion() &&
+                (stbtf & SyntiConstbnts.ENABLED) != 0) {
+                if (typf == ColorTypf.BACKGROUND ||
+                    typf == ColorTypf.TEXT_BACKGROUND) {
+                    Color bg = d.gftBbdkground();
+                    if (!(bg instbndfof UIRfsourdf)) {
+                        rfturn bg;
                     }
                 }
-                else if (type == ColorType.FOREGROUND ||
-                         type == ColorType.TEXT_FOREGROUND) {
-                    Color fg = c.getForeground();
-                    if (!(fg instanceof UIResource)) {
-                        return fg;
+                flsf if (typf == ColorTypf.FOREGROUND ||
+                         typf == ColorTypf.TEXT_FOREGROUND) {
+                    Color fg = d.gftForfground();
+                    if (!(fg instbndfof UIRfsourdf)) {
+                        rfturn fg;
                     }
                 }
             }
         }
 
-        return getStyleSpecificColor(context, state, type);
+        rfturn gftStylfSpfdifidColor(dontfxt, stbtf, typf);
     }
 
-    @Override
-    public Color getColor(SynthContext context, ColorType type) {
-        JComponent c = context.getComponent();
-        Region id = context.getRegion();
-        int state = context.getComponentState();
+    @Ovfrridf
+    publid Color gftColor(SyntiContfxt dontfxt, ColorTypf typf) {
+        JComponfnt d = dontfxt.gftComponfnt();
+        Rfgion id = dontfxt.gftRfgion();
+        int stbtf = dontfxt.gftComponfntStbtf();
 
-        if (c.getName() == "Table.cellRenderer") {
-             if (type == ColorType.BACKGROUND) {
-                 return c.getBackground();
+        if (d.gftNbmf() == "Tbblf.dfllRfndfrfr") {
+             if (typf == ColorTypf.BACKGROUND) {
+                 rfturn d.gftBbdkground();
              }
-             if (type == ColorType.FOREGROUND) {
-                 return c.getForeground();
+             if (typf == ColorTypf.FOREGROUND) {
+                 rfturn d.gftForfground();
              }
         }
 
-        if (id == Region.LABEL && type == ColorType.TEXT_FOREGROUND) {
-            type = ColorType.FOREGROUND;
+        if (id == Rfgion.LABEL && typf == ColorTypf.TEXT_FOREGROUND) {
+            typf = ColorTypf.FOREGROUND;
         }
 
-        // For the enabled state, prefer the widget's colors
-        if (!id.isSubregion() && (state & SynthConstants.ENABLED) != 0) {
-            if (type == ColorType.BACKGROUND) {
-                return c.getBackground();
+        // For tif fnbblfd stbtf, prfffr tif widgft's dolors
+        if (!id.isSubrfgion() && (stbtf & SyntiConstbnts.ENABLED) != 0) {
+            if (typf == ColorTypf.BACKGROUND) {
+                rfturn d.gftBbdkground();
             }
-            else if (type == ColorType.FOREGROUND) {
-                return c.getForeground();
+            flsf if (typf == ColorTypf.FOREGROUND) {
+                rfturn d.gftForfground();
             }
-            else if (type == ColorType.TEXT_FOREGROUND) {
-                // If getForeground returns a non-UIResource it means the
-                // developer has explicitly set the foreground, use it over
-                // that of TEXT_FOREGROUND as that is typically the expected
-                // behavior.
-                Color color = c.getForeground();
-                if (color != null && !(color instanceof UIResource)) {
-                    return color;
+            flsf if (typf == ColorTypf.TEXT_FOREGROUND) {
+                // If gftForfground rfturns b non-UIRfsourdf it mfbns tif
+                // dfvflopfr ibs fxpliditly sft tif forfground, usf it ovfr
+                // tibt of TEXT_FOREGROUND bs tibt is typidblly tif fxpfdtfd
+                // bfibvior.
+                Color dolor = d.gftForfground();
+                if (dolor != null && !(dolor instbndfof UIRfsourdf)) {
+                    rfturn dolor;
                 }
             }
         }
-        return getColorForState(context, type);
+        rfturn gftColorForStbtf(dontfxt, typf);
     }
 
-    protected Font getFontForState(SynthContext context) {
-        return font;
-    }
-
-    /**
-     * Returns the X thickness to use for this GTKStyle.
-     *
-     * @return x thickness.
-     */
-    int getXThickness() {
-        return xThickness;
+    protfdtfd Font gftFontForStbtf(SyntiContfxt dontfxt) {
+        rfturn font;
     }
 
     /**
-     * Returns the Y thickness to use for this GTKStyle.
+     * Rfturns tif X tiidknfss to usf for tiis GTKStylf.
      *
-     * @return y thickness.
+     * @rfturn x tiidknfss.
      */
-    int getYThickness() {
-        return yThickness;
+    int gftXTiidknfss() {
+        rfturn xTiidknfss;
     }
 
     /**
-     * Returns the Insets. If <code>insets</code> is non-null the resulting
-     * insets will be placed in it, otherwise a new Insets object will be
-     * created and returned.
+     * Rfturns tif Y tiidknfss to usf for tiis GTKStylf.
      *
-     * @param context SynthContext identifying requestor
-     * @param insets Where to place Insets
-     * @return Insets.
+     * @rfturn y tiidknfss.
      */
-    @Override
-    public Insets getInsets(SynthContext state, Insets insets) {
-        Region id = state.getRegion();
-        JComponent component = state.getComponent();
-        String name = (id.isSubregion()) ? null : component.getName();
-
-        if (insets == null) {
-            insets = new Insets(0, 0, 0, 0);
-        } else {
-            insets.top = insets.bottom = insets.left = insets.right = 0;
-        }
-
-        if (id == Region.ARROW_BUTTON || id == Region.BUTTON ||
-                id == Region.TOGGLE_BUTTON) {
-            if ("Spinner.previousButton" == name ||
-                    "Spinner.nextButton" == name) {
-                return getSimpleInsets(state, insets, 1);
-            } else {
-                return getButtonInsets(state, insets);
-            }
-        }
-        else if (id == Region.CHECK_BOX || id == Region.RADIO_BUTTON) {
-            return getRadioInsets(state, insets);
-        }
-        else if (id == Region.MENU_BAR) {
-            return getMenuBarInsets(state, insets);
-        }
-        else if (id == Region.MENU ||
-                 id == Region.MENU_ITEM ||
-                 id == Region.CHECK_BOX_MENU_ITEM ||
-                 id == Region.RADIO_BUTTON_MENU_ITEM) {
-            return getMenuItemInsets(state, insets);
-        }
-        else if (id == Region.FORMATTED_TEXT_FIELD) {
-            return getTextFieldInsets(state, insets);
-        }
-        else if (id == Region.INTERNAL_FRAME) {
-            insets = Metacity.INSTANCE.getBorderInsets(state, insets);
-        }
-        else if (id == Region.LABEL) {
-            if ("TableHeader.renderer" == name) {
-                return getButtonInsets(state, insets);
-            }
-            else if (component instanceof ListCellRenderer) {
-                return getTextFieldInsets(state, insets);
-            }
-            else if ("Tree.cellRenderer" == name) {
-                return getSimpleInsets(state, insets, 1);
-            }
-        }
-        else if (id == Region.OPTION_PANE) {
-            return getSimpleInsets(state, insets, 6);
-        }
-        else if (id == Region.POPUP_MENU) {
-            return getSimpleInsets(state, insets, 2);
-        }
-        else if (id == Region.PROGRESS_BAR || id == Region.SLIDER ||
-                 id == Region.TABBED_PANE  || id == Region.TABBED_PANE_CONTENT ||
-                 id == Region.TOOL_BAR     ||
-                 id == Region.TOOL_BAR_DRAG_WINDOW ||
-                 id == Region.TOOL_TIP) {
-            return getThicknessInsets(state, insets);
-        }
-        else if (id == Region.SCROLL_BAR) {
-            return getScrollBarInsets(state, insets);
-        }
-        else if (id == Region.SLIDER_TRACK) {
-            return getSliderTrackInsets(state, insets);
-        }
-        else if (id == Region.TABBED_PANE_TAB) {
-            return getTabbedPaneTabInsets(state, insets);
-        }
-        else if (id == Region.TEXT_FIELD || id == Region.PASSWORD_FIELD) {
-            if (name == "Tree.cellEditor") {
-                return getSimpleInsets(state, insets, 1);
-            }
-            return getTextFieldInsets(state, insets);
-        } else if (id == Region.SEPARATOR ||
-                   id == Region.POPUP_MENU_SEPARATOR ||
-                   id == Region.TOOL_BAR_SEPARATOR) {
-            return getSeparatorInsets(state, insets);
-        } else if (id == GTKEngine.CustomRegion.TITLED_BORDER) {
-            return getThicknessInsets(state, insets);
-        }
-        return insets;
+    int gftYTiidknfss() {
+        rfturn yTiidknfss;
     }
 
-    private Insets getButtonInsets(SynthContext context, Insets insets) {
-        // The following calculations are derived from gtkbutton.c
-        // (GTK+ version 2.8.20), gtk_button_size_allocate() method.
+    /**
+     * Rfturns tif Insfts. If <dodf>insfts</dodf> is non-null tif rfsulting
+     * insfts will bf plbdfd in it, otifrwisf b nfw Insfts objfdt will bf
+     * drfbtfd bnd rfturnfd.
+     *
+     * @pbrbm dontfxt SyntiContfxt idfntifying rfqufstor
+     * @pbrbm insfts Wifrf to plbdf Insfts
+     * @rfturn Insfts.
+     */
+    @Ovfrridf
+    publid Insfts gftInsfts(SyntiContfxt stbtf, Insfts insfts) {
+        Rfgion id = stbtf.gftRfgion();
+        JComponfnt domponfnt = stbtf.gftComponfnt();
+        String nbmf = (id.isSubrfgion()) ? null : domponfnt.gftNbmf();
+
+        if (insfts == null) {
+            insfts = nfw Insfts(0, 0, 0, 0);
+        } flsf {
+            insfts.top = insfts.bottom = insfts.lfft = insfts.rigit = 0;
+        }
+
+        if (id == Rfgion.ARROW_BUTTON || id == Rfgion.BUTTON ||
+                id == Rfgion.TOGGLE_BUTTON) {
+            if ("Spinnfr.prfviousButton" == nbmf ||
+                    "Spinnfr.nfxtButton" == nbmf) {
+                rfturn gftSimplfInsfts(stbtf, insfts, 1);
+            } flsf {
+                rfturn gftButtonInsfts(stbtf, insfts);
+            }
+        }
+        flsf if (id == Rfgion.CHECK_BOX || id == Rfgion.RADIO_BUTTON) {
+            rfturn gftRbdioInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.MENU_BAR) {
+            rfturn gftMfnuBbrInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.MENU ||
+                 id == Rfgion.MENU_ITEM ||
+                 id == Rfgion.CHECK_BOX_MENU_ITEM ||
+                 id == Rfgion.RADIO_BUTTON_MENU_ITEM) {
+            rfturn gftMfnuItfmInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.FORMATTED_TEXT_FIELD) {
+            rfturn gftTfxtFifldInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.INTERNAL_FRAME) {
+            insfts = Mftbdity.INSTANCE.gftBordfrInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.LABEL) {
+            if ("TbblfHfbdfr.rfndfrfr" == nbmf) {
+                rfturn gftButtonInsfts(stbtf, insfts);
+            }
+            flsf if (domponfnt instbndfof ListCfllRfndfrfr) {
+                rfturn gftTfxtFifldInsfts(stbtf, insfts);
+            }
+            flsf if ("Trff.dfllRfndfrfr" == nbmf) {
+                rfturn gftSimplfInsfts(stbtf, insfts, 1);
+            }
+        }
+        flsf if (id == Rfgion.OPTION_PANE) {
+            rfturn gftSimplfInsfts(stbtf, insfts, 6);
+        }
+        flsf if (id == Rfgion.POPUP_MENU) {
+            rfturn gftSimplfInsfts(stbtf, insfts, 2);
+        }
+        flsf if (id == Rfgion.PROGRESS_BAR || id == Rfgion.SLIDER ||
+                 id == Rfgion.TABBED_PANE  || id == Rfgion.TABBED_PANE_CONTENT ||
+                 id == Rfgion.TOOL_BAR     ||
+                 id == Rfgion.TOOL_BAR_DRAG_WINDOW ||
+                 id == Rfgion.TOOL_TIP) {
+            rfturn gftTiidknfssInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.SCROLL_BAR) {
+            rfturn gftSdrollBbrInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.SLIDER_TRACK) {
+            rfturn gftSlidfrTrbdkInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.TABBED_PANE_TAB) {
+            rfturn gftTbbbfdPbnfTbbInsfts(stbtf, insfts);
+        }
+        flsf if (id == Rfgion.TEXT_FIELD || id == Rfgion.PASSWORD_FIELD) {
+            if (nbmf == "Trff.dfllEditor") {
+                rfturn gftSimplfInsfts(stbtf, insfts, 1);
+            }
+            rfturn gftTfxtFifldInsfts(stbtf, insfts);
+        } flsf if (id == Rfgion.SEPARATOR ||
+                   id == Rfgion.POPUP_MENU_SEPARATOR ||
+                   id == Rfgion.TOOL_BAR_SEPARATOR) {
+            rfturn gftSfpbrbtorInsfts(stbtf, insfts);
+        } flsf if (id == GTKEnginf.CustomRfgion.TITLED_BORDER) {
+            rfturn gftTiidknfssInsfts(stbtf, insfts);
+        }
+        rfturn insfts;
+    }
+
+    privbtf Insfts gftButtonInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        // Tif following dbldulbtions brf dfrivfd from gtkbutton.d
+        // (GTK+ vfrsion 2.8.20), gtk_button_sizf_bllodbtf() mftiod.
         int CHILD_SPACING = 1;
-        int focusSize = getClassSpecificIntValue(context, "focus-line-width",1);
-        int focusPad = getClassSpecificIntValue(context, "focus-padding", 1);
-        int xThickness = getXThickness();
-        int yThickness = getYThickness();
-        int w = focusSize + focusPad + xThickness + CHILD_SPACING;
-        int h = focusSize + focusPad + yThickness + CHILD_SPACING;
-        insets.left = insets.right = w;
-        insets.top = insets.bottom = h;
+        int fodusSizf = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-widti",1);
+        int fodusPbd = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+        int xTiidknfss = gftXTiidknfss();
+        int yTiidknfss = gftYTiidknfss();
+        int w = fodusSizf + fodusPbd + xTiidknfss + CHILD_SPACING;
+        int i = fodusSizf + fodusPbd + yTiidknfss + CHILD_SPACING;
+        insfts.lfft = insfts.rigit = w;
+        insfts.top = insfts.bottom = i;
 
-        Component component = context.getComponent();
-        if ((component instanceof JButton) &&
-            !(component.getParent() instanceof JToolBar) &&
-            ((JButton)component).isDefaultCapable())
+        Componfnt domponfnt = dontfxt.gftComponfnt();
+        if ((domponfnt instbndfof JButton) &&
+            !(domponfnt.gftPbrfnt() instbndfof JToolBbr) &&
+            ((JButton)domponfnt).isDffbultCbpbblf())
         {
-            // Include the default border insets, but only for JButtons
-            // that are default capable.  Note that
-            // JButton.getDefaultCapable() returns true by default, but
-            // GtkToolButtons are never default capable, so we skip this
-            // step if the button is contained in a toolbar.
-            Insets defaultInsets = getClassSpecificInsetsValue(context,
-                          "default-border", BUTTON_DEFAULT_BORDER_INSETS);
-            insets.left += defaultInsets.left;
-            insets.right += defaultInsets.right;
-            insets.top += defaultInsets.top;
-            insets.bottom += defaultInsets.bottom;
+            // Indludf tif dffbult bordfr insfts, but only for JButtons
+            // tibt brf dffbult dbpbblf.  Notf tibt
+            // JButton.gftDffbultCbpbblf() rfturns truf by dffbult, but
+            // GtkToolButtons brf nfvfr dffbult dbpbblf, so wf skip tiis
+            // stfp if tif button is dontbinfd in b toolbbr.
+            Insfts dffbultInsfts = gftClbssSpfdifidInsftsVbluf(dontfxt,
+                          "dffbult-bordfr", BUTTON_DEFAULT_BORDER_INSETS);
+            insfts.lfft += dffbultInsfts.lfft;
+            insfts.rigit += dffbultInsfts.rigit;
+            insfts.top += dffbultInsfts.top;
+            insfts.bottom += dffbultInsfts.bottom;
         }
 
-        return insets;
+        rfturn insfts;
     }
 
     /*
-     * This is used for both RADIO_BUTTON and CHECK_BOX.
+     * Tiis is usfd for boti RADIO_BUTTON bnd CHECK_BOX.
      */
-    private Insets getRadioInsets(SynthContext context, Insets insets) {
-        // The following calculations are derived from gtkcheckbutton.c
-        // (GTK+ version 2.8.20), gtk_check_button_size_allocate() method.
-        int focusSize =
-            getClassSpecificIntValue(context, "focus-line-width", 1);
-        int focusPad =
-            getClassSpecificIntValue(context, "focus-padding", 1);
-        int totalFocus = focusSize + focusPad;
+    privbtf Insfts gftRbdioInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        // Tif following dbldulbtions brf dfrivfd from gtkdifdkbutton.d
+        // (GTK+ vfrsion 2.8.20), gtk_difdk_button_sizf_bllodbtf() mftiod.
+        int fodusSizf =
+            gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-widti", 1);
+        int fodusPbd =
+            gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+        int totblFodus = fodusSizf + fodusPbd;
 
-        // Note: GTKIconFactory.DelegateIcon will have already included the
-        // "indicator-spacing" value in the size of the indicator icon,
-        // which explains why we use zero as the left inset (or right inset
-        // in the RTL case); see 6489585 for more details.
-        insets.top    = totalFocus;
-        insets.bottom = totalFocus;
-        if (context.getComponent().getComponentOrientation().isLeftToRight()) {
-            insets.left  = 0;
-            insets.right = totalFocus;
-        } else {
-            insets.left  = totalFocus;
-            insets.right = 0;
+        // Notf: GTKIdonFbdtory.DflfgbtfIdon will ibvf blrfbdy indludfd tif
+        // "indidbtor-spbding" vbluf in tif sizf of tif indidbtor idon,
+        // wiidi fxplbins wiy wf usf zfro bs tif lfft insft (or rigit insft
+        // in tif RTL dbsf); sff 6489585 for morf dftbils.
+        insfts.top    = totblFodus;
+        insfts.bottom = totblFodus;
+        if (dontfxt.gftComponfnt().gftComponfntOrifntbtion().isLfftToRigit()) {
+            insfts.lfft  = 0;
+            insfts.rigit = totblFodus;
+        } flsf {
+            insfts.lfft  = totblFodus;
+            insfts.rigit = 0;
         }
 
-        return insets;
+        rfturn insfts;
     }
 
-    private Insets getMenuBarInsets(SynthContext context, Insets insets) {
-        // The following calculations are derived from gtkmenubar.c
-        // (GTK+ version 2.8.20), gtk_menu_bar_size_allocate() method.
-        int internalPadding = getClassSpecificIntValue(context,
-                                                       "internal-padding", 1);
-        int xThickness = getXThickness();
-        int yThickness = getYThickness();
-        insets.left = insets.right = xThickness + internalPadding;
-        insets.top = insets.bottom = yThickness + internalPadding;
-        return insets;
+    privbtf Insfts gftMfnuBbrInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        // Tif following dbldulbtions brf dfrivfd from gtkmfnubbr.d
+        // (GTK+ vfrsion 2.8.20), gtk_mfnu_bbr_sizf_bllodbtf() mftiod.
+        int intfrnblPbdding = gftClbssSpfdifidIntVbluf(dontfxt,
+                                                       "intfrnbl-pbdding", 1);
+        int xTiidknfss = gftXTiidknfss();
+        int yTiidknfss = gftYTiidknfss();
+        insfts.lfft = insfts.rigit = xTiidknfss + intfrnblPbdding;
+        insfts.top = insfts.bottom = yTiidknfss + intfrnblPbdding;
+        rfturn insfts;
     }
 
-    private Insets getMenuItemInsets(SynthContext context, Insets insets) {
-        // The following calculations are derived from gtkmenuitem.c
-        // (GTK+ version 2.8.20), gtk_menu_item_size_allocate() method.
-        int horizPadding = getClassSpecificIntValue(context,
-                                                    "horizontal-padding", 3);
-        int xThickness = getXThickness();
-        int yThickness = getYThickness();
-        insets.left = insets.right = xThickness + horizPadding;
-        insets.top = insets.bottom = yThickness;
-        return insets;
+    privbtf Insfts gftMfnuItfmInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        // Tif following dbldulbtions brf dfrivfd from gtkmfnuitfm.d
+        // (GTK+ vfrsion 2.8.20), gtk_mfnu_itfm_sizf_bllodbtf() mftiod.
+        int iorizPbdding = gftClbssSpfdifidIntVbluf(dontfxt,
+                                                    "iorizontbl-pbdding", 3);
+        int xTiidknfss = gftXTiidknfss();
+        int yTiidknfss = gftYTiidknfss();
+        insfts.lfft = insfts.rigit = xTiidknfss + iorizPbdding;
+        insfts.top = insfts.bottom = yTiidknfss;
+        rfturn insfts;
     }
 
-    private Insets getThicknessInsets(SynthContext context, Insets insets) {
-        insets.left = insets.right = getXThickness();
-        insets.top = insets.bottom = getYThickness();
-        return insets;
+    privbtf Insfts gftTiidknfssInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        insfts.lfft = insfts.rigit = gftXTiidknfss();
+        insfts.top = insfts.bottom = gftYTiidknfss();
+        rfturn insfts;
     }
 
-    private Insets getSeparatorInsets(SynthContext context, Insets insets) {
-        int horizPadding = 0;
-        if (context.getRegion() == Region.POPUP_MENU_SEPARATOR) {
-            horizPadding =
-                getClassSpecificIntValue(context, "horizontal-padding", 3);
+    privbtf Insfts gftSfpbrbtorInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        int iorizPbdding = 0;
+        if (dontfxt.gftRfgion() == Rfgion.POPUP_MENU_SEPARATOR) {
+            iorizPbdding =
+                gftClbssSpfdifidIntVbluf(dontfxt, "iorizontbl-pbdding", 3);
         }
-        insets.right = insets.left = getXThickness() + horizPadding;
-        insets.top = insets.bottom = getYThickness();
-        return insets;
+        insfts.rigit = insfts.lfft = gftXTiidknfss() + iorizPbdding;
+        insfts.top = insfts.bottom = gftYTiidknfss();
+        rfturn insfts;
     }
 
-    private Insets getSliderTrackInsets(SynthContext context, Insets insets) {
-        int focusSize = getClassSpecificIntValue(context, "focus-line-width", 1);
-        int focusPad = getClassSpecificIntValue(context, "focus-padding", 1);
-        insets.top = insets.bottom =
-                insets.left = insets.right = focusSize + focusPad;
-        return insets;
+    privbtf Insfts gftSlidfrTrbdkInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        int fodusSizf = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-widti", 1);
+        int fodusPbd = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+        insfts.top = insfts.bottom =
+                insfts.lfft = insfts.rigit = fodusSizf + fodusPbd;
+        rfturn insfts;
     }
 
-    private Insets getSimpleInsets(SynthContext context, Insets insets, int n) {
-        insets.top = insets.bottom = insets.right = insets.left = n;
-        return insets;
+    privbtf Insfts gftSimplfInsfts(SyntiContfxt dontfxt, Insfts insfts, int n) {
+        insfts.top = insfts.bottom = insfts.rigit = insfts.lfft = n;
+        rfturn insfts;
     }
 
-    private Insets getTabbedPaneTabInsets(SynthContext context, Insets insets) {
-        int xThickness = getXThickness();
-        int yThickness = getYThickness();
-        int focusSize = getClassSpecificIntValue(context, "focus-line-width",1);
-        int pad = 2;
+    privbtf Insfts gftTbbbfdPbnfTbbInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        int xTiidknfss = gftXTiidknfss();
+        int yTiidknfss = gftYTiidknfss();
+        int fodusSizf = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-widti",1);
+        int pbd = 2;
 
-        insets.left = insets.right = focusSize + pad + xThickness;
-        insets.top = insets.bottom = focusSize + pad + yThickness;
-        return insets;
+        insfts.lfft = insfts.rigit = fodusSizf + pbd + xTiidknfss;
+        insfts.top = insfts.bottom = fodusSizf + pbd + yTiidknfss;
+        rfturn insfts;
     }
 
-    // NOTE: this is called for ComboBox, and FormattedTextField also
-    private Insets getTextFieldInsets(SynthContext context, Insets insets) {
-        insets = getClassSpecificInsetsValue(context, "inner-border",
-                                    getSimpleInsets(context, insets, 2));
+    // NOTE: tiis is dbllfd for ComboBox, bnd FormbttfdTfxtFifld blso
+    privbtf Insfts gftTfxtFifldInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        insfts = gftClbssSpfdifidInsftsVbluf(dontfxt, "innfr-bordfr",
+                                    gftSimplfInsfts(dontfxt, insfts, 2));
 
-        int xThickness = getXThickness();
-        int yThickness = getYThickness();
-        boolean interiorFocus =
-                getClassSpecificBoolValue(context, "interior-focus", true);
-        int focusSize = 0;
+        int xTiidknfss = gftXTiidknfss();
+        int yTiidknfss = gftYTiidknfss();
+        boolfbn intfriorFodus =
+                gftClbssSpfdifidBoolVbluf(dontfxt, "intfrior-fodus", truf);
+        int fodusSizf = 0;
 
-        if (!interiorFocus) {
-            focusSize = getClassSpecificIntValue(context, "focus-line-width",1);
+        if (!intfriorFodus) {
+            fodusSizf = gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-widti",1);
         }
 
-        insets.left   += focusSize + xThickness;
-        insets.right  += focusSize + xThickness;
-        insets.top    += focusSize + yThickness;
-        insets.bottom += focusSize + yThickness;
-        return insets;
+        insfts.lfft   += fodusSizf + xTiidknfss;
+        insfts.rigit  += fodusSizf + xTiidknfss;
+        insfts.top    += fodusSizf + yTiidknfss;
+        insfts.bottom += fodusSizf + yTiidknfss;
+        rfturn insfts;
     }
 
-    private Insets getScrollBarInsets(SynthContext context, Insets insets) {
-        int troughBorder =
-            getClassSpecificIntValue(context, "trough-border", 1);
-        insets.left = insets.right = insets.top = insets.bottom = troughBorder;
+    privbtf Insfts gftSdrollBbrInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        int trougiBordfr =
+            gftClbssSpfdifidIntVbluf(dontfxt, "trougi-bordfr", 1);
+        insfts.lfft = insfts.rigit = insfts.top = insfts.bottom = trougiBordfr;
 
-        JComponent c = context.getComponent();
-        if (c.getParent() instanceof JScrollPane) {
-            // This scrollbar is part of a scrollpane; use only the
-            // "scrollbar-spacing" style property to determine the padding
-            // between the scrollbar and its parent scrollpane.
-            int spacing =
-                getClassSpecificIntValue(WidgetType.SCROLL_PANE,
-                                         "scrollbar-spacing", 3);
-            if (((JScrollBar)c).getOrientation() == JScrollBar.HORIZONTAL) {
-                insets.top += spacing;
-            } else {
-                if (c.getComponentOrientation().isLeftToRight()) {
-                    insets.left += spacing;
-                } else {
-                    insets.right += spacing;
+        JComponfnt d = dontfxt.gftComponfnt();
+        if (d.gftPbrfnt() instbndfof JSdrollPbnf) {
+            // Tiis sdrollbbr is pbrt of b sdrollpbnf; usf only tif
+            // "sdrollbbr-spbding" stylf propfrty to dftfrminf tif pbdding
+            // bftwffn tif sdrollbbr bnd its pbrfnt sdrollpbnf.
+            int spbding =
+                gftClbssSpfdifidIntVbluf(WidgftTypf.SCROLL_PANE,
+                                         "sdrollbbr-spbding", 3);
+            if (((JSdrollBbr)d).gftOrifntbtion() == JSdrollBbr.HORIZONTAL) {
+                insfts.top += spbding;
+            } flsf {
+                if (d.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    insfts.lfft += spbding;
+                } flsf {
+                    insfts.rigit += spbding;
                 }
             }
-        } else {
-            // This is a standalone scrollbar; leave enough room for the
-            // focus line in addition to the trough border.
-            if (c.isFocusable()) {
-                int focusSize =
-                    getClassSpecificIntValue(context, "focus-line-width", 1);
-                int focusPad =
-                    getClassSpecificIntValue(context, "focus-padding", 1);
-                int totalFocus = focusSize + focusPad;
-                insets.left   += totalFocus;
-                insets.right  += totalFocus;
-                insets.top    += totalFocus;
-                insets.bottom += totalFocus;
+        } flsf {
+            // Tiis is b stbndblonf sdrollbbr; lfbvf fnougi room for tif
+            // fodus linf in bddition to tif trougi bordfr.
+            if (d.isFodusbblf()) {
+                int fodusSizf =
+                    gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-widti", 1);
+                int fodusPbd =
+                    gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+                int totblFodus = fodusSizf + fodusPbd;
+                insfts.lfft   += totblFodus;
+                insfts.rigit  += totblFodus;
+                insfts.top    += totblFodus;
+                insfts.bottom += totblFodus;
             }
         }
-        return insets;
+        rfturn insfts;
     }
 
     /**
-     * Returns the value for a class specific property for a particular
-     * WidgetType.  This method is useful in those cases where we need to
-     * fetch a value for a Region that is not associated with the component
-     * currently in use (e.g. we need to figure out the insets for a
-     * SCROLL_BAR, but certain values can only be extracted from a
-     * SCROLL_PANE region).
+     * Rfturns tif vbluf for b dlbss spfdifid propfrty for b pbrtidulbr
+     * WidgftTypf.  Tiis mftiod is usfful in tiosf dbsfs wifrf wf nffd to
+     * fftdi b vbluf for b Rfgion tibt is not bssodibtfd witi tif domponfnt
+     * durrfntly in usf (f.g. wf nffd to figurf out tif insfts for b
+     * SCROLL_BAR, but dfrtbin vblufs dbn only bf fxtrbdtfd from b
+     * SCROLL_PANE rfgion).
      *
-     * @param wt WidgetType for which to fetch the value
-     * @param key Key identifying class specific value
-     * @return Value, or null if one has not been defined
+     * @pbrbm wt WidgftTypf for wiidi to fftdi tif vbluf
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @rfturn Vbluf, or null if onf ibs not bffn dffinfd
      */
-    private static Object getClassSpecificValue(WidgetType wt, String key) {
-        synchronized (UNIXToolkit.GTK_LOCK) {
-            return nativeGetClassValue(wt.ordinal(), key);
+    privbtf stbtid Objfdt gftClbssSpfdifidVbluf(WidgftTypf wt, String kfy) {
+        syndironizfd (UNIXToolkit.GTK_LOCK) {
+            rfturn nbtivfGftClbssVbluf(wt.ordinbl(), kfy);
         }
     }
 
     /**
-     * Convenience method to get a class specific integer value for
-     * a particular WidgetType.
+     * Convfnifndf mftiod to gft b dlbss spfdifid intfgfr vbluf for
+     * b pbrtidulbr WidgftTypf.
      *
-     * @param wt WidgetType for which to fetch the value
-     * @param key Key identifying class specific value
-     * @param defaultValue Returned if there is no value for the specified
-     *        type
-     * @return Value, or defaultValue if <code>key</code> is not defined
+     * @pbrbm wt WidgftTypf for wiidi to fftdi tif vbluf
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @pbrbm dffbultVbluf Rfturnfd if tifrf is no vbluf for tif spfdififd
+     *        typf
+     * @rfturn Vbluf, or dffbultVbluf if <dodf>kfy</dodf> is not dffinfd
      */
-    private static int getClassSpecificIntValue(WidgetType wt, String key,
-                                                int defaultValue)
+    privbtf stbtid int gftClbssSpfdifidIntVbluf(WidgftTypf wt, String kfy,
+                                                int dffbultVbluf)
     {
-        Object value = getClassSpecificValue(wt, key);
-        if (value instanceof Number) {
-            return ((Number)value).intValue();
+        Objfdt vbluf = gftClbssSpfdifidVbluf(wt, kfy);
+        if (vbluf instbndfof Numbfr) {
+            rfturn ((Numbfr)vbluf).intVbluf();
         }
-        return defaultValue;
+        rfturn dffbultVbluf;
     }
 
     /**
-     * Returns the value for a class specific property. A class specific value
-     * is a value that will be picked up based on class hierarchy.
+     * Rfturns tif vbluf for b dlbss spfdifid propfrty. A dlbss spfdifid vbluf
+     * is b vbluf tibt will bf pidkfd up bbsfd on dlbss iifrbrdiy.
      *
-     * @param key Key identifying class specific value
-     * @return Value, or null if one has not been defined.
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @rfturn Vbluf, or null if onf ibs not bffn dffinfd.
      */
-    Object getClassSpecificValue(String key) {
-        synchronized (sun.awt.UNIXToolkit.GTK_LOCK) {
-            return nativeGetClassValue(widgetType, key);
+    Objfdt gftClbssSpfdifidVbluf(String kfy) {
+        syndironizfd (sun.bwt.UNIXToolkit.GTK_LOCK) {
+            rfturn nbtivfGftClbssVbluf(widgftTypf, kfy);
         }
     }
 
     /**
-     * Convenience method to get a class specific integer value.
+     * Convfnifndf mftiod to gft b dlbss spfdifid intfgfr vbluf.
      *
-     * @param context SynthContext identifying requestor
-     * @param key Key identifying class specific value
-     * @param defaultValue Returned if there is no value for the specified
-     *        type
-     * @return Value, or defaultValue if <code>key</code> is not defined
+     * @pbrbm dontfxt SyntiContfxt idfntifying rfqufstor
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @pbrbm dffbultVbluf Rfturnfd if tifrf is no vbluf for tif spfdififd
+     *        typf
+     * @rfturn Vbluf, or dffbultVbluf if <dodf>kfy</dodf> is not dffinfd
      */
-    int getClassSpecificIntValue(SynthContext context, String key,
-                                 int defaultValue)
+    int gftClbssSpfdifidIntVbluf(SyntiContfxt dontfxt, String kfy,
+                                 int dffbultVbluf)
     {
-        Object value = getClassSpecificValue(key);
+        Objfdt vbluf = gftClbssSpfdifidVbluf(kfy);
 
-        if (value instanceof Number) {
-            return ((Number)value).intValue();
+        if (vbluf instbndfof Numbfr) {
+            rfturn ((Numbfr)vbluf).intVbluf();
         }
-        return defaultValue;
+        rfturn dffbultVbluf;
     }
 
     /**
-     * Convenience method to get a class specific Insets value.
+     * Convfnifndf mftiod to gft b dlbss spfdifid Insfts vbluf.
      *
-     * @param context SynthContext identifying requestor
-     * @param key Key identifying class specific value
-     * @param defaultValue Returned if there is no value for the specified
-     *        type
-     * @return Value, or defaultValue if <code>key</code> is not defined
+     * @pbrbm dontfxt SyntiContfxt idfntifying rfqufstor
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @pbrbm dffbultVbluf Rfturnfd if tifrf is no vbluf for tif spfdififd
+     *        typf
+     * @rfturn Vbluf, or dffbultVbluf if <dodf>kfy</dodf> is not dffinfd
      */
-    Insets getClassSpecificInsetsValue(SynthContext context, String key,
-                                       Insets defaultValue)
+    Insfts gftClbssSpfdifidInsftsVbluf(SyntiContfxt dontfxt, String kfy,
+                                       Insfts dffbultVbluf)
     {
-        Object value = getClassSpecificValue(key);
+        Objfdt vbluf = gftClbssSpfdifidVbluf(kfy);
 
-        if (value instanceof Insets) {
-            return (Insets)value;
+        if (vbluf instbndfof Insfts) {
+            rfturn (Insfts)vbluf;
         }
-        return defaultValue;
+        rfturn dffbultVbluf;
     }
 
     /**
-     * Convenience method to get a class specific Boolean value.
+     * Convfnifndf mftiod to gft b dlbss spfdifid Boolfbn vbluf.
      *
-     * @param context SynthContext identifying requestor
-     * @param key Key identifying class specific value
-     * @param defaultValue Returned if there is no value for the specified
-     *        type
-     * @return Value, or defaultValue if <code>key</code> is not defined
+     * @pbrbm dontfxt SyntiContfxt idfntifying rfqufstor
+     * @pbrbm kfy Kfy idfntifying dlbss spfdifid vbluf
+     * @pbrbm dffbultVbluf Rfturnfd if tifrf is no vbluf for tif spfdififd
+     *        typf
+     * @rfturn Vbluf, or dffbultVbluf if <dodf>kfy</dodf> is not dffinfd
      */
-    boolean getClassSpecificBoolValue(SynthContext context, String key,
-                                      boolean defaultValue)
+    boolfbn gftClbssSpfdifidBoolVbluf(SyntiContfxt dontfxt, String kfy,
+                                      boolfbn dffbultVbluf)
     {
-        Object value = getClassSpecificValue(key);
+        Objfdt vbluf = gftClbssSpfdifidVbluf(kfy);
 
-        if (value instanceof Boolean) {
-            return ((Boolean)value).booleanValue();
+        if (vbluf instbndfof Boolfbn) {
+            rfturn ((Boolfbn)vbluf).boolfbnVbluf();
         }
-        return defaultValue;
+        rfturn dffbultVbluf;
     }
 
     /**
-     * Returns the value to initialize the opacity property of the Component
-     * to. A Style should NOT assume the opacity will remain this value, the
-     * developer may reset it or override it.
+     * Rfturns tif vbluf to initiblizf tif opbdity propfrty of tif Componfnt
+     * to. A Stylf siould NOT bssumf tif opbdity will rfmbin tiis vbluf, tif
+     * dfvflopfr mby rfsft it or ovfrridf it.
      *
-     * @param context SynthContext identifying requestor
-     * @return opaque Whether or not the JComponent is opaque.
+     * @pbrbm dontfxt SyntiContfxt idfntifying rfqufstor
+     * @rfturn opbquf Wiftifr or not tif JComponfnt is opbquf.
      */
-    @Override
-    public boolean isOpaque(SynthContext context) {
-        Region region = context.getRegion();
-        if (region == Region.COMBO_BOX ||
-              region == Region.DESKTOP_PANE ||
-              region == Region.DESKTOP_ICON ||
-              region == Region.EDITOR_PANE ||
-              region == Region.FORMATTED_TEXT_FIELD ||
-              region == Region.INTERNAL_FRAME ||
-              region == Region.LIST ||
-              region == Region.MENU_BAR ||
-              region == Region.PANEL ||
-              region == Region.PASSWORD_FIELD ||
-              region == Region.POPUP_MENU ||
-              region == Region.PROGRESS_BAR ||
-              region == Region.ROOT_PANE ||
-              region == Region.SCROLL_PANE ||
-              region == Region.SPINNER ||
-              region == Region.SPLIT_PANE_DIVIDER ||
-              region == Region.TABLE ||
-              region == Region.TEXT_AREA ||
-              region == Region.TEXT_FIELD ||
-              region == Region.TEXT_PANE ||
-              region == Region.TOOL_BAR_DRAG_WINDOW ||
-              region == Region.TOOL_TIP ||
-              region == Region.TREE ||
-              region == Region.VIEWPORT) {
-            return true;
+    @Ovfrridf
+    publid boolfbn isOpbquf(SyntiContfxt dontfxt) {
+        Rfgion rfgion = dontfxt.gftRfgion();
+        if (rfgion == Rfgion.COMBO_BOX ||
+              rfgion == Rfgion.DESKTOP_PANE ||
+              rfgion == Rfgion.DESKTOP_ICON ||
+              rfgion == Rfgion.EDITOR_PANE ||
+              rfgion == Rfgion.FORMATTED_TEXT_FIELD ||
+              rfgion == Rfgion.INTERNAL_FRAME ||
+              rfgion == Rfgion.LIST ||
+              rfgion == Rfgion.MENU_BAR ||
+              rfgion == Rfgion.PANEL ||
+              rfgion == Rfgion.PASSWORD_FIELD ||
+              rfgion == Rfgion.POPUP_MENU ||
+              rfgion == Rfgion.PROGRESS_BAR ||
+              rfgion == Rfgion.ROOT_PANE ||
+              rfgion == Rfgion.SCROLL_PANE ||
+              rfgion == Rfgion.SPINNER ||
+              rfgion == Rfgion.SPLIT_PANE_DIVIDER ||
+              rfgion == Rfgion.TABLE ||
+              rfgion == Rfgion.TEXT_AREA ||
+              rfgion == Rfgion.TEXT_FIELD ||
+              rfgion == Rfgion.TEXT_PANE ||
+              rfgion == Rfgion.TOOL_BAR_DRAG_WINDOW ||
+              rfgion == Rfgion.TOOL_TIP ||
+              rfgion == Rfgion.TREE ||
+              rfgion == Rfgion.VIEWPORT) {
+            rfturn truf;
         }
-        Component c = context.getComponent();
-        String name = c.getName();
-        if (name == "ComboBox.renderer" || name == "ComboBox.listRenderer") {
-            return true;
+        Componfnt d = dontfxt.gftComponfnt();
+        String nbmf = d.gftNbmf();
+        if (nbmf == "ComboBox.rfndfrfr" || nbmf == "ComboBox.listRfndfrfr") {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public Object get(SynthContext context, Object key) {
-        // See if this is a class specific value.
-        String classKey = CLASS_SPECIFIC_MAP.get(key);
-        if (classKey != null) {
-            Object value = getClassSpecificValue(classKey);
-            if (value != null) {
-                return value;
+    @Ovfrridf
+    publid Objfdt gft(SyntiContfxt dontfxt, Objfdt kfy) {
+        // Sff if tiis is b dlbss spfdifid vbluf.
+        String dlbssKfy = CLASS_SPECIFIC_MAP.gft(kfy);
+        if (dlbssKfy != null) {
+            Objfdt vbluf = gftClbssSpfdifidVbluf(dlbssKfy);
+            if (vbluf != null) {
+                rfturn vbluf;
             }
         }
 
-        // Is it a specific value ?
-        if (key == "ScrollPane.viewportBorderInsets") {
-            return getThicknessInsets(context, new Insets(0, 0, 0, 0));
+        // Is it b spfdifid vbluf ?
+        if (kfy == "SdrollPbnf.vifwportBordfrInsfts") {
+            rfturn gftTiidknfssInsfts(dontfxt, nfw Insfts(0, 0, 0, 0));
         }
-        else if (key == "Slider.tickColor") {
-            return getColorForState(context, ColorType.FOREGROUND);
+        flsf if (kfy == "Slidfr.tidkColor") {
+            rfturn gftColorForStbtf(dontfxt, ColorTypf.FOREGROUND);
         }
-        else if (key == "ScrollBar.minimumThumbSize") {
-            int len =
-                getClassSpecificIntValue(context, "min-slider-length", 21);
-            JScrollBar sb = (JScrollBar)context.getComponent();
-            if (sb.getOrientation() == JScrollBar.HORIZONTAL) {
-                return new DimensionUIResource(len, 0);
-            } else {
-                return new DimensionUIResource(0, len);
+        flsf if (kfy == "SdrollBbr.minimumTiumbSizf") {
+            int lfn =
+                gftClbssSpfdifidIntVbluf(dontfxt, "min-slidfr-lfngti", 21);
+            JSdrollBbr sb = (JSdrollBbr)dontfxt.gftComponfnt();
+            if (sb.gftOrifntbtion() == JSdrollBbr.HORIZONTAL) {
+                rfturn nfw DimfnsionUIRfsourdf(lfn, 0);
+            } flsf {
+                rfturn nfw DimfnsionUIRfsourdf(0, lfn);
             }
         }
-        else if (key == "Separator.thickness") {
-            JSeparator sep = (JSeparator)context.getComponent();
-            if (sep.getOrientation() == JSeparator.HORIZONTAL) {
-                return getYThickness();
-            } else {
-                return getXThickness();
+        flsf if (kfy == "Sfpbrbtor.tiidknfss") {
+            JSfpbrbtor sfp = (JSfpbrbtor)dontfxt.gftComponfnt();
+            if (sfp.gftOrifntbtion() == JSfpbrbtor.HORIZONTAL) {
+                rfturn gftYTiidknfss();
+            } flsf {
+                rfturn gftXTiidknfss();
             }
         }
-        else if (key == "ToolBar.separatorSize") {
-            int size = getClassSpecificIntValue(WidgetType.TOOL_BAR,
-                                                "space-size", 12);
-            return new DimensionUIResource(size, size);
+        flsf if (kfy == "ToolBbr.sfpbrbtorSizf") {
+            int sizf = gftClbssSpfdifidIntVbluf(WidgftTypf.TOOL_BAR,
+                                                "spbdf-sizf", 12);
+            rfturn nfw DimfnsionUIRfsourdf(sizf, sizf);
         }
-        else if (key == "ScrollBar.buttonSize") {
-            JScrollBar sb = (JScrollBar)context.getComponent().getParent();
-            boolean horiz = (sb.getOrientation() == JScrollBar.HORIZONTAL);
-            WidgetType wt = horiz ?
-                WidgetType.HSCROLL_BAR : WidgetType.VSCROLL_BAR;
-            int sliderWidth = getClassSpecificIntValue(wt, "slider-width", 14);
-            int stepperSize = getClassSpecificIntValue(wt, "stepper-size", 14);
-            return horiz ?
-                new DimensionUIResource(stepperSize, sliderWidth) :
-                new DimensionUIResource(sliderWidth, stepperSize);
+        flsf if (kfy == "SdrollBbr.buttonSizf") {
+            JSdrollBbr sb = (JSdrollBbr)dontfxt.gftComponfnt().gftPbrfnt();
+            boolfbn ioriz = (sb.gftOrifntbtion() == JSdrollBbr.HORIZONTAL);
+            WidgftTypf wt = ioriz ?
+                WidgftTypf.HSCROLL_BAR : WidgftTypf.VSCROLL_BAR;
+            int slidfrWidti = gftClbssSpfdifidIntVbluf(wt, "slidfr-widti", 14);
+            int stfppfrSizf = gftClbssSpfdifidIntVbluf(wt, "stfppfr-sizf", 14);
+            rfturn ioriz ?
+                nfw DimfnsionUIRfsourdf(stfppfrSizf, slidfrWidti) :
+                nfw DimfnsionUIRfsourdf(slidfrWidti, stfppfrSizf);
         }
-        else if (key == "ArrowButton.size") {
-            String name = context.getComponent().getName();
-            if (name != null && name.startsWith("Spinner")) {
-                // Believe it or not, the size of a spinner arrow button is
-                // dependent upon the size of the spinner's font.  These
-                // calculations come from gtkspinbutton.c (version 2.8.20),
-                // spin_button_get_arrow_size() method.
-                String pangoFontName;
-                synchronized (sun.awt.UNIXToolkit.GTK_LOCK) {
-                    pangoFontName =
-                        nativeGetPangoFontName(WidgetType.SPINNER.ordinal());
+        flsf if (kfy == "ArrowButton.sizf") {
+            String nbmf = dontfxt.gftComponfnt().gftNbmf();
+            if (nbmf != null && nbmf.stbrtsWiti("Spinnfr")) {
+                // Bflifvf it or not, tif sizf of b spinnfr brrow button is
+                // dfpfndfnt upon tif sizf of tif spinnfr's font.  Tifsf
+                // dbldulbtions domf from gtkspinbutton.d (vfrsion 2.8.20),
+                // spin_button_gft_brrow_sizf() mftiod.
+                String pbngoFontNbmf;
+                syndironizfd (sun.bwt.UNIXToolkit.GTK_LOCK) {
+                    pbngoFontNbmf =
+                        nbtivfGftPbngoFontNbmf(WidgftTypf.SPINNER.ordinbl());
                 }
-                int arrowSize = (pangoFontName != null) ?
-                    PangoFonts.getFontSize(pangoFontName) : 10;
-                return (arrowSize + (getXThickness() * 2));
+                int brrowSizf = (pbngoFontNbmf != null) ?
+                    PbngoFonts.gftFontSizf(pbngoFontNbmf) : 10;
+                rfturn (brrowSizf + (gftXTiidknfss() * 2));
             }
-            // For all other kinds of arrow buttons (e.g. combobox arrow
-            // buttons), we will simply fall back on the value of
-            // ArrowButton.size as defined in the UIDefaults for
-            // GTKLookAndFeel when we call UIManager.get() below...
+            // For bll otifr kinds of brrow buttons (f.g. dombobox brrow
+            // buttons), wf will simply fbll bbdk on tif vbluf of
+            // ArrowButton.sizf bs dffinfd in tif UIDffbults for
+            // GTKLookAndFffl wifn wf dbll UIMbnbgfr.gft() bflow...
         }
-        else if ("CheckBox.iconTextGap".equals(key) ||
-                 "RadioButton.iconTextGap".equals(key))
+        flsf if ("CifdkBox.idonTfxtGbp".fqubls(kfy) ||
+                 "RbdioButton.idonTfxtGbp".fqubls(kfy))
         {
-            // The iconTextGap value needs to include "indicator-spacing"
-            // and it also needs to leave enough space for the focus line,
-            // which falls between the indicator icon and the text.
-            // See getRadioInsets() and 6489585 for more details.
-            int indicatorSpacing =
-                getClassSpecificIntValue(context, "indicator-spacing", 2);
-            int focusSize =
-                getClassSpecificIntValue(context, "focus-line-width", 1);
-            int focusPad =
-                getClassSpecificIntValue(context, "focus-padding", 1);
-            return indicatorSpacing + focusSize + focusPad;
+            // Tif idonTfxtGbp vbluf nffds to indludf "indidbtor-spbding"
+            // bnd it blso nffds to lfbvf fnougi spbdf for tif fodus linf,
+            // wiidi fblls bftwffn tif indidbtor idon bnd tif tfxt.
+            // Sff gftRbdioInsfts() bnd 6489585 for morf dftbils.
+            int indidbtorSpbding =
+                gftClbssSpfdifidIntVbluf(dontfxt, "indidbtor-spbding", 2);
+            int fodusSizf =
+                gftClbssSpfdifidIntVbluf(dontfxt, "fodus-linf-widti", 1);
+            int fodusPbd =
+                gftClbssSpfdifidIntVbluf(dontfxt, "fodus-pbdding", 1);
+            rfturn indidbtorSpbding + fodusSizf + fodusPbd;
         }
 
-        // Is it a stock icon ?
-        GTKStockIcon stockIcon = null;
-        synchronized (ICONS_MAP) {
-            stockIcon = ICONS_MAP.get(key);
+        // Is it b stodk idon ?
+        GTKStodkIdon stodkIdon = null;
+        syndironizfd (ICONS_MAP) {
+            stodkIdon = ICONS_MAP.gft(kfy);
         }
 
-        if (stockIcon != null) {
-            return stockIcon;
+        if (stodkIdon != null) {
+            rfturn stodkIdon;
         }
 
-        // Is it another kind of value ?
-        if (key != "engine") {
-            // For backward compatibility we'll fallback to the UIManager.
-            // We don't go to the UIManager for engine as the engine is GTK
-            // specific.
-            Object value = UIManager.get(key);
-            if (key == "Table.rowHeight") {
-                int focusLineWidth = getClassSpecificIntValue(context,
-                        "focus-line-width", 0);
-                if (value == null && focusLineWidth > 0) {
-                    value = Integer.valueOf(16 + 2 * focusLineWidth);
+        // Is it bnotifr kind of vbluf ?
+        if (kfy != "fnginf") {
+            // For bbdkwbrd dompbtibility wf'll fbllbbdk to tif UIMbnbgfr.
+            // Wf don't go to tif UIMbnbgfr for fnginf bs tif fnginf is GTK
+            // spfdifid.
+            Objfdt vbluf = UIMbnbgfr.gft(kfy);
+            if (kfy == "Tbblf.rowHfigit") {
+                int fodusLinfWidti = gftClbssSpfdifidIntVbluf(dontfxt,
+                        "fodus-linf-widti", 0);
+                if (vbluf == null && fodusLinfWidti > 0) {
+                    vbluf = Intfgfr.vblufOf(16 + 2 * fodusLinfWidti);
                 }
             }
-            return value;
+            rfturn vbluf;
         }
 
-        // Don't call super, we don't want to pick up defaults from
-        // SynthStyle.
-        return null;
+        // Don't dbll supfr, wf don't wbnt to pidk up dffbults from
+        // SyntiStylf.
+        rfturn null;
     }
 
-    private Icon getStockIcon(SynthContext context, String key, int type) {
-        TextDirection direction = TextDirection.LTR;
+    privbtf Idon gftStodkIdon(SyntiContfxt dontfxt, String kfy, int typf) {
+        TfxtDirfdtion dirfdtion = TfxtDirfdtion.LTR;
 
-        if (context != null) {
-            ComponentOrientation co = context.getComponent().
-                                              getComponentOrientation();
+        if (dontfxt != null) {
+            ComponfntOrifntbtion do = dontfxt.gftComponfnt().
+                                              gftComponfntOrifntbtion();
 
-            if (co != null && !co.isLeftToRight()) {
-                direction = TextDirection.RTL;
+            if (do != null && !do.isLfftToRigit()) {
+                dirfdtion = TfxtDirfdtion.RTL;
             }
         }
 
-        // First try loading a theme-specific icon using the native
-        // GTK libraries (native GTK handles the resizing for us).
-        Icon icon = getStyleSpecificIcon(key, direction, type);
-        if (icon != null) {
-            return icon;
+        // First try lobding b tifmf-spfdifid idon using tif nbtivf
+        // GTK librbrifs (nbtivf GTK ibndlfs tif rfsizing for us).
+        Idon idon = gftStylfSpfdifidIdon(kfy, dirfdtion, typf);
+        if (idon != null) {
+            rfturn idon;
         }
 
-        // In a failure case where native GTK (unexpectedly) returns a
-        // null icon, we can try loading a default icon as a fallback.
-        String propName = ICON_PROPERTY_PREFIX + key + '.' + type + '.' +
-                          (direction == TextDirection.RTL ? "rtl" : "ltr");
-        Image img = (Image)
-            Toolkit.getDefaultToolkit().getDesktopProperty(propName);
+        // In b fbilurf dbsf wifrf nbtivf GTK (unfxpfdtfdly) rfturns b
+        // null idon, wf dbn try lobding b dffbult idon bs b fbllbbdk.
+        String propNbmf = ICON_PROPERTY_PREFIX + kfy + '.' + typf + '.' +
+                          (dirfdtion == TfxtDirfdtion.RTL ? "rtl" : "ltr");
+        Imbgf img = (Imbgf)
+            Toolkit.gftDffbultToolkit().gftDfsktopPropfrty(propNbmf);
         if (img != null) {
-            return new ImageIcon(img);
+            rfturn nfw ImbgfIdon(img);
         }
 
-        // In an extreme failure situation, just return null (callers are
-        // already prepared to handle a null icon, so the worst that can
-        // happen is that an icon won't be included in the button/dialog).
-        return null;
+        // In bn fxtrfmf fbilurf situbtion, just rfturn null (dbllfrs brf
+        // blrfbdy prfpbrfd to ibndlf b null idon, so tif worst tibt dbn
+        // ibppfn is tibt bn idon won't bf indludfd in tif button/diblog).
+        rfturn null;
     }
 
-    private Icon getStyleSpecificIcon(String key,
-                                      TextDirection direction, int type)
+    privbtf Idon gftStylfSpfdifidIdon(String kfy,
+                                      TfxtDirfdtion dirfdtion, int typf)
     {
-        UNIXToolkit tk = (UNIXToolkit)Toolkit.getDefaultToolkit();
-        Image img =
-            tk.getStockIcon(widgetType, key, type, direction.ordinal(), null);
-        return (img != null) ? new ImageIcon(img) : null;
+        UNIXToolkit tk = (UNIXToolkit)Toolkit.gftDffbultToolkit();
+        Imbgf img =
+            tk.gftStodkIdon(widgftTypf, kfy, typf, dirfdtion.ordinbl(), null);
+        rfturn (img != null) ? nfw ImbgfIdon(img) : null;
     }
 
-    static class GTKStockIconInfo {
-        private static Map<String,Integer> ICON_TYPE_MAP;
-        private static final Object ICON_SIZE_KEY = new StringBuffer("IconSize");
+    stbtid dlbss GTKStodkIdonInfo {
+        privbtf stbtid Mbp<String,Intfgfr> ICON_TYPE_MAP;
+        privbtf stbtid finbl Objfdt ICON_SIZE_KEY = nfw StringBufffr("IdonSizf");
 
-        private static Dimension[] getIconSizesMap() {
-            AppContext appContext = AppContext.getAppContext();
-            Dimension[] iconSizes = (Dimension[])appContext.get(ICON_SIZE_KEY);
+        privbtf stbtid Dimfnsion[] gftIdonSizfsMbp() {
+            AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+            Dimfnsion[] idonSizfs = (Dimfnsion[])bppContfxt.gft(ICON_SIZE_KEY);
 
-            if (iconSizes == null) {
-                iconSizes = new Dimension[7];
-                iconSizes[0] = null;                  // GTK_ICON_SIZE_INVALID
-                iconSizes[1] = new Dimension(16, 16); // GTK_ICON_SIZE_MENU
-                iconSizes[2] = new Dimension(18, 18); // GTK_ICON_SIZE_SMALL_TOOLBAR
-                iconSizes[3] = new Dimension(24, 24); // GTK_ICON_SIZE_LARGE_TOOLBAR
-                iconSizes[4] = new Dimension(20, 20); // GTK_ICON_SIZE_BUTTON
-                iconSizes[5] = new Dimension(32, 32); // GTK_ICON_SIZE_DND
-                iconSizes[6] = new Dimension(48, 48); // GTK_ICON_SIZE_DIALOG
-                appContext.put(ICON_SIZE_KEY, iconSizes);
+            if (idonSizfs == null) {
+                idonSizfs = nfw Dimfnsion[7];
+                idonSizfs[0] = null;                  // GTK_ICON_SIZE_INVALID
+                idonSizfs[1] = nfw Dimfnsion(16, 16); // GTK_ICON_SIZE_MENU
+                idonSizfs[2] = nfw Dimfnsion(18, 18); // GTK_ICON_SIZE_SMALL_TOOLBAR
+                idonSizfs[3] = nfw Dimfnsion(24, 24); // GTK_ICON_SIZE_LARGE_TOOLBAR
+                idonSizfs[4] = nfw Dimfnsion(20, 20); // GTK_ICON_SIZE_BUTTON
+                idonSizfs[5] = nfw Dimfnsion(32, 32); // GTK_ICON_SIZE_DND
+                idonSizfs[6] = nfw Dimfnsion(48, 48); // GTK_ICON_SIZE_DIALOG
+                bppContfxt.put(ICON_SIZE_KEY, idonSizfs);
             }
-            return iconSizes;
+            rfturn idonSizfs;
         }
 
         /**
-         * Return the size of a particular icon type (logical size)
+         * Rfturn tif sizf of b pbrtidulbr idon typf (logidbl sizf)
          *
-         * @param type icon type (GtkIconSize value)
-         * @return a Dimension object, or null if lsize is invalid
+         * @pbrbm typf idon typf (GtkIdonSizf vbluf)
+         * @rfturn b Dimfnsion objfdt, or null if lsizf is invblid
          */
-        public static Dimension getIconSize(int type) {
-            Dimension[] iconSizes = getIconSizesMap();
-            return type >= 0 && type < iconSizes.length ?
-                iconSizes[type] : null;
+        publid stbtid Dimfnsion gftIdonSizf(int typf) {
+            Dimfnsion[] idonSizfs = gftIdonSizfsMbp();
+            rfturn typf >= 0 && typf < idonSizfs.lfngti ?
+                idonSizfs[typf] : null;
         }
 
         /**
-         * Change icon size in a type to size mapping. This is called by code
-         * that parses the gtk-icon-sizes setting
+         * Cibngf idon sizf in b typf to sizf mbpping. Tiis is dbllfd by dodf
+         * tibt pbrsfs tif gtk-idon-sizfs sftting
          *
-         * @param type icon type (GtkIconSize value)
-         * @param w the new icon width
-         * @param h the new icon height
+         * @pbrbm typf idon typf (GtkIdonSizf vbluf)
+         * @pbrbm w tif nfw idon widti
+         * @pbrbm i tif nfw idon ifigit
          */
-        public static void setIconSize(int type, int w, int h) {
-            Dimension[] iconSizes = getIconSizesMap();
-            if (type >= 0 && type < iconSizes.length) {
-                iconSizes[type] = new Dimension(w, h);
+        publid stbtid void sftIdonSizf(int typf, int w, int i) {
+            Dimfnsion[] idonSizfs = gftIdonSizfsMbp();
+            if (typf >= 0 && typf < idonSizfs.lfngti) {
+                idonSizfs[typf] = nfw Dimfnsion(w, i);
             }
         }
 
         /**
-         * Return icon type (GtkIconSize value) given a symbolic name which can
-         * occur in a theme file.
+         * Rfturn idon typf (GtkIdonSizf vbluf) givfn b symbolid nbmf wiidi dbn
+         * oddur in b tifmf filf.
          *
-         * @param size symbolic name, e.g. gtk-button
-         * @return icon type. Valid types are 1 to 6
+         * @pbrbm sizf symbolid nbmf, f.g. gtk-button
+         * @rfturn idon typf. Vblid typfs brf 1 to 6
          */
-        public static int getIconType(String size) {
-            if (size == null) {
-                return UNDEFINED;
+        publid stbtid int gftIdonTypf(String sizf) {
+            if (sizf == null) {
+                rfturn UNDEFINED;
             }
             if (ICON_TYPE_MAP == null) {
-                initIconTypeMap();
+                initIdonTypfMbp();
             }
-            Integer n = ICON_TYPE_MAP.get(size);
-            return n != null ? n.intValue() : UNDEFINED;
+            Intfgfr n = ICON_TYPE_MAP.gft(sizf);
+            rfturn n != null ? n.intVbluf() : UNDEFINED;
         }
 
-        private static void initIconTypeMap() {
-            ICON_TYPE_MAP = new HashMap<String,Integer>();
-            ICON_TYPE_MAP.put("gtk-menu", Integer.valueOf(1));
-            ICON_TYPE_MAP.put("gtk-small-toolbar", Integer.valueOf(2));
-            ICON_TYPE_MAP.put("gtk-large-toolbar", Integer.valueOf(3));
-            ICON_TYPE_MAP.put("gtk-button", Integer.valueOf(4));
-            ICON_TYPE_MAP.put("gtk-dnd", Integer.valueOf(5));
-            ICON_TYPE_MAP.put("gtk-dialog", Integer.valueOf(6));
+        privbtf stbtid void initIdonTypfMbp() {
+            ICON_TYPE_MAP = nfw HbsiMbp<String,Intfgfr>();
+            ICON_TYPE_MAP.put("gtk-mfnu", Intfgfr.vblufOf(1));
+            ICON_TYPE_MAP.put("gtk-smbll-toolbbr", Intfgfr.vblufOf(2));
+            ICON_TYPE_MAP.put("gtk-lbrgf-toolbbr", Intfgfr.vblufOf(3));
+            ICON_TYPE_MAP.put("gtk-button", Intfgfr.vblufOf(4));
+            ICON_TYPE_MAP.put("gtk-dnd", Intfgfr.vblufOf(5));
+            ICON_TYPE_MAP.put("gtk-diblog", Intfgfr.vblufOf(6));
         }
 
     }
 
     /**
-     * An Icon that is fetched using getStockIcon.
+     * An Idon tibt is fftdifd using gftStodkIdon.
      */
-    private static class GTKStockIcon extends SynthIcon {
-        private String key;
-        private int size;
-        private boolean loadedLTR;
-        private boolean loadedRTL;
-        private Icon ltrIcon;
-        private Icon rtlIcon;
-        private SynthStyle style;
+    privbtf stbtid dlbss GTKStodkIdon fxtfnds SyntiIdon {
+        privbtf String kfy;
+        privbtf int sizf;
+        privbtf boolfbn lobdfdLTR;
+        privbtf boolfbn lobdfdRTL;
+        privbtf Idon ltrIdon;
+        privbtf Idon rtlIdon;
+        privbtf SyntiStylf stylf;
 
-        GTKStockIcon(String key, int size) {
-            this.key = key;
-            this.size = size;
+        GTKStodkIdon(String kfy, int sizf) {
+            tiis.kfy = kfy;
+            tiis.sizf = sizf;
         }
 
-        public void paintIcon(SynthContext context, Graphics g, int x,
-                              int y, int w, int h) {
-            Icon icon = getIcon(context);
+        publid void pbintIdon(SyntiContfxt dontfxt, Grbpiids g, int x,
+                              int y, int w, int i) {
+            Idon idon = gftIdon(dontfxt);
 
-            if (icon != null) {
-                if (context == null) {
-                    icon.paintIcon(null, g, x, y);
+            if (idon != null) {
+                if (dontfxt == null) {
+                    idon.pbintIdon(null, g, x, y);
                 }
-                else {
-                    icon.paintIcon(context.getComponent(), g, x, y);
+                flsf {
+                    idon.pbintIdon(dontfxt.gftComponfnt(), g, x, y);
                 }
             }
         }
 
-        public int getIconWidth(SynthContext context) {
-            Icon icon = getIcon(context);
+        publid int gftIdonWidti(SyntiContfxt dontfxt) {
+            Idon idon = gftIdon(dontfxt);
 
-            if (icon != null) {
-                return icon.getIconWidth();
+            if (idon != null) {
+                rfturn idon.gftIdonWidti();
             }
-            return 0;
+            rfturn 0;
         }
 
-        public int getIconHeight(SynthContext context) {
-            Icon icon = getIcon(context);
+        publid int gftIdonHfigit(SyntiContfxt dontfxt) {
+            Idon idon = gftIdon(dontfxt);
 
-            if (icon != null) {
-                return icon.getIconHeight();
+            if (idon != null) {
+                rfturn idon.gftIdonHfigit();
             }
-            return 0;
+            rfturn 0;
         }
 
-        private Icon getIcon(SynthContext context) {
-            if (context != null) {
-                ComponentOrientation co = context.getComponent().
-                                                  getComponentOrientation();
-                SynthStyle style = context.getStyle();
+        privbtf Idon gftIdon(SyntiContfxt dontfxt) {
+            if (dontfxt != null) {
+                ComponfntOrifntbtion do = dontfxt.gftComponfnt().
+                                                  gftComponfntOrifntbtion();
+                SyntiStylf stylf = dontfxt.gftStylf();
 
-                if (style != this.style) {
-                    this.style = style;
-                    loadedLTR = loadedRTL = false;
+                if (stylf != tiis.stylf) {
+                    tiis.stylf = stylf;
+                    lobdfdLTR = lobdfdRTL = fblsf;
                 }
-                if (co == null || co.isLeftToRight()) {
-                    if (!loadedLTR) {
-                        loadedLTR = true;
-                        ltrIcon = ((GTKStyle)context.getStyle()).
-                                  getStockIcon(context, key, size);
+                if (do == null || do.isLfftToRigit()) {
+                    if (!lobdfdLTR) {
+                        lobdfdLTR = truf;
+                        ltrIdon = ((GTKStylf)dontfxt.gftStylf()).
+                                  gftStodkIdon(dontfxt, kfy, sizf);
                     }
-                    return ltrIcon;
+                    rfturn ltrIdon;
                 }
-                else if (!loadedRTL) {
-                    loadedRTL = true;
-                    rtlIcon = ((GTKStyle)context.getStyle()).
-                              getStockIcon(context, key,size);
+                flsf if (!lobdfdRTL) {
+                    lobdfdRTL = truf;
+                    rtlIdon = ((GTKStylf)dontfxt.gftStylf()).
+                              gftStodkIdon(dontfxt, kfy,sizf);
                 }
-                return rtlIcon;
+                rfturn rtlIdon;
             }
-            return ltrIcon;
+            rfturn ltrIdon;
         }
     }
 
     /**
-     * GTKLazyValue is a slimmed down version of <code>ProxyLaxyValue</code>.
-     * The code is duplicate so that it can get at the package private
-     * classes in gtk.
+     * GTKLbzyVbluf is b slimmfd down vfrsion of <dodf>ProxyLbxyVbluf</dodf>.
+     * Tif dodf is duplidbtf so tibt it dbn gft bt tif pbdkbgf privbtf
+     * dlbssfs in gtk.
      */
-    static class GTKLazyValue implements UIDefaults.LazyValue {
+    stbtid dlbss GTKLbzyVbluf implfmfnts UIDffbults.LbzyVbluf {
         /**
-         * Name of the class to create.
+         * Nbmf of tif dlbss to drfbtf.
          */
-        private String className;
-        private String methodName;
+        privbtf String dlbssNbmf;
+        privbtf String mftiodNbmf;
 
-        GTKLazyValue(String name) {
-            this(name, null);
+        GTKLbzyVbluf(String nbmf) {
+            tiis(nbmf, null);
         }
 
-        GTKLazyValue(String name, String methodName) {
-            this.className = name;
-            this.methodName = methodName;
+        GTKLbzyVbluf(String nbmf, String mftiodNbmf) {
+            tiis.dlbssNbmf = nbmf;
+            tiis.mftiodNbmf = mftiodNbmf;
         }
 
-        public Object createValue(UIDefaults table) {
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
             try {
-                Class<?> c = Class.forName(className, true,Thread.currentThread().
-                                           getContextClassLoader());
+                Clbss<?> d = Clbss.forNbmf(dlbssNbmf, truf,Tirfbd.durrfntTirfbd().
+                                           gftContfxtClbssLobdfr());
 
-                if (methodName == null) {
-                    return c.newInstance();
+                if (mftiodNbmf == null) {
+                    rfturn d.nfwInstbndf();
                 }
-                Method m = c.getMethod(methodName, (Class<?>[])null);
+                Mftiod m = d.gftMftiod(mftiodNbmf, (Clbss<?>[])null);
 
-                return m.invoke(c, (Object[])null);
-            } catch (ClassNotFoundException cnfe) {
-            } catch (IllegalAccessException iae) {
-            } catch (InvocationTargetException ite) {
-            } catch (NoSuchMethodException nsme) {
-            } catch (InstantiationException ie) {
+                rfturn m.invokf(d, (Objfdt[])null);
+            } dbtdi (ClbssNotFoundExdfption dnff) {
+            } dbtdi (IllfgblAddfssExdfption ibf) {
+            } dbtdi (InvodbtionTbrgftExdfption itf) {
+            } dbtdi (NoSudiMftiodExdfption nsmf) {
+            } dbtdi (InstbntibtionExdfption if) {
             }
-            return null;
+            rfturn null;
         }
     }
 
-    static {
-        CLASS_SPECIFIC_MAP = new HashMap<String,String>();
-        CLASS_SPECIFIC_MAP.put("Slider.thumbHeight", "slider-width");
-        CLASS_SPECIFIC_MAP.put("Slider.trackBorder", "trough-border");
-        CLASS_SPECIFIC_MAP.put("SplitPane.size", "handle-size");
-        CLASS_SPECIFIC_MAP.put("Tree.expanderSize", "expander-size");
-        CLASS_SPECIFIC_MAP.put("ScrollBar.thumbHeight", "slider-width");
-        CLASS_SPECIFIC_MAP.put("ScrollBar.width", "slider-width");
-        CLASS_SPECIFIC_MAP.put("TextArea.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("TextArea.caretAspectRatio", "cursor-aspect-ratio");
-        CLASS_SPECIFIC_MAP.put("TextField.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("TextField.caretAspectRatio", "cursor-aspect-ratio");
-        CLASS_SPECIFIC_MAP.put("PasswordField.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("PasswordField.caretAspectRatio", "cursor-aspect-ratio");
-        CLASS_SPECIFIC_MAP.put("FormattedTextField.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("FormattedTextField.caretAspectRatio", "cursor-aspect-");
-        CLASS_SPECIFIC_MAP.put("TextPane.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("TextPane.caretAspectRatio", "cursor-aspect-ratio");
-        CLASS_SPECIFIC_MAP.put("EditorPane.caretForeground", "cursor-color");
-        CLASS_SPECIFIC_MAP.put("EditorPane.caretAspectRatio", "cursor-aspect-ratio");
+    stbtid {
+        CLASS_SPECIFIC_MAP = nfw HbsiMbp<String,String>();
+        CLASS_SPECIFIC_MAP.put("Slidfr.tiumbHfigit", "slidfr-widti");
+        CLASS_SPECIFIC_MAP.put("Slidfr.trbdkBordfr", "trougi-bordfr");
+        CLASS_SPECIFIC_MAP.put("SplitPbnf.sizf", "ibndlf-sizf");
+        CLASS_SPECIFIC_MAP.put("Trff.fxpbndfrSizf", "fxpbndfr-sizf");
+        CLASS_SPECIFIC_MAP.put("SdrollBbr.tiumbHfigit", "slidfr-widti");
+        CLASS_SPECIFIC_MAP.put("SdrollBbr.widti", "slidfr-widti");
+        CLASS_SPECIFIC_MAP.put("TfxtArfb.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("TfxtArfb.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+        CLASS_SPECIFIC_MAP.put("TfxtFifld.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("TfxtFifld.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+        CLASS_SPECIFIC_MAP.put("PbsswordFifld.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("PbsswordFifld.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+        CLASS_SPECIFIC_MAP.put("FormbttfdTfxtFifld.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("FormbttfdTfxtFifld.dbrftAspfdtRbtio", "dursor-bspfdt-");
+        CLASS_SPECIFIC_MAP.put("TfxtPbnf.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("TfxtPbnf.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
+        CLASS_SPECIFIC_MAP.put("EditorPbnf.dbrftForfground", "dursor-dolor");
+        CLASS_SPECIFIC_MAP.put("EditorPbnf.dbrftAspfdtRbtio", "dursor-bspfdt-rbtio");
 
-        ICONS_MAP = new HashMap<String, GTKStockIcon>();
-        ICONS_MAP.put("FileChooser.cancelIcon", new GTKStockIcon("gtk-cancel", 4));
-        ICONS_MAP.put("FileChooser.okIcon",     new GTKStockIcon("gtk-ok",     4));
-        ICONS_MAP.put("OptionPane.errorIcon", new GTKStockIcon("gtk-dialog-error", 6));
-        ICONS_MAP.put("OptionPane.informationIcon", new GTKStockIcon("gtk-dialog-info", 6));
-        ICONS_MAP.put("OptionPane.warningIcon", new GTKStockIcon("gtk-dialog-warning", 6));
-        ICONS_MAP.put("OptionPane.questionIcon", new GTKStockIcon("gtk-dialog-question", 6));
-        ICONS_MAP.put("OptionPane.yesIcon", new GTKStockIcon("gtk-yes", 4));
-        ICONS_MAP.put("OptionPane.noIcon", new GTKStockIcon("gtk-no", 4));
-        ICONS_MAP.put("OptionPane.cancelIcon", new GTKStockIcon("gtk-cancel", 4));
-        ICONS_MAP.put("OptionPane.okIcon", new GTKStockIcon("gtk-ok", 4));
+        ICONS_MAP = nfw HbsiMbp<String, GTKStodkIdon>();
+        ICONS_MAP.put("FilfCioosfr.dbndflIdon", nfw GTKStodkIdon("gtk-dbndfl", 4));
+        ICONS_MAP.put("FilfCioosfr.okIdon",     nfw GTKStodkIdon("gtk-ok",     4));
+        ICONS_MAP.put("OptionPbnf.frrorIdon", nfw GTKStodkIdon("gtk-diblog-frror", 6));
+        ICONS_MAP.put("OptionPbnf.informbtionIdon", nfw GTKStodkIdon("gtk-diblog-info", 6));
+        ICONS_MAP.put("OptionPbnf.wbrningIdon", nfw GTKStodkIdon("gtk-diblog-wbrning", 6));
+        ICONS_MAP.put("OptionPbnf.qufstionIdon", nfw GTKStodkIdon("gtk-diblog-qufstion", 6));
+        ICONS_MAP.put("OptionPbnf.yfsIdon", nfw GTKStodkIdon("gtk-yfs", 4));
+        ICONS_MAP.put("OptionPbnf.noIdon", nfw GTKStodkIdon("gtk-no", 4));
+        ICONS_MAP.put("OptionPbnf.dbndflIdon", nfw GTKStodkIdon("gtk-dbndfl", 4));
+        ICONS_MAP.put("OptionPbnf.okIdon", nfw GTKStodkIdon("gtk-ok", 4));
     }
 }

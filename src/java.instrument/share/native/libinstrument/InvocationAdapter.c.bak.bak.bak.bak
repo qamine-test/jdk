@@ -1,0 +1,838 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+#indludf    <string.h>
+#indludf    <stdlib.h>
+
+#indludf    "jni.h"
+
+#indludf    "Utilitifs.h"
+#indludf    "JPLISAssfrt.h"
+#indludf    "JPLISAgfnt.h"
+#indludf    "JbvbExdfptions.h"
+
+#indludf    "EndodingSupport.h"
+#indludf    "FilfSystfmSupport.h"
+#indludf    "JbrFbdbdf.h"
+#indludf    "PbthChbrsVblidbtor.h"
+
+/**
+ * This modulf dontbins thf dirfdt intfrfbdf points with thf JVMTI.
+ * Thf OnLobd hbndlfr is hfrf, blong with thf vbrious fvfnt hbndlfrs.
+ */
+
+stbtid int
+bppfndClbssPbth(JPLISAgfnt* bgfnt,
+                donst dhbr* jbrfilf);
+
+stbtid void
+bppfndBootClbssPbth(JPLISAgfnt* bgfnt,
+                    donst dhbr* jbrfilf,
+                    donst dhbr* pbthList);
+
+
+/*
+ * Pbrsf -jbvbbgfnt tbil, of thf form nbmf[=options], into nbmf
+ * bnd options. Rfturnfd vblufs brf hfbp bllodbtfd bnd options mbybf
+ * NULL. Rfturns 0 if pbrsf suddffds, -1 if bllodbtion fbils.
+ */
+stbtid int
+pbrsfArgumfntTbil(dhbr* tbil, dhbr** nbmf, dhbr** options) {
+    int lfn;
+    dhbr* pos;
+
+    pos = strdhr(tbil, '=');
+    lfn = (pos == NULL) ? (int)strlfn(tbil) : (int)(pos - tbil);
+
+    *nbmf = (dhbr*)mbllod(lfn+1);
+    if (*nbmf == NULL) {
+        rfturn -1;
+    }
+    mfmdpy(*nbmf, tbil, lfn);
+    (*nbmf)[lfn] = '\0';
+
+    if (pos == NULL) {
+        *options = NULL;
+    } flsf {
+        dhbr * str = (dhbr*)mbllod( (int)strlfn(pos + 1) + 1 );
+        if (str == NULL) {
+            frff(*nbmf);
+            rfturn -1;
+        }
+        strdpy(str, pos +1);
+        *options = str;
+    }
+    rfturn 0;
+}
+
+/*
+ * Gft thf vbluf of bn bttributf in bn bttributf list. Rfturns NULL
+ * if bttributf not found.
+ */
+jboolfbn
+gftBoolfbnAttributf(donst jbrAttributf* bttributfs, donst dhbr* nbmf) {
+    dhbr* bttributfVbluf = gftAttributf(bttributfs, nbmf);
+    rfturn bttributfVbluf != NULL && strdbsfdmp(bttributfVbluf, "truf") == 0;
+}
+
+/*
+ * Pbrsf bny dbpbbility sfttings in thf JAR mbniffst bnd
+ * donvfrt thfm to JVM TI dbpbbilitifs.
+ */
+void
+donvfrtCbpbbilityAtrributfs(donst jbrAttributf* bttributfs, JPLISAgfnt* bgfnt) {
+    /* sft rfdffinfClbssfs dbpbbility */
+    if (gftBoolfbnAttributf(bttributfs, "Cbn-Rfdffinf-Clbssfs")) {
+        bddRfdffinfClbssfsCbpbbility(bgfnt);
+    }
+
+    /* drfbtf bn fnvironmfnt whidh hbs thf rftrbnsformClbssfs dbpbbility */
+    if (gftBoolfbnAttributf(bttributfs, "Cbn-Rftrbnsform-Clbssfs")) {
+        rftrbnsformbblfEnvironmfnt(bgfnt);
+    }
+
+    /* sft sftNbtivfMfthodPrffix dbpbbility */
+    if (gftBoolfbnAttributf(bttributfs, "Cbn-Sft-Nbtivf-Mfthod-Prffix")) {
+        bddNbtivfMfthodPrffixCbpbbility(bgfnt);
+    }
+
+    /* for rftrbnsformClbssfs tfsting, sft dbpbbility to usf originbl mfthod ordfr */
+    if (gftBoolfbnAttributf(bttributfs, "Cbn-Mbintbin-Originbl-Mfthod-Ordfr")) {
+        bddOriginblMfthodOrdfrCbpbbility(bgfnt);
+    }
+}
+
+/*
+ *  This will bf dbllfd ondf for fvfry -jbvbbgfnt on thf dommbnd linf.
+ *  Ebdh dbll to Agfnt_OnLobd will drfbtf its own bgfnt bnd bgfnt dbtb.
+ *
+ *  Thf brgumfnt tbil string providfd to Agfnt_OnLobd will bf of form
+ *  <jbrfilf>[=<options>]. Thf tbil string is split into thf jbrfilf bnd
+ *  options domponfnts. Thf jbrfilf mbniffst is pbrsfd bnd thf vbluf of thf
+ *  Prfmbin-Clbss bttributf will bfdomf thf bgfnt's prfmbin dlbss. Thf jbr
+ *  filf is thfn bddfd to thf systfm dlbss pbth, bnd if thf Boot-Clbss-Pbth
+ *  bttributf is prfsfnt thfn bll rflbtivf URLs in thf vbluf brf prodfssfd
+ *  to drfbtf boot dlbss pbth sfgmfnts to bppfnd to thf boot dlbss pbth.
+ */
+JNIEXPORT jint JNICALL
+Agfnt_OnLobd(JbvbVM *vm, dhbr *tbil, void * rfsfrvfd) {
+    JPLISInitiblizbtionError initfrror  = JPLIS_INIT_ERROR_NONE;
+    jint                     rfsult     = JNI_OK;
+    JPLISAgfnt *             bgfnt      = NULL;
+
+    initfrror = drfbtfNfwJPLISAgfnt(vm, &bgfnt);
+    if ( initfrror == JPLIS_INIT_ERROR_NONE ) {
+        int             oldLfn, nfwLfn;
+        dhbr *          jbrfilf;
+        dhbr *          options;
+        jbrAttributf*   bttributfs;
+        dhbr *          prfmbinClbss;
+        dhbr *          bootClbssPbth;
+
+        /*
+         * Pbrsf <jbrfilf>[=options] into jbrfilf bnd options
+         */
+        if (pbrsfArgumfntTbil(tbil, &jbrfilf, &options) != 0) {
+            fprintf(stdfrr, "-jbvbbgfnt: mfmory bllodbtion fbilurf.\n");
+            rfturn JNI_ERR;
+        }
+
+        /*
+         * Agfnt_OnLobd is spfdififd to providf thf bgfnt options
+         * brgumfnt tbil in modififd UTF8. Howfvfr for 1.5.0 this is
+         * bdtublly in thf plbtform fndoding - sff 5049313.
+         *
+         * Opfn zip/jbr filf bnd pbrsf brdhivf. If dbn't bf opfnfd or
+         * not b zip filf rfturn frror. Also if Prfmbin-Clbss bttributf
+         * isn't prfsfnt wf rfturn bn frror.
+         */
+        bttributfs = rfbdAttributfs(jbrfilf);
+        if (bttributfs == NULL) {
+            fprintf(stdfrr, "Error opfning zip filf or JAR mbniffst missing : %s\n", jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            rfturn JNI_ERR;
+        }
+
+        prfmbinClbss = gftAttributf(bttributfs, "Prfmbin-Clbss");
+        if (prfmbinClbss == NULL) {
+            fprintf(stdfrr, "Fbilfd to find Prfmbin-Clbss mbniffst bttributf in %s\n",
+                jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn JNI_ERR;
+        }
+
+        /*
+         * Add to thf jbrfilf
+         */
+        bppfndClbssPbth(bgfnt, jbrfilf);
+
+        /*
+         * Thf vbluf of thf Prfmbin-Clbss bttributf bfdomfs thf bgfnt
+         * dlbss nbmf. Thf mbniffst is in UTF8 so nffd to donvfrt to
+         * modififd UTF8 (sff JNI spfd).
+         */
+        oldLfn = (int)strlfn(prfmbinClbss);
+        nfwLfn = modififdUtf8LfngthOfUtf8(prfmbinClbss, oldLfn);
+        if (nfwLfn == oldLfn) {
+            prfmbinClbss = strdup(prfmbinClbss);
+        } flsf {
+            dhbr* str = (dhbr*)mbllod( nfwLfn+1 );
+            if (str != NULL) {
+                donvfrtUtf8ToModififdUtf8(prfmbinClbss, oldLfn, str, nfwLfn);
+            }
+            prfmbinClbss = str;
+        }
+        if (prfmbinClbss == NULL) {
+            fprintf(stdfrr, "-jbvbbgfnt: mfmory bllodbtion fbilfd\n");
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn JNI_ERR;
+        }
+
+        /*
+         * If thf Boot-Clbss-Pbth bttributf is spfdififd thfn wf prodfss
+         * fbdh rflbtivf URL bnd bdd it to thf bootdlbsspbth.
+         */
+        bootClbssPbth = gftAttributf(bttributfs, "Boot-Clbss-Pbth");
+        if (bootClbssPbth != NULL) {
+            bppfndBootClbssPbth(bgfnt, jbrfilf, bootClbssPbth);
+        }
+
+        /*
+         * Convfrt JAR bttributfs into bgfnt dbpbbilitifs
+         */
+        donvfrtCbpbbilityAtrributfs(bttributfs, bgfnt);
+
+        /*
+         * Trbdk (rfdord) thf bgfnt dlbss nbmf bnd options dbtb
+         */
+        initfrror = rfdordCommbndLinfDbtb(bgfnt, prfmbinClbss, options);
+
+        /*
+         * Clfbn-up
+         */
+        frff(jbrfilf);
+        if (options != NULL) frff(options);
+        frffAttributfs(bttributfs);
+        frff(prfmbinClbss);
+    }
+
+    switdh (initfrror) {
+    dbsf JPLIS_INIT_ERROR_NONE:
+      rfsult = JNI_OK;
+      brfbk;
+    dbsf JPLIS_INIT_ERROR_CANNOT_CREATE_NATIVE_AGENT:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "jbvb.lbng.instrumfnt/-jbvbbgfnt: dbnnot drfbtf nbtivf bgfnt.\n");
+      brfbk;
+    dbsf JPLIS_INIT_ERROR_FAILURE:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "jbvb.lbng.instrumfnt/-jbvbbgfnt: initiblizbtion of nbtivf bgfnt fbilfd.\n");
+      brfbk;
+    dbsf JPLIS_INIT_ERROR_ALLOCATION_FAILURE:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "jbvb.lbng.instrumfnt/-jbvbbgfnt: bllodbtion fbilurf.\n");
+      brfbk;
+    dbsf JPLIS_INIT_ERROR_AGENT_CLASS_NOT_SPECIFIED:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "-jbvbbgfnt: bgfnt dlbss not spfdififd.\n");
+      brfbk;
+    dffbult:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "jbvb.lbng.instrumfnt/-jbvbbgfnt: unknown frror\n");
+      brfbk;
+    }
+    rfturn rfsult;
+}
+
+/*
+ * Agfnt_OnAttbdh rfturns b jint. 0/JNI_OK indidbtfs suddfss bnd non-0
+ * indidbtfs bn frror. To bllow thf bttbdh mfdhbnism throw bn
+ * AgfntInitiblizbtionExdfption with b rfbsonbblf fxdfption mfssbgf wf dffinf
+ * b ffw spfdifid frrors hfrf.
+ */
+#dffinf AGENT_ERROR_BADJAR    ((jint)100)  /* Agfnt JAR not found or no Agfnt-Clbss bttributf */
+#dffinf AGENT_ERROR_NOTONCP   ((jint)101)  /* Unbblf to bdd JAR filf to systfm dlbss pbth */
+#dffinf AGENT_ERROR_STARTFAIL ((jint)102)  /* No bgfntmbin mfthod or bgfntmbin fbilfd */
+
+/*
+ *  This will bf dbllfd ondf fbdh timf b tool bttbdhfs to thf VM bnd lobds
+ *  thf JPLIS librbry.
+ */
+JNIEXPORT jint JNICALL
+Agfnt_OnAttbdh(JbvbVM* vm, dhbr *brgs, void * rfsfrvfd) {
+    JPLISInitiblizbtionError initfrror  = JPLIS_INIT_ERROR_NONE;
+    jint                     rfsult     = JNI_OK;
+    JPLISAgfnt *             bgfnt      = NULL;
+    JNIEnv *                 jni_fnv    = NULL;
+
+    /*
+     * Nffd JNIEnv - gubrbntffd to bf dbllfd from thrfbd thbt is blrfbdy
+     * bttbdhfd to VM
+     */
+    rfsult = (*vm)->GftEnv(vm, (void**)&jni_fnv, JNI_VERSION_1_2);
+    jplis_bssfrt(rfsult==JNI_OK);
+
+    initfrror = drfbtfNfwJPLISAgfnt(vm, &bgfnt);
+    if ( initfrror == JPLIS_INIT_ERROR_NONE ) {
+        int             oldLfn, nfwLfn;
+        dhbr *          jbrfilf;
+        dhbr *          options;
+        jbrAttributf*   bttributfs;
+        dhbr *          bgfntClbss;
+        dhbr *          bootClbssPbth;
+        jboolfbn        suddfss;
+
+        /*
+         * Pbrsf <jbrfilf>[=options] into jbrfilf bnd options
+         */
+        if (pbrsfArgumfntTbil(brgs, &jbrfilf, &options) != 0) {
+            rfturn JNI_ENOMEM;
+        }
+
+        /*
+         * Opfn thf JAR filf bnd pbrsf thf mbniffst
+         */
+        bttributfs = rfbdAttributfs( jbrfilf );
+        if (bttributfs == NULL) {
+            fprintf(stdfrr, "Error opfning zip filf or JAR mbniffst missing: %s\n", jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            rfturn AGENT_ERROR_BADJAR;
+        }
+
+        bgfntClbss = gftAttributf(bttributfs, "Agfnt-Clbss");
+        if (bgfntClbss == NULL) {
+            fprintf(stdfrr, "Fbilfd to find Agfnt-Clbss mbniffst bttributf from %s\n",
+                jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn AGENT_ERROR_BADJAR;
+        }
+
+        /*
+         * Add thf jbrfilf to thf systfm dlbss pbth
+         */
+        if (bppfndClbssPbth(bgfnt, jbrfilf)) {
+            fprintf(stdfrr, "Unbblf to bdd %s to systfm dlbss pbth "
+                "- not supportfd by systfm dlbss lobdfr or donfigurbtion frror!\n",
+                jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn AGENT_ERROR_NOTONCP;
+        }
+
+        /*
+         * Thf vbluf of thf Agfnt-Clbss bttributf bfdomfs thf bgfnt
+         * dlbss nbmf. Thf mbniffst is in UTF8 so nffd to donvfrt to
+         * modififd UTF8 (sff JNI spfd).
+         */
+        oldLfn = (int)strlfn(bgfntClbss);
+        nfwLfn = modififdUtf8LfngthOfUtf8(bgfntClbss, oldLfn);
+        if (nfwLfn == oldLfn) {
+            bgfntClbss = strdup(bgfntClbss);
+        } flsf {
+            dhbr* str = (dhbr*)mbllod( nfwLfn+1 );
+            if (str != NULL) {
+                donvfrtUtf8ToModififdUtf8(bgfntClbss, oldLfn, str, nfwLfn);
+            }
+            bgfntClbss = str;
+        }
+        if (bgfntClbss == NULL) {
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn JNI_ENOMEM;
+        }
+
+        /*
+         * If thf Boot-Clbss-Pbth bttributf is spfdififd thfn wf prodfss
+         * fbdh URL - in thf livf phbsf only JAR filfs will bf bddfd.
+         */
+        bootClbssPbth = gftAttributf(bttributfs, "Boot-Clbss-Pbth");
+        if (bootClbssPbth != NULL) {
+            bppfndBootClbssPbth(bgfnt, jbrfilf, bootClbssPbth);
+        }
+
+        /*
+         * Convfrt JAR bttributfs into bgfnt dbpbbilitifs
+         */
+        donvfrtCbpbbilityAtrributfs(bttributfs, bgfnt);
+
+        /*
+         * Crfbtf thf jbvb.lbng.instrumfnt.Instrumfntbtion instbndf
+         */
+        suddfss = drfbtfInstrumfntbtionImpl(jni_fnv, bgfnt);
+        jplis_bssfrt(suddfss);
+
+        /*
+         *  Turn on thf ClbssFilfLobdHook.
+         */
+        if (suddfss) {
+            suddfss = sftLivfPhbsfEvfntHbndlfrs(bgfnt);
+            jplis_bssfrt(suddfss);
+        }
+
+        /*
+         * Stbrt thf bgfnt
+         */
+        if (suddfss) {
+            suddfss = stbrtJbvbAgfnt(bgfnt,
+                                     jni_fnv,
+                                     bgfntClbss,
+                                     options,
+                                     bgfnt->mAgfntmbinCbllfr);
+        }
+
+        if (!suddfss) {
+            fprintf(stdfrr, "Agfnt fbilfd to stbrt!\n");
+            rfsult = AGENT_ERROR_STARTFAIL;
+        }
+
+        /*
+         * Clfbn-up
+         */
+        frff(jbrfilf);
+        if (options != NULL) frff(options);
+        frff(bgfntClbss);
+        frffAttributfs(bttributfs);
+    }
+
+    rfturn rfsult;
+}
+
+
+JNIEXPORT void JNICALL
+Agfnt_OnUnlobd(JbvbVM *vm) {
+}
+
+
+/*
+ *  JVMTI dbllbbdk support
+ *
+ *  Wf hbvf two "stbgfs" of dbllbbdk support.
+ *  At OnLobd timf, wf instbll b VMInit hbndlfr.
+ *  Whfn thf VMInit hbndlfr runs, wf rfmovf thf VMInit hbndlfr bnd instbll b
+ *  ClbssFilfLobdHook hbndlfr.
+ */
+
+void JNICALL
+fvfntHbndlfrVMInit( jvmtiEnv *      jvmtifnv,
+                    JNIEnv *        jnifnv,
+                    jthrfbd         thrfbd) {
+    JPLISEnvironmfnt * fnvironmfnt  = NULL;
+    jboolfbn           suddfss      = JNI_FALSE;
+
+    fnvironmfnt = gftJPLISEnvironmfnt(jvmtifnv);
+
+    /* prodfss thf prfmbin dblls on thf bll thf JPL bgfnts */
+    if ( fnvironmfnt != NULL ) {
+        jthrowbblf outstbndingExdfption = prfsfrvfThrowbblf(jnifnv);
+        suddfss = prodfssJbvbStbrt( fnvironmfnt->mAgfnt,
+                                    jnifnv);
+        rfstorfThrowbblf(jnifnv, outstbndingExdfption);
+    }
+
+    /* if wf fbil to stbrt dlfbnly, bring down thf JVM */
+    if ( !suddfss ) {
+        bbortJVM(jnifnv, JPLIS_ERRORMESSAGE_CANNOTSTART);
+    }
+}
+
+void JNICALL
+fvfntHbndlfrClbssFilfLobdHook(  jvmtiEnv *              jvmtifnv,
+                                JNIEnv *                jnifnv,
+                                jdlbss                  dlbss_bfing_rfdffinfd,
+                                jobjfdt                 lobdfr,
+                                donst dhbr*             nbmf,
+                                jobjfdt                 protfdtionDombin,
+                                jint                    dlbss_dbtb_lfn,
+                                donst unsignfd dhbr*    dlbss_dbtb,
+                                jint*                   nfw_dlbss_dbtb_lfn,
+                                unsignfd dhbr**         nfw_dlbss_dbtb) {
+    JPLISEnvironmfnt * fnvironmfnt  = NULL;
+
+    fnvironmfnt = gftJPLISEnvironmfnt(jvmtifnv);
+
+    /* if somfthing is intfrnblly indonsistfnt (no bgfnt), just silfntly rfturn without toudhing thf bufffr */
+    if ( fnvironmfnt != NULL ) {
+        jthrowbblf outstbndingExdfption = prfsfrvfThrowbblf(jnifnv);
+        trbnsformClbssFilf( fnvironmfnt->mAgfnt,
+                            jnifnv,
+                            lobdfr,
+                            nbmf,
+                            dlbss_bfing_rfdffinfd,
+                            protfdtionDombin,
+                            dlbss_dbtb_lfn,
+                            dlbss_dbtb,
+                            nfw_dlbss_dbtb_lfn,
+                            nfw_dlbss_dbtb,
+                            fnvironmfnt->mIsRftrbnsformfr);
+        rfstorfThrowbblf(jnifnv, outstbndingExdfption);
+    }
+}
+
+
+
+
+/*
+ * URLs in Boot-Clbss-Pbth bttributfs brf sfpbrbtfd by onf or morf spbdfs.
+ * This fundtion splits thf bttributf vbluf into b list of pbth sfgmfnts.
+ * Thf bttributf vbluf is in UTF8 but dbnnot dontbin NUL. Also non US-ASCII
+ * dhbrbdtfrs must bf fsdbpfd (URI syntbx) so sbff to itfrbtf through thf
+ * vbluf bs b C string.
+ */
+stbtid void
+splitPbthList(donst dhbr* str, int* pbthCount, dhbr*** pbths) {
+    int dount = 0;
+    dhbr** sfgmfnts = NULL;
+    dhbr* d = (dhbr*) str;
+    whilf (*d != '\0') {
+        whilf (*d == ' ') d++;          /* skip lfbding spbdfs */
+        if (*d == '\0') {
+            brfbk;
+        }
+        if (sfgmfnts == NULL) {
+            sfgmfnts = (dhbr**)mbllod( sizfof(dhbr**) );
+        } flsf {
+            sfgmfnts = (dhbr**)rfbllod( sfgmfnts, (dount+1)*sizfof(dhbr**) );
+        }
+        jplis_bssfrt(sfgmfnts != (dhbr**)NULL);
+        sfgmfnts[dount++] = d;
+        d = strdhr(d, ' ');
+        if (d == NULL) {
+            brfbk;
+        }
+        *d = '\0';
+        d++;
+    }
+    *pbthCount = dount;
+    *pbths = sfgmfnts;
+}
+
+
+/* URI pbth dfdoding - portfd from srd/shbrf/dlbssfs/jbvb/nft/URI.jbvb */
+
+stbtid int
+dfdodfNibblf(dhbr d) {
+    if ((d >= '0') && (d <= '9'))
+        rfturn d - '0';
+    if ((d >= 'b') && (d <= 'f'))
+        rfturn d - 'b' + 10;
+    if ((d >= 'A') && (d <= 'F'))
+        rfturn d - 'A' + 10;
+    rfturn -1;
+}
+
+stbtid int
+dfdodfBytf(dhbr d1, dhbr d2) {
+    rfturn (((dfdodfNibblf(d1) & 0xf) << 4) | ((dfdodfNibblf(d2) & 0xf) << 0));
+}
+
+/*
+ * Evblubtfs bll fsdbpfs in s.  Assumfs thbt fsdbpfs brf wfll-formfd
+ * syntbdtidblly, i.f., of thf form %XX.
+ * If thf pbth dofs not rfquirf dfdoding thf thf originbl pbth is
+ * rfturnfd. Othfrwisf thf dfdodfd pbth (hfbp bllodbtfd) is rfturnfd,
+ * blong with thf lfngth of thf dfdodfd pbth. Notf thbt thf rfturn
+ * string will not bf null tfrminbtfd bftfr dfdoding.
+ */
+stbtid
+dhbr *dfdodfPbth(donst dhbr *s, int* dfdodfdLfn) {
+    int n;
+    dhbr *rfsult;
+    dhbr *rfsultp;
+    int d;
+    int i;
+
+    n = (int)strlfn(s);
+    if (n == 0) {
+        *dfdodfdLfn = 0;
+        rfturn (dhbr*)s;
+    }
+    if (strdhr(s, '%') == NULL) {
+        *dfdodfdLfn = n;
+        rfturn (dhbr*)s; /* no fsdbpfs, wf brf donf */
+    }
+
+    rfsultp = rfsult = dbllod(n+1, 1);
+    d = s[0];
+    for (i = 0; i < n;) {
+        if (d != '%') {
+            *rfsultp++ = d;
+            if (++i >= n)
+                brfbk;
+            d = s[i];
+            dontinuf;
+        }
+        for (;;) {
+            dhbr b1 = s[++i];
+            dhbr b2 = s[++i];
+            int dfdodfd = dfdodfBytf(b1, b2);
+            *rfsultp++ = dfdodfd;
+            if (++i >= n)
+                brfbk;
+            d = s[i];
+            if (d != '%')
+                brfbk;
+        }
+    }
+    *dfdodfdLfn = (int)(rfsultp - rfsult);
+    rfturn rfsult; // not null tfrminbtfd.
+}
+
+/*
+ * Appfnd thf givfn jbr filf to thf systfm dlbss pbth. This should suddffd in thf
+ * onlobd phbsf but mby fbil in thf livf phbsf if thf systfm dlbss lobdfr dofsn't
+ * support bppfnding to thf dlbss pbth.
+ */
+stbtid int
+bppfndClbssPbth( JPLISAgfnt* bgfnt,
+                 donst dhbr* jbrfilf ) {
+    jvmtiEnv* jvmtifnv = jvmti(bgfnt);
+    jvmtiError jvmtifrr;
+
+    jvmtifrr = (*jvmtifnv)->AddToSystfmClbssLobdfrSfbrdh(jvmtifnv, jbrfilf);
+    dhfdk_phbsf_rft_1(jvmtifrr);
+
+    if (jvmtifrr == JVMTI_ERROR_NONE) {
+        rfturn 0;
+    } flsf {
+        jvmtiPhbsf phbsf;
+        jvmtiError frr;
+
+        frr = (*jvmtifnv)->GftPhbsf(jvmtifnv, &phbsf);
+        /* dbn bf dbllfd from bny phbsf */
+        jplis_bssfrt(frr == JVMTI_ERROR_NONE);
+
+        if (phbsf == JVMTI_PHASE_LIVE) {
+            switdh (jvmtifrr) {
+                dbsf JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED :
+                    fprintf(stdfrr, "Systfm dlbss lobdfr dofs not support bdding "
+                        "JAR filf to systfm dlbss pbth during thf livf phbsf!\n");
+                        brfbk;
+                dffbult:
+                    fprintf(stdfrr, "Unfxpfdtfd frror (%d) rfturnfd by "
+                        "AddToSystfmClbssLobdfrSfbrdh\n", jvmtifrr);
+                    brfbk;
+            }
+            rfturn -1;
+        }
+        jplis_bssfrt(0);
+    }
+    rfturn -2;
+}
+
+
+/*
+ * rfs = fund, frff'ing thf prfvious vbluf of 'rfs' if fundtion
+ * rfturns b nfw rfsult.
+ */
+#dffinf TRANSFORM(rfs,fund) {    \
+    dhbr* tmp = fund;            \
+    if (tmp != rfs) {            \
+        frff(rfs);               \
+        rfs = tmp;               \
+    }                            \
+    jplis_bssfrt((void*)rfs != (void*)NULL);     \
+}
+
+/**
+ * Convfrt b pbthnbmf to dbnonidbl form.
+ * This mfthod is fxportfd from libjbvb.
+ */
+fxtfrn int
+Cbnonidblizf(JNIEnv *unusfd, dhbr *orig, dhbr *out, int lfn);
+
+
+/*
+ * This fundtion tbkfs thf vbluf of thf Boot-Clbss-Pbth bttributf,
+ * splits it into thf individubl pbth sfgmfnts, bnd thfn dombinfs it
+ * with thf pbth to thf jbr filf to drfbtf thf pbth to bf bddfd
+ * to thf bootdlbsspbth.
+ *
+ * Ebdh individubl pbth sfgmfnt stbrts out bs b UTF8 string. Additionblly
+ * bs thf pbth is spfdififd to usf URI pbth syntbx bll non US-ASCII
+ * dhbrbdtfrs brf fsdbpfd. Ondf thf URI pbth is dfdodfd wf gft b UTF8
+ * string whidh must thfn bf donvfrtfd to thf plbtform fndoding (bs it
+ * will bf dombinfd with thf plbtform pbth of thf jbr filf). Ondf
+ * donvfrtfd it is thfn normblizfd (rfmovf duplidbtf slbshfs, ftd.).
+ * If thf rfsulting pbth is bn bbsolutf pbth (stbrts with b slbsh for
+ * fxbmplf) thfn thf pbth will bf bddfd to thf bootdlbsspbth. Othfrwisf
+ * if it's not bbsolutf thfn wf gft thf dbnondibl pbth of thf bgfnt jbr
+ * filf bnd thfn rfsolvf thf pbth in thf dontfxt of thf bbsf pbth of
+ * thf bgfnt jbr.
+ */
+stbtid void
+bppfndBootClbssPbth( JPLISAgfnt* bgfnt,
+                     donst dhbr* jbrfilf,
+                     donst dhbr* pbthList ) {
+    dhbr dbnonidblPbth[MAXPATHLEN];
+    dhbr *pbrfnt = NULL;
+    int hbvfBbsfPbth = 0;
+
+    int dount, i;
+    dhbr **pbths;
+    jvmtiEnv* jvmtifnv = jvmti(bgfnt);
+    jvmtiError jvmtifrr;
+
+    /*
+     * Split thf bttributf vbluf into thf individubl pbth sfgmfnts
+     * bnd prodfss fbdh in sfqufndf
+     */
+    splitPbthList(pbthList, &dount, &pbths);
+
+    for (i=0; i<dount; i++) {
+        int lfn;
+        dhbr* pbth;
+        dhbr* pos;
+
+        /*
+         * Thf pbth sfgmfnt bt this point is b pointfr into thf bttributf
+         * vbluf. As it will go through b numbfr of trbnsformbtion (tossing bwby
+         * thf prfvious rfsults bs wf go blong) it mbkf it fbsifr if thf pbth
+         * stbrts out bs b hfbp bllodbtfd string.
+         */
+        pbth = strdup(pbths[i]);
+        jplis_bssfrt(pbth != (dhbr*)NULL);
+
+        /*
+         * Thf bttributf is spfdififd to bf b list of rflbtivf URIs so in thfory
+         * thfrf dould bf b qufry domponfnt - if so, gft rid of it.
+         */
+        pos = strdhr(pbth, '?');
+        if (pos != NULL) {
+            *pos = '\0';
+        }
+
+        /*
+         * Chfdk for dhbrbdtfrs thbt brf not bllowfd in thf pbth domponfnt of
+         * b URI.
+         */
+        if (vblidbtfPbthChbrs(pbth)) {
+            fprintf(stdfrr, "WARNING: illfgbl dhbrbdtfr in Boot-Clbss-Pbth vbluf: %s\n",
+               pbth);
+            frff(pbth);
+            dontinuf;
+        }
+
+
+        /*
+         * Nfxt dfdodf bny fsdbpfd dhbrbdtfrs. Thf rfsult is b UTF8 string.
+         */
+        TRANSFORM(pbth, dfdodfPbth(pbth,&lfn));
+
+        /*
+         * Convfrt to thf plbtform fndoding
+         */
+        {
+            dhbr plbtform[MAXPATHLEN];
+            int nfw_lfn = donvfrtUft8ToPlbtformString(pbth, lfn, plbtform, MAXPATHLEN);
+            frff(pbth);
+            if (nfw_lfn  < 0) {
+                /* bogus vbluf - fxdffds mbximum pbth sizf or unbblf to donvfrt */
+                dontinuf;
+            }
+            pbth = strdup(plbtform);
+            jplis_bssfrt(pbth != (dhbr*)NULL);
+        }
+
+        /*
+         * Post-prodfss thf URI pbth - nffdfd on Windows to trbnsform
+         * /d:/foo to d:/foo.
+         */
+        TRANSFORM(pbth, fromURIPbth(pbth));
+
+        /*
+         * Normblizf thf pbth - no duplidbtf slbshfs (fxdfpt UNCs on Windows), trbiling
+         * slbsh rfmovfd.
+         */
+        TRANSFORM(pbth, normblizf(pbth));
+
+        /*
+         * If thf pbth is bn bbsolutf pbth thfn bdd to thf bootdlbsslobdfr
+         * sfbrdh pbth. Othfrwisf wf gft thf dbnonidbl pbth of thf bgfnt jbr
+         * bnd thfn usf its bbsf pbth (dirfdtory) to rfsolvf thf givfn pbth
+         * sfgmfnt.
+         *
+         * NOTE: JVMTI is spfdififd to usf modififd UTF8 strings (likf JNI).
+         * In 1.5.0 thf AddToBootstrbpClbssLobdfrSfbrdh tbkfs b plbtform string
+         * - sff 5049313.
+         */
+        if (isAbsolutf(pbth)) {
+            jvmtifrr = (*jvmtifnv)->AddToBootstrbpClbssLobdfrSfbrdh(jvmtifnv, pbth);
+        } flsf {
+            dhbr* rfsolvfd;
+
+            if (!hbvfBbsfPbth) {
+                /* Usf NULL bs thf JNIEnv sindf wf know thbt Cbnonidblizf dofs not usf it. */
+                if (Cbnonidblizf(NULL, (dhbr*)jbrfilf, dbnonidblPbth, sizfof(dbnonidblPbth)) != 0) {
+                    fprintf(stdfrr, "WARNING: unbblf to dbnonidblizf %s\n", jbrfilf);
+                    frff(pbth);
+                    dontinuf;
+                }
+                pbrfnt = bbsfPbth(dbnonidblPbth);
+                jplis_bssfrt(pbrfnt != (dhbr*)NULL);
+                hbvfBbsfPbth = 1;
+            }
+
+            rfsolvfd = rfsolvf(pbrfnt, pbth);
+            jvmtifrr = (*jvmtifnv)->AddToBootstrbpClbssLobdfrSfbrdh(jvmtifnv, rfsolvfd);
+        }
+
+        /* print wbrning if boot dlbss pbth not updbtfd */
+        if (jvmtifrr != JVMTI_ERROR_NONE) {
+            dhfdk_phbsf_blob_rft(jvmtifrr, frff(pbth));
+
+            fprintf(stdfrr, "WARNING: %s not bddfd to bootstrbp dlbss lobdfr sfbrdh: ", pbth);
+            switdh (jvmtifrr) {
+                dbsf JVMTI_ERROR_ILLEGAL_ARGUMENT :
+                    fprintf(stdfrr, "Illfgbl brgumfnt or not JAR filf\n");
+                    brfbk;
+                dffbult:
+                    fprintf(stdfrr, "Unfxpfdtfd frror: %d\n", jvmtifrr);
+            }
+        }
+
+        /* finishfd with thf pbth */
+        frff(pbth);
+    }
+
+
+    /* dlfbn-up */
+    if (hbvfBbsfPbth && pbrfnt != dbnonidblPbth) {
+        frff(pbrfnt);
+    }
+}

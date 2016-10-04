@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
 
 
 // jmx import
 //
-import javax.management.MBeanParameterInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
 
 /**
- * <p>Describes an operation of an Open MBean.</p>
+ * <p>Dfsdribfs bn opfrbtion of bn Opfn MBfbn.</p>
  *
- * <p>This interface declares the same methods as the class {@link
- * javax.management.MBeanOperationInfo}.  A class implementing this
- * interface (typically {@link OpenMBeanOperationInfoSupport}) should
- * extend {@link javax.management.MBeanOperationInfo}.</p>
+ * <p>Tiis intfrfbdf dfdlbrfs tif sbmf mftiods bs tif dlbss {@link
+ * jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo}.  A dlbss implfmfnting tiis
+ * intfrfbdf (typidblly {@link OpfnMBfbnOpfrbtionInfoSupport}) siould
+ * fxtfnd {@link jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo}.</p>
  *
- * <p>The {@link #getSignature()} method should return at runtime an
- * array of instances of a subclass of {@link MBeanParameterInfo}
- * which implements the {@link OpenMBeanParameterInfo} interface
- * (typically {@link OpenMBeanParameterInfoSupport}).</p>
+ * <p>Tif {@link #gftSignbturf()} mftiod siould rfturn bt runtimf bn
+ * brrby of instbndfs of b subdlbss of {@link MBfbnPbrbmftfrInfo}
+ * wiidi implfmfnts tif {@link OpfnMBfbnPbrbmftfrInfo} intfrfbdf
+ * (typidblly {@link OpfnMBfbnPbrbmftfrInfoSupport}).</p>
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface OpenMBeanOperationInfo  {
+publid intfrfbdf OpfnMBfbnOpfrbtionInfo  {
 
-    // Re-declares fields and methods that are in class MBeanOperationInfo of JMX 1.0
-    // (fields and methods will be removed when MBeanOperationInfo is made a parent interface of this interface)
-
-    /**
-     * Returns a human readable description of the operation
-     * described by this <tt>OpenMBeanOperationInfo</tt> instance.
-     *
-     * @return the description.
-     */
-    public String getDescription() ;
+    // Rf-dfdlbrfs fiflds bnd mftiods tibt brf in dlbss MBfbnOpfrbtionInfo of JMX 1.0
+    // (fiflds bnd mftiods will bf rfmovfd wifn MBfbnOpfrbtionInfo is mbdf b pbrfnt intfrfbdf of tiis intfrfbdf)
 
     /**
-     * Returns the name of the operation
-     * described by this <tt>OpenMBeanOperationInfo</tt> instance.
+     * Rfturns b iumbn rfbdbblf dfsdription of tif opfrbtion
+     * dfsdribfd by tiis <tt>OpfnMBfbnOpfrbtionInfo</tt> instbndf.
      *
-     * @return the name.
+     * @rfturn tif dfsdription.
      */
-    public String getName() ;
+    publid String gftDfsdription() ;
 
     /**
-     * Returns an array of <tt>OpenMBeanParameterInfo</tt> instances
-     * describing each parameter in the signature of the operation
-     * described by this <tt>OpenMBeanOperationInfo</tt> instance.
-     * Each instance in the returned array should actually be a
-     * subclass of <tt>MBeanParameterInfo</tt> which implements the
-     * <tt>OpenMBeanParameterInfo</tt> interface (typically {@link
-     * OpenMBeanParameterInfoSupport}).
+     * Rfturns tif nbmf of tif opfrbtion
+     * dfsdribfd by tiis <tt>OpfnMBfbnOpfrbtionInfo</tt> instbndf.
      *
-     * @return the signature.
+     * @rfturn tif nbmf.
      */
-    public MBeanParameterInfo[] getSignature() ;
+    publid String gftNbmf() ;
 
     /**
-     * Returns an <tt>int</tt> constant qualifying the impact of the
-     * operation described by this <tt>OpenMBeanOperationInfo</tt>
-     * instance.
+     * Rfturns bn brrby of <tt>OpfnMBfbnPbrbmftfrInfo</tt> instbndfs
+     * dfsdribing fbdi pbrbmftfr in tif signbturf of tif opfrbtion
+     * dfsdribfd by tiis <tt>OpfnMBfbnOpfrbtionInfo</tt> instbndf.
+     * Ebdi instbndf in tif rfturnfd brrby siould bdtublly bf b
+     * subdlbss of <tt>MBfbnPbrbmftfrInfo</tt> wiidi implfmfnts tif
+     * <tt>OpfnMBfbnPbrbmftfrInfo</tt> intfrfbdf (typidblly {@link
+     * OpfnMBfbnPbrbmftfrInfoSupport}).
      *
-     * The returned constant is one of {@link
-     * javax.management.MBeanOperationInfo#INFO}, {@link
-     * javax.management.MBeanOperationInfo#ACTION}, {@link
-     * javax.management.MBeanOperationInfo#ACTION_INFO}, or {@link
-     * javax.management.MBeanOperationInfo#UNKNOWN}.
-     *
-     * @return the impact code.
+     * @rfturn tif signbturf.
      */
-    public int getImpact() ;
+    publid MBfbnPbrbmftfrInfo[] gftSignbturf() ;
 
     /**
-     * Returns the fully qualified Java class name of the values
-     * returned by the operation described by this
-     * <tt>OpenMBeanOperationInfo</tt> instance.  This method should
-     * return the same value as a call to
-     * <tt>getReturnOpenType().getClassName()</tt>.
+     * Rfturns bn <tt>int</tt> donstbnt qublifying tif impbdt of tif
+     * opfrbtion dfsdribfd by tiis <tt>OpfnMBfbnOpfrbtionInfo</tt>
+     * instbndf.
      *
-     * @return the return type.
+     * Tif rfturnfd donstbnt is onf of {@link
+     * jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#INFO}, {@link
+     * jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#ACTION}, {@link
+     * jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#ACTION_INFO}, or {@link
+     * jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo#UNKNOWN}.
+     *
+     * @rfturn tif impbdt dodf.
      */
-    public String getReturnType() ;
+    publid int gftImpbdt() ;
+
+    /**
+     * Rfturns tif fully qublififd Jbvb dlbss nbmf of tif vblufs
+     * rfturnfd by tif opfrbtion dfsdribfd by tiis
+     * <tt>OpfnMBfbnOpfrbtionInfo</tt> instbndf.  Tiis mftiod siould
+     * rfturn tif sbmf vbluf bs b dbll to
+     * <tt>gftRfturnOpfnTypf().gftClbssNbmf()</tt>.
+     *
+     * @rfturn tif rfturn typf.
+     */
+    publid String gftRfturnTypf() ;
 
 
-    // Now declares methods that are specific to open MBeans
+    // Now dfdlbrfs mftiods tibt brf spfdifid to opfn MBfbns
     //
 
     /**
-     * Returns the <i>open type</i> of the values returned by the
-     * operation described by this <tt>OpenMBeanOperationInfo</tt>
-     * instance.
+     * Rfturns tif <i>opfn typf</i> of tif vblufs rfturnfd by tif
+     * opfrbtion dfsdribfd by tiis <tt>OpfnMBfbnOpfrbtionInfo</tt>
+     * instbndf.
      *
-     * @return the return type.
+     * @rfturn tif rfturn typf.
      */
-    public OpenType<?> getReturnOpenType() ; // open MBean specific method
+    publid OpfnTypf<?> gftRfturnOpfnTypf() ; // opfn MBfbn spfdifid mftiod
 
 
-    // commodity methods
+    // dommodity mftiods
     //
 
     /**
-     * Compares the specified <var>obj</var> parameter with this <code>OpenMBeanOperationInfo</code> instance for equality.
+     * Compbrfs tif spfdififd <vbr>obj</vbr> pbrbmftfr witi tiis <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndf for fqublity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Rfturns <tt>truf</tt> if bnd only if bll of tif following stbtfmfnts brf truf:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>OpenMBeanOperationInfo</code> interface,</li>
-     * <li>their names are equal</li>
-     * <li>their signatures are equal</li>
-     * <li>their return open types are equal</li>
-     * <li>their impacts are equal</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implfmfnts tif <dodf>OpfnMBfbnOpfrbtionInfo</dodf> intfrfbdf,</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir signbturfs brf fqubl</li>
+     * <li>tifir rfturn opfn typfs brf fqubl</li>
+     * <li>tifir impbdts brf fqubl</li>
      * </ul>
-     * This ensures that this <tt>equals</tt> method works properly for <var>obj</var> parameters which are
-     * different implementations of the <code>OpenMBeanOperationInfo</code> interface.
+     * Tiis fnsurfs tibt tiis <tt>fqubls</tt> mftiod works propfrly for <vbr>obj</vbr> pbrbmftfrs wiidi brf
+     * difffrfnt implfmfntbtions of tif <dodf>OpfnMBfbnOpfrbtionInfo</dodf> intfrfbdf.
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>OpenMBeanOperationInfo</code> instance;
+     * @pbrbm  obj  tif objfdt to bf dompbrfd for fqublity witi tiis <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndf;
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>OpenMBeanOperationInfo</code> instance.
+     * @rfturn  <dodf>truf</dodf> if tif spfdififd objfdt is fqubl to tiis <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndf.
      */
-    public boolean equals(Object obj);
+    publid boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns the hash code value for this <code>OpenMBeanOperationInfo</code> instance.
+     * Rfturns tif ibsi dodf vbluf for tiis <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndf.
      * <p>
-     * The hash code of an <code>OpenMBeanOperationInfo</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its name, return open type, impact and signature, where the signature hashCode is calculated by a call to
-     *  <tt>java.util.Arrays.asList(this.getSignature).hashCode()</tt>).
+     * Tif ibsi dodf of bn <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndf is tif sum of tif ibsi dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: its nbmf, rfturn opfn typf, impbdt bnd signbturf, wifrf tif signbturf ibsiCodf is dbldulbtfd by b dbll to
+     *  <tt>jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()</tt>).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>OpenMBeanOperationInfo</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * Tiis fnsurfs tibt <dodf> t1.fqubls(t2) </dodf> implifs tibt <dodf> t1.ibsiCodf()==t2.ibsiCodf() </dodf>
+     * for bny two <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      *
      *
-     * @return  the hash code value for this <code>OpenMBeanOperationInfo</code> instance
+     * @rfturn  tif ibsi dodf vbluf for tiis <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndf
      */
-    public int hashCode();
+    publid int ibsiCodf();
 
     /**
-     * Returns a string representation of this <code>OpenMBeanOperationInfo</code> instance.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndf.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.OpenMBeanOperationInfo</code>),
-     * and the name, signature, return open type and impact of the described operation.
+     * Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnOpfrbtionInfo</dodf>),
+     * bnd tif nbmf, signbturf, rfturn opfn typf bnd impbdt of tif dfsdribfd opfrbtion.
      *
-     * @return  a string representation of this <code>OpenMBeanOperationInfo</code> instance
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>OpfnMBfbnOpfrbtionInfo</dodf> instbndf
      */
-    public String toString();
+    publid String toString();
 
 }

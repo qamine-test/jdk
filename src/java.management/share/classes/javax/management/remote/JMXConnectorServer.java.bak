@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * <p>Superclass of every connector server.  A connector server is
- * attached to an MBean server.  It listens for client connection
- * requests and creates a connection for each one.</p>
+ * <p>Supfrdlbss of fvfry donnfdtor sfrvfr.  A donnfdtor sfrvfr is
+ * bttbdifd to bn MBfbn sfrvfr.  It listfns for dlifnt donnfdtion
+ * rfqufsts bnd drfbtfs b donnfdtion for fbdi onf.</p>
  *
- * <p>A connector server is associated with an MBean server either by
- * registering it in that MBean server, or by passing the MBean server
- * to its constructor.</p>
+ * <p>A donnfdtor sfrvfr is bssodibtfd witi bn MBfbn sfrvfr fitifr by
+ * rfgistfring it in tibt MBfbn sfrvfr, or by pbssing tif MBfbn sfrvfr
+ * to its donstrudtor.</p>
  *
- * <p>A connector server is inactive when created.  It only starts
- * listening for client connections when the {@link #start() start}
- * method is called.  A connector server stops listening for client
- * connections when the {@link #stop() stop} method is called or when
- * the connector server is unregistered from its MBean server.</p>
+ * <p>A donnfdtor sfrvfr is inbdtivf wifn drfbtfd.  It only stbrts
+ * listfning for dlifnt donnfdtions wifn tif {@link #stbrt() stbrt}
+ * mftiod is dbllfd.  A donnfdtor sfrvfr stops listfning for dlifnt
+ * donnfdtions wifn tif {@link #stop() stop} mftiod is dbllfd or wifn
+ * tif donnfdtor sfrvfr is unrfgistfrfd from its MBfbn sfrvfr.</p>
  *
- * <p>Stopping a connector server does not unregister it from its
- * MBean server.  A connector server once stopped cannot be
- * restarted.</p>
+ * <p>Stopping b donnfdtor sfrvfr dofs not unrfgistfr it from its
+ * MBfbn sfrvfr.  A donnfdtor sfrvfr ondf stoppfd dbnnot bf
+ * rfstbrtfd.</p>
  *
- * <p>Each time a client connection is made or broken, a notification
- * of class {@link JMXConnectionNotification} is emitted.</p>
+ * <p>Ebdi timf b dlifnt donnfdtion is mbdf or brokfn, b notifidbtion
+ * of dlbss {@link JMXConnfdtionNotifidbtion} is fmittfd.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public abstract class JMXConnectorServer
-        extends NotificationBroadcasterSupport
-        implements JMXConnectorServerMBean, MBeanRegistration, JMXAddressable {
+publid bbstrbdt dlbss JMXConnfdtorSfrvfr
+        fxtfnds NotifidbtionBrobddbstfrSupport
+        implfmfnts JMXConnfdtorSfrvfrMBfbn, MBfbnRfgistrbtion, JMXAddrfssbblf {
 
     /**
-     * <p>Name of the attribute that specifies the authenticator for a
-     * connector server.  The value associated with this attribute, if
-     * any, must be an object that implements the interface {@link
-     * JMXAuthenticator}.</p>
+     * <p>Nbmf of tif bttributf tibt spfdififs tif butifntidbtor for b
+     * donnfdtor sfrvfr.  Tif vbluf bssodibtfd witi tiis bttributf, if
+     * bny, must bf bn objfdt tibt implfmfnts tif intfrfbdf {@link
+     * JMXAutifntidbtor}.</p>
      */
-    public static final String AUTHENTICATOR =
-        "jmx.remote.authenticator";
+    publid stbtid finbl String AUTHENTICATOR =
+        "jmx.rfmotf.butifntidbtor";
 
     /**
-     * <p>Constructs a connector server that will be registered as an
-     * MBean in the MBean server it is attached to.  This constructor
-     * is typically called by one of the <code>createMBean</code>
-     * methods when creating, within an MBean server, a connector
-     * server that makes it available remotely.</p>
+     * <p>Construdts b donnfdtor sfrvfr tibt will bf rfgistfrfd bs bn
+     * MBfbn in tif MBfbn sfrvfr it is bttbdifd to.  Tiis donstrudtor
+     * is typidblly dbllfd by onf of tif <dodf>drfbtfMBfbn</dodf>
+     * mftiods wifn drfbting, witiin bn MBfbn sfrvfr, b donnfdtor
+     * sfrvfr tibt mbkfs it bvbilbblf rfmotfly.</p>
      */
-    public JMXConnectorServer() {
-        this(null);
+    publid JMXConnfdtorSfrvfr() {
+        tiis(null);
     }
 
     /**
-     * <p>Constructs a connector server that is attached to the given
-     * MBean server.  A connector server that is created in this way
-     * can be registered in a different MBean server, or not registered
-     * in any MBean server.</p>
+     * <p>Construdts b donnfdtor sfrvfr tibt is bttbdifd to tif givfn
+     * MBfbn sfrvfr.  A donnfdtor sfrvfr tibt is drfbtfd in tiis wby
+     * dbn bf rfgistfrfd in b difffrfnt MBfbn sfrvfr, or not rfgistfrfd
+     * in bny MBfbn sfrvfr.</p>
      *
-     * @param mbeanServer the MBean server that this connector server
-     * is attached to.  Null if this connector server will be attached
-     * to an MBean server by being registered in it.
+     * @pbrbm mbfbnSfrvfr tif MBfbn sfrvfr tibt tiis donnfdtor sfrvfr
+     * is bttbdifd to.  Null if tiis donnfdtor sfrvfr will bf bttbdifd
+     * to bn MBfbn sfrvfr by bfing rfgistfrfd in it.
      */
-    public JMXConnectorServer(MBeanServer mbeanServer) {
-        this.mbeanServer = mbeanServer;
+    publid JMXConnfdtorSfrvfr(MBfbnSfrvfr mbfbnSfrvfr) {
+        tiis.mbfbnSfrvfr = mbfbnSfrvfr;
     }
 
     /**
-     * <p>Returns the MBean server that this connector server is
-     * attached to.</p>
+     * <p>Rfturns tif MBfbn sfrvfr tibt tiis donnfdtor sfrvfr is
+     * bttbdifd to.</p>
      *
-     * @return the MBean server that this connector server is attached
-     * to, or null if it is not yet attached to an MBean server.
+     * @rfturn tif MBfbn sfrvfr tibt tiis donnfdtor sfrvfr is bttbdifd
+     * to, or null if it is not yft bttbdifd to bn MBfbn sfrvfr.
      */
-    public synchronized MBeanServer getMBeanServer() {
-        return mbeanServer;
+    publid syndironizfd MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn mbfbnSfrvfr;
     }
 
-    public synchronized void setMBeanServerForwarder(MBeanServerForwarder mbsf)
+    publid syndironizfd void sftMBfbnSfrvfrForwbrdfr(MBfbnSfrvfrForwbrdfr mbsf)
     {
         if (mbsf == null)
-            throw new IllegalArgumentException("Invalid null argument: mbsf");
+            tirow nfw IllfgblArgumfntExdfption("Invblid null brgumfnt: mbsf");
 
-        if (mbeanServer !=  null) mbsf.setMBeanServer(mbeanServer);
-        mbeanServer = mbsf;
+        if (mbfbnSfrvfr !=  null) mbsf.sftMBfbnSfrvfr(mbfbnSfrvfr);
+        mbfbnSfrvfr = mbsf;
     }
 
-    public String[] getConnectionIds() {
-        synchronized (connectionIds) {
-            return connectionIds.toArray(new String[connectionIds.size()]);
+    publid String[] gftConnfdtionIds() {
+        syndironizfd (donnfdtionIds) {
+            rfturn donnfdtionIds.toArrby(nfw String[donnfdtionIds.sizf()]);
         }
     }
 
     /**
-     * <p>Returns a client stub for this connector server.  A client
-     * stub is a serializable object whose {@link
-     * JMXConnector#connect(Map) connect} method can be used to make
-     * one new connection to this connector server.</p>
+     * <p>Rfturns b dlifnt stub for tiis donnfdtor sfrvfr.  A dlifnt
+     * stub is b sfriblizbblf objfdt wiosf {@link
+     * JMXConnfdtor#donnfdt(Mbp) donnfdt} mftiod dbn bf usfd to mbkf
+     * onf nfw donnfdtion to tiis donnfdtor sfrvfr.</p>
      *
-     * <p>A given connector need not support the generation of client
-     * stubs.  However, the connectors specified by the JMX Remote API do
-     * (JMXMP Connector and RMI Connector).</p>
+     * <p>A givfn donnfdtor nffd not support tif gfnfrbtion of dlifnt
+     * stubs.  Howfvfr, tif donnfdtors spfdififd by tif JMX Rfmotf API do
+     * (JMXMP Connfdtor bnd RMI Connfdtor).</p>
      *
-     * <p>The default implementation of this method uses {@link
-     * #getAddress} and {@link JMXConnectorFactory} to generate the
-     * stub, with code equivalent to the following:</p>
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod usfs {@link
+     * #gftAddrfss} bnd {@link JMXConnfdtorFbdtory} to gfnfrbtf tif
+     * stub, witi dodf fquivblfnt to tif following:</p>
      *
-     * <pre>
-     * JMXServiceURL addr = {@link #getAddress() getAddress()};
-     * return {@link JMXConnectorFactory#newJMXConnector(JMXServiceURL, Map)
-     *          JMXConnectorFactory.newJMXConnector(addr, env)};
-     * </pre>
+     * <prf>
+     * JMXSfrvidfURL bddr = {@link #gftAddrfss() gftAddrfss()};
+     * rfturn {@link JMXConnfdtorFbdtory#nfwJMXConnfdtor(JMXSfrvidfURL, Mbp)
+     *          JMXConnfdtorFbdtory.nfwJMXConnfdtor(bddr, fnv)};
+     * </prf>
      *
-     * <p>A connector server for which this is inappropriate must
-     * override this method so that it either implements the
-     * appropriate logic or throws {@link
-     * UnsupportedOperationException}.</p>
+     * <p>A donnfdtor sfrvfr for wiidi tiis is inbppropribtf must
+     * ovfrridf tiis mftiod so tibt it fitifr implfmfnts tif
+     * bppropribtf logid or tirows {@link
+     * UnsupportfdOpfrbtionExdfption}.</p>
      *
-     * @param env client connection parameters of the same sort that
-     * could be provided to {@link JMXConnector#connect(Map)
-     * JMXConnector.connect(Map)}.  Can be null, which is equivalent
-     * to an empty map.
+     * @pbrbm fnv dlifnt donnfdtion pbrbmftfrs of tif sbmf sort tibt
+     * dould bf providfd to {@link JMXConnfdtor#donnfdt(Mbp)
+     * JMXConnfdtor.donnfdt(Mbp)}.  Cbn bf null, wiidi is fquivblfnt
+     * to bn fmpty mbp.
      *
-     * @return a client stub that can be used to make a new connection
-     * to this connector server.
+     * @rfturn b dlifnt stub tibt dbn bf usfd to mbkf b nfw donnfdtion
+     * to tiis donnfdtor sfrvfr.
      *
-     * @exception UnsupportedOperationException if this connector
-     * server does not support the generation of client stubs.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis donnfdtor
+     * sfrvfr dofs not support tif gfnfrbtion of dlifnt stubs.
      *
-     * @exception IllegalStateException if the JMXConnectorServer is
-     * not started (see {@link JMXConnectorServerMBean#isActive()}).
+     * @fxdfption IllfgblStbtfExdfption if tif JMXConnfdtorSfrvfr is
+     * not stbrtfd (sff {@link JMXConnfdtorSfrvfrMBfbn#isAdtivf()}).
      *
-     * @exception IOException if a communications problem means that a
-     * stub cannot be created.
+     * @fxdfption IOExdfption if b dommunidbtions problfm mfbns tibt b
+     * stub dbnnot bf drfbtfd.
      **/
-    public JMXConnector toJMXConnector(Map<String,?> env)
-        throws IOException
+    publid JMXConnfdtor toJMXConnfdtor(Mbp<String,?> fnv)
+        tirows IOExdfption
     {
-        if (!isActive()) throw new
-            IllegalStateException("Connector is not active");
-        JMXServiceURL addr = getAddress();
-        return JMXConnectorFactory.newJMXConnector(addr, env);
+        if (!isAdtivf()) tirow nfw
+            IllfgblStbtfExdfption("Connfdtor is not bdtivf");
+        JMXSfrvidfURL bddr = gftAddrfss();
+        rfturn JMXConnfdtorFbdtory.nfwJMXConnfdtor(bddr, fnv);
     }
 
     /**
-     * <p>Returns an array indicating the notifications that this MBean
-     * sends. The implementation in <code>JMXConnectorServer</code>
-     * returns an array with one element, indicating that it can emit
-     * notifications of class {@link JMXConnectionNotification} with
-     * the types defined in that class.  A subclass that can emit other
-     * notifications should return an array that contains this element
-     * plus descriptions of the other notifications.</p>
+     * <p>Rfturns bn brrby indidbting tif notifidbtions tibt tiis MBfbn
+     * sfnds. Tif implfmfntbtion in <dodf>JMXConnfdtorSfrvfr</dodf>
+     * rfturns bn brrby witi onf flfmfnt, indidbting tibt it dbn fmit
+     * notifidbtions of dlbss {@link JMXConnfdtionNotifidbtion} witi
+     * tif typfs dffinfd in tibt dlbss.  A subdlbss tibt dbn fmit otifr
+     * notifidbtions siould rfturn bn brrby tibt dontbins tiis flfmfnt
+     * plus dfsdriptions of tif otifr notifidbtions.</p>
      *
-     * @return the array of possible notifications.
+     * @rfturn tif brrby of possiblf notifidbtions.
      */
-    @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        final String[] types = {
-            JMXConnectionNotification.OPENED,
-            JMXConnectionNotification.CLOSED,
-            JMXConnectionNotification.FAILED,
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        finbl String[] typfs = {
+            JMXConnfdtionNotifidbtion.OPENED,
+            JMXConnfdtionNotifidbtion.CLOSED,
+            JMXConnfdtionNotifidbtion.FAILED,
         };
-        final String className = JMXConnectionNotification.class.getName();
-        final String description =
-            "A client connection has been opened or closed";
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(types, className, description),
+        finbl String dlbssNbmf = JMXConnfdtionNotifidbtion.dlbss.gftNbmf();
+        finbl String dfsdription =
+            "A dlifnt donnfdtion ibs bffn opfnfd or dlosfd";
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(typfs, dlbssNbmf, dfsdription),
         };
     }
 
     /**
-     * <p>Called by a subclass when a new client connection is opened.
-     * Adds <code>connectionId</code> to the list returned by {@link
-     * #getConnectionIds()}, then emits a {@link
-     * JMXConnectionNotification} with type {@link
-     * JMXConnectionNotification#OPENED}.</p>
+     * <p>Cbllfd by b subdlbss wifn b nfw dlifnt donnfdtion is opfnfd.
+     * Adds <dodf>donnfdtionId</dodf> to tif list rfturnfd by {@link
+     * #gftConnfdtionIds()}, tifn fmits b {@link
+     * JMXConnfdtionNotifidbtion} witi typf {@link
+     * JMXConnfdtionNotifidbtion#OPENED}.</p>
      *
-     * @param connectionId the ID of the new connection.  This must be
-     * different from the ID of any connection previously opened by
-     * this connector server.
+     * @pbrbm donnfdtionId tif ID of tif nfw donnfdtion.  Tiis must bf
+     * difffrfnt from tif ID of bny donnfdtion prfviously opfnfd by
+     * tiis donnfdtor sfrvfr.
      *
-     * @param message the message for the emitted {@link
-     * JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getMessage()}.
+     * @pbrbm mfssbgf tif mfssbgf for tif fmittfd {@link
+     * JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftMfssbgf()}.
      *
-     * @param userData the <code>userData</code> for the emitted
-     * {@link JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getUserData()}.
+     * @pbrbm usfrDbtb tif <dodf>usfrDbtb</dodf> for tif fmittfd
+     * {@link JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftUsfrDbtb()}.
      *
-     * @exception NullPointerException if <code>connectionId</code> is
+     * @fxdfption NullPointfrExdfption if <dodf>donnfdtionId</dodf> is
      * null.
      */
-    protected void connectionOpened(String connectionId,
-                                    String message,
-                                    Object userData) {
+    protfdtfd void donnfdtionOpfnfd(String donnfdtionId,
+                                    String mfssbgf,
+                                    Objfdt usfrDbtb) {
 
-        if (connectionId == null)
-            throw new NullPointerException("Illegal null argument");
+        if (donnfdtionId == null)
+            tirow nfw NullPointfrExdfption("Illfgbl null brgumfnt");
 
-        synchronized (connectionIds) {
-            connectionIds.add(connectionId);
+        syndironizfd (donnfdtionIds) {
+            donnfdtionIds.bdd(donnfdtionId);
         }
 
-        sendNotification(JMXConnectionNotification.OPENED, connectionId,
-                         message, userData);
+        sfndNotifidbtion(JMXConnfdtionNotifidbtion.OPENED, donnfdtionId,
+                         mfssbgf, usfrDbtb);
     }
 
     /**
-     * <p>Called by a subclass when a client connection is closed
-     * normally.  Removes <code>connectionId</code> from the list returned
-     * by {@link #getConnectionIds()}, then emits a {@link
-     * JMXConnectionNotification} with type {@link
-     * JMXConnectionNotification#CLOSED}.</p>
+     * <p>Cbllfd by b subdlbss wifn b dlifnt donnfdtion is dlosfd
+     * normblly.  Rfmovfs <dodf>donnfdtionId</dodf> from tif list rfturnfd
+     * by {@link #gftConnfdtionIds()}, tifn fmits b {@link
+     * JMXConnfdtionNotifidbtion} witi typf {@link
+     * JMXConnfdtionNotifidbtion#CLOSED}.</p>
      *
-     * @param connectionId the ID of the closed connection.
+     * @pbrbm donnfdtionId tif ID of tif dlosfd donnfdtion.
      *
-     * @param message the message for the emitted {@link
-     * JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getMessage()}.
+     * @pbrbm mfssbgf tif mfssbgf for tif fmittfd {@link
+     * JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftMfssbgf()}.
      *
-     * @param userData the <code>userData</code> for the emitted
-     * {@link JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getUserData()}.
+     * @pbrbm usfrDbtb tif <dodf>usfrDbtb</dodf> for tif fmittfd
+     * {@link JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftUsfrDbtb()}.
      *
-     * @exception NullPointerException if <code>connectionId</code>
+     * @fxdfption NullPointfrExdfption if <dodf>donnfdtionId</dodf>
      * is null.
      */
-    protected void connectionClosed(String connectionId,
-                                    String message,
-                                    Object userData) {
+    protfdtfd void donnfdtionClosfd(String donnfdtionId,
+                                    String mfssbgf,
+                                    Objfdt usfrDbtb) {
 
-        if (connectionId == null)
-            throw new NullPointerException("Illegal null argument");
+        if (donnfdtionId == null)
+            tirow nfw NullPointfrExdfption("Illfgbl null brgumfnt");
 
-        synchronized (connectionIds) {
-            connectionIds.remove(connectionId);
+        syndironizfd (donnfdtionIds) {
+            donnfdtionIds.rfmovf(donnfdtionId);
         }
 
-        sendNotification(JMXConnectionNotification.CLOSED, connectionId,
-                         message, userData);
+        sfndNotifidbtion(JMXConnfdtionNotifidbtion.CLOSED, donnfdtionId,
+                         mfssbgf, usfrDbtb);
     }
 
     /**
-     * <p>Called by a subclass when a client connection fails.
-     * Removes <code>connectionId</code> from the list returned by
-     * {@link #getConnectionIds()}, then emits a {@link
-     * JMXConnectionNotification} with type {@link
-     * JMXConnectionNotification#FAILED}.</p>
+     * <p>Cbllfd by b subdlbss wifn b dlifnt donnfdtion fbils.
+     * Rfmovfs <dodf>donnfdtionId</dodf> from tif list rfturnfd by
+     * {@link #gftConnfdtionIds()}, tifn fmits b {@link
+     * JMXConnfdtionNotifidbtion} witi typf {@link
+     * JMXConnfdtionNotifidbtion#FAILED}.</p>
      *
-     * @param connectionId the ID of the failed connection.
+     * @pbrbm donnfdtionId tif ID of tif fbilfd donnfdtion.
      *
-     * @param message the message for the emitted {@link
-     * JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getMessage()}.
+     * @pbrbm mfssbgf tif mfssbgf for tif fmittfd {@link
+     * JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftMfssbgf()}.
      *
-     * @param userData the <code>userData</code> for the emitted
-     * {@link JMXConnectionNotification}.  Can be null.  See {@link
-     * Notification#getUserData()}.
+     * @pbrbm usfrDbtb tif <dodf>usfrDbtb</dodf> for tif fmittfd
+     * {@link JMXConnfdtionNotifidbtion}.  Cbn bf null.  Sff {@link
+     * Notifidbtion#gftUsfrDbtb()}.
      *
-     * @exception NullPointerException if <code>connectionId</code> is
+     * @fxdfption NullPointfrExdfption if <dodf>donnfdtionId</dodf> is
      * null.
      */
-    protected void connectionFailed(String connectionId,
-                                    String message,
-                                    Object userData) {
+    protfdtfd void donnfdtionFbilfd(String donnfdtionId,
+                                    String mfssbgf,
+                                    Objfdt usfrDbtb) {
 
-        if (connectionId == null)
-            throw new NullPointerException("Illegal null argument");
+        if (donnfdtionId == null)
+            tirow nfw NullPointfrExdfption("Illfgbl null brgumfnt");
 
-        synchronized (connectionIds) {
-            connectionIds.remove(connectionId);
+        syndironizfd (donnfdtionIds) {
+            donnfdtionIds.rfmovf(donnfdtionId);
         }
 
-        sendNotification(JMXConnectionNotification.FAILED, connectionId,
-                         message, userData);
+        sfndNotifidbtion(JMXConnfdtionNotifidbtion.FAILED, donnfdtionId,
+                         mfssbgf, usfrDbtb);
     }
 
-    private void sendNotification(String type, String connectionId,
-                                  String message, Object userData) {
-        Notification notif =
-            new JMXConnectionNotification(type,
-                                          getNotificationSource(),
-                                          connectionId,
-                                          nextSequenceNumber(),
-                                          message,
-                                          userData);
-        sendNotification(notif);
+    privbtf void sfndNotifidbtion(String typf, String donnfdtionId,
+                                  String mfssbgf, Objfdt usfrDbtb) {
+        Notifidbtion notif =
+            nfw JMXConnfdtionNotifidbtion(typf,
+                                          gftNotifidbtionSourdf(),
+                                          donnfdtionId,
+                                          nfxtSfqufndfNumbfr(),
+                                          mfssbgf,
+                                          usfrDbtb);
+        sfndNotifidbtion(notif);
     }
 
-    private synchronized Object getNotificationSource() {
-        if (myName != null)
-            return myName;
-        else
-            return this;
+    privbtf syndironizfd Objfdt gftNotifidbtionSourdf() {
+        if (myNbmf != null)
+            rfturn myNbmf;
+        flsf
+            rfturn tiis;
     }
 
-    private static long nextSequenceNumber() {
-        synchronized (sequenceNumberLock) {
-            return sequenceNumber++;
+    privbtf stbtid long nfxtSfqufndfNumbfr() {
+        syndironizfd (sfqufndfNumbfrLodk) {
+            rfturn sfqufndfNumbfr++;
         }
     }
 
-    // implements MBeanRegistration
+    // implfmfnts MBfbnRfgistrbtion
     /**
-     * <p>Called by an MBean server when this connector server is
-     * registered in that MBean server.  This connector server becomes
-     * attached to the MBean server and its {@link #getMBeanServer()}
-     * method will return <code>mbs</code>.</p>
+     * <p>Cbllfd by bn MBfbn sfrvfr wifn tiis donnfdtor sfrvfr is
+     * rfgistfrfd in tibt MBfbn sfrvfr.  Tiis donnfdtor sfrvfr bfdomfs
+     * bttbdifd to tif MBfbn sfrvfr bnd its {@link #gftMBfbnSfrvfr()}
+     * mftiod will rfturn <dodf>mbs</dodf>.</p>
      *
-     * <p>If this connector server is already attached to an MBean
-     * server, this method has no effect.  The MBean server it is
-     * attached to is not necessarily the one it is being registered
+     * <p>If tiis donnfdtor sfrvfr is blrfbdy bttbdifd to bn MBfbn
+     * sfrvfr, tiis mftiod ibs no ffffdt.  Tif MBfbn sfrvfr it is
+     * bttbdifd to is not nfdfssbrily tif onf it is bfing rfgistfrfd
      * in.</p>
      *
-     * @param mbs the MBean server in which this connection server is
-     * being registered.
+     * @pbrbm mbs tif MBfbn sfrvfr in wiidi tiis donnfdtion sfrvfr is
+     * bfing rfgistfrfd.
      *
-     * @param name The object name of the MBean.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn.
      *
-     * @return The name under which the MBean is to be registered.
+     * @rfturn Tif nbmf undfr wiidi tif MBfbn is to bf rfgistfrfd.
      *
-     * @exception NullPointerException if <code>mbs</code> or
-     * <code>name</code> is null.
+     * @fxdfption NullPointfrExdfption if <dodf>mbs</dodf> or
+     * <dodf>nbmf</dodf> is null.
      */
-    public synchronized ObjectName preRegister(MBeanServer mbs,
-                                               ObjectName name) {
-        if (mbs == null || name == null)
-            throw new NullPointerException("Null MBeanServer or ObjectName");
-        if (mbeanServer == null) {
-            mbeanServer = mbs;
-            myName = name;
+    publid syndironizfd ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr mbs,
+                                               ObjfdtNbmf nbmf) {
+        if (mbs == null || nbmf == null)
+            tirow nfw NullPointfrExdfption("Null MBfbnSfrvfr or ObjfdtNbmf");
+        if (mbfbnSfrvfr == null) {
+            mbfbnSfrvfr = mbs;
+            myNbmf = nbmf;
         }
-        return name;
+        rfturn nbmf;
     }
 
-    public void postRegister(Boolean registrationDone) {
-        // do nothing
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        // do notiing
     }
 
     /**
-     * <p>Called by an MBean server when this connector server is
-     * unregistered from that MBean server.  If this connector server
-     * was attached to that MBean server by being registered in it,
-     * and if the connector server is still active,
-     * then unregistering it will call the {@link #stop stop} method.
-     * If the <code>stop</code> method throws an exception, the
-     * unregistration attempt will fail.  It is recommended to call
-     * the <code>stop</code> method explicitly before unregistering
-     * the MBean.</p>
+     * <p>Cbllfd by bn MBfbn sfrvfr wifn tiis donnfdtor sfrvfr is
+     * unrfgistfrfd from tibt MBfbn sfrvfr.  If tiis donnfdtor sfrvfr
+     * wbs bttbdifd to tibt MBfbn sfrvfr by bfing rfgistfrfd in it,
+     * bnd if tif donnfdtor sfrvfr is still bdtivf,
+     * tifn unrfgistfring it will dbll tif {@link #stop stop} mftiod.
+     * If tif <dodf>stop</dodf> mftiod tirows bn fxdfption, tif
+     * unrfgistrbtion bttfmpt will fbil.  It is rfdommfndfd to dbll
+     * tif <dodf>stop</dodf> mftiod fxpliditly bfforf unrfgistfring
+     * tif MBfbn.</p>
      *
-     * @exception IOException if thrown by the {@link #stop stop} method.
+     * @fxdfption IOExdfption if tirown by tif {@link #stop stop} mftiod.
      */
-    public synchronized void preDeregister() throws Exception {
-        if (myName != null && isActive()) {
+    publid syndironizfd void prfDfrfgistfr() tirows Exdfption {
+        if (myNbmf != null && isAdtivf()) {
             stop();
-            myName = null; // just in case stop is buggy and doesn't stop
+            myNbmf = null; // just in dbsf stop is buggy bnd dofsn't stop
         }
     }
 
-    public void postDeregister() {
-        myName = null;
+    publid void postDfrfgistfr() {
+        myNbmf = null;
     }
 
     /**
-     * The MBeanServer used by this server to execute a client request.
+     * Tif MBfbnSfrvfr usfd by tiis sfrvfr to fxfdutf b dlifnt rfqufst.
      */
-    private MBeanServer mbeanServer = null;
+    privbtf MBfbnSfrvfr mbfbnSfrvfr = null;
 
     /**
-     * The name used to registered this server in an MBeanServer.
-     * It is null if the this server is not registered or has been unregistered.
+     * Tif nbmf usfd to rfgistfrfd tiis sfrvfr in bn MBfbnSfrvfr.
+     * It is null if tif tiis sfrvfr is not rfgistfrfd or ibs bffn unrfgistfrfd.
      */
-    private ObjectName myName;
+    privbtf ObjfdtNbmf myNbmf;
 
-    private final List<String> connectionIds = new ArrayList<String>();
+    privbtf finbl List<String> donnfdtionIds = nfw ArrbyList<String>();
 
-    private static final int[] sequenceNumberLock = new int[0];
-    private static long sequenceNumber;
+    privbtf stbtid finbl int[] sfqufndfNumbfrLodk = nfw int[0];
+    privbtf stbtid long sfqufndfNumbfr;
 }

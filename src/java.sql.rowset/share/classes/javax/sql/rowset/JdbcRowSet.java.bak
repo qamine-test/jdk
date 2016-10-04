@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset;
+pbdkbgf jbvbx.sql.rowsft;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.math.*;
-import java.io.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbti.*;
+import jbvb.io.*;
 
 /**
- * The standard interface that all standard implementations of
- * <code>JdbcRowSet</code> must implement.
+ * Tif stbndbrd intfrfbdf tibt bll stbndbrd implfmfntbtions of
+ * <dodf>JdbdRowSft</dodf> must implfmfnt.
  *
- * <h3>1.0 Overview</h3>
- * A wrapper around a <code>ResultSet</code> object that makes it possible
- * to use the result set as a JavaBeans&trade;
- * component.  Thus, a <code>JdbcRowSet</code> object can be one of the Beans that
- * a tool makes available for composing an application.  Because
- * a <code>JdbcRowSet</code> is a connected rowset, that is, it continually
- * maintains its connection to a database using a JDBC technology-enabled
- * driver, it also effectively makes the driver a JavaBeans component.
+ * <i3>1.0 Ovfrvifw</i3>
+ * A wrbppfr bround b <dodf>RfsultSft</dodf> objfdt tibt mbkfs it possiblf
+ * to usf tif rfsult sft bs b JbvbBfbns&trbdf;
+ * domponfnt.  Tius, b <dodf>JdbdRowSft</dodf> objfdt dbn bf onf of tif Bfbns tibt
+ * b tool mbkfs bvbilbblf for domposing bn bpplidbtion.  Bfdbusf
+ * b <dodf>JdbdRowSft</dodf> is b donnfdtfd rowsft, tibt is, it dontinublly
+ * mbintbins its donnfdtion to b dbtbbbsf using b JDBC tfdinology-fnbblfd
+ * drivfr, it blso ffffdtivfly mbkfs tif drivfr b JbvbBfbns domponfnt.
  * <P>
- * Because it is always connected to its database, an instance of
- * <code>JdbcRowSet</code>
- * can simply take calls invoked on it and in turn call them on its
- * <code>ResultSet</code> object. As a consequence, a result set can, for
- * example, be a component in a Swing application.
+ * Bfdbusf it is blwbys donnfdtfd to its dbtbbbsf, bn instbndf of
+ * <dodf>JdbdRowSft</dodf>
+ * dbn simply tbkf dblls invokfd on it bnd in turn dbll tifm on its
+ * <dodf>RfsultSft</dodf> objfdt. As b donsfqufndf, b rfsult sft dbn, for
+ * fxbmplf, bf b domponfnt in b Swing bpplidbtion.
  * <P>
- * Another advantage of a <code>JdbcRowSet</code> object is that it can be
- * used to make a <code>ResultSet</code> object scrollable and updatable.  All
- * <code>RowSet</code> objects are by default scrollable and updatable. If
- * the driver and database being used do not support scrolling and/or updating
- * of result sets, an application can populate a <code>JdbcRowSet</code> object
- * with the data of a <code>ResultSet</code> object and then operate on the
- * <code>JdbcRowSet</code> object as if it were the <code>ResultSet</code>
- * object.
+ * Anotifr bdvbntbgf of b <dodf>JdbdRowSft</dodf> objfdt is tibt it dbn bf
+ * usfd to mbkf b <dodf>RfsultSft</dodf> objfdt sdrollbblf bnd updbtbblf.  All
+ * <dodf>RowSft</dodf> objfdts brf by dffbult sdrollbblf bnd updbtbblf. If
+ * tif drivfr bnd dbtbbbsf bfing usfd do not support sdrolling bnd/or updbting
+ * of rfsult sfts, bn bpplidbtion dbn populbtf b <dodf>JdbdRowSft</dodf> objfdt
+ * witi tif dbtb of b <dodf>RfsultSft</dodf> objfdt bnd tifn opfrbtf on tif
+ * <dodf>JdbdRowSft</dodf> objfdt bs if it wfrf tif <dodf>RfsultSft</dodf>
+ * objfdt.
  *
- * <h3>2.0 Creating a <code>JdbcRowSet</code> Object</h3>
- * The reference implementation of the <code>JdbcRowSet</code> interface,
- * <code>JdbcRowSetImpl</code>, provides an implementation of
- * the default constructor.  A new instance is initialized with
- * default values, which can be set with new values as needed. A
- * new instance is not really functional until its <code>execute</code>
- * method is called. In general, this method does the following:
+ * <i3>2.0 Crfbting b <dodf>JdbdRowSft</dodf> Objfdt</i3>
+ * Tif rfffrfndf implfmfntbtion of tif <dodf>JdbdRowSft</dodf> intfrfbdf,
+ * <dodf>JdbdRowSftImpl</dodf>, providfs bn implfmfntbtion of
+ * tif dffbult donstrudtor.  A nfw instbndf is initiblizfd witi
+ * dffbult vblufs, wiidi dbn bf sft witi nfw vblufs bs nffdfd. A
+ * nfw instbndf is not rfblly fundtionbl until its <dodf>fxfdutf</dodf>
+ * mftiod is dbllfd. In gfnfrbl, tiis mftiod dofs tif following:
  * <UL>
- *   <LI> establishes a connection with a database
- *   <LI> creates a <code>PreparedStatement</code> object and sets any of its
- *        placeholder parameters
- *   <LI> executes the statement to create a <code>ResultSet</code> object
+ *   <LI> fstbblisifs b donnfdtion witi b dbtbbbsf
+ *   <LI> drfbtfs b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt bnd sfts bny of its
+ *        plbdfioldfr pbrbmftfrs
+ *   <LI> fxfdutfs tif stbtfmfnt to drfbtf b <dodf>RfsultSft</dodf> objfdt
  * </UL>
- * If the <code>execute</code> method is successful, it will set the
- * appropriate private <code>JdbcRowSet</code> fields with the following:
+ * If tif <dodf>fxfdutf</dodf> mftiod is suddfssful, it will sft tif
+ * bppropribtf privbtf <dodf>JdbdRowSft</dodf> fiflds witi tif following:
  * <UL>
- *  <LI> a <code>Connection</code> object -- the connection between the rowset
- *       and the database
- *  <LI> a <code>PreparedStatement</code> object -- the query that produces
- *       the result set
- *  <LI> a <code>ResultSet</code> object -- the result set that the rowset's
- *       command produced and that is being made, in effect, a JavaBeans
- *       component
+ *  <LI> b <dodf>Connfdtion</dodf> objfdt -- tif donnfdtion bftwffn tif rowsft
+ *       bnd tif dbtbbbsf
+ *  <LI> b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt -- tif qufry tibt produdfs
+ *       tif rfsult sft
+ *  <LI> b <dodf>RfsultSft</dodf> objfdt -- tif rfsult sft tibt tif rowsft's
+ *       dommbnd produdfd bnd tibt is bfing mbdf, in ffffdt, b JbvbBfbns
+ *       domponfnt
  * </UL>
- * If these fields have not been set, meaning that the <code>execute</code>
- * method has not executed successfully, no methods other than
- * <code>execute</code> and <code>close</code> may be called on the
- * rowset.  All other public methods will throw an exception.
+ * If tifsf fiflds ibvf not bffn sft, mfbning tibt tif <dodf>fxfdutf</dodf>
+ * mftiod ibs not fxfdutfd suddfssfully, no mftiods otifr tibn
+ * <dodf>fxfdutf</dodf> bnd <dodf>dlosf</dodf> mby bf dbllfd on tif
+ * rowsft.  All otifr publid mftiods will tirow bn fxdfption.
  * <P>
- * Before calling the <code>execute</code> method, however, the command
- * and properties needed for establishing a connection must be set.
- * The following code fragment creates a <code>JdbcRowSetImpl</code> object,
- * sets the command and connection properties, sets the placeholder parameter,
- * and then invokes the method <code>execute</code>.
+ * Bfforf dblling tif <dodf>fxfdutf</dodf> mftiod, iowfvfr, tif dommbnd
+ * bnd propfrtifs nffdfd for fstbblisiing b donnfdtion must bf sft.
+ * Tif following dodf frbgmfnt drfbtfs b <dodf>JdbdRowSftImpl</dodf> objfdt,
+ * sfts tif dommbnd bnd donnfdtion propfrtifs, sfts tif plbdfioldfr pbrbmftfr,
+ * bnd tifn invokfs tif mftiod <dodf>fxfdutf</dodf>.
  * <PRE>
- *     JdbcRowSetImpl jrs = new JdbcRowSetImpl();
- *     jrs.setCommand("SELECT * FROM TITLES WHERE TYPE = ?");
- *     jrs.setURL("jdbc:myDriver:myAttribute");
- *     jrs.setUsername("cervantes");
- *     jrs.setPassword("sancho");
- *     jrs.setString(1, "BIOGRAPHY");
- *     jrs.execute();
+ *     JdbdRowSftImpl jrs = nfw JdbdRowSftImpl();
+ *     jrs.sftCommbnd("SELECT * FROM TITLES WHERE TYPE = ?");
+ *     jrs.sftURL("jdbd:myDrivfr:myAttributf");
+ *     jrs.sftUsfrnbmf("dfrvbntfs");
+ *     jrs.sftPbssword("sbndio");
+ *     jrs.sftString(1, "BIOGRAPHY");
+ *     jrs.fxfdutf();
  * </PRE>
- * The variable <code>jrs</code> now represents an instance of
- * <code>JdbcRowSetImpl</code> that is a thin wrapper around the
- * <code>ResultSet</code> object containing all the rows in the
- * table <code>TITLES</code> where the type of book is biography.
- * At this point, operations called on <code>jrs</code> will
- * affect the rows in the result set, which is effectively a JavaBeans
- * component.
+ * Tif vbribblf <dodf>jrs</dodf> now rfprfsfnts bn instbndf of
+ * <dodf>JdbdRowSftImpl</dodf> tibt is b tiin wrbppfr bround tif
+ * <dodf>RfsultSft</dodf> objfdt dontbining bll tif rows in tif
+ * tbblf <dodf>TITLES</dodf> wifrf tif typf of book is biogrbpiy.
+ * At tiis point, opfrbtions dbllfd on <dodf>jrs</dodf> will
+ * bfffdt tif rows in tif rfsult sft, wiidi is ffffdtivfly b JbvbBfbns
+ * domponfnt.
  * <P>
- * The implementation of the <code>RowSet</code> method <code>execute</code> in the
- * <code>JdbcRowSet</code> reference implementation differs from that in the
- * <code>CachedRowSet</code>&trade;
- * reference implementation to account for the different
- * requirements of connected and disconnected <code>RowSet</code> objects.
+ * Tif implfmfntbtion of tif <dodf>RowSft</dodf> mftiod <dodf>fxfdutf</dodf> in tif
+ * <dodf>JdbdRowSft</dodf> rfffrfndf implfmfntbtion difffrs from tibt in tif
+ * <dodf>CbdifdRowSft</dodf>&trbdf;
+ * rfffrfndf implfmfntbtion to bddount for tif difffrfnt
+ * rfquirfmfnts of donnfdtfd bnd disdonnfdtfd <dodf>RowSft</dodf> objfdts.
  *
- * @author Jonathan Bruce
- * @since 1.5
+ * @butior Jonbtibn Brudf
+ * @sindf 1.5
  */
 
-public interface JdbcRowSet extends RowSet, Joinable {
+publid intfrfbdf JdbdRowSft fxtfnds RowSft, Joinbblf {
 
     /**
-     * Retrieves a <code>boolean</code> indicating whether rows marked
-     * for deletion appear in the set of current rows. If <code>true</code> is
-     * returned, deleted rows are visible with the current rows. If
-     * <code>false</code> is returned, rows are not visible with the set of
-     * current rows. The default value is <code>false</code>.
+     * Rftrifvfs b <dodf>boolfbn</dodf> indidbting wiftifr rows mbrkfd
+     * for dflftion bppfbr in tif sft of durrfnt rows. If <dodf>truf</dodf> is
+     * rfturnfd, dflftfd rows brf visiblf witi tif durrfnt rows. If
+     * <dodf>fblsf</dodf> is rfturnfd, rows brf not visiblf witi tif sft of
+     * durrfnt rows. Tif dffbult vbluf is <dodf>fblsf</dodf>.
      * <P>
-     * Standard rowset implementations may choose to restrict this behavior
-     * for security considerations or for certain deployment
-     * scenarios. The visibility of deleted rows is implementation-defined
-     * and does not represent standard behavior.
+     * Stbndbrd rowsft implfmfntbtions mby dioosf to rfstridt tiis bfibvior
+     * for sfdurity donsidfrbtions or for dfrtbin dfploymfnt
+     * sdfnbrios. Tif visibility of dflftfd rows is implfmfntbtion-dffinfd
+     * bnd dofs not rfprfsfnt stbndbrd bfibvior.
      * <P>
-     * Note: Allowing deleted rows to remain visible complicates the behavior
-     * of some standard JDBC <code>RowSet</code> implementations methods.
-     * However, most rowset users can simply ignore this extra detail because
-     * only very specialized applications will likely want to take advantage of
-     * this feature.
+     * Notf: Allowing dflftfd rows to rfmbin visiblf domplidbtfs tif bfibvior
+     * of somf stbndbrd JDBC <dodf>RowSft</dodf> implfmfntbtions mftiods.
+     * Howfvfr, most rowsft usfrs dbn simply ignorf tiis fxtrb dftbil bfdbusf
+     * only vfry spfdiblizfd bpplidbtions will likfly wbnt to tbkf bdvbntbgf of
+     * tiis ffbturf.
      *
-     * @return <code>true</code> if deleted rows are visible;
-     *         <code>false</code> otherwise
-     * @exception SQLException if a rowset implementation is unable to
-     *          to determine whether rows marked for deletion remain visible
-     * @see #setShowDeleted
+     * @rfturn <dodf>truf</dodf> if dflftfd rows brf visiblf;
+     *         <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b rowsft implfmfntbtion is unbblf to
+     *          to dftfrminf wiftifr rows mbrkfd for dflftion rfmbin visiblf
+     * @sff #sftSiowDflftfd
      */
-    public boolean getShowDeleted() throws SQLException;
+    publid boolfbn gftSiowDflftfd() tirows SQLExdfption;
 
     /**
-     * Sets the property <code>showDeleted</code> to the given
-     * <code>boolean</code> value. This property determines whether
-     * rows marked for deletion continue to appear in the set of current rows.
-     * If the value is set to <code>true</code>, deleted rows are immediately
-     * visible with the set of current rows. If the value is set to
-     * <code>false</code>, the deleted rows are set as invisible with the
-     * current set of rows.
+     * Sfts tif propfrty <dodf>siowDflftfd</dodf> to tif givfn
+     * <dodf>boolfbn</dodf> vbluf. Tiis propfrty dftfrminfs wiftifr
+     * rows mbrkfd for dflftion dontinuf to bppfbr in tif sft of durrfnt rows.
+     * If tif vbluf is sft to <dodf>truf</dodf>, dflftfd rows brf immfdibtfly
+     * visiblf witi tif sft of durrfnt rows. If tif vbluf is sft to
+     * <dodf>fblsf</dodf>, tif dflftfd rows brf sft bs invisiblf witi tif
+     * durrfnt sft of rows.
      * <P>
-     * Standard rowset implementations may choose to restrict this behavior
-     * for security considerations or for certain deployment
-     * scenarios. This is left as implementation-defined and does not
-     * represent standard behavior.
+     * Stbndbrd rowsft implfmfntbtions mby dioosf to rfstridt tiis bfibvior
+     * for sfdurity donsidfrbtions or for dfrtbin dfploymfnt
+     * sdfnbrios. Tiis is lfft bs implfmfntbtion-dffinfd bnd dofs not
+     * rfprfsfnt stbndbrd bfibvior.
      *
-     * @param b <code>true</code> if deleted rows should be shown;
-     *              <code>false</code> otherwise
-     * @exception SQLException if a rowset implementation is unable to
-     *          to reset whether deleted rows should be visible
-     * @see #getShowDeleted
+     * @pbrbm b <dodf>truf</dodf> if dflftfd rows siould bf siown;
+     *              <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b rowsft implfmfntbtion is unbblf to
+     *          to rfsft wiftifr dflftfd rows siould bf visiblf
+     * @sff #gftSiowDflftfd
      */
-    public void setShowDeleted(boolean b) throws SQLException;
+    publid void sftSiowDflftfd(boolfbn b) tirows SQLExdfption;
 
     /**
-     * Retrieves the first warning reported by calls on this <code>JdbcRowSet</code>
-     * object.
-     * If a second warning was reported on this <code>JdbcRowSet</code> object,
-     * it will be chained to the first warning and can be retrieved by
-     * calling the method <code>RowSetWarning.getNextWarning</code> on the
-     * first warning. Subsequent warnings on this <code>JdbcRowSet</code>
-     * object will be chained to the <code>RowSetWarning</code> objects
-     * returned by the method <code>RowSetWarning.getNextWarning</code>.
+     * Rftrifvfs tif first wbrning rfportfd by dblls on tiis <dodf>JdbdRowSft</dodf>
+     * objfdt.
+     * If b sfdond wbrning wbs rfportfd on tiis <dodf>JdbdRowSft</dodf> objfdt,
+     * it will bf dibinfd to tif first wbrning bnd dbn bf rftrifvfd by
+     * dblling tif mftiod <dodf>RowSftWbrning.gftNfxtWbrning</dodf> on tif
+     * first wbrning. Subsfqufnt wbrnings on tiis <dodf>JdbdRowSft</dodf>
+     * objfdt will bf dibinfd to tif <dodf>RowSftWbrning</dodf> objfdts
+     * rfturnfd by tif mftiod <dodf>RowSftWbrning.gftNfxtWbrning</dodf>.
      *
-     * The warning chain is automatically cleared each time a new row is read.
-     * This method may not be called on a <code>RowSet</code> object
-     * that has been closed;
-     * doing so will cause an <code>SQLException</code> to be thrown.
+     * Tif wbrning dibin is butombtidblly dlfbrfd fbdi timf b nfw row is rfbd.
+     * Tiis mftiod mby not bf dbllfd on b <dodf>RowSft</dodf> objfdt
+     * tibt ibs bffn dlosfd;
+     * doing so will dbusf bn <dodf>SQLExdfption</dodf> to bf tirown.
      * <P>
-     * Because it is always connected to its data source, a <code>JdbcRowSet</code>
-     * object can rely on the presence of active
-     * <code>Statement</code>, <code>Connection</code>, and <code>ResultSet</code>
-     * instances. This means that  applications can obtain additional
-     * <code>SQLWarning</code>
-     * notifications by calling the <code>getNextWarning</code> methods that
-     * they provide.
-     * Disconnected <code>Rowset</code> objects, such as a
-     * <code>CachedRowSet</code> object, do not have access to
-     * these <code>getNextWarning</code> methods.
+     * Bfdbusf it is blwbys donnfdtfd to its dbtb sourdf, b <dodf>JdbdRowSft</dodf>
+     * objfdt dbn rfly on tif prfsfndf of bdtivf
+     * <dodf>Stbtfmfnt</dodf>, <dodf>Connfdtion</dodf>, bnd <dodf>RfsultSft</dodf>
+     * instbndfs. Tiis mfbns tibt  bpplidbtions dbn obtbin bdditionbl
+     * <dodf>SQLWbrning</dodf>
+     * notifidbtions by dblling tif <dodf>gftNfxtWbrning</dodf> mftiods tibt
+     * tify providf.
+     * Disdonnfdtfd <dodf>Rowsft</dodf> objfdts, sudi bs b
+     * <dodf>CbdifdRowSft</dodf> objfdt, do not ibvf bddfss to
+     * tifsf <dodf>gftNfxtWbrning</dodf> mftiods.
      *
-     * @return the first <code>RowSetWarning</code>
-     * object reported on this <code>JdbcRowSet</code> object
-     * or <code>null</code> if there are none
-     * @throws SQLException if this method is called on a closed
-     * <code>JdbcRowSet</code> object
-     * @see RowSetWarning
+     * @rfturn tif first <dodf>RowSftWbrning</dodf>
+     * objfdt rfportfd on tiis <dodf>JdbdRowSft</dodf> objfdt
+     * or <dodf>null</dodf> if tifrf brf nonf
+     * @tirows SQLExdfption if tiis mftiod is dbllfd on b dlosfd
+     * <dodf>JdbdRowSft</dodf> objfdt
+     * @sff RowSftWbrning
      */
-    public RowSetWarning getRowSetWarnings() throws SQLException;
+    publid RowSftWbrning gftRowSftWbrnings() tirows SQLExdfption;
 
    /**
-    * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-    * the <code>ResultSet</code> or JDBC properties passed to it's constructors.
-    * This method wraps the <code>Connection</code> commit method to allow flexible
-    * auto commit or non auto commit transactional control support.
+    * Ebdi <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+    * tif <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it's donstrudtors.
+    * Tiis mftiod wrbps tif <dodf>Connfdtion</dodf> dommit mftiod to bllow flfxiblf
+    * buto dommit or non buto dommit trbnsbdtionbl dontrol support.
     * <p>
-    * Makes all changes made since the previous commit/rollback permanent
-    * and releases any database locks currently held by this Connection
-    * object. This method should be used only when auto-commit mode has
-    * been disabled.
+    * Mbkfs bll dibngfs mbdf sindf tif prfvious dommit/rollbbdk pfrmbnfnt
+    * bnd rflfbsfs bny dbtbbbsf lodks durrfntly ifld by tiis Connfdtion
+    * objfdt. Tiis mftiod siould bf usfd only wifn buto-dommit modf ibs
+    * bffn disbblfd.
     *
-    * @throws SQLException if a database access error occurs or this
-    * Connection object within this <code>JdbcRowSet</code> is in auto-commit mode
-    * @see java.sql.Connection#setAutoCommit
+    * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tiis
+    * Connfdtion objfdt witiin tiis <dodf>JdbdRowSft</dodf> is in buto-dommit modf
+    * @sff jbvb.sql.Connfdtion#sftAutoCommit
     */
-    public void commit() throws SQLException;
+    publid void dommit() tirows SQLExdfption;
 
 
    /**
-    * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-    * the original <code>ResultSet</code> or JDBC properties passed to it. This
-    * method wraps the <code>Connection</code>'s <code>getAutoCommit</code> method
-    * to allow an application to determine the <code>JdbcRowSet</code> transaction
-    * behavior.
+    * Ebdi <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+    * tif originbl <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it. Tiis
+    * mftiod wrbps tif <dodf>Connfdtion</dodf>'s <dodf>gftAutoCommit</dodf> mftiod
+    * to bllow bn bpplidbtion to dftfrminf tif <dodf>JdbdRowSft</dodf> trbnsbdtion
+    * bfibvior.
     * <p>
-    * Sets this connection's auto-commit mode to the given state. If a
-    * connection is in auto-commit mode, then all its SQL statements will
-    * be executed and committed as individual transactions. Otherwise, its
-    * SQL statements are grouped into transactions that are terminated by a
-    * call to either the method commit or the method rollback. By default,
-    * new connections are in auto-commit mode.
+    * Sfts tiis donnfdtion's buto-dommit modf to tif givfn stbtf. If b
+    * donnfdtion is in buto-dommit modf, tifn bll its SQL stbtfmfnts will
+    * bf fxfdutfd bnd dommittfd bs individubl trbnsbdtions. Otifrwisf, its
+    * SQL stbtfmfnts brf groupfd into trbnsbdtions tibt brf tfrminbtfd by b
+    * dbll to fitifr tif mftiod dommit or tif mftiod rollbbdk. By dffbult,
+    * nfw donnfdtions brf in buto-dommit modf.
     *
-    * @return {@code true} if auto-commit is enabled; {@code false} otherwise
-    * @throws SQLException if a database access error occurs
-    * @see java.sql.Connection#getAutoCommit()
+    * @rfturn {@dodf truf} if buto-dommit is fnbblfd; {@dodf fblsf} otifrwisf
+    * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+    * @sff jbvb.sql.Connfdtion#gftAutoCommit()
     */
-    public boolean getAutoCommit() throws SQLException;
+    publid boolfbn gftAutoCommit() tirows SQLExdfption;
 
 
    /**
-    * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-    * the original <code>ResultSet</code> or JDBC properties passed to it. This
-    * method wraps the <code>Connection</code>'s <code>getAutoCommit</code> method
-    * to allow an application to set the <code>JdbcRowSet</code> transaction behavior.
+    * Ebdi <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+    * tif originbl <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it. Tiis
+    * mftiod wrbps tif <dodf>Connfdtion</dodf>'s <dodf>gftAutoCommit</dodf> mftiod
+    * to bllow bn bpplidbtion to sft tif <dodf>JdbdRowSft</dodf> trbnsbdtion bfibvior.
     * <p>
-    * Sets the current auto-commit mode for this <code>Connection</code> object.
-    * @param autoCommit {@code true} to enable auto-commit; {@code false} to
-    * disable auto-commit
-    * @throws SQLException if a database access error occurs
-    * @see java.sql.Connection#setAutoCommit(boolean)
+    * Sfts tif durrfnt buto-dommit modf for tiis <dodf>Connfdtion</dodf> objfdt.
+    * @pbrbm butoCommit {@dodf truf} to fnbblf buto-dommit; {@dodf fblsf} to
+    * disbblf buto-dommit
+    * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
+    * @sff jbvb.sql.Connfdtion#sftAutoCommit(boolfbn)
     */
-    public void setAutoCommit(boolean autoCommit) throws SQLException;
+    publid void sftAutoCommit(boolfbn butoCommit) tirows SQLExdfption;
 
     /**
-     * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-     * the original <code>ResultSet</code> or JDBC properties passed to it.
-     * Undoes all changes made in the current transaction and releases any
-     * database locks currently held by this <code>Connection</code> object. This method
-     * should be used only when auto-commit mode has been disabled.
+     * Ebdi <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+     * tif originbl <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it.
+     * Undofs bll dibngfs mbdf in tif durrfnt trbnsbdtion bnd rflfbsfs bny
+     * dbtbbbsf lodks durrfntly ifld by tiis <dodf>Connfdtion</dodf> objfdt. Tiis mftiod
+     * siould bf usfd only wifn buto-dommit modf ibs bffn disbblfd.
      *
-     * @throws SQLException if a database access error occurs or this <code>Connection</code>
-     * object within this <code>JdbcRowSet</code> is in auto-commit mode.
-     * @see #rollback(Savepoint)
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tiis <dodf>Connfdtion</dodf>
+     * objfdt witiin tiis <dodf>JdbdRowSft</dodf> is in buto-dommit modf.
+     * @sff #rollbbdk(Sbvfpoint)
      */
-     public void rollback() throws SQLException;
+     publid void rollbbdk() tirows SQLExdfption;
 
 
     /**
-     * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-     * the original <code>ResultSet</code> or JDBC properties passed to it.
-     * Undoes all changes made in the current transaction to the last set savepoint
-     * and releases any database locks currently held by this <code>Connection</code>
-     * object. This method should be used only when auto-commit mode has been disabled.
-     * @param s The {@code Savepoint} to rollback to
-     * @throws SQLException if a database access error occurs or this <code>Connection</code>
-     * object within this <code>JdbcRowSet</code> is in auto-commit mode.
-     * @see #rollback
+     * Ebdi <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+     * tif originbl <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it.
+     * Undofs bll dibngfs mbdf in tif durrfnt trbnsbdtion to tif lbst sft sbvfpoint
+     * bnd rflfbsfs bny dbtbbbsf lodks durrfntly ifld by tiis <dodf>Connfdtion</dodf>
+     * objfdt. Tiis mftiod siould bf usfd only wifn buto-dommit modf ibs bffn disbblfd.
+     * @pbrbm s Tif {@dodf Sbvfpoint} to rollbbdk to
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or tiis <dodf>Connfdtion</dodf>
+     * objfdt witiin tiis <dodf>JdbdRowSft</dodf> is in buto-dommit modf.
+     * @sff #rollbbdk
      */
-    public void rollback(Savepoint s) throws SQLException;
+    publid void rollbbdk(Sbvfpoint s) tirows SQLExdfption;
 
 }

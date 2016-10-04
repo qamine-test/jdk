@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.io.IOException;
-import java.io.NotSerializableException;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.NotSfriblizbblfExdfption;
+import jbvb.util.*;
 
-import sun.awt.datatransfer.*;
+import sun.bwt.dbtbtrbnsffr.*;
 
 
 /**
-* A class which interfaces with Cocoa's pasteboard in order to support
- * data transfer via Clipboard operations. Most of the work is provided by
- * sun.awt.datatransfer.DataTransferer.
+* A dlbss wiidi intfrfbdfs witi Codob's pbstfbobrd in ordfr to support
+ * dbtb trbnsffr vib Clipbobrd opfrbtions. Most of tif work is providfd by
+ * sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr.
  */
 
-final class CClipboard extends SunClipboard {
+finbl dlbss CClipbobrd fxtfnds SunClipbobrd {
 
-    public CClipboard(String name) {
-        super(name);
+    publid CClipbobrd(String nbmf) {
+        supfr(nbmf);
     }
 
-    @Override
-    public long getID() {
-        return 0;
+    @Ovfrridf
+    publid long gftID() {
+        rfturn 0;
     }
 
-    @Override
-    protected void clearNativeContext() {
-        // Leaving Empty, as WClipboard.clearNativeContext is empty as well.
+    @Ovfrridf
+    protfdtfd void dlfbrNbtivfContfxt() {
+        // Lfbving Empty, bs WClipbobrd.dlfbrNbtivfContfxt is fmpty bs wfll.
     }
 
-    @Override
-    protected void setContentsNative(Transferable contents) {
-        FlavorTable flavorMap = getDefaultFlavorTable();
-        // Don't use delayed Clipboard rendering for the Transferable's data.
-        // If we did that, we would call Transferable.getTransferData on
-        // the Toolkit thread, which is a security hole.
+    @Ovfrridf
+    protfdtfd void sftContfntsNbtivf(Trbnsffrbblf dontfnts) {
+        FlbvorTbblf flbvorMbp = gftDffbultFlbvorTbblf();
+        // Don't usf dflbyfd Clipbobrd rfndfring for tif Trbnsffrbblf's dbtb.
+        // If wf did tibt, wf would dbll Trbnsffrbblf.gftTrbnsffrDbtb on
+        // tif Toolkit tirfbd, wiidi is b sfdurity iolf.
         //
-        // Get all of the target formats into which the Transferable can be
-        // translated. Then, for each format, translate the data and post
-        // it to the Clipboard.
-        DataTransferer dataTransferer = DataTransferer.getInstance();
-        long[] formatArray = dataTransferer.getFormatsForTransferableAsArray(contents, flavorMap);
-        declareTypes(formatArray, this);
+        // Gft bll of tif tbrgft formbts into wiidi tif Trbnsffrbblf dbn bf
+        // trbnslbtfd. Tifn, for fbdi formbt, trbnslbtf tif dbtb bnd post
+        // it to tif Clipbobrd.
+        DbtbTrbnsffrfr dbtbTrbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+        long[] formbtArrby = dbtbTrbnsffrfr.gftFormbtsForTrbnsffrbblfAsArrby(dontfnts, flbvorMbp);
+        dfdlbrfTypfs(formbtArrby, tiis);
 
-        Map<Long, DataFlavor> formatMap = dataTransferer.getFormatsForTransferable(contents, flavorMap);
-        for (Map.Entry<Long, DataFlavor> entry : formatMap.entrySet()) {
-            long format = entry.getKey();
-            DataFlavor flavor = entry.getValue();
+        Mbp<Long, DbtbFlbvor> formbtMbp = dbtbTrbnsffrfr.gftFormbtsForTrbnsffrbblf(dontfnts, flbvorMbp);
+        for (Mbp.Entry<Long, DbtbFlbvor> fntry : formbtMbp.fntrySft()) {
+            long formbt = fntry.gftKfy();
+            DbtbFlbvor flbvor = fntry.gftVbluf();
 
             try {
-                byte[] bytes = DataTransferer.getInstance().translateTransferable(contents, flavor, format);
-                setData(bytes, format);
-            } catch (IOException e) {
-                // Fix 4696186: don't print exception if data with
-                // javaJVMLocalObjectMimeType failed to serialize.
-                // May remove this if-check when 5078787 is fixed.
-                if (!(flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType) &&
-                        e instanceof NotSerializableException)) {
-                    e.printStackTrace();
+                bytf[] bytfs = DbtbTrbnsffrfr.gftInstbndf().trbnslbtfTrbnsffrbblf(dontfnts, flbvor, formbt);
+                sftDbtb(bytfs, formbt);
+            } dbtdi (IOExdfption f) {
+                // Fix 4696186: don't print fxdfption if dbtb witi
+                // jbvbJVMLodblObjfdtMimfTypf fbilfd to sfriblizf.
+                // Mby rfmovf tiis if-difdk wifn 5078787 is fixfd.
+                if (!(flbvor.isMimfTypfEqubl(DbtbFlbvor.jbvbJVMLodblObjfdtMimfTypf) &&
+                        f instbndfof NotSfriblizbblfExdfption)) {
+                    f.printStbdkTrbdf();
                 }
             }
         }
 
-        notifyChanged();
+        notifyCibngfd();
     }
 
-    @Override
-    protected native long[] getClipboardFormats();
-    @Override
-    protected native byte[] getClipboardData(long format) throws IOException;
+    @Ovfrridf
+    protfdtfd nbtivf long[] gftClipbobrdFormbts();
+    @Ovfrridf
+    protfdtfd nbtivf bytf[] gftClipbobrdDbtb(long formbt) tirows IOExdfption;
 
-    // 1.5 peer method
-    @Override
-    protected void unregisterClipboardViewerChecked() {
-        // no-op because we lack OS support. This requires 4048791, which requires 4048792
+    // 1.5 pffr mftiod
+    @Ovfrridf
+    protfdtfd void unrfgistfrClipbobrdVifwfrCifdkfd() {
+        // no-op bfdbusf wf lbdk OS support. Tiis rfquirfs 4048791, wiidi rfquirfs 4048792
     }
 
-    // 1.5 peer method
-    @Override
-    protected void registerClipboardViewerChecked()    {
-        // no-op because we lack OS support. This requires 4048791, which requires 4048792
+    // 1.5 pffr mftiod
+    @Ovfrridf
+    protfdtfd void rfgistfrClipbobrdVifwfrCifdkfd()    {
+        // no-op bfdbusf wf lbdk OS support. Tiis rfquirfs 4048791, wiidi rfquirfs 4048792
     }
 
-    // 1.5 peer method
-    // no-op. This appears to be win32 specific. Filed 4048790 for investigation
-    //protected Transferable createLocaleTransferable(long[] formats) throws IOException;
+    // 1.5 pffr mftiod
+    // no-op. Tiis bppfbrs to bf win32 spfdifid. Filfd 4048790 for invfstigbtion
+    //protfdtfd Trbnsffrbblf drfbtfLodblfTrbnsffrbblf(long[] formbts) tirows IOExdfption;
 
-    private native void declareTypes(long[] formats, SunClipboard newOwner);
-    private native void setData(byte[] data, long format);
+    privbtf nbtivf void dfdlbrfTypfs(long[] formbts, SunClipbobrd nfwOwnfr);
+    privbtf nbtivf void sftDbtb(bytf[] dbtb, long formbt);
 
     /**
-     * Invokes native check whether a change count on the general pasteboard is different
-     * than when we set it. The different count value means the current owner lost
-     * pasteboard ownership and someone else put data on the clipboard.
-     * @since 1.7
+     * Invokfs nbtivf difdk wiftifr b dibngf dount on tif gfnfrbl pbstfbobrd is difffrfnt
+     * tibn wifn wf sft it. Tif difffrfnt dount vbluf mfbns tif durrfnt ownfr lost
+     * pbstfbobrd ownfrsiip bnd somfonf flsf put dbtb on tif dlipbobrd.
+     * @sindf 1.7
      */
-    native void checkPasteboard();
+    nbtivf void difdkPbstfbobrd();
 
-    /*** Native Callbacks ***/
-    private void notifyLostOwnership() {
-        lostOwnershipImpl();
+    /*** Nbtivf Cbllbbdks ***/
+    privbtf void notifyLostOwnfrsiip() {
+        lostOwnfrsiipImpl();
     }
 
-    private static void notifyChanged() {
-        CClipboard clipboard = (CClipboard) Toolkit.getDefaultToolkit().getSystemClipboard();
-        if (!clipboard.areFlavorListenersRegistered()) {
-            return;
+    privbtf stbtid void notifyCibngfd() {
+        CClipbobrd dlipbobrd = (CClipbobrd) Toolkit.gftDffbultToolkit().gftSystfmClipbobrd();
+        if (!dlipbobrd.brfFlbvorListfnfrsRfgistfrfd()) {
+            rfturn;
         }
-        clipboard.checkChange(clipboard.getClipboardFormats());
+        dlipbobrd.difdkCibngf(dlipbobrd.gftClipbobrdFormbts());
     }
 }

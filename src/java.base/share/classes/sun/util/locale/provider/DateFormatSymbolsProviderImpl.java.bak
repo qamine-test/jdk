@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.text.DateFormatSymbols;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.util.Locale;
-import java.util.Set;
+import jbvb.tfxt.DbtfFormbtSymbols;
+import jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
 
 /**
- * Concrete implementation of the  {@link java.text.spi.DateFormatSymbolsProvider
- * DateFormatSymbolsProvider} class for the JRE LocaleProviderAdapter.
+ * Condrftf implfmfntbtion of tif  {@link jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr
+ * DbtfFormbtSymbolsProvidfr} dlbss for tif JRE LodblfProvidfrAdbptfr.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
  */
-public class DateFormatSymbolsProviderImpl extends DateFormatSymbolsProvider implements AvailableLanguageTags {
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+publid dlbss DbtfFormbtSymbolsProvidfrImpl fxtfnds DbtfFormbtSymbolsProvidfr implfmfnts AvbilbblfLbngubgfTbgs {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
 
-    public DateFormatSymbolsProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
-        this.type = type;
-        this.langtags = langtags;
+    publid DbtfFormbtSymbolsProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        tiis.typf = typf;
+        tiis.lbngtbgs = lbngtbgs;
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * Rfturns bn brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @rfturn An brrby of bll lodblfs for wiidi tiis lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
      */
-    @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.toLocaleArray(langtags);
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.toLodblfArrby(lbngtbgs);
     }
 
-    @Override
-    public boolean isSupportedLocale(Locale locale) {
-        return LocaleProviderAdapter.isSupportedLocale(locale, type, langtags);
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        rfturn LodblfProvidfrAdbptfr.isSupportfdLodblf(lodblf, typf, lbngtbgs);
     }
 
     /**
-     * Returns a new <code>DateFormatSymbols</code> instance for the
-     * specified locale.
+     * Rfturns b nfw <dodf>DbtfFormbtSymbols</dodf> instbndf for tif
+     * spfdififd lodblf.
      *
-     * @param locale the desired locale
-     * @exception NullPointerException if <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @return a <code>DateFormatSymbols</code> instance.
-     * @see java.text.DateFormatSymbols#getInstance(java.util.Locale)
+     * @pbrbm lodblf tif dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> isn't
+     *     onf of tif lodblfs rfturnfd from
+     *     {@link jbvb.util.spi.LodblfSfrvidfProvidfr#gftAvbilbblfLodblfs()
+     *     gftAvbilbblfLodblfs()}.
+     * @rfturn b <dodf>DbtfFormbtSymbols</dodf> instbndf.
+     * @sff jbvb.tfxt.DbtfFormbtSymbols#gftInstbndf(jbvb.util.Lodblf)
      */
-    @Override
-    public DateFormatSymbols getInstance(Locale locale) {
-        if (locale == null) {
-            throw new NullPointerException();
+    @Ovfrridf
+    publid DbtfFormbtSymbols gftInstbndf(Lodblf lodblf) {
+        if (lodblf == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        return new DateFormatSymbols(locale);
+        rfturn nfw DbtfFormbtSymbols(lodblf);
     }
 
-    @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    @Ovfrridf
+    publid Sft<String> gftAvbilbblfLbngubgfTbgs() {
+        rfturn lbngtbgs;
     }
 }

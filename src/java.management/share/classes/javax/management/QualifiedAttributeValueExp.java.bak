@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * <p>Represents attributes used as arguments to relational constraints,
- * where the attribute must be in an MBean of a specified {@linkplain
- * MBeanInfo#getClassName() class}. A QualifiedAttributeValueExp may be used
- * anywhere a ValueExp is required.
+ * <p>Rfprfsfnts bttributfs usfd bs brgumfnts to rflbtionbl donstrbints,
+ * wifrf tif bttributf must bf in bn MBfbn of b spfdififd {@linkplbin
+ * MBfbnInfo#gftClbssNbmf() dlbss}. A QublififdAttributfVblufExp mby bf usfd
+ * bnywifrf b VblufExp is rfquirfd.
  *
- * @serial include
+ * @sfribl indludf
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class QualifiedAttributeValueExp extends AttributeValueExp   {
+dlbss QublififdAttributfVblufExp fxtfnds AttributfVblufExp   {
 
 
-    /* Serial version */
-    private static final long serialVersionUID = 8832517277410933254L;
-
-    /**
-     * @serial The attribute class name
-     */
-    private String className;
-
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8832517277410933254L;
 
     /**
-     * Basic Constructor.
-     * @deprecated see {@link AttributeValueExp#AttributeValueExp()}
+     * @sfribl Tif bttributf dlbss nbmf
      */
-    @Deprecated
-    public QualifiedAttributeValueExp() {
+    privbtf String dlbssNbmf;
+
+
+    /**
+     * Bbsid Construdtor.
+     * @dfprfdbtfd sff {@link AttributfVblufExp#AttributfVblufExp()}
+     */
+    @Dfprfdbtfd
+    publid QublififdAttributfVblufExp() {
     }
 
     /**
-     * Creates a new QualifiedAttributeValueExp representing the specified object
-     * attribute, named attr with class name className.
+     * Crfbtfs b nfw QublififdAttributfVblufExp rfprfsfnting tif spfdififd objfdt
+     * bttributf, nbmfd bttr witi dlbss nbmf dlbssNbmf.
      */
-    public QualifiedAttributeValueExp(String className, String attr) {
-        super(attr);
-        this.className = className;
+    publid QublififdAttributfVblufExp(String dlbssNbmf, String bttr) {
+        supfr(bttr);
+        tiis.dlbssNbmf = dlbssNbmf;
     }
 
 
     /**
-     * Returns a string representation of the class name of the attribute.
+     * Rfturns b string rfprfsfntbtion of tif dlbss nbmf of tif bttributf.
      */
-    public String getAttrClassName()  {
-        return className;
+    publid String gftAttrClbssNbmf()  {
+        rfturn dlbssNbmf;
     }
 
     /**
-     * Applies the QualifiedAttributeValueExp to an MBean.
+     * Applifs tif QublififdAttributfVblufExp to bn MBfbn.
      *
-     * @param name The name of the MBean on which the QualifiedAttributeValueExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif QublififdAttributfVblufExp will bf bpplifd.
      *
-     * @return  The ValueExp.
+     * @rfturn  Tif VblufExp.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    @Override
-    public ValueExp apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
+    @Ovfrridf
+    publid VblufExp bpply(ObjfdtNbmf nbmf) tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
         try {
-            MBeanServer server = QueryEval.getMBeanServer();
-            String v = server.getObjectInstance(name).getClassName();
+            MBfbnSfrvfr sfrvfr = QufryEvbl.gftMBfbnSfrvfr();
+            String v = sfrvfr.gftObjfdtInstbndf(nbmf).gftClbssNbmf();
 
-            if (v.equals(className)) {
-                return super.apply(name);
+            if (v.fqubls(dlbssNbmf)) {
+                rfturn supfr.bpply(nbmf);
             }
-            throw new InvalidApplicationException("Class name is " + v +
-                                                  ", should be " + className);
+            tirow nfw InvblidApplidbtionExdfption("Clbss nbmf is " + v +
+                                                  ", siould bf " + dlbssNbmf);
 
-        } catch (Exception e) {
-            throw new InvalidApplicationException("Qualified attribute: " + e);
-            /* Can happen if MBean disappears between the time we
-               construct the list of MBeans to query and the time we
-               evaluate the query on this MBean, or if
-               getObjectInstance throws SecurityException.  */
+        } dbtdi (Exdfption f) {
+            tirow nfw InvblidApplidbtionExdfption("Qublififd bttributf: " + f);
+            /* Cbn ibppfn if MBfbn disbppfbrs bftwffn tif timf wf
+               donstrudt tif list of MBfbns to qufry bnd tif timf wf
+               fvblubtf tif qufry on tiis MBfbn, or if
+               gftObjfdtInstbndf tirows SfdurityExdfption.  */
         }
     }
 
     /**
-     * Returns the string representing its value
+     * Rfturns tif string rfprfsfnting its vbluf
      */
-    @Override
-    public String toString()  {
-        if (className != null) {
-            return className + "." + super.toString();
-        } else {
-            return super.toString();
+    @Ovfrridf
+    publid String toString()  {
+        if (dlbssNbmf != null) {
+            rfturn dlbssNbmf + "." + supfr.toString();
+        } flsf {
+            rfturn supfr.toString();
         }
     }
 

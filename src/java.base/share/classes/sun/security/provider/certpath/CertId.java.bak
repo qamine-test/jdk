@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import javax.security.auth.x500.X500Principal;
-import sun.misc.HexDumpEncoder;
-import sun.security.x509.*;
-import sun.security.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Arrbys;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.x509.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class corresponds to the CertId field in OCSP Request
- * and the OCSP Response. The ASN.1 definition for CertID is defined
- * in RFC 2560 as:
- * <pre>
+ * Tiis dlbss dorrfsponds to tif CfrtId fifld in OCSP Rfqufst
+ * bnd tif OCSP Rfsponsf. Tif ASN.1 dffinition for CfrtID is dffinfd
+ * in RFC 2560 bs:
+ * <prf>
  *
- * CertID          ::=     SEQUENCE {
- *      hashAlgorithm       AlgorithmIdentifier,
- *      issuerNameHash      OCTET STRING, -- Hash of Issuer's DN
- *      issuerKeyHash       OCTET STRING, -- Hash of Issuers public key
- *      serialNumber        CertificateSerialNumber
+ * CfrtID          ::=     SEQUENCE {
+ *      ibsiAlgoritim       AlgoritimIdfntififr,
+ *      issufrNbmfHbsi      OCTET STRING, -- Hbsi of Issufr's DN
+ *      issufrKfyHbsi       OCTET STRING, -- Hbsi of Issufrs publid kfy
+ *      sfriblNumbfr        CfrtifidbtfSfriblNumbfr
  *      }
  *
- * </pre>
+ * </prf>
  *
- * @author      Ram Marti
+ * @butior      Rbm Mbrti
  */
 
-public class CertId {
+publid dlbss CfrtId {
 
-    private static final boolean debug = false;
-    private static final AlgorithmId SHA1_ALGID
-        = new AlgorithmId(AlgorithmId.SHA_oid);
-    private final AlgorithmId hashAlgId;
-    private final byte[] issuerNameHash;
-    private final byte[] issuerKeyHash;
-    private final SerialNumber certSerialNumber;
-    private int myhash = -1; // hashcode for this CertId
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+    privbtf stbtid finbl AlgoritimId SHA1_ALGID
+        = nfw AlgoritimId(AlgoritimId.SHA_oid);
+    privbtf finbl AlgoritimId ibsiAlgId;
+    privbtf finbl bytf[] issufrNbmfHbsi;
+    privbtf finbl bytf[] issufrKfyHbsi;
+    privbtf finbl SfriblNumbfr dfrtSfriblNumbfr;
+    privbtf int myibsi = -1; // ibsidodf for tiis CfrtId
 
     /**
-     * Creates a CertId. The hash algorithm used is SHA-1.
+     * Crfbtfs b CfrtId. Tif ibsi blgoritim usfd is SHA-1.
      */
-    public CertId(X509Certificate issuerCert, SerialNumber serialNumber)
-        throws IOException {
+    publid CfrtId(X509Cfrtifidbtf issufrCfrt, SfriblNumbfr sfriblNumbfr)
+        tirows IOExdfption {
 
-        this(issuerCert.getSubjectX500Principal(),
-             issuerCert.getPublicKey(), serialNumber);
+        tiis(issufrCfrt.gftSubjfdtX500Prindipbl(),
+             issufrCfrt.gftPublidKfy(), sfriblNumbfr);
     }
 
-    public CertId(X500Principal issuerName, PublicKey issuerKey,
-                  SerialNumber serialNumber) throws IOException {
+    publid CfrtId(X500Prindipbl issufrNbmf, PublidKfy issufrKfy,
+                  SfriblNumbfr sfriblNumbfr) tirows IOExdfption {
 
-        // compute issuerNameHash
-        MessageDigest md = null;
+        // domputf issufrNbmfHbsi
+        MfssbgfDigfst md = null;
         try {
-            md = MessageDigest.getInstance("SHA1");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new IOException("Unable to create CertId", nsae);
+            md = MfssbgfDigfst.gftInstbndf("SHA1");
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw IOExdfption("Unbblf to drfbtf CfrtId", nsbf);
         }
-        hashAlgId = SHA1_ALGID;
-        md.update(issuerName.getEncoded());
-        issuerNameHash = md.digest();
+        ibsiAlgId = SHA1_ALGID;
+        md.updbtf(issufrNbmf.gftEndodfd());
+        issufrNbmfHbsi = md.digfst();
 
-        // compute issuerKeyHash (remove the tag and length)
-        byte[] pubKey = issuerKey.getEncoded();
-        DerValue val = new DerValue(pubKey);
-        DerValue[] seq = new DerValue[2];
-        seq[0] = val.data.getDerValue(); // AlgorithmID
-        seq[1] = val.data.getDerValue(); // Key
-        byte[] keyBytes = seq[1].getBitString();
-        md.update(keyBytes);
-        issuerKeyHash = md.digest();
-        certSerialNumber = serialNumber;
+        // domputf issufrKfyHbsi (rfmovf tif tbg bnd lfngti)
+        bytf[] pubKfy = issufrKfy.gftEndodfd();
+        DfrVbluf vbl = nfw DfrVbluf(pubKfy);
+        DfrVbluf[] sfq = nfw DfrVbluf[2];
+        sfq[0] = vbl.dbtb.gftDfrVbluf(); // AlgoritimID
+        sfq[1] = vbl.dbtb.gftDfrVbluf(); // Kfy
+        bytf[] kfyBytfs = sfq[1].gftBitString();
+        md.updbtf(kfyBytfs);
+        issufrKfyHbsi = md.digfst();
+        dfrtSfriblNumbfr = sfriblNumbfr;
 
-        if (debug) {
-            HexDumpEncoder encoder = new HexDumpEncoder();
-            System.out.println("Issuer Name is " + issuerName);
-            System.out.println("issuerNameHash is " +
-                encoder.encodeBuffer(issuerNameHash));
-            System.out.println("issuerKeyHash is " +
-                encoder.encodeBuffer(issuerKeyHash));
-            System.out.println("SerialNumber is " + serialNumber.getNumber());
+        if (dfbug) {
+            HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+            Systfm.out.println("Issufr Nbmf is " + issufrNbmf);
+            Systfm.out.println("issufrNbmfHbsi is " +
+                fndodfr.fndodfBufffr(issufrNbmfHbsi));
+            Systfm.out.println("issufrKfyHbsi is " +
+                fndodfr.fndodfBufffr(issufrKfyHbsi));
+            Systfm.out.println("SfriblNumbfr is " + sfriblNumbfr.gftNumbfr());
         }
     }
 
     /**
-     * Creates a CertId from its ASN.1 DER encoding.
+     * Crfbtfs b CfrtId from its ASN.1 DER fndoding.
      */
-    public CertId(DerInputStream derIn) throws IOException {
-        hashAlgId = AlgorithmId.parse(derIn.getDerValue());
-        issuerNameHash = derIn.getOctetString();
-        issuerKeyHash = derIn.getOctetString();
-        certSerialNumber = new SerialNumber(derIn);
+    publid CfrtId(DfrInputStrfbm dfrIn) tirows IOExdfption {
+        ibsiAlgId = AlgoritimId.pbrsf(dfrIn.gftDfrVbluf());
+        issufrNbmfHbsi = dfrIn.gftOdtftString();
+        issufrKfyHbsi = dfrIn.gftOdtftString();
+        dfrtSfriblNumbfr = nfw SfriblNumbfr(dfrIn);
     }
 
     /**
-     * Return the hash algorithm identifier.
+     * Rfturn tif ibsi blgoritim idfntififr.
      */
-    public AlgorithmId getHashAlgorithm() {
-        return hashAlgId;
+    publid AlgoritimId gftHbsiAlgoritim() {
+        rfturn ibsiAlgId;
     }
 
     /**
-     * Return the hash value for the issuer name.
+     * Rfturn tif ibsi vbluf for tif issufr nbmf.
      */
-    public byte[] getIssuerNameHash() {
-        return issuerNameHash;
+    publid bytf[] gftIssufrNbmfHbsi() {
+        rfturn issufrNbmfHbsi;
     }
 
     /**
-     * Return the hash value for the issuer key.
+     * Rfturn tif ibsi vbluf for tif issufr kfy.
      */
-    public byte[] getIssuerKeyHash() {
-        return issuerKeyHash;
+    publid bytf[] gftIssufrKfyHbsi() {
+        rfturn issufrKfyHbsi;
     }
 
     /**
-     * Return the serial number.
+     * Rfturn tif sfribl numbfr.
      */
-    public BigInteger getSerialNumber() {
-        return certSerialNumber.getNumber();
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn dfrtSfriblNumbfr.gftNumbfr();
     }
 
     /**
-     * Encode the CertId using ASN.1 DER.
-     * The hash algorithm used is SHA-1.
+     * Endodf tif CfrtId using ASN.1 DER.
+     * Tif ibsi blgoritim usfd is SHA-1.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
 
-        DerOutputStream tmp = new DerOutputStream();
-        hashAlgId.encode(tmp);
-        tmp.putOctetString(issuerNameHash);
-        tmp.putOctetString(issuerKeyHash);
-        certSerialNumber.encode(tmp);
-        out.write(DerValue.tag_Sequence, tmp);
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        ibsiAlgId.fndodf(tmp);
+        tmp.putOdtftString(issufrNbmfHbsi);
+        tmp.putOdtftString(issufrKfyHbsi);
+        dfrtSfriblNumbfr.fndodf(tmp);
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
 
-        if (debug) {
-            HexDumpEncoder encoder = new HexDumpEncoder();
-            System.out.println("Encoded certId is " +
-                encoder.encode(out.toByteArray()));
+        if (dfbug) {
+            HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+            Systfm.out.println("Endodfd dfrtId is " +
+                fndodfr.fndodf(out.toBytfArrby()));
         }
     }
 
    /**
-     * Returns a hashcode value for this CertId.
+     * Rfturns b ibsidodf vbluf for tiis CfrtId.
      *
-     * @return the hashcode value.
+     * @rfturn tif ibsidodf vbluf.
      */
-    @Override public int hashCode() {
-        if (myhash == -1) {
-            myhash = hashAlgId.hashCode();
-            for (int i = 0; i < issuerNameHash.length; i++) {
-                myhash += issuerNameHash[i] * i;
+    @Ovfrridf publid int ibsiCodf() {
+        if (myibsi == -1) {
+            myibsi = ibsiAlgId.ibsiCodf();
+            for (int i = 0; i < issufrNbmfHbsi.lfngti; i++) {
+                myibsi += issufrNbmfHbsi[i] * i;
             }
-            for (int i = 0; i < issuerKeyHash.length; i++) {
-                myhash += issuerKeyHash[i] * i;
+            for (int i = 0; i < issufrKfyHbsi.lfngti; i++) {
+                myibsi += issufrKfyHbsi[i] * i;
             }
-            myhash += certSerialNumber.getNumber().hashCode();
+            myibsi += dfrtSfriblNumbfr.gftNumbfr().ibsiCodf();
         }
-        return myhash;
+        rfturn myibsi;
     }
 
     /**
-     * Compares this CertId for equality with the specified
-     * object. Two CertId objects are considered equal if their hash algorithms,
-     * their issuer name and issuer key hash values and their serial numbers
-     * are equal.
+     * Compbrfs tiis CfrtId for fqublity witi tif spfdififd
+     * objfdt. Two CfrtId objfdts brf donsidfrfd fqubl if tifir ibsi blgoritims,
+     * tifir issufr nbmf bnd issufr kfy ibsi vblufs bnd tifir sfribl numbfrs
+     * brf fqubl.
      *
-     * @param other the object to test for equality with this object.
-     * @return true if the objects are considered equal, false otherwise.
+     * @pbrbm otifr tif objfdt to tfst for fqublity witi tiis objfdt.
+     * @rfturn truf if tif objfdts brf donsidfrfd fqubl, fblsf otifrwisf.
      */
-    @Override public boolean equals(Object other) {
-        if (this == other) {
-            return true;
+    @Ovfrridf publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
-        if (other == null || (!(other instanceof CertId))) {
-            return false;
+        if (otifr == null || (!(otifr instbndfof CfrtId))) {
+            rfturn fblsf;
         }
 
-        CertId that = (CertId) other;
-        if (hashAlgId.equals(that.getHashAlgorithm()) &&
-            Arrays.equals(issuerNameHash, that.getIssuerNameHash()) &&
-            Arrays.equals(issuerKeyHash, that.getIssuerKeyHash()) &&
-            certSerialNumber.getNumber().equals(that.getSerialNumber())) {
-            return true;
-        } else {
-            return false;
+        CfrtId tibt = (CfrtId) otifr;
+        if (ibsiAlgId.fqubls(tibt.gftHbsiAlgoritim()) &&
+            Arrbys.fqubls(issufrNbmfHbsi, tibt.gftIssufrNbmfHbsi()) &&
+            Arrbys.fqubls(issufrKfyHbsi, tibt.gftIssufrKfyHbsi()) &&
+            dfrtSfriblNumbfr.gftNumbfr().fqubls(tibt.gftSfriblNumbfr())) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Create a string representation of the CertId.
+     * Crfbtf b string rfprfsfntbtion of tif CfrtId.
      */
-    @Override public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CertId \n");
-        sb.append("Algorithm: " + hashAlgId.toString() +"\n");
-        sb.append("issuerNameHash \n");
-        HexDumpEncoder encoder = new HexDumpEncoder();
-        sb.append(encoder.encode(issuerNameHash));
-        sb.append("\nissuerKeyHash: \n");
-        sb.append(encoder.encode(issuerKeyHash));
-        sb.append("\n" +  certSerialNumber.toString());
-        return sb.toString();
+    @Ovfrridf publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("CfrtId \n");
+        sb.bppfnd("Algoritim: " + ibsiAlgId.toString() +"\n");
+        sb.bppfnd("issufrNbmfHbsi \n");
+        HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+        sb.bppfnd(fndodfr.fndodf(issufrNbmfHbsi));
+        sb.bppfnd("\nissufrKfyHbsi: \n");
+        sb.bppfnd(fndodfr.fndodf(issufrKfyHbsi));
+        sb.bppfnd("\n" +  dfrtSfriblNumbfr.toString());
+        rfturn sb.toString();
     }
 }

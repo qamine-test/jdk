@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,517 +56,517 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
 /**
- * A {@link ClassVisitor} that generates classes in bytecode form. More
- * precisely this visitor generates a byte array conforming to the Java class
- * file format. It can be used alone, to generate a Java class "from scratch",
- * or with one or more {@link ClassReader ClassReader} and adapter class visitor
- * to generate a modified class from one or more existing Java classes.
+ * A {@link ClbssVisitor} tibt gfnfrbtfs dlbssfs in bytfdodf form. Morf
+ * prfdisfly tiis visitor gfnfrbtfs b bytf brrby donforming to tif Jbvb dlbss
+ * filf formbt. It dbn bf usfd blonf, to gfnfrbtf b Jbvb dlbss "from sdrbtdi",
+ * or witi onf or morf {@link ClbssRfbdfr ClbssRfbdfr} bnd bdbptfr dlbss visitor
+ * to gfnfrbtf b modififd dlbss from onf or morf fxisting Jbvb dlbssfs.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class ClassWriter extends ClassVisitor {
+publid dlbss ClbssWritfr fxtfnds ClbssVisitor {
 
     /**
-     * Flag to automatically compute the maximum stack size and the maximum
-     * number of local variables of methods. If this flag is set, then the
-     * arguments of the {@link MethodVisitor#visitMaxs visitMaxs} method of the
-     * {@link MethodVisitor} returned by the {@link #visitMethod visitMethod}
-     * method will be ignored, and computed automatically from the signature and
-     * the bytecode of each method.
+     * Flbg to butombtidblly domputf tif mbximum stbdk sizf bnd tif mbximum
+     * numbfr of lodbl vbribblfs of mftiods. If tiis flbg is sft, tifn tif
+     * brgumfnts of tif {@link MftiodVisitor#visitMbxs visitMbxs} mftiod of tif
+     * {@link MftiodVisitor} rfturnfd by tif {@link #visitMftiod visitMftiod}
+     * mftiod will bf ignorfd, bnd domputfd butombtidblly from tif signbturf bnd
+     * tif bytfdodf of fbdi mftiod.
      *
-     * @see #ClassWriter(int)
+     * @sff #ClbssWritfr(int)
      */
-    public static final int COMPUTE_MAXS = 1;
+    publid stbtid finbl int COMPUTE_MAXS = 1;
 
     /**
-     * Flag to automatically compute the stack map frames of methods from
-     * scratch. If this flag is set, then the calls to the
-     * {@link MethodVisitor#visitFrame} method are ignored, and the stack map
-     * frames are recomputed from the methods bytecode. The arguments of the
-     * {@link MethodVisitor#visitMaxs visitMaxs} method are also ignored and
-     * recomputed from the bytecode. In other words, computeFrames implies
-     * computeMaxs.
+     * Flbg to butombtidblly domputf tif stbdk mbp frbmfs of mftiods from
+     * sdrbtdi. If tiis flbg is sft, tifn tif dblls to tif
+     * {@link MftiodVisitor#visitFrbmf} mftiod brf ignorfd, bnd tif stbdk mbp
+     * frbmfs brf rfdomputfd from tif mftiods bytfdodf. Tif brgumfnts of tif
+     * {@link MftiodVisitor#visitMbxs visitMbxs} mftiod brf blso ignorfd bnd
+     * rfdomputfd from tif bytfdodf. In otifr words, domputfFrbmfs implifs
+     * domputfMbxs.
      *
-     * @see #ClassWriter(int)
+     * @sff #ClbssWritfr(int)
      */
-    public static final int COMPUTE_FRAMES = 2;
+    publid stbtid finbl int COMPUTE_FRAMES = 2;
 
     /**
-     * Pseudo access flag to distinguish between the synthetic attribute and the
-     * synthetic access flag.
+     * Psfudo bddfss flbg to distinguisi bftwffn tif syntiftid bttributf bnd tif
+     * syntiftid bddfss flbg.
      */
-    static final int ACC_SYNTHETIC_ATTRIBUTE = 0x40000;
+    stbtid finbl int ACC_SYNTHETIC_ATTRIBUTE = 0x40000;
 
     /**
-     * Factor to convert from ACC_SYNTHETIC_ATTRIBUTE to Opcode.ACC_SYNTHETIC.
+     * Fbdtor to donvfrt from ACC_SYNTHETIC_ATTRIBUTE to Opdodf.ACC_SYNTHETIC.
      */
-    static final int TO_ACC_SYNTHETIC = ACC_SYNTHETIC_ATTRIBUTE
-            / Opcodes.ACC_SYNTHETIC;
+    stbtid finbl int TO_ACC_SYNTHETIC = ACC_SYNTHETIC_ATTRIBUTE
+            / Opdodfs.ACC_SYNTHETIC;
 
     /**
-     * The type of instructions without any argument.
+     * Tif typf of instrudtions witiout bny brgumfnt.
      */
-    static final int NOARG_INSN = 0;
+    stbtid finbl int NOARG_INSN = 0;
 
     /**
-     * The type of instructions with an signed byte argument.
+     * Tif typf of instrudtions witi bn signfd bytf brgumfnt.
      */
-    static final int SBYTE_INSN = 1;
+    stbtid finbl int SBYTE_INSN = 1;
 
     /**
-     * The type of instructions with an signed short argument.
+     * Tif typf of instrudtions witi bn signfd siort brgumfnt.
      */
-    static final int SHORT_INSN = 2;
+    stbtid finbl int SHORT_INSN = 2;
 
     /**
-     * The type of instructions with a local variable index argument.
+     * Tif typf of instrudtions witi b lodbl vbribblf indfx brgumfnt.
      */
-    static final int VAR_INSN = 3;
+    stbtid finbl int VAR_INSN = 3;
 
     /**
-     * The type of instructions with an implicit local variable index argument.
+     * Tif typf of instrudtions witi bn implidit lodbl vbribblf indfx brgumfnt.
      */
-    static final int IMPLVAR_INSN = 4;
+    stbtid finbl int IMPLVAR_INSN = 4;
 
     /**
-     * The type of instructions with a type descriptor argument.
+     * Tif typf of instrudtions witi b typf dfsdriptor brgumfnt.
      */
-    static final int TYPE_INSN = 5;
+    stbtid finbl int TYPE_INSN = 5;
 
     /**
-     * The type of field and method invocations instructions.
+     * Tif typf of fifld bnd mftiod invodbtions instrudtions.
      */
-    static final int FIELDORMETH_INSN = 6;
+    stbtid finbl int FIELDORMETH_INSN = 6;
 
     /**
-     * The type of the INVOKEINTERFACE/INVOKEDYNAMIC instruction.
+     * Tif typf of tif INVOKEINTERFACE/INVOKEDYNAMIC instrudtion.
      */
-    static final int ITFMETH_INSN = 7;
+    stbtid finbl int ITFMETH_INSN = 7;
 
     /**
-     * The type of the INVOKEDYNAMIC instruction.
+     * Tif typf of tif INVOKEDYNAMIC instrudtion.
      */
-    static final int INDYMETH_INSN = 8;
+    stbtid finbl int INDYMETH_INSN = 8;
 
     /**
-     * The type of instructions with a 2 bytes bytecode offset label.
+     * Tif typf of instrudtions witi b 2 bytfs bytfdodf offsft lbbfl.
      */
-    static final int LABEL_INSN = 9;
+    stbtid finbl int LABEL_INSN = 9;
 
     /**
-     * The type of instructions with a 4 bytes bytecode offset label.
+     * Tif typf of instrudtions witi b 4 bytfs bytfdodf offsft lbbfl.
      */
-    static final int LABELW_INSN = 10;
+    stbtid finbl int LABELW_INSN = 10;
 
     /**
-     * The type of the LDC instruction.
+     * Tif typf of tif LDC instrudtion.
      */
-    static final int LDC_INSN = 11;
+    stbtid finbl int LDC_INSN = 11;
 
     /**
-     * The type of the LDC_W and LDC2_W instructions.
+     * Tif typf of tif LDC_W bnd LDC2_W instrudtions.
      */
-    static final int LDCW_INSN = 12;
+    stbtid finbl int LDCW_INSN = 12;
 
     /**
-     * The type of the IINC instruction.
+     * Tif typf of tif IINC instrudtion.
      */
-    static final int IINC_INSN = 13;
+    stbtid finbl int IINC_INSN = 13;
 
     /**
-     * The type of the TABLESWITCH instruction.
+     * Tif typf of tif TABLESWITCH instrudtion.
      */
-    static final int TABL_INSN = 14;
+    stbtid finbl int TABL_INSN = 14;
 
     /**
-     * The type of the LOOKUPSWITCH instruction.
+     * Tif typf of tif LOOKUPSWITCH instrudtion.
      */
-    static final int LOOK_INSN = 15;
+    stbtid finbl int LOOK_INSN = 15;
 
     /**
-     * The type of the MULTIANEWARRAY instruction.
+     * Tif typf of tif MULTIANEWARRAY instrudtion.
      */
-    static final int MANA_INSN = 16;
+    stbtid finbl int MANA_INSN = 16;
 
     /**
-     * The type of the WIDE instruction.
+     * Tif typf of tif WIDE instrudtion.
      */
-    static final int WIDE_INSN = 17;
+    stbtid finbl int WIDE_INSN = 17;
 
     /**
-     * The instruction types of all JVM opcodes.
+     * Tif instrudtion typfs of bll JVM opdodfs.
      */
-    static final byte[] TYPE;
+    stbtid finbl bytf[] TYPE;
 
     /**
-     * The type of CONSTANT_Class constant pool items.
+     * Tif typf of CONSTANT_Clbss donstbnt pool itfms.
      */
-    static final int CLASS = 7;
+    stbtid finbl int CLASS = 7;
 
     /**
-     * The type of CONSTANT_Fieldref constant pool items.
+     * Tif typf of CONSTANT_Fifldrff donstbnt pool itfms.
      */
-    static final int FIELD = 9;
+    stbtid finbl int FIELD = 9;
 
     /**
-     * The type of CONSTANT_Methodref constant pool items.
+     * Tif typf of CONSTANT_Mftiodrff donstbnt pool itfms.
      */
-    static final int METH = 10;
+    stbtid finbl int METH = 10;
 
     /**
-     * The type of CONSTANT_InterfaceMethodref constant pool items.
+     * Tif typf of CONSTANT_IntfrfbdfMftiodrff donstbnt pool itfms.
      */
-    static final int IMETH = 11;
+    stbtid finbl int IMETH = 11;
 
     /**
-     * The type of CONSTANT_String constant pool items.
+     * Tif typf of CONSTANT_String donstbnt pool itfms.
      */
-    static final int STR = 8;
+    stbtid finbl int STR = 8;
 
     /**
-     * The type of CONSTANT_Integer constant pool items.
+     * Tif typf of CONSTANT_Intfgfr donstbnt pool itfms.
      */
-    static final int INT = 3;
+    stbtid finbl int INT = 3;
 
     /**
-     * The type of CONSTANT_Float constant pool items.
+     * Tif typf of CONSTANT_Flobt donstbnt pool itfms.
      */
-    static final int FLOAT = 4;
+    stbtid finbl int FLOAT = 4;
 
     /**
-     * The type of CONSTANT_Long constant pool items.
+     * Tif typf of CONSTANT_Long donstbnt pool itfms.
      */
-    static final int LONG = 5;
+    stbtid finbl int LONG = 5;
 
     /**
-     * The type of CONSTANT_Double constant pool items.
+     * Tif typf of CONSTANT_Doublf donstbnt pool itfms.
      */
-    static final int DOUBLE = 6;
+    stbtid finbl int DOUBLE = 6;
 
     /**
-     * The type of CONSTANT_NameAndType constant pool items.
+     * Tif typf of CONSTANT_NbmfAndTypf donstbnt pool itfms.
      */
-    static final int NAME_TYPE = 12;
+    stbtid finbl int NAME_TYPE = 12;
 
     /**
-     * The type of CONSTANT_Utf8 constant pool items.
+     * Tif typf of CONSTANT_Utf8 donstbnt pool itfms.
      */
-    static final int UTF8 = 1;
+    stbtid finbl int UTF8 = 1;
 
     /**
-     * The type of CONSTANT_MethodType constant pool items.
+     * Tif typf of CONSTANT_MftiodTypf donstbnt pool itfms.
      */
-    static final int MTYPE = 16;
+    stbtid finbl int MTYPE = 16;
 
     /**
-     * The type of CONSTANT_MethodHandle constant pool items.
+     * Tif typf of CONSTANT_MftiodHbndlf donstbnt pool itfms.
      */
-    static final int HANDLE = 15;
+    stbtid finbl int HANDLE = 15;
 
     /**
-     * The type of CONSTANT_InvokeDynamic constant pool items.
+     * Tif typf of CONSTANT_InvokfDynbmid donstbnt pool itfms.
      */
-    static final int INDY = 18;
+    stbtid finbl int INDY = 18;
 
     /**
-     * The base value for all CONSTANT_MethodHandle constant pool items.
-     * Internally, ASM store the 9 variations of CONSTANT_MethodHandle into 9
-     * different items.
+     * Tif bbsf vbluf for bll CONSTANT_MftiodHbndlf donstbnt pool itfms.
+     * Intfrnblly, ASM storf tif 9 vbribtions of CONSTANT_MftiodHbndlf into 9
+     * difffrfnt itfms.
      */
-    static final int HANDLE_BASE = 20;
+    stbtid finbl int HANDLE_BASE = 20;
 
     /**
-     * Normal type Item stored in the ClassWriter {@link ClassWriter#typeTable},
-     * instead of the constant pool, in order to avoid clashes with normal
-     * constant pool items in the ClassWriter constant pool's hash table.
+     * Normbl typf Itfm storfd in tif ClbssWritfr {@link ClbssWritfr#typfTbblf},
+     * instfbd of tif donstbnt pool, in ordfr to bvoid dlbsifs witi normbl
+     * donstbnt pool itfms in tif ClbssWritfr donstbnt pool's ibsi tbblf.
      */
-    static final int TYPE_NORMAL = 30;
+    stbtid finbl int TYPE_NORMAL = 30;
 
     /**
-     * Uninitialized type Item stored in the ClassWriter
-     * {@link ClassWriter#typeTable}, instead of the constant pool, in order to
-     * avoid clashes with normal constant pool items in the ClassWriter constant
-     * pool's hash table.
+     * Uninitiblizfd typf Itfm storfd in tif ClbssWritfr
+     * {@link ClbssWritfr#typfTbblf}, instfbd of tif donstbnt pool, in ordfr to
+     * bvoid dlbsifs witi normbl donstbnt pool itfms in tif ClbssWritfr donstbnt
+     * pool's ibsi tbblf.
      */
-    static final int TYPE_UNINIT = 31;
+    stbtid finbl int TYPE_UNINIT = 31;
 
     /**
-     * Merged type Item stored in the ClassWriter {@link ClassWriter#typeTable},
-     * instead of the constant pool, in order to avoid clashes with normal
-     * constant pool items in the ClassWriter constant pool's hash table.
+     * Mfrgfd typf Itfm storfd in tif ClbssWritfr {@link ClbssWritfr#typfTbblf},
+     * instfbd of tif donstbnt pool, in ordfr to bvoid dlbsifs witi normbl
+     * donstbnt pool itfms in tif ClbssWritfr donstbnt pool's ibsi tbblf.
      */
-    static final int TYPE_MERGED = 32;
+    stbtid finbl int TYPE_MERGED = 32;
 
     /**
-     * The type of BootstrapMethods items. These items are stored in a special
-     * class attribute named BootstrapMethods and not in the constant pool.
+     * Tif typf of BootstrbpMftiods itfms. Tifsf itfms brf storfd in b spfdibl
+     * dlbss bttributf nbmfd BootstrbpMftiods bnd not in tif donstbnt pool.
      */
-    static final int BSM = 33;
+    stbtid finbl int BSM = 33;
 
     /**
-     * The class reader from which this class writer was constructed, if any.
+     * Tif dlbss rfbdfr from wiidi tiis dlbss writfr wbs donstrudtfd, if bny.
      */
-    ClassReader cr;
+    ClbssRfbdfr dr;
 
     /**
-     * Minor and major version numbers of the class to be generated.
+     * Minor bnd mbjor vfrsion numbfrs of tif dlbss to bf gfnfrbtfd.
      */
-    int version;
+    int vfrsion;
 
     /**
-     * Index of the next item to be added in the constant pool.
+     * Indfx of tif nfxt itfm to bf bddfd in tif donstbnt pool.
      */
-    int index;
+    int indfx;
 
     /**
-     * The constant pool of this class.
+     * Tif donstbnt pool of tiis dlbss.
      */
-    final ByteVector pool;
+    finbl BytfVfdtor pool;
 
     /**
-     * The constant pool's hash table data.
+     * Tif donstbnt pool's ibsi tbblf dbtb.
      */
-    Item[] items;
+    Itfm[] itfms;
 
     /**
-     * The threshold of the constant pool's hash table.
+     * Tif tirfsiold of tif donstbnt pool's ibsi tbblf.
      */
-    int threshold;
+    int tirfsiold;
 
     /**
-     * A reusable key used to look for items in the {@link #items} hash table.
+     * A rfusbblf kfy usfd to look for itfms in tif {@link #itfms} ibsi tbblf.
      */
-    final Item key;
+    finbl Itfm kfy;
 
     /**
-     * A reusable key used to look for items in the {@link #items} hash table.
+     * A rfusbblf kfy usfd to look for itfms in tif {@link #itfms} ibsi tbblf.
      */
-    final Item key2;
+    finbl Itfm kfy2;
 
     /**
-     * A reusable key used to look for items in the {@link #items} hash table.
+     * A rfusbblf kfy usfd to look for itfms in tif {@link #itfms} ibsi tbblf.
      */
-    final Item key3;
+    finbl Itfm kfy3;
 
     /**
-     * A reusable key used to look for items in the {@link #items} hash table.
+     * A rfusbblf kfy usfd to look for itfms in tif {@link #itfms} ibsi tbblf.
      */
-    final Item key4;
+    finbl Itfm kfy4;
 
     /**
-     * A type table used to temporarily store internal names that will not
-     * necessarily be stored in the constant pool. This type table is used by
-     * the control flow and data flow analysis algorithm used to compute stack
-     * map frames from scratch. This array associates to each index <tt>i</tt>
-     * the Item whose index is <tt>i</tt>. All Item objects stored in this array
-     * are also stored in the {@link #items} hash table. These two arrays allow
-     * to retrieve an Item from its index or, conversely, to get the index of an
-     * Item from its value. Each Item stores an internal name in its
-     * {@link Item#strVal1} field.
+     * A typf tbblf usfd to tfmporbrily storf intfrnbl nbmfs tibt will not
+     * nfdfssbrily bf storfd in tif donstbnt pool. Tiis typf tbblf is usfd by
+     * tif dontrol flow bnd dbtb flow bnblysis blgoritim usfd to domputf stbdk
+     * mbp frbmfs from sdrbtdi. Tiis brrby bssodibtfs to fbdi indfx <tt>i</tt>
+     * tif Itfm wiosf indfx is <tt>i</tt>. All Itfm objfdts storfd in tiis brrby
+     * brf blso storfd in tif {@link #itfms} ibsi tbblf. Tifsf two brrbys bllow
+     * to rftrifvf bn Itfm from its indfx or, donvfrsfly, to gft tif indfx of bn
+     * Itfm from its vbluf. Ebdi Itfm storfs bn intfrnbl nbmf in its
+     * {@link Itfm#strVbl1} fifld.
      */
-    Item[] typeTable;
+    Itfm[] typfTbblf;
 
     /**
-     * Number of elements in the {@link #typeTable} array.
+     * Numbfr of flfmfnts in tif {@link #typfTbblf} brrby.
      */
-    private short typeCount;
+    privbtf siort typfCount;
 
     /**
-     * The access flags of this class.
+     * Tif bddfss flbgs of tiis dlbss.
      */
-    private int access;
+    privbtf int bddfss;
 
     /**
-     * The constant pool item that contains the internal name of this class.
+     * Tif donstbnt pool itfm tibt dontbins tif intfrnbl nbmf of tiis dlbss.
      */
-    private int name;
+    privbtf int nbmf;
 
     /**
-     * The internal name of this class.
+     * Tif intfrnbl nbmf of tiis dlbss.
      */
-    String thisName;
+    String tiisNbmf;
 
     /**
-     * The constant pool item that contains the signature of this class.
+     * Tif donstbnt pool itfm tibt dontbins tif signbturf of tiis dlbss.
      */
-    private int signature;
+    privbtf int signbturf;
 
     /**
-     * The constant pool item that contains the internal name of the super class
-     * of this class.
+     * Tif donstbnt pool itfm tibt dontbins tif intfrnbl nbmf of tif supfr dlbss
+     * of tiis dlbss.
      */
-    private int superName;
+    privbtf int supfrNbmf;
 
     /**
-     * Number of interfaces implemented or extended by this class or interface.
+     * Numbfr of intfrfbdfs implfmfntfd or fxtfndfd by tiis dlbss or intfrfbdf.
      */
-    private int interfaceCount;
+    privbtf int intfrfbdfCount;
 
     /**
-     * The interfaces implemented or extended by this class or interface. More
-     * precisely, this array contains the indexes of the constant pool items
-     * that contain the internal names of these interfaces.
+     * Tif intfrfbdfs implfmfntfd or fxtfndfd by tiis dlbss or intfrfbdf. Morf
+     * prfdisfly, tiis brrby dontbins tif indfxfs of tif donstbnt pool itfms
+     * tibt dontbin tif intfrnbl nbmfs of tifsf intfrfbdfs.
      */
-    private int[] interfaces;
+    privbtf int[] intfrfbdfs;
 
     /**
-     * The index of the constant pool item that contains the name of the source
-     * file from which this class was compiled.
+     * Tif indfx of tif donstbnt pool itfm tibt dontbins tif nbmf of tif sourdf
+     * filf from wiidi tiis dlbss wbs dompilfd.
      */
-    private int sourceFile;
+    privbtf int sourdfFilf;
 
     /**
-     * The SourceDebug attribute of this class.
+     * Tif SourdfDfbug bttributf of tiis dlbss.
      */
-    private ByteVector sourceDebug;
+    privbtf BytfVfdtor sourdfDfbug;
 
     /**
-     * The constant pool item that contains the name of the enclosing class of
-     * this class.
+     * Tif donstbnt pool itfm tibt dontbins tif nbmf of tif fndlosing dlbss of
+     * tiis dlbss.
      */
-    private int enclosingMethodOwner;
+    privbtf int fndlosingMftiodOwnfr;
 
     /**
-     * The constant pool item that contains the name and descriptor of the
-     * enclosing method of this class.
+     * Tif donstbnt pool itfm tibt dontbins tif nbmf bnd dfsdriptor of tif
+     * fndlosing mftiod of tiis dlbss.
      */
-    private int enclosingMethod;
+    privbtf int fndlosingMftiod;
 
     /**
-     * The runtime visible annotations of this class.
+     * Tif runtimf visiblf bnnotbtions of tiis dlbss.
      */
-    private AnnotationWriter anns;
+    privbtf AnnotbtionWritfr bnns;
 
     /**
-     * The runtime invisible annotations of this class.
+     * Tif runtimf invisiblf bnnotbtions of tiis dlbss.
      */
-    private AnnotationWriter ianns;
+    privbtf AnnotbtionWritfr ibnns;
 
     /**
-     * The runtime visible type annotations of this class.
+     * Tif runtimf visiblf typf bnnotbtions of tiis dlbss.
      */
-    private AnnotationWriter tanns;
+    privbtf AnnotbtionWritfr tbnns;
 
     /**
-     * The runtime invisible type annotations of this class.
+     * Tif runtimf invisiblf typf bnnotbtions of tiis dlbss.
      */
-    private AnnotationWriter itanns;
+    privbtf AnnotbtionWritfr itbnns;
 
     /**
-     * The non standard attributes of this class.
+     * Tif non stbndbrd bttributfs of tiis dlbss.
      */
-    private Attribute attrs;
+    privbtf Attributf bttrs;
 
     /**
-     * The number of entries in the InnerClasses attribute.
+     * Tif numbfr of fntrifs in tif InnfrClbssfs bttributf.
      */
-    private int innerClassesCount;
+    privbtf int innfrClbssfsCount;
 
     /**
-     * The InnerClasses attribute.
+     * Tif InnfrClbssfs bttributf.
      */
-    private ByteVector innerClasses;
+    privbtf BytfVfdtor innfrClbssfs;
 
     /**
-     * The number of entries in the BootstrapMethods attribute.
+     * Tif numbfr of fntrifs in tif BootstrbpMftiods bttributf.
      */
-    int bootstrapMethodsCount;
+    int bootstrbpMftiodsCount;
 
     /**
-     * The BootstrapMethods attribute.
+     * Tif BootstrbpMftiods bttributf.
      */
-    ByteVector bootstrapMethods;
+    BytfVfdtor bootstrbpMftiods;
 
     /**
-     * The fields of this class. These fields are stored in a linked list of
-     * {@link FieldWriter} objects, linked to each other by their
-     * {@link FieldWriter#fv} field. This field stores the first element of this
+     * Tif fiflds of tiis dlbss. Tifsf fiflds brf storfd in b linkfd list of
+     * {@link FifldWritfr} objfdts, linkfd to fbdi otifr by tifir
+     * {@link FifldWritfr#fv} fifld. Tiis fifld storfs tif first flfmfnt of tiis
      * list.
      */
-    FieldWriter firstField;
+    FifldWritfr firstFifld;
 
     /**
-     * The fields of this class. These fields are stored in a linked list of
-     * {@link FieldWriter} objects, linked to each other by their
-     * {@link FieldWriter#fv} field. This field stores the last element of this
+     * Tif fiflds of tiis dlbss. Tifsf fiflds brf storfd in b linkfd list of
+     * {@link FifldWritfr} objfdts, linkfd to fbdi otifr by tifir
+     * {@link FifldWritfr#fv} fifld. Tiis fifld storfs tif lbst flfmfnt of tiis
      * list.
      */
-    FieldWriter lastField;
+    FifldWritfr lbstFifld;
 
     /**
-     * The methods of this class. These methods are stored in a linked list of
-     * {@link MethodWriter} objects, linked to each other by their
-     * {@link MethodWriter#mv} field. This field stores the first element of
-     * this list.
+     * Tif mftiods of tiis dlbss. Tifsf mftiods brf storfd in b linkfd list of
+     * {@link MftiodWritfr} objfdts, linkfd to fbdi otifr by tifir
+     * {@link MftiodWritfr#mv} fifld. Tiis fifld storfs tif first flfmfnt of
+     * tiis list.
      */
-    MethodWriter firstMethod;
+    MftiodWritfr firstMftiod;
 
     /**
-     * The methods of this class. These methods are stored in a linked list of
-     * {@link MethodWriter} objects, linked to each other by their
-     * {@link MethodWriter#mv} field. This field stores the last element of this
+     * Tif mftiods of tiis dlbss. Tifsf mftiods brf storfd in b linkfd list of
+     * {@link MftiodWritfr} objfdts, linkfd to fbdi otifr by tifir
+     * {@link MftiodWritfr#mv} fifld. Tiis fifld storfs tif lbst flfmfnt of tiis
      * list.
      */
-    MethodWriter lastMethod;
+    MftiodWritfr lbstMftiod;
 
     /**
-     * <tt>true</tt> if the maximum stack size and number of local variables
-     * must be automatically computed.
+     * <tt>truf</tt> if tif mbximum stbdk sizf bnd numbfr of lodbl vbribblfs
+     * must bf butombtidblly domputfd.
      */
-    private boolean computeMaxs;
+    privbtf boolfbn domputfMbxs;
 
     /**
-     * <tt>true</tt> if the stack map frames must be recomputed from scratch.
+     * <tt>truf</tt> if tif stbdk mbp frbmfs must bf rfdomputfd from sdrbtdi.
      */
-    private boolean computeFrames;
+    privbtf boolfbn domputfFrbmfs;
 
     /**
-     * <tt>true</tt> if the stack map tables of this class are invalid. The
-     * {@link MethodWriter#resizeInstructions} method cannot transform existing
-     * stack map tables, and so produces potentially invalid classes when it is
-     * executed. In this case the class is reread and rewritten with the
-     * {@link #COMPUTE_FRAMES} option (the resizeInstructions method can resize
-     * stack map tables when this option is used).
+     * <tt>truf</tt> if tif stbdk mbp tbblfs of tiis dlbss brf invblid. Tif
+     * {@link MftiodWritfr#rfsizfInstrudtions} mftiod dbnnot trbnsform fxisting
+     * stbdk mbp tbblfs, bnd so produdfs potfntiblly invblid dlbssfs wifn it is
+     * fxfdutfd. In tiis dbsf tif dlbss is rfrfbd bnd rfwrittfn witi tif
+     * {@link #COMPUTE_FRAMES} option (tif rfsizfInstrudtions mftiod dbn rfsizf
+     * stbdk mbp tbblfs wifn tiis option is usfd).
      */
-    boolean invalidFrames;
+    boolfbn invblidFrbmfs;
 
     // ------------------------------------------------------------------------
-    // Static initializer
+    // Stbtid initiblizfr
     // ------------------------------------------------------------------------
 
     /**
-     * Computes the instruction types of JVM opcodes.
+     * Computfs tif instrudtion typfs of JVM opdodfs.
      */
-    static {
+    stbtid {
         int i;
-        byte[] b = new byte[220];
+        bytf[] b = nfw bytf[220];
         String s = "AAAAAAAAAAAAAAAABCLMMDDDDDEEEEEEEEEEEEEEEEEEEEAAAAAAAADD"
                 + "DDDEEEEEEEEEEEEEEEEEEEEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 + "AAAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAAAAAAJJJJJJJJJJJJJJJJDOPAA"
                 + "AAAAGGGGGGGHIFBFAAFFAARQJJKKJJJJJJJJJJJJJJJJJJ";
-        for (i = 0; i < b.length; ++i) {
-            b[i] = (byte) (s.charAt(i) - 'A');
+        for (i = 0; i < b.lfngti; ++i) {
+            b[i] = (bytf) (s.dibrAt(i) - 'A');
         }
         TYPE = b;
 
-        // code to generate the above string
+        // dodf to gfnfrbtf tif bbovf string
         //
-        // // SBYTE_INSN instructions
-        // b[Constants.NEWARRAY] = SBYTE_INSN;
-        // b[Constants.BIPUSH] = SBYTE_INSN;
+        // // SBYTE_INSN instrudtions
+        // b[Constbnts.NEWARRAY] = SBYTE_INSN;
+        // b[Constbnts.BIPUSH] = SBYTE_INSN;
         //
-        // // SHORT_INSN instructions
-        // b[Constants.SIPUSH] = SHORT_INSN;
+        // // SHORT_INSN instrudtions
+        // b[Constbnts.SIPUSH] = SHORT_INSN;
         //
-        // // (IMPL)VAR_INSN instructions
-        // b[Constants.RET] = VAR_INSN;
-        // for (i = Constants.ILOAD; i <= Constants.ALOAD; ++i) {
+        // // (IMPL)VAR_INSN instrudtions
+        // b[Constbnts.RET] = VAR_INSN;
+        // for (i = Constbnts.ILOAD; i <= Constbnts.ALOAD; ++i) {
         // b[i] = VAR_INSN;
         // }
-        // for (i = Constants.ISTORE; i <= Constants.ASTORE; ++i) {
+        // for (i = Constbnts.ISTORE; i <= Constbnts.ASTORE; ++i) {
         // b[i] = VAR_INSN;
         // }
         // for (i = 26; i <= 45; ++i) { // ILOAD_0 to ALOAD_3
@@ -576,1230 +576,1230 @@ public class ClassWriter extends ClassVisitor {
         // b[i] = IMPLVAR_INSN;
         // }
         //
-        // // TYPE_INSN instructions
-        // b[Constants.NEW] = TYPE_INSN;
-        // b[Constants.ANEWARRAY] = TYPE_INSN;
-        // b[Constants.CHECKCAST] = TYPE_INSN;
-        // b[Constants.INSTANCEOF] = TYPE_INSN;
+        // // TYPE_INSN instrudtions
+        // b[Constbnts.NEW] = TYPE_INSN;
+        // b[Constbnts.ANEWARRAY] = TYPE_INSN;
+        // b[Constbnts.CHECKCAST] = TYPE_INSN;
+        // b[Constbnts.INSTANCEOF] = TYPE_INSN;
         //
-        // // (Set)FIELDORMETH_INSN instructions
-        // for (i = Constants.GETSTATIC; i <= Constants.INVOKESTATIC; ++i) {
+        // // (Sft)FIELDORMETH_INSN instrudtions
+        // for (i = Constbnts.GETSTATIC; i <= Constbnts.INVOKESTATIC; ++i) {
         // b[i] = FIELDORMETH_INSN;
         // }
-        // b[Constants.INVOKEINTERFACE] = ITFMETH_INSN;
-        // b[Constants.INVOKEDYNAMIC] = INDYMETH_INSN;
+        // b[Constbnts.INVOKEINTERFACE] = ITFMETH_INSN;
+        // b[Constbnts.INVOKEDYNAMIC] = INDYMETH_INSN;
         //
-        // // LABEL(W)_INSN instructions
-        // for (i = Constants.IFEQ; i <= Constants.JSR; ++i) {
+        // // LABEL(W)_INSN instrudtions
+        // for (i = Constbnts.IFEQ; i <= Constbnts.JSR; ++i) {
         // b[i] = LABEL_INSN;
         // }
-        // b[Constants.IFNULL] = LABEL_INSN;
-        // b[Constants.IFNONNULL] = LABEL_INSN;
+        // b[Constbnts.IFNULL] = LABEL_INSN;
+        // b[Constbnts.IFNONNULL] = LABEL_INSN;
         // b[200] = LABELW_INSN; // GOTO_W
         // b[201] = LABELW_INSN; // JSR_W
-        // // temporary opcodes used internally by ASM - see Label and
-        // MethodWriter
+        // // tfmporbry opdodfs usfd intfrnblly by ASM - sff Lbbfl bnd
+        // MftiodWritfr
         // for (i = 202; i < 220; ++i) {
         // b[i] = LABEL_INSN;
         // }
         //
-        // // LDC(_W) instructions
-        // b[Constants.LDC] = LDC_INSN;
+        // // LDC(_W) instrudtions
+        // b[Constbnts.LDC] = LDC_INSN;
         // b[19] = LDCW_INSN; // LDC_W
         // b[20] = LDCW_INSN; // LDC2_W
         //
-        // // special instructions
-        // b[Constants.IINC] = IINC_INSN;
-        // b[Constants.TABLESWITCH] = TABL_INSN;
-        // b[Constants.LOOKUPSWITCH] = LOOK_INSN;
-        // b[Constants.MULTIANEWARRAY] = MANA_INSN;
+        // // spfdibl instrudtions
+        // b[Constbnts.IINC] = IINC_INSN;
+        // b[Constbnts.TABLESWITCH] = TABL_INSN;
+        // b[Constbnts.LOOKUPSWITCH] = LOOK_INSN;
+        // b[Constbnts.MULTIANEWARRAY] = MANA_INSN;
         // b[196] = WIDE_INSN; // WIDE
         //
-        // for (i = 0; i < b.length; ++i) {
-        // System.err.print((char)('A' + b[i]));
+        // for (i = 0; i < b.lfngti; ++i) {
+        // Systfm.frr.print((dibr)('A' + b[i]));
         // }
-        // System.err.println();
+        // Systfm.frr.println();
     }
 
     // ------------------------------------------------------------------------
-    // Constructor
+    // Construdtor
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a new {@link ClassWriter} object.
+     * Construdts b nfw {@link ClbssWritfr} objfdt.
      *
-     * @param flags
-     *            option flags that can be used to modify the default behavior
-     *            of this class. See {@link #COMPUTE_MAXS},
+     * @pbrbm flbgs
+     *            option flbgs tibt dbn bf usfd to modify tif dffbult bfibvior
+     *            of tiis dlbss. Sff {@link #COMPUTE_MAXS},
      *            {@link #COMPUTE_FRAMES}.
      */
-    public ClassWriter(final int flags) {
-        super(Opcodes.ASM5);
-        index = 1;
-        pool = new ByteVector();
-        items = new Item[256];
-        threshold = (int) (0.75d * items.length);
-        key = new Item();
-        key2 = new Item();
-        key3 = new Item();
-        key4 = new Item();
-        this.computeMaxs = (flags & COMPUTE_MAXS) != 0;
-        this.computeFrames = (flags & COMPUTE_FRAMES) != 0;
+    publid ClbssWritfr(finbl int flbgs) {
+        supfr(Opdodfs.ASM5);
+        indfx = 1;
+        pool = nfw BytfVfdtor();
+        itfms = nfw Itfm[256];
+        tirfsiold = (int) (0.75d * itfms.lfngti);
+        kfy = nfw Itfm();
+        kfy2 = nfw Itfm();
+        kfy3 = nfw Itfm();
+        kfy4 = nfw Itfm();
+        tiis.domputfMbxs = (flbgs & COMPUTE_MAXS) != 0;
+        tiis.domputfFrbmfs = (flbgs & COMPUTE_FRAMES) != 0;
     }
 
     /**
-     * Constructs a new {@link ClassWriter} object and enables optimizations for
-     * "mostly add" bytecode transformations. These optimizations are the
+     * Construdts b nfw {@link ClbssWritfr} objfdt bnd fnbblfs optimizbtions for
+     * "mostly bdd" bytfdodf trbnsformbtions. Tifsf optimizbtions brf tif
      * following:
      *
      * <ul>
-     * <li>The constant pool from the original class is copied as is in the new
-     * class, which saves time. New constant pool entries will be added at the
-     * end if necessary, but unused constant pool entries <i>won't be
-     * removed</i>.</li>
-     * <li>Methods that are not transformed are copied as is in the new class,
-     * directly from the original class bytecode (i.e. without emitting visit
-     * events for all the method instructions), which saves a <i>lot</i> of
-     * time. Untransformed methods are detected by the fact that the
-     * {@link ClassReader} receives {@link MethodVisitor} objects that come from
-     * a {@link ClassWriter} (and not from any other {@link ClassVisitor}
-     * instance).</li>
+     * <li>Tif donstbnt pool from tif originbl dlbss is dopifd bs is in tif nfw
+     * dlbss, wiidi sbvfs timf. Nfw donstbnt pool fntrifs will bf bddfd bt tif
+     * fnd if nfdfssbry, but unusfd donstbnt pool fntrifs <i>won't bf
+     * rfmovfd</i>.</li>
+     * <li>Mftiods tibt brf not trbnsformfd brf dopifd bs is in tif nfw dlbss,
+     * dirfdtly from tif originbl dlbss bytfdodf (i.f. witiout fmitting visit
+     * fvfnts for bll tif mftiod instrudtions), wiidi sbvfs b <i>lot</i> of
+     * timf. Untrbnsformfd mftiods brf dftfdtfd by tif fbdt tibt tif
+     * {@link ClbssRfbdfr} rfdfivfs {@link MftiodVisitor} objfdts tibt domf from
+     * b {@link ClbssWritfr} (bnd not from bny otifr {@link ClbssVisitor}
+     * instbndf).</li>
      * </ul>
      *
-     * @param classReader
-     *            the {@link ClassReader} used to read the original class. It
-     *            will be used to copy the entire constant pool from the
-     *            original class and also to copy other fragments of original
-     *            bytecode where applicable.
-     * @param flags
-     *            option flags that can be used to modify the default behavior
-     *            of this class. <i>These option flags do not affect methods
-     *            that are copied as is in the new class. This means that the
-     *            maximum stack size nor the stack frames will be computed for
-     *            these methods</i>. See {@link #COMPUTE_MAXS},
+     * @pbrbm dlbssRfbdfr
+     *            tif {@link ClbssRfbdfr} usfd to rfbd tif originbl dlbss. It
+     *            will bf usfd to dopy tif fntirf donstbnt pool from tif
+     *            originbl dlbss bnd blso to dopy otifr frbgmfnts of originbl
+     *            bytfdodf wifrf bpplidbblf.
+     * @pbrbm flbgs
+     *            option flbgs tibt dbn bf usfd to modify tif dffbult bfibvior
+     *            of tiis dlbss. <i>Tifsf option flbgs do not bfffdt mftiods
+     *            tibt brf dopifd bs is in tif nfw dlbss. Tiis mfbns tibt tif
+     *            mbximum stbdk sizf nor tif stbdk frbmfs will bf domputfd for
+     *            tifsf mftiods</i>. Sff {@link #COMPUTE_MAXS},
      *            {@link #COMPUTE_FRAMES}.
      */
-    public ClassWriter(final ClassReader classReader, final int flags) {
-        this(flags);
-        classReader.copyPool(this);
-        this.cr = classReader;
+    publid ClbssWritfr(finbl ClbssRfbdfr dlbssRfbdfr, finbl int flbgs) {
+        tiis(flbgs);
+        dlbssRfbdfr.dopyPool(tiis);
+        tiis.dr = dlbssRfbdfr;
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the ClassVisitor abstract class
+    // Implfmfntbtion of tif ClbssVisitor bbstrbdt dlbss
     // ------------------------------------------------------------------------
 
-    @Override
-    public final void visit(final int version, final int access,
-            final String name, final String signature, final String superName,
-            final String[] interfaces) {
-        this.version = version;
-        this.access = access;
-        this.name = newClass(name);
-        thisName = name;
-        if (ClassReader.SIGNATURES && signature != null) {
-            this.signature = newUTF8(signature);
+    @Ovfrridf
+    publid finbl void visit(finbl int vfrsion, finbl int bddfss,
+            finbl String nbmf, finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs) {
+        tiis.vfrsion = vfrsion;
+        tiis.bddfss = bddfss;
+        tiis.nbmf = nfwClbss(nbmf);
+        tiisNbmf = nbmf;
+        if (ClbssRfbdfr.SIGNATURES && signbturf != null) {
+            tiis.signbturf = nfwUTF8(signbturf);
         }
-        this.superName = superName == null ? 0 : newClass(superName);
-        if (interfaces != null && interfaces.length > 0) {
-            interfaceCount = interfaces.length;
-            this.interfaces = new int[interfaceCount];
-            for (int i = 0; i < interfaceCount; ++i) {
-                this.interfaces[i] = newClass(interfaces[i]);
+        tiis.supfrNbmf = supfrNbmf == null ? 0 : nfwClbss(supfrNbmf);
+        if (intfrfbdfs != null && intfrfbdfs.lfngti > 0) {
+            intfrfbdfCount = intfrfbdfs.lfngti;
+            tiis.intfrfbdfs = nfw int[intfrfbdfCount];
+            for (int i = 0; i < intfrfbdfCount; ++i) {
+                tiis.intfrfbdfs[i] = nfwClbss(intfrfbdfs[i]);
             }
         }
     }
 
-    @Override
-    public final void visitSource(final String file, final String debug) {
-        if (file != null) {
-            sourceFile = newUTF8(file);
+    @Ovfrridf
+    publid finbl void visitSourdf(finbl String filf, finbl String dfbug) {
+        if (filf != null) {
+            sourdfFilf = nfwUTF8(filf);
         }
-        if (debug != null) {
-            sourceDebug = new ByteVector().encodeUTF8(debug, 0,
-                    Integer.MAX_VALUE);
-        }
-    }
-
-    @Override
-    public final void visitOuterClass(final String owner, final String name,
-            final String desc) {
-        enclosingMethodOwner = newClass(owner);
-        if (name != null && desc != null) {
-            enclosingMethod = newNameType(name, desc);
+        if (dfbug != null) {
+            sourdfDfbug = nfw BytfVfdtor().fndodfUTF8(dfbug, 0,
+                    Intfgfr.MAX_VALUE);
         }
     }
 
-    @Override
-    public final AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
-            return null;
-        }
-        ByteVector bv = new ByteVector();
-        // write type, and reserve space for values count
-        bv.putShort(newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(this, true, bv, bv, 2);
-        if (visible) {
-            aw.next = anns;
-            anns = aw;
-        } else {
-            aw.next = ianns;
-            ianns = aw;
-        }
-        return aw;
-    }
-
-    @Override
-    public final AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, final String desc, final boolean visible) {
-        if (!ClassReader.ANNOTATIONS) {
-            return null;
-        }
-        ByteVector bv = new ByteVector();
-        // write target_type and target_info
-        AnnotationWriter.putTarget(typeRef, typePath, bv);
-        // write type, and reserve space for values count
-        bv.putShort(newUTF8(desc)).putShort(0);
-        AnnotationWriter aw = new AnnotationWriter(this, true, bv, bv,
-                bv.length - 2);
-        if (visible) {
-            aw.next = tanns;
-            tanns = aw;
-        } else {
-            aw.next = itanns;
-            itanns = aw;
-        }
-        return aw;
-    }
-
-    @Override
-    public final void visitAttribute(final Attribute attr) {
-        attr.next = attrs;
-        attrs = attr;
-    }
-
-    @Override
-    public final void visitInnerClass(final String name,
-            final String outerName, final String innerName, final int access) {
-        if (innerClasses == null) {
-            innerClasses = new ByteVector();
-        }
-        // Sec. 4.7.6 of the JVMS states "Every CONSTANT_Class_info entry in the
-        // constant_pool table which represents a class or interface C that is
-        // not a package member must have exactly one corresponding entry in the
-        // classes array". To avoid duplicates we keep track in the intVal field
-        // of the Item of each CONSTANT_Class_info entry C whether an inner
-        // class entry has already been added for C (this field is unused for
-        // class entries, and changing its value does not change the hashcode
-        // and equality tests). If so we store the index of this inner class
-        // entry (plus one) in intVal. This hack allows duplicate detection in
-        // O(1) time.
-        Item nameItem = newClassItem(name);
-        if (nameItem.intVal == 0) {
-            ++innerClassesCount;
-            innerClasses.putShort(nameItem.index);
-            innerClasses.putShort(outerName == null ? 0 : newClass(outerName));
-            innerClasses.putShort(innerName == null ? 0 : newUTF8(innerName));
-            innerClasses.putShort(access);
-            nameItem.intVal = innerClassesCount;
-        } else {
-            // Compare the inner classes entry nameItem.intVal - 1 with the
-            // arguments of this method and throw an exception if there is a
-            // difference?
+    @Ovfrridf
+    publid finbl void visitOutfrClbss(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        fndlosingMftiodOwnfr = nfwClbss(ownfr);
+        if (nbmf != null && dfsd != null) {
+            fndlosingMftiod = nfwNbmfTypf(nbmf, dfsd);
         }
     }
 
-    @Override
-    public final FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        return new FieldWriter(this, access, name, desc, signature, value);
+    @Ovfrridf
+    publid finbl AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        if (!ClbssRfbdfr.ANNOTATIONS) {
+            rfturn null;
+        }
+        BytfVfdtor bv = nfw BytfVfdtor();
+        // writf typf, bnd rfsfrvf spbdf for vblufs dount
+        bv.putSiort(nfwUTF8(dfsd)).putSiort(0);
+        AnnotbtionWritfr bw = nfw AnnotbtionWritfr(tiis, truf, bv, bv, 2);
+        if (visiblf) {
+            bw.nfxt = bnns;
+            bnns = bw;
+        } flsf {
+            bw.nfxt = ibnns;
+            ibnns = bw;
+        }
+        rfturn bw;
     }
 
-    @Override
-    public final MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        return new MethodWriter(this, access, name, desc, signature,
-                exceptions, computeMaxs, computeFrames);
+    @Ovfrridf
+    publid finbl AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        if (!ClbssRfbdfr.ANNOTATIONS) {
+            rfturn null;
+        }
+        BytfVfdtor bv = nfw BytfVfdtor();
+        // writf tbrgft_typf bnd tbrgft_info
+        AnnotbtionWritfr.putTbrgft(typfRff, typfPbti, bv);
+        // writf typf, bnd rfsfrvf spbdf for vblufs dount
+        bv.putSiort(nfwUTF8(dfsd)).putSiort(0);
+        AnnotbtionWritfr bw = nfw AnnotbtionWritfr(tiis, truf, bv, bv,
+                bv.lfngti - 2);
+        if (visiblf) {
+            bw.nfxt = tbnns;
+            tbnns = bw;
+        } flsf {
+            bw.nfxt = itbnns;
+            itbnns = bw;
+        }
+        rfturn bw;
     }
 
-    @Override
-    public final void visitEnd() {
+    @Ovfrridf
+    publid finbl void visitAttributf(finbl Attributf bttr) {
+        bttr.nfxt = bttrs;
+        bttrs = bttr;
+    }
+
+    @Ovfrridf
+    publid finbl void visitInnfrClbss(finbl String nbmf,
+            finbl String outfrNbmf, finbl String innfrNbmf, finbl int bddfss) {
+        if (innfrClbssfs == null) {
+            innfrClbssfs = nfw BytfVfdtor();
+        }
+        // Sfd. 4.7.6 of tif JVMS stbtfs "Evfry CONSTANT_Clbss_info fntry in tif
+        // donstbnt_pool tbblf wiidi rfprfsfnts b dlbss or intfrfbdf C tibt is
+        // not b pbdkbgf mfmbfr must ibvf fxbdtly onf dorrfsponding fntry in tif
+        // dlbssfs brrby". To bvoid duplidbtfs wf kffp trbdk in tif intVbl fifld
+        // of tif Itfm of fbdi CONSTANT_Clbss_info fntry C wiftifr bn innfr
+        // dlbss fntry ibs blrfbdy bffn bddfd for C (tiis fifld is unusfd for
+        // dlbss fntrifs, bnd dibnging its vbluf dofs not dibngf tif ibsidodf
+        // bnd fqublity tfsts). If so wf storf tif indfx of tiis innfr dlbss
+        // fntry (plus onf) in intVbl. Tiis ibdk bllows duplidbtf dftfdtion in
+        // O(1) timf.
+        Itfm nbmfItfm = nfwClbssItfm(nbmf);
+        if (nbmfItfm.intVbl == 0) {
+            ++innfrClbssfsCount;
+            innfrClbssfs.putSiort(nbmfItfm.indfx);
+            innfrClbssfs.putSiort(outfrNbmf == null ? 0 : nfwClbss(outfrNbmf));
+            innfrClbssfs.putSiort(innfrNbmf == null ? 0 : nfwUTF8(innfrNbmf));
+            innfrClbssfs.putSiort(bddfss);
+            nbmfItfm.intVbl = innfrClbssfsCount;
+        } flsf {
+            // Compbrf tif innfr dlbssfs fntry nbmfItfm.intVbl - 1 witi tif
+            // brgumfnts of tiis mftiod bnd tirow bn fxdfption if tifrf is b
+            // difffrfndf?
+        }
+    }
+
+    @Ovfrridf
+    publid finbl FifldVisitor visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        rfturn nfw FifldWritfr(tiis, bddfss, nbmf, dfsd, signbturf, vbluf);
+    }
+
+    @Ovfrridf
+    publid finbl MftiodVisitor visitMftiod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        rfturn nfw MftiodWritfr(tiis, bddfss, nbmf, dfsd, signbturf,
+                fxdfptions, domputfMbxs, domputfFrbmfs);
+    }
+
+    @Ovfrridf
+    publid finbl void visitEnd() {
     }
 
     // ------------------------------------------------------------------------
-    // Other public methods
+    // Otifr publid mftiods
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the bytecode of the class that was build with this class writer.
+     * Rfturns tif bytfdodf of tif dlbss tibt wbs build witi tiis dlbss writfr.
      *
-     * @return the bytecode of the class that was build with this class writer.
+     * @rfturn tif bytfdodf of tif dlbss tibt wbs build witi tiis dlbss writfr.
      */
-    public byte[] toByteArray() {
-        if (index > 0xFFFF) {
-            throw new RuntimeException("Class file too large!");
+    publid bytf[] toBytfArrby() {
+        if (indfx > 0xFFFF) {
+            tirow nfw RuntimfExdfption("Clbss filf too lbrgf!");
         }
-        // computes the real size of the bytecode of this class
-        int size = 24 + 2 * interfaceCount;
-        int nbFields = 0;
-        FieldWriter fb = firstField;
-        while (fb != null) {
-            ++nbFields;
-            size += fb.getSize();
-            fb = (FieldWriter) fb.fv;
+        // domputfs tif rfbl sizf of tif bytfdodf of tiis dlbss
+        int sizf = 24 + 2 * intfrfbdfCount;
+        int nbFiflds = 0;
+        FifldWritfr fb = firstFifld;
+        wiilf (fb != null) {
+            ++nbFiflds;
+            sizf += fb.gftSizf();
+            fb = (FifldWritfr) fb.fv;
         }
-        int nbMethods = 0;
-        MethodWriter mb = firstMethod;
-        while (mb != null) {
-            ++nbMethods;
-            size += mb.getSize();
-            mb = (MethodWriter) mb.mv;
+        int nbMftiods = 0;
+        MftiodWritfr mb = firstMftiod;
+        wiilf (mb != null) {
+            ++nbMftiods;
+            sizf += mb.gftSizf();
+            mb = (MftiodWritfr) mb.mv;
         }
-        int attributeCount = 0;
-        if (bootstrapMethods != null) {
-            // we put it as first attribute in order to improve a bit
-            // ClassReader.copyBootstrapMethods
-            ++attributeCount;
-            size += 8 + bootstrapMethods.length;
-            newUTF8("BootstrapMethods");
+        int bttributfCount = 0;
+        if (bootstrbpMftiods != null) {
+            // wf put it bs first bttributf in ordfr to improvf b bit
+            // ClbssRfbdfr.dopyBootstrbpMftiods
+            ++bttributfCount;
+            sizf += 8 + bootstrbpMftiods.lfngti;
+            nfwUTF8("BootstrbpMftiods");
         }
-        if (ClassReader.SIGNATURES && signature != 0) {
-            ++attributeCount;
-            size += 8;
-            newUTF8("Signature");
+        if (ClbssRfbdfr.SIGNATURES && signbturf != 0) {
+            ++bttributfCount;
+            sizf += 8;
+            nfwUTF8("Signbturf");
         }
-        if (sourceFile != 0) {
-            ++attributeCount;
-            size += 8;
-            newUTF8("SourceFile");
+        if (sourdfFilf != 0) {
+            ++bttributfCount;
+            sizf += 8;
+            nfwUTF8("SourdfFilf");
         }
-        if (sourceDebug != null) {
-            ++attributeCount;
-            size += sourceDebug.length + 6;
-            newUTF8("SourceDebugExtension");
+        if (sourdfDfbug != null) {
+            ++bttributfCount;
+            sizf += sourdfDfbug.lfngti + 6;
+            nfwUTF8("SourdfDfbugExtfnsion");
         }
-        if (enclosingMethodOwner != 0) {
-            ++attributeCount;
-            size += 10;
-            newUTF8("EnclosingMethod");
+        if (fndlosingMftiodOwnfr != 0) {
+            ++bttributfCount;
+            sizf += 10;
+            nfwUTF8("EndlosingMftiod");
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
-            ++attributeCount;
-            size += 6;
-            newUTF8("Deprecated");
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
+            ++bttributfCount;
+            sizf += 6;
+            nfwUTF8("Dfprfdbtfd");
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
-            if ((version & 0xFFFF) < Opcodes.V1_5
-                    || (access & ACC_SYNTHETIC_ATTRIBUTE) != 0) {
-                ++attributeCount;
-                size += 6;
-                newUTF8("Synthetic");
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
+            if ((vfrsion & 0xFFFF) < Opdodfs.V1_5
+                    || (bddfss & ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                ++bttributfCount;
+                sizf += 6;
+                nfwUTF8("Syntiftid");
             }
         }
-        if (innerClasses != null) {
-            ++attributeCount;
-            size += 8 + innerClasses.length;
-            newUTF8("InnerClasses");
+        if (innfrClbssfs != null) {
+            ++bttributfCount;
+            sizf += 8 + innfrClbssfs.lfngti;
+            nfwUTF8("InnfrClbssfs");
         }
-        if (ClassReader.ANNOTATIONS && anns != null) {
-            ++attributeCount;
-            size += 8 + anns.getSize();
-            newUTF8("RuntimeVisibleAnnotations");
+        if (ClbssRfbdfr.ANNOTATIONS && bnns != null) {
+            ++bttributfCount;
+            sizf += 8 + bnns.gftSizf();
+            nfwUTF8("RuntimfVisiblfAnnotbtions");
         }
-        if (ClassReader.ANNOTATIONS && ianns != null) {
-            ++attributeCount;
-            size += 8 + ianns.getSize();
-            newUTF8("RuntimeInvisibleAnnotations");
+        if (ClbssRfbdfr.ANNOTATIONS && ibnns != null) {
+            ++bttributfCount;
+            sizf += 8 + ibnns.gftSizf();
+            nfwUTF8("RuntimfInvisiblfAnnotbtions");
         }
-        if (ClassReader.ANNOTATIONS && tanns != null) {
-            ++attributeCount;
-            size += 8 + tanns.getSize();
-            newUTF8("RuntimeVisibleTypeAnnotations");
+        if (ClbssRfbdfr.ANNOTATIONS && tbnns != null) {
+            ++bttributfCount;
+            sizf += 8 + tbnns.gftSizf();
+            nfwUTF8("RuntimfVisiblfTypfAnnotbtions");
         }
-        if (ClassReader.ANNOTATIONS && itanns != null) {
-            ++attributeCount;
-            size += 8 + itanns.getSize();
-            newUTF8("RuntimeInvisibleTypeAnnotations");
+        if (ClbssRfbdfr.ANNOTATIONS && itbnns != null) {
+            ++bttributfCount;
+            sizf += 8 + itbnns.gftSizf();
+            nfwUTF8("RuntimfInvisiblfTypfAnnotbtions");
         }
-        if (attrs != null) {
-            attributeCount += attrs.getCount();
-            size += attrs.getSize(this, null, 0, -1, -1);
+        if (bttrs != null) {
+            bttributfCount += bttrs.gftCount();
+            sizf += bttrs.gftSizf(tiis, null, 0, -1, -1);
         }
-        size += pool.length;
-        // allocates a byte vector of this size, in order to avoid unnecessary
-        // arraycopy operations in the ByteVector.enlarge() method
-        ByteVector out = new ByteVector(size);
-        out.putInt(0xCAFEBABE).putInt(version);
-        out.putShort(index).putByteArray(pool.data, 0, pool.length);
-        int mask = Opcodes.ACC_DEPRECATED | ACC_SYNTHETIC_ATTRIBUTE
-                | ((access & ACC_SYNTHETIC_ATTRIBUTE) / TO_ACC_SYNTHETIC);
-        out.putShort(access & ~mask).putShort(name).putShort(superName);
-        out.putShort(interfaceCount);
-        for (int i = 0; i < interfaceCount; ++i) {
-            out.putShort(interfaces[i]);
+        sizf += pool.lfngti;
+        // bllodbtfs b bytf vfdtor of tiis sizf, in ordfr to bvoid unnfdfssbry
+        // brrbydopy opfrbtions in tif BytfVfdtor.fnlbrgf() mftiod
+        BytfVfdtor out = nfw BytfVfdtor(sizf);
+        out.putInt(0xCAFEBABE).putInt(vfrsion);
+        out.putSiort(indfx).putBytfArrby(pool.dbtb, 0, pool.lfngti);
+        int mbsk = Opdodfs.ACC_DEPRECATED | ACC_SYNTHETIC_ATTRIBUTE
+                | ((bddfss & ACC_SYNTHETIC_ATTRIBUTE) / TO_ACC_SYNTHETIC);
+        out.putSiort(bddfss & ~mbsk).putSiort(nbmf).putSiort(supfrNbmf);
+        out.putSiort(intfrfbdfCount);
+        for (int i = 0; i < intfrfbdfCount; ++i) {
+            out.putSiort(intfrfbdfs[i]);
         }
-        out.putShort(nbFields);
-        fb = firstField;
-        while (fb != null) {
+        out.putSiort(nbFiflds);
+        fb = firstFifld;
+        wiilf (fb != null) {
             fb.put(out);
-            fb = (FieldWriter) fb.fv;
+            fb = (FifldWritfr) fb.fv;
         }
-        out.putShort(nbMethods);
-        mb = firstMethod;
-        while (mb != null) {
+        out.putSiort(nbMftiods);
+        mb = firstMftiod;
+        wiilf (mb != null) {
             mb.put(out);
-            mb = (MethodWriter) mb.mv;
+            mb = (MftiodWritfr) mb.mv;
         }
-        out.putShort(attributeCount);
-        if (bootstrapMethods != null) {
-            out.putShort(newUTF8("BootstrapMethods"));
-            out.putInt(bootstrapMethods.length + 2).putShort(
-                    bootstrapMethodsCount);
-            out.putByteArray(bootstrapMethods.data, 0, bootstrapMethods.length);
+        out.putSiort(bttributfCount);
+        if (bootstrbpMftiods != null) {
+            out.putSiort(nfwUTF8("BootstrbpMftiods"));
+            out.putInt(bootstrbpMftiods.lfngti + 2).putSiort(
+                    bootstrbpMftiodsCount);
+            out.putBytfArrby(bootstrbpMftiods.dbtb, 0, bootstrbpMftiods.lfngti);
         }
-        if (ClassReader.SIGNATURES && signature != 0) {
-            out.putShort(newUTF8("Signature")).putInt(2).putShort(signature);
+        if (ClbssRfbdfr.SIGNATURES && signbturf != 0) {
+            out.putSiort(nfwUTF8("Signbturf")).putInt(2).putSiort(signbturf);
         }
-        if (sourceFile != 0) {
-            out.putShort(newUTF8("SourceFile")).putInt(2).putShort(sourceFile);
+        if (sourdfFilf != 0) {
+            out.putSiort(nfwUTF8("SourdfFilf")).putInt(2).putSiort(sourdfFilf);
         }
-        if (sourceDebug != null) {
-            int len = sourceDebug.length;
-            out.putShort(newUTF8("SourceDebugExtension")).putInt(len);
-            out.putByteArray(sourceDebug.data, 0, len);
+        if (sourdfDfbug != null) {
+            int lfn = sourdfDfbug.lfngti;
+            out.putSiort(nfwUTF8("SourdfDfbugExtfnsion")).putInt(lfn);
+            out.putBytfArrby(sourdfDfbug.dbtb, 0, lfn);
         }
-        if (enclosingMethodOwner != 0) {
-            out.putShort(newUTF8("EnclosingMethod")).putInt(4);
-            out.putShort(enclosingMethodOwner).putShort(enclosingMethod);
+        if (fndlosingMftiodOwnfr != 0) {
+            out.putSiort(nfwUTF8("EndlosingMftiod")).putInt(4);
+            out.putSiort(fndlosingMftiodOwnfr).putSiort(fndlosingMftiod);
         }
-        if ((access & Opcodes.ACC_DEPRECATED) != 0) {
-            out.putShort(newUTF8("Deprecated")).putInt(0);
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
+            out.putSiort(nfwUTF8("Dfprfdbtfd")).putInt(0);
         }
-        if ((access & Opcodes.ACC_SYNTHETIC) != 0) {
-            if ((version & 0xFFFF) < Opcodes.V1_5
-                    || (access & ACC_SYNTHETIC_ATTRIBUTE) != 0) {
-                out.putShort(newUTF8("Synthetic")).putInt(0);
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
+            if ((vfrsion & 0xFFFF) < Opdodfs.V1_5
+                    || (bddfss & ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                out.putSiort(nfwUTF8("Syntiftid")).putInt(0);
             }
         }
-        if (innerClasses != null) {
-            out.putShort(newUTF8("InnerClasses"));
-            out.putInt(innerClasses.length + 2).putShort(innerClassesCount);
-            out.putByteArray(innerClasses.data, 0, innerClasses.length);
+        if (innfrClbssfs != null) {
+            out.putSiort(nfwUTF8("InnfrClbssfs"));
+            out.putInt(innfrClbssfs.lfngti + 2).putSiort(innfrClbssfsCount);
+            out.putBytfArrby(innfrClbssfs.dbtb, 0, innfrClbssfs.lfngti);
         }
-        if (ClassReader.ANNOTATIONS && anns != null) {
-            out.putShort(newUTF8("RuntimeVisibleAnnotations"));
-            anns.put(out);
+        if (ClbssRfbdfr.ANNOTATIONS && bnns != null) {
+            out.putSiort(nfwUTF8("RuntimfVisiblfAnnotbtions"));
+            bnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && ianns != null) {
-            out.putShort(newUTF8("RuntimeInvisibleAnnotations"));
-            ianns.put(out);
+        if (ClbssRfbdfr.ANNOTATIONS && ibnns != null) {
+            out.putSiort(nfwUTF8("RuntimfInvisiblfAnnotbtions"));
+            ibnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && tanns != null) {
-            out.putShort(newUTF8("RuntimeVisibleTypeAnnotations"));
-            tanns.put(out);
+        if (ClbssRfbdfr.ANNOTATIONS && tbnns != null) {
+            out.putSiort(nfwUTF8("RuntimfVisiblfTypfAnnotbtions"));
+            tbnns.put(out);
         }
-        if (ClassReader.ANNOTATIONS && itanns != null) {
-            out.putShort(newUTF8("RuntimeInvisibleTypeAnnotations"));
-            itanns.put(out);
+        if (ClbssRfbdfr.ANNOTATIONS && itbnns != null) {
+            out.putSiort(nfwUTF8("RuntimfInvisiblfTypfAnnotbtions"));
+            itbnns.put(out);
         }
-        if (attrs != null) {
-            attrs.put(this, null, 0, -1, -1, out);
+        if (bttrs != null) {
+            bttrs.put(tiis, null, 0, -1, -1, out);
         }
-        if (invalidFrames) {
-            anns = null;
-            ianns = null;
-            attrs = null;
-            innerClassesCount = 0;
-            innerClasses = null;
-            bootstrapMethodsCount = 0;
-            bootstrapMethods = null;
-            firstField = null;
-            lastField = null;
-            firstMethod = null;
-            lastMethod = null;
-            computeMaxs = false;
-            computeFrames = true;
-            invalidFrames = false;
-            new ClassReader(out.data).accept(this, ClassReader.SKIP_FRAMES);
-            return toByteArray();
+        if (invblidFrbmfs) {
+            bnns = null;
+            ibnns = null;
+            bttrs = null;
+            innfrClbssfsCount = 0;
+            innfrClbssfs = null;
+            bootstrbpMftiodsCount = 0;
+            bootstrbpMftiods = null;
+            firstFifld = null;
+            lbstFifld = null;
+            firstMftiod = null;
+            lbstMftiod = null;
+            domputfMbxs = fblsf;
+            domputfFrbmfs = truf;
+            invblidFrbmfs = fblsf;
+            nfw ClbssRfbdfr(out.dbtb).bddfpt(tiis, ClbssRfbdfr.SKIP_FRAMES);
+            rfturn toBytfArrby();
         }
-        return out.data;
+        rfturn out.dbtb;
     }
 
     // ------------------------------------------------------------------------
-    // Utility methods: constant pool management
+    // Utility mftiods: donstbnt pool mbnbgfmfnt
     // ------------------------------------------------------------------------
 
     /**
-     * Adds a number or string constant to the constant pool of the class being
-     * build. Does nothing if the constant pool already contains a similar item.
+     * Adds b numbfr or string donstbnt to tif donstbnt pool of tif dlbss bfing
+     * build. Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param cst
-     *            the value of the constant to be added to the constant pool.
-     *            This parameter must be an {@link Integer}, a {@link Float}, a
-     *            {@link Long}, a {@link Double}, a {@link String} or a
-     *            {@link Type}.
-     * @return a new or already existing constant item with the given value.
+     * @pbrbm dst
+     *            tif vbluf of tif donstbnt to bf bddfd to tif donstbnt pool.
+     *            Tiis pbrbmftfr must bf bn {@link Intfgfr}, b {@link Flobt}, b
+     *            {@link Long}, b {@link Doublf}, b {@link String} or b
+     *            {@link Typf}.
+     * @rfturn b nfw or blrfbdy fxisting donstbnt itfm witi tif givfn vbluf.
      */
-    Item newConstItem(final Object cst) {
-        if (cst instanceof Integer) {
-            int val = ((Integer) cst).intValue();
-            return newInteger(val);
-        } else if (cst instanceof Byte) {
-            int val = ((Byte) cst).intValue();
-            return newInteger(val);
-        } else if (cst instanceof Character) {
-            int val = ((Character) cst).charValue();
-            return newInteger(val);
-        } else if (cst instanceof Short) {
-            int val = ((Short) cst).intValue();
-            return newInteger(val);
-        } else if (cst instanceof Boolean) {
-            int val = ((Boolean) cst).booleanValue() ? 1 : 0;
-            return newInteger(val);
-        } else if (cst instanceof Float) {
-            float val = ((Float) cst).floatValue();
-            return newFloat(val);
-        } else if (cst instanceof Long) {
-            long val = ((Long) cst).longValue();
-            return newLong(val);
-        } else if (cst instanceof Double) {
-            double val = ((Double) cst).doubleValue();
-            return newDouble(val);
-        } else if (cst instanceof String) {
-            return newString((String) cst);
-        } else if (cst instanceof Type) {
-            Type t = (Type) cst;
-            int s = t.getSort();
-            if (s == Type.OBJECT) {
-                return newClassItem(t.getInternalName());
-            } else if (s == Type.METHOD) {
-                return newMethodTypeItem(t.getDescriptor());
-            } else { // s == primitive type or array
-                return newClassItem(t.getDescriptor());
+    Itfm nfwConstItfm(finbl Objfdt dst) {
+        if (dst instbndfof Intfgfr) {
+            int vbl = ((Intfgfr) dst).intVbluf();
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Bytf) {
+            int vbl = ((Bytf) dst).intVbluf();
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Cibrbdtfr) {
+            int vbl = ((Cibrbdtfr) dst).dibrVbluf();
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Siort) {
+            int vbl = ((Siort) dst).intVbluf();
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Boolfbn) {
+            int vbl = ((Boolfbn) dst).boolfbnVbluf() ? 1 : 0;
+            rfturn nfwIntfgfr(vbl);
+        } flsf if (dst instbndfof Flobt) {
+            flobt vbl = ((Flobt) dst).flobtVbluf();
+            rfturn nfwFlobt(vbl);
+        } flsf if (dst instbndfof Long) {
+            long vbl = ((Long) dst).longVbluf();
+            rfturn nfwLong(vbl);
+        } flsf if (dst instbndfof Doublf) {
+            doublf vbl = ((Doublf) dst).doublfVbluf();
+            rfturn nfwDoublf(vbl);
+        } flsf if (dst instbndfof String) {
+            rfturn nfwString((String) dst);
+        } flsf if (dst instbndfof Typf) {
+            Typf t = (Typf) dst;
+            int s = t.gftSort();
+            if (s == Typf.OBJECT) {
+                rfturn nfwClbssItfm(t.gftIntfrnblNbmf());
+            } flsf if (s == Typf.METHOD) {
+                rfturn nfwMftiodTypfItfm(t.gftDfsdriptor());
+            } flsf { // s == primitivf typf or brrby
+                rfturn nfwClbssItfm(t.gftDfsdriptor());
             }
-        } else if (cst instanceof Handle) {
-            Handle h = (Handle) cst;
-            return newHandleItem(h.tag, h.owner, h.name, h.desc);
-        } else {
-            throw new IllegalArgumentException("value " + cst);
+        } flsf if (dst instbndfof Hbndlf) {
+            Hbndlf i = (Hbndlf) dst;
+            rfturn nfwHbndlfItfm(i.tbg, i.ownfr, i.nbmf, i.dfsd);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("vbluf " + dst);
         }
     }
 
     /**
-     * Adds a number or string constant to the constant pool of the class being
-     * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds b numbfr or string donstbnt to tif donstbnt pool of tif dlbss bfing
+     * build. Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param cst
-     *            the value of the constant to be added to the constant pool.
-     *            This parameter must be an {@link Integer}, a {@link Float}, a
-     *            {@link Long}, a {@link Double} or a {@link String}.
-     * @return the index of a new or already existing constant item with the
-     *         given value.
+     * @pbrbm dst
+     *            tif vbluf of tif donstbnt to bf bddfd to tif donstbnt pool.
+     *            Tiis pbrbmftfr must bf bn {@link Intfgfr}, b {@link Flobt}, b
+     *            {@link Long}, b {@link Doublf} or b {@link String}.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting donstbnt itfm witi tif
+     *         givfn vbluf.
      */
-    public int newConst(final Object cst) {
-        return newConstItem(cst).index;
+    publid int nfwConst(finbl Objfdt dst) {
+        rfturn nfwConstItfm(dst).indfx;
     }
 
     /**
-     * Adds an UTF8 string to the constant pool of the class being build. Does
-     * nothing if the constant pool already contains a similar item. <i>This
-     * method is intended for {@link Attribute} sub classes, and is normally not
-     * needed by class generators or adapters.</i>
+     * Adds bn UTF8 string to tif donstbnt pool of tif dlbss bfing build. Dofs
+     * notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm. <i>Tiis
+     * mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is normblly not
+     * nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param value
-     *            the String value.
-     * @return the index of a new or already existing UTF8 item.
+     * @pbrbm vbluf
+     *            tif String vbluf.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting UTF8 itfm.
      */
-    public int newUTF8(final String value) {
-        key.set(UTF8, value, null, null);
-        Item result = get(key);
-        if (result == null) {
-            pool.putByte(UTF8).putUTF8(value);
-            result = new Item(index++, key);
-            put(result);
+    publid int nfwUTF8(finbl String vbluf) {
+        kfy.sft(UTF8, vbluf, null, null);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(UTF8).putUTF8(vbluf);
+            rfsult = nfw Itfm(indfx++, kfy);
+            put(rfsult);
         }
-        return result.index;
+        rfturn rfsult.indfx;
     }
 
     /**
-     * Adds a class reference to the constant pool of the class being build.
-     * Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds b dlbss rfffrfndf to tif donstbnt pool of tif dlbss bfing build.
+     * Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param value
-     *            the internal name of the class.
-     * @return a new or already existing class reference item.
+     * @pbrbm vbluf
+     *            tif intfrnbl nbmf of tif dlbss.
+     * @rfturn b nfw or blrfbdy fxisting dlbss rfffrfndf itfm.
      */
-    Item newClassItem(final String value) {
-        key2.set(CLASS, value, null, null);
-        Item result = get(key2);
-        if (result == null) {
-            pool.put12(CLASS, newUTF8(value));
-            result = new Item(index++, key2);
-            put(result);
+    Itfm nfwClbssItfm(finbl String vbluf) {
+        kfy2.sft(CLASS, vbluf, null, null);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            pool.put12(CLASS, nfwUTF8(vbluf));
+            rfsult = nfw Itfm(indfx++, kfy2);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a class reference to the constant pool of the class being build.
-     * Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds b dlbss rfffrfndf to tif donstbnt pool of tif dlbss bfing build.
+     * Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param value
-     *            the internal name of the class.
-     * @return the index of a new or already existing class reference item.
+     * @pbrbm vbluf
+     *            tif intfrnbl nbmf of tif dlbss.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting dlbss rfffrfndf itfm.
      */
-    public int newClass(final String value) {
-        return newClassItem(value).index;
+    publid int nfwClbss(finbl String vbluf) {
+        rfturn nfwClbssItfm(vbluf).indfx;
     }
 
     /**
-     * Adds a method type reference to the constant pool of the class being
-     * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds b mftiod typf rfffrfndf to tif donstbnt pool of tif dlbss bfing
+     * build. Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param methodDesc
-     *            method descriptor of the method type.
-     * @return a new or already existing method type reference item.
+     * @pbrbm mftiodDfsd
+     *            mftiod dfsdriptor of tif mftiod typf.
+     * @rfturn b nfw or blrfbdy fxisting mftiod typf rfffrfndf itfm.
      */
-    Item newMethodTypeItem(final String methodDesc) {
-        key2.set(MTYPE, methodDesc, null, null);
-        Item result = get(key2);
-        if (result == null) {
-            pool.put12(MTYPE, newUTF8(methodDesc));
-            result = new Item(index++, key2);
-            put(result);
+    Itfm nfwMftiodTypfItfm(finbl String mftiodDfsd) {
+        kfy2.sft(MTYPE, mftiodDfsd, null, null);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            pool.put12(MTYPE, nfwUTF8(mftiodDfsd));
+            rfsult = nfw Itfm(indfx++, kfy2);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a method type reference to the constant pool of the class being
-     * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds b mftiod typf rfffrfndf to tif donstbnt pool of tif dlbss bfing
+     * build. Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param methodDesc
-     *            method descriptor of the method type.
-     * @return the index of a new or already existing method type reference
-     *         item.
+     * @pbrbm mftiodDfsd
+     *            mftiod dfsdriptor of tif mftiod typf.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting mftiod typf rfffrfndf
+     *         itfm.
      */
-    public int newMethodType(final String methodDesc) {
-        return newMethodTypeItem(methodDesc).index;
+    publid int nfwMftiodTypf(finbl String mftiodDfsd) {
+        rfturn nfwMftiodTypfItfm(mftiodDfsd).indfx;
     }
 
     /**
-     * Adds a handle to the constant pool of the class being build. Does nothing
-     * if the constant pool already contains a similar item. <i>This method is
-     * intended for {@link Attribute} sub classes, and is normally not needed by
-     * class generators or adapters.</i>
+     * Adds b ibndlf to tif donstbnt pool of tif dlbss bfing build. Dofs notiing
+     * if tif donstbnt pool blrfbdy dontbins b similbr itfm. <i>Tiis mftiod is
+     * intfndfd for {@link Attributf} sub dlbssfs, bnd is normblly not nffdfd by
+     * dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param tag
-     *            the kind of this handle. Must be {@link Opcodes#H_GETFIELD},
-     *            {@link Opcodes#H_GETSTATIC}, {@link Opcodes#H_PUTFIELD},
-     *            {@link Opcodes#H_PUTSTATIC}, {@link Opcodes#H_INVOKEVIRTUAL},
-     *            {@link Opcodes#H_INVOKESTATIC},
-     *            {@link Opcodes#H_INVOKESPECIAL},
-     *            {@link Opcodes#H_NEWINVOKESPECIAL} or
-     *            {@link Opcodes#H_INVOKEINTERFACE}.
-     * @param owner
-     *            the internal name of the field or method owner class.
-     * @param name
-     *            the name of the field or method.
-     * @param desc
-     *            the descriptor of the field or method.
-     * @return a new or an already existing method type reference item.
+     * @pbrbm tbg
+     *            tif kind of tiis ibndlf. Must bf {@link Opdodfs#H_GETFIELD},
+     *            {@link Opdodfs#H_GETSTATIC}, {@link Opdodfs#H_PUTFIELD},
+     *            {@link Opdodfs#H_PUTSTATIC}, {@link Opdodfs#H_INVOKEVIRTUAL},
+     *            {@link Opdodfs#H_INVOKESTATIC},
+     *            {@link Opdodfs#H_INVOKESPECIAL},
+     *            {@link Opdodfs#H_NEWINVOKESPECIAL} or
+     *            {@link Opdodfs#H_INVOKEINTERFACE}.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif fifld or mftiod ownfr dlbss.
+     * @pbrbm nbmf
+     *            tif nbmf of tif fifld or mftiod.
+     * @pbrbm dfsd
+     *            tif dfsdriptor of tif fifld or mftiod.
+     * @rfturn b nfw or bn blrfbdy fxisting mftiod typf rfffrfndf itfm.
      */
-    Item newHandleItem(final int tag, final String owner, final String name,
-            final String desc) {
-        key4.set(HANDLE_BASE + tag, owner, name, desc);
-        Item result = get(key4);
-        if (result == null) {
-            if (tag <= Opcodes.H_PUTSTATIC) {
-                put112(HANDLE, tag, newField(owner, name, desc));
-            } else {
+    Itfm nfwHbndlfItfm(finbl int tbg, finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        kfy4.sft(HANDLE_BASE + tbg, ownfr, nbmf, dfsd);
+        Itfm rfsult = gft(kfy4);
+        if (rfsult == null) {
+            if (tbg <= Opdodfs.H_PUTSTATIC) {
+                put112(HANDLE, tbg, nfwFifld(ownfr, nbmf, dfsd));
+            } flsf {
                 put112(HANDLE,
-                        tag,
-                        newMethod(owner, name, desc,
-                                tag == Opcodes.H_INVOKEINTERFACE));
+                        tbg,
+                        nfwMftiod(ownfr, nbmf, dfsd,
+                                tbg == Opdodfs.H_INVOKEINTERFACE));
             }
-            result = new Item(index++, key4);
-            put(result);
+            rfsult = nfw Itfm(indfx++, kfy4);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a handle to the constant pool of the class being build. Does nothing
-     * if the constant pool already contains a similar item. <i>This method is
-     * intended for {@link Attribute} sub classes, and is normally not needed by
-     * class generators or adapters.</i>
+     * Adds b ibndlf to tif donstbnt pool of tif dlbss bfing build. Dofs notiing
+     * if tif donstbnt pool blrfbdy dontbins b similbr itfm. <i>Tiis mftiod is
+     * intfndfd for {@link Attributf} sub dlbssfs, bnd is normblly not nffdfd by
+     * dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param tag
-     *            the kind of this handle. Must be {@link Opcodes#H_GETFIELD},
-     *            {@link Opcodes#H_GETSTATIC}, {@link Opcodes#H_PUTFIELD},
-     *            {@link Opcodes#H_PUTSTATIC}, {@link Opcodes#H_INVOKEVIRTUAL},
-     *            {@link Opcodes#H_INVOKESTATIC},
-     *            {@link Opcodes#H_INVOKESPECIAL},
-     *            {@link Opcodes#H_NEWINVOKESPECIAL} or
-     *            {@link Opcodes#H_INVOKEINTERFACE}.
-     * @param owner
-     *            the internal name of the field or method owner class.
-     * @param name
-     *            the name of the field or method.
-     * @param desc
-     *            the descriptor of the field or method.
-     * @return the index of a new or already existing method type reference
-     *         item.
+     * @pbrbm tbg
+     *            tif kind of tiis ibndlf. Must bf {@link Opdodfs#H_GETFIELD},
+     *            {@link Opdodfs#H_GETSTATIC}, {@link Opdodfs#H_PUTFIELD},
+     *            {@link Opdodfs#H_PUTSTATIC}, {@link Opdodfs#H_INVOKEVIRTUAL},
+     *            {@link Opdodfs#H_INVOKESTATIC},
+     *            {@link Opdodfs#H_INVOKESPECIAL},
+     *            {@link Opdodfs#H_NEWINVOKESPECIAL} or
+     *            {@link Opdodfs#H_INVOKEINTERFACE}.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif fifld or mftiod ownfr dlbss.
+     * @pbrbm nbmf
+     *            tif nbmf of tif fifld or mftiod.
+     * @pbrbm dfsd
+     *            tif dfsdriptor of tif fifld or mftiod.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting mftiod typf rfffrfndf
+     *         itfm.
      */
-    public int newHandle(final int tag, final String owner, final String name,
-            final String desc) {
-        return newHandleItem(tag, owner, name, desc).index;
+    publid int nfwHbndlf(finbl int tbg, finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        rfturn nfwHbndlfItfm(tbg, ownfr, nbmf, dfsd).indfx;
     }
 
     /**
-     * Adds an invokedynamic reference to the constant pool of the class being
-     * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds bn invokfdynbmid rfffrfndf to tif donstbnt pool of tif dlbss bfing
+     * build. Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param name
-     *            name of the invoked method.
-     * @param desc
-     *            descriptor of the invoke method.
-     * @param bsm
-     *            the bootstrap method.
-     * @param bsmArgs
-     *            the bootstrap method constant arguments.
+     * @pbrbm nbmf
+     *            nbmf of tif invokfd mftiod.
+     * @pbrbm dfsd
+     *            dfsdriptor of tif invokf mftiod.
+     * @pbrbm bsm
+     *            tif bootstrbp mftiod.
+     * @pbrbm bsmArgs
+     *            tif bootstrbp mftiod donstbnt brgumfnts.
      *
-     * @return a new or an already existing invokedynamic type reference item.
+     * @rfturn b nfw or bn blrfbdy fxisting invokfdynbmid typf rfffrfndf itfm.
      */
-    Item newInvokeDynamicItem(final String name, final String desc,
-            final Handle bsm, final Object... bsmArgs) {
-        // cache for performance
-        ByteVector bootstrapMethods = this.bootstrapMethods;
-        if (bootstrapMethods == null) {
-            bootstrapMethods = this.bootstrapMethods = new ByteVector();
+    Itfm nfwInvokfDynbmidItfm(finbl String nbmf, finbl String dfsd,
+            finbl Hbndlf bsm, finbl Objfdt... bsmArgs) {
+        // dbdif for pfrformbndf
+        BytfVfdtor bootstrbpMftiods = tiis.bootstrbpMftiods;
+        if (bootstrbpMftiods == null) {
+            bootstrbpMftiods = tiis.bootstrbpMftiods = nfw BytfVfdtor();
         }
 
-        int position = bootstrapMethods.length; // record current position
+        int position = bootstrbpMftiods.lfngti; // rfdord durrfnt position
 
-        int hashCode = bsm.hashCode();
-        bootstrapMethods.putShort(newHandle(bsm.tag, bsm.owner, bsm.name,
-                bsm.desc));
+        int ibsiCodf = bsm.ibsiCodf();
+        bootstrbpMftiods.putSiort(nfwHbndlf(bsm.tbg, bsm.ownfr, bsm.nbmf,
+                bsm.dfsd));
 
-        int argsLength = bsmArgs.length;
-        bootstrapMethods.putShort(argsLength);
+        int brgsLfngti = bsmArgs.lfngti;
+        bootstrbpMftiods.putSiort(brgsLfngti);
 
-        for (int i = 0; i < argsLength; i++) {
-            Object bsmArg = bsmArgs[i];
-            hashCode ^= bsmArg.hashCode();
-            bootstrapMethods.putShort(newConst(bsmArg));
+        for (int i = 0; i < brgsLfngti; i++) {
+            Objfdt bsmArg = bsmArgs[i];
+            ibsiCodf ^= bsmArg.ibsiCodf();
+            bootstrbpMftiods.putSiort(nfwConst(bsmArg));
         }
 
-        byte[] data = bootstrapMethods.data;
-        int length = (1 + 1 + argsLength) << 1; // (bsm + argCount + arguments)
-        hashCode &= 0x7FFFFFFF;
-        Item result = items[hashCode % items.length];
-        loop: while (result != null) {
-            if (result.type != BSM || result.hashCode != hashCode) {
-                result = result.next;
-                continue;
+        bytf[] dbtb = bootstrbpMftiods.dbtb;
+        int lfngti = (1 + 1 + brgsLfngti) << 1; // (bsm + brgCount + brgumfnts)
+        ibsiCodf &= 0x7FFFFFFF;
+        Itfm rfsult = itfms[ibsiCodf % itfms.lfngti];
+        loop: wiilf (rfsult != null) {
+            if (rfsult.typf != BSM || rfsult.ibsiCodf != ibsiCodf) {
+                rfsult = rfsult.nfxt;
+                dontinuf;
             }
 
-            // because the data encode the size of the argument
-            // we don't need to test if these size are equals
-            int resultPosition = result.intVal;
-            for (int p = 0; p < length; p++) {
-                if (data[position + p] != data[resultPosition + p]) {
-                    result = result.next;
-                    continue loop;
+            // bfdbusf tif dbtb fndodf tif sizf of tif brgumfnt
+            // wf don't nffd to tfst if tifsf sizf brf fqubls
+            int rfsultPosition = rfsult.intVbl;
+            for (int p = 0; p < lfngti; p++) {
+                if (dbtb[position + p] != dbtb[rfsultPosition + p]) {
+                    rfsult = rfsult.nfxt;
+                    dontinuf loop;
                 }
             }
-            break;
+            brfbk;
         }
 
-        int bootstrapMethodIndex;
-        if (result != null) {
-            bootstrapMethodIndex = result.index;
-            bootstrapMethods.length = position; // revert to old position
-        } else {
-            bootstrapMethodIndex = bootstrapMethodsCount++;
-            result = new Item(bootstrapMethodIndex);
-            result.set(position, hashCode);
-            put(result);
+        int bootstrbpMftiodIndfx;
+        if (rfsult != null) {
+            bootstrbpMftiodIndfx = rfsult.indfx;
+            bootstrbpMftiods.lfngti = position; // rfvfrt to old position
+        } flsf {
+            bootstrbpMftiodIndfx = bootstrbpMftiodsCount++;
+            rfsult = nfw Itfm(bootstrbpMftiodIndfx);
+            rfsult.sft(position, ibsiCodf);
+            put(rfsult);
         }
 
-        // now, create the InvokeDynamic constant
-        key3.set(name, desc, bootstrapMethodIndex);
-        result = get(key3);
-        if (result == null) {
-            put122(INDY, bootstrapMethodIndex, newNameType(name, desc));
-            result = new Item(index++, key3);
-            put(result);
+        // now, drfbtf tif InvokfDynbmid donstbnt
+        kfy3.sft(nbmf, dfsd, bootstrbpMftiodIndfx);
+        rfsult = gft(kfy3);
+        if (rfsult == null) {
+            put122(INDY, bootstrbpMftiodIndfx, nfwNbmfTypf(nbmf, dfsd));
+            rfsult = nfw Itfm(indfx++, kfy3);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds an invokedynamic reference to the constant pool of the class being
-     * build. Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds bn invokfdynbmid rfffrfndf to tif donstbnt pool of tif dlbss bfing
+     * build. Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param name
-     *            name of the invoked method.
-     * @param desc
-     *            descriptor of the invoke method.
-     * @param bsm
-     *            the bootstrap method.
-     * @param bsmArgs
-     *            the bootstrap method constant arguments.
+     * @pbrbm nbmf
+     *            nbmf of tif invokfd mftiod.
+     * @pbrbm dfsd
+     *            dfsdriptor of tif invokf mftiod.
+     * @pbrbm bsm
+     *            tif bootstrbp mftiod.
+     * @pbrbm bsmArgs
+     *            tif bootstrbp mftiod donstbnt brgumfnts.
      *
-     * @return the index of a new or already existing invokedynamic reference
-     *         item.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting invokfdynbmid rfffrfndf
+     *         itfm.
      */
-    public int newInvokeDynamic(final String name, final String desc,
-            final Handle bsm, final Object... bsmArgs) {
-        return newInvokeDynamicItem(name, desc, bsm, bsmArgs).index;
+    publid int nfwInvokfDynbmid(finbl String nbmf, finbl String dfsd,
+            finbl Hbndlf bsm, finbl Objfdt... bsmArgs) {
+        rfturn nfwInvokfDynbmidItfm(nbmf, dfsd, bsm, bsmArgs).indfx;
     }
 
     /**
-     * Adds a field reference to the constant pool of the class being build.
-     * Does nothing if the constant pool already contains a similar item.
+     * Adds b fifld rfffrfndf to tif donstbnt pool of tif dlbss bfing build.
+     * Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param owner
-     *            the internal name of the field's owner class.
-     * @param name
-     *            the field's name.
-     * @param desc
-     *            the field's descriptor.
-     * @return a new or already existing field reference item.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif fifld's ownfr dlbss.
+     * @pbrbm nbmf
+     *            tif fifld's nbmf.
+     * @pbrbm dfsd
+     *            tif fifld's dfsdriptor.
+     * @rfturn b nfw or blrfbdy fxisting fifld rfffrfndf itfm.
      */
-    Item newFieldItem(final String owner, final String name, final String desc) {
-        key3.set(FIELD, owner, name, desc);
-        Item result = get(key3);
-        if (result == null) {
-            put122(FIELD, newClass(owner), newNameType(name, desc));
-            result = new Item(index++, key3);
-            put(result);
+    Itfm nfwFifldItfm(finbl String ownfr, finbl String nbmf, finbl String dfsd) {
+        kfy3.sft(FIELD, ownfr, nbmf, dfsd);
+        Itfm rfsult = gft(kfy3);
+        if (rfsult == null) {
+            put122(FIELD, nfwClbss(ownfr), nfwNbmfTypf(nbmf, dfsd));
+            rfsult = nfw Itfm(indfx++, kfy3);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a field reference to the constant pool of the class being build.
-     * Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds b fifld rfffrfndf to tif donstbnt pool of tif dlbss bfing build.
+     * Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param owner
-     *            the internal name of the field's owner class.
-     * @param name
-     *            the field's name.
-     * @param desc
-     *            the field's descriptor.
-     * @return the index of a new or already existing field reference item.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif fifld's ownfr dlbss.
+     * @pbrbm nbmf
+     *            tif fifld's nbmf.
+     * @pbrbm dfsd
+     *            tif fifld's dfsdriptor.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting fifld rfffrfndf itfm.
      */
-    public int newField(final String owner, final String name, final String desc) {
-        return newFieldItem(owner, name, desc).index;
+    publid int nfwFifld(finbl String ownfr, finbl String nbmf, finbl String dfsd) {
+        rfturn nfwFifldItfm(ownfr, nbmf, dfsd).indfx;
     }
 
     /**
-     * Adds a method reference to the constant pool of the class being build.
-     * Does nothing if the constant pool already contains a similar item.
+     * Adds b mftiod rfffrfndf to tif donstbnt pool of tif dlbss bfing build.
+     * Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param owner
-     *            the internal name of the method's owner class.
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor.
-     * @param itf
-     *            <tt>true</tt> if <tt>owner</tt> is an interface.
-     * @return a new or already existing method reference item.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif mftiod's ownfr dlbss.
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor.
+     * @pbrbm itf
+     *            <tt>truf</tt> if <tt>ownfr</tt> is bn intfrfbdf.
+     * @rfturn b nfw or blrfbdy fxisting mftiod rfffrfndf itfm.
      */
-    Item newMethodItem(final String owner, final String name,
-            final String desc, final boolean itf) {
-        int type = itf ? IMETH : METH;
-        key3.set(type, owner, name, desc);
-        Item result = get(key3);
-        if (result == null) {
-            put122(type, newClass(owner), newNameType(name, desc));
-            result = new Item(index++, key3);
-            put(result);
+    Itfm nfwMftiodItfm(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd, finbl boolfbn itf) {
+        int typf = itf ? IMETH : METH;
+        kfy3.sft(typf, ownfr, nbmf, dfsd);
+        Itfm rfsult = gft(kfy3);
+        if (rfsult == null) {
+            put122(typf, nfwClbss(ownfr), nfwNbmfTypf(nbmf, dfsd));
+            rfsult = nfw Itfm(indfx++, kfy3);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a method reference to the constant pool of the class being build.
-     * Does nothing if the constant pool already contains a similar item.
-     * <i>This method is intended for {@link Attribute} sub classes, and is
-     * normally not needed by class generators or adapters.</i>
+     * Adds b mftiod rfffrfndf to tif donstbnt pool of tif dlbss bfing build.
+     * Dofs notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
+     * <i>Tiis mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is
+     * normblly not nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param owner
-     *            the internal name of the method's owner class.
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor.
-     * @param itf
-     *            <tt>true</tt> if <tt>owner</tt> is an interface.
-     * @return the index of a new or already existing method reference item.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif mftiod's ownfr dlbss.
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor.
+     * @pbrbm itf
+     *            <tt>truf</tt> if <tt>ownfr</tt> is bn intfrfbdf.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting mftiod rfffrfndf itfm.
      */
-    public int newMethod(final String owner, final String name,
-            final String desc, final boolean itf) {
-        return newMethodItem(owner, name, desc, itf).index;
+    publid int nfwMftiod(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd, finbl boolfbn itf) {
+        rfturn nfwMftiodItfm(ownfr, nbmf, dfsd, itf).indfx;
     }
 
     /**
-     * Adds an integer to the constant pool of the class being build. Does
-     * nothing if the constant pool already contains a similar item.
+     * Adds bn intfgfr to tif donstbnt pool of tif dlbss bfing build. Dofs
+     * notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param value
-     *            the int value.
-     * @return a new or already existing int item.
+     * @pbrbm vbluf
+     *            tif int vbluf.
+     * @rfturn b nfw or blrfbdy fxisting int itfm.
      */
-    Item newInteger(final int value) {
-        key.set(value);
-        Item result = get(key);
-        if (result == null) {
-            pool.putByte(INT).putInt(value);
-            result = new Item(index++, key);
-            put(result);
+    Itfm nfwIntfgfr(finbl int vbluf) {
+        kfy.sft(vbluf);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(INT).putInt(vbluf);
+            rfsult = nfw Itfm(indfx++, kfy);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a float to the constant pool of the class being build. Does nothing
-     * if the constant pool already contains a similar item.
+     * Adds b flobt to tif donstbnt pool of tif dlbss bfing build. Dofs notiing
+     * if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param value
-     *            the float value.
-     * @return a new or already existing float item.
+     * @pbrbm vbluf
+     *            tif flobt vbluf.
+     * @rfturn b nfw or blrfbdy fxisting flobt itfm.
      */
-    Item newFloat(final float value) {
-        key.set(value);
-        Item result = get(key);
-        if (result == null) {
-            pool.putByte(FLOAT).putInt(key.intVal);
-            result = new Item(index++, key);
-            put(result);
+    Itfm nfwFlobt(finbl flobt vbluf) {
+        kfy.sft(vbluf);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(FLOAT).putInt(kfy.intVbl);
+            rfsult = nfw Itfm(indfx++, kfy);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a long to the constant pool of the class being build. Does nothing
-     * if the constant pool already contains a similar item.
+     * Adds b long to tif donstbnt pool of tif dlbss bfing build. Dofs notiing
+     * if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param value
-     *            the long value.
-     * @return a new or already existing long item.
+     * @pbrbm vbluf
+     *            tif long vbluf.
+     * @rfturn b nfw or blrfbdy fxisting long itfm.
      */
-    Item newLong(final long value) {
-        key.set(value);
-        Item result = get(key);
-        if (result == null) {
-            pool.putByte(LONG).putLong(value);
-            result = new Item(index, key);
-            index += 2;
-            put(result);
+    Itfm nfwLong(finbl long vbluf) {
+        kfy.sft(vbluf);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(LONG).putLong(vbluf);
+            rfsult = nfw Itfm(indfx, kfy);
+            indfx += 2;
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a double to the constant pool of the class being build. Does nothing
-     * if the constant pool already contains a similar item.
+     * Adds b doublf to tif donstbnt pool of tif dlbss bfing build. Dofs notiing
+     * if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param value
-     *            the double value.
-     * @return a new or already existing double item.
+     * @pbrbm vbluf
+     *            tif doublf vbluf.
+     * @rfturn b nfw or blrfbdy fxisting doublf itfm.
      */
-    Item newDouble(final double value) {
-        key.set(value);
-        Item result = get(key);
-        if (result == null) {
-            pool.putByte(DOUBLE).putLong(key.longVal);
-            result = new Item(index, key);
-            index += 2;
-            put(result);
+    Itfm nfwDoublf(finbl doublf vbluf) {
+        kfy.sft(vbluf);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            pool.putBytf(DOUBLE).putLong(kfy.longVbl);
+            rfsult = nfw Itfm(indfx, kfy);
+            indfx += 2;
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a string to the constant pool of the class being build. Does nothing
-     * if the constant pool already contains a similar item.
+     * Adds b string to tif donstbnt pool of tif dlbss bfing build. Dofs notiing
+     * if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param value
-     *            the String value.
-     * @return a new or already existing string item.
+     * @pbrbm vbluf
+     *            tif String vbluf.
+     * @rfturn b nfw or blrfbdy fxisting string itfm.
      */
-    private Item newString(final String value) {
-        key2.set(STR, value, null, null);
-        Item result = get(key2);
-        if (result == null) {
-            pool.put12(STR, newUTF8(value));
-            result = new Item(index++, key2);
-            put(result);
+    privbtf Itfm nfwString(finbl String vbluf) {
+        kfy2.sft(STR, vbluf, null, null);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            pool.put12(STR, nfwUTF8(vbluf));
+            rfsult = nfw Itfm(indfx++, kfy2);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds a name and type to the constant pool of the class being build. Does
-     * nothing if the constant pool already contains a similar item. <i>This
-     * method is intended for {@link Attribute} sub classes, and is normally not
-     * needed by class generators or adapters.</i>
+     * Adds b nbmf bnd typf to tif donstbnt pool of tif dlbss bfing build. Dofs
+     * notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm. <i>Tiis
+     * mftiod is intfndfd for {@link Attributf} sub dlbssfs, bnd is normblly not
+     * nffdfd by dlbss gfnfrbtors or bdbptfrs.</i>
      *
-     * @param name
-     *            a name.
-     * @param desc
-     *            a type descriptor.
-     * @return the index of a new or already existing name and type item.
+     * @pbrbm nbmf
+     *            b nbmf.
+     * @pbrbm dfsd
+     *            b typf dfsdriptor.
+     * @rfturn tif indfx of b nfw or blrfbdy fxisting nbmf bnd typf itfm.
      */
-    public int newNameType(final String name, final String desc) {
-        return newNameTypeItem(name, desc).index;
+    publid int nfwNbmfTypf(finbl String nbmf, finbl String dfsd) {
+        rfturn nfwNbmfTypfItfm(nbmf, dfsd).indfx;
     }
 
     /**
-     * Adds a name and type to the constant pool of the class being build. Does
-     * nothing if the constant pool already contains a similar item.
+     * Adds b nbmf bnd typf to tif donstbnt pool of tif dlbss bfing build. Dofs
+     * notiing if tif donstbnt pool blrfbdy dontbins b similbr itfm.
      *
-     * @param name
-     *            a name.
-     * @param desc
-     *            a type descriptor.
-     * @return a new or already existing name and type item.
+     * @pbrbm nbmf
+     *            b nbmf.
+     * @pbrbm dfsd
+     *            b typf dfsdriptor.
+     * @rfturn b nfw or blrfbdy fxisting nbmf bnd typf itfm.
      */
-    Item newNameTypeItem(final String name, final String desc) {
-        key2.set(NAME_TYPE, name, desc, null);
-        Item result = get(key2);
-        if (result == null) {
-            put122(NAME_TYPE, newUTF8(name), newUTF8(desc));
-            result = new Item(index++, key2);
-            put(result);
+    Itfm nfwNbmfTypfItfm(finbl String nbmf, finbl String dfsd) {
+        kfy2.sft(NAME_TYPE, nbmf, dfsd, null);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            put122(NAME_TYPE, nfwUTF8(nbmf), nfwUTF8(dfsd));
+            rfsult = nfw Itfm(indfx++, kfy2);
+            put(rfsult);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Adds the given internal name to {@link #typeTable} and returns its index.
-     * Does nothing if the type table already contains this internal name.
+     * Adds tif givfn intfrnbl nbmf to {@link #typfTbblf} bnd rfturns its indfx.
+     * Dofs notiing if tif typf tbblf blrfbdy dontbins tiis intfrnbl nbmf.
      *
-     * @param type
-     *            the internal name to be added to the type table.
-     * @return the index of this internal name in the type table.
+     * @pbrbm typf
+     *            tif intfrnbl nbmf to bf bddfd to tif typf tbblf.
+     * @rfturn tif indfx of tiis intfrnbl nbmf in tif typf tbblf.
      */
-    int addType(final String type) {
-        key.set(TYPE_NORMAL, type, null, null);
-        Item result = get(key);
-        if (result == null) {
-            result = addType(key);
+    int bddTypf(finbl String typf) {
+        kfy.sft(TYPE_NORMAL, typf, null, null);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            rfsult = bddTypf(kfy);
         }
-        return result.index;
+        rfturn rfsult.indfx;
     }
 
     /**
-     * Adds the given "uninitialized" type to {@link #typeTable} and returns its
-     * index. This method is used for UNINITIALIZED types, made of an internal
-     * name and a bytecode offset.
+     * Adds tif givfn "uninitiblizfd" typf to {@link #typfTbblf} bnd rfturns its
+     * indfx. Tiis mftiod is usfd for UNINITIALIZED typfs, mbdf of bn intfrnbl
+     * nbmf bnd b bytfdodf offsft.
      *
-     * @param type
-     *            the internal name to be added to the type table.
-     * @param offset
-     *            the bytecode offset of the NEW instruction that created this
-     *            UNINITIALIZED type value.
-     * @return the index of this internal name in the type table.
+     * @pbrbm typf
+     *            tif intfrnbl nbmf to bf bddfd to tif typf tbblf.
+     * @pbrbm offsft
+     *            tif bytfdodf offsft of tif NEW instrudtion tibt drfbtfd tiis
+     *            UNINITIALIZED typf vbluf.
+     * @rfturn tif indfx of tiis intfrnbl nbmf in tif typf tbblf.
      */
-    int addUninitializedType(final String type, final int offset) {
-        key.type = TYPE_UNINIT;
-        key.intVal = offset;
-        key.strVal1 = type;
-        key.hashCode = 0x7FFFFFFF & (TYPE_UNINIT + type.hashCode() + offset);
-        Item result = get(key);
-        if (result == null) {
-            result = addType(key);
+    int bddUninitiblizfdTypf(finbl String typf, finbl int offsft) {
+        kfy.typf = TYPE_UNINIT;
+        kfy.intVbl = offsft;
+        kfy.strVbl1 = typf;
+        kfy.ibsiCodf = 0x7FFFFFFF & (TYPE_UNINIT + typf.ibsiCodf() + offsft);
+        Itfm rfsult = gft(kfy);
+        if (rfsult == null) {
+            rfsult = bddTypf(kfy);
         }
-        return result.index;
+        rfturn rfsult.indfx;
     }
 
     /**
-     * Adds the given Item to {@link #typeTable}.
+     * Adds tif givfn Itfm to {@link #typfTbblf}.
      *
-     * @param item
-     *            the value to be added to the type table.
-     * @return the added Item, which a new Item instance with the same value as
-     *         the given Item.
+     * @pbrbm itfm
+     *            tif vbluf to bf bddfd to tif typf tbblf.
+     * @rfturn tif bddfd Itfm, wiidi b nfw Itfm instbndf witi tif sbmf vbluf bs
+     *         tif givfn Itfm.
      */
-    private Item addType(final Item item) {
-        ++typeCount;
-        Item result = new Item(typeCount, key);
-        put(result);
-        if (typeTable == null) {
-            typeTable = new Item[16];
+    privbtf Itfm bddTypf(finbl Itfm itfm) {
+        ++typfCount;
+        Itfm rfsult = nfw Itfm(typfCount, kfy);
+        put(rfsult);
+        if (typfTbblf == null) {
+            typfTbblf = nfw Itfm[16];
         }
-        if (typeCount == typeTable.length) {
-            Item[] newTable = new Item[2 * typeTable.length];
-            System.arraycopy(typeTable, 0, newTable, 0, typeTable.length);
-            typeTable = newTable;
+        if (typfCount == typfTbblf.lfngti) {
+            Itfm[] nfwTbblf = nfw Itfm[2 * typfTbblf.lfngti];
+            Systfm.brrbydopy(typfTbblf, 0, nfwTbblf, 0, typfTbblf.lfngti);
+            typfTbblf = nfwTbblf;
         }
-        typeTable[typeCount] = result;
-        return result;
+        typfTbblf[typfCount] = rfsult;
+        rfturn rfsult;
     }
 
     /**
-     * Returns the index of the common super type of the two given types. This
-     * method calls {@link #getCommonSuperClass} and caches the result in the
-     * {@link #items} hash table to speedup future calls with the same
-     * parameters.
+     * Rfturns tif indfx of tif dommon supfr typf of tif two givfn typfs. Tiis
+     * mftiod dblls {@link #gftCommonSupfrClbss} bnd dbdifs tif rfsult in tif
+     * {@link #itfms} ibsi tbblf to spffdup futurf dblls witi tif sbmf
+     * pbrbmftfrs.
      *
-     * @param type1
-     *            index of an internal name in {@link #typeTable}.
-     * @param type2
-     *            index of an internal name in {@link #typeTable}.
-     * @return the index of the common super type of the two given types.
+     * @pbrbm typf1
+     *            indfx of bn intfrnbl nbmf in {@link #typfTbblf}.
+     * @pbrbm typf2
+     *            indfx of bn intfrnbl nbmf in {@link #typfTbblf}.
+     * @rfturn tif indfx of tif dommon supfr typf of tif two givfn typfs.
      */
-    int getMergedType(final int type1, final int type2) {
-        key2.type = TYPE_MERGED;
-        key2.longVal = type1 | (((long) type2) << 32);
-        key2.hashCode = 0x7FFFFFFF & (TYPE_MERGED + type1 + type2);
-        Item result = get(key2);
-        if (result == null) {
-            String t = typeTable[type1].strVal1;
-            String u = typeTable[type2].strVal1;
-            key2.intVal = addType(getCommonSuperClass(t, u));
-            result = new Item((short) 0, key2);
-            put(result);
+    int gftMfrgfdTypf(finbl int typf1, finbl int typf2) {
+        kfy2.typf = TYPE_MERGED;
+        kfy2.longVbl = typf1 | (((long) typf2) << 32);
+        kfy2.ibsiCodf = 0x7FFFFFFF & (TYPE_MERGED + typf1 + typf2);
+        Itfm rfsult = gft(kfy2);
+        if (rfsult == null) {
+            String t = typfTbblf[typf1].strVbl1;
+            String u = typfTbblf[typf2].strVbl1;
+            kfy2.intVbl = bddTypf(gftCommonSupfrClbss(t, u));
+            rfsult = nfw Itfm((siort) 0, kfy2);
+            put(rfsult);
         }
-        return result.intVal;
+        rfturn rfsult.intVbl;
     }
 
     /**
-     * Returns the common super type of the two given types. The default
-     * implementation of this method <i>loads</i> the two given classes and uses
-     * the java.lang.Class methods to find the common super class. It can be
-     * overridden to compute this common super type in other ways, in particular
-     * without actually loading any class, or to take into account the class
-     * that is currently being generated by this ClassWriter, which can of
-     * course not be loaded since it is under construction.
+     * Rfturns tif dommon supfr typf of tif two givfn typfs. Tif dffbult
+     * implfmfntbtion of tiis mftiod <i>lobds</i> tif two givfn dlbssfs bnd usfs
+     * tif jbvb.lbng.Clbss mftiods to find tif dommon supfr dlbss. It dbn bf
+     * ovfrriddfn to domputf tiis dommon supfr typf in otifr wbys, in pbrtidulbr
+     * witiout bdtublly lobding bny dlbss, or to tbkf into bddount tif dlbss
+     * tibt is durrfntly bfing gfnfrbtfd by tiis ClbssWritfr, wiidi dbn of
+     * doursf not bf lobdfd sindf it is undfr donstrudtion.
      *
-     * @param type1
-     *            the internal name of a class.
-     * @param type2
-     *            the internal name of another class.
-     * @return the internal name of the common super class of the two given
-     *         classes.
+     * @pbrbm typf1
+     *            tif intfrnbl nbmf of b dlbss.
+     * @pbrbm typf2
+     *            tif intfrnbl nbmf of bnotifr dlbss.
+     * @rfturn tif intfrnbl nbmf of tif dommon supfr dlbss of tif two givfn
+     *         dlbssfs.
      */
-    protected String getCommonSuperClass(final String type1, final String type2) {
-        Class<?> c, d;
-        ClassLoader classLoader = getClass().getClassLoader();
+    protfdtfd String gftCommonSupfrClbss(finbl String typf1, finbl String typf2) {
+        Clbss<?> d, d;
+        ClbssLobdfr dlbssLobdfr = gftClbss().gftClbssLobdfr();
         try {
-            c = Class.forName(type1.replace('/', '.'), false, classLoader);
-            d = Class.forName(type2.replace('/', '.'), false, classLoader);
-        } catch (Exception e) {
-            throw new RuntimeException(e.toString());
+            d = Clbss.forNbmf(typf1.rfplbdf('/', '.'), fblsf, dlbssLobdfr);
+            d = Clbss.forNbmf(typf2.rfplbdf('/', '.'), fblsf, dlbssLobdfr);
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption(f.toString());
         }
-        if (c.isAssignableFrom(d)) {
-            return type1;
+        if (d.isAssignbblfFrom(d)) {
+            rfturn typf1;
         }
-        if (d.isAssignableFrom(c)) {
-            return type2;
+        if (d.isAssignbblfFrom(d)) {
+            rfturn typf2;
         }
-        if (c.isInterface() || d.isInterface()) {
-            return "java/lang/Object";
-        } else {
+        if (d.isIntfrfbdf() || d.isIntfrfbdf()) {
+            rfturn "jbvb/lbng/Objfdt";
+        } flsf {
             do {
-                c = c.getSuperclass();
-            } while (!c.isAssignableFrom(d));
-            return c.getName().replace('.', '/');
+                d = d.gftSupfrdlbss();
+            } wiilf (!d.isAssignbblfFrom(d));
+            rfturn d.gftNbmf().rfplbdf('.', '/');
         }
     }
 
     /**
-     * Returns the constant pool's hash table item which is equal to the given
-     * item.
+     * Rfturns tif donstbnt pool's ibsi tbblf itfm wiidi is fqubl to tif givfn
+     * itfm.
      *
-     * @param key
-     *            a constant pool item.
-     * @return the constant pool's hash table item which is equal to the given
-     *         item, or <tt>null</tt> if there is no such item.
+     * @pbrbm kfy
+     *            b donstbnt pool itfm.
+     * @rfturn tif donstbnt pool's ibsi tbblf itfm wiidi is fqubl to tif givfn
+     *         itfm, or <tt>null</tt> if tifrf is no sudi itfm.
      */
-    private Item get(final Item key) {
-        Item i = items[key.hashCode % items.length];
-        while (i != null && (i.type != key.type || !key.isEqualTo(i))) {
-            i = i.next;
+    privbtf Itfm gft(finbl Itfm kfy) {
+        Itfm i = itfms[kfy.ibsiCodf % itfms.lfngti];
+        wiilf (i != null && (i.typf != kfy.typf || !kfy.isEqublTo(i))) {
+            i = i.nfxt;
         }
-        return i;
+        rfturn i;
     }
 
     /**
-     * Puts the given item in the constant pool's hash table. The hash table
-     * <i>must</i> not already contains this item.
+     * Puts tif givfn itfm in tif donstbnt pool's ibsi tbblf. Tif ibsi tbblf
+     * <i>must</i> not blrfbdy dontbins tiis itfm.
      *
-     * @param i
-     *            the item to be added to the constant pool's hash table.
+     * @pbrbm i
+     *            tif itfm to bf bddfd to tif donstbnt pool's ibsi tbblf.
      */
-    private void put(final Item i) {
-        if (index + typeCount > threshold) {
-            int ll = items.length;
+    privbtf void put(finbl Itfm i) {
+        if (indfx + typfCount > tirfsiold) {
+            int ll = itfms.lfngti;
             int nl = ll * 2 + 1;
-            Item[] newItems = new Item[nl];
+            Itfm[] nfwItfms = nfw Itfm[nl];
             for (int l = ll - 1; l >= 0; --l) {
-                Item j = items[l];
-                while (j != null) {
-                    int index = j.hashCode % newItems.length;
-                    Item k = j.next;
-                    j.next = newItems[index];
-                    newItems[index] = j;
+                Itfm j = itfms[l];
+                wiilf (j != null) {
+                    int indfx = j.ibsiCodf % nfwItfms.lfngti;
+                    Itfm k = j.nfxt;
+                    j.nfxt = nfwItfms[indfx];
+                    nfwItfms[indfx] = j;
                     j = k;
                 }
             }
-            items = newItems;
-            threshold = (int) (nl * 0.75);
+            itfms = nfwItfms;
+            tirfsiold = (int) (nl * 0.75);
         }
-        int index = i.hashCode % items.length;
-        i.next = items[index];
-        items[index] = i;
+        int indfx = i.ibsiCodf % itfms.lfngti;
+        i.nfxt = itfms[indfx];
+        itfms[indfx] = i;
     }
 
     /**
-     * Puts one byte and two shorts into the constant pool.
+     * Puts onf bytf bnd two siorts into tif donstbnt pool.
      *
-     * @param b
-     *            a byte.
-     * @param s1
-     *            a short.
-     * @param s2
-     *            another short.
+     * @pbrbm b
+     *            b bytf.
+     * @pbrbm s1
+     *            b siort.
+     * @pbrbm s2
+     *            bnotifr siort.
      */
-    private void put122(final int b, final int s1, final int s2) {
-        pool.put12(b, s1).putShort(s2);
+    privbtf void put122(finbl int b, finbl int s1, finbl int s2) {
+        pool.put12(b, s1).putSiort(s2);
     }
 
     /**
-     * Puts two bytes and one short into the constant pool.
+     * Puts two bytfs bnd onf siort into tif donstbnt pool.
      *
-     * @param b1
-     *            a byte.
-     * @param b2
-     *            another byte.
-     * @param s
-     *            a short.
+     * @pbrbm b1
+     *            b bytf.
+     * @pbrbm b2
+     *            bnotifr bytf.
+     * @pbrbm s
+     *            b siort.
      */
-    private void put112(final int b1, final int b2, final int s) {
-        pool.put11(b1, b2).putShort(s);
+    privbtf void put112(finbl int b1, finbl int b2, finbl int s) {
+        pool.put11(b1, b2).putSiort(s);
     }
 }

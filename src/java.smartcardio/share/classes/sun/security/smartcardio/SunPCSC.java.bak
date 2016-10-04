@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.smartcardio;
+pbdkbgf sun.sfdurity.smbrtdbrdio;
 
-import java.security.*;
+import jbvb.sfdurity.*;
 
-import javax.smartcardio.*;
+import jbvbx.smbrtdbrdio.*;
 
 /**
- * Provider object for PC/SC.
+ * Providfr objfdt for PC/SC.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class SunPCSC extends Provider {
+publid finbl dlbss SunPCSC fxtfnds Providfr {
 
-    private static final long serialVersionUID = 6168388284028876579L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6168388284028876579L;
 
-    public SunPCSC() {
-        super("SunPCSC", 1.9d, "Sun PC/SC provider");
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
-                put("TerminalFactory.PC/SC", "sun.security.smartcardio.SunPCSC$Factory");
-                return null;
+    publid SunPCSC() {
+        supfr("SunPCSC", 1.9d, "Sun PC/SC providfr");
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                put("TfrminblFbdtory.PC/SC", "sun.sfdurity.smbrtdbrdio.SunPCSC$Fbdtory");
+                rfturn null;
             }
         });
     }
 
-    public static final class Factory extends TerminalFactorySpi {
-        public Factory(Object obj) throws PCSCException {
+    publid stbtid finbl dlbss Fbdtory fxtfnds TfrminblFbdtorySpi {
+        publid Fbdtory(Objfdt obj) tirows PCSCExdfption {
             if (obj != null) {
-                throw new IllegalArgumentException
-                    ("SunPCSC factory does not use parameters");
+                tirow nfw IllfgblArgumfntExdfption
+                    ("SunPCSC fbdtory dofs not usf pbrbmftfrs");
             }
-            // make sure PCSC is available and that we can obtain a context
-            PCSC.checkAvailable();
-            PCSCTerminals.initContext();
+            // mbkf surf PCSC is bvbilbblf bnd tibt wf dbn obtbin b dontfxt
+            PCSC.difdkAvbilbblf();
+            PCSCTfrminbls.initContfxt();
         }
         /**
-         * Returns the available readers.
-         * This must be a new object for each call.
+         * Rfturns tif bvbilbblf rfbdfrs.
+         * Tiis must bf b nfw objfdt for fbdi dbll.
          */
-        protected CardTerminals engineTerminals() {
-            return new PCSCTerminals();
+        protfdtfd CbrdTfrminbls fnginfTfrminbls() {
+            rfturn nfw PCSCTfrminbls();
         }
     }
 

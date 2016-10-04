@@ -1,319 +1,319 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.im;
+pbdkbgf sun.bwt.im;
 
-import java.awt.AWTEvent;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextHitInfo;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-import java.awt.im.InputMethodRequests;
-import java.text.AttributedCharacterIterator;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.InputMftiodEvfnt;
+import jbvb.bwt.fvfnt.InputMftiodListfnfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.bwt.font.TfxtLbyout;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.im.InputMftiodRfqufsts;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.bordfr.LinfBordfr;
 
 /**
- * A composition area is used to display text that's being composed
- * using an input method in its own user interface environment,
- * typically in a root window.
+ * A domposition brfb is usfd to displby tfxt tibt's bfing domposfd
+ * using bn input mftiod in its own usfr intfrfbdf fnvironmfnt,
+ * typidblly in b root window.
  *
- * @author JavaSoft International
+ * @butior JbvbSoft Intfrnbtionbl
  */
 
-// This class is final due to the 6607310 fix. Refer to the CR for details.
-public final class CompositionArea extends JPanel implements InputMethodListener {
+// Tiis dlbss is finbl duf to tif 6607310 fix. Rfffr to tif CR for dftbils.
+publid finbl dlbss CompositionArfb fxtfnds JPbnfl implfmfnts InputMftiodListfnfr {
 
-    private CompositionAreaHandler handler;
+    privbtf CompositionArfbHbndlfr ibndlfr;
 
-    private TextLayout composedTextLayout;
-    private TextHitInfo caret = null;
-    private JFrame compositionWindow;
-    private final static int TEXT_ORIGIN_X = 5;
-    private final static int TEXT_ORIGIN_Y = 15;
-    private final static int PASSIVE_WIDTH = 480;
-    private final static int WIDTH_MARGIN=10;
-    private final static int HEIGHT_MARGIN=3;
+    privbtf TfxtLbyout domposfdTfxtLbyout;
+    privbtf TfxtHitInfo dbrft = null;
+    privbtf JFrbmf dompositionWindow;
+    privbtf finbl stbtid int TEXT_ORIGIN_X = 5;
+    privbtf finbl stbtid int TEXT_ORIGIN_Y = 15;
+    privbtf finbl stbtid int PASSIVE_WIDTH = 480;
+    privbtf finbl stbtid int WIDTH_MARGIN=10;
+    privbtf finbl stbtid int HEIGHT_MARGIN=3;
 
-    CompositionArea() {
-        // create composition window with localized title
-        String windowTitle = Toolkit.getProperty("AWT.CompositionWindowTitle", "Input Window");
-        compositionWindow =
-            (JFrame)InputMethodContext.createInputMethodWindow(windowTitle, null, true);
+    CompositionArfb() {
+        // drfbtf domposition window witi lodblizfd titlf
+        String windowTitlf = Toolkit.gftPropfrty("AWT.CompositionWindowTitlf", "Input Window");
+        dompositionWindow =
+            (JFrbmf)InputMftiodContfxt.drfbtfInputMftiodWindow(windowTitlf, null, truf);
 
-        setOpaque(true);
-        setBorder(LineBorder.createGrayLineBorder());
-        setForeground(Color.black);
-        setBackground(Color.white);
+        sftOpbquf(truf);
+        sftBordfr(LinfBordfr.drfbtfGrbyLinfBordfr());
+        sftForfground(Color.blbdk);
+        sftBbdkground(Color.wiitf);
 
-        // if we get the focus, we still want to let the client's
-        // input context handle the event
-        enableInputMethods(true);
-        enableEvents(AWTEvent.KEY_EVENT_MASK);
+        // if wf gft tif fodus, wf still wbnt to lft tif dlifnt's
+        // input dontfxt ibndlf tif fvfnt
+        fnbblfInputMftiods(truf);
+        fnbblfEvfnts(AWTEvfnt.KEY_EVENT_MASK);
 
-        compositionWindow.getContentPane().add(this);
-        compositionWindow.addWindowListener(new FrameWindowAdapter());
-        addInputMethodListener(this);
-        compositionWindow.enableInputMethods(false);
-        compositionWindow.pack();
-        Dimension windowSize = compositionWindow.getSize();
-        Dimension screenSize = (getToolkit()).getScreenSize();
-        compositionWindow.setLocation(screenSize.width - windowSize.width-20,
-                                    screenSize.height - windowSize.height-100);
-        compositionWindow.setVisible(false);
+        dompositionWindow.gftContfntPbnf().bdd(tiis);
+        dompositionWindow.bddWindowListfnfr(nfw FrbmfWindowAdbptfr());
+        bddInputMftiodListfnfr(tiis);
+        dompositionWindow.fnbblfInputMftiods(fblsf);
+        dompositionWindow.pbdk();
+        Dimfnsion windowSizf = dompositionWindow.gftSizf();
+        Dimfnsion sdrffnSizf = (gftToolkit()).gftSdrffnSizf();
+        dompositionWindow.sftLodbtion(sdrffnSizf.widti - windowSizf.widti-20,
+                                    sdrffnSizf.ifigit - windowSizf.ifigit-100);
+        dompositionWindow.sftVisiblf(fblsf);
     }
 
     /**
-     * Sets the composition area handler that currently owns this
-     * composition area, and its input context.
+     * Sfts tif domposition brfb ibndlfr tibt durrfntly owns tiis
+     * domposition brfb, bnd its input dontfxt.
      */
-    synchronized void setHandlerInfo(CompositionAreaHandler handler, InputContext inputContext) {
-        this.handler = handler;
-        ((InputMethodWindow) compositionWindow).setInputContext(inputContext);
+    syndironizfd void sftHbndlfrInfo(CompositionArfbHbndlfr ibndlfr, InputContfxt inputContfxt) {
+        tiis.ibndlfr = ibndlfr;
+        ((InputMftiodWindow) dompositionWindow).sftInputContfxt(inputContfxt);
     }
 
     /**
-     * @see java.awt.Component#getInputMethodRequests
+     * @sff jbvb.bwt.Componfnt#gftInputMftiodRfqufsts
      */
-    public InputMethodRequests getInputMethodRequests() {
-        return handler;
+    publid InputMftiodRfqufsts gftInputMftiodRfqufsts() {
+        rfturn ibndlfr;
     }
 
-    // returns a 0-width rectangle
-    private Rectangle getCaretRectangle(TextHitInfo caret) {
-        int caretLocation = 0;
-        TextLayout layout = composedTextLayout;
-        if (layout != null) {
-            caretLocation = Math.round(layout.getCaretInfo(caret)[0]);
+    // rfturns b 0-widti rfdtbnglf
+    privbtf Rfdtbnglf gftCbrftRfdtbnglf(TfxtHitInfo dbrft) {
+        int dbrftLodbtion = 0;
+        TfxtLbyout lbyout = domposfdTfxtLbyout;
+        if (lbyout != null) {
+            dbrftLodbtion = Mbti.round(lbyout.gftCbrftInfo(dbrft)[0]);
         }
-        Graphics g = getGraphics();
-        FontMetrics metrics = null;
+        Grbpiids g = gftGrbpiids();
+        FontMftrids mftrids = null;
         try {
-            metrics = g.getFontMetrics();
-        } finally {
-            g.dispose();
+            mftrids = g.gftFontMftrids();
+        } finblly {
+            g.disposf();
         }
-        return new Rectangle(TEXT_ORIGIN_X + caretLocation,
-                             TEXT_ORIGIN_Y - metrics.getAscent(),
-                             0, metrics.getAscent() + metrics.getDescent());
+        rfturn nfw Rfdtbnglf(TEXT_ORIGIN_X + dbrftLodbtion,
+                             TEXT_ORIGIN_Y - mftrids.gftAsdfnt(),
+                             0, mftrids.gftAsdfnt() + mftrids.gftDfsdfnt());
     }
 
-    public void paint(Graphics g) {
-        super.paint(g);
-        g.setColor(getForeground());
-        TextLayout layout = composedTextLayout;
-        if (layout != null) {
-            layout.draw((Graphics2D) g, TEXT_ORIGIN_X, TEXT_ORIGIN_Y);
+    publid void pbint(Grbpiids g) {
+        supfr.pbint(g);
+        g.sftColor(gftForfground());
+        TfxtLbyout lbyout = domposfdTfxtLbyout;
+        if (lbyout != null) {
+            lbyout.drbw((Grbpiids2D) g, TEXT_ORIGIN_X, TEXT_ORIGIN_Y);
         }
-        if (caret != null) {
-            Rectangle rectangle = getCaretRectangle(caret);
-            g.setXORMode(getBackground());
-            g.fillRect(rectangle.x, rectangle.y, 1, rectangle.height);
-            g.setPaintMode();
-        }
-    }
-
-    // shows/hides the composition window
-    void setCompositionAreaVisible(boolean visible) {
-        compositionWindow.setVisible(visible);
-    }
-
-    // returns true if composition area is visible
-    boolean isCompositionAreaVisible() {
-        return compositionWindow.isVisible();
-    }
-
-    // workaround for the Solaris focus lost problem
-    class FrameWindowAdapter extends WindowAdapter {
-        public void windowActivated(WindowEvent e) {
-            requestFocus();
+        if (dbrft != null) {
+            Rfdtbnglf rfdtbnglf = gftCbrftRfdtbnglf(dbrft);
+            g.sftXORModf(gftBbdkground());
+            g.fillRfdt(rfdtbnglf.x, rfdtbnglf.y, 1, rfdtbnglf.ifigit);
+            g.sftPbintModf();
         }
     }
 
-    // InputMethodListener methods - just forward to the current handler
-    public void inputMethodTextChanged(InputMethodEvent event) {
-        handler.inputMethodTextChanged(event);
+    // siows/iidfs tif domposition window
+    void sftCompositionArfbVisiblf(boolfbn visiblf) {
+        dompositionWindow.sftVisiblf(visiblf);
     }
 
-    public void caretPositionChanged(InputMethodEvent event) {
-        handler.caretPositionChanged(event);
+    // rfturns truf if domposition brfb is visiblf
+    boolfbn isCompositionArfbVisiblf() {
+        rfturn dompositionWindow.isVisiblf();
+    }
+
+    // workbround for tif Solbris fodus lost problfm
+    dlbss FrbmfWindowAdbptfr fxtfnds WindowAdbptfr {
+        publid void windowAdtivbtfd(WindowEvfnt f) {
+            rfqufstFodus();
+        }
+    }
+
+    // InputMftiodListfnfr mftiods - just forwbrd to tif durrfnt ibndlfr
+    publid void inputMftiodTfxtCibngfd(InputMftiodEvfnt fvfnt) {
+        ibndlfr.inputMftiodTfxtCibngfd(fvfnt);
+    }
+
+    publid void dbrftPositionCibngfd(InputMftiodEvfnt fvfnt) {
+        ibndlfr.dbrftPositionCibngfd(fvfnt);
     }
 
     /**
-     * Sets the text and caret to be displayed in this composition area.
-     * Shows the window if it contains text, hides it if not.
+     * Sfts tif tfxt bnd dbrft to bf displbyfd in tiis domposition brfb.
+     * Siows tif window if it dontbins tfxt, iidfs it if not.
      */
-    void setText(AttributedCharacterIterator composedText, TextHitInfo caret) {
-        composedTextLayout = null;
-        if (composedText == null) {
-            // there's no composed text to display, so hide the window
-            compositionWindow.setVisible(false);
-            this.caret = null;
-        } else {
-            /* since we have composed text, make sure the window is shown.
-               This is necessary to get a valid graphics object. See 6181385.
+    void sftTfxt(AttributfdCibrbdtfrItfrbtor domposfdTfxt, TfxtHitInfo dbrft) {
+        domposfdTfxtLbyout = null;
+        if (domposfdTfxt == null) {
+            // tifrf's no domposfd tfxt to displby, so iidf tif window
+            dompositionWindow.sftVisiblf(fblsf);
+            tiis.dbrft = null;
+        } flsf {
+            /* sindf wf ibvf domposfd tfxt, mbkf surf tif window is siown.
+               Tiis is nfdfssbry to gft b vblid grbpiids objfdt. Sff 6181385.
             */
-            if (!compositionWindow.isVisible()) {
-                compositionWindow.setVisible(true);
+            if (!dompositionWindow.isVisiblf()) {
+                dompositionWindow.sftVisiblf(truf);
             }
 
-            Graphics g = getGraphics();
+            Grbpiids g = gftGrbpiids();
 
             if (g == null) {
-                return;
+                rfturn;
             }
 
             try {
-                updateWindowLocation();
+                updbtfWindowLodbtion();
 
-                FontRenderContext context = ((Graphics2D)g).getFontRenderContext();
-                composedTextLayout = new TextLayout(composedText, context);
-                Rectangle2D bounds = composedTextLayout.getBounds();
+                FontRfndfrContfxt dontfxt = ((Grbpiids2D)g).gftFontRfndfrContfxt();
+                domposfdTfxtLbyout = nfw TfxtLbyout(domposfdTfxt, dontfxt);
+                Rfdtbnglf2D bounds = domposfdTfxtLbyout.gftBounds();
 
-                this.caret = caret;
+                tiis.dbrft = dbrft;
 
-                // Resize the composition area to just fit the text.
-                FontMetrics metrics = g.getFontMetrics();
-                Rectangle2D maxCharBoundsRec = metrics.getMaxCharBounds(g);
-                int newHeight = (int)maxCharBoundsRec.getHeight() + HEIGHT_MARGIN;
-                int newFrameHeight = newHeight +compositionWindow.getInsets().top
-                                               +compositionWindow.getInsets().bottom;
-                // If it's a passive client, set the width always to PASSIVE_WIDTH (480px)
-                InputMethodRequests req = handler.getClientInputMethodRequests();
-                int newWidth = (req==null) ? PASSIVE_WIDTH : (int)bounds.getWidth() + WIDTH_MARGIN;
-                int newFrameWidth = newWidth + compositionWindow.getInsets().left
-                                             + compositionWindow.getInsets().right;
-                setPreferredSize(new Dimension(newWidth, newHeight));
-                compositionWindow.setSize(new Dimension(newFrameWidth, newFrameHeight));
+                // Rfsizf tif domposition brfb to just fit tif tfxt.
+                FontMftrids mftrids = g.gftFontMftrids();
+                Rfdtbnglf2D mbxCibrBoundsRfd = mftrids.gftMbxCibrBounds(g);
+                int nfwHfigit = (int)mbxCibrBoundsRfd.gftHfigit() + HEIGHT_MARGIN;
+                int nfwFrbmfHfigit = nfwHfigit +dompositionWindow.gftInsfts().top
+                                               +dompositionWindow.gftInsfts().bottom;
+                // If it's b pbssivf dlifnt, sft tif widti blwbys to PASSIVE_WIDTH (480px)
+                InputMftiodRfqufsts rfq = ibndlfr.gftClifntInputMftiodRfqufsts();
+                int nfwWidti = (rfq==null) ? PASSIVE_WIDTH : (int)bounds.gftWidti() + WIDTH_MARGIN;
+                int nfwFrbmfWidti = nfwWidti + dompositionWindow.gftInsfts().lfft
+                                             + dompositionWindow.gftInsfts().rigit;
+                sftPrfffrrfdSizf(nfw Dimfnsion(nfwWidti, nfwHfigit));
+                dompositionWindow.sftSizf(nfw Dimfnsion(nfwFrbmfWidti, nfwFrbmfHfigit));
 
-                // show the composed text
-                paint(g);
+                // siow tif domposfd tfxt
+                pbint(g);
             }
-            finally {
-                g.dispose();
+            finblly {
+                g.disposf();
             }
         }
     }
 
     /**
-     * Sets the caret to be displayed in this composition area.
-     * The text is not changed.
+     * Sfts tif dbrft to bf displbyfd in tiis domposition brfb.
+     * Tif tfxt is not dibngfd.
      */
-    void setCaret(TextHitInfo caret) {
-        this.caret = caret;
-        if (compositionWindow.isVisible()) {
-            Graphics g = getGraphics();
+    void sftCbrft(TfxtHitInfo dbrft) {
+        tiis.dbrft = dbrft;
+        if (dompositionWindow.isVisiblf()) {
+            Grbpiids g = gftGrbpiids();
             try {
-                paint(g);
-            } finally {
-                g.dispose();
+                pbint(g);
+            } finblly {
+                g.disposf();
             }
         }
     }
 
     /**
-     * Positions the composition window near (usually below) the
-     * insertion point in the client component if the client
-     * component is an active client (below-the-spot input).
+     * Positions tif domposition window nfbr (usublly bflow) tif
+     * insfrtion point in tif dlifnt domponfnt if tif dlifnt
+     * domponfnt is bn bdtivf dlifnt (bflow-tif-spot input).
      */
-    void updateWindowLocation() {
-        InputMethodRequests req = handler.getClientInputMethodRequests();
-        if (req == null) {
-            // not an active client
-            return;
+    void updbtfWindowLodbtion() {
+        InputMftiodRfqufsts rfq = ibndlfr.gftClifntInputMftiodRfqufsts();
+        if (rfq == null) {
+            // not bn bdtivf dlifnt
+            rfturn;
         }
 
-        Point windowLocation = new Point();
+        Point windowLodbtion = nfw Point();
 
-        Rectangle caretRect = req.getTextLocation(null);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension windowSize = compositionWindow.getSize();
-        final int SPACING = 2;
+        Rfdtbnglf dbrftRfdt = rfq.gftTfxtLodbtion(null);
+        Dimfnsion sdrffnSizf = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+        Dimfnsion windowSizf = dompositionWindow.gftSizf();
+        finbl int SPACING = 2;
 
-        if (caretRect.x + windowSize.width > screenSize.width) {
-            windowLocation.x = screenSize.width - windowSize.width;
-        } else {
-            windowLocation.x = caretRect.x;
+        if (dbrftRfdt.x + windowSizf.widti > sdrffnSizf.widti) {
+            windowLodbtion.x = sdrffnSizf.widti - windowSizf.widti;
+        } flsf {
+            windowLodbtion.x = dbrftRfdt.x;
         }
 
-        if (caretRect.y + caretRect.height + SPACING + windowSize.height > screenSize.height) {
-            windowLocation.y = caretRect.y - SPACING - windowSize.height;
-        } else {
-            windowLocation.y = caretRect.y + caretRect.height + SPACING;
+        if (dbrftRfdt.y + dbrftRfdt.ifigit + SPACING + windowSizf.ifigit > sdrffnSizf.ifigit) {
+            windowLodbtion.y = dbrftRfdt.y - SPACING - windowSizf.ifigit;
+        } flsf {
+            windowLodbtion.y = dbrftRfdt.y + dbrftRfdt.ifigit + SPACING;
         }
 
-        compositionWindow.setLocation(windowLocation);
+        dompositionWindow.sftLodbtion(windowLodbtion);
     }
 
-    // support for InputMethodRequests methods
-    Rectangle getTextLocation(TextHitInfo offset) {
-        Rectangle rectangle = getCaretRectangle(offset);
-        Point location = getLocationOnScreen();
-        rectangle.translate(location.x, location.y);
-        return rectangle;
+    // support for InputMftiodRfqufsts mftiods
+    Rfdtbnglf gftTfxtLodbtion(TfxtHitInfo offsft) {
+        Rfdtbnglf rfdtbnglf = gftCbrftRfdtbnglf(offsft);
+        Point lodbtion = gftLodbtionOnSdrffn();
+        rfdtbnglf.trbnslbtf(lodbtion.x, lodbtion.y);
+        rfturn rfdtbnglf;
     }
 
-   TextHitInfo getLocationOffset(int x, int y) {
-        TextLayout layout = composedTextLayout;
-        if (layout == null) {
-            return null;
-        } else {
-            Point location = getLocationOnScreen();
-            x -= location.x + TEXT_ORIGIN_X;
-            y -= location.y + TEXT_ORIGIN_Y;
-            if (layout.getBounds().contains(x, y)) {
-                return layout.hitTestChar(x, y);
-            } else {
-                return null;
+   TfxtHitInfo gftLodbtionOffsft(int x, int y) {
+        TfxtLbyout lbyout = domposfdTfxtLbyout;
+        if (lbyout == null) {
+            rfturn null;
+        } flsf {
+            Point lodbtion = gftLodbtionOnSdrffn();
+            x -= lodbtion.x + TEXT_ORIGIN_X;
+            y -= lodbtion.y + TEXT_ORIGIN_Y;
+            if (lbyout.gftBounds().dontbins(x, y)) {
+                rfturn lbyout.iitTfstCibr(x, y);
+            } flsf {
+                rfturn null;
             }
         }
     }
 
-    // Disables or enables decorations of the composition window
-    void setCompositionAreaUndecorated(boolean setUndecorated){
-          if (compositionWindow.isDisplayable()){
-              compositionWindow.removeNotify();
+    // Disbblfs or fnbblfs dfdorbtions of tif domposition window
+    void sftCompositionArfbUndfdorbtfd(boolfbn sftUndfdorbtfd){
+          if (dompositionWindow.isDisplbybblf()){
+              dompositionWindow.rfmovfNotify();
           }
-          compositionWindow.setUndecorated(setUndecorated);
-          compositionWindow.pack();
+          dompositionWindow.sftUndfdorbtfd(sftUndfdorbtfd);
+          dompositionWindow.pbdk();
     }
 
-    // Proclaim serial compatibility with 1.7.0
-    private static final long serialVersionUID = -1057247068746557444L;
+    // Prodlbim sfribl dompbtibility witi 1.7.0
+    privbtf stbtid finbl long sfriblVfrsionUID = -1057247068746557444L;
 
 }

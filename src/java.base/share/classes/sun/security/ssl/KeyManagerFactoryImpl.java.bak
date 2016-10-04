@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.util.List;
-import java.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
 
-import java.security.*;
-import java.security.KeyStore.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.KfyStorf.*;
 
-import javax.net.ssl.*;
+import jbvbx.nft.ssl.*;
 
-abstract class KeyManagerFactoryImpl extends KeyManagerFactorySpi {
+bbstrbdt dlbss KfyMbnbgfrFbdtoryImpl fxtfnds KfyMbnbgfrFbdtorySpi {
 
-    X509ExtendedKeyManager keyManager;
-    boolean isInitialized;
+    X509ExtfndfdKfyMbnbgfr kfyMbnbgfr;
+    boolfbn isInitiblizfd;
 
-    KeyManagerFactoryImpl() {
-        // empty
+    KfyMbnbgfrFbdtoryImpl() {
+        // fmpty
     }
 
     /**
-     * Returns one key manager for each type of key material.
+     * Rfturns onf kfy mbnbgfr for fbdi typf of kfy mbtfribl.
      */
-    @Override
-    protected KeyManager[] engineGetKeyManagers() {
-        if (!isInitialized) {
-            throw new IllegalStateException(
-                        "KeyManagerFactoryImpl is not initialized");
+    @Ovfrridf
+    protfdtfd KfyMbnbgfr[] fnginfGftKfyMbnbgfrs() {
+        if (!isInitiblizfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                        "KfyMbnbgfrFbdtoryImpl is not initiblizfd");
         }
-        return new KeyManager[] { keyManager };
+        rfturn nfw KfyMbnbgfr[] { kfyMbnbgfr };
     }
 
-    // Factory for the SunX509 keymanager
-    public static final class SunX509 extends KeyManagerFactoryImpl {
+    // Fbdtory for tif SunX509 kfymbnbgfr
+    publid stbtid finbl dlbss SunX509 fxtfnds KfyMbnbgfrFbdtoryImpl {
 
-        @Override
-        protected void engineInit(KeyStore ks, char[] password) throws
-                KeyStoreException, NoSuchAlgorithmException,
-                UnrecoverableKeyException {
+        @Ovfrridf
+        protfdtfd void fnginfInit(KfyStorf ks, dibr[] pbssword) tirows
+                KfyStorfExdfption, NoSudiAlgoritimExdfption,
+                UnrfdovfrbblfKfyExdfption {
             if ((ks != null) && SunJSSE.isFIPS()) {
-                if (ks.getProvider() != SunJSSE.cryptoProvider) {
-                    throw new KeyStoreException("FIPS mode: KeyStore must be "
-                        + "from provider " + SunJSSE.cryptoProvider.getName());
+                if (ks.gftProvidfr() != SunJSSE.dryptoProvidfr) {
+                    tirow nfw KfyStorfExdfption("FIPS modf: KfyStorf must bf "
+                        + "from providfr " + SunJSSE.dryptoProvidfr.gftNbmf());
                 }
             }
-            keyManager = new SunX509KeyManagerImpl(ks, password);
-            isInitialized = true;
+            kfyMbnbgfr = nfw SunX509KfyMbnbgfrImpl(ks, pbssword);
+            isInitiblizfd = truf;
         }
 
-        @Override
-        protected void engineInit(ManagerFactoryParameters spec) throws
-                InvalidAlgorithmParameterException {
-            throw new InvalidAlgorithmParameterException(
-                "SunX509KeyManager does not use ManagerFactoryParameters");
+        @Ovfrridf
+        protfdtfd void fnginfInit(MbnbgfrFbdtoryPbrbmftfrs spfd) tirows
+                InvblidAlgoritimPbrbmftfrExdfption {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                "SunX509KfyMbnbgfr dofs not usf MbnbgfrFbdtoryPbrbmftfrs");
         }
 
     }
 
-    // Factory for the X509 keymanager
-    public static final class X509 extends KeyManagerFactoryImpl {
+    // Fbdtory for tif X509 kfymbnbgfr
+    publid stbtid finbl dlbss X509 fxtfnds KfyMbnbgfrFbdtoryImpl {
 
-        @Override
-        protected void engineInit(KeyStore ks, char[] password) throws
-                KeyStoreException, NoSuchAlgorithmException,
-                UnrecoverableKeyException {
+        @Ovfrridf
+        protfdtfd void fnginfInit(KfyStorf ks, dibr[] pbssword) tirows
+                KfyStorfExdfption, NoSudiAlgoritimExdfption,
+                UnrfdovfrbblfKfyExdfption {
             if (ks == null) {
-                keyManager = new X509KeyManagerImpl(
-                        Collections.<Builder>emptyList());
-            } else {
-                if (SunJSSE.isFIPS() && (ks.getProvider() != SunJSSE.cryptoProvider)) {
-                    throw new KeyStoreException("FIPS mode: KeyStore must be "
-                        + "from provider " + SunJSSE.cryptoProvider.getName());
+                kfyMbnbgfr = nfw X509KfyMbnbgfrImpl(
+                        Collfdtions.<Buildfr>fmptyList());
+            } flsf {
+                if (SunJSSE.isFIPS() && (ks.gftProvidfr() != SunJSSE.dryptoProvidfr)) {
+                    tirow nfw KfyStorfExdfption("FIPS modf: KfyStorf must bf "
+                        + "from providfr " + SunJSSE.dryptoProvidfr.gftNbmf());
                 }
                 try {
-                    Builder builder = Builder.newInstance(ks,
-                        new PasswordProtection(password));
-                    keyManager = new X509KeyManagerImpl(builder);
-                } catch (RuntimeException e) {
-                    throw new KeyStoreException("initialization failed", e);
+                    Buildfr buildfr = Buildfr.nfwInstbndf(ks,
+                        nfw PbsswordProtfdtion(pbssword));
+                    kfyMbnbgfr = nfw X509KfyMbnbgfrImpl(buildfr);
+                } dbtdi (RuntimfExdfption f) {
+                    tirow nfw KfyStorfExdfption("initiblizbtion fbilfd", f);
                 }
             }
-            isInitialized = true;
+            isInitiblizfd = truf;
         }
 
-        @Override
-        protected void engineInit(ManagerFactoryParameters params) throws
-                InvalidAlgorithmParameterException {
-            if (params instanceof KeyStoreBuilderParameters == false) {
-                throw new InvalidAlgorithmParameterException(
-                "Parameters must be instance of KeyStoreBuilderParameters");
+        @Ovfrridf
+        protfdtfd void fnginfInit(MbnbgfrFbdtoryPbrbmftfrs pbrbms) tirows
+                InvblidAlgoritimPbrbmftfrExdfption {
+            if (pbrbms instbndfof KfyStorfBuildfrPbrbmftfrs == fblsf) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                "Pbrbmftfrs must bf instbndf of KfyStorfBuildfrPbrbmftfrs");
             }
             if (SunJSSE.isFIPS()) {
-                // XXX should be fixed
-                throw new InvalidAlgorithmParameterException
-                    ("FIPS mode: KeyStoreBuilderParameters not supported");
+                // XXX siould bf fixfd
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                    ("FIPS modf: KfyStorfBuildfrPbrbmftfrs not supportfd");
             }
-            List<Builder> builders =
-                ((KeyStoreBuilderParameters)params).getParameters();
-            keyManager = new X509KeyManagerImpl(builders);
-            isInitialized = true;
+            List<Buildfr> buildfrs =
+                ((KfyStorfBuildfrPbrbmftfrs)pbrbms).gftPbrbmftfrs();
+            kfyMbnbgfr = nfw X509KfyMbnbgfrImpl(buildfrs);
+            isInitiblizfd = truf;
         }
 
     }

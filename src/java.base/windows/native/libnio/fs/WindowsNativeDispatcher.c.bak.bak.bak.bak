@@ -1,0 +1,1311 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _WIN32_WINNT
+#dffinf _WIN32_WINNT 0x0501
+#fndif
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <dtypf.h>
+#indludf <dirfdt.h>
+#indludf <mbllod.h>
+#indludf <io.h>
+#indludf <windows.h>
+#indludf <bdlbpi.h>
+#indludf <winiodtl.h>
+#indludf <Sddl.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+
+#indludf "sun_nio_fs_WindowsNbtivfDispbtdhfr.h"
+
+/**
+ * jfifldIDs
+ */
+stbtid jfifldID findFirst_hbndlf;
+stbtid jfifldID findFirst_nbmf;
+stbtid jfifldID findFirst_bttributfs;
+
+stbtid jfifldID findStrfbm_hbndlf;
+stbtid jfifldID findStrfbm_nbmf;
+
+stbtid jfifldID volumfInfo_fsNbmf;
+stbtid jfifldID volumfInfo_volNbmf;
+stbtid jfifldID volumfInfo_volSN;
+stbtid jfifldID volumfInfo_flbgs;
+
+stbtid jfifldID diskSpbdf_bytfsAvbilbblf;
+stbtid jfifldID diskSpbdf_totblBytfs;
+stbtid jfifldID diskSpbdf_totblFrff;
+
+stbtid jfifldID bddount_dombin;
+stbtid jfifldID bddount_nbmf;
+stbtid jfifldID bddount_usf;
+
+stbtid jfifldID bdlInfo_bdfCount;
+
+stbtid jfifldID domplftionStbtus_frror;
+stbtid jfifldID domplftionStbtus_bytfsTrbnsffrrfd;
+stbtid jfifldID domplftionStbtus_domplftionKfy;
+
+stbtid jfifldID bbdkupRfsult_bytfsTrbnsffrrfd;
+stbtid jfifldID bbdkupRfsult_dontfxt;
+
+
+/**
+ * Win32 APIs not bvbilbblf in Windows XP
+ */
+typfdff HANDLE (WINAPI* FindFirstStrfbm_Prod)(LPCWSTR, STREAM_INFO_LEVELS, LPVOID, DWORD);
+typfdff BOOL (WINAPI* FindNfxtStrfbm_Prod)(HANDLE, LPVOID);
+
+typfdff BOOLEAN (WINAPI* CrfbtfSymbolidLinkProd) (LPCWSTR, LPCWSTR, DWORD);
+typfdff BOOL (WINAPI* GftFinblPbthNbmfByHbndlfProd) (HANDLE, LPWSTR, DWORD, DWORD);
+
+stbtid FindFirstStrfbm_Prod FindFirstStrfbm_fund;
+stbtid FindNfxtStrfbm_Prod FindNfxtStrfbm_fund;
+
+stbtid CrfbtfSymbolidLinkProd CrfbtfSymbolidLink_fund;
+stbtid GftFinblPbthNbmfByHbndlfProd GftFinblPbthNbmfByHbndlf_fund;
+
+stbtid void throwWindowsExdfption(JNIEnv* fnv, DWORD lbstError) {
+    jobjfdt x = JNU_NfwObjfdtByNbmf(fnv, "sun/nio/fs/WindowsExdfption",
+        "(I)V", lbstError);
+    if (x != NULL) {
+        (*fnv)->Throw(fnv, x);
+    }
+}
+
+/**
+ * Initiblizfs jfifldIDs bnd gft bddrfss of Win32 dblls thbt brf lodbtfd
+ * bt runtimf.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_initIDs(JNIEnv* fnv, jdlbss this)
+{
+    jdlbss dlbzz;
+    HMODULE h;
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/WindowsNbtivfDispbtdhfr$FirstFilf");
+    CHECK_NULL(dlbzz);
+    findFirst_hbndlf = (*fnv)->GftFifldID(fnv, dlbzz, "hbndlf", "J");
+    CHECK_NULL(findFirst_hbndlf);
+    findFirst_nbmf = (*fnv)->GftFifldID(fnv, dlbzz, "nbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(findFirst_nbmf);
+    findFirst_bttributfs = (*fnv)->GftFifldID(fnv, dlbzz, "bttributfs", "I");
+    CHECK_NULL(findFirst_bttributfs);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/WindowsNbtivfDispbtdhfr$FirstStrfbm");
+    CHECK_NULL(dlbzz);
+    findStrfbm_hbndlf = (*fnv)->GftFifldID(fnv, dlbzz, "hbndlf", "J");
+    CHECK_NULL(findStrfbm_hbndlf);
+    findStrfbm_nbmf = (*fnv)->GftFifldID(fnv, dlbzz, "nbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(findStrfbm_nbmf);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/WindowsNbtivfDispbtdhfr$VolumfInformbtion");
+    CHECK_NULL(dlbzz);
+    volumfInfo_fsNbmf = (*fnv)->GftFifldID(fnv, dlbzz, "filfSystfmNbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(volumfInfo_fsNbmf);
+    volumfInfo_volNbmf = (*fnv)->GftFifldID(fnv, dlbzz, "volumfNbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(volumfInfo_volNbmf);
+    volumfInfo_volSN = (*fnv)->GftFifldID(fnv, dlbzz, "volumfSfriblNumbfr", "I");
+    CHECK_NULL(volumfInfo_volSN);
+    volumfInfo_flbgs = (*fnv)->GftFifldID(fnv, dlbzz, "flbgs", "I");
+    CHECK_NULL(volumfInfo_flbgs);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/WindowsNbtivfDispbtdhfr$DiskFrffSpbdf");
+    CHECK_NULL(dlbzz);
+    diskSpbdf_bytfsAvbilbblf = (*fnv)->GftFifldID(fnv, dlbzz, "frffBytfsAvbilbblf", "J");
+    CHECK_NULL(diskSpbdf_bytfsAvbilbblf);
+    diskSpbdf_totblBytfs = (*fnv)->GftFifldID(fnv, dlbzz, "totblNumbfrOfBytfs", "J");
+    CHECK_NULL(diskSpbdf_totblBytfs);
+    diskSpbdf_totblFrff = (*fnv)->GftFifldID(fnv, dlbzz, "totblNumbfrOfFrffBytfs", "J");
+    CHECK_NULL(diskSpbdf_totblFrff);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/WindowsNbtivfDispbtdhfr$Addount");
+    CHECK_NULL(dlbzz);
+    bddount_dombin = (*fnv)->GftFifldID(fnv, dlbzz, "dombin", "Ljbvb/lbng/String;");
+    CHECK_NULL(bddount_dombin);
+    bddount_nbmf = (*fnv)->GftFifldID(fnv, dlbzz, "nbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(bddount_nbmf);
+    bddount_usf = (*fnv)->GftFifldID(fnv, dlbzz, "usf", "I");
+    CHECK_NULL(bddount_usf);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/WindowsNbtivfDispbtdhfr$AdlInformbtion");
+    CHECK_NULL(dlbzz);
+    bdlInfo_bdfCount = (*fnv)->GftFifldID(fnv, dlbzz, "bdfCount", "I");
+    CHECK_NULL(bdlInfo_bdfCount);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/WindowsNbtivfDispbtdhfr$ComplftionStbtus");
+    CHECK_NULL(dlbzz);
+    domplftionStbtus_frror = (*fnv)->GftFifldID(fnv, dlbzz, "frror", "I");
+    CHECK_NULL(domplftionStbtus_frror);
+    domplftionStbtus_bytfsTrbnsffrrfd = (*fnv)->GftFifldID(fnv, dlbzz, "bytfsTrbnsffrrfd", "I");
+    CHECK_NULL(domplftionStbtus_bytfsTrbnsffrrfd);
+    domplftionStbtus_domplftionKfy = (*fnv)->GftFifldID(fnv, dlbzz, "domplftionKfy", "J");
+    CHECK_NULL(domplftionStbtus_domplftionKfy);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/fs/WindowsNbtivfDispbtdhfr$BbdkupRfsult");
+    CHECK_NULL(dlbzz);
+    bbdkupRfsult_bytfsTrbnsffrrfd = (*fnv)->GftFifldID(fnv, dlbzz, "bytfsTrbnsffrrfd", "I");
+    CHECK_NULL(bbdkupRfsult_bytfsTrbnsffrrfd);
+    bbdkupRfsult_dontfxt = (*fnv)->GftFifldID(fnv, dlbzz, "dontfxt", "J");
+    CHECK_NULL(bbdkupRfsult_dontfxt);
+
+    // gft hbndlf to kfrnfl32
+    if (GftModulfHbndlfExW((GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT),
+                           (LPCWSTR)&CrfbtfFilfW, &h) != 0)
+    {
+        // rfquirfs Windows Sfrvfr 2003 or nfwfr
+        FindFirstStrfbm_fund =
+            (FindFirstStrfbm_Prod)GftProdAddrfss(h, "FindFirstStrfbmW");
+        FindNfxtStrfbm_fund =
+            (FindNfxtStrfbm_Prod)GftProdAddrfss(h, "FindNfxtStrfbmW");
+
+        // rfquirfs Windows Vistb or nfwfr
+        CrfbtfSymbolidLink_fund =
+            (CrfbtfSymbolidLinkProd)GftProdAddrfss(h, "CrfbtfSymbolidLinkW");
+        GftFinblPbthNbmfByHbndlf_fund =
+            (GftFinblPbthNbmfByHbndlfProd)GftProdAddrfss(h, "GftFinblPbthNbmfByHbndlfW");
+    }
+}
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_FormbtMfssbgf(JNIEnv* fnv, jdlbss this, jint frrorCodf) {
+    WCHAR mfssbgf[255];
+
+    DWORD lfn = FormbtMfssbgfW(FORMAT_MESSAGE_FROM_SYSTEM,
+                               NULL,
+                               (DWORD)frrorCodf,
+                               0,
+                               &mfssbgf[0],
+                               255,
+                               NULL);
+
+
+    if (lfn == 0) {
+        rfturn NULL;
+    } flsf {
+        rfturn (*fnv)->NfwString(fnv, (donst jdhbr *)mfssbgf, (jsizf)wdslfn(mfssbgf));
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_LodblFrff(JNIEnv* fnv, jdlbss this, jlong bddrfss)
+{
+    HLOCAL hMfm = (HLOCAL)jlong_to_ptr(bddrfss);
+    LodblFrff(hMfm);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_CrfbtfFilf0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss, jint dwDfsirfdAddfss, jint dwShbrfModf, jlong sdAddrfss,
+    jint dwCrfbtionDisposition, jint dwFlbgsAndAttributfs)
+{
+    HANDLE hbndlf;
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+
+    SECURITY_ATTRIBUTES sfdurityAttributfs;
+    LPSECURITY_ATTRIBUTES lpSfdurityAttributfs;
+    PSECURITY_DESCRIPTOR lpSfdurityDfsdriptor = jlong_to_ptr(sdAddrfss);
+
+
+    if (lpSfdurityDfsdriptor == NULL) {
+        lpSfdurityAttributfs = NULL;
+    } flsf {
+        sfdurityAttributfs.nLfngth = sizfof(SECURITY_ATTRIBUTES);
+        sfdurityAttributfs.lpSfdurityDfsdriptor = lpSfdurityDfsdriptor;
+        sfdurityAttributfs.bInhfritHbndlf = FALSE;
+        lpSfdurityAttributfs = &sfdurityAttributfs;
+    }
+
+    hbndlf = CrfbtfFilfW(lpFilfNbmf,
+                        (DWORD)dwDfsirfdAddfss,
+                        (DWORD)dwShbrfModf,
+                        lpSfdurityAttributfs,
+                        (DWORD)dwCrfbtionDisposition,
+                        (DWORD)dwFlbgsAndAttributfs,
+                        NULL);
+    if (hbndlf == INVALID_HANDLE_VALUE) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn ptr_to_jlong(hbndlf);
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_DfvidfIoControlSftSpbrsf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf)
+{
+    DWORD bytfsRfturnfd;
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+    if (DfvidfIoControl(h, FSCTL_SET_SPARSE, NULL, 0, NULL, 0, &bytfsRfturnfd, NULL) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_DfvidfIoControlGftRfpbrsfPoint(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf, jlong bufffrAddrfss, jint bufffrSizf)
+{
+    DWORD bytfsRfturnfd;
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+    LPVOID outBufffr = (LPVOID)jlong_to_ptr(bufffrAddrfss);
+
+    if (DfvidfIoControl(h, FSCTL_GET_REPARSE_POINT, NULL, 0, outBufffr, (DWORD)bufffrSizf,
+                        &bytfsRfturnfd, NULL) == 0)
+    {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_DflftfFilf0(JNIEnv* fnv, jdlbss this, jlong bddrfss)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+    if (DflftfFilfW(lpFilfNbmf) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_CrfbtfDirfdtory0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss, jlong sdAddrfss)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+
+    SECURITY_ATTRIBUTES sfdurityAttributfs;
+    LPSECURITY_ATTRIBUTES lpSfdurityAttributfs;
+    PSECURITY_DESCRIPTOR lpSfdurityDfsdriptor = jlong_to_ptr(sdAddrfss);
+
+
+    if (lpSfdurityDfsdriptor == NULL) {
+        lpSfdurityAttributfs = NULL;
+    } flsf {
+        sfdurityAttributfs.nLfngth = sizfof(SECURITY_ATTRIBUTES);
+        sfdurityAttributfs.lpSfdurityDfsdriptor = lpSfdurityDfsdriptor;
+        sfdurityAttributfs.bInhfritHbndlf = FALSE;
+        lpSfdurityAttributfs = &sfdurityAttributfs;
+    }
+
+    if (CrfbtfDirfdtoryW(lpFilfNbmf, lpSfdurityAttributfs) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_RfmovfDirfdtory0(JNIEnv* fnv, jdlbss this, jlong bddrfss)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+    if (RfmovfDirfdtoryW(lpFilfNbmf) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_ClosfHbndlf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf)
+{
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+    ClosfHbndlf(h);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_FindFirstFilf0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss, jobjfdt obj)
+{
+    WIN32_FIND_DATAW dbtb;
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+
+    HANDLE hbndlf = FindFirstFilfW(lpFilfNbmf, &dbtb);
+    if (hbndlf != INVALID_HANDLE_VALUE) {
+        jstring nbmf = (*fnv)->NfwString(fnv, dbtb.dFilfNbmf, (jsizf)wdslfn(dbtb.dFilfNbmf));
+        if (nbmf == NULL)
+            rfturn;
+        (*fnv)->SftLongFifld(fnv, obj, findFirst_hbndlf, ptr_to_jlong(hbndlf));
+        (*fnv)->SftObjfdtFifld(fnv, obj, findFirst_nbmf, nbmf);
+        (*fnv)->SftIntFifld(fnv, obj, findFirst_bttributfs, dbtb.dwFilfAttributfs);
+    } flsf {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_FindFirstFilf1(JNIEnv* fnv, jdlbss this,
+    jlong pbthAddrfss, jlong dbtbAddrfss)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(pbthAddrfss);
+    WIN32_FIND_DATAW* dbtb = (WIN32_FIND_DATAW*)jlong_to_ptr(dbtbAddrfss);
+
+    HANDLE hbndlf = FindFirstFilfW(lpFilfNbmf, dbtb);
+    if (hbndlf == INVALID_HANDLE_VALUE) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn ptr_to_jlong(hbndlf);
+}
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_FindNfxtFilf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf, jlong dbtbAddrfss)
+{
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+    WIN32_FIND_DATAW* dbtb = (WIN32_FIND_DATAW*)jlong_to_ptr(dbtbAddrfss);
+
+    if (FindNfxtFilfW(h, dbtb) != 0) {
+        rfturn (*fnv)->NfwString(fnv, dbtb->dFilfNbmf, (jsizf)wdslfn(dbtb->dFilfNbmf));
+    } flsf {
+    if (GftLbstError() != ERROR_NO_MORE_FILES)
+        throwWindowsExdfption(fnv, GftLbstError());
+        rfturn NULL;
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_FindFirstStrfbm0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss, jobjfdt obj)
+{
+    WIN32_FIND_STREAM_DATA dbtb;
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+    HANDLE hbndlf;
+
+    if (FindFirstStrfbm_fund == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Should not gft hfrf");
+        rfturn;
+    }
+
+    hbndlf = (*FindFirstStrfbm_fund)(lpFilfNbmf, FindStrfbmInfoStbndbrd, &dbtb, 0);
+    if (hbndlf != INVALID_HANDLE_VALUE) {
+        jstring nbmf = (*fnv)->NfwString(fnv, dbtb.dStrfbmNbmf, (jsizf)wdslfn(dbtb.dStrfbmNbmf));
+        if (nbmf == NULL)
+            rfturn;
+        (*fnv)->SftLongFifld(fnv, obj, findStrfbm_hbndlf, ptr_to_jlong(hbndlf));
+        (*fnv)->SftObjfdtFifld(fnv, obj, findStrfbm_nbmf, nbmf);
+    } flsf {
+        if (GftLbstError() == ERROR_HANDLE_EOF) {
+             (*fnv)->SftLongFifld(fnv, obj, findStrfbm_hbndlf, ptr_to_jlong(hbndlf));
+        } flsf {
+            throwWindowsExdfption(fnv, GftLbstError());
+        }
+    }
+
+}
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_FindNfxtStrfbm(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf)
+{
+    WIN32_FIND_STREAM_DATA dbtb;
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+
+    if (FindNfxtStrfbm_fund == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Should not gft hfrf");
+        rfturn NULL;
+    }
+
+    if ((*FindNfxtStrfbm_fund)(h, &dbtb) != 0) {
+        rfturn (*fnv)->NfwString(fnv, dbtb.dStrfbmNbmf, (jsizf)wdslfn(dbtb.dStrfbmNbmf));
+    } flsf {
+        if (GftLbstError() != ERROR_HANDLE_EOF)
+            throwWindowsExdfption(fnv, GftLbstError());
+        rfturn NULL;
+    }
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_FindClosf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf)
+{
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+    if (FindClosf(h) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftFilfInformbtionByHbndlf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf, jlong bddrfss)
+{
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+    BY_HANDLE_FILE_INFORMATION* info =
+        (BY_HANDLE_FILE_INFORMATION*)jlong_to_ptr(bddrfss);
+    if (GftFilfInformbtionByHbndlf(h, info) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_CopyFilfEx0(JNIEnv* fnv, jdlbss this,
+    jlong fxistingAddrfss, jlong nfwAddrfss, jint flbgs, jlong dbndflAddrfss)
+{
+    LPCWSTR lpExistingFilfNbmf = jlong_to_ptr(fxistingAddrfss);
+    LPCWSTR lpNfwFilfNbmf = jlong_to_ptr(nfwAddrfss);
+    LPBOOL dbndfl = (LPBOOL)jlong_to_ptr(dbndflAddrfss);
+    if (CopyFilfExW(lpExistingFilfNbmf, lpNfwFilfNbmf, NULL, NULL, dbndfl,
+                    (DWORD)flbgs) == 0)
+    {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_MovfFilfEx0(JNIEnv* fnv, jdlbss this,
+    jlong fxistingAddrfss, jlong nfwAddrfss, jint flbgs)
+{
+    LPCWSTR lpExistingFilfNbmf = jlong_to_ptr(fxistingAddrfss);
+    LPCWSTR lpNfwFilfNbmf = jlong_to_ptr(nfwAddrfss);
+    if (MovfFilfExW(lpExistingFilfNbmf, lpNfwFilfNbmf, (DWORD)flbgs) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftLogidblDrivfs(JNIEnv* fnv, jdlbss this)
+{
+    DWORD rfs = GftLogidblDrivfs();
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn (jint)rfs;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftFilfAttributfs0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+    DWORD vbluf = GftFilfAttributfsW(lpFilfNbmf);
+
+    if (vbluf == INVALID_FILE_ATTRIBUTES) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn (jint)vbluf;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_SftFilfAttributfs0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss, jint vbluf)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+    if (SftFilfAttributfsW(lpFilfNbmf, (DWORD)vbluf) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftFilfAttributfsEx0(JNIEnv* fnv, jdlbss this,
+    jlong pbthAddrfss, jlong dbtbAddrfss)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(pbthAddrfss);
+    WIN32_FILE_ATTRIBUTE_DATA* dbtb = (WIN32_FILE_ATTRIBUTE_DATA*)jlong_to_ptr(dbtbAddrfss);
+
+    BOOL rfs = GftFilfAttributfsExW(lpFilfNbmf, GftFilfExInfoStbndbrd, (LPVOID)dbtb);
+    if (rfs == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_SftFilfTimf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf, jlong drfbtfTimf, jlong lbstAddfssTimf, jlong lbstWritfTimf)
+{
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+
+    if (SftFilfTimf(h,
+        (drfbtfTimf == (jlong)-1) ? NULL : (CONST FILETIME *)&drfbtfTimf,
+        (lbstAddfssTimf == (jlong)-1) ? NULL : (CONST FILETIME *)&lbstAddfssTimf,
+        (lbstWritfTimf == (jlong)-1) ? NULL : (CONST FILETIME *)&lbstWritfTimf) == 0)
+    {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_SftEndOfFilf(JNIEnv* fnv, jdlbss this,
+    jlong hbndlf)
+{
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+
+    if (SftEndOfFilf(h) == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftVolumfInformbtion0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss, jobjfdt obj)
+{
+    WCHAR volumfNbmf[MAX_PATH+1];
+    DWORD volumfSfriblNumbfr;
+    DWORD mbxComponfntLfngth;
+    DWORD flbgs;
+    WCHAR filfSystfmNbmf[MAX_PATH+1];
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+    jstring str;
+
+    BOOL rfs = GftVolumfInformbtionW(lpFilfNbmf,
+                                     &volumfNbmf[0],
+                                     MAX_PATH+1,
+                                     &volumfSfriblNumbfr,
+                                     &mbxComponfntLfngth,
+                                     &flbgs,
+                                     &filfSystfmNbmf[0],
+                                     MAX_PATH+1);
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+        rfturn;
+    }
+
+    str = (*fnv)->NfwString(fnv, (donst jdhbr *)filfSystfmNbmf, (jsizf)wdslfn(filfSystfmNbmf));
+    if (str == NULL) rfturn;
+    (*fnv)->SftObjfdtFifld(fnv, obj, volumfInfo_fsNbmf, str);
+
+    str = (*fnv)->NfwString(fnv, (donst jdhbr *)volumfNbmf, (jsizf)wdslfn(volumfNbmf));
+    if (str == NULL) rfturn;
+    (*fnv)->SftObjfdtFifld(fnv, obj, volumfInfo_volNbmf, str);
+
+    (*fnv)->SftIntFifld(fnv, obj, volumfInfo_volSN, (jint)volumfSfriblNumbfr);
+    (*fnv)->SftIntFifld(fnv, obj, volumfInfo_flbgs, (jint)flbgs);
+}
+
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftDrivfTypf0(JNIEnv* fnv, jdlbss this, jlong bddrfss) {
+    LPCWSTR lpRootPbthNbmf = jlong_to_ptr(bddrfss);
+    rfturn (jint)GftDrivfTypfW(lpRootPbthNbmf);
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftDiskFrffSpbdfEx0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss, jobjfdt obj)
+{
+    ULARGE_INTEGER frffBytfsAvbilbblf;
+    ULARGE_INTEGER totblNumbfrOfBytfs;
+    ULARGE_INTEGER totblNumbfrOfFrffBytfs;
+    LPCWSTR lpDirNbmf = jlong_to_ptr(bddrfss);
+
+
+    BOOL rfs = GftDiskFrffSpbdfExW(lpDirNbmf,
+                                   &frffBytfsAvbilbblf,
+                                   &totblNumbfrOfBytfs,
+                                   &totblNumbfrOfFrffBytfs);
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+        rfturn;
+    }
+
+    (*fnv)->SftLongFifld(fnv, obj, diskSpbdf_bytfsAvbilbblf,
+        long_to_jlong(frffBytfsAvbilbblf.QubdPbrt));
+    (*fnv)->SftLongFifld(fnv, obj, diskSpbdf_totblBytfs,
+        long_to_jlong(totblNumbfrOfBytfs.QubdPbrt));
+    (*fnv)->SftLongFifld(fnv, obj, diskSpbdf_totblFrff,
+        long_to_jlong(totblNumbfrOfFrffBytfs.QubdPbrt));
+}
+
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftVolumfPbthNbmf0(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss)
+{
+    WCHAR volumfNbmf[MAX_PATH+1];
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(bddrfss);
+
+
+    BOOL rfs = GftVolumfPbthNbmfW(lpFilfNbmf,
+                                  &volumfNbmf[0],
+                                  MAX_PATH+1);
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+        rfturn NULL;
+    } flsf {
+        rfturn (*fnv)->NfwString(fnv, (donst jdhbr *)volumfNbmf, (jsizf)wdslfn(volumfNbmf));
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_InitiblizfSfdurityDfsdriptor(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss)
+{
+    PSECURITY_DESCRIPTOR pSfdurityDfsdriptor =
+        (PSECURITY_DESCRIPTOR)jlong_to_ptr(bddrfss);
+
+    if (InitiblizfSfdurityDfsdriptor(pSfdurityDfsdriptor, SECURITY_DESCRIPTOR_REVISION) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_InitiblizfAdl(JNIEnv* fnv, jdlbss this,
+    jlong bddrfss, jint sizf)
+{
+    PACL pAdl = (PACL)jlong_to_ptr(bddrfss);
+
+    if (InitiblizfAdl(pAdl, (DWORD)sizf, ACL_REVISION) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_SftFilfSfdurity0(JNIEnv* fnv, jdlbss this,
+    jlong pbthAddrfss, jint rfqufstfdInformbtion, jlong dfsdAddrfss)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(pbthAddrfss);
+    PSECURITY_DESCRIPTOR pSfdurityDfsdriptor = jlong_to_ptr(dfsdAddrfss);
+    DWORD lfngthNffdfd = 0;
+
+    BOOL rfs = SftFilfSfdurityW(lpFilfNbmf,
+                                (SECURITY_INFORMATION)rfqufstfdInformbtion,
+                                pSfdurityDfsdriptor);
+
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftFilfSfdurity0(JNIEnv* fnv, jdlbss this,
+    jlong pbthAddrfss, jint rfqufstfdInformbtion, jlong dfsdAddrfss, jint nLfngth)
+{
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(pbthAddrfss);
+    PSECURITY_DESCRIPTOR pSfdurityDfsdriptor = jlong_to_ptr(dfsdAddrfss);
+    DWORD lfngthNffdfd = 0;
+
+    BOOL rfs = GftFilfSfdurityW(lpFilfNbmf,
+                                (SECURITY_INFORMATION)rfqufstfdInformbtion,
+                                pSfdurityDfsdriptor,
+                                (DWORD)nLfngth,
+                                &lfngthNffdfd);
+
+    if (rfs == 0) {
+        if (GftLbstError() == ERROR_INSUFFICIENT_BUFFER) {
+            rfturn (jint)lfngthNffdfd;
+        } flsf {
+            throwWindowsExdfption(fnv, GftLbstError());
+            rfturn 0;
+        }
+    } flsf {
+        rfturn (jint)nLfngth;
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftSfdurityDfsdriptorOwnfr(JNIEnv* fnv,
+    jdlbss this, jlong bddrfss)
+{
+    PSECURITY_DESCRIPTOR pSfdurityDfsdriptor = jlong_to_ptr(bddrfss);
+    PSID pOwnfr;
+    BOOL bOwnfrDffbultfd;
+
+
+    if (GftSfdurityDfsdriptorOwnfr(pSfdurityDfsdriptor, &pOwnfr, &bOwnfrDffbultfd) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn ptr_to_jlong(pOwnfr);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_SftSfdurityDfsdriptorOwnfr(JNIEnv* fnv,
+    jdlbss this, jlong dfsdAddrfss, jlong ownfrAddrfss)
+{
+    PSECURITY_DESCRIPTOR pSfdurityDfsdriptor = jlong_to_ptr(dfsdAddrfss);
+    PSID pOwnfr = jlong_to_ptr(ownfrAddrfss);
+
+    if (SftSfdurityDfsdriptorOwnfr(pSfdurityDfsdriptor, pOwnfr, FALSE) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftSfdurityDfsdriptorDbdl(JNIEnv* fnv,
+    jdlbss this, jlong bddrfss)
+{
+    PSECURITY_DESCRIPTOR pSfdurityDfsdriptor = jlong_to_ptr(bddrfss);
+    BOOL bDbdlPrfsfnt;
+    PACL pDbdl;
+    BOOL bDbdlDffbultfd;
+
+    if (GftSfdurityDfsdriptorDbdl(pSfdurityDfsdriptor, &bDbdlPrfsfnt, &pDbdl, &bDbdlDffbultfd) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+        rfturn (jlong)0;
+    } flsf {
+        rfturn (bDbdlPrfsfnt) ? ptr_to_jlong(pDbdl) : (jlong)0;
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_SftSfdurityDfsdriptorDbdl(JNIEnv* fnv,
+    jdlbss this, jlong dfsdAddrfss, jlong bdlAddrfss)
+{
+    PSECURITY_DESCRIPTOR pSfdurityDfsdriptor = (PSECURITY_DESCRIPTOR)jlong_to_ptr(dfsdAddrfss);
+    PACL pAdl = (PACL)jlong_to_ptr(bdlAddrfss);
+
+    if (SftSfdurityDfsdriptorDbdl(pSfdurityDfsdriptor, TRUE, pAdl, FALSE) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftAdlInformbtion0(JNIEnv* fnv,
+    jdlbss this, jlong bddrfss, jobjfdt obj)
+{
+    PACL pAdl = (PACL)jlong_to_ptr(bddrfss);
+    ACL_SIZE_INFORMATION bdl_sizf_info;
+
+    if (GftAdlInformbtion(pAdl, (void *) &bdl_sizf_info, sizfof(bdl_sizf_info), AdlSizfInformbtion) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    } flsf {
+        (*fnv)->SftIntFifld(fnv, obj, bdlInfo_bdfCount, (jint)bdl_sizf_info.AdfCount);
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftAdf(JNIEnv* fnv, jdlbss this, jlong bddrfss,
+    jint bdfIndfx)
+{
+    PACL pAdl = (PACL)jlong_to_ptr(bddrfss);
+    LPVOID pAdf;
+
+    if (GftAdf(pAdl, (DWORD)bdfIndfx, &pAdf) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+        rfturn (jlong)0;
+    } flsf {
+        rfturn ptr_to_jlong(pAdf);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_AddAddfssAllowfdAdfEx(JNIEnv* fnv,
+    jdlbss this, jlong bdlAddrfss, jint flbgs, jint mbsk, jlong sidAddrfss)
+{
+    PACL pAdl = (PACL)jlong_to_ptr(bdlAddrfss);
+    PSID pSid = (PSID)jlong_to_ptr(sidAddrfss);
+
+    if (AddAddfssAllowfdAdfEx(pAdl, ACL_REVISION, (DWORD)flbgs, (DWORD)mbsk, pSid) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_AddAddfssDfnifdAdfEx(JNIEnv* fnv,
+    jdlbss this, jlong bdlAddrfss, jint flbgs, jint mbsk, jlong sidAddrfss)
+{
+    PACL pAdl = (PACL)jlong_to_ptr(bdlAddrfss);
+    PSID pSid = (PSID)jlong_to_ptr(sidAddrfss);
+
+    if (AddAddfssDfnifdAdfEx(pAdl, ACL_REVISION, (DWORD)flbgs, (DWORD)mbsk, pSid) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_LookupAddountSid0(JNIEnv* fnv,
+    jdlbss this, jlong bddrfss, jobjfdt obj)
+{
+    WCHAR dombin[255];
+    WCHAR nbmf[255];
+    DWORD dombinLfn = sizfof(dombin);
+    DWORD nbmfLfn = sizfof(nbmf);
+    SID_NAME_USE usf;
+    PSID sid = jlong_to_ptr(bddrfss);
+    jstring s;
+
+    if (LookupAddountSidW(NULL, sid, &nbmf[0], &nbmfLfn, &dombin[0], &dombinLfn, &usf) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+        rfturn;
+    }
+
+    s = (*fnv)->NfwString(fnv, (donst jdhbr *)dombin, (jsizf)wdslfn(dombin));
+    if (s == NULL)
+        rfturn;
+    (*fnv)->SftObjfdtFifld(fnv, obj, bddount_dombin, s);
+
+    s = (*fnv)->NfwString(fnv, (donst jdhbr *)nbmf, (jsizf)wdslfn(nbmf));
+    if (s == NULL)
+        rfturn;
+    (*fnv)->SftObjfdtFifld(fnv, obj, bddount_nbmf, s);
+    (*fnv)->SftIntFifld(fnv, obj, bddount_usf, (jint)usf);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_LookupAddountNbmf0(JNIEnv* fnv,
+    jdlbss this, jlong nbmfAddrfss, jlong sidAddrfss, jint dbSid)
+{
+
+    LPCWSTR bddountNbmf = jlong_to_ptr(nbmfAddrfss);
+    PSID sid = jlong_to_ptr(sidAddrfss);
+    WCHAR dombin[255];
+    DWORD dombinLfn = sizfof(dombin);
+    SID_NAME_USE usf;
+
+    if (LookupAddountNbmfW(NULL, bddountNbmf, sid, (LPDWORD)&dbSid,
+                           &dombin[0], &dombinLfn, &usf) == 0)
+    {
+        if (GftLbstError() != ERROR_INSUFFICIENT_BUFFER) {
+            throwWindowsExdfption(fnv, GftLbstError());
+        }
+    }
+
+    rfturn dbSid;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftLfngthSid(JNIEnv* fnv,
+    jdlbss this, jlong bddrfss)
+{
+    PSID sid = jlong_to_ptr(bddrfss);
+    rfturn (jint)GftLfngthSid(sid);
+}
+
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_ConvfrtSidToStringSid(JNIEnv* fnv,
+    jdlbss this, jlong bddrfss)
+{
+    PSID sid = jlong_to_ptr(bddrfss);
+    LPWSTR string;
+    if (ConvfrtSidToStringSidW(sid, &string) == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+        rfturn NULL;
+    } flsf {
+        jstring s = (*fnv)->NfwString(fnv, (donst jdhbr *)string,
+            (jsizf)wdslfn(string));
+        LodblFrff(string);
+        rfturn s;
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_ConvfrtStringSidToSid0(JNIEnv* fnv,
+    jdlbss this, jlong bddrfss)
+{
+    LPWSTR lpStringSid = jlong_to_ptr(bddrfss);
+    PSID pSid;
+    if (ConvfrtStringSidToSidW(lpStringSid, &pSid) == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+    rfturn ptr_to_jlong(pSid);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftCurrfntProdfss(JNIEnv* fnv, jdlbss this) {
+    HANDLE hProdfss = GftCurrfntProdfss();
+    rfturn ptr_to_jlong(hProdfss);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftCurrfntThrfbd(JNIEnv* fnv, jdlbss this) {
+    HANDLE hThrfbd = GftCurrfntThrfbd();
+    rfturn ptr_to_jlong(hThrfbd);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_OpfnProdfssTokfn(JNIEnv* fnv,
+    jdlbss this, jlong prodfss, jint dfsirfdAddfss)
+{
+    HANDLE hProdfss = (HANDLE)jlong_to_ptr(prodfss);
+    HANDLE hTokfn;
+
+    if (OpfnProdfssTokfn(hProdfss, (DWORD)dfsirfdAddfss, &hTokfn) == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+    rfturn ptr_to_jlong(hTokfn);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_OpfnThrfbdTokfn(JNIEnv* fnv,
+    jdlbss this, jlong thrfbd, jint dfsirfdAddfss, jboolfbn opfnAsSflf)
+{
+    HANDLE hThrfbd = (HANDLE)jlong_to_ptr(thrfbd);
+    HANDLE hTokfn;
+    BOOL bOpfnAsSflf = (opfnAsSflf == JNI_TRUE) ? TRUE : FALSE;
+
+    if (OpfnThrfbdTokfn(hThrfbd, (DWORD)dfsirfdAddfss, bOpfnAsSflf, &hTokfn) == 0) {
+        if (GftLbstError() == ERROR_NO_TOKEN)
+            rfturn (jlong)0;
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn ptr_to_jlong(hTokfn);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_DuplidbtfTokfnEx(JNIEnv* fnv,
+    jdlbss this, jlong tokfn, jint dfsirfdAddfss)
+{
+    HANDLE hTokfn = (HANDLE)jlong_to_ptr(tokfn);
+    HANDLE rfsultTokfn;
+    BOOL rfs;
+
+    rfs = DuplidbtfTokfnEx(hTokfn,
+                           (DWORD)dfsirfdAddfss,
+                           NULL,
+                           SfdurityImpfrsonbtion,
+                           TokfnImpfrsonbtion,
+                           &rfsultTokfn);
+    if (rfs == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+    rfturn ptr_to_jlong(rfsultTokfn);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_SftThrfbdTokfn(JNIEnv* fnv,
+    jdlbss this, jlong thrfbd, jlong tokfn)
+{
+    HANDLE hThrfbd = (HANDLE)jlong_to_ptr(thrfbd);
+    HANDLE hTokfn = (HANDLE)jlong_to_ptr(tokfn);
+
+    if (SftThrfbdTokfn(hThrfbd, hTokfn) == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftTokfnInformbtion(JNIEnv* fnv,
+    jdlbss this, jlong tokfn, jint tokfnInfoClbss, jlong tokfnInfo, jint tokfnInfoLfngth)
+{
+    BOOL rfs;
+    DWORD lfngthNffdfd;
+    HANDLE hTokfn = (HANDLE)jlong_to_ptr(tokfn);
+    LPVOID rfsult = (LPVOID)jlong_to_ptr(tokfnInfo);
+
+    rfs = GftTokfnInformbtion(hTokfn, (TOKEN_INFORMATION_CLASS)tokfnInfoClbss, (LPVOID)rfsult,
+                              tokfnInfoLfngth, &lfngthNffdfd);
+    if (rfs == 0) {
+        if (GftLbstError() == ERROR_INSUFFICIENT_BUFFER) {
+            rfturn (jint)lfngthNffdfd;
+        } flsf {
+            throwWindowsExdfption(fnv, GftLbstError());
+            rfturn 0;
+        }
+    } flsf {
+        rfturn tokfnInfoLfngth;
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_AdjustTokfnPrivilfgfs(JNIEnv* fnv,
+    jdlbss this, jlong tokfn, jlong luid, jint bttributfs)
+{
+    TOKEN_PRIVILEGES privs[1];
+    HANDLE hTokfn = (HANDLE)jlong_to_ptr(tokfn);
+    PLUID pLuid = (PLUID)jlong_to_ptr(luid);
+
+    privs[0].PrivilfgfCount = 1;
+    privs[0].Privilfgfs[0].Luid = *pLuid;
+    privs[0].Privilfgfs[0].Attributfs = (DWORD)bttributfs;
+
+    if (AdjustTokfnPrivilfgfs(hTokfn, FALSE, &privs[0], 1, NULL, NULL) == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_AddfssChfdk(JNIEnv* fnv,
+    jdlbss this, jlong tokfn, jlong sfdurityInfo, jint bddfssMbsk,
+    jint gfnfridRfbd, jint gfnfridWritf, jint gfnfridExfdutf, jint gfnfridAll)
+{
+    HANDLE hImpfrsonbtfdTokfn = (HANDLE)jlong_to_ptr(tokfn);
+    PSECURITY_DESCRIPTOR sfdurity = (PSECURITY_DESCRIPTOR)jlong_to_ptr(sfdurityInfo);
+    DWORD dhfdkAddfssRights = (DWORD)bddfssMbsk;
+    GENERIC_MAPPING mbpping = {
+        gfnfridRfbd,
+        gfnfridWritf,
+        gfnfridExfdutf,
+        gfnfridAll};
+    PRIVILEGE_SET privilfgfs = {0};
+    DWORD privilfgfsLfngth = sizfof(privilfgfs);
+    DWORD grbntfdAddfss = 0;
+    BOOL rfsult = FALSE;
+
+    /* dhfdkAddfssRights is in-out pbrbmftfr */
+    MbpGfnfridMbsk(&dhfdkAddfssRights, &mbpping);
+    if (AddfssChfdk(sfdurity, hImpfrsonbtfdTokfn, dhfdkAddfssRights,
+            &mbpping, &privilfgfs, &privilfgfsLfngth, &grbntfdAddfss, &rfsult) == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+
+    rfturn (rfsult == FALSE) ? JNI_FALSE : JNI_TRUE;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_LookupPrivilfgfVbluf0(JNIEnv* fnv,
+    jdlbss this, jlong nbmf)
+{
+    LPCWSTR lpNbmf = (LPCWSTR)jlong_to_ptr(nbmf);
+    PLUID pLuid = LodblAllod(0, sizfof(LUID));
+
+    if (pLuid == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Unbblf to bllodbtf LUID strudturf");
+    } flsf {
+        if (LookupPrivilfgfVblufW(NULL, lpNbmf, pLuid) == 0)
+            throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn ptr_to_jlong(pLuid);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_CrfbtfSymbolidLink0(JNIEnv* fnv,
+    jdlbss this, jlong linkAddrfss, jlong tbrgftAddrfss, jint flbgs)
+{
+    LPCWSTR link = jlong_to_ptr(linkAddrfss);
+    LPCWSTR tbrgft = jlong_to_ptr(tbrgftAddrfss);
+
+    if (CrfbtfSymbolidLink_fund == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Should not gft hfrf");
+        rfturn;
+    }
+
+    /* On Windows 64-bit this bppfbrs to suddffd fvfn whfn thfrf is insuffidifnt privilfgfs */
+    if ((*CrfbtfSymbolidLink_fund)(link, tbrgft, (DWORD)flbgs) == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_CrfbtfHbrdLink0(JNIEnv* fnv,
+    jdlbss this, jlong nfwFilfAddrfss, jlong fxistingFilfAddrfss)
+{
+    LPCWSTR nfwFilf = jlong_to_ptr(nfwFilfAddrfss);
+    LPCWSTR fxistingFilf = jlong_to_ptr(fxistingFilfAddrfss);
+
+    if (CrfbtfHbrdLinkW(nfwFilf, fxistingFilf, NULL) == 0)
+        throwWindowsExdfption(fnv, GftLbstError());
+}
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftFullPbthNbmf0(JNIEnv *fnv,
+                                                         jdlbss dlz,
+                                                         jlong pbthAddrfss)
+{
+    jstring rv = NULL;
+    WCHAR *lpBuf = NULL;
+    WCHAR buf[MAX_PATH];
+    DWORD lfn;
+    LPCWSTR lpFilfNbmf = jlong_to_ptr(pbthAddrfss);
+
+    lfn = GftFullPbthNbmfW(lpFilfNbmf, MAX_PATH, buf, NULL);
+    if (lfn > 0) {
+        if (lfn < MAX_PATH) {
+            rv = (*fnv)->NfwString(fnv, buf, lfn);
+        } flsf {
+            lfn += 1;  /* rfturn lfngth dofs not indludf tfrminbtor */
+            lpBuf = (WCHAR*)mbllod(lfn * sizfof(WCHAR));
+            if (lpBuf != NULL) {
+                lfn = GftFullPbthNbmfW(lpFilfNbmf, lfn, lpBuf, NULL);
+                if (lfn > 0) {
+                    rv = (*fnv)->NfwString(fnv, lpBuf, lfn);
+                } flsf {
+                    JNU_ThrowIntfrnblError(fnv, "GftFullPbthNbmfW fbilfd");
+                }
+                frff(lpBuf);
+            } flsf {
+                JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilurf");
+            }
+        }
+    } flsf {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+
+    rfturn rv;
+}
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftFinblPbthNbmfByHbndlf(JNIEnv* fnv,
+    jdlbss this, jlong hbndlf)
+{
+    jstring rv = NULL;
+    WCHAR *lpBuf = NULL;
+    WCHAR pbth[MAX_PATH];
+    HANDLE h = (HANDLE)jlong_to_ptr(hbndlf);
+    DWORD lfn;
+
+    if (GftFinblPbthNbmfByHbndlf_fund == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Should not gft hfrf");
+        rfturn NULL;
+    }
+
+    lfn = (*GftFinblPbthNbmfByHbndlf_fund)(h, pbth, MAX_PATH, 0);
+    if (lfn > 0) {
+        if (lfn < MAX_PATH) {
+            rv = (*fnv)->NfwString(fnv, (donst jdhbr *)pbth, (jsizf)lfn);
+        } flsf {
+            lfn += 1;  /* rfturn lfngth dofs not indludf tfrminbtor */
+            lpBuf = (WCHAR*)mbllod(lfn * sizfof(WCHAR));
+            if (lpBuf != NULL) {
+                lfn = (*GftFinblPbthNbmfByHbndlf_fund)(h, lpBuf, lfn, 0);
+                if (lfn > 0)  {
+                    rv = (*fnv)->NfwString(fnv, (donst jdhbr *)lpBuf, (jsizf)lfn);
+                } flsf {
+                    JNU_ThrowIntfrnblError(fnv, "GftFinblPbthNbmfByHbndlfW fbilfd");
+                }
+                frff(lpBuf);
+            } flsf {
+                JNU_ThrowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilurf");
+            }
+        }
+    } flsf {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn rv;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_CrfbtfIoComplftionPort(JNIEnv* fnv, jdlbss this,
+    jlong filfHbndlf, jlong fxistingPort, jlong domplftionKfy)
+{
+    HANDLE port = CrfbtfIoComplftionPort((HANDLE)jlong_to_ptr(filfHbndlf),
+                                         (HANDLE)jlong_to_ptr(fxistingPort),
+                                         (ULONG_PTR)domplftionKfy,
+                                         0);
+    if (port == NULL) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+    rfturn ptr_to_jlong(port);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_GftQufufdComplftionStbtus0(JNIEnv* fnv, jdlbss this,
+    jlong domplftionPort, jobjfdt obj)
+{
+    DWORD bytfsTrbnsffrrfd;
+    ULONG_PTR domplftionKfy;
+    OVERLAPPED *lpOvfrlbppfd;
+    BOOL rfs;
+
+    rfs = GftQufufdComplftionStbtus((HANDLE)jlong_to_ptr(domplftionPort),
+                                  &bytfsTrbnsffrrfd,
+                                  &domplftionKfy,
+                                  &lpOvfrlbppfd,
+                                  INFINITE);
+    if (rfs == 0 && lpOvfrlbppfd == NULL) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    } flsf {
+        DWORD ioRfsult = (rfs == 0) ? GftLbstError() : 0;
+        (*fnv)->SftIntFifld(fnv, obj, domplftionStbtus_frror, ioRfsult);
+        (*fnv)->SftIntFifld(fnv, obj, domplftionStbtus_bytfsTrbnsffrrfd,
+            (jint)bytfsTrbnsffrrfd);
+        (*fnv)->SftLongFifld(fnv, obj, domplftionStbtus_domplftionKfy,
+            (jlong)domplftionKfy);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_PostQufufdComplftionStbtus(JNIEnv* fnv, jdlbss this,
+    jlong domplftionPort, jlong domplftionKfy)
+{
+    BOOL rfs;
+
+    rfs = PostQufufdComplftionStbtus((HANDLE)jlong_to_ptr(domplftionPort),
+                                     (DWORD)0,  /* dwNumbfrOfBytfsTrbnsffrrfd */
+                                     (ULONG_PTR)domplftionKfy,
+                                     NULL);  /* lpOvfrlbppfd */
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_RfbdDirfdtoryChbngfsW(JNIEnv* fnv, jdlbss this,
+    jlong hDirfdtory, jlong bufffrAddrfss, jint bufffrLfngth, jboolfbn wbtdhSubTrff, jint filtfr,
+    jlong bytfsRfturnfdAddrfss, jlong pOvfrlbppfd)
+{
+    BOOL rfs;
+    BOOL subtrff = (wbtdhSubTrff == JNI_TRUE) ? TRUE : FALSE;
+
+    /* Any unusfd mfmbfrs of [OVERLAPPED] strudturf should blwbys bf initiblizfd to zfro
+       bfforf thf strudturf is usfd in b fundtion dbll.
+       Othfrwisf, thf fundtion mby fbil bnd rfturn ERROR_INVALID_PARAMETER.
+       http://msdn.midrosoft.dom/fn-us/librbry/windows/dfsktop/ms684342%28v=vs.85%29.bspx
+
+       Thf [Offsft] bnd [OffsftHigh] mfmbfrs of this strudturf brf not usfd.
+       http://msdn.midrosoft.dom/fn-us/librbry/windows/dfsktop/bb365465%28v=vs.85%29.bspx
+
+       [hEvfnt] should bf zfro, othfr fiflds brf thf rfturn vblufs. */
+    ZfroMfmory((LPOVERLAPPED)jlong_to_ptr(pOvfrlbppfd), sizfof(OVERLAPPED));
+
+    rfs = RfbdDirfdtoryChbngfsW((HANDLE)jlong_to_ptr(hDirfdtory),
+                                (LPVOID)jlong_to_ptr(bufffrAddrfss),
+                                (DWORD)bufffrLfngth,
+                                subtrff,
+                                (DWORD)filtfr,
+                                (LPDWORD)jlong_to_ptr(bytfsRfturnfdAddrfss),
+                                (LPOVERLAPPED)jlong_to_ptr(pOvfrlbppfd),
+                                NULL);
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_BbdkupRfbd0(JNIEnv* fnv, jdlbss this,
+    jlong hFilf, jlong bufffrAddrfss, jint bufffrSizf, jboolfbn bbort,
+    jlong dontfxt, jobjfdt obj)
+{
+    BOOL rfs;
+    DWORD bytfsTrbnsffrrfd;
+    BOOL b = (bbort == JNI_TRUE) ? TRUE : FALSE;
+    VOID* pContfxt = (VOID*)jlong_to_ptr(dontfxt);
+
+    rfs = BbdkupRfbd((HANDLE)jlong_to_ptr(hFilf),
+                     (LPBYTE)jlong_to_ptr(bufffrAddrfss),
+                     (DWORD)bufffrSizf,
+                     &bytfsTrbnsffrrfd,
+                     b,
+                     FALSE,
+                     &pContfxt);
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    } flsf {
+        (*fnv)->SftIntFifld(fnv, obj, bbdkupRfsult_bytfsTrbnsffrrfd,
+            bytfsTrbnsffrrfd);
+        (*fnv)->SftLongFifld(fnv, obj, bbdkupRfsult_dontfxt,
+            ptr_to_jlong(pContfxt));
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_fs_WindowsNbtivfDispbtdhfr_BbdkupSffk(JNIEnv* fnv, jdlbss this,
+    jlong hFilf, jlong bytfsToSffk, jlong dontfxt)
+{
+    BOOL rfs;
+    jint lowBytfsToSffk = (jint)bytfsToSffk;
+    jint highBytfsToSffk = (jint)(bytfsToSffk >> 32);
+    DWORD lowBytfsSffkfd;
+    DWORD highBytfsSffkfd;
+    VOID* pContfxt = jlong_to_ptr(dontfxt);
+
+    rfs = BbdkupSffk((HANDLE)jlong_to_ptr(hFilf),
+                     (DWORD)lowBytfsToSffk,
+                     (DWORD)highBytfsToSffk,
+                     &lowBytfsSffkfd,
+                     &highBytfsSffkfd,
+                     &pContfxt);
+    if (rfs == 0) {
+        throwWindowsExdfption(fnv, GftLbstError());
+    }
+}

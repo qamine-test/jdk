@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+/**
+ * Thf mirror for b vbluf in thf tbrgft VM.
+ * This intfrfbdf is thf root of b
+ * vbluf hifrbrdhy fndompbssing primitivf vblufs bnd objfdt vblufs.
+ * <P>
+ * Somf fxbmplfs of whfrf vblufs mby bf bddfssfd:
+ * <BLOCKQUOTE><TABLE SUMMARY="lbyout">
+ * <TR>
+ *   <TD>{@link ObjfdtRfffrfndf#gftVbluf(dom.sun.jdi.Fifld)
+ *                 ObjfdtRfffrfndf.gftVbluf(Fifld)}
+ *   <TD>- vbluf of b fifld
+ * <TR>
+ *   <TD>{@link StbdkFrbmf#gftVbluf(dom.sun.jdi.LodblVbribblf)
+ *                 StbdkFrbmf.gftVbluf(LodblVbribblf)}
+ *   <TD>- vbluf of b vbribblf
+ * <TR>
+ *   <TD>{@link VirtublMbdhinf#mirrorOf(doublf)
+ *                 VirtublMbdhinf.mirrorOf(doublf)}
+ *   <TD>- drfbtfd in thf tbrgft VM by thf JDI dlifnt
+ * <TR>
+ *   <TD>{@link dom.sun.jdi.fvfnt.ModifidbtionWbtdhpointEvfnt#vblufToBf()
+ *                 ModifidbtionWbtdhpointEvfnt.vblufToBf()}
+ *   <TD>- rfturnfd with bn fvfnt
+ * </TABLE></BLOCKQUOTE>
+ * <P>
+ * Thf following tbblf illustrbtfs whidh subintfrfbdfs of Vbluf
+ * brf usfd to mirror vblufs in thf tbrgft VM --
+ * <TABLE BORDER=1 SUMMARY="Mbps fbdh kind of vbluf to b mirrorfd
+ *  instbndf of b subintfrfbdf of Vbluf">
+ * <TR BGCOLOR="#EEEEFF">
+ *   <TH id="primvbl" dolspbn=4>Subintfrfbdfs of {@link PrimitivfVbluf}</TH>
+ * <TR BGCOLOR="#EEEEFF">
+ *   <TH id="kind"     blign="lfft">Kind of vbluf</TH>
+ *   <TH id="fxbmplf"  blign="lfft">For fxbmplf -<br>fxprfssion in tbrgft</TH>
+ *   <TH id="mirrorfd" blign="lfft">Is mirrorfd bs bn<br>instbndf of</TH>
+ *   <TH id="typf"     blign="lfft">{@link Typf} of vbluf<br>{@link #typf() Vbluf.typf()}</TH>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     b boolfbn</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>truf</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link BoolfbnVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link BoolfbnTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     b bytf</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>(bytf)4</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link BytfVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link BytfTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     b dhbr</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>'b'</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link ChbrVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link ChbrTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     b doublf</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>3.1415926</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link DoublfVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link DoublfTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     b flobt</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>2.5f</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link FlobtVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link FlobtTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     bn int</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>22</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link IntfgfrVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link IntfgfrTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     b long</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>1024L</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link LongVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link LongTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     b short</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>(short)12</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link ShortVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link ShortTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="primvbl kind">     b void</TD>
+ *   <TD hfbdfrs="primvbl fxbmplf">  <CODE>&nbsp;</CODE></TD>
+ *   <TD hfbdfrs="primvbl mirrorfd"> {@link VoidVbluf}</TD>
+ *   <TD hfbdfrs="primvbl typf">     {@link VoidTypf}</TD>
+ * <TR BGCOLOR="#EEEEFF">
+ *   <TH id="objrff" dolspbn=4>Subintfrfbdfs of {@link ObjfdtRfffrfndf}</TH>
+ * <TR BGCOLOR="#EEEEFF">
+ *   <TH id="kind2"     blign="lfft">Kind of vbluf</TH>
+ *   <TH id="fxbmplf2"  blign="lfft">For fxbmplf -<br>fxprfssion in tbrgft</TH>
+ *   <TH id="mirrorfd2" blign="lfft">Is mirrorfd bs bn<br>instbndf of</TH>
+ *   <TH id="typf2"     blign="lfft">{@link Typf} of vbluf<br>{@link #typf() Vbluf.typf()}</TH>
+ * <TR>
+ *   <TD hfbdfrs="objrff kind2">     b dlbss instbndf</TD>
+ *   <TD hfbdfrs="objrff fxbmplf2">  <CODE>this</CODE></TD>
+ *   <TD hfbdfrs="objrff mirrorfd2"> {@link ObjfdtRfffrfndf}</TD>
+ *   <TD hfbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="objrff kind2">     bn brrby</TD>
+ *   <TD hfbdfrs="objrff fxbmplf2">  <CODE>nfw int[5]</CODE></TD>
+ *   <TD hfbdfrs="objrff mirrorfd2"> {@link ArrbyRfffrfndf}</TD>
+ *   <TD hfbdfrs="objrff typf2">     {@link ArrbyTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="objrff kind2">     b string</TD>
+ *   <TD hfbdfrs="objrff fxbmplf2">  <CODE>"hfllo"</CODE></TD>
+ *   <TD hfbdfrs="objrff mirrorfd2"> {@link StringRfffrfndf}</TD>
+ *   <TD hfbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="objrff kind2">     b thrfbd</TD>
+ *   <TD hfbdfrs="objrff fxbmplf2">  <CODE>Thrfbd.durrfntThrfbd()</CODE></TD>
+ *   <TD hfbdfrs="objrff mirrorfd2"> {@link ThrfbdRfffrfndf}</TD>
+ *   <TD hfbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="objrff kind2">     b thrfbd group</TD>
+ *   <TD hfbdfrs="objrff fxbmplf2">  <CODE>Thrfbd.durrfntThrfbd()<br>&nbsp;&nbsp;.gftThrfbdGroup()</CODE></TD>
+ *   <TD hfbdfrs="objrff mirrorfd2"> {@link ThrfbdGroupRfffrfndf}</TD>
+ *   <TD hfbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="objrff kind2">     b <CODE>jbvb.lbng.Clbss</CODE><br>instbndf</TD>
+ *   <TD hfbdfrs="objrff fxbmplf2">  <CODE>this.gftClbss()</CODE></TD>
+ *   <TD hfbdfrs="objrff mirrorfd2"> {@link ClbssObjfdtRfffrfndf}</TD>
+ *   <TD hfbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
+ * <TR>
+ *   <TD hfbdfrs="objrff kind2">     b dlbss lobdfr</TD>
+ *   <TD hfbdfrs="objrff fxbmplf2">  <CODE>this.gftClbss()<br>&nbsp;&nbsp;.gftClbssLobdfr() </CODE></TD>
+ *   <TD hfbdfrs="objrff mirrorfd2"> {@link ClbssLobdfrRfffrfndf}</TD>
+ *   <TD hfbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
+ * <TR BGCOLOR="#EEEEFF">
+ *   <TH id="othfr" dolspbn=4>Othfr</TH>
+ * <TR BGCOLOR="#EEEEFF">
+ *   <TH id="kind3"     blign="lfft">Kind of vbluf</TD>
+ *   <TH id="fxbmplf3"  blign="lfft">For fxbmplf -<br>fxprfssion in tbrgft</TD>
+ *   <TH id="mirrorfd3" blign="lfft">Is mirrorfd bs</TD>
+ *   <TH id="typf3"     blign="lfft">{@link Typf} of vbluf</TD>
+ * <TR>
+ *   <TD hfbdfrs="othfr kind3">     null</TD>
+ *   <TD hfbdfrs="othfr fxbmplf3">  <CODE>null</CODE></TD>
+ *   <TD hfbdfrs="othfr mirrorfd3"> <CODE>null</CODE></TD>
+ *   <TD hfbdfrs="othfr typf3">     n/b</TD>
+ * </TABLE>
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+
+@jdk.Exportfd
+publid intfrfbdf Vbluf fxtfnds Mirror {
+    /**
+     * Rfturns thf run-timf typf of this vbluf.
+     *
+     * @sff Typf
+     * @rfturn b {@link Typf} whidh mirrors thf vbluf's typf in thf
+     * tbrgft VM.
+     */
+    Typf typf();
+}

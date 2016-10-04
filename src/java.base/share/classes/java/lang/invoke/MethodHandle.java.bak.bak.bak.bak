@@ -1,0 +1,1486 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+
+import jbvb.util.*;
+import jbvb.lbng.invokf.LbmbdbForm.BbsidTypf;
+import sun.invokf.util.*;
+import sun.misd.Unsbff;
+
+import stbtid jbvb.lbng.invokf.MfthodHbndlfStbtids.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.BbsidTypf.*;
+
+/**
+ * A mfthod hbndlf is b typfd, dirfdtly fxfdutbblf rfffrfndf to bn undfrlying mfthod,
+ * donstrudtor, fifld, or similbr low-lfvfl opfrbtion, with optionbl
+ * trbnsformbtions of brgumfnts or rfturn vblufs.
+ * Thfsf trbnsformbtions brf quitf gfnfrbl, bnd indludf sudh pbttfrns bs
+ * {@linkplbin #bsTypf donvfrsion},
+ * {@linkplbin #bindTo insfrtion},
+ * {@linkplbin jbvb.lbng.invokf.MfthodHbndlfs#dropArgumfnts dflftion},
+ * bnd {@linkplbin jbvb.lbng.invokf.MfthodHbndlfs#filtfrArgumfnts substitution}.
+ *
+ * <h1>Mfthod hbndlf dontfnts</h1>
+ * Mfthod hbndlfs brf dynbmidblly bnd strongly typfd bddording to thfir pbrbmftfr bnd rfturn typfs.
+ * Thfy brf not distinguishfd by thf nbmf or thf dffining dlbss of thfir undfrlying mfthods.
+ * A mfthod hbndlf must bf invokfd using b symbolid typf dfsdriptor whidh mbtdhfs
+ * thf mfthod hbndlf's own {@linkplbin #typf typf dfsdriptor}.
+ * <p>
+ * Evfry mfthod hbndlf rfports its typf dfsdriptor vib thf {@link #typf typf} bddfssor.
+ * This typf dfsdriptor is b {@link jbvb.lbng.invokf.MfthodTypf MfthodTypf} objfdt,
+ * whosf strudturf is b sfrifs of dlbssfs, onf of whidh is
+ * thf rfturn typf of thf mfthod (or {@dodf void.dlbss} if nonf).
+ * <p>
+ * A mfthod hbndlf's typf dontrols thf typfs of invodbtions it bddfpts,
+ * bnd thf kinds of trbnsformbtions thbt bpply to it.
+ * <p>
+ * A mfthod hbndlf dontbins b pbir of spfdibl invokfr mfthods
+ * dbllfd {@link #invokfExbdt invokfExbdt} bnd {@link #invokf invokf}.
+ * Both invokfr mfthods providf dirfdt bddfss to thf mfthod hbndlf's
+ * undfrlying mfthod, donstrudtor, fifld, or othfr opfrbtion,
+ * bs modififd by trbnsformbtions of brgumfnts bnd rfturn vblufs.
+ * Both invokfrs bddfpt dblls whidh fxbdtly mbtdh thf mfthod hbndlf's own typf.
+ * Thf plbin, infxbdt invokfr blso bddfpts b rbngf of othfr dbll typfs.
+ * <p>
+ * Mfthod hbndlfs brf immutbblf bnd hbvf no visiblf stbtf.
+ * Of doursf, thfy dbn bf bound to undfrlying mfthods or dbtb whidh fxhibit stbtf.
+ * With rfspfdt to thf Jbvb Mfmory Modfl, bny mfthod hbndlf will bfhbvf
+ * bs if bll of its (intfrnbl) fiflds brf finbl vbribblfs.  This mfbns thbt bny mfthod
+ * hbndlf mbdf visiblf to thf bpplidbtion will blwbys bf fully formfd.
+ * This is truf fvfn if thf mfthod hbndlf is publishfd through b shbrfd
+ * vbribblf in b dbtb rbdf.
+ * <p>
+ * Mfthod hbndlfs dbnnot bf subdlbssfd by thf usfr.
+ * Implfmfntbtions mby (or mby not) drfbtf intfrnbl subdlbssfs of {@dodf MfthodHbndlf}
+ * whidh mby bf visiblf vib thf {@link jbvb.lbng.Objfdt#gftClbss Objfdt.gftClbss}
+ * opfrbtion.  Thf progrbmmfr should not drbw dondlusions bbout b mfthod hbndlf
+ * from its spfdifid dlbss, bs thf mfthod hbndlf dlbss hifrbrdhy (if bny)
+ * mby dhbngf from timf to timf or bdross implfmfntbtions from difffrfnt vfndors.
+ *
+ * <h1>Mfthod hbndlf dompilbtion</h1>
+ * A Jbvb mfthod dbll fxprfssion nbming {@dodf invokfExbdt} or {@dodf invokf}
+ * dbn invokf b mfthod hbndlf from Jbvb sourdf dodf.
+ * From thf vifwpoint of sourdf dodf, thfsf mfthods dbn tbkf bny brgumfnts
+ * bnd thfir rfsult dbn bf dbst to bny rfturn typf.
+ * Formblly this is bddomplishfd by giving thf invokfr mfthods
+ * {@dodf Objfdt} rfturn typfs bnd vbribblf brity {@dodf Objfdt} brgumfnts,
+ * but thfy hbvf bn bdditionbl qublity dbllfd <fm>signbturf polymorphism</fm>
+ * whidh donnfdts this frffdom of invodbtion dirfdtly to thf JVM fxfdution stbdk.
+ * <p>
+ * As is usubl with virtubl mfthods, sourdf-lfvfl dblls to {@dodf invokfExbdt}
+ * bnd {@dodf invokf} dompilf to bn {@dodf invokfvirtubl} instrudtion.
+ * Morf unusublly, thf dompilfr must rfdord thf bdtubl brgumfnt typfs,
+ * bnd mby not pfrform mfthod invodbtion donvfrsions on thf brgumfnts.
+ * Instfbd, it must push thfm on thf stbdk bddording to thfir own undonvfrtfd typfs.
+ * Thf mfthod hbndlf objfdt itsflf is pushfd on thf stbdk bfforf thf brgumfnts.
+ * Thf dompilfr thfn dblls thf mfthod hbndlf with b symbolid typf dfsdriptor whidh
+ * dfsdribfs thf brgumfnt bnd rfturn typfs.
+ * <p>
+ * To issuf b domplftf symbolid typf dfsdriptor, thf dompilfr must blso dftfrminf
+ * thf rfturn typf.  This is bbsfd on b dbst on thf mfthod invodbtion fxprfssion,
+ * if thfrf is onf, or flsf {@dodf Objfdt} if thf invodbtion is bn fxprfssion
+ * or flsf {@dodf void} if thf invodbtion is b stbtfmfnt.
+ * Thf dbst mby bf to b primitivf typf (but not {@dodf void}).
+ * <p>
+ * As b dornfr dbsf, bn undbstfd {@dodf null} brgumfnt is givfn
+ * b symbolid typf dfsdriptor of {@dodf jbvb.lbng.Void}.
+ * Thf bmbiguity with thf typf {@dodf Void} is hbrmlfss, sindf thfrf brf no rfffrfndfs of typf
+ * {@dodf Void} fxdfpt thf null rfffrfndf.
+ *
+ * <h1>Mfthod hbndlf invodbtion</h1>
+ * Thf first timf b {@dodf invokfvirtubl} instrudtion is fxfdutfd
+ * it is linkfd, by symbolidblly rfsolving thf nbmfs in thf instrudtion
+ * bnd vfrifying thbt thf mfthod dbll is stbtidblly lfgbl.
+ * This is truf of dblls to {@dodf invokfExbdt} bnd {@dodf invokf}.
+ * In this dbsf, thf symbolid typf dfsdriptor fmittfd by thf dompilfr is dhfdkfd for
+ * dorrfdt syntbx bnd nbmfs it dontbins brf rfsolvfd.
+ * Thus, bn {@dodf invokfvirtubl} instrudtion whidh invokfs
+ * b mfthod hbndlf will blwbys link, bs long
+ * bs thf symbolid typf dfsdriptor is syntbdtidblly wfll-formfd
+ * bnd thf typfs fxist.
+ * <p>
+ * Whfn thf {@dodf invokfvirtubl} is fxfdutfd bftfr linking,
+ * thf rfdfiving mfthod hbndlf's typf is first dhfdkfd by thf JVM
+ * to fnsurf thbt it mbtdhfs thf symbolid typf dfsdriptor.
+ * If thf typf mbtdh fbils, it mfbns thbt thf mfthod whidh thf
+ * dbllfr is invoking is not prfsfnt on thf individubl
+ * mfthod hbndlf bfing invokfd.
+ * <p>
+ * In thf dbsf of {@dodf invokfExbdt}, thf typf dfsdriptor of thf invodbtion
+ * (bftfr rfsolving symbolid typf nbmfs) must fxbdtly mbtdh thf mfthod typf
+ * of thf rfdfiving mfthod hbndlf.
+ * In thf dbsf of plbin, infxbdt {@dodf invokf}, thf rfsolvfd typf dfsdriptor
+ * must bf b vblid brgumfnt to thf rfdfivfr's {@link #bsTypf bsTypf} mfthod.
+ * Thus, plbin {@dodf invokf} is morf pfrmissivf thbn {@dodf invokfExbdt}.
+ * <p>
+ * Aftfr typf mbtdhing, b dbll to {@dodf invokfExbdt} dirfdtly
+ * bnd immfdibtfly invokf thf mfthod hbndlf's undfrlying mfthod
+ * (or othfr bfhbvior, bs thf dbsf mby bf).
+ * <p>
+ * A dbll to plbin {@dodf invokf} works thf sbmf bs b dbll to
+ * {@dodf invokfExbdt}, if thf symbolid typf dfsdriptor spfdififd by thf dbllfr
+ * fxbdtly mbtdhfs thf mfthod hbndlf's own typf.
+ * If thfrf is b typf mismbtdh, {@dodf invokf} bttfmpts
+ * to bdjust thf typf of thf rfdfiving mfthod hbndlf,
+ * bs if by b dbll to {@link #bsTypf bsTypf},
+ * to obtbin bn fxbdtly invokbblf mfthod hbndlf {@dodf M2}.
+ * This bllows b morf powfrful nfgotibtion of mfthod typf
+ * bftwffn dbllfr bnd dbllff.
+ * <p>
+ * (<fm>Notf:</fm> Thf bdjustfd mfthod hbndlf {@dodf M2} is not dirfdtly obsfrvbblf,
+ * bnd implfmfntbtions brf thfrfforf not rfquirfd to mbtfriblizf it.)
+ *
+ * <h1>Invodbtion dhfdking</h1>
+ * In typidbl progrbms, mfthod hbndlf typf mbtdhing will usublly suddffd.
+ * But if b mbtdh fbils, thf JVM will throw b {@link WrongMfthodTypfExdfption},
+ * fithfr dirfdtly (in thf dbsf of {@dodf invokfExbdt}) or indirfdtly bs if
+ * by b fbilfd dbll to {@dodf bsTypf} (in thf dbsf of {@dodf invokf}).
+ * <p>
+ * Thus, b mfthod typf mismbtdh whidh might show up bs b linkbgf frror
+ * in b stbtidblly typfd progrbm dbn show up bs
+ * b dynbmid {@dodf WrongMfthodTypfExdfption}
+ * in b progrbm whidh usfs mfthod hbndlfs.
+ * <p>
+ * Bfdbusf mfthod typfs dontbin "livf" {@dodf Clbss} objfdts,
+ * mfthod typf mbtdhing tbkfs into bddount both typfs nbmfs bnd dlbss lobdfrs.
+ * Thus, fvfn if b mfthod hbndlf {@dodf M} is drfbtfd in onf
+ * dlbss lobdfr {@dodf L1} bnd usfd in bnothfr {@dodf L2},
+ * mfthod hbndlf dblls brf typf-sbff, bfdbusf thf dbllfr's symbolid typf
+ * dfsdriptor, bs rfsolvfd in {@dodf L2},
+ * is mbtdhfd bgbinst thf originbl dbllff mfthod's symbolid typf dfsdriptor,
+ * bs rfsolvfd in {@dodf L1}.
+ * Thf rfsolution in {@dodf L1} hbppfns whfn {@dodf M} is drfbtfd
+ * bnd its typf is bssignfd, whilf thf rfsolution in {@dodf L2} hbppfns
+ * whfn thf {@dodf invokfvirtubl} instrudtion is linkfd.
+ * <p>
+ * Apbrt from thf dhfdking of typf dfsdriptors,
+ * b mfthod hbndlf's dbpbbility to dbll its undfrlying mfthod is unrfstridtfd.
+ * If b mfthod hbndlf is formfd on b non-publid mfthod by b dlbss
+ * thbt hbs bddfss to thbt mfthod, thf rfsulting hbndlf dbn bf usfd
+ * in bny plbdf by bny dbllfr who rfdfivfs b rfffrfndf to it.
+ * <p>
+ * Unlikf with thf Corf Rfflfdtion API, whfrf bddfss is dhfdkfd fvfry timf
+ * b rfflfdtivf mfthod is invokfd,
+ * mfthod hbndlf bddfss dhfdking is pfrformfd
+ * <b hrff="MfthodHbndlfs.Lookup.html#bddfss">whfn thf mfthod hbndlf is drfbtfd</b>.
+ * In thf dbsf of {@dodf ldd} (sff bflow), bddfss dhfdking is pfrformfd bs pbrt of linking
+ * thf donstbnt pool fntry undfrlying thf donstbnt mfthod hbndlf.
+ * <p>
+ * Thus, hbndlfs to non-publid mfthods, or to mfthods in non-publid dlbssfs,
+ * should gfnfrblly bf kfpt sfdrft.
+ * Thfy should not bf pbssfd to untrustfd dodf unlfss thfir usf from
+ * thf untrustfd dodf would bf hbrmlfss.
+ *
+ * <h1>Mfthod hbndlf drfbtion</h1>
+ * Jbvb dodf dbn drfbtf b mfthod hbndlf thbt dirfdtly bddfssfs
+ * bny mfthod, donstrudtor, or fifld thbt is bddfssiblf to thbt dodf.
+ * This is donf vib b rfflfdtivf, dbpbbility-bbsfd API dbllfd
+ * {@link jbvb.lbng.invokf.MfthodHbndlfs.Lookup MfthodHbndlfs.Lookup}
+ * For fxbmplf, b stbtid mfthod hbndlf dbn bf obtbinfd
+ * from {@link jbvb.lbng.invokf.MfthodHbndlfs.Lookup#findStbtid Lookup.findStbtid}.
+ * Thfrf brf blso donvfrsion mfthods from Corf Rfflfdtion API objfdts,
+ * sudh bs {@link jbvb.lbng.invokf.MfthodHbndlfs.Lookup#unrfflfdt Lookup.unrfflfdt}.
+ * <p>
+ * Likf dlbssfs bnd strings, mfthod hbndlfs thbt dorrfspond to bddfssiblf
+ * fiflds, mfthods, bnd donstrudtors dbn blso bf rfprfsfntfd dirfdtly
+ * in b dlbss filf's donstbnt pool bs donstbnts to bf lobdfd by {@dodf ldd} bytfdodfs.
+ * A nfw typf of donstbnt pool fntry, {@dodf CONSTANT_MfthodHbndlf},
+ * rfffrs dirfdtly to bn bssodibtfd {@dodf CONSTANT_Mfthodrff},
+ * {@dodf CONSTANT_IntfrfbdfMfthodrff}, or {@dodf CONSTANT_Fifldrff}
+ * donstbnt pool fntry.
+ * (For full dftbils on mfthod hbndlf donstbnts,
+ * sff sfdtions 4.4.8 bnd 5.4.3.5 of thf Jbvb Virtubl Mbdhinf Spfdifidbtion.)
+ * <p>
+ * Mfthod hbndlfs produdfd by lookups or donstbnt lobds from mfthods or
+ * donstrudtors with thf vbribblf brity modififr bit ({@dodf 0x0080})
+ * hbvf b dorrfsponding vbribblf brity, bs if thfy wfrf dffinfd with
+ * thf hflp of {@link #bsVbrbrgsCollfdtor bsVbrbrgsCollfdtor}.
+ * <p>
+ * A mfthod rfffrfndf mby rfffr fithfr to b stbtid or non-stbtid mfthod.
+ * In thf non-stbtid dbsf, thf mfthod hbndlf typf indludfs bn fxplidit
+ * rfdfivfr brgumfnt, prfpfndfd bfforf bny othfr brgumfnts.
+ * In thf mfthod hbndlf's typf, thf initibl rfdfivfr brgumfnt is typfd
+ * bddording to thf dlbss undfr whidh thf mfthod wbs initiblly rfqufstfd.
+ * (E.g., if b non-stbtid mfthod hbndlf is obtbinfd vib {@dodf ldd},
+ * thf typf of thf rfdfivfr is thf dlbss nbmfd in thf donstbnt pool fntry.)
+ * <p>
+ * Mfthod hbndlf donstbnts brf subjfdt to thf sbmf link-timf bddfss dhfdks
+ * thfir dorrfsponding bytfdodf instrudtions, bnd thf {@dodf ldd} instrudtion
+ * will throw dorrfsponding linkbgf frrors if thf bytfdodf bfhbviors would
+ * throw sudh frrors.
+ * <p>
+ * As b dorollbry of this, bddfss to protfdtfd mfmbfrs is rfstridtfd
+ * to rfdfivfrs only of thf bddfssing dlbss, or onf of its subdlbssfs,
+ * bnd thf bddfssing dlbss must in turn bf b subdlbss (or pbdkbgf sibling)
+ * of thf protfdtfd mfmbfr's dffining dlbss.
+ * If b mfthod rfffrfndf rfffrs to b protfdtfd non-stbtid mfthod or fifld
+ * of b dlbss outsidf thf durrfnt pbdkbgf, thf rfdfivfr brgumfnt will
+ * bf nbrrowfd to thf typf of thf bddfssing dlbss.
+ * <p>
+ * Whfn b mfthod hbndlf to b virtubl mfthod is invokfd, thf mfthod is
+ * blwbys lookfd up in thf rfdfivfr (thbt is, thf first brgumfnt).
+ * <p>
+ * A non-virtubl mfthod hbndlf to b spfdifid virtubl mfthod implfmfntbtion
+ * dbn blso bf drfbtfd.  Thfsf do not pfrform virtubl lookup bbsfd on
+ * rfdfivfr typf.  Sudh b mfthod hbndlf simulbtfs thf ffffdt of
+ * bn {@dodf invokfspfdibl} instrudtion to thf sbmf mfthod.
+ *
+ * <h1>Usbgf fxbmplfs</h1>
+ * Hfrf brf somf fxbmplfs of usbgf:
+ * <blodkquotf><prf>{@dodf
+Objfdt x, y; String s; int i;
+MfthodTypf mt; MfthodHbndlf mh;
+MfthodHbndlfs.Lookup lookup = MfthodHbndlfs.lookup();
+// mt is (dhbr,dhbr)String
+mt = MfthodTypf.mfthodTypf(String.dlbss, dhbr.dlbss, dhbr.dlbss);
+mh = lookup.findVirtubl(String.dlbss, "rfplbdf", mt);
+s = (String) mh.invokfExbdt("dbddy",'d','n');
+// invokfExbdt(Ljbvb/lbng/String;CC)Ljbvb/lbng/String;
+bssfrtEqubls(s, "nbnny");
+// wfbkly typfd invodbtion (using MHs.invokf)
+s = (String) mh.invokfWithArgumfnts("sbppy", 'p', 'v');
+bssfrtEqubls(s, "sbvvy");
+// mt is (Objfdt[])List
+mt = MfthodTypf.mfthodTypf(jbvb.util.List.dlbss, Objfdt[].dlbss);
+mh = lookup.findStbtid(jbvb.util.Arrbys.dlbss, "bsList", mt);
+bssfrt(mh.isVbrbrgsCollfdtor());
+x = mh.invokf("onf", "two");
+// invokf(Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/Objfdt;
+bssfrtEqubls(x, jbvb.util.Arrbys.bsList("onf","two"));
+// mt is (Objfdt,Objfdt,Objfdt)Objfdt
+mt = MfthodTypf.gfnfridMfthodTypf(3);
+mh = mh.bsTypf(mt);
+x = mh.invokfExbdt((Objfdt)1, (Objfdt)2, (Objfdt)3);
+// invokfExbdt(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)Ljbvb/lbng/Objfdt;
+bssfrtEqubls(x, jbvb.util.Arrbys.bsList(1,2,3));
+// mt is ()int
+mt = MfthodTypf.mfthodTypf(int.dlbss);
+mh = lookup.findVirtubl(jbvb.util.List.dlbss, "sizf", mt);
+i = (int) mh.invokfExbdt(jbvb.util.Arrbys.bsList(1,2,3));
+// invokfExbdt(Ljbvb/util/List;)I
+bssfrt(i == 3);
+mt = MfthodTypf.mfthodTypf(void.dlbss, String.dlbss);
+mh = lookup.findVirtubl(jbvb.io.PrintStrfbm.dlbss, "println", mt);
+mh.invokfExbdt(Systfm.out, "Hfllo, world.");
+// invokfExbdt(Ljbvb/io/PrintStrfbm;Ljbvb/lbng/String;)V
+ * }</prf></blodkquotf>
+ * Ebdh of thf bbovf dblls to {@dodf invokfExbdt} or plbin {@dodf invokf}
+ * gfnfrbtfs b singlf invokfvirtubl instrudtion with
+ * thf symbolid typf dfsdriptor indidbtfd in thf following dommfnt.
+ * In thfsf fxbmplfs, thf hflpfr mfthod {@dodf bssfrtEqubls} is bssumfd to
+ * bf b mfthod whidh dblls {@link jbvb.util.Objfdts#fqubls(Objfdt,Objfdt) Objfdts.fqubls}
+ * on its brgumfnts, bnd bssfrts thbt thf rfsult is truf.
+ *
+ * <h1>Exdfptions</h1>
+ * Thf mfthods {@dodf invokfExbdt} bnd {@dodf invokf} brf dfdlbrfd
+ * to throw {@link jbvb.lbng.Throwbblf Throwbblf},
+ * whidh is to sby thbt thfrf is no stbtid rfstridtion on whbt b mfthod hbndlf
+ * dbn throw.  Sindf thf JVM dofs not distinguish bftwffn dhfdkfd
+ * bnd undhfdkfd fxdfptions (othfr thbn by thfir dlbss, of doursf),
+ * thfrf is no pbrtidulbr ffffdt on bytfdodf shbpf from bsdribing
+ * dhfdkfd fxdfptions to mfthod hbndlf invodbtions.  But in Jbvb sourdf
+ * dodf, mfthods whidh pfrform mfthod hbndlf dblls must fithfr fxpliditly
+ * throw {@dodf Throwbblf}, or flsf must dbtdh bll
+ * throwbblfs lodblly, rfthrowing only thosf whidh brf lfgbl in thf dontfxt,
+ * bnd wrbpping onfs whidh brf illfgbl.
+ *
+ * <h1><b nbmf="sigpoly"></b>Signbturf polymorphism</h1>
+ * Thf unusubl dompilbtion bnd linkbgf bfhbvior of
+ * {@dodf invokfExbdt} bnd plbin {@dodf invokf}
+ * is rfffrfndfd by thf tfrm <fm>signbturf polymorphism</fm>.
+ * As dffinfd in thf Jbvb Lbngubgf Spfdifidbtion,
+ * b signbturf polymorphid mfthod is onf whidh dbn opfrbtf with
+ * bny of b widf rbngf of dbll signbturfs bnd rfturn typfs.
+ * <p>
+ * In sourdf dodf, b dbll to b signbturf polymorphid mfthod will
+ * dompilf, rfgbrdlfss of thf rfqufstfd symbolid typf dfsdriptor.
+ * As usubl, thf Jbvb dompilfr fmits bn {@dodf invokfvirtubl}
+ * instrudtion with thf givfn symbolid typf dfsdriptor bgbinst thf nbmfd mfthod.
+ * Thf unusubl pbrt is thbt thf symbolid typf dfsdriptor is dfrivfd from
+ * thf bdtubl brgumfnt bnd rfturn typfs, not from thf mfthod dfdlbrbtion.
+ * <p>
+ * Whfn thf JVM prodfssfs bytfdodf dontbining signbturf polymorphid dblls,
+ * it will suddfssfully link bny sudh dbll, rfgbrdlfss of its symbolid typf dfsdriptor.
+ * (In ordfr to rftbin typf sbffty, thf JVM will gubrd sudh dblls with suitbblf
+ * dynbmid typf dhfdks, bs dfsdribfd flsfwhfrf.)
+ * <p>
+ * Bytfdodf gfnfrbtors, indluding thf dompilfr bbdk fnd, brf rfquirfd to fmit
+ * untrbnsformfd symbolid typf dfsdriptors for thfsf mfthods.
+ * Tools whidh dftfrminf symbolid linkbgf brf rfquirfd to bddfpt sudh
+ * untrbnsformfd dfsdriptors, without rfporting linkbgf frrors.
+ *
+ * <h1>Intfropfrbtion bftwffn mfthod hbndlfs bnd thf Corf Rfflfdtion API</h1>
+ * Using fbdtory mfthods in thf {@link jbvb.lbng.invokf.MfthodHbndlfs.Lookup Lookup} API,
+ * bny dlbss mfmbfr rfprfsfntfd by b Corf Rfflfdtion API objfdt
+ * dbn bf donvfrtfd to b bfhbviorblly fquivblfnt mfthod hbndlf.
+ * For fxbmplf, b rfflfdtivf {@link jbvb.lbng.rfflfdt.Mfthod Mfthod} dbn
+ * bf donvfrtfd to b mfthod hbndlf using
+ * {@link jbvb.lbng.invokf.MfthodHbndlfs.Lookup#unrfflfdt Lookup.unrfflfdt}.
+ * Thf rfsulting mfthod hbndlfs gfnfrblly providf morf dirfdt bnd fffidifnt
+ * bddfss to thf undfrlying dlbss mfmbfrs.
+ * <p>
+ * As b spfdibl dbsf,
+ * whfn thf Corf Rfflfdtion API is usfd to vifw thf signbturf polymorphid
+ * mfthods {@dodf invokfExbdt} or plbin {@dodf invokf} in this dlbss,
+ * thfy bppfbr bs ordinbry non-polymorphid mfthods.
+ * Thfir rfflfdtivf bppfbrbndf, bs vifwfd by
+ * {@link jbvb.lbng.Clbss#gftDfdlbrfdMfthod Clbss.gftDfdlbrfdMfthod},
+ * is unbfffdtfd by thfir spfdibl stbtus in this API.
+ * For fxbmplf, {@link jbvb.lbng.rfflfdt.Mfthod#gftModififrs Mfthod.gftModififrs}
+ * will rfport fxbdtly thosf modififr bits rfquirfd for bny similbrly
+ * dfdlbrfd mfthod, indluding in this dbsf {@dodf nbtivf} bnd {@dodf vbrbrgs} bits.
+ * <p>
+ * As with bny rfflfdtfd mfthod, thfsf mfthods (whfn rfflfdtfd) mby bf
+ * invokfd vib {@link jbvb.lbng.rfflfdt.Mfthod#invokf jbvb.lbng.rfflfdt.Mfthod.invokf}.
+ * Howfvfr, sudh rfflfdtivf dblls do not rfsult in mfthod hbndlf invodbtions.
+ * Sudh b dbll, if pbssfd thf rfquirfd brgumfnt
+ * (b singlf onf, of typf {@dodf Objfdt[]}), will ignorf thf brgumfnt bnd
+ * will throw bn {@dodf UnsupportfdOpfrbtionExdfption}.
+ * <p>
+ * Sindf {@dodf invokfvirtubl} instrudtions dbn nbtivfly
+ * invokf mfthod hbndlfs undfr bny symbolid typf dfsdriptor, this rfflfdtivf vifw donflidts
+ * with thf normbl prfsfntbtion of thfsf mfthods vib bytfdodfs.
+ * Thus, thfsf two nbtivf mfthods, whfn rfflfdtivfly vifwfd by
+ * {@dodf Clbss.gftDfdlbrfdMfthod}, mby bf rfgbrdfd bs plbdfholdfrs only.
+ * <p>
+ * In ordfr to obtbin bn invokfr mfthod for b pbrtidulbr typf dfsdriptor,
+ * usf {@link jbvb.lbng.invokf.MfthodHbndlfs#fxbdtInvokfr MfthodHbndlfs.fxbdtInvokfr},
+ * or {@link jbvb.lbng.invokf.MfthodHbndlfs#invokfr MfthodHbndlfs.invokfr}.
+ * Thf {@link jbvb.lbng.invokf.MfthodHbndlfs.Lookup#findVirtubl Lookup.findVirtubl}
+ * API is blso bblf to rfturn b mfthod hbndlf
+ * to dbll {@dodf invokfExbdt} or plbin {@dodf invokf},
+ * for bny spfdififd typf dfsdriptor .
+ *
+ * <h1>Intfropfrbtion bftwffn mfthod hbndlfs bnd Jbvb gfnfrids</h1>
+ * A mfthod hbndlf dbn bf obtbinfd on b mfthod, donstrudtor, or fifld
+ * whidh is dfdlbrfd with Jbvb gfnfrid typfs.
+ * As with thf Corf Rfflfdtion API, thf typf of thf mfthod hbndlf
+ * will donstrudtfd from thf frbsurf of thf sourdf-lfvfl typf.
+ * Whfn b mfthod hbndlf is invokfd, thf typfs of its brgumfnts
+ * or thf rfturn vbluf dbst typf mby bf gfnfrid typfs or typf instbndfs.
+ * If this oddurs, thf dompilfr will rfplbdf thosf
+ * typfs by thfir frbsurfs whfn it donstrudts thf symbolid typf dfsdriptor
+ * for thf {@dodf invokfvirtubl} instrudtion.
+ * <p>
+ * Mfthod hbndlfs do not rfprfsfnt
+ * thfir fundtion-likf typfs in tfrms of Jbvb pbrbmftfrizfd (gfnfrid) typfs,
+ * bfdbusf thfrf brf thrff mismbtdhfs bftwffn fundtion-likf typfs bnd pbrbmftfrizfd
+ * Jbvb typfs.
+ * <ul>
+ * <li>Mfthod typfs rbngf ovfr bll possiblf britifs,
+ * from no brgumfnts to up to thf  <b hrff="MfthodHbndlf.html#mbxbrity">mbximum numbfr</b> of bllowfd brgumfnts.
+ * Gfnfrids brf not vbribdid, bnd so dbnnot rfprfsfnt this.</li>
+ * <li>Mfthod typfs dbn spfdify brgumfnts of primitivf typfs,
+ * whidh Jbvb gfnfrid typfs dbnnot rbngf ovfr.</li>
+ * <li>Highfr ordfr fundtions ovfr mfthod hbndlfs (dombinbtors) brf
+ * oftfn gfnfrid bdross b widf rbngf of fundtion typfs, indluding
+ * thosf of multiplf britifs.  It is impossiblf to rfprfsfnt sudh
+ * gfnfridity with b Jbvb typf pbrbmftfr.</li>
+ * </ul>
+ *
+ * <h1><b nbmf="mbxbrity"></b>Arity limits</h1>
+ * Thf JVM imposfs on bll mfthods bnd donstrudtors of bny kind bn bbsolutf
+ * limit of 255 stbdkfd brgumfnts.  This limit dbn bppfbr morf rfstridtivf
+ * in dfrtbin dbsfs:
+ * <ul>
+ * <li>A {@dodf long} or {@dodf doublf} brgumfnt dounts (for purposfs of brity limits) bs two brgumfnt slots.
+ * <li>A non-stbtid mfthod donsumfs bn fxtrb brgumfnt for thf objfdt on whidh thf mfthod is dbllfd.
+ * <li>A donstrudtor donsumfs bn fxtrb brgumfnt for thf objfdt whidh is bfing donstrudtfd.
+ * <li>Sindf b mfthod hbndlf&rsquo;s {@dodf invokf} mfthod (or othfr signbturf-polymorphid mfthod) is non-virtubl,
+ *     it donsumfs bn fxtrb brgumfnt for thf mfthod hbndlf itsflf, in bddition to bny non-virtubl rfdfivfr objfdt.
+ * </ul>
+ * Thfsf limits imply thbt dfrtbin mfthod hbndlfs dbnnot bf drfbtfd, solfly bfdbusf of thf JVM limit on stbdkfd brgumfnts.
+ * For fxbmplf, if b stbtid JVM mfthod bddfpts fxbdtly 255 brgumfnts, b mfthod hbndlf dbnnot bf drfbtfd for it.
+ * Attfmpts to drfbtf mfthod hbndlfs with impossiblf mfthod typfs lfbd to bn {@link IllfgblArgumfntExdfption}.
+ * In pbrtidulbr, b mfthod hbndlf&rsquo;s typf must not hbvf bn brity of thf fxbdt mbximum 255.
+ *
+ * @sff MfthodTypf
+ * @sff MfthodHbndlfs
+ * @buthor John Rosf, JSR 292 EG
+ */
+publid bbstrbdt dlbss MfthodHbndlf {
+    stbtid { MfthodHbndlfImpl.initStbtids(); }
+
+    /**
+     * Intfrnbl mbrkfr intfrfbdf whidh distinguishfs (to thf Jbvb dompilfr)
+     * thosf mfthods whidh brf <b hrff="MfthodHbndlf.html#sigpoly">signbturf polymorphid</b>.
+     */
+    @jbvb.lbng.bnnotbtion.Tbrgft({jbvb.lbng.bnnotbtion.ElfmfntTypf.METHOD})
+    @jbvb.lbng.bnnotbtion.Rftfntion(jbvb.lbng.bnnotbtion.RftfntionPolidy.RUNTIME)
+    @intfrfbdf PolymorphidSignbturf { }
+
+    privbtf finbl MfthodTypf typf;
+    /*privbtf*/ finbl LbmbdbForm form;
+    // form is not privbtf so thbt invokfrs dbn fbsily fftdh it
+    /*privbtf*/ MfthodHbndlf bsTypfCbdhf;
+    // bsTypfCbdhf is not privbtf so thbt invokfrs dbn fbsily fftdh it
+
+    /**
+     * Rfports thf typf of this mfthod hbndlf.
+     * Evfry invodbtion of this mfthod hbndlf vib {@dodf invokfExbdt} must fxbdtly mbtdh this typf.
+     * @rfturn thf mfthod hbndlf typf
+     */
+    publid MfthodTypf typf() {
+        rfturn typf;
+    }
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor for thf mfthod hbndlf implfmfntbtion hifrbrdhy.
+     * Mfthod hbndlf inhfritbndf will bf dontbinfd domplftfly within
+     * thf {@dodf jbvb.lbng.invokf} pbdkbgf.
+     */
+    // @pbrbm typf typf (pfrmbnfntly bssignfd) of thf nfw mfthod hbndlf
+    /*non-publid*/ MfthodHbndlf(MfthodTypf typf, LbmbdbForm form) {
+        typf.gftClbss();  // fxplidit NPE
+        form.gftClbss();  // fxplidit NPE
+        this.typf = typf;
+        this.form = form;
+
+        form.prfpbrf();  // TO DO:  Try to dflby this stfp until just bfforf invodbtion.
+    }
+
+    /**
+     * Invokfs thf mfthod hbndlf, bllowing bny dbllfr typf dfsdriptor, but rfquiring bn fxbdt typf mbtdh.
+     * Thf symbolid typf dfsdriptor bt thf dbll sitf of {@dodf invokfExbdt} must
+     * fxbdtly mbtdh this mfthod hbndlf's {@link #typf typf}.
+     * No donvfrsions brf bllowfd on brgumfnts or rfturn vblufs.
+     * <p>
+     * Whfn this mfthod is obsfrvfd vib thf Corf Rfflfdtion API,
+     * it will bppfbr bs b singlf nbtivf mfthod, tbking bn objfdt brrby bnd rfturning bn objfdt.
+     * If this nbtivf mfthod is invokfd dirfdtly vib
+     * {@link jbvb.lbng.rfflfdt.Mfthod#invokf jbvb.lbng.rfflfdt.Mfthod.invokf}, vib JNI,
+     * or indirfdtly vib {@link jbvb.lbng.invokf.MfthodHbndlfs.Lookup#unrfflfdt Lookup.unrfflfdt},
+     * it will throw bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     * @pbrbm brgs thf signbturf-polymorphid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn thf signbturf-polymorphid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     * @throws WrongMfthodTypfExdfption if thf tbrgft's typf is not idfntidbl with thf dbllfr's symbolid typf dfsdriptor
+     * @throws Throwbblf bnything thrown by thf undfrlying mfthod propbgbtfs undhbngfd through thf mfthod hbndlf dbll
+     */
+    publid finbl nbtivf @PolymorphidSignbturf Objfdt invokfExbdt(Objfdt... brgs) throws Throwbblf;
+
+    /**
+     * Invokfs thf mfthod hbndlf, bllowing bny dbllfr typf dfsdriptor,
+     * bnd optionblly pfrforming donvfrsions on brgumfnts bnd rfturn vblufs.
+     * <p>
+     * If thf dbll sitf's symbolid typf dfsdriptor fxbdtly mbtdhfs this mfthod hbndlf's {@link #typf typf},
+     * thf dbll prodffds bs if by {@link #invokfExbdt invokfExbdt}.
+     * <p>
+     * Othfrwisf, thf dbll prodffds bs if this mfthod hbndlf wfrf first
+     * bdjustfd by dblling {@link #bsTypf bsTypf} to bdjust this mfthod hbndlf
+     * to thf rfquirfd typf, bnd thfn thf dbll prodffds bs if by
+     * {@link #invokfExbdt invokfExbdt} on thf bdjustfd mfthod hbndlf.
+     * <p>
+     * Thfrf is no gubrbntff thbt thf {@dodf bsTypf} dbll is bdtublly mbdf.
+     * If thf JVM dbn prfdidt thf rfsults of mbking thf dbll, it mby pfrform
+     * bdbptbtions dirfdtly on thf dbllfr's brgumfnts,
+     * bnd dbll thf tbrgft mfthod hbndlf bddording to its own fxbdt typf.
+     * <p>
+     * Thf rfsolvfd typf dfsdriptor bt thf dbll sitf of {@dodf invokf} must
+     * bf b vblid brgumfnt to thf rfdfivfrs {@dodf bsTypf} mfthod.
+     * In pbrtidulbr, thf dbllfr must spfdify thf sbmf brgumfnt brity
+     * bs thf dbllff's typf,
+     * if thf dbllff is not b {@linkplbin #bsVbrbrgsCollfdtor vbribblf brity dollfdtor}.
+     * <p>
+     * Whfn this mfthod is obsfrvfd vib thf Corf Rfflfdtion API,
+     * it will bppfbr bs b singlf nbtivf mfthod, tbking bn objfdt brrby bnd rfturning bn objfdt.
+     * If this nbtivf mfthod is invokfd dirfdtly vib
+     * {@link jbvb.lbng.rfflfdt.Mfthod#invokf jbvb.lbng.rfflfdt.Mfthod.invokf}, vib JNI,
+     * or indirfdtly vib {@link jbvb.lbng.invokf.MfthodHbndlfs.Lookup#unrfflfdt Lookup.unrfflfdt},
+     * it will throw bn {@dodf UnsupportfdOpfrbtionExdfption}.
+     * @pbrbm brgs thf signbturf-polymorphid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn thf signbturf-polymorphid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     * @throws WrongMfthodTypfExdfption if thf tbrgft's typf dbnnot bf bdjustfd to thf dbllfr's symbolid typf dfsdriptor
+     * @throws ClbssCbstExdfption if thf tbrgft's typf dbn bf bdjustfd to thf dbllfr, but b rfffrfndf dbst fbils
+     * @throws Throwbblf bnything thrown by thf undfrlying mfthod propbgbtfs undhbngfd through thf mfthod hbndlf dbll
+     */
+    publid finbl nbtivf @PolymorphidSignbturf Objfdt invokf(Objfdt... brgs) throws Throwbblf;
+
+    /**
+     * Privbtf mfthod for trustfd invodbtion of b mfthod hbndlf rfspfdting simplififd signbturfs.
+     * Typf mismbtdhfs will not throw {@dodf WrongMfthodTypfExdfption}, but dould drbsh thf JVM.
+     * <p>
+     * Thf dbllfr signbturf is rfstridtfd to thf following bbsid typfs:
+     * Objfdt, int, long, flobt, doublf, bnd void rfturn.
+     * <p>
+     * Thf dbllfr is rfsponsiblf for mbintbining typf dorrfdtnfss by fnsuring
+     * thbt thf fbdh outgoing brgumfnt vbluf is b mfmbfr of thf rbngf of thf dorrfsponding
+     * dbllff brgumfnt typf.
+     * (Thf dbllfr should thfrfforf issuf bppropribtf dbsts bnd intfgfr nbrrowing
+     * opfrbtions on outgoing brgumfnt vblufs.)
+     * Thf dbllfr dbn bssumf thbt thf indoming rfsult vbluf is pbrt of thf rbngf
+     * of thf dbllff's rfturn typf.
+     * @pbrbm brgs thf signbturf-polymorphid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn thf signbturf-polymorphid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     */
+    /*non-publid*/ finbl nbtivf @PolymorphidSignbturf Objfdt invokfBbsid(Objfdt... brgs) throws Throwbblf;
+
+    /**
+     * Privbtf mfthod for trustfd invodbtion of b MfmbfrNbmf of kind {@dodf REF_invokfVirtubl}.
+     * Thf dbllfr signbturf is rfstridtfd to bbsid typfs bs with {@dodf invokfBbsid}.
+     * Thf trbiling (not lfbding) brgumfnt must bf b MfmbfrNbmf.
+     * @pbrbm brgs thf signbturf-polymorphid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn thf signbturf-polymorphid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     */
+    /*non-publid*/ stbtid nbtivf @PolymorphidSignbturf Objfdt linkToVirtubl(Objfdt... brgs) throws Throwbblf;
+
+    /**
+     * Privbtf mfthod for trustfd invodbtion of b MfmbfrNbmf of kind {@dodf REF_invokfStbtid}.
+     * Thf dbllfr signbturf is rfstridtfd to bbsid typfs bs with {@dodf invokfBbsid}.
+     * Thf trbiling (not lfbding) brgumfnt must bf b MfmbfrNbmf.
+     * @pbrbm brgs thf signbturf-polymorphid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn thf signbturf-polymorphid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     */
+    /*non-publid*/ stbtid nbtivf @PolymorphidSignbturf Objfdt linkToStbtid(Objfdt... brgs) throws Throwbblf;
+
+    /**
+     * Privbtf mfthod for trustfd invodbtion of b MfmbfrNbmf of kind {@dodf REF_invokfSpfdibl}.
+     * Thf dbllfr signbturf is rfstridtfd to bbsid typfs bs with {@dodf invokfBbsid}.
+     * Thf trbiling (not lfbding) brgumfnt must bf b MfmbfrNbmf.
+     * @pbrbm brgs thf signbturf-polymorphid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn thf signbturf-polymorphid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     */
+    /*non-publid*/ stbtid nbtivf @PolymorphidSignbturf Objfdt linkToSpfdibl(Objfdt... brgs) throws Throwbblf;
+
+    /**
+     * Privbtf mfthod for trustfd invodbtion of b MfmbfrNbmf of kind {@dodf REF_invokfIntfrfbdf}.
+     * Thf dbllfr signbturf is rfstridtfd to bbsid typfs bs with {@dodf invokfBbsid}.
+     * Thf trbiling (not lfbding) brgumfnt must bf b MfmbfrNbmf.
+     * @pbrbm brgs thf signbturf-polymorphid pbrbmftfr list, stbtidblly rfprfsfntfd using vbrbrgs
+     * @rfturn thf signbturf-polymorphid rfsult, stbtidblly rfprfsfntfd using {@dodf Objfdt}
+     */
+    /*non-publid*/ stbtid nbtivf @PolymorphidSignbturf Objfdt linkToIntfrfbdf(Objfdt... brgs) throws Throwbblf;
+
+    /**
+     * Pfrforms b vbribblf brity invodbtion, pbssing thf brgumfnts in thf givfn list
+     * to thf mfthod hbndlf, bs if vib bn infxbdt {@link #invokf invokf} from b dbll sitf
+     * whidh mfntions only thf typf {@dodf Objfdt}, bnd whosf brity is thf lfngth
+     * of thf brgumfnt list.
+     * <p>
+     * Spfdifidblly, fxfdution prodffds bs if by thf following stfps,
+     * blthough thf mfthods brf not gubrbntffd to bf dbllfd if thf JVM
+     * dbn prfdidt thfir ffffdts.
+     * <ul>
+     * <li>Dftfrminf thf lfngth of thf brgumfnt brrby bs {@dodf N}.
+     *     For b null rfffrfndf, {@dodf N=0}. </li>
+     * <li>Dftfrminf thf gfnfrbl typf {@dodf TN} of {@dodf N} brgumfnts bs
+     *     bs {@dodf TN=MfthodTypf.gfnfridMfthodTypf(N)}.</li>
+     * <li>Fordf thf originbl tbrgft mfthod hbndlf {@dodf MH0} to thf
+     *     rfquirfd typf, bs {@dodf MH1 = MH0.bsTypf(TN)}. </li>
+     * <li>Sprfbd thf brrby into {@dodf N} sfpbrbtf brgumfnts {@dodf A0, ...}. </li>
+     * <li>Invokf thf typf-bdjustfd mfthod hbndlf on thf unpbdkfd brgumfnts:
+     *     MH1.invokfExbdt(A0, ...). </li>
+     * <li>Tbkf thf rfturn vbluf bs bn {@dodf Objfdt} rfffrfndf. </li>
+     * </ul>
+     * <p>
+     * Bfdbusf of thf bdtion of thf {@dodf bsTypf} stfp, thf following brgumfnt
+     * donvfrsions brf bpplifd bs nfdfssbry:
+     * <ul>
+     * <li>rfffrfndf dbsting
+     * <li>unboxing
+     * <li>widfning primitivf donvfrsions
+     * </ul>
+     * <p>
+     * Thf rfsult rfturnfd by thf dbll is boxfd if it is b primitivf,
+     * or fordfd to null if thf rfturn typf is void.
+     * <p>
+     * This dbll is fquivblfnt to thf following dodf:
+     * <blodkquotf><prf>{@dodf
+     * MfthodHbndlf invokfr = MfthodHbndlfs.sprfbdInvokfr(this.typf(), 0);
+     * Objfdt rfsult = invokfr.invokfExbdt(this, brgumfnts);
+     * }</prf></blodkquotf>
+     * <p>
+     * Unlikf thf signbturf polymorphid mfthods {@dodf invokfExbdt} bnd {@dodf invokf},
+     * {@dodf invokfWithArgumfnts} dbn bf bddfssfd normblly vib thf Corf Rfflfdtion API bnd JNI.
+     * It dbn thfrfforf bf usfd bs b bridgf bftwffn nbtivf or rfflfdtivf dodf bnd mfthod hbndlfs.
+     *
+     * @pbrbm brgumfnts thf brgumfnts to pbss to thf tbrgft
+     * @rfturn thf rfsult rfturnfd by thf tbrgft
+     * @throws ClbssCbstExdfption if bn brgumfnt dbnnot bf donvfrtfd by rfffrfndf dbsting
+     * @throws WrongMfthodTypfExdfption if thf tbrgft's typf dbnnot bf bdjustfd to tbkf thf givfn numbfr of {@dodf Objfdt} brgumfnts
+     * @throws Throwbblf bnything thrown by thf tbrgft mfthod invodbtion
+     * @sff MfthodHbndlfs#sprfbdInvokfr
+     */
+    publid Objfdt invokfWithArgumfnts(Objfdt... brgumfnts) throws Throwbblf {
+        int brgd = brgumfnts == null ? 0 : brgumfnts.lfngth;
+        @SupprfssWbrnings("LodblVbribblfHidfsMfmbfrVbribblf")
+        MfthodTypf typf = typf();
+        if (typf.pbrbmftfrCount() != brgd || isVbrbrgsCollfdtor()) {
+            // simulbtf invokf
+            rfturn bsTypf(MfthodTypf.gfnfridMfthodTypf(brgd)).invokfWithArgumfnts(brgumfnts);
+        }
+        MfthodHbndlf invokfr = typf.invokfrs().vbrbrgsInvokfr();
+        rfturn invokfr.invokfExbdt(this, brgumfnts);
+    }
+
+    /**
+     * Pfrforms b vbribblf brity invodbtion, pbssing thf brgumfnts in thf givfn brrby
+     * to thf mfthod hbndlf, bs if vib bn infxbdt {@link #invokf invokf} from b dbll sitf
+     * whidh mfntions only thf typf {@dodf Objfdt}, bnd whosf brity is thf lfngth
+     * of thf brgumfnt brrby.
+     * <p>
+     * This mfthod is blso fquivblfnt to thf following dodf:
+     * <blodkquotf><prf>{@dodf
+     *   invokfWithArgumfnts(brgumfnts.toArrby()
+     * }</prf></blodkquotf>
+     *
+     * @pbrbm brgumfnts thf brgumfnts to pbss to thf tbrgft
+     * @rfturn thf rfsult rfturnfd by thf tbrgft
+     * @throws NullPointfrExdfption if {@dodf brgumfnts} is b null rfffrfndf
+     * @throws ClbssCbstExdfption if bn brgumfnt dbnnot bf donvfrtfd by rfffrfndf dbsting
+     * @throws WrongMfthodTypfExdfption if thf tbrgft's typf dbnnot bf bdjustfd to tbkf thf givfn numbfr of {@dodf Objfdt} brgumfnts
+     * @throws Throwbblf bnything thrown by thf tbrgft mfthod invodbtion
+     */
+    publid Objfdt invokfWithArgumfnts(jbvb.util.List<?> brgumfnts) throws Throwbblf {
+        rfturn invokfWithArgumfnts(brgumfnts.toArrby());
+    }
+
+    /**
+     * Produdfs bn bdbptfr mfthod hbndlf whidh bdbpts thf typf of thf
+     * durrfnt mfthod hbndlf to b nfw typf.
+     * Thf rfsulting mfthod hbndlf is gubrbntffd to rfport b typf
+     * whidh is fqubl to thf dfsirfd nfw typf.
+     * <p>
+     * If thf originbl typf bnd nfw typf brf fqubl, rfturns {@dodf this}.
+     * <p>
+     * Thf nfw mfthod hbndlf, whfn invokfd, will pfrform thf following
+     * stfps:
+     * <ul>
+     * <li>Convfrt thf indoming brgumfnt list to mbtdh thf originbl
+     *     mfthod hbndlf's brgumfnt list.
+     * <li>Invokf thf originbl mfthod hbndlf on thf donvfrtfd brgumfnt list.
+     * <li>Convfrt bny rfsult rfturnfd by thf originbl mfthod hbndlf
+     *     to thf rfturn typf of nfw mfthod hbndlf.
+     * </ul>
+     * <p>
+     * This mfthod providfs thf drudibl bfhbviorbl difffrfndf bftwffn
+     * {@link #invokfExbdt invokfExbdt} bnd plbin, infxbdt {@link #invokf invokf}.
+     * Thf two mfthods
+     * pfrform thf sbmf stfps whfn thf dbllfr's typf dfsdriptor fxbdtly m btdhfs
+     * thf dbllff's, but whfn thf typfs difffr, plbin {@link #invokf invokf}
+     * blso dblls {@dodf bsTypf} (or somf intfrnbl fquivblfnt) in ordfr
+     * to mbtdh up thf dbllfr's bnd dbllff's typfs.
+     * <p>
+     * If thf durrfnt mfthod is b vbribblf brity mfthod hbndlf
+     * brgumfnt list donvfrsion mby involvf thf donvfrsion bnd dollfdtion
+     * of sfvfrbl brgumfnts into bn brrby, bs
+     * {@linkplbin #bsVbrbrgsCollfdtor dfsdribfd flsfwhfrf}.
+     * In fvfry othfr dbsf, bll donvfrsions brf bpplifd <fm>pbirwisf</fm>,
+     * whidh mfbns thbt fbdh brgumfnt or rfturn vbluf is donvfrtfd to
+     * fxbdtly onf brgumfnt or rfturn vbluf (or no rfturn vbluf).
+     * Thf bpplifd donvfrsions brf dffinfd by donsulting thf
+     * thf dorrfsponding domponfnt typfs of thf old bnd nfw
+     * mfthod hbndlf typfs.
+     * <p>
+     * Lft <fm>T0</fm> bnd <fm>T1</fm> bf dorrfsponding nfw bnd old pbrbmftfr typfs,
+     * or old bnd nfw rfturn typfs.  Spfdifidblly, for somf vblid indfx {@dodf i}, lft
+     * <fm>T0</fm>{@dodf =nfwTypf.pbrbmftfrTypf(i)} bnd <fm>T1</fm>{@dodf =this.typf().pbrbmftfrTypf(i)}.
+     * Or flsf, going thf othfr wby for rfturn vblufs, lft
+     * <fm>T0</fm>{@dodf =this.typf().rfturnTypf()} bnd <fm>T1</fm>{@dodf =nfwTypf.rfturnTypf()}.
+     * If thf typfs brf thf sbmf, thf nfw mfthod hbndlf mbkfs no dhbngf
+     * to thf dorrfsponding brgumfnt or rfturn vbluf (if bny).
+     * Othfrwisf, onf of thf following donvfrsions is bpplifd
+     * if possiblf:
+     * <ul>
+     * <li>If <fm>T0</fm> bnd <fm>T1</fm> brf rfffrfndfs, thfn b dbst to <fm>T1</fm> is bpplifd.
+     *     (Thf typfs do not nffd to bf rflbtfd in bny pbrtidulbr wby.
+     *     This is bfdbusf b dynbmid vbluf of null dbn donvfrt to bny rfffrfndf typf.)
+     * <li>If <fm>T0</fm> bnd <fm>T1</fm> brf primitivfs, thfn b Jbvb mfthod invodbtion
+     *     donvfrsion (JLS 5.3) is bpplifd, if onf fxists.
+     *     (Spfdifidblly, <fm>T0</fm> must donvfrt to <fm>T1</fm> by b widfning primitivf donvfrsion.)
+     * <li>If <fm>T0</fm> is b primitivf bnd <fm>T1</fm> b rfffrfndf,
+     *     b Jbvb dbsting donvfrsion (JLS 5.5) is bpplifd if onf fxists.
+     *     (Spfdifidblly, thf vbluf is boxfd from <fm>T0</fm> to its wrbppfr dlbss,
+     *     whidh is thfn widfnfd bs nffdfd to <fm>T1</fm>.)
+     * <li>If <fm>T0</fm> is b rfffrfndf bnd <fm>T1</fm> b primitivf, bn unboxing
+     *     donvfrsion will bf bpplifd bt runtimf, possibly followfd
+     *     by b Jbvb mfthod invodbtion donvfrsion (JLS 5.3)
+     *     on thf primitivf vbluf.  (Thfsf brf thf primitivf widfning donvfrsions.)
+     *     <fm>T0</fm> must bf b wrbppfr dlbss or b supfrtypf of onf.
+     *     (In thf dbsf whfrf <fm>T0</fm> is Objfdt, thfsf brf thf donvfrsions
+     *     bllowfd by {@link jbvb.lbng.rfflfdt.Mfthod#invokf jbvb.lbng.rfflfdt.Mfthod.invokf}.)
+     *     Thf unboxing donvfrsion must hbvf b possibility of suddfss, whidh mfbns thbt
+     *     if <fm>T0</fm> is not itsflf b wrbppfr dlbss, thfrf must fxist bt lfbst onf
+     *     wrbppfr dlbss <fm>TW</fm> whidh is b subtypf of <fm>T0</fm> bnd whosf unboxfd
+     *     primitivf vbluf dbn bf widfnfd to <fm>T1</fm>.
+     * <li>If thf rfturn typf <fm>T1</fm> is mbrkfd bs void, bny rfturnfd vbluf is disdbrdfd
+     * <li>If thf rfturn typf <fm>T0</fm> is void bnd <fm>T1</fm> b rfffrfndf, b null vbluf is introdudfd.
+     * <li>If thf rfturn typf <fm>T0</fm> is void bnd <fm>T1</fm> b primitivf,
+     *     b zfro vbluf is introdudfd.
+     * </ul>
+     * (<fm>Notf:</fm> Both <fm>T0</fm> bnd <fm>T1</fm> mby bf rfgbrdfd bs stbtid typfs,
+     * bfdbusf nfithfr dorrfsponds spfdifidblly to thf <fm>dynbmid typf</fm> of bny
+     * bdtubl brgumfnt or rfturn vbluf.)
+     * <p>
+     * Thf mfthod hbndlf donvfrsion dbnnot bf mbdf if bny onf of thf rfquirfd
+     * pbirwisf donvfrsions dbnnot bf mbdf.
+     * <p>
+     * At runtimf, thf donvfrsions bpplifd to rfffrfndf brgumfnts
+     * or rfturn vblufs mby rfquirf bdditionbl runtimf dhfdks whidh dbn fbil.
+     * An unboxing opfrbtion mby fbil bfdbusf thf originbl rfffrfndf is null,
+     * dbusing b {@link jbvb.lbng.NullPointfrExdfption NullPointfrExdfption}.
+     * An unboxing opfrbtion or b rfffrfndf dbst mby blso fbil on b rfffrfndf
+     * to bn objfdt of thf wrong typf,
+     * dbusing b {@link jbvb.lbng.ClbssCbstExdfption ClbssCbstExdfption}.
+     * Although bn unboxing opfrbtion mby bddfpt sfvfrbl kinds of wrbppfrs,
+     * if nonf brf bvbilbblf, b {@dodf ClbssCbstExdfption} will bf thrown.
+     *
+     * @pbrbm nfwTypf thf fxpfdtfd typf of thf nfw mfthod hbndlf
+     * @rfturn b mfthod hbndlf whidh dflfgbtfs to {@dodf this} bftfr pfrforming
+     *           bny nfdfssbry brgumfnt donvfrsions, bnd brrbngfs for bny
+     *           nfdfssbry rfturn vbluf donvfrsions
+     * @throws NullPointfrExdfption if {@dodf nfwTypf} is b null rfffrfndf
+     * @throws WrongMfthodTypfExdfption if thf donvfrsion dbnnot bf mbdf
+     * @sff MfthodHbndlfs#fxpliditCbstArgumfnts
+     */
+    publid MfthodHbndlf bsTypf(MfthodTypf nfwTypf) {
+        // Fbst pbth bltfrnbtivf to b hfbvywfight {@dodf bsTypf} dbll.
+        // Rfturn 'this' if thf donvfrsion will bf b no-op.
+        if (nfwTypf == typf) {
+            rfturn this;
+        }
+        // Rfturn 'this.bsTypfCbdhf' if thf donvfrsion is blrfbdy mfmoizfd.
+        MfthodHbndlf btd = bsTypfCbdhf;
+        if (btd != null && nfwTypf == btd.typf) {
+            rfturn btd;
+        }
+        rfturn bsTypfUndbdhfd(nfwTypf);
+    }
+
+    /** Ovfrridf this to dhbngf bsTypf bfhbvior. */
+    /*non-publid*/ MfthodHbndlf bsTypfUndbdhfd(MfthodTypf nfwTypf) {
+        if (!typf.isConvfrtiblfTo(nfwTypf))
+            throw nfw WrongMfthodTypfExdfption("dbnnot donvfrt "+this+" to "+nfwTypf);
+        rfturn bsTypfCbdhf = donvfrtArgumfnts(nfwTypf);
+    }
+
+    /**
+     * Mbkfs bn <fm>brrby-sprfbding</fm> mfthod hbndlf, whidh bddfpts b trbiling brrby brgumfnt
+     * bnd sprfbds its flfmfnts bs positionbl brgumfnts.
+     * Thf nfw mfthod hbndlf bdbpts, bs its <i>tbrgft</i>,
+     * thf durrfnt mfthod hbndlf.  Thf typf of thf bdbptfr will bf
+     * thf sbmf bs thf typf of thf tbrgft, fxdfpt thbt thf finbl
+     * {@dodf brrbyLfngth} pbrbmftfrs of thf tbrgft's typf brf rfplbdfd
+     * by b singlf brrby pbrbmftfr of typf {@dodf brrbyTypf}.
+     * <p>
+     * If thf brrby flfmfnt typf difffrs from bny of thf dorrfsponding
+     * brgumfnt typfs on thf originbl tbrgft,
+     * thf originbl tbrgft is bdbptfd to tbkf thf brrby flfmfnts dirfdtly,
+     * bs if by b dbll to {@link #bsTypf bsTypf}.
+     * <p>
+     * Whfn dbllfd, thf bdbptfr rfplbdfs b trbiling brrby brgumfnt
+     * by thf brrby's flfmfnts, fbdh bs its own brgumfnt to thf tbrgft.
+     * (Thf ordfr of thf brgumfnts is prfsfrvfd.)
+     * Thfy brf donvfrtfd pbirwisf by dbsting bnd/or unboxing
+     * to thf typfs of thf trbiling pbrbmftfrs of thf tbrgft.
+     * Finblly thf tbrgft is dbllfd.
+     * Whbt thf tbrgft fvfntublly rfturns is rfturnfd undhbngfd by thf bdbptfr.
+     * <p>
+     * Bfforf dblling thf tbrgft, thf bdbptfr vfrififs thbt thf brrby
+     * dontbins fxbdtly fnough flfmfnts to providf b dorrfdt brgumfnt dount
+     * to thf tbrgft mfthod hbndlf.
+     * (Thf brrby mby blso bf null whfn zfro flfmfnts brf rfquirfd.)
+     * <p>
+     * If, whfn thf bdbptfr is dbllfd, thf supplifd brrby brgumfnt dofs
+     * not hbvf thf dorrfdt numbfr of flfmfnts, thf bdbptfr will throw
+     * bn {@link IllfgblArgumfntExdfption} instfbd of invoking thf tbrgft.
+     * <p>
+     * Hfrf brf somf simplf fxbmplfs of brrby-sprfbding mfthod hbndlfs:
+     * <blodkquotf><prf>{@dodf
+MfthodHbndlf fqubls = publidLookup()
+  .findVirtubl(String.dlbss, "fqubls", mfthodTypf(boolfbn.dlbss, Objfdt.dlbss));
+bssfrt( (boolfbn) fqubls.invokfExbdt("mf", (Objfdt)"mf"));
+bssfrt(!(boolfbn) fqubls.invokfExbdt("mf", (Objfdt)"thff"));
+// sprfbd both brgumfnts from b 2-brrby:
+MfthodHbndlf fq2 = fqubls.bsSprfbdfr(Objfdt[].dlbss, 2);
+bssfrt( (boolfbn) fq2.invokfExbdt(nfw Objfdt[]{ "mf", "mf" }));
+bssfrt(!(boolfbn) fq2.invokfExbdt(nfw Objfdt[]{ "mf", "thff" }));
+// try to sprfbd from bnything but b 2-brrby:
+for (int n = 0; n <= 10; n++) {
+  Objfdt[] bbdArityArgs = (n == 2 ? null : nfw Objfdt[n]);
+  try { bssfrt((boolfbn) fq2.invokfExbdt(bbdArityArgs) && fblsf); }
+  dbtdh (IllfgblArgumfntExdfption fx) { } // OK
+}
+// sprfbd both brgumfnts from b String brrby:
+MfthodHbndlf fq2s = fqubls.bsSprfbdfr(String[].dlbss, 2);
+bssfrt( (boolfbn) fq2s.invokfExbdt(nfw String[]{ "mf", "mf" }));
+bssfrt(!(boolfbn) fq2s.invokfExbdt(nfw String[]{ "mf", "thff" }));
+// sprfbd sfdond brgumfnts from b 1-brrby:
+MfthodHbndlf fq1 = fqubls.bsSprfbdfr(Objfdt[].dlbss, 1);
+bssfrt( (boolfbn) fq1.invokfExbdt("mf", nfw Objfdt[]{ "mf" }));
+bssfrt(!(boolfbn) fq1.invokfExbdt("mf", nfw Objfdt[]{ "thff" }));
+// sprfbd no brgumfnts from b 0-brrby or null:
+MfthodHbndlf fq0 = fqubls.bsSprfbdfr(Objfdt[].dlbss, 0);
+bssfrt( (boolfbn) fq0.invokfExbdt("mf", (Objfdt)"mf", nfw Objfdt[0]));
+bssfrt(!(boolfbn) fq0.invokfExbdt("mf", (Objfdt)"thff", (Objfdt[])null));
+// bsSprfbdfr bnd bsCollfdtor brf bpproximbtf invfrsfs:
+for (int n = 0; n <= 2; n++) {
+    for (Clbss<?> b : nfw Clbss<?>[]{Objfdt[].dlbss, String[].dlbss, ChbrSfqufndf[].dlbss}) {
+        MfthodHbndlf fqubls2 = fqubls.bsSprfbdfr(b, n).bsCollfdtor(b, n);
+        bssfrt( (boolfbn) fqubls2.invokfWithArgumfnts("mf", "mf"));
+        bssfrt(!(boolfbn) fqubls2.invokfWithArgumfnts("mf", "thff"));
+    }
+}
+MfthodHbndlf dbToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "toString", mfthodTypf(String.dlbss, dhbr[].dlbss));
+bssfrtEqubls("[A, B, C]", (String) dbToString.invokfExbdt("ABC".toChbrArrby()));
+MfthodHbndlf dbString3 = dbToString.bsCollfdtor(dhbr[].dlbss, 3);
+bssfrtEqubls("[A, B, C]", (String) dbString3.invokfExbdt('A', 'B', 'C'));
+MfthodHbndlf dbToString2 = dbString3.bsSprfbdfr(dhbr[].dlbss, 2);
+bssfrtEqubls("[A, B, C]", (String) dbToString2.invokfExbdt('A', "BC".toChbrArrby()));
+     * }</prf></blodkquotf>
+     * @pbrbm brrbyTypf usublly {@dodf Objfdt[]}, thf typf of thf brrby brgumfnt from whidh to fxtrbdt thf sprfbd brgumfnts
+     * @pbrbm brrbyLfngth thf numbfr of brgumfnts to sprfbd from bn indoming brrby brgumfnt
+     * @rfturn b nfw mfthod hbndlf whidh sprfbds its finbl brrby brgumfnt,
+     *         bfforf dblling thf originbl mfthod hbndlf
+     * @throws NullPointfrExdfption if {@dodf brrbyTypf} is b null rfffrfndf
+     * @throws IllfgblArgumfntExdfption if {@dodf brrbyTypf} is not bn brrby typf,
+     *         or if tbrgft dofs not hbvf bt lfbst
+     *         {@dodf brrbyLfngth} pbrbmftfr typfs,
+     *         or if {@dodf brrbyLfngth} is nfgbtivf,
+     *         or if thf rfsulting mfthod hbndlf's typf would hbvf
+     *         <b hrff="MfthodHbndlf.html#mbxbrity">too mbny pbrbmftfrs</b>
+     * @throws WrongMfthodTypfExdfption if thf implifd {@dodf bsTypf} dbll fbils
+     * @sff #bsCollfdtor
+     */
+    publid MfthodHbndlf bsSprfbdfr(Clbss<?> brrbyTypf, int brrbyLfngth) {
+        bsSprfbdfrChfdks(brrbyTypf, brrbyLfngth);
+        int sprfbdArgPos = typf.pbrbmftfrCount() - brrbyLfngth;
+        rfturn MfthodHbndlfImpl.mbkfSprfbdArgumfnts(this, brrbyTypf, sprfbdArgPos, brrbyLfngth);
+    }
+
+    privbtf void bsSprfbdfrChfdks(Clbss<?> brrbyTypf, int brrbyLfngth) {
+        sprfbdArrbyChfdks(brrbyTypf, brrbyLfngth);
+        int nbrgs = typf().pbrbmftfrCount();
+        if (nbrgs < brrbyLfngth || brrbyLfngth < 0)
+            throw nfwIllfgblArgumfntExdfption("bbd sprfbd brrby lfngth");
+        if (brrbyTypf != Objfdt[].dlbss && brrbyLfngth != 0) {
+            boolfbn sbwProblfm = fblsf;
+            Clbss<?> brrbyElfmfnt = brrbyTypf.gftComponfntTypf();
+            for (int i = nbrgs - brrbyLfngth; i < nbrgs; i++) {
+                if (!MfthodTypf.dbnConvfrt(brrbyElfmfnt, typf().pbrbmftfrTypf(i))) {
+                    sbwProblfm = truf;
+                    brfbk;
+                }
+            }
+            if (sbwProblfm) {
+                ArrbyList<Clbss<?>> ptypfs = nfw ArrbyList<>(typf().pbrbmftfrList());
+                for (int i = nbrgs - brrbyLfngth; i < nbrgs; i++) {
+                    ptypfs.sft(i, brrbyElfmfnt);
+                }
+                // flidit bn frror:
+                this.bsTypf(MfthodTypf.mfthodTypf(typf().rfturnTypf(), ptypfs));
+            }
+        }
+    }
+
+    privbtf void sprfbdArrbyChfdks(Clbss<?> brrbyTypf, int brrbyLfngth) {
+        Clbss<?> brrbyElfmfnt = brrbyTypf.gftComponfntTypf();
+        if (brrbyElfmfnt == null)
+            throw nfwIllfgblArgumfntExdfption("not bn brrby typf", brrbyTypf);
+        if ((brrbyLfngth & 0x7F) != brrbyLfngth) {
+            if ((brrbyLfngth & 0xFF) != brrbyLfngth)
+                throw nfwIllfgblArgumfntExdfption("brrby lfngth is not lfgbl", brrbyLfngth);
+            bssfrt(brrbyLfngth >= 128);
+            if (brrbyElfmfnt == long.dlbss ||
+                brrbyElfmfnt == doublf.dlbss)
+                throw nfwIllfgblArgumfntExdfption("brrby lfngth is not lfgbl for long[] or doublf[]", brrbyLfngth);
+        }
+    }
+
+    /**
+     * Mbkfs bn <fm>brrby-dollfdting</fm> mfthod hbndlf, whidh bddfpts b givfn numbfr of trbiling
+     * positionbl brgumfnts bnd dollfdts thfm into bn brrby brgumfnt.
+     * Thf nfw mfthod hbndlf bdbpts, bs its <i>tbrgft</i>,
+     * thf durrfnt mfthod hbndlf.  Thf typf of thf bdbptfr will bf
+     * thf sbmf bs thf typf of thf tbrgft, fxdfpt thbt b singlf trbiling
+     * pbrbmftfr (usublly of typf {@dodf brrbyTypf}) is rfplbdfd by
+     * {@dodf brrbyLfngth} pbrbmftfrs whosf typf is flfmfnt typf of {@dodf brrbyTypf}.
+     * <p>
+     * If thf brrby typf difffrs from thf finbl brgumfnt typf on thf originbl tbrgft,
+     * thf originbl tbrgft is bdbptfd to tbkf thf brrby typf dirfdtly,
+     * bs if by b dbll to {@link #bsTypf bsTypf}.
+     * <p>
+     * Whfn dbllfd, thf bdbptfr rfplbdfs its trbiling {@dodf brrbyLfngth}
+     * brgumfnts by b singlf nfw brrby of typf {@dodf brrbyTypf}, whosf flfmfnts
+     * domprisf (in ordfr) thf rfplbdfd brgumfnts.
+     * Finblly thf tbrgft is dbllfd.
+     * Whbt thf tbrgft fvfntublly rfturns is rfturnfd undhbngfd by thf bdbptfr.
+     * <p>
+     * (Thf brrby mby blso bf b shbrfd donstbnt whfn {@dodf brrbyLfngth} is zfro.)
+     * <p>
+     * (<fm>Notf:</fm> Thf {@dodf brrbyTypf} is oftfn idfntidbl to thf lbst
+     * pbrbmftfr typf of thf originbl tbrgft.
+     * It is bn fxplidit brgumfnt for symmftry with {@dodf bsSprfbdfr}, bnd blso
+     * to bllow thf tbrgft to usf b simplf {@dodf Objfdt} bs its lbst pbrbmftfr typf.)
+     * <p>
+     * In ordfr to drfbtf b dollfdting bdbptfr whidh is not rfstridtfd to b pbrtidulbr
+     * numbfr of dollfdtfd brgumfnts, usf {@link #bsVbrbrgsCollfdtor bsVbrbrgsCollfdtor} instfbd.
+     * <p>
+     * Hfrf brf somf fxbmplfs of brrby-dollfdting mfthod hbndlfs:
+     * <blodkquotf><prf>{@dodf
+MfthodHbndlf dffpToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "dffpToString", mfthodTypf(String.dlbss, Objfdt[].dlbss));
+bssfrtEqubls("[won]",   (String) dffpToString.invokfExbdt(nfw Objfdt[]{"won"}));
+MfthodHbndlf ts1 = dffpToString.bsCollfdtor(Objfdt[].dlbss, 1);
+bssfrtEqubls(mfthodTypf(String.dlbss, Objfdt.dlbss), ts1.typf());
+//bssfrtEqubls("[won]", (String) ts1.invokfExbdt(         nfw Objfdt[]{"won"})); //FAIL
+bssfrtEqubls("[[won]]", (String) ts1.invokfExbdt((Objfdt) nfw Objfdt[]{"won"}));
+// brrbyTypf dbn bf b subtypf of Objfdt[]
+MfthodHbndlf ts2 = dffpToString.bsCollfdtor(String[].dlbss, 2);
+bssfrtEqubls(mfthodTypf(String.dlbss, String.dlbss, String.dlbss), ts2.typf());
+bssfrtEqubls("[two, too]", (String) ts2.invokfExbdt("two", "too"));
+MfthodHbndlf ts0 = dffpToString.bsCollfdtor(Objfdt[].dlbss, 0);
+bssfrtEqubls("[]", (String) ts0.invokfExbdt());
+// dollfdtors dbn bf nfstfd, Lisp-stylf
+MfthodHbndlf ts22 = dffpToString.bsCollfdtor(Objfdt[].dlbss, 3).bsCollfdtor(String[].dlbss, 2);
+bssfrtEqubls("[A, B, [C, D]]", ((String) ts22.invokfExbdt((Objfdt)'A', (Objfdt)"B", "C", "D")));
+// brrbyTypf dbn bf bny primitivf brrby typf
+MfthodHbndlf bytfsToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "toString", mfthodTypf(String.dlbss, bytf[].dlbss))
+  .bsCollfdtor(bytf[].dlbss, 3);
+bssfrtEqubls("[1, 2, 3]", (String) bytfsToString.invokfExbdt((bytf)1, (bytf)2, (bytf)3));
+MfthodHbndlf longsToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "toString", mfthodTypf(String.dlbss, long[].dlbss))
+  .bsCollfdtor(long[].dlbss, 1);
+bssfrtEqubls("[123]", (String) longsToString.invokfExbdt((long)123));
+     * }</prf></blodkquotf>
+     * @pbrbm brrbyTypf oftfn {@dodf Objfdt[]}, thf typf of thf brrby brgumfnt whidh will dollfdt thf brgumfnts
+     * @pbrbm brrbyLfngth thf numbfr of brgumfnts to dollfdt into b nfw brrby brgumfnt
+     * @rfturn b nfw mfthod hbndlf whidh dollfdts somf trbiling brgumfnt
+     *         into bn brrby, bfforf dblling thf originbl mfthod hbndlf
+     * @throws NullPointfrExdfption if {@dodf brrbyTypf} is b null rfffrfndf
+     * @throws IllfgblArgumfntExdfption if {@dodf brrbyTypf} is not bn brrby typf
+     *         or {@dodf brrbyTypf} is not bssignbblf to this mfthod hbndlf's trbiling pbrbmftfr typf,
+     *         or {@dodf brrbyLfngth} is not b lfgbl brrby sizf,
+     *         or thf rfsulting mfthod hbndlf's typf would hbvf
+     *         <b hrff="MfthodHbndlf.html#mbxbrity">too mbny pbrbmftfrs</b>
+     * @throws WrongMfthodTypfExdfption if thf implifd {@dodf bsTypf} dbll fbils
+     * @sff #bsSprfbdfr
+     * @sff #bsVbrbrgsCollfdtor
+     */
+    publid MfthodHbndlf bsCollfdtor(Clbss<?> brrbyTypf, int brrbyLfngth) {
+        bsCollfdtorChfdks(brrbyTypf, brrbyLfngth);
+        int dollfdtArgPos = typf().pbrbmftfrCount()-1;
+        MfthodHbndlf tbrgft = this;
+        if (brrbyTypf != typf().pbrbmftfrTypf(dollfdtArgPos))
+            tbrgft = donvfrtArgumfnts(typf().dhbngfPbrbmftfrTypf(dollfdtArgPos, brrbyTypf));
+        MfthodHbndlf dollfdtor = VblufConvfrsions.vbrbrgsArrby(brrbyTypf, brrbyLfngth);
+        rfturn MfthodHbndlfs.dollfdtArgumfnts(tbrgft, dollfdtArgPos, dollfdtor);
+    }
+
+    // privbtf API: rfturn truf if lbst pbrbm fxbdtly mbtdhfs brrbyTypf
+    privbtf boolfbn bsCollfdtorChfdks(Clbss<?> brrbyTypf, int brrbyLfngth) {
+        sprfbdArrbyChfdks(brrbyTypf, brrbyLfngth);
+        int nbrgs = typf().pbrbmftfrCount();
+        if (nbrgs != 0) {
+            Clbss<?> lbstPbrbm = typf().pbrbmftfrTypf(nbrgs-1);
+            if (lbstPbrbm == brrbyTypf)  rfturn truf;
+            if (lbstPbrbm.isAssignbblfFrom(brrbyTypf))  rfturn fblsf;
+        }
+        throw nfwIllfgblArgumfntExdfption("brrby typf not bssignbblf to trbiling brgumfnt", this, brrbyTypf);
+    }
+
+    /**
+     * Mbkfs b <fm>vbribblf brity</fm> bdbptfr whidh is bblf to bddfpt
+     * bny numbfr of trbiling positionbl brgumfnts bnd dollfdt thfm
+     * into bn brrby brgumfnt.
+     * <p>
+     * Thf typf bnd bfhbvior of thf bdbptfr will bf thf sbmf bs
+     * thf typf bnd bfhbvior of thf tbrgft, fxdfpt thbt dfrtbin
+     * {@dodf invokf} bnd {@dodf bsTypf} rfqufsts dbn lfbd to
+     * trbiling positionbl brgumfnts bfing dollfdtfd into tbrgft's
+     * trbiling pbrbmftfr.
+     * Also, thf lbst pbrbmftfr typf of thf bdbptfr will bf
+     * {@dodf brrbyTypf}, fvfn if thf tbrgft hbs b difffrfnt
+     * lbst pbrbmftfr typf.
+     * <p>
+     * This trbnsformbtion mby rfturn {@dodf this} if thf mfthod hbndlf is
+     * blrfbdy of vbribblf brity bnd its trbiling pbrbmftfr typf
+     * is idfntidbl to {@dodf brrbyTypf}.
+     * <p>
+     * Whfn dbllfd with {@link #invokfExbdt invokfExbdt}, thf bdbptfr invokfs
+     * thf tbrgft with no brgumfnt dhbngfs.
+     * (<fm>Notf:</fm> This bfhbvior is difffrfnt from b
+     * {@linkplbin #bsCollfdtor fixfd brity dollfdtor},
+     * sindf it bddfpts b wholf brrby of indftfrminbtf lfngth,
+     * rbthfr thbn b fixfd numbfr of brgumfnts.)
+     * <p>
+     * Whfn dbllfd with plbin, infxbdt {@link #invokf invokf}, if thf dbllfr
+     * typf is thf sbmf bs thf bdbptfr, thf bdbptfr invokfs thf tbrgft bs with
+     * {@dodf invokfExbdt}.
+     * (This is thf normbl bfhbvior for {@dodf invokf} whfn typfs mbtdh.)
+     * <p>
+     * Othfrwisf, if thf dbllfr bnd bdbptfr brity brf thf sbmf, bnd thf
+     * trbiling pbrbmftfr typf of thf dbllfr is b rfffrfndf typf idfntidbl to
+     * or bssignbblf to thf trbiling pbrbmftfr typf of thf bdbptfr,
+     * thf brgumfnts bnd rfturn vblufs brf donvfrtfd pbirwisf,
+     * bs if by {@link #bsTypf bsTypf} on b fixfd brity
+     * mfthod hbndlf.
+     * <p>
+     * Othfrwisf, thf britifs difffr, or thf bdbptfr's trbiling pbrbmftfr
+     * typf is not bssignbblf from thf dorrfsponding dbllfr typf.
+     * In this dbsf, thf bdbptfr rfplbdfs bll trbiling brgumfnts from
+     * thf originbl trbiling brgumfnt position onwbrd, by
+     * b nfw brrby of typf {@dodf brrbyTypf}, whosf flfmfnts
+     * domprisf (in ordfr) thf rfplbdfd brgumfnts.
+     * <p>
+     * Thf dbllfr typf must providfs bs lfbst fnough brgumfnts,
+     * bnd of thf dorrfdt typf, to sbtisfy thf tbrgft's rfquirfmfnt for
+     * positionbl brgumfnts bfforf thf trbiling brrby brgumfnt.
+     * Thus, thf dbllfr must supply, bt b minimum, {@dodf N-1} brgumfnts,
+     * whfrf {@dodf N} is thf brity of thf tbrgft.
+     * Also, thfrf must fxist donvfrsions from thf indoming brgumfnts
+     * to thf tbrgft's brgumfnts.
+     * As with othfr usfs of plbin {@dodf invokf}, if thfsf bbsid
+     * rfquirfmfnts brf not fulfillfd, b {@dodf WrongMfthodTypfExdfption}
+     * mby bf thrown.
+     * <p>
+     * In bll dbsfs, whbt thf tbrgft fvfntublly rfturns is rfturnfd undhbngfd by thf bdbptfr.
+     * <p>
+     * In thf finbl dbsf, it is fxbdtly bs if thf tbrgft mfthod hbndlf wfrf
+     * tfmporbrily bdbptfd with b {@linkplbin #bsCollfdtor fixfd brity dollfdtor}
+     * to thf brity rfquirfd by thf dbllfr typf.
+     * (As with {@dodf bsCollfdtor}, if thf brrby lfngth is zfro,
+     * b shbrfd donstbnt mby bf usfd instfbd of b nfw brrby.
+     * If thf implifd dbll to {@dodf bsCollfdtor} would throw
+     * bn {@dodf IllfgblArgumfntExdfption} or {@dodf WrongMfthodTypfExdfption},
+     * thf dbll to thf vbribblf brity bdbptfr must throw
+     * {@dodf WrongMfthodTypfExdfption}.)
+     * <p>
+     * Thf bfhbvior of {@link #bsTypf bsTypf} is blso spfdiblizfd for
+     * vbribblf brity bdbptfrs, to mbintbin thf invbribnt thbt
+     * plbin, infxbdt {@dodf invokf} is blwbys fquivblfnt to bn {@dodf bsTypf}
+     * dbll to bdjust thf tbrgft typf, followfd by {@dodf invokfExbdt}.
+     * Thfrfforf, b vbribblf brity bdbptfr rfsponds
+     * to bn {@dodf bsTypf} rfqufst by building b fixfd brity dollfdtor,
+     * if bnd only if thf bdbptfr bnd rfqufstfd typf difffr fithfr
+     * in brity or trbiling brgumfnt typf.
+     * Thf rfsulting fixfd brity dollfdtor hbs its typf furthfr bdjustfd
+     * (if nfdfssbry) to thf rfqufstfd typf by pbirwisf donvfrsion,
+     * bs if by bnothfr bpplidbtion of {@dodf bsTypf}.
+     * <p>
+     * Whfn b mfthod hbndlf is obtbinfd by fxfduting bn {@dodf ldd} instrudtion
+     * of b {@dodf CONSTANT_MfthodHbndlf} donstbnt, bnd thf tbrgft mfthod is mbrkfd
+     * bs b vbribblf brity mfthod (with thf modififr bit {@dodf 0x0080}),
+     * thf mfthod hbndlf will bddfpt multiplf britifs, bs if thf mfthod hbndlf
+     * donstbnt wfrf drfbtfd by mfbns of b dbll to {@dodf bsVbrbrgsCollfdtor}.
+     * <p>
+     * In ordfr to drfbtf b dollfdting bdbptfr whidh dollfdts b prfdftfrminfd
+     * numbfr of brgumfnts, bnd whosf typf rfflfdts this prfdftfrminfd numbfr,
+     * usf {@link #bsCollfdtor bsCollfdtor} instfbd.
+     * <p>
+     * No mfthod hbndlf trbnsformbtions produdf nfw mfthod hbndlfs with
+     * vbribblf brity, unlfss thfy brf dodumfntfd bs doing so.
+     * Thfrfforf, bfsidfs {@dodf bsVbrbrgsCollfdtor},
+     * bll mfthods in {@dodf MfthodHbndlf} bnd {@dodf MfthodHbndlfs}
+     * will rfturn b mfthod hbndlf with fixfd brity,
+     * fxdfpt in thf dbsfs whfrf thfy brf spfdififd to rfturn thfir originbl
+     * opfrbnd (f.g., {@dodf bsTypf} of thf mfthod hbndlf's own typf).
+     * <p>
+     * Cblling {@dodf bsVbrbrgsCollfdtor} on b mfthod hbndlf whidh is blrfbdy
+     * of vbribblf brity will produdf b mfthod hbndlf with thf sbmf typf bnd bfhbvior.
+     * It mby (or mby not) rfturn thf originbl vbribblf brity mfthod hbndlf.
+     * <p>
+     * Hfrf is bn fxbmplf, of b list-mbking vbribblf brity mfthod hbndlf:
+     * <blodkquotf><prf>{@dodf
+MfthodHbndlf dffpToString = publidLookup()
+  .findStbtid(Arrbys.dlbss, "dffpToString", mfthodTypf(String.dlbss, Objfdt[].dlbss));
+MfthodHbndlf ts1 = dffpToString.bsVbrbrgsCollfdtor(Objfdt[].dlbss);
+bssfrtEqubls("[won]",   (String) ts1.invokfExbdt(    nfw Objfdt[]{"won"}));
+bssfrtEqubls("[won]",   (String) ts1.invokf(         nfw Objfdt[]{"won"}));
+bssfrtEqubls("[won]",   (String) ts1.invokf(                      "won" ));
+bssfrtEqubls("[[won]]", (String) ts1.invokf((Objfdt) nfw Objfdt[]{"won"}));
+// findStbtid of Arrbys.bsList(...) produdfs b vbribblf brity mfthod hbndlf:
+MfthodHbndlf bsList = publidLookup()
+  .findStbtid(Arrbys.dlbss, "bsList", mfthodTypf(List.dlbss, Objfdt[].dlbss));
+bssfrtEqubls(mfthodTypf(List.dlbss, Objfdt[].dlbss), bsList.typf());
+bssfrt(bsList.isVbrbrgsCollfdtor());
+bssfrtEqubls("[]", bsList.invokf().toString());
+bssfrtEqubls("[1]", bsList.invokf(1).toString());
+bssfrtEqubls("[two, too]", bsList.invokf("two", "too").toString());
+String[] brgv = { "thrff", "thff", "tff" };
+bssfrtEqubls("[thrff, thff, tff]", bsList.invokf(brgv).toString());
+bssfrtEqubls("[thrff, thff, tff]", bsList.invokf((Objfdt[])brgv).toString());
+List ls = (List) bsList.invokf((Objfdt)brgv);
+bssfrtEqubls(1, ls.sizf());
+bssfrtEqubls("[thrff, thff, tff]", Arrbys.toString((Objfdt[])ls.gft(0)));
+     * }</prf></blodkquotf>
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Disdussion:</fm>
+     * Thfsf rulfs brf dfsignfd bs b dynbmidblly-typfd vbribtion
+     * of thf Jbvb rulfs for vbribblf brity mfthods.
+     * In both dbsfs, dbllfrs to b vbribblf brity mfthod or mfthod hbndlf
+     * dbn fithfr pbss zfro or morf positionbl brgumfnts, or flsf pbss
+     * prf-dollfdtfd brrbys of bny lfngth.  Usfrs should bf bwbrf of thf
+     * spfdibl rolf of thf finbl brgumfnt, bnd of thf ffffdt of b
+     * typf mbtdh on thbt finbl brgumfnt, whidh dftfrminfs whfthfr
+     * or not b singlf trbiling brgumfnt is intfrprftfd bs b wholf
+     * brrby or b singlf flfmfnt of bn brrby to bf dollfdtfd.
+     * Notf thbt thf dynbmid typf of thf trbiling brgumfnt hbs no
+     * ffffdt on this dfdision, only b dompbrison bftwffn thf symbolid
+     * typf dfsdriptor of thf dbll sitf bnd thf typf dfsdriptor of thf mfthod hbndlf.)
+     *
+     * @pbrbm brrbyTypf oftfn {@dodf Objfdt[]}, thf typf of thf brrby brgumfnt whidh will dollfdt thf brgumfnts
+     * @rfturn b nfw mfthod hbndlf whidh dbn dollfdt bny numbfr of trbiling brgumfnts
+     *         into bn brrby, bfforf dblling thf originbl mfthod hbndlf
+     * @throws NullPointfrExdfption if {@dodf brrbyTypf} is b null rfffrfndf
+     * @throws IllfgblArgumfntExdfption if {@dodf brrbyTypf} is not bn brrby typf
+     *         or {@dodf brrbyTypf} is not bssignbblf to this mfthod hbndlf's trbiling pbrbmftfr typf
+     * @sff #bsCollfdtor
+     * @sff #isVbrbrgsCollfdtor
+     * @sff #bsFixfdArity
+     */
+    publid MfthodHbndlf bsVbrbrgsCollfdtor(Clbss<?> brrbyTypf) {
+        Clbss<?> brrbyElfmfnt = brrbyTypf.gftComponfntTypf();
+        boolfbn lbstMbtdh = bsCollfdtorChfdks(brrbyTypf, 0);
+        if (isVbrbrgsCollfdtor() && lbstMbtdh)
+            rfturn this;
+        rfturn MfthodHbndlfImpl.mbkfVbrbrgsCollfdtor(this, brrbyTypf);
+    }
+
+    /**
+     * Dftfrminfs if this mfthod hbndlf
+     * supports {@linkplbin #bsVbrbrgsCollfdtor vbribblf brity} dblls.
+     * Sudh mfthod hbndlfs brisf from thf following sourdfs:
+     * <ul>
+     * <li>b dbll to {@linkplbin #bsVbrbrgsCollfdtor bsVbrbrgsCollfdtor}
+     * <li>b dbll to b {@linkplbin jbvb.lbng.invokf.MfthodHbndlfs.Lookup lookup mfthod}
+     *     whidh rfsolvfs to b vbribblf brity Jbvb mfthod or donstrudtor
+     * <li>bn {@dodf ldd} instrudtion of b {@dodf CONSTANT_MfthodHbndlf}
+     *     whidh rfsolvfs to b vbribblf brity Jbvb mfthod or donstrudtor
+     * </ul>
+     * @rfturn truf if this mfthod hbndlf bddfpts morf thbn onf brity of plbin, infxbdt {@dodf invokf} dblls
+     * @sff #bsVbrbrgsCollfdtor
+     * @sff #bsFixfdArity
+     */
+    publid boolfbn isVbrbrgsCollfdtor() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Mbkfs b <fm>fixfd brity</fm> mfthod hbndlf whidh is othfrwisf
+     * fquivblfnt to thf durrfnt mfthod hbndlf.
+     * <p>
+     * If thf durrfnt mfthod hbndlf is not of
+     * {@linkplbin #bsVbrbrgsCollfdtor vbribblf brity},
+     * thf durrfnt mfthod hbndlf is rfturnfd.
+     * This is truf fvfn if thf durrfnt mfthod hbndlf
+     * dould not bf b vblid input to {@dodf bsVbrbrgsCollfdtor}.
+     * <p>
+     * Othfrwisf, thf rfsulting fixfd-brity mfthod hbndlf hbs thf sbmf
+     * typf bnd bfhbvior of thf durrfnt mfthod hbndlf,
+     * fxdfpt thbt {@link #isVbrbrgsCollfdtor isVbrbrgsCollfdtor}
+     * will bf fblsf.
+     * Thf fixfd-brity mfthod hbndlf mby (or mby not) bf thf
+     * b prfvious brgumfnt to {@dodf bsVbrbrgsCollfdtor}.
+     * <p>
+     * Hfrf is bn fxbmplf, of b list-mbking vbribblf brity mfthod hbndlf:
+     * <blodkquotf><prf>{@dodf
+MfthodHbndlf bsListVbr = publidLookup()
+  .findStbtid(Arrbys.dlbss, "bsList", mfthodTypf(List.dlbss, Objfdt[].dlbss))
+  .bsVbrbrgsCollfdtor(Objfdt[].dlbss);
+MfthodHbndlf bsListFix = bsListVbr.bsFixfdArity();
+bssfrtEqubls("[1]", bsListVbr.invokf(1).toString());
+Exdfption dbught = null;
+try { bsListFix.invokf((Objfdt)1); }
+dbtdh (Exdfption fx) { dbught = fx; }
+bssfrt(dbught instbndfof ClbssCbstExdfption);
+bssfrtEqubls("[two, too]", bsListVbr.invokf("two", "too").toString());
+try { bsListFix.invokf("two", "too"); }
+dbtdh (Exdfption fx) { dbught = fx; }
+bssfrt(dbught instbndfof WrongMfthodTypfExdfption);
+Objfdt[] brgv = { "thrff", "thff", "tff" };
+bssfrtEqubls("[thrff, thff, tff]", bsListVbr.invokf(brgv).toString());
+bssfrtEqubls("[thrff, thff, tff]", bsListFix.invokf(brgv).toString());
+bssfrtEqubls(1, ((List) bsListVbr.invokf((Objfdt)brgv)).sizf());
+bssfrtEqubls("[thrff, thff, tff]", bsListFix.invokf((Objfdt)brgv).toString());
+     * }</prf></blodkquotf>
+     *
+     * @rfturn b nfw mfthod hbndlf whidh bddfpts only b fixfd numbfr of brgumfnts
+     * @sff #bsVbrbrgsCollfdtor
+     * @sff #isVbrbrgsCollfdtor
+     */
+    publid MfthodHbndlf bsFixfdArity() {
+        bssfrt(!isVbrbrgsCollfdtor());
+        rfturn this;
+    }
+
+    /**
+     * Binds b vbluf {@dodf x} to thf first brgumfnt of b mfthod hbndlf, without invoking it.
+     * Thf nfw mfthod hbndlf bdbpts, bs its <i>tbrgft</i>,
+     * thf durrfnt mfthod hbndlf by binding it to thf givfn brgumfnt.
+     * Thf typf of thf bound hbndlf will bf
+     * thf sbmf bs thf typf of thf tbrgft, fxdfpt thbt b singlf lfbding
+     * rfffrfndf pbrbmftfr will bf omittfd.
+     * <p>
+     * Whfn dbllfd, thf bound hbndlf insfrts thf givfn vbluf {@dodf x}
+     * bs b nfw lfbding brgumfnt to thf tbrgft.  Thf othfr brgumfnts brf
+     * blso pbssfd undhbngfd.
+     * Whbt thf tbrgft fvfntublly rfturns is rfturnfd undhbngfd by thf bound hbndlf.
+     * <p>
+     * Thf rfffrfndf {@dodf x} must bf donvfrtiblf to thf first pbrbmftfr
+     * typf of thf tbrgft.
+     * <p>
+     * (<fm>Notf:</fm>  Bfdbusf mfthod hbndlfs brf immutbblf, thf tbrgft mfthod hbndlf
+     * rftbins its originbl typf bnd bfhbvior.)
+     * @pbrbm x  thf vbluf to bind to thf first brgumfnt of thf tbrgft
+     * @rfturn b nfw mfthod hbndlf whidh prfpfnds thf givfn vbluf to thf indoming
+     *         brgumfnt list, bfforf dblling thf originbl mfthod hbndlf
+     * @throws IllfgblArgumfntExdfption if thf tbrgft dofs not hbvf b
+     *         lfbding pbrbmftfr typf thbt is b rfffrfndf typf
+     * @throws ClbssCbstExdfption if {@dodf x} dbnnot bf donvfrtfd
+     *         to thf lfbding pbrbmftfr typf of thf tbrgft
+     * @sff MfthodHbndlfs#insfrtArgumfnts
+     */
+    publid MfthodHbndlf bindTo(Objfdt x) {
+        Clbss<?> ptypf;
+        @SupprfssWbrnings("LodblVbribblfHidfsMfmbfrVbribblf")
+        MfthodTypf typf = typf();
+        if (typf.pbrbmftfrCount() == 0 ||
+            (ptypf = typf.pbrbmftfrTypf(0)).isPrimitivf())
+            throw nfwIllfgblArgumfntExdfption("no lfbding rfffrfndf pbrbmftfr", x);
+        x = ptypf.dbst(x);  // throw CCE if nffdfd
+        rfturn bindRfdfivfr(x);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf mfthod hbndlf,
+     * stbrting with thf string {@dodf "MfthodHbndlf"} bnd
+     * fnding with thf string rfprfsfntbtion of thf mfthod hbndlf's typf.
+     * In othfr words, this mfthod rfturns b string fqubl to thf vbluf of:
+     * <blodkquotf><prf>{@dodf
+     * "MfthodHbndlf" + typf().toString()
+     * }</prf></blodkquotf>
+     * <p>
+     * (<fm>Notf:</fm>  Futurf rflfbsfs of this API mby bdd furthfr informbtion
+     * to thf string rfprfsfntbtion.
+     * Thfrfforf, thf prfsfnt syntbx should not bf pbrsfd by bpplidbtions.)
+     *
+     * @rfturn b string rfprfsfntbtion of thf mfthod hbndlf
+     */
+    @Ovfrridf
+    publid String toString() {
+        if (DEBUG_METHOD_HANDLE_NAMES)  rfturn dfbugString();
+        rfturn stbndbrdString();
+    }
+    String stbndbrdString() {
+        rfturn "MfthodHbndlf"+typf;
+    }
+    String dfbugString() {
+        rfturn stbndbrdString()+"/LF="+intfrnblForm()+intfrnblPropfrtifs();
+    }
+
+    //// Implfmfntbtion mfthods.
+    //// Sub-dlbssfs dbn ovfrridf thfsf dffbult implfmfntbtions.
+    //// All thfsf mfthods bssumf brgumfnts brf blrfbdy vblidbtfd.
+
+    // Othfr trbnsforms to do:  donvfrt, fxpliditCbst, pfrmutf, drop, filtfr, fold, GWT, dbtdh
+
+    /*non-publid*/
+    MfthodHbndlf sftVbrbrgs(MfmbfrNbmf mfmbfr) throws IllfgblAddfssExdfption {
+        if (!mfmbfr.isVbrbrgs())  rfturn this;
+        int brgd = typf().pbrbmftfrCount();
+        if (brgd != 0) {
+            Clbss<?> brrbyTypf = typf().pbrbmftfrTypf(brgd-1);
+            if (brrbyTypf.isArrby()) {
+                rfturn MfthodHbndlfImpl.mbkfVbrbrgsCollfdtor(this, brrbyTypf);
+            }
+        }
+        throw mfmbfr.mbkfAddfssExdfption("dbnnot mbkf vbribblf brity", null);
+    }
+    /*non-publid*/
+    MfthodHbndlf vifwAsTypf(MfthodTypf nfwTypf) {
+        // No bdtubl donvfrsions, just b nfw vifw of thf sbmf mfthod.
+        rfturn MfthodHbndlfImpl.mbkfPbirwisfConvfrt(this, nfwTypf, 0);
+    }
+
+    // Dfdoding
+
+    /*non-publid*/
+    LbmbdbForm intfrnblForm() {
+        rfturn form;
+    }
+
+    /*non-publid*/
+    MfmbfrNbmf intfrnblMfmbfrNbmf() {
+        rfturn null;  // DMH rfturns DMH.mfmbfr
+    }
+
+    /*non-publid*/
+    Clbss<?> intfrnblCbllfrClbss() {
+        rfturn null;  // dbllfr-bound MH for @CbllfrSfnsitivf mfthod rfturns dbllfr
+    }
+
+    /*non-publid*/
+    MfthodHbndlf withIntfrnblMfmbfrNbmf(MfmbfrNbmf mfmbfr) {
+        if (mfmbfr != null) {
+            rfturn MfthodHbndlfImpl.mbkfWrbppfdMfmbfr(this, mfmbfr);
+        } flsf if (intfrnblMfmbfrNbmf() == null) {
+            // Thf rfquirfd intfrnbMfmbfrNbmf is null, bnd this MH (likf most) dofsn't hbvf onf.
+            rfturn this;
+        } flsf {
+            // Thf following dbsf is rbrf. Mbsk thf intfrnblMfmbfrNbmf by wrbpping thf MH in b BMH.
+            MfthodHbndlf rfsult = rfbind();
+            bssfrt (rfsult.intfrnblMfmbfrNbmf() == null);
+            rfturn rfsult;
+        }
+    }
+
+    /*non-publid*/
+    boolfbn isInvokfSpfdibl() {
+        rfturn fblsf;  // DMH.Spfdibl rfturns truf
+    }
+
+    /*non-publid*/
+    Objfdt intfrnblVblufs() {
+        rfturn null;
+    }
+
+    /*non-publid*/
+    Objfdt intfrnblPropfrtifs() {
+        // Ovfrridf to somfthing likf "/FOO=bbr"
+        rfturn "";
+    }
+
+    //// Mfthod hbndlf implfmfntbtion mfthods.
+    //// Sub-dlbssfs dbn ovfrridf thfsf dffbult implfmfntbtions.
+    //// All thfsf mfthods bssumf brgumfnts brf blrfbdy vblidbtfd.
+
+    /*non-publid*/ MfthodHbndlf donvfrtArgumfnts(MfthodTypf nfwTypf) {
+        // Ovfrridf this if it dbn bf improvfd.
+        rfturn MfthodHbndlfImpl.mbkfPbirwisfConvfrt(this, nfwTypf, 1);
+    }
+
+    /*non-publid*/
+    MfthodHbndlf bindArgumfnt(int pos, BbsidTypf bbsidTypf, Objfdt vbluf) {
+        // Ovfrridf this if it dbn bf improvfd.
+        rfturn rfbind().bindArgumfnt(pos, bbsidTypf, vbluf);
+    }
+
+    /*non-publid*/
+    MfthodHbndlf bindRfdfivfr(Objfdt rfdfivfr) {
+        // Ovfrridf this if it dbn bf improvfd.
+        rfturn bindArgumfnt(0, L_TYPE, rfdfivfr);
+    }
+
+    /*non-publid*/
+    MfthodHbndlf dropArgumfnts(MfthodTypf srdTypf, int pos, int drops) {
+        // Ovfrridf this if it dbn bf improvfd.
+        rfturn rfbind().dropArgumfnts(srdTypf, pos, drops);
+    }
+
+    /*non-publid*/
+    MfthodHbndlf pfrmutfArgumfnts(MfthodTypf nfwTypf, int[] rfordfr) {
+        // Ovfrridf this if it dbn bf improvfd.
+        rfturn rfbind().pfrmutfArgumfnts(nfwTypf, rfordfr);
+    }
+
+    /*non-publid*/
+    MfthodHbndlf rfbind() {
+        // Bind 'this' into b nfw invokfr, of thf known dlbss BMH.
+        MfthodTypf typf2 = typf();
+        LbmbdbForm form2 = rfinvokfrForm(this);
+        // form2 = lbmbdb (bmh, brg*) { thismh = bmh[0]; invokfBbsid(thismh, brg*) }
+        rfturn BoundMfthodHbndlf.bindSinglf(typf2, form2, this);
+    }
+
+    /*non-publid*/
+    MfthodHbndlf rfinvokfrTbrgft() {
+        throw nfw IntfrnblError("not b rfinvokfr MH: "+this.gftClbss().gftNbmf()+": "+this);
+    }
+
+    /** Crfbtf b LF whidh simply rfinvokfs b tbrgft of thf givfn bbsid typf.
+     *  Thf tbrgft MH must ovfrridf {@link #rfinvokfrTbrgft} to providf thf tbrgft.
+     */
+    stbtid LbmbdbForm rfinvokfrForm(MfthodHbndlf tbrgft) {
+        MfthodTypf mtypf = tbrgft.typf().bbsidTypf();
+        LbmbdbForm rfinvokfr = mtypf.form().dbdhfdLbmbdbForm(MfthodTypfForm.LF_REINVOKE);
+        if (rfinvokfr != null)  rfturn rfinvokfr;
+        if (mtypf.pbrbmftfrSlotCount() >= MfthodTypf.MAX_MH_ARITY)
+            rfturn mbkfRfinvokfrForm(tbrgft.typf(), tbrgft);  // dbnnot dbdhf this
+        rfinvokfr = mbkfRfinvokfrForm(mtypf, null);
+        rfturn mtypf.form().sftCbdhfdLbmbdbForm(MfthodTypfForm.LF_REINVOKE, rfinvokfr);
+    }
+    privbtf stbtid LbmbdbForm mbkfRfinvokfrForm(MfthodTypf mtypf, MfthodHbndlf dustomTbrgftOrNull) {
+        boolfbn dustomizfd = (dustomTbrgftOrNull != null);
+        MfthodHbndlf MH_invokfBbsid = dustomizfd ? null : MfthodHbndlfs.bbsidInvokfr(mtypf);
+        finbl int THIS_BMH    = 0;
+        finbl int ARG_BASE    = 1;
+        finbl int ARG_LIMIT   = ARG_BASE + mtypf.pbrbmftfrCount();
+        int nbmfCursor = ARG_LIMIT;
+        finbl int NEXT_MH     = dustomizfd ? -1 : nbmfCursor++;
+        finbl int REINVOKE    = nbmfCursor++;
+        LbmbdbForm.Nbmf[] nbmfs = LbmbdbForm.brgumfnts(nbmfCursor - ARG_LIMIT, mtypf.invokfrTypf());
+        Objfdt[] tbrgftArgs;
+        MfthodHbndlf tbrgftMH;
+        if (dustomizfd) {
+            tbrgftArgs = Arrbys.dopyOfRbngf(nbmfs, ARG_BASE, ARG_LIMIT, Objfdt[].dlbss);
+            tbrgftMH = dustomTbrgftOrNull;
+        } flsf {
+            nbmfs[NEXT_MH] = nfw LbmbdbForm.Nbmf(NF_rfinvokfrTbrgft, nbmfs[THIS_BMH]);
+            tbrgftArgs = Arrbys.dopyOfRbngf(nbmfs, THIS_BMH, ARG_LIMIT, Objfdt[].dlbss);
+            tbrgftArgs[0] = nbmfs[NEXT_MH];  // ovfrwritf this MH with nfxt MH
+            tbrgftMH = MfthodHbndlfs.bbsidInvokfr(mtypf);
+        }
+        nbmfs[REINVOKE] = nfw LbmbdbForm.Nbmf(tbrgftMH, tbrgftArgs);
+        rfturn nfw LbmbdbForm("BMH.rfinvokf", ARG_LIMIT, nbmfs);
+    }
+
+    privbtf stbtid finbl LbmbdbForm.NbmfdFundtion NF_rfinvokfrTbrgft;
+    stbtid {
+        try {
+            NF_rfinvokfrTbrgft = nfw LbmbdbForm.NbmfdFundtion(MfthodHbndlf.dlbss
+                .gftDfdlbrfdMfthod("rfinvokfrTbrgft"));
+        } dbtdh (RfflfdtivfOpfrbtionExdfption fx) {
+            throw nfwIntfrnblError(fx);
+        }
+    }
+
+    /**
+     * Rfplbdf thf old lbmbdb form of this mfthod hbndlf with b nfw onf.
+     * Thf nfw onf must bf fundtionblly fquivblfnt to thf old onf.
+     * Thrfbds mby dontinuf running thf old form indffinitfly,
+     * but it is likfly thbt thf nfw onf will bf prfffrrfd for nfw fxfdutions.
+     * Usf with disdrftion.
+     */
+    /*non-publid*/
+    void updbtfForm(LbmbdbForm nfwForm) {
+        if (form == nfwForm)  rfturn;
+        // ISSUE: Should wf hbvf b mfmory ffndf hfrf?
+        UNSAFE.putObjfdt(this, FORM_OFFSET, nfwForm);
+        this.form.prfpbrf();  // bs in MfthodHbndlf.<init>
+    }
+
+    privbtf stbtid finbl long FORM_OFFSET;
+    stbtid {
+        try {
+            FORM_OFFSET = UNSAFE.objfdtFifldOffsft(MfthodHbndlf.dlbss.gftDfdlbrfdFifld("form"));
+        } dbtdh (RfflfdtivfOpfrbtionExdfption fx) {
+            throw nfwIntfrnblError(fx);
+        }
+    }
+}

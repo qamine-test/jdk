@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.*;
+import sun.misd.Unsbff;
+
+/**
+ * Mbintbins b mbpping of pfnding I/O rfqufsts (idfntififd by thf bddrfss of
+ * bn OVERLAPPED strudturf) to Futurfs.
+ */
+
+dlbss PfndingIoCbdhf {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl int bddrfssSizf = unsbff.bddrfssSizf();
+
+    privbtf stbtid int dfpfndsArdh(int vbluf32, int vbluf64) {
+        rfturn (bddrfssSizf == 4) ? vbluf32 : vbluf64;
+    }
+
+    /*
+     * typfdff strudt _OVERLAPPED {
+     *     DWORD  Intfrnbl;
+     *     DWORD  IntfrnblHigh;
+     *     DWORD  Offsft;
+     *     DWORD  OffsftHigh;
+     *     HANDLE hEvfnt;
+     * } OVERLAPPED;
+     */
+    privbtf stbtid finbl int SIZEOF_OVERLAPPED = dfpfndsArdh(20, 32);
+
+    // sft to truf whfn dlosfd
+    privbtf boolfbn dlosfd;
+
+    // sft to truf whfn thrfbd is wbiting for bll I/O opfrbtions to domplftf
+    privbtf boolfbn dlosfPfnding;
+
+    // mbps OVERLAPPED to PfndingFuturf
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl Mbp<Long,PfndingFuturf> pfndingIoMbp =
+        nfw HbshMbp<Long,PfndingFuturf>();
+
+    // pfr-dhbnnfl dbdhf of OVERLAPPED strudturfs
+    privbtf long[] ovfrlbppfdCbdhf = nfw long[4];
+    privbtf int ovfrlbppfdCbdhfCount = 0;
+
+    PfndingIoCbdhf() {
+    }
+
+    long bdd(PfndingFuturf<?,?> rfsult) {
+        syndhronizfd (this) {
+            if (dlosfd)
+                throw nfw AssfrtionError("Should not gft hfrf");
+            long ov;
+            if (ovfrlbppfdCbdhfCount > 0) {
+                ov = ovfrlbppfdCbdhf[--ovfrlbppfdCbdhfCount];
+            } flsf {
+                ov = unsbff.bllodbtfMfmory(SIZEOF_OVERLAPPED);
+            }
+            pfndingIoMbp.put(ov, rfsult);
+            rfturn ov;
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    <V,A> PfndingFuturf<V,A> rfmovf(long ovfrlbppfd) {
+        syndhronizfd (this) {
+            PfndingFuturf<V,A> rfs = pfndingIoMbp.rfmovf(ovfrlbppfd);
+            if (rfs != null) {
+                if (ovfrlbppfdCbdhfCount < ovfrlbppfdCbdhf.lfngth) {
+                    ovfrlbppfdCbdhf[ovfrlbppfdCbdhfCount++] = ovfrlbppfd;
+                } flsf {
+                    // dbdhf full or dhbnnfl dlosing
+                    unsbff.frffMfmory(ovfrlbppfd);
+                }
+                // notify dlosing thrfbd.
+                if (dlosfPfnding) {
+                    this.notifyAll();
+                }
+            }
+            rfturn rfs;
+        }
+    }
+
+    void dlosf() {
+        syndhronizfd (this) {
+            if (dlosfd)
+                rfturn;
+
+            // hbndlf dbsf whfrf I/O opfrbtions thbt hbvf not domplftfd.
+            if (!pfndingIoMbp.isEmpty())
+                dlfbrPfndingIoMbp();
+
+            // rflfbsf mfmory for bny dbdhfd OVERLAPPED strudturfs
+            whilf (ovfrlbppfdCbdhfCount > 0) {
+                unsbff.frffMfmory( ovfrlbppfdCbdhf[--ovfrlbppfdCbdhfCount] );
+            }
+
+            // donf
+            dlosfd = truf;
+        }
+    }
+
+    privbtf void dlfbrPfndingIoMbp() {
+        bssfrt Thrfbd.holdsLodk(this);
+
+        // wbit up to 50ms for thf I/O opfrbtions to domplftf
+        dlosfPfnding = truf;
+        try {
+            this.wbit(50);
+        } dbtdh (IntfrruptfdExdfption x) {
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        }
+        dlosfPfnding = fblsf;
+        if (pfndingIoMbp.isEmpty())
+            rfturn;
+
+        // dbusf bll pfnding I/O opfrbtions to fbil
+        // simulbtf thf fbilurf of bll pfnding I/O opfrbtions.
+        for (Long ov: pfndingIoMbp.kfySft()) {
+            PfndingFuturf<?,?> rfsult = pfndingIoMbp.gft(ov);
+            bssfrt !rfsult.isDonf();
+
+            // mbkf I/O port bwbrf of thf stblf OVERLAPPED strudturf
+            Iodp iodp = (Iodp)((Groupbblf)rfsult.dhbnnfl()).group();
+            iodp.mbkfStblf(ov);
+
+            // fxfdutf b tbsk thbt invokfs thf rfsult hbndlfr's fbilfd mfthod
+            finbl Iodp.RfsultHbndlfr rh = (Iodp.RfsultHbndlfr)rfsult.gftContfxt();
+            Runnbblf tbsk = nfw Runnbblf() {
+                publid void run() {
+                    rh.fbilfd(-1, nfw AsyndhronousClosfExdfption());
+                }
+            };
+            iodp.fxfdutfOnPoolfdThrfbd(tbsk);
+        }
+        pfndingIoMbp.dlfbr();
+    }
+}

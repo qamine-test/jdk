@@ -1,577 +1,577 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.shell;
+pbdkbgf sun.bwt.sifll;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.util.List;
-import java.util.concurrent.*;
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.*;
+import jbvb.util.List;
+import jbvb.util.dondurrfnt.*;
 
-import static sun.awt.shell.Win32ShellFolder2.*;
-import sun.awt.OSInfo;
-import sun.awt.util.ThreadGroupUtils;
+import stbtid sun.bwt.sifll.Win32SifllFoldfr2.*;
+import sun.bwt.OSInfo;
+import sun.bwt.util.TirfbdGroupUtils;
 
-// NOTE: This class supersedes Win32ShellFolderManager, which was removed
-//       from distribution after version 1.4.2.
+// NOTE: Tiis dlbss supfrsfdfs Win32SifllFoldfrMbnbgfr, wiidi wbs rfmovfd
+//       from distribution bftfr vfrsion 1.4.2.
 
 /**
- * @author Michael Martak
- * @author Leif Samuelsson
- * @author Kenneth Russell
- * @since 1.4
+ * @butior Midibfl Mbrtbk
+ * @butior Lfif Sbmuflsson
+ * @butior Kfnnfti Russfll
+ * @sindf 1.4
  */
 
-final class Win32ShellFolderManager2 extends ShellFolderManager {
+finbl dlbss Win32SifllFoldfrMbnbgfr2 fxtfnds SifllFoldfrMbnbgfr {
 
-    static {
-        // Load library here
-        sun.awt.windows.WToolkit.loadLibraries();
+    stbtid {
+        // Lobd librbry ifrf
+        sun.bwt.windows.WToolkit.lobdLibrbrifs();
     }
 
-    public ShellFolder createShellFolder(File file) throws FileNotFoundException {
+    publid SifllFoldfr drfbtfSifllFoldfr(Filf filf) tirows FilfNotFoundExdfption {
         try {
-            return createShellFolder(getDesktop(), file);
-        } catch (InterruptedException e) {
-            throw new FileNotFoundException("Execution was interrupted");
+            rfturn drfbtfSifllFoldfr(gftDfsktop(), filf);
+        } dbtdi (IntfrruptfdExdfption f) {
+            tirow nfw FilfNotFoundExdfption("Exfdution wbs intfrruptfd");
         }
     }
 
-    static Win32ShellFolder2 createShellFolder(Win32ShellFolder2 parent, File file)
-            throws FileNotFoundException, InterruptedException {
+    stbtid Win32SifllFoldfr2 drfbtfSifllFoldfr(Win32SifllFoldfr2 pbrfnt, Filf filf)
+            tirows FilfNotFoundExdfption, IntfrruptfdExdfption {
         long pIDL;
         try {
-            pIDL = parent.parseDisplayName(file.getCanonicalPath());
-        } catch (IOException ex) {
+            pIDL = pbrfnt.pbrsfDisplbyNbmf(filf.gftCbnonidblPbti());
+        } dbtdi (IOExdfption fx) {
             pIDL = 0;
         }
         if (pIDL == 0) {
-            // Shouldn't happen but watch for it anyway
-            throw new FileNotFoundException("File " + file.getAbsolutePath() + " not found");
+            // Siouldn't ibppfn but wbtdi for it bnywby
+            tirow nfw FilfNotFoundExdfption("Filf " + filf.gftAbsolutfPbti() + " not found");
         }
 
         try {
-            return createShellFolderFromRelativePIDL(parent, pIDL);
-        } finally {
-            Win32ShellFolder2.releasePIDL(pIDL);
+            rfturn drfbtfSifllFoldfrFromRflbtivfPIDL(pbrfnt, pIDL);
+        } finblly {
+            Win32SifllFoldfr2.rflfbsfPIDL(pIDL);
         }
     }
 
-    static Win32ShellFolder2 createShellFolderFromRelativePIDL(Win32ShellFolder2 parent, long pIDL)
-            throws InterruptedException {
-        // Walk down this relative pIDL, creating new nodes for each of the entries
-        while (pIDL != 0) {
-            long curPIDL = Win32ShellFolder2.copyFirstPIDLEntry(pIDL);
-            if (curPIDL != 0) {
-                parent = new Win32ShellFolder2(parent, curPIDL);
-                pIDL = Win32ShellFolder2.getNextPIDLEntry(pIDL);
-            } else {
-                // The list is empty if the parent is Desktop and pIDL is a shortcut to Desktop
-                break;
+    stbtid Win32SifllFoldfr2 drfbtfSifllFoldfrFromRflbtivfPIDL(Win32SifllFoldfr2 pbrfnt, long pIDL)
+            tirows IntfrruptfdExdfption {
+        // Wblk down tiis rflbtivf pIDL, drfbting nfw nodfs for fbdi of tif fntrifs
+        wiilf (pIDL != 0) {
+            long durPIDL = Win32SifllFoldfr2.dopyFirstPIDLEntry(pIDL);
+            if (durPIDL != 0) {
+                pbrfnt = nfw Win32SifllFoldfr2(pbrfnt, durPIDL);
+                pIDL = Win32SifllFoldfr2.gftNfxtPIDLEntry(pIDL);
+            } flsf {
+                // Tif list is fmpty if tif pbrfnt is Dfsktop bnd pIDL is b siortdut to Dfsktop
+                brfbk;
             }
         }
-        return parent;
+        rfturn pbrfnt;
     }
 
-    private static final int VIEW_LIST = 2;
-    private static final int VIEW_DETAILS = 3;
-    private static final int VIEW_PARENTFOLDER = 8;
-    private static final int VIEW_NEWFOLDER = 11;
+    privbtf stbtid finbl int VIEW_LIST = 2;
+    privbtf stbtid finbl int VIEW_DETAILS = 3;
+    privbtf stbtid finbl int VIEW_PARENTFOLDER = 8;
+    privbtf stbtid finbl int VIEW_NEWFOLDER = 11;
 
-    private static final Image[] STANDARD_VIEW_BUTTONS = new Image[12];
+    privbtf stbtid finbl Imbgf[] STANDARD_VIEW_BUTTONS = nfw Imbgf[12];
 
-    private static Image getStandardViewButton(int iconIndex) {
-        Image result = STANDARD_VIEW_BUTTONS[iconIndex];
+    privbtf stbtid Imbgf gftStbndbrdVifwButton(int idonIndfx) {
+        Imbgf rfsult = STANDARD_VIEW_BUTTONS[idonIndfx];
 
-        if (result != null) {
-            return result;
+        if (rfsult != null) {
+            rfturn rfsult;
         }
 
-        BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        BufffrfdImbgf img = nfw BufffrfdImbgf(16, 16, BufffrfdImbgf.TYPE_INT_ARGB);
 
-        img.setRGB(0, 0, 16, 16, Win32ShellFolder2.getStandardViewButton0(iconIndex), 0, 16);
+        img.sftRGB(0, 0, 16, 16, Win32SifllFoldfr2.gftStbndbrdVifwButton0(idonIndfx), 0, 16);
 
-        STANDARD_VIEW_BUTTONS[iconIndex] = img;
+        STANDARD_VIEW_BUTTONS[idonIndfx] = img;
 
-        return img;
+        rfturn img;
     }
 
-    // Special folders
-    private static Win32ShellFolder2 desktop;
-    private static Win32ShellFolder2 drives;
-    private static Win32ShellFolder2 recent;
-    private static Win32ShellFolder2 network;
-    private static Win32ShellFolder2 personal;
+    // Spfdibl foldfrs
+    privbtf stbtid Win32SifllFoldfr2 dfsktop;
+    privbtf stbtid Win32SifllFoldfr2 drivfs;
+    privbtf stbtid Win32SifllFoldfr2 rfdfnt;
+    privbtf stbtid Win32SifllFoldfr2 nftwork;
+    privbtf stbtid Win32SifllFoldfr2 pfrsonbl;
 
-    static Win32ShellFolder2 getDesktop() {
-        if (desktop == null) {
+    stbtid Win32SifllFoldfr2 gftDfsktop() {
+        if (dfsktop == null) {
             try {
-                desktop = new Win32ShellFolder2(DESKTOP);
-            } catch (SecurityException e) {
-                // Ignore error
-            } catch (IOException e) {
-                // Ignore error
-            } catch (InterruptedException e) {
-                // Ignore error
+                dfsktop = nfw Win32SifllFoldfr2(DESKTOP);
+            } dbtdi (SfdurityExdfption f) {
+                // Ignorf frror
+            } dbtdi (IOExdfption f) {
+                // Ignorf frror
+            } dbtdi (IntfrruptfdExdfption f) {
+                // Ignorf frror
             }
         }
-        return desktop;
+        rfturn dfsktop;
     }
 
-    static Win32ShellFolder2 getDrives() {
-        if (drives == null) {
+    stbtid Win32SifllFoldfr2 gftDrivfs() {
+        if (drivfs == null) {
             try {
-                drives = new Win32ShellFolder2(DRIVES);
-            } catch (SecurityException e) {
-                // Ignore error
-            } catch (IOException e) {
-                // Ignore error
-            } catch (InterruptedException e) {
-                // Ignore error
+                drivfs = nfw Win32SifllFoldfr2(DRIVES);
+            } dbtdi (SfdurityExdfption f) {
+                // Ignorf frror
+            } dbtdi (IOExdfption f) {
+                // Ignorf frror
+            } dbtdi (IntfrruptfdExdfption f) {
+                // Ignorf frror
             }
         }
-        return drives;
+        rfturn drivfs;
     }
 
-    static Win32ShellFolder2 getRecent() {
-        if (recent == null) {
+    stbtid Win32SifllFoldfr2 gftRfdfnt() {
+        if (rfdfnt == null) {
             try {
-                String path = Win32ShellFolder2.getFileSystemPath(RECENT);
-                if (path != null) {
-                    recent = createShellFolder(getDesktop(), new File(path));
+                String pbti = Win32SifllFoldfr2.gftFilfSystfmPbti(RECENT);
+                if (pbti != null) {
+                    rfdfnt = drfbtfSifllFoldfr(gftDfsktop(), nfw Filf(pbti));
                 }
-            } catch (SecurityException e) {
-                // Ignore error
-            } catch (InterruptedException e) {
-                // Ignore error
-            } catch (IOException e) {
-                // Ignore error
+            } dbtdi (SfdurityExdfption f) {
+                // Ignorf frror
+            } dbtdi (IntfrruptfdExdfption f) {
+                // Ignorf frror
+            } dbtdi (IOExdfption f) {
+                // Ignorf frror
             }
         }
-        return recent;
+        rfturn rfdfnt;
     }
 
-    static Win32ShellFolder2 getNetwork() {
-        if (network == null) {
+    stbtid Win32SifllFoldfr2 gftNftwork() {
+        if (nftwork == null) {
             try {
-                network = new Win32ShellFolder2(NETWORK);
-            } catch (SecurityException e) {
-                // Ignore error
-            } catch (IOException e) {
-                // Ignore error
-            } catch (InterruptedException e) {
-                // Ignore error
+                nftwork = nfw Win32SifllFoldfr2(NETWORK);
+            } dbtdi (SfdurityExdfption f) {
+                // Ignorf frror
+            } dbtdi (IOExdfption f) {
+                // Ignorf frror
+            } dbtdi (IntfrruptfdExdfption f) {
+                // Ignorf frror
             }
         }
-        return network;
+        rfturn nftwork;
     }
 
-    static Win32ShellFolder2 getPersonal() {
-        if (personal == null) {
+    stbtid Win32SifllFoldfr2 gftPfrsonbl() {
+        if (pfrsonbl == null) {
             try {
-                String path = Win32ShellFolder2.getFileSystemPath(PERSONAL);
-                if (path != null) {
-                    Win32ShellFolder2 desktop = getDesktop();
-                    personal = desktop.getChildByPath(path);
-                    if (personal == null) {
-                        personal = createShellFolder(getDesktop(), new File(path));
+                String pbti = Win32SifllFoldfr2.gftFilfSystfmPbti(PERSONAL);
+                if (pbti != null) {
+                    Win32SifllFoldfr2 dfsktop = gftDfsktop();
+                    pfrsonbl = dfsktop.gftCiildByPbti(pbti);
+                    if (pfrsonbl == null) {
+                        pfrsonbl = drfbtfSifllFoldfr(gftDfsktop(), nfw Filf(pbti));
                     }
-                    if (personal != null) {
-                        personal.setIsPersonal();
+                    if (pfrsonbl != null) {
+                        pfrsonbl.sftIsPfrsonbl();
                     }
                 }
-            } catch (SecurityException e) {
-                // Ignore error
-            } catch (InterruptedException e) {
-                // Ignore error
-            } catch (IOException e) {
-                // Ignore error
+            } dbtdi (SfdurityExdfption f) {
+                // Ignorf frror
+            } dbtdi (IntfrruptfdExdfption f) {
+                // Ignorf frror
+            } dbtdi (IOExdfption f) {
+                // Ignorf frror
             }
         }
-        return personal;
+        rfturn pfrsonbl;
     }
 
 
-    private static File[] roots;
+    privbtf stbtid Filf[] roots;
 
     /**
-     * @param key a <code>String</code>
-     *  "fileChooserDefaultFolder":
-     *    Returns a <code>File</code> - the default shellfolder for a new filechooser
+     * @pbrbm kfy b <dodf>String</dodf>
+     *  "filfCioosfrDffbultFoldfr":
+     *    Rfturns b <dodf>Filf</dodf> - tif dffbult sifllfoldfr for b nfw filfdioosfr
      *  "roots":
-     *    Returns a <code>File[]</code> - containing the root(s) of the displayable hierarchy
-     *  "fileChooserComboBoxFolders":
-     *    Returns a <code>File[]</code> - an array of shellfolders representing the list to
-     *    show by default in the file chooser's combobox
-     *   "fileChooserShortcutPanelFolders":
-     *    Returns a <code>File[]</code> - an array of shellfolders representing well-known
-     *    folders, such as Desktop, Documents, History, Network, Home, etc.
-     *    This is used in the shortcut panel of the filechooser on Windows 2000
-     *    and Windows Me.
-     *  "fileChooserIcon <icon>":
-     *    Returns an <code>Image</code> - icon can be ListView, DetailsView, UpFolder, NewFolder or
-     *    ViewMenu (Windows only).
-     *  "optionPaneIcon iconName":
-     *    Returns an <code>Image</code> - icon from the system icon list
+     *    Rfturns b <dodf>Filf[]</dodf> - dontbining tif root(s) of tif displbybblf iifrbrdiy
+     *  "filfCioosfrComboBoxFoldfrs":
+     *    Rfturns b <dodf>Filf[]</dodf> - bn brrby of sifllfoldfrs rfprfsfnting tif list to
+     *    siow by dffbult in tif filf dioosfr's dombobox
+     *   "filfCioosfrSiortdutPbnflFoldfrs":
+     *    Rfturns b <dodf>Filf[]</dodf> - bn brrby of sifllfoldfrs rfprfsfnting wfll-known
+     *    foldfrs, sudi bs Dfsktop, Dodumfnts, History, Nftwork, Homf, ftd.
+     *    Tiis is usfd in tif siortdut pbnfl of tif filfdioosfr on Windows 2000
+     *    bnd Windows Mf.
+     *  "filfCioosfrIdon <idon>":
+     *    Rfturns bn <dodf>Imbgf</dodf> - idon dbn bf ListVifw, DftbilsVifw, UpFoldfr, NfwFoldfr or
+     *    VifwMfnu (Windows only).
+     *  "optionPbnfIdon idonNbmf":
+     *    Rfturns bn <dodf>Imbgf</dodf> - idon from tif systfm idon list
      *
-     * @return An Object matching the key string.
+     * @rfturn An Objfdt mbtdiing tif kfy string.
      */
-    public Object get(String key) {
-        if (key.equals("fileChooserDefaultFolder")) {
-            File file = getPersonal();
-            if (file == null) {
-                file = getDesktop();
+    publid Objfdt gft(String kfy) {
+        if (kfy.fqubls("filfCioosfrDffbultFoldfr")) {
+            Filf filf = gftPfrsonbl();
+            if (filf == null) {
+                filf = gftDfsktop();
             }
-            return file;
-        } else if (key.equals("roots")) {
-            // Should be "History" and "Desktop" ?
+            rfturn filf;
+        } flsf if (kfy.fqubls("roots")) {
+            // Siould bf "History" bnd "Dfsktop" ?
             if (roots == null) {
-                File desktop = getDesktop();
-                if (desktop != null) {
-                    roots = new File[] { desktop };
-                } else {
-                    roots = (File[])super.get(key);
+                Filf dfsktop = gftDfsktop();
+                if (dfsktop != null) {
+                    roots = nfw Filf[] { dfsktop };
+                } flsf {
+                    roots = (Filf[])supfr.gft(kfy);
                 }
             }
-            return roots;
-        } else if (key.equals("fileChooserComboBoxFolders")) {
-            Win32ShellFolder2 desktop = getDesktop();
+            rfturn roots;
+        } flsf if (kfy.fqubls("filfCioosfrComboBoxFoldfrs")) {
+            Win32SifllFoldfr2 dfsktop = gftDfsktop();
 
-            if (desktop != null) {
-                ArrayList<File> folders = new ArrayList<File>();
-                Win32ShellFolder2 drives = getDrives();
+            if (dfsktop != null) {
+                ArrbyList<Filf> foldfrs = nfw ArrbyList<Filf>();
+                Win32SifllFoldfr2 drivfs = gftDrivfs();
 
-                Win32ShellFolder2 recentFolder = getRecent();
-                if (recentFolder != null && OSInfo.getWindowsVersion().compareTo(OSInfo.WINDOWS_2000) >= 0) {
-                    folders.add(recentFolder);
+                Win32SifllFoldfr2 rfdfntFoldfr = gftRfdfnt();
+                if (rfdfntFoldfr != null && OSInfo.gftWindowsVfrsion().dompbrfTo(OSInfo.WINDOWS_2000) >= 0) {
+                    foldfrs.bdd(rfdfntFoldfr);
                 }
 
-                folders.add(desktop);
-                // Add all second level folders
-                File[] secondLevelFolders = desktop.listFiles();
-                Arrays.sort(secondLevelFolders);
-                for (File secondLevelFolder : secondLevelFolders) {
-                    Win32ShellFolder2 folder = (Win32ShellFolder2) secondLevelFolder;
-                    if (!folder.isFileSystem() || (folder.isDirectory() && !folder.isLink())) {
-                        folders.add(folder);
-                        // Add third level for "My Computer"
-                        if (folder.equals(drives)) {
-                            File[] thirdLevelFolders = folder.listFiles();
-                            if (thirdLevelFolders != null && thirdLevelFolders.length > 0) {
-                                List<File> thirdLevelFoldersList = Arrays.asList(thirdLevelFolders);
+                foldfrs.bdd(dfsktop);
+                // Add bll sfdond lfvfl foldfrs
+                Filf[] sfdondLfvflFoldfrs = dfsktop.listFilfs();
+                Arrbys.sort(sfdondLfvflFoldfrs);
+                for (Filf sfdondLfvflFoldfr : sfdondLfvflFoldfrs) {
+                    Win32SifllFoldfr2 foldfr = (Win32SifllFoldfr2) sfdondLfvflFoldfr;
+                    if (!foldfr.isFilfSystfm() || (foldfr.isDirfdtory() && !foldfr.isLink())) {
+                        foldfrs.bdd(foldfr);
+                        // Add tiird lfvfl for "My Computfr"
+                        if (foldfr.fqubls(drivfs)) {
+                            Filf[] tiirdLfvflFoldfrs = foldfr.listFilfs();
+                            if (tiirdLfvflFoldfrs != null && tiirdLfvflFoldfrs.lfngti > 0) {
+                                List<Filf> tiirdLfvflFoldfrsList = Arrbys.bsList(tiirdLfvflFoldfrs);
 
-                                folder.sortChildren(thirdLevelFoldersList);
-                                folders.addAll(thirdLevelFoldersList);
+                                foldfr.sortCiildrfn(tiirdLfvflFoldfrsList);
+                                foldfrs.bddAll(tiirdLfvflFoldfrsList);
                             }
                         }
                     }
                 }
-                return folders.toArray(new File[folders.size()]);
-            } else {
-                return super.get(key);
+                rfturn foldfrs.toArrby(nfw Filf[foldfrs.sizf()]);
+            } flsf {
+                rfturn supfr.gft(kfy);
             }
-        } else if (key.equals("fileChooserShortcutPanelFolders")) {
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            ArrayList<File> folders = new ArrayList<File>();
+        } flsf if (kfy.fqubls("filfCioosfrSiortdutPbnflFoldfrs")) {
+            Toolkit toolkit = Toolkit.gftDffbultToolkit();
+            ArrbyList<Filf> foldfrs = nfw ArrbyList<Filf>();
             int i = 0;
-            Object value;
+            Objfdt vbluf;
             do {
-                value = toolkit.getDesktopProperty("win.comdlg.placesBarPlace" + i++);
+                vbluf = toolkit.gftDfsktopPropfrty("win.domdlg.plbdfsBbrPlbdf" + i++);
                 try {
-                    if (value instanceof Integer) {
+                    if (vbluf instbndfof Intfgfr) {
                         // A CSIDL
-                        folders.add(new Win32ShellFolder2((Integer)value));
-                    } else if (value instanceof String) {
-                        // A path
-                        folders.add(createShellFolder(new File((String)value)));
+                        foldfrs.bdd(nfw Win32SifllFoldfr2((Intfgfr)vbluf));
+                    } flsf if (vbluf instbndfof String) {
+                        // A pbti
+                        foldfrs.bdd(drfbtfSifllFoldfr(nfw Filf((String)vbluf)));
                     }
-                } catch (IOException e) {
-                    // Skip this value
-                } catch (InterruptedException e) {
-                    // Return empty result
-                    return new File[0];
+                } dbtdi (IOExdfption f) {
+                    // Skip tiis vbluf
+                } dbtdi (IntfrruptfdExdfption f) {
+                    // Rfturn fmpty rfsult
+                    rfturn nfw Filf[0];
                 }
-            } while (value != null);
+            } wiilf (vbluf != null);
 
-            if (folders.size() == 0) {
-                // Use default list of places
-                for (File f : new File[] {
-                    getRecent(), getDesktop(), getPersonal(), getDrives(), getNetwork()
+            if (foldfrs.sizf() == 0) {
+                // Usf dffbult list of plbdfs
+                for (Filf f : nfw Filf[] {
+                    gftRfdfnt(), gftDfsktop(), gftPfrsonbl(), gftDrivfs(), gftNftwork()
                 }) {
                     if (f != null) {
-                        folders.add(f);
+                        foldfrs.bdd(f);
                     }
                 }
             }
-            return folders.toArray(new File[folders.size()]);
-        } else if (key.startsWith("fileChooserIcon ")) {
-            String name = key.substring(key.indexOf(" ") + 1);
+            rfturn foldfrs.toArrby(nfw Filf[foldfrs.sizf()]);
+        } flsf if (kfy.stbrtsWiti("filfCioosfrIdon ")) {
+            String nbmf = kfy.substring(kfy.indfxOf(" ") + 1);
 
-            int iconIndex;
+            int idonIndfx;
 
-            if (name.equals("ListView") || name.equals("ViewMenu")) {
-                iconIndex = VIEW_LIST;
-            } else if (name.equals("DetailsView")) {
-                iconIndex = VIEW_DETAILS;
-            } else if (name.equals("UpFolder")) {
-                iconIndex = VIEW_PARENTFOLDER;
-            } else if (name.equals("NewFolder")) {
-                iconIndex = VIEW_NEWFOLDER;
-            } else {
-                return null;
+            if (nbmf.fqubls("ListVifw") || nbmf.fqubls("VifwMfnu")) {
+                idonIndfx = VIEW_LIST;
+            } flsf if (nbmf.fqubls("DftbilsVifw")) {
+                idonIndfx = VIEW_DETAILS;
+            } flsf if (nbmf.fqubls("UpFoldfr")) {
+                idonIndfx = VIEW_PARENTFOLDER;
+            } flsf if (nbmf.fqubls("NfwFoldfr")) {
+                idonIndfx = VIEW_NEWFOLDER;
+            } flsf {
+                rfturn null;
             }
 
-            return getStandardViewButton(iconIndex);
-        } else if (key.startsWith("optionPaneIcon ")) {
-            Win32ShellFolder2.SystemIcon iconType;
-            if (key == "optionPaneIcon Error") {
-                iconType = Win32ShellFolder2.SystemIcon.IDI_ERROR;
-            } else if (key == "optionPaneIcon Information") {
-                iconType = Win32ShellFolder2.SystemIcon.IDI_INFORMATION;
-            } else if (key == "optionPaneIcon Question") {
-                iconType = Win32ShellFolder2.SystemIcon.IDI_QUESTION;
-            } else if (key == "optionPaneIcon Warning") {
-                iconType = Win32ShellFolder2.SystemIcon.IDI_EXCLAMATION;
-            } else {
-                return null;
+            rfturn gftStbndbrdVifwButton(idonIndfx);
+        } flsf if (kfy.stbrtsWiti("optionPbnfIdon ")) {
+            Win32SifllFoldfr2.SystfmIdon idonTypf;
+            if (kfy == "optionPbnfIdon Error") {
+                idonTypf = Win32SifllFoldfr2.SystfmIdon.IDI_ERROR;
+            } flsf if (kfy == "optionPbnfIdon Informbtion") {
+                idonTypf = Win32SifllFoldfr2.SystfmIdon.IDI_INFORMATION;
+            } flsf if (kfy == "optionPbnfIdon Qufstion") {
+                idonTypf = Win32SifllFoldfr2.SystfmIdon.IDI_QUESTION;
+            } flsf if (kfy == "optionPbnfIdon Wbrning") {
+                idonTypf = Win32SifllFoldfr2.SystfmIdon.IDI_EXCLAMATION;
+            } flsf {
+                rfturn null;
             }
-            return Win32ShellFolder2.getSystemIcon(iconType);
-        } else if (key.startsWith("shell32Icon ") || key.startsWith("shell32LargeIcon ")) {
-            String name = key.substring(key.indexOf(" ") + 1);
+            rfturn Win32SifllFoldfr2.gftSystfmIdon(idonTypf);
+        } flsf if (kfy.stbrtsWiti("sifll32Idon ") || kfy.stbrtsWiti("sifll32LbrgfIdon ")) {
+            String nbmf = kfy.substring(kfy.indfxOf(" ") + 1);
             try {
-                int i = Integer.parseInt(name);
+                int i = Intfgfr.pbrsfInt(nbmf);
                 if (i >= 0) {
-                    return Win32ShellFolder2.getShell32Icon(i, key.startsWith("shell32LargeIcon "));
+                    rfturn Win32SifllFoldfr2.gftSifll32Idon(i, kfy.stbrtsWiti("sifll32LbrgfIdon "));
                 }
-            } catch (NumberFormatException ex) {
+            } dbtdi (NumbfrFormbtExdfption fx) {
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Does <code>dir</code> represent a "computer" such as a node on the network, or
-     * "My Computer" on the desktop.
+     * Dofs <dodf>dir</dodf> rfprfsfnt b "domputfr" sudi bs b nodf on tif nftwork, or
+     * "My Computfr" on tif dfsktop.
      */
-    public boolean isComputerNode(final File dir) {
-        if (dir != null && dir == getDrives()) {
-            return true;
-        } else {
-            String path = AccessController.doPrivileged(new PrivilegedAction<String>() {
-                public String run() {
-                    return dir.getAbsolutePath();
+    publid boolfbn isComputfrNodf(finbl Filf dir) {
+        if (dir != null && dir == gftDrivfs()) {
+            rfturn truf;
+        } flsf {
+            String pbti = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn dir.gftAbsolutfPbti();
                 }
             });
 
-            return (path.startsWith("\\\\") && path.indexOf("\\", 2) < 0);      //Network path
+            rfturn (pbti.stbrtsWiti("\\\\") && pbti.indfxOf("\\", 2) < 0);      //Nftwork pbti
         }
     }
 
-    public boolean isFileSystemRoot(File dir) {
-        //Note: Removable drives don't "exist" but are listed in "My Computer"
+    publid boolfbn isFilfSystfmRoot(Filf dir) {
+        //Notf: Rfmovbblf drivfs don't "fxist" but brf listfd in "My Computfr"
         if (dir != null) {
-            Win32ShellFolder2 drives = getDrives();
-            if (dir instanceof Win32ShellFolder2) {
-                Win32ShellFolder2 sf = (Win32ShellFolder2)dir;
-                if (sf.isFileSystem()) {
-                    if (sf.parent != null) {
-                        return sf.parent.equals(drives);
+            Win32SifllFoldfr2 drivfs = gftDrivfs();
+            if (dir instbndfof Win32SifllFoldfr2) {
+                Win32SifllFoldfr2 sf = (Win32SifllFoldfr2)dir;
+                if (sf.isFilfSystfm()) {
+                    if (sf.pbrfnt != null) {
+                        rfturn sf.pbrfnt.fqubls(drivfs);
                     }
-                    // else fall through ...
-                } else {
-                    return false;
+                    // flsf fbll tirougi ...
+                } flsf {
+                    rfturn fblsf;
                 }
             }
-            String path = dir.getPath();
+            String pbti = dir.gftPbti();
 
-            if (path.length() != 3 || path.charAt(1) != ':') {
-                return false;
+            if (pbti.lfngti() != 3 || pbti.dibrAt(1) != ':') {
+                rfturn fblsf;
             }
 
-            File[] files = drives.listFiles();
+            Filf[] filfs = drivfs.listFilfs();
 
-            return files != null && Arrays.asList(files).contains(dir);
+            rfturn filfs != null && Arrbys.bsList(filfs).dontbins(dir);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static List<Win32ShellFolder2> topFolderList = null;
-    static int compareShellFolders(Win32ShellFolder2 sf1, Win32ShellFolder2 sf2) {
-        boolean special1 = sf1.isSpecial();
-        boolean special2 = sf2.isSpecial();
+    privbtf stbtid List<Win32SifllFoldfr2> topFoldfrList = null;
+    stbtid int dompbrfSifllFoldfrs(Win32SifllFoldfr2 sf1, Win32SifllFoldfr2 sf2) {
+        boolfbn spfdibl1 = sf1.isSpfdibl();
+        boolfbn spfdibl2 = sf2.isSpfdibl();
 
-        if (special1 || special2) {
-            if (topFolderList == null) {
-                ArrayList<Win32ShellFolder2> tmpTopFolderList = new ArrayList<>();
-                tmpTopFolderList.add(Win32ShellFolderManager2.getPersonal());
-                tmpTopFolderList.add(Win32ShellFolderManager2.getDesktop());
-                tmpTopFolderList.add(Win32ShellFolderManager2.getDrives());
-                tmpTopFolderList.add(Win32ShellFolderManager2.getNetwork());
-                topFolderList = tmpTopFolderList;
+        if (spfdibl1 || spfdibl2) {
+            if (topFoldfrList == null) {
+                ArrbyList<Win32SifllFoldfr2> tmpTopFoldfrList = nfw ArrbyList<>();
+                tmpTopFoldfrList.bdd(Win32SifllFoldfrMbnbgfr2.gftPfrsonbl());
+                tmpTopFoldfrList.bdd(Win32SifllFoldfrMbnbgfr2.gftDfsktop());
+                tmpTopFoldfrList.bdd(Win32SifllFoldfrMbnbgfr2.gftDrivfs());
+                tmpTopFoldfrList.bdd(Win32SifllFoldfrMbnbgfr2.gftNftwork());
+                topFoldfrList = tmpTopFoldfrList;
             }
-            int i1 = topFolderList.indexOf(sf1);
-            int i2 = topFolderList.indexOf(sf2);
+            int i1 = topFoldfrList.indfxOf(sf1);
+            int i2 = topFoldfrList.indfxOf(sf2);
             if (i1 >= 0 && i2 >= 0) {
-                return (i1 - i2);
-            } else if (i1 >= 0) {
-                return -1;
-            } else if (i2 >= 0) {
-                return 1;
+                rfturn (i1 - i2);
+            } flsf if (i1 >= 0) {
+                rfturn -1;
+            } flsf if (i2 >= 0) {
+                rfturn 1;
             }
         }
 
-        // Non-file shellfolders sort before files
-        if (special1 && !special2) {
-            return -1;
-        } else if (special2 && !special1) {
-            return  1;
+        // Non-filf sifllfoldfrs sort bfforf filfs
+        if (spfdibl1 && !spfdibl2) {
+            rfturn -1;
+        } flsf if (spfdibl2 && !spfdibl1) {
+            rfturn  1;
         }
 
-        return compareNames(sf1.getAbsolutePath(), sf2.getAbsolutePath());
+        rfturn dompbrfNbmfs(sf1.gftAbsolutfPbti(), sf2.gftAbsolutfPbti());
     }
 
-    static int compareNames(String name1, String name2) {
-        // First ignore case when comparing
-        int diff = name1.compareToIgnoreCase(name2);
+    stbtid int dompbrfNbmfs(String nbmf1, String nbmf2) {
+        // First ignorf dbsf wifn dompbring
+        int diff = nbmf1.dompbrfToIgnorfCbsf(nbmf2);
         if (diff != 0) {
-            return diff;
-        } else {
-            // May differ in case (e.g. "mail" vs. "Mail")
-            // We need this test for consistent sorting
-            return name1.compareTo(name2);
+            rfturn diff;
+        } flsf {
+            // Mby difffr in dbsf (f.g. "mbil" vs. "Mbil")
+            // Wf nffd tiis tfst for donsistfnt sorting
+            rfturn nbmf1.dompbrfTo(nbmf2);
         }
     }
 
-    @Override
-    protected Invoker createInvoker() {
-        return new ComInvoker();
+    @Ovfrridf
+    protfdtfd Invokfr drfbtfInvokfr() {
+        rfturn nfw ComInvokfr();
     }
 
-    private static class ComInvoker extends ThreadPoolExecutor implements ThreadFactory, ShellFolder.Invoker {
-        private static Thread comThread;
+    privbtf stbtid dlbss ComInvokfr fxtfnds TirfbdPoolExfdutor implfmfnts TirfbdFbdtory, SifllFoldfr.Invokfr {
+        privbtf stbtid Tirfbd domTirfbd;
 
-        private ComInvoker() {
-            super(1, 1, 0, TimeUnit.DAYS, new LinkedBlockingQueue<Runnable>());
-            allowCoreThreadTimeOut(false);
-            setThreadFactory(this);
-            final Runnable shutdownHook = new Runnable() {
-                public void run() {
-                    AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                        public Void run() {
-                            shutdownNow();
-                            return null;
+        privbtf ComInvokfr() {
+            supfr(1, 1, 0, TimfUnit.DAYS, nfw LinkfdBlodkingQufuf<Runnbblf>());
+            bllowCorfTirfbdTimfOut(fblsf);
+            sftTirfbdFbdtory(tiis);
+            finbl Runnbblf siutdownHook = nfw Runnbblf() {
+                publid void run() {
+                    AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            siutdownNow();
+                            rfturn null;
                         }
                     });
                 }
             };
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
-                    Runtime.getRuntime().addShutdownHook(
-                        new Thread(shutdownHook)
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Runtimf.gftRuntimf().bddSiutdownHook(
+                        nfw Tirfbd(siutdownHook)
                     );
-                    return null;
+                    rfturn null;
                 }
             });
         }
 
-        public synchronized Thread newThread(final Runnable task) {
-            final Runnable comRun = new Runnable() {
-                public void run() {
+        publid syndironizfd Tirfbd nfwTirfbd(finbl Runnbblf tbsk) {
+            finbl Runnbblf domRun = nfw Runnbblf() {
+                publid void run() {
                     try {
-                        initializeCom();
-                        task.run();
-                    } finally {
-                        uninitializeCom();
+                        initiblizfCom();
+                        tbsk.run();
+                    } finblly {
+                        uninitiblizfCom();
                     }
                 }
             };
-            comThread =  AccessController.doPrivileged((PrivilegedAction<Thread>) () -> {
-                            /* The thread must be a member of a thread group
-                             * which will not get GCed before VM exit.
-                             * Make its parent the top-level thread group.
+            domTirfbd =  AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Tirfbd>) () -> {
+                            /* Tif tirfbd must bf b mfmbfr of b tirfbd group
+                             * wiidi will not gft GCfd bfforf VM fxit.
+                             * Mbkf its pbrfnt tif top-lfvfl tirfbd group.
                              */
-                            ThreadGroup rootTG = ThreadGroupUtils.getRootThreadGroup();
-                            Thread thread = new Thread(rootTG, comRun, "Swing-Shell");
-                            thread.setDaemon(true);
-                            return thread;
+                            TirfbdGroup rootTG = TirfbdGroupUtils.gftRootTirfbdGroup();
+                            Tirfbd tirfbd = nfw Tirfbd(rootTG, domRun, "Swing-Sifll");
+                            tirfbd.sftDbfmon(truf);
+                            rfturn tirfbd;
                         }
                 );
-            return comThread;
+            rfturn domTirfbd;
         }
 
-        public <T> T invoke(Callable<T> task) throws Exception {
-            if (Thread.currentThread() == comThread) {
-                // if it's already called from the COM
-                // thread, we don't need to delegate the task
-                return task.call();
-            } else {
-                final Future<T> future;
+        publid <T> T invokf(Cbllbblf<T> tbsk) tirows Exdfption {
+            if (Tirfbd.durrfntTirfbd() == domTirfbd) {
+                // if it's blrfbdy dbllfd from tif COM
+                // tirfbd, wf don't nffd to dflfgbtf tif tbsk
+                rfturn tbsk.dbll();
+            } flsf {
+                finbl Futurf<T> futurf;
 
                 try {
-                    future = submit(task);
-                } catch (RejectedExecutionException e) {
-                    throw new InterruptedException(e.getMessage());
+                    futurf = submit(tbsk);
+                } dbtdi (RfjfdtfdExfdutionExdfption f) {
+                    tirow nfw IntfrruptfdExdfption(f.gftMfssbgf());
                 }
 
                 try {
-                    return future.get();
-                } catch (InterruptedException e) {
-                    AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                        public Void run() {
-                            future.cancel(true);
+                    rfturn futurf.gft();
+                } dbtdi (IntfrruptfdExdfption f) {
+                    AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            futurf.dbndfl(truf);
 
-                            return null;
+                            rfturn null;
                         }
                     });
 
-                    throw e;
-                } catch (ExecutionException e) {
-                    Throwable cause = e.getCause();
+                    tirow f;
+                } dbtdi (ExfdutionExdfption f) {
+                    Tirowbblf dbusf = f.gftCbusf();
 
-                    if (cause instanceof Exception) {
-                        throw (Exception) cause;
+                    if (dbusf instbndfof Exdfption) {
+                        tirow (Exdfption) dbusf;
                     }
 
-                    if (cause instanceof Error) {
-                        throw (Error) cause;
+                    if (dbusf instbndfof Error) {
+                        tirow (Error) dbusf;
                     }
 
-                    throw new RuntimeException("Unexpected error", cause);
+                    tirow nfw RuntimfExdfption("Unfxpfdtfd frror", dbusf);
                 }
             }
         }
     }
 
-    static native void initializeCom();
+    stbtid nbtivf void initiblizfCom();
 
-    static native void uninitializeCom();
+    stbtid nbtivf void uninitiblizfCom();
 }

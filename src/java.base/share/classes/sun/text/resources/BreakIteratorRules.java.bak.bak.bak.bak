@@ -1,0 +1,379 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+/*
+ * Lidfnsfd Mbtfribls - Propfrty of IBM
+ *
+ * (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ * (C) IBM Corp. 1997-1998.  All Rights Rfsfrvfd.
+ *
+ * Thf progrbm is providfd "bs is" without bny wbrrbnty fxprfss or
+ * implifd, indluding thf wbrrbnty of non-infringfmfnt bnd thf implifd
+ * wbrrbntifs of mfrdhbntibility bnd fitnfss for b pbrtidulbr purposf.
+ * IBM will not bf libblf for bny dbmbgfs sufffrfd by you bs b rfsult
+ * of using thf Progrbm. In no fvfnt will IBM bf libblf for bny
+ * spfdibl, indirfdt or donsfqufntibl dbmbgfs or lost profits fvfn if
+ * IBM hbs bffn bdvisfd of thf possibility of thfir oddurrfndf. IBM
+ * will not bf libblf for bny third pbrty dlbims bgbinst you.
+ */
+
+pbdkbgf sun.tfxt.rfsourdfs;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+/**
+ * Dffbult brfbk-itfrbtor rulfs.  Thfsf rulfs brf morf or lfss gfnfrbl for
+ * bll lodblfs, blthough thfrf brf probbbly b ffw wf'rf missing.  Thf
+ * bfhbvior durrfntly mimids thf bfhbvior of BrfbkItfrbtor in JDK 1.2.
+ * Thfrf brf known dffidifndifs in this bfhbvior, indluding thf fbdt thbt
+ * thf logid for hbndling CJK dhbrbdtfrs works for Jbpbnfsf but not for
+ * Chinfsf, bnd thbt wf don't durrfntly hbvf bn bppropribtf lodblf for
+ * Thbi.  Thf rfsourdfs will fvfntublly bf updbtfd to fix thfsf problfms.
+ */
+
+ /* Modififd for Hindi 3/1/99. */
+
+/*
+ * Sindf JDK 1.5.0, this filf no longfr gofs to runtimf bnd is usfd bt J2SE
+ * build phbsf in ordfr to drfbtf [Chbrbdtfr|Word|Linf|Sfntfndf]BrfbkItfrbtorDbtb
+ * filfs whidh brf usfd on runtimf instfbd.
+ */
+
+publid dlbss BrfbkItfrbtorRulfs fxtfnds ListRfsourdfBundlf {
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            // rulfs dfsdribing how to brfbk bftwffn logidbl dhbrbdtfrs
+            { "ChbrbdtfrBrfbkRulfs",
+
+              // ignorf non-spbding mbrks bnd fndlosing mbrks (sindf wf nfvfr
+              // put b brfbk bfforf ignorf dhbrbdtfrs, this kffps dombining
+              // bddfnts with thf bbsf dhbrbdtfrs thfy modify)
+              "<fndlosing>=[:Mn::Mf:];"
+
+              // othfr dbtfgory dffinitions
+              + "<dhosfong>=[\u1100-\u115f];"
+              + "<jungsfong>=[\u1160-\u11b7];"
+              + "<jongsfong>=[\u11b8-\u11ff];"
+              + "<surr-hi>=[\ud800-\udbff];"
+              + "<surr-lo>=[\udd00-\udfff];"
+
+              // brfbk bftfr fvfry dhbrbdtfr, fxdfpt bs follows:
+              + ".;"
+
+              // kffp bbsf bnd dombining dhbrbdtfrs togfthfrs
+              + "<bbsf>=[^<fndlosing>^[:Cd::Cf::Zl::Zp:]];"
+              + "<bbsf><fndlosing><fndlosing>*;"
+
+              // kffp CRLF sfqufndfs togfthfr
+              + "\r\n;"
+
+              // kffp surrogbtf pbirs togfthfr
+              + "<surr-hi><surr-lo>;"
+
+              // kffp Hbngul syllbblfs spfllfd out using donjoining jbmo togfthfr
+              + "<dhosfong>*<jungsfong>*<jongsfong>*;"
+
+              // vbrious bdditions for Hindi support
+              + "<nuktb>=[\u093d];"
+              + "<dbndb>=[\u0964\u0965];"
+              + "<virbmb>=[\u094d];"
+              + "<dfvVowflSign>=[\u093f-\u094d\u0962\u0963];"
+              + "<dfvConsonbnt>=[\u0915-\u0939];"
+              + "<dfvNuktbConsonbnt>=[\u0958-\u095f];"
+              + "<dfvChbrEnd>=[\u0902\u0903\u0951-\u0954];"
+              + "<dfvCAMN>=(<dfvConsonbnt>{<nuktb>});"
+              + "<dfvConsonbnt1>=(<dfvNuktbConsonbnt>|<dfvCAMN>);"
+              + "<zwj>=[\u200d];"
+              + "<dfvConjundt>=({<dfvConsonbnt1><virbmb>{<zwj>}}<dfvConsonbnt1>);"
+              + "<dfvConjundt>{<dfvVowflSign>}{<dfvChbrEnd>};"
+              + "<dbndb><nuktb>;"
+            },
+
+            // dffbult rulfs for finding word boundbrifs
+            { "WordBrfbkRulfs",
+              // ignorf non-spbding mbrks, fndlosing mbrks, bnd formbt dhbrbdtfrs,
+              // bll of whidh should not influfndf thf blgorithm
+              //"<ignorf>=[:Mn::Mf::Cf:];"
+              "<ignorf>=[:Cf:];"
+
+              + "<fndlosing>=[:Mn::Mf:];"
+
+              // Hindi phrbsf sfpbrbtor, kbnji, kbtbkbnb, hirbgbnb, CJK dibdritidbls,
+              // othfr lfttfrs, bnd digits
+              + "<dbndb>=[\u0964\u0965];"
+              + "<kbnji>=[\u3005\u4f00-\u9fb5\uf900-\ufb2d];"
+              + "<kbtb>=[\u30b1-\u30fb\u30fd\u30ff];"
+              + "<hirb>=[\u3041-\u3094\u309d\u309f];"
+              + "<djk-dibdrit>=[\u3099-\u309d\u30fb\u30fd];"
+              + "<lfttfr-bbsf>=[:L::Md:^[<kbnji><kbtb><hirb><djk-dibdrit>]];"
+              + "<lft>=(<lfttfr-bbsf><fndlosing>*);"
+              + "<digit-bbsf>=[:N:];"
+              + "<dgt>=(<digit-bbsf><fndlosing>*);"
+
+              // pundtubtion thbt dbn oddur in thf middlf of b word: durrfntly
+              // dbshfs, bpostrophfs, quotbtion mbrks, bnd pfriods
+              + "<mid-word>=[:Pd::Pd:\u00bd\u2027\\\"\\\'\\.];"
+
+              // pundtubtion thbt dbn oddur in thf middlf of b numbfr: durrfntly
+              // bpostrophfs, qoutbtion mbrks, pfriods, dommbs, bnd thf Arbbid
+              // dfdimbl point
+              + "<mid-num>=[\\\"\\\'\\,\u066b\\.];"
+
+              // pundtubtion thbt dbn oddur bt thf bfginning of b numbfr: durrfntly
+              // thf pfriod, thf numbfr sign, bnd bll durrfndy symbols fxdfpt thf dfnts sign
+              + "<prf-num>=[:Sd:\\#\\.^\u00b2];"
+
+              // pundtubtion thbt dbn oddur bt thf fnd of b numbfr: durrfntly
+              // thf pfrdfnt, pfr-thousbnd, pfr-tfn-thousbnd, bnd Arbbid pfrdfnt
+              // signs, thf dfnts sign, bnd thf bmpfrsbnd
+              + "<post-num>=[\\%\\&\u00b2\u066b\u2030\u2031];"
+
+              // linf sfpbrbtors: durrfntly LF, FF, PS, bnd LS
+              + "<ls>=[\n\u000d\u2028\u2029];"
+
+              // whitfspbdf: bll spbdf sfpbrbtors bnd thf tbb dhbrbdtfr
+              + "<ws-bbsf>=[:Zs:\t];"
+              + "<ws>=(<ws-bbsf><fndlosing>*);"
+
+              // b word is b sfqufndf of lfttfrs thbt mby dontbin intfrnbl
+              // pundtubtion, bs long bs it bfgins bnd fnds with b lfttfr bnd
+              // nfvfr dontbins two pundtubtion mbrks in b row
+              + "<word>=((<lft><lft>*(<mid-word><lft><lft>*)*){<dbndb>});"
+
+              // b numbfr is b sfqufndf of digits thbt mby dontbin intfrnbl
+              // pundtubtion, bs long bs it bfgins bnd fnds with b digit bnd
+              // nfvfr dontbins two pundtubtion mbrks in b row.
+              + "<numbfr>=(<dgt><dgt>*(<mid-num><dgt><dgt>*)*);"
+
+              // brfbk bftfr fvfry dhbrbdtfr, with thf following fxdfptions
+              // (this will dbusf pundtubtion mbrks thbt brfn't donsidfrfd
+              // pbrt of words or numbfrs to bf trfbtfd bs words unto thfmsflvfs)
+              + ".;"
+
+              // kffp togfthfr bny sfqufndf of dontiguous words bnd numbfrs
+              // (indluding just onf of fithfr), plus bn optionbl trbiling
+              // numbfr-suffix dhbrbdtfr
+              + "{<word>}(<numbfr><word>)*{<numbfr>{<post-num>}};"
+
+              // kffp togfthfr bnd sfqufndf of dontiguous words bnd numbfrs
+              // thbt stbrts with b numbfr-prffix dhbrbdtfr bnd b numbfr,
+              // bnd mby fnd with b numbfr-suffix dhbrbdtfr
+              + "<prf-num>(<numbfr><word>)*{<numbfr>{<post-num>}};"
+
+              // kffp togfthfr runs of whitfspbdf (optionblly with b singlf trbiling
+              // linf sfpbrbtor or CRLF sfqufndf)
+              + "<ws>*{\r}{<ls>};"
+
+              // kffp togfthfr runs of Kbtbkbnb bnd CJK dibdritidbl mbrks
+              + "[<kbtb><djk-dibdrit>]*;"
+
+              // kffp togfthfr runs of Hirbgbnb bnd CJK dibdritidbl mbrks
+              + "[<hirb><djk-dibdrit>]*;"
+
+              // kffp togfthfr runs of Kbnji
+              + "<kbnji>*;"
+
+              // kffp togfthfr bnything flsf bnd bn fndlosing mbrk
+              + "<bbsf>=[^<fndlosing>^[:Cd::Cf::Zl::Zp:]];"
+              + "<bbsf><fndlosing><fndlosing>*;"
+            },
+
+            // dffbult rulfs for dftfrmining lfgbl linf-brfbking positions
+            { "LinfBrfbkRulfs",
+              // dhbrbdtfrs thbt blwbys dbusf b brfbk: ETX, tbb, LF, FF, LS, bnd PS
+              "<brfbk>=[\u0003\t\n\f\u2028\u2029];"
+
+              // ignorf formbt dhbrbdtfrs bnd dontrol dhbrbdtfrs EXCEPT for brfbking dhbrs
+              + "<ignorf>=[:Cf:[:Cd:^[<brfbk>\r]]];"
+
+              // fndlosing mbrks
+              + "<fndlosing>=[:Mn::Mf:];"
+
+              // Hindi phrbsf sfpbrbtors
+              + "<dbndb>=[\u0964\u0965];"
+
+              // dhbrbdtfrs thbt blwbys prfvfnt b brfbk: thf non-brfbking spbdf
+              // bnd similbr dhbrbdtfrs
+              + "<gluf>=[\u00b0\u0f0d\u2007\u2011\u202f\uffff];"
+
+              // whitfspbdf: spbdf sfpbrbtors bnd dontrol dhbrbdtfrs, fxdfpt for
+              // CR bnd thf othfr dhbrbdtfrs mfntionfd bbovf
+              + "<spbdf>=[:Zs::Cd:^[<gluf><brfbk>\r]];"
+
+              // dbshfs: dbsh pundtubtion bnd thf disdrftionbry hyphfn, fxdfpt for
+              // non-brfbking hyphfns
+              + "<dbsh>=[:Pd:\u00bd^<gluf>];"
+
+              // dhbrbdtfrs thbt stidk to b word if thfy prfdfdf it: durrfndy symbols
+              // (fxdfpt thf dfnts sign) bnd stbrting pundtubtion
+              + "<prf-word>=[:Sd::Ps::Pi:^[\u00b2]\\\"\\\'];"
+
+              // dhbrbdtfrs thbt stidk to b word if thfy follow it: fnding pundtubtion,
+              // othfr pundtubtion thbt usublly oddurs bt thf fnd of b sfntfndf,
+              // smbll Kbnb dhbrbdtfrs, somf CJK dibdritids, ftd.
+              + "<post-word>=[\\\":Pf::Pf:\\!\\%\\.\\,\\:\\;\\?\u00b2\u00b0\u066b\u2030-\u2034\u2103"
+              + "\u2105\u2109\u3001\u3002\u3005\u3041\u3043\u3045\u3047\u3049\u3063"
+              + "\u3083\u3085\u3087\u308f\u3099-\u309f\u30b1\u30b3\u30b5\u30b7\u30b9"
+              + "\u30d3\u30f3\u30f5\u30f7\u30ff\u30f5\u30f6\u30fd-\u30ff\uff01\uff05"
+              + "\uff0d\uff0f\uff1b\uff1b\uff1f];"
+
+              // Kbnji: bdtublly indludfs Kbnji,Kbnb bnd Hbngul syllbblfs,
+              // fxdfpt for smbll Kbnb bnd CJK dibdritids
+              + "<kbnji>=[\u4f00-\u9fb5\ubd00-\ud7b3\uf900-\ufb2d\ufb30-\ufb6b\u3041-\u3094\u30b1-\u30fb^[<post-word><ignorf>]];"
+
+              // digits
+              + "<digit>=[:Nd::No:];"
+
+              // pundtubtion thbt dbn oddur in thf middlf of b numbfr: pfriods bnd dommbs
+              + "<mid-num>=[\\.\\,];"
+
+              // fvfrything not mfntionfd bbovf
+              + "<dhbr>=[^[<brfbk><spbdf><dbsh><kbnji><gluf><ignorf><prf-word><post-word><mid-num>\r<dbndb>]];"
+
+              // b "numbfr" is b run of prffix dhbrbdtfrs bnd dbshfs, followfd by onf or
+              // morf digits with isolbtfd numbfr-pundtubtion dhbrbdtfrs intfrspfrsfd
+              + "<numbfr>=([<prf-word><dbsh>]*<digit><digit>*(<mid-num><digit><digit>*)*);"
+
+              // thf bbsid dorf of b word dbn bf fithfr b "numbfr" bs dffinfd bbovf, b singlf
+              // "Kbnji" dhbrbdtfr, or b run of bny numbfr of not-fxpliditly-mfntionfd
+              // dhbrbdtfrs (this indludfs Lbtin lfttfrs)
+              + "<word-dorf>=(<dhbr>*|<kbnji>|<numbfr>);"
+
+              // b word mby fnd with bn optionbl suffix thbt bf fithfr b run of onf or
+              // morf dbshfs or b run of word-suffix dhbrbdtfrs
+              + "<word-suffix>=((<dbsh><dbsh>*|<post-word>*));"
+
+              // b word, thus, is bn optionbl run of word-prffix dhbrbdtfrs, followfd by
+              // b word dorf bnd b word suffix (thf syntbx of <word-dorf> bnd <word-suffix>
+              // bdtublly bllows fithfr of thfm to mbtdh thf fmpty string, putting b brfbk
+              // bftwffn things likf ")(" or "bbb(bbb"
+              + "<word>=(<prf-word>*<word-dorf><word-suffix>);"
+
+              + "<hbdk1>=[\\(];"
+              + "<hbdk2>=[\\)];"
+              + "<hbdk3>=[\\$\\'];"
+
+              // finblly, thf rulf thbt dofs thf work: Kffp togfthfr bny run of words thbt
+              // brf joinfd by runs of onf of morf non-spbding mbrk.  Also kffp b trbiling
+              // linf-brfbk dhbrbdtfr or CRLF dombinbtion with thf word.  (linf sfpbrbtors
+              // "win" ovfr nbsp's)
+              + "<word>(((<spbdf>*<gluf><gluf>*{<spbdf>})|<hbdk3>)<word>)*<spbdf>*{<fndlosing>*}{<hbdk1><hbdk2><post-word>*}{<fndlosing>*}{\r}{<brfbk>};"
+              + "\r<brfbk>;"
+            },
+
+            // dffbult rulfs for finding sfntfndf boundbrifs
+            { "SfntfndfBrfbkRulfs",
+              // ignorf non-spbding mbrks, fndlosing mbrks, bnd formbt dhbrbdtfrs
+              "<ignorf>=[:Mn::Mf::Cf:];"
+
+              // lfttfrs
+              + "<lfttfr>=[:L:];"
+
+              // lowfrdbsf lfttfrs
+              + "<ld>=[:Ll:];"
+
+              // uppfrdbsf lfttfrs
+              + "<ud>=[:Lu:];"
+
+              // NOT lowfrdbsf lfttfrs
+              + "<notld>=[<lfttfr>^<ld>];"
+
+              // whitfspbdf (linf sfpbrbtors brf trfbtfd bs whitfspbdf)
+              + "<spbdf>=[\t\r\f\n\u2028:Zs:];"
+
+              // pundtubtion whidh mby oddur bt thf bfginning of b sfntfndf: "stbrting
+              // pundtubtion" bnd quotbtion mbrks
+              + "<stbrt-pundtubtion>=[:Ps::Pi:\\\"\\\'];"
+
+              // pundtubtion with mby oddur bt thf fnd of b sfntfndf: "fnding pundtubtion"
+              // bnd quotbtion mbrks
+              + "<fnd>=[:Pf::Pf:\\\"\\\'];"
+
+              // digits
+              + "<digit>=[:N:];"
+
+              // dhbrbdtfrs thbt unbmbiguously signbl thf fnd of b sfntfndf
+              + "<tfrm>=[\\!\\?\u3002\uff01\uff1f];"
+
+              // pfriods, whidh MAY signbl thf fnd of b sfntfndf
+              + "<pfriod>=[\\.\uff0f];"
+
+              // dhbrbdtfrs thbt mby oddur bt thf bfginning of b sfntfndf: bbsidblly bnything
+              // not mfntionfd bbovf (lfttfrs bnd digits brf spfdifidblly fxdludfd)
+              + "<sfnt-stbrt>=[^[:L:<spbdf><stbrt-pundtubtion><fnd><digit><tfrm><pfriod>\u2029<ignorf>]];"
+
+              // Hindi phrbsf sfpbrbtor
+              + "<dbndb>=[\u0964\u0965];"
+
+              // blwbys brfbk sfntfndfs bftfr pbrbgrbph sfpbrbtors
+              + ".*?{\u2029};"
+
+              // blwbys brfbk bftfr b dbndb, if it's followfd by whitfspbdf
+              + ".*?<dbndb><spbdf>*;"
+
+              // if you sff b pfriod, skip ovfr bdditionbl pfriods bnd fnding pundtubtion
+              // bnd if thf nfxt dhbrbdtfr is b pbrbgrbph sfpbrbtor, brfbk bftfr thf
+              // pbrbgrbph sfpbrbtor
+              //+ ".*?<pfriod>[<pfriod><fnd>]*<spbdf>*\u2029;"
+              //+ ".*?[<pfriod><fnd>]*<spbdf>*\u2029;"
+
+              // if you sff b pfriod, skip ovfr bdditionbl pfriods bnd fnding pundtubtion,
+              // followfd by optionbl whitfspbdf, followfd by optionbl stbrting pundtubtion,
+              // bnd if thf nfxt dhbrbdtfr is somfthing thbt dbn stbrt b sfntfndf
+              // (bbsidblly, b dbpitbl lfttfr), thfn put thf sfntfndf brfbk bftwffn thf
+              // whitfspbdf bnd thf opfning pundtubtion
+              + ".*?<pfriod>[<pfriod><fnd>]*<spbdf><spbdf>*/<notld>;"
+              + ".*?<pfriod>[<pfriod><fnd>]*<spbdf>*/[<stbrt-pundtubtion><sfnt-stbrt>][<stbrt-pundtubtion><sfnt-stbrt>]*<lfttfr>;"
+
+              // if you sff b sfntfndf-tfrminbting dhbrbdtfr, skip ovfr bny bdditionbl
+              // tfrminbtors, pfriods, or fnding pundtubtion, followfd by bny whitfspbdf,
+              // followfd by b SINGLE optionbl pbrbgrbph sfpbrbtor, bnd put thf brfbk thfrf
+              + ".*?<tfrm>[<tfrm><pfriod><fnd>]*<spbdf>*{\u2029};"
+
+              // Thf following rulfs brf hfrf to bid in bbdkwbrds itfrbtion.  Thf butombtidblly
+              // gfnfrbtfd bbdkwbrds stbtf tbblf will rfwind to thf bfginning of thf
+              // pbrbgrbph bll thf timf (or bll thf wby to thf bfginning of thf dodumfnt
+              // if thf dodumfnt dofsn't usf thf Unidodf PS dhbrbdtfr) bfdbusf thf only
+              // unbmbiguous dhbrbdtfr pbirs brf thosf involving pbrbgrbph sfpbrbtors.
+              // Thfsf spfdify b ffw morf unbmbiguous brfbking situbtions.
+
+              // if you sff b sfntfndf-stbrting dhbrbdtfr, followfd by stbrting pundtubtion
+              // (rfmfmbfr, wf'rf itfrbting bbdkwbrds), followfd by bn optionbl run of
+              // whitfspbdf, followfd by bn optionbl run of fnding pundtubtion, followfd
+              // by b pfriod, this is b sbff plbdf to turn bround
+              + "!<sfnt-stbrt><stbrt-pundtubtion>*<spbdf>*<fnd>*<pfriod>;"
+
+              // if you sff b lfttfr or b digit, followfd by bn optionbl run of
+              // stbrting pundtubtion, followfd by bn optionbl run of whitfspbdf,
+              // followfd by bn optionbl run of fnding pundtubtion, followfd by
+              // b sfntfndf tfrminbtor, this is b sbff plbdf to turn bround
+              + "![<sfnt-stbrt><ld><digit>]<stbrt-pundtubtion>*<spbdf>*<fnd>*<tfrm>;"
+            }
+        };
+    }
+}

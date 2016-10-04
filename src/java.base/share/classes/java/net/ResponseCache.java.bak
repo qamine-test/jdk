@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.List;
-import sun.security.util.SecurityConstants;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * Represents implementations of URLConnection caches. An instance of
- * such a class can be registered with the system by doing
- * ResponseCache.setDefault(ResponseCache), and the system will call
- * this object in order to:
+ * Rfprfsfnts implfmfntbtions of URLConnfdtion dbdifs. An instbndf of
+ * sudi b dlbss dbn bf rfgistfrfd witi tif systfm by doing
+ * RfsponsfCbdif.sftDffbult(RfsponsfCbdif), bnd tif systfm will dbll
+ * tiis objfdt in ordfr to:
  *
- *    <ul><li>store resource data which has been retrieved from an
- *            external source into the cache</li>
- *         <li>try to fetch a requested resource that may have been
- *            stored in the cache</li>
+ *    <ul><li>storf rfsourdf dbtb wiidi ibs bffn rftrifvfd from bn
+ *            fxtfrnbl sourdf into tif dbdif</li>
+ *         <li>try to fftdi b rfqufstfd rfsourdf tibt mby ibvf bffn
+ *            storfd in tif dbdif</li>
  *    </ul>
  *
- * The ResponseCache implementation decides which resources
- * should be cached, and for how long they should be cached. If a
- * request resource cannot be retrieved from the cache, then the
- * protocol handlers will fetch the resource from its original
- * location.
+ * Tif RfsponsfCbdif implfmfntbtion dfdidfs wiidi rfsourdfs
+ * siould bf dbdifd, bnd for iow long tify siould bf dbdifd. If b
+ * rfqufst rfsourdf dbnnot bf rftrifvfd from tif dbdif, tifn tif
+ * protodol ibndlfrs will fftdi tif rfsourdf from its originbl
+ * lodbtion.
  *
- * The settings for URLConnection#useCaches controls whether the
- * protocol is allowed to use a cached response.
+ * Tif sfttings for URLConnfdtion#usfCbdifs dontrols wiftifr tif
+ * protodol is bllowfd to usf b dbdifd rfsponsf.
  *
- * For more information on HTTP caching, see <a
- * href="http://www.ietf.org/rfc/rfc2616.txt"><i>RFC&nbsp;2616: Hypertext
- * Transfer Protocol -- HTTP/1.1</i></a>
+ * For morf informbtion on HTTP dbdiing, sff <b
+ * irff="ittp://www.iftf.org/rfd/rfd2616.txt"><i>RFC&nbsp;2616: Hypfrtfxt
+ * Trbnsffr Protodol -- HTTP/1.1</i></b>
  *
- * @author Yingxian Wang
- * @since 1.5
+ * @butior Yingxibn Wbng
+ * @sindf 1.5
  */
-public abstract class ResponseCache {
+publid bbstrbdt dlbss RfsponsfCbdif {
 
     /**
-     * The system wide cache that provides access to a url
-     * caching mechanism.
+     * Tif systfm widf dbdif tibt providfs bddfss to b url
+     * dbdiing mfdibnism.
      *
-     * @see #setDefault(ResponseCache)
-     * @see #getDefault()
+     * @sff #sftDffbult(RfsponsfCbdif)
+     * @sff #gftDffbult()
      */
-    private static ResponseCache theResponseCache;
+    privbtf stbtid RfsponsfCbdif tifRfsponsfCbdif;
 
     /**
-     * Gets the system-wide response cache.
+     * Gfts tif systfm-widf rfsponsf dbdif.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     * {@link NetPermission}{@code ("getResponseCache")}
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("gftRfsponsfCbdif")}
      *
-     * @see #setDefault(ResponseCache)
-     * @return the system-wide {@code ResponseCache}
-     * @since 1.5
+     * @sff #sftDffbult(RfsponsfCbdif)
+     * @rfturn tif systfm-widf {@dodf RfsponsfCbdif}
+     * @sindf 1.5
      */
-    public synchronized  static ResponseCache getDefault() {
-        SecurityManager sm = System.getSecurityManager();
+    publid syndironizfd  stbtid RfsponsfCbdif gftDffbult() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_RESPONSECACHE_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_RESPONSECACHE_PERMISSION);
         }
-        return theResponseCache;
+        rfturn tifRfsponsfCbdif;
     }
 
     /**
-     * Sets (or unsets) the system-wide cache.
+     * Sfts (or unsfts) tif systfm-widf dbdif.
      *
-     * Note: non-standard procotol handlers may ignore this setting.
+     * Notf: non-stbndbrd prodotol ibndlfrs mby ignorf tiis sftting.
      *
-     * @param responseCache The response cache, or
-     *          {@code null} to unset the cache.
+     * @pbrbm rfsponsfCbdif Tif rfsponsf dbdif, or
+     *          {@dodf null} to unsft tif dbdif.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     * {@link NetPermission}{@code ("setResponseCache")}
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     * {@link NftPfrmission}{@dodf ("sftRfsponsfCbdif")}
      *
-     * @see #getDefault()
-     * @since 1.5
+     * @sff #gftDffbult()
+     * @sindf 1.5
      */
-    public synchronized static void setDefault(ResponseCache responseCache) {
-        SecurityManager sm = System.getSecurityManager();
+    publid syndironizfd stbtid void sftDffbult(RfsponsfCbdif rfsponsfCbdif) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.SET_RESPONSECACHE_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.SET_RESPONSECACHE_PERMISSION);
         }
-        theResponseCache = responseCache;
+        tifRfsponsfCbdif = rfsponsfCbdif;
     }
 
     /**
-     * Retrieve the cached response based on the requesting uri,
-     * request method and request headers. Typically this method is
-     * called by the protocol handler before it sends out the request
-     * to get the network resource. If a cached response is returned,
-     * that resource is used instead.
+     * Rftrifvf tif dbdifd rfsponsf bbsfd on tif rfqufsting uri,
+     * rfqufst mftiod bnd rfqufst ifbdfrs. Typidblly tiis mftiod is
+     * dbllfd by tif protodol ibndlfr bfforf it sfnds out tif rfqufst
+     * to gft tif nftwork rfsourdf. If b dbdifd rfsponsf is rfturnfd,
+     * tibt rfsourdf is usfd instfbd.
      *
-     * @param uri a {@code URI} used to reference the requested
-     *            network resource
-     * @param rqstMethod a {@code String} representing the request
-     *            method
-     * @param rqstHeaders - a Map from request header
-     *            field names to lists of field values representing
-     *            the current request headers
-     * @return a {@code CacheResponse} instance if available
-     *          from cache, or null otherwise
-     * @throws  IOException if an I/O error occurs
-     * @throws  IllegalArgumentException if any one of the arguments is null
+     * @pbrbm uri b {@dodf URI} usfd to rfffrfndf tif rfqufstfd
+     *            nftwork rfsourdf
+     * @pbrbm rqstMftiod b {@dodf String} rfprfsfnting tif rfqufst
+     *            mftiod
+     * @pbrbm rqstHfbdfrs - b Mbp from rfqufst ifbdfr
+     *            fifld nbmfs to lists of fifld vblufs rfprfsfnting
+     *            tif durrfnt rfqufst ifbdfrs
+     * @rfturn b {@dodf CbdifRfsponsf} instbndf if bvbilbblf
+     *          from dbdif, or null otifrwisf
+     * @tirows  IOExdfption if bn I/O frror oddurs
+     * @tirows  IllfgblArgumfntExdfption if bny onf of tif brgumfnts is null
      *
-     * @see     java.net.URLConnection#setUseCaches(boolean)
-     * @see     java.net.URLConnection#getUseCaches()
-     * @see     java.net.URLConnection#setDefaultUseCaches(boolean)
-     * @see     java.net.URLConnection#getDefaultUseCaches()
+     * @sff     jbvb.nft.URLConnfdtion#sftUsfCbdifs(boolfbn)
+     * @sff     jbvb.nft.URLConnfdtion#gftUsfCbdifs()
+     * @sff     jbvb.nft.URLConnfdtion#sftDffbultUsfCbdifs(boolfbn)
+     * @sff     jbvb.nft.URLConnfdtion#gftDffbultUsfCbdifs()
      */
-    public abstract CacheResponse
-        get(URI uri, String rqstMethod, Map<String, List<String>> rqstHeaders)
-        throws IOException;
+    publid bbstrbdt CbdifRfsponsf
+        gft(URI uri, String rqstMftiod, Mbp<String, List<String>> rqstHfbdfrs)
+        tirows IOExdfption;
 
     /**
-     * The protocol handler calls this method after a resource has
-     * been retrieved, and the ResponseCache must decide whether or
-     * not to store the resource in its cache. If the resource is to
-     * be cached, then put() must return a CacheRequest object which
-     * contains an OutputStream that the protocol handler will
-     * use to write the resource into the cache. If the resource is
-     * not to be cached, then put must return null.
+     * Tif protodol ibndlfr dblls tiis mftiod bftfr b rfsourdf ibs
+     * bffn rftrifvfd, bnd tif RfsponsfCbdif must dfdidf wiftifr or
+     * not to storf tif rfsourdf in its dbdif. If tif rfsourdf is to
+     * bf dbdifd, tifn put() must rfturn b CbdifRfqufst objfdt wiidi
+     * dontbins bn OutputStrfbm tibt tif protodol ibndlfr will
+     * usf to writf tif rfsourdf into tif dbdif. If tif rfsourdf is
+     * not to bf dbdifd, tifn put must rfturn null.
      *
-     * @param uri a {@code URI} used to reference the requested
-     *            network resource
-     * @param conn - a URLConnection instance that is used to fetch
-     *            the response to be cached
-     * @return a {@code CacheRequest} for recording the
-     *            response to be cached. Null return indicates that
-     *            the caller does not intend to cache the response.
-     * @throws IOException if an I/O error occurs
-     * @throws IllegalArgumentException if any one of the arguments is
+     * @pbrbm uri b {@dodf URI} usfd to rfffrfndf tif rfqufstfd
+     *            nftwork rfsourdf
+     * @pbrbm donn - b URLConnfdtion instbndf tibt is usfd to fftdi
+     *            tif rfsponsf to bf dbdifd
+     * @rfturn b {@dodf CbdifRfqufst} for rfdording tif
+     *            rfsponsf to bf dbdifd. Null rfturn indidbtfs tibt
+     *            tif dbllfr dofs not intfnd to dbdif tif rfsponsf.
+     * @tirows IOExdfption if bn I/O frror oddurs
+     * @tirows IllfgblArgumfntExdfption if bny onf of tif brgumfnts is
      *            null
      */
-    public abstract CacheRequest put(URI uri, URLConnection conn)  throws IOException;
+    publid bbstrbdt CbdifRfqufst put(URI uri, URLConnfdtion donn)  tirows IOExdfption;
 }

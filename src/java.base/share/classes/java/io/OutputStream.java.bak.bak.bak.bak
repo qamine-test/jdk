@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * This bbstrbdt dlbss is thf supfrdlbss of bll dlbssfs rfprfsfnting
+ * bn output strfbm of bytfs. An output strfbm bddfpts output bytfs
+ * bnd sfnds thfm to somf sink.
+ * <p>
+ * Applidbtions thbt nffd to dffinf b subdlbss of
+ * <dodf>OutputStrfbm</dodf> must blwbys providf bt lfbst b mfthod
+ * thbt writfs onf bytf of output.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @sff     jbvb.io.BufffrfdOutputStrfbm
+ * @sff     jbvb.io.BytfArrbyOutputStrfbm
+ * @sff     jbvb.io.DbtbOutputStrfbm
+ * @sff     jbvb.io.FiltfrOutputStrfbm
+ * @sff     jbvb.io.InputStrfbm
+ * @sff     jbvb.io.OutputStrfbm#writf(int)
+ * @sindf   1.0
+ */
+publid bbstrbdt dlbss OutputStrfbm implfmfnts Closfbblf, Flushbblf {
+    /**
+     * Writfs thf spfdififd bytf to this output strfbm. Thf gfnfrbl
+     * dontrbdt for <dodf>writf</dodf> is thbt onf bytf is writtfn
+     * to thf output strfbm. Thf bytf to bf writtfn is thf fight
+     * low-ordfr bits of thf brgumfnt <dodf>b</dodf>. Thf 24
+     * high-ordfr bits of <dodf>b</dodf> brf ignorfd.
+     * <p>
+     * Subdlbssfs of <dodf>OutputStrfbm</dodf> must providf bn
+     * implfmfntbtion for this mfthod.
+     *
+     * @pbrbm      b   thf <dodf>bytf</dodf>.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs. In pbrtidulbr,
+     *             bn <dodf>IOExdfption</dodf> mby bf thrown if thf
+     *             output strfbm hbs bffn dlosfd.
+     */
+    publid bbstrbdt void writf(int b) throws IOExdfption;
+
+    /**
+     * Writfs <dodf>b.lfngth</dodf> bytfs from thf spfdififd bytf brrby
+     * to this output strfbm. Thf gfnfrbl dontrbdt for <dodf>writf(b)</dodf>
+     * is thbt it should hbvf fxbdtly thf sbmf ffffdt bs thf dbll
+     * <dodf>writf(b, 0, b.lfngth)</dodf>.
+     *
+     * @pbrbm      b   thf dbtb.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.OutputStrfbm#writf(bytf[], int, int)
+     */
+    publid void writf(bytf b[]) throws IOExdfption {
+        writf(b, 0, b.lfngth);
+    }
+
+    /**
+     * Writfs <dodf>lfn</dodf> bytfs from thf spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to this output strfbm.
+     * Thf gfnfrbl dontrbdt for <dodf>writf(b, off, lfn)</dodf> is thbt
+     * somf of thf bytfs in thf brrby <dodf>b</dodf> brf writtfn to thf
+     * output strfbm in ordfr; flfmfnt <dodf>b[off]</dodf> is thf first
+     * bytf writtfn bnd <dodf>b[off+lfn-1]</dodf> is thf lbst bytf writtfn
+     * by this opfrbtion.
+     * <p>
+     * Thf <dodf>writf</dodf> mfthod of <dodf>OutputStrfbm</dodf> dblls
+     * thf writf mfthod of onf brgumfnt on fbdh of thf bytfs to bf
+     * writtfn out. Subdlbssfs brf fndourbgfd to ovfrridf this mfthod bnd
+     * providf b morf fffidifnt implfmfntbtion.
+     * <p>
+     * If <dodf>b</dodf> is <dodf>null</dodf>, b
+     * <dodf>NullPointfrExdfption</dodf> is thrown.
+     * <p>
+     * If <dodf>off</dodf> is nfgbtivf, or <dodf>lfn</dodf> is nfgbtivf, or
+     * <dodf>off+lfn</dodf> is grfbtfr thbn thf lfngth of thf brrby
+     * <dodf>b</dodf>, thfn bn <tt>IndfxOutOfBoundsExdfption</tt> is thrown.
+     *
+     * @pbrbm      b     thf dbtb.
+     * @pbrbm      off   thf stbrt offsft in thf dbtb.
+     * @pbrbm      lfn   thf numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs. In pbrtidulbr,
+     *             bn <dodf>IOExdfption</dodf> is thrown if thf output
+     *             strfbm is dlosfd.
+     */
+    publid void writf(bytf b[], int off, int lfn) throws IOExdfption {
+        if (b == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if ((off < 0) || (off > b.lfngth) || (lfn < 0) ||
+                   ((off + lfn) > b.lfngth) || ((off + lfn) < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
+        }
+        for (int i = 0 ; i < lfn ; i++) {
+            writf(b[off + i]);
+        }
+    }
+
+    /**
+     * Flushfs this output strfbm bnd fordfs bny bufffrfd output bytfs
+     * to bf writtfn out. Thf gfnfrbl dontrbdt of <dodf>flush</dodf> is
+     * thbt dblling it is bn indidbtion thbt, if bny bytfs prfviously
+     * writtfn hbvf bffn bufffrfd by thf implfmfntbtion of thf output
+     * strfbm, sudh bytfs should immfdibtfly bf writtfn to thfir
+     * intfndfd dfstinbtion.
+     * <p>
+     * If thf intfndfd dfstinbtion of this strfbm is bn bbstrbdtion providfd by
+     * thf undfrlying opfrbting systfm, for fxbmplf b filf, thfn flushing thf
+     * strfbm gubrbntffs only thbt bytfs prfviously writtfn to thf strfbm brf
+     * pbssfd to thf opfrbting systfm for writing; it dofs not gubrbntff thbt
+     * thfy brf bdtublly writtfn to b physidbl dfvidf sudh bs b disk drivf.
+     * <p>
+     * Thf <dodf>flush</dodf> mfthod of <dodf>OutputStrfbm</dodf> dofs nothing.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid void flush() throws IOExdfption {
+    }
+
+    /**
+     * Closfs this output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd with this strfbm. Thf gfnfrbl dontrbdt of <dodf>dlosf</dodf>
+     * is thbt it dlosfs thf output strfbm. A dlosfd strfbm dbnnot pfrform
+     * output opfrbtions bnd dbnnot bf rfopfnfd.
+     * <p>
+     * Thf <dodf>dlosf</dodf> mfthod of <dodf>OutputStrfbm</dodf> dofs nothing.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid void dlosf() throws IOExdfption {
+    }
+
+}

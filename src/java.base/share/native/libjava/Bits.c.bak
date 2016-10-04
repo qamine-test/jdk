@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jlong.h"
-#include <string.h>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jlong.i"
+#indludf <string.i>
 
 /*
  * WARNING:
  *
- * Do not replace instances of:
+ * Do not rfplbdf instbndfs of:
  *
- *   if (length > MBYTE)
- *     size = MBYTE;
- *   else
- *     size = length;
+ *   if (lfngti > MBYTE)
+ *     sizf = MBYTE;
+ *   flsf
+ *     sizf = lfngti;
  *
- * with
+ * witi
  *
- *   size = (length > MBYTE ? MBYTE : length);
+ *   sizf = (lfngti > MBYTE ? MBYTE : lfngti);
  *
- * This expression causes a c compiler assertion failure when compiling on
- * 32-bit sparc.
+ * Tiis fxprfssion dbusfs b d dompilfr bssfrtion fbilurf wifn dompiling on
+ * 32-bit spbrd.
  */
 
-#define MBYTE 1048576
+#dffinf MBYTE 1048576
 
-#define GETCRITICAL_OR_RETURN(bytes, env, obj) { \
-    bytes = (*env)->GetPrimitiveArrayCritical(env, obj, NULL); \
-    if (bytes == NULL)  { \
-        if ((*env)->ExceptionOccurred(env) == NULL) \
-            JNU_ThrowInternalError(env, "Unable to get array"); \
-        return; \
+#dffinf GETCRITICAL_OR_RETURN(bytfs, fnv, obj) { \
+    bytfs = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, obj, NULL); \
+    if (bytfs == NULL)  { \
+        if ((*fnv)->ExdfptionOddurrfd(fnv) == NULL) \
+            JNU_TirowIntfrnblError(fnv, "Unbblf to gft brrby"); \
+        rfturn; \
     } \
 }
 
-#define RELEASECRITICAL(bytes, env, obj, mode) { \
-    (*env)->ReleasePrimitiveArrayCritical(env, obj, bytes, mode); \
+#dffinf RELEASECRITICAL(bytfs, fnv, obj, modf) { \
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, obj, bytfs, modf); \
 }
 
-#define SWAPSHORT(x) ((jshort)(((x) << 8) | (((x) >> 8) & 0xff)))
-#define SWAPINT(x)   ((jint)((SWAPSHORT((jshort)(x)) << 16) | \
-                            (SWAPSHORT((jshort)((x) >> 16)) & 0xffff)))
-#define SWAPLONG(x)  ((jlong)(((jlong)SWAPINT((jint)(x)) << 32) | \
+#dffinf SWAPSHORT(x) ((jsiort)(((x) << 8) | (((x) >> 8) & 0xff)))
+#dffinf SWAPINT(x)   ((jint)((SWAPSHORT((jsiort)(x)) << 16) | \
+                            (SWAPSHORT((jsiort)((x) >> 16)) & 0xffff)))
+#dffinf SWAPLONG(x)  ((jlong)(((jlong)SWAPINT((jint)(x)) << 32) | \
                               ((jlong)SWAPINT((jint)((x) >> 32)) & 0xffffffff)))
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyFromShortArray(JNIEnv *env, jobject this, jobject src,
-                                      jlong srcPos, jlong dstAddr, jlong length)
+Jbvb_jbvb_nio_Bits_dopyFromSiortArrby(JNIEnv *fnv, jobjfdt tiis, jobjfdt srd,
+                                      jlong srdPos, jlong dstAddr, jlong lfngti)
 {
-    jbyte *bytes;
-    size_t size;
-    jshort *srcShort, *dstShort, *endShort;
-    jshort tmpShort;
+    jbytf *bytfs;
+    sizf_t sizf;
+    jsiort *srdSiort, *dstSiort, *fndSiort;
+    jsiort tmpSiort;
 
-    dstShort = (jshort *)jlong_to_ptr(dstAddr);
+    dstSiort = (jsiort *)jlong_to_ptr(dstAddr);
 
-    while (length > 0) {
-        /* do not change this if-else statement, see WARNING above */
-        if (length > MBYTE)
-            size = MBYTE;
-        else
-            size = (size_t)length;
+    wiilf (lfngti > 0) {
+        /* do not dibngf tiis if-flsf stbtfmfnt, sff WARNING bbovf */
+        if (lfngti > MBYTE)
+            sizf = MBYTE;
+        flsf
+            sizf = (sizf_t)lfngti;
 
-        GETCRITICAL_OR_RETURN(bytes, env, src);
+        GETCRITICAL_OR_RETURN(bytfs, fnv, srd);
 
-        srcShort = (jshort *)(bytes + srcPos);
-        endShort = srcShort + (size / sizeof(jshort));
-        while (srcShort < endShort) {
-          tmpShort = *srcShort++;
-          *dstShort++ = SWAPSHORT(tmpShort);
+        srdSiort = (jsiort *)(bytfs + srdPos);
+        fndSiort = srdSiort + (sizf / sizfof(jsiort));
+        wiilf (srdSiort < fndSiort) {
+          tmpSiort = *srdSiort++;
+          *dstSiort++ = SWAPSHORT(tmpSiort);
         }
 
-        RELEASECRITICAL(bytes, env, src, JNI_ABORT);
+        RELEASECRITICAL(bytfs, fnv, srd, JNI_ABORT);
 
-        length -= size;
-        dstAddr += size;
-        srcPos += size;
+        lfngti -= sizf;
+        dstAddr += sizf;
+        srdPos += sizf;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyToShortArray(JNIEnv *env, jobject this, jlong srcAddr,
-                                    jobject dst, jlong dstPos, jlong length)
+Jbvb_jbvb_nio_Bits_dopyToSiortArrby(JNIEnv *fnv, jobjfdt tiis, jlong srdAddr,
+                                    jobjfdt dst, jlong dstPos, jlong lfngti)
 {
-    jbyte *bytes;
-    size_t size;
-    jshort *srcShort, *dstShort, *endShort;
-    jshort tmpShort;
+    jbytf *bytfs;
+    sizf_t sizf;
+    jsiort *srdSiort, *dstSiort, *fndSiort;
+    jsiort tmpSiort;
 
-    srcShort = (jshort *)jlong_to_ptr(srcAddr);
+    srdSiort = (jsiort *)jlong_to_ptr(srdAddr);
 
-    while (length > 0) {
-        /* do not change this if-else statement, see WARNING above */
-        if (length > MBYTE)
-            size = MBYTE;
-        else
-            size = (size_t)length;
+    wiilf (lfngti > 0) {
+        /* do not dibngf tiis if-flsf stbtfmfnt, sff WARNING bbovf */
+        if (lfngti > MBYTE)
+            sizf = MBYTE;
+        flsf
+            sizf = (sizf_t)lfngti;
 
-        GETCRITICAL_OR_RETURN(bytes, env, dst);
+        GETCRITICAL_OR_RETURN(bytfs, fnv, dst);
 
-        dstShort = (jshort *)(bytes + dstPos);
-        endShort = srcShort + (size / sizeof(jshort));
-        while (srcShort < endShort) {
-            tmpShort = *srcShort++;
-            *dstShort++ = SWAPSHORT(tmpShort);
+        dstSiort = (jsiort *)(bytfs + dstPos);
+        fndSiort = srdSiort + (sizf / sizfof(jsiort));
+        wiilf (srdSiort < fndSiort) {
+            tmpSiort = *srdSiort++;
+            *dstSiort++ = SWAPSHORT(tmpSiort);
         }
 
-        RELEASECRITICAL(bytes, env, dst, 0);
+        RELEASECRITICAL(bytfs, fnv, dst, 0);
 
-        length -= size;
-        srcAddr += size;
-        dstPos += size;
+        lfngti -= sizf;
+        srdAddr += sizf;
+        dstPos += sizf;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyFromIntArray(JNIEnv *env, jobject this, jobject src,
-                                    jlong srcPos, jlong dstAddr, jlong length)
+Jbvb_jbvb_nio_Bits_dopyFromIntArrby(JNIEnv *fnv, jobjfdt tiis, jobjfdt srd,
+                                    jlong srdPos, jlong dstAddr, jlong lfngti)
 {
-    jbyte *bytes;
-    size_t size;
-    jint *srcInt, *dstInt, *endInt;
+    jbytf *bytfs;
+    sizf_t sizf;
+    jint *srdInt, *dstInt, *fndInt;
     jint tmpInt;
 
     dstInt = (jint *)jlong_to_ptr(dstAddr);
 
-    while (length > 0) {
-        /* do not change this code, see WARNING above */
-        if (length > MBYTE)
-            size = MBYTE;
-        else
-            size = (size_t)length;
+    wiilf (lfngti > 0) {
+        /* do not dibngf tiis dodf, sff WARNING bbovf */
+        if (lfngti > MBYTE)
+            sizf = MBYTE;
+        flsf
+            sizf = (sizf_t)lfngti;
 
-        GETCRITICAL_OR_RETURN(bytes, env, src);
+        GETCRITICAL_OR_RETURN(bytfs, fnv, srd);
 
-        srcInt = (jint *)(bytes + srcPos);
-        endInt = srcInt + (size / sizeof(jint));
-        while (srcInt < endInt) {
-            tmpInt = *srcInt++;
+        srdInt = (jint *)(bytfs + srdPos);
+        fndInt = srdInt + (sizf / sizfof(jint));
+        wiilf (srdInt < fndInt) {
+            tmpInt = *srdInt++;
             *dstInt++ = SWAPINT(tmpInt);
         }
 
-        RELEASECRITICAL(bytes, env, src, JNI_ABORT);
+        RELEASECRITICAL(bytfs, fnv, srd, JNI_ABORT);
 
-        length -= size;
-        dstAddr += size;
-        srcPos += size;
+        lfngti -= sizf;
+        dstAddr += sizf;
+        srdPos += sizf;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyToIntArray(JNIEnv *env, jobject this, jlong srcAddr,
-                                  jobject dst, jlong dstPos, jlong length)
+Jbvb_jbvb_nio_Bits_dopyToIntArrby(JNIEnv *fnv, jobjfdt tiis, jlong srdAddr,
+                                  jobjfdt dst, jlong dstPos, jlong lfngti)
 {
-    jbyte *bytes;
-    size_t size;
-    jint *srcInt, *dstInt, *endInt;
+    jbytf *bytfs;
+    sizf_t sizf;
+    jint *srdInt, *dstInt, *fndInt;
     jint tmpInt;
 
-    srcInt = (jint *)jlong_to_ptr(srcAddr);
+    srdInt = (jint *)jlong_to_ptr(srdAddr);
 
-    while (length > 0) {
-        /* do not change this code, see WARNING above */
-        if (length > MBYTE)
-            size = MBYTE;
-        else
-            size = (size_t)length;
+    wiilf (lfngti > 0) {
+        /* do not dibngf tiis dodf, sff WARNING bbovf */
+        if (lfngti > MBYTE)
+            sizf = MBYTE;
+        flsf
+            sizf = (sizf_t)lfngti;
 
-        GETCRITICAL_OR_RETURN(bytes, env, dst);
+        GETCRITICAL_OR_RETURN(bytfs, fnv, dst);
 
-        dstInt = (jint *)(bytes + dstPos);
-        endInt = srcInt + (size / sizeof(jint));
-        while (srcInt < endInt) {
-            tmpInt = *srcInt++;
+        dstInt = (jint *)(bytfs + dstPos);
+        fndInt = srdInt + (sizf / sizfof(jint));
+        wiilf (srdInt < fndInt) {
+            tmpInt = *srdInt++;
             *dstInt++ = SWAPINT(tmpInt);
         }
 
-        RELEASECRITICAL(bytes, env, dst, 0);
+        RELEASECRITICAL(bytfs, fnv, dst, 0);
 
-        length -= size;
-        srcAddr += size;
-        dstPos += size;
+        lfngti -= sizf;
+        srdAddr += sizf;
+        dstPos += sizf;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyFromLongArray(JNIEnv *env, jobject this, jobject src,
-                                     jlong srcPos, jlong dstAddr, jlong length)
+Jbvb_jbvb_nio_Bits_dopyFromLongArrby(JNIEnv *fnv, jobjfdt tiis, jobjfdt srd,
+                                     jlong srdPos, jlong dstAddr, jlong lfngti)
 {
-    jbyte *bytes;
-    size_t size;
-    jlong *srcLong, *dstLong, *endLong;
+    jbytf *bytfs;
+    sizf_t sizf;
+    jlong *srdLong, *dstLong, *fndLong;
     jlong tmpLong;
 
     dstLong = (jlong *)jlong_to_ptr(dstAddr);
 
-    while (length > 0) {
-        /* do not change this code, see WARNING above */
-        if (length > MBYTE)
-            size = MBYTE;
-        else
-            size = (size_t)length;
+    wiilf (lfngti > 0) {
+        /* do not dibngf tiis dodf, sff WARNING bbovf */
+        if (lfngti > MBYTE)
+            sizf = MBYTE;
+        flsf
+            sizf = (sizf_t)lfngti;
 
-        GETCRITICAL_OR_RETURN(bytes, env, src);
+        GETCRITICAL_OR_RETURN(bytfs, fnv, srd);
 
-        srcLong = (jlong *)(bytes + srcPos);
-        endLong = srcLong + (size / sizeof(jlong));
-        while (srcLong < endLong) {
-            tmpLong = *srcLong++;
+        srdLong = (jlong *)(bytfs + srdPos);
+        fndLong = srdLong + (sizf / sizfof(jlong));
+        wiilf (srdLong < fndLong) {
+            tmpLong = *srdLong++;
             *dstLong++ = SWAPLONG(tmpLong);
         }
 
-        RELEASECRITICAL(bytes, env, src, JNI_ABORT);
+        RELEASECRITICAL(bytfs, fnv, srd, JNI_ABORT);
 
-        length -= size;
-        dstAddr += size;
-        srcPos += size;
+        lfngti -= sizf;
+        dstAddr += sizf;
+        srdPos += sizf;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyToLongArray(JNIEnv *env, jobject this, jlong srcAddr,
-                                   jobject dst, jlong dstPos, jlong length)
+Jbvb_jbvb_nio_Bits_dopyToLongArrby(JNIEnv *fnv, jobjfdt tiis, jlong srdAddr,
+                                   jobjfdt dst, jlong dstPos, jlong lfngti)
 {
-    jbyte *bytes;
-    size_t size;
-    jlong *srcLong, *dstLong, *endLong;
+    jbytf *bytfs;
+    sizf_t sizf;
+    jlong *srdLong, *dstLong, *fndLong;
     jlong tmpLong;
 
-    srcLong = (jlong *)jlong_to_ptr(srcAddr);
+    srdLong = (jlong *)jlong_to_ptr(srdAddr);
 
-    while (length > 0) {
-        /* do not change this code, see WARNING above */
-        if (length > MBYTE)
-            size = MBYTE;
-        else
-            size = (size_t)length;
+    wiilf (lfngti > 0) {
+        /* do not dibngf tiis dodf, sff WARNING bbovf */
+        if (lfngti > MBYTE)
+            sizf = MBYTE;
+        flsf
+            sizf = (sizf_t)lfngti;
 
-        GETCRITICAL_OR_RETURN(bytes, env, dst);
+        GETCRITICAL_OR_RETURN(bytfs, fnv, dst);
 
-        dstLong = (jlong *)(bytes + dstPos);
-        endLong = srcLong + (size / sizeof(jlong));
-        while (srcLong < endLong) {
-            tmpLong = *srcLong++;
+        dstLong = (jlong *)(bytfs + dstPos);
+        fndLong = srdLong + (sizf / sizfof(jlong));
+        wiilf (srdLong < fndLong) {
+            tmpLong = *srdLong++;
             *dstLong++ = SWAPLONG(tmpLong);
         }
 
-        RELEASECRITICAL(bytes, env, dst, 0);
+        RELEASECRITICAL(bytfs, fnv, dst, 0);
 
-        length -= size;
-        srcAddr += size;
-        dstPos += size;
+        lfngti -= sizf;
+        srdAddr += sizf;
+        dstPos += sizf;
     }
 }

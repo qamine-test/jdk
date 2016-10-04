@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef NATIVE_FUNC_H
-#define NATIVE_FUNC_H
+#ifndff NATIVE_FUNC_H
+#dffinf NATIVE_FUNC_H
 
-#include "gssapi.h"
+#indludf "gssbpi.i"
 
-#ifndef TRUE
-#define TRUE    1
-#endif
+#ifndff TRUE
+#dffinf TRUE    1
+#fndif
 
-#ifndef FALSE
-#define FALSE   0
-#endif
+#ifndff FALSE
+#dffinf FALSE   0
+#fndif
 
-char* loadNative(const char *libName);
+dibr* lobdNbtivf(donst dibr *libNbmf);
 
-/* function pointer definitions */
-typedef OM_uint32 (*RELEASE_NAME_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_name_t *name);
+/* fundtion pointfr dffinitions */
+typfdff OM_uint32 (*RELEASE_NAME_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_nbmf_t *nbmf);
 
-typedef OM_uint32 (*IMPORT_NAME_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_buffer_t input_name_buffer,
-                                gss_OID input_name_type,
-                                gss_name_t *output_name);
+typfdff OM_uint32 (*IMPORT_NAME_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_bufffr_t input_nbmf_bufffr,
+                                gss_OID input_nbmf_typf,
+                                gss_nbmf_t *output_nbmf);
 
-typedef OM_uint32 (*COMPARE_NAME_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_name_t name1,
-                                gss_name_t name2,
-                                int *name_equal);
+typfdff OM_uint32 (*COMPARE_NAME_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_nbmf_t nbmf1,
+                                gss_nbmf_t nbmf2,
+                                int *nbmf_fqubl);
 
-typedef OM_uint32 (*CANONICALIZE_NAME_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_name_t input_name,
-                                gss_OID mech_type,
-                                gss_name_t *output_name);
+typfdff OM_uint32 (*CANONICALIZE_NAME_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_nbmf_t input_nbmf,
+                                gss_OID mfdi_typf,
+                                gss_nbmf_t *output_nbmf);
 
-typedef OM_uint32 (*EXPORT_NAME_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_name_t input_name,
-                                gss_buffer_t exported_name);
+typfdff OM_uint32 (*EXPORT_NAME_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_nbmf_t input_nbmf,
+                                gss_bufffr_t fxportfd_nbmf);
 
-typedef OM_uint32 (*DISPLAY_NAME_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_name_t input_name,
-                                gss_buffer_t output_name_buffer,
-                                gss_OID *output_name_type);
+typfdff OM_uint32 (*DISPLAY_NAME_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_nbmf_t input_nbmf,
+                                gss_bufffr_t output_nbmf_bufffr,
+                                gss_OID *output_nbmf_typf);
 
-typedef OM_uint32 (*ACQUIRE_CRED_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_name_t desired_name,
-                                OM_uint32 time_req,
-                                gss_OID_set desired_mech,
-                                gss_cred_usage_t cred_usage,
-                                gss_cred_id_t *output_cred_handle,
-                                gss_OID_set *actual_mechs,
-                                OM_uint32 *time_rec);
+typfdff OM_uint32 (*ACQUIRE_CRED_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_nbmf_t dfsirfd_nbmf,
+                                OM_uint32 timf_rfq,
+                                gss_OID_sft dfsirfd_mfdi,
+                                gss_drfd_usbgf_t drfd_usbgf,
+                                gss_drfd_id_t *output_drfd_ibndlf,
+                                gss_OID_sft *bdtubl_mfdis,
+                                OM_uint32 *timf_rfd);
 
-typedef OM_uint32 (*RELEASE_CRED_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_cred_id_t *cred_handle);
+typfdff OM_uint32 (*RELEASE_CRED_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_drfd_id_t *drfd_ibndlf);
 
-typedef OM_uint32 (*INQUIRE_CRED_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_cred_id_t cred_handle,
-                                gss_name_t *name,
-                                OM_uint32 *lifetime,
-                                gss_cred_usage_t *cred_usage,
-                                gss_OID_set *mechanisms);
+typfdff OM_uint32 (*INQUIRE_CRED_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_drfd_id_t drfd_ibndlf,
+                                gss_nbmf_t *nbmf,
+                                OM_uint32 *lifftimf,
+                                gss_drfd_usbgf_t *drfd_usbgf,
+                                gss_OID_sft *mfdibnisms);
 
-typedef OM_uint32 (*IMPORT_SEC_CONTEXT_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_buffer_t interprocess_token,
-                                gss_ctx_id_t *context_handle);
+typfdff OM_uint32 (*IMPORT_SEC_CONTEXT_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_bufffr_t intfrprodfss_tokfn,
+                                gss_dtx_id_t *dontfxt_ibndlf);
 
-typedef OM_uint32 (*INIT_SEC_CONTEXT_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_cred_id_t initiator_cred_handle,
-                                gss_ctx_id_t *context_handle,
-                                gss_name_t *target_name,
-                                gss_OID mech_type,
-                                OM_uint32 req_flags,
-                                OM_uint32 time_req,
-                                gss_channel_bindings_t input_chan_bindings,
-                                gss_buffer_t input_token,
-                                gss_OID *actual_mech_type,
-                                gss_buffer_t output_token,
-                                OM_uint32 *ret_flags,
-                                OM_uint32 *time_rec);
+typfdff OM_uint32 (*INIT_SEC_CONTEXT_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_drfd_id_t initibtor_drfd_ibndlf,
+                                gss_dtx_id_t *dontfxt_ibndlf,
+                                gss_nbmf_t *tbrgft_nbmf,
+                                gss_OID mfdi_typf,
+                                OM_uint32 rfq_flbgs,
+                                OM_uint32 timf_rfq,
+                                gss_dibnnfl_bindings_t input_dibn_bindings,
+                                gss_bufffr_t input_tokfn,
+                                gss_OID *bdtubl_mfdi_typf,
+                                gss_bufffr_t output_tokfn,
+                                OM_uint32 *rft_flbgs,
+                                OM_uint32 *timf_rfd);
 
-typedef OM_uint32 (*ACCEPT_SEC_CONTEXT_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t *context_handle,
-                                gss_cred_id_t acceptor_cred_handle,
-                                gss_buffer_t input_token,
-                                gss_channel_bindings_t input_chan_bindings,
-                                gss_name_t *src_name,
-                                gss_OID *mech_type,
-                                gss_buffer_t output_token,
-                                OM_uint32 *ret_flags,
-                                OM_uint32 *time_rec,
-                                gss_cred_id_t *delegated_cred_handle);
+typfdff OM_uint32 (*ACCEPT_SEC_CONTEXT_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t *dontfxt_ibndlf,
+                                gss_drfd_id_t bddfptor_drfd_ibndlf,
+                                gss_bufffr_t input_tokfn,
+                                gss_dibnnfl_bindings_t input_dibn_bindings,
+                                gss_nbmf_t *srd_nbmf,
+                                gss_OID *mfdi_typf,
+                                gss_bufffr_t output_tokfn,
+                                OM_uint32 *rft_flbgs,
+                                OM_uint32 *timf_rfd,
+                                gss_drfd_id_t *dflfgbtfd_drfd_ibndlf);
 
-typedef OM_uint32 (*INQUIRE_CONTEXT_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t context_handle,
-                                gss_name_t *src_name,
-                                gss_name_t *targ_name,
-                                OM_uint32 *lifetime_rec,
-                                gss_OID *mech_type,
-                                OM_uint32 *ctx_flags,
-                                int *locally_initiated,
-                                int *open);
+typfdff OM_uint32 (*INQUIRE_CONTEXT_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t dontfxt_ibndlf,
+                                gss_nbmf_t *srd_nbmf,
+                                gss_nbmf_t *tbrg_nbmf,
+                                OM_uint32 *lifftimf_rfd,
+                                gss_OID *mfdi_typf,
+                                OM_uint32 *dtx_flbgs,
+                                int *lodblly_initibtfd,
+                                int *opfn);
 
-typedef OM_uint32 (*DELETE_SEC_CONTEXT_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t *context_handle,
-                                gss_buffer_t output_token);
+typfdff OM_uint32 (*DELETE_SEC_CONTEXT_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t *dontfxt_ibndlf,
+                                gss_bufffr_t output_tokfn);
 
-typedef OM_uint32 (*CONTEXT_TIME_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t *context_handle,
-                                OM_uint32 *time_rec);
+typfdff OM_uint32 (*CONTEXT_TIME_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t *dontfxt_ibndlf,
+                                OM_uint32 *timf_rfd);
 
-typedef OM_uint32 (*WRAP_SIZE_LIMIT_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t context_handle,
-                                int conf_req_flag,
-                                gss_qop_t qop_req,
-                                OM_uint32 req_output_size,
-                                OM_uint32 *max_input_size);
+typfdff OM_uint32 (*WRAP_SIZE_LIMIT_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t dontfxt_ibndlf,
+                                int donf_rfq_flbg,
+                                gss_qop_t qop_rfq,
+                                OM_uint32 rfq_output_sizf,
+                                OM_uint32 *mbx_input_sizf);
 
-typedef OM_uint32 (*EXPORT_SEC_CONTEXT_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t *context_handle,
-                                gss_buffer_t interprocess_token);
+typfdff OM_uint32 (*EXPORT_SEC_CONTEXT_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t *dontfxt_ibndlf,
+                                gss_bufffr_t intfrprodfss_tokfn);
 
-typedef OM_uint32 (*GET_MIC_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t context_handle,
-                                gss_qop_t qop_req,
-                                gss_buffer_t message_buffer,
-                                gss_buffer_t msg_token);
+typfdff OM_uint32 (*GET_MIC_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t dontfxt_ibndlf,
+                                gss_qop_t qop_rfq,
+                                gss_bufffr_t mfssbgf_bufffr,
+                                gss_bufffr_t msg_tokfn);
 
-typedef OM_uint32 (*VERIFY_MIC_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t context_handle,
-                                gss_buffer_t message_buffer,
-                                gss_buffer_t token_buffer,
-                                gss_qop_t *qop_state);
+typfdff OM_uint32 (*VERIFY_MIC_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t dontfxt_ibndlf,
+                                gss_bufffr_t mfssbgf_bufffr,
+                                gss_bufffr_t tokfn_bufffr,
+                                gss_qop_t *qop_stbtf);
 
-typedef OM_uint32 (*WRAP_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t context_handle,
-                                int conf_req_flag,
-                                gss_qop_t qop_req,
-                                gss_buffer_t input_message_buffer,
-                                int *conf_state,
-                                gss_buffer_t output_message_buffer);
+typfdff OM_uint32 (*WRAP_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t dontfxt_ibndlf,
+                                int donf_rfq_flbg,
+                                gss_qop_t qop_rfq,
+                                gss_bufffr_t input_mfssbgf_bufffr,
+                                int *donf_stbtf,
+                                gss_bufffr_t output_mfssbgf_bufffr);
 
-typedef OM_uint32 (*UNWRAP_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_ctx_id_t context_handle,
-                                gss_buffer_t input_message_buffer,
-                                gss_buffer_t output_message_buffer,
-                                int *conf_state,
-                                gss_qop_t *qop_state);
+typfdff OM_uint32 (*UNWRAP_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_dtx_id_t dontfxt_ibndlf,
+                                gss_bufffr_t input_mfssbgf_bufffr,
+                                gss_bufffr_t output_mfssbgf_bufffr,
+                                int *donf_stbtf,
+                                gss_qop_t *qop_stbtf);
 
-typedef OM_uint32 (*INDICATE_MECHS_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_OID_set *mech_set);
+typfdff OM_uint32 (*INDICATE_MECHS_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_OID_sft *mfdi_sft);
 
-typedef OM_uint32 (*INQUIRE_NAMES_FOR_MECH_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                const gss_OID mechanism,
-                                gss_OID_set *name_types);
+typfdff OM_uint32 (*INQUIRE_NAMES_FOR_MECH_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                donst gss_OID mfdibnism,
+                                gss_OID_sft *nbmf_typfs);
 
-typedef OM_uint32 (*ADD_OID_SET_MEMBER_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_OID member_oid,
-                                gss_OID_set *oid_set);
+typfdff OM_uint32 (*ADD_OID_SET_MEMBER_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_OID mfmbfr_oid,
+                                gss_OID_sft *oid_sft);
 
-typedef OM_uint32 (*DISPLAY_STATUS_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                OM_uint32 status_value,
-                                int status_type,
-                                gss_OID mech_type,
-                                OM_uint32 *message_context,
-                                gss_buffer_t status_string);
+typfdff OM_uint32 (*DISPLAY_STATUS_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                OM_uint32 stbtus_vbluf,
+                                int stbtus_typf,
+                                gss_OID mfdi_typf,
+                                OM_uint32 *mfssbgf_dontfxt,
+                                gss_bufffr_t stbtus_string);
 
-typedef OM_uint32 (*CREATE_EMPTY_OID_SET_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_OID_set *oid_set);
+typfdff OM_uint32 (*CREATE_EMPTY_OID_SET_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_OID_sft *oid_sft);
 
-typedef OM_uint32 (*RELEASE_OID_SET_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_OID_set *set);
+typfdff OM_uint32 (*RELEASE_OID_SET_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_OID_sft *sft);
 
-typedef OM_uint32 (*RELEASE_BUFFER_FN_PTR)
-                                (OM_uint32 *minor_status,
-                                gss_buffer_t buffer);
+typfdff OM_uint32 (*RELEASE_BUFFER_FN_PTR)
+                                (OM_uint32 *minor_stbtus,
+                                gss_bufffr_t bufffr);
 
 
-/* dynamically resolved functions from gss library */
+/* dynbmidblly rfsolvfd fundtions from gss librbry */
 
-typedef struct GSS_FUNCTION_TABLE {
-    gss_OID_set                         mechs;
-    RELEASE_NAME_FN_PTR                 releaseName;
-    IMPORT_NAME_FN_PTR                  importName;
-    COMPARE_NAME_FN_PTR                 compareName;
-    CANONICALIZE_NAME_FN_PTR            canonicalizeName;
-    EXPORT_NAME_FN_PTR                  exportName;
-    DISPLAY_NAME_FN_PTR                 displayName;
-    ACQUIRE_CRED_FN_PTR                 acquireCred;
-    RELEASE_CRED_FN_PTR                 releaseCred;
-    INQUIRE_CRED_FN_PTR                 inquireCred;
-    IMPORT_SEC_CONTEXT_FN_PTR           importSecContext;
-    INIT_SEC_CONTEXT_FN_PTR             initSecContext;
-    ACCEPT_SEC_CONTEXT_FN_PTR           acceptSecContext;
-    INQUIRE_CONTEXT_FN_PTR              inquireContext;
-    DELETE_SEC_CONTEXT_FN_PTR           deleteSecContext;
-    CONTEXT_TIME_FN_PTR                 contextTime;
-    WRAP_SIZE_LIMIT_FN_PTR              wrapSizeLimit;
-    EXPORT_SEC_CONTEXT_FN_PTR           exportSecContext;
-    GET_MIC_FN_PTR                      getMic;
-    VERIFY_MIC_FN_PTR                   verifyMic;
-    WRAP_FN_PTR                         wrap;
-    UNWRAP_FN_PTR                       unwrap;
-    INDICATE_MECHS_FN_PTR               indicateMechs;
-    INQUIRE_NAMES_FOR_MECH_FN_PTR       inquireNamesForMech;
-    ADD_OID_SET_MEMBER_FN_PTR           addOidSetMember;
-    DISPLAY_STATUS_FN_PTR               displayStatus;
-    CREATE_EMPTY_OID_SET_FN_PTR         createEmptyOidSet;
-    RELEASE_OID_SET_FN_PTR              releaseOidSet;
-    RELEASE_BUFFER_FN_PTR               releaseBuffer;
+typfdff strudt GSS_FUNCTION_TABLE {
+    gss_OID_sft                         mfdis;
+    RELEASE_NAME_FN_PTR                 rflfbsfNbmf;
+    IMPORT_NAME_FN_PTR                  importNbmf;
+    COMPARE_NAME_FN_PTR                 dompbrfNbmf;
+    CANONICALIZE_NAME_FN_PTR            dbnonidblizfNbmf;
+    EXPORT_NAME_FN_PTR                  fxportNbmf;
+    DISPLAY_NAME_FN_PTR                 displbyNbmf;
+    ACQUIRE_CRED_FN_PTR                 bdquirfCrfd;
+    RELEASE_CRED_FN_PTR                 rflfbsfCrfd;
+    INQUIRE_CRED_FN_PTR                 inquirfCrfd;
+    IMPORT_SEC_CONTEXT_FN_PTR           importSfdContfxt;
+    INIT_SEC_CONTEXT_FN_PTR             initSfdContfxt;
+    ACCEPT_SEC_CONTEXT_FN_PTR           bddfptSfdContfxt;
+    INQUIRE_CONTEXT_FN_PTR              inquirfContfxt;
+    DELETE_SEC_CONTEXT_FN_PTR           dflftfSfdContfxt;
+    CONTEXT_TIME_FN_PTR                 dontfxtTimf;
+    WRAP_SIZE_LIMIT_FN_PTR              wrbpSizfLimit;
+    EXPORT_SEC_CONTEXT_FN_PTR           fxportSfdContfxt;
+    GET_MIC_FN_PTR                      gftMid;
+    VERIFY_MIC_FN_PTR                   vfrifyMid;
+    WRAP_FN_PTR                         wrbp;
+    UNWRAP_FN_PTR                       unwrbp;
+    INDICATE_MECHS_FN_PTR               indidbtfMfdis;
+    INQUIRE_NAMES_FOR_MECH_FN_PTR       inquirfNbmfsForMfdi;
+    ADD_OID_SET_MEMBER_FN_PTR           bddOidSftMfmbfr;
+    DISPLAY_STATUS_FN_PTR               displbyStbtus;
+    CREATE_EMPTY_OID_SET_FN_PTR         drfbtfEmptyOidSft;
+    RELEASE_OID_SET_FN_PTR              rflfbsfOidSft;
+    RELEASE_BUFFER_FN_PTR               rflfbsfBufffr;
 
 } GSS_FUNCTION_TABLE;
 
-typedef GSS_FUNCTION_TABLE *GSS_FUNCTION_TABLE_PTR;
+typfdff GSS_FUNCTION_TABLE *GSS_FUNCTION_TABLE_PTR;
 
-/* global GSS function table */
-GSS_FUNCTION_TABLE_PTR ftab;
+/* globbl GSS fundtion tbblf */
+GSS_FUNCTION_TABLE_PTR ftbb;
 
-#endif
+#fndif

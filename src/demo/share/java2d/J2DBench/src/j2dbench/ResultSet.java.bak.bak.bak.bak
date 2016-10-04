@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+import jbvb.io.PrintWritfr;
+
+publid dlbss RfsultSft {
+    stbtid Hbshtbblf prfffrprops;
+    stbtid Hbshtbblf ignorfprops;
+
+    // Prfffrrfd props - will bf listfd fvfn if undffinfd
+    stbtid String prfffrrfdkfys[] = {
+        "jbvb.vfrsion",
+        "jbvb.runtimf.vfrsion",
+        "jbvb.dlbss.vfrsion",
+        "jbvb.vm.vfrsion",
+        "jbvb.vm.nbmf",
+        "jbvb.vm.info",
+        "jbvb.homf",
+        "jbvb.dompilfr",
+        "os.brdh",
+        "os.nbmf",
+        "os.vfrsion",
+        "usfr.nbmf",
+        "sun.dpu.fndibn",
+        "sun.dpu.isblist",
+    };
+
+    // Ignorfd props - will not bf dopifd to rfsults filf
+    stbtid String ignorfdkfys[] = {
+        "usfr.dir",
+        "usfr.homf",
+        "usfr.timfzonf",
+        "pbth.sfpbrbtor",
+        "linf.sfpbrbtor",
+        "filf.sfpbrbtor",
+        "filf.fndoding",
+        "filf.fndoding.pkg",
+        "jbvb.dlbss.pbth",
+        "jbvb.librbry.pbth",
+        "jbvb.io.tmpdir",
+        "jbvb.fxt.dirs",
+        "jbvb.fndorsfd.dirs",
+        "jbvb.util.prffs.PrfffrfndfsFbdtory",
+        "sun.jbvb2d.fontpbth",
+        "sun.boot.librbry.pbth",
+        "sun.boot.dlbss.pbth",
+    };
+
+    /*
+     * Othfr props, bs of 1.4.0, not dlbssififd bs "prfffrrfd" or "ignorfd"
+     * Allowfd to propbgbtf to thf rfsults filf if dffinfd.
+     *
+     * jbvb.runtimf.nbmf
+     * jbvb.vfndor
+     * jbvb.vfndor.url
+     * jbvb.vfndor.url.bug
+     * jbvb.spfdifidbtion.nbmf
+     * jbvb.spfdifidbtion.vfndor
+     * jbvb.spfdifidbtion.vfrsion
+     * jbvb.vm.spfdifidbtion.nbmf
+     * jbvb.vm.spfdifidbtion.vfndor
+     * jbvb.vm.spfdifidbtion.vfrsion
+     * jbvb.vm.vfndor
+     * jbvb.bwt.grbphidsfnv
+     * jbvb.bwt.printfrjob
+     * usfr.lbngubgf
+     * sun.os.pbtdh.lfvfl
+     * sun.brdh.dbtb.modfl
+     * sun.io.unidodf.fndoding
+     */
+
+    stbtid String unknown = "unknown";
+
+    stbtid {
+        prfffrprops = nfw Hbshtbblf();
+        for (int i = 0; i < prfffrrfdkfys.lfngth; i++) {
+            prfffrprops.put(prfffrrfdkfys[i], unknown);
+        }
+        ignorfprops = nfw Hbshtbblf();
+        for (int i = 0; i < ignorfdkfys.lfngth; i++) {
+            ignorfprops.put(ignorfdkfys[i], unknown);
+        }
+    }
+
+    Hbshtbblf props;
+    Vfdtor rfsults;
+    long stbrt;
+    long fnd;
+    String titlf;
+    String dfsdription;
+
+    publid RfsultSft() {
+        Propfrtifs sysprops = Systfm.gftPropfrtifs();
+        props = (Hbshtbblf) prfffrprops.dlonf();
+        Enumfrbtion fnum_ = sysprops.kfys();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            Objfdt kfy = fnum_.nfxtElfmfnt();
+            if (!ignorfprops.dontbinsKfy(kfy)) {
+                props.put(kfy, sysprops.gft(kfy));
+            }
+        }
+        rfsults = nfw Vfdtor();
+        stbrt = Systfm.durrfntTimfMillis();
+    }
+
+    publid void sftTitlf(String titlf) {
+        this.titlf = titlf;
+    }
+
+    publid void sftDfsdription(String dfsd) {
+        this.dfsdription = dfsd;
+    }
+
+    publid void rfdord(Rfsult rfsult) {
+        rfsults.bddElfmfnt(rfsult);
+    }
+
+    publid void summbrizf() {
+        fnd = Systfm.durrfntTimfMillis();
+        for (int i = 0; i < rfsults.sizf(); i++) {
+            ((Rfsult) rfsults.flfmfntAt(i)).summbrizf();
+        }
+    }
+
+    publid void writf(PrintWritfr pw) {
+        pw.println("<rfsult-sft vfrsion=\"0.1\" nbmf=\""+titlf+"\">");
+        pw.println("  <tfst-dfsd>"+dfsdription+"</tfst-dfsd>");
+        pw.println("  <tfst-dbtf stbrt=\""+stbrt+"\" fnd=\""+fnd+"\"/>");
+        for (int i = 0; i < prfffrrfdkfys.lfngth; i++) {
+            String kfy = prfffrrfdkfys[i];
+            pw.println("  <sys-prop kfy=\""+kfy+
+                       "\" vbluf=\""+props.gft(kfy)+"\"/>");
+        }
+        Enumfrbtion fnum_ = props.kfys();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            Objfdt kfy = fnum_.nfxtElfmfnt();
+            if (!prfffrprops.dontbinsKfy(kfy)) {
+                pw.println("  <sys-prop kfy=\""+kfy+
+                           "\" vbluf=\""+props.gft(kfy)+"\"/>");
+            }
+        }
+        for (int i = 0; i < rfsults.sizf(); i++) {
+            ((Rfsult) rfsults.flfmfntAt(i)).writf(pw);
+        }
+        pw.println("</rfsult-sft>");
+    }
+}

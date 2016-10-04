@@ -1,351 +1,351 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bfbns.*;
 
 /**
- * Basic L&amp;F for a minimized window on a desktop.
+ * Bbsid L&bmp;F for b minimizfd window on b dfsktop.
  *
- * @author David Kloba
- * @author Steve Wilson
- * @author Rich Schiavi
+ * @butior Dbvid Klobb
+ * @butior Stfvf Wilson
+ * @butior Ridi Sdiibvi
  */
-public class BasicDesktopIconUI extends DesktopIconUI {
+publid dlbss BbsidDfsktopIdonUI fxtfnds DfsktopIdonUI {
 
     /**
-     * The instance of {@code JInternalFrame.JDesktopIcon}.
+     * Tif instbndf of {@dodf JIntfrnblFrbmf.JDfsktopIdon}.
      */
-    protected JInternalFrame.JDesktopIcon desktopIcon;
+    protfdtfd JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon;
 
     /**
-     * The instance of {@code JInternalFrame}.
+     * Tif instbndf of {@dodf JIntfrnblFrbmf}.
      */
-    protected JInternalFrame frame;
+    protfdtfd JIntfrnblFrbmf frbmf;
 
     /**
-     * The title pane component used in the desktop icon.
+     * Tif titlf pbnf domponfnt usfd in tif dfsktop idon.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    protected JComponent iconPane;
-    MouseInputListener mouseInputListener;
+    protfdtfd JComponfnt idonPbnf;
+    MousfInputListfnfr mousfInputListfnfr;
 
     /**
-     * Constructs a new instance of {@code BasicDesktopIconUI}.
+     * Construdts b nfw instbndf of {@dodf BbsidDfsktopIdonUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicDesktopIconUI}
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidDfsktopIdonUI}
      */
-    public static ComponentUI createUI(JComponent c)    {
-        return new BasicDesktopIconUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw BbsidDfsktopIdonUI();
     }
 
     /**
-     * Constructs a new instance of {@code BasicDesktopIconUI}.
+     * Construdts b nfw instbndf of {@dodf BbsidDfsktopIdonUI}.
      */
-    public BasicDesktopIconUI() {
+    publid BbsidDfsktopIdonUI() {
     }
 
-    public void installUI(JComponent c)   {
-        desktopIcon = (JInternalFrame.JDesktopIcon)c;
-        frame = desktopIcon.getInternalFrame();
-        installDefaults();
-        installComponents();
+    publid void instbllUI(JComponfnt d)   {
+        dfsktopIdon = (JIntfrnblFrbmf.JDfsktopIdon)d;
+        frbmf = dfsktopIdon.gftIntfrnblFrbmf();
+        instbllDffbults();
+        instbllComponfnts();
 
-        // Update icon layout if frame is already iconified
-        JInternalFrame f = desktopIcon.getInternalFrame();
-        if (f.isIcon() && f.getParent() == null) {
-            JDesktopPane desktop = desktopIcon.getDesktopPane();
-            if (desktop != null) {
-                DesktopManager desktopManager = desktop.getDesktopManager();
-                if (desktopManager instanceof DefaultDesktopManager) {
-                    desktopManager.iconifyFrame(f);
+        // Updbtf idon lbyout if frbmf is blrfbdy idonififd
+        JIntfrnblFrbmf f = dfsktopIdon.gftIntfrnblFrbmf();
+        if (f.isIdon() && f.gftPbrfnt() == null) {
+            JDfsktopPbnf dfsktop = dfsktopIdon.gftDfsktopPbnf();
+            if (dfsktop != null) {
+                DfsktopMbnbgfr dfsktopMbnbgfr = dfsktop.gftDfsktopMbnbgfr();
+                if (dfsktopMbnbgfr instbndfof DffbultDfsktopMbnbgfr) {
+                    dfsktopMbnbgfr.idonifyFrbmf(f);
                 }
             }
         }
 
-        installListeners();
-        JLayeredPane.putLayer(desktopIcon, JLayeredPane.getLayer(frame));
+        instbllListfnfrs();
+        JLbyfrfdPbnf.putLbyfr(dfsktopIdon, JLbyfrfdPbnf.gftLbyfr(frbmf));
     }
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallComponents();
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllComponfnts();
 
-        // Force future UI to relayout icon
-        JInternalFrame f = desktopIcon.getInternalFrame();
-        if (f.isIcon()) {
-            JDesktopPane desktop = desktopIcon.getDesktopPane();
-            if (desktop != null) {
-                DesktopManager desktopManager = desktop.getDesktopManager();
-                if (desktopManager instanceof DefaultDesktopManager) {
-                    // This will cause DefaultDesktopManager to layout the icon
-                    f.putClientProperty("wasIconOnce", null);
-                    // Move aside to allow fresh layout of all icons
-                    desktopIcon.setLocation(Integer.MIN_VALUE, 0);
+        // Fordf futurf UI to rflbyout idon
+        JIntfrnblFrbmf f = dfsktopIdon.gftIntfrnblFrbmf();
+        if (f.isIdon()) {
+            JDfsktopPbnf dfsktop = dfsktopIdon.gftDfsktopPbnf();
+            if (dfsktop != null) {
+                DfsktopMbnbgfr dfsktopMbnbgfr = dfsktop.gftDfsktopMbnbgfr();
+                if (dfsktopMbnbgfr instbndfof DffbultDfsktopMbnbgfr) {
+                    // Tiis will dbusf DffbultDfsktopMbnbgfr to lbyout tif idon
+                    f.putClifntPropfrty("wbsIdonOndf", null);
+                    // Movf bsidf to bllow frfsi lbyout of bll idons
+                    dfsktopIdon.sftLodbtion(Intfgfr.MIN_VALUE, 0);
                 }
             }
         }
 
-        uninstallListeners();
-        frame = null;
-        desktopIcon = null;
+        uninstbllListfnfrs();
+        frbmf = null;
+        dfsktopIdon = null;
     }
 
     /**
-     * Registers components.
+     * Rfgistfrs domponfnts.
      */
-    protected void installComponents() {
-        iconPane = new BasicInternalFrameTitlePane(frame);
-        desktopIcon.setLayout(new BorderLayout());
-        desktopIcon.add(iconPane, BorderLayout.CENTER);
+    protfdtfd void instbllComponfnts() {
+        idonPbnf = nfw BbsidIntfrnblFrbmfTitlfPbnf(frbmf);
+        dfsktopIdon.sftLbyout(nfw BordfrLbyout());
+        dfsktopIdon.bdd(idonPbnf, BordfrLbyout.CENTER);
     }
 
     /**
-     * Unregisters components.
+     * Unrfgistfrs domponfnts.
      */
-    protected void uninstallComponents() {
-        desktopIcon.remove(iconPane);
-        desktopIcon.setLayout(null);
-        iconPane = null;
+    protfdtfd void uninstbllComponfnts() {
+        dfsktopIdon.rfmovf(idonPbnf);
+        dfsktopIdon.sftLbyout(null);
+        idonPbnf = null;
     }
 
     /**
-     * Registers listeners.
+     * Rfgistfrs listfnfrs.
      */
-    protected void installListeners() {
-        mouseInputListener = createMouseInputListener();
-        desktopIcon.addMouseMotionListener(mouseInputListener);
-        desktopIcon.addMouseListener(mouseInputListener);
+    protfdtfd void instbllListfnfrs() {
+        mousfInputListfnfr = drfbtfMousfInputListfnfr();
+        dfsktopIdon.bddMousfMotionListfnfr(mousfInputListfnfr);
+        dfsktopIdon.bddMousfListfnfr(mousfInputListfnfr);
     }
 
     /**
-     * Unregisters listeners.
+     * Unrfgistfrs listfnfrs.
      */
-    protected void uninstallListeners() {
-        desktopIcon.removeMouseMotionListener(mouseInputListener);
-        desktopIcon.removeMouseListener(mouseInputListener);
-        mouseInputListener = null;
+    protfdtfd void uninstbllListfnfrs() {
+        dfsktopIdon.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
+        dfsktopIdon.rfmovfMousfListfnfr(mousfInputListfnfr);
+        mousfInputListfnfr = null;
     }
 
     /**
-     * Installs default properties.
+     * Instblls dffbult propfrtifs.
      */
-    protected void installDefaults() {
-        LookAndFeel.installBorder(desktopIcon, "DesktopIcon.border");
-        LookAndFeel.installProperty(desktopIcon, "opaque", Boolean.TRUE);
+    protfdtfd void instbllDffbults() {
+        LookAndFffl.instbllBordfr(dfsktopIdon, "DfsktopIdon.bordfr");
+        LookAndFffl.instbllPropfrty(dfsktopIdon, "opbquf", Boolfbn.TRUE);
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls dffbult propfrtifs.
      */
-    protected void uninstallDefaults() {
-        LookAndFeel.uninstallBorder(desktopIcon);
+    protfdtfd void uninstbllDffbults() {
+        LookAndFffl.uninstbllBordfr(dfsktopIdon);
     }
 
     /**
-     * Returns a new instance of {@code MouseInputListener}.
+     * Rfturns b nfw instbndf of {@dodf MousfInputListfnfr}.
      *
-     * @return a new instance of {@code MouseInputListener}
+     * @rfturn b nfw instbndf of {@dodf MousfInputListfnfr}
      */
-    protected MouseInputListener createMouseInputListener() {
-        return new MouseInputHandler();
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr() {
+        rfturn nfw MousfInputHbndlfr();
     }
 
-    public Dimension getPreferredSize(JComponent c) {
-        return desktopIcon.getLayout().preferredLayoutSize(desktopIcon);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        rfturn dfsktopIdon.gftLbyout().prfffrrfdLbyoutSizf(dfsktopIdon);
     }
 
-    public Dimension getMinimumSize(JComponent c) {
-        Dimension dim = new Dimension(iconPane.getMinimumSize());
-        Border border = frame.getBorder();
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        Dimfnsion dim = nfw Dimfnsion(idonPbnf.gftMinimumSizf());
+        Bordfr bordfr = frbmf.gftBordfr();
 
-        if (border != null) {
-            dim.height += border.getBorderInsets(frame).bottom +
-                          border.getBorderInsets(frame).top;
+        if (bordfr != null) {
+            dim.ifigit += bordfr.gftBordfrInsfts(frbmf).bottom +
+                          bordfr.gftBordfrInsfts(frbmf).top;
         }
-        return dim;
+        rfturn dim;
     }
 
     /**
-     * Desktop icons can not be resized.  Therefore, we should always
-     * return the minimum size of the desktop icon.
+     * Dfsktop idons dbn not bf rfsizfd.  Tifrfforf, wf siould blwbys
+     * rfturn tif minimum sizf of tif dfsktop idon.
      *
-     * @see #getMinimumSize
+     * @sff #gftMinimumSizf
      */
-    public Dimension getMaximumSize(JComponent c){
-        return iconPane.getMaximumSize();
+    publid Dimfnsion gftMbximumSizf(JComponfnt d){
+        rfturn idonPbnf.gftMbximumSizf();
     }
 
     /**
-     * Returns the insets.
+     * Rfturns tif insfts.
      *
-     * @param c a component
-     * @return the insets
+     * @pbrbm d b domponfnt
+     * @rfturn tif insfts
      */
-    public Insets getInsets(JComponent c) {
-        JInternalFrame iframe = desktopIcon.getInternalFrame();
-        Border border = iframe.getBorder();
-        if(border != null)
-            return border.getBorderInsets(iframe);
+    publid Insfts gftInsfts(JComponfnt d) {
+        JIntfrnblFrbmf ifrbmf = dfsktopIdon.gftIntfrnblFrbmf();
+        Bordfr bordfr = ifrbmf.gftBordfr();
+        if(bordfr != null)
+            rfturn bordfr.gftBordfrInsfts(ifrbmf);
 
-        return new Insets(0,0,0,0);
+        rfturn nfw Insfts(0,0,0,0);
     }
 
     /**
-     * De-iconifies the internal frame.
+     * Df-idonififs tif intfrnbl frbmf.
      */
-    public void deiconize() {
-        try { frame.setIcon(false); } catch (PropertyVetoException e2) { }
+    publid void dfidonizf() {
+        try { frbmf.sftIdon(fblsf); } dbtdi (PropfrtyVftoExdfption f2) { }
     }
 
     /**
-     * Listens for mouse movements and acts on them.
+     * Listfns for mousf movfmfnts bnd bdts on tifm.
      *
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicDesktopIconUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidDfsktopIdonUI}.
      */
-    public class MouseInputHandler extends MouseInputAdapter
+    publid dlbss MousfInputHbndlfr fxtfnds MousfInputAdbptfr
     {
-        // _x & _y are the mousePressed location in absolute coordinate system
+        // _x & _y brf tif mousfPrfssfd lodbtion in bbsolutf doordinbtf systfm
         int _x, _y;
-        // __x & __y are the mousePressed location in source view's coordinate system
+        // __x & __y brf tif mousfPrfssfd lodbtion in sourdf vifw's doordinbtf systfm
         int __x, __y;
-        Rectangle startingBounds;
+        Rfdtbnglf stbrtingBounds;
 
-        public void mouseReleased(MouseEvent e) {
+        publid void mousfRflfbsfd(MousfEvfnt f) {
             _x = 0;
             _y = 0;
             __x = 0;
             __y = 0;
-            startingBounds = null;
+            stbrtingBounds = null;
 
-            JDesktopPane d;
-            if((d = desktopIcon.getDesktopPane()) != null) {
-                DesktopManager dm = d.getDesktopManager();
-                dm.endDraggingFrame(desktopIcon);
+            JDfsktopPbnf d;
+            if((d = dfsktopIdon.gftDfsktopPbnf()) != null) {
+                DfsktopMbnbgfr dm = d.gftDfsktopMbnbgfr();
+                dm.fndDrbggingFrbmf(dfsktopIdon);
             }
 
         }
 
-        public void mousePressed(MouseEvent e) {
-            Point p = SwingUtilities.convertPoint((Component)e.getSource(),
-                        e.getX(), e.getY(), null);
-            __x = e.getX();
-            __y = e.getY();
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            Point p = SwingUtilitifs.donvfrtPoint((Componfnt)f.gftSourdf(),
+                        f.gftX(), f.gftY(), null);
+            __x = f.gftX();
+            __y = f.gftY();
             _x = p.x;
             _y = p.y;
-            startingBounds = desktopIcon.getBounds();
+            stbrtingBounds = dfsktopIdon.gftBounds();
 
-            JDesktopPane d;
-            if((d = desktopIcon.getDesktopPane()) != null) {
-                DesktopManager dm = d.getDesktopManager();
-                dm.beginDraggingFrame(desktopIcon);
+            JDfsktopPbnf d;
+            if((d = dfsktopIdon.gftDfsktopPbnf()) != null) {
+                DfsktopMbnbgfr dm = d.gftDfsktopMbnbgfr();
+                dm.bfginDrbggingFrbmf(dfsktopIdon);
             }
 
-            try { frame.setSelected(true); } catch (PropertyVetoException e1) { }
-            if(desktopIcon.getParent() instanceof JLayeredPane) {
-                ((JLayeredPane)desktopIcon.getParent()).moveToFront(desktopIcon);
+            try { frbmf.sftSflfdtfd(truf); } dbtdi (PropfrtyVftoExdfption f1) { }
+            if(dfsktopIdon.gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+                ((JLbyfrfdPbnf)dfsktopIdon.gftPbrfnt()).movfToFront(dfsktopIdon);
             }
 
-            if(e.getClickCount() > 1) {
-                if(frame.isIconifiable() && frame.isIcon()) {
-                    deiconize();
+            if(f.gftClidkCount() > 1) {
+                if(frbmf.isIdonifibblf() && frbmf.isIdon()) {
+                    dfidonizf();
                 }
             }
 
         }
 
-         public void mouseMoved(MouseEvent e) {}
+         publid void mousfMovfd(MousfEvfnt f) {}
 
-         public void mouseDragged(MouseEvent e) {
+         publid void mousfDrbggfd(MousfEvfnt f) {
             Point p;
-            int newX, newY, newW, newH;
-            int deltaX;
-            int deltaY;
-            Dimension min;
-            Dimension max;
-            p = SwingUtilities.convertPoint((Component)e.getSource(),
-                                        e.getX(), e.getY(), null);
+            int nfwX, nfwY, nfwW, nfwH;
+            int dfltbX;
+            int dfltbY;
+            Dimfnsion min;
+            Dimfnsion mbx;
+            p = SwingUtilitifs.donvfrtPoint((Componfnt)f.gftSourdf(),
+                                        f.gftX(), f.gftY(), null);
 
-                Insets i = desktopIcon.getInsets();
-                int pWidth, pHeight;
-                pWidth = ((JComponent)desktopIcon.getParent()).getWidth();
-                pHeight = ((JComponent)desktopIcon.getParent()).getHeight();
+                Insfts i = dfsktopIdon.gftInsfts();
+                int pWidti, pHfigit;
+                pWidti = ((JComponfnt)dfsktopIdon.gftPbrfnt()).gftWidti();
+                pHfigit = ((JComponfnt)dfsktopIdon.gftPbrfnt()).gftHfigit();
 
-                if (startingBounds == null) {
-                  // (STEVE) Yucky work around for bug ID 4106552
-                    return;
+                if (stbrtingBounds == null) {
+                  // (STEVE) Yudky work bround for bug ID 4106552
+                    rfturn;
                 }
-                newX = startingBounds.x - (_x - p.x);
-                newY = startingBounds.y - (_y - p.y);
-                // Make sure we stay in-bounds
-                if(newX + i.left <= -__x)
-                    newX = -__x - i.left;
-                if(newY + i.top <= -__y)
-                    newY = -__y - i.top;
-                if(newX + __x + i.right > pWidth)
-                    newX = pWidth - __x - i.right;
-                if(newY + __y + i.bottom > pHeight)
-                    newY =  pHeight - __y - i.bottom;
+                nfwX = stbrtingBounds.x - (_x - p.x);
+                nfwY = stbrtingBounds.y - (_y - p.y);
+                // Mbkf surf wf stby in-bounds
+                if(nfwX + i.lfft <= -__x)
+                    nfwX = -__x - i.lfft;
+                if(nfwY + i.top <= -__y)
+                    nfwY = -__y - i.top;
+                if(nfwX + __x + i.rigit > pWidti)
+                    nfwX = pWidti - __x - i.rigit;
+                if(nfwY + __y + i.bottom > pHfigit)
+                    nfwY =  pHfigit - __y - i.bottom;
 
-                JDesktopPane d;
-                if((d = desktopIcon.getDesktopPane()) != null) {
-                    DesktopManager dm = d.getDesktopManager();
-                    dm.dragFrame(desktopIcon, newX, newY);
-                } else {
-                    moveAndRepaint(desktopIcon, newX, newY,
-                                desktopIcon.getWidth(), desktopIcon.getHeight());
+                JDfsktopPbnf d;
+                if((d = dfsktopIdon.gftDfsktopPbnf()) != null) {
+                    DfsktopMbnbgfr dm = d.gftDfsktopMbnbgfr();
+                    dm.drbgFrbmf(dfsktopIdon, nfwX, nfwY);
+                } flsf {
+                    movfAndRfpbint(dfsktopIdon, nfwX, nfwY,
+                                dfsktopIdon.gftWidti(), dfsktopIdon.gftHfigit());
                 }
-                return;
+                rfturn;
         }
 
         /**
-         * Moves and repaints a component {@code f}.
+         * Movfs bnd rfpbints b domponfnt {@dodf f}.
          *
-         * @param f a component
-         * @param newX a new X coordinate
-         * @param newY a new Y coordinate
-         * @param newWidth a new width
-         * @param newHeight a new height
+         * @pbrbm f b domponfnt
+         * @pbrbm nfwX b nfw X doordinbtf
+         * @pbrbm nfwY b nfw Y doordinbtf
+         * @pbrbm nfwWidti b nfw widti
+         * @pbrbm nfwHfigit b nfw ifigit
          */
-        public void moveAndRepaint(JComponent f, int newX, int newY,
-                                        int newWidth, int newHeight) {
-            Rectangle r = f.getBounds();
-            f.setBounds(newX, newY, newWidth, newHeight);
-            SwingUtilities.computeUnion(newX, newY, newWidth, newHeight, r);
-            f.getParent().repaint(r.x, r.y, r.width, r.height);
+        publid void movfAndRfpbint(JComponfnt f, int nfwX, int nfwY,
+                                        int nfwWidti, int nfwHfigit) {
+            Rfdtbnglf r = f.gftBounds();
+            f.sftBounds(nfwX, nfwY, nfwWidti, nfwHfigit);
+            SwingUtilitifs.domputfUnion(nfwX, nfwY, nfwWidti, nfwHfigit, r);
+            f.gftPbrfnt().rfpbint(r.x, r.y, r.widti, r.ifigit);
         }
-    }; /// End MotionListener
+    }; /// End MotionListfnfr
 
 }

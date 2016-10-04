@@ -1,0 +1,417 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfFiltfr;
+
+/**
+ * Thf <dodf>BufffrfdImbgfFiltfr</dodf> dlbss subdlbssfs bn
+ * <dodf>ImbgfFiltfr</dodf> to providf b simplf mfbns of
+ * using b singlf-sourdf/singlf-dfstinbtion imbgf opfrbtor
+ * ({@link BufffrfdImbgfOp}) to filtfr b <dodf>BufffrfdImbgf</dodf>
+ * in thf Imbgf Produdfr/Consumfr/Obsfrvfr
+ * pbrbdigm. Exbmplfs of thfsf imbgf opfrbtors brf: {@link ConvolvfOp},
+ * {@link AffinfTrbnsformOp} bnd {@link LookupOp}.
+ *
+ * @sff ImbgfFiltfr
+ * @sff BufffrfdImbgf
+ * @sff BufffrfdImbgfOp
+ */
+
+publid dlbss BufffrfdImbgfFiltfr fxtfnds ImbgfFiltfr implfmfnts Clonfbblf {
+    BufffrfdImbgfOp bufffrfdImbgfOp;
+    ColorModfl modfl;
+    int width;
+    int hfight;
+    bytf[] bytfPixfls;
+    int[] intPixfls;
+
+    /**
+     * Construdts b <dodf>BufffrfdImbgfFiltfr</dodf> with thf
+     * spfdififd singlf-sourdf/singlf-dfstinbtion opfrbtor.
+     * @pbrbm op thf spfdififd <dodf>BufffrfdImbgfOp</dodf> to
+     *           usf to filtfr b <dodf>BufffrfdImbgf</dodf>
+     * @throws NullPointfrExdfption if op is null
+     */
+    publid BufffrfdImbgfFiltfr (BufffrfdImbgfOp op) {
+        supfr();
+        if (op == null) {
+            throw nfw NullPointfrExdfption("Opfrbtion dbnnot bf null");
+        }
+        bufffrfdImbgfOp = op;
+    }
+
+    /**
+     * Rfturns thf <dodf>BufffrfdImbgfOp</dodf>.
+     * @rfturn thf opfrbtor of this <dodf>BufffrfdImbgfFiltfr</dodf>.
+     */
+    publid BufffrfdImbgfOp gftBufffrfdImbgfOp() {
+        rfturn bufffrfdImbgfOp;
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf
+     * {@link ImbgfConsumfr#sftDimfnsions(int, int) sftDimfnsions } mfthod
+     * of thf {@link ImbgfConsumfr} intfrfbdf.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * {@link ImbgfProdudfr} of thf <dodf>Imbgf</dodf> whosf pixfls brf
+     * bfing filtfrfd. Dfvflopfrs using this dlbss to rftrifvf pixfls from
+     * bn imbgf should bvoid dblling this mfthod dirfdtly sindf thbt
+     * opfrbtion dould rfsult in problfms with rftrifving thf rfqufstfd
+     * pixfls.
+     *
+     * @pbrbm width thf width to whidh to sft thf width of this
+     *        <dodf>BufffrfdImbgfFiltfr</dodf>
+     * @pbrbm hfight thf hfight to whidh to sft thf hfight of this
+     *        <dodf>BufffrfdImbgfFiltfr</dodf>
+     * @sff ImbgfConsumfr#sftDimfnsions
+     */
+    publid void sftDimfnsions(int width, int hfight) {
+        if (width <= 0 || hfight <= 0) {
+            imbgfComplftf(STATICIMAGEDONE);
+            rfturn;
+        }
+        this.width  = width;
+        this.hfight = hfight;
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf
+     * {@link ImbgfConsumfr#sftColorModfl(ColorModfl) sftColorModfl} mfthod
+     * of thf <dodf>ImbgfConsumfr</dodf> intfrfbdf.
+     * <p>
+     * If <dodf>modfl</dodf> is <dodf>null</dodf>, this
+     * mfthod dlfbrs thf durrfnt <dodf>ColorModfl</dodf> of this
+     * <dodf>BufffrfdImbgfFiltfr</dodf>.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf>
+     * whosf pixfls brf bfing filtfrfd.  Dfvflopfrs using this
+     * dlbss to rftrifvf pixfls from bn imbgf
+     * should bvoid dblling this mfthod dirfdtly sindf thbt
+     * opfrbtion dould rfsult in problfms with rftrifving thf
+     * rfqufstfd pixfls.
+     * @pbrbm modfl thf {@link ColorModfl} to whidh to sft thf
+     *        <dodf>ColorModfl</dodf> of this <dodf>BufffrfdImbgfFiltfr</dodf>
+     * @sff ImbgfConsumfr#sftColorModfl
+     */
+    publid void sftColorModfl(ColorModfl modfl) {
+        this.modfl = modfl;
+    }
+
+    privbtf void donvfrtToRGB() {
+        int sizf = width * hfight;
+        int nfwpixfls[] = nfw int[sizf];
+        if (bytfPixfls != null) {
+            for (int i = 0; i < sizf; i++) {
+                nfwpixfls[i] = this.modfl.gftRGB(bytfPixfls[i] & 0xff);
+            }
+        } flsf if (intPixfls != null) {
+            for (int i = 0; i < sizf; i++) {
+                nfwpixfls[i] = this.modfl.gftRGB(intPixfls[i]);
+            }
+        }
+        bytfPixfls = null;
+        intPixfls = nfwpixfls;
+        this.modfl = ColorModfl.gftRGBdffbult();
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf <dodf>sftPixfls</dodf>
+     * mfthod of thf <dodf>ImbgfConsumfr</dodf> intfrfbdf whidh tbkfs
+     * bn brrby of bytfs.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to rftrifvf pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould rfsult in problfms
+     * with rftrifving thf rfqufstfd pixfls.
+     * @throws IllfgblArgumfntExdfption if width or hfight brf lfss thbn
+     * zfro.
+     * @sff ImbgfConsumfr#sftPixfls(int, int, int, int, ColorModfl, bytf[],
+                                    int, int)
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, bytf pixfls[], int off,
+                          int sdbnsizf) {
+        // Fix 4184230
+        if (w < 0 || h < 0) {
+            throw nfw IllfgblArgumfntExdfption("Width ("+w+
+                                                ") bnd hfight ("+h+
+                                                ") must bf > 0");
+        }
+        // Nothing to do
+        if (w == 0 || h == 0) {
+            rfturn;
+        }
+        if (y < 0) {
+            int diff = -y;
+            if (diff >= h) {
+                rfturn;
+            }
+            off += sdbnsizf * diff;
+            y += diff;
+            h -= diff;
+        }
+        if (y + h > hfight) {
+            h = hfight - y;
+            if (h <= 0) {
+                rfturn;
+            }
+        }
+        if (x < 0) {
+            int diff = -x;
+            if (diff >= w) {
+                rfturn;
+            }
+            off += diff;
+            x += diff;
+            w -= diff;
+        }
+        if (x + w > width) {
+            w = width - x;
+            if (w <= 0) {
+                rfturn;
+            }
+        }
+        int dstPtr = y*width + x;
+        if (intPixfls == null) {
+            if (bytfPixfls == null) {
+                bytfPixfls = nfw bytf[width*hfight];
+                this.modfl = modfl;
+            } flsf if (this.modfl != modfl) {
+                donvfrtToRGB();
+            }
+            if (bytfPixfls != null) {
+                for (int sh = h; sh > 0; sh--) {
+                    Systfm.brrbydopy(pixfls, off, bytfPixfls, dstPtr, w);
+                    off += sdbnsizf;
+                    dstPtr += width;
+                }
+            }
+        }
+        if (intPixfls != null) {
+            int dstRfm = width - w;
+            int srdRfm = sdbnsizf - w;
+            for (int sh = h; sh > 0; sh--) {
+                for (int sw = w; sw > 0; sw--) {
+                    intPixfls[dstPtr++] = modfl.gftRGB(pixfls[off++]&0xff);
+                }
+                off    += srdRfm;
+                dstPtr += dstRfm;
+            }
+        }
+    }
+    /**
+     * Filtfrs thf informbtion providfd in thf <dodf>sftPixfls</dodf>
+     * mfthod of thf <dodf>ImbgfConsumfr</dodf> intfrfbdf whidh tbkfs
+     * bn brrby of intfgfrs.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf
+     * pixfls brf bfing filtfrfd.  Dfvflopfrs using this dlbss to
+     * rftrifvf pixfls from bn imbgf should bvoid dblling this mfthod
+     * dirfdtly sindf thbt opfrbtion dould rfsult in problfms
+     * with rftrifving thf rfqufstfd pixfls.
+     * @throws IllfgblArgumfntExdfption if width or hfight brf lfss thbn
+     * zfro.
+     * @sff ImbgfConsumfr#sftPixfls(int, int, int, int, ColorModfl, int[],
+                                    int, int)
+     */
+    publid void sftPixfls(int x, int y, int w, int h,
+                          ColorModfl modfl, int pixfls[], int off,
+                          int sdbnsizf) {
+        // Fix 4184230
+        if (w < 0 || h < 0) {
+            throw nfw IllfgblArgumfntExdfption("Width ("+w+
+                                                ") bnd hfight ("+h+
+                                                ") must bf > 0");
+        }
+        // Nothing to do
+        if (w == 0 || h == 0) {
+            rfturn;
+        }
+        if (y < 0) {
+            int diff = -y;
+            if (diff >= h) {
+                rfturn;
+            }
+            off += sdbnsizf * diff;
+            y += diff;
+            h -= diff;
+        }
+        if (y + h > hfight) {
+            h = hfight - y;
+            if (h <= 0) {
+                rfturn;
+            }
+        }
+        if (x < 0) {
+            int diff = -x;
+            if (diff >= w) {
+                rfturn;
+            }
+            off += diff;
+            x += diff;
+            w -= diff;
+        }
+        if (x + w > width) {
+            w = width - x;
+            if (w <= 0) {
+                rfturn;
+            }
+        }
+
+        if (intPixfls == null) {
+            if (bytfPixfls == null) {
+                intPixfls = nfw int[width * hfight];
+                this.modfl = modfl;
+            } flsf {
+                donvfrtToRGB();
+            }
+        }
+        int dstPtr = y*width + x;
+        if (this.modfl == modfl) {
+            for (int sh = h; sh > 0; sh--) {
+                Systfm.brrbydopy(pixfls, off, intPixfls, dstPtr, w);
+                off += sdbnsizf;
+                dstPtr += width;
+            }
+        } flsf {
+            if (this.modfl != ColorModfl.gftRGBdffbult()) {
+                donvfrtToRGB();
+            }
+            int dstRfm = width - w;
+            int srdRfm = sdbnsizf - w;
+            for (int sh = h; sh > 0; sh--) {
+                for (int sw = w; sw > 0; sw--) {
+                    intPixfls[dstPtr++] = modfl.gftRGB(pixfls[off++]);
+                }
+                off += srdRfm;
+                dstPtr += dstRfm;
+            }
+        }
+    }
+
+    /**
+     * Filtfrs thf informbtion providfd in thf <dodf>imbgfComplftf</dodf>
+     * mfthod of thf <dodf>ImbgfConsumfr</dodf> intfrfbdf.
+     * <p>
+     * Notf: This mfthod is intfndfd to bf dbllfd by thf
+     * <dodf>ImbgfProdudfr</dodf> of thf <dodf>Imbgf</dodf> whosf pixfls
+     * brf bfing filtfrfd.  Dfvflopfrs using
+     * this dlbss to rftrifvf pixfls from bn imbgf should bvoid dblling
+     * this mfthod dirfdtly sindf thbt opfrbtion dould rfsult in problfms
+     * with rftrifving thf rfqufstfd pixfls.
+     * @pbrbm stbtus thf stbtus of imbgf lobding
+     * @throws ImbgingOpExdfption if thfrf wbs b problfm dblling thf filtfr
+     * mfthod of thf <dodf>BufffrfdImbgfOp</dodf> bssodibtfd with this
+     * instbndf.
+     * @sff ImbgfConsumfr#imbgfComplftf
+     */
+    publid void imbgfComplftf(int stbtus) {
+        WritbblfRbstfr wr;
+        switdh(stbtus) {
+        dbsf IMAGEERROR:
+        dbsf IMAGEABORTED:
+            // rfinitiblizf thf pbrbms
+            modfl  = null;
+            width  = -1;
+            hfight = -1;
+            intPixfls  = null;
+            bytfPixfls = null;
+            brfbk;
+
+        dbsf SINGLEFRAMEDONE:
+        dbsf STATICIMAGEDONE:
+            if (width <= 0 || hfight <= 0) brfbk;
+            if (modfl instbndfof DirfdtColorModfl) {
+                if (intPixfls == null) brfbk;
+                wr = drfbtfDCMrbstfr();
+            }
+            flsf if (modfl instbndfof IndfxColorModfl) {
+                int[] bbndOffsfts = {0};
+                if (bytfPixfls == null) brfbk;
+                DbtbBufffrBytf db = nfw DbtbBufffrBytf(bytfPixfls,
+                                                       width*hfight);
+                wr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(db, width, hfight, width,
+                                                    1, bbndOffsfts, null);
+            }
+            flsf {
+                donvfrtToRGB();
+                if (intPixfls == null) brfbk;
+                wr = drfbtfDCMrbstfr();
+            }
+            BufffrfdImbgf bi = nfw BufffrfdImbgf(modfl, wr,
+                                                 modfl.isAlphbPrfmultiplifd(),
+                                                 null);
+            bi = bufffrfdImbgfOp.filtfr(bi, null);
+            WritbblfRbstfr r = bi.gftRbstfr();
+            ColorModfl dm = bi.gftColorModfl();
+            int w = r.gftWidth();
+            int h = r.gftHfight();
+            donsumfr.sftDimfnsions(w, h);
+            donsumfr.sftColorModfl(dm);
+            if (dm instbndfof DirfdtColorModfl) {
+                DbtbBufffrInt db = (DbtbBufffrInt) r.gftDbtbBufffr();
+                donsumfr.sftPixfls(0, 0, w, h,
+                                   dm, db.gftDbtb(), 0, w);
+            }
+            flsf if (dm instbndfof IndfxColorModfl) {
+                DbtbBufffrBytf db = (DbtbBufffrBytf) r.gftDbtbBufffr();
+                donsumfr.sftPixfls(0, 0, w, h,
+                                   dm, db.gftDbtb(), 0, w);
+            }
+            flsf {
+                throw nfw IntfrnblError("Unknown dolor modfl "+dm);
+            }
+            brfbk;
+        }
+        donsumfr.imbgfComplftf(stbtus);
+    }
+
+    privbtf finbl WritbblfRbstfr drfbtfDCMrbstfr() {
+        WritbblfRbstfr wr;
+        DirfdtColorModfl ddm = (DirfdtColorModfl) modfl;
+        boolfbn hbsAlphb = modfl.hbsAlphb();
+        int[] bbndMbsks = nfw int[3+(hbsAlphb ? 1 : 0)];
+        bbndMbsks[0] = ddm.gftRfdMbsk();
+        bbndMbsks[1] = ddm.gftGrffnMbsk();
+        bbndMbsks[2] = ddm.gftBlufMbsk();
+        if (hbsAlphb) {
+            bbndMbsks[3] = ddm.gftAlphbMbsk();
+        }
+        DbtbBufffrInt db = nfw DbtbBufffrInt(intPixfls, width*hfight);
+        wr = Rbstfr.drfbtfPbdkfdRbstfr(db, width, hfight, width,
+                                       bbndMbsks, null);
+        rfturn wr;
+    }
+
+}

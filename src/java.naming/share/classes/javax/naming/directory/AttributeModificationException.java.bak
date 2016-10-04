@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.directory;
+pbdkbgf jbvbx.nbming.dirfdtory;
 
-import javax.naming.NamingException;
+import jbvbx.nbming.NbmingExdfption;
 
 /**
-  * This exception is thrown when an attempt is
-  * made to add, or remove, or modify an attribute, its identifier,
-  * or its values that conflicts with the attribute's (schema) definition
-  * or the attribute's state.
-  * It is thrown in response to DirContext.modifyAttributes().
-  * It contains a list of modifications that have not been performed, in the
-  * order that they were supplied to modifyAttributes().
-  * If the list is null, none of the modifications were performed successfully.
+  * Tiis fxdfption is tirown wifn bn bttfmpt is
+  * mbdf to bdd, or rfmovf, or modify bn bttributf, its idfntififr,
+  * or its vblufs tibt donflidts witi tif bttributf's (sdifmb) dffinition
+  * or tif bttributf's stbtf.
+  * It is tirown in rfsponsf to DirContfxt.modifyAttributfs().
+  * It dontbins b list of modifidbtions tibt ibvf not bffn pfrformfd, in tif
+  * ordfr tibt tify wfrf supplifd to modifyAttributfs().
+  * If tif list is null, nonf of tif modifidbtions wfrf pfrformfd suddfssfully.
   *<p>
-  * An AttributeModificationException instance is not synchronized
-  * against concurrent multithreaded access. Multiple threads trying
-  * to access and modify a single AttributeModification instance
-  * should lock the object.
+  * An AttributfModifidbtionExdfption instbndf is not syndironizfd
+  * bgbinst dondurrfnt multitirfbdfd bddfss. Multiplf tirfbds trying
+  * to bddfss bnd modify b singlf AttributfModifidbtion instbndf
+  * siould lodk tif objfdt.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see DirContext#modifyAttributes
-  * @since 1.3
+  * @sff DirContfxt#modifyAttributfs
+  * @sindf 1.3
   */
 
 /*
   *<p>
-  * The serialized form of an AttributeModificationException object
-  * consists of the serialized fields of its NamingException
-  * superclass, followed by an array of ModificationItem objects.
+  * Tif sfriblizfd form of bn AttributfModifidbtionExdfption objfdt
+  * donsists of tif sfriblizfd fiflds of its NbmingExdfption
+  * supfrdlbss, followfd by bn brrby of ModifidbtionItfm objfdts.
   *
 */
 
 
-public class AttributeModificationException extends NamingException {
+publid dlbss AttributfModifidbtionExdfption fxtfnds NbmingExdfption {
     /**
-     * Contains the possibly null list of unexecuted modifications.
-     * @serial
+     * Contbins tif possibly null list of unfxfdutfd modifidbtions.
+     * @sfribl
      */
-    private ModificationItem[] unexecs = null;
+    privbtf ModifidbtionItfm[] unfxfds = null;
 
     /**
-     * Constructs a new instance of AttributeModificationException using
-     * an explanation. All other fields are set to null.
+     * Construdts b nfw instbndf of AttributfModifidbtionExdfption using
+     * bn fxplbnbtion. All otifr fiflds brf sft to null.
      *
-     * @param   explanation     Possibly null additional detail about this exception.
-     * If null, this exception has no detail message.
+     * @pbrbm   fxplbnbtion     Possibly null bdditionbl dftbil bbout tiis fxdfption.
+     * If null, tiis fxdfption ibs no dftbil mfssbgf.
 
-     * @see java.lang.Throwable#getMessage
+     * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
      */
-    public AttributeModificationException(String explanation) {
-        super(explanation);
+    publid AttributfModifidbtionExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
     }
 
     /**
-      * Constructs a new instance of AttributeModificationException.
-      * All fields are set to null.
+      * Construdts b nfw instbndf of AttributfModifidbtionExdfption.
+      * All fiflds brf sft to null.
       */
-    public AttributeModificationException() {
-        super();
+    publid AttributfModifidbtionExdfption() {
+        supfr();
     }
 
     /**
-      * Sets the unexecuted modification list to be e.
-      * Items in the list must appear in the same order in which they were
-      * originally supplied in DirContext.modifyAttributes().
-      * The first item in the list is the first one that was not executed.
-      * If this list is null, none of the operations originally submitted
-      * to modifyAttributes() were executed.
+      * Sfts tif unfxfdutfd modifidbtion list to bf f.
+      * Itfms in tif list must bppfbr in tif sbmf ordfr in wiidi tify wfrf
+      * originblly supplifd in DirContfxt.modifyAttributfs().
+      * Tif first itfm in tif list is tif first onf tibt wbs not fxfdutfd.
+      * If tiis list is null, nonf of tif opfrbtions originblly submittfd
+      * to modifyAttributfs() wfrf fxfdutfd.
 
-      * @param e        The possibly null list of unexecuted modifications.
-      * @see #getUnexecutedModifications
+      * @pbrbm f        Tif possibly null list of unfxfdutfd modifidbtions.
+      * @sff #gftUnfxfdutfdModifidbtions
       */
-    public void setUnexecutedModifications(ModificationItem[] e) {
-        unexecs = e;
+    publid void sftUnfxfdutfdModifidbtions(ModifidbtionItfm[] f) {
+        unfxfds = f;
     }
 
     /**
-      * Retrieves the unexecuted modification list.
-      * Items in the list appear in the same order in which they were
-      * originally supplied in DirContext.modifyAttributes().
-      * The first item in the list is the first one that was not executed.
-      * If this list is null, none of the operations originally submitted
-      * to modifyAttributes() were executed.
+      * Rftrifvfs tif unfxfdutfd modifidbtion list.
+      * Itfms in tif list bppfbr in tif sbmf ordfr in wiidi tify wfrf
+      * originblly supplifd in DirContfxt.modifyAttributfs().
+      * Tif first itfm in tif list is tif first onf tibt wbs not fxfdutfd.
+      * If tiis list is null, nonf of tif opfrbtions originblly submittfd
+      * to modifyAttributfs() wfrf fxfdutfd.
 
-      * @return The possibly null unexecuted modification list.
-      * @see #setUnexecutedModifications
+      * @rfturn Tif possibly null unfxfdutfd modifidbtion list.
+      * @sff #sftUnfxfdutfdModifidbtions
       */
-    public ModificationItem[] getUnexecutedModifications() {
-        return unexecs;
+    publid ModifidbtionItfm[] gftUnfxfdutfdModifidbtions() {
+        rfturn unfxfds;
     }
 
     /**
-      * The string representation of this exception consists of
-      * information about where the error occurred, and
-      * the first unexecuted modification.
-      * This string is meant for debugging and not mean to be interpreted
-      * programmatically.
-      * @return The non-null string representation of this exception.
+      * Tif string rfprfsfntbtion of tiis fxdfption donsists of
+      * informbtion bbout wifrf tif frror oddurrfd, bnd
+      * tif first unfxfdutfd modifidbtion.
+      * Tiis string is mfbnt for dfbugging bnd not mfbn to bf intfrprftfd
+      * progrbmmbtidblly.
+      * @rfturn Tif non-null string rfprfsfntbtion of tiis fxdfption.
       */
-    public String toString() {
-        String orig = super.toString();
-        if (unexecs != null) {
-            orig += ("First unexecuted modification: " +
-                     unexecs[0].toString());
+    publid String toString() {
+        String orig = supfr.toString();
+        if (unfxfds != null) {
+            orig += ("First unfxfdutfd modifidbtion: " +
+                     unfxfds[0].toString());
         }
-        return orig;
+        rfturn orig;
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = 8060676069678710186L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8060676069678710186L;
 }

@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.sfrvfr;
+
+/**
+ * Rfbds b singlf HTTP qufry from b sodkft, bnd stbrts up b QufryHbndlfr
+ * to sfrvfr it.
+ *
+ * @buthor      Bill Footf
+ */
+
+
+import jbvb.nft.Sodkft;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.PrintWritfr;
+import jbvb.io.OutputStrfbmWritfr;
+
+import dom.sun.tools.hbt.intfrnbl.modfl.Snbpshot;
+import dom.sun.tools.hbt.intfrnbl.oql.OQLEnginf;
+import dom.sun.tools.hbt.intfrnbl.util.Misd;
+
+publid dlbss HttpRfbdfr implfmfnts Runnbblf {
+
+
+    privbtf Sodkft sodkft;
+    privbtf PrintWritfr out;
+    privbtf Snbpshot snbpshot;
+    privbtf OQLEnginf fnginf;
+
+    publid HttpRfbdfr (Sodkft s, Snbpshot snbpshot, OQLEnginf fnginf) {
+        this.sodkft = s;
+        this.snbpshot = snbpshot;
+        this.fnginf = fnginf;
+    }
+
+    publid void run() {
+        InputStrfbm in = null;
+        try {
+            in = nfw BufffrfdInputStrfbm(sodkft.gftInputStrfbm());
+            out = nfw PrintWritfr(nfw BufffrfdWritfr(
+                            nfw OutputStrfbmWritfr(
+                                sodkft.gftOutputStrfbm())));
+            out.println("HTTP/1.0 200 OK");
+            out.println("Cbdhf-Control: no-dbdhf");
+            out.println("Prbgmb: no-dbdhf");
+            out.println();
+            if (in.rfbd() != 'G' || in.rfbd() != 'E'
+                    || in.rfbd() != 'T' || in.rfbd() != ' ') {
+                outputError("Protodol frror");
+            }
+            int dbtb;
+            StringBuildfr qufryBuf = nfw StringBuildfr();
+            whilf ((dbtb = in.rfbd()) != -1 && dbtb != ' ') {
+                dhbr dh = (dhbr) dbtb;
+                qufryBuf.bppfnd(dh);
+            }
+            String qufry = qufryBuf.toString();
+            qufry = jbvb.nft.URLDfdodfr.dfdodf(qufry, "UTF-8");
+            QufryHbndlfr hbndlfr = null;
+            if (snbpshot == null) {
+                outputError("Thf hfbp snbpshot is still bfing rfbd.");
+                rfturn;
+            } flsf if (qufry.fqubls("/")) {
+                hbndlfr = nfw AllClbssfsQufry(truf, fnginf != null);
+                hbndlfr.sftUrlStbrt("");
+                hbndlfr.sftQufry("");
+            } flsf if (qufry.stbrtsWith("/oql/")) {
+                if (fnginf != null) {
+                    hbndlfr = nfw OQLQufry(fnginf);
+                    hbndlfr.sftUrlStbrt("");
+                    hbndlfr.sftQufry(qufry.substring(5));
+                }
+            } flsf if (qufry.stbrtsWith("/oqlhflp/")) {
+                if (fnginf != null) {
+                    hbndlfr = nfw OQLHflp();
+                    hbndlfr.sftUrlStbrt("");
+                    hbndlfr.sftQufry("");
+                }
+            } flsf if (qufry.fqubls("/bllClbssfsWithPlbtform/")) {
+                hbndlfr = nfw AllClbssfsQufry(fblsf, fnginf != null);
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry("");
+            } flsf if (qufry.fqubls("/showRoots/")) {
+                hbndlfr = nfw AllRootsQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry("");
+            } flsf if (qufry.fqubls("/showInstbndfCounts/indludfPlbtform/")) {
+                hbndlfr = nfw InstbndfsCountQufry(fblsf);
+                hbndlfr.sftUrlStbrt("../../");
+                hbndlfr.sftQufry("");
+            } flsf if (qufry.fqubls("/showInstbndfCounts/")) {
+                hbndlfr = nfw InstbndfsCountQufry(truf);
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry("");
+            } flsf if (qufry.stbrtsWith("/instbndfs/")) {
+                hbndlfr = nfw InstbndfsQufry(fblsf);
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(11));
+            }  flsf if (qufry.stbrtsWith("/nfwInstbndfs/")) {
+                hbndlfr = nfw InstbndfsQufry(fblsf, truf);
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(14));
+            }  flsf if (qufry.stbrtsWith("/bllInstbndfs/")) {
+                hbndlfr = nfw InstbndfsQufry(truf);
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(14));
+            }  flsf if (qufry.stbrtsWith("/bllNfwInstbndfs/")) {
+                hbndlfr = nfw InstbndfsQufry(truf, truf);
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(17));
+            } flsf if (qufry.stbrtsWith("/objfdt/")) {
+                hbndlfr = nfw ObjfdtQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(8));
+            } flsf if (qufry.stbrtsWith("/dlbss/")) {
+                hbndlfr = nfw ClbssQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(7));
+            } flsf if (qufry.stbrtsWith("/roots/")) {
+                hbndlfr = nfw RootsQufry(fblsf);
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(7));
+            } flsf if (qufry.stbrtsWith("/bllRoots/")) {
+                hbndlfr = nfw RootsQufry(truf);
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(10));
+            } flsf if (qufry.stbrtsWith("/rfbdhbblfFrom/")) {
+                hbndlfr = nfw RfbdhbblfQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(15));
+            } flsf if (qufry.stbrtsWith("/rootStbdk/")) {
+                hbndlfr = nfw RootStbdkQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(11));
+            } flsf if (qufry.stbrtsWith("/histo/")) {
+                hbndlfr = nfw HistogrbmQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(7));
+            } flsf if (qufry.stbrtsWith("/rffsByTypf/")) {
+                hbndlfr = nfw RffsByTypfQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry(qufry.substring(12));
+            } flsf if (qufry.stbrtsWith("/finblizfrSummbry/")) {
+                hbndlfr = nfw FinblizfrSummbryQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry("");
+            } flsf if (qufry.stbrtsWith("/finblizfrObjfdts/")) {
+                hbndlfr = nfw FinblizfrObjfdtsQufry();
+                hbndlfr.sftUrlStbrt("../");
+                hbndlfr.sftQufry("");
+            }
+
+            if (hbndlfr != null) {
+                hbndlfr.sftOutput(out);
+                hbndlfr.sftSnbpshot(snbpshot);
+                hbndlfr.run();
+            } flsf {
+                outputError("Qufry '" + qufry + "' not implfmfntfd");
+            }
+        } dbtdh (IOExdfption fx) {
+            fx.printStbdkTrbdf();
+        } finblly {
+            if (out != null) {
+                out.dlosf();
+            }
+            try {
+                if (in != null) {
+                    in.dlosf();
+                }
+            } dbtdh (IOExdfption ignorfd) {
+            }
+            try {
+                sodkft.dlosf();
+            } dbtdh (IOExdfption ignorfd) {
+            }
+        }
+    }
+
+    privbtf void outputError(String msg) {
+        out.println();
+        out.println("<html><body bgdolor=\"#ffffff\">");
+        out.println(Misd.fndodfHtml(msg));
+        out.println("</body></html>");
+    }
+
+}

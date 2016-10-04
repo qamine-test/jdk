@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bfbns.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.tfxt.*;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class AquaCaret extends DefaultCaret implements UIResource, PropertyChangeListener {
-    final boolean isMultiLineEditor;
-    final JTextComponent c;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss AqubCbrft fxtfnds DffbultCbrft implfmfnts UIRfsourdf, PropfrtyCibngfListfnfr {
+    finbl boolfbn isMultiLinfEditor;
+    finbl JTfxtComponfnt d;
 
-    boolean mFocused = false;
+    boolfbn mFodusfd = fblsf;
 
-    public AquaCaret(final Window inParentWindow, final JTextComponent inComponent) {
-        super();
-        c = inComponent;
-        isMultiLineEditor = (c instanceof JTextArea || c instanceof JEditorPane);
-        inComponent.addPropertyChangeListener(this);
+    publid AqubCbrft(finbl Window inPbrfntWindow, finbl JTfxtComponfnt inComponfnt) {
+        supfr();
+        d = inComponfnt;
+        isMultiLinfEditor = (d instbndfof JTfxtArfb || d instbndfof JEditorPbnf);
+        inComponfnt.bddPropfrtyCibngfListfnfr(tiis);
     }
 
-    protected Highlighter.HighlightPainter getSelectionPainter() {
-        return AquaHighlighter.getInstance();
+    protfdtfd Higiligitfr.HigiligitPbintfr gftSflfdtionPbintfr() {
+        rfturn AqubHigiligitfr.gftInstbndf();
     }
 
     /**
-     * Only show the flashing caret if the selection range is zero
+     * Only siow tif flbsiing dbrft if tif sflfdtion rbngf is zfro
      */
-    public void setVisible(boolean e) {
-        if (e) e = getDot() == getMark();
-        super.setVisible(e);
+    publid void sftVisiblf(boolfbn f) {
+        if (f) f = gftDot() == gftMbrk();
+        supfr.sftVisiblf(f);
     }
 
-    protected void fireStateChanged() {
-        // If we have focus the caret should only flash if the range length is zero
-        if (mFocused) setVisible(getComponent().isEditable());
+    protfdtfd void firfStbtfCibngfd() {
+        // If wf ibvf fodus tif dbrft siould only flbsi if tif rbngf lfngti is zfro
+        if (mFodusfd) sftVisiblf(gftComponfnt().isEditbblf());
 
-        super.fireStateChanged();
+        supfr.firfStbtfCibngfd();
     }
 
-    public void propertyChange(final PropertyChangeEvent evt) {
-        final String propertyName = evt.getPropertyName();
+    publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+        finbl String propfrtyNbmf = fvt.gftPropfrtyNbmf();
 
-        if (AquaFocusHandler.FRAME_ACTIVE_PROPERTY.equals(propertyName)) {
-            final JTextComponent comp = ((JTextComponent)evt.getSource());
+        if (AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY.fqubls(propfrtyNbmf)) {
+            finbl JTfxtComponfnt domp = ((JTfxtComponfnt)fvt.gftSourdf());
 
-            if (evt.getNewValue() == Boolean.TRUE) {
-                setVisible(comp.hasFocus());
-            } else {
-                setVisible(false);
+            if (fvt.gftNfwVbluf() == Boolfbn.TRUE) {
+                sftVisiblf(domp.ibsFodus());
+            } flsf {
+                sftVisiblf(fblsf);
             }
 
-            if (getDot() != getMark()) comp.getUI().damageRange(comp, getDot(), getMark());
+            if (gftDot() != gftMbrk()) domp.gftUI().dbmbgfRbngf(domp, gftDot(), gftMbrk());
         }
     }
 
-    // --- FocusListener methods --------------------------
+    // --- FodusListfnfr mftiods --------------------------
 
-    private boolean shouldSelectAllOnFocus = true;
-    public void focusGained(final FocusEvent e) {
-        final JTextComponent component = getComponent();
-        if (!component.isEnabled() || !component.isEditable()) {
-            super.focusGained(e);
-            return;
+    privbtf boolfbn siouldSflfdtAllOnFodus = truf;
+    publid void fodusGbinfd(finbl FodusEvfnt f) {
+        finbl JTfxtComponfnt domponfnt = gftComponfnt();
+        if (!domponfnt.isEnbblfd() || !domponfnt.isEditbblf()) {
+            supfr.fodusGbinfd(f);
+            rfturn;
         }
 
-        mFocused = true;
-        if (!shouldSelectAllOnFocus) {
-            shouldSelectAllOnFocus = true;
-            super.focusGained(e);
-            return;
+        mFodusfd = truf;
+        if (!siouldSflfdtAllOnFodus) {
+            siouldSflfdtAllOnFodus = truf;
+            supfr.fodusGbinfd(f);
+            rfturn;
         }
 
-        if (isMultiLineEditor) {
-            super.focusGained(e);
-            return;
+        if (isMultiLinfEditor) {
+            supfr.fodusGbinfd(f);
+            rfturn;
         }
 
-        final int end = component.getDocument().getLength();
-        final int dot = getDot();
-        final int mark = getMark();
-        if (dot == mark) {
+        finbl int fnd = domponfnt.gftDodumfnt().gftLfngti();
+        finbl int dot = gftDot();
+        finbl int mbrk = gftMbrk();
+        if (dot == mbrk) {
             if (dot == 0) {
-                component.setCaretPosition(end);
-                component.moveCaretPosition(0);
-            } else if (dot == end) {
-                component.setCaretPosition(0);
-                component.moveCaretPosition(end);
+                domponfnt.sftCbrftPosition(fnd);
+                domponfnt.movfCbrftPosition(0);
+            } flsf if (dot == fnd) {
+                domponfnt.sftCbrftPosition(0);
+                domponfnt.movfCbrftPosition(fnd);
             }
         }
 
-        super.focusGained(e);
+        supfr.fodusGbinfd(f);
     }
 
-    public void focusLost(final FocusEvent e) {
-        mFocused = false;
-        shouldSelectAllOnFocus = true;
-        if (isMultiLineEditor) {
-            setVisible(false);
-            c.repaint();
-        } else {
-            super.focusLost(e);
+    publid void fodusLost(finbl FodusEvfnt f) {
+        mFodusfd = fblsf;
+        siouldSflfdtAllOnFodus = truf;
+        if (isMultiLinfEditor) {
+            sftVisiblf(fblsf);
+            d.rfpbint();
+        } flsf {
+            supfr.fodusLost(f);
         }
     }
 
-    // This fixes the problem where when on the mac you have to ctrl left click to
-    // get popup triggers the caret has code that only looks at button number.
-    // see radar # 3125390
-    public void mousePressed(final MouseEvent e) {
-        if (!e.isPopupTrigger()) {
-            super.mousePressed(e);
-            shouldSelectAllOnFocus = false;
+    // Tiis fixfs tif problfm wifrf wifn on tif mbd you ibvf to dtrl lfft dlidk to
+    // gft popup triggfrs tif dbrft ibs dodf tibt only looks bt button numbfr.
+    // sff rbdbr # 3125390
+    publid void mousfPrfssfd(finbl MousfEvfnt f) {
+        if (!f.isPopupTriggfr()) {
+            supfr.mousfPrfssfd(f);
+            siouldSflfdtAllOnFodus = fblsf;
         }
     }
 
     /**
-     * Damages the area surrounding the caret to cause
-     * it to be repainted in a new location.  If paint()
-     * is reimplemented, this method should also be
-     * reimplemented.  This method should update the
-     * caret bounds (x, y, width, and height).
+     * Dbmbgfs tif brfb surrounding tif dbrft to dbusf
+     * it to bf rfpbintfd in b nfw lodbtion.  If pbint()
+     * is rfimplfmfntfd, tiis mftiod siould blso bf
+     * rfimplfmfntfd.  Tiis mftiod siould updbtf tif
+     * dbrft bounds (x, y, widti, bnd ifigit).
      *
-     * @param r  the current location of the caret
-     * @see #paint
+     * @pbrbm r  tif durrfnt lodbtion of tif dbrft
+     * @sff #pbint
      */
-    protected synchronized void damage(final Rectangle r) {
-        if (r == null || fPainting) return;
+    protfdtfd syndironizfd void dbmbgf(finbl Rfdtbnglf r) {
+        if (r == null || fPbinting) rfturn;
 
         x = r.x - 4;
         y = r.y;
-        width = 10;
-        height = r.height;
+        widti = 10;
+        ifigit = r.ifigit;
 
-        // Don't damage the border area.  We can't paint a partial border, so get the
-        // intersection of the caret rectangle and the component less the border, if any.
-        final Rectangle caretRect = new Rectangle(x, y, width, height);
-        final Border border = getComponent().getBorder();
-        if (border != null) {
-            final Rectangle alloc = getComponent().getBounds();
-            alloc.x = alloc.y = 0;
-            final Insets borderInsets = border.getBorderInsets(getComponent());
-            alloc.x += borderInsets.left;
-            alloc.y += borderInsets.top;
-            alloc.width -= borderInsets.left + borderInsets.right;
-            alloc.height -= borderInsets.top + borderInsets.bottom;
-            Rectangle2D.intersect(caretRect, alloc, caretRect);
+        // Don't dbmbgf tif bordfr brfb.  Wf dbn't pbint b pbrtibl bordfr, so gft tif
+        // intfrsfdtion of tif dbrft rfdtbnglf bnd tif domponfnt lfss tif bordfr, if bny.
+        finbl Rfdtbnglf dbrftRfdt = nfw Rfdtbnglf(x, y, widti, ifigit);
+        finbl Bordfr bordfr = gftComponfnt().gftBordfr();
+        if (bordfr != null) {
+            finbl Rfdtbnglf bllod = gftComponfnt().gftBounds();
+            bllod.x = bllod.y = 0;
+            finbl Insfts bordfrInsfts = bordfr.gftBordfrInsfts(gftComponfnt());
+            bllod.x += bordfrInsfts.lfft;
+            bllod.y += bordfrInsfts.top;
+            bllod.widti -= bordfrInsfts.lfft + bordfrInsfts.rigit;
+            bllod.ifigit -= bordfrInsfts.top + bordfrInsfts.bottom;
+            Rfdtbnglf2D.intfrsfdt(dbrftRfdt, bllod, dbrftRfdt);
         }
-        x = caretRect.x;
-        y = caretRect.y;
-        width = Math.max(caretRect.width, 1);
-        height = Math.max(caretRect.height, 1);
-        repaint();
+        x = dbrftRfdt.x;
+        y = dbrftRfdt.y;
+        widti = Mbti.mbx(dbrftRfdt.widti, 1);
+        ifigit = Mbti.mbx(dbrftRfdt.ifigit, 1);
+        rfpbint();
     }
 
-    boolean fPainting = false;
+    boolfbn fPbinting = fblsf;
 
-    // See <rdar://problem/3833837> 1.4.2_05-141.3: JTextField performance with Aqua L&F
-    // We are getting into a circular condition with the BasicCaret paint code since it doesn't know about the fact that our
-    // damage routine above elminates the border. Sadly we can't easily change either one, so we will
-    // add a painting flag and not damage during a repaint.
-    public void paint(final Graphics g) {
-        if (isVisible()) {
-            fPainting = true;
-            super.paint(g);
-            fPainting = false;
+    // Sff <rdbr://problfm/3833837> 1.4.2_05-141.3: JTfxtFifld pfrformbndf witi Aqub L&F
+    // Wf brf gftting into b dirdulbr dondition witi tif BbsidCbrft pbint dodf sindf it dofsn't know bbout tif fbdt tibt our
+    // dbmbgf routinf bbovf flminbtfs tif bordfr. Sbdly wf dbn't fbsily dibngf fitifr onf, so wf will
+    // bdd b pbinting flbg bnd not dbmbgf during b rfpbint.
+    publid void pbint(finbl Grbpiids g) {
+        if (isVisiblf()) {
+            fPbinting = truf;
+            supfr.pbint(g);
+            fPbinting = fblsf;
         }
     }
 }

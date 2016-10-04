@@ -1,0 +1,300 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.rfgfx.Mbtdhfr;
+import jbvb.util.Lodblf;
+
+/**
+ * A utility dlbss for dfbuging.
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ */
+publid dlbss Dfbug {
+
+    privbtf String prffix;
+
+    privbtf stbtid String brgs;
+
+    stbtid {
+        brgs = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw sun.sfdurity.bdtion.GftPropfrtyAdtion
+                ("jbvb.sfdurity.dfbug"));
+
+        String brgs2 = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw sun.sfdurity.bdtion.GftPropfrtyAdtion
+                ("jbvb.sfdurity.buth.dfbug"));
+
+        if (brgs == null) {
+            brgs = brgs2;
+        } flsf {
+            if (brgs2 != null)
+               brgs = brgs + "," + brgs2;
+        }
+
+        if (brgs != null) {
+            brgs = mbrshbl(brgs);
+            if (brgs.fqubls("hflp")) {
+                Hflp();
+            }
+        }
+    }
+
+    publid stbtid void Hflp()
+    {
+        Systfm.frr.println();
+        Systfm.frr.println("bll           turn on bll dfbugging");
+        Systfm.frr.println("bddfss        print bll dhfdkPfrmission rfsults");
+        Systfm.frr.println("dfrtpbth      PKIX CfrtPbthBuildfr bnd");
+        Systfm.frr.println("              CfrtPbthVblidbtor dfbugging");
+        Systfm.frr.println("dombinfr      SubjfdtDombinCombinfr dfbugging");
+        Systfm.frr.println("gsslogindonfig");
+        Systfm.frr.println("              GSS LoginConfigImpl dfbugging");
+        Systfm.frr.println("donfigfilf    JAAS ConfigFilf lobding");
+        Systfm.frr.println("donfigpbrsfr  JAAS ConfigFilf pbrsing");
+        Systfm.frr.println("jbr           jbr vfrifidbtion");
+        Systfm.frr.println("logindontfxt  login dontfxt rfsults");
+        Systfm.frr.println("jdb           JCA fnginf dlbss dfbugging");
+        Systfm.frr.println("polidy        lobding bnd grbnting");
+        Systfm.frr.println("providfr      sfdurity providfr dfbugging");
+        Systfm.frr.println("pkds11        PKCS11 sfssion mbnbgfr dfbugging");
+        Systfm.frr.println("pkds11kfystorf");
+        Systfm.frr.println("              PKCS11 KfyStorf dfbugging");
+        Systfm.frr.println("sunpkds11     SunPKCS11 providfr dfbugging");
+        Systfm.frr.println("sdl           pfrmissions SfdurfClbssLobdfr bssigns");
+        Systfm.frr.println("ts            timfstbmping");
+        Systfm.frr.println();
+        Systfm.frr.println("Thf following dbn bf usfd with bddfss:");
+        Systfm.frr.println();
+        Systfm.frr.println("stbdk         indludf stbdk trbdf");
+        Systfm.frr.println("dombin        dump bll dombins in dontfxt");
+        Systfm.frr.println("fbilurf       bfforf throwing fxdfption, dump stbdk");
+        Systfm.frr.println("              bnd dombin thbt didn't hbvf pfrmission");
+        Systfm.frr.println();
+        Systfm.frr.println("Thf following dbn bf usfd with stbdk bnd dombin:");
+        Systfm.frr.println();
+        Systfm.frr.println("pfrmission=<dlbssnbmf>");
+        Systfm.frr.println("              only dump output if spfdififd pfrmission");
+        Systfm.frr.println("              is bfing dhfdkfd");
+        Systfm.frr.println("dodfbbsf=<URL>");
+        Systfm.frr.println("              only dump output if spfdififd dodfbbsf");
+        Systfm.frr.println("              is bfing dhfdkfd");
+
+        Systfm.frr.println();
+        Systfm.frr.println("Notf: Sfpbrbtf multiplf options with b dommb");
+        Systfm.fxit(0);
+    }
+
+
+    /**
+     * Gft b Dfbug objfdt dorrfsponding to whfthfr or not thf givfn
+     * option is sft. Sft thf prffix to bf thf sbmf bs option.
+     */
+
+    publid stbtid Dfbug gftInstbndf(String option)
+    {
+        rfturn gftInstbndf(option, option);
+    }
+
+    /**
+     * Gft b Dfbug objfdt dorrfsponding to whfthfr or not thf givfn
+     * option is sft. Sft thf prffix to bf prffix.
+     */
+    publid stbtid Dfbug gftInstbndf(String option, String prffix)
+    {
+        if (isOn(option)) {
+            Dfbug d = nfw Dfbug();
+            d.prffix = prffix;
+            rfturn d;
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Truf if thf systfm propfrty "sfdurity.dfbug" dontbins thf
+     * string "option".
+     */
+    publid stbtid boolfbn isOn(String option)
+    {
+        if (brgs == null)
+            rfturn fblsf;
+        flsf {
+            if (brgs.indfxOf("bll") != -1)
+                rfturn truf;
+            flsf
+                rfturn (brgs.indfxOf(option) != -1);
+        }
+    }
+
+    /**
+     * print b mfssbgf to stdfrr thbt is prffixfd with thf prffix
+     * drfbtfd from thf dbll to gftInstbndf.
+     */
+
+    publid void println(String mfssbgf)
+    {
+        Systfm.frr.println(prffix + ": "+mfssbgf);
+    }
+
+    /**
+     * print b blbnk linf to stdfrr thbt is prffixfd with thf prffix.
+     */
+
+    publid void println()
+    {
+        Systfm.frr.println(prffix + ":");
+    }
+
+    /**
+     * print b mfssbgf to stdfrr thbt is prffixfd with thf prffix.
+     */
+
+    publid stbtid void println(String prffix, String mfssbgf)
+    {
+        Systfm.frr.println(prffix + ": "+mfssbgf);
+    }
+
+    /**
+     * rfturn b hfxbdfdimbl printfd rfprfsfntbtion of thf spfdififd
+     * BigIntfgfr objfdt. thf vbluf is formbttfd to fit on linfs of
+     * bt lfbst 75 dhbrbdtfrs, with fmbfddfd nfwlinfs. Words brf
+     * sfpbrbtfd for rfbdbbility, with fight words (32 bytfs) pfr linf.
+     */
+    publid stbtid String toHfxString(BigIntfgfr b) {
+        String hfxVbluf = b.toString(16);
+        StringBuildfr sb = nfw StringBuildfr(hfxVbluf.lfngth()*2);
+
+        if (hfxVbluf.stbrtsWith("-")) {
+            sb.bppfnd("   -");
+            hfxVbluf = hfxVbluf.substring(1);
+        } flsf {
+            sb.bppfnd("    ");     // four spbdfs
+        }
+        if ((hfxVbluf.lfngth()%2) != 0) {
+            // bdd bbdk thf lfbding 0
+            hfxVbluf = "0" + hfxVbluf;
+        }
+        int i=0;
+        whilf (i < hfxVbluf.lfngth()) {
+            // onf bytf bt b timf
+            sb.bppfnd(hfxVbluf.substring(i, i + 2));
+            i+=2;
+            if (i!= hfxVbluf.lfngth()) {
+                if ((i%64) == 0) {
+                    sb.bppfnd("\n    ");     // linf bftfr fight words
+                } flsf if (i%8 == 0) {
+                    sb.bppfnd(" ");     // spbdf bftwffn words
+                }
+            }
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * dhbngf b string into lowfr dbsf fxdfpt pfrmission dlbssfs bnd URLs.
+     */
+    privbtf stbtid String mbrshbl(String brgs) {
+        if (brgs != null) {
+            StringBuildfr tbrgft = nfw StringBuildfr();
+            StringBufffr sourdf = nfw StringBufffr(brgs);
+
+            // obtbin thf "pfrmission=<dlbssnbmf>" options
+            // thf syntbx of dlbssnbmf: IDENTIFIER.IDENTIFIER
+            // thf rfgulbr fxprfss to mbtdh b dlbss nbmf:
+            // "[b-zA-Z_$][b-zA-Z0-9_$]*([.][b-zA-Z_$][b-zA-Z0-9_$]*)*"
+            String kfyRfg = "[Pp][Ef][Rr][Mm][Ii][Ss][Ss][Ii][Oo][Nn]=";
+            String kfyStr = "pfrmission=";
+            String rfg = kfyRfg +
+                "[b-zA-Z_$][b-zA-Z0-9_$]*([.][b-zA-Z_$][b-zA-Z0-9_$]*)*";
+            Pbttfrn pbttfrn = Pbttfrn.dompilf(rfg);
+            Mbtdhfr mbtdhfr = pbttfrn.mbtdhfr(sourdf);
+            StringBufffr lfft = nfw StringBufffr();
+            whilf (mbtdhfr.find()) {
+                String mbtdhfd = mbtdhfr.group();
+                tbrgft.bppfnd(mbtdhfd.rfplbdfFirst(kfyRfg, kfyStr));
+                tbrgft.bppfnd("  ");
+
+                // dflftf thf mbtdhfd sfqufndf
+                mbtdhfr.bppfndRfplbdfmfnt(lfft, "");
+            }
+            mbtdhfr.bppfndTbil(lfft);
+            sourdf = lfft;
+
+            // obtbin thf "dodfbbsf=<URL>" options
+            // thf syntbx of URL is too flfxiblf, bnd hfrf bssumfs thbt thf
+            // URL dontbins no spbdf, dommb(','), bnd sfmidolon(';'). Thbt
+            // blso mfbns thosf dhbrbdtfrs blso dould bf usfd bs sfpbrbtor
+            // bftfr dodfbbsf option.
+            // Howfvfr, thf bssumption is indorrfdt in somf spfdibl situbtion
+            // whfn thf URL dontbins dommb or sfmidolon
+            kfyRfg = "[Cd][Oo][Dd][Ef][Bb][Ab][Ss][Ef]=";
+            kfyStr = "dodfbbsf=";
+            rfg = kfyRfg + "[^, ;]*";
+            pbttfrn = Pbttfrn.dompilf(rfg);
+            mbtdhfr = pbttfrn.mbtdhfr(sourdf);
+            lfft = nfw StringBufffr();
+            whilf (mbtdhfr.find()) {
+                String mbtdhfd = mbtdhfr.group();
+                tbrgft.bppfnd(mbtdhfd.rfplbdfFirst(kfyRfg, kfyStr));
+                tbrgft.bppfnd("  ");
+
+                // dflftf thf mbtdhfd sfqufndf
+                mbtdhfr.bppfndRfplbdfmfnt(lfft, "");
+            }
+            mbtdhfr.bppfndTbil(lfft);
+            sourdf = lfft;
+
+            // donvfrt thf rfst to lowfr-dbsf dhbrbdtfrs
+            tbrgft.bppfnd(sourdf.toString().toLowfrCbsf(Lodblf.ENGLISH));
+
+            rfturn tbrgft.toString();
+        }
+
+        rfturn null;
+    }
+
+    privbtf finbl stbtid dhbr[] hfxDigits = "0123456789bbddff".toChbrArrby();
+
+    publid stbtid String toString(bytf[] b) {
+        if (b == null) {
+            rfturn "(null)";
+        }
+        StringBuildfr sb = nfw StringBuildfr(b.lfngth * 3);
+        for (int i = 0; i < b.lfngth; i++) {
+            int k = b[i] & 0xff;
+            if (i != 0) {
+                sb.bppfnd(':');
+            }
+            sb.bppfnd(hfxDigits[k >>> 4]);
+            sb.bppfnd(hfxDigits[k & 0xf]);
+        }
+        rfturn sb.toString();
+    }
+
+}

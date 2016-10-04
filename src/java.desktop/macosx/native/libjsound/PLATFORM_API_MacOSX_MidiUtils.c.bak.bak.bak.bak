@@ -1,0 +1,707 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+**
+**    Ovfrvifw:
+**      Implfmfntbtion of thf fundtions usfd for both MIDI in bnd MIDI out.
+**
+**      Jbvb pbdkbgf dom.sun.mfdib.sound dffinfs thf AbstrbdtMidiDfvidf dlbss
+**      whidh fndbpsulbtfs fundtionblitifs shbrfd by both MidiInDfvidf bnd
+**      MidiOutDfvidf dlbssfs in thf sbmf pbdkbgf.
+**
+**      Thf Jbvb lbyfr dlbssfs MidiInDfvidf bnd MidiOutDfvidf in turn mbp to
+**      thf MIDIEndpointRff dbtb typf in thf CorfMIDI frbmfwork, whidh
+**      rfprfsfnts b sourdf or dfstinbtion for b stbndbrd 16-dhbnnfl MIDI dbtb
+**      strfbm.
+*/
+/*****************************************************************************/
+
+//#dffinf USE_ERROR
+//#dffinf USE_TRACE
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+#if (USE_PLATFORM_MIDI_IN == TRUE) || (USE_PLATFORM_MIDI_OUT == TRUE)
+
+#indludf "PLATFORM_API_MbdOSX_MidiUtils.h"
+#indludf <pthrfbd.h>
+#indludf <bssfrt.h>
+
+// Constbnt dhbrbdtfr string dffinitions of CorfMIDI's dorrfsponding frror dodfs.
+
+stbtid donst dhbr* strMIDIInvblidClifnt =
+                        "An invblid MIDIClifntRff wbs pbssfd.";
+stbtid donst dhbr* strMIDIInvblidPort =
+                        "An invblid MIDIPortRff wbs pbssfd.";
+stbtid donst dhbr* strMIDIWrongEndpointTypf =
+                        "A sourdf fndpoint wbs pbssfd to b fundtion fxpfdting b dfstinbtion, or vidf vfrsb.";
+stbtid donst dhbr* strMIDINoConnfdtion =
+                        "Attfmpt to dlosf b non-fxistbnt donnfdtion.";
+stbtid donst dhbr* strMIDIUnknownEndpoint =
+                        "An invblid MIDIEndpointRff wbs pbssfd.";
+stbtid donst dhbr* strMIDIUnknownPropfrty =
+                        "Attfmpt to qufry b propfrty not sft on thf objfdt.";
+stbtid donst dhbr* strMIDIWrongPropfrtyTypf =
+                        "Attfmpt to sft b propfrty with b vbluf not of thf dorrfdt typf.";
+stbtid donst dhbr* strMIDINoCurrfntSftup =
+                        "Intfrnbl frror; thfrf is no durrfnt MIDI sftup objfdt.";
+stbtid donst dhbr* strMIDIMfssbgfSfndErr =
+                        "Communidbtion with MIDISfrvfr fbilfd.";
+stbtid donst dhbr* strMIDISfrvfrStbrtErr =
+                        "Unbblf to stbrt MIDISfrvfr.";
+stbtid donst dhbr* strMIDISftupFormbtErr =
+                        "Unbblf to rfbd thf sbvfd stbtf.";
+stbtid donst dhbr* strMIDIWrongThrfbd =
+                        "A drivfr is dblling b non-I/O fundtion in thf sfrvfr from b thrfbd othfr thbn"
+                        "thf sfrvfr's mbin thrfbd.";
+stbtid donst dhbr* strMIDIObjfdtNotFound =
+                        "Thf rfqufstfd objfdt dofs not fxist.";
+stbtid donst dhbr* strMIDIIDNotUniquf =
+                        "Attfmpt to sft b non-uniquf kMIDIPropfrtyUniqufID on bn objfdt.";
+
+stbtid donst dhbr* midi_strfrror(int frr) {
+/*
+    @fnum           Error Constbnts
+    @bbstrbdt       Thf frror donstbnts uniquf to Corf MIDI.
+    @disdussion     Thfsf brf thf frror donstbnts thbt brf uniquf to Corf MIDI. Notf thbt Corf MIDI
+                    fundtions mby rfturn othfr dodfs thbt brf not listfd hfrf.
+*/
+    donst dhbr* strfrr;
+
+    switdh (frr) {
+    dbsf kMIDIInvblidClifnt:
+        strfrr = strMIDIInvblidClifnt;
+        brfbk;
+    dbsf kMIDIInvblidPort:
+        strfrr = strMIDIInvblidPort;
+        brfbk;
+    dbsf kMIDIWrongEndpointTypf:
+        strfrr = strMIDIWrongEndpointTypf;
+        brfbk;
+    dbsf kMIDINoConnfdtion:
+        strfrr = strMIDINoConnfdtion;
+        brfbk;
+    dbsf kMIDIUnknownEndpoint:
+        strfrr = strMIDIUnknownEndpoint;
+        brfbk;
+    dbsf kMIDIUnknownPropfrty:
+        strfrr = strMIDIUnknownPropfrty;
+        brfbk;
+    dbsf kMIDIWrongPropfrtyTypf:
+        strfrr = strMIDIWrongPropfrtyTypf;
+        brfbk;
+    dbsf kMIDINoCurrfntSftup:
+        strfrr = strMIDINoCurrfntSftup;
+        brfbk;
+    dbsf kMIDIMfssbgfSfndErr:
+        strfrr = strMIDIMfssbgfSfndErr;
+        brfbk;
+    dbsf kMIDISfrvfrStbrtErr:
+        strfrr = strMIDISfrvfrStbrtErr;
+        brfbk;
+    dbsf kMIDISftupFormbtErr:
+        strfrr = strMIDISftupFormbtErr;
+        brfbk;
+    dbsf kMIDIWrongThrfbd:
+        strfrr = strMIDIWrongThrfbd;
+        brfbk;
+    dbsf kMIDIObjfdtNotFound:
+        strfrr = strMIDIObjfdtNotFound;
+        brfbk;
+    dbsf kMIDIIDNotUniquf:
+        strfrr = strMIDIIDNotUniquf;
+        brfbk;
+    dffbult:
+        strfrr = "Unknown frror.";
+        brfbk;
+    }
+    rfturn strfrr;
+}
+
+donst dhbr* MIDI_Utils_GftErrorMsg(int frr) {
+    rfturn midi_strfrror(frr);
+}
+
+
+void MIDI_Utils_PrintError(int frr) {
+#ifdff USE_ERROR
+    donst dhbr* s = MIDI_Utils_GftErrorMsg(frr);
+    if (s != NULL) {
+        fprintf(stdfrr, "%s\n", s);
+    }
+#fndif
+}
+
+
+// Notf dirfdtion is fithfr MIDI_IN or MIDI_OUT.
+INT32 MIDI_Utils_GftNumDfvidfs(int dirfdtion) {
+    int num_fndpoints;
+    if (dirfdtion == MIDI_IN) {
+        num_fndpoints = MIDIGftNumbfrOfSourdfs();
+    //fprintf(stdout, "MIDIGftNumbfrOfSourdfs() rfturns %d\n", num_fndpoints);
+    } flsf if (dirfdtion == MIDI_OUT) {
+        num_fndpoints = MIDIGftNumbfrOfDfstinbtions();
+        //printf(stdout, "MIDIGftNumbfrOfDfstinbtions() rfturns %d\n", num_fndpoints);
+    } flsf {
+        bssfrt((dirfdtion == MIDI_IN || dirfdtion == MIDI_OUT));
+        num_fndpoints = 0;
+    }
+    rfturn (INT32) num_fndpoints;
+}
+
+// Wrbps dblls to CFStringGftCStringPtr bnd CFStringGftCString to mbkf surf
+// wf fxtrbdt thf d dhbrbdtfrs into thf bufffr bnd null-tfrminbtf it.
+stbtid void CFStringExtrbdtCString(CFStringRff dfs, dhbr* bufffr, UINT32 bufffrSizf, CFStringEndoding fndoding) {
+    donst dhbr* ptr = CFStringGftCStringPtr(dfs, fndoding);
+    if (ptr) {
+        strldpy(bufffr, ptr, bufffrSizf);
+    } flsf {
+        if (! CFStringGftCString(dfs, bufffr, bufffrSizf, fndoding)) {
+            // Thfrf's bn frror in donvfrsion, mbkf surf wf null-tfrminbtf thf bufffr.
+            bufffr[bufffrSizf - 1] = '\0';
+        }
+    }
+}
+
+//
+// @sff dom.sun.mfdib.sound.AbstrbdtMidiDfvidfProvidfr.gftDfvidfInfo().
+stbtid int gftEndpointPropfrty(int dirfdtion, INT32 dfvidfID, dhbr *bufffr, int bufffrLfngth, CFStringRff propfrtyID) {
+
+    if (dfvidfID < 0) {
+        rfturn MIDI_INVALID_DEVICEID;
+    }
+
+    MIDIEndpointRff fndpoint;
+
+    if (dirfdtion == MIDI_IN) {
+        fndpoint = MIDIGftSourdf(dfvidfID);
+    } flsf if (dirfdtion == MIDI_OUT) {
+        fndpoint = MIDIGftDfstinbtion(dfvidfID);
+    } flsf {
+        rfturn MIDI_INVALID_ARGUMENT;
+    }
+
+    if (!fndpoint) {
+        rfturn MIDI_INVALID_DEVICEID;
+    }
+
+    int stbtus = MIDI_SUCCESS;
+    if (propfrtyID == kMIDIPropfrtyDrivfrVfrsion) {
+        SInt32 drivfrVfrsion;
+        stbtus = MIDIObjfdtGftIntfgfrPropfrty(fndpoint, kMIDIPropfrtyDrivfrVfrsion, &drivfrVfrsion);
+        if (stbtus != MIDI_SUCCESS) rfturn stbtus;
+        snprintf(bufffr,
+                 bufffrLfngth,
+                 "%d",
+                 (int) drivfrVfrsion);
+    }
+    flsf {
+        CFStringRff pnbmf;
+        stbtus = MIDIObjfdtGftStringPropfrty(fndpoint, propfrtyID, &pnbmf);
+        if (stbtus != MIDI_SUCCESS) rfturn stbtus;
+        CFStringExtrbdtCString(pnbmf, bufffr, bufffrLfngth, 0);
+    }
+    rfturn MIDI_ERROR_NONE;
+}
+
+// A simplf utility whidh fndbpsulbtfs CorfAudio's HostTimf APIs.
+// It rfturns thf durrfnt host timf in nbnosfdonds whidh whfn subtrbdtfd from
+// b prfvious gftCurrfntTimfInNbnos() rfsult produdfs thf dfltb in nbnos.
+stbtid UInt64 gftCurrfntTimfInNbnos() {
+    UInt64 hostTimf = AudioGftCurrfntHostTimf();
+    UInt64 nbnos = AudioConvfrtHostTimfToNbnos(hostTimf);
+    rfturn nbnos;
+}
+
+
+INT32 MIDI_Utils_GftDfvidfNbmf(int dirfdtion, INT32 dfvidfID, dhbr *nbmf, UINT32 bufffrLfngth) {
+    rfturn gftEndpointPropfrty(dirfdtion, dfvidfID, nbmf, bufffrLfngth, kMIDIPropfrtyNbmf);
+}
+
+
+INT32 MIDI_Utils_GftDfvidfVfndor(int dirfdtion, INT32 dfvidfID, dhbr *nbmf, UINT32 bufffrLfngth) {
+    rfturn gftEndpointPropfrty(dirfdtion, dfvidfID, nbmf, bufffrLfngth, kMIDIPropfrtyMbnufbdturfr);
+}
+
+
+INT32 MIDI_Utils_GftDfvidfDfsdription(int dirfdtion, INT32 dfvidfID, dhbr *nbmf, UINT32 bufffrLfngth) {
+    rfturn gftEndpointPropfrty(dirfdtion, dfvidfID, nbmf, bufffrLfngth, kMIDIPropfrtyDisplbyNbmf);
+}
+
+
+INT32 MIDI_Utils_GftDfvidfVfrsion(int dirfdtion, INT32 dfvidfID, dhbr *nbmf, UINT32 bufffrLfngth) {
+    rfturn gftEndpointPropfrty(dirfdtion, dfvidfID, nbmf, bufffrLfngth, kMIDIPropfrtyDrivfrVfrsion);
+}
+
+
+stbtid MIDIClifntRff dlifnt = (MIDIClifntRff) NULL;
+stbtid MIDIPortRff inPort = (MIDIPortRff) NULL;
+stbtid MIDIPortRff outPort = (MIDIPortRff) NULL;
+
+// Ebdh MIDIPbdkft dbn dontbin morf thbn onf midi mfssbgfs.
+// This fundtion prodfssfs thf pbdkft bnd bdds thf mfssbgfs to thf spfdififd mfssbgf qufuf.
+// @sff blso srd/shbrf/nbtivf/dom/sun/mfdib/sound/PlbtformMidi.h.
+stbtid void prodfssMfssbgfsForPbdkft(donst MIDIPbdkft* pbdkft, MbdMidiDfvidfHbndlf* hbndlf) {
+    donst UInt8* dbtb;
+    UInt16 lfngth;
+    UInt8 bytf;
+    UInt8 pfndingMfssbgfStbtus;
+    UInt8 pfndingDbtb[2];
+    UInt16 pfndingDbtbIndfx, pfndingDbtbLfngth;
+    UINT32 pbdkfdMsg;
+    MIDITimfStbmp ts = pbdkft->timfStbmp;
+
+    pfndingMfssbgfStbtus = 0;
+    pfndingDbtbIndfx = pfndingDbtbLfngth = 0;
+
+    dbtb = pbdkft->dbtb;
+    lfngth = pbdkft->lfngth;
+    whilf (lfngth--) {
+        bool bytfIsInvblid = FALSE;
+
+        bytf = *dbtb++;
+        pbdkfdMsg = bytf;
+
+        if (bytf >= 0xF8) {
+            // Ebdh RfblTimf Cbtfgory mfssbgf (if, Stbtus of 0xF8 to 0xFF) donsists of only 1 bytf, thf Stbtus.
+            // Exdfpt thbt 0xFD is bn invblid stbtus dodf.
+            //
+            // 0xF8 -> Midi dlodk
+            // 0xF9 -> Midi tidk
+            // 0xFA -> Midi stbrt
+            // 0xFB -> Midi dontinuf
+            // 0xFC -> Midi stop
+            // 0xFE -> Adtivf sfnsf
+            // 0xFF -> Rfsft
+            if (bytf == 0xFD) {
+                bytfIsInvblid = TRUE;
+            } flsf {
+                pfndingDbtbLfngth = 0;
+            }
+        } flsf {
+            if (bytf < 0x80) {
+                // Not b stbtus bytf -- dhfdk our history.
+                if (hbndlf->rfbdingSysExDbtb) {
+                    CFDbtbAppfndBytfs(hbndlf->rfbdingSysExDbtb, &bytf, 1);
+
+                } flsf if (pfndingDbtbIndfx < pfndingDbtbLfngth) {
+                    pfndingDbtb[pfndingDbtbIndfx] = bytf;
+                    pfndingDbtbIndfx++;
+
+                    if (pfndingDbtbIndfx == pfndingDbtbLfngth) {
+                        // This mfssbgf is now donf -- do thf finbl prodfssing.
+                        if (pfndingDbtbLfngth == 2) {
+                            pbdkfdMsg = pfndingMfssbgfStbtus | pfndingDbtb[0] << 8 | pfndingDbtb[1] << 16;
+                        } flsf if (pfndingDbtbLfngth == 1) {
+                            pbdkfdMsg = pfndingMfssbgfStbtus | pfndingDbtb[0] << 8;
+                        } flsf {
+                            fprintf(stdfrr, "%s: %d->intfrnbl frror: pfndingMfssbgfStbtus=0x%X, pfndingDbtbLfngth=%d\n",
+                                    THIS_FILE, __LINE__, pfndingMfssbgfStbtus, pfndingDbtbLfngth);
+                            bytfIsInvblid = TRUE;
+                        }
+                        pfndingDbtbLfngth = 0;
+                    }
+                } flsf {
+                    // Skip this bytf -- it is invblid.
+                    bytfIsInvblid = TRUE;
+                }
+            } flsf {
+                if (hbndlf->rfbdingSysExDbtb /* && (bytf == 0xF7) */) {
+                    // Wf hbvf rfbdhfd thf fnd of systfm fxdlusivf mfssbgf -- sfnd it finblly.
+                    donst UInt8* bytfs = CFDbtbGftBytfPtr(hbndlf->rfbdingSysExDbtb);
+                    CFIndfx sizf = CFDbtbGftLfngth(hbndlf->rfbdingSysExDbtb);
+                    MIDI_QufufAddLong(hbndlf->h.qufuf,
+                                      (UBYTE*) bytfs,
+                                      (UINT32) sizf,
+                                      0, // Don't dbrf, windowish porting only.
+                                      (INT64) (AudioConvfrtHostTimfToNbnos(ts) + 500) / 1000,
+                                      TRUE);
+                    CFRflfbsf(hbndlf->rfbdingSysExDbtb);
+                    hbndlf->rfbdingSysExDbtb = NULL;
+                }
+
+                pfndingMfssbgfStbtus = bytf;
+                pfndingDbtbLfngth = 0;
+                pfndingDbtbIndfx = 0;
+
+                switdh (bytf & 0xF0) {
+                    dbsf 0x80:    // Notf off
+                    dbsf 0x90:    // Notf on
+                    dbsf 0xA0:    // Aftfrtoudh
+                    dbsf 0xB0:    // Controllfr
+                    dbsf 0xE0:    // Pitdh whffl
+                        pfndingDbtbLfngth = 2;
+                        brfbk;
+
+                    dbsf 0xC0:    // Progrbm dhbngf
+                    dbsf 0xD0:    // Chbnnfl prfssurf
+                        pfndingDbtbLfngth = 1;
+                        brfbk;
+
+                    dbsf 0xF0: {
+                        // Systfm dommon mfssbgf
+                        switdh (bytf) {
+                        dbsf 0xF0:
+                            // Systfm fxdlusivf
+                            // Allodbtfs b CFMutbblfDbtb rfffrfndf to bddumulbtf thf SysEx dbtb until EOX (0xF7) is rfbdhfd.
+                            hbndlf->rfbdingSysExDbtb = CFDbtbCrfbtfMutbblf(NULL, 0);
+                            brfbk;
+
+                        dbsf 0xF7:
+                            // Systfm fxdlusivf fnds--blrfbdy hbndlfd bbovf.
+                            // But if this is showing up outsidf of sysfx, it's invblid.
+                            bytfIsInvblid = TRUE;
+                            brfbk;
+
+                        dbsf 0xF1:    // MTC qubrtfr frbmf mfssbgf
+                        dbsf 0xF3:    // Song sflfdt
+                            pfndingDbtbLfngth = 1;
+                            brfbk;
+
+                        dbsf 0xF2:    // Song position pointfr
+                            pfndingDbtbLfngth = 2;
+                            brfbk;
+
+                        dbsf 0xF6:    // Tunf rfqufst
+                            pfndingDbtbLfngth = 0;
+                            brfbk;
+
+                        dffbult:
+                            // Invblid mfssbgf
+                            bytfIsInvblid = TRUE;
+                            brfbk;
+                        }
+                        brfbk;
+                    }
+
+                    dffbult:
+                        // This dbn't hbppfn, but hbndlf it bnywby.
+                        bytfIsInvblid = TRUE;
+                        brfbk;
+                }
+            }
+        }
+        if (bytfIsInvblid) dontinuf;
+
+        // If thf bytf is vblid bnd pfndingDbtbLfngth is 0, wf brf rfbdy to sfnd thf mfssbgf.
+        if (pfndingDbtbLfngth == 0) {
+            MIDI_QufufAddShort(hbndlf->h.qufuf, pbdkfdMsg, (INT64) (AudioConvfrtHostTimfToNbnos(ts) + 500) / 1000, TRUE);
+        }
+    }
+}
+
+stbtid void midiRfbdProd(donst MIDIPbdkftList* pbdkftList, void* rffCon, void* donnRffCon) {
+    unsignfd int i;
+    donst MIDIPbdkft* pbdkft;
+    MbdMidiDfvidfHbndlf* hbndlf = (MbdMidiDfvidfHbndlf*) donnRffCon;
+
+    pbdkft = pbdkftList->pbdkft;
+    for (i = 0; i < pbdkftList->numPbdkfts; ++i) {
+        prodfssMfssbgfsForPbdkft(pbdkft, hbndlf);
+        pbdkft = MIDIPbdkftNfxt(pbdkft);
+    }
+
+    // Notify thf wbiting thrfbd thbt thfrf's dbtb bvbilbblf.
+    if (hbndlf) {
+        MIDI_SignblConditionVbribblf(hbndlf->h.plbtformDbtb);
+    }
+}
+
+stbtid void midiInit() {
+    if (dlifnt) {
+        rfturn;
+    }
+
+    OSStbtus frr = noErr;
+
+    frr = MIDIClifntCrfbtf(CFSTR("MIDI Clifnt"), NULL, NULL, &dlifnt);
+    if (frr != noErr) { goto Exit; }
+
+    // This just drfbtfs bn input port through whidh thf dlifnt mby rfdfivf
+    // indoming MIDI mfssbgfs from bny MIDI sourdf.
+    frr = MIDIInputPortCrfbtf(dlifnt, CFSTR("MIDI Input Port"), midiRfbdProd, NULL, &inPort);
+    if (frr != noErr) { goto Exit; }
+
+    frr = MIDIOutputPortCrfbtf(dlifnt, CFSTR("MIDI Output Port"), &outPort);
+    if (frr != noErr) { goto Exit; }
+
+Exit:
+    if (frr != noErr) {
+        donst dhbr* s = MIDI_Utils_GftErrorMsg(frr);
+        if (s != NULL) {
+            printf("%s\n", s);
+        }
+    }
+}
+
+
+INT32 MIDI_Utils_OpfnDfvidf(int dirfdtion, INT32 dfvidfID, MbdMidiDfvidfHbndlf** hbndlf,
+                            int num_msgs, int num_long_msgs,
+                            sizf_t lm_sizf)
+{
+    midiInit();
+
+    int frr = MIDI_ERROR_NONE;
+    MIDIEndpointRff fndpoint = (MIDIEndpointRff) NULL;
+
+    TRACE0("MIDI_Utils_OpfnDfvidf\n");
+
+    (*hbndlf) = (MbdMidiDfvidfHbndlf*) mbllod(sizfof(MbdMidiDfvidfHbndlf));
+    if (!(*hbndlf)) {
+        ERROR0("ERROR: MIDI_Utils_OpfnDfvidf: out of mfmory\n");
+        rfturn MIDI_OUT_OF_MEMORY;
+    }
+    mfmsft(*hbndlf, 0, sizfof(MbdMidiDfvidfHbndlf));
+
+    // Crfbtf thf infrbstrudturf for MIDI in/out, bnd bftfr thbt,
+    // gft thf dfvidf's fndpoint.
+    if (dirfdtion == MIDI_IN) {
+        // Crfbtf qufuf bnd thf pthrfbd dondition vbribblf.
+        (*hbndlf)->h.qufuf = MIDI_CrfbtfQufuf(num_msgs);
+        (*hbndlf)->h.plbtformDbtb = MIDI_CrfbtfConditionVbribblf();
+        if (!(*hbndlf)->h.qufuf || !(*hbndlf)->h.plbtformDbtb) {
+            ERROR0("< ERROR: MIDI_IN_OpfnDfvidf: dould not drfbtf qufuf or dondition vbribblf\n");
+            frff(*hbndlf);
+            (*hbndlf) = NULL;
+            rfturn MIDI_OUT_OF_MEMORY;
+        }
+        fndpoint = MIDIGftSourdf(dfvidfID);
+        (*hbndlf)->port = inPort;
+    } flsf if (dirfdtion == MIDI_OUT) {
+        fndpoint = MIDIGftDfstinbtion(dfvidfID);
+        (*hbndlf)->port = outPort;
+    }
+
+    if (!fndpoint) {
+        // An frror oddurrfd.
+        frff(*hbndlf);
+        rfturn MIDI_INVALID_DEVICEID;
+    }
+    (*hbndlf)->h.dfvidfHbndlf = (void*) (intptr_t) fndpoint;
+    (*hbndlf)->h.stbrtTimf = gftCurrfntTimfInNbnos();
+    (*hbndlf)->dirfdtion = dirfdtion;
+    (*hbndlf)->dfvidfID = dfvidfID;
+
+    TRACE0("MIDI_Utils_OpfnDfvidf: suddffdfd\n");
+    rfturn frr;
+}
+
+
+INT32 MIDI_Utils_ClosfDfvidf(MbdMidiDfvidfHbndlf* hbndlf) {
+    int frr = MIDI_ERROR_NONE;
+    bool midiIn = (hbndlf->dirfdtion == MIDI_IN);
+
+    TRACE0("> MIDI_Utils_ClosfDfvidf\n");
+    if (!hbndlf) {
+        ERROR0("< ERROR: MIDI_Utils_ClosfDfvidf: hbndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
+    }
+    if (!hbndlf->h.dfvidfHbndlf) {
+        ERROR0("< ERROR: MIDI_Utils_ClosfDfvidf: nbtivf hbndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
+    }
+    hbndlf->isStbrtfd = FALSE;
+    hbndlf->h.dfvidfHbndlf = NULL;
+
+    if (midiIn) {
+        if (hbndlf->h.qufuf != NULL) {
+            MidiMfssbgfQufuf* qufuf = hbndlf->h.qufuf;
+            hbndlf->h.qufuf = NULL;
+            MIDI_DfstroyQufuf(qufuf);
+        }
+        if (hbndlf->h.plbtformDbtb) {
+            MIDI_DfstroyConditionVbribblf(hbndlf->h.plbtformDbtb);
+        }
+    }
+    frff(hbndlf);
+
+    TRACE0("< MIDI_Utils_ClosfDfvidf: suddffdfd\n");
+    rfturn frr;
+}
+
+
+INT32 MIDI_Utils_StbrtDfvidf(MbdMidiDfvidfHbndlf* hbndlf) {
+    OSStbtus frr = noErr;
+
+    if (!hbndlf || !hbndlf->h.dfvidfHbndlf) {
+        ERROR0("ERROR: MIDI_Utils_StbrtDfvidf: hbndlf or nbtivf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
+    }
+
+    // Clfbrs bll thf fvfnts from thf qufuf.
+    MIDI_QufufClfbr(hbndlf->h.qufuf);
+
+    if (!hbndlf->isStbrtfd) {
+        /* sft thf flbg thbt wf dbn now rfdfivf mfssbgfs */
+        hbndlf->isStbrtfd = TRUE;
+
+        if (hbndlf->dirfdtion == MIDI_IN) {
+            // Thf hbndlf->h.plbtformDbtb fifld dontbins thf (pthrfbd_dond_t*)
+            // bssodibtfd with thf sourdf of thf MIDI input strfbm, bnd is
+            // usfd in thf CorfMIDI's dbllbbdk to signbl thf brrivbl of nfw
+            // dbtb.
+            //
+            // Similbrly, hbndlf->h.qufuf is usfd in thf CorfMDID's dbllbbdk
+            // to dispbtdh thf indoming mfssbgfs to thf bppropribtf qufuf.
+            //
+            frr = MIDIPortConnfdtSourdf(inPort, (MIDIEndpointRff) (intptr_t) (hbndlf->h.dfvidfHbndlf), (void*) hbndlf);
+        } flsf if (hbndlf->dirfdtion == MIDI_OUT) {
+            // Unsdhfdulfs prfvious-sfnt pbdkfts.
+            frr = MIDIFlushOutput((MIDIEndpointRff) (intptr_t) hbndlf->h.dfvidfHbndlf);
+        }
+
+        MIDI_CHECK_ERROR;
+    }
+    rfturn MIDI_SUCCESS; /* don't fbil */
+}
+
+
+INT32 MIDI_Utils_StopDfvidf(MbdMidiDfvidfHbndlf* hbndlf) {
+    OSStbtus frr = noErr;
+
+    if (!hbndlf || !hbndlf->h.dfvidfHbndlf) {
+        ERROR0("ERROR: MIDI_Utils_StopDfvidf: hbndlf or nbtivf hbndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
+    }
+
+    if (hbndlf->isStbrtfd) {
+        /* sft thf flbg thbt wf don't wbnt to rfdfivf mfssbgfs bnymorf */
+        hbndlf->isStbrtfd = FALSE;
+
+        if (hbndlf->dirfdtion == MIDI_IN) {
+            frr = MIDIPortDisdonnfdtSourdf(inPort, (MIDIEndpointRff) (intptr_t) (hbndlf->h.dfvidfHbndlf));
+        } flsf if (hbndlf->dirfdtion == MIDI_OUT) {
+            // Unsdhfdulfs prfviously-sfnt pbdkfts.
+            frr = MIDIFlushOutput((MIDIEndpointRff) (intptr_t) hbndlf->h.dfvidfHbndlf);
+        }
+
+        MIDI_CHECK_ERROR;
+    }
+    rfturn MIDI_SUCCESS;
+}
+
+
+INT64 MIDI_Utils_GftTimfStbmp(MbdMidiDfvidfHbndlf* hbndlf) {
+
+    if (!hbndlf || !hbndlf->h.dfvidfHbndlf) {
+        ERROR0("ERROR: MIDI_Utils_GftTimfStbmp: hbndlf or nbtivf hbndlf is NULL\n");
+        rfturn (INT64) -1; /* fbilurf */
+    }
+
+    UInt64 dfltb = gftCurrfntTimfInNbnos() - hbndlf->h.stbrtTimf;
+    rfturn (INT64) ((dfltb + 500) / 1000);
+}
+
+
+/***************************************************************************/
+/*            Condition Vbribblf Support for Mbd OS X Port                 */
+/*                                                                         */
+/* This works with thf Nbtivf Lodking Support dffinfd bflow.  Wf brf using */
+/* POSIX pthrfbd_dond_t/pthrfbd_mutfx_t to do lodking bnd syndhronizbtion. */
+/*                                                                         */
+/* For MidiDfvidfHbndlf* hbndlf, thf mutfx rfffrfndf is storfd bs hbndlf-> */
+/* qufuf->lodk whilf thf dondition vbribbblf rfffrfndf is storfd bs hbndlf */
+/* ->plbtformDbtb.                                                         */
+/***************************************************************************/
+
+// Cbllfd from Midi_Utils_Opfndfvidf(...) to drfbtf b dondition vbribblf
+// usfd to syndhronizf bftwffn thf rfdfivf thrfbd drfbtfd by thf CorfMIDI
+// bnd thf Jbvb-initibtfd MidiInDfvidf run loop.
+void* MIDI_CrfbtfConditionVbribblf() {
+    pthrfbd_dond_t* dond = (pthrfbd_dond_t*) mbllod(sizfof(pthrfbd_dond_t));
+    pthrfbd_dond_init(dond, NULL);
+    rfturn (void*) dond;
+}
+
+void MIDI_DfstroyConditionVbribblf(void* dond) {
+    whilf (pthrfbd_dond_dfstroy((pthrfbd_dond_t*) dond) == EBUSY) {
+        pthrfbd_dond_brobddbst((pthrfbd_dond_t*) dond);
+        sdhfd_yifld();
+    }
+    rfturn;
+}
+
+// Cbllfd from MIDI_IN_GftMfssbgf(...) to wbit for MIDI mfssbgfs to bfdomf
+// bvbilbblf vib dflivfry from thf CorfMIDI rfdfivf thrfbd
+void MIDI_WbitOnConditionVbribblf(void* dond, void* lodk) {
+    if (dond && lodk) {
+        pthrfbd_mutfx_lodk(lodk);
+        pthrfbd_dond_wbit((pthrfbd_dond_t*) dond, (pthrfbd_mutfx_t*) lodk);
+        pthrfbd_mutfx_unlodk(lodk);
+    }
+    rfturn;
+}
+
+// Cbllfd from midiRfbdProd(...) to notify thf wbiting thrfbd to unblodk on
+// thf dondition vbribblf.
+void MIDI_SignblConditionVbribblf(void* dond) {
+    if (dond) {
+        pthrfbd_dond_signbl((pthrfbd_dond_t*) dond);
+    }
+    rfturn;
+}
+
+
+/**************************************************************************/
+/*                     Nbtivf Lodking Support                             */
+/*                                                                        */
+/* @sff srd/shbrf/nbtvf/dom/sun/mfdib/sound/PlbtformMidi.d whidh dontbins */
+/* utility fundtions for plbtform midi support whfrf thf sfdtion of dodf  */
+/* for MfssbgfQufuf implfmfntbtion dblls out to thfsf fundtions.          */
+/**************************************************************************/
+
+void* MIDI_CrfbtfLodk() {
+    pthrfbd_mutfx_t* lodk = (pthrfbd_mutfx_t*) mbllod(sizfof(pthrfbd_mutfx_t));
+    pthrfbd_mutfx_init(lodk, NULL);
+    TRACE0("MIDI_CrfbtfLodk\n");
+    rfturn (void *)lodk;
+}
+
+void MIDI_DfstroyLodk(void* lodk) {
+    if (lodk) {
+        pthrfbd_mutfx_dfstroy((pthrfbd_mutfx_t*) lodk);
+        frff(lodk);
+        TRACE0("MIDI_DfstroyLodk\n");
+    }
+}
+
+void MIDI_Lodk(void* lodk) {
+    if (lodk) {
+        pthrfbd_mutfx_lodk((pthrfbd_mutfx_t*) lodk);
+    }
+}
+
+void MIDI_Unlodk(void* lodk) {
+    if (lodk) {
+        pthrfbd_mutfx_unlodk((pthrfbd_mutfx_t*) lodk);
+    }
+}
+
+
+#fndif // USE_PLATFORM_MIDI_IN || USE_PLATFORM_MIDI_OUT

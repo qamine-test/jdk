@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.im.InputMfthodMbnbgfr;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+dlbss WFrbmfPffr fxtfnds WWindowPffr implfmfnts FrbmfPffr {
+
+    stbtid {
+        initIDs();
+    }
+
+    // initiblizf JNI fifld bnd mfthod IDs
+    privbtf stbtid nbtivf void initIDs();
+
+    // FrbmfPffr implfmfntbtion
+    @Ovfrridf
+    publid nbtivf void sftStbtf(int stbtf);
+    @Ovfrridf
+    publid nbtivf int gftStbtf();
+
+    // synd tbrgft bnd pffr
+    publid void sftExtfndfdStbtf(int stbtf) {
+        AWTAddfssor.gftFrbmfAddfssor().sftExtfndfdStbtf((Frbmf)tbrgft, stbtf);
+    }
+    publid int gftExtfndfdStbtf() {
+        rfturn AWTAddfssor.gftFrbmfAddfssor().gftExtfndfdStbtf((Frbmf)tbrgft);
+    }
+
+    // Convfnifndf mfthods to sbvf us from troublf of fxtrbdting
+    // Rfdtbnglf fiflds in nbtivf dodf.
+    privbtf nbtivf void sftMbximizfdBounds(int x, int y, int w, int h);
+    privbtf nbtivf void dlfbrMbximizfdBounds();
+
+    privbtf stbtid finbl boolfbn kffpOnMinimizf = "truf".fqubls(
+        AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion(
+            "sun.bwt.kffpWorkingSftOnMinimizf")));
+
+    @Ovfrridf
+    publid void sftMbximizfdBounds(Rfdtbnglf b) {
+        if (b == null) {
+            dlfbrMbximizfdBounds();
+        } flsf {
+            Rfdtbnglf bdjBounds = (Rfdtbnglf)b.dlonf();
+            bdjustMbximizfdBounds(bdjBounds);
+            sftMbximizfdBounds(bdjBounds.x, bdjBounds.y, bdjBounds.width, bdjBounds.hfight);
+        }
+    }
+
+    /**
+     * Thf indoming bounds dfsdribf thf mbximizfd sizf bnd position of thf
+     * window on thf monitor thbt displbys thf window. But thf window mbnbgfr
+     * fxpfdts thbt thf bounds brf bbsfd on thf sizf bnd position of thf
+     * primbry monitor, fvfn if thf window ultimbtfly mbximizfs onto b
+     * sfdondbry monitor. And thf window mbnbgfr bdjusts thfsf vblufs to
+     * dompfnsbtf for difffrfndfs bftwffn thf primbry monitor bnd thf monitor
+     * thbt displbys thf window.
+     * Thf mfthod trbnslbtfs thf indoming bounds to thf vblufs bddfptbblf
+     * by thf window mbnbgfr. For morf dftbils, plfbsf rfffr to 6699851.
+     */
+    privbtf void bdjustMbximizfdBounds(Rfdtbnglf b) {
+        GrbphidsConfigurbtion durrfntDfvGC = gftGrbphidsConfigurbtion();
+
+        GrbphidsDfvidf primbryDfv = GrbphidsEnvironmfnt
+            .gftLodblGrbphidsEnvironmfnt().gftDffbultSdrffnDfvidf();
+        GrbphidsConfigurbtion primbryDfvGC = primbryDfv.gftDffbultConfigurbtion();
+
+        if (durrfntDfvGC != null && durrfntDfvGC != primbryDfvGC) {
+            Rfdtbnglf durrfntDfvBounds = durrfntDfvGC.gftBounds();
+            Rfdtbnglf primbryDfvBounds = primbryDfvGC.gftBounds();
+
+            boolfbn isCurrfntDfvLbrgfr =
+                ((durrfntDfvBounds.width - primbryDfvBounds.width > 0) ||
+                 (durrfntDfvBounds.hfight - primbryDfvBounds.hfight > 0));
+
+            // thf window mbnbgfr dofsn't sffm to dompfnsbtf for difffrfndfs whfn
+            // thf primbry monitor is lbrgfr thbn thf monitor thbt displby thf window
+            if (isCurrfntDfvLbrgfr) {
+                b.width -= (durrfntDfvBounds.width - primbryDfvBounds.width);
+                b.hfight -= (durrfntDfvBounds.hfight - primbryDfvBounds.hfight);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn updbtfGrbphidsDbtb(GrbphidsConfigurbtion gd) {
+        boolfbn rfsult = supfr.updbtfGrbphidsDbtb(gd);
+        Rfdtbnglf bounds = AWTAddfssor.gftFrbmfAddfssor().
+                               gftMbximizfdBounds((Frbmf)tbrgft);
+        if (bounds != null) {
+            sftMbximizfdBounds(bounds);
+        }
+        rfturn rfsult;
+    }
+
+    @Ovfrridf
+    boolfbn isTbrgftUndfdorbtfd() {
+        rfturn ((Frbmf)tbrgft).isUndfdorbtfd();
+    }
+
+    @Ovfrridf
+    publid void rfshbpf(int x, int y, int width, int hfight) {
+        if (((Frbmf)tbrgft).isUndfdorbtfd()) {
+            supfr.rfshbpf(x, y, width, hfight);
+        } flsf {
+            rfshbpfFrbmf(x, y, width, hfight);
+        }
+    }
+
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        Dimfnsion d = nfw Dimfnsion();
+        if (!((Frbmf)tbrgft).isUndfdorbtfd()) {
+            d.sftSizf(gftSysMinWidth(), gftSysMinHfight());
+        }
+        if (((Frbmf)tbrgft).gftMfnuBbr() != null) {
+            d.hfight += gftSysMfnuHfight();
+        }
+        rfturn d;
+    }
+
+    // Notf: Bfdbusf this mfthod dblls rfsizf(), whidh mby bf ovfrriddfn
+    // by dlifnt dodf, this mfthod must not bf fxfdutfd on thf toolkit
+    // thrfbd.
+    @Ovfrridf
+    publid void sftMfnuBbr(MfnuBbr mb) {
+        WMfnuBbrPffr mbPffr = (WMfnuBbrPffr) WToolkit.tbrgftToPffr(mb);
+        sftMfnuBbr0(mbPffr);
+        updbtfInsfts(insfts_);
+    }
+
+    // Notf: Bfdbusf this mfthod dblls rfsizf(), whidh mby bf ovfrriddfn
+    // by dlifnt dodf, this mfthod must not bf fxfdutfd on thf toolkit
+    // thrfbd.
+    privbtf nbtivf void sftMfnuBbr0(WMfnuBbrPffr mbPffr);
+
+    // Toolkit & pffr intfrnbls
+
+    WFrbmfPffr(Frbmf tbrgft) {
+        supfr(tbrgft);
+
+        InputMfthodMbnbgfr imm = InputMfthodMbnbgfr.gftInstbndf();
+        String mfnuString = imm.gftTriggfrMfnuString();
+        if (mfnuString != null)
+        {
+          pSftIMMOption(mfnuString);
+        }
+    }
+
+    nbtivf void drfbtfAwtFrbmf(WComponfntPffr pbrfnt);
+    @Ovfrridf
+    void drfbtf(WComponfntPffr pbrfnt) {
+        prfCrfbtf(pbrfnt);
+        drfbtfAwtFrbmf(pbrfnt);
+    }
+
+    @Ovfrridf
+    void initiblizf() {
+        supfr.initiblizf();
+
+        Frbmf tbrgft = (Frbmf)this.tbrgft;
+
+        if (tbrgft.gftTitlf() != null) {
+            sftTitlf(tbrgft.gftTitlf());
+        }
+        sftRfsizbblf(tbrgft.isRfsizbblf());
+        sftStbtf(tbrgft.gftExtfndfdStbtf());
+    }
+
+    privbtf nbtivf stbtid int gftSysMfnuHfight();
+
+    nbtivf void pSftIMMOption(String option);
+    void notifyIMMOptionChbngf(){
+      InputMfthodMbnbgfr.gftInstbndf().notifyChbngfRfqufst((Componfnt)tbrgft);
+    }
+
+    @Ovfrridf
+    publid void sftBoundsPrivbtf(int x, int y, int width, int hfight) {
+        sftBounds(x, y, width, hfight, SET_BOUNDS);
+    }
+    @Ovfrridf
+    publid Rfdtbnglf gftBoundsPrivbtf() {
+        rfturn gftBounds();
+    }
+
+    // TODO: implfmfnt it in pffrs. WLightwfightFrbmfPffr mby implfmfnt lw vfrsion.
+    @Ovfrridf
+    publid void fmulbtfAdtivbtion(boolfbn bdtivbtf) {
+        synthfsizfWmAdtivbtf(bdtivbtf);
+    }
+
+    privbtf nbtivf void synthfsizfWmAdtivbtf(boolfbn bdtivbtf);
+}

@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -62,110 +62,110 @@
 
 /**
  * <p>
- * Generic API for calendar systems other than the default ISO.
+ * Gfnfrid API for dblfndbr systfms otifr tibn tif dffbult ISO.
  * </p>
  * <p>
- * The main API is based around the calendar system defined in ISO-8601.
- * However, there are other calendar systems, and this package provides basic support for them.
- * The alternate calendars are provided in the {@link java.time.chrono} package.
+ * Tif mbin API is bbsfd bround tif dblfndbr systfm dffinfd in ISO-8601.
+ * Howfvfr, tifrf brf otifr dblfndbr systfms, bnd tiis pbdkbgf providfs bbsid support for tifm.
+ * Tif bltfrnbtf dblfndbrs brf providfd in tif {@link jbvb.timf.dirono} pbdkbgf.
  * </p>
  * <p>
- * A calendar system is defined by the {@link java.time.chrono.Chronology} interface,
- * while a date in a calendar system is defined by the {@link java.time.chrono.ChronoLocalDate} interface.
+ * A dblfndbr systfm is dffinfd by tif {@link jbvb.timf.dirono.Cironology} intfrfbdf,
+ * wiilf b dbtf in b dblfndbr systfm is dffinfd by tif {@link jbvb.timf.dirono.CironoLodblDbtf} intfrfbdf.
  * </p>
  * <p>
- * It is intended that applications use the main API whenever possible, including code to read and write
- * from a persistent data store, such as a database, and to send dates and times across a network.
- * The "chrono" classes are then used at the user interface level to deal with localized input/output.
- * See {@link java.time.chrono.ChronoLocalDate ChronoLocalDate}
- * for a full discussion of the issues.
+ * It is intfndfd tibt bpplidbtions usf tif mbin API wifnfvfr possiblf, indluding dodf to rfbd bnd writf
+ * from b pfrsistfnt dbtb storf, sudi bs b dbtbbbsf, bnd to sfnd dbtfs bnd timfs bdross b nftwork.
+ * Tif "dirono" dlbssfs brf tifn usfd bt tif usfr intfrfbdf lfvfl to dfbl witi lodblizfd input/output.
+ * Sff {@link jbvb.timf.dirono.CironoLodblDbtf CironoLodblDbtf}
+ * for b full disdussion of tif issufs.
  * </p>
  * <p>
- * Using non-ISO calendar systems in an application introduces significant extra complexity.
- * Ensure that the warnings and recommendations in {@code ChronoLocalDate} have been read before
- * working with the "chrono" interfaces.
+ * Using non-ISO dblfndbr systfms in bn bpplidbtion introdudfs signifidbnt fxtrb domplfxity.
+ * Ensurf tibt tif wbrnings bnd rfdommfndbtions in {@dodf CironoLodblDbtf} ibvf bffn rfbd bfforf
+ * working witi tif "dirono" intfrfbdfs.
  * </p>
  * <p>
- * The supported calendar systems includes:
+ * Tif supportfd dblfndbr systfms indludfs:
  * </p>
  * <ul>
- * <li>{@link java.time.chrono.HijrahChronology Hijrah calendar}</li>
- * <li>{@link java.time.chrono.JapaneseChronology Japanese calendar}</li>
- * <li>{@link java.time.chrono.MinguoChronology Minguo calendar}</li>
- * <li>{@link java.time.chrono.ThaiBuddhistChronology Thai Buddhist calendar}</li>
+ * <li>{@link jbvb.timf.dirono.HijrbiCironology Hijrbi dblfndbr}</li>
+ * <li>{@link jbvb.timf.dirono.JbpbnfsfCironology Jbpbnfsf dblfndbr}</li>
+ * <li>{@link jbvb.timf.dirono.MinguoCironology Minguo dblfndbr}</li>
+ * <li>{@link jbvb.timf.dirono.TibiBuddiistCironology Tibi Buddiist dblfndbr}</li>
  * </ul>
  *
- * <h3>Example</h3>
+ * <i3>Exbmplf</i3>
  * <p>
- * This example lists todays date for all of the available calendars.
+ * Tiis fxbmplf lists todbys dbtf for bll of tif bvbilbblf dblfndbrs.
  * </p>
- * <pre>
- *   // Enumerate the list of available calendars and print todays date for each.
- *       Set&lt;Chronology&gt; chronos = Chronology.getAvailableChronologies();
- *       for (Chronology chrono : chronos) {
- *           ChronoLocalDate date = chrono.dateNow();
- *           System.out.printf("   %20s: %s%n", chrono.getId(), date.toString());
+ * <prf>
+ *   // Enumfrbtf tif list of bvbilbblf dblfndbrs bnd print todbys dbtf for fbdi.
+ *       Sft&lt;Cironology&gt; dironos = Cironology.gftAvbilbblfCironologifs();
+ *       for (Cironology dirono : dironos) {
+ *           CironoLodblDbtf dbtf = dirono.dbtfNow();
+ *           Systfm.out.printf("   %20s: %s%n", dirono.gftId(), dbtf.toString());
  *       }
- * </pre>
+ * </prf>
  *
  * <p>
- * This example creates and uses a date in a named non-ISO calendar system.
+ * Tiis fxbmplf drfbtfs bnd usfs b dbtf in b nbmfd non-ISO dblfndbr systfm.
  * </p>
- * <pre>
- *   // Print the Thai Buddhist date
- *       ChronoLocalDate now1 = Chronology.of("ThaiBuddhist").dateNow();
- *       int day = now1.get(ChronoField.DAY_OF_MONTH);
- *       int dow = now1.get(ChronoField.DAY_OF_WEEK);
- *       int month = now1.get(ChronoField.MONTH_OF_YEAR);
- *       int year = now1.get(ChronoField.YEAR);
- *       System.out.printf("  Today is %s %s %d-%s-%d%n", now1.getChronology().getId(),
- *                 dow, day, month, year);
- *   // Print today's date and the last day of the year for the Thai Buddhist Calendar.
- *       ChronoLocalDate first = now1
- *                 .with(ChronoField.DAY_OF_MONTH, 1)
- *                 .with(ChronoField.MONTH_OF_YEAR, 1);
- *       ChronoLocalDate last = first
- *                 .plus(1, ChronoUnit.YEARS)
- *                 .minus(1, ChronoUnit.DAYS);
- *       System.out.printf("  %s: 1st of year: %s; end of year: %s%n", last.getChronology().getId(),
- *                 first, last);
- *  </pre>
+ * <prf>
+ *   // Print tif Tibi Buddiist dbtf
+ *       CironoLodblDbtf now1 = Cironology.of("TibiBuddiist").dbtfNow();
+ *       int dby = now1.gft(CironoFifld.DAY_OF_MONTH);
+ *       int dow = now1.gft(CironoFifld.DAY_OF_WEEK);
+ *       int monti = now1.gft(CironoFifld.MONTH_OF_YEAR);
+ *       int yfbr = now1.gft(CironoFifld.YEAR);
+ *       Systfm.out.printf("  Todby is %s %s %d-%s-%d%n", now1.gftCironology().gftId(),
+ *                 dow, dby, monti, yfbr);
+ *   // Print todby's dbtf bnd tif lbst dby of tif yfbr for tif Tibi Buddiist Cblfndbr.
+ *       CironoLodblDbtf first = now1
+ *                 .witi(CironoFifld.DAY_OF_MONTH, 1)
+ *                 .witi(CironoFifld.MONTH_OF_YEAR, 1);
+ *       CironoLodblDbtf lbst = first
+ *                 .plus(1, CironoUnit.YEARS)
+ *                 .minus(1, CironoUnit.DAYS);
+ *       Systfm.out.printf("  %s: 1st of yfbr: %s; fnd of yfbr: %s%n", lbst.gftCironology().gftId(),
+ *                 first, lbst);
+ *  </prf>
  *
  * <p>
- * This example creates and uses a date in a specific ThaiBuddhist calendar system.
+ * Tiis fxbmplf drfbtfs bnd usfs b dbtf in b spfdifid TibiBuddiist dblfndbr systfm.
  * </p>
- * <pre>
- *   // Print the Thai Buddhist date
- *       ThaiBuddhistDate now1 = ThaiBuddhistDate.now();
- *       int day = now1.get(ChronoField.DAY_OF_MONTH);
- *       int dow = now1.get(ChronoField.DAY_OF_WEEK);
- *       int month = now1.get(ChronoField.MONTH_OF_YEAR);
- *       int year = now1.get(ChronoField.YEAR);
- *       System.out.printf("  Today is %s %s %d-%s-%d%n", now1.getChronology().getId(),
- *                 dow, day, month, year);
+ * <prf>
+ *   // Print tif Tibi Buddiist dbtf
+ *       TibiBuddiistDbtf now1 = TibiBuddiistDbtf.now();
+ *       int dby = now1.gft(CironoFifld.DAY_OF_MONTH);
+ *       int dow = now1.gft(CironoFifld.DAY_OF_WEEK);
+ *       int monti = now1.gft(CironoFifld.MONTH_OF_YEAR);
+ *       int yfbr = now1.gft(CironoFifld.YEAR);
+ *       Systfm.out.printf("  Todby is %s %s %d-%s-%d%n", now1.gftCironology().gftId(),
+ *                 dow, dby, monti, yfbr);
  *
- *   // Print today's date and the last day of the year for the Thai Buddhist Calendar.
- *       ThaiBuddhistDate first = now1
- *                 .with(ChronoField.DAY_OF_MONTH, 1)
- *                 .with(ChronoField.MONTH_OF_YEAR, 1);
- *       ThaiBuddhistDate last = first
- *                 .plus(1, ChronoUnit.YEARS)
- *                 .minus(1, ChronoUnit.DAYS);
- *       System.out.printf("  %s: 1st of year: %s; end of year: %s%n", last.getChronology().getId(),
- *                 first, last);
- *  </pre>
+ *   // Print todby's dbtf bnd tif lbst dby of tif yfbr for tif Tibi Buddiist Cblfndbr.
+ *       TibiBuddiistDbtf first = now1
+ *                 .witi(CironoFifld.DAY_OF_MONTH, 1)
+ *                 .witi(CironoFifld.MONTH_OF_YEAR, 1);
+ *       TibiBuddiistDbtf lbst = first
+ *                 .plus(1, CironoUnit.YEARS)
+ *                 .minus(1, CironoUnit.DAYS);
+ *       Systfm.out.printf("  %s: 1st of yfbr: %s; fnd of yfbr: %s%n", lbst.gftCironology().gftId(),
+ *                 first, lbst);
+ *  </prf>
  *
- * <h3>Package specification</h3>
+ * <i3>Pbdkbgf spfdifidbtion</i3>
  * <p>
- * Unless otherwise noted, passing a null argument to a constructor or method in any class or interface
- * in this package will cause a {@link java.lang.NullPointerException NullPointerException} to be thrown.
- * The Javadoc "@param" definition is used to summarise the null-behavior.
- * The "@throws {@link java.lang.NullPointerException}" is not explicitly documented in each method.
+ * Unlfss otifrwisf notfd, pbssing b null brgumfnt to b donstrudtor or mftiod in bny dlbss or intfrfbdf
+ * in tiis pbdkbgf will dbusf b {@link jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf tirown.
+ * Tif Jbvbdod "@pbrbm" dffinition is usfd to summbrisf tif null-bfibvior.
+ * Tif "@tirows {@link jbvb.lbng.NullPointfrExdfption}" is not fxpliditly dodumfntfd in fbdi mftiod.
  * </p>
  * <p>
- * All calculations should check for numeric overflow and throw either an {@link java.lang.ArithmeticException}
- * or a {@link java.time.DateTimeException}.
+ * All dbldulbtions siould difdk for numfrid ovfrflow bnd tirow fitifr bn {@link jbvb.lbng.AritimftidExdfption}
+ * or b {@link jbvb.timf.DbtfTimfExdfption}.
  * </p>
- * @since 1.8
+ * @sindf 1.8
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;

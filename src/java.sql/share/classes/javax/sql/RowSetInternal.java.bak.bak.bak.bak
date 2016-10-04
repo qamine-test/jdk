@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.*;
+
+/**
+ * Thf intfrfbdf thbt b <dodf>RowSft</dodf> objfdt implfmfnts in ordfr to
+ * prfsfnt itsflf to b <dodf>RowSftRfbdfr</dodf> or <dodf>RowSftWritfr</dodf>
+ * objfdt. Thf <dodf>RowSftIntfrnbl</dodf> intfrfbdf dontbins
+ * mfthods thbt lft thf rfbdfr or writfr bddfss bnd modify thf intfrnbl
+ * stbtf of thf rowsft.
+ *
+ * @sindf 1.4
+ */
+
+publid intfrfbdf RowSftIntfrnbl {
+
+  /**
+   * Rftrifvfs thf pbrbmftfrs thbt hbvf bffn sft for this
+   * <dodf>RowSft</dodf> objfdt's dommbnd.
+   *
+   * @rfturn bn brrby of thf durrfnt pbrbmftfr vblufs for this <dodf>RowSft</dodf>
+   *         objfdt's dommbnd
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  Objfdt[] gftPbrbms() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf <dodf>Connfdtion</dodf> objfdt thbt wbs pbssfd to this
+   * <dodf>RowSft</dodf> objfdt.
+   *
+   * @rfturn thf <dodf>Connfdtion</dodf> objfdt pbssfd to thf rowsft
+   *      or <dodf>null</dodf> if nonf wbs pbssfd
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  Connfdtion gftConnfdtion() throws SQLExdfption;
+
+  /**
+   * Sfts thf givfn <dodf>RowSftMftbDbtb</dodf> objfdt bs thf
+   * <dodf>RowSftMftbDbtb</dodf> objfdt for this <dodf>RowSft</dodf>
+   * objfdt. Thf <dodf>RowSftRfbdfr</dodf> objfdt bssodibtfd with thf rowsft
+   * will usf <dodf>RowSftMftbDbtb</dodf> mfthods to sft thf vblufs giving
+   * informbtion bbout thf rowsft's dolumns.
+   *
+   * @pbrbm md thf <dodf>RowSftMftbDbtb</dodf> objfdt thbt will bf sft with
+   *        informbtion bbout thf rowsft's dolumns
+   *
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  void sftMftbDbtb(RowSftMftbDbtb md) throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b <dodf>RfsultSft</dodf> objfdt dontbining thf originbl
+   * vbluf of this <dodf>RowSft</dodf> objfdt.
+   * <P>
+   * Thf dursor is positionfd bfforf thf first row in thf rfsult sft.
+   * Only rows dontbinfd in thf rfsult sft rfturnfd by thf mfthod
+   * <dodf>gftOriginbl</dodf> brf sbid to hbvf bn originbl vbluf.
+   *
+   * @rfturn thf originbl vbluf of thf rowsft
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  publid RfsultSft gftOriginbl() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b <dodf>RfsultSft</dodf> objfdt dontbining thf originbl vbluf
+   * of thf durrfnt row only.  If thf durrfnt row hbs no originbl vbluf,
+   * bn fmpty rfsult sft is rfturnfd. If thfrf is no durrfnt row,
+   * bn fxdfption is thrown.
+   *
+   * @rfturn thf originbl vbluf of thf durrfnt row bs b <dodf>RfsultSft</dodf>
+   *          objfdt
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or this mfthod
+   *           is dbllfd whilf thf dursor is on thf insfrt row, bfforf thf
+   *           first row, or bftfr thf lbst row
+   */
+  publid RfsultSft gftOriginblRow() throws SQLExdfption;
+
+}

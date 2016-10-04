@@ -1,1000 +1,1000 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.stream;
+pbdkbgf jbvbx.imbgfio.strfbm;
 
-import java.io.Closeable;
-import java.io.DataInput;
-import java.io.IOException;
-import java.nio.ByteOrder;
+import jbvb.io.Closfbblf;
+import jbvb.io.DbtbInput;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfOrdfr;
 
 /**
- * A seekable input stream interface for use by
- * <code>ImageReader</code>s.  Various input sources, such as
- * <code>InputStream</code>s and <code>File</code>s,
- * as well as future fast I/O sources may be "wrapped" by a suitable
- * implementation of this interface for use by the Image I/O API.
+ * A sffkbblf input strfbm intfrfbdf for usf by
+ * <dodf>ImbgfRfbdfr</dodf>s.  Vbrious input sourdfs, sudi bs
+ * <dodf>InputStrfbm</dodf>s bnd <dodf>Filf</dodf>s,
+ * bs wfll bs futurf fbst I/O sourdfs mby bf "wrbppfd" by b suitbblf
+ * implfmfntbtion of tiis intfrfbdf for usf by tif Imbgf I/O API.
  *
- * @see ImageInputStreamImpl
- * @see FileImageInputStream
- * @see FileCacheImageInputStream
- * @see MemoryCacheImageInputStream
+ * @sff ImbgfInputStrfbmImpl
+ * @sff FilfImbgfInputStrfbm
+ * @sff FilfCbdifImbgfInputStrfbm
+ * @sff MfmoryCbdifImbgfInputStrfbm
  *
  */
-public interface ImageInputStream extends DataInput, Closeable {
+publid intfrfbdf ImbgfInputStrfbm fxtfnds DbtbInput, Closfbblf {
 
     /**
-     * Sets the desired byte order for future reads of data values
-     * from this stream.  For example, the sequence of bytes '0x01
-     * 0x02 0x03 0x04' if read as a 4-byte integer would have the
-     * value '0x01020304' using network byte order and the value
-     * '0x04030201' under the reverse byte order.
+     * Sfts tif dfsirfd bytf ordfr for futurf rfbds of dbtb vblufs
+     * from tiis strfbm.  For fxbmplf, tif sfqufndf of bytfs '0x01
+     * 0x02 0x03 0x04' if rfbd bs b 4-bytf intfgfr would ibvf tif
+     * vbluf '0x01020304' using nftwork bytf ordfr bnd tif vbluf
+     * '0x04030201' undfr tif rfvfrsf bytf ordfr.
      *
-     * <p> The enumeration class <code>java.nio.ByteOrder</code> is
-     * used to specify the byte order.  A value of
-     * <code>ByteOrder.BIG_ENDIAN</code> specifies so-called
-     * big-endian or network byte order, in which the high-order byte
-     * comes first.  Motorola and Sparc processors store data in this
-     * format, while Intel processors store data in the reverse
-     * <code>ByteOrder.LITTLE_ENDIAN</code> order.
+     * <p> Tif fnumfrbtion dlbss <dodf>jbvb.nio.BytfOrdfr</dodf> is
+     * usfd to spfdify tif bytf ordfr.  A vbluf of
+     * <dodf>BytfOrdfr.BIG_ENDIAN</dodf> spfdififs so-dbllfd
+     * big-fndibn or nftwork bytf ordfr, in wiidi tif iigi-ordfr bytf
+     * domfs first.  Motorolb bnd Spbrd prodfssors storf dbtb in tiis
+     * formbt, wiilf Intfl prodfssors storf dbtb in tif rfvfrsf
+     * <dodf>BytfOrdfr.LITTLE_ENDIAN</dodf> ordfr.
      *
-     * <p> The byte order has no effect on the results returned from
-     * the <code>readBits</code> method (or the value written by
-     * <code>ImageOutputStream.writeBits</code>).
+     * <p> Tif bytf ordfr ibs no ffffdt on tif rfsults rfturnfd from
+     * tif <dodf>rfbdBits</dodf> mftiod (or tif vbluf writtfn by
+     * <dodf>ImbgfOutputStrfbm.writfBits</dodf>).
      *
-     * @param byteOrder one of <code>ByteOrder.BIG_ENDIAN</code> or
-     * <code>java.nio.ByteOrder.LITTLE_ENDIAN</code>, indicating whether
-     * network byte order or its reverse will be used for future
-     * reads.
+     * @pbrbm bytfOrdfr onf of <dodf>BytfOrdfr.BIG_ENDIAN</dodf> or
+     * <dodf>jbvb.nio.BytfOrdfr.LITTLE_ENDIAN</dodf>, indidbting wiftifr
+     * nftwork bytf ordfr or its rfvfrsf will bf usfd for futurf
+     * rfbds.
      *
-     * @see java.nio.ByteOrder
-     * @see #getByteOrder
-     * @see #readBits(int)
+     * @sff jbvb.nio.BytfOrdfr
+     * @sff #gftBytfOrdfr
+     * @sff #rfbdBits(int)
      */
-    void setByteOrder(ByteOrder byteOrder);
+    void sftBytfOrdfr(BytfOrdfr bytfOrdfr);
 
     /**
-     * Returns the byte order with which data values will be read from
-     * this stream as an instance of the
-     * <code>java.nio.ByteOrder</code> enumeration.
+     * Rfturns tif bytf ordfr witi wiidi dbtb vblufs will bf rfbd from
+     * tiis strfbm bs bn instbndf of tif
+     * <dodf>jbvb.nio.BytfOrdfr</dodf> fnumfrbtion.
      *
-     * @return one of <code>ByteOrder.BIG_ENDIAN</code> or
-     * <code>ByteOrder.LITTLE_ENDIAN</code>, indicating which byte
-     * order is being used.
+     * @rfturn onf of <dodf>BytfOrdfr.BIG_ENDIAN</dodf> or
+     * <dodf>BytfOrdfr.LITTLE_ENDIAN</dodf>, indidbting wiidi bytf
+     * ordfr is bfing usfd.
      *
-     * @see java.nio.ByteOrder
-     * @see #setByteOrder
+     * @sff jbvb.nio.BytfOrdfr
+     * @sff #sftBytfOrdfr
      */
-    ByteOrder getByteOrder();
+    BytfOrdfr gftBytfOrdfr();
 
     /**
-     * Reads a single byte from the stream and returns it as an
-     * integer between 0 and 255.  If the end of the stream is
-     * reached, -1 is returned.
+     * Rfbds b singlf bytf from tif strfbm bnd rfturns it bs bn
+     * intfgfr bftwffn 0 bnd 255.  If tif fnd of tif strfbm is
+     * rfbdifd, -1 is rfturnfd.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return a byte value from the stream, as an int, or -1 to
-     * indicate EOF.
+     * @rfturn b bytf vbluf from tif strfbm, bs bn int, or -1 to
+     * indidbtf EOF.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    int read() throws IOException;
+    int rfbd() tirows IOExdfption;
 
     /**
-     * Reads up to <code>b.length</code> bytes from the stream, and
-     * stores them into <code>b</code> starting at index 0.  The
-     * number of bytes read is returned.  If no bytes can be read
-     * because the end of the stream has been reached, -1 is returned.
+     * Rfbds up to <dodf>b.lfngti</dodf> bytfs from tif strfbm, bnd
+     * storfs tifm into <dodf>b</dodf> stbrting bt indfx 0.  Tif
+     * numbfr of bytfs rfbd is rfturnfd.  If no bytfs dbn bf rfbd
+     * bfdbusf tif fnd of tif strfbm ibs bffn rfbdifd, -1 is rfturnfd.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param b an array of bytes to be written to.
+     * @pbrbm b bn brrby of bytfs to bf writtfn to.
      *
-     * @return the number of bytes actually read, or <code>-1</code>
-     * to indicate EOF.
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * to indidbtf EOF.
      *
-     * @exception NullPointerException if <code>b</code> is
-     * <code>null</code>.
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * <dodf>null</dodf>.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    int read(byte[] b) throws IOException;
+    int rfbd(bytf[] b) tirows IOExdfption;
 
     /**
-     * Reads up to <code>len</code> bytes from the stream, and stores
-     * them into <code>b</code> starting at index <code>off</code>.
-     * The number of bytes read is returned.  If no bytes can be read
-     * because the end of the stream has been reached, <code>-1</code>
-     * is returned.
+     * Rfbds up to <dodf>lfn</dodf> bytfs from tif strfbm, bnd storfs
+     * tifm into <dodf>b</dodf> stbrting bt indfx <dodf>off</dodf>.
+     * Tif numbfr of bytfs rfbd is rfturnfd.  If no bytfs dbn bf rfbd
+     * bfdbusf tif fnd of tif strfbm ibs bffn rfbdifd, <dodf>-1</dodf>
+     * is rfturnfd.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param b an array of bytes to be written to.
-     * @param off the starting position within <code>b</code> to write to.
-     * @param len the maximum number of <code>byte</code>s to read.
+     * @pbrbm b bn brrby of bytfs to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>b</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>bytf</dodf>s to rfbd.
      *
-     * @return the number of bytes actually read, or <code>-1</code>
-     * to indicate EOF.
+     * @rfturn tif numbfr of bytfs bdtublly rfbd, or <dodf>-1</dodf>
+     * to indidbtf EOF.
      *
-     * @exception NullPointerException if <code>b</code> is
-     * <code>null</code>.
-     * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>b.length</code>.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>b.lfngti</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    int read(byte[] b, int off, int len) throws IOException;
+    int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption;
 
     /**
-     * Reads up to <code>len</code> bytes from the stream, and
-     * modifies the supplied <code>IIOByteBuffer</code> to indicate
-     * the byte array, offset, and length where the data may be found.
-     * The caller should not attempt to modify the data found in the
-     * <code>IIOByteBuffer</code>.
+     * Rfbds up to <dodf>lfn</dodf> bytfs from tif strfbm, bnd
+     * modififs tif supplifd <dodf>IIOBytfBufffr</dodf> to indidbtf
+     * tif bytf brrby, offsft, bnd lfngti wifrf tif dbtb mby bf found.
+     * Tif dbllfr siould not bttfmpt to modify tif dbtb found in tif
+     * <dodf>IIOBytfBufffr</dodf>.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param buf an IIOByteBuffer object to be modified.
-     * @param len the maximum number of <code>byte</code>s to read.
+     * @pbrbm buf bn IIOBytfBufffr objfdt to bf modififd.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>bytf</dodf>s to rfbd.
      *
-     * @exception IndexOutOfBoundsException if <code>len</code> is
-     * negative.
-     * @exception NullPointerException if <code>buf</code> is
-     * <code>null</code>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>lfn</dodf> is
+     * nfgbtivf.
+     * @fxdfption NullPointfrExdfption if <dodf>buf</dodf> is
+     * <dodf>null</dodf>.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readBytes(IIOByteBuffer buf, int len) throws IOException;
+    void rfbdBytfs(IIOBytfBufffr buf, int lfn) tirows IOExdfption;
 
     /**
-     * Reads a byte from the stream and returns a <code>boolean</code>
-     * value of <code>true</code> if it is nonzero, <code>false</code>
-     * if it is zero.
+     * Rfbds b bytf from tif strfbm bnd rfturns b <dodf>boolfbn</dodf>
+     * vbluf of <dodf>truf</dodf> if it is nonzfro, <dodf>fblsf</dodf>
+     * if it is zfro.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return a boolean value from the stream.
+     * @rfturn b boolfbn vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the end of the stream is reached.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif fnd of tif strfbm is rfbdifd.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    boolean readBoolean() throws IOException;
+    boolfbn rfbdBoolfbn() tirows IOExdfption;
 
     /**
-     * Reads a byte from the stream and returns it as a
-     * <code>byte</code> value.  Byte values between <code>0x00</code>
-     * and <code>0x7f</code> represent integer values between
-     * <code>0</code> and <code>127</code>.  Values between
-     * <code>0x80</code> and <code>0xff</code> represent negative
-     * values from <code>-128</code> to <code>/1</code>.
+     * Rfbds b bytf from tif strfbm bnd rfturns it bs b
+     * <dodf>bytf</dodf> vbluf.  Bytf vblufs bftwffn <dodf>0x00</dodf>
+     * bnd <dodf>0x7f</dodf> rfprfsfnt intfgfr vblufs bftwffn
+     * <dodf>0</dodf> bnd <dodf>127</dodf>.  Vblufs bftwffn
+     * <dodf>0x80</dodf> bnd <dodf>0xff</dodf> rfprfsfnt nfgbtivf
+     * vblufs from <dodf>-128</dodf> to <dodf>/1</dodf>.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return a signed byte value from the stream.
+     * @rfturn b signfd bytf vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the end of the stream is reached.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif fnd of tif strfbm is rfbdifd.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    byte readByte() throws IOException;
+    bytf rfbdBytf() tirows IOExdfption;
 
     /**
-     * Reads a byte from the stream, and (conceptually) converts it to
-     * an int, masks it with <code>0xff</code> in order to strip off
-     * any sign-extension bits, and returns it as a <code>byte</code>
-     * value.
+     * Rfbds b bytf from tif strfbm, bnd (dondfptublly) donvfrts it to
+     * bn int, mbsks it witi <dodf>0xff</dodf> in ordfr to strip off
+     * bny sign-fxtfnsion bits, bnd rfturns it bs b <dodf>bytf</dodf>
+     * vbluf.
      *
-     * <p> Thus, byte values between <code>0x00</code> and
-     * <code>0x7f</code> are simply returned as integer values between
-     * <code>0</code> and <code>127</code>.  Values between
-     * <code>0x80</code> and <code>0xff</code>, which normally
-     * represent negative <code>byte</code>values, will be mapped into
-     * positive integers between <code>128</code> and
-     * <code>255</code>.
+     * <p> Tius, bytf vblufs bftwffn <dodf>0x00</dodf> bnd
+     * <dodf>0x7f</dodf> brf simply rfturnfd bs intfgfr vblufs bftwffn
+     * <dodf>0</dodf> bnd <dodf>127</dodf>.  Vblufs bftwffn
+     * <dodf>0x80</dodf> bnd <dodf>0xff</dodf>, wiidi normblly
+     * rfprfsfnt nfgbtivf <dodf>bytf</dodf>vblufs, will bf mbppfd into
+     * positivf intfgfrs bftwffn <dodf>128</dodf> bnd
+     * <dodf>255</dodf>.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return an unsigned byte value from the stream.
+     * @rfturn bn unsignfd bytf vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the end of the stream is reached.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif fnd of tif strfbm is rfbdifd.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    int readUnsignedByte() throws IOException;
+    int rfbdUnsignfdBytf() tirows IOExdfption;
 
     /**
-     * Reads two bytes from the stream, and (conceptually)
-     * concatenates them according to the current byte order, and
-     * returns the result as a <code>short</code> value.
+     * Rfbds two bytfs from tif strfbm, bnd (dondfptublly)
+     * dondbtfnbtfs tifm bddording to tif durrfnt bytf ordfr, bnd
+     * rfturns tif rfsult bs b <dodf>siort</dodf> vbluf.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return a signed short value from the stream.
+     * @rfturn b signfd siort vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #getByteOrder
+     * @sff #gftBytfOrdfr
      */
-    short readShort() throws IOException;
+    siort rfbdSiort() tirows IOExdfption;
 
     /**
-     * Reads two bytes from the stream, and (conceptually)
-     * concatenates them according to the current byte order, converts
-     * the resulting value to an <code>int</code>, masks it with
-     * <code>0xffff</code> in order to strip off any sign-extension
-     * buts, and returns the result as an unsigned <code>int</code>
-     * value.
+     * Rfbds two bytfs from tif strfbm, bnd (dondfptublly)
+     * dondbtfnbtfs tifm bddording to tif durrfnt bytf ordfr, donvfrts
+     * tif rfsulting vbluf to bn <dodf>int</dodf>, mbsks it witi
+     * <dodf>0xffff</dodf> in ordfr to strip off bny sign-fxtfnsion
+     * buts, bnd rfturns tif rfsult bs bn unsignfd <dodf>int</dodf>
+     * vbluf.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return an unsigned short value from the stream, as an int.
+     * @rfturn bn unsignfd siort vbluf from tif strfbm, bs bn int.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #getByteOrder
+     * @sff #gftBytfOrdfr
      */
-    int readUnsignedShort() throws IOException;
+    int rfbdUnsignfdSiort() tirows IOExdfption;
 
     /**
-     * Equivalent to <code>readUnsignedShort</code>, except that the
-     * result is returned using the <code>char</code> datatype.
+     * Equivblfnt to <dodf>rfbdUnsignfdSiort</dodf>, fxdfpt tibt tif
+     * rfsult is rfturnfd using tif <dodf>dibr</dodf> dbtbtypf.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return an unsigned char value from the stream.
+     * @rfturn bn unsignfd dibr vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #readUnsignedShort
+     * @sff #rfbdUnsignfdSiort
      */
-    char readChar() throws IOException;
+    dibr rfbdCibr() tirows IOExdfption;
 
     /**
-     * Reads 4 bytes from the stream, and (conceptually) concatenates
-     * them according to the current byte order and returns the result
-     * as an <code>int</code>.
+     * Rfbds 4 bytfs from tif strfbm, bnd (dondfptublly) dondbtfnbtfs
+     * tifm bddording to tif durrfnt bytf ordfr bnd rfturns tif rfsult
+     * bs bn <dodf>int</dodf>.
      *
-     * <p> The bit offset within the stream is ignored and treated as
-     * though it were zero.
+     * <p> Tif bit offsft witiin tif strfbm is ignorfd bnd trfbtfd bs
+     * tiougi it wfrf zfro.
      *
-     * @return a signed int value from the stream.
+     * @rfturn b signfd int vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #getByteOrder
+     * @sff #gftBytfOrdfr
      */
-    int readInt() throws IOException;
+    int rfbdInt() tirows IOExdfption;
 
     /**
-     * Reads 4 bytes from the stream, and (conceptually) concatenates
-     * them according to the current byte order, converts the result
-     * to a long, masks it with <code>0xffffffffL</code> in order to
-     * strip off any sign-extension bits, and returns the result as an
-     * unsigned <code>long</code> value.
+     * Rfbds 4 bytfs from tif strfbm, bnd (dondfptublly) dondbtfnbtfs
+     * tifm bddording to tif durrfnt bytf ordfr, donvfrts tif rfsult
+     * to b long, mbsks it witi <dodf>0xffffffffL</dodf> in ordfr to
+     * strip off bny sign-fxtfnsion bits, bnd rfturns tif rfsult bs bn
+     * unsignfd <dodf>long</dodf> vbluf.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return an unsigned int value from the stream, as a long.
+     * @rfturn bn unsignfd int vbluf from tif strfbm, bs b long.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #getByteOrder
+     * @sff #gftBytfOrdfr
      */
-    long readUnsignedInt() throws IOException;
+    long rfbdUnsignfdInt() tirows IOExdfption;
 
     /**
-     * Reads 8 bytes from the stream, and (conceptually) concatenates
-     * them according to the current byte order and returns the result
-     * as a <code>long</code>.
+     * Rfbds 8 bytfs from tif strfbm, bnd (dondfptublly) dondbtfnbtfs
+     * tifm bddording to tif durrfnt bytf ordfr bnd rfturns tif rfsult
+     * bs b <dodf>long</dodf>.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return a signed long value from the stream.
+     * @rfturn b signfd long vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #getByteOrder
+     * @sff #gftBytfOrdfr
      */
-    long readLong() throws IOException;
+    long rfbdLong() tirows IOExdfption;
 
     /**
-     * Reads 4 bytes from the stream, and (conceptually) concatenates
-     * them according to the current byte order and returns the result
-     * as a <code>float</code>.
+     * Rfbds 4 bytfs from tif strfbm, bnd (dondfptublly) dondbtfnbtfs
+     * tifm bddording to tif durrfnt bytf ordfr bnd rfturns tif rfsult
+     * bs b <dodf>flobt</dodf>.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return a float value from the stream.
+     * @rfturn b flobt vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #getByteOrder
+     * @sff #gftBytfOrdfr
      */
-    float readFloat() throws IOException;
+    flobt rfbdFlobt() tirows IOExdfption;
 
     /**
-     * Reads 8 bytes from the stream, and (conceptually) concatenates
-     * them according to the current byte order and returns the result
-     * as a <code>double</code>.
+     * Rfbds 8 bytfs from tif strfbm, bnd (dondfptublly) dondbtfnbtfs
+     * tifm bddording to tif durrfnt bytf ordfr bnd rfturns tif rfsult
+     * bs b <dodf>doublf</dodf>.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return a double value from the stream.
+     * @rfturn b doublf vbluf from tif strfbm.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #getByteOrder
+     * @sff #gftBytfOrdfr
      */
-    double readDouble() throws IOException;
+    doublf rfbdDoublf() tirows IOExdfption;
 
     /**
-     * Reads the next line of text from the input stream.  It reads
-     * successive bytes, converting each byte separately into a
-     * character, until it encounters a line terminator or end of
-     * file; the characters read are then returned as a
-     * <code>String</code>. Note that because this method processes
-     * bytes, it does not support input of the full Unicode character
-     * set.
+     * Rfbds tif nfxt linf of tfxt from tif input strfbm.  It rfbds
+     * suddfssivf bytfs, donvfrting fbdi bytf sfpbrbtfly into b
+     * dibrbdtfr, until it fndountfrs b linf tfrminbtor or fnd of
+     * filf; tif dibrbdtfrs rfbd brf tifn rfturnfd bs b
+     * <dodf>String</dodf>. Notf tibt bfdbusf tiis mftiod prodfssfs
+     * bytfs, it dofs not support input of tif full Unidodf dibrbdtfr
+     * sft.
      *
-     * <p> If end of file is encountered before even one byte can be
-     * read, then <code>null</code> is returned. Otherwise, each byte
-     * that is read is converted to type <code>char</code> by
-     * zero-extension. If the character <code>'\n'</code> is
-     * encountered, it is discarded and reading ceases. If the
-     * character <code>'\r'</code> is encountered, it is discarded
-     * and, if the following byte converts &#32;to the character
-     * <code>'\n'</code>, then that is discarded also; reading then
-     * ceases. If end of file is encountered before either of the
-     * characters <code>'\n'</code> and <code>'\r'</code> is
-     * encountered, reading ceases. Once reading has ceased, a
-     * <code>String</code> is returned that contains all the
-     * characters read and not discarded, taken in order.  Note that
-     * every character in this string will have a value less than
-     * <code>&#92;u0100</code>, that is, <code>(char)256</code>.
+     * <p> If fnd of filf is fndountfrfd bfforf fvfn onf bytf dbn bf
+     * rfbd, tifn <dodf>null</dodf> is rfturnfd. Otifrwisf, fbdi bytf
+     * tibt is rfbd is donvfrtfd to typf <dodf>dibr</dodf> by
+     * zfro-fxtfnsion. If tif dibrbdtfr <dodf>'\n'</dodf> is
+     * fndountfrfd, it is disdbrdfd bnd rfbding dfbsfs. If tif
+     * dibrbdtfr <dodf>'\r'</dodf> is fndountfrfd, it is disdbrdfd
+     * bnd, if tif following bytf donvfrts &#32;to tif dibrbdtfr
+     * <dodf>'\n'</dodf>, tifn tibt is disdbrdfd blso; rfbding tifn
+     * dfbsfs. If fnd of filf is fndountfrfd bfforf fitifr of tif
+     * dibrbdtfrs <dodf>'\n'</dodf> bnd <dodf>'\r'</dodf> is
+     * fndountfrfd, rfbding dfbsfs. Ondf rfbding ibs dfbsfd, b
+     * <dodf>String</dodf> is rfturnfd tibt dontbins bll tif
+     * dibrbdtfrs rfbd bnd not disdbrdfd, tbkfn in ordfr.  Notf tibt
+     * fvfry dibrbdtfr in tiis string will ibvf b vbluf lfss tibn
+     * <dodf>&#92;u0100</dodf>, tibt is, <dodf>(dibr)256</dodf>.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @return a String containing a line of text from the stream.
+     * @rfturn b String dontbining b linf of tfxt from tif strfbm.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    String readLine() throws IOException;
+    String rfbdLinf() tirows IOExdfption;
 
     /**
-     * Reads in a string that has been encoded using a
-     * <a href="../../../java/io/DataInput.html#modified-utf-8">modified
-     * UTF-8</a>
-     * format.  The general contract of <code>readUTF</code> is that
-     * it reads a representation of a Unicode character string encoded
-     * in modified UTF-8 format; this string of characters is
-     * then returned as a <code>String</code>.
+     * Rfbds in b string tibt ibs bffn fndodfd using b
+     * <b irff="../../../jbvb/io/DbtbInput.itml#modififd-utf-8">modififd
+     * UTF-8</b>
+     * formbt.  Tif gfnfrbl dontrbdt of <dodf>rfbdUTF</dodf> is tibt
+     * it rfbds b rfprfsfntbtion of b Unidodf dibrbdtfr string fndodfd
+     * in modififd UTF-8 formbt; tiis string of dibrbdtfrs is
+     * tifn rfturnfd bs b <dodf>String</dodf>.
      *
-     * <p> First, two bytes are read and used to construct an unsigned
-     * 16-bit integer in the manner of the
-     * <code>readUnsignedShort</code> method, using network byte order
-     * (regardless of the current byte order setting). This integer
-     * value is called the <i>UTF length</i> and specifies the number
-     * of additional bytes to be read. These bytes are then converted
-     * to characters by considering them in groups. The length of each
-     * group is computed from the value of the first byte of the
-     * group. The byte following a group, if any, is the first byte of
-     * the next group.
+     * <p> First, two bytfs brf rfbd bnd usfd to donstrudt bn unsignfd
+     * 16-bit intfgfr in tif mbnnfr of tif
+     * <dodf>rfbdUnsignfdSiort</dodf> mftiod, using nftwork bytf ordfr
+     * (rfgbrdlfss of tif durrfnt bytf ordfr sftting). Tiis intfgfr
+     * vbluf is dbllfd tif <i>UTF lfngti</i> bnd spfdififs tif numbfr
+     * of bdditionbl bytfs to bf rfbd. Tifsf bytfs brf tifn donvfrtfd
+     * to dibrbdtfrs by donsidfring tifm in groups. Tif lfngti of fbdi
+     * group is domputfd from tif vbluf of tif first bytf of tif
+     * group. Tif bytf following b group, if bny, is tif first bytf of
+     * tif nfxt group.
      *
-     * <p> If the first byte of a group matches the bit pattern
-     * <code>0xxxxxxx</code> (where <code>x</code> means "may be
-     * <code>0</code> or <code>1</code>"), then the group consists of
-     * just that byte. The byte is zero-extended to form a character.
+     * <p> If tif first bytf of b group mbtdifs tif bit pbttfrn
+     * <dodf>0xxxxxxx</dodf> (wifrf <dodf>x</dodf> mfbns "mby bf
+     * <dodf>0</dodf> or <dodf>1</dodf>"), tifn tif group donsists of
+     * just tibt bytf. Tif bytf is zfro-fxtfndfd to form b dibrbdtfr.
      *
-     * <p> If the first byte of a group matches the bit pattern
-     * <code>110xxxxx</code>, then the group consists of that byte
-     * <code>a</code> and a second byte <code>b</code>. If there is no
-     * byte <code>b</code> (because byte <code>a</code> was the last
-     * of the bytes to be read), or if byte <code>b</code> does not
-     * match the bit pattern <code>10xxxxxx</code>, then a
-     * <code>UTFDataFormatException</code> is thrown. Otherwise, the
-     * group is converted to the character:
+     * <p> If tif first bytf of b group mbtdifs tif bit pbttfrn
+     * <dodf>110xxxxx</dodf>, tifn tif group donsists of tibt bytf
+     * <dodf>b</dodf> bnd b sfdond bytf <dodf>b</dodf>. If tifrf is no
+     * bytf <dodf>b</dodf> (bfdbusf bytf <dodf>b</dodf> wbs tif lbst
+     * of tif bytfs to bf rfbd), or if bytf <dodf>b</dodf> dofs not
+     * mbtdi tif bit pbttfrn <dodf>10xxxxxx</dodf>, tifn b
+     * <dodf>UTFDbtbFormbtExdfption</dodf> is tirown. Otifrwisf, tif
+     * group is donvfrtfd to tif dibrbdtfr:
      *
-     * <pre><code>
-     * (char)(((a&amp; 0x1F) &lt;&lt; 6) | (b &amp; 0x3F))
-     * </code></pre>
+     * <prf><dodf>
+     * (dibr)(((b&bmp; 0x1F) &lt;&lt; 6) | (b &bmp; 0x3F))
+     * </dodf></prf>
      *
-     * If the first byte of a group matches the bit pattern
-     * <code>1110xxxx</code>, then the group consists of that byte
-     * <code>a</code> and two more bytes <code>b</code> and
-     * <code>c</code>.  If there is no byte <code>c</code> (because
-     * byte <code>a</code> was one of the last two of the bytes to be
-     * read), or either byte <code>b</code> or byte <code>c</code>
-     * does not match the bit pattern <code>10xxxxxx</code>, then a
-     * <code>UTFDataFormatException</code> is thrown. Otherwise, the
-     * group is converted to the character:
+     * If tif first bytf of b group mbtdifs tif bit pbttfrn
+     * <dodf>1110xxxx</dodf>, tifn tif group donsists of tibt bytf
+     * <dodf>b</dodf> bnd two morf bytfs <dodf>b</dodf> bnd
+     * <dodf>d</dodf>.  If tifrf is no bytf <dodf>d</dodf> (bfdbusf
+     * bytf <dodf>b</dodf> wbs onf of tif lbst two of tif bytfs to bf
+     * rfbd), or fitifr bytf <dodf>b</dodf> or bytf <dodf>d</dodf>
+     * dofs not mbtdi tif bit pbttfrn <dodf>10xxxxxx</dodf>, tifn b
+     * <dodf>UTFDbtbFormbtExdfption</dodf> is tirown. Otifrwisf, tif
+     * group is donvfrtfd to tif dibrbdtfr:
      *
-     * <pre><code>
-     * (char)(((a &amp; 0x0F) &lt;&lt; 12) | ((b &amp; 0x3F) &lt;&lt; 6) | (c &amp; 0x3F))
-     * </code></pre>
+     * <prf><dodf>
+     * (dibr)(((b &bmp; 0x0F) &lt;&lt; 12) | ((b &bmp; 0x3F) &lt;&lt; 6) | (d &bmp; 0x3F))
+     * </dodf></prf>
      *
-     * If the first byte of a group matches the pattern
-     * <code>1111xxxx</code> or the pattern <code>10xxxxxx</code>,
-     * then a <code>UTFDataFormatException</code> is thrown.
+     * If tif first bytf of b group mbtdifs tif pbttfrn
+     * <dodf>1111xxxx</dodf> or tif pbttfrn <dodf>10xxxxxx</dodf>,
+     * tifn b <dodf>UTFDbtbFormbtExdfption</dodf> is tirown.
      *
-     * <p> If end of file is encountered at any time during this
-     * entire process, then an <code>java.io.EOFException</code> is thrown.
+     * <p> If fnd of filf is fndountfrfd bt bny timf during tiis
+     * fntirf prodfss, tifn bn <dodf>jbvb.io.EOFExdfption</dodf> is tirown.
      *
-     * <p> After every group has been converted to a character by this
-     * process, the characters are gathered, in the same order in
-     * which their corresponding groups were read from the input
-     * stream, to form a <code>String</code>, which is returned.
+     * <p> Aftfr fvfry group ibs bffn donvfrtfd to b dibrbdtfr by tiis
+     * prodfss, tif dibrbdtfrs brf gbtifrfd, in tif sbmf ordfr in
+     * wiidi tifir dorrfsponding groups wfrf rfbd from tif input
+     * strfbm, to form b <dodf>String</dodf>, wiidi is rfturnfd.
      *
-     * <p> The current byte order setting is ignored.
+     * <p> Tif durrfnt bytf ordfr sftting is ignorfd.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * <p><strong>Note:</strong> This method should not be used in
-     * the  implementation of image formats that use standard UTF-8,
-     * because  the modified UTF-8 used here is incompatible with
-     * standard UTF-8.
+     * <p><strong>Notf:</strong> Tiis mftiod siould not bf usfd in
+     * tif  implfmfntbtion of imbgf formbts tibt usf stbndbrd UTF-8,
+     * bfdbusf  tif modififd UTF-8 usfd ifrf is indompbtiblf witi
+     * stbndbrd UTF-8.
      *
-     * @return a String read from the stream.
+     * @rfturn b String rfbd from tif strfbm.
      *
-     * @exception  java.io.EOFException  if this stream reaches the end
-     * before reading all the bytes.
-     * @exception  java.io.UTFDataFormatException if the bytes do not represent
-     * a valid modified UTF-8 encoding of a string.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption  jbvb.io.EOFExdfption  if tiis strfbm rfbdifs tif fnd
+     * bfforf rfbding bll tif bytfs.
+     * @fxdfption  jbvb.io.UTFDbtbFormbtExdfption if tif bytfs do not rfprfsfnt
+     * b vblid modififd UTF-8 fndoding of b string.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    String readUTF() throws IOException;
+    String rfbdUTF() tirows IOExdfption;
 
     /**
-     * Reads <code>len</code> bytes from the stream, and stores them
-     * into <code>b</code> starting at index <code>off</code>.
-     * If the end of the stream is reached, an <code>java.io.EOFException</code>
-     * will be thrown.
+     * Rfbds <dodf>lfn</dodf> bytfs from tif strfbm, bnd storfs tifm
+     * into <dodf>b</dodf> stbrting bt indfx <dodf>off</dodf>.
+     * If tif fnd of tif strfbm is rfbdifd, bn <dodf>jbvb.io.EOFExdfption</dodf>
+     * will bf tirown.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param b an array of bytes to be written to.
-     * @param off the starting position within <code>b</code> to write to.
-     * @param len the maximum number of <code>byte</code>s to read.
+     * @pbrbm b bn brrby of bytfs to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>b</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>bytf</dodf>s to rfbd.
      *
-     * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>b.length</code>.
-     * @exception NullPointerException if <code>b</code> is
-     * <code>null</code>.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>b.lfngti</dodf>.
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readFully(byte[] b, int off, int len) throws IOException;
+    void rfbdFully(bytf[] b, int off, int lfn) tirows IOExdfption;
 
     /**
-     * Reads <code>b.length</code> bytes from the stream, and stores them
-     * into <code>b</code> starting at index <code>0</code>.
-     * If the end of the stream is reached, an <code>java.io.EOFException</code>
-     * will be thrown.
+     * Rfbds <dodf>b.lfngti</dodf> bytfs from tif strfbm, bnd storfs tifm
+     * into <dodf>b</dodf> stbrting bt indfx <dodf>0</dodf>.
+     * If tif fnd of tif strfbm is rfbdifd, bn <dodf>jbvb.io.EOFExdfption</dodf>
+     * will bf tirown.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param b an array of <code>byte</code>s.
+     * @pbrbm b bn brrby of <dodf>bytf</dodf>s.
      *
-     * @exception NullPointerException if <code>b</code> is
-     * <code>null</code>.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption NullPointfrExdfption if <dodf>b</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readFully(byte[] b) throws IOException;
+    void rfbdFully(bytf[] b) tirows IOExdfption;
 
     /**
-     * Reads <code>len</code> shorts (signed 16-bit integers) from the
-     * stream according to the current byte order, and
-     * stores them into <code>s</code> starting at index
-     * <code>off</code>.  If the end of the stream is reached, an
-     * <code>java.io.EOFException</code> will be thrown.
+     * Rfbds <dodf>lfn</dodf> siorts (signfd 16-bit intfgfrs) from tif
+     * strfbm bddording to tif durrfnt bytf ordfr, bnd
+     * storfs tifm into <dodf>s</dodf> stbrting bt indfx
+     * <dodf>off</dodf>.  If tif fnd of tif strfbm is rfbdifd, bn
+     * <dodf>jbvb.io.EOFExdfption</dodf> will bf tirown.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param s an array of shorts to be written to.
-     * @param off the starting position within <code>s</code> to write to.
-     * @param len the maximum number of <code>short</code>s to read.
+     * @pbrbm s bn brrby of siorts to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>s</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>siort</dodf>s to rfbd.
      *
-     * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>s.length</code>.
-     * @exception NullPointerException if <code>s</code> is
-     * <code>null</code>.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>s.lfngti</dodf>.
+     * @fxdfption NullPointfrExdfption if <dodf>s</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readFully(short[] s, int off, int len) throws IOException;
+    void rfbdFully(siort[] s, int off, int lfn) tirows IOExdfption;
 
     /**
-     * Reads <code>len</code> chars (unsigned 16-bit integers) from the
-     * stream according to the current byte order, and
-     * stores them into <code>c</code> starting at index
-     * <code>off</code>.  If the end of the stream is reached, an
-     * <code>java.io.EOFException</code> will be thrown.
+     * Rfbds <dodf>lfn</dodf> dibrs (unsignfd 16-bit intfgfrs) from tif
+     * strfbm bddording to tif durrfnt bytf ordfr, bnd
+     * storfs tifm into <dodf>d</dodf> stbrting bt indfx
+     * <dodf>off</dodf>.  If tif fnd of tif strfbm is rfbdifd, bn
+     * <dodf>jbvb.io.EOFExdfption</dodf> will bf tirown.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param c an array of chars to be written to.
-     * @param off the starting position within <code>c</code> to write to.
-     * @param len the maximum number of <code>char</code>s to read.
+     * @pbrbm d bn brrby of dibrs to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>d</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>dibr</dodf>s to rfbd.
      *
-     * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>c.length</code>.
-     * @exception NullPointerException if <code>c</code> is
-     * <code>null</code>.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>d.lfngti</dodf>.
+     * @fxdfption NullPointfrExdfption if <dodf>d</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readFully(char[] c, int off, int len) throws IOException;
+    void rfbdFully(dibr[] d, int off, int lfn) tirows IOExdfption;
 
     /**
-     * Reads <code>len</code> ints (signed 32-bit integers) from the
-     * stream according to the current byte order, and
-     * stores them into <code>i</code> starting at index
-     * <code>off</code>.  If the end of the stream is reached, an
-     * <code>java.io.EOFException</code> will be thrown.
+     * Rfbds <dodf>lfn</dodf> ints (signfd 32-bit intfgfrs) from tif
+     * strfbm bddording to tif durrfnt bytf ordfr, bnd
+     * storfs tifm into <dodf>i</dodf> stbrting bt indfx
+     * <dodf>off</dodf>.  If tif fnd of tif strfbm is rfbdifd, bn
+     * <dodf>jbvb.io.EOFExdfption</dodf> will bf tirown.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param i an array of ints to be written to.
-     * @param off the starting position within <code>i</code> to write to.
-     * @param len the maximum number of <code>int</code>s to read.
+     * @pbrbm i bn brrby of ints to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>i</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>int</dodf>s to rfbd.
      *
-     * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>i.length</code>.
-     * @exception NullPointerException if <code>i</code> is
-     * <code>null</code>.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>i.lfngti</dodf>.
+     * @fxdfption NullPointfrExdfption if <dodf>i</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readFully(int[] i, int off, int len) throws IOException;
+    void rfbdFully(int[] i, int off, int lfn) tirows IOExdfption;
 
     /**
-     * Reads <code>len</code> longs (signed 64-bit integers) from the
-     * stream according to the current byte order, and
-     * stores them into <code>l</code> starting at index
-     * <code>off</code>.  If the end of the stream is reached, an
-     * <code>java.io.EOFException</code> will be thrown.
+     * Rfbds <dodf>lfn</dodf> longs (signfd 64-bit intfgfrs) from tif
+     * strfbm bddording to tif durrfnt bytf ordfr, bnd
+     * storfs tifm into <dodf>l</dodf> stbrting bt indfx
+     * <dodf>off</dodf>.  If tif fnd of tif strfbm is rfbdifd, bn
+     * <dodf>jbvb.io.EOFExdfption</dodf> will bf tirown.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param l an array of longs to be written to.
-     * @param off the starting position within <code>l</code> to write to.
-     * @param len the maximum number of <code>long</code>s to read.
+     * @pbrbm l bn brrby of longs to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>l</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>long</dodf>s to rfbd.
      *
-     * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>l.length</code>.
-     * @exception NullPointerException if <code>l</code> is
-     * <code>null</code>.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>l.lfngti</dodf>.
+     * @fxdfption NullPointfrExdfption if <dodf>l</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readFully(long[] l, int off, int len) throws IOException;
+    void rfbdFully(long[] l, int off, int lfn) tirows IOExdfption;
 
     /**
-     * Reads <code>len</code> floats (32-bit IEEE single-precision
-     * floats) from the stream according to the current byte order,
-     * and stores them into <code>f</code> starting at
-     * index <code>off</code>.  If the end of the stream is reached,
-     * an <code>java.io.EOFException</code> will be thrown.
+     * Rfbds <dodf>lfn</dodf> flobts (32-bit IEEE singlf-prfdision
+     * flobts) from tif strfbm bddording to tif durrfnt bytf ordfr,
+     * bnd storfs tifm into <dodf>f</dodf> stbrting bt
+     * indfx <dodf>off</dodf>.  If tif fnd of tif strfbm is rfbdifd,
+     * bn <dodf>jbvb.io.EOFExdfption</dodf> will bf tirown.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param f an array of floats to be written to.
-     * @param off the starting position within <code>f</code> to write to.
-     * @param len the maximum number of <code>float</code>s to read.
+     * @pbrbm f bn brrby of flobts to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>f</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>flobt</dodf>s to rfbd.
      *
-     * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>f.length</code>.
-     * @exception NullPointerException if <code>f</code> is
-     * <code>null</code>.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>f.lfngti</dodf>.
+     * @fxdfption NullPointfrExdfption if <dodf>f</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readFully(float[] f, int off, int len) throws IOException;
+    void rfbdFully(flobt[] f, int off, int lfn) tirows IOExdfption;
 
     /**
-     * Reads <code>len</code> doubles (64-bit IEEE double-precision
-     * floats) from the stream according to the current byte order,
-     * and stores them into <code>d</code> starting at
-     * index <code>off</code>.  If the end of the stream is reached,
-     * an <code>java.io.EOFException</code> will be thrown.
+     * Rfbds <dodf>lfn</dodf> doublfs (64-bit IEEE doublf-prfdision
+     * flobts) from tif strfbm bddording to tif durrfnt bytf ordfr,
+     * bnd storfs tifm into <dodf>d</dodf> stbrting bt
+     * indfx <dodf>off</dodf>.  If tif fnd of tif strfbm is rfbdifd,
+     * bn <dodf>jbvb.io.EOFExdfption</dodf> will bf tirown.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> Tif bit offsft witiin tif strfbm is rfsft to zfro bfforf
+     * tif rfbd oddurs.
      *
-     * @param d an array of doubles to be written to.
-     * @param off the starting position within <code>d</code> to write to.
-     * @param len the maximum number of <code>double</code>s to read.
+     * @pbrbm d bn brrby of doublfs to bf writtfn to.
+     * @pbrbm off tif stbrting position witiin <dodf>d</dodf> to writf to.
+     * @pbrbm lfn tif mbximum numbfr of <dodf>doublf</dodf>s to rfbd.
      *
-     * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>d.length</code>.
-     * @exception NullPointerException if <code>d</code> is
-     * <code>null</code>.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bytes.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>off</dodf> is
+     * nfgbtivf, <dodf>lfn</dodf> is nfgbtivf, or <dodf>off +
+     * lfn</dodf> is grfbtfr tibn <dodf>d.lfngti</dodf>.
+     * @fxdfption NullPointfrExdfption if <dodf>d</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bytfs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void readFully(double[] d, int off, int len) throws IOException;
+    void rfbdFully(doublf[] d, int off, int lfn) tirows IOExdfption;
 
     /**
-     * Returns the current byte position of the stream.  The next read
-     * will take place starting at this offset.
+     * Rfturns tif durrfnt bytf position of tif strfbm.  Tif nfxt rfbd
+     * will tbkf plbdf stbrting bt tiis offsft.
      *
-     * @return a long containing the position of the stream.
+     * @rfturn b long dontbining tif position of tif strfbm.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    long getStreamPosition() throws IOException;
+    long gftStrfbmPosition() tirows IOExdfption;
 
     /**
-     * Returns the current bit offset, as an integer between 0 and 7,
-     * inclusive.  The bit offset is updated implicitly by calls to
-     * the <code>readBits</code> method.  A value of 0 indicates the
-     * most-significant bit, and a value of 7 indicates the least
-     * significant bit, of the byte being read.
+     * Rfturns tif durrfnt bit offsft, bs bn intfgfr bftwffn 0 bnd 7,
+     * indlusivf.  Tif bit offsft is updbtfd impliditly by dblls to
+     * tif <dodf>rfbdBits</dodf> mftiod.  A vbluf of 0 indidbtfs tif
+     * most-signifidbnt bit, bnd b vbluf of 7 indidbtfs tif lfbst
+     * signifidbnt bit, of tif bytf bfing rfbd.
      *
-     * <p> The bit offset is set to 0 when a stream is first
-     * opened, and is reset to 0 by calls to <code>seek</code>,
-     * <code>skipBytes</code>, or any <code>read</code> or
-     * <code>readFully</code> method.
+     * <p> Tif bit offsft is sft to 0 wifn b strfbm is first
+     * opfnfd, bnd is rfsft to 0 by dblls to <dodf>sffk</dodf>,
+     * <dodf>skipBytfs</dodf>, or bny <dodf>rfbd</dodf> or
+     * <dodf>rfbdFully</dodf> mftiod.
      *
-     * @return an <code>int</code> containing the bit offset between
-     * 0 and 7, inclusive.
+     * @rfturn bn <dodf>int</dodf> dontbining tif bit offsft bftwffn
+     * 0 bnd 7, indlusivf.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #setBitOffset
+     * @sff #sftBitOffsft
      */
-    int getBitOffset() throws IOException;
+    int gftBitOffsft() tirows IOExdfption;
 
     /**
-     * Sets the bit offset to an integer between 0 and 7, inclusive.
-     * The byte offset within the stream, as returned by
-     * <code>getStreamPosition</code>, is left unchanged.
-     * A value of 0 indicates the
-     * most-significant bit, and a value of 7 indicates the least
-     * significant bit, of the byte being read.
+     * Sfts tif bit offsft to bn intfgfr bftwffn 0 bnd 7, indlusivf.
+     * Tif bytf offsft witiin tif strfbm, bs rfturnfd by
+     * <dodf>gftStrfbmPosition</dodf>, is lfft undibngfd.
+     * A vbluf of 0 indidbtfs tif
+     * most-signifidbnt bit, bnd b vbluf of 7 indidbtfs tif lfbst
+     * signifidbnt bit, of tif bytf bfing rfbd.
      *
-     * @param bitOffset the desired offset, as an <code>int</code>
-     * between 0 and 7, inclusive.
+     * @pbrbm bitOffsft tif dfsirfd offsft, bs bn <dodf>int</dodf>
+     * bftwffn 0 bnd 7, indlusivf.
      *
-     * @exception IllegalArgumentException if <code>bitOffset</code>
-     * is not between 0 and 7, inclusive.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bitOffsft</dodf>
+     * is not bftwffn 0 bnd 7, indlusivf.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      *
-     * @see #getBitOffset
+     * @sff #gftBitOffsft
      */
-    void setBitOffset(int bitOffset) throws IOException;
+    void sftBitOffsft(int bitOffsft) tirows IOExdfption;
 
     /**
-     * Reads a single bit from the stream and returns it as an
-     * <code>int</code> with the value <code>0</code> or
-     * <code>1</code>.  The bit offset is advanced by one and reduced
+     * Rfbds b singlf bit from tif strfbm bnd rfturns it bs bn
+     * <dodf>int</dodf> witi tif vbluf <dodf>0</dodf> or
+     * <dodf>1</dodf>.  Tif bit offsft is bdvbndfd by onf bnd rfdudfd
      * modulo 8.
      *
-     * @return an <code>int</code> containing the value <code>0</code>
-     * or <code>1</code>.
+     * @rfturn bn <dodf>int</dodf> dontbining tif vbluf <dodf>0</dodf>
+     * or <dodf>1</dodf>.
      *
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bits.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bits.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    int readBit() throws IOException;
+    int rfbdBit() tirows IOExdfption;
 
     /**
-     * Reads a bitstring from the stream and returns it as a
-     * <code>long</code>, with the first bit read becoming the most
-     * significant bit of the output.  The read starts within the byte
-     * indicated by <code>getStreamPosition</code>, at the bit given
-     * by <code>getBitOffset</code>.  The bit offset is advanced by
-     * <code>numBits</code> and reduced modulo 8.
+     * Rfbds b bitstring from tif strfbm bnd rfturns it bs b
+     * <dodf>long</dodf>, witi tif first bit rfbd bfdoming tif most
+     * signifidbnt bit of tif output.  Tif rfbd stbrts witiin tif bytf
+     * indidbtfd by <dodf>gftStrfbmPosition</dodf>, bt tif bit givfn
+     * by <dodf>gftBitOffsft</dodf>.  Tif bit offsft is bdvbndfd by
+     * <dodf>numBits</dodf> bnd rfdudfd modulo 8.
      *
-     * <p> The byte order of the stream has no effect on this
-     * method.  The return value of this method is constructed as
-     * though the bits were read one at a time, and shifted into
-     * the right side of the return value, as shown by the following
-     * pseudo-code:
+     * <p> Tif bytf ordfr of tif strfbm ibs no ffffdt on tiis
+     * mftiod.  Tif rfturn vbluf of tiis mftiod is donstrudtfd bs
+     * tiougi tif bits wfrf rfbd onf bt b timf, bnd siiftfd into
+     * tif rigit sidf of tif rfturn vbluf, bs siown by tif following
+     * psfudo-dodf:
      *
-     * <pre>{@code
-     * long accum = 0L;
+     * <prf>{@dodf
+     * long bddum = 0L;
      * for (int i = 0; i < numBits; i++) {
-     *   accum <<= 1; // Shift left one bit to make room
-     *   accum |= readBit();
+     *   bddum <<= 1; // Siift lfft onf bit to mbkf room
+     *   bddum |= rfbdBit();
      * }
-     * }</pre>
+     * }</prf>
      *
-     * Note that the result of <code>readBits(32)</code> may thus not
-     * be equal to that of <code>readInt()</code> if a reverse network
-     * byte order is being used (i.e., <code>getByteOrder() ==
-     * false</code>).
+     * Notf tibt tif rfsult of <dodf>rfbdBits(32)</dodf> mby tius not
+     * bf fqubl to tibt of <dodf>rfbdInt()</dodf> if b rfvfrsf nftwork
+     * bytf ordfr is bfing usfd (i.f., <dodf>gftBytfOrdfr() ==
+     * fblsf</dodf>).
      *
-     * <p> If the end of the stream is encountered before all the bits
-     * have been read, an <code>java.io.EOFException</code> is thrown.
+     * <p> If tif fnd of tif strfbm is fndountfrfd bfforf bll tif bits
+     * ibvf bffn rfbd, bn <dodf>jbvb.io.EOFExdfption</dodf> is tirown.
      *
-     * @param numBits the number of bits to read, as an <code>int</code>
-     * between 0 and 64, inclusive.
-     * @return the bitstring, as a <code>long</code> with the last bit
-     * read stored in the least significant bit.
+     * @pbrbm numBits tif numbfr of bits to rfbd, bs bn <dodf>int</dodf>
+     * bftwffn 0 bnd 64, indlusivf.
+     * @rfturn tif bitstring, bs b <dodf>long</dodf> witi tif lbst bit
+     * rfbd storfd in tif lfbst signifidbnt bit.
      *
-     * @exception IllegalArgumentException if <code>numBits</code>
-     * is not between 0 and 64, inclusive.
-     * @exception java.io.EOFException if the stream reaches the end before
-     * reading all the bits.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>numBits</dodf>
+     * is not bftwffn 0 bnd 64, indlusivf.
+     * @fxdfption jbvb.io.EOFExdfption if tif strfbm rfbdifs tif fnd bfforf
+     * rfbding bll tif bits.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    long readBits(int numBits) throws IOException;
+    long rfbdBits(int numBits) tirows IOExdfption;
 
     /**
-     * Returns the total length of the stream, if known.  Otherwise,
-     * <code>-1</code> is returned.
+     * Rfturns tif totbl lfngti of tif strfbm, if known.  Otifrwisf,
+     * <dodf>-1</dodf> is rfturnfd.
      *
-     * @return a <code>long</code> containing the length of the
-     * stream, if known, or else <code>-1</code>.
+     * @rfturn b <dodf>long</dodf> dontbining tif lfngti of tif
+     * strfbm, if known, or flsf <dodf>-1</dodf>.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    long length() throws IOException;
+    long lfngti() tirows IOExdfption;
 
     /**
-     * Moves the stream position forward by a given number of bytes.  It
-     * is possible that this method will only be able to skip forward
-     * by a smaller number of bytes than requested, for example if the
-     * end of the stream is reached.  In all cases, the actual number
-     * of bytes skipped is returned.  The bit offset is set to zero
-     * prior to advancing the position.
+     * Movfs tif strfbm position forwbrd by b givfn numbfr of bytfs.  It
+     * is possiblf tibt tiis mftiod will only bf bblf to skip forwbrd
+     * by b smbllfr numbfr of bytfs tibn rfqufstfd, for fxbmplf if tif
+     * fnd of tif strfbm is rfbdifd.  In bll dbsfs, tif bdtubl numbfr
+     * of bytfs skippfd is rfturnfd.  Tif bit offsft is sft to zfro
+     * prior to bdvbnding tif position.
      *
-     * @param n an <code>int</code> containing the number of bytes to
-     * be skipped.
+     * @pbrbm n bn <dodf>int</dodf> dontbining tif numbfr of bytfs to
+     * bf skippfd.
      *
-     * @return an <code>int</code> representing the number of bytes skipped.
+     * @rfturn bn <dodf>int</dodf> rfprfsfnting tif numbfr of bytfs skippfd.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    int skipBytes(int n) throws IOException;
+    int skipBytfs(int n) tirows IOExdfption;
 
     /**
-     * Moves the stream position forward by a given number of bytes.
-     * This method is identical to <code>skipBytes(int)</code> except
-     * that it allows for a larger skip distance.
+     * Movfs tif strfbm position forwbrd by b givfn numbfr of bytfs.
+     * Tiis mftiod is idfntidbl to <dodf>skipBytfs(int)</dodf> fxdfpt
+     * tibt it bllows for b lbrgfr skip distbndf.
      *
-     * @param n a <code>long</code> containing the number of bytes to
-     * be skipped.
+     * @pbrbm n b <dodf>long</dodf> dontbining tif numbfr of bytfs to
+     * bf skippfd.
      *
-     * @return a <code>long</code> representing the number of bytes
-     * skipped.
+     * @rfturn b <dodf>long</dodf> rfprfsfnting tif numbfr of bytfs
+     * skippfd.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    long skipBytes(long n) throws IOException;
+    long skipBytfs(long n) tirows IOExdfption;
 
     /**
-     * Sets the current stream position to the desired location.  The
-     * next read will occur at this location.  The bit offset is set
+     * Sfts tif durrfnt strfbm position to tif dfsirfd lodbtion.  Tif
+     * nfxt rfbd will oddur bt tiis lodbtion.  Tif bit offsft is sft
      * to 0.
      *
-     * <p> An <code>IndexOutOfBoundsException</code> will be thrown if
-     * <code>pos</code> is smaller than the flushed position (as
-     * returned by <code>getflushedPosition</code>).
+     * <p> An <dodf>IndfxOutOfBoundsExdfption</dodf> will bf tirown if
+     * <dodf>pos</dodf> is smbllfr tibn tif flusifd position (bs
+     * rfturnfd by <dodf>gftflusifdPosition</dodf>).
      *
-     * <p> It is legal to seek past the end of the file; an
-     * <code>java.io.EOFException</code> will be thrown only if a read is
-     * performed.
+     * <p> It is lfgbl to sffk pbst tif fnd of tif filf; bn
+     * <dodf>jbvb.io.EOFExdfption</dodf> will bf tirown only if b rfbd is
+     * pfrformfd.
      *
-     * @param pos a <code>long</code> containing the desired file
-     * pointer position.
+     * @pbrbm pos b <dodf>long</dodf> dontbining tif dfsirfd filf
+     * pointfr position.
      *
-     * @exception IndexOutOfBoundsException if <code>pos</code> is smaller
-     * than the flushed position.
-     * @exception IOException if any other I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>pos</dodf> is smbllfr
+     * tibn tif flusifd position.
+     * @fxdfption IOExdfption if bny otifr I/O frror oddurs.
      */
-    void seek(long pos) throws IOException;
+    void sffk(long pos) tirows IOExdfption;
 
     /**
-     * Marks a position in the stream to be returned to by a
-     * subsequent call to <code>reset</code>.  Unlike a standard
-     * <code>InputStream</code>, all <code>ImageInputStream</code>s
-     * support marking.  Additionally, calls to <code>mark</code> and
-     * <code>reset</code> may be nested arbitrarily.
+     * Mbrks b position in tif strfbm to bf rfturnfd to by b
+     * subsfqufnt dbll to <dodf>rfsft</dodf>.  Unlikf b stbndbrd
+     * <dodf>InputStrfbm</dodf>, bll <dodf>ImbgfInputStrfbm</dodf>s
+     * support mbrking.  Additionblly, dblls to <dodf>mbrk</dodf> bnd
+     * <dodf>rfsft</dodf> mby bf nfstfd brbitrbrily.
      *
-     * <p> Unlike the <code>mark</code> methods declared by the
-     * <code>Reader</code> and <code>InputStream</code> interfaces, no
-     * <code>readLimit</code> parameter is used.  An arbitrary amount
-     * of data may be read following the call to <code>mark</code>.
+     * <p> Unlikf tif <dodf>mbrk</dodf> mftiods dfdlbrfd by tif
+     * <dodf>Rfbdfr</dodf> bnd <dodf>InputStrfbm</dodf> intfrfbdfs, no
+     * <dodf>rfbdLimit</dodf> pbrbmftfr is usfd.  An brbitrbry bmount
+     * of dbtb mby bf rfbd following tif dbll to <dodf>mbrk</dodf>.
      *
-     * <p> The bit position used by the <code>readBits</code> method
-     * is saved and restored by each pair of calls to
-     * <code>mark</code> and <code>reset</code>.
+     * <p> Tif bit position usfd by tif <dodf>rfbdBits</dodf> mftiod
+     * is sbvfd bnd rfstorfd by fbdi pbir of dblls to
+     * <dodf>mbrk</dodf> bnd <dodf>rfsft</dodf>.
      *
-     * <p> Note that it is valid for an <code>ImageReader</code> to call
-     * <code>flushBefore</code> as part of a read operation.
-     * Therefore, if an application calls <code>mark</code> prior to
-     * passing that stream to an <code>ImageReader</code>, the application
-     * should not assume that the marked position will remain valid after
-     * the read operation has completed.
+     * <p> Notf tibt it is vblid for bn <dodf>ImbgfRfbdfr</dodf> to dbll
+     * <dodf>flusiBfforf</dodf> bs pbrt of b rfbd opfrbtion.
+     * Tifrfforf, if bn bpplidbtion dblls <dodf>mbrk</dodf> prior to
+     * pbssing tibt strfbm to bn <dodf>ImbgfRfbdfr</dodf>, tif bpplidbtion
+     * siould not bssumf tibt tif mbrkfd position will rfmbin vblid bftfr
+     * tif rfbd opfrbtion ibs domplftfd.
      */
-    void mark();
+    void mbrk();
 
     /**
-     * Returns the stream pointer to its previous position, including
-     * the bit offset, at the time of the most recent unmatched call
-     * to <code>mark</code>.
+     * Rfturns tif strfbm pointfr to its prfvious position, indluding
+     * tif bit offsft, bt tif timf of tif most rfdfnt unmbtdifd dbll
+     * to <dodf>mbrk</dodf>.
      *
-     * <p> Calls to <code>reset</code> without a corresponding call
-     * to <code>mark</code> have no effect.
+     * <p> Cblls to <dodf>rfsft</dodf> witiout b dorrfsponding dbll
+     * to <dodf>mbrk</dodf> ibvf no ffffdt.
      *
-     * <p> An <code>IOException</code> will be thrown if the previous
-     * marked position lies in the discarded portion of the stream.
+     * <p> An <dodf>IOExdfption</dodf> will bf tirown if tif prfvious
+     * mbrkfd position lifs in tif disdbrdfd portion of tif strfbm.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void reset() throws IOException;
+    void rfsft() tirows IOExdfption;
 
     /**
-     * Discards the initial portion of the stream prior to the
-     * indicated position.  Attempting to seek to an offset within the
-     * flushed portion of the stream will result in an
-     * <code>IndexOutOfBoundsException</code>.
+     * Disdbrds tif initibl portion of tif strfbm prior to tif
+     * indidbtfd position.  Attfmpting to sffk to bn offsft witiin tif
+     * flusifd portion of tif strfbm will rfsult in bn
+     * <dodf>IndfxOutOfBoundsExdfption</dodf>.
      *
-     * <p> Calling <code>flushBefore</code> may allow classes
-     * implementing this interface to free up resources such as memory
-     * or disk space that are being used to store data from the
-     * stream.
+     * <p> Cblling <dodf>flusiBfforf</dodf> mby bllow dlbssfs
+     * implfmfnting tiis intfrfbdf to frff up rfsourdfs sudi bs mfmory
+     * or disk spbdf tibt brf bfing usfd to storf dbtb from tif
+     * strfbm.
      *
-     * @param pos a <code>long</code> containing the length of the
-     * stream prefix that may be flushed.
+     * @pbrbm pos b <dodf>long</dodf> dontbining tif lfngti of tif
+     * strfbm prffix tibt mby bf flusifd.
      *
-     * @exception IndexOutOfBoundsException if <code>pos</code> lies
-     * in the flushed portion of the stream or past the current stream
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>pos</dodf> lifs
+     * in tif flusifd portion of tif strfbm or pbst tif durrfnt strfbm
      * position.
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void flushBefore(long pos) throws IOException;
+    void flusiBfforf(long pos) tirows IOExdfption;
 
     /**
-     * Discards the initial position of the stream prior to the current
-     * stream position.  Equivalent to
-     * <code>flushBefore(getStreamPosition())</code>.
+     * Disdbrds tif initibl position of tif strfbm prior to tif durrfnt
+     * strfbm position.  Equivblfnt to
+     * <dodf>flusiBfforf(gftStrfbmPosition())</dodf>.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void flush() throws IOException;
+    void flusi() tirows IOExdfption;
 
     /**
-     * Returns the earliest position in the stream to which seeking
-     * may be performed.  The returned value will be the maximum of
-     * all values passed into previous calls to
-     * <code>flushBefore</code>.
+     * Rfturns tif fbrlifst position in tif strfbm to wiidi sffking
+     * mby bf pfrformfd.  Tif rfturnfd vbluf will bf tif mbximum of
+     * bll vblufs pbssfd into prfvious dblls to
+     * <dodf>flusiBfforf</dodf>.
      *
-     * @return the earliest legal position for seeking, as a
-     * <code>long</code>.
+     * @rfturn tif fbrlifst lfgbl position for sffking, bs b
+     * <dodf>long</dodf>.
      */
-    long getFlushedPosition();
+    long gftFlusifdPosition();
 
     /**
-     * Returns <code>true</code> if this <code>ImageInputStream</code>
-     * caches data itself in order to allow seeking backwards.
-     * Applications may consult this in order to decide how frequently,
-     * or whether, to flush in order to conserve cache resources.
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>ImbgfInputStrfbm</dodf>
+     * dbdifs dbtb itsflf in ordfr to bllow sffking bbdkwbrds.
+     * Applidbtions mby donsult tiis in ordfr to dfdidf iow frfqufntly,
+     * or wiftifr, to flusi in ordfr to donsfrvf dbdif rfsourdfs.
      *
-     * @return <code>true</code> if this <code>ImageInputStream</code>
-     * caches data.
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>ImbgfInputStrfbm</dodf>
+     * dbdifs dbtb.
      *
-     * @see #isCachedMemory
-     * @see #isCachedFile
+     * @sff #isCbdifdMfmory
+     * @sff #isCbdifdFilf
      */
-    boolean isCached();
+    boolfbn isCbdifd();
 
     /**
-     * Returns <code>true</code> if this <code>ImageInputStream</code>
-     * caches data itself in order to allow seeking backwards, and
-     * the cache is kept in main memory.  Applications may consult
-     * this in order to decide how frequently, or whether, to flush
-     * in order to conserve cache resources.
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>ImbgfInputStrfbm</dodf>
+     * dbdifs dbtb itsflf in ordfr to bllow sffking bbdkwbrds, bnd
+     * tif dbdif is kfpt in mbin mfmory.  Applidbtions mby donsult
+     * tiis in ordfr to dfdidf iow frfqufntly, or wiftifr, to flusi
+     * in ordfr to donsfrvf dbdif rfsourdfs.
      *
-     * @return <code>true</code> if this <code>ImageInputStream</code>
-     * caches data in main memory.
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>ImbgfInputStrfbm</dodf>
+     * dbdifs dbtb in mbin mfmory.
      *
-     * @see #isCached
-     * @see #isCachedFile
+     * @sff #isCbdifd
+     * @sff #isCbdifdFilf
      */
-    boolean isCachedMemory();
+    boolfbn isCbdifdMfmory();
 
     /**
-     * Returns <code>true</code> if this <code>ImageInputStream</code>
-     * caches data itself in order to allow seeking backwards, and
-     * the cache is kept in a temporary file.  Applications may consult
-     * this in order to decide how frequently, or whether, to flush
-     * in order to conserve cache resources.
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>ImbgfInputStrfbm</dodf>
+     * dbdifs dbtb itsflf in ordfr to bllow sffking bbdkwbrds, bnd
+     * tif dbdif is kfpt in b tfmporbry filf.  Applidbtions mby donsult
+     * tiis in ordfr to dfdidf iow frfqufntly, or wiftifr, to flusi
+     * in ordfr to donsfrvf dbdif rfsourdfs.
      *
-     * @return <code>true</code> if this <code>ImageInputStream</code>
-     * caches data in a temporary file.
+     * @rfturn <dodf>truf</dodf> if tiis <dodf>ImbgfInputStrfbm</dodf>
+     * dbdifs dbtb in b tfmporbry filf.
      *
-     * @see #isCached
-     * @see #isCachedMemory
+     * @sff #isCbdifd
+     * @sff #isCbdifdMfmory
      */
-    boolean isCachedFile();
+    boolfbn isCbdifdFilf();
 
     /**
-     * Closes the stream.  Attempts to access a stream that has been
-     * closed may result in <code>IOException</code>s or incorrect
-     * behavior.  Calling this method may allow classes implementing
-     * this interface to release resources associated with the stream
-     * such as memory, disk space, or file descriptors.
+     * Closfs tif strfbm.  Attfmpts to bddfss b strfbm tibt ibs bffn
+     * dlosfd mby rfsult in <dodf>IOExdfption</dodf>s or indorrfdt
+     * bfibvior.  Cblling tiis mftiod mby bllow dlbssfs implfmfnting
+     * tiis intfrfbdf to rflfbsf rfsourdfs bssodibtfd witi tif strfbm
+     * sudi bs mfmory, disk spbdf, or filf dfsdriptors.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    void close() throws IOException;
+    void dlosf() tirows IOExdfption;
 }

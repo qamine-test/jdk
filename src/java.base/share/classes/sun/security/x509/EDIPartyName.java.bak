@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import sun.security.util.*;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the EDIPartyName of the GeneralName choice.
- * The ASN.1 syntax for this is:
- * <pre>
- * EDIPartyName ::= SEQUENCE {
- *     nameAssigner  [0]  DirectoryString OPTIONAL,
- *     partyName     [1]  DirectoryString }
- * </pre>
+ * Tiis dlbss dffinfs tif EDIPbrtyNbmf of tif GfnfrblNbmf dioidf.
+ * Tif ASN.1 syntbx for tiis is:
+ * <prf>
+ * EDIPbrtyNbmf ::= SEQUENCE {
+ *     nbmfAssignfr  [0]  DirfdtoryString OPTIONAL,
+ *     pbrtyNbmf     [1]  DirfdtoryString }
+ * </prf>
  *
- * @author Hemma Prafullchandra
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff GfnfrblNbmf
+ * @sff GfnfrblNbmfs
+ * @sff GfnfrblNbmfIntfrfbdf
  */
-public class EDIPartyName implements GeneralNameInterface {
+publid dlbss EDIPbrtyNbmf implfmfnts GfnfrblNbmfIntfrfbdf {
 
-    // Private data members
-    private static final byte TAG_ASSIGNER = 0;
-    private static final byte TAG_PARTYNAME = 1;
+    // Privbtf dbtb mfmbfrs
+    privbtf stbtid finbl bytf TAG_ASSIGNER = 0;
+    privbtf stbtid finbl bytf TAG_PARTYNAME = 1;
 
-    private String assigner = null;
-    private String party = null;
+    privbtf String bssignfr = null;
+    privbtf String pbrty = null;
 
-    private int myhash = -1;
+    privbtf int myibsi = -1;
 
     /**
-     * Create the EDIPartyName object from the specified names.
+     * Crfbtf tif EDIPbrtyNbmf objfdt from tif spfdififd nbmfs.
      *
-     * @param assignerName the name of the assigner
-     * @param partyName the name of the EDI party.
+     * @pbrbm bssignfrNbmf tif nbmf of tif bssignfr
+     * @pbrbm pbrtyNbmf tif nbmf of tif EDI pbrty.
      */
-    public EDIPartyName(String assignerName, String partyName) {
-        this.assigner = assignerName;
-        this.party = partyName;
+    publid EDIPbrtyNbmf(String bssignfrNbmf, String pbrtyNbmf) {
+        tiis.bssignfr = bssignfrNbmf;
+        tiis.pbrty = pbrtyNbmf;
     }
 
     /**
-     * Create the EDIPartyName object from the specified name.
+     * Crfbtf tif EDIPbrtyNbmf objfdt from tif spfdififd nbmf.
      *
-     * @param partyName the name of the EDI party.
+     * @pbrbm pbrtyNbmf tif nbmf of tif EDI pbrty.
      */
-    public EDIPartyName(String partyName) {
-        this.party = partyName;
+    publid EDIPbrtyNbmf(String pbrtyNbmf) {
+        tiis.pbrty = pbrtyNbmf;
     }
 
     /**
-     * Create the EDIPartyName object from the passed encoded Der value.
+     * Crfbtf tif EDIPbrtyNbmf objfdt from tif pbssfd fndodfd Dfr vbluf.
      *
-     * @param derValue the encoded DER EDIPartyName.
-     * @exception IOException on error.
+     * @pbrbm dfrVbluf tif fndodfd DER EDIPbrtyNbmf.
+     * @fxdfption IOExdfption on frror.
      */
-    public EDIPartyName(DerValue derValue) throws IOException {
-        DerInputStream in = new DerInputStream(derValue.toByteArray());
-        DerValue[] seq = in.getSequence(2);
+    publid EDIPbrtyNbmf(DfrVbluf dfrVbluf) tirows IOExdfption {
+        DfrInputStrfbm in = nfw DfrInputStrfbm(dfrVbluf.toBytfArrby());
+        DfrVbluf[] sfq = in.gftSfqufndf(2);
 
-        int len = seq.length;
-        if (len < 1 || len > 2)
-            throw new IOException("Invalid encoding of EDIPartyName");
+        int lfn = sfq.lfngti;
+        if (lfn < 1 || lfn > 2)
+            tirow nfw IOExdfption("Invblid fndoding of EDIPbrtyNbmf");
 
-        for (int i = 0; i < len; i++) {
-            DerValue opt = seq[i];
-            if (opt.isContextSpecific(TAG_ASSIGNER) &&
-                !opt.isConstructed()) {
-                if (assigner != null)
-                    throw new IOException("Duplicate nameAssigner found in"
-                                          + " EDIPartyName");
-                opt = opt.data.getDerValue();
-                assigner = opt.getAsString();
+        for (int i = 0; i < lfn; i++) {
+            DfrVbluf opt = sfq[i];
+            if (opt.isContfxtSpfdifid(TAG_ASSIGNER) &&
+                !opt.isConstrudtfd()) {
+                if (bssignfr != null)
+                    tirow nfw IOExdfption("Duplidbtf nbmfAssignfr found in"
+                                          + " EDIPbrtyNbmf");
+                opt = opt.dbtb.gftDfrVbluf();
+                bssignfr = opt.gftAsString();
             }
-            if (opt.isContextSpecific(TAG_PARTYNAME) &&
-                !opt.isConstructed()) {
-                if (party != null)
-                    throw new IOException("Duplicate partyName found in"
-                                          + " EDIPartyName");
-                opt = opt.data.getDerValue();
-                party = opt.getAsString();
-            }
-        }
-    }
-
-    /**
-     * Return the type of the GeneralName.
-     */
-    public int getType() {
-        return (GeneralNameInterface.NAME_EDI);
-    }
-
-    /**
-     * Encode the EDI party name into the DerOutputStream.
-     *
-     * @param out the DER stream to encode the EDIPartyName to.
-     * @exception IOException on encoding errors.
-     */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tagged = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
-
-        if (assigner != null) {
-            DerOutputStream tmp2 = new DerOutputStream();
-            // XXX - shd check is chars fit into PrintableString
-            tmp2.putPrintableString(assigner);
-            tagged.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 false, TAG_ASSIGNER), tmp2);
-        }
-        if (party == null)
-            throw  new IOException("Cannot have null partyName");
-
-        // XXX - shd check is chars fit into PrintableString
-        tmp.putPrintableString(party);
-        tagged.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 false, TAG_PARTYNAME), tmp);
-
-        out.write(DerValue.tag_Sequence, tagged);
-    }
-
-    /**
-     * Return the assignerName
-     *
-     * @returns String assignerName
-     */
-    public String getAssignerName() {
-        return assigner;
-    }
-
-    /**
-     * Return the partyName
-     *
-     * @returns String partyName
-     */
-    public String getPartyName() {
-        return party;
-    }
-
-    /**
-     * Compare this EDIPartyName with another.  Does a byte-string
-     * comparison without regard to type of the partyName and
-     * the assignerName.
-     *
-     * @returns true if the two names match
-     */
-    public boolean equals(Object other) {
-        if (!(other instanceof EDIPartyName))
-            return false;
-        String otherAssigner = ((EDIPartyName)other).assigner;
-        if (this.assigner == null) {
-            if (otherAssigner != null)
-                return false;
-        } else {
-            if (!(this.assigner.equals(otherAssigner)))
-                return false;
-        }
-        String otherParty = ((EDIPartyName)other).party;
-        if (this.party == null) {
-            if (otherParty != null)
-                return false;
-        } else {
-            if (!(this.party.equals(otherParty)))
-                return false;
-        }
-        return true;
-    }
-
-    /**
-     * Returns the hash code value for this EDIPartyName.
-     *
-     * @return a hash code value.
-     */
-    public int hashCode() {
-        if (myhash == -1) {
-            myhash = 37 + party.hashCode();
-            if (assigner != null) {
-                myhash = 37 * myhash + assigner.hashCode();
+            if (opt.isContfxtSpfdifid(TAG_PARTYNAME) &&
+                !opt.isConstrudtfd()) {
+                if (pbrty != null)
+                    tirow nfw IOExdfption("Duplidbtf pbrtyNbmf found in"
+                                          + " EDIPbrtyNbmf");
+                opt = opt.dbtb.gftDfrVbluf();
+                pbrty = opt.gftAsString();
             }
         }
-        return myhash;
     }
 
     /**
-     * Return the printable string.
+     * Rfturn tif typf of tif GfnfrblNbmf.
      */
-    public String toString() {
-        return ("EDIPartyName: " +
-                 ((assigner == null) ? "" :
-                   ("  nameAssigner = " + assigner + ","))
-                 + "  partyName = " + party);
+    publid int gftTypf() {
+        rfturn (GfnfrblNbmfIntfrfbdf.NAME_EDI);
     }
 
     /**
-     * Return constraint type:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name (i.e. does not constrain)
-     *   <li>NAME_MATCH = 0: input name matches name
-     *   <li>NAME_NARROWS = 1: input name narrows name
-     *   <li>NAME_WIDENS = 2: input name widens name
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name, but is same type
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Endodf tif EDI pbrty nbmf into tif DfrOutputStrfbm.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is same type, but comparison operations are
-     *          not supported for this name type.
+     * @pbrbm out tif DER strfbm to fndodf tif EDIPbrtyNbmf to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public int constrains(GeneralNameInterface inputName) throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null)
-            constraintType = NAME_DIFF_TYPE;
-        else if (inputName.getType() != NAME_EDI)
-            constraintType = NAME_DIFF_TYPE;
-        else {
-            throw new UnsupportedOperationException("Narrowing, widening, and matching of names not supported for EDIPartyName");
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+        if (bssignfr != null) {
+            DfrOutputStrfbm tmp2 = nfw DfrOutputStrfbm();
+            // XXX - sid difdk is dibrs fit into PrintbblfString
+            tmp2.putPrintbblfString(bssignfr);
+            tbggfd.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 fblsf, TAG_ASSIGNER), tmp2);
         }
-        return constraintType;
+        if (pbrty == null)
+            tirow  nfw IOExdfption("Cbnnot ibvf null pbrtyNbmf");
+
+        // XXX - sid difdk is dibrs fit into PrintbblfString
+        tmp.putPrintbblfString(pbrty);
+        tbggfd.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 fblsf, TAG_PARTYNAME), tmp);
+
+        out.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Rfturn tif bssignfrNbmf
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @rfturns String bssignfrNbmf
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("subtreeDepth() not supported for EDIPartyName");
+    publid String gftAssignfrNbmf() {
+        rfturn bssignfr;
+    }
+
+    /**
+     * Rfturn tif pbrtyNbmf
+     *
+     * @rfturns String pbrtyNbmf
+     */
+    publid String gftPbrtyNbmf() {
+        rfturn pbrty;
+    }
+
+    /**
+     * Compbrf tiis EDIPbrtyNbmf witi bnotifr.  Dofs b bytf-string
+     * dompbrison witiout rfgbrd to typf of tif pbrtyNbmf bnd
+     * tif bssignfrNbmf.
+     *
+     * @rfturns truf if tif two nbmfs mbtdi
+     */
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (!(otifr instbndfof EDIPbrtyNbmf))
+            rfturn fblsf;
+        String otifrAssignfr = ((EDIPbrtyNbmf)otifr).bssignfr;
+        if (tiis.bssignfr == null) {
+            if (otifrAssignfr != null)
+                rfturn fblsf;
+        } flsf {
+            if (!(tiis.bssignfr.fqubls(otifrAssignfr)))
+                rfturn fblsf;
+        }
+        String otifrPbrty = ((EDIPbrtyNbmf)otifr).pbrty;
+        if (tiis.pbrty == null) {
+            if (otifrPbrty != null)
+                rfturn fblsf;
+        } flsf {
+            if (!(tiis.pbrty.fqubls(otifrPbrty)))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns tif ibsi dodf vbluf for tiis EDIPbrtyNbmf.
+     *
+     * @rfturn b ibsi dodf vbluf.
+     */
+    publid int ibsiCodf() {
+        if (myibsi == -1) {
+            myibsi = 37 + pbrty.ibsiCodf();
+            if (bssignfr != null) {
+                myibsi = 37 * myibsi + bssignfr.ibsiCodf();
+            }
+        }
+        rfturn myibsi;
+    }
+
+    /**
+     * Rfturn tif printbblf string.
+     */
+    publid String toString() {
+        rfturn ("EDIPbrtyNbmf: " +
+                 ((bssignfr == null) ? "" :
+                   ("  nbmfAssignfr = " + bssignfr + ","))
+                 + "  pbrtyNbmf = " + pbrty);
+    }
+
+    /**
+     * Rfturn donstrbint typf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf (i.f. dofs not donstrbin)
+     *   <li>NAME_MATCH = 0: input nbmf mbtdifs nbmf
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdi or nbrrow nbmf, but is sbmf typf
+     * </ul>.  Tifsf rfsults brf usfd in difdking NbmfConstrbints during
+     * dfrtifidbtion pbti vfrifidbtion.
+     *
+     * @pbrbm inputNbmf to bf difdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @tirows UnsupportfdOpfrbtionExdfption if nbmf is sbmf typf, but dompbrison opfrbtions brf
+     *          not supportfd for tiis nbmf typf.
+     */
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf) tirows UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (inputNbmf.gftTypf() != NAME_EDI)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Nbrrowing, widfning, bnd mbtdiing of nbmfs not supportfd for EDIPbrtyNbmf");
+        }
+        rfturn donstrbintTypf;
+    }
+
+    /**
+     * Rfturn subtrff dfpti of tiis nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbti lfngtis in nbmf subtrffs.
+     *
+     * @rfturns distbndf of nbmf from root
+     * @tirows UnsupportfdOpfrbtionExdfption if not supportfd for tiis nbmf typf
+     */
+    publid int subtrffDfpti() tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("subtrffDfpti() not supportfd for EDIPbrtyNbmf");
     }
 
 }

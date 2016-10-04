@@ -1,760 +1,760 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.font.FontRenderContext;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.RenderingHints;
-import java.awt.RenderingHints.Key;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Compositf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Strokf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.RfndfringHints.Kfy;
 
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.TfxtLbyout;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
-import java.awt.print.PrinterGraphics;
-import java.awt.print.PrinterJob;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Linf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.RoundRfdtbnglf2D;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf;
+import jbvb.bwt.print.PrintfrGrbpiids;
+import jbvb.bwt.print.PrintfrJob;
 
-import java.text.AttributedCharacterIterator;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
 
-import sun.java2d.Spans;
+import sun.jbvb2d.Spbns;
 
-public class PeekGraphics extends Graphics2D
-                          implements PrinterGraphics,
-                                     ImageObserver,
-                                     Cloneable {
-
-    /**
-     * Drawing methods will be forwarded to this object.
-     */
-    Graphics2D mGraphics;
+publid dlbss PffkGrbpiids fxtfnds Grbpiids2D
+                          implfmfnts PrintfrGrbpiids,
+                                     ImbgfObsfrvfr,
+                                     Clonfbblf {
 
     /**
-     * The PrinterJob controlling the current printing.
+     * Drbwing mftiods will bf forwbrdfd to tiis objfdt.
      */
-    PrinterJob mPrinterJob;
+    Grbpiids2D mGrbpiids;
 
     /**
-     * Keeps track of where drawing occurs on the page.
+     * Tif PrintfrJob dontrolling tif durrfnt printing.
      */
-    private Spans mDrawingArea = new Spans();
+    PrintfrJob mPrintfrJob;
 
     /**
-     * Track information about the types of drawing
-     * performed by the printing application.
+     * Kffps trbdk of wifrf drbwing oddurs on tif pbgf.
      */
-    private PeekMetrics mPrintMetrics = new PeekMetrics();
+    privbtf Spbns mDrbwingArfb = nfw Spbns();
 
     /**
-     * If true the application will only be drawing AWT style
-     * graphics, no Java2D graphics.
+     * Trbdk informbtion bbout tif typfs of drbwing
+     * pfrformfd by tif printing bpplidbtion.
      */
-    private boolean mAWTDrawingOnly = false;
+    privbtf PffkMftrids mPrintMftrids = nfw PffkMftrids();
 
     /**
-     * The new PeekGraphics2D will forward state changing
-     * calls to 'graphics'. 'printerJob' is stored away
-     * so that the printing application can get the PrinterJob
-     * if needed.
+     * If truf tif bpplidbtion will only bf drbwing AWT stylf
+     * grbpiids, no Jbvb2D grbpiids.
      */
-    public PeekGraphics(Graphics2D graphics, PrinterJob printerJob) {
+    privbtf boolfbn mAWTDrbwingOnly = fblsf;
 
-        mGraphics = graphics;
-        mPrinterJob = printerJob;
+    /**
+     * Tif nfw PffkGrbpiids2D will forwbrd stbtf dibnging
+     * dblls to 'grbpiids'. 'printfrJob' is storfd bwby
+     * so tibt tif printing bpplidbtion dbn gft tif PrintfrJob
+     * if nffdfd.
+     */
+    publid PffkGrbpiids(Grbpiids2D grbpiids, PrintfrJob printfrJob) {
+
+        mGrbpiids = grbpiids;
+        mPrintfrJob = printfrJob;
     }
 
     /**
-     * Return the Graphics2D object that does the drawing
-     * for this instance.
+     * Rfturn tif Grbpiids2D objfdt tibt dofs tif drbwing
+     * for tiis instbndf.
      */
-    public Graphics2D getDelegate() {
-        return mGraphics;
+    publid Grbpiids2D gftDflfgbtf() {
+        rfturn mGrbpiids;
     }
 
     /**
-     * Set the Graphics2D instance which will do the
-     * drawing.
+     * Sft tif Grbpiids2D instbndf wiidi will do tif
+     * drbwing.
      */
-    public void setDelegate(Graphics2D graphics) {
-        mGraphics = graphics;
+    publid void sftDflfgbtf(Grbpiids2D grbpiids) {
+        mGrbpiids = grbpiids;
     }
 
-    public PrinterJob getPrinterJob() {
-        return mPrinterJob;
+    publid PrintfrJob gftPrintfrJob() {
+        rfturn mPrintfrJob;
     }
 
     /**
-     * The caller promises that only AWT graphics will be drawn.
-     * The print system can use this information to make general
-     * assumptions about the types of graphics to be drawn without
-     * requiring the application to draw the contents multiple
-     * times.
+     * Tif dbllfr promisfs tibt only AWT grbpiids will bf drbwn.
+     * Tif print systfm dbn usf tiis informbtion to mbkf gfnfrbl
+     * bssumptions bbout tif typfs of grbpiids to bf drbwn witiout
+     * rfquiring tif bpplidbtion to drbw tif dontfnts multiplf
+     * timfs.
      */
-    public void setAWTDrawingOnly() {
-        mAWTDrawingOnly = true;
+    publid void sftAWTDrbwingOnly() {
+        mAWTDrbwingOnly = truf;
     }
 
-    public boolean getAWTDrawingOnly() {
-        return mAWTDrawingOnly;
-    }
-
-    /**
-     * Return a Spans instance describing the parts of the page in
-     * to which drawing occurred.
-     */
-    public Spans getDrawingArea() {
-        return mDrawingArea;
+    publid boolfbn gftAWTDrbwingOnly() {
+        rfturn mAWTDrbwingOnly;
     }
 
     /**
-     * Returns the device configuration associated with this Graphics2D.
+     * Rfturn b Spbns instbndf dfsdribing tif pbrts of tif pbgf in
+     * to wiidi drbwing oddurrfd.
      */
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return ((RasterPrinterJob)mPrinterJob).getPrinterGraphicsConfig();
+    publid Spbns gftDrbwingArfb() {
+        rfturn mDrbwingArfb;
     }
 
-/* The Delegated Graphics Methods */
+    /**
+     * Rfturns tif dfvidf donfigurbtion bssodibtfd witi tiis Grbpiids2D.
+     */
+    publid GrbpiidsConfigurbtion gftDfvidfConfigurbtion() {
+        rfturn ((RbstfrPrintfrJob)mPrintfrJob).gftPrintfrGrbpiidsConfig();
+    }
+
+/* Tif Dflfgbtfd Grbpiids Mftiods */
 
     /**
-     * Creates a new <code>Graphics</code> object that is
-     * a copy of this <code>Graphics</code> object.
-     * @return     a new graphics context that is a copy of
-     *                       this graphics context.
-     * @since      1.0
+     * Crfbtfs b nfw <dodf>Grbpiids</dodf> objfdt tibt is
+     * b dopy of tiis <dodf>Grbpiids</dodf> objfdt.
+     * @rfturn     b nfw grbpiids dontfxt tibt is b dopy of
+     *                       tiis grbpiids dontfxt.
+     * @sindf      1.0
      */
-    public Graphics create() {
-        PeekGraphics newGraphics = null;
+    publid Grbpiids drfbtf() {
+        PffkGrbpiids nfwGrbpiids = null;
 
         try {
-            newGraphics = (PeekGraphics) clone();
-            newGraphics.mGraphics = (Graphics2D) mGraphics.create();
+            nfwGrbpiids = (PffkGrbpiids) dlonf();
+            nfwGrbpiids.mGrbpiids = (Grbpiids2D) mGrbpiids.drfbtf();
 
-        /* This exception can not happen unless this
-         * class no longer implements the Cloneable
-         * interface.
+        /* Tiis fxdfption dbn not ibppfn unlfss tiis
+         * dlbss no longfr implfmfnts tif Clonfbblf
+         * intfrfbdf.
          */
-        } catch (CloneNotSupportedException e) {
-            // can never happen.
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // dbn nfvfr ibppfn.
         }
 
-        return newGraphics;
+        rfturn nfwGrbpiids;
     }
 
     /**
-     * Translates the origin of the graphics context to the point
-     * (<i>x</i>,&nbsp;<i>y</i>) in the current coordinate system.
-     * Modifies this graphics context so that its new origin corresponds
-     * to the point (<i>x</i>,&nbsp;<i>y</i>) in this graphics context's
-     * original coordinate system.  All coordinates used in subsequent
-     * rendering operations on this graphics context will be relative
-     * to this new origin.
-     * @param  x   the <i>x</i> coordinate.
-     * @param  y   the <i>y</i> coordinate.
-     * @since   1.0
+     * Trbnslbtfs tif origin of tif grbpiids dontfxt to tif point
+     * (<i>x</i>,&nbsp;<i>y</i>) in tif durrfnt doordinbtf systfm.
+     * Modififs tiis grbpiids dontfxt so tibt its nfw origin dorrfsponds
+     * to tif point (<i>x</i>,&nbsp;<i>y</i>) in tiis grbpiids dontfxt's
+     * originbl doordinbtf systfm.  All doordinbtfs usfd in subsfqufnt
+     * rfndfring opfrbtions on tiis grbpiids dontfxt will bf rflbtivf
+     * to tiis nfw origin.
+     * @pbrbm  x   tif <i>x</i> doordinbtf.
+     * @pbrbm  y   tif <i>y</i> doordinbtf.
+     * @sindf   1.0
      */
-    public void translate(int x, int y) {
-        mGraphics.translate(x, y);
+    publid void trbnslbtf(int x, int y) {
+        mGrbpiids.trbnslbtf(x, y);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * translation transformation.
-     * This is equivalent to calling transform(T), where T is an
-     * AffineTransform represented by the following matrix:
-     * <pre>
+     * Condbtfnbtfs tif durrfnt trbnsform of tiis Grbpiids2D witi b
+     * trbnslbtion trbnsformbtion.
+     * Tiis is fquivblfnt to dblling trbnsform(T), wifrf T is bn
+     * AffinfTrbnsform rfprfsfntfd by tif following mbtrix:
+     * <prf>
      *          [   1    0    tx  ]
      *          [   0    1    ty  ]
      *          [   0    0    1   ]
-     * </pre>
+     * </prf>
      */
-    public void translate(double tx, double ty) {
-        mGraphics.translate(tx, ty);
+    publid void trbnslbtf(doublf tx, doublf ty) {
+        mGrbpiids.trbnslbtf(tx, ty);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * rotation transformation.
-     * This is equivalent to calling transform(R), where R is an
-     * AffineTransform represented by the following matrix:
-     * <pre>
-     *          [   cos(theta)    -sin(theta)    0   ]
-     *          [   sin(theta)     cos(theta)    0   ]
+     * Condbtfnbtfs tif durrfnt trbnsform of tiis Grbpiids2D witi b
+     * rotbtion trbnsformbtion.
+     * Tiis is fquivblfnt to dblling trbnsform(R), wifrf R is bn
+     * AffinfTrbnsform rfprfsfntfd by tif following mbtrix:
+     * <prf>
+     *          [   dos(tiftb)    -sin(tiftb)    0   ]
+     *          [   sin(tiftb)     dos(tiftb)    0   ]
      *          [       0              0         1   ]
-     * </pre>
-     * Rotating with a positive angle theta rotates points on the positive
-     * x axis toward the positive y axis.
-     * @param theta The angle of rotation in radians.
+     * </prf>
+     * Rotbting witi b positivf bnglf tiftb rotbtfs points on tif positivf
+     * x bxis towbrd tif positivf y bxis.
+     * @pbrbm tiftb Tif bnglf of rotbtion in rbdibns.
      */
-    public void rotate(double theta) {
-        mGraphics.rotate(theta);
+    publid void rotbtf(doublf tiftb) {
+        mGrbpiids.rotbtf(tiftb);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * translated rotation transformation.
-     * This is equivalent to the following sequence of calls:
-     * <pre>
-     *          translate(x, y);
-     *          rotate(theta);
-     *          translate(-x, -y);
-     * </pre>
-     * Rotating with a positive angle theta rotates points on the positive
-     * x axis toward the positive y axis.
-     * @param theta The angle of rotation in radians.
-     * @param x The x coordinate of the origin of the rotation
-     * @param y The x coordinate of the origin of the rotation
+     * Condbtfnbtfs tif durrfnt trbnsform of tiis Grbpiids2D witi b
+     * trbnslbtfd rotbtion trbnsformbtion.
+     * Tiis is fquivblfnt to tif following sfqufndf of dblls:
+     * <prf>
+     *          trbnslbtf(x, y);
+     *          rotbtf(tiftb);
+     *          trbnslbtf(-x, -y);
+     * </prf>
+     * Rotbting witi b positivf bnglf tiftb rotbtfs points on tif positivf
+     * x bxis towbrd tif positivf y bxis.
+     * @pbrbm tiftb Tif bnglf of rotbtion in rbdibns.
+     * @pbrbm x Tif x doordinbtf of tif origin of tif rotbtion
+     * @pbrbm y Tif x doordinbtf of tif origin of tif rotbtion
      */
-    public void rotate(double theta, double x, double y) {
-        mGraphics.rotate(theta, x, y);
+    publid void rotbtf(doublf tiftb, doublf x, doublf y) {
+        mGrbpiids.rotbtf(tiftb, x, y);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * scaling transformation.
-     * This is equivalent to calling transform(S), where S is an
-     * AffineTransform represented by the following matrix:
-     * <pre>
+     * Condbtfnbtfs tif durrfnt trbnsform of tiis Grbpiids2D witi b
+     * sdbling trbnsformbtion.
+     * Tiis is fquivblfnt to dblling trbnsform(S), wifrf S is bn
+     * AffinfTrbnsform rfprfsfntfd by tif following mbtrix:
+     * <prf>
      *          [   sx   0    0   ]
      *          [   0    sy   0   ]
      *          [   0    0    1   ]
-     * </pre>
+     * </prf>
      */
-    public void scale(double sx, double sy) {
-        mGraphics.scale(sx, sy);
+    publid void sdblf(doublf sx, doublf sy) {
+        mGrbpiids.sdblf(sx, sy);
     }
 
     /**
-     * Concatenates the current transform of this Graphics2D with a
-     * shearing transformation.
-     * This is equivalent to calling transform(SH), where SH is an
-     * AffineTransform represented by the following matrix:
-     * <pre>
-     *          [   1   shx   0   ]
-     *          [  shy   1    0   ]
+     * Condbtfnbtfs tif durrfnt trbnsform of tiis Grbpiids2D witi b
+     * sifbring trbnsformbtion.
+     * Tiis is fquivblfnt to dblling trbnsform(SH), wifrf SH is bn
+     * AffinfTrbnsform rfprfsfntfd by tif following mbtrix:
+     * <prf>
+     *          [   1   six   0   ]
+     *          [  siy   1    0   ]
      *          [   0    0    1   ]
-     * </pre>
-     * @param shx The factor by which coordinates are shifted towards the
-     * positive X axis direction according to their Y coordinate
-     * @param shy The factor by which coordinates are shifted towards the
-     * positive Y axis direction according to their X coordinate
+     * </prf>
+     * @pbrbm six Tif fbdtor by wiidi doordinbtfs brf siiftfd towbrds tif
+     * positivf X bxis dirfdtion bddording to tifir Y doordinbtf
+     * @pbrbm siy Tif fbdtor by wiidi doordinbtfs brf siiftfd towbrds tif
+     * positivf Y bxis dirfdtion bddording to tifir X doordinbtf
      */
-    public void shear(double shx, double shy) {
-        mGraphics.shear(shx, shy);
+    publid void sifbr(doublf six, doublf siy) {
+        mGrbpiids.sifbr(six, siy);
     }
 
     /**
-     * Gets this graphics context's current color.
-     * @return    this graphics context's current color.
-     * @see       java.awt.Color
-     * @see       java.awt.Graphics#setColor
-     * @since     1.0
+     * Gfts tiis grbpiids dontfxt's durrfnt dolor.
+     * @rfturn    tiis grbpiids dontfxt's durrfnt dolor.
+     * @sff       jbvb.bwt.Color
+     * @sff       jbvb.bwt.Grbpiids#sftColor
+     * @sindf     1.0
      */
-    public Color getColor() {
-        return mGraphics.getColor();
+    publid Color gftColor() {
+        rfturn mGrbpiids.gftColor();
     }
 
     /**
-     * Sets this graphics context's current color to the specified
-     * color. All subsequent graphics operations using this graphics
-     * context use this specified color.
-     * @param     c   the new rendering color.
-     * @see       java.awt.Color
-     * @see       java.awt.Graphics#getColor
-     * @since     1.0
+     * Sfts tiis grbpiids dontfxt's durrfnt dolor to tif spfdififd
+     * dolor. All subsfqufnt grbpiids opfrbtions using tiis grbpiids
+     * dontfxt usf tiis spfdififd dolor.
+     * @pbrbm     d   tif nfw rfndfring dolor.
+     * @sff       jbvb.bwt.Color
+     * @sff       jbvb.bwt.Grbpiids#gftColor
+     * @sindf     1.0
      */
-    public void setColor(Color c) {
-        mGraphics.setColor(c);
+    publid void sftColor(Color d) {
+        mGrbpiids.sftColor(d);
     }
 
     /**
-     * Sets the paint mode of this graphics context to overwrite the
-     * destination with this graphics context's current color.
-     * This sets the logical pixel operation function to the paint or
-     * overwrite mode.  All subsequent rendering operations will
-     * overwrite the destination with the current color.
-     * @since   1.0
+     * Sfts tif pbint modf of tiis grbpiids dontfxt to ovfrwritf tif
+     * dfstinbtion witi tiis grbpiids dontfxt's durrfnt dolor.
+     * Tiis sfts tif logidbl pixfl opfrbtion fundtion to tif pbint or
+     * ovfrwritf modf.  All subsfqufnt rfndfring opfrbtions will
+     * ovfrwritf tif dfstinbtion witi tif durrfnt dolor.
+     * @sindf   1.0
      */
-    public void setPaintMode() {
-        mGraphics.setPaintMode();
+    publid void sftPbintModf() {
+        mGrbpiids.sftPbintModf();
     }
 
     /**
-     * Sets the paint mode of this graphics context to alternate between
-     * this graphics context's current color and the new specified color.
-     * This specifies that logical pixel operations are performed in the
-     * XOR mode, which alternates pixels between the current color and
-     * a specified XOR color.
+     * Sfts tif pbint modf of tiis grbpiids dontfxt to bltfrnbtf bftwffn
+     * tiis grbpiids dontfxt's durrfnt dolor bnd tif nfw spfdififd dolor.
+     * Tiis spfdififs tibt logidbl pixfl opfrbtions brf pfrformfd in tif
+     * XOR modf, wiidi bltfrnbtfs pixfls bftwffn tif durrfnt dolor bnd
+     * b spfdififd XOR dolor.
      * <p>
-     * When drawing operations are performed, pixels which are the
-     * current color are changed to the specified color, and vice versa.
+     * Wifn drbwing opfrbtions brf pfrformfd, pixfls wiidi brf tif
+     * durrfnt dolor brf dibngfd to tif spfdififd dolor, bnd vidf vfrsb.
      * <p>
-     * Pixels that are of colors other than those two colors are changed
-     * in an unpredictable but reversible manner; if the same figure is
-     * drawn twice, then all pixels are restored to their original values.
-     * @param     c1 the XOR alternation color
-     * @since     1.0
+     * Pixfls tibt brf of dolors otifr tibn tiosf two dolors brf dibngfd
+     * in bn unprfdidtbblf but rfvfrsiblf mbnnfr; if tif sbmf figurf is
+     * drbwn twidf, tifn bll pixfls brf rfstorfd to tifir originbl vblufs.
+     * @pbrbm     d1 tif XOR bltfrnbtion dolor
+     * @sindf     1.0
      */
-    public void setXORMode(Color c1) {
-        mGraphics.setXORMode(c1);
+    publid void sftXORModf(Color d1) {
+        mGrbpiids.sftXORModf(d1);
     }
 
     /**
-     * Gets the current font.
-     * @return    this graphics context's current font.
-     * @see       java.awt.Font
-     * @see       java.awt.Graphics#setFont
-     * @since     1.0
+     * Gfts tif durrfnt font.
+     * @rfturn    tiis grbpiids dontfxt's durrfnt font.
+     * @sff       jbvb.bwt.Font
+     * @sff       jbvb.bwt.Grbpiids#sftFont
+     * @sindf     1.0
      */
-    public Font getFont() {
-        return mGraphics.getFont();
+    publid Font gftFont() {
+        rfturn mGrbpiids.gftFont();
     }
 
     /**
-     * Sets this graphics context's font to the specified font.
-     * All subsequent text operations using this graphics context
-     * use this font.
-     * @param  font   the font.
-     * @see     java.awt.Graphics#getFont
-     * @see     java.awt.Graphics#drawChars(java.lang.String, int, int)
-     * @see     java.awt.Graphics#drawString(byte[], int, int, int, int)
-     * @see     java.awt.Graphics#drawBytes(char[], int, int, int, int)
-     * @since   1.0
+     * Sfts tiis grbpiids dontfxt's font to tif spfdififd font.
+     * All subsfqufnt tfxt opfrbtions using tiis grbpiids dontfxt
+     * usf tiis font.
+     * @pbrbm  font   tif font.
+     * @sff     jbvb.bwt.Grbpiids#gftFont
+     * @sff     jbvb.bwt.Grbpiids#drbwCibrs(jbvb.lbng.String, int, int)
+     * @sff     jbvb.bwt.Grbpiids#drbwString(bytf[], int, int, int, int)
+     * @sff     jbvb.bwt.Grbpiids#drbwBytfs(dibr[], int, int, int, int)
+     * @sindf   1.0
     */
-    public void setFont(Font font) {
-        mGraphics.setFont(font);
+    publid void sftFont(Font font) {
+        mGrbpiids.sftFont(font);
     }
 
     /**
-     * Gets the font metrics for the specified font.
-     * @return    the font metrics for the specified font.
-     * @param     f the specified font
-     * @see       java.awt.Graphics#getFont
-     * @see       java.awt.FontMetrics
-     * @see       java.awt.Graphics#getFontMetrics()
-     * @since     1.0
+     * Gfts tif font mftrids for tif spfdififd font.
+     * @rfturn    tif font mftrids for tif spfdififd font.
+     * @pbrbm     f tif spfdififd font
+     * @sff       jbvb.bwt.Grbpiids#gftFont
+     * @sff       jbvb.bwt.FontMftrids
+     * @sff       jbvb.bwt.Grbpiids#gftFontMftrids()
+     * @sindf     1.0
      */
-    public FontMetrics getFontMetrics(Font f) {
-        return mGraphics.getFontMetrics(f);
+    publid FontMftrids gftFontMftrids(Font f) {
+        rfturn mGrbpiids.gftFontMftrids(f);
     }
 
     /**
-    * Get the rendering context of the font
-    * within this Graphics2D context.
+    * Gft tif rfndfring dontfxt of tif font
+    * witiin tiis Grbpiids2D dontfxt.
     */
-    public FontRenderContext getFontRenderContext() {
-        return mGraphics.getFontRenderContext();
+    publid FontRfndfrContfxt gftFontRfndfrContfxt() {
+        rfturn mGrbpiids.gftFontRfndfrContfxt();
     }
 
     /**
-     * Returns the bounding rectangle of the current clipping area.
-     * The coordinates in the rectangle are relative to the coordinate
-     * system origin of this graphics context.
-     * @return      the bounding rectangle of the current clipping area.
-     * @see         java.awt.Graphics#getClip
-     * @see         java.awt.Graphics#clipRect
-     * @see         java.awt.Graphics#setClip(int, int, int, int)
-     * @see         java.awt.Graphics#setClip(Shape)
-     * @since       1.1
+     * Rfturns tif bounding rfdtbnglf of tif durrfnt dlipping brfb.
+     * Tif doordinbtfs in tif rfdtbnglf brf rflbtivf to tif doordinbtf
+     * systfm origin of tiis grbpiids dontfxt.
+     * @rfturn      tif bounding rfdtbnglf of tif durrfnt dlipping brfb.
+     * @sff         jbvb.bwt.Grbpiids#gftClip
+     * @sff         jbvb.bwt.Grbpiids#dlipRfdt
+     * @sff         jbvb.bwt.Grbpiids#sftClip(int, int, int, int)
+     * @sff         jbvb.bwt.Grbpiids#sftClip(Sibpf)
+     * @sindf       1.1
      */
-    public Rectangle getClipBounds() {
-        return mGraphics.getClipBounds();
-    }
-
-
-    /**
-     * Intersects the current clip with the specified rectangle.
-     * The resulting clipping area is the intersection of the current
-     * clipping area and the specified rectangle.
-     * This method can only be used to make the current clip smaller.
-     * To set the current clip larger, use any of the setClip methods.
-     * Rendering operations have no effect outside of the clipping area.
-     * @param x the x coordinate of the rectangle to intersect the clip with
-     * @param y the y coordinate of the rectangle to intersect the clip with
-     * @param width the width of the rectangle to intersect the clip with
-     * @param height the height of the rectangle to intersect the clip with
-     * @see #setClip(int, int, int, int)
-     * @see #setClip(Shape)
-     */
-    public void clipRect(int x, int y, int width, int height) {
-        mGraphics.clipRect(x, y, width, height);
+    publid Rfdtbnglf gftClipBounds() {
+        rfturn mGrbpiids.gftClipBounds();
     }
 
 
     /**
-     * Sets the current clip to the rectangle specified by the given
-     * coordinates.
-     * Rendering operations have no effect outside of the clipping area.
-     * @param       x the <i>x</i> coordinate of the new clip rectangle.
-     * @param       y the <i>y</i> coordinate of the new clip rectangle.
-     * @param       width the width of the new clip rectangle.
-     * @param       height the height of the new clip rectangle.
-     * @see         java.awt.Graphics#clipRect
-     * @see         java.awt.Graphics#setClip(Shape)
-     * @since       1.1
+     * Intfrsfdts tif durrfnt dlip witi tif spfdififd rfdtbnglf.
+     * Tif rfsulting dlipping brfb is tif intfrsfdtion of tif durrfnt
+     * dlipping brfb bnd tif spfdififd rfdtbnglf.
+     * Tiis mftiod dbn only bf usfd to mbkf tif durrfnt dlip smbllfr.
+     * To sft tif durrfnt dlip lbrgfr, usf bny of tif sftClip mftiods.
+     * Rfndfring opfrbtions ibvf no ffffdt outsidf of tif dlipping brfb.
+     * @pbrbm x tif x doordinbtf of tif rfdtbnglf to intfrsfdt tif dlip witi
+     * @pbrbm y tif y doordinbtf of tif rfdtbnglf to intfrsfdt tif dlip witi
+     * @pbrbm widti tif widti of tif rfdtbnglf to intfrsfdt tif dlip witi
+     * @pbrbm ifigit tif ifigit of tif rfdtbnglf to intfrsfdt tif dlip witi
+     * @sff #sftClip(int, int, int, int)
+     * @sff #sftClip(Sibpf)
      */
-    public void setClip(int x, int y, int width, int height) {
-        mGraphics.setClip(x, y, width, height);
-    }
-
-    /**
-     * Gets the current clipping area.
-     * @return      a <code>Shape</code> object representing the
-     *                      current clipping area.
-     * @see         java.awt.Graphics#getClipBounds
-     * @see         java.awt.Graphics#clipRect
-     * @see         java.awt.Graphics#setClip(int, int, int, int)
-     * @see         java.awt.Graphics#setClip(Shape)
-     * @since       1.1
-     */
-    public Shape getClip() {
-        return mGraphics.getClip();
+    publid void dlipRfdt(int x, int y, int widti, int ifigit) {
+        mGrbpiids.dlipRfdt(x, y, widti, ifigit);
     }
 
 
     /**
-     * Sets the current clipping area to an arbitrary clip shape.
-     * Not all objects which implement the <code>Shape</code>
-     * interface can be used to set the clip.  The only
-     * <code>Shape</code> objects which are guaranteed to be
-     * supported are <code>Shape</code> objects which are
-     * obtained via the <code>getClip</code> method and via
-     * <code>Rectangle</code> objects.
-     * @see         java.awt.Graphics#getClip()
-     * @see         java.awt.Graphics#clipRect
-     * @see         java.awt.Graphics#setClip(int, int, int, int)
-     * @since       1.1
+     * Sfts tif durrfnt dlip to tif rfdtbnglf spfdififd by tif givfn
+     * doordinbtfs.
+     * Rfndfring opfrbtions ibvf no ffffdt outsidf of tif dlipping brfb.
+     * @pbrbm       x tif <i>x</i> doordinbtf of tif nfw dlip rfdtbnglf.
+     * @pbrbm       y tif <i>y</i> doordinbtf of tif nfw dlip rfdtbnglf.
+     * @pbrbm       widti tif widti of tif nfw dlip rfdtbnglf.
+     * @pbrbm       ifigit tif ifigit of tif nfw dlip rfdtbnglf.
+     * @sff         jbvb.bwt.Grbpiids#dlipRfdt
+     * @sff         jbvb.bwt.Grbpiids#sftClip(Sibpf)
+     * @sindf       1.1
      */
-    public void setClip(Shape clip) {
-        mGraphics.setClip(clip);
+    publid void sftClip(int x, int y, int widti, int ifigit) {
+        mGrbpiids.sftClip(x, y, widti, ifigit);
+    }
+
+    /**
+     * Gfts tif durrfnt dlipping brfb.
+     * @rfturn      b <dodf>Sibpf</dodf> objfdt rfprfsfnting tif
+     *                      durrfnt dlipping brfb.
+     * @sff         jbvb.bwt.Grbpiids#gftClipBounds
+     * @sff         jbvb.bwt.Grbpiids#dlipRfdt
+     * @sff         jbvb.bwt.Grbpiids#sftClip(int, int, int, int)
+     * @sff         jbvb.bwt.Grbpiids#sftClip(Sibpf)
+     * @sindf       1.1
+     */
+    publid Sibpf gftClip() {
+        rfturn mGrbpiids.gftClip();
     }
 
 
     /**
-     * Copies an area of the component by a distance specified by
-     * <code>dx</code> and <code>dy</code>. From the point specified
-     * by <code>x</code> and <code>y</code>, this method
-     * copies downwards and to the right.  To copy an area of the
-     * component to the left or upwards, specify a negative value for
-     * <code>dx</code> or <code>dy</code>.
-     * If a portion of the source rectangle lies outside the bounds
-     * of the component, or is obscured by another window or component,
-     * <code>copyArea</code> will be unable to copy the associated
-     * pixels. The area that is omitted can be refreshed by calling
-     * the component's <code>paint</code> method.
-     * @param       x the <i>x</i> coordinate of the source rectangle.
-     * @param       y the <i>y</i> coordinate of the source rectangle.
-     * @param       width the width of the source rectangle.
-     * @param       height the height of the source rectangle.
-     * @param       dx the horizontal distance to copy the pixels.
-     * @param       dy the vertical distance to copy the pixels.
-     * @since       1.0
+     * Sfts tif durrfnt dlipping brfb to bn brbitrbry dlip sibpf.
+     * Not bll objfdts wiidi implfmfnt tif <dodf>Sibpf</dodf>
+     * intfrfbdf dbn bf usfd to sft tif dlip.  Tif only
+     * <dodf>Sibpf</dodf> objfdts wiidi brf gubrbntffd to bf
+     * supportfd brf <dodf>Sibpf</dodf> objfdts wiidi brf
+     * obtbinfd vib tif <dodf>gftClip</dodf> mftiod bnd vib
+     * <dodf>Rfdtbnglf</dodf> objfdts.
+     * @sff         jbvb.bwt.Grbpiids#gftClip()
+     * @sff         jbvb.bwt.Grbpiids#dlipRfdt
+     * @sff         jbvb.bwt.Grbpiids#sftClip(int, int, int, int)
+     * @sindf       1.1
      */
-    public void copyArea(int x, int y, int width, int height,
+    publid void sftClip(Sibpf dlip) {
+        mGrbpiids.sftClip(dlip);
+    }
+
+
+    /**
+     * Copifs bn brfb of tif domponfnt by b distbndf spfdififd by
+     * <dodf>dx</dodf> bnd <dodf>dy</dodf>. From tif point spfdififd
+     * by <dodf>x</dodf> bnd <dodf>y</dodf>, tiis mftiod
+     * dopifs downwbrds bnd to tif rigit.  To dopy bn brfb of tif
+     * domponfnt to tif lfft or upwbrds, spfdify b nfgbtivf vbluf for
+     * <dodf>dx</dodf> or <dodf>dy</dodf>.
+     * If b portion of tif sourdf rfdtbnglf lifs outsidf tif bounds
+     * of tif domponfnt, or is obsdurfd by bnotifr window or domponfnt,
+     * <dodf>dopyArfb</dodf> will bf unbblf to dopy tif bssodibtfd
+     * pixfls. Tif brfb tibt is omittfd dbn bf rffrfsifd by dblling
+     * tif domponfnt's <dodf>pbint</dodf> mftiod.
+     * @pbrbm       x tif <i>x</i> doordinbtf of tif sourdf rfdtbnglf.
+     * @pbrbm       y tif <i>y</i> doordinbtf of tif sourdf rfdtbnglf.
+     * @pbrbm       widti tif widti of tif sourdf rfdtbnglf.
+     * @pbrbm       ifigit tif ifigit of tif sourdf rfdtbnglf.
+     * @pbrbm       dx tif iorizontbl distbndf to dopy tif pixfls.
+     * @pbrbm       dy tif vfrtidbl distbndf to dopy tif pixfls.
+     * @sindf       1.0
+     */
+    publid void dopyArfb(int x, int y, int widti, int ifigit,
                          int dx, int dy) {
-        // This method is not supported for printing so we do nothing here.
+        // Tiis mftiod is not supportfd for printing so wf do notiing ifrf.
     }
 
     /**
-     * Draws a line, using the current color, between the points
-     * <code>(x1,&nbsp;y1)</code> and <code>(x2,&nbsp;y2)</code>
-     * in this graphics context's coordinate system.
-     * @param   x1  the first point's <i>x</i> coordinate.
-     * @param   y1  the first point's <i>y</i> coordinate.
-     * @param   x2  the second point's <i>x</i> coordinate.
-     * @param   y2  the second point's <i>y</i> coordinate.
-     * @since   1.0
+     * Drbws b linf, using tif durrfnt dolor, bftwffn tif points
+     * <dodf>(x1,&nbsp;y1)</dodf> bnd <dodf>(x2,&nbsp;y2)</dodf>
+     * in tiis grbpiids dontfxt's doordinbtf systfm.
+     * @pbrbm   x1  tif first point's <i>x</i> doordinbtf.
+     * @pbrbm   y1  tif first point's <i>y</i> doordinbtf.
+     * @pbrbm   x2  tif sfdond point's <i>x</i> doordinbtf.
+     * @pbrbm   y2  tif sfdond point's <i>y</i> doordinbtf.
+     * @sindf   1.0
      */
-    public void drawLine(int x1, int y1, int x2, int y2) {
-        addStrokeShape(new Line2D.Float(x1, y1, x2, y2));
-        mPrintMetrics.draw(this);
+    publid void drbwLinf(int x1, int y1, int x2, int y2) {
+        bddStrokfSibpf(nfw Linf2D.Flobt(x1, y1, x2, y2));
+        mPrintMftrids.drbw(tiis);
     }
 
 
 
     /**
-     * Fills the specified rectangle.
-     * The left and right edges of the rectangle are at
-     * <code>x</code> and <code>x&nbsp;+&nbsp;width&nbsp;-&nbsp;1</code>.
-     * The top and bottom edges are at
-     * <code>y</code> and <code>y&nbsp;+&nbsp;height&nbsp;-&nbsp;1</code>.
-     * The resulting rectangle covers an area
-     * <code>width</code> pixels wide by
-     * <code>height</code> pixels tall.
-     * The rectangle is filled using the graphics context's current color.
-     * @param         x   the <i>x</i> coordinate
-     *                         of the rectangle to be filled.
-     * @param         y   the <i>y</i> coordinate
-     *                         of the rectangle to be filled.
-     * @param         width   the width of the rectangle to be filled.
-     * @param         height   the height of the rectangle to be filled.
-     * @see           java.awt.Graphics#fillRect
-     * @see           java.awt.Graphics#clearRect
-     * @since         1.0
+     * Fills tif spfdififd rfdtbnglf.
+     * Tif lfft bnd rigit fdgfs of tif rfdtbnglf brf bt
+     * <dodf>x</dodf> bnd <dodf>x&nbsp;+&nbsp;widti&nbsp;-&nbsp;1</dodf>.
+     * Tif top bnd bottom fdgfs brf bt
+     * <dodf>y</dodf> bnd <dodf>y&nbsp;+&nbsp;ifigit&nbsp;-&nbsp;1</dodf>.
+     * Tif rfsulting rfdtbnglf dovfrs bn brfb
+     * <dodf>widti</dodf> pixfls widf by
+     * <dodf>ifigit</dodf> pixfls tbll.
+     * Tif rfdtbnglf is fillfd using tif grbpiids dontfxt's durrfnt dolor.
+     * @pbrbm         x   tif <i>x</i> doordinbtf
+     *                         of tif rfdtbnglf to bf fillfd.
+     * @pbrbm         y   tif <i>y</i> doordinbtf
+     *                         of tif rfdtbnglf to bf fillfd.
+     * @pbrbm         widti   tif widti of tif rfdtbnglf to bf fillfd.
+     * @pbrbm         ifigit   tif ifigit of tif rfdtbnglf to bf fillfd.
+     * @sff           jbvb.bwt.Grbpiids#fillRfdt
+     * @sff           jbvb.bwt.Grbpiids#dlfbrRfdt
+     * @sindf         1.0
      */
-    public void fillRect(int x, int y, int width, int height) {
+    publid void fillRfdt(int x, int y, int widti, int ifigit) {
 
-        addDrawingRect(new Rectangle2D.Float(x, y, width, height));
-        mPrintMetrics.fill(this);
+        bddDrbwingRfdt(nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit));
+        mPrintMftrids.fill(tiis);
 
     }
 
     /**
-     * Clears the specified rectangle by filling it with the background
-     * color of the current drawing surface. This operation does not
-     * use the current paint mode.
+     * Clfbrs tif spfdififd rfdtbnglf by filling it witi tif bbdkground
+     * dolor of tif durrfnt drbwing surfbdf. Tiis opfrbtion dofs not
+     * usf tif durrfnt pbint modf.
      * <p>
-     * Beginning with Java&nbsp;1.1, the background color
-     * of offscreen images may be system dependent. Applications should
-     * use <code>setColor</code> followed by <code>fillRect</code> to
-     * ensure that an offscreen image is cleared to a specific color.
-     * @param       x the <i>x</i> coordinate of the rectangle to clear.
-     * @param       y the <i>y</i> coordinate of the rectangle to clear.
-     * @param       width the width of the rectangle to clear.
-     * @param       height the height of the rectangle to clear.
-     * @see         java.awt.Graphics#fillRect(int, int, int, int)
-     * @see         java.awt.Graphics#drawRect
-     * @see         java.awt.Graphics#setColor(java.awt.Color)
-     * @see         java.awt.Graphics#setPaintMode
-     * @see         java.awt.Graphics#setXORMode(java.awt.Color)
-     * @since       1.0
+     * Bfginning witi Jbvb&nbsp;1.1, tif bbdkground dolor
+     * of offsdrffn imbgfs mby bf systfm dfpfndfnt. Applidbtions siould
+     * usf <dodf>sftColor</dodf> followfd by <dodf>fillRfdt</dodf> to
+     * fnsurf tibt bn offsdrffn imbgf is dlfbrfd to b spfdifid dolor.
+     * @pbrbm       x tif <i>x</i> doordinbtf of tif rfdtbnglf to dlfbr.
+     * @pbrbm       y tif <i>y</i> doordinbtf of tif rfdtbnglf to dlfbr.
+     * @pbrbm       widti tif widti of tif rfdtbnglf to dlfbr.
+     * @pbrbm       ifigit tif ifigit of tif rfdtbnglf to dlfbr.
+     * @sff         jbvb.bwt.Grbpiids#fillRfdt(int, int, int, int)
+     * @sff         jbvb.bwt.Grbpiids#drbwRfdt
+     * @sff         jbvb.bwt.Grbpiids#sftColor(jbvb.bwt.Color)
+     * @sff         jbvb.bwt.Grbpiids#sftPbintModf
+     * @sff         jbvb.bwt.Grbpiids#sftXORModf(jbvb.bwt.Color)
+     * @sindf       1.0
      */
-    public void clearRect(int x, int y, int width, int height) {
-        Rectangle2D.Float rect = new Rectangle2D.Float(x, y, width, height);
-        addDrawingRect(rect);
-        mPrintMetrics.clear(this);
+    publid void dlfbrRfdt(int x, int y, int widti, int ifigit) {
+        Rfdtbnglf2D.Flobt rfdt = nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit);
+        bddDrbwingRfdt(rfdt);
+        mPrintMftrids.dlfbr(tiis);
     }
 
     /**
-     * Draws an outlined round-cornered rectangle using this graphics
-     * context's current color. The left and right edges of the rectangle
-     * are at <code>x</code> and <code>x&nbsp;+&nbsp;width</code>,
-     * respectively. The top and bottom edges of the rectangle are at
-     * <code>y</code> and <code>y&nbsp;+&nbsp;height</code>.
-     * @param      x the <i>x</i> coordinate of the rectangle to be drawn.
-     * @param      y the <i>y</i> coordinate of the rectangle to be drawn.
-     * @param      width the width of the rectangle to be drawn.
-     * @param      height the height of the rectangle to be drawn.
-     * @param      arcWidth the horizontal diameter of the arc
-     *                    at the four corners.
-     * @param      arcHeight the vertical diameter of the arc
-     *                    at the four corners.
-     * @see        java.awt.Graphics#fillRoundRect
-     * @since      1.0
+     * Drbws bn outlinfd round-dornfrfd rfdtbnglf using tiis grbpiids
+     * dontfxt's durrfnt dolor. Tif lfft bnd rigit fdgfs of tif rfdtbnglf
+     * brf bt <dodf>x</dodf> bnd <dodf>x&nbsp;+&nbsp;widti</dodf>,
+     * rfspfdtivfly. Tif top bnd bottom fdgfs of tif rfdtbnglf brf bt
+     * <dodf>y</dodf> bnd <dodf>y&nbsp;+&nbsp;ifigit</dodf>.
+     * @pbrbm      x tif <i>x</i> doordinbtf of tif rfdtbnglf to bf drbwn.
+     * @pbrbm      y tif <i>y</i> doordinbtf of tif rfdtbnglf to bf drbwn.
+     * @pbrbm      widti tif widti of tif rfdtbnglf to bf drbwn.
+     * @pbrbm      ifigit tif ifigit of tif rfdtbnglf to bf drbwn.
+     * @pbrbm      brdWidti tif iorizontbl dibmftfr of tif brd
+     *                    bt tif four dornfrs.
+     * @pbrbm      brdHfigit tif vfrtidbl dibmftfr of tif brd
+     *                    bt tif four dornfrs.
+     * @sff        jbvb.bwt.Grbpiids#fillRoundRfdt
+     * @sindf      1.0
      */
-    public void drawRoundRect(int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
-        addStrokeShape(new RoundRectangle2D.Float(x, y, width, height, arcWidth, arcHeight));
-        mPrintMetrics.draw(this);
-
-    }
-
-    /**
-     * Fills the specified rounded corner rectangle with the current color.
-     * The left and right edges of the rectangle
-     * are at <code>x</code> and <code>x&nbsp;+&nbsp;width&nbsp;-&nbsp;1</code>,
-     * respectively. The top and bottom edges of the rectangle are at
-     * <code>y</code> and <code>y&nbsp;+&nbsp;height&nbsp;-&nbsp;1</code>.
-     * @param       x the <i>x</i> coordinate of the rectangle to be filled.
-     * @param       y the <i>y</i> coordinate of the rectangle to be filled.
-     * @param       width the width of the rectangle to be filled.
-     * @param       height the height of the rectangle to be filled.
-     * @param       arcWidth the horizontal diameter
-     *                     of the arc at the four corners.
-     * @param       arcHeight the vertical diameter
-     *                     of the arc at the four corners.
-     * @see         java.awt.Graphics#drawRoundRect
-     * @since       1.0
-     */
-    public void fillRoundRect(int x, int y, int width, int height,
-                                       int arcWidth, int arcHeight) {
-        Rectangle2D.Float rect = new Rectangle2D.Float(x, y,width, height);
-        addDrawingRect(rect);
-        mPrintMetrics.fill(this);
-    }
-
-    /**
-     * Draws the outline of an oval.
-     * The result is a circle or ellipse that fits within the
-     * rectangle specified by the <code>x</code>, <code>y</code>,
-     * <code>width</code>, and <code>height</code> arguments.
-     * <p>
-     * The oval covers an area that is
-     * <code>width&nbsp;+&nbsp;1</code> pixels wide
-     * and <code>height&nbsp;+&nbsp;1</code> pixels tall.
-     * @param       x the <i>x</i> coordinate of the upper left
-     *                     corner of the oval to be drawn.
-     * @param       y the <i>y</i> coordinate of the upper left
-     *                     corner of the oval to be drawn.
-     * @param       width the width of the oval to be drawn.
-     * @param       height the height of the oval to be drawn.
-     * @see         java.awt.Graphics#fillOval
-     * @since       1.0
-     */
-    public void drawOval(int x, int y, int width, int height) {
-        addStrokeShape(new Rectangle2D.Float(x, y,  width, height));
-        mPrintMetrics.draw(this);
-    }
-
-    /**
-     * Fills an oval bounded by the specified rectangle with the
-     * current color.
-     * @param       x the <i>x</i> coordinate of the upper left corner
-     *                     of the oval to be filled.
-     * @param       y the <i>y</i> coordinate of the upper left corner
-     *                     of the oval to be filled.
-     * @param       width the width of the oval to be filled.
-     * @param       height the height of the oval to be filled.
-     * @see         java.awt.Graphics#drawOval
-     * @since       1.0
-     */
-    public void fillOval(int x, int y, int width, int height) {
-        Rectangle2D.Float rect = new Rectangle2D.Float(x, y, width, height);
-        addDrawingRect(rect);
-        mPrintMetrics.fill(this);
-
-    }
-
-
-    /**
-     * Draws the outline of a circular or elliptical arc
-     * covering the specified rectangle.
-     * <p>
-     * The resulting arc begins at <code>startAngle</code> and extends
-     * for <code>arcAngle</code> degrees, using the current color.
-     * Angles are interpreted such that 0&nbsp;degrees
-     * is at the 3&nbsp;o'clock position.
-     * A positive value indicates a counter-clockwise rotation
-     * while a negative value indicates a clockwise rotation.
-     * <p>
-     * The center of the arc is the center of the rectangle whose origin
-     * is (<i>x</i>,&nbsp;<i>y</i>) and whose size is specified by the
-     * <code>width</code> and <code>height</code> arguments.
-     * <p>
-     * The resulting arc covers an area
-     * <code>width&nbsp;+&nbsp;1</code> pixels wide
-     * by <code>height&nbsp;+&nbsp;1</code> pixels tall.
-     * @param        x the <i>x</i> coordinate of the
-     *                    upper-left corner of the arc to be drawn.
-     * @param        y the <i>y</i>  coordinate of the
-     *                    upper-left corner of the arc to be drawn.
-     * @param        width the width of the arc to be drawn.
-     * @param        height the height of the arc to be drawn.
-     * @param        startAngle the beginning angle.
-     * @param        arcAngle the angular extent of the arc,
-     *                    relative to the start angle.
-     * @see         java.awt.Graphics#fillArc
-     * @since       1.0
-     */
-    public void drawArc(int x, int y, int width, int height,
-                                 int startAngle, int arcAngle) {
-        addStrokeShape(new Rectangle2D.Float(x, y,  width, height));
-        mPrintMetrics.draw(this);
+    publid void drbwRoundRfdt(int x, int y, int widti, int ifigit,
+                              int brdWidti, int brdHfigit) {
+        bddStrokfSibpf(nfw RoundRfdtbnglf2D.Flobt(x, y, widti, ifigit, brdWidti, brdHfigit));
+        mPrintMftrids.drbw(tiis);
 
     }
 
     /**
-     * Fills a circular or elliptical arc covering the specified rectangle.
-     * <p>
-     * The resulting arc begins at <code>startAngle</code> and extends
-     * for <code>arcAngle</code> degrees.
-     * Angles are interpreted such that 0&nbsp;degrees
-     * is at the 3&nbsp;o'clock position.
-     * A positive value indicates a counter-clockwise rotation
-     * while a negative value indicates a clockwise rotation.
-     * <p>
-     * The center of the arc is the center of the rectangle whose origin
-     * is (<i>x</i>,&nbsp;<i>y</i>) and whose size is specified by the
-     * <code>width</code> and <code>height</code> arguments.
-     * <p>
-     * The resulting arc covers an area
-     * <code>width&nbsp;+&nbsp;1</code> pixels wide
-     * by <code>height&nbsp;+&nbsp;1</code> pixels tall.
-     * @param        x the <i>x</i> coordinate of the
-     *                    upper-left corner of the arc to be filled.
-     * @param        y the <i>y</i>  coordinate of the
-     *                    upper-left corner of the arc to be filled.
-     * @param        width the width of the arc to be filled.
-     * @param        height the height of the arc to be filled.
-     * @param        startAngle the beginning angle.
-     * @param        arcAngle the angular extent of the arc,
-     *                    relative to the start angle.
-     * @see         java.awt.Graphics#drawArc
-     * @since       1.0
+     * Fills tif spfdififd roundfd dornfr rfdtbnglf witi tif durrfnt dolor.
+     * Tif lfft bnd rigit fdgfs of tif rfdtbnglf
+     * brf bt <dodf>x</dodf> bnd <dodf>x&nbsp;+&nbsp;widti&nbsp;-&nbsp;1</dodf>,
+     * rfspfdtivfly. Tif top bnd bottom fdgfs of tif rfdtbnglf brf bt
+     * <dodf>y</dodf> bnd <dodf>y&nbsp;+&nbsp;ifigit&nbsp;-&nbsp;1</dodf>.
+     * @pbrbm       x tif <i>x</i> doordinbtf of tif rfdtbnglf to bf fillfd.
+     * @pbrbm       y tif <i>y</i> doordinbtf of tif rfdtbnglf to bf fillfd.
+     * @pbrbm       widti tif widti of tif rfdtbnglf to bf fillfd.
+     * @pbrbm       ifigit tif ifigit of tif rfdtbnglf to bf fillfd.
+     * @pbrbm       brdWidti tif iorizontbl dibmftfr
+     *                     of tif brd bt tif four dornfrs.
+     * @pbrbm       brdHfigit tif vfrtidbl dibmftfr
+     *                     of tif brd bt tif four dornfrs.
+     * @sff         jbvb.bwt.Grbpiids#drbwRoundRfdt
+     * @sindf       1.0
      */
-    public void fillArc(int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
-        Rectangle2D.Float rect = new Rectangle2D.Float(x, y,width, height);
-        addDrawingRect(rect);
-        mPrintMetrics.fill(this);
+    publid void fillRoundRfdt(int x, int y, int widti, int ifigit,
+                                       int brdWidti, int brdHfigit) {
+        Rfdtbnglf2D.Flobt rfdt = nfw Rfdtbnglf2D.Flobt(x, y,widti, ifigit);
+        bddDrbwingRfdt(rfdt);
+        mPrintMftrids.fill(tiis);
+    }
+
+    /**
+     * Drbws tif outlinf of bn ovbl.
+     * Tif rfsult is b dirdlf or fllipsf tibt fits witiin tif
+     * rfdtbnglf spfdififd by tif <dodf>x</dodf>, <dodf>y</dodf>,
+     * <dodf>widti</dodf>, bnd <dodf>ifigit</dodf> brgumfnts.
+     * <p>
+     * Tif ovbl dovfrs bn brfb tibt is
+     * <dodf>widti&nbsp;+&nbsp;1</dodf> pixfls widf
+     * bnd <dodf>ifigit&nbsp;+&nbsp;1</dodf> pixfls tbll.
+     * @pbrbm       x tif <i>x</i> doordinbtf of tif uppfr lfft
+     *                     dornfr of tif ovbl to bf drbwn.
+     * @pbrbm       y tif <i>y</i> doordinbtf of tif uppfr lfft
+     *                     dornfr of tif ovbl to bf drbwn.
+     * @pbrbm       widti tif widti of tif ovbl to bf drbwn.
+     * @pbrbm       ifigit tif ifigit of tif ovbl to bf drbwn.
+     * @sff         jbvb.bwt.Grbpiids#fillOvbl
+     * @sindf       1.0
+     */
+    publid void drbwOvbl(int x, int y, int widti, int ifigit) {
+        bddStrokfSibpf(nfw Rfdtbnglf2D.Flobt(x, y,  widti, ifigit));
+        mPrintMftrids.drbw(tiis);
+    }
+
+    /**
+     * Fills bn ovbl boundfd by tif spfdififd rfdtbnglf witi tif
+     * durrfnt dolor.
+     * @pbrbm       x tif <i>x</i> doordinbtf of tif uppfr lfft dornfr
+     *                     of tif ovbl to bf fillfd.
+     * @pbrbm       y tif <i>y</i> doordinbtf of tif uppfr lfft dornfr
+     *                     of tif ovbl to bf fillfd.
+     * @pbrbm       widti tif widti of tif ovbl to bf fillfd.
+     * @pbrbm       ifigit tif ifigit of tif ovbl to bf fillfd.
+     * @sff         jbvb.bwt.Grbpiids#drbwOvbl
+     * @sindf       1.0
+     */
+    publid void fillOvbl(int x, int y, int widti, int ifigit) {
+        Rfdtbnglf2D.Flobt rfdt = nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit);
+        bddDrbwingRfdt(rfdt);
+        mPrintMftrids.fill(tiis);
+
+    }
+
+
+    /**
+     * Drbws tif outlinf of b dirdulbr or flliptidbl brd
+     * dovfring tif spfdififd rfdtbnglf.
+     * <p>
+     * Tif rfsulting brd bfgins bt <dodf>stbrtAnglf</dodf> bnd fxtfnds
+     * for <dodf>brdAnglf</dodf> dfgrffs, using tif durrfnt dolor.
+     * Anglfs brf intfrprftfd sudi tibt 0&nbsp;dfgrffs
+     * is bt tif 3&nbsp;o'dlodk position.
+     * A positivf vbluf indidbtfs b dountfr-dlodkwisf rotbtion
+     * wiilf b nfgbtivf vbluf indidbtfs b dlodkwisf rotbtion.
+     * <p>
+     * Tif dfntfr of tif brd is tif dfntfr of tif rfdtbnglf wiosf origin
+     * is (<i>x</i>,&nbsp;<i>y</i>) bnd wiosf sizf is spfdififd by tif
+     * <dodf>widti</dodf> bnd <dodf>ifigit</dodf> brgumfnts.
+     * <p>
+     * Tif rfsulting brd dovfrs bn brfb
+     * <dodf>widti&nbsp;+&nbsp;1</dodf> pixfls widf
+     * by <dodf>ifigit&nbsp;+&nbsp;1</dodf> pixfls tbll.
+     * @pbrbm        x tif <i>x</i> doordinbtf of tif
+     *                    uppfr-lfft dornfr of tif brd to bf drbwn.
+     * @pbrbm        y tif <i>y</i>  doordinbtf of tif
+     *                    uppfr-lfft dornfr of tif brd to bf drbwn.
+     * @pbrbm        widti tif widti of tif brd to bf drbwn.
+     * @pbrbm        ifigit tif ifigit of tif brd to bf drbwn.
+     * @pbrbm        stbrtAnglf tif bfginning bnglf.
+     * @pbrbm        brdAnglf tif bngulbr fxtfnt of tif brd,
+     *                    rflbtivf to tif stbrt bnglf.
+     * @sff         jbvb.bwt.Grbpiids#fillArd
+     * @sindf       1.0
+     */
+    publid void drbwArd(int x, int y, int widti, int ifigit,
+                                 int stbrtAnglf, int brdAnglf) {
+        bddStrokfSibpf(nfw Rfdtbnglf2D.Flobt(x, y,  widti, ifigit));
+        mPrintMftrids.drbw(tiis);
 
     }
 
     /**
-     * Draws a sequence of connected lines defined by
-     * arrays of <i>x</i> and <i>y</i> coordinates.
-     * Each pair of (<i>x</i>,&nbsp;<i>y</i>) coordinates defines a point.
-     * The figure is not closed if the first point
-     * differs from the last point.
-     * @param       xPoints an array of <i>x</i> points
-     * @param       yPoints an array of <i>y</i> points
-     * @param       nPoints the total number of points
-     * @see         java.awt.Graphics#drawPolygon(int[], int[], int)
-     * @since       1.1
+     * Fills b dirdulbr or flliptidbl brd dovfring tif spfdififd rfdtbnglf.
+     * <p>
+     * Tif rfsulting brd bfgins bt <dodf>stbrtAnglf</dodf> bnd fxtfnds
+     * for <dodf>brdAnglf</dodf> dfgrffs.
+     * Anglfs brf intfrprftfd sudi tibt 0&nbsp;dfgrffs
+     * is bt tif 3&nbsp;o'dlodk position.
+     * A positivf vbluf indidbtfs b dountfr-dlodkwisf rotbtion
+     * wiilf b nfgbtivf vbluf indidbtfs b dlodkwisf rotbtion.
+     * <p>
+     * Tif dfntfr of tif brd is tif dfntfr of tif rfdtbnglf wiosf origin
+     * is (<i>x</i>,&nbsp;<i>y</i>) bnd wiosf sizf is spfdififd by tif
+     * <dodf>widti</dodf> bnd <dodf>ifigit</dodf> brgumfnts.
+     * <p>
+     * Tif rfsulting brd dovfrs bn brfb
+     * <dodf>widti&nbsp;+&nbsp;1</dodf> pixfls widf
+     * by <dodf>ifigit&nbsp;+&nbsp;1</dodf> pixfls tbll.
+     * @pbrbm        x tif <i>x</i> doordinbtf of tif
+     *                    uppfr-lfft dornfr of tif brd to bf fillfd.
+     * @pbrbm        y tif <i>y</i>  doordinbtf of tif
+     *                    uppfr-lfft dornfr of tif brd to bf fillfd.
+     * @pbrbm        widti tif widti of tif brd to bf fillfd.
+     * @pbrbm        ifigit tif ifigit of tif brd to bf fillfd.
+     * @pbrbm        stbrtAnglf tif bfginning bnglf.
+     * @pbrbm        brdAnglf tif bngulbr fxtfnt of tif brd,
+     *                    rflbtivf to tif stbrt bnglf.
+     * @sff         jbvb.bwt.Grbpiids#drbwArd
+     * @sindf       1.0
      */
-   public void drawPolyline(int xPoints[], int yPoints[],
+    publid void fillArd(int x, int y, int widti, int ifigit,
+                        int stbrtAnglf, int brdAnglf) {
+        Rfdtbnglf2D.Flobt rfdt = nfw Rfdtbnglf2D.Flobt(x, y,widti, ifigit);
+        bddDrbwingRfdt(rfdt);
+        mPrintMftrids.fill(tiis);
+
+    }
+
+    /**
+     * Drbws b sfqufndf of donnfdtfd linfs dffinfd by
+     * brrbys of <i>x</i> bnd <i>y</i> doordinbtfs.
+     * Ebdi pbir of (<i>x</i>,&nbsp;<i>y</i>) doordinbtfs dffinfs b point.
+     * Tif figurf is not dlosfd if tif first point
+     * difffrs from tif lbst point.
+     * @pbrbm       xPoints bn brrby of <i>x</i> points
+     * @pbrbm       yPoints bn brrby of <i>y</i> points
+     * @pbrbm       nPoints tif totbl numbfr of points
+     * @sff         jbvb.bwt.Grbpiids#drbwPolygon(int[], int[], int)
+     * @sindf       1.1
+     */
+   publid void drbwPolylinf(int xPoints[], int yPoints[],
                              int nPoints) {
         if (nPoints > 0) {
             int x = xPoints[0];
             int y = yPoints[0];
 
             for (int i = 1; i < nPoints; i++) {
-                drawLine(x, y, xPoints[i], yPoints[i]);
+                drbwLinf(x, y, xPoints[i], yPoints[i]);
                 x = xPoints[i];
                 y = yPoints[i];
             }
@@ -763,1155 +763,1155 @@ public class PeekGraphics extends Graphics2D
     }
 
     /**
-     * Draws a closed polygon defined by
-     * arrays of <i>x</i> and <i>y</i> coordinates.
-     * Each pair of (<i>x</i>,&nbsp;<i>y</i>) coordinates defines a point.
+     * Drbws b dlosfd polygon dffinfd by
+     * brrbys of <i>x</i> bnd <i>y</i> doordinbtfs.
+     * Ebdi pbir of (<i>x</i>,&nbsp;<i>y</i>) doordinbtfs dffinfs b point.
      * <p>
-     * This method draws the polygon defined by <code>nPoint</code> line
-     * segments, where the first <code>nPoint&nbsp;-&nbsp;1</code>
-     * line segments are line segments from
-     * <code>(xPoints[i&nbsp;-&nbsp;1],&nbsp;yPoints[i&nbsp;-&nbsp;1])</code>
-     * to <code>(xPoints[i],&nbsp;yPoints[i])</code>, for
-     * 1&nbsp;&le;&nbsp;<i>i</i>&nbsp;&le;&nbsp;<code>nPoints</code>.
-     * The figure is automatically closed by drawing a line connecting
-     * the final point to the first point, if those points are different.
-     * @param        xPoints   a an array of <code>x</code> coordinates.
-     * @param        yPoints   a an array of <code>y</code> coordinates.
-     * @param        nPoints   a the total number of points.
-     * @see          java.awt.Graphics#fillPolygon
-     * @see          java.awt.Graphics#drawPolyline
-     * @since        1.0
+     * Tiis mftiod drbws tif polygon dffinfd by <dodf>nPoint</dodf> linf
+     * sfgmfnts, wifrf tif first <dodf>nPoint&nbsp;-&nbsp;1</dodf>
+     * linf sfgmfnts brf linf sfgmfnts from
+     * <dodf>(xPoints[i&nbsp;-&nbsp;1],&nbsp;yPoints[i&nbsp;-&nbsp;1])</dodf>
+     * to <dodf>(xPoints[i],&nbsp;yPoints[i])</dodf>, for
+     * 1&nbsp;&lf;&nbsp;<i>i</i>&nbsp;&lf;&nbsp;<dodf>nPoints</dodf>.
+     * Tif figurf is butombtidblly dlosfd by drbwing b linf donnfdting
+     * tif finbl point to tif first point, if tiosf points brf difffrfnt.
+     * @pbrbm        xPoints   b bn brrby of <dodf>x</dodf> doordinbtfs.
+     * @pbrbm        yPoints   b bn brrby of <dodf>y</dodf> doordinbtfs.
+     * @pbrbm        nPoints   b tif totbl numbfr of points.
+     * @sff          jbvb.bwt.Grbpiids#fillPolygon
+     * @sff          jbvb.bwt.Grbpiids#drbwPolylinf
+     * @sindf        1.0
      */
-    public void drawPolygon(int xPoints[], int yPoints[],
+    publid void drbwPolygon(int xPoints[], int yPoints[],
                             int nPoints) {
         if (nPoints > 0) {
-            drawPolyline(xPoints, yPoints, nPoints);
-            drawLine(xPoints[nPoints - 1], yPoints[nPoints - 1],
+            drbwPolylinf(xPoints, yPoints, nPoints);
+            drbwLinf(xPoints[nPoints - 1], yPoints[nPoints - 1],
                      xPoints[0], yPoints[0]);
         }
 
     }
 
     /**
-     * Fills a closed polygon defined by
-     * arrays of <i>x</i> and <i>y</i> coordinates.
+     * Fills b dlosfd polygon dffinfd by
+     * brrbys of <i>x</i> bnd <i>y</i> doordinbtfs.
      * <p>
-     * This method draws the polygon defined by <code>nPoint</code> line
-     * segments, where the first <code>nPoint&nbsp;-&nbsp;1</code>
-     * line segments are line segments from
-     * <code>(xPoints[i&nbsp;-&nbsp;1],&nbsp;yPoints[i&nbsp;-&nbsp;1])</code>
-     * to <code>(xPoints[i],&nbsp;yPoints[i])</code>, for
-     * 1&nbsp;&le;&nbsp;<i>i</i>&nbsp;&le;&nbsp;<code>nPoints</code>.
-     * The figure is automatically closed by drawing a line connecting
-     * the final point to the first point, if those points are different.
+     * Tiis mftiod drbws tif polygon dffinfd by <dodf>nPoint</dodf> linf
+     * sfgmfnts, wifrf tif first <dodf>nPoint&nbsp;-&nbsp;1</dodf>
+     * linf sfgmfnts brf linf sfgmfnts from
+     * <dodf>(xPoints[i&nbsp;-&nbsp;1],&nbsp;yPoints[i&nbsp;-&nbsp;1])</dodf>
+     * to <dodf>(xPoints[i],&nbsp;yPoints[i])</dodf>, for
+     * 1&nbsp;&lf;&nbsp;<i>i</i>&nbsp;&lf;&nbsp;<dodf>nPoints</dodf>.
+     * Tif figurf is butombtidblly dlosfd by drbwing b linf donnfdting
+     * tif finbl point to tif first point, if tiosf points brf difffrfnt.
      * <p>
-     * The area inside the polygon is defined using an
-     * even-odd fill rule, also known as the alternating rule.
-     * @param        xPoints   a an array of <code>x</code> coordinates.
-     * @param        yPoints   a an array of <code>y</code> coordinates.
-     * @param        nPoints   a the total number of points.
-     * @see          java.awt.Graphics#drawPolygon(int[], int[], int)
-     * @since        1.0
+     * Tif brfb insidf tif polygon is dffinfd using bn
+     * fvfn-odd fill rulf, blso known bs tif bltfrnbting rulf.
+     * @pbrbm        xPoints   b bn brrby of <dodf>x</dodf> doordinbtfs.
+     * @pbrbm        yPoints   b bn brrby of <dodf>y</dodf> doordinbtfs.
+     * @pbrbm        nPoints   b tif totbl numbfr of points.
+     * @sff          jbvb.bwt.Grbpiids#drbwPolygon(int[], int[], int)
+     * @sindf        1.0
      */
-    public void fillPolygon(int xPoints[], int yPoints[],
+    publid void fillPolygon(int xPoints[], int yPoints[],
                             int nPoints) {
         if (nPoints > 0) {
             int minX = xPoints[0];
             int minY = yPoints[0];
-            int maxX = xPoints[0];
-            int maxY = yPoints[0];
+            int mbxX = xPoints[0];
+            int mbxY = yPoints[0];
 
             for (int i = 1; i < nPoints; i++) {
 
                 if (xPoints[i] < minX) {
                     minX = xPoints[i];
-                } else if (xPoints[i] > maxX) {
-                    maxX = xPoints[i];
+                } flsf if (xPoints[i] > mbxX) {
+                    mbxX = xPoints[i];
                 }
 
                 if (yPoints[i] < minY) {
                     minY = yPoints[i];
-                } else if (yPoints[i] > maxY) {
-                    maxY = yPoints[i];
+                } flsf if (yPoints[i] > mbxY) {
+                    mbxY = yPoints[i];
                 }
             }
 
-            addDrawingRect(minX, minY, maxX - minX, maxY - minY);
+            bddDrbwingRfdt(minX, minY, mbxX - minX, mbxY - minY);
         }
 
-        mPrintMetrics.fill(this);
+        mPrintMftrids.fill(tiis);
 
     }
 
 
     /**
-     * Draws the text given by the specified string, using this
-     * graphics context's current font and color. The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in this
-     * graphics context's coordinate system.
-     * @param       str      the string to be drawn.
-     * @param       x        the <i>x</i> coordinate.
-     * @param       y        the <i>y</i> coordinate.
-     * @see         java.awt.Graphics#drawBytes
-     * @see         java.awt.Graphics#drawChars
-     * @since       1.0
+     * Drbws tif tfxt givfn by tif spfdififd string, using tiis
+     * grbpiids dontfxt's durrfnt font bnd dolor. Tif bbsflinf of tif
+     * first dibrbdtfr is bt position (<i>x</i>,&nbsp;<i>y</i>) in tiis
+     * grbpiids dontfxt's doordinbtf systfm.
+     * @pbrbm       str      tif string to bf drbwn.
+     * @pbrbm       x        tif <i>x</i> doordinbtf.
+     * @pbrbm       y        tif <i>y</i> doordinbtf.
+     * @sff         jbvb.bwt.Grbpiids#drbwBytfs
+     * @sff         jbvb.bwt.Grbpiids#drbwCibrs
+     * @sindf       1.0
      */
-    public void drawString(String str, int x, int y) {
+    publid void drbwString(String str, int x, int y) {
 
-        drawString(str, (float)x, (float)y);
+        drbwString(str, (flobt)x, (flobt)y);
     }
 
     /**
-     * Draws the text given by the specified iterator, using this
-     * graphics context's current color. The iterator has to specify a font
-     * for each character. The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in this
-     * graphics context's coordinate system.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color, and composite attributes.
-     * For characters in script systems such as Hebrew and Arabic,
-     * the glyphs may be draw from right to left, in which case the
-     * coordinate supplied is the the location of the leftmost character
-     * on the baseline.
-     * @param iterator the iterator whose text is to be drawn
-     * @param x,y the coordinates where the iterator's text should be drawn.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #setTransform
-     * @see #setComposite
-     * @see #setClip
+     * Drbws tif tfxt givfn by tif spfdififd itfrbtor, using tiis
+     * grbpiids dontfxt's durrfnt dolor. Tif itfrbtor ibs to spfdify b font
+     * for fbdi dibrbdtfr. Tif bbsflinf of tif
+     * first dibrbdtfr is bt position (<i>x</i>,&nbsp;<i>y</i>) in tiis
+     * grbpiids dontfxt's doordinbtf systfm.
+     * Tif rfndfring bttributfs bpplifd indludf tif dlip, trbnsform,
+     * pbint or dolor, bnd dompositf bttributfs.
+     * For dibrbdtfrs in sdript systfms sudi bs Hfbrfw bnd Arbbid,
+     * tif glypis mby bf drbw from rigit to lfft, in wiidi dbsf tif
+     * doordinbtf supplifd is tif tif lodbtion of tif lfftmost dibrbdtfr
+     * on tif bbsflinf.
+     * @pbrbm itfrbtor tif itfrbtor wiosf tfxt is to bf drbwn
+     * @pbrbm x,y tif doordinbtfs wifrf tif itfrbtor's tfxt siould bf drbwn.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #sftClip
      */
-    public void drawString(AttributedCharacterIterator iterator,
+    publid void drbwString(AttributfdCibrbdtfrItfrbtor itfrbtor,
                                     int x, int y) {
 
-        drawString(iterator,  (float)x, (float)y);
+        drbwString(itfrbtor,  (flobt)x, (flobt)y);
     }
 
     /**
-     * Draws the text given by the specified iterator, using this
-     * graphics context's current color. The iterator has to specify a font
-     * for each character. The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in this
-     * graphics context's coordinate system.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color, and composite attributes.
-     * For characters in script systems such as Hebrew and Arabic,
-     * the glyphs may be draw from right to left, in which case the
-     * coordinate supplied is the the location of the leftmost character
-     * on the baseline.
-     * @param iterator the iterator whose text is to be drawn
-     * @param x,y the coordinates where the iterator's text should be drawn.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #setTransform
-     * @see #setComposite
-     * @see #setClip
+     * Drbws tif tfxt givfn by tif spfdififd itfrbtor, using tiis
+     * grbpiids dontfxt's durrfnt dolor. Tif itfrbtor ibs to spfdify b font
+     * for fbdi dibrbdtfr. Tif bbsflinf of tif
+     * first dibrbdtfr is bt position (<i>x</i>,&nbsp;<i>y</i>) in tiis
+     * grbpiids dontfxt's doordinbtf systfm.
+     * Tif rfndfring bttributfs bpplifd indludf tif dlip, trbnsform,
+     * pbint or dolor, bnd dompositf bttributfs.
+     * For dibrbdtfrs in sdript systfms sudi bs Hfbrfw bnd Arbbid,
+     * tif glypis mby bf drbw from rigit to lfft, in wiidi dbsf tif
+     * doordinbtf supplifd is tif tif lodbtion of tif lfftmost dibrbdtfr
+     * on tif bbsflinf.
+     * @pbrbm itfrbtor tif itfrbtor wiosf tfxt is to bf drbwn
+     * @pbrbm x,y tif doordinbtfs wifrf tif itfrbtor's tfxt siould bf drbwn.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #sftClip
      */
-    public void drawString(AttributedCharacterIterator iterator,
-                                    float x, float y) {
-        if (iterator == null) {
-            throw new
-                NullPointerException("AttributedCharacterIterator is null");
+    publid void drbwString(AttributfdCibrbdtfrItfrbtor itfrbtor,
+                                    flobt x, flobt y) {
+        if (itfrbtor == null) {
+            tirow nfw
+                NullPointfrExdfption("AttributfdCibrbdtfrItfrbtor is null");
         }
 
-        TextLayout layout = new TextLayout(iterator, getFontRenderContext());
-        layout.draw(this, x, y);
+        TfxtLbyout lbyout = nfw TfxtLbyout(itfrbtor, gftFontRfndfrContfxt());
+        lbyout.drbw(tiis, x, y);
     }
 
 
     /**
-     * Draws as much of the specified image as is currently available.
-     * The image is drawn with its top-left corner at
-     * (<i>x</i>,&nbsp;<i>y</i>) in this graphics context's coordinate
-     * space. Transparent pixels in the image do not affect whatever
-     * pixels are already there.
+     * Drbws bs mudi of tif spfdififd imbgf bs is durrfntly bvbilbblf.
+     * Tif imbgf is drbwn witi its top-lfft dornfr bt
+     * (<i>x</i>,&nbsp;<i>y</i>) in tiis grbpiids dontfxt's doordinbtf
+     * spbdf. Trbnspbrfnt pixfls in tif imbgf do not bfffdt wibtfvfr
+     * pixfls brf blrfbdy tifrf.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * complete image has not yet been loaded, and it has not been dithered
-     * and converted for the current output device.
+     * Tiis mftiod rfturns immfdibtfly in bll dbsfs, fvfn if tif
+     * domplftf imbgf ibs not yft bffn lobdfd, bnd it ibs not bffn ditifrfd
+     * bnd donvfrtfd for tif durrfnt output dfvidf.
      * <p>
-     * If the image has not yet been completely loaded, then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
-     * @param    img the specified image to be drawn.
-     * @param    x   the <i>x</i> coordinate.
-     * @param    y   the <i>y</i> coordinate.
-     * @param    observer    object to be notified as more of
-     *                          the image is converted.
-     * @see      java.awt.Image
-     * @see      java.awt.image.ImageObserver
-     * @see      java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
-     * @since    1.0
+     * If tif imbgf ibs not yft bffn domplftfly lobdfd, tifn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * tif imbgf bfdomfs bvbilbblf, tif prodfss tibt drbws tif imbgf notififs
+     * tif spfdififd imbgf obsfrvfr.
+     * @pbrbm    img tif spfdififd imbgf to bf drbwn.
+     * @pbrbm    x   tif <i>x</i> doordinbtf.
+     * @pbrbm    y   tif <i>y</i> doordinbtf.
+     * @pbrbm    obsfrvfr    objfdt to bf notififd bs morf of
+     *                          tif imbgf is donvfrtfd.
+     * @sff      jbvb.bwt.Imbgf
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf    1.0
      */
-    public boolean drawImage(Image img, int x, int y,
-                             ImageObserver observer) {
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             ImbgfObsfrvfr obsfrvfr) {
 
         if (img == null) {
-            return true;
+            rfturn truf;
         }
 
-        /* The ImageWaiter creation does not return until the
-         * image is loaded.
+        /* Tif ImbgfWbitfr drfbtion dofs not rfturn until tif
+         * imbgf is lobdfd.
          */
-        ImageWaiter dim = new ImageWaiter(img);
+        ImbgfWbitfr dim = nfw ImbgfWbitfr(img);
 
-        addDrawingRect(x, y, dim.getWidth(), dim.getHeight());
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRfdt(x, y, dim.gftWidti(), dim.gftHfigit());
+        mPrintMftrids.drbwImbgf(tiis, img);
 
-        return mGraphics.drawImage(img, x, y, observer);
+        rfturn mGrbpiids.drbwImbgf(img, x, y, obsfrvfr);
     }
 
 
     /**
-     * Draws as much of the specified image as has already been scaled
-     * to fit inside the specified rectangle.
+     * Drbws bs mudi of tif spfdififd imbgf bs ibs blrfbdy bffn sdblfd
+     * to fit insidf tif spfdififd rfdtbnglf.
      * <p>
-     * The image is drawn inside the specified rectangle of this
-     * graphics context's coordinate space, and is scaled if
-     * necessary. Transparent pixels do not affect whatever pixels
-     * are already there.
+     * Tif imbgf is drbwn insidf tif spfdififd rfdtbnglf of tiis
+     * grbpiids dontfxt's doordinbtf spbdf, bnd is sdblfd if
+     * nfdfssbry. Trbnspbrfnt pixfls do not bfffdt wibtfvfr pixfls
+     * brf blrfbdy tifrf.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * entire image has not yet been scaled, dithered, and converted
-     * for the current output device.
-     * If the current output representation is not yet complete, then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the image observer by calling its <code>imageUpdate</code> method.
+     * Tiis mftiod rfturns immfdibtfly in bll dbsfs, fvfn if tif
+     * fntirf imbgf ibs not yft bffn sdblfd, ditifrfd, bnd donvfrtfd
+     * for tif durrfnt output dfvidf.
+     * If tif durrfnt output rfprfsfntbtion is not yft domplftf, tifn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * tif imbgf bfdomfs bvbilbblf, tif prodfss tibt drbws tif imbgf notififs
+     * tif imbgf obsfrvfr by dblling its <dodf>imbgfUpdbtf</dodf> mftiod.
      * <p>
-     * A scaled version of an image will not necessarily be
-     * available immediately just because an unscaled version of the
-     * image has been constructed for this output device.  Each size of
-     * the image may be cached separately and generated from the original
-     * data in a separate image production sequence.
-     * @param    img    the specified image to be drawn.
-     * @param    x      the <i>x</i> coordinate.
-     * @param    y      the <i>y</i> coordinate.
-     * @param    width  the width of the rectangle.
-     * @param    height the height of the rectangle.
-     * @param    observer    object to be notified as more of
-     *                          the image is converted.
-     * @see      java.awt.Image
-     * @see      java.awt.image.ImageObserver
-     * @see      java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
-     * @since    1.0
+     * A sdblfd vfrsion of bn imbgf will not nfdfssbrily bf
+     * bvbilbblf immfdibtfly just bfdbusf bn unsdblfd vfrsion of tif
+     * imbgf ibs bffn donstrudtfd for tiis output dfvidf.  Ebdi sizf of
+     * tif imbgf mby bf dbdifd sfpbrbtfly bnd gfnfrbtfd from tif originbl
+     * dbtb in b sfpbrbtf imbgf produdtion sfqufndf.
+     * @pbrbm    img    tif spfdififd imbgf to bf drbwn.
+     * @pbrbm    x      tif <i>x</i> doordinbtf.
+     * @pbrbm    y      tif <i>y</i> doordinbtf.
+     * @pbrbm    widti  tif widti of tif rfdtbnglf.
+     * @pbrbm    ifigit tif ifigit of tif rfdtbnglf.
+     * @pbrbm    obsfrvfr    objfdt to bf notififd bs morf of
+     *                          tif imbgf is donvfrtfd.
+     * @sff      jbvb.bwt.Imbgf
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf    1.0
      */
-    public boolean drawImage(Image img, int x, int y,
-                             int width, int height,
-                             ImageObserver observer) {
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             int widti, int ifigit,
+                             ImbgfObsfrvfr obsfrvfr) {
 
         if (img == null) {
-            return true;
+            rfturn truf;
         }
-        addDrawingRect(x, y, width, height);
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRfdt(x, y, widti, ifigit);
+        mPrintMftrids.drbwImbgf(tiis, img);
 
-        return mGraphics.drawImage(img, x, y, width, height, observer);
+        rfturn mGrbpiids.drbwImbgf(img, x, y, widti, ifigit, obsfrvfr);
 
     }
 
     /**
-     * Draws as much of the specified image as is currently available.
-     * The image is drawn with its top-left corner at
-     * (<i>x</i>,&nbsp;<i>y</i>) in this graphics context's coordinate
-     * space.  Transparent pixels are drawn in the specified
-     * background color.
+     * Drbws bs mudi of tif spfdififd imbgf bs is durrfntly bvbilbblf.
+     * Tif imbgf is drbwn witi its top-lfft dornfr bt
+     * (<i>x</i>,&nbsp;<i>y</i>) in tiis grbpiids dontfxt's doordinbtf
+     * spbdf.  Trbnspbrfnt pixfls brf drbwn in tif spfdififd
+     * bbdkground dolor.
      * <p>
-     * This operation is equivalent to filling a rectangle of the
-     * width and height of the specified image with the given color and then
-     * drawing the image on top of it, but possibly more efficient.
+     * Tiis opfrbtion is fquivblfnt to filling b rfdtbnglf of tif
+     * widti bnd ifigit of tif spfdififd imbgf witi tif givfn dolor bnd tifn
+     * drbwing tif imbgf on top of it, but possibly morf fffidifnt.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * complete image has not yet been loaded, and it has not been dithered
-     * and converted for the current output device.
+     * Tiis mftiod rfturns immfdibtfly in bll dbsfs, fvfn if tif
+     * domplftf imbgf ibs not yft bffn lobdfd, bnd it ibs not bffn ditifrfd
+     * bnd donvfrtfd for tif durrfnt output dfvidf.
      * <p>
-     * If the image has not yet been completely loaded, then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
-     * @param    img    the specified image to be drawn.
-     * @param    x      the <i>x</i> coordinate.
-     * @param    y      the <i>y</i> coordinate.
-     * @param    bgcolor the background color to paint under the
-     *                         non-opaque portions of the image.
-     * @param    observer    object to be notified as more of
-     *                          the image is converted.
-     * @see      java.awt.Image
-     * @see      java.awt.image.ImageObserver
-     * @see      java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
-     * @since    1.0
+     * If tif imbgf ibs not yft bffn domplftfly lobdfd, tifn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * tif imbgf bfdomfs bvbilbblf, tif prodfss tibt drbws tif imbgf notififs
+     * tif spfdififd imbgf obsfrvfr.
+     * @pbrbm    img    tif spfdififd imbgf to bf drbwn.
+     * @pbrbm    x      tif <i>x</i> doordinbtf.
+     * @pbrbm    y      tif <i>y</i> doordinbtf.
+     * @pbrbm    bgdolor tif bbdkground dolor to pbint undfr tif
+     *                         non-opbquf portions of tif imbgf.
+     * @pbrbm    obsfrvfr    objfdt to bf notififd bs morf of
+     *                          tif imbgf is donvfrtfd.
+     * @sff      jbvb.bwt.Imbgf
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf    1.0
      */
-   public boolean drawImage(Image img, int x, int y,
-                             Color bgcolor,
-                             ImageObserver observer) {
+   publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
 
         if (img == null) {
-            return true;
+            rfturn truf;
         }
 
-        /* The ImageWaiter creation does not return until the
-         * image is loaded.
+        /* Tif ImbgfWbitfr drfbtion dofs not rfturn until tif
+         * imbgf is lobdfd.
          */
-        ImageWaiter dim = new ImageWaiter(img);
+        ImbgfWbitfr dim = nfw ImbgfWbitfr(img);
 
-        addDrawingRect(x, y, dim.getWidth(), dim.getHeight());
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRfdt(x, y, dim.gftWidti(), dim.gftHfigit());
+        mPrintMftrids.drbwImbgf(tiis, img);
 
-        return mGraphics.drawImage(img, x, y, bgcolor, observer);
+        rfturn mGrbpiids.drbwImbgf(img, x, y, bgdolor, obsfrvfr);
     }
 
 
     /**
-     * Draws as much of the specified image as has already been scaled
-     * to fit inside the specified rectangle.
+     * Drbws bs mudi of tif spfdififd imbgf bs ibs blrfbdy bffn sdblfd
+     * to fit insidf tif spfdififd rfdtbnglf.
      * <p>
-     * The image is drawn inside the specified rectangle of this
-     * graphics context's coordinate space, and is scaled if
-     * necessary. Transparent pixels are drawn in the specified
-     * background color.
-     * This operation is equivalent to filling a rectangle of the
-     * width and height of the specified image with the given color and then
-     * drawing the image on top of it, but possibly more efficient.
+     * Tif imbgf is drbwn insidf tif spfdififd rfdtbnglf of tiis
+     * grbpiids dontfxt's doordinbtf spbdf, bnd is sdblfd if
+     * nfdfssbry. Trbnspbrfnt pixfls brf drbwn in tif spfdififd
+     * bbdkground dolor.
+     * Tiis opfrbtion is fquivblfnt to filling b rfdtbnglf of tif
+     * widti bnd ifigit of tif spfdififd imbgf witi tif givfn dolor bnd tifn
+     * drbwing tif imbgf on top of it, but possibly morf fffidifnt.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * entire image has not yet been scaled, dithered, and converted
-     * for the current output device.
-     * If the current output representation is not yet complete then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
+     * Tiis mftiod rfturns immfdibtfly in bll dbsfs, fvfn if tif
+     * fntirf imbgf ibs not yft bffn sdblfd, ditifrfd, bnd donvfrtfd
+     * for tif durrfnt output dfvidf.
+     * If tif durrfnt output rfprfsfntbtion is not yft domplftf tifn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * tif imbgf bfdomfs bvbilbblf, tif prodfss tibt drbws tif imbgf notififs
+     * tif spfdififd imbgf obsfrvfr.
      * <p>
-     * A scaled version of an image will not necessarily be
-     * available immediately just because an unscaled version of the
-     * image has been constructed for this output device.  Each size of
-     * the image may be cached separately and generated from the original
-     * data in a separate image production sequence.
-     * @param    img       the specified image to be drawn.
-     * @param    x         the <i>x</i> coordinate.
-     * @param    y         the <i>y</i> coordinate.
-     * @param    width     the width of the rectangle.
-     * @param    height    the height of the rectangle.
-     * @param    bgcolor   the background color to paint under the
-     *                         non-opaque portions of the image.
-     * @param    observer    object to be notified as more of
-     *                          the image is converted.
-     * @see      java.awt.Image
-     * @see      java.awt.image.ImageObserver
-     * @see      java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
-     * @since    1.0
+     * A sdblfd vfrsion of bn imbgf will not nfdfssbrily bf
+     * bvbilbblf immfdibtfly just bfdbusf bn unsdblfd vfrsion of tif
+     * imbgf ibs bffn donstrudtfd for tiis output dfvidf.  Ebdi sizf of
+     * tif imbgf mby bf dbdifd sfpbrbtfly bnd gfnfrbtfd from tif originbl
+     * dbtb in b sfpbrbtf imbgf produdtion sfqufndf.
+     * @pbrbm    img       tif spfdififd imbgf to bf drbwn.
+     * @pbrbm    x         tif <i>x</i> doordinbtf.
+     * @pbrbm    y         tif <i>y</i> doordinbtf.
+     * @pbrbm    widti     tif widti of tif rfdtbnglf.
+     * @pbrbm    ifigit    tif ifigit of tif rfdtbnglf.
+     * @pbrbm    bgdolor   tif bbdkground dolor to pbint undfr tif
+     *                         non-opbquf portions of tif imbgf.
+     * @pbrbm    obsfrvfr    objfdt to bf notififd bs morf of
+     *                          tif imbgf is donvfrtfd.
+     * @sff      jbvb.bwt.Imbgf
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf    1.0
      */
-    public boolean drawImage(Image img, int x, int y,
-                             int width, int height,
-                             Color bgcolor,
-                             ImageObserver observer) {
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             int widti, int ifigit,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
 
         if (img == null) {
-            return true;
+            rfturn truf;
         }
 
-        addDrawingRect(x, y, width, height);
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRfdt(x, y, widti, ifigit);
+        mPrintMftrids.drbwImbgf(tiis, img);
 
-        return mGraphics.drawImage(img, x, y, width, height, bgcolor, observer);
+        rfturn mGrbpiids.drbwImbgf(img, x, y, widti, ifigit, bgdolor, obsfrvfr);
 
     }
 
     /**
-     * Draws as much of the specified area of the specified image as is
-     * currently available, scaling it on the fly to fit inside the
-     * specified area of the destination drawable surface. Transparent pixels
-     * do not affect whatever pixels are already there.
+     * Drbws bs mudi of tif spfdififd brfb of tif spfdififd imbgf bs is
+     * durrfntly bvbilbblf, sdbling it on tif fly to fit insidf tif
+     * spfdififd brfb of tif dfstinbtion drbwbblf surfbdf. Trbnspbrfnt pixfls
+     * do not bfffdt wibtfvfr pixfls brf blrfbdy tifrf.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * image area to be drawn has not yet been scaled, dithered, and converted
-     * for the current output device.
-     * If the current output representation is not yet complete then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
+     * Tiis mftiod rfturns immfdibtfly in bll dbsfs, fvfn if tif
+     * imbgf brfb to bf drbwn ibs not yft bffn sdblfd, ditifrfd, bnd donvfrtfd
+     * for tif durrfnt output dfvidf.
+     * If tif durrfnt output rfprfsfntbtion is not yft domplftf tifn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * tif imbgf bfdomfs bvbilbblf, tif prodfss tibt drbws tif imbgf notififs
+     * tif spfdififd imbgf obsfrvfr.
      * <p>
-     * This method always uses the unscaled version of the image
-     * to render the scaled rectangle and performs the required
-     * scaling on the fly. It does not use a cached, scaled version
-     * of the image for this operation. Scaling of the image from source
-     * to destination is performed such that the first coordinate
-     * of the source rectangle is mapped to the first coordinate of
-     * the destination rectangle, and the second source coordinate is
-     * mapped to the second destination coordinate. The subimage is
-     * scaled and flipped as needed to preserve those mappings.
-     * @param       img the specified image to be drawn
-     * @param       dx1 the <i>x</i> coordinate of the first corner of the
-     *                    destination rectangle.
-     * @param       dy1 the <i>y</i> coordinate of the first corner of the
-     *                    destination rectangle.
-     * @param       dx2 the <i>x</i> coordinate of the second corner of the
-     *                    destination rectangle.
-     * @param       dy2 the <i>y</i> coordinate of the second corner of the
-     *                    destination rectangle.
-     * @param       sx1 the <i>x</i> coordinate of the first corner of the
-     *                    source rectangle.
-     * @param       sy1 the <i>y</i> coordinate of the first corner of the
-     *                    source rectangle.
-     * @param       sx2 the <i>x</i> coordinate of the second corner of the
-     *                    source rectangle.
-     * @param       sy2 the <i>y</i> coordinate of the second corner of the
-     *                    source rectangle.
-     * @param       observer object to be notified as more of the image is
-     *                    scaled and converted.
-     * @see         java.awt.Image
-     * @see         java.awt.image.ImageObserver
-     * @see         java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
-     * @since       1.1
+     * Tiis mftiod blwbys usfs tif unsdblfd vfrsion of tif imbgf
+     * to rfndfr tif sdblfd rfdtbnglf bnd pfrforms tif rfquirfd
+     * sdbling on tif fly. It dofs not usf b dbdifd, sdblfd vfrsion
+     * of tif imbgf for tiis opfrbtion. Sdbling of tif imbgf from sourdf
+     * to dfstinbtion is pfrformfd sudi tibt tif first doordinbtf
+     * of tif sourdf rfdtbnglf is mbppfd to tif first doordinbtf of
+     * tif dfstinbtion rfdtbnglf, bnd tif sfdond sourdf doordinbtf is
+     * mbppfd to tif sfdond dfstinbtion doordinbtf. Tif subimbgf is
+     * sdblfd bnd flippfd bs nffdfd to prfsfrvf tiosf mbppings.
+     * @pbrbm       img tif spfdififd imbgf to bf drbwn
+     * @pbrbm       dx1 tif <i>x</i> doordinbtf of tif first dornfr of tif
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dy1 tif <i>y</i> doordinbtf of tif first dornfr of tif
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dx2 tif <i>x</i> doordinbtf of tif sfdond dornfr of tif
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dy2 tif <i>y</i> doordinbtf of tif sfdond dornfr of tif
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       sx1 tif <i>x</i> doordinbtf of tif first dornfr of tif
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sy1 tif <i>y</i> doordinbtf of tif first dornfr of tif
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sx2 tif <i>x</i> doordinbtf of tif sfdond dornfr of tif
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sy2 tif <i>y</i> doordinbtf of tif sfdond dornfr of tif
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       obsfrvfr objfdt to bf notififd bs morf of tif imbgf is
+     *                    sdblfd bnd donvfrtfd.
+     * @sff         jbvb.bwt.Imbgf
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf       1.1
      */
-    public boolean drawImage(Image img,
+    publid boolfbn drbwImbgf(Imbgf img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
-                             ImageObserver observer) {
+                             ImbgfObsfrvfr obsfrvfr) {
 
         if (img == null) {
-            return true;
+            rfturn truf;
         }
 
-        int width = dx2 - dx1;
-        int height = dy2 - dy1;
+        int widti = dx2 - dx1;
+        int ifigit = dy2 - dy1;
 
-        addDrawingRect(dx1, dy1, width, height);
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRfdt(dx1, dy1, widti, ifigit);
+        mPrintMftrids.drbwImbgf(tiis, img);
 
-        return mGraphics.drawImage(img, dx1, dy1, dx2, dy2,
-                               sx1, sy1, sx2, sy2, observer);
+        rfturn mGrbpiids.drbwImbgf(img, dx1, dy1, dx2, dy2,
+                               sx1, sy1, sx2, sy2, obsfrvfr);
 
     }
 
 
     /**
-     * Draws as much of the specified area of the specified image as is
-     * currently available, scaling it on the fly to fit inside the
-     * specified area of the destination drawable surface.
+     * Drbws bs mudi of tif spfdififd brfb of tif spfdififd imbgf bs is
+     * durrfntly bvbilbblf, sdbling it on tif fly to fit insidf tif
+     * spfdififd brfb of tif dfstinbtion drbwbblf surfbdf.
      * <p>
-     * Transparent pixels are drawn in the specified background color.
-     * This operation is equivalent to filling a rectangle of the
-     * width and height of the specified image with the given color and then
-     * drawing the image on top of it, but possibly more efficient.
+     * Trbnspbrfnt pixfls brf drbwn in tif spfdififd bbdkground dolor.
+     * Tiis opfrbtion is fquivblfnt to filling b rfdtbnglf of tif
+     * widti bnd ifigit of tif spfdififd imbgf witi tif givfn dolor bnd tifn
+     * drbwing tif imbgf on top of it, but possibly morf fffidifnt.
      * <p>
-     * This method returns immediately in all cases, even if the
-     * image area to be drawn has not yet been scaled, dithered, and converted
-     * for the current output device.
-     * If the current output representation is not yet complete then
-     * <code>drawImage</code> returns <code>false</code>. As more of
-     * the image becomes available, the process that draws the image notifies
-     * the specified image observer.
+     * Tiis mftiod rfturns immfdibtfly in bll dbsfs, fvfn if tif
+     * imbgf brfb to bf drbwn ibs not yft bffn sdblfd, ditifrfd, bnd donvfrtfd
+     * for tif durrfnt output dfvidf.
+     * If tif durrfnt output rfprfsfntbtion is not yft domplftf tifn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * tif imbgf bfdomfs bvbilbblf, tif prodfss tibt drbws tif imbgf notififs
+     * tif spfdififd imbgf obsfrvfr.
      * <p>
-     * This method always uses the unscaled version of the image
-     * to render the scaled rectangle and performs the required
-     * scaling on the fly. It does not use a cached, scaled version
-     * of the image for this operation. Scaling of the image from source
-     * to destination is performed such that the first coordinate
-     * of the source rectangle is mapped to the first coordinate of
-     * the destination rectangle, and the second source coordinate is
-     * mapped to the second destination coordinate. The subimage is
-     * scaled and flipped as needed to preserve those mappings.
-     * @param       img the specified image to be drawn
-     * @param       dx1 the <i>x</i> coordinate of the first corner of the
-     *                    destination rectangle.
-     * @param       dy1 the <i>y</i> coordinate of the first corner of the
-     *                    destination rectangle.
-     * @param       dx2 the <i>x</i> coordinate of the second corner of the
-     *                    destination rectangle.
-     * @param       dy2 the <i>y</i> coordinate of the second corner of the
-     *                    destination rectangle.
-     * @param       sx1 the <i>x</i> coordinate of the first corner of the
-     *                    source rectangle.
-     * @param       sy1 the <i>y</i> coordinate of the first corner of the
-     *                    source rectangle.
-     * @param       sx2 the <i>x</i> coordinate of the second corner of the
-     *                    source rectangle.
-     * @param       sy2 the <i>y</i> coordinate of the second corner of the
-     *                    source rectangle.
-     * @param       bgcolor the background color to paint under the
-     *                    non-opaque portions of the image.
-     * @param       observer object to be notified as more of the image is
-     *                    scaled and converted.
-     * @see         java.awt.Image
-     * @see         java.awt.image.ImageObserver
-     * @see         java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
-     * @since       1.1
+     * Tiis mftiod blwbys usfs tif unsdblfd vfrsion of tif imbgf
+     * to rfndfr tif sdblfd rfdtbnglf bnd pfrforms tif rfquirfd
+     * sdbling on tif fly. It dofs not usf b dbdifd, sdblfd vfrsion
+     * of tif imbgf for tiis opfrbtion. Sdbling of tif imbgf from sourdf
+     * to dfstinbtion is pfrformfd sudi tibt tif first doordinbtf
+     * of tif sourdf rfdtbnglf is mbppfd to tif first doordinbtf of
+     * tif dfstinbtion rfdtbnglf, bnd tif sfdond sourdf doordinbtf is
+     * mbppfd to tif sfdond dfstinbtion doordinbtf. Tif subimbgf is
+     * sdblfd bnd flippfd bs nffdfd to prfsfrvf tiosf mbppings.
+     * @pbrbm       img tif spfdififd imbgf to bf drbwn
+     * @pbrbm       dx1 tif <i>x</i> doordinbtf of tif first dornfr of tif
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dy1 tif <i>y</i> doordinbtf of tif first dornfr of tif
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dx2 tif <i>x</i> doordinbtf of tif sfdond dornfr of tif
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dy2 tif <i>y</i> doordinbtf of tif sfdond dornfr of tif
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       sx1 tif <i>x</i> doordinbtf of tif first dornfr of tif
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sy1 tif <i>y</i> doordinbtf of tif first dornfr of tif
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sx2 tif <i>x</i> doordinbtf of tif sfdond dornfr of tif
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sy2 tif <i>y</i> doordinbtf of tif sfdond dornfr of tif
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       bgdolor tif bbdkground dolor to pbint undfr tif
+     *                    non-opbquf portions of tif imbgf.
+     * @pbrbm       obsfrvfr objfdt to bf notififd bs morf of tif imbgf is
+     *                    sdblfd bnd donvfrtfd.
+     * @sff         jbvb.bwt.Imbgf
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf       1.1
      */
-    public boolean drawImage(Image img,
+    publid boolfbn drbwImbgf(Imbgf img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
-                             Color bgcolor,
-                             ImageObserver observer) {
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
 
         if (img == null) {
-            return true;
+            rfturn truf;
         }
 
-        int width = dx2 - dx1;
-        int height = dy2 - dy1;
+        int widti = dx2 - dx1;
+        int ifigit = dy2 - dy1;
 
-        addDrawingRect(dx1, dy1, width, height);
-        mPrintMetrics.drawImage(this, img);
+        bddDrbwingRfdt(dx1, dy1, widti, ifigit);
+        mPrintMftrids.drbwImbgf(tiis, img);
 
-        return mGraphics.drawImage(img, dx1, dy1, dx2, dy2,
-                               sx1, sy1, sx2, sy2, bgcolor, observer);
+        rfturn mGrbpiids.drbwImbgf(img, dx1, dy1, dx2, dy2,
+                               sx1, sy1, sx2, sy2, bgdolor, obsfrvfr);
 
     }
 
 
     /**
-     * Draws an image, applying a transform from image space into user space
-     * before drawing.
-     * The transformation from user space into device space is done with
-     * the current transform in the Graphics2D.
-     * The given transformation is applied to the image before the
-     * transform attribute in the Graphics2D state is applied.
-     * The rendering attributes applied include the clip, transform,
-     * and composite attributes. Note that the result is
-     * undefined, if the given transform is noninvertible.
-     * @param img The image to be drawn.
-     * @param xform The transformation from image space into user space.
-     * @see #transform
-     * @see #setTransform
-     * @see #setComposite
-     * @see #clip
-     * @see #setClip
+     * Drbws bn imbgf, bpplying b trbnsform from imbgf spbdf into usfr spbdf
+     * bfforf drbwing.
+     * Tif trbnsformbtion from usfr spbdf into dfvidf spbdf is donf witi
+     * tif durrfnt trbnsform in tif Grbpiids2D.
+     * Tif givfn trbnsformbtion is bpplifd to tif imbgf bfforf tif
+     * trbnsform bttributf in tif Grbpiids2D stbtf is bpplifd.
+     * Tif rfndfring bttributfs bpplifd indludf tif dlip, trbnsform,
+     * bnd dompositf bttributfs. Notf tibt tif rfsult is
+     * undffinfd, if tif givfn trbnsform is noninvfrtiblf.
+     * @pbrbm img Tif imbgf to bf drbwn.
+     * @pbrbm xform Tif trbnsformbtion from imbgf spbdf into usfr spbdf.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
      */
-    public void drawRenderedImage(RenderedImage img,
-                                  AffineTransform xform) {
+    publid void drbwRfndfrfdImbgf(RfndfrfdImbgf img,
+                                  AffinfTrbnsform xform) {
 
         if (img == null) {
-            return;
+            rfturn;
         }
 
-        mPrintMetrics.drawImage(this, img);
-        mDrawingArea.addInfinite();
+        mPrintMftrids.drbwImbgf(tiis, img);
+        mDrbwingArfb.bddInfinitf();
     }
 
 
-    public void drawRenderableImage(RenderableImage img,
-                                    AffineTransform xform) {
+    publid void drbwRfndfrbblfImbgf(RfndfrbblfImbgf img,
+                                    AffinfTrbnsform xform) {
 
         if (img == null) {
-            return;
+            rfturn;
         }
 
-        mPrintMetrics.drawImage(this, img);
-        mDrawingArea.addInfinite();
+        mPrintMftrids.drbwImbgf(tiis, img);
+        mDrbwingArfb.bddInfinitf();
     }
 
     /**
-     * Disposes of this graphics context and releases
-     * any system resources that it is using.
-     * A <code>Graphics</code> object cannot be used after
-     * <code>dispose</code>has been called.
+     * Disposfs of tiis grbpiids dontfxt bnd rflfbsfs
+     * bny systfm rfsourdfs tibt it is using.
+     * A <dodf>Grbpiids</dodf> objfdt dbnnot bf usfd bftfr
+     * <dodf>disposf</dodf>ibs bffn dbllfd.
      * <p>
-     * When a Java program runs, a large number of <code>Graphics</code>
-     * objects can be created within a short time frame.
-     * Although the finalization process of the garbage collector
-     * also disposes of the same system resources, it is preferable
-     * to manually free the associated resources by calling this
-     * method rather than to rely on a finalization process which
-     * may not run to completion for a long period of time.
+     * Wifn b Jbvb progrbm runs, b lbrgf numbfr of <dodf>Grbpiids</dodf>
+     * objfdts dbn bf drfbtfd witiin b siort timf frbmf.
+     * Altiougi tif finblizbtion prodfss of tif gbrbbgf dollfdtor
+     * blso disposfs of tif sbmf systfm rfsourdfs, it is prfffrbblf
+     * to mbnublly frff tif bssodibtfd rfsourdfs by dblling tiis
+     * mftiod rbtifr tibn to rfly on b finblizbtion prodfss wiidi
+     * mby not run to domplftion for b long pfriod of timf.
      * <p>
-     * Graphics objects which are provided as arguments to the
-     * <code>paint</code> and <code>update</code> methods
-     * of components are automatically released by the system when
-     * those methods return. For efficiency, programmers should
-     * call <code>dispose</code> when finished using
-     * a <code>Graphics</code> object only if it was created
-     * directly from a component or another <code>Graphics</code> object.
-     * @see         java.awt.Graphics#finalize
-     * @see         java.awt.Component#paint
-     * @see         java.awt.Component#update
-     * @see         java.awt.Component#getGraphics
-     * @see         java.awt.Graphics#create
-     * @since       1.0
+     * Grbpiids objfdts wiidi brf providfd bs brgumfnts to tif
+     * <dodf>pbint</dodf> bnd <dodf>updbtf</dodf> mftiods
+     * of domponfnts brf butombtidblly rflfbsfd by tif systfm wifn
+     * tiosf mftiods rfturn. For fffidifndy, progrbmmfrs siould
+     * dbll <dodf>disposf</dodf> wifn finisifd using
+     * b <dodf>Grbpiids</dodf> objfdt only if it wbs drfbtfd
+     * dirfdtly from b domponfnt or bnotifr <dodf>Grbpiids</dodf> objfdt.
+     * @sff         jbvb.bwt.Grbpiids#finblizf
+     * @sff         jbvb.bwt.Componfnt#pbint
+     * @sff         jbvb.bwt.Componfnt#updbtf
+     * @sff         jbvb.bwt.Componfnt#gftGrbpiids
+     * @sff         jbvb.bwt.Grbpiids#drfbtf
+     * @sindf       1.0
      */
-    public void dispose() {
-        mGraphics.dispose();
+    publid void disposf() {
+        mGrbpiids.disposf();
     }
 
     /**
-     * Empty finalizer as no clean up needed here.
+     * Empty finblizfr bs no dlfbn up nffdfd ifrf.
      */
-    public void finalize() {
+    publid void finblizf() {
     }
 
-/* The Delegated Graphics2D Methods */
+/* Tif Dflfgbtfd Grbpiids2D Mftiods */
 
     /**
-     * Strokes the outline of a Shape using the settings of the current
-     * graphics state.  The rendering attributes applied include the
-     * clip, transform, paint or color, composite and stroke attributes.
-     * @param s The shape to be drawn.
-     * @see #setStroke
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
-     * @see #clip
-     * @see #setClip
-     * @see #setComposite
+     * Strokfs tif outlinf of b Sibpf using tif sfttings of tif durrfnt
+     * grbpiids stbtf.  Tif rfndfring bttributfs bpplifd indludf tif
+     * dlip, trbnsform, pbint or dolor, dompositf bnd strokf bttributfs.
+     * @pbrbm s Tif sibpf to bf drbwn.
+     * @sff #sftStrokf
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #dlip
+     * @sff #sftClip
+     * @sff #sftCompositf
      */
-    public void draw(Shape s) {
-        addStrokeShape(s);
-        mPrintMetrics.draw(this);
+    publid void drbw(Sibpf s) {
+        bddStrokfSibpf(s);
+        mPrintMftrids.drbw(tiis);
     }
 
 
     /**
-     * Draws an image, applying a transform from image space into user space
-     * before drawing.
-     * The transformation from user space into device space is done with
-     * the current transform in the Graphics2D.
-     * The given transformation is applied to the image before the
-     * transform attribute in the Graphics2D state is applied.
-     * The rendering attributes applied include the clip, transform,
-     * and composite attributes. Note that the result is
-     * undefined, if the given transform is noninvertible.
-     * @param img The image to be drawn.
-     * @param xform The transformation from image space into user space.
-     * @param obs The image observer to be notified as more of the image
-     * is converted.
-     * @see #transform
-     * @see #setTransform
-     * @see #setComposite
-     * @see #clip
-     * @see #setClip
+     * Drbws bn imbgf, bpplying b trbnsform from imbgf spbdf into usfr spbdf
+     * bfforf drbwing.
+     * Tif trbnsformbtion from usfr spbdf into dfvidf spbdf is donf witi
+     * tif durrfnt trbnsform in tif Grbpiids2D.
+     * Tif givfn trbnsformbtion is bpplifd to tif imbgf bfforf tif
+     * trbnsform bttributf in tif Grbpiids2D stbtf is bpplifd.
+     * Tif rfndfring bttributfs bpplifd indludf tif dlip, trbnsform,
+     * bnd dompositf bttributfs. Notf tibt tif rfsult is
+     * undffinfd, if tif givfn trbnsform is noninvfrtiblf.
+     * @pbrbm img Tif imbgf to bf drbwn.
+     * @pbrbm xform Tif trbnsformbtion from imbgf spbdf into usfr spbdf.
+     * @pbrbm obs Tif imbgf obsfrvfr to bf notififd bs morf of tif imbgf
+     * is donvfrtfd.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
      */
-    public boolean drawImage(Image img,
-                             AffineTransform xform,
-                             ImageObserver obs) {
+    publid boolfbn drbwImbgf(Imbgf img,
+                             AffinfTrbnsform xform,
+                             ImbgfObsfrvfr obs) {
 
         if (img == null) {
-            return true;
+            rfturn truf;
         }
 
-        mDrawingArea.addInfinite();
-        mPrintMetrics.drawImage(this, img);
+        mDrbwingArfb.bddInfinitf();
+        mPrintMftrids.drbwImbgf(tiis, img);
 
-        return mGraphics.drawImage(img, xform, obs);
+        rfturn mGrbpiids.drbwImbgf(img, xform, obs);
 
 
-//      if (mDrawingArea[0] != null) {
-//          Rectangle2D.Double bbox = new Rectangle2D.Double();
-//          Point2D leftTop = new Point2D.Double(0, 0);
-//          Point2D rightBottom = new Point2D.Double(getImageWidth(img),
-//                                                   getImageHeight(img));
+//      if (mDrbwingArfb[0] != null) {
+//          Rfdtbnglf2D.Doublf bbox = nfw Rfdtbnglf2D.Doublf();
+//          Point2D lfftTop = nfw Point2D.Doublf(0, 0);
+//          Point2D rigitBottom = nfw Point2D.Doublf(gftImbgfWidti(img),
+//                                                   gftImbgfHfigit(img));
 
-//          xform.transform(leftTop, leftTop);
-//          xform.transform(rightBottom, rightBottom);
+//          xform.trbnsform(lfftTop, lfftTop);
+//          xform.trbnsform(rigitBottom, rigitBottom);
 
-//          bbox.setBoundsFromDiagonal(leftTop, rightBottom);
-//          addDrawingRect(bbox);
+//          bbox.sftBoundsFromDibgonbl(lfftTop, rigitBottom);
+//          bddDrbwingRfdt(bbox);
 
 //      }
     }
 
 
     /**
-     * Draws a BufferedImage that is filtered with a BufferedImageOp.
-     * The rendering attributes applied include the clip, transform
-     * and composite attributes.  This is equivalent to:
-     * <pre>
-     * img1 = op.filter(img, null);
-     * drawImage(img1, new AffineTransform(1f,0f,0f,1f,x,y), null);
-     * </pre>
-     * @param op The filter to be applied to the image before drawing.
-     * @param img The BufferedImage to be drawn.
-     * @param x,y The location in user space where the image should be drawn.
-     * @see #transform
-     * @see #setTransform
-     * @see #setComposite
-     * @see #clip
-     * @see #setClip
+     * Drbws b BufffrfdImbgf tibt is filtfrfd witi b BufffrfdImbgfOp.
+     * Tif rfndfring bttributfs bpplifd indludf tif dlip, trbnsform
+     * bnd dompositf bttributfs.  Tiis is fquivblfnt to:
+     * <prf>
+     * img1 = op.filtfr(img, null);
+     * drbwImbgf(img1, nfw AffinfTrbnsform(1f,0f,0f,1f,x,y), null);
+     * </prf>
+     * @pbrbm op Tif filtfr to bf bpplifd to tif imbgf bfforf drbwing.
+     * @pbrbm img Tif BufffrfdImbgf to bf drbwn.
+     * @pbrbm x,y Tif lodbtion in usfr spbdf wifrf tif imbgf siould bf drbwn.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
      */
-    public void drawImage(BufferedImage img,
-                          BufferedImageOp op,
+    publid void drbwImbgf(BufffrfdImbgf img,
+                          BufffrfdImbgfOp op,
                           int x,
                           int y) {
 
         if (img == null) {
-            return;
+            rfturn;
         }
 
-        mPrintMetrics.drawImage(this, (RenderedImage) img);
-        mDrawingArea.addInfinite();
+        mPrintMftrids.drbwImbgf(tiis, (RfndfrfdImbgf) img);
+        mDrbwingArfb.bddInfinitf();
     }
 
 
     /**
-     * Draws a string of text.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color, font and composite attributes.
-     * @param s The string to be drawn.
-     * @param x,y The coordinates where the string should be drawn.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see java.awt.Graphics#setFont
-     * @see #transform
-     * @see #setTransform
-     * @see #setComposite
-     * @see #clip
-     * @see #setClip
+     * Drbws b string of tfxt.
+     * Tif rfndfring bttributfs bpplifd indludf tif dlip, trbnsform,
+     * pbint or dolor, font bnd dompositf bttributfs.
+     * @pbrbm s Tif string to bf drbwn.
+     * @pbrbm x,y Tif doordinbtfs wifrf tif string siould bf drbwn.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff jbvb.bwt.Grbpiids#sftFont
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
      */
-    public void drawString(String str,
-                           float x,
-                           float y) {
+    publid void drbwString(String str,
+                           flobt x,
+                           flobt y) {
 
-        if (str.length() == 0) {
-            return;
+        if (str.lfngti() == 0) {
+            rfturn;
         }
-        /* Logical bounds close enough and is used for GlyphVector */
-        FontRenderContext frc = getFontRenderContext();
-        Rectangle2D bbox = getFont().getStringBounds(str, frc);
-        addDrawingRect(bbox, x, y);
-        mPrintMetrics.drawText(this);
+        /* Logidbl bounds dlosf fnougi bnd is usfd for GlypiVfdtor */
+        FontRfndfrContfxt frd = gftFontRfndfrContfxt();
+        Rfdtbnglf2D bbox = gftFont().gftStringBounds(str, frd);
+        bddDrbwingRfdt(bbox, x, y);
+        mPrintMftrids.drbwTfxt(tiis);
     }
 
     /**
-     * Draws a GlyphVector.
-     * The rendering attributes applied include the clip, transform,
-     * paint or color, and composite attributes.  The GlyphVector specifies
-     * individual glyphs from a Font.
-     * @param g The GlyphVector to be drawn.
-     * @param x,y The coordinates where the glyphs should be drawn.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
-     * @see #setComposite
-     * @see #clip
-     * @see #setClip
+     * Drbws b GlypiVfdtor.
+     * Tif rfndfring bttributfs bpplifd indludf tif dlip, trbnsform,
+     * pbint or dolor, bnd dompositf bttributfs.  Tif GlypiVfdtor spfdififs
+     * individubl glypis from b Font.
+     * @pbrbm g Tif GlypiVfdtor to bf drbwn.
+     * @pbrbm x,y Tif doordinbtfs wifrf tif glypis siould bf drbwn.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
      */
-    public void drawGlyphVector(GlyphVector g,
-                           float x,
-                           float y) {
+    publid void drbwGlypiVfdtor(GlypiVfdtor g,
+                           flobt x,
+                           flobt y) {
 
-        Rectangle2D bbox = g.getLogicalBounds();
-        addDrawingRect(bbox, x, y);
-        mPrintMetrics.drawText(this);
+        Rfdtbnglf2D bbox = g.gftLogidblBounds();
+        bddDrbwingRfdt(bbox, x, y);
+        mPrintMftrids.drbwTfxt(tiis);
 
     }
 
     /**
-     * Fills the interior of a Shape using the settings of the current
-     * graphics state. The rendering attributes applied include the
-     * clip, transform, paint or color, and composite.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
-     * @see #setComposite
-     * @see #clip
-     * @see #setClip
+     * Fills tif intfrior of b Sibpf using tif sfttings of tif durrfnt
+     * grbpiids stbtf. Tif rfndfring bttributfs bpplifd indludf tif
+     * dlip, trbnsform, pbint or dolor, bnd dompositf.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
      */
-    public void fill(Shape s) {
-        addDrawingRect(s.getBounds());
-        mPrintMetrics.fill(this);
+    publid void fill(Sibpf s) {
+        bddDrbwingRfdt(s.gftBounds());
+        mPrintMftrids.fill(tiis);
 
     }
 
 
     /**
-     * Checks to see if the outline of a Shape intersects the specified
-     * Rectangle in device space.
-     * The rendering attributes taken into account include the
-     * clip, transform, and stroke attributes.
-     * @param rect The area in device space to check for a hit.
-     * @param s The shape to check for a hit.
-     * @param onStroke Flag to choose between testing the stroked or
-     * the filled shape.
-     * @return True if there is a hit, false otherwise.
-     * @see #setStroke
-     * @see #fill
-     * @see #draw
-     * @see #transform
-     * @see #setTransform
-     * @see #clip
-     * @see #setClip
+     * Cifdks to sff if tif outlinf of b Sibpf intfrsfdts tif spfdififd
+     * Rfdtbnglf in dfvidf spbdf.
+     * Tif rfndfring bttributfs tbkfn into bddount indludf tif
+     * dlip, trbnsform, bnd strokf bttributfs.
+     * @pbrbm rfdt Tif brfb in dfvidf spbdf to difdk for b iit.
+     * @pbrbm s Tif sibpf to difdk for b iit.
+     * @pbrbm onStrokf Flbg to dioosf bftwffn tfsting tif strokfd or
+     * tif fillfd sibpf.
+     * @rfturn Truf if tifrf is b iit, fblsf otifrwisf.
+     * @sff #sftStrokf
+     * @sff #fill
+     * @sff #drbw
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #dlip
+     * @sff #sftClip
      */
-    public boolean hit(Rectangle rect,
-                       Shape s,
-                       boolean onStroke) {
+    publid boolfbn iit(Rfdtbnglf rfdt,
+                       Sibpf s,
+                       boolfbn onStrokf) {
 
-        return mGraphics.hit(rect, s, onStroke);
+        rfturn mGrbpiids.iit(rfdt, s, onStrokf);
     }
 
     /**
-     * Sets the Composite in the current graphics state. Composite is used
-     * in all drawing methods such as drawImage, drawString, draw,
-     * and fill.  It specifies how new pixels are to be combined with
-     * the existing pixels on the graphics device in the rendering process.
-     * @param comp The Composite object to be used for drawing.
-     * @see java.awt.Graphics#setXORMode
-     * @see java.awt.Graphics#setPaintMode
-     * @see AlphaComposite
+     * Sfts tif Compositf in tif durrfnt grbpiids stbtf. Compositf is usfd
+     * in bll drbwing mftiods sudi bs drbwImbgf, drbwString, drbw,
+     * bnd fill.  It spfdififs iow nfw pixfls brf to bf dombinfd witi
+     * tif fxisting pixfls on tif grbpiids dfvidf in tif rfndfring prodfss.
+     * @pbrbm domp Tif Compositf objfdt to bf usfd for drbwing.
+     * @sff jbvb.bwt.Grbpiids#sftXORModf
+     * @sff jbvb.bwt.Grbpiids#sftPbintModf
+     * @sff AlpibCompositf
      */
-    public void setComposite(Composite comp) {
-        mGraphics.setComposite(comp);
+    publid void sftCompositf(Compositf domp) {
+        mGrbpiids.sftCompositf(domp);
     }
 
 
     /**
-     * Sets the Paint in the current graphics state.
-     * @param paint The Paint object to be used to generate color in
-     * the rendering process.
-     * @see java.awt.Graphics#setColor
-     * @see GradientPaint
-     * @see TexturePaint
+     * Sfts tif Pbint in tif durrfnt grbpiids stbtf.
+     * @pbrbm pbint Tif Pbint objfdt to bf usfd to gfnfrbtf dolor in
+     * tif rfndfring prodfss.
+     * @sff jbvb.bwt.Grbpiids#sftColor
+     * @sff GrbdifntPbint
+     * @sff TfxturfPbint
      */
-    public void setPaint(Paint paint) {
-        mGraphics.setPaint(paint);
+    publid void sftPbint(Pbint pbint) {
+        mGrbpiids.sftPbint(pbint);
     }
 
     /**
-     * Sets the Stroke in the current graphics state.
-     * @param s The Stroke object to be used to stroke a Shape in
-     * the rendering process.
-     * @see BasicStroke
+     * Sfts tif Strokf in tif durrfnt grbpiids stbtf.
+     * @pbrbm s Tif Strokf objfdt to bf usfd to strokf b Sibpf in
+     * tif rfndfring prodfss.
+     * @sff BbsidStrokf
      */
-    public void setStroke(Stroke s) {
-        mGraphics.setStroke(s);
+    publid void sftStrokf(Strokf s) {
+        mGrbpiids.sftStrokf(s);
     }
 
     /**
-     * Sets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hintCategory The category of hint to be set.
-     * @param hintValue The value indicating preferences for the specified
-     * hint category.
-     * @see RenderingHints
+     * Sfts tif prfffrfndfs for tif rfndfring blgoritims.
+     * Hint dbtfgorifs indludf dontrols for rfndfring qublity bnd
+     * ovfrbll timf/qublity trbdf-off in tif rfndfring prodfss.
+     * @pbrbm iintCbtfgory Tif dbtfgory of iint to bf sft.
+     * @pbrbm iintVbluf Tif vbluf indidbting prfffrfndfs for tif spfdififd
+     * iint dbtfgory.
+     * @sff RfndfringHints
      */
-    public void setRenderingHint(Key hintCategory, Object hintValue) {
-        mGraphics.setRenderingHint(hintCategory, hintValue);
+    publid void sftRfndfringHint(Kfy iintCbtfgory, Objfdt iintVbluf) {
+        mGrbpiids.sftRfndfringHint(iintCbtfgory, iintVbluf);
     }
 
     /**
-     * Returns the preferences for the rendering algorithms.
-     * @param hintCategory The category of hint to be set.
-     * @return The preferences for rendering algorithms.
-     * @see RenderingHings
+     * Rfturns tif prfffrfndfs for tif rfndfring blgoritims.
+     * @pbrbm iintCbtfgory Tif dbtfgory of iint to bf sft.
+     * @rfturn Tif prfffrfndfs for rfndfring blgoritims.
+     * @sff RfndfringHings
      */
-    public Object getRenderingHint(Key hintCategory) {
-        return mGraphics.getRenderingHint(hintCategory);
+    publid Objfdt gftRfndfringHint(Kfy iintCbtfgory) {
+        rfturn mGrbpiids.gftRfndfringHint(iintCbtfgory);
     }
 
     /**
-     * Sets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hints The rendering hints to be set
-     * @see RenderingHints
+     * Sfts tif prfffrfndfs for tif rfndfring blgoritims.
+     * Hint dbtfgorifs indludf dontrols for rfndfring qublity bnd
+     * ovfrbll timf/qublity trbdf-off in tif rfndfring prodfss.
+     * @pbrbm iints Tif rfndfring iints to bf sft
+     * @sff RfndfringHints
      */
-    public void setRenderingHints(Map<?,?> hints) {
-        mGraphics.setRenderingHints(hints);
+    publid void sftRfndfringHints(Mbp<?,?> iints) {
+        mGrbpiids.sftRfndfringHints(iints);
     }
 
     /**
-     * Adds a number of preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @param hints The rendering hints to be set
-     * @see RenderingHints
+     * Adds b numbfr of prfffrfndfs for tif rfndfring blgoritims.
+     * Hint dbtfgorifs indludf dontrols for rfndfring qublity bnd
+     * ovfrbll timf/qublity trbdf-off in tif rfndfring prodfss.
+     * @pbrbm iints Tif rfndfring iints to bf sft
+     * @sff RfndfringHints
      */
-    public void addRenderingHints(Map<?,?> hints) {
-        mGraphics.addRenderingHints(hints);
+    publid void bddRfndfringHints(Mbp<?,?> iints) {
+        mGrbpiids.bddRfndfringHints(iints);
     }
 
     /**
-     * Gets the preferences for the rendering algorithms.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * @see RenderingHints
+     * Gfts tif prfffrfndfs for tif rfndfring blgoritims.
+     * Hint dbtfgorifs indludf dontrols for rfndfring qublity bnd
+     * ovfrbll timf/qublity trbdf-off in tif rfndfring prodfss.
+     * @sff RfndfringHints
      */
-    public RenderingHints getRenderingHints() {
-        return mGraphics.getRenderingHints();
+    publid RfndfringHints gftRfndfringHints() {
+        rfturn mGrbpiids.gftRfndfringHints();
     }
 
     /**
-     * Composes a Transform object with the transform in this
-     * Graphics2D according to the rule last-specified-first-applied.
-     * If the currrent transform is Cx, the result of composition
-     * with Tx is a new transform Cx'.  Cx' becomes the current
-     * transform for this Graphics2D.
-     * Transforming a point p by the updated transform Cx' is
-     * equivalent to first transforming p by Tx and then transforming
-     * the result by the original transform Cx.  In other words,
+     * Composfs b Trbnsform objfdt witi tif trbnsform in tiis
+     * Grbpiids2D bddording to tif rulf lbst-spfdififd-first-bpplifd.
+     * If tif durrrfnt trbnsform is Cx, tif rfsult of domposition
+     * witi Tx is b nfw trbnsform Cx'.  Cx' bfdomfs tif durrfnt
+     * trbnsform for tiis Grbpiids2D.
+     * Trbnsforming b point p by tif updbtfd trbnsform Cx' is
+     * fquivblfnt to first trbnsforming p by Tx bnd tifn trbnsforming
+     * tif rfsult by tif originbl trbnsform Cx.  In otifr words,
      * Cx'(p) = Cx(Tx(p)).
-     * A copy of the Tx is made, if necessary, so further
-     * modifications to Tx do not affect rendering.
-     * @param Tx The Transform object to be composed with the current
-     * transform.
-     * @see #setTransform
-     * @see TransformChain
-     * @see AffineTransform
+     * A dopy of tif Tx is mbdf, if nfdfssbry, so furtifr
+     * modifidbtions to Tx do not bfffdt rfndfring.
+     * @pbrbm Tx Tif Trbnsform objfdt to bf domposfd witi tif durrfnt
+     * trbnsform.
+     * @sff #sftTrbnsform
+     * @sff TrbnsformCibin
+     * @sff AffinfTrbnsform
      */
-    public void transform(AffineTransform Tx) {
-        mGraphics.transform(Tx);
+    publid void trbnsform(AffinfTrbnsform Tx) {
+        mGrbpiids.trbnsform(Tx);
     }
 
     /**
-     * Sets the Transform in the current graphics state.
-     * @param Tx The Transform object to be used in the rendering process.
-     * @see #transform
-     * @see TransformChain
-     * @see AffineTransform
+     * Sfts tif Trbnsform in tif durrfnt grbpiids stbtf.
+     * @pbrbm Tx Tif Trbnsform objfdt to bf usfd in tif rfndfring prodfss.
+     * @sff #trbnsform
+     * @sff TrbnsformCibin
+     * @sff AffinfTrbnsform
      */
-    public void setTransform(AffineTransform Tx) {
-        mGraphics.setTransform(Tx);
+    publid void sftTrbnsform(AffinfTrbnsform Tx) {
+        mGrbpiids.sftTrbnsform(Tx);
     }
 
     /**
-     * Returns the current Transform in the Graphics2D state.
-     * @see #transform
-     * @see #setTransform
+     * Rfturns tif durrfnt Trbnsform in tif Grbpiids2D stbtf.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
      */
-    public AffineTransform getTransform() {
-        return mGraphics.getTransform();
+    publid AffinfTrbnsform gftTrbnsform() {
+        rfturn mGrbpiids.gftTrbnsform();
     }
 
     /**
-     * Returns the current Paint in the Graphics2D state.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
+     * Rfturns tif durrfnt Pbint in tif Grbpiids2D stbtf.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbpiids#sftColor
      */
-    public Paint getPaint() {
-        return mGraphics.getPaint();
+    publid Pbint gftPbint() {
+        rfturn mGrbpiids.gftPbint();
     }
 
     /**
-     * Returns the current Composite in the Graphics2D state.
-     * @see #setComposite
+     * Rfturns tif durrfnt Compositf in tif Grbpiids2D stbtf.
+     * @sff #sftCompositf
      */
-    public Composite getComposite() {
-        return mGraphics.getComposite();
+    publid Compositf gftCompositf() {
+        rfturn mGrbpiids.gftCompositf();
     }
 
     /**
-     * Sets the background color in this context used for clearing a region.
-     * When Graphics2D is constructed for a component, the backgroung color is
-     * inherited from the component. Setting the background color in the
-     * Graphics2D context only affects the subsequent clearRect() calls and
-     * not the background color of the component. To change the background
-     * of the component, use appropriate methods of the component.
-     * @param color The background color that should be used in
-     * subsequent calls to clearRect().
-     * @see getBackground
-     * @see Graphics.clearRect()
+     * Sfts tif bbdkground dolor in tiis dontfxt usfd for dlfbring b rfgion.
+     * Wifn Grbpiids2D is donstrudtfd for b domponfnt, tif bbdkgroung dolor is
+     * inifritfd from tif domponfnt. Sftting tif bbdkground dolor in tif
+     * Grbpiids2D dontfxt only bfffdts tif subsfqufnt dlfbrRfdt() dblls bnd
+     * not tif bbdkground dolor of tif domponfnt. To dibngf tif bbdkground
+     * of tif domponfnt, usf bppropribtf mftiods of tif domponfnt.
+     * @pbrbm dolor Tif bbdkground dolor tibt siould bf usfd in
+     * subsfqufnt dblls to dlfbrRfdt().
+     * @sff gftBbdkground
+     * @sff Grbpiids.dlfbrRfdt()
      */
-    public void setBackground(Color color) {
-        mGraphics.setBackground(color);
+    publid void sftBbdkground(Color dolor) {
+        mGrbpiids.sftBbdkground(dolor);
     }
 
     /**
-     * Returns the background color used for clearing a region.
-     * @see setBackground
+     * Rfturns tif bbdkground dolor usfd for dlfbring b rfgion.
+     * @sff sftBbdkground
      */
-    public Color getBackground() {
-        return mGraphics.getBackground();
+    publid Color gftBbdkground() {
+        rfturn mGrbpiids.gftBbdkground();
     }
 
     /**
-     * Returns the current Stroke in the Graphics2D state.
-     * @see setStroke
+     * Rfturns tif durrfnt Strokf in tif Grbpiids2D stbtf.
+     * @sff sftStrokf
      */
-    public Stroke getStroke() {
-        return mGraphics.getStroke();
+    publid Strokf gftStrokf() {
+        rfturn mGrbpiids.gftStrokf();
     }
 
     /**
-     * Intersects the current clip with the interior of the specified Shape
-     * and sets the current clip to the resulting intersection.
-     * The indicated shape is transformed with the current transform in the
-     * Graphics2D state before being intersected with the current clip.
-     * This method is used to make the current clip smaller.
-     * To make the clip larger, use any setClip method.
-     * @param s The Shape to be intersected with the current clip.
+     * Intfrsfdts tif durrfnt dlip witi tif intfrior of tif spfdififd Sibpf
+     * bnd sfts tif durrfnt dlip to tif rfsulting intfrsfdtion.
+     * Tif indidbtfd sibpf is trbnsformfd witi tif durrfnt trbnsform in tif
+     * Grbpiids2D stbtf bfforf bfing intfrsfdtfd witi tif durrfnt dlip.
+     * Tiis mftiod is usfd to mbkf tif durrfnt dlip smbllfr.
+     * To mbkf tif dlip lbrgfr, usf bny sftClip mftiod.
+     * @pbrbm s Tif Sibpf to bf intfrsfdtfd witi tif durrfnt dlip.
      */
-     public void clip(Shape s) {
-        mGraphics.clip(s);
+     publid void dlip(Sibpf s) {
+        mGrbpiids.dlip(s);
      }
 
      /**
-      * Return true if the Rectangle <code>rect</code>
-      * intersects the area into which the application
-      * has drawn.
+      * Rfturn truf if tif Rfdtbnglf <dodf>rfdt</dodf>
+      * intfrsfdts tif brfb into wiidi tif bpplidbtion
+      * ibs drbwn.
       */
-     public boolean hitsDrawingArea(Rectangle rect) {
+     publid boolfbn iitsDrbwingArfb(Rfdtbnglf rfdt) {
 
-         return mDrawingArea.intersects((float) rect.getMinY(),
-                                        (float) rect.getMaxY());
+         rfturn mDrbwingArfb.intfrsfdts((flobt) rfdt.gftMinY(),
+                                        (flobt) rfdt.gftMbxY());
      }
 
      /**
-      * Return the object holding the summary of the
-      * drawing done by the printing application.
+      * Rfturn tif objfdt iolding tif summbry of tif
+      * drbwing donf by tif printing bpplidbtion.
       */
-     public PeekMetrics getMetrics() {
-        return mPrintMetrics;
+     publid PffkMftrids gftMftrids() {
+        rfturn mPrintMftrids;
      }
 
- /* Support Routines for Calculating the Drawing Area */
+ /* Support Routinfs for Cbldulbting tif Drbwing Arfb */
 
    /**
-     * Shift the rectangle 'rect' to the position ('x', 'y')
-     * and add the resulting rectangle to the area representing
-     * the part of the page which is drawn into.
+     * Siift tif rfdtbnglf 'rfdt' to tif position ('x', 'y')
+     * bnd bdd tif rfsulting rfdtbnglf to tif brfb rfprfsfnting
+     * tif pbrt of tif pbgf wiidi is drbwn into.
      */
-    private void addDrawingRect(Rectangle2D rect, float x, float y) {
+    privbtf void bddDrbwingRfdt(Rfdtbnglf2D rfdt, flobt x, flobt y) {
 
-        addDrawingRect((float) (rect.getX() + x),
-                       (float) (rect.getY() + y),
-                       (float) rect.getWidth(),
-                       (float) rect.getHeight());
+        bddDrbwingRfdt((flobt) (rfdt.gftX() + x),
+                       (flobt) (rfdt.gftY() + y),
+                       (flobt) rfdt.gftWidti(),
+                       (flobt) rfdt.gftHfigit());
 
     }
 
-    private void addDrawingRect(float x, float y, float width, float height) {
+    privbtf void bddDrbwingRfdt(flobt x, flobt y, flobt widti, flobt ifigit) {
 
-        Rectangle2D.Float bbox = new Rectangle2D.Float(x, y, width, height);
-        addDrawingRect(bbox);
+        Rfdtbnglf2D.Flobt bbox = nfw Rfdtbnglf2D.Flobt(x, y, widti, ifigit);
+        bddDrbwingRfdt(bbox);
     }
 
     /**
-     * Add the rectangle 'rect' to the area representing
-     * the part of the page which is drawn into.
+     * Add tif rfdtbnglf 'rfdt' to tif brfb rfprfsfnting
+     * tif pbrt of tif pbgf wiidi is drbwn into.
      */
-    private void addDrawingRect(Rectangle2D rect) {
+    privbtf void bddDrbwingRfdt(Rfdtbnglf2D rfdt) {
 
-        /*  For testing purposes the following line can be uncommented.
-            When uncommented it causes the entire page to be rasterized
-            thus eliminating errors caused by a faulty bounding box
-            calculation.
+        /*  For tfsting purposfs tif following linf dbn bf undommfntfd.
+            Wifn undommfntfd it dbusfs tif fntirf pbgf to bf rbstfrizfd
+            tius fliminbting frrors dbusfd by b fbulty bounding box
+            dbldulbtion.
         */
-        //mDrawingArea.addInfinite();
+        //mDrbwingArfb.bddInfinitf();
 
 
 
-        AffineTransform matrix = getTransform();
+        AffinfTrbnsform mbtrix = gftTrbnsform();
 
-        Shape transShape = matrix.createTransformedShape(rect);
+        Sibpf trbnsSibpf = mbtrix.drfbtfTrbnsformfdSibpf(rfdt);
 
-        Rectangle2D transRect = transShape.getBounds2D();
+        Rfdtbnglf2D trbnsRfdt = trbnsSibpf.gftBounds2D();
 
-        mDrawingArea.add((float) transRect.getMinY(),
-                         (float) transRect.getMaxY());
+        mDrbwingArfb.bdd((flobt) trbnsRfdt.gftMinY(),
+                         (flobt) trbnsRfdt.gftMbxY());
 
 
     }
 
     /**
-     * Add the stroked shape to the area representing
-     * the part of the page which is drawn into.
+     * Add tif strokfd sibpf to tif brfb rfprfsfnting
+     * tif pbrt of tif pbgf wiidi is drbwn into.
      */
-    private void addStrokeShape(Shape s) {
-        Shape transShape = getStroke().createStrokedShape(s);
-        addDrawingRect(transShape.getBounds2D());
+    privbtf void bddStrokfSibpf(Sibpf s) {
+        Sibpf trbnsSibpf = gftStrokf().drfbtfStrokfdSibpf(s);
+        bddDrbwingRfdt(trbnsSibpf.gftBounds2D());
     }
 
-    /* Image Observer */
+    /* Imbgf Obsfrvfr */
 
     /**
-     * Notify this object when the height or width become available
-     * for an image.
+     * Notify tiis objfdt wifn tif ifigit or widti bfdomf bvbilbblf
+     * for bn imbgf.
      */
-    public synchronized boolean imageUpdate(Image img, int infoFlags,
+    publid syndironizfd boolfbn imbgfUpdbtf(Imbgf img, int infoFlbgs,
                                             int x, int y,
-                                            int width, int height) {
+                                            int widti, int ifigit) {
 
-        boolean gotInfo = false;
+        boolfbn gotInfo = fblsf;
 
-        if((infoFlags & (WIDTH | HEIGHT)) != 0) {
-            gotInfo = true;
+        if((infoFlbgs & (WIDTH | HEIGHT)) != 0) {
+            gotInfo = truf;
             notify();
         }
 
-        return gotInfo;
+        rfturn gotInfo;
     }
 
-    private synchronized int getImageWidth(Image img) {
+    privbtf syndironizfd int gftImbgfWidti(Imbgf img) {
 
-        /* Wait for the width the image to
-         * become available.
+        /* Wbit for tif widti tif imbgf to
+         * bfdomf bvbilbblf.
          */
-        while (img.getWidth(this) == -1) {
+        wiilf (img.gftWidti(tiis) == -1) {
             try {
-                wait();
-            } catch (InterruptedException e) {
+                wbit();
+            } dbtdi (IntfrruptfdExdfption f) {
             }
         }
 
 
-        return img.getWidth(this);
+        rfturn img.gftWidti(tiis);
     }
 
-    private synchronized int getImageHeight(Image img) {
+    privbtf syndironizfd int gftImbgfHfigit(Imbgf img) {
 
-        /* Wait for the height the image to
-         * become available.
+        /* Wbit for tif ifigit tif imbgf to
+         * bfdomf bvbilbblf.
          */
-        while (img.getHeight(this) == -1) {
+        wiilf (img.gftHfigit(tiis) == -1) {
             try {
-                wait();
-            } catch (InterruptedException e) {
+                wbit();
+            } dbtdi (IntfrruptfdExdfption f) {
             }
         }
 
 
-        return img.getHeight(this);
+        rfturn img.gftHfigit(tiis);
     }
 
     /**
-     * This private class does not return from its constructor
-     * until 'img's width and height are available.
+     * Tiis privbtf dlbss dofs not rfturn from its donstrudtor
+     * until 'img's widti bnd ifigit brf bvbilbblf.
      */
-    protected class ImageWaiter implements ImageObserver {
+    protfdtfd dlbss ImbgfWbitfr implfmfnts ImbgfObsfrvfr {
 
-        private int mWidth;
-        private int mHeight;
-        private boolean badImage = false;
+        privbtf int mWidti;
+        privbtf int mHfigit;
+        privbtf boolfbn bbdImbgf = fblsf;
 
-        ImageWaiter(Image img) {
-            waitForDimensions(img);
+        ImbgfWbitfr(Imbgf img) {
+            wbitForDimfnsions(img);
         }
 
-        public int getWidth() {
-            return mWidth;
+        publid int gftWidti() {
+            rfturn mWidti;
         }
 
-        public int getHeight() {
-            return mHeight;
+        publid int gftHfigit() {
+            rfturn mHfigit;
         }
 
-        synchronized private void waitForDimensions(Image img) {
-            mHeight = img.getHeight(this);
-            mWidth = img.getWidth(this);
-            while (!badImage && (mWidth < 0 || mHeight < 0)) {
+        syndironizfd privbtf void wbitForDimfnsions(Imbgf img) {
+            mHfigit = img.gftHfigit(tiis);
+            mWidti = img.gftWidti(tiis);
+            wiilf (!bbdImbgf && (mWidti < 0 || mHfigit < 0)) {
                 try {
-                    Thread.sleep(50);
-                } catch(InterruptedException e) {
-                    // do nothing.
+                    Tirfbd.slffp(50);
+                } dbtdi(IntfrruptfdExdfption f) {
+                    // do notiing.
                 }
-                mHeight = img.getHeight(this);
-                mWidth = img.getWidth(this);
+                mHfigit = img.gftHfigit(tiis);
+                mWidti = img.gftWidti(tiis);
             }
-            if (badImage) {
-                mHeight = 0;
-                mWidth = 0;
+            if (bbdImbgf) {
+                mHfigit = 0;
+                mWidti = 0;
             }
         }
 
-        synchronized public boolean imageUpdate(Image image, int flags,
-                                                int x, int y, int w, int h) {
+        syndironizfd publid boolfbn imbgfUpdbtf(Imbgf imbgf, int flbgs,
+                                                int x, int y, int w, int i) {
 
-            boolean dontCallMeAgain = (flags & (HEIGHT | ABORT | ERROR)) != 0;
-            badImage = (flags & (ABORT | ERROR)) != 0;
+            boolfbn dontCbllMfAgbin = (flbgs & (HEIGHT | ABORT | ERROR)) != 0;
+            bbdImbgf = (flbgs & (ABORT | ERROR)) != 0;
 
-            return dontCallMeAgain;
+            rfturn dontCbllMfAgbin;
         }
 
     }

@@ -1,0 +1,259 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+
+/**
+ * This is thf dommon bbsf dlbss of bll Jbvb lbngubgf fnumfrbtion typfs.
+ *
+ * Morf informbtion bbout fnums, indluding dfsdriptions of thf
+ * impliditly dfdlbrfd mfthods synthfsizfd by thf dompilfr, dbn bf
+ * found in sfdtion 8.9 of
+ * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ *
+ * <p> Notf thbt whfn using bn fnumfrbtion typf bs thf typf of b sft
+ * or bs thf typf of thf kfys in b mbp, spfdiblizfd bnd fffidifnt
+ * {@linkplbin jbvb.util.EnumSft sft} bnd {@linkplbin
+ * jbvb.util.EnumMbp mbp} implfmfntbtions brf bvbilbblf.
+ *
+ * @pbrbm <E> Thf fnum typf subdlbss
+ * @buthor  Josh Blodh
+ * @buthor  Nfbl Gbftfr
+ * @sff     Clbss#gftEnumConstbnts()
+ * @sff     jbvb.util.EnumSft
+ * @sff     jbvb.util.EnumMbp
+ * @sindf   1.5
+ */
+@SupprfssWbrnings("sfribl") // No sfriblVfrsionUID nffdfd duf to
+                            // spfdibl-dbsing of fnum typfs.
+publid bbstrbdt dlbss Enum<E fxtfnds Enum<E>>
+        implfmfnts Compbrbblf<E>, Sfriblizbblf {
+    /**
+     * Thf nbmf of this fnum donstbnt, bs dfdlbrfd in thf fnum dfdlbrbtion.
+     * Most progrbmmfrs should usf thf {@link #toString} mfthod rbthfr thbn
+     * bddfssing this fifld.
+     */
+    privbtf finbl String nbmf;
+
+    /**
+     * Rfturns thf nbmf of this fnum donstbnt, fxbdtly bs dfdlbrfd in its
+     * fnum dfdlbrbtion.
+     *
+     * <b>Most progrbmmfrs should usf thf {@link #toString} mfthod in
+     * prfffrfndf to this onf, bs thf toString mfthod mby rfturn
+     * b morf usfr-frifndly nbmf.</b>  This mfthod is dfsignfd primbrily for
+     * usf in spfdiblizfd situbtions whfrf dorrfdtnfss dfpfnds on gftting thf
+     * fxbdt nbmf, whidh will not vbry from rflfbsf to rflfbsf.
+     *
+     * @rfturn thf nbmf of this fnum donstbnt
+     */
+    publid finbl String nbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Thf ordinbl of this fnumfrbtion donstbnt (its position
+     * in thf fnum dfdlbrbtion, whfrf thf initibl donstbnt is bssignfd
+     * bn ordinbl of zfro).
+     *
+     * Most progrbmmfrs will hbvf no usf for this fifld.  It is dfsignfd
+     * for usf by sophistidbtfd fnum-bbsfd dbtb strudturfs, sudh bs
+     * {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
+     */
+    privbtf finbl int ordinbl;
+
+    /**
+     * Rfturns thf ordinbl of this fnumfrbtion donstbnt (its position
+     * in its fnum dfdlbrbtion, whfrf thf initibl donstbnt is bssignfd
+     * bn ordinbl of zfro).
+     *
+     * Most progrbmmfrs will hbvf no usf for this mfthod.  It is
+     * dfsignfd for usf by sophistidbtfd fnum-bbsfd dbtb strudturfs, sudh
+     * bs {@link jbvb.util.EnumSft} bnd {@link jbvb.util.EnumMbp}.
+     *
+     * @rfturn thf ordinbl of this fnumfrbtion donstbnt
+     */
+    publid finbl int ordinbl() {
+        rfturn ordinbl;
+    }
+
+    /**
+     * Solf donstrudtor.  Progrbmmfrs dbnnot invokf this donstrudtor.
+     * It is for usf by dodf fmittfd by thf dompilfr in rfsponsf to
+     * fnum typf dfdlbrbtions.
+     *
+     * @pbrbm nbmf - Thf nbmf of this fnum donstbnt, whidh is thf idfntififr
+     *               usfd to dfdlbrf it.
+     * @pbrbm ordinbl - Thf ordinbl of this fnumfrbtion donstbnt (its position
+     *         in thf fnum dfdlbrbtion, whfrf thf initibl donstbnt is bssignfd
+     *         bn ordinbl of zfro).
+     */
+    protfdtfd Enum(String nbmf, int ordinbl) {
+        this.nbmf = nbmf;
+        this.ordinbl = ordinbl;
+    }
+
+    /**
+     * Rfturns thf nbmf of this fnum donstbnt, bs dontbinfd in thf
+     * dfdlbrbtion.  This mfthod mby bf ovfrriddfn, though it typidblly
+     * isn't nfdfssbry or dfsirbblf.  An fnum typf should ovfrridf this
+     * mfthod whfn b morf "progrbmmfr-frifndly" string form fxists.
+     *
+     * @rfturn thf nbmf of this fnum donstbnt
+     */
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns truf if thf spfdififd objfdt is fqubl to this
+     * fnum donstbnt.
+     *
+     * @pbrbm othfr thf objfdt to bf dompbrfd for fqublity with this objfdt.
+     * @rfturn  truf if thf spfdififd objfdt is fqubl to this
+     *          fnum donstbnt.
+     */
+    publid finbl boolfbn fqubls(Objfdt othfr) {
+        rfturn this==othfr;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this fnum donstbnt.
+     *
+     * @rfturn b hbsh dodf for this fnum donstbnt.
+     */
+    publid finbl int hbshCodf() {
+        rfturn supfr.hbshCodf();
+    }
+
+    /**
+     * Throws ClonfNotSupportfdExdfption.  This gubrbntffs thbt fnums
+     * brf nfvfr dlonfd, whidh is nfdfssbry to prfsfrvf thfir "singlfton"
+     * stbtus.
+     *
+     * @rfturn (nfvfr rfturns)
+     */
+    protfdtfd finbl Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        throw nfw ClonfNotSupportfdExdfption();
+    }
+
+    /**
+     * Compbrfs this fnum with thf spfdififd objfdt for ordfr.  Rfturns b
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this objfdt is lfss
+     * thbn, fqubl to, or grfbtfr thbn thf spfdififd objfdt.
+     *
+     * Enum donstbnts brf only dompbrbblf to othfr fnum donstbnts of thf
+     * sbmf fnum typf.  Thf nbturbl ordfr implfmfntfd by this
+     * mfthod is thf ordfr in whidh thf donstbnts brf dfdlbrfd.
+     */
+    publid finbl int dompbrfTo(E o) {
+        Enum<?> othfr = (Enum<?>)o;
+        Enum<E> sflf = this;
+        if (sflf.gftClbss() != othfr.gftClbss() && // optimizbtion
+            sflf.gftDfdlbringClbss() != othfr.gftDfdlbringClbss())
+            throw nfw ClbssCbstExdfption();
+        rfturn sflf.ordinbl - othfr.ordinbl;
+    }
+
+    /**
+     * Rfturns thf Clbss objfdt dorrfsponding to this fnum donstbnt's
+     * fnum typf.  Two fnum donstbnts f1 bnd  f2 brf of thf
+     * sbmf fnum typf if bnd only if
+     *   f1.gftDfdlbringClbss() == f2.gftDfdlbringClbss().
+     * (Thf vbluf rfturnfd by this mfthod mby difffr from thf onf rfturnfd
+     * by thf {@link Objfdt#gftClbss} mfthod for fnum donstbnts with
+     * donstbnt-spfdifid dlbss bodifs.)
+     *
+     * @rfturn thf Clbss objfdt dorrfsponding to this fnum donstbnt's
+     *     fnum typf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid finbl Clbss<E> gftDfdlbringClbss() {
+        Clbss<?> dlbzz = gftClbss();
+        Clbss<?> zupfr = dlbzz.gftSupfrdlbss();
+        rfturn (zupfr == Enum.dlbss) ? (Clbss<E>)dlbzz : (Clbss<E>)zupfr;
+    }
+
+    /**
+     * Rfturns thf fnum donstbnt of thf spfdififd fnum typf with thf
+     * spfdififd nbmf.  Thf nbmf must mbtdh fxbdtly bn idfntififr usfd
+     * to dfdlbrf bn fnum donstbnt in this typf.  (Extrbnfous whitfspbdf
+     * dhbrbdtfrs brf not pfrmittfd.)
+     *
+     * <p>Notf thbt for b pbrtidulbr fnum typf {@dodf T}, thf
+     * impliditly dfdlbrfd {@dodf publid stbtid T vblufOf(String)}
+     * mfthod on thbt fnum mby bf usfd instfbd of this mfthod to mbp
+     * from b nbmf to thf dorrfsponding fnum donstbnt.  All thf
+     * donstbnts of bn fnum typf dbn bf obtbinfd by dblling thf
+     * implidit {@dodf publid stbtid T[] vblufs()} mfthod of thbt
+     * typf.
+     *
+     * @pbrbm <T> Thf fnum typf whosf donstbnt is to bf rfturnfd
+     * @pbrbm fnumTypf thf {@dodf Clbss} objfdt of thf fnum typf from whidh
+     *      to rfturn b donstbnt
+     * @pbrbm nbmf thf nbmf of thf donstbnt to rfturn
+     * @rfturn thf fnum donstbnt of thf spfdififd fnum typf with thf
+     *      spfdififd nbmf
+     * @throws IllfgblArgumfntExdfption if thf spfdififd fnum typf hbs
+     *         no donstbnt with thf spfdififd nbmf, or thf spfdififd
+     *         dlbss objfdt dofs not rfprfsfnt bn fnum typf
+     * @throws NullPointfrExdfption if {@dodf fnumTypf} or {@dodf nbmf}
+     *         is null
+     * @sindf 1.5
+     */
+    publid stbtid <T fxtfnds Enum<T>> T vblufOf(Clbss<T> fnumTypf,
+                                                String nbmf) {
+        T rfsult = fnumTypf.fnumConstbntDirfdtory().gft(nbmf);
+        if (rfsult != null)
+            rfturn rfsult;
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption("Nbmf is null");
+        throw nfw IllfgblArgumfntExdfption(
+            "No fnum donstbnt " + fnumTypf.gftCbnonidblNbmf() + "." + nbmf);
+    }
+
+    /**
+     * fnum dlbssfs dbnnot hbvf finblizf mfthods.
+     */
+    protfdtfd finbl void finblizf() { }
+
+    /**
+     * prfvfnt dffbult dfsfriblizbtion
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) throws IOExdfption,
+        ClbssNotFoundExdfption {
+        throw nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+    }
+
+    privbtf void rfbdObjfdtNoDbtb() throws ObjfdtStrfbmExdfption {
+        throw nfw InvblidObjfdtExdfption("dbn't dfsfriblizf fnum");
+    }
+}

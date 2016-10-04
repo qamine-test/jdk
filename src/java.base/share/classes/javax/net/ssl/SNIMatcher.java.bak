@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
 /**
- * Instances of this class represent a matcher that performs match
- * operations on an {@link SNIServerName} instance.
+ * Instbndfs of tiis dlbss rfprfsfnt b mbtdifr tibt pfrforms mbtdi
+ * opfrbtions on bn {@link SNISfrvfrNbmf} instbndf.
  * <P>
- * Servers can use Server Name Indication (SNI) information to decide if
- * specific {@link SSLSocket} or {@link SSLEngine} instances should accept
- * a connection.  For example, when multiple "virtual" or "name-based"
- * servers are hosted on a single underlying network address, the server
- * application can use SNI information to determine whether this server is
- * the exact server that the client wants to access.  Instances of this
- * class can be used by a server to verify the acceptable server names of
- * a particular type, such as host names.
+ * Sfrvfrs dbn usf Sfrvfr Nbmf Indidbtion (SNI) informbtion to dfdidf if
+ * spfdifid {@link SSLSodkft} or {@link SSLEnginf} instbndfs siould bddfpt
+ * b donnfdtion.  For fxbmplf, wifn multiplf "virtubl" or "nbmf-bbsfd"
+ * sfrvfrs brf iostfd on b singlf undfrlying nftwork bddrfss, tif sfrvfr
+ * bpplidbtion dbn usf SNI informbtion to dftfrminf wiftifr tiis sfrvfr is
+ * tif fxbdt sfrvfr tibt tif dlifnt wbnts to bddfss.  Instbndfs of tiis
+ * dlbss dbn bf usfd by b sfrvfr to vfrify tif bddfptbblf sfrvfr nbmfs of
+ * b pbrtidulbr typf, sudi bs iost nbmfs.
  * <P>
- * {@code SNIMatcher} objects are immutable.  Subclasses should not provide
- * methods that can change the state of an instance once it has been created.
+ * {@dodf SNIMbtdifr} objfdts brf immutbblf.  Subdlbssfs siould not providf
+ * mftiods tibt dbn dibngf tif stbtf of bn instbndf ondf it ibs bffn drfbtfd.
  *
- * @see SNIServerName
- * @see SNIHostName
- * @see SSLParameters#getSNIMatchers()
- * @see SSLParameters#setSNIMatchers(Collection)
+ * @sff SNISfrvfrNbmf
+ * @sff SNIHostNbmf
+ * @sff SSLPbrbmftfrs#gftSNIMbtdifrs()
+ * @sff SSLPbrbmftfrs#sftSNIMbtdifrs(Collfdtion)
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public abstract class SNIMatcher {
+publid bbstrbdt dlbss SNIMbtdifr {
 
-    // the type of the server name that this matcher performs on
-    private final int type;
+    // tif typf of tif sfrvfr nbmf tibt tiis mbtdifr pfrforms on
+    privbtf finbl int typf;
 
     /**
-     * Creates an {@code SNIMatcher} using the specified server name type.
+     * Crfbtfs bn {@dodf SNIMbtdifr} using tif spfdififd sfrvfr nbmf typf.
      *
-     * @param  type
-     *         the type of the server name that this matcher performs on
+     * @pbrbm  typf
+     *         tif typf of tif sfrvfr nbmf tibt tiis mbtdifr pfrforms on
      *
-     * @throws IllegalArgumentException if {@code type} is not in the range
-     *         of 0 to 255, inclusive.
+     * @tirows IllfgblArgumfntExdfption if {@dodf typf} is not in tif rbngf
+     *         of 0 to 255, indlusivf.
      */
-    protected SNIMatcher(int type) {
-        if (type < 0) {
-            throw new IllegalArgumentException(
-                "Server name type cannot be less than zero");
-        } else if (type > 255) {
-            throw new IllegalArgumentException(
-                "Server name type cannot be greater than 255");
+    protfdtfd SNIMbtdifr(int typf) {
+        if (typf < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf typf dbnnot bf lfss tibn zfro");
+        } flsf if (typf > 255) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf typf dbnnot bf grfbtfr tibn 255");
         }
 
-        this.type = type;
+        tiis.typf = typf;
     }
 
     /**
-     * Returns the server name type of this {@code SNIMatcher} object.
+     * Rfturns tif sfrvfr nbmf typf of tiis {@dodf SNIMbtdifr} objfdt.
      *
-     * @return the server name type of this {@code SNIMatcher} object.
+     * @rfturn tif sfrvfr nbmf typf of tiis {@dodf SNIMbtdifr} objfdt.
      *
-     * @see SNIServerName
+     * @sff SNISfrvfrNbmf
      */
-    public final int getType() {
-        return type;
+    publid finbl int gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Attempts to match the given {@link SNIServerName}.
+     * Attfmpts to mbtdi tif givfn {@link SNISfrvfrNbmf}.
      *
-     * @param  serverName
-     *         the {@link SNIServerName} instance on which this matcher
-     *         performs match operations
+     * @pbrbm  sfrvfrNbmf
+     *         tif {@link SNISfrvfrNbmf} instbndf on wiidi tiis mbtdifr
+     *         pfrforms mbtdi opfrbtions
      *
-     * @return {@code true} if, and only if, the matcher matches the
-     *         given {@code serverName}
+     * @rfturn {@dodf truf} if, bnd only if, tif mbtdifr mbtdifs tif
+     *         givfn {@dodf sfrvfrNbmf}
      *
-     * @throws NullPointerException if {@code serverName} is {@code null}
-     * @throws IllegalArgumentException if {@code serverName} is
-     *         not of the given server name type of this matcher
+     * @tirows NullPointfrExdfption if {@dodf sfrvfrNbmf} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if {@dodf sfrvfrNbmf} is
+     *         not of tif givfn sfrvfr nbmf typf of tiis mbtdifr
      *
-     * @see SNIServerName
+     * @sff SNISfrvfrNbmf
      */
-    public abstract boolean matches(SNIServerName serverName);
+    publid bbstrbdt boolfbn mbtdifs(SNISfrvfrNbmf sfrvfrNbmf);
 }

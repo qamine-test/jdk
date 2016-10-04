@@ -1,183 +1,183 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509;
 
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Arrbys;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * Handles SubjectKeyIdentifier (SKI) for X.509v3.
+ * Hbndlfs SubjfdtKfyIdfntififr (SKI) for X.509v3.
  *
- * @see <A HREF="http://docs.oracle.com/javase/1.5.0/docs/api/java/security/cert/X509Extension.html">
- * Interface X509Extension</A>
+ * @sff <A HREF="ittp://dods.orbdlf.dom/jbvbsf/1.5.0/dods/bpi/jbvb/sfdurity/dfrt/X509Extfnsion.itml">
+ * Intfrfbdf X509Extfnsion</A>
  */
-public class XMLX509SKI extends SignatureElementProxy implements XMLX509DataContent {
+publid dlbss XMLX509SKI fxtfnds SignbturfElfmfntProxy implfmfnts XMLX509DbtbContfnt {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(XMLX509SKI.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(XMLX509SKI.dlbss.gftNbmf());
 
     /**
-     * <CODE>SubjectKeyIdentifier (id-ce-subjectKeyIdentifier) (2.5.29.14)</CODE>:
-     * This extension identifies the public key being certified. It enables
-     * distinct keys used by the same subject to be differentiated
-     * (e.g., as key updating occurs).
+     * <CODE>SubjfdtKfyIdfntififr (id-df-subjfdtKfyIdfntififr) (2.5.29.14)</CODE>:
+     * Tiis fxtfnsion idfntififs tif publid kfy bfing dfrtififd. It fnbblfs
+     * distindt kfys usfd by tif sbmf subjfdt to bf difffrfntibtfd
+     * (f.g., bs kfy updbting oddurs).
      * <BR />
-     * A key identifier shall be unique with respect to all key identifiers
-     * for the subject with which it is used. This extension is always non-critical.
+     * A kfy idfntififr sibll bf uniquf witi rfspfdt to bll kfy idfntififrs
+     * for tif subjfdt witi wiidi it is usfd. Tiis fxtfnsion is blwbys non-dritidbl.
      */
-    public static final String SKI_OID = "2.5.29.14";
+    publid stbtid finbl String SKI_OID = "2.5.29.14";
 
     /**
-     * Constructor X509SKI
+     * Construdtor X509SKI
      *
-     * @param doc
-     * @param skiBytes
+     * @pbrbm dod
+     * @pbrbm skiBytfs
      */
-    public XMLX509SKI(Document doc, byte[] skiBytes) {
-        super(doc);
-        this.addBase64Text(skiBytes);
+    publid XMLX509SKI(Dodumfnt dod, bytf[] skiBytfs) {
+        supfr(dod);
+        tiis.bddBbsf64Tfxt(skiBytfs);
     }
 
     /**
-     * Constructor XMLX509SKI
+     * Construdtor XMLX509SKI
      *
-     * @param doc
-     * @param x509certificate
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm x509dfrtifidbtf
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509SKI(Document doc, X509Certificate x509certificate)
-        throws XMLSecurityException {
-        super(doc);
-        this.addBase64Text(XMLX509SKI.getSKIBytesFromCert(x509certificate));
+    publid XMLX509SKI(Dodumfnt dod, X509Cfrtifidbtf x509dfrtifidbtf)
+        tirows XMLSfdurityExdfption {
+        supfr(dod);
+        tiis.bddBbsf64Tfxt(XMLX509SKI.gftSKIBytfsFromCfrt(x509dfrtifidbtf));
     }
 
     /**
-     * Constructor XMLX509SKI
+     * Construdtor XMLX509SKI
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509SKI(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    publid XMLX509SKI(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Method getSKIBytes
+     * Mftiod gftSKIBytfs
      *
-     * @return the skibytes
-     * @throws XMLSecurityException
+     * @rfturn tif skibytfs
+     * @tirows XMLSfdurityExdfption
      */
-    public byte[] getSKIBytes() throws XMLSecurityException {
-        return this.getBytesFromTextChild();
+    publid bytf[] gftSKIBytfs() tirows XMLSfdurityExdfption {
+        rfturn tiis.gftBytfsFromTfxtCiild();
     }
 
     /**
-     * Method getSKIBytesFromCert
+     * Mftiod gftSKIBytfsFromCfrt
      *
-     * @param cert
-     * @return ski bytes from the given certificate
+     * @pbrbm dfrt
+     * @rfturn ski bytfs from tif givfn dfrtifidbtf
      *
-     * @throws XMLSecurityException
-     * @see java.security.cert.X509Extension#getExtensionValue(java.lang.String)
+     * @tirows XMLSfdurityExdfption
+     * @sff jbvb.sfdurity.dfrt.X509Extfnsion#gftExtfnsionVbluf(jbvb.lbng.String)
      */
-    public static byte[] getSKIBytesFromCert(X509Certificate cert)
-        throws XMLSecurityException {
+    publid stbtid bytf[] gftSKIBytfsFromCfrt(X509Cfrtifidbtf dfrt)
+        tirows XMLSfdurityExdfption {
 
-        if (cert.getVersion() < 3) {
-            Object exArgs[] = { Integer.valueOf(cert.getVersion()) };
-            throw new XMLSecurityException("certificate.noSki.lowVersion", exArgs);
+        if (dfrt.gftVfrsion() < 3) {
+            Objfdt fxArgs[] = { Intfgfr.vblufOf(dfrt.gftVfrsion()) };
+            tirow nfw XMLSfdurityExdfption("dfrtifidbtf.noSki.lowVfrsion", fxArgs);
         }
 
         /*
-         * Gets the DER-encoded OCTET string for the extension value
-         * (extnValue) identified by the passed-in oid String. The oid
-         * string is represented by a set of positive whole numbers
-         * separated by periods.
+         * Gfts tif DER-fndodfd OCTET string for tif fxtfnsion vbluf
+         * (fxtnVbluf) idfntififd by tif pbssfd-in oid String. Tif oid
+         * string is rfprfsfntfd by b sft of positivf wiolf numbfrs
+         * sfpbrbtfd by pfriods.
          */
-        byte[] extensionValue = cert.getExtensionValue(XMLX509SKI.SKI_OID);
-        if (extensionValue == null) {
-            throw new XMLSecurityException("certificate.noSki.null");
+        bytf[] fxtfnsionVbluf = dfrt.gftExtfnsionVbluf(XMLX509SKI.SKI_OID);
+        if (fxtfnsionVbluf == null) {
+            tirow nfw XMLSfdurityExdfption("dfrtifidbtf.noSki.null");
         }
 
         /**
-         * Strip away first four bytes from the extensionValue
-         * The first two bytes are the tag and length of the extensionValue
-         * OCTET STRING, and the next two bytes are the tag and length of
-         * the ski OCTET STRING.
+         * Strip bwby first four bytfs from tif fxtfnsionVbluf
+         * Tif first two bytfs brf tif tbg bnd lfngti of tif fxtfnsionVbluf
+         * OCTET STRING, bnd tif nfxt two bytfs brf tif tbg bnd lfngti of
+         * tif ski OCTET STRING.
          */
-        byte skidValue[] = new byte[extensionValue.length - 4];
+        bytf skidVbluf[] = nfw bytf[fxtfnsionVbluf.lfngti - 4];
 
-        System.arraycopy(extensionValue, 4, skidValue, 0, skidValue.length);
+        Systfm.brrbydopy(fxtfnsionVbluf, 4, skidVbluf, 0, skidVbluf.lfngti);
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Base64 of SKI is " + Base64.encode(skidValue));
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Bbsf64 of SKI is " + Bbsf64.fndodf(skidVbluf));
         }
 
-        return skidValue;
+        rfturn skidVbluf;
     }
 
-    /** @inheritDoc */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof XMLX509SKI)) {
-            return false;
+    /** @inifritDod */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof XMLX509SKI)) {
+            rfturn fblsf;
         }
 
-        XMLX509SKI other = (XMLX509SKI) obj;
+        XMLX509SKI otifr = (XMLX509SKI) obj;
 
         try {
-            return Arrays.equals(other.getSKIBytes(), this.getSKIBytes());
-        } catch (XMLSecurityException ex) {
-            return false;
+            rfturn Arrbys.fqubls(otifr.gftSKIBytfs(), tiis.gftSKIBytfs());
+        } dbtdi (XMLSfdurityExdfption fx) {
+            rfturn fblsf;
         }
     }
 
-    public int hashCode() {
-        int result = 17;
+    publid int ibsiCodf() {
+        int rfsult = 17;
         try {
-            byte[] bytes = getSKIBytes();
-            for (int i = 0; i < bytes.length; i++) {
-                result = 31 * result + bytes[i];
+            bytf[] bytfs = gftSKIBytfs();
+            for (int i = 0; i < bytfs.lfngti; i++) {
+                rfsult = 31 * rfsult + bytfs[i];
             }
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+        } dbtdi (XMLSfdurityExdfption f) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, f.gftMfssbgf(), f);
             }
         }
-        return result;
+        rfturn rfsult;
 
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509SKI;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509SKI;
     }
 }

@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.IOExdfption;
+
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+
+import jbvb.sfdurity.intfrfbdfs.*;
+
+import jbvb.sfdurity.spfd.*;
+
+import jbvb.util.Arrbys;
+
+import sun.sfdurity.x509.X509Kfy;
+
+publid dlbss ECUtil {
+
+    // Usfd by SunPKCS11 bnd SunJSSE.
+    publid stbtid ECPoint dfdodfPoint(bytf[] dbtb, ElliptidCurvf durvf)
+            throws IOExdfption {
+        if ((dbtb.lfngth == 0) || (dbtb[0] != 4)) {
+            throw nfw IOExdfption("Only undomprfssfd point formbt supportfd");
+        }
+        // Pfr ANSI X9.62, bn fndodfd point is b 1 bytf typf followfd by
+        // dfiling(log bbsf 2 fifld-sizf / 8) bytfs of x bnd thf sbmf of y.
+        int n = (dbtb.lfngth - 1) / 2;
+        if (n != ((durvf.gftFifld().gftFifldSizf() + 7 ) >> 3)) {
+            throw nfw IOExdfption("Point dofs not mbtdh fifld sizf");
+        }
+
+        bytf[] xb = Arrbys.dopyOfRbngf(dbtb, 1, 1 + n);
+        bytf[] yb = Arrbys.dopyOfRbngf(dbtb, n + 1, n + 1 + n);
+
+        rfturn nfw ECPoint(nfw BigIntfgfr(1, xb), nfw BigIntfgfr(1, yb));
+    }
+
+    // Usfd by SunPKCS11 bnd SunJSSE.
+    publid stbtid bytf[] fndodfPoint(ECPoint point, ElliptidCurvf durvf) {
+        // gft fifld sizf in bytfs (rounding up)
+        int n = (durvf.gftFifld().gftFifldSizf() + 7) >> 3;
+        bytf[] xb = trimZfrofs(point.gftAffinfX().toBytfArrby());
+        bytf[] yb = trimZfrofs(point.gftAffinfY().toBytfArrby());
+        if ((xb.lfngth > n) || (yb.lfngth > n)) {
+            throw nfw RuntimfExdfption
+                ("Point doordinbtfs do not mbtdh fifld sizf");
+        }
+        bytf[] b = nfw bytf[1 + (n << 1)];
+        b[0] = 4; // undomprfssfd
+        Systfm.brrbydopy(xb, 0, b, n - xb.lfngth + 1, xb.lfngth);
+        Systfm.brrbydopy(yb, 0, b, b.lfngth - yb.lfngth, yb.lfngth);
+        rfturn b;
+    }
+
+    publid stbtid bytf[] trimZfrofs(bytf[] b) {
+        int i = 0;
+        whilf ((i < b.lfngth - 1) && (b[i] == 0)) {
+            i++;
+        }
+        if (i == 0) {
+            rfturn b;
+        }
+
+        rfturn Arrbys.dopyOfRbngf(b, i, b.lfngth);
+    }
+
+    privbtf stbtid KfyFbdtory gftKfyFbdtory() {
+        try {
+            rfturn KfyFbdtory.gftInstbndf("EC", "SunEC");
+        } dbtdh (NoSudhAlgorithmExdfption | NoSudhProvidfrExdfption f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+    publid stbtid ECPublidKfy dfdodfX509ECPublidKfy(bytf[] fndodfd)
+            throws InvblidKfySpfdExdfption {
+        KfyFbdtory kfyFbdtory = gftKfyFbdtory();
+        X509EndodfdKfySpfd kfySpfd = nfw X509EndodfdKfySpfd(fndodfd);
+
+        rfturn (ECPublidKfy)kfyFbdtory.gfnfrbtfPublid(kfySpfd);
+    }
+
+    publid stbtid bytf[] x509EndodfECPublidKfy(ECPoint w,
+            ECPbrbmftfrSpfd pbrbms) throws InvblidKfySpfdExdfption {
+        KfyFbdtory kfyFbdtory = gftKfyFbdtory();
+        ECPublidKfySpfd kfySpfd = nfw ECPublidKfySpfd(w, pbrbms);
+        X509Kfy kfy = (X509Kfy)kfyFbdtory.gfnfrbtfPublid(kfySpfd);
+
+        rfturn kfy.gftEndodfd();
+    }
+
+    publid stbtid ECPrivbtfKfy dfdodfPKCS8ECPrivbtfKfy(bytf[] fndodfd)
+            throws InvblidKfySpfdExdfption {
+        KfyFbdtory kfyFbdtory = gftKfyFbdtory();
+        PKCS8EndodfdKfySpfd kfySpfd = nfw PKCS8EndodfdKfySpfd(fndodfd);
+
+        rfturn (ECPrivbtfKfy)kfyFbdtory.gfnfrbtfPrivbtf(kfySpfd);
+    }
+
+    publid stbtid ECPrivbtfKfy gfnfrbtfECPrivbtfKfy(BigIntfgfr s,
+            ECPbrbmftfrSpfd pbrbms) throws InvblidKfySpfdExdfption {
+        KfyFbdtory kfyFbdtory = gftKfyFbdtory();
+        ECPrivbtfKfySpfd kfySpfd = nfw ECPrivbtfKfySpfd(s, pbrbms);
+
+        rfturn (ECPrivbtfKfy)kfyFbdtory.gfnfrbtfPrivbtf(kfySpfd);
+    }
+
+    privbtf stbtid AlgorithmPbrbmftfrs gftECPbrbmftfrs(Providfr p) {
+        try {
+            if (p != null) {
+                rfturn AlgorithmPbrbmftfrs.gftInstbndf("EC", p);
+            }
+
+            rfturn AlgorithmPbrbmftfrs.gftInstbndf("EC");
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            throw nfw RuntimfExdfption(nsbf);
+        }
+    }
+
+    publid stbtid bytf[] fndodfECPbrbmftfrSpfd(Providfr p,
+                                               ECPbrbmftfrSpfd spfd) {
+        AlgorithmPbrbmftfrs pbrbmftfrs = gftECPbrbmftfrs(p);
+
+        try {
+            pbrbmftfrs.init(spfd);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            throw nfw RuntimfExdfption("Not b known nbmfd durvf: " + spfd);
+        }
+
+        try {
+            rfturn pbrbmftfrs.gftEndodfd();
+        } dbtdh (IOExdfption iof) {
+            // it is b bug if this should hbppfn
+            throw nfw RuntimfExdfption(iof);
+        }
+    }
+
+    publid stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(Providfr p,
+                                                     ECPbrbmftfrSpfd spfd) {
+        AlgorithmPbrbmftfrs pbrbmftfrs = gftECPbrbmftfrs(p);
+
+        try {
+            pbrbmftfrs.init(spfd);
+            rfturn pbrbmftfrs.gftPbrbmftfrSpfd(ECPbrbmftfrSpfd.dlbss);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            rfturn null;
+        }
+    }
+
+    publid stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(Providfr p,
+                                                     bytf[] pbrbms)
+            throws IOExdfption {
+        AlgorithmPbrbmftfrs pbrbmftfrs = gftECPbrbmftfrs(p);
+
+        pbrbmftfrs.init(pbrbms);
+
+        try {
+            rfturn pbrbmftfrs.gftPbrbmftfrSpfd(ECPbrbmftfrSpfd.dlbss);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            rfturn null;
+        }
+    }
+
+    publid stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(Providfr p, String nbmf) {
+        AlgorithmPbrbmftfrs pbrbmftfrs = gftECPbrbmftfrs(p);
+
+        try {
+            pbrbmftfrs.init(nfw ECGfnPbrbmftfrSpfd(nbmf));
+            rfturn pbrbmftfrs.gftPbrbmftfrSpfd(ECPbrbmftfrSpfd.dlbss);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            rfturn null;
+        }
+    }
+
+    publid stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(Providfr p, int kfySizf) {
+        AlgorithmPbrbmftfrs pbrbmftfrs = gftECPbrbmftfrs(p);
+
+        try {
+            pbrbmftfrs.init(nfw ECKfySizfPbrbmftfrSpfd(kfySizf));
+            rfturn pbrbmftfrs.gftPbrbmftfrSpfd(ECPbrbmftfrSpfd.dlbss);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            rfturn null;
+        }
+
+    }
+
+    publid stbtid String gftCurvfNbmf(Providfr p, ECPbrbmftfrSpfd spfd) {
+        ECGfnPbrbmftfrSpfd nbmfSpfd;
+        AlgorithmPbrbmftfrs pbrbmftfrs = gftECPbrbmftfrs(p);
+
+        try {
+            pbrbmftfrs.init(spfd);
+            nbmfSpfd = pbrbmftfrs.gftPbrbmftfrSpfd(ECGfnPbrbmftfrSpfd.dlbss);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            rfturn null;
+        }
+
+        if (nbmfSpfd == null) {
+            rfturn null;
+        }
+
+        rfturn nbmfSpfd.gftNbmf();
+    }
+
+    privbtf ECUtil() {}
+}

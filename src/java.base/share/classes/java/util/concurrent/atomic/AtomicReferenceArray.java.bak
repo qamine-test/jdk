@@ -1,330 +1,330 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.util.function.UnaryOperator;
-import java.util.function.BinaryOperator;
-import java.util.Arrays;
-import java.lang.reflect.Array;
-import sun.misc.Unsafe;
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.util.fundtion.UnbryOpfrbtor;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.Arrbys;
+import jbvb.lbng.rfflfdt.Arrby;
+import sun.misd.Unsbff;
 
 /**
- * An array of object references in which elements may be updated
- * atomically.  See the {@link java.util.concurrent.atomic} package
- * specification for description of the properties of atomic
- * variables.
- * @since 1.5
- * @author Doug Lea
- * @param <E> The base class of elements held in this array
+ * An brrby of objfdt rfffrfndfs in wiidi flfmfnts mby bf updbtfd
+ * btomidblly.  Sff tif {@link jbvb.util.dondurrfnt.btomid} pbdkbgf
+ * spfdifidbtion for dfsdription of tif propfrtifs of btomid
+ * vbribblfs.
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <E> Tif bbsf dlbss of flfmfnts ifld in tiis brrby
  */
-public class AtomicReferenceArray<E> implements java.io.Serializable {
-    private static final long serialVersionUID = -6209656149925076980L;
+publid dlbss AtomidRfffrfndfArrby<E> implfmfnts jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6209656149925076980L;
 
-    private static final Unsafe unsafe;
-    private static final int base;
-    private static final int shift;
-    private static final long arrayFieldOffset;
-    private final Object[] array; // must have exact type Object[]
+    privbtf stbtid finbl Unsbff unsbff;
+    privbtf stbtid finbl int bbsf;
+    privbtf stbtid finbl int siift;
+    privbtf stbtid finbl long brrbyFifldOffsft;
+    privbtf finbl Objfdt[] brrby; // must ibvf fxbdt typf Objfdt[]
 
-    static {
+    stbtid {
         try {
-            unsafe = Unsafe.getUnsafe();
-            arrayFieldOffset = unsafe.objectFieldOffset
-                (AtomicReferenceArray.class.getDeclaredField("array"));
-            base = unsafe.arrayBaseOffset(Object[].class);
-            int scale = unsafe.arrayIndexScale(Object[].class);
-            if ((scale & (scale - 1)) != 0)
-                throw new Error("data type scale not a power of two");
-            shift = 31 - Integer.numberOfLeadingZeros(scale);
-        } catch (Exception e) {
-            throw new Error(e);
+            unsbff = Unsbff.gftUnsbff();
+            brrbyFifldOffsft = unsbff.objfdtFifldOffsft
+                (AtomidRfffrfndfArrby.dlbss.gftDfdlbrfdFifld("brrby"));
+            bbsf = unsbff.brrbyBbsfOffsft(Objfdt[].dlbss);
+            int sdblf = unsbff.brrbyIndfxSdblf(Objfdt[].dlbss);
+            if ((sdblf & (sdblf - 1)) != 0)
+                tirow nfw Error("dbtb typf sdblf not b powfr of two");
+            siift = 31 - Intfgfr.numbfrOfLfbdingZfros(sdblf);
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 
-    private long checkedByteOffset(int i) {
-        if (i < 0 || i >= array.length)
-            throw new IndexOutOfBoundsException("index " + i);
+    privbtf long difdkfdBytfOffsft(int i) {
+        if (i < 0 || i >= brrby.lfngti)
+            tirow nfw IndfxOutOfBoundsExdfption("indfx " + i);
 
-        return byteOffset(i);
+        rfturn bytfOffsft(i);
     }
 
-    private static long byteOffset(int i) {
-        return ((long) i << shift) + base;
-    }
-
-    /**
-     * Creates a new AtomicReferenceArray of the given length, with all
-     * elements initially null.
-     *
-     * @param length the length of the array
-     */
-    public AtomicReferenceArray(int length) {
-        array = new Object[length];
+    privbtf stbtid long bytfOffsft(int i) {
+        rfturn ((long) i << siift) + bbsf;
     }
 
     /**
-     * Creates a new AtomicReferenceArray with the same length as, and
-     * all elements copied from, the given array.
+     * Crfbtfs b nfw AtomidRfffrfndfArrby of tif givfn lfngti, witi bll
+     * flfmfnts initiblly null.
      *
-     * @param array the array to copy elements from
-     * @throws NullPointerException if array is null
+     * @pbrbm lfngti tif lfngti of tif brrby
      */
-    public AtomicReferenceArray(E[] array) {
-        // Visibility guaranteed by final field guarantees
-        this.array = Arrays.copyOf(array, array.length, Object[].class);
+    publid AtomidRfffrfndfArrby(int lfngti) {
+        brrby = nfw Objfdt[lfngti];
     }
 
     /**
-     * Returns the length of the array.
+     * Crfbtfs b nfw AtomidRfffrfndfArrby witi tif sbmf lfngti bs, bnd
+     * bll flfmfnts dopifd from, tif givfn brrby.
      *
-     * @return the length of the array
+     * @pbrbm brrby tif brrby to dopy flfmfnts from
+     * @tirows NullPointfrExdfption if brrby is null
      */
-    public final int length() {
-        return array.length;
+    publid AtomidRfffrfndfArrby(E[] brrby) {
+        // Visibility gubrbntffd by finbl fifld gubrbntffs
+        tiis.brrby = Arrbys.dopyOf(brrby, brrby.lfngti, Objfdt[].dlbss);
     }
 
     /**
-     * Gets the current value at position {@code i}.
+     * Rfturns tif lfngti of tif brrby.
      *
-     * @param i the index
-     * @return the current value
+     * @rfturn tif lfngti of tif brrby
      */
-    public final E get(int i) {
-        return getRaw(checkedByteOffset(i));
-    }
-
-    @SuppressWarnings("unchecked")
-    private E getRaw(long offset) {
-        return (E) unsafe.getObjectVolatile(array, offset);
+    publid finbl int lfngti() {
+        rfturn brrby.lfngti;
     }
 
     /**
-     * Sets the element at position {@code i} to the given value.
+     * Gfts tif durrfnt vbluf bt position {@dodf i}.
      *
-     * @param i the index
-     * @param newValue the new value
+     * @pbrbm i tif indfx
+     * @rfturn tif durrfnt vbluf
      */
-    public final void set(int i, E newValue) {
-        unsafe.putObjectVolatile(array, checkedByteOffset(i), newValue);
+    publid finbl E gft(int i) {
+        rfturn gftRbw(difdkfdBytfOffsft(i));
+    }
+
+    @SupprfssWbrnings("undifdkfd")
+    privbtf E gftRbw(long offsft) {
+        rfturn (E) unsbff.gftObjfdtVolbtilf(brrby, offsft);
     }
 
     /**
-     * Eventually sets the element at position {@code i} to the given value.
+     * Sfts tif flfmfnt bt position {@dodf i} to tif givfn vbluf.
      *
-     * @param i the index
-     * @param newValue the new value
-     * @since 1.6
+     * @pbrbm i tif indfx
+     * @pbrbm nfwVbluf tif nfw vbluf
      */
-    public final void lazySet(int i, E newValue) {
-        unsafe.putOrderedObject(array, checkedByteOffset(i), newValue);
+    publid finbl void sft(int i, E nfwVbluf) {
+        unsbff.putObjfdtVolbtilf(brrby, difdkfdBytfOffsft(i), nfwVbluf);
     }
 
     /**
-     * Atomically sets the element at position {@code i} to the given
-     * value and returns the old value.
+     * Evfntublly sfts tif flfmfnt bt position {@dodf i} to tif givfn vbluf.
      *
-     * @param i the index
-     * @param newValue the new value
-     * @return the previous value
+     * @pbrbm i tif indfx
+     * @pbrbm nfwVbluf tif nfw vbluf
+     * @sindf 1.6
      */
-    @SuppressWarnings("unchecked")
-    public final E getAndSet(int i, E newValue) {
-        return (E)unsafe.getAndSetObject(array, checkedByteOffset(i), newValue);
+    publid finbl void lbzySft(int i, E nfwVbluf) {
+        unsbff.putOrdfrfdObjfdt(brrby, difdkfdBytfOffsft(i), nfwVbluf);
     }
 
     /**
-     * Atomically sets the element at position {@code i} to the given
-     * updated value if the current value {@code ==} the expected value.
+     * Atomidblly sfts tif flfmfnt bt position {@dodf i} to tif givfn
+     * vbluf bnd rfturns tif old vbluf.
      *
-     * @param i the index
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that
-     * the actual value was not equal to the expected value.
+     * @pbrbm i tif indfx
+     * @pbrbm nfwVbluf tif nfw vbluf
+     * @rfturn tif prfvious vbluf
      */
-    public final boolean compareAndSet(int i, E expect, E update) {
-        return compareAndSetRaw(checkedByteOffset(i), expect, update);
-    }
-
-    private boolean compareAndSetRaw(long offset, E expect, E update) {
-        return unsafe.compareAndSwapObject(array, offset, expect, update);
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl E gftAndSft(int i, E nfwVbluf) {
+        rfturn (E)unsbff.gftAndSftObjfdt(brrby, difdkfdBytfOffsft(i), nfwVbluf);
     }
 
     /**
-     * Atomically sets the element at position {@code i} to the given
-     * updated value if the current value {@code ==} the expected value.
+     * Atomidblly sfts tif flfmfnt bt position {@dodf i} to tif givfn
+     * updbtfd vbluf if tif durrfnt vbluf {@dodf ==} tif fxpfdtfd vbluf.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
-     *
-     * @param i the index
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful
+     * @pbrbm i tif indfx
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful. Fblsf rfturn indidbtfs tibt
+     * tif bdtubl vbluf wbs not fqubl to tif fxpfdtfd vbluf.
      */
-    public final boolean weakCompareAndSet(int i, E expect, E update) {
-        return compareAndSet(i, expect, update);
+    publid finbl boolfbn dompbrfAndSft(int i, E fxpfdt, E updbtf) {
+        rfturn dompbrfAndSftRbw(difdkfdBytfOffsft(i), fxpfdt, updbtf);
+    }
+
+    privbtf boolfbn dompbrfAndSftRbw(long offsft, E fxpfdt, E updbtf) {
+        rfturn unsbff.dompbrfAndSwbpObjfdt(brrby, offsft, fxpfdt, updbtf);
     }
 
     /**
-     * Atomically updates the element at index {@code i} with the results
-     * of applying the given function, returning the previous value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.
+     * Atomidblly sfts tif flfmfnt bt position {@dodf i} to tif givfn
+     * updbtfd vbluf if tif durrfnt vbluf {@dodf ==} tif fxpfdtfd vbluf.
      *
-     * @param i the index
-     * @param updateFunction a side-effect-free function
-     * @return the previous value
-     * @since 1.8
+     * <p><b irff="pbdkbgf-summbry.itml#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
      */
-    public final E getAndUpdate(int i, UnaryOperator<E> updateFunction) {
-        long offset = checkedByteOffset(i);
-        E prev, next;
+    publid finbl boolfbn wfbkCompbrfAndSft(int i, E fxpfdt, E updbtf) {
+        rfturn dompbrfAndSft(i, fxpfdt, updbtf);
+    }
+
+    /**
+     * Atomidblly updbtfs tif flfmfnt bt indfx {@dodf i} witi tif rfsults
+     * of bpplying tif givfn fundtion, rfturning tif prfvious vbluf. Tif
+     * fundtion siould bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.
+     *
+     * @pbrbm i tif indfx
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn tif prfvious vbluf
+     * @sindf 1.8
+     */
+    publid finbl E gftAndUpdbtf(int i, UnbryOpfrbtor<E> updbtfFundtion) {
+        long offsft = difdkfdBytfOffsft(i);
+        E prfv, nfxt;
         do {
-            prev = getRaw(offset);
-            next = updateFunction.apply(prev);
-        } while (!compareAndSetRaw(offset, prev, next));
-        return prev;
+            prfv = gftRbw(offsft);
+            nfxt = updbtfFundtion.bpply(prfv);
+        } wiilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically updates the element at index {@code i} with the results
-     * of applying the given function, returning the updated value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.
+     * Atomidblly updbtfs tif flfmfnt bt indfx {@dodf i} witi tif rfsults
+     * of bpplying tif givfn fundtion, rfturning tif updbtfd vbluf. Tif
+     * fundtion siould bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.
      *
-     * @param i the index
-     * @param updateFunction a side-effect-free function
-     * @return the updated value
-     * @since 1.8
+     * @pbrbm i tif indfx
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn tif updbtfd vbluf
+     * @sindf 1.8
      */
-    public final E updateAndGet(int i, UnaryOperator<E> updateFunction) {
-        long offset = checkedByteOffset(i);
-        E prev, next;
+    publid finbl E updbtfAndGft(int i, UnbryOpfrbtor<E> updbtfFundtion) {
+        long offsft = difdkfdBytfOffsft(i);
+        E prfv, nfxt;
         do {
-            prev = getRaw(offset);
-            next = updateFunction.apply(prev);
-        } while (!compareAndSetRaw(offset, prev, next));
-        return next;
+            prfv = gftRbw(offsft);
+            nfxt = updbtfFundtion.bpply(prfv);
+        } wiilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Atomically updates the element at index {@code i} with the
-     * results of applying the given function to the current and
-     * given values, returning the previous value. The function should
-     * be side-effect-free, since it may be re-applied when attempted
-     * updates fail due to contention among threads.  The function is
-     * applied with the current value at index {@code i} as its first
-     * argument, and the given update as the second argument.
+     * Atomidblly updbtfs tif flfmfnt bt indfx {@dodf i} witi tif
+     * rfsults of bpplying tif givfn fundtion to tif durrfnt bnd
+     * givfn vblufs, rfturning tif prfvious vbluf. Tif fundtion siould
+     * bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd wifn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong tirfbds.  Tif fundtion is
+     * bpplifd witi tif durrfnt vbluf bt indfx {@dodf i} bs its first
+     * brgumfnt, bnd tif givfn updbtf bs tif sfdond brgumfnt.
      *
-     * @param i the index
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the previous value
-     * @since 1.8
+     * @pbrbm i tif indfx
+     * @pbrbm x tif updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn tif prfvious vbluf
+     * @sindf 1.8
      */
-    public final E getAndAccumulate(int i, E x,
-                                    BinaryOperator<E> accumulatorFunction) {
-        long offset = checkedByteOffset(i);
-        E prev, next;
+    publid finbl E gftAndAddumulbtf(int i, E x,
+                                    BinbryOpfrbtor<E> bddumulbtorFundtion) {
+        long offsft = difdkfdBytfOffsft(i);
+        E prfv, nfxt;
         do {
-            prev = getRaw(offset);
-            next = accumulatorFunction.apply(prev, x);
-        } while (!compareAndSetRaw(offset, prev, next));
-        return prev;
+            prfv = gftRbw(offsft);
+            nfxt = bddumulbtorFundtion.bpply(prfv, x);
+        } wiilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically updates the element at index {@code i} with the
-     * results of applying the given function to the current and
-     * given values, returning the updated value. The function should
-     * be side-effect-free, since it may be re-applied when attempted
-     * updates fail due to contention among threads.  The function is
-     * applied with the current value at index {@code i} as its first
-     * argument, and the given update as the second argument.
+     * Atomidblly updbtfs tif flfmfnt bt indfx {@dodf i} witi tif
+     * rfsults of bpplying tif givfn fundtion to tif durrfnt bnd
+     * givfn vblufs, rfturning tif updbtfd vbluf. Tif fundtion siould
+     * bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd wifn bttfmptfd
+     * updbtfs fbil duf to dontfntion bmong tirfbds.  Tif fundtion is
+     * bpplifd witi tif durrfnt vbluf bt indfx {@dodf i} bs its first
+     * brgumfnt, bnd tif givfn updbtf bs tif sfdond brgumfnt.
      *
-     * @param i the index
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the updated value
-     * @since 1.8
+     * @pbrbm i tif indfx
+     * @pbrbm x tif updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn tif updbtfd vbluf
+     * @sindf 1.8
      */
-    public final E accumulateAndGet(int i, E x,
-                                    BinaryOperator<E> accumulatorFunction) {
-        long offset = checkedByteOffset(i);
-        E prev, next;
+    publid finbl E bddumulbtfAndGft(int i, E x,
+                                    BinbryOpfrbtor<E> bddumulbtorFundtion) {
+        long offsft = difdkfdBytfOffsft(i);
+        E prfv, nfxt;
         do {
-            prev = getRaw(offset);
-            next = accumulatorFunction.apply(prev, x);
-        } while (!compareAndSetRaw(offset, prev, next));
-        return next;
+            prfv = gftRbw(offsft);
+            nfxt = bddumulbtorFundtion.bpply(prfv, x);
+        } wiilf (!dompbrfAndSftRbw(offsft, prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Returns the String representation of the current values of array.
-     * @return the String representation of the current values of array
+     * Rfturns tif String rfprfsfntbtion of tif durrfnt vblufs of brrby.
+     * @rfturn tif String rfprfsfntbtion of tif durrfnt vblufs of brrby
      */
-    public String toString() {
-        int iMax = array.length - 1;
-        if (iMax == -1)
-            return "[]";
+    publid String toString() {
+        int iMbx = brrby.lfngti - 1;
+        if (iMbx == -1)
+            rfturn "[]";
 
-        StringBuilder b = new StringBuilder();
-        b.append('[');
+        StringBuildfr b = nfw StringBuildfr();
+        b.bppfnd('[');
         for (int i = 0; ; i++) {
-            b.append(getRaw(byteOffset(i)));
-            if (i == iMax)
-                return b.append(']').toString();
-            b.append(',').append(' ');
+            b.bppfnd(gftRbw(bytfOffsft(i)));
+            if (i == iMbx)
+                rfturn b.bppfnd(']').toString();
+            b.bppfnd(',').bppfnd(' ');
         }
     }
 
     /**
-     * Reconstitutes the instance from a stream (that is, deserializes it).
+     * Rfdonstitutfs tif instbndf from b strfbm (tibt is, dfsfriblizfs it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException,
-        java.io.InvalidObjectException {
-        // Note: This must be changed if any additional fields are defined
-        Object a = s.readFields().get("array", null);
-        if (a == null || !a.getClass().isArray())
-            throw new java.io.InvalidObjectException("Not array type");
-        if (a.getClass() != Object[].class)
-            a = Arrays.copyOf((Object[])a, Array.getLength(a), Object[].class);
-        unsafe.putObjectVolatile(this, arrayFieldOffset, a);
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption,
+        jbvb.io.InvblidObjfdtExdfption {
+        // Notf: Tiis must bf dibngfd if bny bdditionbl fiflds brf dffinfd
+        Objfdt b = s.rfbdFiflds().gft("brrby", null);
+        if (b == null || !b.gftClbss().isArrby())
+            tirow nfw jbvb.io.InvblidObjfdtExdfption("Not brrby typf");
+        if (b.gftClbss() != Objfdt[].dlbss)
+            b = Arrbys.dopyOf((Objfdt[])b, Arrby.gftLfngti(b), Objfdt[].dlbss);
+        unsbff.putObjfdtVolbtilf(tiis, brrbyFifldOffsft, b);
     }
 
 }

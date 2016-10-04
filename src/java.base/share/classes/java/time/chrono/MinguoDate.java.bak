@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,466 +54,466 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.chrono.MinguoChronology.YEARS_DIFFERENCE;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
+import stbtid jbvb.timf.dirono.MinguoCironology.YEARS_DIFFERENCE;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.Pfriod;
+import jbvb.timf.ZonfId;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Objfdts;
 
 /**
- * A date in the Minguo calendar system.
+ * A dbtf in tif Minguo dblfndbr systfm.
  * <p>
- * This date operates using the {@linkplain MinguoChronology Minguo calendar}.
- * This calendar system is primarily used in the Republic of China, often known as Taiwan.
- * Dates are aligned such that {@code 0001-01-01 (Minguo)} is {@code 1912-01-01 (ISO)}.
+ * Tiis dbtf opfrbtfs using tif {@linkplbin MinguoCironology Minguo dblfndbr}.
+ * Tiis dblfndbr systfm is primbrily usfd in tif Rfpublid of Ciinb, oftfn known bs Tbiwbn.
+ * Dbtfs brf blignfd sudi tibt {@dodf 0001-01-01 (Minguo)} is {@dodf 1912-01-01 (ISO)}.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code MinguoDate} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf MinguoDbtf} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class MinguoDate
-        extends ChronoLocalDateImpl<MinguoDate>
-        implements ChronoLocalDate, Serializable {
+publid finbl dlbss MinguoDbtf
+        fxtfnds CironoLodblDbtfImpl<MinguoDbtf>
+        implfmfnts CironoLodblDbtf, Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = 1300372329181994526L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1300372329181994526L;
 
     /**
-     * The underlying date.
+     * Tif undfrlying dbtf.
      */
-    private final transient LocalDate isoDate;
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains the current {@code MinguoDate} from the system clock in the default time-zone.
-     * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date.
-     * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
-     *
-     * @return the current date using the system clock and default time-zone, not null
-     */
-    public static MinguoDate now() {
-        return now(Clock.systemDefaultZone());
-    }
-
-    /**
-     * Obtains the current {@code MinguoDate} from the system clock in the specified time-zone.
-     * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-     * Specifying the time-zone avoids dependence on the default time-zone.
-     * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
-     *
-     * @param zone  the zone ID to use, not null
-     * @return the current date using the system clock, not null
-     */
-    public static MinguoDate now(ZoneId zone) {
-        return now(Clock.system(zone));
-    }
-
-    /**
-     * Obtains the current {@code MinguoDate} from the specified clock.
-     * <p>
-     * This will query the specified clock to obtain the current date - today.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
-     *
-     * @param clock  the clock to use, not null
-     * @return the current date, not null
-     * @throws DateTimeException if the current date cannot be obtained
-     */
-    public static MinguoDate now(Clock clock) {
-        return new MinguoDate(LocalDate.now(clock));
-    }
-
-    /**
-     * Obtains a {@code MinguoDate} representing a date in the Minguo calendar
-     * system from the proleptic-year, month-of-year and day-of-month fields.
-     * <p>
-     * This returns a {@code MinguoDate} with the specified fields.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     *
-     * @param prolepticYear  the Minguo proleptic-year
-     * @param month  the Minguo month-of-year, from 1 to 12
-     * @param dayOfMonth  the Minguo day-of-month, from 1 to 31
-     * @return the date in Minguo calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
-     */
-    public static MinguoDate of(int prolepticYear, int month, int dayOfMonth) {
-        return new MinguoDate(LocalDate.of(prolepticYear + YEARS_DIFFERENCE, month, dayOfMonth));
-    }
-
-    /**
-     * Obtains a {@code MinguoDate} from a temporal object.
-     * <p>
-     * This obtains a date in the Minguo calendar system based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code MinguoDate}.
-     * <p>
-     * The conversion typically uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
-     * field, which is standardized across calendar systems.
-     * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code MinguoDate::from}.
-     *
-     * @param temporal  the temporal object to convert, not null
-     * @return the date in Minguo calendar system, not null
-     * @throws DateTimeException if unable to convert to a {@code MinguoDate}
-     */
-    public static MinguoDate from(TemporalAccessor temporal) {
-        return MinguoChronology.INSTANCE.date(temporal);
-    }
+    privbtf finbl trbnsifnt LodblDbtf isoDbtf;
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance from an ISO date.
+     * Obtbins tif durrfnt {@dodf MinguoDbtf} from tif systfm dlodk in tif dffbult timf-zonf.
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * timf-zonf to obtbin tif durrfnt dbtf.
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
      *
-     * @param isoDate  the standard local date, validated not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
      */
-    MinguoDate(LocalDate isoDate) {
-        Objects.requireNonNull(isoDate, "isoDate");
-        this.isoDate = isoDate;
+    publid stbtid MinguoDbtf now() {
+        rfturn now(Clodk.systfmDffbultZonf());
+    }
+
+    /**
+     * Obtbins tif durrfnt {@dodf MinguoDbtf} from tif systfm dlodk in tif spfdififd timf-zonf.
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     *
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk, not null
+     */
+    publid stbtid MinguoDbtf now(ZonfId zonf) {
+        rfturn now(Clodk.systfm(zonf));
+    }
+
+    /**
+     * Obtbins tif durrfnt {@dodf MinguoDbtf} from tif spfdififd dlodk.
+     * <p>
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
+     *
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @rfturn tif durrfnt dbtf, not null
+     * @tirows DbtfTimfExdfption if tif durrfnt dbtf dbnnot bf obtbinfd
+     */
+    publid stbtid MinguoDbtf now(Clodk dlodk) {
+        rfturn nfw MinguoDbtf(LodblDbtf.now(dlodk));
+    }
+
+    /**
+     * Obtbins b {@dodf MinguoDbtf} rfprfsfnting b dbtf in tif Minguo dblfndbr
+     * systfm from tif prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * <p>
+     * Tiis rfturns b {@dodf MinguoDbtf} witi tif spfdififd fiflds.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
+     *
+     * @pbrbm prolfptidYfbr  tif Minguo prolfptid-yfbr
+     * @pbrbm monti  tif Minguo monti-of-yfbr, from 1 to 12
+     * @pbrbm dbyOfMonti  tif Minguo dby-of-monti, from 1 to 31
+     * @rfturn tif dbtf in Minguo dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr
+     */
+    publid stbtid MinguoDbtf of(int prolfptidYfbr, int monti, int dbyOfMonti) {
+        rfturn nfw MinguoDbtf(LodblDbtf.of(prolfptidYfbr + YEARS_DIFFERENCE, monti, dbyOfMonti));
+    }
+
+    /**
+     * Obtbins b {@dodf MinguoDbtf} from b tfmporbl objfdt.
+     * <p>
+     * Tiis obtbins b dbtf in tif Minguo dblfndbr systfm bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf MinguoDbtf}.
+     * <p>
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
+     * <p>
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf MinguoDbtf::from}.
+     *
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif dbtf in Minguo dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf MinguoDbtf}
+     */
+    publid stbtid MinguoDbtf from(TfmporblAddfssor tfmporbl) {
+        rfturn MinguoCironology.INSTANCE.dbtf(tfmporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the chronology of this date, which is the Minguo calendar system.
-     * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
+     * Crfbtfs bn instbndf from bn ISO dbtf.
      *
-     * @return the Minguo chronology, not null
+     * @pbrbm isoDbtf  tif stbndbrd lodbl dbtf, vblidbtfd not null
      */
-    @Override
-    public MinguoChronology getChronology() {
-        return MinguoChronology.INSTANCE;
-    }
-
-    /**
-     * Gets the era applicable at this date.
-     * <p>
-     * The Minguo calendar system has two eras, 'ROC' and 'BEFORE_ROC',
-     * defined by {@link MinguoEra}.
-     *
-     * @return the era applicable at this date, not null
-     */
-    @Override
-    public MinguoEra getEra() {
-        return (getProlepticYear() >= 1 ? MinguoEra.ROC : MinguoEra.BEFORE_ROC);
-    }
-
-    /**
-     * Returns the length of the month represented by this date.
-     * <p>
-     * This returns the length of the month in days.
-     * Month lengths match those of the ISO calendar system.
-     *
-     * @return the length of the month in days
-     */
-    @Override
-    public int lengthOfMonth() {
-        return isoDate.lengthOfMonth();
+    MinguoDbtf(LodblDbtf isoDbtf) {
+        Objfdts.rfquirfNonNull(isoDbtf, "isoDbtf");
+        tiis.isoDbtf = isoDbtf;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
-            if (isSupported(field)) {
-                ChronoField f = (ChronoField) field;
-                switch (f) {
-                    case DAY_OF_MONTH:
-                    case DAY_OF_YEAR:
-                    case ALIGNED_WEEK_OF_MONTH:
-                        return isoDate.range(field);
-                    case YEAR_OF_ERA: {
-                        ValueRange range = YEAR.range();
-                        long max = (getProlepticYear() <= 0 ? -range.getMinimum() + 1 + YEARS_DIFFERENCE : range.getMaximum() - YEARS_DIFFERENCE);
-                        return ValueRange.of(1, max);
+    /**
+     * Gfts tif dironology of tiis dbtf, wiidi is tif Minguo dblfndbr systfm.
+     * <p>
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
+     *
+     * @rfturn tif Minguo dironology, not null
+     */
+    @Ovfrridf
+    publid MinguoCironology gftCironology() {
+        rfturn MinguoCironology.INSTANCE;
+    }
+
+    /**
+     * Gfts tif frb bpplidbblf bt tiis dbtf.
+     * <p>
+     * Tif Minguo dblfndbr systfm ibs two frbs, 'ROC' bnd 'BEFORE_ROC',
+     * dffinfd by {@link MinguoErb}.
+     *
+     * @rfturn tif frb bpplidbblf bt tiis dbtf, not null
+     */
+    @Ovfrridf
+    publid MinguoErb gftErb() {
+        rfturn (gftProlfptidYfbr() >= 1 ? MinguoErb.ROC : MinguoErb.BEFORE_ROC);
+    }
+
+    /**
+     * Rfturns tif lfngti of tif monti rfprfsfntfd by tiis dbtf.
+     * <p>
+     * Tiis rfturns tif lfngti of tif monti in dbys.
+     * Monti lfngtis mbtdi tiosf of tif ISO dblfndbr systfm.
+     *
+     * @rfturn tif lfngti of tif monti in dbys
+     */
+    @Ovfrridf
+    publid int lfngtiOfMonti() {
+        rfturn isoDbtf.lfngtiOfMonti();
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            if (isSupportfd(fifld)) {
+                CironoFifld f = (CironoFifld) fifld;
+                switdi (f) {
+                    dbsf DAY_OF_MONTH:
+                    dbsf DAY_OF_YEAR:
+                    dbsf ALIGNED_WEEK_OF_MONTH:
+                        rfturn isoDbtf.rbngf(fifld);
+                    dbsf YEAR_OF_ERA: {
+                        VblufRbngf rbngf = YEAR.rbngf();
+                        long mbx = (gftProlfptidYfbr() <= 0 ? -rbngf.gftMinimum() + 1 + YEARS_DIFFERENCE : rbngf.gftMbximum() - YEARS_DIFFERENCE);
+                        rfturn VblufRbngf.of(1, mbx);
                     }
                 }
-                return getChronology().range(f);
+                rfturn gftCironology().rbngf(f);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.rangeRefinedBy(this);
+        rfturn fifld.rbngfRffinfdBy(tiis);
     }
 
-    @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case PROLEPTIC_MONTH:
-                    return getProlepticMonth();
-                case YEAR_OF_ERA: {
-                    int prolepticYear = getProlepticYear();
-                    return (prolepticYear >= 1 ? prolepticYear : 1 - prolepticYear);
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            switdi ((CironoFifld) fifld) {
+                dbsf PROLEPTIC_MONTH:
+                    rfturn gftProlfptidMonti();
+                dbsf YEAR_OF_ERA: {
+                    int prolfptidYfbr = gftProlfptidYfbr();
+                    rfturn (prolfptidYfbr >= 1 ? prolfptidYfbr : 1 - prolfptidYfbr);
                 }
-                case YEAR:
-                    return getProlepticYear();
-                case ERA:
-                    return (getProlepticYear() >= 1 ? 1 : 0);
+                dbsf YEAR:
+                    rfturn gftProlfptidYfbr();
+                dbsf ERA:
+                    rfturn (gftProlfptidYfbr() >= 1 ? 1 : 0);
             }
-            return isoDate.getLong(field);
+            rfturn isoDbtf.gftLong(fifld);
         }
-        return field.getFrom(this);
+        rfturn fifld.gftFrom(tiis);
     }
 
-    private long getProlepticMonth() {
-        return getProlepticYear() * 12L + isoDate.getMonthValue() - 1;
+    privbtf long gftProlfptidMonti() {
+        rfturn gftProlfptidYfbr() * 12L + isoDbtf.gftMontiVbluf() - 1;
     }
 
-    private int getProlepticYear() {
-        return isoDate.getYear() - YEARS_DIFFERENCE;
+    privbtf int gftProlfptidYfbr() {
+        rfturn isoDbtf.gftYfbr() - YEARS_DIFFERENCE;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public MinguoDate with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            if (getLong(f) == newValue) {
-                return this;
+    @Ovfrridf
+    publid MinguoDbtf witi(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            if (gftLong(f) == nfwVbluf) {
+                rfturn tiis;
             }
-            switch (f) {
-                case PROLEPTIC_MONTH:
-                    getChronology().range(f).checkValidValue(newValue, f);
-                    return plusMonths(newValue - getProlepticMonth());
-                case YEAR_OF_ERA:
-                case YEAR:
-                case ERA: {
-                    int nvalue = getChronology().range(f).checkValidIntValue(newValue, f);
-                    switch (f) {
-                        case YEAR_OF_ERA:
-                            return with(isoDate.withYear(getProlepticYear() >= 1 ? nvalue + YEARS_DIFFERENCE : (1 - nvalue)  + YEARS_DIFFERENCE));
-                        case YEAR:
-                            return with(isoDate.withYear(nvalue + YEARS_DIFFERENCE));
-                        case ERA:
-                            return with(isoDate.withYear((1 - getProlepticYear()) + YEARS_DIFFERENCE));
+            switdi (f) {
+                dbsf PROLEPTIC_MONTH:
+                    gftCironology().rbngf(f).difdkVblidVbluf(nfwVbluf, f);
+                    rfturn plusMontis(nfwVbluf - gftProlfptidMonti());
+                dbsf YEAR_OF_ERA:
+                dbsf YEAR:
+                dbsf ERA: {
+                    int nvbluf = gftCironology().rbngf(f).difdkVblidIntVbluf(nfwVbluf, f);
+                    switdi (f) {
+                        dbsf YEAR_OF_ERA:
+                            rfturn witi(isoDbtf.witiYfbr(gftProlfptidYfbr() >= 1 ? nvbluf + YEARS_DIFFERENCE : (1 - nvbluf)  + YEARS_DIFFERENCE));
+                        dbsf YEAR:
+                            rfturn witi(isoDbtf.witiYfbr(nvbluf + YEARS_DIFFERENCE));
+                        dbsf ERA:
+                            rfturn witi(isoDbtf.witiYfbr((1 - gftProlfptidYfbr()) + YEARS_DIFFERENCE));
                     }
                 }
             }
-            return with(isoDate.with(field, newValue));
+            rfturn witi(isoDbtf.witi(fifld, nfwVbluf));
         }
-        return super.with(field, newValue);
+        rfturn supfr.witi(fifld, nfwVbluf);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public  MinguoDate with(TemporalAdjuster adjuster) {
-        return super.with(adjuster);
+    @Ovfrridf
+    publid  MinguoDbtf witi(TfmporblAdjustfr bdjustfr) {
+        rfturn supfr.witi(bdjustfr);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public MinguoDate plus(TemporalAmount amount) {
-        return super.plus(amount);
+    @Ovfrridf
+    publid MinguoDbtf plus(TfmporblAmount bmount) {
+        rfturn supfr.plus(bmount);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public MinguoDate minus(TemporalAmount amount) {
-        return super.minus(amount);
+    @Ovfrridf
+    publid MinguoDbtf minus(TfmporblAmount bmount) {
+        rfturn supfr.minus(bmount);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    MinguoDate plusYears(long years) {
-        return with(isoDate.plusYears(years));
+    @Ovfrridf
+    MinguoDbtf plusYfbrs(long yfbrs) {
+        rfturn witi(isoDbtf.plusYfbrs(yfbrs));
     }
 
-    @Override
-    MinguoDate plusMonths(long months) {
-        return with(isoDate.plusMonths(months));
+    @Ovfrridf
+    MinguoDbtf plusMontis(long montis) {
+        rfturn witi(isoDbtf.plusMontis(montis));
     }
 
-    @Override
-    MinguoDate plusWeeks(long weeksToAdd) {
-        return super.plusWeeks(weeksToAdd);
+    @Ovfrridf
+    MinguoDbtf plusWffks(long wffksToAdd) {
+        rfturn supfr.plusWffks(wffksToAdd);
     }
 
-    @Override
-    MinguoDate plusDays(long days) {
-        return with(isoDate.plusDays(days));
+    @Ovfrridf
+    MinguoDbtf plusDbys(long dbys) {
+        rfturn witi(isoDbtf.plusDbys(dbys));
     }
 
-    @Override
-    public MinguoDate plus(long amountToAdd, TemporalUnit unit) {
-        return super.plus(amountToAdd, unit);
+    @Ovfrridf
+    publid MinguoDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.plus(bmountToAdd, unit);
     }
 
-    @Override
-    public MinguoDate minus(long amountToAdd, TemporalUnit unit) {
-        return super.minus(amountToAdd, unit);
+    @Ovfrridf
+    publid MinguoDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.minus(bmountToAdd, unit);
     }
 
-    @Override
-    MinguoDate minusYears(long yearsToSubtract) {
-        return super.minusYears(yearsToSubtract);
+    @Ovfrridf
+    MinguoDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+        rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
     }
 
-    @Override
-    MinguoDate minusMonths(long monthsToSubtract) {
-        return super.minusMonths(monthsToSubtract);
+    @Ovfrridf
+    MinguoDbtf minusMontis(long montisToSubtrbdt) {
+        rfturn supfr.minusMontis(montisToSubtrbdt);
     }
 
-    @Override
-    MinguoDate minusWeeks(long weeksToSubtract) {
-        return super.minusWeeks(weeksToSubtract);
+    @Ovfrridf
+    MinguoDbtf minusWffks(long wffksToSubtrbdt) {
+        rfturn supfr.minusWffks(wffksToSubtrbdt);
     }
 
-    @Override
-    MinguoDate minusDays(long daysToSubtract) {
-        return super.minusDays(daysToSubtract);
+    @Ovfrridf
+    MinguoDbtf minusDbys(long dbysToSubtrbdt) {
+        rfturn supfr.minusDbys(dbysToSubtrbdt);
     }
 
-    private MinguoDate with(LocalDate newDate) {
-        return (newDate.equals(isoDate) ? this : new MinguoDate(newDate));
+    privbtf MinguoDbtf witi(LodblDbtf nfwDbtf) {
+        rfturn (nfwDbtf.fqubls(isoDbtf) ? tiis : nfw MinguoDbtf(nfwDbtf));
     }
 
-    @Override        // for javadoc and covariant return type
-    @SuppressWarnings("unchecked")
-    public final ChronoLocalDateTime<MinguoDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<MinguoDate>)super.atTime(localTime);
+    @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl CironoLodblDbtfTimf<MinguoDbtf> btTimf(LodblTimf lodblTimf) {
+        rfturn (CironoLodblDbtfTimf<MinguoDbtf>)supfr.btTimf(lodblTimf);
     }
 
-    @Override
-    public ChronoPeriod until(ChronoLocalDate endDate) {
-        Period period = isoDate.until(endDate);
-        return getChronology().period(period.getYears(), period.getMonths(), period.getDays());
+    @Ovfrridf
+    publid CironoPfriod until(CironoLodblDbtf fndDbtf) {
+        Pfriod pfriod = isoDbtf.until(fndDbtf);
+        rfturn gftCironology().pfriod(pfriod.gftYfbrs(), pfriod.gftMontis(), pfriod.gftDbys());
     }
 
-    @Override  // override for performance
-    public long toEpochDay() {
-        return isoDate.toEpochDay();
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid long toEpodiDby() {
+        rfturn isoDbtf.toEpodiDby();
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Compares this date to another date, including the chronology.
+     * Compbrfs tiis dbtf to bnotifr dbtf, indluding tif dironology.
      * <p>
-     * Compares this {@code MinguoDate} with another ensuring that the date is the same.
+     * Compbrfs tiis {@dodf MinguoDbtf} witi bnotifr fnsuring tibt tif dbtf is tif sbmf.
      * <p>
-     * Only objects of type {@code MinguoDate} are compared, other types return false.
-     * To compare the dates of two {@code TemporalAccessor} instances, including dates
-     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
+     * Only objfdts of typf {@dodf MinguoDbtf} brf dompbrfd, otifr typfs rfturn fblsf.
+     * To dompbrf tif dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * in two difffrfnt dironologifs, usf {@link CironoFifld#EPOCH_DAY} bs b dompbrbtor.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
      */
-    @Override  // override for performance
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof MinguoDate) {
-            MinguoDate otherDate = (MinguoDate) obj;
-            return this.isoDate.equals(otherDate.isoDate);
+        if (obj instbndfof MinguoDbtf) {
+            MinguoDbtf otifrDbtf = (MinguoDbtf) obj;
+            rfturn tiis.isoDbtf.fqubls(otifrDbtf.isoDbtf);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * A hash code for this date.
+     * A ibsi dodf for tiis dbtf.
      *
-     * @return a suitable hash code based only on the Chronology and the date
+     * @rfturn b suitbblf ibsi dodf bbsfd only on tif Cironology bnd tif dbtf
      */
-    @Override  // override for performance
-    public int hashCode() {
-        return getChronology().getId().hashCode() ^ isoDate.hashCode();
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid int ibsiCodf() {
+        rfturn gftCironology().gftId().ibsiCodf() ^ isoDbtf.ibsiCodf();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(8);                 // identifies a MinguoDate
-     *  out.writeInt(get(YEAR));
-     *  out.writeByte(get(MONTH_OF_YEAR));
-     *  out.writeByte(get(DAY_OF_MONTH));
-     * </pre>
+     * Writfs tif objfdt using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(8);                 // idfntififs b MinguoDbtf
+     *  out.writfInt(gft(YEAR));
+     *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(DAY_OF_MONTH));
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.MINGUO_DATE_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.MINGUO_DATE_TYPE, tiis);
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        // MinguoChronology is implicit in the MINGUO_DATE_TYPE
-        out.writeInt(get(YEAR));
-        out.writeByte(get(MONTH_OF_YEAR));
-        out.writeByte(get(DAY_OF_MONTH));
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        // MinguoCironology is implidit in tif MINGUO_DATE_TYPE
+        out.writfInt(gft(YEAR));
+        out.writfBytf(gft(MONTH_OF_YEAR));
+        out.writfBytf(gft(DAY_OF_MONTH));
     }
 
-    static MinguoDate readExternal(DataInput in) throws IOException {
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return MinguoChronology.INSTANCE.date(year, month, dayOfMonth);
+    stbtid MinguoDbtf rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        int yfbr = in.rfbdInt();
+        int monti = in.rfbdBytf();
+        int dbyOfMonti = in.rfbdBytf();
+        rfturn MinguoCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti);
     }
 
 }

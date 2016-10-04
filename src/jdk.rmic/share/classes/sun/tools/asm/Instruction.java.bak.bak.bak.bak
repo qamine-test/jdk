@@ -1,0 +1,832 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.bsm;
+
+import sun.tools.jbvb.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbOutputStrfbm;
+
+/**
+ * An Jbvb instrudtion
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss Instrudtion implfmfnts Constbnts {
+    long whfrf;
+    int pd;
+    int opd;
+    Objfdt vbluf;
+    Instrudtion nfxt;
+//JCOV
+    boolfbn flbgCondInvfrtfd;        /* if truf, thf dondition  is rfvfrsfd
+                                   rflbtivfly of sourdf dodf */
+    boolfbn flbgNoCovfrfd = fblsf; /* if truf, thf dommbnd will
+                                   ignorfd for dovfrbgf */
+
+
+    /**
+     * Construdtor
+     */
+    publid Instrudtion(long whfrf, int opd, Objfdt vbluf, boolfbn flbgCondInvfrtfd) {
+        this.whfrf = whfrf;
+        this.opd = opd;
+        this.vbluf = vbluf;
+        this.flbgCondInvfrtfd = flbgCondInvfrtfd;
+    }
+
+    /**
+     * Construdtor
+     */
+    publid Instrudtion(boolfbn flbgNoCovfrfd, long whfrf, int opd, Objfdt vbluf) {
+        this.whfrf = whfrf;
+        this.opd = opd;
+        this.vbluf = vbluf;
+        this.flbgNoCovfrfd = flbgNoCovfrfd;
+    }
+
+    /**
+     * Construdtor
+     */
+    publid Instrudtion(long whfrf, int opd, boolfbn flbgNoCovfrfd) {
+        this.whfrf = whfrf;
+        this.opd = opd;
+        this.flbgNoCovfrfd = flbgNoCovfrfd;
+    }
+//fnd JCOV
+
+    /**
+     * Construdtor
+     */
+    publid Instrudtion(long whfrf, int opd, Objfdt vbluf) {
+        this.whfrf = whfrf;
+        this.opd = opd;
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Whfn dfdiding bftwffn b lookupswitdh bnd b tbblfswitdh, this
+     * vbluf is usfd in dftfrmining how mudh sizf indrfbsf is
+     * bddfptbblf.
+     */
+    publid stbtid finbl doublf SWITCHRATIO;
+
+    stbtid {
+        // Sft SWITCHRATIO from thf propfrty jbvbd.switdhrbtio
+        // if it fxists bnd is rfbsonbblf.  Othfrwisf, sft
+        // SWITCHRATIO to 1.5, mfbning thbt wf will bddfpt b 1.5x
+        // blowup (for thf instrudtion) to usf b tbblfswitdh instfbd
+        // of b lookupswitdh.
+        doublf rbtio = 1.5;
+        String vblStr = Systfm.gftPropfrty("jbvbd.switdhrbtio");
+        if (vblStr != null) {
+            try {
+                doublf tfmp = Doublf.vblufOf(vblStr).doublfVbluf();
+                if (!(Doublf.isNbN(tfmp) || tfmp < 0.0)) {
+                    rbtio = tfmp;
+                }
+            } dbtdh (NumbfrFormbtExdfption ff) {}
+        }
+        SWITCHRATIO = rbtio;
+    }
+
+    /**
+     * Addfssor
+     */
+    publid int gftOpdodf() {
+        rfturn pd;
+     }
+
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
+     }
+
+    publid void sftVbluf(Objfdt vbluf) {
+        this.vbluf = vbluf;
+     }
+
+
+    /**
+     * Optimizf
+     */
+    void optimizf(Environmfnt fnv) {
+        switdh (opd) {
+          dbsf opd_istorf: dbsf opd_lstorf: dbsf opd_fstorf:
+          dbsf opd_dstorf: dbsf opd_bstorf:
+            // Don't kffp thf LodblVbribblf info bround, unlfss wf
+            // brf bdtublly going to gfnfrbtf b lodbl vbribblf tbblf.
+            if ((vbluf instbndfof LodblVbribblf) && !fnv.dfbug_vbrs()) {
+                vbluf = ((LodblVbribblf)vbluf).slot;
+            }
+            brfbk;
+
+          dbsf opd_goto: {
+            Lbbfl lbl = (Lbbfl)vbluf;
+            vbluf = lbl = lbl.gftDfstinbtion();
+            if (lbl == nfxt) {
+                // goto to thf nfxt instrudtion, obsolftf
+                opd = opd_dfbd;
+                brfbk;
+            }
+
+            // Wf optimizf
+            //
+            //          goto Tbg
+            //          ...
+            //    Tbg:
+            //          rfturn
+            //
+            // fxdfpt whfn wf'rf gfnfrbting dfbuggbblf dodf.  Whfn
+            // wf'rf gfnfrbting dfbuggbblf dodf, wf lfbvf it blonf,
+            // in ordfr to providf bfttfr stfpping bfhbvior.  Considfr
+            // b mfthod thf fnd of whidh looks likf this:
+            //
+            //          ...
+            //          brfbk;
+            //      }   // fnd of loop
+            //  }   // fnd of mfthod
+            //
+            // If wf optimizf thf goto bwby, wf'll bf lfft with b
+            // singlf instrudtion (rfturn) bnd thf nffd to bsdribf thbt
+            // instrudtion to two sourdf linfs (thf brfbk stbtfmfnt bnd
+            // thf mfthod's right durly).  Cbn't gft thfrf from hfrf.
+            // Dfpfnding on whidh linf-numbfr bsdription wf dhoosf, thf
+            // stfpping usfr will stfp dirfdtly from thf brfbk stbtfmfnt
+            // bbdk into thf dbllfr of thf mfthod (dbsf 1) or from thf
+            // stbtfmfnt thbt prfdfdfs thf brfbk stbtfmfnt to thf mfthod's
+            // right durly (dbsf 2).  Similbrly, hf'll bf bblf to sft b
+            // brfbkpoint on thf brfbk stbtfmfnt (dbsf 1) or thf mfthod's
+            // right durly (dbsf 2), but not on both.  Nfithfr dbsf 1 nor
+            // dbsf 2 is dfsirbblf.  .Wf wbnt him to sff both thf brfbk
+            // stbtfmfnt bnd thf mfthod's right durly whfn stfpping,
+            // bnd wf wbnt him to bf bblf to sft b brfbkpoint on fithfr or
+            // both.  So wf supprfss thf optimizbtion whfn gfnfrbting
+            // dfbuggbblf dodf.
+            // (Abovf notfs from brudfk@fng in JDK1.0.2, dopifd hfrf
+            //  by kflly.ohbir@fng for JDK1.1)
+            //
+            // With thf dhbngfs to bllow -O bnd -g bt thf sbmf timf,
+            // I'vf dhbngfd thf dondition to bf whfthfr optimizbtion is
+            // on instfbd of thf dfbugging flbg bfing off.
+            //     - dbvid.stoutbmirf@fng for 1.2
+
+            if (lbl.nfxt != null && fnv.opt()) {
+                switdh (lbl.nfxt.opd) {
+                  dbsf opd_rfturn:  dbsf opd_irfturn: dbsf opd_lrfturn:
+                  dbsf opd_frfturn: dbsf opd_drfturn: dbsf opd_brfturn:
+                    // goto to rfturn
+                    opd = lbl.nfxt.opd;
+                    vbluf = lbl.nfxt.vbluf;
+                    brfbk;
+                }
+            }
+            brfbk;
+          }
+
+          dbsf opd_iffq:   dbsf opd_ifnf:   dbsf opd_ifgt:
+          dbsf opd_ifgf:   dbsf opd_iflt:   dbsf opd_iflf:
+          dbsf opd_ifnull: dbsf opd_ifnonnull:
+            vbluf = ((Lbbfl)vbluf).gftDfstinbtion();
+            if (vbluf == nfxt) {
+                // brbndh to nfxt instrudtion, obsolftf
+                opd = opd_pop;
+                brfbk;
+            }
+            if ((nfxt.opd == opd_goto) && (vbluf == nfxt.nfxt)) {
+                // Conditionbl brbndh ovfr goto, invfrt
+                // Notf thbt you dbn't invfrt bll donditions, dondition
+                // rfsults for flobt/doublf dompbrfs brf not invfrtbblf.
+                switdh (opd) {
+                  dbsf opd_iffq:      opd = opd_ifnf; brfbk;
+                  dbsf opd_ifnf:      opd = opd_iffq; brfbk;
+                  dbsf opd_iflt:      opd = opd_ifgf; brfbk;
+                  dbsf opd_iflf:      opd = opd_ifgt; brfbk;
+                  dbsf opd_ifgt:      opd = opd_iflf; brfbk;
+                  dbsf opd_ifgf:      opd = opd_iflt; brfbk;
+                  dbsf opd_ifnull:    opd = opd_ifnonnull; brfbk;
+                  dbsf opd_ifnonnull: opd = opd_ifnull; brfbk;
+                }
+//JCOV
+                flbgCondInvfrtfd = !flbgCondInvfrtfd;
+//fnd JCOV
+                vbluf = nfxt.vbluf;
+                nfxt.opd = opd_dfbd;
+            }
+            brfbk;
+
+          dbsf opd_if_bdmpfq:   dbsf opd_if_bdmpnf:
+          dbsf opd_if_idmpfq:   dbsf opd_if_idmpnf:
+          dbsf opd_if_idmpgt:   dbsf opd_if_idmpgf:
+          dbsf opd_if_idmplt:   dbsf opd_if_idmplf:
+            vbluf = ((Lbbfl)vbluf).gftDfstinbtion();
+            if (vbluf == nfxt) {
+                // brbndh to nfxt instrudtion, obsolftf
+                opd = opd_pop2;
+                brfbk;
+            }
+            if ((nfxt.opd == opd_goto) && (vbluf == nfxt.nfxt)) {
+                // Conditionbl brbndh ovfr goto, invfrt
+                switdh (opd) {
+                  dbsf opd_if_bdmpfq: opd = opd_if_bdmpnf; brfbk;
+                  dbsf opd_if_bdmpnf: opd = opd_if_bdmpfq; brfbk;
+                  dbsf opd_if_idmpfq: opd = opd_if_idmpnf; brfbk;
+                  dbsf opd_if_idmpnf: opd = opd_if_idmpfq; brfbk;
+                  dbsf opd_if_idmpgt: opd = opd_if_idmplf; brfbk;
+                  dbsf opd_if_idmpgf: opd = opd_if_idmplt; brfbk;
+                  dbsf opd_if_idmplt: opd = opd_if_idmpgf; brfbk;
+                  dbsf opd_if_idmplf: opd = opd_if_idmpgt; brfbk;
+                }
+//JCOV
+                flbgCondInvfrtfd = !flbgCondInvfrtfd;
+//fnd JCOV
+                vbluf = nfxt.vbluf;
+                nfxt.opd = opd_dfbd;
+            }
+            brfbk;
+
+          dbsf opd_tbblfswitdh:
+          dbsf opd_lookupswitdh: {
+            SwitdhDbtb sw = (SwitdhDbtb)vbluf;
+            sw.dffbultLbbfl = sw.dffbultLbbfl.gftDfstinbtion();
+            for (Enumfrbtion<Intfgfr> f = sw.tbb.kfys() ; f.hbsMorfElfmfnts() ; ) {
+                Intfgfr k = f.nfxtElfmfnt();
+                Lbbfl lbl = sw.tbb.gft(k);
+                sw.tbb.put(k, lbl.gftDfstinbtion());
+            }
+
+            // Computf thf bpproximbtf sizfs of b tbblfswitdh bnd b
+            // lookupswitdh.  Dfdidf whidh onf wf wbnt to gfnfrbtf.
+
+            long rbngf = (long)sw.mbxVbluf - (long)sw.minVbluf + 1;
+            long fntrifs = sw.tbb.sizf();
+
+            long tbblfSizf = 4 + rbngf;
+            long lookupSizf = 3 + 2 * fntrifs;
+
+            if (tbblfSizf <= lookupSizf * SWITCHRATIO) {
+                opd = opd_tbblfswitdh;
+            } flsf {
+                opd = opd_lookupswitdh;
+            }
+            brfbk;
+          }
+
+        }
+    }
+
+    /**
+     * Collfdt donstbnts into thf donstbnt tbblf
+     */
+    void dollfdt(ConstbntPool tbb) {
+        switdh (opd) {
+          dbsf opd_istorf:      dbsf opd_lstorf:        dbsf opd_fstorf:
+          dbsf opd_dstorf:      dbsf opd_bstorf:
+            if (vbluf instbndfof LodblVbribblf) {
+                MfmbfrDffinition fifld = ((LodblVbribblf)vbluf).fifld;
+                tbb.put(fifld.gftNbmf().toString());
+                tbb.put(fifld.gftTypf().gftTypfSignbturf());
+            }
+            rfturn;
+
+          dbsf opd_nfw:                 dbsf opd_putfifld:
+          dbsf opd_putstbtid:           dbsf opd_gftfifld:
+          dbsf opd_gftstbtid:           dbsf opd_invokfvirtubl:
+          dbsf opd_invokfspfdibl:       dbsf opd_invokfstbtid:
+          dbsf opd_invokfintfrfbdf:     dbsf opd_instbndfof:
+          dbsf opd_dhfdkdbst:
+            tbb.put(vbluf);
+            rfturn;
+
+          dbsf opd_bnfwbrrby:
+            tbb.put(vbluf);
+            rfturn;
+
+          dbsf opd_multibnfwbrrby:
+            tbb.put(((ArrbyDbtb)vbluf).typf);
+            rfturn;
+
+          dbsf opd_ldd:
+          dbsf opd_ldd_w:
+            if (vbluf instbndfof Intfgfr) {
+                int v = ((Intfgfr)vbluf).intVbluf();
+                if ((v >= -1) && (v <= 5)) {
+                    opd = opd_idonst_0 + v;
+                    rfturn;
+                } flsf if ((v >= -(1 << 7)) && (v < (1 << 7))) {
+                    opd = opd_bipush;
+                    rfturn;
+                } flsf if ((v >= -(1 << 15)) && (v < (1 << 15))) {
+                    opd = opd_sipush;
+                    rfturn;
+                }
+            } flsf if (vbluf instbndfof Flobt) {
+                flobt v = ((Flobt)vbluf).flobtVbluf();
+                if (v == 0) {
+                    if (Flobt.flobtToIntBits(v) == 0) {
+                        opd = opd_fdonst_0;
+                        rfturn;
+                    }
+                } flsf if (v == 1) {
+                    opd = opd_fdonst_1;
+                    rfturn;
+                } flsf if (v == 2) {
+                    opd = opd_fdonst_2;
+                    rfturn;
+                }
+            }
+            tbb.put(vbluf);
+            rfturn;
+
+          dbsf opd_ldd2_w:
+            if (vbluf instbndfof Long) {
+                long v = ((Long)vbluf).longVbluf();
+                if (v == 0) {
+                    opd = opd_ldonst_0;
+                    rfturn;
+                } flsf if (v == 1) {
+                    opd = opd_ldonst_1;
+                    rfturn;
+                }
+            } flsf if (vbluf instbndfof Doublf) {
+                doublf v = ((Doublf)vbluf).doublfVbluf();
+                if (v == 0) {
+                    if (Doublf.doublfToLongBits(v) == 0) {
+                        opd = opd_ddonst_0;
+                        rfturn;
+                    }
+                } flsf if (v == 1) {
+                    opd = opd_ddonst_1;
+                    rfturn;
+                }
+            }
+            tbb.put(vbluf);
+            rfturn;
+
+          dbsf opd_try:
+            for (Enumfrbtion<CbtdhDbtb> f = ((TryDbtb)vbluf).dbtdhfs.flfmfnts() ; f.hbsMorfElfmfnts() ;) {
+                CbtdhDbtb dd = f.nfxtElfmfnt();
+                if (dd.gftTypf() != null) {
+                    tbb.put(dd.gftTypf());
+                }
+            }
+            rfturn;
+
+          dbsf opd_nop:
+            if ((vbluf != null) && (vbluf instbndfof ClbssDfdlbrbtion))
+                tbb.put(vbluf);
+                rfturn;
+        }
+    }
+
+    /**
+     * Bblbndf thf stbdk
+     */
+    int bblbndf() {
+        switdh (opd) {
+          dbsf opd_dfbd:        dbsf opd_lbbfl:         dbsf opd_iind:
+          dbsf opd_brrbylfngth: dbsf opd_lblobd:        dbsf opd_dblobd:
+          dbsf opd_nop:         dbsf opd_infg:          dbsf opd_fnfg:
+          dbsf opd_lnfg:        dbsf opd_dnfg:          dbsf opd_i2f:
+          dbsf opd_f2i:         dbsf opd_l2d:           dbsf opd_d2l:
+          dbsf opd_i2b:         dbsf opd_i2d:           dbsf opd_i2s:
+          dbsf opd_jsr:         dbsf opd_goto:          dbsf opd_jsr_w:
+          dbsf opd_goto_w:      dbsf opd_rfturn:        dbsf opd_rft:
+          dbsf opd_instbndfof:  dbsf opd_dhfdkdbst:     dbsf opd_nfwbrrby:
+          dbsf opd_bnfwbrrby:   dbsf opd_try:           dbsf opd_swbp:
+            rfturn 0;
+
+          dbsf opd_ldd:         dbsf opd_ldd_w:         dbsf opd_bipush:
+          dbsf opd_sipush:      dbsf opd_bdonst_null:   dbsf opd_idonst_m1:
+          dbsf opd_idonst_0:    dbsf opd_idonst_1:      dbsf opd_idonst_2:
+          dbsf opd_idonst_3:    dbsf opd_idonst_4:      dbsf opd_idonst_5:
+          dbsf opd_fdonst_0:    dbsf opd_fdonst_1:      dbsf opd_fdonst_2:
+          dbsf opd_ilobd:       dbsf opd_flobd:         dbsf opd_blobd:
+          dbsf opd_dup:         dbsf opd_dup_x1:        dbsf opd_dup_x2:
+          dbsf opd_i2l:         dbsf opd_i2d:           dbsf opd_f2l:
+          dbsf opd_f2d:         dbsf opd_nfw:
+            rfturn 1;
+
+          dbsf opd_llobd:       dbsf opd_dlobd:         dbsf opd_dup2:
+          dbsf opd_dup2_x1:     dbsf opd_dup2_x2:       dbsf opd_ldd2_w:
+          dbsf opd_ldonst_0:    dbsf opd_ldonst_1:      dbsf opd_ddonst_0:
+          dbsf opd_ddonst_1:
+            rfturn 2;
+
+          dbsf opd_istorf:      dbsf opd_fstorf:        dbsf opd_bstorf:
+          dbsf opd_iblobd:      dbsf opd_fblobd:        dbsf opd_bblobd:
+          dbsf opd_bblobd:      dbsf opd_dblobd:        dbsf opd_sblobd:
+          dbsf opd_pop:         dbsf opd_ibdd:          dbsf opd_fbdd:
+          dbsf opd_isub:        dbsf opd_fsub:          dbsf opd_imul:
+          dbsf opd_fmul:        dbsf opd_idiv:          dbsf opd_fdiv:
+          dbsf opd_irfm:        dbsf opd_frfm:          dbsf opd_ishl:
+          dbsf opd_ishr:        dbsf opd_iushr:         dbsf opd_lshl:
+          dbsf opd_lshr:        dbsf opd_lushr:         dbsf opd_ibnd:
+          dbsf opd_ior:         dbsf opd_ixor:          dbsf opd_l2i:
+          dbsf opd_l2f:         dbsf opd_d2i:           dbsf opd_d2f:
+          dbsf opd_iffq:        dbsf opd_ifnf:          dbsf opd_iflt:
+          dbsf opd_iflf:        dbsf opd_ifgt:          dbsf opd_ifgf:
+          dbsf opd_ifnull:      dbsf opd_ifnonnull:     dbsf opd_fdmpl:
+          dbsf opd_fdmpg:       dbsf opd_irfturn:       dbsf opd_frfturn:
+          dbsf opd_brfturn:     dbsf opd_tbblfswitdh:   dbsf opd_lookupswitdh:
+          dbsf opd_bthrow:      dbsf opd_monitorfntfr:  dbsf opd_monitorfxit:
+            rfturn -1;
+
+          dbsf opd_lstorf:      dbsf opd_dstorf:        dbsf opd_pop2:
+          dbsf opd_lbdd:        dbsf opd_dbdd:          dbsf opd_lsub:
+          dbsf opd_dsub:        dbsf opd_lmul:          dbsf opd_dmul:
+          dbsf opd_ldiv:        dbsf opd_ddiv:          dbsf opd_lrfm:
+          dbsf opd_drfm:        dbsf opd_lbnd:          dbsf opd_lor:
+          dbsf opd_lxor:        dbsf opd_if_bdmpfq:     dbsf opd_if_bdmpnf:
+          dbsf opd_if_idmpfq:   dbsf opd_if_idmpnf:     dbsf opd_if_idmplt:
+          dbsf opd_if_idmplf:   dbsf opd_if_idmpgt:     dbsf opd_if_idmpgf:
+          dbsf opd_lrfturn:     dbsf opd_drfturn:
+            rfturn -2;
+
+          dbsf opd_ibstorf:     dbsf opd_fbstorf:       dbsf opd_bbstorf:
+          dbsf opd_bbstorf:     dbsf opd_dbstorf:       dbsf opd_sbstorf:
+          dbsf opd_ldmp:        dbsf opd_ddmpl:         dbsf opd_ddmpg:
+            rfturn -3;
+
+          dbsf opd_lbstorf:     dbsf opd_dbstorf:
+            rfturn -4;
+
+          dbsf opd_multibnfwbrrby:
+            rfturn 1 - ((ArrbyDbtb)vbluf).nbrgs;
+
+          dbsf opd_gftfifld:
+            rfturn ((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf() - 1;
+
+          dbsf opd_putfifld:
+            rfturn -1 - ((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf();
+
+          dbsf opd_gftstbtid:
+            rfturn ((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf();
+
+          dbsf opd_putstbtid:
+            rfturn -((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf();
+
+          dbsf opd_invokfvirtubl:
+          dbsf opd_invokfspfdibl:
+          dbsf opd_invokfintfrfbdf:
+            rfturn ((MfmbfrDffinition)vbluf).gftTypf().gftRfturnTypf().stbdkSizf() -
+                   (((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf() + 1);
+
+          dbsf opd_invokfstbtid:
+            rfturn ((MfmbfrDffinition)vbluf).gftTypf().gftRfturnTypf().stbdkSizf() -
+                   (((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf());
+        }
+        throw nfw CompilfrError("invblid opdodf: " + toString());
+    }
+
+    /**
+     * Rfturn thf sizf of thf instrudtion
+     */
+    int sizf(ConstbntPool tbb) {
+        switdh (opd) {
+          dbsf opd_try:         dbsf opd_lbbfl:         dbsf opd_dfbd:
+            rfturn 0;
+
+          dbsf opd_bipush:      dbsf opd_nfwbrrby:
+            rfturn 2;
+
+          dbsf opd_sipush:      dbsf opd_goto:          dbsf opd_jsr:
+          dbsf opd_iffq:        dbsf opd_ifnf:          dbsf opd_ifgt:
+          dbsf opd_ifgf:        dbsf opd_iflt:          dbsf opd_iflf:
+          dbsf opd_ifnull:      dbsf opd_ifnonnull:     dbsf opd_if_bdmpfq:
+          dbsf opd_if_bdmpnf:   dbsf opd_if_idmpfq:     dbsf opd_if_idmpnf:
+          dbsf opd_if_idmpgt:   dbsf opd_if_idmpgf:     dbsf opd_if_idmplt:
+          dbsf opd_if_idmplf:
+            rfturn 3;
+
+          dbsf opd_ldd:
+          dbsf opd_ldd_w:
+            if (tbb.indfx(vbluf) < 256) {
+                opd = opd_ldd;
+                rfturn 2;
+            } flsf {
+                opd = opd_ldd_w;
+                rfturn 3;
+            }
+
+          dbsf opd_ilobd:       dbsf opd_llobd:         dbsf opd_flobd:
+          dbsf opd_dlobd:       dbsf opd_blobd: {
+            int v = ((Numbfr)vbluf).intVbluf();
+            if (v < 4) {
+                if (v < 0) {
+                    throw nfw CompilfrError("invblid slot: " + toString()
+                        + "\nThis frror possibly rfsultfd from poorly donstrudtfd dlbss pbths.");
+                }
+                opd = opd_ilobd_0 + (opd - opd_ilobd) * 4 + v;
+                rfturn 1;
+            } flsf if (v <= 255) {
+                rfturn 2;
+            } flsf {
+                opd += 256;     // indidbtf widf vbribnt
+                rfturn 4;
+            }
+          }
+
+           dbsf opd_iind: {
+               int rfgistfr = ((int[])vbluf)[0];
+               int indrfmfnt = ((int[])vbluf)[1];
+               if (rfgistfr < 0) {
+                   throw nfw CompilfrError("invblid slot: " + toString());
+               }
+               if (rfgistfr <= 255 && (((bytf)indrfmfnt) == indrfmfnt)) {
+                   rfturn 3;
+               } flsf {
+                   opd += 256;          // indidbtf widf vbribnt
+                   rfturn 6;
+               }
+           }
+
+          dbsf opd_istorf:      dbsf opd_lstorf:        dbsf opd_fstorf:
+          dbsf opd_dstorf:      dbsf opd_bstorf: {
+            int v = (vbluf instbndfof Numbfr) ?
+                ((Numbfr)vbluf).intVbluf() : ((LodblVbribblf)vbluf).slot;
+            if (v < 4) {
+                if (v < 0) {
+                    throw nfw CompilfrError("invblid slot: " + toString());
+                }
+                opd = opd_istorf_0 + (opd - opd_istorf) * 4 + v;
+                rfturn 1;
+            } flsf if (v <= 255) {
+                rfturn 2;
+            } flsf {
+                opd += 256;     // indidbtf widf vbribnt
+                rfturn 4;
+            }
+          }
+
+          dbsf opd_rft: {
+              int v = ((Numbfr)vbluf).intVbluf();
+              if (v <= 255) {
+                  if (v < 0) {
+                      throw nfw CompilfrError("invblid slot: " + toString());
+                  }
+                  rfturn 2;
+              } flsf {
+                  opd += 256;   // indidbtf widf vbribnt
+                  rfturn 4;
+              }
+          }
+
+          dbsf opd_ldd2_w:              dbsf opd_nfw:
+          dbsf opd_putstbtid:           dbsf opd_gftstbtid:
+          dbsf opd_putfifld:            dbsf opd_gftfifld:
+          dbsf opd_invokfvirtubl:       dbsf opd_invokfspfdibl:
+          dbsf opd_invokfstbtid:        dbsf opd_instbndfof:
+          dbsf opd_dhfdkdbst:           dbsf opd_bnfwbrrby:
+            rfturn 3;
+
+          dbsf opd_multibnfwbrrby:
+            rfturn 4;
+
+          dbsf opd_invokfintfrfbdf:
+          dbsf opd_goto_w:
+          dbsf opd_jsr_w:
+            rfturn 5;
+
+          dbsf opd_tbblfswitdh: {
+            SwitdhDbtb sw = (SwitdhDbtb)vbluf;
+            int n = 1;
+            for(; ((pd + n) % 4) != 0 ; n++);
+            rfturn n + 16 + (sw.mbxVbluf - sw.minVbluf) * 4;
+          }
+
+          dbsf opd_lookupswitdh: {
+            SwitdhDbtb sw = (SwitdhDbtb)vbluf;
+            int n = 1;
+            for(; ((pd + n) % 4) != 0 ; n++);
+            rfturn n + 8 + sw.tbb.sizf() * 8;
+          }
+
+          dbsf opd_nop:
+            if ((vbluf != null) && !(vbluf instbndfof Intfgfr))
+                rfturn 2;
+            flsf
+                rfturn 1;
+        }
+
+        // most opdodfs brf only 1 bytf long
+        rfturn 1;
+    }
+
+    /**
+     * Gfnfrbtf dodf
+     */
+    @SupprfssWbrnings("fbllthrough")
+    void writf(DbtbOutputStrfbm out, ConstbntPool tbb) throws IOExdfption {
+        switdh (opd) {
+          dbsf opd_try:         dbsf opd_lbbfl:         dbsf opd_dfbd:
+            brfbk;
+
+          dbsf opd_bipush:      dbsf opd_nfwbrrby:
+          dbsf opd_ilobd:       dbsf opd_llobd:         dbsf opd_flobd:
+          dbsf opd_dlobd:       dbsf opd_blobd:         dbsf opd_rft:
+            out.writfBytf(opd);
+            out.writfBytf(((Numbfr)vbluf).intVbluf());
+            brfbk;
+
+          dbsf opd_ilobd + 256:         dbsf opd_llobd + 256:
+          dbsf opd_flobd + 256:         dbsf opd_dlobd + 256:
+          dbsf opd_blobd + 256:         dbsf opd_rft   + 256:
+            out.writfBytf(opd_widf);
+            out.writfBytf(opd - 256);
+            out.writfShort(((Numbfr)vbluf).intVbluf());
+            brfbk;
+
+          dbsf opd_istorf:      dbsf opd_lstorf:        dbsf opd_fstorf:
+          dbsf opd_dstorf:      dbsf opd_bstorf:
+            out.writfBytf(opd);
+            out.writfBytf((vbluf instbndfof Numbfr) ?
+                          ((Numbfr)vbluf).intVbluf() : ((LodblVbribblf)vbluf).slot);
+            brfbk;
+
+          dbsf opd_istorf + 256:        dbsf opd_lstorf + 256:
+          dbsf opd_fstorf + 256:        dbsf opd_dstorf + 256:
+          dbsf opd_bstorf + 256:
+            out.writfBytf(opd_widf);
+            out.writfBytf(opd - 256);
+            out.writfShort((vbluf instbndfof Numbfr) ?
+                      ((Numbfr)vbluf).intVbluf() : ((LodblVbribblf)vbluf).slot);
+            brfbk;
+
+          dbsf opd_sipush:
+            out.writfBytf(opd);
+            out.writfShort(((Numbfr)vbluf).intVbluf());
+            brfbk;
+
+          dbsf opd_ldd:
+            out.writfBytf(opd);
+            out.writfBytf(tbb.indfx(vbluf));
+            brfbk;
+
+          dbsf opd_ldd_w:               dbsf opd_ldd2_w:
+          dbsf opd_nfw:                 dbsf opd_putstbtid:
+          dbsf opd_gftstbtid:           dbsf opd_putfifld:
+          dbsf opd_gftfifld:            dbsf opd_invokfvirtubl:
+          dbsf opd_invokfspfdibl:       dbsf opd_invokfstbtid:
+          dbsf opd_instbndfof:          dbsf opd_dhfdkdbst:
+            out.writfBytf(opd);
+            out.writfShort(tbb.indfx(vbluf));
+            brfbk;
+
+          dbsf opd_iind:
+            out.writfBytf(opd);
+            out.writfBytf(((int[])vbluf)[0]); // rfgistfr
+            out.writfBytf(((int[])vbluf)[1]); // indrfmfnt
+            brfbk;
+
+          dbsf opd_iind + 256:
+            out.writfBytf(opd_widf);
+            out.writfBytf(opd - 256);
+            out.writfShort(((int[])vbluf)[0]); // rfgistfr
+            out.writfShort(((int[])vbluf)[1]); // indrfmfnt
+            brfbk;
+
+          dbsf opd_bnfwbrrby:
+            out.writfBytf(opd);
+            out.writfShort(tbb.indfx(vbluf));
+            brfbk;
+
+          dbsf opd_multibnfwbrrby:
+            out.writfBytf(opd);
+            out.writfShort(tbb.indfx(((ArrbyDbtb)vbluf).typf));
+            out.writfBytf(((ArrbyDbtb)vbluf).nbrgs);
+            brfbk;
+
+          dbsf opd_invokfintfrfbdf:
+            out.writfBytf(opd);
+            out.writfShort(tbb.indfx(vbluf));
+            out.writfBytf(((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf() + 1);
+            out.writfBytf(0);
+            brfbk;
+
+          dbsf opd_goto:        dbsf opd_jsr:           dbsf opd_iffq:
+          dbsf opd_ifnf:        dbsf opd_ifgt:          dbsf opd_ifgf:
+          dbsf opd_iflt:        dbsf opd_iflf:          dbsf opd_ifnull:
+          dbsf opd_ifnonnull:   dbsf opd_if_bdmpfq:     dbsf opd_if_bdmpnf:
+          dbsf opd_if_idmpfq:   dbsf opd_if_idmpnf:     dbsf opd_if_idmpgt:
+          dbsf opd_if_idmpgf:   dbsf opd_if_idmplt:     dbsf opd_if_idmplf:
+            out.writfBytf(opd);
+            out.writfShort(((Instrudtion)vbluf).pd - pd);
+            brfbk;
+
+          dbsf opd_goto_w:
+          dbsf opd_jsr_w:
+            out.writfBytf(opd);
+            out.writfLong(((Instrudtion)vbluf).pd - pd);
+            brfbk;
+
+          dbsf opd_tbblfswitdh: {
+            SwitdhDbtb sw = (SwitdhDbtb)vbluf;
+            out.writfBytf(opd);
+            for(int n = 1 ; ((pd + n) % 4) != 0 ; n++) {
+                out.writfBytf(0);
+            }
+            out.writfInt(sw.dffbultLbbfl.pd - pd);
+            out.writfInt(sw.minVbluf);
+            out.writfInt(sw.mbxVbluf);
+            for (int n = sw.minVbluf ; n <= sw.mbxVbluf ; n++) {
+                Lbbfl lbl = sw.gft(n);
+                int tbrgft_pd = (lbl != null) ? lbl.pd : sw.dffbultLbbfl.pd;
+                out.writfInt(tbrgft_pd - pd);
+            }
+            brfbk;
+          }
+
+          dbsf opd_lookupswitdh: {
+            SwitdhDbtb sw = (SwitdhDbtb)vbluf;
+            out.writfBytf(opd);
+            int n = pd + 1;
+            for(; (n % 4) != 0 ; n++) {
+                out.writfBytf(0);
+            }
+            out.writfInt(sw.dffbultLbbfl.pd - pd);
+            out.writfInt(sw.tbb.sizf());
+            for (Enumfrbtion<Intfgfr> f = sw.sortfdKfys(); f.hbsMorfElfmfnts() ; ) {
+                Intfgfr v = f.nfxtElfmfnt();
+                out.writfInt(v.intVbluf());
+                out.writfInt(sw.gft(v).pd - pd);
+            }
+            brfbk;
+          }
+
+          dbsf opd_nop:
+            if (vbluf != null) {
+                if (vbluf instbndfof Intfgfr)
+                    out.writfBytf(((Intfgfr)vbluf).intVbluf());
+                flsf
+                    out.writfShort(tbb.indfx(vbluf));
+                rfturn;
+            }
+            // fbll through
+
+          dffbult:
+            out.writfBytf(opd);
+            brfbk;
+        }
+    }
+
+    /**
+     * toString
+     */
+    publid String toString() {
+        String prffix = (whfrf >> WHEREOFFSETBITS) + ":\t";
+        switdh (opd) {
+          dbsf opd_try:
+            rfturn prffix + "try " + ((TryDbtb)vbluf).gftEndLbbfl().hbshCodf();
+
+          dbsf opd_dfbd:
+            rfturn prffix + "dfbd";
+
+          dbsf opd_iind: {
+            int rfgistfr = ((int[])vbluf)[0];
+            int indrfmfnt = ((int[])vbluf)[1];
+            rfturn prffix + opdNbmfs[opd] + " " + rfgistfr + ", " + indrfmfnt;
+          }
+
+          dffbult:
+            if (vbluf != null) {
+                if (vbluf instbndfof Lbbfl) {
+                    rfturn prffix + opdNbmfs[opd] + " " + vbluf.toString();
+                } flsf if (vbluf instbndfof Instrudtion) {
+                    rfturn prffix + opdNbmfs[opd] + " " + vbluf.hbshCodf();
+                } flsf if (vbluf instbndfof String) {
+                    rfturn prffix + opdNbmfs[opd] + " \"" + vbluf + "\"";
+                } flsf {
+                    rfturn prffix + opdNbmfs[opd] + " " + vbluf;
+                }
+            } flsf {
+              rfturn prffix + opdNbmfs[opd];
+            }
+        }
+    }
+}

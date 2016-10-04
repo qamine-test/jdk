@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.io.IOExdfption;
+
+import jbvb.util.HbshMbp;
+
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * An bbstrbdt dlbss for drop protodols on X11 systfms.
+ * Contbins protodol-indfpfndfnt drop tbrgft dodf.
+ *
+ * @sindf 1.5
+ */
+bbstrbdt dlbss XDropTbrgftProtodol {
+    privbtf stbtid finbl PlbtformLoggfr loggfr =
+        PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.xdnd.XDropTbrgftProtodol");
+
+    privbtf finbl XDropTbrgftProtodolListfnfr listfnfr;
+
+    publid stbtid finbl int EMBEDDER_ALREADY_REGISTERED = 0;
+
+    publid stbtid finbl int UNKNOWN_MESSAGE = 0;
+    publid stbtid finbl int ENTER_MESSAGE   = 1;
+    publid stbtid finbl int MOTION_MESSAGE  = 2;
+    publid stbtid finbl int LEAVE_MESSAGE   = 3;
+    publid stbtid finbl int DROP_MESSAGE    = 4;
+
+    protfdtfd XDropTbrgftProtodol(XDropTbrgftProtodolListfnfr listfnfr) {
+        if (listfnfr == null) {
+            throw nfw NullPointfrExdfption("Null XDropTbrgftProtodolListfnfr");
+        }
+        this.listfnfr = listfnfr;
+    }
+
+    protfdtfd finbl XDropTbrgftProtodolListfnfr gftProtodolListfnfr() {
+        rfturn listfnfr;
+    }
+
+    /**
+     * Rfturns thf protodol nbmf. Thf protodol nbmf dbnnot bf null.
+     */
+    publid bbstrbdt String gftProtodolNbmf();
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt void rfgistfrDropTbrgft(long window);
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt void unrfgistfrDropTbrgft(long window);
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt void rfgistfrEmbfddfrDropSitf(long window);
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt void unrfgistfrEmbfddfrDropSitf(long window);
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt void rfgistfrEmbfddfdDropSitf(long fmbfddfd);
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid finbl void unrfgistfrEmbfddfdDropSitf(long fmbfddfd) {
+        rfmovfEmbfddfrRfgistryEntry(fmbfddfd);
+    }
+
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt boolfbn isProtodolSupportfd(long window);
+
+    publid bbstrbdt int gftMfssbgfTypf(XClifntMfssbgfEvfnt xdlifnt);
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid finbl boolfbn prodfssClifntMfssbgf(XClifntMfssbgfEvfnt xdlifnt) {
+        int typf = gftMfssbgfTypf(xdlifnt);
+        boolfbn prodfssfd = prodfssClifntMfssbgfImpl(xdlifnt);
+
+        postProdfssClifntMfssbgf(xdlifnt, prodfssfd, typf);
+
+        rfturn prodfssfd;
+    }
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    protfdtfd bbstrbdt boolfbn prodfssClifntMfssbgfImpl(XClifntMfssbgfEvfnt xdlifnt);
+
+    /*
+     * Forwbrds b drbg notifidbtion to thf fmbfdding toplfvfl modifying thf fvfnt
+     * to mbtdh thf protodol vfrsion supportfd by thf toplfvfl.
+     * Thf dbllfr must hold AWT_LOCK.
+     * Rfturns Truf if thf fvfnt is sfnt, Fblsf othfrwisf.
+     */
+    protfdtfd finbl boolfbn forwbrdClifntMfssbgfToToplfvfl(long toplfvfl,
+                                                           XClifntMfssbgfEvfnt xdlifnt) {
+        EmbfddfrRfgistryEntry fntry = gftEmbfddfrRfgistryEntry(toplfvfl);
+
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("        fntry={0}", fntry);
+        }
+        // Window not rfgistfrfd bs bn fmbfddfr for this protodol.
+        if (fntry == null) {
+            rfturn fblsf;
+        }
+
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("        fntry.isOvfrridfn()={0}", fntry.isOvfrridfn());
+        }
+        // Window didn't hbvf bn bssodibtfd drop sitf, so thfrf is no nffd
+        // to forwbrd thf mfssbgf.
+        if (!fntry.isOvfrridfn()) {
+            rfturn fblsf;
+        }
+
+        bdjustEvfntForForwbrding(xdlifnt, fntry);
+
+        long proxy = fntry.gftProxy();
+
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("        proxy={0} toplfvfl={1}", proxy, toplfvfl);
+        }
+        if (proxy == 0) {
+            proxy = toplfvfl;
+        }
+
+        xdlifnt.sft_window(toplfvfl);
+
+        XToolkit.bwtLodk();
+        try {
+            XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), proxy, fblsf,
+                                   XConstbnts.NoEvfntMbsk, xdlifnt.pDbtb);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+
+        rfturn truf;
+    }
+
+
+    /* Truf iff thf prfvious notifidbtion wbs MotionEvfnt bnd it wbs
+       forwbrdfd to thf browsfr. */
+    privbtf boolfbn motionPbssfdAlong = fblsf;
+
+    protfdtfd bbstrbdt void sfndEntfrMfssbgfToToplfvfl(long toplfvfl,
+                                                       XClifntMfssbgfEvfnt xdlifnt);
+
+    protfdtfd bbstrbdt void sfndLfbvfMfssbgfToToplfvfl(long toplfvfl,
+                                                       XClifntMfssbgfEvfnt xdlifnt);
+
+    privbtf void postProdfssClifntMfssbgf(XClifntMfssbgfEvfnt xdlifnt,
+                                          boolfbn prodfssfd,
+                                          int typf) {
+        long toplfvfl = xdlifnt.gft_window();
+
+        if (gftEmbfddfrRfgistryEntry(toplfvfl) != null) {
+            /*
+             * This dodf forwbrds drbg notifidbtions to thf browsfr bddording to thf
+             * following rulfs:
+             *  - thf mfssbgfs thbt wf fbilfd to prodfss brf blwbys forwbrdfd to thf
+             *    browsfr;
+             *  - MotionEvfnts bnd DropEvfnts brf forwbrdfd if bnd only if thf drbg
+             *    is not ovfr b plugin window;
+             *  - XDnD: EntfrEvfnts bnd LfbvfEvfnts brf nfvfr forwbrdfd, instfbd, wf
+             *    sfnd synthfsizfd EntfrEvfnts or LfbvfEvfnts whfn thf drbg
+             *    rfspfdtivfly fxits or fntfrs plugin windows;
+             *  - Motif DnD: EntfrEvfnts bnd LfbvfEvfnts brf blwbys forwbrdfd.
+             * Synthftid EntfrEvfnts bnd LfbvfEvfnts brf nffdfd, bfdbusf thf XDnD drop
+             * sitf implfmfntfd Nftsdbpf 6.2 hbs b nidf ffbturf: whfn it rfdfivfs
+             * thf first XdndPosition it dontinuously sfnds XdndStbtus mfssbgfs to
+             * thf sourdf (fvfry 100ms) until thf drbg tfrminbtfs or lfbvfs thf drop
+             * sitf. Whfn thf mousf is drbggfd ovfr plugin window fmbfddfd in thf
+             * browsfr frbmf, thfsf XdndStbtus mfssbgfs brf mixfd with thf XdndStbtus
+             * mfssbgfs sfnt from thf plugin.
+             * For Motif DnD, synthftid fvfnts dbusf Motif wbrnings bfing displbyfd,
+             * so thfsf fvfnts brf blwbys forwbrdfd. Howfvfr, Motif DnD drop sitf in
+             * Nftsdbpf 6.2 is implfmfntfd in thf sbmf wby, so thfrf dould bf similbr
+             * problfms if thf drbg sourdf dhoosf Motif DnD for dommunidbtion.
+             */
+            if (!prodfssfd) {
+                forwbrdClifntMfssbgfToToplfvfl(toplfvfl, xdlifnt);
+            } flsf {
+                boolfbn motifProtodol =
+                    xdlifnt.gft_mfssbgf_typf() ==
+                    MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.gftAtom();
+
+                switdh (typf) {
+                dbsf XDropTbrgftProtodol.MOTION_MESSAGE:
+                    if (!isDrbgOvfrComponfnt()) {
+                        if (!motionPbssfdAlong && !motifProtodol) {
+                            sfndEntfrMfssbgfToToplfvfl(toplfvfl, xdlifnt);
+                        }
+                        forwbrdClifntMfssbgfToToplfvfl(toplfvfl, xdlifnt);
+                        motionPbssfdAlong = truf;
+                    } flsf {
+                        if (motionPbssfdAlong && !motifProtodol) {
+                            sfndLfbvfMfssbgfToToplfvfl(toplfvfl, xdlifnt);
+                        }
+                        motionPbssfdAlong = fblsf;
+                    }
+                    brfbk;
+                dbsf XDropTbrgftProtodol.DROP_MESSAGE:
+                    if (!isDrbgOvfrComponfnt()) {
+                        forwbrdClifntMfssbgfToToplfvfl(toplfvfl, xdlifnt);
+                    }
+                    motionPbssfdAlong = fblsf;
+                    brfbk;
+                dbsf XDropTbrgftProtodol.ENTER_MESSAGE:
+                dbsf XDropTbrgftProtodol.LEAVE_MESSAGE:
+                    if (motifProtodol) {
+                        forwbrdClifntMfssbgfToToplfvfl(toplfvfl, xdlifnt);
+                    }
+                    motionPbssfdAlong = fblsf;
+                    brfbk;
+                }
+            }
+        }
+    }
+
+    publid bbstrbdt boolfbn sfndRfsponsf(long dtxt, int fvfntID, int bdtion);
+
+    /*
+     * Rftrifvfs thf dbtb from thf drbg sourdf in thf spfdififd formbt.
+     *
+     * @pbrbm dtxt b pointfr to thf XClifntMfssbgfEvfnt strudturf for this
+     *             protodol's drop mfssbgf.
+     * @pbrbm formbt thf formbt in whidh thf dbtb should bf rftrifvfd.
+     *
+     * @throws IllfgblArgumfntExdfption if dtxt dofsn't point to thf
+     *         XClifntMfssbgfEvfnt strudturf for this protodol's drop mfssbgf.
+     * @throws IOExdfption if dbtb rftrifvbl fbilfd.
+     */
+    publid bbstrbdt Objfdt gftDbtb(long dtxt, long formbt)
+      throws IllfgblArgumfntExdfption, IOExdfption;
+
+    publid bbstrbdt boolfbn sfndDropDonf(long dtxt, boolfbn suddfss,
+                                         int dropAdtion);
+
+    publid bbstrbdt long gftSourdfWindow();
+
+    publid bbstrbdt void dlfbnup();
+
+    publid bbstrbdt boolfbn isDrbgOvfrComponfnt();
+
+    publid void bdjustEvfntForForwbrding(XClifntMfssbgfEvfnt xdlifnt,
+        EmbfddfrRfgistryEntry fntry) {}
+
+    publid bbstrbdt boolfbn forwbrdEvfntToEmbfddfd(long fmbfddfd, long dtxt,
+                                                   int fvfntID);
+
+    /*
+     * Rfturns truf if thf XEmbfd protodol prfsdribfs thbt bn XEmbfd sfrvfr must
+     * support this DnD protodol for drop sitfs bssodibtfd with XEmbfd dlifnts.
+     */
+    publid bbstrbdt boolfbn isXEmbfdSupportfd();
+
+    protfdtfd stbtid finbl dlbss EmbfddfrRfgistryEntry {
+        privbtf finbl boolfbn ovfrridfn;
+        privbtf finbl int vfrsion;
+        privbtf finbl long proxy;
+        EmbfddfrRfgistryEntry(boolfbn ovfrridfn, int vfrsion, long proxy) {
+            this.ovfrridfn = ovfrridfn;
+            this.vfrsion = vfrsion;
+            this.proxy = proxy;
+        }
+        publid boolfbn isOvfrridfn() {
+            rfturn ovfrridfn;
+        }
+        publid int gftVfrsion() {
+            rfturn vfrsion;
+        }
+        publid long gftProxy() {
+            rfturn proxy;
+        }
+    }
+
+    /* Addfss to HbshMbp is syndhronizfd on this XDropTbrgftProtodol instbndf. */
+    privbtf finbl HbshMbp<Long, EmbfddfrRfgistryEntry> fmbfddfrRfgistry =
+        nfw HbshMbp<>();
+
+    protfdtfd finbl void putEmbfddfrRfgistryEntry(long fmbfddfr,
+                                                  boolfbn ovfrridfn,
+                                                  int vfrsion,
+                                                  long proxy) {
+        syndhronizfd (this) {
+            fmbfddfrRfgistry.put(Long.vblufOf(fmbfddfr),
+                                 nfw EmbfddfrRfgistryEntry(ovfrridfn, vfrsion,
+                                                           proxy));
+        }
+    }
+
+    protfdtfd finbl EmbfddfrRfgistryEntry gftEmbfddfrRfgistryEntry(long fmbfddfr) {
+        syndhronizfd (this) {
+            rfturn fmbfddfrRfgistry.gft(Long.vblufOf(fmbfddfr));
+        }
+    }
+
+    protfdtfd finbl void rfmovfEmbfddfrRfgistryEntry(long fmbfddfr) {
+        syndhronizfd (this) {
+            fmbfddfrRfgistry.rfmovf(Long.vblufOf(fmbfddfr));
+        }
+    }
+}

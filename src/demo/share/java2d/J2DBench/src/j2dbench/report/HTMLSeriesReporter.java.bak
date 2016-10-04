@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,506 +30,506 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /**
- * HTMLSeriesReporter.java
+ * HTMLSfrifsRfportfr.jbvb
  *
- * Show series data in graphical form.
+ * Siow sfrifs dbtb in grbpiidbl form.
  */
 
-package j2dbench.report;
+pbdkbgf j2dbfndi.rfport;
 
-import java.io.*;
-import java.util.*;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.tfxt.SimplfDbtfFormbt;
 
-import j2dbench.report.J2DAnalyzer.ResultHolder;
-import j2dbench.report.J2DAnalyzer.ResultSetHolder;
-import j2dbench.report.J2DAnalyzer.SingleResultSetHolder;
+import j2dbfndi.rfport.J2DAnblyzfr.RfsultHoldfr;
+import j2dbfndi.rfport.J2DAnblyzfr.RfsultSftHoldfr;
+import j2dbfndi.rfport.J2DAnblyzfr.SinglfRfsultSftHoldfr;
 
-public class HTMLSeriesReporter {
-
-    /**
-     * Flag to indicate - Generate new report or append to existing report
-     */
-    private static final int HTMLGEN_FILE_NEW = 1;
-    private static final int HTMLGEN_FILE_UPDATE = 2;
+publid dlbss HTMLSfrifsRfportfr {
 
     /**
-     * Path to results directory where all results are stored
+     * Flbg to indidbtf - Gfnfrbtf nfw rfport or bppfnd to fxisting rfport
      */
-    public static String resultsDir = ".";
+    privbtf stbtid finbl int HTMLGEN_FILE_NEW = 1;
+    privbtf stbtid finbl int HTMLGEN_FILE_UPDATE = 2;
 
     /**
-     * Holds the groups and corresponding group-display-names
+     * Pbti to rfsults dirfdtory wifrf bll rfsults brf storfd
      */
-    public static List groups = new ArrayList();
-    public static Map groupNames = new HashMap();
+    publid stbtid String rfsultsDir = ".";
 
     /**
-     * Level at which tests are grouped to be displayed in summary
+     * Holds tif groups bnd dorrfsponding group-displby-nbmfs
      */
-    public static int LEVEL = 2;
+    publid stbtid List groups = nfw ArrbyList();
+    publid stbtid Mbp groupNbmfs = nfw HbsiMbp();
 
-    private static final DecimalFormat decimalFormat =
-        new DecimalFormat("0.##");
-    private static final SimpleDateFormat dateFormat =
-        new SimpleDateFormat("EEE, MMM d, yyyy G 'at' HH:mm:ss z");
+    /**
+     * Lfvfl bt wiidi tfsts brf groupfd to bf displbyfd in summbry
+     */
+    publid stbtid int LEVEL = 2;
 
-    static final Comparator numericComparator = new Comparator() {
-            public int compare(Object lhs, Object rhs) {
-                double lval = -1;
+    privbtf stbtid finbl DfdimblFormbt dfdimblFormbt =
+        nfw DfdimblFormbt("0.##");
+    privbtf stbtid finbl SimplfDbtfFormbt dbtfFormbt =
+        nfw SimplfDbtfFormbt("EEE, MMM d, yyyy G 'bt' HH:mm:ss z");
+
+    stbtid finbl Compbrbtor numfridCompbrbtor = nfw Compbrbtor() {
+            publid int dompbrf(Objfdt lis, Objfdt ris) {
+                doublf lvbl = -1;
                 try {
-                    lval = Double.parseDouble((String)lhs);
+                    lvbl = Doublf.pbrsfDoublf((String)lis);
                 }
-                catch (NumberFormatException pe) {
+                dbtdi (NumbfrFormbtExdfption pf) {
                 }
-                double rval = -1;
+                doublf rvbl = -1;
                 try {
-                    rval = Double.parseDouble((String)rhs);
+                    rvbl = Doublf.pbrsfDoublf((String)ris);
                 }
-                catch (NumberFormatException pe) {
+                dbtdi (NumbfrFormbtExdfption pf) {
                 }
-                double delta = lval - rval;
+                doublf dfltb = lvbl - rvbl;
 
-                return delta == 0 ? 0 : delta < 0 ? -1 : 1;
+                rfturn dfltb == 0 ? 0 : dfltb < 0 ? -1 : 1;
             }
         };
 
     /**
-     * Opens a File and returns a PrintWriter instance based on new/update
-     * option specified in argument.
+     * Opfns b Filf bnd rfturns b PrintWritfr instbndf bbsfd on nfw/updbtf
+     * option spfdififd in brgumfnt.
      */
-    private static PrintWriter openFile(String name, int nSwitch) {
+    privbtf stbtid PrintWritfr opfnFilf(String nbmf, int nSwitdi) {
 
-        FileOutputStream file = null;
-        OutputStreamWriter writer = null;
+        FilfOutputStrfbm filf = null;
+        OutputStrfbmWritfr writfr = null;
 
         try {
-            switch (nSwitch) {
-                case 1: // HTMLGEN_FILE_NEW
-                    file = new FileOutputStream(name, false);
-                    break;
-                case 2: // HTMLGEN_FILE_UPDATE
-                    file = new FileOutputStream(name, true);
-                    break;
+            switdi (nSwitdi) {
+                dbsf 1: // HTMLGEN_FILE_NEW
+                    filf = nfw FilfOutputStrfbm(nbmf, fblsf);
+                    brfbk;
+                dbsf 2: // HTMLGEN_FILE_UPDATE
+                    filf = nfw FilfOutputStrfbm(nbmf, truf);
+                    brfbk;
             }
-            writer = new OutputStreamWriter(file);
-        } catch (IOException ee) {
-            System.out.println("Error opening file: " + ee);
-            System.exit(1);
+            writfr = nfw OutputStrfbmWritfr(filf);
+        } dbtdi (IOExdfption ff) {
+            Systfm.out.println("Error opfning filf: " + ff);
+            Systfm.fxit(1);
         }
 
-        return new PrintWriter(new BufferedWriter(writer));
+        rfturn nfw PrintWritfr(nfw BufffrfdWritfr(writfr));
     }
 
-    private static void generateSeriesReport(String resultsDir, ArrayList xmlFileNames) {
-        for (int i = 0; i < xmlFileNames.size(); ++i) {
-            String xml = (String)xmlFileNames.get(i);
+    privbtf stbtid void gfnfrbtfSfrifsRfport(String rfsultsDir, ArrbyList xmlFilfNbmfs) {
+        for (int i = 0; i < xmlFilfNbmfs.sizf(); ++i) {
+            String xml = (String)xmlFilfNbmfs.gft(i);
             try {
-                J2DAnalyzer.readResults(xml);
+                J2DAnblyzfr.rfbdRfsults(xml);
             }
-            catch (Exception e) {
-                System.err.println("Error: " + e.getMessage());
+            dbtdi (Exdfption f) {
+                Systfm.frr.println("Error: " + f.gftMfssbgf());
             }
         }
 
-        // first, display the values of system properties that distinguish the
-        // sets, and the values of the system properties that are common to all sets
+        // first, displby tif vblufs of systfm propfrtifs tibt distinguisi tif
+        // sfts, bnd tif vblufs of tif systfm propfrtifs tibt brf dommon to bll sfts
 
-        File reportFile = new File(resultsDir, "series.html");
-        PrintWriter w =
-            openFile(reportFile.getAbsolutePath(), HTMLGEN_FILE_NEW);
+        Filf rfportFilf = nfw Filf(rfsultsDir, "sfrifs.itml");
+        PrintWritfr w =
+            opfnFilf(rfportFilf.gftAbsolutfPbti(), HTMLGEN_FILE_NEW);
 
-        w.println("<html><body bgcolor='#ffffff'>");
-        w.println("<hr size='1'/><center><h2>J2DBench Series</h2></center><hr size='1'/>");
+        w.println("<itml><body bgdolor='#ffffff'>");
+        w.println("<ir sizf='1'/><dfntfr><i2>J2DBfndi Sfrifs</i2></dfntfr><ir sizf='1'/>");
 
-        // collect system properties common to all result sets
-        // and those unique to only some sets
-        // first collect all the property keys.  these should be the same, but we'll play
-        // it safe.
+        // dollfdt systfm propfrtifs dommon to bll rfsult sfts
+        // bnd tiosf uniquf to only somf sfts
+        // first dollfdt bll tif propfrty kfys.  tifsf siould bf tif sbmf, but wf'll plby
+        // it sbff.
 
-        // final since referenced from inner class comparator below
-        final SingleResultSetHolder[] results = new SingleResultSetHolder[J2DAnalyzer.results.size()];
-        Set propKeys = new HashSet();
-        for (int i = 0; i < results.length; ++i) {
-            SingleResultSetHolder srsh = (SingleResultSetHolder)J2DAnalyzer.results.get(i);
-            Map props = srsh.getProperties();
-            Set keys = props.keySet();
-            propKeys.addAll(keys);
-            results[i] = srsh;
+        // finbl sindf rfffrfndfd from innfr dlbss dompbrbtor bflow
+        finbl SinglfRfsultSftHoldfr[] rfsults = nfw SinglfRfsultSftHoldfr[J2DAnblyzfr.rfsults.sizf()];
+        Sft propKfys = nfw HbsiSft();
+        for (int i = 0; i < rfsults.lfngti; ++i) {
+            SinglfRfsultSftHoldfr srsi = (SinglfRfsultSftHoldfr)J2DAnblyzfr.rfsults.gft(i);
+            Mbp props = srsi.gftPropfrtifs();
+            Sft kfys = props.kfySft();
+            propKfys.bddAll(kfys);
+            rfsults[i] = srsi;
         }
 
-        Map[] uniqueProps = new Map[results.length];
-        Map commonProps = new HashMap();
-        for (int i = 0; i < results.length; ++i) {
-            Map m = new HashMap();
-            m.putAll(results[i].getProperties());
-            uniqueProps[i] = m;
+        Mbp[] uniqufProps = nfw Mbp[rfsults.lfngti];
+        Mbp dommonProps = nfw HbsiMbp();
+        for (int i = 0; i < rfsults.lfngti; ++i) {
+            Mbp m = nfw HbsiMbp();
+            m.putAll(rfsults[i].gftPropfrtifs());
+            uniqufProps[i] = m;
         }
 
         {
-            Iterator iter = propKeys.iterator();
-            loop: while (iter.hasNext()) {
-                Object k = iter.next();
-                Object v = null;
-                for (int i = 0; i < uniqueProps.length; ++i) {
-                    Map props = uniqueProps[i];
+            Itfrbtor itfr = propKfys.itfrbtor();
+            loop: wiilf (itfr.ibsNfxt()) {
+                Objfdt k = itfr.nfxt();
+                Objfdt v = null;
+                for (int i = 0; i < uniqufProps.lfngti; ++i) {
+                    Mbp props = uniqufProps[i];
                     if (i == 0) {
-                        v = props.get(k);
-                    } else {
-                        Object mv = props.get(k);
-                        if (!(v == null ? v == mv : v.equals(mv))) {
-                            // not common, keep this key
-                            continue loop;
+                        v = props.gft(k);
+                    } flsf {
+                        Objfdt mv = props.gft(k);
+                        if (!(v == null ? v == mv : v.fqubls(mv))) {
+                            // not dommon, kffp tiis kfy
+                            dontinuf loop;
                         }
                     }
                 }
 
-                // common, so put value in commonProps and remove this key
-                commonProps.put(k, v);
-                for (int i = 0; i < uniqueProps.length; ++i) {
-                    uniqueProps[i].remove(k);
+                // dommon, so put vbluf in dommonProps bnd rfmovf tiis kfy
+                dommonProps.put(k, v);
+                for (int i = 0; i < uniqufProps.lfngti; ++i) {
+                    uniqufProps[i].rfmovf(k);
                 }
             }
         }
 
-        String[] hexColor = {
-            "#fc9505", "#fcd805", "#fc5c05", "#b5fc05", "1cfc05", "#05fc7a",
-            "#44ff88", "#77ff77", "#aaff66", "#ddff55", "#ffff44", "#ffdd33",
+        String[] ifxColor = {
+            "#fd9505", "#fdd805", "#fd5d05", "#b5fd05", "1dfd05", "#05fd7b",
+            "#44ff88", "#77ff77", "#bbff66", "#ddff55", "#ffff44", "#ffdd33",
         };
-        Comparator comparator = new Comparator() {
-                public int compare(Object lhs, Object rhs) {
-                    return ((String)((Map.Entry)lhs).getKey()).compareTo((String)((Map.Entry)rhs).getKey());
+        Compbrbtor dompbrbtor = nfw Compbrbtor() {
+                publid int dompbrf(Objfdt lis, Objfdt ris) {
+                    rfturn ((String)((Mbp.Entry)lis).gftKfy()).dompbrfTo((String)((Mbp.Entry)ris).gftKfy());
                 }
             };
 
-        // write table of unique and common properties
+        // writf tbblf of uniquf bnd dommon propfrtifs
         w.println("<br/>");
-        w.println("<table align='center' cols='2' cellspacing='0' cellpadding='0' border='0' width='80%'>");
-        w.println("<tr><th colspan='2' bgcolor='#aaaaaa'>Result Set Properties</th></tr>");
-        for (int i = 0; i < results.length; ++i) {
-            String titl = results[i].getTitle();
-            String desc = results[i].getDescription();
-            w.println("<tr bgcolor='" + hexColor[i%hexColor.length] + "'><th>"+titl+"</th><td>"+desc+"</td></tr>");
-            TreeSet ts = new TreeSet(comparator);
-            ts.addAll(uniqueProps[i].entrySet());
-            Iterator iter = ts.iterator();
-            while (iter.hasNext()) {
-                Map.Entry e = (Map.Entry)iter.next();
-                w.println("<tr><td width='30%'><b>"+e.getKey()+"</b></td><td>"+e.getValue()+"</td></tr>");
+        w.println("<tbblf blign='dfntfr' dols='2' dfllspbding='0' dfllpbdding='0' bordfr='0' widti='80%'>");
+        w.println("<tr><ti dolspbn='2' bgdolor='#bbbbbb'>Rfsult Sft Propfrtifs</ti></tr>");
+        for (int i = 0; i < rfsults.lfngti; ++i) {
+            String titl = rfsults[i].gftTitlf();
+            String dfsd = rfsults[i].gftDfsdription();
+            w.println("<tr bgdolor='" + ifxColor[i%ifxColor.lfngti] + "'><ti>"+titl+"</ti><td>"+dfsd+"</td></tr>");
+            TrffSft ts = nfw TrffSft(dompbrbtor);
+            ts.bddAll(uniqufProps[i].fntrySft());
+            Itfrbtor itfr = ts.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                Mbp.Entry f = (Mbp.Entry)itfr.nfxt();
+                w.println("<tr><td widti='30%'><b>"+f.gftKfy()+"</b></td><td>"+f.gftVbluf()+"</td></tr>");
             }
         }
 
-        w.println("<tr><th colspan='2'>&nbsp;</th></tr>");
-        w.println("<tr><th colspan='2' bgcolor='#aaaaaa'>Common Properties</th></tr>");
+        w.println("<tr><ti dolspbn='2'>&nbsp;</ti></tr>");
+        w.println("<tr><ti dolspbn='2' bgdolor='#bbbbbb'>Common Propfrtifs</ti></tr>");
         {
-            TreeSet ts = new TreeSet(comparator);
-            ts.addAll(commonProps.entrySet());
-            Iterator iter = ts.iterator();
-            while (iter.hasNext()) {
-                Map.Entry e = (Map.Entry)iter.next();
-                w.println("<tr><td width='30%'><b>"+e.getKey()+"</b></td><td>"+e.getValue()+"</td></tr>");
+            TrffSft ts = nfw TrffSft(dompbrbtor);
+            ts.bddAll(dommonProps.fntrySft());
+            Itfrbtor itfr = ts.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                Mbp.Entry f = (Mbp.Entry)itfr.nfxt();
+                w.println("<tr><td widti='30%'><b>"+f.gftKfy()+"</b></td><td>"+f.gftVbluf()+"</td></tr>");
             }
         }
-        w.println("<tr><th colspan='2'>&nbsp;</th></tr>");
-        w.println("<tr><th colspan='2' bgcolor='#aaaaaa'>Common Test Options</th></tr>");
+        w.println("<tr><ti dolspbn='2'>&nbsp;</ti></tr>");
+        w.println("<tr><ti dolspbn='2' bgdolor='#bbbbbb'>Common Tfst Options</ti></tr>");
         {
-            TreeSet ts = new TreeSet(String.CASE_INSENSITIVE_ORDER);
-            ts.addAll(ResultHolder.commonkeys.keySet());
-            Iterator iter = ts.iterator();
-            while (iter.hasNext()) {
-                Object key = iter.next();
-                Object val = ResultHolder.commonkeymap.get(key);
-                w.println("<tr><td width='30%'><b>"+key+"</b></td><td>"+val+"</td></tr>");
+            TrffSft ts = nfw TrffSft(String.CASE_INSENSITIVE_ORDER);
+            ts.bddAll(RfsultHoldfr.dommonkfys.kfySft());
+            Itfrbtor itfr = ts.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                Objfdt kfy = itfr.nfxt();
+                Objfdt vbl = RfsultHoldfr.dommonkfymbp.gft(kfy);
+                w.println("<tr><td widti='30%'><b>"+kfy+"</b></td><td>"+vbl+"</td></tr>");
             }
         }
-        w.println("</table>");
+        w.println("</tbblf>");
 
-        // for each test that appears in one or more result sets
-        // for each option that has multiple values
-        // for each value
-        // for each result set
-        // display count and bar
+        // for fbdi tfst tibt bppfbrs in onf or morf rfsult sfts
+        // for fbdi option tibt ibs multiplf vblufs
+        // for fbdi vbluf
+        // for fbdi rfsult sft
+        // displby dount bnd bbr
 
-        Map testRuns = new HashMap(); // from test name to resultholders
-        Set testNames = new TreeSet(String.CASE_INSENSITIVE_ORDER);
-        for (int i = 0; i < results.length; ++i) {
-            Enumeration en = results[i].getResultEnumeration();
-            while (en.hasMoreElements()) {
-                ResultHolder rh = (ResultHolder)en.nextElement();
-                String name = rh.getName();
-                testNames.add(name);
+        Mbp tfstRuns = nfw HbsiMbp(); // from tfst nbmf to rfsultioldfrs
+        Sft tfstNbmfs = nfw TrffSft(String.CASE_INSENSITIVE_ORDER);
+        for (int i = 0; i < rfsults.lfngti; ++i) {
+            Enumfrbtion fn = rfsults[i].gftRfsultEnumfrbtion();
+            wiilf (fn.ibsMorfElfmfnts()) {
+                RfsultHoldfr ri = (RfsultHoldfr)fn.nfxtElfmfnt();
+                String nbmf = ri.gftNbmf();
+                tfstNbmfs.bdd(nbmf);
 
-                ArrayList list = (ArrayList)testRuns.get(name);
+                ArrbyList list = (ArrbyList)tfstRuns.gft(nbmf);
                 if (list == null) {
-                    list = new ArrayList();
-                    testRuns.put(name, list);
+                    list = nfw ArrbyList();
+                    tfstRuns.put(nbmf, list);
                 }
-                list.add(rh);
+                list.bdd(ri);
             }
         }
 
-        w.println("<hr size='1' width='60%'/>");
+        w.println("<ir sizf='1' widti='60%'/>");
 
         w.println("<br/>");
-        w.println("<table align='center' cols='2' cellspacing='0' cellpadding='0' border='0' width='80%'>");
-        Iterator iter = testNames.iterator();
-        while (iter.hasNext()) {
-            String name = (String)iter.next();
-            w.println("<tr bgcolor='#aaaaaa'><th colspan='2'>"+name+"</th></tr>");
+        w.println("<tbblf blign='dfntfr' dols='2' dfllspbding='0' dfllpbdding='0' bordfr='0' widti='80%'>");
+        Itfrbtor itfr = tfstNbmfs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            String nbmf = (String)itfr.nfxt();
+            w.println("<tr bgdolor='#bbbbbb'><ti dolspbn='2'>"+nbmf+"</ti></tr>");
 
-            double bestScore = 0;
+            doublf bfstSdorf = 0;
 
-            // get sorted list of variable options for this test
-            // optionMap maps each option to a value map.  the value map contains all the values,
-            // sorted depending on the value type (numeric or string).  it maps
-            // from each (string) value to a list of all the resultholders for that value
-            // value.
+            // gft sortfd list of vbribblf options for tiis tfst
+            // optionMbp mbps fbdi option to b vbluf mbp.  tif vbluf mbp dontbins bll tif vblufs,
+            // sortfd dfpfnding on tif vbluf typf (numfrid or string).  it mbps
+            // from fbdi (string) vbluf to b list of bll tif rfsultioldfrs for tibt vbluf
+            // vbluf.
 
-            Map optionMap = new TreeMap(String.CASE_INSENSITIVE_ORDER);
-            ArrayList list = (ArrayList)testRuns.get(name);
-            Iterator riter = list.iterator();
-            while (riter.hasNext()) {
-                ResultHolder rh = (ResultHolder)riter.next();
-                Hashtable options = rh.getOptions();
-                Set entries = options.entrySet();
-                Iterator eiter = entries.iterator();
-                while (eiter.hasNext()) {
-                    Map.Entry e = (Map.Entry)eiter.next();
-                    Object key = e.getKey();
-                    if (ResultHolder.commonkeys.contains(key)) {
-                        continue;
+            Mbp optionMbp = nfw TrffMbp(String.CASE_INSENSITIVE_ORDER);
+            ArrbyList list = (ArrbyList)tfstRuns.gft(nbmf);
+            Itfrbtor ritfr = list.itfrbtor();
+            wiilf (ritfr.ibsNfxt()) {
+                RfsultHoldfr ri = (RfsultHoldfr)ritfr.nfxt();
+                Hbsitbblf options = ri.gftOptions();
+                Sft fntrifs = options.fntrySft();
+                Itfrbtor fitfr = fntrifs.itfrbtor();
+                wiilf (fitfr.ibsNfxt()) {
+                    Mbp.Entry f = (Mbp.Entry)fitfr.nfxt();
+                    Objfdt kfy = f.gftKfy();
+                    if (RfsultHoldfr.dommonkfys.dontbins(kfy)) {
+                        dontinuf;
                     }
-                    Object val = e.getValue();
+                    Objfdt vbl = f.gftVbluf();
 
-                    Map vmap = (Map)optionMap.get(key);
-                    if (vmap == null) {
-                        // determine how to sort
-                        boolean numeric = false;
+                    Mbp vmbp = (Mbp)optionMbp.gft(kfy);
+                    if (vmbp == null) {
+                        // dftfrminf iow to sort
+                        boolfbn numfrid = fblsf;
                         try {
-                            Integer.parseInt((String)val);
-                            numeric = true;
+                            Intfgfr.pbrsfInt((String)vbl);
+                            numfrid = truf;
                         }
-                        catch (NumberFormatException pe) {
+                        dbtdi (NumbfrFormbtExdfption pf) {
                         }
 
-                        Comparator c = numeric ? numericComparator : String.CASE_INSENSITIVE_ORDER;
-                        vmap = new TreeMap(c);
-                        optionMap.put(key, vmap);
+                        Compbrbtor d = numfrid ? numfridCompbrbtor : String.CASE_INSENSITIVE_ORDER;
+                        vmbp = nfw TrffMbp(d);
+                        optionMbp.put(kfy, vmbp);
                     }
 
-                    ArrayList vlist = (ArrayList)vmap.get(val);
+                    ArrbyList vlist = (ArrbyList)vmbp.gft(vbl);
                     if (vlist == null) {
-                        vlist = new ArrayList();
-                        vmap.put(val, vlist);
+                        vlist = nfw ArrbyList();
+                        vmbp.put(vbl, vlist);
                     }
-                    vlist.add(rh);
+                    vlist.bdd(ri);
 
-                    double score = rh.getScore();
-                    if (score > bestScore) {
-                        bestScore = score;
+                    doublf sdorf = ri.gftSdorf();
+                    if (sdorf > bfstSdorf) {
+                        bfstSdorf = sdorf;
                     }
                 }
             }
 
-            Iterator oi = optionMap.keySet().iterator();
-            while (oi.hasNext()) {
-                String optionName = (String)oi.next();
-                Map optionValues = (Map)optionMap.get(optionName);
-                if (optionValues.size() == 1) continue; // don't group by this if only one value
+            Itfrbtor oi = optionMbp.kfySft().itfrbtor();
+            wiilf (oi.ibsNfxt()) {
+                String optionNbmf = (String)oi.nfxt();
+                Mbp optionVblufs = (Mbp)optionMbp.gft(optionNbmf);
+                if (optionVblufs.sizf() == 1) dontinuf; // don't group by tiis if only onf vbluf
 
-                StringBuffer grouping = new StringBuffer();
-                grouping.append("Grouped by " + optionName + ", Result set");
-                Iterator oi2 = optionMap.keySet().iterator();
-                while (oi2.hasNext()) {
-                    String oname2 = (String)oi2.next();
-                    if (oname2.equals(optionName)) continue;
-                    Map ov2 = (Map)optionMap.get(oname2);
-                    if (ov2.size() == 1) continue;
-                    grouping.append(", " + oname2);
-                    Iterator ov2i = ov2.entrySet().iterator();
-                    grouping.append(" (");
-                    boolean comma = false;
-                    while (ov2i.hasNext()) {
-                        if (comma) grouping.append(", ");
-                        grouping.append(((Map.Entry)ov2i.next()).getKey());
-                        comma = true;
+                StringBufffr grouping = nfw StringBufffr();
+                grouping.bppfnd("Groupfd by " + optionNbmf + ", Rfsult sft");
+                Itfrbtor oi2 = optionMbp.kfySft().itfrbtor();
+                wiilf (oi2.ibsNfxt()) {
+                    String onbmf2 = (String)oi2.nfxt();
+                    if (onbmf2.fqubls(optionNbmf)) dontinuf;
+                    Mbp ov2 = (Mbp)optionMbp.gft(onbmf2);
+                    if (ov2.sizf() == 1) dontinuf;
+                    grouping.bppfnd(", " + onbmf2);
+                    Itfrbtor ov2i = ov2.fntrySft().itfrbtor();
+                    grouping.bppfnd(" (");
+                    boolfbn dommb = fblsf;
+                    wiilf (ov2i.ibsNfxt()) {
+                        if (dommb) grouping.bppfnd(", ");
+                        grouping.bppfnd(((Mbp.Entry)ov2i.nfxt()).gftKfy());
+                        dommb = truf;
                     }
-                    grouping.append(")");
+                    grouping.bppfnd(")");
                 }
-                w.println("<tr><td colspan='2'>&nbsp;</td></tr>");
-                w.println("<tr><td colspan='2'><b>" + grouping.toString() + "</b></td></tr>");
-                Iterator vi = optionValues.keySet().iterator();
-                while (vi.hasNext()) {
-                    String valueName = (String)vi.next();
-                    w.print("<tr><td align='right' valign='center' width='10%'>"+valueName+"&nbsp;</td><td>");
-                    ArrayList resultList = (ArrayList)optionValues.get(valueName);
+                w.println("<tr><td dolspbn='2'>&nbsp;</td></tr>");
+                w.println("<tr><td dolspbn='2'><b>" + grouping.toString() + "</b></td></tr>");
+                Itfrbtor vi = optionVblufs.kfySft().itfrbtor();
+                wiilf (vi.ibsNfxt()) {
+                    String vblufNbmf = (String)vi.nfxt();
+                    w.print("<tr><td blign='rigit' vblign='dfntfr' widti='10%'>"+vblufNbmf+"&nbsp;</td><td>");
+                    ArrbyList rfsultList = (ArrbyList)optionVblufs.gft(vblufNbmf);
 
-                    // sort the result list in order of the sets the results come from
-                    // we count on this being a stable sort, otherwise we'd have to also sort
-                    // within each result set on all other variables
-                    Comparator c = new Comparator() {
-                            public int compare(Object lhs, Object rhs) {
-                                ResultSetHolder lh = ((ResultHolder)lhs).rsh;
-                                ResultSetHolder rh = ((ResultHolder)rhs).rsh;
+                    // sort tif rfsult list in ordfr of tif sfts tif rfsults domf from
+                    // wf dount on tiis bfing b stbblf sort, otifrwisf wf'd ibvf to blso sort
+                    // witiin fbdi rfsult sft on bll otifr vbribblfs
+                    Compbrbtor d = nfw Compbrbtor() {
+                            publid int dompbrf(Objfdt lis, Objfdt ris) {
+                                RfsultSftHoldfr li = ((RfsultHoldfr)lis).rsi;
+                                RfsultSftHoldfr ri = ((RfsultHoldfr)ris).rsi;
                                 int li = -1;
-                                for (int k = 0; k < results.length; ++k) {
-                                    if (results[k] == lh) {
+                                for (int k = 0; k < rfsults.lfngti; ++k) {
+                                    if (rfsults[k] == li) {
                                         li = k;
-                                        break;
+                                        brfbk;
                                     }
                                 }
                                 int ri = -1;
-                                for (int k = 0; k < results.length; ++k) {
-                                    if (results[k] == rh) {
+                                for (int k = 0; k < rfsults.lfngti; ++k) {
+                                    if (rfsults[k] == ri) {
                                         ri = k;
-                                        break;
+                                        brfbk;
                                     }
                                 }
-                                return li - ri;
+                                rfturn li - ri;
                             }
                         };
 
-                    w.println("   <div style='height: 5'>&nbsp;</div>");
-                    ResultHolder[] sorted = new ResultHolder[resultList.size()];
-                    sorted = (ResultHolder[])resultList.toArray(sorted);
-                    Arrays.sort(sorted, c);
-                    for (int k = 0; k < sorted.length; ++k) {
-                        ResultHolder holder = sorted[k];
-                        String color = null;
-                        for (int n = 0; n < results.length; ++n) {
-                            if (results[n] == holder.rsh) {
-                                color = hexColor[n];
+                    w.println("   <div stylf='ifigit: 5'>&nbsp;</div>");
+                    RfsultHoldfr[] sortfd = nfw RfsultHoldfr[rfsultList.sizf()];
+                    sortfd = (RfsultHoldfr[])rfsultList.toArrby(sortfd);
+                    Arrbys.sort(sortfd, d);
+                    for (int k = 0; k < sortfd.lfngti; ++k) {
+                        RfsultHoldfr ioldfr = sortfd[k];
+                        String dolor = null;
+                        for (int n = 0; n < rfsults.lfngti; ++n) {
+                            if (rfsults[n] == ioldfr.rsi) {
+                                dolor = ifxColor[n];
                             }
                         }
-                        double score = holder.getScore();
+                        doublf sdorf = ioldfr.gftSdorf();
                         int pix = 0;
-                        if (bestScore > 1) {
-                            double scale = logScale
-                                ? Math.log(score)/Math.log(bestScore)
-                                : (score)/(bestScore);
+                        if (bfstSdorf > 1) {
+                            doublf sdblf = logSdblf
+                                ? Mbti.log(sdorf)/Mbti.log(bfstSdorf)
+                                : (sdorf)/(bfstSdorf);
 
-                            pix = (int)(scale*80.0);
+                            pix = (int)(sdblf*80.0);
                         }
 
-                        w.println("   <div style='width: " + pix +
-                                  "%; height: 15; font-size: smaller; valign: center; background-color: " +  color+"'>" +
-                                  "<div align='right' style='height: 15'>" + (int)score + "&nbsp;</div></div>");
+                        w.println("   <div stylf='widti: " + pix +
+                                  "%; ifigit: 15; font-sizf: smbllfr; vblign: dfntfr; bbdkground-dolor: " +  dolor+"'>" +
+                                  "<div blign='rigit' stylf='ifigit: 15'>" + (int)sdorf + "&nbsp;</div></div>");
                     }
                     w.println("</td></tr>");
                 }
             }
 
-            w.println("<tr><td colspan='2'>&nbsp;</td></tr>");
+            w.println("<tr><td dolspbn='2'>&nbsp;</td></tr>");
         }
-        w.println("</table>");
+        w.println("</tbblf>");
         w.println("<br/>");
 
-        w.println("</body></html>");
-        w.flush();
-        w.close();
+        w.println("</body></itml>");
+        w.flusi();
+        w.dlosf();
     }
 
-    private static void printUsage() {
-        String usage =
-            "\njava HTMLSeriesReporter [options] resultfile...   "     +
+    privbtf stbtid void printUsbgf() {
+        String usbgf =
+            "\njbvb HTMLSfrifsRfportfr [options] rfsultfilf...   "     +
             "                                     \n\n" +
-            "where options include:                "     +
+            "wifrf options indludf:                "     +
             "                                      \n"   +
-            "    -r | -results <result directory>  "     +
-            "directory to which reports are stored \n"   +
+            "    -r | -rfsults <rfsult dirfdtory>  "     +
+            "dirfdtory to wiidi rfports brf storfd \n"   +
             "    -ls                               "     +
-            "display using logarithmic scale       \n"   +
-            "    -resultxml | -xml <xml file path> "     +
-            "path to result XML                    \n"   +
-            "    -group | -g  <level>              "     +
-            "group-level for tests                 \n"   +
+            "displby using logbritimid sdblf       \n"   +
+            "    -rfsultxml | -xml <xml filf pbti> "     +
+            "pbti to rfsult XML                    \n"   +
+            "    -group | -g  <lfvfl>              "     +
+            "group-lfvfl for tfsts                 \n"   +
             "                                      "     +
             " [ 1 , 2 , 3 or 4 ]                   \n"   +
-            "    -analyzermode | -am               "     +
-            "mode to be used for finding score     \n"   +
+            "    -bnblyzfrmodf | -bm               "     +
+            "modf to bf usfd for finding sdorf     \n"   +
             "                                      "     +
             " [ BEST , WORST , AVERAGE , MIDAVG ]  ";
-        System.out.println(usage);
-        System.exit(0);
+        Systfm.out.println(usbgf);
+        Systfm.fxit(0);
     }
 
-    static boolean logScale = false;
+    stbtid boolfbn logSdblf = fblsf;
 
     /**
-     * main
+     * mbin
      */
-    public static void main(String args[]) {
+    publid stbtid void mbin(String brgs[]) {
 
-        String resDir = ".";
-        ArrayList results = new ArrayList();
+        String rfsDir = ".";
+        ArrbyList rfsults = nfw ArrbyList();
         int group = 2;
 
-        /* ---- Analysis Mode ----
+        /* ---- Anblysis Modf ----
             BEST    = 1;
             WORST   = 2;
             AVERAGE = 3;
             MIDAVG  = 4;
          ------------------------ */
-        int analyzerMode = 4;
+        int bnblyzfrModf = 4;
 
         try {
 
-            for (int i = 0; i < args.length; i++) {
-                if (args[i].startsWith("-ls")) {
-                    logScale = true;
-                } else if (args[i].startsWith("-results") ||
-                    args[i].startsWith("-r"))
+            for (int i = 0; i < brgs.lfngti; i++) {
+                if (brgs[i].stbrtsWiti("-ls")) {
+                    logSdblf = truf;
+                } flsf if (brgs[i].stbrtsWiti("-rfsults") ||
+                    brgs[i].stbrtsWiti("-r"))
                 {
                     i++;
-                    resDir = args[i];
-                } else if (args[i].startsWith("-group") ||
-                           args[i].startsWith("-g"))
+                    rfsDir = brgs[i];
+                } flsf if (brgs[i].stbrtsWiti("-group") ||
+                           brgs[i].stbrtsWiti("-g"))
                 {
                     i++;
-                    group = Integer.parseInt(args[i]);
-                    System.out.println("Grouping Level for tests: " + group);
-                } else if (args[i].startsWith("-analyzermode") ||
-                           args[i].startsWith("-am"))
+                    group = Intfgfr.pbrsfInt(brgs[i]);
+                    Systfm.out.println("Grouping Lfvfl for tfsts: " + group);
+                } flsf if (brgs[i].stbrtsWiti("-bnblyzfrmodf") ||
+                           brgs[i].stbrtsWiti("-bm"))
                 {
                     i++;
-                    String strAnalyzerMode = args[i];
-                    if(strAnalyzerMode.equalsIgnoreCase("BEST")) {
-                        analyzerMode = 0;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("WORST")) {
-                        analyzerMode = 1;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("AVERAGE")) {
-                        analyzerMode = 2;
-                    } else if (strAnalyzerMode.equalsIgnoreCase("MIDAVG")) {
-                        analyzerMode = 3;
-                    } else {
-                        printUsage();
+                    String strAnblyzfrModf = brgs[i];
+                    if(strAnblyzfrModf.fqublsIgnorfCbsf("BEST")) {
+                        bnblyzfrModf = 0;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("WORST")) {
+                        bnblyzfrModf = 1;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("AVERAGE")) {
+                        bnblyzfrModf = 2;
+                    } flsf if (strAnblyzfrModf.fqublsIgnorfCbsf("MIDAVG")) {
+                        bnblyzfrModf = 3;
+                    } flsf {
+                        printUsbgf();
                     }
-                    System.out.println("Analyzer-Mode: " + analyzerMode);
-                } else {
-                    results.add(args[i]);
+                    Systfm.out.println("Anblyzfr-Modf: " + bnblyzfrModf);
+                } flsf {
+                    rfsults.bdd(brgs[i]);
                 }
             }
         }
-        catch(Exception e) {
-            printUsage();
+        dbtdi(Exdfption f) {
+            printUsbgf();
         }
 
-        if (resDir != null) {
-            J2DAnalyzer.setMode(analyzerMode);
+        if (rfsDir != null) {
+            J2DAnblyzfr.sftModf(bnblyzfrModf);
 
-            HTMLSeriesReporter.generateSeriesReport(resDir, results);
-        } else {
-            printUsage();
+            HTMLSfrifsRfportfr.gfnfrbtfSfrifsRfport(rfsDir, rfsults);
+        } flsf {
+            printUsbgf();
         }
     }
 }

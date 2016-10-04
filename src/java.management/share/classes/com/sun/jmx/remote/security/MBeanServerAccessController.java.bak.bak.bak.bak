@@ -1,0 +1,665 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Sft;
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.IntrospfdtionExdfption;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.OpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.QufryExp;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository;
+import jbvbx.mbnbgfmfnt.rfmotf.MBfbnSfrvfrForwbrdfr;
+
+/**
+ * <p>An objfdt of this dlbss implfmfnts thf MBfbnSfrvfr intfrfbdf
+ * bnd, for fbdh of its mfthods, dblls bn bppropribtf dhfdking mfthod
+ * bnd thfn forwbrds thf rfqufst to b wrbppfd MBfbnSfrvfr objfdt.  Thf
+ * dhfdking mfthod mby throw b RuntimfExdfption if thf opfrbtion is
+ * not bllowfd; in this dbsf thf rfqufst is not forwbrdfd to thf
+ * wrbppfd objfdt.</p>
+ *
+ * <p>A typidbl usf of this dlbss is to insfrt it bftwffn b donnfdtor sfrvfr
+ * sudh bs thf RMI donnfdtor bnd thf MBfbnSfrvfr with whidh thf donnfdtor
+ * is bssodibtfd.  Rfqufsts from thf donnfdtor dlifnt dbn thfn bf filtfrfd
+ * bnd thosf opfrbtions thbt brf not bllowfd, or not bllowfd in b pbrtidulbr
+ * dontfxt, dbn bf rfjfdtfd by throwing b <dodf>SfdurityExdfption</dodf>
+ * in thf dorrfsponding <dodf>dhfdk*</dodf> mfthod.</p>
+ *
+ * <p>This is bn bbstrbdt dlbss, bfdbusf in its implfmfntbtion nonf of
+ * thf dhfdking mfthods dofs bnything.  To bf usfful, it must bf
+ * subdlbssfd bnd bt lfbst onf of thf dhfdking mfthods ovfrriddfn to
+ * do somf dhfdking.  Somf or bll of thf MBfbnSfrvfr mfthods mby blso
+ * bf ovfrriddfn, for instbndf if thf dffbult dhfdking bfhbvior is
+ * inbppropribtf.</p>
+ *
+ * <p>If thfrf is no SfdurityMbnbgfr, thfn thf bddfss dontrollfr will rffusf
+ * to drfbtf bn MBfbn thbt is b ClbssLobdfr, whidh indludfs MLfts, or to
+ * fxfdutf thf mfthod bddURL on bn MBfbn thbt is bn MLft. This prfvfnts
+ * pfoplf from opfning sfdurity holfs unintfntionblly. Othfrwisf, it
+ * would not bf obvious thbt grbnting writf bddfss grbnts thf bbility to
+ * downlobd bnd fxfdutf brbitrbry dodf in thf tbrgft MBfbn sfrvfr. Advbndfd
+ * usfrs who do wbnt thf bbility to usf MLfts brf prfsumbbly bdvbndfd fnough
+ * to hbndlf polidy filfs bnd sfdurity mbnbgfrs.</p>
+ */
+publid bbstrbdt dlbss MBfbnSfrvfrAddfssControllfr
+        implfmfnts MBfbnSfrvfrForwbrdfr {
+
+    publid MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn mbs;
+    }
+
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr mbs) {
+        if (mbs == null)
+            throw nfw IllfgblArgumfntExdfption("Null MBfbnSfrvfr");
+        if (this.mbs != null)
+            throw nfw IllfgblArgumfntExdfption("MBfbnSfrvfr objfdt blrfbdy " +
+                                               "initiblizfd");
+        this.mbs = mbs;
+    }
+
+    /**
+     * Chfdk if thf dbllfr dbn do rfbd opfrbtions. This mfthod dofs
+     * nothing if so, othfrwisf throws SfdurityExdfption.
+     */
+    protfdtfd bbstrbdt void dhfdkRfbd();
+
+    /**
+     * Chfdk if thf dbllfr dbn do writf opfrbtions.  This mfthod dofs
+     * nothing if so, othfrwisf throws SfdurityExdfption.
+     */
+    protfdtfd bbstrbdt void dhfdkWritf();
+
+    /**
+     * Chfdk if thf dbllfr dbn drfbtf thf nbmfd dlbss.  Thf dffbult
+     * implfmfntbtion of this mfthod dblls {@link #dhfdkWritf()}.
+     */
+    protfdtfd void dhfdkCrfbtf(String dlbssNbmf) {
+        dhfdkWritf();
+    }
+
+    /**
+     * Chfdk if thf dbllfr dbn unrfgistfr thf nbmfd MBfbn.  Thf dffbult
+     * implfmfntbtion of this mfthod dblls {@link #dhfdkWritf()}.
+     */
+    protfdtfd void dhfdkUnrfgistfr(ObjfdtNbmf nbmf) {
+        dhfdkWritf();
+    }
+
+    //--------------------------------------------
+    //--------------------------------------------
+    //
+    // Implfmfntbtion of thf MBfbnSfrvfr intfrfbdf
+    //
+    //--------------------------------------------
+    //--------------------------------------------
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid void bddNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                        NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt hbndbbdk)
+        throws InstbndfNotFoundExdfption {
+        dhfdkRfbd();
+        gftMBfbnSfrvfr().bddNotifidbtionListfnfr(nbmf, listfnfr,
+                                                 filtfr, hbndbbdk);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid void bddNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                        ObjfdtNbmf listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt hbndbbdk)
+        throws InstbndfNotFoundExdfption {
+        dhfdkRfbd();
+        gftMBfbnSfrvfr().bddNotifidbtionListfnfr(nbmf, listfnfr,
+                                                 filtfr, hbndbbdk);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkCrfbtf(dlbssNbmf)</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf)
+        throws
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption {
+        dhfdkCrfbtf(dlbssNbmf);
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            Objfdt objfdt = gftMBfbnSfrvfr().instbntibtf(dlbssNbmf);
+            dhfdkClbssLobdfr(objfdt);
+            rfturn gftMBfbnSfrvfr().rfgistfrMBfbn(objfdt, nbmf);
+        } flsf {
+            rfturn gftMBfbnSfrvfr().drfbtfMBfbn(dlbssNbmf, nbmf);
+        }
+    }
+
+    /**
+     * Cbll <dodf>dhfdkCrfbtf(dlbssNbmf)</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf,
+                                      Objfdt pbrbms[], String signbturf[])
+        throws
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption {
+        dhfdkCrfbtf(dlbssNbmf);
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            Objfdt objfdt = gftMBfbnSfrvfr().instbntibtf(dlbssNbmf,
+                                                         pbrbms,
+                                                         signbturf);
+            dhfdkClbssLobdfr(objfdt);
+            rfturn gftMBfbnSfrvfr().rfgistfrMBfbn(objfdt, nbmf);
+        } flsf {
+            rfturn gftMBfbnSfrvfr().drfbtfMBfbn(dlbssNbmf, nbmf,
+                                                pbrbms, signbturf);
+        }
+    }
+
+    /**
+     * Cbll <dodf>dhfdkCrfbtf(dlbssNbmf)</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                      ObjfdtNbmf nbmf,
+                                      ObjfdtNbmf lobdfrNbmf)
+        throws
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        InstbndfNotFoundExdfption {
+        dhfdkCrfbtf(dlbssNbmf);
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            Objfdt objfdt = gftMBfbnSfrvfr().instbntibtf(dlbssNbmf,
+                                                         lobdfrNbmf);
+            dhfdkClbssLobdfr(objfdt);
+            rfturn gftMBfbnSfrvfr().rfgistfrMBfbn(objfdt, nbmf);
+        } flsf {
+            rfturn gftMBfbnSfrvfr().drfbtfMBfbn(dlbssNbmf, nbmf, lobdfrNbmf);
+        }
+    }
+
+    /**
+     * Cbll <dodf>dhfdkCrfbtf(dlbssNbmf)</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                      ObjfdtNbmf nbmf,
+                                      ObjfdtNbmf lobdfrNbmf,
+                                      Objfdt pbrbms[],
+                                      String signbturf[])
+        throws
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        InstbndfNotFoundExdfption {
+        dhfdkCrfbtf(dlbssNbmf);
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm == null) {
+            Objfdt objfdt = gftMBfbnSfrvfr().instbntibtf(dlbssNbmf,
+                                                         lobdfrNbmf,
+                                                         pbrbms,
+                                                         signbturf);
+            dhfdkClbssLobdfr(objfdt);
+            rfturn gftMBfbnSfrvfr().rfgistfrMBfbn(objfdt, nbmf);
+        } flsf {
+            rfturn gftMBfbnSfrvfr().drfbtfMBfbn(dlbssNbmf, nbmf, lobdfrNbmf,
+                                                pbrbms, signbturf);
+        }
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(ObjfdtNbmf nbmf, bytf[] dbtb)
+        throws InstbndfNotFoundExdfption, OpfrbtionsExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().dfsfriblizf(nbmf, dbtb);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(String dlbssNbmf, bytf[] dbtb)
+        throws OpfrbtionsExdfption, RfflfdtionExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().dfsfriblizf(dlbssNbmf, dbtb);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    @Dfprfdbtfd
+    publid ObjfdtInputStrfbm dfsfriblizf(String dlbssNbmf,
+                                         ObjfdtNbmf lobdfrNbmf,
+                                         bytf[] dbtb)
+        throws
+        InstbndfNotFoundExdfption,
+        OpfrbtionsExdfption,
+        RfflfdtionExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().dfsfriblizf(dlbssNbmf, lobdfrNbmf, dbtb);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Objfdt gftAttributf(ObjfdtNbmf nbmf, String bttributf)
+        throws
+        MBfbnExdfption,
+        AttributfNotFoundExdfption,
+        InstbndfNotFoundExdfption,
+        RfflfdtionExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftAttributf(nbmf, bttributf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid AttributfList gftAttributfs(ObjfdtNbmf nbmf, String[] bttributfs)
+        throws InstbndfNotFoundExdfption, RfflfdtionExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftAttributfs(nbmf, bttributfs);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ClbssLobdfr gftClbssLobdfr(ObjfdtNbmf lobdfrNbmf)
+        throws InstbndfNotFoundExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftClbssLobdfr(lobdfrNbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ClbssLobdfr gftClbssLobdfrFor(ObjfdtNbmf mbfbnNbmf)
+        throws InstbndfNotFoundExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftClbssLobdfrFor(mbfbnNbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ClbssLobdfrRfpository gftClbssLobdfrRfpository() {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftClbssLobdfrRfpository();
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid String gftDffbultDombin() {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftDffbultDombin();
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid String[] gftDombins() {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftDombins();
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Intfgfr gftMBfbnCount() {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftMBfbnCount();
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid MBfbnInfo gftMBfbnInfo(ObjfdtNbmf nbmf)
+        throws
+        InstbndfNotFoundExdfption,
+        IntrospfdtionExdfption,
+        RfflfdtionExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftMBfbnInfo(nbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ObjfdtInstbndf gftObjfdtInstbndf(ObjfdtNbmf nbmf)
+        throws InstbndfNotFoundExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().gftObjfdtInstbndf(nbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkCrfbtf(dlbssNbmf)</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Objfdt instbntibtf(String dlbssNbmf)
+        throws RfflfdtionExdfption, MBfbnExdfption {
+        dhfdkCrfbtf(dlbssNbmf);
+        rfturn gftMBfbnSfrvfr().instbntibtf(dlbssNbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkCrfbtf(dlbssNbmf)</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Objfdt instbntibtf(String dlbssNbmf,
+                              Objfdt pbrbms[],
+                              String signbturf[])
+        throws RfflfdtionExdfption, MBfbnExdfption {
+        dhfdkCrfbtf(dlbssNbmf);
+        rfturn gftMBfbnSfrvfr().instbntibtf(dlbssNbmf, pbrbms, signbturf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkCrfbtf(dlbssNbmf)</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Objfdt instbntibtf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf)
+        throws RfflfdtionExdfption, MBfbnExdfption, InstbndfNotFoundExdfption {
+        dhfdkCrfbtf(dlbssNbmf);
+        rfturn gftMBfbnSfrvfr().instbntibtf(dlbssNbmf, lobdfrNbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkCrfbtf(dlbssNbmf)</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Objfdt instbntibtf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf,
+                              Objfdt pbrbms[], String signbturf[])
+        throws RfflfdtionExdfption, MBfbnExdfption, InstbndfNotFoundExdfption {
+        dhfdkCrfbtf(dlbssNbmf);
+        rfturn gftMBfbnSfrvfr().instbntibtf(dlbssNbmf, lobdfrNbmf,
+                                            pbrbms, signbturf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkWritf()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Objfdt invokf(ObjfdtNbmf nbmf, String opfrbtionNbmf,
+                         Objfdt pbrbms[], String signbturf[])
+        throws
+        InstbndfNotFoundExdfption,
+        MBfbnExdfption,
+        RfflfdtionExdfption {
+        dhfdkWritf();
+        dhfdkMLftMfthods(nbmf, opfrbtionNbmf);
+        rfturn gftMBfbnSfrvfr().invokf(nbmf, opfrbtionNbmf, pbrbms, signbturf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid boolfbn isInstbndfOf(ObjfdtNbmf nbmf, String dlbssNbmf)
+        throws InstbndfNotFoundExdfption {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().isInstbndfOf(nbmf, dlbssNbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid boolfbn isRfgistfrfd(ObjfdtNbmf nbmf) {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().isRfgistfrfd(nbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Sft<ObjfdtInstbndf> qufryMBfbns(ObjfdtNbmf nbmf, QufryExp qufry) {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().qufryMBfbns(nbmf, qufry);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid Sft<ObjfdtNbmf> qufryNbmfs(ObjfdtNbmf nbmf, QufryExp qufry) {
+        dhfdkRfbd();
+        rfturn gftMBfbnSfrvfr().qufryNbmfs(nbmf, qufry);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkWritf()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid ObjfdtInstbndf rfgistfrMBfbn(Objfdt objfdt, ObjfdtNbmf nbmf)
+        throws
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        NotComplibntMBfbnExdfption {
+        dhfdkWritf();
+        rfturn gftMBfbnSfrvfr().rfgistfrMBfbn(objfdt, nbmf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           NotifidbtionListfnfr listfnfr)
+        throws InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
+        dhfdkRfbd();
+        gftMBfbnSfrvfr().rfmovfNotifidbtionListfnfr(nbmf, listfnfr);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           NotifidbtionListfnfr listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt hbndbbdk)
+        throws InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
+        dhfdkRfbd();
+        gftMBfbnSfrvfr().rfmovfNotifidbtionListfnfr(nbmf, listfnfr,
+                                                    filtfr, hbndbbdk);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           ObjfdtNbmf listfnfr)
+        throws InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
+        dhfdkRfbd();
+        gftMBfbnSfrvfr().rfmovfNotifidbtionListfnfr(nbmf, listfnfr);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkRfbd()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           ObjfdtNbmf listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt hbndbbdk)
+        throws InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
+        dhfdkRfbd();
+        gftMBfbnSfrvfr().rfmovfNotifidbtionListfnfr(nbmf, listfnfr,
+                                                    filtfr, hbndbbdk);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkWritf()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid void sftAttributf(ObjfdtNbmf nbmf, Attributf bttributf)
+        throws
+        InstbndfNotFoundExdfption,
+        AttributfNotFoundExdfption,
+        InvblidAttributfVblufExdfption,
+        MBfbnExdfption,
+        RfflfdtionExdfption {
+        dhfdkWritf();
+        gftMBfbnSfrvfr().sftAttributf(nbmf, bttributf);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkWritf()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid AttributfList sftAttributfs(ObjfdtNbmf nbmf,
+                                       AttributfList bttributfs)
+        throws InstbndfNotFoundExdfption, RfflfdtionExdfption {
+        dhfdkWritf();
+        rfturn gftMBfbnSfrvfr().sftAttributfs(nbmf, bttributfs);
+    }
+
+    /**
+     * Cbll <dodf>dhfdkUnrfgistfr()</dodf>, thfn forwbrd this mfthod to thf
+     * wrbppfd objfdt.
+     */
+    publid void unrfgistfrMBfbn(ObjfdtNbmf nbmf)
+        throws InstbndfNotFoundExdfption, MBfbnRfgistrbtionExdfption {
+        dhfdkUnrfgistfr(nbmf);
+        gftMBfbnSfrvfr().unrfgistfrMBfbn(nbmf);
+    }
+
+    //----------------
+    // PRIVATE METHODS
+    //----------------
+
+    privbtf void dhfdkClbssLobdfr(Objfdt objfdt) {
+        if (objfdt instbndfof ClbssLobdfr)
+            throw nfw SfdurityExdfption("Addfss dfnifd! Crfbting bn " +
+                                        "MBfbn thbt is b ClbssLobdfr " +
+                                        "is forbiddfn unlfss b sfdurity " +
+                                        "mbnbgfr is instbllfd.");
+    }
+
+    privbtf void dhfdkMLftMfthods(ObjfdtNbmf nbmf, String opfrbtion)
+    throws InstbndfNotFoundExdfption {
+        // Chfdk if sfdurity mbnbgfr instbllfd
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            rfturn;
+        }
+        // Chfdk for bddURL bnd gftMBfbnsFromURL mfthods
+        if (!opfrbtion.fqubls("bddURL") &&
+                !opfrbtion.fqubls("gftMBfbnsFromURL")) {
+            rfturn;
+        }
+        // Chfdk if MBfbn is instbndf of MLft
+        if (!gftMBfbnSfrvfr().isInstbndfOf(nbmf,
+                "jbvbx.mbnbgfmfnt.lobding.MLft")) {
+            rfturn;
+        }
+        // Throw sfdurity fxdfption
+        if (opfrbtion.fqubls("bddURL")) { // bddURL
+            throw nfw SfdurityExdfption("Addfss dfnifd! MLft mfthod bddURL " +
+                    "dbnnot bf invokfd unlfss b sfdurity mbnbgfr is instbllfd.");
+        } flsf { // gftMBfbnsFromURL
+            // Whfthfr or not dblling gftMBfbnsFromURL is bllowfd is dontrollfd
+            // by thf vbluf of thf "jmx.rfmotf.x.mlft.bllow.gftMBfbnsFromURL"
+            // systfm propfrty. If thf vbluf of this propfrty is truf, dblling
+            // thf MLft's gftMBfbnsFromURL mfthod is bllowfd. Thf dffbult vbluf
+            // for this propfrty is fblsf.
+            finbl String propNbmf = "jmx.rfmotf.x.mlft.bllow.gftMBfbnsFromURL";
+            GftPropfrtyAdtion propAdtion = nfw GftPropfrtyAdtion(propNbmf);
+            String propVbluf = AddfssControllfr.doPrivilfgfd(propAdtion);
+            boolfbn bllowGftMBfbnsFromURL = "truf".fqublsIgnorfCbsf(propVbluf);
+            if (!bllowGftMBfbnsFromURL) {
+                throw nfw SfdurityExdfption("Addfss dfnifd! MLft mfthod " +
+                        "gftMBfbnsFromURL dbnnot bf invokfd unlfss b " +
+                        "sfdurity mbnbgfr is instbllfd or thf systfm propfrty " +
+                        "-Djmx.rfmotf.x.mlft.bllow.gftMBfbnsFromURL=truf " +
+                        "is spfdififd.");
+            }
+        }
+    }
+
+    //------------------
+    // PRIVATE VARIABLES
+    //------------------
+
+    privbtf MBfbnSfrvfr mbs;
+}

@@ -1,808 +1,808 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Window;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Window;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
 
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
 
-import java.util.*;
+import jbvb.util.*;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-import sun.awt.dnd.SunDragSourceContextPeer;
-import sun.awt.dnd.SunDropTargetContextPeer;
-import sun.awt.SunToolkit;
-import sun.awt.AWTAccessor;
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+import sun.bwt.dnd.SunDropTbrgftContfxtPffr;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAddfssor;
 
 /**
- * The XDragSourceContextPeer class is the class responsible for handling
- * the interaction between the XDnD/Motif DnD subsystem and Java drag sources.
+ * Tif XDrbgSourdfContfxtPffr dlbss is tif dlbss rfsponsiblf for ibndling
+ * tif intfrbdtion bftwffn tif XDnD/Motif DnD subsystfm bnd Jbvb drbg sourdfs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public final class XDragSourceContextPeer
-    extends SunDragSourceContextPeer implements XDragSourceProtocolListener {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDragSourceContextPeer");
+publid finbl dlbss XDrbgSourdfContfxtPffr
+    fxtfnds SunDrbgSourdfContfxtPffr implfmfnts XDrbgSourdfProtodolListfnfr {
+    privbtf stbtid finbl PlbtformLoggfr loggfr =
+        PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.xdnd.XDrbgSourdfContfxtPffr");
 
-    /* The events selected on the root window when the drag begins. */
-    private static final int ROOT_EVENT_MASK = (int)XConstants.ButtonMotionMask |
-        (int)XConstants.KeyPressMask | (int)XConstants.KeyReleaseMask;
-    /* The events to be delivered during grab. */
-    private static final int GRAB_EVENT_MASK = (int)XConstants.ButtonPressMask |
-        (int)XConstants.ButtonMotionMask | (int)XConstants.ButtonReleaseMask;
+    /* Tif fvfnts sflfdtfd on tif root window wifn tif drbg bfgins. */
+    privbtf stbtid finbl int ROOT_EVENT_MASK = (int)XConstbnts.ButtonMotionMbsk |
+        (int)XConstbnts.KfyPrfssMbsk | (int)XConstbnts.KfyRflfbsfMbsk;
+    /* Tif fvfnts to bf dflivfrfd during grbb. */
+    privbtf stbtid finbl int GRAB_EVENT_MASK = (int)XConstbnts.ButtonPrfssMbsk |
+        (int)XConstbnts.ButtonMotionMbsk | (int)XConstbnts.ButtonRflfbsfMbsk;
 
-    /* The event mask of the root window before the drag operation starts. */
-    private long rootEventMask = 0;
-    private boolean dndInProgress = false;
-    private boolean dragInProgress = false;
-    private long dragRootWindow = 0;
+    /* Tif fvfnt mbsk of tif root window bfforf tif drbg opfrbtion stbrts. */
+    privbtf long rootEvfntMbsk = 0;
+    privbtf boolfbn dndInProgrfss = fblsf;
+    privbtf boolfbn drbgInProgrfss = fblsf;
+    privbtf long drbgRootWindow = 0;
 
-    /* The protocol chosen for the communication with the current drop target. */
-    private XDragSourceProtocol dragProtocol = null;
-    /* The drop action chosen by the current drop target. */
-    private int targetAction = DnDConstants.ACTION_NONE;
-    /* The set of drop actions supported by the drag source. */
-    private int sourceActions = DnDConstants.ACTION_NONE;
-    /* The drop action selected by the drag source based on the modifiers state
-       and the action selected by the current drop target. */
-    private int sourceAction = DnDConstants.ACTION_NONE;
-    /* The data formats supported by the drag source for the current drag
-       operation. */
-    private long[] sourceFormats = null;
-    /* The XID of the root subwindow that contains the current target. */
-    private long targetRootSubwindow = 0;
-    /* The pointer location. */
-    private int xRoot = 0;
-    private int yRoot = 0;
-    /* Keyboard modifiers state. */
-    private int eventState = 0;
+    /* Tif protodol diosfn for tif dommunidbtion witi tif durrfnt drop tbrgft. */
+    privbtf XDrbgSourdfProtodol drbgProtodol = null;
+    /* Tif drop bdtion diosfn by tif durrfnt drop tbrgft. */
+    privbtf int tbrgftAdtion = DnDConstbnts.ACTION_NONE;
+    /* Tif sft of drop bdtions supportfd by tif drbg sourdf. */
+    privbtf int sourdfAdtions = DnDConstbnts.ACTION_NONE;
+    /* Tif drop bdtion sflfdtfd by tif drbg sourdf bbsfd on tif modififrs stbtf
+       bnd tif bdtion sflfdtfd by tif durrfnt drop tbrgft. */
+    privbtf int sourdfAdtion = DnDConstbnts.ACTION_NONE;
+    /* Tif dbtb formbts supportfd by tif drbg sourdf for tif durrfnt drbg
+       opfrbtion. */
+    privbtf long[] sourdfFormbts = null;
+    /* Tif XID of tif root subwindow tibt dontbins tif durrfnt tbrgft. */
+    privbtf long tbrgftRootSubwindow = 0;
+    /* Tif pointfr lodbtion. */
+    privbtf int xRoot = 0;
+    privbtf int yRoot = 0;
+    /* Kfybobrd modififrs stbtf. */
+    privbtf int fvfntStbtf = 0;
 
-    /* XEmbed DnD support. We act as a proxy between source and target. */
-    private long proxyModeSourceWindow = 0;
+    /* XEmbfd DnD support. Wf bdt bs b proxy bftwffn sourdf bnd tbrgft. */
+    privbtf long proxyModfSourdfWindow = 0;
 
-    /* The singleton instance. */
-    private static final XDragSourceContextPeer theInstance =
-        new XDragSourceContextPeer(null);
+    /* Tif singlfton instbndf. */
+    privbtf stbtid finbl XDrbgSourdfContfxtPffr tifInstbndf =
+        nfw XDrbgSourdfContfxtPffr(null);
 
-    private XDragSourceContextPeer(DragGestureEvent dge) {
-        super(dge);
+    privbtf XDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) {
+        supfr(dgf);
     }
 
-    static XDragSourceProtocolListener getXDragSourceProtocolListener() {
-        return theInstance;
+    stbtid XDrbgSourdfProtodolListfnfr gftXDrbgSourdfProtodolListfnfr() {
+        rfturn tifInstbndf;
     }
 
-    static XDragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge)
-      throws InvalidDnDOperationException {
-    theInstance.setTrigger(dge);
-        return theInstance;
+    stbtid XDrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf)
+      tirows InvblidDnDOpfrbtionExdfption {
+    tifInstbndf.sftTriggfr(dgf);
+        rfturn tifInstbndf;
     }
 
-    protected void startDrag(Transferable transferable,
-                             long[] formats, Map<Long, DataFlavor> formatMap) {
-        Component component = getTrigger().getComponent();
-        Component c = null;
-        XWindowPeer wpeer = null;
+    protfdtfd void stbrtDrbg(Trbnsffrbblf trbnsffrbblf,
+                             long[] formbts, Mbp<Long, DbtbFlbvor> formbtMbp) {
+        Componfnt domponfnt = gftTriggfr().gftComponfnt();
+        Componfnt d = null;
+        XWindowPffr wpffr = null;
 
-        for (c = component; c != null && !(c instanceof Window);
-             c = AWTAccessor.getComponentAccessor().getParent(c));
+        for (d = domponfnt; d != null && !(d instbndfof Window);
+             d = AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(d));
 
-        if (c instanceof Window) {
-            wpeer = (XWindowPeer)c.getPeer();
+        if (d instbndfof Window) {
+            wpffr = (XWindowPffr)d.gftPffr();
         }
 
-        if (wpeer == null) {
-            throw new InvalidDnDOperationException(
-                "Cannot find top-level for the drag source component");
+        if (wpffr == null) {
+            tirow nfw InvblidDnDOpfrbtionExdfption(
+                "Cbnnot find top-lfvfl for tif drbg sourdf domponfnt");
         }
 
-        long xcursor = 0;
+        long xdursor = 0;
         long rootWindow = 0;
-        long dragWindow = 0;
-        long timeStamp = 0;
+        long drbgWindow = 0;
+        long timfStbmp = 0;
 
-        /* Retrieve the X cursor for the drag operation. */
+        /* Rftrifvf tif X dursor for tif drbg opfrbtion. */
         {
-            Cursor cursor = getCursor();
-            if (cursor != null) {
-                xcursor = XGlobalCursorManager.getCursor(cursor);
+            Cursor dursor = gftCursor();
+            if (dursor != null) {
+                xdursor = XGlobblCursorMbnbgfr.gftCursor(dursor);
             }
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            if (proxyModeSourceWindow != 0) {
-                throw new InvalidDnDOperationException("Proxy drag in progress");
+            if (proxyModfSourdfWindow != 0) {
+                tirow nfw InvblidDnDOpfrbtionExdfption("Proxy drbg in progrfss");
             }
-            if (dndInProgress) {
-                throw new InvalidDnDOperationException("Drag in progress");
+            if (dndInProgrfss) {
+                tirow nfw InvblidDnDOpfrbtionExdfption("Drbg in progrfss");
             }
 
-            /* Determine the root window for the drag operation. */
+            /* Dftfrminf tif root window for tif drbg opfrbtion. */
             {
-                long screen = XlibWrapper.XScreenNumberOfScreen(wpeer.getScreen());
-                rootWindow = XlibWrapper.RootWindow(XToolkit.getDisplay(), screen);
+                long sdrffn = XlibWrbppfr.XSdrffnNumbfrOfSdrffn(wpffr.gftSdrffn());
+                rootWindow = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), sdrffn);
             }
 
-            dragWindow = XWindow.getXAWTRootWindow().getWindow();
+            drbgWindow = XWindow.gftXAWTRootWindow().gftWindow();
 
-            timeStamp = XToolkit.getCurrentServerTime();
+            timfStbmp = XToolkit.gftCurrfntSfrvfrTimf();
 
-            int dropActions = getDragSourceContext().getSourceActions();
+            int dropAdtions = gftDrbgSourdfContfxt().gftSourdfAdtions();
 
-            Iterator<XDragSourceProtocol> dragProtocols =
-                XDragAndDropProtocols.getDragSourceProtocols();
-            while (dragProtocols.hasNext()) {
-                XDragSourceProtocol dragProtocol = dragProtocols.next();
+            Itfrbtor<XDrbgSourdfProtodol> drbgProtodols =
+                XDrbgAndDropProtodols.gftDrbgSourdfProtodols();
+            wiilf (drbgProtodols.ibsNfxt()) {
+                XDrbgSourdfProtodol drbgProtodol = drbgProtodols.nfxt();
                 try {
-                    dragProtocol.initializeDrag(dropActions, transferable,
-                                                formatMap, formats);
-                } catch (XException xe) {
-                    throw (InvalidDnDOperationException)
-                        new InvalidDnDOperationException().initCause(xe);
+                    drbgProtodol.initiblizfDrbg(dropAdtions, trbnsffrbblf,
+                                                formbtMbp, formbts);
+                } dbtdi (XExdfption xf) {
+                    tirow (InvblidDnDOpfrbtionExdfption)
+                        nfw InvblidDnDOpfrbtionExdfption().initCbusf(xf);
                 }
             }
 
-            /* Install X grabs. */
+            /* Instbll X grbbs. */
             {
-                int status;
-                XWindowAttributes wattr = new XWindowAttributes();
+                int stbtus;
+                XWindowAttributfs wbttr = nfw XWindowAttributfs();
                 try {
-                    status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                              rootWindow, wattr.pData);
+                    stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                              rootWindow, wbttr.pDbtb);
 
-                    if (status == 0) {
-                        throw new InvalidDnDOperationException("XGetWindowAttributes failed");
+                    if (stbtus == 0) {
+                        tirow nfw InvblidDnDOpfrbtionExdfption("XGftWindowAttributfs fbilfd");
                     }
 
-                    rootEventMask = wattr.get_your_event_mask();
+                    rootEvfntMbsk = wbttr.gft_your_fvfnt_mbsk();
 
-                    XlibWrapper.XSelectInput(XToolkit.getDisplay(), rootWindow,
-                                             rootEventMask | ROOT_EVENT_MASK);
-                } finally {
-                    wattr.dispose();
+                    XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), rootWindow,
+                                             rootEvfntMbsk | ROOT_EVENT_MASK);
+                } finblly {
+                    wbttr.disposf();
                 }
 
-                XBaseWindow.ungrabInput();
+                XBbsfWindow.ungrbbInput();
 
-                status = XlibWrapper.XGrabPointer(XToolkit.getDisplay(), rootWindow,
+                stbtus = XlibWrbppfr.XGrbbPointfr(XToolkit.gftDisplby(), rootWindow,
                                                   0, GRAB_EVENT_MASK,
-                                                  XConstants.GrabModeAsync,
-                                                  XConstants.GrabModeAsync,
-                                                  XConstants.None, xcursor, timeStamp);
+                                                  XConstbnts.GrbbModfAsynd,
+                                                  XConstbnts.GrbbModfAsynd,
+                                                  XConstbnts.Nonf, xdursor, timfStbmp);
 
-                if (status != XConstants.GrabSuccess) {
-                    cleanup(timeStamp);
-                    throwGrabFailureException("Cannot grab pointer", status);
-                    return;
+                if (stbtus != XConstbnts.GrbbSuddfss) {
+                    dlfbnup(timfStbmp);
+                    tirowGrbbFbilurfExdfption("Cbnnot grbb pointfr", stbtus);
+                    rfturn;
                 }
 
-                status = XlibWrapper.XGrabKeyboard(XToolkit.getDisplay(), rootWindow,
+                stbtus = XlibWrbppfr.XGrbbKfybobrd(XToolkit.gftDisplby(), rootWindow,
                                                    0,
-                                                   XConstants.GrabModeAsync,
-                                                   XConstants.GrabModeAsync,
-                                                   timeStamp);
+                                                   XConstbnts.GrbbModfAsynd,
+                                                   XConstbnts.GrbbModfAsynd,
+                                                   timfStbmp);
 
-                if (status != XConstants.GrabSuccess) {
-                    cleanup(timeStamp);
-                    throwGrabFailureException("Cannot grab keyboard", status);
-                    return;
+                if (stbtus != XConstbnts.GrbbSuddfss) {
+                    dlfbnup(timfStbmp);
+                    tirowGrbbFbilurfExdfption("Cbnnot grbb kfybobrd", stbtus);
+                    rfturn;
                 }
             }
 
-            /* Update the global state. */
-            dndInProgress = true;
-            dragInProgress = true;
-            dragRootWindow = rootWindow;
-            sourceActions = dropActions;
-            sourceFormats = formats;
-        } finally {
-            XToolkit.awtUnlock();
+            /* Updbtf tif globbl stbtf. */
+            dndInProgrfss = truf;
+            drbgInProgrfss = truf;
+            drbgRootWindow = rootWindow;
+            sourdfAdtions = dropAdtions;
+            sourdfFormbts = formbts;
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        /* This implementation doesn't use native context */
-        setNativeContext(0);
+        /* Tiis implfmfntbtion dofsn't usf nbtivf dontfxt */
+        sftNbtivfContfxt(0);
 
-        SunDropTargetContextPeer.setCurrentJVMLocalSourceTransferable(transferable);
+        SunDropTbrgftContfxtPffr.sftCurrfntJVMLodblSourdfTrbnsffrbblf(trbnsffrbblf);
     }
 
-    public long getProxyModeSourceWindow() {
-        return proxyModeSourceWindow;
+    publid long gftProxyModfSourdfWindow() {
+        rfturn proxyModfSourdfWindow;
     }
 
-    private void setProxyModeSourceWindowImpl(long window) {
-        proxyModeSourceWindow = window;
+    privbtf void sftProxyModfSourdfWindowImpl(long window) {
+        proxyModfSourdfWindow = window;
     }
 
-    public static void setProxyModeSourceWindow(long window) {
-        theInstance.setProxyModeSourceWindowImpl(window);
+    publid stbtid void sftProxyModfSourdfWindow(long window) {
+        tifInstbndf.sftProxyModfSourdfWindowImpl(window);
     }
 
     /**
-     * set cursor
+     * sft dursor
      */
 
-    public void setCursor(Cursor c) throws InvalidDnDOperationException {
-        XToolkit.awtLock();
+    publid void sftCursor(Cursor d) tirows InvblidDnDOpfrbtionExdfption {
+        XToolkit.bwtLodk();
         try {
-            super.setCursor(c);
-        } finally {
-            XToolkit.awtUnlock();
+            supfr.sftCursor(d);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    protected void setNativeCursor(long nativeCtxt, Cursor c, int cType) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    protfdtfd void sftNbtivfCursor(long nbtivfCtxt, Cursor d, int dTypf) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        if (c == null) {
-            return;
+        if (d == null) {
+            rfturn;
         }
 
-        long xcursor = XGlobalCursorManager.getCursor(c);
+        long xdursor = XGlobblCursorMbnbgfr.gftCursor(d);
 
-        if (xcursor == 0) {
-            return;
+        if (xdursor == 0) {
+            rfturn;
         }
 
-        XlibWrapper.XChangeActivePointerGrab(XToolkit.getDisplay(),
+        XlibWrbppfr.XCibngfAdtivfPointfrGrbb(XToolkit.gftDisplby(),
                                              GRAB_EVENT_MASK,
-                                             xcursor,
-                                             XConstants.CurrentTime);
+                                             xdursor,
+                                             XConstbnts.CurrfntTimf);
     }
 
-    protected boolean needsBogusExitBeforeDrop() {
-        return false;
+    protfdtfd boolfbn nffdsBogusExitBfforfDrop() {
+        rfturn fblsf;
     }
 
-    private void throwGrabFailureException(String msg, int grabStatus)
-      throws InvalidDnDOperationException {
-        String msgCause = "";
-        switch (grabStatus) {
-        case XConstants.GrabNotViewable:  msgCause = "not viewable";    break;
-        case XConstants.AlreadyGrabbed:   msgCause = "already grabbed"; break;
-        case XConstants.GrabInvalidTime:  msgCause = "invalid time";    break;
-        case XConstants.GrabFrozen:       msgCause = "grab frozen";     break;
-        default:                           msgCause = "unknown failure"; break;
+    privbtf void tirowGrbbFbilurfExdfption(String msg, int grbbStbtus)
+      tirows InvblidDnDOpfrbtionExdfption {
+        String msgCbusf = "";
+        switdi (grbbStbtus) {
+        dbsf XConstbnts.GrbbNotVifwbblf:  msgCbusf = "not vifwbblf";    brfbk;
+        dbsf XConstbnts.AlrfbdyGrbbbfd:   msgCbusf = "blrfbdy grbbbfd"; brfbk;
+        dbsf XConstbnts.GrbbInvblidTimf:  msgCbusf = "invblid timf";    brfbk;
+        dbsf XConstbnts.GrbbFrozfn:       msgCbusf = "grbb frozfn";     brfbk;
+        dffbult:                           msgCbusf = "unknown fbilurf"; brfbk;
         }
-        throw new InvalidDnDOperationException(msg + ": " + msgCause);
+        tirow nfw InvblidDnDOpfrbtionExdfption(msg + ": " + msgCbusf);
     }
 
     /**
-     * The caller must own awtLock.
+     * Tif dbllfr must own bwtLodk.
      */
-    public void cleanup(long time) {
-        if (dndInProgress) {
-            if (dragProtocol != null) {
-                dragProtocol.sendLeaveMessage(time);
+    publid void dlfbnup(long timf) {
+        if (dndInProgrfss) {
+            if (drbgProtodol != null) {
+                drbgProtodol.sfndLfbvfMfssbgf(timf);
             }
 
-            if (targetAction != DnDConstants.ACTION_NONE) {
-                dragExit(xRoot, yRoot);
+            if (tbrgftAdtion != DnDConstbnts.ACTION_NONE) {
+                drbgExit(xRoot, yRoot);
             }
 
-            dragDropFinished(false, DnDConstants.ACTION_NONE, xRoot, yRoot);
+            drbgDropFinisifd(fblsf, DnDConstbnts.ACTION_NONE, xRoot, yRoot);
         }
 
-        Iterator<XDragSourceProtocol> dragProtocols =
-            XDragAndDropProtocols.getDragSourceProtocols();
-        while (dragProtocols.hasNext()) {
-            XDragSourceProtocol dragProtocol = dragProtocols.next();
+        Itfrbtor<XDrbgSourdfProtodol> drbgProtodols =
+            XDrbgAndDropProtodols.gftDrbgSourdfProtodols();
+        wiilf (drbgProtodols.ibsNfxt()) {
+            XDrbgSourdfProtodol drbgProtodol = drbgProtodols.nfxt();
             try {
-                dragProtocol.cleanup();
-            } catch (XException xe) {
-                // Ignore the exception.
+                drbgProtodol.dlfbnup();
+            } dbtdi (XExdfption xf) {
+                // Ignorf tif fxdfption.
             }
         }
 
-        dndInProgress = false;
-        dragInProgress = false;
-        dragRootWindow = 0;
-        sourceFormats = null;
-        sourceActions = DnDConstants.ACTION_NONE;
-        sourceAction = DnDConstants.ACTION_NONE;
-        eventState = 0;
+        dndInProgrfss = fblsf;
+        drbgInProgrfss = fblsf;
+        drbgRootWindow = 0;
+        sourdfFormbts = null;
+        sourdfAdtions = DnDConstbnts.ACTION_NONE;
+        sourdfAdtion = DnDConstbnts.ACTION_NONE;
+        fvfntStbtf = 0;
         xRoot = 0;
         yRoot = 0;
 
-        cleanupTargetInfo();
+        dlfbnupTbrgftInfo();
 
-        removeDnDGrab(time);
+        rfmovfDnDGrbb(timf);
     }
 
     /**
-     * The caller must own awtLock.
+     * Tif dbllfr must own bwtLodk.
      */
-    private void cleanupTargetInfo() {
-        targetAction = DnDConstants.ACTION_NONE;
-        dragProtocol = null;
-        targetRootSubwindow = 0;
+    privbtf void dlfbnupTbrgftInfo() {
+        tbrgftAdtion = DnDConstbnts.ACTION_NONE;
+        drbgProtodol = null;
+        tbrgftRootSubwindow = 0;
     }
 
-    private void removeDnDGrab(long time) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf void rfmovfDnDGrbb(long timf) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        XlibWrapper.XUngrabPointer(XToolkit.getDisplay(), time);
-        XlibWrapper.XUngrabKeyboard(XToolkit.getDisplay(), time);
+        XlibWrbppfr.XUngrbbPointfr(XToolkit.gftDisplby(), timf);
+        XlibWrbppfr.XUngrbbKfybobrd(XToolkit.gftDisplby(), timf);
 
-        /* Restore the root event mask if it was changed. */
-        if ((rootEventMask | ROOT_EVENT_MASK) != rootEventMask &&
-            dragRootWindow != 0) {
+        /* Rfstorf tif root fvfnt mbsk if it wbs dibngfd. */
+        if ((rootEvfntMbsk | ROOT_EVENT_MASK) != rootEvfntMbsk &&
+            drbgRootWindow != 0) {
 
-            XlibWrapper.XSelectInput(XToolkit.getDisplay(),
-                                     dragRootWindow,
-                                     rootEventMask);
+            XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(),
+                                     drbgRootWindow,
+                                     rootEvfntMbsk);
         }
 
-        rootEventMask = 0;
-        dragRootWindow = 0;
+        rootEvfntMbsk = 0;
+        drbgRootWindow = 0;
     }
 
-    private boolean processClientMessage(XClientMessageEvent xclient) {
-        if (dragProtocol != null) {
-            return dragProtocol.processClientMessage(xclient);
+    privbtf boolfbn prodfssClifntMfssbgf(XClifntMfssbgfEvfnt xdlifnt) {
+        if (drbgProtodol != null) {
+            rfturn drbgProtodol.prodfssClifntMfssbgf(xdlifnt);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Updates the source action according to the specified state.
+     * Updbtfs tif sourdf bdtion bddording to tif spfdififd stbtf.
      *
-     * @returns true if the source
+     * @rfturns truf if tif sourdf
      */
-    private boolean updateSourceAction(int state) {
-        int action = SunDragSourceContextPeer.convertModifiersToDropAction(XWindow.getModifiers(state, 0, 0),
-                                                                           sourceActions);
-        if (sourceAction == action) {
-            return false;
+    privbtf boolfbn updbtfSourdfAdtion(int stbtf) {
+        int bdtion = SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(XWindow.gftModififrs(stbtf, 0, 0),
+                                                                           sourdfAdtions);
+        if (sourdfAdtion == bdtion) {
+            rfturn fblsf;
         }
-        sourceAction = action;
-        return true;
+        sourdfAdtion = bdtion;
+        rfturn truf;
     }
 
     /**
-     * Returns the client window under the specified root subwindow.
+     * Rfturns tif dlifnt window undfr tif spfdififd root subwindow.
      */
-    private static long findClientWindow(long window) {
-        if (XlibUtil.isTrueToplevelWindow(window)) {
-            return window;
+    privbtf stbtid long findClifntWindow(long window) {
+        if (XlibUtil.isTrufToplfvflWindow(window)) {
+            rfturn window;
         }
 
-        Set<Long> children = XlibUtil.getChildWindows(window);
-        for (Long child : children) {
-            long win = findClientWindow(child);
+        Sft<Long> diildrfn = XlibUtil.gftCiildWindows(window);
+        for (Long diild : diildrfn) {
+            long win = findClifntWindow(diild);
             if (win != 0) {
-                return win;
+                rfturn win;
             }
         }
 
-        return 0;
+        rfturn 0;
     }
 
-    private void doUpdateTargetWindow(long subwindow, long time) {
-        long clientWindow = 0;
+    privbtf void doUpdbtfTbrgftWindow(long subwindow, long timf) {
+        long dlifntWindow = 0;
         long proxyWindow = 0;
-        XDragSourceProtocol protocol = null;
-        boolean isReceiver = false;
+        XDrbgSourdfProtodol protodol = null;
+        boolfbn isRfdfivfr = fblsf;
 
         if (subwindow != 0) {
-            clientWindow = findClientWindow(subwindow);
+            dlifntWindow = findClifntWindow(subwindow);
         }
 
-        if (clientWindow != 0) {
-            Iterator<XDragSourceProtocol> dragProtocols =
-                XDragAndDropProtocols.getDragSourceProtocols();
-            while (dragProtocols.hasNext()) {
-                XDragSourceProtocol dragProtocol = dragProtocols.next();
-                if (dragProtocol.attachTargetWindow(clientWindow, time)) {
-                    protocol = dragProtocol;
-                    break;
+        if (dlifntWindow != 0) {
+            Itfrbtor<XDrbgSourdfProtodol> drbgProtodols =
+                XDrbgAndDropProtodols.gftDrbgSourdfProtodols();
+            wiilf (drbgProtodols.ibsNfxt()) {
+                XDrbgSourdfProtodol drbgProtodol = drbgProtodols.nfxt();
+                if (drbgProtodol.bttbdiTbrgftWindow(dlifntWindow, timf)) {
+                    protodol = drbgProtodol;
+                    brfbk;
                 }
             }
         }
 
-        /* Update the global state. */
-        dragProtocol = protocol;
-        targetAction = DnDConstants.ACTION_NONE;
-        targetRootSubwindow = subwindow;
+        /* Updbtf tif globbl stbtf. */
+        drbgProtodol = protodol;
+        tbrgftAdtion = DnDConstbnts.ACTION_NONE;
+        tbrgftRootSubwindow = subwindow;
     }
 
-    private void updateTargetWindow(XMotionEvent xmotion) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf void updbtfTbrgftWindow(XMotionEvfnt xmotion) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        int x = xmotion.get_x_root();
-        int y = xmotion.get_y_root();
-        long time = xmotion.get_time();
-        long subwindow = xmotion.get_subwindow();
+        int x = xmotion.gft_x_root();
+        int y = xmotion.gft_y_root();
+        long timf = xmotion.gft_timf();
+        long subwindow = xmotion.gft_subwindow();
 
         /*
-         * If this event had occurred before the pointer was grabbed,
-         * query the server for the current root subwindow.
+         * If tiis fvfnt ibd oddurrfd bfforf tif pointfr wbs grbbbfd,
+         * qufry tif sfrvfr for tif durrfnt root subwindow.
          */
-        if (xmotion.get_window() != xmotion.get_root()) {
-            XlibWrapper.XQueryPointer(XToolkit.getDisplay(),
-                                      xmotion.get_root(),
-                                      XlibWrapper.larg1,  // root
-                                      XlibWrapper.larg2,  // subwindow
-                                      XlibWrapper.larg3,  // x_root
-                                      XlibWrapper.larg4,  // y_root
-                                      XlibWrapper.larg5,  // x
-                                      XlibWrapper.larg6,  // y
-                                      XlibWrapper.larg7); // modifiers
-            subwindow = Native.getLong(XlibWrapper.larg2);
+        if (xmotion.gft_window() != xmotion.gft_root()) {
+            XlibWrbppfr.XQufryPointfr(XToolkit.gftDisplby(),
+                                      xmotion.gft_root(),
+                                      XlibWrbppfr.lbrg1,  // root
+                                      XlibWrbppfr.lbrg2,  // subwindow
+                                      XlibWrbppfr.lbrg3,  // x_root
+                                      XlibWrbppfr.lbrg4,  // y_root
+                                      XlibWrbppfr.lbrg5,  // x
+                                      XlibWrbppfr.lbrg6,  // y
+                                      XlibWrbppfr.lbrg7); // modififrs
+            subwindow = Nbtivf.gftLong(XlibWrbppfr.lbrg2);
         }
 
-        if (targetRootSubwindow != subwindow) {
-            if (dragProtocol != null) {
-                dragProtocol.sendLeaveMessage(time);
+        if (tbrgftRootSubwindow != subwindow) {
+            if (drbgProtodol != null) {
+                drbgProtodol.sfndLfbvfMfssbgf(timf);
 
                 /*
-                 * Neither Motif DnD nor XDnD provide a mean for the target
-                 * to notify the source that the pointer exits the drop site
-                 * that occupies the whole top level.
-                 * We detect this situation and post dragExit.
+                 * Nfitifr Motif DnD nor XDnD providf b mfbn for tif tbrgft
+                 * to notify tif sourdf tibt tif pointfr fxits tif drop sitf
+                 * tibt oddupifs tif wiolf top lfvfl.
+                 * Wf dftfdt tiis situbtion bnd post drbgExit.
                  */
-                if (targetAction != DnDConstants.ACTION_NONE) {
-                    dragExit(x, y);
+                if (tbrgftAdtion != DnDConstbnts.ACTION_NONE) {
+                    drbgExit(x, y);
                 }
             }
 
-            /* Update the global state. */
-            doUpdateTargetWindow(subwindow, time);
+            /* Updbtf tif globbl stbtf. */
+            doUpdbtfTbrgftWindow(subwindow, timf);
 
-            if (dragProtocol != null) {
-                dragProtocol.sendEnterMessage(sourceFormats,
-                                              sourceAction,
-                                              sourceActions,
-                                              time);
+            if (drbgProtodol != null) {
+                drbgProtodol.sfndEntfrMfssbgf(sourdfFormbts,
+                                              sourdfAdtion,
+                                              sourdfAdtions,
+                                              timf);
             }
         }
     }
 
     /*
-     * DO NOT USE is_hint field of xmotion since it could not be set when we
-     * convert XKeyEvent or XButtonRelease to XMotionEvent.
+     * DO NOT USE is_iint fifld of xmotion sindf it dould not bf sft wifn wf
+     * donvfrt XKfyEvfnt or XButtonRflfbsf to XMotionEvfnt.
      */
-    private void processMouseMove(XMotionEvent xmotion) {
-        if (!dragInProgress) {
-            return;
+    privbtf void prodfssMousfMovf(XMotionEvfnt xmotion) {
+        if (!drbgInProgrfss) {
+            rfturn;
         }
-        if (xRoot != xmotion.get_x_root() || yRoot != xmotion.get_y_root()) {
-            xRoot = xmotion.get_x_root();
-            yRoot = xmotion.get_y_root();
+        if (xRoot != xmotion.gft_x_root() || yRoot != xmotion.gft_y_root()) {
+            xRoot = xmotion.gft_x_root();
+            yRoot = xmotion.gft_y_root();
 
-            postDragSourceDragEvent(targetAction,
-                                    XWindow.getModifiers(xmotion.get_state(),0,0),
+            postDrbgSourdfDrbgEvfnt(tbrgftAdtion,
+                                    XWindow.gftModififrs(xmotion.gft_stbtf(),0,0),
                                     xRoot, yRoot, DISPATCH_MOUSE_MOVED);
         }
 
-        if (eventState != xmotion.get_state()) {
-            if (updateSourceAction(xmotion.get_state()) && dragProtocol != null) {
-                postDragSourceDragEvent(targetAction,
-                                        XWindow.getModifiers(xmotion.get_state(),0,0),
+        if (fvfntStbtf != xmotion.gft_stbtf()) {
+            if (updbtfSourdfAdtion(xmotion.gft_stbtf()) && drbgProtodol != null) {
+                postDrbgSourdfDrbgEvfnt(tbrgftAdtion,
+                                        XWindow.gftModififrs(xmotion.gft_stbtf(),0,0),
                                         xRoot, yRoot, DISPATCH_CHANGED);
             }
-            eventState = xmotion.get_state();
+            fvfntStbtf = xmotion.gft_stbtf();
         }
 
-        updateTargetWindow(xmotion);
+        updbtfTbrgftWindow(xmotion);
 
-        if (dragProtocol != null) {
-            dragProtocol.sendMoveMessage(xmotion.get_x_root(),
-                                         xmotion.get_y_root(),
-                                         sourceAction, sourceActions,
-                                         xmotion.get_time());
+        if (drbgProtodol != null) {
+            drbgProtodol.sfndMovfMfssbgf(xmotion.gft_x_root(),
+                                         xmotion.gft_y_root(),
+                                         sourdfAdtion, sourdfAdtions,
+                                         xmotion.gft_timf());
         }
     }
 
-    private void processDrop(XButtonEvent xbutton) {
+    privbtf void prodfssDrop(XButtonEvfnt xbutton) {
         try {
-            dragProtocol.initiateDrop(xbutton.get_x_root(),
-                                      xbutton.get_y_root(),
-                                      sourceAction, sourceActions,
-                                      xbutton.get_time());
-        } catch (XException e) {
-            cleanup(xbutton.get_time());
+            drbgProtodol.initibtfDrop(xbutton.gft_x_root(),
+                                      xbutton.gft_y_root(),
+                                      sourdfAdtion, sourdfAdtions,
+                                      xbutton.gft_timf());
+        } dbtdi (XExdfption f) {
+            dlfbnup(xbutton.gft_timf());
         }
     }
 
-    private boolean processProxyModeEvent(XEvent ev) {
-        if (getProxyModeSourceWindow() == 0) {
-            return false;
+    privbtf boolfbn prodfssProxyModfEvfnt(XEvfnt fv) {
+        if (gftProxyModfSourdfWindow() == 0) {
+            rfturn fblsf;
         }
 
-        if (ev.get_type() != XConstants.ClientMessage) {
-            return false;
+        if (fv.gft_typf() != XConstbnts.ClifntMfssbgf) {
+            rfturn fblsf;
         }
 
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-            logger.finest("        proxyModeSourceWindow=" +
-                          getProxyModeSourceWindow() +
-                          " ev=" + ev);
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            loggfr.finfst("        proxyModfSourdfWindow=" +
+                          gftProxyModfSourdfWindow() +
+                          " fv=" + fv);
         }
 
-        XClientMessageEvent xclient = ev.get_xclient();
+        XClifntMfssbgfEvfnt xdlifnt = fv.gft_xdlifnt();
 
-        Iterator<XDragSourceProtocol> dragProtocols =
-            XDragAndDropProtocols.getDragSourceProtocols();
-        while (dragProtocols.hasNext()) {
-            XDragSourceProtocol dragProtocol = dragProtocols.next();
-            if (dragProtocol.processProxyModeEvent(xclient,
-                                                   getProxyModeSourceWindow())) {
-                return true;
+        Itfrbtor<XDrbgSourdfProtodol> drbgProtodols =
+            XDrbgAndDropProtodols.gftDrbgSourdfProtodols();
+        wiilf (drbgProtodols.ibsNfxt()) {
+            XDrbgSourdfProtodol drbgProtodol = drbgProtodols.nfxt();
+            if (drbgProtodol.prodfssProxyModfEvfnt(xdlifnt,
+                                                   gftProxyModfSourdfWindow())) {
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * The caller must own awtLock.
+     * Tif dbllfr must own bwtLodk.
      *
-     * @returns true if the even was processed and shouldn't be passed along.
+     * @rfturns truf if tif fvfn wbs prodfssfd bnd siouldn't bf pbssfd blong.
      */
-    private boolean doProcessEvent(XEvent ev) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf boolfbn doProdfssEvfnt(XEvfnt fv) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        if (processProxyModeEvent(ev)) {
-            return true;
+        if (prodfssProxyModfEvfnt(fv)) {
+            rfturn truf;
         }
 
-        if (!dndInProgress) {
-            return false;
+        if (!dndInProgrfss) {
+            rfturn fblsf;
         }
 
-        switch (ev.get_type()) {
-        case XConstants.ClientMessage: {
-            XClientMessageEvent xclient = ev.get_xclient();
-            return processClientMessage(xclient);
+        switdi (fv.gft_typf()) {
+        dbsf XConstbnts.ClifntMfssbgf: {
+            XClifntMfssbgfEvfnt xdlifnt = fv.gft_xdlifnt();
+            rfturn prodfssClifntMfssbgf(xdlifnt);
         }
-        case XConstants.DestroyNotify: {
-            XDestroyWindowEvent xde = ev.get_xdestroywindow();
+        dbsf XConstbnts.DfstroyNotify: {
+            XDfstroyWindowEvfnt xdf = fv.gft_xdfstroywindow();
 
-            /* Target crashed during drop processing - cleanup. */
-            if (!dragInProgress &&
-                dragProtocol != null &&
-                xde.get_window() == dragProtocol.getTargetWindow()) {
-                cleanup(XConstants.CurrentTime);
-                return true;
+            /* Tbrgft drbsifd during drop prodfssing - dlfbnup. */
+            if (!drbgInProgrfss &&
+                drbgProtodol != null &&
+                xdf.gft_window() == drbgProtodol.gftTbrgftWindow()) {
+                dlfbnup(XConstbnts.CurrfntTimf);
+                rfturn truf;
             }
-            /* Pass along */
-            return false;
+            /* Pbss blong */
+            rfturn fblsf;
         }
         }
 
-        if (!dragInProgress) {
-            return false;
+        if (!drbgInProgrfss) {
+            rfturn fblsf;
         }
 
-        /* Process drag-only messages. */
-        switch (ev.get_type()) {
-        case XConstants.KeyRelease:
-        case XConstants.KeyPress: {
-            XKeyEvent xkey = ev.get_xkey();
-            long keysym = XlibWrapper.XKeycodeToKeysym(XToolkit.getDisplay(),
-                                                       xkey.get_keycode(), 0);
-            switch ((int)keysym) {
-            case (int)XKeySymConstants.XK_Escape: {
-                if (ev.get_type() == XConstants.KeyRelease) {
-                    cleanup(xkey.get_time());
+        /* Prodfss drbg-only mfssbgfs. */
+        switdi (fv.gft_typf()) {
+        dbsf XConstbnts.KfyRflfbsf:
+        dbsf XConstbnts.KfyPrfss: {
+            XKfyEvfnt xkfy = fv.gft_xkfy();
+            long kfysym = XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(),
+                                                       xkfy.gft_kfydodf(), 0);
+            switdi ((int)kfysym) {
+            dbsf (int)XKfySymConstbnts.XK_Esdbpf: {
+                if (fv.gft_typf() == XConstbnts.KfyRflfbsf) {
+                    dlfbnup(xkfy.gft_timf());
                 }
-                break;
+                brfbk;
             }
-            case (int)XKeySymConstants.XK_Control_R:
-            case (int)XKeySymConstants.XK_Control_L:
-            case (int)XKeySymConstants.XK_Shift_R:
-            case (int)XKeySymConstants.XK_Shift_L: {
-                XlibWrapper.XQueryPointer(XToolkit.getDisplay(),
-                                          xkey.get_root(),
-                                          XlibWrapper.larg1,  // root
-                                          XlibWrapper.larg2,  // subwindow
-                                          XlibWrapper.larg3,  // x_root
-                                          XlibWrapper.larg4,  // y_root
-                                          XlibWrapper.larg5,  // x
-                                          XlibWrapper.larg6,  // y
-                                          XlibWrapper.larg7); // modifiers
-                XMotionEvent xmotion = new XMotionEvent();
+            dbsf (int)XKfySymConstbnts.XK_Control_R:
+            dbsf (int)XKfySymConstbnts.XK_Control_L:
+            dbsf (int)XKfySymConstbnts.XK_Siift_R:
+            dbsf (int)XKfySymConstbnts.XK_Siift_L: {
+                XlibWrbppfr.XQufryPointfr(XToolkit.gftDisplby(),
+                                          xkfy.gft_root(),
+                                          XlibWrbppfr.lbrg1,  // root
+                                          XlibWrbppfr.lbrg2,  // subwindow
+                                          XlibWrbppfr.lbrg3,  // x_root
+                                          XlibWrbppfr.lbrg4,  // y_root
+                                          XlibWrbppfr.lbrg5,  // x
+                                          XlibWrbppfr.lbrg6,  // y
+                                          XlibWrbppfr.lbrg7); // modififrs
+                XMotionEvfnt xmotion = nfw XMotionEvfnt();
                 try {
-                    xmotion.set_type(XConstants.MotionNotify);
-                    xmotion.set_serial(xkey.get_serial());
-                    xmotion.set_send_event(xkey.get_send_event());
-                    xmotion.set_display(xkey.get_display());
-                    xmotion.set_window(xkey.get_window());
-                    xmotion.set_root(xkey.get_root());
-                    xmotion.set_subwindow(xkey.get_subwindow());
-                    xmotion.set_time(xkey.get_time());
-                    xmotion.set_x(xkey.get_x());
-                    xmotion.set_y(xkey.get_y());
-                    xmotion.set_x_root(xkey.get_x_root());
-                    xmotion.set_y_root(xkey.get_y_root());
-                    xmotion.set_state((int)Native.getLong(XlibWrapper.larg7));
-                    // we do not use this field, so it's unset for now
-                    // xmotion.set_is_hint(???);
-                    xmotion.set_same_screen(xkey.get_same_screen());
+                    xmotion.sft_typf(XConstbnts.MotionNotify);
+                    xmotion.sft_sfribl(xkfy.gft_sfribl());
+                    xmotion.sft_sfnd_fvfnt(xkfy.gft_sfnd_fvfnt());
+                    xmotion.sft_displby(xkfy.gft_displby());
+                    xmotion.sft_window(xkfy.gft_window());
+                    xmotion.sft_root(xkfy.gft_root());
+                    xmotion.sft_subwindow(xkfy.gft_subwindow());
+                    xmotion.sft_timf(xkfy.gft_timf());
+                    xmotion.sft_x(xkfy.gft_x());
+                    xmotion.sft_y(xkfy.gft_y());
+                    xmotion.sft_x_root(xkfy.gft_x_root());
+                    xmotion.sft_y_root(xkfy.gft_y_root());
+                    xmotion.sft_stbtf((int)Nbtivf.gftLong(XlibWrbppfr.lbrg7));
+                    // wf do not usf tiis fifld, so it's unsft for now
+                    // xmotion.sft_is_iint(???);
+                    xmotion.sft_sbmf_sdrffn(xkfy.gft_sbmf_sdrffn());
 
-                    //It's safe to use key event as motion event since we use only their common fields.
-                    processMouseMove(xmotion);
-                } finally {
-                    xmotion.dispose();
+                    //It's sbff to usf kfy fvfnt bs motion fvfnt sindf wf usf only tifir dommon fiflds.
+                    prodfssMousfMovf(xmotion);
+                } finblly {
+                    xmotion.disposf();
                 }
-                break;
+                brfbk;
             }
             }
-            return true;
+            rfturn truf;
         }
-        case XConstants.ButtonPress:
-            return true;
-        case XConstants.MotionNotify:
-            processMouseMove(ev.get_xmotion());
-            return true;
-        case XConstants.ButtonRelease: {
-            XButtonEvent xbutton = ev.get_xbutton();
+        dbsf XConstbnts.ButtonPrfss:
+            rfturn truf;
+        dbsf XConstbnts.MotionNotify:
+            prodfssMousfMovf(fv.gft_xmotion());
+            rfturn truf;
+        dbsf XConstbnts.ButtonRflfbsf: {
+            XButtonEvfnt xbutton = fv.gft_xbutton();
             /*
-             * Ignore the buttons above 20 due to the bit limit for
-             * InputEvent.BUTTON_DOWN_MASK.
-             * One more bit is reserved for FIRST_HIGH_BIT.
+             * Ignorf tif buttons bbovf 20 duf to tif bit limit for
+             * InputEvfnt.BUTTON_DOWN_MASK.
+             * Onf morf bit is rfsfrvfd for FIRST_HIGH_BIT.
              */
-            if (xbutton.get_button() > SunToolkit.MAX_BUTTONS_SUPPORTED) {
-                return true;
+            if (xbutton.gft_button() > SunToolkit.MAX_BUTTONS_SUPPORTED) {
+                rfturn truf;
             }
 
             /*
-             * On some X servers it could happen that ButtonRelease coordinates
-             * differ from the latest MotionNotify coordinates, so we need to
-             * process it as a mouse motion.
+             * On somf X sfrvfrs it dould ibppfn tibt ButtonRflfbsf doordinbtfs
+             * difffr from tif lbtfst MotionNotify doordinbtfs, so wf nffd to
+             * prodfss it bs b mousf motion.
              */
-            XMotionEvent xmotion = new XMotionEvent();
+            XMotionEvfnt xmotion = nfw XMotionEvfnt();
             try {
-                xmotion.set_type(XConstants.MotionNotify);
-                xmotion.set_serial(xbutton.get_serial());
-                xmotion.set_send_event(xbutton.get_send_event());
-                xmotion.set_display(xbutton.get_display());
-                xmotion.set_window(xbutton.get_window());
-                xmotion.set_root(xbutton.get_root());
-                xmotion.set_subwindow(xbutton.get_subwindow());
-                xmotion.set_time(xbutton.get_time());
-                xmotion.set_x(xbutton.get_x());
-                xmotion.set_y(xbutton.get_y());
-                xmotion.set_x_root(xbutton.get_x_root());
-                xmotion.set_y_root(xbutton.get_y_root());
-                xmotion.set_state(xbutton.get_state());
-                // we do not use this field, so it's unset for now
-                // xmotion.set_is_hint(???);
-                xmotion.set_same_screen(xbutton.get_same_screen());
+                xmotion.sft_typf(XConstbnts.MotionNotify);
+                xmotion.sft_sfribl(xbutton.gft_sfribl());
+                xmotion.sft_sfnd_fvfnt(xbutton.gft_sfnd_fvfnt());
+                xmotion.sft_displby(xbutton.gft_displby());
+                xmotion.sft_window(xbutton.gft_window());
+                xmotion.sft_root(xbutton.gft_root());
+                xmotion.sft_subwindow(xbutton.gft_subwindow());
+                xmotion.sft_timf(xbutton.gft_timf());
+                xmotion.sft_x(xbutton.gft_x());
+                xmotion.sft_y(xbutton.gft_y());
+                xmotion.sft_x_root(xbutton.gft_x_root());
+                xmotion.sft_y_root(xbutton.gft_y_root());
+                xmotion.sft_stbtf(xbutton.gft_stbtf());
+                // wf do not usf tiis fifld, so it's unsft for now
+                // xmotion.sft_is_iint(???);
+                xmotion.sft_sbmf_sdrffn(xbutton.gft_sbmf_sdrffn());
 
-                //It's safe to use key event as motion event since we use only their common fields.
-                processMouseMove(xmotion);
-            } finally {
-                xmotion.dispose();
+                //It's sbff to usf kfy fvfnt bs motion fvfnt sindf wf usf only tifir dommon fiflds.
+                prodfssMousfMovf(xmotion);
+            } finblly {
+                xmotion.disposf();
             }
-            if (xbutton.get_button() == XConstants.buttons[0]
-                || xbutton.get_button() == XConstants.buttons[1]) {
-                // drag is initiated with Button1 or Button2 pressed and
-                // ended on release of either of these buttons (as the same
-                // behavior was with our old Motif DnD-based implementation)
-                removeDnDGrab(xbutton.get_time());
-                dragInProgress = false;
-                if (dragProtocol != null && targetAction != DnDConstants.ACTION_NONE) {
+            if (xbutton.gft_button() == XConstbnts.buttons[0]
+                || xbutton.gft_button() == XConstbnts.buttons[1]) {
+                // drbg is initibtfd witi Button1 or Button2 prfssfd bnd
+                // fndfd on rflfbsf of fitifr of tifsf buttons (bs tif sbmf
+                // bfibvior wbs witi our old Motif DnD-bbsfd implfmfntbtion)
+                rfmovfDnDGrbb(xbutton.gft_timf());
+                drbgInProgrfss = fblsf;
+                if (drbgProtodol != null && tbrgftAdtion != DnDConstbnts.ACTION_NONE) {
                     /*
-                     * ACTION_NONE indicates that either the drop target rejects the
-                     * drop or it haven't responded yet. The latter could happen in
-                     * case of fast drag, slow target-server connection or slow
-                     * drag notifications processing on the target side.
+                     * ACTION_NONE indidbtfs tibt fitifr tif drop tbrgft rfjfdts tif
+                     * drop or it ibvfn't rfspondfd yft. Tif lbttfr dould ibppfn in
+                     * dbsf of fbst drbg, slow tbrgft-sfrvfr donnfdtion or slow
+                     * drbg notifidbtions prodfssing on tif tbrgft sidf.
                      */
-                    processDrop(xbutton);
-                } else {
-                    cleanup(xbutton.get_time());
+                    prodfssDrop(xbutton);
+                } flsf {
+                    dlfbnup(xbutton.gft_timf());
                 }
             }
-            return true;
+            rfturn truf;
         }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    static boolean processEvent(XEvent ev) {
-        XToolkit.awtLock();
+    stbtid boolfbn prodfssEvfnt(XEvfnt fv) {
+        XToolkit.bwtLodk();
         try {
             try {
-                return theInstance.doProcessEvent(ev);
-            } catch (XException e) {
-                e.printStackTrace();
-                return false;
+                rfturn tifInstbndf.doProdfssEvfnt(fv);
+            } dbtdi (XExdfption f) {
+                f.printStbdkTrbdf();
+                rfturn fblsf;
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    /* XDragSourceProtocolListener implementation */
+    /* XDrbgSourdfProtodolListfnfr implfmfntbtion */
 
-    public void handleDragReply(int action) {
-        // NOTE: we have to use the current pointer location, since
-        // the target didn't specify the coordinates for the reply.
-        handleDragReply(action, xRoot, yRoot);
+    publid void ibndlfDrbgRfply(int bdtion) {
+        // NOTE: wf ibvf to usf tif durrfnt pointfr lodbtion, sindf
+        // tif tbrgft didn't spfdify tif doordinbtfs for tif rfply.
+        ibndlfDrbgRfply(bdtion, xRoot, yRoot);
     }
 
-    public void handleDragReply(int action, int x, int y) {
-        // NOTE: we have to use the current modifiers state, since
-        // the target didn't specify the modifiers state for the reply.
-        handleDragReply(action, xRoot, yRoot, XWindow.getModifiers(eventState,0,0));
+    publid void ibndlfDrbgRfply(int bdtion, int x, int y) {
+        // NOTE: wf ibvf to usf tif durrfnt modififrs stbtf, sindf
+        // tif tbrgft didn't spfdify tif modififrs stbtf for tif rfply.
+        ibndlfDrbgRfply(bdtion, xRoot, yRoot, XWindow.gftModififrs(fvfntStbtf,0,0));
     }
 
-    public void handleDragReply(int action, int x, int y, int modifiers) {
-        if (action == DnDConstants.ACTION_NONE &&
-            targetAction != DnDConstants.ACTION_NONE) {
-            dragExit(x, y);
-        } else if (action != DnDConstants.ACTION_NONE) {
-            int type = 0;
+    publid void ibndlfDrbgRfply(int bdtion, int x, int y, int modififrs) {
+        if (bdtion == DnDConstbnts.ACTION_NONE &&
+            tbrgftAdtion != DnDConstbnts.ACTION_NONE) {
+            drbgExit(x, y);
+        } flsf if (bdtion != DnDConstbnts.ACTION_NONE) {
+            int typf = 0;
 
-            if (targetAction == DnDConstants.ACTION_NONE) {
-                type = SunDragSourceContextPeer.DISPATCH_ENTER;
-            } else {
-                type = SunDragSourceContextPeer.DISPATCH_MOTION;
+            if (tbrgftAdtion == DnDConstbnts.ACTION_NONE) {
+                typf = SunDrbgSourdfContfxtPffr.DISPATCH_ENTER;
+            } flsf {
+                typf = SunDrbgSourdfContfxtPffr.DISPATCH_MOTION;
             }
 
-            // Note that we use the modifiers state a
-            postDragSourceDragEvent(action, modifiers, x, y, type);
+            // Notf tibt wf usf tif modififrs stbtf b
+            postDrbgSourdfDrbgEvfnt(bdtion, modififrs, x, y, typf);
         }
 
-        targetAction = action;
+        tbrgftAdtion = bdtion;
     }
 
-    public void handleDragFinished() {
-        /* Assume that the drop was successful. */
-        handleDragFinished(true);
+    publid void ibndlfDrbgFinisifd() {
+        /* Assumf tibt tif drop wbs suddfssful. */
+        ibndlfDrbgFinisifd(truf);
     }
 
-    public void handleDragFinished(boolean success) {
-        /* Assume that the performed drop action is the latest drop action
-           accepted by the drop target. */
-        handleDragFinished(true, targetAction);
+    publid void ibndlfDrbgFinisifd(boolfbn suddfss) {
+        /* Assumf tibt tif pfrformfd drop bdtion is tif lbtfst drop bdtion
+           bddfptfd by tif drop tbrgft. */
+        ibndlfDrbgFinisifd(truf, tbrgftAdtion);
     }
 
-    public void handleDragFinished(boolean success, int action) {
-        // NOTE: we have to use the current pointer location, since
-        // the target didn't specify the coordinates for the reply.
-        handleDragFinished(success, action, xRoot, yRoot);
+    publid void ibndlfDrbgFinisifd(boolfbn suddfss, int bdtion) {
+        // NOTE: wf ibvf to usf tif durrfnt pointfr lodbtion, sindf
+        // tif tbrgft didn't spfdify tif doordinbtfs for tif rfply.
+        ibndlfDrbgFinisifd(suddfss, bdtion, xRoot, yRoot);
     }
 
-    public void handleDragFinished(boolean success, int action, int x, int y) {
-        dragDropFinished(success, action, x, y);
+    publid void ibndlfDrbgFinisifd(boolfbn suddfss, int bdtion, int x, int y) {
+        drbgDropFinisifd(suddfss, bdtion, x, y);
 
-        dndInProgress = false;
-        cleanup(XConstants.CurrentTime);
+        dndInProgrfss = fblsf;
+        dlfbnup(XConstbnts.CurrfntTimf);
     }
 }

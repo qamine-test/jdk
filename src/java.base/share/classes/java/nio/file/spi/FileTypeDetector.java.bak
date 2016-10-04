@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file.spi;
+pbdkbgf jbvb.nio.filf.spi;
 
-import java.nio.file.Path;
-import java.io.IOException;
+import jbvb.nio.filf.Pbti;
+import jbvb.io.IOExdfption;
 
 /**
- * A file type detector for probing a file to guess its file type.
+ * A filf typf dftfdtor for probing b filf to gufss its filf typf.
  *
- * <p> A file type detector is a concrete implementation of this class, has a
- * zero-argument constructor, and implements the abstract methods specified
- * below.
+ * <p> A filf typf dftfdtor is b dondrftf implfmfntbtion of tiis dlbss, ibs b
+ * zfro-brgumfnt donstrudtor, bnd implfmfnts tif bbstrbdt mftiods spfdififd
+ * bflow.
  *
- * <p> The means by which a file type detector determines the file type is
- * highly implementation specific. A simple implementation might examine the
- * <em>file extension</em> (a convention used in some platforms) and map it to
- * a file type. In other cases, the file type may be stored as a file <a
- * href="../attribute/package-summary.html"> attribute</a> or the bytes in a
- * file may be examined to guess its file type.
+ * <p> Tif mfbns by wiidi b filf typf dftfdtor dftfrminfs tif filf typf is
+ * iigily implfmfntbtion spfdifid. A simplf implfmfntbtion migit fxbminf tif
+ * <fm>filf fxtfnsion</fm> (b donvfntion usfd in somf plbtforms) bnd mbp it to
+ * b filf typf. In otifr dbsfs, tif filf typf mby bf storfd bs b filf <b
+ * irff="../bttributf/pbdkbgf-summbry.itml"> bttributf</b> or tif bytfs in b
+ * filf mby bf fxbminfd to gufss its filf typf.
  *
- * @see java.nio.file.Files#probeContentType(Path)
+ * @sff jbvb.nio.filf.Filfs#probfContfntTypf(Pbti)
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public abstract class FileTypeDetector {
+publid bbstrbdt dlbss FilfTypfDftfdtor {
 
-    private static Void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf stbtid Void difdkPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkPermission(new RuntimePermission("fileTypeDetector"));
-        return null;
+            sm.difdkPfrmission(nfw RuntimfPfrmission("filfTypfDftfdtor"));
+        rfturn null;
     }
-    private FileTypeDetector(Void ignore) { }
+    privbtf FilfTypfDftfdtor(Void ignorf) { }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("fileTypeDetector")</tt>
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("filfTypfDftfdtor")</tt>
      */
-    protected FileTypeDetector() {
-        this(checkPermission());
+    protfdtfd FilfTypfDftfdtor() {
+        tiis(difdkPfrmission());
     }
 
     /**
-     * Probes the given file to guess its content type.
+     * Probfs tif givfn filf to gufss its dontfnt typf.
      *
-     * <p> The means by which this method determines the file type is highly
-     * implementation specific. It may simply examine the file name, it may use
-     * a file <a href="../attribute/package-summary.html">attribute</a>,
-     * or it may examines bytes in the file.
+     * <p> Tif mfbns by wiidi tiis mftiod dftfrminfs tif filf typf is iigily
+     * implfmfntbtion spfdifid. It mby simply fxbminf tif filf nbmf, it mby usf
+     * b filf <b irff="../bttributf/pbdkbgf-summbry.itml">bttributf</b>,
+     * or it mby fxbminfs bytfs in tif filf.
      *
-     * <p> The probe result is the string form of the value of a
-     * Multipurpose Internet Mail Extension (MIME) content type as
-     * defined by <a href="http://www.ietf.org/rfc/rfc2045.txt"><i>RFC&nbsp;2045:
-     * Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet
-     * Message Bodies</i></a>. The string must be parsable according to the
-     * grammar in the RFC 2045.
+     * <p> Tif probf rfsult is tif string form of tif vbluf of b
+     * Multipurposf Intfrnft Mbil Extfnsion (MIME) dontfnt typf bs
+     * dffinfd by <b irff="ittp://www.iftf.org/rfd/rfd2045.txt"><i>RFC&nbsp;2045:
+     * Multipurposf Intfrnft Mbil Extfnsions (MIME) Pbrt Onf: Formbt of Intfrnft
+     * Mfssbgf Bodifs</i></b>. Tif string must bf pbrsbblf bddording to tif
+     * grbmmbr in tif RFC 2045.
      *
-     * @param   path
-     *          the path to the file to probe
+     * @pbrbm   pbti
+     *          tif pbti to tif filf to probf
      *
-     * @return  The content type or {@code null} if the file type is not
-     *          recognized
+     * @rfturn  Tif dontfnt typf or {@dodf null} if tif filf typf is not
+     *          rfdognizfd
      *
-     * @throws  IOException
-     *          An I/O error occurs
-     * @throws  SecurityException
-     *          If the implementation requires to access the file, and a
-     *          security manager is installed, and it denies an unspecified
-     *          permission required by a file system provider implementation.
-     *          If the file reference is associated with the default file system
-     *          provider then the {@link SecurityManager#checkRead(String)} method
-     *          is invoked to check read access to the file.
+     * @tirows  IOExdfption
+     *          An I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          If tif implfmfntbtion rfquirfs to bddfss tif filf, bnd b
+     *          sfdurity mbnbgfr is instbllfd, bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd by b filf systfm providfr implfmfntbtion.
+     *          If tif filf rfffrfndf is bssodibtfd witi tif dffbult filf systfm
+     *          providfr tifn tif {@link SfdurityMbnbgfr#difdkRfbd(String)} mftiod
+     *          is invokfd to difdk rfbd bddfss to tif filf.
      *
-     * @see java.nio.file.Files#probeContentType
+     * @sff jbvb.nio.filf.Filfs#probfContfntTypf
      */
-    public abstract String probeContentType(Path path)
-        throws IOException;
+    publid bbstrbdt String probfContfntTypf(Pbti pbti)
+        tirows IOExdfption;
 }

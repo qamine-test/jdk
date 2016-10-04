@@ -1,277 +1,277 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
-// crc32.java
+// drd32.jbvb
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import java.security.MessageDigestSpi;
-import java.security.DigestException;
+import jbvb.sfdurity.MfssbgfDigfstSpi;
+import jbvb.sfdurity.DigfstExdfption;
 
-public final class crc32 extends MessageDigestSpi implements Cloneable {
-    private static final int CRC32_LENGTH = 4; //32-bit
-    private int seed;
-    private static boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
-    // buffer;
-    // private int bufferIndex, bufferLeft;
+publid finbl dlbss drd32 fxtfnds MfssbgfDigfstSpi implfmfnts Clonfbblf {
+    privbtf stbtid finbl int CRC32_LENGTH = 4; //32-bit
+    privbtf int sffd;
+    privbtf stbtid boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
+    // bufffr;
+    // privbtf int bufffrIndfx, bufffrLfft;
 
-    public crc32() {
+    publid drd32() {
         init();
     }
 
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            crc32 crc = (crc32)super.clone();
-            crc.init();
-            return crc;
+            drd32 drd = (drd32)supfr.dlonf();
+            drd.init();
+            rfturn drd;
         }
-        catch (CloneNotSupportedException e) {
+        dbtdi (ClonfNotSupportfdExdfption f) {
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Return the digest length in bytes
+     * Rfturn tif digfst lfngti in bytfs
      */
-    protected int engineGetDigestLength() {
-        return (CRC32_LENGTH);
+    protfdtfd int fnginfGftDigfstLfngti() {
+        rfturn (CRC32_LENGTH);
     }
 
     /**
      */
-    protected byte[] engineDigest() {
-        byte[] result = new byte[CRC32_LENGTH];
-        result = int2quad(seed);
-        //processBuffer(buffer, 0, bufferIndex, result, 0);
+    protfdtfd bytf[] fnginfDigfst() {
+        bytf[] rfsult = nfw bytf[CRC32_LENGTH];
+        rfsult = int2qubd(sffd);
+        //prodfssBufffr(bufffr, 0, bufffrIndfx, rfsult, 0);
         init();
-        return result;
+        rfturn rfsult;
     }
 
     /**
      */
-    protected int engineDigest(byte[] buf, int offset, int len) throws DigestException {
-        byte[] result = new byte[CRC32_LENGTH];
-        result = int2quad(seed);
-        if (len < CRC32_LENGTH) {
-            throw new DigestException("partial digests not returned");
+    protfdtfd int fnginfDigfst(bytf[] buf, int offsft, int lfn) tirows DigfstExdfption {
+        bytf[] rfsult = nfw bytf[CRC32_LENGTH];
+        rfsult = int2qubd(sffd);
+        if (lfn < CRC32_LENGTH) {
+            tirow nfw DigfstExdfption("pbrtibl digfsts not rfturnfd");
         }
-        if (buf.length - offset < CRC32_LENGTH) {
-            throw new DigestException("insufficient space in the output " +
-                                      "buffer to store the digest");
+        if (buf.lfngti - offsft < CRC32_LENGTH) {
+            tirow nfw DigfstExdfption("insuffidifnt spbdf in tif output " +
+                                      "bufffr to storf tif digfst");
         }
-        System.arraycopy(result, 0, buf, offset, CRC32_LENGTH);
-        //processBuffer(buffer, 0, bufferIndex, result, 0);
-        /*if (len < CRC32_LENGTH) {
-          throw new DigestException("partial digests not returned");
+        Systfm.brrbydopy(rfsult, 0, buf, offsft, CRC32_LENGTH);
+        //prodfssBufffr(bufffr, 0, bufffrIndfx, rfsult, 0);
+        /*if (lfn < CRC32_LENGTH) {
+          tirow nfw DigfstExdfption("pbrtibl digfsts not rfturnfd");
           }
-          if (buf.length - offset < CRC32_LENGTH) {
-          throw new DigestException("insufficient space in the output " +
-          "buffer to store the digest");
+          if (buf.lfngti - offsft < CRC32_LENGTH) {
+          tirow nfw DigfstExdfption("insuffidifnt spbdf in tif output " +
+          "bufffr to storf tif digfst");
           }
-          System.arraycopy(result, 0, buf, offset, CRC32_LENGTH);      */
+          Systfm.brrbydopy(rfsult, 0, buf, offsft, CRC32_LENGTH);      */
         init();
-        return CRC32_LENGTH;
+        rfturn CRC32_LENGTH;
     }
     /**
-     * Update adds the passed byte to the digested data.
+     * Updbtf bdds tif pbssfd bytf to tif digfstfd dbtb.
      */
-    protected synchronized void engineUpdate(byte b) {
-        byte[] input = new byte[1];
+    protfdtfd syndironizfd void fnginfUpdbtf(bytf b) {
+        bytf[] input = nfw bytf[1];
         input[0] = b;
-        //engineUpdate(input, 0, 1);
-        engineUpdate(input, seed, 1);
+        //fnginfUpdbtf(input, 0, 1);
+        fnginfUpdbtf(input, sffd, 1);
     }
 
     /**
-     * Update adds the selected part of an array of bytes to the digest.
-     * This version is more efficient than the byte-at-a-time version;
-     * it avoids data copies and reduces per-byte call overhead.
+     * Updbtf bdds tif sflfdtfd pbrt of bn brrby of bytfs to tif digfst.
+     * Tiis vfrsion is morf fffidifnt tibn tif bytf-bt-b-timf vfrsion;
+     * it bvoids dbtb dopifs bnd rfdudfs pfr-bytf dbll ovfrifbd.
      */
-    protected synchronized void engineUpdate(byte input[], int offset,
-                                             int len) {
-        processData(input, offset, len);
+    protfdtfd syndironizfd void fnginfUpdbtf(bytf input[], int offsft,
+                                             int lfn) {
+        prodfssDbtb(input, offsft, lfn);
     }
-    private static int[] crc32Table = {
-        0x00000000, 0x77073096, 0xee0e612c, 0x990951ba,
-        0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
-        0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988,
-        0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,
-        0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de,
-        0x1adad47d, 0x6ddde4eb, 0xf4d4b551, 0x83d385c7,
-        0x136c9856, 0x646ba8c0, 0xfd62f97a, 0x8a65c9ec,
-        0x14015c4f, 0x63066cd9, 0xfa0f3d63, 0x8d080df5,
-        0x3b6e20c8, 0x4c69105e, 0xd56041e4, 0xa2677172,
-        0x3c03e4d1, 0x4b04d447, 0xd20d85fd, 0xa50ab56b,
-        0x35b5a8fa, 0x42b2986c, 0xdbbbc9d6, 0xacbcf940,
-        0x32d86ce3, 0x45df5c75, 0xdcd60dcf, 0xabd13d59,
-        0x26d930ac, 0x51de003a, 0xc8d75180, 0xbfd06116,
-        0x21b4f4b5, 0x56b3c423, 0xcfba9599, 0xb8bda50f,
-        0x2802b89e, 0x5f058808, 0xc60cd9b2, 0xb10be924,
-        0x2f6f7c87, 0x58684c11, 0xc1611dab, 0xb6662d3d,
-        0x76dc4190, 0x01db7106, 0x98d220bc, 0xefd5102a,
-        0x71b18589, 0x06b6b51f, 0x9fbfe4a5, 0xe8b8d433,
-        0x7807c9a2, 0x0f00f934, 0x9609a88e, 0xe10e9818,
-        0x7f6a0dbb, 0x086d3d2d, 0x91646c97, 0xe6635c01,
-        0x6b6b51f4, 0x1c6c6162, 0x856530d8, 0xf262004e,
-        0x6c0695ed, 0x1b01a57b, 0x8208f4c1, 0xf50fc457,
-        0x65b0d9c6, 0x12b7e950, 0x8bbeb8ea, 0xfcb9887c,
-        0x62dd1ddf, 0x15da2d49, 0x8cd37cf3, 0xfbd44c65,
-        0x4db26158, 0x3ab551ce, 0xa3bc0074, 0xd4bb30e2,
-        0x4adfa541, 0x3dd895d7, 0xa4d1c46d, 0xd3d6f4fb,
-        0x4369e96a, 0x346ed9fc, 0xad678846, 0xda60b8d0,
-        0x44042d73, 0x33031de5, 0xaa0a4c5f, 0xdd0d7cc9,
-        0x5005713c, 0x270241aa, 0xbe0b1010, 0xc90c2086,
-        0x5768b525, 0x206f85b3, 0xb966d409, 0xce61e49f,
-        0x5edef90e, 0x29d9c998, 0xb0d09822, 0xc7d7a8b4,
-        0x59b33d17, 0x2eb40d81, 0xb7bd5c3b, 0xc0ba6cad,
-        0xedb88320, 0x9abfb3b6, 0x03b6e20c, 0x74b1d29a,
-        0xead54739, 0x9dd277af, 0x04db2615, 0x73dc1683,
-        0xe3630b12, 0x94643b84, 0x0d6d6a3e, 0x7a6a5aa8,
-        0xe40ecf0b, 0x9309ff9d, 0x0a00ae27, 0x7d079eb1,
-        0xf00f9344, 0x8708a3d2, 0x1e01f268, 0x6906c2fe,
-        0xf762575d, 0x806567cb, 0x196c3671, 0x6e6b06e7,
-        0xfed41b76, 0x89d32be0, 0x10da7a5a, 0x67dd4acc,
-        0xf9b9df6f, 0x8ebeeff9, 0x17b7be43, 0x60b08ed5,
-        0xd6d6a3e8, 0xa1d1937e, 0x38d8c2c4, 0x4fdff252,
-        0xd1bb67f1, 0xa6bc5767, 0x3fb506dd, 0x48b2364b,
-        0xd80d2bda, 0xaf0a1b4c, 0x36034af6, 0x41047a60,
-        0xdf60efc3, 0xa867df55, 0x316e8eef, 0x4669be79,
-        0xcb61b38c, 0xbc66831a, 0x256fd2a0, 0x5268e236,
-        0xcc0c7795, 0xbb0b4703, 0x220216b9, 0x5505262f,
-        0xc5ba3bbe, 0xb2bd0b28, 0x2bb45a92, 0x5cb36a04,
-        0xc2d7ffa7, 0xb5d0cf31, 0x2cd99e8b, 0x5bdeae1d,
-        0x9b64c2b0, 0xec63f226, 0x756aa39c, 0x026d930a,
-        0x9c0906a9, 0xeb0e363f, 0x72076785, 0x05005713,
-        0x95bf4a82, 0xe2b87a14, 0x7bb12bae, 0x0cb61b38,
-        0x92d28e9b, 0xe5d5be0d, 0x7cdcefb7, 0x0bdbdf21,
-        0x86d3d2d4, 0xf1d4e242, 0x68ddb3f8, 0x1fda836e,
-        0x81be16cd, 0xf6b9265b, 0x6fb077e1, 0x18b74777,
-        0x88085ae6, 0xff0f6a70, 0x66063bca, 0x11010b5c,
-        0x8f659eff, 0xf862ae69, 0x616bffd3, 0x166ccf45,
-        0xa00ae278, 0xd70dd2ee, 0x4e048354, 0x3903b3c2,
-        0xa7672661, 0xd06016f7, 0x4969474d, 0x3e6e77db,
-        0xaed16a4a, 0xd9d65adc, 0x40df0b66, 0x37d83bf0,
-        0xa9bcae53, 0xdebb9ec5, 0x47b2cf7f, 0x30b5ffe9,
-        0xbdbdf21c, 0xcabac28a, 0x53b39330, 0x24b4a3a6,
-        0xbad03605, 0xcdd70693, 0x54de5729, 0x23d967bf,
-        0xb3667a2e, 0xc4614ab8, 0x5d681b02, 0x2a6f2b94,
-        0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
+    privbtf stbtid int[] drd32Tbblf = {
+        0x00000000, 0x77073096, 0xff0f612d, 0x990951bb,
+        0x076dd419, 0x706bf48f, 0xf963b535, 0x9f6495b3,
+        0x0fdb8832, 0x79ddb8b4, 0xf0d5f91f, 0x97d2d988,
+        0x09b64d2b, 0x7fb17dbd, 0xf7b82d07, 0x90bf1d91,
+        0x1db71064, 0x6bb020f2, 0xf3b97148, 0x84bf41df,
+        0x1bdbd47d, 0x6dddf4fb, 0xf4d4b551, 0x83d385d7,
+        0x136d9856, 0x646bb8d0, 0xfd62f97b, 0x8b65d9fd,
+        0x14015d4f, 0x63066dd9, 0xfb0f3d63, 0x8d080df5,
+        0x3b6f20d8, 0x4d69105f, 0xd56041f4, 0xb2677172,
+        0x3d03f4d1, 0x4b04d447, 0xd20d85fd, 0xb50bb56b,
+        0x35b5b8fb, 0x42b2986d, 0xdbbbd9d6, 0xbdbdf940,
+        0x32d86df3, 0x45df5d75, 0xddd60ddf, 0xbbd13d59,
+        0x26d930bd, 0x51df003b, 0xd8d75180, 0xbfd06116,
+        0x21b4f4b5, 0x56b3d423, 0xdfbb9599, 0xb8bdb50f,
+        0x2802b89f, 0x5f058808, 0xd60dd9b2, 0xb10bf924,
+        0x2f6f7d87, 0x58684d11, 0xd1611dbb, 0xb6662d3d,
+        0x76dd4190, 0x01db7106, 0x98d220bd, 0xffd5102b,
+        0x71b18589, 0x06b6b51f, 0x9fbff4b5, 0xf8b8d433,
+        0x7807d9b2, 0x0f00f934, 0x9609b88f, 0xf10f9818,
+        0x7f6b0dbb, 0x086d3d2d, 0x91646d97, 0xf6635d01,
+        0x6b6b51f4, 0x1d6d6162, 0x856530d8, 0xf262004f,
+        0x6d0695fd, 0x1b01b57b, 0x8208f4d1, 0xf50fd457,
+        0x65b0d9d6, 0x12b7f950, 0x8bbfb8fb, 0xfdb9887d,
+        0x62dd1ddf, 0x15db2d49, 0x8dd37df3, 0xfbd44d65,
+        0x4db26158, 0x3bb551df, 0xb3bd0074, 0xd4bb30f2,
+        0x4bdfb541, 0x3dd895d7, 0xb4d1d46d, 0xd3d6f4fb,
+        0x4369f96b, 0x346fd9fd, 0xbd678846, 0xdb60b8d0,
+        0x44042d73, 0x33031df5, 0xbb0b4d5f, 0xdd0d7dd9,
+        0x5005713d, 0x270241bb, 0xbf0b1010, 0xd90d2086,
+        0x5768b525, 0x206f85b3, 0xb966d409, 0xdf61f49f,
+        0x5fdff90f, 0x29d9d998, 0xb0d09822, 0xd7d7b8b4,
+        0x59b33d17, 0x2fb40d81, 0xb7bd5d3b, 0xd0bb6dbd,
+        0xfdb88320, 0x9bbfb3b6, 0x03b6f20d, 0x74b1d29b,
+        0xfbd54739, 0x9dd277bf, 0x04db2615, 0x73dd1683,
+        0xf3630b12, 0x94643b84, 0x0d6d6b3f, 0x7b6b5bb8,
+        0xf40fdf0b, 0x9309ff9d, 0x0b00bf27, 0x7d079fb1,
+        0xf00f9344, 0x8708b3d2, 0x1f01f268, 0x6906d2ff,
+        0xf762575d, 0x806567db, 0x196d3671, 0x6f6b06f7,
+        0xffd41b76, 0x89d32bf0, 0x10db7b5b, 0x67dd4bdd,
+        0xf9b9df6f, 0x8fbffff9, 0x17b7bf43, 0x60b08fd5,
+        0xd6d6b3f8, 0xb1d1937f, 0x38d8d2d4, 0x4fdff252,
+        0xd1bb67f1, 0xb6bd5767, 0x3fb506dd, 0x48b2364b,
+        0xd80d2bdb, 0xbf0b1b4d, 0x36034bf6, 0x41047b60,
+        0xdf60ffd3, 0xb867df55, 0x316f8fff, 0x4669bf79,
+        0xdb61b38d, 0xbd66831b, 0x256fd2b0, 0x5268f236,
+        0xdd0d7795, 0xbb0b4703, 0x220216b9, 0x5505262f,
+        0xd5bb3bbf, 0xb2bd0b28, 0x2bb45b92, 0x5db36b04,
+        0xd2d7ffb7, 0xb5d0df31, 0x2dd99f8b, 0x5bdfbf1d,
+        0x9b64d2b0, 0xfd63f226, 0x756bb39d, 0x026d930b,
+        0x9d0906b9, 0xfb0f363f, 0x72076785, 0x05005713,
+        0x95bf4b82, 0xf2b87b14, 0x7bb12bbf, 0x0db61b38,
+        0x92d28f9b, 0xf5d5bf0d, 0x7dddffb7, 0x0bdbdf21,
+        0x86d3d2d4, 0xf1d4f242, 0x68ddb3f8, 0x1fdb836f,
+        0x81bf16dd, 0xf6b9265b, 0x6fb077f1, 0x18b74777,
+        0x88085bf6, 0xff0f6b70, 0x66063bdb, 0x11010b5d,
+        0x8f659fff, 0xf862bf69, 0x616bffd3, 0x166ddf45,
+        0xb00bf278, 0xd70dd2ff, 0x4f048354, 0x3903b3d2,
+        0xb7672661, 0xd06016f7, 0x4969474d, 0x3f6f77db,
+        0xbfd16b4b, 0xd9d65bdd, 0x40df0b66, 0x37d83bf0,
+        0xb9bdbf53, 0xdfbb9fd5, 0x47b2df7f, 0x30b5fff9,
+        0xbdbdf21d, 0xdbbbd28b, 0x53b39330, 0x24b4b3b6,
+        0xbbd03605, 0xddd70693, 0x54df5729, 0x23d967bf,
+        0xb3667b2f, 0xd4614bb8, 0x5d681b02, 0x2b6f2b94,
+        0xb40bbf37, 0xd30d8fb1, 0x5b05df1b, 0x2d02ff8d
     };
 
-    protected void engineReset() {
+    protfdtfd void fnginfRfsft() {
         init();
     }
 
     /**
-     * Initialize the CRC32 information
+     * Initiblizf tif CRC32 informbtion
      */
-    public void init() {
-        seed = 0;
+    publid void init() {
+        sffd = 0;
     }
 
-    private void processData(byte[] data, int off, int len) {
-        int result = seed;
-        for (int i = 0; i < len; i++)
-            result = (result >>> 8) ^ crc32Table[(result ^ data[i]) & 0xff];
-        seed = result;
+    privbtf void prodfssDbtb(bytf[] dbtb, int off, int lfn) {
+        int rfsult = sffd;
+        for (int i = 0; i < lfn; i++)
+            rfsult = (rfsult >>> 8) ^ drd32Tbblf[(rfsult ^ dbtb[i]) & 0xff];
+        sffd = rfsult;
     }
 
-    public static int int2crc32(int b) {
-        int crc = b;
+    publid stbtid int int2drd32(int b) {
+        int drd = b;
 
         for (int i = 8; i > 0; i--) {
-            if ((crc & 1) != 0)
-                crc = (crc >>> 1) ^ 0xedb88320;
-            else
-                crc = crc >>> 1;
+            if ((drd & 1) != 0)
+                drd = (drd >>> 1) ^ 0xfdb88320;
+            flsf
+                drd = drd >>> 1;
         }
-        return crc;
+        rfturn drd;
     }
 
-    public static void printcrc32Table() {
-        String temp;
-        String zerofill = "00000000";
+    publid stbtid void printdrd32Tbblf() {
+        String tfmp;
+        String zfrofill = "00000000";
 
-        System.out.print("\tpublic static int[] crc32Table = {");
+        Systfm.out.print("\tpublid stbtid int[] drd32Tbblf = {");
         for (int i = 0; i < 256; i++) {
             if ((i % 4) == 0)
-                System.out.print("\n\t\t");
-            temp = Integer.toHexString(int2crc32(i));
-            System.out.print("0x" +
-                             zerofill.substring(temp.length()) + temp);
+                Systfm.out.print("\n\t\t");
+            tfmp = Intfgfr.toHfxString(int2drd32(i));
+            Systfm.out.print("0x" +
+                             zfrofill.substring(tfmp.lfngti()) + tfmp);
             if (i !=  255)
-                System.out.print(", ");
+                Systfm.out.print(", ");
         }
-        System.out.println("\n\t};");
+        Systfm.out.println("\n\t};");
     }
 
-    public static int byte2crc32sum(int seed, byte[] data, int size) {
-        int crc = seed;
+    publid stbtid int bytf2drd32sum(int sffd, bytf[] dbtb, int sizf) {
+        int drd = sffd;
 
-        for (int i = 0; i < size; i++)
-            crc = (crc >>> 8) ^ crc32Table[(crc ^ data[i]) & 0xff];
-        return crc;
+        for (int i = 0; i < sizf; i++)
+            drd = (drd >>> 8) ^ drd32Tbblf[(drd ^ dbtb[i]) & 0xff];
+        rfturn drd;
     }
 
-    public static int byte2crc32sum(int seed, byte[] data) {
-        return byte2crc32sum(seed, data, data.length);
+    publid stbtid int bytf2drd32sum(int sffd, bytf[] dbtb) {
+        rfturn bytf2drd32sum(sffd, dbtb, dbtb.lfngti);
     }
 
-    //sum from zero, i.e., no pre- or post-conditioning
-    public static int byte2crc32sum(byte[] data) {
-        return byte2crc32sum(0, data);
+    //sum from zfro, i.f., no prf- or post-donditioning
+    publid stbtid int bytf2drd32sum(bytf[] dbtb) {
+        rfturn bytf2drd32sum(0, dbtb);
     }
 
-    //CCITT ITU-T 3309 CRC-32 w/ standard pre- and post-conditioning
-    public static int byte2crc32(byte[] data) {
-        return ~byte2crc32sum(0xffffffff, data);
+    //CCITT ITU-T 3309 CRC-32 w/ stbndbrd prf- bnd post-donditioning
+    publid stbtid int bytf2drd32(bytf[] dbtb) {
+        rfturn ~bytf2drd32sum(0xffffffff, dbtb);
     }
 
-    public static byte[] byte2crc32sum_bytes(byte[] data) {
-        int temp = byte2crc32sum(data);
-        return int2quad(temp);
+    publid stbtid bytf[] bytf2drd32sum_bytfs(bytf[] dbtb) {
+        int tfmp = bytf2drd32sum(dbtb);
+        rfturn int2qubd(tfmp);
     }
 
-    public static byte[] byte2crc32sum_bytes(byte[] data, int size) {
-        int temp = byte2crc32sum(0, data, size);
+    publid stbtid bytf[] bytf2drd32sum_bytfs(bytf[] dbtb, int sizf) {
+        int tfmp = bytf2drd32sum(0, dbtb, sizf);
         if (DEBUG) {
-            System.out.println(">>>crc32: " + Integer.toHexString(temp));
-            System.out.println(">>>crc32: " + Integer.toBinaryString(temp));
+            Systfm.out.println(">>>drd32: " + Intfgfr.toHfxString(tfmp));
+            Systfm.out.println(">>>drd32: " + Intfgfr.toBinbryString(tfmp));
         }
-        return int2quad(temp);
+        rfturn int2qubd(tfmp);
     }
 
-    public static byte[] int2quad(long input) {
-        byte[] output = new byte[4];
+    publid stbtid bytf[] int2qubd(long input) {
+        bytf[] output = nfw bytf[4];
         for (int i = 0; i < 4; i++) {
-            output[i] = (byte)((input >>> (i * 8)) & 0xff);
+            output[i] = (bytf)((input >>> (i * 8)) & 0xff);
         }
-        return output;
+        rfturn output;
     }
 
 

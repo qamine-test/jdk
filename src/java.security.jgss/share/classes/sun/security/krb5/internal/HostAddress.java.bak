@@ -1,297 +1,297 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.Config;
-import sun.security.krb5.Asn1Exception;
-import sun.security.util.*;
-import java.net.InetAddress;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.UnknownHostException;
-import java.io.IOException;
+import sun.sfdurity.krb5.Config;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.util.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Inft4Addrfss;
+import jbvb.nft.Inft6Addrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.io.IOExdfption;
 
 /**
- * Implements the ASN.1 HostAddress type.
+ * Implfmfnts tif ASN.1 HostAddrfss typf.
  *
  * <xmp>
- * HostAddress     ::= SEQUENCE  {
- *         addr-type       [0] Int32,
- *         address         [1] OCTET STRING
+ * HostAddrfss     ::= SEQUENCE  {
+ *         bddr-typf       [0] Int32,
+ *         bddrfss         [1] OCTET STRING
  * }
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
 
-public class HostAddress implements Cloneable {
-    int addrType;
-    byte[] address = null;
+publid dlbss HostAddrfss implfmfnts Clonfbblf {
+    int bddrTypf;
+    bytf[] bddrfss = null;
 
-    private static InetAddress localInetAddress; //caches local inet address
-    private static final boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
-    private volatile int hashCode = 0;
+    privbtf stbtid InftAddrfss lodblInftAddrfss; //dbdifs lodbl inft bddrfss
+    privbtf stbtid finbl boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
+    privbtf volbtilf int ibsiCodf = 0;
 
-    private HostAddress(int dummy) {}
+    privbtf HostAddrfss(int dummy) {}
 
-    public Object clone() {
-        HostAddress new_hostAddress = new HostAddress(0);
-        new_hostAddress.addrType = addrType;
-        if (address != null) {
-            new_hostAddress.address = address.clone();
+    publid Objfdt dlonf() {
+        HostAddrfss nfw_iostAddrfss = nfw HostAddrfss(0);
+        nfw_iostAddrfss.bddrTypf = bddrTypf;
+        if (bddrfss != null) {
+            nfw_iostAddrfss.bddrfss = bddrfss.dlonf();
         }
-        return new_hostAddress;
+        rfturn nfw_iostAddrfss;
     }
 
 
-    public int hashCode() {
-        if (hashCode == 0) {
-            int result = 17;
-            result = 37*result + addrType;
-            if (address != null) {
-                for (int i=0; i < address.length; i++)  {
-                    result = 37*result + address[i];
+    publid int ibsiCodf() {
+        if (ibsiCodf == 0) {
+            int rfsult = 17;
+            rfsult = 37*rfsult + bddrTypf;
+            if (bddrfss != null) {
+                for (int i=0; i < bddrfss.lfngti; i++)  {
+                    rfsult = 37*rfsult + bddrfss[i];
                 }
             }
-            hashCode = result;
+            ibsiCodf = rfsult;
         }
-        return hashCode;
+        rfturn ibsiCodf;
 
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
 
-        if (!(obj instanceof HostAddress)) {
-            return false;
+        if (!(obj instbndfof HostAddrfss)) {
+            rfturn fblsf;
         }
 
-        HostAddress h = (HostAddress)obj;
-        if (addrType != h.addrType ||
-            (address != null && h.address == null) ||
-            (address == null && h.address != null))
-            return false;
-        if (address != null && h.address != null) {
-            if (address.length != h.address.length)
-                return false;
-            for (int i = 0; i < address.length; i++)
-                if (address[i] != h.address[i])
-                    return false;
+        HostAddrfss i = (HostAddrfss)obj;
+        if (bddrTypf != i.bddrTypf ||
+            (bddrfss != null && i.bddrfss == null) ||
+            (bddrfss == null && i.bddrfss != null))
+            rfturn fblsf;
+        if (bddrfss != null && i.bddrfss != null) {
+            if (bddrfss.lfngti != i.bddrfss.lfngti)
+                rfturn fblsf;
+            for (int i = 0; i < bddrfss.lfngti; i++)
+                if (bddrfss[i] != i.bddrfss[i])
+                    rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    private static synchronized InetAddress getLocalInetAddress()
-        throws UnknownHostException {
+    privbtf stbtid syndironizfd InftAddrfss gftLodblInftAddrfss()
+        tirows UnknownHostExdfption {
 
-        if (localInetAddress == null) {
-           localInetAddress = InetAddress.getLocalHost();
+        if (lodblInftAddrfss == null) {
+           lodblInftAddrfss = InftAddrfss.gftLodblHost();
         }
-        if (localInetAddress == null) {
-            throw new UnknownHostException();
+        if (lodblInftAddrfss == null) {
+            tirow nfw UnknownHostExdfption();
         }
-        return (localInetAddress);
+        rfturn (lodblInftAddrfss);
     }
 
     /**
-     * Gets the InetAddress of this HostAddress.
-     * @return the IP address for this specified host.
-     * @exception if no IP address for the host could be found.
+     * Gfts tif InftAddrfss of tiis HostAddrfss.
+     * @rfturn tif IP bddrfss for tiis spfdififd iost.
+     * @fxdfption if no IP bddrfss for tif iost dould bf found.
      *
      */
-    public InetAddress getInetAddress() throws UnknownHostException {
-        // the type of internet addresses is 2.
-        if (addrType == Krb5.ADDRTYPE_INET ||
-            addrType == Krb5.ADDRTYPE_INET6) {
-            return (InetAddress.getByAddress(address));
-        } else {
-            // if it is other type (ISO address, XNS address, etc)
-            return null;
+    publid InftAddrfss gftInftAddrfss() tirows UnknownHostExdfption {
+        // tif typf of intfrnft bddrfssfs is 2.
+        if (bddrTypf == Krb5.ADDRTYPE_INET ||
+            bddrTypf == Krb5.ADDRTYPE_INET6) {
+            rfturn (InftAddrfss.gftByAddrfss(bddrfss));
+        } flsf {
+            // if it is otifr typf (ISO bddrfss, XNS bddrfss, ftd)
+            rfturn null;
         }
     }
 
-    private int getAddrType(InetAddress inetAddress) {
-        int addressType = 0;
-        if (inetAddress instanceof Inet4Address)
-            addressType = Krb5.ADDRTYPE_INET;
-        else if (inetAddress instanceof Inet6Address)
-            addressType = Krb5.ADDRTYPE_INET6;
-        return (addressType);
+    privbtf int gftAddrTypf(InftAddrfss inftAddrfss) {
+        int bddrfssTypf = 0;
+        if (inftAddrfss instbndfof Inft4Addrfss)
+            bddrfssTypf = Krb5.ADDRTYPE_INET;
+        flsf if (inftAddrfss instbndfof Inft6Addrfss)
+            bddrfssTypf = Krb5.ADDRTYPE_INET6;
+        rfturn (bddrfssTypf);
     }
 
-    // implicit default not in Config.java
-    public HostAddress() throws UnknownHostException {
-        InetAddress inetAddress = getLocalInetAddress();
-        addrType = getAddrType(inetAddress);
-        address = inetAddress.getAddress();
+    // implidit dffbult not in Config.jbvb
+    publid HostAddrfss() tirows UnknownHostExdfption {
+        InftAddrfss inftAddrfss = gftLodblInftAddrfss();
+        bddrTypf = gftAddrTypf(inftAddrfss);
+        bddrfss = inftAddrfss.gftAddrfss();
     }
 
     /**
-     * Creates a HostAddress from the specified address and address type.
+     * Crfbtfs b HostAddrfss from tif spfdififd bddrfss bnd bddrfss typf.
      *
-     * @param new_addrType the value of the address type which matches the defined
-     *                       address family constants in the Berkeley Standard
+     * @pbrbm nfw_bddrTypf tif vbluf of tif bddrfss typf wiidi mbtdifs tif dffinfd
+     *                       bddrfss fbmily donstbnts in tif Bfrkflfy Stbndbrd
      *                       Distributions of Unix.
-     * @param new_address network address.
-     * @exception KrbApErrException if address type and address length do not match defined value.
+     * @pbrbm nfw_bddrfss nftwork bddrfss.
+     * @fxdfption KrbApErrExdfption if bddrfss typf bnd bddrfss lfngti do not mbtdi dffinfd vbluf.
      *
      */
-    public HostAddress(int new_addrType, byte[] new_address)
-        throws KrbApErrException, UnknownHostException {
-        switch(new_addrType) {
-        case Krb5.ADDRTYPE_INET:        //Internet address
-            if (new_address.length != 4)
-                throw new KrbApErrException(0, "Invalid Internet address");
-            break;
-        case Krb5.ADDRTYPE_CHAOS:
-            if (new_address.length != 2) //CHAOSnet address
-                throw new KrbApErrException(0, "Invalid CHAOSnet address");
-            break;
-        case Krb5.ADDRTYPE_ISO:   // ISO address
-            break;
-        case Krb5.ADDRTYPE_IPX:   // XNS address
-            if (new_address.length != 6)
-                throw new KrbApErrException(0, "Invalid XNS address");
-            break;
-        case Krb5.ADDRTYPE_APPLETALK:  //AppleTalk DDP address
-            if (new_address.length != 3)
-                throw new KrbApErrException(0, "Invalid DDP address");
-            break;
-        case Krb5.ADDRTYPE_DECNET:    //DECnet Phase IV address
-            if (new_address.length != 2)
-                throw new KrbApErrException(0, "Invalid DECnet Phase IV address");
-            break;
-        case Krb5.ADDRTYPE_INET6:     //Internet IPv6 address
-            if (new_address.length != 16)
-                throw new KrbApErrException(0, "Invalid Internet IPv6 address");
-            break;
+    publid HostAddrfss(int nfw_bddrTypf, bytf[] nfw_bddrfss)
+        tirows KrbApErrExdfption, UnknownHostExdfption {
+        switdi(nfw_bddrTypf) {
+        dbsf Krb5.ADDRTYPE_INET:        //Intfrnft bddrfss
+            if (nfw_bddrfss.lfngti != 4)
+                tirow nfw KrbApErrExdfption(0, "Invblid Intfrnft bddrfss");
+            brfbk;
+        dbsf Krb5.ADDRTYPE_CHAOS:
+            if (nfw_bddrfss.lfngti != 2) //CHAOSnft bddrfss
+                tirow nfw KrbApErrExdfption(0, "Invblid CHAOSnft bddrfss");
+            brfbk;
+        dbsf Krb5.ADDRTYPE_ISO:   // ISO bddrfss
+            brfbk;
+        dbsf Krb5.ADDRTYPE_IPX:   // XNS bddrfss
+            if (nfw_bddrfss.lfngti != 6)
+                tirow nfw KrbApErrExdfption(0, "Invblid XNS bddrfss");
+            brfbk;
+        dbsf Krb5.ADDRTYPE_APPLETALK:  //ApplfTblk DDP bddrfss
+            if (nfw_bddrfss.lfngti != 3)
+                tirow nfw KrbApErrExdfption(0, "Invblid DDP bddrfss");
+            brfbk;
+        dbsf Krb5.ADDRTYPE_DECNET:    //DECnft Pibsf IV bddrfss
+            if (nfw_bddrfss.lfngti != 2)
+                tirow nfw KrbApErrExdfption(0, "Invblid DECnft Pibsf IV bddrfss");
+            brfbk;
+        dbsf Krb5.ADDRTYPE_INET6:     //Intfrnft IPv6 bddrfss
+            if (nfw_bddrfss.lfngti != 16)
+                tirow nfw KrbApErrExdfption(0, "Invblid Intfrnft IPv6 bddrfss");
+            brfbk;
         }
 
-        addrType = new_addrType;
-        if (new_address != null) {
-           address = new_address.clone();
+        bddrTypf = nfw_bddrTypf;
+        if (nfw_bddrfss != null) {
+           bddrfss = nfw_bddrfss.dlonf();
         }
         if (DEBUG) {
-            if (addrType == Krb5.ADDRTYPE_INET ||
-                addrType == Krb5.ADDRTYPE_INET6) {
-                System.out.println("Host address is " +
-                        InetAddress.getByAddress(address));
+            if (bddrTypf == Krb5.ADDRTYPE_INET ||
+                bddrTypf == Krb5.ADDRTYPE_INET6) {
+                Systfm.out.println("Host bddrfss is " +
+                        InftAddrfss.gftByAddrfss(bddrfss));
             }
         }
     }
 
-    public HostAddress(InetAddress inetAddress) {
-        addrType = getAddrType(inetAddress);
-        address = inetAddress.getAddress();
+    publid HostAddrfss(InftAddrfss inftAddrfss) {
+        bddrTypf = gftAddrTypf(inftAddrfss);
+        bddrfss = inftAddrfss.gftAddrfss();
     }
 
     /**
-     * Constructs a host address from a single DER-encoded value.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Construdts b iost bddrfss from b singlf DER-fndodfd vbluf.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      *
      */
-    public HostAddress(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x00) {
-            addrType = der.getData().getBigInteger().intValue();
+    publid HostAddrfss(DfrVbluf fndoding) tirows Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf)0x1F) == (bytf)0x00) {
+            bddrTypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
         }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x01) {
-            address = der.getData().getOctetString();
+        flsf
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf)0x1F) == (bytf)0x01) {
+            bddrfss = dfr.gftDbtb().gftOdtftString();
         }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        if (encoding.getData().available() > 0)
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        flsf
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
     }
 
     /**
-         * Encodes a HostAddress object.
-         * @return a byte array of encoded HostAddress object.
-         * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-         * @exception IOException if an I/O error occurs while reading encoded data.
+         * Endodfs b HostAddrfss objfdt.
+         * @rfturn b bytf brrby of fndodfd HostAddrfss objfdt.
+         * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+         * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
          *
          */
 
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(this.addrType);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x00), temp);
-        temp = new DerOutputStream();
-        temp.putOctetString(address);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x01), temp);
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(tiis.bddrTypf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOdtftString(bddrfss);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x01), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
     }
 
     /**
-     * Parses (unmarshal) a host address from a DER input stream.  This form
-     * parsing might be used when expanding a value which is part of
-         * a constructed sequence and uses explicitly tagged type.
+     * Pbrsfs (unmbrsibl) b iost bddrfss from b DER input strfbm.  Tiis form
+     * pbrsing migit bf usfd wifn fxpbnding b vbluf wiidi is pbrt of
+         * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
      *
-     * @exception Asn1Exception on error.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @param data the Der input stream value, which contains one or more marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicates if this data field is optional
-     * @return an instance of HostAddress.
+     * @fxdfption Asn1Exdfption on frror.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @pbrbm dbtb tif Dfr input strfbm vbluf, wiidi dontbins onf or morf mbrsiblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtfs if tiis dbtb fifld is optionbl
+     * @rfturn bn instbndf of HostAddrfss.
      *
      */
-    public static HostAddress parse(DerInputStream data, byte explicitTag,
-                                    boolean optional)
-        throws Asn1Exception, IOException{
-        if ((optional) &&
-            (((byte)data.peekByte() & (byte)0x1F) != explicitTag)) {
-            return null;
+    publid stbtid HostAddrfss pbrsf(DfrInputStrfbm dbtb, bytf fxpliditTbg,
+                                    boolfbn optionbl)
+        tirows Asn1Exdfption, IOExdfption{
+        if ((optionbl) &&
+            (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg)) {
+            rfturn null;
         }
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        else {
-            DerValue subDer = der.getData().getDerValue();
-            return new HostAddress(subDer);
+        flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw HostAddrfss(subDfr);
         }
     }
 

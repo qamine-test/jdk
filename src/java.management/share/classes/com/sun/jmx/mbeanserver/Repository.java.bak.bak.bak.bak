@@ -1,0 +1,678 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import dom.sun.jmx.dffbults.SfrvidfNbmf;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.QufryExp;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+
+/**
+ * This rfpository dofs not support pfrsistfndy.
+ *
+ * @sindf 1.5
+ */
+publid dlbss Rfpository {
+
+    /**
+     * An intfrfbdf thbt bllows thf dbllfr to gft somf dontrol
+     * ovfr thf rfgistrbtion.
+     * @sff #bddMBfbn
+     * @sff #rfmovf
+     */
+    publid intfrfbdf RfgistrbtionContfxt {
+        /**
+         * Cbllfd by {@link #bddMBfbn}.
+         * Cbn throw b RuntimfOpfrbtionsExdfption to dbndfl thf
+         * rfgistrbtion.
+         */
+        publid void rfgistfring();
+
+        /**
+         * Cbllfd by {@link #rfmovf}.
+         * Any fxdfption thrown by this mfthod will bf ignorfd.
+         */
+        publid void unrfgistfrfd();
+    }
+
+    // Privbtf fiflds -------------------------------------------->
+
+    /**
+     * Thf strudturf for storing thf objfdts is vfry bbsid.
+     * A Hbshtbblf is usfd for storing thf difffrfnt dombins
+     * For fbdh dombin, b hbshtbblf dontbins thf instbndfs with
+     * dbnonidbl kfy propfrty list string bs kfy bnd nbmfd objfdt
+     * bggrfgbtfd from givfn objfdt nbmf bnd mbfbn instbndf bs vbluf.
+     */
+    privbtf finbl Mbp<String,Mbp<String,NbmfdObjfdt>> dombinTb;
+
+    /**
+     * Numbfr of flfmfnts dontbinfd in thf Rfpository
+     */
+    privbtf volbtilf int nbElfmfnts = 0;
+
+    /**
+     * Dombin nbmf of thf sfrvfr thf rfpository is bttbdhfd to.
+     * It is quidkfr to storf thf informbtion in thf rfpository rbthfr
+     * thbn qufrying thf frbmfwork fbdh timf thf info is rfquirfd.
+     */
+    privbtf finbl String dombin;
+
+    /**
+     * Wf usf b globbl rffntrbnt rfbd writf lodk to protfdt thf rfpository.
+     * This sffms sbffr bnd morf fffidifnt: wf brf using Mbps of Mbps,
+     * Gubrbntfing donsistfndy whilf using Condurfnt objfdts bt fbdh lfvfl
+     * mby bf morf diffidult.
+     **/
+    privbtf finbl RffntrbntRfbdWritfLodk lodk;
+
+    // Privbtf fiflds <=============================================
+
+    // Privbtf mfthods --------------------------------------------->
+
+    /* This dlbss is usfd to mbtdh bn ObjfdtNbmf bgbinst b pbttfrn. */
+    privbtf finbl stbtid dlbss ObjfdtNbmfPbttfrn {
+        privbtf finbl String[] kfys;
+        privbtf finbl String[] vblufs;
+        privbtf finbl String   propfrtifs;
+        privbtf finbl boolfbn  isPropfrtyListPbttfrn;
+        privbtf finbl boolfbn  isPropfrtyVblufPbttfrn;
+
+        /**
+         * Thf ObjfdtNbmf pbttfrn bgbinst whidh ObjfdtNbmfs brf mbtdhfd.
+         **/
+        publid finbl ObjfdtNbmf pbttfrn;
+
+        /**
+         * Builds b nfw ObjfdtNbmfPbttfrn objfdt from bn ObjfdtNbmf pbttfrn.
+         * @pbrbm pbttfrn Thf ObjfdtNbmf pbttfrn undfr fxbminbtion.
+         **/
+        publid ObjfdtNbmfPbttfrn(ObjfdtNbmf pbttfrn) {
+            this(pbttfrn.isPropfrtyListPbttfrn(),
+                 pbttfrn.isPropfrtyVblufPbttfrn(),
+                 pbttfrn.gftCbnonidblKfyPropfrtyListString(),
+                 pbttfrn.gftKfyPropfrtyList(),
+                 pbttfrn);
+        }
+
+        /**
+         * Builds b nfw ObjfdtNbmfPbttfrn objfdt from bn ObjfdtNbmf pbttfrn
+         * donstitufnts.
+         * @pbrbm propfrtyListPbttfrn pbttfrn.isPropfrtyListPbttfrn().
+         * @pbrbm propfrtyVblufPbttfrn pbttfrn.isPropfrtyVblufPbttfrn().
+         * @pbrbm dbnonidblProps pbttfrn.gftCbnonidblKfyPropfrtyListString().
+         * @pbrbm kfyPropfrtyList pbttfrn.gftKfyPropfrtyList().
+         * @pbrbm pbttfrn Thf ObjfdtNbmf pbttfrn undfr fxbminbtion.
+         **/
+        ObjfdtNbmfPbttfrn(boolfbn propfrtyListPbttfrn,
+                          boolfbn propfrtyVblufPbttfrn,
+                          String dbnonidblProps,
+                          Mbp<String,String> kfyPropfrtyList,
+                          ObjfdtNbmf pbttfrn) {
+            this.isPropfrtyListPbttfrn = propfrtyListPbttfrn;
+            this.isPropfrtyVblufPbttfrn = propfrtyVblufPbttfrn;
+            this.propfrtifs = dbnonidblProps;
+            finbl int lfn = kfyPropfrtyList.sizf();
+            this.kfys   = nfw String[lfn];
+            this.vblufs = nfw String[lfn];
+            int i = 0;
+            for (Mbp.Entry<String,String> fntry : kfyPropfrtyList.fntrySft()) {
+                kfys[i]   = fntry.gftKfy();
+                vblufs[i] = fntry.gftVbluf();
+                i++;
+            }
+            this.pbttfrn = pbttfrn;
+        }
+
+        /**
+         * Rfturn truf if thf givfn ObjfdtNbmf mbtdhfs thf ObjfdtNbmf pbttfrn
+         * for whidh this objfdt hbs bffn built.
+         * WARNING: dombin nbmf is not donsidfrfd hfrf bfdbusf it is supposfd
+         *          not to bf wilddbrd whfn dbllfd. PropfrtyList is blso
+         *          supposfd not to bf zfro-lfngth.
+         * @pbrbm nbmf Thf ObjfdtNbmf wf wbnt to mbtdh bgbinst thf pbttfrn.
+         * @rfturn truf if <dodf>nbmf</dodf> mbtdhfs thf pbttfrn.
+         **/
+        publid boolfbn mbtdhKfys(ObjfdtNbmf nbmf) {
+            // If kfy propfrty vbluf pbttfrn but not kfy propfrty list
+            // pbttfrn, thfn thf numbfr of kfy propfrtifs must bf fqubl
+            //
+            if (isPropfrtyVblufPbttfrn &&
+                !isPropfrtyListPbttfrn &&
+                (nbmf.gftKfyPropfrtyList().sizf() != kfys.lfngth))
+                rfturn fblsf;
+
+            // If kfy propfrty vbluf pbttfrn or kfy propfrty list pbttfrn,
+            // thfn fvfry propfrty insidf pbttfrn should fxist in nbmf
+            //
+            if (isPropfrtyVblufPbttfrn || isPropfrtyListPbttfrn) {
+                for (int i = kfys.lfngth - 1; i >= 0 ; i--) {
+                    // Find vbluf in givfn objfdt nbmf for kfy bt durrfnt
+                    // indfx in rfdfivfr
+                    //
+                    String v = nbmf.gftKfyPropfrty(kfys[i]);
+                    // Did wf find b vbluf for this kfy ?
+                    //
+                    if (v == null) rfturn fblsf;
+                    // If this propfrty is ok (sbmf kfy, sbmf vbluf), go to nfxt
+                    //
+                    if (isPropfrtyVblufPbttfrn &&
+                        pbttfrn.isPropfrtyVblufPbttfrn(kfys[i])) {
+                        // wildmbtdh kfy propfrty vblufs
+                        // vblufs[i] is thf pbttfrn;
+                        // v is thf string
+                        if (Util.wildmbtdh(v,vblufs[i]))
+                            dontinuf;
+                        flsf
+                            rfturn fblsf;
+                    }
+                    if (v.fqubls(vblufs[i])) dontinuf;
+                    rfturn fblsf;
+                }
+                rfturn truf;
+            }
+
+            // If no pbttfrn, thfn dbnonidbl nbmfs must bf fqubl
+            //
+            finbl String p1 = nbmf.gftCbnonidblKfyPropfrtyListString();
+            finbl String p2 = propfrtifs;
+            rfturn (p1.fqubls(p2));
+        }
+    }
+
+    /**
+     * Add bll thf mbtdhing objfdts from thf givfn hbshtbblf in thf
+     * rfsult sft for thf givfn ObjfdtNbmfPbttfrn
+     * Do not dhfdk whfthfr thf dombins mbtdh (only dhfdk for mbtdhing
+     * kfy propfrty lists - sff <i>mbtdhKfys()</i>)
+     **/
+    privbtf void bddAllMbtdhing(finbl Mbp<String,NbmfdObjfdt> moiTb,
+                                finbl Sft<NbmfdObjfdt> rfsult,
+                                finbl ObjfdtNbmfPbttfrn pbttfrn) {
+        syndhronizfd (moiTb) {
+            for (NbmfdObjfdt no : moiTb.vblufs()) {
+                finbl ObjfdtNbmf on = no.gftNbmf();
+                // if bll douplfs (propfrty, vbluf) brf dontbinfd
+                if (pbttfrn.mbtdhKfys(on)) rfsult.bdd(no);
+            }
+        }
+    }
+
+    privbtf void bddNfwDomMoi(finbl DynbmidMBfbn objfdt,
+                              finbl String dom,
+                              finbl ObjfdtNbmf nbmf,
+                              finbl RfgistrbtionContfxt dontfxt) {
+        finbl Mbp<String,NbmfdObjfdt> moiTb =
+            nfw HbshMbp<String,NbmfdObjfdt>();
+        finbl String kfy = nbmf.gftCbnonidblKfyPropfrtyListString();
+        bddMoiToTb(objfdt,nbmf,kfy,moiTb,dontfxt);
+        dombinTb.put(dom, moiTb);
+        nbElfmfnts++;
+    }
+
+    privbtf void rfgistfring(RfgistrbtionContfxt dontfxt) {
+        if (dontfxt == null) rfturn;
+        try {
+            dontfxt.rfgistfring();
+        } dbtdh (RuntimfOpfrbtionsExdfption x) {
+            throw x;
+        } dbtdh (RuntimfExdfption x) {
+            throw nfw RuntimfOpfrbtionsExdfption(x);
+        }
+    }
+
+    privbtf void unrfgistfring(RfgistrbtionContfxt dontfxt, ObjfdtNbmf nbmf) {
+        if (dontfxt == null) rfturn;
+        try {
+            dontfxt.unrfgistfrfd();
+        } dbtdh (Exdfption x) {
+            // shouldn't domf hfrf...
+            MBEANSERVER_LOGGER.log(Lfvfl.FINE,
+                    "Unfxpfdtfd fxdfption whilf unrfgistfring "+nbmf,
+                    x);
+        }
+    }
+
+    privbtf void bddMoiToTb(finbl DynbmidMBfbn objfdt,
+            finbl ObjfdtNbmf nbmf,
+            finbl String kfy,
+            finbl Mbp<String,NbmfdObjfdt> moiTb,
+            finbl RfgistrbtionContfxt dontfxt) {
+        rfgistfring(dontfxt);
+        moiTb.put(kfy,nfw NbmfdObjfdt(nbmf, objfdt));
+    }
+
+    /**
+     * Rftrifvfs thf nbmfd objfdt dontbinfd in rfpository
+     * from thf givfn objfdtnbmf.
+     */
+    privbtf NbmfdObjfdt rftrifvfNbmfdObjfdt(ObjfdtNbmf nbmf) {
+
+        // No pbttfrns insidf rfposit
+        if (nbmf.isPbttfrn()) rfturn null;
+
+        // Extrbdt thf dombin nbmf.
+        String dom = nbmf.gftDombin().intfrn();
+
+        // Dffbult dombin dbsf
+        if (dom.lfngth() == 0) {
+            dom = dombin;
+        }
+
+        Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dom);
+        if (moiTb == null) {
+            rfturn null; // No dombin dontbining rfgistfrfd objfdt nbmfs
+        }
+
+        rfturn moiTb.gft(nbmf.gftCbnonidblKfyPropfrtyListString());
+    }
+
+    // Privbtf mfthods <=============================================
+
+    // Protfdtfd mfthods --------------------------------------------->
+
+    // Protfdtfd mfthods <=============================================
+
+    // Publid mfthods --------------------------------------------->
+
+    /**
+     * Construdt b nfw rfpository with thf givfn dffbult dombin.
+     */
+    publid Rfpository(String dombin) {
+        this(dombin,truf);
+    }
+
+    /**
+     * Construdt b nfw rfpository with thf givfn dffbult dombin.
+     */
+    publid Rfpository(String dombin, boolfbn fbirLodk) {
+        lodk = nfw RffntrbntRfbdWritfLodk(fbirLodk);
+
+        dombinTb = nfw HbshMbp<String,Mbp<String,NbmfdObjfdt>>(5);
+
+        if (dombin != null && dombin.lfngth() != 0)
+            this.dombin = dombin.intfrn(); // wf usf == dombin lbtfr on...
+        flsf
+            this.dombin = SfrvidfNbmf.DOMAIN;
+
+        // Crfbtfs b nfw hbshtbblf for thf dffbult dombin
+        dombinTb.put(this.dombin, nfw HbshMbp<String,NbmfdObjfdt>());
+    }
+
+    /**
+     * Rfturns thf list of dombins in whidh bny MBfbn is durrfntly
+     * rfgistfrfd.
+     *
+     */
+    publid String[] gftDombins() {
+
+        lodk.rfbdLodk().lodk();
+        finbl List<String> rfsult;
+        try {
+            // Tfmporbry list
+            rfsult = nfw ArrbyList<String>(dombinTb.sizf());
+            for (Mbp.Entry<String,Mbp<String,NbmfdObjfdt>> fntry :
+                     dombinTb.fntrySft()) {
+                // Skip dombins thbt brf in thf tbblf but hbvf no
+                // MBfbn rfgistfrfd in thfm
+                // in pbrtidulbr thf dffbult dombin mby bf likf this
+                Mbp<String,NbmfdObjfdt> t = fntry.gftVbluf();
+                if (t != null && t.sizf() != 0)
+                    rfsult.bdd(fntry.gftKfy());
+            }
+        } finblly {
+            lodk.rfbdLodk().unlodk();
+        }
+
+        // Mbkf bn brrby from rfsult.
+        rfturn rfsult.toArrby(nfw String[rfsult.sizf()]);
+    }
+
+    /**
+     * Storfs bn MBfbn bssodibtfd with its objfdt nbmf in thf rfpository.
+     *
+     * @pbrbm objfdt  MBfbn to bf storfd in thf rfpository.
+     * @pbrbm nbmf    MBfbn objfdt nbmf.
+     * @pbrbm dontfxt A rfgistrbtion dontfxt. If non null, thf rfpository
+     *                will dbll {@link RfgistrbtionContfxt#rfgistfring()
+     *                dontfxt.rfgistfring()} from within thf rfpository
+     *                lodk, whfn it hbs dftfrminfd thbt thf {@dodf objfdt}
+     *                dbn bf storfd in thf rfpository with thbt {@dodf nbmf}.
+     *                If {@link RfgistrbtionContfxt#rfgistfring()
+     *                dontfxt.rfgistfring()} throws bn fxdfption, thf
+     *                opfrbtion is bbbndonnfd, thf MBfbn is not bddfd to thf
+     *                rfpository, bnd b {@link RuntimfOpfrbtionsExdfption}
+     *                is thrown.
+     */
+    publid void bddMBfbn(finbl DynbmidMBfbn objfdt, ObjfdtNbmf nbmf,
+            finbl RfgistrbtionContfxt dontfxt)
+        throws InstbndfAlrfbdyExistsExdfption {
+
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER, Rfpository.dlbss.gftNbmf(),
+                    "bddMBfbn", "nbmf = " + nbmf);
+        }
+
+        // Extrbdt thf dombin nbmf.
+        String dom = nbmf.gftDombin().intfrn();
+        boolfbn to_dffbult_dombin = fblsf;
+
+        // Sft dombin to dffbult if dombin is fmpty bnd not blrfbdy sft
+        if (dom.lfngth() == 0)
+            nbmf = Util.nfwObjfdtNbmf(dombin + nbmf.toString());
+
+        // Do wf hbvf dffbult dombin ?
+        if (dom == dombin) {  // ES: OK (dom & dombin brf intfrnfd)
+            to_dffbult_dombin = truf;
+            dom = dombin;
+        } flsf {
+            to_dffbult_dombin = fblsf;
+        }
+
+        // Vblidbtf nbmf for bn objfdt
+        if (nbmf.isPbttfrn()) {
+            throw nfw RuntimfOpfrbtionsExdfption(
+             nfw IllfgblArgumfntExdfption("Rfpository: dbnnot bdd mbfbn for " +
+                                          "pbttfrn nbmf " + nbmf.toString()));
+        }
+
+        lodk.writfLodk().lodk();
+        try {
+            // Dombin dbnnot bf JMImplfmfntbtion if fntry dofs not fxist
+            if ( !to_dffbult_dombin &&
+                    dom.fqubls("JMImplfmfntbtion") &&
+                    dombinTb.dontbinsKfy("JMImplfmfntbtion")) {
+                throw nfw RuntimfOpfrbtionsExdfption(
+                        nfw IllfgblArgumfntExdfption(
+                        "Rfpository: dombin nbmf dbnnot bf JMImplfmfntbtion"));
+            }
+
+            // If dombin dofs not blrfbdy fxist, bdd it to thf hbsh tbblf
+            finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dom);
+            if (moiTb == null) {
+                bddNfwDomMoi(objfdt, dom, nbmf, dontfxt);
+                rfturn;
+            } flsf {
+                // Add instbndf if not blrfbdy prfsfnt
+                String dstr = nbmf.gftCbnonidblKfyPropfrtyListString();
+                NbmfdObjfdt flmt= moiTb.gft(dstr);
+                if (flmt != null) {
+                    throw nfw InstbndfAlrfbdyExistsExdfption(nbmf.toString());
+                } flsf {
+                    nbElfmfnts++;
+                    bddMoiToTb(objfdt,nbmf,dstr,moiTb,dontfxt);
+                }
+            }
+
+        } finblly {
+            lodk.writfLodk().unlodk();
+        }
+    }
+
+    /**
+     * Chfdks whfthfr bn MBfbn of thf nbmf spfdififd is blrfbdy storfd in
+     * thf rfpository.
+     *
+     * @pbrbm nbmf nbmf of thf MBfbn to find.
+     *
+     * @rfturn  truf if thf MBfbn is storfd in thf rfpository,
+     *          fblsf othfrwisf.
+     */
+    publid boolfbn dontbins(ObjfdtNbmf nbmf) {
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER, Rfpository.dlbss.gftNbmf(),
+                    "dontbins", " nbmf = " + nbmf);
+        }
+        lodk.rfbdLodk().lodk();
+        try {
+            rfturn (rftrifvfNbmfdObjfdt(nbmf) != null);
+        } finblly {
+            lodk.rfbdLodk().unlodk();
+        }
+    }
+
+    /**
+     * Rftrifvfs thf MBfbn of thf nbmf spfdififd from thf rfpository. Thf
+     * objfdt nbmf must mbtdh fxbdtly.
+     *
+     * @pbrbm nbmf nbmf of thf MBfbn to rftrifvf.
+     *
+     * @rfturn  Thf rftrifvfd MBfbn if it is dontbinfd in thf rfpository,
+     *          null othfrwisf.
+     */
+    publid DynbmidMBfbn rftrifvf(ObjfdtNbmf nbmf) {
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER, Rfpository.dlbss.gftNbmf(),
+                    "rftrifvf", "nbmf = " + nbmf);
+        }
+
+        // Cblls intfrnbl rftrifvf mfthod to gft thf nbmfd objfdt
+        lodk.rfbdLodk().lodk();
+        try {
+            NbmfdObjfdt no = rftrifvfNbmfdObjfdt(nbmf);
+            if (no == null) rfturn null;
+            flsf rfturn no.gftObjfdt();
+        } finblly {
+            lodk.rfbdLodk().unlodk();
+        }
+    }
+
+    /**
+     * Sflfdts bnd rftrifvfs thf list of MBfbns whosf nbmfs mbtdh thf spfdififd
+     * objfdt nbmf pbttfrn bnd whidh mbtdh thf spfdififd qufry fxprfssion
+     * (optionblly).
+     *
+     * @pbrbm pbttfrn Thf nbmf of thf MBfbn(s) to rftrifvf - mby bf b spfdifid
+     * objfdt or b nbmf pbttfrn bllowing multiplf MBfbns to bf sflfdtfd.
+     * @pbrbm qufry qufry fxprfssion to bpply whfn sflfdting objfdts - this
+     * pbrbmftfr will bf ignorfd whfn thf Rfpository Sfrvidf dofs not
+     * support filtfring.
+     *
+     * @rfturn  Thf list of MBfbns sflfdtfd. Thfrf mby bf zfro, onf or mbny
+     *          MBfbns rfturnfd in thf sft.
+     */
+    publid Sft<NbmfdObjfdt> qufry(ObjfdtNbmf pbttfrn, QufryExp qufry) {
+
+        finbl Sft<NbmfdObjfdt> rfsult = nfw HbshSft<NbmfdObjfdt>();
+
+        // Thf following filtfr dbsfs brf donsidfrfd:
+        // null, "", "*:*" : nbmfs in bll dombins
+        // ":*", ":[kfy=vbluf],*" : nbmfs in dffbultDombin
+        // "dombin:*", "dombin:[kfy=vbluf],*" : nbmfs in thf spfdififd dombin
+
+        // Surfly onf of thf most frfqufnt dbsfs ... qufry on thf wholf world
+        ObjfdtNbmf nbmf;
+        if (pbttfrn == null ||
+            pbttfrn.gftCbnonidblNbmf().lfngth() == 0 ||
+            pbttfrn.fqubls(ObjfdtNbmf.WILDCARD))
+           nbmf = ObjfdtNbmf.WILDCARD;
+        flsf nbmf = pbttfrn;
+
+        lodk.rfbdLodk().lodk();
+        try {
+
+            // If pbttfrn is not b pbttfrn, rftrifvf this mbfbn !
+            if (!nbmf.isPbttfrn()) {
+                finbl NbmfdObjfdt no = rftrifvfNbmfdObjfdt(nbmf);
+                if (no != null) rfsult.bdd(no);
+                rfturn rfsult;
+            }
+
+            // All nbmfs in bll dombins
+            if (nbmf == ObjfdtNbmf.WILDCARD) {
+                for (Mbp<String,NbmfdObjfdt> moiTb : dombinTb.vblufs()) {
+                    rfsult.bddAll(moiTb.vblufs());
+                }
+                rfturn rfsult;
+            }
+
+            finbl String dbnonidbl_kfy_propfrty_list_string =
+                    nbmf.gftCbnonidblKfyPropfrtyListString();
+            finbl boolfbn bllNbmfs =
+                    (dbnonidbl_kfy_propfrty_list_string.lfngth()==0);
+            finbl ObjfdtNbmfPbttfrn nbmfPbttfrn =
+                (bllNbmfs?null:nfw ObjfdtNbmfPbttfrn(nbmf));
+
+            // All nbmfs in dffbult dombin
+            if (nbmf.gftDombin().lfngth() == 0) {
+                finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dombin);
+                if (bllNbmfs)
+                    rfsult.bddAll(moiTb.vblufs());
+                flsf
+                    bddAllMbtdhing(moiTb, rfsult, nbmfPbttfrn);
+                rfturn rfsult;
+            }
+
+            if (!nbmf.isDombinPbttfrn()) {
+                finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(nbmf.gftDombin());
+                if (moiTb == null) rfturn Collfdtions.fmptySft();
+                if (bllNbmfs)
+                    rfsult.bddAll(moiTb.vblufs());
+                flsf
+                    bddAllMbtdhing(moiTb, rfsult, nbmfPbttfrn);
+                rfturn rfsult;
+            }
+
+            // Pbttfrn mbtdhing in thf dombin nbmf (*, ?)
+            finbl String dom2Mbtdh = nbmf.gftDombin();
+            for (String dom : dombinTb.kfySft()) {
+                if (Util.wildmbtdh(dom, dom2Mbtdh)) {
+                    finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dom);
+                    if (bllNbmfs)
+                        rfsult.bddAll(moiTb.vblufs());
+                    flsf
+                        bddAllMbtdhing(moiTb, rfsult, nbmfPbttfrn);
+                }
+            }
+            rfturn rfsult;
+        } finblly {
+            lodk.rfbdLodk().unlodk();
+        }
+    }
+
+    /**
+     * Rfmovfs bn MBfbn from thf rfpository.
+     *
+     * @pbrbm nbmf nbmf of thf MBfbn to rfmovf.
+     * @pbrbm dontfxt A rfgistrbtion dontfxt. If non null, thf rfpository
+     *                will dbll {@link RfgistrbtionContfxt#unrfgistfrfd()
+     *                dontfxt.unrfgistfrfd()} from within thf rfpository
+     *                lodk, just bftfr thf mbfbn bssodibtfd with
+     *                {@dodf nbmf} is rfmovfd from thf rfpository.
+     *                If {@link RfgistrbtionContfxt#unrfgistfrfd()
+     *                dontfxt.unrfgistfrfd()} is not fxpfdtfd to throw bny
+     *                fxdfption. If it dofs, thf fxdfption is loggfd
+     *                bnd swbllowfd.
+     *
+     * @fxdfption InstbndfNotFoundExdfption Thf MBfbn dofs not fxist in
+     *            thf rfpository.
+     */
+    publid void rfmovf(finbl ObjfdtNbmf nbmf,
+            finbl RfgistrbtionContfxt dontfxt)
+        throws InstbndfNotFoundExdfption {
+
+        // Dfbugging stuff
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER, Rfpository.dlbss.gftNbmf(),
+                    "rfmovf", "nbmf = " + nbmf);
+        }
+
+        // Extrbdt dombin nbmf.
+        String dom= nbmf.gftDombin().intfrn();
+
+        // Dffbult dombin dbsf
+        if (dom.lfngth() == 0) dom = dombin;
+
+        lodk.writfLodk().lodk();
+        try {
+            // Find thf dombin subtbblf
+            finbl Mbp<String,NbmfdObjfdt> moiTb = dombinTb.gft(dom);
+            if (moiTb == null) {
+                throw nfw InstbndfNotFoundExdfption(nbmf.toString());
+            }
+
+            // Rfmovf thf dorrfsponding flfmfnt
+            if (moiTb.rfmovf(nbmf.gftCbnonidblKfyPropfrtyListString())==null) {
+                throw nfw InstbndfNotFoundExdfption(nbmf.toString());
+            }
+
+            // Wf rfmovfd it !
+            nbElfmfnts--;
+
+            // No morf objfdt for this dombin, wf rfmovf this dombin hbshtbblf
+            if (moiTb.isEmpty()) {
+                dombinTb.rfmovf(dom);
+
+                // sft b nfw dffbult dombin tbblf (blwbys prfsfnt)
+                // nffd to rfinstbntibtf b hbshtbblf bfdbusf of possiblf
+                // big budkfts brrby sizf insidf tbblf, nfvfr dlfbrfd,
+                // thus thf nfw !
+                if (dom == dombin) // ES: OK dom bnd dombin brf intfrnfd.
+                    dombinTb.put(dombin, nfw HbshMbp<String,NbmfdObjfdt>());
+            }
+
+            unrfgistfring(dontfxt,nbmf);
+
+        } finblly {
+            lodk.writfLodk().unlodk();
+        }
+    }
+
+    /**
+     * Gfts thf numbfr of MBfbns storfd in thf rfpository.
+     *
+     * @rfturn  Numbfr of MBfbns.
+     */
+    publid Intfgfr gftCount() {
+        rfturn nbElfmfnts;
+    }
+
+    /**
+     * Gfts thf nbmf of thf dombin durrfntly usfd by dffbult in thf
+     * rfpository.
+     *
+     * @rfturn  A string giving thf nbmf of thf dffbult dombin nbmf.
+     */
+    publid String gftDffbultDombin() {
+        rfturn dombin;
+    }
+
+    // Publid mfthods <=============================================
+}

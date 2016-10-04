@@ -1,0 +1,375 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
+import dom.sun.jdi.donnfdt.spi.Connfdtion;
+import dom.sun.jdi.fvfnt.EvfntSft;
+
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+
+publid dlbss TbrgftVM implfmfnts Runnbblf {
+    privbtf Mbp<String, Pbdkft> wbitingQufuf = nfw HbshMbp<String, Pbdkft>(32,0.75f);
+    privbtf boolfbn shouldListfn = truf;
+    privbtf List<EvfntQufuf> fvfntQufufs = Collfdtions.syndhronizfdList(nfw ArrbyList<EvfntQufuf>(2));
+    privbtf VirtublMbdhinfImpl vm;
+    privbtf Connfdtion donnfdtion;
+    privbtf Thrfbd rfbdfrThrfbd;
+    privbtf EvfntControllfr fvfntControllfr = null;
+    privbtf boolfbn fvfntsHfld = fblsf;
+
+    /*
+     * TO DO: Thf limit numbfrs bflow brf somfwhbt brbitrbry bnd should
+     * bf donfigurbblf in thf futurf.
+     */
+    stbtid privbtf finbl int OVERLOADED_QUEUE = 2000;
+    stbtid privbtf finbl int UNDERLOADED_QUEUE = 100;
+
+    TbrgftVM(VirtublMbdhinfImpl vm, Connfdtion donnfdtion) {
+        this.vm = vm;
+        this.donnfdtion = donnfdtion;
+        this.rfbdfrThrfbd = nfw Thrfbd(vm.thrfbdGroupForJDI(),
+                                       this, "JDI Tbrgft VM Intfrfbdf");
+        this.rfbdfrThrfbd.sftDbfmon(truf);
+    }
+
+    void stbrt() {
+        rfbdfrThrfbd.stbrt();
+    }
+
+    privbtf void dumpPbdkft(Pbdkft pbdkft, boolfbn sfnding) {
+        String dirfdtion = sfnding ? "Sfnding" : "Rfdfiving";
+        if (sfnding) {
+            vm.printTrbdf(dirfdtion + " Commbnd. id=" + pbdkft.id +
+                          ", lfngth=" + pbdkft.dbtb.lfngth +
+                          ", dommbndSft=" + pbdkft.dmdSft +
+                          ", dommbnd=" + pbdkft.dmd +
+                          ", flbgs=" + pbdkft.flbgs);
+        } flsf {
+            String typf = (pbdkft.flbgs & Pbdkft.Rfply) != 0 ?
+                          "Rfply" : "Evfnt";
+            vm.printTrbdf(dirfdtion + " " + typf + ". id=" + pbdkft.id +
+                          ", lfngth=" + pbdkft.dbtb.lfngth +
+                          ", frrorCodf=" + pbdkft.frrorCodf +
+                          ", flbgs=" + pbdkft.flbgs);
+        }
+        StringBuildfr linf = nfw StringBuildfr(80);
+        linf.bppfnd("0000: ");
+        for (int i = 0; i < pbdkft.dbtb.lfngth; i++) {
+            if ((i > 0) && (i % 16 == 0)) {
+                vm.printTrbdf(linf.toString());
+                linf.sftLfngth(0);
+                linf.bppfnd(String.vblufOf(i));
+                linf.bppfnd(": ");
+                int lfn = linf.lfngth();
+                for (int j = 0; j < 6 - lfn; j++) {
+                    linf.insfrt(0, '0');
+                }
+            }
+            int vbl = 0xff & pbdkft.dbtb[i];
+            String str = Intfgfr.toHfxString(vbl);
+            if (str.lfngth() == 1) {
+                linf.bppfnd('0');
+            }
+            linf.bppfnd(str);
+            linf.bppfnd(' ');
+        }
+        if (linf.lfngth() > 6) {
+            vm.printTrbdf(linf.toString());
+        }
+    }
+
+    publid void run() {
+        if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_SENDS) != 0) {
+            vm.printTrbdf("Tbrgft VM intfrfbdf thrfbd running");
+        }
+        Pbdkft p=null,p2;
+        String idString;
+
+        whilf(shouldListfn) {
+
+            boolfbn donf = fblsf;
+            try {
+                bytf b[] = donnfdtion.rfbdPbdkft();
+                if (b.lfngth == 0) {
+                    donf = truf;
+                }
+                p = Pbdkft.fromBytfArrby(b);
+            } dbtdh (IOExdfption f) {
+                donf = truf;
+            }
+
+            if (donf) {
+                shouldListfn = fblsf;
+                try {
+                    donnfdtion.dlosf();
+                } dbtdh (IOExdfption iof) { }
+                brfbk;
+            }
+
+            if ((vm.trbdfFlbgs & VirtublMbdhinfImpl.TRACE_RAW_RECEIVES) != 0)  {
+                dumpPbdkft(p, fblsf);
+            }
+
+            if((p.flbgs & Pbdkft.Rfply) == 0) {
+                // It's b dommbnd
+                hbndlfVMCommbnd(p);
+            } flsf {
+                /*if(p.frrorCodf != Pbdkft.RfplyNoError) {
+                    Systfm.frr.println("Pbdkft " + p.id + " rfturnfd fbilurf = " + p.frrorCodf);
+                }*/
+
+                vm.stbtf().notifyCommbndComplftf(p.id);
+                idString = String.vblufOf(p.id);
+
+                syndhronizfd(wbitingQufuf) {
+                    p2 = wbitingQufuf.gft(idString);
+
+                    if (p2 != null)
+                        wbitingQufuf.rfmovf(idString);
+                }
+
+                if(p2 == null) {
+                    // Whob! b rfply without b sfndfr. Problfm.
+                    // FIX ME! Nffd to post bn frror.
+
+                    Systfm.frr.println("Rfdifvfd rfply with no sfndfr!");
+                    dontinuf;
+                }
+                p2.frrorCodf = p.frrorCodf;
+                p2.dbtb = p.dbtb;
+                p2.rfplifd = truf;
+
+                syndhronizfd(p2) {
+                    p2.notify();
+                }
+            }
+        }
+
+        // inform thf VM mbmbgfr thbt this VM is history
+        vm.vmMbnbgfr.disposfVirtublMbdhinf(vm);
+
+        // dlosf down bll thf fvfnt qufufs
+        // Closing b qufuf dbusfs b VMDisdonnfdtEvfnt to
+        // bf put onto thf qufuf.
+        syndhronizfd(fvfntQufufs) {
+            Itfrbtor<EvfntQufuf> itfr = fvfntQufufs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                ((EvfntQufufImpl)itfr.nfxt()).dlosf();
+            }
+        }
+
+        // indirfdtly throw VMDisdonnfdtfdExdfption to
+        // dommbnd rfqufstfrs.
+        syndhronizfd(wbitingQufuf) {
+            Itfrbtor<Pbdkft> itfr = wbitingQufuf.vblufs().itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                Pbdkft pbdkft = itfr.nfxt();
+                syndhronizfd(pbdkft) {
+                    pbdkft.notify();
+                }
+            }
+            wbitingQufuf.dlfbr();
+        }
+
+        if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_SENDS) != 0) {
+            vm.printTrbdf("Tbrgft VM intfrfbdf thrfbd fxiting");
+        }
+    }
+
+    protfdtfd void hbndlfVMCommbnd(Pbdkft p) {
+        switdh (p.dmdSft) {
+            dbsf JDWP.Evfnt.COMMAND_SET:
+                hbndlfEvfntCmdSft(p);
+                brfbk;
+
+            dffbult:
+                Systfm.frr.println("Ignoring dmd " + p.id + "/" +
+                                   p.dmdSft + "/" + p.dmd + " from thf VM");
+                rfturn;
+        }
+    }
+
+    /* Evfnts should not bf donstrudtfd on this thrfbd (thf thrfbd
+     * whidh rfbds bll dbtb from thf trbnsport). This mfbns thbt thf
+     * pbdkft dbnnot bf donvfrtfd to rfbl JDI objfdts bs thbt mby
+     * involvf furthfr dommunidbtions with thf bbdk fnd whidh would
+     * dfbdlodk.
+     *
+     * Instfbd thf wholf pbdkft is pbssfd for lbzy fvbl by b qufuf
+     * rfbding thrfbd.
+     */
+    protfdtfd void hbndlfEvfntCmdSft(Pbdkft p) {
+        EvfntSft fvfntSft = nfw EvfntSftImpl(vm, p);
+
+        if (fvfntSft != null) {
+            qufufEvfntSft(fvfntSft);
+        }
+    }
+
+    privbtf EvfntControllfr fvfntControllfr() {
+        if (fvfntControllfr == null) {
+            fvfntControllfr = nfw EvfntControllfr(vm);
+        }
+        rfturn fvfntControllfr;
+    }
+
+    privbtf syndhronizfd void dontrolEvfntFlow(int mbxQufufSizf) {
+        if (!fvfntsHfld && (mbxQufufSizf > OVERLOADED_QUEUE)) {
+            fvfntControllfr().hold();
+            fvfntsHfld = truf;
+        } flsf if (fvfntsHfld && (mbxQufufSizf < UNDERLOADED_QUEUE)) {
+            fvfntControllfr().rflfbsf();
+            fvfntsHfld = fblsf;
+        }
+    }
+
+    void notifyDfqufufEvfntSft() {
+        int mbxQufufSizf = 0;
+        syndhronizfd(fvfntQufufs) {
+            Itfrbtor<EvfntQufuf> itfr = fvfntQufufs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                EvfntQufufImpl qufuf = (EvfntQufufImpl)itfr.nfxt();
+                mbxQufufSizf = Mbth.mbx(mbxQufufSizf, qufuf.sizf());
+            }
+        }
+        dontrolEvfntFlow(mbxQufufSizf);
+    }
+
+    privbtf void qufufEvfntSft(EvfntSft fvfntSft) {
+        int mbxQufufSizf = 0;
+
+        syndhronizfd(fvfntQufufs) {
+            Itfrbtor<EvfntQufuf> itfr = fvfntQufufs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                EvfntQufufImpl qufuf = (EvfntQufufImpl)itfr.nfxt();
+                qufuf.fnqufuf(fvfntSft);
+                mbxQufufSizf = Mbth.mbx(mbxQufufSizf, qufuf.sizf());
+            }
+        }
+
+        dontrolEvfntFlow(mbxQufufSizf);
+    }
+
+    void sfnd(Pbdkft pbdkft) {
+        String id = String.vblufOf(pbdkft.id);
+
+        syndhronizfd(wbitingQufuf) {
+            wbitingQufuf.put(id, pbdkft);
+        }
+
+        if ((vm.trbdfFlbgs & VirtublMbdhinfImpl.TRACE_RAW_SENDS) != 0) {
+            dumpPbdkft(pbdkft, truf);
+        }
+
+        try {
+            donnfdtion.writfPbdkft(pbdkft.toBytfArrby());
+        } dbtdh (IOExdfption f) {
+            throw nfw VMDisdonnfdtfdExdfption(f.gftMfssbgf());
+        }
+    }
+
+    void wbitForRfply(Pbdkft pbdkft) {
+        syndhronizfd(pbdkft) {
+            whilf ((!pbdkft.rfplifd) && shouldListfn) {
+                try { pbdkft.wbit(); } dbtdh (IntfrruptfdExdfption f) {;}
+            }
+
+            if (!pbdkft.rfplifd) {
+                throw nfw VMDisdonnfdtfdExdfption();
+            }
+        }
+    }
+
+    void bddEvfntQufuf(EvfntQufufImpl qufuf) {
+        if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_EVENTS) != 0) {
+            vm.printTrbdf("Nfw fvfnt qufuf bddfd");
+        }
+        fvfntQufufs.bdd(qufuf);
+    }
+
+    void stopListfning() {
+        if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_EVENTS) != 0) {
+            vm.printTrbdf("Tbrgft VM i/f dlosing fvfnt qufufs");
+        }
+        shouldListfn = fblsf;
+        try {
+            donnfdtion.dlosf();
+        } dbtdh (IOExdfption iof) { }
+    }
+
+    stbtid privbtf dlbss EvfntControllfr fxtfnds Thrfbd {
+        VirtublMbdhinfImpl vm;
+        int dontrolRfqufst = 0;
+
+        EvfntControllfr(VirtublMbdhinfImpl vm) {
+            supfr(vm.thrfbdGroupForJDI(), "JDI Evfnt Control Thrfbd");
+            this.vm = vm;
+            sftDbfmon(truf);
+            sftPriority((MAX_PRIORITY + NORM_PRIORITY)/2);
+            supfr.stbrt();
+        }
+
+        syndhronizfd void hold() {
+            dontrolRfqufst++;
+            notifyAll();
+        }
+
+        syndhronizfd void rflfbsf() {
+            dontrolRfqufst--;
+            notifyAll();
+        }
+
+        publid void run() {
+            whilf(truf) {
+                int durrfntRfqufst;
+                syndhronizfd(this) {
+                    whilf (dontrolRfqufst == 0) {
+                        try {wbit();} dbtdh (IntfrruptfdExdfption f) {}
+                    }
+                    durrfntRfqufst = dontrolRfqufst;
+                    dontrolRfqufst = 0;
+                }
+                try {
+                    if (durrfntRfqufst > 0) {
+                        JDWP.VirtublMbdhinf.HoldEvfnts.prodfss(vm);
+                    } flsf {
+                        JDWP.VirtublMbdhinf.RflfbsfEvfnts.prodfss(vm);
+                    }
+                } dbtdh (JDWPExdfption f) {
+                    /*
+                     * Don't wbnt to tfrminbtf thf thrfbd, so thf
+                     * stbdk trbdf is printfd bnd wf dontinuf.
+                     */
+                    f.toJDIExdfption().printStbdkTrbdf(Systfm.frr);
+                }
+            }
+        }
+    }
+
+}

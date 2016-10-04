@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublisifd  work pursubnt to Titlf 17 of tif Unitfd
+ *** Stbtfs Codf.  All rigits rfsfrvfd.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
-import java.awt.Rectangle;
-import java.util.Dictionary;
-import java.util.Vector;
+pbdkbgf jbvb.bwt.imbgf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Didtionbry;
+import jbvb.util.Vfdtor;
 
 /**
- * RenderedImage is a common interface for objects which contain
- * or can produce image data in the form of Rasters.  The image
- * data may be stored/produced as a single tile or a regular array
- * of tiles.
+ * RfndfrfdImbgf is b dommon intfrfbdf for objfdts wiidi dontbin
+ * or dbn produdf imbgf dbtb in tif form of Rbstfrs.  Tif imbgf
+ * dbtb mby bf storfd/produdfd bs b singlf tilf or b rfgulbr brrby
+ * of tilfs.
  */
 
-public interface RenderedImage {
+publid intfrfbdf RfndfrfdImbgf {
 
     /**
-     * Returns a vector of RenderedImages that are the immediate sources of
-     * image data for this RenderedImage.  This method returns null if
-     * the RenderedImage object has no information about its immediate
-     * sources.  It returns an empty Vector if the RenderedImage object has
-     * no immediate sources.
-     * @return a Vector of <code>RenderedImage</code> objects.
+     * Rfturns b vfdtor of RfndfrfdImbgfs tibt brf tif immfdibtf sourdfs of
+     * imbgf dbtb for tiis RfndfrfdImbgf.  Tiis mftiod rfturns null if
+     * tif RfndfrfdImbgf objfdt ibs no informbtion bbout its immfdibtf
+     * sourdfs.  It rfturns bn fmpty Vfdtor if tif RfndfrfdImbgf objfdt ibs
+     * no immfdibtf sourdfs.
+     * @rfturn b Vfdtor of <dodf>RfndfrfdImbgf</dodf> objfdts.
      */
-    Vector<RenderedImage> getSources();
+    Vfdtor<RfndfrfdImbgf> gftSourdfs();
 
     /**
-     * Gets a property from the property set of this image.  The set of
-     * properties and whether it is immutable is determined by the
-     * implementing class.  This method returns
-     * java.awt.Image.UndefinedProperty if the specified property is
-     * not defined for this RenderedImage.
-     * @param name the name of the property
-     * @return the property indicated by the specified name.
-     * @see java.awt.Image#UndefinedProperty
+     * Gfts b propfrty from tif propfrty sft of tiis imbgf.  Tif sft of
+     * propfrtifs bnd wiftifr it is immutbblf is dftfrminfd by tif
+     * implfmfnting dlbss.  Tiis mftiod rfturns
+     * jbvb.bwt.Imbgf.UndffinfdPropfrty if tif spfdififd propfrty is
+     * not dffinfd for tiis RfndfrfdImbgf.
+     * @pbrbm nbmf tif nbmf of tif propfrty
+     * @rfturn tif propfrty indidbtfd by tif spfdififd nbmf.
+     * @sff jbvb.bwt.Imbgf#UndffinfdPropfrty
      */
-    Object getProperty(String name);
+    Objfdt gftPropfrty(String nbmf);
 
     /**
-      * Returns an array of names recognized by
-      * {@link #getProperty(String) getProperty(String)}
-      * or <code>null</code>, if no property names are recognized.
-      * @return a <code>String</code> array containing all of the
-      * property names that <code>getProperty(String)</code> recognizes;
-      * or <code>null</code> if no property names are recognized.
+      * Rfturns bn brrby of nbmfs rfdognizfd by
+      * {@link #gftPropfrty(String) gftPropfrty(String)}
+      * or <dodf>null</dodf>, if no propfrty nbmfs brf rfdognizfd.
+      * @rfturn b <dodf>String</dodf> brrby dontbining bll of tif
+      * propfrty nbmfs tibt <dodf>gftPropfrty(String)</dodf> rfdognizfs;
+      * or <dodf>null</dodf> if no propfrty nbmfs brf rfdognizfd.
       */
-    String[] getPropertyNames();
+    String[] gftPropfrtyNbmfs();
 
     /**
-     * Returns the ColorModel associated with this image.  All Rasters
-     * returned from this image will have this as their ColorModel.  This
-     * can return null.
-     * @return the <code>ColorModel</code> of this image.
+     * Rfturns tif ColorModfl bssodibtfd witi tiis imbgf.  All Rbstfrs
+     * rfturnfd from tiis imbgf will ibvf tiis bs tifir ColorModfl.  Tiis
+     * dbn rfturn null.
+     * @rfturn tif <dodf>ColorModfl</dodf> of tiis imbgf.
      */
-    ColorModel getColorModel();
+    ColorModfl gftColorModfl();
 
     /**
-     * Returns the SampleModel associated with this image.  All Rasters
-     * returned from this image will have this as their SampleModel.
-     * @return the <code>SampleModel</code> of this image.
+     * Rfturns tif SbmplfModfl bssodibtfd witi tiis imbgf.  All Rbstfrs
+     * rfturnfd from tiis imbgf will ibvf tiis bs tifir SbmplfModfl.
+     * @rfturn tif <dodf>SbmplfModfl</dodf> of tiis imbgf.
      */
-    SampleModel getSampleModel();
+    SbmplfModfl gftSbmplfModfl();
 
     /**
-     * Returns the width of the RenderedImage.
-     * @return the width of this <code>RenderedImage</code>.
+     * Rfturns tif widti of tif RfndfrfdImbgf.
+     * @rfturn tif widti of tiis <dodf>RfndfrfdImbgf</dodf>.
      */
-    int getWidth();
+    int gftWidti();
 
     /**
-     * Returns the height of the RenderedImage.
-     * @return the height of this <code>RenderedImage</code>.
+     * Rfturns tif ifigit of tif RfndfrfdImbgf.
+     * @rfturn tif ifigit of tiis <dodf>RfndfrfdImbgf</dodf>.
      */
-    int getHeight();
+    int gftHfigit();
 
     /**
-     * Returns the minimum X coordinate (inclusive) of the RenderedImage.
-     * @return the X coordinate of this <code>RenderedImage</code>.
+     * Rfturns tif minimum X doordinbtf (indlusivf) of tif RfndfrfdImbgf.
+     * @rfturn tif X doordinbtf of tiis <dodf>RfndfrfdImbgf</dodf>.
      */
-    int getMinX();
+    int gftMinX();
 
     /**
-     * Returns the minimum Y coordinate (inclusive) of the RenderedImage.
-     * @return the Y coordinate of this <code>RenderedImage</code>.
+     * Rfturns tif minimum Y doordinbtf (indlusivf) of tif RfndfrfdImbgf.
+     * @rfturn tif Y doordinbtf of tiis <dodf>RfndfrfdImbgf</dodf>.
      */
-    int getMinY();
+    int gftMinY();
 
     /**
-     * Returns the number of tiles in the X direction.
-     * @return the number of tiles in the X direction.
+     * Rfturns tif numbfr of tilfs in tif X dirfdtion.
+     * @rfturn tif numbfr of tilfs in tif X dirfdtion.
      */
-    int getNumXTiles();
+    int gftNumXTilfs();
 
     /**
-     * Returns the number of tiles in the Y direction.
-     * @return the number of tiles in the Y direction.
+     * Rfturns tif numbfr of tilfs in tif Y dirfdtion.
+     * @rfturn tif numbfr of tilfs in tif Y dirfdtion.
      */
-    int getNumYTiles();
+    int gftNumYTilfs();
 
     /**
-     *  Returns the minimum tile index in the X direction.
-     *  @return the minimum tile index in the X direction.
+     *  Rfturns tif minimum tilf indfx in tif X dirfdtion.
+     *  @rfturn tif minimum tilf indfx in tif X dirfdtion.
      */
-    int getMinTileX();
+    int gftMinTilfX();
 
     /**
-     *  Returns the minimum tile index in the Y direction.
-     *  @return the minimum tile index in the X direction.
+     *  Rfturns tif minimum tilf indfx in tif Y dirfdtion.
+     *  @rfturn tif minimum tilf indfx in tif X dirfdtion.
      */
-    int getMinTileY();
+    int gftMinTilfY();
 
     /**
-     *  Returns the tile width in pixels.  All tiles must have the same
-     *  width.
-     *  @return the tile width in pixels.
+     *  Rfturns tif tilf widti in pixfls.  All tilfs must ibvf tif sbmf
+     *  widti.
+     *  @rfturn tif tilf widti in pixfls.
      */
-    int getTileWidth();
+    int gftTilfWidti();
 
     /**
-     *  Returns the tile height in pixels.  All tiles must have the same
-     *  height.
-     *  @return the tile height in pixels.
+     *  Rfturns tif tilf ifigit in pixfls.  All tilfs must ibvf tif sbmf
+     *  ifigit.
+     *  @rfturn tif tilf ifigit in pixfls.
      */
-    int getTileHeight();
+    int gftTilfHfigit();
 
     /**
-     * Returns the X offset of the tile grid relative to the origin,
-     * i.e., the X coordinate of the upper-left pixel of tile (0, 0).
-     * (Note that tile (0, 0) may not actually exist.)
-     * @return the X offset of the tile grid relative to the origin.
+     * Rfturns tif X offsft of tif tilf grid rflbtivf to tif origin,
+     * i.f., tif X doordinbtf of tif uppfr-lfft pixfl of tilf (0, 0).
+     * (Notf tibt tilf (0, 0) mby not bdtublly fxist.)
+     * @rfturn tif X offsft of tif tilf grid rflbtivf to tif origin.
      */
-    int getTileGridXOffset();
+    int gftTilfGridXOffsft();
 
     /**
-     * Returns the Y offset of the tile grid relative to the origin,
-     * i.e., the Y coordinate of the upper-left pixel of tile (0, 0).
-     * (Note that tile (0, 0) may not actually exist.)
-     * @return the Y offset of the tile grid relative to the origin.
+     * Rfturns tif Y offsft of tif tilf grid rflbtivf to tif origin,
+     * i.f., tif Y doordinbtf of tif uppfr-lfft pixfl of tilf (0, 0).
+     * (Notf tibt tilf (0, 0) mby not bdtublly fxist.)
+     * @rfturn tif Y offsft of tif tilf grid rflbtivf to tif origin.
      */
-    int getTileGridYOffset();
+    int gftTilfGridYOffsft();
 
     /**
-     * Returns tile (tileX, tileY).  Note that tileX and tileY are indices
-     * into the tile array, not pixel locations.  The Raster that is returned
-     * is live and will be updated if the image is changed.
-     * @param tileX the X index of the requested tile in the tile array
-     * @param tileY the Y index of the requested tile in the tile array
-     * @return the tile given the specified indices.
+     * Rfturns tilf (tilfX, tilfY).  Notf tibt tilfX bnd tilfY brf indidfs
+     * into tif tilf brrby, not pixfl lodbtions.  Tif Rbstfr tibt is rfturnfd
+     * is livf bnd will bf updbtfd if tif imbgf is dibngfd.
+     * @pbrbm tilfX tif X indfx of tif rfqufstfd tilf in tif tilf brrby
+     * @pbrbm tilfY tif Y indfx of tif rfqufstfd tilf in tif tilf brrby
+     * @rfturn tif tilf givfn tif spfdififd indidfs.
      */
-   Raster getTile(int tileX, int tileY);
+   Rbstfr gftTilf(int tilfX, int tilfY);
 
     /**
-     * Returns the image as one large tile (for tile based
-     * images this will require fetching the whole image
-     * and copying the image data over).  The Raster returned is
-     * a copy of the image data and will not be updated if the image
-     * is changed.
-     * @return the image as one large tile.
+     * Rfturns tif imbgf bs onf lbrgf tilf (for tilf bbsfd
+     * imbgfs tiis will rfquirf fftdiing tif wiolf imbgf
+     * bnd dopying tif imbgf dbtb ovfr).  Tif Rbstfr rfturnfd is
+     * b dopy of tif imbgf dbtb bnd will not bf updbtfd if tif imbgf
+     * is dibngfd.
+     * @rfturn tif imbgf bs onf lbrgf tilf.
      */
-    Raster getData();
+    Rbstfr gftDbtb();
 
     /**
-     * Computes and returns an arbitrary region of the RenderedImage.
-     * The Raster returned is a copy of the image data and will not
-     * be updated if the image is changed.
-     * @param rect the region of the RenderedImage to be returned.
-     * @return the region of the <code>RenderedImage</code>
-     * indicated by the specified <code>Rectangle</code>.
+     * Computfs bnd rfturns bn brbitrbry rfgion of tif RfndfrfdImbgf.
+     * Tif Rbstfr rfturnfd is b dopy of tif imbgf dbtb bnd will not
+     * bf updbtfd if tif imbgf is dibngfd.
+     * @pbrbm rfdt tif rfgion of tif RfndfrfdImbgf to bf rfturnfd.
+     * @rfturn tif rfgion of tif <dodf>RfndfrfdImbgf</dodf>
+     * indidbtfd by tif spfdififd <dodf>Rfdtbnglf</dodf>.
      */
-    Raster getData(Rectangle rect);
+    Rbstfr gftDbtb(Rfdtbnglf rfdt);
 
     /**
-     * Computes an arbitrary rectangular region of the RenderedImage
-     * and copies it into a caller-supplied WritableRaster.  The region
-     * to be computed is determined from the bounds of the supplied
-     * WritableRaster.  The supplied WritableRaster must have a
-     * SampleModel that is compatible with this image.  If raster is null,
-     * an appropriate WritableRaster is created.
-     * @param raster a WritableRaster to hold the returned portion of the
-     *               image, or null.
-     * @return a reference to the supplied or created WritableRaster.
+     * Computfs bn brbitrbry rfdtbngulbr rfgion of tif RfndfrfdImbgf
+     * bnd dopifs it into b dbllfr-supplifd WritbblfRbstfr.  Tif rfgion
+     * to bf domputfd is dftfrminfd from tif bounds of tif supplifd
+     * WritbblfRbstfr.  Tif supplifd WritbblfRbstfr must ibvf b
+     * SbmplfModfl tibt is dompbtiblf witi tiis imbgf.  If rbstfr is null,
+     * bn bppropribtf WritbblfRbstfr is drfbtfd.
+     * @pbrbm rbstfr b WritbblfRbstfr to iold tif rfturnfd portion of tif
+     *               imbgf, or null.
+     * @rfturn b rfffrfndf to tif supplifd or drfbtfd WritbblfRbstfr.
      */
-    WritableRaster copyData(WritableRaster raster);
+    WritbblfRbstfr dopyDbtb(WritbblfRbstfr rbstfr);
 }

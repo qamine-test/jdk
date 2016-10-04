@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "java_awt_image_BufferedImage.h"
-#import "java_awt_geom_PathIterator.h"
-#import "sun_java2d_OSXSurfaceData.h"
+#import "jbvb_bwt_imbgf_BufffrfdImbgf.i"
+#import "jbvb_bwt_gfom_PbtiItfrbtor.i"
+#import "sun_jbvb2d_OSXSurfbdfDbtb.i"
 
-#import <stdio.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <stdio.i>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "ImageSurfaceData.h"
-
-
-//#define DEBUG 1
-#if defined DEBUG
-    #define QUARTZ_RENDERER_INLINE
-    #define PRINT(msg) {fprintf(stderr, "%s\n", msg);fflush(stderr);}
-#else
-    #define QUARTZ_RENDERER_INLINE static inline
-    #define PRINT(msg) {}
-#endif
-
-// Copied the following from Math.java
-#define PI 3.14159265358979323846f
-
-#define BATCHED_POINTS_SIZE 1024
-
-// same value as defined in Sun's own code
-#define XOR_ALPHA_CUTOFF 128
+#import "ImbgfSurfbdfDbtb.i"
 
 
-static CGFloat gRoundRectCtrlpts[10][12] =
+//#dffinf DEBUG 1
+#if dffinfd DEBUG
+    #dffinf QUARTZ_RENDERER_INLINE
+    #dffinf PRINT(msg) {fprintf(stdfrr, "%s\n", msg);fflusi(stdfrr);}
+#flsf
+    #dffinf QUARTZ_RENDERER_INLINE stbtid inlinf
+    #dffinf PRINT(msg) {}
+#fndif
+
+// Copifd tif following from Mbti.jbvb
+#dffinf PI 3.14159265358979323846f
+
+#dffinf BATCHED_POINTS_SIZE 1024
+
+// sbmf vbluf bs dffinfd in Sun's own dodf
+#dffinf XOR_ALPHA_CUTOFF 128
+
+
+stbtid CGFlobt gRoundRfdtCtrlpts[10][12] =
 {
     {0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
     {0.0f, 0.0f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
@@ -65,737 +65,737 @@ static CGFloat gRoundRectCtrlpts[10][12] =
     {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
 };
 
-CG_EXTERN CGRect CGRectApplyAffineTransform(CGRect rect, CGAffineTransform t);
+CG_EXTERN CGRfdt CGRfdtApplyAffinfTrbnsform(CGRfdt rfdt, CGAffinfTrbnsform t);
 
 
-CGRect sanitizedRect(CGFloat x1, CGFloat y1, CGFloat x2, CGFloat y2) {
-    CGFloat temp;
+CGRfdt sbnitizfdRfdt(CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2) {
+    CGFlobt tfmp;
     if (x1 > x2) {
-        temp = x2;
+        tfmp = x2;
         x2 = x1;
-        x1 = temp;
+        x1 = tfmp;
     }
     if (y1 > y2) {
-        temp = y2;
+        tfmp = y2;
         y2 = y1;
-        y1 = temp;
+        y1 = tfmp;
     }
-    return CGRectMake(x1, y1, x2-x1, y2-y1);
+    rfturn CGRfdtMbkf(x1, y1, x2-x1, y2-y1);
 }
 
-QUARTZ_RENDERER_INLINE SDRenderType doLineUsingCG(CGContextRef cgRef, CGFloat x1, CGFloat y1, CGFloat x2, CGFloat y2, BOOL simple, CGFloat offsetX, CGFloat offsetY)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doLinfUsingCG(CGContfxtRff dgRff, CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2, BOOL simplf, CGFlobt offsftX, CGFlobt offsftY)
 {
-//fprintf(stderr, "doLine start=(%f, %f), end=(%f, %f), linewidth:%f, offsetX:%f, offsetY:%f\n", x1, y1, x2, y2, CGContextGetLineWidth(cgRef), offsetX, offsetY);
-    SDRenderType renderType = SD_Nothing;
+//fprintf(stdfrr, "doLinf stbrt=(%f, %f), fnd=(%f, %f), linfwidti:%f, offsftX:%f, offsftY:%f\n", x1, y1, x2, y2, CGContfxtGftLinfWidti(dgRff), offsftX, offsftY);
+    SDRfndfrTypf rfndfrTypf = SD_Notiing;
 
-    if (simple == YES)
+    if (simplf == YES)
     {
-        struct CGPoint oneLinePoints[2];
+        strudt CGPoint onfLinfPoints[2];
 
-        oneLinePoints[0] = CGPointMake(x1+offsetX, y1+offsetY);
-        oneLinePoints[1] = CGPointMake(x2+offsetX, y2+offsetY);
+        onfLinfPoints[0] = CGPointMbkf(x1+offsftX, y1+offsftY);
+        onfLinfPoints[1] = CGPointMbkf(x2+offsftX, y2+offsftY);
 
-        CGContextStrokeLineSegments(cgRef, oneLinePoints, 2);
-        renderType = SD_Nothing;
+        CGContfxtStrokfLinfSfgmfnts(dgRff, onfLinfPoints, 2);
+        rfndfrTypf = SD_Notiing;
     }
-    else
+    flsf
     {
-        CGContextMoveToPoint(cgRef, x1+offsetX, y1+offsetY);
-        CGContextAddLineToPoint(cgRef, x2+offsetX, y2+offsetY);
-        renderType = SD_Stroke;
+        CGContfxtMovfToPoint(dgRff, x1+offsftX, y1+offsftY);
+        CGContfxtAddLinfToPoint(dgRff, x2+offsftX, y2+offsftY);
+        rfndfrTypf = SD_Strokf;
     }
 
-    return renderType;
+    rfturn rfndfrTypf;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doLine(QuartzSDOps *qsdo, CGFloat x1, CGFloat y1, CGFloat x2, CGFloat y2)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doLinf(QubrtzSDOps *qsdo, CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2)
 {
-PRINT(" doLine")
+PRINT(" doLinf")
     if (YES)
     {
-        return doLineUsingCG(qsdo->cgRef, x1, y1, x2, y2,
-                                qsdo->graphicsStateInfo.simpleStroke, qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        rfturn doLinfUsingCG(qsdo->dgRff, x1, y1, x2, y2,
+                                qsdo->grbpiidsStbtfInfo.simplfStrokf, qsdo->grbpiidsStbtfInfo.offsftX, qsdo->grbpiidsStbtfInfo.offsftY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // ifrf wf dbn bdd otifr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
 }
 
 
-QUARTZ_RENDERER_INLINE SDRenderType doRectUsingCG(CGContextRef cgRef, CGFloat x, CGFloat y, CGFloat w, CGFloat h, BOOL fill, BOOL simple, CGFloat offsetX, CGFloat offsetY)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doRfdtUsingCG(CGContfxtRff dgRff, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt i, BOOL fill, BOOL simplf, CGFlobt offsftX, CGFlobt offsftY)
 {
-//fprintf(stderr, "doRect point=(%f, %f), size=(%f, %f), offsets=(%f, %f) fill=%d simple=%d\n", x, y, w, h, offsetX, offsetY, fill, simple);
-//CGRect clip = CGContextGetClipBoundingBox(cgRef);
-//fprintf(stderr, "    clip: ((%f, %f), (%f, %f))\n", clip.origin.x, clip.origin.y, clip.size.width, clip.size.height);
-//CGAffineTransform ctm = CGContextGetCTM(cgRef);
-//fprintf(stderr, "    ctm: (%f, %f, %f, %f, %f, %f)\n", ctm.a, ctm.b, ctm.c, ctm.d, ctm.tx, ctm.ty);
-    SDRenderType renderType = SD_Nothing;
+//fprintf(stdfrr, "doRfdt point=(%f, %f), sizf=(%f, %f), offsfts=(%f, %f) fill=%d simplf=%d\n", x, y, w, i, offsftX, offsftY, fill, simplf);
+//CGRfdt dlip = CGContfxtGftClipBoundingBox(dgRff);
+//fprintf(stdfrr, "    dlip: ((%f, %f), (%f, %f))\n", dlip.origin.x, dlip.origin.y, dlip.sizf.widti, dlip.sizf.ifigit);
+//CGAffinfTrbnsform dtm = CGContfxtGftCTM(dgRff);
+//fprintf(stdfrr, "    dtm: (%f, %f, %f, %f, %f, %f)\n", dtm.b, dtm.b, dtm.d, dtm.d, dtm.tx, dtm.ty);
+    SDRfndfrTypf rfndfrTypf = SD_Notiing;
 
     if (fill == YES)
     {
-        if (simple == YES)
+        if (simplf == YES)
         {
-            CGContextFillRect(cgRef, CGRectMake(x, y, w, h));
-            renderType = SD_Nothing;
+            CGContfxtFillRfdt(dgRff, CGRfdtMbkf(x, y, w, i));
+            rfndfrTypf = SD_Notiing;
         }
-        else
+        flsf
         {
-            CGContextAddRect(cgRef, CGRectMake(x, y, w, h));
-            renderType = SD_Fill;
+            CGContfxtAddRfdt(dgRff, CGRfdtMbkf(x, y, w, i));
+            rfndfrTypf = SD_Fill;
         }
     }
-    else
+    flsf
     {
-        if (simple == YES)
+        if (simplf == YES)
         {
-            CGContextStrokeRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
-            renderType = SD_Nothing;
+            CGContfxtStrokfRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, i));
+            rfndfrTypf = SD_Notiing;
         }
-        else
+        flsf
         {
-            CGContextAddRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
-            renderType = SD_Stroke;
+            CGContfxtAddRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, i));
+            rfndfrTypf = SD_Strokf;
         }
     }
 
-    return renderType;
+    rfturn rfndfrTypf;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doRect(QuartzSDOps *qsdo, CGFloat x, CGFloat y, CGFloat w, CGFloat h, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doRfdt(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt i, BOOL fill)
 {
-PRINT(" doRect")
+PRINT(" doRfdt")
     if (YES)
     {
-        return doRectUsingCG(qsdo->cgRef, x, y, w, h, fill,
-                                qsdo->graphicsStateInfo.simpleStroke, qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        rfturn doRfdtUsingCG(qsdo->dgRff, x, y, w, i, fill,
+                                qsdo->grbpiidsStbtfInfo.simplfStrokf, qsdo->grbpiidsStbtfInfo.offsftX, qsdo->grbpiidsStbtfInfo.offsftY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // ifrf wf dbn bdd otifr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
 }
 
-// from RoundRectIterator.java
-QUARTZ_RENDERER_INLINE SDRenderType doRoundRectUsingCG(CGContextRef cgRef, CGFloat x, CGFloat y, CGFloat w, CGFloat h, CGFloat arcWidth, CGFloat arcHeight, BOOL fill, CGFloat offsetX, CGFloat offsetY)
+// from RoundRfdtItfrbtor.jbvb
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doRoundRfdtUsingCG(CGContfxtRff dgRff, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt i, CGFlobt brdWidti, CGFlobt brdHfigit, BOOL fill, CGFlobt offsftX, CGFlobt offsftY)
 {
-    SDRenderType renderType = SD_Nothing;
+    SDRfndfrTypf rfndfrTypf = SD_Notiing;
 
     if (fill == YES)
     {
-        renderType = SD_Fill;
+        rfndfrTypf = SD_Fill;
     }
-    else
+    flsf
     {
-        renderType = SD_Stroke;
+        rfndfrTypf = SD_Strokf;
     }
 
-    // radr://3593731 RoundRects with corner width/height of 0 don't draw
-    arcWidth = (arcWidth > 0.0f) ? arcWidth : 0.0f;
-    arcHeight = (arcHeight > 0.0f) ? arcHeight : 0.0f;
+    // rbdr://3593731 RoundRfdts witi dornfr widti/ifigit of 0 don't drbw
+    brdWidti = (brdWidti > 0.0f) ? brdWidti : 0.0f;
+    brdHfigit = (brdHfigit > 0.0f) ? brdHfigit : 0.0f;
 
-    CGFloat aw = (w < arcWidth) ? w : arcWidth;
-    CGFloat ah = (h < arcHeight) ? h : arcHeight;
+    CGFlobt bw = (w < brdWidti) ? w : brdWidti;
+    CGFlobt bi = (i < brdHfigit) ? i : brdHfigit;
 
-    CGFloat *ctrls, p1, q1, p2, q2, p3, q3;
-    ctrls = gRoundRectCtrlpts[0];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    CGContextMoveToPoint(cgRef, p1+offsetX, q1+offsetY);
+    CGFlobt *dtrls, p1, q1, p2, q2, p3, q3;
+    dtrls = gRoundRfdtCtrlpts[0];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    CGContfxtMovfToPoint(dgRff, p1+offsftX, q1+offsftY);
 
-    ctrls = gRoundRectCtrlpts[1];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    CGContextAddLineToPoint(cgRef, p1+offsetX, q1+offsetY);
+    dtrls = gRoundRfdtCtrlpts[1];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    CGContfxtAddLinfToPoint(dgRff, p1+offsftX, q1+offsftY);
 
-    ctrls = gRoundRectCtrlpts[2];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    p2 = (x + ctrls[4] * w + ctrls[5] * aw);
-    q2 = (y + ctrls[6] * h + ctrls[7] * ah);
-    p3 = (x + ctrls[8] * w + ctrls[9] * aw);
-    q3 = (y + ctrls[10] * h + ctrls[11] * ah);
-    CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
+    dtrls = gRoundRfdtCtrlpts[2];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    p2 = (x + dtrls[4] * w + dtrls[5] * bw);
+    q2 = (y + dtrls[6] * i + dtrls[7] * bi);
+    p3 = (x + dtrls[8] * w + dtrls[9] * bw);
+    q3 = (y + dtrls[10] * i + dtrls[11] * bi);
+    CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
 
-    ctrls = gRoundRectCtrlpts[3];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    CGContextAddLineToPoint(cgRef, p1+offsetX, q1+offsetY);
+    dtrls = gRoundRfdtCtrlpts[3];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    CGContfxtAddLinfToPoint(dgRff, p1+offsftX, q1+offsftY);
 
-    ctrls = gRoundRectCtrlpts[4];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    p2 = (x + ctrls[4] * w + ctrls[5] * aw);
-    q2 = (y + ctrls[6] * h + ctrls[7] * ah);
-    p3 = (x + ctrls[8] * w + ctrls[9] * aw);
-    q3 = (y + ctrls[10] * h + ctrls[11] * ah);
-    CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
+    dtrls = gRoundRfdtCtrlpts[4];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    p2 = (x + dtrls[4] * w + dtrls[5] * bw);
+    q2 = (y + dtrls[6] * i + dtrls[7] * bi);
+    p3 = (x + dtrls[8] * w + dtrls[9] * bw);
+    q3 = (y + dtrls[10] * i + dtrls[11] * bi);
+    CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
 
-    ctrls = gRoundRectCtrlpts[5];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    CGContextAddLineToPoint(cgRef, p1+offsetX, q1+offsetY);
+    dtrls = gRoundRfdtCtrlpts[5];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    CGContfxtAddLinfToPoint(dgRff, p1+offsftX, q1+offsftY);
 
-    ctrls = gRoundRectCtrlpts[6];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    p2 = (x + ctrls[4] * w + ctrls[5] * aw);
-    q2 = (y + ctrls[6] * h + ctrls[7] * ah);
-    p3 = (x + ctrls[8] * w + ctrls[9] * aw);
-    q3 = (y + ctrls[10] * h + ctrls[11] * ah);
-    CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
+    dtrls = gRoundRfdtCtrlpts[6];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    p2 = (x + dtrls[4] * w + dtrls[5] * bw);
+    q2 = (y + dtrls[6] * i + dtrls[7] * bi);
+    p3 = (x + dtrls[8] * w + dtrls[9] * bw);
+    q3 = (y + dtrls[10] * i + dtrls[11] * bi);
+    CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
 
-    ctrls = gRoundRectCtrlpts[7];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    CGContextAddLineToPoint(cgRef, p1+offsetX, q1+offsetY);
+    dtrls = gRoundRfdtCtrlpts[7];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    CGContfxtAddLinfToPoint(dgRff, p1+offsftX, q1+offsftY);
 
-    ctrls = gRoundRectCtrlpts[8];
-    p1 = (x + ctrls[0] * w + ctrls[1] * aw);
-    q1 = (y + ctrls[2] * h + ctrls[3] * ah);
-    p2 = (x + ctrls[4] * w + ctrls[5] * aw);
-    q2 = (y + ctrls[6] * h + ctrls[7] * ah);
-    p3 = (x + ctrls[8] * w + ctrls[9] * aw);
-    q3 = (y + ctrls[10] * h + ctrls[11] * ah);
-    CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
+    dtrls = gRoundRfdtCtrlpts[8];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * i + dtrls[3] * bi);
+    p2 = (x + dtrls[4] * w + dtrls[5] * bw);
+    q2 = (y + dtrls[6] * i + dtrls[7] * bi);
+    p3 = (x + dtrls[8] * w + dtrls[9] * bw);
+    q3 = (y + dtrls[10] * i + dtrls[11] * bi);
+    CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
 
-    CGContextClosePath(cgRef);
+    CGContfxtClosfPbti(dgRff);
 
-    return renderType;
+    rfturn rfndfrTypf;
 }
 
-QUARTZ_RENDERER_INLINE SDRenderType doRoundRect(QuartzSDOps *qsdo, CGFloat x, CGFloat y, CGFloat w, CGFloat h, CGFloat arcWidth, CGFloat arcHeight, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doRoundRfdt(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt i, CGFlobt brdWidti, CGFlobt brdHfigit, BOOL fill)
 {
-PRINT(" doRoundRect")
+PRINT(" doRoundRfdt")
     if (YES)
     {
-        return doRoundRectUsingCG(qsdo->cgRef, x, y, w, h, arcWidth, arcHeight, fill,
-                                    qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        rfturn doRoundRfdtUsingCG(qsdo->dgRff, x, y, w, i, brdWidti, brdHfigit, fill,
+                                    qsdo->grbpiidsStbtfInfo.offsftX, qsdo->grbpiidsStbtfInfo.offsftY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // ifrf wf dbn bdd otifr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
 }
 
-// from EllipseIterator.java
-QUARTZ_RENDERER_INLINE SDRenderType doOvalUsingCG(CGContextRef cgRef, CGFloat x, CGFloat y, CGFloat w, CGFloat h, BOOL fill, BOOL simple, CGFloat offsetX, CGFloat offsetY)
+// from EllipsfItfrbtor.jbvb
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doOvblUsingCG(CGContfxtRff dgRff, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt i, BOOL fill, BOOL simplf, CGFlobt offsftX, CGFlobt offsftY)
 {
-    SDRenderType renderType = SD_Nothing;
+    SDRfndfrTypf rfndfrTypf = SD_Notiing;
 
-    if (simple == YES)
+    if (simplf == YES)
     {
         if (fill == YES)
         {
-            CGContextFillEllipseInRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
+            CGContfxtFillEllipsfInRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, i));
         }
-        else
+        flsf
         {
-            CGContextStrokeEllipseInRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
+            CGContfxtStrokfEllipsfInRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, i));
         }
     }
-    else
+    flsf
     {
         if (fill == YES)
         {
-            renderType = SD_Fill;
+            rfndfrTypf = SD_Fill;
         }
-        else
+        flsf
         {
-            renderType = SD_Stroke;
+            rfndfrTypf = SD_Strokf;
         }
 
-        CGContextAddEllipseInRect(cgRef, CGRectMake(x+offsetX, y+offsetY, w, h));
+        CGContfxtAddEllipsfInRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, i));
     }
 
-    return renderType;
+    rfturn rfndfrTypf;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doOval(QuartzSDOps *qsdo, CGFloat x, CGFloat y, CGFloat w, CGFloat h, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doOvbl(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt i, BOOL fill)
 {
-PRINT(" doOval")
+PRINT(" doOvbl")
     if (YES)
     {
-        return doOvalUsingCG(qsdo->cgRef, x, y, w, h, fill,
-                                qsdo->graphicsStateInfo.simpleStroke, qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        rfturn doOvblUsingCG(qsdo->dgRff, x, y, w, i, fill,
+                                qsdo->grbpiidsStbtfInfo.simplfStrokf, qsdo->grbpiidsStbtfInfo.offsftX, qsdo->grbpiidsStbtfInfo.offsftY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // ifrf wf dbn bdd otifr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
 }
 
-// from ArcIterator.java
-QUARTZ_RENDERER_INLINE CGFloat btan(CGFloat increment)
+// from ArdItfrbtor.jbvb
+QUARTZ_RENDERER_INLINE CGFlobt btbn(CGFlobt indrfmfnt)
 {
-    increment /= 2.0f;
-    CGFloat a = 1.0f - cos(increment);
-    CGFloat b = tan(increment);
-    CGFloat c = sqrt(1.0f + b * b) - 1.0f + a;
+    indrfmfnt /= 2.0f;
+    CGFlobt b = 1.0f - dos(indrfmfnt);
+    CGFlobt b = tbn(indrfmfnt);
+    CGFlobt d = sqrt(1.0f + b * b) - 1.0f + b;
 
-    return 4.0f / 3.0f * a * b / c;
+    rfturn 4.0f / 3.0f * b * b / d;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doArcUsingCG(CGContextRef cgRef, CGFloat x, CGFloat y, CGFloat w, CGFloat h, CGFloat angleStart, CGFloat angleExtent, jint arcType, BOOL fill, CGFloat offsetX, CGFloat offsetY)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doArdUsingCG(CGContfxtRff dgRff, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt i, CGFlobt bnglfStbrt, CGFlobt bnglfExtfnt, jint brdTypf, BOOL fill, CGFlobt offsftX, CGFlobt offsftY)
 {
-//fprintf(stderr, "doArc\n");
-    SDRenderType renderType = SD_Nothing;
+//fprintf(stdfrr, "doArd\n");
+    SDRfndfrTypf rfndfrTypf = SD_Notiing;
 
     if (fill == YES)
     {
-        renderType = SD_Fill;
+        rfndfrTypf = SD_Fill;
     }
-    else
+    flsf
     {
-        renderType = SD_Stroke;
+        rfndfrTypf = SD_Strokf;
     }
 
-    CGFloat angStRad, angExtDeg;
-    jint arcSegs;
-    jint lineSegs;
-    jint index = 1;
+    CGFlobt bngStRbd, bngExtDfg;
+    jint brdSfgs;
+    jint linfSfgs;
+    jint indfx = 1;
 
     w = w / 2.0f;
-    h = h / 2.0f;
+    i = i / 2.0f;
     x = x + w;
-    y = y + h;
-    angStRad = -(angleStart / 180.0f * PI);
-    angExtDeg = -angleExtent;
-    CGFloat ext = (angExtDeg>0) ? angExtDeg : -angExtDeg;
-    if (ext >= 360.0f)
+    y = y + i;
+    bngStRbd = -(bnglfStbrt / 180.0f * PI);
+    bngExtDfg = -bnglfExtfnt;
+    CGFlobt fxt = (bngExtDfg>0) ? bngExtDfg : -bngExtDfg;
+    if (fxt >= 360.0f)
     {
-        arcSegs = 4;
+        brdSfgs = 4;
     }
-    else
+    flsf
     {
-        arcSegs = (jint)ceil(ext/90.0f);
+        brdSfgs = (jint)dfil(fxt/90.0f);
     }
-    switch (arcType)
+    switdi (brdTypf)
     {
-        case 0:
-            lineSegs = 0;
-            break;
-        case 1:
-            lineSegs = 1;
-            break;
-        case 2:
-            lineSegs = 2;
-            break;
+        dbsf 0:
+            linfSfgs = 0;
+            brfbk;
+        dbsf 1:
+            linfSfgs = 1;
+            brfbk;
+        dbsf 2:
+            linfSfgs = 2;
+            brfbk;
     }
-    if (w < 0 || h < 0)
+    if (w < 0 || i < 0)
     {
-        arcSegs = lineSegs = -1;
-    }
-
-    CGFloat angle = angStRad;
-    CGContextMoveToPoint(cgRef, (x + cos(angle) * w)+offsetX, (y + sin(angle) * h)+offsetY);
-
-    CGFloat increment = angExtDeg;
-    if (increment > 360.0f)
-    {
-        increment = 360.0f;
-    }
-    else if (increment < -360.0f)
-    {
-        increment = -360.0f;
-    }
-    increment /= arcSegs;
-    increment = (increment / 180.0f * PI);
-    CGFloat z = btan(increment);
-    CGFloat angleBase = angle;
-    CGFloat p1, q1, p2, q2, p3, q3;
-    while (index <= arcSegs)
-    {
-        angle = angleBase + increment * (index - 1);
-        CGFloat relx = cos(angle);
-        CGFloat rely = sin(angle);
-        p1 = (x + (relx - z * rely) * w);
-        q1 = (y + (rely + z * relx) * h);
-        angle += increment;
-        relx = cos(angle);
-        rely = sin(angle);
-        p2 = (x + (relx + z * rely) * w);
-        q2 = (y + (rely - z * relx) * h);
-        p3 = (x + relx * w);
-        q3 = (y + rely * h);
-
-        CGContextAddCurveToPoint(cgRef, p1+offsetX, q1+offsetY, p2+offsetX, q2+offsetY, p3+offsetX, q3+offsetY);
-
-        index++;
+        brdSfgs = linfSfgs = -1;
     }
 
-    switch (arcType)
+    CGFlobt bnglf = bngStRbd;
+    CGContfxtMovfToPoint(dgRff, (x + dos(bnglf) * w)+offsftX, (y + sin(bnglf) * i)+offsftY);
+
+    CGFlobt indrfmfnt = bngExtDfg;
+    if (indrfmfnt > 360.0f)
     {
-        case 1:
-            CGContextClosePath(cgRef);
-            break;
-        case 2:
-            CGContextAddLineToPoint(cgRef, x+offsetX, y+offsetY);
-            CGContextClosePath(cgRef);
-            break;
-        default:
-            break;
+        indrfmfnt = 360.0f;
+    }
+    flsf if (indrfmfnt < -360.0f)
+    {
+        indrfmfnt = -360.0f;
+    }
+    indrfmfnt /= brdSfgs;
+    indrfmfnt = (indrfmfnt / 180.0f * PI);
+    CGFlobt z = btbn(indrfmfnt);
+    CGFlobt bnglfBbsf = bnglf;
+    CGFlobt p1, q1, p2, q2, p3, q3;
+    wiilf (indfx <= brdSfgs)
+    {
+        bnglf = bnglfBbsf + indrfmfnt * (indfx - 1);
+        CGFlobt rflx = dos(bnglf);
+        CGFlobt rfly = sin(bnglf);
+        p1 = (x + (rflx - z * rfly) * w);
+        q1 = (y + (rfly + z * rflx) * i);
+        bnglf += indrfmfnt;
+        rflx = dos(bnglf);
+        rfly = sin(bnglf);
+        p2 = (x + (rflx + z * rfly) * w);
+        q2 = (y + (rfly - z * rflx) * i);
+        p3 = (x + rflx * w);
+        q3 = (y + rfly * i);
+
+        CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
+
+        indfx++;
     }
 
-    return renderType;
+    switdi (brdTypf)
+    {
+        dbsf 1:
+            CGContfxtClosfPbti(dgRff);
+            brfbk;
+        dbsf 2:
+            CGContfxtAddLinfToPoint(dgRff, x+offsftX, y+offsftY);
+            CGContfxtClosfPbti(dgRff);
+            brfbk;
+        dffbult:
+            brfbk;
+    }
+
+    rfturn rfndfrTypf;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doArc(QuartzSDOps *qsdo, CGFloat x, CGFloat y, CGFloat w, CGFloat h, CGFloat angleStart, CGFloat angleExtent, jint arcType, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doArd(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt i, CGFlobt bnglfStbrt, CGFlobt bnglfExtfnt, jint brdTypf, BOOL fill)
 {
-PRINT(" doArc")
+PRINT(" doArd")
     if (YES)
     {
-        return doArcUsingCG(qsdo->cgRef, x, y, w, h, angleStart, angleExtent, arcType, fill,
-                                qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        rfturn doArdUsingCG(qsdo->dgRff, x, y, w, i, bnglfStbrt, bnglfExtfnt, brdTypf, fill,
+                                qsdo->grbpiidsStbtfInfo.offsftX, qsdo->grbpiidsStbtfInfo.offsftY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // ifrf wf dbn bdd otifr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
 }
 
-QUARTZ_RENDERER_INLINE SDRenderType doPolyUsingCG(JNIEnv *env, CGContextRef cgRef, jintArray xpointsarray, jintArray ypointsarray, jint npoints, BOOL polygon, BOOL fill, CGFloat offsetX, CGFloat offsetY)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doPolyUsingCG(JNIEnv *fnv, CGContfxtRff dgRff, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, BOOL polygon, BOOL fill, CGFlobt offsftX, CGFlobt offsftY)
 {
-    SDRenderType renderType = SD_Nothing;
+    SDRfndfrTypf rfndfrTypf = SD_Notiing;
 
-    if (xpointsarray == NULL || ypointsarray == NULL) {
-        return SD_Nothing;
+    if (xpointsbrrby == NULL || ypointsbrrby == NULL) {
+        rfturn SD_Notiing;
     }
     if (npoints > 1)
     {
         if (fill == YES)
         {
-            renderType = SD_Fill;
+            rfndfrTypf = SD_Fill;
         }
-        else
+        flsf
         {
-            renderType = SD_Stroke;
+            rfndfrTypf = SD_Strokf;
         }
 
         jint i;
 
-        jint* xpoints = (jint*)(*env)->GetPrimitiveArrayCritical(env, xpointsarray, NULL);
+        jint* xpoints = (jint*)(*fnv)->GftPrimitivfArrbyCritidbl(fnv, xpointsbrrby, NULL);
         if (xpoints == NULL) {
-            return SD_Nothing;
+            rfturn SD_Notiing;
         }
-        jint* ypoints = (jint*)(*env)->GetPrimitiveArrayCritical(env, ypointsarray, NULL);
+        jint* ypoints = (jint*)(*fnv)->GftPrimitivfArrbyCritidbl(fnv, ypointsbrrby, NULL);
         if (ypoints == NULL) {
-            (*env)->ReleasePrimitiveArrayCritical(env, xpointsarray, xpoints, 0);
-            return SD_Nothing;
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, xpointsbrrby, xpoints, 0);
+            rfturn SD_Notiing;
         }
 
-        CGContextMoveToPoint(cgRef, xpoints[0]+offsetX, ypoints[0]+offsetY);
+        CGContfxtMovfToPoint(dgRff, xpoints[0]+offsftX, ypoints[0]+offsftY);
 
         for (i=1; i<npoints; i++)
         {
-            CGContextAddLineToPoint(cgRef, xpoints[i]+offsetX, ypoints[i]+offsetY);
+            CGContfxtAddLinfToPoint(dgRff, xpoints[i]+offsftX, ypoints[i]+offsftY);
         }
 
         if (polygon == YES)
         {
-            if ((xpoints[0] != xpoints[npoints-1]) || (ypoints[0] != ypoints[npoints-1])) // according to the specs (only applies to polygons, not polylines)
+            if ((xpoints[0] != xpoints[npoints-1]) || (ypoints[0] != ypoints[npoints-1])) // bddording to tif spfds (only bpplifs to polygons, not polylinfs)
             {
-                CGContextAddLineToPoint(cgRef, xpoints[0]+offsetX, ypoints[0]+offsetY);
+                CGContfxtAddLinfToPoint(dgRff, xpoints[0]+offsftX, ypoints[0]+offsftY);
             }
         }
 
-        (*env)->ReleasePrimitiveArrayCritical(env, ypointsarray, ypoints, 0);
-        (*env)->ReleasePrimitiveArrayCritical(env, xpointsarray, xpoints, 0);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, ypointsbrrby, ypoints, 0);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, xpointsbrrby, xpoints, 0);
     }
 
-    return renderType;
+    rfturn rfndfrTypf;
 }
-QUARTZ_RENDERER_INLINE SDRenderType doPoly(JNIEnv *env, QuartzSDOps *qsdo, jintArray xpointsarray, jintArray ypointsarray, jint npoints, BOOL polygon, BOOL fill)
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doPoly(JNIEnv *fnv, QubrtzSDOps *qsdo, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, BOOL polygon, BOOL fill)
 {
 PRINT(" doPoly")
     if (YES)
     {
-        return doPolyUsingCG(env, qsdo->cgRef, xpointsarray, ypointsarray, npoints, polygon, fill,
-            qsdo->graphicsStateInfo.offsetX, qsdo->graphicsStateInfo.offsetY);
+        rfturn doPolyUsingCG(fnv, qsdo->dgRff, xpointsbrrby, ypointsbrrby, npoints, polygon, fill,
+            qsdo->grbpiidsStbtfInfo.offsftX, qsdo->grbpiidsStbtfInfo.offsftY);
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // ifrf wf dbn bdd otifr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
 }
 
-SDRenderType doShape(QuartzSDOps *qsdo, jint *types, jfloat *coords, jint numtypes, BOOL fill, BOOL shouldApplyOffset)
+SDRfndfrTypf doSibpf(QubrtzSDOps *qsdo, jint *typfs, jflobt *doords, jint numtypfs, BOOL fill, BOOL siouldApplyOffsft)
 {
-PRINT(" doShape")
+PRINT(" doSibpf")
     if (YES)
     {
-        CGFloat offsetX = 0.0f;
-        CGFloat offsetY = 0.0f;
-        if (shouldApplyOffset)
+        CGFlobt offsftX = 0.0f;
+        CGFlobt offsftY = 0.0f;
+        if (siouldApplyOffsft)
         {
-            offsetX = qsdo->graphicsStateInfo.offsetX;
-            offsetY = qsdo->graphicsStateInfo.offsetY;
+            offsftX = qsdo->grbpiidsStbtfInfo.offsftX;
+            offsftY = qsdo->grbpiidsStbtfInfo.offsftY;
         }
-        return DoShapeUsingCG(qsdo->cgRef, types, coords, numtypes, fill, offsetX, offsetY); // defined in QuartzSurfaceData.m
+        rfturn DoSibpfUsingCG(qsdo->dgRff, typfs, doords, numtypfs, fill, offsftX, offsftY); // dffinfd in QubrtzSurfbdfDbtb.m
     }
-    // here we can add other implementations (ex. using QuickDraw, OpenGL, etc.)
+    // ifrf wf dbn bdd otifr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
 }
 
 
 
-QUARTZ_RENDERER_INLINE void doImageCG(JNIEnv *env, CGContextRef cgRef, jobject imageSurfaceData,
-                                        jint interpolation, BOOL fliph, BOOL flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+QUARTZ_RENDERER_INLINE void doImbgfCG(JNIEnv *fnv, CGContfxtRff dgRff, jobjfdt imbgfSurfbdfDbtb,
+                                        jint intfrpolbtion, BOOL flipi, BOOL flipv, jint w, jint i, jint sx, jint sy, jint sw, jint si, jint dx, jint dy, jint dw, jint di)
 {
-//fprintf(stderr, "doImageCG\n");
-//fprintf(stderr, "    flip:(%d, %d), size:(%d, %d), src:(%d, %d, %d, %d), dst:(%d, %d, %d, %d)\n", (jint)fliph, (jint)flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
-    // gznote: need to handle interpolation
-    ImageSDOps* isdo = LockImage(env, imageSurfaceData);
+//fprintf(stdfrr, "doImbgfCG\n");
+//fprintf(stdfrr, "    flip:(%d, %d), sizf:(%d, %d), srd:(%d, %d, %d, %d), dst:(%d, %d, %d, %d)\n", (jint)flipi, (jint)flipv, w, i, sx, sy, sw, si, dx, dy, dw, di);
+    // gznotf: nffd to ibndlf intfrpolbtion
+    ImbgfSDOps* isdo = LodkImbgf(fnv, imbgfSurfbdfDbtb);
 
-    CGFloat a = 1.0f;
-    CGFloat b = 0.0f;
-    CGFloat c = 0.0f;
-    CGFloat d = -1.0f;
-    CGFloat tx = dx;
-    CGFloat ty = dy+dh;
+    CGFlobt b = 1.0f;
+    CGFlobt b = 0.0f;
+    CGFlobt d = 0.0f;
+    CGFlobt d = -1.0f;
+    CGFlobt tx = dx;
+    CGFlobt ty = dy+di;
 
     if (flipv == YES)
     {
         d = 1.0f;
-        ty -= dh;
+        ty -= di;
     }
-    if (fliph == YES)
+    if (flipi == YES)
     {
-        a = -1.0f;
+        b = -1.0f;
         tx += dw;
     }
 
-    makeSureImageIsCreated(isdo);
+    mbkfSurfImbgfIsCrfbtfd(isdo);
 
-    CGContextSaveGState(cgRef);
-    CGContextConcatCTM(cgRef, CGAffineTransformMake(a, b, c, d, tx, ty));
-    jint alphaInfo = isdo->contextInfo.alphaInfo & kCGBitmapAlphaInfoMask;
+    CGContfxtSbvfGStbtf(dgRff);
+    CGContfxtCondbtCTM(dgRff, CGAffinfTrbnsformMbkf(b, b, d, d, tx, ty));
+    jint blpibInfo = isdo->dontfxtInfo.blpibInfo & kCGBitmbpAlpibInfoMbsk;
 
-    if ((sx == 0) && (sy == 0) && (sw == w) && (sh == h)) // no subimages allowed here
+    if ((sx == 0) && (sy == 0) && (sw == w) && (si == i)) // no subimbgfs bllowfd ifrf
     {
-        CGContextDrawImage(cgRef, CGRectMake(0, 0, dw, dh), isdo->imgRef);
+        CGContfxtDrbwImbgf(dgRff, CGRfdtMbkf(0, 0, dw, di), isdo->imgRff);
     }
-    else // handle subimages
+    flsf // ibndlf subimbgfs
     {
-        CGImageRef subImg = CGImageCreateWithImageInRect(isdo->imgRef, CGRectMake(sx, sy, sw, sh));
-        CGContextDrawImage(cgRef, CGRectMake(0.0f, 0.0f, dw, dh), subImg);
-        CGImageRelease(subImg);
+        CGImbgfRff subImg = CGImbgfCrfbtfWitiImbgfInRfdt(isdo->imgRff, CGRfdtMbkf(sx, sy, sw, si));
+        CGContfxtDrbwImbgf(dgRff, CGRfdtMbkf(0.0f, 0.0f, dw, di), subImg);
+        CGImbgfRflfbsf(subImg);
     }
 
-    CGContextRestoreGState(cgRef);
-    UnlockImage(env, isdo);
+    CGContfxtRfstorfGStbtf(dgRff);
+    UnlodkImbgf(fnv, isdo);
 }
 
-QUARTZ_RENDERER_INLINE void doImage(JNIEnv *env, QuartzSDOps *qsdo, jobject imageSurfaceData,
-                                jboolean fliph, jboolean flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+QUARTZ_RENDERER_INLINE void doImbgf(JNIEnv *fnv, QubrtzSDOps *qsdo, jobjfdt imbgfSurfbdfDbtb,
+                                jboolfbn flipi, jboolfbn flipv, jint w, jint i, jint sx, jint sy, jint sw, jint si, jint dx, jint dy, jint dw, jint di)
 {
-    if ((w > 0) && (h > 0) && (sw > 0) && (sh > 0) && (dw > 0) && (dh > 0))
+    if ((w > 0) && (i > 0) && (sw > 0) && (si > 0) && (dw > 0) && (di > 0))
     {
-       doImageCG(env, qsdo->cgRef, imageSurfaceData,
-                            qsdo->graphicsStateInfo.interpolation, (BOOL)fliph, (BOOL)flipv, (jint)w, (jint)h, (jint)sx, (jint)sy, (jint)sw, (jint)sh, (jint)dx, (jint)dy, (jint)dw, (jint)dh);
+       doImbgfCG(fnv, qsdo->dgRff, imbgfSurfbdfDbtb,
+                            qsdo->grbpiidsStbtfInfo.intfrpolbtion, (BOOL)flipi, (BOOL)flipv, (jint)w, (jint)i, (jint)sx, (jint)sy, (jint)sw, (jint)si, (jint)dx, (jint)dy, (jint)dw, (jint)di);
     }
 }
 
 
 
-QUARTZ_RENDERER_INLINE void completePath(JNIEnv *env, QuartzSDOps *qsdo, CGContextRef cgRef, jint renderType)
+QUARTZ_RENDERER_INLINE void domplftfPbti(JNIEnv *fnv, QubrtzSDOps *qsdo, CGContfxtRff dgRff, jint rfndfrTypf)
 {
-    switch (renderType)
+    switdi (rfndfrTypf)
     {
-        case SD_Stroke:
-            if (CGContextIsPathEmpty(cgRef) == 0)
+        dbsf SD_Strokf:
+            if (CGContfxtIsPbtiEmpty(dgRff) == 0)
             {
-                CGContextStrokePath(cgRef);
+                CGContfxtStrokfPbti(dgRff);
             }
-            break;
-        case SD_Fill:
-            if (CGContextIsPathEmpty(cgRef) == 0)
+            brfbk;
+        dbsf SD_Fill:
+            if (CGContfxtIsPbtiEmpty(dgRff) == 0)
             {
-                CGContextFillPath(cgRef);
+                CGContfxtFillPbti(dgRff);
             }
-            break;
-        case SD_Image:
-            break;
-        case SD_Nothing:
-                break;
-        default:
-fprintf(stderr, "completePath unknown renderType=%d\n", (int)renderType);
-            break;
+            brfbk;
+        dbsf SD_Imbgf:
+            brfbk;
+        dbsf SD_Notiing:
+                brfbk;
+        dffbult:
+fprintf(stdfrr, "domplftfPbti unknown rfndfrTypf=%d\n", (int)rfndfrTypf);
+            brfbk;
     }
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    init
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    init
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_init
-(JNIEnv *env, jobject jthis)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_init
+(JNIEnv *fnv, jobjfdt jtiis)
 {
-PRINT("Java_sun_java2d_CRenderer_init")
-    CGFloat angle = PI / 4.0f;
-    CGFloat a = 1.0f - cos(angle);
-    CGFloat b = tan(angle);
-    CGFloat c = sqrt(1.0f + b * b) - 1.0f + a;
-    CGFloat cv = 4.0f / 3.0f * a * b / c;
-    CGFloat acv = (1.0f - cv) / 2.0f;
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_init")
+    CGFlobt bnglf = PI / 4.0f;
+    CGFlobt b = 1.0f - dos(bnglf);
+    CGFlobt b = tbn(bnglf);
+    CGFlobt d = sqrt(1.0f + b * b) - 1.0f + b;
+    CGFlobt dv = 4.0f / 3.0f * b * b / d;
+    CGFlobt bdv = (1.0f - dv) / 2.0f;
 
-    gRoundRectCtrlpts[2][3] = -acv;
-    gRoundRectCtrlpts[2][5] = acv;
-    gRoundRectCtrlpts[4][1] = -acv;
-    gRoundRectCtrlpts[4][7] = -acv;
-    gRoundRectCtrlpts[6][3] = acv;
-    gRoundRectCtrlpts[6][5] = -acv;
-    gRoundRectCtrlpts[8][1] = acv;
-    gRoundRectCtrlpts[8][7] = acv;
+    gRoundRfdtCtrlpts[2][3] = -bdv;
+    gRoundRfdtCtrlpts[2][5] = bdv;
+    gRoundRfdtCtrlpts[4][1] = -bdv;
+    gRoundRfdtCtrlpts[4][7] = -bdv;
+    gRoundRfdtCtrlpts[6][3] = bdv;
+    gRoundRfdtCtrlpts[6][5] = -bdv;
+    gRoundRfdtCtrlpts[8][1] = bdv;
+    gRoundRfdtCtrlpts[8][7] = bdv;
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doLine
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;FFFF)V
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    doLinf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;FFFF)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doLine
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x1, jfloat y1, jfloat x2, jfloat y2)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doLinf
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jflobt x1, jflobt y1, jflobt x2, jflobt y2)
 {
-PRINT("Java_sun_java2d_CRenderer_doLine")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
-JNF_COCOA_ENTER(env);
-    SDRenderType renderType = SD_Stroke;
-    qsdo->BeginSurface(env, qsdo, renderType);
-    if (qsdo->cgRef != NULL)
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doLinf")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf = SD_Strokf;
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
     {
-        doLine(qsdo, x1, y1, x2, y2);
+        doLinf(qsdo, x1, y1, x2, y2);
     }
-    qsdo->FinishSurface(env, qsdo);
-JNF_COCOA_RENDERER_EXIT(env);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doRect
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;FFFF)V
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    doRfdt
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;FFFF)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doRect
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x, jfloat y, jfloat w, jfloat h, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doRfdt
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jflobt x, jflobt y, jflobt w, jflobt i, jboolfbn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doRect")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
-JNF_COCOA_ENTER(env);
-    SDRenderType renderType    = (isfill? SD_Fill : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
-    if (qsdo->cgRef != NULL)
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doRfdt")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf    = (isfill? SD_Fill : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
     {
-        doRect(qsdo, x, y, w, h, isfill);
+        doRfdt(qsdo, x, y, w, i, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
-JNF_COCOA_RENDERER_EXIT(env);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doRoundRect
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;IIIIII)V
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    doRoundRfdt
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;IIIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doRoundRect
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x, jfloat y, jfloat w, jfloat h, jfloat arcWidth, jfloat arcHeight, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doRoundRfdt
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jflobt x, jflobt y, jflobt w, jflobt i, jflobt brdWidti, jflobt brdHfigit, jboolfbn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doRoundRect")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
-JNF_COCOA_ENTER(env);
-    SDRenderType renderType    = (isfill? SD_Fill : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
-    if (qsdo->cgRef != NULL)
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doRoundRfdt")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf    = (isfill? SD_Fill : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
     {
-        doRoundRect(qsdo, x, y, w, h, arcWidth, arcHeight, isfill);
+        doRoundRfdt(qsdo, x, y, w, i, brdWidti, brdHfigit, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
-JNF_COCOA_RENDERER_EXIT(env);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doOval
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;IIII)V
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    doOvbl
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;IIII)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doOval
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x, jfloat y, jfloat w, jfloat h, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doOvbl
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jflobt x, jflobt y, jflobt w, jflobt i, jboolfbn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doOval")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
-JNF_COCOA_ENTER(env);
-    SDRenderType renderType    = (isfill? SD_Fill : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
-    if (qsdo->cgRef != NULL)
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doOvbl")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf    = (isfill? SD_Fill : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
     {
-        doOval(qsdo, x, y, w, h, isfill);
+        doOvbl(qsdo, x, y, w, i, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
-JNF_COCOA_RENDERER_EXIT(env);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doArc
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;IIIIII)V
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    doArd
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;IIIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doArc
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jfloat x, jfloat y, jfloat w, jfloat h, jfloat angleStart, jfloat angleExtent, jint arcType, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doArd
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jflobt x, jflobt y, jflobt w, jflobt i, jflobt bnglfStbrt, jflobt bnglfExtfnt, jint brdTypf, jboolfbn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doArc")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
-JNF_COCOA_ENTER(env);
-    SDRenderType renderType    = (isfill? SD_Fill : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
-    if (qsdo->cgRef != NULL)
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doArd")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf    = (isfill? SD_Fill : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
     {
-        doArc(qsdo, x, y, w, h, angleStart, angleExtent, arcType, isfill);
+        doArd(qsdo, x, y, w, i, bnglfStbrt, bnglfExtfnt, brdTypf, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
-JNF_COCOA_RENDERER_EXIT(env);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doPoly
- * Signature:
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    doPoly
+ * Signbturf:
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doPoly
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jintArray xpointsarray, jintArray ypointsarray, jint npoints, jboolean ispolygon, jboolean isfill)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doPoly
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, jboolfbn ispolygon, jboolfbn isfill)
 {
-PRINT("Java_sun_java2d_CRenderer_doPoly")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
-JNF_COCOA_ENTER(env);
-    BOOL eoFill = YES; // polys are WIND_EVEN_ODD by definition
-    SDRenderType renderType    = (isfill? (eoFill ? SD_EOFill : SD_Fill) : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
-    if (qsdo->cgRef != NULL)
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doPoly")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    BOOL foFill = YES; // polys brf WIND_EVEN_ODD by dffinition
+    SDRfndfrTypf rfndfrTypf    = (isfill? (foFill ? SD_EOFill : SD_Fill) : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
     {
-        doPoly(env, qsdo, xpointsarray, ypointsarray, npoints, ispolygon, isfill);
+        doPoly(fnv, qsdo, xpointsbrrby, ypointsbrrby, npoints, ispolygon, isfill);
     }
-    qsdo->FinishSurface(env, qsdo);
-JNF_COCOA_RENDERER_EXIT(env);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doShape
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;ILjava/nio/FloatBuffer;Ljava/nio/IntBuffer;IZ)V
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    doSibpf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;ILjbvb/nio/FlobtBufffr;Ljbvb/nio/IntBufffr;IZ)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doShape
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jint length, jobject jFloatCoordinates, jobject jIntTypes, jint windingRule, jboolean isfill, jboolean shouldApplyOffset)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doSibpf
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jint lfngti, jobjfdt jFlobtCoordinbtfs, jobjfdt jIntTypfs, jint windingRulf, jboolfbn isfill, jboolfbn siouldApplyOffsft)
 {
-PRINT("Java_sun_java2d_CRenderer_doShape")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
-JNF_COCOA_ENTER(env);
-    BOOL eoFill = (windingRule == java_awt_geom_PathIterator_WIND_EVEN_ODD);
-    SDRenderType renderType    = (isfill? (eoFill ? SD_EOFill : SD_Fill) : SD_Stroke);
-    qsdo->BeginSurface(env, qsdo, renderType);
-    if (qsdo->cgRef != NULL)
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doSibpf")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    BOOL foFill = (windingRulf == jbvb_bwt_gfom_PbtiItfrbtor_WIND_EVEN_ODD);
+    SDRfndfrTypf rfndfrTypf    = (isfill? (foFill ? SD_EOFill : SD_Fill) : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
     {
-        jfloat *coordinates = (jfloat*)((*env)->GetDirectBufferAddress(env, jFloatCoordinates));
-        jint *types = (jint*)((*env)->GetDirectBufferAddress(env, jIntTypes));
-        doShape(qsdo, types, coordinates, length, isfill, shouldApplyOffset);
+        jflobt *doordinbtfs = (jflobt*)((*fnv)->GftDirfdtBufffrAddrfss(fnv, jFlobtCoordinbtfs));
+        jint *typfs = (jint*)((*fnv)->GftDirfdtBufffrAddrfss(fnv, jIntTypfs));
+        doSibpf(qsdo, typfs, doordinbtfs, lfngti, isfill, siouldApplyOffsft);
     }
-    qsdo->FinishSurface(env, qsdo);
-JNF_COCOA_RENDERER_EXIT(env);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
-#define invalidContext(c) \
-    ((c) == NULL /* || (c)->identifer != CGContextIdentifier */)
+#dffinf invblidContfxt(d) \
+    ((d) == NULL /* || (d)->idfntiffr != CGContfxtIdfntififr */)
 
 /*
- * Class:     sun_java2d_CRenderer
- * Method:    doImage
- * Signature: (Lsun/java2d/SurfaceData;Ljava/nio/IntBuffer;Ljava/nio/FloatBuffer;[Ljava/lang/Object;Lsun/java2d/SurfaceData;ZZIIIIIIII)V
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mftiod:    doImbgf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;Lsun/jbvb2d/SurfbdfDbtb;ZZIIIIIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_java2d_CRenderer_doImage
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jobject imageSurfaceData, jboolean fliph, jboolean flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doImbgf
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jobjfdt imbgfSurfbdfDbtb, jboolfbn flipi, jboolfbn flipv, jint w, jint i, jint sx, jint sy, jint sw, jint si, jint dx, jint dy, jint dw, jint di)
 {
-PRINT("Java_sun_java2d_CRenderer_doImage")
-    QuartzSDOps *qsdo = (QuartzSDOps*)SurfaceData_GetOps(env, jsurfacedata);
-JNF_COCOA_ENTER(env);
-    qsdo->BeginSurface(env, qsdo, SD_Image);
-    if (qsdo->cgRef != NULL)
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doImbgf")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    qsdo->BfginSurfbdf(fnv, qsdo, SD_Imbgf);
+    if (qsdo->dgRff != NULL)
     {
-        doImage(env, qsdo, imageSurfaceData, fliph, flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
+        doImbgf(fnv, qsdo, imbgfSurfbdfDbtb, flipi, flipv, w, i, sx, sy, sw, si, dx, dy, dw, di);
     }
-    qsdo->FinishSurface(env, qsdo);
-JNF_COCOA_RENDERER_EXIT(env);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }

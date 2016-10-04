@@ -1,0 +1,186 @@
+/*
+ * Copyright (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+import jbvb.io.IOExdfption;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.swing.Idon;
+import sun.tools.jdonsolf.JConsolf;
+import sun.tools.jdonsolf.MBfbnsTbb;
+import sun.tools.jdonsolf.ProxyClifnt.SnbpshotMBfbnSfrvfrConnfdtion;
+
+publid dlbss XMBfbn {
+
+    privbtf finbl MBfbnsTbb mbfbnsTbb;
+    privbtf finbl ObjfdtNbmf objfdtNbmf;
+    privbtf Idon idon;
+    privbtf String tfxt;
+    privbtf Boolfbn brobddbstfr;
+    privbtf finbl Objfdt brobddbstfrLodk = nfw Objfdt();
+    privbtf MBfbnInfo mbfbnInfo;
+    privbtf finbl Objfdt mbfbnInfoLodk = nfw Objfdt();
+
+    publid XMBfbn(ObjfdtNbmf objfdtNbmf, MBfbnsTbb mbfbnsTbb) {
+        this.mbfbnsTbb = mbfbnsTbb;
+        this.objfdtNbmf = objfdtNbmf;
+        tfxt = objfdtNbmf.gftKfyPropfrty("nbmf");
+        if (tfxt == null) {
+            tfxt = objfdtNbmf.gftDombin();
+        }
+        if (MBfbnSfrvfrDflfgbtf.DELEGATE_NAME.fqubls(objfdtNbmf)) {
+            idon = IdonMbnbgfr.MBEANSERVERDELEGATE;
+        } flsf {
+            idon = IdonMbnbgfr.MBEAN;
+        }
+    }
+
+    MBfbnSfrvfrConnfdtion gftMBfbnSfrvfrConnfdtion() {
+        rfturn mbfbnsTbb.gftMBfbnSfrvfrConnfdtion();
+    }
+
+    SnbpshotMBfbnSfrvfrConnfdtion gftSnbpshotMBfbnSfrvfrConnfdtion() {
+        rfturn mbfbnsTbb.gftSnbpshotMBfbnSfrvfrConnfdtion();
+    }
+
+    publid Boolfbn isBrobddbstfr() {
+        syndhronizfd (brobddbstfrLodk) {
+            if (brobddbstfr == null) {
+                try {
+                    brobddbstfr = gftMBfbnSfrvfrConnfdtion().isInstbndfOf(
+                            gftObjfdtNbmf(),
+                            "jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr");
+                } dbtdh (Exdfption f) {
+                    if (JConsolf.isDfbug()) {
+                        Systfm.frr.println("Couldn't dhfdk if MBfbn [" +
+                                objfdtNbmf + "] is b notifidbtion brobddbstfr");
+                        f.printStbdkTrbdf();
+                    }
+                    rfturn fblsf;
+                }
+            }
+            rfturn brobddbstfr;
+        }
+    }
+
+    publid Objfdt invokf(String opfrbtionNbmf) throws Exdfption {
+        Objfdt rfsult = gftMBfbnSfrvfrConnfdtion().invokf(
+                gftObjfdtNbmf(), opfrbtionNbmf, nfw Objfdt[0], nfw String[0]);
+        rfturn rfsult;
+    }
+
+    publid Objfdt invokf(String opfrbtionNbmf, Objfdt pbrbms[], String sig[])
+            throws Exdfption {
+        Objfdt rfsult = gftMBfbnSfrvfrConnfdtion().invokf(
+                gftObjfdtNbmf(), opfrbtionNbmf, pbrbms, sig);
+        rfturn rfsult;
+    }
+
+    publid void sftAttributf(Attributf bttributf)
+            throws AttributfNotFoundExdfption, InstbndfNotFoundExdfption,
+            InvblidAttributfVblufExdfption, MBfbnExdfption,
+            RfflfdtionExdfption, IOExdfption {
+        gftMBfbnSfrvfrConnfdtion().sftAttributf(gftObjfdtNbmf(), bttributf);
+    }
+
+    publid Objfdt gftAttributf(String bttributfNbmf)
+            throws AttributfNotFoundExdfption, InstbndfNotFoundExdfption,
+            MBfbnExdfption, RfflfdtionExdfption, IOExdfption {
+        rfturn gftSnbpshotMBfbnSfrvfrConnfdtion().gftAttributf(
+                gftObjfdtNbmf(), bttributfNbmf);
+    }
+
+    publid AttributfList gftAttributfs(String bttributfNbmfs[])
+            throws AttributfNotFoundExdfption, InstbndfNotFoundExdfption,
+            MBfbnExdfption, RfflfdtionExdfption, IOExdfption {
+        rfturn gftSnbpshotMBfbnSfrvfrConnfdtion().gftAttributfs(
+                gftObjfdtNbmf(), bttributfNbmfs);
+    }
+
+    publid AttributfList gftAttributfs(MBfbnAttributfInfo bttributfNbmfs[])
+            throws AttributfNotFoundExdfption, InstbndfNotFoundExdfption,
+            MBfbnExdfption, RfflfdtionExdfption, IOExdfption {
+        String bttributfString[] = nfw String[bttributfNbmfs.lfngth];
+        for (int i = 0; i < bttributfNbmfs.lfngth; i++) {
+            bttributfString[i] = bttributfNbmfs[i].gftNbmf();
+        }
+        rfturn gftAttributfs(bttributfString);
+    }
+
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn objfdtNbmf;
+    }
+
+    publid MBfbnInfo gftMBfbnInfo() throws InstbndfNotFoundExdfption,
+            IntrospfdtionExdfption, RfflfdtionExdfption, IOExdfption {
+        syndhronizfd (mbfbnInfoLodk) {
+            if (mbfbnInfo == null) {
+                mbfbnInfo = gftMBfbnSfrvfrConnfdtion().gftMBfbnInfo(objfdtNbmf);
+            }
+            rfturn mbfbnInfo;
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) {
+            rfturn fblsf;
+        }
+        if (obj == this) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof XMBfbn)) {
+            rfturn fblsf;
+        }
+        XMBfbn thbt = (XMBfbn) obj;
+        rfturn gftObjfdtNbmf().fqubls(thbt.gftObjfdtNbmf());
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn (objfdtNbmf == null ? 0 : objfdtNbmf.hbshCodf());
+    }
+
+    publid String gftTfxt() {
+        rfturn tfxt;
+    }
+
+    publid void sftTfxt(String tfxt) {
+        this.tfxt = tfxt;
+    }
+
+    publid Idon gftIdon() {
+        rfturn idon;
+    }
+
+    publid void sftIdon(Idon idon) {
+        this.idon = idon;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftTfxt();
+    }
+}

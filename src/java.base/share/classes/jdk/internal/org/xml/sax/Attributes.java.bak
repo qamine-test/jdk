@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// Attributes.java - attribute list with Namespace support
-// http://www.saxproject.org
-// Written by David Megginson
-// NO WARRANTY!  This class is in the public domain.
-// $Id: Attributes.java,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
+// Attributfs.jbvb - bttributf list witi Nbmfspbdf support
+// ittp://www.sbxprojfdt.org
+// Writtfn by Dbvid Mfgginson
+// NO WARRANTY!  Tiis dlbss is in tif publid dombin.
+// $Id: Attributfs.jbvb,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
 
 
 /**
- * Interface for a list of XML attributes.
+ * Intfrfbdf for b list of XML bttributfs.
  *
- * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
- * </blockquote>
+ * <blodkquotf>
+ * <fm>Tiis modulf, boti sourdf dodf bnd dodumfntbtion, is in tif
+ * Publid Dombin, bnd domfs witi <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b irff='ittp://www.sbxprojfdt.org'>ittp://www.sbxprojfdt.org</b>
+ * for furtifr informbtion.
+ * </blodkquotf>
  *
- * <p>This interface allows access to a list of attributes in
- * three different ways:</p>
+ * <p>Tiis intfrfbdf bllows bddfss to b list of bttributfs in
+ * tirff difffrfnt wbys:</p>
  *
  * <ol>
- * <li>by attribute index;</li>
- * <li>by Namespace-qualified name; or</li>
- * <li>by qualified (prefixed) name.</li>
+ * <li>by bttributf indfx;</li>
+ * <li>by Nbmfspbdf-qublififd nbmf; or</li>
+ * <li>by qublififd (prffixfd) nbmf.</li>
  * </ol>
  *
- * <p>The list will not contain attributes that were declared
- * #IMPLIED but not specified in the start tag.  It will also not
- * contain attributes used as Namespace declarations (xmlns*) unless
- * the <code>http://xml.org/sax/features/namespace-prefixes</code>
- * feature is set to <var>true</var> (it is <var>false</var> by
- * default).
- * Because SAX2 conforms to the original "Namespaces in XML"
- * recommendation, it normally does not
- * give namespace declaration attributes a namespace URI.
+ * <p>Tif list will not dontbin bttributfs tibt wfrf dfdlbrfd
+ * #IMPLIED but not spfdififd in tif stbrt tbg.  It will blso not
+ * dontbin bttributfs usfd bs Nbmfspbdf dfdlbrbtions (xmlns*) unlfss
+ * tif <dodf>ittp://xml.org/sbx/ffbturfs/nbmfspbdf-prffixfs</dodf>
+ * ffbturf is sft to <vbr>truf</vbr> (it is <vbr>fblsf</vbr> by
+ * dffbult).
+ * Bfdbusf SAX2 donforms to tif originbl "Nbmfspbdfs in XML"
+ * rfdommfndbtion, it normblly dofs not
+ * givf nbmfspbdf dfdlbrbtion bttributfs b nbmfspbdf URI.
  * </p>
  *
- * <p>Some SAX2 parsers may support using an optional feature flag
- * (<code>http://xml.org/sax/features/xmlns-uris</code>) to request
- * that those attributes be given URIs, conforming to a later
- * backwards-incompatible revision of that recommendation.  (The
- * attribute's "local name" will be the prefix, or "xmlns" when
- * defining a default element namespace.)  For portability, handler
- * code should always resolve that conflict, rather than requiring
- * parsers that can change the setting of that feature flag.  </p>
+ * <p>Somf SAX2 pbrsfrs mby support using bn optionbl ffbturf flbg
+ * (<dodf>ittp://xml.org/sbx/ffbturfs/xmlns-uris</dodf>) to rfqufst
+ * tibt tiosf bttributfs bf givfn URIs, donforming to b lbtfr
+ * bbdkwbrds-indompbtiblf rfvision of tibt rfdommfndbtion.  (Tif
+ * bttributf's "lodbl nbmf" will bf tif prffix, or "xmlns" wifn
+ * dffining b dffbult flfmfnt nbmfspbdf.)  For portbbility, ibndlfr
+ * dodf siould blwbys rfsolvf tibt donflidt, rbtifr tibn rfquiring
+ * pbrsfrs tibt dbn dibngf tif sftting of tibt ffbturf flbg.  </p>
  *
- * <p>If the namespace-prefixes feature (see above) is
- * <var>false</var>, access by qualified name may not be available; if
- * the <code>http://xml.org/sax/features/namespaces</code> feature is
- * <var>false</var>, access by Namespace-qualified names may not be
- * available.</p>
+ * <p>If tif nbmfspbdf-prffixfs ffbturf (sff bbovf) is
+ * <vbr>fblsf</vbr>, bddfss by qublififd nbmf mby not bf bvbilbblf; if
+ * tif <dodf>ittp://xml.org/sbx/ffbturfs/nbmfspbdfs</dodf> ffbturf is
+ * <vbr>fblsf</vbr>, bddfss by Nbmfspbdf-qublififd nbmfs mby not bf
+ * bvbilbblf.</p>
  *
- * <p>This interface replaces the now-deprecated SAX1 {@link
- * org.xml.sax.AttributeList AttributeList} interface, which does not
- * contain Namespace support.  In addition to Namespace support, it
- * adds the <var>getIndex</var> methods (below).</p>
+ * <p>Tiis intfrfbdf rfplbdfs tif now-dfprfdbtfd SAX1 {@link
+ * org.xml.sbx.AttributfList AttributfList} intfrfbdf, wiidi dofs not
+ * dontbin Nbmfspbdf support.  In bddition to Nbmfspbdf support, it
+ * bdds tif <vbr>gftIndfx</vbr> mftiods (bflow).</p>
  *
- * <p>The order of attributes in the list is unspecified, and will
- * vary from implementation to implementation.</p>
+ * <p>Tif ordfr of bttributfs in tif list is unspfdififd, bnd will
+ * vbry from implfmfntbtion to implfmfntbtion.</p>
  *
- * @since SAX 2.0
- * @author David Megginson
- * @see org.xml.sax.helpers.AttributesImpl
- * @see org.xml.sax.ext.DeclHandler#attributeDecl
+ * @sindf SAX 2.0
+ * @butior Dbvid Mfgginson
+ * @sff org.xml.sbx.iflpfrs.AttributfsImpl
+ * @sff org.xml.sbx.fxt.DfdlHbndlfr#bttributfDfdl
  */
-public interface Attributes
+publid intfrfbdf Attributfs
 {
 
 
     ////////////////////////////////////////////////////////////////////
-    // Indexed access.
+    // Indfxfd bddfss.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Return the number of attributes in the list.
+     * Rfturn tif numbfr of bttributfs in tif list.
      *
-     * <p>Once you know the number of attributes, you can iterate
-     * through the list.</p>
+     * <p>Ondf you know tif numbfr of bttributfs, you dbn itfrbtf
+     * tirougi tif list.</p>
      *
-     * @return The number of attributes in the list.
-     * @see #getURI(int)
-     * @see #getLocalName(int)
-     * @see #getQName(int)
-     * @see #getType(int)
-     * @see #getValue(int)
+     * @rfturn Tif numbfr of bttributfs in tif list.
+     * @sff #gftURI(int)
+     * @sff #gftLodblNbmf(int)
+     * @sff #gftQNbmf(int)
+     * @sff #gftTypf(int)
+     * @sff #gftVbluf(int)
      */
-    public abstract int getLength ();
+    publid bbstrbdt int gftLfngti ();
 
 
     /**
-     * Look up an attribute's Namespace URI by index.
+     * Look up bn bttributf's Nbmfspbdf URI by indfx.
      *
-     * @param index The attribute index (zero-based).
-     * @return The Namespace URI, or the empty string if none
-     *         is available, or null if the index is out of
-     *         range.
-     * @see #getLength
+     * @pbrbm indfx Tif bttributf indfx (zfro-bbsfd).
+     * @rfturn Tif Nbmfspbdf URI, or tif fmpty string if nonf
+     *         is bvbilbblf, or null if tif indfx is out of
+     *         rbngf.
+     * @sff #gftLfngti
      */
-    public abstract String getURI (int index);
+    publid bbstrbdt String gftURI (int indfx);
 
 
     /**
-     * Look up an attribute's local name by index.
+     * Look up bn bttributf's lodbl nbmf by indfx.
      *
-     * @param index The attribute index (zero-based).
-     * @return The local name, or the empty string if Namespace
-     *         processing is not being performed, or null
-     *         if the index is out of range.
-     * @see #getLength
+     * @pbrbm indfx Tif bttributf indfx (zfro-bbsfd).
+     * @rfturn Tif lodbl nbmf, or tif fmpty string if Nbmfspbdf
+     *         prodfssing is not bfing pfrformfd, or null
+     *         if tif indfx is out of rbngf.
+     * @sff #gftLfngti
      */
-    public abstract String getLocalName (int index);
+    publid bbstrbdt String gftLodblNbmf (int indfx);
 
 
     /**
-     * Look up an attribute's XML qualified (prefixed) name by index.
+     * Look up bn bttributf's XML qublififd (prffixfd) nbmf by indfx.
      *
-     * @param index The attribute index (zero-based).
-     * @return The XML qualified name, or the empty string
-     *         if none is available, or null if the index
-     *         is out of range.
-     * @see #getLength
+     * @pbrbm indfx Tif bttributf indfx (zfro-bbsfd).
+     * @rfturn Tif XML qublififd nbmf, or tif fmpty string
+     *         if nonf is bvbilbblf, or null if tif indfx
+     *         is out of rbngf.
+     * @sff #gftLfngti
      */
-    public abstract String getQName (int index);
+    publid bbstrbdt String gftQNbmf (int indfx);
 
 
     /**
-     * Look up an attribute's type by index.
+     * Look up bn bttributf's typf by indfx.
      *
-     * <p>The attribute type is one of the strings "CDATA", "ID",
+     * <p>Tif bttributf typf is onf of tif strings "CDATA", "ID",
      * "IDREF", "IDREFS", "NMTOKEN", "NMTOKENS", "ENTITY", "ENTITIES",
-     * or "NOTATION" (always in upper case).</p>
+     * or "NOTATION" (blwbys in uppfr dbsf).</p>
      *
-     * <p>If the parser has not read a declaration for the attribute,
-     * or if the parser does not report attribute types, then it must
-     * return the value "CDATA" as stated in the XML 1.0 Recommendation
-     * (clause 3.3.3, "Attribute-Value Normalization").</p>
+     * <p>If tif pbrsfr ibs not rfbd b dfdlbrbtion for tif bttributf,
+     * or if tif pbrsfr dofs not rfport bttributf typfs, tifn it must
+     * rfturn tif vbluf "CDATA" bs stbtfd in tif XML 1.0 Rfdommfndbtion
+     * (dlbusf 3.3.3, "Attributf-Vbluf Normblizbtion").</p>
      *
-     * <p>For an enumerated attribute that is not a notation, the
-     * parser will report the type as "NMTOKEN".</p>
+     * <p>For bn fnumfrbtfd bttributf tibt is not b notbtion, tif
+     * pbrsfr will rfport tif typf bs "NMTOKEN".</p>
      *
-     * @param index The attribute index (zero-based).
-     * @return The attribute's type as a string, or null if the
-     *         index is out of range.
-     * @see #getLength
+     * @pbrbm indfx Tif bttributf indfx (zfro-bbsfd).
+     * @rfturn Tif bttributf's typf bs b string, or null if tif
+     *         indfx is out of rbngf.
+     * @sff #gftLfngti
      */
-    public abstract String getType (int index);
+    publid bbstrbdt String gftTypf (int indfx);
 
 
     /**
-     * Look up an attribute's value by index.
+     * Look up bn bttributf's vbluf by indfx.
      *
-     * <p>If the attribute value is a list of tokens (IDREFS,
-     * ENTITIES, or NMTOKENS), the tokens will be concatenated
-     * into a single string with each token separated by a
-     * single space.</p>
+     * <p>If tif bttributf vbluf is b list of tokfns (IDREFS,
+     * ENTITIES, or NMTOKENS), tif tokfns will bf dondbtfnbtfd
+     * into b singlf string witi fbdi tokfn sfpbrbtfd by b
+     * singlf spbdf.</p>
      *
-     * @param index The attribute index (zero-based).
-     * @return The attribute's value as a string, or null if the
-     *         index is out of range.
-     * @see #getLength
+     * @pbrbm indfx Tif bttributf indfx (zfro-bbsfd).
+     * @rfturn Tif bttributf's vbluf bs b string, or null if tif
+     *         indfx is out of rbngf.
+     * @sff #gftLfngti
      */
-    public abstract String getValue (int index);
+    publid bbstrbdt String gftVbluf (int indfx);
 
 
 
     ////////////////////////////////////////////////////////////////////
-    // Name-based query.
+    // Nbmf-bbsfd qufry.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Look up the index of an attribute by Namespace name.
+     * Look up tif indfx of bn bttributf by Nbmfspbdf nbmf.
      *
-     * @param uri The Namespace URI, or the empty string if
-     *        the name has no Namespace URI.
-     * @param localName The attribute's local name.
-     * @return The index of the attribute, or -1 if it does not
-     *         appear in the list.
+     * @pbrbm uri Tif Nbmfspbdf URI, or tif fmpty string if
+     *        tif nbmf ibs no Nbmfspbdf URI.
+     * @pbrbm lodblNbmf Tif bttributf's lodbl nbmf.
+     * @rfturn Tif indfx of tif bttributf, or -1 if it dofs not
+     *         bppfbr in tif list.
      */
-    public int getIndex (String uri, String localName);
+    publid int gftIndfx (String uri, String lodblNbmf);
 
 
     /**
-     * Look up the index of an attribute by XML qualified (prefixed) name.
+     * Look up tif indfx of bn bttributf by XML qublififd (prffixfd) nbmf.
      *
-     * @param qName The qualified (prefixed) name.
-     * @return The index of the attribute, or -1 if it does not
-     *         appear in the list.
+     * @pbrbm qNbmf Tif qublififd (prffixfd) nbmf.
+     * @rfturn Tif indfx of tif bttributf, or -1 if it dofs not
+     *         bppfbr in tif list.
      */
-    public int getIndex (String qName);
+    publid int gftIndfx (String qNbmf);
 
 
     /**
-     * Look up an attribute's type by Namespace name.
+     * Look up bn bttributf's typf by Nbmfspbdf nbmf.
      *
-     * <p>See {@link #getType(int) getType(int)} for a description
-     * of the possible types.</p>
+     * <p>Sff {@link #gftTypf(int) gftTypf(int)} for b dfsdription
+     * of tif possiblf typfs.</p>
      *
-     * @param uri The Namespace URI, or the empty String if the
-     *        name has no Namespace URI.
-     * @param localName The local name of the attribute.
-     * @return The attribute type as a string, or null if the
-     *         attribute is not in the list or if Namespace
-     *         processing is not being performed.
+     * @pbrbm uri Tif Nbmfspbdf URI, or tif fmpty String if tif
+     *        nbmf ibs no Nbmfspbdf URI.
+     * @pbrbm lodblNbmf Tif lodbl nbmf of tif bttributf.
+     * @rfturn Tif bttributf typf bs b string, or null if tif
+     *         bttributf is not in tif list or if Nbmfspbdf
+     *         prodfssing is not bfing pfrformfd.
      */
-    public abstract String getType (String uri, String localName);
+    publid bbstrbdt String gftTypf (String uri, String lodblNbmf);
 
 
     /**
-     * Look up an attribute's type by XML qualified (prefixed) name.
+     * Look up bn bttributf's typf by XML qublififd (prffixfd) nbmf.
      *
-     * <p>See {@link #getType(int) getType(int)} for a description
-     * of the possible types.</p>
+     * <p>Sff {@link #gftTypf(int) gftTypf(int)} for b dfsdription
+     * of tif possiblf typfs.</p>
      *
-     * @param qName The XML qualified name.
-     * @return The attribute type as a string, or null if the
-     *         attribute is not in the list or if qualified names
-     *         are not available.
+     * @pbrbm qNbmf Tif XML qublififd nbmf.
+     * @rfturn Tif bttributf typf bs b string, or null if tif
+     *         bttributf is not in tif list or if qublififd nbmfs
+     *         brf not bvbilbblf.
      */
-    public abstract String getType (String qName);
+    publid bbstrbdt String gftTypf (String qNbmf);
 
 
     /**
-     * Look up an attribute's value by Namespace name.
+     * Look up bn bttributf's vbluf by Nbmfspbdf nbmf.
      *
-     * <p>See {@link #getValue(int) getValue(int)} for a description
-     * of the possible values.</p>
+     * <p>Sff {@link #gftVbluf(int) gftVbluf(int)} for b dfsdription
+     * of tif possiblf vblufs.</p>
      *
-     * @param uri The Namespace URI, or the empty String if the
-     *        name has no Namespace URI.
-     * @param localName The local name of the attribute.
-     * @return The attribute value as a string, or null if the
-     *         attribute is not in the list.
+     * @pbrbm uri Tif Nbmfspbdf URI, or tif fmpty String if tif
+     *        nbmf ibs no Nbmfspbdf URI.
+     * @pbrbm lodblNbmf Tif lodbl nbmf of tif bttributf.
+     * @rfturn Tif bttributf vbluf bs b string, or null if tif
+     *         bttributf is not in tif list.
      */
-    public abstract String getValue (String uri, String localName);
+    publid bbstrbdt String gftVbluf (String uri, String lodblNbmf);
 
 
     /**
-     * Look up an attribute's value by XML qualified (prefixed) name.
+     * Look up bn bttributf's vbluf by XML qublififd (prffixfd) nbmf.
      *
-     * <p>See {@link #getValue(int) getValue(int)} for a description
-     * of the possible values.</p>
+     * <p>Sff {@link #gftVbluf(int) gftVbluf(int)} for b dfsdription
+     * of tif possiblf vblufs.</p>
      *
-     * @param qName The XML qualified name.
-     * @return The attribute value as a string, or null if the
-     *         attribute is not in the list or if qualified names
-     *         are not available.
+     * @pbrbm qNbmf Tif XML qublififd nbmf.
+     * @rfturn Tif bttributf vbluf bs b string, or null if tif
+     *         bttributf is not in tif list or if qublififd nbmfs
+     *         brf not bvbilbblf.
      */
-    public abstract String getValue (String qName);
+    publid bbstrbdt String gftVbluf (String qNbmf);
 
 }
 
-// end of Attributes.java
+// fnd of Attributfs.jbvb

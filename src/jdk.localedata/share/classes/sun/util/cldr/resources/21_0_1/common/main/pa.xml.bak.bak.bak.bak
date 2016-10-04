@@ -1,0 +1,350 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="pb"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb" drbft="dontributfd">ਅਬਖਾਜ਼ੀਅਨ</lbngubgf>
+			<lbngubgf typf="bdf" drbft="dontributfd">ਅਚੀਨੀ</lbngubgf>
+			<lbngubgf typf="bdh" drbft="dontributfd">ਅਕੋਲੀ</lbngubgf>
+			<lbngubgf typf="bf" drbft="dontributfd">ਅਫ਼ਰੀਕੀ</lbngubgf>
+			<lbngubgf typf="bpb" drbft="dontributfd">ਅਪਾਚੇ ਭਾਸ਼ਾ</lbngubgf>
+			<lbngubgf typf="br" drbft="dontributfd">ਅਰਬੀ</lbngubgf>
+			<lbngubgf typf="bs" drbft="dontributfd">ਅਸਾਮੀ</lbngubgf>
+			<lbngubgf typf="bus" drbft="dontributfd">ਆਸਟਰੇਲੀਅਨ ਭਾਸ਼ਾ</lbngubgf>
+			<lbngubgf typf="bz" drbft="dontributfd">ਅਜ਼ੇਰਬੈਜਨਿ</lbngubgf>
+			<lbngubgf typf="bbt" drbft="dontributfd">ਬੈਲਟਿਕ ਭਾਸ਼ਾ</lbngubgf>
+			<lbngubgf typf="bf" drbft="dontributfd">ਬੇਲਾਰੂਸੀਅਨ</lbngubgf>
+			<lbngubgf typf="bn" drbft="dontributfd">ਬੰਗਾਲੀ</lbngubgf>
+			<lbngubgf typf="db" drbft="dontributfd">ਡੈਨਿਸ਼</lbngubgf>
+			<lbngubgf typf="df" drbft="dontributfd">ਜਰਮਨ</lbngubgf>
+			<lbngubgf typf="fn" drbft="dontributfd">ਅੰਗਰੇਜ਼ੀ</lbngubgf>
+			<lbngubgf typf="fo" drbft="dontributfd">ਏਸਪਰੇਂਟੋ</lbngubgf>
+			<lbngubgf typf="fs" drbft="dontributfd">ਸਪੇਨਿਸ਼</lbngubgf>
+			<lbngubgf typf="fi" drbft="dontributfd">ਫਿਨਿਸ਼</lbngubgf>
+			<lbngubgf typf="fr" drbft="dontributfd">ਫਰੈਂਚ</lbngubgf>
+			<lbngubgf typf="gu" drbft="dontributfd">ਗੁਜਰਾਤੀ</lbngubgf>
+			<lbngubgf typf="hi" drbft="dontributfd">ਹਿੰਦੀ</lbngubgf>
+			<lbngubgf typf="id" drbft="dontributfd">ਇੰਡੋਨੇਸ਼ੀਆਈ</lbngubgf>
+			<lbngubgf typf="it" drbft="dontributfd">ਇਤਾਲਵੀ</lbngubgf>
+			<lbngubgf typf="jb" drbft="undonfirmfd">ਜਾਪਾਨੀ</lbngubgf>
+			<lbngubgf typf="mk" drbft="dontributfd">ਮੈਕੇਡੋਨੀਅਨ</lbngubgf>
+			<lbngubgf typf="nl" drbft="dontributfd">ਡੱਚ</lbngubgf>
+			<lbngubgf typf="no" drbft="dontributfd">ਨਾਰਵੇਜੀਅਨ</lbngubgf>
+			<lbngubgf typf="pb">ਪੰਜਾਬੀ</lbngubgf>
+			<lbngubgf typf="pt" drbft="dontributfd">ਪੋਰਤੂਗੂਈਸ</lbngubgf>
+			<lbngubgf typf="sv" drbft="dontributfd">ਸਵੈਡਿਸ਼</lbngubgf>
+			<lbngubgf typf="tb" drbft="dontributfd">ਤਾਮਿਲ</lbngubgf>
+			<lbngubgf typf="tf" drbft="dontributfd">ਤੇਲਗੂ</lbngubgf>
+			<lbngubgf typf="th" drbft="dontributfd">ਥਾਈ</lbngubgf>
+			<lbngubgf typf="tw" drbft="dontributfd">ਤ੍ਵਿ</lbngubgf>
+			<lbngubgf typf="ug" drbft="dontributfd">ਉਇਘੁਰ</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Dfvb" drbft="undonfirmfd">ਦੇਵਨਾਗਰੀ</sdript>
+			<sdript typf="Guru" drbft="undonfirmfd">ਗੁਰਮੁਖੀ</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="IN">ਭਾਰਤ</tfrritory>
+			<tfrritory typf="ZZ" drbft="undonfirmfd">ਅਣਜਾਣ</tfrritory>
+		</tfrritorifs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">ਮੀਟਰਿਕ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ਯੂ. ਐੱਸ.</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[\u0A71 \u0A70 \u0A3C ੦ ੧ ੨ ੩ ੪ ੫ ੬ ੭ ੮ ੯ ੴ ੳ ਉ ਊ ਓ ਅ ਆ ਐ ਔ ੲ ਇ ਈ ਏ ਸ {ਸ\u0A3C} ਹ ਕ ਖ {ਖ\u0A3C} ਗ {ਗ\u0A3C} ਘ ਙ ਚ ਛ ਜ {ਜ\u0A3C} ਝ ਞ ਟ ਠ ਡ ਢ ਣ ਤ ਥ ਦ ਧ ਨ ਪ ਫ {ਫ\u0A3C} ਬ ਭ ਮ ਯ ਰ ਲ ਵ ੜ \u0A4D ਾ ਿ ੀ \u0A41 \u0A42 \u0A47 \u0A48 \u0A4B \u0A4C]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[\u200C\u200D ਃ \u0A02 \u0A01 {ਲ\u0A3C}]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[ੴ ੳ ਉ ਊ ਓ ਅ ਆ ਐ ਔ ੲ ਇ ਈ ਏ ਸ ਹ ਕ ਖ ਗ ਘ ਙ ਚ ਛ ਜ ਝ ਞ ਟ ਠ ਡ ਢ ਣ ਤ ਥ ਦ ਧ ਨ ਪ ਫ ਬ ਭ ਮ ਯ ਰ ਲ ਵ ੜ]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="5">ਮਈ</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">ਜਨਵਰੀ</month>
+							<month typf="2">ਫ਼ਰਵਰੀ</month>
+							<month typf="3">ਮਾਰਚ</month>
+							<month typf="4">ਅਪ੍ਰੈਲ</month>
+							<month typf="5">ਮਈ</month>
+							<month typf="6">ਜੂਨ</month>
+							<month typf="7">ਜੁਲਾਈ</month>
+							<month typf="8">ਅਗਸਤ</month>
+							<month typf="9">ਸਤੰਬਰ</month>
+							<month typf="10">ਅਕਤੂਬਰ</month>
+							<month typf="11">ਨਵੰਬਰ</month>
+							<month typf="12">ਦਸੰਬਰ</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="5">ਮਈ</month>
+						</monthWidth>
+						<monthWidth typf="nbrrow">
+							<month typf="1">ਜ</month>
+							<month typf="2">ਫ</month>
+							<month typf="3">ਮਾ</month>
+							<month typf="4">ਅ</month>
+							<month typf="5">ਮ</month>
+							<month typf="6">ਜੂ</month>
+							<month typf="7">ਜੁ</month>
+							<month typf="8">ਅ</month>
+							<month typf="9">ਸ</month>
+							<month typf="10">ਅ</month>
+							<month typf="11">ਨ</month>
+							<month typf="12">ਦ</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">ਜਨਵਰੀ</month>
+							<month typf="2">ਫ਼ਰਵਰੀ</month>
+							<month typf="3">ਮਾਰਚ</month>
+							<month typf="4">ਅਪ੍ਰੈਲ</month>
+							<month typf="5">ਮਈ</month>
+							<month typf="6">ਜੂਨ</month>
+							<month typf="7">ਜੁਲਾਈ</month>
+							<month typf="8">ਅਗਸਤ</month>
+							<month typf="9">ਸਤੰਬਰ</month>
+							<month typf="10">ਅਕਤੂਬਰ</month>
+							<month typf="11">ਨਵੰਬਰ</month>
+							<month typf="12">ਦਸੰਬਰ</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">ਐਤ.</dby>
+							<dby typf="mon">ਸੋਮ.</dby>
+							<dby typf="tuf">ਮੰਗਲ.</dby>
+							<dby typf="wfd">ਬੁਧ.</dby>
+							<dby typf="thu">ਵੀਰ.</dby>
+							<dby typf="fri">ਸ਼ੁਕਰ.</dby>
+							<dby typf="sbt">ਸ਼ਨੀ.</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">ਐਤਵਾਰ</dby>
+							<dby typf="mon">ਸੋਮਵਾਰ</dby>
+							<dby typf="tuf">ਮੰਗਲਵਾਰ</dby>
+							<dby typf="wfd">ਬੁਧਵਾਰ</dby>
+							<dby typf="thu">ਵੀਰਵਾਰ</dby>
+							<dby typf="fri">ਸ਼ੁੱਕਰਵਾਰ</dby>
+							<dby typf="sbt">ਸ਼ਨੀਚਰਵਾਰ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">ਐ</dby>
+							<dby typf="mon">ਸੋ</dby>
+							<dby typf="tuf">ਮੰ</dby>
+							<dby typf="wfd">ਬੁੱ</dby>
+							<dby typf="thu">ਵੀ</dby>
+							<dby typf="fri">ਸ਼ੁੱ</dby>
+							<dby typf="sbt">ਸ਼</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">ਐਤਵਾਰ</dby>
+							<dby typf="mon">ਸੋਮਵਾਰ</dby>
+							<dby typf="tuf">ਮੰਗਲਵਾਰ</dby>
+							<dby typf="wfd">ਬੁਧਵਾਰ</dby>
+							<dby typf="thu">ਵੀਰਵਾਰ</dby>
+							<dby typf="fri">ਸ਼ੁੱਕਰਵਾਰ</dby>
+							<dby typf="sbt">ਸ਼ਨੀਚਰਵਾਰ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">ਇਕ ਚੌਥਾਈ</qubrtfr>
+							<qubrtfr typf="2">ਅੱਧਾ</qubrtfr>
+							<qubrtfr typf="3">ਪੌਣਾ</qubrtfr>
+							<qubrtfr typf="4">ਪੂਰਾ</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">ਇਕ ਚੌਥਾਈ</qubrtfr>
+							<qubrtfr typf="2">ਅੱਧਾ</qubrtfr>
+							<qubrtfr typf="3">ਪੌਣਾ</qubrtfr>
+							<qubrtfr typf="4">ਪੂਰਾ</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">ਪੂਰਵ ਦੁਪਹਿਰ</dbyPfriod>
+							<dbyPfriod typf="pm">ਬਾਅਦ ਦੁਪਹਿਰ</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">ਈ. ਪੂ.</frb>
+						<frb typf="1">ਸਾਲ</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, dd MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>h:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="HHmmss">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMMM">MMM yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>ਯੁੱਗ</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>ਸਾਲ</displbyNbmf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>ਮਹੀਨਾ</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>ਹਫ਼ਤਾ</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>ਦਿਨ</displbyNbmf>
+						<rflbtivf typf="-2">ਪਰਸੋਂ</rflbtivf>
+						<rflbtivf typf="-1">ਲੰਘਿਆਂ ਕੱਲ</rflbtivf>
+						<rflbtivf typf="0">ਅੱਜ</rflbtivf>
+						<rflbtivf typf="1">ਭਲਕੇ</rflbtivf>
+						<rflbtivf typf="2">ਪਰਸੋਂ</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>ਹਫ਼ਤੇ ਦਾ ਦਿਨ</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>ਘੰਟਾ</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>ਮਿੰਟ</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>ਸਕਿੰਡ</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>ਖੇਤਰ</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<mftbzonf typf="Indib">
+				<short>
+					<stbndbrd>IST</stbndbrd>
+				</short>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<othfrNumbfringSystfms>
+			<nbtivf>guru</nbtivf>
+		</othfrNumbfringSystfms>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #,##,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AFN">
+				<displbyNbmf drbft="undonfirmfd">ਅਫ਼ਗਾਨੀ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf drbft="undonfirmfd">ਯੂਰੋ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>ਰੁਪਿਯ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf drbft="undonfirmfd">ਅਣਜਾਣ</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<posix>
+		<mfssbgfs>
+			<yfsstr drbft="undonfirmfd">ਹਾਂ</yfsstr>
+			<nostr drbft="undonfirmfd">ਨਹੀਂ</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

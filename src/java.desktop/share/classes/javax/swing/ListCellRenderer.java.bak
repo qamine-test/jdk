@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Component;
+import jbvb.bwt.Componfnt;
 
 
 /**
- * Identifies components that can be used as "rubber stamps" to paint
- * the cells in a JList.  For example, to use a JLabel as a
- * ListCellRenderer, you would write something like this:
- * <pre>
- * {@code
- * class MyCellRenderer extends JLabel implements ListCellRenderer<Object> {
- *     public MyCellRenderer() {
- *         setOpaque(true);
+ * Idfntififs domponfnts tibt dbn bf usfd bs "rubbfr stbmps" to pbint
+ * tif dflls in b JList.  For fxbmplf, to usf b JLbbfl bs b
+ * ListCfllRfndfrfr, you would writf somftiing likf tiis:
+ * <prf>
+ * {@dodf
+ * dlbss MyCfllRfndfrfr fxtfnds JLbbfl implfmfnts ListCfllRfndfrfr<Objfdt> {
+ *     publid MyCfllRfndfrfr() {
+ *         sftOpbquf(truf);
  *     }
  *
- *     public Component getListCellRendererComponent(JList<?> list,
- *                                                   Object value,
- *                                                   int index,
- *                                                   boolean isSelected,
- *                                                   boolean cellHasFocus) {
+ *     publid Componfnt gftListCfllRfndfrfrComponfnt(JList<?> list,
+ *                                                   Objfdt vbluf,
+ *                                                   int indfx,
+ *                                                   boolfbn isSflfdtfd,
+ *                                                   boolfbn dfllHbsFodus) {
  *
- *         setText(value.toString());
+ *         sftTfxt(vbluf.toString());
  *
- *         Color background;
- *         Color foreground;
+ *         Color bbdkground;
+ *         Color forfground;
  *
- *         // check if this cell represents the current DnD drop location
- *         JList.DropLocation dropLocation = list.getDropLocation();
- *         if (dropLocation != null
- *                 && !dropLocation.isInsert()
- *                 && dropLocation.getIndex() == index) {
+ *         // difdk if tiis dfll rfprfsfnts tif durrfnt DnD drop lodbtion
+ *         JList.DropLodbtion dropLodbtion = list.gftDropLodbtion();
+ *         if (dropLodbtion != null
+ *                 && !dropLodbtion.isInsfrt()
+ *                 && dropLodbtion.gftIndfx() == indfx) {
  *
- *             background = Color.BLUE;
- *             foreground = Color.WHITE;
+ *             bbdkground = Color.BLUE;
+ *             forfground = Color.WHITE;
  *
- *         // check if this cell is selected
- *         } else if (isSelected) {
- *             background = Color.RED;
- *             foreground = Color.WHITE;
+ *         // difdk if tiis dfll is sflfdtfd
+ *         } flsf if (isSflfdtfd) {
+ *             bbdkground = Color.RED;
+ *             forfground = Color.WHITE;
  *
- *         // unselected, and not the DnD drop location
- *         } else {
- *             background = Color.WHITE;
- *             foreground = Color.BLACK;
+ *         // unsflfdtfd, bnd not tif DnD drop lodbtion
+ *         } flsf {
+ *             bbdkground = Color.WHITE;
+ *             forfground = Color.BLACK;
  *         };
  *
- *         setBackground(background);
- *         setForeground(foreground);
+ *         sftBbdkground(bbdkground);
+ *         sftForfground(forfground);
  *
- *         return this;
+ *         rfturn tiis;
  *     }
  * }
  * }
- * </pre>
+ * </prf>
  *
- * @param <E> the type of values this renderer can be used for
+ * @pbrbm <E> tif typf of vblufs tiis rfndfrfr dbn bf usfd for
  *
- * @see JList
- * @see DefaultListCellRenderer
+ * @sff JList
+ * @sff DffbultListCfllRfndfrfr
  *
- * @author Hans Muller
- * @since 1.2
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-public interface ListCellRenderer<E>
+publid intfrfbdf ListCfllRfndfrfr<E>
 {
     /**
-     * Return a component that has been configured to display the specified
-     * value. That component's <code>paint</code> method is then called to
-     * "render" the cell.  If it is necessary to compute the dimensions
-     * of a list because the list cells do not have a fixed size, this method
-     * is called to generate a component on which <code>getPreferredSize</code>
-     * can be invoked.
+     * Rfturn b domponfnt tibt ibs bffn donfigurfd to displby tif spfdififd
+     * vbluf. Tibt domponfnt's <dodf>pbint</dodf> mftiod is tifn dbllfd to
+     * "rfndfr" tif dfll.  If it is nfdfssbry to domputf tif dimfnsions
+     * of b list bfdbusf tif list dflls do not ibvf b fixfd sizf, tiis mftiod
+     * is dbllfd to gfnfrbtf b domponfnt on wiidi <dodf>gftPrfffrrfdSizf</dodf>
+     * dbn bf invokfd.
      *
-     * @param list The JList we're painting.
-     * @param value The value returned by list.getModel().getElementAt(index).
-     * @param index The cells index.
-     * @param isSelected True if the specified cell was selected.
-     * @param cellHasFocus True if the specified cell has the focus.
-     * @return A component whose paint() method will render the specified value.
+     * @pbrbm list Tif JList wf'rf pbinting.
+     * @pbrbm vbluf Tif vbluf rfturnfd by list.gftModfl().gftElfmfntAt(indfx).
+     * @pbrbm indfx Tif dflls indfx.
+     * @pbrbm isSflfdtfd Truf if tif spfdififd dfll wbs sflfdtfd.
+     * @pbrbm dfllHbsFodus Truf if tif spfdififd dfll ibs tif fodus.
+     * @rfturn A domponfnt wiosf pbint() mftiod will rfndfr tif spfdififd vbluf.
      *
-     * @see JList
-     * @see ListSelectionModel
-     * @see ListModel
+     * @sff JList
+     * @sff ListSflfdtionModfl
+     * @sff ListModfl
      */
-    Component getListCellRendererComponent(
-        JList<? extends E> list,
-        E value,
-        int index,
-        boolean isSelected,
-        boolean cellHasFocus);
+    Componfnt gftListCfllRfndfrfrComponfnt(
+        JList<? fxtfnds E> list,
+        E vbluf,
+        int indfx,
+        boolfbn isSflfdtfd,
+        boolfbn dfllHbsFodus);
 }

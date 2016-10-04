@@ -1,361 +1,361 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import java.io.Serializable;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
 
 /**
- * ComboBox motif look and feel
- * <p> * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * ComboBox motif look bnd fffl
+ * <p> * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Arnaud Weber
+ * @butior Arnbud Wfbfr
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MotifComboBoxUI extends BasicComboBoxUI implements Serializable {
-    Icon arrowIcon;
-    static final int HORIZ_MARGIN = 3;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MotifComboBoxUI fxtfnds BbsidComboBoxUI implfmfnts Sfriblizbblf {
+    Idon brrowIdon;
+    stbtid finbl int HORIZ_MARGIN = 3;
 
-    public static ComponentUI createUI(JComponent c) {
-        return new MotifComboBoxUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw MotifComboBoxUI();
     }
 
-    public void installUI(JComponent c) {
-        super.installUI(c);
-        arrowIcon = new MotifComboBoxArrowIcon(UIManager.getColor("controlHighlight"),
-                                               UIManager.getColor("controlShadow"),
-                                               UIManager.getColor("control"));
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        brrowIdon = nfw MotifComboBoxArrowIdon(UIMbnbgfr.gftColor("dontrolHigiligit"),
+                                               UIMbnbgfr.gftColor("dontrolSibdow"),
+                                               UIMbnbgfr.gftColor("dontrol"));
 
-        Runnable initCode = new Runnable() {
-            public void run(){
-                if ( motifGetEditor() != null ) {
-                    motifGetEditor().setBackground( UIManager.getColor( "text" ) );
+        Runnbblf initCodf = nfw Runnbblf() {
+            publid void run(){
+                if ( motifGftEditor() != null ) {
+                    motifGftEditor().sftBbdkground( UIMbnbgfr.gftColor( "tfxt" ) );
                 }
             }
         };
 
-        SwingUtilities.invokeLater( initCode );
+        SwingUtilitifs.invokfLbtfr( initCodf );
     }
 
-    public Dimension getMinimumSize( JComponent c ) {
-        if ( !isMinimumSizeDirty ) {
-            return new Dimension( cachedMinimumSize );
+    publid Dimfnsion gftMinimumSizf( JComponfnt d ) {
+        if ( !isMinimumSizfDirty ) {
+            rfturn nfw Dimfnsion( dbdifdMinimumSizf );
         }
-        Dimension size;
-        Insets insets = getInsets();
-        size = getDisplaySize();
-        size.height += insets.top + insets.bottom;
-        int buttonSize = iconAreaWidth();
-        size.width +=  insets.left + insets.right + buttonSize;
+        Dimfnsion sizf;
+        Insfts insfts = gftInsfts();
+        sizf = gftDisplbySizf();
+        sizf.ifigit += insfts.top + insfts.bottom;
+        int buttonSizf = idonArfbWidti();
+        sizf.widti +=  insfts.lfft + insfts.rigit + buttonSizf;
 
-        cachedMinimumSize.setSize( size.width, size.height );
-        isMinimumSizeDirty = false;
+        dbdifdMinimumSizf.sftSizf( sizf.widti, sizf.ifigit );
+        isMinimumSizfDirty = fblsf;
 
-        return size;
+        rfturn sizf;
     }
 
-    protected ComboPopup createPopup() {
-        return new MotifComboPopup( comboBox );
+    protfdtfd ComboPopup drfbtfPopup() {
+        rfturn nfw MotifComboPopup( domboBox );
     }
 
     /**
-     * Overriden to empty the MouseMotionListener.
+     * Ovfrridfn to fmpty tif MousfMotionListfnfr.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class MotifComboPopup extends BasicComboPopup {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss MotifComboPopup fxtfnds BbsidComboPopup {
 
-        public MotifComboPopup( JComboBox<Object> comboBox ) {
-            super( comboBox );
+        publid MotifComboPopup( JComboBox<Objfdt> domboBox ) {
+            supfr( domboBox );
         }
 
         /**
-         * Motif combo popup should not track the mouse in the list.
+         * Motif dombo popup siould not trbdk tif mousf in tif list.
          */
-        public MouseMotionListener createListMouseMotionListener() {
-           return new MouseMotionAdapter() {};
+        publid MousfMotionListfnfr drfbtfListMousfMotionListfnfr() {
+           rfturn nfw MousfMotionAdbptfr() {};
         }
 
-        public KeyListener createKeyListener() {
-            return super.createKeyListener();
+        publid KfyListfnfr drfbtfKfyListfnfr() {
+            rfturn supfr.drfbtfKfyListfnfr();
         }
 
-        protected class InvocationKeyHandler extends BasicComboPopup.InvocationKeyHandler {
-            protected InvocationKeyHandler() {
-                MotifComboPopup.this.super();
+        protfdtfd dlbss InvodbtionKfyHbndlfr fxtfnds BbsidComboPopup.InvodbtionKfyHbndlfr {
+            protfdtfd InvodbtionKfyHbndlfr() {
+                MotifComboPopup.tiis.supfr();
             }
         }
     }
 
-    protected void installComponents() {
-        if ( comboBox.isEditable() ) {
-            addEditor();
+    protfdtfd void instbllComponfnts() {
+        if ( domboBox.isEditbblf() ) {
+            bddEditor();
         }
 
-        comboBox.add( currentValuePane );
+        domboBox.bdd( durrfntVblufPbnf );
     }
 
-    protected void uninstallComponents() {
-        removeEditor();
-        comboBox.removeAll();
+    protfdtfd void uninstbllComponfnts() {
+        rfmovfEditor();
+        domboBox.rfmovfAll();
     }
 
-    public void paint(Graphics g, JComponent c) {
-        boolean hasFocus = comboBox.hasFocus();
-        Rectangle r;
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        boolfbn ibsFodus = domboBox.ibsFodus();
+        Rfdtbnglf r;
 
-        if (comboBox.isEnabled()) {
-            g.setColor(comboBox.getBackground());
-        } else {
-            g.setColor(UIManager.getColor("ComboBox.disabledBackground"));
+        if (domboBox.isEnbblfd()) {
+            g.sftColor(domboBox.gftBbdkground());
+        } flsf {
+            g.sftColor(UIMbnbgfr.gftColor("ComboBox.disbblfdBbdkground"));
         }
-        g.fillRect(0,0,c.getWidth(),c.getHeight());
+        g.fillRfdt(0,0,d.gftWidti(),d.gftHfigit());
 
-        if ( !comboBox.isEditable() ) {
-            r = rectangleForCurrentValue();
-            paintCurrentValue(g,r,hasFocus);
+        if ( !domboBox.isEditbblf() ) {
+            r = rfdtbnglfForCurrfntVbluf();
+            pbintCurrfntVbluf(g,r,ibsFodus);
         }
-        r = rectangleForArrowIcon();
-        arrowIcon.paintIcon(c,g,r.x,r.y);
-        if ( !comboBox.isEditable() ) {
-            Border border = comboBox.getBorder();
-            Insets in;
-            if ( border != null ) {
-                in = border.getBorderInsets(comboBox);
+        r = rfdtbnglfForArrowIdon();
+        brrowIdon.pbintIdon(d,g,r.x,r.y);
+        if ( !domboBox.isEditbblf() ) {
+            Bordfr bordfr = domboBox.gftBordfr();
+            Insfts in;
+            if ( bordfr != null ) {
+                in = bordfr.gftBordfrInsfts(domboBox);
             }
-            else {
-                in = new Insets( 0, 0, 0, 0 );
+            flsf {
+                in = nfw Insfts( 0, 0, 0, 0 );
             }
-            // Draw the separation
-            if(MotifGraphicsUtils.isLeftToRight(comboBox)) {
+            // Drbw tif sfpbrbtion
+            if(MotifGrbpiidsUtils.isLfftToRigit(domboBox)) {
                 r.x -= (HORIZ_MARGIN + 2);
             }
-            else {
-                r.x += r.width + HORIZ_MARGIN + 1;
+            flsf {
+                r.x += r.widti + HORIZ_MARGIN + 1;
             }
             r.y = in.top;
-            r.width = 1;
-            r.height = comboBox.getBounds().height - in.bottom - in.top;
-            g.setColor(UIManager.getColor("controlShadow"));
-            g.fillRect(r.x,r.y,r.width,r.height);
+            r.widti = 1;
+            r.ifigit = domboBox.gftBounds().ifigit - in.bottom - in.top;
+            g.sftColor(UIMbnbgfr.gftColor("dontrolSibdow"));
+            g.fillRfdt(r.x,r.y,r.widti,r.ifigit);
             r.x++;
-            g.setColor(UIManager.getColor("controlHighlight"));
-            g.fillRect(r.x,r.y,r.width,r.height);
+            g.sftColor(UIMbnbgfr.gftColor("dontrolHigiligit"));
+            g.fillRfdt(r.x,r.y,r.widti,r.ifigit);
         }
     }
 
-    public void paintCurrentValue(Graphics g,Rectangle bounds,boolean hasFocus) {
-        ListCellRenderer<Object> renderer = comboBox.getRenderer();
-        Component c;
-        Dimension d;
-        c = renderer.getListCellRendererComponent(listBox, comboBox.getSelectedItem(), -1, false, false);
-        c.setFont(comboBox.getFont());
-        if ( comboBox.isEnabled() ) {
-            c.setForeground(comboBox.getForeground());
-            c.setBackground(comboBox.getBackground());
+    publid void pbintCurrfntVbluf(Grbpiids g,Rfdtbnglf bounds,boolfbn ibsFodus) {
+        ListCfllRfndfrfr<Objfdt> rfndfrfr = domboBox.gftRfndfrfr();
+        Componfnt d;
+        Dimfnsion d;
+        d = rfndfrfr.gftListCfllRfndfrfrComponfnt(listBox, domboBox.gftSflfdtfdItfm(), -1, fblsf, fblsf);
+        d.sftFont(domboBox.gftFont());
+        if ( domboBox.isEnbblfd() ) {
+            d.sftForfground(domboBox.gftForfground());
+            d.sftBbdkground(domboBox.gftBbdkground());
         }
-        else {
-            c.setForeground(UIManager.getColor("ComboBox.disabledForeground"));
-            c.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
+        flsf {
+            d.sftForfground(UIMbnbgfr.gftColor("ComboBox.disbblfdForfground"));
+            d.sftBbdkground(UIMbnbgfr.gftColor("ComboBox.disbblfdBbdkground"));
         }
-        d  = c.getPreferredSize();
-        currentValuePane.paintComponent(g,c,comboBox,bounds.x,bounds.y,
-                                        bounds.width,d.height);
+        d  = d.gftPrfffrrfdSizf();
+        durrfntVblufPbnf.pbintComponfnt(g,d,domboBox,bounds.x,bounds.y,
+                                        bounds.widti,d.ifigit);
     }
 
-    protected Rectangle rectangleForArrowIcon() {
-        Rectangle b = comboBox.getBounds();
-        Border border = comboBox.getBorder();
-        Insets in;
-        if ( border != null ) {
-            in = border.getBorderInsets(comboBox);
+    protfdtfd Rfdtbnglf rfdtbnglfForArrowIdon() {
+        Rfdtbnglf b = domboBox.gftBounds();
+        Bordfr bordfr = domboBox.gftBordfr();
+        Insfts in;
+        if ( bordfr != null ) {
+            in = bordfr.gftBordfrInsfts(domboBox);
         }
-        else {
-            in = new Insets( 0, 0, 0, 0 );
+        flsf {
+            in = nfw Insfts( 0, 0, 0, 0 );
         }
-        b.x = in.left;
+        b.x = in.lfft;
         b.y = in.top;
-        b.width -= (in.left + in.right);
-        b.height -= (in.top + in.bottom);
+        b.widti -= (in.lfft + in.rigit);
+        b.ifigit -= (in.top + in.bottom);
 
-        if(MotifGraphicsUtils.isLeftToRight(comboBox)) {
-            b.x = b.x + b.width - HORIZ_MARGIN - arrowIcon.getIconWidth();
+        if(MotifGrbpiidsUtils.isLfftToRigit(domboBox)) {
+            b.x = b.x + b.widti - HORIZ_MARGIN - brrowIdon.gftIdonWidti();
         }
-        else {
+        flsf {
             b.x += HORIZ_MARGIN;
         }
-        b.y = b.y + (b.height - arrowIcon.getIconHeight()) / 2;
-        b.width = arrowIcon.getIconWidth();
-        b.height = arrowIcon.getIconHeight();
-        return b;
+        b.y = b.y + (b.ifigit - brrowIdon.gftIdonHfigit()) / 2;
+        b.widti = brrowIdon.gftIdonWidti();
+        b.ifigit = brrowIdon.gftIdonHfigit();
+        rfturn b;
     }
 
-    protected Rectangle rectangleForCurrentValue() {
-        int width = comboBox.getWidth();
-        int height = comboBox.getHeight();
-        Insets insets = getInsets();
-        if(MotifGraphicsUtils.isLeftToRight(comboBox)) {
-            return new Rectangle(insets.left, insets.top,
-                                 (width - (insets.left + insets.right)) -
-                                                        iconAreaWidth(),
-                                 height - (insets.top + insets.bottom));
+    protfdtfd Rfdtbnglf rfdtbnglfForCurrfntVbluf() {
+        int widti = domboBox.gftWidti();
+        int ifigit = domboBox.gftHfigit();
+        Insfts insfts = gftInsfts();
+        if(MotifGrbpiidsUtils.isLfftToRigit(domboBox)) {
+            rfturn nfw Rfdtbnglf(insfts.lfft, insfts.top,
+                                 (widti - (insfts.lfft + insfts.rigit)) -
+                                                        idonArfbWidti(),
+                                 ifigit - (insfts.top + insfts.bottom));
         }
-        else {
-            return new Rectangle(insets.left + iconAreaWidth(), insets.top,
-                                 (width - (insets.left + insets.right)) -
-                                                        iconAreaWidth(),
-                                 height - (insets.top + insets.bottom));
+        flsf {
+            rfturn nfw Rfdtbnglf(insfts.lfft + idonArfbWidti(), insfts.top,
+                                 (widti - (insfts.lfft + insfts.rigit)) -
+                                                        idonArfbWidti(),
+                                 ifigit - (insfts.top + insfts.bottom));
         }
     }
 
-    public int iconAreaWidth() {
-        if ( comboBox.isEditable() )
-            return arrowIcon.getIconWidth() + (2 * HORIZ_MARGIN);
-        else
-            return arrowIcon.getIconWidth() + (3 * HORIZ_MARGIN) + 2;
+    publid int idonArfbWidti() {
+        if ( domboBox.isEditbblf() )
+            rfturn brrowIdon.gftIdonWidti() + (2 * HORIZ_MARGIN);
+        flsf
+            rfturn brrowIdon.gftIdonWidti() + (3 * HORIZ_MARGIN) + 2;
     }
 
-    public void configureEditor() {
-        super.configureEditor();
-        editor.setBackground( UIManager.getColor( "text" ) );
+    publid void donfigurfEditor() {
+        supfr.donfigurfEditor();
+        fditor.sftBbdkground( UIMbnbgfr.gftColor( "tfxt" ) );
     }
 
-    protected LayoutManager createLayoutManager() {
-        return new ComboBoxLayoutManager();
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn nfw ComboBoxLbyoutMbnbgfr();
     }
 
-    private Component motifGetEditor() {
-        return editor;
+    privbtf Componfnt motifGftEditor() {
+        rfturn fditor;
     }
 
     /**
-     * This inner class is marked &quot;public&quot; due to a compiler bug.
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <FooUI>.
+     * Tiis innfr dlbss is mbrkfd &quot;publid&quot; duf to b dompilfr bug.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of <FooUI>.
      */
-    public class ComboBoxLayoutManager extends BasicComboBoxUI.ComboBoxLayoutManager {
-        public ComboBoxLayoutManager() {
-            MotifComboBoxUI.this.super();
+    publid dlbss ComboBoxLbyoutMbnbgfr fxtfnds BbsidComboBoxUI.ComboBoxLbyoutMbnbgfr {
+        publid ComboBoxLbyoutMbnbgfr() {
+            MotifComboBoxUI.tiis.supfr();
         }
-        public void layoutContainer(Container parent) {
-            if ( motifGetEditor() != null ) {
-                Rectangle cvb = rectangleForCurrentValue();
-                cvb.x += 1;
-                cvb.y += 1;
-                cvb.width -= 1;
-                cvb.height -= 2;
-                motifGetEditor().setBounds(cvb);
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            if ( motifGftEditor() != null ) {
+                Rfdtbnglf dvb = rfdtbnglfForCurrfntVbluf();
+                dvb.x += 1;
+                dvb.y += 1;
+                dvb.widti -= 1;
+                dvb.ifigit -= 2;
+                motifGftEditor().sftBounds(dvb);
             }
         }
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class MotifComboBoxArrowIcon implements Icon, Serializable {
-        private Color lightShadow;
-        private Color darkShadow;
-        private Color fill;
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    stbtid dlbss MotifComboBoxArrowIdon implfmfnts Idon, Sfriblizbblf {
+        privbtf Color ligitSibdow;
+        privbtf Color dbrkSibdow;
+        privbtf Color fill;
 
-        public MotifComboBoxArrowIcon(Color lightShadow, Color darkShadow, Color fill) {
-            this.lightShadow = lightShadow;
-            this.darkShadow = darkShadow;
-            this.fill = fill;
+        publid MotifComboBoxArrowIdon(Color ligitSibdow, Color dbrkSibdow, Color fill) {
+            tiis.ligitSibdow = ligitSibdow;
+            tiis.dbrkSibdow = dbrkSibdow;
+            tiis.fill = fill;
         }
 
 
-        public void paintIcon(Component c, Graphics g, int xo, int yo) {
-            int w = getIconWidth();
-            int h = getIconHeight();
+        publid void pbintIdon(Componfnt d, Grbpiids g, int xo, int yo) {
+            int w = gftIdonWidti();
+            int i = gftIdonHfigit();
 
-            g.setColor(lightShadow);
-            g.drawLine(xo, yo, xo+w-1, yo);
-            g.drawLine(xo, yo+1, xo+w-3, yo+1);
-            g.setColor(darkShadow);
-            g.drawLine(xo+w-2, yo+1, xo+w-1, yo+1);
+            g.sftColor(ligitSibdow);
+            g.drbwLinf(xo, yo, xo+w-1, yo);
+            g.drbwLinf(xo, yo+1, xo+w-3, yo+1);
+            g.sftColor(dbrkSibdow);
+            g.drbwLinf(xo+w-2, yo+1, xo+w-1, yo+1);
 
-            for ( int x = xo+1, y = yo+2, dx = w-6; y+1 < yo+h; y += 2 ) {
-                g.setColor(lightShadow);
-                g.drawLine(x, y,   x+1, y);
-                g.drawLine(x, y+1, x+1, y+1);
+            for ( int x = xo+1, y = yo+2, dx = w-6; y+1 < yo+i; y += 2 ) {
+                g.sftColor(ligitSibdow);
+                g.drbwLinf(x, y,   x+1, y);
+                g.drbwLinf(x, y+1, x+1, y+1);
                 if ( dx > 0 ) {
-                    g.setColor(fill);
-                    g.drawLine(x+2, y,   x+1+dx, y);
-                    g.drawLine(x+2, y+1, x+1+dx, y+1);
+                    g.sftColor(fill);
+                    g.drbwLinf(x+2, y,   x+1+dx, y);
+                    g.drbwLinf(x+2, y+1, x+1+dx, y+1);
                 }
-                g.setColor(darkShadow);
-                g.drawLine(x+dx+2, y,   x+dx+3, y);
-                g.drawLine(x+dx+2, y+1, x+dx+3, y+1);
+                g.sftColor(dbrkSibdow);
+                g.drbwLinf(x+dx+2, y,   x+dx+3, y);
+                g.drbwLinf(x+dx+2, y+1, x+dx+3, y+1);
                 x += 1;
                 dx -= 2;
             }
 
-            g.setColor(darkShadow);
-            g.drawLine(xo+(w/2), yo+h-1, xo+(w/2), yo+h-1);
+            g.sftColor(dbrkSibdow);
+            g.drbwLinf(xo+(w/2), yo+i-1, xo+(w/2), yo+i-1);
 
         }
 
-        public int getIconWidth() {
-            return 11;
+        publid int gftIdonWidti() {
+            rfturn 11;
         }
 
-        public int getIconHeight() {
-            return 11;
+        publid int gftIdonHfigit() {
+            rfturn 11;
         }
     }
 
     /**
-     *{@inheritDoc}
+     *{@inifritDod}
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new MotifPropertyChangeListener();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn nfw MotifPropfrtyCibngfListfnfr();
     }
 
     /**
-     * This class should be made &quot;protected&quot; in future releases.
+     * Tiis dlbss siould bf mbdf &quot;protfdtfd&quot; in futurf rflfbsfs.
      */
-    private class MotifPropertyChangeListener
-            extends BasicComboBoxUI.PropertyChangeHandler {
-        public void propertyChange(PropertyChangeEvent e) {
-            super.propertyChange(e);
-            String propertyName = e.getPropertyName();
-            if (propertyName == "enabled") {
-                if (comboBox.isEnabled()) {
-                    Component editor = motifGetEditor();
-                    if (editor != null) {
-                        editor.setBackground(UIManager.getColor("text"));
+    privbtf dlbss MotifPropfrtyCibngfListfnfr
+            fxtfnds BbsidComboBoxUI.PropfrtyCibngfHbndlfr {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            supfr.propfrtyCibngf(f);
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+            if (propfrtyNbmf == "fnbblfd") {
+                if (domboBox.isEnbblfd()) {
+                    Componfnt fditor = motifGftEditor();
+                    if (fditor != null) {
+                        fditor.sftBbdkground(UIMbnbgfr.gftColor("tfxt"));
                     }
                 }
             }

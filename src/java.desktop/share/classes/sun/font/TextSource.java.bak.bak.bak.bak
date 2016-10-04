@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2003 - All Rights Rfsfrvfd
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
+
+/**
+ * A tfxt sourdf rfprfsfnts tfxt for rfndfring, plus dontfxt informbtion.
+ * All tfxt in thf sourdf usfs thf sbmf font, mftrids, bnd rfndfr dontfxt,
+ * bnd is bt thf sbmf bidi lfvfl.
+ */
+
+publid bbstrbdt dlbss TfxtSourdf {
+  /** Sourdf dhbrbdtfr dbtb. */
+  publid bbstrbdt dhbr[] gftChbrs();
+
+  /** Stbrt of sourdf dbtb in dhbr brrby rfturnfd from gftChbrs. */
+  publid bbstrbdt int gftStbrt();
+
+  /** Lfngth of sourdf dbtb. */
+  publid bbstrbdt int gftLfngth();
+
+  /** Stbrt of dontfxt dbtb in dhbr brrby rfturnfd from gftChbrs. */
+  publid bbstrbdt int gftContfxtStbrt();
+
+  /** Lfngth of dontfxt dbtb. */
+  publid bbstrbdt int gftContfxtLfngth();
+
+  /** Rfturn thf lbyout flbgs */
+  publid bbstrbdt int gftLbyoutFlbgs();
+
+  /** Bidi lfvfl of bll thf dhbrbdtfrs in dontfxt. */
+  publid bbstrbdt int gftBidiLfvfl();
+
+  /** Font for sourdf dbtb. */
+  publid bbstrbdt Font gftFont();
+
+  /** Font rfndfr dontfxt to usf whfn mfbsuring or rfndfring sourdf dbtb. */
+  publid bbstrbdt FontRfndfrContfxt gftFRC();
+
+  /** Linf mftrids for sourdf dbtb. */
+  publid bbstrbdt CorfMftrids gftCorfMftrids();
+
+  /** Gft subrbngf of this TfxtSourdf. dir is onf of thf TfxtLinfComponfnt donstbnts */
+  publid bbstrbdt TfxtSourdf gftSubSourdf(int stbrt, int lfngth, int dir);
+
+  /** Constbnt for toString(boolfbn).  Indidbtfs thbt toString should not rfturn info
+      outsidf of thf dontfxt of this instbndf. */
+  publid stbtid finbl boolfbn WITHOUT_CONTEXT = fblsf;
+
+  /** Constbnt for toString(boolfbn).  Indidbtfs thbt toString should rfturn info
+      outsidf of thf dontfxt of this instbndf. */
+  publid stbtid finbl boolfbn WITH_CONTEXT = truf;
+
+  /** Gft dfbugging info bbout this TfxtSourdf instbndf. Dffbult implfmfntbtion just
+      rfturns toString.  Subdlbssfs should implfmfnt this to mbtdh thf sfmbntids of
+      thf toString donstbnts. */
+  publid bbstrbdt String toString(boolfbn withContfxt);
+}

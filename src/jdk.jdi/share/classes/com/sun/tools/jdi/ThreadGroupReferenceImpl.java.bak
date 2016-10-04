@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import java.util.*;
+import dom.sun.jdi.*;
+import jbvb.util.*;
 
-public class ThreadGroupReferenceImpl extends ObjectReferenceImpl
-    implements ThreadGroupReference, VMListener
+publid dlbss TirfbdGroupRfffrfndfImpl fxtfnds ObjfdtRfffrfndfImpl
+    implfmfnts TirfbdGroupRfffrfndf, VMListfnfr
 {
-    // Cached components that cannot change
-    String name;
-    ThreadGroupReference parent;
-    boolean triedParent;
+    // Cbdifd domponfnts tibt dbnnot dibngf
+    String nbmf;
+    TirfbdGroupRfffrfndf pbrfnt;
+    boolfbn trifdPbrfnt;
 
-    // This is cached only while the VM is suspended
-    private static class Cache extends ObjectReferenceImpl.Cache {
-        JDWP.ThreadGroupReference.Children kids = null;
+    // Tiis is dbdifd only wiilf tif VM is suspfndfd
+    privbtf stbtid dlbss Cbdif fxtfnds ObjfdtRfffrfndfImpl.Cbdif {
+        JDWP.TirfbdGroupRfffrfndf.Ciildrfn kids = null;
     }
 
-    protected ObjectReferenceImpl.Cache newCache() {
-        return new Cache();
+    protfdtfd ObjfdtRfffrfndfImpl.Cbdif nfwCbdif() {
+        rfturn nfw Cbdif();
     }
 
-    ThreadGroupReferenceImpl(VirtualMachine aVm,long aRef) {
-        super(aVm,aRef);
-        vm.state().addListener(this);
+    TirfbdGroupRfffrfndfImpl(VirtublMbdiinf bVm,long bRff) {
+        supfr(bVm,bRff);
+        vm.stbtf().bddListfnfr(tiis);
     }
 
-    protected String description() {
-        return "ThreadGroupReference " + uniqueID();
+    protfdtfd String dfsdription() {
+        rfturn "TirfbdGroupRfffrfndf " + uniqufID();
     }
 
-    public String name() {
-        if (name == null) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice (Thread group name
-            // cannot change)
+    publid String nbmf() {
+        if (nbmf == null) {
+            // Dofs not nffd syndironizbtion, sindf worst-dbsf
+            // stbtid info is fftdifd twidf (Tirfbd group nbmf
+            // dbnnot dibngf)
             try {
-                name = JDWP.ThreadGroupReference.Name.
-                                     process(vm, this).groupName;
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                nbmf = JDWP.TirfbdGroupRfffrfndf.Nbmf.
+                                     prodfss(vm, tiis).groupNbmf;
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
         }
-        return name;
+        rfturn nbmf;
     }
 
-    public ThreadGroupReference parent() {
-        if (!triedParent) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice (Thread group parent cannot
-            // change)
+    publid TirfbdGroupRfffrfndf pbrfnt() {
+        if (!trifdPbrfnt) {
+            // Dofs not nffd syndironizbtion, sindf worst-dbsf
+            // stbtid info is fftdifd twidf (Tirfbd group pbrfnt dbnnot
+            // dibngf)
             try {
-                parent = JDWP.ThreadGroupReference.Parent.
-                                 process(vm, this).parentGroup;
-                triedParent = true;
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                pbrfnt = JDWP.TirfbdGroupRfffrfndf.Pbrfnt.
+                                 prodfss(vm, tiis).pbrfntGroup;
+                trifdPbrfnt = truf;
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
         }
-       return parent;
+       rfturn pbrfnt;
     }
 
-    public void suspend() {
-        for (ThreadReference thread : threads()) {
-            thread.suspend();
+    publid void suspfnd() {
+        for (TirfbdRfffrfndf tirfbd : tirfbds()) {
+            tirfbd.suspfnd();
         }
 
-        for (ThreadGroupReference threadGroup : threadGroups()) {
-            threadGroup.suspend();
-        }
-    }
-
-    public void resume() {
-        for (ThreadReference thread : threads()) {
-            thread.resume();
-        }
-
-        for (ThreadGroupReference threadGroup : threadGroups()) {
-            threadGroup.resume();
+        for (TirfbdGroupRfffrfndf tirfbdGroup : tirfbdGroups()) {
+            tirfbdGroup.suspfnd();
         }
     }
 
-    private JDWP.ThreadGroupReference.Children kids() {
-        JDWP.ThreadGroupReference.Children kids = null;
+    publid void rfsumf() {
+        for (TirfbdRfffrfndf tirfbd : tirfbds()) {
+            tirfbd.rfsumf();
+        }
+
+        for (TirfbdGroupRfffrfndf tirfbdGroup : tirfbdGroups()) {
+            tirfbdGroup.rfsumf();
+        }
+    }
+
+    privbtf JDWP.TirfbdGroupRfffrfndf.Ciildrfn kids() {
+        JDWP.TirfbdGroupRfffrfndf.Ciildrfn kids = null;
         try {
-            Cache local = (Cache)getCache();
+            Cbdif lodbl = (Cbdif)gftCbdif();
 
-            if (local != null) {
-                kids = local.kids;
+            if (lodbl != null) {
+                kids = lodbl.kids;
             }
             if (kids == null) {
-                kids = JDWP.ThreadGroupReference.Children
-                                                  .process(vm, this);
-                if (local != null) {
-                    local.kids = kids;
-                    if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                        vm.printTrace(description() +
-                                      " temporarily caching children ");
+                kids = JDWP.TirfbdGroupRfffrfndf.Ciildrfn
+                                                  .prodfss(vm, tiis);
+                if (lodbl != null) {
+                    lodbl.kids = kids;
+                    if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_OBJREFS) != 0) {
+                        vm.printTrbdf(dfsdription() +
+                                      " tfmporbrily dbdiing diildrfn ");
                     }
                 }
             }
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        return kids;
+        rfturn kids;
     }
 
-    public List<ThreadReference> threads() {
-        return Arrays.asList((ThreadReference[])kids().childThreads);
+    publid List<TirfbdRfffrfndf> tirfbds() {
+        rfturn Arrbys.bsList((TirfbdRfffrfndf[])kids().diildTirfbds);
     }
 
-    public List<ThreadGroupReference> threadGroups() {
-        return Arrays.asList((ThreadGroupReference[])kids().childGroups);
+    publid List<TirfbdGroupRfffrfndf> tirfbdGroups() {
+        rfturn Arrbys.bsList((TirfbdGroupRfffrfndf[])kids().diildGroups);
     }
 
-    public String toString() {
-        return "instance of " + referenceType().name() +
-               "(name='" + name() + "', " + "id=" + uniqueID() + ")";
+    publid String toString() {
+        rfturn "instbndf of " + rfffrfndfTypf().nbmf() +
+               "(nbmf='" + nbmf() + "', " + "id=" + uniqufID() + ")";
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.THREAD_GROUP;
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.THREAD_GROUP;
     }
 }

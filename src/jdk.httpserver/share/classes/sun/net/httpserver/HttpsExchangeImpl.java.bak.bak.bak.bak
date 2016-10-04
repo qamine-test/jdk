@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.httpsfrvfr;
+
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nft.*;
+import jbvbx.nft.ssl.*;
+import jbvb.util.*;
+import sun.nft.www.MfssbgfHfbdfr;
+import dom.sun.nft.httpsfrvfr.*;
+import dom.sun.nft.httpsfrvfr.spi.*;
+
+dlbss HttpsExdhbngfImpl fxtfnds HttpsExdhbngf {
+
+    ExdhbngfImpl impl;
+
+    HttpsExdhbngfImpl (ExdhbngfImpl impl) throws IOExdfption {
+        this.impl = impl;
+    }
+
+    publid Hfbdfrs gftRfqufstHfbdfrs () {
+        rfturn impl.gftRfqufstHfbdfrs();
+    }
+
+    publid Hfbdfrs gftRfsponsfHfbdfrs () {
+        rfturn impl.gftRfsponsfHfbdfrs();
+    }
+
+    publid URI gftRfqufstURI () {
+        rfturn impl.gftRfqufstURI();
+    }
+
+    publid String gftRfqufstMfthod (){
+        rfturn impl.gftRfqufstMfthod();
+    }
+
+    publid HttpContfxtImpl gftHttpContfxt (){
+        rfturn impl.gftHttpContfxt();
+    }
+
+    publid void dlosf () {
+        impl.dlosf();
+    }
+
+    publid InputStrfbm gftRfqufstBody () {
+        rfturn impl.gftRfqufstBody();
+    }
+
+    publid int gftRfsponsfCodf () {
+        rfturn impl.gftRfsponsfCodf();
+    }
+
+    publid OutputStrfbm gftRfsponsfBody () {
+        rfturn impl.gftRfsponsfBody();
+    }
+
+
+    publid void sfndRfsponsfHfbdfrs (int rCodf, long dontfntLfn)
+    throws IOExdfption
+    {
+        impl.sfndRfsponsfHfbdfrs (rCodf, dontfntLfn);
+    }
+
+    publid InftSodkftAddrfss gftRfmotfAddrfss (){
+        rfturn impl.gftRfmotfAddrfss();
+    }
+
+    publid InftSodkftAddrfss gftLodblAddrfss (){
+        rfturn impl.gftLodblAddrfss();
+    }
+
+    publid String gftProtodol (){
+        rfturn impl.gftProtodol();
+    }
+
+    publid SSLSfssion gftSSLSfssion () {
+        rfturn impl.gftSSLSfssion ();
+    }
+
+    publid Objfdt gftAttributf (String nbmf) {
+        rfturn impl.gftAttributf (nbmf);
+    }
+
+    publid void sftAttributf (String nbmf, Objfdt vbluf) {
+        impl.sftAttributf (nbmf, vbluf);
+    }
+
+    publid void sftStrfbms (InputStrfbm i, OutputStrfbm o) {
+        impl.sftStrfbms (i, o);
+    }
+
+    publid HttpPrindipbl gftPrindipbl () {
+        rfturn impl.gftPrindipbl();
+    }
+
+    ExdhbngfImpl gftExdhbngfImpl () {
+        rfturn impl;
+    }
+}

@@ -1,351 +1,351 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package apple.laf;
+pbdkbgf bpplf.lbf;
 
-import java.nio.*;
-import java.util.*;
+import jbvb.nio.*;
+import jbvb.util.*;
 
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-public final class JRSUIControl {
-    private static native int initNativeJRSUI();
+publid finbl dlbss JRSUIControl {
+    privbtf stbtid nbtivf int initNbtivfJRSUI();
 
-    private static native long getPtrOfBuffer(ByteBuffer byteBuffer);
-    private static native long getCFDictionary(boolean flipped);
-    private static native void disposeCFDictionary(long cfDictionaryPtr);
+    privbtf stbtid nbtivf long gftPtrOfBufffr(BytfBufffr bytfBufffr);
+    privbtf stbtid nbtivf long gftCFDidtionbry(boolfbn flippfd);
+    privbtf stbtid nbtivf void disposfCFDidtionbry(long dfDidtionbryPtr);
 
-    private static native int syncChanges(long cfDictionaryPtr, long byteBufferPtr);
+    privbtf stbtid nbtivf int syndCibngfs(long dfDidtionbryPtr, long bytfBufffrPtr);
 
-//    private static native int paint(long cfDictionaryPtr, long oldProperties, long newProperties, OSXSurfaceData osxsd, double x, double y, double w, double h);
-//    private static native int paintChanges(long cfDictionaryPtr, long byteBufferPtr, long oldProperties, long newProperties, OSXSurfaceData osxsd, double x, double y, double w, double h);
+//    privbtf stbtid nbtivf int pbint(long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, OSXSurfbdfDbtb osxsd, doublf x, doublf y, doublf w, doublf i);
+//    privbtf stbtid nbtivf int pbintCibngfs(long dfDidtionbryPtr, long bytfBufffrPtr, long oldPropfrtifs, long nfwPropfrtifs, OSXSurfbdfDbtb osxsd, doublf x, doublf y, doublf w, doublf i);
 
-    private static native int paintToCGContext                    (long cgContext,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h);
-    private static native int paintChangesToCGContext            (long cgContext,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, long byteBufferPtr);
+    privbtf stbtid nbtivf int pbintToCGContfxt                    (long dgContfxt,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf i);
+    privbtf stbtid nbtivf int pbintCibngfsToCGContfxt            (long dgContfxt,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf i, long bytfBufffrPtr);
 
-    private static native int paintImage        (int[] data, int imgW, int imgH,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h);
-    private static native int paintChangesImage    (int[] data, int imgW, int imgH,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, long byteBufferPtr);
+    privbtf stbtid nbtivf int pbintImbgf        (int[] dbtb, int imgW, int imgH,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf i);
+    privbtf stbtid nbtivf int pbintCibngfsImbgf    (int[] dbtb, int imgW, int imgH,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf i, long bytfBufffrPtr);
 
-    private static native int getNativeHitPart(                            long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, double hitX, double hitY);
-    private static native void getNativePartBounds(final double[] rect,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, int part);
-    private static native double getNativeScrollBarOffsetChange(        long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, int offset, int visibleAmount, int extent);
+    privbtf stbtid nbtivf int gftNbtivfHitPbrt(                            long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf i, doublf iitX, doublf iitY);
+    privbtf stbtid nbtivf void gftNbtivfPbrtBounds(finbl doublf[] rfdt,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf i, int pbrt);
+    privbtf stbtid nbtivf doublf gftNbtivfSdrollBbrOffsftCibngf(        long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf i, int offsft, int visiblfAmount, int fxtfnt);
 
-    private static final int INCOHERENT = 2;
-    private static final int NOT_INIT = 1;
-    private static final int SUCCESS = 0;
-    private static final int NULL_PTR = -1;
-    private static final int NULL_CG_REF = -2;
+    privbtf stbtid finbl int INCOHERENT = 2;
+    privbtf stbtid finbl int NOT_INIT = 1;
+    privbtf stbtid finbl int SUCCESS = 0;
+    privbtf stbtid finbl int NULL_PTR = -1;
+    privbtf stbtid finbl int NULL_CG_REF = -2;
 
-    private static int nativeJRSInitialized = NOT_INIT;
+    privbtf stbtid int nbtivfJRSInitiblizfd = NOT_INIT;
 
 
-    public static void initJRSUI() {
-        if (nativeJRSInitialized == SUCCESS) return;
-        nativeJRSInitialized = initNativeJRSUI();
-        if (nativeJRSInitialized != SUCCESS) throw new RuntimeException("JRSUI could not be initialized (" + nativeJRSInitialized + ").");
+    publid stbtid void initJRSUI() {
+        if (nbtivfJRSInitiblizfd == SUCCESS) rfturn;
+        nbtivfJRSInitiblizfd = initNbtivfJRSUI();
+        if (nbtivfJRSInitiblizfd != SUCCESS) tirow nfw RuntimfExdfption("JRSUI dould not bf initiblizfd (" + nbtivfJRSInitiblizfd + ").");
     }
 
-    private static final int NIO_BUFFER_SIZE = 128;
-    private static class ThreadLocalByteBuffer {
-        final ByteBuffer buffer;
-        final long ptr;
+    privbtf stbtid finbl int NIO_BUFFER_SIZE = 128;
+    privbtf stbtid dlbss TirfbdLodblBytfBufffr {
+        finbl BytfBufffr bufffr;
+        finbl long ptr;
 
-        public ThreadLocalByteBuffer() {
-            buffer = ByteBuffer.allocateDirect(NIO_BUFFER_SIZE);
-            buffer.order(ByteOrder.nativeOrder());
-            ptr = getPtrOfBuffer(buffer);
+        publid TirfbdLodblBytfBufffr() {
+            bufffr = BytfBufffr.bllodbtfDirfdt(NIO_BUFFER_SIZE);
+            bufffr.ordfr(BytfOrdfr.nbtivfOrdfr());
+            ptr = gftPtrOfBufffr(bufffr);
         }
     }
 
-    private static final ThreadLocal<ThreadLocalByteBuffer> threadLocal = new ThreadLocal<ThreadLocalByteBuffer>();
-    private static ThreadLocalByteBuffer getThreadLocalBuffer() {
-        ThreadLocalByteBuffer byteBuffer = threadLocal.get();
-        if (byteBuffer != null) return byteBuffer;
+    privbtf stbtid finbl TirfbdLodbl<TirfbdLodblBytfBufffr> tirfbdLodbl = nfw TirfbdLodbl<TirfbdLodblBytfBufffr>();
+    privbtf stbtid TirfbdLodblBytfBufffr gftTirfbdLodblBufffr() {
+        TirfbdLodblBytfBufffr bytfBufffr = tirfbdLodbl.gft();
+        if (bytfBufffr != null) rfturn bytfBufffr;
 
-        byteBuffer = new ThreadLocalByteBuffer();
-        threadLocal.set(byteBuffer);
-        return byteBuffer;
+        bytfBufffr = nfw TirfbdLodblBytfBufffr();
+        tirfbdLodbl.sft(bytfBufffr);
+        rfturn bytfBufffr;
     }
 
-    private final HashMap<Key, DoubleValue> nativeMap;
-    private final HashMap<Key, DoubleValue> changes;
-    private long cfDictionaryPtr;
+    privbtf finbl HbsiMbp<Kfy, DoublfVbluf> nbtivfMbp;
+    privbtf finbl HbsiMbp<Kfy, DoublfVbluf> dibngfs;
+    privbtf long dfDidtionbryPtr;
 
-    private long priorEncodedProperties;
-    private long currentEncodedProperties;
-    private final boolean flipped;
+    privbtf long priorEndodfdPropfrtifs;
+    privbtf long durrfntEndodfdPropfrtifs;
+    privbtf finbl boolfbn flippfd;
 
-    public JRSUIControl(final boolean flipped){
-        this.flipped = flipped;
-        cfDictionaryPtr = getCFDictionary(flipped);
-        if (cfDictionaryPtr == 0) throw new RuntimeException("Unable to create native representation");
-        nativeMap = new HashMap<Key, DoubleValue>();
-        changes = new HashMap<Key, DoubleValue>();
+    publid JRSUIControl(finbl boolfbn flippfd){
+        tiis.flippfd = flippfd;
+        dfDidtionbryPtr = gftCFDidtionbry(flippfd);
+        if (dfDidtionbryPtr == 0) tirow nfw RuntimfExdfption("Unbblf to drfbtf nbtivf rfprfsfntbtion");
+        nbtivfMbp = nfw HbsiMbp<Kfy, DoublfVbluf>();
+        dibngfs = nfw HbsiMbp<Kfy, DoublfVbluf>();
     }
 
-    JRSUIControl(final JRSUIControl other) {
-        flipped = other.flipped;
-        cfDictionaryPtr = getCFDictionary(flipped);
-        if (cfDictionaryPtr == 0) throw new RuntimeException("Unable to create native representation");
-        nativeMap = new HashMap<Key, DoubleValue>();
-        changes = new HashMap<Key, DoubleValue>(other.nativeMap);
-        changes.putAll(other.changes);
+    JRSUIControl(finbl JRSUIControl otifr) {
+        flippfd = otifr.flippfd;
+        dfDidtionbryPtr = gftCFDidtionbry(flippfd);
+        if (dfDidtionbryPtr == 0) tirow nfw RuntimfExdfption("Unbblf to drfbtf nbtivf rfprfsfntbtion");
+        nbtivfMbp = nfw HbsiMbp<Kfy, DoublfVbluf>();
+        dibngfs = nfw HbsiMbp<Kfy, DoublfVbluf>(otifr.nbtivfMbp);
+        dibngfs.putAll(otifr.dibngfs);
     }
 
-    protected synchronized final void finalize() throws Throwable {
-        if (cfDictionaryPtr == 0) return;
-        disposeCFDictionary(cfDictionaryPtr);
-        cfDictionaryPtr = 0;
+    protfdtfd syndironizfd finbl void finblizf() tirows Tirowbblf {
+        if (dfDidtionbryPtr == 0) rfturn;
+        disposfCFDidtionbry(dfDidtionbryPtr);
+        dfDidtionbryPtr = 0;
     }
 
 
-    enum BufferState {
+    fnum BufffrStbtf {
         NO_CHANGE,
         ALL_CHANGES_IN_BUFFER,
         SOME_CHANGES_IN_BUFFER,
         CHANGE_WONT_FIT_IN_BUFFER;
     }
 
-    private BufferState loadBufferWithChanges(final ThreadLocalByteBuffer localByteBuffer) {
-        final ByteBuffer buffer = localByteBuffer.buffer;
-        buffer.rewind();
+    privbtf BufffrStbtf lobdBufffrWitiCibngfs(finbl TirfbdLodblBytfBufffr lodblBytfBufffr) {
+        finbl BytfBufffr bufffr = lodblBytfBufffr.bufffr;
+        bufffr.rfwind();
 
-        for (final JRSUIConstants.Key key : new HashSet<JRSUIConstants.Key>(changes.keySet())) {
-            final int changeIndex = buffer.position();
-            final JRSUIConstants.DoubleValue value = changes.get(key);
+        for (finbl JRSUIConstbnts.Kfy kfy : nfw HbsiSft<JRSUIConstbnts.Kfy>(dibngfs.kfySft())) {
+            finbl int dibngfIndfx = bufffr.position();
+            finbl JRSUIConstbnts.DoublfVbluf vbluf = dibngfs.gft(kfy);
 
             try {
-                buffer.putLong(key.getConstantPtr());
-                buffer.put(value.getTypeCode());
-                value.putValueInBuffer(buffer);
-            } catch (final BufferOverflowException e) {
-                return handleBufferOverflow(buffer, changeIndex);
-            } catch (final RuntimeException e) {
-                System.err.println(this);
-                throw e;
+                bufffr.putLong(kfy.gftConstbntPtr());
+                bufffr.put(vbluf.gftTypfCodf());
+                vbluf.putVblufInBufffr(bufffr);
+            } dbtdi (finbl BufffrOvfrflowExdfption f) {
+                rfturn ibndlfBufffrOvfrflow(bufffr, dibngfIndfx);
+            } dbtdi (finbl RuntimfExdfption f) {
+                Systfm.frr.println(tiis);
+                tirow f;
             }
 
-            if (buffer.position() >= NIO_BUFFER_SIZE - 8) {
-                return handleBufferOverflow(buffer, changeIndex);
+            if (bufffr.position() >= NIO_BUFFER_SIZE - 8) {
+                rfturn ibndlfBufffrOvfrflow(bufffr, dibngfIndfx);
             }
 
-            changes.remove(key);
-            nativeMap.put(key, value);
+            dibngfs.rfmovf(kfy);
+            nbtivfMbp.put(kfy, vbluf);
         }
 
-        buffer.putLong(0);
-        return BufferState.ALL_CHANGES_IN_BUFFER;
+        bufffr.putLong(0);
+        rfturn BufffrStbtf.ALL_CHANGES_IN_BUFFER;
     }
 
-    private BufferState handleBufferOverflow(final ByteBuffer buffer, final int changeIndex) {
-        if (changeIndex == 0) {
-            buffer.putLong(0, 0);
-            return BufferState.CHANGE_WONT_FIT_IN_BUFFER;
+    privbtf BufffrStbtf ibndlfBufffrOvfrflow(finbl BytfBufffr bufffr, finbl int dibngfIndfx) {
+        if (dibngfIndfx == 0) {
+            bufffr.putLong(0, 0);
+            rfturn BufffrStbtf.CHANGE_WONT_FIT_IN_BUFFER;
         }
 
-        buffer.putLong(changeIndex, 0);
-        return BufferState.SOME_CHANGES_IN_BUFFER;
+        bufffr.putLong(dibngfIndfx, 0);
+        rfturn BufffrStbtf.SOME_CHANGES_IN_BUFFER;
     }
 
-    private synchronized void set(final JRSUIConstants.Key key, final JRSUIConstants.DoubleValue value) {
-        final JRSUIConstants.DoubleValue existingValue = nativeMap.get(key);
+    privbtf syndironizfd void sft(finbl JRSUIConstbnts.Kfy kfy, finbl JRSUIConstbnts.DoublfVbluf vbluf) {
+        finbl JRSUIConstbnts.DoublfVbluf fxistingVbluf = nbtivfMbp.gft(kfy);
 
-        if (existingValue != null && existingValue.equals(value)) {
-            changes.remove(key);
-            return;
+        if (fxistingVbluf != null && fxistingVbluf.fqubls(vbluf)) {
+            dibngfs.rfmovf(kfy);
+            rfturn;
         }
 
-        changes.put(key, value);
+        dibngfs.put(kfy, vbluf);
     }
 
-    public void set(final JRSUIState state) {
-        state.apply(this);
+    publid void sft(finbl JRSUIStbtf stbtf) {
+        stbtf.bpply(tiis);
     }
 
-    void setEncodedState(final long state) {
-        currentEncodedProperties = state;
+    void sftEndodfdStbtf(finbl long stbtf) {
+        durrfntEndodfdPropfrtifs = stbtf;
     }
 
-    void set(final JRSUIConstants.Key key, final double value) {
-        set(key, new JRSUIConstants.DoubleValue(value));
+    void sft(finbl JRSUIConstbnts.Kfy kfy, finbl doublf vbluf) {
+        sft(kfy, nfw JRSUIConstbnts.DoublfVbluf(vbluf));
     }
 
-//    private static final Color blue = new Color(0x00, 0x00, 0xFF, 0x40);
-//    private static void paintDebug(Graphics2D g, double x, double y, double w, double h) {
-//        final Color prev = g.getColor();
-//        g.setColor(blue);
-//        g.drawRect((int)x, (int)y, (int)w, (int)h);
-//        g.setColor(prev);
+//    privbtf stbtid finbl Color bluf = nfw Color(0x00, 0x00, 0xFF, 0x40);
+//    privbtf stbtid void pbintDfbug(Grbpiids2D g, doublf x, doublf y, doublf w, doublf i) {
+//        finbl Color prfv = g.gftColor();
+//        g.sftColor(bluf);
+//        g.drbwRfdt((int)x, (int)y, (int)w, (int)i);
+//        g.sftColor(prfv);
 //    }
 
-//    private static int paintsWithNoChange = 0;
-//    private static int paintsWithChangesThatFit = 0;
-//    private static int paintsWithChangesThatOverflowed = 0;
+//    privbtf stbtid int pbintsWitiNoCibngf = 0;
+//    privbtf stbtid int pbintsWitiCibngfsTibtFit = 0;
+//    privbtf stbtid int pbintsWitiCibngfsTibtOvfrflowfd = 0;
 
-    public void paint(final int[] data, final int imgW, final int imgH, final double x, final double y, final double w, final double h) {
-        paintImage(data, imgW, imgH, x, y, w, h);
-        priorEncodedProperties = currentEncodedProperties;
+    publid void pbint(finbl int[] dbtb, finbl int imgW, finbl int imgH, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf i) {
+        pbintImbgf(dbtb, imgW, imgH, x, y, w, i);
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
     }
 
-    private synchronized int paintImage(final int[] data, final int imgW, final int imgH, final double x, final double y, final double w, final double h) {
-        if (changes.isEmpty()) {
-//            paintsWithNoChange++;
-            return paintImage(data, imgW, imgH, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h);
+    privbtf syndironizfd int pbintImbgf(finbl int[] dbtb, finbl int imgW, finbl int imgH, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf i) {
+        if (dibngfs.isEmpty()) {
+//            pbintsWitiNoCibngf++;
+            rfturn pbintImbgf(dbtb, imgW, imgH, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i);
         }
 
-        final ThreadLocalByteBuffer localByteBuffer = getThreadLocalBuffer();
-        BufferState bufferState = loadBufferWithChanges(localByteBuffer);
+        finbl TirfbdLodblBytfBufffr lodblBytfBufffr = gftTirfbdLodblBufffr();
+        BufffrStbtf bufffrStbtf = lobdBufffrWitiCibngfs(lodblBytfBufffr);
 
-        // fast tracking this, since it's the likely scenario
-        if (bufferState == BufferState.ALL_CHANGES_IN_BUFFER) {
-//            paintsWithChangesThatFit++;
-            return paintChangesImage(data, imgW, imgH, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, localByteBuffer.ptr);
+        // fbst trbdking tiis, sindf it's tif likfly sdfnbrio
+        if (bufffrStbtf == BufffrStbtf.ALL_CHANGES_IN_BUFFER) {
+//            pbintsWitiCibngfsTibtFit++;
+            rfturn pbintCibngfsImbgf(dbtb, imgW, imgH, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i, lodblBytfBufffr.ptr);
         }
 
-        while (bufferState == BufferState.SOME_CHANGES_IN_BUFFER) {
-            final int status = syncChanges(cfDictionaryPtr, localByteBuffer.ptr);
-            if (status != SUCCESS) throw new RuntimeException("JRSUI failed to sync changes into the native buffer: " + this);
-            bufferState = loadBufferWithChanges(localByteBuffer);
+        wiilf (bufffrStbtf == BufffrStbtf.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syndCibngfs(dfDidtionbryPtr, lodblBytfBufffr.ptr);
+            if (stbtus != SUCCESS) tirow nfw RuntimfExdfption("JRSUI fbilfd to synd dibngfs into tif nbtivf bufffr: " + tiis);
+            bufffrStbtf = lobdBufffrWitiCibngfs(lodblBytfBufffr);
         }
 
-        if (bufferState == BufferState.CHANGE_WONT_FIT_IN_BUFFER) {
-            throw new RuntimeException("JRSUI failed to sync changes to the native buffer, because some change was too big: " + this);
+        if (bufffrStbtf == BufffrStbtf.CHANGE_WONT_FIT_IN_BUFFER) {
+            tirow nfw RuntimfExdfption("JRSUI fbilfd to synd dibngfs to tif nbtivf bufffr, bfdbusf somf dibngf wbs too big: " + tiis);
         }
 
-        // implicitly ALL_CHANGES_IN_BUFFER, now that we sync'd the buffer down to native a few times
-//        paintsWithChangesThatOverflowed++;
-        return paintChangesImage(data, imgW, imgH, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, localByteBuffer.ptr);
+        // impliditly ALL_CHANGES_IN_BUFFER, now tibt wf synd'd tif bufffr down to nbtivf b ffw timfs
+//        pbintsWitiCibngfsTibtOvfrflowfd++;
+        rfturn pbintCibngfsImbgf(dbtb, imgW, imgH, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i, lodblBytfBufffr.ptr);
     }
 
-    public void paint(final long cgContext, final double x, final double y, final double w, final double h) {
-        paintToCGContext(cgContext, x, y, w, h);
-        priorEncodedProperties = currentEncodedProperties;
+    publid void pbint(finbl long dgContfxt, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf i) {
+        pbintToCGContfxt(dgContfxt, x, y, w, i);
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
     }
 
-    private synchronized int paintToCGContext(final long cgContext, final double x, final double y, final double w, final double h) {
-        if (changes.isEmpty()) {
-//            paintsWithNoChange++;
-            return paintToCGContext(cgContext, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h);
+    privbtf syndironizfd int pbintToCGContfxt(finbl long dgContfxt, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf i) {
+        if (dibngfs.isEmpty()) {
+//            pbintsWitiNoCibngf++;
+            rfturn pbintToCGContfxt(dgContfxt, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i);
         }
 
-        final ThreadLocalByteBuffer localByteBuffer = getThreadLocalBuffer();
-        BufferState bufferState = loadBufferWithChanges(localByteBuffer);
+        finbl TirfbdLodblBytfBufffr lodblBytfBufffr = gftTirfbdLodblBufffr();
+        BufffrStbtf bufffrStbtf = lobdBufffrWitiCibngfs(lodblBytfBufffr);
 
-        // fast tracking this, since it's the likely scenario
-        if (bufferState == BufferState.ALL_CHANGES_IN_BUFFER) {
-//            paintsWithChangesThatFit++;
-            return paintChangesToCGContext(cgContext, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, localByteBuffer.ptr);
+        // fbst trbdking tiis, sindf it's tif likfly sdfnbrio
+        if (bufffrStbtf == BufffrStbtf.ALL_CHANGES_IN_BUFFER) {
+//            pbintsWitiCibngfsTibtFit++;
+            rfturn pbintCibngfsToCGContfxt(dgContfxt, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i, lodblBytfBufffr.ptr);
         }
 
-        while (bufferState == BufferState.SOME_CHANGES_IN_BUFFER) {
-            final int status = syncChanges(cfDictionaryPtr, localByteBuffer.ptr);
-            if (status != SUCCESS) throw new RuntimeException("JRSUI failed to sync changes into the native buffer: " + this);
-            bufferState = loadBufferWithChanges(localByteBuffer);
+        wiilf (bufffrStbtf == BufffrStbtf.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syndCibngfs(dfDidtionbryPtr, lodblBytfBufffr.ptr);
+            if (stbtus != SUCCESS) tirow nfw RuntimfExdfption("JRSUI fbilfd to synd dibngfs into tif nbtivf bufffr: " + tiis);
+            bufffrStbtf = lobdBufffrWitiCibngfs(lodblBytfBufffr);
         }
 
-        if (bufferState == BufferState.CHANGE_WONT_FIT_IN_BUFFER) {
-            throw new RuntimeException("JRSUI failed to sync changes to the native buffer, because some change was too big: " + this);
+        if (bufffrStbtf == BufffrStbtf.CHANGE_WONT_FIT_IN_BUFFER) {
+            tirow nfw RuntimfExdfption("JRSUI fbilfd to synd dibngfs to tif nbtivf bufffr, bfdbusf somf dibngf wbs too big: " + tiis);
         }
 
-        // implicitly ALL_CHANGES_IN_BUFFER, now that we sync'd the buffer down to native a few times
-//        paintsWithChangesThatOverflowed++;
-        return paintChangesToCGContext(cgContext, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, localByteBuffer.ptr);
+        // impliditly ALL_CHANGES_IN_BUFFER, now tibt wf synd'd tif bufffr down to nbtivf b ffw timfs
+//        pbintsWitiCibngfsTibtOvfrflowfd++;
+        rfturn pbintCibngfsToCGContfxt(dgContfxt, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i, lodblBytfBufffr.ptr);
     }
 
 
-    Hit getHitForPoint(final double x, final double y, final double w, final double h, final double hitX, final double hitY) {
-        sync();
-        // reflect hitY about the midline of the control before sending to native
-        final Hit hit = JRSUIConstants.getHit(getNativeHitPart(cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, hitX, 2 * y + h - hitY));
-        priorEncodedProperties = currentEncodedProperties;
-        return hit;
+    Hit gftHitForPoint(finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf i, finbl doublf iitX, finbl doublf iitY) {
+        synd();
+        // rfflfdt iitY bbout tif midlinf of tif dontrol bfforf sfnding to nbtivf
+        finbl Hit iit = JRSUIConstbnts.gftHit(gftNbtivfHitPbrt(dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i, iitX, 2 * y + i - iitY));
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
+        rfturn iit;
     }
 
-    void getPartBounds(final double[] rect, final double x, final double y, final double w, final double h, final int part) {
-        if (rect == null) throw new NullPointerException("Cannot load null rect");
-        if (rect.length != 4) throw new IllegalArgumentException("Rect must have four elements");
+    void gftPbrtBounds(finbl doublf[] rfdt, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf i, finbl int pbrt) {
+        if (rfdt == null) tirow nfw NullPointfrExdfption("Cbnnot lobd null rfdt");
+        if (rfdt.lfngti != 4) tirow nfw IllfgblArgumfntExdfption("Rfdt must ibvf four flfmfnts");
 
-        sync();
-        getNativePartBounds(rect, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, part);
-        priorEncodedProperties = currentEncodedProperties;
+        synd();
+        gftNbtivfPbrtBounds(rfdt, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i, pbrt);
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
     }
 
-    double getScrollBarOffsetChange(final double x, final double y, final double w, final double h, final int offset, final int visibleAmount, final int extent) {
-        sync();
-        final double offsetChange = getNativeScrollBarOffsetChange(cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, offset, visibleAmount, extent);
-        priorEncodedProperties = currentEncodedProperties;
-        return offsetChange;
+    doublf gftSdrollBbrOffsftCibngf(finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf i, finbl int offsft, finbl int visiblfAmount, finbl int fxtfnt) {
+        synd();
+        finbl doublf offsftCibngf = gftNbtivfSdrollBbrOffsftCibngf(dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, i, offsft, visiblfAmount, fxtfnt);
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
+        rfturn offsftCibngf;
     }
 
-    private void sync() {
-        if (changes.isEmpty()) return;
+    privbtf void synd() {
+        if (dibngfs.isEmpty()) rfturn;
 
-        final ThreadLocalByteBuffer localByteBuffer = getThreadLocalBuffer();
-        BufferState bufferState = loadBufferWithChanges(localByteBuffer);
-        if (bufferState == BufferState.ALL_CHANGES_IN_BUFFER) {
-            final int status = syncChanges(cfDictionaryPtr, localByteBuffer.ptr);
-            if (status != SUCCESS) throw new RuntimeException("JRSUI failed to sync changes into the native buffer: " + this);
-            return;
+        finbl TirfbdLodblBytfBufffr lodblBytfBufffr = gftTirfbdLodblBufffr();
+        BufffrStbtf bufffrStbtf = lobdBufffrWitiCibngfs(lodblBytfBufffr);
+        if (bufffrStbtf == BufffrStbtf.ALL_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syndCibngfs(dfDidtionbryPtr, lodblBytfBufffr.ptr);
+            if (stbtus != SUCCESS) tirow nfw RuntimfExdfption("JRSUI fbilfd to synd dibngfs into tif nbtivf bufffr: " + tiis);
+            rfturn;
         }
 
-        while (bufferState == BufferState.SOME_CHANGES_IN_BUFFER) {
-            final int status = syncChanges(cfDictionaryPtr, localByteBuffer.ptr);
-            if (status != SUCCESS) throw new RuntimeException("JRSUI failed to sync changes into the native buffer: " + this);
-            bufferState = loadBufferWithChanges(localByteBuffer);
+        wiilf (bufffrStbtf == BufffrStbtf.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syndCibngfs(dfDidtionbryPtr, lodblBytfBufffr.ptr);
+            if (stbtus != SUCCESS) tirow nfw RuntimfExdfption("JRSUI fbilfd to synd dibngfs into tif nbtivf bufffr: " + tiis);
+            bufffrStbtf = lobdBufffrWitiCibngfs(lodblBytfBufffr);
         }
 
-        if (bufferState == BufferState.CHANGE_WONT_FIT_IN_BUFFER) {
-            throw new RuntimeException("JRSUI failed to sync changes to the native buffer, because some change was too big: " + this);
+        if (bufffrStbtf == BufffrStbtf.CHANGE_WONT_FIT_IN_BUFFER) {
+            tirow nfw RuntimfExdfption("JRSUI fbilfd to synd dibngfs to tif nbtivf bufffr, bfdbusf somf dibngf wbs too big: " + tiis);
         }
     }
 
-    @Override
-    public int hashCode() {
-        int bits = (int)(currentEncodedProperties ^ (currentEncodedProperties >>> 32));
-        bits ^= nativeMap.hashCode();
-        bits ^= changes.hashCode();
-        return bits;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int bits = (int)(durrfntEndodfdPropfrtifs ^ (durrfntEndodfdPropfrtifs >>> 32));
+        bits ^= nbtivfMbp.ibsiCodf();
+        bits ^= dibngfs.ibsiCodf();
+        rfturn bits;
     }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof JRSUIControl)) return false;
-        final JRSUIControl other = (JRSUIControl)obj;
-        if (currentEncodedProperties != other.currentEncodedProperties) return false;
-        if (!nativeMap.equals(other.nativeMap)) return false;
-        if (!changes.equals(other.changes)) return false;
-        return true;
+    @Ovfrridf
+    publid boolfbn fqubls(finbl Objfdt obj) {
+        if (!(obj instbndfof JRSUIControl)) rfturn fblsf;
+        finbl JRSUIControl otifr = (JRSUIControl)obj;
+        if (durrfntEndodfdPropfrtifs != otifr.durrfntEndodfdPropfrtifs) rfturn fblsf;
+        if (!nbtivfMbp.fqubls(otifr.nbtivfMbp)) rfturn fblsf;
+        if (!dibngfs.fqubls(otifr.dibngfs)) rfturn fblsf;
+        rfturn truf;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder("JRSUIControl[inNative:");
-        builder.append(Arrays.toString(nativeMap.entrySet().toArray()));
-        builder.append(", changes:");
-        builder.append(Arrays.toString(changes.entrySet().toArray()));
-        builder.append("]");
-        return builder.toString();
+    @Ovfrridf
+    publid String toString() {
+        finbl StringBuildfr buildfr = nfw StringBuildfr("JRSUIControl[inNbtivf:");
+        buildfr.bppfnd(Arrbys.toString(nbtivfMbp.fntrySft().toArrby()));
+        buildfr.bppfnd(", dibngfs:");
+        buildfr.bppfnd(Arrbys.toString(dibngfs.fntrySft().toArrby()));
+        buildfr.bppfnd("]");
+        rfturn buildfr.toString();
     }
 }

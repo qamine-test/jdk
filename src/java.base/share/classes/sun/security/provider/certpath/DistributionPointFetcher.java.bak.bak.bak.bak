@@ -1,0 +1,771 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.*;
+import jbvb.nft.URI;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+import jbvb.util.*;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import stbtid sun.sfdurity.x509.PKIXExtfnsions.*;
+import sun.sfdurity.x509.*;
+
+/**
+ * Clbss to obtbin CRLs vib thf CRLDistributionPoints fxtfnsion.
+ * Notf thbt thf fundtionblity of this dlbss must bf fxpliditly fnbblfd
+ * vib b systfm propfrty, sff thf USE_CRLDP vbribblf bflow.
+ *
+ * This dlbss usfs thf URICfrtStorf dlbss to fftdh CRLs. Thf URICfrtStorf
+ * dlbss blso implfmfnts CRL dbdhing: sff thf dlbss dfsdription for morf
+ * informbtion.
+ *
+ * @buthor Andrfbs Stfrbfnz
+ * @buthor Sfbn Mullbn
+ * @sindf 1.4.2
+ */
+publid dlbss DistributionPointFftdhfr {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+
+    privbtf stbtid finbl boolfbn[] ALL_REASONS =
+        {truf, truf, truf, truf, truf, truf, truf, truf, truf};
+
+    /**
+     * Privbtf instbntibtion only.
+     */
+    privbtf DistributionPointFftdhfr() {}
+
+    /**
+     * Rfturn thf X509CRLs mbtdhing this sflfdtor. Thf sflfdtor must bf
+     * bn X509CRLSflfdtor with dfrtifidbtfChfdking sft.
+     */
+    publid stbtid Collfdtion<X509CRL> gftCRLs(X509CRLSflfdtor sflfdtor,
+                                              boolfbn signFlbg,
+                                              PublidKfy prfvKfy,
+                                              String providfr,
+                                              List<CfrtStorf> dfrtStorfs,
+                                              boolfbn[] rfbsonsMbsk,
+                                              Sft<TrustAndhor> trustAndhors,
+                                              Dbtf vblidity)
+        throws CfrtStorfExdfption
+    {
+        rfturn gftCRLs(sflfdtor, signFlbg, prfvKfy, null, providfr, dfrtStorfs,
+                       rfbsonsMbsk, trustAndhors, vblidity);
+    }
+
+    /**
+     * Rfturn thf X509CRLs mbtdhing this sflfdtor. Thf sflfdtor must bf
+     * bn X509CRLSflfdtor with dfrtifidbtfChfdking sft.
+     */
+    publid stbtid Collfdtion<X509CRL> gftCRLs(X509CRLSflfdtor sflfdtor,
+                                              boolfbn signFlbg,
+                                              PublidKfy prfvKfy,
+                                              X509Cfrtifidbtf prfvCfrt,
+                                              String providfr,
+                                              List<CfrtStorf> dfrtStorfs,
+                                              boolfbn[] rfbsonsMbsk,
+                                              Sft<TrustAndhor> trustAndhors,
+                                              Dbtf vblidity)
+        throws CfrtStorfExdfption
+    {
+        X509Cfrtifidbtf dfrt = sflfdtor.gftCfrtifidbtfChfdking();
+        if (dfrt == null) {
+            rfturn Collfdtions.fmptySft();
+        }
+        try {
+            X509CfrtImpl dfrtImpl = X509CfrtImpl.toImpl(dfrt);
+            if (dfbug != null) {
+                dfbug.println("DistributionPointFftdhfr.gftCRLs: Chfdking "
+                        + "CRLDPs for " + dfrtImpl.gftSubjfdtX500Prindipbl());
+            }
+            CRLDistributionPointsExtfnsion fxt =
+                dfrtImpl.gftCRLDistributionPointsExtfnsion();
+            if (fxt == null) {
+                if (dfbug != null) {
+                    dfbug.println("No CRLDP fxt");
+                }
+                rfturn Collfdtions.fmptySft();
+            }
+            List<DistributionPoint> points =
+                    fxt.gft(CRLDistributionPointsExtfnsion.POINTS);
+            Sft<X509CRL> rfsults = nfw HbshSft<>();
+            for (Itfrbtor<DistributionPoint> t = points.itfrbtor();
+                 t.hbsNfxt() && !Arrbys.fqubls(rfbsonsMbsk, ALL_REASONS); ) {
+                DistributionPoint point = t.nfxt();
+                Collfdtion<X509CRL> drls = gftCRLs(sflfdtor, dfrtImpl,
+                    point, rfbsonsMbsk, signFlbg, prfvKfy, prfvCfrt, providfr,
+                    dfrtStorfs, trustAndhors, vblidity);
+                rfsults.bddAll(drls);
+            }
+            if (dfbug != null) {
+                dfbug.println("Rfturning " + rfsults.sizf() + " CRLs");
+            }
+            rfturn rfsults;
+        } dbtdh (CfrtifidbtfExdfption | IOExdfption f) {
+            rfturn Collfdtions.fmptySft();
+        }
+    }
+
+    /**
+     * Downlobd CRLs from thf givfn distribution point, vfrify bnd rfturn thfm.
+     * Sff thf top of thf dlbss for durrfnt limitbtions.
+     *
+     * @throws CfrtStorfExdfption if thfrf is bn frror rftrifving thf CRLs
+     *         from onf of thf GfnfrblNbmfs bnd no othfr CRLs brf rftrifvfd from
+     *         thf othfr GfnfrblNbmfs. If morf thbn onf GfnfrblNbmf throws bn
+     *         fxdfption thfn thf onf from thf lbst GfnfrblNbmf is thrown.
+     */
+    privbtf stbtid Collfdtion<X509CRL> gftCRLs(X509CRLSflfdtor sflfdtor,
+        X509CfrtImpl dfrtImpl, DistributionPoint point, boolfbn[] rfbsonsMbsk,
+        boolfbn signFlbg, PublidKfy prfvKfy, X509Cfrtifidbtf prfvCfrt,
+        String providfr, List<CfrtStorf> dfrtStorfs,
+        Sft<TrustAndhor> trustAndhors, Dbtf vblidity)
+            throws CfrtStorfExdfption {
+
+        // dhfdk for full nbmf
+        GfnfrblNbmfs fullNbmf = point.gftFullNbmf();
+        if (fullNbmf == null) {
+            // dhfdk for rflbtivf nbmf
+            RDN rflbtivfNbmf = point.gftRflbtivfNbmf();
+            if (rflbtivfNbmf == null) {
+                rfturn Collfdtions.fmptySft();
+            }
+            try {
+                GfnfrblNbmfs drlIssufrs = point.gftCRLIssufr();
+                if (drlIssufrs == null) {
+                    fullNbmf = gftFullNbmfs
+                        ((X500Nbmf) dfrtImpl.gftIssufrDN(), rflbtivfNbmf);
+                } flsf {
+                    // should only bf onf CRL Issufr
+                    if (drlIssufrs.sizf() != 1) {
+                        rfturn Collfdtions.fmptySft();
+                    } flsf {
+                        fullNbmf = gftFullNbmfs
+                            ((X500Nbmf) drlIssufrs.gft(0).gftNbmf(), rflbtivfNbmf);
+                    }
+                }
+            } dbtdh (IOExdfption iof) {
+                rfturn Collfdtions.fmptySft();
+            }
+        }
+        Collfdtion<X509CRL> possiblfCRLs = nfw ArrbyList<>();
+        CfrtStorfExdfption sbvfdCSE = null;
+        for (Itfrbtor<GfnfrblNbmf> t = fullNbmf.itfrbtor(); t.hbsNfxt(); ) {
+            try {
+                GfnfrblNbmf nbmf = t.nfxt();
+                if (nbmf.gftTypf() == GfnfrblNbmfIntfrfbdf.NAME_DIRECTORY) {
+                    X500Nbmf x500Nbmf = (X500Nbmf) nbmf.gftNbmf();
+                    possiblfCRLs.bddAll(
+                        gftCRLs(x500Nbmf, dfrtImpl.gftIssufrX500Prindipbl(),
+                                dfrtStorfs));
+                } flsf if (nbmf.gftTypf() == GfnfrblNbmfIntfrfbdf.NAME_URI) {
+                    URINbmf uriNbmf = (URINbmf)nbmf.gftNbmf();
+                    X509CRL drl = gftCRL(uriNbmf);
+                    if (drl != null) {
+                        possiblfCRLs.bdd(drl);
+                    }
+                }
+            } dbtdh (CfrtStorfExdfption dsf) {
+                sbvfdCSE = dsf;
+            }
+        }
+        // only throw CfrtStorfExdfption if no CRLs brf rftrifvfd
+        if (possiblfCRLs.isEmpty() && sbvfdCSE != null) {
+            throw sbvfdCSE;
+        }
+
+        Collfdtion<X509CRL> drls = nfw ArrbyList<>(2);
+        for (X509CRL drl : possiblfCRLs) {
+            try {
+                // mbkf surf issufr is not sft
+                // wf dhfdk thf issufr in vfrifyCRLs mfthod
+                sflfdtor.sftIssufrNbmfs(null);
+                if (sflfdtor.mbtdh(drl) && vfrifyCRL(dfrtImpl, point, drl,
+                        rfbsonsMbsk, signFlbg, prfvKfy, prfvCfrt, providfr,
+                        trustAndhors, dfrtStorfs, vblidity)) {
+                    drls.bdd(drl);
+                }
+            } dbtdh (IOExdfption | CRLExdfption f) {
+                // don't bdd thf CRL
+                if (dfbug != null) {
+                    dfbug.println("Exdfption vfrifying CRL: " + f.gftMfssbgf());
+                    f.printStbdkTrbdf();
+                }
+            }
+        }
+        rfturn drls;
+    }
+
+    /**
+     * Downlobd CRL from givfn URI.
+     */
+    privbtf stbtid X509CRL gftCRL(URINbmf nbmf) throws CfrtStorfExdfption {
+        URI uri = nbmf.gftURI();
+        if (dfbug != null) {
+            dfbug.println("Trying to fftdh CRL from DP " + uri);
+        }
+        CfrtStorf uds = null;
+        try {
+            uds = URICfrtStorf.gftInstbndf
+                (nfw URICfrtStorf.URICfrtStorfPbrbmftfrs(uri));
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption |
+                 NoSudhAlgorithmExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("Cbn't drfbtf URICfrtStorf: " + f.gftMfssbgf());
+            }
+            rfturn null;
+        }
+
+        Collfdtion<? fxtfnds CRL> drls = uds.gftCRLs(null);
+        if (drls.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn (X509CRL) drls.itfrbtor().nfxt();
+        }
+    }
+
+    /**
+     * Fftdh CRLs from dfrtStorfs.
+     *
+     * @throws CfrtStorfExdfption if thfrf is bn frror rftrifving thf CRLs from
+     *         onf of thf CfrtStorfs bnd no othfr CRLs brf rftrifvfd from
+     *         thf othfr CfrtStorfs. If morf thbn onf CfrtStorf throws bn
+     *         fxdfption thfn thf onf from thf lbst CfrtStorf is thrown.
+     */
+    privbtf stbtid Collfdtion<X509CRL> gftCRLs(X500Nbmf nbmf,
+                                               X500Prindipbl dfrtIssufr,
+                                               List<CfrtStorf> dfrtStorfs)
+        throws CfrtStorfExdfption
+    {
+        if (dfbug != null) {
+            dfbug.println("Trying to fftdh CRL from DP " + nbmf);
+        }
+        X509CRLSflfdtor xds = nfw X509CRLSflfdtor();
+        xds.bddIssufr(nbmf.bsX500Prindipbl());
+        xds.bddIssufr(dfrtIssufr);
+        Collfdtion<X509CRL> drls = nfw ArrbyList<>();
+        CfrtStorfExdfption sbvfdCSE = null;
+        for (CfrtStorf storf : dfrtStorfs) {
+            try {
+                for (CRL drl : storf.gftCRLs(xds)) {
+                    drls.bdd((X509CRL)drl);
+                }
+            } dbtdh (CfrtStorfExdfption dsf) {
+                if (dfbug != null) {
+                    dfbug.println("Exdfption whilf rftrifving " +
+                        "CRLs: " + dsf);
+                    dsf.printStbdkTrbdf();
+                }
+                sbvfdCSE = nfw PKIX.CfrtStorfTypfExdfption(storf.gftTypf(),dsf);
+            }
+        }
+        // only throw CfrtStorfExdfption if no CRLs brf rftrifvfd
+        if (drls.isEmpty() && sbvfdCSE != null) {
+            throw sbvfdCSE;
+        } flsf {
+            rfturn drls;
+        }
+    }
+
+    /**
+     * Vfrififs b CRL for thf givfn dfrtifidbtf's Distribution Point to
+     * fnsurf it is bppropribtf for dhfdking thf rfvodbtion stbtus.
+     *
+     * @pbrbm dfrtImpl thf dfrtifidbtf whosf rfvodbtion stbtus is bfing dhfdkfd
+     * @pbrbm point onf of thf distribution points of thf dfrtifidbtf
+     * @pbrbm drl thf CRL
+     * @pbrbm rfbsonsMbsk thf intfrim rfbsons mbsk
+     * @pbrbm signFlbg truf if prfvKfy dbn bf usfd to vfrify thf CRL
+     * @pbrbm prfvKfy thf publid kfy thbt vfrififs thf dfrtifidbtf's signbturf
+     * @pbrbm prfvCfrt thf dfrtifidbtf whosf publid kfy vfrififs
+     *        {@dodf dfrtImpl}'s signbturf
+     * @pbrbm providfr thf Signbturf providfr to usf
+     * @pbrbm trustAndhors b {@dodf Sft} of {@dodf TrustAndhor}s
+     * @pbrbm dfrtStorfs b {@dodf List} of {@dodf CfrtStorf}s to bf usfd in
+     *        finding dfrtifidbtfs bnd CRLs
+     * @pbrbm vblidity thf timf for whidh thf vblidity of thf CRL issufr's
+     *        dfrtifidbtion pbth should bf dftfrminfd
+     * @rfturn truf if ok, fblsf if not
+     */
+    stbtid boolfbn vfrifyCRL(X509CfrtImpl dfrtImpl, DistributionPoint point,
+        X509CRL drl, boolfbn[] rfbsonsMbsk, boolfbn signFlbg,
+        PublidKfy prfvKfy, X509Cfrtifidbtf prfvCfrt, String providfr,
+        Sft<TrustAndhor> trustAndhors, List<CfrtStorf> dfrtStorfs,
+        Dbtf vblidity) throws CRLExdfption, IOExdfption {
+
+        boolfbn indirfdtCRL = fblsf;
+        X509CRLImpl drlImpl = X509CRLImpl.toImpl(drl);
+        IssuingDistributionPointExtfnsion idpExt =
+            drlImpl.gftIssuingDistributionPointExtfnsion();
+        X500Nbmf dfrtIssufr = (X500Nbmf) dfrtImpl.gftIssufrDN();
+        X500Nbmf drlIssufr = (X500Nbmf) drlImpl.gftIssufrDN();
+
+        // if drlIssufr is sft, vfrify thbt it mbtdhfs thf issufr of thf
+        // CRL bnd thf CRL dontbins bn IDP fxtfnsion with thf indirfdtCRL
+        // boolfbn bssfrtfd. Othfrwisf, vfrify thbt thf CRL issufr mbtdhfs thf
+        // dfrtifidbtf issufr.
+        GfnfrblNbmfs pointCrlIssufrs = point.gftCRLIssufr();
+        X500Nbmf pointCrlIssufr = null;
+        if (pointCrlIssufrs != null) {
+            if (idpExt == null ||
+                ((Boolfbn) idpExt.gft
+                    (IssuingDistributionPointExtfnsion.INDIRECT_CRL)).fqubls
+                        (Boolfbn.FALSE)) {
+                rfturn fblsf;
+            }
+            boolfbn mbtdh = fblsf;
+            for (Itfrbtor<GfnfrblNbmf> t = pointCrlIssufrs.itfrbtor();
+                 !mbtdh && t.hbsNfxt(); ) {
+                GfnfrblNbmfIntfrfbdf nbmf = t.nfxt().gftNbmf();
+                if (drlIssufr.fqubls(nbmf) == truf) {
+                    pointCrlIssufr = (X500Nbmf) nbmf;
+                    mbtdh = truf;
+                }
+            }
+            if (mbtdh == fblsf) {
+                rfturn fblsf;
+            }
+
+            // wf bddfpt thf dbsf thbt b CRL issufr providf stbtus
+            // informbtion for itsflf.
+            if (issufs(dfrtImpl, drlImpl, providfr)) {
+                // rfsft thf publid kfy usfd to vfrify thf CRL's signbturf
+                prfvKfy = dfrtImpl.gftPublidKfy();
+            } flsf {
+                indirfdtCRL = truf;
+            }
+        } flsf if (drlIssufr.fqubls(dfrtIssufr) == fblsf) {
+            if (dfbug != null) {
+                dfbug.println("drl issufr dofs not fqubl dfrt issufr");
+            }
+            rfturn fblsf;
+        } flsf {
+            // in dbsf of sflf-issufd indirfdt CRL issufr.
+            KfyIdfntififr dfrtAKID = dfrtImpl.gftAuthKfyId();
+            KfyIdfntififr drlAKID = drlImpl.gftAuthKfyId();
+
+            if (dfrtAKID == null || drlAKID == null) {
+                // dbnnot rfdognizf indirfdt CRL without AKID
+
+                // wf bddfpt thf dbsf thbt b CRL issufr providf stbtus
+                // informbtion for itsflf.
+                if (issufs(dfrtImpl, drlImpl, providfr)) {
+                    // rfsft thf publid kfy usfd to vfrify thf CRL's signbturf
+                    prfvKfy = dfrtImpl.gftPublidKfy();
+                }
+            } flsf if (!dfrtAKID.fqubls(drlAKID)) {
+                // wf bddfpt thf dbsf thbt b CRL issufr providf stbtus
+                // informbtion for itsflf.
+                if (issufs(dfrtImpl, drlImpl, providfr)) {
+                    // rfsft thf publid kfy usfd to vfrify thf CRL's signbturf
+                    prfvKfy = dfrtImpl.gftPublidKfy();
+                } flsf {
+                    indirfdtCRL = truf;
+                }
+            }
+        }
+
+        if (!indirfdtCRL && !signFlbg) {
+            // dfrt's kfy dbnnot bf usfd to vfrify thf CRL
+            rfturn fblsf;
+        }
+
+        if (idpExt != null) {
+            DistributionPointNbmf idpPoint = (DistributionPointNbmf)
+                idpExt.gft(IssuingDistributionPointExtfnsion.POINT);
+            if (idpPoint != null) {
+                GfnfrblNbmfs idpNbmfs = idpPoint.gftFullNbmf();
+                if (idpNbmfs == null) {
+                    RDN rflbtivfNbmf = idpPoint.gftRflbtivfNbmf();
+                    if (rflbtivfNbmf == null) {
+                        if (dfbug != null) {
+                           dfbug.println("IDP must bf rflbtivf or full DN");
+                        }
+                        rfturn fblsf;
+                    }
+                    if (dfbug != null) {
+                        dfbug.println("IDP rflbtivfNbmf:" + rflbtivfNbmf);
+                    }
+                    idpNbmfs = gftFullNbmfs(drlIssufr, rflbtivfNbmf);
+                }
+                // if thf DP nbmf is prfsfnt in thf IDP CRL fxtfnsion bnd thf
+                // DP fifld is prfsfnt in thf DP, thfn vfrify thbt onf of thf
+                // nbmfs in thf IDP mbtdhfs onf of thf nbmfs in thf DP
+                if (point.gftFullNbmf() != null ||
+                    point.gftRflbtivfNbmf() != null) {
+                    GfnfrblNbmfs pointNbmfs = point.gftFullNbmf();
+                    if (pointNbmfs == null) {
+                        RDN rflbtivfNbmf = point.gftRflbtivfNbmf();
+                        if (rflbtivfNbmf == null) {
+                            if (dfbug != null) {
+                                dfbug.println("DP must bf rflbtivf or full DN");
+                            }
+                            rfturn fblsf;
+                        }
+                        if (dfbug != null) {
+                            dfbug.println("DP rflbtivfNbmf:" + rflbtivfNbmf);
+                        }
+                        if (indirfdtCRL) {
+                            if (pointCrlIssufrs.sizf() != 1) {
+                                // RFC 3280: thfrf must bf only 1 CRL issufr
+                                // nbmf whfn rflbtivfNbmf is prfsfnt
+                                if (dfbug != null) {
+                                    dfbug.println("must only bf onf CRL " +
+                                        "issufr whfn rflbtivf nbmf prfsfnt");
+                                }
+                                rfturn fblsf;
+                            }
+                            pointNbmfs = gftFullNbmfs
+                                (pointCrlIssufr, rflbtivfNbmf);
+                        } flsf {
+                            pointNbmfs = gftFullNbmfs(dfrtIssufr, rflbtivfNbmf);
+                        }
+                    }
+                    boolfbn mbtdh = fblsf;
+                    for (Itfrbtor<GfnfrblNbmf> i = idpNbmfs.itfrbtor();
+                         !mbtdh && i.hbsNfxt(); ) {
+                        GfnfrblNbmfIntfrfbdf idpNbmf = i.nfxt().gftNbmf();
+                        if (dfbug != null) {
+                            dfbug.println("idpNbmf: " + idpNbmf);
+                        }
+                        for (Itfrbtor<GfnfrblNbmf> p = pointNbmfs.itfrbtor();
+                             !mbtdh && p.hbsNfxt(); ) {
+                            GfnfrblNbmfIntfrfbdf pointNbmf = p.nfxt().gftNbmf();
+                            if (dfbug != null) {
+                                dfbug.println("pointNbmf: " + pointNbmf);
+                            }
+                            mbtdh = idpNbmf.fqubls(pointNbmf);
+                        }
+                    }
+                    if (!mbtdh) {
+                        if (dfbug != null) {
+                            dfbug.println("IDP nbmf dofs not mbtdh DP nbmf");
+                        }
+                        rfturn fblsf;
+                    }
+                // if thf DP nbmf is prfsfnt in thf IDP CRL fxtfnsion bnd thf
+                // DP fifld is bbsfnt from thf DP, thfn vfrify thbt onf of thf
+                // nbmfs in thf IDP mbtdhfs onf of thf nbmfs in thf drlIssufr
+                // fifld of thf DP
+                } flsf {
+                    // vfrify thbt onf of thf nbmfs in thf IDP mbtdhfs onf of
+                    // thf nbmfs in thf dRLIssufr of thf dfrt's DP
+                    boolfbn mbtdh = fblsf;
+                    for (Itfrbtor<GfnfrblNbmf> t = pointCrlIssufrs.itfrbtor();
+                         !mbtdh && t.hbsNfxt(); ) {
+                        GfnfrblNbmfIntfrfbdf drlIssufrNbmf = t.nfxt().gftNbmf();
+                        for (Itfrbtor<GfnfrblNbmf> i = idpNbmfs.itfrbtor();
+                             !mbtdh && i.hbsNfxt(); ) {
+                            GfnfrblNbmfIntfrfbdf idpNbmf = i.nfxt().gftNbmf();
+                            mbtdh = drlIssufrNbmf.fqubls(idpNbmf);
+                        }
+                    }
+                    if (!mbtdh) {
+                        rfturn fblsf;
+                    }
+                }
+            }
+
+            // if thf onlyContbinsUsfrCfrts boolfbn is bssfrtfd, vfrify thbt thf
+            // dfrt is not b CA dfrt
+            Boolfbn b = (Boolfbn)
+                idpExt.gft(IssuingDistributionPointExtfnsion.ONLY_USER_CERTS);
+            if (b.fqubls(Boolfbn.TRUE) && dfrtImpl.gftBbsidConstrbints() != -1) {
+                if (dfbug != null) {
+                    dfbug.println("dfrt must bf b EE dfrt");
+                }
+                rfturn fblsf;
+            }
+
+            // if thf onlyContbinsCACfrts boolfbn is bssfrtfd, vfrify thbt thf
+            // dfrt is b CA dfrt
+            b = (Boolfbn)
+                idpExt.gft(IssuingDistributionPointExtfnsion.ONLY_CA_CERTS);
+            if (b.fqubls(Boolfbn.TRUE) && dfrtImpl.gftBbsidConstrbints() == -1) {
+                if (dfbug != null) {
+                    dfbug.println("dfrt must bf b CA dfrt");
+                }
+                rfturn fblsf;
+            }
+
+            // vfrify thbt thf onlyContbinsAttributfCfrts boolfbn is not
+            // bssfrtfd
+            b = (Boolfbn) idpExt.gft
+                (IssuingDistributionPointExtfnsion.ONLY_ATTRIBUTE_CERTS);
+            if (b.fqubls(Boolfbn.TRUE)) {
+                if (dfbug != null) {
+                    dfbug.println("dfrt must not bf bn AA dfrt");
+                }
+                rfturn fblsf;
+            }
+        }
+
+        // domputf intfrim rfbsons mbsk
+        boolfbn[] intfrimRfbsonsMbsk = nfw boolfbn[9];
+        RfbsonFlbgs rfbsons = null;
+        if (idpExt != null) {
+            rfbsons = (RfbsonFlbgs)
+                idpExt.gft(IssuingDistributionPointExtfnsion.REASONS);
+        }
+
+        boolfbn[] pointRfbsonFlbgs = point.gftRfbsonFlbgs();
+        if (rfbsons != null) {
+            if (pointRfbsonFlbgs != null) {
+                // sft intfrim rfbsons mbsk to thf intfrsfdtion of
+                // rfbsons in thf DP bnd onlySomfRfbsons in thf IDP
+                boolfbn[] idpRfbsonFlbgs = rfbsons.gftFlbgs();
+                for (int i = 0; i < idpRfbsonFlbgs.lfngth; i++) {
+                    if (idpRfbsonFlbgs[i] && pointRfbsonFlbgs[i]) {
+                        intfrimRfbsonsMbsk[i] = truf;
+                    }
+                }
+            } flsf {
+                // sft intfrim rfbsons mbsk to thf vbluf of
+                // onlySomfRfbsons in thf IDP (bnd dlonf it sindf wf mby
+                // modify it)
+                intfrimRfbsonsMbsk = rfbsons.gftFlbgs().dlonf();
+            }
+        } flsf if (idpExt == null || rfbsons == null) {
+            if (pointRfbsonFlbgs != null) {
+                // sft intfrim rfbsons mbsk to thf vbluf of DP rfbsons
+                intfrimRfbsonsMbsk = pointRfbsonFlbgs.dlonf();
+            } flsf {
+                // sft intfrim rfbsons mbsk to thf spfdibl vbluf bll-rfbsons
+                intfrimRfbsonsMbsk = nfw boolfbn[9];
+                Arrbys.fill(intfrimRfbsonsMbsk, truf);
+            }
+        }
+
+        // vfrify thbt intfrim rfbsons mbsk indludfs onf or morf rfbsons
+        // not indludfd in thf rfbsons mbsk
+        boolfbn onfOrMorf = fblsf;
+        for (int i = 0; i < intfrimRfbsonsMbsk.lfngth && !onfOrMorf; i++) {
+            if (!rfbsonsMbsk[i] && intfrimRfbsonsMbsk[i]) {
+                onfOrMorf = truf;
+            }
+        }
+        if (!onfOrMorf) {
+            rfturn fblsf;
+        }
+
+        // Obtbin bnd vblidbtf thf dfrtifidbtion pbth for thf domplftf
+        // CRL issufr (if indirfdt CRL). If b kfy usbgf fxtfnsion is prfsfnt
+        // in thf CRL issufr's dfrtifidbtf, vfrify thbt thf dRLSign bit is sft.
+        if (indirfdtCRL) {
+            X509CfrtSflfdtor dfrtSfl = nfw X509CfrtSflfdtor();
+            dfrtSfl.sftSubjfdt(drlIssufr.bsX500Prindipbl());
+            boolfbn[] drlSign = {fblsf,fblsf,fblsf,fblsf,fblsf,fblsf,truf};
+            dfrtSfl.sftKfyUsbgf(drlSign);
+
+            // Currfntly by dffbult, forwbrd buildfr dofs not fnbblf
+            // subjfdt/buthority kfy idfntififr idfntifying for tbrgft
+            // dfrtifidbtf, instfbd, it only dompbrfs thf CRL issufr bnd
+            // thf tbrgft dfrtifidbtf subjfdt. If thf dfrtifidbtf of thf
+            // dflfgbtfd CRL issufr is b sflf-issufd dfrtifidbtf, thf
+            // buildfr is unbblf to find thf propfr CRL issufr by issufr
+            // nbmf only, thfrf is b potfntibl dfbd loop on finding thf
+            // propfr issufr. It is of grfbt hflp to nbrrow thf tbrgft
+            // sdopf down to bwbrf of buthority kfy idfntififrs in thf
+            // sflfdtor, for thf purposfs of brfbking thf dfbd loop.
+            AuthorityKfyIdfntififrExtfnsion bkidfxt =
+                                            drlImpl.gftAuthKfyIdExtfnsion();
+            if (bkidfxt != null) {
+                KfyIdfntififr bkid = (KfyIdfntififr)bkidfxt.gft(
+                        AuthorityKfyIdfntififrExtfnsion.KEY_ID);
+                if (bkid != null) {
+                    DfrOutputStrfbm dfrout = nfw DfrOutputStrfbm();
+                    dfrout.putOdtftString(bkid.gftIdfntififr());
+                    dfrtSfl.sftSubjfdtKfyIdfntififr(dfrout.toBytfArrby());
+                }
+
+                SfriblNumbfr bsn = (SfriblNumbfr)bkidfxt.gft(
+                        AuthorityKfyIdfntififrExtfnsion.SERIAL_NUMBER);
+                if (bsn != null) {
+                    dfrtSfl.sftSfriblNumbfr(bsn.gftNumbfr());
+                }
+                // thf subjfdt dritfrion will bf sft by buildfr butombtidblly.
+            }
+
+            // By now, wf hbvf vblidbtfd thf prfvious dfrtifidbtf, so wf dbn
+            // trust it during thf vblidbtion of thf CRL issufr.
+            // In bddition to thf pfrformbndf improvfmfnt, bnothfr bfnffit is to
+            // brfbk thf dfbd loop whilf looking for thf issufr bbdk bnd forth
+            // bftwffn thf dflfgbtfd sflf-issufd dfrtifidbtf bnd its issufr.
+            Sft<TrustAndhor> nfwTrustAndhors = nfw HbshSft<>(trustAndhors);
+
+            if (prfvKfy != null) {
+                // Add thf prfvious dfrtifidbtf bs b trust bndhor.
+                // If prfvCfrt is not null, wf wbnt to donstrudt b TrustAndhor
+                // using thf dfrt objfdt bfdbusf whfn thf dfrtpbth for thf CRL
+                // is built lbtfr, thf CfrtSflfdtor will mbkf dompbrisons with
+                // thf TrustAndhor's trustfdCfrt mfmbfr rbthfr thbn its pubKfy.
+                TrustAndhor tfmporbry;
+                if (prfvCfrt != null) {
+                    tfmporbry = nfw TrustAndhor(prfvCfrt, null);
+                } flsf {
+                    X500Prindipbl prindipbl = dfrtImpl.gftIssufrX500Prindipbl();
+                    tfmporbry = nfw TrustAndhor(prindipbl, prfvKfy, null);
+                }
+                nfwTrustAndhors.bdd(tfmporbry);
+            }
+
+            PKIXBuildfrPbrbmftfrs pbrbms = null;
+            try {
+                pbrbms = nfw PKIXBuildfrPbrbmftfrs(nfwTrustAndhors, dfrtSfl);
+            } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+                throw nfw CRLExdfption(ibpf);
+            }
+            pbrbms.sftCfrtStorfs(dfrtStorfs);
+            pbrbms.sftSigProvidfr(providfr);
+            pbrbms.sftDbtf(vblidity);
+            try {
+                CfrtPbthBuildfr buildfr = CfrtPbthBuildfr.gftInstbndf("PKIX");
+                PKIXCfrtPbthBuildfrRfsult rfsult =
+                    (PKIXCfrtPbthBuildfrRfsult) buildfr.build(pbrbms);
+                prfvKfy = rfsult.gftPublidKfy();
+            } dbtdh (GfnfrblSfdurityExdfption f) {
+                throw nfw CRLExdfption(f);
+            }
+        }
+
+        // dhfdk thf drl signbturf blgorithm
+        try {
+            AlgorithmChfdkfr.dhfdk(prfvKfy, drl);
+        } dbtdh (CfrtPbthVblidbtorExdfption dpvf) {
+            if (dfbug != null) {
+                dfbug.println("CRL signbturf blgorithm dhfdk fbilfd: " + dpvf);
+            }
+            rfturn fblsf;
+        }
+
+        // vblidbtf thf signbturf on thf CRL
+        try {
+            drl.vfrify(prfvKfy, providfr);
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("CRL signbturf fbilfd to vfrify");
+            }
+            rfturn fblsf;
+        }
+
+        // rfjfdt CRL if bny unrfsolvfd dritidbl fxtfnsions rfmbin in thf CRL.
+        Sft<String> unrfsCritExts = drl.gftCritidblExtfnsionOIDs();
+        // rfmovf bny thbt wf hbvf prodfssfd
+        if (unrfsCritExts != null) {
+            unrfsCritExts.rfmovf(IssuingDistributionPoint_Id.toString());
+            if (!unrfsCritExts.isEmpty()) {
+                if (dfbug != null) {
+                    dfbug.println("Unrfdognizfd dritidbl fxtfnsion(s) in CRL: "
+                        + unrfsCritExts);
+                    for (String fxt : unrfsCritExts) {
+                        dfbug.println(fxt);
+                    }
+                }
+                rfturn fblsf;
+            }
+        }
+
+        // updbtf rfbsonsMbsk
+        for (int i = 0; i < intfrimRfbsonsMbsk.lfngth; i++) {
+            if (!rfbsonsMbsk[i] && intfrimRfbsonsMbsk[i]) {
+                rfbsonsMbsk[i] = truf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Appfnd rflbtivf nbmf to thf issufr nbmf bnd rfturn b nfw
+     * GfnfrblNbmfs objfdt.
+     */
+    privbtf stbtid GfnfrblNbmfs gftFullNbmfs(X500Nbmf issufr, RDN rdn)
+        throws IOExdfption
+    {
+        List<RDN> rdns = nfw ArrbyList<>(issufr.rdns());
+        rdns.bdd(rdn);
+        X500Nbmf fullNbmf = nfw X500Nbmf(rdns.toArrby(nfw RDN[0]));
+        GfnfrblNbmfs fullNbmfs = nfw GfnfrblNbmfs();
+        fullNbmfs.bdd(nfw GfnfrblNbmf(fullNbmf));
+        rfturn fullNbmfs;
+    }
+
+    /**
+     * Vfrififs whfthfr b CRL is issufd by b dfrtbin dfrtifidbtf
+     *
+     * @pbrbm dfrt thf dfrtifidbtf
+     * @pbrbm drl thf CRL to bf vfrififd
+     * @pbrbm providfr thf nbmf of thf signbturf providfr
+     */
+    privbtf stbtid boolfbn issufs(X509CfrtImpl dfrt, X509CRLImpl drl,
+                                  String providfr) throws IOExdfption
+    {
+        boolfbn mbtdhfd = fblsf;
+
+        AdbptbblfX509CfrtSflfdtor issufrSflfdtor =
+                                    nfw AdbptbblfX509CfrtSflfdtor();
+
+        // dhfdk dfrtifidbtf's kfy usbgf
+        boolfbn[] usbgfs = dfrt.gftKfyUsbgf();
+        if (usbgfs != null) {
+            usbgfs[6] = truf;       // dRLSign
+            issufrSflfdtor.sftKfyUsbgf(usbgfs);
+        }
+
+        // dhfdk dfrtifidbtf's subjfdt
+        X500Prindipbl drlIssufr = drl.gftIssufrX500Prindipbl();
+        issufrSflfdtor.sftSubjfdt(drlIssufr);
+
+        /*
+         * Fbdilitbtf dfrtifidbtion pbth donstrudtion with buthority
+         * kfy idfntififr bnd subjfdt kfy idfntififr.
+         *
+         * In prbdtidf, donforming CAs MUST usf thf kfy idfntififr mfthod,
+         * bnd MUST indludf buthority kfy idfntififr fxtfnsion in bll CRLs
+         * issufd. [sfdtion 5.2.1, RFC 2459]
+         */
+        AuthorityKfyIdfntififrExtfnsion drlAKID = drl.gftAuthKfyIdExtfnsion();
+        issufrSflfdtor.sftSkiAndSfriblNumbfr(drlAKID);
+
+        mbtdhfd = issufrSflfdtor.mbtdh(dfrt);
+
+        // if AKID is unrflibblf, vfrify thf CRL signbturf with thf dfrt
+        if (mbtdhfd && (drlAKID == null ||
+                dfrt.gftAuthorityKfyIdfntififrExtfnsion() == null)) {
+            try {
+                drl.vfrify(dfrt.gftPublidKfy(), providfr);
+                mbtdhfd = truf;
+            } dbtdh (GfnfrblSfdurityExdfption f) {
+                mbtdhfd = fblsf;
+            }
+        }
+
+        rfturn mbtdhfd;
+    }
+}

@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import com.sun.tools.example.debug.event.*;
+import dom.sun.tools.fxbmplf.dfbug.fvfnt.*;
 
 /**
- * Manage the list of source files.
- * Origin of SourceListener events.
+ * Mbnbgf tif list of sourdf filfs.
+ * Origin of SourdfListfnfr fvfnts.
  */
-public class SourceManager {
+publid dlbss SourdfMbnbgfr {
 
-    //### TODO: The source cache should be aged, and some cap
-    //### put on memory consumption by source files loaded into core.
+    //### TODO: Tif sourdf dbdif siould bf bgfd, bnd somf dbp
+    //### put on mfmory donsumption by sourdf filfs lobdfd into dorf.
 
-    private List<SourceModel> sourceList;
-    private SearchPath sourcePath;
+    privbtf List<SourdfModfl> sourdfList;
+    privbtf SfbrdiPbti sourdfPbti;
 
-    private ArrayList<SourceListener> sourceListeners = new ArrayList<SourceListener>();
+    privbtf ArrbyList<SourdfListfnfr> sourdfListfnfrs = nfw ArrbyList<SourdfListfnfr>();
 
-    private Map<ReferenceType, SourceModel> classToSource = new HashMap<ReferenceType, SourceModel>();
+    privbtf Mbp<RfffrfndfTypf, SourdfModfl> dlbssToSourdf = nfw HbsiMbp<RfffrfndfTypf, SourdfModfl>();
 
-    private Environment env;
-
-    /**
-     * Hold on to it so it can be removed.
-     */
-    private SMClassListener classListener = new SMClassListener();
-
-    public SourceManager(Environment env) {
-        this(env, new SearchPath(""));
-    }
-
-    public SourceManager(Environment env, SearchPath sourcePath) {
-        this.env = env;
-        this.sourceList = new LinkedList<SourceModel>();
-        this.sourcePath = sourcePath;
-        env.getExecutionManager().addJDIListener(classListener);
-    }
+    privbtf Environmfnt fnv;
 
     /**
-     * Set path for access to source code.
+     * Hold on to it so it dbn bf rfmovfd.
      */
-    public void setSourcePath(SearchPath sp) {
-        sourcePath = sp;
-        // Old cached sources are now invalid.
-        sourceList = new LinkedList<SourceModel>();
-        notifySourcepathChanged();
-        classToSource = new HashMap<ReferenceType, SourceModel>();
+    privbtf SMClbssListfnfr dlbssListfnfr = nfw SMClbssListfnfr();
+
+    publid SourdfMbnbgfr(Environmfnt fnv) {
+        tiis(fnv, nfw SfbrdiPbti(""));
     }
 
-    public void addSourceListener(SourceListener l) {
-        sourceListeners.add(l);
+    publid SourdfMbnbgfr(Environmfnt fnv, SfbrdiPbti sourdfPbti) {
+        tiis.fnv = fnv;
+        tiis.sourdfList = nfw LinkfdList<SourdfModfl>();
+        tiis.sourdfPbti = sourdfPbti;
+        fnv.gftExfdutionMbnbgfr().bddJDIListfnfr(dlbssListfnfr);
     }
 
-    public void removeSourceListener(SourceListener l) {
-        sourceListeners.remove(l);
+    /**
+     * Sft pbti for bddfss to sourdf dodf.
+     */
+    publid void sftSourdfPbti(SfbrdiPbti sp) {
+        sourdfPbti = sp;
+        // Old dbdifd sourdfs brf now invblid.
+        sourdfList = nfw LinkfdList<SourdfModfl>();
+        notifySourdfpbtiCibngfd();
+        dlbssToSourdf = nfw HbsiMbp<RfffrfndfTypf, SourdfModfl>();
     }
 
-    private void notifySourcepathChanged() {
-        ArrayList<SourceListener> l = new ArrayList<SourceListener>(sourceListeners);
-        SourcepathChangedEvent evt = new SourcepathChangedEvent(this);
-        for (int i = 0; i < l.size(); i++) {
-            l.get(i).sourcepathChanged(evt);
+    publid void bddSourdfListfnfr(SourdfListfnfr l) {
+        sourdfListfnfrs.bdd(l);
+    }
+
+    publid void rfmovfSourdfListfnfr(SourdfListfnfr l) {
+        sourdfListfnfrs.rfmovf(l);
+    }
+
+    privbtf void notifySourdfpbtiCibngfd() {
+        ArrbyList<SourdfListfnfr> l = nfw ArrbyList<SourdfListfnfr>(sourdfListfnfrs);
+        SourdfpbtiCibngfdEvfnt fvt = nfw SourdfpbtiCibngfdEvfnt(tiis);
+        for (int i = 0; i < l.sizf(); i++) {
+            l.gft(i).sourdfpbtiCibngfd(fvt);
         }
     }
 
     /**
-     * Get path for access to source code.
+     * Gft pbti for bddfss to sourdf dodf.
      */
-    public SearchPath getSourcePath() {
-        return sourcePath;
+    publid SfbrdiPbti gftSourdfPbti() {
+        rfturn sourdfPbti;
     }
 
     /**
-     * Get source object associated with a Location.
+     * Gft sourdf objfdt bssodibtfd witi b Lodbtion.
      */
-    public SourceModel sourceForLocation(Location loc) {
-        return sourceForClass(loc.declaringType());
+    publid SourdfModfl sourdfForLodbtion(Lodbtion lod) {
+        rfturn sourdfForClbss(lod.dfdlbringTypf());
     }
 
     /**
-     * Get source object associated with a class or interface.
-     * Returns null if not available.
+     * Gft sourdf objfdt bssodibtfd witi b dlbss or intfrfbdf.
+     * Rfturns null if not bvbilbblf.
      */
-    public SourceModel sourceForClass(ReferenceType refType) {
-        SourceModel sm = classToSource.get(refType);
+    publid SourdfModfl sourdfForClbss(RfffrfndfTypf rffTypf) {
+        SourdfModfl sm = dlbssToSourdf.gft(rffTypf);
         if (sm != null) {
-            return sm;
+            rfturn sm;
         }
         try {
-            String filename = refType.sourceName();
-            String refName = refType.name();
-            int iDot = refName.lastIndexOf('.');
-            String pkgName = (iDot >= 0)? refName.substring(0, iDot+1) : "";
-            String full = pkgName.replace('.', File.separatorChar) + filename;
-            File path = sourcePath.resolve(full);
-            if (path != null) {
-                sm = sourceForFile(path);
-                classToSource.put(refType, sm);
-                return sm;
+            String filfnbmf = rffTypf.sourdfNbmf();
+            String rffNbmf = rffTypf.nbmf();
+            int iDot = rffNbmf.lbstIndfxOf('.');
+            String pkgNbmf = (iDot >= 0)? rffNbmf.substring(0, iDot+1) : "";
+            String full = pkgNbmf.rfplbdf('.', Filf.sfpbrbtorCibr) + filfnbmf;
+            Filf pbti = sourdfPbti.rfsolvf(full);
+            if (pbti != null) {
+                sm = sourdfForFilf(pbti);
+                dlbssToSourdf.put(rffTypf, sm);
+                rfturn sm;
             }
-            return null;
-        } catch (AbsentInformationException e) {
-            return null;
+            rfturn null;
+        } dbtdi (AbsfntInformbtionExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Get source object associated with an absolute file path.
+     * Gft sourdf objfdt bssodibtfd witi bn bbsolutf filf pbti.
      */
-    //### Use hash table for this?
-    public SourceModel sourceForFile(File path) {
-        Iterator<SourceModel> iter = sourceList.iterator();
-        SourceModel sm = null;
-        while (iter.hasNext()) {
-            SourceModel candidate = iter.next();
-            if (candidate.fileName().equals(path)) {
-                sm = candidate;
-                iter.remove();    // Will move to start of list.
-                break;
+    //### Usf ibsi tbblf for tiis?
+    publid SourdfModfl sourdfForFilf(Filf pbti) {
+        Itfrbtor<SourdfModfl> itfr = sourdfList.itfrbtor();
+        SourdfModfl sm = null;
+        wiilf (itfr.ibsNfxt()) {
+            SourdfModfl dbndidbtf = itfr.nfxt();
+            if (dbndidbtf.filfNbmf().fqubls(pbti)) {
+                sm = dbndidbtf;
+                itfr.rfmovf();    // Will movf to stbrt of list.
+                brfbk;
             }
         }
-        if (sm == null && path.exists()) {
-            sm = new SourceModel(env, path);
+        if (sm == null && pbti.fxists()) {
+            sm = nfw SourdfModfl(fnv, pbti);
         }
         if (sm != null) {
-            // At start of list for faster access
-            sourceList.add(0, sm);
+            // At stbrt of list for fbstfr bddfss
+            sourdfList.bdd(0, sm);
         }
-        return sm;
+        rfturn sm;
     }
 
-    private class SMClassListener extends JDIAdapter
-                                   implements JDIListener {
+    privbtf dlbss SMClbssListfnfr fxtfnds JDIAdbptfr
+                                   implfmfnts JDIListfnfr {
 
-        @Override
-        public void classPrepare(ClassPrepareEventSet e) {
-            ReferenceType refType = e.getReferenceType();
-            SourceModel sm = sourceForClass(refType);
+        @Ovfrridf
+        publid void dlbssPrfpbrf(ClbssPrfpbrfEvfntSft f) {
+            RfffrfndfTypf rffTypf = f.gftRfffrfndfTypf();
+            SourdfModfl sm = sourdfForClbss(rffTypf);
             if (sm != null) {
-                sm.addClass(refType);
+                sm.bddClbss(rffTypf);
             }
         }
 
-        @Override
-        public void classUnload(ClassUnloadEventSet e) {
-            //### iterate through looking for (e.getTypeName()).
-            //### then remove it.
+        @Ovfrridf
+        publid void dlbssUnlobd(ClbssUnlobdEvfntSft f) {
+            //### itfrbtf tirougi looking for (f.gftTypfNbmf()).
+            //### tifn rfmovf it.
         }
     }
 }

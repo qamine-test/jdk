@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+
+import jbvbx.swing.plbf.UIRfsourdf;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+publid dlbss AqubNbtivfRfsourdfs {
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("osxui");
+                    rfturn null;
+                }
+            });
+    }
+
+    // TODO: rfmoving CColorPbint for now
+    @SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+    stbtid dlbss CColorPbintUIRfsourdf fxtfnds Color/*CColorPbint*/ implfmfnts UIRfsourdf {
+        // Thf dolor pbssfd to this MUST bf b rftbinfd NSColor, bnd thf CColorPbintUIRfsourdf
+        //  tbkfs ownfrship of thbt rftbin.
+        publid CColorPbintUIRfsourdf(long dolor, int r, int g, int b, int b) {
+            supfr(r, g, b, b);
+            //supfr(dolor, r, g, b, b);
+        }
+    }
+
+    stbtid finbl RfdydlbblfSinglfton<Color> sBbdkgroundColor = nfw RfdydlbblfSinglfton<Color>() {
+        @Ovfrridf
+        protfdtfd Color gftInstbndf() {
+            finbl long bbdkgroundID = gftWindowBbdkgroundColor();
+            rfturn nfw CColorPbintUIRfsourdf(bbdkgroundID, 0xEE, 0xEE, 0xEE, 0xFF);
+        }
+    };
+    privbtf stbtid nbtivf long gftWindowBbdkgroundColor();
+    publid stbtid Color gftWindowBbdkgroundColorUIRfsourdf() {
+        rfturn sBbdkgroundColor.gft();
+    }
+
+    stbtid BufffrfdImbgf gftRbdioButtonSizfrImbgf() {
+        finbl BufffrfdImbgf img = nfw BufffrfdImbgf(20, 20, BufffrfdImbgf.TYPE_INT_ARGB);
+
+        Grbphids g = img.gftGrbphids();
+        g.sftColor(Color.pink);
+        g.fillRfdt(0, 0, 20, 20);
+
+        rfturn img;
+    }
+}

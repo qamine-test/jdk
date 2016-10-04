@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.peer;
+pbdkbgf jbvb.bwt.pffr;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import sun.awt.EmbeddedFrame;
+import sun.bwt.EmbfddfdFrbmf;
 
 /**
- * The peer interface for {@link Frame}. This adds a couple of frame specific
- * methods to the {@link WindowPeer} interface.
+ * Tif pffr intfrfbdf for {@link Frbmf}. Tiis bdds b douplf of frbmf spfdifid
+ * mftiods to tif {@link WindowPffr} intfrfbdf.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * Tif pffr intfrfbdfs brf intfndfd only for usf in porting
+ * tif AWT. Tify brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs siould not implfmfnt pffrs
+ * nor invokf bny of tif pffr mftiods dirfdtly on tif pffr
+ * instbndfs.
  */
-public interface FramePeer extends WindowPeer {
+publid intfrfbdf FrbmfPffr fxtfnds WindowPffr {
 
     /**
-     * Sets the title on the frame.
+     * Sfts tif titlf on tif frbmf.
      *
-     * @param title the title to set
+     * @pbrbm titlf tif titlf to sft
      *
-     * @see Frame#setTitle(String)
+     * @sff Frbmf#sftTitlf(String)
      */
-    void setTitle(String title);
+    void sftTitlf(String titlf);
 
     /**
-     * Sets the menu bar for the frame.
+     * Sfts tif mfnu bbr for tif frbmf.
      *
-     * @param mb the menu bar to set
+     * @pbrbm mb tif mfnu bbr to sft
      *
-     * @see Frame#setMenuBar(MenuBar)
+     * @sff Frbmf#sftMfnuBbr(MfnuBbr)
      */
-    void setMenuBar(MenuBar mb);
+    void sftMfnuBbr(MfnuBbr mb);
 
     /**
-     * Sets if the frame should be resizable or not.
+     * Sfts if tif frbmf siould bf rfsizbblf or not.
      *
-     * @param resizeable {@code true} when the frame should be resizable,
-     *        {@code false} if not
+     * @pbrbm rfsizfbblf {@dodf truf} wifn tif frbmf siould bf rfsizbblf,
+     *        {@dodf fblsf} if not
      *
-     * @see Frame#setResizable(boolean)
+     * @sff Frbmf#sftRfsizbblf(boolfbn)
      */
-    void setResizable(boolean resizeable);
+    void sftRfsizbblf(boolfbn rfsizfbblf);
 
     /**
-     * Changes the state of the frame.
+     * Cibngfs tif stbtf of tif frbmf.
      *
-     * @param state the new state
+     * @pbrbm stbtf tif nfw stbtf
      *
-     * @see Frame#setExtendedState(int)
+     * @sff Frbmf#sftExtfndfdStbtf(int)
      */
-    void setState(int state);
+    void sftStbtf(int stbtf);
 
     /**
-     * Returns the current state of the frame.
+     * Rfturns tif durrfnt stbtf of tif frbmf.
      *
-     * @return the current state of the frame
+     * @rfturn tif durrfnt stbtf of tif frbmf
      *
-     * @see Frame#getExtendedState()
+     * @sff Frbmf#gftExtfndfdStbtf()
      */
-    int getState();
+    int gftStbtf();
 
     /**
-     * Sets the bounds of the frame when it becomes maximized.
+     * Sfts tif bounds of tif frbmf wifn it bfdomfs mbximizfd.
      *
-     * @param bounds the maximized bounds of the frame
+     * @pbrbm bounds tif mbximizfd bounds of tif frbmf
      *
-     * @see Frame#setMaximizedBounds(Rectangle)
+     * @sff Frbmf#sftMbximizfdBounds(Rfdtbnglf)
      */
-    void setMaximizedBounds(Rectangle bounds);
+    void sftMbximizfdBounds(Rfdtbnglf bounds);
 
     /**
-     * Sets the size and location for embedded frames. (On embedded frames,
-     * setLocation() and setBounds() always set the frame to (0,0) for
-     * backwards compatibility.
+     * Sfts tif sizf bnd lodbtion for fmbfddfd frbmfs. (On fmbfddfd frbmfs,
+     * sftLodbtion() bnd sftBounds() blwbys sft tif frbmf to (0,0) for
+     * bbdkwbrds dompbtibility.
      *
-     * @param x the X location
-     * @param y the Y location
-     * @param width the width of the frame
-     * @param height the height of the frame
+     * @pbrbm x tif X lodbtion
+     * @pbrbm y tif Y lodbtion
+     * @pbrbm widti tif widti of tif frbmf
+     * @pbrbm ifigit tif ifigit of tif frbmf
      *
-     * @see EmbeddedFrame#setBoundsPrivate(int, int, int, int)
+     * @sff EmbfddfdFrbmf#sftBoundsPrivbtf(int, int, int, int)
      */
-    // TODO: This is only used in EmbeddedFrame, and should probably be moved
-    // into an EmbeddedFramePeer which would extend FramePeer
-    void setBoundsPrivate(int x, int y, int width, int height);
+    // TODO: Tiis is only usfd in EmbfddfdFrbmf, bnd siould probbbly bf movfd
+    // into bn EmbfddfdFrbmfPffr wiidi would fxtfnd FrbmfPffr
+    void sftBoundsPrivbtf(int x, int y, int widti, int ifigit);
 
     /**
-     * Returns the size and location for embedded frames. (On embedded frames,
-     * setLocation() and setBounds() always set the frame to (0,0) for
-     * backwards compatibility.
+     * Rfturns tif sizf bnd lodbtion for fmbfddfd frbmfs. (On fmbfddfd frbmfs,
+     * sftLodbtion() bnd sftBounds() blwbys sft tif frbmf to (0,0) for
+     * bbdkwbrds dompbtibility.
      *
-     * @return the bounds of an embedded frame
+     * @rfturn tif bounds of bn fmbfddfd frbmf
      *
-     * @see EmbeddedFrame#getBoundsPrivate()
+     * @sff EmbfddfdFrbmf#gftBoundsPrivbtf()
      */
-    // TODO: This is only used in EmbeddedFrame, and should probably be moved
-    // into an EmbeddedFramePeer which would extend FramePeer
-    Rectangle getBoundsPrivate();
+    // TODO: Tiis is only usfd in EmbfddfdFrbmf, bnd siould probbbly bf movfd
+    // into bn EmbfddfdFrbmfPffr wiidi would fxtfnd FrbmfPffr
+    Rfdtbnglf gftBoundsPrivbtf();
 
     /**
-     * Requests the peer to emulate window activation.
+     * Rfqufsts tif pffr to fmulbtf window bdtivbtion.
      *
-     * @param activate activate or deactivate the window
+     * @pbrbm bdtivbtf bdtivbtf or dfbdtivbtf tif window
      */
-    void emulateActivation(boolean activate);
+    void fmulbtfAdtivbtion(boolfbn bdtivbtf);
 }

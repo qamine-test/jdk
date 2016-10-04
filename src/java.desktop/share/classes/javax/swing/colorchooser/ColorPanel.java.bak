@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import java.awt.Color;
-import java.awt.ContainerOrderFocusTraversalPolicy;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JSpinner.DefaultEditor;
+import jbvb.bwt.Color;
+import jbvb.bwt.ContbinfrOrdfrFodusTrbvfrsblPolidy;
+import jbvb.bwt.GridBbgConstrbints;
+import jbvb.bwt.GridBbgLbyout;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvbx.swing.ButtonGroup;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JRbdioButton;
+import jbvbx.swing.bordfr.EmptyBordfr;
+import jbvbx.swing.JSpinnfr.DffbultEditor;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-final class ColorPanel extends JPanel implements ActionListener {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+finbl dlbss ColorPbnfl fxtfnds JPbnfl implfmfnts AdtionListfnfr {
 
-    private final SlidingSpinner[] spinners = new SlidingSpinner[5];
-    private final float[] values = new float[this.spinners.length];
+    privbtf finbl SlidingSpinnfr[] spinnfrs = nfw SlidingSpinnfr[5];
+    privbtf finbl flobt[] vblufs = nfw flobt[tiis.spinnfrs.lfngti];
 
-    private final ColorModel model;
-    private Color color;
-    private int x = 1;
-    private int y = 2;
-    private int z;
+    privbtf finbl ColorModfl modfl;
+    privbtf Color dolor;
+    privbtf int x = 1;
+    privbtf int y = 2;
+    privbtf int z;
 
-    ColorPanel(ColorModel model) {
-        super(new GridBagLayout());
+    ColorPbnfl(ColorModfl modfl) {
+        supfr(nfw GridBbgLbyout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        GridBbgConstrbints gbd = nfw GridBbgConstrbints();
+        gbd.fill = GridBbgConstrbints.HORIZONTAL;
 
-        gbc.gridx = 1;
-        ButtonGroup group = new ButtonGroup();
-        EmptyBorder border = null;
-        for (int i = 0; i < this.spinners.length; i++) {
+        gbd.gridx = 1;
+        ButtonGroup group = nfw ButtonGroup();
+        EmptyBordfr bordfr = null;
+        for (int i = 0; i < tiis.spinnfrs.lfngti; i++) {
             if (i < 3) {
-                JRadioButton button = new JRadioButton();
+                JRbdioButton button = nfw JRbdioButton();
                 if (i == 0) {
-                    Insets insets = button.getInsets();
-                    insets.left = button.getPreferredSize().width;
-                    border = new EmptyBorder(insets);
-                    button.setSelected(true);
-                    gbc.insets.top = 5;
+                    Insfts insfts = button.gftInsfts();
+                    insfts.lfft = button.gftPrfffrrfdSizf().widti;
+                    bordfr = nfw EmptyBordfr(insfts);
+                    button.sftSflfdtfd(truf);
+                    gbd.insfts.top = 5;
                 }
-                add(button, gbc);
-                group.add(button);
-                button.setActionCommand(Integer.toString(i));
-                button.addActionListener(this);
-                this.spinners[i] = new SlidingSpinner(this, button);
+                bdd(button, gbd);
+                group.bdd(button);
+                button.sftAdtionCommbnd(Intfgfr.toString(i));
+                button.bddAdtionListfnfr(tiis);
+                tiis.spinnfrs[i] = nfw SlidingSpinnfr(tiis, button);
             }
-            else {
-                JLabel label = new JLabel();
-                add(label, gbc);
-                label.setBorder(border);
-                label.setFocusable(false);
-                this.spinners[i] = new SlidingSpinner(this, label);
+            flsf {
+                JLbbfl lbbfl = nfw JLbbfl();
+                bdd(lbbfl, gbd);
+                lbbfl.sftBordfr(bordfr);
+                lbbfl.sftFodusbblf(fblsf);
+                tiis.spinnfrs[i] = nfw SlidingSpinnfr(tiis, lbbfl);
             }
         }
-        gbc.gridx = 2;
-        gbc.weightx = 1.0;
-        gbc.insets.top = 0;
-        gbc.insets.left = 5;
-        for (SlidingSpinner spinner : this.spinners) {
-            add(spinner.getSlider(), gbc);
-            gbc.insets.top = 5;
+        gbd.gridx = 2;
+        gbd.wfigitx = 1.0;
+        gbd.insfts.top = 0;
+        gbd.insfts.lfft = 5;
+        for (SlidingSpinnfr spinnfr : tiis.spinnfrs) {
+            bdd(spinnfr.gftSlidfr(), gbd);
+            gbd.insfts.top = 5;
         }
-        gbc.gridx = 3;
-        gbc.weightx = 0.0;
-        gbc.insets.top = 0;
-        for (SlidingSpinner spinner : this.spinners) {
-            add(spinner.getSpinner(), gbc);
-            gbc.insets.top = 5;
+        gbd.gridx = 3;
+        gbd.wfigitx = 0.0;
+        gbd.insfts.top = 0;
+        for (SlidingSpinnfr spinnfr : tiis.spinnfrs) {
+            bdd(spinnfr.gftSpinnfr(), gbd);
+            gbd.insfts.top = 5;
         }
-        setFocusTraversalPolicy(new ContainerOrderFocusTraversalPolicy());
-        setFocusTraversalPolicyProvider(true);
-        setFocusable(false);
+        sftFodusTrbvfrsblPolidy(nfw ContbinfrOrdfrFodusTrbvfrsblPolidy());
+        sftFodusTrbvfrsblPolidyProvidfr(truf);
+        sftFodusbblf(fblsf);
 
-        this.model = model;
+        tiis.modfl = modfl;
     }
 
-    public void actionPerformed(ActionEvent event) {
+    publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
         try {
-            this.z = Integer.parseInt(event.getActionCommand());
-            this.y = (this.z != 2) ? 2 : 1;
-            this.x = (this.z != 0) ? 0 : 1;
-            getParent().repaint();
+            tiis.z = Intfgfr.pbrsfInt(fvfnt.gftAdtionCommbnd());
+            tiis.y = (tiis.z != 2) ? 2 : 1;
+            tiis.x = (tiis.z != 0) ? 0 : 1;
+            gftPbrfnt().rfpbint();
         }
-        catch (NumberFormatException exception) {
+        dbtdi (NumbfrFormbtExdfption fxdfption) {
         }
     }
 
-    void buildPanel() {
-        int count = this.model.getCount();
-        this.spinners[4].setVisible(count > 4);
-        for (int i = 0; i < count; i++) {
-            String text = this.model.getLabel(this, i);
-            Object object = this.spinners[i].getLabel();
-            if (object instanceof JRadioButton) {
-                JRadioButton button = (JRadioButton) object;
-                button.setText(text);
-                button.getAccessibleContext().setAccessibleDescription(text);
+    void buildPbnfl() {
+        int dount = tiis.modfl.gftCount();
+        tiis.spinnfrs[4].sftVisiblf(dount > 4);
+        for (int i = 0; i < dount; i++) {
+            String tfxt = tiis.modfl.gftLbbfl(tiis, i);
+            Objfdt objfdt = tiis.spinnfrs[i].gftLbbfl();
+            if (objfdt instbndfof JRbdioButton) {
+                JRbdioButton button = (JRbdioButton) objfdt;
+                button.sftTfxt(tfxt);
+                button.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(tfxt);
             }
-            else if (object instanceof JLabel) {
-                JLabel label = (JLabel) object;
-                label.setText(text);
+            flsf if (objfdt instbndfof JLbbfl) {
+                JLbbfl lbbfl = (JLbbfl) objfdt;
+                lbbfl.sftTfxt(tfxt);
             }
-            this.spinners[i].setRange(this.model.getMinimum(i), this.model.getMaximum(i));
-            this.spinners[i].setValue(this.values[i]);
-            this.spinners[i].getSlider().getAccessibleContext().setAccessibleName(text);
-            this.spinners[i].getSpinner().getAccessibleContext().setAccessibleName(text);
-            DefaultEditor editor = (DefaultEditor) this.spinners[i].getSpinner().getEditor();
-            editor.getTextField().getAccessibleContext().setAccessibleName(text);
-            this.spinners[i].getSlider().getAccessibleContext().setAccessibleDescription(text);
-            this.spinners[i].getSpinner().getAccessibleContext().setAccessibleDescription(text);
-            editor.getTextField().getAccessibleContext().setAccessibleDescription(text);
+            tiis.spinnfrs[i].sftRbngf(tiis.modfl.gftMinimum(i), tiis.modfl.gftMbximum(i));
+            tiis.spinnfrs[i].sftVbluf(tiis.vblufs[i]);
+            tiis.spinnfrs[i].gftSlidfr().gftAddfssiblfContfxt().sftAddfssiblfNbmf(tfxt);
+            tiis.spinnfrs[i].gftSpinnfr().gftAddfssiblfContfxt().sftAddfssiblfNbmf(tfxt);
+            DffbultEditor fditor = (DffbultEditor) tiis.spinnfrs[i].gftSpinnfr().gftEditor();
+            fditor.gftTfxtFifld().gftAddfssiblfContfxt().sftAddfssiblfNbmf(tfxt);
+            tiis.spinnfrs[i].gftSlidfr().gftAddfssiblfContfxt().sftAddfssiblfDfsdription(tfxt);
+            tiis.spinnfrs[i].gftSpinnfr().gftAddfssiblfContfxt().sftAddfssiblfDfsdription(tfxt);
+            fditor.gftTfxtFifld().gftAddfssiblfContfxt().sftAddfssiblfDfsdription(tfxt);
         }
     }
 
-    void colorChanged() {
-        this.color = new Color(getColor(0), true);
-        Object parent = getParent();
-        if (parent instanceof ColorChooserPanel) {
-            ColorChooserPanel chooser = (ColorChooserPanel) parent;
-            chooser.setSelectedColor(this.color);
-            chooser.repaint();
+    void dolorCibngfd() {
+        tiis.dolor = nfw Color(gftColor(0), truf);
+        Objfdt pbrfnt = gftPbrfnt();
+        if (pbrfnt instbndfof ColorCioosfrPbnfl) {
+            ColorCioosfrPbnfl dioosfr = (ColorCioosfrPbnfl) pbrfnt;
+            dioosfr.sftSflfdtfdColor(tiis.dolor);
+            dioosfr.rfpbint();
         }
     }
 
-    float getValueX() {
-        return this.spinners[this.x].getValue();
+    flobt gftVblufX() {
+        rfturn tiis.spinnfrs[tiis.x].gftVbluf();
     }
 
-    float getValueY() {
-        return 1.0f - this.spinners[this.y].getValue();
+    flobt gftVblufY() {
+        rfturn 1.0f - tiis.spinnfrs[tiis.y].gftVbluf();
     }
 
-    float getValueZ() {
-        return 1.0f - this.spinners[this.z].getValue();
+    flobt gftVblufZ() {
+        rfturn 1.0f - tiis.spinnfrs[tiis.z].gftVbluf();
     }
 
-    void setValue(float z) {
-        this.spinners[this.z].setValue(1.0f - z);
-        colorChanged();
+    void sftVbluf(flobt z) {
+        tiis.spinnfrs[tiis.z].sftVbluf(1.0f - z);
+        dolorCibngfd();
     }
 
-    void setValue(float x, float y) {
-        this.spinners[this.x].setValue(x);
-        this.spinners[this.y].setValue(1.0f - y);
-        colorChanged();
+    void sftVbluf(flobt x, flobt y) {
+        tiis.spinnfrs[tiis.x].sftVbluf(x);
+        tiis.spinnfrs[tiis.y].sftVbluf(1.0f - y);
+        dolorCibngfd();
     }
 
-    int getColor(float z) {
-        setDefaultValue(this.x);
-        setDefaultValue(this.y);
-        this.values[this.z] = 1.0f - z;
-        return getColor(3);
+    int gftColor(flobt z) {
+        sftDffbultVbluf(tiis.x);
+        sftDffbultVbluf(tiis.y);
+        tiis.vblufs[tiis.z] = 1.0f - z;
+        rfturn gftColor(3);
     }
 
-    int getColor(float x, float y) {
-        this.values[this.x] = x;
-        this.values[this.y] = 1.0f - y;
-        setValue(this.z);
-        return getColor(3);
+    int gftColor(flobt x, flobt y) {
+        tiis.vblufs[tiis.x] = x;
+        tiis.vblufs[tiis.y] = 1.0f - y;
+        sftVbluf(tiis.z);
+        rfturn gftColor(3);
     }
 
-    void setColor(Color color) {
-        if (!color.equals(this.color)) {
-            this.color = color;
-            this.model.setColor(color.getRGB(), this.values);
-            for (int i = 0; i < this.model.getCount(); i++) {
-                this.spinners[i].setValue(this.values[i]);
+    void sftColor(Color dolor) {
+        if (!dolor.fqubls(tiis.dolor)) {
+            tiis.dolor = dolor;
+            tiis.modfl.sftColor(dolor.gftRGB(), tiis.vblufs);
+            for (int i = 0; i < tiis.modfl.gftCount(); i++) {
+                tiis.spinnfrs[i].sftVbluf(tiis.vblufs[i]);
             }
         }
     }
 
-    private int getColor(int index) {
-        while (index < this.model.getCount()) {
-            setValue(index++);
+    privbtf int gftColor(int indfx) {
+        wiilf (indfx < tiis.modfl.gftCount()) {
+            sftVbluf(indfx++);
         }
-        return this.model.getColor(this.values);
+        rfturn tiis.modfl.gftColor(tiis.vblufs);
     }
 
-    private void setValue(int index) {
-        this.values[index] = this.spinners[index].getValue();
+    privbtf void sftVbluf(int indfx) {
+        tiis.vblufs[indfx] = tiis.spinnfrs[indfx].gftVbluf();
     }
 
-    private void setDefaultValue(int index) {
-        float value = this.model.getDefault(index);
-        this.values[index] = (value < 0.0f)
-                ? this.spinners[index].getValue()
-                : value;
+    privbtf void sftDffbultVbluf(int indfx) {
+        flobt vbluf = tiis.modfl.gftDffbult(indfx);
+        tiis.vblufs[indfx] = (vbluf < 0.0f)
+                ? tiis.spinnfrs[indfx].gftVbluf()
+                : vbluf;
     }
 }

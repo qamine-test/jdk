@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "java_nio_MappedByteBuffer.h"
-#include <sys/mman.h>
-#include <stddef.h>
-#include <stdlib.h>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "jbvb_nio_MbppfdBytfBufffr.i"
+#indludf <sys/mmbn.i>
+#indludf <stddff.i>
+#indludf <stdlib.i>
 
-JNIEXPORT jboolean JNICALL
-Java_java_nio_MappedByteBuffer_isLoaded0(JNIEnv *env, jobject obj, jlong address,
-                                         jlong len, jint numPages)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_nio_MbppfdBytfBufffr_isLobdfd0(JNIEnv *fnv, jobjfdt obj, jlong bddrfss,
+                                         jlong lfn, jint numPbgfs)
 {
-    jboolean loaded = JNI_TRUE;
-    int result = 0;
+    jboolfbn lobdfd = JNI_TRUE;
+    int rfsult = 0;
     int i = 0;
-    void *a = (void *) jlong_to_ptr(address);
-#ifdef __linux__
-    unsigned char *vec = (unsigned char *)malloc(numPages * sizeof(char));
-#else
-    char *vec = (char *)malloc(numPages * sizeof(char));
-#endif
+    void *b = (void *) jlong_to_ptr(bddrfss);
+#ifdff __linux__
+    unsignfd dibr *vfd = (unsignfd dibr *)mbllod(numPbgfs * sizfof(dibr));
+#flsf
+    dibr *vfd = (dibr *)mbllod(numPbgfs * sizfof(dibr));
+#fndif
 
-    if (vec == NULL) {
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return JNI_FALSE;
+    if (vfd == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn JNI_FALSE;
     }
 
-    result = mincore(a, (size_t)len, vec);
-    if (result == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "mincore failed");
-        free(vec);
-        return JNI_FALSE;
+    rfsult = mindorf(b, (sizf_t)lfn, vfd);
+    if (rfsult == -1) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "mindorf fbilfd");
+        frff(vfd);
+        rfturn JNI_FALSE;
     }
 
-    for (i=0; i<numPages; i++) {
-        if (vec[i] == 0) {
-            loaded = JNI_FALSE;
-            break;
+    for (i=0; i<numPbgfs; i++) {
+        if (vfd[i] == 0) {
+            lobdfd = JNI_FALSE;
+            brfbk;
         }
     }
-    free(vec);
-    return loaded;
+    frff(vfd);
+    rfturn lobdfd;
 }
 
 
 JNIEXPORT void JNICALL
-Java_java_nio_MappedByteBuffer_load0(JNIEnv *env, jobject obj, jlong address,
-                                     jlong len)
+Jbvb_jbvb_nio_MbppfdBytfBufffr_lobd0(JNIEnv *fnv, jobjfdt obj, jlong bddrfss,
+                                     jlong lfn)
 {
-    char *a = (char *)jlong_to_ptr(address);
-    int result = madvise((caddr_t)a, (size_t)len, MADV_WILLNEED);
-    if (result == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "madvise failed");
+    dibr *b = (dibr *)jlong_to_ptr(bddrfss);
+    int rfsult = mbdvisf((dbddr_t)b, (sizf_t)lfn, MADV_WILLNEED);
+    if (rfsult == -1) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "mbdvisf fbilfd");
     }
 }
 
 
 JNIEXPORT void JNICALL
-Java_java_nio_MappedByteBuffer_force0(JNIEnv *env, jobject obj, jobject fdo,
-                                      jlong address, jlong len)
+Jbvb_jbvb_nio_MbppfdBytfBufffr_fordf0(JNIEnv *fnv, jobjfdt obj, jobjfdt fdo,
+                                      jlong bddrfss, jlong lfn)
 {
-    void* a = (void *)jlong_to_ptr(address);
-    int result = msync(a, (size_t)len, MS_SYNC);
-    if (result == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "msync failed");
+    void* b = (void *)jlong_to_ptr(bddrfss);
+    int rfsult = msynd(b, (sizf_t)lfn, MS_SYNC);
+    if (rfsult == -1) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "msynd fbilfd");
     }
 }

@@ -1,813 +1,813 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.im.spi.*;
-import java.util.*;
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.im.*;
-import java.awt.font.*;
-import java.lang.Character.Subset;
-import java.lang.reflect.InvocationTargetException;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.text.*;
-import javax.swing.text.JTextComponent;
+import jbvb.bwt.im.spi.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.im.*;
+import jbvb.bwt.font.*;
+import jbvb.lbng.Cibrbdtfr.Subsft;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
+import jbvb.tfxt.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
-import sun.awt.im.InputMethodAdapter;
-import sun.lwawt.*;
+import sun.bwt.im.InputMftiodAdbptfr;
+import sun.lwbwt.*;
 
-public class CInputMethod extends InputMethodAdapter {
-    private InputMethodContext fIMContext;
-    private Component fAwtFocussedComponent;
-    private LWComponentPeer<?, ?> fAwtFocussedComponentPeer;
-    private boolean isActive;
+publid dlbss CInputMftiod fxtfnds InputMftiodAdbptfr {
+    privbtf InputMftiodContfxt fIMContfxt;
+    privbtf Componfnt fAwtFodussfdComponfnt;
+    privbtf LWComponfntPffr<?, ?> fAwtFodussfdComponfntPffr;
+    privbtf boolfbn isAdtivf;
 
-    private static Map<TextAttribute, Integer>[] sHighlightStyles;
+    privbtf stbtid Mbp<TfxtAttributf, Intfgfr>[] sHigiligitStylfs;
 
-    // Intitalize highlight mapping table and its mapper.
-    static {
-        @SuppressWarnings({"rawtypes", "unchecked"})
-        Map<TextAttribute, Integer> styles[] = new Map[4];
-        HashMap<TextAttribute, Integer> map;
+    // Intitblizf iigiligit mbpping tbblf bnd its mbppfr.
+    stbtid {
+        @SupprfssWbrnings({"rbwtypfs", "undifdkfd"})
+        Mbp<TfxtAttributf, Intfgfr> stylfs[] = nfw Mbp[4];
+        HbsiMbp<TfxtAttributf, Intfgfr> mbp;
 
         // UNSELECTED_RAW_TEXT_HIGHLIGHT
-        map = new HashMap<TextAttribute, Integer>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
-                TextAttribute.UNDERLINE_LOW_GRAY);
-        styles[0] = Collections.unmodifiableMap(map);
+        mbp = nfw HbsiMbp<TfxtAttributf, Intfgfr>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_GRAY);
+        stylfs[0] = Collfdtions.unmodifibblfMbp(mbp);
 
         // SELECTED_RAW_TEXT_HIGHLIGHT
-        map = new HashMap<TextAttribute, Integer>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
-                TextAttribute.UNDERLINE_LOW_GRAY);
-        styles[1] = Collections.unmodifiableMap(map);
+        mbp = nfw HbsiMbp<TfxtAttributf, Intfgfr>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_GRAY);
+        stylfs[1] = Collfdtions.unmodifibblfMbp(mbp);
 
         // UNSELECTED_CONVERTED_TEXT_HIGHLIGHT
-        map = new HashMap<TextAttribute, Integer>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
-                TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-        styles[2] = Collections.unmodifiableMap(map);
+        mbp = nfw HbsiMbp<TfxtAttributf, Intfgfr>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_ONE_PIXEL);
+        stylfs[2] = Collfdtions.unmodifibblfMbp(mbp);
 
         // SELECTED_CONVERTED_TEXT_HIGHLIGHT
-        map = new HashMap<TextAttribute, Integer>(1);
-        map.put(TextAttribute.INPUT_METHOD_UNDERLINE,
-                TextAttribute.UNDERLINE_LOW_TWO_PIXEL);
-        styles[3] = Collections.unmodifiableMap(map);
+        mbp = nfw HbsiMbp<TfxtAttributf, Intfgfr>(1);
+        mbp.put(TfxtAttributf.INPUT_METHOD_UNDERLINE,
+                TfxtAttributf.UNDERLINE_LOW_TWO_PIXEL);
+        stylfs[3] = Collfdtions.unmodifibblfMbp(mbp);
 
-        sHighlightStyles = styles;
+        sHigiligitStylfs = stylfs;
 
-        nativeInit();
+        nbtivfInit();
 
     }
 
-    public CInputMethod() {
+    publid CInputMftiod() {
     }
 
 
     /**
-        * Sets the input method context, which is used to dispatch input method
-     * events to the client component and to request information from
-     * the client component.
+        * Sfts tif input mftiod dontfxt, wiidi is usfd to dispbtdi input mftiod
+     * fvfnts to tif dlifnt domponfnt bnd to rfqufst informbtion from
+     * tif dlifnt domponfnt.
      * <p>
-     * This method is called once immediately after instantiating this input
-     * method.
+     * Tiis mftiod is dbllfd ondf immfdibtfly bftfr instbntibting tiis input
+     * mftiod.
      *
-     * @param context the input method context for this input method
-     * @exception NullPointerException if <code>context</code> is null
+     * @pbrbm dontfxt tif input mftiod dontfxt for tiis input mftiod
+     * @fxdfption NullPointfrExdfption if <dodf>dontfxt</dodf> is null
      */
-    public void setInputMethodContext(InputMethodContext context) {
-        fIMContext = context;
+    publid void sftInputMftiodContfxt(InputMftiodContfxt dontfxt) {
+        fIMContfxt = dontfxt;
     }
 
     /**
-        * Attempts to set the input locale. If the input method supports the
-     * desired locale, it changes its behavior to support input for the locale
-     * and returns true.
-     * Otherwise, it returns false and does not change its behavior.
+        * Attfmpts to sft tif input lodblf. If tif input mftiod supports tif
+     * dfsirfd lodblf, it dibngfs its bfibvior to support input for tif lodblf
+     * bnd rfturns truf.
+     * Otifrwisf, it rfturns fblsf bnd dofs not dibngf its bfibvior.
      * <p>
-     * This method is called
+     * Tiis mftiod is dbllfd
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
-     * <li>when switching to this input method through the user interface if the user
-     *     specified a locale or if the previously selected input method's
-     *     {@link java.awt.im.spi.InputMethod#getLocale getLocale} method
-     *     returns a non-null value.
+     * <li>by {@link jbvb.bwt.im.InputContfxt#sflfdtInputMftiod InputContfxt.sflfdtInputMftiod},
+     * <li>wifn switdiing to tiis input mftiod tirougi tif usfr intfrfbdf if tif usfr
+     *     spfdififd b lodblf or if tif prfviously sflfdtfd input mftiod's
+     *     {@link jbvb.bwt.im.spi.InputMftiod#gftLodblf gftLodblf} mftiod
+     *     rfturns b non-null vbluf.
      * </ul>
      *
-     * @param lang locale to input
-     * @return whether the specified locale is supported
-     * @exception NullPointerException if <code>locale</code> is null
+     * @pbrbm lbng lodblf to input
+     * @rfturn wiftifr tif spfdififd lodblf is supportfd
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
      */
-    public boolean setLocale(Locale lang) {
-        return setLocale(lang, false);
+    publid boolfbn sftLodblf(Lodblf lbng) {
+        rfturn sftLodblf(lbng, fblsf);
     }
 
-    private boolean setLocale(Locale lang, boolean onActivate) {
-        Object[] available = CInputMethodDescriptor.getAvailableLocalesInternal();
-        for (int i = 0; i < available.length; i++) {
-            Locale locale = (Locale)available[i];
-            if (lang.equals(locale) ||
-                // special compatibility rule for Japanese and Korean
-                locale.equals(Locale.JAPAN) && lang.equals(Locale.JAPANESE) ||
-                locale.equals(Locale.KOREA) && lang.equals(Locale.KOREAN)) {
-                if (isActive) {
-                    setNativeLocale(locale.toString(), onActivate);
+    privbtf boolfbn sftLodblf(Lodblf lbng, boolfbn onAdtivbtf) {
+        Objfdt[] bvbilbblf = CInputMftiodDfsdriptor.gftAvbilbblfLodblfsIntfrnbl();
+        for (int i = 0; i < bvbilbblf.lfngti; i++) {
+            Lodblf lodblf = (Lodblf)bvbilbblf[i];
+            if (lbng.fqubls(lodblf) ||
+                // spfdibl dompbtibility rulf for Jbpbnfsf bnd Korfbn
+                lodblf.fqubls(Lodblf.JAPAN) && lbng.fqubls(Lodblf.JAPANESE) ||
+                lodblf.fqubls(Lodblf.KOREA) && lbng.fqubls(Lodblf.KOREAN)) {
+                if (isAdtivf) {
+                    sftNbtivfLodblf(lodblf.toString(), onAdtivbtf);
                 }
-                return true;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-        * Returns the current input locale. Might return null in exceptional cases.
+        * Rfturns tif durrfnt input lodblf. Migit rfturn null in fxdfptionbl dbsfs.
      * <p>
-     * This method is called
+     * Tiis mftiod is dbllfd
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#getLocale InputContext.getLocale} and
-     * <li>when switching from this input method to a different one through the
-     *     user interface.
+     * <li>by {@link jbvb.bwt.im.InputContfxt#gftLodblf InputContfxt.gftLodblf} bnd
+     * <li>wifn switdiing from tiis input mftiod to b difffrfnt onf tirougi tif
+     *     usfr intfrfbdf.
      * </ul>
      *
-     * @return the current input locale, or null
+     * @rfturn tif durrfnt input lodblf, or null
      */
-    public Locale getLocale() {
-        // On Mac OS X we'll ask the currently active input method what its locale is.
-        Locale returnValue = getNativeLocale();
-        if (returnValue == null) {
-            returnValue = Locale.getDefault();
+    publid Lodblf gftLodblf() {
+        // On Mbd OS X wf'll bsk tif durrfntly bdtivf input mftiod wibt its lodblf is.
+        Lodblf rfturnVbluf = gftNbtivfLodblf();
+        if (rfturnVbluf == null) {
+            rfturnVbluf = Lodblf.gftDffbult();
         }
 
-        return returnValue;
+        rfturn rfturnVbluf;
     }
 
     /**
-        * Sets the subsets of the Unicode character set that this input method
-     * is allowed to input. Null may be passed in to indicate that all
-     * characters are allowed.
+        * Sfts tif subsfts of tif Unidodf dibrbdtfr sft tibt tiis input mftiod
+     * is bllowfd to input. Null mby bf pbssfd in to indidbtf tibt bll
+     * dibrbdtfrs brf bllowfd.
      * <p>
-     * This method is called
+     * Tiis mftiod is dbllfd
      * <ul>
-     * <li>immediately after instantiating this input method,
-     * <li>when switching to this input method from a different one, and
-     * <li>by {@link java.awt.im.InputContext#setCharacterSubsets InputContext.setCharacterSubsets}.
+     * <li>immfdibtfly bftfr instbntibting tiis input mftiod,
+     * <li>wifn switdiing to tiis input mftiod from b difffrfnt onf, bnd
+     * <li>by {@link jbvb.bwt.im.InputContfxt#sftCibrbdtfrSubsfts InputContfxt.sftCibrbdtfrSubsfts}.
      * </ul>
      *
-     * @param subsets the subsets of the Unicode character set from which
-     * characters may be input
+     * @pbrbm subsfts tif subsfts of tif Unidodf dibrbdtfr sft from wiidi
+     * dibrbdtfrs mby bf input
      */
-    public void setCharacterSubsets(Subset[] subsets) {
-        // -- SAK: Does mac OS X support this?
+    publid void sftCibrbdtfrSubsfts(Subsft[] subsfts) {
+        // -- SAK: Dofs mbd OS X support tiis?
     }
 
     /**
-        * Composition cannot be set on Mac OS X -- the input method remembers this
+        * Composition dbnnot bf sft on Mbd OS X -- tif input mftiod rfmfmbfrs tiis
      */
-    public void setCompositionEnabled(boolean enable) {
-        throw new UnsupportedOperationException("Can't adjust composition mode on Mac OS X.");
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Cbn't bdjust domposition modf on Mbd OS X.");
     }
 
-    public boolean isCompositionEnabled() {
-        throw new UnsupportedOperationException("Can't adjust composition mode on Mac OS X.");
+    publid boolfbn isCompositionEnbblfd() {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Cbn't bdjust domposition modf on Mbd OS X.");
     }
 
     /**
-     * Dispatches the event to the input method. If input method support is
-     * enabled for the focussed component, incoming events of certain types
-     * are dispatched to the current input method for this component before
-     * they are dispatched to the component's methods or event listeners.
-     * The input method decides whether it needs to handle the event. If it
-     * does, it also calls the event's <code>consume</code> method; this
-     * causes the event to not get dispatched to the component's event
-     * processing methods or event listeners.
+     * Dispbtdifs tif fvfnt to tif input mftiod. If input mftiod support is
+     * fnbblfd for tif fodussfd domponfnt, indoming fvfnts of dfrtbin typfs
+     * brf dispbtdifd to tif durrfnt input mftiod for tiis domponfnt bfforf
+     * tify brf dispbtdifd to tif domponfnt's mftiods or fvfnt listfnfrs.
+     * Tif input mftiod dfdidfs wiftifr it nffds to ibndlf tif fvfnt. If it
+     * dofs, it blso dblls tif fvfnt's <dodf>donsumf</dodf> mftiod; tiis
+     * dbusfs tif fvfnt to not gft dispbtdifd to tif domponfnt's fvfnt
+     * prodfssing mftiods or fvfnt listfnfrs.
      * <p>
-     * Events are dispatched if they are instances of InputEvent or its
-     * subclasses.
-     * This includes instances of the AWT classes KeyEvent and MouseEvent.
+     * Evfnts brf dispbtdifd if tify brf instbndfs of InputEvfnt or its
+     * subdlbssfs.
+     * Tiis indludfs instbndfs of tif AWT dlbssfs KfyEvfnt bnd MousfEvfnt.
      * <p>
-     * This method is called by {@link java.awt.im.InputContext#dispatchEvent InputContext.dispatchEvent}.
+     * Tiis mftiod is dbllfd by {@link jbvb.bwt.im.InputContfxt#dispbtdiEvfnt InputContfxt.dispbtdiEvfnt}.
      *
-     * @param event the event being dispatched to the input method
-     * @exception NullPointerException if <code>event</code> is null
+     * @pbrbm fvfnt tif fvfnt bfing dispbtdifd to tif input mftiod
+     * @fxdfption NullPointfrExdfption if <dodf>fvfnt</dodf> is null
      */
-    public void dispatchEvent(final AWTEvent event) {
-        // No-op for Mac OS X.
+    publid void dispbtdiEvfnt(finbl AWTEvfnt fvfnt) {
+        // No-op for Mbd OS X.
     }
 
 
     /**
-     * Activate and deactivate are no-ops on Mac OS X.
-     * A non-US keyboard layout is an 'input method' in that it generates events the same way as
-     * a CJK input method. A component that doesn't want input method events still wants the dead-key
-     * events.
+     * Adtivbtf bnd dfbdtivbtf brf no-ops on Mbd OS X.
+     * A non-US kfybobrd lbyout is bn 'input mftiod' in tibt it gfnfrbtfs fvfnts tif sbmf wby bs
+     * b CJK input mftiod. A domponfnt tibt dofsn't wbnt input mftiod fvfnts still wbnts tif dfbd-kfy
+     * fvfnts.
      *
      *
      */
-    public void activate() {
-        isActive = true;
+    publid void bdtivbtf() {
+        isAdtivf = truf;
     }
 
-    public void deactivate(boolean isTemporary) {
-        isActive = false;
+    publid void dfbdtivbtf(boolfbn isTfmporbry) {
+        isAdtivf = fblsf;
     }
 
     /**
-     * Closes or hides all windows opened by this input method instance or
-     * its class.  Deactivate hides windows for us on Mac OS X.
+     * Closfs or iidfs bll windows opfnfd by tiis input mftiod instbndf or
+     * its dlbss.  Dfbdtivbtf iidfs windows for us on Mbd OS X.
      */
-    public void hideWindows() {
+    publid void iidfWindows() {
     }
 
-    long getNativeViewPtr(LWComponentPeer<?, ?> peer) {
-        if (peer.getPlatformWindow() instanceof CPlatformWindow) {
-            CPlatformWindow platformWindow = (CPlatformWindow) peer.getPlatformWindow();
-            CPlatformView platformView = platformWindow.getContentView();
-            return platformView.getAWTView();
-        } else {
-            return 0;
+    long gftNbtivfVifwPtr(LWComponfntPffr<?, ?> pffr) {
+        if (pffr.gftPlbtformWindow() instbndfof CPlbtformWindow) {
+            CPlbtformWindow plbtformWindow = (CPlbtformWindow) pffr.gftPlbtformWindow();
+            CPlbtformVifw plbtformVifw = plbtformWindow.gftContfntVifw();
+            rfturn plbtformVifw.gftAWTVifw();
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-        * Notifies the input method that a client component has been
-     * removed from its containment hierarchy, or that input method
-     * support has been disabled for the component.
+        * Notififs tif input mftiod tibt b dlifnt domponfnt ibs bffn
+     * rfmovfd from its dontbinmfnt iifrbrdiy, or tibt input mftiod
+     * support ibs bffn disbblfd for tif domponfnt.
      */
-    public void removeNotify() {
-        if (fAwtFocussedComponentPeer != null) {
-            nativeEndComposition(getNativeViewPtr(fAwtFocussedComponentPeer));
+    publid void rfmovfNotify() {
+        if (fAwtFodussfdComponfntPffr != null) {
+            nbtivfEndComposition(gftNbtivfVifwPtr(fAwtFodussfdComponfntPffr));
         }
 
-        fAwtFocussedComponentPeer = null;
+        fAwtFodussfdComponfntPffr = null;
     }
 
     /**
-     * Informs the input method adapter about the component that has the AWT
-     * focus if it's using the input context owning this adapter instance.
-     * We also take the opportunity to tell the native side that we are the input method
-     * to talk to when responding to key events.
+     * Informs tif input mftiod bdbptfr bbout tif domponfnt tibt ibs tif AWT
+     * fodus if it's using tif input dontfxt owning tiis bdbptfr instbndf.
+     * Wf blso tbkf tif opportunity to tfll tif nbtivf sidf tibt wf brf tif input mftiod
+     * to tblk to wifn rfsponding to kfy fvfnts.
      */
-    protected void setAWTFocussedComponent(Component component) {
-        LWComponentPeer<?, ?> peer = null;
-        long modelPtr = 0;
-        CInputMethod imInstance = this;
+    protfdtfd void sftAWTFodussfdComponfnt(Componfnt domponfnt) {
+        LWComponfntPffr<?, ?> pffr = null;
+        long modflPtr = 0;
+        CInputMftiod imInstbndf = tiis;
 
-        // component will be null when we are told there's no focused component.
-        // When that happens we need to notify the native architecture to stop generating IMEs
-        if (component == null) {
-            peer = fAwtFocussedComponentPeer;
-            imInstance = null;
-        } else {
-            peer = getNearestNativePeer(component);
+        // domponfnt will bf null wifn wf brf told tifrf's no fodusfd domponfnt.
+        // Wifn tibt ibppfns wf nffd to notify tif nbtivf brdiitfdturf to stop gfnfrbting IMEs
+        if (domponfnt == null) {
+            pffr = fAwtFodussfdComponfntPffr;
+            imInstbndf = null;
+        } flsf {
+            pffr = gftNfbrfstNbtivfPffr(domponfnt);
 
-            // If we have a passive client, don't pass input method events to it.
-            if (component.getInputMethodRequests() == null) {
-                imInstance = null;
+            // If wf ibvf b pbssivf dlifnt, don't pbss input mftiod fvfnts to it.
+            if (domponfnt.gftInputMftiodRfqufsts() == null) {
+                imInstbndf = null;
             }
         }
 
-        if (peer != null) {
-            modelPtr = getNativeViewPtr(peer);
+        if (pffr != null) {
+            modflPtr = gftNbtivfVifwPtr(pffr);
 
-            // modelPtr refers to the ControlModel that either got or lost focus.
-            nativeNotifyPeer(modelPtr, imInstance);
+            // modflPtr rfffrs to tif ControlModfl tibt fitifr got or lost fodus.
+            nbtivfNotifyPffr(modflPtr, imInstbndf);
         }
 
-        // Track the focused component and its nearest peer.
-        fAwtFocussedComponent = component;
-        fAwtFocussedComponentPeer = getNearestNativePeer(component);
+        // Trbdk tif fodusfd domponfnt bnd its nfbrfst pffr.
+        fAwtFodussfdComponfnt = domponfnt;
+        fAwtFodussfdComponfntPffr = gftNfbrfstNbtivfPffr(domponfnt);
     }
 
     /**
-        * @see java.awt.Toolkit#mapInputMethodHighlight
+        * @sff jbvb.bwt.Toolkit#mbpInputMftiodHigiligit
      */
-    public static Map<TextAttribute, ?> mapInputMethodHighlight(InputMethodHighlight highlight) {
-        int index;
-        int state = highlight.getState();
-        if (state == InputMethodHighlight.RAW_TEXT) {
-            index = 0;
-        } else if (state == InputMethodHighlight.CONVERTED_TEXT) {
-            index = 2;
-        } else {
-            return null;
+    publid stbtid Mbp<TfxtAttributf, ?> mbpInputMftiodHigiligit(InputMftiodHigiligit iigiligit) {
+        int indfx;
+        int stbtf = iigiligit.gftStbtf();
+        if (stbtf == InputMftiodHigiligit.RAW_TEXT) {
+            indfx = 0;
+        } flsf if (stbtf == InputMftiodHigiligit.CONVERTED_TEXT) {
+            indfx = 2;
+        } flsf {
+            rfturn null;
         }
-        if (highlight.isSelected()) {
-            index += 1;
+        if (iigiligit.isSflfdtfd()) {
+            indfx += 1;
         }
-        return sHighlightStyles[index];
+        rfturn sHigiligitStylfs[indfx];
     }
 
     /**
-        * Ends any input composition that may currently be going on in this
-     * context. Depending on the platform and possibly user preferences,
-     * this may commit or delete uncommitted text. Any changes to the text
-     * are communicated to the active component using an input method event.
+        * Ends bny input domposition tibt mby durrfntly bf going on in tiis
+     * dontfxt. Dfpfnding on tif plbtform bnd possibly usfr prfffrfndfs,
+     * tiis mby dommit or dflftf undommittfd tfxt. Any dibngfs to tif tfxt
+     * brf dommunidbtfd to tif bdtivf domponfnt using bn input mftiod fvfnt.
      *
      * <p>
-     * A text editing component may call this in a variety of situations,
-     * for example, when the user moves the insertion point within the text
-     * (but outside the composed text), or when the component's text is
-     * saved to a file or copied to the clipboard.
+     * A tfxt fditing domponfnt mby dbll tiis in b vbrifty of situbtions,
+     * for fxbmplf, wifn tif usfr movfs tif insfrtion point witiin tif tfxt
+     * (but outsidf tif domposfd tfxt), or wifn tif domponfnt's tfxt is
+     * sbvfd to b filf or dopifd to tif dlipbobrd.
      * <p>
-     * This method is called
+     * Tiis mftiod is dbllfd
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#endComposition InputContext.endComposition},
-     * <li>by {@link java.awt.im.InputContext#dispatchEvent InputContext.dispatchEvent}
-     *     when switching to a different client component
-     * <li>when switching from this input method to a different one using the
-     *     user interface or
-     *     {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
+     * <li>by {@link jbvb.bwt.im.InputContfxt#fndComposition InputContfxt.fndComposition},
+     * <li>by {@link jbvb.bwt.im.InputContfxt#dispbtdiEvfnt InputContfxt.dispbtdiEvfnt}
+     *     wifn switdiing to b difffrfnt dlifnt domponfnt
+     * <li>wifn switdiing from tiis input mftiod to b difffrfnt onf using tif
+     *     usfr intfrfbdf or
+     *     {@link jbvb.bwt.im.InputContfxt#sflfdtInputMftiod InputContfxt.sflfdtInputMftiod}.
      * </ul>
      */
-    public void endComposition() {
-        if (fAwtFocussedComponentPeer != null)
-            nativeEndComposition(getNativeViewPtr(fAwtFocussedComponentPeer));
+    publid void fndComposition() {
+        if (fAwtFodussfdComponfntPffr != null)
+            nbtivfEndComposition(gftNbtivfVifwPtr(fAwtFodussfdComponfntPffr));
     }
 
     /**
-        * Disposes of the input method and releases the resources used by it.
-     * In particular, the input method should dispose windows and close files that are no
-     * longer needed.
+        * Disposfs of tif input mftiod bnd rflfbsfs tif rfsourdfs usfd by it.
+     * In pbrtidulbr, tif input mftiod siould disposf windows bnd dlosf filfs tibt brf no
+     * longfr nffdfd.
      * <p>
-     * This method is called by {@link java.awt.im.InputContext#dispose InputContext.dispose}.
+     * Tiis mftiod is dbllfd by {@link jbvb.bwt.im.InputContfxt#disposf InputContfxt.disposf}.
      * <p>
-     * The method is only called when the input method is inactive.
-     * No method of this interface is called on this instance after dispose.
+     * Tif mftiod is only dbllfd wifn tif input mftiod is inbdtivf.
+     * No mftiod of tiis intfrfbdf is dbllfd on tiis instbndf bftfr disposf.
      */
-    public void dispose() {
-        fIMContext = null;
-        fAwtFocussedComponent = null;
-        fAwtFocussedComponentPeer = null;
+    publid void disposf() {
+        fIMContfxt = null;
+        fAwtFodussfdComponfnt = null;
+        fAwtFodussfdComponfntPffr = null;
     }
 
     /**
-        * Returns a control object from this input method, or null. A
-     * control object provides methods that control the behavior of the
-     * input method or obtain information from the input method. The type
-     * of the object is an input method specific class. Clients have to
-     * compare the result against known input method control object
-     * classes and cast to the appropriate class to invoke the methods
-     * provided.
+        * Rfturns b dontrol objfdt from tiis input mftiod, or null. A
+     * dontrol objfdt providfs mftiods tibt dontrol tif bfibvior of tif
+     * input mftiod or obtbin informbtion from tif input mftiod. Tif typf
+     * of tif objfdt is bn input mftiod spfdifid dlbss. Clifnts ibvf to
+     * dompbrf tif rfsult bgbinst known input mftiod dontrol objfdt
+     * dlbssfs bnd dbst to tif bppropribtf dlbss to invokf tif mftiods
+     * providfd.
      * <p>
-     * This method is called by
-     * {@link java.awt.im.InputContext#getInputMethodControlObject InputContext.getInputMethodControlObject}.
+     * Tiis mftiod is dbllfd by
+     * {@link jbvb.bwt.im.InputContfxt#gftInputMftiodControlObjfdt InputContfxt.gftInputMftiodControlObjfdt}.
      *
-     * @return a control object from this input method, or null
+     * @rfturn b dontrol objfdt from tiis input mftiod, or null
      */
-    public Object getControlObject() {
-        return null;
+    publid Objfdt gftControlObjfdt() {
+        rfturn null;
     }
 
-    // java.awt.Toolkit#getNativeContainer() is not available
-    //    from this package
-    private LWComponentPeer<?, ?> getNearestNativePeer(Component comp) {
-        if (comp==null)
-            return null;
+    // jbvb.bwt.Toolkit#gftNbtivfContbinfr() is not bvbilbblf
+    //    from tiis pbdkbgf
+    privbtf LWComponfntPffr<?, ?> gftNfbrfstNbtivfPffr(Componfnt domp) {
+        if (domp==null)
+            rfturn null;
 
-        ComponentPeer peer = comp.getPeer();
-        if (peer==null)
-            return null;
+        ComponfntPffr pffr = domp.gftPffr();
+        if (pffr==null)
+            rfturn null;
 
-        while (peer instanceof java.awt.peer.LightweightPeer) {
-            comp = comp.getParent();
-            if (comp==null)
-                return null;
-            peer = comp.getPeer();
-            if (peer==null)
-                return null;
+        wiilf (pffr instbndfof jbvb.bwt.pffr.LigitwfigitPffr) {
+            domp = domp.gftPbrfnt();
+            if (domp==null)
+                rfturn null;
+            pffr = domp.gftPffr();
+            if (pffr==null)
+                rfturn null;
         }
 
-        if (peer instanceof LWComponentPeer)
-            return (LWComponentPeer)peer;
+        if (pffr instbndfof LWComponfntPffr)
+            rfturn (LWComponfntPffr)pffr;
 
-        return null;
+        rfturn null;
     }
 
-    // =========================== NSTextInput callbacks ===========================
-    // The 'marked text' that we get from Cocoa.  We need to track this separately, since
-    // Java doesn't let us ask the IM context for it.
-    private AttributedString fCurrentText = null;
-    private String fCurrentTextAsString = null;
-    private int fCurrentTextLength = 0;
+    // =========================== NSTfxtInput dbllbbdks ===========================
+    // Tif 'mbrkfd tfxt' tibt wf gft from Codob.  Wf nffd to trbdk tiis sfpbrbtfly, sindf
+    // Jbvb dofsn't lft us bsk tif IM dontfxt for it.
+    privbtf AttributfdString fCurrfntTfxt = null;
+    privbtf String fCurrfntTfxtAsString = null;
+    privbtf int fCurrfntTfxtLfngti = 0;
 
     /**
-     * Tell the component to commit all of the characters in the string to the current
-     * text view. This effectively wipes out any text in progress.
+     * Tfll tif domponfnt to dommit bll of tif dibrbdtfrs in tif string to tif durrfnt
+     * tfxt vifw. Tiis ffffdtivfly wipfs out bny tfxt in progrfss.
      */
-    synchronized private void insertText(String aString) {
-        AttributedString attribString = new AttributedString(aString);
+    syndironizfd privbtf void insfrtTfxt(String bString) {
+        AttributfdString bttribString = nfw AttributfdString(bString);
 
-        // Set locale information on the new string.
-        attribString.addAttribute(Attribute.LANGUAGE, getLocale(), 0, aString.length());
+        // Sft lodblf informbtion on tif nfw string.
+        bttribString.bddAttributf(Attributf.LANGUAGE, gftLodblf(), 0, bString.lfngti());
 
-        TextHitInfo theCaret = TextHitInfo.afterOffset(aString.length() - 1);
-        InputMethodEvent event = new InputMethodEvent(fAwtFocussedComponent,
-                                                      InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                                                      attribString.getIterator(),
-                                                      aString.length(),
-                                                      theCaret,
-                                                      theCaret);
-        LWCToolkit.postEvent(LWCToolkit.targetToAppContext(fAwtFocussedComponent), event);
-        fCurrentText = null;
-        fCurrentTextAsString = null;
-        fCurrentTextLength = 0;
+        TfxtHitInfo tifCbrft = TfxtHitInfo.bftfrOffsft(bString.lfngti() - 1);
+        InputMftiodEvfnt fvfnt = nfw InputMftiodEvfnt(fAwtFodussfdComponfnt,
+                                                      InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                                      bttribString.gftItfrbtor(),
+                                                      bString.lfngti(),
+                                                      tifCbrft,
+                                                      tifCbrft);
+        LWCToolkit.postEvfnt(LWCToolkit.tbrgftToAppContfxt(fAwtFodussfdComponfnt), fvfnt);
+        fCurrfntTfxt = null;
+        fCurrfntTfxtAsString = null;
+        fCurrfntTfxtLfngti = 0;
     }
 
-    private void startIMUpdate (String rawText) {
-        fCurrentTextAsString = new String(rawText);
-        fCurrentText = new AttributedString(fCurrentTextAsString);
-        fCurrentTextLength = rawText.length();
+    privbtf void stbrtIMUpdbtf (String rbwTfxt) {
+        fCurrfntTfxtAsString = nfw String(rbwTfxt);
+        fCurrfntTfxt = nfw AttributfdString(fCurrfntTfxtAsString);
+        fCurrfntTfxtLfngti = rbwTfxt.lfngti();
     }
 
-    static private final int kCaretPosition = 0;
-    static private final int kRawText = 1;
-    static private final int kSelectedRawText = 2;
-    static private final int kConvertedText = 3;
-    static private final int kSelectedConvertedText = 4;
+    stbtid privbtf finbl int kCbrftPosition = 0;
+    stbtid privbtf finbl int kRbwTfxt = 1;
+    stbtid privbtf finbl int kSflfdtfdRbwTfxt = 2;
+    stbtid privbtf finbl int kConvfrtfdTfxt = 3;
+    stbtid privbtf finbl int kSflfdtfdConvfrtfdTfxt = 4;
 
     /**
-     * Convert Cocoa text highlight attributes into Java input method highlighting.
+     * Convfrt Codob tfxt iigiligit bttributfs into Jbvb input mftiod iigiligiting.
      */
-    private void addAttribute (boolean isThickUnderline, boolean isGray, int start, int length) {
-        int begin = start;
-        int end = start + length;
-        int markupType = kRawText;
+    privbtf void bddAttributf (boolfbn isTiidkUndfrlinf, boolfbn isGrby, int stbrt, int lfngti) {
+        int bfgin = stbrt;
+        int fnd = stbrt + lfngti;
+        int mbrkupTypf = kRbwTfxt;
 
-        if (isThickUnderline && isGray) {
-            markupType = kRawText;
-        } else if (!isThickUnderline && isGray) {
-            markupType = kRawText;
-        } else if (isThickUnderline && !isGray) {
-            markupType = kSelectedConvertedText;
-        } else if (!isThickUnderline && !isGray) {
-            markupType = kConvertedText;
+        if (isTiidkUndfrlinf && isGrby) {
+            mbrkupTypf = kRbwTfxt;
+        } flsf if (!isTiidkUndfrlinf && isGrby) {
+            mbrkupTypf = kRbwTfxt;
+        } flsf if (isTiidkUndfrlinf && !isGrby) {
+            mbrkupTypf = kSflfdtfdConvfrtfdTfxt;
+        } flsf if (!isTiidkUndfrlinf && !isGrby) {
+            mbrkupTypf = kConvfrtfdTfxt;
         }
 
-        InputMethodHighlight theHighlight;
+        InputMftiodHigiligit tifHigiligit;
 
-        switch (markupType) {
-            case kSelectedRawText:
-                theHighlight = InputMethodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT;
-                break;
-            case kConvertedText:
-                theHighlight = InputMethodHighlight.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
-                break;
-            case kSelectedConvertedText:
-                theHighlight = InputMethodHighlight.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
-                break;
-            case kRawText:
-            default:
-                theHighlight = InputMethodHighlight.UNSELECTED_RAW_TEXT_HIGHLIGHT;
-                break;
+        switdi (mbrkupTypf) {
+            dbsf kSflfdtfdRbwTfxt:
+                tifHigiligit = InputMftiodHigiligit.SELECTED_RAW_TEXT_HIGHLIGHT;
+                brfbk;
+            dbsf kConvfrtfdTfxt:
+                tifHigiligit = InputMftiodHigiligit.UNSELECTED_CONVERTED_TEXT_HIGHLIGHT;
+                brfbk;
+            dbsf kSflfdtfdConvfrtfdTfxt:
+                tifHigiligit = InputMftiodHigiligit.SELECTED_CONVERTED_TEXT_HIGHLIGHT;
+                brfbk;
+            dbsf kRbwTfxt:
+            dffbult:
+                tifHigiligit = InputMftiodHigiligit.UNSELECTED_RAW_TEXT_HIGHLIGHT;
+                brfbk;
         }
 
-        fCurrentText.addAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT, theHighlight, begin, end);
+        fCurrfntTfxt.bddAttributf(TfxtAttributf.INPUT_METHOD_HIGHLIGHT, tifHigiligit, bfgin, fnd);
     }
 
-   /* Called from JNI to select the previously typed glyph during press and hold */
-    private void selectPreviousGlyph() {
-        if (fIMContext == null) return; // ???
+   /* Cbllfd from JNI to sflfdt tif prfviously typfd glypi during prfss bnd iold */
+    privbtf void sflfdtPrfviousGlypi() {
+        if (fIMContfxt == null) rfturn; // ???
         try {
-            LWCToolkit.invokeLater(new Runnable() {
-                public void run() {
-                    final int offset = fIMContext.getInsertPositionOffset();
-                    if (offset < 1) return; // ???
+            LWCToolkit.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    finbl int offsft = fIMContfxt.gftInsfrtPositionOffsft();
+                    if (offsft < 1) rfturn; // ???
 
-                    if (fAwtFocussedComponent instanceof JTextComponent) {
-                        ((JTextComponent) fAwtFocussedComponent).select(offset - 1, offset);
-                        return;
+                    if (fAwtFodussfdComponfnt instbndfof JTfxtComponfnt) {
+                        ((JTfxtComponfnt) fAwtFodussfdComponfnt).sflfdt(offsft - 1, offsft);
+                        rfturn;
                     }
 
-                    if (fAwtFocussedComponent instanceof TextComponent) {
-                        ((TextComponent) fAwtFocussedComponent).select(offset - 1, offset);
-                        return;
+                    if (fAwtFodussfdComponfnt instbndfof TfxtComponfnt) {
+                        ((TfxtComponfnt) fAwtFodussfdComponfnt).sflfdt(offsft - 1, offsft);
+                        rfturn;
                     }
-                    // TODO: Ideally we want to disable press-and-hold in this case
+                    // TODO: Idfblly wf wbnt to disbblf prfss-bnd-iold in tiis dbsf
                 }
-            }, fAwtFocussedComponent);
-        } catch (Exception e) {
-            e.printStackTrace();
+            }, fAwtFodussfdComponfnt);
+        } dbtdi (Exdfption f) {
+            f.printStbdkTrbdf();
         }
     }
 
-    private void selectNextGlyph() {
-        if (fIMContext == null || !(fAwtFocussedComponent instanceof JTextComponent)) return;
+    privbtf void sflfdtNfxtGlypi() {
+        if (fIMContfxt == null || !(fAwtFodussfdComponfnt instbndfof JTfxtComponfnt)) rfturn;
         try {
-            LWCToolkit.invokeLater(new Runnable() {
-                public void run() {
-                    final int offset = fIMContext.getInsertPositionOffset();
-                    if (offset < 0) return;
-                    ((JTextComponent) fAwtFocussedComponent).select(offset, offset + 1);
-                    return;
+            LWCToolkit.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    finbl int offsft = fIMContfxt.gftInsfrtPositionOffsft();
+                    if (offsft < 0) rfturn;
+                    ((JTfxtComponfnt) fAwtFodussfdComponfnt).sflfdt(offsft, offsft + 1);
+                    rfturn;
                 }
-            }, fAwtFocussedComponent);
-        } catch (Exception e) {
-            e.printStackTrace();
+            }, fAwtFodussfdComponfnt);
+        } dbtdi (Exdfption f) {
+            f.printStbdkTrbdf();
         }
     }
 
-    private void dispatchText(int selectStart, int selectLength, boolean pressAndHold) {
-        // Nothing to do if we have no text.
-        if (fCurrentText == null)
-            return;
+    privbtf void dispbtdiTfxt(int sflfdtStbrt, int sflfdtLfngti, boolfbn prfssAndHold) {
+        // Notiing to do if wf ibvf no tfxt.
+        if (fCurrfntTfxt == null)
+            rfturn;
 
-        TextHitInfo theCaret = (selectLength == 0 ? TextHitInfo.beforeOffset(selectStart) : null);
-        TextHitInfo visiblePosition = TextHitInfo.beforeOffset(0);
+        TfxtHitInfo tifCbrft = (sflfdtLfngti == 0 ? TfxtHitInfo.bfforfOffsft(sflfdtStbrt) : null);
+        TfxtHitInfo visiblfPosition = TfxtHitInfo.bfforfOffsft(0);
 
-        InputMethodEvent event = new InputMethodEvent(fAwtFocussedComponent,
-                                                      InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                                                      fCurrentText.getIterator(),
+        InputMftiodEvfnt fvfnt = nfw InputMftiodEvfnt(fAwtFodussfdComponfnt,
+                                                      InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                                      fCurrfntTfxt.gftItfrbtor(),
                                                       0,
-                                                      theCaret,
-                                                      visiblePosition);
-        LWCToolkit.postEvent(LWCToolkit.targetToAppContext(fAwtFocussedComponent), event);
+                                                      tifCbrft,
+                                                      visiblfPosition);
+        LWCToolkit.postEvfnt(LWCToolkit.tbrgftToAppContfxt(fAwtFodussfdComponfnt), fvfnt);
 
-        if (pressAndHold) selectNextGlyph();
+        if (prfssAndHold) sflfdtNfxtGlypi();
     }
 
     /**
-     * Frequent callbacks from NSTextInput.  I think we're supposed to commit it here?
+     * Frfqufnt dbllbbdks from NSTfxtInput.  I tiink wf'rf supposfd to dommit it ifrf?
      */
-    synchronized private void unmarkText() {
-        if (fCurrentText == null)
-            return;
+    syndironizfd privbtf void unmbrkTfxt() {
+        if (fCurrfntTfxt == null)
+            rfturn;
 
-        TextHitInfo theCaret = TextHitInfo.afterOffset(fCurrentTextLength);
-        TextHitInfo visiblePosition = theCaret;
-        InputMethodEvent event = new InputMethodEvent(fAwtFocussedComponent,
-                                                      InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                                                      fCurrentText.getIterator(),
-                                                      fCurrentTextLength,
-                                                      theCaret,
-                                                      visiblePosition);
-        LWCToolkit.postEvent(LWCToolkit.targetToAppContext(fAwtFocussedComponent), event);
-        fCurrentText = null;
-        fCurrentTextAsString = null;
-        fCurrentTextLength = 0;
+        TfxtHitInfo tifCbrft = TfxtHitInfo.bftfrOffsft(fCurrfntTfxtLfngti);
+        TfxtHitInfo visiblfPosition = tifCbrft;
+        InputMftiodEvfnt fvfnt = nfw InputMftiodEvfnt(fAwtFodussfdComponfnt,
+                                                      InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                                                      fCurrfntTfxt.gftItfrbtor(),
+                                                      fCurrfntTfxtLfngti,
+                                                      tifCbrft,
+                                                      visiblfPosition);
+        LWCToolkit.postEvfnt(LWCToolkit.tbrgftToAppContfxt(fAwtFodussfdComponfnt), fvfnt);
+        fCurrfntTfxt = null;
+        fCurrfntTfxtAsString = null;
+        fCurrfntTfxtLfngti = 0;
     }
 
-    synchronized private boolean hasMarkedText() {
-        return fCurrentText != null;
+    syndironizfd privbtf boolfbn ibsMbrkfdTfxt() {
+        rfturn fCurrfntTfxt != null;
     }
 
     /**
-        * Cocoa assumes the marked text and committed text is all stored in the same storage, but
-     * Java does not.  So, we have to see where the request is and based on that return the right
+        * Codob bssumfs tif mbrkfd tfxt bnd dommittfd tfxt is bll storfd in tif sbmf storbgf, but
+     * Jbvb dofs not.  So, wf ibvf to sff wifrf tif rfqufst is bnd bbsfd on tibt rfturn tif rigit
      * substring.
      */
-    synchronized private String attributedSubstringFromRange(final int locationIn, final int lengthIn) {
-        final String[] retString = new String[1];
+    syndironizfd privbtf String bttributfdSubstringFromRbngf(finbl int lodbtionIn, finbl int lfngtiIn) {
+        finbl String[] rftString = nfw String[1];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                public void run() { synchronized(retString) {
-                    int location = locationIn;
-                    int length = lengthIn;
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndironizfd(rftString) {
+                    int lodbtion = lodbtionIn;
+                    int lfngti = lfngtiIn;
 
-                    if ((location + length) > (fIMContext.getCommittedTextLength() + fCurrentTextLength)) {
-                        length = fIMContext.getCommittedTextLength() - location;
+                    if ((lodbtion + lfngti) > (fIMContfxt.gftCommittfdTfxtLfngti() + fCurrfntTfxtLfngti)) {
+                        lfngti = fIMContfxt.gftCommittfdTfxtLfngti() - lodbtion;
                     }
 
-                    AttributedCharacterIterator theIterator = null;
+                    AttributfdCibrbdtfrItfrbtor tifItfrbtor = null;
 
-                    if (fCurrentText == null) {
-                        theIterator = fIMContext.getCommittedText(location, location + length, null);
-                    } else {
-                        int insertSpot = fIMContext.getInsertPositionOffset();
+                    if (fCurrfntTfxt == null) {
+                        tifItfrbtor = fIMContfxt.gftCommittfdTfxt(lodbtion, lodbtion + lfngti, null);
+                    } flsf {
+                        int insfrtSpot = fIMContfxt.gftInsfrtPositionOffsft();
 
-                        if (location < insertSpot) {
-                            theIterator = fIMContext.getCommittedText(location, location + length, null);
-                        } else if (location >= insertSpot && location < insertSpot + fCurrentTextLength) {
-                            theIterator = fCurrentText.getIterator(null, location - insertSpot, location - insertSpot +length);
-                        } else  {
-                            theIterator = fIMContext.getCommittedText(location - fCurrentTextLength, location - fCurrentTextLength + length, null);
+                        if (lodbtion < insfrtSpot) {
+                            tifItfrbtor = fIMContfxt.gftCommittfdTfxt(lodbtion, lodbtion + lfngti, null);
+                        } flsf if (lodbtion >= insfrtSpot && lodbtion < insfrtSpot + fCurrfntTfxtLfngti) {
+                            tifItfrbtor = fCurrfntTfxt.gftItfrbtor(null, lodbtion - insfrtSpot, lodbtion - insfrtSpot +lfngti);
+                        } flsf  {
+                            tifItfrbtor = fIMContfxt.gftCommittfdTfxt(lodbtion - fCurrfntTfxtLfngti, lodbtion - fCurrfntTfxtLfngti + lfngti, null);
                         }
                     }
 
-                    // Get the characters from the iterator
-                    char selectedText[] = new char[theIterator.getEndIndex() - theIterator.getBeginIndex()];
-                    char current = theIterator.first();
-                    int index = 0;
-                    while (current != CharacterIterator.DONE) {
-                        selectedText[index++] = current;
-                        current = theIterator.next();
+                    // Gft tif dibrbdtfrs from tif itfrbtor
+                    dibr sflfdtfdTfxt[] = nfw dibr[tifItfrbtor.gftEndIndfx() - tifItfrbtor.gftBfginIndfx()];
+                    dibr durrfnt = tifItfrbtor.first();
+                    int indfx = 0;
+                    wiilf (durrfnt != CibrbdtfrItfrbtor.DONE) {
+                        sflfdtfdTfxt[indfx++] = durrfnt;
+                        durrfnt = tifItfrbtor.nfxt();
                     }
 
-                    retString[0] = new String(selectedText);
+                    rftString[0] = nfw String(sflfdtfdTfxt);
                 }}
-            }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+            }, fAwtFodussfdComponfnt);
+        } dbtdi (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
 
-        synchronized(retString) { return retString[0]; }
+        syndironizfd(rftString) { rfturn rftString[0]; }
     }
 
     /**
-     * Cocoa wants the range of characters that are currently selected.  We have to synthesize this
-     * by getting the insert location and the length of the selected text. NB:  This does NOT allow
-     * for the fact that the insert point in Swing can come AFTER the selected text, making this
-     * potentially incorrect.
+     * Codob wbnts tif rbngf of dibrbdtfrs tibt brf durrfntly sflfdtfd.  Wf ibvf to syntifsizf tiis
+     * by gftting tif insfrt lodbtion bnd tif lfngti of tif sflfdtfd tfxt. NB:  Tiis dofs NOT bllow
+     * for tif fbdt tibt tif insfrt point in Swing dbn domf AFTER tif sflfdtfd tfxt, mbking tiis
+     * potfntiblly indorrfdt.
      */
-    synchronized private int[] selectedRange() {
-        final int[] returnValue = new int[2];
+    syndironizfd privbtf int[] sflfdtfdRbngf() {
+        finbl int[] rfturnVbluf = nfw int[2];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                public void run() { synchronized(returnValue) {
-                    AttributedCharacterIterator theIterator = fIMContext.getSelectedText(null);
-                    if (theIterator == null) {
-                        returnValue[0] = fIMContext.getInsertPositionOffset();
-                        returnValue[1] = 0;
-                        return;
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndironizfd(rfturnVbluf) {
+                    AttributfdCibrbdtfrItfrbtor tifItfrbtor = fIMContfxt.gftSflfdtfdTfxt(null);
+                    if (tifItfrbtor == null) {
+                        rfturnVbluf[0] = fIMContfxt.gftInsfrtPositionOffsft();
+                        rfturnVbluf[1] = 0;
+                        rfturn;
                     }
 
-                    int startLocation;
+                    int stbrtLodbtion;
 
-                    if (fAwtFocussedComponent instanceof JTextComponent) {
-                        JTextComponent theComponent = (JTextComponent)fAwtFocussedComponent;
-                        startLocation = theComponent.getSelectionStart();
-                    } else if (fAwtFocussedComponent instanceof TextComponent) {
-                        TextComponent theComponent = (TextComponent)fAwtFocussedComponent;
-                        startLocation = theComponent.getSelectionStart();
-                    } else {
-                        // If we don't have a Swing or AWT component, we have to guess whether the selection is before or after the input spot.
-                        startLocation = fIMContext.getInsertPositionOffset() - (theIterator.getEndIndex() - theIterator.getBeginIndex());
+                    if (fAwtFodussfdComponfnt instbndfof JTfxtComponfnt) {
+                        JTfxtComponfnt tifComponfnt = (JTfxtComponfnt)fAwtFodussfdComponfnt;
+                        stbrtLodbtion = tifComponfnt.gftSflfdtionStbrt();
+                    } flsf if (fAwtFodussfdComponfnt instbndfof TfxtComponfnt) {
+                        TfxtComponfnt tifComponfnt = (TfxtComponfnt)fAwtFodussfdComponfnt;
+                        stbrtLodbtion = tifComponfnt.gftSflfdtionStbrt();
+                    } flsf {
+                        // If wf don't ibvf b Swing or AWT domponfnt, wf ibvf to gufss wiftifr tif sflfdtion is bfforf or bftfr tif input spot.
+                        stbrtLodbtion = fIMContfxt.gftInsfrtPositionOffsft() - (tifItfrbtor.gftEndIndfx() - tifItfrbtor.gftBfginIndfx());
 
-                        // If the calculated spot is negative the insert spot must be at the beginning of
-                        // the selection.
-                        if (startLocation <  0) {
-                            startLocation = fIMContext.getInsertPositionOffset() + (theIterator.getEndIndex() - theIterator.getBeginIndex());
+                        // If tif dbldulbtfd spot is nfgbtivf tif insfrt spot must bf bt tif bfginning of
+                        // tif sflfdtion.
+                        if (stbrtLodbtion <  0) {
+                            stbrtLodbtion = fIMContfxt.gftInsfrtPositionOffsft() + (tifItfrbtor.gftEndIndfx() - tifItfrbtor.gftBfginIndfx());
                         }
                     }
 
-                    returnValue[0] = startLocation;
-                    returnValue[1] = theIterator.getEndIndex() - theIterator.getBeginIndex();
+                    rfturnVbluf[0] = stbrtLodbtion;
+                    rfturnVbluf[1] = tifItfrbtor.gftEndIndfx() - tifItfrbtor.gftBfginIndfx();
 
                 }}
-            }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+            }, fAwtFodussfdComponfnt);
+        } dbtdi (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
 
-        synchronized(returnValue) { return returnValue; }
+        syndironizfd(rfturnVbluf) { rfturn rfturnVbluf; }
     }
 
     /**
-     * Cocoa wants the range of characters that are currently marked.  Since Java doesn't store committed and
-     * text in progress (composed text) together, we have to synthesize it.  We know where the text will be
-     * inserted, so we can return that position, and the length of the text in progress.  If there is no marked text
-     * return null.
+     * Codob wbnts tif rbngf of dibrbdtfrs tibt brf durrfntly mbrkfd.  Sindf Jbvb dofsn't storf dommittfd bnd
+     * tfxt in progrfss (domposfd tfxt) togftifr, wf ibvf to syntifsizf it.  Wf know wifrf tif tfxt will bf
+     * insfrtfd, so wf dbn rfturn tibt position, bnd tif lfngti of tif tfxt in progrfss.  If tifrf is no mbrkfd tfxt
+     * rfturn null.
      */
-    synchronized private int[] markedRange() {
-        if (fCurrentText == null)
-            return null;
+    syndironizfd privbtf int[] mbrkfdRbngf() {
+        if (fCurrfntTfxt == null)
+            rfturn null;
 
-        final int[] returnValue = new int[2];
+        finbl int[] rfturnVbluf = nfw int[2];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                public void run() { synchronized(returnValue) {
-                    // The insert position is always after the composed text, so the range start is the
-                    // insert spot less the length of the composed text.
-                    returnValue[0] = fIMContext.getInsertPositionOffset();
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndironizfd(rfturnVbluf) {
+                    // Tif insfrt position is blwbys bftfr tif domposfd tfxt, so tif rbngf stbrt is tif
+                    // insfrt spot lfss tif lfngti of tif domposfd tfxt.
+                    rfturnVbluf[0] = fIMContfxt.gftInsfrtPositionOffsft();
                 }}
-            }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+            }, fAwtFodussfdComponfnt);
+        } dbtdi (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
 
-        returnValue[1] = fCurrentTextLength;
-        synchronized(returnValue) { return returnValue; }
+        rfturnVbluf[1] = fCurrfntTfxtLfngti;
+        syndironizfd(rfturnVbluf) { rfturn rfturnVbluf; }
     }
 
     /**
-     * Cocoa wants a rectangle that describes where a particular range is on screen, but only cares about the
-     * location of that rectangle.  We are given the index of the character for which we want the location on
-     * screen, which will be a character in the in-progress text.  By subtracting the current insert position,
-     * which is always in front of the in-progress text, we get the offset into the composed text, and we get
-     * that location from the input method context.
+     * Codob wbnts b rfdtbnglf tibt dfsdribfs wifrf b pbrtidulbr rbngf is on sdrffn, but only dbrfs bbout tif
+     * lodbtion of tibt rfdtbnglf.  Wf brf givfn tif indfx of tif dibrbdtfr for wiidi wf wbnt tif lodbtion on
+     * sdrffn, wiidi will bf b dibrbdtfr in tif in-progrfss tfxt.  By subtrbdting tif durrfnt insfrt position,
+     * wiidi is blwbys in front of tif in-progrfss tfxt, wf gft tif offsft into tif domposfd tfxt, bnd wf gft
+     * tibt lodbtion from tif input mftiod dontfxt.
      */
-    synchronized private int[] firstRectForCharacterRange(final int absoluteTextOffset) {
-        final int[] rect = new int[4];
+    syndironizfd privbtf int[] firstRfdtForCibrbdtfrRbngf(finbl int bbsolutfTfxtOffsft) {
+        finbl int[] rfdt = nfw int[4];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                public void run() { synchronized(rect) {
-                    int insertOffset = fIMContext.getInsertPositionOffset();
-                    int composedTextOffset = absoluteTextOffset - insertOffset;
-                    if (composedTextOffset < 0) composedTextOffset = 0;
-                    Rectangle r = fIMContext.getTextLocation(TextHitInfo.beforeOffset(composedTextOffset));
-                    rect[0] = r.x;
-                    rect[1] = r.y;
-                    rect[2] = r.width;
-                    rect[3] = r.height;
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndironizfd(rfdt) {
+                    int insfrtOffsft = fIMContfxt.gftInsfrtPositionOffsft();
+                    int domposfdTfxtOffsft = bbsolutfTfxtOffsft - insfrtOffsft;
+                    if (domposfdTfxtOffsft < 0) domposfdTfxtOffsft = 0;
+                    Rfdtbnglf r = fIMContfxt.gftTfxtLodbtion(TfxtHitInfo.bfforfOffsft(domposfdTfxtOffsft));
+                    rfdt[0] = r.x;
+                    rfdt[1] = r.y;
+                    rfdt[2] = r.widti;
+                    rfdt[3] = r.ifigit;
 
-                    // This next if-block is a hack to work around a bug in JTextComponent. getTextLocation ignores
-                    // the TextHitInfo passed to it and always returns the location of the insertion point, which is
-                    // at the start of the composed text.  We'll do some calculation so the candidate window for Kotoeri
-                    // follows the requested offset into the composed text.
-                    if (composedTextOffset > 0 && (fAwtFocussedComponent instanceof JTextComponent)) {
-                        Rectangle r2 = fIMContext.getTextLocation(TextHitInfo.beforeOffset(0));
+                    // Tiis nfxt if-blodk is b ibdk to work bround b bug in JTfxtComponfnt. gftTfxtLodbtion ignorfs
+                    // tif TfxtHitInfo pbssfd to it bnd blwbys rfturns tif lodbtion of tif insfrtion point, wiidi is
+                    // bt tif stbrt of tif domposfd tfxt.  Wf'll do somf dbldulbtion so tif dbndidbtf window for Kotofri
+                    // follows tif rfqufstfd offsft into tif domposfd tfxt.
+                    if (domposfdTfxtOffsft > 0 && (fAwtFodussfdComponfnt instbndfof JTfxtComponfnt)) {
+                        Rfdtbnglf r2 = fIMContfxt.gftTfxtLodbtion(TfxtHitInfo.bfforfOffsft(0));
 
-                        if (r.equals(r2)) {
-                            // FIXME: (SAK) If the candidate text wraps over two lines, this calculation pushes the candidate
-                            // window off the right edge of the component.
-                            String inProgressSubstring = fCurrentTextAsString.substring(0, composedTextOffset);
-                            Graphics g = fAwtFocussedComponent.getGraphics();
-                            int xOffset = g.getFontMetrics().stringWidth(inProgressSubstring);
-                            rect[0] += xOffset;
-                            g.dispose();
+                        if (r.fqubls(r2)) {
+                            // FIXME: (SAK) If tif dbndidbtf tfxt wrbps ovfr two linfs, tiis dbldulbtion pusifs tif dbndidbtf
+                            // window off tif rigit fdgf of tif domponfnt.
+                            String inProgrfssSubstring = fCurrfntTfxtAsString.substring(0, domposfdTfxtOffsft);
+                            Grbpiids g = fAwtFodussfdComponfnt.gftGrbpiids();
+                            int xOffsft = g.gftFontMftrids().stringWidti(inProgrfssSubstring);
+                            rfdt[0] += xOffsft;
+                            g.disposf();
                         }
                     }
                 }}
-            }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+            }, fAwtFodussfdComponfnt);
+        } dbtdi (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
 
-        synchronized(rect) { return rect; }
+        syndironizfd(rfdt) { rfturn rfdt; }
     }
 
-    /* This method returns the index for the character that is nearest to the point described by screenX and screenY.
-     * The coordinates are in Java screen coordinates.  If no character in the composed text was hit, we return -1, indicating
+    /* Tiis mftiod rfturns tif indfx for tif dibrbdtfr tibt is nfbrfst to tif point dfsdribfd by sdrffnX bnd sdrffnY.
+     * Tif doordinbtfs brf in Jbvb sdrffn doordinbtfs.  If no dibrbdtfr in tif domposfd tfxt wbs iit, wf rfturn -1, indidbting
      * not found.
      */
-    synchronized private int characterIndexForPoint(final int screenX, final int screenY) {
-        final TextHitInfo[] offsetInfo = new TextHitInfo[1];
-        final int[] insertPositionOffset = new int[1];
+    syndironizfd privbtf int dibrbdtfrIndfxForPoint(finbl int sdrffnX, finbl int sdrffnY) {
+        finbl TfxtHitInfo[] offsftInfo = nfw TfxtHitInfo[1];
+        finbl int[] insfrtPositionOffsft = nfw int[1];
 
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                public void run() { synchronized(offsetInfo) {
-                    offsetInfo[0] = fIMContext.getLocationOffset(screenX, screenY);
-                    insertPositionOffset[0] = fIMContext.getInsertPositionOffset();
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid void run() { syndironizfd(offsftInfo) {
+                    offsftInfo[0] = fIMContfxt.gftLodbtionOffsft(sdrffnX, sdrffnY);
+                    insfrtPositionOffsft[0] = fIMContfxt.gftInsfrtPositionOffsft();
                 }}
-            }, fAwtFocussedComponent);
-        } catch (InvocationTargetException ite) { ite.printStackTrace(); }
+            }, fAwtFodussfdComponfnt);
+        } dbtdi (InvodbtionTbrgftExdfption itf) { itf.printStbdkTrbdf(); }
 
-        // This bit of gymnastics ensures that the returned location is within the composed text.
-        // If it falls outside that region, the input method will commit the text, which is inconsistent with native
-        // Cocoa apps (see TextEdit, for example.)  Clicking to the left of or above the selected text moves the
-        // cursor to the start of the composed text, and to the right or below moves it to one character before the end.
-        if (offsetInfo[0] == null) {
-            return insertPositionOffset[0];
+        // Tiis bit of gymnbstids fnsurfs tibt tif rfturnfd lodbtion is witiin tif domposfd tfxt.
+        // If it fblls outsidf tibt rfgion, tif input mftiod will dommit tif tfxt, wiidi is indonsistfnt witi nbtivf
+        // Codob bpps (sff TfxtEdit, for fxbmplf.)  Clidking to tif lfft of or bbovf tif sflfdtfd tfxt movfs tif
+        // dursor to tif stbrt of tif domposfd tfxt, bnd to tif rigit or bflow movfs it to onf dibrbdtfr bfforf tif fnd.
+        if (offsftInfo[0] == null) {
+            rfturn insfrtPositionOffsft[0];
         }
 
-        int returnValue = offsetInfo[0].getCharIndex() + insertPositionOffset[0];
+        int rfturnVbluf = offsftInfo[0].gftCibrIndfx() + insfrtPositionOffsft[0];
 
-        if (offsetInfo[0].getCharIndex() == fCurrentTextLength)
-            returnValue --;
+        if (offsftInfo[0].gftCibrIndfx() == fCurrfntTfxtLfngti)
+            rfturnVbluf --;
 
-        return returnValue;
+        rfturn rfturnVbluf;
     }
 
-    // On Mac OS X we effectively disabled the input method when focus was lost, so
-    // this call can be ignored.
-    public void disableInputMethod()
+    // On Mbd OS X wf ffffdtivfly disbblfd tif input mftiod wifn fodus wbs lost, so
+    // tiis dbll dbn bf ignorfd.
+    publid void disbblfInputMftiod()
     {
-        // Deliberately ignored. See setAWTFocussedComponent above.
+        // Dflibfrbtfly ignorfd. Sff sftAWTFodussfdComponfnt bbovf.
     }
 
-    public String getNativeInputMethodInfo()
+    publid String gftNbtivfInputMftiodInfo()
     {
-        return nativeGetCurrentInputMethodInfo();
+        rfturn nbtivfGftCurrfntInputMftiodInfo();
     }
 
 
-    // =========================== Native methods ===========================
-    // Note that if nativePeer isn't something that normally accepts keystrokes (i.e., a CPanel)
-    // these calls will be ignored.
-    private native void nativeNotifyPeer(long nativePeer, CInputMethod imInstance);
-    private native void nativeEndComposition(long nativePeer);
-    private native void nativeHandleEvent(LWComponentPeer<?, ?> peer, AWTEvent event);
+    // =========================== Nbtivf mftiods ===========================
+    // Notf tibt if nbtivfPffr isn't somftiing tibt normblly bddfpts kfystrokfs (i.f., b CPbnfl)
+    // tifsf dblls will bf ignorfd.
+    privbtf nbtivf void nbtivfNotifyPffr(long nbtivfPffr, CInputMftiod imInstbndf);
+    privbtf nbtivf void nbtivfEndComposition(long nbtivfPffr);
+    privbtf nbtivf void nbtivfHbndlfEvfnt(LWComponfntPffr<?, ?> pffr, AWTEvfnt fvfnt);
 
-    // Returns the locale of the active input method.
-    static native Locale getNativeLocale();
+    // Rfturns tif lodblf of tif bdtivf input mftiod.
+    stbtid nbtivf Lodblf gftNbtivfLodblf();
 
-    // Switches to the input method with language indicated in localeName
-    static native boolean setNativeLocale(String localeName, boolean onActivate);
+    // Switdifs to tif input mftiod witi lbngubgf indidbtfd in lodblfNbmf
+    stbtid nbtivf boolfbn sftNbtivfLodblf(String lodblfNbmf, boolfbn onAdtivbtf);
 
-    // Returns information about the currently selected input method.
-    static native String nativeGetCurrentInputMethodInfo();
+    // Rfturns informbtion bbout tif durrfntly sflfdtfd input mftiod.
+    stbtid nbtivf String nbtivfGftCurrfntInputMftiodInfo();
 
-    // Initialize toolbox routines
-    static native void nativeInit();
+    // Initiblizf toolbox routinfs
+    stbtid nbtivf void nbtivfInit();
 }

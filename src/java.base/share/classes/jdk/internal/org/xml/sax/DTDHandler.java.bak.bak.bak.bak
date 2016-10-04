@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// SAX DTD hbndlfr.
+// http://www.sbxprojfdt.org
+// No wbrrbnty; no dopyright -- usf this bs you will.
+// $Id: DTDHbndlfr.jbvb,v 1.2 2004/11/03 22:44:51 jsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
+
+/**
+ * Rfdfivf notifidbtion of bbsid DTD-rflbtfd fvfnts.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p>If b SAX bpplidbtion nffds informbtion bbout notbtions bnd
+ * unpbrsfd fntitifs, thfn thf bpplidbtion implfmfnts this
+ * intfrfbdf bnd rfgistfrs bn instbndf with thf SAX pbrsfr using
+ * thf pbrsfr's sftDTDHbndlfr mfthod.  Thf pbrsfr usfs thf
+ * instbndf to rfport notbtion bnd unpbrsfd fntity dfdlbrbtions to
+ * thf bpplidbtion.</p>
+ *
+ * <p>Notf thbt this intfrfbdf indludfs only thosf DTD fvfnts thbt
+ * thf XML rfdommfndbtion <fm>rfquirfs</fm> prodfssors to rfport:
+ * notbtion bnd unpbrsfd fntity dfdlbrbtions.</p>
+ *
+ * <p>Thf SAX pbrsfr mby rfport thfsf fvfnts in bny ordfr, rfgbrdlfss
+ * of thf ordfr in whidh thf notbtions bnd unpbrsfd fntitifs wfrf
+ * dfdlbrfd; howfvfr, bll DTD fvfnts must bf rfportfd bftfr thf
+ * dodumfnt hbndlfr's stbrtDodumfnt fvfnt, bnd bfforf thf first
+ * stbrtElfmfnt fvfnt.
+ * (If thf {@link org.xml.sbx.fxt.LfxidblHbndlfr LfxidblHbndlfr} is
+ * usfd, thfsf fvfnts must blso bf rfportfd bfforf thf fndDTD fvfnt.)
+ * </p>
+ *
+ * <p>It is up to thf bpplidbtion to storf thf informbtion for
+ * futurf usf (pfrhbps in b hbsh tbblf or objfdt trff).
+ * If thf bpplidbtion fndountfrs bttributfs of typf "NOTATION",
+ * "ENTITY", or "ENTITIES", it dbn usf thf informbtion thbt it
+ * obtbinfd through this intfrfbdf to find thf fntity bnd/or
+ * notbtion dorrfsponding with thf bttributf vbluf.</p>
+ *
+ * @sindf SAX 1.0
+ * @buthor Dbvid Mfgginson
+ * @sff org.xml.sbx.XMLRfbdfr#sftDTDHbndlfr
+ */
+publid intfrfbdf DTDHbndlfr {
+
+
+    /**
+     * Rfdfivf notifidbtion of b notbtion dfdlbrbtion fvfnt.
+     *
+     * <p>It is up to thf bpplidbtion to rfdord thf notbtion for lbtfr
+     * rfffrfndf, if nfdfssbry;
+     * notbtions mby bppfbr bs bttributf vblufs bnd in unpbrsfd fntity
+     * dfdlbrbtions, bnd brf somftimf usfd with prodfssing instrudtion
+     * tbrgft nbmfs.</p>
+     *
+     * <p>At lfbst onf of publidId bnd systfmId must bf non-null.
+     * If b systfm idfntififr is prfsfnt, bnd it is b URL, thf SAX
+     * pbrsfr must rfsolvf it fully bfforf pbssing it to thf
+     * bpplidbtion through this fvfnt.</p>
+     *
+     * <p>Thfrf is no gubrbntff thbt thf notbtion dfdlbrbtion will bf
+     * rfportfd bfforf bny unpbrsfd fntitifs thbt usf it.</p>
+     *
+     * @pbrbm nbmf Thf notbtion nbmf.
+     * @pbrbm publidId Thf notbtion's publid idfntififr, or null if
+     *        nonf wbs givfn.
+     * @pbrbm systfmId Thf notbtion's systfm idfntififr, or null if
+     *        nonf wbs givfn.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @sff #unpbrsfdEntityDfdl
+     * @sff org.xml.sbx.Attributfs
+     */
+    publid bbstrbdt void notbtionDfdl (String nbmf,
+                                       String publidId,
+                                       String systfmId)
+        throws SAXExdfption;
+
+
+    /**
+     * Rfdfivf notifidbtion of bn unpbrsfd fntity dfdlbrbtion fvfnt.
+     *
+     * <p>Notf thbt thf notbtion nbmf dorrfsponds to b notbtion
+     * rfportfd by thf {@link #notbtionDfdl notbtionDfdl} fvfnt.
+     * It is up to thf bpplidbtion to rfdord thf fntity for lbtfr
+     * rfffrfndf, if nfdfssbry;
+     * unpbrsfd fntitifs mby bppfbr bs bttributf vblufs.
+     * </p>
+     *
+     * <p>If thf systfm idfntififr is b URL, thf pbrsfr must rfsolvf it
+     * fully bfforf pbssing it to thf bpplidbtion.</p>
+     *
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @pbrbm nbmf Thf unpbrsfd fntity's nbmf.
+     * @pbrbm publidId Thf fntity's publid idfntififr, or null if nonf
+     *        wbs givfn.
+     * @pbrbm systfmId Thf fntity's systfm idfntififr.
+     * @pbrbm notbtionNbmf Thf nbmf of thf bssodibtfd notbtion.
+     * @sff #notbtionDfdl
+     * @sff org.xml.sbx.Attributfs
+     */
+    publid bbstrbdt void unpbrsfdEntityDfdl (String nbmf,
+                                             String publidId,
+                                             String systfmId,
+                                             String notbtionNbmf)
+        throws SAXExdfption;
+
+}
+
+// fnd of DTDHbndlfr.jbvb

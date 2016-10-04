@@ -1,0 +1,84 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions;
+
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrContfxt;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrSpi;
+
+/**
+ * @buthor $Author: dohfigfb $
+ */
+publid dlbss RfsolvfrAnonymous fxtfnds RfsourdfRfsolvfrSpi {
+
+    privbtf InputStrfbm inStrfbm = null;
+
+    @Ovfrridf
+    publid boolfbn fnginfIsThrfbdSbff() {
+        rfturn truf;
+    }
+
+    /**
+     * @pbrbm filfnbmf
+     * @throws FilfNotFoundExdfption
+     * @throws IOExdfption
+     */
+    publid RfsolvfrAnonymous(String filfnbmf) throws FilfNotFoundExdfption, IOExdfption {
+        inStrfbm = nfw FilfInputStrfbm(filfnbmf);
+    }
+
+    /**
+     * @pbrbm is
+     */
+    publid RfsolvfrAnonymous(InputStrfbm is) {
+        inStrfbm = is;
+    }
+
+    /** @inhfritDod */
+    @Ovfrridf
+    publid XMLSignbturfInput fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        rfturn nfw XMLSignbturfInput(inStrfbm);
+    }
+
+    /**
+     * @inhfritDod
+     */
+    @Ovfrridf
+    publid boolfbn fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        if (dontfxt.uriToRfsolvf == null) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /** @inhfritDod */
+    publid String[] fnginfGftPropfrtyKfys() {
+        rfturn nfw String[0];
+    }
+}

@@ -1,376 +1,376 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
-import java.util.Collection;
-import java.util.Queue;
+import jbvb.util.Collfdtion;
+import jbvb.util.Qufuf;
 
 /**
- * A {@link java.util.Queue} that additionally supports operations
- * that wait for the queue to become non-empty when retrieving an
- * element, and wait for space to become available in the queue when
- * storing an element.
+ * A {@link jbvb.util.Qufuf} tibt bdditionblly supports opfrbtions
+ * tibt wbit for tif qufuf to bfdomf non-fmpty wifn rftrifving bn
+ * flfmfnt, bnd wbit for spbdf to bfdomf bvbilbblf in tif qufuf wifn
+ * storing bn flfmfnt.
  *
- * <p>{@code BlockingQueue} methods come in four forms, with different ways
- * of handling operations that cannot be satisfied immediately, but may be
- * satisfied at some point in the future:
- * one throws an exception, the second returns a special value (either
- * {@code null} or {@code false}, depending on the operation), the third
- * blocks the current thread indefinitely until the operation can succeed,
- * and the fourth blocks for only a given maximum time limit before giving
- * up.  These methods are summarized in the following table:
+ * <p>{@dodf BlodkingQufuf} mftiods domf in four forms, witi difffrfnt wbys
+ * of ibndling opfrbtions tibt dbnnot bf sbtisfifd immfdibtfly, but mby bf
+ * sbtisfifd bt somf point in tif futurf:
+ * onf tirows bn fxdfption, tif sfdond rfturns b spfdibl vbluf (fitifr
+ * {@dodf null} or {@dodf fblsf}, dfpfnding on tif opfrbtion), tif tiird
+ * blodks tif durrfnt tirfbd indffinitfly until tif opfrbtion dbn suddffd,
+ * bnd tif fourti blodks for only b givfn mbximum timf limit bfforf giving
+ * up.  Tifsf mftiods brf summbrizfd in tif following tbblf:
  *
- * <table BORDER CELLPADDING=3 CELLSPACING=1>
- * <caption>Summary of BlockingQueue methods</caption>
+ * <tbblf BORDER CELLPADDING=3 CELLSPACING=1>
+ * <dbption>Summbry of BlodkingQufuf mftiods</dbption>
  *  <tr>
  *    <td></td>
- *    <td ALIGN=CENTER><em>Throws exception</em></td>
- *    <td ALIGN=CENTER><em>Special value</em></td>
- *    <td ALIGN=CENTER><em>Blocks</em></td>
- *    <td ALIGN=CENTER><em>Times out</em></td>
+ *    <td ALIGN=CENTER><fm>Tirows fxdfption</fm></td>
+ *    <td ALIGN=CENTER><fm>Spfdibl vbluf</fm></td>
+ *    <td ALIGN=CENTER><fm>Blodks</fm></td>
+ *    <td ALIGN=CENTER><fm>Timfs out</fm></td>
  *  </tr>
  *  <tr>
- *    <td><b>Insert</b></td>
- *    <td>{@link #add add(e)}</td>
- *    <td>{@link #offer offer(e)}</td>
- *    <td>{@link #put put(e)}</td>
- *    <td>{@link #offer(Object, long, TimeUnit) offer(e, time, unit)}</td>
+ *    <td><b>Insfrt</b></td>
+ *    <td>{@link #bdd bdd(f)}</td>
+ *    <td>{@link #offfr offfr(f)}</td>
+ *    <td>{@link #put put(f)}</td>
+ *    <td>{@link #offfr(Objfdt, long, TimfUnit) offfr(f, timf, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Remove</b></td>
- *    <td>{@link #remove remove()}</td>
+ *    <td><b>Rfmovf</b></td>
+ *    <td>{@link #rfmovf rfmovf()}</td>
  *    <td>{@link #poll poll()}</td>
- *    <td>{@link #take take()}</td>
- *    <td>{@link #poll(long, TimeUnit) poll(time, unit)}</td>
+ *    <td>{@link #tbkf tbkf()}</td>
+ *    <td>{@link #poll(long, TimfUnit) poll(timf, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Examine</b></td>
- *    <td>{@link #element element()}</td>
- *    <td>{@link #peek peek()}</td>
- *    <td><em>not applicable</em></td>
- *    <td><em>not applicable</em></td>
+ *    <td><b>Exbminf</b></td>
+ *    <td>{@link #flfmfnt flfmfnt()}</td>
+ *    <td>{@link #pffk pffk()}</td>
+ *    <td><fm>not bpplidbblf</fm></td>
+ *    <td><fm>not bpplidbblf</fm></td>
  *  </tr>
- * </table>
+ * </tbblf>
  *
- * <p>A {@code BlockingQueue} does not accept {@code null} elements.
- * Implementations throw {@code NullPointerException} on attempts
- * to {@code add}, {@code put} or {@code offer} a {@code null}.  A
- * {@code null} is used as a sentinel value to indicate failure of
- * {@code poll} operations.
+ * <p>A {@dodf BlodkingQufuf} dofs not bddfpt {@dodf null} flfmfnts.
+ * Implfmfntbtions tirow {@dodf NullPointfrExdfption} on bttfmpts
+ * to {@dodf bdd}, {@dodf put} or {@dodf offfr} b {@dodf null}.  A
+ * {@dodf null} is usfd bs b sfntinfl vbluf to indidbtf fbilurf of
+ * {@dodf poll} opfrbtions.
  *
- * <p>A {@code BlockingQueue} may be capacity bounded. At any given
- * time it may have a {@code remainingCapacity} beyond which no
- * additional elements can be {@code put} without blocking.
- * A {@code BlockingQueue} without any intrinsic capacity constraints always
- * reports a remaining capacity of {@code Integer.MAX_VALUE}.
+ * <p>A {@dodf BlodkingQufuf} mby bf dbpbdity boundfd. At bny givfn
+ * timf it mby ibvf b {@dodf rfmbiningCbpbdity} bfyond wiidi no
+ * bdditionbl flfmfnts dbn bf {@dodf put} witiout blodking.
+ * A {@dodf BlodkingQufuf} witiout bny intrinsid dbpbdity donstrbints blwbys
+ * rfports b rfmbining dbpbdity of {@dodf Intfgfr.MAX_VALUE}.
  *
- * <p>{@code BlockingQueue} implementations are designed to be used
- * primarily for producer-consumer queues, but additionally support
- * the {@link java.util.Collection} interface.  So, for example, it is
- * possible to remove an arbitrary element from a queue using
- * {@code remove(x)}. However, such operations are in general
- * <em>not</em> performed very efficiently, and are intended for only
- * occasional use, such as when a queued message is cancelled.
+ * <p>{@dodf BlodkingQufuf} implfmfntbtions brf dfsignfd to bf usfd
+ * primbrily for produdfr-donsumfr qufufs, but bdditionblly support
+ * tif {@link jbvb.util.Collfdtion} intfrfbdf.  So, for fxbmplf, it is
+ * possiblf to rfmovf bn brbitrbry flfmfnt from b qufuf using
+ * {@dodf rfmovf(x)}. Howfvfr, sudi opfrbtions brf in gfnfrbl
+ * <fm>not</fm> pfrformfd vfry fffidifntly, bnd brf intfndfd for only
+ * oddbsionbl usf, sudi bs wifn b qufufd mfssbgf is dbndfllfd.
  *
- * <p>{@code BlockingQueue} implementations are thread-safe.  All
- * queuing methods achieve their effects atomically using internal
- * locks or other forms of concurrency control. However, the
- * <em>bulk</em> Collection operations {@code addAll},
- * {@code containsAll}, {@code retainAll} and {@code removeAll} are
- * <em>not</em> necessarily performed atomically unless specified
- * otherwise in an implementation. So it is possible, for example, for
- * {@code addAll(c)} to fail (throwing an exception) after adding
- * only some of the elements in {@code c}.
+ * <p>{@dodf BlodkingQufuf} implfmfntbtions brf tirfbd-sbff.  All
+ * qufuing mftiods bdiifvf tifir ffffdts btomidblly using intfrnbl
+ * lodks or otifr forms of dondurrfndy dontrol. Howfvfr, tif
+ * <fm>bulk</fm> Collfdtion opfrbtions {@dodf bddAll},
+ * {@dodf dontbinsAll}, {@dodf rftbinAll} bnd {@dodf rfmovfAll} brf
+ * <fm>not</fm> nfdfssbrily pfrformfd btomidblly unlfss spfdififd
+ * otifrwisf in bn implfmfntbtion. So it is possiblf, for fxbmplf, for
+ * {@dodf bddAll(d)} to fbil (tirowing bn fxdfption) bftfr bdding
+ * only somf of tif flfmfnts in {@dodf d}.
  *
- * <p>A {@code BlockingQueue} does <em>not</em> intrinsically support
- * any kind of &quot;close&quot; or &quot;shutdown&quot; operation to
- * indicate that no more items will be added.  The needs and usage of
- * such features tend to be implementation-dependent. For example, a
- * common tactic is for producers to insert special
- * <em>end-of-stream</em> or <em>poison</em> objects, that are
- * interpreted accordingly when taken by consumers.
+ * <p>A {@dodf BlodkingQufuf} dofs <fm>not</fm> intrinsidblly support
+ * bny kind of &quot;dlosf&quot; or &quot;siutdown&quot; opfrbtion to
+ * indidbtf tibt no morf itfms will bf bddfd.  Tif nffds bnd usbgf of
+ * sudi ffbturfs tfnd to bf implfmfntbtion-dfpfndfnt. For fxbmplf, b
+ * dommon tbdtid is for produdfrs to insfrt spfdibl
+ * <fm>fnd-of-strfbm</fm> or <fm>poison</fm> objfdts, tibt brf
+ * intfrprftfd bddordingly wifn tbkfn by donsumfrs.
  *
  * <p>
- * Usage example, based on a typical producer-consumer scenario.
- * Note that a {@code BlockingQueue} can safely be used with multiple
- * producers and multiple consumers.
- *  <pre> {@code
- * class Producer implements Runnable {
- *   private final BlockingQueue queue;
- *   Producer(BlockingQueue q) { queue = q; }
- *   public void run() {
+ * Usbgf fxbmplf, bbsfd on b typidbl produdfr-donsumfr sdfnbrio.
+ * Notf tibt b {@dodf BlodkingQufuf} dbn sbffly bf usfd witi multiplf
+ * produdfrs bnd multiplf donsumfrs.
+ *  <prf> {@dodf
+ * dlbss Produdfr implfmfnts Runnbblf {
+ *   privbtf finbl BlodkingQufuf qufuf;
+ *   Produdfr(BlodkingQufuf q) { qufuf = q; }
+ *   publid void run() {
  *     try {
- *       while (true) { queue.put(produce()); }
- *     } catch (InterruptedException ex) { ... handle ...}
+ *       wiilf (truf) { qufuf.put(produdf()); }
+ *     } dbtdi (IntfrruptfdExdfption fx) { ... ibndlf ...}
  *   }
- *   Object produce() { ... }
+ *   Objfdt produdf() { ... }
  * }
  *
- * class Consumer implements Runnable {
- *   private final BlockingQueue queue;
- *   Consumer(BlockingQueue q) { queue = q; }
- *   public void run() {
+ * dlbss Consumfr implfmfnts Runnbblf {
+ *   privbtf finbl BlodkingQufuf qufuf;
+ *   Consumfr(BlodkingQufuf q) { qufuf = q; }
+ *   publid void run() {
  *     try {
- *       while (true) { consume(queue.take()); }
- *     } catch (InterruptedException ex) { ... handle ...}
+ *       wiilf (truf) { donsumf(qufuf.tbkf()); }
+ *     } dbtdi (IntfrruptfdExdfption fx) { ... ibndlf ...}
  *   }
- *   void consume(Object x) { ... }
+ *   void donsumf(Objfdt x) { ... }
  * }
  *
- * class Setup {
- *   void main() {
- *     BlockingQueue q = new SomeQueueImplementation();
- *     Producer p = new Producer(q);
- *     Consumer c1 = new Consumer(q);
- *     Consumer c2 = new Consumer(q);
- *     new Thread(p).start();
- *     new Thread(c1).start();
- *     new Thread(c2).start();
+ * dlbss Sftup {
+ *   void mbin() {
+ *     BlodkingQufuf q = nfw SomfQufufImplfmfntbtion();
+ *     Produdfr p = nfw Produdfr(q);
+ *     Consumfr d1 = nfw Consumfr(q);
+ *     Consumfr d2 = nfw Consumfr(q);
+ *     nfw Tirfbd(p).stbrt();
+ *     nfw Tirfbd(d1).stbrt();
+ *     nfw Tirfbd(d2).stbrt();
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * <p>Memory consistency effects: As with other concurrent
- * collections, actions in a thread prior to placing an object into a
- * {@code BlockingQueue}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions subsequent to the access or removal of that element from
- * the {@code BlockingQueue} in another thread.
+ * <p>Mfmory donsistfndy ffffdts: As witi otifr dondurrfnt
+ * dollfdtions, bdtions in b tirfbd prior to plbding bn objfdt into b
+ * {@dodf BlodkingQufuf}
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * bdtions subsfqufnt to tif bddfss or rfmovbl of tibt flfmfnt from
+ * tif {@dodf BlodkingQufuf} in bnotifr tirfbd.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-public interface BlockingQueue<E> extends Queue<E> {
+publid intfrfbdf BlodkingQufuf<E> fxtfnds Qufuf<E> {
     /**
-     * Inserts the specified element into this queue if it is possible to do
-     * so immediately without violating capacity restrictions, returning
-     * {@code true} upon success and throwing an
-     * {@code IllegalStateException} if no space is currently available.
-     * When using a capacity-restricted queue, it is generally preferable to
-     * use {@link #offer(Object) offer}.
+     * Insfrts tif spfdififd flfmfnt into tiis qufuf if it is possiblf to do
+     * so immfdibtfly witiout violbting dbpbdity rfstridtions, rfturning
+     * {@dodf truf} upon suddfss bnd tirowing bn
+     * {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly bvbilbblf.
+     * Wifn using b dbpbdity-rfstridtfd qufuf, it is gfnfrblly prfffrbblf to
+     * usf {@link #offfr(Objfdt) offfr}.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @tirows IllfgblStbtfExdfption if tif flfmfnt dbnnot bf bddfd bt tiis
+     *         timf duf to dbpbdity rfstridtions
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis qufuf
      */
-    boolean add(E e);
+    boolfbn bdd(E f);
 
     /**
-     * Inserts the specified element into this queue if it is possible to do
-     * so immediately without violating capacity restrictions, returning
-     * {@code true} upon success and {@code false} if no space is currently
-     * available.  When using a capacity-restricted queue, this method is
-     * generally preferable to {@link #add}, which can fail to insert an
-     * element only by throwing an exception.
+     * Insfrts tif spfdififd flfmfnt into tiis qufuf if it is possiblf to do
+     * so immfdibtfly witiout violbting dbpbdity rfstridtions, rfturning
+     * {@dodf truf} upon suddfss bnd {@dodf fblsf} if no spbdf is durrfntly
+     * bvbilbblf.  Wifn using b dbpbdity-rfstridtfd qufuf, tiis mftiod is
+     * gfnfrblly prfffrbblf to {@link #bdd}, wiidi dbn fbil to insfrt bn
+     * flfmfnt only by tirowing bn fxdfption.
      *
-     * @param e the element to add
-     * @return {@code true} if the element was added to this queue, else
-     *         {@code false}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} if tif flfmfnt wbs bddfd to tiis qufuf, flsf
+     *         {@dodf fblsf}
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis qufuf
      */
-    boolean offer(E e);
+    boolfbn offfr(E f);
 
     /**
-     * Inserts the specified element into this queue, waiting if necessary
-     * for space to become available.
+     * Insfrts tif spfdififd flfmfnt into tiis qufuf, wbiting if nfdfssbry
+     * for spbdf to bfdomf bvbilbblf.
      *
-     * @param e the element to add
-     * @throws InterruptedException if interrupted while waiting
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis qufuf
      */
-    void put(E e) throws InterruptedException;
+    void put(E f) tirows IntfrruptfdExdfption;
 
     /**
-     * Inserts the specified element into this queue, waiting up to the
-     * specified wait time if necessary for space to become available.
+     * Insfrts tif spfdififd flfmfnt into tiis qufuf, wbiting up to tif
+     * spfdififd wbit timf if nfdfssbry for spbdf to bfdomf bvbilbblf.
      *
-     * @param e the element to add
-     * @param timeout how long to wait before giving up, in units of
-     *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return {@code true} if successful, or {@code false} if
-     *         the specified waiting time elapses before space is available
-     * @throws InterruptedException if interrupted while waiting
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @pbrbm f tif flfmfnt to bdd
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn {@dodf truf} if suddfssful, or {@dodf fblsf} if
+     *         tif spfdififd wbiting timf flbpsfs bfforf spbdf is bvbilbblf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis qufuf
      */
-    boolean offer(E e, long timeout, TimeUnit unit)
-        throws InterruptedException;
+    boolfbn offfr(E f, long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the head of this queue, waiting if necessary
-     * until an element becomes available.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tiis qufuf, wbiting if nfdfssbry
+     * until bn flfmfnt bfdomfs bvbilbblf.
      *
-     * @return the head of this queue
-     * @throws InterruptedException if interrupted while waiting
+     * @rfturn tif ifbd of tiis qufuf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    E take() throws InterruptedException;
+    E tbkf() tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the head of this queue, waiting up to the
-     * specified wait time if necessary for an element to become available.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tiis qufuf, wbiting up to tif
+     * spfdififd wbit timf if nfdfssbry for bn flfmfnt to bfdomf bvbilbblf.
      *
-     * @param timeout how long to wait before giving up, in units of
-     *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return the head of this queue, or {@code null} if the
-     *         specified waiting time elapses before an element is available
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn tif ifbd of tiis qufuf, or {@dodf null} if tif
+     *         spfdififd wbiting timf flbpsfs bfforf bn flfmfnt is bvbilbblf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    E poll(long timeout, TimeUnit unit)
-        throws InterruptedException;
+    E poll(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Returns the number of additional elements that this queue can ideally
-     * (in the absence of memory or resource constraints) accept without
-     * blocking, or {@code Integer.MAX_VALUE} if there is no intrinsic
+     * Rfturns tif numbfr of bdditionbl flfmfnts tibt tiis qufuf dbn idfblly
+     * (in tif bbsfndf of mfmory or rfsourdf donstrbints) bddfpt witiout
+     * blodking, or {@dodf Intfgfr.MAX_VALUE} if tifrf is no intrinsid
      * limit.
      *
-     * <p>Note that you <em>cannot</em> always tell if an attempt to insert
-     * an element will succeed by inspecting {@code remainingCapacity}
-     * because it may be the case that another thread is about to
-     * insert or remove an element.
+     * <p>Notf tibt you <fm>dbnnot</fm> blwbys tfll if bn bttfmpt to insfrt
+     * bn flfmfnt will suddffd by inspfdting {@dodf rfmbiningCbpbdity}
+     * bfdbusf it mby bf tif dbsf tibt bnotifr tirfbd is bbout to
+     * insfrt or rfmovf bn flfmfnt.
      *
-     * @return the remaining capacity
+     * @rfturn tif rfmbining dbpbdity
      */
-    int remainingCapacity();
+    int rfmbiningCbpbdity();
 
     /**
-     * Removes a single instance of the specified element from this queue,
-     * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
-     * elements.
-     * Returns {@code true} if this queue contained the specified element
-     * (or equivalently, if this queue changed as a result of the call).
+     * Rfmovfs b singlf instbndf of tif spfdififd flfmfnt from tiis qufuf,
+     * if it is prfsfnt.  Morf formblly, rfmovfs bn flfmfnt {@dodf f} sudi
+     * tibt {@dodf o.fqubls(f)}, if tiis qufuf dontbins onf or morf sudi
+     * flfmfnts.
+     * Rfturns {@dodf truf} if tiis qufuf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis qufuf dibngfd bs b rfsult of tif dbll).
      *
-     * @param o element to be removed from this queue, if present
-     * @return {@code true} if this queue changed as a result of the call
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this queue
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis qufuf, if prfsfnt
+     * @rfturn {@dodf truf} if tiis qufuf dibngfd bs b rfsult of tif dbll
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         is indompbtiblf witi tiis qufuf
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
      */
-    boolean remove(Object o);
+    boolfbn rfmovf(Objfdt o);
 
     /**
-     * Returns {@code true} if this queue contains the specified element.
-     * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Rfturns {@dodf truf} if tiis qufuf dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis qufuf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudi tibt {@dodf o.fqubls(f)}.
      *
-     * @param o object to be checked for containment in this queue
-     * @return {@code true} if this queue contains the specified element
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this queue
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o objfdt to bf difdkfd for dontbinmfnt in tiis qufuf
+     * @rfturn {@dodf truf} if tiis qufuf dontbins tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         is indompbtiblf witi tiis qufuf
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
      */
-    public boolean contains(Object o);
+    publid boolfbn dontbins(Objfdt o);
 
     /**
-     * Removes all available elements from this queue and adds them
-     * to the given collection.  This operation may be more
-     * efficient than repeatedly polling this queue.  A failure
-     * encountered while attempting to add elements to
-     * collection {@code c} may result in elements being in neither,
-     * either or both collections when the associated exception is
-     * thrown.  Attempts to drain a queue to itself result in
-     * {@code IllegalArgumentException}. Further, the behavior of
-     * this operation is undefined if the specified collection is
-     * modified while the operation is in progress.
+     * Rfmovfs bll bvbilbblf flfmfnts from tiis qufuf bnd bdds tifm
+     * to tif givfn dollfdtion.  Tiis opfrbtion mby bf morf
+     * fffidifnt tibn rfpfbtfdly polling tiis qufuf.  A fbilurf
+     * fndountfrfd wiilf bttfmpting to bdd flfmfnts to
+     * dollfdtion {@dodf d} mby rfsult in flfmfnts bfing in nfitifr,
+     * fitifr or boti dollfdtions wifn tif bssodibtfd fxdfption is
+     * tirown.  Attfmpts to drbin b qufuf to itsflf rfsult in
+     * {@dodf IllfgblArgumfntExdfption}. Furtifr, tif bfibvior of
+     * tiis opfrbtion is undffinfd if tif spfdififd dollfdtion is
+     * modififd wiilf tif opfrbtion is in progrfss.
      *
-     * @param c the collection to transfer elements into
-     * @return the number of elements transferred
-     * @throws UnsupportedOperationException if addition of elements
-     *         is not supported by the specified collection
-     * @throws ClassCastException if the class of an element of this queue
-     *         prevents it from being added to the specified collection
-     * @throws NullPointerException if the specified collection is null
-     * @throws IllegalArgumentException if the specified collection is this
-     *         queue, or some property of an element of this queue prevents
-     *         it from being added to the specified collection
+     * @pbrbm d tif dollfdtion to trbnsffr flfmfnts into
+     * @rfturn tif numbfr of flfmfnts trbnsffrrfd
+     * @tirows UnsupportfdOpfrbtionExdfption if bddition of flfmfnts
+     *         is not supportfd by tif spfdififd dollfdtion
+     * @tirows ClbssCbstExdfption if tif dlbss of bn flfmfnt of tiis qufuf
+     *         prfvfnts it from bfing bddfd to tif spfdififd dollfdtion
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd dollfdtion is tiis
+     *         qufuf, or somf propfrty of bn flfmfnt of tiis qufuf prfvfnts
+     *         it from bfing bddfd to tif spfdififd dollfdtion
      */
-    int drainTo(Collection<? super E> c);
+    int drbinTo(Collfdtion<? supfr E> d);
 
     /**
-     * Removes at most the given number of available elements from
-     * this queue and adds them to the given collection.  A failure
-     * encountered while attempting to add elements to
-     * collection {@code c} may result in elements being in neither,
-     * either or both collections when the associated exception is
-     * thrown.  Attempts to drain a queue to itself result in
-     * {@code IllegalArgumentException}. Further, the behavior of
-     * this operation is undefined if the specified collection is
-     * modified while the operation is in progress.
+     * Rfmovfs bt most tif givfn numbfr of bvbilbblf flfmfnts from
+     * tiis qufuf bnd bdds tifm to tif givfn dollfdtion.  A fbilurf
+     * fndountfrfd wiilf bttfmpting to bdd flfmfnts to
+     * dollfdtion {@dodf d} mby rfsult in flfmfnts bfing in nfitifr,
+     * fitifr or boti dollfdtions wifn tif bssodibtfd fxdfption is
+     * tirown.  Attfmpts to drbin b qufuf to itsflf rfsult in
+     * {@dodf IllfgblArgumfntExdfption}. Furtifr, tif bfibvior of
+     * tiis opfrbtion is undffinfd if tif spfdififd dollfdtion is
+     * modififd wiilf tif opfrbtion is in progrfss.
      *
-     * @param c the collection to transfer elements into
-     * @param maxElements the maximum number of elements to transfer
-     * @return the number of elements transferred
-     * @throws UnsupportedOperationException if addition of elements
-     *         is not supported by the specified collection
-     * @throws ClassCastException if the class of an element of this queue
-     *         prevents it from being added to the specified collection
-     * @throws NullPointerException if the specified collection is null
-     * @throws IllegalArgumentException if the specified collection is this
-     *         queue, or some property of an element of this queue prevents
-     *         it from being added to the specified collection
+     * @pbrbm d tif dollfdtion to trbnsffr flfmfnts into
+     * @pbrbm mbxElfmfnts tif mbximum numbfr of flfmfnts to trbnsffr
+     * @rfturn tif numbfr of flfmfnts trbnsffrrfd
+     * @tirows UnsupportfdOpfrbtionExdfption if bddition of flfmfnts
+     *         is not supportfd by tif spfdififd dollfdtion
+     * @tirows ClbssCbstExdfption if tif dlbss of bn flfmfnt of tiis qufuf
+     *         prfvfnts it from bfing bddfd to tif spfdififd dollfdtion
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd dollfdtion is tiis
+     *         qufuf, or somf propfrty of bn flfmfnt of tiis qufuf prfvfnts
+     *         it from bfing bddfd to tif spfdififd dollfdtion
      */
-    int drainTo(Collection<? super E> c, int maxElements);
+    int drbinTo(Collfdtion<? supfr E> d, int mbxElfmfnts);
 }

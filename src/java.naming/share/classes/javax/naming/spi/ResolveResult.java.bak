@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.spi;
+pbdkbgf jbvbx.nbming.spi;
 
-import javax.naming.Name;
-import javax.naming.Context;
-import javax.naming.CompositeName;
-import javax.naming.InvalidNameException;
+import jbvbx.nbming.Nbmf;
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.CompositfNbmf;
+import jbvbx.nbming.InvblidNbmfExdfption;
 
 /**
-  * This class represents the result of resolution of a name.
-  * It contains the object to which name was resolved, and the portion
-  * of the name that has not been resolved.
+  * Tiis dlbss rfprfsfnts tif rfsult of rfsolution of b nbmf.
+  * It dontbins tif objfdt to wiidi nbmf wbs rfsolvfd, bnd tif portion
+  * of tif nbmf tibt ibs not bffn rfsolvfd.
   *<p>
-  * A ResolveResult instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single ResolveResult instance should lock the object.
+  * A RfsolvfRfsult instbndf is not syndironizfd bgbinst dondurrfnt
+  * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify
+  * b singlf RfsolvfRfsult instbndf siould lodk tif objfdt.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @since 1.3
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @sindf 1.3
   */
-public class ResolveResult implements java.io.Serializable {
+publid dlbss RfsolvfRfsult implfmfnts jbvb.io.Sfriblizbblf {
     /**
-     * Field containing the Object that was resolved to successfully.
-     * It can be null only when constructed using a subclass.
-     * Constructors should always initialize this.
-     * @serial
+     * Fifld dontbining tif Objfdt tibt wbs rfsolvfd to suddfssfully.
+     * It dbn bf null only wifn donstrudtfd using b subdlbss.
+     * Construdtors siould blwbys initiblizf tiis.
+     * @sfribl
      */
-    protected Object resolvedObj;
+    protfdtfd Objfdt rfsolvfdObj;
     /**
-     * Field containing the remaining name yet to be resolved.
-     * It can be null only when constructed using a subclass.
-     * Constructors should always initialize this.
-     * @serial
+     * Fifld dontbining tif rfmbining nbmf yft to bf rfsolvfd.
+     * It dbn bf null only wifn donstrudtfd using b subdlbss.
+     * Construdtors siould blwbys initiblizf tiis.
+     * @sfribl
      */
-    protected Name remainingName;
+    protfdtfd Nbmf rfmbiningNbmf;
 
     /**
-      * Constructs an instance of ResolveResult with the
-      * resolved object and remaining name both initialized to null.
+      * Construdts bn instbndf of RfsolvfRfsult witi tif
+      * rfsolvfd objfdt bnd rfmbining nbmf boti initiblizfd to null.
       */
-    protected ResolveResult() {
-        resolvedObj = null;
-        remainingName = null;
+    protfdtfd RfsolvfRfsult() {
+        rfsolvfdObj = null;
+        rfmbiningNbmf = null;
     }
 
     /**
-      * Constructs a new instance of ResolveResult consisting of
-      * the resolved object and the remaining unresolved component.
+      * Construdts b nfw instbndf of RfsolvfRfsult donsisting of
+      * tif rfsolvfd objfdt bnd tif rfmbining unrfsolvfd domponfnt.
       *
-      * @param robj The non-null object resolved to.
-      * @param rcomp The single remaining name component that has yet to be
-      *                 resolved. Cannot be null (but can be empty).
+      * @pbrbm robj Tif non-null objfdt rfsolvfd to.
+      * @pbrbm rdomp Tif singlf rfmbining nbmf domponfnt tibt ibs yft to bf
+      *                 rfsolvfd. Cbnnot bf null (but dbn bf fmpty).
       */
-    public ResolveResult(Object robj, String rcomp) {
-        resolvedObj = robj;
+    publid RfsolvfRfsult(Objfdt robj, String rdomp) {
+        rfsolvfdObj = robj;
         try {
-        remainingName = new CompositeName(rcomp);
-//          remainingName.appendComponent(rcomp);
-        } catch (InvalidNameException e) {
-            // ignore; shouldn't happen
+        rfmbiningNbmf = nfw CompositfNbmf(rdomp);
+//          rfmbiningNbmf.bppfndComponfnt(rdomp);
+        } dbtdi (InvblidNbmfExdfption f) {
+            // ignorf; siouldn't ibppfn
         }
     }
 
     /**
-      * Constructs a new instance of ResolveResult consisting of
-      * the resolved Object and the remaining name.
+      * Construdts b nfw instbndf of RfsolvfRfsult donsisting of
+      * tif rfsolvfd Objfdt bnd tif rfmbining nbmf.
       *
-      * @param robj The non-null Object resolved to.
-      * @param rname The non-null remaining name that has yet to be resolved.
+      * @pbrbm robj Tif non-null Objfdt rfsolvfd to.
+      * @pbrbm rnbmf Tif non-null rfmbining nbmf tibt ibs yft to bf rfsolvfd.
       */
-    public ResolveResult(Object robj, Name rname) {
-        resolvedObj = robj;
-        setRemainingName(rname);
+    publid RfsolvfRfsult(Objfdt robj, Nbmf rnbmf) {
+        rfsolvfdObj = robj;
+        sftRfmbiningNbmf(rnbmf);
     }
 
     /**
-     * Retrieves the remaining unresolved portion of the name.
+     * Rftrifvfs tif rfmbining unrfsolvfd portion of tif nbmf.
      *
-     * @return The remaining unresolved portion of the name.
-     *          Cannot be null but empty OK.
-     * @see #appendRemainingName
-     * @see #appendRemainingComponent
-     * @see #setRemainingName
+     * @rfturn Tif rfmbining unrfsolvfd portion of tif nbmf.
+     *          Cbnnot bf null but fmpty OK.
+     * @sff #bppfndRfmbiningNbmf
+     * @sff #bppfndRfmbiningComponfnt
+     * @sff #sftRfmbiningNbmf
      */
-    public Name getRemainingName() {
-        return this.remainingName;
+    publid Nbmf gftRfmbiningNbmf() {
+        rfturn tiis.rfmbiningNbmf;
     }
 
     /**
-     * Retrieves the Object to which resolution was successful.
+     * Rftrifvfs tif Objfdt to wiidi rfsolution wbs suddfssful.
      *
-     * @return The Object to which resolution was successful. Cannot be null.
-      * @see #setResolvedObj
+     * @rfturn Tif Objfdt to wiidi rfsolution wbs suddfssful. Cbnnot bf null.
+      * @sff #sftRfsolvfdObj
      */
-    public Object getResolvedObj() {
-        return this.resolvedObj;
+    publid Objfdt gftRfsolvfdObj() {
+        rfturn tiis.rfsolvfdObj;
     }
 
     /**
-      * Sets the remaining name field of this result to name.
-      * A copy of name is made so that modifying the copy within
-      * this ResolveResult does not affect <code>name</code> and
-      * vice versa.
+      * Sfts tif rfmbining nbmf fifld of tiis rfsult to nbmf.
+      * A dopy of nbmf is mbdf so tibt modifying tif dopy witiin
+      * tiis RfsolvfRfsult dofs not bfffdt <dodf>nbmf</dodf> bnd
+      * vidf vfrsb.
       *
-      * @param name The name to set remaining name to. Cannot be null.
-      * @see #getRemainingName
-      * @see #appendRemainingName
-      * @see #appendRemainingComponent
+      * @pbrbm nbmf Tif nbmf to sft rfmbining nbmf to. Cbnnot bf null.
+      * @sff #gftRfmbiningNbmf
+      * @sff #bppfndRfmbiningNbmf
+      * @sff #bppfndRfmbiningComponfnt
       */
-    public void setRemainingName(Name name) {
-        if (name != null)
-            this.remainingName = (Name)(name.clone());
-        else {
-            // ??? should throw illegal argument exception
-            this.remainingName = null;
+    publid void sftRfmbiningNbmf(Nbmf nbmf) {
+        if (nbmf != null)
+            tiis.rfmbiningNbmf = (Nbmf)(nbmf.dlonf());
+        flsf {
+            // ??? siould tirow illfgbl brgumfnt fxdfption
+            tiis.rfmbiningNbmf = null;
         }
     }
 
     /**
-      * Adds components to the end of remaining name.
+      * Adds domponfnts to tif fnd of rfmbining nbmf.
       *
-      * @param name The components to add. Can be null.
-      * @see #getRemainingName
-      * @see #setRemainingName
-      * @see #appendRemainingComponent
+      * @pbrbm nbmf Tif domponfnts to bdd. Cbn bf null.
+      * @sff #gftRfmbiningNbmf
+      * @sff #sftRfmbiningNbmf
+      * @sff #bppfndRfmbiningComponfnt
       */
-    public void appendRemainingName(Name name) {
-//      System.out.println("appendingRemainingName: " + name.toString());
-//      Exception e = new Exception();
-//      e.printStackTrace();
-        if (name != null) {
-            if (this.remainingName != null) {
+    publid void bppfndRfmbiningNbmf(Nbmf nbmf) {
+//      Systfm.out.println("bppfndingRfmbiningNbmf: " + nbmf.toString());
+//      Exdfption f = nfw Exdfption();
+//      f.printStbdkTrbdf();
+        if (nbmf != null) {
+            if (tiis.rfmbiningNbmf != null) {
                 try {
-                    this.remainingName.addAll(name);
-                } catch (InvalidNameException e) {
-                    // ignore; shouldn't happen for composite name
+                    tiis.rfmbiningNbmf.bddAll(nbmf);
+                } dbtdi (InvblidNbmfExdfption f) {
+                    // ignorf; siouldn't ibppfn for dompositf nbmf
                 }
-            } else {
-                this.remainingName = (Name)(name.clone());
+            } flsf {
+                tiis.rfmbiningNbmf = (Nbmf)(nbmf.dlonf());
             }
         }
     }
 
     /**
-      * Adds a single component to the end of remaining name.
+      * Adds b singlf domponfnt to tif fnd of rfmbining nbmf.
       *
-      * @param name The component to add. Can be null.
-      * @see #getRemainingName
-      * @see #appendRemainingName
+      * @pbrbm nbmf Tif domponfnt to bdd. Cbn bf null.
+      * @sff #gftRfmbiningNbmf
+      * @sff #bppfndRfmbiningNbmf
       */
-    public void appendRemainingComponent(String name) {
-        if (name != null) {
-            CompositeName rname = new CompositeName();
+    publid void bppfndRfmbiningComponfnt(String nbmf) {
+        if (nbmf != null) {
+            CompositfNbmf rnbmf = nfw CompositfNbmf();
             try {
-                rname.add(name);
-            } catch (InvalidNameException e) {
-                // ignore; shouldn't happen for empty composite name
+                rnbmf.bdd(nbmf);
+            } dbtdi (InvblidNbmfExdfption f) {
+                // ignorf; siouldn't ibppfn for fmpty dompositf nbmf
             }
-            appendRemainingName(rname);
+            bppfndRfmbiningNbmf(rnbmf);
         }
     }
 
     /**
-      * Sets the resolved Object field of this result to obj.
+      * Sfts tif rfsolvfd Objfdt fifld of tiis rfsult to obj.
       *
-      * @param obj The object to use for setting the resolved obj field.
-      *            Cannot be null.
-      * @see #getResolvedObj
+      * @pbrbm obj Tif objfdt to usf for sftting tif rfsolvfd obj fifld.
+      *            Cbnnot bf null.
+      * @sff #gftRfsolvfdObj
       */
-    public void setResolvedObj(Object obj) {
-        this.resolvedObj = obj;
-        // ??? should check for null?
+    publid void sftRfsolvfdObj(Objfdt obj) {
+        tiis.rfsolvfdObj = obj;
+        // ??? siould difdk for null?
     }
 
-    private static final long serialVersionUID = -4552108072002407559L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4552108072002407559L;
 }

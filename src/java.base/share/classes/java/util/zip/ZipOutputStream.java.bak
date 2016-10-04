@@ -1,759 +1,759 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
-import java.io.OutputStream;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Vector;
-import java.util.HashSet;
-import static java.util.zip.ZipConstants64.*;
-import static java.util.zip.ZipUtils.*;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.StbndbrdCibrsfts;
+import jbvb.util.Vfdtor;
+import jbvb.util.HbsiSft;
+import stbtid jbvb.util.zip.ZipConstbnts64.*;
+import stbtid jbvb.util.zip.ZipUtils.*;
 
 /**
- * This class implements an output stream filter for writing files in the
- * ZIP file format. Includes support for both compressed and uncompressed
- * entries.
+ * Tiis dlbss implfmfnts bn output strfbm filtfr for writing filfs in tif
+ * ZIP filf formbt. Indludfs support for boti domprfssfd bnd undomprfssfd
+ * fntrifs.
  *
- * @author      David Connelly
+ * @butior      Dbvid Connflly
  */
-public
-class ZipOutputStream extends DeflaterOutputStream implements ZipConstants {
+publid
+dlbss ZipOutputStrfbm fxtfnds DfflbtfrOutputStrfbm implfmfnts ZipConstbnts {
 
     /**
-     * Whether to use ZIP64 for zip files with more than 64k entries.
-     * Until ZIP64 support in zip implementations is ubiquitous, this
-     * system property allows the creation of zip files which can be
-     * read by legacy zip implementations which tolerate "incorrect"
-     * total entry count fields, such as the ones in jdk6, and even
-     * some in jdk7.
+     * Wiftifr to usf ZIP64 for zip filfs witi morf tibn 64k fntrifs.
+     * Until ZIP64 support in zip implfmfntbtions is ubiquitous, tiis
+     * systfm propfrty bllows tif drfbtion of zip filfs wiidi dbn bf
+     * rfbd by lfgbdy zip implfmfntbtions wiidi tolfrbtf "indorrfdt"
+     * totbl fntry dount fiflds, sudi bs tif onfs in jdk6, bnd fvfn
+     * somf in jdk7.
      */
-    private static final boolean inhibitZip64 =
-        Boolean.parseBoolean(
-            java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                    "jdk.util.zip.inhibitZip64", "false")));
+    privbtf stbtid finbl boolfbn iniibitZip64 =
+        Boolfbn.pbrsfBoolfbn(
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                    "jdk.util.zip.iniibitZip64", "fblsf")));
 
-    private static class XEntry {
-        final ZipEntry entry;
-        final long offset;
-        long dostime;    // last modification time in msdos format
-        public XEntry(ZipEntry entry, long offset) {
-            this.entry = entry;
-            this.offset = offset;
+    privbtf stbtid dlbss XEntry {
+        finbl ZipEntry fntry;
+        finbl long offsft;
+        long dostimf;    // lbst modifidbtion timf in msdos formbt
+        publid XEntry(ZipEntry fntry, long offsft) {
+            tiis.fntry = fntry;
+            tiis.offsft = offsft;
         }
     }
 
-    private XEntry current;
-    private Vector<XEntry> xentries = new Vector<>();
-    private HashSet<String> names = new HashSet<>();
-    private CRC32 crc = new CRC32();
-    private long written = 0;
-    private long locoff = 0;
-    private byte[] comment;
-    private int method = DEFLATED;
-    private boolean finished;
+    privbtf XEntry durrfnt;
+    privbtf Vfdtor<XEntry> xfntrifs = nfw Vfdtor<>();
+    privbtf HbsiSft<String> nbmfs = nfw HbsiSft<>();
+    privbtf CRC32 drd = nfw CRC32();
+    privbtf long writtfn = 0;
+    privbtf long lodoff = 0;
+    privbtf bytf[] dommfnt;
+    privbtf int mftiod = DEFLATED;
+    privbtf boolfbn finisifd;
 
-    private boolean closed = false;
+    privbtf boolfbn dlosfd = fblsf;
 
-    private final ZipCoder zc;
+    privbtf finbl ZipCodfr zd;
 
-    private static int version(ZipEntry e) throws ZipException {
-        switch (e.method) {
-        case DEFLATED: return 20;
-        case STORED:   return 10;
-        default: throw new ZipException("unsupported compression method");
+    privbtf stbtid int vfrsion(ZipEntry f) tirows ZipExdfption {
+        switdi (f.mftiod) {
+        dbsf DEFLATED: rfturn 20;
+        dbsf STORED:   rfturn 10;
+        dffbult: tirow nfw ZipExdfption("unsupportfd domprfssion mftiod");
         }
     }
 
     /**
-     * Checks to make sure that this stream has not been closed.
+     * Cifdks to mbkf surf tibt tiis strfbm ibs not bffn dlosfd.
      */
-    private void ensureOpen() throws IOException {
-        if (closed) {
-            throw new IOException("Stream closed");
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw IOExdfption("Strfbm dlosfd");
         }
     }
     /**
-     * Compression method for uncompressed (STORED) entries.
+     * Comprfssion mftiod for undomprfssfd (STORED) fntrifs.
      */
-    public static final int STORED = ZipEntry.STORED;
+    publid stbtid finbl int STORED = ZipEntry.STORED;
 
     /**
-     * Compression method for compressed (DEFLATED) entries.
+     * Comprfssion mftiod for domprfssfd (DEFLATED) fntrifs.
      */
-    public static final int DEFLATED = ZipEntry.DEFLATED;
+    publid stbtid finbl int DEFLATED = ZipEntry.DEFLATED;
 
     /**
-     * Creates a new ZIP output stream.
+     * Crfbtfs b nfw ZIP output strfbm.
      *
-     * <p>The UTF-8 {@link java.nio.charset.Charset charset} is used
-     * to encode the entry names and comments.
+     * <p>Tif UTF-8 {@link jbvb.nio.dibrsft.Cibrsft dibrsft} is usfd
+     * to fndodf tif fntry nbmfs bnd dommfnts.
      *
-     * @param out the actual output stream
+     * @pbrbm out tif bdtubl output strfbm
      */
-    public ZipOutputStream(OutputStream out) {
-        this(out, StandardCharsets.UTF_8);
+    publid ZipOutputStrfbm(OutputStrfbm out) {
+        tiis(out, StbndbrdCibrsfts.UTF_8);
     }
 
     /**
-     * Creates a new ZIP output stream.
+     * Crfbtfs b nfw ZIP output strfbm.
      *
-     * @param out the actual output stream
+     * @pbrbm out tif bdtubl output strfbm
      *
-     * @param charset the {@linkplain java.nio.charset.Charset charset}
-     *                to be used to encode the entry names and comments
+     * @pbrbm dibrsft tif {@linkplbin jbvb.nio.dibrsft.Cibrsft dibrsft}
+     *                to bf usfd to fndodf tif fntry nbmfs bnd dommfnts
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public ZipOutputStream(OutputStream out, Charset charset) {
-        super(out, new Deflater(Deflater.DEFAULT_COMPRESSION, true));
-        if (charset == null)
-            throw new NullPointerException("charset is null");
-        this.zc = ZipCoder.get(charset);
-        usesDefaultDeflater = true;
+    publid ZipOutputStrfbm(OutputStrfbm out, Cibrsft dibrsft) {
+        supfr(out, nfw Dfflbtfr(Dfflbtfr.DEFAULT_COMPRESSION, truf));
+        if (dibrsft == null)
+            tirow nfw NullPointfrExdfption("dibrsft is null");
+        tiis.zd = ZipCodfr.gft(dibrsft);
+        usfsDffbultDfflbtfr = truf;
     }
 
     /**
-     * Sets the ZIP file comment.
-     * @param comment the comment string
-     * @exception IllegalArgumentException if the length of the specified
-     *            ZIP file comment is greater than 0xFFFF bytes
+     * Sfts tif ZIP filf dommfnt.
+     * @pbrbm dommfnt tif dommfnt string
+     * @fxdfption IllfgblArgumfntExdfption if tif lfngti of tif spfdififd
+     *            ZIP filf dommfnt is grfbtfr tibn 0xFFFF bytfs
      */
-    public void setComment(String comment) {
-        if (comment != null) {
-            this.comment = zc.getBytes(comment);
-            if (this.comment.length > 0xffff)
-                throw new IllegalArgumentException("ZIP file comment too long.");
+    publid void sftCommfnt(String dommfnt) {
+        if (dommfnt != null) {
+            tiis.dommfnt = zd.gftBytfs(dommfnt);
+            if (tiis.dommfnt.lfngti > 0xffff)
+                tirow nfw IllfgblArgumfntExdfption("ZIP filf dommfnt too long.");
         }
     }
 
     /**
-     * Sets the default compression method for subsequent entries. This
-     * default will be used whenever the compression method is not specified
-     * for an individual ZIP file entry, and is initially set to DEFLATED.
-     * @param method the default compression method
-     * @exception IllegalArgumentException if the specified compression method
-     *            is invalid
+     * Sfts tif dffbult domprfssion mftiod for subsfqufnt fntrifs. Tiis
+     * dffbult will bf usfd wifnfvfr tif domprfssion mftiod is not spfdififd
+     * for bn individubl ZIP filf fntry, bnd is initiblly sft to DEFLATED.
+     * @pbrbm mftiod tif dffbult domprfssion mftiod
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd domprfssion mftiod
+     *            is invblid
      */
-    public void setMethod(int method) {
-        if (method != DEFLATED && method != STORED) {
-            throw new IllegalArgumentException("invalid compression method");
+    publid void sftMftiod(int mftiod) {
+        if (mftiod != DEFLATED && mftiod != STORED) {
+            tirow nfw IllfgblArgumfntExdfption("invblid domprfssion mftiod");
         }
-        this.method = method;
+        tiis.mftiod = mftiod;
     }
 
     /**
-     * Sets the compression level for subsequent entries which are DEFLATED.
-     * The default setting is DEFAULT_COMPRESSION.
-     * @param level the compression level (0-9)
-     * @exception IllegalArgumentException if the compression level is invalid
+     * Sfts tif domprfssion lfvfl for subsfqufnt fntrifs wiidi brf DEFLATED.
+     * Tif dffbult sftting is DEFAULT_COMPRESSION.
+     * @pbrbm lfvfl tif domprfssion lfvfl (0-9)
+     * @fxdfption IllfgblArgumfntExdfption if tif domprfssion lfvfl is invblid
      */
-    public void setLevel(int level) {
-        def.setLevel(level);
+    publid void sftLfvfl(int lfvfl) {
+        dff.sftLfvfl(lfvfl);
     }
 
     /**
-     * Begins writing a new ZIP file entry and positions the stream to the
-     * start of the entry data. Closes the current entry if still active.
-     * The default compression method will be used if no compression method
-     * was specified for the entry, and the current time will be used if
-     * the entry has no set modification time.
-     * @param e the ZIP entry to be written
-     * @exception ZipException if a ZIP format error has occurred
-     * @exception IOException if an I/O error has occurred
+     * Bfgins writing b nfw ZIP filf fntry bnd positions tif strfbm to tif
+     * stbrt of tif fntry dbtb. Closfs tif durrfnt fntry if still bdtivf.
+     * Tif dffbult domprfssion mftiod will bf usfd if no domprfssion mftiod
+     * wbs spfdififd for tif fntry, bnd tif durrfnt timf will bf usfd if
+     * tif fntry ibs no sft modifidbtion timf.
+     * @pbrbm f tif ZIP fntry to bf writtfn
+     * @fxdfption ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void putNextEntry(ZipEntry e) throws IOException {
-        ensureOpen();
-        if (current != null) {
-            closeEntry();       // close previous entry
+    publid void putNfxtEntry(ZipEntry f) tirows IOExdfption {
+        fnsurfOpfn();
+        if (durrfnt != null) {
+            dlosfEntry();       // dlosf prfvious fntry
         }
-        if (e.time == -1) {
-            // by default, do NOT use extended timestamps in extra
-            // data, for now.
-            e.setTime(System.currentTimeMillis());
+        if (f.timf == -1) {
+            // by dffbult, do NOT usf fxtfndfd timfstbmps in fxtrb
+            // dbtb, for now.
+            f.sftTimf(Systfm.durrfntTimfMillis());
         }
-        if (e.method == -1) {
-            e.method = method;  // use default method
+        if (f.mftiod == -1) {
+            f.mftiod = mftiod;  // usf dffbult mftiod
         }
-        // store size, compressed size, and crc-32 in LOC header
-        e.flag = 0;
-        switch (e.method) {
-        case DEFLATED:
-            // store size, compressed size, and crc-32 in data descriptor
-            // immediately following the compressed entry data
-            if (e.size  == -1 || e.csize == -1 || e.crc   == -1)
-                e.flag = 8;
+        // storf sizf, domprfssfd sizf, bnd drd-32 in LOC ifbdfr
+        f.flbg = 0;
+        switdi (f.mftiod) {
+        dbsf DEFLATED:
+            // storf sizf, domprfssfd sizf, bnd drd-32 in dbtb dfsdriptor
+            // immfdibtfly following tif domprfssfd fntry dbtb
+            if (f.sizf  == -1 || f.dsizf == -1 || f.drd   == -1)
+                f.flbg = 8;
 
-            break;
-        case STORED:
-            // compressed size, uncompressed size, and crc-32 must all be
-            // set for entries using STORED compression method
-            if (e.size == -1) {
-                e.size = e.csize;
-            } else if (e.csize == -1) {
-                e.csize = e.size;
-            } else if (e.size != e.csize) {
-                throw new ZipException(
-                    "STORED entry where compressed != uncompressed size");
+            brfbk;
+        dbsf STORED:
+            // domprfssfd sizf, undomprfssfd sizf, bnd drd-32 must bll bf
+            // sft for fntrifs using STORED domprfssion mftiod
+            if (f.sizf == -1) {
+                f.sizf = f.dsizf;
+            } flsf if (f.dsizf == -1) {
+                f.dsizf = f.sizf;
+            } flsf if (f.sizf != f.dsizf) {
+                tirow nfw ZipExdfption(
+                    "STORED fntry wifrf domprfssfd != undomprfssfd sizf");
             }
-            if (e.size == -1 || e.crc == -1) {
-                throw new ZipException(
-                    "STORED entry missing size, compressed size, or crc-32");
+            if (f.sizf == -1 || f.drd == -1) {
+                tirow nfw ZipExdfption(
+                    "STORED fntry missing sizf, domprfssfd sizf, or drd-32");
             }
-            break;
-        default:
-            throw new ZipException("unsupported compression method");
+            brfbk;
+        dffbult:
+            tirow nfw ZipExdfption("unsupportfd domprfssion mftiod");
         }
-        if (! names.add(e.name)) {
-            throw new ZipException("duplicate entry: " + e.name);
+        if (! nbmfs.bdd(f.nbmf)) {
+            tirow nfw ZipExdfption("duplidbtf fntry: " + f.nbmf);
         }
-        if (zc.isUTF8())
-            e.flag |= EFS;
-        current = new XEntry(e, written);
-        xentries.add(current);
-        writeLOC(current);
+        if (zd.isUTF8())
+            f.flbg |= EFS;
+        durrfnt = nfw XEntry(f, writtfn);
+        xfntrifs.bdd(durrfnt);
+        writfLOC(durrfnt);
     }
 
     /**
-     * Closes the current ZIP entry and positions the stream for writing
-     * the next entry.
-     * @exception ZipException if a ZIP format error has occurred
-     * @exception IOException if an I/O error has occurred
+     * Closfs tif durrfnt ZIP fntry bnd positions tif strfbm for writing
+     * tif nfxt fntry.
+     * @fxdfption ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void closeEntry() throws IOException {
-        ensureOpen();
-        if (current != null) {
-            ZipEntry e = current.entry;
-            switch (e.method) {
-            case DEFLATED:
-                def.finish();
-                while (!def.finished()) {
-                    deflate();
+    publid void dlosfEntry() tirows IOExdfption {
+        fnsurfOpfn();
+        if (durrfnt != null) {
+            ZipEntry f = durrfnt.fntry;
+            switdi (f.mftiod) {
+            dbsf DEFLATED:
+                dff.finisi();
+                wiilf (!dff.finisifd()) {
+                    dfflbtf();
                 }
-                if ((e.flag & 8) == 0) {
-                    // verify size, compressed size, and crc-32 settings
-                    if (e.size != def.getBytesRead()) {
-                        throw new ZipException(
-                            "invalid entry size (expected " + e.size +
-                            " but got " + def.getBytesRead() + " bytes)");
+                if ((f.flbg & 8) == 0) {
+                    // vfrify sizf, domprfssfd sizf, bnd drd-32 sfttings
+                    if (f.sizf != dff.gftBytfsRfbd()) {
+                        tirow nfw ZipExdfption(
+                            "invblid fntry sizf (fxpfdtfd " + f.sizf +
+                            " but got " + dff.gftBytfsRfbd() + " bytfs)");
                     }
-                    if (e.csize != def.getBytesWritten()) {
-                        throw new ZipException(
-                            "invalid entry compressed size (expected " +
-                            e.csize + " but got " + def.getBytesWritten() + " bytes)");
+                    if (f.dsizf != dff.gftBytfsWrittfn()) {
+                        tirow nfw ZipExdfption(
+                            "invblid fntry domprfssfd sizf (fxpfdtfd " +
+                            f.dsizf + " but got " + dff.gftBytfsWrittfn() + " bytfs)");
                     }
-                    if (e.crc != crc.getValue()) {
-                        throw new ZipException(
-                            "invalid entry CRC-32 (expected 0x" +
-                            Long.toHexString(e.crc) + " but got 0x" +
-                            Long.toHexString(crc.getValue()) + ")");
+                    if (f.drd != drd.gftVbluf()) {
+                        tirow nfw ZipExdfption(
+                            "invblid fntry CRC-32 (fxpfdtfd 0x" +
+                            Long.toHfxString(f.drd) + " but got 0x" +
+                            Long.toHfxString(drd.gftVbluf()) + ")");
                     }
-                } else {
-                    e.size  = def.getBytesRead();
-                    e.csize = def.getBytesWritten();
-                    e.crc = crc.getValue();
-                    writeEXT(e);
+                } flsf {
+                    f.sizf  = dff.gftBytfsRfbd();
+                    f.dsizf = dff.gftBytfsWrittfn();
+                    f.drd = drd.gftVbluf();
+                    writfEXT(f);
                 }
-                def.reset();
-                written += e.csize;
-                break;
-            case STORED:
-                // we already know that both e.size and e.csize are the same
-                if (e.size != written - locoff) {
-                    throw new ZipException(
-                        "invalid entry size (expected " + e.size +
-                        " but got " + (written - locoff) + " bytes)");
+                dff.rfsft();
+                writtfn += f.dsizf;
+                brfbk;
+            dbsf STORED:
+                // wf blrfbdy know tibt boti f.sizf bnd f.dsizf brf tif sbmf
+                if (f.sizf != writtfn - lodoff) {
+                    tirow nfw ZipExdfption(
+                        "invblid fntry sizf (fxpfdtfd " + f.sizf +
+                        " but got " + (writtfn - lodoff) + " bytfs)");
                 }
-                if (e.crc != crc.getValue()) {
-                    throw new ZipException(
-                         "invalid entry crc-32 (expected 0x" +
-                         Long.toHexString(e.crc) + " but got 0x" +
-                         Long.toHexString(crc.getValue()) + ")");
+                if (f.drd != drd.gftVbluf()) {
+                    tirow nfw ZipExdfption(
+                         "invblid fntry drd-32 (fxpfdtfd 0x" +
+                         Long.toHfxString(f.drd) + " but got 0x" +
+                         Long.toHfxString(drd.gftVbluf()) + ")");
                 }
-                break;
-            default:
-                throw new ZipException("invalid compression method");
+                brfbk;
+            dffbult:
+                tirow nfw ZipExdfption("invblid domprfssion mftiod");
             }
-            crc.reset();
-            current = null;
+            drd.rfsft();
+            durrfnt = null;
         }
     }
 
     /**
-     * Writes an array of bytes to the current ZIP entry data. This method
-     * will block until all the bytes are written.
-     * @param b the data to be written
-     * @param off the start offset in the data
-     * @param len the number of bytes that are written
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
+     * Writfs bn brrby of bytfs to tif durrfnt ZIP fntry dbtb. Tiis mftiod
+     * will blodk until bll tif bytfs brf writtfn.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @pbrbm off tif stbrt offsft in tif dbtb
+     * @pbrbm lfn tif numbfr of bytfs tibt brf writtfn
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public synchronized void write(byte[] b, int off, int len)
-        throws IOException
+    publid syndironizfd void writf(bytf[] b, int off, int lfn)
+        tirows IOExdfption
     {
-        ensureOpen();
-        if (off < 0 || len < 0 || off > b.length - len) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return;
+        fnsurfOpfn();
+        if (off < 0 || lfn < 0 || off > b.lfngti - lfn) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
         }
 
-        if (current == null) {
-            throw new ZipException("no current ZIP entry");
+        if (durrfnt == null) {
+            tirow nfw ZipExdfption("no durrfnt ZIP fntry");
         }
-        ZipEntry entry = current.entry;
-        switch (entry.method) {
-        case DEFLATED:
-            super.write(b, off, len);
-            break;
-        case STORED:
-            written += len;
-            if (written - locoff > entry.size) {
-                throw new ZipException(
-                    "attempt to write past end of STORED entry");
+        ZipEntry fntry = durrfnt.fntry;
+        switdi (fntry.mftiod) {
+        dbsf DEFLATED:
+            supfr.writf(b, off, lfn);
+            brfbk;
+        dbsf STORED:
+            writtfn += lfn;
+            if (writtfn - lodoff > fntry.sizf) {
+                tirow nfw ZipExdfption(
+                    "bttfmpt to writf pbst fnd of STORED fntry");
             }
-            out.write(b, off, len);
-            break;
-        default:
-            throw new ZipException("invalid compression method");
+            out.writf(b, off, lfn);
+            brfbk;
+        dffbult:
+            tirow nfw ZipExdfption("invblid domprfssion mftiod");
         }
-        crc.update(b, off, len);
+        drd.updbtf(b, off, lfn);
     }
 
     /**
-     * Finishes writing the contents of the ZIP output stream without closing
-     * the underlying stream. Use this method when applying multiple filters
-     * in succession to the same output stream.
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O exception has occurred
+     * Finisifs writing tif dontfnts of tif ZIP output strfbm witiout dlosing
+     * tif undfrlying strfbm. Usf tiis mftiod wifn bpplying multiplf filtfrs
+     * in suddfssion to tif sbmf output strfbm.
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O fxdfption ibs oddurrfd
      */
-    public void finish() throws IOException {
-        ensureOpen();
-        if (finished) {
-            return;
+    publid void finisi() tirows IOExdfption {
+        fnsurfOpfn();
+        if (finisifd) {
+            rfturn;
         }
-        if (current != null) {
-            closeEntry();
+        if (durrfnt != null) {
+            dlosfEntry();
         }
-        // write central directory
-        long off = written;
-        for (XEntry xentry : xentries)
-            writeCEN(xentry);
-        writeEND(off, written - off);
-        finished = true;
+        // writf dfntrbl dirfdtory
+        long off = writtfn;
+        for (XEntry xfntry : xfntrifs)
+            writfCEN(xfntry);
+        writfEND(off, writtfn - off);
+        finisifd = truf;
     }
 
     /**
-     * Closes the ZIP output stream as well as the stream being filtered.
-     * @exception ZipException if a ZIP file error has occurred
-     * @exception IOException if an I/O error has occurred
+     * Closfs tif ZIP output strfbm bs wfll bs tif strfbm bfing filtfrfd.
+     * @fxdfption ZipExdfption if b ZIP filf frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void close() throws IOException {
-        if (!closed) {
-            super.close();
-            closed = true;
+    publid void dlosf() tirows IOExdfption {
+        if (!dlosfd) {
+            supfr.dlosf();
+            dlosfd = truf;
         }
     }
 
     /*
-     * Writes local file (LOC) header for specified entry.
+     * Writfs lodbl filf (LOC) ifbdfr for spfdififd fntry.
      */
-    private void writeLOC(XEntry xentry) throws IOException {
-        ZipEntry e = xentry.entry;
-        int flag = e.flag;
-        boolean hasZip64 = false;
-        int elen = getExtraLen(e.extra);
+    privbtf void writfLOC(XEntry xfntry) tirows IOExdfption {
+        ZipEntry f = xfntry.fntry;
+        int flbg = f.flbg;
+        boolfbn ibsZip64 = fblsf;
+        int flfn = gftExtrbLfn(f.fxtrb);
 
-        // keep a copy of dostime for writeCEN(), otherwise the tz
-        // sensitive local time entries in loc and cen might be
-        // different if the default tz get changed during writeLOC()
-        // and writeCEN()
-        xentry.dostime = javaToDosTime(e.time);
+        // kffp b dopy of dostimf for writfCEN(), otifrwisf tif tz
+        // sfnsitivf lodbl timf fntrifs in lod bnd dfn migit bf
+        // difffrfnt if tif dffbult tz gft dibngfd during writfLOC()
+        // bnd writfCEN()
+        xfntry.dostimf = jbvbToDosTimf(f.timf);
 
-        writeInt(LOCSIG);               // LOC header signature
-        if ((flag & 8) == 8) {
-            writeShort(version(e));     // version needed to extract
-            writeShort(flag);           // general purpose bit flag
-            writeShort(e.method);       // compression method
-            writeInt(xentry.dostime);   // last modification time
-            // store size, uncompressed size, and crc-32 in data descriptor
-            // immediately following compressed entry data
-            writeInt(0);
-            writeInt(0);
-            writeInt(0);
-        } else {
-            if (e.csize >= ZIP64_MAGICVAL || e.size >= ZIP64_MAGICVAL) {
-                hasZip64 = true;
-                writeShort(45);         // ver 4.5 for zip64
-            } else {
-                writeShort(version(e)); // version needed to extract
+        writfInt(LOCSIG);               // LOC ifbdfr signbturf
+        if ((flbg & 8) == 8) {
+            writfSiort(vfrsion(f));     // vfrsion nffdfd to fxtrbdt
+            writfSiort(flbg);           // gfnfrbl purposf bit flbg
+            writfSiort(f.mftiod);       // domprfssion mftiod
+            writfInt(xfntry.dostimf);   // lbst modifidbtion timf
+            // storf sizf, undomprfssfd sizf, bnd drd-32 in dbtb dfsdriptor
+            // immfdibtfly following domprfssfd fntry dbtb
+            writfInt(0);
+            writfInt(0);
+            writfInt(0);
+        } flsf {
+            if (f.dsizf >= ZIP64_MAGICVAL || f.sizf >= ZIP64_MAGICVAL) {
+                ibsZip64 = truf;
+                writfSiort(45);         // vfr 4.5 for zip64
+            } flsf {
+                writfSiort(vfrsion(f)); // vfrsion nffdfd to fxtrbdt
             }
-            writeShort(flag);           // general purpose bit flag
-            writeShort(e.method);       // compression method
-            writeInt(xentry.dostime);   // last modification time
-            writeInt(e.crc);            // crc-32
-            if (hasZip64) {
-                writeInt(ZIP64_MAGICVAL);
-                writeInt(ZIP64_MAGICVAL);
-                elen += 20;        //headid(2) + size(2) + size(8) + csize(8)
-            } else {
-                writeInt(e.csize);  // compressed size
-                writeInt(e.size);   // uncompressed size
-            }
-        }
-        byte[] nameBytes = zc.getBytes(e.name);
-        writeShort(nameBytes.length);
-
-        int elenEXTT = 0;               // info-zip extended timestamp
-        int flagEXTT = 0;
-        if (e.mtime != null) {
-            elenEXTT += 4;
-            flagEXTT |= EXTT_FLAG_LMT;
-        }
-        if (e.atime != null) {
-            elenEXTT += 4;
-            flagEXTT |= EXTT_FLAG_LAT;
-        }
-        if (e.ctime != null) {
-            elenEXTT += 4;
-            flagEXTT |= EXTT_FLAT_CT;
-        }
-        if (flagEXTT != 0)
-            elen += (elenEXTT + 5);    // headid(2) + size(2) + flag(1) + data
-        writeShort(elen);
-        writeBytes(nameBytes, 0, nameBytes.length);
-        if (hasZip64) {
-            writeShort(ZIP64_EXTID);
-            writeShort(16);
-            writeLong(e.size);
-            writeLong(e.csize);
-        }
-        if (flagEXTT != 0) {
-            writeShort(EXTID_EXTT);
-            writeShort(elenEXTT + 1);      // flag + data
-            writeByte(flagEXTT);
-            if (e.mtime != null)
-                writeInt(fileTimeToUnixTime(e.mtime));
-            if (e.atime != null)
-                writeInt(fileTimeToUnixTime(e.atime));
-            if (e.ctime != null)
-                writeInt(fileTimeToUnixTime(e.ctime));
-        }
-        writeExtra(e.extra);
-        locoff = written;
-    }
-
-    /*
-     * Writes extra data descriptor (EXT) for specified entry.
-     */
-    private void writeEXT(ZipEntry e) throws IOException {
-        writeInt(EXTSIG);           // EXT header signature
-        writeInt(e.crc);            // crc-32
-        if (e.csize >= ZIP64_MAGICVAL || e.size >= ZIP64_MAGICVAL) {
-            writeLong(e.csize);
-            writeLong(e.size);
-        } else {
-            writeInt(e.csize);          // compressed size
-            writeInt(e.size);           // uncompressed size
-        }
-    }
-
-    /*
-     * Write central directory (CEN) header for specified entry.
-     * REMIND: add support for file attributes
-     */
-    private void writeCEN(XEntry xentry) throws IOException {
-        ZipEntry e  = xentry.entry;
-        int flag = e.flag;
-        int version = version(e);
-        long csize = e.csize;
-        long size = e.size;
-        long offset = xentry.offset;
-        int elenZIP64 = 0;
-        boolean hasZip64 = false;
-
-        if (e.csize >= ZIP64_MAGICVAL) {
-            csize = ZIP64_MAGICVAL;
-            elenZIP64 += 8;              // csize(8)
-            hasZip64 = true;
-        }
-        if (e.size >= ZIP64_MAGICVAL) {
-            size = ZIP64_MAGICVAL;    // size(8)
-            elenZIP64 += 8;
-            hasZip64 = true;
-        }
-        if (xentry.offset >= ZIP64_MAGICVAL) {
-            offset = ZIP64_MAGICVAL;
-            elenZIP64 += 8;              // offset(8)
-            hasZip64 = true;
-        }
-        writeInt(CENSIG);           // CEN header signature
-        if (hasZip64) {
-            writeShort(45);         // ver 4.5 for zip64
-            writeShort(45);
-        } else {
-            writeShort(version);    // version made by
-            writeShort(version);    // version needed to extract
-        }
-        writeShort(flag);           // general purpose bit flag
-        writeShort(e.method);       // compression method
-        // use the copy in xentry, which has been converted
-        // from e.time in writeLOC()
-        writeInt(xentry.dostime);   // last modification time
-        writeInt(e.crc);            // crc-32
-        writeInt(csize);            // compressed size
-        writeInt(size);             // uncompressed size
-        byte[] nameBytes = zc.getBytes(e.name);
-        writeShort(nameBytes.length);
-
-        int elen = getExtraLen(e.extra);
-        if (hasZip64) {
-            elen += (elenZIP64 + 4);// + headid(2) + datasize(2)
-        }
-        // cen info-zip extended timestamp only outputs mtime
-        // but set the flag for a/ctime, if present in loc
-        int flagEXTT = 0;
-        if (e.mtime != null) {
-            elen += 4;              // + mtime(4)
-            flagEXTT |= EXTT_FLAG_LMT;
-        }
-        if (e.atime != null) {
-            flagEXTT |= EXTT_FLAG_LAT;
-        }
-        if (e.ctime != null) {
-            flagEXTT |= EXTT_FLAT_CT;
-        }
-        if (flagEXTT != 0) {
-            elen += 5;             // headid + sz + flag
-        }
-        writeShort(elen);
-        byte[] commentBytes;
-        if (e.comment != null) {
-            commentBytes = zc.getBytes(e.comment);
-            writeShort(Math.min(commentBytes.length, 0xffff));
-        } else {
-            commentBytes = null;
-            writeShort(0);
-        }
-        writeShort(0);              // starting disk number
-        writeShort(0);              // internal file attributes (unused)
-        writeInt(0);                // external file attributes (unused)
-        writeInt(offset);           // relative offset of local header
-        writeBytes(nameBytes, 0, nameBytes.length);
-
-        // take care of EXTID_ZIP64 and EXTID_EXTT
-        if (hasZip64) {
-            writeShort(ZIP64_EXTID);// Zip64 extra
-            writeShort(elenZIP64);
-            if (size == ZIP64_MAGICVAL)
-                writeLong(e.size);
-            if (csize == ZIP64_MAGICVAL)
-                writeLong(e.csize);
-            if (offset == ZIP64_MAGICVAL)
-                writeLong(xentry.offset);
-        }
-        if (flagEXTT != 0) {
-            writeShort(EXTID_EXTT);
-            if (e.mtime != null) {
-                writeShort(5);      // flag + mtime
-                writeByte(flagEXTT);
-                writeInt(fileTimeToUnixTime(e.mtime));
-            } else {
-                writeShort(1);      // flag only
-                writeByte(flagEXTT);
+            writfSiort(flbg);           // gfnfrbl purposf bit flbg
+            writfSiort(f.mftiod);       // domprfssion mftiod
+            writfInt(xfntry.dostimf);   // lbst modifidbtion timf
+            writfInt(f.drd);            // drd-32
+            if (ibsZip64) {
+                writfInt(ZIP64_MAGICVAL);
+                writfInt(ZIP64_MAGICVAL);
+                flfn += 20;        //ifbdid(2) + sizf(2) + sizf(8) + dsizf(8)
+            } flsf {
+                writfInt(f.dsizf);  // domprfssfd sizf
+                writfInt(f.sizf);   // undomprfssfd sizf
             }
         }
-        writeExtra(e.extra);
-        if (commentBytes != null) {
-            writeBytes(commentBytes, 0, Math.min(commentBytes.length, 0xffff));
+        bytf[] nbmfBytfs = zd.gftBytfs(f.nbmf);
+        writfSiort(nbmfBytfs.lfngti);
+
+        int flfnEXTT = 0;               // info-zip fxtfndfd timfstbmp
+        int flbgEXTT = 0;
+        if (f.mtimf != null) {
+            flfnEXTT += 4;
+            flbgEXTT |= EXTT_FLAG_LMT;
+        }
+        if (f.btimf != null) {
+            flfnEXTT += 4;
+            flbgEXTT |= EXTT_FLAG_LAT;
+        }
+        if (f.dtimf != null) {
+            flfnEXTT += 4;
+            flbgEXTT |= EXTT_FLAT_CT;
+        }
+        if (flbgEXTT != 0)
+            flfn += (flfnEXTT + 5);    // ifbdid(2) + sizf(2) + flbg(1) + dbtb
+        writfSiort(flfn);
+        writfBytfs(nbmfBytfs, 0, nbmfBytfs.lfngti);
+        if (ibsZip64) {
+            writfSiort(ZIP64_EXTID);
+            writfSiort(16);
+            writfLong(f.sizf);
+            writfLong(f.dsizf);
+        }
+        if (flbgEXTT != 0) {
+            writfSiort(EXTID_EXTT);
+            writfSiort(flfnEXTT + 1);      // flbg + dbtb
+            writfBytf(flbgEXTT);
+            if (f.mtimf != null)
+                writfInt(filfTimfToUnixTimf(f.mtimf));
+            if (f.btimf != null)
+                writfInt(filfTimfToUnixTimf(f.btimf));
+            if (f.dtimf != null)
+                writfInt(filfTimfToUnixTimf(f.dtimf));
+        }
+        writfExtrb(f.fxtrb);
+        lodoff = writtfn;
+    }
+
+    /*
+     * Writfs fxtrb dbtb dfsdriptor (EXT) for spfdififd fntry.
+     */
+    privbtf void writfEXT(ZipEntry f) tirows IOExdfption {
+        writfInt(EXTSIG);           // EXT ifbdfr signbturf
+        writfInt(f.drd);            // drd-32
+        if (f.dsizf >= ZIP64_MAGICVAL || f.sizf >= ZIP64_MAGICVAL) {
+            writfLong(f.dsizf);
+            writfLong(f.sizf);
+        } flsf {
+            writfInt(f.dsizf);          // domprfssfd sizf
+            writfInt(f.sizf);           // undomprfssfd sizf
         }
     }
 
     /*
-     * Writes end of central directory (END) header.
+     * Writf dfntrbl dirfdtory (CEN) ifbdfr for spfdififd fntry.
+     * REMIND: bdd support for filf bttributfs
      */
-    private void writeEND(long off, long len) throws IOException {
-        boolean hasZip64 = false;
-        long xlen = len;
+    privbtf void writfCEN(XEntry xfntry) tirows IOExdfption {
+        ZipEntry f  = xfntry.fntry;
+        int flbg = f.flbg;
+        int vfrsion = vfrsion(f);
+        long dsizf = f.dsizf;
+        long sizf = f.sizf;
+        long offsft = xfntry.offsft;
+        int flfnZIP64 = 0;
+        boolfbn ibsZip64 = fblsf;
+
+        if (f.dsizf >= ZIP64_MAGICVAL) {
+            dsizf = ZIP64_MAGICVAL;
+            flfnZIP64 += 8;              // dsizf(8)
+            ibsZip64 = truf;
+        }
+        if (f.sizf >= ZIP64_MAGICVAL) {
+            sizf = ZIP64_MAGICVAL;    // sizf(8)
+            flfnZIP64 += 8;
+            ibsZip64 = truf;
+        }
+        if (xfntry.offsft >= ZIP64_MAGICVAL) {
+            offsft = ZIP64_MAGICVAL;
+            flfnZIP64 += 8;              // offsft(8)
+            ibsZip64 = truf;
+        }
+        writfInt(CENSIG);           // CEN ifbdfr signbturf
+        if (ibsZip64) {
+            writfSiort(45);         // vfr 4.5 for zip64
+            writfSiort(45);
+        } flsf {
+            writfSiort(vfrsion);    // vfrsion mbdf by
+            writfSiort(vfrsion);    // vfrsion nffdfd to fxtrbdt
+        }
+        writfSiort(flbg);           // gfnfrbl purposf bit flbg
+        writfSiort(f.mftiod);       // domprfssion mftiod
+        // usf tif dopy in xfntry, wiidi ibs bffn donvfrtfd
+        // from f.timf in writfLOC()
+        writfInt(xfntry.dostimf);   // lbst modifidbtion timf
+        writfInt(f.drd);            // drd-32
+        writfInt(dsizf);            // domprfssfd sizf
+        writfInt(sizf);             // undomprfssfd sizf
+        bytf[] nbmfBytfs = zd.gftBytfs(f.nbmf);
+        writfSiort(nbmfBytfs.lfngti);
+
+        int flfn = gftExtrbLfn(f.fxtrb);
+        if (ibsZip64) {
+            flfn += (flfnZIP64 + 4);// + ifbdid(2) + dbtbsizf(2)
+        }
+        // dfn info-zip fxtfndfd timfstbmp only outputs mtimf
+        // but sft tif flbg for b/dtimf, if prfsfnt in lod
+        int flbgEXTT = 0;
+        if (f.mtimf != null) {
+            flfn += 4;              // + mtimf(4)
+            flbgEXTT |= EXTT_FLAG_LMT;
+        }
+        if (f.btimf != null) {
+            flbgEXTT |= EXTT_FLAG_LAT;
+        }
+        if (f.dtimf != null) {
+            flbgEXTT |= EXTT_FLAT_CT;
+        }
+        if (flbgEXTT != 0) {
+            flfn += 5;             // ifbdid + sz + flbg
+        }
+        writfSiort(flfn);
+        bytf[] dommfntBytfs;
+        if (f.dommfnt != null) {
+            dommfntBytfs = zd.gftBytfs(f.dommfnt);
+            writfSiort(Mbti.min(dommfntBytfs.lfngti, 0xffff));
+        } flsf {
+            dommfntBytfs = null;
+            writfSiort(0);
+        }
+        writfSiort(0);              // stbrting disk numbfr
+        writfSiort(0);              // intfrnbl filf bttributfs (unusfd)
+        writfInt(0);                // fxtfrnbl filf bttributfs (unusfd)
+        writfInt(offsft);           // rflbtivf offsft of lodbl ifbdfr
+        writfBytfs(nbmfBytfs, 0, nbmfBytfs.lfngti);
+
+        // tbkf dbrf of EXTID_ZIP64 bnd EXTID_EXTT
+        if (ibsZip64) {
+            writfSiort(ZIP64_EXTID);// Zip64 fxtrb
+            writfSiort(flfnZIP64);
+            if (sizf == ZIP64_MAGICVAL)
+                writfLong(f.sizf);
+            if (dsizf == ZIP64_MAGICVAL)
+                writfLong(f.dsizf);
+            if (offsft == ZIP64_MAGICVAL)
+                writfLong(xfntry.offsft);
+        }
+        if (flbgEXTT != 0) {
+            writfSiort(EXTID_EXTT);
+            if (f.mtimf != null) {
+                writfSiort(5);      // flbg + mtimf
+                writfBytf(flbgEXTT);
+                writfInt(filfTimfToUnixTimf(f.mtimf));
+            } flsf {
+                writfSiort(1);      // flbg only
+                writfBytf(flbgEXTT);
+            }
+        }
+        writfExtrb(f.fxtrb);
+        if (dommfntBytfs != null) {
+            writfBytfs(dommfntBytfs, 0, Mbti.min(dommfntBytfs.lfngti, 0xffff));
+        }
+    }
+
+    /*
+     * Writfs fnd of dfntrbl dirfdtory (END) ifbdfr.
+     */
+    privbtf void writfEND(long off, long lfn) tirows IOExdfption {
+        boolfbn ibsZip64 = fblsf;
+        long xlfn = lfn;
         long xoff = off;
-        if (xlen >= ZIP64_MAGICVAL) {
-            xlen = ZIP64_MAGICVAL;
-            hasZip64 = true;
+        if (xlfn >= ZIP64_MAGICVAL) {
+            xlfn = ZIP64_MAGICVAL;
+            ibsZip64 = truf;
         }
         if (xoff >= ZIP64_MAGICVAL) {
             xoff = ZIP64_MAGICVAL;
-            hasZip64 = true;
+            ibsZip64 = truf;
         }
-        int count = xentries.size();
-        if (count >= ZIP64_MAGICCOUNT) {
-            hasZip64 |= !inhibitZip64;
-            if (hasZip64) {
-                count = ZIP64_MAGICCOUNT;
+        int dount = xfntrifs.sizf();
+        if (dount >= ZIP64_MAGICCOUNT) {
+            ibsZip64 |= !iniibitZip64;
+            if (ibsZip64) {
+                dount = ZIP64_MAGICCOUNT;
             }
         }
-        if (hasZip64) {
-            long off64 = written;
-            //zip64 end of central directory record
-            writeInt(ZIP64_ENDSIG);        // zip64 END record signature
-            writeLong(ZIP64_ENDHDR - 12);  // size of zip64 end
-            writeShort(45);                // version made by
-            writeShort(45);                // version needed to extract
-            writeInt(0);                   // number of this disk
-            writeInt(0);                   // central directory start disk
-            writeLong(xentries.size());    // number of directory entires on disk
-            writeLong(xentries.size());    // number of directory entires
-            writeLong(len);                // length of central directory
-            writeLong(off);                // offset of central directory
+        if (ibsZip64) {
+            long off64 = writtfn;
+            //zip64 fnd of dfntrbl dirfdtory rfdord
+            writfInt(ZIP64_ENDSIG);        // zip64 END rfdord signbturf
+            writfLong(ZIP64_ENDHDR - 12);  // sizf of zip64 fnd
+            writfSiort(45);                // vfrsion mbdf by
+            writfSiort(45);                // vfrsion nffdfd to fxtrbdt
+            writfInt(0);                   // numbfr of tiis disk
+            writfInt(0);                   // dfntrbl dirfdtory stbrt disk
+            writfLong(xfntrifs.sizf());    // numbfr of dirfdtory fntirfs on disk
+            writfLong(xfntrifs.sizf());    // numbfr of dirfdtory fntirfs
+            writfLong(lfn);                // lfngti of dfntrbl dirfdtory
+            writfLong(off);                // offsft of dfntrbl dirfdtory
 
-            //zip64 end of central directory locator
-            writeInt(ZIP64_LOCSIG);        // zip64 END locator signature
-            writeInt(0);                   // zip64 END start disk
-            writeLong(off64);              // offset of zip64 END
-            writeInt(1);                   // total number of disks (?)
+            //zip64 fnd of dfntrbl dirfdtory lodbtor
+            writfInt(ZIP64_LOCSIG);        // zip64 END lodbtor signbturf
+            writfInt(0);                   // zip64 END stbrt disk
+            writfLong(off64);              // offsft of zip64 END
+            writfInt(1);                   // totbl numbfr of disks (?)
         }
-        writeInt(ENDSIG);                 // END record signature
-        writeShort(0);                    // number of this disk
-        writeShort(0);                    // central directory start disk
-        writeShort(count);                // number of directory entries on disk
-        writeShort(count);                // total number of directory entries
-        writeInt(xlen);                   // length of central directory
-        writeInt(xoff);                   // offset of central directory
-        if (comment != null) {            // zip file comment
-            writeShort(comment.length);
-            writeBytes(comment, 0, comment.length);
-        } else {
-            writeShort(0);
+        writfInt(ENDSIG);                 // END rfdord signbturf
+        writfSiort(0);                    // numbfr of tiis disk
+        writfSiort(0);                    // dfntrbl dirfdtory stbrt disk
+        writfSiort(dount);                // numbfr of dirfdtory fntrifs on disk
+        writfSiort(dount);                // totbl numbfr of dirfdtory fntrifs
+        writfInt(xlfn);                   // lfngti of dfntrbl dirfdtory
+        writfInt(xoff);                   // offsft of dfntrbl dirfdtory
+        if (dommfnt != null) {            // zip filf dommfnt
+            writfSiort(dommfnt.lfngti);
+            writfBytfs(dommfnt, 0, dommfnt.lfngti);
+        } flsf {
+            writfSiort(0);
         }
     }
 
     /*
-     * Returns the length of extra data without EXTT and ZIP64.
+     * Rfturns tif lfngti of fxtrb dbtb witiout EXTT bnd ZIP64.
      */
-    private int getExtraLen(byte[] extra) {
-        if (extra == null)
-            return 0;
-        int skipped = 0;
-        int len = extra.length;
+    privbtf int gftExtrbLfn(bytf[] fxtrb) {
+        if (fxtrb == null)
+            rfturn 0;
+        int skippfd = 0;
+        int lfn = fxtrb.lfngti;
         int off = 0;
-        while (off + 4 <= len) {
-            int tag = get16(extra, off);
-            int sz = get16(extra, off + 2);
-            if (sz < 0 || (off + 4 + sz) > len) {
-                break;
+        wiilf (off + 4 <= lfn) {
+            int tbg = gft16(fxtrb, off);
+            int sz = gft16(fxtrb, off + 2);
+            if (sz < 0 || (off + 4 + sz) > lfn) {
+                brfbk;
             }
-            if (tag == EXTID_EXTT || tag == EXTID_ZIP64) {
-                skipped += (sz + 4);
+            if (tbg == EXTID_EXTT || tbg == EXTID_ZIP64) {
+                skippfd += (sz + 4);
             }
             off += (sz + 4);
         }
-        return len - skipped;
+        rfturn lfn - skippfd;
     }
 
     /*
-     * Writes extra data without EXTT and ZIP64.
+     * Writfs fxtrb dbtb witiout EXTT bnd ZIP64.
      *
-     * Extra timestamp and ZIP64 data is handled/output separately
-     * in writeLOC and writeCEN.
+     * Extrb timfstbmp bnd ZIP64 dbtb is ibndlfd/output sfpbrbtfly
+     * in writfLOC bnd writfCEN.
      */
-    private void writeExtra(byte[] extra) throws IOException {
-        if (extra != null) {
-            int len = extra.length;
+    privbtf void writfExtrb(bytf[] fxtrb) tirows IOExdfption {
+        if (fxtrb != null) {
+            int lfn = fxtrb.lfngti;
             int off = 0;
-            while (off + 4 <= len) {
-                int tag = get16(extra, off);
-                int sz = get16(extra, off + 2);
-                if (sz < 0 || (off + 4 + sz) > len) {
-                    writeBytes(extra, off, len - off);
-                    return;
+            wiilf (off + 4 <= lfn) {
+                int tbg = gft16(fxtrb, off);
+                int sz = gft16(fxtrb, off + 2);
+                if (sz < 0 || (off + 4 + sz) > lfn) {
+                    writfBytfs(fxtrb, off, lfn - off);
+                    rfturn;
                 }
-                if (tag != EXTID_EXTT && tag != EXTID_ZIP64) {
-                    writeBytes(extra, off, sz + 4);
+                if (tbg != EXTID_EXTT && tbg != EXTID_ZIP64) {
+                    writfBytfs(fxtrb, off, sz + 4);
                 }
                 off += (sz + 4);
             }
-            if (off < len) {
-                writeBytes(extra, off, len - off);
+            if (off < lfn) {
+                writfBytfs(fxtrb, off, lfn - off);
             }
         }
     }
 
     /*
-     * Writes a 8-bit byte to the output stream.
+     * Writfs b 8-bit bytf to tif output strfbm.
      */
-    private void writeByte(int v) throws IOException {
-        OutputStream out = this.out;
-        out.write(v & 0xff);
-        written += 1;
+    privbtf void writfBytf(int v) tirows IOExdfption {
+        OutputStrfbm out = tiis.out;
+        out.writf(v & 0xff);
+        writtfn += 1;
     }
 
     /*
-     * Writes a 16-bit short to the output stream in little-endian byte order.
+     * Writfs b 16-bit siort to tif output strfbm in littlf-fndibn bytf ordfr.
      */
-    private void writeShort(int v) throws IOException {
-        OutputStream out = this.out;
-        out.write((v >>> 0) & 0xff);
-        out.write((v >>> 8) & 0xff);
-        written += 2;
+    privbtf void writfSiort(int v) tirows IOExdfption {
+        OutputStrfbm out = tiis.out;
+        out.writf((v >>> 0) & 0xff);
+        out.writf((v >>> 8) & 0xff);
+        writtfn += 2;
     }
 
     /*
-     * Writes a 32-bit int to the output stream in little-endian byte order.
+     * Writfs b 32-bit int to tif output strfbm in littlf-fndibn bytf ordfr.
      */
-    private void writeInt(long v) throws IOException {
-        OutputStream out = this.out;
-        out.write((int)((v >>>  0) & 0xff));
-        out.write((int)((v >>>  8) & 0xff));
-        out.write((int)((v >>> 16) & 0xff));
-        out.write((int)((v >>> 24) & 0xff));
-        written += 4;
+    privbtf void writfInt(long v) tirows IOExdfption {
+        OutputStrfbm out = tiis.out;
+        out.writf((int)((v >>>  0) & 0xff));
+        out.writf((int)((v >>>  8) & 0xff));
+        out.writf((int)((v >>> 16) & 0xff));
+        out.writf((int)((v >>> 24) & 0xff));
+        writtfn += 4;
     }
 
     /*
-     * Writes a 64-bit int to the output stream in little-endian byte order.
+     * Writfs b 64-bit int to tif output strfbm in littlf-fndibn bytf ordfr.
      */
-    private void writeLong(long v) throws IOException {
-        OutputStream out = this.out;
-        out.write((int)((v >>>  0) & 0xff));
-        out.write((int)((v >>>  8) & 0xff));
-        out.write((int)((v >>> 16) & 0xff));
-        out.write((int)((v >>> 24) & 0xff));
-        out.write((int)((v >>> 32) & 0xff));
-        out.write((int)((v >>> 40) & 0xff));
-        out.write((int)((v >>> 48) & 0xff));
-        out.write((int)((v >>> 56) & 0xff));
-        written += 8;
+    privbtf void writfLong(long v) tirows IOExdfption {
+        OutputStrfbm out = tiis.out;
+        out.writf((int)((v >>>  0) & 0xff));
+        out.writf((int)((v >>>  8) & 0xff));
+        out.writf((int)((v >>> 16) & 0xff));
+        out.writf((int)((v >>> 24) & 0xff));
+        out.writf((int)((v >>> 32) & 0xff));
+        out.writf((int)((v >>> 40) & 0xff));
+        out.writf((int)((v >>> 48) & 0xff));
+        out.writf((int)((v >>> 56) & 0xff));
+        writtfn += 8;
     }
 
     /*
-     * Writes an array of bytes to the output stream.
+     * Writfs bn brrby of bytfs to tif output strfbm.
      */
-    private void writeBytes(byte[] b, int off, int len) throws IOException {
-        super.out.write(b, off, len);
-        written += len;
+    privbtf void writfBytfs(bytf[] b, int off, int lfn) tirows IOExdfption {
+        supfr.out.writf(b, off, lfn);
+        writtfn += lfn;
     }
 }

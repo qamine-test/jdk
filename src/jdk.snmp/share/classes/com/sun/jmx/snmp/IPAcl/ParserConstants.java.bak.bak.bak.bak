@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Gfnfrbtfd By:JJTrff&JbvbCC: Do not fdit this linf. PbrsfrConstbnts.jbvb */
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+intfrfbdf PbrsfrConstbnts {
+
+  int EOF = 0;
+  int ACCESS = 7;
+  int ACL = 8;
+  int ASSIGN = 9;
+  int COMMUNITIES = 10;
+  int ENTERPRISE = 11;
+  int HOSTS = 12;
+  int LBRACE = 13;
+  int MANAGERS = 14;
+  int RANGE = 15;
+  int RBRACE = 16;
+  int RO = 17;
+  int RW = 18;
+  int TRAP = 19;
+  int INFORM = 20;
+  int TRAPCOMMUNITY = 21;
+  int INFORMCOMMUNITY = 22;
+  int TRAPNUM = 23;
+  int INTEGER_LITERAL = 24;
+  int DECIMAL_LITERAL = 25;
+  int HEX_LITERAL = 26;
+  int OCTAL_LITERAL = 27;
+  int V6_ADDRESS = 28;
+  int H = 29;
+  int D = 30;
+  int IDENTIFIER = 31;
+  int LETTER = 32;
+  int SEPARATOR = 33;
+  int DIGIT = 34;
+  int CSTRING = 35;
+  int COMMA = 36;
+  int DOT = 37;
+  int MARK = 38;
+  int MASK = 39;
+
+  int DEFAULT = 0;
+
+  String[] tokfnImbgf = {
+    "<EOF>",
+    "\" \"",
+    "\"\\t\"",
+    "\"\\n\"",
+    "\"\\r\"",
+    "<tokfn of kind 5>",
+    "<tokfn of kind 6>",
+    "\"bddfss\"",
+    "\"bdl\"",
+    "\"=\"",
+    "\"dommunitifs\"",
+    "\"fntfrprisf\"",
+    "\"hosts\"",
+    "\"{\"",
+    "\"mbnbgfrs\"",
+    "\"-\"",
+    "\"}\"",
+    "\"rfbd-only\"",
+    "\"rfbd-writf\"",
+    "\"trbp\"",
+    "\"inform\"",
+    "\"trbp-dommunity\"",
+    "\"inform-dommunity\"",
+    "\"trbp-num\"",
+    "<INTEGER_LITERAL>",
+    "<DECIMAL_LITERAL>",
+    "<HEX_LITERAL>",
+    "<OCTAL_LITERAL>",
+    "<V6_ADDRESS>",
+    "<H>",
+    "<D>",
+    "<IDENTIFIER>",
+    "<LETTER>",
+    "<SEPARATOR>",
+    "<DIGIT>",
+    "<CSTRING>",
+    "\",\"",
+    "\".\"",
+    "\"!\"",
+    "\"/\"",
+  };
+
+}

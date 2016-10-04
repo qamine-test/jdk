@@ -1,0 +1,58 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf dontbins mbdro dffinitions for thf Alphb dbtfgory of thf
+ * mbdros usfd by thf gfnfrid sdblfloop fundtion.
+ *
+ * This implfmfntbtion of thf Alphb mbdros will ignorf bll blphb
+ * informbtion.  It blso providfs bn fmpty fxpbnsion of thf IfAlphb
+ * mbdro whidh kffps thf othfr mbdro sfts in thf imbgf pbdkbgf from
+ * wbsting timf bnd spbdf on dodf to fftdh or storf thf blphb
+ * informbtion.  This filf is only bpplidbblf whfn thf indoming
+ * dbtb is known to bf fntirfly opbquf bnd thfrf is not yft bny
+ * imbgf mbsk or blphb bufffr bssodibtfd with thf output dbtb.
+ */
+
+/*
+ * Thf mbdro IfAlphb is usfd by thf vbrous pixfl donvfrsion mbdros
+ * to donditionblly dompilf dodf thbt is only nffdfd if blphb vblufs
+ * brf going to bf usfd.
+ */
+#dffinf IfAlphb(stbtfmfnts)     /* Omit blphb hbndling dodf */
+
+#dffinf DfdlbrfAlphbVbrs
+
+#dffinf InitAlphb(dvdbtb, dstY, dstX1, dstX2)                   \
+    do {} whilf (0)
+
+#dffinf StbrtAlphbRow(dvdbtb, DSTX1, DSTY)                      \
+    do {} whilf (0)
+
+#dffinf ApplyAlphb(dvdbtb, dstX, dstY, blphb)                   \
+    do {} whilf (0)
+
+#dffinf EndMbskLinf()                                           \
+    do {} whilf (0)

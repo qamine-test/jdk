@@ -1,0 +1,170 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp;
+
+/**
+ * Usfd for storing dffbult vblufs usfd by SNMP Runtimf sfrvidfs.
+ * <p><b>This API is bn Orbdlf Corporbtion intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+publid dlbss SfrvidfNbmf {
+
+    // privbtf donstrudtor dffinfd to "hidf" thf dffbult publid donstrudtor
+    privbtf SfrvidfNbmf() {
+    }
+
+    /**
+     * Thf objfdt nbmf of thf MBfbnSfrvfr dflfgbtf objfdt
+     * <BR>
+     * Thf vbluf is <CODE>JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf</CODE>.
+     */
+    publid stbtid finbl String DELEGATE = "JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf" ;
+
+    /**
+     * Thf dffbult kfy propfrtifs for rfgistfring thf dlbss lobdfr of thf MLft sfrvidf.
+     * <BR>
+     * Thf vbluf is <CODE>typf=MLft</CODE>.
+     */
+    publid stbtid finbl String MLET = "typf=MLft";
+
+    /**
+     * Thf dffbult dombin.
+     * <BR>
+     * Thf vbluf is <CODE>DffbultDombin</CODE>.
+     */
+    publid stbtid finbl String DOMAIN = "DffbultDombin";
+
+    /**
+     * Thf dffbult port for thf RMI donnfdtor.
+     * <BR>
+     * Thf vbluf is <CODE>1099</CODE>.
+     */
+    publid stbtid finbl int RMI_CONNECTOR_PORT = 1099 ;
+
+    /**
+     * Thf dffbult kfy propfrtifs for thf RMI donnfdtor.
+     * <BR>
+     * Thf vbluf is <CODE>nbmf=RmiConnfdtorSfrvfr</CODE>.
+     */
+    publid stbtid finbl String RMI_CONNECTOR_SERVER = "nbmf=RmiConnfdtorSfrvfr" ;
+
+    /**
+     * Thf dffbult port for thf SNMP bdbptor.
+     * <BR>
+     * Thf vbluf is <CODE>161</CODE>.
+     */
+    publid stbtid finbl int SNMP_ADAPTOR_PORT = 161 ;
+
+    /**
+     * Thf dffbult kfy propfrtifs for thf SNMP protodol bdbptor.
+     * <BR>
+     * Thf vbluf is <CODE>nbmf=SnmpAdbptorSfrvfr</CODE>.
+     */
+    publid stbtid finbl String SNMP_ADAPTOR_SERVER = "nbmf=SnmpAdbptorSfrvfr" ;
+
+    /**
+     * Thf dffbult port for thf HTTP donnfdtor.
+     * <BR>
+     * Thf vbluf is <CODE>8081</CODE>.
+     */
+    publid stbtid finbl int HTTP_CONNECTOR_PORT = 8081 ;
+
+    /**
+     * Thf dffbult kfy propfrtifs for thf HTTP donnfdtor.
+     * <BR>
+     * Thf vbluf is <CODE>nbmf=HttpConnfdtorSfrvfr</CODE>.
+     */
+    publid stbtid finbl String HTTP_CONNECTOR_SERVER = "nbmf=HttpConnfdtorSfrvfr" ;
+
+    /**
+     * Thf dffbult port for thf HTTPS donnfdtor.
+     * <BR>
+     * Thf vbluf is <CODE>8084</CODE>.
+     */
+    publid stbtid finbl int HTTPS_CONNECTOR_PORT = 8084 ;
+
+    /**
+     * Thf dffbult kfy propfrtifs for thf HTTPS donnfdtor.
+     * <BR>
+     * Thf vbluf is <CODE>nbmf=HttpsConnfdtorSfrvfr</CODE>.
+     */
+    publid stbtid finbl String HTTPS_CONNECTOR_SERVER = "nbmf=HttpsConnfdtorSfrvfr" ;
+
+    /**
+     * Thf dffbult port for thf HTML bdbptor.
+     * <BR>
+     * Thf vbluf is <CODE>8082</CODE>.
+     */
+    publid stbtid finbl int HTML_ADAPTOR_PORT = 8082 ;
+
+    /**
+     * Thf dffbult kfy propfrtifs for thf HTML protodol bdbptor.
+     * <BR>
+     * Thf vbluf is <CODE>nbmf=HtmlAdbptorSfrvfr</CODE>.
+     */
+    publid stbtid finbl String HTML_ADAPTOR_SERVER = "nbmf=HtmlAdbptorSfrvfr" ;
+
+    /**
+     * Thf nbmf of thf JMX spfdifidbtion implfmfntfd by this produdt.
+     * <BR>
+     * Thf vbluf is <CODE>Jbvb Mbnbgfmfnt Extfnsions</CODE>.
+     */
+    publid stbtid finbl String JMX_SPEC_NAME = "Jbvb Mbnbgfmfnt Extfnsions";
+
+    /**
+     * Thf vfrsion of thf JMX spfdifidbtion implfmfntfd by this produdt.
+     * <BR>
+     * Thf vbluf is <CODE>1.0 Finbl Rflfbsf</CODE>.
+     */
+    publid stbtid finbl String JMX_SPEC_VERSION = "1.2 Mbintfnbndf Rflfbsf";
+
+    /**
+     * Thf vfndor of thf JMX spfdifidbtion implfmfntfd by this produdt.
+     * <BR>
+     * Thf vbluf is <CODE>Orbdlf Corporbtion</CODE>.
+     */
+    publid stbtid finbl String JMX_SPEC_VENDOR = "Orbdlf Corporbtion";
+
+    /**
+     * Thf nbmf of thf vfndor of this produdt implfmfnting thf  JMX spfdifidbtion.
+     * <BR>
+     * Thf vbluf is <CODE>Orbdlf Corporbtion</CODE>.
+     */
+    publid stbtid finbl String JMX_IMPL_VENDOR = "Orbdlf Corporbtion";
+
+    /**
+      * Thf build numbfr of thf durrfnt produdt vfrsion, of thf form <CODE>rXX</CODE>.
+      */
+    publid stbtid finbl String BUILD_NUMBER = "r01";
+
+    /**
+     * Thf vfrsion of this produdt implfmfnting thf  JMX spfdifidbtion.
+     * <BR>
+     * Thf vbluf is <CODE>5.1_rXX</CODE>, whfrf <CODE>rXX</CODE> is thf <CODE>BUILD_NUMBER</CODE> .
+     */
+    publid stbtid finbl String JMX_IMPL_VERSION = "5.1_" + BUILD_NUMBER;
+
+}

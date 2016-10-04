@@ -1,0 +1,1334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+
+-->
+</hfbd>
+<body bgdolor="whitf">
+<h3>Componfnt Spfdifid Propfrtifs</h3>
+<p> Thf look, bnd to somf dfgrff thf fffl of Synth
+dbn bf dustomizfd by wby of domponfnt spfdifid propfrtifs.
+Thfsf propfrtifs brf bddfssfd from <b
+				    hrff="../SynthStylf.html">SynthStylf#gft</b>. Rfffr to <b hrff="synthFilfFormbt.html#f.propfrty">synth filf formbt</b> for fxbmplfs of how to spfdify thfsf propfrtifs in b synth donfigurbtion filf.</p>
+    <p>
+      This filf spfdififs thf fxpfdtfd dlbss typf fbdh of thf vblufs
+      brf to tbkf. Thf bfhbvior of supplying thf wrong typf is
+      unspfdififd: typidblly b <dodf>ClbssCbstExdfption</dodf> is
+      thrown, but it is implfmfntbtion spfdifid.
+    </p>
+<h4>ArrowButton</h4>
+<p> ArrowButton is b spfdibl typf of JButton thbt rfndfrs bn brrow.
+ArrowButton is typidblly not drfbtfd dirfdtly, rbthfr somf of thf
+Componfnts will drfbtf it       to rfndfr b button with bn brrow. Thf
+      domponfnts thbt mbkf       usf of ArrowButton       brf:
+JComboBox, JSdrollBbr bnd JSplitPbnf (for thf buttons on thf dividfr).
+In       bddition to thf <b
+ hrff="#buttonPropfrtifs">Button 	propfrtifs</b>, ArrowButton supports
+thf following propfrtifs: </p>
+<h5>ArrowButton Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="ArrowButton spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+    <tr>
+      <td>ArrowButton.sizf</td>
+      <td>Intfgfr</td>
+      <td>16 	 </td>
+      <td>Prfffrrfd sizf of thf brrow button. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JButton">JButton</b></h4>
+<p> JButton pbints tfxt using thf TEXT_FOREGROUND ColorTypf. In bddition
+to thf <b hrff="#buttonPropfrtifs">Button 	propfrtifs</b>, JButton
+supports thf following propfrty: </p>
+<h5>JButton Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JButton spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>Button.dffbultButtonFollowsFodus</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>Whfthfr or not thf 	    dffbult JButton should dhbngf to thf
+button thbt is 	    rfdfiving fodus. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JChfdkBox">JChfdkBox</b></h4>
+<p> JChfdkBox pbints tfxt using thf TEXT_FOREGROUND ColorTypf. In
+bddition to thf <b hrff="#buttonPropfrtifs">Button 	propfrtifs</b>,
+JChfdkBox supports thf following propfrty: </p>
+<h5>JChfdkBox Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JChfdkBox spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>ChfdkBox.idon</td>
+      <td>Idon</td>
+      <td>null 	 </td>
+      <td>Idon usfd to rfndfr thf dhfdk. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JComboBox">JComboBox</b></h4>
+<p> JComboBox is b dompositf domponfnt thbt donsists of thf following
+dhild Componfnts: </p>
+<tbblf bordfr="1" summbry="JComboBox dhild domponfnts">
+  <thfbd><tr>
+    <th>Nbmf</th>
+    <th>Typf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>ComboBox.brrowButton</td>
+      <td>SynthArrowButton 	 </td>
+      <td>Rfndfrs thf drop down indidbtor. 	</td>
+    </tr>
+    <tr>
+      <td>ComboBox.list</td>
+      <td>JList 	 </td>
+      <td>JList usfd to rfndfr thf vblufs. 	</td>
+    </tr>
+    <tr>
+      <td>ComboBox.listRfndfrfr</td>
+      <td>Componfnt 	 </td>
+      <td>Thf rfndfrfr usfd for thf JComboBox's JList. 	</td>
+    </tr>
+    <tr>
+      <td>ComboBox.popup</td>
+      <td>JPopupMfnu 	 </td>
+      <td>JPopupMfnu usfd to show thf ComboBox.list of thf JComboBox. 	</td>
+    </tr>
+    <tr>
+      <td>ComboBox.rfndfrfr</td>
+      <td>Componfnt 	 </td>
+      <td>Thf rfndfrfr usfd for thf JComboBox. This is ONLY sft if 	
+thf rfndfrfr is b UIRfsourdf. 	</td>
+    </tr>
+    <tr>
+      <td>ComboBox.sdrollPbnf</td>
+      <td>JSdrollPbnf 	 </td>
+      <td>JSdrollPbnf dontbining thf JList. 	</td>
+    </tr>
+    <tr>
+      <td>ComboBox.tfxtFifld</td>
+      <td>JTfxtFifld 	 </td>
+      <td>Thf fditor. </td>
+    </tr>
+  </tbody>
+</tbblf>
+
+<h5>JComboBox Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JComboBox spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+    <tr>
+      <td>ComboBox.showPopupOnNbvigbtion</td>
+      <td>Boolfbn</td>
+      <td>fblsf 	 </td>
+      <td>Whfthfr or not thf JPopupMfnu should bppfbr whfn 	 nbvigbting
+with thf kfybobrd. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4>JFilfChoosfr</h4>
+<h5>JFilfChoosfr Spfdifid Propfrtifs</h5>
+<tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" summbry="JFilfChoosfr spfdifid propfrtifs"
+ stylf="width: 100%; tfxt-blign: lfft;">
+  <tbody>
+    <tr>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Propfrty</th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Expfdtfd Typf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dffbult Vbluf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dfsdription</th>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfChoosfr.dbndflIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon displbyfd on dbndfl button
+of thf filf dhoosfr.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfChoosfr.okIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon displbyfd on thf ok button
+of thf filf dhoosfr.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfVifw.dirfdtoryIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd for dirfdtorifs.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfVifw.filfIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd for filfs.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfVifw.domputfrIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd for dirfdtorifs thbt
+            rfprfsfnt thf domputfr.  Not bll plbtforms will mbkf usf
+            of this idon.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfVifw.hbrdDrivfIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd to rfprfsfnt thf root
+            of b hbrd drivf.  For fxbmplf, on Windows this would bf
+            usfd whfn vifwing thf C drivf.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfVifw.floppyDrivfIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd to rfprfsfnt b floppy
+          disk.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfChoosfr.nfwFoldfrIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd by thf button thbt drfbtfs b nfw
+          foldfr.
+      </td>
+    </tr>          
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfChoosfr.upFoldfrIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd by thf button thbt nbvigbtfs to thf
+          pbrfnt foldfr.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfChoosfr.homfFoldfrIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd by thf button thbt nbvigbtfs to thf
+          durrfnt usfr's homf dirfdtory.
+      </td>
+    </tr>          
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfChoosfr.dftbilsVifwIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd by thf button thbt togglfs thf
+          dftbilfd filfs list vifw.
+      </td>
+    </tr>             
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfChoosfr.listVifwIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd by thf button thbt togglfs thf
+          rfgulbr filfs list vifw, showing only bn idon bnd thf nbmf of fbdh
+          filf bnd dirfdtory.
+      </td>
+    </tr>          
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">FilfChoosfr.vifwMfnuIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon usfd by thf button thbt shows popup mfnu
+          for sflfdtion of b vifw modf.
+      </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JIntfrnblFrbmf"></b>JIntfrnblFrbmf</h4>
+<h5>JIntfrnblFrbmf Spfdifid Propfrtifs</h5>
+<tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" summbry="JIntfrnblFrbmf spfdifid propfrtifs"
+ stylf="tfxt-blign: lfft; width: 100%;">
+  <tbody>
+    <tr>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Propfrty<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Expfdtfd Typf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">DffbultVbluf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dfsdription<br>
+      </th>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmf.idon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon</td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon drbwn rfprfsfnting thf
+systfm<br>
+idon of thf intfrnbl frbmf.&nbsp; If prfssfd<br>
+thf systfm mfnu will bf shown.<br>
+      </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JIntfrnblFrbmfTitlfPbnf"></b>JIntfrnblFrbmfTitlfPbnf</h4>
+<p>JIntfrnblFrbmfTitlfPbnf is thf dontrol bbr lodbtfd bt thf top of thf
+intfrnbl frbmf similbr to thbt found in b frbmf.<br>
+</p>
+<h5>JIntfrnblFrbmfTitlfPbnf Spfdifid Propfrtifs</h5>
+<tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" summbry="JIntfrnblFrbmfTitlfPbnf spfdifid propfrtifs"
+ stylf="tfxt-blign: lfft; width: 100%;">
+  <tbody>
+    <tr>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Propfrty<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Expfdtfd Typf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dffbult Vbluf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dfsdription<br>
+      </th>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmfTitlfPbnf.mbximizfIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon</td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon drbwn to indidbtf thf
+bbility to mbximizf thf intfrnbl frbmf.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmfTitlfPbnf.minimizfIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon</td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon drbwn to indidbtf thf
+bbility to rfstorf thf intfrnbl frbmf bbdk to its prfvious stbtf.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmfTitlfPbnf.idonifyIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon</td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon drbwn to indidbtf thf
+bbility to minimizf thf intfrnbl frbmf.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmfTitlfPbnf.dlosfIdon<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon</td>
+      <td stylf="vfrtidbl-blign: top;">null<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Idon drbwn to indidbtf thf
+bbililty to dlosf thf intfrnbl frbmf.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmfTitlfPbnf.titlfSpbding<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr</td>
+      <td stylf="vfrtidbl-blign: top;">2</td>
+      <td stylf="vfrtidbl-blign: top;">Spbdf bftwffn thf
+	    buttons on thf titlf pbnf bnd thf titlf.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmfTitlfPbnf.buttonSpbding<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr</td>
+      <td stylf="vfrtidbl-blign: top;">2</td>
+      <td stylf="vfrtidbl-blign: top;">Spbdf bftwffn thf buttons on
+	    thf titlf pbnf.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmfTitlfPbnf.mbxFrbmfIdonSizf<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Dimfnsion</td>
+      <td stylf="vfrtidbl-blign: top;">16x16</td>
+      <td stylf="vfrtidbl-blign: top;">Mbximum sizf of thf frbmf
+	    idon thbt will bf rfndfrfd on thf titlf pbnf.  If thf idon
+	    is biggfr thbn this sizf, it will bf sdblfd down.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">IntfrnblFrbmfTitlfPbnf.titlfAlignmfnt<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">lfbding|trbiling|dfntfr</td>
+      <td stylf="vfrtidbl-blign: top;">lfbding</td>
+      <td stylf="vfrtidbl-blign: top;">Alignmfnt for thf titlf.
+	    With b lfft to right domponfnt orifntbtion lfbding is lfft
+	    bnd trbiling right.  With b right to lfft domponfnt
+	    orifntbtion lfbding is right bnd trbiling lfft.
+      </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JList">JList</b></h4>
+<p> JList's sfts thf nbmf of thf rfndfrfr to List.rfndfrfr.       JList
+supports thf following propfrtifs: </p>
+<h5>JList Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JList spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+    <tr>
+      <td>List.rfndfrfrUsfListColors</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>If truf thf rfndfrfrs stbtf is not updbtfd, bnd thf 	    tfxt
+dolors domf from JList's gftSflfdtionBbdkground bnd 	
+gftSflfdtionForfground mfthods. If fblsf, thf rfndfrfr's 	    stbtf is
+updbtfd bnd thf dolors will instfbd domf from thf 	    Stylf. 	</td>
+    </tr>
+    <tr>
+      <td>List.rfndfrfrUsfUIBordfr</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>If truf sftBordfr on thf rfndfrfr will suddffd 	 rfgbrdlfss
+of thf bordfr pbssfd in, othfrwisf sftBordfr on 	    thf rfndfrfr will
+only suddffd if it is b Synth Bordfr. 	</td>
+    </tr>
+    <tr>
+      <td>List.dfllHfight</td>
+      <td>Intfgfr</td>
+      <td>-1 	 </td>
+      <td>Cfll hfight of thf JList. Is this is -1, 	 <dodf>sftFixfdCfllHfight</dodf>
+is not invokfd. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="mfnuPropfrtifs">Mfnu Propfrtifs</b></h4>
+<p> Thf Mfnu dlbssfs (JChfdkBoxMfnuItfm, JMfnu, JMfnuItfm, bnd
+JRbdioButtonMfnuItfm) bll support thf sbmf sft of propfrtifs bnd bfhbvf
+similbrly.       Ebdh domponfnt donsists of two Rfgions: thf rfgion
+spfdifid to thf       domponfnt bnd Rfgion.MENU_ITEM_ACCELERATOR.
+MENU_ITEM_ACCELERATOR is usfd for pbinting thf bddflfrbtor. Both Rfgions
+pbint tfxt using thf TEXT_FOREGROUND ColorTypf. Thf following sft of
+propfrtifs brf supportfd: </p>
+<tbblf bordfr="1" summbry="Mfnu dlbssfs dommon propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>prffix.bddflfrbtorDflimitfr</td>
+      <td>String</td>
+      <td>+ 	 </td>
+      <td>String sfpbrbtor bftwffn thf dfsdription of thf 	 modififrs
+bnd thf kfy, for fxbmplf <dodf>Ctrl 	 &lt;bddflfrbtorDflimitfr&gt; X</dodf>.
+	</td>
+    </tr>
+    <tr>
+      <td>prffix.brrowIdon</td>
+      <td>Idon</td>
+      <td>null 	 </td>
+      <td>Idon drbwn to thf right of thf tfxt (or lfft whfn thf 	
+ComponfntOrifntbtion is right to lfft) of thf tfxt. This 	    is
+typidblly only dffinfd for JMfnu. 	</td>
+    </tr>
+    <tr>
+      <td>prffix.dhfdkIdon</td>
+      <td>Idon</td>
+      <td>null 	 </td>
+      <td>Idon drbwn to thf lfft of thf tfxt (or right whfn thf 	
+ComponfntOrifntbtion is right to lfft) of thf tfxt. This 	    is
+typidblly only dffinfd for JChfdkBoxMfnuItfm bnd 	 JRbdioButtonMfnuItfm
+to providf thf dhfdk or rbdio button. 	</td>
+    </tr>
+    <tr>
+      <td>prffix.mbrgin</td>
+      <td>Insfts</td>
+      <td>Empty Insfts (0, 0, 0, 0) 	 </td>
+      <td>Mbrgin for thf JMfnuItfm. Rfffr to thf jbvbdod of
+	    <dodf>jbvbx.swing.AbstrbdtButton#sftMbrgin(jbvb.bwt.Insfts)</dodf> for dftbils
+of how thf mbrgin is usfd. 	</td>
+    </tr>
+    <tr>
+      <td>prffix.tfxtIdonGbp</td>
+      <td>Intfgfr</td>
+      <td>4 	 </td>
+      <td>Pbdding bftwffn thf idon bnd tfxt. Rfffr to thf jbvbdod for 
+<dodf>jbvbx.swing.AbstrbdtButton#sftIdonTfxtGbp(int)</dodf> for dftbils of how
+this is usfd. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<p> <dodf>Prffix</dodf> is onf of: ChfdkBoxMfnuItfm, Mfnu, MfnuItfm, or
+RbdioButtonMfnuItfm. </p>
+<p> JMfnu blso supports thf following propfrtifs: </p>
+<tbblf bordfr="1" summbry="JMfnu spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>Mfnu.dflby</td>
+      <td>Intfgfr</td>
+      <td>200 	 </td>
+      <td>Sfts thf dflby bfforf thf mfnu bppfbrs. 	</td>
+    </tr>
+    <tr>
+      <td>Mfnu.shortdutKfys</td>
+      <td>int[]</td>
+      <td>KfyEvfnt.ALT_MASK 	 </td>
+      <td>Arrby of thf KfyEvfnt modififrs to usf for shortdut kfys. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JOptionPbnf">JOptionPbnf</b></h4>
+<p> JOptionPbnf is b dompositf domponfnt bnd mby donsist of numfrous dhild
+domponfnts, thfy brf: OptionPbnf.button, OptionPbnf.lbbfl,
+OptionPbnf.domboBox, OptionPbnf.sdrollPbnf, OptionPbnf.list,
+OptionPbnf.tfxtFifld, OptionPbnf.idonLbbfl. </p>
+<h5>JOptionPbnf Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JOptionPbnf spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>OptionPbnf.buttonArfbBordfr</td>
+      <td>Bordfr 	 </td>
+      <td>null 	 </td>
+      <td>Bordfr bround thf button brfb. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.buttonClidkThrfshhold</td>
+      <td>Intfgfr 	 </td>
+      <td>0 	 </td>
+      <td>Pbssfd to thf drfbtfd buttons sftMultiClidkThrfshhold. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.buttonOrifntbtion</td>
+      <td>Intfgfr 	 </td>
+      <td>SwingConstbnts.CENTER 	 </td>
+      <td>How thf buttons should bf lbyfd out, onf of 	
+SwingConstbnts.LEFT, SwingConstbnts.RIGHT or 	    SwingConstbnts.CENTER
+(this will bf flippfd whfn in b 	    right to lfft lodblf). 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.buttonPbdding</td>
+      <td>Intfgfr 	 </td>
+      <td>6 	 </td>
+      <td>Amount of spbdf bftwffn buttons. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.dbndflIdon</td>
+      <td>Idon 	 </td>
+      <td>null 	 </td>
+      <td>Idon for thf dbndfl button. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.frrorIdon</td>
+      <td>Idon 	 </td>
+      <td>null 	 </td>
+      <td>Idon usfd for ERROR_MESSAGE. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.informbtionIdon</td>
+      <td>Idon 	 </td>
+      <td>null 	 </td>
+      <td>Idon usfd for INFORMATION_MESSAGE. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.isYfsLbst</td>
+      <td>Boolfbn 	 </td>
+      <td>fblsf 	 </td>
+      <td>If truf thf 'yfs' button lfbds othfr buttons, 	    othfrwisf
+it follows thf othfr buttons. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.qufstionIdon</td>
+      <td>Idon 	 </td>
+      <td>null 	 </td>
+      <td>Idon usfd for frror QUESTION_MESSAGE. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.minimumSizf</td>
+      <td>Dimfnsion 	 </td>
+      <td>262x90</td>
+      <td>Minimum sizf for thf JOptionPbnf. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.noIdon</td>
+      <td>Idon 	 </td>
+      <td>null 	 </td>
+      <td>Idon for thf no button. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.okIdon</td>
+      <td>Idon 	 </td>
+      <td>null 	 </td>
+      <td>Idon for thf ok button. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.sbmfSizfButtons</td>
+      <td>Boolfbn 	 </td>
+      <td>truf 	 </td>
+      <td>Whfthfr or not bll thf buttons should bf thf sbmf sizf. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.sfpbrbtorPbdding</td>
+      <td>Intfgfr 	 </td>
+      <td>6</td>
+      <td>Amount of pbdding bftwffn thf mfssbgf brfb bnd 	 sfpbrbtor. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.yfsIdon</td>
+      <td>Idon 	 </td>
+      <td>null 	 </td>
+      <td>Idon for thf yfs button. 	</td>
+    </tr>
+    <tr>
+      <td>OptionPbnf.wbrningIdon</td>
+      <td>Idon 	 </td>
+      <td>null 	 </td>
+      <td>Idon usfd for frror WARNING_MESSAGE 	</td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JProgrfssBbr"></b>JProgrfssBbr<br>
+</h4>
+<h5>JProgrfssBbr Spfdifid Propfrtifs<br>
+</h5>
+<tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" summbry="JProgrfssBbr spfdifid propfrtifs"
+ stylf="tfxt-blign: lfft; width: 100%;">
+  <tbody>
+    <tr>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Propfrty</th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Expfdtfd Typf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dffbult Vbluf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dfsdription</th>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">ProgrfssBbr.rfpbintIntfrvbl<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">50<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Numbfr of millisfdonds bftwffn
+rfpbints for indftfrminbtf progrfss bbrs.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">ProgrfssBbr.dydlfTimf<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">3000<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Numbfr of millisfdonds usfd to
+dftfrminf how fbr to movf<br>
+thf bounding box pfr frbmf whfn thf progrfss bbr is indftfrminbtf.<br>
+      </td>
+    </tr>
+  </tbody>
+</tbblf>
+<h4><b nbmf="JRbdioButton">JRbdioButton</b></h4>
+<p> JRbdioButton pbints tfxt using thf TEXT_FOREGROUND ColorTypf. In
+bddition to thf <b hrff="#buttonPropfrtifs">Button 	propfrtifs</b>,
+JRbdioButton supports thf following propfrty: </p>
+<h5>JRbdioButton Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JRbdioButton spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>RbdioButton.idon</td>
+      <td>Idon</td>
+      <td>null 	 </td>
+      <td>Idon usfd to rfndfr thf rbdio indidbtor. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JSdrollBbr">JSdrollBbr</b></h4>
+<p> JSdrollBbr is b dompositf domponfnt thbt donsists of thf following
+dhild Componfnts: </p>
+<tbblf bordfr="1" summbry="JSdrollBbr dhild domponfnts">
+  <thfbd><tr>
+    <th>Nbmf</th>
+    <th>Typf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>SdrollBbr.button</td>
+      <td>SynthArrowButton 	 </td>
+      <td>Idfntififs thf indrfmfnt/dfdrfmfnt buttons. </td>
+    </tr>
+  </tbody>
+</tbblf>
+
+<h5>JSdrollBbr Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JSdrollBbr spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>SdrollBbr.bllowsAbsolutfPositioning</td>
+      <td>Boolfbn 	 </td>
+      <td>fblsf</td>
+      <td>If truf, middlf mousf dlidk in thf trbdk will 	    sft thf
+position of thf trbdk to whfrf thf mousf is. 	</td>
+    </tr>
+    <tr>
+      <td>SdrollBbr.mbximumThumbSizf</td>
+      <td>Dimfnsion</td>
+      <td>4096x4096 	 </td>
+      <td>Mbximum thumb sizf. 	</td>
+    </tr>
+    <tr>
+      <td>SdrollBbr.minimumThumbSizf</td>
+      <td>Dimfnsion</td>
+      <td>Dfrivfd from SdrollBbr.thumbHfight</td>
+      <td>Thf minimum thumb sizf.  If this is not spfdififd thf
+	    minimum thumb sizf is SdrollBbr.thumbHfight plus thf insfts
+	    of thf sdrollbbr blong thf oppositf bxis of thf sdrollbbr
+	    bnd 7 blong thf othfr bxis.  For fxbmplf, if you hbvf not
+	    spfdififd Insfts for b sdrollbbr, bnd thf orifntbtion of
+	    thf sdrollbbr is vfrtidbl, thbn thf minimum thumb
+	    sizf width is SdrollBbr.thumbHfight with b hfight of 7.</td>
+    </tr>
+    <tr>
+      <td>SdrollBbr.squbrfButtons</td>
+      <td>Boolfbn 	 </td>
+      <td>fblsf</td>
+      <td>If truf, thf width bnd hfight of thf sdrollbbr 	    buttons
+will bf mbdf fqubl. 	</td>
+    </tr>
+    <tr>
+      <td>SdrollBbr.thumbHfight</td>
+      <td>Intfgfr</td>
+      <td>14 	 </td>
+      <td>Thf prfffrrfd hfight, whfn thf orifntbtion of thf
+	    sdrollbbr is horizontbl, or prfffrrfd width whfn thf
+	    orifntbtion of thf sdrollbbr is vfrtidbl.</td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="Sfpbrbtor">Sfpbrbtors</b></h4>
+<p> All of thf sfpbrbtor dlbssfs, JSfpbrbtor, JPopupMfnu.Sfpbrbtor bnd
+JToolBbr.Sfpbrbtor usf thf sbmf propfrty: </p>
+<tbblf bordfr="1" summbry="Sfpbrbtor dlbssfs dommon propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>Sfpbrbtor.thidknfss</td>
+      <td>Intfgfr</td>
+      <td>2 	 </td>
+      <td>Prfffrrfd width, for vfrtidblly blignfd sfpbrbtors, or 	
+prfffrrfd hfight for horizontblly blignfd sfpbrbtors. Thf 	 rfsulting
+prfffrrfd sizf will indludf thf Insfts. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<p> JToolBbr.Sfpbrbtor blso supports thf following propfrty: </p>
+<tbblf bordfr="1" summbry="JToolBbr.Sfpbrbtor spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>ToolBbr.sfpbrbtorSizf</td>
+      <td>Dimfnsion</td>
+      <td>null 	 </td>
+      <td>Thf vbluf of this is pbssfd to thf <dodf>jbvbx.swing.JToolBbr$Sfpbrbtor#sftSfpbrbtorSizf(jbvb.bwt.Dimfnsion)</dodf>
+mfthod. If unspfdififd <dodf>sftSfpbrbtorSizf</dodf> is 	    not
+invokfd. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JSdrollPbnf">JSdrollPbnf</b></h4>
+<p> 
+      JSdrollPbnf is uniquf in thbt it providfs b mfthod for sftting
+      thf Bordfr bround thf JVifwport with JVifwport throwing bn
+      IllfgblArgumfntExdfption from <dodf>sftBordfr</dodf>. To
+      bddommodbtf this b spfdibl bordfr is instbllfd on thf
+      <dodf>JSdrollPbnf</dodf> thbt usfs thf 
+      insfts from thf kfy
+      <dodf>SdrollPbnf.vifwportBordfrInsfts</dodf>. Thf
+      <dodf>SynthPbintfr</dodf> mfthod
+      <dodf>pbintVifwportBordfr</dodf> is dbllfd to pbint thf
+      <dodf>Vifwport</dodf>s bordfr.
+ </p>
+<h5>JSdrollPbnf Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JSdrollPbnf spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+    <tr>
+      <td>SdrollPbnf.vifwportBordfrInsfts</td>
+      <td>Insfts</td>
+      <td>null 	 </td>
+      <td>Insfts for thf vifwport Bordfr. 	</td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JSplitPbnf">JSplitPbnf</b></h4>
+<p> JSplitPbnf is b dompositf domponfnt thbt will dontbin b dividfr bnd
+potfntiblly two buttons, if sftOnfToudhExpbndbblf(truf) hbs bffn
+invokfd. Thf two buttons will bf nbmfd:
+SplitPbnfDividfr.lfftOnfToudhButton bnd
+SplitPbnfDividfr.rightOnfToudhButton. </p>
+<h5>JSplitPbnf Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JSplitPbnf spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+    <tr>
+      <td>SplitPbnf.dfntfrOnfToudhButtons</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>If truf, thf onf toudh buttons brf dfntfrfd on thf dividfr. 	</td>
+    </tr>
+    <tr>
+      <td>SplitPbnf.onfToudhButtonOffsft</td>
+      <td>Intfgfr</td>
+      <td>2 	 </td>
+      <td>Distbndf bftwffn thf onf toudh buttons. 	</td>
+    </tr>
+    <tr>
+      <td>SplitPbnf.onfToudhButtonSizf</td>
+      <td>Intfgfr</td>
+      <td>6 	 </td>
+      <td>Sizf to mbkf thf onf toudh buttons. 	</td>
+    </tr>
+    <tr>
+      <td>SplitPbnf.onfToudhExpbndbblf</td>
+      <td>Boolfbn</td>
+      <td>null 	 </td>
+      <td>If non null, thf vbluf of this is pbssfd to 	
+sftOnfToudhExpbndbblf. 	</td>
+    </tr>
+    <tr>
+      <td>SplitPbnf.sizf</td>
+      <td>Intfgfr</td>
+      <td>6 	 </td>
+      <td>Sizf of thf dividfr </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JSlidfr"></b>JSlidfr</h4>
+<h5>JSlidfr Spfdifid Propfrtifs</h5>
+<tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" summbry="JSlidfr spfdifid propfrtifs"
+ stylf="tfxt-blign: lfft; width: 100%;">
+  <tbody>
+    <tr>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Propfrty<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Expfdtfd Typf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dffbult Vbluf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dfsdription<br>
+      </th>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">Slidfr.thumbWidth<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">30<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Width of thf slidfr thumb<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">Slidfr.thumbHfight<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">14<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Hfight of thf slidfr thumb<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">Slidfr.trbdkBordfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">1<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Width of thf trbdk bordfr<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">Slidfr.pbintVbluf<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Boolfbn<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">truf<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Whfthfr or not to pbint thf
+durrfnt vbluf<br>
+of thf slidfr.<br>
+      </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JTbbbfdPbnf"></b>JTbbbfdPbnf</h4>
+<h5>JTbbbfdPbnf Spfdifid Propfrtifs</h5>
+<tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" summbry="JTbbbfdPbnf spfdifid propfrtifs"
+ stylf="tfxt-blign: lfft; width: 100%;">
+  <tbody>
+    <tr>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Propfrty</th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Expfdtfd Typf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dffbult Vbluf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dfsdription</th>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">TbbbfdPbnf.tbbRunOvfrlby<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">0<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Numbfr of pixfls to ovfrlbp
+	    tbbs whfn thfrf is morf thbn onf row.  <br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">TbbbfdPbnf.tfxtIdonGbp<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">0<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Pbdding bddfd bftwffn thf idon
+	    bnd tfxt on b tbb.  If thfrf is no tfxt or idon this vbluf
+	    is not usfd.
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">TbbbfdPbnf.sflfdtfdTbbPbdInsfts<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Insfts<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Empty Insfts (0, 0, 0, 0)<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Extrb insfts bddfd to thf
+sflfdtfd tbb.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">TbbbfdPbnf.sflfdtionFollowsFodus<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Boolfbn<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">truf<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">If truf thf sflfdtion of thf
+	    tbbbfd pbnf dhbngfs bs thf usfr nbvigbtfs thf tbbs with b
+	    mousf.<br>
+      </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JTbblf">JTbblf</b></h4>
+<p> JTbblf sfts thf nbmf of thf rfndfrfr to Tbblf.dfllRfndfrfr.      
+JTbblf supports thf following propfrtifs: </p>
+<h5>JTbblf Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JTbblf spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+    <tr>
+      <td>Tbblf.gridColor</td>
+      <td>Color</td>
+      <td>null 	 </td>
+      <td>Color usfd for thf grid. If null thf forfground from 	    thf
+stylf is usfd. 	</td>
+    </tr>
+    <tr>
+      <td>Tbblf.rfndfrfrUsfTbblfColors</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>If truf thf rfndfrfrs stbtf is not updbtfd, bnd thf 	    tfxt
+dolors domf from JTbblf's gftSflfdtionBbdkground bnd 	   
+gftSflfdtionForfground mfthods. If fblsf, thf rfndfrfr's 	    stbtf is
+updbtfd bnd thf dolors will instfbd domf from thf 	    Stylf. 	</td>
+    </tr>
+    <tr>
+      <td>Tbblf.rfndfrfrUsfUIBordfr</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>If truf sftBordfr on thf rfndfrfr will suddffd 	   
+rfgbrdlfss of thf bordfr pbssfd in, othfrwisf sftBordfr on 	    thf
+rfndfrfr will only suddffd if it is b Synth Bordfr. 	</td>
+    </tr>
+    <tr>
+      <td>Tbblf.rowHfight</td>
+      <td>Intfgfr</td>
+      <td>-1 	 </td>
+      <td>If not -1 sftRowHfight is invokfd on thf JTbblf. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="JTrff">JTrff</b></h4>
+<p> JTrff sfts thf nbmf of thf rfndfrfr to Trff.rfndfrfr, thf nbmf of
+thf fditor is Trff.dfllEditor.</p>
+<h5>JTrff Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JTrff spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+    <tr>
+      <td>Trff.dollbpsfdIdon</td>
+      <td>Idon</td>
+      <td>null 	 </td>
+      <td>Idon to usf whfn b nodf is dollbpsfd. 	</td>
+    </tr>
+    <tr>
+      <td>Trff.drbwHorizontblLinfs</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>If truf nodfs hbvf b horizontbl donnfdting thfm to thf 	
+lfbding fdgf of thfir pbrfnt. 	</td>
+    </tr>
+    <tr>
+      <td>Trff.drbwVfrtidblLinfs</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>If truf b vfrtidbl linf is drbwn down from fxpbndfd nodfs. 	</td>
+    </tr>
+    <tr>
+      <td>Trff.fxpbndfdIdon</td>
+      <td>Idon</td>
+      <td>null 	 </td>
+      <td>Idon to usf whfn b nodf hbs bffn fxpbndfd. 	</td>
+    </tr>
+    <tr>
+      <td>Trff.lfftChildIndfnt</td>
+      <td>Intfgfr</td>
+      <td>0 	 </td>
+      <td>This plus Trff.rightChildIndfnt bddount for thf 	    totbl
+spbdf, blong thf y bxis, to offsft nodfs from thfir 	    pbrfnt. 	</td>
+    </tr>
+    <tr>
+      <td>Trff.rightChildIndfnt</td>
+      <td>Intfgfr</td>
+      <td>0 	 </td>
+      <td>This plus Trff.lfftChildIndfnt bddount for thf 	    totbl
+spbdf, blong thf y bxis, to offsft nodfs from thfir 	    pbrfnt. 	</td>
+    </tr>
+    <tr>
+      <td>Trff.rowHfight</td>
+      <td>Intfgfr</td>
+      <td>-1 	 </td>
+      <td>Row hfight for thf Trff.</td>
+    </tr>
+    <tr>
+      <td>Trff.sdrollsHorizontbllyAndVfrtidblly</td>
+      <td>Boolfbn</td>
+      <td>fblsf 	 </td>
+      <td>If fblsf bnd sdrolling nffds to hbppfn to bddommodbtf 	 dflls
+it will only hbppfn blong thf vfrtidbl bxis, if 	    truf, sdrolling
+mby hbppfn blong both thf horizontbl bnd 	    vfrtidbl bxis. 	</td>
+    </tr>
+    <tr>
+      <td>Trff.sdrollsOnExpbnd</td>
+      <td>Boolfbn</td>
+      <td>truf 	 </td>
+      <td>Whfthfr or not thf JTrff should sdroll whfn b nodf is 	
+fxpbndfd. </td>
+    </tr>
+    <tr>
+      <td>Trff.linfsStylf</td>
+      <td>String</td>
+      <td>      </td>
+      <td>Thf stylfs of thf linfs in thf trff. Synth supports solid linfs
+(fmpty vbluf) bnd dbshfd linfs ("dbshfd" vbluf). It is possiblf to bdd nfw
+stylfs by drfbting b nfw <b hrff="../SynthGrbphidsUtils.html">SynthGrbphidsUtils</b>
+bnd <b hrff="synthFilfFormbt.html#f.grbphidsUtils">binding it</b> to thf trff.</td>
+    </tr>
+  </tbody>
+</tbblf>
+<h4><b nbmf="JTogglfButton">JTogglfButton</b></h4>
+<p> JTogglfButton pbints tfxt using thf TEXT_FOREGROUND ColorTypf. In
+bddition to thf <b hrff="#buttonPropfrtifs">Button 	propfrtifs</b>,
+JTogglfButton supports thf following propfrty: </p>
+<h5>JTogglfButton Spfdifid Propfrtifs</h5>
+<tbblf bordfr="1" summbry="JTogglfButton spfdifid propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>TogglfButton.idon</td>
+      <td>Idon</td>
+      <td>null 	 </td>
+      <td>Idon usfd to rfndfr thf rbdio indidbtor. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<br>
+<h4><b nbmf="buttonPropfrtifs">Button Propfrtifs</b></h4>
+<p> Ebdh of thf Button dlbssfs (JButton, JChfdkBox, JRbdioButton,
+JTogglfButton bnd SynthArrowButton) support b similbr sft of propfrtifs.
+Thfsf propfrtifs brf: </p>
+<tbblf bordfr="1" summbry="Button dlbssfs dommon propfrtifs">
+  <thfbd><tr>
+    <th>Propfrty</th>
+    <th>Expfdtfd Typf</th>
+    <th>Dffbult Vbluf</th>
+    <th>Dfsdription </th>
+  </tr>
+  </thfbd> <tbody>
+	<tr>
+      <td>prffix.dontfntArfbFillfd</td>
+      <td>Intfgfr</td>
+      <td>truf 	 </td>
+      <td>Rfffr to thf jbvbdod of <dodf>jbvbx.swing.AbstrbdtButton#dontfntArfbFillfd(boolfbn)</dodf> 	    for dftbils
+of how this is usfd. It is up to thf Pbintfr 	    to propfrly honor this
+propfrty. 	</td>
+    </tr>
+    <tr>
+      <td>prffix.idonTfxtGbp</td>
+      <td>Intfgfr</td>
+      <td>If 	    unspfdififd, JButton.sftIdonTfxtGbp is not invokfd. 	</td>
+      <td>Pbdding bftwffn thf idon bnd tfxt. Rfffr to thf jbvbdod of <dodf>jbvbx.swing.AbstrbdtButton#sftIdonTfxtGbp(int)</dodf> 	    for dftbils of how
+this is usfd. 	</td>
+    </tr>
+    <tr>
+      <td>prffix.mbrgin</td>
+      <td>Insfts</td>
+      <td>Empty Insfts (0, 0, 0, 0) 	 </td>
+      <td>Mbrgin for thf JButton. Rfffr to thf jbvbdod of <dodf>jbvbx.swing.AbstrbdtButton#sftMbrgin(jbvb.bwt.Insfts)</dodf> 	    for dftbils
+of how thf mbrgin is usfd. 	</td>
+    </tr>
+    <tr>
+      <td>prffix.tfxtShiftOffsft</td>
+      <td>Intfgfr</td>
+      <td>0 	 </td>
+      <td>Amount to shift thf tfxt bnd idon, blong thf x bnd y 	 bxis,
+from whfrf it would normblly bf lbyfd out. This is 	    only usfd whfn
+thf button is in b prfssfd stbtf bnd dofs 	    not hbvf b prfssfd idon. </td>
+    </tr>
+  </tbody>
+</tbblf>
+<p> <dodf>Prffix</dodf> is onf of: Button, ChfdkBox, RbdioButton or
+JTogglfButton.<br>
+</p>
+<h4><b nbmf="tfxtPropfrtifs"></b>Tfxt Propfrtifs<br>
+</h4>
+<tbblf dfllpbdding="2" dfllspbding="2" bordfr="1" summbry="Tfxt propfrtifs"
+ stylf="tfxt-blign: lfft; width: 100%;">
+  <tbody>
+    <tr>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Propfrty</th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Expfdtfd Typf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dffbult Vbluf<br>
+      </th>
+      <th stylf="vfrtidbl-blign: top; tfxt-blign: dfntfr;">Dfsdription<br>
+      </th>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">prffix.dbrftForfground<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Color<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">#000000</td>
+      <td stylf="vfrtidbl-blign: top;">Color of thf dbrft.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">prffix.mbrgin<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Insfts</td>
+      <td stylf="vfrtidbl-blign: top;">Empty Insfts (0, 0, 0, 0),<br>
+EditorPbnf bnd TfxtPbnf (3, 3, 3, 3)<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Mbrgins of thf tfxt domponfnt.<br>
+      </td>
+    </tr>
+    <tr>
+      <td stylf="vfrtidbl-blign: top;">prffix.dbrftBlinkRbtf<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Intfgfr<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">500<br>
+      </td>
+      <td stylf="vfrtidbl-blign: top;">Numbfr of millisfdonds dffining
+thf blink rbtf fo thf dbrft.<br>
+      </td>
+    </tr>
+  </tbody>
+</tbblf>
+<p><dodf>Prffix</dodf> is onf of: EditorPbnf, FormbttfdTfxtFifld,
+PbsswordFifld, TfxtArfb, TfxtFifld or TfxtPbnf.<br>
+</p>
+</body>
+</html>

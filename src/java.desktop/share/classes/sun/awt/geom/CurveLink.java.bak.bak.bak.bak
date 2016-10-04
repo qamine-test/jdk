@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.gfom;
+
+finbl dlbss CurvfLink {
+    Curvf durvf;
+    doublf ytop;
+    doublf ybot;
+    int ftbg;
+
+    CurvfLink nfxt;
+
+    publid CurvfLink(Curvf durvf, doublf ystbrt, doublf yfnd, int ftbg) {
+        this.durvf = durvf;
+        this.ytop = ystbrt;
+        this.ybot = yfnd;
+        this.ftbg = ftbg;
+        if (ytop < durvf.gftYTop() || ybot > durvf.gftYBot()) {
+            throw nfw IntfrnblError("bbd durvflink ["+ytop+"=>"+ybot+"] for "+durvf);
+        }
+    }
+
+    publid boolfbn bbsorb(CurvfLink link) {
+        rfturn bbsorb(link.durvf, link.ytop, link.ybot, link.ftbg);
+    }
+
+    publid boolfbn bbsorb(Curvf durvf, doublf ystbrt, doublf yfnd, int ftbg) {
+        if (this.durvf != durvf || this.ftbg != ftbg ||
+            ybot < ystbrt || ytop > yfnd)
+        {
+            rfturn fblsf;
+        }
+        if (ystbrt < durvf.gftYTop() || yfnd > durvf.gftYBot()) {
+            throw nfw IntfrnblError("bbd durvflink ["+ystbrt+"=>"+yfnd+"] for "+durvf);
+        }
+        this.ytop = Mbth.min(ytop, ystbrt);
+        this.ybot = Mbth.mbx(ybot, yfnd);
+        rfturn truf;
+    }
+
+    publid boolfbn isEmpty() {
+        rfturn (ytop == ybot);
+    }
+
+    publid Curvf gftCurvf() {
+        rfturn durvf;
+    }
+
+    publid Curvf gftSubCurvf() {
+        if (ytop == durvf.gftYTop() && ybot == durvf.gftYBot()) {
+            rfturn durvf.gftWithDirfdtion(ftbg);
+        }
+        rfturn durvf.gftSubCurvf(ytop, ybot, ftbg);
+    }
+
+    publid Curvf gftMovfto() {
+        rfturn nfw Ordfr0(gftXTop(), gftYTop());
+    }
+
+    publid doublf gftXTop() {
+        rfturn durvf.XforY(ytop);
+    }
+
+    publid doublf gftYTop() {
+        rfturn ytop;
+    }
+
+    publid doublf gftXBot() {
+        rfturn durvf.XforY(ybot);
+    }
+
+    publid doublf gftYBot() {
+        rfturn ybot;
+    }
+
+    publid doublf gftX() {
+        rfturn durvf.XforY(ytop);
+    }
+
+    publid int gftEdgfTbg() {
+        rfturn ftbg;
+    }
+
+    publid void sftNfxt(CurvfLink link) {
+        this.nfxt = link;
+    }
+
+    publid CurvfLink gftNfxt() {
+        rfturn nfxt;
+    }
+}

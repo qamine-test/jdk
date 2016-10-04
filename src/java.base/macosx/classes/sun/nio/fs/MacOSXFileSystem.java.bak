@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
-import static sun.nio.fs.MacOSXNativeDispatcher.*;
+import stbtid sun.nio.fs.MbdOSXNbtivfDispbtdifr.*;
 
 /**
- * MacOS implementation of FileSystem
+ * MbdOS implfmfntbtion of FilfSystfm
  */
 
-class MacOSXFileSystem extends BsdFileSystem {
+dlbss MbdOSXFilfSystfm fxtfnds BsdFilfSystfm {
 
-    MacOSXFileSystem(UnixFileSystemProvider provider, String dir) {
-        super(provider, dir);
+    MbdOSXFilfSystfm(UnixFilfSystfmProvidfr providfr, String dir) {
+        supfr(providfr, dir);
     }
 
-    // match in unicode canon_eq
-    Pattern compilePathMatchPattern(String expr) {
-        return Pattern.compile(expr, Pattern.CANON_EQ) ;
+    // mbtdi in unidodf dbnon_fq
+    Pbttfrn dompilfPbtiMbtdiPbttfrn(String fxpr) {
+        rfturn Pbttfrn.dompilf(fxpr, Pbttfrn.CANON_EQ) ;
     }
 
-    char[] normalizeNativePath(char[] path) {
-        for (char c : path) {
-            if (c > 0x80)
-                return normalizepath(path, kCFStringNormalizationFormD);
+    dibr[] normblizfNbtivfPbti(dibr[] pbti) {
+        for (dibr d : pbti) {
+            if (d > 0x80)
+                rfturn normblizfpbti(pbti, kCFStringNormblizbtionFormD);
         }
-        return path;
+        rfturn pbti;
     }
 
-    String normalizeJavaPath(String path) {
-        for (int i = 0; i < path.length(); i++) {
-            if (path.charAt(i) > 0x80)
-                return new String(normalizepath(path.toCharArray(),
-                                  kCFStringNormalizationFormC));
+    String normblizfJbvbPbti(String pbti) {
+        for (int i = 0; i < pbti.lfngti(); i++) {
+            if (pbti.dibrAt(i) > 0x80)
+                rfturn nfw String(normblizfpbti(pbti.toCibrArrby(),
+                                  kCFStringNormblizbtionFormC));
         }
-        return path;
+        rfturn pbti;
     }
 
 }

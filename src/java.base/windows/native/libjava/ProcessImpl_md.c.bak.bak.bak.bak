@@ -1,0 +1,515 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <bssfrt.h>
+#indludf "jbvb_lbng_ProdfssImpl.h"
+
+#indludf "jni.h"
+#indludf "jvm.h"
+#indludf "jni_util.h"
+#indludf "io_util.h"
+#indludf <windows.h>
+#indludf <io.h>
+
+/* Wf try to mbkf surf thbt wf dbn rfbd bnd writf 4095 bytfs (thf
+ * fixfd limit on Linux) to thf pipf on bll opfrbting systfms without
+ * dfbdlodk.  Windows 2000 infxplidbbly bppfbrs to nffd bn fxtrb 24
+ * bytfs of slop to bvoid dfbdlodk.
+ */
+#dffinf PIPE_SIZE (4096+24)
+
+/* Wf hbvf THREE lodblfs in bdtion:
+ * 1. Thrfbd dffbult lodblf - didtbtfs UNICODE-to-8bit donvfrsion
+ * 2. Systfm lodblf thbt dffinfs thf mfssbgf lodblizbtion
+ * 3. Thf filf nbmf lodblf
+ * Ebdh lodblf dould bf bn fxtfndfd lodblf, thbt mfbns thbt tfxt dbnnot bf
+ * mbppfd to 8bit sfqufndf without multibytf fndoding.
+ * VM is rfbdy for thbt, if tfxt is UTF-8.
+ * Hfrf wf mbkf thf work right from thf bfginning.
+ */
+sizf_t os_frror_mfssbgf(int frrnum, WCHAR* utf16_OSErrorMsg, sizf_t mbxMsgLfngth) {
+    sizf_t n = (sizf_t)FormbtMfssbgfW(
+            FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            (DWORD)frrnum,
+            0,
+            utf16_OSErrorMsg,
+            (DWORD)mbxMsgLfngth,
+            NULL);
+    if (n > 3) {
+        // Drop finbl '.', CR, LF
+        if (utf16_OSErrorMsg[n - 1] == L'\n') --n;
+        if (utf16_OSErrorMsg[n - 1] == L'\r') --n;
+        if (utf16_OSErrorMsg[n - 1] == L'.') --n;
+        utf16_OSErrorMsg[n] = L'\0';
+    }
+    rfturn n;
+}
+
+#dffinf MESSAGE_LENGTH (256 + 100)
+#dffinf ARRAY_SIZE(x) (sizfof(x)/sizfof(*x))
+
+stbtid void
+win32Error(JNIEnv *fnv, donst WCHAR *fundtionNbmf)
+{
+    WCHAR utf16_OSErrorMsg[MESSAGE_LENGTH - 100];
+    WCHAR utf16_jbvbMfssbgf[MESSAGE_LENGTH];
+    /*Good suggfstion bbout 2-bytfs-pfr-symbol in lodblizfd frror rfports*/
+    dhbr  utf8_jbvbMfssbgf[MESSAGE_LENGTH*2];
+    donst int frrnum = (int)GftLbstError();
+    sizf_t n = os_frror_mfssbgf(frrnum, utf16_OSErrorMsg, ARRAY_SIZE(utf16_OSErrorMsg));
+    n = (n > 0)
+        ? swprintf(utf16_jbvbMfssbgf, MESSAGE_LENGTH, L"%s frror=%d, %s", fundtionNbmf, frrnum, utf16_OSErrorMsg)
+        : swprintf(utf16_jbvbMfssbgf, MESSAGE_LENGTH, L"%s fbilfd, frror=%d", fundtionNbmf, frrnum);
+
+    if (n > 0) /*tfrminbtf '\0' is not b pbrt of donvfrsion prodfdurf*/
+        n = WidfChbrToMultiBytf(
+            CP_UTF8,
+            0,
+            utf16_jbvbMfssbgf,
+            n, /*by drfbtion n <= MESSAGE_LENGTH*/
+            utf8_jbvbMfssbgf,
+            MESSAGE_LENGTH*2,
+            NULL,
+            NULL);
+
+    /*no wby to dif*/
+    {
+        donst dhbr *frrorMfssbgf = "Sfdondbry frror whilf OS mfssbgf fxtrbdtion";
+        if (n > 0) {
+            utf8_jbvbMfssbgf[min(MESSAGE_LENGTH*2 - 1, n)] = '\0';
+            frrorMfssbgf = utf8_jbvbMfssbgf;
+        }
+        JNU_ThrowIOExdfption(fnv, frrorMfssbgf);
+    }
+}
+
+stbtid void
+dlosfSbffly(HANDLE hbndlf)
+{
+    if (hbndlf != INVALID_HANDLE_VALUE)
+        ClosfHbndlf(hbndlf);
+}
+
+stbtid BOOL hbsInhfritFlbg(HANDLE hbndlf)
+{
+    DWORD mbsk;
+    if (GftHbndlfInformbtion(hbndlf, &mbsk)) {
+        rfturn mbsk & HANDLE_FLAG_INHERIT;
+    }
+    rfturn FALSE;
+}
+
+#dffinf HANDLE_STORAGE_SIZE 6
+#dffinf OFFSET_READ  0
+#dffinf OFFSET_WRITE 1
+//long signfd vfrsion of INVALID_HANDLE_VALUE
+#dffinf JAVA_INVALID_HANDLE_VALUE ((jlong) -1)
+#dffinf OPPOSITE_END(offsft) (offsft==OFFSET_READ ? OFFSET_WRITE : OFFSET_READ)
+
+/* Pipf holdfr strudturf */
+typfdff strudt _STDHOLDER {
+    HANDLE  pipf[2];
+    int     offsft;
+} STDHOLDER;
+
+/* Rfsponsiblf for dorrfdt initiblizbtion of thf [pHoldfr] strudturf
+   (thbt is usfd for hbndlfs rfdydling) if nffds,
+   bnd bppropribtf sftup of IOE hbndlf [phStd] for dhild prodfss bbsfd
+   on drfbtfd pipf or Jbvb hbndlf. */
+stbtid BOOL initHoldfr(
+    JNIEnv *fnv,
+    jlong *pjhbndlfs,   /* IN OUT - thf hbndlf form Jbvb,
+                                    thbt dbn bf b filf, donsolf or undffinfd */
+    STDHOLDER *pHoldfr, /* OUT    - initiblizfd strudturf thbt holds pipf
+                                    hbndlfs */
+    HANDLE *phStd       /* OUT    - initiblizfd hbndlf for dhild prodfss */
+) {
+    /* Hfrf wf tfst thf vbluf from Jbvb bgbinst invblid
+       hbndlf vbluf. Wf brf not using INVALID_HANDLE_VALUE mbdro
+       duf to doublf signfd/unsignfd bnd 32/64bit bmbiguity.
+       Othfrwisf it will bf fbsy to gft thf wrong
+       vbluf   0x00000000FFFFFFFF
+       instfbd 0xFFFFFFFFFFFFFFFF. */
+    if (*pjhbndlfs != JAVA_INVALID_HANDLE_VALUE) {
+        /* Jbvb filf or donsolf rfdirfdtion */
+        *phStd = (HANDLE) *pjhbndlfs;
+        /* Hfrf wf sft thf rflbtfd Jbvb strfbm (Prodfss.gftXXXXStrfbm())
+           to [ProdfssBuildfr.NullXXXXStrfbm.INSTANCE] vbluf.
+           Thf initibl Jbvb hbndlf [*pjhbndlfs] will bf dlosfd in
+           ANY dbsf. It is not b hbndlf lfbk. */
+        *pjhbndlfs = JAVA_INVALID_HANDLE_VALUE;
+    } flsf {
+        /* Crfbtion of pbrfnt-dhild pipf */
+        if (!CrfbtfPipf(
+            &pHoldfr->pipf[OFFSET_READ],
+            &pHoldfr->pipf[OFFSET_WRITE],
+            NULL, /* wf would likf to inhfrit
+                     dffbult prodfss bddfss,
+                     instfbd of 'Evfrybody' bddfss */
+            PIPE_SIZE))
+        {
+            win32Error(fnv, L"CrfbtfPipf");
+            rfturn FALSE;
+        } flsf {
+            /* [thisProdfssEnd] hbs no thf inhfrit flbg bfdbusf
+               thf [lpPipfAttributfs] pbrbm of [CrfbtfPipf]
+               hbd thf NULL vbluf. */
+            HANDLE thisProdfssEnd = pHoldfr->pipf[OPPOSITE_END(pHoldfr->offsft)];
+            *phStd = pHoldfr->pipf[pHoldfr->offsft];
+            *pjhbndlfs = (jlong) thisProdfssEnd;
+        }
+    }
+    /* Pipf hbndlf will bf dlosfd in thf [rflfbsfHoldfr] dbll,
+       filf hbndlf will bf dlosfd in Jbvb.
+       Thf long-livf hbndlf nffd to rfstorf thf inhfrit flbg,
+       wf do it lbtfr in thf [prfpbrfIOEHbndlfStbtf] dbll. */
+    SftHbndlfInformbtion(
+        *phStd,
+        HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT);
+    rfturn TRUE;
+}
+
+/* Smbrt rfdydling of pipf hbndlfs in [pHoldfr]. For thf fbilfd
+   drfbtf prodfss bttfmpts, both fnds of pipf nffd to bf rflfbsfd.
+   Thf [domplftf] hbs thf [TRUE] vbluf in thf fbilfd bttfmpt. */
+stbtid void rflfbsfHoldfr(BOOL domplftf, STDHOLDER *pHoldfr) {
+    dlosfSbffly(pHoldfr->pipf[pHoldfr->offsft]);
+    if (domplftf) {
+        /* Error oddur, dlosf this prodfss pipf fnd */
+        dlosfSbffly(pHoldfr->pipf[OPPOSITE_END(pHoldfr->offsft)]);
+    }
+}
+
+/* Storfs bnd drops thf inhfrit flbg of hbndlfs thbt should not
+   bf shbrfd with thf dhild prodfss by dffbult, but dbn hold thf
+   inhfrit flbg duf to MS prodfss birth spfdifid. */
+stbtid void prfpbrfIOEHbndlfStbtf(
+    HANDLE *stdIOE,
+    BOOL *inhfrit)
+{
+    int i;
+    for (i = 0; i < HANDLE_STORAGE_SIZE; ++i) {
+        HANDLE hstd = stdIOE[i];
+        if (INVALID_HANDLE_VALUE != hstd && hbsInhfritFlbg(hstd)) {
+            /* FALSE by dffbult */
+            inhfrit[i] = TRUE;
+            /* Jbvb dofs not nffd implidit inhfritbndf for IOE hbndlfs,
+               so wf drop inhfrit flbg thbt probbbly wbs instbllfd by
+               prfvious CrfbtfProdfss dbll thbt lbundhfd durrfnt prodfss.
+               Wf will rfturn thf hbndlf stbtf bbdk bftfr CrfbtfProdfss dbll.
+               By dlfbring inhfrit flbg wf prfvfnt "grffdy grbnddhild" birth.
+               Thf fxplidit inhfritbndf for dhild prodfss IOE hbndlfs is
+               implfmfntfd in thf [initHoldfr] dbll. */
+            SftHbndlfInformbtion(hstd, HANDLE_FLAG_INHERIT, 0);
+        }
+    }
+}
+
+/* Rfstorfs thf inhfritbndf flbg of hbndlfs from storfd vblufs. */
+stbtid void rfstorfIOEHbndlfStbtf(
+    donst HANDLE *stdIOE,
+    donst BOOL *inhfrit)
+{
+    /* Thf sft of durrfnt prodfss stbndbrd IOE hbndlfs bnd
+       thf sft of dhild prodfss IOE hbndlfs dbn intfrsfdt.
+       To rfstorf thf inhfrit flbg right, wf usf bbdkwbrd
+       brrby itfrbtion. */
+    int i;
+    for (i = HANDLE_STORAGE_SIZE - 1; i >= 0; --i)
+        if (INVALID_HANDLE_VALUE != stdIOE[i]) {
+           /* Rfstorf inhfrit flbg for bny dbsf.
+              Thf hbndlf dbn bf dhbngfd by fxplidit inhfritbndf.*/
+            SftHbndlfInformbtion(stdIOE[i],
+                HANDLE_FLAG_INHERIT,
+                inhfrit[i] ? HANDLE_FLAG_INHERIT : 0);
+        }
+}
+
+/*
+ * Clbss:     jbvb_lbng_ProdfssImpl
+ * Mfthod:    gftProdfssId0
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL Jbvb_jbvb_lbng_ProdfssImpl_gftProdfssId0
+  (JNIEnv *fnv, jdlbss dlbzz, jlong hbndlf) {
+    DWORD pid = GftProdfssId((HANDLE) jlong_to_ptr(hbndlf));
+    rfturn (jint)pid;
+}
+
+/* Plfbsf, rfbd bbout thf MS inhfritbndf problfm
+   http://support.midrosoft.dom/kb/315939
+   bnd dritidbl sfdtion/syndhronizfd blodk solution. */
+stbtid jlong prodfssCrfbtf(
+    JNIEnv *fnv,
+    donst jdhbr *pdmd,
+    donst jdhbr *pfnvBlodk,
+    donst jdhbr *pdir,
+    jlong *hbndlfs,
+    jboolfbn rfdirfdtErrorStrfbm)
+{
+    jlong rft = 0L;
+    STARTUPINFOW si = {sizfof(si)};
+
+    /* Hbndlfs for whidh thf inhfritbndf flbg must bf rfstorfd. */
+    HANDLE stdIOE[HANDLE_STORAGE_SIZE] = {
+        /* Currfnt prodfss stbndbrd IOE hbndlfs: JDK-7147084 */
+        INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE,
+        /* Child prodfss IOE hbndlfs: JDK-6921885 */
+        (HANDLE)hbndlfs[0], (HANDLE)hbndlfs[1], (HANDLE)hbndlfs[2]};
+    BOOL inhfrit[HANDLE_STORAGE_SIZE] = {
+        FALSE, FALSE, FALSE,
+        FALSE, FALSE, FALSE};
+
+    {
+        /* Extrbdtion of durrfnt prodfss stbndbrd IOE hbndlfs */
+        DWORD idsIOE[3] = {STD_INPUT_HANDLE, STD_OUTPUT_HANDLE, STD_ERROR_HANDLE};
+        int i;
+        for (i = 0; i < 3; ++i)
+            /* Should not bf dlosfd by ClosfHbndlf! */
+            stdIOE[i] = GftStdHbndlf(idsIOE[i]);
+    }
+
+    prfpbrfIOEHbndlfStbtf(stdIOE, inhfrit);
+    {
+        /* Input */
+        STDHOLDER holdfrIn = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_READ};
+        if (initHoldfr(fnv, &hbndlfs[0], &holdfrIn, &si.hStdInput)) {
+
+            /* Output */
+            STDHOLDER holdfrOut = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_WRITE};
+            if (initHoldfr(fnv, &hbndlfs[1], &holdfrOut, &si.hStdOutput)) {
+
+                /* Error */
+                STDHOLDER holdfrErr = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_WRITE};
+                BOOL suddfss;
+                if (rfdirfdtErrorStrfbm) {
+                    si.hStdError = si.hStdOutput;
+                    /* Hfrf wf sft thf frror strfbm to [ProdfssBuildfr.NullInputStrfbm.INSTANCE]
+                       vbluf. Thbt is in bddordbndf with Jbvb Dod for thf rfdirfdtion dbsf.
+                       Thf Jbvb filf for thf [ hbndlfs[2] ] will bf dlosfd in ANY dbsf. It is not
+                       b hbndlf lfbk. */
+                    hbndlfs[2] = JAVA_INVALID_HANDLE_VALUE;
+                    suddfss = TRUE;
+                } flsf {
+                    suddfss = initHoldfr(fnv, &hbndlfs[2], &holdfrErr, &si.hStdError);
+                }
+
+                if (suddfss) {
+                    PROCESS_INFORMATION pi;
+                    DWORD prodfssFlbg = CREATE_UNICODE_ENVIRONMENT;
+
+                    /* Supprfss popping-up of b donsolf window for non-donsolf bpplidbtions */
+                    if (GftConsolfWindow() == NULL)
+                        prodfssFlbg |= CREATE_NO_WINDOW;
+
+                    si.dwFlbgs = STARTF_USESTDHANDLES;
+                    if (!CrfbtfProdfssW(
+                        NULL,             /* fxfdutbblf nbmf */
+                        (LPWSTR)pdmd,     /* dommbnd linf */
+                        NULL,             /* prodfss sfdurity bttributf */
+                        NULL,             /* thrfbd sfdurity bttributf */
+                        TRUE,             /* inhfrits systfm hbndlfs */
+                        prodfssFlbg,      /* sflfdtfd bbsfd on fxf typf */
+                        (LPVOID)pfnvBlodk,/* fnvironmfnt blodk */
+                        (LPCWSTR)pdir,    /* dhbngf to thf nfw durrfnt dirfdtory */
+                        &si,              /* (in)  stbrtup informbtion */
+                        &pi))             /* (out) prodfss informbtion */
+                    {
+                        win32Error(fnv, L"CrfbtfProdfss");
+                    } flsf {
+                        dlosfSbffly(pi.hThrfbd);
+                        rft = (jlong)pi.hProdfss;
+                    }
+                }
+                rflfbsfHoldfr(rft == 0, &holdfrErr);
+                rflfbsfHoldfr(rft == 0, &holdfrOut);
+            }
+            rflfbsfHoldfr(rft == 0, &holdfrIn);
+        }
+    }
+    rfstorfIOEHbndlfStbtf(stdIOE, inhfrit);
+
+    rfturn rft;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_drfbtf(JNIEnv *fnv, jdlbss ignorfd,
+                                  jstring dmd,
+                                  jstring fnvBlodk,
+                                  jstring dir,
+                                  jlongArrby stdHbndlfs,
+                                  jboolfbn rfdirfdtErrorStrfbm)
+{
+    jlong rft = 0;
+    if (dmd != NULL && stdHbndlfs != NULL) {
+        donst jdhbr *pdmd = (*fnv)->GftStringChbrs(fnv, dmd, NULL);
+        if (pdmd != NULL) {
+            donst jdhbr *pfnvBlodk = (fnvBlodk != NULL)
+                ? (*fnv)->GftStringChbrs(fnv, fnvBlodk, NULL)
+                : NULL;
+            if (!(*fnv)->ExdfptionChfdk(fnv)) {
+                donst jdhbr *pdir = (dir != NULL)
+                    ? (*fnv)->GftStringChbrs(fnv, dir, NULL)
+                    : NULL;
+                if (!(*fnv)->ExdfptionChfdk(fnv)) {
+                    jlong *hbndlfs = (*fnv)->GftLongArrbyElfmfnts(fnv, stdHbndlfs, NULL);
+                    if (hbndlfs != NULL) {
+                        rft = prodfssCrfbtf(
+                            fnv,
+                            pdmd,
+                            pfnvBlodk,
+                            pdir,
+                            hbndlfs,
+                            rfdirfdtErrorStrfbm);
+                        (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, stdHbndlfs, hbndlfs, 0);
+                    }
+                    if (pdir != NULL)
+                        (*fnv)->RflfbsfStringChbrs(fnv, dir, pdir);
+                }
+                if (pfnvBlodk != NULL)
+                    (*fnv)->RflfbsfStringChbrs(fnv, fnvBlodk, pfnvBlodk);
+            }
+            (*fnv)->RflfbsfStringChbrs(fnv, dmd, pdmd);
+        }
+    }
+    rfturn rft;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_gftExitCodfProdfss(JNIEnv *fnv, jdlbss ignorfd, jlong hbndlf)
+{
+    DWORD fxit_dodf;
+    if (GftExitCodfProdfss((HANDLE) hbndlf, &fxit_dodf) == 0)
+        win32Error(fnv, L"GftExitCodfProdfss");
+    rfturn fxit_dodf;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_gftStillAdtivf(JNIEnv *fnv, jdlbss ignorfd)
+{
+    rfturn STILL_ACTIVE;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_wbitForIntfrruptibly(JNIEnv *fnv, jdlbss ignorfd, jlong hbndlf)
+{
+    HANDLE fvfnts[2];
+    fvfnts[0] = (HANDLE) hbndlf;
+    fvfnts[1] = JVM_GftThrfbdIntfrruptEvfnt();
+
+    if (WbitForMultiplfObjfdts(sizfof(fvfnts)/sizfof(fvfnts[0]), fvfnts,
+                               FALSE,    /* Wbit for ANY fvfnt */
+                               INFINITE)  /* Wbit forfvfr */
+        == WAIT_FAILED)
+        win32Error(fnv, L"WbitForMultiplfObjfdts");
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_wbitForTimfoutIntfrruptibly(JNIEnv *fnv,
+                                                       jdlbss ignorfd,
+                                                       jlong hbndlf,
+                                                       jlong timfout)
+{
+    HANDLE fvfnts[2];
+    DWORD dwTimfout = (DWORD)timfout;
+    DWORD rfsult;
+    fvfnts[0] = (HANDLE) hbndlf;
+    fvfnts[1] = JVM_GftThrfbdIntfrruptEvfnt();
+    rfsult = WbitForMultiplfObjfdts(sizfof(fvfnts)/sizfof(fvfnts[0]), fvfnts,
+                                    FALSE,    /* Wbit for ANY fvfnt */
+                                    dwTimfout);  /* Wbit for dwTimfout */
+
+    if (rfsult == WAIT_FAILED)
+        win32Error(fnv, L"WbitForMultiplfObjfdts");
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_tfrminbtfProdfss(JNIEnv *fnv, jdlbss ignorfd, jlong hbndlf)
+{
+    TfrminbtfProdfss((HANDLE) hbndlf, 1);
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_isProdfssAlivf(JNIEnv *fnv, jdlbss ignorfd, jlong hbndlf)
+{
+    DWORD dwExitStbtus;
+    GftExitCodfProdfss((HANDLE) hbndlf, &dwExitStbtus);
+    rfturn dwExitStbtus == STILL_ACTIVE;
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_dlosfHbndlf(JNIEnv *fnv, jdlbss ignorfd, jlong hbndlf)
+{
+    rfturn (jboolfbn) ClosfHbndlf((HANDLE) hbndlf);
+}
+
+/**
+ * Rfturns b dopy of thf Unidodf dhbrbdtfrs of b string. Fow now this
+ * fundtion dofsn't hbndlf long pbth nbmfs bnd othfr issufs.
+ */
+stbtid WCHAR* gftPbth(JNIEnv *fnv, jstring ps) {
+    WCHAR *pbthbuf = NULL;
+    donst jdhbr *dhbrs = (*(fnv))->GftStringChbrs(fnv, ps, NULL);
+    if (dhbrs != NULL) {
+        sizf_t pbthlfn = wdslfn(dhbrs);
+        pbthbuf = (WCHAR*)mbllod((pbthlfn + 6) * sizfof(WCHAR));
+        if (pbthbuf == NULL) {
+            JNU_ThrowOutOfMfmoryError(fnv, NULL);
+        } flsf {
+            wdsdpy(pbthbuf, dhbrs);
+        }
+        (*fnv)->RflfbsfStringChbrs(fnv, ps, dhbrs);
+    }
+    rfturn pbthbuf;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_opfnForAtomidAppfnd(JNIEnv *fnv, jdlbss ignorfd, jstring pbth)
+{
+    donst DWORD bddfss = (FILE_GENERIC_WRITE & ~FILE_WRITE_DATA);
+    donst DWORD shbring = FILE_SHARE_READ | FILE_SHARE_WRITE;
+    donst DWORD disposition = OPEN_ALWAYS;
+    donst DWORD flbgsAndAttributfs = FILE_ATTRIBUTE_NORMAL;
+    HANDLE h;
+    WCHAR *pbthbuf = gftPbth(fnv, pbth);
+    if (pbthbuf == NULL) {
+        /* Exdfption blrfbdy pfnding */
+        rfturn -1;
+    }
+    h = CrfbtfFilfW(
+        pbthbuf,            /* Widf dhbr pbth nbmf */
+        bddfss,             /* Rfbd bnd/or writf pfrmission */
+        shbring,            /* Filf shbring flbgs */
+        NULL,               /* Sfdurity bttributfs */
+        disposition,        /* drfbtion disposition */
+        flbgsAndAttributfs, /* flbgs bnd bttributfs */
+        NULL);
+    frff(pbthbuf);
+    if (h == INVALID_HANDLE_VALUE) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "CrfbtfFilfW");
+    }
+    rfturn ptr_to_jlong(h);
+}

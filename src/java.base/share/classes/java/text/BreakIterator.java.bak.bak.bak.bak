@@ -1,0 +1,618 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.tfxt.spi.BrfbkItfrbtorProvidfr;
+import jbvb.util.Lodblf;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
+
+
+/**
+ * Thf <dodf>BrfbkItfrbtor</dodf> dlbss implfmfnts mfthods for finding
+ * thf lodbtion of boundbrifs in tfxt. Instbndfs of <dodf>BrfbkItfrbtor</dodf>
+ * mbintbin b durrfnt position bnd sdbn ovfr tfxt
+ * rfturning thf indfx of dhbrbdtfrs whfrf boundbrifs oddur.
+ * Intfrnblly, <dodf>BrfbkItfrbtor</dodf> sdbns tfxt using b
+ * <dodf>ChbrbdtfrItfrbtor</dodf>, bnd is thus bblf to sdbn tfxt hfld
+ * by bny objfdt implfmfnting thbt protodol. A <dodf>StringChbrbdtfrItfrbtor</dodf>
+ * is usfd to sdbn <dodf>String</dodf> objfdts pbssfd to <dodf>sftTfxt</dodf>.
+ *
+ * <p>
+ * You usf thf fbdtory mfthods providfd by this dlbss to drfbtf
+ * instbndfs of vbrious typfs of brfbk itfrbtors. In pbrtidulbr,
+ * usf <dodf>gftWordInstbndf</dodf>, <dodf>gftLinfInstbndf</dodf>,
+ * <dodf>gftSfntfndfInstbndf</dodf>, bnd <dodf>gftChbrbdtfrInstbndf</dodf>
+ * to drfbtf <dodf>BrfbkItfrbtor</dodf>s thbt pfrform
+ * word, linf, sfntfndf, bnd dhbrbdtfr boundbry bnblysis rfspfdtivfly.
+ * A singlf <dodf>BrfbkItfrbtor</dodf> dbn work only on onf unit
+ * (word, linf, sfntfndf, bnd so on). You must usf b difffrfnt itfrbtor
+ * for fbdh unit boundbry bnblysis you wish to pfrform.
+ *
+ * <p><b nbmf="linf"></b>
+ * Linf boundbry bnblysis dftfrminfs whfrf b tfxt string dbn bf
+ * brokfn whfn linf-wrbpping. Thf mfdhbnism dorrfdtly hbndlfs
+ * pundtubtion bnd hyphfnbtfd words. Adtubl linf brfbking nffds
+ * to blso donsidfr thf bvbilbblf linf width bnd is hbndlfd by
+ * highfr-lfvfl softwbrf.
+ *
+ * <p><b nbmf="sfntfndf"></b>
+ * Sfntfndf boundbry bnblysis bllows sflfdtion with dorrfdt intfrprftbtion
+ * of pfriods within numbfrs bnd bbbrfvibtions, bnd trbiling pundtubtion
+ * mbrks sudh bs quotbtion mbrks bnd pbrfnthfsfs.
+ *
+ * <p><b nbmf="word"></b>
+ * Word boundbry bnblysis is usfd by sfbrdh bnd rfplbdf fundtions, bs
+ * wfll bs within tfxt fditing bpplidbtions thbt bllow thf usfr to
+ * sflfdt words with b doublf dlidk. Word sflfdtion providfs dorrfdt
+ * intfrprftbtion of pundtubtion mbrks within bnd following
+ * words. Chbrbdtfrs thbt brf not pbrt of b word, sudh bs symbols
+ * or pundtubtion mbrks, hbvf word-brfbks on both sidfs.
+ *
+ * <p><b nbmf="dhbrbdtfr"></b>
+ * Chbrbdtfr boundbry bnblysis bllows usfrs to intfrbdt with dhbrbdtfrs
+ * bs thfy fxpfdt to, for fxbmplf, whfn moving thf dursor through b tfxt
+ * string. Chbrbdtfr boundbry bnblysis providfs dorrfdt nbvigbtion
+ * through dhbrbdtfr strings, rfgbrdlfss of how thf dhbrbdtfr is storfd.
+ * Thf boundbrifs rfturnfd mby bf thosf of supplfmfntbry dhbrbdtfrs,
+ * dombining dhbrbdtfr sfqufndfs, or ligbturf dlustfrs.
+ * For fxbmplf, bn bddfntfd dhbrbdtfr might bf storfd bs b bbsf dhbrbdtfr
+ * bnd b dibdritidbl mbrk. Whbt usfrs donsidfr to bf b dhbrbdtfr dbn
+ * difffr bftwffn lbngubgfs.
+ *
+ * <p>
+ * Thf <dodf>BrfbkItfrbtor</dodf> instbndfs rfturnfd by thf fbdtory mfthods
+ * of this dlbss brf intfndfd for usf with nbturbl lbngubgfs only, not for
+ * progrbmming lbngubgf tfxt. It is howfvfr possiblf to dffinf subdlbssfs
+ * thbt tokfnizf b progrbmming lbngubgf.
+ *
+ * <P>
+ * <strong>Exbmplfs</strong>:<P>
+ * Crfbting bnd using tfxt boundbrifs:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void mbin(String brgs[]) {
+ *      if (brgs.lfngth == 1) {
+ *          String stringToExbminf = brgs[0];
+ *          //print fbdh word in ordfr
+ *          BrfbkItfrbtor boundbry = BrfbkItfrbtor.gftWordInstbndf();
+ *          boundbry.sftTfxt(stringToExbminf);
+ *          printEbdhForwbrd(boundbry, stringToExbminf);
+ *          //print fbdh sfntfndf in rfvfrsf ordfr
+ *          boundbry = BrfbkItfrbtor.gftSfntfndfInstbndf(Lodblf.US);
+ *          boundbry.sftTfxt(stringToExbminf);
+ *          printEbdhBbdkwbrd(boundbry, stringToExbminf);
+ *          printFirst(boundbry, stringToExbminf);
+ *          printLbst(boundbry, stringToExbminf);
+ *      }
+ * }
+ * </prf>
+ * </blodkquotf>
+ *
+ * Print fbdh flfmfnt in ordfr:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printEbdhForwbrd(BrfbkItfrbtor boundbry, String sourdf) {
+ *     int stbrt = boundbry.first();
+ *     for (int fnd = boundbry.nfxt();
+ *          fnd != BrfbkItfrbtor.DONE;
+ *          stbrt = fnd, fnd = boundbry.nfxt()) {
+ *          Systfm.out.println(sourdf.substring(stbrt,fnd));
+ *     }
+ * }
+ * </prf>
+ * </blodkquotf>
+ *
+ * Print fbdh flfmfnt in rfvfrsf ordfr:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printEbdhBbdkwbrd(BrfbkItfrbtor boundbry, String sourdf) {
+ *     int fnd = boundbry.lbst();
+ *     for (int stbrt = boundbry.prfvious();
+ *          stbrt != BrfbkItfrbtor.DONE;
+ *          fnd = stbrt, stbrt = boundbry.prfvious()) {
+ *         Systfm.out.println(sourdf.substring(stbrt,fnd));
+ *     }
+ * }
+ * </prf>
+ * </blodkquotf>
+ *
+ * Print first flfmfnt:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printFirst(BrfbkItfrbtor boundbry, String sourdf) {
+ *     int stbrt = boundbry.first();
+ *     int fnd = boundbry.nfxt();
+ *     Systfm.out.println(sourdf.substring(stbrt,fnd));
+ * }
+ * </prf>
+ * </blodkquotf>
+ *
+ * Print lbst flfmfnt:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printLbst(BrfbkItfrbtor boundbry, String sourdf) {
+ *     int fnd = boundbry.lbst();
+ *     int stbrt = boundbry.prfvious();
+ *     Systfm.out.println(sourdf.substring(stbrt,fnd));
+ * }
+ * </prf>
+ * </blodkquotf>
+ *
+ * Print thf flfmfnt bt b spfdififd position:
+ * <blodkquotf>
+ * <prf>
+ * publid stbtid void printAt(BrfbkItfrbtor boundbry, int pos, String sourdf) {
+ *     int fnd = boundbry.following(pos);
+ *     int stbrt = boundbry.prfvious();
+ *     Systfm.out.println(sourdf.substring(stbrt,fnd));
+ * }
+ * </prf>
+ * </blodkquotf>
+ *
+ * Find thf nfxt word:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * publid stbtid int nfxtWordStbrtAftfr(int pos, String tfxt) {
+ *     BrfbkItfrbtor wb = BrfbkItfrbtor.gftWordInstbndf();
+ *     wb.sftTfxt(tfxt);
+ *     int lbst = wb.following(pos);
+ *     int durrfnt = wb.nfxt();
+ *     whilf (durrfnt != BrfbkItfrbtor.DONE) {
+ *         for (int p = lbst; p < durrfnt; p++) {
+ *             if (Chbrbdtfr.isLfttfr(tfxt.dodfPointAt(p)))
+ *                 rfturn lbst;
+ *         }
+ *         lbst = durrfnt;
+ *         durrfnt = wb.nfxt();
+ *     }
+ *     rfturn BrfbkItfrbtor.DONE;
+ * }
+ * }</prf>
+ * (Thf itfrbtor rfturnfd by BrfbkItfrbtor.gftWordInstbndf() is uniquf in thbt
+ * thf brfbk positions it rfturns don't rfprfsfnt both thf stbrt bnd fnd of thf
+ * thing bfing itfrbtfd ovfr.  Thbt is, b sfntfndf-brfbk itfrbtor rfturns brfbks
+ * thbt fbdh rfprfsfnt thf fnd of onf sfntfndf bnd thf bfginning of thf nfxt.
+ * With thf word-brfbk itfrbtor, thf dhbrbdtfrs bftwffn two boundbrifs might bf b
+ * word, or thfy might bf thf pundtubtion or whitfspbdf bftwffn two words.  Thf
+ * bbovf dodf usfs b simplf hfuristid to dftfrminf whidh boundbry is thf bfginning
+ * of b word: If thf dhbrbdtfrs bftwffn this boundbry bnd thf nfxt boundbry
+ * indludf bt lfbst onf lfttfr (this dbn bf bn blphbbftidbl lfttfr, b CJK idfogrbph,
+ * b Hbngul syllbblf, b Kbnb dhbrbdtfr, ftd.), thfn thf tfxt bftwffn this boundbry
+ * bnd thf nfxt is b word; othfrwisf, it's thf mbtfribl bftwffn words.)
+ * </blodkquotf>
+ *
+ * @sff ChbrbdtfrItfrbtor
+ *
+ */
+
+publid bbstrbdt dlbss BrfbkItfrbtor implfmfnts Clonfbblf
+{
+    /**
+     * Construdtor. BrfbkItfrbtor is stbtflfss bnd hbs no dffbult bfhbvior.
+     */
+    protfdtfd BrfbkItfrbtor()
+    {
+    }
+
+    /**
+     * Crfbtf b dopy of this itfrbtor
+     * @rfturn A dopy of this
+     */
+    @Ovfrridf
+    publid Objfdt dlonf()
+    {
+        try {
+            rfturn supfr.dlonf();
+        }
+        dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * DONE is rfturnfd by prfvious(), nfxt(), nfxt(int), prfdfding(int)
+     * bnd following(int) whfn fithfr thf first or lbst tfxt boundbry hbs bffn
+     * rfbdhfd.
+     */
+    publid stbtid finbl int DONE = -1;
+
+    /**
+     * Rfturns thf first boundbry. Thf itfrbtor's durrfnt position is sft
+     * to thf first tfxt boundbry.
+     * @rfturn Thf dhbrbdtfr indfx of thf first tfxt boundbry.
+     */
+    publid bbstrbdt int first();
+
+    /**
+     * Rfturns thf lbst boundbry. Thf itfrbtor's durrfnt position is sft
+     * to thf lbst tfxt boundbry.
+     * @rfturn Thf dhbrbdtfr indfx of thf lbst tfxt boundbry.
+     */
+    publid bbstrbdt int lbst();
+
+    /**
+     * Rfturns thf nth boundbry from thf durrfnt boundbry. If fithfr
+     * thf first or lbst tfxt boundbry hbs bffn rfbdhfd, it rfturns
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bnd thf durrfnt position is sft to fithfr
+     * thf first or lbst tfxt boundbry dfpfnding on whidh onf is rfbdhfd. Othfrwisf,
+     * thf itfrbtor's durrfnt position is sft to thf nfw boundbry.
+     * For fxbmplf, if thf itfrbtor's durrfnt position is thf mth tfxt boundbry
+     * bnd thrff morf boundbrifs fxist from thf durrfnt boundbry to thf lbst tfxt
+     * boundbry, thf nfxt(2) dbll will rfturn m + 2. Thf nfw tfxt position is sft
+     * to thf (m + 2)th tfxt boundbry. A nfxt(4) dbll would rfturn
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bnd thf lbst tfxt boundbry would bfdomf thf
+     * nfw tfxt position.
+     * @pbrbm n whidh boundbry to rfturn.  A vbluf of 0
+     * dofs nothing.  Nfgbtivf vblufs movf to prfvious boundbrifs
+     * bnd positivf vblufs movf to lbtfr boundbrifs.
+     * @rfturn Thf dhbrbdtfr indfx of thf nth boundbry from thf durrfnt position
+     * or <dodf>BrfbkItfrbtor.DONE</dodf> if fithfr first or lbst tfxt boundbry
+     * hbs bffn rfbdhfd.
+     */
+    publid bbstrbdt int nfxt(int n);
+
+    /**
+     * Rfturns thf boundbry following thf durrfnt boundbry. If thf durrfnt boundbry
+     * is thf lbst tfxt boundbry, it rfturns <dodf>BrfbkItfrbtor.DONE</dodf> bnd
+     * thf itfrbtor's durrfnt position is undhbngfd. Othfrwisf, thf itfrbtor's
+     * durrfnt position is sft to thf boundbry following thf durrfnt boundbry.
+     * @rfturn Thf dhbrbdtfr indfx of thf nfxt tfxt boundbry or
+     * <dodf>BrfbkItfrbtor.DONE</dodf> if thf durrfnt boundbry is thf lbst tfxt
+     * boundbry.
+     * Equivblfnt to nfxt(1).
+     * @sff #nfxt(int)
+     */
+    publid bbstrbdt int nfxt();
+
+    /**
+     * Rfturns thf boundbry prfdfding thf durrfnt boundbry. If thf durrfnt boundbry
+     * is thf first tfxt boundbry, it rfturns <dodf>BrfbkItfrbtor.DONE</dodf> bnd
+     * thf itfrbtor's durrfnt position is undhbngfd. Othfrwisf, thf itfrbtor's
+     * durrfnt position is sft to thf boundbry prfdfding thf durrfnt boundbry.
+     * @rfturn Thf dhbrbdtfr indfx of thf prfvious tfxt boundbry or
+     * <dodf>BrfbkItfrbtor.DONE</dodf> if thf durrfnt boundbry is thf first tfxt
+     * boundbry.
+     */
+    publid bbstrbdt int prfvious();
+
+    /**
+     * Rfturns thf first boundbry following thf spfdififd dhbrbdtfr offsft. If thf
+     * spfdififd offsft fqubls to thf lbst tfxt boundbry, it rfturns
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bnd thf itfrbtor's durrfnt position is undhbngfd.
+     * Othfrwisf, thf itfrbtor's durrfnt position is sft to thf rfturnfd boundbry.
+     * Thf vbluf rfturnfd is blwbys grfbtfr thbn thf offsft or thf vbluf
+     * <dodf>BrfbkItfrbtor.DONE</dodf>.
+     * @pbrbm offsft thf dhbrbdtfr offsft to bfgin sdbnning.
+     * @rfturn Thf first boundbry bftfr thf spfdififd offsft or
+     * <dodf>BrfbkItfrbtor.DONE</dodf> if thf lbst tfxt boundbry is pbssfd in
+     * bs thf offsft.
+     * @fxdfption  IllfgblArgumfntExdfption if thf spfdififd offsft is lfss thbn
+     * thf first tfxt boundbry or grfbtfr thbn thf lbst tfxt boundbry.
+     */
+    publid bbstrbdt int following(int offsft);
+
+    /**
+     * Rfturns thf lbst boundbry prfdfding thf spfdififd dhbrbdtfr offsft. If thf
+     * spfdififd offsft fqubls to thf first tfxt boundbry, it rfturns
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bnd thf itfrbtor's durrfnt position is undhbngfd.
+     * Othfrwisf, thf itfrbtor's durrfnt position is sft to thf rfturnfd boundbry.
+     * Thf vbluf rfturnfd is blwbys lfss thbn thf offsft or thf vbluf
+     * <dodf>BrfbkItfrbtor.DONE</dodf>.
+     * @pbrbm offsft thf dhbrbdtfr offsft to bfgin sdbnning.
+     * @rfturn Thf lbst boundbry bfforf thf spfdififd offsft or
+     * <dodf>BrfbkItfrbtor.DONE</dodf> if thf first tfxt boundbry is pbssfd in
+     * bs thf offsft.
+     * @fxdfption   IllfgblArgumfntExdfption if thf spfdififd offsft is lfss thbn
+     * thf first tfxt boundbry or grfbtfr thbn thf lbst tfxt boundbry.
+     * @sindf 1.2
+     */
+    publid int prfdfding(int offsft) {
+        // NOTE:  This implfmfntbtion is hfrf solfly bfdbusf wf dbn't bdd nfw
+        // bbstrbdt mfthods to bn fxisting dlbss.  Thfrf is blmost ALWAYS b
+        // bfttfr, fbstfr wby to do this.
+        int pos = following(offsft);
+        whilf (pos >= offsft && pos != DONE) {
+            pos = prfvious();
+        }
+        rfturn pos;
+    }
+
+    /**
+     * Rfturns truf if thf spfdififd dhbrbdtfr offsft is b tfxt boundbry.
+     * @pbrbm offsft thf dhbrbdtfr offsft to dhfdk.
+     * @rfturn <dodf>truf</dodf> if "offsft" is b boundbry position,
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @fxdfption   IllfgblArgumfntExdfption if thf spfdififd offsft is lfss thbn
+     * thf first tfxt boundbry or grfbtfr thbn thf lbst tfxt boundbry.
+     * @sindf 1.2
+     */
+    publid boolfbn isBoundbry(int offsft) {
+        // NOTE: This implfmfntbtion probbbly is wrong for most situbtions
+        // bfdbusf it fbils to tbkf into bddount thf possibility thbt b
+        // ChbrbdtfrItfrbtor pbssfd to sftTfxt() mby not hbvf b bfgin offsft
+        // of 0.  But sindf thf bbstrbdt BrfbkItfrbtor dofsn't hbvf thbt
+        // knowlfdgf, it bssumfs thf bfgin offsft is 0.  If you subdlbss
+        // BrfbkItfrbtor, dopy thf SimplfTfxtBoundbry implfmfntbtion of this
+        // fundtion into your subdlbss.  [This should hbvf bffn bbstrbdt bt
+        // this lfvfl, but it's too lbtf to fix thbt now.]
+        if (offsft == 0) {
+            rfturn truf;
+        }
+        int boundbry = following(offsft - 1);
+        if (boundbry == DONE) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        rfturn boundbry == offsft;
+    }
+
+    /**
+     * Rfturns dhbrbdtfr indfx of thf tfxt boundbry thbt wbs most
+     * rfdfntly rfturnfd by nfxt(), nfxt(int), prfvious(), first(), lbst(),
+     * following(int) or prfdfding(int). If bny of thfsf mfthods rfturns
+     * <dodf>BrfbkItfrbtor.DONE</dodf> bfdbusf fithfr first or lbst tfxt boundbry
+     * hbs bffn rfbdhfd, it rfturns thf first or lbst tfxt boundbry dfpfnding on
+     * whidh onf is rfbdhfd.
+     * @rfturn Thf tfxt boundbry rfturnfd from thf bbovf mfthods, first or lbst
+     * tfxt boundbry.
+     * @sff #nfxt()
+     * @sff #nfxt(int)
+     * @sff #prfvious()
+     * @sff #first()
+     * @sff #lbst()
+     * @sff #following(int)
+     * @sff #prfdfding(int)
+     */
+    publid bbstrbdt int durrfnt();
+
+    /**
+     * Gft thf tfxt bfing sdbnnfd
+     * @rfturn thf tfxt bfing sdbnnfd
+     */
+    publid bbstrbdt ChbrbdtfrItfrbtor gftTfxt();
+
+    /**
+     * Sft b nfw tfxt string to bf sdbnnfd.  Thf durrfnt sdbn
+     * position is rfsft to first().
+     * @pbrbm nfwTfxt nfw tfxt to sdbn.
+     */
+    publid void sftTfxt(String nfwTfxt)
+    {
+        sftTfxt(nfw StringChbrbdtfrItfrbtor(nfwTfxt));
+    }
+
+    /**
+     * Sft b nfw tfxt for sdbnning.  Thf durrfnt sdbn
+     * position is rfsft to first().
+     * @pbrbm nfwTfxt nfw tfxt to sdbn.
+     */
+    publid bbstrbdt void sftTfxt(ChbrbdtfrItfrbtor nfwTfxt);
+
+    privbtf stbtid finbl int CHARACTER_INDEX = 0;
+    privbtf stbtid finbl int WORD_INDEX = 1;
+    privbtf stbtid finbl int LINE_INDEX = 2;
+    privbtf stbtid finbl int SENTENCE_INDEX = 3;
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid finbl SoftRfffrfndf<BrfbkItfrbtorCbdhf>[] itfrCbdhf = (SoftRfffrfndf<BrfbkItfrbtorCbdhf>[]) nfw SoftRfffrfndf<?>[4];
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="BrfbkItfrbtor.html#word">word brfbks</b>
+     * for thf {@linkplbin Lodblf#gftDffbult() dffbult lodblf}.
+     * @rfturn A brfbk itfrbtor for word brfbks
+     */
+    publid stbtid BrfbkItfrbtor gftWordInstbndf()
+    {
+        rfturn gftWordInstbndf(Lodblf.gftDffbult());
+    }
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="BrfbkItfrbtor.html#word">word brfbks</b>
+     * for thf givfn lodblf.
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for word brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     */
+    publid stbtid BrfbkItfrbtor gftWordInstbndf(Lodblf lodblf)
+    {
+        rfturn gftBrfbkInstbndf(lodblf, WORD_INDEX);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="BrfbkItfrbtor.html#linf">linf brfbks</b>
+     * for thf {@linkplbin Lodblf#gftDffbult() dffbult lodblf}.
+     * @rfturn A brfbk itfrbtor for linf brfbks
+     */
+    publid stbtid BrfbkItfrbtor gftLinfInstbndf()
+    {
+        rfturn gftLinfInstbndf(Lodblf.gftDffbult());
+    }
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="BrfbkItfrbtor.html#linf">linf brfbks</b>
+     * for thf givfn lodblf.
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for linf brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     */
+    publid stbtid BrfbkItfrbtor gftLinfInstbndf(Lodblf lodblf)
+    {
+        rfturn gftBrfbkInstbndf(lodblf, LINE_INDEX);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="BrfbkItfrbtor.html#dhbrbdtfr">dhbrbdtfr brfbks</b>
+     * for thf {@linkplbin Lodblf#gftDffbult() dffbult lodblf}.
+     * @rfturn A brfbk itfrbtor for dhbrbdtfr brfbks
+     */
+    publid stbtid BrfbkItfrbtor gftChbrbdtfrInstbndf()
+    {
+        rfturn gftChbrbdtfrInstbndf(Lodblf.gftDffbult());
+    }
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="BrfbkItfrbtor.html#dhbrbdtfr">dhbrbdtfr brfbks</b>
+     * for thf givfn lodblf.
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for dhbrbdtfr brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     */
+    publid stbtid BrfbkItfrbtor gftChbrbdtfrInstbndf(Lodblf lodblf)
+    {
+        rfturn gftBrfbkInstbndf(lodblf, CHARACTER_INDEX);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="BrfbkItfrbtor.html#sfntfndf">sfntfndf brfbks</b>
+     * for thf {@linkplbin Lodblf#gftDffbult() dffbult lodblf}.
+     * @rfturn A brfbk itfrbtor for sfntfndf brfbks
+     */
+    publid stbtid BrfbkItfrbtor gftSfntfndfInstbndf()
+    {
+        rfturn gftSfntfndfInstbndf(Lodblf.gftDffbult());
+    }
+
+    /**
+     * Rfturns b nfw <dodf>BrfbkItfrbtor</dodf> instbndf
+     * for <b hrff="BrfbkItfrbtor.html#sfntfndf">sfntfndf brfbks</b>
+     * for thf givfn lodblf.
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @rfturn A brfbk itfrbtor for sfntfndf brfbks
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     */
+    publid stbtid BrfbkItfrbtor gftSfntfndfInstbndf(Lodblf lodblf)
+    {
+        rfturn gftBrfbkInstbndf(lodblf, SENTENCE_INDEX);
+    }
+
+    privbtf stbtid BrfbkItfrbtor gftBrfbkInstbndf(Lodblf lodblf, int typf) {
+        if (itfrCbdhf[typf] != null) {
+            BrfbkItfrbtorCbdhf dbdhf = itfrCbdhf[typf].gft();
+            if (dbdhf != null) {
+                if (dbdhf.gftLodblf().fqubls(lodblf)) {
+                    rfturn dbdhf.drfbtfBrfbkInstbndf();
+                }
+            }
+        }
+
+        BrfbkItfrbtor rfsult = drfbtfBrfbkInstbndf(lodblf, typf);
+        BrfbkItfrbtorCbdhf dbdhf = nfw BrfbkItfrbtorCbdhf(lodblf, rfsult);
+        itfrCbdhf[typf] = nfw SoftRfffrfndf<>(dbdhf);
+        rfturn rfsult;
+    }
+
+    privbtf stbtid BrfbkItfrbtor drfbtfBrfbkInstbndf(Lodblf lodblf,
+                                                     int typf) {
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(BrfbkItfrbtorProvidfr.dlbss, lodblf);
+        BrfbkItfrbtor itfrbtor = drfbtfBrfbkInstbndf(bdbptfr, lodblf, typf);
+        if (itfrbtor == null) {
+            itfrbtor = drfbtfBrfbkInstbndf(LodblfProvidfrAdbptfr.forJRE(), lodblf, typf);
+        }
+        rfturn itfrbtor;
+    }
+
+    privbtf stbtid BrfbkItfrbtor drfbtfBrfbkInstbndf(LodblfProvidfrAdbptfr bdbptfr, Lodblf lodblf, int typf) {
+        BrfbkItfrbtorProvidfr brfbkItfrbtorProvidfr = bdbptfr.gftBrfbkItfrbtorProvidfr();
+        BrfbkItfrbtor itfrbtor = null;
+        switdh (typf) {
+        dbsf CHARACTER_INDEX:
+            itfrbtor = brfbkItfrbtorProvidfr.gftChbrbdtfrInstbndf(lodblf);
+            brfbk;
+        dbsf WORD_INDEX:
+            itfrbtor = brfbkItfrbtorProvidfr.gftWordInstbndf(lodblf);
+            brfbk;
+        dbsf LINE_INDEX:
+            itfrbtor = brfbkItfrbtorProvidfr.gftLinfInstbndf(lodblf);
+            brfbk;
+        dbsf SENTENCE_INDEX:
+            itfrbtor = brfbkItfrbtorProvidfr.gftSfntfndfInstbndf(lodblf);
+            brfbk;
+        }
+        rfturn itfrbtor;
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh thf
+     * <dodf>gft*Instbndf</dodf> mfthods of this dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Thf rfturnfd brrby rfprfsfnts thf union of lodblfs supportfd by thf Jbvb
+     * runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.BrfbkItfrbtorProvidfr BrfbkItfrbtorProvidfr} implfmfntbtions.
+     * It must dontbin bt lfbst b <dodf>Lodblf</dodf>
+     * instbndf fqubl to {@link jbvb.util.Lodblf#US Lodblf.US}.
+     *
+     * @rfturn An brrby of lodblfs for whidh lodblizfd
+     *         <dodf>BrfbkItfrbtor</dodf> instbndfs brf bvbilbblf.
+     */
+    publid stbtid syndhronizfd Lodblf[] gftAvbilbblfLodblfs()
+    {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(BrfbkItfrbtorProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
+    }
+
+    privbtf stbtid finbl dlbss BrfbkItfrbtorCbdhf {
+
+        privbtf BrfbkItfrbtor itfr;
+        privbtf Lodblf lodblf;
+
+        BrfbkItfrbtorCbdhf(Lodblf lodblf, BrfbkItfrbtor itfr) {
+            this.lodblf = lodblf;
+            this.itfr = (BrfbkItfrbtor) itfr.dlonf();
+        }
+
+        Lodblf gftLodblf() {
+            rfturn lodblf;
+        }
+
+        BrfbkItfrbtor drfbtfBrfbkInstbndf() {
+            rfturn (BrfbkItfrbtor) itfr.dlonf();
+        }
+    }
+}

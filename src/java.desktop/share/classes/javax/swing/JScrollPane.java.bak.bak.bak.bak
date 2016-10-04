@@ -1,0 +1,1564 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.ComponfntOrifntbtion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Point;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
+
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.Trbnsifnt;
+
+/**
+ * Providfs b sdrollbblf vifw of b lightwfight domponfnt.
+ * A <dodf>JSdrollPbnf</dodf> mbnbgfs b vifwport, optionbl
+ * vfrtidbl bnd horizontbl sdroll bbrs, bnd optionbl row bnd
+ * dolumn hfbding vifwports.
+ * You dbn find tbsk-orifntfd dodumfntbtion of <dodf>JSdrollPbnf</dodf> in
+ *  <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/sdrollpbnf.html">How to Usf Sdroll Pbnfs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.  Notf thbt
+ * <dodf>JSdrollPbnf</dodf> dofs not support hfbvywfight domponfnts.
+ *
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
+ *    <TR>
+ *    <TD ALIGN="CENTER">
+ *      <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/JSdrollPbnf-1.gif"
+ *      blt="Thf following tfxt dfsdribfs this imbgf."
+ *      WIDTH="256" HEIGHT="248" STYLE="FLOAT:BOTTOM; BORDER:0px">
+ *    </TD>
+ *    </TR>
+ * </TABLE>
+ * Thf <dodf>JVifwport</dodf> providfs b window,
+ * or &quot;vifwport&quot; onto b dbtb
+ * sourdf -- for fxbmplf, b tfxt filf. Thbt dbtb sourdf is thf
+ * &quot;sdrollbblf dlifnt&quot; (bkb dbtb modfl) displbyfd by thf
+ * <dodf>JVifwport</dodf> vifw.
+ * A <dodf>JSdrollPbnf</dodf> bbsidblly donsists of <dodf>JSdrollBbr</dodf>s,
+ * b <dodf>JVifwport</dodf>, bnd thf wiring bftwffn thfm,
+ * bs shown in thf dibgrbm bt right.
+ * <p>
+ * In bddition to thf sdroll bbrs bnd vifwport,
+ * b <dodf>JSdrollPbnf</dodf> dbn hbvf b
+ * dolumn hfbdfr bnd b row hfbdfr. Ebdh of thfsf is b
+ * <dodf>JVifwport</dodf> objfdt thbt
+ * you spfdify with <dodf>sftRowHfbdfrVifw</dodf>,
+ * bnd <dodf>sftColumnHfbdfrVifw</dodf>.
+ * Thf dolumn hfbdfr vifwport butombtidblly sdrolls lfft bnd right, trbdking
+ * thf lfft-right sdrolling of thf mbin vifwport.
+ * (It nfvfr sdrolls vfrtidblly, howfvfr.)
+ * Thf row hfbdfr bdts in b similbr fbshion.
+ * <p>
+ * Whfrf two sdroll bbrs mfft, thf row hfbdfr mffts thf dolumn hfbdfr,
+ * or b sdroll bbr mffts onf of thf hfbdfrs, both domponfnts stop short
+ * of thf dornfr, lfbving b rfdtbngulbr spbdf whidh is, by dffbult, fmpty.
+ * Thfsf spbdfs dbn potfntiblly fxist in bny numbfr of thf four dornfrs.
+ * In thf prfvious dibgrbm, thf top right spbdf is prfsfnt bnd idfntififd
+ * by thf lbbfl "dornfr domponfnt".
+ * <p>
+ * Any numbfr of thfsf fmpty spbdfs dbn bf rfplbdfd by using thf
+ * <dodf>sftCornfr</dodf> mfthod to bdd b domponfnt to b pbrtidulbr dornfr.
+ * (Notf: Thf sbmf domponfnt dbnnot bf bddfd to multiplf dornfrs.)
+ * This is usfful if thfrf's
+ * somf fxtrb dfdorbtion or fundtion you'd likf to bdd to thf sdroll pbnf.
+ * Thf sizf of fbdh dornfr domponfnt is fntirfly dftfrminfd by thf sizf of thf
+ * hfbdfrs bnd/or sdroll bbrs thbt surround it.
+ * <p>
+ * A dornfr domponfnt will only bf visiblf if thfrf is bn fmpty spbdf in thbt
+ * dornfr for it to fxist in. For fxbmplf, donsidfr b domponfnt sft into thf
+ * top right dornfr of b sdroll pbnf with b dolumn hfbdfr. If thf sdroll pbnf's
+ * vfrtidbl sdrollbbr is not prfsfnt, pfrhbps bfdbusf thf vifw domponfnt hbsn't
+ * grown lbrgf fnough to rfquirf it, thfn thf dornfr domponfnt will not bf
+ * shown (sindf thfrf is no fmpty spbdf in thbt dornfr drfbtfd by thf mffting
+ * of thf hfbdfr bnd vfrtidbl sdroll bbr). Fording thf sdroll bbr to blwbys bf
+ * shown, using
+ * <dodf>sftVfrtidblSdrollBbrPolidy(VERTICAL_SCROLLBAR_ALWAYS)</dodf>,
+ * will fnsurf thbt thf spbdf for thf dornfr domponfnt blwbys fxists.
+ * <p>
+ * To bdd b bordfr bround thf mbin vifwport,
+ * you dbn usf <dodf>sftVifwportBordfr</dodf>.
+ * (Of doursf, you dbn blso bdd b bordfr bround thf wholf sdroll pbnf using
+ * <dodf>sftBordfr</dodf>.)
+ * <p>
+ * A dommon opfrbtion to wbnt to do is to sft thf bbdkground dolor thbt will
+ * bf usfd if thf mbin vifwport vifw is smbllfr thbn thf vifwport, or is
+ * not opbquf. This dbn bf bddomplishfd by sftting thf bbdkground dolor
+ * of thf vifwport, vib <dodf>sdrollPbnf.gftVifwport().sftBbdkground()</dodf>.
+ * Thf rfbson for sftting thf dolor of thf vifwport bnd not thf sdrollpbnf
+ * is thbt by dffbult <dodf>JVifwport</dodf> is opbquf
+ * whidh, bmong othfr things, mfbns it will domplftfly fill
+ * in its bbdkground using its bbdkground dolor.  Thfrfforf whfn
+ * <dodf>JSdrollPbnf</dodf> drbws its bbdkground thf vifwport will
+ * usublly drbw ovfr it.
+ * <p>
+ * By dffbult <dodf>JSdrollPbnf</dodf> usfs <dodf>SdrollPbnfLbyout</dodf>
+ * to hbndlf thf lbyout of its dhild Componfnts. <dodf>SdrollPbnfLbyout</dodf>
+ * dftfrminfs thf sizf to mbkf thf vifwport vifw in onf of two wbys:
+ * <ol>
+ *   <li>If thf vifw implfmfnts <dodf>Sdrollbblf</dodf>
+ *       b dombinbtion of <dodf>gftPrfffrrfdSdrollbblfVifwportSizf</dodf>,
+ *       <dodf>gftSdrollbblfTrbdksVifwportWidth</dodf> bnd
+ *       <dodf>gftSdrollbblfTrbdksVifwportHfight</dodf>is usfd, othfrwisf
+ *   <li><dodf>gftPrfffrrfdSizf</dodf> is usfd.
+ * </ol>
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff JSdrollBbr
+ * @sff JVifwport
+ * @sff SdrollPbnfLbyout
+ * @sff Sdrollbblf
+ * @sff Componfnt#gftPrfffrrfdSizf
+ * @sff #sftVifwportVifw
+ * @sff #sftRowHfbdfrVifw
+ * @sff #sftColumnHfbdfrVifw
+ * @sff #sftCornfr
+ * @sff #sftVifwportBordfr
+ *
+ * @bfbninfo
+ *     bttributf: isContbinfr truf
+ *     bttributf: dontbinfrDflfgbtf gftVifwport
+ *   dfsdription: A spfdiblizfd dontbinfr thbt mbnbgfs b vifwport, optionbl sdrollbbrs bnd hfbdfrs
+ *
+ * @buthor Hbns Mullfr
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JSdrollPbnf fxtfnds JComponfnt implfmfnts SdrollPbnfConstbnts, Addfssiblf
+{
+    privbtf Bordfr vifwportBordfr;
+
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "SdrollPbnfUI";
+
+    /**
+     * Thf displby polidy for thf vfrtidbl sdrollbbr.
+     * Thf dffbult is
+     * <dodf>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED</dodf>.
+     * @sff #sftVfrtidblSdrollBbrPolidy
+     */
+    protfdtfd int vfrtidblSdrollBbrPolidy = VERTICAL_SCROLLBAR_AS_NEEDED;
+
+
+    /**
+     * Thf displby polidy for thf horizontbl sdrollbbr.
+     * Thf dffbult is
+     * <dodf>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED</dodf>.
+     * @sff #sftHorizontblSdrollBbrPolidy
+     */
+    protfdtfd int horizontblSdrollBbrPolidy = HORIZONTAL_SCROLLBAR_AS_NEEDED;
+
+
+    /**
+     * Thf sdrollpbnf's vifwport dhild.  Dffbult is bn fmpty
+     * <dodf>JVifwport</dodf>.
+     * @sff #sftVifwport
+     */
+    protfdtfd JVifwport vifwport;
+
+
+    /**
+     * Thf sdrollpbnf's vfrtidbl sdrollbbr dhild.
+     * Dffbult is b <dodf>JSdrollBbr</dodf>.
+     * @sff #sftVfrtidblSdrollBbr
+     */
+    protfdtfd JSdrollBbr vfrtidblSdrollBbr;
+
+
+    /**
+     * Thf sdrollpbnf's horizontbl sdrollbbr dhild.
+     * Dffbult is b <dodf>JSdrollBbr</dodf>.
+     * @sff #sftHorizontblSdrollBbr
+     */
+    protfdtfd JSdrollBbr horizontblSdrollBbr;
+
+
+    /**
+     * Thf row hfbdfr dhild.  Dffbult is <dodf>null</dodf>.
+     * @sff #sftRowHfbdfr
+     */
+    protfdtfd JVifwport rowHfbdfr;
+
+
+    /**
+     * Thf dolumn hfbdfr dhild.  Dffbult is <dodf>null</dodf>.
+     * @sff #sftColumnHfbdfr
+     */
+    protfdtfd JVifwport dolumnHfbdfr;
+
+
+    /**
+     * Thf domponfnt to displby in thf lowfr lfft dornfr.
+     * Dffbult is <dodf>null</dodf>.
+     * @sff #sftCornfr
+     */
+    protfdtfd Componfnt lowfrLfft;
+
+
+    /**
+     * Thf domponfnt to displby in thf lowfr right dornfr.
+     * Dffbult is <dodf>null</dodf>.
+     * @sff #sftCornfr
+     */
+    protfdtfd Componfnt lowfrRight;
+
+
+    /**
+     * Thf domponfnt to displby in thf uppfr lfft dornfr.
+     * Dffbult is <dodf>null</dodf>.
+     * @sff #sftCornfr
+     */
+    protfdtfd Componfnt uppfrLfft;
+
+
+    /**
+     * Thf domponfnt to displby in thf uppfr right dornfr.
+     * Dffbult is <dodf>null</dodf>.
+     * @sff #sftCornfr
+     */
+    protfdtfd Componfnt uppfrRight;
+
+    /*
+     * Stbtf flbg for mousf whffl sdrolling
+     */
+    privbtf boolfbn whfflSdrollStbtf = truf;
+
+    /**
+     * Crfbtfs b <dodf>JSdrollPbnf</dodf> thbt displbys thf vifw
+     * domponfnt in b vifwport
+     * whosf vifw position dbn bf dontrollfd with b pbir of sdrollbbrs.
+     * Thf sdrollbbr polidifs spfdify whfn thf sdrollbbrs brf displbyfd,
+     * For fxbmplf, if <dodf>vsbPolidy</dodf> is
+     * <dodf>VERTICAL_SCROLLBAR_AS_NEEDED</dodf>
+     * thfn thf vfrtidbl sdrollbbr only bppfbrs if thf vifw dofsn't fit
+     * vfrtidblly. Thf bvbilbblf polidy sfttings brf listfd bt
+     * {@link #sftVfrtidblSdrollBbrPolidy} bnd
+     * {@link #sftHorizontblSdrollBbrPolidy}.
+     *
+     * @sff #sftVifwportVifw
+     *
+     * @pbrbm vifw thf domponfnt to displby in thf sdrollpbnfs vifwport
+     * @pbrbm vsbPolidy bn intfgfr thbt spfdififs thf vfrtidbl
+     *          sdrollbbr polidy
+     * @pbrbm hsbPolidy bn intfgfr thbt spfdififs thf horizontbl
+     *          sdrollbbr polidy
+     */
+    publid JSdrollPbnf(Componfnt vifw, int vsbPolidy, int hsbPolidy)
+    {
+        sftLbyout(nfw SdrollPbnfLbyout.UIRfsourdf());
+        sftVfrtidblSdrollBbrPolidy(vsbPolidy);
+        sftHorizontblSdrollBbrPolidy(hsbPolidy);
+        sftVifwport(drfbtfVifwport());
+        sftVfrtidblSdrollBbr(drfbtfVfrtidblSdrollBbr());
+        sftHorizontblSdrollBbr(drfbtfHorizontblSdrollBbr());
+        if (vifw != null) {
+            sftVifwportVifw(vifw);
+        }
+        sftUIPropfrty("opbquf",truf);
+        updbtfUI();
+
+        if (!this.gftComponfntOrifntbtion().isLfftToRight()) {
+            vifwport.sftVifwPosition(nfw Point(Intfgfr.MAX_VALUE, 0));
+        }
+    }
+
+
+    /**
+     * Crfbtfs b <dodf>JSdrollPbnf</dodf> thbt displbys thf
+     * dontfnts of thf spfdififd
+     * domponfnt, whfrf both horizontbl bnd vfrtidbl sdrollbbrs bppfbr
+     * whfnfvfr thf domponfnt's dontfnts brf lbrgfr thbn thf vifw.
+     *
+     * @sff #sftVifwportVifw
+     * @pbrbm vifw thf domponfnt to displby in thf sdrollpbnf's vifwport
+     */
+    publid JSdrollPbnf(Componfnt vifw) {
+        this(vifw, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    }
+
+
+    /**
+     * Crfbtfs bn fmpty (no vifwport vifw) <dodf>JSdrollPbnf</dodf>
+     * with spfdififd
+     * sdrollbbr polidifs. Thf bvbilbblf polidy sfttings brf listfd bt
+     * {@link #sftVfrtidblSdrollBbrPolidy} bnd
+     * {@link #sftHorizontblSdrollBbrPolidy}.
+     *
+     * @sff #sftVifwportVifw
+     *
+     * @pbrbm vsbPolidy bn intfgfr thbt spfdififs thf vfrtidbl
+     *          sdrollbbr polidy
+     * @pbrbm hsbPolidy bn intfgfr thbt spfdififs thf horizontbl
+     *          sdrollbbr polidy
+     */
+    publid JSdrollPbnf(int vsbPolidy, int hsbPolidy) {
+        this(null, vsbPolidy, hsbPolidy);
+    }
+
+
+    /**
+     * Crfbtfs bn fmpty (no vifwport vifw) <dodf>JSdrollPbnf</dodf>
+     * whfrf both horizontbl bnd vfrtidbl sdrollbbrs bppfbr whfn nffdfd.
+     */
+    publid JSdrollPbnf() {
+        this(null, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    }
+
+
+    /**
+     * Rfturns thf look bnd fffl (L&bmp;F) objfdt thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf <dodf>SdrollPbnfUI</dodf> objfdt thbt rfndfrs this
+     *                          domponfnt
+     * @sff #sftUI
+     * @bfbninfo
+     *        bound: truf
+     *       hiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf UI objfdt thbt implfmfnts thf Componfnt's LookAndFffl.
+     */
+    publid SdrollPbnfUI gftUI() {
+        rfturn (SdrollPbnfUI)ui;
+    }
+
+
+    /**
+     * Sfts thf <dodf>SdrollPbnfUI</dodf> objfdt thbt providfs thf
+     * look bnd fffl (L&bmp;F) for this domponfnt.
+     *
+     * @pbrbm ui thf <dodf>SdrollPbnfUI</dodf> L&bmp;F objfdt
+     * @sff #gftUI
+     */
+    publid void sftUI(SdrollPbnfUI ui) {
+        supfr.sftUI(ui);
+    }
+
+
+    /**
+     * Rfplbdfs thf durrfnt <dodf>SdrollPbnfUI</dodf> objfdt with b vfrsion
+     * from thf durrfnt dffbult look bnd fffl.
+     * To bf dbllfd whfn thf dffbult look bnd fffl dhbngfs.
+     *
+     * @sff JComponfnt#updbtfUI
+     * @sff UIMbnbgfr#gftUI
+     */
+    publid void updbtfUI() {
+        sftUI((SdrollPbnfUI)UIMbnbgfr.gftUI(this));
+    }
+
+
+    /**
+     * Rfturns thf suffix usfd to donstrudt thf nbmf of thf L&bmp;F dlbss usfd to
+     * rfndfr this domponfnt.
+     *
+     * @rfturn thf string "SdrollPbnfUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     *
+     * @bfbninfo
+     *    hiddfn: truf
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+
+    /**
+     * Sfts thf lbyout mbnbgfr for this <dodf>JSdrollPbnf</dodf>.
+     * This mfthod ovfrridfs <dodf>sftLbyout</dodf> in
+     * <dodf>jbvb.bwt.Contbinfr</dodf> to fnsurf thbt only
+     * <dodf>LbyoutMbnbgfr</dodf>s whidh
+     * brf subdlbssfs of <dodf>SdrollPbnfLbyout</dodf> dbn bf usfd in b
+     * <dodf>JSdrollPbnf</dodf>. If <dodf>lbyout</dodf> is non-null, this
+     * will invokf <dodf>syndWithSdrollPbnf</dodf> on it.
+     *
+     * @pbrbm lbyout thf spfdififd lbyout mbnbgfr
+     * @fxdfption ClbssCbstExdfption if lbyout is not b
+     *                  <dodf>SdrollPbnfLbyout</dodf>
+     * @sff jbvb.bwt.Contbinfr#gftLbyout
+     * @sff jbvb.bwt.Contbinfr#sftLbyout
+     *
+     * @bfbninfo
+     *    hiddfn: truf
+     */
+    publid void sftLbyout(LbyoutMbnbgfr lbyout) {
+        if (lbyout instbndfof SdrollPbnfLbyout) {
+            supfr.sftLbyout(lbyout);
+            ((SdrollPbnfLbyout)lbyout).syndWithSdrollPbnf(this);
+        }
+        flsf if (lbyout == null) {
+            supfr.sftLbyout(lbyout);
+        }
+        flsf {
+            String s = "lbyout of JSdrollPbnf must bf b SdrollPbnfLbyout";
+            throw nfw ClbssCbstExdfption(s);
+        }
+    }
+
+    /**
+     * Ovfrriddfn to rfturn truf so thbt bny dblls to <dodf>rfvblidbtf</dodf>
+     * on bny dfsdfndbnts of this <dodf>JSdrollPbnf</dodf> will dbusf thf
+     * fntirf trff bfginning with this <dodf>JSdrollPbnf</dodf> to bf
+     * vblidbtfd.
+     *
+     * @rfturn truf
+     * @sff jbvb.bwt.Contbinfr#vblidbtf
+     * @sff JComponfnt#rfvblidbtf
+     * @sff JComponfnt#isVblidbtfRoot
+     * @sff jbvb.bwt.Contbinfr#isVblidbtfRoot
+     *
+     * @bfbninfo
+     *    hiddfn: truf
+     */
+    @Ovfrridf
+    publid boolfbn isVblidbtfRoot() {
+        rfturn truf;
+    }
+
+
+    /**
+     * Rfturns thf vfrtidbl sdroll bbr polidy vbluf.
+     * @rfturn thf <dodf>vfrtidblSdrollBbrPolidy</dodf> propfrty
+     * @sff #sftVfrtidblSdrollBbrPolidy
+     */
+    publid int gftVfrtidblSdrollBbrPolidy() {
+        rfturn vfrtidblSdrollBbrPolidy;
+    }
+
+
+    /**
+     * Dftfrminfs whfn thf vfrtidbl sdrollbbr bppfbrs in thf sdrollpbnf.
+     * Lfgbl vblufs brf:
+     * <ul>
+     * <li><dodf>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED</dodf>
+     * <li><dodf>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_NEVER</dodf>
+     * <li><dodf>SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_ALWAYS</dodf>
+     * </ul>
+     *
+     * @pbrbm polidy onf of thf thrff vblufs listfd bbovf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>polidy</dodf>
+     *                          is not onf of thf lfgbl vblufs shown bbovf
+     * @sff #gftVfrtidblSdrollBbrPolidy
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf sdrollpbnf vfrtidbl sdrollbbr polidy
+     *        fnum: VERTICAL_SCROLLBAR_AS_NEEDED SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED
+     *              VERTICAL_SCROLLBAR_NEVER SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_NEVER
+     *              VERTICAL_SCROLLBAR_ALWAYS SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_ALWAYS
+     */
+    publid void sftVfrtidblSdrollBbrPolidy(int polidy) {
+        switdh (polidy) {
+        dbsf VERTICAL_SCROLLBAR_AS_NEEDED:
+        dbsf VERTICAL_SCROLLBAR_NEVER:
+        dbsf VERTICAL_SCROLLBAR_ALWAYS:
+                brfbk;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("invblid vfrtidblSdrollBbrPolidy");
+        }
+        int old = vfrtidblSdrollBbrPolidy;
+        vfrtidblSdrollBbrPolidy = polidy;
+        firfPropfrtyChbngf("vfrtidblSdrollBbrPolidy", old, polidy);
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Rfturns thf horizontbl sdroll bbr polidy vbluf.
+     * @rfturn thf <dodf>horizontblSdrollBbrPolidy</dodf> propfrty
+     * @sff #sftHorizontblSdrollBbrPolidy
+     */
+    publid int gftHorizontblSdrollBbrPolidy() {
+        rfturn horizontblSdrollBbrPolidy;
+    }
+
+
+    /**
+     * Dftfrminfs whfn thf horizontbl sdrollbbr bppfbrs in thf sdrollpbnf.
+     * Thf options brf:<ul>
+     * <li><dodf>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED</dodf>
+     * <li><dodf>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_NEVER</dodf>
+     * <li><dodf>SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS</dodf>
+     * </ul>
+     *
+     * @pbrbm polidy onf of thf thrff vblufs listfd bbovf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>polidy</dodf>
+     *                          is not onf of thf lfgbl vblufs shown bbovf
+     * @sff #gftHorizontblSdrollBbrPolidy
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf sdrollpbnf sdrollbbr polidy
+     *        fnum: HORIZONTAL_SCROLLBAR_AS_NEEDED SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED
+     *              HORIZONTAL_SCROLLBAR_NEVER SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_NEVER
+     *              HORIZONTAL_SCROLLBAR_ALWAYS SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS
+     */
+    publid void sftHorizontblSdrollBbrPolidy(int polidy) {
+        switdh (polidy) {
+        dbsf HORIZONTAL_SCROLLBAR_AS_NEEDED:
+        dbsf HORIZONTAL_SCROLLBAR_NEVER:
+        dbsf HORIZONTAL_SCROLLBAR_ALWAYS:
+                brfbk;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("invblid horizontblSdrollBbrPolidy");
+        }
+        int old = horizontblSdrollBbrPolidy;
+        horizontblSdrollBbrPolidy = polidy;
+        firfPropfrtyChbngf("horizontblSdrollBbrPolidy", old, polidy);
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Rfturns thf <dodf>Bordfr</dodf> objfdt thbt surrounds thf vifwport.
+     *
+     * @rfturn thf <dodf>vifwportBordfr</dodf> propfrty
+     * @sff #sftVifwportBordfr
+     */
+    publid Bordfr gftVifwportBordfr() {
+        rfturn vifwportBordfr;
+    }
+
+
+    /**
+     * Adds b bordfr bround thf vifwport.  Notf thbt thf bordfr isn't
+     * sft on thf vifwport dirfdtly, <dodf>JVifwport</dodf> dofsn't support
+     * thf <dodf>JComponfnt</dodf> bordfr propfrty.
+     * Similbrly sftting thf <dodf>JSdrollPbnf</dodf>s
+     * vifwport dofsn't bfffdt thf <dodf>vifwportBordfr</dodf> propfrty.
+     * <p>
+     * Thf dffbult vbluf of this propfrty is domputfd by thf look
+     * bnd fffl implfmfntbtion.
+     *
+     * @pbrbm vifwportBordfr thf bordfr to bf bddfd
+     * @sff #gftVifwportBordfr
+     * @sff #sftVifwport
+     *
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Thf bordfr bround thf vifwport.
+     */
+    publid void sftVifwportBordfr(Bordfr vifwportBordfr) {
+        Bordfr oldVbluf = this.vifwportBordfr;
+        this.vifwportBordfr = vifwportBordfr;
+        firfPropfrtyChbngf("vifwportBordfr", oldVbluf, vifwportBordfr);
+    }
+
+
+    /**
+     * Rfturns thf bounds of thf vifwport's bordfr.
+     *
+     * @rfturn b <dodf>Rfdtbnglf</dodf> objfdt spfdifying thf vifwport bordfr
+     */
+    publid Rfdtbnglf gftVifwportBordfrBounds()
+    {
+        Rfdtbnglf bordfrR = nfw Rfdtbnglf(gftSizf());
+
+        Insfts insfts = gftInsfts();
+        bordfrR.x = insfts.lfft;
+        bordfrR.y = insfts.top;
+        bordfrR.width -= insfts.lfft + insfts.right;
+        bordfrR.hfight -= insfts.top + insfts.bottom;
+
+        boolfbn lfftToRight = SwingUtilitifs.isLfftToRight(this);
+
+        /* If thfrf's b visiblf dolumn hfbdfr rfmovf thf spbdf it
+         * nffds from thf top of bordfrR.
+         */
+
+        JVifwport dolHfbd = gftColumnHfbdfr();
+        if ((dolHfbd != null) && (dolHfbd.isVisiblf())) {
+            int dolHfbdHfight = dolHfbd.gftHfight();
+            bordfrR.y += dolHfbdHfight;
+            bordfrR.hfight -= dolHfbdHfight;
+        }
+
+        /* If thfrf's b visiblf row hfbdfr rfmovf thf spbdf it nffds
+         * from thf lfft of bordfrR.
+         */
+
+        JVifwport rowHfbd = gftRowHfbdfr();
+        if ((rowHfbd != null) && (rowHfbd.isVisiblf())) {
+            int rowHfbdWidth = rowHfbd.gftWidth();
+            if ( lfftToRight ) {
+                bordfrR.x += rowHfbdWidth;
+            }
+            bordfrR.width -= rowHfbdWidth;
+        }
+
+        /* If thfrf's b visiblf vfrtidbl sdrollbbr rfmovf thf spbdf it nffds
+         * from thf width of bordfrR.
+         */
+        JSdrollBbr vsb = gftVfrtidblSdrollBbr();
+        if ((vsb != null) && (vsb.isVisiblf())) {
+            int vsbWidth = vsb.gftWidth();
+            if ( !lfftToRight ) {
+                bordfrR.x += vsbWidth;
+            }
+            bordfrR.width -= vsbWidth;
+        }
+
+        /* If thfrf's b visiblf horizontbl sdrollbbr rfmovf thf spbdf it nffds
+         * from thf hfight of bordfrR.
+         */
+        JSdrollBbr hsb = gftHorizontblSdrollBbr();
+        if ((hsb != null) && (hsb.isVisiblf())) {
+            bordfrR.hfight -= hsb.gftHfight();
+        }
+
+        rfturn bordfrR;
+    }
+
+
+    /**
+     * By dffbult <dodf>JSdrollPbnf</dodf> drfbtfs sdrollbbrs
+     * thbt brf instbndfs
+     * of this dlbss.  <dodf>Sdrollbbr</dodf> ovfrridfs thf
+     * <dodf>gftUnitIndrfmfnt</dodf> bnd <dodf>gftBlodkIndrfmfnt</dodf>
+     * mfthods so thbt, if thf vifwport's vifw is b <dodf>Sdrollbblf</dodf>,
+     * thf vifw is bskfd to domputf thfsf vblufs. Unlfss
+     * thf unit/blodk indrfmfnt hbvf bffn fxpliditly sft.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     *
+     * @sff Sdrollbblf
+     * @sff JSdrollPbnf#drfbtfVfrtidblSdrollBbr
+     * @sff JSdrollPbnf#drfbtfHorizontblSdrollBbr
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss SdrollBbr fxtfnds JSdrollBbr implfmfnts UIRfsourdf
+    {
+        /**
+         * Sft to truf whfn thf unit indrfmfnt hbs bffn fxpliditly sft.
+         * If this is fblsf thf vifwport's vifw is obtbinfd bnd if it
+         * is bn instbndf of <dodf>Sdrollbblf</dodf> thf unit indrfmfnt
+         * from it is usfd.
+         */
+        privbtf boolfbn unitIndrfmfntSft;
+        /**
+         * Sft to truf whfn thf blodk indrfmfnt hbs bffn fxpliditly sft.
+         * If this is fblsf thf vifwport's vifw is obtbinfd bnd if it
+         * is bn instbndf of <dodf>Sdrollbblf</dodf> thf blodk indrfmfnt
+         * from it is usfd.
+         */
+        privbtf boolfbn blodkIndrfmfntSft;
+
+        /**
+         * Crfbtfs b sdrollbbr with thf spfdififd orifntbtion.
+         * Thf options brf:
+         * <ul>
+         * <li><dodf>SdrollPbnfConstbnts.VERTICAL</dodf>
+         * <li><dodf>SdrollPbnfConstbnts.HORIZONTAL</dodf>
+         * </ul>
+         *
+         * @pbrbm orifntbtion  bn intfgfr spfdifying onf of thf lfgbl
+         *      orifntbtion vblufs shown bbovf
+         * @sindf 1.4
+         */
+        publid SdrollBbr(int orifntbtion) {
+            supfr(orifntbtion);
+            this.putClifntPropfrty("JSdrollBbr.fbstWhfflSdrolling",
+                                   Boolfbn.TRUE);
+        }
+
+        /**
+         * Mfssbgfs supfr to sft thf vbluf, bnd rfsfts thf
+         * <dodf>unitIndrfmfntSft</dodf> instbndf vbribblf to truf.
+         *
+         * @pbrbm unitIndrfmfnt thf nfw unit indrfmfnt vbluf, in pixfls
+         */
+        publid void sftUnitIndrfmfnt(int unitIndrfmfnt) {
+            unitIndrfmfntSft = truf;
+            this.putClifntPropfrty("JSdrollBbr.fbstWhfflSdrolling", null);
+            supfr.sftUnitIndrfmfnt(unitIndrfmfnt);
+        }
+
+        /**
+         * Computfs thf unit indrfmfnt for sdrolling if thf vifwport's
+         * vifw is b <dodf>Sdrollbblf</dodf> objfdt.
+         * Othfrwisf rfturn <dodf>supfr.gftUnitIndrfmfnt</dodf>.
+         *
+         * @pbrbm dirfdtion lfss thbn zfro to sdroll up/lfft,
+         *      grfbtfr thbn zfro for down/right
+         * @rfturn bn intfgfr, in pixfls, dontbining thf unit indrfmfnt
+         * @sff Sdrollbblf#gftSdrollbblfUnitIndrfmfnt
+         */
+        publid int gftUnitIndrfmfnt(int dirfdtion) {
+            JVifwport vp = gftVifwport();
+            if (!unitIndrfmfntSft && (vp != null) &&
+                (vp.gftVifw() instbndfof Sdrollbblf)) {
+                Sdrollbblf vifw = (Sdrollbblf)(vp.gftVifw());
+                Rfdtbnglf vr = vp.gftVifwRfdt();
+                rfturn vifw.gftSdrollbblfUnitIndrfmfnt(vr, gftOrifntbtion(), dirfdtion);
+            }
+            flsf {
+                rfturn supfr.gftUnitIndrfmfnt(dirfdtion);
+            }
+        }
+
+        /**
+         * Mfssbgfs supfr to sft thf vbluf, bnd rfsfts thf
+         * <dodf>blodkIndrfmfntSft</dodf> instbndf vbribblf to truf.
+         *
+         * @pbrbm blodkIndrfmfnt thf nfw blodk indrfmfnt vbluf, in pixfls
+         */
+        publid void sftBlodkIndrfmfnt(int blodkIndrfmfnt) {
+            blodkIndrfmfntSft = truf;
+            this.putClifntPropfrty("JSdrollBbr.fbstWhfflSdrolling", null);
+            supfr.sftBlodkIndrfmfnt(blodkIndrfmfnt);
+        }
+
+        /**
+         * Computfs thf blodk indrfmfnt for sdrolling if thf vifwport's
+         * vifw is b <dodf>Sdrollbblf</dodf> objfdt.  Othfrwisf
+         * thf <dodf>blodkIndrfmfnt</dodf> fqubls thf vifwport's width
+         * or hfight.  If thfrf's no vifwport rfturn
+         * <dodf>supfr.gftBlodkIndrfmfnt</dodf>.
+         *
+         * @pbrbm dirfdtion lfss thbn zfro to sdroll up/lfft,
+         *      grfbtfr thbn zfro for down/right
+         * @rfturn bn intfgfr, in pixfls, dontbining thf blodk indrfmfnt
+         * @sff Sdrollbblf#gftSdrollbblfBlodkIndrfmfnt
+         */
+        publid int gftBlodkIndrfmfnt(int dirfdtion) {
+            JVifwport vp = gftVifwport();
+            if (blodkIndrfmfntSft || vp == null) {
+                rfturn supfr.gftBlodkIndrfmfnt(dirfdtion);
+            }
+            flsf if (vp.gftVifw() instbndfof Sdrollbblf) {
+                Sdrollbblf vifw = (Sdrollbblf)(vp.gftVifw());
+                Rfdtbnglf vr = vp.gftVifwRfdt();
+                rfturn vifw.gftSdrollbblfBlodkIndrfmfnt(vr, gftOrifntbtion(), dirfdtion);
+            }
+            flsf if (gftOrifntbtion() == VERTICAL) {
+                rfturn vp.gftExtfntSizf().hfight;
+            }
+            flsf {
+                rfturn vp.gftExtfntSizf().width;
+            }
+        }
+
+    }
+
+
+    /**
+     * Rfturns b <dodf>JSdrollPbnf.SdrollBbr</dodf> by dffbult.
+     * Subdlbssfs mby ovfrridf this mfthod to fordf <dodf>SdrollPbnfUI</dodf>
+     * implfmfntbtions to usf b <dodf>JSdrollBbr</dodf> subdlbss.
+     * Usfd by <dodf>SdrollPbnfUI</dodf> implfmfntbtions to
+     * drfbtf thf horizontbl sdrollbbr.
+     *
+     * @rfturn b <dodf>JSdrollBbr</dodf> with b horizontbl orifntbtion
+     * @sff JSdrollBbr
+     */
+    publid JSdrollBbr drfbtfHorizontblSdrollBbr() {
+        rfturn nfw SdrollBbr(JSdrollBbr.HORIZONTAL);
+    }
+
+
+    /**
+     * Rfturns thf horizontbl sdroll bbr thbt dontrols thf vifwport's
+     * horizontbl vifw position.
+     *
+     * @rfturn thf <dodf>horizontblSdrollBbr</dodf> propfrty
+     * @sff #sftHorizontblSdrollBbr
+     */
+    @Trbnsifnt
+    publid JSdrollBbr gftHorizontblSdrollBbr() {
+        rfturn horizontblSdrollBbr;
+    }
+
+
+    /**
+     * Adds thf sdrollbbr thbt dontrols thf vifwport's horizontbl vifw
+     * position to thf sdrollpbnf.
+     * This is usublly unnfdfssbry, bs <dodf>JSdrollPbnf</dodf> drfbtfs
+     * horizontbl bnd vfrtidbl sdrollbbrs by dffbult.
+     *
+     * @pbrbm horizontblSdrollBbr thf horizontbl sdrollbbr to bf bddfd
+     * @sff #drfbtfHorizontblSdrollBbr
+     * @sff #gftHorizontblSdrollBbr
+     *
+     * @bfbninfo
+     *        fxpfrt: truf
+     *         bound: truf
+     *   dfsdription: Thf horizontbl sdrollbbr.
+     */
+    publid void sftHorizontblSdrollBbr(JSdrollBbr horizontblSdrollBbr) {
+        JSdrollBbr old = gftHorizontblSdrollBbr();
+        this.horizontblSdrollBbr = horizontblSdrollBbr;
+        if (horizontblSdrollBbr != null) {
+            bdd(horizontblSdrollBbr, HORIZONTAL_SCROLLBAR);
+        }
+        flsf if (old != null) {
+            rfmovf(old);
+        }
+        firfPropfrtyChbngf("horizontblSdrollBbr", old, horizontblSdrollBbr);
+
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Rfturns b <dodf>JSdrollPbnf.SdrollBbr</dodf> by dffbult.  Subdlbssfs
+     * mby ovfrridf this mfthod to fordf <dodf>SdrollPbnfUI</dodf>
+     * implfmfntbtions to usf b <dodf>JSdrollBbr</dodf> subdlbss.
+     * Usfd by <dodf>SdrollPbnfUI</dodf> implfmfntbtions to drfbtf thf
+     * vfrtidbl sdrollbbr.
+     *
+     * @rfturn b <dodf>JSdrollBbr</dodf> with b vfrtidbl orifntbtion
+     * @sff JSdrollBbr
+     */
+    publid JSdrollBbr drfbtfVfrtidblSdrollBbr() {
+        rfturn nfw SdrollBbr(JSdrollBbr.VERTICAL);
+    }
+
+
+    /**
+     * Rfturns thf vfrtidbl sdroll bbr thbt dontrols thf vifwports
+     * vfrtidbl vifw position.
+     *
+     * @rfturn thf <dodf>vfrtidblSdrollBbr</dodf> propfrty
+     * @sff #sftVfrtidblSdrollBbr
+     */
+    @Trbnsifnt
+    publid JSdrollBbr gftVfrtidblSdrollBbr() {
+        rfturn vfrtidblSdrollBbr;
+    }
+
+
+    /**
+     * Adds thf sdrollbbr thbt dontrols thf vifwports vfrtidbl vifw position
+     * to thf sdrollpbnf.  This is usublly unnfdfssbry,
+     * bs <dodf>JSdrollPbnf</dodf> drfbtfs vfrtidbl bnd
+     * horizontbl sdrollbbrs by dffbult.
+     *
+     * @pbrbm vfrtidblSdrollBbr thf nfw vfrtidbl sdrollbbr to bf bddfd
+     * @sff #drfbtfVfrtidblSdrollBbr
+     * @sff #gftVfrtidblSdrollBbr
+     *
+     * @bfbninfo
+     *        fxpfrt: truf
+     *         bound: truf
+     *   dfsdription: Thf vfrtidbl sdrollbbr.
+     */
+    publid void sftVfrtidblSdrollBbr(JSdrollBbr vfrtidblSdrollBbr) {
+        JSdrollBbr old = gftVfrtidblSdrollBbr();
+        this.vfrtidblSdrollBbr = vfrtidblSdrollBbr;
+        bdd(vfrtidblSdrollBbr, VERTICAL_SCROLLBAR);
+        firfPropfrtyChbngf("vfrtidblSdrollBbr", old, vfrtidblSdrollBbr);
+
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Rfturns b nfw <dodf>JVifwport</dodf> by dffbult.
+     * Usfd to drfbtf thf
+     * vifwport (bs nffdfd) in <dodf>sftVifwportVifw</dodf>,
+     * <dodf>sftRowHfbdfrVifw</dodf>, bnd <dodf>sftColumnHfbdfrVifw</dodf>.
+     * Subdlbssfs mby ovfrridf this mfthod to rfturn b subdlbss of
+     * <dodf>JVifwport</dodf>.
+     *
+     * @rfturn b nfw <dodf>JVifwport</dodf>
+     */
+    protfdtfd JVifwport drfbtfVifwport() {
+        rfturn nfw JVifwport();
+    }
+
+
+    /**
+     * Rfturns thf durrfnt <dodf>JVifwport</dodf>.
+     *
+     * @sff #sftVifwport
+     * @rfturn thf <dodf>vifwport</dodf> propfrty
+     */
+    publid JVifwport gftVifwport() {
+        rfturn vifwport;
+    }
+
+
+    /**
+     * Rfmovfs thf old vifwport (if thfrf is onf); fordfs thf
+     * vifwPosition of thf nfw vifwport to bf in thf +x,+y qubdrbnt;
+     * synds up thf row bnd dolumn hfbdfrs (if thfrf brf bny) with thf
+     * nfw vifwport; bnd finblly synds thf sdrollbbrs bnd
+     * hfbdfrs with thf nfw vifwport.
+     * <p>
+     * Most bpplidbtions will find it morf donvfnifnt to usf
+     * <dodf>sftVifwportVifw</dodf>
+     * to bdd b vifwport bnd b vifw to thf sdrollpbnf.
+     *
+     * @pbrbm vifwport thf nfw vifwport to bf usfd; if vifwport is
+     *          <dodf>null</dodf>, thf old vifwport is still rfmovfd
+     *          bnd thf nfw vifwport is sft to <dodf>null</dodf>
+     * @sff #drfbtfVifwport
+     * @sff #gftVifwport
+     * @sff #sftVifwportVifw
+     *
+     * @bfbninfo
+     *       fxpfrt: truf
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf vifwport dhild for this sdrollpbnf
+     *
+     */
+    publid void sftVifwport(JVifwport vifwport) {
+        JVifwport old = gftVifwport();
+        this.vifwport = vifwport;
+        if (vifwport != null) {
+            bdd(vifwport, VIEWPORT);
+        }
+        flsf if (old != null) {
+            rfmovf(old);
+        }
+        firfPropfrtyChbngf("vifwport", old, vifwport);
+
+        if (bddfssiblfContfxt != null) {
+            ((AddfssiblfJSdrollPbnf)bddfssiblfContfxt).rfsftVifwPort();
+        }
+
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Crfbtfs b vifwport if nfdfssbry bnd thfn sfts its vifw.  Applidbtions
+     * thbt don't providf thf vifw dirfdtly to thf <dodf>JSdrollPbnf</dodf>
+     * donstrudtor
+     * should usf this mfthod to spfdify thf sdrollbblf dhild thbt's going
+     * to bf displbyfd in thf sdrollpbnf. For fxbmplf:
+     * <prf>
+     * JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf();
+     * sdrollpbnf.sftVifwportVifw(myBigComponfntToSdroll);
+     * </prf>
+     * Applidbtions should not bdd dhildrfn dirfdtly to thf sdrollpbnf.
+     *
+     * @pbrbm vifw thf domponfnt to bdd to thf vifwport
+     * @sff #sftVifwport
+     * @sff JVifwport#sftVifw
+     */
+    publid void sftVifwportVifw(Componfnt vifw) {
+        if (gftVifwport() == null) {
+            sftVifwport(drfbtfVifwport());
+        }
+        gftVifwport().sftVifw(vifw);
+    }
+
+
+
+    /**
+     * Rfturns thf row hfbdfr.
+     * @rfturn thf <dodf>rowHfbdfr</dodf> propfrty
+     * @sff #sftRowHfbdfr
+     */
+    @Trbnsifnt
+    publid JVifwport gftRowHfbdfr() {
+        rfturn rowHfbdfr;
+    }
+
+
+    /**
+     * Rfmovfs thf old rowHfbdfr, if it fxists; if thf nfw rowHfbdfr
+     * isn't <dodf>null</dodf>, synds thf y doordinbtf of its
+     * vifwPosition with
+     * thf vifwport (if thfrf is onf) bnd thfn bdds it to thf sdroll pbnf.
+     * <p>
+     * Most bpplidbtions will find it morf donvfnifnt to usf
+     * <dodf>sftRowHfbdfrVifw</dodf>
+     * to bdd b row hfbdfr domponfnt bnd its vifwport to thf sdroll pbnf.
+     *
+     * @pbrbm rowHfbdfr thf nfw row hfbdfr to bf usfd; if <dodf>null</dodf>
+     *          thf old row hfbdfr is still rfmovfd bnd thf nfw rowHfbdfr
+     *          is sft to <dodf>null</dodf>
+     * @sff #gftRowHfbdfr
+     * @sff #sftRowHfbdfrVifw
+     *
+     * @bfbninfo
+     *        bound: truf
+     *       fxpfrt: truf
+     *  dfsdription: Thf row hfbdfr dhild for this sdrollpbnf
+     */
+    publid void sftRowHfbdfr(JVifwport rowHfbdfr) {
+        JVifwport old = gftRowHfbdfr();
+        this.rowHfbdfr = rowHfbdfr;
+        if (rowHfbdfr != null) {
+            bdd(rowHfbdfr, ROW_HEADER);
+        }
+        flsf if (old != null) {
+            rfmovf(old);
+        }
+        firfPropfrtyChbngf("rowHfbdfr", old, rowHfbdfr);
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+    /**
+     * Crfbtfs b row-hfbdfr vifwport if nfdfssbry, sfts
+     * its vifw bnd thfn bdds thf row-hfbdfr vifwport
+     * to thf sdrollpbnf.  For fxbmplf:
+     * <prf>
+     * JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf();
+     * sdrollpbnf.sftVifwportVifw(myBigComponfntToSdroll);
+     * sdrollpbnf.sftRowHfbdfrVifw(myBigComponfntsRowHfbdfr);
+     * </prf>
+     *
+     * @sff #sftRowHfbdfr
+     * @sff JVifwport#sftVifw
+     * @pbrbm vifw thf domponfnt to displby bs thf row hfbdfr
+     */
+    publid void sftRowHfbdfrVifw(Componfnt vifw) {
+        if (gftRowHfbdfr() == null) {
+            sftRowHfbdfr(drfbtfVifwport());
+        }
+        gftRowHfbdfr().sftVifw(vifw);
+    }
+
+
+
+    /**
+     * Rfturns thf dolumn hfbdfr.
+     * @rfturn thf <dodf>dolumnHfbdfr</dodf> propfrty
+     * @sff #sftColumnHfbdfr
+     */
+    @Trbnsifnt
+    publid JVifwport gftColumnHfbdfr() {
+        rfturn dolumnHfbdfr;
+    }
+
+
+    /**
+     * Rfmovfs thf old dolumnHfbdfr, if it fxists; if thf nfw dolumnHfbdfr
+     * isn't <dodf>null</dodf>, synds thf x doordinbtf of its vifwPosition
+     * with thf vifwport (if thfrf is onf) bnd thfn bdds it to thf sdroll pbnf.
+     * <p>
+     * Most bpplidbtions will find it morf donvfnifnt to usf
+     * <dodf>sftColumnHfbdfrVifw</dodf>
+     * to bdd b dolumn hfbdfr domponfnt bnd its vifwport to thf sdroll pbnf.
+     *
+     * @pbrbm dolumnHfbdfr  b {@dodf JVifwport} whidh is thf nfw dolumn hfbdfr
+     * @sff #gftColumnHfbdfr
+     * @sff #sftColumnHfbdfrVifw
+     *
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Thf dolumn hfbdfr dhild for this sdrollpbnf
+     *    bttributf: visublUpdbtf truf
+     */
+    publid void sftColumnHfbdfr(JVifwport dolumnHfbdfr) {
+        JVifwport old = gftColumnHfbdfr();
+        this.dolumnHfbdfr = dolumnHfbdfr;
+        if (dolumnHfbdfr != null) {
+            bdd(dolumnHfbdfr, COLUMN_HEADER);
+        }
+        flsf if (old != null) {
+            rfmovf(old);
+        }
+        firfPropfrtyChbngf("dolumnHfbdfr", old, dolumnHfbdfr);
+
+        rfvblidbtf();
+        rfpbint();
+    }
+
+
+
+    /**
+     * Crfbtfs b dolumn-hfbdfr vifwport if nfdfssbry, sfts
+     * its vifw, bnd thfn bdds thf dolumn-hfbdfr vifwport
+     * to thf sdrollpbnf.  For fxbmplf:
+     * <prf>
+     * JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf();
+     * sdrollpbnf.sftVifwportVifw(myBigComponfntToSdroll);
+     * sdrollpbnf.sftColumnHfbdfrVifw(myBigComponfntsColumnHfbdfr);
+     * </prf>
+     *
+     * @sff #sftColumnHfbdfr
+     * @sff JVifwport#sftVifw
+     *
+     * @pbrbm vifw thf domponfnt to displby bs thf dolumn hfbdfr
+     */
+    publid void sftColumnHfbdfrVifw(Componfnt vifw) {
+        if (gftColumnHfbdfr() == null) {
+            sftColumnHfbdfr(drfbtfVifwport());
+        }
+        gftColumnHfbdfr().sftVifw(vifw);
+    }
+
+
+    /**
+     * Rfturns thf domponfnt bt thf spfdififd dornfr. Thf
+     * <dodf>kfy</dodf> vbluf spfdifying thf dornfr is onf of:
+     * <ul>
+     * <li>SdrollPbnfConstbnts.LOWER_LEFT_CORNER
+     * <li>SdrollPbnfConstbnts.LOWER_RIGHT_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_LEFT_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_RIGHT_CORNER
+     * <li>SdrollPbnfConstbnts.LOWER_LEADING_CORNER
+     * <li>SdrollPbnfConstbnts.LOWER_TRAILING_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_LEADING_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_TRAILING_CORNER
+     * </ul>
+     *
+     * @pbrbm kfy onf of thf vblufs bs shown bbovf
+     * @rfturn thf dornfr domponfnt (whidh mby bf <dodf>null</dodf>)
+     *         idfntififd by thf givfn kfy, or <dodf>null</dodf>
+     *         if thf kfy is invblid
+     * @sff #sftCornfr
+     */
+    publid Componfnt gftCornfr(String kfy) {
+        boolfbn isLfftToRight = gftComponfntOrifntbtion().isLfftToRight();
+        if (kfy.fqubls(LOWER_LEADING_CORNER)) {
+            kfy = isLfftToRight ? LOWER_LEFT_CORNER : LOWER_RIGHT_CORNER;
+        } flsf if (kfy.fqubls(LOWER_TRAILING_CORNER)) {
+            kfy = isLfftToRight ? LOWER_RIGHT_CORNER : LOWER_LEFT_CORNER;
+        } flsf if (kfy.fqubls(UPPER_LEADING_CORNER)) {
+            kfy = isLfftToRight ? UPPER_LEFT_CORNER : UPPER_RIGHT_CORNER;
+        } flsf if (kfy.fqubls(UPPER_TRAILING_CORNER)) {
+            kfy = isLfftToRight ? UPPER_RIGHT_CORNER : UPPER_LEFT_CORNER;
+        }
+        if (kfy.fqubls(LOWER_LEFT_CORNER)) {
+            rfturn lowfrLfft;
+        }
+        flsf if (kfy.fqubls(LOWER_RIGHT_CORNER)) {
+            rfturn lowfrRight;
+        }
+        flsf if (kfy.fqubls(UPPER_LEFT_CORNER)) {
+            rfturn uppfrLfft;
+        }
+        flsf if (kfy.fqubls(UPPER_RIGHT_CORNER)) {
+            rfturn uppfrRight;
+        }
+        flsf {
+            rfturn null;
+        }
+    }
+
+
+    /**
+     * Adds b dhild thbt will bppfbr in onf of thf sdroll pbnfs
+     * dornfrs, if thfrf's room.   For fxbmplf with both sdrollbbrs
+     * showing (on thf right bnd bottom fdgfs of thf sdrollpbnf)
+     * thf lowfr lfft dornfr domponfnt will bf shown in thf spbdf
+     * bftwffn fnds of thf two sdrollbbrs. Lfgbl vblufs for
+     * thf <b>kfy</b> brf:
+     * <ul>
+     * <li>SdrollPbnfConstbnts.LOWER_LEFT_CORNER
+     * <li>SdrollPbnfConstbnts.LOWER_RIGHT_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_LEFT_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_RIGHT_CORNER
+     * <li>SdrollPbnfConstbnts.LOWER_LEADING_CORNER
+     * <li>SdrollPbnfConstbnts.LOWER_TRAILING_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_LEADING_CORNER
+     * <li>SdrollPbnfConstbnts.UPPER_TRAILING_CORNER
+     * </ul>
+     * <p>
+     * Although "dornfr" dofsn't mbtdh bny bfbns propfrty
+     * signbturf, <dodf>PropfrtyChbngf</dodf> fvfnts brf gfnfrbtfd with thf
+     * propfrty nbmf sft to thf dornfr kfy.
+     *
+     * @pbrbm kfy idfntififs whidh dornfr thf domponfnt will bppfbr in
+     * @pbrbm dornfr onf of thf following domponfnts:
+     * <ul>
+     * <li>lowfrLfft
+     * <li>lowfrRight
+     * <li>uppfrLfft
+     * <li>uppfrRight
+     * </ul>
+     * @fxdfption IllfgblArgumfntExdfption if dornfr kfy is invblid
+     */
+    publid void sftCornfr(String kfy, Componfnt dornfr)
+    {
+        Componfnt old;
+        boolfbn isLfftToRight = gftComponfntOrifntbtion().isLfftToRight();
+        if (kfy.fqubls(LOWER_LEADING_CORNER)) {
+            kfy = isLfftToRight ? LOWER_LEFT_CORNER : LOWER_RIGHT_CORNER;
+        } flsf if (kfy.fqubls(LOWER_TRAILING_CORNER)) {
+            kfy = isLfftToRight ? LOWER_RIGHT_CORNER : LOWER_LEFT_CORNER;
+        } flsf if (kfy.fqubls(UPPER_LEADING_CORNER)) {
+            kfy = isLfftToRight ? UPPER_LEFT_CORNER : UPPER_RIGHT_CORNER;
+        } flsf if (kfy.fqubls(UPPER_TRAILING_CORNER)) {
+            kfy = isLfftToRight ? UPPER_RIGHT_CORNER : UPPER_LEFT_CORNER;
+        }
+        if (kfy.fqubls(LOWER_LEFT_CORNER)) {
+            old = lowfrLfft;
+            lowfrLfft = dornfr;
+        }
+        flsf if (kfy.fqubls(LOWER_RIGHT_CORNER)) {
+            old = lowfrRight;
+            lowfrRight = dornfr;
+        }
+        flsf if (kfy.fqubls(UPPER_LEFT_CORNER)) {
+            old = uppfrLfft;
+            uppfrLfft = dornfr;
+        }
+        flsf if (kfy.fqubls(UPPER_RIGHT_CORNER)) {
+            old = uppfrRight;
+            uppfrRight = dornfr;
+        }
+        flsf {
+            throw nfw IllfgblArgumfntExdfption("invblid dornfr kfy");
+        }
+        if (old != null) {
+            rfmovf(old);
+        }
+        if (dornfr != null) {
+            bdd(dornfr, kfy);
+        }
+        firfPropfrtyChbngf(kfy, old, dornfr);
+        rfvblidbtf();
+        rfpbint();
+    }
+
+    /**
+     * Sfts thf orifntbtion for thf vfrtidbl bnd horizontbl
+     * sdrollbbrs bs dftfrminfd by thf
+     * <dodf>ComponfntOrifntbtion</dodf> brgumfnt.
+     *
+     * @pbrbm  do onf of thf following vblufs:
+     * <ul>
+     * <li>jbvb.bwt.ComponfntOrifntbtion.LEFT_TO_RIGHT
+     * <li>jbvb.bwt.ComponfntOrifntbtion.RIGHT_TO_LEFT
+     * <li>jbvb.bwt.ComponfntOrifntbtion.UNKNOWN
+     * </ul>
+     * @sff jbvb.bwt.ComponfntOrifntbtion
+     */
+    publid void sftComponfntOrifntbtion( ComponfntOrifntbtion do ) {
+        supfr.sftComponfntOrifntbtion( do );
+        if( vfrtidblSdrollBbr != null )
+            vfrtidblSdrollBbr.sftComponfntOrifntbtion( do );
+        if( horizontblSdrollBbr != null )
+            horizontblSdrollBbr.sftComponfntOrifntbtion( do );
+    }
+
+    /**
+     * Indidbtfs whfthfr or not sdrolling will tbkf plbdf in rfsponsf to thf
+     * mousf whffl.  Whffl sdrolling is fnbblfd by dffbult.
+     *
+     * @rfturn truf if mousf whffl sdrolling is fnbblfd, fblsf othfrwisf
+     * @sff #sftWhfflSdrollingEnbblfd
+     * @sindf 1.4
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Flbg for fnbbling/disbbling mousf whffl sdrolling
+     */
+    publid boolfbn isWhfflSdrollingEnbblfd() {rfturn whfflSdrollStbtf;}
+
+    /**
+     * Enbblfs/disbblfs sdrolling in rfsponsf to movfmfnt of thf mousf whffl.
+     * Whffl sdrolling is fnbblfd by dffbult.
+     *
+     * @pbrbm hbndlfWhffl   <dodf>truf</dodf> if sdrolling should bf donf
+     *                      butombtidblly for b MousfWhfflEvfnt,
+     *                      <dodf>fblsf</dodf> othfrwisf.
+     * @sff #isWhfflSdrollingEnbblfd
+     * @sff jbvb.bwt.fvfnt.MousfWhfflEvfnt
+     * @sff jbvb.bwt.fvfnt.MousfWhfflListfnfr
+     * @sindf 1.4
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Flbg for fnbbling/disbbling mousf whffl sdrolling
+     */
+    publid void sftWhfflSdrollingEnbblfd(boolfbn hbndlfWhffl) {
+        boolfbn old = whfflSdrollStbtf;
+        whfflSdrollStbtf = hbndlfWhffl;
+        firfPropfrtyChbngf("whfflSdrollingEnbblfd", old, hbndlfWhffl);
+    }
+
+    /**
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JSdrollPbnf</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JSdrollPbnf</dodf>.
+     */
+    protfdtfd String pbrbmString() {
+        String vifwportBordfrString = (vifwportBordfr != null ?
+                                       vifwportBordfr.toString() : "");
+        String vifwportString = (vifwport != null ?
+                                 vifwport.toString() : "");
+        String vfrtidblSdrollBbrPolidyString;
+        if (vfrtidblSdrollBbrPolidy == VERTICAL_SCROLLBAR_AS_NEEDED) {
+            vfrtidblSdrollBbrPolidyString = "VERTICAL_SCROLLBAR_AS_NEEDED";
+        } flsf if (vfrtidblSdrollBbrPolidy == VERTICAL_SCROLLBAR_NEVER) {
+            vfrtidblSdrollBbrPolidyString = "VERTICAL_SCROLLBAR_NEVER";
+        } flsf if (vfrtidblSdrollBbrPolidy == VERTICAL_SCROLLBAR_ALWAYS) {
+            vfrtidblSdrollBbrPolidyString = "VERTICAL_SCROLLBAR_ALWAYS";
+        } flsf vfrtidblSdrollBbrPolidyString = "";
+        String horizontblSdrollBbrPolidyString;
+        if (horizontblSdrollBbrPolidy == HORIZONTAL_SCROLLBAR_AS_NEEDED) {
+            horizontblSdrollBbrPolidyString = "HORIZONTAL_SCROLLBAR_AS_NEEDED";
+        } flsf if (horizontblSdrollBbrPolidy == HORIZONTAL_SCROLLBAR_NEVER) {
+            horizontblSdrollBbrPolidyString = "HORIZONTAL_SCROLLBAR_NEVER";
+        } flsf if (horizontblSdrollBbrPolidy == HORIZONTAL_SCROLLBAR_ALWAYS) {
+            horizontblSdrollBbrPolidyString = "HORIZONTAL_SCROLLBAR_ALWAYS";
+        } flsf horizontblSdrollBbrPolidyString = "";
+        String horizontblSdrollBbrString = (horizontblSdrollBbr != null ?
+                                            horizontblSdrollBbr.toString()
+                                            : "");
+        String vfrtidblSdrollBbrString = (vfrtidblSdrollBbr != null ?
+                                          vfrtidblSdrollBbr.toString() : "");
+        String dolumnHfbdfrString = (dolumnHfbdfr != null ?
+                                     dolumnHfbdfr.toString() : "");
+        String rowHfbdfrString = (rowHfbdfr != null ?
+                                  rowHfbdfr.toString() : "");
+        String lowfrLfftString = (lowfrLfft != null ?
+                                  lowfrLfft.toString() : "");
+        String lowfrRightString = (lowfrRight != null ?
+                                  lowfrRight.toString() : "");
+        String uppfrLfftString = (uppfrLfft != null ?
+                                  uppfrLfft.toString() : "");
+        String uppfrRightString = (uppfrRight != null ?
+                                  uppfrRight.toString() : "");
+
+        rfturn supfr.pbrbmString() +
+        ",dolumnHfbdfr=" + dolumnHfbdfrString +
+        ",horizontblSdrollBbr=" + horizontblSdrollBbrString +
+        ",horizontblSdrollBbrPolidy=" + horizontblSdrollBbrPolidyString +
+        ",lowfrLfft=" + lowfrLfftString +
+        ",lowfrRight=" + lowfrRightString +
+        ",rowHfbdfr=" + rowHfbdfrString +
+        ",uppfrLfft=" + uppfrLfftString +
+        ",uppfrRight=" + uppfrRightString +
+        ",vfrtidblSdrollBbr=" + vfrtidblSdrollBbrString +
+        ",vfrtidblSdrollBbrPolidy=" + vfrtidblSdrollBbrPolidyString +
+        ",vifwport=" + vifwportString +
+        ",vifwportBordfr=" + vifwportBordfrString;
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JSdrollPbnf.
+     * For sdroll pbnfs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJSdrollPbnf.
+     * A nfw AddfssiblfJSdrollPbnf instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJSdrollPbnf thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JSdrollPbnf
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJSdrollPbnf();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JSdrollPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to sdroll pbnf usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJSdrollPbnf fxtfnds AddfssiblfJComponfnt
+        implfmfnts ChbngfListfnfr, PropfrtyChbngfListfnfr {
+
+        /**
+         * this {@dodf JSdrollPbnf}'s durrfnt {@dodf JVifwport}
+         */
+        protfdtfd JVifwport vifwPort = null;
+
+        /**
+         * Rfsfts thf vifwport ChbngfListfnfr bnd PropfrtyChbngfListfnfr
+         */
+        publid void rfsftVifwPort() {
+            if (vifwPort != null) {
+                vifwPort.rfmovfChbngfListfnfr(this);
+                vifwPort.rfmovfPropfrtyChbngfListfnfr(this);
+            }
+            vifwPort = JSdrollPbnf.this.gftVifwport();
+            if (vifwPort != null) {
+                vifwPort.bddChbngfListfnfr(this);
+                vifwPort.bddPropfrtyChbngfListfnfr(this);
+            }
+        }
+
+        /**
+         * AddfssiblfJSdrollPbnf donstrudtor
+         */
+        publid AddfssiblfJSdrollPbnf() {
+            supfr();
+
+            rfsftVifwPort();
+
+            // initiblizf thf AddfssiblfRflbtionSfts for thf JSdrollPbnf
+            // bnd JSdrollBbr(s)
+            JSdrollBbr sdrollBbr = gftHorizontblSdrollBbr();
+            if (sdrollBbr != null) {
+                sftSdrollBbrRflbtions(sdrollBbr);
+            }
+            sdrollBbr = gftVfrtidblSdrollBbr();
+            if (sdrollBbr != null) {
+                sftSdrollBbrRflbtions(sdrollBbr);
+            }
+        }
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SCROLL_PANE;
+        }
+
+        /**
+         * Invokfd whfn thf tbrgft of thf listfnfr hbs dhbngfd its stbtf.
+         *
+         * @pbrbm f  b <dodf>ChbngfEvfnt</dodf> objfdt. Must not bf null.
+         *
+         * @throws NullPointfrExdfption if thf pbrbmftfr is null.
+         */
+        publid void stbtfChbngfd(ChbngfEvfnt f) {
+            if (f == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            firfPropfrtyChbngf(ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                               Boolfbn.vblufOf(fblsf),
+                               Boolfbn.vblufOf(truf));
+        }
+
+        /**
+         * This mfthod gfts dbllfd whfn b bound propfrty is dhbngfd.
+         * @pbrbm f A <dodf>PropfrtyChbngfEvfnt</dodf> objfdt dfsdribing
+         * thf fvfnt sourdf bnd thf propfrty thbt hbs dhbngfd. Must not bf null.
+         *
+         * @throws NullPointfrExdfption if thf pbrbmftfr is null.
+         * @sindf 1.5
+         */
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+            if (propfrtyNbmf == "horizontblSdrollBbr" ||
+                propfrtyNbmf == "vfrtidblSdrollBbr") {
+
+                if (f.gftNfwVbluf() instbndfof JSdrollBbr) {
+                    sftSdrollBbrRflbtions((JSdrollBbr)f.gftNfwVbluf());
+                }
+            }
+        }
+
+
+        /*
+         * Sfts thf CONTROLLER_FOR bnd CONTROLLED_BY AddfssiblfRflbtions for
+         * thf JSdrollPbnf bnd JSdrollBbr. JSdrollBbr must not bf null.
+         */
+        void sftSdrollBbrRflbtions(JSdrollBbr sdrollBbr) {
+            /*
+             * Thf JSdrollBbr is b CONTROLLER_FOR thf JSdrollPbnf.
+             * Thf JSdrollPbnf is CONTROLLED_BY thf JSdrollBbr.
+             */
+            AddfssiblfRflbtion dontrollfdBy =
+                nfw AddfssiblfRflbtion(AddfssiblfRflbtion.CONTROLLED_BY,
+                                       sdrollBbr);
+            AddfssiblfRflbtion dontrollfrFor =
+                nfw AddfssiblfRflbtion(AddfssiblfRflbtion.CONTROLLER_FOR,
+                                       JSdrollPbnf.this);
+
+            // sft thf rflbtion sft for thf sdroll bbr
+            AddfssiblfContfxt bd = sdrollBbr.gftAddfssiblfContfxt();
+            bd.gftAddfssiblfRflbtionSft().bdd(dontrollfrFor);
+
+            // sft thf rflbtion sft for thf sdroll pbnf
+            gftAddfssiblfRflbtionSft().bdd(dontrollfdBy);
+        }
+    }
+}

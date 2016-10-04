@@ -1,0 +1,48 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.invokf;
+
+import jbvb.lbng.invokf.MfthodHbndlf;
+
+/**
+ * Privbtf API usfd insidf of jbvb.lbng.invokf.MfthodHbndlfs.
+ * Intfrfbdf implfmfntfd by fvfry objfdt whidh is produdfd by
+ * {@link jbvb.lbng.invokf.MfthodHbndlfProxifs#bsIntfrfbdfInstbndf MfthodHbndlfProxifs.bsIntfrfbdfInstbndf}.
+ * Thf mfthods of this intfrfbdf bllow b dbllfr to rfdovfr thf pbrbmftfrs
+ * to {@dodf bsInstbndf}.
+ * This bllows bpplidbtions to rfpfbtfdly donvfrt bftwffn mfthod hbndlfs
+ * bnd SAM objfdts, without thf risk of drfbting unboundfd dflfgbtion dhbins.
+ */
+publid intfrfbdf WrbppfrInstbndf {
+    /** Produdf or rfdovfr b tbrgft mfthod hbndlf whidh is bfhbviorblly
+     *  fquivblfnt to thf SAM mfthod of this objfdt.
+     */
+    publid MfthodHbndlf gftWrbppfrInstbndfTbrgft();
+    /** Rfdovfr thf SAM typf for whidh this objfdt wbs drfbtfd.
+     */
+    publid Clbss<?> gftWrbppfrInstbndfTypf();
+}
+

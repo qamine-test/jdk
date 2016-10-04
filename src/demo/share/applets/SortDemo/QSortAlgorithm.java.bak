@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,110 +30,110 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
 /**
- * A quick sort demonstration algorithm
- * SortAlgorithm.java
+ * A quidk sort dfmonstrbtion blgoritim
+ * SortAlgoritim.jbvb
  *
- * @author James Gosling
- * @author Kevin A. Smith
+ * @butior Jbmfs Gosling
+ * @butior Kfvin A. Smiti
  */
-public class QSortAlgorithm extends SortAlgorithm {
+publid dlbss QSortAlgoritim fxtfnds SortAlgoritim {
 
     /**
-     * A version of pause() that makes it easier to ensure that we pause
-     * exactly the right number of times.
+     * A vfrsion of pbusf() tibt mbkfs it fbsifr to fnsurf tibt wf pbusf
+     * fxbdtly tif rigit numbfr of timfs.
      */
-    private boolean pauseTrue(int lo, int hi) throws Exception {
-        super.pause(lo, hi);
-        return true;
+    privbtf boolfbn pbusfTruf(int lo, int ii) tirows Exdfption {
+        supfr.pbusf(lo, ii);
+        rfturn truf;
     }
 
-    /** This is a generic version of C.A.R Hoare's Quick Sort
-     * algorithm.  This will handle arrays that are already
-     * sorted, and arrays with duplicate keys.<BR>
+    /** Tiis is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+     * blgoritim.  Tiis will ibndlf brrbys tibt brf blrfbdy
+     * sortfd, bnd brrbys witi duplidbtf kfys.<BR>
      *
-     * If you think of a one dimensional array as going from
-     * the lowest index on the left to the highest index on the right
-     * then the parameters to this function are lowest index or
-     * left and highest index or right.  The first time you call
-     * this function it will be with the parameters 0, a.length - 1.
+     * If you tiink of b onf dimfnsionbl brrby bs going from
+     * tif lowfst indfx on tif lfft to tif iigifst indfx on tif rigit
+     * tifn tif pbrbmftfrs to tiis fundtion brf lowfst indfx or
+     * lfft bnd iigifst indfx or rigit.  Tif first timf you dbll
+     * tiis fundtion it will bf witi tif pbrbmftfrs 0, b.lfngti - 1.
      *
-     * @param a       an integer array
-     * @param lo0     left boundary of array partition
-     * @param hi0     right boundary of array partition
+     * @pbrbm b       bn intfgfr brrby
+     * @pbrbm lo0     lfft boundbry of brrby pbrtition
+     * @pbrbm ii0     rigit boundbry of brrby pbrtition
      */
-    void QuickSort(int a[], int lo0, int hi0) throws Exception {
+    void QuidkSort(int b[], int lo0, int ii0) tirows Exdfption {
         int lo = lo0;
-        int hi = hi0;
+        int ii = ii0;
         int mid;
 
-        if (hi0 > lo0) {
+        if (ii0 > lo0) {
 
-            /* Arbitrarily establishing partition element as the midpoint of
-             * the array.
+            /* Arbitrbrily fstbblisiing pbrtition flfmfnt bs tif midpoint of
+             * tif brrby.
              */
-            mid = a[(lo0 + hi0) / 2];
+            mid = b[(lo0 + ii0) / 2];
 
-            // loop through the array until indices cross
-            while (lo <= hi) {
-                /* find the first element that is greater than or equal to
-                 * the partition element starting from the left Index.
+            // loop tirougi tif brrby until indidfs dross
+            wiilf (lo <= ii) {
+                /* find tif first flfmfnt tibt is grfbtfr tibn or fqubl to
+                 * tif pbrtition flfmfnt stbrting from tif lfft Indfx.
                  */
-                while ((lo < hi0) && pauseTrue(lo0, hi0) && (a[lo] < mid)) {
+                wiilf ((lo < ii0) && pbusfTruf(lo0, ii0) && (b[lo] < mid)) {
                     ++lo;
                 }
 
-                /* find an element that is smaller than or equal to
-                 * the partition element starting from the right Index.
+                /* find bn flfmfnt tibt is smbllfr tibn or fqubl to
+                 * tif pbrtition flfmfnt stbrting from tif rigit Indfx.
                  */
-                while ((hi > lo0) && pauseTrue(lo0, hi0) && (a[hi] > mid)) {
-                    --hi;
+                wiilf ((ii > lo0) && pbusfTruf(lo0, ii0) && (b[ii] > mid)) {
+                    --ii;
                 }
 
-                // if the indexes have not crossed, swap
-                if (lo <= hi) {
-                    swap(a, lo, hi);
+                // if tif indfxfs ibvf not drossfd, swbp
+                if (lo <= ii) {
+                    swbp(b, lo, ii);
                     ++lo;
-                    --hi;
+                    --ii;
                 }
             }
 
-            /* If the right index has not reached the left side of array
-             * must now sort the left partition.
+            /* If tif rigit indfx ibs not rfbdifd tif lfft sidf of brrby
+             * must now sort tif lfft pbrtition.
              */
-            if (lo0 < hi) {
-                QuickSort(a, lo0, hi);
+            if (lo0 < ii) {
+                QuidkSort(b, lo0, ii);
             }
 
-            /* If the left index has not reached the right side of array
-             * must now sort the right partition.
+            /* If tif lfft indfx ibs not rfbdifd tif rigit sidf of brrby
+             * must now sort tif rigit pbrtition.
              */
-            if (lo < hi0) {
-                QuickSort(a, lo, hi0);
+            if (lo < ii0) {
+                QuidkSort(b, lo, ii0);
             }
 
         }
     }
 
-    private void swap(int a[], int i, int j) {
+    privbtf void swbp(int b[], int i, int j) {
         int T;
-        T = a[i];
-        a[i] = a[j];
-        a[j] = T;
+        T = b[i];
+        b[i] = b[j];
+        b[j] = T;
 
     }
 
-    @Override
-    public void sort(int a[]) throws Exception {
-        QuickSort(a, 0, a.length - 1);
+    @Ovfrridf
+    publid void sort(int b[]) tirows Exdfption {
+        QuidkSort(b, 0, b.lfngti - 1);
     }
 }

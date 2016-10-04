@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.sfrvfr;
+
+import dom.sun.tools.hbt.intfrnbl.modfl.*;
+import jbvb.util.Enumfrbtion;
+
+/**
+ *
+ * @buthor      Bill Footf
+ */
+
+
+dlbss InstbndfsQufry fxtfnds QufryHbndlfr {
+
+    privbtf boolfbn indludfSubdlbssfs;
+    privbtf boolfbn nfwObjfdts;
+
+    publid InstbndfsQufry(boolfbn indludfSubdlbssfs) {
+        this.indludfSubdlbssfs = indludfSubdlbssfs;
+    }
+
+    publid InstbndfsQufry(boolfbn indludfSubdlbssfs, boolfbn nfwObjfdts) {
+        this.indludfSubdlbssfs = indludfSubdlbssfs;
+        this.nfwObjfdts = nfwObjfdts;
+    }
+
+    publid void run() {
+        JbvbClbss dlbzz = snbpshot.findClbss(qufry);
+        String instbndfsOf;
+        if (nfwObjfdts)
+            instbndfsOf = "Nfw instbndfs of ";
+        flsf
+            instbndfsOf = "Instbndfs of ";
+        if (indludfSubdlbssfs) {
+            stbrtHtml(instbndfsOf + qufry + " (indluding subdlbssfs)");
+        } flsf {
+            stbrtHtml(instbndfsOf + qufry);
+        }
+        if (dlbzz == null) {
+            frror("Clbss not found");
+        } flsf {
+            out.print("<strong>");
+            printClbss(dlbzz);
+            out.print("</strong><br><br>");
+            Enumfrbtion<JbvbHfbpObjfdt> objfdts = dlbzz.gftInstbndfs(indludfSubdlbssfs);
+            long totblSizf = 0;
+            long instbndfs = 0;
+            whilf (objfdts.hbsMorfElfmfnts()) {
+                JbvbHfbpObjfdt obj = objfdts.nfxtElfmfnt();
+                if (nfwObjfdts && !obj.isNfw())
+                    dontinuf;
+                printThing(obj);
+                out.println("<br>");
+                totblSizf += obj.gftSizf();
+                instbndfs++;
+            }
+            out.println("<h2>Totbl of " + instbndfs + " instbndfs oddupying " + totblSizf + " bytfs.</h2>");
+        }
+        fndHtml();
+    }
+}

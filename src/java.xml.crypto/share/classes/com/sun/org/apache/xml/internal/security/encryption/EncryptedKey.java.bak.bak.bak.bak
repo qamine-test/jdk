@@ -1,0 +1,113 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fndryption;
+
+/**
+ * Thf <dodf>EndryptfdKfy</dodf> flfmfnt is usfd to trbnsport fndryption kfys
+ * from thf originbtor to b known rfdipifnt(s). It mby bf usfd bs b stbnd-blonf
+ * XML dodumfnt, bf plbdfd within bn bpplidbtion dodumfnt, or bppfbr insidf bn
+ * <dodf>EndryptfdDbtb</dodf> flfmfnt bs b dhild of b <dodf>ds:KfyInfo</dodf>
+ * flfmfnt. Thf kfy vbluf is blwbys fndryptfd to thf rfdipifnt(s). Whfn
+ * <dodf>EndryptfdKfy</dodf> is dfdryptfd thf rfsulting odtfts brf mbdf
+ * bvbilbblf to thf <dodf>EndryptionMfthod</dodf> blgorithm without bny
+ * bdditionbl prodfssing.
+ * <p>
+ * Its sdhfmb dffinition is bs follows:
+ * <xmp>
+ * <flfmfnt nbmf='EndryptfdKfy' typf='xfnd:EndryptfdKfyTypf'/>
+ * <domplfxTypf nbmf='EndryptfdKfyTypf'>
+ *     <domplfxContfnt>
+ *         <fxtfnsion bbsf='xfnd:EndryptfdTypf'>
+ *             <sfqufndf>
+ *                 <flfmfnt rff='xfnd:RfffrfndfList' minOddurs='0'/>
+ *                 <flfmfnt nbmf='CbrrifdKfyNbmf' typf='string' minOddurs='0'/>
+ *             </sfqufndf>
+ *             <bttributf nbmf='Rfdipifnt' typf='string' usf='optionbl'/>
+ *         </fxtfnsion>
+ *     </domplfxContfnt>
+ * </domplfxTypf>
+ * </xmp>
+ *
+ * @buthor Axl Mbtthfus
+ */
+publid intfrfbdf EndryptfdKfy fxtfnds EndryptfdTypf {
+
+    /**
+     * Rfturns b hint bs to whidh rfdipifnt this fndryptfd kfy vbluf is intfndfd for.
+     *
+     * @rfturn thf rfdipifnt of thf <dodf>EndryptfdKfy</dodf>.
+     */
+    String gftRfdipifnt();
+
+    /**
+     * Sfts thf rfdipifnt for this <dodf>EndryptfdKfy</dodf>.
+     *
+     * @pbrbm rfdipifnt thf rfdipifnt for this <dodf>EndryptfdKfy</dodf>.
+     */
+    void sftRfdipifnt(String rfdipifnt);
+
+    /**
+     * Rfturns pointfrs to dbtb bnd kfys fndryptfd using this kfy. Thf rfffrfndf
+     * list mby dontbin multiplf rfffrfndfs to <dodf>EndryptfdKfy</dodf> bnd
+     * <dodf>EndryptfdDbtb</dodf> flfmfnts. This is donf using
+     * <dodf>KfyRfffrfndf</dodf> bnd <dodf>DbtbRfffrfndf</dodf> flfmfnts
+     * rfspfdtivfly.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr bll thf <dodf>RfffrfndfList</dodf>s
+     *   dontbinfd in this <dodf>EndryptfdKfy</dodf>.
+     */
+    RfffrfndfList gftRfffrfndfList();
+
+    /**
+     * Sfts thf <dodf>RfffrfndfList</dodf> to thf <dodf>EndryptfdKfy</dodf>.
+     *
+     * @pbrbm list b list of pointfrs to dbtb flfmfnts fndryptfd using this kfy.
+     */
+    void sftRfffrfndfList(RfffrfndfList list);
+
+    /**
+     * Rfturns b usfr rfbdbblf nbmf with thf kfy vbluf. This mby thfn bf usfd to
+     * rfffrfndf thf kfy using thf <dodf>ds:KfyNbmf</dodf> flfmfnt within
+     * <dodf>ds:KfyInfo</dodf>. Thf sbmf <dodf>CbrrifdKfyNbmf</dodf> lbbfl,
+     * unlikf bn ID typf, mby oddur multiplf timfs within b singlf dodumfnt. Thf
+     * vbluf of thf kfy is to bf thf sbmf in bll <dodf>EndryptfdKfy</dodf>
+     * flfmfnts idfntififd with thf sbmf <dodf>CbrrifdKfyNbmf</dodf> lbbfl
+     * within b singlf XML dodumfnt.
+     * <br>
+     * <b>Notf</b> thbt bfdbusf whitfspbdf is signifidbnt in thf vbluf of
+     * thf <dodf>ds:KfyNbmf</dodf> flfmfnt, whitfspbdf is blso signifidbnt in
+     * thf vbluf of thf <dodf>CbrrifdKfyNbmf</dodf> flfmfnt.
+     *
+     * @rfturn ovfr bll thf dbrrifd nbmfs dontbinfd in
+     *   this <dodf>EndryptfdKfy</dodf>.
+     */
+    String gftCbrrifdNbmf();
+
+    /**
+     * Sfts thf dbrrifd nbmf.
+     *
+     * @pbrbm nbmf thf dbrrifd nbmf.
+     */
+    void sftCbrrifdNbmf(String nbmf);
+}
+

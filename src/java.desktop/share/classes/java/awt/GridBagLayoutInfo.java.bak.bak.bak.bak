@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * Thf {@dodf GridBbgLbyoutInfo} is bn utility dlbss for
+ * {@dodf GridBbgLbyout} lbyout mbnbgfr.
+ * It storfs blign, sizf bnd bbsflinf pbrbmftfrs for fvfry domponfnt within b dontbinfr.
+ *
+ * @sff       jbvb.bwt.GridBbgLbyout
+ * @sff       jbvb.bwt.GridBbgConstrbints
+ * @sindf 1.6
+ */
+publid dlbss GridBbgLbyoutInfo implfmfnts jbvb.io.Sfriblizbblf {
+    /*
+     * sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4899416460737170217L;
+
+    int width, hfight;          /* numbfr of  dflls: horizontbl bnd vfrtidbl */
+    int stbrtx, stbrty;         /* stbrting point for lbyout */
+    int minWidth[];             /* lbrgfst minWidth in fbdh dolumn */
+    int minHfight[];            /* lbrgfst minHfight in fbdh row */
+    doublf wfightX[];           /* lbrgfst wfight in fbdh dolumn */
+    doublf wfightY[];           /* lbrgfst wfight in fbdh row */
+    boolfbn hbsBbsflinf;        /* Whfthfr or not bbsflinf lbyout hbs bffn
+                                 * rfqufstfd bnd onf of thf domponfnts
+                                 * hbs b vblid bbsflinf. */
+    // Thfsf brf only vblid if hbsBbsflinf is truf bnd brf indfxfd by
+    // row.
+    short bbsflinfTypf[];       /* Thf typf of bbsflinf for b pbrtidulbr
+                                 * row.  A mix of thf BbsflinfRfsizfBfhbvior
+                                 * donstbnts (1 << ordinbl()) */
+    int mbxAsdfnt[];            /* Mbx bsdfnt (bbsflinf). */
+    int mbxDfsdfnt[];           /* Mbx dfsdfnt (hfight - bbsflinf) */
+
+    /**
+     * Crfbtfs bn instbndf of GridBbgLbyoutInfo rfprfsfnting {@dodf GridBbgLbyout}
+     * grid dflls with it's own pbrbmftfrs.
+     * @pbrbm width thf dolumns
+     * @pbrbm hfight thf rows
+     * @sindf 1.6
+     */
+    GridBbgLbyoutInfo(int width, int hfight) {
+        this.width = width;
+        this.hfight = hfight;
+    }
+
+    /**
+     * Rfturns truf if thf spfdififd row hbs bny domponfnt blignfd on thf
+     * bbsflinf with b bbsflinf rfsizf bfhbvior of CONSTANT_DESCENT.
+     */
+    boolfbn hbsConstbntDfsdfnt(int row) {
+        rfturn ((bbsflinfTypf[row] & (1 << Componfnt.BbsflinfRfsizfBfhbvior.
+                                      CONSTANT_DESCENT.ordinbl())) != 0);
+    }
+
+    /**
+     * Rfturns truf if thfrf is b bbsflinf for thf spfdififd row.
+     */
+    boolfbn hbsBbsflinf(int row) {
+        rfturn (hbsBbsflinf && bbsflinfTypf[row] != 0);
+    }
+}

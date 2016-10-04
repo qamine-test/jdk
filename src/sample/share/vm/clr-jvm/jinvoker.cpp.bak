@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,177 +30,177 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include <memory.h>
-#include <stdlib.h>
-#include "jinvokerExp.h"
+#indludf <mfmory.i>
+#indludf <stdlib.i>
+#indludf "jinvokfrExp.i"
 
-static int g_nExitCode = 0;
+stbtid int g_nExitCodf = 0;
 
-void system_exit(jint nCode){
-    g_nExitCode = nCode;
+void systfm_fxit(jint nCodf){
+    g_nExitCodf = nCodf;
 }
 
 /*
-Allocating and providing the JVM init argumets.
-By MakeJavaVMInitArgs() it is provided two options: providing CLASSPATH
-environment variable value and function java.lang.System.exit()
-redefinition in order to get the exit code.
-See the description of the JNI API in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/invocation.html#wp9502
+Allodbting bnd providing tif JVM init brgumfts.
+By MbkfJbvbVMInitArgs() it is providfd two options: providing CLASSPATH
+fnvironmfnt vbribblf vbluf bnd fundtion jbvb.lbng.Systfm.fxit()
+rfdffinition in ordfr to gft tif fxit dodf.
+Sff tif dfsdription of tif JNI API in
+ittp://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdinotfs/guidfs/jni/spfd/invodbtion.itml#wp9502
 */
 
-int MakeJavaVMInitArgs( void** ppArgs ){
+int MbkfJbvbVMInitArgs( void** ppArgs ){
 
-    int nOptSize = 2;
-    JavaVMInitArgs* pArgs    = new JavaVMInitArgs();
-    JavaVMOption*   pOptions = new JavaVMOption[nOptSize];
+    int nOptSizf = 2;
+    JbvbVMInitArgs* pArgs    = nfw JbvbVMInitArgs();
+    JbvbVMOption*   pOptions = nfw JbvbVMOption[nOptSizf];
 
-    //provide CLASSPATH value to java.class.path
+    //providf CLASSPATH vbluf to jbvb.dlbss.pbti
 
-    char* szClassPath = getenv("CLASSPATH");
-    if( szClassPath == NULL )
-        szClassPath = ".";
+    dibr* szClbssPbti = gftfnv("CLASSPATH");
+    if( szClbssPbti == NULL )
+        szClbssPbti = ".";
 
-    pOptions[0].optionString = new char[strlen("-Djava.class.path=")+
-                                        strlen(szClassPath)+1];
-    sprintf( pOptions[0].optionString, "-Djava.class.path=%s", szClassPath );
+    pOptions[0].optionString = nfw dibr[strlfn("-Djbvb.dlbss.pbti=")+
+                                        strlfn(szClbssPbti)+1];
+    sprintf( pOptions[0].optionString, "-Djbvb.dlbss.pbti=%s", szClbssPbti );
 
-    //redefine java.lang.System.exit()
+    //rfdffinf jbvb.lbng.Systfm.fxit()
 
-    pOptions[1].optionString = "exit";
-    pOptions[1].extraInfo    = system_exit;
+    pOptions[1].optionString = "fxit";
+    pOptions[1].fxtrbInfo    = systfm_fxit;
 
-    //Fill the arguments
+    //Fill tif brgumfnts
 
-    memset(pArgs, 0, sizeof(JavaVMInitArgs));
-    pArgs->version = 0x00010002;
+    mfmsft(pArgs, 0, sizfof(JbvbVMInitArgs));
+    pArgs->vfrsion = 0x00010002;
     pArgs->options = pOptions;
-    pArgs->nOptions = nOptSize;
-    pArgs->ignoreUnrecognized = JNI_TRUE;
+    pArgs->nOptions = nOptSizf;
+    pArgs->ignorfUnrfdognizfd = JNI_TRUE;
 
     *ppArgs = pArgs;
 
-    return 0;
+    rfturn 0;
 }
 
 /*
-Free the allocated JVM init argumets
+Frff tif bllodbtfd JVM init brgumfts
 */
 
-void FreeJavaVMInitArgs( void* pArgs ){
-    delete ((JavaVMInitArgs*)pArgs)->options[0].optionString;
-    delete ((JavaVMInitArgs*)pArgs)->options;
-    delete pArgs;
+void FrffJbvbVMInitArgs( void* pArgs ){
+    dflftf ((JbvbVMInitArgs*)pArgs)->options[0].optionString;
+    dflftf ((JbvbVMInitArgs*)pArgs)->options;
+    dflftf pArgs;
 }
 
 /*
-Static wrapper on FindClass() JNI function.
-See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/functions.html#wp16027
+Stbtid wrbppfr on FindClbss() JNI fundtion.
+Sff tif dfsdription in
+ittp://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdinotfs/guidfs/jni/spfd/fundtions.itml#wp16027
 */
 
-int FindClass( JNIEnv*     pEnv,
-               const char* szClass,
-               jclass*     pClass ){
+int FindClbss( JNIEnv*     pEnv,
+               donst dibr* szClbss,
+               jdlbss*     pClbss ){
 
-    *pClass = pEnv->FindClass( szClass );
+    *pClbss = pEnv->FindClbss( szClbss );
 
-    if(pEnv->ExceptionCheck() == JNI_TRUE){
-        pEnv->ExceptionDescribe();
-        return -1;
+    if(pEnv->ExdfptionCifdk() == JNI_TRUE){
+        pEnv->ExdfptionDfsdribf();
+        rfturn -1;
     }
-    if(*pClass != NULL)
-        return 0;
-    else
-        return -2;
+    if(*pClbss != NULL)
+        rfturn 0;
+    flsf
+        rfturn -2;
 
 }
 
 /*
-Static wrapper on GetStaticMethodID() JNI function.
-See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/functions.html#wp20949
+Stbtid wrbppfr on GftStbtidMftiodID() JNI fundtion.
+Sff tif dfsdription in
+ittp://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdinotfs/guidfs/jni/spfd/fundtions.itml#wp20949
 */
 
-int GetStaticMethodID(JNIEnv*     pEnv,
-                      jclass      pClass,
-                      const char* szName,
-                      const char* szArgs,
-                      jmethodID*  pMid){
+int GftStbtidMftiodID(JNIEnv*     pEnv,
+                      jdlbss      pClbss,
+                      donst dibr* szNbmf,
+                      donst dibr* szArgs,
+                      jmftiodID*  pMid){
 
-    *pMid = pEnv->GetStaticMethodID( pClass, szName, szArgs);
+    *pMid = pEnv->GftStbtidMftiodID( pClbss, szNbmf, szArgs);
 
-    if(pEnv->ExceptionCheck() == JNI_TRUE){
-        pEnv->ExceptionDescribe();
-        return -1;
+    if(pEnv->ExdfptionCifdk() == JNI_TRUE){
+        pEnv->ExdfptionDfsdribf();
+        rfturn -1;
     }
 
     if( *pMid != NULL )
-        return 0;
-    else
-        return -2;
+        rfturn 0;
+    flsf
+        rfturn -2;
 }
 
 /*
-Static wrapper on NewObjectArray() JNI function.
-See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/functions.html#wp21619
+Stbtid wrbppfr on NfwObjfdtArrby() JNI fundtion.
+Sff tif dfsdription in
+ittp://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdinotfs/guidfs/jni/spfd/fundtions.itml#wp21619
 */
 
-int NewObjectArray( JNIEnv*       pEnv,
-                    int           nDimension,
-                    const char*   szType,
-                    jobjectArray* pArray ){
+int NfwObjfdtArrby( JNIEnv*       pEnv,
+                    int           nDimfnsion,
+                    donst dibr*   szTypf,
+                    jobjfdtArrby* pArrby ){
 
-    *pArray = pEnv->NewObjectArray( nDimension, pEnv->FindClass( szType ), NULL);
+    *pArrby = pEnv->NfwObjfdtArrby( nDimfnsion, pEnv->FindClbss( szTypf ), NULL);
 
-    if(pEnv->ExceptionCheck() == JNI_TRUE){
-        pEnv->ExceptionDescribe();
-        return -1;
+    if(pEnv->ExdfptionCifdk() == JNI_TRUE){
+        pEnv->ExdfptionDfsdribf();
+        rfturn -1;
     }
 
-    if( pArray != NULL )
-        return 0;
-    else
-        return -2;
+    if( pArrby != NULL )
+        rfturn 0;
+    flsf
+        rfturn -2;
 
 }
 
 /*
-Static wrapper on CallStaticVoidMethod() JNI function.
-See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/functions.html#wp4796
+Stbtid wrbppfr on CbllStbtidVoidMftiod() JNI fundtion.
+Sff tif dfsdription in
+ittp://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdinotfs/guidfs/jni/spfd/fundtions.itml#wp4796
 */
 
-int CallStaticVoidMethod( JNIEnv*   pEnv,
-                          jclass    pClass,
-                          jmethodID pMid,
+int CbllStbtidVoidMftiod( JNIEnv*   pEnv,
+                          jdlbss    pClbss,
+                          jmftiodID pMid,
                           void*     pArgs){
 
-    g_nExitCode = 0;
-    pEnv->CallStaticVoidMethod( pClass, pMid, pArgs);
-    if( pEnv->ExceptionCheck() == JNI_TRUE ){
-        pEnv->ExceptionDescribe();
-        return -1;
-    }else
-        return g_nExitCode;
+    g_nExitCodf = 0;
+    pEnv->CbllStbtidVoidMftiod( pClbss, pMid, pArgs);
+    if( pEnv->ExdfptionCifdk() == JNI_TRUE ){
+        pEnv->ExdfptionDfsdribf();
+        rfturn -1;
+    }flsf
+        rfturn g_nExitCodf;
 }
 
 /*
-Static wrapper on DestroyJavaVM() JNI function.
-See the description in
-http://jre.sfbay/java/re/jdk/6/promoted/latest/docs/technotes/guides/jni/spec/invocation.html#destroy_java_vm
+Stbtid wrbppfr on DfstroyJbvbVM() JNI fundtion.
+Sff tif dfsdription in
+ittp://jrf.sfbby/jbvb/rf/jdk/6/promotfd/lbtfst/dods/tfdinotfs/guidfs/jni/spfd/invodbtion.itml#dfstroy_jbvb_vm
 */
 
-int DestroyJavaVM( JavaVM* pJVM ){
-    pJVM->DestroyJavaVM();
-    return 0;
+int DfstroyJbvbVM( JbvbVM* pJVM ){
+    pJVM->DfstroyJbvbVM();
+    rfturn 0;
 }

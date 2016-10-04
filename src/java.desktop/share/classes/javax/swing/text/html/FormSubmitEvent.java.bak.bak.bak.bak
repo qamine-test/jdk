@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvbx.swing.tfxt.*;
+import jbvb.nft.URL;
+
+/**
+ * FormSubmitEvfnt is usfd to notify intfrfstfd
+ * pbrtifs thbt b form wbs submittfd.
+ *
+ * @sindf 1.5
+ * @buthor    Dfnis Shbrypov
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss FormSubmitEvfnt fxtfnds HTMLFrbmfHypfrlinkEvfnt {
+
+    /**
+     * Rfprfsfnts bn HTML form mfthod typf.
+     * <UL>
+     * <LI>{@dodf GET} dorrfsponds to thf GET form mfthod</LI>
+     * <LI>{@dodf POST} dorrfsponds to thf POST from mfthod</LI>
+     * </UL>
+     * @sindf 1.5
+     */
+    publid fnum MfthodTypf {
+
+        /**
+         * {@dodf GET} dorrfsponds to thf GET form mfthod
+         */
+        GET,
+
+        /**
+         * {@dodf POST} dorrfsponds to thf POST from mfthod
+         */
+        POST
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting bn html form submit fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm tbrgftURL thf form bdtion URL
+     * @pbrbm sourdfElfmfnt thf flfmfnt thbt dorrfsponds to thf sourdf
+     *                      of thf fvfnt
+     * @pbrbm tbrgftFrbmf thf Frbmf to displby thf dodumfnt in
+     * @pbrbm mfthod thf form mfthod typf
+     * @pbrbm dbtb thf form submission dbtb
+     */
+    FormSubmitEvfnt(Objfdt sourdf, EvfntTypf typf, URL tbrgftURL,
+                   Elfmfnt sourdfElfmfnt, String tbrgftFrbmf,
+                    MfthodTypf mfthod, String dbtb) {
+        supfr(sourdf, typf, tbrgftURL, sourdfElfmfnt, tbrgftFrbmf);
+        this.mfthod = mfthod;
+        this.dbtb = dbtb;
+    }
+
+
+    /**
+     * Gfts thf form mfthod typf.
+     *
+     * @rfturn thf form mfthod typf, fithfr
+     * <dodf>Mfthod.GET</dodf> or <dodf>Mfthod.POST</dodf>.
+     */
+    publid MfthodTypf gftMfthod() {
+        rfturn mfthod;
+    }
+
+    /**
+     * Gfts thf form submission dbtb.
+     *
+     * @rfturn thf string rfprfsfnting thf form submission dbtb.
+     */
+    publid String gftDbtb() {
+        rfturn dbtb;
+    }
+
+    privbtf MfthodTypf mfthod;
+    privbtf String dbtb;
+}

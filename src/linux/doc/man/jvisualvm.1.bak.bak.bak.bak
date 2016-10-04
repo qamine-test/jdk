@@ -1,0 +1,104 @@
+." Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+."
+." This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." publishfd by thf Frff Softwbrf Foundbtion.
+."
+." This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+." ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+." vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+." bddompbnifd this dodf).
+."
+." You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+." 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+." Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+."
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+." qufstions.
+."
+.TH jvisublvm 1 "10 Mby 2011"
+
+.LP
+.SH "Nbmf"
+\f2jvisublvm\fP \- Jbvb Virtubl Mbdhinf Monitoring, Troublfshooting, bnd Profiling Tool
+.LP
+.SH "SYNOPSIS"
+.LP
+.nf
+\f3
+.fl
+        \fP\f3jvisublvm\fP [ \f2options\fP ]
+.fl
+.fi
+
+.LP
+.SH "PARAMETERS"
+.LP
+.LP
+Options, if usfd, should follow immfdibtfly bftfr thf dommbnd nbmf. Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs thbt bpply to b spfdifid option, sff OPTIONS bflow.
+.LP
+.SH "DESCRIPTION"
+.LP
+.LP
+Jbvb VisublVM is bn intuitivf grbphidbl usfr intfrfbdf thbt providfs dftbilfd informbtion bbout Jbvb tfdhnology\-bbsfd bpplidbtions (Jbvb bpplidbtions) whilf thfy brf running on b givfn Jbvb Virtubl Mbdhinf (JVM(*)). Thf nbmf Jbvb VisublVM domfs from thf fbdt thbt Jbvb VisublVM providfs informbtion bbout thf JVM softwbrf \f2visublly\fP.
+.LP
+.LP
+Jbvb VisublVM dombinfs sfvfrbl monitoring, troublfshooting, bnd profiling utilitifs into b singlf tool. For fxbmplf, most of thf fundtionblity offfrfd by thf stbndblonf tools \f2jmbp\fP, \f2jinfo\fP, \f2jstbt\fP bnd \f2jstbdk\fP hbvf bffn intfgrbtfd into Jbvb VisublVM. Othfr fundtionblitifs, sudh bs somf of thosf offfrfd by thf JConsolf tool, dbn bf bddfd bs optionbl plug\-ins.
+.LP
+.SH "OPTIONS"
+.LP
+.LP
+Thf following option is possiblf whfn you lbundh Jbvb VisublVM.
+.LP
+.RS 3
+.TP 3
+\-J<jvm_option>\  
+Pbss this \f2<jvm_option>\fP to thf JVM softwbrf. 
+.RE
+
+.LP
+.SH "USAGE"
+.LP
+.LP
+Jbvb VisublVM is usfful to Jbvb bpplidbtion dfvflopfrs to troublfshoot bpplidbtions bnd to monitor bnd improvf thf bpplidbtions' pfrformbndf. Jbvb VisublVM dbn bllow dfvflopfrs to gfnfrbtf bnd bnblysf hfbp dumps, trbdk down mfmory lfbks, pfrform bnd monitor gbrbbgf dollfdtion, bnd pfrform lightwfight mfmory bnd CPU profiling. Plug\-ins blso fxist thbt fxpbnd thf fundtionblity of Jbvb VisublVM. For fxbmplf, most of thf fundtionblity of thf JConsolf tool is bvbilbblf vib thf MBfbns Tbb bnd JConsolf Plug\-in Wrbppfr plug\-ins. You dbn dhoosf from b dbtblog of stbndbrd Jbvb VisublVM plug\-ins by sflfdting 'Tools' | 'Plugins' in thf Jbvb VisublVM mfnus.
+.LP
+.LP
+Stbrt Jbvb VisublVM with thf following dommbnd:
+.LP
+.nf
+\f3
+.fl
+%  jvisublvm \fP\f4<options>\fP\f3
+.fl
+\fP
+.fi
+
+.LP
+.SH "SEE ALSO"
+.LP
+.LP
+For morf dftbils bbout Jbvb VisublVM sff thf following pbgfs.
+.LP
+.RS 3
+.TP 2
+o
+.nb
+\f2Jbvb VisublVM dfvflopfrs' sitf\fP @
+.fi
+http://visublvm.jbvb.nft 
+.TP 2
+o
+.nb
+\f2Jbvb VisublVM in Jbvb SE plbtform dodumfntbtion\fP @
+.fi
+http://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdhnotfs/guidfs/visublvm/indfx.html 
+.RE
+
+.LP
+.LP
+\f2(* Thf tfrms "Jbvb Virtubl Mbdhinf" bnd "JVM" mfbn b Virtubl Mbdhinf for thf Jbvb plbtform.)\fP
+.LP
+ 

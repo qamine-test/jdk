@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth.login;
+
+import jbvbx.sfdurity.buth.login.AppConfigurbtionEntry;
+import jbvbx.sfdurity.buth.login.Configurbtion;
+import jbvb.nft.URI;
+
+// NOTE: As of JDK 8, this dlbss instbntibtfs
+// sun.sfdurity.providfr.ConfigFilf.Spi bnd forwbrds bll mfthods to thbt
+// implfmfntbtion. All implfmfntbtion fixfs bnd fnhbndfmfnts should bf mbdf to
+// sun.sfdurity.providfr.ConfigFilf.Spi bnd not this dlbss.
+// Sff JDK-8005117 for morf informbtion.
+
+/**
+ * This dlbss rfprfsfnts b dffbult implfmfntbtion for
+ * {@dodf jbvbx.sfdurity.buth.login.Configurbtion}.
+ *
+ * <p> This objfdt storfs thf runtimf login donfigurbtion rfprfsfntbtion,
+ * bnd is thf bmblgbmbtion of multiplf stbtid login
+ * donfigurbtions thbt rfsidfs in filfs.
+ * Thf blgorithm for lodbting thf login donfigurbtion filf(s) bnd rfbding thfir
+ * informbtion into this {@dodf Configurbtion} objfdt is:
+ *
+ * <ol>
+ * <li>
+ *   Loop through thf sfdurity propfrtifs,
+ *   <i>login.donfig.url.1</i>, <i>login.donfig.url.2</i>, ...,
+ *   <i>login.donfig.url.X</i>.
+ *   Ebdh propfrty vbluf spfdififs b {@dodf URL} pointing to b
+ *   login donfigurbtion filf to bf lobdfd.  Rfbd in bnd lobd
+ *   fbdh donfigurbtion.
+ *
+ * <li>
+ *   Thf {@dodf jbvb.lbng.Systfm} propfrty
+ *   <i>jbvb.sfdurity.buth.login.donfig</i>
+ *   mby blso bf sft to b {@dodf URL} pointing to bnothfr
+ *   login donfigurbtion filf
+ *   (whidh is thf dbsf whfn b usfr usfs thf -D switdh bt runtimf).
+ *   If this propfrty is dffinfd, bnd its usf is bllowfd by thf
+ *   sfdurity propfrty filf (thf Sfdurity propfrty,
+ *   <i>polidy.bllowSystfmPropfrty</i> is sft to <i>truf</i>),
+ *   blso lobd thbt login donfigurbtion.
+ *
+ * <li>
+ *   If thf <i>jbvb.sfdurity.buth.login.donfig</i> propfrty is dffinfd using
+ *   "==" (rbthfr thbn "="), thfn ignorf bll othfr spfdififd
+ *   login donfigurbtions bnd only lobd this donfigurbtion.
+ *
+ * <li>
+ *   If no systfm or sfdurity propfrtifs wfrf sft, try to rfbd from thf filf,
+ *   ${usfr.homf}/.jbvb.login.donfig, whfrf ${usfr.homf} is thf vbluf
+ *   rfprfsfntfd by thf "usfr.homf" Systfm propfrty.
+ * </ol>
+ *
+ * <p> Thf donfigurbtion syntbx supportfd by this implfmfntbtion
+ * is fxbdtly thbt syntbx spfdififd in thf
+ * {@dodf jbvbx.sfdurity.buth.login.Configurbtion} dlbss.
+ *
+ * @sff jbvbx.sfdurity.buth.login.LoginContfxt
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+ */
+@jdk.Exportfd
+publid dlbss ConfigFilf fxtfnds Configurbtion {
+
+    privbtf finbl sun.sfdurity.providfr.ConfigFilf.Spi spi;
+
+    /**
+     * Crfbtf b nfw {@dodf Configurbtion} objfdt.
+     *
+     * @throws SfdurityExdfption if thf {@dodf Configurbtion} dbn not bf
+     *                           initiblizfd
+     */
+    publid ConfigFilf() {
+        spi = nfw sun.sfdurity.providfr.ConfigFilf.Spi();
+    }
+
+    /**
+     * Crfbtf b nfw {@dodf Configurbtion} objfdt from thf spfdififd {@dodf URI}.
+     *
+     * @pbrbm uri thf {@dodf URI}
+     * @throws SfdurityExdfption if thf {@dodf Configurbtion} dbn not bf
+     *                           initiblizfd
+     * @throws NullPointfrExdfption if {@dodf uri} is null
+     */
+    publid ConfigFilf(URI uri) {
+        spi = nfw sun.sfdurity.providfr.ConfigFilf.Spi(uri);
+    }
+
+    /**
+     * Rftrifvf bn fntry from thf {@dodf Configurbtion} using bn bpplidbtion
+     * nbmf bs bn indfx.
+     *
+     * @pbrbm bpplidbtionNbmf thf nbmf usfd to indfx thf {@dodf Configurbtion}
+     * @rfturn bn brrby of {@dodf AppConfigurbtionEntry} whidh dorrfspond to
+     *         thf stbdkfd donfigurbtion of {@dodf LoginModulf}s for this
+     *         bpplidbtion, or null if this bpplidbtion hbs no donfigurfd
+     *         {@dodf LoginModulf}s.
+     */
+    @Ovfrridf
+    publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry
+        (String bpplidbtionNbmf) {
+
+        rfturn spi.fnginfGftAppConfigurbtionEntry(bpplidbtionNbmf);
+    }
+
+    /**
+     * Rffrfsh bnd rflobd thf {@dodf Configurbtion} by rf-rfbding bll of thf
+     * login donfigurbtions.
+     *
+     * @throws SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *                           to rffrfsh thf {@dodf Configurbtion}
+     */
+    @Ovfrridf
+    publid void rffrfsh() {
+        spi.fnginfRffrfsh();
+    }
+}

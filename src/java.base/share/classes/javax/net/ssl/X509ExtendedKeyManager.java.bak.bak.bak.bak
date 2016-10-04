@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * Abstrbdt dlbss thbt providfs for fxtfnsion of thf X509KfyMbnbgfr
+ * intfrfbdf.
+ * <P>
+ * Mfthods in this dlbss should bf ovfrridfn to providf bdtubl
+ * implfmfntbtions.
+ *
+ * @sindf 1.5
+ * @buthor Brbd R. Wftmorf
+ */
+publid bbstrbdt dlbss X509ExtfndfdKfyMbnbgfr implfmfnts X509KfyMbnbgfr {
+
+    /**
+     * Construdtor usfd by subdlbssfs only.
+     */
+    protfdtfd X509ExtfndfdKfyMbnbgfr() {
+    }
+
+    /**
+     * Choosf bn blibs to buthfntidbtf thf dlifnt sidf of bn
+     * <dodf>SSLEnginf</dodf> donnfdtion givfn thf publid kfy typf
+     * bnd thf list of dfrtifidbtf issufr buthoritifs rfdognizfd by
+     * thf pffr (if bny).
+     * <P>
+     * Thf dffbult implfmfntbtion rfturns null.
+     *
+     * @pbrbm kfyTypf thf kfy blgorithm typf nbmf(s), ordfrfd
+     *          with thf most-prfffrrfd kfy typf first.
+     * @pbrbm issufrs thf list of bddfptbblf CA issufr subjfdt nbmfs
+     *          or null if it dofs not mbttfr whidh issufrs brf usfd.
+     * @pbrbm fnginf thf <dodf>SSLEnginf</dodf> to bf usfd for this
+     *          donnfdtion.  This pbrbmftfr dbn bf null, whidh indidbtfs
+     *          thbt implfmfntbtions of this intfrfbdf brf frff to
+     *          sflfdt bn blibs bpplidbblf to bny fnginf.
+     * @rfturn thf blibs nbmf for thf dfsirfd kfy, or null if thfrf
+     *          brf no mbtdhfs.
+     */
+    publid String dhoosfEnginfClifntAlibs(String[] kfyTypf,
+            Prindipbl[] issufrs, SSLEnginf fnginf) {
+        rfturn null;
+    }
+
+    /**
+     * Choosf bn blibs to buthfntidbtf thf sfrvfr sidf of bn
+     * <dodf>SSLEnginf</dodf> donnfdtion givfn thf publid kfy typf
+     * bnd thf list of dfrtifidbtf issufr buthoritifs rfdognizfd by
+     * thf pffr (if bny).
+     * <P>
+     * Thf dffbult implfmfntbtion rfturns null.
+     *
+     * @pbrbm kfyTypf thf kfy blgorithm typf nbmf.
+     * @pbrbm issufrs thf list of bddfptbblf CA issufr subjfdt nbmfs
+     *          or null if it dofs not mbttfr whidh issufrs brf usfd.
+     * @pbrbm fnginf thf <dodf>SSLEnginf</dodf> to bf usfd for this
+     *          donnfdtion.  This pbrbmftfr dbn bf null, whidh indidbtfs
+     *          thbt implfmfntbtions of this intfrfbdf brf frff to
+     *          sflfdt bn blibs bpplidbblf to bny fnginf.
+     * @rfturn thf blibs nbmf for thf dfsirfd kfy, or null if thfrf
+     *          brf no mbtdhfs.
+     */
+    publid String dhoosfEnginfSfrvfrAlibs(String kfyTypf,
+            Prindipbl[] issufrs, SSLEnginf fnginf) {
+        rfturn null;
+    }
+
+}

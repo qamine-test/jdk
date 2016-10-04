@@ -1,0 +1,827 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import stbtid jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.BbsidTypf.*;
+import stbtid jbvb.lbng.invokf.MfthodHbndlfStbtids.*;
+
+import jbvb.lbng.invokf.LbmbdbForm.NbmfdFundtion;
+import jbvb.lbng.invokf.MfthodHbndlfs.Lookup;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+
+import sun.invokf.util.VblufConvfrsions;
+import sun.invokf.util.Wrbppfr;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssWritfr;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+
+/**
+ * Thf flbvor of mfthod hbndlf whidh fmulbtfs bn invokf instrudtion
+ * on b prfdftfrminfd brgumfnt.  Thf JVM dispbtdhfs to thf dorrfdt mfthod
+ * whfn thf hbndlf is drfbtfd, not whfn it is invokfd.
+ *
+ * All bound brgumfnts brf fndbpsulbtfd in dfdidbtfd spfdifs.
+ */
+/* non-publid */ bbstrbdt dlbss BoundMfthodHbndlf fxtfnds MfthodHbndlf {
+
+    /* non-publid */ BoundMfthodHbndlf(MfthodTypf typf, LbmbdbForm form) {
+        supfr(typf, form);
+    }
+
+    //
+    // BMH API bnd intfrnbls
+    //
+
+    stbtid MfthodHbndlf bindSinglf(MfthodTypf typf, LbmbdbForm form, BbsidTypf xtypf, Objfdt x) {
+        // for somf typf signbturfs, thfrf fxist prf-dffinfd dondrftf BMH dlbssfs
+        try {
+            switdh (xtypf) {
+            dbsf L_TYPE:
+                if (truf)  rfturn bindSinglf(typf, form, x);  // Usf known fbst pbth.
+                rfturn (BoundMfthodHbndlf) SpfdifsDbtb.EMPTY.fxtfndWith(L_TYPE).donstrudtor[0].invokfBbsid(typf, form, x);
+            dbsf I_TYPE:
+                rfturn (BoundMfthodHbndlf) SpfdifsDbtb.EMPTY.fxtfndWith(I_TYPE).donstrudtor[0].invokfBbsid(typf, form, VblufConvfrsions.widfnSubword(x));
+            dbsf J_TYPE:
+                rfturn (BoundMfthodHbndlf) SpfdifsDbtb.EMPTY.fxtfndWith(J_TYPE).donstrudtor[0].invokfBbsid(typf, form, (long) x);
+            dbsf F_TYPE:
+                rfturn (BoundMfthodHbndlf) SpfdifsDbtb.EMPTY.fxtfndWith(F_TYPE).donstrudtor[0].invokfBbsid(typf, form, (flobt) x);
+            dbsf D_TYPE:
+                rfturn (BoundMfthodHbndlf) SpfdifsDbtb.EMPTY.fxtfndWith(D_TYPE).donstrudtor[0].invokfBbsid(typf, form, (doublf) x);
+            dffbult : throw nfwIntfrnblError("unfxpfdtfd xtypf: " + xtypf);
+            }
+        } dbtdh (Throwbblf t) {
+            throw nfwIntfrnblError(t);
+        }
+    }
+
+    stbtid MfthodHbndlf bindSinglf(MfthodTypf typf, LbmbdbForm form, Objfdt x) {
+            rfturn nfw Spfdifs_L(typf, form, x);
+    }
+
+    MfthodHbndlf dlonfExtfnd(MfthodTypf typf, LbmbdbForm form, BbsidTypf xtypf, Objfdt x) {
+        try {
+            switdh (xtypf) {
+            dbsf L_TYPE: rfturn dopyWithExtfndL(typf, form, x);
+            dbsf I_TYPE: rfturn dopyWithExtfndI(typf, form, VblufConvfrsions.widfnSubword(x));
+            dbsf J_TYPE: rfturn dopyWithExtfndJ(typf, form, (long) x);
+            dbsf F_TYPE: rfturn dopyWithExtfndF(typf, form, (flobt) x);
+            dbsf D_TYPE: rfturn dopyWithExtfndD(typf, form, (doublf) x);
+            }
+        } dbtdh (Throwbblf t) {
+            throw nfwIntfrnblError(t);
+        }
+        throw nfwIntfrnblError("unfxpfdtfd typf: " + xtypf);
+    }
+
+    @Ovfrridf
+    MfthodHbndlf bindArgumfnt(int pos, BbsidTypf bbsidTypf, Objfdt vbluf) {
+        MfthodTypf typf = typf().dropPbrbmftfrTypfs(pos, pos+1);
+        LbmbdbForm form = intfrnblForm().bind(1+pos, spfdifsDbtb());
+        rfturn dlonfExtfnd(typf, form, bbsidTypf, vbluf);
+    }
+
+    @Ovfrridf
+    MfthodHbndlf dropArgumfnts(MfthodTypf srdTypf, int pos, int drops) {
+        LbmbdbForm form = intfrnblForm().bddArgumfnts(pos, srdTypf.pbrbmftfrList().subList(pos, pos + drops));
+        try {
+             rfturn dopyWith(srdTypf, form);
+         } dbtdh (Throwbblf t) {
+             throw nfwIntfrnblError(t);
+         }
+    }
+
+    @Ovfrridf
+    MfthodHbndlf pfrmutfArgumfnts(MfthodTypf nfwTypf, int[] rfordfr) {
+        try {
+             rfturn dopyWith(nfwTypf, form.pfrmutfArgumfnts(1, rfordfr, bbsidTypfs(nfwTypf.pbrbmftfrList())));
+         } dbtdh (Throwbblf t) {
+             throw nfwIntfrnblError(t);
+         }
+    }
+
+    /**
+     * Rfturn thf {@link SpfdifsDbtb} instbndf rfprfsfnting this BMH spfdifs. All subdlbssfs must providf b
+     * stbtid fifld dontbining this vbluf, bnd thfy must bddordingly implfmfnt this mfthod.
+     */
+    /*non-publid*/ bbstrbdt SpfdifsDbtb spfdifsDbtb();
+
+    /**
+     * Rfturn thf numbfr of fiflds in this BMH.  Equivblfnt to spfdifsDbtb().fifldCount().
+     */
+    /*non-publid*/ bbstrbdt int fifldCount();
+
+    @Ovfrridf
+    finbl Objfdt intfrnblPropfrtifs() {
+        rfturn "/BMH="+intfrnblVblufs();
+    }
+
+    @Ovfrridf
+    finbl Objfdt intfrnblVblufs() {
+        Objfdt[] boundVblufs = nfw Objfdt[spfdifsDbtb().fifldCount()];
+        for (int i = 0; i < boundVblufs.lfngth; ++i) {
+            boundVblufs[i] = brg(i);
+        }
+        rfturn Arrbys.bsList(boundVblufs);
+    }
+
+    /*non-publid*/ finbl Objfdt brg(int i) {
+        try {
+            switdh (spfdifsDbtb().fifldTypf(i)) {
+            dbsf L_TYPE: rfturn          spfdifsDbtb().gfttfrs[i].invokfBbsid(this);
+            dbsf I_TYPE: rfturn (int)    spfdifsDbtb().gfttfrs[i].invokfBbsid(this);
+            dbsf J_TYPE: rfturn (long)   spfdifsDbtb().gfttfrs[i].invokfBbsid(this);
+            dbsf F_TYPE: rfturn (flobt)  spfdifsDbtb().gfttfrs[i].invokfBbsid(this);
+            dbsf D_TYPE: rfturn (doublf) spfdifsDbtb().gfttfrs[i].invokfBbsid(this);
+            }
+        } dbtdh (Throwbblf fx) {
+            throw nfwIntfrnblError(fx);
+        }
+        throw nfw IntfrnblError("unfxpfdtfd typf: " + spfdifsDbtb().typfChbrs+"."+i);
+    }
+
+    //
+    // dloning API
+    //
+
+    /*non-publid*/ bbstrbdt BoundMfthodHbndlf dopyWith(MfthodTypf mt, LbmbdbForm lf);
+    /*non-publid*/ bbstrbdt BoundMfthodHbndlf dopyWithExtfndL(MfthodTypf mt, LbmbdbForm lf, Objfdt nbrg);
+    /*non-publid*/ bbstrbdt BoundMfthodHbndlf dopyWithExtfndI(MfthodTypf mt, LbmbdbForm lf, int    nbrg);
+    /*non-publid*/ bbstrbdt BoundMfthodHbndlf dopyWithExtfndJ(MfthodTypf mt, LbmbdbForm lf, long   nbrg);
+    /*non-publid*/ bbstrbdt BoundMfthodHbndlf dopyWithExtfndF(MfthodTypf mt, LbmbdbForm lf, flobt  nbrg);
+    /*non-publid*/ bbstrbdt BoundMfthodHbndlf dopyWithExtfndD(MfthodTypf mt, LbmbdbForm lf, doublf nbrg);
+
+    // Thf following is b grossly irrfgulbr hbdk:
+    @Ovfrridf MfthodHbndlf rfinvokfrTbrgft() {
+        try {
+            rfturn (MfthodHbndlf) brg(0);
+        } dbtdh (Throwbblf fx) {
+            throw nfwIntfrnblError(fx);
+        }
+    }
+
+    //
+    // dondrftf BMH dlbssfs rfquirfd to dlosf bootstrbp loops
+    //
+
+    privbtf  // mbkf it privbtf to fordf usfrs to bddfss thf fndlosing dlbss first
+    stbtid finbl dlbss Spfdifs_L fxtfnds BoundMfthodHbndlf {
+        finbl Objfdt brgL0;
+        privbtf Spfdifs_L(MfthodTypf mt, LbmbdbForm lf, Objfdt brgL0) {
+            supfr(mt, lf);
+            this.brgL0 = brgL0;
+        }
+        // Thf following is b grossly irrfgulbr hbdk:
+        @Ovfrridf MfthodHbndlf rfinvokfrTbrgft() { rfturn (MfthodHbndlf) brgL0; }
+        @Ovfrridf
+        /*non-publid*/ SpfdifsDbtb spfdifsDbtb() {
+            rfturn SPECIES_DATA;
+        }
+        @Ovfrridf
+        /*non-publid*/ int fifldCount() {
+            rfturn 1;
+        }
+        /*non-publid*/ stbtid finbl SpfdifsDbtb SPECIES_DATA = SpfdifsDbtb.gftForClbss("L", Spfdifs_L.dlbss);
+        /*non-publid*/ stbtid BoundMfthodHbndlf mbkf(MfthodTypf mt, LbmbdbForm lf, Objfdt brgL0) {
+            rfturn nfw Spfdifs_L(mt, lf, brgL0);
+        }
+        @Ovfrridf
+        /*non-publid*/ finbl BoundMfthodHbndlf dopyWith(MfthodTypf mt, LbmbdbForm lf) {
+            rfturn nfw Spfdifs_L(mt, lf, brgL0);
+        }
+        @Ovfrridf
+        /*non-publid*/ finbl BoundMfthodHbndlf dopyWithExtfndL(MfthodTypf mt, LbmbdbForm lf, Objfdt nbrg) {
+            try {
+                rfturn (BoundMfthodHbndlf) SPECIES_DATA.fxtfndWith(L_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, nbrg);
+            } dbtdh (Throwbblf fx) {
+                throw undbughtExdfption(fx);
+            }
+        }
+        @Ovfrridf
+        /*non-publid*/ finbl BoundMfthodHbndlf dopyWithExtfndI(MfthodTypf mt, LbmbdbForm lf, int nbrg) {
+            try {
+                rfturn (BoundMfthodHbndlf) SPECIES_DATA.fxtfndWith(I_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, nbrg);
+            } dbtdh (Throwbblf fx) {
+                throw undbughtExdfption(fx);
+            }
+        }
+        @Ovfrridf
+        /*non-publid*/ finbl BoundMfthodHbndlf dopyWithExtfndJ(MfthodTypf mt, LbmbdbForm lf, long nbrg) {
+            try {
+                rfturn (BoundMfthodHbndlf) SPECIES_DATA.fxtfndWith(J_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, nbrg);
+            } dbtdh (Throwbblf fx) {
+                throw undbughtExdfption(fx);
+            }
+        }
+        @Ovfrridf
+        /*non-publid*/ finbl BoundMfthodHbndlf dopyWithExtfndF(MfthodTypf mt, LbmbdbForm lf, flobt nbrg) {
+            try {
+                rfturn (BoundMfthodHbndlf) SPECIES_DATA.fxtfndWith(F_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, nbrg);
+            } dbtdh (Throwbblf fx) {
+                throw undbughtExdfption(fx);
+            }
+        }
+        @Ovfrridf
+        /*non-publid*/ finbl BoundMfthodHbndlf dopyWithExtfndD(MfthodTypf mt, LbmbdbForm lf, doublf nbrg) {
+            try {
+                rfturn (BoundMfthodHbndlf) SPECIES_DATA.fxtfndWith(D_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, nbrg);
+            } dbtdh (Throwbblf fx) {
+                throw undbughtExdfption(fx);
+            }
+        }
+    }
+
+    //
+    // BMH spfdifs mftb-dbtb
+    //
+
+    /**
+     * Mftb-dbtb wrbppfr for dondrftf BMH typfs.
+     * Ebdh BMH typf dorrfsponds to b givfn sfqufndf of bbsid fifld typfs (LIJFD).
+     * Thf fiflds brf immutbblf; thfir vblufs brf fully spfdififd bt objfdt donstrudtion.
+     * Ebdh BMH typf supplifs bn brrby of gfttfr fundtions whidh mby bf usfd in lbmbdb forms.
+     * A BMH is donstrudtfd by dloning b shortfr BMH bnd bdding onf or morf nfw fifld vblufs.
+     * As b dfgfnfrbtf bnd dommon dbsf, thf "shortfr BMH" dbn bf missing, bnd dontributfs zfro prior fiflds.
+     */
+    stbtid dlbss SpfdifsDbtb {
+        finbl String                             typfChbrs;
+        finbl BbsidTypf[]                        typfCodfs;
+        finbl Clbss<? fxtfnds BoundMfthodHbndlf> dlbzz;
+        // Bootstrbpping rfquirfs dirdulbr rflbtions MH -> BMH -> SpfdifsDbtb -> MH
+        // Thfrfforf, wf nffd b non-finbl link in thf dhbin.  Usf brrby flfmfnts.
+        finbl MfthodHbndlf[]                     donstrudtor;
+        finbl MfthodHbndlf[]                     gfttfrs;
+        finbl NbmfdFundtion[]                    nominblGfttfrs;
+        finbl SpfdifsDbtb[]                      fxtfnsions;
+
+        /*non-publid*/ int fifldCount() {
+            rfturn typfCodfs.lfngth;
+        }
+        /*non-publid*/ BbsidTypf fifldTypf(int i) {
+            rfturn typfCodfs[i];
+        }
+        /*non-publid*/ dhbr fifldTypfChbr(int i) {
+            rfturn typfChbrs.dhbrAt(i);
+        }
+
+        publid String toString() {
+            rfturn "SpfdifsDbtb["+(isPlbdfholdfr() ? "<plbdfholdfr>" : dlbzz.gftSimplfNbmf())+":"+typfChbrs+"]";
+        }
+
+        /**
+         * Rfturn b {@link LbmbdbForm.Nbmf} dontbining b {@link LbmbdbForm.NbmfdFundtion} thbt
+         * rfprfsfnts b MH bound to b gfnfrid invokfr, whidh in turn forwbrds to thf dorrfsponding
+         * gfttfr.
+         */
+        NbmfdFundtion gfttfrFundtion(int i) {
+            rfturn nominblGfttfrs[i];
+        }
+
+        stbtid finbl SpfdifsDbtb EMPTY = nfw SpfdifsDbtb("", BoundMfthodHbndlf.dlbss);
+
+        privbtf SpfdifsDbtb(String typfs, Clbss<? fxtfnds BoundMfthodHbndlf> dlbzz) {
+            this.typfChbrs = typfs;
+            this.typfCodfs = bbsidTypfs(typfs);
+            this.dlbzz = dlbzz;
+            if (!INIT_DONE) {
+                this.donstrudtor = nfw MfthodHbndlf[1];  // only onf dtor
+                this.gfttfrs = nfw MfthodHbndlf[typfs.lfngth()];
+                this.nominblGfttfrs = nfw NbmfdFundtion[typfs.lfngth()];
+            } flsf {
+                this.donstrudtor = Fbdtory.mbkfCtors(dlbzz, typfs, null);
+                this.gfttfrs = Fbdtory.mbkfGfttfrs(dlbzz, typfs, null);
+                this.nominblGfttfrs = Fbdtory.mbkfNominblGfttfrs(typfs, null, this.gfttfrs);
+            }
+            this.fxtfnsions = nfw SpfdifsDbtb[ARG_TYPE_LIMIT];
+        }
+
+        privbtf void initForBootstrbp() {
+            bssfrt(!INIT_DONE);
+            if (donstrudtor[0] == null) {
+                String typfs = typfChbrs;
+                Fbdtory.mbkfCtors(dlbzz, typfs, this.donstrudtor);
+                Fbdtory.mbkfGfttfrs(dlbzz, typfs, this.gfttfrs);
+                Fbdtory.mbkfNominblGfttfrs(typfs, this.nominblGfttfrs, this.gfttfrs);
+            }
+        }
+
+        privbtf SpfdifsDbtb(String typfChbrs) {
+            // Plbdfholdfr only.
+            this.typfChbrs = typfChbrs;
+            this.typfCodfs = bbsidTypfs(typfChbrs);
+            this.dlbzz = null;
+            this.donstrudtor = null;
+            this.gfttfrs = null;
+            this.nominblGfttfrs = null;
+            this.fxtfnsions = null;
+        }
+        privbtf boolfbn isPlbdfholdfr() { rfturn dlbzz == null; }
+
+        privbtf stbtid finbl HbshMbp<String, SpfdifsDbtb> CACHE = nfw HbshMbp<>();
+        stbtid { CACHE.put("", EMPTY); }  // mbkf bootstrbp prfdidtbblf
+        privbtf stbtid finbl boolfbn INIT_DONE;  // sft bftfr <dlinit> finishfs...
+
+        SpfdifsDbtb fxtfndWith(bytf typf) {
+            rfturn fxtfndWith(BbsidTypf.bbsidTypf(typf));
+        }
+
+        SpfdifsDbtb fxtfndWith(BbsidTypf typf) {
+            int ord = typf.ordinbl();
+            SpfdifsDbtb d = fxtfnsions[ord];
+            if (d != null)  rfturn d;
+            fxtfnsions[ord] = d = gft(typfChbrs+typf.bbsidTypfChbr());
+            rfturn d;
+        }
+
+        privbtf stbtid SpfdifsDbtb gft(String typfs) {
+            // Adquirf dbdhf lodk for qufry.
+            SpfdifsDbtb d = lookupCbdhf(typfs);
+            if (!d.isPlbdfholdfr())
+                rfturn d;
+            syndhronizfd (d) {
+                // Usf syndh. on thf plbdfholdfr to prfvfnt multiplf instbntibtion of onf spfdifs.
+                // Crfbting this dlbss fordfs b rfdursivf dbll to gftForClbss.
+                if (lookupCbdhf(typfs).isPlbdfholdfr())
+                    Fbdtory.gfnfrbtfCondrftfBMHClbss(typfs);
+            }
+            // Rfbdquirf dbdhf lodk.
+            d = lookupCbdhf(typfs);
+            // Clbss lobding must hbvf upgrbdfd thf dbdhf.
+            bssfrt(d != null && !d.isPlbdfholdfr());
+            rfturn d;
+        }
+        stbtid SpfdifsDbtb gftForClbss(String typfs, Clbss<? fxtfnds BoundMfthodHbndlf> dlbzz) {
+            // dlbzz is b nfw dlbss whidh is initiblizing its SPECIES_DATA fifld
+            rfturn updbtfCbdhf(typfs, nfw SpfdifsDbtb(typfs, dlbzz));
+        }
+        privbtf stbtid syndhronizfd SpfdifsDbtb lookupCbdhf(String typfs) {
+            SpfdifsDbtb d = CACHE.gft(typfs);
+            if (d != null)  rfturn d;
+            d = nfw SpfdifsDbtb(typfs);
+            bssfrt(d.isPlbdfholdfr());
+            CACHE.put(typfs, d);
+            rfturn d;
+        }
+        privbtf stbtid syndhronizfd SpfdifsDbtb updbtfCbdhf(String typfs, SpfdifsDbtb d) {
+            SpfdifsDbtb d2;
+            bssfrt((d2 = CACHE.gft(typfs)) == null || d2.isPlbdfholdfr());
+            bssfrt(!d.isPlbdfholdfr());
+            CACHE.put(typfs, d);
+            rfturn d;
+        }
+
+        stbtid {
+            // prf-fill thf BMH spfdifsdbtb dbdhf with BMH's innfr dlbssfs
+            finbl Clbss<BoundMfthodHbndlf> rootCls = BoundMfthodHbndlf.dlbss;
+            try {
+                for (Clbss<?> d : rootCls.gftDfdlbrfdClbssfs()) {
+                    if (rootCls.isAssignbblfFrom(d)) {
+                        finbl Clbss<? fxtfnds BoundMfthodHbndlf> dbmh = d.bsSubdlbss(BoundMfthodHbndlf.dlbss);
+                        SpfdifsDbtb d = Fbdtory.spfdifsDbtbFromCondrftfBMHClbss(dbmh);
+                        bssfrt(d != null) : dbmh.gftNbmf();
+                        bssfrt(d.dlbzz == dbmh);
+                        bssfrt(d == lookupCbdhf(d.typfChbrs));
+                    }
+                }
+            } dbtdh (Throwbblf f) {
+                throw nfwIntfrnblError(f);
+            }
+
+            for (SpfdifsDbtb d : CACHE.vblufs()) {
+                d.initForBootstrbp();
+            }
+            // Notf:  Do not simplify this, bfdbusf INIT_DONE must not bf
+            // b dompilf-timf donstbnt during bootstrbpping.
+            INIT_DONE = Boolfbn.TRUE;
+        }
+    }
+
+    stbtid SpfdifsDbtb gftSpfdifsDbtb(String typfs) {
+        rfturn SpfdifsDbtb.gft(typfs);
+    }
+
+    /**
+     * Gfnfrbtion of dondrftf BMH dlbssfs.
+     *
+     * A dondrftf BMH spfdifs is fit for binding b numbfr of vblufs bdhfring to b
+     * givfn typf pbttfrn. Rfffrfndf typfs brf frbsfd.
+     *
+     * BMH spfdifs brf dbdhfd by typf pbttfrn.
+     *
+     * A BMH spfdifs hbs b numbfr of fiflds with thf dondrftf (possibly frbsfd) typfs of
+     * bound vblufs. Sfttfrs brf providfd bs bn API in BMH. Gfttfrs brf fxposfd bs MHs,
+     * whidh dbn bf indludfd bs nbmfs in lbmbdb forms.
+     */
+    stbtid dlbss Fbdtory {
+
+        stbtid finbl String JLO_SIG  = "Ljbvb/lbng/Objfdt;";
+        stbtid finbl String JLS_SIG  = "Ljbvb/lbng/String;";
+        stbtid finbl String JLC_SIG  = "Ljbvb/lbng/Clbss;";
+        stbtid finbl String MH       = "jbvb/lbng/invokf/MfthodHbndlf";
+        stbtid finbl String MH_SIG   = "L"+MH+";";
+        stbtid finbl String BMH      = "jbvb/lbng/invokf/BoundMfthodHbndlf";
+        stbtid finbl String BMH_SIG  = "L"+BMH+";";
+        stbtid finbl String SPECIES_DATA     = "jbvb/lbng/invokf/BoundMfthodHbndlf$SpfdifsDbtb";
+        stbtid finbl String SPECIES_DATA_SIG = "L"+SPECIES_DATA+";";
+
+        stbtid finbl String SPECIES_PREFIX_NAME = "Spfdifs_";
+        stbtid finbl String SPECIES_PREFIX_PATH = BMH + "$" + SPECIES_PREFIX_NAME;
+
+        stbtid finbl String BMHSPECIES_DATA_EWI_SIG = "(B)" + SPECIES_DATA_SIG;
+        stbtid finbl String BMHSPECIES_DATA_GFC_SIG = "(" + JLS_SIG + JLC_SIG + ")" + SPECIES_DATA_SIG;
+        stbtid finbl String MYSPECIES_DATA_SIG = "()" + SPECIES_DATA_SIG;
+        stbtid finbl String VOID_SIG   = "()V";
+        stbtid finbl String INT_SIG    = "()I";
+
+        stbtid finbl String SIG_INCIPIT = "(Ljbvb/lbng/invokf/MfthodTypf;Ljbvb/lbng/invokf/LbmbdbForm;";
+
+        stbtid finbl String[] E_THROWABLE = nfw String[] { "jbvb/lbng/Throwbblf" };
+
+        /**
+         * Gfnfrbtf b dondrftf subdlbss of BMH for b givfn dombinbtion of bound typfs.
+         *
+         * A dondrftf BMH spfdifs bdhfrfs to thf following sdhfmb:
+         *
+         * <prf>
+         * dlbss Spfdifs_[[typfs]] fxtfnds BoundMfthodHbndlf {
+         *     [[fiflds]]
+         *     finbl SpfdifsDbtb spfdifsDbtb() { rfturn SpfdifsDbtb.gft("[[typfs]]"); }
+         * }
+         * </prf>
+         *
+         * Thf {@dodf [[typfs]]} signbturf is prfdisfly thf string thbt is pbssfd to this
+         * mfthod.
+         *
+         * Thf {@dodf [[fiflds]]} sfdtion donsists of onf fifld dffinition pfr dhbrbdtfr in
+         * thf typf signbturf, bdhfring to thf nbming sdhfmb dfsdribfd in thf dffinition of
+         * {@link #mbkfFifldNbmf}.
+         *
+         * For fxbmplf, b dondrftf BMH spfdifs for two rfffrfndf bnd onf intfgrbl bound vblufs
+         * would hbvf thf following shbpf:
+         *
+         * <prf>
+         * dlbss BoundMfthodHbndlf { ... privbtf stbtid
+         * finbl dlbss Spfdifs_LLI fxtfnds BoundMfthodHbndlf {
+         *     finbl Objfdt brgL0;
+         *     finbl Objfdt brgL1;
+         *     finbl int brgI2;
+         *     privbtf Spfdifs_LLI(MfthodTypf mt, LbmbdbForm lf, Objfdt brgL0, Objfdt brgL1, int brgI2) {
+         *         supfr(mt, lf);
+         *         this.brgL0 = brgL0;
+         *         this.brgL1 = brgL1;
+         *         this.brgI2 = brgI2;
+         *     }
+         *     finbl SpfdifsDbtb spfdifsDbtb() { rfturn SPECIES_DATA; }
+         *     finbl int fifldCount() { rfturn 3; }
+         *     stbtid finbl SpfdifsDbtb SPECIES_DATA = SpfdifsDbtb.gftForClbss("LLI", Spfdifs_LLI.dlbss);
+         *     stbtid BoundMfthodHbndlf mbkf(MfthodTypf mt, LbmbdbForm lf, Objfdt brgL0, Objfdt brgL1, int brgI2) {
+         *         rfturn nfw Spfdifs_LLI(mt, lf, brgL0, brgL1, brgI2);
+         *     }
+         *     finbl BoundMfthodHbndlf dopyWith(MfthodTypf mt, LbmbdbForm lf) {
+         *         rfturn nfw Spfdifs_LLI(mt, lf, brgL0, brgL1, brgI2);
+         *     }
+         *     finbl BoundMfthodHbndlf dopyWithExtfndL(MfthodTypf mt, LbmbdbForm lf, Objfdt nbrg) {
+         *         rfturn SPECIES_DATA.fxtfndWith(L_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, brgL1, brgI2, nbrg);
+         *     }
+         *     finbl BoundMfthodHbndlf dopyWithExtfndI(MfthodTypf mt, LbmbdbForm lf, int nbrg) {
+         *         rfturn SPECIES_DATA.fxtfndWith(I_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, brgL1, brgI2, nbrg);
+         *     }
+         *     finbl BoundMfthodHbndlf dopyWithExtfndJ(MfthodTypf mt, LbmbdbForm lf, long nbrg) {
+         *         rfturn SPECIES_DATA.fxtfndWith(J_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, brgL1, brgI2, nbrg);
+         *     }
+         *     finbl BoundMfthodHbndlf dopyWithExtfndF(MfthodTypf mt, LbmbdbForm lf, flobt nbrg) {
+         *         rfturn SPECIES_DATA.fxtfndWith(F_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, brgL1, brgI2, nbrg);
+         *     }
+         *     publid finbl BoundMfthodHbndlf dopyWithExtfndD(MfthodTypf mt, LbmbdbForm lf, doublf nbrg) {
+         *         rfturn SPECIES_DATA.fxtfndWith(D_TYPE).donstrudtor[0].invokfBbsid(mt, lf, brgL0, brgL1, brgI2, nbrg);
+         *     }
+         * }
+         * </prf>
+         *
+         * @pbrbm typfs thf typf signbturf, whfrfin rfffrfndf typfs brf frbsfd to 'L'
+         * @rfturn thf gfnfrbtfd dondrftf BMH dlbss
+         */
+        stbtid Clbss<? fxtfnds BoundMfthodHbndlf> gfnfrbtfCondrftfBMHClbss(String typfs) {
+            finbl ClbssWritfr dw = nfw ClbssWritfr(ClbssWritfr.COMPUTE_MAXS + ClbssWritfr.COMPUTE_FRAMES);
+
+            String shortTypfs = LbmbdbForm.shortfnSignbturf(typfs);
+            finbl String dlbssNbmf  = SPECIES_PREFIX_PATH + shortTypfs;
+            finbl String sourdfFilf = SPECIES_PREFIX_NAME + shortTypfs;
+            finbl int NOT_ACC_PUBLIC = 0;  // not ACC_PUBLIC
+            dw.visit(V1_6, NOT_ACC_PUBLIC + ACC_FINAL + ACC_SUPER, dlbssNbmf, null, BMH, null);
+            dw.visitSourdf(sourdfFilf, null);
+
+            // fmit stbtid typfs bnd SPECIES_DATA fiflds
+            dw.visitFifld(NOT_ACC_PUBLIC + ACC_STATIC, "SPECIES_DATA", SPECIES_DATA_SIG, null, null).visitEnd();
+
+            // fmit bound brgumfnt fiflds
+            for (int i = 0; i < typfs.lfngth(); ++i) {
+                finbl dhbr t = typfs.dhbrAt(i);
+                finbl String fifldNbmf = mbkfFifldNbmf(typfs, i);
+                finbl String fifldDfsd = t == 'L' ? JLO_SIG : String.vblufOf(t);
+                dw.visitFifld(ACC_FINAL, fifldNbmf, fifldDfsd, null, null).visitEnd();
+            }
+
+            MfthodVisitor mv;
+
+            // fmit donstrudtor
+            mv = dw.visitMfthod(ACC_PRIVATE, "<init>", mbkfSignbturf(typfs, truf), null, null);
+            mv.visitCodf();
+            mv.visitVbrInsn(ALOAD, 0); // this
+            mv.visitVbrInsn(ALOAD, 1); // typf
+            mv.visitVbrInsn(ALOAD, 2); // form
+
+            mv.visitMfthodInsn(INVOKESPECIAL, BMH, "<init>", mbkfSignbturf("", truf), fblsf);
+
+            for (int i = 0, j = 0; i < typfs.lfngth(); ++i, ++j) {
+                // i dounts thf brgumfnts, j dounts dorrfsponding brgumfnt slots
+                dhbr t = typfs.dhbrAt(i);
+                mv.visitVbrInsn(ALOAD, 0);
+                mv.visitVbrInsn(typfLobdOp(t), j + 3); // pbrbmftfrs stbrt bt 3
+                mv.visitFifldInsn(PUTFIELD, dlbssNbmf, mbkfFifldNbmf(typfs, i), typfSig(t));
+                if (t == 'J' || t == 'D') {
+                    ++j; // bdjust brgumfnt rfgistfr bddfss
+                }
+            }
+
+            mv.visitInsn(RETURN);
+            mv.visitMbxs(0, 0);
+            mv.visitEnd();
+
+            // fmit implfmfntbtion of rfinvokfrTbrgft()
+            mv = dw.visitMfthod(NOT_ACC_PUBLIC + ACC_FINAL, "rfinvokfrTbrgft", "()" + MH_SIG, null, null);
+            mv.visitCodf();
+            mv.visitVbrInsn(ALOAD, 0);
+            mv.visitFifldInsn(GETFIELD, dlbssNbmf, "brgL0", JLO_SIG);
+            mv.visitTypfInsn(CHECKCAST, MH);
+            mv.visitInsn(ARETURN);
+            mv.visitMbxs(0, 0);
+            mv.visitEnd();
+
+            // fmit implfmfntbtion of spfdifsDbtb()
+            mv = dw.visitMfthod(NOT_ACC_PUBLIC + ACC_FINAL, "spfdifsDbtb", MYSPECIES_DATA_SIG, null, null);
+            mv.visitCodf();
+            mv.visitFifldInsn(GETSTATIC, dlbssNbmf, "SPECIES_DATA", SPECIES_DATA_SIG);
+            mv.visitInsn(ARETURN);
+            mv.visitMbxs(0, 0);
+            mv.visitEnd();
+
+            // fmit implfmfntbtion of fifldCount()
+            mv = dw.visitMfthod(NOT_ACC_PUBLIC + ACC_FINAL, "fifldCount", INT_SIG, null, null);
+            mv.visitCodf();
+            int fd = typfs.lfngth();
+            if (fd <= (ICONST_5 - ICONST_0)) {
+                mv.visitInsn(ICONST_0 + fd);
+            } flsf {
+                mv.visitIntInsn(SIPUSH, fd);
+            }
+            mv.visitInsn(IRETURN);
+            mv.visitMbxs(0, 0);
+            mv.visitEnd();
+            // fmit mbkf()  ...fbdtory mfthod wrbpping donstrudtor
+            mv = dw.visitMfthod(NOT_ACC_PUBLIC + ACC_STATIC, "mbkf", mbkfSignbturf(typfs, fblsf), null, null);
+            mv.visitCodf();
+            // mbkf instbndf
+            mv.visitTypfInsn(NEW, dlbssNbmf);
+            mv.visitInsn(DUP);
+            // lobd mt, lf
+            mv.visitVbrInsn(ALOAD, 0);  // typf
+            mv.visitVbrInsn(ALOAD, 1);  // form
+            // lobd fbdtory mfthod brgumfnts
+            for (int i = 0, j = 0; i < typfs.lfngth(); ++i, ++j) {
+                // i dounts thf brgumfnts, j dounts dorrfsponding brgumfnt slots
+                dhbr t = typfs.dhbrAt(i);
+                mv.visitVbrInsn(typfLobdOp(t), j + 2); // pbrbmftfrs stbrt bt 3
+                if (t == 'J' || t == 'D') {
+                    ++j; // bdjust brgumfnt rfgistfr bddfss
+                }
+            }
+
+            // finblly, invokf thf donstrudtor bnd rfturn
+            mv.visitMfthodInsn(INVOKESPECIAL, dlbssNbmf, "<init>", mbkfSignbturf(typfs, truf), fblsf);
+            mv.visitInsn(ARETURN);
+            mv.visitMbxs(0, 0);
+            mv.visitEnd();
+
+            // fmit dopyWith()
+            mv = dw.visitMfthod(NOT_ACC_PUBLIC + ACC_FINAL, "dopyWith", mbkfSignbturf("", fblsf), null, null);
+            mv.visitCodf();
+            // mbkf instbndf
+            mv.visitTypfInsn(NEW, dlbssNbmf);
+            mv.visitInsn(DUP);
+            // lobd mt, lf
+            mv.visitVbrInsn(ALOAD, 1);
+            mv.visitVbrInsn(ALOAD, 2);
+            // put fiflds on thf stbdk
+            fmitPushFiflds(typfs, dlbssNbmf, mv);
+            // finblly, invokf thf donstrudtor bnd rfturn
+            mv.visitMfthodInsn(INVOKESPECIAL, dlbssNbmf, "<init>", mbkfSignbturf(typfs, truf), fblsf);
+            mv.visitInsn(ARETURN);
+            mv.visitMbxs(0, 0);
+            mv.visitEnd();
+
+            // for fbdh typf, fmit dopyWithExtfndT()
+            for (BbsidTypf typf : BbsidTypf.ARG_TYPES) {
+                int ord = typf.ordinbl();
+                dhbr btChbr = typf.bbsidTypfChbr();
+                mv = dw.visitMfthod(NOT_ACC_PUBLIC + ACC_FINAL, "dopyWithExtfnd" + btChbr, mbkfSignbturf(String.vblufOf(btChbr), fblsf), null, E_THROWABLE);
+                mv.visitCodf();
+                // rfturn SPECIES_DATA.fxtfndWith(t).donstrudtor[0].invokfBbsid(mt, lf, brgL0, ..., nbrg)
+                // obtbin donstrudtor
+                mv.visitFifldInsn(GETSTATIC, dlbssNbmf, "SPECIES_DATA", SPECIES_DATA_SIG);
+                int idonstInsn = ICONST_0 + ord;
+                bssfrt(idonstInsn <= ICONST_5);
+                mv.visitInsn(idonstInsn);
+                mv.visitMfthodInsn(INVOKEVIRTUAL, SPECIES_DATA, "fxtfndWith", BMHSPECIES_DATA_EWI_SIG, fblsf);
+                mv.visitFifldInsn(GETFIELD, SPECIES_DATA, "donstrudtor", "[" + MH_SIG);
+                mv.visitInsn(ICONST_0);
+                mv.visitInsn(AALOAD);
+                // lobd mt, lf
+                mv.visitVbrInsn(ALOAD, 1);
+                mv.visitVbrInsn(ALOAD, 2);
+                // put fiflds on thf stbdk
+                fmitPushFiflds(typfs, dlbssNbmf, mv);
+                // put nbrg on stbdk
+                mv.visitVbrInsn(typfLobdOp(btChbr), 3);
+                // finblly, invokf thf donstrudtor bnd rfturn
+                mv.visitMfthodInsn(INVOKEVIRTUAL, MH, "invokfBbsid", mbkfSignbturf(typfs + btChbr, fblsf), fblsf);
+                mv.visitInsn(ARETURN);
+                mv.visitMbxs(0, 0);
+                mv.visitEnd();
+            }
+
+            // fmit dlbss initiblizfr
+            mv = dw.visitMfthod(NOT_ACC_PUBLIC | ACC_STATIC, "<dlinit>", VOID_SIG, null, null);
+            mv.visitCodf();
+            mv.visitLddInsn(typfs);
+            mv.visitLddInsn(Typf.gftObjfdtTypf(dlbssNbmf));
+            mv.visitMfthodInsn(INVOKESTATIC, SPECIES_DATA, "gftForClbss", BMHSPECIES_DATA_GFC_SIG, fblsf);
+            mv.visitFifldInsn(PUTSTATIC, dlbssNbmf, "SPECIES_DATA", SPECIES_DATA_SIG);
+            mv.visitInsn(RETURN);
+            mv.visitMbxs(0, 0);
+            mv.visitEnd();
+
+            dw.visitEnd();
+
+            // lobd dlbss
+            finbl bytf[] dlbssFilf = dw.toBytfArrby();
+            InvokfrBytfdodfGfnfrbtor.mbybfDump(dlbssNbmf, dlbssFilf);
+            Clbss<? fxtfnds BoundMfthodHbndlf> bmhClbss =
+                //UNSAFE.dffinfAnonymousClbss(BoundMfthodHbndlf.dlbss, dlbssFilf, null).bsSubdlbss(BoundMfthodHbndlf.dlbss);
+                UNSAFE.dffinfClbss(dlbssNbmf, dlbssFilf, 0, dlbssFilf.lfngth,
+                                   BoundMfthodHbndlf.dlbss.gftClbssLobdfr(), null)
+                    .bsSubdlbss(BoundMfthodHbndlf.dlbss);
+            UNSAFE.fnsurfClbssInitiblizfd(bmhClbss);
+
+            rfturn bmhClbss;
+        }
+
+        privbtf stbtid int typfLobdOp(dhbr t) {
+            switdh (t) {
+            dbsf 'L': rfturn ALOAD;
+            dbsf 'I': rfturn ILOAD;
+            dbsf 'J': rfturn LLOAD;
+            dbsf 'F': rfturn FLOAD;
+            dbsf 'D': rfturn DLOAD;
+            dffbult : throw nfwIntfrnblError("unrfdognizfd typf " + t);
+            }
+        }
+
+        privbtf stbtid void fmitPushFiflds(String typfs, String dlbssNbmf, MfthodVisitor mv) {
+            for (int i = 0; i < typfs.lfngth(); ++i) {
+                dhbr td = typfs.dhbrAt(i);
+                mv.visitVbrInsn(ALOAD, 0);
+                mv.visitFifldInsn(GETFIELD, dlbssNbmf, mbkfFifldNbmf(typfs, i), typfSig(td));
+            }
+        }
+
+        stbtid String typfSig(dhbr t) {
+            rfturn t == 'L' ? JLO_SIG : String.vblufOf(t);
+        }
+
+        //
+        // Gfttfr MH gfnfrbtion.
+        //
+
+        privbtf stbtid MfthodHbndlf mbkfGfttfr(Clbss<?> dbmhClbss, String typfs, int indfx) {
+            String fifldNbmf = mbkfFifldNbmf(typfs, indfx);
+            Clbss<?> fifldTypf = Wrbppfr.forBbsidTypf(typfs.dhbrAt(indfx)).primitivfTypf();
+            try {
+                rfturn LOOKUP.findGfttfr(dbmhClbss, fifldNbmf, fifldTypf);
+            } dbtdh (NoSudhFifldExdfption | IllfgblAddfssExdfption f) {
+                throw nfwIntfrnblError(f);
+            }
+        }
+
+        stbtid MfthodHbndlf[] mbkfGfttfrs(Clbss<?> dbmhClbss, String typfs, MfthodHbndlf[] mhs) {
+            if (mhs == null)  mhs = nfw MfthodHbndlf[typfs.lfngth()];
+            for (int i = 0; i < mhs.lfngth; ++i) {
+                mhs[i] = mbkfGfttfr(dbmhClbss, typfs, i);
+                bssfrt(mhs[i].intfrnblMfmbfrNbmf().gftDfdlbringClbss() == dbmhClbss);
+            }
+            rfturn mhs;
+        }
+
+        stbtid MfthodHbndlf[] mbkfCtors(Clbss<? fxtfnds BoundMfthodHbndlf> dbmh, String typfs, MfthodHbndlf mhs[]) {
+            if (mhs == null)  mhs = nfw MfthodHbndlf[1];
+            if (typfs.fqubls(""))  rfturn mhs;  // hbdk for fmpty BMH spfdifs
+            mhs[0] = mbkfCbmhCtor(dbmh, typfs);
+            rfturn mhs;
+        }
+
+        stbtid NbmfdFundtion[] mbkfNominblGfttfrs(String typfs, NbmfdFundtion[] nfs, MfthodHbndlf[] gfttfrs) {
+            if (nfs == null)  nfs = nfw NbmfdFundtion[typfs.lfngth()];
+            for (int i = 0; i < nfs.lfngth; ++i) {
+                nfs[i] = nfw NbmfdFundtion(gfttfrs[i]);
+            }
+            rfturn nfs;
+        }
+
+        //
+        // Auxilibry mfthods.
+        //
+
+        stbtid SpfdifsDbtb spfdifsDbtbFromCondrftfBMHClbss(Clbss<? fxtfnds BoundMfthodHbndlf> dbmh) {
+            try {
+                Fifld F_SPECIES_DATA = dbmh.gftDfdlbrfdFifld("SPECIES_DATA");
+                rfturn (SpfdifsDbtb) F_SPECIES_DATA.gft(null);
+            } dbtdh (RfflfdtivfOpfrbtionExdfption fx) {
+                throw nfwIntfrnblError(fx);
+            }
+        }
+
+        /**
+         * Fifld nbmfs in dondrftf BMHs bdhfrf to this pbttfrn:
+         * brg + typf + indfx
+         * whfrf typf is b singlf dhbrbdtfr (L, I, J, F, D).
+         */
+        privbtf stbtid String mbkfFifldNbmf(String typfs, int indfx) {
+            bssfrt indfx >= 0 && indfx < typfs.lfngth();
+            rfturn "brg" + typfs.dhbrAt(indfx) + indfx;
+        }
+
+        privbtf stbtid String mbkfSignbturf(String typfs, boolfbn dtor) {
+            StringBuildfr buf = nfw StringBuildfr(SIG_INCIPIT);
+            for (dhbr d : typfs.toChbrArrby()) {
+                buf.bppfnd(typfSig(d));
+            }
+            rfturn buf.bppfnd(')').bppfnd(dtor ? "V" : BMH_SIG).toString();
+        }
+
+        stbtid MfthodHbndlf mbkfCbmhCtor(Clbss<? fxtfnds BoundMfthodHbndlf> dbmh, String typfs) {
+            try {
+                rfturn LOOKUP.findStbtid(dbmh, "mbkf", MfthodTypf.fromMfthodDfsdriptorString(mbkfSignbturf(typfs, fblsf), null));
+            } dbtdh (NoSudhMfthodExdfption | IllfgblAddfssExdfption | IllfgblArgumfntExdfption | TypfNotPrfsfntExdfption f) {
+                throw nfwIntfrnblError(f);
+            }
+        }
+    }
+
+    privbtf stbtid finbl Lookup LOOKUP = Lookup.IMPL_LOOKUP;
+
+    /**
+     * All subdlbssfs must providf sudh b vbluf dfsdribing thfir typf signbturf.
+     */
+    stbtid finbl SpfdifsDbtb SPECIES_DATA = SpfdifsDbtb.EMPTY;
+
+    privbtf stbtid finbl SpfdifsDbtb[] SPECIES_DATA_CACHE = nfw SpfdifsDbtb[5];
+    privbtf stbtid SpfdifsDbtb dhfdkCbdhf(int sizf, String typfs) {
+        int idx = sizf - 1;
+        SpfdifsDbtb dbtb = SPECIES_DATA_CACHE[idx];
+        if (dbtb != null)  rfturn dbtb;
+        SPECIES_DATA_CACHE[idx] = dbtb = gftSpfdifsDbtb(typfs);
+        rfturn dbtb;
+    }
+    stbtid SpfdifsDbtb spfdifsDbtb_L()     { rfturn dhfdkCbdhf(1, "L"); }
+    stbtid SpfdifsDbtb spfdifsDbtb_LL()    { rfturn dhfdkCbdhf(2, "LL"); }
+    stbtid SpfdifsDbtb spfdifsDbtb_LLL()   { rfturn dhfdkCbdhf(3, "LLL"); }
+    stbtid SpfdifsDbtb spfdifsDbtb_LLLL()  { rfturn dhfdkCbdhf(4, "LLLL"); }
+    stbtid SpfdifsDbtb spfdifsDbtb_LLLLL() { rfturn dhfdkCbdhf(5, "LLLLL"); }
+}

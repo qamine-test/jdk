@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidTbbbfdPbnfUI;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * A Motif L&F implementation of TabbedPaneUI.
+ * A Motif L&F implfmfntbtion of TbbbfdPbnfUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Amy Fowler
- * @author Philip Milne
+ * @butior Amy Fowlfr
+ * @butior Piilip Milnf
  */
-public class MotifTabbedPaneUI extends BasicTabbedPaneUI
+publid dlbss MotifTbbbfdPbnfUI fxtfnds BbsidTbbbfdPbnfUI
 {
 
-// Instance variables initialized at installation
+// Instbndf vbribblfs initiblizfd bt instbllbtion
 
-    protected Color unselectedTabBackground;
-    protected Color unselectedTabForeground;
-    protected Color unselectedTabShadow;
-    protected Color unselectedTabHighlight;
+    protfdtfd Color unsflfdtfdTbbBbdkground;
+    protfdtfd Color unsflfdtfdTbbForfground;
+    protfdtfd Color unsflfdtfdTbbSibdow;
+    protfdtfd Color unsflfdtfdTbbHigiligit;
 
 
-// UI creation
+// UI drfbtion
 
-    public static ComponentUI createUI(JComponent tabbedPane) {
-        return new MotifTabbedPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt tbbbfdPbnf) {
+        rfturn nfw MotifTbbbfdPbnfUI();
     }
 
 
-// UI Installation/De-installation
+// UI Instbllbtion/Df-instbllbtion
 
 
-    protected void installDefaults() {
-        super.installDefaults();
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
 
-        unselectedTabBackground = UIManager.getColor("TabbedPane.unselectedTabBackground");
-        unselectedTabForeground = UIManager.getColor("TabbedPane.unselectedTabForeground");
-        unselectedTabShadow = UIManager.getColor("TabbedPane.unselectedTabShadow");
-        unselectedTabHighlight = UIManager.getColor("TabbedPane.unselectedTabHighlight");
+        unsflfdtfdTbbBbdkground = UIMbnbgfr.gftColor("TbbbfdPbnf.unsflfdtfdTbbBbdkground");
+        unsflfdtfdTbbForfground = UIMbnbgfr.gftColor("TbbbfdPbnf.unsflfdtfdTbbForfground");
+        unsflfdtfdTbbSibdow = UIMbnbgfr.gftColor("TbbbfdPbnf.unsflfdtfdTbbSibdow");
+        unsflfdtfdTbbHigiligit = UIMbnbgfr.gftColor("TbbbfdPbnf.unsflfdtfdTbbHigiligit");
     }
 
-    protected void uninstallDefaults() {
-        super.uninstallDefaults();
+    protfdtfd void uninstbllDffbults() {
+        supfr.uninstbllDffbults();
 
-        unselectedTabBackground = null;
-        unselectedTabForeground = null;
-        unselectedTabShadow = null;
-        unselectedTabHighlight = null;
+        unsflfdtfdTbbBbdkground = null;
+        unsflfdtfdTbbForfground = null;
+        unsflfdtfdTbbSibdow = null;
+        unsflfdtfdTbbHigiligit = null;
     }
 
-// UI Rendering
+// UI Rfndfring
 
-   protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
-                                            int selectedIndex,
-                                            int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
-        g.setColor(lightHighlight);
+   protfdtfd void pbintContfntBordfrTopEdgf(Grbpiids g, int tbbPlbdfmfnt,
+                                            int sflfdtfdIndfx,
+                                            int x, int y, int w, int i) {
+        Rfdtbnglf sflRfdt = sflfdtfdIndfx < 0? null :
+                               gftTbbBounds(sflfdtfdIndfx, dbldRfdt);
+        g.sftColor(ligitHigiligit);
 
-        // Draw unbroken line if tabs are not on TOP, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        // Drbw unbrokfn linf if tbbs brf not on TOP, OR
+        // sflfdtfd tbb is not visiblf (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != TOP || selectedIndex < 0 ||
-            (selRect.x < x || selRect.x > x + w)) {
-            g.drawLine(x, y, x+w-2, y);
-        } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x, y, selRect.x - 1, y);
-            if (selRect.x + selRect.width < x + w - 2) {
-                g.drawLine(selRect.x + selRect.width, y,
+        if (tbbPlbdfmfnt != TOP || sflfdtfdIndfx < 0 ||
+            (sflRfdt.x < x || sflRfdt.x > x + w)) {
+            g.drbwLinf(x, y, x+w-2, y);
+        } flsf {
+            // Brfbk linf to siow visubl donnfdtion to sflfdtfd tbb
+            g.drbwLinf(x, y, sflRfdt.x - 1, y);
+            if (sflRfdt.x + sflRfdt.widti < x + w - 2) {
+                g.drbwLinf(sflRfdt.x + sflRfdt.widti, y,
                            x+w-2, y);
             }
         }
     }
 
-    protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
-                                               int selectedIndex,
-                                               int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
-        g.setColor(shadow);
+    protfdtfd void pbintContfntBordfrBottomEdgf(Grbpiids g, int tbbPlbdfmfnt,
+                                               int sflfdtfdIndfx,
+                                               int x, int y, int w, int i) {
+        Rfdtbnglf sflRfdt = sflfdtfdIndfx < 0? null :
+                               gftTbbBounds(sflfdtfdIndfx, dbldRfdt);
+        g.sftColor(sibdow);
 
-        // Draw unbroken line if tabs are not on BOTTOM, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+        // Drbw unbrokfn linf if tbbs brf not on BOTTOM, OR
+        // sflfdtfd tbb is not visiblf (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != BOTTOM || selectedIndex < 0 ||
-             (selRect.x < x || selRect.x > x + w)) {
-            g.drawLine(x+1, y+h-1, x+w-1, y+h-1);
-        } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x+1, y+h-1, selRect.x - 1, y+h-1);
-            if (selRect.x + selRect.width < x + w - 2) {
-                g.drawLine(selRect.x + selRect.width, y+h-1, x+w-2, y+h-1);
+        if (tbbPlbdfmfnt != BOTTOM || sflfdtfdIndfx < 0 ||
+             (sflRfdt.x < x || sflRfdt.x > x + w)) {
+            g.drbwLinf(x+1, y+i-1, x+w-1, y+i-1);
+        } flsf {
+            // Brfbk linf to siow visubl donnfdtion to sflfdtfd tbb
+            g.drbwLinf(x+1, y+i-1, sflRfdt.x - 1, y+i-1);
+            if (sflRfdt.x + sflRfdt.widti < x + w - 2) {
+                g.drbwLinf(sflRfdt.x + sflRfdt.widti, y+i-1, x+w-2, y+i-1);
             }
         }
     }
 
-    protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
-                                               int selectedIndex,
-                                               int x, int y, int w, int h) {
-        Rectangle selRect = selectedIndex < 0? null :
-                               getTabBounds(selectedIndex, calcRect);
-        g.setColor(shadow);
-        // Draw unbroken line if tabs are not on RIGHT, OR
-        // selected tab is not visible (SCROLL_TAB_LAYOUT)
+    protfdtfd void pbintContfntBordfrRigitEdgf(Grbpiids g, int tbbPlbdfmfnt,
+                                               int sflfdtfdIndfx,
+                                               int x, int y, int w, int i) {
+        Rfdtbnglf sflRfdt = sflfdtfdIndfx < 0? null :
+                               gftTbbBounds(sflfdtfdIndfx, dbldRfdt);
+        g.sftColor(sibdow);
+        // Drbw unbrokfn linf if tbbs brf not on RIGHT, OR
+        // sflfdtfd tbb is not visiblf (SCROLL_TAB_LAYOUT)
         //
-        if (tabPlacement != RIGHT || selectedIndex < 0 ||
-             (selRect.y < y || selRect.y > y + h)) {
-            g.drawLine(x+w-1, y+1, x+w-1, y+h-1);
-        } else {
-            // Break line to show visual connection to selected tab
-            g.drawLine(x+w-1, y+1, x+w-1, selRect.y - 1);
-            if (selRect.y + selRect.height < y + h - 2 ) {
-                g.drawLine(x+w-1, selRect.y + selRect.height,
-                           x+w-1, y+h-2);
+        if (tbbPlbdfmfnt != RIGHT || sflfdtfdIndfx < 0 ||
+             (sflRfdt.y < y || sflRfdt.y > y + i)) {
+            g.drbwLinf(x+w-1, y+1, x+w-1, y+i-1);
+        } flsf {
+            // Brfbk linf to siow visubl donnfdtion to sflfdtfd tbb
+            g.drbwLinf(x+w-1, y+1, x+w-1, sflRfdt.y - 1);
+            if (sflRfdt.y + sflRfdt.ifigit < y + i - 2 ) {
+                g.drbwLinf(x+w-1, sflRfdt.y + sflRfdt.ifigit,
+                           x+w-1, y+i-2);
             }
         }
     }
 
-    protected void paintTabBackground(Graphics g,
-                                      int tabPlacement, int tabIndex,
-                                      int x, int y, int w, int h,
-                                      boolean isSelected ) {
-        g.setColor(isSelected? tabPane.getBackgroundAt(tabIndex) : unselectedTabBackground);
-        switch(tabPlacement) {
-          case LEFT:
-              g.fillRect(x+1, y+1, w-1, h-2);
-              break;
-          case RIGHT:
-              g.fillRect(x, y+1, w-1, h-2);
-              break;
-          case BOTTOM:
-              g.fillRect(x+1, y, w-2, h-3);
-              g.drawLine(x+2, y+h-3, x+w-3, y+h-3);
-              g.drawLine(x+3, y+h-2, x+w-4, y+h-2);
-              break;
-          case TOP:
-          default:
-              g.fillRect(x+1, y+3, w-2, h-3);
-              g.drawLine(x+2, y+2, x+w-3, y+2);
-              g.drawLine(x+3, y+1, x+w-4, y+1);
+    protfdtfd void pbintTbbBbdkground(Grbpiids g,
+                                      int tbbPlbdfmfnt, int tbbIndfx,
+                                      int x, int y, int w, int i,
+                                      boolfbn isSflfdtfd ) {
+        g.sftColor(isSflfdtfd? tbbPbnf.gftBbdkgroundAt(tbbIndfx) : unsflfdtfdTbbBbdkground);
+        switdi(tbbPlbdfmfnt) {
+          dbsf LEFT:
+              g.fillRfdt(x+1, y+1, w-1, i-2);
+              brfbk;
+          dbsf RIGHT:
+              g.fillRfdt(x, y+1, w-1, i-2);
+              brfbk;
+          dbsf BOTTOM:
+              g.fillRfdt(x+1, y, w-2, i-3);
+              g.drbwLinf(x+2, y+i-3, x+w-3, y+i-3);
+              g.drbwLinf(x+3, y+i-2, x+w-4, y+i-2);
+              brfbk;
+          dbsf TOP:
+          dffbult:
+              g.fillRfdt(x+1, y+3, w-2, i-3);
+              g.drbwLinf(x+2, y+2, x+w-3, y+2);
+              g.drbwLinf(x+3, y+1, x+w-4, y+1);
         }
 
     }
 
-    protected void paintTabBorder(Graphics g,
-                                  int tabPlacement, int tabIndex,
-                                  int x, int y, int w, int h,
-                                  boolean isSelected) {
-        g.setColor(isSelected? lightHighlight : unselectedTabHighlight);
+    protfdtfd void pbintTbbBordfr(Grbpiids g,
+                                  int tbbPlbdfmfnt, int tbbIndfx,
+                                  int x, int y, int w, int i,
+                                  boolfbn isSflfdtfd) {
+        g.sftColor(isSflfdtfd? ligitHigiligit : unsflfdtfdTbbHigiligit);
 
-        switch(tabPlacement) {
-          case LEFT:
-              g.drawLine(x, y+2, x, y+h-3);
-              g.drawLine(x+1, y+1, x+1, y+2);
-              g.drawLine(x+2, y, x+2, y+1);
-              g.drawLine(x+3, y, x+w-1, y);
-              g.setColor(isSelected? shadow : unselectedTabShadow);
-              g.drawLine(x+1, y+h-3, x+1, y+h-2);
-              g.drawLine(x+2, y+h-2, x+2, y+h-1);
-              g.drawLine(x+3, y+h-1, x+w-1, y+h-1);
-              break;
-          case RIGHT:
-              g.drawLine(x, y, x+w-3, y);
-              g.setColor(isSelected? shadow : unselectedTabShadow);
-              g.drawLine(x+w-3, y, x+w-3, y+1);
-              g.drawLine(x+w-2, y+1, x+w-2, y+2);
-              g.drawLine(x+w-1, y+2, x+w-1, y+h-3);
-              g.drawLine(x+w-2, y+h-3, x+w-2, y+h-2);
-              g.drawLine(x+w-3, y+h-2, x+w-3, y+h-1);
-              g.drawLine(x, y+h-1, x+w-3, y+h-1);
-              break;
-          case BOTTOM:
-              g.drawLine(x, y, x, y+h-3);
-              g.drawLine(x+1, y+h-3, x+1, y+h-2);
-              g.drawLine(x+2, y+h-2, x+2, y+h-1);
-              g.setColor(isSelected? shadow : unselectedTabShadow);
-              g.drawLine(x+3, y+h-1, x+w-4, y+h-1);
-              g.drawLine(x+w-3, y+h-2, x+w-3, y+h-1);
-              g.drawLine(x+w-2, y+h-3, x+w-2, y+h-2);
-              g.drawLine(x+w-1, y, x+w-1, y+h-3);
-              break;
-          case TOP:
-          default:
-              g.drawLine(x, y+2, x, y+h-1);
-              g.drawLine(x+1, y+1, x+1, y+2);
-              g.drawLine(x+2, y, x+2, y+1);
-              g.drawLine(x+3, y, x+w-4, y);
-              g.setColor(isSelected? shadow : unselectedTabShadow);
-              g.drawLine(x+w-3, y, x+w-3, y+1);
-              g.drawLine(x+w-2, y+1, x+w-2, y+2);
-              g.drawLine(x+w-1, y+2, x+w-1, y+h-1);
+        switdi(tbbPlbdfmfnt) {
+          dbsf LEFT:
+              g.drbwLinf(x, y+2, x, y+i-3);
+              g.drbwLinf(x+1, y+1, x+1, y+2);
+              g.drbwLinf(x+2, y, x+2, y+1);
+              g.drbwLinf(x+3, y, x+w-1, y);
+              g.sftColor(isSflfdtfd? sibdow : unsflfdtfdTbbSibdow);
+              g.drbwLinf(x+1, y+i-3, x+1, y+i-2);
+              g.drbwLinf(x+2, y+i-2, x+2, y+i-1);
+              g.drbwLinf(x+3, y+i-1, x+w-1, y+i-1);
+              brfbk;
+          dbsf RIGHT:
+              g.drbwLinf(x, y, x+w-3, y);
+              g.sftColor(isSflfdtfd? sibdow : unsflfdtfdTbbSibdow);
+              g.drbwLinf(x+w-3, y, x+w-3, y+1);
+              g.drbwLinf(x+w-2, y+1, x+w-2, y+2);
+              g.drbwLinf(x+w-1, y+2, x+w-1, y+i-3);
+              g.drbwLinf(x+w-2, y+i-3, x+w-2, y+i-2);
+              g.drbwLinf(x+w-3, y+i-2, x+w-3, y+i-1);
+              g.drbwLinf(x, y+i-1, x+w-3, y+i-1);
+              brfbk;
+          dbsf BOTTOM:
+              g.drbwLinf(x, y, x, y+i-3);
+              g.drbwLinf(x+1, y+i-3, x+1, y+i-2);
+              g.drbwLinf(x+2, y+i-2, x+2, y+i-1);
+              g.sftColor(isSflfdtfd? sibdow : unsflfdtfdTbbSibdow);
+              g.drbwLinf(x+3, y+i-1, x+w-4, y+i-1);
+              g.drbwLinf(x+w-3, y+i-2, x+w-3, y+i-1);
+              g.drbwLinf(x+w-2, y+i-3, x+w-2, y+i-2);
+              g.drbwLinf(x+w-1, y, x+w-1, y+i-3);
+              brfbk;
+          dbsf TOP:
+          dffbult:
+              g.drbwLinf(x, y+2, x, y+i-1);
+              g.drbwLinf(x+1, y+1, x+1, y+2);
+              g.drbwLinf(x+2, y, x+2, y+1);
+              g.drbwLinf(x+3, y, x+w-4, y);
+              g.sftColor(isSflfdtfd? sibdow : unsflfdtfdTbbSibdow);
+              g.drbwLinf(x+w-3, y, x+w-3, y+1);
+              g.drbwLinf(x+w-2, y+1, x+w-2, y+2);
+              g.drbwLinf(x+w-1, y+2, x+w-1, y+i-1);
         }
 
     }
 
-    protected void paintFocusIndicator(Graphics g, int tabPlacement,
-                                       Rectangle[] rects, int tabIndex,
-                                       Rectangle iconRect, Rectangle textRect,
-                                       boolean isSelected) {
-        Rectangle tabRect = rects[tabIndex];
-        if (tabPane.hasFocus() && isSelected) {
-            int x, y, w, h;
-            g.setColor(focus);
-            switch(tabPlacement) {
-              case LEFT:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 6;
-                  h = tabRect.height - 7;
-                  break;
-              case RIGHT:
-                  x = tabRect.x + 2;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 6;
-                  h = tabRect.height - 7;
-                  break;
-              case BOTTOM:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 2;
-                  w = tabRect.width - 7;
-                  h = tabRect.height - 6;
-                  break;
-              case TOP:
-              default:
-                  x = tabRect.x + 3;
-                  y = tabRect.y + 3;
-                  w = tabRect.width - 7;
-                  h = tabRect.height - 6;
+    protfdtfd void pbintFodusIndidbtor(Grbpiids g, int tbbPlbdfmfnt,
+                                       Rfdtbnglf[] rfdts, int tbbIndfx,
+                                       Rfdtbnglf idonRfdt, Rfdtbnglf tfxtRfdt,
+                                       boolfbn isSflfdtfd) {
+        Rfdtbnglf tbbRfdt = rfdts[tbbIndfx];
+        if (tbbPbnf.ibsFodus() && isSflfdtfd) {
+            int x, y, w, i;
+            g.sftColor(fodus);
+            switdi(tbbPlbdfmfnt) {
+              dbsf LEFT:
+                  x = tbbRfdt.x + 3;
+                  y = tbbRfdt.y + 3;
+                  w = tbbRfdt.widti - 6;
+                  i = tbbRfdt.ifigit - 7;
+                  brfbk;
+              dbsf RIGHT:
+                  x = tbbRfdt.x + 2;
+                  y = tbbRfdt.y + 3;
+                  w = tbbRfdt.widti - 6;
+                  i = tbbRfdt.ifigit - 7;
+                  brfbk;
+              dbsf BOTTOM:
+                  x = tbbRfdt.x + 3;
+                  y = tbbRfdt.y + 2;
+                  w = tbbRfdt.widti - 7;
+                  i = tbbRfdt.ifigit - 6;
+                  brfbk;
+              dbsf TOP:
+              dffbult:
+                  x = tbbRfdt.x + 3;
+                  y = tbbRfdt.y + 3;
+                  w = tbbRfdt.widti - 7;
+                  i = tbbRfdt.ifigit - 6;
             }
-            g.drawRect(x, y, w, h);
+            g.drbwRfdt(x, y, w, i);
         }
     }
 
-    protected int getTabRunIndent(int tabPlacement, int run) {
-        return run*3;
+    protfdtfd int gftTbbRunIndfnt(int tbbPlbdfmfnt, int run) {
+        rfturn run*3;
     }
 
-    protected int getTabRunOverlay(int tabPlacement) {
-        tabRunOverlay = (tabPlacement == LEFT || tabPlacement == RIGHT)?
-            (int)Math.round((float)maxTabWidth * .10) :
-            (int)Math.round((float)maxTabHeight * .22);
+    protfdtfd int gftTbbRunOvfrlby(int tbbPlbdfmfnt) {
+        tbbRunOvfrlby = (tbbPlbdfmfnt == LEFT || tbbPlbdfmfnt == RIGHT)?
+            (int)Mbti.round((flobt)mbxTbbWidti * .10) :
+            (int)Mbti.round((flobt)mbxTbbHfigit * .22);
 
-        // Ensure that runover lay is not more than insets
-        // 2 pixel offset is set from insets to each run
-        switch(tabPlacement) {
-        case LEFT:
-                if( tabRunOverlay > tabInsets.right - 2 )
-                    tabRunOverlay = tabInsets.right - 2 ;
-                break;
-        case RIGHT:
-                if( tabRunOverlay > tabInsets.left - 2 )
-                    tabRunOverlay = tabInsets.left - 2 ;
-                break;
-        case TOP:
-                if( tabRunOverlay > tabInsets.bottom - 2 )
-                    tabRunOverlay = tabInsets.bottom - 2 ;
-                break;
-        case BOTTOM:
-                if( tabRunOverlay > tabInsets.top - 2 )
-                    tabRunOverlay = tabInsets.top - 2 ;
-                break;
+        // Ensurf tibt runovfr lby is not morf tibn insfts
+        // 2 pixfl offsft is sft from insfts to fbdi run
+        switdi(tbbPlbdfmfnt) {
+        dbsf LEFT:
+                if( tbbRunOvfrlby > tbbInsfts.rigit - 2 )
+                    tbbRunOvfrlby = tbbInsfts.rigit - 2 ;
+                brfbk;
+        dbsf RIGHT:
+                if( tbbRunOvfrlby > tbbInsfts.lfft - 2 )
+                    tbbRunOvfrlby = tbbInsfts.lfft - 2 ;
+                brfbk;
+        dbsf TOP:
+                if( tbbRunOvfrlby > tbbInsfts.bottom - 2 )
+                    tbbRunOvfrlby = tbbInsfts.bottom - 2 ;
+                brfbk;
+        dbsf BOTTOM:
+                if( tbbRunOvfrlby > tbbInsfts.top - 2 )
+                    tbbRunOvfrlby = tbbInsfts.top - 2 ;
+                brfbk;
 
         }
 
-        return tabRunOverlay;
+        rfturn tbbRunOvfrlby;
     }
 
 }

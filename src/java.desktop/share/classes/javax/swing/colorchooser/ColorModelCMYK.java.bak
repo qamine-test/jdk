@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-final class ColorModelCMYK extends ColorModel {
+finbl dlbss ColorModflCMYK fxtfnds ColorModfl {
 
-    ColorModelCMYK() {
-        super("cmyk", "Cyan", "Magenta", "Yellow", "Black", "Alpha"); // NON-NLS: components
+    ColorModflCMYK() {
+        supfr("dmyk", "Cybn", "Mbgfntb", "Yfllow", "Blbdk", "Alpib"); // NON-NLS: domponfnts
     }
 
-    @Override
-    void setColor(int color, float[] space) {
-        super.setColor(color, space);
-        space[4] = space[3];
-        RGBtoCMYK(space, space);
+    @Ovfrridf
+    void sftColor(int dolor, flobt[] spbdf) {
+        supfr.sftColor(dolor, spbdf);
+        spbdf[4] = spbdf[3];
+        RGBtoCMYK(spbdf, spbdf);
     }
 
-    @Override
-    int getColor(float[] space) {
-        CMYKtoRGB(space, space);
-        space[3] = space[4];
-        return super.getColor(space);
+    @Ovfrridf
+    int gftColor(flobt[] spbdf) {
+        CMYKtoRGB(spbdf, spbdf);
+        spbdf[3] = spbdf[4];
+        rfturn supfr.gftColor(spbdf);
     }
 
     /**
-     * Converts CMYK components of a color to a set of RGB components.
+     * Convfrts CMYK domponfnts of b dolor to b sft of RGB domponfnts.
      *
-     * @param cmyk  a float array with length equal to
-     *              the number of CMYK components
-     * @param rgb   a float array with length of at least 3
-     *              that contains RGB components of a color
-     * @return a float array that contains RGB components
+     * @pbrbm dmyk  b flobt brrby witi lfngti fqubl to
+     *              tif numbfr of CMYK domponfnts
+     * @pbrbm rgb   b flobt brrby witi lfngti of bt lfbst 3
+     *              tibt dontbins RGB domponfnts of b dolor
+     * @rfturn b flobt brrby tibt dontbins RGB domponfnts
      */
-    private static float[] CMYKtoRGB(float[] cmyk, float[] rgb) {
+    privbtf stbtid flobt[] CMYKtoRGB(flobt[] dmyk, flobt[] rgb) {
         if (rgb == null) {
-            rgb = new float[3];
+            rgb = nfw flobt[3];
         }
-        rgb[0] = 1.0f + cmyk[0] * cmyk[3] - cmyk[3] - cmyk[0];
-        rgb[1] = 1.0f + cmyk[1] * cmyk[3] - cmyk[3] - cmyk[1];
-        rgb[2] = 1.0f + cmyk[2] * cmyk[3] - cmyk[3] - cmyk[2];
-        return rgb;
+        rgb[0] = 1.0f + dmyk[0] * dmyk[3] - dmyk[3] - dmyk[0];
+        rgb[1] = 1.0f + dmyk[1] * dmyk[3] - dmyk[3] - dmyk[1];
+        rgb[2] = 1.0f + dmyk[2] * dmyk[3] - dmyk[3] - dmyk[2];
+        rfturn rgb;
     }
 
     /**
-     * Converts RGB components of a color to a set of CMYK components.
+     * Convfrts RGB domponfnts of b dolor to b sft of CMYK domponfnts.
      *
-     * @param rgb   a float array with length of at least 3
-     *              that contains RGB components of a color
-     * @param cmyk  a float array with length equal to
-     *              the number of CMYK components
-     * @return a float array that contains CMYK components
+     * @pbrbm rgb   b flobt brrby witi lfngti of bt lfbst 3
+     *              tibt dontbins RGB domponfnts of b dolor
+     * @pbrbm dmyk  b flobt brrby witi lfngti fqubl to
+     *              tif numbfr of CMYK domponfnts
+     * @rfturn b flobt brrby tibt dontbins CMYK domponfnts
      */
-    private static float[] RGBtoCMYK(float[] rgb, float[] cmyk) {
-        if (cmyk == null) {
-            cmyk = new float[4];
+    privbtf stbtid flobt[] RGBtoCMYK(flobt[] rgb, flobt[] dmyk) {
+        if (dmyk == null) {
+            dmyk = nfw flobt[4];
         }
-        float max = ColorModelHSL.max(rgb[0], rgb[1], rgb[2]);
-        if (max > 0.0f) {
-            cmyk[0] = 1.0f - rgb[0] / max;
-            cmyk[1] = 1.0f - rgb[1] / max;
-            cmyk[2] = 1.0f - rgb[2] / max;
+        flobt mbx = ColorModflHSL.mbx(rgb[0], rgb[1], rgb[2]);
+        if (mbx > 0.0f) {
+            dmyk[0] = 1.0f - rgb[0] / mbx;
+            dmyk[1] = 1.0f - rgb[1] / mbx;
+            dmyk[2] = 1.0f - rgb[2] / mbx;
         }
-        else {
-            cmyk[0] = 0.0f;
-            cmyk[1] = 0.0f;
-            cmyk[2] = 0.0f;
+        flsf {
+            dmyk[0] = 0.0f;
+            dmyk[1] = 0.0f;
+            dmyk[2] = 0.0f;
         }
-        cmyk[3] = 1.0f - max;
-        return cmyk;
+        dmyk[3] = 1.0f - mbx;
+        rfturn dmyk;
     }
 }

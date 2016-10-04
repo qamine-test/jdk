@@ -1,0 +1,395 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.implfmfntbtions;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffSft;
+
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.hflpfr.C14nHflpfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+import org.xml.sbx.SAXExdfption;
+
+/**
+ * Implfmfnts <A HREF="http://www.w3.org/TR/2001/REC-xml-d14n-20010315">Cbnonidbl
+ * XML Vfrsion 1.0</A>, b W3C Rfdommfndbtion from 15 Mbrdh 2001.
+ *
+ * @buthor Christibn Gfufr-Pollmbnn <gfufrp@bpbdhf.org>
+ */
+publid bbstrbdt dlbss Cbnonidblizfr20010315 fxtfnds CbnonidblizfrBbsf {
+    privbtf stbtid finbl String XMLNS_URI = Constbnts.NbmfspbdfSpfdNS;
+    privbtf stbtid finbl String XML_LANG_URI = Constbnts.XML_LANG_SPACE_SpfdNS;
+
+    privbtf boolfbn firstCbll = truf;
+    privbtf finbl SortfdSft<Attr> rfsult = nfw TrffSft<Attr>(COMPARE);
+
+    privbtf stbtid dlbss XmlAttrStbdk {
+        stbtid dlbss XmlsStbdkElfmfnt {
+            int lfvfl;
+            boolfbn rfndfrfd = fblsf;
+            List<Attr> nodfs = nfw ArrbyList<Attr>();
+        };
+
+        int durrfntLfvfl = 0;
+        int lbstlfvfl = 0;
+        XmlsStbdkElfmfnt dur;
+        List<XmlsStbdkElfmfnt> lfvfls = nfw ArrbyList<XmlsStbdkElfmfnt>();
+
+        void push(int lfvfl) {
+            durrfntLfvfl = lfvfl;
+            if (durrfntLfvfl == -1) {
+                rfturn;
+            }
+            dur = null;
+            whilf (lbstlfvfl >= durrfntLfvfl) {
+                lfvfls.rfmovf(lfvfls.sizf() - 1);
+                int nfwSizf = lfvfls.sizf();
+                if (nfwSizf == 0) {
+                    lbstlfvfl = 0;
+                    rfturn;
+                }
+                lbstlfvfl = (lfvfls.gft(nfwSizf - 1)).lfvfl;
+            }
+        }
+
+        void bddXmlnsAttr(Attr n) {
+            if (dur == null) {
+                dur = nfw XmlsStbdkElfmfnt();
+                dur.lfvfl = durrfntLfvfl;
+                lfvfls.bdd(dur);
+                lbstlfvfl = durrfntLfvfl;
+            }
+            dur.nodfs.bdd(n);
+        }
+
+        void gftXmlnsAttr(Collfdtion<Attr> dol) {
+            int sizf = lfvfls.sizf() - 1;
+            if (dur == null) {
+                dur = nfw XmlsStbdkElfmfnt();
+                dur.lfvfl = durrfntLfvfl;
+                lbstlfvfl = durrfntLfvfl;
+                lfvfls.bdd(dur);
+            }
+            boolfbn pbrfntRfndfrfd = fblsf;
+            XmlsStbdkElfmfnt f = null;
+            if (sizf == -1) {
+                pbrfntRfndfrfd = truf;
+            } flsf {
+                f = lfvfls.gft(sizf);
+                if (f.rfndfrfd && f.lfvfl + 1 == durrfntLfvfl) {
+                    pbrfntRfndfrfd = truf;
+                }
+            }
+            if (pbrfntRfndfrfd) {
+                dol.bddAll(dur.nodfs);
+                dur.rfndfrfd = truf;
+                rfturn;
+            }
+
+            Mbp<String, Attr> lob = nfw HbshMbp<String, Attr>();
+            for (; sizf >= 0; sizf--) {
+                f = lfvfls.gft(sizf);
+                Itfrbtor<Attr> it = f.nodfs.itfrbtor();
+                whilf (it.hbsNfxt()) {
+                    Attr n = it.nfxt();
+                    if (!lob.dontbinsKfy(n.gftNbmf())) {
+                        lob.put(n.gftNbmf(), n);
+                    }
+                }
+            }
+
+            dur.rfndfrfd = truf;
+            dol.bddAll(lob.vblufs());
+        }
+
+    }
+
+    privbtf XmlAttrStbdk xmlbttrStbdk = nfw XmlAttrStbdk();
+
+    /**
+     * Construdtor Cbnonidblizfr20010315
+     *
+     * @pbrbm indludfCommfnts
+     */
+    publid Cbnonidblizfr20010315(boolfbn indludfCommfnts) {
+        supfr(indludfCommfnts);
+    }
+
+    /**
+     * Alwbys throws b CbnonidblizbtionExdfption bfdbusf this is indlusivf d14n.
+     *
+     * @pbrbm xpbthNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn nonf it blwbys fbils
+     * @throws CbnonidblizbtionExdfption blwbys
+     */
+    publid bytf[] fnginfCbnonidblizfXPbthNodfSft(Sft<Nodf> xpbthNodfSft, String indlusivfNbmfspbdfs)
+        throws CbnonidblizbtionExdfption {
+
+        /** $todo$ wfll, should wf throw UnsupportfdOpfrbtionExdfption ? */
+        throw nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
+    }
+
+    /**
+     * Alwbys throws b CbnonidblizbtionExdfption bfdbusf this is indlusivf d14n.
+     *
+     * @pbrbm rootNodf
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn nonf it blwbys fbils
+     * @throws CbnonidblizbtionExdfption
+     */
+    publid bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf, String indlusivfNbmfspbdfs)
+        throws CbnonidblizbtionExdfption {
+
+        /** $todo$ wfll, should wf throw UnsupportfdOpfrbtionExdfption ? */
+        throw nfw CbnonidblizbtionExdfption("d14n.Cbnonidblizfr.UnsupportfdOpfrbtion");
+    }
+
+    /**
+     * Rfturns thf Attr[]s to bf output for thf givfn flfmfnt.
+     * <br>
+     * Thf dodf of this mfthod is b dopy of {@link #hbndlfAttributfs(Elfmfnt,
+     * NbmfSpbdfSymbTbblf)},
+     * whfrfbs it tbkfs into bddount thbt subtrff-d14n is -- wfll -- subtrff-bbsfd.
+     * So if thf flfmfnt in qufstion isRoot of d14n, it's pbrfnt is not in thf
+     * nodf sft, bs wfll bs bll othfr bndfstors.
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn thf Attr[]s to bf output
+     * @throws CbnonidblizbtionExdfption
+     */
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> hbndlfAttributfsSubtrff(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        throws CbnonidblizbtionExdfption {
+        if (!flfmfnt.hbsAttributfs() && !firstCbll) {
+            rfturn null;
+        }
+        // rfsult will dontbin thf bttrs whidh hbvf to bf output
+        finbl SortfdSft<Attr> rfsult = this.rfsult;
+        rfsult.dlfbr();
+
+        if (flfmfnt.hbsAttributfs()) {
+            NbmfdNodfMbp bttrs = flfmfnt.gftAttributfs();
+            int bttrsLfngth = bttrs.gftLfngth();
+
+            for (int i = 0; i < bttrsLfngth; i++) {
+                Attr bttributf = (Attr) bttrs.itfm(i);
+                String NUri = bttributf.gftNbmfspbdfURI();
+                String NNbmf = bttributf.gftLodblNbmf();
+                String NVbluf = bttributf.gftVbluf();
+
+                if (!XMLNS_URI.fqubls(NUri)) {
+                    //It's not b nbmfspbdf bttr nodf. Add to thf rfsult bnd dontinuf.
+                    rfsult.bdd(bttributf);
+                } flsf if (!(XML.fqubls(NNbmf) && XML_LANG_URI.fqubls(NVbluf))) {
+                    //Thf dffbult mbpping for xml must not bf output.
+                    Nodf n = ns.bddMbppingAndRfndfr(NNbmf, NVbluf, bttributf);
+
+                    if (n != null) {
+                        //Rfndfr thf ns dffinition
+                        rfsult.bdd((Attr)n);
+                        if (C14nHflpfr.nbmfspbdfIsRflbtivf(bttributf)) {
+                            Objfdt fxArgs[] = { flfmfnt.gftTbgNbmf(), NNbmf, bttributf.gftNodfVbluf() };
+                            throw nfw CbnonidblizbtionExdfption(
+                                "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
+        if (firstCbll) {
+            //It is thf first nodf of thf subtrff
+            //Obtbin bll thf nbmfspbdfs dffinfd in thf pbrfnts, bnd bddfd to thf output.
+            ns.gftUnrfndfrfdNodfs(rfsult);
+            //output thf bttributfs in thf xml nbmfspbdf.
+            xmlbttrStbdk.gftXmlnsAttr(rfsult);
+            firstCbll = fblsf;
+        }
+
+        rfturn rfsult.itfrbtor();
+    }
+
+    /**
+     * Rfturns thf Attr[]s to bf output for thf givfn flfmfnt.
+     * <br>
+     * IMPORTANT: This mfthod fxpfdts to work on b modififd DOM trff, i.f. b DOM whidh hbs
+     * bffn prfpbrfd using {@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils#dirdumvfntBug2650(
+     * org.w3d.dom.Dodumfnt)}.
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm ns
+     * @rfturn thf Attr[]s to bf output
+     * @throws CbnonidblizbtionExdfption
+     */
+    @Ovfrridf
+    protfdtfd Itfrbtor<Attr> hbndlfAttributfs(Elfmfnt flfmfnt, NbmfSpbdfSymbTbblf ns)
+        throws CbnonidblizbtionExdfption {
+        // rfsult will dontbin thf bttrs whidh hbvf to bf output
+        xmlbttrStbdk.push(ns.gftLfvfl());
+        boolfbn isRfblVisiblf = isVisiblfDO(flfmfnt, ns.gftLfvfl()) == 1;
+        finbl SortfdSft<Attr> rfsult = this.rfsult;
+        rfsult.dlfbr();
+
+        if (flfmfnt.hbsAttributfs()) {
+            NbmfdNodfMbp bttrs = flfmfnt.gftAttributfs();
+            int bttrsLfngth = bttrs.gftLfngth();
+
+            for (int i = 0; i < bttrsLfngth; i++) {
+                Attr bttributf = (Attr) bttrs.itfm(i);
+                String NUri = bttributf.gftNbmfspbdfURI();
+                String NNbmf = bttributf.gftLodblNbmf();
+                String NVbluf = bttributf.gftVbluf();
+
+                if (!XMLNS_URI.fqubls(NUri)) {
+                    //A non nbmfspbdf dffinition nodf.
+                    if (XML_LANG_URI.fqubls(NUri)) {
+                        xmlbttrStbdk.bddXmlnsAttr(bttributf);
+                    } flsf if (isRfblVisiblf) {
+                        //Thf nodf is visiblf bdd thf bttributf to thf list of output bttributfs.
+                        rfsult.bdd(bttributf);
+                    }
+                } flsf if (!XML.fqubls(NNbmf) || !XML_LANG_URI.fqubls(NVbluf)) {
+                    /* fxdfpt omit nbmfspbdf nodf with lodbl nbmf xml, whidh dffinfs
+                     * thf xml prffix, if its string vbluf is http://www.w3.org/XML/1998/nbmfspbdf.
+                     */
+                    //bdd thf prffix binding to thf ns symb tbblf.
+                    if (isVisiblf(bttributf))  {
+                        if (isRfblVisiblf || !ns.rfmovfMbppingIfRfndfr(NNbmf)) {
+                            //Thf xpbth sflfdt this nodf output it if nffdfd.
+                            Nodf n = ns.bddMbppingAndRfndfr(NNbmf, NVbluf, bttributf);
+                            if (n != null) {
+                                rfsult.bdd((Attr)n);
+                                if (C14nHflpfr.nbmfspbdfIsRflbtivf(bttributf)) {
+                                    Objfdt fxArgs[] = { flfmfnt.gftTbgNbmf(), NNbmf, bttributf.gftNodfVbluf() };
+                                    throw nfw CbnonidblizbtionExdfption(
+                                        "d14n.Cbnonidblizfr.RflbtivfNbmfspbdf", fxArgs
+                                    );
+                                }
+                            }
+                        }
+                    } flsf {
+                        if (isRfblVisiblf && !XMLNS.fqubls(NNbmf)) {
+                            ns.rfmovfMbpping(NNbmf);
+                        } flsf {
+                            ns.bddMbpping(NNbmf, NVbluf, bttributf);
+                        }
+                    }
+                }
+            }
+        }
+        if (isRfblVisiblf) {
+            //Thf flfmfnt is visiblf, hbndlf thf xmlns dffinition
+            Attr xmlns = flfmfnt.gftAttributfNodfNS(XMLNS_URI, XMLNS);
+            Nodf n = null;
+            if (xmlns == null) {
+                //No xmlns dff just gft thf blrfbdy dffinfd.
+                n = ns.gftMbpping(XMLNS);
+            } flsf if (!isVisiblf(xmlns)) {
+                //Thfrf is b dffinition but thf xmlns is not sflfdtfd by thf xpbth.
+                //thfn xmlns=""
+                n = ns.bddMbppingAndRfndfr(
+                        XMLNS, "", gftNullNodf(xmlns.gftOwnfrDodumfnt()));
+            }
+            //output thf xmlns dff if nffdfd.
+            if (n != null) {
+                rfsult.bdd((Attr)n);
+            }
+            //Flobt bll xml:* bttributfs of thf unsflfdtfd pbrfnt flfmfnts to this onf.
+            xmlbttrStbdk.gftXmlnsAttr(rfsult);
+            ns.gftUnrfndfrfdNodfs(rfsult);
+        }
+
+        rfturn rfsult.itfrbtor();
+    }
+
+    protfdtfd void dirdumvfntBugIfNffdfd(XMLSignbturfInput input)
+        throws CbnonidblizbtionExdfption, PbrsfrConfigurbtionExdfption, IOExdfption, SAXExdfption {
+        if (!input.isNffdsToBfExpbndfd()) {
+            rfturn;
+        }
+        Dodumfnt dod = null;
+        if (input.gftSubNodf() != null) {
+            dod = XMLUtils.gftOwnfrDodumfnt(input.gftSubNodf());
+        } flsf {
+            dod = XMLUtils.gftOwnfrDodumfnt(input.gftNodfSft());
+        }
+        XMLUtils.dirdumvfntBug2650(dod);
+    }
+
+    @Ovfrridf
+    protfdtfd void hbndlfPbrfnt(Elfmfnt f, NbmfSpbdfSymbTbblf ns) {
+        if (!f.hbsAttributfs() && f.gftNbmfspbdfURI() == null) {
+            rfturn;
+        }
+        xmlbttrStbdk.push(-1);
+        NbmfdNodfMbp bttrs = f.gftAttributfs();
+        int bttrsLfngth = bttrs.gftLfngth();
+        for (int i = 0; i < bttrsLfngth; i++) {
+            Attr bttributf = (Attr) bttrs.itfm(i);
+            String NNbmf = bttributf.gftLodblNbmf();
+            String NVbluf = bttributf.gftNodfVbluf();
+
+            if (Constbnts.NbmfspbdfSpfdNS.fqubls(bttributf.gftNbmfspbdfURI())) {
+                if (!XML.fqubls(NNbmf) || !Constbnts.XML_LANG_SPACE_SpfdNS.fqubls(NVbluf)) {
+                    ns.bddMbpping(NNbmf, NVbluf, bttributf);
+                }
+            } flsf if (XML_LANG_URI.fqubls(bttributf.gftNbmfspbdfURI())) {
+                xmlbttrStbdk.bddXmlnsAttr(bttributf);
+            }
+        }
+        if (f.gftNbmfspbdfURI() != null) {
+            String NNbmf = f.gftPrffix();
+            String NVbluf = f.gftNbmfspbdfURI();
+            String Nbmf;
+            if (NNbmf == null || NNbmf.fqubls("")) {
+                NNbmf = "xmlns";
+                Nbmf = "xmlns";
+            } flsf {
+                Nbmf = "xmlns:" + NNbmf;
+            }
+            Attr n = f.gftOwnfrDodumfnt().drfbtfAttributfNS("http://www.w3.org/2000/xmlns/", Nbmf);
+            n.sftVbluf(NVbluf);
+            ns.bddMbpping(NNbmf, NVbluf, n);
+        }
+    }
+}

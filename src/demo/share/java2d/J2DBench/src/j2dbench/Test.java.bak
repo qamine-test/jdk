@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,259 +30,259 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench;
+pbdkbgf j2dbfndi;
 
-public abstract class Test extends Option.Enable {
-    private DependentLink dependencies;
+publid bbstrbdt dlbss Tfst fxtfnds Option.Enbblf {
+    privbtf DfpfndfntLink dfpfndfndifs;
 
-    public Test(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description, false);
+    publid Tfst(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription, fblsf);
     }
 
-    public void addDependency(Modifier mod) {
-        addDependency(mod, null);
+    publid void bddDfpfndfndy(Modififr mod) {
+        bddDfpfndfndy(mod, null);
     }
 
-    public void addDependency(Modifier mod, Modifier.Filter filter) {
-        dependencies = DependentLink.add(dependencies, mod, filter);
+    publid void bddDfpfndfndy(Modififr mod, Modififr.Filtfr filtfr) {
+        dfpfndfndifs = DfpfndfntLink.bdd(dfpfndfndifs, mod, filtfr);
     }
 
-    public void addDependencies(Group g, boolean recursive) {
-        addDependencies(g, recursive, null);
+    publid void bddDfpfndfndifs(Group g, boolfbn rfdursivf) {
+        bddDfpfndfndifs(g, rfdursivf, null);
     }
 
-    public void addDependencies(Group g, boolean recursive,
-                                Modifier.Filter filter)
+    publid void bddDfpfndfndifs(Group g, boolfbn rfdursivf,
+                                Modififr.Filtfr filtfr)
     {
-        if (g instanceof Modifier) {
-            addDependency((Modifier) g, filter);
+        if (g instbndfof Modififr) {
+            bddDfpfndfndy((Modififr) g, filtfr);
         }
-        for (Node n = g.getFirstChild(); n != null; n = n.getNext()) {
-            if (n instanceof Modifier) {
-                addDependency((Modifier) n, filter);
-            } else if (recursive && n instanceof Group) {
-                addDependencies((Group) n, recursive, filter);
+        for (Nodf n = g.gftFirstCiild(); n != null; n = n.gftNfxt()) {
+            if (n instbndfof Modififr) {
+                bddDfpfndfndy((Modififr) n, filtfr);
+            } flsf if (rfdursivf && n instbndfof Group) {
+                bddDfpfndfndifs((Group) n, rfdursivf, filtfr);
             }
         }
     }
 
-    public void runTest(TestEnvironment env) {
-        if (!env.isStopped() && isEnabled()) {
-            dependencies.recurseAndRun(env, this);
+    publid void runTfst(TfstEnvironmfnt fnv) {
+        if (!fnv.isStoppfd() && isEnbblfd()) {
+            dfpfndfndifs.rfdursfAndRun(fnv, tiis);
         }
     }
 
-    public void runOneTest(TestEnvironment env) {
-        if (!env.isStopped()) {
-            Result result = new Result(this);
-            env.erase();
-            Object ctx = initTest(env, result);
-            result.setModifiers(env.getModifiers());
+    publid void runOnfTfst(TfstEnvironmfnt fnv) {
+        if (!fnv.isStoppfd()) {
+            Rfsult rfsult = nfw Rfsult(tiis);
+            fnv.frbsf();
+            Objfdt dtx = initTfst(fnv, rfsult);
+            rfsult.sftModififrs(fnv.gftModififrs());
             try {
-                runTestLoop(env, result, ctx);
-            } catch (Throwable t) {
-                result.setError(t);
+                runTfstLoop(fnv, rfsult, dtx);
+            } dbtdi (Tirowbblf t) {
+                rfsult.sftError(t);
             }
-            cleanupTest(env, ctx);
-            // Skip recording results if we were interrupted before
-            // anything interesting happened...
-            if (result.getError() != null || result.getNumRuns() != 0) {
-                if (J2DBench.printresults.isEnabled()) {
-                    result.summarize();
+            dlfbnupTfst(fnv, dtx);
+            // Skip rfdording rfsults if wf wfrf intfrruptfd bfforf
+            // bnytiing intfrfsting ibppfnfd...
+            if (rfsult.gftError() != null || rfsult.gftNumRuns() != 0) {
+                if (J2DBfndi.printrfsults.isEnbblfd()) {
+                    rfsult.summbrizf();
                 }
-                env.record(result);
+                fnv.rfdord(rfsult);
             }
-            ctx = null;
-            result = null;
-            env.idle();  // Also done after this method returns...
+            dtx = null;
+            rfsult = null;
+            fnv.idlf();  // Also donf bftfr tiis mftiod rfturns...
         }
     }
 
-    public abstract Object initTest(TestEnvironment env, Result result);
-    public abstract void runTest(Object context, int numReps);
-    public abstract void cleanupTest(TestEnvironment env, Object context);
+    publid bbstrbdt Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult);
+    publid bbstrbdt void runTfst(Objfdt dontfxt, int numRfps);
+    publid bbstrbdt void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt dontfxt);
 
-    public void runTestLoop(TestEnvironment env, Result result, Object ctx) {
-        // Prime the pump
-        runTest(ctx, 1);
+    publid void runTfstLoop(TfstEnvironmfnt fnv, Rfsult rfsult, Objfdt dtx) {
+        // Primf tif pump
+        runTfst(dtx, 1);
 
-        // Determine the number of reps
-        int numReps = env.getRepCount();
-        if (numReps == 0) {
-            numReps = calibrate(env, ctx);
+        // Dftfrminf tif numbfr of rfps
+        int numRfps = fnv.gftRfpCount();
+        if (numRfps == 0) {
+            numRfps = dblibrbtf(fnv, dtx);
         }
-        result.setReps(numReps);
+        rfsult.sftRfps(numRfps);
 
-        int numRuns = env.getRunCount();
+        int numRuns = fnv.gftRunCount();
         for (int i = 0; i < numRuns; i++) {
-            if (env.idle()) {
-                break;
+            if (fnv.idlf()) {
+                brfbk;
             }
 
-            env.sync();
-            env.startTiming();
-            runTest(ctx, numReps);
-            env.sync();
-            env.stopTiming();
-            result.addTime(env.getTimeMillis());
+            fnv.synd();
+            fnv.stbrtTiming();
+            runTfst(dtx, numRfps);
+            fnv.synd();
+            fnv.stopTiming();
+            rfsult.bddTimf(fnv.gftTimfMillis());
 
-            env.flushToScreen();
+            fnv.flusiToSdrffn();
         }
     }
 
-    public int calibrate(TestEnvironment env, Object ctx) {
-        long testTime = env.getTestTime();
-        int numReps = 0;
-        int totalReps = 0;
+    publid int dblibrbtf(TfstEnvironmfnt fnv, Objfdt dtx) {
+        long tfstTimf = fnv.gftTfstTimf();
+        int numRfps = 0;
+        int totblRfps = 0;
 
-        // First do one at a time until we get to 1 second elapsed
-        // But, if we get to 1000 reps we'll start ramping up our
-        // reps per cycle and throwing sync() calls in to make sure
-        // we aren't spinning our gears queueing up graphics calls
-        env.idle();
-        long now = System.currentTimeMillis();
-        long startTime = now;
-        while (numReps < 1000 && now < startTime + 1000) {
-            runTest(ctx, 1);
-            numReps++;
-            now = System.currentTimeMillis();
+        // First do onf bt b timf until wf gft to 1 sfdond flbpsfd
+        // But, if wf gft to 1000 rfps wf'll stbrt rbmping up our
+        // rfps pfr dydlf bnd tirowing synd() dblls in to mbkf surf
+        // wf brfn't spinning our gfbrs qufufing up grbpiids dblls
+        fnv.idlf();
+        long now = Systfm.durrfntTimfMillis();
+        long stbrtTimf = now;
+        wiilf (numRfps < 1000 && now < stbrtTimf + 1000) {
+            runTfst(dtx, 1);
+            numRfps++;
+            now = Systfm.durrfntTimfMillis();
         }
 
-        // Time to shift gears into an exponential number of tests
-        // sync() each time in case batching at a lower level is
-        // causing us to spin our gears
-        env.sync();
-        now = System.currentTimeMillis();
-        int reps = 250;
-        while (now < startTime + 1000) {
-            runTest(ctx, reps);
-            env.sync();
-            numReps += reps;
-            reps *= 2;
-            now = System.currentTimeMillis();
+        // Timf to siift gfbrs into bn fxponfntibl numbfr of tfsts
+        // synd() fbdi timf in dbsf bbtdiing bt b lowfr lfvfl is
+        // dbusing us to spin our gfbrs
+        fnv.synd();
+        now = Systfm.durrfntTimfMillis();
+        int rfps = 250;
+        wiilf (now < stbrtTimf + 1000) {
+            runTfst(dtx, rfps);
+            fnv.synd();
+            numRfps += rfps;
+            rfps *= 2;
+            now = Systfm.durrfntTimfMillis();
         }
 
-        // Now keep estimating how many reps it takes to hit our target
-        // time exactly, trying it out, and guessing again.
-        while (now < startTime + testTime) {
-            int estimate = (int) (numReps * testTime / (now - startTime));
-            if (estimate <= numReps) {
-                estimate = numReps+1;
+        // Now kffp fstimbting iow mbny rfps it tbkfs to iit our tbrgft
+        // timf fxbdtly, trying it out, bnd gufssing bgbin.
+        wiilf (now < stbrtTimf + tfstTimf) {
+            int fstimbtf = (int) (numRfps * tfstTimf / (now - stbrtTimf));
+            if (fstimbtf <= numRfps) {
+                fstimbtf = numRfps+1;
             }
-            runTest(ctx, estimate - numReps);
-            numReps = estimate;
-            env.sync();
-            now = System.currentTimeMillis();
+            runTfst(dtx, fstimbtf - numRfps);
+            numRfps = fstimbtf;
+            fnv.synd();
+            now = Systfm.durrfntTimfMillis();
         }
 
-        // Now make one last estimate of how many reps it takes to
-        // hit the target exactly in case we overshot.
-        int estimate = (int) (numReps * testTime / (now - startTime));
-        if (estimate < 1) {
-            estimate = 1;
+        // Now mbkf onf lbst fstimbtf of iow mbny rfps it tbkfs to
+        // iit tif tbrgft fxbdtly in dbsf wf ovfrsiot.
+        int fstimbtf = (int) (numRfps * tfstTimf / (now - stbrtTimf));
+        if (fstimbtf < 1) {
+            fstimbtf = 1;
         }
-        return estimate;
+        rfturn fstimbtf;
     }
 
     /*
-     * Finds a new width (w2) such that
+     * Finds b nfw widti (w2) sudi tibt
      *     (w-2) <= w2 <= w
-     *     and w2 is not a multiple of 3 (the X step size)
-     *     and GCD(w2, h) is as small as possible
+     *     bnd w2 is not b multiplf of 3 (tif X stfp sizf)
+     *     bnd GCD(w2, i) is bs smbll bs possiblf
      */
-    static int prevw;
-    public static int adjustWidth(int w, int h) {
-        int bestv = w;
-        int bestw = w;
-        boolean verbose = (prevw != w && J2DBench.verbose.isEnabled());
+    stbtid int prfvw;
+    publid stbtid int bdjustWidti(int w, int i) {
+        int bfstv = w;
+        int bfstw = w;
+        boolfbn vfrbosf = (prfvw != w && J2DBfndi.vfrbosf.isEnbblfd());
         for (int i = 0; i < 3; i++) {
             int w2 = w-i;
             int u = w2;
-            int v = h;
-            while (u > 0) {
+            int v = i;
+            wiilf (u > 0) {
                 if (u < v) { int t = u; u = v; v = t; }
                 u -= v;
             }
-            if (verbose) {
-                System.out.println("w = "+w2+", h = "+h+
+            if (vfrbosf) {
+                Systfm.out.println("w = "+w2+", i = "+i+
                                    ", w % 3 == "+(w2 % 3)+
-                                   ", gcd(w, h) = "+v);
+                                   ", gdd(w, i) = "+v);
             }
-            if (v < bestv && (w2 % 3) != 0) {
-                bestv = v;
-                bestw = w2;
+            if (v < bfstv && (w2 % 3) != 0) {
+                bfstv = v;
+                bfstw = w2;
             }
         }
-        if (verbose) {
-            System.out.println("using "+bestw+" (gcd = "+bestv+")");
-            prevw = w;
+        if (vfrbosf) {
+            Systfm.out.println("using "+bfstw+" (gdd = "+bfstv+")");
+            prfvw = w;
         }
-        return bestw;
+        rfturn bfstw;
     }
 
-    public String toString() {
-        return "Test("+getTreeName()+")";
+    publid String toString() {
+        rfturn "Tfst("+gftTrffNbmf()+")";
     }
 
-    public static class DependentLink {
-        public static DependentLink add(DependentLink d, Modifier mod,
-                                        Modifier.Filter filter)
+    publid stbtid dlbss DfpfndfntLink {
+        publid stbtid DfpfndfntLink bdd(DfpfndfntLink d, Modififr mod,
+                                        Modififr.Filtfr filtfr)
         {
-            DependentLink dl = new DependentLink(mod, filter);
+            DfpfndfntLink dl = nfw DfpfndfntLink(mod, filtfr);
             if (d == null) {
                 d = dl;
-            } else {
-                DependentLink last = d;
-                while (last.next != null) {
-                    last = last.next;
+            } flsf {
+                DfpfndfntLink lbst = d;
+                wiilf (lbst.nfxt != null) {
+                    lbst = lbst.nfxt;
                 }
-                last.next = dl;
+                lbst.nfxt = dl;
             }
-            return d;
+            rfturn d;
         }
 
-        private DependentLink next;
-        private Modifier mod;
-        private Modifier.Filter filter;
+        privbtf DfpfndfntLink nfxt;
+        privbtf Modififr mod;
+        privbtf Modififr.Filtfr filtfr;
 
-        private DependentLink(Modifier mod, Modifier.Filter filter) {
-            this.mod = mod;
-            this.filter = filter;
+        privbtf DfpfndfntLink(Modififr mod, Modififr.Filtfr filtfr) {
+            tiis.mod = mod;
+            tiis.filtfr = filtfr;
         }
 
-        public Modifier getModifier() {
-            return mod;
+        publid Modififr gftModififr() {
+            rfturn mod;
         }
 
-        public Modifier.Filter getFilter() {
-            return filter;
+        publid Modififr.Filtfr gftFiltfr() {
+            rfturn filtfr;
         }
 
-        public DependentLink getNext() {
-            return next;
+        publid DfpfndfntLink gftNfxt() {
+            rfturn nfxt;
         }
 
-        public void recurseAndRun(TestEnvironment env, Test test) {
-            Modifier.Iterator iter = mod.getIterator(env);
-            while (iter.hasNext()) {
-                Object val = iter.next();
-                if (filter == null || filter.isCompatible(val)) {
-                    mod.modifyTest(env, val);
-                    if (next == null) {
-                        test.runOneTest(env);
-                        env.idle();  // One more time outside of runOneTest()
-                    } else {
-                        next.recurseAndRun(env, test);
+        publid void rfdursfAndRun(TfstEnvironmfnt fnv, Tfst tfst) {
+            Modififr.Itfrbtor itfr = mod.gftItfrbtor(fnv);
+            wiilf (itfr.ibsNfxt()) {
+                Objfdt vbl = itfr.nfxt();
+                if (filtfr == null || filtfr.isCompbtiblf(vbl)) {
+                    mod.modifyTfst(fnv, vbl);
+                    if (nfxt == null) {
+                        tfst.runOnfTfst(fnv);
+                        fnv.idlf();  // Onf morf timf outsidf of runOnfTfst()
+                    } flsf {
+                        nfxt.rfdursfAndRun(fnv, tfst);
                     }
-                    mod.restoreTest(env, val);
+                    mod.rfstorfTfst(fnv, vbl);
                 }
             }
         }

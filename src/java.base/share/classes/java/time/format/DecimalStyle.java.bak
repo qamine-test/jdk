@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2008-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2008-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,323 +59,323 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbdkbgf jbvb.timf.formbt;
 
-import java.text.DecimalFormatSymbols;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
 
 /**
- * Localized decimal style used in date and time formatting.
+ * Lodblizfd dfdimbl stylf usfd in dbtf bnd timf formbtting.
  * <p>
- * A significant part of dealing with dates and times is the localization.
- * This class acts as a central point for accessing the information.
+ * A signifidbnt pbrt of dfbling witi dbtfs bnd timfs is tif lodblizbtion.
+ * Tiis dlbss bdts bs b dfntrbl point for bddfssing tif informbtion.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class DecimalStyle {
+publid finbl dlbss DfdimblStylf {
 
     /**
-     * The standard set of non-localized decimal style symbols.
+     * Tif stbndbrd sft of non-lodblizfd dfdimbl stylf symbols.
      * <p>
-     * This uses standard ASCII characters for zero, positive, negative and a dot for the decimal point.
+     * Tiis usfs stbndbrd ASCII dibrbdtfrs for zfro, positivf, nfgbtivf bnd b dot for tif dfdimbl point.
      */
-    public static final DecimalStyle STANDARD = new DecimalStyle('0', '+', '-', '.');
+    publid stbtid finbl DfdimblStylf STANDARD = nfw DfdimblStylf('0', '+', '-', '.');
     /**
-     * The cache of DecimalStyle instances.
+     * Tif dbdif of DfdimblStylf instbndfs.
      */
-    private static final ConcurrentMap<Locale, DecimalStyle> CACHE = new ConcurrentHashMap<>(16, 0.75f, 2);
+    privbtf stbtid finbl CondurrfntMbp<Lodblf, DfdimblStylf> CACHE = nfw CondurrfntHbsiMbp<>(16, 0.75f, 2);
 
     /**
-     * The zero digit.
+     * Tif zfro digit.
      */
-    private final char zeroDigit;
+    privbtf finbl dibr zfroDigit;
     /**
-     * The positive sign.
+     * Tif positivf sign.
      */
-    private final char positiveSign;
+    privbtf finbl dibr positivfSign;
     /**
-     * The negative sign.
+     * Tif nfgbtivf sign.
      */
-    private final char negativeSign;
+    privbtf finbl dibr nfgbtivfSign;
     /**
-     * The decimal separator.
+     * Tif dfdimbl sfpbrbtor.
      */
-    private final char decimalSeparator;
+    privbtf finbl dibr dfdimblSfpbrbtor;
 
     //-----------------------------------------------------------------------
     /**
-     * Lists all the locales that are supported.
+     * Lists bll tif lodblfs tibt brf supportfd.
      * <p>
-     * The locale 'en_US' will always be present.
+     * Tif lodblf 'fn_US' will blwbys bf prfsfnt.
      *
-     * @return a Set of Locales for which localization is supported
+     * @rfturn b Sft of Lodblfs for wiidi lodblizbtion is supportfd
      */
-    public static Set<Locale> getAvailableLocales() {
-        Locale[] l = DecimalFormatSymbols.getAvailableLocales();
-        Set<Locale> locales = new HashSet<>(l.length);
-        Collections.addAll(locales, l);
-        return locales;
+    publid stbtid Sft<Lodblf> gftAvbilbblfLodblfs() {
+        Lodblf[] l = DfdimblFormbtSymbols.gftAvbilbblfLodblfs();
+        Sft<Lodblf> lodblfs = nfw HbsiSft<>(l.lfngti);
+        Collfdtions.bddAll(lodblfs, l);
+        rfturn lodblfs;
     }
 
     /**
-     * Obtains the DecimalStyle for the default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
+     * Obtbins tif DfdimblStylf for tif dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
      * <p>
-     * This method provides access to locale sensitive decimal style symbols.
+     * Tiis mftiod providfs bddfss to lodblf sfnsitivf dfdimbl stylf symbols.
      * <p>
-     * This is equivalent to calling
-     * {@link #of(Locale)
-     *     of(Locale.getDefault(Locale.Category.FORMAT))}.
+     * Tiis is fquivblfnt to dblling
+     * {@link #of(Lodblf)
+     *     of(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
      *
-     * @see java.util.Locale.Category#FORMAT
-     * @return the decimal style, not null
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn tif dfdimbl stylf, not null
      */
-    public static DecimalStyle ofDefaultLocale() {
-        return of(Locale.getDefault(Locale.Category.FORMAT));
+    publid stbtid DfdimblStylf ofDffbultLodblf() {
+        rfturn of(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
     }
 
     /**
-     * Obtains the DecimalStyle for the specified locale.
+     * Obtbins tif DfdimblStylf for tif spfdififd lodblf.
      * <p>
-     * This method provides access to locale sensitive decimal style symbols.
+     * Tiis mftiod providfs bddfss to lodblf sfnsitivf dfdimbl stylf symbols.
      *
-     * @param locale  the locale, not null
-     * @return the decimal style, not null
+     * @pbrbm lodblf  tif lodblf, not null
+     * @rfturn tif dfdimbl stylf, not null
      */
-    public static DecimalStyle of(Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-        DecimalStyle info = CACHE.get(locale);
+    publid stbtid DfdimblStylf of(Lodblf lodblf) {
+        Objfdts.rfquirfNonNull(lodblf, "lodblf");
+        DfdimblStylf info = CACHE.gft(lodblf);
         if (info == null) {
-            info = create(locale);
-            CACHE.putIfAbsent(locale, info);
-            info = CACHE.get(locale);
+            info = drfbtf(lodblf);
+            CACHE.putIfAbsfnt(lodblf, info);
+            info = CACHE.gft(lodblf);
         }
-        return info;
+        rfturn info;
     }
 
-    private static DecimalStyle create(Locale locale) {
-        DecimalFormatSymbols oldSymbols = DecimalFormatSymbols.getInstance(locale);
-        char zeroDigit = oldSymbols.getZeroDigit();
-        char positiveSign = '+';
-        char negativeSign = oldSymbols.getMinusSign();
-        char decimalSeparator = oldSymbols.getDecimalSeparator();
-        if (zeroDigit == '0' && negativeSign == '-' && decimalSeparator == '.') {
-            return STANDARD;
+    privbtf stbtid DfdimblStylf drfbtf(Lodblf lodblf) {
+        DfdimblFormbtSymbols oldSymbols = DfdimblFormbtSymbols.gftInstbndf(lodblf);
+        dibr zfroDigit = oldSymbols.gftZfroDigit();
+        dibr positivfSign = '+';
+        dibr nfgbtivfSign = oldSymbols.gftMinusSign();
+        dibr dfdimblSfpbrbtor = oldSymbols.gftDfdimblSfpbrbtor();
+        if (zfroDigit == '0' && nfgbtivfSign == '-' && dfdimblSfpbrbtor == '.') {
+            rfturn STANDARD;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Restricted constructor.
+     * Rfstridtfd donstrudtor.
      *
-     * @param zeroChar  the character to use for the digit of zero
-     * @param positiveSignChar  the character to use for the positive sign
-     * @param negativeSignChar  the character to use for the negative sign
-     * @param decimalPointChar  the character to use for the decimal point
+     * @pbrbm zfroCibr  tif dibrbdtfr to usf for tif digit of zfro
+     * @pbrbm positivfSignCibr  tif dibrbdtfr to usf for tif positivf sign
+     * @pbrbm nfgbtivfSignCibr  tif dibrbdtfr to usf for tif nfgbtivf sign
+     * @pbrbm dfdimblPointCibr  tif dibrbdtfr to usf for tif dfdimbl point
      */
-    private DecimalStyle(char zeroChar, char positiveSignChar, char negativeSignChar, char decimalPointChar) {
-        this.zeroDigit = zeroChar;
-        this.positiveSign = positiveSignChar;
-        this.negativeSign = negativeSignChar;
-        this.decimalSeparator = decimalPointChar;
+    privbtf DfdimblStylf(dibr zfroCibr, dibr positivfSignCibr, dibr nfgbtivfSignCibr, dibr dfdimblPointCibr) {
+        tiis.zfroDigit = zfroCibr;
+        tiis.positivfSign = positivfSignCibr;
+        tiis.nfgbtivfSign = nfgbtivfSignCibr;
+        tiis.dfdimblSfpbrbtor = dfdimblPointCibr;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the character that represents zero.
+     * Gfts tif dibrbdtfr tibt rfprfsfnts zfro.
      * <p>
-     * The character used to represent digits may vary by culture.
-     * This method specifies the zero character to use, which implies the characters for one to nine.
+     * Tif dibrbdtfr usfd to rfprfsfnt digits mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif zfro dibrbdtfr to usf, wiidi implifs tif dibrbdtfrs for onf to ninf.
      *
-     * @return the character for zero
+     * @rfturn tif dibrbdtfr for zfro
      */
-    public char getZeroDigit() {
-        return zeroDigit;
+    publid dibr gftZfroDigit() {
+        rfturn zfroDigit;
     }
 
     /**
-     * Returns a copy of the info with a new character that represents zero.
+     * Rfturns b dopy of tif info witi b nfw dibrbdtfr tibt rfprfsfnts zfro.
      * <p>
-     * The character used to represent digits may vary by culture.
-     * This method specifies the zero character to use, which implies the characters for one to nine.
+     * Tif dibrbdtfr usfd to rfprfsfnt digits mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif zfro dibrbdtfr to usf, wiidi implifs tif dibrbdtfrs for onf to ninf.
      *
-     * @param zeroDigit  the character for zero
-     * @return  a copy with a new character that represents zero, not null
+     * @pbrbm zfroDigit  tif dibrbdtfr for zfro
+     * @rfturn  b dopy witi b nfw dibrbdtfr tibt rfprfsfnts zfro, not null
 
      */
-    public DecimalStyle withZeroDigit(char zeroDigit) {
-        if (zeroDigit == this.zeroDigit) {
-            return this;
+    publid DfdimblStylf witiZfroDigit(dibr zfroDigit) {
+        if (zfroDigit == tiis.zfroDigit) {
+            rfturn tiis;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the character that represents the positive sign.
+     * Gfts tif dibrbdtfr tibt rfprfsfnts tif positivf sign.
      * <p>
-     * The character used to represent a positive number may vary by culture.
-     * This method specifies the character to use.
+     * Tif dibrbdtfr usfd to rfprfsfnt b positivf numbfr mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
      *
-     * @return the character for the positive sign
+     * @rfturn tif dibrbdtfr for tif positivf sign
      */
-    public char getPositiveSign() {
-        return positiveSign;
+    publid dibr gftPositivfSign() {
+        rfturn positivfSign;
     }
 
     /**
-     * Returns a copy of the info with a new character that represents the positive sign.
+     * Rfturns b dopy of tif info witi b nfw dibrbdtfr tibt rfprfsfnts tif positivf sign.
      * <p>
-     * The character used to represent a positive number may vary by culture.
-     * This method specifies the character to use.
+     * Tif dibrbdtfr usfd to rfprfsfnt b positivf numbfr mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
      *
-     * @param positiveSign  the character for the positive sign
-     * @return  a copy with a new character that represents the positive sign, not null
+     * @pbrbm positivfSign  tif dibrbdtfr for tif positivf sign
+     * @rfturn  b dopy witi b nfw dibrbdtfr tibt rfprfsfnts tif positivf sign, not null
      */
-    public DecimalStyle withPositiveSign(char positiveSign) {
-        if (positiveSign == this.positiveSign) {
-            return this;
+    publid DfdimblStylf witiPositivfSign(dibr positivfSign) {
+        if (positivfSign == tiis.positivfSign) {
+            rfturn tiis;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the character that represents the negative sign.
+     * Gfts tif dibrbdtfr tibt rfprfsfnts tif nfgbtivf sign.
      * <p>
-     * The character used to represent a negative number may vary by culture.
-     * This method specifies the character to use.
+     * Tif dibrbdtfr usfd to rfprfsfnt b nfgbtivf numbfr mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
      *
-     * @return the character for the negative sign
+     * @rfturn tif dibrbdtfr for tif nfgbtivf sign
      */
-    public char getNegativeSign() {
-        return negativeSign;
+    publid dibr gftNfgbtivfSign() {
+        rfturn nfgbtivfSign;
     }
 
     /**
-     * Returns a copy of the info with a new character that represents the negative sign.
+     * Rfturns b dopy of tif info witi b nfw dibrbdtfr tibt rfprfsfnts tif nfgbtivf sign.
      * <p>
-     * The character used to represent a negative number may vary by culture.
-     * This method specifies the character to use.
+     * Tif dibrbdtfr usfd to rfprfsfnt b nfgbtivf numbfr mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
      *
-     * @param negativeSign  the character for the negative sign
-     * @return  a copy with a new character that represents the negative sign, not null
+     * @pbrbm nfgbtivfSign  tif dibrbdtfr for tif nfgbtivf sign
+     * @rfturn  b dopy witi b nfw dibrbdtfr tibt rfprfsfnts tif nfgbtivf sign, not null
      */
-    public DecimalStyle withNegativeSign(char negativeSign) {
-        if (negativeSign == this.negativeSign) {
-            return this;
+    publid DfdimblStylf witiNfgbtivfSign(dibr nfgbtivfSign) {
+        if (nfgbtivfSign == tiis.nfgbtivfSign) {
+            rfturn tiis;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the character that represents the decimal point.
+     * Gfts tif dibrbdtfr tibt rfprfsfnts tif dfdimbl point.
      * <p>
-     * The character used to represent a decimal point may vary by culture.
-     * This method specifies the character to use.
+     * Tif dibrbdtfr usfd to rfprfsfnt b dfdimbl point mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
      *
-     * @return the character for the decimal point
+     * @rfturn tif dibrbdtfr for tif dfdimbl point
      */
-    public char getDecimalSeparator() {
-        return decimalSeparator;
+    publid dibr gftDfdimblSfpbrbtor() {
+        rfturn dfdimblSfpbrbtor;
     }
 
     /**
-     * Returns a copy of the info with a new character that represents the decimal point.
+     * Rfturns b dopy of tif info witi b nfw dibrbdtfr tibt rfprfsfnts tif dfdimbl point.
      * <p>
-     * The character used to represent a decimal point may vary by culture.
-     * This method specifies the character to use.
+     * Tif dibrbdtfr usfd to rfprfsfnt b dfdimbl point mby vbry by dulturf.
+     * Tiis mftiod spfdififs tif dibrbdtfr to usf.
      *
-     * @param decimalSeparator  the character for the decimal point
-     * @return  a copy with a new character that represents the decimal point, not null
+     * @pbrbm dfdimblSfpbrbtor  tif dibrbdtfr for tif dfdimbl point
+     * @rfturn  b dopy witi b nfw dibrbdtfr tibt rfprfsfnts tif dfdimbl point, not null
      */
-    public DecimalStyle withDecimalSeparator(char decimalSeparator) {
-        if (decimalSeparator == this.decimalSeparator) {
-            return this;
+    publid DfdimblStylf witiDfdimblSfpbrbtor(dibr dfdimblSfpbrbtor) {
+        if (dfdimblSfpbrbtor == tiis.dfdimblSfpbrbtor) {
+            rfturn tiis;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        rfturn nfw DfdimblStylf(zfroDigit, positivfSign, nfgbtivfSign, dfdimblSfpbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks whether the character is a digit, based on the currently set zero character.
+     * Cifdks wiftifr tif dibrbdtfr is b digit, bbsfd on tif durrfntly sft zfro dibrbdtfr.
      *
-     * @param ch  the character to check
-     * @return the value, 0 to 9, of the character, or -1 if not a digit
+     * @pbrbm di  tif dibrbdtfr to difdk
+     * @rfturn tif vbluf, 0 to 9, of tif dibrbdtfr, or -1 if not b digit
      */
-    int convertToDigit(char ch) {
-        int val = ch - zeroDigit;
-        return (val >= 0 && val <= 9) ? val : -1;
+    int donvfrtToDigit(dibr di) {
+        int vbl = di - zfroDigit;
+        rfturn (vbl >= 0 && vbl <= 9) ? vbl : -1;
     }
 
     /**
-     * Converts the input numeric text to the internationalized form using the zero character.
+     * Convfrts tif input numfrid tfxt to tif intfrnbtionblizfd form using tif zfro dibrbdtfr.
      *
-     * @param numericText  the text, consisting of digits 0 to 9, to convert, not null
-     * @return the internationalized text, not null
+     * @pbrbm numfridTfxt  tif tfxt, donsisting of digits 0 to 9, to donvfrt, not null
+     * @rfturn tif intfrnbtionblizfd tfxt, not null
      */
-    String convertNumberToI18N(String numericText) {
-        if (zeroDigit == '0') {
-            return numericText;
+    String donvfrtNumbfrToI18N(String numfridTfxt) {
+        if (zfroDigit == '0') {
+            rfturn numfridTfxt;
         }
-        int diff = zeroDigit - '0';
-        char[] array = numericText.toCharArray();
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (char) (array[i] + diff);
+        int diff = zfroDigit - '0';
+        dibr[] brrby = numfridTfxt.toCibrArrby();
+        for (int i = 0; i < brrby.lfngti; i++) {
+            brrby[i] = (dibr) (brrby[i] + diff);
         }
-        return new String(array);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Checks if this DecimalStyle is equal to another DecimalStyle.
-     *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof DecimalStyle) {
-            DecimalStyle other = (DecimalStyle) obj;
-            return (zeroDigit == other.zeroDigit && positiveSign == other.positiveSign &&
-                    negativeSign == other.negativeSign && decimalSeparator == other.decimalSeparator);
-        }
-        return false;
-    }
-
-    /**
-     * A hash code for this DecimalStyle.
-     *
-     * @return a suitable hash code
-     */
-    @Override
-    public int hashCode() {
-        return zeroDigit + positiveSign + negativeSign + decimalSeparator;
+        rfturn nfw String(brrby);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a string describing this DecimalStyle.
+     * Cifdks if tiis DfdimblStylf is fqubl to bnotifr DfdimblStylf.
      *
-     * @return a string description, not null
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
      */
-    @Override
-    public String toString() {
-        return "DecimalStyle[" + zeroDigit + positiveSign + negativeSign + decimalSeparator + "]";
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof DfdimblStylf) {
+            DfdimblStylf otifr = (DfdimblStylf) obj;
+            rfturn (zfroDigit == otifr.zfroDigit && positivfSign == otifr.positivfSign &&
+                    nfgbtivfSign == otifr.nfgbtivfSign && dfdimblSfpbrbtor == otifr.dfdimblSfpbrbtor);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * A ibsi dodf for tiis DfdimblStylf.
+     *
+     * @rfturn b suitbblf ibsi dodf
+     */
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn zfroDigit + positivfSign + nfgbtivfSign + dfdimblSfpbrbtor;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b string dfsdribing tiis DfdimblStylf.
+     *
+     * @rfturn b string dfsdription, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn "DfdimblStylf[" + zfroDigit + positivfSign + nfgbtivfSign + dfdimblSfpbrbtor + "]";
     }
 
 }

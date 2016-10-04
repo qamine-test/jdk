@@ -1,563 +1,563 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs;
+pbdkbgf sun.sfdurity.pkds;
 
-import java.io.OutputStream;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertPath;
-import java.security.cert.X509Certificate;
-import java.security.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
 
-import sun.security.timestamp.TimestampToken;
-import sun.security.util.*;
-import sun.security.x509.AlgorithmId;
-import sun.security.x509.X500Name;
-import sun.security.x509.KeyUsageExtension;
-import sun.misc.HexDumpEncoder;
+import sun.sfdurity.timfstbmp.TimfstbmpTokfn;
+import sun.sfdurity.util.*;
+import sun.sfdurity.x509.AlgoritimId;
+import sun.sfdurity.x509.X500Nbmf;
+import sun.sfdurity.x509.KfyUsbgfExtfnsion;
+import sun.misd.HfxDumpEndodfr;
 
 /**
- * A SignerInfo, as defined in PKCS#7's signedData type.
+ * A SignfrInfo, bs dffinfd in PKCS#7's signfdDbtb typf.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  */
-public class SignerInfo implements DerEncoder {
+publid dlbss SignfrInfo implfmfnts DfrEndodfr {
 
-    BigInteger version;
-    X500Name issuerName;
-    BigInteger certificateSerialNumber;
-    AlgorithmId digestAlgorithmId;
-    AlgorithmId digestEncryptionAlgorithmId;
-    byte[] encryptedDigest;
-    Timestamp timestamp;
-    private boolean hasTimestamp = true;
-    private static final Debug debug = Debug.getInstance("jar");
+    BigIntfgfr vfrsion;
+    X500Nbmf issufrNbmf;
+    BigIntfgfr dfrtifidbtfSfriblNumbfr;
+    AlgoritimId digfstAlgoritimId;
+    AlgoritimId digfstEndryptionAlgoritimId;
+    bytf[] fndryptfdDigfst;
+    Timfstbmp timfstbmp;
+    privbtf boolfbn ibsTimfstbmp = truf;
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("jbr");
 
-    PKCS9Attributes authenticatedAttributes;
-    PKCS9Attributes unauthenticatedAttributes;
+    PKCS9Attributfs butifntidbtfdAttributfs;
+    PKCS9Attributfs unbutifntidbtfdAttributfs;
 
-    public SignerInfo(X500Name  issuerName,
-                      BigInteger serial,
-                      AlgorithmId digestAlgorithmId,
-                      AlgorithmId digestEncryptionAlgorithmId,
-                      byte[] encryptedDigest) {
-        this.version = BigInteger.ONE;
-        this.issuerName = issuerName;
-        this.certificateSerialNumber = serial;
-        this.digestAlgorithmId = digestAlgorithmId;
-        this.digestEncryptionAlgorithmId = digestEncryptionAlgorithmId;
-        this.encryptedDigest = encryptedDigest;
+    publid SignfrInfo(X500Nbmf  issufrNbmf,
+                      BigIntfgfr sfribl,
+                      AlgoritimId digfstAlgoritimId,
+                      AlgoritimId digfstEndryptionAlgoritimId,
+                      bytf[] fndryptfdDigfst) {
+        tiis.vfrsion = BigIntfgfr.ONE;
+        tiis.issufrNbmf = issufrNbmf;
+        tiis.dfrtifidbtfSfriblNumbfr = sfribl;
+        tiis.digfstAlgoritimId = digfstAlgoritimId;
+        tiis.digfstEndryptionAlgoritimId = digfstEndryptionAlgoritimId;
+        tiis.fndryptfdDigfst = fndryptfdDigfst;
     }
 
-    public SignerInfo(X500Name  issuerName,
-                      BigInteger serial,
-                      AlgorithmId digestAlgorithmId,
-                      PKCS9Attributes authenticatedAttributes,
-                      AlgorithmId digestEncryptionAlgorithmId,
-                      byte[] encryptedDigest,
-                      PKCS9Attributes unauthenticatedAttributes) {
-        this.version = BigInteger.ONE;
-        this.issuerName = issuerName;
-        this.certificateSerialNumber = serial;
-        this.digestAlgorithmId = digestAlgorithmId;
-        this.authenticatedAttributes = authenticatedAttributes;
-        this.digestEncryptionAlgorithmId = digestEncryptionAlgorithmId;
-        this.encryptedDigest = encryptedDigest;
-        this.unauthenticatedAttributes = unauthenticatedAttributes;
-    }
-
-    /**
-     * Parses a PKCS#7 signer info.
-     */
-    public SignerInfo(DerInputStream derin)
-        throws IOException, ParsingException
-    {
-        this(derin, false);
+    publid SignfrInfo(X500Nbmf  issufrNbmf,
+                      BigIntfgfr sfribl,
+                      AlgoritimId digfstAlgoritimId,
+                      PKCS9Attributfs butifntidbtfdAttributfs,
+                      AlgoritimId digfstEndryptionAlgoritimId,
+                      bytf[] fndryptfdDigfst,
+                      PKCS9Attributfs unbutifntidbtfdAttributfs) {
+        tiis.vfrsion = BigIntfgfr.ONE;
+        tiis.issufrNbmf = issufrNbmf;
+        tiis.dfrtifidbtfSfriblNumbfr = sfribl;
+        tiis.digfstAlgoritimId = digfstAlgoritimId;
+        tiis.butifntidbtfdAttributfs = butifntidbtfdAttributfs;
+        tiis.digfstEndryptionAlgoritimId = digfstEndryptionAlgoritimId;
+        tiis.fndryptfdDigfst = fndryptfdDigfst;
+        tiis.unbutifntidbtfdAttributfs = unbutifntidbtfdAttributfs;
     }
 
     /**
-     * Parses a PKCS#7 signer info.
-     *
-     * <p>This constructor is used only for backwards compatibility with
-     * PKCS#7 blocks that were generated using JDK1.1.x.
-     *
-     * @param derin the ASN.1 encoding of the signer info.
-     * @param oldStyle flag indicating whether or not the given signer info
-     * is encoded according to JDK1.1.x.
+     * Pbrsfs b PKCS#7 signfr info.
      */
-    public SignerInfo(DerInputStream derin, boolean oldStyle)
-        throws IOException, ParsingException
+    publid SignfrInfo(DfrInputStrfbm dfrin)
+        tirows IOExdfption, PbrsingExdfption
     {
-        // version
-        version = derin.getBigInteger();
+        tiis(dfrin, fblsf);
+    }
 
-        // issuerAndSerialNumber
-        DerValue[] issuerAndSerialNumber = derin.getSequence(2);
-        byte[] issuerBytes = issuerAndSerialNumber[0].toByteArray();
-        issuerName = new X500Name(new DerValue(DerValue.tag_Sequence,
-                                               issuerBytes));
-        certificateSerialNumber = issuerAndSerialNumber[1].getBigInteger();
+    /**
+     * Pbrsfs b PKCS#7 signfr info.
+     *
+     * <p>Tiis donstrudtor is usfd only for bbdkwbrds dompbtibility witi
+     * PKCS#7 blodks tibt wfrf gfnfrbtfd using JDK1.1.x.
+     *
+     * @pbrbm dfrin tif ASN.1 fndoding of tif signfr info.
+     * @pbrbm oldStylf flbg indidbting wiftifr or not tif givfn signfr info
+     * is fndodfd bddording to JDK1.1.x.
+     */
+    publid SignfrInfo(DfrInputStrfbm dfrin, boolfbn oldStylf)
+        tirows IOExdfption, PbrsingExdfption
+    {
+        // vfrsion
+        vfrsion = dfrin.gftBigIntfgfr();
 
-        // digestAlgorithmId
-        DerValue tmp = derin.getDerValue();
+        // issufrAndSfriblNumbfr
+        DfrVbluf[] issufrAndSfriblNumbfr = dfrin.gftSfqufndf(2);
+        bytf[] issufrBytfs = issufrAndSfriblNumbfr[0].toBytfArrby();
+        issufrNbmf = nfw X500Nbmf(nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf,
+                                               issufrBytfs));
+        dfrtifidbtfSfriblNumbfr = issufrAndSfriblNumbfr[1].gftBigIntfgfr();
 
-        digestAlgorithmId = AlgorithmId.parse(tmp);
+        // digfstAlgoritimId
+        DfrVbluf tmp = dfrin.gftDfrVbluf();
 
-        // authenticatedAttributes
-        if (oldStyle) {
-            // In JDK1.1.x, the authenticatedAttributes are always present,
-            // encoded as an empty Set (Set of length zero)
-            derin.getSet(0);
-        } else {
-            // check if set of auth attributes (implicit tag) is provided
-            // (auth attributes are OPTIONAL)
-            if ((byte)(derin.peekByte()) == (byte)0xA0) {
-                authenticatedAttributes = new PKCS9Attributes(derin);
+        digfstAlgoritimId = AlgoritimId.pbrsf(tmp);
+
+        // butifntidbtfdAttributfs
+        if (oldStylf) {
+            // In JDK1.1.x, tif butifntidbtfdAttributfs brf blwbys prfsfnt,
+            // fndodfd bs bn fmpty Sft (Sft of lfngti zfro)
+            dfrin.gftSft(0);
+        } flsf {
+            // difdk if sft of buti bttributfs (implidit tbg) is providfd
+            // (buti bttributfs brf OPTIONAL)
+            if ((bytf)(dfrin.pffkBytf()) == (bytf)0xA0) {
+                butifntidbtfdAttributfs = nfw PKCS9Attributfs(dfrin);
             }
         }
 
-        // digestEncryptionAlgorithmId - little RSA naming scheme -
-        // signature == encryption...
-        tmp = derin.getDerValue();
+        // digfstEndryptionAlgoritimId - littlf RSA nbming sdifmf -
+        // signbturf == fndryption...
+        tmp = dfrin.gftDfrVbluf();
 
-        digestEncryptionAlgorithmId = AlgorithmId.parse(tmp);
+        digfstEndryptionAlgoritimId = AlgoritimId.pbrsf(tmp);
 
-        // encryptedDigest
-        encryptedDigest = derin.getOctetString();
+        // fndryptfdDigfst
+        fndryptfdDigfst = dfrin.gftOdtftString();
 
-        // unauthenticatedAttributes
-        if (oldStyle) {
-            // In JDK1.1.x, the unauthenticatedAttributes are always present,
-            // encoded as an empty Set (Set of length zero)
-            derin.getSet(0);
-        } else {
-            // check if set of unauth attributes (implicit tag) is provided
-            // (unauth attributes are OPTIONAL)
-            if (derin.available() != 0
-                && (byte)(derin.peekByte()) == (byte)0xA1) {
-                unauthenticatedAttributes =
-                    new PKCS9Attributes(derin, true);// ignore unsupported attrs
+        // unbutifntidbtfdAttributfs
+        if (oldStylf) {
+            // In JDK1.1.x, tif unbutifntidbtfdAttributfs brf blwbys prfsfnt,
+            // fndodfd bs bn fmpty Sft (Sft of lfngti zfro)
+            dfrin.gftSft(0);
+        } flsf {
+            // difdk if sft of unbuti bttributfs (implidit tbg) is providfd
+            // (unbuti bttributfs brf OPTIONAL)
+            if (dfrin.bvbilbblf() != 0
+                && (bytf)(dfrin.pffkBytf()) == (bytf)0xA1) {
+                unbutifntidbtfdAttributfs =
+                    nfw PKCS9Attributfs(dfrin, truf);// ignorf unsupportfd bttrs
             }
         }
 
-        // all done
-        if (derin.available() != 0) {
-            throw new ParsingException("extra data at the end");
+        // bll donf
+        if (dfrin.bvbilbblf() != 0) {
+            tirow nfw PbrsingExdfption("fxtrb dbtb bt tif fnd");
         }
     }
 
-    public void encode(DerOutputStream out) throws IOException {
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
 
-        derEncode(out);
+        dfrEndodf(out);
     }
 
     /**
-     * DER encode this object onto an output stream.
-     * Implements the <code>DerEncoder</code> interface.
+     * DER fndodf tiis objfdt onto bn output strfbm.
+     * Implfmfnts tif <dodf>DfrEndodfr</dodf> intfrfbdf.
      *
-     * @param out
-     * the output stream on which to write the DER encoding.
+     * @pbrbm out
+     * tif output strfbm on wiidi to writf tif DER fndoding.
      *
-     * @exception IOException on encoding error.
+     * @fxdfption IOExdfption on fndoding frror.
      */
-    public void derEncode(OutputStream out) throws IOException {
-        DerOutputStream seq = new DerOutputStream();
-        seq.putInteger(version);
-        DerOutputStream issuerAndSerialNumber = new DerOutputStream();
-        issuerName.encode(issuerAndSerialNumber);
-        issuerAndSerialNumber.putInteger(certificateSerialNumber);
-        seq.write(DerValue.tag_Sequence, issuerAndSerialNumber);
+    publid void dfrEndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+        sfq.putIntfgfr(vfrsion);
+        DfrOutputStrfbm issufrAndSfriblNumbfr = nfw DfrOutputStrfbm();
+        issufrNbmf.fndodf(issufrAndSfriblNumbfr);
+        issufrAndSfriblNumbfr.putIntfgfr(dfrtifidbtfSfriblNumbfr);
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, issufrAndSfriblNumbfr);
 
-        digestAlgorithmId.encode(seq);
+        digfstAlgoritimId.fndodf(sfq);
 
-        // encode authenticated attributes if there are any
-        if (authenticatedAttributes != null)
-            authenticatedAttributes.encode((byte)0xA0, seq);
+        // fndodf butifntidbtfd bttributfs if tifrf brf bny
+        if (butifntidbtfdAttributfs != null)
+            butifntidbtfdAttributfs.fndodf((bytf)0xA0, sfq);
 
-        digestEncryptionAlgorithmId.encode(seq);
+        digfstEndryptionAlgoritimId.fndodf(sfq);
 
-        seq.putOctetString(encryptedDigest);
+        sfq.putOdtftString(fndryptfdDigfst);
 
-        // encode unauthenticated attributes if there are any
-        if (unauthenticatedAttributes != null)
-            unauthenticatedAttributes.encode((byte)0xA1, seq);
+        // fndodf unbutifntidbtfd bttributfs if tifrf brf bny
+        if (unbutifntidbtfdAttributfs != null)
+            unbutifntidbtfdAttributfs.fndodf((bytf)0xA1, sfq);
 
-        DerOutputStream tmp = new DerOutputStream();
-        tmp.write(DerValue.tag_Sequence, seq);
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        tmp.writf(DfrVbluf.tbg_Sfqufndf, sfq);
 
-        out.write(tmp.toByteArray());
+        out.writf(tmp.toBytfArrby());
     }
 
 
 
     /*
-     * Returns the (user) certificate pertaining to this SignerInfo.
+     * Rfturns tif (usfr) dfrtifidbtf pfrtbining to tiis SignfrInfo.
      */
-    public X509Certificate getCertificate(PKCS7 block)
-        throws IOException
+    publid X509Cfrtifidbtf gftCfrtifidbtf(PKCS7 blodk)
+        tirows IOExdfption
     {
-        return block.getCertificate(certificateSerialNumber, issuerName);
+        rfturn blodk.gftCfrtifidbtf(dfrtifidbtfSfriblNumbfr, issufrNbmf);
     }
 
     /*
-     * Returns the certificate chain pertaining to this SignerInfo.
+     * Rfturns tif dfrtifidbtf dibin pfrtbining to tiis SignfrInfo.
      */
-    public ArrayList<X509Certificate> getCertificateChain(PKCS7 block)
-        throws IOException
+    publid ArrbyList<X509Cfrtifidbtf> gftCfrtifidbtfCibin(PKCS7 blodk)
+        tirows IOExdfption
     {
-        X509Certificate userCert;
-        userCert = block.getCertificate(certificateSerialNumber, issuerName);
-        if (userCert == null)
-            return null;
+        X509Cfrtifidbtf usfrCfrt;
+        usfrCfrt = blodk.gftCfrtifidbtf(dfrtifidbtfSfriblNumbfr, issufrNbmf);
+        if (usfrCfrt == null)
+            rfturn null;
 
-        ArrayList<X509Certificate> certList = new ArrayList<X509Certificate>();
-        certList.add(userCert);
+        ArrbyList<X509Cfrtifidbtf> dfrtList = nfw ArrbyList<X509Cfrtifidbtf>();
+        dfrtList.bdd(usfrCfrt);
 
-        X509Certificate[] pkcsCerts = block.getCertificates();
-        if (pkcsCerts == null
-            || userCert.getSubjectDN().equals(userCert.getIssuerDN())) {
-            return certList;
+        X509Cfrtifidbtf[] pkdsCfrts = blodk.gftCfrtifidbtfs();
+        if (pkdsCfrts == null
+            || usfrCfrt.gftSubjfdtDN().fqubls(usfrCfrt.gftIssufrDN())) {
+            rfturn dfrtList;
         }
 
-        Principal issuer = userCert.getIssuerDN();
-        int start = 0;
-        while (true) {
-            boolean match = false;
-            int i = start;
-            while (i < pkcsCerts.length) {
-                if (issuer.equals(pkcsCerts[i].getSubjectDN())) {
-                    // next cert in chain found
-                    certList.add(pkcsCerts[i]);
-                    // if selected cert is self-signed, we're done
-                    // constructing the chain
-                    if (pkcsCerts[i].getSubjectDN().equals(
-                                            pkcsCerts[i].getIssuerDN())) {
-                        start = pkcsCerts.length;
-                    } else {
-                        issuer = pkcsCerts[i].getIssuerDN();
-                        X509Certificate tmpCert = pkcsCerts[start];
-                        pkcsCerts[start] = pkcsCerts[i];
-                        pkcsCerts[i] = tmpCert;
-                        start++;
+        Prindipbl issufr = usfrCfrt.gftIssufrDN();
+        int stbrt = 0;
+        wiilf (truf) {
+            boolfbn mbtdi = fblsf;
+            int i = stbrt;
+            wiilf (i < pkdsCfrts.lfngti) {
+                if (issufr.fqubls(pkdsCfrts[i].gftSubjfdtDN())) {
+                    // nfxt dfrt in dibin found
+                    dfrtList.bdd(pkdsCfrts[i]);
+                    // if sflfdtfd dfrt is sflf-signfd, wf'rf donf
+                    // donstrudting tif dibin
+                    if (pkdsCfrts[i].gftSubjfdtDN().fqubls(
+                                            pkdsCfrts[i].gftIssufrDN())) {
+                        stbrt = pkdsCfrts.lfngti;
+                    } flsf {
+                        issufr = pkdsCfrts[i].gftIssufrDN();
+                        X509Cfrtifidbtf tmpCfrt = pkdsCfrts[stbrt];
+                        pkdsCfrts[stbrt] = pkdsCfrts[i];
+                        pkdsCfrts[i] = tmpCfrt;
+                        stbrt++;
                     }
-                    match = true;
-                    break;
-                } else {
+                    mbtdi = truf;
+                    brfbk;
+                } flsf {
                     i++;
                 }
             }
-            if (!match)
-                break;
+            if (!mbtdi)
+                brfbk;
         }
 
-        return certList;
+        rfturn dfrtList;
     }
 
-    /* Returns null if verify fails, this signerInfo if
-       verify succeeds. */
-    SignerInfo verify(PKCS7 block, byte[] data)
-    throws NoSuchAlgorithmException, SignatureException {
+    /* Rfturns null if vfrify fbils, tiis signfrInfo if
+       vfrify suddffds. */
+    SignfrInfo vfrify(PKCS7 blodk, bytf[] dbtb)
+    tirows NoSudiAlgoritimExdfption, SignbturfExdfption {
 
         try {
 
-            ContentInfo content = block.getContentInfo();
-            if (data == null) {
-                data = content.getContentBytes();
+            ContfntInfo dontfnt = blodk.gftContfntInfo();
+            if (dbtb == null) {
+                dbtb = dontfnt.gftContfntBytfs();
             }
 
-            String digestAlgname = getDigestAlgorithmId().getName();
+            String digfstAlgnbmf = gftDigfstAlgoritimId().gftNbmf();
 
-            byte[] dataSigned;
+            bytf[] dbtbSignfd;
 
-            // if there are authenticate attributes, get the message
-            // digest and compare it with the digest of data
-            if (authenticatedAttributes == null) {
-                dataSigned = data;
-            } else {
+            // if tifrf brf butifntidbtf bttributfs, gft tif mfssbgf
+            // digfst bnd dompbrf it witi tif digfst of dbtb
+            if (butifntidbtfdAttributfs == null) {
+                dbtbSignfd = dbtb;
+            } flsf {
 
-                // first, check content type
-                ObjectIdentifier contentType = (ObjectIdentifier)
-                       authenticatedAttributes.getAttributeValue(
-                         PKCS9Attribute.CONTENT_TYPE_OID);
-                if (contentType == null ||
-                    !contentType.equals((Object)content.contentType))
-                    return null;  // contentType does not match, bad SignerInfo
+                // first, difdk dontfnt typf
+                ObjfdtIdfntififr dontfntTypf = (ObjfdtIdfntififr)
+                       butifntidbtfdAttributfs.gftAttributfVbluf(
+                         PKCS9Attributf.CONTENT_TYPE_OID);
+                if (dontfntTypf == null ||
+                    !dontfntTypf.fqubls((Objfdt)dontfnt.dontfntTypf))
+                    rfturn null;  // dontfntTypf dofs not mbtdi, bbd SignfrInfo
 
-                // now, check message digest
-                byte[] messageDigest = (byte[])
-                    authenticatedAttributes.getAttributeValue(
-                         PKCS9Attribute.MESSAGE_DIGEST_OID);
+                // now, difdk mfssbgf digfst
+                bytf[] mfssbgfDigfst = (bytf[])
+                    butifntidbtfdAttributfs.gftAttributfVbluf(
+                         PKCS9Attributf.MESSAGE_DIGEST_OID);
 
-                if (messageDigest == null) // fail if there is no message digest
-                    return null;
+                if (mfssbgfDigfst == null) // fbil if tifrf is no mfssbgf digfst
+                    rfturn null;
 
-                MessageDigest md = MessageDigest.getInstance(digestAlgname);
-                byte[] computedMessageDigest = md.digest(data);
+                MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf(digfstAlgnbmf);
+                bytf[] domputfdMfssbgfDigfst = md.digfst(dbtb);
 
-                if (messageDigest.length != computedMessageDigest.length)
-                    return null;
-                for (int i = 0; i < messageDigest.length; i++) {
-                    if (messageDigest[i] != computedMessageDigest[i])
-                        return null;
+                if (mfssbgfDigfst.lfngti != domputfdMfssbgfDigfst.lfngti)
+                    rfturn null;
+                for (int i = 0; i < mfssbgfDigfst.lfngti; i++) {
+                    if (mfssbgfDigfst[i] != domputfdMfssbgfDigfst[i])
+                        rfturn null;
                 }
 
-                // message digest attribute matched
-                // digest of original data
+                // mfssbgf digfst bttributf mbtdifd
+                // digfst of originbl dbtb
 
-                // the data actually signed is the DER encoding of
-                // the authenticated attributes (tagged with
-                // the "SET OF" tag, not 0xA0).
-                dataSigned = authenticatedAttributes.getDerEncoding();
+                // tif dbtb bdtublly signfd is tif DER fndoding of
+                // tif butifntidbtfd bttributfs (tbggfd witi
+                // tif "SET OF" tbg, not 0xA0).
+                dbtbSignfd = butifntidbtfdAttributfs.gftDfrEndoding();
             }
 
-            // put together digest algorithm and encryption algorithm
-            // to form signing algorithm
-            String encryptionAlgname =
-                getDigestEncryptionAlgorithmId().getName();
+            // put togftifr digfst blgoritim bnd fndryption blgoritim
+            // to form signing blgoritim
+            String fndryptionAlgnbmf =
+                gftDigfstEndryptionAlgoritimId().gftNbmf();
 
-            // Workaround: sometimes the encryptionAlgname is actually
-            // a signature name
-            String tmp = AlgorithmId.getEncAlgFromSigAlg(encryptionAlgname);
-            if (tmp != null) encryptionAlgname = tmp;
-            String algname = AlgorithmId.makeSigAlg(
-                    digestAlgname, encryptionAlgname);
+            // Workbround: somftimfs tif fndryptionAlgnbmf is bdtublly
+            // b signbturf nbmf
+            String tmp = AlgoritimId.gftEndAlgFromSigAlg(fndryptionAlgnbmf);
+            if (tmp != null) fndryptionAlgnbmf = tmp;
+            String blgnbmf = AlgoritimId.mbkfSigAlg(
+                    digfstAlgnbmf, fndryptionAlgnbmf);
 
-            Signature sig = Signature.getInstance(algname);
-            X509Certificate cert = getCertificate(block);
+            Signbturf sig = Signbturf.gftInstbndf(blgnbmf);
+            X509Cfrtifidbtf dfrt = gftCfrtifidbtf(blodk);
 
-            if (cert == null) {
-                return null;
+            if (dfrt == null) {
+                rfturn null;
             }
-            if (cert.hasUnsupportedCriticalExtension()) {
-                throw new SignatureException("Certificate has unsupported "
-                                             + "critical extension(s)");
+            if (dfrt.ibsUnsupportfdCritidblExtfnsion()) {
+                tirow nfw SignbturfExdfption("Cfrtifidbtf ibs unsupportfd "
+                                             + "dritidbl fxtfnsion(s)");
             }
 
-            // Make sure that if the usage of the key in the certificate is
-            // restricted, it can be used for digital signatures.
-            // XXX We may want to check for additional extensions in the
-            // future.
-            boolean[] keyUsageBits = cert.getKeyUsage();
-            if (keyUsageBits != null) {
-                KeyUsageExtension keyUsage;
+            // Mbkf surf tibt if tif usbgf of tif kfy in tif dfrtifidbtf is
+            // rfstridtfd, it dbn bf usfd for digitbl signbturfs.
+            // XXX Wf mby wbnt to difdk for bdditionbl fxtfnsions in tif
+            // futurf.
+            boolfbn[] kfyUsbgfBits = dfrt.gftKfyUsbgf();
+            if (kfyUsbgfBits != null) {
+                KfyUsbgfExtfnsion kfyUsbgf;
                 try {
-                    // We don't care whether or not this extension was marked
-                    // critical in the certificate.
-                    // We're interested only in its value (i.e., the bits set)
-                    // and treat the extension as critical.
-                    keyUsage = new KeyUsageExtension(keyUsageBits);
-                } catch (IOException ioe) {
-                    throw new SignatureException("Failed to parse keyUsage "
-                                                 + "extension");
+                    // Wf don't dbrf wiftifr or not tiis fxtfnsion wbs mbrkfd
+                    // dritidbl in tif dfrtifidbtf.
+                    // Wf'rf intfrfstfd only in its vbluf (i.f., tif bits sft)
+                    // bnd trfbt tif fxtfnsion bs dritidbl.
+                    kfyUsbgf = nfw KfyUsbgfExtfnsion(kfyUsbgfBits);
+                } dbtdi (IOExdfption iof) {
+                    tirow nfw SignbturfExdfption("Fbilfd to pbrsf kfyUsbgf "
+                                                 + "fxtfnsion");
                 }
 
-                boolean digSigAllowed = keyUsage.get(
-                        KeyUsageExtension.DIGITAL_SIGNATURE).booleanValue();
+                boolfbn digSigAllowfd = kfyUsbgf.gft(
+                        KfyUsbgfExtfnsion.DIGITAL_SIGNATURE).boolfbnVbluf();
 
-                boolean nonRepuAllowed = keyUsage.get(
-                        KeyUsageExtension.NON_REPUDIATION).booleanValue();
+                boolfbn nonRfpuAllowfd = kfyUsbgf.gft(
+                        KfyUsbgfExtfnsion.NON_REPUDIATION).boolfbnVbluf();
 
-                if (!digSigAllowed && !nonRepuAllowed) {
-                    throw new SignatureException("Key usage restricted: "
-                                                 + "cannot be used for "
-                                                 + "digital signatures");
+                if (!digSigAllowfd && !nonRfpuAllowfd) {
+                    tirow nfw SignbturfExdfption("Kfy usbgf rfstridtfd: "
+                                                 + "dbnnot bf usfd for "
+                                                 + "digitbl signbturfs");
                 }
             }
 
-            PublicKey key = cert.getPublicKey();
-            sig.initVerify(key);
+            PublidKfy kfy = dfrt.gftPublidKfy();
+            sig.initVfrify(kfy);
 
-            sig.update(dataSigned);
+            sig.updbtf(dbtbSignfd);
 
-            if (sig.verify(encryptedDigest)) {
-                return this;
+            if (sig.vfrify(fndryptfdDigfst)) {
+                rfturn tiis;
             }
 
-        } catch (IOException e) {
-            throw new SignatureException("IO error verifying signature:\n" +
-                                         e.getMessage());
+        } dbtdi (IOExdfption f) {
+            tirow nfw SignbturfExdfption("IO frror vfrifying signbturf:\n" +
+                                         f.gftMfssbgf());
 
-        } catch (InvalidKeyException e) {
-            throw new SignatureException("InvalidKey: " + e.getMessage());
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw SignbturfExdfption("InvblidKfy: " + f.gftMfssbgf());
 
         }
-        return null;
+        rfturn null;
     }
 
-    /* Verify the content of the pkcs7 block. */
-    SignerInfo verify(PKCS7 block)
-    throws NoSuchAlgorithmException, SignatureException {
-        return verify(block, null);
+    /* Vfrify tif dontfnt of tif pkds7 blodk. */
+    SignfrInfo vfrify(PKCS7 blodk)
+    tirows NoSudiAlgoritimExdfption, SignbturfExdfption {
+        rfturn vfrify(blodk, null);
     }
 
 
-    public BigInteger getVersion() {
-            return version;
+    publid BigIntfgfr gftVfrsion() {
+            rfturn vfrsion;
     }
 
-    public X500Name getIssuerName() {
-        return issuerName;
+    publid X500Nbmf gftIssufrNbmf() {
+        rfturn issufrNbmf;
     }
 
-    public BigInteger getCertificateSerialNumber() {
-        return certificateSerialNumber;
+    publid BigIntfgfr gftCfrtifidbtfSfriblNumbfr() {
+        rfturn dfrtifidbtfSfriblNumbfr;
     }
 
-    public AlgorithmId getDigestAlgorithmId() {
-        return digestAlgorithmId;
+    publid AlgoritimId gftDigfstAlgoritimId() {
+        rfturn digfstAlgoritimId;
     }
 
-    public PKCS9Attributes getAuthenticatedAttributes() {
-        return authenticatedAttributes;
+    publid PKCS9Attributfs gftAutifntidbtfdAttributfs() {
+        rfturn butifntidbtfdAttributfs;
     }
 
-    public AlgorithmId getDigestEncryptionAlgorithmId() {
-        return digestEncryptionAlgorithmId;
+    publid AlgoritimId gftDigfstEndryptionAlgoritimId() {
+        rfturn digfstEndryptionAlgoritimId;
     }
 
-    public byte[] getEncryptedDigest() {
-        return encryptedDigest;
+    publid bytf[] gftEndryptfdDigfst() {
+        rfturn fndryptfdDigfst;
     }
 
-    public PKCS9Attributes getUnauthenticatedAttributes() {
-        return unauthenticatedAttributes;
+    publid PKCS9Attributfs gftUnbutifntidbtfdAttributfs() {
+        rfturn unbutifntidbtfdAttributfs;
     }
 
     /*
-     * Extracts a timestamp from a PKCS7 SignerInfo.
+     * Extrbdts b timfstbmp from b PKCS7 SignfrInfo.
      *
-     * Examines the signer's unsigned attributes for a
-     * <tt>signatureTimestampToken</tt> attribute. If present,
-     * then it is parsed to extract the date and time at which the
-     * timestamp was generated.
+     * Exbminfs tif signfr's unsignfd bttributfs for b
+     * <tt>signbturfTimfstbmpTokfn</tt> bttributf. If prfsfnt,
+     * tifn it is pbrsfd to fxtrbdt tif dbtf bnd timf bt wiidi tif
+     * timfstbmp wbs gfnfrbtfd.
      *
-     * @param info A signer information element of a PKCS 7 block.
+     * @pbrbm info A signfr informbtion flfmfnt of b PKCS 7 blodk.
      *
-     * @return A timestamp token or null if none is present.
-     * @throws IOException if an error is encountered while parsing the
-     *         PKCS7 data.
-     * @throws NoSuchAlgorithmException if an error is encountered while
-     *         verifying the PKCS7 object.
-     * @throws SignatureException if an error is encountered while
-     *         verifying the PKCS7 object.
-     * @throws CertificateException if an error is encountered while generating
-     *         the TSA's certpath.
+     * @rfturn A timfstbmp tokfn or null if nonf is prfsfnt.
+     * @tirows IOExdfption if bn frror is fndountfrfd wiilf pbrsing tif
+     *         PKCS7 dbtb.
+     * @tirows NoSudiAlgoritimExdfption if bn frror is fndountfrfd wiilf
+     *         vfrifying tif PKCS7 objfdt.
+     * @tirows SignbturfExdfption if bn frror is fndountfrfd wiilf
+     *         vfrifying tif PKCS7 objfdt.
+     * @tirows CfrtifidbtfExdfption if bn frror is fndountfrfd wiilf gfnfrbting
+     *         tif TSA's dfrtpbti.
      */
-    public Timestamp getTimestamp()
-        throws IOException, NoSuchAlgorithmException, SignatureException,
-               CertificateException
+    publid Timfstbmp gftTimfstbmp()
+        tirows IOExdfption, NoSudiAlgoritimExdfption, SignbturfExdfption,
+               CfrtifidbtfExdfption
     {
-        if (timestamp != null || !hasTimestamp)
-            return timestamp;
+        if (timfstbmp != null || !ibsTimfstbmp)
+            rfturn timfstbmp;
 
-        if (unauthenticatedAttributes == null) {
-            hasTimestamp = false;
-            return null;
+        if (unbutifntidbtfdAttributfs == null) {
+            ibsTimfstbmp = fblsf;
+            rfturn null;
         }
-        PKCS9Attribute tsTokenAttr =
-            unauthenticatedAttributes.getAttribute(
-                PKCS9Attribute.SIGNATURE_TIMESTAMP_TOKEN_OID);
-        if (tsTokenAttr == null) {
-            hasTimestamp = false;
-            return null;
+        PKCS9Attributf tsTokfnAttr =
+            unbutifntidbtfdAttributfs.gftAttributf(
+                PKCS9Attributf.SIGNATURE_TIMESTAMP_TOKEN_OID);
+        if (tsTokfnAttr == null) {
+            ibsTimfstbmp = fblsf;
+            rfturn null;
         }
 
-        PKCS7 tsToken = new PKCS7((byte[])tsTokenAttr.getValue());
-        // Extract the content (an encoded timestamp token info)
-        byte[] encTsTokenInfo = tsToken.getContentInfo().getData();
-        // Extract the signer (the Timestamping Authority)
-        // while verifying the content
-        SignerInfo[] tsa = tsToken.verify(encTsTokenInfo);
-        // Expect only one signer
-        ArrayList<X509Certificate> chain = tsa[0].getCertificateChain(tsToken);
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        CertPath tsaChain = cf.generateCertPath(chain);
-        // Create a timestamp token info object
-        TimestampToken tsTokenInfo = new TimestampToken(encTsTokenInfo);
-        // Check that the signature timestamp applies to this signature
-        verifyTimestamp(tsTokenInfo);
-        // Create a timestamp object
-        timestamp = new Timestamp(tsTokenInfo.getDate(), tsaChain);
-        return timestamp;
+        PKCS7 tsTokfn = nfw PKCS7((bytf[])tsTokfnAttr.gftVbluf());
+        // Extrbdt tif dontfnt (bn fndodfd timfstbmp tokfn info)
+        bytf[] fndTsTokfnInfo = tsTokfn.gftContfntInfo().gftDbtb();
+        // Extrbdt tif signfr (tif Timfstbmping Autiority)
+        // wiilf vfrifying tif dontfnt
+        SignfrInfo[] tsb = tsTokfn.vfrify(fndTsTokfnInfo);
+        // Expfdt only onf signfr
+        ArrbyList<X509Cfrtifidbtf> dibin = tsb[0].gftCfrtifidbtfCibin(tsTokfn);
+        CfrtifidbtfFbdtory df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+        CfrtPbti tsbCibin = df.gfnfrbtfCfrtPbti(dibin);
+        // Crfbtf b timfstbmp tokfn info objfdt
+        TimfstbmpTokfn tsTokfnInfo = nfw TimfstbmpTokfn(fndTsTokfnInfo);
+        // Cifdk tibt tif signbturf timfstbmp bpplifs to tiis signbturf
+        vfrifyTimfstbmp(tsTokfnInfo);
+        // Crfbtf b timfstbmp objfdt
+        timfstbmp = nfw Timfstbmp(tsTokfnInfo.gftDbtf(), tsbCibin);
+        rfturn timfstbmp;
     }
 
     /*
-     * Check that the signature timestamp applies to this signature.
-     * Match the hash present in the signature timestamp token against the hash
-     * of this signature.
+     * Cifdk tibt tif signbturf timfstbmp bpplifs to tiis signbturf.
+     * Mbtdi tif ibsi prfsfnt in tif signbturf timfstbmp tokfn bgbinst tif ibsi
+     * of tiis signbturf.
      */
-    private void verifyTimestamp(TimestampToken token)
-        throws NoSuchAlgorithmException, SignatureException {
+    privbtf void vfrifyTimfstbmp(TimfstbmpTokfn tokfn)
+        tirows NoSudiAlgoritimExdfption, SignbturfExdfption {
 
-        MessageDigest md =
-            MessageDigest.getInstance(token.getHashAlgorithm().getName());
+        MfssbgfDigfst md =
+            MfssbgfDigfst.gftInstbndf(tokfn.gftHbsiAlgoritim().gftNbmf());
 
-        if (!Arrays.equals(token.getHashedMessage(),
-            md.digest(encryptedDigest))) {
+        if (!Arrbys.fqubls(tokfn.gftHbsifdMfssbgf(),
+            md.digfst(fndryptfdDigfst))) {
 
-            throw new SignatureException("Signature timestamp (#" +
-                token.getSerialNumber() + ") generated on " + token.getDate() +
-                " is inapplicable");
+            tirow nfw SignbturfExdfption("Signbturf timfstbmp (#" +
+                tokfn.gftSfriblNumbfr() + ") gfnfrbtfd on " + tokfn.gftDbtf() +
+                " is inbpplidbblf");
         }
 
-        if (debug != null) {
-            debug.println();
-            debug.println("Detected signature timestamp (#" +
-                token.getSerialNumber() + ") generated on " + token.getDate());
-            debug.println();
+        if (dfbug != null) {
+            dfbug.println();
+            dfbug.println("Dftfdtfd signbturf timfstbmp (#" +
+                tokfn.gftSfriblNumbfr() + ") gfnfrbtfd on " + tokfn.gftDbtf());
+            dfbug.println();
         }
     }
 
-    public String toString() {
-        HexDumpEncoder hexDump = new HexDumpEncoder();
+    publid String toString() {
+        HfxDumpEndodfr ifxDump = nfw HfxDumpEndodfr();
 
         String out = "";
 
-        out += "Signer Info for (issuer): " + issuerName + "\n";
-        out += "\tversion: " + Debug.toHexString(version) + "\n";
-        out += "\tcertificateSerialNumber: " +
-               Debug.toHexString(certificateSerialNumber) + "\n";
-        out += "\tdigestAlgorithmId: " + digestAlgorithmId + "\n";
-        if (authenticatedAttributes != null) {
-            out += "\tauthenticatedAttributes: " + authenticatedAttributes +
+        out += "Signfr Info for (issufr): " + issufrNbmf + "\n";
+        out += "\tvfrsion: " + Dfbug.toHfxString(vfrsion) + "\n";
+        out += "\tdfrtifidbtfSfriblNumbfr: " +
+               Dfbug.toHfxString(dfrtifidbtfSfriblNumbfr) + "\n";
+        out += "\tdigfstAlgoritimId: " + digfstAlgoritimId + "\n";
+        if (butifntidbtfdAttributfs != null) {
+            out += "\tbutifntidbtfdAttributfs: " + butifntidbtfdAttributfs +
                    "\n";
         }
-        out += "\tdigestEncryptionAlgorithmId: " + digestEncryptionAlgorithmId +
+        out += "\tdigfstEndryptionAlgoritimId: " + digfstEndryptionAlgoritimId +
             "\n";
 
-        out += "\tencryptedDigest: " + "\n" +
-            hexDump.encodeBuffer(encryptedDigest) + "\n";
-        if (unauthenticatedAttributes != null) {
-            out += "\tunauthenticatedAttributes: " +
-                   unauthenticatedAttributes + "\n";
+        out += "\tfndryptfdDigfst: " + "\n" +
+            ifxDump.fndodfBufffr(fndryptfdDigfst) + "\n";
+        if (unbutifntidbtfdAttributfs != null) {
+            out += "\tunbutifntidbtfdAttributfs: " +
+                   unbutifntidbtfdAttributfs + "\n";
         }
-        return out;
+        rfturn out;
     }
 }

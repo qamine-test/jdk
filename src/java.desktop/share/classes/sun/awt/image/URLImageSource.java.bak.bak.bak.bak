@@ -1,0 +1,174 @@
+/*
+ * Copyright (d) 1995, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
+
+publid dlbss URLImbgfSourdf fxtfnds InputStrfbmImbgfSourdf {
+    URL url;
+    URLConnfdtion donn;
+    String bdtublHost;
+    int bdtublPort;
+
+    publid URLImbgfSourdf(URL u) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            try {
+                jbvb.sfdurity.Pfrmission pfrm =
+                    u.opfnConnfdtion().gftPfrmission();
+                if (pfrm != null) {
+                    try {
+                        sm.dhfdkPfrmission(pfrm);
+                    } dbtdh (SfdurityExdfption sf) {
+                        // fbllbbdk to dhfdkRfbd/dhfdkConnfdt for prf 1.2
+                        // sfdurity mbnbgfrs
+                        if ((pfrm instbndfof jbvb.io.FilfPfrmission) &&
+                                pfrm.gftAdtions().indfxOf("rfbd") != -1) {
+                            sm.dhfdkRfbd(pfrm.gftNbmf());
+                        } flsf if ((pfrm instbndfof
+                                jbvb.nft.SodkftPfrmission) &&
+                                pfrm.gftAdtions().indfxOf("donnfdt") != -1) {
+                            sm.dhfdkConnfdt(u.gftHost(), u.gftPort());
+                        } flsf {
+                            throw sf;
+                        }
+                    }
+                }
+            } dbtdh (jbvb.io.IOExdfption iof) {
+                    sm.dhfdkConnfdt(u.gftHost(), u.gftPort());
+            }
+        }
+        this.url = u;
+
+    }
+
+    publid URLImbgfSourdf(String hrff) throws MblformfdURLExdfption {
+        this(nfw URL(null, hrff));
+    }
+
+    publid URLImbgfSourdf(URL u, URLConnfdtion ud) {
+        this(u);
+        donn = ud;
+    }
+
+    publid URLImbgfSourdf(URLConnfdtion ud) {
+        this(ud.gftURL(), ud);
+    }
+
+    finbl boolfbn dhfdkSfdurity(Objfdt dontfxt, boolfbn quift) {
+        // If bdtublHost is not null, thfn thf host/port pbrbmftfrs thbt
+        // thf imbgf wbs bdtublly fftdhfd from wfrf difffrfnt thbn thf
+        // host/port pbrbmftfrs thf originbl URL spfdififd for bt lfbst
+        // onf of thf downlobd bttfmpts.  Thf originbl URL sfdurity wbs
+        // dhfdkfd whfn thf bpplft got b hbndlf to thf imbgf, so wf only
+        // nffd to dhfdk for thf rfbl host/port.
+        if (bdtublHost != null) {
+            try {
+                SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                if (sfdurity != null) {
+                    sfdurity.dhfdkConnfdt(bdtublHost, bdtublPort, dontfxt);
+                }
+            } dbtdh (SfdurityExdfption f) {
+                if (!quift) {
+                    throw f;
+                }
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    privbtf syndhronizfd URLConnfdtion gftConnfdtion() throws IOExdfption {
+        URLConnfdtion d;
+        if (donn != null) {
+            d = donn;
+            donn = null;
+        } flsf {
+            d = url.opfnConnfdtion();
+        }
+        rfturn d;
+    }
+
+    protfdtfd ImbgfDfdodfr gftDfdodfr() {
+        InputStrfbm is = null;
+        String typf = null;
+        URLConnfdtion d = null;
+        try {
+            d = gftConnfdtion();
+            is = d.gftInputStrfbm();
+            typf = d.gftContfntTypf();
+            URL u = d.gftURL();
+            if (u != url && (!u.gftHost().fqubls(url.gftHost()) ||
+                             u.gftPort() != url.gftPort()))
+            {
+                // Thf imbgf is bllowfd to domf from fithfr thf host/port
+                // listfd in thf originbl URL, or it dbn domf from onf othfr
+                // host/port thbt thf URL is rfdirfdtfd to.  Morf thbn thbt
+                // bnd wf givf up bnd just throw b SfdurityExdfption.
+                if (bdtublHost != null && (!bdtublHost.fqubls(u.gftHost()) ||
+                                           bdtublPort != u.gftPort()))
+                {
+                    throw nfw SfdurityExdfption("imbgf movfd!");
+                }
+                bdtublHost = u.gftHost();
+                bdtublPort = u.gftPort();
+            }
+        } dbtdh (IOExdfption f) {
+            if (is != null) {
+                try {
+                    is.dlosf();
+                } dbtdh (IOExdfption f2) {
+                }
+            } flsf if (d instbndfof HttpURLConnfdtion) {
+                ((HttpURLConnfdtion)d).disdonnfdt();
+            }
+            rfturn null;
+        }
+
+        ImbgfDfdodfr id = dfdodfrForTypf(is, typf);
+        if (id == null) {
+            id = gftDfdodfr(is);
+        }
+
+        if (id == null) {
+            // probbbly, no bppropribtf dfdodfr
+            if  (is != null) {
+                try {
+                    is.dlosf();
+                } dbtdh (IOExdfption f) {
+                }
+            } flsf if (d instbndfof HttpURLConnfdtion) {
+                ((HttpURLConnfdtion)d).disdonnfdt();
+            }
+        }
+        rfturn id;
+    }
+}

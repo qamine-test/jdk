@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,48 +30,48 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#ifndef HPROF_CLASS_H
-#define HPROF_CLASS_H
+#ifndff HPROF_CLASS_H
+#dffinf HPROF_CLASS_H
 
-void            class_init(void);
-ClassIndex      class_find_or_create(const char *sig, LoaderIndex loader);
-ClassIndex      class_create(const char *sig, LoaderIndex loader);
-SerialNumber    class_get_serial_number(ClassIndex index);
-StringIndex     class_get_signature(ClassIndex index);
-ClassStatus     class_get_status(ClassIndex index);
-void            class_add_status(ClassIndex index, ClassStatus status);
-void            class_all_status_remove(ClassStatus status);
-void            class_do_unloads(JNIEnv *env);
-void            class_list(void);
-void            class_delete_global_references(JNIEnv* env);
-void            class_cleanup(void);
-void            class_set_methods(ClassIndex index, const char**name,
-                                const char**descr,  int count);
-jmethodID       class_get_methodID(JNIEnv *env, ClassIndex index,
-                                MethodIndex mnum);
-jclass          class_new_classref(JNIEnv *env, ClassIndex index,
-                                jclass classref);
-void            class_delete_classref(JNIEnv *env, ClassIndex index);
-jclass          class_get_class(JNIEnv *env, ClassIndex index);
-void            class_set_inst_size(ClassIndex index, jint inst_size);
-jint            class_get_inst_size(ClassIndex index);
-void            class_set_object_index(ClassIndex index,
-                                ObjectIndex object_index);
-ObjectIndex     class_get_object_index(ClassIndex index);
-ClassIndex      class_get_super(ClassIndex index);
-void            class_set_super(ClassIndex index, ClassIndex super);
-void            class_set_loader(ClassIndex index, LoaderIndex loader);
-LoaderIndex     class_get_loader(ClassIndex index);
-void            class_prime_system_classes(void);
-jint            class_get_all_fields(JNIEnv *env, ClassIndex cnum,
-                                     jint *pfield_count, FieldInfo **pfield);
+void            dlbss_init(void);
+ClbssIndfx      dlbss_find_or_drfbtf(donst dibr *sig, LobdfrIndfx lobdfr);
+ClbssIndfx      dlbss_drfbtf(donst dibr *sig, LobdfrIndfx lobdfr);
+SfriblNumbfr    dlbss_gft_sfribl_numbfr(ClbssIndfx indfx);
+StringIndfx     dlbss_gft_signbturf(ClbssIndfx indfx);
+ClbssStbtus     dlbss_gft_stbtus(ClbssIndfx indfx);
+void            dlbss_bdd_stbtus(ClbssIndfx indfx, ClbssStbtus stbtus);
+void            dlbss_bll_stbtus_rfmovf(ClbssStbtus stbtus);
+void            dlbss_do_unlobds(JNIEnv *fnv);
+void            dlbss_list(void);
+void            dlbss_dflftf_globbl_rfffrfndfs(JNIEnv* fnv);
+void            dlbss_dlfbnup(void);
+void            dlbss_sft_mftiods(ClbssIndfx indfx, donst dibr**nbmf,
+                                donst dibr**dfsdr,  int dount);
+jmftiodID       dlbss_gft_mftiodID(JNIEnv *fnv, ClbssIndfx indfx,
+                                MftiodIndfx mnum);
+jdlbss          dlbss_nfw_dlbssrff(JNIEnv *fnv, ClbssIndfx indfx,
+                                jdlbss dlbssrff);
+void            dlbss_dflftf_dlbssrff(JNIEnv *fnv, ClbssIndfx indfx);
+jdlbss          dlbss_gft_dlbss(JNIEnv *fnv, ClbssIndfx indfx);
+void            dlbss_sft_inst_sizf(ClbssIndfx indfx, jint inst_sizf);
+jint            dlbss_gft_inst_sizf(ClbssIndfx indfx);
+void            dlbss_sft_objfdt_indfx(ClbssIndfx indfx,
+                                ObjfdtIndfx objfdt_indfx);
+ObjfdtIndfx     dlbss_gft_objfdt_indfx(ClbssIndfx indfx);
+ClbssIndfx      dlbss_gft_supfr(ClbssIndfx indfx);
+void            dlbss_sft_supfr(ClbssIndfx indfx, ClbssIndfx supfr);
+void            dlbss_sft_lobdfr(ClbssIndfx indfx, LobdfrIndfx lobdfr);
+LobdfrIndfx     dlbss_gft_lobdfr(ClbssIndfx indfx);
+void            dlbss_primf_systfm_dlbssfs(void);
+jint            dlbss_gft_bll_fiflds(JNIEnv *fnv, ClbssIndfx dnum,
+                                     jint *pfifld_dount, FifldInfo **pfifld);
 
-#endif
+#fndif

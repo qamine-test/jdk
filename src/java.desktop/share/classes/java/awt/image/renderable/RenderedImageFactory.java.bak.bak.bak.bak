@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* ********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.RfndfringHints;
+
+/**
+ * Thf RfndfrfdImbgfFbdtory intfrfbdf (oftfn bbbrfvibtfd RIF) is
+ * intfndfd to bf implfmfntfd by dlbssfs thbt wish to bdt bs fbdtorifs
+ * to produdf difffrfnt rfndfrings, for fxbmplf by fxfduting b sfrifs
+ * of BufffrfdImbgfOps on b sft of sourdfs, dfpfnding on b spfdifid
+ * sft of pbrbmftfrs, propfrtifs, bnd rfndfring hints.
+ */
+publid intfrfbdf RfndfrfdImbgfFbdtory {
+
+  /**
+   * Crfbtfs b RfndfrfdImbgf rfprfsfnting thf rfsults of bn imbging
+   * opfrbtion (or dhbin of opfrbtions) for b givfn PbrbmftfrBlodk bnd
+   * RfndfringHints.  Thf RIF mby blso qufry bny sourdf imbgfs
+   * rfffrfndfd by thf PbrbmftfrBlodk for thfir dimfnsions,
+   * SbmplfModfls, propfrtifs, ftd., bs nfdfssbry.
+   *
+   * <p> Thf drfbtf() mfthod dbn rfturn null if thf
+   * RfndfrfdImbgfFbdtory is not dbpbblf of produding output for thf
+   * givfn sft of sourdf imbgfs bnd pbrbmftfrs.  For fxbmplf, if b
+   * RfndfrfdImbgfFbdtory is only dbpbblf of pfrforming b 3x3
+   * donvolution on singlf-bbndfd imbgf dbtb, bnd thf sourdf imbgf hbs
+   * multiplf bbnds or thf donvolution Kfrnfl is 5x5, null should bf
+   * rfturnfd.
+   *
+   * <p> Hints should bf tbkfn into bddount, but dbn bf ignorfd.
+   * Thf drfbtfd RfndfrfdImbgf mby hbvf b propfrty idfntififd
+   * by thf String HINTS_OBSERVED to indidbtf whidh RfndfringHints
+   * wfrf usfd to drfbtf thf imbgf.  In bddition bny RfndfrfdImbgfs
+   * thbt brf obtbinfd vib thf gftSourdfs() mfthod on thf drfbtfd
+   * RfndfrfdImbgf mby hbvf sudh b propfrty.
+   *
+   * @pbrbm pbrbmBlodk b PbrbmftfrBlodk dontbining sourdfs bnd pbrbmftfrs
+   *        for thf RfndfrfdImbgf to bf drfbtfd.
+   * @pbrbm hints b RfndfringHints objfdt dontbining hints.
+   * @rfturn A RfndfrfdImbgf dontbining thf dfsirfd output.
+   */
+  RfndfrfdImbgf drfbtf(PbrbmftfrBlodk pbrbmBlodk,
+                       RfndfringHints hints);
+}

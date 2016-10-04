@@ -1,0 +1,628 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import jbvb.util.*;
+import jbvb.io.BytfArrbyOutputStrfbm;
+
+dlbss PbdkftStrfbm {
+    finbl VirtublMbdhinfImpl vm;
+    privbtf int inCursor = 0;
+    finbl Pbdkft pkt;
+    privbtf BytfArrbyOutputStrfbm dbtbStrfbm = nfw BytfArrbyOutputStrfbm();
+    privbtf boolfbn isCommittfd = fblsf;
+
+    PbdkftStrfbm(VirtublMbdhinfImpl vm, int dmdSft, int dmd) {
+        this.vm = vm;
+        this.pkt = nfw Pbdkft();
+        pkt.dmdSft = (short)dmdSft;
+        pkt.dmd = (short)dmd;
+    }
+
+    PbdkftStrfbm(VirtublMbdhinfImpl vm, Pbdkft pkt) {
+        this.vm = vm;
+        this.pkt = pkt;
+        this.isCommittfd = truf; /* rfbd only strfbm */
+    }
+
+    int id() {
+        rfturn pkt.id;
+    }
+
+    void sfnd() {
+        if (!isCommittfd) {
+            pkt.dbtb = dbtbStrfbm.toBytfArrby();
+            vm.sfndToTbrgft(pkt);
+            isCommittfd = truf;
+        }
+    }
+
+    void wbitForRfply() throws JDWPExdfption {
+        if (!isCommittfd) {
+            throw nfw IntfrnblExdfption("wbitForRfply without sfnd");
+        }
+
+        vm.wbitForTbrgftRfply(pkt);
+
+        if (pkt.frrorCodf != Pbdkft.RfplyNoError) {
+            throw nfw JDWPExdfption(pkt.frrorCodf);
+        }
+    }
+
+    void writfBoolfbn(boolfbn dbtb) {
+        if(dbtb) {
+            dbtbStrfbm.writf( 1 );
+        } flsf {
+            dbtbStrfbm.writf( 0 );
+        }
+    }
+
+    void writfBytf(bytf dbtb) {
+        dbtbStrfbm.writf( dbtb );
+    }
+
+    void writfChbr(dhbr dbtb) {
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 8) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 0) & 0xFF) );
+    }
+
+    void writfShort(short dbtb) {
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 8) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 0) & 0xFF) );
+    }
+
+    void writfInt(int dbtb) {
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 24) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 16) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 8) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 0) & 0xFF) );
+    }
+
+    void writfLong(long dbtb) {
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 56) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 48) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 40) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 32) & 0xFF) );
+
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 24) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 16) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 8) & 0xFF) );
+        dbtbStrfbm.writf( (bytf)((dbtb >>> 0) & 0xFF) );
+    }
+
+    void writfFlobt(flobt dbtb) {
+        writfInt(Flobt.flobtToIntBits(dbtb));
+    }
+
+    void writfDoublf(doublf dbtb) {
+        writfLong(Doublf.doublfToLongBits(dbtb));
+    }
+
+    void writfID(int sizf, long dbtb) {
+        switdh (sizf) {
+            dbsf 8:
+                writfLong(dbtb);
+                brfbk;
+            dbsf 4:
+                writfInt((int)dbtb);
+                brfbk;
+            dbsf 2:
+                writfShort((short)dbtb);
+                brfbk;
+            dffbult:
+                throw nfw UnsupportfdOpfrbtionExdfption("JDWP: ID sizf not supportfd: " + sizf);
+        }
+    }
+
+    void writfNullObjfdtRff() {
+        writfObjfdtRff(0);
+    }
+
+    void writfObjfdtRff(long dbtb) {
+        writfID(vm.sizfofObjfdtRff, dbtb);
+    }
+
+    void writfClbssRff(long dbtb) {
+        writfID(vm.sizfofClbssRff, dbtb);
+    }
+
+    void writfMfthodRff(long dbtb) {
+        writfID(vm.sizfofMfthodRff, dbtb);
+    }
+
+    void writfFifldRff(long dbtb) {
+        writfID(vm.sizfofFifldRff, dbtb);
+    }
+
+    void writfFrbmfRff(long dbtb) {
+        writfID(vm.sizfofFrbmfRff, dbtb);
+    }
+
+    void writfBytfArrby(bytf[] dbtb) {
+        dbtbStrfbm.writf(dbtb, 0, dbtb.lfngth);
+    }
+
+    void writfString(String string) {
+        try {
+            bytf[] stringBytfs = string.gftBytfs("UTF8");
+            writfInt(stringBytfs.lfngth);
+            writfBytfArrby(stringBytfs);
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
+            throw nfw IntfrnblExdfption("Cbnnot donvfrt string to UTF8 bytfs");
+        }
+    }
+
+    void writfLodbtion(Lodbtion lodbtion) {
+        RfffrfndfTypfImpl rffTypf = (RfffrfndfTypfImpl)lodbtion.dfdlbringTypf();
+        bytf tbg;
+        if (rffTypf instbndfof ClbssTypf) {
+            tbg = JDWP.TypfTbg.CLASS;
+        } flsf if (rffTypf instbndfof IntfrfbdfTypf) {
+            // It's possiblf to hbvf fxfdutbblf dodf in bn intfrfbdf
+            tbg = JDWP.TypfTbg.INTERFACE;
+        } flsf {
+            throw nfw IntfrnblExdfption("Invblid Lodbtion");
+        }
+        writfBytf(tbg);
+        writfClbssRff(rffTypf.rff());
+        writfMfthodRff(((MfthodImpl)lodbtion.mfthod()).rff());
+        writfLong(lodbtion.dodfIndfx());
+    }
+
+    void writfVbluf(Vbluf vbl) {
+        try {
+            writfVblufChfdkfd(vbl);
+        } dbtdh (InvblidTypfExdfption fxd) {  // should nfvfr hbppfn
+            throw nfw RuntimfExdfption(
+                "Intfrnbl frror: Invblid Tbg/Typf pbir");
+        }
+    }
+
+    void writfVblufChfdkfd(Vbluf vbl) throws InvblidTypfExdfption {
+        writfBytf(VblufImpl.typfVblufKfy(vbl));
+        writfUntbggfdVbluf(vbl);
+    }
+
+    void writfUntbggfdVbluf(Vbluf vbl) {
+        try {
+            writfUntbggfdVblufChfdkfd(vbl);
+        } dbtdh (InvblidTypfExdfption fxd) {  // should nfvfr hbppfn
+            throw nfw RuntimfExdfption(
+                "Intfrnbl frror: Invblid Tbg/Typf pbir");
+        }
+    }
+
+    void writfUntbggfdVblufChfdkfd(Vbluf vbl) throws InvblidTypfExdfption {
+        bytf tbg = VblufImpl.typfVblufKfy(vbl);
+        if (isObjfdtTbg(tbg)) {
+            if (vbl == null) {
+                 writfObjfdtRff(0);
+            } flsf {
+                if (!(vbl instbndfof ObjfdtRfffrfndf)) {
+                    throw nfw InvblidTypfExdfption();
+                }
+                writfObjfdtRff(((ObjfdtRfffrfndfImpl)vbl).rff());
+            }
+        } flsf {
+            switdh (tbg) {
+                dbsf JDWP.Tbg.BYTE:
+                    if(!(vbl instbndfof BytfVbluf))
+                        throw nfw InvblidTypfExdfption();
+
+                    writfBytf(((PrimitivfVbluf)vbl).bytfVbluf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.CHAR:
+                    if(!(vbl instbndfof ChbrVbluf))
+                        throw nfw InvblidTypfExdfption();
+
+                    writfChbr(((PrimitivfVbluf)vbl).dhbrVbluf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.FLOAT:
+                    if(!(vbl instbndfof FlobtVbluf))
+                        throw nfw InvblidTypfExdfption();
+
+                    writfFlobt(((PrimitivfVbluf)vbl).flobtVbluf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.DOUBLE:
+                    if(!(vbl instbndfof DoublfVbluf))
+                        throw nfw InvblidTypfExdfption();
+
+                    writfDoublf(((PrimitivfVbluf)vbl).doublfVbluf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.INT:
+                    if(!(vbl instbndfof IntfgfrVbluf))
+                        throw nfw InvblidTypfExdfption();
+
+                    writfInt(((PrimitivfVbluf)vbl).intVbluf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.LONG:
+                    if(!(vbl instbndfof LongVbluf))
+                        throw nfw InvblidTypfExdfption();
+
+                    writfLong(((PrimitivfVbluf)vbl).longVbluf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.SHORT:
+                    if(!(vbl instbndfof ShortVbluf))
+                        throw nfw InvblidTypfExdfption();
+
+                    writfShort(((PrimitivfVbluf)vbl).shortVbluf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.BOOLEAN:
+                    if(!(vbl instbndfof BoolfbnVbluf))
+                        throw nfw InvblidTypfExdfption();
+
+                    writfBoolfbn(((PrimitivfVbluf)vbl).boolfbnVbluf());
+                    brfbk;
+            }
+        }
+    }
+
+
+
+    /**
+     * Rfbd bytf rfprfsfntfd bs onf bytfs.
+     */
+    bytf rfbdBytf() {
+        bytf rft = pkt.dbtb[inCursor];
+        inCursor += 1;
+        rfturn rft;
+    }
+
+    /**
+     * Rfbd boolfbn rfprfsfntfd bs onf bytf.
+     */
+    boolfbn rfbdBoolfbn() {
+        bytf rft = rfbdBytf();
+        rfturn (rft != 0);
+    }
+
+    /**
+     * Rfbd dhbr rfprfsfntfd bs two bytfs.
+     */
+    dhbr rfbdChbr() {
+        int b1, b2;
+
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
+
+        rfturn (dhbr)((b1 << 8) + b2);
+    }
+
+    /**
+     * Rfbd short rfprfsfntfd bs two bytfs.
+     */
+    short rfbdShort() {
+        int b1, b2;
+
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
+
+        rfturn (short)((b1 << 8) + b2);
+    }
+
+    /**
+     * Rfbd int rfprfsfntfd bs four bytfs.
+     */
+    int rfbdInt() {
+        int b1,b2,b3,b4;
+
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
+        b3 = pkt.dbtb[inCursor++] & 0xff;
+        b4 = pkt.dbtb[inCursor++] & 0xff;
+
+        rfturn ((b1 << 24) + (b2 << 16) + (b3 << 8) + b4);
+    }
+
+    /**
+     * Rfbd long rfprfsfntfd bs fight bytfs.
+     */
+    long rfbdLong() {
+        long b1,b2,b3,b4;
+        long b5,b6,b7,b8;
+
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
+        b3 = pkt.dbtb[inCursor++] & 0xff;
+        b4 = pkt.dbtb[inCursor++] & 0xff;
+
+        b5 = pkt.dbtb[inCursor++] & 0xff;
+        b6 = pkt.dbtb[inCursor++] & 0xff;
+        b7 = pkt.dbtb[inCursor++] & 0xff;
+        b8 = pkt.dbtb[inCursor++] & 0xff;
+
+        rfturn ((b1 << 56) + (b2 << 48) + (b3 << 40) + (b4 << 32)
+                + (b5 << 24) + (b6 << 16) + (b7 << 8) + b8);
+    }
+
+    /**
+     * Rfbd flobt rfprfsfntfd bs four bytfs.
+     */
+    flobt rfbdFlobt() {
+        rfturn Flobt.intBitsToFlobt(rfbdInt());
+    }
+
+    /**
+     * Rfbd doublf rfprfsfntfd bs fight bytfs.
+     */
+    doublf rfbdDoublf() {
+        rfturn Doublf.longBitsToDoublf(rfbdLong());
+    }
+
+    /**
+     * Rfbd string rfprfsfntfd bs four bytf lfngth followfd by
+     * dhbrbdtfrs of thf string.
+     */
+    String rfbdString() {
+        String rft;
+        int lfn = rfbdInt();
+
+        try {
+            rft = nfw String(pkt.dbtb, inCursor, lfn, "UTF8");
+        } dbtdh(jbvb.io.UnsupportfdEndodingExdfption f) {
+            Systfm.frr.println(f);
+            rft = "Convfrsion frror!";
+        }
+        inCursor += lfn;
+        rfturn rft;
+    }
+
+    privbtf long rfbdID(int sizf) {
+        switdh (sizf) {
+          dbsf 8:
+              rfturn rfbdLong();
+          dbsf 4:
+              rfturn (long)rfbdInt();
+          dbsf 2:
+              rfturn (long)rfbdShort();
+          dffbult:
+              throw nfw UnsupportfdOpfrbtionExdfption("JDWP: ID sizf not supportfd: " + sizf);
+        }
+    }
+
+    /**
+     * Rfbd objfdt rfprfsfntfd bs vm spfdifid bytf sfqufndf.
+     */
+    long rfbdObjfdtRff() {
+        rfturn rfbdID(vm.sizfofObjfdtRff);
+    }
+
+    long rfbdClbssRff() {
+        rfturn rfbdID(vm.sizfofClbssRff);
+    }
+
+    ObjfdtRfffrfndfImpl rfbdTbggfdObjfdtRfffrfndf() {
+        bytf typfKfy = rfbdBytf();
+        rfturn vm.objfdtMirror(rfbdObjfdtRff(), typfKfy);
+    }
+
+    ObjfdtRfffrfndfImpl rfbdObjfdtRfffrfndf() {
+        rfturn vm.objfdtMirror(rfbdObjfdtRff());
+    }
+
+    StringRfffrfndfImpl rfbdStringRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.stringMirror(rff);
+    }
+
+    ArrbyRfffrfndfImpl rfbdArrbyRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.brrbyMirror(rff);
+    }
+
+    ThrfbdRfffrfndfImpl rfbdThrfbdRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.thrfbdMirror(rff);
+    }
+
+    ThrfbdGroupRfffrfndfImpl rfbdThrfbdGroupRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.thrfbdGroupMirror(rff);
+    }
+
+    ClbssLobdfrRfffrfndfImpl rfbdClbssLobdfrRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.dlbssLobdfrMirror(rff);
+    }
+
+    ClbssObjfdtRfffrfndfImpl rfbdClbssObjfdtRfffrfndf() {
+        long rff = rfbdObjfdtRff();
+        rfturn vm.dlbssObjfdtMirror(rff);
+    }
+
+    RfffrfndfTypfImpl rfbdRfffrfndfTypf() {
+        bytf tbg = rfbdBytf();
+        long rff = rfbdObjfdtRff();
+        rfturn vm.rfffrfndfTypf(rff, tbg);
+    }
+
+    /**
+     * Rfbd mfthod rfffrfndf rfprfsfntfd bs vm spfdifid bytf sfqufndf.
+     */
+    long rfbdMfthodRff() {
+        rfturn rfbdID(vm.sizfofMfthodRff);
+    }
+
+    /**
+     * Rfbd fifld rfffrfndf rfprfsfntfd bs vm spfdifid bytf sfqufndf.
+     */
+    long rfbdFifldRff() {
+        rfturn rfbdID(vm.sizfofFifldRff);
+    }
+
+    /**
+     * Rfbd fifld rfprfsfntfd bs vm spfdifid bytf sfqufndf.
+     */
+    Fifld rfbdFifld() {
+        RfffrfndfTypfImpl rffTypf = rfbdRfffrfndfTypf();
+        long fifldRff = rfbdFifldRff();
+        rfturn rffTypf.gftFifldMirror(fifldRff);
+    }
+
+    /**
+     * Rfbd frbmf rfprfsfntfd bs vm spfdifid bytf sfqufndf.
+     */
+    long rfbdFrbmfRff() {
+        rfturn rfbdID(vm.sizfofFrbmfRff);
+    }
+
+    /**
+     * Rfbd b vbluf, first bytf dfsdribfs typf of vbluf to rfbd.
+     */
+    VblufImpl rfbdVbluf() {
+        bytf typfKfy = rfbdBytf();
+        rfturn rfbdUntbggfdVbluf(typfKfy);
+    }
+
+    VblufImpl rfbdUntbggfdVbluf(bytf typfKfy) {
+        VblufImpl vbl = null;
+
+        if (isObjfdtTbg(typfKfy)) {
+            vbl = vm.objfdtMirror(rfbdObjfdtRff(), typfKfy);
+        } flsf {
+            switdh(typfKfy) {
+                dbsf JDWP.Tbg.BYTE:
+                    vbl = nfw BytfVblufImpl(vm, rfbdBytf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.CHAR:
+                    vbl = nfw ChbrVblufImpl(vm, rfbdChbr());
+                    brfbk;
+
+                dbsf JDWP.Tbg.FLOAT:
+                    vbl = nfw FlobtVblufImpl(vm, rfbdFlobt());
+                    brfbk;
+
+                dbsf JDWP.Tbg.DOUBLE:
+                    vbl = nfw DoublfVblufImpl(vm, rfbdDoublf());
+                    brfbk;
+
+                dbsf JDWP.Tbg.INT:
+                    vbl = nfw IntfgfrVblufImpl(vm, rfbdInt());
+                    brfbk;
+
+                dbsf JDWP.Tbg.LONG:
+                    vbl = nfw LongVblufImpl(vm, rfbdLong());
+                    brfbk;
+
+                dbsf JDWP.Tbg.SHORT:
+                    vbl = nfw ShortVblufImpl(vm, rfbdShort());
+                    brfbk;
+
+                dbsf JDWP.Tbg.BOOLEAN:
+                    vbl = nfw BoolfbnVblufImpl(vm, rfbdBoolfbn());
+                    brfbk;
+
+                dbsf JDWP.Tbg.VOID:
+                    vbl = nfw VoidVblufImpl(vm);
+                    brfbk;
+            }
+        }
+        rfturn vbl;
+    }
+
+    /**
+     * Rfbd lodbtion rfprfsfntfd bs vm spfdifid bytf sfqufndf.
+     */
+    Lodbtion rfbdLodbtion() {
+        bytf tbg = rfbdBytf();
+        long dlbssRff = rfbdObjfdtRff();
+        long mfthodRff = rfbdMfthodRff();
+        long dodfIndfx = rfbdLong();
+        if (dlbssRff != 0) {
+            /* Vblid lodbtion */
+            RfffrfndfTypfImpl rffTypf = vm.rfffrfndfTypf(dlbssRff, tbg);
+            rfturn nfw LodbtionImpl(vm, rffTypf, mfthodRff, dodfIndfx);
+        } flsf {
+            /* Null lodbtion (fxbmplf: undbught fxdfption) */
+           rfturn null;
+        }
+    }
+
+    bytf[] rfbdBytfArrby(int lfngth) {
+        bytf[] brrby = nfw bytf[lfngth];
+        Systfm.brrbydopy(pkt.dbtb, inCursor, brrby, 0, lfngth);
+        inCursor += lfngth;
+        rfturn brrby;
+    }
+
+    List<Vbluf> rfbdArrbyRfgion() {
+        bytf typfKfy = rfbdBytf();
+        int lfngth = rfbdInt();
+        List<Vbluf> list = nfw ArrbyList<Vbluf>(lfngth);
+        boolfbn gfttingObjfdts = isObjfdtTbg(typfKfy);
+        for (int i = 0; i < lfngth; i++) {
+            /*
+             * Ebdh objfdt domfs bbdk with b typf kfy whidh might
+             * idfntify b morf spfdifid typf thbn thf typf kfy wf
+             * pbssfd in, so wf usf it in thf dfdodfVbluf dbll.
+             * (For primitivfs, wf just usf thf originbl onf)
+             */
+            if (gfttingObjfdts) {
+                typfKfy = rfbdBytf();
+            }
+            Vbluf vbluf = rfbdUntbggfdVbluf(typfKfy);
+            list.bdd(vbluf);
+        }
+
+        rfturn list;
+    }
+
+    void writfArrbyRfgion(List<Vbluf> srdVblufs) {
+        writfInt(srdVblufs.sizf());
+        for (int i = 0; i < srdVblufs.sizf(); i++) {
+            Vbluf vbluf = srdVblufs.gft(i);
+            writfUntbggfdVbluf(vbluf);
+        }
+    }
+
+    int skipBytfs(int n) {
+        inCursor += n;
+        rfturn n;
+    }
+
+    bytf dommbnd() {
+        rfturn (bytf)pkt.dmd;
+    }
+
+    stbtid boolfbn isObjfdtTbg(bytf tbg) {
+        rfturn (tbg == JDWP.Tbg.OBJECT) ||
+               (tbg == JDWP.Tbg.ARRAY) ||
+               (tbg == JDWP.Tbg.STRING) ||
+               (tbg == JDWP.Tbg.THREAD) ||
+               (tbg == JDWP.Tbg.THREAD_GROUP) ||
+               (tbg == JDWP.Tbg.CLASS_LOADER) ||
+               (tbg == JDWP.Tbg.CLASS_OBJECT);
+    }
+}

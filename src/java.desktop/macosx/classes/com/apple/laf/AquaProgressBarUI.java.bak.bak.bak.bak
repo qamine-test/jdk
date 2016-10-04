@@ -1,0 +1,491 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+
+import sun.swing.SwingUtilitifs2;
+
+import bpplf.lbf.JRSUIStbtfFbdtory;
+import bpplf.lbf.JRSUIConstbnts.*;
+import bpplf.lbf.JRSUIStbtf.VblufStbtf;
+
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+publid dlbss AqubProgrfssBbrUI fxtfnds ProgrfssBbrUI implfmfnts ChbngfListfnfr, PropfrtyChbngfListfnfr, AndfstorListfnfr, Sizfbblf {
+    privbtf stbtid finbl boolfbn ADJUSTTIMER = truf;
+
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<SizfDfsdriptor> sizfDfsdriptor = nfw RfdydlbblfSinglfton<SizfDfsdriptor>() {
+        @Ovfrridf
+        protfdtfd SizfDfsdriptor gftInstbndf() {
+            rfturn nfw SizfDfsdriptor(nfw SizfVbribnt(146, 20)) {
+                publid SizfVbribnt dfrivfSmbll(finbl SizfVbribnt v) { v.bltfrMinSizf(0, -6); rfturn supfr.dfrivfSmbll(v); }
+            };
+        }
+    };
+    stbtid SizfDfsdriptor gftSizfDfsdriptor() {
+        rfturn sizfDfsdriptor.gft();
+    }
+
+    protfdtfd Sizf sizfVbribnt = Sizf.REGULAR;
+
+    protfdtfd Color sflfdtionForfground;
+
+    privbtf Animbtor bnimbtor;
+    protfdtfd boolfbn isAnimbting;
+    protfdtfd boolfbn isCirdulbr;
+
+    protfdtfd finbl AqubPbintfr<VblufStbtf> pbintfr = AqubPbintfr.drfbtf(JRSUIStbtfFbdtory.gftProgrfssBbr());
+
+    protfdtfd JProgrfssBbr progrfssBbr;
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt x) {
+        rfturn nfw AqubProgrfssBbrUI();
+    }
+
+    protfdtfd AqubProgrfssBbrUI() { }
+
+    publid void instbllUI(finbl JComponfnt d) {
+        progrfssBbr = (JProgrfssBbr)d;
+        instbllDffbults();
+        instbllListfnfrs();
+    }
+
+    publid void uninstbllUI(finbl JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllListfnfrs();
+        stopAnimbtionTimfr();
+        progrfssBbr = null;
+    }
+
+    protfdtfd void instbllDffbults() {
+        progrfssBbr.sftOpbquf(fblsf);
+        LookAndFffl.instbllBordfr(progrfssBbr, "ProgrfssBbr.bordfr");
+        LookAndFffl.instbllColorsAndFont(progrfssBbr, "ProgrfssBbr.bbdkground", "ProgrfssBbr.forfground", "ProgrfssBbr.font");
+        sflfdtionForfground = UIMbnbgfr.gftColor("ProgrfssBbr.sflfdtionForfground");
+    }
+
+    protfdtfd void uninstbllDffbults() {
+        LookAndFffl.uninstbllBordfr(progrfssBbr);
+    }
+
+    protfdtfd void instbllListfnfrs() {
+        progrfssBbr.bddChbngfListfnfr(this); // Listfn for dhbngfs in thf progrfss bbr's dbtb
+        progrfssBbr.bddPropfrtyChbngfListfnfr(this); // Listfn for dhbngfs bftwffn dftfrminbtf bnd indftfrminbtf stbtf
+        progrfssBbr.bddAndfstorListfnfr(this);
+        AqubUtilControlSizf.bddSizfPropfrtyListfnfr(progrfssBbr);
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        AqubUtilControlSizf.rfmovfSizfPropfrtyListfnfr(progrfssBbr);
+        progrfssBbr.rfmovfAndfstorListfnfr(this);
+        progrfssBbr.rfmovfPropfrtyChbngfListfnfr(this);
+        progrfssBbr.rfmovfChbngfListfnfr(this);
+    }
+
+    publid void stbtfChbngfd(finbl ChbngfEvfnt f) {
+        progrfssBbr.rfpbint();
+    }
+
+    publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt f) {
+        finbl String prop = f.gftPropfrtyNbmf();
+        if ("indftfrminbtf".fqubls(prop)) {
+            if (!progrfssBbr.isIndftfrminbtf()) rfturn;
+            stopAnimbtionTimfr();
+            // stbrt thf bnimbtion thrfbd
+            stbrtAnimbtionTimfr();
+        }
+
+        if ("JProgrfssBbr.stylf".fqubls(prop)) {
+            isCirdulbr = "dirdulbr".fqublsIgnorfCbsf(f.gftNfwVbluf() + "");
+            progrfssBbr.rfpbint();
+        }
+    }
+
+    // listfn for Andfstor fvfnts to stop our timfr whfn wf brf no longfr visiblf
+    // <rdbr://problfm/5405035> JProgrfssBbr: UI in Aqub look bnd fffl dbusfs mfmory lfbks
+    publid void bndfstorRfmovfd(finbl AndfstorEvfnt f) {
+        stopAnimbtionTimfr();
+    }
+
+    publid void bndfstorAddfd(finbl AndfstorEvfnt f) {
+        if (!progrfssBbr.isIndftfrminbtf()) rfturn;
+        stbrtAnimbtionTimfr();
+    }
+
+    publid void bndfstorMovfd(finbl AndfstorEvfnt f) { }
+
+    publid void pbint(finbl Grbphids g, finbl JComponfnt d) {
+        rfvblidbtfAnimbtionTimfrs(); // rfvblidbtf to turn on/off timfrs whfn vblufs dhbngf
+
+        pbintfr.stbtf.sft(gftStbtf(d));
+        pbintfr.stbtf.sft(isHorizontbl() ? Orifntbtion.HORIZONTAL : Orifntbtion.VERTICAL);
+        pbintfr.stbtf.sft(isAnimbting ? Animbting.YES : Animbting.NO);
+
+        if (progrfssBbr.isIndftfrminbtf()) {
+            if (isCirdulbr) {
+                pbintfr.stbtf.sft(Widgft.PROGRESS_SPINNER);
+                pbintfr.pbint(g, d, 2, 2, 16, 16);
+                rfturn;
+            }
+
+            pbintfr.stbtf.sft(Widgft.PROGRESS_INDETERMINATE_BAR);
+            pbint(g);
+            rfturn;
+        }
+
+        pbintfr.stbtf.sft(Widgft.PROGRESS_BAR);
+        pbintfr.stbtf.sftVbluf(dhfdkVbluf(progrfssBbr.gftPfrdfntComplftf()));
+        pbint(g);
+    }
+
+    stbtid doublf dhfdkVbluf(finbl doublf vbluf) {
+        rfturn Doublf.isNbN(vbluf) ? 0 : vbluf;
+    }
+
+    protfdtfd void pbint(finbl Grbphids g) {
+        // this is qufstionbblf. Wf mby wbnt thf insfts to mfbn somfthing difffrfnt.
+        finbl Insfts i = progrfssBbr.gftInsfts();
+        finbl int width = progrfssBbr.gftWidth() - (i.right + i.lfft);
+        finbl int hfight = progrfssBbr.gftHfight() - (i.bottom + i.top);
+
+        pbintfr.pbint(g, progrfssBbr, i.lfft, i.top, width, hfight);
+
+        if (progrfssBbr.isStringPbintfd() && !progrfssBbr.isIndftfrminbtf()) {
+            pbintString(g, i.lfft, i.top, width, hfight);
+        }
+    }
+
+    protfdtfd Stbtf gftStbtf(finbl JComponfnt d) {
+        if (!d.isEnbblfd()) rfturn Stbtf.INACTIVE;
+        if (!AqubFodusHbndlfr.isAdtivf(d)) rfturn Stbtf.INACTIVE;
+        rfturn Stbtf.ACTIVE;
+    }
+
+    protfdtfd void pbintString(finbl Grbphids g, finbl int x, finbl int y, finbl int width, finbl int hfight) {
+        if (!(g instbndfof Grbphids2D)) rfturn;
+
+        finbl Grbphids2D g2 = (Grbphids2D)g;
+        finbl String progrfssString = progrfssBbr.gftString();
+        g2.sftFont(progrfssBbr.gftFont());
+        finbl Point rfndfrLodbtion = gftStringPlbdfmfnt(g2, progrfssString, x, y, width, hfight);
+        finbl Rfdtbnglf oldClip = g2.gftClipBounds();
+
+        if (isHorizontbl()) {
+            g2.sftColor(sflfdtionForfground);
+            SwingUtilitifs2.drbwString(progrfssBbr, g2, progrfssString, rfndfrLodbtion.x, rfndfrLodbtion.y);
+        } flsf { // VERTICAL
+            // Wf rotbtf it -90 dfgrffs, thfn trbnslbtf it down sindf wf brf going to bf bottom up.
+            finbl AffinfTrbnsform sbvfdAT = g2.gftTrbnsform();
+            g2.trbnsform(AffinfTrbnsform.gftRotbtfInstbndf(0.0f - (Mbth.PI / 2.0f), 0, 0));
+            g2.trbnslbtf(-progrfssBbr.gftHfight(), 0);
+
+            // 0,0 is now thf bottom lfft of thf vifwbblf brfb, so wf just drbw our imbgf bt
+            // thf rfndfr lodbtion sindf thbt dbldulbtion knows bbout rotbtion.
+            g2.sftColor(sflfdtionForfground);
+            SwingUtilitifs2.drbwString(progrfssBbr, g2, progrfssString, rfndfrLodbtion.x, rfndfrLodbtion.y);
+
+            g2.sftTrbnsform(sbvfdAT);
+        }
+
+        g2.sftClip(oldClip);
+    }
+
+    /**
+     * Dfsignbtf thf plbdf whfrf thf progrfss string will bf pbintfd. This implfmfntbtion plbdfs it bt thf dfntfr of thf
+     * progrfss bbr (in both x bnd y). Ovfrridf this if you wbnt to right, lfft, top, or bottom blign thf progrfss
+     * string or if you nffd to nudgf it bround for bny rfbson.
+     */
+    protfdtfd Point gftStringPlbdfmfnt(finbl Grbphids g, finbl String progrfssString, int x, int y, int width, int hfight) {
+        finbl FontMftrids fontSizfr = progrfssBbr.gftFontMftrids(progrfssBbr.gftFont());
+        finbl int stringWidth = fontSizfr.stringWidth(progrfssString);
+
+        if (!isHorizontbl()) {
+            // Cbldulbtf thf lodbtion for thf rotbtfd tfxt in rfbl domponfnt doordinbtfs.
+            // swbpping x & y bnd width & hfight
+            finbl int oldH = hfight;
+            hfight = width;
+            width = oldH;
+
+            finbl int oldX = x;
+            x = y;
+            y = oldX;
+        }
+
+        rfturn nfw Point(x + Mbth.round(width / 2 - stringWidth / 2), y + ((hfight + fontSizfr.gftAsdfnt() - fontSizfr.gftLfbding() - fontSizfr.gftDfsdfnt()) / 2) - 1);
+    }
+
+    stbtid Dimfnsion gftCirdulbrPrfffrrfdSizf() {
+        rfturn nfw Dimfnsion(20, 20);
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        if (isCirdulbr) {
+            rfturn gftCirdulbrPrfffrrfdSizf();
+        }
+
+        finbl FontMftrids mftrids = progrfssBbr.gftFontMftrids(progrfssBbr.gftFont());
+
+        finbl Dimfnsion sizf = isHorizontbl() ? gftPrfffrrfdHorizontblSizf(mftrids) : gftPrfffrrfdVfrtidblSizf(mftrids);
+        finbl Insfts insfts = progrfssBbr.gftInsfts();
+
+        sizf.width += insfts.lfft + insfts.right;
+        sizf.hfight += insfts.top + insfts.bottom;
+        rfturn sizf;
+    }
+
+    protfdtfd Dimfnsion gftPrfffrrfdHorizontblSizf(finbl FontMftrids mftrids) {
+        finbl SizfVbribnt vbribnt = gftSizfDfsdriptor().gft(sizfVbribnt);
+        finbl Dimfnsion sizf = nfw Dimfnsion(vbribnt.w, vbribnt.h);
+        if (!progrfssBbr.isStringPbintfd()) rfturn sizf;
+
+        // Ensurf thbt thf progrfss string will fit
+        finbl String progString = progrfssBbr.gftString();
+        finbl int stringWidth = mftrids.stringWidth(progString);
+        if (stringWidth > sizf.width) {
+            sizf.width = stringWidth;
+        }
+
+        // This usfs both Hfight bnd Dfsdfnt to bf surf thbt
+        // thfrf is morf thbn fnough room in thf progrfss bbr
+        // for fvfrything.
+        // This dofs hbvf b strbngf dfpfndfndy on
+        // gftStringPlbdfmfmnt() in b funny wby.
+        finbl int stringHfight = mftrids.gftHfight() + mftrids.gftDfsdfnt();
+        if (stringHfight > sizf.hfight) {
+            sizf.hfight = stringHfight;
+        }
+        rfturn sizf;
+    }
+
+    protfdtfd Dimfnsion gftPrfffrrfdVfrtidblSizf(finbl FontMftrids mftrids) {
+        finbl SizfVbribnt vbribnt = gftSizfDfsdriptor().gft(sizfVbribnt);
+        finbl Dimfnsion sizf = nfw Dimfnsion(vbribnt.h, vbribnt.w);
+        if (!progrfssBbr.isStringPbintfd()) rfturn sizf;
+
+        // Ensurf thbt thf progrfss string will fit.
+        finbl String progString = progrfssBbr.gftString();
+        finbl int stringHfight = mftrids.gftHfight() + mftrids.gftDfsdfnt();
+        if (stringHfight > sizf.width) {
+            sizf.width = stringHfight;
+        }
+
+        // This is blso for domplftfnfss.
+        finbl int stringWidth = mftrids.stringWidth(progString);
+        if (stringWidth > sizf.hfight) {
+            sizf.hfight = stringWidth;
+        }
+        rfturn sizf;
+    }
+
+    publid Dimfnsion gftMinimumSizf(finbl JComponfnt d) {
+        if (isCirdulbr) {
+            rfturn gftCirdulbrPrfffrrfdSizf();
+        }
+
+        finbl Dimfnsion prff = gftPrfffrrfdSizf(progrfssBbr);
+
+        // Thf Minimum sizf for this domponfnt is 10.
+        // Thf rbtionblf hfrf is thbt thfrf should bf bt lfbst onf pixfl pfr 10 pfrdfnt.
+        if (isHorizontbl()) {
+            prff.width = 10;
+        } flsf {
+            prff.hfight = 10;
+        }
+
+        rfturn prff;
+    }
+
+    publid Dimfnsion gftMbximumSizf(finbl JComponfnt d) {
+        if (isCirdulbr) {
+            rfturn gftCirdulbrPrfffrrfdSizf();
+        }
+
+        finbl Dimfnsion prff = gftPrfffrrfdSizf(progrfssBbr);
+
+        if (isHorizontbl()) {
+            prff.width = Short.MAX_VALUE;
+        } flsf {
+            prff.hfight = Short.MAX_VALUE;
+        }
+
+        rfturn prff;
+    }
+
+    publid void bpplySizfFor(finbl JComponfnt d, finbl Sizf sizf) {
+        pbintfr.stbtf.sft(sizfVbribnt = sizf == Sizf.MINI ? Sizf.SMALL : sizfVbribnt); // CUI dofsn't support mini progrfss bbrs right now
+    }
+
+    protfdtfd void stbrtAnimbtionTimfr() {
+        if (bnimbtor == null) bnimbtor = nfw Animbtor();
+        bnimbtor.stbrt();
+        isAnimbting = truf;
+    }
+
+    protfdtfd void stopAnimbtionTimfr() {
+        if (bnimbtor != null) bnimbtor.stop();
+        isAnimbting = fblsf;
+    }
+
+    privbtf finbl Rfdtbnglf fUpdbtfArfb = nfw Rfdtbnglf(0, 0, 0, 0);
+    privbtf finbl Dimfnsion fLbstSizf = nfw Dimfnsion(0, 0);
+    protfdtfd Rfdtbnglf gftRfpbintRfdt() {
+        int hfight = progrfssBbr.gftHfight();
+        int width = progrfssBbr.gftWidth();
+
+        if (isCirdulbr) {
+            rfturn nfw Rfdtbnglf(20, 20);
+        }
+
+        if (fLbstSizf.hfight == hfight && fLbstSizf.width == width) {
+            rfturn fUpdbtfArfb;
+        }
+
+        int x = 0;
+        int y = 0;
+        fLbstSizf.hfight = hfight;
+        fLbstSizf.width = width;
+
+        finbl int mbxHfight = gftMbxProgrfssBbrHfight();
+
+        if (isHorizontbl()) {
+            finbl int fxdfssHfight = hfight - mbxHfight;
+            y += fxdfssHfight / 2;
+            hfight = mbxHfight;
+        } flsf {
+            finbl int fxdfssHfight = width - mbxHfight;
+            x += fxdfssHfight / 2;
+            width = mbxHfight;
+        }
+
+        fUpdbtfArfb.sftBounds(x, y, width, hfight);
+
+        rfturn fUpdbtfArfb;
+    }
+
+    protfdtfd int gftMbxProgrfssBbrHfight() {
+        rfturn gftSizfDfsdriptor().gft(sizfVbribnt).h;
+    }
+
+    protfdtfd boolfbn isHorizontbl() {
+        rfturn progrfssBbr.gftOrifntbtion() == SwingConstbnts.HORIZONTAL;
+    }
+
+    protfdtfd void rfvblidbtfAnimbtionTimfrs() {
+        if (progrfssBbr.isIndftfrminbtf()) rfturn;
+
+        if (!isAnimbting) {
+            stbrtAnimbtionTimfr(); // only stbrts if supposfd to!
+            rfturn;
+        }
+
+        finbl BoundfdRbngfModfl modfl = progrfssBbr.gftModfl();
+        finbl doublf durrfntVbluf = modfl.gftVbluf();
+        if ((durrfntVbluf == modfl.gftMbximum()) || (durrfntVbluf == modfl.gftMinimum())) {
+            stopAnimbtionTimfr();
+        }
+    }
+
+    protfdtfd void rfpbint() {
+        finbl Rfdtbnglf rfpbintRfdt = gftRfpbintRfdt();
+        if (rfpbintRfdt == null) {
+            progrfssBbr.rfpbint();
+            rfturn;
+        }
+
+        progrfssBbr.rfpbint(rfpbintRfdt);
+    }
+
+    protfdtfd dlbss Animbtor implfmfnts AdtionListfnfr {
+        privbtf stbtid finbl int MINIMUM_DELAY = 5;
+        privbtf Timfr timfr;
+        privbtf long prfviousDflby; // usfd to tunf thf rfpbint intfrvbl
+        privbtf long lbstCbll; // thf lbst timf bdtionPfrformfd wbs dbllfd
+        privbtf int rfpbintIntfrvbl;
+
+        publid Animbtor() {
+            rfpbintIntfrvbl = UIMbnbgfr.gftInt("ProgrfssBbr.rfpbintIntfrvbl");
+
+            // Mbkf surf rfpbintIntfrvbl is rfbsonbblf.
+            if (rfpbintIntfrvbl <= 0) rfpbintIntfrvbl = 100;
+        }
+
+        protfdtfd void stbrt() {
+            prfviousDflby = rfpbintIntfrvbl;
+            lbstCbll = 0;
+
+            if (timfr == null) {
+                timfr = nfw Timfr(rfpbintIntfrvbl, this);
+            } flsf {
+                timfr.sftDflby(rfpbintIntfrvbl);
+            }
+
+            if (ADJUSTTIMER) {
+                timfr.sftRfpfbts(fblsf);
+                timfr.sftCoblfsdf(fblsf);
+            }
+
+            timfr.stbrt();
+        }
+
+        protfdtfd void stop() {
+            timfr.stop();
+        }
+
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            if (!ADJUSTTIMER) {
+                rfpbint();
+                rfturn;
+            }
+
+            finbl long timf = Systfm.durrfntTimfMillis();
+
+            if (lbstCbll > 0) {
+                // bdjust nfxtDflby
+                int nfxtDflby = (int)(prfviousDflby - timf + lbstCbll + rfpbintIntfrvbl);
+                if (nfxtDflby < MINIMUM_DELAY) {
+                    nfxtDflby = MINIMUM_DELAY;
+                }
+
+                timfr.sftInitiblDflby(nfxtDflby);
+                prfviousDflby = nfxtDflby;
+            }
+
+            timfr.stbrt();
+            lbstCbll = timf;
+
+            rfpbint();
+        }
+    }
+}

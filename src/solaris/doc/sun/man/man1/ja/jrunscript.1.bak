@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: jrunscript
-.\" Language: English
-.\" Date: 2013╟п11╖ю21╞№
-.\" SectDesc: е╣епеъе╫е╞егеєе░бже─б╝еы
-.\" Software: JDK 8
-.\" Arch: ╚╞═╤
+.\" Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jrunsdript
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013╟п11╖ю21╞№
+.\" SfdtDfsd: е╣епеъе╫е╞егеєе░бже─б╝еы
+.\" Softwbrf: JDK 8
+.\" Ardi: ╚╞═╤
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "jrunscript" "1" "2013╟п11╖ю21╞№" "JDK 8" "е╣епеъе╫е╞егеєе░бже─б╝еы"
+.TH "jrunsdript" "1" "2013╟п11╖ю21╞№" "JDK 8" "е╣епеъе╫е╞егеєе░бже─б╝еы"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jrunscript \- ┬╨╧├╖┐етб╝е╔д╚е╨е├е┴бжетб╝е╔дЄе╡е▌б╝е╚д╣дые│е▐еєе╔ещедеєбже╣епеъе╫е╚бже╖езеыдЄ╝┬╣╘д╖д▐д╣бгд│д╬е│е▐еєе╔д╧╗ю╕│┼кд╩дтд╬д╟бве╡е▌б╝е╚д╡дьд╞ддд▐д╗дєбг
+jrunsdript \- ┬╨╧├╖┐етб╝е╔д╚е╨е├е┴бжетб╝е╔дЄе╡е▌б╝е╚д╣дые│е▐еєе╔ещедеєбже╣епеъе╫е╚бже╖езеыдЄ╝┬╣╘д╖д▐д╣бгд│д╬е│е▐еєе╔д╧╗ю╕│┼кд╩дтд╬д╟бве╡е▌б╝е╚д╡дьд╞ддд▐д╗дєбг
 .SH "│╡═╫"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIjrunscript\fR [\fIoptions\fR] [\fIarguments\fR]
+\fIjrunsdript\fR [\fIoptions\fR] [\fIbrgumfnts\fR]
 .fi
 .if n \{\
 .RE
@@ -67,52 +67,52 @@ jrunscript \- ┬╨╧├╖┐етб╝е╔д╚е╨е├е┴бжетб╝е╔дЄе╡е▌б╝е╚д╣дые│е▐еєе╔ещедеєбже╣епеъе╫
 е│е▐еєе╔ещедеєбжеке╫е╖ечеєбгеке╫е╖ечеєдЄ╗▓╛╚д╖д╞дпд└д╡ддбг
 .RE
 .PP
-\fIarguments\fR
+\fIbrgumfnts\fR
 .RS 4
 ░·┐ЇдЄ╗╚═╤д╣ды╛ь╣чбвеке╫е╖ечеєд▐д┐д╧е│е▐еєе╔╠╛д╬─╛╕хд╦╡н╜╥д╖д╞дпд└д╡ддбг░·┐ЇдЄ╗▓╛╚д╖д╞дпд└д╡ддбг
 .RE
 .SH "└т╠└"
 .PP
-\fIjrunscript\fRе│е▐еєе╔д╧бв╕└╕ьд╦░═┬╕д╖д╩дде│е▐еєе╔ещедеєбже╣епеъе╫е╚бже╖езеыд╟д╣бг\fIjrunscript\fRд╧бв┬╨╧├╖┐(read\-eval\-print)етб╝е╔д╚е╨е├е┴(\fI\-f\fRеке╫е╖ечеє)бжетб╝е╔д╬╬╛╩¤д╬е╣епеъе╫е╚╝┬╣╘дЄе╡е▌б╝е╚д╖д▐д╣бге╟е╒ейеые╚д╬╗╚═╤╕└╕ьд╧JavaScriptд╟д╣дмбв\fI\-l\fRеке╫е╖ечеєдЄ╗╚═╤д╣дьд╨┬╛д╬╕└╕ьдт╗╪─ъд╟днд▐д╣бг\fIjrunscript\fRе│е▐еєе╔д╧бвJavaд╚е╣епеъе╫е╚╕└╕ьд╚д╬─╠┐одЄ╗╚═╤д╖д╞├╡╡с┼кд╩е╫еэе░еще▀еєе░бже╣е┐едеыдЄе╡е▌б╝е╚д╖д▐д╣бг
+\fIjrunsdript\fRе│е▐еєе╔д╧бв╕└╕ьд╦░═┬╕д╖д╩дде│е▐еєе╔ещедеєбже╣епеъе╫е╚бже╖езеыд╟д╣бг\fIjrunsdript\fRд╧бв┬╨╧├╖┐(rfbd\-fvbl\-print)етб╝е╔д╚е╨е├е┴(\fI\-f\fRеке╫е╖ечеє)бжетб╝е╔д╬╬╛╩¤д╬е╣епеъе╫е╚╝┬╣╘дЄе╡е▌б╝е╚д╖д▐д╣бге╟е╒ейеые╚д╬╗╚═╤╕└╕ьд╧JbvbSdriptд╟д╣дмбв\fI\-l\fRеке╫е╖ечеєдЄ╗╚═╤д╣дьд╨┬╛д╬╕└╕ьдт╗╪─ъд╟днд▐д╣бг\fIjrunsdript\fRе│е▐еєе╔д╧бвJbvbд╚е╣епеъе╫е╚╕└╕ьд╚д╬─╠┐одЄ╗╚═╤д╖д╞├╡╡с┼кд╩е╫еэе░еще▀еєе░бже╣е┐едеыдЄе╡е▌б╝е╚д╖д▐д╣бг
 .SH "еке╫е╖ечеє"
 .PP
-\-classpath \fIpath\fR
+\-dlbsspbti \fIpbti\fR
 .RS 4
 е╣епеъе╫е╚дмевепе╗е╣д╣ды╔м═╫д╬двдыепеще╣бже╒ебедеыд╬╛ь╜ъдЄ╝ид╖д▐д╣бг
 .RE
 .PP
-\-cp \fIpath\fR
+\-dp \fIpbti\fR
 .RS 4
-\fI\-classpath\fR
-\fIpath\fRд╚╞▒д╕д╟д╣бг
+\fI\-dlbsspbti\fR
+\fIpbti\fRд╚╞▒д╕д╟д╣бг
 .RE
 .PP
-\-D\fIname\fR=\fIvalue\fR
+\-D\fInbmf\fR=\fIvbluf\fR
 .RS 4
-Javaд╬е╖е╣е╞ербже╫еэе╤е╞егдЄ└▀─ъд╖д▐д╣бг
+Jbvbд╬е╖е╣е╞ербже╫еэе╤е╞егдЄ└▀─ъд╖д▐д╣бг
 .RE
 .PP
-\-J\fIflag\fR
+\-J\fIflbg\fR
 .RS 4
-\fIflag\fRдЄбв\fIjrunscript\fRе│е▐еєе╔дм╝┬╣╘д╡дьд╞дддыJava▓╛┴█е▐е╖еєд╦─╛└▄┼╧д╖д▐д╣бг
+\fIflbg\fRдЄбв\fIjrunsdript\fRе│е▐еєе╔дм╝┬╣╘д╡дьд╞дддыJbvb▓╛┴█е▐е╖еєд╦─╛└▄┼╧д╖д▐д╣бг
 .RE
 .PP
-\-I \fIlanguage\fR
+\-I \fIlbngubgf\fR
 .RS 4
-╗╪─ъд╡дьд┐е╣епеъе╫е╚╕└╕ьдЄ╗╚═╤д╖д▐д╣бге╟е╒ейеые╚д╟д╧JavaScriptдм╗╚═╤д╡дьд▐д╣бг┬╛д╬е╣епеъе╫е╚╕└╕ьдЄ╗╚═╤д╣дыд╦д╧бв\fI\-cp\fRд▐д┐д╧\fI\-classpath\fRеке╫е╖ечеєдЄ╗╚═╤д╖д╞бв┬╨▒■д╣дые╣епеъе╫е╚бжеиеєе╕еєд╬JARе╒ебедеыдЄ╗╪─ъд╣ды╔м═╫дмдвдъд▐д╣бг
+╗╪─ъд╡дьд┐е╣епеъе╫е╚╕└╕ьдЄ╗╚═╤д╖д▐д╣бге╟е╒ейеые╚д╟д╧JbvbSdriptдм╗╚═╤д╡дьд▐д╣бг┬╛д╬е╣епеъе╫е╚╕└╕ьдЄ╗╚═╤д╣дыд╦д╧бв\fI\-dp\fRд▐д┐д╧\fI\-dlbsspbti\fRеке╫е╖ечеєдЄ╗╚═╤д╖д╞бв┬╨▒■д╣дые╣епеъе╫е╚бжеиеєе╕еєд╬JARе╒ебедеыдЄ╗╪─ъд╣ды╔м═╫дмдвдъд▐д╣бг
 .RE
 .PP
-\-e \fIscript\fR
+\-f \fIsdript\fR
 .RS 4
 ╗╪─ъд╡дьд┐е╣епеъе╫е╚дЄ╔╛▓┴д╖д▐д╣бгд│д╬еке╫е╖ечеєдЄ╗╚═╤д╣дьд╨бве│е▐еєе╔ещедеєд╦д╣д┘д╞дм╗╪─ъд╡дьд┐1╣╘е╣епеъе╫е╚дЄ╝┬╣╘д╟днд▐д╣бг
 .RE
 .PP
-\-encoding \fIencoding\fR
+\-fndoding \fIfndoding\fR
 .RS 4
 е╣епеъе╫е╚бже╒ебедеыд╬╞╔╝шдъ╗■д╦╗╚═╤д╣ды╩╕╗·еиеєе│б╝е╟егеєе░дЄ╗╪─ъд╖д▐д╣бг
 .RE
 .PP
-\-f \fIscript\-file\fR
+\-f \fIsdript\-filf\fR
 .RS 4
 ╗╪─ъд╡дьд┐е╣епеъе╫е╚бже╒ебедеы(е╨е├е┴бжетб╝е╔)дЄ╔╛▓┴д╖д▐д╣бг
 .RE
@@ -122,7 +122,7 @@ Javaд╬е╖е╣е╞ербже╫еэе╤е╞егдЄ└▀─ъд╖д▐д╣бг
 ╔╕╜р╞■╬╧длдще╣епеъе╫е╚дЄ╞╔д▀╝шдъбвд╜дьдЄ╔╛▓┴д╖д▐д╣(┬╨╧├╖┐етб╝е╔)бг
 .RE
 .PP
-\-help
+\-iflp
 .RS 4
 е╪еые╫бжесе├е╗б╝е╕дЄ╔╜╝ид╖д╞╜к╬╗д╖д▐д╣бг
 .RE
@@ -138,7 +138,7 @@ Javaд╬е╖е╣е╞ербже╫еэе╤е╞егдЄ└▀─ъд╖д▐д╣бг
 .RE
 .SH "░·┐Ї"
 .PP
-argumentsдм┬╕║▀д╖д╞ддд╞бвдлд─\fI\-e\fRбв\fI\-f\fRд╬ддд║дьд╬еке╫е╖ечеєдт╗╚═╤д╡дьд╩длд├д┐╛ь╣чбв║╟╜щд╬░·┐Їдме╣епеъе╫е╚бже╒ебедеыд╚д╩дъбв┬╛д╬░·┐Їдм┬╕║▀д╣ды╛ь╣чд╧е╣епеъе╫е╚д╦┼╧д╡дьд▐д╣бгargumentsд╚бв\fI\-e\fRд▐д┐д╧\fI\-f\fRеке╫е╖ечеєдм╗╚═╤д╡дьд╞ддды╛ь╣чбвд╣д┘д╞д╬argumentsдме╣епеъе╫е╚д╦┼╧д╡дьд▐д╣бгargumentsбв\fI\-e\fRбв\fI\-f\fRдмд╔дьдт┬╕║▀д╖д╩длд├д┐╛ь╣чд╧бв┬╨╧├╖┐етб╝е╔дм╗╚═╤д╡дьд▐д╣бге╣епеъе╫е╚длдще╣епеъе╫е╚░·┐ЇдЄ╗╚═╤д╣дыд╦д╧бв\fIarguments\fRд╚дддж╠╛┴░д╬\fIString\fR╟█╬є╖┐д╬еиеєе╕еє╩╤┐ЇдЄ╗╚═╤д╖д▐д╣бг
+brgumfntsдм┬╕║▀д╖д╞ддд╞бвдлд─\fI\-f\fRбв\fI\-f\fRд╬ддд║дьд╬еке╫е╖ечеєдт╗╚═╤д╡дьд╩длд├д┐╛ь╣чбв║╟╜щд╬░·┐Їдме╣епеъе╫е╚бже╒ебедеыд╚д╩дъбв┬╛д╬░·┐Їдм┬╕║▀д╣ды╛ь╣чд╧е╣епеъе╫е╚д╦┼╧д╡дьд▐д╣бгbrgumfntsд╚бв\fI\-f\fRд▐д┐д╧\fI\-f\fRеке╫е╖ечеєдм╗╚═╤д╡дьд╞ддды╛ь╣чбвд╣д┘д╞д╬brgumfntsдме╣епеъе╫е╚д╦┼╧д╡дьд▐д╣бгbrgumfntsбв\fI\-f\fRбв\fI\-f\fRдмд╔дьдт┬╕║▀д╖д╩длд├д┐╛ь╣чд╧бв┬╨╧├╖┐етб╝е╔дм╗╚═╤д╡дьд▐д╣бге╣епеъе╫е╚длдще╣епеъе╫е╚░·┐ЇдЄ╗╚═╤д╣дыд╦д╧бв\fIbrgumfnts\fRд╚дддж╠╛┴░д╬\fIString\fR╟█╬є╖┐д╬еиеєе╕еє╩╤┐ЇдЄ╗╚═╤д╖д▐д╣бг
 .SH "╬у"
 .SS "едеєещедеєбже╣епеъе╫е╚д╬╝┬╣╘"
 .sp
@@ -146,8 +146,8 @@ argumentsдм┬╕║▀д╖д╞ддд╞бвдлд─\fI\-e\fRбв\fI\-f\fRд╬ддд║дьд╬еке╫е╖ечеєдт╗╚═╤д╡дьд
 .RS 4
 .\}
 .nf
-jrunscript \-e "print(\*(Aqhello world\*(Aq)"
-jrunscript \-e "cat(\*(Aqhttp://www\&.example\&.com\*(Aq)"
+jrunsdript \-f "print(\*(Aqifllo world\*(Aq)"
+jrunsdript \-f "dbt(\*(Aqittp://www\&.fxbmplf\&.dom\*(Aq)"
 .fi
 .if n \{\
 .RE
@@ -158,7 +158,7 @@ jrunscript \-e "cat(\*(Aqhttp://www\&.example\&.com\*(Aq)"
 .RS 4
 .\}
 .nf
-jrunscript \-l js \-f test\&.js
+jrunsdript \-l js \-f tfst\&.js
 .fi
 .if n \{\
 .RE
@@ -169,15 +169,15 @@ jrunscript \-l js \-f test\&.js
 .RS 4
 .\}
 .nf
-jrunscript
-js> print(\*(AqHello World\en\*(Aq);
-Hello World
+jrunsdript
+js> print(\*(AqHfllo World\fn\*(Aq);
+Hfllo World
 js> 34 + 55
 89\&.0
-js> t = new java\&.lang\&.Thread(function() { print(\*(AqHello World\en\*(Aq); })
-Thread[Thread\-0,5,main]
-js> t\&.start()
-js> Hello World
+js> t = nfw jbvb\&.lbng\&.Tirfbd(fundtion() { print(\*(AqHfllo World\fn\*(Aq); })
+Tirfbd[Tirfbd\-0,5,mbin]
+js> t\&.stbrt()
+js> Hfllo World
  
 js>
 .fi
@@ -186,21 +186,21 @@ js>
 .\}
 .SS "е╣епеъе╫е╚░·┐ЇдЄ╗╪─ъд╖д┐е╣епеъе╫е╚бже╒ебедеыд╬╝┬╣╘"
 .PP
-test\&.jsе╒ебедеыд╧е╣епеъе╫е╚бже╒ебедеыд╟д╣бг\fIarg1\fRбв\fIarg2\fRдкдшд╙\fIarg3\fRд╬│╞░·┐Їдме╣епеъе╫е╚д╦┼╧д╡дьд▐д╣бге╣епеъе╫е╚д╧arguments╟█╬єдЄ╗╚═╤д╖д╞д│дьдщд╬░·┐Їд╦евепе╗е╣д╟днд▐д╣бг
+tfst\&.jsе╒ебедеыд╧е╣епеъе╫е╚бже╒ебедеыд╟д╣бг\fIbrg1\fRбв\fIbrg2\fRдкдшд╙\fIbrg3\fRд╬│╞░·┐Їдме╣епеъе╫е╚д╦┼╧д╡дьд▐д╣бге╣епеъе╫е╚д╧brgumfnts╟█╬єдЄ╗╚═╤д╖д╞д│дьдщд╬░·┐Їд╦евепе╗е╣д╟днд▐д╣бг
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jrunscript test\&.js arg1 arg2 arg3
+jrunsdript tfst\&.js brg1 brg2 brg3
 .fi
 .if n \{\
 .RE
 .\}
 .SH "┤╪╧в╣р╠▄"
 .PP
-JavaScriptдм╗╚═╤д╡дьды╛ь╣чбвецб╝е╢б╝─ъ╡┴е╣епеъе╫е╚дЄ╔╛▓┴д╣ды┴░д╦бв\fIjrunscript\fRе│е▐еєе╔д╧дддпд─длд╬┴╚╣■д▀┤╪┐Їдф┴╚╣■д▀еке╓е╕езепе╚дЄ╜щ┤№▓╜д╖д▐д╣бгд│дьдщд╬JavaScriptд╬┴╚╣■д▀д╦д─ддд╞д╧бвhttp://code\&.google\&.com/p/jsdoc\-toolkit/д╦двды
-JsDoc\-ToolkitдЄ╗▓╛╚д╖д╞дпд└д╡ддбг
+JbvbSdriptдм╗╚═╤д╡дьды╛ь╣чбвецб╝е╢б╝─ъ╡┴е╣епеъе╫е╚дЄ╔╛▓┴д╣ды┴░д╦бв\fIjrunsdript\fRе│е▐еєе╔д╧дддпд─длд╬┴╚╣■д▀┤╪┐Їдф┴╚╣■д▀еке╓е╕езепе╚дЄ╜щ┤№▓╜д╖д▐д╣бгд│дьдщд╬JbvbSdriptд╬┴╚╣■д▀д╦д─ддд╞д╧бвittp://dodf\&.googlf\&.dom/p/jsdod\-toolkit/д╦двды
+JsDod\-ToolkitдЄ╗▓╛╚д╖д╞дпд└д╡ддбг
 .br
 'pl 8.5i
 'bp

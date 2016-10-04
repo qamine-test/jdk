@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * Extfnds thf multi-linf plbin tfxt vifw to bf suitbblf
+ * for b singlf-linf fditor vifw.  If thf vifw is
+ * bllodbtfd fxtrb spbdf, thf fifld must bdjust for it.
+ * If thf hosting domponfnt is b JTfxtFifld, this vifw
+ * will mbnbgf thf rbngfs of thf bssodibtfd BoundfdRbngfModfl
+ * bnd will bdjust thf horizontbl bllodbtion to mbtdh thf
+ * durrfnt visibility sfttings of thf JTfxtFifld.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff     Vifw
+ */
+publid dlbss FifldVifw fxtfnds PlbinVifw {
+
+    /**
+     * Construdts b nfw FifldVifw wrbppfd on bn flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt
+     */
+    publid FifldVifw(Elfmfnt flfm) {
+        supfr(flfm);
+    }
+
+    /**
+     * Fftdhfs thf font mftrids bssodibtfd with thf domponfnt hosting
+     * this vifw.
+     *
+     * @rfturn thf mftrids
+     */
+    protfdtfd FontMftrids gftFontMftrids() {
+        Componfnt d = gftContbinfr();
+        rfturn d.gftFontMftrids(d.gftFont());
+    }
+
+    /**
+     * Adjusts thf bllodbtion givfn to thf vifw
+     * to bf b suitbblf bllodbtion for b tfxt fifld.
+     * If thf vifw hbs bffn bllodbtfd morf thbn thf
+     * prfffrrfd spbn vfrtidblly, thf bllodbtion is
+     * dhbngfd to bf dfntfrfd vfrtidblly.  Horizontblly
+     * thf vifw is bdjustfd bddording to thf horizontbl
+     * blignmfnt propfrty sft on thf bssodibtfd JTfxtFifld
+     * (if thbt is thf typf of thf hosting domponfnt).
+     *
+     * @pbrbm b thf bllodbtion givfn to thf vifw, whidh mby nffd
+     *  to bf bdjustfd.
+     * @rfturn thf bllodbtion thbt thf supfrdlbss should usf.
+     */
+    protfdtfd Shbpf bdjustAllodbtion(Shbpf b) {
+        if (b != null) {
+            Rfdtbnglf bounds = b.gftBounds();
+            int vspbn = (int) gftPrfffrrfdSpbn(Y_AXIS);
+            int hspbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            if (bounds.hfight != vspbn) {
+                int slop = bounds.hfight - vspbn;
+                bounds.y += slop / 2;
+                bounds.hfight -= slop;
+            }
+
+            // horizontbl bdjustmfnts
+            Componfnt d = gftContbinfr();
+            if (d instbndfof JTfxtFifld) {
+                JTfxtFifld fifld = (JTfxtFifld) d;
+                BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+                int mbx = Mbth.mbx(hspbn, bounds.width);
+                int vbluf = vis.gftVbluf();
+                int fxtfnt = Mbth.min(mbx, bounds.width - 1);
+                if ((vbluf + fxtfnt) > mbx) {
+                    vbluf = mbx - fxtfnt;
+                }
+                vis.sftRbngfPropfrtifs(vbluf, fxtfnt, vis.gftMinimum(),
+                                       mbx, fblsf);
+                if (hspbn < bounds.width) {
+                    // horizontblly blign thf intfrior
+                    int slop = bounds.width - 1 - hspbn;
+
+                    int blign = ((JTfxtFifld)d).gftHorizontblAlignmfnt();
+                    if(Utilitifs.isLfftToRight(d)) {
+                        if(blign==LEADING) {
+                            blign = LEFT;
+                        }
+                        flsf if(blign==TRAILING) {
+                            blign = RIGHT;
+                        }
+                    }
+                    flsf {
+                        if(blign==LEADING) {
+                            blign = RIGHT;
+                        }
+                        flsf if(blign==TRAILING) {
+                            blign = LEFT;
+                        }
+                    }
+
+                    switdh (blign) {
+                    dbsf SwingConstbnts.CENTER:
+                        bounds.x += slop / 2;
+                        bounds.width -= slop;
+                        brfbk;
+                    dbsf SwingConstbnts.RIGHT:
+                        bounds.x += slop;
+                        bounds.width -= slop;
+                        brfbk;
+                    }
+                } flsf {
+                    // bdjust thf bllodbtion to mbtdh thf boundfd rbngf.
+                    bounds.width = hspbn;
+                    bounds.x -= vis.gftVbluf();
+                }
+            }
+            rfturn bounds;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Updbtf thf visibility modfl with thf bssodibtfd JTfxtFifld
+     * (if thfrf is onf) to rfflfdt thf durrfnt visibility bs b
+     * rfsult of dhbngfs to thf dodumfnt modfl.  Thf boundfd
+     * rbngf propfrtifs brf updbtfd.  If thf vifw hbsn't yft bffn
+     * shown thf fxtfnt will bf zfro bnd wf just sft it to bf full
+     * until dftfrminfd othfrwisf.
+     */
+    void updbtfVisibilityModfl() {
+        Componfnt d = gftContbinfr();
+        if (d instbndfof JTfxtFifld) {
+            JTfxtFifld fifld = (JTfxtFifld) d;
+            BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+            int hspbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+            int fxtfnt = vis.gftExtfnt();
+            int mbximum = Mbth.mbx(hspbn, fxtfnt);
+            fxtfnt = (fxtfnt == 0) ? mbximum : fxtfnt;
+            int vbluf = mbximum - fxtfnt;
+            int oldVbluf = vis.gftVbluf();
+            if ((oldVbluf + fxtfnt) > mbximum) {
+                oldVbluf = mbximum - fxtfnt;
+            }
+            vbluf = Mbth.mbx(0, Mbth.min(vbluf, oldVbluf));
+            vis.sftRbngfPropfrtifs(vbluf, fxtfnt, 0, mbximum, fblsf);
+        }
+    }
+
+    // --- Vifw mfthods -------------------------------------------
+
+    /**
+     * Rfndfrs using thf givfn rfndfring surfbdf bnd brfb on thbt surfbdf.
+     * Thf vifw mby nffd to do lbyout bnd drfbtf dhild vifws to fnbblf
+     * itsflf to rfndfr into thf givfn bllodbtion.
+     *
+     * @pbrbm g thf rfndfring surfbdf to usf
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     *
+     * @sff Vifw#pbint
+     */
+    publid void pbint(Grbphids g, Shbpf b) {
+        Rfdtbnglf r = (Rfdtbnglf) b;
+        g.dlipRfdt(r.x, r.y, r.width, r.hfight);
+        supfr.pbint(g, b);
+    }
+
+    /**
+     * Adjusts <dodf>b</dodf> bbsfd on thf visiblf rfgion bnd rfturns it.
+     */
+    Shbpf bdjustPbintRfgion(Shbpf b) {
+        rfturn bdjustAllodbtion(b);
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd spbn for this vifw blong bn
+     * bxis.
+     *
+     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   thf spbn thf vifw would likf to bf rfndfrfd into &gt;= 0.
+     *           Typidblly thf vifw is told to rfndfr into thf spbn
+     *           thbt is rfturnfd, blthough thfrf is no gubrbntff.
+     *           Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+     */
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        switdh (bxis) {
+        dbsf Vifw.X_AXIS:
+            Sfgmfnt buff = SfgmfntCbdhf.gftShbrfdSfgmfnt();
+            Dodumfnt dod = gftDodumfnt();
+            int width;
+            try {
+                FontMftrids fm = gftFontMftrids();
+                dod.gftTfxt(0, dod.gftLfngth(), buff);
+                width = Utilitifs.gftTbbbfdTfxtWidth(buff, fm, 0, this, 0);
+                if (buff.dount > 0) {
+                    Componfnt d = gftContbinfr();
+                    firstLinfOffsft = sun.swing.SwingUtilitifs2.
+                        gftLfftSidfBfbring((d instbndfof JComponfnt) ?
+                                           (JComponfnt)d : null, fm,
+                                           buff.brrby[buff.offsft]);
+                    firstLinfOffsft = Mbth.mbx(0, -firstLinfOffsft);
+                }
+                flsf {
+                    firstLinfOffsft = 0;
+                }
+            } dbtdh (BbdLodbtionExdfption bl) {
+                width = 0;
+            }
+            SfgmfntCbdhf.rflfbsfShbrfdSfgmfnt(buff);
+            rfturn width + firstLinfOffsft;
+        dffbult:
+            rfturn supfr.gftPrfffrrfdSpbn(bxis);
+        }
+    }
+
+    /**
+     * Dftfrminfs thf rfsizbbility of thf vifw blong thf
+     * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
+     *
+     * @pbrbm bxis Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn thf wfight -&gt; 1 for Vifw.X_AXIS, flsf 0
+     */
+    publid int gftRfsizfWfight(int bxis) {
+        if (bxis == Vifw.X_AXIS) {
+            rfturn 1;
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Providfs b mbpping from thf dodumfnt modfl doordinbtf spbdf
+     * to thf doordinbtf spbdf of thf vifw mbppfd to it.
+     *
+     * @pbrbm pos thf position to donvfrt &gt;= 0
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @rfturn thf bounding box of thf givfn position
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
+     */
+    publid Shbpf modflToVifw(int pos, Shbpf b, Position.Bibs b) throws BbdLodbtionExdfption {
+        rfturn supfr.modflToVifw(pos, bdjustAllodbtion(b), b);
+    }
+
+    /**
+     * Providfs b mbpping from thf vifw doordinbtf spbdf to thf logidbl
+     * doordinbtf spbdf of thf modfl.
+     *
+     * @pbrbm fx thf X doordinbtf &gt;= 0.0f
+     * @pbrbm fy thf Y doordinbtf &gt;= 0.0f
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf
+     *  givfn point in thf vifw
+     * @sff Vifw#vifwToModfl
+     */
+    publid int vifwToModfl(flobt fx, flobt fy, Shbpf b, Position.Bibs[] bibs) {
+        rfturn supfr.vifwToModfl(fx, fy, bdjustAllodbtion(b), bibs);
+    }
+
+    /**
+     * Givfs notifidbtion thbt somfthing wbs insfrtfd into thf dodumfnt
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     *
+     * @pbrbm dhbngfs thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#insfrtUpdbtf
+     */
+    publid void insfrtUpdbtf(DodumfntEvfnt dhbngfs, Shbpf b, VifwFbdtory f) {
+        supfr.insfrtUpdbtf(dhbngfs, bdjustAllodbtion(b), f);
+        updbtfVisibilityModfl();
+    }
+
+    /**
+     * Givfs notifidbtion thbt somfthing wbs rfmovfd from thf dodumfnt
+     * in b lodbtion thbt this vifw is rfsponsiblf for.
+     *
+     * @pbrbm dhbngfs thf dhbngf informbtion from thf bssodibtfd dodumfnt
+     * @pbrbm b thf durrfnt bllodbtion of thf vifw
+     * @pbrbm f thf fbdtory to usf to rfbuild if thf vifw hbs dhildrfn
+     * @sff Vifw#rfmovfUpdbtf
+     */
+    publid void rfmovfUpdbtf(DodumfntEvfnt dhbngfs, Shbpf b, VifwFbdtory f) {
+        supfr.rfmovfUpdbtf(dhbngfs, bdjustAllodbtion(b), f);
+        updbtfVisibilityModfl();
+    }
+
+}

@@ -1,905 +1,905 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windowsx.h>
+#indludf <windowsx.i>
 
-#include "awt_Toolkit.h"
-#include "awt_Choice.h"
-#include "awt_Canvas.h"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_Cioidf.i"
+#indludf "bwt_Cbnvbs.i"
 
-#include "awt_Dimension.h"
-#include "awt_Container.h"
+#indludf "bwt_Dimfnsion.i"
+#indludf "bwt_Contbinfr.i"
 
-#include "ComCtl32Util.h"
+#indludf "ComCtl32Util.i"
 
-#include <java_awt_Toolkit.h>
-#include <java_awt_FontMetrics.h>
-#include <java_awt_event_InputEvent.h>
+#indludf <jbvb_bwt_Toolkit.i>
+#indludf <jbvb_bwt_FontMftrids.i>
+#indludf <jbvb_bwt_fvfnt_InputEvfnt.i>
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rfbd tif README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
  */
 
 /************************************************************************/
-// Struct for _Reshape() method
-struct ReshapeStruct {
-    jobject choice;
+// Strudt for _Rfsibpf() mftiod
+strudt RfsibpfStrudt {
+    jobjfdt dioidf;
     jint x, y;
-    jint width, height;
+    jint widti, ifigit;
 };
-// Struct for _Select() method
-struct SelectStruct {
-    jobject choice;
-    jint index;
+// Strudt for _Sflfdt() mftiod
+strudt SflfdtStrudt {
+    jobjfdt dioidf;
+    jint indfx;
 };
-// Struct for _AddItems() method
-struct AddItemsStruct {
-    jobject choice;
-    jobjectArray items;
-    jint index;
+// Strudt for _AddItfms() mftiod
+strudt AddItfmsStrudt {
+    jobjfdt dioidf;
+    jobjfdtArrby itfms;
+    jint indfx;
 };
-// Struct for _Remove() method
-struct RemoveStruct {
-    jobject choice;
-    jint index;
+// Strudt for _Rfmovf() mftiod
+strudt RfmovfStrudt {
+    jobjfdt dioidf;
+    jint indfx;
 };
 
 /************************************************************************/
 
-/* Bug #4509045: set if SetDragCapture captured mouse */
+/* Bug #4509045: sft if SftDrbgCbpturf dbpturfd mousf */
 
-BOOL AwtChoice::mouseCapture = FALSE;
+BOOL AwtCioidf::mousfCbpturf = FALSE;
 
-/* Bug #4338368: consume the spurious MouseUp when the choice loses focus */
+/* Bug #4338368: donsumf tif spurious MousfUp wifn tif dioidf losfs fodus */
 
-BOOL AwtChoice::skipNextMouseUp = FALSE;
+BOOL AwtCioidf::skipNfxtMousfUp = FALSE;
 
-BOOL AwtChoice::sm_isMouseMoveInList = FALSE;
+BOOL AwtCioidf::sm_isMousfMovfInList = FALSE;
 
-static const UINT MINIMUM_NUMBER_OF_VISIBLE_ITEMS = 8;
+stbtid donst UINT MINIMUM_NUMBER_OF_VISIBLE_ITEMS = 8;
 
-namespace {
-    jfieldID selectedIndexID;
+nbmfspbdf {
+    jfifldID sflfdtfdIndfxID;
 }
 
 /*************************************************************************
- * AwtChoice class methods
+ * AwtCioidf dlbss mftiods
  */
 
-AwtChoice::AwtChoice() {
-    m_hList = NULL;
-    m_listDefWindowProc = NULL;
+AwtCioidf::AwtCioidf() {
+    m_iList = NULL;
+    m_listDffWindowProd = NULL;
 }
 
-LPCTSTR AwtChoice::GetClassName() {
-    return TEXT("COMBOBOX");  /* System provided combobox class */
+LPCTSTR AwtCioidf::GftClbssNbmf() {
+    rfturn TEXT("COMBOBOX");  /* Systfm providfd dombobox dlbss */
 }
 
-void AwtChoice::Dispose() {
-    if (m_hList != NULL && m_listDefWindowProc != NULL) {
-        ComCtl32Util::GetInstance().UnsubclassHWND(m_hList, ListWindowProc, m_listDefWindowProc);
+void AwtCioidf::Disposf() {
+    if (m_iList != NULL && m_listDffWindowProd != NULL) {
+        ComCtl32Util::GftInstbndf().UnsubdlbssHWND(m_iList, ListWindowProd, m_listDffWindowProd);
     }
-    AwtComponent::Dispose();
+    AwtComponfnt::Disposf();
 }
 
-AwtChoice* AwtChoice::Create(jobject peer, jobject parent) {
+AwtCioidf* AwtCioidf::Crfbtf(jobjfdt pffr, jobjfdt pbrfnt) {
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject target = NULL;
-    AwtChoice* c = NULL;
-    RECT rc;
+    jobjfdt tbrgft = NULL;
+    AwtCioidf* d = NULL;
+    RECT rd;
 
     try {
-        if (env->EnsureLocalCapacity(1) < 0) {
-            return NULL;
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
         }
-        AwtCanvas* awtParent;
+        AwtCbnvbs* bwtPbrfnt;
 
-        JNI_CHECK_NULL_GOTO(parent, "null parent", done);
+        JNI_CHECK_NULL_GOTO(pbrfnt, "null pbrfnt", donf);
 
-        awtParent = (AwtCanvas*)JNI_GET_PDATA(parent);
-        JNI_CHECK_NULL_GOTO(awtParent, "null awtParent", done);
+        bwtPbrfnt = (AwtCbnvbs*)JNI_GET_PDATA(pbrfnt);
+        JNI_CHECK_NULL_GOTO(bwtPbrfnt, "null bwtPbrfnt", donf);
 
-        target = env->GetObjectField(peer, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "null target", done);
+        tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
 
-        c = new AwtChoice();
+        d = nfw AwtCioidf();
 
         {
-            DWORD style = WS_CHILD | WS_CLIPSIBLINGS | WS_VSCROLL |
+            DWORD stylf = WS_CHILD | WS_CLIPSIBLINGS | WS_VSCROLL |
                           CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED;
-            DWORD exStyle = 0;
-            if (GetRTL()) {
-                exStyle |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
-                if (GetRTLReadingOrder())
-                    exStyle |= WS_EX_RTLREADING;
+            DWORD fxStylf = 0;
+            if (GftRTL()) {
+                fxStylf |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
+                if (GftRTLRfbdingOrdfr())
+                    fxStylf |= WS_EX_RTLREADING;
             }
 
             /*
-             * In OWNER_DRAW, the size of the edit control part of the
-             * choice must be determinded in its creation, when the parent
-             * cannot get the choice's instance from its handle.  So
-             * record the pair of the ID and the instance of the choice.
+             * In OWNER_DRAW, tif sizf of tif fdit dontrol pbrt of tif
+             * dioidf must bf dftfrmindfd in its drfbtion, wifn tif pbrfnt
+             * dbnnot gft tif dioidf's instbndf from its ibndlf.  So
+             * rfdord tif pbir of tif ID bnd tif instbndf of tif dioidf.
              */
-            UINT myId = awtParent->CreateControlID();
+            UINT myId = bwtPbrfnt->CrfbtfControlID();
             DASSERT(myId > 0);
-            c->m_myControlID = myId;
-            awtParent->PushChild(myId, c);
+            d->m_myControlID = myId;
+            bwtPbrfnt->PusiCiild(myId, d);
 
-            jint x = env->GetIntField(target, AwtComponent::xID);
-            jint y = env->GetIntField(target, AwtComponent::yID);
-            jint width = env->GetIntField(target, AwtComponent::widthID);
-            jint height = env->GetIntField(target, AwtComponent::heightID);
+            jint x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+            jint y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+            jint widti = fnv->GftIntFifld(tbrgft, AwtComponfnt::widtiID);
+            jint ifigit = fnv->GftIntFifld(tbrgft, AwtComponfnt::ifigitID);
 
-            jobject dimension = JNU_CallMethodByName(env, NULL, peer,
-                                                     "preferredSize",
-                                                     "()Ljava/awt/Dimension;").l;
-            DASSERT(!safe_ExceptionOccurred(env));
-            if (env->ExceptionCheck()) goto done;
+            jobjfdt dimfnsion = JNU_CbllMftiodByNbmf(fnv, NULL, pffr,
+                                                     "prfffrrfdSizf",
+                                                     "()Ljbvb/bwt/Dimfnsion;").l;
+            DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+            if (fnv->ExdfptionCifdk()) goto donf;
 
-            if (dimension != NULL && width == 0) {
-                width = env->GetIntField(dimension, AwtDimension::widthID);
+            if (dimfnsion != NULL && widti == 0) {
+                widti = fnv->GftIntFifld(dimfnsion, AwtDimfnsion::widtiID);
             }
-            c->CreateHWnd(env, L"", style, exStyle,
-                          x, y, width, height,
-                          awtParent->GetHWnd(),
-                          reinterpret_cast<HMENU>(static_cast<INT_PTR>(myId)),
-                          ::GetSysColor(COLOR_WINDOWTEXT),
-                          ::GetSysColor(COLOR_WINDOW),
-                          peer);
+            d->CrfbtfHWnd(fnv, L"", stylf, fxStylf,
+                          x, y, widti, ifigit,
+                          bwtPbrfnt->GftHWnd(),
+                          rfintfrprft_dbst<HMENU>(stbtid_dbst<INT_PTR>(myId)),
+                          ::GftSysColor(COLOR_WINDOWTEXT),
+                          ::GftSysColor(COLOR_WINDOW),
+                          pffr);
 
-            /* suppress inheriting parent's color. */
-            c->m_backgroundColorSet = TRUE;
-            c->UpdateBackground(env, target);
+            /* supprfss inifriting pbrfnt's dolor. */
+            d->m_bbdkgroundColorSft = TRUE;
+            d->UpdbtfBbdkground(fnv, tbrgft);
 
-            /* Bug 4255631 Solaris: Size returned by Choice.getSize() does not match
-             * actual size
-             * Fix: Set the Choice to its actual size in the component.
+            /* Bug 4255631 Solbris: Sizf rfturnfd by Cioidf.gftSizf() dofs not mbtdi
+             * bdtubl sizf
+             * Fix: Sft tif Cioidf to its bdtubl sizf in tif domponfnt.
              */
-            ::GetClientRect(c->GetHWnd(), &rc);
-            env->SetIntField(target, AwtComponent::widthID,  (jint) rc.right);
-            env->SetIntField(target, AwtComponent::heightID, (jint) rc.bottom);
+            ::GftClifntRfdt(d->GftHWnd(), &rd);
+            fnv->SftIntFifld(tbrgft, AwtComponfnt::widtiID,  (jint) rd.rigit);
+            fnv->SftIntFifld(tbrgft, AwtComponfnt::ifigitID, (jint) rd.bottom);
 
             if (IS_WINXP) {
-                ::SendMessage(c->GetHWnd(), CB_SETMINVISIBLE, (WPARAM) MINIMUM_NUMBER_OF_VISIBLE_ITEMS, 0);
+                ::SfndMfssbgf(d->GftHWnd(), CB_SETMINVISIBLE, (WPARAM) MINIMUM_NUMBER_OF_VISIBLE_ITEMS, 0);
             }
 
-            env->DeleteLocalRef(dimension);
+            fnv->DflftfLodblRff(dimfnsion);
         }
-    } catch (...) {
-        env->DeleteLocalRef(target);
-        throw;
+    } dbtdi (...) {
+        fnv->DflftfLodblRff(tbrgft);
+        tirow;
     }
 
-done:
-    env->DeleteLocalRef(target);
+donf:
+    fnv->DflftfLodblRff(tbrgft);
 
-    return c;
+    rfturn d;
 }
 
-// calculate height of drop-down list part of the combobox
-// to show all the items up to a maximum of eight
-int AwtChoice::GetDropDownHeight()
+// dbldulbtf ifigit of drop-down list pbrt of tif dombobox
+// to siow bll tif itfms up to b mbximum of figit
+int AwtCioidf::GftDropDownHfigit()
 {
-    int itemHeight =(int)::SendMessage(GetHWnd(), CB_GETITEMHEIGHT, (UINT)0,0);
-    int numItemsToShow = (int)::SendMessage(GetHWnd(), CB_GETCOUNT, 0,0);
-    numItemsToShow = min(MINIMUM_NUMBER_OF_VISIBLE_ITEMS, numItemsToShow);
-    // drop-down height snaps to nearest line, so add a
-    // fudge factor of 1/2 line to ensure last line shows
-    return itemHeight*numItemsToShow + itemHeight/2;
+    int itfmHfigit =(int)::SfndMfssbgf(GftHWnd(), CB_GETITEMHEIGHT, (UINT)0,0);
+    int numItfmsToSiow = (int)::SfndMfssbgf(GftHWnd(), CB_GETCOUNT, 0,0);
+    numItfmsToSiow = min(MINIMUM_NUMBER_OF_VISIBLE_ITEMS, numItfmsToSiow);
+    // drop-down ifigit snbps to nfbrfst linf, so bdd b
+    // fudgf fbdtor of 1/2 linf to fnsurf lbst linf siows
+    rfturn itfmHfigit*numItfmsToSiow + itfmHfigit/2;
 }
 
-// get the height of the field portion of the combobox
-int AwtChoice::GetFieldHeight()
+// gft tif ifigit of tif fifld portion of tif dombobox
+int AwtCioidf::GftFifldHfigit()
 {
-    int fieldHeight;
-    int borderHeight;
-    fieldHeight =(int)::SendMessage(GetHWnd(), CB_GETITEMHEIGHT, (UINT)-1, 0);
-    // add top and bottom border lines; border size is different for
-    // Win 4.x (3d edge) vs 3.x (1 pixel line)
-    borderHeight = ::GetSystemMetrics(SM_CYEDGE);
-    fieldHeight += borderHeight*2;
-    return fieldHeight;
+    int fifldHfigit;
+    int bordfrHfigit;
+    fifldHfigit =(int)::SfndMfssbgf(GftHWnd(), CB_GETITEMHEIGHT, (UINT)-1, 0);
+    // bdd top bnd bottom bordfr linfs; bordfr sizf is difffrfnt for
+    // Win 4.x (3d fdgf) vs 3.x (1 pixfl linf)
+    bordfrHfigit = ::GftSystfmMftrids(SM_CYEDGE);
+    fifldHfigit += bordfrHfigit*2;
+    rfturn fifldHfigit;
 }
 
-// gets the total height of the combobox, including drop down
-int AwtChoice::GetTotalHeight()
+// gfts tif totbl ifigit of tif dombobox, indluding drop down
+int AwtCioidf::GftTotblHfigit()
 {
-    int dropHeight = GetDropDownHeight();
-    int fieldHeight = GetFieldHeight();
-    int totalHeight;
+    int dropHfigit = GftDropDownHfigit();
+    int fifldHfigit = GftFifldHfigit();
+    int totblHfigit;
 
-    // border on drop-down portion is always non-3d (so don't use SM_CYEDGE)
-    int borderHeight = ::GetSystemMetrics(SM_CYBORDER);
-    // total height = drop down height + field height + top+bottom drop down border lines
-    totalHeight = dropHeight + fieldHeight +borderHeight*2;
-    return totalHeight;
+    // bordfr on drop-down portion is blwbys non-3d (so don't usf SM_CYEDGE)
+    int bordfrHfigit = ::GftSystfmMftrids(SM_CYBORDER);
+    // totbl ifigit = drop down ifigit + fifld ifigit + top+bottom drop down bordfr linfs
+    totblHfigit = dropHfigit + fifldHfigit +bordfrHfigit*2;
+    rfturn totblHfigit;
 }
 
-// Recalculate and set the drop-down height for the Choice.
-void AwtChoice::ResetDropDownHeight()
+// Rfdbldulbtf bnd sft tif drop-down ifigit for tif Cioidf.
+void AwtCioidf::RfsftDropDownHfigit()
 {
-    RECT    rcWindow;
+    RECT    rdWindow;
 
-    ::GetWindowRect(GetHWnd(), &rcWindow);
-    // resize the drop down to accommodate added/removed items
-    int     totalHeight = GetTotalHeight();
-    ::SetWindowPos(GetHWnd(), NULL,
-                    0, 0, rcWindow.right - rcWindow.left, totalHeight,
+    ::GftWindowRfdt(GftHWnd(), &rdWindow);
+    // rfsizf tif drop down to bddommodbtf bddfd/rfmovfd itfms
+    int     totblHfigit = GftTotblHfigit();
+    ::SftWindowPos(GftHWnd(), NULL,
+                    0, 0, rdWindow.rigit - rdWindow.lfft, totblHfigit,
                     SWP_NOACTIVATE|SWP_NOMOVE|SWP_NOZORDER);
 }
 
-/* Fix for the bug 4327666: set the capture for middle
-   and right mouse buttons, but leave left button alone */
-void AwtChoice::SetDragCapture(UINT flags)
+/* Fix for tif bug 4327666: sft tif dbpturf for middlf
+   bnd rigit mousf buttons, but lfbvf lfft button blonf */
+void AwtCioidf::SftDrbgCbpturf(UINT flbgs)
 {
-    if ((flags & MK_LBUTTON) != 0) {
-        if ((::GetCapture() == GetHWnd()) && mouseCapture) {
-            /* On MK_LBUTTON ComboBox captures mouse itself
-               so we should release capture and clear flag to
-               prevent releasing capture by ReleaseDragCapture
+    if ((flbgs & MK_LBUTTON) != 0) {
+        if ((::GftCbpturf() == GftHWnd()) && mousfCbpturf) {
+            /* On MK_LBUTTON ComboBox dbpturfs mousf itsflf
+               so wf siould rflfbsf dbpturf bnd dlfbr flbg to
+               prfvfnt rflfbsing dbpturf by RflfbsfDrbgCbpturf
              */
-            ::ReleaseCapture();
-            mouseCapture = FALSE;
+            ::RflfbsfCbpturf();
+            mousfCbpturf = FALSE;
         }
-        return;
+        rfturn;
     }
 
-    // don't want to interfere with other controls
-    if (::GetCapture() == NULL) {
-        ::SetCapture(GetHWnd());
-        mouseCapture = TRUE;
-    }
-}
-
-/* Fix for Bug 4509045: should release capture only if it is set by SetDragCapture */
-void AwtChoice::ReleaseDragCapture(UINT flags)
-{
-    if ((::GetCapture() == GetHWnd()) && ((flags & ALL_MK_BUTTONS) == 0) && mouseCapture) {
-        ::ReleaseCapture();
-        mouseCapture = FALSE;
+    // don't wbnt to intfrffrf witi otifr dontrols
+    if (::GftCbpturf() == NULL) {
+        ::SftCbpturf(GftHWnd());
+        mousfCbpturf = TRUE;
     }
 }
 
-void AwtChoice::Reshape(int x, int y, int w, int h)
+/* Fix for Bug 4509045: siould rflfbsf dbpturf only if it is sft by SftDrbgCbpturf */
+void AwtCioidf::RflfbsfDrbgCbpturf(UINT flbgs)
 {
-    // Choice component height is fixed (when rolled up)
-    // so vertically center the choice in it's bounding box
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject target = GetTarget(env);
-    jobject parent = env->GetObjectField(target, AwtComponent::parentID);
-    RECT rc;
+    if ((::GftCbpturf() == GftHWnd()) && ((flbgs & ALL_MK_BUTTONS) == 0) && mousfCbpturf) {
+        ::RflfbsfCbpturf();
+        mousfCbpturf = FALSE;
+    }
+}
 
-    int fieldHeight = GetFieldHeight();
-    if ((parent != NULL && env->GetObjectField(parent, AwtContainer::layoutMgrID) != NULL) &&
-        fieldHeight > 0 && fieldHeight < h) {
-        y += (h - fieldHeight) / 2;
+void AwtCioidf::Rfsibpf(int x, int y, int w, int i)
+{
+    // Cioidf domponfnt ifigit is fixfd (wifn rollfd up)
+    // so vfrtidblly dfntfr tif dioidf in it's bounding box
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jobjfdt pbrfnt = fnv->GftObjfdtFifld(tbrgft, AwtComponfnt::pbrfntID);
+    RECT rd;
+
+    int fifldHfigit = GftFifldHfigit();
+    if ((pbrfnt != NULL && fnv->GftObjfdtFifld(pbrfnt, AwtContbinfr::lbyoutMgrID) != NULL) &&
+        fifldHfigit > 0 && fifldHfigit < i) {
+        y += (i - fifldHfigit) / 2;
     }
 
     /* Fix for 4783342
-     * Choice should ignore reshape on height changes,
-     * as height is dependent on Font size only.
+     * Cioidf siould ignorf rfsibpf on ifigit dibngfs,
+     * bs ifigit is dfpfndfnt on Font sizf only.
      */
-    AwtComponent* awtParent = GetParent();
-    BOOL bReshape = true;
-    if (awtParent != NULL) {
-        ::GetWindowRect(GetHWnd(), &rc);
-        int oldW = rc.right - rc.left;
-        RECT parentRc;
-        ::GetWindowRect(awtParent->GetHWnd(), &parentRc);
-        int oldX = rc.left - parentRc.left;
-        int oldY = rc.top - parentRc.top;
-        bReshape = (x != oldX || y != oldY || w != oldW);
+    AwtComponfnt* bwtPbrfnt = GftPbrfnt();
+    BOOL bRfsibpf = truf;
+    if (bwtPbrfnt != NULL) {
+        ::GftWindowRfdt(GftHWnd(), &rd);
+        int oldW = rd.rigit - rd.lfft;
+        RECT pbrfntRd;
+        ::GftWindowRfdt(bwtPbrfnt->GftHWnd(), &pbrfntRd);
+        int oldX = rd.lfft - pbrfntRd.lfft;
+        int oldY = rd.top - pbrfntRd.top;
+        bRfsibpf = (x != oldX || y != oldY || w != oldW);
     }
 
-    if (bReshape)
+    if (bRfsibpf)
     {
-        int totalHeight = GetTotalHeight();
-        AwtComponent::Reshape(x, y, w, totalHeight);
+        int totblHfigit = GftTotblHfigit();
+        AwtComponfnt::Rfsibpf(x, y, w, totblHfigit);
     }
 
-    /* Bug 4255631 Solaris: Size returned by Choice.getSize() does not match
-     * actual size
-     * Fix: Set the Choice to its actual size in the component.
+    /* Bug 4255631 Solbris: Sizf rfturnfd by Cioidf.gftSizf() dofs not mbtdi
+     * bdtubl sizf
+     * Fix: Sft tif Cioidf to its bdtubl sizf in tif domponfnt.
      */
-    ::GetClientRect(GetHWnd(), &rc);
-    env->SetIntField(target, AwtComponent::widthID,  (jint)rc.right);
-    env->SetIntField(target, AwtComponent::heightID, (jint)rc.bottom);
+    ::GftClifntRfdt(GftHWnd(), &rd);
+    fnv->SftIntFifld(tbrgft, AwtComponfnt::widtiID,  (jint)rd.rigit);
+    fnv->SftIntFifld(tbrgft, AwtComponfnt::ifigitID, (jint)rd.bottom);
 
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(parent);
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(pbrfnt);
 }
 
-jobject AwtChoice::PreferredItemSize(JNIEnv *env)
+jobjfdt AwtCioidf::PrfffrrfdItfmSizf(JNIEnv *fnv)
 {
-    jobject dimension = JNU_CallMethodByName(env, NULL, GetPeer(env),
-                                             "preferredSize",
-                                             "()Ljava/awt/Dimension;").l;
-    DASSERT(!safe_ExceptionOccurred(env));
-    CHECK_NULL_RETURN(dimension, NULL);
+    jobjfdt dimfnsion = JNU_CbllMftiodByNbmf(fnv, NULL, GftPffr(fnv),
+                                             "prfffrrfdSizf",
+                                             "()Ljbvb/bwt/Dimfnsion;").l;
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    CHECK_NULL_RETURN(dimfnsion, NULL);
 
-    /* This size is window size of choice and it's too big for each
-     * drop down item height.
+    /* Tiis sizf is window sizf of dioidf bnd it's too big for fbdi
+     * drop down itfm ifigit.
      */
-    env->SetIntField(dimension, AwtDimension::heightID,
-                       GetFontHeight(env));
-    return dimension;
+    fnv->SftIntFifld(dimfnsion, AwtDimfnsion::ifigitID,
+                       GftFontHfigit(fnv));
+    rfturn dimfnsion;
 }
 
-void AwtChoice::SetFont(AwtFont* font)
+void AwtCioidf::SftFont(AwtFont* font)
 {
-    AwtComponent::SetFont(font);
+    AwtComponfnt::SftFont(font);
 
-    //Get the text metrics and change the height of each item.
-    HDC hDC = ::GetDC(GetHWnd());
-    DASSERT(hDC != NULL);
+    //Gft tif tfxt mftrids bnd dibngf tif ifigit of fbdi itfm.
+    HDC iDC = ::GftDC(GftHWnd());
+    DASSERT(iDC != NULL);
     TEXTMETRIC tm;
 
-    HANDLE hFont = font->GetHFont();
-    VERIFY(::SelectObject(hDC, hFont) != NULL);
-    VERIFY(::GetTextMetrics(hDC, &tm));
-    long h = tm.tmHeight + tm.tmExternalLeading;
-    VERIFY(::ReleaseDC(GetHWnd(), hDC) != 0);
+    HANDLE iFont = font->GftHFont();
+    VERIFY(::SflfdtObjfdt(iDC, iFont) != NULL);
+    VERIFY(::GftTfxtMftrids(iDC, &tm));
+    long i = tm.tmHfigit + tm.tmExtfrnblLfbding;
+    VERIFY(::RflfbsfDC(GftHWnd(), iDC) != 0);
 
-    int nCount = (int)::SendMessage(GetHWnd(), CB_GETCOUNT, 0, 0);
+    int nCount = (int)::SfndMfssbgf(GftHWnd(), CB_GETCOUNT, 0, 0);
     for(int i = 0; i < nCount; ++i) {
-        VERIFY(::SendMessage(GetHWnd(), CB_SETITEMHEIGHT, i, MAKELPARAM(h, 0)) != CB_ERR);
+        VERIFY(::SfndMfssbgf(GftHWnd(), CB_SETITEMHEIGHT, i, MAKELPARAM(i, 0)) != CB_ERR);
     }
-    //Change the height of the Edit Box.
-    VERIFY(::SendMessage(GetHWnd(), CB_SETITEMHEIGHT, (UINT)-1,
-                         MAKELPARAM(h, 0)) != CB_ERR);
+    //Cibngf tif ifigit of tif Edit Box.
+    VERIFY(::SfndMfssbgf(GftHWnd(), CB_SETITEMHEIGHT, (UINT)-1,
+                         MAKELPARAM(i, 0)) != CB_ERR);
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject target = GetTarget(env);
-    jint height = env->GetIntField(target, AwtComponent::heightID);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jint ifigit = fnv->GftIntFifld(tbrgft, AwtComponfnt::ifigitID);
 
-    Reshape(env->GetIntField(target, AwtComponent::xID),
-            env->GetIntField(target, AwtComponent::yID),
-            env->GetIntField(target, AwtComponent::widthID),
-            h);
+    Rfsibpf(fnv->GftIntFifld(tbrgft, AwtComponfnt::xID),
+            fnv->GftIntFifld(tbrgft, AwtComponfnt::yID),
+            fnv->GftIntFifld(tbrgft, AwtComponfnt::widtiID),
+            i);
 
-    env->DeleteLocalRef(target);
+    fnv->DflftfLodblRff(tbrgft);
 }
 
-static int lastClickX = -1;
-static int lastClickY = -1;
+stbtid int lbstClidkX = -1;
+stbtid int lbstClidkY = -1;
 
-LRESULT CALLBACK AwtChoice::ListWindowProc(HWND hwnd, UINT message,
-                                           WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AwtCioidf::ListWindowProd(HWND iwnd, UINT mfssbgf,
+                                           WPARAM wPbrbm, LPARAM lPbrbm)
 {
     /*
-     * We don't pass the choice WM_LBUTTONDOWN message. As the result the choice's list
-     * doesn't forward mouse messages it captures. Below we do forward what we need.
+     * Wf don't pbss tif dioidf WM_LBUTTONDOWN mfssbgf. As tif rfsult tif dioidf's list
+     * dofsn't forwbrd mousf mfssbgfs it dbpturfs. Bflow wf do forwbrd wibt wf nffd.
      */
 
     TRY;
 
-    DASSERT(::IsWindow(hwnd));
+    DASSERT(::IsWindow(iwnd));
 
-    switch (message) {
-        case WM_LBUTTONDOWN: {
-            DWORD curPos = ::GetMessagePos();
-            lastClickX = GET_X_LPARAM(curPos);
-            lastClickY = GET_Y_LPARAM(curPos);
-            break;
+    switdi (mfssbgf) {
+        dbsf WM_LBUTTONDOWN: {
+            DWORD durPos = ::GftMfssbgfPos();
+            lbstClidkX = GET_X_LPARAM(durPos);
+            lbstClidkY = GET_Y_LPARAM(durPos);
+            brfbk;
         }
-        case WM_MOUSEMOVE: {
-            RECT rect;
-            ::GetClientRect(hwnd, &rect);
+        dbsf WM_MOUSEMOVE: {
+            RECT rfdt;
+            ::GftClifntRfdt(iwnd, &rfdt);
 
-            POINT pt = {GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)};
-            if (::PtInRect(&rect, pt)) {
-                sm_isMouseMoveInList = TRUE;
+            POINT pt = {GET_X_LPARAM(lPbrbm), GET_Y_LPARAM(lPbrbm)};
+            if (::PtInRfdt(&rfdt, pt)) {
+                sm_isMousfMovfInList = TRUE;
             }
 
-            POINT lastPt = {lastClickX, lastClickY};
-            ::ScreenToClient(hwnd, &lastPt);
-            if (::PtInRect(&rect, lastPt)) {
-                break; // ignore when dragging inside the list
+            POINT lbstPt = {lbstClidkX, lbstClidkY};
+            ::SdrffnToClifnt(iwnd, &lbstPt);
+            if (::PtInRfdt(&rfdt, lbstPt)) {
+                brfbk; // ignorf wifn drbgging insidf tif list
             }
         }
-        case WM_LBUTTONUP: {
-            lastClickX = -1;
-            lastClickY = -1;
+        dbsf WM_LBUTTONUP: {
+            lbstClidkX = -1;
+            lbstClidkY = -1;
 
-            AwtChoice *c = (AwtChoice *)::GetWindowLongPtr(hwnd, GWLP_USERDATA);
-            if (c != NULL) {
-                // forward the msg to the choice
-                c->WindowProc(message, wParam, lParam);
+            AwtCioidf *d = (AwtCioidf *)::GftWindowLongPtr(iwnd, GWLP_USERDATA);
+            if (d != NULL) {
+                // forwbrd tif msg to tif dioidf
+                d->WindowProd(mfssbgf, wPbrbm, lPbrbm);
             }
         }
     }
-    return ComCtl32Util::GetInstance().DefWindowProc(NULL, hwnd, message, wParam, lParam);
+    rfturn ComCtl32Util::GftInstbndf().DffWindowProd(NULL, iwnd, mfssbgf, wPbrbm, lPbrbm);
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 
-MsgRouting AwtChoice::WmNotify(UINT notifyCode)
+MsgRouting AwtCioidf::WmNotify(UINT notifyCodf)
 {
-    if (notifyCode == CBN_SELCHANGE) {
-        int selectedIndex = (int)SendMessage(CB_GETCURSEL);
+    if (notifyCodf == CBN_SELCHANGE) {
+        int sflfdtfdIndfx = (int)SfndMfssbgf(CB_GETCURSEL);
 
-        JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        jobject target = GetTarget(env);
-        int previousIndex = env->GetIntField(target, selectedIndexID);
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        jobjfdt tbrgft = GftTbrgft(fnv);
+        int prfviousIndfx = fnv->GftIntFifld(tbrgft, sflfdtfdIndfxID);
 
-        if (selectedIndex != CB_ERR && selectedIndex != previousIndex){
-            DoCallback("handleAction", "(I)V", selectedIndex);
+        if (sflfdtfdIndfx != CB_ERR && sflfdtfdIndfx != prfviousIndfx){
+            DoCbllbbdk("ibndlfAdtion", "(I)V", sflfdtfdIndfx);
         }
-    } else if (notifyCode == CBN_DROPDOWN) {
+    } flsf if (notifyCodf == CBN_DROPDOWN) {
 
-        if (m_hList == NULL) {
-            COMBOBOXINFO cbi;
-            cbi.cbSize = sizeof(COMBOBOXINFO);
-            ::GetComboBoxInfo(GetHWnd(), &cbi);
-            m_hList = cbi.hwndList;
-            m_listDefWindowProc = ComCtl32Util::GetInstance().SubclassHWND(m_hList, ListWindowProc);
-            DASSERT(::GetWindowLongPtr(m_hList, GWLP_USERDATA) == NULL);
-            ::SetWindowLongPtr(m_hList, GWLP_USERDATA, (LONG_PTR)this);
+        if (m_iList == NULL) {
+            COMBOBOXINFO dbi;
+            dbi.dbSizf = sizfof(COMBOBOXINFO);
+            ::GftComboBoxInfo(GftHWnd(), &dbi);
+            m_iList = dbi.iwndList;
+            m_listDffWindowProd = ComCtl32Util::GftInstbndf().SubdlbssHWND(m_iList, ListWindowProd);
+            DASSERT(::GftWindowLongPtr(m_iList, GWLP_USERDATA) == NULL);
+            ::SftWindowLongPtr(m_iList, GWLP_USERDATA, (LONG_PTR)tiis);
         }
-        sm_isMouseMoveInList = FALSE;
+        sm_isMousfMovfInList = FALSE;
 
-        // Clicking in the dropdown list steals focus from the proxy.
-        // So, set the focus-restore flag up.
-        SetRestoreFocus(TRUE);
-    } else if (notifyCode == CBN_CLOSEUP) {
-        SetRestoreFocus(FALSE);
+        // Clidking in tif dropdown list stfbls fodus from tif proxy.
+        // So, sft tif fodus-rfstorf flbg up.
+        SftRfstorfFodus(TRUE);
+    } flsf if (notifyCodf == CBN_CLOSEUP) {
+        SftRfstorfFodus(FALSE);
     }
-    return mrDoDefault;
+    rfturn mrDoDffbult;
 }
 
 MsgRouting
-AwtChoice::OwnerDrawItem(UINT /*ctrlId*/, DRAWITEMSTRUCT& drawInfo)
+AwtCioidf::OwnfrDrbwItfm(UINT /*dtrlId*/, DRAWITEMSTRUCT& drbwInfo)
 {
-    DrawListItem((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2), drawInfo);
-    return mrConsume;
+    DrbwListItfm((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2), drbwInfo);
+    rfturn mrConsumf;
 }
 
 MsgRouting
-AwtChoice::OwnerMeasureItem(UINT /*ctrlId*/, MEASUREITEMSTRUCT& measureInfo)
+AwtCioidf::OwnfrMfbsurfItfm(UINT /*dtrlId*/, MEASUREITEMSTRUCT& mfbsurfInfo)
 {
-    MeasureListItem((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2), measureInfo);
-    return mrConsume;
+    MfbsurfListItfm((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2), mfbsurfInfo);
+    rfturn mrConsumf;
 }
 
-/* Bug #4338368: when a choice loses focus, it triggers spurious MouseUp event,
- * even if the focus was lost due to TAB key pressing
+/* Bug #4338368: wifn b dioidf losfs fodus, it triggfrs spurious MousfUp fvfnt,
+ * fvfn if tif fodus wbs lost duf to TAB kfy prfssing
  */
 
 MsgRouting
-AwtChoice::WmKillFocus(HWND hWndGotFocus)
+AwtCioidf::WmKillFodus(HWND iWndGotFodus)
 {
-    skipNextMouseUp = TRUE;
-    return AwtComponent::WmKillFocus(hWndGotFocus);
+    skipNfxtMousfUp = TRUE;
+    rfturn AwtComponfnt::WmKillFodus(iWndGotFodus);
 }
 
 MsgRouting
-AwtChoice::WmMouseUp(UINT flags, int x, int y, int button)
+AwtCioidf::WmMousfUp(UINT flbgs, int x, int y, int button)
 {
-    if (skipNextMouseUp) {
-        skipNextMouseUp = FALSE;
-        return mrDoDefault;
+    if (skipNfxtMousfUp) {
+        skipNfxtMousfUp = FALSE;
+        rfturn mrDoDffbult;
     }
-    return AwtComponent::WmMouseUp(flags, x, y, button);
+    rfturn AwtComponfnt::WmMousfUp(flbgs, x, y, button);
 }
 
-MsgRouting AwtChoice::HandleEvent(MSG *msg, BOOL synthetic)
+MsgRouting AwtCioidf::HbndlfEvfnt(MSG *msg, BOOL syntiftid)
 {
-    if (IsFocusingMouseMessage(msg)) {
-        SendMessage(CB_SHOWDROPDOWN, ~SendMessage(CB_GETDROPPEDSTATE, 0, 0), 0);
-        delete msg;
-        return mrConsume;
+    if (IsFodusingMousfMfssbgf(msg)) {
+        SfndMfssbgf(CB_SHOWDROPDOWN, ~SfndMfssbgf(CB_GETDROPPEDSTATE, 0, 0), 0);
+        dflftf msg;
+        rfturn mrConsumf;
     }
-    // To simulate the native behavior, we close the list on WM_LBUTTONUP if
-    // WM_MOUSEMOVE has been dedected on the list since it has been dropped down.
-    if (msg->message == WM_LBUTTONUP && SendMessage(CB_GETDROPPEDSTATE, 0, 0) &&
-        sm_isMouseMoveInList)
+    // To simulbtf tif nbtivf bfibvior, wf dlosf tif list on WM_LBUTTONUP if
+    // WM_MOUSEMOVE ibs bffn dfdfdtfd on tif list sindf it ibs bffn droppfd down.
+    if (msg->mfssbgf == WM_LBUTTONUP && SfndMfssbgf(CB_GETDROPPEDSTATE, 0, 0) &&
+        sm_isMousfMovfInList)
     {
-        SendMessage(CB_SHOWDROPDOWN, FALSE, 0);
+        SfndMfssbgf(CB_SHOWDROPDOWN, FALSE, 0);
     }
-    return AwtComponent::HandleEvent(msg, synthetic);
+    rfturn AwtComponfnt::HbndlfEvfnt(msg, syntiftid);
 }
 
-BOOL AwtChoice::InheritsNativeMouseWheelBehavior() {return true;}
+BOOL AwtCioidf::InifritsNbtivfMousfWifflBfibvior() {rfturn truf;}
 
-void AwtChoice::_Reshape(void *param)
+void AwtCioidf::_Rfsibpf(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    ReshapeStruct *rs = (ReshapeStruct *)param;
-    jobject choice = rs->choice;
+    RfsibpfStrudt *rs = (RfsibpfStrudt *)pbrbm;
+    jobjfdt dioidf = rs->dioidf;
     jint x = rs->x;
     jint y = rs->y;
-    jint width = rs->width;
-    jint height = rs->height;
+    jint widti = rs->widti;
+    jint ifigit = rs->ifigit;
 
-    AwtChoice *c = NULL;
+    AwtCioidf *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(choice, done);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dioidf, donf);
 
-    c = (AwtChoice *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    d = (AwtCioidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        c->Reshape(x, y, width, height);
-        c->VerifyState();
+        d->Rfsibpf(x, y, widti, ifigit);
+        d->VfrifyStbtf();
     }
 
-done:
-    env->DeleteGlobalRef(choice);
+donf:
+    fnv->DflftfGlobblRff(dioidf);
 
-    delete rs;
+    dflftf rs;
 }
 
-void AwtChoice::_Select(void *param)
+void AwtCioidf::_Sflfdt(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    SelectStruct *ss = (SelectStruct *)param;
-    jobject choice = ss->choice;
-    jint index = ss->index;
+    SflfdtStrudt *ss = (SflfdtStrudt *)pbrbm;
+    jobjfdt dioidf = ss->dioidf;
+    jint indfx = ss->indfx;
 
-    AwtChoice *c = NULL;
+    AwtCioidf *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(choice, done);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dioidf, donf);
 
-    c = (AwtChoice *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    d = (AwtCioidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        c->SendMessage(CB_SETCURSEL, index);
-//        c->VerifyState();
+        d->SfndMfssbgf(CB_SETCURSEL, indfx);
+//        d->VfrifyStbtf();
     }
 
-done:
-    env->DeleteGlobalRef(choice);
+donf:
+    fnv->DflftfGlobblRff(dioidf);
 
-    delete ss;
+    dflftf ss;
 }
 
-void AwtChoice::_AddItems(void *param)
+void AwtCioidf::_AddItfms(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    AddItemsStruct *ais = (AddItemsStruct *)param;
-    jobject choice = ais->choice;
-    jobjectArray items = ais->items;
-    jint index = ais->index;
+    AddItfmsStrudt *bis = (AddItfmsStrudt *)pbrbm;
+    jobjfdt dioidf = bis->dioidf;
+    jobjfdtArrby itfms = bis->itfms;
+    jint indfx = bis->indfx;
 
-    AwtChoice *c = NULL;
+    AwtCioidf *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(choice, done);
-    JNI_CHECK_NULL_GOTO(items, "null items", done);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dioidf, donf);
+    JNI_CHECK_NULL_GOTO(itfms, "null itfms", donf);
 
-    c = (AwtChoice *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    d = (AwtCioidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        jsize i;
-        int itemCount = env->GetArrayLength(items);
-        if (itemCount > 0) {
-           c->SendMessage(WM_SETREDRAW, (WPARAM)FALSE, 0);
-           for (i = 0; i < itemCount; i++)
+        jsizf i;
+        int itfmCount = fnv->GftArrbyLfngti(itfms);
+        if (itfmCount > 0) {
+           d->SfndMfssbgf(WM_SETREDRAW, (WPARAM)FALSE, 0);
+           for (i = 0; i < itfmCount; i++)
            {
-               jstring item = (jstring)env->GetObjectArrayElement(items, i);
-               if (env->ExceptionCheck()) goto done;
-               if (item == NULL) goto next_elem;
-               c->SendMessage(CB_INSERTSTRING, index + i, JavaStringBuffer(env, item));
-               env->DeleteLocalRef(item);
-next_elem:
+               jstring itfm = (jstring)fnv->GftObjfdtArrbyElfmfnt(itfms, i);
+               if (fnv->ExdfptionCifdk()) goto donf;
+               if (itfm == NULL) goto nfxt_flfm;
+               d->SfndMfssbgf(CB_INSERTSTRING, indfx + i, JbvbStringBufffr(fnv, itfm));
+               fnv->DflftfLodblRff(itfm);
+nfxt_flfm:
                ;
            }
-           c->SendMessage(WM_SETREDRAW, (WPARAM)TRUE, 0);
-           InvalidateRect(c->GetHWnd(), NULL, TRUE);
-           c->ResetDropDownHeight();
-           c->VerifyState();
+           d->SfndMfssbgf(WM_SETREDRAW, (WPARAM)TRUE, 0);
+           InvblidbtfRfdt(d->GftHWnd(), NULL, TRUE);
+           d->RfsftDropDownHfigit();
+           d->VfrifyStbtf();
         }
     }
 
-done:
-    env->DeleteGlobalRef(choice);
-    env->DeleteGlobalRef(items);
+donf:
+    fnv->DflftfGlobblRff(dioidf);
+    fnv->DflftfGlobblRff(itfms);
 
-    delete ais;
+    dflftf bis;
 }
 
-void AwtChoice::_Remove(void *param)
+void AwtCioidf::_Rfmovf(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    RemoveStruct *rs = (RemoveStruct *)param;
-    jobject choice = rs->choice;
-    jint index = rs->index;
+    RfmovfStrudt *rs = (RfmovfStrudt *)pbrbm;
+    jobjfdt dioidf = rs->dioidf;
+    jint indfx = rs->indfx;
 
-    AwtChoice *c = NULL;
+    AwtCioidf *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(choice, done);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dioidf, donf);
 
-    c = (AwtChoice *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    d = (AwtCioidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        c->SendMessage(CB_DELETESTRING, index, 0);
-        c->ResetDropDownHeight();
-        c->VerifyState();
+        d->SfndMfssbgf(CB_DELETESTRING, indfx, 0);
+        d->RfsftDropDownHfigit();
+        d->VfrifyStbtf();
     }
 
-done:
-    env->DeleteGlobalRef(choice);
+donf:
+    fnv->DflftfGlobblRff(dioidf);
 
-    delete rs;
+    dflftf rs;
 }
 
-void AwtChoice::_RemoveAll(void *param)
+void AwtCioidf::_RfmovfAll(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject choice = (jobject)param;
+    jobjfdt dioidf = (jobjfdt)pbrbm;
 
-    AwtChoice *c = NULL;
+    AwtCioidf *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(choice, done);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dioidf, donf);
 
-    c = (AwtChoice *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    d = (AwtCioidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        c->SendMessage(CB_RESETCONTENT, 0, 0);
-        c->ResetDropDownHeight();
-        c->VerifyState();
+        d->SfndMfssbgf(CB_RESETCONTENT, 0, 0);
+        d->RfsftDropDownHfigit();
+        d->VfrifyStbtf();
     }
 
-done:
-    env->DeleteGlobalRef(choice);
+donf:
+    fnv->DflftfGlobblRff(dioidf);
 }
 
-void AwtChoice::_CloseList(void *param)
+void AwtCioidf::_ClosfList(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject choice = (jobject)param;
+    jobjfdt dioidf = (jobjfdt)pbrbm;
 
-    AwtChoice *c = NULL;
+    AwtCioidf *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(choice, done);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dioidf, donf);
 
-    c = (AwtChoice *)pData;
-    if (::IsWindow(c->GetHWnd()) && c->SendMessage(CB_GETDROPPEDSTATE, 0, 0)) {
-        c->SendMessage(CB_SHOWDROPDOWN, FALSE, 0);
+    d = (AwtCioidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()) && d->SfndMfssbgf(CB_GETDROPPEDSTATE, 0, 0)) {
+        d->SfndMfssbgf(CB_SHOWDROPDOWN, FALSE, 0);
     }
 
-done:
-    env->DeleteGlobalRef(choice);
+donf:
+    fnv->DflftfGlobblRff(dioidf);
 }
 
 /************************************************************************
- * WChoicePeer native methods
+ * WCioidfPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_Choice_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Cioidf_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
-    selectedIndexID = env->GetFieldID(cls, "selectedIndex", "I");
-    DASSERT(selectedIndexID);
+    sflfdtfdIndfxID = fnv->GftFifldID(dls, "sflfdtfdIndfx", "I");
+    DASSERT(sflfdtfdIndfxID);
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WChoicePeer
- * Method:    select
- * Signature: (I)V
+ * Clbss:     sun_bwt_windows_WCioidfPffr
+ * Mftiod:    sflfdt
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WChoicePeer_select(JNIEnv *env, jobject self,
-                                        jint index)
+Jbvb_sun_bwt_windows_WCioidfPffr_sflfdt(JNIEnv *fnv, jobjfdt sflf,
+                                        jint indfx)
 {
     TRY;
 
-    SelectStruct *ss = new SelectStruct;
-    ss->choice = env->NewGlobalRef(self);
-    ss->index = index;
+    SflfdtStrudt *ss = nfw SflfdtStrudt;
+    ss->dioidf = fnv->NfwGlobblRff(sflf);
+    ss->indfx = indfx;
 
-    AwtToolkit::GetInstance().SyncCall(AwtChoice::_Select, ss);
-    // global refs and ss are removed in _Select
-
-    CATCH_BAD_ALLOC;
-}
-
-/*
- * Class:     sun_awt_windows_WChoicePeer
- * Method:    remove
- * Signature: (I)V
- */
-JNIEXPORT void JNICALL
-Java_sun_awt_windows_WChoicePeer_remove(JNIEnv *env, jobject self,
-                                        jint index)
-{
-    TRY;
-
-    RemoveStruct *rs = new RemoveStruct;
-    rs->choice = env->NewGlobalRef(self);
-    rs->index = index;
-
-    AwtToolkit::GetInstance().SyncCall(AwtChoice::_Remove, rs);
-    // global ref and rs are deleted in _Remove
+    AwtToolkit::GftInstbndf().SyndCbll(AwtCioidf::_Sflfdt, ss);
+    // globbl rffs bnd ss brf rfmovfd in _Sflfdt
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WChoicePeer
- * Method:    removeAll
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WCioidfPffr
+ * Mftiod:    rfmovf
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WChoicePeer_removeAll(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WCioidfPffr_rfmovf(JNIEnv *fnv, jobjfdt sflf,
+                                        jint indfx)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    RfmovfStrudt *rs = nfw RfmovfStrudt;
+    rs->dioidf = fnv->NfwGlobblRff(sflf);
+    rs->indfx = indfx;
 
-    AwtToolkit::GetInstance().SyncCall(AwtChoice::_RemoveAll, (void *)selfGlobalRef);
-    // selfGlobalRef is deleted in _RemoveAll
+    AwtToolkit::GftInstbndf().SyndCbll(AwtCioidf::_Rfmovf, rs);
+    // globbl rff bnd rs brf dflftfd in _Rfmovf
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WChoicePeer
- * Method:    addItems
- * Signature: ([Ljava/lang/String;I)V
+ * Clbss:     sun_bwt_windows_WCioidfPffr
+ * Mftiod:    rfmovfAll
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WChoicePeer_addItems(JNIEnv *env, jobject self,
-                                          jobjectArray items, jint index)
+Jbvb_sun_bwt_windows_WCioidfPffr_rfmovfAll(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    AddItemsStruct *ais = new AddItemsStruct;
-    ais->choice = env->NewGlobalRef(self);
-    ais->items = (jobjectArray)env->NewGlobalRef(items);
-    ais->index = index;
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
 
-    AwtToolkit::GetInstance().SyncCall(AwtChoice::_AddItems, ais);
-    // global refs and ais are deleted in _AddItems
+    AwtToolkit::GftInstbndf().SyndCbll(AwtCioidf::_RfmovfAll, (void *)sflfGlobblRff);
+    // sflfGlobblRff is dflftfd in _RfmovfAll
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WChoicePeer
- * Method:    reshape
- * Signature: (IIII)V
+ * Clbss:     sun_bwt_windows_WCioidfPffr
+ * Mftiod:    bddItfms
+ * Signbturf: ([Ljbvb/lbng/String;I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WChoicePeer_reshape(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WCioidfPffr_bddItfms(JNIEnv *fnv, jobjfdt sflf,
+                                          jobjfdtArrby itfms, jint indfx)
+{
+    TRY;
+
+    AddItfmsStrudt *bis = nfw AddItfmsStrudt;
+    bis->dioidf = fnv->NfwGlobblRff(sflf);
+    bis->itfms = (jobjfdtArrby)fnv->NfwGlobblRff(itfms);
+    bis->indfx = indfx;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtCioidf::_AddItfms, bis);
+    // globbl rffs bnd bis brf dflftfd in _AddItfms
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WCioidfPffr
+ * Mftiod:    rfsibpf
+ * Signbturf: (IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WCioidfPffr_rfsibpf(JNIEnv *fnv, jobjfdt sflf,
                                          jint x, jint y,
-                                         jint width, jint height)
+                                         jint widti, jint ifigit)
 {
     TRY;
 
-    ReshapeStruct *rs = new ReshapeStruct;
-    rs->choice = env->NewGlobalRef(self);
+    RfsibpfStrudt *rs = nfw RfsibpfStrudt;
+    rs->dioidf = fnv->NfwGlobblRff(sflf);
     rs->x = x;
     rs->y = y;
-    rs->width = width;
-    rs->height = height;
+    rs->widti = widti;
+    rs->ifigit = ifigit;
 
-    AwtToolkit::GetInstance().SyncCall(AwtChoice::_Reshape, rs);
-    // global ref and rs are deleted in _Reshape
-
-    CATCH_BAD_ALLOC;
-}
-
-/*
- * Class:     sun_awt_windows_WChoicePeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
- */
-JNIEXPORT void JNICALL
-Java_sun_awt_windows_WChoicePeer_create(JNIEnv *env, jobject self,
-                                        jobject parent)
-{
-    TRY;
-
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(parent);
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtChoice::Create);
-    JNI_CHECK_PEER_CREATION_RETURN(self);
+    AwtToolkit::GftInstbndf().SyndCbll(AwtCioidf::_Rfsibpf, rs);
+    // globbl rff bnd rs brf dflftfd in _Rfsibpf
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WChoicePeer
- * Method:    closeList
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WCioidfPffr
+ * Mftiod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WChoicePeer_closeList(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WCioidfPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf,
+                                        jobjfdt pbrfnt)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
-
-    AwtToolkit::GetInstance().SyncCall(AwtChoice::_CloseList, (void *)selfGlobalRef);
-    // global ref is deleted in _CloseList
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrfnt);
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtCioidf::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
 
     CATCH_BAD_ALLOC;
 }
-} /* extern "C" */
+
+/*
+ * Clbss:     sun_bwt_windows_WCioidfPffr
+ * Mftiod:    dlosfList
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WCioidfPffr_dlosfList(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtCioidf::_ClosfList, (void *)sflfGlobblRff);
+    // globbl rff is dflftfd in _ClosfList
+
+    CATCH_BAD_ALLOC;
+}
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * Diagnostic routines
+ * Dibgnostid routinfs
  */
 
-#ifdef DEBUG
+#ifdff DEBUG
 
-void AwtChoice::VerifyState()
+void AwtCioidf::VfrifyStbtf()
 {
-    if (AwtToolkit::GetInstance().VerifyComponents() == FALSE) {
-        return;
+    if (AwtToolkit::GftInstbndf().VfrifyComponfnts() == FALSE) {
+        rfturn;
     }
 
-    if (m_callbacksEnabled == FALSE) {
-        /* Component is not fully setup yet. */
-        return;
+    if (m_dbllbbdksEnbblfd == FALSE) {
+        /* Componfnt is not fully sftup yft. */
+        rfturn;
     }
 
-    AwtComponent::VerifyState();
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->PushLocalFrame(1) < 0)
-        return;
+    AwtComponfnt::VfrifyStbtf();
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->PusiLodblFrbmf(1) < 0)
+        rfturn;
 
-    jobject target = GetTarget(env);
+    jobjfdt tbrgft = GftTbrgft(fnv);
 
-    // To avoid possibly running client code on the toolkit thread, don't
-    // do the following checks if we're running on the toolkit thread.
-    if (AwtToolkit::MainThread() != ::GetCurrentThreadId()) {
-        // Compare number of items.
-        int nTargetItems = JNU_CallMethodByName(env, NULL, target,
-                                                "countItems", "()I").i;
-        DASSERT(!safe_ExceptionOccurred(env));
-        int nPeerItems = (int)::SendMessage(GetHWnd(), CB_GETCOUNT, 0, 0);
-        DASSERT(nTargetItems == nPeerItems);
+    // To bvoid possibly running dlifnt dodf on tif toolkit tirfbd, don't
+    // do tif following difdks if wf'rf running on tif toolkit tirfbd.
+    if (AwtToolkit::MbinTirfbd() != ::GftCurrfntTirfbdId()) {
+        // Compbrf numbfr of itfms.
+        int nTbrgftItfms = JNU_CbllMftiodByNbmf(fnv, NULL, tbrgft,
+                                                "dountItfms", "()I").i;
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        int nPffrItfms = (int)::SfndMfssbgf(GftHWnd(), CB_GETCOUNT, 0, 0);
+        DASSERT(nTbrgftItfms == nPffrItfms);
 
-        // Compare selection
-        int targetIndex = JNU_CallMethodByName(env, NULL, target,
-                                               "getSelectedIndex", "()I").i;
-        DASSERT(!safe_ExceptionOccurred(env));
-        int peerCurSel = (int)::SendMessage(GetHWnd(), CB_GETCURSEL, 0, 0);
-        DASSERT(targetIndex == peerCurSel);
+        // Compbrf sflfdtion
+        int tbrgftIndfx = JNU_CbllMftiodByNbmf(fnv, NULL, tbrgft,
+                                               "gftSflfdtfdIndfx", "()I").i;
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        int pffrCurSfl = (int)::SfndMfssbgf(GftHWnd(), CB_GETCURSEL, 0, 0);
+        DASSERT(tbrgftIndfx == pffrCurSfl);
     }
-    env->PopLocalFrame(0);
+    fnv->PopLodblFrbmf(0);
 }
-#endif //DEBUG
+#fndif //DEBUG

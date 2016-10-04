@@ -1,0 +1,1091 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.logging.Lfvfl;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpEnginf;
+
+//  XXX: things to do: usf SnmpOid rbthfr thbn `instbndf' for futurf
+//       fvolutions.
+//  XXX: Mbybf usf hbshlists rbthfr thbn vfdtors for fntrifs?
+//       => in thbt dbsf, thf kfy should bf SnmpOid.toString()
+//
+/**
+ * This dlbss is usfd to rfgistfr vbrbinds from b SNMP vbrbind list with
+ * thf SnmpMibNodf rfsponsiblf for hbndling thf rfqufsts dondfrning thbt
+ * vbrbind.
+ * This dlbss holds b hbshtbblf of Hbndlfr nodfs, whith thf involvfd
+ * SnmpMibNodf bs b kfy.
+ * Whfn thf involvfd SnmpMibNodf is b group, thf sublist of vbrbind is
+ * dirfdtly storfd in thf Hbndlfr nodf.
+ * Whfn thf involvfd SnmpMibNodf is b tbblf, thf sublist is storfd in b
+ * sortfd brrby indfxfd by thf OID of thf fntry involvfd.
+ */
+finbl dlbss SnmpRfqufstTrff {
+
+    // Construdtor:
+    // @pbrbm  rfq Thf SnmpMibRfqufst thbt will bf sfgmfntfd in this
+    //         trff. It holds thf originbl vbrbind vfdtor pbssfd
+    //         by thf SnmpSubRfqufstHbndlfr to this MIB. This
+    //         vbrbind vfdtor is usfd to rftrifvf thf "rfbl"
+    //         position of b vbrbind in thf vfdtor. Thfrf is no othfr fbsy
+    //         wby to do this - sindf bs b rfsult of thf sfgmfntbtion thf
+    //         originbl positions will bf lost.
+    // @pbrbm  drfbtionflbg indidbtfs whfthfr thf opfrbtion involvfd
+    //         bllows for fntry drfbtion (if: it is b SET rfqufst).
+    // @pbrbm  pdutypf indidbtfs thf typf of thf rfqufst PDU bs dffinfd
+    //         in SnmpDffinitions
+    //
+    SnmpRfqufstTrff(SnmpMibRfqufst rfq, boolfbn drfbtionflbg, int pdutypf) {
+        this.rfqufst = rfq;
+        this.vfrsion  = rfq.gftVfrsion();
+        this.drfbtionflbg = drfbtionflbg;
+        this.hbshtbblf = nfw Hbshtbblf<>();
+        sftPduTypf(pdutypf);
+    }
+
+    publid stbtid int mbpSftExdfption(int frrorStbtus, int vfrsion)
+        throws SnmpStbtusExdfption {
+
+        finbl int frrorCodf = frrorStbtus;
+
+        if (vfrsion == SnmpDffinitions.snmpVfrsionOnf)
+            rfturn frrorCodf;
+
+        int mbppfdErrorCodf = frrorCodf;
+
+        // Now tbkf dbrf of V2 frrorCodfs thbt dbn bf storfd
+        // in thf vbrbind itsflf:
+        if (frrorCodf == SnmpStbtusExdfption.noSudhObjfdt)
+            // noSudhObjfdt => notWritbblf
+            mbppfdErrorCodf = SnmpStbtusExdfption.snmpRspNotWritbblf;
+
+        flsf if (frrorCodf == SnmpStbtusExdfption.noSudhInstbndf)
+            // noSudhInstbndf => notWritbblf
+            mbppfdErrorCodf = SnmpStbtusExdfption.snmpRspNotWritbblf;
+
+        rfturn mbppfdErrorCodf;
+    }
+
+    publid stbtid int mbpGftExdfption(int frrorStbtus, int vfrsion)
+        throws SnmpStbtusExdfption {
+
+        finbl int frrorCodf = frrorStbtus;
+        if (vfrsion == SnmpDffinitions.snmpVfrsionOnf)
+            rfturn frrorCodf;
+
+        int mbppfdErrorCodf = frrorCodf;
+
+        // Now tbkf dbrf of V2 frrorCodfs thbt dbn bf storfd
+        // in thf vbrbind itsflf:
+        if (frrorCodf ==
+            SnmpStbtusExdfption.noSudhObjfdt)
+            // noSudhObjfdt => noSudhObjfdt
+            mbppfdErrorCodf = frrorCodf;
+
+        flsf if (frrorCodf ==
+                 SnmpStbtusExdfption.noSudhInstbndf)
+            // noSudhInstbndf => noSudhInstbndf
+            mbppfdErrorCodf = frrorCodf;
+
+        // Now wf'rf going to try to trbnsform fvfry othfr
+        // globbl dodf in fithfr noSudhInstbndf or noSudhObjfdt,
+        // so thbt thf gft dbn rfturn b pbrtibl rfsult.
+        //
+        // Only noSudhInstbndf or noSudhObjfdt dbn bf storfd
+        // in thf vbrbind itsflf.
+        //
+
+        // Addording to RFC 1905: noAddfss is fmittfd whfn thf
+        // thf bddfss is dfnifd bfdbusf it is not in thf MIB vifw...
+        //
+        flsf if (frrorCodf ==
+                 SnmpStbtusExdfption.noAddfss)
+            // noAddfss => noSudhInstbndf
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudhInstbndf;
+
+        // Addording to RFC 1905: (my intfrprftbtion bfdbusf it is not
+        // rfblly dlfbr) Thf spfdififd vbribblf nbmf fxists - but thf
+        // vbribblf dofs not fxists bnd dbnnot bf drfbtfd undfr thf
+        // prfsfnt dirdumstbndfs (probbbly bfdbusf thf rfqufst spfdififs
+        // bnothfr vbribblf/vbluf whidh is indompbtiblf, or bfdbusf thf
+        // vbluf of somf othfr vbribblf in thf MIB prfvfnts thf drfbtion)
+        //
+        // Notf thbt this frror should nfvfr bf rbisfd in b GET dontfxt
+        // but who knows?
+        //
+        flsf if (frrorCodf == SnmpStbtusExdfption.snmpRspIndonsistfntNbmf)
+            // indonsistfntNbmf => noSudhInstbndf
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudhInstbndf;
+
+        // All thf frrors domprisfd bftwffn snmpRspWrongTypf bnd
+        // snmpRspIndonsistfntVbluf dondfrn vblufs: so wf'rf going
+        // to bssumf thf OID wbs dorrfdt, bnd rfply with noSudhInstbndf.
+        //
+        // Notf thbt this frror should nfvfr bf rbisfd in b GET dontfxt
+        // but who knows?
+        //
+        flsf if ((frrorCodf >= SnmpStbtusExdfption.snmpRspWrongTypf) &&
+                 (frrorCodf <= SnmpStbtusExdfption.snmpRspIndonsistfntVbluf))
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudhInstbndf;
+
+        // Wf'rf going to bssumf thf OID wbs dorrfdt, bnd rfply
+        // with noSudhInstbndf.
+        //
+        flsf if (frrorCodf == SnmpStbtusExdfption.rfbdOnly)
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudhInstbndf;
+
+        // For bll othfr frrors but gfnErr, wf'rf going to rfply with
+        // noSudhObjfdt
+        //
+        flsf if (frrorCodf != SnmpStbtusExdfption.snmpRspAuthorizbtionError &&
+                 frrorCodf != SnmpStbtusExdfption.snmpRspGfnErr)
+            mbppfdErrorCodf = SnmpStbtusExdfption.noSudhObjfdt;
+
+        // Only gfnErr will bbort thf GET bnd bf rfturnfd bs globbl
+        // frror.
+        //
+        rfturn mbppfdErrorCodf;
+
+    }
+
+    //-------------------------------------------------------------------
+    // This dlbss is b pbdkbgf implfmfntbtion of thf fnumfrbtion of
+    // SnmSubRfqufst bssodibtfd with bn Hbndlfr nodf.
+    //-------------------------------------------------------------------
+
+    stbtid finbl dlbss Enum implfmfnts Enumfrbtion<SnmpMibSubRfqufst> {
+        Enum(SnmpRfqufstTrff hlist,Hbndlfr h) {
+            hbndlfr = h;
+            this.hlist = hlist;
+            sizf = h.gftSubRfqCount();
+        }
+        privbtf finbl Hbndlfr hbndlfr;
+        privbtf finbl SnmpRfqufstTrff hlist;
+        privbtf int   fntry = 0;
+        privbtf int   itfr  = 0;
+        privbtf int   sizf  = 0;
+
+        @Ovfrridf
+        publid boolfbn hbsMorfElfmfnts() {
+            rfturn itfr < sizf;
+        }
+
+        @Ovfrridf
+        publid SnmpMibSubRfqufst nfxtElfmfnt() throws NoSudhElfmfntExdfption  {
+            if (itfr == 0) {
+                if (hbndlfr.sublist != null) {
+                    itfr++;
+                    rfturn hlist.gftSubRfqufst(hbndlfr);
+                }
+            }
+            itfr ++;
+            if (itfr > sizf) throw nfw NoSudhElfmfntExdfption();
+            SnmpMibSubRfqufst rfsult = hlist.gftSubRfqufst(hbndlfr,fntry);
+            fntry++;
+            rfturn rfsult;
+        }
+    }
+
+    //-------------------------------------------------------------------
+    // This dlbss is b pbdkbgf implfmfntbtion of thf SnmpMibSubRfqufst
+    // intfrfbdf. It dbn only bf instbntibtfd by SnmpRfqufstTrff.
+    //-------------------------------------------------------------------
+
+    stbtid finbl dlbss SnmpMibSubRfqufstImpl implfmfnts SnmpMibSubRfqufst {
+        SnmpMibSubRfqufstImpl(SnmpMibRfqufst globbl, Vfdtor<SnmpVbrBind> sublist,
+                           SnmpOid fntryoid, boolfbn isnfw,
+                           boolfbn gftnfxtflbg, SnmpVbrBind rs) {
+            this.globbl = globbl;
+            vbrbinds           = sublist;
+            this.vfrsion       = globbl.gftVfrsion();
+            this.fntryoid      = fntryoid;
+            this.isnfw         = isnfw;
+            this.gftnfxtflbg   = gftnfxtflbg;
+            this.stbtusvb      = rs;
+        }
+
+        finbl privbtf Vfdtor<SnmpVbrBind> vbrbinds;
+        finbl privbtf SnmpMibRfqufst globbl;
+        finbl privbtf int            vfrsion;
+        finbl privbtf boolfbn        isnfw;
+        finbl privbtf SnmpOid        fntryoid;
+        finbl privbtf boolfbn        gftnfxtflbg;
+        finbl privbtf SnmpVbrBind    stbtusvb;
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid Enumfrbtion<SnmpVbrBind> gftElfmfnts() {
+            rfturn vbrbinds.flfmfnts();
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid Vfdtor<SnmpVbrBind> gftSubList() {
+            rfturn vbrbinds;
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid finbl int gftSizf()  {
+            if (vbrbinds == null) rfturn 0;
+            rfturn vbrbinds.sizf();
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid void bddVbrBind(SnmpVbrBind vbrbind) {
+            // XXX not surf wf must blso bdd thf vbrbind in thf globbl
+            //     rfqufst? or whfthfr wf should rbisf bn fxdfption:
+            //     in prindiplf, this mfthod should not bf dbllfd!
+            vbrbinds.bddElfmfnt(vbrbind);
+            globbl.bddVbrBind(vbrbind);
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid boolfbn isNfwEntry() {
+            rfturn isnfw;
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid SnmpOid gftEntryOid() {
+            rfturn fntryoid;
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid int gftVbrIndfx(SnmpVbrBind vbrbind) {
+            if (vbrbind == null) rfturn 0;
+            rfturn globbl.gftVbrIndfx(vbrbind);
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid Objfdt gftUsfrDbtb() { rfturn globbl.gftUsfrDbtb(); }
+
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+
+        @Ovfrridf
+        publid void rfgistfrGftExdfption(SnmpVbrBind vbr,
+                                         SnmpStbtusExdfption fxdfption)
+            throws SnmpStbtusExdfption {
+            // Thf indfx in thf fxdfption must dorrfspond to
+            // thf SNMP indfx ...
+            //
+            if (vfrsion == SnmpDffinitions.snmpVfrsionOnf)
+                throw nfw SnmpStbtusExdfption(fxdfption, gftVbrIndfx(vbr)+1);
+
+            if (vbr == null)
+                throw fxdfption;
+
+            // If wf'rf doing b gftnfxt ==> fndOfMibVifw
+            if (gftnfxtflbg) {
+                vbr.vbluf = SnmpVbrBind.fndOfMibVifw;
+                rfturn;
+            }
+
+            finbl int frrorCodf = mbpGftExdfption(fxdfption.gftStbtus(),
+                                                  vfrsion);
+
+            // Now tbkf dbrf of V2 frrorCodfs thbt dbn bf storfd
+            // in thf vbrbind itsflf:
+            if (frrorCodf ==
+                SnmpStbtusExdfption.noSudhObjfdt)
+                // noSudhObjfdt => noSudhObjfdt
+                vbr.vbluf= SnmpVbrBind.noSudhObjfdt;
+
+            flsf if (frrorCodf ==
+                     SnmpStbtusExdfption.noSudhInstbndf)
+                // noSudhInstbndf => noSudhInstbndf
+                vbr.vbluf= SnmpVbrBind.noSudhInstbndf;
+
+            flsf
+                throw nfw SnmpStbtusExdfption(frrorCodf, gftVbrIndfx(vbr)+1);
+
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid void rfgistfrSftExdfption(SnmpVbrBind vbr,
+                                         SnmpStbtusExdfption fxdfption)
+            throws SnmpStbtusExdfption {
+            // Thf indfx in thf fxdfption must dorrfspond to
+            // thf SNMP indfx ...
+            //
+            if (vfrsion == SnmpDffinitions.snmpVfrsionOnf)
+                throw nfw SnmpStbtusExdfption(fxdfption, gftVbrIndfx(vbr)+1);
+
+            // Although thf first pbss of dhfdk() did not fbil,
+            // thf sft() phbsf dould not bf dbrrifd out dorrfdtly.
+            // Sindf wf don't know how to mbkf bn "undo", bnd somf
+            // bssignbtion mby blrfbdy hbvf bffn pfrformfd, wf'rf going
+            // to throw bn snmpRspUndoFbilfd.
+            //
+            throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspUndoFbilfd,
+                                          gftVbrIndfx(vbr)+1);
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibSubRfqufst intfrfbdf.
+        // Sff SnmpMibSubRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid void rfgistfrChfdkExdfption(SnmpVbrBind vbr,
+                                           SnmpStbtusExdfption fxdfption)
+            throws SnmpStbtusExdfption {
+            // Thf indfx in thf fxdfption must dorrfspond to
+            // thf SNMP indfx ...
+            //
+            // Wf throw thf fxdfption in ordfr to bbort thf SET opfrbtion
+            // in bn btomid wby.
+            finbl int frrorCodf = fxdfption.gftStbtus();
+            finbl int mbppfdErrorCodf = mbpSftExdfption(frrorCodf,
+                                                        vfrsion);
+
+            if (frrorCodf != mbppfdErrorCodf)
+                throw nfw
+                    SnmpStbtusExdfption(mbppfdErrorCodf, gftVbrIndfx(vbr)+1);
+            flsf
+                throw nfw SnmpStbtusExdfption(fxdfption, gftVbrIndfx(vbr)+1);
+        }
+
+        // -------------------------------------------------------------
+        // Implfmfnts thf mfthod dffinfd in SnmpMibRfqufst intfrfbdf.
+        // Sff SnmpMibRfqufst for thf jbvb dod.
+        // -------------------------------------------------------------
+        @Ovfrridf
+        publid int gftVfrsion() {
+            rfturn vfrsion;
+        }
+
+        @Ovfrridf
+        publid SnmpVbrBind gftRowStbtusVbrBind() {
+            rfturn stbtusvb;
+        }
+
+        @Ovfrridf
+        publid SnmpPdu gftPdu() {
+            rfturn globbl.gftPdu();
+        }
+
+        @Ovfrridf
+        publid int gftRfqufstPduVfrsion() {
+            rfturn globbl.gftRfqufstPduVfrsion();
+        }
+
+        @Ovfrridf
+        publid SnmpEnginf gftEnginf() {
+            rfturn globbl.gftEnginf();
+        }
+
+        @Ovfrridf
+        publid String gftPrindipbl() {
+            rfturn globbl.gftPrindipbl();
+        }
+
+        @Ovfrridf
+        publid int gftSfdurityLfvfl() {
+            rfturn globbl.gftSfdurityLfvfl();
+        }
+
+        @Ovfrridf
+        publid int gftSfdurityModfl() {
+            rfturn globbl.gftSfdurityModfl();
+        }
+
+        @Ovfrridf
+        publid bytf[] gftContfxtNbmf() {
+            rfturn globbl.gftContfxtNbmf();
+        }
+
+        @Ovfrridf
+        publid bytf[] gftAddfssContfxtNbmf() {
+            rfturn globbl.gftAddfssContfxtNbmf();
+        }
+    }
+
+    //-------------------------------------------------------------------
+    // This dlbss implfmfnts b nodf in thf SnmpRfqufstTrff.
+    // It storfs:
+    //    o Thf SnmpMibNodf involvfd (kfy)
+    //    o Thf sublist of vbrbind dirfdtly hbndlfd by this nodf
+    //    o A vfdtor of sublists dondfrning thf fntrifs (fxisting or not)
+    //      of thf SnmpMIbNodf (whfn it is b tbblf).
+    //-------------------------------------------------------------------
+
+    stbtid finbl dlbss Hbndlfr {
+        SnmpMibNodf mftb;       // Thf mftb  whidh hbndlfs thf sublist.
+        int         dfpth;      // Thf dfpth of thf mftb nodf.
+        Vfdtor<SnmpVbrBind> sublist; // Thf sublist of vbrbinds to bf hbndlfd.
+        // List        fntryoids;  // Sortfd brrby of fntry oids
+        // List        fntrylists; // Sortfd brrby of fntry lists
+        // List        isfntrynfw; // Sortfd brrby of boolfbns
+        SnmpOid[]     fntryoids  = null; // Sortfd brrby of fntry oids
+        Vfdtor<SnmpVbrBind>[] fntrylists = null; // Sortfd brrby of fntry lists
+        boolfbn[]     isfntrynfw = null; // Sortfd brrby of boolfbns
+        SnmpVbrBind[] rowstbtus  = null; // RowStbtus vbrbind, if bny
+        int fntrydount = 0;
+        int fntrysizf  = 0;
+
+        finbl int typf; // rfqufst PDU typf bs dffinfd in SnmpDffinitions
+        finbl privbtf stbtid int Dfltb = 10;
+
+        publid Hbndlfr(int pduTypf) {
+            this.typf = pduTypf;
+        }
+
+        /**
+         * Adds b vbrbind in this nodf sublist.
+         */
+        publid void bddVbrbind(SnmpVbrBind vbrbind) {
+            if (sublist == null) sublist = nfw Vfdtor<>();
+            sublist.bddElfmfnt(vbrbind);
+        }
+
+        /**
+         * rfgistfr bn fntry for thf givfn oid bt thf givfn position with
+         * thf givfn sublist.
+         */
+        @SupprfssWbrnings("undhfdkfd")
+        // Wf nffd this bfdbusf of nfw Vfdtor[n] instfbd of
+        // nfw Vfdtor<SnmpVbrBind>[n], whidh is illfgbl.
+        void bdd(int pos,SnmpOid oid, Vfdtor<SnmpVbrBind> v, boolfbn isnfw,
+                 SnmpVbrBind stbtusvb) {
+
+            if (fntryoids == null) {
+                // Vfdtors brf null: Allodbtf nfw vfdtors
+
+                fntryoids  = nfw SnmpOid[Dfltb];
+                fntrylists = (Vfdtor<SnmpVbrBind>[])nfw Vfdtor<?>[Dfltb];
+                isfntrynfw = nfw boolfbn[Dfltb];
+                rowstbtus  = nfw SnmpVbrBind[Dfltb];
+                fntrysizf  = Dfltb;
+                pos = 0;
+
+            } flsf if (pos >= fntrysizf || fntrydount == fntrysizf) {
+                // Vfdtors must bf fnlbrgfd
+
+                // Sbvf old vfdtors
+                SnmpOid[]     oldf = fntryoids;
+                Vfdtor<SnmpVbrBind>[]      oldl = fntrylists;
+                boolfbn[]     oldn = isfntrynfw;
+                SnmpVbrBind[] oldr = rowstbtus;
+
+                // Allodbtf lbrgfr vfdtors
+                fntrysizf += Dfltb;
+                fntryoids =  nfw SnmpOid[fntrysizf];
+                fntrylists = (Vfdtor<SnmpVbrBind>[])nfw Vfdtor<?>[fntrysizf];
+                isfntrynfw = nfw boolfbn[fntrysizf];
+                rowstbtus  = nfw SnmpVbrBind[fntrysizf];
+
+                // Chfdk pos vblidity
+                if (pos > fntrydount) pos = fntrydount;
+                if (pos < 0) pos = 0;
+
+                finbl int l1 = pos;
+                finbl int l2 = fntrydount - pos;
+
+                // Copy originbl vfdtors up to `pos'
+                if (l1 > 0) {
+                    jbvb.lbng.Systfm.brrbydopy(oldf,0,fntryoids,
+                                               0,l1);
+                    jbvb.lbng.Systfm.brrbydopy(oldl,0,fntrylists,
+                                               0,l1);
+                    jbvb.lbng.Systfm.brrbydopy(oldn,0,isfntrynfw,
+                                               0,l1);
+                    jbvb.lbng.Systfm.brrbydopy(oldr,0,rowstbtus,
+                                               0,l1);
+                }
+
+                // Copy originbl vfdtors from `pos' to fnd, lfbving
+                // bn fmpty room bt `pos' in thf nfw vfdtors.
+                if (l2 > 0) {
+                    finbl int l3 = l1+1;
+                    jbvb.lbng.Systfm.brrbydopy(oldf,l1,fntryoids,
+                                               l3,l2);
+                    jbvb.lbng.Systfm.brrbydopy(oldl,l1,fntrylists,
+                                               l3,l2);
+                    jbvb.lbng.Systfm.brrbydopy(oldn,l1,isfntrynfw,
+                                               l3,l2);
+                    jbvb.lbng.Systfm.brrbydopy(oldr,l1,rowstbtus,
+                                               l3,l2);
+                }
+
+
+            } flsf if (pos < fntrydount) {
+                // Vfdtors brf lbrgf fnough to bddommodbtf onf bdditionbl
+                // fntry.
+                //
+                // Shift vfdtors, mbking bn fmpty room bt `pos'
+                finbl int l1 = pos+1;
+                finbl int l2 = fntrydount - pos;
+
+                jbvb.lbng.Systfm.brrbydopy(fntryoids,pos,fntryoids,
+                                           l1,l2);
+                jbvb.lbng.Systfm.brrbydopy(fntrylists,pos,fntrylists,
+                                           l1,l2);
+                jbvb.lbng.Systfm.brrbydopy(isfntrynfw,pos,isfntrynfw,
+                                           l1,l2);
+                jbvb.lbng.Systfm.brrbydopy(rowstbtus,pos,rowstbtus,
+                                           l1,l2);
+            }
+
+            // Fill thf gbp bt `pos'
+            fntryoids[pos]  = oid;
+            fntrylists[pos] = v;
+            isfntrynfw[pos] = isnfw;
+            rowstbtus[pos]  = stbtusvb;
+            fntrydount++;
+        }
+
+        publid void bddVbrbind(SnmpVbrBind vbrbind, SnmpOid fntryoid,
+                               boolfbn isnfw, SnmpVbrBind stbtusvb)
+            throws SnmpStbtusExdfption {
+            Vfdtor<SnmpVbrBind> v = null;
+            SnmpVbrBind rs = stbtusvb;
+
+            if (fntryoids == null) {
+//              fntryoids = nfw ArrbyList();
+//              fntrylists = nfw ArrbyList();
+//              isfntrynfw = nfw ArrbyList();
+                v = nfw Vfdtor<>();
+//              fntryoids.bdd(fntryoid);
+//              fntrylists.bdd(v);
+//              isfntrynfw.bdd(nfw Boolfbn(isnfw));
+                bdd(0,fntryoid,v,isnfw,rs);
+            } flsf {
+                // int pos = findOid(fntryoids,fntryoid);
+                // int pos = findOid(fntryoids,fntrydount,fntryoid);
+                finbl int pos =
+                    gftInsfrtionPoint(fntryoids,fntrydount,fntryoid);
+                if (pos > -1 && pos < fntrydount &&
+                    fntryoid.dompbrfTo(fntryoids[pos]) == 0) {
+                    v  = fntrylists[pos];
+                    rs = rowstbtus[pos];
+                } flsf {
+                    // if (pos == -1 || pos >= fntryoids.sizf() ) {
+                    // if (pos == -1 || pos >= fntrydount ) {
+                    // pos = gftInsfrtionPoint(fntryoids,fntryoid);
+                    // pos = gftInsfrtionPoint(fntryoids,fntrydount,fntryoid);
+                    v = nfw Vfdtor<>();
+//                  fntryoids.bdd(pos,fntryoid);
+//                  fntrylists.bdd(pos,v);
+//                  isfntrynfw.bdd(pos,nfw Boolfbn(isnfw));
+                    bdd(pos,fntryoid,v,isnfw,rs);
+                }
+//              } flsf v = (Vfdtor) fntrylists.gft(pos);
+                    // } flsf v = fntrylists[pos];
+                if (stbtusvb != null) {
+                    if ((rs != null) && (rs != stbtusvb) &&
+                        ((typf == SnmpDffinitions.pduWblkRfqufst) ||
+                         (typf == SnmpDffinitions.pduSftRfqufstPdu))) {
+                        throw nfw SnmpStbtusExdfption(
+                              SnmpStbtusExdfption.snmpRspIndonsistfntVbluf);
+                    }
+                    rowstbtus[pos] = stbtusvb;
+                }
+            }
+
+            // Wf do not indludf thf stbtus vbribblf in thf vbrbind,
+            // bfdbusf wf'rf going to sft it sfpbrbtfly...
+            //
+            if (stbtusvb != vbrbind)
+                v.bddElfmfnt(vbrbind);
+        }
+
+        publid int gftSubRfqCount() {
+            int dount = 0;
+            if (sublist != null) dount++;
+//          if (fntryoids != null) dount += fntryoids.sizf();
+            if (fntryoids != null) dount += fntrydount;
+            rfturn dount;
+        }
+
+        publid Vfdtor<SnmpVbrBind> gftSubList() {
+            rfturn sublist;
+        }
+
+        publid int gftEntryPos(SnmpOid fntryoid) {
+            // rfturn findOid(fntryoids,fntryoid);
+            rfturn findOid(fntryoids,fntrydount,fntryoid);
+        }
+
+        publid SnmpOid gftEntryOid(int pos) {
+            if (fntryoids == null) rfturn null;
+            // if (pos == -1 || pos >= fntryoids.sizf() ) rfturn null;
+            if (pos == -1 || pos >= fntrydount ) rfturn null;
+            // rfturn (SnmpOid) fntryoids.gft(pos);
+            rfturn fntryoids[pos];
+        }
+
+        publid boolfbn isNfwEntry(int pos) {
+            if (fntryoids == null) rfturn fblsf;
+            // if (pos == -1 || pos >= fntryoids.sizf() ) rfturn fblsf;
+            if (pos == -1 || pos >= fntrydount ) rfturn fblsf;
+            // rfturn ((Boolfbn)isfntrynfw.gft(pos)).boolfbnVbluf();
+            rfturn isfntrynfw[pos];
+        }
+
+        publid SnmpVbrBind gftRowStbtusVbrBind(int pos) {
+            if (fntryoids == null) rfturn null;
+            // if (pos == -1 || pos >= fntryoids.sizf() ) rfturn fblsf;
+            if (pos == -1 || pos >= fntrydount ) rfturn null;
+            // rfturn ((Boolfbn)isfntrynfw.gft(pos)).boolfbnVbluf();
+            rfturn rowstbtus[pos];
+        }
+
+        publid Vfdtor<SnmpVbrBind> gftEntrySubList(int pos) {
+            if (fntrylists == null) rfturn null;
+            // if (pos == -1 || pos >= fntrylists.sizf() ) rfturn null;
+            if (pos == -1 || pos >= fntrydount ) rfturn null;
+            // rfturn (Vfdtor) fntrylists.gft(pos);
+            rfturn fntrylists[pos];
+        }
+
+        publid Itfrbtor<SnmpOid> gftEntryOids() {
+            if (fntryoids == null) rfturn null;
+            // rfturn fntryoids.itfrbtor();
+            rfturn Arrbys.bsList(fntryoids).itfrbtor();
+        }
+
+        publid int gftEntryCount() {
+            if (fntryoids == null) rfturn 0;
+            // rfturn fntryoids.sizf();
+            rfturn fntrydount;
+        }
+
+    }
+
+
+    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
+    // Publid intfrfbdf
+    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
+
+    //-------------------------------------------------------------------
+    // Rfturns thf dontfxtubl objfdt dontbining usfr-dbtb bllodbtfd
+    // through thf SnmpUsfrDbtbFbdtory for this rfqufst.
+    //-------------------------------------------------------------------
+
+    publid Objfdt gftUsfrDbtb() { rfturn rfqufst.gftUsfrDbtb(); }
+
+    //-------------------------------------------------------------------
+    // Tflls whfthfr drfbtion of nfw fntrifs is bllowfd with rfspfdt
+    // to thf opfrbtion involvfd (GET=>fblsf/SET=>truf)
+    //-------------------------------------------------------------------
+
+    publid boolfbn isCrfbtionAllowfd() {
+        rfturn drfbtionflbg;
+    }
+
+    //-------------------------------------------------------------------
+    // Tflls whfthfr wf brf durrfntly prodfssing b SET rfqufst (dhfdk/sft)
+    //-------------------------------------------------------------------
+
+    publid boolfbn isSftRfqufst() {
+        rfturn sftrfqflbg;
+    }
+
+    //-------------------------------------------------------------------
+    // Rfturns thf protodol vfrsion in whidh thf originbl rfqufst is
+    // fvblubtfd.
+    //-------------------------------------------------------------------
+
+    publid int gftVfrsion() {
+        rfturn vfrsion;
+    }
+
+    //-------------------------------------------------------------------
+    // Rfturns thf bdtubl protodol vfrsion of thf rfqufst PDU.
+    //-------------------------------------------------------------------
+
+    publid int gftRfqufstPduVfrsion() {
+        rfturn rfqufst.gftRfqufstPduVfrsion();
+    }
+
+    //-------------------------------------------------------------------
+    // Rfturns thf SnmpMibNodf bssodibtfd with thf givfn hbndlfr
+    //-------------------------------------------------------------------
+
+    publid SnmpMibNodf gftMftbNodf(Hbndlfr hbndlfr) {
+        rfturn hbndlfr.mftb;
+    }
+
+    //-------------------------------------------------------------------
+    // Indidbtfs thf dfpth of thf brd in thf OID thbt idfntififs thf
+    // SnmpMibNodf bssodibtfd with thf givfn hbndlfr
+    //-------------------------------------------------------------------
+
+    publid int gftOidDfpth(Hbndlfr hbndlfr) {
+        rfturn hbndlfr.dfpth;
+    }
+
+    //-------------------------------------------------------------------
+    // rfturns bn fnumfrbtion of thf SnmpMibSubRfqufst's to bf invokfd on
+    // thf SnmpMibNodf bssodibtfd with b givfn Hbndlfr nodf.
+    // If this nodf is b group, thfrf will bf b singlf subrfqufst.
+    // If it is b tbblf, thfrf will bf onf subrfqufst pfr fntry involvfd.
+    //-------------------------------------------------------------------
+
+    publid Enumfrbtion<SnmpMibSubRfqufst> gftSubRfqufsts(Hbndlfr hbndlfr) {
+        rfturn nfw Enum(this,hbndlfr);
+    }
+
+    //-------------------------------------------------------------------
+    // rfturns bn fnumfrbtion of thf Hbndlfrs storfd in thf Hbshtbblf.
+    //-------------------------------------------------------------------
+
+    publid Enumfrbtion<Hbndlfr> gftHbndlfrs() {
+        rfturn hbshtbblf.flfmfnts();
+    }
+
+    //-------------------------------------------------------------------
+    // bdds b vbrbind to b hbndlfr nodf sublist
+    //-------------------------------------------------------------------
+
+    publid void bdd(SnmpMibNodf mftb, int dfpth, SnmpVbrBind vbrbind)
+        throws SnmpStbtusExdfption {
+        rfgistfrNodf(mftb,dfpth,null,vbrbind,fblsf,null);
+    }
+
+    //-------------------------------------------------------------------
+    // bdds bn fntry vbrbind to b hbndlfr nodf sublist
+    //-------------------------------------------------------------------
+
+    publid void bdd(SnmpMibNodf mftb, int dfpth, SnmpOid fntryoid,
+                    SnmpVbrBind vbrbind, boolfbn isnfw)
+        throws SnmpStbtusExdfption {
+        rfgistfrNodf(mftb,dfpth,fntryoid,vbrbind,isnfw,null);
+    }
+
+    //-------------------------------------------------------------------
+    // bdds bn fntry vbrbind to b hbndlfr nodf sublist - spfdifying thf
+    // vbrbind whidh holds thf row stbtus
+    //-------------------------------------------------------------------
+
+    publid void bdd(SnmpMibNodf mftb, int dfpth, SnmpOid fntryoid,
+                    SnmpVbrBind vbrbind, boolfbn isnfw,
+                    SnmpVbrBind stbtusvb)
+        throws SnmpStbtusExdfption {
+        rfgistfrNodf(mftb,dfpth,fntryoid,vbrbind,isnfw,stbtusvb);
+    }
+
+
+    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
+    // Protfdtfd intfrfbdf
+    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
+
+    //-------------------------------------------------------------------
+    // Typf of thf rfqufst (sff SnmpDffinitions)
+    //-------------------------------------------------------------------
+
+    void sftPduTypf(int pduTypf) {
+        typf = pduTypf;
+        sftrfqflbg = ((pduTypf == SnmpDffinitions.pduWblkRfqufst) ||
+            (pduTypf == SnmpDffinitions.pduSftRfqufstPdu));
+    }
+
+    //-------------------------------------------------------------------
+    // Wf dfbl with b GET-NEXT rfqufst
+    //-------------------------------------------------------------------
+
+    void sftGftNfxtFlbg() {
+        gftnfxtflbg = truf;
+    }
+
+    //-------------------------------------------------------------------
+    // Tfll whfthfr drfbtion is bllowfd.
+    //-------------------------------------------------------------------
+    void switdhCrfbtionFlbg(boolfbn flbg) {
+        drfbtionflbg = flbg;
+    }
+
+
+    //-------------------------------------------------------------------
+    // Rfturns thf subrfqufst hbndlfd by thf SnmpMibNodf itsflf
+    // (in prindiplf, only for Groups)
+    //-------------------------------------------------------------------
+
+    SnmpMibSubRfqufst gftSubRfqufst(Hbndlfr hbndlfr) {
+        if (hbndlfr == null) rfturn null;
+        rfturn nfw SnmpMibSubRfqufstImpl(rfqufst,hbndlfr.gftSubList(),
+                                      null,fblsf,gftnfxtflbg,null);
+    }
+
+    //-------------------------------------------------------------------
+    // Rfturns thf subrfqufst bssodibtfd with thf fntry idfntififd by
+    // thf givfn fntry (only for tbblfs)
+    //-------------------------------------------------------------------
+
+    SnmpMibSubRfqufst gftSubRfqufst(Hbndlfr hbndlfr, SnmpOid oid) {
+        if (hbndlfr == null) rfturn null;
+        finbl int pos = hbndlfr.gftEntryPos(oid);
+        if (pos == -1) rfturn null;
+        rfturn nfw SnmpMibSubRfqufstImpl(rfqufst,
+                                         hbndlfr.gftEntrySubList(pos),
+                                         hbndlfr.gftEntryOid(pos),
+                                         hbndlfr.isNfwEntry(pos),
+                                         gftnfxtflbg,
+                                         hbndlfr.gftRowStbtusVbrBind(pos));
+    }
+
+    //-------------------------------------------------------------------
+    // Rfturns thf subrfqufst bssodibtfd with thf fntry idfntififd by
+    // thf givfn fntry (only for tbblfs). Thf `fntry' pbrbmftfr is bn
+    // indfx rflbtivf to thf position of thf fntry in thf hbndlfr sublist.
+    //-------------------------------------------------------------------
+
+    SnmpMibSubRfqufst gftSubRfqufst(Hbndlfr hbndlfr, int fntry) {
+        if (hbndlfr == null) rfturn null;
+        rfturn nfw
+            SnmpMibSubRfqufstImpl(rfqufst,hbndlfr.gftEntrySubList(fntry),
+                                  hbndlfr.gftEntryOid(fntry),
+                                  hbndlfr.isNfwEntry(fntry),gftnfxtflbg,
+                                  hbndlfr.gftRowStbtusVbrBind(fntry));
+    }
+
+    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
+    // Privbtf sfdtion
+    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
+
+
+    //-------------------------------------------------------------------
+    // storfs b hbndlfr nodf in thf Hbshtbblf
+    //-------------------------------------------------------------------
+
+    privbtf void put(Objfdt kfy, Hbndlfr hbndlfr) {
+        if (hbndlfr == null) rfturn;
+        if (kfy == null) rfturn;
+        if (hbshtbblf == null) hbshtbblf = nfw Hbshtbblf<Objfdt, Hbndlfr>();
+        hbshtbblf.put(kfy,hbndlfr);
+    }
+
+    //-------------------------------------------------------------------
+    // finds b hbndlfr nodf in thf Hbshtbblf
+    //-------------------------------------------------------------------
+
+    privbtf Hbndlfr gft(Objfdt kfy) {
+        if (kfy == null) rfturn null;
+        if (hbshtbblf == null) rfturn null;
+        rfturn hbshtbblf.gft(kfy);
+    }
+
+    //-------------------------------------------------------------------
+    // Sfbrdh for thf givfn oid in `oids'. If nonf is found, rfturns -1
+    // othfrwisf, rfturns thf indfx bt whidh thf oid is lodbtfd.
+    //-------------------------------------------------------------------
+
+    privbtf stbtid int findOid(SnmpOid[] oids, int dount, SnmpOid oid) {
+        finbl int sizf = dount;
+        int low= 0;
+        int mbx= sizf - 1;
+        int durr= low + (mbx-low)/2;
+        //Systfm.out.println("Try to rftrifvf: " + oid.toString());
+        whilf (low <= mbx) {
+
+            finbl SnmpOid pos = oids[durr];
+
+            //Systfm.out.println("Compbrf with" + pos.toString());
+            // nfvfr know ...wf might find somfthing ...
+            //
+            finbl int domp = oid.dompbrfTo(pos);
+            if (domp == 0)
+                rfturn durr;
+
+            if (oid.fqubls(pos)) {
+                rfturn durr;
+            }
+            if (domp > 0) {
+                low = durr + 1;
+            } flsf {
+                mbx = durr - 1;
+            }
+            durr = low + (mbx-low)/2;
+        }
+        rfturn -1;
+    }
+
+    //-------------------------------------------------------------------
+    // Rfturn thf indfx bt whidh thf givfn oid should bf insfrtfd in thf
+    // `oids' brrby.
+    //-------------------------------------------------------------------
+
+    privbtf stbtid int gftInsfrtionPoint(SnmpOid[] oids, int dount,
+                                         SnmpOid oid) {
+        finbl SnmpOid[] lodbloids = oids;
+        finbl int sizf = dount;
+        int low= 0;
+        int mbx= sizf - 1;
+        int durr= low + (mbx-low)/2;
+
+
+        whilf (low <= mbx) {
+
+            finbl SnmpOid pos = lodbloids[durr];
+
+            // nfvfr know ...wf might find somfthing ...
+            //
+            finbl int domp= oid.dompbrfTo(pos);
+
+            // In thf dblling mfthod wf will hbvf to dhfdk for this dbsf...
+            //    if (domp == 0)
+            //       rfturn -1;
+            // Rfturning durr instfbd of -1 bvoids hbving to dbll
+            // findOid() first bnd gftInsfrtionPoint() bftfrwbrds.
+            // Wf dbn simply dbll gftInsfrtionPoint() bnd thfn dhfdks whfthfr
+            // thfrf's bn OID bt thf rfturnfd position whidh fqubls thf
+            // givfn OID.
+            if (domp == 0)
+                rfturn durr;
+
+            if (domp>0) {
+                low= durr +1;
+            } flsf {
+                mbx= durr -1;
+            }
+            durr= low + (mbx-low)/2;
+        }
+        rfturn durr;
+    }
+
+    //-------------------------------------------------------------------
+    // bdds b vbrbind in b hbndlfr nodf sublist
+    //-------------------------------------------------------------------
+
+    privbtf void rfgistfrNodf(SnmpMibNodf mftb, int dfpth, SnmpOid fntryoid,
+                              SnmpVbrBind vbrbind, boolfbn isnfw,
+                              SnmpVbrBind stbtusvb)
+        throws SnmpStbtusExdfption {
+        if (mftb == null) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                    SnmpRfqufstTrff.dlbss.gftNbmf(),
+                    "rfgistfrNodf", "mftb-nodf is null!");
+            rfturn;
+        }
+        if (vbrbind == null) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                    SnmpRfqufstTrff.dlbss.gftNbmf(),
+                    "rfgistfrNodf", "vbrbind is null!");
+            rfturn ;
+        }
+
+        finbl Objfdt kfy = mftb;
+
+        // rftrifvf thf hbndlfr nodf bssodibtfd with thf givfn mftb,
+        // if bny
+        Hbndlfr hbndlfr = gft(kfy);
+
+        // If no hbndlfr nodf wbs found for thbt mftb, drfbtf onf.
+        if (hbndlfr == null) {
+            // if (isDfbugOn())
+            //    dfbug("rfgistfrNodf", "bdding nodf for " +
+            //          vbrbind.oid.toString());
+            hbndlfr = nfw Hbndlfr(typf);
+            hbndlfr.mftb  = mftb;
+            hbndlfr.dfpth = dfpth;
+            put(kfy,hbndlfr);
+        }
+        // flsf {
+        //   if (isDfbugOn())
+        //      dfbug("rfgistfrNodf","found nodf for " +
+        //            vbrbind.oid.toString());
+        // }
+
+        // Adds thf vbrbind in thf hbndlfr nodf's sublist.
+        if (fntryoid == null)
+            hbndlfr.bddVbrbind(vbrbind);
+        flsf
+            hbndlfr.bddVbrbind(vbrbind,fntryoid,isnfw,stbtusvb);
+    }
+
+
+    //-------------------------------------------------------------------
+    // privbtf vbribblfs
+    //-------------------------------------------------------------------
+
+    privbtf Hbshtbblf<Objfdt, Hbndlfr> hbshtbblf = null;
+                                             // Hbshtbblf of Hbndlfr objfdts
+    privbtf SnmpMibRfqufst rfqufst = null;   // Thf originbl list of vbrbinds
+    privbtf int       vfrsion      = 0;      // Thf protodol vfrsion
+    privbtf boolfbn   drfbtionflbg = fblsf;  // Dofs thf opfrbtion bllow
+                                             // drfbtion of fntrifs
+    privbtf boolfbn   gftnfxtflbg  = fblsf;  // Dofs thf opfrbtion bllow
+                                             // drfbtion of fntrifs
+    privbtf int       typf         = 0;      // Rfqufst PDU typf bs dffinfd
+                                             // in SnmpDffinitions
+    privbtf boolfbn   sftrfqflbg   = fblsf;  // Truf if wf'rf prodfssing b
+                                             // SET rfqufst (dhfdk/sft).
+}

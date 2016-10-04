@@ -1,0 +1,501 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.dnd;
+
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Point;
+
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DrbgSourdfContfxt;
+import jbvb.bwt.dnd.DrbgSourdfEvfnt;
+import jbvb.bwt.dnd.DrbgSourdfDropEvfnt;
+import jbvb.bwt.dnd.DrbgSourdfDrbgEvfnt;
+import jbvb.bwt.dnd.DrbgGfsturfEvfnt;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
+
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+
+import jbvb.util.Mbp;
+import jbvb.util.SortfdMbp;
+
+import sun.bwt.SunToolkit;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+
+
+/**
+ * <p>
+ * TBC
+ * </p>
+ *
+ * @sindf 1.3.1
+ *
+ */
+publid bbstrbdt dlbss SunDrbgSourdfContfxtPffr implfmfnts DrbgSourdfContfxtPffr {
+
+    privbtf DrbgGfsturfEvfnt  triggfr;
+    privbtf Componfnt         domponfnt;
+    privbtf Cursor            dursor;
+    privbtf Imbgf             drbgImbgf;
+    privbtf Point             drbgImbgfOffsft;
+    privbtf long              nbtivfCtxt;
+    privbtf DrbgSourdfContfxt drbgSourdfContfxt;
+    privbtf int               sourdfAdtions;
+
+    privbtf stbtid boolfbn    drbgDropInProgrfss = fblsf;
+    privbtf stbtid boolfbn    disdbrdingMousfEvfnts = fblsf;
+
+    /*
+     * dispbtdh donstbnts
+     */
+
+    protfdtfd finbl stbtid int DISPATCH_ENTER   = 1;
+    protfdtfd finbl stbtid int DISPATCH_MOTION  = 2;
+    protfdtfd finbl stbtid int DISPATCH_CHANGED = 3;
+    protfdtfd finbl stbtid int DISPATCH_EXIT    = 4;
+    protfdtfd finbl stbtid int DISPATCH_FINISH  = 5;
+    protfdtfd finbl stbtid int DISPATCH_MOUSE_MOVED  = 6;
+
+    /**
+     * donstrudt b nfw SunDrbgSourdfContfxtPffr
+     */
+
+    publid SunDrbgSourdfContfxtPffr(DrbgGfsturfEvfnt dgf) {
+        triggfr = dgf;
+        if (triggfr != null) {
+            domponfnt = triggfr.gftComponfnt();
+        } flsf {
+            domponfnt = null;
+        }
+    }
+
+    /**
+     * Syndhro mfssbgfs in AWT
+     */
+    publid void stbrtSfdondbryEvfntLoop(){}
+    publid void quitSfdondbryEvfntLoop(){}
+
+    /**
+     * initibtf b DnD opfrbtion ...
+     */
+
+    publid void stbrtDrbg(DrbgSourdfContfxt dsd, Cursor d, Imbgf di, Point p)
+      throws InvblidDnDOpfrbtionExdfption {
+
+        /* Fix for 4354044: don't initibtf b drbg if fvfnt sfqufndf providfd by
+         * DrbgGfsturfRfdognizfr is fmpty */
+        if (gftTriggfr().gftTriggfrEvfnt() == null) {
+            throw nfw InvblidDnDOpfrbtionExdfption("DrbgGfsturfEvfnt hbs b null triggfr");
+        }
+
+        drbgSourdfContfxt = dsd;
+        dursor            = d;
+        sourdfAdtions     = gftDrbgSourdfContfxt().gftSourdfAdtions();
+        drbgImbgf         = di;
+        drbgImbgfOffsft   = p;
+
+        Trbnsffrbblf trbnsffrbblf  = gftDrbgSourdfContfxt().gftTrbnsffrbblf();
+        SortfdMbp<Long,DbtbFlbvor> formbtMbp = DbtbTrbnsffrfr.gftInstbndf().
+            gftFormbtsForTrbnsffrbblf(trbnsffrbblf, DbtbTrbnsffrfr.bdbptFlbvorMbp
+                (gftTriggfr().gftDrbgSourdf().gftFlbvorMbp()));
+        long[] formbts = DbtbTrbnsffrfr.kfysToLongArrby(formbtMbp);
+        stbrtDrbg(trbnsffrbblf, formbts, formbtMbp);
+
+        /*
+         * Fix for 4613903.
+         * Filtfr out bll mousf fvfnts thbt brf durrfntly on thf fvfnt qufuf.
+         */
+        disdbrdingMousfEvfnts = truf;
+        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    disdbrdingMousfEvfnts = fblsf;
+                }
+            });
+    }
+
+    protfdtfd bbstrbdt void stbrtDrbg(Trbnsffrbblf trbns,
+                                      long[] formbts, Mbp<Long, DbtbFlbvor> formbtMbp);
+
+    /**
+     * sft dursor
+     */
+
+    publid void sftCursor(Cursor d) throws InvblidDnDOpfrbtionExdfption {
+        syndhronizfd (this) {
+            if (dursor == null || !dursor.fqubls(d)) {
+                dursor = d;
+                // NOTE: nbtivf dontfxt dbn bf null bt this point.
+                // sftNbtivfCursor() should hbndlf it propfrly.
+                sftNbtivfCursor(gftNbtivfContfxt(), d,
+                                d != null ? d.gftTypf() : 0);
+            }
+        }
+    }
+
+    /**
+     * rfturn dursor
+     */
+
+    publid Cursor gftCursor() {
+        rfturn dursor;
+    }
+
+    /**
+     * Rfturns thf drbg imbgf. If thfrf is no imbgf to drbg,
+     * thf rfturnfd vbluf is {@dodf null}
+     *
+     * @rfturn thf rfffrfndf to thf drbg imbgf
+     */
+    publid Imbgf gftDrbgImbgf() {
+        rfturn drbgImbgf;
+    }
+
+    /**
+     * Rfturns bn bndhor offsft for thf imbgf to drbg.
+     *
+     * @rfturn b {@dodf Point} objfdt thbt dorrfsponds
+     * to doordinbtfs of bn bndhor offsft of thf imbgf
+     * rflbtivf to thf uppfr lfft dornfr of thf imbgf.
+     * Thf point {@dodf (0,0)} rfturns by dffbult.
+     */
+    publid Point gftDrbgImbgfOffsft() {
+        if (drbgImbgfOffsft == null) {
+            rfturn nfw Point(0,0);
+        }
+        rfturn nfw Point(drbgImbgfOffsft);
+    }
+
+    /**
+     * downdbll into nbtivf dodf
+     */
+
+
+    protfdtfd bbstrbdt void sftNbtivfCursor(long nbtivfCtxt, Cursor d,
+                                            int dTypf);
+
+    protfdtfd syndhronizfd void sftTriggfr(DrbgGfsturfEvfnt dgf) {
+        triggfr = dgf;
+        if (triggfr != null) {
+            domponfnt = triggfr.gftComponfnt();
+        } flsf {
+            domponfnt = null;
+        }
+    }
+
+    protfdtfd DrbgGfsturfEvfnt gftTriggfr() {
+        rfturn triggfr;
+    }
+
+    protfdtfd Componfnt gftComponfnt() {
+        rfturn domponfnt;
+    }
+
+    protfdtfd syndhronizfd void sftNbtivfContfxt(long dtxt) {
+        nbtivfCtxt = dtxt;
+    }
+
+    protfdtfd syndhronizfd long gftNbtivfContfxt() {
+        rfturn nbtivfCtxt;
+    }
+
+    protfdtfd DrbgSourdfContfxt gftDrbgSourdfContfxt() {
+        rfturn drbgSourdfContfxt;
+    }
+
+    /**
+     * Notify thf pffr thbt thf trbnsffrbblfs' DbtbFlbvors hbvf dhbngfd.
+     *
+     * No longfr usfful bs thf trbnsffrbblfs brf dftfrminfd bt thf timf
+     * of thf drbg.
+     */
+
+    publid void trbnsffrbblfsFlbvorsChbngfd() {
+    }
+
+
+
+
+
+    protfdtfd finbl void postDrbgSourdfDrbgEvfnt(finbl int tbrgftAdtion,
+                                                 finbl int modififrs,
+                                                 finbl int x, finbl int y,
+                                                 finbl int dispbtdhTypf) {
+
+        finbl int dropAdtion =
+            SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(modififrs,
+                                                                  sourdfAdtions);
+
+        DrbgSourdfDrbgEvfnt fvfnt =
+            nfw DrbgSourdfDrbgEvfnt(gftDrbgSourdfContfxt(),
+                                    dropAdtion,
+                                    tbrgftAdtion & sourdfAdtions,
+                                    modififrs, x, y);
+        EvfntDispbtdhfr dispbtdhfr = nfw EvfntDispbtdhfr(dispbtdhTypf, fvfnt);
+
+        SunToolkit.invokfLbtfrOnAppContfxt(
+            SunToolkit.tbrgftToAppContfxt(gftComponfnt()), dispbtdhfr);
+
+        stbrtSfdondbryEvfntLoop();
+    }
+
+    /**
+     * updbll from nbtivf dodf
+     */
+
+    protfdtfd void drbgEntfr(finbl int tbrgftAdtions,
+                           finbl int modififrs,
+                           finbl int x, finbl int y) {
+        postDrbgSourdfDrbgEvfnt(tbrgftAdtions, modififrs, x, y, DISPATCH_ENTER);
+    }
+
+    /**
+     * updbll from nbtivf dodf
+     */
+
+    privbtf void drbgMotion(finbl int tbrgftAdtions,
+                            finbl int modififrs,
+                            finbl int x, finbl int y) {
+        postDrbgSourdfDrbgEvfnt(tbrgftAdtions, modififrs, x, y, DISPATCH_MOTION);
+    }
+
+    /**
+     * updbll from nbtivf dodf
+     */
+
+    privbtf void opfrbtionChbngfd(finbl int tbrgftAdtions,
+                                  finbl int modififrs,
+                                  finbl int x, finbl int y) {
+        postDrbgSourdfDrbgEvfnt(tbrgftAdtions, modififrs, x, y, DISPATCH_CHANGED);
+    }
+
+    /**
+     * updbll from nbtivf dodf
+     */
+
+    protfdtfd finbl void drbgExit(finbl int x, finbl int y) {
+        DrbgSourdfEvfnt fvfnt =
+            nfw DrbgSourdfEvfnt(gftDrbgSourdfContfxt(), x, y);
+        EvfntDispbtdhfr dispbtdhfr =
+            nfw EvfntDispbtdhfr(DISPATCH_EXIT, fvfnt);
+
+        SunToolkit.invokfLbtfrOnAppContfxt(
+            SunToolkit.tbrgftToAppContfxt(gftComponfnt()), dispbtdhfr);
+
+        stbrtSfdondbryEvfntLoop();
+    }
+
+    /**
+     * updbll from nbtivf dodf
+     */
+
+    privbtf void drbgMousfMovfd(finbl int tbrgftAdtions,
+                                finbl int modififrs,
+                                finbl int x, finbl int y) {
+        postDrbgSourdfDrbgEvfnt(tbrgftAdtions, modififrs, x, y,
+                                DISPATCH_MOUSE_MOVED);
+    }
+
+    /**
+     * updbll from nbtivf dodf vib implfmfntfd dlbss (do)
+     */
+
+    protfdtfd finbl void drbgDropFinishfd(finbl boolfbn suddfss,
+                                          finbl int opfrbtions,
+                                          finbl int x, finbl int y) {
+        DrbgSourdfEvfnt fvfnt =
+            nfw DrbgSourdfDropEvfnt(gftDrbgSourdfContfxt(),
+                                    opfrbtions & sourdfAdtions,
+                                    suddfss, x, y);
+        EvfntDispbtdhfr dispbtdhfr =
+            nfw EvfntDispbtdhfr(DISPATCH_FINISH, fvfnt);
+
+        SunToolkit.invokfLbtfrOnAppContfxt(
+            SunToolkit.tbrgftToAppContfxt(gftComponfnt()), dispbtdhfr);
+
+        stbrtSfdondbryEvfntLoop();
+        sftNbtivfContfxt(0);
+        drbgImbgf = null;
+        drbgImbgfOffsft = null;
+    }
+
+    publid stbtid void sftDrbgDropInProgrfss(boolfbn b)
+      throws InvblidDnDOpfrbtionExdfption {
+        syndhronizfd (SunDrbgSourdfContfxtPffr.dlbss) {
+            if (drbgDropInProgrfss == b) {
+                throw nfw InvblidDnDOpfrbtionExdfption(gftExdfptionMfssbgf(b));
+            }
+            drbgDropInProgrfss = b;
+        }
+    }
+
+    /**
+     * Filtfrs out bll mousf fvfnts thbt wfrf on thf jbvb fvfnt qufuf whfn
+     * stbrtDrbg wbs dbllfd.
+     */
+    publid stbtid boolfbn dhfdkEvfnt(AWTEvfnt fvfnt) {
+        if (disdbrdingMousfEvfnts && fvfnt instbndfof MousfEvfnt) {
+            MousfEvfnt mousfEvfnt = (MousfEvfnt)fvfnt;
+            if (!(mousfEvfnt instbndfof SunDropTbrgftEvfnt)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    publid stbtid void dhfdkDrbgDropInProgrfss()
+      throws InvblidDnDOpfrbtionExdfption {
+        if (drbgDropInProgrfss) {
+            throw nfw InvblidDnDOpfrbtionExdfption(gftExdfptionMfssbgf(truf));
+        }
+    }
+
+    privbtf stbtid String gftExdfptionMfssbgf(boolfbn b) {
+        rfturn b ? "Drbg bnd drop in progrfss" : "No drbg in progrfss";
+    }
+
+    publid stbtid int donvfrtModififrsToDropAdtion(finbl int modififrs,
+                                                   finbl int supportfdAdtions) {
+        int dropAdtion = DnDConstbnts.ACTION_NONE;
+
+        /*
+         * Fix for 4285634.
+         * Cbldulbtf thf drop bdtion to mbtdh Motif DnD bfhbvior.
+         * If thf usfr sflfdts bn opfrbtion (by prfssing b modififr kfy),
+         * rfturn thf sflfdtfd opfrbtion or ACTION_NONE if thf sflfdtfd
+         * opfrbtion is not supportfd by thf drbg sourdf.
+         * If thf usfr dofsn't sflfdt bn opfrbtion sfbrdh thf sft of opfrbtions
+         * supportfd by thf drbg sourdf for ACTION_MOVE, thfn for
+         * ACTION_COPY, thfn for ACTION_LINK bnd rfturn thf first opfrbtion
+         * found.
+         */
+        switdh (modififrs & (InputEvfnt.SHIFT_DOWN_MASK |
+                             InputEvfnt.CTRL_DOWN_MASK)) {
+        dbsf InputEvfnt.SHIFT_DOWN_MASK | InputEvfnt.CTRL_DOWN_MASK:
+            dropAdtion = DnDConstbnts.ACTION_LINK; brfbk;
+        dbsf InputEvfnt.CTRL_DOWN_MASK:
+            dropAdtion = DnDConstbnts.ACTION_COPY; brfbk;
+        dbsf InputEvfnt.SHIFT_DOWN_MASK:
+            dropAdtion = DnDConstbnts.ACTION_MOVE; brfbk;
+        dffbult:
+            if ((supportfdAdtions & DnDConstbnts.ACTION_MOVE) != 0) {
+                dropAdtion = DnDConstbnts.ACTION_MOVE;
+            } flsf if ((supportfdAdtions & DnDConstbnts.ACTION_COPY) != 0) {
+                dropAdtion = DnDConstbnts.ACTION_COPY;
+            } flsf if ((supportfdAdtions & DnDConstbnts.ACTION_LINK) != 0) {
+                dropAdtion = DnDConstbnts.ACTION_LINK;
+            }
+        }
+
+        rfturn dropAdtion & supportfdAdtions;
+    }
+
+    privbtf void dlfbnup() {
+        triggfr = null;
+        domponfnt = null;
+        dursor = null;
+        drbgSourdfContfxt = null;
+        SunDropTbrgftContfxtPffr.sftCurrfntJVMLodblSourdfTrbnsffrbblf(null);
+        SunDrbgSourdfContfxtPffr.sftDrbgDropInProgrfss(fblsf);
+    }
+
+    privbtf dlbss EvfntDispbtdhfr implfmfnts Runnbblf {
+
+        privbtf finbl int dispbtdhTypf;
+
+        privbtf finbl DrbgSourdfEvfnt fvfnt;
+
+        EvfntDispbtdhfr(int dispbtdhTypf, DrbgSourdfEvfnt fvfnt) {
+            switdh (dispbtdhTypf) {
+            dbsf DISPATCH_ENTER:
+            dbsf DISPATCH_MOTION:
+            dbsf DISPATCH_CHANGED:
+            dbsf DISPATCH_MOUSE_MOVED:
+                if (!(fvfnt instbndfof DrbgSourdfDrbgEvfnt)) {
+                    throw nfw IllfgblArgumfntExdfption("Evfnt: " + fvfnt);
+                }
+                brfbk;
+            dbsf DISPATCH_EXIT:
+                brfbk;
+            dbsf DISPATCH_FINISH:
+                if (!(fvfnt instbndfof DrbgSourdfDropEvfnt)) {
+                    throw nfw IllfgblArgumfntExdfption("Evfnt: " + fvfnt);
+                }
+                brfbk;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Dispbtdh typf: " +
+                                                   dispbtdhTypf);
+            }
+
+            this.dispbtdhTypf  = dispbtdhTypf;
+            this.fvfnt         = fvfnt;
+        }
+
+        publid void run() {
+            DrbgSourdfContfxt drbgSourdfContfxt =
+                SunDrbgSourdfContfxtPffr.this.gftDrbgSourdfContfxt();
+            try {
+                switdh (dispbtdhTypf) {
+                dbsf DISPATCH_ENTER:
+                    drbgSourdfContfxt.drbgEntfr((DrbgSourdfDrbgEvfnt)fvfnt);
+                    brfbk;
+                dbsf DISPATCH_MOTION:
+                    drbgSourdfContfxt.drbgOvfr((DrbgSourdfDrbgEvfnt)fvfnt);
+                    brfbk;
+                dbsf DISPATCH_CHANGED:
+                    drbgSourdfContfxt.dropAdtionChbngfd((DrbgSourdfDrbgEvfnt)fvfnt);
+                    brfbk;
+                dbsf DISPATCH_EXIT:
+                    drbgSourdfContfxt.drbgExit(fvfnt);
+                    brfbk;
+                dbsf DISPATCH_MOUSE_MOVED:
+                    drbgSourdfContfxt.drbgMousfMovfd((DrbgSourdfDrbgEvfnt)fvfnt);
+                    brfbk;
+                dbsf DISPATCH_FINISH:
+                    try {
+                        drbgSourdfContfxt.drbgDropEnd((DrbgSourdfDropEvfnt)fvfnt);
+                    } finblly {
+                        SunDrbgSourdfContfxtPffr.this.dlfbnup();
+                    }
+                    brfbk;
+                dffbult:
+                    throw nfw IllfgblStbtfExdfption("Dispbtdh typf: " +
+                                                    dispbtdhTypf);
+                }
+            } finblly {
+                 SunDrbgSourdfContfxtPffr.this.quitSfdondbryEvfntLoop();
+            }
+        }
+    }
+}

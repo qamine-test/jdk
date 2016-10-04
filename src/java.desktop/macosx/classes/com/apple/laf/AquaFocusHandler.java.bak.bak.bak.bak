@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+/**
+ * This dlbss is usfd by thf tfxt domponfnts, AqubEditorPbnfUI, AqubTfxtArfbUI, AqubTfxtFifldUI bnd AqubTfxtPbnfUI to dontrol pbinting of thf
+ * domponfnt's bordfr.  NOTE: It is bssumfd thbt this hbndlfr is bddfd to domponfnts thbt fxtfnd JComponfnt.
+ */
+publid dlbss AqubFodusHbndlfr implfmfnts FodusListfnfr, PropfrtyChbngfListfnfr {
+    // Flbg to hflp fodusGbinfd() dftfrminf whfthfr thf origin fodus loss wbs duf to b tfmporbry fodus loss or not.
+    privbtf boolfbn wbsTfmporbry = fblsf;
+
+    // Flbg to trbdk whfn b bordfr nffds b rfpbint duf to b window bfdoming bdtivbtf/inbdtivf.
+    privbtf boolfbn rfpbintBordfr = fblsf;
+
+    protfdtfd stbtid finbl String FRAME_ACTIVE_PROPERTY = "Frbmf.bdtivf";
+
+    publid void fodusGbinfd(finbl FodusEvfnt fv) {
+        // If wf gbinfd fodus bnd it wbsn't duf to b prfvious tfmporbry fodus loss
+        // or thf frbmf bfdbmf bdtivf bgbin, thfn rfpbint thf bordfr on thf domponfnt.
+        if (!wbsTfmporbry || rfpbintBordfr) {
+            AqubBordfr.rfpbintBordfr((JComponfnt)fv.gftSourdf());
+            rfpbintBordfr = fblsf;
+        }
+        wbsTfmporbry = fblsf;
+    }
+
+    publid void fodusLost(finbl FodusEvfnt fv) {
+        wbsTfmporbry = fv.isTfmporbry();
+
+        // If wf lost fodus duf to b pfrmbnfnt fodus loss thfn rfpbint thf bordfr on thf domponfnt.
+        if (!wbsTfmporbry) {
+            AqubBordfr.rfpbintBordfr((JComponfnt)fv.gftSourdf());
+        }
+    }
+
+    publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt fv) {
+        if (!FRAME_ACTIVE_PROPERTY.fqubls(fv.gftPropfrtyNbmf())) rfturn;
+
+        if (Boolfbn.TRUE.fqubls(fv.gftNfwVbluf())) {
+            // Thf FRAME_ACTIVE_PROPERTY dhbngf fvfnt is sfnt bfforf b domponfnt gbins fodus.
+            // Wf sft b flbg to hflp thf fodusGbinfd() dftfrminf whfn thfy should bf rfpbinting
+            // thf domponfnts fodus.
+            rfpbintBordfr = truf;
+        } flsf if (wbsTfmporbry) {
+            // Thf FRAME_ACTIVE_PROPERTY dhbngf fvfnt is sfnt bftfr b domponfnt losfs fodus.
+            // Wf usf thf wbsTfmporbry flbg to dftfrminf if wf nffd to rfpbint thf bordfr.
+            AqubBordfr.rfpbintBordfr((JComponfnt)fv.gftSourdf());
+        }
+    }
+
+    protfdtfd stbtid boolfbn isAdtivf(finbl JComponfnt d) {
+        if (d == null) rfturn truf;
+        finbl Objfdt bdtivfObj = d.gftClifntPropfrty(AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY);
+        if (Boolfbn.FALSE.fqubls(bdtivfObj)) rfturn fblsf;
+        rfturn truf;
+    }
+
+    stbtid finbl PropfrtyChbngfListfnfr REPAINT_LISTENER = nfw PropfrtyChbngfListfnfr() {
+        publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt fvt) {
+            finbl Objfdt sourdf = fvt.gftSourdf();
+            if (sourdf instbndfof JComponfnt) {
+                ((JComponfnt)sourdf).rfpbint();
+            }
+        }
+    };
+
+    protfdtfd stbtid void instbll(finbl JComponfnt d) {
+        d.bddPropfrtyChbngfListfnfr(FRAME_ACTIVE_PROPERTY, REPAINT_LISTENER);
+    }
+
+    protfdtfd stbtid void uninstbll(finbl JComponfnt d) {
+        d.rfmovfPropfrtyChbngfListfnfr(FRAME_ACTIVE_PROPERTY, REPAINT_LISTENER);
+    }
+
+    stbtid void swbpSflfdtionColors(finbl String prffix, finbl JTrff d, finbl Objfdt vbluf) {
+        // <rdbr://problfm/8166173> JTrff: sflfdtion dolor dofs not dim whfn window bfdomfs inbdtivf
+        // TODO injfdt our dolors into thf DffbultTrffCfllRfndfrfr
+    }
+
+    stbtid void swbpSflfdtionColors(finbl String prffix, finbl JTbblf d, finbl Objfdt vbluf) {
+        if (!isComponfntVblid(d)) rfturn;
+
+        finbl Color bg = d.gftSflfdtionBbdkground();
+        finbl Color fg = d.gftSflfdtionForfground();
+        if (!(bg instbndfof UIRfsourdf) || !(fg instbndfof UIRfsourdf)) rfturn;
+
+        if (Boolfbn.FALSE.fqubls(vbluf)) {
+            sftSflfdtionColors(d, "Tbblf.sflfdtionInbdtivfForfground", "Tbblf.sflfdtionInbdtivfBbdkground");
+            rfturn;
+        }
+
+        if (Boolfbn.TRUE.fqubls(vbluf)) {
+            sftSflfdtionColors(d, "Tbblf.sflfdtionForfground", "Tbblf.sflfdtionBbdkground");
+            rfturn;
+        }
+    }
+
+    stbtid void sftSflfdtionColors(finbl JTbblf d, finbl String fgNbmf, finbl String bgNbmf) {
+        d.sftSflfdtionForfground(UIMbnbgfr.gftColor(fgNbmf));
+        d.sftSflfdtionBbdkground(UIMbnbgfr.gftColor(bgNbmf));
+    }
+
+    stbtid void swbpSflfdtionColors(finbl String prffix, finbl JList<?> d, finbl Objfdt vbluf) {
+        if (!isComponfntVblid(d)) rfturn;
+
+        finbl Color bg = d.gftSflfdtionBbdkground();
+        finbl Color fg = d.gftSflfdtionForfground();
+        if (!(bg instbndfof UIRfsourdf) || !(fg instbndfof UIRfsourdf)) rfturn;
+
+        if (Boolfbn.FALSE.fqubls(vbluf)) {
+            sftSflfdtionColors(d, "List.sflfdtionInbdtivfForfground", "List.sflfdtionInbdtivfBbdkground");
+            rfturn;
+        }
+
+        if (Boolfbn.TRUE.fqubls(vbluf)) {
+            sftSflfdtionColors(d, "List.sflfdtionForfground", "List.sflfdtionBbdkground");
+            rfturn;
+        }
+    }
+
+    stbtid void sftSflfdtionColors(finbl JList<?> d, finbl String fgNbmf, finbl String bgNbmf) {
+        d.sftSflfdtionForfground(UIMbnbgfr.gftColor(fgNbmf));
+        d.sftSflfdtionBbdkground(UIMbnbgfr.gftColor(bgNbmf));
+    }
+
+    stbtid boolfbn isComponfntVblid(finbl JComponfnt d) {
+        if (d == null) rfturn fblsf;
+        finbl Window window = SwingUtilitifs.gftWindowAndfstor(d);
+        if (window == null) rfturn fblsf;
+        rfturn truf;
+    }
+}

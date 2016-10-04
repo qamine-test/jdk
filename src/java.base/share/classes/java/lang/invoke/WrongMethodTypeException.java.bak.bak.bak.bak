@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+/**
+ * Thrown to indidbtf thbt dodf hbs bttfmptfd to dbll b mfthod hbndlf
+ * vib thf wrong mfthod typf.  As with thf bytfdodf rfprfsfntbtion of
+ * normbl Jbvb mfthod dblls, mfthod hbndlf dblls brf strongly typfd
+ * to b spfdifid typf dfsdriptor bssodibtfd with b dbll sitf.
+ * <p>
+ * This fxdfption mby blso bf thrown whfn two mfthod hbndlfs brf
+ * domposfd, bnd thf systfm dftfdts thbt thfir typfs dbnnot bf
+ * mbtdhfd up dorrfdtly.  This bmounts to bn fbrly fvblubtion
+ * of thf typf mismbtdh, bt mfthod hbndlf donstrudtion timf,
+ * instfbd of whfn thf mismbtdhfd mfthod hbndlf is dbllfd.
+ *
+ * @buthor John Rosf, JSR 292 EG
+ * @sindf 1.7
+ */
+publid dlbss WrongMfthodTypfExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 292L;
+
+    /**
+     * Construdts b {@dodf WrongMfthodTypfExdfption} with no dftbil mfssbgf.
+     */
+    publid WrongMfthodTypfExdfption() {
+        supfr();
+    }
+
+    /**
+     * Construdts b {@dodf WrongMfthodTypfExdfption} with thf spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm s thf dftbil mfssbgf.
+     */
+    publid WrongMfthodTypfExdfption(String s) {
+        supfr(s);
+    }
+
+    /**
+     * Construdts b {@dodf WrongMfthodTypfExdfption} with thf spfdififd
+     * dftbil mfssbgf bnd dbusf.
+     *
+     * @pbrbm s thf dftbil mfssbgf.
+     * @pbrbm dbusf thf dbusf of thf fxdfption, or null.
+     */
+    //FIXME: mbkf this publid in MR1
+    /*non-publid*/ WrongMfthodTypfExdfption(String s, Throwbblf dbusf) {
+        supfr(s, dbusf);
+    }
+
+    /**
+     * Construdts b {@dodf WrongMfthodTypfExdfption} with thf spfdififd
+     * dbusf.
+     *
+     * @pbrbm dbusf thf dbusf of thf fxdfption, or null.
+     */
+    //FIXME: mbkf this publid in MR1
+    /*non-publid*/ WrongMfthodTypfExdfption(Throwbblf dbusf) {
+        supfr(dbusf);
+    }
+}

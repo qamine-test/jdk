@@ -1,0 +1,253 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.lodks.*;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+
+/**
+ * Bbsf implfmfntbtion of AsyndhronousFilfChbnnfl.
+ */
+
+bbstrbdt dlbss AsyndhronousFilfChbnnflImpl
+    fxtfnds AsyndhronousFilfChbnnfl
+{
+    // dlosf support
+    protfdtfd finbl RfbdWritfLodk dlosfLodk = nfw RffntrbntRfbdWritfLodk();
+    protfdtfd volbtilf boolfbn dlosfd;
+
+    // filf dfsdriptor
+    protfdtfd finbl FilfDfsdriptor fdObj;
+
+    // indidbtfs if opfn for rfbding/writing
+    protfdtfd finbl boolfbn rfbding;
+    protfdtfd finbl boolfbn writing;
+
+    // bssodibtfd Exfdutor
+    protfdtfd finbl ExfdutorSfrvidf fxfdutor;
+
+    protfdtfd AsyndhronousFilfChbnnflImpl(FilfDfsdriptor fdObj,
+                                          boolfbn rfbding,
+                                          boolfbn writing,
+                                          ExfdutorSfrvidf fxfdutor)
+    {
+        this.fdObj = fdObj;
+        this.rfbding = rfbding;
+        this.writing = writing;
+        this.fxfdutor = fxfdutor;
+    }
+
+    finbl ExfdutorSfrvidf fxfdutor() {
+        rfturn fxfdutor;
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn isOpfn() {
+        rfturn !dlosfd;
+    }
+
+    /**
+     * Mbrks thf bfginning of bn I/O opfrbtion.
+     *
+     * @throws  ClosfdChbnnflExdfption  If dhbnnfl is dlosfd
+     */
+    protfdtfd finbl void bfgin() throws IOExdfption {
+        dlosfLodk.rfbdLodk().lodk();
+        if (dlosfd)
+            throw nfw ClosfdChbnnflExdfption();
+    }
+
+    /**
+     * Mbrks thf fnd of bn I/O opfrbtion.
+     */
+    protfdtfd finbl void fnd() {
+        dlosfLodk.rfbdLodk().unlodk();
+    }
+
+    /**
+     * Mbrks fnd of I/O opfrbtion
+     */
+    protfdtfd finbl void fnd(boolfbn domplftfd) throws IOExdfption {
+        fnd();
+        if (!domplftfd && !isOpfn())
+            throw nfw AsyndhronousClosfExdfption();
+    }
+
+    // -- filf lodking --
+
+    bbstrbdt <A> Futurf<FilfLodk> implLodk(long position,
+                                           long sizf,
+                                           boolfbn shbrfd,
+                                           A bttbdhmfnt,
+                                           ComplftionHbndlfr<FilfLodk,? supfr A> hbndlfr);
+
+    @Ovfrridf
+    publid finbl Futurf<FilfLodk> lodk(long position,
+                                       long sizf,
+                                       boolfbn shbrfd)
+
+    {
+        rfturn implLodk(position, sizf, shbrfd, null, null);
+    }
+
+    @Ovfrridf
+    publid finbl <A> void lodk(long position,
+                               long sizf,
+                               boolfbn shbrfd,
+                               A bttbdhmfnt,
+                               ComplftionHbndlfr<FilfLodk,? supfr A> hbndlfr)
+    {
+        if (hbndlfr == null)
+            throw nfw NullPointfrExdfption("'hbndlfr' is null");
+        implLodk(position, sizf, shbrfd, bttbdhmfnt, hbndlfr);
+    }
+
+    privbtf volbtilf FilfLodkTbblf filfLodkTbblf;
+
+    finbl void fnsurfFilfLodkTbblfInitiblizfd() throws IOExdfption {
+        if (filfLodkTbblf == null) {
+            syndhronizfd (this) {
+                if (filfLodkTbblf == null) {
+                    filfLodkTbblf = FilfLodkTbblf.nfwShbrfdFilfLodkTbblf(this, fdObj);
+                }
+            }
+        }
+    }
+
+    finbl void invblidbtfAllLodks() throws IOExdfption {
+        if (filfLodkTbblf != null) {
+            for (FilfLodk fl: filfLodkTbblf.rfmovfAll()) {
+                syndhronizfd (fl) {
+                    if (fl.isVblid()) {
+                        FilfLodkImpl fli = (FilfLodkImpl)fl;
+                        implRflfbsf(fli);
+                        fli.invblidbtf();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds rfgion to lodk tbblf
+     */
+    protfdtfd finbl FilfLodkImpl bddToFilfLodkTbblf(long position, long sizf, boolfbn shbrfd) {
+        finbl FilfLodkImpl fli;
+        try {
+            // likf bfgin() but rfturns null instfbd of fxdfption
+            dlosfLodk.rfbdLodk().lodk();
+            if (dlosfd)
+                rfturn null;
+
+            try {
+                fnsurfFilfLodkTbblfInitiblizfd();
+            } dbtdh (IOExdfption x) {
+                // should not hbppfn
+                throw nfw AssfrtionError(x);
+            }
+            fli = nfw FilfLodkImpl(this, position, sizf, shbrfd);
+            // mby throw OvfrlbppfdFilfLodkExdfption
+            filfLodkTbblf.bdd(fli);
+        } finblly {
+            fnd();
+        }
+        rfturn fli;
+    }
+
+    protfdtfd finbl void rfmovfFromFilfLodkTbblf(FilfLodkImpl fli) {
+        filfLodkTbblf.rfmovf(fli);
+    }
+
+    /**
+     * Rflfbsfs thf givfn filf lodk.
+     */
+    protfdtfd bbstrbdt void implRflfbsf(FilfLodkImpl fli) throws IOExdfption;
+
+    /**
+     * Invokfd by FilfLodkImpl to rflfbsf thf givfn filf lodk bnd rfmovf it
+     * from thf lodk tbblf.
+     */
+    finbl void rflfbsf(FilfLodkImpl fli) throws IOExdfption {
+        try {
+            bfgin();
+            implRflfbsf(fli);
+            rfmovfFromFilfLodkTbblf(fli);
+        } finblly {
+            fnd();
+        }
+    }
+
+
+    // -- rfbding bnd writing --
+
+    bbstrbdt <A> Futurf<Intfgfr> implRfbd(BytfBufffr dst,
+                                         long position,
+                                         A bttbdhmfnt,
+                                         ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr);
+
+    @Ovfrridf
+    publid finbl Futurf<Intfgfr> rfbd(BytfBufffr dst, long position) {
+        rfturn implRfbd(dst, position, null, null);
+    }
+
+    @Ovfrridf
+    publid finbl <A> void rfbd(BytfBufffr dst,
+                               long position,
+                               A bttbdhmfnt,
+                               ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr)
+    {
+        if (hbndlfr == null)
+            throw nfw NullPointfrExdfption("'hbndlfr' is null");
+        implRfbd(dst, position, bttbdhmfnt, hbndlfr);
+    }
+
+    bbstrbdt <A> Futurf<Intfgfr> implWritf(BytfBufffr srd,
+                                           long position,
+                                           A bttbdhmfnt,
+                                           ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr);
+
+
+    @Ovfrridf
+    publid finbl Futurf<Intfgfr> writf(BytfBufffr srd, long position) {
+        rfturn implWritf(srd, position, null, null);
+    }
+
+    @Ovfrridf
+    publid finbl <A> void writf(BytfBufffr srd,
+                                long position,
+                                A bttbdhmfnt,
+                                ComplftionHbndlfr<Intfgfr,? supfr A> hbndlfr)
+    {
+        if (hbndlfr == null)
+            throw nfw NullPointfrExdfption("'hbndlfr' is null");
+        implWritf(srd, position, bttbdhmfnt, hbndlfr);
+    }
+}

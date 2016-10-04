@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft;
+
+import jbvb.sql.SQLExdfption;
+
+/**
+ * An fxtfnsion of <dodf>SQLExdfption</dodf> thbt providfs informbtion
+ * bbout dbtbbbsf wbrnings sft on <dodf>RowSft</dodf> objfdts.
+ * Wbrnings brf silfntly dhbinfd to thf objfdt whosf mfthod dbll
+ * dbusfd it to bf rfportfd.
+ * This dlbss domplfmfnts thf <dodf>SQLWbrning</dodf> dlbss.
+ * <P>
+ * Rowsft wbrnings mby bf rftrifvfd from <dodf>JdbdRowSft</dodf>,
+ * <dodf>CbdhfdRowSft</dodf>&trbdf;,
+ * <dodf>WfbRowSft</dodf>, <dodf>FiltfrfdRowSft</dodf>, or <dodf>JoinRowSft</dodf>
+ * implfmfntbtions. To rftrifvf thf first wbrning rfportfd on bny
+ * <dodf>RowSft</dodf>
+ * implfmfntbtion,  usf thf mfthod <dodf>gftRowSftWbrnings</dodf> dffinfd
+ * in thf <dodf>JdbdRowSft</dodf> intfrfbdf or thf <dodf>CbdhfdRowSft</dodf>
+ * intfrfbdf. To rftrifvf b wbrning dhbinfd to thf first wbrning, usf thf
+ * <dodf>RowSftWbrning</dodf> mfthod
+ * <dodf>gftNfxtWbrning</dodf>. To rftrifvf subsfqufnt wbrnings, dbll
+ * <dodf>gftNfxtWbrning</dodf> on fbdh <dodf>RowSftWbrning</dodf> objfdt thbt is
+ * rfturnfd.
+ * <P>
+ * Thf inhfritfd mfthods <dodf>gftMfssbgf</dodf>, <dodf>gftSQLStbtf</dodf>,
+ * bnd <dodf>gftErrorCodf</dodf> rftrifvf informbtion dontbinfd in b
+ * <dodf>RowSftWbrning</dodf> objfdt.
+ *
+ * @sindf 1.5
+ */
+publid dlbss RowSftWbrning fxtfnds SQLExdfption {
+
+    /**
+     * RowSftWbrning objfdt hbndlf.
+     */
+     privbtf RowSftWbrning rwbrning;
+
+    /**
+     * Construdts b <dodf>RowSftWbrning</dodf> objfdt
+     * with thf givfn vbluf for thf rfbson; SQLStbtf dffbults to null,
+     * bnd vfndorCodf dffbults to 0.
+     *
+     * @pbrbm rfbson b <dodf>String</dodf> objfdt giving b dfsdription
+     *        of thf wbrning; if thf <dodf>String</dodf> is <dodf>null</dodf>,
+     *        this donstrudtor bfhbvfs likf thf dffbult (zfro pbrbmftfr)
+     *        <dodf>RowSftWbrning</dodf> donstrudtor
+     */
+    publid RowSftWbrning(String rfbson) {
+        supfr(rfbson);
+    }
+
+    /**
+     * Construdts b dffbult <dodf>RowSftWbrning</dodf> objfdt. Thf rfbson
+     * dffbults to <dodf>null</dodf>, SQLStbtf dffbults to null bnd vfndorCodf
+     * dffbults to 0.
+     */
+    publid RowSftWbrning() {
+        supfr();
+    }
+
+    /**
+     * Construdts b <dodf>RowSftWbrning</dodf> objfdt initiblizfd with thf
+     * givfn vblufs for thf rfbson bnd SQLStbtf. Thf vfndor dodf dffbults to 0.
+     *
+     * If thf <dodf>rfbson</dodf> or <dodf>SQLStbtf</dodf> pbrbmftfrs brf <dodf>null</dodf>,
+     * this donstrudtor bfhbvfs likf thf dffbult (zfro pbrbmftfr)
+     * <dodf>RowSftWbrning</dodf> donstrudtor.
+     *
+     * @pbrbm rfbson b <dodf>String</dodf> giving b dfsdription of thf
+     *        wbrning;
+     * @pbrbm SQLStbtf bn XOPEN dodf idfntifying thf wbrning; if b non stbndbrd
+     *        XOPEN <i>SQLStbtf</i> is supplifd, no fxdfption is thrown.
+     */
+    publid RowSftWbrning(jbvb.lbng.String rfbson, jbvb.lbng.String SQLStbtf) {
+        supfr(rfbson, SQLStbtf);
+    }
+
+    /**
+     * Construdts b fully spfdififd <dodf>RowSftWbrning</dodf> objfdt initiblizfd
+     * with thf givfn vblufs for thf rfbson, SQLStbtf bnd vfndorCodf.
+     *
+     * If thf <dodf>rfbson</dodf>, or thf  <dodf>SQLStbtf</dodf>
+     * pbrbmftfrs brf <dodf>null</dodf>, this donstrudtor bfhbvfs likf thf dffbult
+     * (zfro pbrbmftfr) <dodf>RowSftWbrning</dodf> donstrudtor.
+     *
+     * @pbrbm rfbson b <dodf>String</dodf> giving b dfsdription of thf
+     *        wbrning;
+     * @pbrbm SQLStbtf bn XOPEN dodf idfntifying thf wbrning; if b non stbndbrd
+     *        XPOEN <i>SQLStbtf</i> is supplifd, no fxdfption is thrown.
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid wbrning dodf
+     */
+    publid RowSftWbrning(jbvb.lbng.String rfbson, jbvb.lbng.String SQLStbtf, int vfndorCodf) {
+        supfr(rfbson, SQLStbtf, vfndorCodf);
+    }
+
+    /**
+     * Rftrifvfs thf wbrning dhbinfd to this <dodf>RowSftWbrning</dodf>
+     * objfdt.
+     *
+     * @rfturn thf <dodf>RowSftWbrning</dodf> objfdt dhbinfd to this onf; if no
+     *         <dodf>RowSftWbrning</dodf> objfdt is dhbinfd to this onf,
+     *         <dodf>null</dodf> is rfturnfd (dffbult vbluf)
+     * @sff #sftNfxtWbrning
+     */
+    publid RowSftWbrning gftNfxtWbrning() {
+        rfturn rwbrning;
+    }
+
+    /**
+     * Sfts <i>wbrning</i> bs thf nfxt wbrning, thbt is, thf wbrning dhbinfd
+     * to this <dodf>RowSftWbrning</dodf> objfdt.
+     *
+     * @pbrbm wbrning thf <dodf>RowSftWbrning</dodf> objfdt to bf sft bs thf
+     *     nfxt wbrning; if thf <dodf>RowSftWbrning</dodf> is null, this
+     *     rfprfsfnts thf finish point in thf wbrning dhbin
+     * @sff #gftNfxtWbrning
+     */
+    publid void sftNfxtWbrning(RowSftWbrning wbrning) {
+        rwbrning = wbrning;
+    }
+
+    stbtid finbl long sfriblVfrsionUID = 6678332766434564774L;
+}

@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.ColorModfl;
+
+/**
+ * Thf <dodf>Compositf</dodf> intfrfbdf, blong with
+ * {@link CompositfContfxt}, dffinfs thf mfthods to domposf b drbw
+ * primitivf with thf undfrlying grbphids brfb.
+ * Aftfr thf <dodf>Compositf</dodf> is sft in thf
+ * {@link Grbphids2D} dontfxt, it dombinfs b shbpf, tfxt, or bn imbgf
+ * bfing rfndfrfd with thf dolors thbt hbvf blrfbdy bffn rfndfrfd
+ * bddording to prf-dffinfd rulfs. Thf dlbssfs
+ * implfmfnting this intfrfbdf providf thf rulfs bnd b mfthod to drfbtf
+ * thf dontfxt for b pbrtidulbr opfrbtion.
+ * <dodf>CompositfContfxt</dodf> is bn fnvironmfnt usfd by thf
+ * dompositing opfrbtion, whidh is drfbtfd by thf <dodf>Grbphids2D</dodf>
+ * prior to thf stbrt of thf opfrbtion.  <dodf>CompositfContfxt</dodf>
+ * dontbins privbtf informbtion bnd rfsourdfs nffdfd for b dompositing
+ * opfrbtion.  Whfn thf <dodf>CompositfContfxt</dodf> is no longfr nffdfd,
+ * thf <dodf>Grbphids2D</dodf> objfdt disposfs of it in ordfr to rfdlbim
+ * rfsourdfs bllodbtfd for thf opfrbtion.
+ * <p>
+ * Instbndfs of dlbssfs implfmfnting <dodf>Compositf</dodf> must bf
+ * immutbblf bfdbusf thf <dodf>Grbphids2D</dodf> dofs not dlonf
+ * thfsf objfdts whfn thfy brf sft bs bn bttributf with thf
+ * <dodf>sftCompositf</dodf> mfthod or whfn thf <dodf>Grbphids2D</dodf>
+ * objfdt is dlonfd.  This is to bvoid undffinfd rfndfring bfhbvior of
+ * <dodf>Grbphids2D</dodf>, rfsulting from thf modifidbtion of
+ * thf <dodf>Compositf</dodf> objfdt bftfr it hbs bffn sft in thf
+ * <dodf>Grbphids2D</dodf> dontfxt.
+ * <p>
+ * Sindf this intfrfbdf must fxposf thf dontfnts of pixfls on thf
+ * tbrgft dfvidf or imbgf to potfntiblly brbitrbry dodf, thf usf of
+ * dustom objfdts whidh implfmfnt this intfrfbdf whfn rfndfring dirfdtly
+ * to b sdrffn dfvidf is govfrnfd by thf <dodf>rfbdDisplbyPixfls</dodf>
+ * {@link AWTPfrmission}.  Thf pfrmission dhfdk will oddur whfn sudh
+ * b dustom objfdt is pbssfd to thf <dodf>sftCompositf</dodf> mfthod
+ * of b <dodf>Grbphids2D</dodf> rftrifvfd from b {@link Componfnt}.
+ * @sff AlphbCompositf
+ * @sff CompositfContfxt
+ * @sff Grbphids2D#sftCompositf
+ */
+publid intfrfbdf Compositf {
+
+    /**
+     * Crfbtfs b dontfxt dontbining stbtf thbt is usfd to pfrform
+     * thf dompositing opfrbtion.  In b multi-thrfbdfd fnvironmfnt,
+     * sfvfrbl dontfxts dbn fxist simultbnfously for b singlf
+     * <dodf>Compositf</dodf> objfdt.
+     * @pbrbm srdColorModfl  thf {@link ColorModfl} of thf sourdf
+     * @pbrbm dstColorModfl  thf <dodf>ColorModfl</dodf> of thf dfstinbtion
+     * @pbrbm hints thf hint thbt thf dontfxt objfdt usfs to dhoosf bftwffn
+     * rfndfring bltfrnbtivfs
+     * @rfturn thf <dodf>CompositfContfxt</dodf> objfdt usfd to pfrform thf
+     * dompositing opfrbtion.
+     */
+    publid CompositfContfxt drfbtfContfxt(ColorModfl srdColorModfl,
+                                          ColorModfl dstColorModfl,
+                                          RfndfringHints hints);
+
+}

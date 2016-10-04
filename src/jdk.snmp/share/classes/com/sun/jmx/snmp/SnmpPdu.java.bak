@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
-import java.io.Serializable;
-import java.net.InetAddress;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.InftAddrfss;
 /**
- * Is the fully decoded representation of an SNMP packet.
+ * Is tif fully dfdodfd rfprfsfntbtion of bn SNMP pbdkft.
  * <P>
- * Classes are derived from <CODE>SnmpPdu</CODE> to
- * represent the different forms of SNMP packets
- * ({@link com.sun.jmx.snmp.SnmpPduPacket SnmpPduPacket},
- * {@link com.sun.jmx.snmp.SnmpScopedPduPacket SnmpScopedPduPacket})
- * <BR>The <CODE>SnmpPdu</CODE> class defines the attributes
- * common to every form of SNMP packets.
+ * Clbssfs brf dfrivfd from <CODE>SnmpPdu</CODE> to
+ * rfprfsfnt tif difffrfnt forms of SNMP pbdkfts
+ * ({@link dom.sun.jmx.snmp.SnmpPduPbdkft SnmpPduPbdkft},
+ * {@link dom.sun.jmx.snmp.SnmpSdopfdPduPbdkft SnmpSdopfdPduPbdkft})
+ * <BR>Tif <CODE>SnmpPdu</CODE> dlbss dffinfs tif bttributfs
+ * dommon to fvfry form of SNMP pbdkfts.
  *
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @see SnmpMessage
- * @see SnmpPduFactory
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sff SnmpMfssbgf
+ * @sff SnmpPduFbdtory
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpPdu implements SnmpDefinitions, Serializable {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpPdu implfmfnts SnmpDffinitions, Sfriblizbblf {
 
     /**
-     * PDU type. Types are defined in
-     * {@link com.sun.jmx.snmp.SnmpDefinitions SnmpDefinitions}.
-     * @serial
+     * PDU typf. Typfs brf dffinfd in
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions SnmpDffinitions}.
+     * @sfribl
      */
-    public int type=0 ;
+    publid int typf=0 ;
 
     /**
-     * Protocol version. Versions are defined in
-     * {@link com.sun.jmx.snmp.SnmpDefinitions SnmpDefinitions}.
-     * @serial
+     * Protodol vfrsion. Vfrsions brf dffinfd in
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions SnmpDffinitions}.
+     * @sfribl
      */
-    public int version=0 ;
+    publid int vfrsion=0 ;
 
     /**
-     * List of variables.
-     * @serial
+     * List of vbribblfs.
+     * @sfribl
      */
-    public SnmpVarBind[] varBindList ;
+    publid SnmpVbrBind[] vbrBindList ;
 
 
     /**
-     * Request identifier.
-     * Note that this field is not used by <CODE>SnmpPduTrap</CODE>.
-     * @serial
+     * Rfqufst idfntififr.
+     * Notf tibt tiis fifld is not usfd by <CODE>SnmpPduTrbp</CODE>.
+     * @sfribl
      */
-    public int requestId=0 ;
+    publid int rfqufstId=0 ;
 
     /**
-     * Source or destination address.
-     * <P>For an incoming PDU it's the source.
-     * <BR>For an outgoing PDU it's the destination.
-     * @serial
+     * Sourdf or dfstinbtion bddrfss.
+     * <P>For bn indoming PDU it's tif sourdf.
+     * <BR>For bn outgoing PDU it's tif dfstinbtion.
+     * @sfribl
      */
-    public InetAddress address ;
+    publid InftAddrfss bddrfss ;
 
     /**
-     * Source or destination port.
-     * <P>For an incoming PDU it's the source.
-     * <BR>For an outgoing PDU it's the destination.
-     * @serial
+     * Sourdf or dfstinbtion port.
+     * <P>For bn indoming PDU it's tif sourdf.
+     * <BR>For bn outgoing PDU it's tif dfstinbtion.
+     * @sfribl
      */
-    public int port=0 ;
+    publid int port=0 ;
 
     /**
-     * Returns the <CODE>String</CODE> representation of a PDU type.
-     * For instance, if the PDU type is <CODE>SnmpDefinitions.pduGetRequestPdu</CODE>,
-     * the method will return "SnmpGet".
-     * @param cmd The integer representation of the PDU type.
-     * @return The <CODE>String</CODE> representation of the PDU type.
+     * Rfturns tif <CODE>String</CODE> rfprfsfntbtion of b PDU typf.
+     * For instbndf, if tif PDU typf is <CODE>SnmpDffinitions.pduGftRfqufstPdu</CODE>,
+     * tif mftiod will rfturn "SnmpGft".
+     * @pbrbm dmd Tif intfgfr rfprfsfntbtion of tif PDU typf.
+     * @rfturn Tif <CODE>String</CODE> rfprfsfntbtion of tif PDU typf.
      */
-    public static String pduTypeToString(int cmd) {
-        switch (cmd) {
-        case pduGetRequestPdu :
-            return "SnmpGet" ;
-        case pduGetNextRequestPdu :
-            return "SnmpGetNext" ;
-        case pduWalkRequest :
-            return "SnmpWalk(*)" ;
-        case pduSetRequestPdu :
-            return "SnmpSet" ;
-        case pduGetResponsePdu :
-            return "SnmpResponse" ;
-        case pduV1TrapPdu :
-            return "SnmpV1Trap" ;
-        case pduV2TrapPdu :
-            return "SnmpV2Trap" ;
-        case pduGetBulkRequestPdu :
-            return "SnmpGetBulk" ;
-        case pduInformRequestPdu :
-            return "SnmpInform" ;
+    publid stbtid String pduTypfToString(int dmd) {
+        switdi (dmd) {
+        dbsf pduGftRfqufstPdu :
+            rfturn "SnmpGft" ;
+        dbsf pduGftNfxtRfqufstPdu :
+            rfturn "SnmpGftNfxt" ;
+        dbsf pduWblkRfqufst :
+            rfturn "SnmpWblk(*)" ;
+        dbsf pduSftRfqufstPdu :
+            rfturn "SnmpSft" ;
+        dbsf pduGftRfsponsfPdu :
+            rfturn "SnmpRfsponsf" ;
+        dbsf pduV1TrbpPdu :
+            rfturn "SnmpV1Trbp" ;
+        dbsf pduV2TrbpPdu :
+            rfturn "SnmpV2Trbp" ;
+        dbsf pduGftBulkRfqufstPdu :
+            rfturn "SnmpGftBulk" ;
+        dbsf pduInformRfqufstPdu :
+            rfturn "SnmpInform" ;
         }
-        return "Unknown Command = " + cmd ;
+        rfturn "Unknown Commbnd = " + dmd ;
     }
 }

@@ -1,0 +1,180 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
+
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf X500Nbmf bttributf for thf Cfrtifidbtf.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff CfrtAttrSft
+ */
+publid dlbss CfrtifidbtfSubjfdtNbmf implfmfnts CfrtAttrSft<String> {
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT = "x509.info.subjfdt";
+    /**
+     * Sub bttributfs nbmf for this CfrtAttrSft.
+     */
+    publid stbtid finbl String NAME = "subjfdt";
+    publid stbtid finbl String DN_NAME = "dnbmf";
+
+    // bddfssor nbmf for dbdhfd X500Prindipbl only
+    // do not bllow b sft() of this vbluf, do not bdvfrtisf with gftElfmfnts()
+    publid stbtid finbl String DN_PRINCIPAL = "x500prindipbl";
+
+    // Privbtf dbtb mfmbfr
+    privbtf X500Nbmf    dnNbmf;
+
+    // dbdhfd X500Prindipbl vfrsion of thf nbmf
+    privbtf X500Prindipbl dnPrindipbl;
+
+    /**
+     * Dffbult donstrudtor for thf dfrtifidbtf bttributf.
+     *
+     * @pbrbm nbmf thf X500Nbmf
+     */
+    publid CfrtifidbtfSubjfdtNbmf(X500Nbmf nbmf) {
+        this.dnNbmf = nbmf;
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     *
+     * @pbrbm in thf DfrInputStrfbm to rfbd thf X500Nbmf from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfSubjfdtNbmf(DfrInputStrfbm in) throws IOExdfption {
+        dnNbmf = nfw X500Nbmf(in);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd strfbm.
+     *
+     * @pbrbm in thf InputStrfbm to rfbd thf X500Nbmf from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfSubjfdtNbmf(InputStrfbm in) throws IOExdfption {
+        DfrVbluf dfrVbl = nfw DfrVbluf(in);
+        dnNbmf = nfw X500Nbmf(dfrVbl);
+    }
+
+    /**
+     * Rfturn thf nbmf bs usfr rfbdbblf string.
+     */
+    publid String toString() {
+        if (dnNbmf == null) rfturn "";
+        rfturn(dnNbmf.toString());
+    }
+
+    /**
+     * Endodf thf nbmf in DER form to thf strfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to mbrshbl thf dontfnts to.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        dnNbmf.fndodf(tmp);
+
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (!(obj instbndfof X500Nbmf)) {
+            throw nfw IOExdfption("Attributf must bf of typf X500Nbmf.");
+        }
+        if (nbmf.fqublsIgnorfCbsf(DN_NAME)) {
+            this.dnNbmf = (X500Nbmf)obj;
+            this.dnPrindipbl = null;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft:CfrtifidbtfSubjfdtNbmf.");
+        }
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid Objfdt gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DN_NAME)) {
+            rfturn(dnNbmf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(DN_PRINCIPAL)) {
+            if ((dnPrindipbl == null) && (dnNbmf != null)) {
+                dnPrindipbl = dnNbmf.bsX500Prindipbl();
+            }
+            rfturn dnPrindipbl;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft:CfrtifidbtfSubjfdtNbmf.");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DN_NAME)) {
+            dnNbmf = null;
+            dnPrindipbl = null;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft:CfrtifidbtfSubjfdtNbmf.");
+        }
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(DN_NAME);
+
+        rfturn(flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn(NAME);
+    }
+}

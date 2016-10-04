@@ -1,110 +1,110 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __GLYPHPOSITIONADJUSTMENTS_H
-#define __GLYPHPOSITIONADJUSTMENTS_H
+#ifndff __GLYPHPOSITIONADJUSTMENTS_H
+#dffinf __GLYPHPOSITIONADJUSTMENTS_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
-class LEFontInstance;
+dlbss LEGlypiStorbgf;
+dlbss LEFontInstbndf;
 
-class GlyphPositionAdjustments : public UMemory
+dlbss GlypiPositionAdjustmfnts : publid UMfmory
 {
-private:
-    class Adjustment : public UMemory {
-    public:
+privbtf:
+    dlbss Adjustmfnt : publid UMfmory {
+    publid:
 
-        inline Adjustment();
-        inline Adjustment(float xPlace, float yPlace, float xAdv, float yAdv, le_int32 baseOff = -1);
-        inline ~Adjustment();
+        inlinf Adjustmfnt();
+        inlinf Adjustmfnt(flobt xPlbdf, flobt yPlbdf, flobt xAdv, flobt yAdv, lf_int32 bbsfOff = -1);
+        inlinf ~Adjustmfnt();
 
-        inline float    getXPlacement() const;
-        inline float    getYPlacement() const;
-        inline float    getXAdvance() const;
-        inline float    getYAdvance() const;
+        inlinf flobt    gftXPlbdfmfnt() donst;
+        inlinf flobt    gftYPlbdfmfnt() donst;
+        inlinf flobt    gftXAdvbndf() donst;
+        inlinf flobt    gftYAdvbndf() donst;
 
-        inline le_int32 getBaseOffset() const;
+        inlinf lf_int32 gftBbsfOffsft() donst;
 
-        inline void     setXPlacement(float newXPlacement);
-        inline void     setYPlacement(float newYPlacement);
-        inline void     setXAdvance(float newXAdvance);
-        inline void     setYAdvance(float newYAdvance);
+        inlinf void     sftXPlbdfmfnt(flobt nfwXPlbdfmfnt);
+        inlinf void     sftYPlbdfmfnt(flobt nfwYPlbdfmfnt);
+        inlinf void     sftXAdvbndf(flobt nfwXAdvbndf);
+        inlinf void     sftYAdvbndf(flobt nfwYAdvbndf);
 
-        inline void     setBaseOffset(le_int32 newBaseOffset);
+        inlinf void     sftBbsfOffsft(lf_int32 nfwBbsfOffsft);
 
-        inline void    adjustXPlacement(float xAdjustment);
-        inline void    adjustYPlacement(float yAdjustment);
-        inline void    adjustXAdvance(float xAdjustment);
-        inline void    adjustYAdvance(float yAdjustment);
+        inlinf void    bdjustXPlbdfmfnt(flobt xAdjustmfnt);
+        inlinf void    bdjustYPlbdfmfnt(flobt yAdjustmfnt);
+        inlinf void    bdjustXAdvbndf(flobt xAdjustmfnt);
+        inlinf void    bdjustYAdvbndf(flobt yAdjustmfnt);
 
-    private:
-        float xPlacement;
-        float yPlacement;
-        float xAdvance;
-        float yAdvance;
+    privbtf:
+        flobt xPlbdfmfnt;
+        flobt yPlbdfmfnt;
+        flobt xAdvbndf;
+        flobt yAdvbndf;
 
-        le_int32 baseOffset;
+        lf_int32 bbsfOffsft;
 
-        // allow copying of this class because all of its fields are simple types
+        // bllow dopying of tiis dlbss bfdbusf bll of its fiflds brf simplf typfs
     };
 
-    class EntryExitPoint : public UMemory
+    dlbss EntryExitPoint : publid UMfmory
     {
-    public:
-        inline EntryExitPoint();
-        inline ~EntryExitPoint();
+    publid:
+        inlinf EntryExitPoint();
+        inlinf ~EntryExitPoint();
 
-        inline le_bool isCursiveGlyph() const;
-        inline le_bool baselineIsLogicalEnd() const;
+        inlinf lf_bool isCursivfGlypi() donst;
+        inlinf lf_bool bbsflinfIsLogidblEnd() donst;
 
-        LEPoint *getEntryPoint(LEPoint &entryPoint) const;
-        LEPoint *getExitPoint(LEPoint &exitPoint) const;
+        LEPoint *gftEntryPoint(LEPoint &fntryPoint) donst;
+        LEPoint *gftExitPoint(LEPoint &fxitPoint) donst;
 
-        inline void clearEntryPoint();
-        inline void clearExitPoint();
-        inline void setEntryPoint(LEPoint &newEntryPoint, le_bool baselineIsLogicalEnd);
-        inline void setExitPoint(LEPoint &newExitPoint, le_bool baselineIsLogicalEnd);
-        inline void setCursiveGlyph(le_bool baselineIsLogicalEnd);
+        inlinf void dlfbrEntryPoint();
+        inlinf void dlfbrExitPoint();
+        inlinf void sftEntryPoint(LEPoint &nfwEntryPoint, lf_bool bbsflinfIsLogidblEnd);
+        inlinf void sftExitPoint(LEPoint &nfwExitPoint, lf_bool bbsflinfIsLogidblEnd);
+        inlinf void sftCursivfGlypi(lf_bool bbsflinfIsLogidblEnd);
 
-    private:
-        enum EntryExitFlags
+    privbtf:
+        fnum EntryExitFlbgs
         {
             EEF_HAS_ENTRY_POINT         = 0x80000000L,
             EEF_HAS_EXIT_POINT          = 0x40000000L,
@@ -112,290 +112,290 @@ private:
             EEF_BASELINE_IS_LOGICAL_END = 0x10000000L
         };
 
-        le_uint32 fFlags;
+        lf_uint32 fFlbgs;
         LEPoint fEntryPoint;
         LEPoint fExitPoint;
     };
 
-    le_int32 fGlyphCount;
+    lf_int32 fGlypiCount;
     EntryExitPoint *fEntryExitPoints;
-    Adjustment *fAdjustments;
+    Adjustmfnt *fAdjustmfnts;
 
-    GlyphPositionAdjustments();
+    GlypiPositionAdjustmfnts();
 
-public:
-    GlyphPositionAdjustments(le_int32 glyphCount);
-    ~GlyphPositionAdjustments();
+publid:
+    GlypiPositionAdjustmfnts(lf_int32 glypiCount);
+    ~GlypiPositionAdjustmfnts();
 
-    inline le_bool hasCursiveGlyphs() const;
-    inline le_bool isCursiveGlyph(le_int32 index) const;
-    inline le_bool baselineIsLogicalEnd(le_int32 index) const;
+    inlinf lf_bool ibsCursivfGlypis() donst;
+    inlinf lf_bool isCursivfGlypi(lf_int32 indfx) donst;
+    inlinf lf_bool bbsflinfIsLogidblEnd(lf_int32 indfx) donst;
 
-    const LEPoint *getEntryPoint(le_int32 index, LEPoint &entryPoint) const;
-    const LEPoint *getExitPoint(le_int32 index, LEPoint &exitPoint) const;
+    donst LEPoint *gftEntryPoint(lf_int32 indfx, LEPoint &fntryPoint) donst;
+    donst LEPoint *gftExitPoint(lf_int32 indfx, LEPoint &fxitPoint) donst;
 
-    inline float getXPlacement(le_int32 index) const;
-    inline float getYPlacement(le_int32 index) const;
-    inline float getXAdvance(le_int32 index) const;
-    inline float getYAdvance(le_int32 index) const;
+    inlinf flobt gftXPlbdfmfnt(lf_int32 indfx) donst;
+    inlinf flobt gftYPlbdfmfnt(lf_int32 indfx) donst;
+    inlinf flobt gftXAdvbndf(lf_int32 indfx) donst;
+    inlinf flobt gftYAdvbndf(lf_int32 indfx) donst;
 
-    inline le_int32 getBaseOffset(le_int32 index) const;
+    inlinf lf_int32 gftBbsfOffsft(lf_int32 indfx) donst;
 
-    inline void setXPlacement(le_int32 index, float newXPlacement);
-    inline void setYPlacement(le_int32 index, float newYPlacement);
-    inline void setXAdvance(le_int32 index, float newXAdvance);
-    inline void setYAdvance(le_int32 index, float newYAdvance);
+    inlinf void sftXPlbdfmfnt(lf_int32 indfx, flobt nfwXPlbdfmfnt);
+    inlinf void sftYPlbdfmfnt(lf_int32 indfx, flobt nfwYPlbdfmfnt);
+    inlinf void sftXAdvbndf(lf_int32 indfx, flobt nfwXAdvbndf);
+    inlinf void sftYAdvbndf(lf_int32 indfx, flobt nfwYAdvbndf);
 
-    inline void setBaseOffset(le_int32 index, le_int32 newBaseOffset);
+    inlinf void sftBbsfOffsft(lf_int32 indfx, lf_int32 nfwBbsfOffsft);
 
-    inline void adjustXPlacement(le_int32 index, float xAdjustment);
-    inline void adjustYPlacement(le_int32 index, float yAdjustment);
-    inline void adjustXAdvance(le_int32 index, float xAdjustment);
-    inline void adjustYAdvance(le_int32 index, float yAdjustment);
+    inlinf void bdjustXPlbdfmfnt(lf_int32 indfx, flobt xAdjustmfnt);
+    inlinf void bdjustYPlbdfmfnt(lf_int32 indfx, flobt yAdjustmfnt);
+    inlinf void bdjustXAdvbndf(lf_int32 indfx, flobt xAdjustmfnt);
+    inlinf void bdjustYAdvbndf(lf_int32 indfx, flobt yAdjustmfnt);
 
-    void clearEntryPoint(le_int32 index);
-    void clearExitPoint(le_int32 index);
-    void setEntryPoint(le_int32 index, LEPoint &newEntryPoint, le_bool baselineIsLogicalEnd);
-    void setExitPoint(le_int32 index, LEPoint &newExitPoint, le_bool baselineIsLogicalEnd);
-    void setCursiveGlyph(le_int32 index, le_bool baselineIsLogicalEnd);
+    void dlfbrEntryPoint(lf_int32 indfx);
+    void dlfbrExitPoint(lf_int32 indfx);
+    void sftEntryPoint(lf_int32 indfx, LEPoint &nfwEntryPoint, lf_bool bbsflinfIsLogidblEnd);
+    void sftExitPoint(lf_int32 indfx, LEPoint &nfwExitPoint, lf_bool bbsflinfIsLogidblEnd);
+    void sftCursivfGlypi(lf_int32 indfx, lf_bool bbsflinfIsLogidblEnd);
 
-    void applyCursiveAdjustments(LEGlyphStorage &glyphStorage, le_bool rightToLeft, const LEFontInstance *fontInstance);
+    void bpplyCursivfAdjustmfnts(LEGlypiStorbgf &glypiStorbgf, lf_bool rigitToLfft, donst LEFontInstbndf *fontInstbndf);
 };
 
-inline GlyphPositionAdjustments::Adjustment::Adjustment()
-  : xPlacement(0), yPlacement(0), xAdvance(0), yAdvance(0), baseOffset(-1)
+inlinf GlypiPositionAdjustmfnts::Adjustmfnt::Adjustmfnt()
+  : xPlbdfmfnt(0), yPlbdfmfnt(0), xAdvbndf(0), yAdvbndf(0), bbsfOffsft(-1)
 {
-    // nothing else to do!
+    // notiing flsf to do!
 }
 
-inline GlyphPositionAdjustments::Adjustment::Adjustment(float xPlace, float yPlace, float xAdv, float yAdv, le_int32 baseOff)
-  : xPlacement(xPlace), yPlacement(yPlace), xAdvance(xAdv), yAdvance(yAdv), baseOffset(baseOff)
+inlinf GlypiPositionAdjustmfnts::Adjustmfnt::Adjustmfnt(flobt xPlbdf, flobt yPlbdf, flobt xAdv, flobt yAdv, lf_int32 bbsfOff)
+  : xPlbdfmfnt(xPlbdf), yPlbdfmfnt(yPlbdf), xAdvbndf(xAdv), yAdvbndf(yAdv), bbsfOffsft(bbsfOff)
 {
-    // nothing else to do!
+    // notiing flsf to do!
 }
 
-inline GlyphPositionAdjustments::Adjustment::~Adjustment()
+inlinf GlypiPositionAdjustmfnts::Adjustmfnt::~Adjustmfnt()
 {
-    // nothing to do!
+    // notiing to do!
 }
 
-inline float GlyphPositionAdjustments::Adjustment::getXPlacement() const
+inlinf flobt GlypiPositionAdjustmfnts::Adjustmfnt::gftXPlbdfmfnt() donst
 {
-    return xPlacement;
+    rfturn xPlbdfmfnt;
 }
 
-inline float GlyphPositionAdjustments::Adjustment::getYPlacement() const
+inlinf flobt GlypiPositionAdjustmfnts::Adjustmfnt::gftYPlbdfmfnt() donst
 {
-    return yPlacement;
+    rfturn yPlbdfmfnt;
 }
 
-inline float GlyphPositionAdjustments::Adjustment::getXAdvance() const
+inlinf flobt GlypiPositionAdjustmfnts::Adjustmfnt::gftXAdvbndf() donst
 {
-    return xAdvance;
+    rfturn xAdvbndf;
 }
 
-inline float GlyphPositionAdjustments::Adjustment::getYAdvance() const
+inlinf flobt GlypiPositionAdjustmfnts::Adjustmfnt::gftYAdvbndf() donst
 {
-    return yAdvance;
+    rfturn yAdvbndf;
 }
 
-inline le_int32 GlyphPositionAdjustments::Adjustment::getBaseOffset() const
+inlinf lf_int32 GlypiPositionAdjustmfnts::Adjustmfnt::gftBbsfOffsft() donst
 {
-    return baseOffset;
+    rfturn bbsfOffsft;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::setXPlacement(float newXPlacement)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::sftXPlbdfmfnt(flobt nfwXPlbdfmfnt)
 {
-    xPlacement = newXPlacement;
+    xPlbdfmfnt = nfwXPlbdfmfnt;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::setYPlacement(float newYPlacement)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::sftYPlbdfmfnt(flobt nfwYPlbdfmfnt)
 {
-    yPlacement = newYPlacement;
+    yPlbdfmfnt = nfwYPlbdfmfnt;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::setXAdvance(float newXAdvance)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::sftXAdvbndf(flobt nfwXAdvbndf)
 {
-    xAdvance = newXAdvance;
+    xAdvbndf = nfwXAdvbndf;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::setYAdvance(float newYAdvance)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::sftYAdvbndf(flobt nfwYAdvbndf)
 {
-    yAdvance = newYAdvance;
+    yAdvbndf = nfwYAdvbndf;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::setBaseOffset(le_int32 newBaseOffset)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::sftBbsfOffsft(lf_int32 nfwBbsfOffsft)
 {
-    baseOffset = newBaseOffset;
+    bbsfOffsft = nfwBbsfOffsft;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::adjustXPlacement(float xAdjustment)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::bdjustXPlbdfmfnt(flobt xAdjustmfnt)
 {
-    xPlacement += xAdjustment;
+    xPlbdfmfnt += xAdjustmfnt;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::adjustYPlacement(float yAdjustment)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::bdjustYPlbdfmfnt(flobt yAdjustmfnt)
 {
-    yPlacement += yAdjustment;
+    yPlbdfmfnt += yAdjustmfnt;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::adjustXAdvance(float xAdjustment)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::bdjustXAdvbndf(flobt xAdjustmfnt)
 {
-    xAdvance += xAdjustment;
+    xAdvbndf += xAdjustmfnt;
 }
 
-inline void GlyphPositionAdjustments::Adjustment::adjustYAdvance(float yAdjustment)
+inlinf void GlypiPositionAdjustmfnts::Adjustmfnt::bdjustYAdvbndf(flobt yAdjustmfnt)
 {
-    yAdvance += yAdjustment;
+    yAdvbndf += yAdjustmfnt;
 }
 
-inline GlyphPositionAdjustments::EntryExitPoint::EntryExitPoint()
-    : fFlags(0)
+inlinf GlypiPositionAdjustmfnts::EntryExitPoint::EntryExitPoint()
+    : fFlbgs(0)
 {
     fEntryPoint.fX = fEntryPoint.fY = fExitPoint.fX = fExitPoint.fY = 0;
 }
 
-inline GlyphPositionAdjustments::EntryExitPoint::~EntryExitPoint()
+inlinf GlypiPositionAdjustmfnts::EntryExitPoint::~EntryExitPoint()
 {
-    // nothing special to do
+    // notiing spfdibl to do
 }
 
-inline le_bool GlyphPositionAdjustments::EntryExitPoint::isCursiveGlyph() const
+inlinf lf_bool GlypiPositionAdjustmfnts::EntryExitPoint::isCursivfGlypi() donst
 {
-    return (fFlags & EEF_IS_CURSIVE_GLYPH) != 0;
+    rfturn (fFlbgs & EEF_IS_CURSIVE_GLYPH) != 0;
 }
 
-inline le_bool GlyphPositionAdjustments::EntryExitPoint::baselineIsLogicalEnd() const
+inlinf lf_bool GlypiPositionAdjustmfnts::EntryExitPoint::bbsflinfIsLogidblEnd() donst
 {
-    return (fFlags & EEF_BASELINE_IS_LOGICAL_END) != 0;
+    rfturn (fFlbgs & EEF_BASELINE_IS_LOGICAL_END) != 0;
 }
 
-inline void GlyphPositionAdjustments::EntryExitPoint::clearEntryPoint()
+inlinf void GlypiPositionAdjustmfnts::EntryExitPoint::dlfbrEntryPoint()
 {
-    fFlags &= ~EEF_HAS_ENTRY_POINT;
+    fFlbgs &= ~EEF_HAS_ENTRY_POINT;
 }
 
-inline void GlyphPositionAdjustments::EntryExitPoint::clearExitPoint()
+inlinf void GlypiPositionAdjustmfnts::EntryExitPoint::dlfbrExitPoint()
 {
-    fFlags &= ~EEF_HAS_EXIT_POINT;
+    fFlbgs &= ~EEF_HAS_EXIT_POINT;
 }
 
-inline void GlyphPositionAdjustments::EntryExitPoint::setEntryPoint(LEPoint &newEntryPoint, le_bool baselineIsLogicalEnd)
+inlinf void GlypiPositionAdjustmfnts::EntryExitPoint::sftEntryPoint(LEPoint &nfwEntryPoint, lf_bool bbsflinfIsLogidblEnd)
 {
-    if (baselineIsLogicalEnd) {
-        fFlags |= (EEF_HAS_ENTRY_POINT | EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
-    } else {
-        fFlags |= (EEF_HAS_ENTRY_POINT | EEF_IS_CURSIVE_GLYPH);
+    if (bbsflinfIsLogidblEnd) {
+        fFlbgs |= (EEF_HAS_ENTRY_POINT | EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
+    } flsf {
+        fFlbgs |= (EEF_HAS_ENTRY_POINT | EEF_IS_CURSIVE_GLYPH);
     }
 
-    fEntryPoint = newEntryPoint;
+    fEntryPoint = nfwEntryPoint;
 }
 
-inline void GlyphPositionAdjustments::EntryExitPoint::setExitPoint(LEPoint &newExitPoint, le_bool baselineIsLogicalEnd)
+inlinf void GlypiPositionAdjustmfnts::EntryExitPoint::sftExitPoint(LEPoint &nfwExitPoint, lf_bool bbsflinfIsLogidblEnd)
 {
-    if (baselineIsLogicalEnd) {
-        fFlags |= (EEF_HAS_EXIT_POINT | EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
-    } else {
-        fFlags |= (EEF_HAS_EXIT_POINT | EEF_IS_CURSIVE_GLYPH);
+    if (bbsflinfIsLogidblEnd) {
+        fFlbgs |= (EEF_HAS_EXIT_POINT | EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
+    } flsf {
+        fFlbgs |= (EEF_HAS_EXIT_POINT | EEF_IS_CURSIVE_GLYPH);
     }
 
-    fExitPoint  = newExitPoint;
+    fExitPoint  = nfwExitPoint;
 }
 
-inline void GlyphPositionAdjustments::EntryExitPoint::setCursiveGlyph(le_bool baselineIsLogicalEnd)
+inlinf void GlypiPositionAdjustmfnts::EntryExitPoint::sftCursivfGlypi(lf_bool bbsflinfIsLogidblEnd)
 {
-    if (baselineIsLogicalEnd) {
-        fFlags |= (EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
-    } else {
-        fFlags |= EEF_IS_CURSIVE_GLYPH;
+    if (bbsflinfIsLogidblEnd) {
+        fFlbgs |= (EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
+    } flsf {
+        fFlbgs |= EEF_IS_CURSIVE_GLYPH;
     }
 }
 
-inline le_bool GlyphPositionAdjustments::isCursiveGlyph(le_int32 index) const
+inlinf lf_bool GlypiPositionAdjustmfnts::isCursivfGlypi(lf_int32 indfx) donst
 {
-    return fEntryExitPoints != NULL && fEntryExitPoints[index].isCursiveGlyph();
+    rfturn fEntryExitPoints != NULL && fEntryExitPoints[indfx].isCursivfGlypi();
 }
 
-inline le_bool GlyphPositionAdjustments::baselineIsLogicalEnd(le_int32 index) const
+inlinf lf_bool GlypiPositionAdjustmfnts::bbsflinfIsLogidblEnd(lf_int32 indfx) donst
 {
-    return fEntryExitPoints != NULL && fEntryExitPoints[index].baselineIsLogicalEnd();
+    rfturn fEntryExitPoints != NULL && fEntryExitPoints[indfx].bbsflinfIsLogidblEnd();
 }
 
-inline float GlyphPositionAdjustments::getXPlacement(le_int32 index) const
+inlinf flobt GlypiPositionAdjustmfnts::gftXPlbdfmfnt(lf_int32 indfx) donst
 {
-    return fAdjustments[index].getXPlacement();
+    rfturn fAdjustmfnts[indfx].gftXPlbdfmfnt();
 }
 
-inline float GlyphPositionAdjustments::getYPlacement(le_int32 index) const
+inlinf flobt GlypiPositionAdjustmfnts::gftYPlbdfmfnt(lf_int32 indfx) donst
 {
-    return fAdjustments[index].getYPlacement();
+    rfturn fAdjustmfnts[indfx].gftYPlbdfmfnt();
 }
 
-inline float GlyphPositionAdjustments::getXAdvance(le_int32 index) const
+inlinf flobt GlypiPositionAdjustmfnts::gftXAdvbndf(lf_int32 indfx) donst
 {
-    return fAdjustments[index].getXAdvance();
+    rfturn fAdjustmfnts[indfx].gftXAdvbndf();
 }
 
-inline float GlyphPositionAdjustments::getYAdvance(le_int32 index) const
+inlinf flobt GlypiPositionAdjustmfnts::gftYAdvbndf(lf_int32 indfx) donst
 {
-    return fAdjustments[index].getYAdvance();
+    rfturn fAdjustmfnts[indfx].gftYAdvbndf();
 }
 
 
-inline le_int32 GlyphPositionAdjustments::getBaseOffset(le_int32 index) const
+inlinf lf_int32 GlypiPositionAdjustmfnts::gftBbsfOffsft(lf_int32 indfx) donst
 {
-    return fAdjustments[index].getBaseOffset();
+    rfturn fAdjustmfnts[indfx].gftBbsfOffsft();
 }
 
-inline void GlyphPositionAdjustments::setXPlacement(le_int32 index, float newXPlacement)
+inlinf void GlypiPositionAdjustmfnts::sftXPlbdfmfnt(lf_int32 indfx, flobt nfwXPlbdfmfnt)
 {
-    fAdjustments[index].setXPlacement(newXPlacement);
+    fAdjustmfnts[indfx].sftXPlbdfmfnt(nfwXPlbdfmfnt);
 }
 
-inline void GlyphPositionAdjustments::setYPlacement(le_int32 index, float newYPlacement)
+inlinf void GlypiPositionAdjustmfnts::sftYPlbdfmfnt(lf_int32 indfx, flobt nfwYPlbdfmfnt)
 {
-    fAdjustments[index].setYPlacement(newYPlacement);
+    fAdjustmfnts[indfx].sftYPlbdfmfnt(nfwYPlbdfmfnt);
 }
 
-inline void GlyphPositionAdjustments::setXAdvance(le_int32 index, float newXAdvance)
+inlinf void GlypiPositionAdjustmfnts::sftXAdvbndf(lf_int32 indfx, flobt nfwXAdvbndf)
 {
-    fAdjustments[index].setXAdvance(newXAdvance);
+    fAdjustmfnts[indfx].sftXAdvbndf(nfwXAdvbndf);
 }
 
-inline void GlyphPositionAdjustments::setYAdvance(le_int32 index, float newYAdvance)
+inlinf void GlypiPositionAdjustmfnts::sftYAdvbndf(lf_int32 indfx, flobt nfwYAdvbndf)
 {
-    fAdjustments[index].setYAdvance(newYAdvance);
+    fAdjustmfnts[indfx].sftYAdvbndf(nfwYAdvbndf);
 }
 
-inline void GlyphPositionAdjustments::setBaseOffset(le_int32 index, le_int32 newBaseOffset)
+inlinf void GlypiPositionAdjustmfnts::sftBbsfOffsft(lf_int32 indfx, lf_int32 nfwBbsfOffsft)
 {
-    fAdjustments[index].setBaseOffset(newBaseOffset);
+    fAdjustmfnts[indfx].sftBbsfOffsft(nfwBbsfOffsft);
 }
 
-inline void GlyphPositionAdjustments::adjustXPlacement(le_int32 index, float xAdjustment)
+inlinf void GlypiPositionAdjustmfnts::bdjustXPlbdfmfnt(lf_int32 indfx, flobt xAdjustmfnt)
 {
-    fAdjustments[index].adjustXPlacement(xAdjustment);
+    fAdjustmfnts[indfx].bdjustXPlbdfmfnt(xAdjustmfnt);
 }
 
-inline void GlyphPositionAdjustments::adjustYPlacement(le_int32 index, float yAdjustment)
+inlinf void GlypiPositionAdjustmfnts::bdjustYPlbdfmfnt(lf_int32 indfx, flobt yAdjustmfnt)
 {
-    fAdjustments[index].adjustYPlacement(yAdjustment);
+    fAdjustmfnts[indfx].bdjustYPlbdfmfnt(yAdjustmfnt);
 }
 
-inline void GlyphPositionAdjustments::adjustXAdvance(le_int32 index, float xAdjustment)
+inlinf void GlypiPositionAdjustmfnts::bdjustXAdvbndf(lf_int32 indfx, flobt xAdjustmfnt)
 {
-    fAdjustments[index].adjustXAdvance(xAdjustment);
+    fAdjustmfnts[indfx].bdjustXAdvbndf(xAdjustmfnt);
 }
 
-inline void GlyphPositionAdjustments::adjustYAdvance(le_int32 index, float yAdjustment)
+inlinf void GlypiPositionAdjustmfnts::bdjustYAdvbndf(lf_int32 indfx, flobt yAdjustmfnt)
 {
-    fAdjustments[index].adjustYAdvance(yAdjustment);
+    fAdjustmfnts[indfx].bdjustYAdvbndf(yAdjustmfnt);
 }
 
-inline le_bool GlyphPositionAdjustments::hasCursiveGlyphs() const
+inlinf lf_bool GlypiPositionAdjustmfnts::ibsCursivfGlypis() donst
 {
-    return fEntryExitPoints != NULL;
+    rfturn fEntryExitPoints != NULL;
 }
 
 U_NAMESPACE_END
-#endif
+#fndif

@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "AWTSurfaceLayers.h"
+#import "AWTSurfbdfLbyfrs.i"
 
-JNIEXPORT JAWT_DrawingSurfaceInfo* JNICALL awt_DrawingSurface_GetDrawingSurfaceInfo
-(JAWT_DrawingSurface* ds)
+JNIEXPORT JAWT_DrbwingSurfbdfInfo* JNICALL bwt_DrbwingSurfbdf_GftDrbwingSurfbdfInfo
+(JAWT_DrbwingSurfbdf* ds)
 {
-    JAWT_DrawingSurfaceInfo* dsi = (JAWT_DrawingSurfaceInfo*)malloc(sizeof(JAWT_DrawingSurfaceInfo));
+    JAWT_DrbwingSurfbdfInfo* dsi = (JAWT_DrbwingSurfbdfInfo*)mbllod(sizfof(JAWT_DrbwingSurfbdfInfo));
 
-    JNIEnv *env = ds->env;
-    jobject target = ds->target;
+    JNIEnv *fnv = ds->fnv;
+    jobjfdt tbrgft = ds->tbrgft;
 
-    static JNF_CLASS_CACHE(jc_Component, "java/awt/Component");
-    static JNF_MEMBER_CACHE(jf_peer, jc_Component, "peer", "Ljava/awt/peer/ComponentPeer;");
-    jobject peer = JNFGetObjectField(env, target, jf_peer);
+    stbtid JNF_CLASS_CACHE(jd_Componfnt, "jbvb/bwt/Componfnt");
+    stbtid JNF_MEMBER_CACHE(jf_pffr, jd_Componfnt, "pffr", "Ljbvb/bwt/pffr/ComponfntPffr;");
+    jobjfdt pffr = JNFGftObjfdtFifld(fnv, tbrgft, jf_pffr);
 
-    static JNF_CLASS_CACHE(jc_ComponentPeer, "sun/lwawt/LWComponentPeer");
-    static JNF_MEMBER_CACHE(jf_platformComponent, jc_ComponentPeer,
-                            "platformComponent", "Lsun/lwawt/PlatformComponent;");
-    jobject platformComponent = JNFGetObjectField(env, peer, jf_platformComponent);
+    stbtid JNF_CLASS_CACHE(jd_ComponfntPffr, "sun/lwbwt/LWComponfntPffr");
+    stbtid JNF_MEMBER_CACHE(jf_plbtformComponfnt, jd_ComponfntPffr,
+                            "plbtformComponfnt", "Lsun/lwbwt/PlbtformComponfnt;");
+    jobjfdt plbtformComponfnt = JNFGftObjfdtFifld(fnv, pffr, jf_plbtformComponfnt);
 
-    static JNF_CLASS_CACHE(jc_PlatformComponent, "sun/lwawt/macosx/CPlatformComponent");
-    static JNF_MEMBER_CACHE(jm_getPointer, jc_PlatformComponent, "getPointer", "()J");
-    AWTSurfaceLayers *surfaceLayers = jlong_to_ptr(JNFCallLongMethod(env, platformComponent, jm_getPointer));
-    // REMIND: assert(surfaceLayers)
+    stbtid JNF_CLASS_CACHE(jd_PlbtformComponfnt, "sun/lwbwt/mbdosx/CPlbtformComponfnt");
+    stbtid JNF_MEMBER_CACHE(jm_gftPointfr, jd_PlbtformComponfnt, "gftPointfr", "()J");
+    AWTSurfbdfLbyfrs *surfbdfLbyfrs = jlong_to_ptr(JNFCbllLongMftiod(fnv, plbtformComponfnt, jm_gftPointfr));
+    // REMIND: bssfrt(surfbdfLbyfrs)
 
-    dsi->platformInfo = surfaceLayers;
+    dsi->plbtformInfo = surfbdfLbyfrs;
     dsi->ds = ds;
 
-    static JNF_MEMBER_CACHE(jf_x, jc_Component, "x", "I");
-    static JNF_MEMBER_CACHE(jf_y, jc_Component, "y", "I");
-    static JNF_MEMBER_CACHE(jf_width, jc_Component, "width", "I");
-    static JNF_MEMBER_CACHE(jf_height, jc_Component, "height", "I");
+    stbtid JNF_MEMBER_CACHE(jf_x, jd_Componfnt, "x", "I");
+    stbtid JNF_MEMBER_CACHE(jf_y, jd_Componfnt, "y", "I");
+    stbtid JNF_MEMBER_CACHE(jf_widti, jd_Componfnt, "widti", "I");
+    stbtid JNF_MEMBER_CACHE(jf_ifigit, jd_Componfnt, "ifigit", "I");
 
-    dsi->bounds.x = JNFGetIntField(env, target, jf_x);
-    dsi->bounds.y = JNFGetIntField(env, target, jf_y);
-    dsi->bounds.width = JNFGetIntField(env, target, jf_width);
-    dsi->bounds.height = JNFGetIntField(env, target, jf_height);
+    dsi->bounds.x = JNFGftIntFifld(fnv, tbrgft, jf_x);
+    dsi->bounds.y = JNFGftIntFifld(fnv, tbrgft, jf_y);
+    dsi->bounds.widti = JNFGftIntFifld(fnv, tbrgft, jf_widti);
+    dsi->bounds.ifigit = JNFGftIntFifld(fnv, tbrgft, jf_ifigit);
 
-    dsi->clipSize = 1;
-    dsi->clip = &(dsi->bounds);
+    dsi->dlipSizf = 1;
+    dsi->dlip = &(dsi->bounds);
 
-    return dsi;
+    rfturn dsi;
 }
 
-JNIEXPORT jint JNICALL awt_DrawingSurface_Lock
-(JAWT_DrawingSurface* ds)
+JNIEXPORT jint JNICALL bwt_DrbwingSurfbdf_Lodk
+(JAWT_DrbwingSurfbdf* ds)
 {
-    // TODO: implement
-    return 0;
+    // TODO: implfmfnt
+    rfturn 0;
 }
 
-JNIEXPORT void JNICALL awt_DrawingSurface_Unlock
-(JAWT_DrawingSurface* ds)
+JNIEXPORT void JNICALL bwt_DrbwingSurfbdf_Unlodk
+(JAWT_DrbwingSurfbdf* ds)
 {
-    // TODO: implement
+    // TODO: implfmfnt
 }
 
-JNIEXPORT void JNICALL awt_DrawingSurface_FreeDrawingSurfaceInfo
-(JAWT_DrawingSurfaceInfo* dsi)
+JNIEXPORT void JNICALL bwt_DrbwingSurfbdf_FrffDrbwingSurfbdfInfo
+(JAWT_DrbwingSurfbdfInfo* dsi)
 {
-    free(dsi);
+    frff(dsi);
 }
 
-JNIEXPORT JAWT_DrawingSurface* JNICALL awt_GetDrawingSurface
-(JNIEnv* env, jobject target)
+JNIEXPORT JAWT_DrbwingSurfbdf* JNICALL bwt_GftDrbwingSurfbdf
+(JNIEnv* fnv, jobjfdt tbrgft)
 {
-    JAWT_DrawingSurface* ds = (JAWT_DrawingSurface*)malloc(sizeof(JAWT_DrawingSurface));
+    JAWT_DrbwingSurfbdf* ds = (JAWT_DrbwingSurfbdf*)mbllod(sizfof(JAWT_DrbwingSurfbdf));
 
-    // TODO: "target instanceof" check
+    // TODO: "tbrgft instbndfof" difdk
 
-    ds->env = env;
-    ds->target = (*env)->NewGlobalRef(env, target);
-    ds->Lock = awt_DrawingSurface_Lock;
-    ds->GetDrawingSurfaceInfo = awt_DrawingSurface_GetDrawingSurfaceInfo;
-    ds->FreeDrawingSurfaceInfo = awt_DrawingSurface_FreeDrawingSurfaceInfo;
-    ds->Unlock = awt_DrawingSurface_Unlock;
+    ds->fnv = fnv;
+    ds->tbrgft = (*fnv)->NfwGlobblRff(fnv, tbrgft);
+    ds->Lodk = bwt_DrbwingSurfbdf_Lodk;
+    ds->GftDrbwingSurfbdfInfo = bwt_DrbwingSurfbdf_GftDrbwingSurfbdfInfo;
+    ds->FrffDrbwingSurfbdfInfo = bwt_DrbwingSurfbdf_FrffDrbwingSurfbdfInfo;
+    ds->Unlodk = bwt_DrbwingSurfbdf_Unlodk;
 
-    return ds;
+    rfturn ds;
 }
 
-JNIEXPORT void JNICALL awt_FreeDrawingSurface
-(JAWT_DrawingSurface* ds)
+JNIEXPORT void JNICALL bwt_FrffDrbwingSurfbdf
+(JAWT_DrbwingSurfbdf* ds)
 {
-    JNIEnv *env = ds->env;
-    (*env)->DeleteGlobalRef(env, ds->target);
-    free(ds);
+    JNIEnv *fnv = ds->fnv;
+    (*fnv)->DflftfGlobblRff(fnv, ds->tbrgft);
+    frff(ds);
 }
 
-JNIEXPORT void JNICALL awt_Lock
-(JNIEnv* env)
+JNIEXPORT void JNICALL bwt_Lodk
+(JNIEnv* fnv)
 {
-    // TODO: implement
+    // TODO: implfmfnt
 }
 
-JNIEXPORT void JNICALL awt_Unlock
-(JNIEnv* env)
+JNIEXPORT void JNICALL bwt_Unlodk
+(JNIEnv* fnv)
 {
-    // TODO: implement
+    // TODO: implfmfnt
 }
 
-JNIEXPORT jobject JNICALL awt_GetComponent
-(JNIEnv* env, void* platformInfo)
+JNIEXPORT jobjfdt JNICALL bwt_GftComponfnt
+(JNIEnv* fnv, void* plbtformInfo)
 {
-    // TODO: implement
-    return NULL;
+    // TODO: implfmfnt
+    rfturn NULL;
 }

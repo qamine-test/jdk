@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.event;
+pbdkbgf dom.sun.jdi.fvfnt;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.Set;
+import jbvb.util.Sft;
 
 /**
- * Several {@link Event} objects may be created at a given time by
- * the target {@link VirtualMachine}. For example, there may be
- * more than one {@link com.sun.jdi.request.BreakpointRequest}
- * for a given {@link Location}
- * or you might single step to the same location as a
- * BreakpointRequest.  These {@link Event} objects are delivered
- * together as an EventSet.  For uniformity, an EventSet is always used
- * to deliver {@link Event} objects.  EventSets are delivered by
- * the {@link EventQueue}.
- * EventSets are unmodifiable.
+ * Sfvfrbl {@link Evfnt} objfdts mby bf drfbtfd bt b givfn timf by
+ * tif tbrgft {@link VirtublMbdiinf}. For fxbmplf, tifrf mby bf
+ * morf tibn onf {@link dom.sun.jdi.rfqufst.BrfbkpointRfqufst}
+ * for b givfn {@link Lodbtion}
+ * or you migit singlf stfp to tif sbmf lodbtion bs b
+ * BrfbkpointRfqufst.  Tifsf {@link Evfnt} objfdts brf dflivfrfd
+ * togftifr bs bn EvfntSft.  For uniformity, bn EvfntSft is blwbys usfd
+ * to dflivfr {@link Evfnt} objfdts.  EvfntSfts brf dflivfrfd by
+ * tif {@link EvfntQufuf}.
+ * EvfntSfts brf unmodifibblf.
  * <P>
- * Associated with the issuance of an event set, suspensions may
- * have occurred in the target VM.  These suspensions correspond
- * with the {@link #suspendPolicy() suspend policy}.
- * To assure matching resumes occur, it is recommended,
- * where possible,
- * to complete the processing of an event set with
- * {@link #resume() EventSet.resume()}.
+ * Assodibtfd witi tif issubndf of bn fvfnt sft, suspfnsions mby
+ * ibvf oddurrfd in tif tbrgft VM.  Tifsf suspfnsions dorrfspond
+ * witi tif {@link #suspfndPolidy() suspfnd polidy}.
+ * To bssurf mbtdiing rfsumfs oddur, it is rfdommfndfd,
+ * wifrf possiblf,
+ * to domplftf tif prodfssing of bn fvfnt sft witi
+ * {@link #rfsumf() EvfntSft.rfsumf()}.
  * <P>
- * The events that are grouped in an EventSet are restricted in the
- * following ways:
+ * Tif fvfnts tibt brf groupfd in bn EvfntSft brf rfstridtfd in tif
+ * following wbys:
  * <P>
  * <UL>
- * <LI>Always singleton sets:
+ * <LI>Alwbys singlfton sfts:
  *     <UL>
- *     <LI>{@link VMStartEvent}
- *     <LI>{@link VMDisconnectEvent}
+ *     <LI>{@link VMStbrtEvfnt}
+ *     <LI>{@link VMDisdonnfdtEvfnt}
  *     </UL>
- * <LI>Only with other VMDeathEvents:
+ * <LI>Only witi otifr VMDfbtiEvfnts:
  *     <UL>
- *     <LI>{@link VMDeathEvent}
+ *     <LI>{@link VMDfbtiEvfnt}
  *     </UL>
- * <LI>Only with other ThreadStartEvents for the same thread:
+ * <LI>Only witi otifr TirfbdStbrtEvfnts for tif sbmf tirfbd:
  *     <UL>
- *     <LI>{@link ThreadStartEvent}
+ *     <LI>{@link TirfbdStbrtEvfnt}
  *     </UL>
- * <LI>Only with other ThreadDeathEvents for the same thread:
+ * <LI>Only witi otifr TirfbdDfbtiEvfnts for tif sbmf tirfbd:
  *     <UL>
- *     <LI>{@link ThreadDeathEvent}
+ *     <LI>{@link TirfbdDfbtiEvfnt}
  *     </UL>
- * <LI>Only with other ClassPrepareEvents for the same class:
+ * <LI>Only witi otifr ClbssPrfpbrfEvfnts for tif sbmf dlbss:
  *     <UL>
- *     <LI>{@link ClassPrepareEvent}
+ *     <LI>{@link ClbssPrfpbrfEvfnt}
  *     </UL>
- * <LI>Only with other ClassUnloadEvents for the same class:
+ * <LI>Only witi otifr ClbssUnlobdEvfnts for tif sbmf dlbss:
  *     <UL>
- *     <LI>{@link ClassUnloadEvent}
+ *     <LI>{@link ClbssUnlobdEvfnt}
  *     </UL>
- * <LI>Only with other AccessWatchpointEvents for the same field access:
+ * <LI>Only witi otifr AddfssWbtdipointEvfnts for tif sbmf fifld bddfss:
  *     <UL>
- *     <LI>{@link AccessWatchpointEvent}
+ *     <LI>{@link AddfssWbtdipointEvfnt}
  *     </UL>
- * <LI>Only with other ModificationWatchpointEvents for the same field
- * modification:
+ * <LI>Only witi otifr ModifidbtionWbtdipointEvfnts for tif sbmf fifld
+ * modifidbtion:
  *     <UL>
- *     <LI>{@link ModificationWatchpointEvent}
+ *     <LI>{@link ModifidbtionWbtdipointEvfnt}
  *     </UL>
- * <LI>Only with other ExceptionEvents for the same exception occurrance:
+ * <LI>Only witi otifr ExdfptionEvfnts for tif sbmf fxdfption oddurrbndf:
  *     <UL>
- *     <LI>{@link ExceptionEvent}
+ *     <LI>{@link ExdfptionEvfnt}
  *     </UL>
- * <LI>Only with other MethodExitEvents for the same method exit:
+ * <LI>Only witi otifr MftiodExitEvfnts for tif sbmf mftiod fxit:
  *     <UL>
- *     <LI>{@link MethodExitEvent}
+ *     <LI>{@link MftiodExitEvfnt}
  *     </UL>
- * <LI>Only with other Monitor contended enter events for the same monitor object:
+ * <LI>Only witi otifr Monitor dontfndfd fntfr fvfnts for tif sbmf monitor objfdt:
  *     <UL>
- *     <LI>Monitor Contended Enter Event
+ *     <LI>Monitor Contfndfd Entfr Evfnt
  *     </UL>
- * <LI>Only with other Monitor contended entered events for the same monitor object:
+ * <LI>Only witi otifr Monitor dontfndfd fntfrfd fvfnts for tif sbmf monitor objfdt:
  *     <UL>
- *     <LI>Monitor Contended Entered Event
+ *     <LI>Monitor Contfndfd Entfrfd Evfnt
  *    </UL>
- * <LI>Only with other Monitor wait events for the same monitor object:
+ * <LI>Only witi otifr Monitor wbit fvfnts for tif sbmf monitor objfdt:
  *     <UL>
- *     <LI>Monitor Wait Event
+ *     <LI>Monitor Wbit Evfnt
  *     </UL>
- * <LI>Only with other Monitor waited events for the same monitor object:
+ * <LI>Only witi otifr Monitor wbitfd fvfnts for tif sbmf monitor objfdt:
  *     <UL>
- *     <LI>Monitor Waited Event
+ *     <LI>Monitor Wbitfd Evfnt
  *     </UL>
- * <LI>Only with other members of this group, at the same location
- * and in the same thread:
+ * <LI>Only witi otifr mfmbfrs of tiis group, bt tif sbmf lodbtion
+ * bnd in tif sbmf tirfbd:
  *     <UL>
- *     <LI>{@link BreakpointEvent}
- *     <LI>{@link StepEvent}
- *     <LI>{@link MethodEntryEvent}
+ *     <LI>{@link BrfbkpointEvfnt}
+ *     <LI>{@link StfpEvfnt}
+ *     <LI>{@link MftiodEntryEvfnt}
  *     </UL>
  * </UL>
  *
- * @see Event
- * @see EventQueue
+ * @sff Evfnt
+ * @sff EvfntQufuf
  *
- * @author Robert Field
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @sindf  1.3
  */
 
-@jdk.Exported
-public interface EventSet extends Mirror, Set<Event> {
+@jdk.Exportfd
+publid intfrfbdf EvfntSft fxtfnds Mirror, Sft<Evfnt> {
 
     /**
-     * Returns the policy used to suspend threads in the target VM
-     * for this event set. This policy is selected from the suspend
-     * policies for each event's request; the target VM chooses the
-     * policy which suspends the most threads.  The target VM
-     * suspends threads according to that policy
-     * and that policy is returned here. See
-     * {@link com.sun.jdi.request.EventRequest} for the possible
-     * policy values.
+     * Rfturns tif polidy usfd to suspfnd tirfbds in tif tbrgft VM
+     * for tiis fvfnt sft. Tiis polidy is sflfdtfd from tif suspfnd
+     * polidifs for fbdi fvfnt's rfqufst; tif tbrgft VM dioosfs tif
+     * polidy wiidi suspfnds tif most tirfbds.  Tif tbrgft VM
+     * suspfnds tirfbds bddording to tibt polidy
+     * bnd tibt polidy is rfturnfd ifrf. Sff
+     * {@link dom.sun.jdi.rfqufst.EvfntRfqufst} for tif possiblf
+     * polidy vblufs.
      * <p>
-     * In rare cases, the suspend policy may differ from the requested
-     * value if a {@link ClassPrepareEvent} has occurred in a
-     * debugger system thread. See {@link ClassPrepareEvent#thread}
-     * for details.
+     * In rbrf dbsfs, tif suspfnd polidy mby difffr from tif rfqufstfd
+     * vbluf if b {@link ClbssPrfpbrfEvfnt} ibs oddurrfd in b
+     * dfbuggfr systfm tirfbd. Sff {@link ClbssPrfpbrfEvfnt#tirfbd}
+     * for dftbils.
      *
-     * @return the suspendPolicy which is either
-     * {@link com.sun.jdi.request.EventRequest#SUSPEND_ALL SUSPEND_ALL},
-     * {@link com.sun.jdi.request.EventRequest#SUSPEND_EVENT_THREAD SUSPEND_EVENT_THREAD} or
-     * {@link com.sun.jdi.request.EventRequest#SUSPEND_NONE SUSPEND_NONE}.
+     * @rfturn tif suspfndPolidy wiidi is fitifr
+     * {@link dom.sun.jdi.rfqufst.EvfntRfqufst#SUSPEND_ALL SUSPEND_ALL},
+     * {@link dom.sun.jdi.rfqufst.EvfntRfqufst#SUSPEND_EVENT_THREAD SUSPEND_EVENT_THREAD} or
+     * {@link dom.sun.jdi.rfqufst.EvfntRfqufst#SUSPEND_NONE SUSPEND_NONE}.
      */
-    int suspendPolicy();
+    int suspfndPolidy();
 
     /**
-     * Return an iterator specific to {@link Event} objects.
+     * Rfturn bn itfrbtor spfdifid to {@link Evfnt} objfdts.
      */
-    EventIterator eventIterator();
+    EvfntItfrbtor fvfntItfrbtor();
 
     /**
-     * Resumes threads suspended by this event set. If the {@link #suspendPolicy}
-     * is {@link com.sun.jdi.request.EventRequest#SUSPEND_ALL}, a call
-     * to this method is equivalent to
-     * {@link com.sun.jdi.VirtualMachine#resume}. If the
-     * suspend policy is
-     * {@link com.sun.jdi.request.EventRequest#SUSPEND_EVENT_THREAD},
-     * a call to this method is equivalent to
-     * {@link com.sun.jdi.ThreadReference#resume} for the event thread.
-     * Otherwise, a call to this method is a no-op.
+     * Rfsumfs tirfbds suspfndfd by tiis fvfnt sft. If tif {@link #suspfndPolidy}
+     * is {@link dom.sun.jdi.rfqufst.EvfntRfqufst#SUSPEND_ALL}, b dbll
+     * to tiis mftiod is fquivblfnt to
+     * {@link dom.sun.jdi.VirtublMbdiinf#rfsumf}. If tif
+     * suspfnd polidy is
+     * {@link dom.sun.jdi.rfqufst.EvfntRfqufst#SUSPEND_EVENT_THREAD},
+     * b dbll to tiis mftiod is fquivblfnt to
+     * {@link dom.sun.jdi.TirfbdRfffrfndf#rfsumf} for tif fvfnt tirfbd.
+     * Otifrwisf, b dbll to tiis mftiod is b no-op.
      */
-    void resume();
+    void rfsumf();
 }

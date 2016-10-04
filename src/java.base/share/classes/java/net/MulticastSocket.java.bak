@@ -1,709 +1,709 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.util.Enumfrbtion;
 
 /**
- * The multicast datagram socket class is useful for sending
- * and receiving IP multicast packets.  A MulticastSocket is
- * a (UDP) DatagramSocket, with additional capabilities for
- * joining "groups" of other multicast hosts on the internet.
+ * Tif multidbst dbtbgrbm sodkft dlbss is usfful for sfnding
+ * bnd rfdfiving IP multidbst pbdkfts.  A MultidbstSodkft is
+ * b (UDP) DbtbgrbmSodkft, witi bdditionbl dbpbbilitifs for
+ * joining "groups" of otifr multidbst iosts on tif intfrnft.
  * <P>
- * A multicast group is specified by a class D IP address
- * and by a standard UDP port number. Class D IP addresses
- * are in the range <CODE>224.0.0.0</CODE> to <CODE>239.255.255.255</CODE>,
- * inclusive. The address 224.0.0.0 is reserved and should not be used.
+ * A multidbst group is spfdififd by b dlbss D IP bddrfss
+ * bnd by b stbndbrd UDP port numbfr. Clbss D IP bddrfssfs
+ * brf in tif rbngf <CODE>224.0.0.0</CODE> to <CODE>239.255.255.255</CODE>,
+ * indlusivf. Tif bddrfss 224.0.0.0 is rfsfrvfd bnd siould not bf usfd.
  * <P>
- * One would join a multicast group by first creating a MulticastSocket
- * with the desired port, then invoking the
- * <CODE>joinGroup(InetAddress groupAddr)</CODE>
- * method:
+ * Onf would join b multidbst group by first drfbting b MultidbstSodkft
+ * witi tif dfsirfd port, tifn invoking tif
+ * <CODE>joinGroup(InftAddrfss groupAddr)</CODE>
+ * mftiod:
  * <PRE>
- * // join a Multicast group and send the group salutations
+ * // join b Multidbst group bnd sfnd tif group sblutbtions
  * ...
- * String msg = "Hello";
- * InetAddress group = InetAddress.getByName("228.5.6.7");
- * MulticastSocket s = new MulticastSocket(6789);
+ * String msg = "Hfllo";
+ * InftAddrfss group = InftAddrfss.gftByNbmf("228.5.6.7");
+ * MultidbstSodkft s = nfw MultidbstSodkft(6789);
  * s.joinGroup(group);
- * DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(),
+ * DbtbgrbmPbdkft ii = nfw DbtbgrbmPbdkft(msg.gftBytfs(), msg.lfngti(),
  *                             group, 6789);
- * s.send(hi);
- * // get their responses!
- * byte[] buf = new byte[1000];
- * DatagramPacket recv = new DatagramPacket(buf, buf.length);
- * s.receive(recv);
+ * s.sfnd(ii);
+ * // gft tifir rfsponsfs!
+ * bytf[] buf = nfw bytf[1000];
+ * DbtbgrbmPbdkft rfdv = nfw DbtbgrbmPbdkft(buf, buf.lfngti);
+ * s.rfdfivf(rfdv);
  * ...
- * // OK, I'm done talking - leave the group...
- * s.leaveGroup(group);
+ * // OK, I'm donf tblking - lfbvf tif group...
+ * s.lfbvfGroup(group);
  * </PRE>
  *
- * When one sends a message to a multicast group, <B>all</B> subscribing
- * recipients to that host and port receive the message (within the
- * time-to-live range of the packet, see below).  The socket needn't
- * be a member of the multicast group to send messages to it.
+ * Wifn onf sfnds b mfssbgf to b multidbst group, <B>bll</B> subsdribing
+ * rfdipifnts to tibt iost bnd port rfdfivf tif mfssbgf (witiin tif
+ * timf-to-livf rbngf of tif pbdkft, sff bflow).  Tif sodkft nffdn't
+ * bf b mfmbfr of tif multidbst group to sfnd mfssbgfs to it.
  * <P>
- * When a socket subscribes to a multicast group/port, it receives
- * datagrams sent by other hosts to the group/port, as do all other
- * members of the group and port.  A socket relinquishes membership
- * in a group by the leaveGroup(InetAddress addr) method.  <B>
- * Multiple MulticastSocket's</B> may subscribe to a multicast group
- * and port concurrently, and they will all receive group datagrams.
+ * Wifn b sodkft subsdribfs to b multidbst group/port, it rfdfivfs
+ * dbtbgrbms sfnt by otifr iosts to tif group/port, bs do bll otifr
+ * mfmbfrs of tif group bnd port.  A sodkft rflinquisifs mfmbfrsiip
+ * in b group by tif lfbvfGroup(InftAddrfss bddr) mftiod.  <B>
+ * Multiplf MultidbstSodkft's</B> mby subsdribf to b multidbst group
+ * bnd port dondurrfntly, bnd tify will bll rfdfivf group dbtbgrbms.
  * <P>
- * Currently applets are not allowed to use multicast sockets.
+ * Currfntly bpplfts brf not bllowfd to usf multidbst sodkfts.
  *
- * @author Pavani Diwanji
- * @since  1.1
+ * @butior Pbvbni Diwbnji
+ * @sindf  1.1
  */
-public
-class MulticastSocket extends DatagramSocket {
+publid
+dlbss MultidbstSodkft fxtfnds DbtbgrbmSodkft {
 
     /**
-     * Used on some platforms to record if an outgoing interface
-     * has been set for this socket.
+     * Usfd on somf plbtforms to rfdord if bn outgoing intfrfbdf
+     * ibs bffn sft for tiis sodkft.
      */
-    private boolean interfaceSet;
+    privbtf boolfbn intfrfbdfSft;
 
     /**
-     * Create a multicast socket.
+     * Crfbtf b multidbst sodkft.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with 0 as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is first dbllfd
+     * witi 0 bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      * <p>
-     * When the socket is created the
-     * {@link DatagramSocket#setReuseAddress(boolean)} method is
-     * called to enable the SO_REUSEADDR socket option.
+     * Wifn tif sodkft is drfbtfd tif
+     * {@link DbtbgrbmSodkft#sftRfusfAddrfss(boolfbn)} mftiod is
+     * dbllfd to fnbblf tif SO_REUSEADDR sodkft option.
      *
-     * @exception IOException if an I/O exception occurs
-     * while creating the MulticastSocket
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
-     * @see SecurityManager#checkListen
-     * @see java.net.DatagramSocket#setReuseAddress(boolean)
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf drfbting tif MultidbstSodkft
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
+     * @sff SfdurityMbnbgfr#difdkListfn
+     * @sff jbvb.nft.DbtbgrbmSodkft#sftRfusfAddrfss(boolfbn)
      */
-    public MulticastSocket() throws IOException {
-        this(new InetSocketAddress(0));
+    publid MultidbstSodkft() tirows IOExdfption {
+        tiis(nfw InftSodkftAddrfss(0));
     }
 
     /**
-     * Create a multicast socket and bind it to a specific port.
+     * Crfbtf b multidbst sodkft bnd bind it to b spfdifid port.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is first dbllfd
+     * witi tif {@dodf port} brgumfnt
+     * bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      * <p>
-     * When the socket is created the
-     * {@link DatagramSocket#setReuseAddress(boolean)} method is
-     * called to enable the SO_REUSEADDR socket option.
+     * Wifn tif sodkft is drfbtfd tif
+     * {@link DbtbgrbmSodkft#sftRfusfAddrfss(boolfbn)} mftiod is
+     * dbllfd to fnbblf tif SO_REUSEADDR sodkft option.
      *
-     * @param port port to use
-     * @exception IOException if an I/O exception occurs
-     * while creating the MulticastSocket
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
-     * @see SecurityManager#checkListen
-     * @see java.net.DatagramSocket#setReuseAddress(boolean)
+     * @pbrbm port port to usf
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf drfbting tif MultidbstSodkft
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
+     * @sff SfdurityMbnbgfr#difdkListfn
+     * @sff jbvb.nft.DbtbgrbmSodkft#sftRfusfAddrfss(boolfbn)
      */
-    public MulticastSocket(int port) throws IOException {
-        this(new InetSocketAddress(port));
+    publid MultidbstSodkft(int port) tirows IOExdfption {
+        tiis(nfw InftSodkftAddrfss(port));
     }
 
     /**
-     * Create a MulticastSocket bound to the specified socket address.
+     * Crfbtf b MultidbstSodkft bound to tif spfdififd sodkft bddrfss.
      * <p>
-     * Or, if the address is {@code null}, create an unbound socket.
+     * Or, if tif bddrfss is {@dodf null}, drfbtf bn unbound sodkft.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the SocketAddress port as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is first dbllfd
+     * witi tif SodkftAddrfss port bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      * <p>
-     * When the socket is created the
-     * {@link DatagramSocket#setReuseAddress(boolean)} method is
-     * called to enable the SO_REUSEADDR socket option.
+     * Wifn tif sodkft is drfbtfd tif
+     * {@link DbtbgrbmSodkft#sftRfusfAddrfss(boolfbn)} mftiod is
+     * dbllfd to fnbblf tif SO_REUSEADDR sodkft option.
      *
-     * @param bindaddr Socket address to bind to, or {@code null} for
-     *                 an unbound socket.
-     * @exception IOException if an I/O exception occurs
-     * while creating the MulticastSocket
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
-     * @see SecurityManager#checkListen
-     * @see java.net.DatagramSocket#setReuseAddress(boolean)
+     * @pbrbm bindbddr Sodkft bddrfss to bind to, or {@dodf null} for
+     *                 bn unbound sodkft.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf drfbting tif MultidbstSodkft
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
+     * @sff SfdurityMbnbgfr#difdkListfn
+     * @sff jbvb.nft.DbtbgrbmSodkft#sftRfusfAddrfss(boolfbn)
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public MulticastSocket(SocketAddress bindaddr) throws IOException {
-        super((SocketAddress) null);
+    publid MultidbstSodkft(SodkftAddrfss bindbddr) tirows IOExdfption {
+        supfr((SodkftAddrfss) null);
 
-        // Enable SO_REUSEADDR before binding
-        setReuseAddress(true);
+        // Enbblf SO_REUSEADDR bfforf binding
+        sftRfusfAddrfss(truf);
 
-        if (bindaddr != null) {
+        if (bindbddr != null) {
             try {
-                bind(bindaddr);
-            } finally {
+                bind(bindbddr);
+            } finblly {
                 if (!isBound())
-                    close();
+                    dlosf();
             }
         }
     }
 
     /**
-     * The lock on the socket's TTL. This is for set/getTTL and
-     * send(packet,ttl).
+     * Tif lodk on tif sodkft's TTL. Tiis is for sft/gftTTL bnd
+     * sfnd(pbdkft,ttl).
      */
-    private Object ttlLock = new Object();
+    privbtf Objfdt ttlLodk = nfw Objfdt();
 
     /**
-     * The lock on the socket's interface - used by setInterface
-     * and getInterface
+     * Tif lodk on tif sodkft's intfrfbdf - usfd by sftIntfrfbdf
+     * bnd gftIntfrfbdf
      */
-    private Object infLock = new Object();
+    privbtf Objfdt infLodk = nfw Objfdt();
 
     /**
-     * The "last" interface set by setInterface on this MulticastSocket
+     * Tif "lbst" intfrfbdf sft by sftIntfrfbdf on tiis MultidbstSodkft
      */
-    private InetAddress infAddress = null;
+    privbtf InftAddrfss infAddrfss = null;
 
 
     /**
-     * Set the default time-to-live for multicast packets sent out
-     * on this {@code MulticastSocket} in order to control the
-     * scope of the multicasts.
+     * Sft tif dffbult timf-to-livf for multidbst pbdkfts sfnt out
+     * on tiis {@dodf MultidbstSodkft} in ordfr to dontrol tif
+     * sdopf of tif multidbsts.
      *
-     * <p>The ttl is an <b>unsigned</b> 8-bit quantity, and so <B>must</B> be
-     * in the range {@code 0 <= ttl <= 0xFF }.
+     * <p>Tif ttl is bn <b>unsignfd</b> 8-bit qubntity, bnd so <B>must</B> bf
+     * in tif rbngf {@dodf 0 <= ttl <= 0xFF }.
      *
-     * @param ttl the time-to-live
-     * @exception IOException if an I/O exception occurs
-     * while setting the default time-to-live value
-     * @deprecated use the setTimeToLive method instead, which uses
-     * <b>int</b> instead of <b>byte</b> as the type for ttl.
-     * @see #getTTL()
+     * @pbrbm ttl tif timf-to-livf
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf sftting tif dffbult timf-to-livf vbluf
+     * @dfprfdbtfd usf tif sftTimfToLivf mftiod instfbd, wiidi usfs
+     * <b>int</b> instfbd of <b>bytf</b> bs tif typf for ttl.
+     * @sff #gftTTL()
      */
-    @Deprecated
-    public void setTTL(byte ttl) throws IOException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setTTL(ttl);
+    @Dfprfdbtfd
+    publid void sftTTL(bytf ttl) tirows IOExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftTTL(ttl);
     }
 
     /**
-     * Set the default time-to-live for multicast packets sent out
-     * on this {@code MulticastSocket} in order to control the
-     * scope of the multicasts.
+     * Sft tif dffbult timf-to-livf for multidbst pbdkfts sfnt out
+     * on tiis {@dodf MultidbstSodkft} in ordfr to dontrol tif
+     * sdopf of tif multidbsts.
      *
-     * <P> The ttl <B>must</B> be in the range {@code  0 <= ttl <=
-     * 255} or an {@code IllegalArgumentException} will be thrown.
-     * Multicast packets sent with a TTL of {@code 0} are not transmitted
-     * on the network but may be delivered locally.
+     * <P> Tif ttl <B>must</B> bf in tif rbngf {@dodf  0 <= ttl <=
+     * 255} or bn {@dodf IllfgblArgumfntExdfption} will bf tirown.
+     * Multidbst pbdkfts sfnt witi b TTL of {@dodf 0} brf not trbnsmittfd
+     * on tif nftwork but mby bf dflivfrfd lodblly.
      *
-     * @param  ttl
-     *         the time-to-live
+     * @pbrbm  ttl
+     *         tif timf-to-livf
      *
-     * @throws  IOException
-     *          if an I/O exception occurs while setting the
-     *          default time-to-live value
+     * @tirows  IOExdfption
+     *          if bn I/O fxdfption oddurs wiilf sftting tif
+     *          dffbult timf-to-livf vbluf
      *
-     * @see #getTimeToLive()
+     * @sff #gftTimfToLivf()
      */
-    public void setTimeToLive(int ttl) throws IOException {
+    publid void sftTimfToLivf(int ttl) tirows IOExdfption {
         if (ttl < 0 || ttl > 255) {
-            throw new IllegalArgumentException("ttl out of range");
+            tirow nfw IllfgblArgumfntExdfption("ttl out of rbngf");
         }
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setTimeToLive(ttl);
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftTimfToLivf(ttl);
     }
 
     /**
-     * Get the default time-to-live for multicast packets sent out on
-     * the socket.
+     * Gft tif dffbult timf-to-livf for multidbst pbdkfts sfnt out on
+     * tif sodkft.
      *
-     * @exception IOException if an I/O exception occurs
-     * while getting the default time-to-live value
-     * @return the default time-to-live value
-     * @deprecated use the getTimeToLive method instead, which returns
-     * an <b>int</b> instead of a <b>byte</b>.
-     * @see #setTTL(byte)
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf gftting tif dffbult timf-to-livf vbluf
+     * @rfturn tif dffbult timf-to-livf vbluf
+     * @dfprfdbtfd usf tif gftTimfToLivf mftiod instfbd, wiidi rfturns
+     * bn <b>int</b> instfbd of b <b>bytf</b>.
+     * @sff #sftTTL(bytf)
      */
-    @Deprecated
-    public byte getTTL() throws IOException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        return getImpl().getTTL();
+    @Dfprfdbtfd
+    publid bytf gftTTL() tirows IOExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn gftImpl().gftTTL();
     }
 
     /**
-     * Get the default time-to-live for multicast packets sent out on
-     * the socket.
-     * @exception IOException if an I/O exception occurs while
-     * getting the default time-to-live value
-     * @return the default time-to-live value
-     * @see #setTimeToLive(int)
+     * Gft tif dffbult timf-to-livf for multidbst pbdkfts sfnt out on
+     * tif sodkft.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wiilf
+     * gftting tif dffbult timf-to-livf vbluf
+     * @rfturn tif dffbult timf-to-livf vbluf
+     * @sff #sftTimfToLivf(int)
      */
-    public int getTimeToLive() throws IOException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        return getImpl().getTimeToLive();
+    publid int gftTimfToLivf() tirows IOExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn gftImpl().gftTimfToLivf();
     }
 
     /**
-     * Joins a multicast group. Its behavior may be affected by
-     * {@code setInterface} or {@code setNetworkInterface}.
+     * Joins b multidbst group. Its bfibvior mby bf bfffdtfd by
+     * {@dodf sftIntfrfbdf} or {@dodf sftNftworkIntfrfbdf}.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkMulticast} method
-     * with the {@code mcastaddr} argument
-     * as its argument.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls its {@dodf difdkMultidbst} mftiod
+     * witi tif {@dodf mdbstbddr} brgumfnt
+     * bs its brgumfnt.
      *
-     * @param mcastaddr is the multicast address to join
+     * @pbrbm mdbstbddr is tif multidbst bddrfss to join
      *
-     * @exception IOException if there is an error joining
-     * or when the address is not a multicast address.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkMulticast} method doesn't allow the join.
+     * @fxdfption IOExdfption if tifrf is bn frror joining
+     * or wifn tif bddrfss is not b multidbst bddrfss.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkMultidbst} mftiod dofsn't bllow tif join.
      *
-     * @see SecurityManager#checkMulticast(InetAddress)
+     * @sff SfdurityMbnbgfr#difdkMultidbst(InftAddrfss)
      */
-    public void joinGroup(InetAddress mcastaddr) throws IOException {
-        if (isClosed()) {
-            throw new SocketException("Socket is closed");
+    publid void joinGroup(InftAddrfss mdbstbddr) tirows IOExdfption {
+        if (isClosfd()) {
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
         }
 
-        checkAddress(mcastaddr, "joinGroup");
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkMulticast(mcastaddr);
+        difdkAddrfss(mdbstbddr, "joinGroup");
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkMultidbst(mdbstbddr);
         }
 
-        if (!mcastaddr.isMulticastAddress()) {
-            throw new SocketException("Not a multicast address");
+        if (!mdbstbddr.isMultidbstAddrfss()) {
+            tirow nfw SodkftExdfption("Not b multidbst bddrfss");
         }
 
         /**
-         * required for some platforms where it's not possible to join
-         * a group without setting the interface first.
+         * rfquirfd for somf plbtforms wifrf it's not possiblf to join
+         * b group witiout sftting tif intfrfbdf first.
          */
-        NetworkInterface defaultInterface = NetworkInterface.getDefault();
+        NftworkIntfrfbdf dffbultIntfrfbdf = NftworkIntfrfbdf.gftDffbult();
 
-        if (!interfaceSet && defaultInterface != null) {
-            setNetworkInterface(defaultInterface);
+        if (!intfrfbdfSft && dffbultIntfrfbdf != null) {
+            sftNftworkIntfrfbdf(dffbultIntfrfbdf);
         }
 
-        getImpl().join(mcastaddr);
+        gftImpl().join(mdbstbddr);
     }
 
     /**
-     * Leave a multicast group. Its behavior may be affected by
-     * {@code setInterface} or {@code setNetworkInterface}.
+     * Lfbvf b multidbst group. Its bfibvior mby bf bfffdtfd by
+     * {@dodf sftIntfrfbdf} or {@dodf sftNftworkIntfrfbdf}.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkMulticast} method
-     * with the {@code mcastaddr} argument
-     * as its argument.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls its {@dodf difdkMultidbst} mftiod
+     * witi tif {@dodf mdbstbddr} brgumfnt
+     * bs its brgumfnt.
      *
-     * @param mcastaddr is the multicast address to leave
-     * @exception IOException if there is an error leaving
-     * or when the address is not a multicast address.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkMulticast} method doesn't allow the operation.
+     * @pbrbm mdbstbddr is tif multidbst bddrfss to lfbvf
+     * @fxdfption IOExdfption if tifrf is bn frror lfbving
+     * or wifn tif bddrfss is not b multidbst bddrfss.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkMultidbst} mftiod dofsn't bllow tif opfrbtion.
      *
-     * @see SecurityManager#checkMulticast(InetAddress)
+     * @sff SfdurityMbnbgfr#difdkMultidbst(InftAddrfss)
      */
-    public void leaveGroup(InetAddress mcastaddr) throws IOException {
-        if (isClosed()) {
-            throw new SocketException("Socket is closed");
+    publid void lfbvfGroup(InftAddrfss mdbstbddr) tirows IOExdfption {
+        if (isClosfd()) {
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
         }
 
-        checkAddress(mcastaddr, "leaveGroup");
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkMulticast(mcastaddr);
+        difdkAddrfss(mdbstbddr, "lfbvfGroup");
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkMultidbst(mdbstbddr);
         }
 
-        if (!mcastaddr.isMulticastAddress()) {
-            throw new SocketException("Not a multicast address");
+        if (!mdbstbddr.isMultidbstAddrfss()) {
+            tirow nfw SodkftExdfption("Not b multidbst bddrfss");
         }
 
-        getImpl().leave(mcastaddr);
+        gftImpl().lfbvf(mdbstbddr);
     }
 
     /**
-     * Joins the specified multicast group at the specified interface.
+     * Joins tif spfdififd multidbst group bt tif spfdififd intfrfbdf.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkMulticast} method
-     * with the {@code mcastaddr} argument
-     * as its argument.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls its {@dodf difdkMultidbst} mftiod
+     * witi tif {@dodf mdbstbddr} brgumfnt
+     * bs its brgumfnt.
      *
-     * @param mcastaddr is the multicast address to join
-     * @param netIf specifies the local interface to receive multicast
-     *        datagram packets, or <i>null</i> to defer to the interface set by
-     *       {@link MulticastSocket#setInterface(InetAddress)} or
-     *       {@link MulticastSocket#setNetworkInterface(NetworkInterface)}
+     * @pbrbm mdbstbddr is tif multidbst bddrfss to join
+     * @pbrbm nftIf spfdififs tif lodbl intfrfbdf to rfdfivf multidbst
+     *        dbtbgrbm pbdkfts, or <i>null</i> to dfffr to tif intfrfbdf sft by
+     *       {@link MultidbstSodkft#sftIntfrfbdf(InftAddrfss)} or
+     *       {@link MultidbstSodkft#sftNftworkIntfrfbdf(NftworkIntfrfbdf)}
      *
-     * @exception IOException if there is an error joining
-     * or when the address is not a multicast address.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkMulticast} method doesn't allow the join.
-     * @throws  IllegalArgumentException if mcastaddr is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @fxdfption IOExdfption if tifrf is bn frror joining
+     * or wifn tif bddrfss is not b multidbst bddrfss.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkMultidbst} mftiod dofsn't bllow tif join.
+     * @tirows  IllfgblArgumfntExdfption if mdbstbddr is null or is b
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
      *
-     * @see SecurityManager#checkMulticast(InetAddress)
-     * @since 1.4
+     * @sff SfdurityMbnbgfr#difdkMultidbst(InftAddrfss)
+     * @sindf 1.4
      */
-    public void joinGroup(SocketAddress mcastaddr, NetworkInterface netIf)
-        throws IOException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
+    publid void joinGroup(SodkftAddrfss mdbstbddr, NftworkIntfrfbdf nftIf)
+        tirows IOExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
 
-        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
+        if (mdbstbddr == null || !(mdbstbddr instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
 
         if (oldImpl)
-            throw new UnsupportedOperationException();
+            tirow nfw UnsupportfdOpfrbtionExdfption();
 
-        checkAddress(((InetSocketAddress)mcastaddr).getAddress(), "joinGroup");
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkMulticast(((InetSocketAddress)mcastaddr).getAddress());
+        difdkAddrfss(((InftSodkftAddrfss)mdbstbddr).gftAddrfss(), "joinGroup");
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkMultidbst(((InftSodkftAddrfss)mdbstbddr).gftAddrfss());
         }
 
-        if (!((InetSocketAddress)mcastaddr).getAddress().isMulticastAddress()) {
-            throw new SocketException("Not a multicast address");
+        if (!((InftSodkftAddrfss)mdbstbddr).gftAddrfss().isMultidbstAddrfss()) {
+            tirow nfw SodkftExdfption("Not b multidbst bddrfss");
         }
 
-        getImpl().joinGroup(mcastaddr, netIf);
+        gftImpl().joinGroup(mdbstbddr, nftIf);
     }
 
     /**
-     * Leave a multicast group on a specified local interface.
+     * Lfbvf b multidbst group on b spfdififd lodbl intfrfbdf.
      *
-     * <p>If there is a security manager, this method first
-     * calls its {@code checkMulticast} method
-     * with the {@code mcastaddr} argument
-     * as its argument.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls its {@dodf difdkMultidbst} mftiod
+     * witi tif {@dodf mdbstbddr} brgumfnt
+     * bs its brgumfnt.
      *
-     * @param mcastaddr is the multicast address to leave
-     * @param netIf specifies the local interface or <i>null</i> to defer
-     *             to the interface set by
-     *             {@link MulticastSocket#setInterface(InetAddress)} or
-     *             {@link MulticastSocket#setNetworkInterface(NetworkInterface)}
-     * @exception IOException if there is an error leaving
-     * or when the address is not a multicast address.
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkMulticast} method doesn't allow the operation.
-     * @throws  IllegalArgumentException if mcastaddr is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @pbrbm mdbstbddr is tif multidbst bddrfss to lfbvf
+     * @pbrbm nftIf spfdififs tif lodbl intfrfbdf or <i>null</i> to dfffr
+     *             to tif intfrfbdf sft by
+     *             {@link MultidbstSodkft#sftIntfrfbdf(InftAddrfss)} or
+     *             {@link MultidbstSodkft#sftNftworkIntfrfbdf(NftworkIntfrfbdf)}
+     * @fxdfption IOExdfption if tifrf is bn frror lfbving
+     * or wifn tif bddrfss is not b multidbst bddrfss.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkMultidbst} mftiod dofsn't bllow tif opfrbtion.
+     * @tirows  IllfgblArgumfntExdfption if mdbstbddr is null or is b
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
      *
-     * @see SecurityManager#checkMulticast(InetAddress)
-     * @since 1.4
+     * @sff SfdurityMbnbgfr#difdkMultidbst(InftAddrfss)
+     * @sindf 1.4
      */
-    public void leaveGroup(SocketAddress mcastaddr, NetworkInterface netIf)
-        throws IOException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
+    publid void lfbvfGroup(SodkftAddrfss mdbstbddr, NftworkIntfrfbdf nftIf)
+        tirows IOExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
 
-        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
+        if (mdbstbddr == null || !(mdbstbddr instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
 
         if (oldImpl)
-            throw new UnsupportedOperationException();
+            tirow nfw UnsupportfdOpfrbtionExdfption();
 
-        checkAddress(((InetSocketAddress)mcastaddr).getAddress(), "leaveGroup");
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkMulticast(((InetSocketAddress)mcastaddr).getAddress());
+        difdkAddrfss(((InftSodkftAddrfss)mdbstbddr).gftAddrfss(), "lfbvfGroup");
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkMultidbst(((InftSodkftAddrfss)mdbstbddr).gftAddrfss());
         }
 
-        if (!((InetSocketAddress)mcastaddr).getAddress().isMulticastAddress()) {
-            throw new SocketException("Not a multicast address");
+        if (!((InftSodkftAddrfss)mdbstbddr).gftAddrfss().isMultidbstAddrfss()) {
+            tirow nfw SodkftExdfption("Not b multidbst bddrfss");
         }
 
-        getImpl().leaveGroup(mcastaddr, netIf);
+        gftImpl().lfbvfGroup(mdbstbddr, nftIf);
      }
 
     /**
-     * Set the multicast network interface used by methods
-     * whose behavior would be affected by the value of the
-     * network interface. Useful for multihomed hosts.
-     * @param inf the InetAddress
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
-     * @see #getInterface()
+     * Sft tif multidbst nftwork intfrfbdf usfd by mftiods
+     * wiosf bfibvior would bf bfffdtfd by tif vbluf of tif
+     * nftwork intfrfbdf. Usfful for multiiomfd iosts.
+     * @pbrbm inf tif InftAddrfss
+     * @fxdfption SodkftExdfption if tifrf is bn frror in
+     * tif undfrlying protodol, sudi bs b TCP frror.
+     * @sff #gftIntfrfbdf()
      */
-    public void setInterface(InetAddress inf) throws SocketException {
-        if (isClosed()) {
-            throw new SocketException("Socket is closed");
+    publid void sftIntfrfbdf(InftAddrfss inf) tirows SodkftExdfption {
+        if (isClosfd()) {
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
         }
-        checkAddress(inf, "setInterface");
-        synchronized (infLock) {
-            getImpl().setOption(SocketOptions.IP_MULTICAST_IF, inf);
-            infAddress = inf;
-            interfaceSet = true;
+        difdkAddrfss(inf, "sftIntfrfbdf");
+        syndironizfd (infLodk) {
+            gftImpl().sftOption(SodkftOptions.IP_MULTICAST_IF, inf);
+            infAddrfss = inf;
+            intfrfbdfSft = truf;
         }
     }
 
     /**
-     * Retrieve the address of the network interface used for
-     * multicast packets.
+     * Rftrifvf tif bddrfss of tif nftwork intfrfbdf usfd for
+     * multidbst pbdkfts.
      *
-     * @return An {@code InetAddress} representing
-     *  the address of the network interface used for
-     *  multicast packets.
+     * @rfturn An {@dodf InftAddrfss} rfprfsfnting
+     *  tif bddrfss of tif nftwork intfrfbdf usfd for
+     *  multidbst pbdkfts.
      *
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
+     * @fxdfption SodkftExdfption if tifrf is bn frror in
+     * tif undfrlying protodol, sudi bs b TCP frror.
      *
-     * @see #setInterface(java.net.InetAddress)
+     * @sff #sftIntfrfbdf(jbvb.nft.InftAddrfss)
      */
-    public InetAddress getInterface() throws SocketException {
-        if (isClosed()) {
-            throw new SocketException("Socket is closed");
+    publid InftAddrfss gftIntfrfbdf() tirows SodkftExdfption {
+        if (isClosfd()) {
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
         }
-        synchronized (infLock) {
-            InetAddress ia =
-                (InetAddress)getImpl().getOption(SocketOptions.IP_MULTICAST_IF);
+        syndironizfd (infLodk) {
+            InftAddrfss ib =
+                (InftAddrfss)gftImpl().gftOption(SodkftOptions.IP_MULTICAST_IF);
 
             /**
-             * No previous setInterface or interface can be
-             * set using setNetworkInterface
+             * No prfvious sftIntfrfbdf or intfrfbdf dbn bf
+             * sft using sftNftworkIntfrfbdf
              */
-            if (infAddress == null) {
-                return ia;
+            if (infAddrfss == null) {
+                rfturn ib;
             }
 
             /**
-             * Same interface set with setInterface?
+             * Sbmf intfrfbdf sft witi sftIntfrfbdf?
              */
-            if (ia.equals(infAddress)) {
-                return ia;
+            if (ib.fqubls(infAddrfss)) {
+                rfturn ib;
             }
 
             /**
-             * Different InetAddress from what we set with setInterface
-             * so enumerate the current interface to see if the
-             * address set by setInterface is bound to this interface.
+             * Difffrfnt InftAddrfss from wibt wf sft witi sftIntfrfbdf
+             * so fnumfrbtf tif durrfnt intfrfbdf to sff if tif
+             * bddrfss sft by sftIntfrfbdf is bound to tiis intfrfbdf.
              */
             try {
-                NetworkInterface ni = NetworkInterface.getByInetAddress(ia);
-                Enumeration<InetAddress> addrs = ni.getInetAddresses();
-                while (addrs.hasMoreElements()) {
-                    InetAddress addr = addrs.nextElement();
-                    if (addr.equals(infAddress)) {
-                        return infAddress;
+                NftworkIntfrfbdf ni = NftworkIntfrfbdf.gftByInftAddrfss(ib);
+                Enumfrbtion<InftAddrfss> bddrs = ni.gftInftAddrfssfs();
+                wiilf (bddrs.ibsMorfElfmfnts()) {
+                    InftAddrfss bddr = bddrs.nfxtElfmfnt();
+                    if (bddr.fqubls(infAddrfss)) {
+                        rfturn infAddrfss;
                     }
                 }
 
                 /**
-                 * No match so reset infAddress to indicate that the
-                 * interface has changed via means
+                 * No mbtdi so rfsft infAddrfss to indidbtf tibt tif
+                 * intfrfbdf ibs dibngfd vib mfbns
                  */
-                infAddress = null;
-                return ia;
-            } catch (Exception e) {
-                return ia;
+                infAddrfss = null;
+                rfturn ib;
+            } dbtdi (Exdfption f) {
+                rfturn ib;
             }
         }
     }
 
     /**
-     * Specify the network interface for outgoing multicast datagrams
-     * sent on this socket.
+     * Spfdify tif nftwork intfrfbdf for outgoing multidbst dbtbgrbms
+     * sfnt on tiis sodkft.
      *
-     * @param netIf the interface
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
-     * @see #getNetworkInterface()
-     * @since 1.4
+     * @pbrbm nftIf tif intfrfbdf
+     * @fxdfption SodkftExdfption if tifrf is bn frror in
+     * tif undfrlying protodol, sudi bs b TCP frror.
+     * @sff #gftNftworkIntfrfbdf()
+     * @sindf 1.4
      */
-    public void setNetworkInterface(NetworkInterface netIf)
-        throws SocketException {
+    publid void sftNftworkIntfrfbdf(NftworkIntfrfbdf nftIf)
+        tirows SodkftExdfption {
 
-        synchronized (infLock) {
-            getImpl().setOption(SocketOptions.IP_MULTICAST_IF2, netIf);
-            infAddress = null;
-            interfaceSet = true;
+        syndironizfd (infLodk) {
+            gftImpl().sftOption(SodkftOptions.IP_MULTICAST_IF2, nftIf);
+            infAddrfss = null;
+            intfrfbdfSft = truf;
         }
     }
 
     /**
-     * Get the multicast network interface set.
+     * Gft tif multidbst nftwork intfrfbdf sft.
      *
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
-     * @return the multicast {@code NetworkInterface} currently set
-     * @see #setNetworkInterface(NetworkInterface)
-     * @since 1.4
+     * @fxdfption SodkftExdfption if tifrf is bn frror in
+     * tif undfrlying protodol, sudi bs b TCP frror.
+     * @rfturn tif multidbst {@dodf NftworkIntfrfbdf} durrfntly sft
+     * @sff #sftNftworkIntfrfbdf(NftworkIntfrfbdf)
+     * @sindf 1.4
      */
-    public NetworkInterface getNetworkInterface() throws SocketException {
-        NetworkInterface ni
-            = (NetworkInterface)getImpl().getOption(SocketOptions.IP_MULTICAST_IF2);
-        if (ni.getIndex() == 0) {
-            InetAddress[] addrs = new InetAddress[1];
-            addrs[0] = InetAddress.anyLocalAddress();
-            return new NetworkInterface(addrs[0].getHostName(), 0, addrs);
-        } else {
-            return ni;
+    publid NftworkIntfrfbdf gftNftworkIntfrfbdf() tirows SodkftExdfption {
+        NftworkIntfrfbdf ni
+            = (NftworkIntfrfbdf)gftImpl().gftOption(SodkftOptions.IP_MULTICAST_IF2);
+        if (ni.gftIndfx() == 0) {
+            InftAddrfss[] bddrs = nfw InftAddrfss[1];
+            bddrs[0] = InftAddrfss.bnyLodblAddrfss();
+            rfturn nfw NftworkIntfrfbdf(bddrs[0].gftHostNbmf(), 0, bddrs);
+        } flsf {
+            rfturn ni;
         }
     }
 
     /**
-     * Disable/Enable local loopback of multicast datagrams
-     * The option is used by the platform's networking code as a hint
-     * for setting whether multicast data will be looped back to
-     * the local socket.
+     * Disbblf/Enbblf lodbl loopbbdk of multidbst dbtbgrbms
+     * Tif option is usfd by tif plbtform's nftworking dodf bs b iint
+     * for sftting wiftifr multidbst dbtb will bf loopfd bbdk to
+     * tif lodbl sodkft.
      *
-     * <p>Because this option is a hint, applications that want to
-     * verify what loopback mode is set to should call
-     * {@link #getLoopbackMode()}
-     * @param disable {@code true} to disable the LoopbackMode
-     * @throws SocketException if an error occurs while setting the value
-     * @since 1.4
-     * @see #getLoopbackMode
+     * <p>Bfdbusf tiis option is b iint, bpplidbtions tibt wbnt to
+     * vfrify wibt loopbbdk modf is sft to siould dbll
+     * {@link #gftLoopbbdkModf()}
+     * @pbrbm disbblf {@dodf truf} to disbblf tif LoopbbdkModf
+     * @tirows SodkftExdfption if bn frror oddurs wiilf sftting tif vbluf
+     * @sindf 1.4
+     * @sff #gftLoopbbdkModf
      */
-    public void setLoopbackMode(boolean disable) throws SocketException {
-        getImpl().setOption(SocketOptions.IP_MULTICAST_LOOP, Boolean.valueOf(disable));
+    publid void sftLoopbbdkModf(boolfbn disbblf) tirows SodkftExdfption {
+        gftImpl().sftOption(SodkftOptions.IP_MULTICAST_LOOP, Boolfbn.vblufOf(disbblf));
     }
 
     /**
-     * Get the setting for local loopback of multicast datagrams.
+     * Gft tif sftting for lodbl loopbbdk of multidbst dbtbgrbms.
      *
-     * @throws SocketException  if an error occurs while getting the value
-     * @return true if the LoopbackMode has been disabled
-     * @since 1.4
-     * @see #setLoopbackMode
+     * @tirows SodkftExdfption  if bn frror oddurs wiilf gftting tif vbluf
+     * @rfturn truf if tif LoopbbdkModf ibs bffn disbblfd
+     * @sindf 1.4
+     * @sff #sftLoopbbdkModf
      */
-    public boolean getLoopbackMode() throws SocketException {
-        return ((Boolean)getImpl().getOption(SocketOptions.IP_MULTICAST_LOOP)).booleanValue();
+    publid boolfbn gftLoopbbdkModf() tirows SodkftExdfption {
+        rfturn ((Boolfbn)gftImpl().gftOption(SodkftOptions.IP_MULTICAST_LOOP)).boolfbnVbluf();
     }
 
     /**
-     * Sends a datagram packet to the destination, with a TTL (time-
-     * to-live) other than the default for the socket.  This method
-     * need only be used in instances where a particular TTL is desired;
-     * otherwise it is preferable to set a TTL once on the socket, and
-     * use that default TTL for all packets.  This method does <B>not
-     * </B> alter the default TTL for the socket. Its behavior may be
-     * affected by {@code setInterface}.
+     * Sfnds b dbtbgrbm pbdkft to tif dfstinbtion, witi b TTL (timf-
+     * to-livf) otifr tibn tif dffbult for tif sodkft.  Tiis mftiod
+     * nffd only bf usfd in instbndfs wifrf b pbrtidulbr TTL is dfsirfd;
+     * otifrwisf it is prfffrbblf to sft b TTL ondf on tif sodkft, bnd
+     * usf tibt dffbult TTL for bll pbdkfts.  Tiis mftiod dofs <B>not
+     * </B> bltfr tif dffbult TTL for tif sodkft. Its bfibvior mby bf
+     * bfffdtfd by {@dodf sftIntfrfbdf}.
      *
-     * <p>If there is a security manager, this method first performs some
-     * security checks. First, if {@code p.getAddress().isMulticastAddress()}
-     * is true, this method calls the
-     * security manager's {@code checkMulticast} method
-     * with {@code p.getAddress()} and {@code ttl} as its arguments.
-     * If the evaluation of that expression is false,
-     * this method instead calls the security manager's
-     * {@code checkConnect} method with arguments
-     * {@code p.getAddress().getHostAddress()} and
-     * {@code p.getPort()}. Each call to a security manager method
-     * could result in a SecurityException if the operation is not allowed.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first pfrforms somf
+     * sfdurity difdks. First, if {@dodf p.gftAddrfss().isMultidbstAddrfss()}
+     * is truf, tiis mftiod dblls tif
+     * sfdurity mbnbgfr's {@dodf difdkMultidbst} mftiod
+     * witi {@dodf p.gftAddrfss()} bnd {@dodf ttl} bs its brgumfnts.
+     * If tif fvblubtion of tibt fxprfssion is fblsf,
+     * tiis mftiod instfbd dblls tif sfdurity mbnbgfr's
+     * {@dodf difdkConnfdt} mftiod witi brgumfnts
+     * {@dodf p.gftAddrfss().gftHostAddrfss()} bnd
+     * {@dodf p.gftPort()}. Ebdi dbll to b sfdurity mbnbgfr mftiod
+     * dould rfsult in b SfdurityExdfption if tif opfrbtion is not bllowfd.
      *
-     * @param p is the packet to be sent. The packet should contain
-     * the destination multicast ip address and the data to be sent.
-     * One does not need to be the member of the group to send
-     * packets to a destination multicast address.
-     * @param ttl optional time to live for multicast packet.
-     * default ttl is 1.
+     * @pbrbm p is tif pbdkft to bf sfnt. Tif pbdkft siould dontbin
+     * tif dfstinbtion multidbst ip bddrfss bnd tif dbtb to bf sfnt.
+     * Onf dofs not nffd to bf tif mfmbfr of tif group to sfnd
+     * pbdkfts to b dfstinbtion multidbst bddrfss.
+     * @pbrbm ttl optionbl timf to livf for multidbst pbdkft.
+     * dffbult ttl is 1.
      *
-     * @exception IOException is raised if an error occurs i.e
-     * error while setting ttl.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkMulticast} or {@code checkConnect}
-     *             method doesn't allow the send.
+     * @fxdfption IOExdfption is rbisfd if bn frror oddurs i.f
+     * frror wiilf sftting ttl.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkMultidbst} or {@dodf difdkConnfdt}
+     *             mftiod dofsn't bllow tif sfnd.
      *
-     * @deprecated Use the following code or its equivalent instead:
+     * @dfprfdbtfd Usf tif following dodf or its fquivblfnt instfbd:
      *  ......
-     *  int ttl = mcastSocket.getTimeToLive();
-     *  mcastSocket.setTimeToLive(newttl);
-     *  mcastSocket.send(p);
-     *  mcastSocket.setTimeToLive(ttl);
+     *  int ttl = mdbstSodkft.gftTimfToLivf();
+     *  mdbstSodkft.sftTimfToLivf(nfwttl);
+     *  mdbstSodkft.sfnd(p);
+     *  mdbstSodkft.sftTimfToLivf(ttl);
      *  ......
      *
-     * @see DatagramSocket#send
-     * @see DatagramSocket#receive
-     * @see SecurityManager#checkMulticast(java.net.InetAddress, byte)
-     * @see SecurityManager#checkConnect
+     * @sff DbtbgrbmSodkft#sfnd
+     * @sff DbtbgrbmSodkft#rfdfivf
+     * @sff SfdurityMbnbgfr#difdkMultidbst(jbvb.nft.InftAddrfss, bytf)
+     * @sff SfdurityMbnbgfr#difdkConnfdt
      */
-    @Deprecated
-    public void send(DatagramPacket p, byte ttl)
-        throws IOException {
-            if (isClosed())
-                throw new SocketException("Socket is closed");
-            checkAddress(p.getAddress(), "send");
-            synchronized(ttlLock) {
-                synchronized(p) {
-                    if (connectState == ST_NOT_CONNECTED) {
-                        // Security manager makes sure that the multicast address
-                        // is allowed one and that the ttl used is less
-                        // than the allowed maxttl.
-                        SecurityManager security = System.getSecurityManager();
-                        if (security != null) {
-                            if (p.getAddress().isMulticastAddress()) {
-                                security.checkMulticast(p.getAddress(), ttl);
-                            } else {
-                                security.checkConnect(p.getAddress().getHostAddress(),
-                                                      p.getPort());
+    @Dfprfdbtfd
+    publid void sfnd(DbtbgrbmPbdkft p, bytf ttl)
+        tirows IOExdfption {
+            if (isClosfd())
+                tirow nfw SodkftExdfption("Sodkft is dlosfd");
+            difdkAddrfss(p.gftAddrfss(), "sfnd");
+            syndironizfd(ttlLodk) {
+                syndironizfd(p) {
+                    if (donnfdtStbtf == ST_NOT_CONNECTED) {
+                        // Sfdurity mbnbgfr mbkfs surf tibt tif multidbst bddrfss
+                        // is bllowfd onf bnd tibt tif ttl usfd is lfss
+                        // tibn tif bllowfd mbxttl.
+                        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                        if (sfdurity != null) {
+                            if (p.gftAddrfss().isMultidbstAddrfss()) {
+                                sfdurity.difdkMultidbst(p.gftAddrfss(), ttl);
+                            } flsf {
+                                sfdurity.difdkConnfdt(p.gftAddrfss().gftHostAddrfss(),
+                                                      p.gftPort());
                             }
                         }
-                    } else {
-                        // we're connected
-                        InetAddress packetAddress = null;
-                        packetAddress = p.getAddress();
-                        if (packetAddress == null) {
-                            p.setAddress(connectedAddress);
-                            p.setPort(connectedPort);
-                        } else if ((!packetAddress.equals(connectedAddress)) ||
-                                   p.getPort() != connectedPort) {
-                            throw new SecurityException("connected address and packet address" +
-                                                        " differ");
+                    } flsf {
+                        // wf'rf donnfdtfd
+                        InftAddrfss pbdkftAddrfss = null;
+                        pbdkftAddrfss = p.gftAddrfss();
+                        if (pbdkftAddrfss == null) {
+                            p.sftAddrfss(donnfdtfdAddrfss);
+                            p.sftPort(donnfdtfdPort);
+                        } flsf if ((!pbdkftAddrfss.fqubls(donnfdtfdAddrfss)) ||
+                                   p.gftPort() != donnfdtfdPort) {
+                            tirow nfw SfdurityExdfption("donnfdtfd bddrfss bnd pbdkft bddrfss" +
+                                                        " difffr");
                         }
                     }
-                    byte dttl = getTTL();
+                    bytf dttl = gftTTL();
                     try {
                         if (ttl != dttl) {
-                            // set the ttl
-                            getImpl().setTTL(ttl);
+                            // sft tif ttl
+                            gftImpl().sftTTL(ttl);
                         }
-                        // call the datagram method to send
-                        getImpl().send(p);
-                    } finally {
-                        // set it back to default
+                        // dbll tif dbtbgrbm mftiod to sfnd
+                        gftImpl().sfnd(p);
+                    } finblly {
+                        // sft it bbdk to dffbult
                         if (ttl != dttl) {
-                            getImpl().setTTL(dttl);
+                            gftImpl().sftTTL(dttl);
                         }
                     }
-                } // synch p
-            }  //synch ttl
-    } //method
+                } // syndi p
+            }  //syndi ttl
+    } //mftiod
 }

@@ -1,0 +1,349 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * A visitor to visit b Jbvb dlbss. Thf mfthods of this dlbss must bf dbllfd in
+ * thf following ordfr: <tt>visit</tt> [ <tt>visitSourdf</tt> ] [
+ * <tt>visitOutfrClbss</tt> ] ( <tt>visitAnnotbtion</tt> |
+ * <tt>visitTypfAnnotbtion</tt> | <tt>visitAttributf</tt> )* (
+ * <tt>visitInnfrClbss</tt> | <tt>visitFifld</tt> | <tt>visitMfthod</tt> )*
+ * <tt>visitEnd</tt>.
+ *
+ * @buthor Erid Brunfton
+ */
+publid bbstrbdt dlbss ClbssVisitor {
+
+    /**
+     * Thf ASM API vfrsion implfmfntfd by this visitor. Thf vbluf of this fifld
+     * must bf onf of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     */
+    protfdtfd finbl int bpi;
+
+    /**
+     * Thf dlbss visitor to whidh this visitor must dflfgbtf mfthod dblls. Mby
+     * bf null.
+     */
+    protfdtfd ClbssVisitor dv;
+
+    /**
+     * Construdts b nfw {@link ClbssVisitor}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     */
+    publid ClbssVisitor(finbl int bpi) {
+        this(bpi, null);
+    }
+
+    /**
+     * Construdts b nfw {@link ClbssVisitor}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm dv
+     *            thf dlbss visitor to whidh this visitor must dflfgbtf mfthod
+     *            dblls. Mby bf null.
+     */
+    publid ClbssVisitor(finbl int bpi, finbl ClbssVisitor dv) {
+        if (bpi != Opdodfs.ASM4 && bpi != Opdodfs.ASM5) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        this.bpi = bpi;
+        this.dv = dv;
+    }
+
+    /**
+     * Visits thf hfbdfr of thf dlbss.
+     *
+     * @pbrbm vfrsion
+     *            thf dlbss vfrsion.
+     * @pbrbm bddfss
+     *            thf dlbss's bddfss flbgs (sff {@link Opdodfs}). This pbrbmftfr
+     *            blso indidbtfs if thf dlbss is dfprfdbtfd.
+     * @pbrbm nbmf
+     *            thf intfrnbl nbmf of thf dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     * @pbrbm signbturf
+     *            thf signbturf of this dlbss. Mby bf <tt>null</tt> if thf dlbss
+     *            is not b gfnfrid onf, bnd dofs not fxtfnd or implfmfnt gfnfrid
+     *            dlbssfs or intfrfbdfs.
+     * @pbrbm supfrNbmf
+     *            thf intfrnbl of nbmf of thf supfr dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). For
+     *            intfrfbdfs, thf supfr dlbss is {@link Objfdt}. Mby bf
+     *            <tt>null</tt>, but only for thf {@link Objfdt} dlbss.
+     * @pbrbm intfrfbdfs
+     *            thf intfrnbl nbmfs of thf dlbss's intfrfbdfs (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Mby bf
+     *            <tt>null</tt>.
+     */
+    publid void visit(int vfrsion, int bddfss, String nbmf, String signbturf,
+            String supfrNbmf, String[] intfrfbdfs) {
+        if (dv != null) {
+            dv.visit(vfrsion, bddfss, nbmf, signbturf, supfrNbmf, intfrfbdfs);
+        }
+    }
+
+    /**
+     * Visits thf sourdf of thf dlbss.
+     *
+     * @pbrbm sourdf
+     *            thf nbmf of thf sourdf filf from whidh thf dlbss wbs dompilfd.
+     *            Mby bf <tt>null</tt>.
+     * @pbrbm dfbug
+     *            bdditionbl dfbug informbtion to domputf thf dorrfspondbndf
+     *            bftwffn sourdf bnd dompilfd flfmfnts of thf dlbss. Mby bf
+     *            <tt>null</tt>.
+     */
+    publid void visitSourdf(String sourdf, String dfbug) {
+        if (dv != null) {
+            dv.visitSourdf(sourdf, dfbug);
+        }
+    }
+
+    /**
+     * Visits thf fndlosing dlbss of thf dlbss. This mfthod must bf dbllfd only
+     * if thf dlbss hbs bn fndlosing dlbss.
+     *
+     * @pbrbm ownfr
+     *            intfrnbl nbmf of thf fndlosing dlbss of thf dlbss.
+     * @pbrbm nbmf
+     *            thf nbmf of thf mfthod thbt dontbins thf dlbss, or
+     *            <tt>null</tt> if thf dlbss is not fndlosfd in b mfthod of its
+     *            fndlosing dlbss.
+     * @pbrbm dfsd
+     *            thf dfsdriptor of thf mfthod thbt dontbins thf dlbss, or
+     *            <tt>null</tt> if thf dlbss is not fndlosfd in b mfthod of its
+     *            fndlosing dlbss.
+     */
+    publid void visitOutfrClbss(String ownfr, String nbmf, String dfsd) {
+        if (dv != null) {
+            dv.visitOutfrClbss(ownfr, nbmf, dfsd);
+        }
+    }
+
+    /**
+     * Visits bn bnnotbtion of thf dlbss.
+     *
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitAnnotbtion(String dfsd, boolfbn visiblf) {
+        if (dv != null) {
+            rfturn dv.visitAnnotbtion(dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits bn bnnotbtion on b typf in thf dlbss signbturf.
+     *
+     * @pbrbm typfRff
+     *            b rfffrfndf to thf bnnotbtfd typf. Thf sort of this typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#CLASS_TYPE_PARAMETER
+     *            CLASS_TYPE_PARAMETER},
+     *            {@link TypfRfffrfndf#CLASS_TYPE_PARAMETER_BOUND
+     *            CLASS_TYPE_PARAMETER_BOUND} or
+     *            {@link TypfRfffrfndf#CLASS_EXTENDS CLASS_EXTENDS}. Sff
+     *            {@link TypfRfffrfndf}.
+     * @pbrbm typfPbth
+     *            thf pbth to thf bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf within 'typfRff'. Mby bf
+     *            <tt>null</tt> if thf bnnotbtion tbrgfts 'typfRff' bs b wholf.
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbth typfPbth, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            throw nfw RuntimfExdfption();
+        }
+        if (dv != null) {
+            rfturn dv.visitTypfAnnotbtion(typfRff, typfPbth, dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits b non stbndbrd bttributf of thf dlbss.
+     *
+     * @pbrbm bttr
+     *            bn bttributf.
+     */
+    publid void visitAttributf(Attributf bttr) {
+        if (dv != null) {
+            dv.visitAttributf(bttr);
+        }
+    }
+
+    /**
+     * Visits informbtion bbout bn innfr dlbss. This innfr dlbss is not
+     * nfdfssbrily b mfmbfr of thf dlbss bfing visitfd.
+     *
+     * @pbrbm nbmf
+     *            thf intfrnbl nbmf of bn innfr dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     * @pbrbm outfrNbmf
+     *            thf intfrnbl nbmf of thf dlbss to whidh thf innfr dlbss
+     *            bflongs (sff {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     *            Mby bf <tt>null</tt> for not mfmbfr dlbssfs.
+     * @pbrbm innfrNbmf
+     *            thf (simplf) nbmf of thf innfr dlbss insidf its fndlosing
+     *            dlbss. Mby bf <tt>null</tt> for bnonymous innfr dlbssfs.
+     * @pbrbm bddfss
+     *            thf bddfss flbgs of thf innfr dlbss bs originblly dfdlbrfd in
+     *            thf fndlosing dlbss.
+     */
+    publid void visitInnfrClbss(String nbmf, String outfrNbmf,
+            String innfrNbmf, int bddfss) {
+        if (dv != null) {
+            dv.visitInnfrClbss(nbmf, outfrNbmf, innfrNbmf, bddfss);
+        }
+    }
+
+    /**
+     * Visits b fifld of thf dlbss.
+     *
+     * @pbrbm bddfss
+     *            thf fifld's bddfss flbgs (sff {@link Opdodfs}). This pbrbmftfr
+     *            blso indidbtfs if thf fifld is synthftid bnd/or dfprfdbtfd.
+     * @pbrbm nbmf
+     *            thf fifld's nbmf.
+     * @pbrbm dfsd
+     *            thf fifld's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm signbturf
+     *            thf fifld's signbturf. Mby bf <tt>null</tt> if thf fifld's
+     *            typf dofs not usf gfnfrid typfs.
+     * @pbrbm vbluf
+     *            thf fifld's initibl vbluf. This pbrbmftfr, whidh mby bf
+     *            <tt>null</tt> if thf fifld dofs not hbvf bn initibl vbluf,
+     *            must bf bn {@link Intfgfr}, b {@link Flobt}, b {@link Long}, b
+     *            {@link Doublf} or b {@link String} (for <tt>int</tt>,
+     *            <tt>flobt</tt>, <tt>long</tt> or <tt>String</tt> fiflds
+     *            rfspfdtivfly). <i>This pbrbmftfr is only usfd for stbtid
+     *            fiflds</i>. Its vbluf is ignorfd for non stbtid fiflds, whidh
+     *            must bf initiblizfd through bytfdodf instrudtions in
+     *            donstrudtors or mfthods.
+     * @rfturn b visitor to visit fifld bnnotbtions bnd bttributfs, or
+     *         <tt>null</tt> if this dlbss visitor is not intfrfstfd in visiting
+     *         thfsf bnnotbtions bnd bttributfs.
+     */
+    publid FifldVisitor visitFifld(int bddfss, String nbmf, String dfsd,
+            String signbturf, Objfdt vbluf) {
+        if (dv != null) {
+            rfturn dv.visitFifld(bddfss, nbmf, dfsd, signbturf, vbluf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits b mfthod of thf dlbss. This mfthod <i>must</i> rfturn b nfw
+     * {@link MfthodVisitor} instbndf (or <tt>null</tt>) fbdh timf it is dbllfd,
+     * i.f., it should not rfturn b prfviously rfturnfd visitor.
+     *
+     * @pbrbm bddfss
+     *            thf mfthod's bddfss flbgs (sff {@link Opdodfs}). This
+     *            pbrbmftfr blso indidbtfs if thf mfthod is synthftid bnd/or
+     *            dfprfdbtfd.
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm signbturf
+     *            thf mfthod's signbturf. Mby bf <tt>null</tt> if thf mfthod
+     *            pbrbmftfrs, rfturn typf bnd fxdfptions do not usf gfnfrid
+     *            typfs.
+     * @pbrbm fxdfptions
+     *            thf intfrnbl nbmfs of thf mfthod's fxdfption dlbssfs (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Mby bf
+     *            <tt>null</tt>.
+     * @rfturn bn objfdt to visit thf bytf dodf of thf mfthod, or <tt>null</tt>
+     *         if this dlbss visitor is not intfrfstfd in visiting thf dodf of
+     *         this mfthod.
+     */
+    publid MfthodVisitor visitMfthod(int bddfss, String nbmf, String dfsd,
+            String signbturf, String[] fxdfptions) {
+        if (dv != null) {
+            rfturn dv.visitMfthod(bddfss, nbmf, dfsd, signbturf, fxdfptions);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits thf fnd of thf dlbss. This mfthod, whidh is thf lbst onf to bf
+     * dbllfd, is usfd to inform thf visitor thbt bll thf fiflds bnd mfthods of
+     * thf dlbss hbvf bffn visitfd.
+     */
+    publid void visitEnd() {
+        if (dv != null) {
+            dv.visitEnd();
+        }
+    }
+}

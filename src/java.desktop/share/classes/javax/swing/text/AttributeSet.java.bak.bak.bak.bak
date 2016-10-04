@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.util.Enumfrbtion;
+
+/**
+ * A dollfdtion of uniquf bttributfs.  This is b rfbd-only,
+ * immutbblf intfrfbdf.  An bttributf is bbsidblly b kfy bnd
+ * b vbluf bssignfd to thf kfy.  Thf dollfdtion mby rfprfsfnt
+ * somfthing likf b stylf run, b logidbl stylf, ftd.  Thfsf
+ * brf gfnfrblly usfd to dfsdribf ffbturfs thbt will dontributf
+ * to somf grbphidbl rfprfsfntbtion sudh bs b font.  Thf
+ * sft of possiblf kfys is unboundfd bnd dbn bf bnything.
+ * Typidblly Vifw implfmfntbtions will rfspond to bttributf
+ * dffinitions bnd rfndfr somfthing to rfprfsfnt thf bttributfs.
+ * <p>
+ * Attributfs dbn potfntiblly rfsolvf in b hifrbrdhy.  If b
+ * kfy dofsn't rfsolvf lodblly, bnd b rfsolving pbrfnt
+ * fxists, thf kfy will bf rfsolvfd through thf pbrfnt.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff MutbblfAttributfSft
+ */
+publid intfrfbdf AttributfSft {
+
+    /**
+     * This intfrfbdf is thf typf signbturf thbt is fxpfdtfd
+     * to bf prfsfnt on bny bttributf kfy thbt dontributfs to
+     * thf dftfrminbtion of whbt font to usf to rfndfr somf
+     * tfxt.  This is not donsidfrfd to bf b dlosfd sft, thf
+     * dffinition dbn dhbngf bdross vfrsion of thf plbtform bnd dbn
+     * bf bmfndfd by bdditionbl usfr bddfd fntrifs thbt
+     * dorrfspond to logidbl sfttings thbt brf spfdifid to
+     * somf typf of dontfnt.
+     */
+    publid intfrfbdf FontAttributf {
+    }
+
+    /**
+     * This intfrfbdf is thf typf signbturf thbt is fxpfdtfd
+     * to bf prfsfnt on bny bttributf kfy thbt dontributfs to
+     * prfsfntbtion of dolor.
+     */
+    publid intfrfbdf ColorAttributf {
+    }
+
+    /**
+     * This intfrfbdf is thf typf signbturf thbt is fxpfdtfd
+     * to bf prfsfnt on bny bttributf kfy thbt dontributfs to
+     * dhbrbdtfr lfvfl prfsfntbtion.  This would bf bny bttributf
+     * thbt bpplifs to b so-dbllfd <i>run</i> of
+     * stylf.
+     */
+    publid intfrfbdf ChbrbdtfrAttributf {
+    }
+
+    /**
+     * This intfrfbdf is thf typf signbturf thbt is fxpfdtfd
+     * to bf prfsfnt on bny bttributf kfy thbt dontributfs to
+     * thf pbrbgrbph lfvfl prfsfntbtion.
+     */
+    publid intfrfbdf PbrbgrbphAttributf {
+    }
+
+    /**
+     * Rfturns thf numbfr of bttributfs thbt brf dffinfd lodblly in this sft.
+     * Attributfs thbt brf dffinfd in thf pbrfnt sft brf not indludfd.
+     *
+     * @rfturn thf numbfr of bttributfs &gt;= 0
+     */
+    publid int gftAttributfCount();
+
+    /**
+     * Chfdks whfthfr thf nbmfd bttributf hbs b vbluf spfdififd in
+     * thf sft without rfsolving through bnothfr bttributf
+     * sft.
+     *
+     * @pbrbm bttrNbmf thf bttributf nbmf
+     * @rfturn truf if thf bttributf hbs b vbluf spfdififd
+     */
+    publid boolfbn isDffinfd(Objfdt bttrNbmf);
+
+    /**
+     * Dftfrminfs if thf two bttributf sfts brf fquivblfnt.
+     *
+     * @pbrbm bttr bn bttributf sft
+     * @rfturn truf if thf sfts brf fquivblfnt
+     */
+    publid boolfbn isEqubl(AttributfSft bttr);
+
+    /**
+     * Rfturns bn bttributf sft thbt is gubrbntffd not
+     * to dhbngf ovfr timf.
+     *
+     * @rfturn b dopy of thf bttributf sft
+     */
+    publid AttributfSft dopyAttributfs();
+
+    /**
+     * Fftdhfs thf vbluf of thf givfn bttributf. If thf vbluf is not found
+     * lodblly, thf sfbrdh is dontinufd upwbrd through thf rfsolving
+     * pbrfnt (if onf fxists) until thf vbluf is fithfr
+     * found or thfrf brf no morf pbrfnts.  If thf vbluf is not found,
+     * null is rfturnfd.
+     *
+     * @pbrbm kfy thf non-null kfy of thf bttributf binding
+     * @rfturn thf vbluf of thf bttributf, or {@dodf null} if not found
+     */
+    publid Objfdt gftAttributf(Objfdt kfy);
+
+    /**
+     * Rfturns bn fnumfrbtion ovfr thf nbmfs of thf bttributfs thbt brf
+     * dffinfd lodblly in thf sft. Nbmfs of bttributfs dffinfd in thf
+     * rfsolving pbrfnt, if bny, brf not indludfd. Thf vblufs of thf
+     * <dodf>Enumfrbtion</dodf> mby bf bnything bnd brf not donstrbinfd to
+     * b pbrtidulbr <dodf>Objfdt</dodf> typf.
+     * <p>
+     * This mfthod nfvfr rfturns {@dodf null}. For b sft with no bttributfs, it
+     * rfturns bn fmpty {@dodf Enumfrbtion}.
+     *
+     * @rfturn thf nbmfs
+     */
+    publid Enumfrbtion<?> gftAttributfNbmfs();
+
+    /**
+     * Rfturns {@dodf truf} if this sft dffinfs bn bttributf with thf sbmf
+     * nbmf bnd bn fqubl vbluf. If sudh bn bttributf is not found lodblly,
+     * it is sfbrdhfd through in thf rfsolving pbrfnt hifrbrdhy.
+     *
+     * @pbrbm nbmf thf non-null bttributf nbmf
+     * @pbrbm vbluf thf vbluf
+     * @rfturn {@dodf truf} if thf sft dffinfs thf bttributf with bn
+     *     fqubl vbluf, fithfr lodblly or through its rfsolving pbrfnt
+     * @throws NullPointfrExdfption if fithfr {@dodf nbmf} or
+     *      {@dodf vbluf} is {@dodf null}
+     */
+    publid boolfbn dontbinsAttributf(Objfdt nbmf, Objfdt vbluf);
+
+    /**
+     * Rfturns {@dodf truf} if this sft dffinfs bll thf bttributfs from thf
+     * givfn sft with fqubl vblufs. If bn bttributf is not found lodblly,
+     * it is sfbrdhfd through in thf rfsolving pbrfnt hifrbrdhy.
+     *
+     * @pbrbm bttributfs thf sft of bttributfs to dhfdk bgbinst
+     * @rfturn {@dodf truf} if this sft dffinfs bll thf bttributfs with fqubl
+     *              vblufs, fithfr lodblly or through its rfsolving pbrfnt
+     * @throws NullPointfrExdfption if {@dodf bttributfs} is {@dodf null}
+     */
+    publid boolfbn dontbinsAttributfs(AttributfSft bttributfs);
+
+    /**
+     * Gfts thf rfsolving pbrfnt.
+     *
+     * @rfturn thf pbrfnt
+     */
+    publid AttributfSft gftRfsolvfPbrfnt();
+
+    /**
+     * Attributf nbmf usfd to nbmf thf dollfdtion of
+     * bttributfs.
+     */
+    publid stbtid finbl Objfdt NbmfAttributf = StylfConstbnts.NbmfAttributf;
+
+    /**
+     * Attributf nbmf usfd to idfntify thf rfsolving pbrfnt
+     * sft of bttributfs, if onf is dffinfd.
+     */
+    publid stbtid finbl Objfdt RfsolvfAttributf = StylfConstbnts.RfsolvfAttributf;
+
+}

@@ -1,2551 +1,2551 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Serializable;
-import java.lang.Process;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.SocketException;
-import java.nio.file.Files;
-import java.nio.channels.Channel;
-import java.nio.channels.ServerSocketChannel;
-import java.rmi.AccessException;
-import java.rmi.AlreadyBoundException;
-import java.rmi.ConnectException;
-import java.rmi.ConnectIOException;
-import java.rmi.MarshalledObject;
-import java.rmi.NoSuchObjectException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.ActivationDesc;
-import java.rmi.activation.ActivationException;
-import java.rmi.activation.ActivationGroupDesc;
-import java.rmi.activation.ActivationGroup;
-import java.rmi.activation.ActivationGroupID;
-import java.rmi.activation.ActivationID;
-import java.rmi.activation.ActivationInstantiator;
-import java.rmi.activation.ActivationMonitor;
-import java.rmi.activation.ActivationSystem;
-import java.rmi.activation.Activator;
-import java.rmi.activation.UnknownGroupException;
-import java.rmi.activation.UnknownObjectException;
-import java.rmi.registry.Registry;
-import java.rmi.server.ObjID;
-import java.rmi.server.RMIClassLoader;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteServer;
-import java.rmi.server.UnicastRemoteObject;
-import java.security.AccessControlException;
-import java.security.AccessController;
-import java.security.AllPermission;
-import java.security.CodeSource;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.Permissions;
-import java.security.Policy;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.cert.Certificate;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import sun.rmi.log.LogHandler;
-import sun.rmi.log.ReliableLog;
-import sun.rmi.registry.RegistryImpl;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.server.UnicastServerRef;
-import sun.rmi.transport.LiveRef;
-import sun.security.provider.PolicyFile;
-import com.sun.rmi.rmid.ExecPermission;
-import com.sun.rmi.rmid.ExecOptionPermission;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.Prodfss;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.SodkftExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.dibnnfls.Cibnnfl;
+import jbvb.nio.dibnnfls.SfrvfrSodkftCibnnfl;
+import jbvb.rmi.AddfssExdfption;
+import jbvb.rmi.AlrfbdyBoundExdfption;
+import jbvb.rmi.ConnfdtExdfption;
+import jbvb.rmi.ConnfdtIOExdfption;
+import jbvb.rmi.MbrsibllfdObjfdt;
+import jbvb.rmi.NoSudiObjfdtExdfption;
+import jbvb.rmi.NotBoundExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.AdtivbtionDfsd;
+import jbvb.rmi.bdtivbtion.AdtivbtionExdfption;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupDfsd;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroup;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupID;
+import jbvb.rmi.bdtivbtion.AdtivbtionID;
+import jbvb.rmi.bdtivbtion.AdtivbtionInstbntibtor;
+import jbvb.rmi.bdtivbtion.AdtivbtionMonitor;
+import jbvb.rmi.bdtivbtion.AdtivbtionSystfm;
+import jbvb.rmi.bdtivbtion.Adtivbtor;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.rfgistry.Rfgistry;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RMIClbssLobdfr;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.rmi.sfrvfr.RfmotfSfrvfr;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AllPfrmission;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.Polidy;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.Propfrtifs;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import sun.rmi.log.LogHbndlfr;
+import sun.rmi.log.RflibblfLog;
+import sun.rmi.rfgistry.RfgistryImpl;
+import sun.rmi.runtimf.NfwTirfbdAdtion;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff;
+import sun.rmi.trbnsport.LivfRff;
+import sun.sfdurity.providfr.PolidyFilf;
+import dom.sun.rmi.rmid.ExfdPfrmission;
+import dom.sun.rmi.rmid.ExfdOptionPfrmission;
 
 /**
- * The Activator facilitates remote object activation. A "faulting"
- * remote reference calls the activator's <code>activate</code> method
- * to obtain a "live" reference to a activatable remote object. Upon
- * receiving a request for activation, the activator looks up the
- * activation descriptor for the activation identifier, id, determines
- * the group in which the object should be activated and invokes the
- * activate method on the object's activation group (described by the
- * remote interface <code>ActivationInstantiator</code>). The
- * activator initiates the execution of activation groups as
- * necessary. For example, if an activation group for a specific group
- * identifier is not already executing, the activator will spawn a
- * child process for the activation group. <p>
+ * Tif Adtivbtor fbdilitbtfs rfmotf objfdt bdtivbtion. A "fbulting"
+ * rfmotf rfffrfndf dblls tif bdtivbtor's <dodf>bdtivbtf</dodf> mftiod
+ * to obtbin b "livf" rfffrfndf to b bdtivbtbblf rfmotf objfdt. Upon
+ * rfdfiving b rfqufst for bdtivbtion, tif bdtivbtor looks up tif
+ * bdtivbtion dfsdriptor for tif bdtivbtion idfntififr, id, dftfrminfs
+ * tif group in wiidi tif objfdt siould bf bdtivbtfd bnd invokfs tif
+ * bdtivbtf mftiod on tif objfdt's bdtivbtion group (dfsdribfd by tif
+ * rfmotf intfrfbdf <dodf>AdtivbtionInstbntibtor</dodf>). Tif
+ * bdtivbtor initibtfs tif fxfdution of bdtivbtion groups bs
+ * nfdfssbry. For fxbmplf, if bn bdtivbtion group for b spfdifid group
+ * idfntififr is not blrfbdy fxfduting, tif bdtivbtor will spbwn b
+ * diild prodfss for tif bdtivbtion group. <p>
  *
- * The activator is responsible for monitoring and detecting when
- * activation groups fail so that it can remove stale remote references
- * from its internal tables. <p>
+ * Tif bdtivbtor is rfsponsiblf for monitoring bnd dftfdting wifn
+ * bdtivbtion groups fbil so tibt it dbn rfmovf stblf rfmotf rfffrfndfs
+ * from its intfrnbl tbblfs. <p>
  *
- * @author      Ann Wollrath
- * @since       1.2
+ * @butior      Ann Wollrbti
+ * @sindf       1.2
  */
-public class Activation implements Serializable {
+publid dlbss Adtivbtion implfmfnts Sfriblizbblf {
 
-    /** indicate compatibility with JDK 1.2 version of class */
-    private static final long serialVersionUID = 2921265612698155191L;
-    private static final byte MAJOR_VERSION = 1;
-    private static final byte MINOR_VERSION = 0;
+    /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 2921265612698155191L;
+    privbtf stbtid finbl bytf MAJOR_VERSION = 1;
+    privbtf stbtid finbl bytf MINOR_VERSION = 0;
 
-    /** exec policy object */
-    private static Object execPolicy;
-    private static Method execPolicyMethod;
-    private static boolean debugExec;
+    /** fxfd polidy objfdt */
+    privbtf stbtid Objfdt fxfdPolidy;
+    privbtf stbtid Mftiod fxfdPolidyMftiod;
+    privbtf stbtid boolfbn dfbugExfd;
 
-    /** maps activation id to its respective group id */
-    private Map<ActivationID,ActivationGroupID> idTable =
-        new ConcurrentHashMap<>();
-    /** maps group id to its GroupEntry groups */
-    private Map<ActivationGroupID,GroupEntry> groupTable =
-        new ConcurrentHashMap<>();
+    /** mbps bdtivbtion id to its rfspfdtivf group id */
+    privbtf Mbp<AdtivbtionID,AdtivbtionGroupID> idTbblf =
+        nfw CondurrfntHbsiMbp<>();
+    /** mbps group id to its GroupEntry groups */
+    privbtf Mbp<AdtivbtionGroupID,GroupEntry> groupTbblf =
+        nfw CondurrfntHbsiMbp<>();
 
-    private byte majorVersion = MAJOR_VERSION;
-    private byte minorVersion = MINOR_VERSION;
+    privbtf bytf mbjorVfrsion = MAJOR_VERSION;
+    privbtf bytf minorVfrsion = MINOR_VERSION;
 
-    /** number of simultaneous group exec's */
-    private transient int groupSemaphore;
-    /** counter for numbering groups */
-    private transient int groupCounter;
-    /** reliable log to hold descriptor table */
-    private transient ReliableLog log;
-    /** number of updates since last snapshot */
-    private transient int numUpdates;
+    /** numbfr of simultbnfous group fxfd's */
+    privbtf trbnsifnt int groupSfmbpiorf;
+    /** dountfr for numbfring groups */
+    privbtf trbnsifnt int groupCountfr;
+    /** rflibblf log to iold dfsdriptor tbblf */
+    privbtf trbnsifnt RflibblfLog log;
+    /** numbfr of updbtfs sindf lbst snbpsiot */
+    privbtf trbnsifnt int numUpdbtfs;
 
-    /** the java command */
-    // accessed by GroupEntry
-    private transient String[] command;
-    /** timeout on wait for child process to be created or destroyed */
-    private static final long groupTimeout =
-        getInt("sun.rmi.activation.groupTimeout", 60000);
-    /** take snapshot after this many updates */
-    private static final int snapshotInterval =
-        getInt("sun.rmi.activation.snapshotInterval", 200);
-    /** timeout on wait for child process to be created */
-    private static final long execTimeout =
-        getInt("sun.rmi.activation.execTimeout", 30000);
+    /** tif jbvb dommbnd */
+    // bddfssfd by GroupEntry
+    privbtf trbnsifnt String[] dommbnd;
+    /** timfout on wbit for diild prodfss to bf drfbtfd or dfstroyfd */
+    privbtf stbtid finbl long groupTimfout =
+        gftInt("sun.rmi.bdtivbtion.groupTimfout", 60000);
+    /** tbkf snbpsiot bftfr tiis mbny updbtfs */
+    privbtf stbtid finbl int snbpsiotIntfrvbl =
+        gftInt("sun.rmi.bdtivbtion.snbpsiotIntfrvbl", 200);
+    /** timfout on wbit for diild prodfss to bf drfbtfd */
+    privbtf stbtid finbl long fxfdTimfout =
+        gftInt("sun.rmi.bdtivbtion.fxfdTimfout", 30000);
 
-    private static final Object initLock = new Object();
-    private static boolean initDone = false;
+    privbtf stbtid finbl Objfdt initLodk = nfw Objfdt();
+    privbtf stbtid boolfbn initDonf = fblsf;
 
-    // this should be a *private* method since it is privileged
-    private static int getInt(String name, int def) {
-        return AccessController.doPrivileged(
-                (PrivilegedAction<Integer>) () -> Integer.getInteger(name, def));
+    // tiis siould bf b *privbtf* mftiod sindf it is privilfgfd
+    privbtf stbtid int gftInt(String nbmf, int dff) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Intfgfr>) () -> Intfgfr.gftIntfgfr(nbmf, dff));
     }
 
-    private transient Activator activator;
-    private transient Activator activatorStub;
-    private transient ActivationSystem system;
-    private transient ActivationSystem systemStub;
-    private transient ActivationMonitor monitor;
-    private transient Registry registry;
-    private transient volatile boolean shuttingDown = false;
-    private transient volatile Object startupLock;
-    private transient Thread shutdownHook;
+    privbtf trbnsifnt Adtivbtor bdtivbtor;
+    privbtf trbnsifnt Adtivbtor bdtivbtorStub;
+    privbtf trbnsifnt AdtivbtionSystfm systfm;
+    privbtf trbnsifnt AdtivbtionSystfm systfmStub;
+    privbtf trbnsifnt AdtivbtionMonitor monitor;
+    privbtf trbnsifnt Rfgistry rfgistry;
+    privbtf trbnsifnt volbtilf boolfbn siuttingDown = fblsf;
+    privbtf trbnsifnt volbtilf Objfdt stbrtupLodk;
+    privbtf trbnsifnt Tirfbd siutdownHook;
 
-    private static ResourceBundle resources = null;
-
-    /**
-     * Create an uninitialized instance of Activation that can be
-     * populated with log data.  This is only called when the initial
-     * snapshot is taken during the first incarnation of rmid.
-     */
-    private Activation() {}
+    privbtf stbtid RfsourdfBundlf rfsourdfs = null;
 
     /**
-     * Recover activation state from the reliable log and initialize
-     * activation services.
+     * Crfbtf bn uninitiblizfd instbndf of Adtivbtion tibt dbn bf
+     * populbtfd witi log dbtb.  Tiis is only dbllfd wifn tif initibl
+     * snbpsiot is tbkfn during tif first indbrnbtion of rmid.
      */
-    private static void startActivation(int port,
-                                        RMIServerSocketFactory ssf,
-                                        String logName,
-                                        String[] childArgs)
-        throws Exception
+    privbtf Adtivbtion() {}
+
+    /**
+     * Rfdovfr bdtivbtion stbtf from tif rflibblf log bnd initiblizf
+     * bdtivbtion sfrvidfs.
+     */
+    privbtf stbtid void stbrtAdtivbtion(int port,
+                                        RMISfrvfrSodkftFbdtory ssf,
+                                        String logNbmf,
+                                        String[] diildArgs)
+        tirows Exdfption
     {
-        ReliableLog log = new ReliableLog(logName, new ActLogHandler());
-        Activation state = (Activation) log.recover();
-        state.init(port, ssf, log, childArgs);
+        RflibblfLog log = nfw RflibblfLog(logNbmf, nfw AdtLogHbndlfr());
+        Adtivbtion stbtf = (Adtivbtion) log.rfdovfr();
+        stbtf.init(port, ssf, log, diildArgs);
     }
 
     /**
-     * Initialize the Activation instantiation; start activation
-     * services.
+     * Initiblizf tif Adtivbtion instbntibtion; stbrt bdtivbtion
+     * sfrvidfs.
      */
-    private void init(int port,
-                      RMIServerSocketFactory ssf,
-                      ReliableLog log,
-                      String[] childArgs)
-        throws Exception
+    privbtf void init(int port,
+                      RMISfrvfrSodkftFbdtory ssf,
+                      RflibblfLog log,
+                      String[] diildArgs)
+        tirows Exdfption
     {
-        // initialize
-        this.log = log;
-        numUpdates = 0;
-        shutdownHook =  new ShutdownHook();
-        groupSemaphore = getInt("sun.rmi.activation.groupThrottle", 3);
-        groupCounter = 0;
-        Runtime.getRuntime().addShutdownHook(shutdownHook);
+        // initiblizf
+        tiis.log = log;
+        numUpdbtfs = 0;
+        siutdownHook =  nfw SiutdownHook();
+        groupSfmbpiorf = gftInt("sun.rmi.bdtivbtion.groupTirottlf", 3);
+        groupCountfr = 0;
+        Runtimf.gftRuntimf().bddSiutdownHook(siutdownHook);
 
-        // Use array size of 0, since the value from calling size()
-        // may be out of date by the time toArray() is called.
-        ActivationGroupID[] gids =
-            groupTable.keySet().toArray(new ActivationGroupID[0]);
+        // Usf brrby sizf of 0, sindf tif vbluf from dblling sizf()
+        // mby bf out of dbtf by tif timf toArrby() is dbllfd.
+        AdtivbtionGroupID[] gids =
+            groupTbblf.kfySft().toArrby(nfw AdtivbtionGroupID[0]);
 
-        synchronized (startupLock = new Object()) {
-            // all the remote methods briefly synchronize on startupLock
-            // (via checkShutdown) to make sure they don't happen in the
-            // middle of this block.  This block must not cause any such
-            // incoming remote calls to happen, or deadlock would result!
-            activator = new ActivatorImpl(port, ssf);
-            activatorStub = (Activator) RemoteObject.toStub(activator);
-            system = new ActivationSystemImpl(port, ssf);
-            systemStub = (ActivationSystem) RemoteObject.toStub(system);
-            monitor = new ActivationMonitorImpl(port, ssf);
-            initCommand(childArgs);
-            registry = new SystemRegistryImpl(port, null, ssf, systemStub);
+        syndironizfd (stbrtupLodk = nfw Objfdt()) {
+            // bll tif rfmotf mftiods briffly syndironizf on stbrtupLodk
+            // (vib difdkSiutdown) to mbkf surf tify don't ibppfn in tif
+            // middlf of tiis blodk.  Tiis blodk must not dbusf bny sudi
+            // indoming rfmotf dblls to ibppfn, or dfbdlodk would rfsult!
+            bdtivbtor = nfw AdtivbtorImpl(port, ssf);
+            bdtivbtorStub = (Adtivbtor) RfmotfObjfdt.toStub(bdtivbtor);
+            systfm = nfw AdtivbtionSystfmImpl(port, ssf);
+            systfmStub = (AdtivbtionSystfm) RfmotfObjfdt.toStub(systfm);
+            monitor = nfw AdtivbtionMonitorImpl(port, ssf);
+            initCommbnd(diildArgs);
+            rfgistry = nfw SystfmRfgistryImpl(port, null, ssf, systfmStub);
 
             if (ssf != null) {
-                synchronized (initLock) {
-                    initDone = true;
-                    initLock.notifyAll();
+                syndironizfd (initLodk) {
+                    initDonf = truf;
+                    initLodk.notifyAll();
                 }
             }
         }
-        startupLock = null;
+        stbrtupLodk = null;
 
-        // restart services
-        for (int i = gids.length; --i >= 0; ) {
+        // rfstbrt sfrvidfs
+        for (int i = gids.lfngti; --i >= 0; ) {
             try {
-                getGroupEntry(gids[i]).restartServices();
-            } catch (UnknownGroupException e) {
-                System.err.println(
-                    getTextResource("rmid.restart.group.warning"));
-                e.printStackTrace();
+                gftGroupEntry(gids[i]).rfstbrtSfrvidfs();
+            } dbtdi (UnknownGroupExdfption f) {
+                Systfm.frr.println(
+                    gftTfxtRfsourdf("rmid.rfstbrt.group.wbrning"));
+                f.printStbdkTrbdf();
             }
         }
     }
 
     /**
-     * Previous versions used HashMap instead of ConcurrentHashMap.
-     * Replace any HashMaps found during deserialization with
-     * ConcurrentHashMaps.
+     * Prfvious vfrsions usfd HbsiMbp instfbd of CondurrfntHbsiMbp.
+     * Rfplbdf bny HbsiMbps found during dfsfriblizbtion witi
+     * CondurrfntHbsiMbps.
      */
-    private void readObject(ObjectInputStream ois)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        ois.defaultReadObject();
-        if (! (groupTable instanceof ConcurrentHashMap)) {
-            groupTable = new ConcurrentHashMap<>(groupTable);
+        ois.dffbultRfbdObjfdt();
+        if (! (groupTbblf instbndfof CondurrfntHbsiMbp)) {
+            groupTbblf = nfw CondurrfntHbsiMbp<>(groupTbblf);
         }
-        if (! (idTable instanceof ConcurrentHashMap)) {
-            idTable = new ConcurrentHashMap<>(idTable);
+        if (! (idTbblf instbndfof CondurrfntHbsiMbp)) {
+            idTbblf = nfw CondurrfntHbsiMbp<>(idTbblf);
         }
     }
 
-    private static class SystemRegistryImpl extends RegistryImpl {
+    privbtf stbtid dlbss SystfmRfgistryImpl fxtfnds RfgistryImpl {
 
-        private static final String NAME = ActivationSystem.class.getName();
-        private static final long serialVersionUID = 4877330021609408794L;
-        private ActivationSystem systemStub = null;
+        privbtf stbtid finbl String NAME = AdtivbtionSystfm.dlbss.gftNbmf();
+        privbtf stbtid finbl long sfriblVfrsionUID = 4877330021609408794L;
+        privbtf AdtivbtionSystfm systfmStub = null;
 
-        SystemRegistryImpl(int port,
-                           RMIClientSocketFactory csf,
-                           RMIServerSocketFactory ssf,
-                           ActivationSystem systemStub)
-            throws RemoteException
+        SystfmRfgistryImpl(int port,
+                           RMIClifntSodkftFbdtory dsf,
+                           RMISfrvfrSodkftFbdtory ssf,
+                           AdtivbtionSystfm systfmStub)
+            tirows RfmotfExdfption
         {
-            super(port, csf, ssf);
-            assert systemStub != null;
-            synchronized (this) {
-                this.systemStub = systemStub;
+            supfr(port, dsf, ssf);
+            bssfrt systfmStub != null;
+            syndironizfd (tiis) {
+                tiis.systfmStub = systfmStub;
                 notifyAll();
             }
         }
 
         /**
-         * Waits for systemStub to be initialized and returns its
-         * initialized value. Any remote call that uses systemStub must
-         * call this method to get it instead of using direct field
-         * access. This is necessary because the super() call in the
-         * constructor exports this object before systemStub is initialized
-         * (see JDK-8023541), allowing remote calls to come in during this
-         * time. We can't use checkShutdown() like other nested classes
-         * because this is a static class.
+         * Wbits for systfmStub to bf initiblizfd bnd rfturns its
+         * initiblizfd vbluf. Any rfmotf dbll tibt usfs systfmStub must
+         * dbll tiis mftiod to gft it instfbd of using dirfdt fifld
+         * bddfss. Tiis is nfdfssbry bfdbusf tif supfr() dbll in tif
+         * donstrudtor fxports tiis objfdt bfforf systfmStub is initiblizfd
+         * (sff JDK-8023541), bllowing rfmotf dblls to domf in during tiis
+         * timf. Wf dbn't usf difdkSiutdown() likf otifr nfstfd dlbssfs
+         * bfdbusf tiis is b stbtid dlbss.
          */
-        private synchronized ActivationSystem getSystemStub() {
-            boolean interrupted = false;
+        privbtf syndironizfd AdtivbtionSystfm gftSystfmStub() {
+            boolfbn intfrruptfd = fblsf;
 
-            while (systemStub == null) {
+            wiilf (systfmStub == null) {
                 try {
-                    wait();
-                } catch (InterruptedException ie) {
-                    interrupted = true;
+                    wbit();
+                } dbtdi (IntfrruptfdExdfption if) {
+                    intfrruptfd = truf;
                 }
             }
 
-            if (interrupted) {
-                Thread.currentThread().interrupt();
+            if (intfrruptfd) {
+                Tirfbd.durrfntTirfbd().intfrrupt();
             }
 
-            return systemStub;
+            rfturn systfmStub;
         }
 
         /**
-         * Returns the activation system stub if the specified name
-         * matches the activation system's class name, otherwise
-         * returns the result of invoking super.lookup with the specified
-         * name.
+         * Rfturns tif bdtivbtion systfm stub if tif spfdififd nbmf
+         * mbtdifs tif bdtivbtion systfm's dlbss nbmf, otifrwisf
+         * rfturns tif rfsult of invoking supfr.lookup witi tif spfdififd
+         * nbmf.
          */
-        public Remote lookup(String name)
-            throws RemoteException, NotBoundException
+        publid Rfmotf lookup(String nbmf)
+            tirows RfmotfExdfption, NotBoundExdfption
         {
-            if (name.equals(NAME)) {
-                return getSystemStub();
-            } else {
-                return super.lookup(name);
+            if (nbmf.fqubls(NAME)) {
+                rfturn gftSystfmStub();
+            } flsf {
+                rfturn supfr.lookup(nbmf);
             }
         }
 
-        public String[] list() throws RemoteException {
-            String[] list1 = super.list();
-            int length = list1.length;
-            String[] list2 = new String[length + 1];
-            if (length > 0) {
-                System.arraycopy(list1, 0, list2, 0, length);
+        publid String[] list() tirows RfmotfExdfption {
+            String[] list1 = supfr.list();
+            int lfngti = list1.lfngti;
+            String[] list2 = nfw String[lfngti + 1];
+            if (lfngti > 0) {
+                Systfm.brrbydopy(list1, 0, list2, 0, lfngti);
             }
-            list2[length] = NAME;
-            return list2;
+            list2[lfngti] = NAME;
+            rfturn list2;
         }
 
-        public void bind(String name, Remote obj)
-            throws RemoteException, AlreadyBoundException, AccessException
+        publid void bind(String nbmf, Rfmotf obj)
+            tirows RfmotfExdfption, AlrfbdyBoundExdfption, AddfssExdfption
         {
-            if (name.equals(NAME)) {
-                throw new AccessException(
-                    "binding ActivationSystem is disallowed");
-            } else {
-                super.bind(name, obj);
-            }
-        }
-
-        public void unbind(String name)
-            throws RemoteException, NotBoundException, AccessException
-        {
-            if (name.equals(NAME)) {
-                throw new AccessException(
-                    "unbinding ActivationSystem is disallowed");
-            } else {
-                super.unbind(name);
+            if (nbmf.fqubls(NAME)) {
+                tirow nfw AddfssExdfption(
+                    "binding AdtivbtionSystfm is disbllowfd");
+            } flsf {
+                supfr.bind(nbmf, obj);
             }
         }
 
-
-        public void rebind(String name, Remote obj)
-            throws RemoteException, AccessException
+        publid void unbind(String nbmf)
+            tirows RfmotfExdfption, NotBoundExdfption, AddfssExdfption
         {
-            if (name.equals(NAME)) {
-                throw new AccessException(
-                    "binding ActivationSystem is disallowed");
-            } else {
-                super.rebind(name, obj);
+            if (nbmf.fqubls(NAME)) {
+                tirow nfw AddfssExdfption(
+                    "unbinding AdtivbtionSystfm is disbllowfd");
+            } flsf {
+                supfr.unbind(nbmf);
+            }
+        }
+
+
+        publid void rfbind(String nbmf, Rfmotf obj)
+            tirows RfmotfExdfption, AddfssExdfption
+        {
+            if (nbmf.fqubls(NAME)) {
+                tirow nfw AddfssExdfption(
+                    "binding AdtivbtionSystfm is disbllowfd");
+            } flsf {
+                supfr.rfbind(nbmf, obj);
             }
         }
     }
 
 
-    class ActivatorImpl extends RemoteServer implements Activator {
-        // Because ActivatorImpl has a fixed ObjID, it can be
-        // called by clients holding stale remote references.  Each of
-        // its remote methods, then, must check startupLock (calling
-        // checkShutdown() is easiest).
+    dlbss AdtivbtorImpl fxtfnds RfmotfSfrvfr implfmfnts Adtivbtor {
+        // Bfdbusf AdtivbtorImpl ibs b fixfd ObjID, it dbn bf
+        // dbllfd by dlifnts iolding stblf rfmotf rfffrfndfs.  Ebdi of
+        // its rfmotf mftiods, tifn, must difdk stbrtupLodk (dblling
+        // difdkSiutdown() is fbsifst).
 
-        private static final long serialVersionUID = -3654244726254566136L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -3654244726254566136L;
 
         /**
-         * Construct a new Activator on a specified port.
+         * Construdt b nfw Adtivbtor on b spfdififd port.
          */
-        ActivatorImpl(int port, RMIServerSocketFactory ssf)
-            throws RemoteException
+        AdtivbtorImpl(int port, RMISfrvfrSodkftFbdtory ssf)
+            tirows RfmotfExdfption
         {
-            /* Server ref must be created and assigned before remote object
-             * 'this' can be exported.
+            /* Sfrvfr rff must bf drfbtfd bnd bssignfd bfforf rfmotf objfdt
+             * 'tiis' dbn bf fxportfd.
              */
-            LiveRef lref =
-                new LiveRef(new ObjID(ObjID.ACTIVATOR_ID), port, null, ssf);
-            UnicastServerRef uref = new UnicastServerRef(lref);
-            ref = uref;
-            uref.exportObject(this, null, false);
+            LivfRff lrff =
+                nfw LivfRff(nfw ObjID(ObjID.ACTIVATOR_ID), port, null, ssf);
+            UnidbstSfrvfrRff urff = nfw UnidbstSfrvfrRff(lrff);
+            rff = urff;
+            urff.fxportObjfdt(tiis, null, fblsf);
         }
 
-        public MarshalledObject<? extends Remote> activate(ActivationID id,
-                                                           boolean force)
-            throws ActivationException, UnknownObjectException, RemoteException
+        publid MbrsibllfdObjfdt<? fxtfnds Rfmotf> bdtivbtf(AdtivbtionID id,
+                                                           boolfbn fordf)
+            tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            return getGroupEntry(id).activate(id, force);
-        }
-    }
-
-    class ActivationMonitorImpl extends UnicastRemoteObject
-        implements ActivationMonitor
-    {
-        private static final long serialVersionUID = -6214940464757948867L;
-
-        ActivationMonitorImpl(int port, RMIServerSocketFactory ssf)
-            throws RemoteException
-        {
-            super(port, null, ssf);
-        }
-
-        public void inactiveObject(ActivationID id)
-            throws UnknownObjectException, RemoteException
-        {
-            try {
-                checkShutdown();
-            } catch (ActivationException e) {
-                return;
-            }
-            RegistryImpl.checkAccess("Activator.inactiveObject");
-            getGroupEntry(id).inactiveObject(id);
-        }
-
-        public void activeObject(ActivationID id,
-                                 MarshalledObject<? extends Remote> mobj)
-            throws UnknownObjectException, RemoteException
-        {
-            try {
-                checkShutdown();
-            } catch (ActivationException e) {
-                return;
-            }
-            RegistryImpl.checkAccess("ActivationSystem.activeObject");
-            getGroupEntry(id).activeObject(id, mobj);
-        }
-
-        public void inactiveGroup(ActivationGroupID id,
-                                  long incarnation)
-            throws UnknownGroupException, RemoteException
-        {
-            try {
-                checkShutdown();
-            } catch (ActivationException e) {
-                return;
-            }
-            RegistryImpl.checkAccess("ActivationMonitor.inactiveGroup");
-            getGroupEntry(id).inactiveGroup(incarnation, false);
+            difdkSiutdown();
+            rfturn gftGroupEntry(id).bdtivbtf(id, fordf);
         }
     }
 
-
-    class ActivationSystemImpl
-        extends RemoteServer
-        implements ActivationSystem
+    dlbss AdtivbtionMonitorImpl fxtfnds UnidbstRfmotfObjfdt
+        implfmfnts AdtivbtionMonitor
     {
-        private static final long serialVersionUID = 9100152600327688967L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -6214940464757948867L;
 
-        // Because ActivationSystemImpl has a fixed ObjID, it can be
-        // called by clients holding stale remote references.  Each of
-        // its remote methods, then, must check startupLock (calling
-        // checkShutdown() is easiest).
-        ActivationSystemImpl(int port, RMIServerSocketFactory ssf)
-            throws RemoteException
+        AdtivbtionMonitorImpl(int port, RMISfrvfrSodkftFbdtory ssf)
+            tirows RfmotfExdfption
         {
-            /* Server ref must be created and assigned before remote object
-             * 'this' can be exported.
+            supfr(port, null, ssf);
+        }
+
+        publid void inbdtivfObjfdt(AdtivbtionID id)
+            tirows UnknownObjfdtExdfption, RfmotfExdfption
+        {
+            try {
+                difdkSiutdown();
+            } dbtdi (AdtivbtionExdfption f) {
+                rfturn;
+            }
+            RfgistryImpl.difdkAddfss("Adtivbtor.inbdtivfObjfdt");
+            gftGroupEntry(id).inbdtivfObjfdt(id);
+        }
+
+        publid void bdtivfObjfdt(AdtivbtionID id,
+                                 MbrsibllfdObjfdt<? fxtfnds Rfmotf> mobj)
+            tirows UnknownObjfdtExdfption, RfmotfExdfption
+        {
+            try {
+                difdkSiutdown();
+            } dbtdi (AdtivbtionExdfption f) {
+                rfturn;
+            }
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.bdtivfObjfdt");
+            gftGroupEntry(id).bdtivfObjfdt(id, mobj);
+        }
+
+        publid void inbdtivfGroup(AdtivbtionGroupID id,
+                                  long indbrnbtion)
+            tirows UnknownGroupExdfption, RfmotfExdfption
+        {
+            try {
+                difdkSiutdown();
+            } dbtdi (AdtivbtionExdfption f) {
+                rfturn;
+            }
+            RfgistryImpl.difdkAddfss("AdtivbtionMonitor.inbdtivfGroup");
+            gftGroupEntry(id).inbdtivfGroup(indbrnbtion, fblsf);
+        }
+    }
+
+
+    dlbss AdtivbtionSystfmImpl
+        fxtfnds RfmotfSfrvfr
+        implfmfnts AdtivbtionSystfm
+    {
+        privbtf stbtid finbl long sfriblVfrsionUID = 9100152600327688967L;
+
+        // Bfdbusf AdtivbtionSystfmImpl ibs b fixfd ObjID, it dbn bf
+        // dbllfd by dlifnts iolding stblf rfmotf rfffrfndfs.  Ebdi of
+        // its rfmotf mftiods, tifn, must difdk stbrtupLodk (dblling
+        // difdkSiutdown() is fbsifst).
+        AdtivbtionSystfmImpl(int port, RMISfrvfrSodkftFbdtory ssf)
+            tirows RfmotfExdfption
+        {
+            /* Sfrvfr rff must bf drfbtfd bnd bssignfd bfforf rfmotf objfdt
+             * 'tiis' dbn bf fxportfd.
              */
-            LiveRef lref = new LiveRef(new ObjID(4), port, null, ssf);
-            UnicastServerRef uref = new UnicastServerRef(lref);
-            ref = uref;
-            uref.exportObject(this, null);
+            LivfRff lrff = nfw LivfRff(nfw ObjID(4), port, null, ssf);
+            UnidbstSfrvfrRff urff = nfw UnidbstSfrvfrRff(lrff);
+            rff = urff;
+            urff.fxportObjfdt(tiis, null);
         }
 
-        public ActivationID registerObject(ActivationDesc desc)
-            throws ActivationException, UnknownGroupException, RemoteException
+        publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
+            tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.registerObject");
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.rfgistfrObjfdt");
 
-            ActivationGroupID groupID = desc.getGroupID();
-            ActivationID id = new ActivationID(activatorStub);
-            getGroupEntry(groupID).registerObject(id, desc, true);
-            return id;
+            AdtivbtionGroupID groupID = dfsd.gftGroupID();
+            AdtivbtionID id = nfw AdtivbtionID(bdtivbtorStub);
+            gftGroupEntry(groupID).rfgistfrObjfdt(id, dfsd, truf);
+            rfturn id;
         }
 
-        public void unregisterObject(ActivationID id)
-            throws ActivationException, UnknownObjectException, RemoteException
+        publid void unrfgistfrObjfdt(AdtivbtionID id)
+            tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.unregisterObject");
-            getGroupEntry(id).unregisterObject(id, true);
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.unrfgistfrObjfdt");
+            gftGroupEntry(id).unrfgistfrObjfdt(id, truf);
         }
 
-        public ActivationGroupID registerGroup(ActivationGroupDesc desc)
-            throws ActivationException, RemoteException
+        publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
+            tirows AdtivbtionExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.registerGroup");
-            checkArgs(desc, null);
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.rfgistfrGroup");
+            difdkArgs(dfsd, null);
 
-            ActivationGroupID id = new ActivationGroupID(systemStub);
-            GroupEntry entry = new GroupEntry(id, desc);
-            // table insertion must take place before log update
-            groupTable.put(id, entry);
-            addLogRecord(new LogRegisterGroup(id, desc));
-            return id;
+            AdtivbtionGroupID id = nfw AdtivbtionGroupID(systfmStub);
+            GroupEntry fntry = nfw GroupEntry(id, dfsd);
+            // tbblf insfrtion must tbkf plbdf bfforf log updbtf
+            groupTbblf.put(id, fntry);
+            bddLogRfdord(nfw LogRfgistfrGroup(id, dfsd));
+            rfturn id;
         }
 
-        public ActivationMonitor activeGroup(ActivationGroupID id,
-                                             ActivationInstantiator group,
-                                             long incarnation)
-            throws ActivationException, UnknownGroupException, RemoteException
+        publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+                                             AdtivbtionInstbntibtor group,
+                                             long indbrnbtion)
+            tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.activeGroup");
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.bdtivfGroup");
 
-            getGroupEntry(id).activeGroup(group, incarnation);
-            return monitor;
+            gftGroupEntry(id).bdtivfGroup(group, indbrnbtion);
+            rfturn monitor;
         }
 
-        public void unregisterGroup(ActivationGroupID id)
-            throws ActivationException, UnknownGroupException, RemoteException
+        publid void unrfgistfrGroup(AdtivbtionGroupID id)
+            tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.unregisterGroup");
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.unrfgistfrGroup");
 
-            // remove entry before unregister so state is updated before
-            // logged
-            removeGroupEntry(id).unregisterGroup(true);
+            // rfmovf fntry bfforf unrfgistfr so stbtf is updbtfd bfforf
+            // loggfd
+            rfmovfGroupEntry(id).unrfgistfrGroup(truf);
         }
 
-        public ActivationDesc setActivationDesc(ActivationID id,
-                                                ActivationDesc desc)
-            throws ActivationException, UnknownObjectException, RemoteException
+        publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+                                                AdtivbtionDfsd dfsd)
+            tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.setActivationDesc");
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.sftAdtivbtionDfsd");
 
-            if (!getGroupID(id).equals(desc.getGroupID())) {
-                throw new ActivationException(
-                    "ActivationDesc contains wrong group");
+            if (!gftGroupID(id).fqubls(dfsd.gftGroupID())) {
+                tirow nfw AdtivbtionExdfption(
+                    "AdtivbtionDfsd dontbins wrong group");
             }
-            return getGroupEntry(id).setActivationDesc(id, desc, true);
+            rfturn gftGroupEntry(id).sftAdtivbtionDfsd(id, dfsd, truf);
         }
 
-        public ActivationGroupDesc setActivationGroupDesc(ActivationGroupID id,
-                                                          ActivationGroupDesc desc)
-            throws ActivationException, UnknownGroupException, RemoteException
+        publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
+                                                          AdtivbtionGroupDfsd dfsd)
+            tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess(
-                "ActivationSystem.setActivationGroupDesc");
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss(
+                "AdtivbtionSystfm.sftAdtivbtionGroupDfsd");
 
-            checkArgs(desc, null);
-            return getGroupEntry(id).setActivationGroupDesc(id, desc, true);
+            difdkArgs(dfsd, null);
+            rfturn gftGroupEntry(id).sftAdtivbtionGroupDfsd(id, dfsd, truf);
         }
 
-        public ActivationDesc getActivationDesc(ActivationID id)
-            throws ActivationException, UnknownObjectException, RemoteException
+        publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+            tirows AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess("ActivationSystem.getActivationDesc");
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.gftAdtivbtionDfsd");
 
-            return getGroupEntry(id).getActivationDesc(id);
+            rfturn gftGroupEntry(id).gftAdtivbtionDfsd(id);
         }
 
-        public ActivationGroupDesc getActivationGroupDesc(ActivationGroupID id)
-            throws ActivationException, UnknownGroupException, RemoteException
+        publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
+            tirows AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption
         {
-            checkShutdown();
-            RegistryImpl.checkAccess
-                ("ActivationSystem.getActivationGroupDesc");
+            difdkSiutdown();
+            RfgistryImpl.difdkAddfss
+                ("AdtivbtionSystfm.gftAdtivbtionGroupDfsd");
 
-            return getGroupEntry(id).desc;
+            rfturn gftGroupEntry(id).dfsd;
         }
 
         /**
-         * Shutdown the activation system. Destroys all groups spawned by
-         * the activation daemon and exits the activation daemon.
+         * Siutdown tif bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+         * tif bdtivbtion dbfmon bnd fxits tif bdtivbtion dbfmon.
          */
-        public void shutdown() throws AccessException {
-            RegistryImpl.checkAccess("ActivationSystem.shutdown");
+        publid void siutdown() tirows AddfssExdfption {
+            RfgistryImpl.difdkAddfss("AdtivbtionSystfm.siutdown");
 
-            Object lock = startupLock;
-            if (lock != null) {
-                synchronized (lock) {
-                    // nothing
+            Objfdt lodk = stbrtupLodk;
+            if (lodk != null) {
+                syndironizfd (lodk) {
+                    // notiing
                 }
             }
 
-            synchronized (Activation.this) {
-                if (!shuttingDown) {
-                    shuttingDown = true;
-                    (new Shutdown()).start();
+            syndironizfd (Adtivbtion.tiis) {
+                if (!siuttingDown) {
+                    siuttingDown = truf;
+                    (nfw Siutdown()).stbrt();
                 }
             }
         }
     }
 
-    private void checkShutdown() throws ActivationException {
-        // if the startup critical section is running, wait until it
-        // completes/fails before continuing with the remote call.
-        Object lock = startupLock;
-        if (lock != null) {
-            synchronized (lock) {
-                // nothing
+    privbtf void difdkSiutdown() tirows AdtivbtionExdfption {
+        // if tif stbrtup dritidbl sfdtion is running, wbit until it
+        // domplftfs/fbils bfforf dontinuing witi tif rfmotf dbll.
+        Objfdt lodk = stbrtupLodk;
+        if (lodk != null) {
+            syndironizfd (lodk) {
+                // notiing
             }
         }
 
-        if (shuttingDown == true) {
-            throw new ActivationException(
-                "activation system shutting down");
+        if (siuttingDown == truf) {
+            tirow nfw AdtivbtionExdfption(
+                "bdtivbtion systfm siutting down");
         }
     }
 
-    private static void unexport(Remote obj) {
+    privbtf stbtid void unfxport(Rfmotf obj) {
         for (;;) {
             try {
-                if (UnicastRemoteObject.unexportObject(obj, false) == true) {
-                    break;
-                } else {
-                    Thread.sleep(100);
+                if (UnidbstRfmotfObjfdt.unfxportObjfdt(obj, fblsf) == truf) {
+                    brfbk;
+                } flsf {
+                    Tirfbd.slffp(100);
                 }
-            } catch (Exception e) {
-                continue;
+            } dbtdi (Exdfption f) {
+                dontinuf;
             }
         }
     }
 
     /**
-     * Thread to shutdown rmid.
+     * Tirfbd to siutdown rmid.
      */
-    private class Shutdown extends Thread {
-        Shutdown() {
-            super("rmid Shutdown");
+    privbtf dlbss Siutdown fxtfnds Tirfbd {
+        Siutdown() {
+            supfr("rmid Siutdown");
         }
 
-        public void run() {
+        publid void run() {
             try {
                 /*
-                 * Unexport activation system services
+                 * Unfxport bdtivbtion systfm sfrvidfs
                  */
-                unexport(activator);
-                unexport(system);
+                unfxport(bdtivbtor);
+                unfxport(systfm);
 
-                // destroy all child processes (groups)
-                for (GroupEntry groupEntry : groupTable.values()) {
-                    groupEntry.shutdown();
+                // dfstroy bll diild prodfssfs (groups)
+                for (GroupEntry groupEntry : groupTbblf.vblufs()) {
+                    groupEntry.siutdown();
                 }
 
-                Runtime.getRuntime().removeShutdownHook(shutdownHook);
+                Runtimf.gftRuntimf().rfmovfSiutdownHook(siutdownHook);
 
                 /*
-                 * Unexport monitor safely since all processes are destroyed.
+                 * Unfxport monitor sbffly sindf bll prodfssfs brf dfstroyfd.
                  */
-                unexport(monitor);
+                unfxport(monitor);
 
                 /*
-                 * Close log file, fix for 4243264: rmid shutdown thread
-                 * interferes with remote calls in progress.  Make sure
-                 * the log file is only closed when it is impossible for
-                 * its closure to interfere with any pending remote calls.
-                 * We close the log when all objects in the rmid VM are
-                 * unexported.
+                 * Closf log filf, fix for 4243264: rmid siutdown tirfbd
+                 * intfrffrfs witi rfmotf dblls in progrfss.  Mbkf surf
+                 * tif log filf is only dlosfd wifn it is impossiblf for
+                 * its dlosurf to intfrffrf witi bny pfnding rfmotf dblls.
+                 * Wf dlosf tif log wifn bll objfdts in tif rmid VM brf
+                 * unfxportfd.
                  */
                 try {
-                    synchronized (log) {
-                        log.close();
+                    syndironizfd (log) {
+                        log.dlosf();
                     }
-                } catch (IOException e) {
+                } dbtdi (IOExdfption f) {
                 }
 
-            } finally {
+            } finblly {
                 /*
-                 * Now exit... A System.exit should only be done if
-                 * the RMI activation system daemon was started up
-                 * by the main method below (in which should always
-                 * be the case since the Activation constructor is private).
+                 * Now fxit... A Systfm.fxit siould only bf donf if
+                 * tif RMI bdtivbtion systfm dbfmon wbs stbrtfd up
+                 * by tif mbin mftiod bflow (in wiidi siould blwbys
+                 * bf tif dbsf sindf tif Adtivbtion donstrudtor is privbtf).
                  */
-                System.err.println(getTextResource("rmid.daemon.shutdown"));
-                System.exit(0);
+                Systfm.frr.println(gftTfxtRfsourdf("rmid.dbfmon.siutdown"));
+                Systfm.fxit(0);
             }
         }
     }
 
-    /** Thread to destroy children in the event of abnormal termination. */
-    private class ShutdownHook extends Thread {
-        ShutdownHook() {
-            super("rmid ShutdownHook");
+    /** Tirfbd to dfstroy diildrfn in tif fvfnt of bbnormbl tfrminbtion. */
+    privbtf dlbss SiutdownHook fxtfnds Tirfbd {
+        SiutdownHook() {
+            supfr("rmid SiutdownHook");
         }
 
-        public void run() {
-            synchronized (Activation.this) {
-                shuttingDown = true;
+        publid void run() {
+            syndironizfd (Adtivbtion.tiis) {
+                siuttingDown = truf;
             }
 
-            // destroy all child processes (groups) quickly
-            for (GroupEntry groupEntry : groupTable.values()) {
-                groupEntry.shutdownFast();
+            // dfstroy bll diild prodfssfs (groups) quidkly
+            for (GroupEntry groupEntry : groupTbblf.vblufs()) {
+                groupEntry.siutdownFbst();
             }
         }
     }
 
     /**
-     * Returns the groupID for a given id of an object in the group.
-     * Throws UnknownObjectException if the object is not registered.
+     * Rfturns tif groupID for b givfn id of bn objfdt in tif group.
+     * Tirows UnknownObjfdtExdfption if tif objfdt is not rfgistfrfd.
      */
-    private ActivationGroupID getGroupID(ActivationID id)
-        throws UnknownObjectException
+    privbtf AdtivbtionGroupID gftGroupID(AdtivbtionID id)
+        tirows UnknownObjfdtExdfption
     {
-        ActivationGroupID groupID = idTable.get(id);
+        AdtivbtionGroupID groupID = idTbblf.gft(id);
         if (groupID != null) {
-            return groupID;
+            rfturn groupID;
         }
-        throw new UnknownObjectException("unknown object: " + id);
+        tirow nfw UnknownObjfdtExdfption("unknown objfdt: " + id);
     }
 
     /**
-     * Returns the group entry for the group id, optionally removing it.
-     * Throws UnknownGroupException if the group is not registered.
+     * Rfturns tif group fntry for tif group id, optionblly rfmoving it.
+     * Tirows UnknownGroupExdfption if tif group is not rfgistfrfd.
      */
-    private GroupEntry getGroupEntry(ActivationGroupID id, boolean rm)
-        throws UnknownGroupException
+    privbtf GroupEntry gftGroupEntry(AdtivbtionGroupID id, boolfbn rm)
+        tirows UnknownGroupExdfption
     {
-        if (id.getClass() == ActivationGroupID.class) {
-            GroupEntry entry;
+        if (id.gftClbss() == AdtivbtionGroupID.dlbss) {
+            GroupEntry fntry;
             if (rm) {
-                entry = groupTable.remove(id);
-            } else {
-                entry = groupTable.get(id);
+                fntry = groupTbblf.rfmovf(id);
+            } flsf {
+                fntry = groupTbblf.gft(id);
             }
-            if (entry != null && !entry.removed) {
-                return entry;
+            if (fntry != null && !fntry.rfmovfd) {
+                rfturn fntry;
             }
         }
-        throw new UnknownGroupException("group unknown");
+        tirow nfw UnknownGroupExdfption("group unknown");
     }
 
     /**
-     * Returns the group entry for the group id. Throws
-     * UnknownGroupException if the group is not registered.
+     * Rfturns tif group fntry for tif group id. Tirows
+     * UnknownGroupExdfption if tif group is not rfgistfrfd.
      */
-    private GroupEntry getGroupEntry(ActivationGroupID id)
-        throws UnknownGroupException
+    privbtf GroupEntry gftGroupEntry(AdtivbtionGroupID id)
+        tirows UnknownGroupExdfption
     {
-        return getGroupEntry(id, false);
+        rfturn gftGroupEntry(id, fblsf);
     }
 
     /**
-     * Removes and returns the group entry for the group id. Throws
-     * UnknownGroupException if the group is not registered.
+     * Rfmovfs bnd rfturns tif group fntry for tif group id. Tirows
+     * UnknownGroupExdfption if tif group is not rfgistfrfd.
      */
-    private GroupEntry removeGroupEntry(ActivationGroupID id)
-        throws UnknownGroupException
+    privbtf GroupEntry rfmovfGroupEntry(AdtivbtionGroupID id)
+        tirows UnknownGroupExdfption
     {
-        return getGroupEntry(id, true);
+        rfturn gftGroupEntry(id, truf);
     }
 
     /**
-     * Returns the group entry for the object's id. Throws
-     * UnknownObjectException if the object is not registered or the
-     * object's group is not registered.
+     * Rfturns tif group fntry for tif objfdt's id. Tirows
+     * UnknownObjfdtExdfption if tif objfdt is not rfgistfrfd or tif
+     * objfdt's group is not rfgistfrfd.
      */
-    private GroupEntry getGroupEntry(ActivationID id)
-        throws UnknownObjectException
+    privbtf GroupEntry gftGroupEntry(AdtivbtionID id)
+        tirows UnknownObjfdtExdfption
     {
-        ActivationGroupID gid = getGroupID(id);
-        GroupEntry entry = groupTable.get(gid);
-        if (entry != null && !entry.removed) {
-            return entry;
+        AdtivbtionGroupID gid = gftGroupID(id);
+        GroupEntry fntry = groupTbblf.gft(gid);
+        if (fntry != null && !fntry.rfmovfd) {
+            rfturn fntry;
         }
-        throw new UnknownObjectException("object's group removed");
+        tirow nfw UnknownObjfdtExdfption("objfdt's group rfmovfd");
     }
 
     /**
-     * Container for group information: group's descriptor, group's
-     * instantiator, flag to indicate pending group creation, and
-     * table of the objects that are activated in the group.
+     * Contbinfr for group informbtion: group's dfsdriptor, group's
+     * instbntibtor, flbg to indidbtf pfnding group drfbtion, bnd
+     * tbblf of tif objfdts tibt brf bdtivbtfd in tif group.
      *
-     * WARNING: GroupEntry objects should not be written into log file
-     * updates.  GroupEntrys are inner classes of Activation and they
-     * can not be serialized independent of this class.  If the
-     * complete Activation system is written out as a log update, the
-     * point of having updates is nullified.
+     * WARNING: GroupEntry objfdts siould not bf writtfn into log filf
+     * updbtfs.  GroupEntrys brf innfr dlbssfs of Adtivbtion bnd tify
+     * dbn not bf sfriblizfd indfpfndfnt of tiis dlbss.  If tif
+     * domplftf Adtivbtion systfm is writtfn out bs b log updbtf, tif
+     * point of ibving updbtfs is nullififd.
      */
-    private class GroupEntry implements Serializable {
+    privbtf dlbss GroupEntry implfmfnts Sfriblizbblf {
 
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 7222464070032993304L;
-        private static final int MAX_TRIES = 2;
-        private static final int NORMAL = 0;
-        private static final int CREATING = 1;
-        private static final int TERMINATE = 2;
-        private static final int TERMINATING = 3;
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 7222464070032993304L;
+        privbtf stbtid finbl int MAX_TRIES = 2;
+        privbtf stbtid finbl int NORMAL = 0;
+        privbtf stbtid finbl int CREATING = 1;
+        privbtf stbtid finbl int TERMINATE = 2;
+        privbtf stbtid finbl int TERMINATING = 3;
 
-        ActivationGroupDesc desc = null;
-        ActivationGroupID groupID = null;
-        long incarnation = 0;
-        Map<ActivationID,ObjectEntry> objects = new HashMap<>();
-        Set<ActivationID> restartSet = new HashSet<>();
+        AdtivbtionGroupDfsd dfsd = null;
+        AdtivbtionGroupID groupID = null;
+        long indbrnbtion = 0;
+        Mbp<AdtivbtionID,ObjfdtEntry> objfdts = nfw HbsiMbp<>();
+        Sft<AdtivbtionID> rfstbrtSft = nfw HbsiSft<>();
 
-        transient ActivationInstantiator group = null;
-        transient int status = NORMAL;
-        transient long waitTime = 0;
-        transient String groupName = null;
-        transient Process child = null;
-        transient boolean removed = false;
-        transient Watchdog watchdog = null;
+        trbnsifnt AdtivbtionInstbntibtor group = null;
+        trbnsifnt int stbtus = NORMAL;
+        trbnsifnt long wbitTimf = 0;
+        trbnsifnt String groupNbmf = null;
+        trbnsifnt Prodfss diild = null;
+        trbnsifnt boolfbn rfmovfd = fblsf;
+        trbnsifnt Wbtdidog wbtdidog = null;
 
-        GroupEntry(ActivationGroupID groupID, ActivationGroupDesc desc) {
-            this.groupID = groupID;
-            this.desc = desc;
+        GroupEntry(AdtivbtionGroupID groupID, AdtivbtionGroupDfsd dfsd) {
+            tiis.groupID = groupID;
+            tiis.dfsd = dfsd;
         }
 
-        void restartServices() {
-            Iterator<ActivationID> iter = null;
+        void rfstbrtSfrvidfs() {
+            Itfrbtor<AdtivbtionID> itfr = null;
 
-            synchronized (this) {
-                if (restartSet.isEmpty()) {
-                    return;
+            syndironizfd (tiis) {
+                if (rfstbrtSft.isEmpty()) {
+                    rfturn;
                 }
 
                 /*
-                 * Clone the restartSet so the set does not have to be locked
-                 * during iteration. Locking the restartSet could cause
-                 * deadlock if an object we are restarting caused another
-                 * object in this group to be activated.
+                 * Clonf tif rfstbrtSft so tif sft dofs not ibvf to bf lodkfd
+                 * during itfrbtion. Lodking tif rfstbrtSft dould dbusf
+                 * dfbdlodk if bn objfdt wf brf rfstbrting dbusfd bnotifr
+                 * objfdt in tiis group to bf bdtivbtfd.
                  */
-                iter = (new HashSet<ActivationID>(restartSet)).iterator();
+                itfr = (nfw HbsiSft<AdtivbtionID>(rfstbrtSft)).itfrbtor();
             }
 
-            while (iter.hasNext()) {
-                ActivationID id = iter.next();
+            wiilf (itfr.ibsNfxt()) {
+                AdtivbtionID id = itfr.nfxt();
                 try {
-                    activate(id, true);
-                } catch (Exception e) {
-                    if (shuttingDown) {
-                        return;
+                    bdtivbtf(id, truf);
+                } dbtdi (Exdfption f) {
+                    if (siuttingDown) {
+                        rfturn;
                     }
-                    System.err.println(
-                        getTextResource("rmid.restart.service.warning"));
-                    e.printStackTrace();
+                    Systfm.frr.println(
+                        gftTfxtRfsourdf("rmid.rfstbrt.sfrvidf.wbrning"));
+                    f.printStbdkTrbdf();
                 }
             }
         }
 
-        synchronized void activeGroup(ActivationInstantiator inst,
-                                      long instIncarnation)
-            throws ActivationException, UnknownGroupException
+        syndironizfd void bdtivfGroup(AdtivbtionInstbntibtor inst,
+                                      long instIndbrnbtion)
+            tirows AdtivbtionExdfption, UnknownGroupExdfption
         {
-            if (incarnation != instIncarnation) {
-                throw new ActivationException("invalid incarnation");
+            if (indbrnbtion != instIndbrnbtion) {
+                tirow nfw AdtivbtionExdfption("invblid indbrnbtion");
             }
 
             if (group != null) {
-                if (group.equals(inst)) {
-                    return;
-                } else {
-                    throw new ActivationException("group already active");
+                if (group.fqubls(inst)) {
+                    rfturn;
+                } flsf {
+                    tirow nfw AdtivbtionExdfption("group blrfbdy bdtivf");
                 }
             }
 
-            if (child != null && status != CREATING) {
-                throw new ActivationException("group not being created");
+            if (diild != null && stbtus != CREATING) {
+                tirow nfw AdtivbtionExdfption("group not bfing drfbtfd");
             }
 
             group = inst;
-            status = NORMAL;
+            stbtus = NORMAL;
             notifyAll();
         }
 
-        private void checkRemoved() throws UnknownGroupException {
-            if (removed) {
-                throw new UnknownGroupException("group removed");
+        privbtf void difdkRfmovfd() tirows UnknownGroupExdfption {
+            if (rfmovfd) {
+                tirow nfw UnknownGroupExdfption("group rfmovfd");
             }
         }
 
-        private ObjectEntry getObjectEntry(ActivationID id)
-            throws UnknownObjectException
+        privbtf ObjfdtEntry gftObjfdtEntry(AdtivbtionID id)
+            tirows UnknownObjfdtExdfption
         {
-            if (removed) {
-                throw new UnknownObjectException("object's group removed");
+            if (rfmovfd) {
+                tirow nfw UnknownObjfdtExdfption("objfdt's group rfmovfd");
             }
-            ObjectEntry objEntry = objects.get(id);
+            ObjfdtEntry objEntry = objfdts.gft(id);
             if (objEntry == null) {
-                throw new UnknownObjectException("object unknown");
+                tirow nfw UnknownObjfdtExdfption("objfdt unknown");
             }
-            return objEntry;
+            rfturn objEntry;
         }
 
-        synchronized void registerObject(ActivationID id,
-                                         ActivationDesc desc,
-                                         boolean addRecord)
-            throws UnknownGroupException, ActivationException
+        syndironizfd void rfgistfrObjfdt(AdtivbtionID id,
+                                         AdtivbtionDfsd dfsd,
+                                         boolfbn bddRfdord)
+            tirows UnknownGroupExdfption, AdtivbtionExdfption
         {
-            checkRemoved();
-            objects.put(id, new ObjectEntry(desc));
-            if (desc.getRestartMode() == true) {
-                restartSet.add(id);
+            difdkRfmovfd();
+            objfdts.put(id, nfw ObjfdtEntry(dfsd));
+            if (dfsd.gftRfstbrtModf() == truf) {
+                rfstbrtSft.bdd(id);
             }
 
-            // table insertion must take place before log update
-            idTable.put(id, groupID);
+            // tbblf insfrtion must tbkf plbdf bfforf log updbtf
+            idTbblf.put(id, groupID);
 
-            if (addRecord) {
-                addLogRecord(new LogRegisterObject(id, desc));
-            }
-        }
-
-        synchronized void unregisterObject(ActivationID id, boolean addRecord)
-            throws UnknownGroupException, ActivationException
-        {
-            ObjectEntry objEntry = getObjectEntry(id);
-            objEntry.removed = true;
-            objects.remove(id);
-            if (objEntry.desc.getRestartMode() == true) {
-                restartSet.remove(id);
-            }
-
-            // table removal must take place before log update
-            idTable.remove(id);
-            if (addRecord) {
-                addLogRecord(new LogUnregisterObject(id));
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogRfgistfrObjfdt(id, dfsd));
             }
         }
 
-        synchronized void unregisterGroup(boolean addRecord)
-           throws UnknownGroupException, ActivationException
+        syndironizfd void unrfgistfrObjfdt(AdtivbtionID id, boolfbn bddRfdord)
+            tirows UnknownGroupExdfption, AdtivbtionExdfption
         {
-            checkRemoved();
-            removed = true;
-            for (Map.Entry<ActivationID,ObjectEntry> entry :
-                     objects.entrySet())
+            ObjfdtEntry objEntry = gftObjfdtEntry(id);
+            objEntry.rfmovfd = truf;
+            objfdts.rfmovf(id);
+            if (objEntry.dfsd.gftRfstbrtModf() == truf) {
+                rfstbrtSft.rfmovf(id);
+            }
+
+            // tbblf rfmovbl must tbkf plbdf bfforf log updbtf
+            idTbblf.rfmovf(id);
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogUnrfgistfrObjfdt(id));
+            }
+        }
+
+        syndironizfd void unrfgistfrGroup(boolfbn bddRfdord)
+           tirows UnknownGroupExdfption, AdtivbtionExdfption
+        {
+            difdkRfmovfd();
+            rfmovfd = truf;
+            for (Mbp.Entry<AdtivbtionID,ObjfdtEntry> fntry :
+                     objfdts.fntrySft())
             {
-                ActivationID id = entry.getKey();
-                idTable.remove(id);
-                ObjectEntry objEntry = entry.getValue();
-                objEntry.removed = true;
+                AdtivbtionID id = fntry.gftKfy();
+                idTbblf.rfmovf(id);
+                ObjfdtEntry objEntry = fntry.gftVbluf();
+                objEntry.rfmovfd = truf;
             }
-            objects.clear();
-            restartSet.clear();
-            reset();
-            childGone();
+            objfdts.dlfbr();
+            rfstbrtSft.dlfbr();
+            rfsft();
+            diildGonf();
 
-            // removal should be recorded before log update
-            if (addRecord) {
-                addLogRecord(new LogUnregisterGroup(groupID));
+            // rfmovbl siould bf rfdordfd bfforf log updbtf
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogUnrfgistfrGroup(groupID));
             }
         }
 
-        synchronized ActivationDesc setActivationDesc(ActivationID id,
-                                                      ActivationDesc desc,
-                                                      boolean addRecord)
-            throws UnknownObjectException, UnknownGroupException,
-                   ActivationException
+        syndironizfd AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+                                                      AdtivbtionDfsd dfsd,
+                                                      boolfbn bddRfdord)
+            tirows UnknownObjfdtExdfption, UnknownGroupExdfption,
+                   AdtivbtionExdfption
         {
-            ObjectEntry objEntry = getObjectEntry(id);
-            ActivationDesc oldDesc = objEntry.desc;
-            objEntry.desc = desc;
-            if (desc.getRestartMode() == true) {
-                restartSet.add(id);
-            } else {
-                restartSet.remove(id);
+            ObjfdtEntry objEntry = gftObjfdtEntry(id);
+            AdtivbtionDfsd oldDfsd = objEntry.dfsd;
+            objEntry.dfsd = dfsd;
+            if (dfsd.gftRfstbrtModf() == truf) {
+                rfstbrtSft.bdd(id);
+            } flsf {
+                rfstbrtSft.rfmovf(id);
             }
-            // restart information should be recorded before log update
-            if (addRecord) {
-                addLogRecord(new LogUpdateDesc(id, desc));
-            }
-
-            return oldDesc;
-        }
-
-        synchronized ActivationDesc getActivationDesc(ActivationID id)
-            throws UnknownObjectException, UnknownGroupException
-        {
-            return getObjectEntry(id).desc;
-        }
-
-        synchronized ActivationGroupDesc setActivationGroupDesc(
-                ActivationGroupID id,
-                ActivationGroupDesc desc,
-                boolean addRecord)
-            throws UnknownGroupException, ActivationException
-        {
-            checkRemoved();
-            ActivationGroupDesc oldDesc = this.desc;
-            this.desc = desc;
-            // state update should occur before log update
-            if (addRecord) {
-                addLogRecord(new LogUpdateGroupDesc(id, desc));
-            }
-            return oldDesc;
-        }
-
-        synchronized void inactiveGroup(long incarnation, boolean failure)
-            throws UnknownGroupException
-        {
-            checkRemoved();
-            if (this.incarnation != incarnation) {
-                throw new UnknownGroupException("invalid incarnation");
+            // rfstbrt informbtion siould bf rfdordfd bfforf log updbtf
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogUpdbtfDfsd(id, dfsd));
             }
 
-            reset();
-            if (failure) {
-                terminate();
-            } else if (child != null && status == NORMAL) {
-                status = TERMINATE;
-                watchdog.noRestart();
+            rfturn oldDfsd;
+        }
+
+        syndironizfd AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+            tirows UnknownObjfdtExdfption, UnknownGroupExdfption
+        {
+            rfturn gftObjfdtEntry(id).dfsd;
+        }
+
+        syndironizfd AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(
+                AdtivbtionGroupID id,
+                AdtivbtionGroupDfsd dfsd,
+                boolfbn bddRfdord)
+            tirows UnknownGroupExdfption, AdtivbtionExdfption
+        {
+            difdkRfmovfd();
+            AdtivbtionGroupDfsd oldDfsd = tiis.dfsd;
+            tiis.dfsd = dfsd;
+            // stbtf updbtf siould oddur bfforf log updbtf
+            if (bddRfdord) {
+                bddLogRfdord(nfw LogUpdbtfGroupDfsd(id, dfsd));
+            }
+            rfturn oldDfsd;
+        }
+
+        syndironizfd void inbdtivfGroup(long indbrnbtion, boolfbn fbilurf)
+            tirows UnknownGroupExdfption
+        {
+            difdkRfmovfd();
+            if (tiis.indbrnbtion != indbrnbtion) {
+                tirow nfw UnknownGroupExdfption("invblid indbrnbtion");
+            }
+
+            rfsft();
+            if (fbilurf) {
+                tfrminbtf();
+            } flsf if (diild != null && stbtus == NORMAL) {
+                stbtus = TERMINATE;
+                wbtdidog.noRfstbrt();
             }
         }
 
-        synchronized void activeObject(ActivationID id,
-                                       MarshalledObject<? extends Remote> mobj)
-                throws UnknownObjectException
+        syndironizfd void bdtivfObjfdt(AdtivbtionID id,
+                                       MbrsibllfdObjfdt<? fxtfnds Rfmotf> mobj)
+                tirows UnknownObjfdtExdfption
         {
-            getObjectEntry(id).stub = mobj;
+            gftObjfdtEntry(id).stub = mobj;
         }
 
-        synchronized void inactiveObject(ActivationID id)
-            throws UnknownObjectException
+        syndironizfd void inbdtivfObjfdt(AdtivbtionID id)
+            tirows UnknownObjfdtExdfption
         {
-            getObjectEntry(id).reset();
+            gftObjfdtEntry(id).rfsft();
         }
 
-        private synchronized void reset() {
+        privbtf syndironizfd void rfsft() {
             group = null;
-            for (ObjectEntry objectEntry : objects.values()) {
-                objectEntry.reset();
+            for (ObjfdtEntry objfdtEntry : objfdts.vblufs()) {
+                objfdtEntry.rfsft();
             }
         }
 
-        private void childGone() {
-            if (child != null) {
-                child = null;
-                watchdog.dispose();
-                watchdog = null;
-                status = NORMAL;
+        privbtf void diildGonf() {
+            if (diild != null) {
+                diild = null;
+                wbtdidog.disposf();
+                wbtdidog = null;
+                stbtus = NORMAL;
                 notifyAll();
             }
         }
 
-        private void terminate() {
-            if (child != null && status != TERMINATING) {
-                child.destroy();
-                status = TERMINATING;
-                waitTime = System.currentTimeMillis() + groupTimeout;
+        privbtf void tfrminbtf() {
+            if (diild != null && stbtus != TERMINATING) {
+                diild.dfstroy();
+                stbtus = TERMINATING;
+                wbitTimf = Systfm.durrfntTimfMillis() + groupTimfout;
                 notifyAll();
             }
         }
 
        /*
-        * Fallthrough from TERMINATE to TERMINATING
-        * is intentional
+        * Fblltirougi from TERMINATE to TERMINATING
+        * is intfntionbl
         */
-        @SuppressWarnings("fallthrough")
-        private void await() {
-            while (true) {
-                switch (status) {
-                case NORMAL:
-                    return;
-                case TERMINATE:
-                    terminate();
-                case TERMINATING:
+        @SupprfssWbrnings("fblltirougi")
+        privbtf void bwbit() {
+            wiilf (truf) {
+                switdi (stbtus) {
+                dbsf NORMAL:
+                    rfturn;
+                dbsf TERMINATE:
+                    tfrminbtf();
+                dbsf TERMINATING:
                     try {
-                        child.exitValue();
-                    } catch (IllegalThreadStateException e) {
-                        long now = System.currentTimeMillis();
-                        if (waitTime > now) {
+                        diild.fxitVbluf();
+                    } dbtdi (IllfgblTirfbdStbtfExdfption f) {
+                        long now = Systfm.durrfntTimfMillis();
+                        if (wbitTimf > now) {
                             try {
-                                wait(waitTime - now);
-                            } catch (InterruptedException ee) {
+                                wbit(wbitTimf - now);
+                            } dbtdi (IntfrruptfdExdfption ff) {
                             }
-                            continue;
+                            dontinuf;
                         }
-                        // REMIND: print message that group did not terminate?
+                        // REMIND: print mfssbgf tibt group did not tfrminbtf?
                     }
-                    childGone();
-                    return;
-                case CREATING:
+                    diildGonf();
+                    rfturn;
+                dbsf CREATING:
                     try {
-                        wait();
-                    } catch (InterruptedException e) {
+                        wbit();
+                    } dbtdi (IntfrruptfdExdfption f) {
                     }
                 }
             }
         }
 
-        // no synchronization to avoid delay wrt getInstantiator
-        void shutdownFast() {
-            Process p = child;
+        // no syndironizbtion to bvoid dflby wrt gftInstbntibtor
+        void siutdownFbst() {
+            Prodfss p = diild;
             if (p != null) {
-                p.destroy();
+                p.dfstroy();
             }
         }
 
-        synchronized void shutdown() {
-            reset();
-            terminate();
-            await();
+        syndironizfd void siutdown() {
+            rfsft();
+            tfrminbtf();
+            bwbit();
         }
 
-        MarshalledObject<? extends Remote> activate(ActivationID id,
-                                                    boolean force)
-            throws ActivationException
+        MbrsibllfdObjfdt<? fxtfnds Rfmotf> bdtivbtf(AdtivbtionID id,
+                                                    boolfbn fordf)
+            tirows AdtivbtionExdfption
         {
-            Exception detail = null;
+            Exdfption dftbil = null;
 
             /*
-             * Attempt to activate object and reattempt (several times)
-             * if activation fails due to communication problems.
+             * Attfmpt to bdtivbtf objfdt bnd rfbttfmpt (sfvfrbl timfs)
+             * if bdtivbtion fbils duf to dommunidbtion problfms.
              */
-            for (int tries = MAX_TRIES; tries > 0; tries--) {
-                ActivationInstantiator inst;
-                long currentIncarnation;
+            for (int trifs = MAX_TRIES; trifs > 0; trifs--) {
+                AdtivbtionInstbntibtor inst;
+                long durrfntIndbrnbtion;
 
-                // look up object to activate
-                ObjectEntry objEntry;
-                synchronized (this) {
-                    objEntry = getObjectEntry(id);
-                    // if not forcing activation, return cached stub
-                    if (!force && objEntry.stub != null) {
-                        return objEntry.stub;
+                // look up objfdt to bdtivbtf
+                ObjfdtEntry objEntry;
+                syndironizfd (tiis) {
+                    objEntry = gftObjfdtEntry(id);
+                    // if not fording bdtivbtion, rfturn dbdifd stub
+                    if (!fordf && objEntry.stub != null) {
+                        rfturn objEntry.stub;
                     }
-                    inst = getInstantiator(groupID);
-                    currentIncarnation = incarnation;
+                    inst = gftInstbntibtor(groupID);
+                    durrfntIndbrnbtion = indbrnbtion;
                 }
 
-                boolean groupInactive = false;
-                boolean failure = false;
-                // activate object
+                boolfbn groupInbdtivf = fblsf;
+                boolfbn fbilurf = fblsf;
+                // bdtivbtf objfdt
                 try {
-                    return objEntry.activate(id, force, inst);
-                } catch (NoSuchObjectException e) {
-                    groupInactive = true;
-                    detail = e;
-                } catch (ConnectException e) {
-                    groupInactive = true;
-                    failure = true;
-                    detail = e;
-                } catch (ConnectIOException e) {
-                    groupInactive = true;
-                    failure = true;
-                    detail = e;
-                } catch (InactiveGroupException e) {
-                    groupInactive = true;
-                    detail = e;
-                } catch (RemoteException e) {
-                    // REMIND: wait some here before continuing?
-                    if (detail == null) {
-                        detail = e;
+                    rfturn objEntry.bdtivbtf(id, fordf, inst);
+                } dbtdi (NoSudiObjfdtExdfption f) {
+                    groupInbdtivf = truf;
+                    dftbil = f;
+                } dbtdi (ConnfdtExdfption f) {
+                    groupInbdtivf = truf;
+                    fbilurf = truf;
+                    dftbil = f;
+                } dbtdi (ConnfdtIOExdfption f) {
+                    groupInbdtivf = truf;
+                    fbilurf = truf;
+                    dftbil = f;
+                } dbtdi (InbdtivfGroupExdfption f) {
+                    groupInbdtivf = truf;
+                    dftbil = f;
+                } dbtdi (RfmotfExdfption f) {
+                    // REMIND: wbit somf ifrf bfforf dontinuing?
+                    if (dftbil == null) {
+                        dftbil = f;
                     }
                 }
 
-                if (groupInactive) {
-                    // group has failed or is inactive; mark inactive
+                if (groupInbdtivf) {
+                    // group ibs fbilfd or is inbdtivf; mbrk inbdtivf
                     try {
-                        System.err.println(
-                            MessageFormat.format(
-                                getTextResource("rmid.group.inactive"),
-                                detail.toString()));
-                        detail.printStackTrace();
-                        getGroupEntry(groupID).
-                            inactiveGroup(currentIncarnation, failure);
-                    } catch (UnknownGroupException e) {
-                        // not a problem
+                        Systfm.frr.println(
+                            MfssbgfFormbt.formbt(
+                                gftTfxtRfsourdf("rmid.group.inbdtivf"),
+                                dftbil.toString()));
+                        dftbil.printStbdkTrbdf();
+                        gftGroupEntry(groupID).
+                            inbdtivfGroup(durrfntIndbrnbtion, fbilurf);
+                    } dbtdi (UnknownGroupExdfption f) {
+                        // not b problfm
                     }
                 }
             }
 
             /**
-             * signal that group activation failed, nested exception
-             * specifies what exception occurred when the group did not
-             * activate
+             * signbl tibt group bdtivbtion fbilfd, nfstfd fxdfption
+             * spfdififs wibt fxdfption oddurrfd wifn tif group did not
+             * bdtivbtf
              */
-            throw new ActivationException("object activation failed after " +
-                                          MAX_TRIES + " tries", detail);
+            tirow nfw AdtivbtionExdfption("objfdt bdtivbtion fbilfd bftfr " +
+                                          MAX_TRIES + " trifs", dftbil);
         }
 
         /**
-         * Returns the instantiator for the group specified by id and
-         * entry. If the group is currently inactive, exec some
-         * bootstrap code to create the group.
+         * Rfturns tif instbntibtor for tif group spfdififd by id bnd
+         * fntry. If tif group is durrfntly inbdtivf, fxfd somf
+         * bootstrbp dodf to drfbtf tif group.
          */
-        private ActivationInstantiator getInstantiator(ActivationGroupID id)
-            throws ActivationException
+        privbtf AdtivbtionInstbntibtor gftInstbntibtor(AdtivbtionGroupID id)
+            tirows AdtivbtionExdfption
         {
-            assert Thread.holdsLock(this);
+            bssfrt Tirfbd.ioldsLodk(tiis);
 
-            await();
+            bwbit();
             if (group != null) {
-                return group;
+                rfturn group;
             }
-            checkRemoved();
-            boolean acquired = false;
+            difdkRfmovfd();
+            boolfbn bdquirfd = fblsf;
 
             try {
-                groupName = Pstartgroup();
-                acquired = true;
-                String[] argv = activationArgs(desc);
-                checkArgs(desc, argv);
+                groupNbmf = Pstbrtgroup();
+                bdquirfd = truf;
+                String[] brgv = bdtivbtionArgs(dfsd);
+                difdkArgs(dfsd, brgv);
 
-                if (debugExec) {
-                    StringBuilder sb = new StringBuilder(argv[0]);
+                if (dfbugExfd) {
+                    StringBuildfr sb = nfw StringBuildfr(brgv[0]);
                     int j;
-                    for (j = 1; j < argv.length; j++) {
-                        sb.append(' ');
-                        sb.append(argv[j]);
+                    for (j = 1; j < brgv.lfngti; j++) {
+                        sb.bppfnd(' ');
+                        sb.bppfnd(brgv[j]);
                     }
-                    System.err.println(
-                        MessageFormat.format(
-                            getTextResource("rmid.exec.command"),
+                    Systfm.frr.println(
+                        MfssbgfFormbt.formbt(
+                            gftTfxtRfsourdf("rmid.fxfd.dommbnd"),
                             sb.toString()));
                 }
 
                 try {
-                    child = Runtime.getRuntime().exec(argv);
-                    status = CREATING;
-                    ++incarnation;
-                    watchdog = new Watchdog();
-                    watchdog.start();
-                    addLogRecord(new LogGroupIncarnation(id, incarnation));
+                    diild = Runtimf.gftRuntimf().fxfd(brgv);
+                    stbtus = CREATING;
+                    ++indbrnbtion;
+                    wbtdidog = nfw Wbtdidog();
+                    wbtdidog.stbrt();
+                    bddLogRfdord(nfw LogGroupIndbrnbtion(id, indbrnbtion));
 
-                    // handle child I/O streams before writing to child
-                    PipeWriter.plugTogetherPair
-                        (child.getInputStream(), System.out,
-                         child.getErrorStream(), System.err);
-                    try (MarshalOutputStream out =
-                            new MarshalOutputStream(child.getOutputStream())) {
-                        out.writeObject(id);
-                        out.writeObject(desc);
-                        out.writeLong(incarnation);
-                        out.flush();
+                    // ibndlf diild I/O strfbms bfforf writing to diild
+                    PipfWritfr.plugTogftifrPbir
+                        (diild.gftInputStrfbm(), Systfm.out,
+                         diild.gftErrorStrfbm(), Systfm.frr);
+                    try (MbrsiblOutputStrfbm out =
+                            nfw MbrsiblOutputStrfbm(diild.gftOutputStrfbm())) {
+                        out.writfObjfdt(id);
+                        out.writfObjfdt(dfsd);
+                        out.writfLong(indbrnbtion);
+                        out.flusi();
                     }
 
 
-                } catch (IOException e) {
-                    terminate();
-                    throw new ActivationException(
-                        "unable to create activation group", e);
+                } dbtdi (IOExdfption f) {
+                    tfrminbtf();
+                    tirow nfw AdtivbtionExdfption(
+                        "unbblf to drfbtf bdtivbtion group", f);
                 }
 
                 try {
-                    long now = System.currentTimeMillis();
-                    long stop = now + execTimeout;
+                    long now = Systfm.durrfntTimfMillis();
+                    long stop = now + fxfdTimfout;
                     do {
-                        wait(stop - now);
+                        wbit(stop - now);
                         if (group != null) {
-                            return group;
+                            rfturn group;
                         }
-                        now = System.currentTimeMillis();
-                    } while (status == CREATING && now < stop);
-                } catch (InterruptedException e) {
+                        now = Systfm.durrfntTimfMillis();
+                    } wiilf (stbtus == CREATING && now < stop);
+                } dbtdi (IntfrruptfdExdfption f) {
                 }
 
-                terminate();
-                throw new ActivationException(
-                        (removed ?
-                         "activation group unregistered" :
-                         "timeout creating child process"));
-            } finally {
-                if (acquired) {
-                    Vstartgroup();
+                tfrminbtf();
+                tirow nfw AdtivbtionExdfption(
+                        (rfmovfd ?
+                         "bdtivbtion group unrfgistfrfd" :
+                         "timfout drfbting diild prodfss"));
+            } finblly {
+                if (bdquirfd) {
+                    Vstbrtgroup();
                 }
             }
         }
 
         /**
-         * Waits for process termination and then restarts services.
+         * Wbits for prodfss tfrminbtion bnd tifn rfstbrts sfrvidfs.
          */
-        private class Watchdog extends Thread {
-            private final Process groupProcess = child;
-            private final long groupIncarnation = incarnation;
-            private boolean canInterrupt = true;
-            private boolean shouldQuit = false;
-            private boolean shouldRestart = true;
+        privbtf dlbss Wbtdidog fxtfnds Tirfbd {
+            privbtf finbl Prodfss groupProdfss = diild;
+            privbtf finbl long groupIndbrnbtion = indbrnbtion;
+            privbtf boolfbn dbnIntfrrupt = truf;
+            privbtf boolfbn siouldQuit = fblsf;
+            privbtf boolfbn siouldRfstbrt = truf;
 
-            Watchdog() {
-                super("WatchDog-"  + groupName + "-" + incarnation);
-                setDaemon(true);
+            Wbtdidog() {
+                supfr("WbtdiDog-"  + groupNbmf + "-" + indbrnbtion);
+                sftDbfmon(truf);
             }
 
-            public void run() {
+            publid void run() {
 
-                if (shouldQuit) {
-                    return;
+                if (siouldQuit) {
+                    rfturn;
                 }
 
                 /*
-                 * Wait for the group to crash or exit.
+                 * Wbit for tif group to drbsi or fxit.
                  */
                 try {
-                    groupProcess.waitFor();
-                } catch (InterruptedException exit) {
-                    return;
+                    groupProdfss.wbitFor();
+                } dbtdi (IntfrruptfdExdfption fxit) {
+                    rfturn;
                 }
 
-                boolean restart = false;
-                synchronized (GroupEntry.this) {
-                    if (shouldQuit) {
-                        return;
+                boolfbn rfstbrt = fblsf;
+                syndironizfd (GroupEntry.tiis) {
+                    if (siouldQuit) {
+                        rfturn;
                     }
-                    canInterrupt = false;
-                    interrupted(); // clear interrupt bit
+                    dbnIntfrrupt = fblsf;
+                    intfrruptfd(); // dlfbr intfrrupt bit
                     /*
-                     * Since the group crashed, we should
-                     * reset the entry before activating objects
+                     * Sindf tif group drbsifd, wf siould
+                     * rfsft tif fntry bfforf bdtivbting objfdts
                      */
-                    if (groupIncarnation == incarnation) {
-                        restart = shouldRestart && !shuttingDown;
-                        reset();
-                        childGone();
+                    if (groupIndbrnbtion == indbrnbtion) {
+                        rfstbrt = siouldRfstbrt && !siuttingDown;
+                        rfsft();
+                        diildGonf();
                     }
                 }
 
                 /*
-                 * Activate those objects that require restarting
-                 * after a crash.
+                 * Adtivbtf tiosf objfdts tibt rfquirf rfstbrting
+                 * bftfr b drbsi.
                  */
-                if (restart) {
-                    restartServices();
+                if (rfstbrt) {
+                    rfstbrtSfrvidfs();
                 }
             }
 
             /**
-             * Marks this thread as one that is no longer needed.
-             * If the thread is in a state in which it can be interrupted,
-             * then the thread is interrupted.
+             * Mbrks tiis tirfbd bs onf tibt is no longfr nffdfd.
+             * If tif tirfbd is in b stbtf in wiidi it dbn bf intfrruptfd,
+             * tifn tif tirfbd is intfrruptfd.
              */
-            void dispose() {
-                shouldQuit = true;
-                if (canInterrupt) {
-                    interrupt();
+            void disposf() {
+                siouldQuit = truf;
+                if (dbnIntfrrupt) {
+                    intfrrupt();
                 }
             }
 
             /**
-             * Marks this thread as no longer needing to restart objects.
+             * Mbrks tiis tirfbd bs no longfr nffding to rfstbrt objfdts.
              */
-            void noRestart() {
-                shouldRestart = false;
+            void noRfstbrt() {
+                siouldRfstbrt = fblsf;
             }
         }
     }
 
-    private String[] activationArgs(ActivationGroupDesc desc) {
-        ActivationGroupDesc.CommandEnvironment cmdenv;
-        cmdenv = desc.getCommandEnvironment();
+    privbtf String[] bdtivbtionArgs(AdtivbtionGroupDfsd dfsd) {
+        AdtivbtionGroupDfsd.CommbndEnvironmfnt dmdfnv;
+        dmdfnv = dfsd.gftCommbndEnvironmfnt();
 
-        // argv is the literal command to exec
-        List<String> argv = new ArrayList<>();
+        // brgv is tif litfrbl dommbnd to fxfd
+        List<String> brgv = nfw ArrbyList<>();
 
-        // Command name/path
-        argv.add((cmdenv != null && cmdenv.getCommandPath() != null)
-                    ? cmdenv.getCommandPath()
-                    : command[0]);
+        // Commbnd nbmf/pbti
+        brgv.bdd((dmdfnv != null && dmdfnv.gftCommbndPbti() != null)
+                    ? dmdfnv.gftCommbndPbti()
+                    : dommbnd[0]);
 
-        // Group-specific command options
-        if (cmdenv != null && cmdenv.getCommandOptions() != null) {
-            argv.addAll(Arrays.asList(cmdenv.getCommandOptions()));
+        // Group-spfdifid dommbnd options
+        if (dmdfnv != null && dmdfnv.gftCommbndOptions() != null) {
+            brgv.bddAll(Arrbys.bsList(dmdfnv.gftCommbndOptions()));
         }
 
-        // Properties become -D parameters
-        Properties props = desc.getPropertyOverrides();
+        // Propfrtifs bfdomf -D pbrbmftfrs
+        Propfrtifs props = dfsd.gftPropfrtyOvfrridfs();
         if (props != null) {
-            for (Enumeration<?> p = props.propertyNames();
-                 p.hasMoreElements();)
+            for (Enumfrbtion<?> p = props.propfrtyNbmfs();
+                 p.ibsMorfElfmfnts();)
             {
-                String name = (String) p.nextElement();
-                /* Note on quoting: it would be wrong
-                 * here, since argv will be passed to
-                 * Runtime.exec, which should not parse
-                 * arguments or split on whitespace.
+                String nbmf = (String) p.nfxtElfmfnt();
+                /* Notf on quoting: it would bf wrong
+                 * ifrf, sindf brgv will bf pbssfd to
+                 * Runtimf.fxfd, wiidi siould not pbrsf
+                 * brgumfnts or split on wiitfspbdf.
                  */
-                argv.add("-D" + name + "=" + props.getProperty(name));
+                brgv.bdd("-D" + nbmf + "=" + props.gftPropfrty(nbmf));
             }
         }
 
-        /* Finally, rmid-global command options (e.g. -C options)
-         * and the classname
+        /* Finblly, rmid-globbl dommbnd options (f.g. -C options)
+         * bnd tif dlbssnbmf
          */
-        for (int i = 1; i < command.length; i++) {
-            argv.add(command[i]);
+        for (int i = 1; i < dommbnd.lfngti; i++) {
+            brgv.bdd(dommbnd[i]);
         }
 
-        String[] realArgv = new String[argv.size()];
-        System.arraycopy(argv.toArray(), 0, realArgv, 0, realArgv.length);
+        String[] rfblArgv = nfw String[brgv.sizf()];
+        Systfm.brrbydopy(brgv.toArrby(), 0, rfblArgv, 0, rfblArgv.lfngti);
 
-        return realArgv;
+        rfturn rfblArgv;
     }
 
-    private void checkArgs(ActivationGroupDesc desc, String[] cmd)
-        throws SecurityException, ActivationException
+    privbtf void difdkArgs(AdtivbtionGroupDfsd dfsd, String[] dmd)
+        tirows SfdurityExdfption, AdtivbtionExdfption
     {
         /*
-         * Check exec command using execPolicy object
+         * Cifdk fxfd dommbnd using fxfdPolidy objfdt
          */
-        if (execPolicyMethod != null) {
-            if (cmd == null) {
-                cmd = activationArgs(desc);
+        if (fxfdPolidyMftiod != null) {
+            if (dmd == null) {
+                dmd = bdtivbtionArgs(dfsd);
             }
             try {
-                execPolicyMethod.invoke(execPolicy, desc, cmd);
-            } catch (InvocationTargetException e) {
-                Throwable targetException = e.getTargetException();
-                if (targetException instanceof SecurityException) {
-                    throw (SecurityException) targetException;
-                } else {
-                    throw new ActivationException(
-                        execPolicyMethod.getName() + ": unexpected exception",
-                        e);
+                fxfdPolidyMftiod.invokf(fxfdPolidy, dfsd, dmd);
+            } dbtdi (InvodbtionTbrgftExdfption f) {
+                Tirowbblf tbrgftExdfption = f.gftTbrgftExdfption();
+                if (tbrgftExdfption instbndfof SfdurityExdfption) {
+                    tirow (SfdurityExdfption) tbrgftExdfption;
+                } flsf {
+                    tirow nfw AdtivbtionExdfption(
+                        fxfdPolidyMftiod.gftNbmf() + ": unfxpfdtfd fxdfption",
+                        f);
                 }
-            } catch (Exception e) {
-                throw new ActivationException(
-                    execPolicyMethod.getName() + ": unexpected exception", e);
+            } dbtdi (Exdfption f) {
+                tirow nfw AdtivbtionExdfption(
+                    fxfdPolidyMftiod.gftNbmf() + ": unfxpfdtfd fxdfption", f);
             }
         }
     }
 
-    private static class ObjectEntry implements Serializable {
+    privbtf stbtid dlbss ObjfdtEntry implfmfnts Sfriblizbblf {
 
-        private static final long serialVersionUID = -5500114225321357856L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -5500114225321357856L;
 
-        /** descriptor for object */
-        ActivationDesc desc;
-        /** the stub (if active) */
-        volatile transient MarshalledObject<? extends Remote> stub = null;
-        volatile transient boolean removed = false;
+        /** dfsdriptor for objfdt */
+        AdtivbtionDfsd dfsd;
+        /** tif stub (if bdtivf) */
+        volbtilf trbnsifnt MbrsibllfdObjfdt<? fxtfnds Rfmotf> stub = null;
+        volbtilf trbnsifnt boolfbn rfmovfd = fblsf;
 
-        ObjectEntry(ActivationDesc desc) {
-            this.desc = desc;
+        ObjfdtEntry(AdtivbtionDfsd dfsd) {
+            tiis.dfsd = dfsd;
         }
 
-        synchronized MarshalledObject<? extends Remote>
-            activate(ActivationID id,
-                     boolean force,
-                     ActivationInstantiator inst)
-            throws RemoteException, ActivationException
+        syndironizfd MbrsibllfdObjfdt<? fxtfnds Rfmotf>
+            bdtivbtf(AdtivbtionID id,
+                     boolfbn fordf,
+                     AdtivbtionInstbntibtor inst)
+            tirows RfmotfExdfption, AdtivbtionExdfption
         {
-            MarshalledObject<? extends Remote> nstub = stub;
-            if (removed) {
-                throw new UnknownObjectException("object removed");
-            } else if (!force && nstub != null) {
-                return nstub;
+            MbrsibllfdObjfdt<? fxtfnds Rfmotf> nstub = stub;
+            if (rfmovfd) {
+                tirow nfw UnknownObjfdtExdfption("objfdt rfmovfd");
+            } flsf if (!fordf && nstub != null) {
+                rfturn nstub;
             }
 
-            nstub = inst.newInstance(id, desc);
+            nstub = inst.nfwInstbndf(id, dfsd);
             stub = nstub;
             /*
-             * stub could be set to null by a group reset, so return
-             * the newstub here to prevent returning null.
+             * stub dould bf sft to null by b group rfsft, so rfturn
+             * tif nfwstub ifrf to prfvfnt rfturning null.
              */
-            return nstub;
+            rfturn nstub;
         }
 
-        void reset() {
+        void rfsft() {
             stub = null;
         }
     }
 
     /**
-     * Add a record to the activation log. If the number of updates
-     * passes a predetermined threshold, record a snapshot.
+     * Add b rfdord to tif bdtivbtion log. If tif numbfr of updbtfs
+     * pbssfs b prfdftfrminfd tirfsiold, rfdord b snbpsiot.
      */
-    private void addLogRecord(LogRecord rec) throws ActivationException {
-        synchronized (log) {
-            checkShutdown();
+    privbtf void bddLogRfdord(LogRfdord rfd) tirows AdtivbtionExdfption {
+        syndironizfd (log) {
+            difdkSiutdown();
             try {
-                log.update(rec, true);
-            } catch (Exception e) {
-                numUpdates = snapshotInterval;
-                System.err.println(getTextResource("rmid.log.update.warning"));
-                e.printStackTrace();
+                log.updbtf(rfd, truf);
+            } dbtdi (Exdfption f) {
+                numUpdbtfs = snbpsiotIntfrvbl;
+                Systfm.frr.println(gftTfxtRfsourdf("rmid.log.updbtf.wbrning"));
+                f.printStbdkTrbdf();
             }
-            if (++numUpdates < snapshotInterval) {
-                return;
+            if (++numUpdbtfs < snbpsiotIntfrvbl) {
+                rfturn;
             }
             try {
-                log.snapshot(this);
-                numUpdates = 0;
-            } catch (Exception e) {
-                System.err.println(
-                    getTextResource("rmid.log.snapshot.warning"));
-                e.printStackTrace();
+                log.snbpsiot(tiis);
+                numUpdbtfs = 0;
+            } dbtdi (Exdfption f) {
+                Systfm.frr.println(
+                    gftTfxtRfsourdf("rmid.log.snbpsiot.wbrning"));
+                f.printStbdkTrbdf();
                 try {
-                    // shutdown activation system because snapshot failed
-                    system.shutdown();
-                } catch (RemoteException ignore) {
-                    // can't happen
+                    // siutdown bdtivbtion systfm bfdbusf snbpsiot fbilfd
+                    systfm.siutdown();
+                } dbtdi (RfmotfExdfption ignorf) {
+                    // dbn't ibppfn
                 }
-                // warn the client of the original update problem
-                throw new ActivationException("log snapshot failed", e);
+                // wbrn tif dlifnt of tif originbl updbtf problfm
+                tirow nfw AdtivbtionExdfption("log snbpsiot fbilfd", f);
             }
         }
     }
 
     /**
-     * Handler for the log that knows how to take the initial snapshot
-     * and apply an update (a LogRecord) to the current state.
+     * Hbndlfr for tif log tibt knows iow to tbkf tif initibl snbpsiot
+     * bnd bpply bn updbtf (b LogRfdord) to tif durrfnt stbtf.
      */
-    private static class ActLogHandler extends LogHandler {
+    privbtf stbtid dlbss AdtLogHbndlfr fxtfnds LogHbndlfr {
 
-        ActLogHandler() {
+        AdtLogHbndlfr() {
         }
 
-        public Object initialSnapshot()
+        publid Objfdt initiblSnbpsiot()
         {
             /**
-             * Return an empty Activation object.  Log will update
-             * this object with recovered state.
+             * Rfturn bn fmpty Adtivbtion objfdt.  Log will updbtf
+             * tiis objfdt witi rfdovfrfd stbtf.
              */
-            return new Activation();
+            rfturn nfw Adtivbtion();
         }
 
-        public Object applyUpdate(Object update, Object state)
-            throws Exception
+        publid Objfdt bpplyUpdbtf(Objfdt updbtf, Objfdt stbtf)
+            tirows Exdfption
         {
-            return ((LogRecord) update).apply(state);
+            rfturn ((LogRfdord) updbtf).bpply(stbtf);
         }
 
     }
 
     /**
-     * Abstract class for all log records. The subclass contains
-     * specific update information and implements the apply method
-     * that applys the update information contained in the record
-     * to the current state.
+     * Abstrbdt dlbss for bll log rfdords. Tif subdlbss dontbins
+     * spfdifid updbtf informbtion bnd implfmfnts tif bpply mftiod
+     * tibt bpplys tif updbtf informbtion dontbinfd in tif rfdord
+     * to tif durrfnt stbtf.
      */
-    private static abstract class LogRecord implements Serializable {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 8395140512322687529L;
-        abstract Object apply(Object state) throws Exception;
+    privbtf stbtid bbstrbdt dlbss LogRfdord implfmfnts Sfriblizbblf {
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 8395140512322687529L;
+        bbstrbdt Objfdt bpply(Objfdt stbtf) tirows Exdfption;
     }
 
     /**
-     * Log record for registering an object.
+     * Log rfdord for rfgistfring bn objfdt.
      */
-    private static class LogRegisterObject extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = -6280336276146085143L;
-        private ActivationID id;
-        private ActivationDesc desc;
+    privbtf stbtid dlbss LogRfgistfrObjfdt fxtfnds LogRfdord {
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = -6280336276146085143L;
+        privbtf AdtivbtionID id;
+        privbtf AdtivbtionDfsd dfsd;
 
-        LogRegisterObject(ActivationID id, ActivationDesc desc) {
-            this.id = id;
-            this.desc = desc;
+        LogRfgistfrObjfdt(AdtivbtionID id, AdtivbtionDfsd dfsd) {
+            tiis.id = id;
+            tiis.dfsd = dfsd;
         }
 
-        Object apply(Object state) {
+        Objfdt bpply(Objfdt stbtf) {
             try {
-                ((Activation) state).getGroupEntry(desc.getGroupID()).
-                    registerObject(id, desc, false);
-            } catch (Exception ignore) {
-                System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogRegisterObject"));
-                ignore.printStackTrace();
+                ((Adtivbtion) stbtf).gftGroupEntry(dfsd.gftGroupID()).
+                    rfgistfrObjfdt(id, dfsd, fblsf);
+            } dbtdi (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogRfgistfrObjfdt"));
+                ignorf.printStbdkTrbdf();
             }
-            return state;
+            rfturn stbtf;
         }
     }
 
     /**
-     * Log record for unregistering an object.
+     * Log rfdord for unrfgistfring bn objfdt.
      */
-    private static class LogUnregisterObject extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 6269824097396935501L;
-        private ActivationID id;
+    privbtf stbtid dlbss LogUnrfgistfrObjfdt fxtfnds LogRfdord {
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 6269824097396935501L;
+        privbtf AdtivbtionID id;
 
-        LogUnregisterObject(ActivationID id) {
-            this.id = id;
+        LogUnrfgistfrObjfdt(AdtivbtionID id) {
+            tiis.id = id;
         }
 
-        Object apply(Object state) {
+        Objfdt bpply(Objfdt stbtf) {
             try {
-                ((Activation) state).getGroupEntry(id).
-                    unregisterObject(id, false);
-            } catch (Exception ignore) {
-                System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogUnregisterObject"));
-                ignore.printStackTrace();
+                ((Adtivbtion) stbtf).gftGroupEntry(id).
+                    unrfgistfrObjfdt(id, fblsf);
+            } dbtdi (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogUnrfgistfrObjfdt"));
+                ignorf.printStbdkTrbdf();
             }
-            return state;
+            rfturn stbtf;
         }
     }
 
     /**
-     * Log record for registering a group.
+     * Log rfdord for rfgistfring b group.
      */
-    private static class LogRegisterGroup extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = -1966827458515403625L;
-        private ActivationGroupID id;
-        private ActivationGroupDesc desc;
+    privbtf stbtid dlbss LogRfgistfrGroup fxtfnds LogRfdord {
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = -1966827458515403625L;
+        privbtf AdtivbtionGroupID id;
+        privbtf AdtivbtionGroupDfsd dfsd;
 
-        LogRegisterGroup(ActivationGroupID id, ActivationGroupDesc desc) {
-            this.id = id;
-            this.desc = desc;
+        LogRfgistfrGroup(AdtivbtionGroupID id, AdtivbtionGroupDfsd dfsd) {
+            tiis.id = id;
+            tiis.dfsd = dfsd;
         }
 
-        Object apply(Object state) {
-            // modify state directly; cant ask a nonexistent GroupEntry
-            // to register itself.
-            ((Activation) state).groupTable.put(id, ((Activation) state).new
-                                                GroupEntry(id, desc));
-            return state;
+        Objfdt bpply(Objfdt stbtf) {
+            // modify stbtf dirfdtly; dbnt bsk b nonfxistfnt GroupEntry
+            // to rfgistfr itsflf.
+            ((Adtivbtion) stbtf).groupTbblf.put(id, ((Adtivbtion) stbtf).nfw
+                                                GroupEntry(id, dfsd));
+            rfturn stbtf;
         }
     }
 
     /**
-     * Log record for udpating an activation desc
+     * Log rfdord for udpbting bn bdtivbtion dfsd
      */
-    private static class LogUpdateDesc extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 545511539051179885L;
+    privbtf stbtid dlbss LogUpdbtfDfsd fxtfnds LogRfdord {
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 545511539051179885L;
 
-        private ActivationID id;
-        private ActivationDesc desc;
+        privbtf AdtivbtionID id;
+        privbtf AdtivbtionDfsd dfsd;
 
-        LogUpdateDesc(ActivationID id, ActivationDesc desc) {
-            this.id = id;
-            this.desc = desc;
+        LogUpdbtfDfsd(AdtivbtionID id, AdtivbtionDfsd dfsd) {
+            tiis.id = id;
+            tiis.dfsd = dfsd;
         }
 
-        Object apply(Object state) {
+        Objfdt bpply(Objfdt stbtf) {
             try {
-                ((Activation) state).getGroupEntry(id).
-                    setActivationDesc(id, desc, false);
-            } catch (Exception ignore) {
-                System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogUpdateDesc"));
-                ignore.printStackTrace();
+                ((Adtivbtion) stbtf).gftGroupEntry(id).
+                    sftAdtivbtionDfsd(id, dfsd, fblsf);
+            } dbtdi (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogUpdbtfDfsd"));
+                ignorf.printStbdkTrbdf();
             }
-            return state;
+            rfturn stbtf;
         }
     }
 
     /**
-     * Log record for unregistering a group.
+     * Log rfdord for unrfgistfring b group.
      */
-    private static class LogUpdateGroupDesc extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = -1271300989218424337L;
-        private ActivationGroupID id;
-        private ActivationGroupDesc desc;
+    privbtf stbtid dlbss LogUpdbtfGroupDfsd fxtfnds LogRfdord {
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = -1271300989218424337L;
+        privbtf AdtivbtionGroupID id;
+        privbtf AdtivbtionGroupDfsd dfsd;
 
-        LogUpdateGroupDesc(ActivationGroupID id, ActivationGroupDesc desc) {
-            this.id = id;
-            this.desc = desc;
+        LogUpdbtfGroupDfsd(AdtivbtionGroupID id, AdtivbtionGroupDfsd dfsd) {
+            tiis.id = id;
+            tiis.dfsd = dfsd;
         }
 
-        Object apply(Object state) {
+        Objfdt bpply(Objfdt stbtf) {
             try {
-                ((Activation) state).getGroupEntry(id).
-                    setActivationGroupDesc(id, desc, false);
-            } catch (Exception ignore) {
-                System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogUpdateGroupDesc"));
-                ignore.printStackTrace();
+                ((Adtivbtion) stbtf).gftGroupEntry(id).
+                    sftAdtivbtionGroupDfsd(id, dfsd, fblsf);
+            } dbtdi (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogUpdbtfGroupDfsd"));
+                ignorf.printStbdkTrbdf();
             }
-            return state;
+            rfturn stbtf;
         }
     }
 
     /**
-     * Log record for unregistering a group.
+     * Log rfdord for unrfgistfring b group.
      */
-    private static class LogUnregisterGroup extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = -3356306586522147344L;
-        private ActivationGroupID id;
+    privbtf stbtid dlbss LogUnrfgistfrGroup fxtfnds LogRfdord {
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = -3356306586522147344L;
+        privbtf AdtivbtionGroupID id;
 
-        LogUnregisterGroup(ActivationGroupID id) {
-            this.id = id;
+        LogUnrfgistfrGroup(AdtivbtionGroupID id) {
+            tiis.id = id;
         }
 
-        Object apply(Object state) {
-            GroupEntry entry = ((Activation) state).groupTable.remove(id);
+        Objfdt bpply(Objfdt stbtf) {
+            GroupEntry fntry = ((Adtivbtion) stbtf).groupTbblf.rfmovf(id);
             try {
-                entry.unregisterGroup(false);
-            } catch (Exception ignore) {
-                System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogUnregisterGroup"));
-                ignore.printStackTrace();
+                fntry.unrfgistfrGroup(fblsf);
+            } dbtdi (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogUnrfgistfrGroup"));
+                ignorf.printStbdkTrbdf();
             }
-            return state;
+            rfturn stbtf;
         }
     }
 
     /**
-     * Log record for an active group incarnation
+     * Log rfdord for bn bdtivf group indbrnbtion
      */
-    private static class LogGroupIncarnation extends LogRecord {
-        /** indicate compatibility with JDK 1.2 version of class */
-        private static final long serialVersionUID = 4146872747377631897L;
-        private ActivationGroupID id;
-        private long inc;
+    privbtf stbtid dlbss LogGroupIndbrnbtion fxtfnds LogRfdord {
+        /** indidbtf dompbtibility witi JDK 1.2 vfrsion of dlbss */
+        privbtf stbtid finbl long sfriblVfrsionUID = 4146872747377631897L;
+        privbtf AdtivbtionGroupID id;
+        privbtf long ind;
 
-        LogGroupIncarnation(ActivationGroupID id, long inc) {
-            this.id = id;
-            this.inc = inc;
+        LogGroupIndbrnbtion(AdtivbtionGroupID id, long ind) {
+            tiis.id = id;
+            tiis.ind = ind;
         }
 
-        Object apply(Object state) {
+        Objfdt bpply(Objfdt stbtf) {
             try {
-                GroupEntry entry = ((Activation) state).getGroupEntry(id);
-                entry.incarnation = inc;
-            } catch (Exception ignore) {
-                System.err.println(
-                    MessageFormat.format(
-                        getTextResource("rmid.log.recover.warning"),
-                        "LogGroupIncarnation"));
-                ignore.printStackTrace();
+                GroupEntry fntry = ((Adtivbtion) stbtf).gftGroupEntry(id);
+                fntry.indbrnbtion = ind;
+            } dbtdi (Exdfption ignorf) {
+                Systfm.frr.println(
+                    MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.log.rfdovfr.wbrning"),
+                        "LogGroupIndbrnbtion"));
+                ignorf.printStbdkTrbdf();
             }
-            return state;
+            rfturn stbtf;
         }
     }
 
     /**
-     * Initialize command to exec a default group.
+     * Initiblizf dommbnd to fxfd b dffbult group.
      */
-    private void initCommand(String[] childArgs) {
-        command = new String[childArgs.length + 2];
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
+    privbtf void initCommbnd(String[] diildArgs) {
+        dommbnd = nfw String[diildArgs.lfngti + 2];
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
                 try {
-                    command[0] = System.getProperty("java.home") +
-                        File.separator + "bin" + File.separator + "java";
-                } catch (Exception e) {
-                    System.err.println(
-                        getTextResource("rmid.unfound.java.home.property"));
-                    command[0] = "java";
+                    dommbnd[0] = Systfm.gftPropfrty("jbvb.iomf") +
+                        Filf.sfpbrbtor + "bin" + Filf.sfpbrbtor + "jbvb";
+                } dbtdi (Exdfption f) {
+                    Systfm.frr.println(
+                        gftTfxtRfsourdf("rmid.unfound.jbvb.iomf.propfrty"));
+                    dommbnd[0] = "jbvb";
                 }
-                return null;
+                rfturn null;
             }
         });
-        System.arraycopy(childArgs, 0, command, 1, childArgs.length);
-        command[command.length-1] = "sun.rmi.server.ActivationGroupInit";
+        Systfm.brrbydopy(diildArgs, 0, dommbnd, 1, diildArgs.lfngti);
+        dommbnd[dommbnd.lfngti-1] = "sun.rmi.sfrvfr.AdtivbtionGroupInit";
     }
 
-    private static void bomb(String error) {
-        System.err.println("rmid: " + error); // $NON-NLS$
-        System.err.println(MessageFormat.format(getTextResource("rmid.usage"),
+    privbtf stbtid void bomb(String frror) {
+        Systfm.frr.println("rmid: " + frror); // $NON-NLS$
+        Systfm.frr.println(MfssbgfFormbt.formbt(gftTfxtRfsourdf("rmid.usbgf"),
                     "rmid"));
-        System.exit(1);
+        Systfm.fxit(1);
     }
 
     /**
-     * The default policy for checking a command before it is executed
-     * makes sure the appropriate com.sun.rmi.rmid.ExecPermission and
-     * set of com.sun.rmi.rmid.ExecOptionPermissions have been granted.
+     * Tif dffbult polidy for difdking b dommbnd bfforf it is fxfdutfd
+     * mbkfs surf tif bppropribtf dom.sun.rmi.rmid.ExfdPfrmission bnd
+     * sft of dom.sun.rmi.rmid.ExfdOptionPfrmissions ibvf bffn grbntfd.
      */
-    public static class DefaultExecPolicy {
+    publid stbtid dlbss DffbultExfdPolidy {
 
-        public void checkExecCommand(ActivationGroupDesc desc, String[] cmd)
-            throws SecurityException
+        publid void difdkExfdCommbnd(AdtivbtionGroupDfsd dfsd, String[] dmd)
+            tirows SfdurityExdfption
         {
-            PermissionCollection perms = getExecPermissions();
+            PfrmissionCollfdtion pfrms = gftExfdPfrmissions();
 
             /*
-             * Check properties overrides.
+             * Cifdk propfrtifs ovfrridfs.
              */
-            Properties props = desc.getPropertyOverrides();
+            Propfrtifs props = dfsd.gftPropfrtyOvfrridfs();
             if (props != null) {
-                Enumeration<?> p = props.propertyNames();
-                while (p.hasMoreElements()) {
-                    String name = (String) p.nextElement();
-                    String value = props.getProperty(name);
-                    String option = "-D" + name + "=" + value;
+                Enumfrbtion<?> p = props.propfrtyNbmfs();
+                wiilf (p.ibsMorfElfmfnts()) {
+                    String nbmf = (String) p.nfxtElfmfnt();
+                    String vbluf = props.gftPropfrty(nbmf);
+                    String option = "-D" + nbmf + "=" + vbluf;
                     try {
-                        checkPermission(perms,
-                            new ExecOptionPermission(option));
-                    } catch (AccessControlException e) {
-                        if (value.equals("")) {
-                            checkPermission(perms,
-                                new ExecOptionPermission("-D" + name));
-                        } else {
-                            throw e;
+                        difdkPfrmission(pfrms,
+                            nfw ExfdOptionPfrmission(option));
+                    } dbtdi (AddfssControlExdfption f) {
+                        if (vbluf.fqubls("")) {
+                            difdkPfrmission(pfrms,
+                                nfw ExfdOptionPfrmission("-D" + nbmf));
+                        } flsf {
+                            tirow f;
                         }
                     }
                 }
             }
 
             /*
-             * Check group class name (allow nothing but the default),
-             * code location (must be null), and data (must be null).
+             * Cifdk group dlbss nbmf (bllow notiing but tif dffbult),
+             * dodf lodbtion (must bf null), bnd dbtb (must bf null).
              */
-            String groupClassName = desc.getClassName();
-            if ((groupClassName != null &&
-                 !groupClassName.equals(
-                    ActivationGroupImpl.class.getName())) ||
-                (desc.getLocation() != null) ||
-                (desc.getData() != null))
+            String groupClbssNbmf = dfsd.gftClbssNbmf();
+            if ((groupClbssNbmf != null &&
+                 !groupClbssNbmf.fqubls(
+                    AdtivbtionGroupImpl.dlbss.gftNbmf())) ||
+                (dfsd.gftLodbtion() != null) ||
+                (dfsd.gftDbtb() != null))
             {
-                throw new AccessControlException(
-                    "access denied (custom group implementation not allowed)");
+                tirow nfw AddfssControlExdfption(
+                    "bddfss dfnifd (dustom group implfmfntbtion not bllowfd)");
             }
 
             /*
-             * If group descriptor has a command environment, check
-             * command and options.
+             * If group dfsdriptor ibs b dommbnd fnvironmfnt, difdk
+             * dommbnd bnd options.
              */
-            ActivationGroupDesc.CommandEnvironment cmdenv;
-            cmdenv = desc.getCommandEnvironment();
-            if (cmdenv != null) {
-                String path = cmdenv.getCommandPath();
-                if (path != null) {
-                    checkPermission(perms, new ExecPermission(path));
+            AdtivbtionGroupDfsd.CommbndEnvironmfnt dmdfnv;
+            dmdfnv = dfsd.gftCommbndEnvironmfnt();
+            if (dmdfnv != null) {
+                String pbti = dmdfnv.gftCommbndPbti();
+                if (pbti != null) {
+                    difdkPfrmission(pfrms, nfw ExfdPfrmission(pbti));
                 }
 
-                String[] options = cmdenv.getCommandOptions();
+                String[] options = dmdfnv.gftCommbndOptions();
                 if (options != null) {
                     for (String option : options) {
-                        checkPermission(perms,
-                                        new ExecOptionPermission(option));
+                        difdkPfrmission(pfrms,
+                                        nfw ExfdOptionPfrmission(option));
                     }
                 }
             }
         }
 
         /**
-         * Prints warning message if installed Policy is the default Policy
-         * implementation and globally granted permissions do not include
-         * AllPermission or any ExecPermissions/ExecOptionPermissions.
+         * Prints wbrning mfssbgf if instbllfd Polidy is tif dffbult Polidy
+         * implfmfntbtion bnd globblly grbntfd pfrmissions do not indludf
+         * AllPfrmission or bny ExfdPfrmissions/ExfdOptionPfrmissions.
          */
-        static void checkConfiguration() {
-            Policy policy =
-                AccessController.doPrivileged(new PrivilegedAction<Policy>() {
-                    public Policy run() {
-                        return Policy.getPolicy();
+        stbtid void difdkConfigurbtion() {
+            Polidy polidy =
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Polidy>() {
+                    publid Polidy run() {
+                        rfturn Polidy.gftPolidy();
                     }
                 });
-            if (!(policy instanceof PolicyFile)) {
-                return;
+            if (!(polidy instbndfof PolidyFilf)) {
+                rfturn;
             }
-            PermissionCollection perms = getExecPermissions();
-            for (Enumeration<Permission> e = perms.elements();
-                 e.hasMoreElements();)
+            PfrmissionCollfdtion pfrms = gftExfdPfrmissions();
+            for (Enumfrbtion<Pfrmission> f = pfrms.flfmfnts();
+                 f.ibsMorfElfmfnts();)
             {
-                Permission p = e.nextElement();
-                if (p instanceof AllPermission ||
-                    p instanceof ExecPermission ||
-                    p instanceof ExecOptionPermission)
+                Pfrmission p = f.nfxtElfmfnt();
+                if (p instbndfof AllPfrmission ||
+                    p instbndfof ExfdPfrmission ||
+                    p instbndfof ExfdOptionPfrmission)
                 {
-                    return;
+                    rfturn;
                 }
             }
-            System.err.println(getTextResource("rmid.exec.perms.inadequate"));
+            Systfm.frr.println(gftTfxtRfsourdf("rmid.fxfd.pfrms.inbdfqubtf"));
         }
 
-        private static PermissionCollection getExecPermissions() {
+        privbtf stbtid PfrmissionCollfdtion gftExfdPfrmissions() {
             /*
-             * The approach used here is taken from the similar method
-             * getLoaderAccessControlContext() in the class
-             * sun.rmi.server.LoaderHandler.
+             * Tif bpprobdi usfd ifrf is tbkfn from tif similbr mftiod
+             * gftLobdfrAddfssControlContfxt() in tif dlbss
+             * sun.rmi.sfrvfr.LobdfrHbndlfr.
              */
 
-            // obtain permissions granted to all code in current policy
-            PermissionCollection perms = AccessController.doPrivileged(
-                new PrivilegedAction<PermissionCollection>() {
-                    public PermissionCollection run() {
-                        CodeSource codesource =
-                            new CodeSource(null, (Certificate[]) null);
-                        Policy p = Policy.getPolicy();
+            // obtbin pfrmissions grbntfd to bll dodf in durrfnt polidy
+            PfrmissionCollfdtion pfrms = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                    publid PfrmissionCollfdtion run() {
+                        CodfSourdf dodfsourdf =
+                            nfw CodfSourdf(null, (Cfrtifidbtf[]) null);
+                        Polidy p = Polidy.gftPolidy();
                         if (p != null) {
-                            return p.getPermissions(codesource);
-                        } else {
-                            return new Permissions();
+                            rfturn p.gftPfrmissions(dodfsourdf);
+                        } flsf {
+                            rfturn nfw Pfrmissions();
                         }
                     }
                 });
 
-            return perms;
+            rfturn pfrms;
         }
 
-        private static void checkPermission(PermissionCollection perms,
-                                            Permission p)
-            throws AccessControlException
+        privbtf stbtid void difdkPfrmission(PfrmissionCollfdtion pfrms,
+                                            Pfrmission p)
+            tirows AddfssControlExdfption
         {
-            if (!perms.implies(p)) {
-                throw new AccessControlException(
-                   "access denied " + p.toString());
+            if (!pfrms.implifs(p)) {
+                tirow nfw AddfssControlExdfption(
+                   "bddfss dfnifd " + p.toString());
             }
         }
     }
 
     /**
-     * Main program to start the activation system. <br>
-     * The usage is as follows: rmid [-port num] [-log dir].
+     * Mbin progrbm to stbrt tif bdtivbtion systfm. <br>
+     * Tif usbgf is bs follows: rmid [-port num] [-log dir].
      */
-    public static void main(String[] args) {
-        boolean stop = false;
+    publid stbtid void mbin(String[] brgs) {
+        boolfbn stop = fblsf;
 
-        // Create and install the security manager if one is not installed
-        // already.
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
+        // Crfbtf bnd instbll tif sfdurity mbnbgfr if onf is not instbllfd
+        // blrfbdy.
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            Systfm.sftSfdurityMbnbgfr(nfw SfdurityMbnbgfr());
         }
 
         try {
-            int port = ActivationSystem.SYSTEM_PORT;
-            RMIServerSocketFactory ssf = null;
+            int port = AdtivbtionSystfm.SYSTEM_PORT;
+            RMISfrvfrSodkftFbdtory ssf = null;
 
             /*
-             * If rmid has an inherited channel (meaning that it was
-             * launched from inetd), set the server socket factory to
-             * return the inherited server socket.
+             * If rmid ibs bn inifritfd dibnnfl (mfbning tibt it wbs
+             * lbundifd from inftd), sft tif sfrvfr sodkft fbdtory to
+             * rfturn tif inifritfd sfrvfr sodkft.
              **/
-            Channel inheritedChannel = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Channel>() {
-                    public Channel run() throws IOException {
-                        return System.inheritedChannel();
+            Cibnnfl inifritfdCibnnfl = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Cibnnfl>() {
+                    publid Cibnnfl run() tirows IOExdfption {
+                        rfturn Systfm.inifritfdCibnnfl();
                     }
                 });
 
-            if (inheritedChannel != null &&
-                inheritedChannel instanceof ServerSocketChannel)
+            if (inifritfdCibnnfl != null &&
+                inifritfdCibnnfl instbndfof SfrvfrSodkftCibnnfl)
             {
                 /*
-                 * Redirect System.err output to a file.
+                 * Rfdirfdt Systfm.frr output to b filf.
                  */
-                AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<Void>() {
-                        public Void run() throws IOException {
-                            File file =
-                                Files.createTempFile("rmid-err", null).toFile();
-                            PrintStream errStream =
-                                new PrintStream(new FileOutputStream(file));
-                            System.setErr(errStream);
-                            return null;
+                AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Void>() {
+                        publid Void run() tirows IOExdfption {
+                            Filf filf =
+                                Filfs.drfbtfTfmpFilf("rmid-frr", null).toFilf();
+                            PrintStrfbm frrStrfbm =
+                                nfw PrintStrfbm(nfw FilfOutputStrfbm(filf));
+                            Systfm.sftErr(frrStrfbm);
+                            rfturn null;
                         }
                     });
 
-                ServerSocket serverSocket =
-                    ((ServerSocketChannel) inheritedChannel).socket();
-                port = serverSocket.getLocalPort();
-                ssf = new ActivationServerSocketFactory(serverSocket);
+                SfrvfrSodkft sfrvfrSodkft =
+                    ((SfrvfrSodkftCibnnfl) inifritfdCibnnfl).sodkft();
+                port = sfrvfrSodkft.gftLodblPort();
+                ssf = nfw AdtivbtionSfrvfrSodkftFbdtory(sfrvfrSodkft);
 
-                System.err.println(new Date());
-                System.err.println(getTextResource(
-                                       "rmid.inherited.channel.info") +
-                                       ": " + inheritedChannel);
+                Systfm.frr.println(nfw Dbtf());
+                Systfm.frr.println(gftTfxtRfsourdf(
+                                       "rmid.inifritfd.dibnnfl.info") +
+                                       ": " + inifritfdCibnnfl);
             }
 
             String log = null;
-            List<String> childArgs = new ArrayList<>();
+            List<String> diildArgs = nfw ArrbyList<>();
 
             /*
-             * Parse arguments
+             * Pbrsf brgumfnts
              */
-            for (int i = 0; i < args.length; i++) {
-                if (args[i].equals("-port")) {
+            for (int i = 0; i < brgs.lfngti; i++) {
+                if (brgs[i].fqubls("-port")) {
                     if (ssf != null) {
-                        bomb(getTextResource("rmid.syntax.port.badarg"));
+                        bomb(gftTfxtRfsourdf("rmid.syntbx.port.bbdbrg"));
                     }
-                    if ((i + 1) < args.length) {
+                    if ((i + 1) < brgs.lfngti) {
                         try {
-                            port = Integer.parseInt(args[++i]);
-                        } catch (NumberFormatException nfe) {
-                            bomb(getTextResource("rmid.syntax.port.badnumber"));
+                            port = Intfgfr.pbrsfInt(brgs[++i]);
+                        } dbtdi (NumbfrFormbtExdfption nff) {
+                            bomb(gftTfxtRfsourdf("rmid.syntbx.port.bbdnumbfr"));
                         }
-                    } else {
-                        bomb(getTextResource("rmid.syntax.port.missing"));
+                    } flsf {
+                        bomb(gftTfxtRfsourdf("rmid.syntbx.port.missing"));
                     }
 
-                } else if (args[i].equals("-log")) {
-                    if ((i + 1) < args.length) {
-                        log = args[++i];
-                    } else {
-                        bomb(getTextResource("rmid.syntax.log.missing"));
+                } flsf if (brgs[i].fqubls("-log")) {
+                    if ((i + 1) < brgs.lfngti) {
+                        log = brgs[++i];
+                    } flsf {
+                        bomb(gftTfxtRfsourdf("rmid.syntbx.log.missing"));
                     }
 
-                } else if (args[i].equals("-stop")) {
-                    stop = true;
+                } flsf if (brgs[i].fqubls("-stop")) {
+                    stop = truf;
 
-                } else if (args[i].startsWith("-C")) {
-                    childArgs.add(args[i].substring(2));
+                } flsf if (brgs[i].stbrtsWiti("-C")) {
+                    diildArgs.bdd(brgs[i].substring(2));
 
-                } else {
-                    bomb(MessageFormat.format(
-                        getTextResource("rmid.syntax.illegal.option"),
-                        args[i]));
+                } flsf {
+                    bomb(MfssbgfFormbt.formbt(
+                        gftTfxtRfsourdf("rmid.syntbx.illfgbl.option"),
+                        brgs[i]));
                 }
             }
 
             if (log == null) {
                 if (ssf != null) {
-                    bomb(getTextResource("rmid.syntax.log.required"));
-                } else {
+                    bomb(gftTfxtRfsourdf("rmid.syntbx.log.rfquirfd"));
+                } flsf {
                     log = "log";
                 }
             }
 
-            debugExec = AccessController.doPrivileged(
-                (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("sun.rmi.server.activation.debugExec"));
+            dfbugExfd = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn("sun.rmi.sfrvfr.bdtivbtion.dfbugExfd"));
 
             /**
-             * Determine class name for activation exec policy (if any).
+             * Dftfrminf dlbss nbmf for bdtivbtion fxfd polidy (if bny).
              */
-            String execPolicyClassName = AccessController.doPrivileged(
-                (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.activation.execPolicy"));
-            if (execPolicyClassName == null) {
+            String fxfdPolidyClbssNbmf = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.bdtivbtion.fxfdPolidy"));
+            if (fxfdPolidyClbssNbmf == null) {
                 if (!stop) {
-                    DefaultExecPolicy.checkConfiguration();
+                    DffbultExfdPolidy.difdkConfigurbtion();
                 }
-                execPolicyClassName = "default";
+                fxfdPolidyClbssNbmf = "dffbult";
             }
 
             /**
-             * Initialize method for activation exec policy.
+             * Initiblizf mftiod for bdtivbtion fxfd polidy.
              */
-            if (!execPolicyClassName.equals("none")) {
-                if (execPolicyClassName.equals("") ||
-                    execPolicyClassName.equals("default"))
+            if (!fxfdPolidyClbssNbmf.fqubls("nonf")) {
+                if (fxfdPolidyClbssNbmf.fqubls("") ||
+                    fxfdPolidyClbssNbmf.fqubls("dffbult"))
                 {
-                    execPolicyClassName = DefaultExecPolicy.class.getName();
+                    fxfdPolidyClbssNbmf = DffbultExfdPolidy.dlbss.gftNbmf();
                 }
 
                 try {
-                    Class<?> execPolicyClass = getRMIClass(execPolicyClassName);
-                    execPolicy = execPolicyClass.newInstance();
-                    execPolicyMethod =
-                        execPolicyClass.getMethod("checkExecCommand",
-                                                  ActivationGroupDesc.class,
-                                                  String[].class);
-                } catch (Exception e) {
-                    if (debugExec) {
-                        System.err.println(
-                            getTextResource("rmid.exec.policy.exception"));
-                        e.printStackTrace();
+                    Clbss<?> fxfdPolidyClbss = gftRMIClbss(fxfdPolidyClbssNbmf);
+                    fxfdPolidy = fxfdPolidyClbss.nfwInstbndf();
+                    fxfdPolidyMftiod =
+                        fxfdPolidyClbss.gftMftiod("difdkExfdCommbnd",
+                                                  AdtivbtionGroupDfsd.dlbss,
+                                                  String[].dlbss);
+                } dbtdi (Exdfption f) {
+                    if (dfbugExfd) {
+                        Systfm.frr.println(
+                            gftTfxtRfsourdf("rmid.fxfd.polidy.fxdfption"));
+                        f.printStbdkTrbdf();
                     }
-                    bomb(getTextResource("rmid.exec.policy.invalid"));
+                    bomb(gftTfxtRfsourdf("rmid.fxfd.polidy.invblid"));
                 }
             }
 
-            if (stop == true) {
-                final int finalPort = port;
-                AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                    public Void run() {
-                        System.setProperty("java.rmi.activation.port",
-                                           Integer.toString(finalPort));
-                        return null;
+            if (stop == truf) {
+                finbl int finblPort = port;
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        Systfm.sftPropfrty("jbvb.rmi.bdtivbtion.port",
+                                           Intfgfr.toString(finblPort));
+                        rfturn null;
                     }
                 });
-                ActivationSystem system = ActivationGroup.getSystem();
-                system.shutdown();
-                System.exit(0);
+                AdtivbtionSystfm systfm = AdtivbtionGroup.gftSystfm();
+                systfm.siutdown();
+                Systfm.fxit(0);
             }
 
             /*
-             * Fix for 4173960: Create and initialize activation using
-             * a static method, startActivation, which will build the
-             * Activation state in two ways: if when rmid is run, no
-             * log file is found, the ActLogHandler.recover(...)
-             * method will create a new Activation instance.
-             * Alternatively, if a logfile is available, a serialized
-             * instance of activation will be read from the log's
-             * snapshot file.  Log updates will be applied to this
-             * Activation object until rmid's state has been fully
-             * recovered.  In either case, only one instance of
-             * Activation is created.
+             * Fix for 4173960: Crfbtf bnd initiblizf bdtivbtion using
+             * b stbtid mftiod, stbrtAdtivbtion, wiidi will build tif
+             * Adtivbtion stbtf in two wbys: if wifn rmid is run, no
+             * log filf is found, tif AdtLogHbndlfr.rfdovfr(...)
+             * mftiod will drfbtf b nfw Adtivbtion instbndf.
+             * Altfrnbtivfly, if b logfilf is bvbilbblf, b sfriblizfd
+             * instbndf of bdtivbtion will bf rfbd from tif log's
+             * snbpsiot filf.  Log updbtfs will bf bpplifd to tiis
+             * Adtivbtion objfdt until rmid's stbtf ibs bffn fully
+             * rfdovfrfd.  In fitifr dbsf, only onf instbndf of
+             * Adtivbtion is drfbtfd.
              */
-            startActivation(port, ssf, log,
-                            childArgs.toArray(new String[childArgs.size()]));
+            stbrtAdtivbtion(port, ssf, log,
+                            diildArgs.toArrby(nfw String[diildArgs.sizf()]));
 
-            // prevent activator from exiting
-            while (true) {
+            // prfvfnt bdtivbtor from fxiting
+            wiilf (truf) {
                 try {
-                    Thread.sleep(Long.MAX_VALUE);
-                } catch (InterruptedException e) {
+                    Tirfbd.slffp(Long.MAX_VALUE);
+                } dbtdi (IntfrruptfdExdfption f) {
                 }
             }
-        } catch (Exception e) {
-            System.err.println(
-                MessageFormat.format(
-                    getTextResource("rmid.unexpected.exception"), e));
-            e.printStackTrace();
+        } dbtdi (Exdfption f) {
+            Systfm.frr.println(
+                MfssbgfFormbt.formbt(
+                    gftTfxtRfsourdf("rmid.unfxpfdtfd.fxdfption"), f));
+            f.printStbdkTrbdf();
         }
-        System.exit(1);
+        Systfm.fxit(1);
     }
 
     /**
-     * Retrieves text resources from the locale-specific properties file.
+     * Rftrifvfs tfxt rfsourdfs from tif lodblf-spfdifid propfrtifs filf.
      */
-    private static String getTextResource(String key) {
-        if (Activation.resources == null) {
+    privbtf stbtid String gftTfxtRfsourdf(String kfy) {
+        if (Adtivbtion.rfsourdfs == null) {
             try {
-                Activation.resources = ResourceBundle.getBundle(
-                    "sun.rmi.server.resources.rmid");
-            } catch (MissingResourceException mre) {
+                Adtivbtion.rfsourdfs = RfsourdfBundlf.gftBundlf(
+                    "sun.rmi.sfrvfr.rfsourdfs.rmid");
+            } dbtdi (MissingRfsourdfExdfption mrf) {
             }
-            if (Activation.resources == null) {
-                // throwing an Error is a bit extreme, methinks
-                return ("[missing resource file: " + key + "]");
+            if (Adtivbtion.rfsourdfs == null) {
+                // tirowing bn Error is b bit fxtrfmf, mftiinks
+                rfturn ("[missing rfsourdf filf: " + kfy + "]");
             }
         }
 
-        String val = null;
+        String vbl = null;
         try {
-            val = Activation.resources.getString (key);
-        } catch (MissingResourceException mre) {
+            vbl = Adtivbtion.rfsourdfs.gftString (kfy);
+        } dbtdi (MissingRfsourdfExdfption mrf) {
         }
 
-        if (val == null) {
-            return ("[missing resource: " + key + "]");
-        } else {
-            return val;
+        if (vbl == null) {
+            rfturn ("[missing rfsourdf: " + kfy + "]");
+        } flsf {
+            rfturn vbl;
         }
     }
 
-    @SuppressWarnings("deprecation")
-    private static Class<?> getRMIClass(String execPolicyClassName) throws Exception  {
-        return RMIClassLoader.loadClass(execPolicyClassName);
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf stbtid Clbss<?> gftRMIClbss(String fxfdPolidyClbssNbmf) tirows Exdfption  {
+        rfturn RMIClbssLobdfr.lobdClbss(fxfdPolidyClbssNbmf);
     }
     /*
-     * Dijkstra semaphore operations to limit the number of subprocesses
-     * rmid attempts to make at once.
+     * Dijkstrb sfmbpiorf opfrbtions to limit tif numbfr of subprodfssfs
+     * rmid bttfmpts to mbkf bt ondf.
      */
     /**
-     * Acquire the group semaphore and return a group name.  Each
-     * Pstartgroup must be followed by a Vstartgroup.  The calling thread
-     * will wait until there are fewer than <code>N</code> other threads
-     * holding the group semaphore.  The calling thread will then acquire
-     * the semaphore and return.
+     * Adquirf tif group sfmbpiorf bnd rfturn b group nbmf.  Ebdi
+     * Pstbrtgroup must bf followfd by b Vstbrtgroup.  Tif dblling tirfbd
+     * will wbit until tifrf brf ffwfr tibn <dodf>N</dodf> otifr tirfbds
+     * iolding tif group sfmbpiorf.  Tif dblling tirfbd will tifn bdquirf
+     * tif sfmbpiorf bnd rfturn.
      */
-    private synchronized String Pstartgroup() throws ActivationException {
-        while (true) {
-            checkShutdown();
-            // Wait until positive, then decrement.
-            if (groupSemaphore > 0) {
-                groupSemaphore--;
-                return "Group-" + groupCounter++;
+    privbtf syndironizfd String Pstbrtgroup() tirows AdtivbtionExdfption {
+        wiilf (truf) {
+            difdkSiutdown();
+            // Wbit until positivf, tifn dfdrfmfnt.
+            if (groupSfmbpiorf > 0) {
+                groupSfmbpiorf--;
+                rfturn "Group-" + groupCountfr++;
             }
 
             try {
-                wait();
-            } catch (InterruptedException e) {
+                wbit();
+            } dbtdi (IntfrruptfdExdfption f) {
             }
         }
     }
 
     /**
-     * Release the group semaphore.  Every P operation must be
-     * followed by a V operation.  This may cause another thread to
-     * wake up and return from its P operation.
+     * Rflfbsf tif group sfmbpiorf.  Evfry P opfrbtion must bf
+     * followfd by b V opfrbtion.  Tiis mby dbusf bnotifr tirfbd to
+     * wbkf up bnd rfturn from its P opfrbtion.
      */
-    private synchronized void Vstartgroup() {
-        // Increment and notify a waiter (not necessarily FIFO).
-        groupSemaphore++;
+    privbtf syndironizfd void Vstbrtgroup() {
+        // Indrfmfnt bnd notify b wbitfr (not nfdfssbrily FIFO).
+        groupSfmbpiorf++;
         notifyAll();
     }
 
     /**
-     * A server socket factory to use when rmid is launched via 'inetd'
-     * with 'wait' status.  This socket factory's 'createServerSocket'
-     * method returns the server socket specified during construction that
-     * is specialized to delay accepting requests until the
-     * 'initDone' flag is 'true'.  The server socket supplied to
-     * the constructor should be the server socket obtained from the
-     * ServerSocketChannel returned from the 'System.inheritedChannel'
-     * method.
+     * A sfrvfr sodkft fbdtory to usf wifn rmid is lbundifd vib 'inftd'
+     * witi 'wbit' stbtus.  Tiis sodkft fbdtory's 'drfbtfSfrvfrSodkft'
+     * mftiod rfturns tif sfrvfr sodkft spfdififd during donstrudtion tibt
+     * is spfdiblizfd to dflby bddfpting rfqufsts until tif
+     * 'initDonf' flbg is 'truf'.  Tif sfrvfr sodkft supplifd to
+     * tif donstrudtor siould bf tif sfrvfr sodkft obtbinfd from tif
+     * SfrvfrSodkftCibnnfl rfturnfd from tif 'Systfm.inifritfdCibnnfl'
+     * mftiod.
      **/
-    private static class ActivationServerSocketFactory
-        implements RMIServerSocketFactory
+    privbtf stbtid dlbss AdtivbtionSfrvfrSodkftFbdtory
+        implfmfnts RMISfrvfrSodkftFbdtory
     {
-        private final ServerSocket serverSocket;
+        privbtf finbl SfrvfrSodkft sfrvfrSodkft;
 
         /**
-         * Constructs an 'ActivationServerSocketFactory' with the specified
-         * 'serverSocket'.
+         * Construdts bn 'AdtivbtionSfrvfrSodkftFbdtory' witi tif spfdififd
+         * 'sfrvfrSodkft'.
          **/
-        ActivationServerSocketFactory(ServerSocket serverSocket) {
-            this.serverSocket = serverSocket;
+        AdtivbtionSfrvfrSodkftFbdtory(SfrvfrSodkft sfrvfrSodkft) {
+            tiis.sfrvfrSodkft = sfrvfrSodkft;
         }
 
         /**
-         * Returns the server socket specified during construction wrapped
-         * in a 'DelayedAcceptServerSocket'.
+         * Rfturns tif sfrvfr sodkft spfdififd during donstrudtion wrbppfd
+         * in b 'DflbyfdAddfptSfrvfrSodkft'.
          **/
-        public ServerSocket createServerSocket(int port)
-            throws IOException
+        publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+            tirows IOExdfption
         {
-            return new DelayedAcceptServerSocket(serverSocket);
+            rfturn nfw DflbyfdAddfptSfrvfrSodkft(sfrvfrSodkft);
         }
 
     }
 
     /**
-     * A server socket that delegates all public methods to the underlying
-     * server socket specified at construction.  The accept method is
-     * overridden to delay calling accept on the underlying server socket
-     * until the 'initDone' flag is 'true'.
+     * A sfrvfr sodkft tibt dflfgbtfs bll publid mftiods to tif undfrlying
+     * sfrvfr sodkft spfdififd bt donstrudtion.  Tif bddfpt mftiod is
+     * ovfrriddfn to dflby dblling bddfpt on tif undfrlying sfrvfr sodkft
+     * until tif 'initDonf' flbg is 'truf'.
      **/
-    private static class DelayedAcceptServerSocket extends ServerSocket {
+    privbtf stbtid dlbss DflbyfdAddfptSfrvfrSodkft fxtfnds SfrvfrSodkft {
 
-        private final ServerSocket serverSocket;
+        privbtf finbl SfrvfrSodkft sfrvfrSodkft;
 
-        DelayedAcceptServerSocket(ServerSocket serverSocket)
-            throws IOException
+        DflbyfdAddfptSfrvfrSodkft(SfrvfrSodkft sfrvfrSodkft)
+            tirows IOExdfption
         {
-            this.serverSocket = serverSocket;
+            tiis.sfrvfrSodkft = sfrvfrSodkft;
         }
 
-        public void bind(SocketAddress endpoint) throws IOException {
-            serverSocket.bind(endpoint);
+        publid void bind(SodkftAddrfss fndpoint) tirows IOExdfption {
+            sfrvfrSodkft.bind(fndpoint);
         }
 
-        public void bind(SocketAddress endpoint, int backlog)
-                throws IOException
+        publid void bind(SodkftAddrfss fndpoint, int bbdklog)
+                tirows IOExdfption
         {
-            serverSocket.bind(endpoint, backlog);
+            sfrvfrSodkft.bind(fndpoint, bbdklog);
         }
 
-        public InetAddress getInetAddress() {
-            return AccessController.doPrivileged(
-                new PrivilegedAction<InetAddress>() {
-                    @Override
-                    public InetAddress run() {
-                        return serverSocket.getInetAddress();
+        publid InftAddrfss gftInftAddrfss() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<InftAddrfss>() {
+                    @Ovfrridf
+                    publid InftAddrfss run() {
+                        rfturn sfrvfrSodkft.gftInftAddrfss();
                     }
                 });
         }
 
-        public int getLocalPort() {
-            return serverSocket.getLocalPort();
+        publid int gftLodblPort() {
+            rfturn sfrvfrSodkft.gftLodblPort();
         }
 
-        public SocketAddress getLocalSocketAddress() {
-            return AccessController.doPrivileged(
-                new PrivilegedAction<SocketAddress>() {
-                    @Override
-                    public SocketAddress run() {
-                        return serverSocket.getLocalSocketAddress();
+        publid SodkftAddrfss gftLodblSodkftAddrfss() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<SodkftAddrfss>() {
+                    @Ovfrridf
+                    publid SodkftAddrfss run() {
+                        rfturn sfrvfrSodkft.gftLodblSodkftAddrfss();
                     }
                 });
         }
 
         /**
-         * Delays calling accept on the underlying server socket until the
-         * remote service is bound in the registry.
+         * Dflbys dblling bddfpt on tif undfrlying sfrvfr sodkft until tif
+         * rfmotf sfrvidf is bound in tif rfgistry.
          **/
-        public Socket accept() throws IOException {
-            synchronized (initLock) {
+        publid Sodkft bddfpt() tirows IOExdfption {
+            syndironizfd (initLodk) {
                 try {
-                    while (!initDone) {
-                        initLock.wait();
+                    wiilf (!initDonf) {
+                        initLodk.wbit();
                     }
-                } catch (InterruptedException ignore) {
-                    throw new AssertionError(ignore);
+                } dbtdi (IntfrruptfdExdfption ignorf) {
+                    tirow nfw AssfrtionError(ignorf);
                 }
             }
-            return serverSocket.accept();
+            rfturn sfrvfrSodkft.bddfpt();
         }
 
-        public void close() throws IOException {
-            serverSocket.close();
+        publid void dlosf() tirows IOExdfption {
+            sfrvfrSodkft.dlosf();
         }
 
-        public ServerSocketChannel getChannel() {
-            return serverSocket.getChannel();
+        publid SfrvfrSodkftCibnnfl gftCibnnfl() {
+            rfturn sfrvfrSodkft.gftCibnnfl();
         }
 
-        public boolean isBound() {
-            return serverSocket.isBound();
+        publid boolfbn isBound() {
+            rfturn sfrvfrSodkft.isBound();
         }
 
-        public boolean isClosed() {
-            return serverSocket.isClosed();
+        publid boolfbn isClosfd() {
+            rfturn sfrvfrSodkft.isClosfd();
         }
 
-        public void setSoTimeout(int timeout)
-            throws SocketException
+        publid void sftSoTimfout(int timfout)
+            tirows SodkftExdfption
         {
-            serverSocket.setSoTimeout(timeout);
+            sfrvfrSodkft.sftSoTimfout(timfout);
         }
 
-        public int getSoTimeout() throws IOException {
-            return serverSocket.getSoTimeout();
+        publid int gftSoTimfout() tirows IOExdfption {
+            rfturn sfrvfrSodkft.gftSoTimfout();
         }
 
-        public void setReuseAddress(boolean on) throws SocketException {
-            serverSocket.setReuseAddress(on);
+        publid void sftRfusfAddrfss(boolfbn on) tirows SodkftExdfption {
+            sfrvfrSodkft.sftRfusfAddrfss(on);
         }
 
-        public boolean getReuseAddress() throws SocketException {
-            return serverSocket.getReuseAddress();
+        publid boolfbn gftRfusfAddrfss() tirows SodkftExdfption {
+            rfturn sfrvfrSodkft.gftRfusfAddrfss();
         }
 
-        public String toString() {
-            return serverSocket.toString();
+        publid String toString() {
+            rfturn sfrvfrSodkft.toString();
         }
 
-        public void setReceiveBufferSize(int size)
-            throws SocketException
+        publid void sftRfdfivfBufffrSizf(int sizf)
+            tirows SodkftExdfption
         {
-            serverSocket.setReceiveBufferSize(size);
+            sfrvfrSodkft.sftRfdfivfBufffrSizf(sizf);
         }
 
-        public int getReceiveBufferSize()
-            throws SocketException
+        publid int gftRfdfivfBufffrSizf()
+            tirows SodkftExdfption
         {
-            return serverSocket.getReceiveBufferSize();
+            rfturn sfrvfrSodkft.gftRfdfivfBufffrSizf();
         }
     }
 }
 
 /**
- * PipeWriter plugs together two pairs of input and output streams by
- * providing readers for input streams and writing through to
- * appropriate output streams.  Both output streams are annotated on a
- * per-line basis.
+ * PipfWritfr plugs togftifr two pbirs of input bnd output strfbms by
+ * providing rfbdfrs for input strfbms bnd writing tirougi to
+ * bppropribtf output strfbms.  Boti output strfbms brf bnnotbtfd on b
+ * pfr-linf bbsis.
  *
- * @author Laird Dornin, much code borrowed from Peter Jones, Ken
- *         Arnold and Ann Wollrath.
+ * @butior Lbird Dornin, mudi dodf borrowfd from Pftfr Jonfs, Kfn
+ *         Arnold bnd Ann Wollrbti.
  */
-class PipeWriter implements Runnable {
+dlbss PipfWritfr implfmfnts Runnbblf {
 
-    /** stream used for buffering lines */
-    private ByteArrayOutputStream bufOut;
+    /** strfbm usfd for bufffring linfs */
+    privbtf BytfArrbyOutputStrfbm bufOut;
 
-    /** count since last separator */
-    private int cLast;
+    /** dount sindf lbst sfpbrbtor */
+    privbtf int dLbst;
 
-    /** current chunk of input being compared to lineSeparator.*/
-    private byte[] currSep;
+    /** durrfnt diunk of input bfing dompbrfd to linfSfpbrbtor.*/
+    privbtf bytf[] durrSfp;
 
-    private PrintWriter out;
-    private InputStream in;
+    privbtf PrintWritfr out;
+    privbtf InputStrfbm in;
 
-    private String pipeString;
-    private String execString;
+    privbtf String pipfString;
+    privbtf String fxfdString;
 
-    private static String lineSeparator;
-    private static int lineSeparatorLength;
+    privbtf stbtid String linfSfpbrbtor;
+    privbtf stbtid int linfSfpbrbtorLfngti;
 
-    private static int numExecs = 0;
+    privbtf stbtid int numExfds = 0;
 
-    static {
-        lineSeparator = AccessController.doPrivileged(
-           (PrivilegedAction<String>) () -> System.getProperty("line.separator"));
-        lineSeparatorLength = lineSeparator.length();
+    stbtid {
+        linfSfpbrbtor = AddfssControllfr.doPrivilfgfd(
+           (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("linf.sfpbrbtor"));
+        linfSfpbrbtorLfngti = linfSfpbrbtor.lfngti();
     }
 
     /**
-     * Create a new PipeWriter object. All methods of PipeWriter,
-     * except plugTogetherPair, are only accesible to PipeWriter
-     * itself.  Synchronization is unnecessary on functions that will
-     * only be used internally in PipeWriter.
+     * Crfbtf b nfw PipfWritfr objfdt. All mftiods of PipfWritfr,
+     * fxdfpt plugTogftifrPbir, brf only bddfsiblf to PipfWritfr
+     * itsflf.  Syndironizbtion is unnfdfssbry on fundtions tibt will
+     * only bf usfd intfrnblly in PipfWritfr.
      *
-     * @param in input stream from which pipe input flows
-     * @param out output stream to which log messages will be sent
-     * @param dest String which tags output stream as 'out' or 'err'
-     * @param nExecs number of execed processes, Activation groups.
+     * @pbrbm in input strfbm from wiidi pipf input flows
+     * @pbrbm out output strfbm to wiidi log mfssbgfs will bf sfnt
+     * @pbrbm dfst String wiidi tbgs output strfbm bs 'out' or 'frr'
+     * @pbrbm nExfds numbfr of fxfdfd prodfssfs, Adtivbtion groups.
      */
-    private PipeWriter
-        (InputStream in, OutputStream out, String tag, int nExecs) {
+    privbtf PipfWritfr
+        (InputStrfbm in, OutputStrfbm out, String tbg, int nExfds) {
 
-        this.in = in;
-        this.out = new PrintWriter(out);
+        tiis.in = in;
+        tiis.out = nfw PrintWritfr(out);
 
-        bufOut = new ByteArrayOutputStream();
-        currSep = new byte[lineSeparatorLength];
+        bufOut = nfw BytfArrbyOutputStrfbm();
+        durrSfp = nfw bytf[linfSfpbrbtorLfngti];
 
-        /* set unique pipe/pair annotations */
-        execString = ":ExecGroup-" +
-            Integer.toString(nExecs) + ':' + tag + ':';
+        /* sft uniquf pipf/pbir bnnotbtions */
+        fxfdString = ":ExfdGroup-" +
+            Intfgfr.toString(nExfds) + ':' + tbg + ':';
     }
 
     /**
-     * Create a thread to listen and read from input stream, in.  buffer
-     * the data that is read until a marker which equals lineSeparator
-     * is read.  Once such a string has been discovered; write out an
-     * annotation string followed by the buffered data and a line
-     * separator.
+     * Crfbtf b tirfbd to listfn bnd rfbd from input strfbm, in.  bufffr
+     * tif dbtb tibt is rfbd until b mbrkfr wiidi fqubls linfSfpbrbtor
+     * is rfbd.  Ondf sudi b string ibs bffn disdovfrfd; writf out bn
+     * bnnotbtion string followfd by tif bufffrfd dbtb bnd b linf
+     * sfpbrbtor.
      */
-    public void run() {
-        byte[] buf = new byte[256];
-        int count;
+    publid void run() {
+        bytf[] buf = nfw bytf[256];
+        int dount;
 
         try {
-            /* read bytes till there are no more. */
-            while ((count = in.read(buf)) != -1) {
-                write(buf, 0, count);
+            /* rfbd bytfs till tifrf brf no morf. */
+            wiilf ((dount = in.rfbd(buf)) != -1) {
+                writf(buf, 0, dount);
             }
 
-            /*  flush internal buffer... may not have ended on a line
-             *  separator, we also need a last annotation if
-             *  something was left.
+            /*  flusi intfrnbl bufffr... mby not ibvf fndfd on b linf
+             *  sfpbrbtor, wf blso nffd b lbst bnnotbtion if
+             *  somftiing wbs lfft.
              */
-            String lastInBuffer = bufOut.toString();
-            bufOut.reset();
-            if (lastInBuffer.length() > 0) {
-                out.println (createAnnotation() + lastInBuffer);
-                out.flush();                    // add a line separator
-                                                // to make output nicer
+            String lbstInBufffr = bufOut.toString();
+            bufOut.rfsft();
+            if (lbstInBufffr.lfngti() > 0) {
+                out.println (drfbtfAnnotbtion() + lbstInBufffr);
+                out.flusi();                    // bdd b linf sfpbrbtor
+                                                // to mbkf output nidfr
             }
 
-        } catch (IOException e) {
+        } dbtdi (IOExdfption f) {
         }
     }
 
     /**
-     * Write a subarray of bytes.  Pass each through write byte method.
+     * Writf b subbrrby of bytfs.  Pbss fbdi tirougi writf bytf mftiod.
      */
-    private void write(byte b[], int off, int len) throws IOException {
+    privbtf void writf(bytf b[], int off, int lfn) tirows IOExdfption {
 
-        if (len < 0) {
-            throw new ArrayIndexOutOfBoundsException(len);
+        if (lfn < 0) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(lfn);
         }
-        for (int i = 0; i < len; ++ i) {
-            write(b[off + i]);
+        for (int i = 0; i < lfn; ++ i) {
+            writf(b[off + i]);
         }
     }
 
     /**
-     * Write a byte of data to the stream.  If we have not matched a
-     * line separator string, then the byte is appended to the internal
-     * buffer.  If we have matched a line separator, then the currently
-     * buffered line is sent to the output writer with a prepended
-     * annotation string.
+     * Writf b bytf of dbtb to tif strfbm.  If wf ibvf not mbtdifd b
+     * linf sfpbrbtor string, tifn tif bytf is bppfndfd to tif intfrnbl
+     * bufffr.  If wf ibvf mbtdifd b linf sfpbrbtor, tifn tif durrfntly
+     * bufffrfd linf is sfnt to tif output writfr witi b prfpfndfd
+     * bnnotbtion string.
      */
-    private void write(byte b) throws IOException {
+    privbtf void writf(bytf b) tirows IOExdfption {
         int i = 0;
 
-        /* shift current to the left */
-        for (i = 1 ; i < (currSep.length); i ++) {
-            currSep[i-1] = currSep[i];
+        /* siift durrfnt to tif lfft */
+        for (i = 1 ; i < (durrSfp.lfngti); i ++) {
+            durrSfp[i-1] = durrSfp[i];
         }
-        currSep[i-1] = b;
-        bufOut.write(b);
+        durrSfp[i-1] = b;
+        bufOut.writf(b);
 
-        /* enough characters for a separator? */
-        if ( (cLast >= (lineSeparatorLength - 1)) &&
-             (lineSeparator.equals(new String(currSep))) ) {
+        /* fnougi dibrbdtfrs for b sfpbrbtor? */
+        if ( (dLbst >= (linfSfpbrbtorLfngti - 1)) &&
+             (linfSfpbrbtor.fqubls(nfw String(durrSfp))) ) {
 
-            cLast = 0;
+            dLbst = 0;
 
-            /* write prefix through to underlying byte stream */
-            out.print(createAnnotation() + bufOut.toString());
-            out.flush();
-            bufOut.reset();
+            /* writf prffix tirougi to undfrlying bytf strfbm */
+            out.print(drfbtfAnnotbtion() + bufOut.toString());
+            out.flusi();
+            bufOut.rfsft();
 
-            if (out.checkError()) {
-                throw new IOException
-                    ("PipeWriter: IO Exception when"+
-                     " writing to output stream.");
+            if (out.difdkError()) {
+                tirow nfw IOExdfption
+                    ("PipfWritfr: IO Exdfption wifn"+
+                     " writing to output strfbm.");
             }
 
-        } else {
-            cLast++;
+        } flsf {
+            dLbst++;
         }
     }
 
     /**
-     * Create an annotation string to be printed out after
-     * a new line and end of stream.
+     * Crfbtf bn bnnotbtion string to bf printfd out bftfr
+     * b nfw linf bnd fnd of strfbm.
      */
-    private String createAnnotation() {
+    privbtf String drfbtfAnnotbtion() {
 
-        /* construct prefix for log messages:
-         * date/time stamp...
+        /* donstrudt prffix for log mfssbgfs:
+         * dbtf/timf stbmp...
          */
-        return ((new Date()).toString()  +
-                 /* ... print pair # ... */
-                 (execString));
+        rfturn ((nfw Dbtf()).toString()  +
+                 /* ... print pbir # ... */
+                 (fxfdString));
     }
 
     /**
-     * Allow plugging together two pipes at a time, to associate
-     * output from an execed process.  This is the only publicly
-     * accessible method of this object; this helps ensure that
-     * synchronization will not be an issue in the annotation
-     * process.
+     * Allow plugging togftifr two pipfs bt b timf, to bssodibtf
+     * output from bn fxfdfd prodfss.  Tiis is tif only publidly
+     * bddfssiblf mftiod of tiis objfdt; tiis iflps fnsurf tibt
+     * syndironizbtion will not bf bn issuf in tif bnnotbtion
+     * prodfss.
      *
-     * @param in input stream from which pipe input comes
-     * @param out output stream to which log messages will be sent
-     * @param in1 input stream from which pipe input comes
-     * @param out1 output stream to which log messages will be sent
+     * @pbrbm in input strfbm from wiidi pipf input domfs
+     * @pbrbm out output strfbm to wiidi log mfssbgfs will bf sfnt
+     * @pbrbm in1 input strfbm from wiidi pipf input domfs
+     * @pbrbm out1 output strfbm to wiidi log mfssbgfs will bf sfnt
      */
-    static void plugTogetherPair(InputStream in,
-                                 OutputStream out,
-                                 InputStream in1,
-                                 OutputStream out1) {
-        Thread inThread = null;
-        Thread outThread = null;
+    stbtid void plugTogftifrPbir(InputStrfbm in,
+                                 OutputStrfbm out,
+                                 InputStrfbm in1,
+                                 OutputStrfbm out1) {
+        Tirfbd inTirfbd = null;
+        Tirfbd outTirfbd = null;
 
-        int nExecs = getNumExec();
+        int nExfds = gftNumExfd();
 
-        /* start RMI threads to read output from child process */
-        inThread = AccessController.doPrivileged(
-            new NewThreadAction(new PipeWriter(in, out, "out", nExecs),
-                                "out", true));
-        outThread = AccessController.doPrivileged(
-            new NewThreadAction(new PipeWriter(in1, out1, "err", nExecs),
-                                "err", true));
-        inThread.start();
-        outThread.start();
+        /* stbrt RMI tirfbds to rfbd output from diild prodfss */
+        inTirfbd = AddfssControllfr.doPrivilfgfd(
+            nfw NfwTirfbdAdtion(nfw PipfWritfr(in, out, "out", nExfds),
+                                "out", truf));
+        outTirfbd = AddfssControllfr.doPrivilfgfd(
+            nfw NfwTirfbdAdtion(nfw PipfWritfr(in1, out1, "frr", nExfds),
+                                "frr", truf));
+        inTirfbd.stbrt();
+        outTirfbd.stbrt();
     }
 
-    private static synchronized int getNumExec() {
-        return numExecs++;
+    privbtf stbtid syndironizfd int gftNumExfd() {
+        rfturn numExfds++;
     }
 }

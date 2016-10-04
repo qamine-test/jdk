@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.im.InputMfthodRfqufsts;
+
+finbl dlbss WTfxtFifldPffr fxtfnds WTfxtComponfntPffr implfmfnts TfxtFifldPffr {
+
+    // WComponfntPffr ovfrridfs
+
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        FontMftrids fm = gftFontMftrids(((TfxtFifld)tbrgft).gftFont());
+        rfturn nfw Dimfnsion(fm.stringWidth(gftTfxt()) + 24,
+                             fm.gftHfight() + 8);
+    }
+
+    @Ovfrridf
+    publid boolfbn hbndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        switdh (f.gftID()) {
+           dbsf KfyEvfnt.KEY_TYPED:
+               if ((f.gftKfyChbr() == '\n') && !f.isAltDown() && !f.isControlDown()) {
+                    postEvfnt(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                              gftTfxt(), f.gftWhfn(), f.gftModififrs()));
+                    rfturn truf;
+               }
+           brfbk;
+        }
+        rfturn fblsf;
+    }
+
+    // TfxtFifldPffr implfmfntbtion
+
+    @Ovfrridf
+    publid nbtivf void sftEdhoChbr(dhbr fdhoChbr);
+
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(int dols) {
+        rfturn gftMinimumSizf(dols);
+    }
+
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf(int dols) {
+        FontMftrids fm = gftFontMftrids(((TfxtFifld)tbrgft).gftFont());
+        rfturn nfw Dimfnsion(fm.dhbrWidth('0') * dols + 24, fm.gftHfight() + 8);
+    }
+
+    @Ovfrridf
+    publid InputMfthodRfqufsts gftInputMfthodRfqufsts() {
+        rfturn null;
+    }
+
+    // Toolkit & pffr intfrnbls
+
+    WTfxtFifldPffr(TfxtFifld tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
+
+    @Ovfrridf
+    void initiblizf() {
+        TfxtFifld tf = (TfxtFifld)tbrgft;
+        if (tf.fdhoChbrIsSft()) {
+            sftEdhoChbr(tf.gftEdhoChbr());
+        }
+        supfr.initiblizf();
+    }
+}

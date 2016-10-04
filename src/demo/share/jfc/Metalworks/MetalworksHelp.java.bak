@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,132 +30,132 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.io.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
 
 
 /**
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @butior Stfvf Wilson
+ * @butior Alfxbndfr Kouznftsov
  */
-@SuppressWarnings("serial")
-public class MetalworksHelp extends JInternalFrame {
+@SupprfssWbrnings("sfribl")
+publid dlbss MftblworksHflp fxtfnds JIntfrnblFrbmf {
 
-    public MetalworksHelp() {
-        super("Help", true, true, true, true);
+    publid MftblworksHflp() {
+        supfr("Hflp", truf, truf, truf, truf);
 
-        setFrameIcon((Icon) UIManager.get("Tree.openIcon")); // PENDING(steve) need more general place to get this icon
-        setBounds(200, 25, 400, 400);
-        HtmlPane html = new HtmlPane();
-        setContentPane(html);
+        sftFrbmfIdon((Idon) UIMbnbgfr.gft("Trff.opfnIdon")); // PENDING(stfvf) nffd morf gfnfrbl plbdf to gft tiis idon
+        sftBounds(200, 25, 400, 400);
+        HtmlPbnf itml = nfw HtmlPbnf();
+        sftContfntPbnf(itml);
     }
 }
 
 
-@SuppressWarnings("serial")
-class HtmlPane extends JScrollPane implements HyperlinkListener {
+@SupprfssWbrnings("sfribl")
+dlbss HtmlPbnf fxtfnds JSdrollPbnf implfmfnts HypfrlinkListfnfr {
 
-    JEditorPane html;
+    JEditorPbnf itml;
 
-    @SuppressWarnings("LeakingThisInConstructor")
-    public HtmlPane() {
+    @SupprfssWbrnings("LfbkingTiisInConstrudtor")
+    publid HtmlPbnf() {
         try {
-            URL url = getClass().getResource("/resources/HelpFiles/toc.html");
-            html = new JEditorPane(url);
-            html.setEditable(false);
-            html.addHyperlinkListener(this);
-            html.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES,
-                    Boolean.TRUE);
-            JViewport vp = getViewport();
-            vp.add(html);
-        } catch (MalformedURLException e) {
-            System.out.println("Malformed URL: " + e);
-        } catch (IOException e) {
-            System.out.println("IOException: " + e);
+            URL url = gftClbss().gftRfsourdf("/rfsourdfs/HflpFilfs/tod.itml");
+            itml = nfw JEditorPbnf(url);
+            itml.sftEditbblf(fblsf);
+            itml.bddHypfrlinkListfnfr(tiis);
+            itml.putClifntPropfrty(JEditorPbnf.HONOR_DISPLAY_PROPERTIES,
+                    Boolfbn.TRUE);
+            JVifwport vp = gftVifwport();
+            vp.bdd(itml);
+        } dbtdi (MblformfdURLExdfption f) {
+            Systfm.out.println("Mblformfd URL: " + f);
+        } dbtdi (IOExdfption f) {
+            Systfm.out.println("IOExdfption: " + f);
         }
     }
 
     /**
-     * Notification of a change relative to a
-     * hyperlink.
+     * Notifidbtion of b dibngf rflbtivf to b
+     * iypfrlink.
      */
-    public void hyperlinkUpdate(HyperlinkEvent e) {
-        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-            linkActivated(e.getURL());
+    publid void iypfrlinkUpdbtf(HypfrlinkEvfnt f) {
+        if (f.gftEvfntTypf() == HypfrlinkEvfnt.EvfntTypf.ACTIVATED) {
+            linkAdtivbtfd(f.gftURL());
         }
     }
 
     /**
-     * Follows the reference in an
-     * link.  The given url is the requested reference.
-     * By default this calls <a href="#setPage">setPage</a>,
-     * and if an exception is thrown the original previous
-     * document is restored and a beep sounded.  If an
-     * attempt was made to follow a link, but it represented
-     * a malformed url, this method will be called with a
-     * null argument.
+     * Follows tif rfffrfndf in bn
+     * link.  Tif givfn url is tif rfqufstfd rfffrfndf.
+     * By dffbult tiis dblls <b irff="#sftPbgf">sftPbgf</b>,
+     * bnd if bn fxdfption is tirown tif originbl prfvious
+     * dodumfnt is rfstorfd bnd b bffp soundfd.  If bn
+     * bttfmpt wbs mbdf to follow b link, but it rfprfsfntfd
+     * b mblformfd url, tiis mftiod will bf dbllfd witi b
+     * null brgumfnt.
      *
-     * @param u the URL to follow
+     * @pbrbm u tif URL to follow
      */
-    protected void linkActivated(URL u) {
-        Cursor c = html.getCursor();
-        Cursor waitCursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
-        html.setCursor(waitCursor);
-        SwingUtilities.invokeLater(new PageLoader(u, c));
+    protfdtfd void linkAdtivbtfd(URL u) {
+        Cursor d = itml.gftCursor();
+        Cursor wbitCursor = Cursor.gftPrfdffinfdCursor(Cursor.WAIT_CURSOR);
+        itml.sftCursor(wbitCursor);
+        SwingUtilitifs.invokfLbtfr(nfw PbgfLobdfr(u, d));
     }
 
 
     /**
-     * temporary class that loads synchronously (although
-     * later than the request so that a cursor change
-     * can be done).
+     * tfmporbry dlbss tibt lobds syndironously (bltiougi
+     * lbtfr tibn tif rfqufst so tibt b dursor dibngf
+     * dbn bf donf).
      */
-    class PageLoader implements Runnable {
+    dlbss PbgfLobdfr implfmfnts Runnbblf {
 
-        PageLoader(URL u, Cursor c) {
+        PbgfLobdfr(URL u, Cursor d) {
             url = u;
-            cursor = c;
+            dursor = d;
         }
 
-        public void run() {
+        publid void run() {
             if (url == null) {
-                // restore the original cursor
-                html.setCursor(cursor);
+                // rfstorf tif originbl dursor
+                itml.sftCursor(dursor);
 
-                // PENDING(prinz) remove this hack when
-                // automatic validation is activated.
-                Container parent = html.getParent();
-                parent.repaint();
-            } else {
-                Document doc = html.getDocument();
+                // PENDING(prinz) rfmovf tiis ibdk wifn
+                // butombtid vblidbtion is bdtivbtfd.
+                Contbinfr pbrfnt = itml.gftPbrfnt();
+                pbrfnt.rfpbint();
+            } flsf {
+                Dodumfnt dod = itml.gftDodumfnt();
                 try {
-                    html.setPage(url);
-                } catch (IOException ioe) {
-                    html.setDocument(doc);
-                    getToolkit().beep();
-                } finally {
-                    // schedule the cursor to revert after
-                    // the paint has happended.
+                    itml.sftPbgf(url);
+                } dbtdi (IOExdfption iof) {
+                    itml.sftDodumfnt(dod);
+                    gftToolkit().bffp();
+                } finblly {
+                    // sdifdulf tif dursor to rfvfrt bftfr
+                    // tif pbint ibs ibppfndfd.
                     url = null;
-                    SwingUtilities.invokeLater(this);
+                    SwingUtilitifs.invokfLbtfr(tiis);
                 }
             }
         }
         URL url;
-        Cursor cursor;
+        Cursor dursor;
     }
 }

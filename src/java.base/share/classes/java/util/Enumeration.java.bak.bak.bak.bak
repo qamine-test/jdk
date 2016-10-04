@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 1994, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * An objfdt thbt implfmfnts thf Enumfrbtion intfrfbdf gfnfrbtfs b
+ * sfrifs of flfmfnts, onf bt b timf. Suddfssivf dblls to thf
+ * <dodf>nfxtElfmfnt</dodf> mfthod rfturn suddfssivf flfmfnts of thf
+ * sfrifs.
+ * <p>
+ * For fxbmplf, to print bll flfmfnts of b <tt>Vfdtor&lt;E&gt;</tt> <i>v</i>:
+ * <prf>
+ *   for (Enumfrbtion&lt;E&gt; f = v.flfmfnts(); f.hbsMorfElfmfnts();)
+ *       Systfm.out.println(f.nfxtElfmfnt());</prf>
+ * <p>
+ * Mfthods brf providfd to fnumfrbtf through thf flfmfnts of b
+ * vfdtor, thf kfys of b hbshtbblf, bnd thf vblufs in b hbshtbblf.
+ * Enumfrbtions brf blso usfd to spfdify thf input strfbms to b
+ * <dodf>SfqufndfInputStrfbm</dodf>.
+ * <p>
+ * NOTE: Thf fundtionblity of this intfrfbdf is duplidbtfd by thf Itfrbtor
+ * intfrfbdf.  In bddition, Itfrbtor bdds bn optionbl rfmovf opfrbtion, bnd
+ * hbs shortfr mfthod nbmfs.  Nfw implfmfntbtions should donsidfr using
+ * Itfrbtor in prfffrfndf to Enumfrbtion.
+ *
+ * @sff     jbvb.util.Itfrbtor
+ * @sff     jbvb.io.SfqufndfInputStrfbm
+ * @sff     jbvb.util.Enumfrbtion#nfxtElfmfnt()
+ * @sff     jbvb.util.Hbshtbblf
+ * @sff     jbvb.util.Hbshtbblf#flfmfnts()
+ * @sff     jbvb.util.Hbshtbblf#kfys()
+ * @sff     jbvb.util.Vfdtor
+ * @sff     jbvb.util.Vfdtor#flfmfnts()
+ *
+ * @buthor  Lff Boynton
+ * @sindf   1.0
+ */
+publid intfrfbdf Enumfrbtion<E> {
+    /**
+     * Tfsts if this fnumfrbtion dontbins morf flfmfnts.
+     *
+     * @rfturn  <dodf>truf</dodf> if bnd only if this fnumfrbtion objfdt
+     *           dontbins bt lfbst onf morf flfmfnt to providf;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn hbsMorfElfmfnts();
+
+    /**
+     * Rfturns thf nfxt flfmfnt of this fnumfrbtion if this fnumfrbtion
+     * objfdt hbs bt lfbst onf morf flfmfnt to providf.
+     *
+     * @rfturn     thf nfxt flfmfnt of this fnumfrbtion.
+     * @fxdfption  NoSudhElfmfntExdfption  if no morf flfmfnts fxist.
+     */
+    E nfxtElfmfnt();
+}

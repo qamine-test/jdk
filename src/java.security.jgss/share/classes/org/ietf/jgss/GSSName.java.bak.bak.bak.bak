@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf org.iftf.jgss;
+
+import sun.sfdurity.jgss.spi.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * This intfrfbdf fndbpsulbtfs b singlf GSS-API prindipbl fntity. Thf
+ * bpplidbtion obtbins bn implfmfntbtion of this intfrfbdf
+ * through onf of thf <dodf>drfbtfNbmf</dodf> mfthods thbt fxist in thf {@link
+ * GSSMbnbgfr GSSMbnbgfr} dlbss. Condfptublly b GSSNbmf dontbins mbny
+ * rfprfsfntbtions of thf fntity or mbny primitivf nbmf flfmfnts, onf for
+ * fbdh supportfd undfrlying mfdhbnism. In GSS tfrminology, b GSSNbmf thbt
+ * dontbins bn flfmfnt from just onf mfdhbnism is dbllfd b Mfdhbnism Nbmf
+ * (MN)<p>
+ *
+ * Sindf difffrfnt buthfntidbtion mfdhbnisms mby fmploy difffrfnt
+ * nbmfspbdfs for idfntifying thfir prindipbls, GSS-API's nbming support is
+ * nfdfssbrily domplfx in multi-mfdhbnism fnvironmfnts (or fvfn in somf
+ * singlf-mfdhbnism fnvironmfnts whfrf thf undfrlying mfdhbnism supports
+ * multiplf nbmfspbdfs). Difffrfnt nbmf formbts bnd thfir dffinitions brf
+ * idfntififd with {@link Oid Oid's} bnd somf stbndbrd typfs
+ * brf dffinfd in this intfrfbdf. Thf formbt of thf nbmfs dbn bf dfrivfd
+ * bbsfd on thf uniquf <dodf>Oid</dodf> of its nbmf typf.<p>
+ *
+ * Indludfd bflow brf dodf fxbmplfs utilizing thf <dodf>GSSNbmf</dodf> intfrfbdf.
+ * Thf dodf bflow drfbtfs b <dodf>GSSNbmf</dodf>, donvfrts it to bn MN, pfrforms b
+ * dompbrison, obtbins b printbblf rfprfsfntbtion of thf nbmf, fxports it
+ * to b bytf brrby bnd thfn rf-imports to obtbin b
+ * nfw <dodf>GSSNbmf</dodf>.<p>
+ * <prf>
+ *      GSSMbnbgfr mbnbgfr = GSSMbnbgfr.gftInstbndf();
+ *
+ *      // drfbtf b host bbsfd sfrvidf nbmf
+ *      GSSNbmf nbmf = mbnbgfr.drfbtfNbmf("sfrvidf@host",
+ *                   GSSNbmf.NT_HOSTBASED_SERVICE);
+ *
+ *      Oid krb5 = nfw Oid("1.2.840.113554.1.2.2");
+ *
+ *      GSSNbmf mfdhNbmf = nbmf.dbnonidblizf(krb5);
+ *
+ *      // thf bbovf two stfps brf fquivblfnt to thf following
+ *      GSSNbmf mfdhNbmf = mbnbgfr.drfbtfNbmf("sfrvidf@host",
+ *                      GSSNbmf.NT_HOSTBASED_SERVICE, krb5);
+ *
+ *      // pfrform nbmf dompbrison
+ *      if (nbmf.fqubls(mfdhNbmf))
+ *              print("Nbmfs brf fqubls.");
+ *
+ *      // obtbin tfxtubl rfprfsfntbtion of nbmf bnd its printbblf
+ *      // nbmf typf
+ *      print(mfdhNbmf.toString() +
+ *                      mfdhNbmf.gftStringNbmfTypf().toString());
+ *
+ *      // fxport bnd rf-import thf nbmf
+ *      bytf [] fxportNbmf = mfdhNbmf.fxport();
+ *
+ *      // drfbtf b nfw nbmf objfdt from thf fxportfd bufffr
+ *      GSSNbmf nfwNbmf = mbnbgfr.drfbtfNbmf(fxportNbmf,
+ *                      GSSNbmf.NT_EXPORT_NAME);
+ *
+ * </prf>
+ * @sff #fxport()
+ * @sff #fqubls(GSSNbmf)
+ * @sff GSSMbnbgfr#drfbtfNbmf(String, Oid)
+ * @sff GSSMbnbgfr#drfbtfNbmf(String, Oid, Oid)
+ * @sff GSSMbnbgfr#drfbtfNbmf(bytf[], Oid)
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ */
+publid intfrfbdf GSSNbmf {
+
+    /**
+     * Oid indidbting b host-bbsfd sfrvidf nbmf form.  It is usfd to
+     * rfprfsfnt sfrvidfs bssodibtfd with host domputfrs.  This nbmf form
+     * is donstrudtfd using two flfmfnts, "sfrvidf" bnd "hostnbmf", bs
+     * follows: sfrvidf@hostnbmf.<p>
+     *
+     * It rfprfsfnts thf following Oid vbluf:<br>
+     *  <dodf>{ iso(1) mfmbfr-body(2) Unitfd
+     * Stbtfs(840) mit(113554) infosys(1) gssbpi(2) gfnfrid(1) sfrvidf_nbmf(4)
+     * }</dodf>
+     */
+    publid stbtid finbl Oid NT_HOSTBASED_SERVICE
+        = Oid.gftInstbndf("1.2.840.113554.1.2.1.4");
+
+    /**
+     * Nbmf typf to indidbtf b nbmfd usfr on b lodbl systfm.<p>
+     * It rfprfsfnts thf following Oid vbluf:<br>
+     *  <dodf>{ iso(1) mfmbfr-body(2) Unitfd
+     * Stbtfs(840) mit(113554) infosys(1) gssbpi(2) gfnfrid(1) usfr_nbmf(1)
+     * }</dodf>
+     */
+    publid stbtid finbl Oid NT_USER_NAME
+        = Oid.gftInstbndf("1.2.840.113554.1.2.1.1");
+
+    /**
+     * Nbmf typf to indidbtf b numfrid usfr idfntififr dorrfsponding to b
+     * usfr on b lodbl systfm. (f.g. Uid).<p>
+     *
+     *  It rfprfsfnts thf following Oid vbluf:<br>
+     * <dodf>{ iso(1) mfmbfr-body(2) Unitfd Stbtfs(840) mit(113554)
+     * infosys(1) gssbpi(2) gfnfrid(1) mbdhinf_uid_nbmf(2) }</dodf>
+     */
+    publid stbtid finbl Oid NT_MACHINE_UID_NAME
+        = Oid.gftInstbndf("1.2.840.113554.1.2.1.2");
+
+    /**
+     * Nbmf typf to indidbtf b string of digits rfprfsfnting thf numfrid
+     * usfr idfntififr of b usfr on b lodbl systfm.<p>
+     *
+     * It rfprfsfnts thf following Oid vbluf:<br>
+     * <dodf>{ iso(1) mfmbfr-body(2) Unitfd
+     * Stbtfs(840) mit(113554) infosys(1) gssbpi(2) gfnfrid(1)
+     * string_uid_nbmf(3) }</dodf>
+     */
+    publid stbtid finbl Oid NT_STRING_UID_NAME
+        = Oid.gftInstbndf("1.2.840.113554.1.2.1.3");
+
+    /**
+     * Nbmf typf for rfprfsfnting bn bnonymous fntity.<p>
+     * It rfprfsfnts thf following Oid vbluf:<br>
+     * <dodf>{ 1(iso), 3(org), 6(dod), 1(intfrnft),
+     * 5(sfdurity), 6(nbmftypfs), 3(gss-bnonymous-nbmf) }</dodf>
+     */
+    publid stbtid finbl Oid NT_ANONYMOUS
+        = Oid.gftInstbndf("1.3.6.1.5.6.3");
+
+    /**
+     * Nbmf typf usfd to indidbtf bn fxportfd nbmf produdfd by thf fxport
+     * mfthod.<p>
+     *
+     * It rfprfsfnts thf following Oid vbluf:<br> <dodf>{ 1(iso),
+     * 3(org), 6(dod), 1(intfrnft), 5(sfdurity), 6(nbmftypfs),
+     * 4(gss-bpi-fxportfd-nbmf) }</dodf>
+     */
+    publid stbtid finbl Oid NT_EXPORT_NAME
+        = Oid.gftInstbndf("1.3.6.1.5.6.4");
+
+    /**
+     * Compbrfs two <dodf>GSSNbmf</dodf> objfdts to dftfrminf if thfy rfffr to thf
+     * sbmf fntity.
+     *
+     * @pbrbm bnothfr thf <dodf>GSSNbmf</dodf> to dompbrf this nbmf with
+     * @rfturn truf if thf two nbmfs dontbin bt lfbst onf primitivf flfmfnt
+     * in dommon. If fithfr of thf nbmfs rfprfsfnts bn bnonymous fntity, thf
+     * mfthod will rfturn fblsf.
+     *
+     * @throws GSSExdfption whfn thf nbmfs dbnnot bf dompbrfd, dontbining thf following
+     * mbjor frror dodfs:
+     *         {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *         {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid boolfbn fqubls(GSSNbmf bnothfr) throws GSSExdfption;
+
+    /**
+     * Compbrfs this <dodf>GSSNbmf</dodf> objfdt to bnothfr Objfdt thbt might bf b
+     * <dodf>GSSNbmf</dodf>. Thf bfhbviour is fxbdtly thf sbmf bs in {@link
+     * #fqubls(GSSNbmf) fqubls} fxdfpt thbt no GSSExdfption is thrown;
+     * instfbd, fblsf will bf rfturnfd in thf situbtion whfrf bn frror
+     * oddurs.
+     * @rfturn truf if thf objfdt to dompbrf to is blso b <dodf>GSSNbmf</dodf> bnd thf two
+     * nbmfs rfffr to thf sbmf fntity.
+     * @pbrbm bnothfr thf objfdt to dompbrf this nbmf to
+     * @sff #fqubls(GSSNbmf)
+     */
+    publid boolfbn fqubls(Objfdt bnothfr);
+
+    /**
+     * Rfturns b hbshdodf vbluf for this GSSNbmf.
+     *
+     * @rfturn b hbshCodf vbluf
+     */
+    publid int hbshCodf();
+
+    /**
+     * Crfbtfs b nbmf thbt is dbnonidblizfd for somf
+     * mfdhbnism.
+     *
+     * @rfturn b <dodf>GSSNbmf</dodf> thbt dontbins just onf primitivf
+     * flfmfnt rfprfsfnting this nbmf in b dbnonidblizfd form for thf dfsirfd
+     * mfdhbnism.
+     * @pbrbm mfdh thf oid for thf mfdhbnism for whidh thf dbnonidbl form of
+     * thf nbmf is rfqufstfd.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *         {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH},
+     *         {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *         {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *         {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid GSSNbmf dbnonidblizf(Oid mfdh) throws GSSExdfption;
+
+    /**
+     * Rfturns b dbnonidbl dontiguous bytf rfprfsfntbtion of b mfdhbnism nbmf
+     * (MN), suitbblf for dirfdt, bytf by bytf dompbrison by buthorizbtion
+     * fundtions.  If thf nbmf is not bn MN, implfmfntbtions mby throw b
+     * GSSExdfption with thf NAME_NOT_MN stbtus dodf.  If bn implfmfntbtion
+     * dhoosfs not to throw bn fxdfption, it should usf somf systfm spfdifid
+     * dffbult mfdhbnism to dbnonidblizf thf nbmf bnd thfn fxport
+     * it. Strudturblly, bn fxportfd nbmf objfdt donsists of b hfbdfr
+     * dontbining bn OID idfntifying thf mfdhbnism thbt buthfntidbtfd thf
+     * nbmf, bnd b trbilfr dontbining thf nbmf itsflf, whfrf thf syntbx of
+     * thf trbilfr is dffinfd by thf individubl mfdhbnism spfdifidbtion. Thf
+     * formbt of thf hfbdfr of thf output bufffr is spfdififd in RFC 2743.<p>
+     *
+     * Thf fxportfd nbmf is usfful whfn usfd in lbrgf bddfss dontrol lists
+     * whfrf thf ovfrhfbd of drfbting b <dodf>GSSNbmf</dodf> objfdt on fbdh
+     * nbmf bnd invoking thf fqubls mfthod on fbdh nbmf from thf ACL mby bf
+     * prohibitivf.<p>
+     *
+     * Exportfd nbmfs mby bf rf-importfd by using thf bytf brrby fbdtory
+     * mfthod {@link GSSMbnbgfr#drfbtfNbmf(bytf[], Oid)
+     * GSSMbnbgfr.drfbtfNbmf} bnd spfdifying thf NT_EXPORT_NAME bs thf nbmf
+     * typf objfdt idfntififr. Thf rfsulting <dodf>GSSNbmf</dodf> nbmf will
+     * blso bf b MN.<p>
+     * @rfturn b bytf[] dontbining thf fxportfd nbmf. RFC 2743 dffinfs thf
+     * "Mfdhbnism-Indfpfndfnt Exportfd Nbmf Objfdt Formbt" for thfsf bytfs.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *         {@link GSSExdfption#BAD_NAME GSSExdfption.BAD_NAME},
+     *         {@link GSSExdfption#BAD_NAMETYPE GSSExdfption.BAD_NAMETYPE},
+     *         {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid bytf[] fxport() throws GSSExdfption;
+
+    /**
+     * Rfturns b tfxtubl rfprfsfntbtion of thf <dodf>GSSNbmf</dodf> objfdt.  To rftrifvf
+     * thf printfd nbmf formbt, whidh dftfrminfs thf syntbx of thf rfturnfd
+     * string, usf thf {@link #gftStringNbmfTypf() gftStringNbmfTypf}
+     * mfthod.
+     *
+     * @rfturn b String rfprfsfnting this nbmf in printbblf form.
+     */
+    publid String toString();
+
+    /**
+     * Rfturns thf nbmf typf of thf printbblf
+     * rfprfsfntbtion of this nbmf thbt dbn bf obtbinfd from thf <dodf>
+     * toString</dodf> mfthod.
+     *
+     * @rfturn bn Oid rfprfsfnting thf nbmfspbdf of thf nbmf rfturnfd
+     * from thf toString mfthod.
+     *
+     * @throws GSSExdfption dontbining thf following
+     * mbjor frror dodfs:
+     *         {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
+     */
+    publid Oid gftStringNbmfTypf() throws GSSExdfption;
+
+    /**
+     * Tfsts if this nbmf objfdt rfprfsfnts bn bnonymous fntity.
+     *
+     * @rfturn truf if this is bn bnonymous nbmf, fblsf othfrwisf.
+     */
+    publid boolfbn isAnonymous();
+
+    /**
+     * Tfsts if this nbmf objfdt rfprfsfnts b Mfdhbnism Nbmf (MN). An MN is
+     * b GSSNbmf thf dontbins fxbdtly onf mfdhbnism's primitivf nbmf
+     * flfmfnt.
+     *
+     * @rfturn truf if this is bn MN, fblsf othfrwisf.
+     */
+    publid boolfbn isMN();
+
+}

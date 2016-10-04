@@ -1,0 +1,1274 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import sun.misd.Unsbff;
+
+import jbvbx.bddfssibility.AddfssiblfContfxt;
+import jbvb.bwt.*;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvb.bwt.DffbultKfybobrdFodusMbnbgfr;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.imbgf.BufffrStrbtfgy;
+import jbvb.bwt.pffr.ComponfntPffr;
+
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+
+import jbvb.io.Filf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Vfdtor;
+
+/**
+ * Thf AWTAddfssor utility dlbss.
+ * Thf mbin purposf of this dlbss is to fnbblf bddfssing
+ * privbtf bnd pbdkbgf-privbtf fiflds of dlbssfs from
+ * difffrfnt dlbssfs/pbdkbgfs. Sff sun.misd.ShbrfdSfdrftfs
+ * for bnothfr fxbmplf.
+ */
+publid finbl dlbss AWTAddfssor {
+
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    /*
+     * Wf don't nffd bny objfdts of this dlbss.
+     * It's rbthfr b dollfdtion of stbtid mfthods
+     * bnd intfrfbdfs.
+     */
+    privbtf AWTAddfssor() {
+    }
+
+    /*
+     * An intfrfbdf of bddfssor for thf jbvb.bwt.Componfnt dlbss.
+     */
+    publid intfrfbdf ComponfntAddfssor {
+        /*
+         * Sfts whfthfr thf nbtivf bbdkground frbsf for b domponfnt
+         * hbs bffn disbblfd vib SunToolkit.disbblfBbdkgroundErbsf().
+         */
+        void sftBbdkgroundErbsfDisbblfd(Componfnt domp, boolfbn disbblfd);
+        /*
+         * Indidbtfs whfthfr thf nbtivf bbdkground frbsf for b
+         * domponfnt hbs bffn disbblfd vib
+         * SunToolkit.disbblfBbdkgroundErbsf().
+         */
+        boolfbn gftBbdkgroundErbsfDisbblfd(Componfnt domp);
+        /*
+         *
+         * Gfts thf bounds of this domponfnt in thf form of b
+         * <dodf>Rfdtbnglf</dodf> objfdt. Thf bounds spfdify this
+         * domponfnt's width, hfight, bnd lodbtion rflbtivf to
+         * its pbrfnt.
+         */
+        Rfdtbnglf gftBounds(Componfnt domp);
+        /*
+         * Sfts thf shbpf of b lw domponfnt to dut out from hw domponfnts.
+         *
+         * Sff 6797587, 6776743, 6768307, bnd 6768332 for dftbils
+         */
+        void sftMixingCutoutShbpf(Componfnt domp, Shbpf shbpf);
+
+        /**
+         * Sfts GrbphidsConfigurbtion vbluf for thf domponfnt.
+         */
+        void sftGrbphidsConfigurbtion(Componfnt domp, GrbphidsConfigurbtion gd);
+        /*
+         * Rfqufsts fodus to thf domponfnt.
+         */
+        boolfbn rfqufstFodus(Componfnt domp, CbusfdFodusEvfnt.Cbusf dbusf);
+        /*
+         * Dftfrminfs if thf domponfnt dbn gbin fodus.
+         */
+        boolfbn dbnBfFodusOwnfr(Componfnt domp);
+
+        /**
+         * Rfturns whfthfr thf domponfnt is visiblf without invoking
+         * bny dlifnt dodf.
+         */
+        boolfbn isVisiblf(Componfnt domp);
+
+        /**
+         * Sfts thf RfqufstFodusControllfr.
+         */
+        void sftRfqufstFodusControllfr(RfqufstFodusControllfr rfqufstControllfr);
+
+        /**
+         * Rfturns thf bppContfxt of thf domponfnt.
+         */
+        AppContfxt gftAppContfxt(Componfnt domp);
+
+        /**
+         * Sfts thf bppContfxt of thf domponfnt.
+         */
+        void sftAppContfxt(Componfnt domp, AppContfxt bppContfxt);
+
+        /**
+         * Rfturns thf pbrfnt of thf domponfnt.
+         */
+        Contbinfr gftPbrfnt(Componfnt domp);
+
+        /**
+         * Sfts thf pbrfnt of thf domponfnt to thf spfdififd pbrfnt.
+         */
+        void sftPbrfnt(Componfnt domp, Contbinfr pbrfnt);
+
+        /**
+         * Rfsizfs thf domponfnt to thf spfdififd width bnd hfight.
+         */
+        void sftSizf(Componfnt domp, int width, int hfight);
+
+        /**
+         * Rfturns thf lodbtion of thf domponfnt.
+         */
+        Point gftLodbtion(Componfnt domp);
+
+        /**
+         * Movfs thf domponfnt to thf nfw lodbtion.
+         */
+        void sftLodbtion(Componfnt domp, int x, int y);
+
+        /**
+         * Dftfrminfs whfthfr this domponfnt is fnbblfd.
+         */
+        boolfbn isEnbblfd(Componfnt domp);
+
+        /**
+         * Dftfrminfs whfthfr this domponfnt is displbybblf.
+         */
+        boolfbn isDisplbybblf(Componfnt domp);
+
+        /**
+         * Gfts thf dursor sft in thf domponfnt.
+         */
+        Cursor gftCursor(Componfnt domp);
+
+        /**
+         * Rfturns thf pffr of thf domponfnt.
+         */
+        ComponfntPffr gftPffr(Componfnt domp);
+
+        /**
+         * Sfts thf pffr of thf domponfnt to thf spfdififd pffr.
+         */
+        void sftPffr(Componfnt domp, ComponfntPffr pffr);
+
+        /**
+         * Dftfrminfs whfthfr this domponfnt is lightwfight.
+         */
+        boolfbn isLightwfight(Componfnt domp);
+
+        /**
+         * Rfturns whfthfr or not pbint mfssbgfs rfdfivfd from
+         * thf opfrbting systfm should bf ignorfd.
+         */
+        boolfbn gftIgnorfRfpbint(Componfnt domp);
+
+        /**
+         * Rfturns thf width of thf domponfnt.
+         */
+        int gftWidth(Componfnt domp);
+
+        /**
+         * Rfturns thf hfight of thf domponfnt.
+         */
+        int gftHfight(Componfnt domp);
+
+        /**
+         * Rfturns thf x doordinbtf of thf domponfnt.
+         */
+        int gftX(Componfnt domp);
+
+        /**
+         * Rfturns thf y doordinbtf of thf domponfnt.
+         */
+        int gftY(Componfnt domp);
+
+        /**
+         * Gfts thf forfground dolor of this domponfnt.
+         */
+        Color gftForfground(Componfnt domp);
+
+        /**
+         * Gfts thf bbdkground dolor of this domponfnt.
+         */
+        Color gftBbdkground(Componfnt domp);
+
+        /**
+         * Sfts thf bbdkground of this domponfnt to thf spfdififd dolor.
+         */
+        void sftBbdkground(Componfnt domp, Color bbdkground);
+
+        /**
+         * Gfts thf font of thf domponfnt.
+         */
+        Font gftFont(Componfnt domp);
+
+        /**
+         * Prodfssfs fvfnts oddurring on this domponfnt.
+         */
+        void prodfssEvfnt(Componfnt domp, AWTEvfnt f);
+
+
+        /*
+         * Rfturns thf bdd this domponfnt wbs donstrudtfd with.
+         */
+        AddfssControlContfxt gftAddfssControlContfxt(Componfnt domp);
+
+        /**
+         * Rfvblidbtfs thf domponfnt syndhronously.
+         */
+        void rfvblidbtfSyndhronously(Componfnt domp);
+
+        /**
+         * Crfbtfs b nfw strbtfgy for multi-bufffring on this domponfnt.
+         */
+        void drfbtfBufffrStrbtfgy(Componfnt domp, int numBufffrs,
+                BufffrCbpbbilitifs dbps) throws AWTExdfption;
+
+        /**
+         * rfturns thf bufffr strbtfgy usfd by this domponfnt.
+         */
+        BufffrStrbtfgy gftBufffrStrbtfgy(Componfnt domp);
+    }
+
+    /*
+     * An intfrfbdf of bddfssor for thf jbvb.bwt.Contbinfr dlbss.
+     */
+    publid intfrfbdf ContbinfrAddfssor {
+        /**
+         * Vblidbtfs thf dontbinfr undonditionblly.
+         */
+        void vblidbtfUndonditionblly(Contbinfr dont);
+
+        /**
+         *
+         * Addfss to thf privbtf vfrsion of findComponfntAt mfthod whidh hbs
+         * b dontrollbblf bfhbvior. Sftting 'ignorfEnbblfd' to 'fblsf'
+         * bypbssfs disbblfd Componfnts during thf sfbrdh.
+         */
+        Componfnt findComponfntAt(Contbinfr dont, int x, int y, boolfbn ignorfEnbblfd);
+
+        /**
+         * Stbrts LW Modbl.
+         */
+        void stbrtLWModbl(Contbinfr dont);
+
+        /**
+         * Stbrts LW Modbl.
+         */
+        void stopLWModbl(Contbinfr dont);
+    }
+
+    /*
+     * An intfrfbdf of bddfssor for jbvb.bwt.Window dlbss.
+     */
+    publid intfrfbdf WindowAddfssor {
+        /*
+         * Gft opbdity lfvfl of thf givfn window.
+         */
+        flobt gftOpbdity(Window window);
+        /*
+         * Sft opbdity lfvfl to thf givfn window.
+         */
+        void sftOpbdity(Window window, flobt opbdity);
+        /*
+         * Gft b shbpf bssignfd to thf givfn window.
+         */
+        Shbpf gftShbpf(Window window);
+        /*
+         * Sft b shbpf to thf givfn window.
+         */
+        void sftShbpf(Window window, Shbpf shbpf);
+        /*
+         * Sft thf opbquf prfopfrty to thf givfn window.
+         */
+        void sftOpbquf(Window window, boolfbn isOpbquf);
+        /*
+         * Updbtf thf imbgf of b non-opbquf (trbnsludfnt) window.
+         */
+        void updbtfWindow(Window window);
+
+        /** Gft thf sizf of thf sfdurity wbrning.
+         */
+        Dimfnsion gftSfdurityWbrningSizf(Window w);
+
+        /**
+         * Sft thf sizf of thf sfdurity wbrning.
+         */
+        void sftSfdurityWbrningSizf(Window w, int width, int hfight);
+
+        /** Sft thf position of thf sfdurity wbrning.
+         */
+        void sftSfdurityWbrningPosition(Window w, Point2D point,
+                flobt blignmfntX, flobt blignmfntY);
+
+        /** Rfqufst to rfdbldulbtf thf nfw position of thf sfdurity wbrning for
+         * thf givfn window sizf/lodbtion bs rfportfd by thf nbtivf systfm.
+         */
+        Point2D dbldulbtfSfdurityWbrningPosition(Window window,
+                doublf x, doublf y, doublf w, doublf h);
+
+        /** Sfts thf syndhronous stbtus of fodus rfqufsts on lightwfight
+         * domponfnts in thf spfdififd window to thf spfdififd vbluf.
+         */
+        void sftLWRfqufstStbtus(Window dhbngfd, boolfbn stbtus);
+
+        /**
+         * Indidbtfs whfthfr this window should rfdfivf fodus on subsfqufntly
+         * bfing shown, or bfing movfd to thf front.
+         */
+        boolfbn isAutoRfqufstFodus(Window w);
+
+        /**
+         * Indidbtfs whfthfr thf spfdififd window is bn utility window for TrbyIdon.
+         */
+        boolfbn isTrbyIdonWindow(Window w);
+
+        /**
+         * Mbrks thf spfdififd window bs bn utility window for TrbyIdon.
+         */
+        void sftTrbyIdonWindow(Window w, boolfbn isTrbyIdonWindow);
+    }
+
+    /**
+     * An bddfssor for thf AWTEvfnt dlbss.
+     */
+    publid intfrfbdf AWTEvfntAddfssor {
+        /**
+         * Mbrks thf fvfnt bs postfd.
+         */
+        void sftPostfd(AWTEvfnt fv);
+
+        /**
+         * Sfts thf flbg on this AWTEvfnt indidbting thbt it wbs
+         * gfnfrbtfd by thf systfm.
+         */
+        void sftSystfmGfnfrbtfd(AWTEvfnt fv);
+
+        /**
+         * Indidbtfs whfthfr this AWTEvfnt wbs gfnfrbtfd by thf systfm.
+         */
+        boolfbn isSystfmGfnfrbtfd(AWTEvfnt fv);
+
+        /**
+         * Rfturns thf bdd this fvfnt wbs donstrudtfd with.
+         */
+        AddfssControlContfxt gftAddfssControlContfxt(AWTEvfnt fv);
+
+        /**
+         * Rfturns binbry dbtb bssodibtfd with this fvfnt;
+         */
+        bytf[] gftBDbtb(AWTEvfnt fv);
+
+        /**
+         * Assodibtfs binbry dbtb with this fvfnt;
+         */
+        void sftBDbtb(AWTEvfnt fv, bytf[] bdbtb);
+    }
+
+    publid intfrfbdf InputEvfntAddfssor {
+        /*
+         * Addfssor for InputEvfnt.gftButtonDownMbsks()
+         */
+        int[] gftButtonDownMbsks();
+
+        /*
+         * Addfssor for InputEvfnt.dbnAddfssSystfmClipbobrd fifld
+         */
+        boolfbn dbnAddfssSystfmClipbobrd(InputEvfnt fvfnt);
+    }
+
+    /*
+     * An bddfssor for thf jbvb.bwt.Frbmf dlbss.
+     */
+    publid intfrfbdf FrbmfAddfssor {
+        /*
+         * Sfts thf stbtf of this frbmf.
+         */
+        void sftExtfndfdStbtf(Frbmf frbmf, int stbtf);
+        /*
+         * Gfts thf stbtf of this frbmf.
+         */
+       int gftExtfndfdStbtf(Frbmf frbmf);
+        /*
+         * Gfts thf mbximizfd bounds of this frbmf.
+         */
+       Rfdtbnglf gftMbximizfdBounds(Frbmf frbmf);
+    }
+
+    /**
+     * An intfrfbdf of bddfssor for thf jbvb.bwt.KfybobrdFodusMbnbgfr dlbss.
+     */
+    publid intfrfbdf KfybobrdFodusMbnbgfrAddfssor {
+        /**
+         * Indidbtfs whfthfr thf nbtivf implfmfntbtion should
+         * prodffd with b pfnding fodus rfqufst for thf hfbvywfight.
+         */
+        int shouldNbtivflyFodusHfbvywfight(Componfnt hfbvywfight,
+                                           Componfnt dfsdfndbnt,
+                                           boolfbn tfmporbry,
+                                           boolfbn fodusfdWindowChbngfAllowfd,
+                                           long timf,
+                                           CbusfdFodusEvfnt.Cbusf dbusf);
+        /**
+         * Dflivfrs fodus for thf lightwfight dfsdfndbnt of thf hfbvywfight
+         * syndhronously.
+         */
+        boolfbn prodfssSyndhronousLightwfightTrbnsffr(Componfnt hfbvywfight,
+                                                      Componfnt dfsdfndbnt,
+                                                      boolfbn tfmporbry,
+                                                      boolfbn fodusfdWindowChbngfAllowfd,
+                                                      long timf);
+        /**
+         * Rfmovfs thf lbst fodus rfqufst for thf hfbvywfight from thf qufuf.
+         */
+        void rfmovfLbstFodusRfqufst(Componfnt hfbvywfight);
+
+        /**
+         * Sfts thf most rfdfnt fodus ownfr in thf window.
+         */
+        void sftMostRfdfntFodusOwnfr(Window window, Componfnt domponfnt);
+
+        /**
+         * Rfturns durrfnt KFM of thf spfdififd AppContfxt.
+         */
+        KfybobrdFodusMbnbgfr gftCurrfntKfybobrdFodusMbnbgfr(AppContfxt dtx);
+
+        /**
+         * Rfturn thf durrfnt fodus dydlf root
+         */
+        Contbinfr gftCurrfntFodusCydlfRoot();
+    }
+
+    /**
+     * An bddfssor for thf MfnuComponfnt dlbss.
+     */
+    publid intfrfbdf MfnuComponfntAddfssor {
+        /**
+         * Rfturns thf bppContfxt of thf mfnu domponfnt.
+         */
+        AppContfxt gftAppContfxt(MfnuComponfnt mfnuComp);
+
+        /**
+         * Sfts thf bppContfxt of thf mfnu domponfnt.
+         */
+        void sftAppContfxt(MfnuComponfnt mfnuComp, AppContfxt bppContfxt);
+
+        /**
+         * Rfturns thf mfnu dontbinfr of thf mfnu domponfnt.
+         */
+        MfnuContbinfr gftPbrfnt(MfnuComponfnt mfnuComp);
+
+        /**
+         * Sfts thf mfnu dontbinfr of thf mfnu domponfnt.
+         */
+        void  sftPbrfnt(MfnuComponfnt mfnuComp, MfnuContbinfr mfnuContbinfr);
+
+        /**
+         * Gfts thf font usfd for this mfnu domponfnt.
+         */
+        Font gftFont_NoClifntCodf(MfnuComponfnt mfnuComp);
+    }
+
+    /**
+     * An bddfssor for thf EvfntQufuf dlbss
+     */
+    publid intfrfbdf EvfntQufufAddfssor {
+        /**
+         * Gfts thf fvfnt dispbtdh thrfbd.
+         */
+        Thrfbd gftDispbtdhThrfbd(EvfntQufuf fvfntQufuf);
+
+        /**
+         * Chfdks if thf durrfnt thrfbd is EDT for thf givfn EQ.
+         */
+        publid boolfbn isDispbtdhThrfbdImpl(EvfntQufuf fvfntQufuf);
+
+        /**
+         * Rfmovfs bny pfnding fvfnts for thf spfdififd sourdf objfdt.
+         */
+        void rfmovfSourdfEvfnts(EvfntQufuf fvfntQufuf, Objfdt sourdf, boolfbn rfmovfAllEvfnts);
+
+        /**
+         * Rfturns whfthfr bn fvfnt is pfnding on bny of thf sfpbrbtf Qufufs.
+         */
+        boolfbn noEvfnts(EvfntQufuf fvfntQufuf);
+
+        /**
+         * Cbllfd from PostEvfntQufuf.postEvfnt to notify thbt b nfw fvfnt
+         * bppfbrfd.
+         */
+        void wbkfup(EvfntQufuf fvfntQufuf, boolfbn isShutdown);
+
+        /**
+         * Stbtid in EvfntQufuf
+         */
+        void invokfAndWbit(Objfdt sourdf, Runnbblf r)
+            throws IntfrruptfdExdfption, InvodbtionTbrgftExdfption;
+
+        /**
+         * Sfts thf dflfgbtf for thf EvfntQufuf usfd by FX/AWT singlf thrfbdfd modf
+         */
+        void sftFwDispbtdhfr(EvfntQufuf fvfntQufuf, FwDispbtdhfr dispbtdhfr);
+
+        /**
+         * Gfts most rfdfnt fvfnt timf in thf EvfntQufuf
+         */
+        long gftMostRfdfntEvfntTimf(EvfntQufuf fvfntQufuf);
+    }
+
+    /*
+     * An bddfssor for thf PopupMfnu dlbss
+     */
+    publid intfrfbdf PopupMfnuAddfssor {
+        /*
+         * Rfturns whfthfr thf popup mfnu is bttbdhfd to b trby
+         */
+        boolfbn isTrbyIdonPopup(PopupMfnu popupMfnu);
+    }
+
+    /*
+     * An bddfssor for thf FilfDiblog dlbss
+     */
+    publid intfrfbdf FilfDiblogAddfssor {
+        /*
+         * Sfts thf filfs thf usfr sflfdts
+         */
+        void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]);
+
+        /*
+         * Sfts thf filf thf usfr sflfdts
+         */
+        void sftFilf(FilfDiblog filfDiblog, String filf);
+
+        /*
+         * Sfts thf dirfdtory thf usfr sflfdts
+         */
+        void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory);
+
+        /*
+         * Rfturns whfthfr thf filf diblog bllows thf multiplf filf sflfdtion.
+         */
+        boolfbn isMultiplfModf(FilfDiblog filfDiblog);
+    }
+
+    /*
+     * An bddfssor for thf SdrollPbnfAdjustbblf dlbss.
+     */
+    publid intfrfbdf SdrollPbnfAdjustbblfAddfssor {
+        /*
+         * Sfts thf vbluf of this sdrollbbr to thf spfdififd vbluf.
+         */
+        void sftTypfdVbluf(finbl SdrollPbnfAdjustbblf bdj, finbl int v,
+                           finbl int typf);
+    }
+
+    /**
+     * An bddfssor for thf ChfdkboxMfnuItfm dlbss
+     */
+    publid intfrfbdf ChfdkboxMfnuItfmAddfssor {
+        /**
+         * Rfturns whfthfr mfnu itfm is dhfdkfd
+         */
+        boolfbn gftStbtf(ChfdkboxMfnuItfm dmi);
+    }
+
+    /**
+     * An bddfssor for thf Cursor dlbss
+     */
+    publid intfrfbdf CursorAddfssor {
+        /**
+         * Rfturns pDbtb of thf Cursor dlbss
+         */
+        long gftPDbtb(Cursor dursor);
+
+        /**
+         * Sfts pDbtb to thf Cursor dlbss
+         */
+        void sftPDbtb(Cursor dursor, long pDbtb);
+
+        /**
+         * Rfturn typf of thf Cursor dlbss
+         */
+        int gftTypf(Cursor dursor);
+    }
+
+    /**
+     * An bddfssor for thf MfnuBbr dlbss
+     */
+    publid intfrfbdf MfnuBbrAddfssor {
+        /**
+         * Rfturns hflp mfnu
+         */
+        Mfnu gftHflpMfnu(MfnuBbr mfnuBbr);
+
+        /**
+         * Rfturns mfnus
+         */
+        Vfdtor<Mfnu> gftMfnus(MfnuBbr mfnuBbr);
+    }
+
+    /**
+     * An bddfssor for thf MfnuItfm dlbss
+     */
+    publid intfrfbdf MfnuItfmAddfssor {
+        /**
+         * Rfturns whfthfr mfnu itfm is fnbblfd
+         */
+        boolfbn isEnbblfd(MfnuItfm itfm);
+
+        /**
+         * Gfts thf dommbnd nbmf of thf bdtion fvfnt thbt is firfd
+         * by this mfnu itfm.
+         */
+        String gftAdtionCommbndImpl(MfnuItfm itfm);
+
+        /**
+         * Rfturns truf if thf itfm bnd bll its bndfstors brf
+         * fnbblfd, fblsf othfrwisf
+         */
+        boolfbn isItfmEnbblfd(MfnuItfm itfm);
+
+        /**
+         * Rfturns lbbfl
+         */
+        String gftLbbfl(MfnuItfm itfm);
+
+        /**
+         * Rfturns shortdut
+         */
+        MfnuShortdut gftShortdut(MfnuItfm itfm);
+    }
+
+    /**
+     * An bddfssor for thf Mfnu dlbss
+     */
+    publid intfrfbdf MfnuAddfssor {
+        /**
+         * Rfturns vfdtor of thf itfms thbt brf pbrt of thf Mfnu
+         */
+        Vfdtor<MfnuItfm> gftItfms(Mfnu mfnu);
+    }
+
+    /**
+     * An bddfssor for thf KfyEvfnt dlbss
+     */
+    publid intfrfbdf KfyEvfntAddfssor {
+        /**
+         * Sfts rbwCodf fifld for KfyEvfnt
+         */
+        void sftRbwCodf(KfyEvfnt fv, long rbwCodf);
+
+        /**
+         * Sfts primbryLfvflUnidodf fifld for KfyEvfnt
+         */
+        void sftPrimbryLfvflUnidodf(KfyEvfnt fv, long primbryLfvflUnidodf);
+
+        /**
+         * Sfts fxtfndfdKfyCodf fifld for KfyEvfnt
+         */
+        void sftExtfndfdKfyCodf(KfyEvfnt fv, long fxtfndfdKfyCodf);
+
+        /**
+         * Gfts originbl sourdf for KfyEvfnt
+         */
+        Componfnt gftOriginblSourdf(KfyEvfnt fv);
+    }
+
+    /**
+     * An bddfssor for thf ClifntPropfrtyKfy dlbss
+     */
+    publid intfrfbdf ClifntPropfrtyKfyAddfssor {
+        /**
+         * Rftrifvfs JComponfnt_TRANSFER_HANDLER fnum objfdt
+         */
+        Objfdt gftJComponfnt_TRANSFER_HANDLER();
+    }
+
+    /**
+     * An bddfssor for thf SystfmTrby dlbss
+     */
+    publid intfrfbdf SystfmTrbyAddfssor {
+        /**
+         * Support for rfporting bound propfrty dhbngfs for Objfdt propfrtifs.
+         */
+        void firfPropfrtyChbngf(SystfmTrby trby, String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf);
+    }
+
+    /**
+     * An bddfssor for thf TrbyIdon dlbss
+     */
+    publid intfrfbdf TrbyIdonAddfssor {
+        void bddNotify(TrbyIdon trbyIdon) throws AWTExdfption;
+        void rfmovfNotify(TrbyIdon trbyIdon);
+    }
+
+    /**
+     * An bddfssor for thf DffbultKfybobrdFodusMbnbgfr dlbss
+     */
+    publid intfrfbdf DffbultKfybobrdFodusMbnbgfrAddfssor {
+        publid void donsumfNfxtKfyTypfd(DffbultKfybobrdFodusMbnbgfr dkfm, KfyEvfnt f);
+    }
+
+    /*
+     * An bddfssor for thf SfqufndfdEvfntAddfssor dlbss
+     */
+    publid intfrfbdf SfqufndfdEvfntAddfssor {
+        /*
+         * Rfturns thf nfstfd fvfnt.
+         */
+        AWTEvfnt gftNfstfd(AWTEvfnt sfqufndfdEvfnt);
+
+        /*
+         * Rfturns truf if thf fvfnt is bn instbndfs of SfqufndfdEvfnt.
+         */
+        boolfbn isSfqufndfdEvfnt(AWTEvfnt fvfnt);
+    }
+
+    /*
+     * An bddfssor for thf Toolkit dlbss
+     */
+    publid intfrfbdf ToolkitAddfssor {
+        void sftPlbtformRfsourdfs(RfsourdfBundlf bundlf);
+    }
+
+    /*
+     * An bddfssor objfdt for thf InvodbtionEvfnt dlbss
+     */
+    publid intfrfbdf InvodbtionEvfntAddfssor {
+        void disposf(InvodbtionEvfnt fvfnt);
+    }
+
+    /*
+     * An bddfssor objfdt for thf SystfmColor dlbss
+     */
+    publid intfrfbdf SystfmColorAddfssor {
+        void updbtfSystfmColors();
+    }
+
+    /*
+     * An bddfssor objfdt for thf AddfssiblfContfxt dlbss
+     */
+    publid intfrfbdf AddfssiblfContfxtAddfssor {
+        void sftAppContfxt(AddfssiblfContfxt bddfssiblfContfxt, AppContfxt bppContfxt);
+        AppContfxt gftAppContfxt(AddfssiblfContfxt bddfssiblfContfxt);
+    }
+
+    /*
+     * Addfssor instbndfs brf initiblizfd in thf stbtid initiblizfrs of
+     * dorrfsponding AWT dlbssfs by using sfttfrs dffinfd bflow.
+     */
+    privbtf stbtid ComponfntAddfssor domponfntAddfssor;
+    privbtf stbtid ContbinfrAddfssor dontbinfrAddfssor;
+    privbtf stbtid WindowAddfssor windowAddfssor;
+    privbtf stbtid AWTEvfntAddfssor bwtEvfntAddfssor;
+    privbtf stbtid InputEvfntAddfssor inputEvfntAddfssor;
+    privbtf stbtid FrbmfAddfssor frbmfAddfssor;
+    privbtf stbtid KfybobrdFodusMbnbgfrAddfssor kfmAddfssor;
+    privbtf stbtid MfnuComponfntAddfssor mfnuComponfntAddfssor;
+    privbtf stbtid EvfntQufufAddfssor fvfntQufufAddfssor;
+    privbtf stbtid PopupMfnuAddfssor popupMfnuAddfssor;
+    privbtf stbtid FilfDiblogAddfssor filfDiblogAddfssor;
+    privbtf stbtid SdrollPbnfAdjustbblfAddfssor sdrollPbnfAdjustbblfAddfssor;
+    privbtf stbtid ChfdkboxMfnuItfmAddfssor dhfdkboxMfnuItfmAddfssor;
+    privbtf stbtid CursorAddfssor dursorAddfssor;
+    privbtf stbtid MfnuBbrAddfssor mfnuBbrAddfssor;
+    privbtf stbtid MfnuItfmAddfssor mfnuItfmAddfssor;
+    privbtf stbtid MfnuAddfssor mfnuAddfssor;
+    privbtf stbtid KfyEvfntAddfssor kfyEvfntAddfssor;
+    privbtf stbtid ClifntPropfrtyKfyAddfssor dlifntPropfrtyKfyAddfssor;
+    privbtf stbtid SystfmTrbyAddfssor systfmTrbyAddfssor;
+    privbtf stbtid TrbyIdonAddfssor trbyIdonAddfssor;
+    privbtf stbtid DffbultKfybobrdFodusMbnbgfrAddfssor dffbultKfybobrdFodusMbnbgfrAddfssor;
+    privbtf stbtid SfqufndfdEvfntAddfssor sfqufndfdEvfntAddfssor;
+    privbtf stbtid ToolkitAddfssor toolkitAddfssor;
+    privbtf stbtid InvodbtionEvfntAddfssor invodbtionEvfntAddfssor;
+    privbtf stbtid SystfmColorAddfssor systfmColorAddfssor;
+    privbtf stbtid AddfssiblfContfxtAddfssor bddfssiblfContfxtAddfssor;
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.Componfnt dlbss.
+     */
+    publid stbtid void sftComponfntAddfssor(ComponfntAddfssor db) {
+        domponfntAddfssor = db;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.Componfnt dlbss.
+     */
+    publid stbtid ComponfntAddfssor gftComponfntAddfssor() {
+        if (domponfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Componfnt.dlbss);
+        }
+
+        rfturn domponfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.Contbinfr dlbss.
+     */
+    publid stbtid void sftContbinfrAddfssor(ContbinfrAddfssor db) {
+        dontbinfrAddfssor = db;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.Contbinfr dlbss.
+     */
+    publid stbtid ContbinfrAddfssor gftContbinfrAddfssor() {
+        if (dontbinfrAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Contbinfr.dlbss);
+        }
+
+        rfturn dontbinfrAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.Window dlbss.
+     */
+    publid stbtid void sftWindowAddfssor(WindowAddfssor wb) {
+        windowAddfssor = wb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.Window dlbss.
+     */
+    publid stbtid WindowAddfssor gftWindowAddfssor() {
+        if (windowAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Window.dlbss);
+        }
+        rfturn windowAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.AWTEvfnt dlbss.
+     */
+    publid stbtid void sftAWTEvfntAddfssor(AWTEvfntAddfssor bfb) {
+        bwtEvfntAddfssor = bfb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.AWTEvfnt dlbss.
+     */
+    publid stbtid AWTEvfntAddfssor gftAWTEvfntAddfssor() {
+        if (bwtEvfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(AWTEvfnt.dlbss);
+        }
+        rfturn bwtEvfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.fvfnt.InputEvfnt dlbss.
+     */
+    publid stbtid void sftInputEvfntAddfssor(InputEvfntAddfssor ifb) {
+        inputEvfntAddfssor = ifb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.fvfnt.InputEvfnt dlbss.
+     */
+    publid stbtid InputEvfntAddfssor gftInputEvfntAddfssor() {
+        if (inputEvfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(InputEvfnt.dlbss);
+        }
+        rfturn inputEvfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.Frbmf dlbss.
+     */
+    publid stbtid void sftFrbmfAddfssor(FrbmfAddfssor fb) {
+        frbmfAddfssor = fb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.Frbmf dlbss.
+     */
+    publid stbtid FrbmfAddfssor gftFrbmfAddfssor() {
+        if (frbmfAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Frbmf.dlbss);
+        }
+        rfturn frbmfAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.KfybobrdFodusMbnbgfr dlbss.
+     */
+    publid stbtid void sftKfybobrdFodusMbnbgfrAddfssor(KfybobrdFodusMbnbgfrAddfssor kfmb) {
+        kfmAddfssor = kfmb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.KfybobrdFodusMbnbgfr dlbss.
+     */
+    publid stbtid KfybobrdFodusMbnbgfrAddfssor gftKfybobrdFodusMbnbgfrAddfssor() {
+        if (kfmAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(KfybobrdFodusMbnbgfr.dlbss);
+        }
+        rfturn kfmAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.MfnuComponfnt dlbss.
+     */
+    publid stbtid void sftMfnuComponfntAddfssor(MfnuComponfntAddfssor mdb) {
+        mfnuComponfntAddfssor = mdb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.MfnuComponfnt dlbss.
+     */
+    publid stbtid MfnuComponfntAddfssor gftMfnuComponfntAddfssor() {
+        if (mfnuComponfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(MfnuComponfnt.dlbss);
+        }
+        rfturn mfnuComponfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.EvfntQufuf dlbss.
+     */
+    publid stbtid void sftEvfntQufufAddfssor(EvfntQufufAddfssor fqb) {
+        fvfntQufufAddfssor = fqb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.EvfntQufuf dlbss.
+     */
+    publid stbtid EvfntQufufAddfssor gftEvfntQufufAddfssor() {
+        if (fvfntQufufAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(EvfntQufuf.dlbss);
+        }
+        rfturn fvfntQufufAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.PopupMfnu dlbss.
+     */
+    publid stbtid void sftPopupMfnuAddfssor(PopupMfnuAddfssor pmb) {
+        popupMfnuAddfssor = pmb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.PopupMfnu dlbss.
+     */
+    publid stbtid PopupMfnuAddfssor gftPopupMfnuAddfssor() {
+        if (popupMfnuAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(PopupMfnu.dlbss);
+        }
+        rfturn popupMfnuAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.FilfDiblog dlbss.
+     */
+    publid stbtid void sftFilfDiblogAddfssor(FilfDiblogAddfssor fdb) {
+        filfDiblogAddfssor = fdb;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.FilfDiblog dlbss.
+     */
+    publid stbtid FilfDiblogAddfssor gftFilfDiblogAddfssor() {
+        if (filfDiblogAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(FilfDiblog.dlbss);
+        }
+        rfturn filfDiblogAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.SdrollPbnfAdjustbblf dlbss.
+     */
+    publid stbtid void sftSdrollPbnfAdjustbblfAddfssor(SdrollPbnfAdjustbblfAddfssor bdj) {
+        sdrollPbnfAdjustbblfAddfssor = bdj;
+    }
+
+    /*
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.SdrollPbnfAdjustbblf
+     * dlbss.
+     */
+    publid stbtid SdrollPbnfAdjustbblfAddfssor gftSdrollPbnfAdjustbblfAddfssor() {
+        if (sdrollPbnfAdjustbblfAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(SdrollPbnfAdjustbblf.dlbss);
+        }
+        rfturn sdrollPbnfAdjustbblfAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.ChfdkboxMfnuItfm dlbss.
+     */
+    publid stbtid void sftChfdkboxMfnuItfmAddfssor(ChfdkboxMfnuItfmAddfssor dmib) {
+        dhfdkboxMfnuItfmAddfssor = dmib;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.ChfdkboxMfnuItfm dlbss.
+     */
+    publid stbtid ChfdkboxMfnuItfmAddfssor gftChfdkboxMfnuItfmAddfssor() {
+        if (dhfdkboxMfnuItfmAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(ChfdkboxMfnuItfmAddfssor.dlbss);
+        }
+        rfturn dhfdkboxMfnuItfmAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.Cursor dlbss.
+     */
+    publid stbtid void sftCursorAddfssor(CursorAddfssor db) {
+        dursorAddfssor = db;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.Cursor dlbss.
+     */
+    publid stbtid CursorAddfssor gftCursorAddfssor() {
+        if (dursorAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(CursorAddfssor.dlbss);
+        }
+        rfturn dursorAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.MfnuBbr dlbss.
+     */
+    publid stbtid void sftMfnuBbrAddfssor(MfnuBbrAddfssor mbb) {
+        mfnuBbrAddfssor = mbb;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.MfnuBbr dlbss.
+     */
+    publid stbtid MfnuBbrAddfssor gftMfnuBbrAddfssor() {
+        if (mfnuBbrAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(MfnuBbrAddfssor.dlbss);
+        }
+        rfturn mfnuBbrAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.MfnuItfm dlbss.
+     */
+    publid stbtid void sftMfnuItfmAddfssor(MfnuItfmAddfssor mib) {
+        mfnuItfmAddfssor = mib;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.MfnuItfm dlbss.
+     */
+    publid stbtid MfnuItfmAddfssor gftMfnuItfmAddfssor() {
+        if (mfnuItfmAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(MfnuItfmAddfssor.dlbss);
+        }
+        rfturn mfnuItfmAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.Mfnu dlbss.
+     */
+    publid stbtid void sftMfnuAddfssor(MfnuAddfssor mb) {
+        mfnuAddfssor = mb;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.Mfnu dlbss.
+     */
+    publid stbtid MfnuAddfssor gftMfnuAddfssor() {
+        if (mfnuAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(MfnuAddfssor.dlbss);
+        }
+        rfturn mfnuAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.fvfnt.KfyEvfnt dlbss.
+     */
+    publid stbtid void sftKfyEvfntAddfssor(KfyEvfntAddfssor kfb) {
+        kfyEvfntAddfssor = kfb;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.fvfnt.KfyEvfnt dlbss.
+     */
+    publid stbtid KfyEvfntAddfssor gftKfyEvfntAddfssor() {
+        if (kfyEvfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(KfyEvfntAddfssor.dlbss);
+        }
+        rfturn kfyEvfntAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvbx.swing.ClifntPropfrtyKfy dlbss.
+     */
+    publid stbtid void sftClifntPropfrtyKfyAddfssor(ClifntPropfrtyKfyAddfssor dpkb) {
+        dlifntPropfrtyKfyAddfssor = dpkb;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvbx.swing.ClifntPropfrtyKfy dlbss.
+     */
+    publid stbtid ClifntPropfrtyKfyAddfssor gftClifntPropfrtyKfyAddfssor() {
+        if (dlifntPropfrtyKfyAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(ClifntPropfrtyKfyAddfssor.dlbss);
+        }
+        rfturn dlifntPropfrtyKfyAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.SystfmTrby dlbss.
+     */
+    publid stbtid void sftSystfmTrbyAddfssor(SystfmTrbyAddfssor stb) {
+        systfmTrbyAddfssor = stb;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.SystfmTrby dlbss.
+     */
+    publid stbtid SystfmTrbyAddfssor gftSystfmTrbyAddfssor() {
+        if (systfmTrbyAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(SystfmTrbyAddfssor.dlbss);
+        }
+        rfturn systfmTrbyAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.TrbyIdon dlbss.
+     */
+    publid stbtid void sftTrbyIdonAddfssor(TrbyIdonAddfssor tib) {
+        trbyIdonAddfssor = tib;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.TrbyIdon dlbss.
+     */
+    publid stbtid TrbyIdonAddfssor gftTrbyIdonAddfssor() {
+        if (trbyIdonAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(TrbyIdonAddfssor.dlbss);
+        }
+        rfturn trbyIdonAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.DffbultKfybobrdFodusMbnbgfr dlbss.
+     */
+    publid stbtid void sftDffbultKfybobrdFodusMbnbgfrAddfssor(DffbultKfybobrdFodusMbnbgfrAddfssor dkfmb) {
+        dffbultKfybobrdFodusMbnbgfrAddfssor = dkfmb;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvb.bwt.DffbultKfybobrdFodusMbnbgfr dlbss.
+     */
+    publid stbtid DffbultKfybobrdFodusMbnbgfrAddfssor gftDffbultKfybobrdFodusMbnbgfrAddfssor() {
+        if (dffbultKfybobrdFodusMbnbgfrAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(DffbultKfybobrdFodusMbnbgfrAddfssor.dlbss);
+        }
+        rfturn dffbultKfybobrdFodusMbnbgfrAddfssor;
+    }
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.SfqufndfdEvfnt dlbss.
+     */
+    publid stbtid void sftSfqufndfdEvfntAddfssor(SfqufndfdEvfntAddfssor sfb) {
+        sfqufndfdEvfntAddfssor = sfb;
+    }
+
+    /*
+     * Gft thf bddfssor objfdt for thf jbvb.bwt.SfqufndfdEvfnt dlbss.
+     */
+    publid stbtid SfqufndfdEvfntAddfssor gftSfqufndfdEvfntAddfssor() {
+        // Thf dlbss is not publid. So wf dbn't fnsurf it's initiblizfd.
+        // Null rfturnfd vbluf mfbns it's not initiblizfd
+        // (so not b singlf instbndf of thf fvfnt hbs bffn drfbtfd).
+        rfturn sfqufndfdEvfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for thf jbvb.bwt.Toolkit dlbss.
+     */
+    publid stbtid void sftToolkitAddfssor(ToolkitAddfssor tb) {
+        toolkitAddfssor = tb;
+    }
+
+    /*
+     * Gft thf bddfssor objfdt for thf jbvb.bwt.Toolkit dlbss.
+     */
+    publid stbtid ToolkitAddfssor gftToolkitAddfssor() {
+        if (toolkitAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Toolkit.dlbss);
+        }
+
+        rfturn toolkitAddfssor;
+    }
+
+    /*
+     * Gft thf bddfssor objfdt for thf jbvb.bwt.fvfnt.InvodbtionEvfnt dlbss.
+     */
+    publid stbtid void sftInvodbtionEvfntAddfssor(InvodbtionEvfntAddfssor invodbtionEvfntAddfssor) {
+        AWTAddfssor.invodbtionEvfntAddfssor = invodbtionEvfntAddfssor;
+    }
+
+    /*
+     * Sft thf bddfssor objfdt for thf jbvb.bwt.fvfnt.InvodbtionEvfnt dlbss.
+     */
+    publid stbtid InvodbtionEvfntAddfssor gftInvodbtionEvfntAddfssor() {
+        rfturn invodbtionEvfntAddfssor;
+    }
+
+    /*
+     * Gft thf bddfssor objfdt for thf jbvb.bwt.SystfmColor dlbss.
+     */
+    publid stbtid SystfmColorAddfssor gftSystfmColorAddfssor() {
+        if (systfmColorAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(SystfmColor.dlbss);
+        }
+
+        rfturn systfmColorAddfssor;
+    }
+
+     /*
+     * Sft thf bddfssor objfdt for thf jbvb.bwt.SystfmColor dlbss.
+     */
+     publid stbtid void sftSystfmColorAddfssor(SystfmColorAddfssor systfmColorAddfssor) {
+         AWTAddfssor.systfmColorAddfssor = systfmColorAddfssor;
+     }
+
+    /*
+     * Gft thf bddfssor objfdt for thf jbvbx.bddfssibility.AddfssiblfContfxt dlbss.
+     */
+    publid stbtid AddfssiblfContfxtAddfssor gftAddfssiblfContfxtAddfssor() {
+        if (bddfssiblfContfxtAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(AddfssiblfContfxt.dlbss);
+        }
+        rfturn bddfssiblfContfxtAddfssor;
+    }
+
+   /*
+    * Sft thf bddfssor objfdt for thf jbvbx.bddfssibility.AddfssiblfContfxt dlbss.
+    */
+    publid stbtid void sftAddfssiblfContfxtAddfssor(AddfssiblfContfxtAddfssor bddfssor) {
+        AWTAddfssor.bddfssiblfContfxtAddfssor = bddfssor;
+    }
+}

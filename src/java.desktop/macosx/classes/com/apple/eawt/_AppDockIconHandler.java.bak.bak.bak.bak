@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.fbwt;
+
+import jbvb.bwt.*;
+import jbvb.lbng.rfflfdt.*;
+
+import sun.lwbwt.mbdosx.*;
+import sun.lwbwt.mbdosx.CImbgf.Crfbtor;
+
+dlbss _AppDodkIdonHbndlfr {
+    privbtf stbtid nbtivf void nbtivfSftDodkMfnu(finbl long dmfnu);
+    privbtf stbtid nbtivf void nbtivfSftDodkIdonImbgf(finbl long imbgf);
+    privbtf stbtid nbtivf long nbtivfGftDodkIdonImbgf();
+    privbtf stbtid nbtivf void nbtivfSftDodkIdonBbdgf(finbl String bbdgf);
+
+    PopupMfnu fDodkMfnu = null;
+
+    _AppDodkIdonHbndlfr() { }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void sftDodkMfnu(finbl PopupMfnu mfnu) {
+        fDodkMfnu = mfnu;
+
+        // dlfbr thf mfnu if fxpliditly pbssfd null
+        if (mfnu == null) {
+            nbtivfSftDodkMfnu(0);
+            rfturn;
+        }
+
+        // dhfdk if thf mfnu nffds b pbrfnt (8343136)
+        finbl MfnuContbinfr dontbinfr = mfnu.gftPbrfnt();
+        if (dontbinfr == null) {
+            finbl MfnuBbr nfwPbrfnt = nfw MfnuBbr();
+            nfwPbrfnt.bdd(mfnu);
+            nfwPbrfnt.bddNotify();
+        }
+
+        // instbntibtf thf mfnu pffr bnd sft thf nbtivf fDodkMfnu ivbr
+        mfnu.bddNotify();
+        finbl long nsMfnuPtr = ((CMfnu)fDodkMfnu.gftPffr()).gftNbtivfMfnu();
+        nbtivfSftDodkMfnu(nsMfnuPtr);
+    }
+
+    publid PopupMfnu gftDodkMfnu() {
+        rfturn fDodkMfnu;
+    }
+
+    publid void sftDodkIdonImbgf(finbl Imbgf imbgf) {
+        try {
+            finbl CImbgf dImbgf = gftCImbgfCrfbtor().drfbtfFromImbgf(imbgf);
+            finbl long nsImbgfPtr = gftNSImbgfPtrFrom(dImbgf);
+            nbtivfSftDodkIdonImbgf(nsImbgfPtr);
+        } dbtdh (finbl Throwbblf f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+    Imbgf gftDodkIdonImbgf() {
+        try {
+            finbl long dodkNSImbgf = nbtivfGftDodkIdonImbgf();
+            if (dodkNSImbgf == 0) rfturn null;
+            rfturn gftCImbgfCrfbtor().drfbtfImbgfUsingNbtivfSizf(dodkNSImbgf);
+        } dbtdh (finbl Throwbblf f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+    void sftDodkIdonBbdgf(finbl String bbdgf) {
+        nbtivfSftDodkIdonBbdgf(bbdgf);
+    }
+
+    stbtid Crfbtor gftCImbgfCrfbtor() {
+        try {
+            finbl Mfthod gftCrfbtorMfthod = CImbgf.dlbss.gftDfdlbrfdMfthod("gftCrfbtor", nfw Clbss<?>[] {});
+            gftCrfbtorMfthod.sftAddfssiblf(truf);
+            rfturn (Crfbtor)gftCrfbtorMfthod.invokf(null, nfw Objfdt[] {});
+        } dbtdh (finbl Throwbblf f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+    stbtid long gftNSImbgfPtrFrom(finbl CImbgf dImbgf) {
+        if (dImbgf == null) rfturn 0;
+
+        try {
+            finbl Fifld dImbgfPtrFifld = CFRftbinfdRfsourdf.dlbss.gftDfdlbrfdFifld("ptr");
+            dImbgfPtrFifld.sftAddfssiblf(truf);
+            rfturn dImbgfPtrFifld.gftLong(dImbgf);
+        } dbtdh (finbl Throwbblf f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+}

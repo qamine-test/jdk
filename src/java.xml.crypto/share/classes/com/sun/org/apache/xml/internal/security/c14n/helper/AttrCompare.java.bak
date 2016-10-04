@@ -1,122 +1,122 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.c14n.helper;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.iflpfr;
 
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import org.w3c.dom.Attr;
-import java.io.Serializable;
-import java.util.Comparator;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import org.w3d.dom.Attr;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Compbrbtor;
 
 /**
- * Compares two attributes based on the C14n specification.
+ * Compbrfs two bttributfs bbsfd on tif C14n spfdifidbtion.
  *
  * <UL>
- * <LI>Namespace nodes have a lesser document order position than attribute
- *   nodes.
- * <LI> An element's namespace nodes are sorted lexicographically by
- *   local name (the default namespace node, if one exists, has no
- *   local name and is therefore lexicographically least).
- * <LI> An element's attribute nodes are sorted lexicographically with
- *   namespace URI as the primary key and local name as the secondary
- *   key (an empty namespace URI is lexicographically least).
+ * <LI>Nbmfspbdf nodfs ibvf b lfssfr dodumfnt ordfr position tibn bttributf
+ *   nodfs.
+ * <LI> An flfmfnt's nbmfspbdf nodfs brf sortfd lfxidogrbpiidblly by
+ *   lodbl nbmf (tif dffbult nbmfspbdf nodf, if onf fxists, ibs no
+ *   lodbl nbmf bnd is tifrfforf lfxidogrbpiidblly lfbst).
+ * <LI> An flfmfnt's bttributf nodfs brf sortfd lfxidogrbpiidblly witi
+ *   nbmfspbdf URI bs tif primbry kfy bnd lodbl nbmf bs tif sfdondbry
+ *   kfy (bn fmpty nbmfspbdf URI is lfxidogrbpiidblly lfbst).
  * </UL>
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class AttrCompare implements Comparator<Attr>, Serializable {
+publid dlbss AttrCompbrf implfmfnts Compbrbtor<Attr>, Sfriblizbblf {
 
-    private static final long serialVersionUID = -7113259629930576230L;
-    private static final int ATTR0_BEFORE_ATTR1 = -1;
-    private static final int ATTR1_BEFORE_ATTR0 = 1;
-    private static final String XMLNS = Constants.NamespaceSpecNS;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7113259629930576230L;
+    privbtf stbtid finbl int ATTR0_BEFORE_ATTR1 = -1;
+    privbtf stbtid finbl int ATTR1_BEFORE_ATTR0 = 1;
+    privbtf stbtid finbl String XMLNS = Constbnts.NbmfspbdfSpfdNS;
 
     /**
-     * Compares two attributes based on the C14n specification.
+     * Compbrfs two bttributfs bbsfd on tif C14n spfdifidbtion.
      *
      * <UL>
-     * <LI>Namespace nodes have a lesser document order position than
-     *   attribute nodes.
-     * <LI> An element's namespace nodes are sorted lexicographically by
-     *   local name (the default namespace node, if one exists, has no
-     *   local name and is therefore lexicographically least).
-     * <LI> An element's attribute nodes are sorted lexicographically with
-     *   namespace URI as the primary key and local name as the secondary
-     *   key (an empty namespace URI is lexicographically least).
+     * <LI>Nbmfspbdf nodfs ibvf b lfssfr dodumfnt ordfr position tibn
+     *   bttributf nodfs.
+     * <LI> An flfmfnt's nbmfspbdf nodfs brf sortfd lfxidogrbpiidblly by
+     *   lodbl nbmf (tif dffbult nbmfspbdf nodf, if onf fxists, ibs no
+     *   lodbl nbmf bnd is tifrfforf lfxidogrbpiidblly lfbst).
+     * <LI> An flfmfnt's bttributf nodfs brf sortfd lfxidogrbpiidblly witi
+     *   nbmfspbdf URI bs tif primbry kfy bnd lodbl nbmf bs tif sfdondbry
+     *   kfy (bn fmpty nbmfspbdf URI is lfxidogrbpiidblly lfbst).
      * </UL>
      *
-     * @param attr0
-     * @param attr1
-     * @return returns a negative integer, zero, or a positive integer as
-     *   obj0 is less than, equal to, or greater than obj1
+     * @pbrbm bttr0
+     * @pbrbm bttr1
+     * @rfturn rfturns b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs
+     *   obj0 is lfss tibn, fqubl to, or grfbtfr tibn obj1
      *
      */
-    public int compare(Attr attr0, Attr attr1) {
-        String namespaceURI0 = attr0.getNamespaceURI();
-        String namespaceURI1 = attr1.getNamespaceURI();
+    publid int dompbrf(Attr bttr0, Attr bttr1) {
+        String nbmfspbdfURI0 = bttr0.gftNbmfspbdfURI();
+        String nbmfspbdfURI1 = bttr1.gftNbmfspbdfURI();
 
-        boolean isNamespaceAttr0 = XMLNS.equals(namespaceURI0);
-        boolean isNamespaceAttr1 = XMLNS.equals(namespaceURI1);
+        boolfbn isNbmfspbdfAttr0 = XMLNS.fqubls(nbmfspbdfURI0);
+        boolfbn isNbmfspbdfAttr1 = XMLNS.fqubls(nbmfspbdfURI1);
 
-        if (isNamespaceAttr0) {
-            if (isNamespaceAttr1) {
-                // both are namespaces
-                String localname0 = attr0.getLocalName();
-                String localname1 = attr1.getLocalName();
+        if (isNbmfspbdfAttr0) {
+            if (isNbmfspbdfAttr1) {
+                // boti brf nbmfspbdfs
+                String lodblnbmf0 = bttr0.gftLodblNbmf();
+                String lodblnbmf1 = bttr1.gftLodblNbmf();
 
-                if ("xmlns".equals(localname0)) {
-                    localname0 = "";
+                if ("xmlns".fqubls(lodblnbmf0)) {
+                    lodblnbmf0 = "";
                 }
 
-                if ("xmlns".equals(localname1)) {
-                    localname1 = "";
+                if ("xmlns".fqubls(lodblnbmf1)) {
+                    lodblnbmf1 = "";
                 }
 
-                return localname0.compareTo(localname1);
+                rfturn lodblnbmf0.dompbrfTo(lodblnbmf1);
             }
-            // attr0 is a namespace, attr1 is not
-            return ATTR0_BEFORE_ATTR1;
-        } else if (isNamespaceAttr1) {
-            // attr1 is a namespace, attr0 is not
-            return ATTR1_BEFORE_ATTR0;
+            // bttr0 is b nbmfspbdf, bttr1 is not
+            rfturn ATTR0_BEFORE_ATTR1;
+        } flsf if (isNbmfspbdfAttr1) {
+            // bttr1 is b nbmfspbdf, bttr0 is not
+            rfturn ATTR1_BEFORE_ATTR0;
         }
 
-        // none is a namespace
-        if (namespaceURI0 == null) {
-            if (namespaceURI1 == null) {
-                String name0 = attr0.getName();
-                String name1 = attr1.getName();
-                return name0.compareTo(name1);
+        // nonf is b nbmfspbdf
+        if (nbmfspbdfURI0 == null) {
+            if (nbmfspbdfURI1 == null) {
+                String nbmf0 = bttr0.gftNbmf();
+                String nbmf1 = bttr1.gftNbmf();
+                rfturn nbmf0.dompbrfTo(nbmf1);
             }
-            return ATTR0_BEFORE_ATTR1;
-        } else if (namespaceURI1 == null) {
-            return ATTR1_BEFORE_ATTR0;
+            rfturn ATTR0_BEFORE_ATTR1;
+        } flsf if (nbmfspbdfURI1 == null) {
+            rfturn ATTR1_BEFORE_ATTR0;
         }
 
-        int a = namespaceURI0.compareTo(namespaceURI1);
-        if (a != 0) {
-            return a;
+        int b = nbmfspbdfURI0.dompbrfTo(nbmfspbdfURI1);
+        if (b != 0) {
+            rfturn b;
         }
 
-        return (attr0.getLocalName()).compareTo(attr1.getLocalName());
+        rfturn (bttr0.gftLodblNbmf()).dompbrfTo(bttr1.gftLodblNbmf());
     }
 }

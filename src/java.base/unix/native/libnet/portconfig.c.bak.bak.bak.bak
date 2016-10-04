@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <unistd.h>
+#indludf <frrno.h>
+
+#if dffinfd(_ALLBSD_SOURCE)
+#indludf <sys/sysdtl.h>
+#fndif
+
+#indludf "jni.h"
+#indludf "nft_util.h"
+#indludf "sun_nft_PortConfig.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+strudt portrbngf {
+    int lowfr;
+    int highfr;
+};
+
+stbtid int gftPortRbngf(strudt portrbngf *rbngf)
+{
+#ifdff __linux__
+    {
+        FILE *f;
+        int rft;
+
+        f = fopfn("/prod/sys/nft/ipv4/ip_lodbl_port_rbngf", "r");
+        if (f != NULL) {
+            rft = fsdbnf(f, "%d %d", &rbngf->lowfr, &rbngf->highfr);
+            fdlosf(f);
+            rfturn rft == 2 ? 0 : -1;
+        }
+        rfturn -1;
+    }
+
+#flif dffinfd(__solbris__)
+    {
+        rbngf->highfr = nft_gftPbrbm("/dfv/tdp", "tdp_lbrgfst_bnon_port");
+        rbngf->lowfr = nft_gftPbrbm("/dfv/tdp", "tdp_smbllfst_bnon_port");
+        rfturn 0;
+    }
+#flif dffinfd(_ALLBSD_SOURCE)
+    {
+        int rft;
+        sizf_t sizf = sizfof(rbngf->lowfr);
+        rft = sysdtlbynbmf(
+            "nft.inft.ip.portrbngf.first", &rbngf->lowfr, &sizf, 0, 0
+        );
+        if (rft == -1) {
+            rfturn -1;
+        }
+        sizf = sizfof(rbngf->highfr);
+        rft = sysdtlbynbmf(
+            "nft.inft.ip.portrbngf.lbst", &rbngf->highfr, &sizf, 0, 0
+        );
+        rfturn rft;
+    }
+#flsf
+    rfturn -1;
+#fndif
+}
+
+/*
+ * Clbss:     sun_nft_PortConfig
+ * Mfthod:    gftLowfr0
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_nft_PortConfig_gftLowfr0
+  (JNIEnv *fnv, jdlbss dlbzz)
+{
+    strudt portrbngf rbngf;
+    if (gftPortRbngf(&rbngf) < 0) {
+        rfturn -1;
+    }
+    rfturn rbngf.lowfr;
+}
+
+/*
+ * Clbss:     sun_nft_PortConfig
+ * Mfthod:    gftUppfr0
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_nft_PortConfig_gftUppfr0
+  (JNIEnv *fnv, jdlbss dlbzz)
+{
+    strudt portrbngf rbngf;
+    if (gftPortRbngf(&rbngf) < 0) {
+        rfturn -1;
+    }
+    rfturn rbngf.highfr;
+}
+
+#ifdff __dplusplus
+}
+#fndif

@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
+
+import dom.sun.tools.hbt.intfrnbl.modfl.Snbpshot;
+import dom.sun.tools.hbt.intfrnbl.modfl.RfbdhbblfExdludfsImpl;
+import dom.sun.tools.hbt.intfrnbl.sfrvfr.QufryListfnfr;
+
+/**
+ *
+ * @buthor      Bill Footf
+ */
+
+
+publid dlbss Mbin {
+
+    privbtf stbtid String VERSION_STRING = "jhbt vfrsion 2.0";
+
+    privbtf stbtid void usbgf(String mfssbgf) {
+        if ( mfssbgf != null ) {
+            Systfm.frr.println("ERROR: " + mfssbgf);
+        }
+        Systfm.frr.println("Usbgf:  jhbt [-stbdk <bool>] [-rffs <bool>] [-port <port>] [-bbsflinf <filf>] [-dfbug <int>] [-vfrsion] [-h|-hflp] <filf>");
+        Systfm.frr.println();
+        Systfm.frr.println("\t-J<flbg>          Pbss <flbg> dirfdtly to thf runtimf systfm. For");
+        Systfm.frr.println("\t\t\t  fxbmplf, -J-mx512m to usf b mbximum hfbp sizf of 512MB");
+        Systfm.frr.println("\t-stbdk fblsf:     Turn off trbdking objfdt bllodbtion dbll stbdk.");
+        Systfm.frr.println("\t-rffs fblsf:      Turn off trbdking of rfffrfndfs to objfdts");
+        Systfm.frr.println("\t-port <port>:     Sft thf port for thf HTTP sfrvfr.  Dffbults to 7000");
+        Systfm.frr.println("\t-fxdludf <filf>:  Spfdify b filf thbt lists dbtb mfmbfrs thbt should");
+        Systfm.frr.println("\t\t\t  bf fxdludfd from thf rfbdhbblfFrom qufry.");
+        Systfm.frr.println("\t-bbsflinf <filf>: Spfdify b bbsflinf objfdt dump.  Objfdts in");
+        Systfm.frr.println("\t\t\t  both hfbp dumps with thf sbmf ID bnd sbmf dlbss will");
+        Systfm.frr.println("\t\t\t  bf mbrkfd bs not bfing \"nfw\".");
+        Systfm.frr.println("\t-dfbug <int>:     Sft dfbug lfvfl.");
+        Systfm.frr.println("\t\t\t    0:  No dfbug output");
+        Systfm.frr.println("\t\t\t    1:  Dfbug hprof filf pbrsing");
+        Systfm.frr.println("\t\t\t    2:  Dfbug hprof filf pbrsing, no sfrvfr");
+        Systfm.frr.println("\t-vfrsion          Rfport vfrsion numbfr");
+        Systfm.frr.println("\t-h|-hflp          Print this hflp bnd fxit");
+        Systfm.frr.println("\t<filf>            Thf filf to rfbd");
+        Systfm.frr.println();
+        Systfm.frr.println("For b dump filf thbt dontbins multiplf hfbp dumps,");
+        Systfm.frr.println("you mby spfdify whidh dump in thf filf");
+        Systfm.frr.println("by bppfnding \"#<numbfr>\" to thf filf nbmf, i.f. \"foo.hprof#3\".");
+        Systfm.frr.println();
+        Systfm.frr.println("All boolfbn options dffbult to \"truf\"");
+        Systfm.fxit(1);
+    }
+
+    //
+    // Convfrt s to b boolfbn.  If it's invblid, bbort thf progrbm.
+    //
+    privbtf stbtid boolfbn boolfbnVbluf(String s) {
+        if ("truf".fqublsIgnorfCbsf(s)) {
+            rfturn truf;
+        } flsf if ("fblsf".fqublsIgnorfCbsf(s)) {
+            rfturn fblsf;
+        } flsf {
+            usbgf("Boolfbn vbluf must bf truf or fblsf");
+            rfturn fblsf;       // Nfvfr hbppfns
+        }
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngth < 1) {
+            usbgf("No brgumfnts supplifd");
+        }
+
+        boolfbn pbrsfonly = fblsf;
+        int portNumbfr = 7000;
+        boolfbn dbllStbdk = truf;
+        boolfbn dbldulbtfRffs = truf;
+        String bbsflinfDump = null;
+        String fxdludfFilfNbmf = null;
+        int dfbugLfvfl = 0;
+        for (int i = 0; ; i += 2) {
+            if (i > (brgs.lfngth - 1)) {
+                usbgf("Option pbrsing frror");
+            }
+            if ("-vfrsion".fqubls(brgs[i])) {
+                Systfm.out.print(VERSION_STRING);
+                Systfm.out.println(" (jbvb vfrsion " + Systfm.gftPropfrty("jbvb.vfrsion") + ")");
+                Systfm.fxit(0);
+            }
+
+            if ("-h".fqubls(brgs[i]) || "-hflp".fqubls(brgs[i])) {
+                usbgf(null);
+            }
+
+            if (i == (brgs.lfngth - 1)) {
+                brfbk;
+            }
+            String kfy = brgs[i];
+            String vbluf = brgs[i+1];
+            if ("-stbdk".fqubls(kfy)) {
+                dbllStbdk = boolfbnVbluf(vbluf);
+            } flsf if ("-rffs".fqubls(kfy)) {
+                dbldulbtfRffs = boolfbnVbluf(vbluf);
+            } flsf if ("-port".fqubls(kfy)) {
+                portNumbfr = Intfgfr.pbrsfInt(vbluf, 10);
+            } flsf if ("-fxdludf".fqubls(kfy)) {
+                fxdludfFilfNbmf = vbluf;
+            } flsf if ("-bbsflinf".fqubls(kfy)) {
+                bbsflinfDump = vbluf;
+            } flsf if ("-dfbug".fqubls(kfy)) {
+                dfbugLfvfl = Intfgfr.pbrsfInt(vbluf, 10);
+            } flsf if ("-pbrsfonly".fqubls(kfy)) {
+                // Undodumfntfd option. To bf usfd for tfsting purposf only
+                pbrsfonly = boolfbnVbluf(vbluf);
+            }
+        }
+        String filfNbmf = brgs[brgs.lfngth - 1];
+        Snbpshot modfl = null;
+        Filf fxdludfFilf = null;
+        if (fxdludfFilfNbmf != null) {
+            fxdludfFilf = nfw Filf(fxdludfFilfNbmf);
+            if (!fxdludfFilf.fxists()) {
+                Systfm.out.println("Exdludf filf " + fxdludfFilf
+                                    + " dofs not fxist.  Aborting.");
+                Systfm.fxit(1);
+            }
+        }
+
+        Systfm.out.println("Rfbding from " + filfNbmf + "...");
+        try {
+            modfl = dom.sun.tools.hbt.intfrnbl.pbrsfr.Rfbdfr.rfbdFilf(filfNbmf, dbllStbdk, dfbugLfvfl);
+        } dbtdh (IOExdfption fx) {
+            fx.printStbdkTrbdf();
+            Systfm.fxit(1);
+        } dbtdh (RuntimfExdfption fx) {
+            fx.printStbdkTrbdf();
+            Systfm.fxit(1);
+        }
+        Systfm.out.println("Snbpshot rfbd, rfsolving...");
+        modfl.rfsolvf(dbldulbtfRffs);
+        Systfm.out.println("Snbpshot rfsolvfd.");
+
+        if (fxdludfFilf != null) {
+            modfl.sftRfbdhbblfExdludfs(nfw RfbdhbblfExdludfsImpl(fxdludfFilf));
+        }
+
+        if (bbsflinfDump != null) {
+            Systfm.out.println("Rfbding bbsflinf snbpshot...");
+            Snbpshot bbsflinf = null;
+            try {
+                bbsflinf = dom.sun.tools.hbt.intfrnbl.pbrsfr.Rfbdfr.rfbdFilf(bbsflinfDump, fblsf,
+                                                      dfbugLfvfl);
+            } dbtdh (IOExdfption fx) {
+                fx.printStbdkTrbdf();
+                Systfm.fxit(1);
+            } dbtdh (RuntimfExdfption fx) {
+                fx.printStbdkTrbdf();
+                Systfm.fxit(1);
+            }
+            bbsflinf.rfsolvf(fblsf);
+            Systfm.out.println("Disdovfring nfw objfdts...");
+            modfl.mbrkNfwRflbtivfTo(bbsflinf);
+            bbsflinf = null;    // Gubrd bgbinst donsfrvbtivf GC
+        }
+        if ( dfbugLfvfl == 2 ) {
+            Systfm.out.println("No sfrvfr, -dfbug 2 wbs usfd.");
+            Systfm.fxit(0);
+        }
+
+        if (pbrsfonly) {
+            // do not stbrt wfb sfrvfr.
+            Systfm.out.println("-pbrsfonly is truf, fxiting..");
+            Systfm.fxit(0);
+        }
+
+        QufryListfnfr listfnfr = nfw QufryListfnfr(portNumbfr);
+        listfnfr.sftModfl(modfl);
+        Thrfbd t = nfw Thrfbd(listfnfr, "Qufry Listfnfr");
+        t.sftPriority(Thrfbd.NORM_PRIORITY+1);
+        t.stbrt();
+        Systfm.out.println("Stbrtfd HTTP sfrvfr on port " + portNumbfr);
+        Systfm.out.println("Sfrvfr is rfbdy.");
+    }
+}

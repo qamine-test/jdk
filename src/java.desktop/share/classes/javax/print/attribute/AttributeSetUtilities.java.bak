@@ -1,589 +1,589 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * Class AttributeSetUtilities provides static methods for manipulating
- * AttributeSets.
+ * Clbss AttributfSftUtilitifs providfs stbtid mftiods for mbnipulbting
+ * AttributfSfts.
  * <ul>
- * <li>Methods for creating unmodifiable and synchronized views of attribute
- * sets.
- * <li>operations useful for building
- * implementations of interface {@link AttributeSet AttributeSet}
+ * <li>Mftiods for drfbting unmodifibblf bnd syndironizfd vifws of bttributf
+ * sfts.
+ * <li>opfrbtions usfful for building
+ * implfmfntbtions of intfrfbdf {@link AttributfSft AttributfSft}
  * </ul>
  * <P>
- * An <B>unmodifiable view</B> <I>U</I> of an AttributeSet <I>S</I> provides a
- * client with "read-only" access to <I>S</I>. Query operations on <I>U</I>
- * "read through" to <I>S</I>; thus, changes in <I>S</I> are reflected in
- * <I>U</I>. However, any attempt to modify <I>U</I>,
- *  results in an UnmodifiableSetException.
- * The unmodifiable view object <I>U</I> will be serializable if the
- * attribute set object <I>S</I> is serializable.
+ * An <B>unmodifibblf vifw</B> <I>U</I> of bn AttributfSft <I>S</I> providfs b
+ * dlifnt witi "rfbd-only" bddfss to <I>S</I>. Qufry opfrbtions on <I>U</I>
+ * "rfbd tirougi" to <I>S</I>; tius, dibngfs in <I>S</I> brf rfflfdtfd in
+ * <I>U</I>. Howfvfr, bny bttfmpt to modify <I>U</I>,
+ *  rfsults in bn UnmodifibblfSftExdfption.
+ * Tif unmodifibblf vifw objfdt <I>U</I> will bf sfriblizbblf if tif
+ * bttributf sft objfdt <I>S</I> is sfriblizbblf.
  * <P>
- * A <B>synchronized view</B> <I>V</I> of an attribute set <I>S</I> provides a
- * client with synchronized (multiple thread safe) access to <I>S</I>. Each
- * operation of <I>V</I> is synchronized using <I>V</I> itself as the lock
- * object and then merely invokes the corresponding operation of <I>S</I>. In
- * order to guarantee mutually exclusive access, it is critical that all
- * access to <I>S</I> is accomplished through <I>V</I>. The synchronized view
- * object <I>V</I> will be serializable if the attribute set object <I>S</I>
- * is serializable.
+ * A <B>syndironizfd vifw</B> <I>V</I> of bn bttributf sft <I>S</I> providfs b
+ * dlifnt witi syndironizfd (multiplf tirfbd sbff) bddfss to <I>S</I>. Ebdi
+ * opfrbtion of <I>V</I> is syndironizfd using <I>V</I> itsflf bs tif lodk
+ * objfdt bnd tifn mfrfly invokfs tif dorrfsponding opfrbtion of <I>S</I>. In
+ * ordfr to gubrbntff mutublly fxdlusivf bddfss, it is dritidbl tibt bll
+ * bddfss to <I>S</I> is bddomplisifd tirougi <I>V</I>. Tif syndironizfd vifw
+ * objfdt <I>V</I> will bf sfriblizbblf if tif bttributf sft objfdt <I>S</I>
+ * is sfriblizbblf.
  * <P>
- * As mentioned in the package description of javax.print, a null reference
- * parameter to methods is
- * incorrect unless explicitly documented on the method as having a meaningful
- * interpretation.  Usage to the contrary is incorrect coding and may result in
- * a run time exception either immediately
- * or at some later time. IllegalArgumentException and NullPointerException
- * are examples of typical and acceptable run time exceptions for such cases.
+ * As mfntionfd in tif pbdkbgf dfsdription of jbvbx.print, b null rfffrfndf
+ * pbrbmftfr to mftiods is
+ * indorrfdt unlfss fxpliditly dodumfntfd on tif mftiod bs ibving b mfbningful
+ * intfrprftbtion.  Usbgf to tif dontrbry is indorrfdt doding bnd mby rfsult in
+ * b run timf fxdfption fitifr immfdibtfly
+ * or bt somf lbtfr timf. IllfgblArgumfntExdfption bnd NullPointfrExdfption
+ * brf fxbmplfs of typidbl bnd bddfptbblf run timf fxdfptions for sudi dbsfs.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class AttributeSetUtilities {
+publid finbl dlbss AttributfSftUtilitifs {
 
-    /* Suppress default constructor, ensuring non-instantiability.
+    /* Supprfss dffbult donstrudtor, fnsuring non-instbntibbility.
      */
-    private AttributeSetUtilities() {
+    privbtf AttributfSftUtilitifs() {
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class UnmodifiableAttributeSet
-        implements AttributeSet, Serializable {
-        private static final long serialVersionUID = -6131802583863447813L;
+    privbtf stbtid dlbss UnmodifibblfAttributfSft
+        implfmfnts AttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6131802583863447813L;
 
-        private AttributeSet attrset;
+        privbtf AttributfSft bttrsft;
 
-        /* Unmodifiable view of the underlying attribute set.
+        /* Unmodifibblf vifw of tif undfrlying bttributf sft.
          */
-        public UnmodifiableAttributeSet(AttributeSet attributeSet) {
+        publid UnmodifibblfAttributfSft(AttributfSft bttributfSft) {
 
-            attrset = attributeSet;
+            bttrsft = bttributfSft;
         }
 
-        public Attribute get(Class<?> key) {
-            return attrset.get(key);
+        publid Attributf gft(Clbss<?> kfy) {
+            rfturn bttrsft.gft(kfy);
         }
 
-        public boolean add(Attribute attribute) {
-            throw new UnmodifiableSetException();
+        publid boolfbn bdd(Attributf bttributf) {
+            tirow nfw UnmodifibblfSftExdfption();
         }
 
-        public synchronized boolean remove(Class<?> category) {
-            throw new UnmodifiableSetException();
+        publid syndironizfd boolfbn rfmovf(Clbss<?> dbtfgory) {
+            tirow nfw UnmodifibblfSftExdfption();
         }
 
-        public boolean remove(Attribute attribute) {
-            throw new UnmodifiableSetException();
+        publid boolfbn rfmovf(Attributf bttributf) {
+            tirow nfw UnmodifibblfSftExdfption();
         }
 
-        public boolean containsKey(Class<?> category) {
-            return attrset.containsKey(category);
+        publid boolfbn dontbinsKfy(Clbss<?> dbtfgory) {
+            rfturn bttrsft.dontbinsKfy(dbtfgory);
         }
 
-        public boolean containsValue(Attribute attribute) {
-            return attrset.containsValue(attribute);
+        publid boolfbn dontbinsVbluf(Attributf bttributf) {
+            rfturn bttrsft.dontbinsVbluf(bttributf);
         }
 
-        public boolean addAll(AttributeSet attributes) {
-            throw new UnmodifiableSetException();
+        publid boolfbn bddAll(AttributfSft bttributfs) {
+            tirow nfw UnmodifibblfSftExdfption();
         }
 
-        public int size() {
-            return attrset.size();
+        publid int sizf() {
+            rfturn bttrsft.sizf();
         }
 
-        public Attribute[] toArray() {
-            return attrset.toArray();
+        publid Attributf[] toArrby() {
+            rfturn bttrsft.toArrby();
         }
 
-        public void clear() {
-            throw new UnmodifiableSetException();
+        publid void dlfbr() {
+            tirow nfw UnmodifibblfSftExdfption();
         }
 
-        public boolean isEmpty() {
-            return attrset.isEmpty();
+        publid boolfbn isEmpty() {
+            rfturn bttrsft.isEmpty();
         }
 
-        public boolean equals(Object o) {
-            return attrset.equals (o);
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn bttrsft.fqubls (o);
         }
 
-        public int hashCode() {
-            return attrset.hashCode();
+        publid int ibsiCodf() {
+            rfturn bttrsft.ibsiCodf();
         }
 
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class UnmodifiableDocAttributeSet
-        extends UnmodifiableAttributeSet
-        implements DocAttributeSet, Serializable {
-        private static final long serialVersionUID = -6349408326066898956L;
+    privbtf stbtid dlbss UnmodifibblfDodAttributfSft
+        fxtfnds UnmodifibblfAttributfSft
+        implfmfnts DodAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6349408326066898956L;
 
-        public UnmodifiableDocAttributeSet(DocAttributeSet attributeSet) {
+        publid UnmodifibblfDodAttributfSft(DodAttributfSft bttributfSft) {
 
-            super (attributeSet);
+            supfr (bttributfSft);
         }
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class UnmodifiablePrintRequestAttributeSet
-        extends UnmodifiableAttributeSet
-        implements PrintRequestAttributeSet, Serializable
+    privbtf stbtid dlbss UnmodifibblfPrintRfqufstAttributfSft
+        fxtfnds UnmodifibblfAttributfSft
+        implfmfnts PrintRfqufstAttributfSft, Sfriblizbblf
     {
-        private static final long serialVersionUID = 7799373532614825073L;
-        public UnmodifiablePrintRequestAttributeSet
-            (PrintRequestAttributeSet attributeSet) {
+        privbtf stbtid finbl long sfriblVfrsionUID = 7799373532614825073L;
+        publid UnmodifibblfPrintRfqufstAttributfSft
+            (PrintRfqufstAttributfSft bttributfSft) {
 
-            super (attributeSet);
+            supfr (bttributfSft);
         }
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class UnmodifiablePrintJobAttributeSet
-        extends UnmodifiableAttributeSet
-        implements PrintJobAttributeSet, Serializable
+    privbtf stbtid dlbss UnmodifibblfPrintJobAttributfSft
+        fxtfnds UnmodifibblfAttributfSft
+        implfmfnts PrintJobAttributfSft, Sfriblizbblf
     {
-        private static final long serialVersionUID = -8002245296274522112L;
-        public UnmodifiablePrintJobAttributeSet
-            (PrintJobAttributeSet attributeSet) {
+        privbtf stbtid finbl long sfriblVfrsionUID = -8002245296274522112L;
+        publid UnmodifibblfPrintJobAttributfSft
+            (PrintJobAttributfSft bttributfSft) {
 
-            super (attributeSet);
+            supfr (bttributfSft);
         }
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class UnmodifiablePrintServiceAttributeSet
-        extends UnmodifiableAttributeSet
-        implements PrintServiceAttributeSet, Serializable
+    privbtf stbtid dlbss UnmodifibblfPrintSfrvidfAttributfSft
+        fxtfnds UnmodifibblfAttributfSft
+        implfmfnts PrintSfrvidfAttributfSft, Sfriblizbblf
     {
-        private static final long serialVersionUID = -7112165137107826819L;
-        public UnmodifiablePrintServiceAttributeSet
-            (PrintServiceAttributeSet attributeSet) {
+        privbtf stbtid finbl long sfriblVfrsionUID = -7112165137107826819L;
+        publid UnmodifibblfPrintSfrvidfAttributfSft
+            (PrintSfrvidfAttributfSft bttributfSft) {
 
-            super (attributeSet);
+            supfr (bttributfSft);
         }
     }
 
     /**
-     * Creates an unmodifiable view of the given attribute set.
+     * Crfbtfs bn unmodifibblf vifw of tif givfn bttributf sft.
      *
-     * @param  attributeSet  Underlying attribute set.
+     * @pbrbm  bttributfSft  Undfrlying bttributf sft.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null. Null is never a
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null. Null is nfvfr b
      */
-    public static AttributeSet unmodifiableView(AttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid AttributfSft unmodifibblfVifw(AttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        return new UnmodifiableAttributeSet(attributeSet);
+        rfturn nfw UnmodifibblfAttributfSft(bttributfSft);
     }
 
     /**
-     * Creates an unmodifiable view of the given doc attribute set.
+     * Crfbtfs bn unmodifibblf vifw of tif givfn dod bttributf sft.
      *
-     * @param  attributeSet  Underlying doc attribute set.
+     * @pbrbm  bttributfSft  Undfrlying dod bttributf sft.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null.
      */
-    public static DocAttributeSet unmodifiableView
-        (DocAttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid DodAttributfSft unmodifibblfVifw
+        (DodAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new UnmodifiableDocAttributeSet(attributeSet);
+        rfturn nfw UnmodifibblfDodAttributfSft(bttributfSft);
     }
 
     /**
-     * Creates an unmodifiable view of the given print request attribute set.
+     * Crfbtfs bn unmodifibblf vifw of tif givfn print rfqufst bttributf sft.
      *
-     * @param  attributeSet  Underlying print request attribute set.
+     * @pbrbm  bttributfSft  Undfrlying print rfqufst bttributf sft.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null.
      */
-    public static PrintRequestAttributeSet
-        unmodifiableView(PrintRequestAttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid PrintRfqufstAttributfSft
+        unmodifibblfVifw(PrintRfqufstAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new UnmodifiablePrintRequestAttributeSet(attributeSet);
+        rfturn nfw UnmodifibblfPrintRfqufstAttributfSft(bttributfSft);
     }
 
     /**
-     * Creates an unmodifiable view of the given print job attribute set.
+     * Crfbtfs bn unmodifibblf vifw of tif givfn print job bttributf sft.
      *
-     * @param  attributeSet  Underlying print job attribute set.
+     * @pbrbm  bttributfSft  Undfrlying print job bttributf sft.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null.
      */
-    public static PrintJobAttributeSet
-        unmodifiableView(PrintJobAttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid PrintJobAttributfSft
+        unmodifibblfVifw(PrintJobAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new UnmodifiablePrintJobAttributeSet(attributeSet);
+        rfturn nfw UnmodifibblfPrintJobAttributfSft(bttributfSft);
     }
 
     /**
-     * Creates an unmodifiable view of the given print service attribute set.
+     * Crfbtfs bn unmodifibblf vifw of tif givfn print sfrvidf bttributf sft.
      *
-     * @param  attributeSet  Underlying print service attribute set.
+     * @pbrbm  bttributfSft  Undfrlying print sfrvidf bttributf sft.
      *
-     * @return  Unmodifiable view of <CODE>attributeSet</CODE>.
+     * @rfturn  Unmodifibblf vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null.
      */
-    public static PrintServiceAttributeSet
-        unmodifiableView(PrintServiceAttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid PrintSfrvidfAttributfSft
+        unmodifibblfVifw(PrintSfrvidfAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new UnmodifiablePrintServiceAttributeSet (attributeSet);
+        rfturn nfw UnmodifibblfPrintSfrvidfAttributfSft (bttributfSft);
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class SynchronizedAttributeSet
-                        implements AttributeSet, Serializable {
-        private static final long serialVersionUID = 8365731020128564925L;
+    privbtf stbtid dlbss SyndironizfdAttributfSft
+                        implfmfnts AttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 8365731020128564925L;
 
-        private AttributeSet attrset;
+        privbtf AttributfSft bttrsft;
 
-        public SynchronizedAttributeSet(AttributeSet attributeSet) {
-            attrset = attributeSet;
+        publid SyndironizfdAttributfSft(AttributfSft bttributfSft) {
+            bttrsft = bttributfSft;
         }
 
-        public synchronized Attribute get(Class<?> category) {
-            return attrset.get(category);
+        publid syndironizfd Attributf gft(Clbss<?> dbtfgory) {
+            rfturn bttrsft.gft(dbtfgory);
         }
 
-        public synchronized boolean add(Attribute attribute) {
-            return attrset.add(attribute);
+        publid syndironizfd boolfbn bdd(Attributf bttributf) {
+            rfturn bttrsft.bdd(bttributf);
         }
 
-        public synchronized boolean remove(Class<?> category) {
-            return attrset.remove(category);
+        publid syndironizfd boolfbn rfmovf(Clbss<?> dbtfgory) {
+            rfturn bttrsft.rfmovf(dbtfgory);
         }
 
-        public synchronized boolean remove(Attribute attribute) {
-            return attrset.remove(attribute);
+        publid syndironizfd boolfbn rfmovf(Attributf bttributf) {
+            rfturn bttrsft.rfmovf(bttributf);
         }
 
-        public synchronized boolean containsKey(Class<?> category) {
-            return attrset.containsKey(category);
+        publid syndironizfd boolfbn dontbinsKfy(Clbss<?> dbtfgory) {
+            rfturn bttrsft.dontbinsKfy(dbtfgory);
         }
 
-        public synchronized boolean containsValue(Attribute attribute) {
-            return attrset.containsValue(attribute);
+        publid syndironizfd boolfbn dontbinsVbluf(Attributf bttributf) {
+            rfturn bttrsft.dontbinsVbluf(bttributf);
         }
 
-        public synchronized boolean addAll(AttributeSet attributes) {
-            return attrset.addAll(attributes);
+        publid syndironizfd boolfbn bddAll(AttributfSft bttributfs) {
+            rfturn bttrsft.bddAll(bttributfs);
         }
 
-        public synchronized int size() {
-            return attrset.size();
+        publid syndironizfd int sizf() {
+            rfturn bttrsft.sizf();
         }
 
-        public synchronized Attribute[] toArray() {
-            return attrset.toArray();
+        publid syndironizfd Attributf[] toArrby() {
+            rfturn bttrsft.toArrby();
         }
 
-        public synchronized void clear() {
-            attrset.clear();
+        publid syndironizfd void dlfbr() {
+            bttrsft.dlfbr();
         }
 
-        public synchronized boolean isEmpty() {
-            return attrset.isEmpty();
+        publid syndironizfd boolfbn isEmpty() {
+            rfturn bttrsft.isEmpty();
         }
 
-        public synchronized boolean equals(Object o) {
-            return attrset.equals (o);
+        publid syndironizfd boolfbn fqubls(Objfdt o) {
+            rfturn bttrsft.fqubls (o);
         }
 
-        public synchronized int hashCode() {
-            return attrset.hashCode();
+        publid syndironizfd int ibsiCodf() {
+            rfturn bttrsft.ibsiCodf();
         }
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class SynchronizedDocAttributeSet
-        extends SynchronizedAttributeSet
-        implements DocAttributeSet, Serializable {
-        private static final long serialVersionUID = 6455869095246629354L;
+    privbtf stbtid dlbss SyndironizfdDodAttributfSft
+        fxtfnds SyndironizfdAttributfSft
+        implfmfnts DodAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 6455869095246629354L;
 
-        public SynchronizedDocAttributeSet(DocAttributeSet attributeSet) {
-            super(attributeSet);
+        publid SyndironizfdDodAttributfSft(DodAttributfSft bttributfSft) {
+            supfr(bttributfSft);
         }
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class SynchronizedPrintRequestAttributeSet
-        extends SynchronizedAttributeSet
-        implements PrintRequestAttributeSet, Serializable {
-        private static final long serialVersionUID = 5671237023971169027L;
+    privbtf stbtid dlbss SyndironizfdPrintRfqufstAttributfSft
+        fxtfnds SyndironizfdAttributfSft
+        implfmfnts PrintRfqufstAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 5671237023971169027L;
 
-        public SynchronizedPrintRequestAttributeSet
-            (PrintRequestAttributeSet attributeSet) {
-            super(attributeSet);
+        publid SyndironizfdPrintRfqufstAttributfSft
+            (PrintRfqufstAttributfSft bttributfSft) {
+            supfr(bttributfSft);
         }
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class SynchronizedPrintJobAttributeSet
-        extends SynchronizedAttributeSet
-        implements PrintJobAttributeSet, Serializable {
-        private static final long serialVersionUID = 2117188707856965749L;
+    privbtf stbtid dlbss SyndironizfdPrintJobAttributfSft
+        fxtfnds SyndironizfdAttributfSft
+        implfmfnts PrintJobAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 2117188707856965749L;
 
-        public SynchronizedPrintJobAttributeSet
-            (PrintJobAttributeSet attributeSet) {
-            super(attributeSet);
+        publid SyndironizfdPrintJobAttributfSft
+            (PrintJobAttributfSft bttributfSft) {
+            supfr(bttributfSft);
         }
     }
 
     /**
-      * @serial include
+      * @sfribl indludf
       */
-    private static class SynchronizedPrintServiceAttributeSet
-        extends SynchronizedAttributeSet
-        implements PrintServiceAttributeSet, Serializable {
-        private static final long serialVersionUID = -2830705374001675073L;
+    privbtf stbtid dlbss SyndironizfdPrintSfrvidfAttributfSft
+        fxtfnds SyndironizfdAttributfSft
+        implfmfnts PrintSfrvidfAttributfSft, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -2830705374001675073L;
 
-        public SynchronizedPrintServiceAttributeSet
-            (PrintServiceAttributeSet attributeSet) {
-            super(attributeSet);
+        publid SyndironizfdPrintSfrvidfAttributfSft
+            (PrintSfrvidfAttributfSft bttributfSft) {
+            supfr(bttributfSft);
         }
     }
 
     /**
-     * Creates a synchronized view of the given attribute set.
+     * Crfbtfs b syndironizfd vifw of tif givfn bttributf sft.
      *
-     * @param  attributeSet  Underlying attribute set.
+     * @pbrbm  bttributfSft  Undfrlying bttributf sft.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @rfturn  Syndironizfd vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null.
      */
-    public static AttributeSet synchronizedView
-        (AttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid AttributfSft syndironizfdVifw
+        (AttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new SynchronizedAttributeSet(attributeSet);
+        rfturn nfw SyndironizfdAttributfSft(bttributfSft);
     }
 
     /**
-     * Creates a synchronized view of the given doc attribute set.
+     * Crfbtfs b syndironizfd vifw of tif givfn dod bttributf sft.
      *
-     * @param  attributeSet  Underlying doc attribute set.
+     * @pbrbm  bttributfSft  Undfrlying dod bttributf sft.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @rfturn  Syndironizfd vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null.
      */
-    public static DocAttributeSet
-        synchronizedView(DocAttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid DodAttributfSft
+        syndironizfdVifw(DodAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new SynchronizedDocAttributeSet(attributeSet);
+        rfturn nfw SyndironizfdDodAttributfSft(bttributfSft);
     }
 
     /**
-     * Creates a synchronized view of the given print request attribute set.
+     * Crfbtfs b syndironizfd vifw of tif givfn print rfqufst bttributf sft.
      *
-     * @param  attributeSet  Underlying print request attribute set.
+     * @pbrbm  bttributfSft  Undfrlying print rfqufst bttributf sft.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @rfturn  Syndironizfd vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null.
      */
-    public static PrintRequestAttributeSet
-        synchronizedView(PrintRequestAttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid PrintRfqufstAttributfSft
+        syndironizfdVifw(PrintRfqufstAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new SynchronizedPrintRequestAttributeSet(attributeSet);
+        rfturn nfw SyndironizfdPrintRfqufstAttributfSft(bttributfSft);
     }
 
     /**
-     * Creates a synchronized view of the given print job attribute set.
+     * Crfbtfs b syndironizfd vifw of tif givfn print job bttributf sft.
      *
-     * @param  attributeSet  Underlying print job attribute set.
+     * @pbrbm  bttributfSft  Undfrlying print job bttributf sft.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @rfturn  Syndironizfd vifw of <CODE>bttributfSft</CODE>.
      *
-     * @exception  NullPointerException
-     *     Thrown if <CODE>attributeSet</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     Tirown if <CODE>bttributfSft</CODE> is null.
      */
-    public static PrintJobAttributeSet
-        synchronizedView(PrintJobAttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid PrintJobAttributfSft
+        syndironizfdVifw(PrintJobAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new SynchronizedPrintJobAttributeSet(attributeSet);
+        rfturn nfw SyndironizfdPrintJobAttributfSft(bttributfSft);
     }
 
     /**
-     * Creates a synchronized view of the given print service attribute set.
+     * Crfbtfs b syndironizfd vifw of tif givfn print sfrvidf bttributf sft.
      *
-     * @param  attributeSet  Underlying print service attribute set.
+     * @pbrbm  bttributfSft  Undfrlying print sfrvidf bttributf sft.
      *
-     * @return  Synchronized view of <CODE>attributeSet</CODE>.
+     * @rfturn  Syndironizfd vifw of <CODE>bttributfSft</CODE>.
      */
-    public static PrintServiceAttributeSet
-        synchronizedView(PrintServiceAttributeSet attributeSet) {
-        if (attributeSet == null) {
-            throw new NullPointerException();
+    publid stbtid PrintSfrvidfAttributfSft
+        syndironizfdVifw(PrintSfrvidfAttributfSft bttributfSft) {
+        if (bttributfSft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return new SynchronizedPrintServiceAttributeSet(attributeSet);
+        rfturn nfw SyndironizfdPrintSfrvidfAttributfSft(bttributfSft);
     }
 
 
     /**
-     * Verify that the given object is a {@link java.lang.Class Class} that
-     * implements the given interface, which is assumed to be interface {@link
-     * Attribute Attribute} or a subinterface thereof.
+     * Vfrify tibt tif givfn objfdt is b {@link jbvb.lbng.Clbss Clbss} tibt
+     * implfmfnts tif givfn intfrfbdf, wiidi is bssumfd to bf intfrfbdf {@link
+     * Attributf Attributf} or b subintfrfbdf tifrfof.
      *
-     * @param  object     Object to test.
-     * @param  interfaceName  Interface the object must implement.
+     * @pbrbm  objfdt     Objfdt to tfst.
+     * @pbrbm  intfrfbdfNbmf  Intfrfbdf tif objfdt must implfmfnt.
      *
-     * @return  If <CODE>object</CODE> is a {@link java.lang.Class Class}
-     *          that implements <CODE>interfaceName</CODE>,
-     *          <CODE>object</CODE> is returned downcast to type {@link
-     *          java.lang.Class Class}; otherwise an exception is thrown.
+     * @rfturn  If <CODE>objfdt</CODE> is b {@link jbvb.lbng.Clbss Clbss}
+     *          tibt implfmfnts <CODE>intfrfbdfNbmf</CODE>,
+     *          <CODE>objfdt</CODE> is rfturnfd downdbst to typf {@link
+     *          jbvb.lbng.Clbss Clbss}; otifrwisf bn fxdfption is tirown.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>object</CODE> is null.
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if <CODE>object</CODE> is not a
-     *     {@link java.lang.Class Class} that implements
-     *     <CODE>interfaceName</CODE>.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>objfdt</CODE> is null.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>objfdt</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} tibt implfmfnts
+     *     <CODE>intfrfbdfNbmf</CODE>.
      */
-    public static Class<?>
-        verifyAttributeCategory(Object object, Class<?> interfaceName) {
+    publid stbtid Clbss<?>
+        vfrifyAttributfCbtfgory(Objfdt objfdt, Clbss<?> intfrfbdfNbmf) {
 
-        Class<?> result = (Class<?>) object;
-        if (interfaceName.isAssignableFrom (result)) {
-            return result;
+        Clbss<?> rfsult = (Clbss<?>) objfdt;
+        if (intfrfbdfNbmf.isAssignbblfFrom (rfsult)) {
+            rfturn rfsult;
         }
-        else {
-            throw new ClassCastException();
-        }
-    }
-
-    /**
-     * Verify that the given object is an instance of the given interface, which
-     * is assumed to be interface {@link Attribute Attribute} or a subinterface
-     * thereof.
-     *
-     * @param  object     Object to test.
-     * @param  interfaceName  Interface of which the object must be an instance.
-     *
-     * @return  If <CODE>object</CODE> is an instance of
-     *          <CODE>interfaceName</CODE>, <CODE>object</CODE> is returned
-     *          downcast to type {@link Attribute Attribute}; otherwise an
-     *          exception is thrown.
-     *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>object</CODE> is null.
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if <CODE>object</CODE> is not an
-     *     instance of <CODE>interfaceName</CODE>.
-     */
-    public static Attribute
-        verifyAttributeValue(Object object, Class<?> interfaceName) {
-
-        if (object == null) {
-            throw new NullPointerException();
-        }
-        else if (interfaceName.isInstance (object)) {
-            return (Attribute) object;
-        } else {
-            throw new ClassCastException();
+        flsf {
+            tirow nfw ClbssCbstExdfption();
         }
     }
 
     /**
-     * Verify that the given attribute category object is equal to the
-     * category of the given attribute value object. If so, this method
-     * returns doing nothing. If not, this method throws an exception.
+     * Vfrify tibt tif givfn objfdt is bn instbndf of tif givfn intfrfbdf, wiidi
+     * is bssumfd to bf intfrfbdf {@link Attributf Attributf} or b subintfrfbdf
+     * tifrfof.
      *
-     * @param  category   Attribute category to test.
-     * @param  attribute  Attribute value to test.
+     * @pbrbm  objfdt     Objfdt to tfst.
+     * @pbrbm  intfrfbdfNbmf  Intfrfbdf of wiidi tif objfdt must bf bn instbndf.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is
-     *     null or if the <CODE>attribute</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is not
-     *     equal to the category of the <CODE>attribute</CODE>.
+     * @rfturn  If <CODE>objfdt</CODE> is bn instbndf of
+     *          <CODE>intfrfbdfNbmf</CODE>, <CODE>objfdt</CODE> is rfturnfd
+     *          downdbst to typf {@link Attributf Attributf}; otifrwisf bn
+     *          fxdfption is tirown.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>objfdt</CODE> is null.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>objfdt</CODE> is not bn
+     *     instbndf of <CODE>intfrfbdfNbmf</CODE>.
      */
-    public static void
-        verifyCategoryForValue(Class<?> category, Attribute attribute) {
+    publid stbtid Attributf
+        vfrifyAttributfVbluf(Objfdt objfdt, Clbss<?> intfrfbdfNbmf) {
 
-        if (!category.equals (attribute.getCategory())) {
-            throw new IllegalArgumentException();
+        if (objfdt == null) {
+            tirow nfw NullPointfrExdfption();
+        }
+        flsf if (intfrfbdfNbmf.isInstbndf (objfdt)) {
+            rfturn (Attributf) objfdt;
+        } flsf {
+            tirow nfw ClbssCbstExdfption();
+        }
+    }
+
+    /**
+     * Vfrify tibt tif givfn bttributf dbtfgory objfdt is fqubl to tif
+     * dbtfgory of tif givfn bttributf vbluf objfdt. If so, tiis mftiod
+     * rfturns doing notiing. If not, tiis mftiod tirows bn fxdfption.
+     *
+     * @pbrbm  dbtfgory   Attributf dbtfgory to tfst.
+     * @pbrbm  bttributf  Attributf vbluf to tfst.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if tif <CODE>dbtfgory</CODE> is
+     *     null or if tif <CODE>bttributf</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if tif <CODE>dbtfgory</CODE> is not
+     *     fqubl to tif dbtfgory of tif <CODE>bttributf</CODE>.
+     */
+    publid stbtid void
+        vfrifyCbtfgoryForVbluf(Clbss<?> dbtfgory, Attributf bttributf) {
+
+        if (!dbtfgory.fqubls (bttributf.gftCbtfgory())) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
     }
 }

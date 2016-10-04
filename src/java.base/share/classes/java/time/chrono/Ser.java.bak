@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2011-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,203 +54,203 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.StreamCorruptedException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import jbvb.io.Extfrnblizbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidClbssExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtfTimf;
 
 /**
- * The shared serialization delegate for this package.
+ * Tif sibrfd sfriblizbtion dflfgbtf for tiis pbdkbgf.
  *
- * @implNote
- * This class wraps the object being serialized, and takes a byte representing the type of the class to
- * be serialized.  This byte can also be used for versioning the serialization format.  In this case another
- * byte flag would be used in order to specify an alternative version of the type format.
- * For example {@code CHRONO_TYPE_VERSION_2 = 21}
+ * @implNotf
+ * Tiis dlbss wrbps tif objfdt bfing sfriblizfd, bnd tbkfs b bytf rfprfsfnting tif typf of tif dlbss to
+ * bf sfriblizfd.  Tiis bytf dbn blso bf usfd for vfrsioning tif sfriblizbtion formbt.  In tiis dbsf bnotifr
+ * bytf flbg would bf usfd in ordfr to spfdify bn bltfrnbtivf vfrsion of tif typf formbt.
+ * For fxbmplf {@dodf CHRONO_TYPE_VERSION_2 = 21}
  * <p>
- * In order to serialize the object it writes its byte and then calls back to the appropriate class where
- * the serialization is performed.  In order to deserialize the object it read in the type byte, switching
- * in order to select which class to call back into.
+ * In ordfr to sfriblizf tif objfdt it writfs its bytf bnd tifn dblls bbdk to tif bppropribtf dlbss wifrf
+ * tif sfriblizbtion is pfrformfd.  In ordfr to dfsfriblizf tif objfdt it rfbd in tif typf bytf, switdiing
+ * in ordfr to sflfdt wiidi dlbss to dbll bbdk into.
  * <p>
- * The serialization format is determined on a per class basis.  In the case of field based classes each
- * of the fields is written out with an appropriate size format in descending order of the field's size.  For
- * example in the case of {@link LocalDate} year is written before month.  Composite classes, such as
- * {@link LocalDateTime} are serialized as one object.  Enum classes are serialized using the index of their
- * element.
+ * Tif sfriblizbtion formbt is dftfrminfd on b pfr dlbss bbsis.  In tif dbsf of fifld bbsfd dlbssfs fbdi
+ * of tif fiflds is writtfn out witi bn bppropribtf sizf formbt in dfsdfnding ordfr of tif fifld's sizf.  For
+ * fxbmplf in tif dbsf of {@link LodblDbtf} yfbr is writtfn bfforf monti.  Compositf dlbssfs, sudi bs
+ * {@link LodblDbtfTimf} brf sfriblizfd bs onf objfdt.  Enum dlbssfs brf sfriblizfd using tif indfx of tifir
+ * flfmfnt.
  * <p>
- * This class is mutable and should be created once per serialization.
+ * Tiis dlbss is mutbblf bnd siould bf drfbtfd ondf pfr sfriblizbtion.
  *
- * @serial include
- * @since 1.8
+ * @sfribl indludf
+ * @sindf 1.8
  */
-final class Ser implements Externalizable {
+finbl dlbss Sfr implfmfnts Extfrnblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -6103370247208168577L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6103370247208168577L;
 
-    static final byte CHRONO_TYPE = 1;
-    static final byte CHRONO_LOCAL_DATE_TIME_TYPE = 2;
-    static final byte CHRONO_ZONE_DATE_TIME_TYPE = 3;
-    static final byte JAPANESE_DATE_TYPE = 4;
-    static final byte JAPANESE_ERA_TYPE = 5;
-    static final byte HIJRAH_DATE_TYPE = 6;
-    static final byte MINGUO_DATE_TYPE = 7;
-    static final byte THAIBUDDHIST_DATE_TYPE = 8;
-    static final byte CHRONO_PERIOD_TYPE = 9;
+    stbtid finbl bytf CHRONO_TYPE = 1;
+    stbtid finbl bytf CHRONO_LOCAL_DATE_TIME_TYPE = 2;
+    stbtid finbl bytf CHRONO_ZONE_DATE_TIME_TYPE = 3;
+    stbtid finbl bytf JAPANESE_DATE_TYPE = 4;
+    stbtid finbl bytf JAPANESE_ERA_TYPE = 5;
+    stbtid finbl bytf HIJRAH_DATE_TYPE = 6;
+    stbtid finbl bytf MINGUO_DATE_TYPE = 7;
+    stbtid finbl bytf THAIBUDDHIST_DATE_TYPE = 8;
+    stbtid finbl bytf CHRONO_PERIOD_TYPE = 9;
 
-    /** The type being serialized. */
-    private byte type;
-    /** The object being serialized. */
-    private Object object;
+    /** Tif typf bfing sfriblizfd. */
+    privbtf bytf typf;
+    /** Tif objfdt bfing sfriblizfd. */
+    privbtf Objfdt objfdt;
 
     /**
-     * Constructor for deserialization.
+     * Construdtor for dfsfriblizbtion.
      */
-    public Ser() {
+    publid Sfr() {
     }
 
     /**
-     * Creates an instance for serialization.
+     * Crfbtfs bn instbndf for sfriblizbtion.
      *
-     * @param type  the type
-     * @param object  the object
+     * @pbrbm typf  tif typf
+     * @pbrbm objfdt  tif objfdt
      */
-    Ser(byte type, Object object) {
-        this.type = type;
-        this.object = object;
+    Sfr(bytf typf, Objfdt objfdt) {
+        tiis.typf = typf;
+        tiis.objfdt = objfdt;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to write the object.
-     * @serialData
-     * Each serializable class is mapped to a type that is the first byte
-     * in the stream.  Refer to each class {@code writeReplace}
-     * serialized form for the value of the type and sequence of values for the type.
+     * Implfmfnts tif {@dodf Extfrnblizbblf} intfrfbdf to writf tif objfdt.
+     * @sfriblDbtb
+     * Ebdi sfriblizbblf dlbss is mbppfd to b typf tibt is tif first bytf
+     * in tif strfbm.  Rfffr to fbdi dlbss {@dodf writfRfplbdf}
+     * sfriblizfd form for tif vbluf of tif typf bnd sfqufndf of vblufs for tif typf.
      * <ul>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.HijrahChronology">HijrahChronology.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.IsoChronology">IsoChronology.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.JapaneseChronology">JapaneseChronology.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.MinguoChronology">MinguoChronology.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.ThaiBuddhistChronology">ThaiBuddhistChronology.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.ChronoLocalDateTimeImpl">ChronoLocalDateTime.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.ChronoZonedDateTimeImpl">ChronoZonedDateTime.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.JapaneseDate">JapaneseDate.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.JapaneseEra">JapaneseEra.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.HijrahDate">HijrahDate.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.MinguoDate">MinguoDate.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.ThaiBuddhistDate">ThaiBuddhistDate.writeReplace</a>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.HijrbiCironology">HijrbiCironology.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.IsoCironology">IsoCironology.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.JbpbnfsfCironology">JbpbnfsfCironology.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.MinguoCironology">MinguoCironology.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.TibiBuddiistCironology">TibiBuddiistCironology.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.CironoLodblDbtfTimfImpl">CironoLodblDbtfTimf.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.CironoZonfdDbtfTimfImpl">CironoZonfdDbtfTimf.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.JbpbnfsfDbtf">JbpbnfsfDbtf.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.JbpbnfsfErb">JbpbnfsfErb.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.HijrbiDbtf">HijrbiDbtf.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.MinguoDbtf">MinguoDbtf.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.TibiBuddiistDbtf">TibiBuddiistDbtf.writfRfplbdf</b>
      * </ul>
      *
-     * @param out  the data stream to write to, not null
+     * @pbrbm out  tif dbtb strfbm to writf to, not null
      */
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        writeInternal(type, object, out);
+    @Ovfrridf
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        writfIntfrnbl(typf, objfdt, out);
     }
 
-    private static void writeInternal(byte type, Object object, ObjectOutput out) throws IOException {
-        out.writeByte(type);
-        switch (type) {
-            case CHRONO_TYPE:
-                ((AbstractChronology) object).writeExternal(out);
-                break;
-            case CHRONO_LOCAL_DATE_TIME_TYPE:
-                ((ChronoLocalDateTimeImpl<?>) object).writeExternal(out);
-                break;
-            case CHRONO_ZONE_DATE_TIME_TYPE:
-                ((ChronoZonedDateTimeImpl<?>) object).writeExternal(out);
-                break;
-            case JAPANESE_DATE_TYPE:
-                ((JapaneseDate) object).writeExternal(out);
-                break;
-            case JAPANESE_ERA_TYPE:
-                ((JapaneseEra) object).writeExternal(out);
-                break;
-            case HIJRAH_DATE_TYPE:
-                ((HijrahDate) object).writeExternal(out);
-                break;
-            case MINGUO_DATE_TYPE:
-                ((MinguoDate) object).writeExternal(out);
-                break;
-            case THAIBUDDHIST_DATE_TYPE:
-                ((ThaiBuddhistDate) object).writeExternal(out);
-                break;
-            case CHRONO_PERIOD_TYPE:
-                ((ChronoPeriodImpl) object).writeExternal(out);
-                break;
-            default:
-                throw new InvalidClassException("Unknown serialized type");
+    privbtf stbtid void writfIntfrnbl(bytf typf, Objfdt objfdt, ObjfdtOutput out) tirows IOExdfption {
+        out.writfBytf(typf);
+        switdi (typf) {
+            dbsf CHRONO_TYPE:
+                ((AbstrbdtCironology) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf CHRONO_LOCAL_DATE_TIME_TYPE:
+                ((CironoLodblDbtfTimfImpl<?>) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf CHRONO_ZONE_DATE_TIME_TYPE:
+                ((CironoZonfdDbtfTimfImpl<?>) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf JAPANESE_DATE_TYPE:
+                ((JbpbnfsfDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf JAPANESE_ERA_TYPE:
+                ((JbpbnfsfErb) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf HIJRAH_DATE_TYPE:
+                ((HijrbiDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf MINGUO_DATE_TYPE:
+                ((MinguoDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf THAIBUDDHIST_DATE_TYPE:
+                ((TibiBuddiistDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf CHRONO_PERIOD_TYPE:
+                ((CironoPfriodImpl) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dffbult:
+                tirow nfw InvblidClbssExdfption("Unknown sfriblizfd typf");
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to read the object.
-     * @serialData
-     * The streamed type and parameters defined by the type's {@code writeReplace}
-     * method are read and passed to the corresponding static factory for the type
-     * to create a new instance.  That instance is returned as the de-serialized
-     * {@code Ser} object.
+     * Implfmfnts tif {@dodf Extfrnblizbblf} intfrfbdf to rfbd tif objfdt.
+     * @sfriblDbtb
+     * Tif strfbmfd typf bnd pbrbmftfrs dffinfd by tif typf's {@dodf writfRfplbdf}
+     * mftiod brf rfbd bnd pbssfd to tif dorrfsponding stbtid fbdtory for tif typf
+     * to drfbtf b nfw instbndf.  Tibt instbndf is rfturnfd bs tif df-sfriblizfd
+     * {@dodf Sfr} objfdt.
      *
      * <ul>
-     * <li><a href="../../../serialized-form.html#java.time.chrono.HijrahChronology">HijrahChronology</a> - Chronology.of(id)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.IsoChronology">IsoChronology</a> - Chronology.of(id)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.JapaneseChronology">JapaneseChronology</a> - Chronology.of(id)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.MinguoChronology">MinguoChronology</a> - Chronology.of(id)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.ThaiBuddhistChronology">ThaiBuddhistChronology</a> - Chronology.of(id)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.ChronoLocalDateTimeImpl">ChronoLocalDateTime</a> - date.atTime(time)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.ChronoZonedDateTimeImpl">ChronoZonedDateTime</a> - dateTime.atZone(offset).withZoneSameLocal(zone)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.JapaneseDate">JapaneseDate</a> - JapaneseChronology.INSTANCE.date(year, month, dayOfMonth)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.JapaneseEra">JapaneseEra</a> - JapaneseEra.of(eraValue)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.HijrahDate">HijrahDate</a> - HijrahChronology chrono.date(year, month, dayOfMonth)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.MinguoDate">MinguoDate</a> - MinguoChronology.INSTANCE.date(year, month, dayOfMonth)
-     * <li><a href="../../../serialized-form.html#java.time.chrono.ThaiBuddhistDate">ThaiBuddhistDate</a> - ThaiBuddhistChronology.INSTANCE.date(year, month, dayOfMonth)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.HijrbiCironology">HijrbiCironology</b> - Cironology.of(id)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.IsoCironology">IsoCironology</b> - Cironology.of(id)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.JbpbnfsfCironology">JbpbnfsfCironology</b> - Cironology.of(id)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.MinguoCironology">MinguoCironology</b> - Cironology.of(id)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.TibiBuddiistCironology">TibiBuddiistCironology</b> - Cironology.of(id)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.CironoLodblDbtfTimfImpl">CironoLodblDbtfTimf</b> - dbtf.btTimf(timf)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.CironoZonfdDbtfTimfImpl">CironoZonfdDbtfTimf</b> - dbtfTimf.btZonf(offsft).witiZonfSbmfLodbl(zonf)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.JbpbnfsfDbtf">JbpbnfsfDbtf</b> - JbpbnfsfCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.JbpbnfsfErb">JbpbnfsfErb</b> - JbpbnfsfErb.of(frbVbluf)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.HijrbiDbtf">HijrbiDbtf</b> - HijrbiCironology dirono.dbtf(yfbr, monti, dbyOfMonti)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.MinguoDbtf">MinguoDbtf</b> - MinguoCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti)
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.TibiBuddiistDbtf">TibiBuddiistDbtf</b> - TibiBuddiistCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti)
      * </ul>
      *
-     * @param in  the data stream to read from, not null
+     * @pbrbm in  tif dbtb strfbm to rfbd from, not null
      */
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        type = in.readByte();
-        object = readInternal(type, in);
+    @Ovfrridf
+    publid void rfbdExtfrnbl(ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        typf = in.rfbdBytf();
+        objfdt = rfbdIntfrnbl(typf, in);
     }
 
-    static Object read(ObjectInput in) throws IOException, ClassNotFoundException {
-        byte type = in.readByte();
-        return readInternal(type, in);
+    stbtid Objfdt rfbd(ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        bytf typf = in.rfbdBytf();
+        rfturn rfbdIntfrnbl(typf, in);
     }
 
-    private static Object readInternal(byte type, ObjectInput in) throws IOException, ClassNotFoundException {
-        switch (type) {
-            case CHRONO_TYPE: return AbstractChronology.readExternal(in);
-            case CHRONO_LOCAL_DATE_TIME_TYPE: return ChronoLocalDateTimeImpl.readExternal(in);
-            case CHRONO_ZONE_DATE_TIME_TYPE: return ChronoZonedDateTimeImpl.readExternal(in);
-            case JAPANESE_DATE_TYPE:  return JapaneseDate.readExternal(in);
-            case JAPANESE_ERA_TYPE: return JapaneseEra.readExternal(in);
-            case HIJRAH_DATE_TYPE: return HijrahDate.readExternal(in);
-            case MINGUO_DATE_TYPE: return MinguoDate.readExternal(in);
-            case THAIBUDDHIST_DATE_TYPE: return ThaiBuddhistDate.readExternal(in);
-            case CHRONO_PERIOD_TYPE: return ChronoPeriodImpl.readExternal(in);
-            default: throw new StreamCorruptedException("Unknown serialized type");
+    privbtf stbtid Objfdt rfbdIntfrnbl(bytf typf, ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        switdi (typf) {
+            dbsf CHRONO_TYPE: rfturn AbstrbdtCironology.rfbdExtfrnbl(in);
+            dbsf CHRONO_LOCAL_DATE_TIME_TYPE: rfturn CironoLodblDbtfTimfImpl.rfbdExtfrnbl(in);
+            dbsf CHRONO_ZONE_DATE_TIME_TYPE: rfturn CironoZonfdDbtfTimfImpl.rfbdExtfrnbl(in);
+            dbsf JAPANESE_DATE_TYPE:  rfturn JbpbnfsfDbtf.rfbdExtfrnbl(in);
+            dbsf JAPANESE_ERA_TYPE: rfturn JbpbnfsfErb.rfbdExtfrnbl(in);
+            dbsf HIJRAH_DATE_TYPE: rfturn HijrbiDbtf.rfbdExtfrnbl(in);
+            dbsf MINGUO_DATE_TYPE: rfturn MinguoDbtf.rfbdExtfrnbl(in);
+            dbsf THAIBUDDHIST_DATE_TYPE: rfturn TibiBuddiistDbtf.rfbdExtfrnbl(in);
+            dbsf CHRONO_PERIOD_TYPE: rfturn CironoPfriodImpl.rfbdExtfrnbl(in);
+            dffbult: tirow nfw StrfbmCorruptfdExdfption("Unknown sfriblizfd typf");
         }
     }
 
     /**
-     * Returns the object that will replace this one.
+     * Rfturns tif objfdt tibt will rfplbdf tiis onf.
      *
-     * @return the read object, should never be null
+     * @rfturn tif rfbd objfdt, siould nfvfr bf null
      */
-    private Object readResolve() {
-         return object;
+    privbtf Objfdt rfbdRfsolvf() {
+         rfturn objfdt;
     }
 
 }

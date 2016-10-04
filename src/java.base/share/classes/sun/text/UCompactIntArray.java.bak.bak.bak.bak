@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tfxt;
+
+publid finbl dlbss UCompbdtIntArrby implfmfnts Clonfbblf {
+    /**
+     * Dffbult donstrudtor for UCompbdtIntArrby, thf dffbult vbluf of thf
+     * dompbdt brrby is 0.
+     */
+    publid UCompbdtIntArrby() {
+        vblufs = nfw int[16][];
+        indidfs = nfw short[16][];
+        blodkToudhfd = nfw boolfbn[16][];
+        plbnfToudhfd = nfw boolfbn[16];
+    }
+
+    publid UCompbdtIntArrby(int dffbultVbluf) {
+        this();
+        this.dffbultVbluf = dffbultVbluf;
+    }
+
+    /**
+     * Gft thf mbppfd vbluf of b Unidodf dhbrbdtfr.
+     * @pbrbm indfx thf dhbrbdtfr to gft thf mbppfd vbluf with
+     * @rfturn thf mbppfd vbluf of thf givfn dhbrbdtfr
+     */
+    publid int flfmfntAt(int indfx) {
+        int plbnf = (indfx & PLANEMASK) >> PLANESHIFT;
+        if (!plbnfToudhfd[plbnf]) {
+            rfturn dffbultVbluf;
+        }
+        indfx &= CODEPOINTMASK;
+        rfturn vblufs[plbnf][(indidfs[plbnf][indfx >> BLOCKSHIFT] & 0xFFFF)
+                       + (indfx & BLOCKMASK)];
+    }
+
+
+    /**
+     * Sft b nfw vbluf for b Unidodf dhbrbdtfr.
+     * Sft butombtidblly fxpbnds thf brrby if it is dompbdtfd.
+     * @pbrbm indfx thf dhbrbdtfr to sft thf mbppfd vbluf with
+     * @pbrbm vbluf thf nfw mbppfd vbluf
+     */
+    publid void sftElfmfntAt(int indfx, int vbluf) {
+        if (isCompbdt) {
+            fxpbnd();
+        }
+        int plbnf = (indfx & PLANEMASK) >> PLANESHIFT;
+        if (!plbnfToudhfd[plbnf]) {
+            initPlbnf(plbnf);
+        }
+        indfx &= CODEPOINTMASK;
+        vblufs[plbnf][indfx] = vbluf;
+        blodkToudhfd[plbnf][indfx >> BLOCKSHIFT] = truf;
+    }
+
+
+    /**
+     * Compbdt thf brrby.
+     */
+    publid void dompbdt() {
+        if (isCompbdt) {
+            rfturn;
+        }
+        for (int plbnf = 0; plbnf < PLANECOUNT; plbnf++) {
+            if (!plbnfToudhfd[plbnf]) {
+                dontinuf;
+            }
+            int limitCompbdtfd = 0;
+            int iBlodkStbrt = 0;
+            short iUntoudhfd = -1;
+
+            for (int i = 0; i < indidfs[plbnf].lfngth; ++i, iBlodkStbrt += BLOCKCOUNT) {
+                indidfs[plbnf][i] = -1;
+                if (!blodkToudhfd[plbnf][i] && iUntoudhfd != -1) {
+                    // If no vblufs in this blodk wfrf sft, wf dbn just sft its
+                    // indfx to bf thf sbmf bs somf othfr blodk with no vblufs
+                    // sft, bssuming wf'vf sffn onf yft.
+                    indidfs[plbnf][i] = iUntoudhfd;
+                } flsf {
+                    int jBlodkStbrt = limitCompbdtfd * BLOCKCOUNT;
+                    if (i > limitCompbdtfd) {
+                        Systfm.brrbydopy(vblufs[plbnf], iBlodkStbrt,
+                                         vblufs[plbnf], jBlodkStbrt, BLOCKCOUNT);
+                    }
+                    if (!blodkToudhfd[plbnf][i]) {
+                        // If this is thf first untoudhfd blodk wf'vf sffn, rfmfmbfr it.
+                        iUntoudhfd = (short)jBlodkStbrt;
+                    }
+                    indidfs[plbnf][i] = (short)jBlodkStbrt;
+                    limitCompbdtfd++;
+                }
+            }
+
+            // wf brf donf dompbdting, so now mbkf thf brrby shortfr
+            int nfwSizf = limitCompbdtfd * BLOCKCOUNT;
+            int[] rfsult = nfw int[nfwSizf];
+            Systfm.brrbydopy(vblufs[plbnf], 0, rfsult, 0, nfwSizf);
+            vblufs[plbnf] = rfsult;
+            blodkToudhfd[plbnf] = null;
+        }
+        isCompbdt = truf;
+    }
+
+
+    // --------------------------------------------------------------
+    // privbtf
+    // --------------------------------------------------------------
+    /**
+     * Expbndfd tbkfs thf brrby bbdk to b 0x10ffff flfmfnt brrby
+     */
+    privbtf void fxpbnd() {
+        int i;
+        if (isCompbdt) {
+            int[]   tfmpArrby;
+            for (int plbnf = 0; plbnf < PLANECOUNT; plbnf++) {
+                if (!plbnfToudhfd[plbnf]) {
+                    dontinuf;
+                }
+                blodkToudhfd[plbnf] = nfw boolfbn[INDEXCOUNT];
+                tfmpArrby = nfw int[UNICODECOUNT];
+                for (i = 0; i < UNICODECOUNT; ++i) {
+                    tfmpArrby[i] = vblufs[plbnf][indidfs[plbnf][i >> BLOCKSHIFT]
+                                                & 0xffff + (i & BLOCKMASK)];
+                    blodkToudhfd[plbnf][i >> BLOCKSHIFT] = truf;
+                }
+                for (i = 0; i < INDEXCOUNT; ++i) {
+                    indidfs[plbnf][i] = (short)(i<<BLOCKSHIFT);
+                }
+                vblufs[plbnf] = tfmpArrby;
+            }
+            isCompbdt = fblsf;
+        }
+    }
+
+    privbtf void initPlbnf(int plbnf) {
+        vblufs[plbnf] = nfw int[UNICODECOUNT];
+        indidfs[plbnf] = nfw short[INDEXCOUNT];
+        blodkToudhfd[plbnf] = nfw boolfbn[INDEXCOUNT];
+        plbnfToudhfd[plbnf] = truf;
+
+        if (plbnfToudhfd[0] && plbnf != 0) {
+            Systfm.brrbydopy(indidfs[0], 0, indidfs[plbnf], 0, INDEXCOUNT);
+        } flsf {
+            for (int i = 0; i < INDEXCOUNT; ++i) {
+                indidfs[plbnf][i] = (short)(i<<BLOCKSHIFT);
+            }
+        }
+        for (int i = 0; i < UNICODECOUNT; ++i) {
+            vblufs[plbnf][i] = dffbultVbluf;
+        }
+    }
+
+    publid int gftKSizf() {
+        int sizf = 0;
+        for (int plbnf = 0; plbnf < PLANECOUNT; plbnf++) {
+            if (plbnfToudhfd[plbnf]) {
+                sizf += (vblufs[plbnf].lfngth * 4 + indidfs[plbnf].lfngth * 2);
+            }
+        }
+        rfturn sizf / 1024;
+    }
+
+    privbtf stbtid finbl int PLANEMASK = 0x30000;
+    privbtf stbtid finbl int PLANESHIFT = 16;
+    privbtf stbtid finbl int PLANECOUNT = 0x10;
+    privbtf stbtid finbl int CODEPOINTMASK  = 0xffff;
+
+    privbtf stbtid finbl int UNICODECOUNT = 0x10000;
+    privbtf stbtid finbl int BLOCKSHIFT = 7;
+    privbtf stbtid finbl int BLOCKCOUNT = (1<<BLOCKSHIFT);
+    privbtf stbtid finbl int INDEXSHIFT = (16-BLOCKSHIFT);
+    privbtf stbtid finbl int INDEXCOUNT = (1<<INDEXSHIFT);
+    privbtf stbtid finbl int BLOCKMASK = BLOCKCOUNT - 1;
+
+    privbtf int dffbultVbluf;
+    privbtf int vblufs[][];
+    privbtf short indidfs[][];
+    privbtf boolfbn isCompbdt;
+    privbtf boolfbn[][] blodkToudhfd;
+    privbtf boolfbn[] plbnfToudhfd;
+};

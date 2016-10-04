@@ -1,354 +1,354 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.lang.reflect.Method;
-import java.security.AccessController;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.sfdurity.AddfssControllfr;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import com.sun.jmx.mbeanserver.Introspector;
-import java.util.Objects;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.util.Objfdts;
 
 
 /**
- * Describes an MBean attribute exposed for management.  Instances of
- * this class are immutable.  Subclasses may be mutable but this is
- * not recommended.
+ * Dfsdribfs bn MBfbn bttributf fxposfd for mbnbgfmfnt.  Instbndfs of
+ * tiis dlbss brf immutbblf.  Subdlbssfs mby bf mutbblf but tiis is
+ * not rfdommfndfd.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class MBeanAttributeInfo extends MBeanFeatureInfo implements Cloneable {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss MBfbnAttributfInfo fxtfnds MBfbnFfbturfInfo implfmfnts Clonfbblf {
 
-    /* Serial version */
-    private static final long serialVersionUID;
-    static {
-        /* For complicated reasons, the serialVersionUID changed
-           between JMX 1.0 and JMX 1.1, even though JMX 1.1 did not
-           have compatibility code for this class.  So the
-           serialization produced by this class with JMX 1.2 and
-           jmx.serial.form=1.0 is not the same as that produced by
-           this class with JMX 1.1 and jmx.serial.form=1.0.  However,
-           the serialization without that property is the same, and
-           that is the only form required by JMX 1.2.
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    stbtid {
+        /* For domplidbtfd rfbsons, tif sfriblVfrsionUID dibngfd
+           bftwffn JMX 1.0 bnd JMX 1.1, fvfn tiougi JMX 1.1 did not
+           ibvf dompbtibility dodf for tiis dlbss.  So tif
+           sfriblizbtion produdfd by tiis dlbss witi JMX 1.2 bnd
+           jmx.sfribl.form=1.0 is not tif sbmf bs tibt produdfd by
+           tiis dlbss witi JMX 1.1 bnd jmx.sfribl.form=1.0.  Howfvfr,
+           tif sfriblizbtion witiout tibt propfrty is tif sbmf, bnd
+           tibt is tif only form rfquirfd by JMX 1.2.
         */
         long uid = 8644704819898565848L;
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            if ("1.0".equals(form))
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            if ("1.0".fqubls(form))
                 uid = 7043855487133450673L;
-        } catch (Exception e) {
-            // OK: exception means no compat with 1.0, too bad
+        } dbtdi (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt witi 1.0, too bbd
         }
-        serialVersionUID = uid;
+        sfriblVfrsionUID = uid;
     }
 
-    static final MBeanAttributeInfo[] NO_ATTRIBUTES =
-        new MBeanAttributeInfo[0];
+    stbtid finbl MBfbnAttributfInfo[] NO_ATTRIBUTES =
+        nfw MBfbnAttributfInfo[0];
 
     /**
-     * @serial The actual attribute type.
+     * @sfribl Tif bdtubl bttributf typf.
      */
-    private final String attributeType;
+    privbtf finbl String bttributfTypf;
 
     /**
-     * @serial The attribute write right.
+     * @sfribl Tif bttributf writf rigit.
      */
-    private final boolean isWrite;
+    privbtf finbl boolfbn isWritf;
 
     /**
-     * @serial The attribute read right.
+     * @sfribl Tif bttributf rfbd rigit.
      */
-    private final boolean isRead;
+    privbtf finbl boolfbn isRfbd;
 
     /**
-     * @serial Indicates if this method is a "is"
+     * @sfribl Indidbtfs if tiis mftiod is b "is"
      */
-    private final boolean is;
+    privbtf finbl boolfbn is;
 
 
     /**
-     * Constructs an <CODE>MBeanAttributeInfo</CODE> object.
+     * Construdts bn <CODE>MBfbnAttributfInfo</CODE> objfdt.
      *
-     * @param name The name of the attribute.
-     * @param type The type or class name of the attribute.
-     * @param description A human readable description of the attribute.
-     * @param isReadable True if the attribute has a getter method, false otherwise.
-     * @param isWritable True if the attribute has a setter method, false otherwise.
-     * @param isIs True if this attribute has an "is" getter, false otherwise.
+     * @pbrbm nbmf Tif nbmf of tif bttributf.
+     * @pbrbm typf Tif typf or dlbss nbmf of tif bttributf.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif bttributf.
+     * @pbrbm isRfbdbblf Truf if tif bttributf ibs b gfttfr mftiod, fblsf otifrwisf.
+     * @pbrbm isWritbblf Truf if tif bttributf ibs b sfttfr mftiod, fblsf otifrwisf.
+     * @pbrbm isIs Truf if tiis bttributf ibs bn "is" gfttfr, fblsf otifrwisf.
      *
-     * @throws IllegalArgumentException if {@code isIs} is true but
-     * {@code isReadable} is not, or if {@code isIs} is true and
-     * {@code type} is not {@code boolean} or {@code java.lang.Boolean}.
-     * (New code should always use {@code boolean} rather than
-     * {@code java.lang.Boolean}.)
+     * @tirows IllfgblArgumfntExdfption if {@dodf isIs} is truf but
+     * {@dodf isRfbdbblf} is not, or if {@dodf isIs} is truf bnd
+     * {@dodf typf} is not {@dodf boolfbn} or {@dodf jbvb.lbng.Boolfbn}.
+     * (Nfw dodf siould blwbys usf {@dodf boolfbn} rbtifr tibn
+     * {@dodf jbvb.lbng.Boolfbn}.)
      */
-    public MBeanAttributeInfo(String name,
-                              String type,
-                              String description,
-                              boolean isReadable,
-                              boolean isWritable,
-                              boolean isIs) {
-        this(name, type, description, isReadable, isWritable, isIs,
-             (Descriptor) null);
+    publid MBfbnAttributfInfo(String nbmf,
+                              String typf,
+                              String dfsdription,
+                              boolfbn isRfbdbblf,
+                              boolfbn isWritbblf,
+                              boolfbn isIs) {
+        tiis(nbmf, typf, dfsdription, isRfbdbblf, isWritbblf, isIs,
+             (Dfsdriptor) null);
     }
 
     /**
-     * Constructs an <CODE>MBeanAttributeInfo</CODE> object.
+     * Construdts bn <CODE>MBfbnAttributfInfo</CODE> objfdt.
      *
-     * @param name The name of the attribute.
-     * @param type The type or class name of the attribute.
-     * @param description A human readable description of the attribute.
-     * @param isReadable True if the attribute has a getter method, false otherwise.
-     * @param isWritable True if the attribute has a setter method, false otherwise.
-     * @param isIs True if this attribute has an "is" getter, false otherwise.
-     * @param descriptor The descriptor for the attribute.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm nbmf Tif nbmf of tif bttributf.
+     * @pbrbm typf Tif typf or dlbss nbmf of tif bttributf.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif bttributf.
+     * @pbrbm isRfbdbblf Truf if tif bttributf ibs b gfttfr mftiod, fblsf otifrwisf.
+     * @pbrbm isWritbblf Truf if tif bttributf ibs b sfttfr mftiod, fblsf otifrwisf.
+     * @pbrbm isIs Truf if tiis bttributf ibs bn "is" gfttfr, fblsf otifrwisf.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif bttributf.  Tiis mby bf null
+     * wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @throws IllegalArgumentException if {@code isIs} is true but
-     * {@code isReadable} is not, or if {@code isIs} is true and
-     * {@code type} is not {@code boolean} or {@code java.lang.Boolean}.
-     * (New code should always use {@code boolean} rather than
-     * {@code java.lang.Boolean}.)
+     * @tirows IllfgblArgumfntExdfption if {@dodf isIs} is truf but
+     * {@dodf isRfbdbblf} is not, or if {@dodf isIs} is truf bnd
+     * {@dodf typf} is not {@dodf boolfbn} or {@dodf jbvb.lbng.Boolfbn}.
+     * (Nfw dodf siould blwbys usf {@dodf boolfbn} rbtifr tibn
+     * {@dodf jbvb.lbng.Boolfbn}.)
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public MBeanAttributeInfo(String name,
-                              String type,
-                              String description,
-                              boolean isReadable,
-                              boolean isWritable,
-                              boolean isIs,
-                              Descriptor descriptor) {
-        super(name, description, descriptor);
+    publid MBfbnAttributfInfo(String nbmf,
+                              String typf,
+                              String dfsdription,
+                              boolfbn isRfbdbblf,
+                              boolfbn isWritbblf,
+                              boolfbn isIs,
+                              Dfsdriptor dfsdriptor) {
+        supfr(nbmf, dfsdription, dfsdriptor);
 
-        this.attributeType = type;
-        this.isRead = isReadable;
-        this.isWrite = isWritable;
-        if (isIs && !isReadable) {
-            throw new IllegalArgumentException("Cannot have an \"is\" getter " +
-                                               "for a non-readable attribute");
+        tiis.bttributfTypf = typf;
+        tiis.isRfbd = isRfbdbblf;
+        tiis.isWritf = isWritbblf;
+        if (isIs && !isRfbdbblf) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot ibvf bn \"is\" gfttfr " +
+                                               "for b non-rfbdbblf bttributf");
         }
-        if (isIs && !type.equals("java.lang.Boolean") &&
-                !type.equals("boolean")) {
-            throw new IllegalArgumentException("Cannot have an \"is\" getter " +
-                                               "for a non-boolean attribute");
+        if (isIs && !typf.fqubls("jbvb.lbng.Boolfbn") &&
+                !typf.fqubls("boolfbn")) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot ibvf bn \"is\" gfttfr " +
+                                               "for b non-boolfbn bttributf");
         }
-        this.is = isIs;
+        tiis.is = isIs;
     }
 
     /**
-     * <p>This constructor takes the name of a simple attribute, and Method
-     * objects for reading and writing the attribute.  The {@link Descriptor}
-     * of the constructed object will include fields contributed by any
-     * annotations on the {@code Method} objects that contain the
-     * {@link DescriptorKey} meta-annotation.
+     * <p>Tiis donstrudtor tbkfs tif nbmf of b simplf bttributf, bnd Mftiod
+     * objfdts for rfbding bnd writing tif bttributf.  Tif {@link Dfsdriptor}
+     * of tif donstrudtfd objfdt will indludf fiflds dontributfd by bny
+     * bnnotbtions on tif {@dodf Mftiod} objfdts tibt dontbin tif
+     * {@link DfsdriptorKfy} mftb-bnnotbtion.
      *
-     * @param name The programmatic name of the attribute.
-     * @param description A human readable description of the attribute.
-     * @param getter The method used for reading the attribute value.
-     *          May be null if the property is write-only.
-     * @param setter The method used for writing the attribute value.
-     *          May be null if the attribute is read-only.
-     * @exception IntrospectionException There is a consistency
-     * problem in the definition of this attribute.
+     * @pbrbm nbmf Tif progrbmmbtid nbmf of tif bttributf.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif bttributf.
+     * @pbrbm gfttfr Tif mftiod usfd for rfbding tif bttributf vbluf.
+     *          Mby bf null if tif propfrty is writf-only.
+     * @pbrbm sfttfr Tif mftiod usfd for writing tif bttributf vbluf.
+     *          Mby bf null if tif bttributf is rfbd-only.
+     * @fxdfption IntrospfdtionExdfption Tifrf is b donsistfndy
+     * problfm in tif dffinition of tiis bttributf.
      */
-    public MBeanAttributeInfo(String name,
-                              String description,
-                              Method getter,
-                              Method setter) throws IntrospectionException {
-        this(name,
-             attributeType(getter, setter),
-             description,
-             (getter != null),
-             (setter != null),
-             isIs(getter),
-             ImmutableDescriptor.union(Introspector.descriptorForElement(getter),
-                                   Introspector.descriptorForElement(setter)));
+    publid MBfbnAttributfInfo(String nbmf,
+                              String dfsdription,
+                              Mftiod gfttfr,
+                              Mftiod sfttfr) tirows IntrospfdtionExdfption {
+        tiis(nbmf,
+             bttributfTypf(gfttfr, sfttfr),
+             dfsdription,
+             (gfttfr != null),
+             (sfttfr != null),
+             isIs(gfttfr),
+             ImmutbblfDfsdriptor.union(Introspfdtor.dfsdriptorForElfmfnt(gfttfr),
+                                   Introspfdtor.dfsdriptorForElfmfnt(sfttfr)));
     }
 
     /**
-     * <p>Returns a shallow clone of this instance.
-     * The clone is obtained by simply calling <tt>super.clone()</tt>,
-     * thus calling the default native shallow cloning mechanism
-     * implemented by <tt>Object.clone()</tt>.
-     * No deeper cloning of any internal field is made.</p>
+     * <p>Rfturns b sibllow dlonf of tiis instbndf.
+     * Tif dlonf is obtbinfd by simply dblling <tt>supfr.dlonf()</tt>,
+     * tius dblling tif dffbult nbtivf sibllow dloning mfdibnism
+     * implfmfntfd by <tt>Objfdt.dlonf()</tt>.
+     * No dffpfr dloning of bny intfrnbl fifld is mbdf.</p>
      *
-     * <p>Since this class is immutable, cloning is chiefly of
-     * interest to subclasses.</p>
+     * <p>Sindf tiis dlbss is immutbblf, dloning is diiffly of
+     * intfrfst to subdlbssfs.</p>
      */
-     public Object clone () {
+     publid Objfdt dlonf () {
          try {
-             return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
-             return null;
+             rfturn supfr.dlonf() ;
+         } dbtdi (ClonfNotSupportfdExdfption f) {
+             // siould not ibppfn bs tiis dlbss is dlonfbblf
+             rfturn null;
          }
      }
 
     /**
-     * Returns the class name of the attribute.
+     * Rfturns tif dlbss nbmf of tif bttributf.
      *
-     * @return the class name.
+     * @rfturn tif dlbss nbmf.
      */
-    public String getType() {
-        return attributeType;
+    publid String gftTypf() {
+        rfturn bttributfTypf;
     }
 
     /**
-     * Whether the value of the attribute can be read.
+     * Wiftifr tif vbluf of tif bttributf dbn bf rfbd.
      *
-     * @return True if the attribute can be read, false otherwise.
+     * @rfturn Truf if tif bttributf dbn bf rfbd, fblsf otifrwisf.
      */
-    public boolean isReadable() {
-        return isRead;
+    publid boolfbn isRfbdbblf() {
+        rfturn isRfbd;
     }
 
     /**
-     * Whether new values can be written to the attribute.
+     * Wiftifr nfw vblufs dbn bf writtfn to tif bttributf.
      *
-     * @return True if the attribute can be written to, false otherwise.
+     * @rfturn Truf if tif bttributf dbn bf writtfn to, fblsf otifrwisf.
      */
-    public boolean isWritable() {
-        return isWrite;
+    publid boolfbn isWritbblf() {
+        rfturn isWritf;
     }
 
     /**
-     * Indicates if this attribute has an "is" getter.
+     * Indidbtfs if tiis bttributf ibs bn "is" gfttfr.
      *
-     * @return true if this attribute has an "is" getter.
+     * @rfturn truf if tiis bttributf ibs bn "is" gfttfr.
      */
-    public boolean isIs() {
-        return is;
+    publid boolfbn isIs() {
+        rfturn is;
     }
 
-    public String toString() {
-        String access;
-        if (isReadable()) {
-            if (isWritable())
-                access = "read/write";
-            else
-                access = "read-only";
-        } else if (isWritable())
-            access = "write-only";
-        else
-            access = "no-access";
+    publid String toString() {
+        String bddfss;
+        if (isRfbdbblf()) {
+            if (isWritbblf())
+                bddfss = "rfbd/writf";
+            flsf
+                bddfss = "rfbd-only";
+        } flsf if (isWritbblf())
+            bddfss = "writf-only";
+        flsf
+            bddfss = "no-bddfss";
 
-        return
-            getClass().getName() + "[" +
-            "description=" + getDescription() + ", " +
-            "name=" + getName() + ", " +
-            "type=" + getType() + ", " +
-            access + ", " +
+        rfturn
+            gftClbss().gftNbmf() + "[" +
+            "dfsdription=" + gftDfsdription() + ", " +
+            "nbmf=" + gftNbmf() + ", " +
+            "typf=" + gftTypf() + ", " +
+            bddfss + ", " +
             (isIs() ? "isIs, " : "") +
-            "descriptor=" + getDescriptor() +
+            "dfsdriptor=" + gftDfsdriptor() +
             "]";
     }
 
     /**
-     * Compare this MBeanAttributeInfo to another.
+     * Compbrf tiis MBfbnAttributfInfo to bnotifr.
      *
-     * @param o the object to compare to.
+     * @pbrbm o tif objfdt to dompbrf to.
      *
-     * @return true if and only if <code>o</code> is an MBeanAttributeInfo such
-     * that its {@link #getName()}, {@link #getType()}, {@link
-     * #getDescription()}, {@link #isReadable()}, {@link
-     * #isWritable()}, and {@link #isIs()} values are equal (not
-     * necessarily identical) to those of this MBeanAttributeInfo.
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnAttributfInfo sudi
+     * tibt its {@link #gftNbmf()}, {@link #gftTypf()}, {@link
+     * #gftDfsdription()}, {@link #isRfbdbblf()}, {@link
+     * #isWritbblf()}, bnd {@link #isIs()} vblufs brf fqubl (not
+     * nfdfssbrily idfntidbl) to tiosf of tiis MBfbnAttributfInfo.
      */
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof MBeanAttributeInfo))
-            return false;
-        MBeanAttributeInfo p = (MBeanAttributeInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getType(), getType()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()) &&
-                p.isReadable() == isReadable() &&
-                p.isWritable() == isWritable() &&
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
+        if (!(o instbndfof MBfbnAttributfInfo))
+            rfturn fblsf;
+        MBfbnAttributfInfo p = (MBfbnAttributfInfo) o;
+        rfturn (Objfdts.fqubls(p.gftNbmf(), gftNbmf()) &&
+                Objfdts.fqubls(p.gftTypf(), gftTypf()) &&
+                Objfdts.fqubls(p.gftDfsdription(), gftDfsdription()) &&
+                Objfdts.fqubls(p.gftDfsdriptor(), gftDfsdriptor()) &&
+                p.isRfbdbblf() == isRfbdbblf() &&
+                p.isWritbblf() == isWritbblf() &&
                 p.isIs() == isIs());
     }
 
-    /* We do not include everything in the hashcode.  We assume that
-       if two operations are different they'll probably have different
-       names or types.  The penalty we pay when this assumption is
-       wrong should be less than the penalty we would pay if it were
-       right and we needlessly hashed in the description and parameter
-       array.  */
-    public int hashCode() {
-        return Objects.hash(getName(), getType());
+    /* Wf do not indludf fvfrytiing in tif ibsidodf.  Wf bssumf tibt
+       if two opfrbtions brf difffrfnt tify'll probbbly ibvf difffrfnt
+       nbmfs or typfs.  Tif pfnblty wf pby wifn tiis bssumption is
+       wrong siould bf lfss tibn tif pfnblty wf would pby if it wfrf
+       rigit bnd wf nffdlfssly ibsifd in tif dfsdription bnd pbrbmftfr
+       brrby.  */
+    publid int ibsiCodf() {
+        rfturn Objfdts.ibsi(gftNbmf(), gftTypf());
     }
 
-    private static boolean isIs(Method getter) {
-        return (getter != null &&
-                getter.getName().startsWith("is") &&
-                (getter.getReturnType().equals(Boolean.TYPE) ||
-                 getter.getReturnType().equals(Boolean.class)));
+    privbtf stbtid boolfbn isIs(Mftiod gfttfr) {
+        rfturn (gfttfr != null &&
+                gfttfr.gftNbmf().stbrtsWiti("is") &&
+                (gfttfr.gftRfturnTypf().fqubls(Boolfbn.TYPE) ||
+                 gfttfr.gftRfturnTypf().fqubls(Boolfbn.dlbss)));
     }
 
     /**
-     * Finds the type of the attribute.
+     * Finds tif typf of tif bttributf.
      */
-    private static String attributeType(Method getter, Method setter)
-            throws IntrospectionException {
-        Class<?> type = null;
+    privbtf stbtid String bttributfTypf(Mftiod gfttfr, Mftiod sfttfr)
+            tirows IntrospfdtionExdfption {
+        Clbss<?> typf = null;
 
-        if (getter != null) {
-            if (getter.getParameterTypes().length != 0) {
-                throw new IntrospectionException("bad getter arg count");
+        if (gfttfr != null) {
+            if (gfttfr.gftPbrbmftfrTypfs().lfngti != 0) {
+                tirow nfw IntrospfdtionExdfption("bbd gfttfr brg dount");
             }
-            type = getter.getReturnType();
-            if (type == Void.TYPE) {
-                throw new IntrospectionException("getter " + getter.getName() +
-                                                 " returns void");
-            }
-        }
-
-        if (setter != null) {
-            Class<?> params[] = setter.getParameterTypes();
-            if (params.length != 1) {
-                throw new IntrospectionException("bad setter arg count");
-            }
-            if (type == null)
-                type = params[0];
-            else if (type != params[0]) {
-                throw new IntrospectionException("type mismatch between " +
-                                                 "getter and setter");
+            typf = gfttfr.gftRfturnTypf();
+            if (typf == Void.TYPE) {
+                tirow nfw IntrospfdtionExdfption("gfttfr " + gfttfr.gftNbmf() +
+                                                 " rfturns void");
             }
         }
 
-        if (type == null) {
-            throw new IntrospectionException("getter and setter cannot " +
-                                             "both be null");
+        if (sfttfr != null) {
+            Clbss<?> pbrbms[] = sfttfr.gftPbrbmftfrTypfs();
+            if (pbrbms.lfngti != 1) {
+                tirow nfw IntrospfdtionExdfption("bbd sfttfr brg dount");
+            }
+            if (typf == null)
+                typf = pbrbms[0];
+            flsf if (typf != pbrbms[0]) {
+                tirow nfw IntrospfdtionExdfption("typf mismbtdi bftwffn " +
+                                                 "gfttfr bnd sfttfr");
+            }
         }
 
-        return type.getName();
+        if (typf == null) {
+            tirow nfw IntrospfdtionExdfption("gfttfr bnd sfttfr dbnnot " +
+                                             "boti bf null");
+        }
+
+        rfturn typf.gftNbmf();
     }
 
 }

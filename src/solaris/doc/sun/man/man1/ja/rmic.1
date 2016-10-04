@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: rmic
-.\" Lbngubge: English
-.\" Dbte: 2013年11月21日
-.\" SectDesc: Remote Method Invocbtion (RMI)ツール
-.\" Softwbre: JDK 8
-.\" Arch: 汎用
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: rmid
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "rmic" "1" "2013年11月21日" "JDK 8" "Remote Method Invocbtion (RMI)"
+.TH "rmid" "1" "2013年11月21日" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-rmic \- Jbvb Remote Method Protocol (JRMP)またはInternet Inter\-Orb protocol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTieクラスを生成します。Object Mbnbgement Group (OMG)インタフェース定義言語(IDL)も生成します
+rmid \- Jbvb Rfmotf Mftiod Protodol (JRMP)またはIntfrnft Intfr\-Orb protodol (IIOP)を使用するリモート・オブジェクトのスタブ、スケルトンおよびTifクラスを生成します。Objfdt Mbnbgfmfnt Group (OMG)インタフェース定義言語(IDL)も生成します
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIrmic\fR [ \fIoptions\fR ] \fIpbckbge\-qublified\-clbss\-nbmes\fR
+\fIrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
 .fi
 .if n \{\
 .RE
@@ -67,7 +67,7 @@ rmic \- Jbvb Remote Method Protocol (JRMP)またはInternet Inter\-Orb protocol (II
 コマンドライン・\fIオプション\fR。オプションを参照してください。
 .RE
 .PP
-\fIpbckbge\-qublified\-clbss\-nbmes\fR
+\fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
 .RS 4
 パッケージを含むクラス名。例:
 \fIjbvb\&.bwt\&.Color\fR。
@@ -75,15 +75,15 @@ rmic \- Jbvb Remote Method Protocol (JRMP)またはInternet Inter\-Orb protocol (II
 .SH "説明"
 .PP
 \fB非推奨に関する注意:\fR
-Jbvb Remote Method Protocol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjbvb\&.rmi\&.server\&.UnicbstRemoteObject\fR仕様(http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvb/rmi/server/UnicbstRemoteObject\&.html)を参照してください。
+Jbvb Rfmotf Mftiod Protodol (JRMP)スタブおよびスケルトンの静的な生成のサポートは非推奨になりました。動的に生成されるJRMPスタブをかわりに使用して、JRMPベースのアプリケーションにこのツールを使用する必要性をなくすことをお薦めします。詳細は、\fIjbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR仕様(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.itml)を参照してください。
 .PP
-\fIrmic\fRコンパイラは、Jbvb Remote Method Protocol (JRMP)とスタブおよびTieクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Jbvbプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjbvb\&.rmi\&.Remote\fRインタフェースを実装するクラスです。\fIrmic\fRコマンドでのクラス名は、そのクラスが\fIjbvbc\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHelloImpl\fRで\fIrmic\fRコマンドを実行すると、helloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHelloImpl_Stub\&.clbss \fRファイルが作成されます。
+\fIrmid\fRコンパイラは、Jbvb Rfmotf Mftiod Protodol (JRMP)とスタブおよびTifクラス・ファイル(IIOPプロトコル)を使用して、リモート・オブジェクトのスタブおよびスケルトン・クラス・ファイルを生成します。リモート・オブジェクトの実装クラスであるこれらのクラス・ファイルは、Jbvbプログラミング言語のクラスをコンパイルしたときに生成されます。リモート実装クラスは、\fIjbvb\&.rmi\&.Rfmotf\fRインタフェースを実装するクラスです。\fIrmid\fRコマンドでのクラス名は、そのクラスが\fIjbvbd\fRコマンドでコンパイルが成功していて、かつ完全修飾パッケージ名である必要があります。たとえば、次に示すクラス・ファイル名\fIHflloImpl\fRで\fIrmid\fRコマンドを実行すると、iflloサブディレクトリ(クラスのパッケージの名前の付いた)に\fIHflloImpl_Stub\&.dlbss \fRファイルが作成されます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-rmic hello\&.HelloImpl
+rmid ifllo\&.HflloImpl
 .fi
 .if n \{\
 .RE
@@ -91,43 +91,43 @@ rmic hello\&.HelloImpl
 .PP
 リモート・オブジェクトのスケルトンはJRMPプロトコル・サーバー側のエンティティで、リモート・オブジェクト実装を呼び出すメソッドを含みます。
 .PP
-リモート・オブジェクトのTieは、スケルトンと同様にサーバー側のエンティティですが、IIOPプロトコルを使用してクライアントと通信します。
+リモート・オブジェクトのTifは、スケルトンと同様にサーバー側のエンティティですが、IIOPプロトコルを使用してクライアントと通信します。
 .PP
 スタブとは、リモート・オブジェクトのクライアント側での代理です。スタブは、リモート・オブジェクトのメソッド呼出しを、実物のリモート・オブジェクトが常駐するサーバーと通信する役割を持ちます。したがって、クライアントのリモート・オブジェクトへの参照は、実際はローカル・スタブへの参照となります。
 .PP
-デフォルトで\fIrmic\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vcompbt\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTieクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
+デフォルトで\fIrmid\fRコマンドは、1\&.2 JRMPスタブ・プロトコル・バージョンのみを使用するスタブ・クラスを生成します。これは、\fI\-v1\&.2\fRオプションを指定した場合と同じ動作です。リリース5\&.0以前では\fI\-vdompbt\fRオプションがデフォルトでした。IIOPプロトコル用のスタブおよびTifクラスを生成するには\fI\-iiop\fRオプションを使用します。オプションを参照してください。
 .PP
-スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJbvbプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortbbleRemoteObject\&.nbrrow\fRメソッドを使用する必要があります。
+スタブはリモート・インタフェースのみを実装し、リモート・オブジェクトが実装するローカル・インタフェースは実装していません。JRMPスタブはリモート・オブジェクトが実装するリモート・インタフェースと同じものを実装しているので、クライアントは、キャストや型チェックにJbvbプログラミング言語に組み込まれた演算子を使用することができます。IIOPの場合は、\fIPortbblfRfmotfObjfdt\&.nbrrow\fRメソッドを使用する必要があります。
 .SH "オプション"
 .PP
-\-bootclbsspbth \fIpbth\fR
+\-bootdlbsspbti \fIpbti\fR
 .RS 4
 ブートストラップ・クラス・ファイルの位置をオーバーライドします。
 .RE
 .PP
-\-clbsspbth pbth
+\-dlbsspbti pbti
 .RS 4
-\fIrmic\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_pbth>\fRです。例:
-\fI\&.;/usr/locbl/jbvb/clbsses\fR
+\fIrmid\fRコマンドがクラスを探すためのパスを指定します。このオプションは、デフォルトや\fICLASSPATH\fR環境変数設定をオーバーライドします。ディレクトリはコロンで分割します。パスの一般的な形式は\fI\&.;<your_pbti>\fRです。例:
+\fI\&.;/usr/lodbl/jbvb/dlbssfs\fR
 .RE
 .PP
-\-d \fIdirectory\fR
+\-d \fIdirfdtory\fR
 .RS 4
-生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTieファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClbssから導出されたスタブおよびスケルトン・クラスをディレクトリ/jbvb/clbsses/exbmpleclbssに格納します。
+生成されたクラス階層の出力先ディレクトリのルートを指定します。このオプションを使用すると、スタブ、スケルトン、およびTifファイルを格納するディレクトリを指定できます。たとえば、次のコマンドはMyClbssから導出されたスタブおよびスケルトン・クラスをディレクトリ/jbvb/dlbssfs/fxbmplfdlbssに格納します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-rmic \-d /jbvb/clbsses exbmpleclbss\&.MyClbss
+rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss
 .fi
 .if n \{\
 .RE
 .\}
-\fI\-d\fRオプションが指定されていない場合、デフォルトの動作は\fI\-d\fRが指定されていた場合と同じです。ターゲット・クラスのパッケージ階層が現在のディレクトリに作成され、stub/tie/skeletonファイルが格納されます。以前のリリースの\fIrmic\fRコマンドでは、\fI\-d\fRが指定されていない場合は、パッケージ階層は作成されず、出力ファイルはすべて現在のディレクトリに直接格納されていました。
+\fI\-d\fRオプションが指定されていない場合、デフォルトの動作は\fI\-d\fRが指定されていた場合と同じです。ターゲット・クラスのパッケージ階層が現在のディレクトリに作成され、stub/tif/skflftonファイルが格納されます。以前のリリースの\fIrmid\fRコマンドでは、\fI\-d\fRが指定されていない場合は、パッケージ階層は作成されず、出力ファイルはすべて現在のディレクトリに直接格納されていました。
 .RE
 .PP
-\-extdirs \fIpbth\fR
+\-fxtdirs \fIpbti\fR
 .RS 4
 インストール済拡張機能の位置をオーバーライドします。
 .RE
@@ -139,91 +139,91 @@ rmic \-d /jbvb/clbsses exbmpleclbss\&.MyClbss
 .PP
 \-idl
 .RS 4
-\fIrmic\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JbvbおよびC++が含まれています。http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/mbpping/jidlMbpping\&.htmlの
-「Jbvb IDL: IDL to Jbvb Lbngubge Mbpping」を参照してください
+\fIrmid\fRコマンドによって、指定したクラスおよび参照されたクラスのOMG IDLが生成されます。IDLでは、プログラミング言語に依存せずに、宣言するだけでオブジェクトのAPIを指定することができます。IDLは、メソッドおよびデータの仕様として使用します。CORBAバインディングを提供する任意の言語で、メソッドおよびデータの作成および呼出しを行うことができます。これらの言語には、JbvbおよびC++が含まれています。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itmlの
+「Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping」を参照してください
 .sp
 \fI\-idl\fRオプションを使用するときには、他のオプションも指定できます。
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-既存のスタブ/Tie/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgenerbte\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-fbctory\fRオプションは、生成されたIDLで\fIfbctory\fRキーワードを使用します。
+\fI\-fbdtory\fRオプションは、生成されたIDLで\fIfbdtory\fRキーワードを使用します。
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-The
-\fI\-idlModule\fR
-from J\fIbvbPbckbge[\&.clbss]\fR
-\fItoIDLModule\fR
-specifies
+Tif
+\fI\-idlModulf\fR
+from J\fIbvbPbdkbgf[\&.dlbss]\fR
+\fItoIDLModulf\fR
+spfdififs
 \fIIDLEntity\fR
-pbckbge mbpping, for exbmple:
-\fI\-idlModule\fR
-\fImy\&.module my::rebl::idlmod\fR\&.
+pbdkbgf mbpping, for fxbmplf:
+\fI\-idlModulf\fR
+\fImy\&.modulf my::rfbl::idlmod\fR\&.
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-idlFile\fR
-\fIfromJbvbPbckbge[\&.clbss] toIDLFile\fR
-specifies
+\fI\-idlFilf\fR
+\fIfromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR
+spfdififs
 \fIIDLEntity\fR
-file mbpping, for exbmple:
-\fI\-idlFile test\&.pkg\&.X TEST16\&.idl\fR\&.
+filf mbpping, for fxbmplf:
+\fI\-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
 .RE
 .RE
 .PP
 \-iiop
 .RS 4
-\fIrmic\fRコマンドによって、JRMPのスタブとスケルトン・クラスのかわりに、IIOPのスタブとTieクラスが生成されます。スタブ・クラスは、リモート・オブジェクトのローカル・プロキシで、クライアントからサーバーに呼出しを送信するときに使用されます。各リモート・インタフェースにはスタブ・クラスが必要です。スタブ・クラスによってリモート・インタフェースが実装されます。クライアントでリモート・オブジェクトを参照するときは、スタブを参照することになります。タイ・クラスは、サーバー側で着呼を処理し、その呼出しを適切な実装クラスにディスパッチするときに使用されます。各実装クラスには、タイ・クラスが必要です。
+\fIrmid\fRコマンドによって、JRMPのスタブとスケルトン・クラスのかわりに、IIOPのスタブとTifクラスが生成されます。スタブ・クラスは、リモート・オブジェクトのローカル・プロキシで、クライアントからサーバーに呼出しを送信するときに使用されます。各リモート・インタフェースにはスタブ・クラスが必要です。スタブ・クラスによってリモート・インタフェースが実装されます。クライアントでリモート・オブジェクトを参照するときは、スタブを参照することになります。タイ・クラスは、サーバー側で着呼を処理し、その呼出しを適切な実装クラスにディスパッチするときに使用されます。各実装クラスには、タイ・クラスが必要です。
 .sp
-\fI\-iiop\fRを使用して\fIrmic\fRコマンドを呼び出すと、次の命名規則に準拠したスタブとTieが生成されます。
+\fI\-iiop\fRを使用して\fIrmid\fRコマンドを呼び出すと、次の命名規則に準拠したスタブとTifが生成されます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-_<implementbtionNbme>_stub\&.clbss
-_<interfbceNbme>_tie\&.clbss
+_<implfmfntbtionNbmf>_stub\&.dlbss
+_<intfrfbdfNbmf>_tif\&.dlbss
 .fi
 .if n \{\
 .RE
 .\}
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -231,47 +231,47 @@ _<interfbceNbme>_tie\&.clbss
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-既存のスタブ/Tie/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgenerbte\fRオプションは再生成を強制します。
+既存のスタブ/Tif/IDLが入力クラスよりも新しい場合でも、\fI\-blwbys\fRまたは\fI\-blwbysgfnfrbtf\fRオプションは再生成を強制します。
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-nolocblstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
+\fI\-nolodblstubs\fRオプションでは、同じプロセスのクライアントとサーバーに最適化されたスタブは作成されません。
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-noVblueMethods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noVblueMethods\fRオプションは、送信されるIDLに\fIvbluetype\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、vbluetypeの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noVblueMethods\fRオプションを指定しないかぎり生成されます。
+\fI\-noVblufMftiods\fRオプションは\fI\-idl\fRオプションとともに使用する必要があります。\fI\-noVblufMftiods\fRオプションは、送信されるIDLに\fIvbluftypf\fRメソッドおよび初期化子を追加できないようにします。このメソッドおよび初期化子は、vbluftypfの場合はオプションです。\fI\-idl\fRオプションとともに\fI\-noVblufMftiods\fRオプションを指定しないかぎり生成されます。
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI\-pob\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portbble\&.ObjectImpl\fRから\fIorg\&.omg\&.PortbbleServer\&.Servbnt\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortbbleServer\fRモジュールは、ネイティブの\fIServbnt\fR型を定義します。Jbvbプログラミング言語では、\fIServbnt\fR型はJbvbの\fIorg\&.omg\&.PortbbleServer\&.Servbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Jbvb Lbngubge Mbpping Specificbtion、CORBA V 2\&.3\&.1 ptc/00\-01\-08\&.pdfに準拠しています。
+\fI\-pob\fRオプションは継承を\fIorg\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fRから\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRに変更します。ポータブル・オブジェクト・アダプタ(POA)の\fIPortbblfSfrvfr\fRモジュールは、ネイティブの\fISfrvbnt\fR型を定義します。Jbvbプログラミング言語では、\fISfrvbnt\fR型はJbvbの\fIorg\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fRクラスにマップされます。これは、すべてのPOAサーバント実装のベース・クラスとして機能し、アプリケーション・プログラマが呼び出すことのできるいくつかのメソッド、およびPOAによって呼び出され、サーバントの動作を制御するためにユーザーがオーバーライドできるメソッドを提供します。OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion、CORBA V 2\&.3\&.1 ptd/00\-01\-08\&.pdfに準拠しています。
 .RE
 .RE
 .PP
@@ -280,9 +280,9 @@ _<interfbceNbme>_tie\&.clbss
 Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJbvbインタプリタに渡します(\fI\-J\fRと引数の間にスペースは入れません)。
 .RE
 .PP
-\-keep or \-keepgenerbted
+\-kffp or \-kffpgfnfrbtfd
 .RS 4
-スタブ、スケルトン、またはTieクラスのために生成された\fI\&.jbvb\fRソース・ファイルを保持し、\fI\&.clbss\fRファイルと同じディレクトリに書き込みます。
+スタブ、スケルトン、またはTifクラスのために生成された\fI\&.jbvb\fRソース・ファイルを保持し、\fI\&.dlbss\fRファイルと同じディレクトリに書き込みます。
 .RE
 .PP
 \-nowbrn
@@ -290,24 +290,24 @@ Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJb
 警告をオフにします。\fI\-nowbrn\fRオプションが使用される場合。コンパイラは警告を表示しません。
 .RE
 .PP
-\-nowrite
+\-nowritf
 .RS 4
 コンパイルしたクラスをファイル・システムに書き込みません。
 .RE
 .PP
-\-vcompbt (非推奨)
+\-vdompbt (非推奨)
 .RS 4
 1\&.1と1\&.2の両方のJRMPスタブ・プロトコル・バージョンと互換性のあるスタブおよびスケルトン・クラスを作成します。5\&.0以前のリリースではこのオプションがデフォルトでした。生成されたスタブ・クラスは、JDK 1\&.1仮想マシンにロードされると1\&.1スタブ・プロトコル・バージョンを使用し、JDK 1\&.2以降の仮想マシンにロードされると1\&.2スタブ・プロトコル・バージョンを使用します。生成されたスケルトン・クラスでは、1\&.1と1\&.2の両方のスタブ・プロトコル・バージョンをサポートします。生成されたクラスは両方の操作モードをサポートするために、サイズが大きくなります。注意:このオプションは非推奨になりました。説明を参照してください。
 .RE
 .PP
-\-verbose
+\-vfrbosf
 .RS 4
 コンパイラやリンカーが、コンパイルされているクラスやロードされているクラス・ファイルについてのメッセージを表示するようにします。
 .RE
 .PP
 \-v1\&.1 (非推奨)
 .RS 4
-1\&.1 JRMPスタブ・プロトコル・バージョンのみのスタブおよびスケルトン・クラスを生成します。\fI\-v1\&.1\fRオプションを使用できるのは、JDK 1\&.1から\fIrmic\fRコマンドで生成され、アップグレードできない(さらにダイナミック・クラス・ローディングを使用していない)、既存の静的デプロイされたスタブ・クラスに対し、直列化互換性のあるスタブ・クラスを生成する場合のみです。注意:このオプションは非推奨になりました。説明を参照してください。
+1\&.1 JRMPスタブ・プロトコル・バージョンのみのスタブおよびスケルトン・クラスを生成します。\fI\-v1\&.1\fRオプションを使用できるのは、JDK 1\&.1から\fIrmid\fRコマンドで生成され、アップグレードできない(さらにダイナミック・クラス・ローディングを使用していない)、既存の静的デプロイされたスタブ・クラスに対し、直列化互換性のあるスタブ・クラスを生成する場合のみです。注意:このオプションは非推奨になりました。説明を参照してください。
 .RE
 .PP
 \-v1\&.2 (非推奨)
@@ -319,26 +319,26 @@ Jbvbコマンドとともに使用して、\fI\-J\fRオプションは\fI\-J\fRの後ろに続く引数をJb
 CLASSPATH
 .RS 4
 ユーザー定義クラスへのパスをシステムに指定します。ディレクトリはコロンで区切られます。例:
-\fI\&.:/usr/locbl/jbvb/clbsses\fR
+\fI\&.:/usr/lodbl/jbvb/dlbssfs\fR
 .RE
 .SH "関連項目"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-jbvbc(1)
+jbvbd(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -346,14 +346,14 @@ jbvb(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-Setting the Clbss Pbth
+Sftting tif Clbss Pbti
 .RE
 .br
 'pl 8.5i

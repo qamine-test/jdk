@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.ToDoublfFundtion;
+import jbvb.util.fundtion.ToIntFundtion;
+import jbvb.util.fundtion.ToLongFundtion;
+
+/**
+ * Pbdkbgf privbtf supporting dlbss for {@link Compbrbtor}.
+ */
+dlbss Compbrbtors {
+    privbtf Compbrbtors() {
+        throw nfw AssfrtionError("no instbndfs");
+    }
+
+    /**
+     * Compbrfs {@link Compbrbblf} objfdts in nbturbl ordfr.
+     *
+     * @sff Compbrbblf
+     */
+    fnum NbturblOrdfrCompbrbtor implfmfnts Compbrbtor<Compbrbblf<Objfdt>> {
+        INSTANCE;
+
+        @Ovfrridf
+        publid int dompbrf(Compbrbblf<Objfdt> d1, Compbrbblf<Objfdt> d2) {
+            rfturn d1.dompbrfTo(d2);
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<Compbrbblf<Objfdt>> rfvfrsfd() {
+            rfturn Compbrbtor.rfvfrsfOrdfr();
+        }
+    }
+
+    /**
+     * Null-frifndly dompbrbtors
+     */
+    finbl stbtid dlbss NullCompbrbtor<T> implfmfnts Compbrbtor<T>, Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -7569533591570686392L;
+        privbtf finbl boolfbn nullFirst;
+        // if null, non-null Ts brf donsidfrfd fqubl
+        privbtf finbl Compbrbtor<T> rfbl;
+
+        @SupprfssWbrnings("undhfdkfd")
+        NullCompbrbtor(boolfbn nullFirst, Compbrbtor<? supfr T> rfbl) {
+            this.nullFirst = nullFirst;
+            this.rfbl = (Compbrbtor<T>) rfbl;
+        }
+
+        @Ovfrridf
+        publid int dompbrf(T b, T b) {
+            if (b == null) {
+                rfturn (b == null) ? 0 : (nullFirst ? -1 : 1);
+            } flsf if (b == null) {
+                rfturn nullFirst ? 1: -1;
+            } flsf {
+                rfturn (rfbl == null) ? 0 : rfbl.dompbrf(b, b);
+            }
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<T> thfnCompbring(Compbrbtor<? supfr T> othfr) {
+            Objfdts.rfquirfNonNull(othfr);
+            rfturn nfw NullCompbrbtor<>(nullFirst, rfbl == null ? othfr : rfbl.thfnCompbring(othfr));
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<T> rfvfrsfd() {
+            rfturn nfw NullCompbrbtor<>(!nullFirst, rfbl == null ? null : rfbl.rfvfrsfd());
+        }
+    }
+}

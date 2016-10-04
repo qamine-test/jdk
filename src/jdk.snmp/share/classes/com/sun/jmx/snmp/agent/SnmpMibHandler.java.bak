@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.util.Vector;
-import java.io.IOException;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 /**
- * The logical link between an SNMP MIB and the SNMP communication stack.
+ * Tif logidbl link bftwffn bn SNMP MIB bnd tif SNMP dommunidbtion stbdk.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public interface SnmpMibHandler {
+publid intfrfbdf SnmpMibHbndlfr {
 
     /**
-     * Adds a new MIB in the SNMP MIB handler.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)} and
-     * {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)} and should not be called directly.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)} bnd
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)} bnd siould not bf dbllfd dirfdtly.
      *
-     * @param mib The MIB to add.
+     * @pbrbm mib Tif MIB to bdd.
      *
-     * @return A reference on the SNMP MIB handler.
+     * @rfturn A rfffrfndf on tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib) throws IllegalArgumentException;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib) tirows IllfgblArgumfntExdfption;
 
 /**
-     * Adds a new MIB in the SNMP MIB handler.
+     * Adds b nfw MIB in tif SNMP MIB ibndlfr.
      *
-     * @param mib The MIB to add.
-     * @param oids The array of oid used to add the mib. Each oid is a root oid for the mib.
-     * @return A reference on the SNMP MIB handler.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm oids Tif brrby of oid usfd to bdd tif mib. Ebdi oid is b root oid for tif mib.
+     * @rfturn A rfffrfndf on tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib, SnmpOid[] oids) throws IllegalArgumentException;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, SnmpOid[] oids) tirows IllfgblArgumfntExdfption;
 
     /**
-     * Adds a new contextualized MIB in the SNMP MIB handler.
+     * Adds b nfw dontfxtublizfd MIB in tif SNMP MIB ibndlfr.
      *
-     * @param mib The MIB to add.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm dontfxtNbmf Tif MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in tif dffbult dontfxt.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib, String contextName)
-        throws IllegalArgumentException;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, String dontfxtNbmf)
+        tirows IllfgblArgumfntExdfption;
 
     /**
-     * Adds a new contextualized MIB in the SNMP MIB handler.
+     * Adds b nfw dontfxtublizfd MIB in tif SNMP MIB ibndlfr.
      *
-     * @param mib The MIB to add.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     * @param oids The array of oid used to add the mib. Each oid is a root oid for the mib.
+     * @pbrbm mib Tif MIB to bdd.
+     * @pbrbm dontfxtNbmf Tif MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in tif dffbult dontfxt.
+     * @pbrbm oids Tif brrby of oid usfd to bdd tif mib. Ebdi oid is b root oid for tif mib.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @rfturn A rfffrfndf to tif SNMP MIB ibndlfr.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption If tif pbrbmftfr is null.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib, String contextName, SnmpOid[] oids)
-        throws IllegalArgumentException;
+    publid SnmpMibHbndlfr bddMib(SnmpMibAgfnt mib, String dontfxtNbmf, SnmpOid[] oids)
+        tirows IllfgblArgumfntExdfption;
 
     /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)} and
-     * {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)} and should not be called directly.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)} bnd
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)} bnd siould not bf dbllfd dirfdtly.
      *
-     * @param mib The MIB to be removed.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
      *
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean removeMib(SnmpMibAgent mib);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib);
   /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)} and
-     * {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)} and should not be called directly.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
+     * Tiis mftiod is dbllfd butombtidblly by {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptor(SnmpMibHbndlfr)} bnd
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt#sftSnmpAdbptorNbmf(ObjfdtNbmf)} bnd siould not bf dbllfd dirfdtly.
      *
-     * @param mib The MIB to be removed.
-     * @param oids The oid the MIB was previously registered for.
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <CODE>false</CODE> otherwise.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm oids Tif oid tif MIB wbs prfviously rfgistfrfd for.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * <CODE>fblsf</CODE> otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public boolean removeMib(SnmpMibAgent mib, SnmpOid[] oids);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib, SnmpOid[] oids);
      /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
      *
-     * @param mib The MIB to be removed.
-     * @param contextName The context name used at registration time.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf usfd bt rfgistrbtion timf.
      *
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * <CODE>fblsf</CODE> otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public boolean removeMib(SnmpMibAgent mib, String contextName);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib, String dontfxtNbmf);
      /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
+     * Rfmovfs tif spfdififd MIB from tif SNMP protodol bdbptor.
      *
-     * @param mib The MIB to be removed.
-     * @param contextName The context name used at registration time.
-     * @param oids The oid the MIB was previously registered for.
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <CODE>false</CODE> otherwise.
+     * @pbrbm mib Tif MIB to bf rfmovfd.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf usfd bt rfgistrbtion timf.
+     * @pbrbm oids Tif oid tif MIB wbs prfviously rfgistfrfd for.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd <CODE>mib</CODE> wbs b MIB indludfd in tif SNMP MIB ibndlfr,
+     * <CODE>fblsf</CODE> otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public boolean removeMib(SnmpMibAgent mib, String contextName, SnmpOid[] oids);
+    publid boolfbn rfmovfMib(SnmpMibAgfnt mib, String dontfxtNbmf, SnmpOid[] oids);
 }

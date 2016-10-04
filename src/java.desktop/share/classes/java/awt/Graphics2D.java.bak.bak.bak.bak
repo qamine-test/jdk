@@ -1,0 +1,1234 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.RfndfringHints.Kfy;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf;
+import jbvb.bwt.font.GlyphVfdtor;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.util.Mbp;
+
+/**
+ * This <dodf>Grbphids2D</dodf> dlbss fxtfnds thf
+ * {@link Grbphids} dlbss to providf morf sophistidbtfd
+ * dontrol ovfr gfomftry, doordinbtf trbnsformbtions, dolor mbnbgfmfnt,
+ * bnd tfxt lbyout.  This is thf fundbmfntbl dlbss for rfndfring
+ * 2-dimfnsionbl shbpfs, tfxt bnd imbgfs on thf  Jbvb(tm) plbtform.
+ *
+ * <h2>Coordinbtf Spbdfs</h2>
+ * All doordinbtfs pbssfd to b <dodf>Grbphids2D</dodf> objfdt brf spfdififd
+ * in b dfvidf-indfpfndfnt doordinbtf systfm dbllfd Usfr Spbdf, whidh is
+ * usfd by bpplidbtions.  Thf <dodf>Grbphids2D</dodf> objfdt dontbins
+ * bn {@link AffinfTrbnsform} objfdt bs pbrt of its rfndfring stbtf
+ * thbt dffinfs how to donvfrt doordinbtfs from usfr spbdf to
+ * dfvidf-dfpfndfnt doordinbtfs in Dfvidf Spbdf.
+ * <p>
+ * Coordinbtfs in dfvidf spbdf usublly rfffr to individubl dfvidf pixfls
+ * bnd brf blignfd on thf infinitfly thin gbps bftwffn thfsf pixfls.
+ * Somf <dodf>Grbphids2D</dodf> objfdts dbn bf usfd to dbpturf rfndfring
+ * opfrbtions for storbgf into b grbphids mftbfilf for plbybbdk on b
+ * dondrftf dfvidf of unknown physidbl rfsolution bt b lbtfr timf.  Sindf
+ * thf rfsolution might not bf known whfn thf rfndfring opfrbtions brf
+ * dbpturfd, thf <dodf>Grbphids2D</dodf> <dodf>Trbnsform</dodf> is sft up
+ * to trbnsform usfr doordinbtfs to b virtubl dfvidf spbdf thbt
+ * bpproximbtfs thf fxpfdtfd rfsolution of thf tbrgft dfvidf. Furthfr
+ * trbnsformbtions might nffd to bf bpplifd bt plbybbdk timf if thf
+ * fstimbtf is indorrfdt.
+ * <p>
+ * Somf of thf opfrbtions pfrformfd by thf rfndfring bttributf objfdts
+ * oddur in thf dfvidf spbdf, but bll <dodf>Grbphids2D</dodf> mfthods tbkf
+ * usfr spbdf doordinbtfs.
+ * <p>
+ * Evfry <dodf>Grbphids2D</dodf> objfdt is bssodibtfd with b tbrgft thbt
+ * dffinfs whfrf rfndfring tbkfs plbdf. A
+ * {@link GrbphidsConfigurbtion} objfdt dffinfs thf dhbrbdtfristids
+ * of thf rfndfring tbrgft, sudh bs pixfl formbt bnd rfsolution.
+ * Thf sbmf rfndfring tbrgft is usfd throughout thf liff of b
+ * <dodf>Grbphids2D</dodf> objfdt.
+ * <p>
+ * Whfn drfbting b <dodf>Grbphids2D</dodf> objfdt,  thf
+ * <dodf>GrbphidsConfigurbtion</dodf>
+ * spfdififs thf <b nbmf="dfftrbnsform">dffbult trbnsform</b> for
+ * thf tbrgft of thf <dodf>Grbphids2D</dodf> (b
+ * {@link Componfnt} or {@link Imbgf}).  This dffbult trbnsform mbps thf
+ * usfr spbdf doordinbtf systfm to sdrffn bnd printfr dfvidf doordinbtfs
+ * sudh thbt thf origin mbps to thf uppfr lfft hbnd dornfr of thf
+ * tbrgft rfgion of thf dfvidf with indrfbsing X doordinbtfs fxtfnding
+ * to thf right bnd indrfbsing Y doordinbtfs fxtfnding downwbrd.
+ * Thf sdbling of thf dffbult trbnsform is sft to idfntity for thosf dfvidfs
+ * thbt brf dlosf to 72 dpi, sudh bs sdrffn dfvidfs.
+ * Thf sdbling of thf dffbult trbnsform is sft to bpproximbtfly 72 usfr
+ * spbdf doordinbtfs pfr squbrf indh for high rfsolution dfvidfs, sudh bs
+ * printfrs.  For imbgf bufffrs, thf dffbult trbnsform is thf
+ * <dodf>Idfntity</dodf> trbnsform.
+ *
+ * <h2>Rfndfring Prodfss</h2>
+ * Thf Rfndfring Prodfss dbn bf brokfn down into four phbsfs thbt brf
+ * dontrollfd by thf <dodf>Grbphids2D</dodf> rfndfring bttributfs.
+ * Thf rfndfrfr dbn optimizf mbny of thfsf stfps, fithfr by dbdhing thf
+ * rfsults for futurf dblls, by dollbpsing multiplf virtubl stfps into
+ * b singlf opfrbtion, or by rfdognizing vbrious bttributfs bs dommon
+ * simplf dbsfs thbt dbn bf fliminbtfd by modifying othfr pbrts of thf
+ * opfrbtion.
+ * <p>
+ * Thf stfps in thf rfndfring prodfss brf:
+ * <ol>
+ * <li>
+ * Dftfrminf whbt to rfndfr.
+ * <li>
+ * Constrbin thf rfndfring opfrbtion to thf durrfnt <dodf>Clip</dodf>.
+ * Thf <dodf>Clip</dodf> is spfdififd by b {@link Shbpf} in usfr
+ * spbdf bnd is dontrollfd by thf progrbm using thf vbrious dlip
+ * mbnipulbtion mfthods of <dodf>Grbphids</dodf> bnd
+ * <dodf>Grbphids2D</dodf>.  This <i>usfr dlip</i>
+ * is trbnsformfd into dfvidf spbdf by thf durrfnt
+ * <dodf>Trbnsform</dodf> bnd dombinfd with thf
+ * <i>dfvidf dlip</i>, whidh is dffinfd by thf visibility of windows bnd
+ * dfvidf fxtfnts.  Thf dombinbtion of thf usfr dlip bnd dfvidf dlip
+ * dffinfs thf <i>dompositf dlip</i>, whidh dftfrminfs thf finbl dlipping
+ * rfgion.  Thf usfr dlip is not modififd by thf rfndfring
+ * systfm to rfflfdt thf rfsulting dompositf dlip.
+ * <li>
+ * Dftfrminf whbt dolors to rfndfr.
+ * <li>
+ * Apply thf dolors to thf dfstinbtion drbwing surfbdf using thf durrfnt
+ * {@link Compositf} bttributf in thf <dodf>Grbphids2D</dodf> dontfxt.
+ * </ol>
+ * <br>
+ * Thf thrff typfs of rfndfring opfrbtions, blong with dftbils of fbdh
+ * of thfir pbrtidulbr rfndfring prodfssfs brf:
+ * <ol>
+ * <li>
+ * <b><b nbmf="rfndfrshbpf"><dodf>Shbpf</dodf> opfrbtions</b></b>
+ * <ol>
+ * <li>
+ * If thf opfrbtion is b <dodf>drbw(Shbpf)</dodf> opfrbtion, thfn
+ * thf  {@link Strokf#drfbtfStrokfdShbpf(Shbpf) drfbtfStrokfdShbpf}
+ * mfthod on thf durrfnt {@link Strokf} bttributf in thf
+ * <dodf>Grbphids2D</dodf> dontfxt is usfd to donstrudt b nfw
+ * <dodf>Shbpf</dodf> objfdt thbt dontbins thf outlinf of thf spfdififd
+ * <dodf>Shbpf</dodf>.
+ * <li>
+ * Thf <dodf>Shbpf</dodf> is trbnsformfd from usfr spbdf to dfvidf spbdf
+ * using thf durrfnt <dodf>Trbnsform</dodf>
+ * in thf <dodf>Grbphids2D</dodf> dontfxt.
+ * <li>
+ * Thf outlinf of thf <dodf>Shbpf</dodf> is fxtrbdtfd using thf
+ * {@link Shbpf#gftPbthItfrbtor(AffinfTrbnsform) gftPbthItfrbtor} mfthod of
+ * <dodf>Shbpf</dodf>, whidh rfturns b
+ * {@link jbvb.bwt.gfom.PbthItfrbtor PbthItfrbtor}
+ * objfdt thbt itfrbtfs blong thf boundbry of thf <dodf>Shbpf</dodf>.
+ * <li>
+ * If thf <dodf>Grbphids2D</dodf> objfdt dbnnot hbndlf thf durvfd sfgmfnts
+ * thbt thf <dodf>PbthItfrbtor</dodf> objfdt rfturns thfn it dbn dbll thf
+ * bltfrnbtf
+ * {@link Shbpf#gftPbthItfrbtor(AffinfTrbnsform, doublf) gftPbthItfrbtor}
+ * mfthod of <dodf>Shbpf</dodf>, whidh flbttfns thf <dodf>Shbpf</dodf>.
+ * <li>
+ * Thf durrfnt {@link Pbint} in thf <dodf>Grbphids2D</dodf> dontfxt
+ * is qufrifd for b {@link PbintContfxt}, whidh spfdififs thf
+ * dolors to rfndfr in dfvidf spbdf.
+ * </ol>
+ * <li>
+ * <b><b nbmf=rfndfrtfxt>Tfxt opfrbtions</b></b>
+ * <ol>
+ * <li>
+ * Thf following stfps brf usfd to dftfrminf thf sft of glyphs rfquirfd
+ * to rfndfr thf indidbtfd <dodf>String</dodf>:
+ * <ol>
+ * <li>
+ * If thf brgumfnt is b <dodf>String</dodf>, thfn thf durrfnt
+ * <dodf>Font</dodf> in thf <dodf>Grbphids2D</dodf> dontfxt is bskfd to
+ * donvfrt thf Unidodf dhbrbdtfrs in thf <dodf>String</dodf> into b sft of
+ * glyphs for prfsfntbtion with whbtfvfr bbsid lbyout bnd shbping
+ * blgorithms thf font implfmfnts.
+ * <li>
+ * If thf brgumfnt is bn
+ * {@link AttributfdChbrbdtfrItfrbtor},
+ * thf itfrbtor is bskfd to donvfrt itsflf to b
+ * {@link jbvb.bwt.font.TfxtLbyout TfxtLbyout}
+ * using its fmbfddfd font bttributfs. Thf <dodf>TfxtLbyout</dodf>
+ * implfmfnts morf sophistidbtfd glyph lbyout blgorithms thbt
+ * pfrform Unidodf bi-dirfdtionbl lbyout bdjustmfnts butombtidblly
+ * for multiplf fonts of difffring writing dirfdtions.
+  * <li>
+ * If thf brgumfnt is b
+ * {@link GlyphVfdtor}, thfn thf
+ * <dodf>GlyphVfdtor</dodf> objfdt blrfbdy dontbins thf bppropribtf
+ * font-spfdifid glyph dodfs with fxplidit doordinbtfs for thf position of
+ * fbdh glyph.
+ * </ol>
+ * <li>
+ * Thf durrfnt <dodf>Font</dodf> is qufrifd to obtbin outlinfs for thf
+ * indidbtfd glyphs.  Thfsf outlinfs brf trfbtfd bs shbpfs in usfr spbdf
+ * rflbtivf to thf position of fbdh glyph thbt wbs dftfrminfd in stfp 1.
+ * <li>
+ * Thf dhbrbdtfr outlinfs brf fillfd bs indidbtfd bbovf
+ * undfr <b hrff="#rfndfrshbpf"><dodf>Shbpf</dodf> opfrbtions</b>.
+ * <li>
+ * Thf durrfnt <dodf>Pbint</dodf> is qufrifd for b
+ * <dodf>PbintContfxt</dodf>, whidh spfdififs
+ * thf dolors to rfndfr in dfvidf spbdf.
+ * </ol>
+ * <li>
+ * <b><b nbmf= rfndfringimbgf><dodf>Imbgf</dodf> Opfrbtions</b></b>
+ * <ol>
+ * <li>
+ * Thf rfgion of intfrfst is dffinfd by thf bounding box of thf sourdf
+ * <dodf>Imbgf</dodf>.
+ * This bounding box is spfdififd in Imbgf Spbdf, whidh is thf
+ * <dodf>Imbgf</dodf> objfdt's lodbl doordinbtf systfm.
+ * <li>
+ * If bn <dodf>AffinfTrbnsform</dodf> is pbssfd to
+ * {@link #drbwImbgf(jbvb.bwt.Imbgf, jbvb.bwt.gfom.AffinfTrbnsform, jbvb.bwt.imbgf.ImbgfObsfrvfr) drbwImbgf(Imbgf, AffinfTrbnsform, ImbgfObsfrvfr)},
+ * thf <dodf>AffinfTrbnsform</dodf> is usfd to trbnsform thf bounding
+ * box from imbgf spbdf to usfr spbdf. If no <dodf>AffinfTrbnsform</dodf>
+ * is supplifd, thf bounding box is trfbtfd bs if it is blrfbdy in usfr spbdf.
+ * <li>
+ * Thf bounding box of thf sourdf <dodf>Imbgf</dodf> is trbnsformfd from usfr
+ * spbdf into dfvidf spbdf using thf durrfnt <dodf>Trbnsform</dodf>.
+ * Notf thbt thf rfsult of trbnsforming thf bounding box dofs not
+ * nfdfssbrily rfsult in b rfdtbngulbr rfgion in dfvidf spbdf.
+ * <li>
+ * Thf <dodf>Imbgf</dodf> objfdt dftfrminfs whbt dolors to rfndfr,
+ * sbmplfd bddording to thf sourdf to dfstinbtion
+ * doordinbtf mbpping spfdififd by thf durrfnt <dodf>Trbnsform</dodf> bnd thf
+ * optionbl imbgf trbnsform.
+ * </ol>
+ * </ol>
+ *
+ * <h2>Dffbult Rfndfring Attributfs</h2>
+ * Thf dffbult vblufs for thf <dodf>Grbphids2D</dodf> rfndfring bttributfs brf:
+ * <dl>
+ * <dt><i><dodf>Pbint</dodf></i>
+ * <dd>Thf dolor of thf <dodf>Componfnt</dodf>.
+ * <dt><i><dodf>Font</dodf></i>
+ * <dd>Thf <dodf>Font</dodf> of thf <dodf>Componfnt</dodf>.
+ * <dt><i><dodf>Strokf</dodf></i>
+ * <dd>A squbrf pfn with b linfwidth of 1, no dbshing, mitfr sfgmfnt joins
+ * bnd squbrf fnd dbps.
+ * <dt><i><dodf>Trbnsform</dodf></i>
+ * <dd>Thf
+ * {@link GrbphidsConfigurbtion#gftDffbultTrbnsform() gftDffbultTrbnsform}
+ * for thf <dodf>GrbphidsConfigurbtion</dodf> of thf <dodf>Componfnt</dodf>.
+ * <dt><i><dodf>Compositf</dodf></i>
+ * <dd>Thf {@link AlphbCompositf#SRC_OVER} rulf.
+ * <dt><i><dodf>Clip</dodf></i>
+ * <dd>No rfndfring <dodf>Clip</dodf>, thf output is dlippfd to thf
+ * <dodf>Componfnt</dodf>.
+ * </dl>
+ *
+ * <h2>Rfndfring Compbtibility Issufs</h2>
+ * Thf JDK(tm) 1.1 rfndfring modfl is bbsfd on b pixflizbtion modfl
+ * thbt spfdififs thbt doordinbtfs
+ * brf infinitfly thin, lying bftwffn thf pixfls.  Drbwing opfrbtions brf
+ * pfrformfd using b onf-pixfl widf pfn thbt fills thf
+ * pixfl bflow bnd to thf right of thf bndhor point on thf pbth.
+ * Thf JDK 1.1 rfndfring modfl is donsistfnt with thf
+ * dbpbbilitifs of most of thf fxisting dlbss of plbtform
+ * rfndfrfrs thbt nffd  to rfsolvf intfgfr doordinbtfs to b
+ * disdrftf pfn thbt must fbll domplftfly on b spfdififd numbfr of pixfls.
+ * <p>
+ * Thf Jbvb 2D(tm) (Jbvb(tm) 2 plbtform) API supports bntiblibsing rfndfrfrs.
+ * A pfn with b width of onf pixfl dofs not nffd to fbll
+ * domplftfly on pixfl N bs opposfd to pixfl N+1.  Thf pfn dbn fbll
+ * pbrtiblly on both pixfls. It is not nfdfssbry to dhoosf b bibs
+ * dirfdtion for b widf pfn sindf thf blfnding thbt oddurs blong thf
+ * pfn trbvfrsbl fdgfs mbkfs thf sub-pixfl position of thf pfn
+ * visiblf to thf usfr.  On thf othfr hbnd, whfn bntiblibsing is
+ * turnfd off by sftting thf
+ * {@link RfndfringHints#KEY_ANTIALIASING KEY_ANTIALIASING} hint kfy
+ * to thf
+ * {@link RfndfringHints#VALUE_ANTIALIAS_OFF VALUE_ANTIALIAS_OFF}
+ * hint vbluf, thf rfndfrfr might nffd
+ * to bpply b bibs to dftfrminf whidh pixfl to modify whfn thf pfn
+ * is strbddling b pixfl boundbry, sudh bs whfn it is drbwn
+ * blong bn intfgfr doordinbtf in dfvidf spbdf.  Whilf thf dbpbbilitifs
+ * of bn bntiblibsing rfndfrfr mbkf it no longfr nfdfssbry for thf
+ * rfndfring modfl to spfdify b bibs for thf pfn, it is dfsirbblf for thf
+ * bntiblibsing bnd non-bntiblibsing rfndfrfrs to pfrform similbrly for
+ * thf dommon dbsfs of drbwing onf-pixfl widf horizontbl bnd vfrtidbl
+ * linfs on thf sdrffn.  To fnsurf thbt turning on bntiblibsing by
+ * sftting thf
+ * {@link RfndfringHints#KEY_ANTIALIASING KEY_ANTIALIASING} hint
+ * kfy to
+ * {@link RfndfringHints#VALUE_ANTIALIAS_ON VALUE_ANTIALIAS_ON}
+ * dofs not dbusf sudh linfs to suddfnly bfdomf twidf bs widf bnd hblf
+ * bs opbquf, it is dfsirbblf to hbvf thf modfl spfdify b pbth for sudh
+ * linfs so thbt thfy domplftfly dovfr b pbrtidulbr sft of pixfls to hflp
+ * indrfbsf thfir drispnfss.
+ * <p>
+ * Jbvb 2D API mbintbins dompbtibility with JDK 1.1 rfndfring
+ * bfhbvior, sudh thbt lfgbdy opfrbtions bnd fxisting rfndfrfr
+ * bfhbvior is undhbngfd undfr Jbvb 2D API.  Lfgbdy
+ * mfthods thbt mbp onto gfnfrbl <dodf>drbw</dodf> bnd
+ * <dodf>fill</dodf> mfthods brf dffinfd, whidh dlfbrly indidbtfs
+ * how <dodf>Grbphids2D</dodf> fxtfnds <dodf>Grbphids</dodf> bbsfd
+ * on sfttings of <dodf>Strokf</dodf> bnd <dodf>Trbnsform</dodf>
+ * bttributfs bnd rfndfring hints.  Thf dffinition
+ * pfrforms idfntidblly undfr dffbult bttributf sfttings.
+ * For fxbmplf, thf dffbult <dodf>Strokf</dodf> is b
+ * <dodf>BbsidStrokf</dodf> with b width of 1 bnd no dbshing bnd thf
+ * dffbult Trbnsform for sdrffn drbwing is bn Idfntity trbnsform.
+ * <p>
+ * Thf following two rulfs providf prfdidtbblf rfndfring bfhbvior whfthfr
+ * blibsing or bntiblibsing is bfing usfd.
+ * <ul>
+ * <li> Dfvidf doordinbtfs brf dffinfd to bf bftwffn dfvidf pixfls whidh
+ * bvoids bny indonsistfnt rfsults bftwffn blibsfd bnd bntiblibsfd
+ * rfndfring.  If doordinbtfs wfrf dffinfd to bf bt b pixfl's dfntfr, somf
+ * of thf pixfls dovfrfd by b shbpf, sudh bs b rfdtbnglf, would only bf
+ * hblf dovfrfd.
+ * With blibsfd rfndfring, thf hblf dovfrfd pixfls would fithfr bf
+ * rfndfrfd insidf thf shbpf or outsidf thf shbpf.  With bnti-blibsfd
+ * rfndfring, thf pixfls on thf fntirf fdgf of thf shbpf would bf hblf
+ * dovfrfd.  On thf othfr hbnd, sindf doordinbtfs brf dffinfd to bf
+ * bftwffn pixfls, b shbpf likf b rfdtbnglf would hbvf no hblf dovfrfd
+ * pixfls, whfthfr or not it is rfndfrfd using bntiblibsing.
+ * <li> Linfs bnd pbths strokfd using thf <dodf>BbsidStrokf</dodf>
+ * objfdt mby bf "normblizfd" to providf donsistfnt rfndfring of thf
+ * outlinfs whfn positionfd bt vbrious points on thf drbwbblf bnd
+ * whfthfr drbwn with blibsfd or bntiblibsfd rfndfring.  This
+ * normblizbtion prodfss is dontrollfd by thf
+ * {@link RfndfringHints#KEY_STROKE_CONTROL KEY_STROKE_CONTROL} hint.
+ * Thf fxbdt normblizbtion blgorithm is not spfdififd, but thf gobls
+ * of this normblizbtion brf to fnsurf thbt linfs brf rfndfrfd with
+ * donsistfnt visubl bppfbrbndf rfgbrdlfss of how thfy fbll on thf
+ * pixfl grid bnd to promotf morf solid horizontbl bnd vfrtidbl
+ * linfs in bntiblibsfd modf so thbt thfy rfsfmblf thfir non-bntiblibsfd
+ * dountfrpbrts morf dlosfly.  A typidbl normblizbtion stfp might
+ * promotf bntiblibsfd linf fndpoints to pixfl dfntfrs to rfdudf thf
+ * bmount of blfnding or bdjust thf subpixfl positioning of
+ * non-bntiblibsfd linfs so thbt thf flobting point linf widths
+ * round to fvfn or odd pixfl dounts with fqubl likflihood.  This
+ * prodfss dbn movf fndpoints by up to hblf b pixfl (usublly towbrds
+ * positivf infinity blong both bxfs) to promotf thfsf donsistfnt
+ * rfsults.
+ * </ul>
+ * <p>
+ * Thf following dffinitions of gfnfrbl lfgbdy mfthods
+ * pfrform idfntidblly to prfviously spfdififd bfhbvior undfr dffbult
+ * bttributf sfttings:
+ * <ul>
+ * <li>
+ * For <dodf>fill</dodf> opfrbtions, indluding <dodf>fillRfdt</dodf>,
+ * <dodf>fillRoundRfdt</dodf>, <dodf>fillOvbl</dodf>,
+ * <dodf>fillArd</dodf>, <dodf>fillPolygon</dodf>, bnd
+ * <dodf>dlfbrRfdt</dodf>, {@link #fill(Shbpf) fill} dbn now bf dbllfd
+ * with thf dfsirfd <dodf>Shbpf</dodf>.  For fxbmplf, whfn filling b
+ * rfdtbnglf:
+ * <prf>
+ * fill(nfw Rfdtbnglf(x, y, w, h));
+ * </prf>
+ * is dbllfd.
+ *
+ * <li>
+ * Similbrly, for drbw opfrbtions, indluding <dodf>drbwLinf</dodf>,
+ * <dodf>drbwRfdt</dodf>, <dodf>drbwRoundRfdt</dodf>,
+ * <dodf>drbwOvbl</dodf>, <dodf>drbwArd</dodf>, <dodf>drbwPolylinf</dodf>,
+ * bnd <dodf>drbwPolygon</dodf>, {@link #drbw(Shbpf) drbw} dbn now bf
+ * dbllfd with thf dfsirfd <dodf>Shbpf</dodf>.  For fxbmplf, whfn drbwing b
+ * rfdtbnglf:
+ * <prf>
+ * drbw(nfw Rfdtbnglf(x, y, w, h));
+ * </prf>
+ * is dbllfd.
+ *
+ * <li>
+ * Thf <dodf>drbw3DRfdt</dodf> bnd <dodf>fill3DRfdt</dodf> mfthods wfrf
+ * implfmfntfd in tfrms of thf <dodf>drbwLinf</dodf> bnd
+ * <dodf>fillRfdt</dodf> mfthods in thf <dodf>Grbphids</dodf> dlbss whidh
+ * would prfdidbtf thfir bfhbvior upon thf durrfnt <dodf>Strokf</dodf>
+ * bnd <dodf>Pbint</dodf> objfdts in b <dodf>Grbphids2D</dodf> dontfxt.
+ * This dlbss ovfrridfs thosf implfmfntbtions with vfrsions thbt usf
+ * thf durrfnt <dodf>Color</dodf> fxdlusivfly, ovfrriding thf durrfnt
+ * <dodf>Pbint</dodf> bnd whidh usfs <dodf>fillRfdt</dodf> to dfsdribf
+ * thf fxbdt sbmf bfhbvior bs thf prffxisting mfthods rfgbrdlfss of thf
+ * sftting of thf durrfnt <dodf>Strokf</dodf>.
+ * </ul>
+ * Thf <dodf>Grbphids</dodf> dlbss dffinfs only thf <dodf>sftColor</dodf>
+ * mfthod to dontrol thf dolor to bf pbintfd.  Sindf thf Jbvb 2D API fxtfnds
+ * thf <dodf>Color</dodf> objfdt to implfmfnt thf nfw <dodf>Pbint</dodf>
+ * intfrfbdf, thf fxisting
+ * <dodf>sftColor</dodf> mfthod is now b donvfnifndf mfthod for sftting thf
+ * durrfnt <dodf>Pbint</dodf> bttributf to b <dodf>Color</dodf> objfdt.
+ * <dodf>sftColor(d)</dodf> is fquivblfnt to <dodf>sftPbint(d)</dodf>.
+ * <p>
+ * Thf <dodf>Grbphids</dodf> dlbss dffinfs two mfthods for dontrolling
+ * how dolors brf bpplifd to thf dfstinbtion.
+ * <ol>
+ * <li>
+ * Thf <dodf>sftPbintModf</dodf> mfthod is implfmfntfd bs b donvfnifndf
+ * mfthod to sft thf dffbult <dodf>Compositf</dodf>, fquivblfnt to
+ * <dodf>sftCompositf(nfw AlphbCompositf.SrdOvfr)</dodf>.
+ * <li>
+ * Thf <dodf>sftXORModf(Color xordolor)</dodf> mfthod is implfmfntfd
+ * bs b donvfnifndf mfthod to sft b spfdibl <dodf>Compositf</dodf> objfdt thbt
+ * ignorfs thf <dodf>Alphb</dodf> domponfnts of sourdf dolors bnd sfts thf
+ * dfstinbtion dolor to thf vbluf:
+ * <prf>
+ * dstpixfl = (PixflOf(srddolor) ^ PixflOf(xordolor) ^ dstpixfl);
+ * </prf>
+ * </ol>
+ *
+ * @buthor Jim Grbhbm
+ * @sff jbvb.bwt.RfndfringHints
+ */
+publid bbstrbdt dlbss Grbphids2D fxtfnds Grbphids {
+
+    /**
+     * Construdts b nfw <dodf>Grbphids2D</dodf> objfdt.  Sindf
+     * <dodf>Grbphids2D</dodf> is bn bbstrbdt dlbss, bnd sindf it must bf
+     * dustomizfd by subdlbssfs for difffrfnt output dfvidfs,
+     * <dodf>Grbphids2D</dodf> objfdts dbnnot bf drfbtfd dirfdtly.
+     * Instfbd, <dodf>Grbphids2D</dodf> objfdts must bf obtbinfd from bnothfr
+     * <dodf>Grbphids2D</dodf> objfdt, drfbtfd by b
+     * <dodf>Componfnt</dodf>, or obtbinfd from imbgfs sudh bs
+     * {@link BufffrfdImbgf} objfdts.
+     * @sff jbvb.bwt.Componfnt#gftGrbphids
+     * @sff jbvb.bwt.Grbphids#drfbtf
+     */
+    protfdtfd Grbphids2D() {
+    }
+
+    /**
+     * Drbws b 3-D highlightfd outlinf of thf spfdififd rfdtbnglf.
+     * Thf fdgfs of thf rfdtbnglf brf highlightfd so thbt thfy
+     * bppfbr to bf bfvflfd bnd lit from thf uppfr lfft dornfr.
+     * <p>
+     * Thf dolors usfd for thf highlighting ffffdt brf dftfrminfd
+     * bbsfd on thf durrfnt dolor.
+     * Thf rfsulting rfdtbnglf dovfrs bn brfb thbt is
+     * <dodf>width&nbsp;+&nbsp;1</dodf> pixfls widf
+     * by <dodf>hfight&nbsp;+&nbsp;1</dodf> pixfls tbll.  This mfthod
+     * usfs thf durrfnt <dodf>Color</dodf> fxdlusivfly bnd ignorfs
+     * thf durrfnt <dodf>Pbint</dodf>.
+     * @pbrbm x thf x doordinbtf of thf rfdtbnglf to bf drbwn.
+     * @pbrbm y thf y doordinbtf of thf rfdtbnglf to bf drbwn.
+     * @pbrbm width thf width of thf rfdtbnglf to bf drbwn.
+     * @pbrbm hfight thf hfight of thf rfdtbnglf to bf drbwn.
+     * @pbrbm rbisfd b boolfbn thbt dftfrminfs whfthfr thf rfdtbnglf
+     *                      bppfbrs to bf rbisfd bbovf thf surfbdf
+     *                      or sunk into thf surfbdf.
+     * @sff         jbvb.bwt.Grbphids#fill3DRfdt
+     */
+    publid void drbw3DRfdt(int x, int y, int width, int hfight,
+                           boolfbn rbisfd) {
+        Pbint p = gftPbint();
+        Color d = gftColor();
+        Color brightfr = d.brightfr();
+        Color dbrkfr = d.dbrkfr();
+
+        sftColor(rbisfd ? brightfr : dbrkfr);
+        //drbwLinf(x, y, x, y + hfight);
+        fillRfdt(x, y, 1, hfight + 1);
+        //drbwLinf(x + 1, y, x + width - 1, y);
+        fillRfdt(x + 1, y, width - 1, 1);
+        sftColor(rbisfd ? dbrkfr : brightfr);
+        //drbwLinf(x + 1, y + hfight, x + width, y + hfight);
+        fillRfdt(x + 1, y + hfight, width, 1);
+        //drbwLinf(x + width, y, x + width, y + hfight - 1);
+        fillRfdt(x + width, y, 1, hfight);
+        sftPbint(p);
+    }
+
+    /**
+     * Pbints b 3-D highlightfd rfdtbnglf fillfd with thf durrfnt dolor.
+     * Thf fdgfs of thf rfdtbnglf brf highlightfd so thbt it bppfbrs
+     * bs if thf fdgfs wfrf bfvflfd bnd lit from thf uppfr lfft dornfr.
+     * Thf dolors usfd for thf highlighting ffffdt bnd for filling brf
+     * dftfrminfd from thf durrfnt <dodf>Color</dodf>.  This mfthod usfs
+     * thf durrfnt <dodf>Color</dodf> fxdlusivfly bnd ignorfs thf durrfnt
+     * <dodf>Pbint</dodf>.
+     * @pbrbm x thf x doordinbtf of thf rfdtbnglf to bf fillfd.
+     * @pbrbm y thf y doordinbtf of thf rfdtbnglf to bf fillfd.
+     * @pbrbm       width thf width of thf rfdtbnglf to bf fillfd.
+     * @pbrbm       hfight thf hfight of thf rfdtbnglf to bf fillfd.
+     * @pbrbm       rbisfd b boolfbn vbluf thbt dftfrminfs whfthfr thf
+     *                      rfdtbnglf bppfbrs to bf rbisfd bbovf thf surfbdf
+     *                      or ftdhfd into thf surfbdf.
+     * @sff         jbvb.bwt.Grbphids#drbw3DRfdt
+     */
+    publid void fill3DRfdt(int x, int y, int width, int hfight,
+                           boolfbn rbisfd) {
+        Pbint p = gftPbint();
+        Color d = gftColor();
+        Color brightfr = d.brightfr();
+        Color dbrkfr = d.dbrkfr();
+
+        if (!rbisfd) {
+            sftColor(dbrkfr);
+        } flsf if (p != d) {
+            sftColor(d);
+        }
+        fillRfdt(x+1, y+1, width-2, hfight-2);
+        sftColor(rbisfd ? brightfr : dbrkfr);
+        //drbwLinf(x, y, x, y + hfight - 1);
+        fillRfdt(x, y, 1, hfight);
+        //drbwLinf(x + 1, y, x + width - 2, y);
+        fillRfdt(x + 1, y, width - 2, 1);
+        sftColor(rbisfd ? dbrkfr : brightfr);
+        //drbwLinf(x + 1, y + hfight - 1, x + width - 1, y + hfight - 1);
+        fillRfdt(x + 1, y + hfight - 1, width - 1, 1);
+        //drbwLinf(x + width - 1, y, x + width - 1, y + hfight - 2);
+        fillRfdt(x + width - 1, y, 1, hfight - 1);
+        sftPbint(p);
+    }
+
+    /**
+     * Strokfs thf outlinf of b <dodf>Shbpf</dodf> using thf sfttings of thf
+     * durrfnt <dodf>Grbphids2D</dodf> dontfxt.  Thf rfndfring bttributfs
+     * bpplifd indludf thf <dodf>Clip</dodf>, <dodf>Trbnsform</dodf>,
+     * <dodf>Pbint</dodf>, <dodf>Compositf</dodf> bnd
+     * <dodf>Strokf</dodf> bttributfs.
+     * @pbrbm s thf <dodf>Shbpf</dodf> to bf rfndfrfd
+     * @sff #sftStrokf
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #dlip
+     * @sff #sftClip
+     * @sff #sftCompositf
+     */
+    publid bbstrbdt void drbw(Shbpf s);
+
+    /**
+     * Rfndfrs bn imbgf, bpplying b trbnsform from imbgf spbdf into usfr spbdf
+     * bfforf drbwing.
+     * Thf trbnsformbtion from usfr spbdf into dfvidf spbdf is donf with
+     * thf durrfnt <dodf>Trbnsform</dodf> in thf <dodf>Grbphids2D</dodf>.
+     * Thf spfdififd trbnsformbtion is bpplifd to thf imbgf bfforf thf
+     * trbnsform bttributf in thf <dodf>Grbphids2D</dodf> dontfxt is bpplifd.
+     * Thf rfndfring bttributfs bpplifd indludf thf <dodf>Clip</dodf>,
+     * <dodf>Trbnsform</dodf>, bnd <dodf>Compositf</dodf> bttributfs.
+     * Notf thbt no rfndfring is donf if thf spfdififd trbnsform is
+     * noninvfrtiblf.
+     * @pbrbm img thf spfdififd imbgf to bf rfndfrfd.
+     *            This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm xform thf trbnsformbtion from imbgf spbdf into usfr spbdf
+     * @pbrbm obs thf {@link ImbgfObsfrvfr}
+     * to bf notififd bs morf of thf <dodf>Imbgf</dodf>
+     * is donvfrtfd
+     * @rfturn <dodf>truf</dodf> if thf <dodf>Imbgf</dodf> is
+     * fully lobdfd bnd domplftfly rfndfrfd, or if it's null;
+     * <dodf>fblsf</dodf> if thf <dodf>Imbgf</dodf> is still bfing lobdfd.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid bbstrbdt boolfbn drbwImbgf(Imbgf img,
+                                      AffinfTrbnsform xform,
+                                      ImbgfObsfrvfr obs);
+
+    /**
+     * Rfndfrs b <dodf>BufffrfdImbgf</dodf> thbt is
+     * filtfrfd with b
+     * {@link BufffrfdImbgfOp}.
+     * Thf rfndfring bttributfs bpplifd indludf thf <dodf>Clip</dodf>,
+     * <dodf>Trbnsform</dodf>
+     * bnd <dodf>Compositf</dodf> bttributfs.  This is fquivblfnt to:
+     * <prf>
+     * img1 = op.filtfr(img, null);
+     * drbwImbgf(img1, nfw AffinfTrbnsform(1f,0f,0f,1f,x,y), null);
+     * </prf>
+     * @pbrbm op thf filtfr to bf bpplifd to thf imbgf bfforf rfndfring
+     * @pbrbm img thf spfdififd <dodf>BufffrfdImbgf</dodf> to bf rfndfrfd.
+     *            This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm x thf x doordinbtf of thf lodbtion in usfr spbdf whfrf
+     * thf uppfr lfft dornfr of thf imbgf is rfndfrfd
+     * @pbrbm y thf y doordinbtf of thf lodbtion in usfr spbdf whfrf
+     * thf uppfr lfft dornfr of thf imbgf is rfndfrfd
+     *
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid bbstrbdt void drbwImbgf(BufffrfdImbgf img,
+                                   BufffrfdImbgfOp op,
+                                   int x,
+                                   int y);
+
+    /**
+     * Rfndfrs b {@link RfndfrfdImbgf},
+     * bpplying b trbnsform from imbgf
+     * spbdf into usfr spbdf bfforf drbwing.
+     * Thf trbnsformbtion from usfr spbdf into dfvidf spbdf is donf with
+     * thf durrfnt <dodf>Trbnsform</dodf> in thf <dodf>Grbphids2D</dodf>.
+     * Thf spfdififd trbnsformbtion is bpplifd to thf imbgf bfforf thf
+     * trbnsform bttributf in thf <dodf>Grbphids2D</dodf> dontfxt is bpplifd.
+     * Thf rfndfring bttributfs bpplifd indludf thf <dodf>Clip</dodf>,
+     * <dodf>Trbnsform</dodf>, bnd <dodf>Compositf</dodf> bttributfs. Notf
+     * thbt no rfndfring is donf if thf spfdififd trbnsform is
+     * noninvfrtiblf.
+     * @pbrbm img thf imbgf to bf rfndfrfd. This mfthod dofs
+     *            nothing if <dodf>img</dodf> is null.
+     * @pbrbm xform thf trbnsformbtion from imbgf spbdf into usfr spbdf
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid bbstrbdt void drbwRfndfrfdImbgf(RfndfrfdImbgf img,
+                                           AffinfTrbnsform xform);
+
+    /**
+     * Rfndfrs b
+     * {@link RfndfrbblfImbgf},
+     * bpplying b trbnsform from imbgf spbdf into usfr spbdf bfforf drbwing.
+     * Thf trbnsformbtion from usfr spbdf into dfvidf spbdf is donf with
+     * thf durrfnt <dodf>Trbnsform</dodf> in thf <dodf>Grbphids2D</dodf>.
+     * Thf spfdififd trbnsformbtion is bpplifd to thf imbgf bfforf thf
+     * trbnsform bttributf in thf <dodf>Grbphids2D</dodf> dontfxt is bpplifd.
+     * Thf rfndfring bttributfs bpplifd indludf thf <dodf>Clip</dodf>,
+     * <dodf>Trbnsform</dodf>, bnd <dodf>Compositf</dodf> bttributfs. Notf
+     * thbt no rfndfring is donf if thf spfdififd trbnsform is
+     * noninvfrtiblf.
+     *<p>
+     * Rfndfring hints sft on thf <dodf>Grbphids2D</dodf> objfdt might
+     * bf usfd in rfndfring thf <dodf>RfndfrbblfImbgf</dodf>.
+     * If fxplidit dontrol is rfquirfd ovfr spfdifid hints rfdognizfd by b
+     * spfdifid <dodf>RfndfrbblfImbgf</dodf>, or if knowlfdgf of whidh hints
+     * brf usfd is rfquirfd, thfn b <dodf>RfndfrfdImbgf</dodf> should bf
+     * obtbinfd dirfdtly from thf <dodf>RfndfrbblfImbgf</dodf>
+     * bnd rfndfrfd using
+     *{@link #drbwRfndfrfdImbgf(RfndfrfdImbgf, AffinfTrbnsform) drbwRfndfrfdImbgf}.
+     * @pbrbm img thf imbgf to bf rfndfrfd. This mfthod dofs
+     *            nothing if <dodf>img</dodf> is null.
+     * @pbrbm xform thf trbnsformbtion from imbgf spbdf into usfr spbdf
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     * @sff #drbwRfndfrfdImbgf
+     */
+    publid bbstrbdt void drbwRfndfrbblfImbgf(RfndfrbblfImbgf img,
+                                             AffinfTrbnsform xform);
+
+    /**
+     * Rfndfrs thf tfxt of thf spfdififd <dodf>String</dodf>, using thf
+     * durrfnt tfxt bttributf stbtf in thf <dodf>Grbphids2D</dodf> dontfxt.
+     * Thf bbsflinf of thf
+     * first dhbrbdtfr is bt position (<i>x</i>,&nbsp;<i>y</i>) in
+     * thf Usfr Spbdf.
+     * Thf rfndfring bttributfs bpplifd indludf thf <dodf>Clip</dodf>,
+     * <dodf>Trbnsform</dodf>, <dodf>Pbint</dodf>, <dodf>Font</dodf> bnd
+     * <dodf>Compositf</dodf> bttributfs.  For dhbrbdtfrs in sdript
+     * systfms sudh bs Hfbrfw bnd Arbbid, thf glyphs dbn bf rfndfrfd from
+     * right to lfft, in whidh dbsf thf doordinbtf supplifd is thf
+     * lodbtion of thf lfftmost dhbrbdtfr on thf bbsflinf.
+     * @pbrbm str thf string to bf rfndfrfd
+     * @pbrbm x thf x doordinbtf of thf lodbtion whfrf thf
+     * <dodf>String</dodf> should bf rfndfrfd
+     * @pbrbm y thf y doordinbtf of thf lodbtion whfrf thf
+     * <dodf>String</dodf> should bf rfndfrfd
+     * @throws NullPointfrExdfption if <dodf>str</dodf> is
+     *         <dodf>null</dodf>
+     * @sff         jbvb.bwt.Grbphids#drbwBytfs
+     * @sff         jbvb.bwt.Grbphids#drbwChbrs
+     * @sindf       1.0
+     */
+    publid bbstrbdt void drbwString(String str, int x, int y);
+
+    /**
+     * Rfndfrs thf tfxt spfdififd by thf spfdififd <dodf>String</dodf>,
+     * using thf durrfnt tfxt bttributf stbtf in thf <dodf>Grbphids2D</dodf> dontfxt.
+     * Thf bbsflinf of thf first dhbrbdtfr is bt position
+     * (<i>x</i>,&nbsp;<i>y</i>) in thf Usfr Spbdf.
+     * Thf rfndfring bttributfs bpplifd indludf thf <dodf>Clip</dodf>,
+     * <dodf>Trbnsform</dodf>, <dodf>Pbint</dodf>, <dodf>Font</dodf> bnd
+     * <dodf>Compositf</dodf> bttributfs. For dhbrbdtfrs in sdript systfms
+     * sudh bs Hfbrfw bnd Arbbid, thf glyphs dbn bf rfndfrfd from right to
+     * lfft, in whidh dbsf thf doordinbtf supplifd is thf lodbtion of thf
+     * lfftmost dhbrbdtfr on thf bbsflinf.
+     * @pbrbm str thf <dodf>String</dodf> to bf rfndfrfd
+     * @pbrbm x thf x doordinbtf of thf lodbtion whfrf thf
+     * <dodf>String</dodf> should bf rfndfrfd
+     * @pbrbm y thf y doordinbtf of thf lodbtion whfrf thf
+     * <dodf>String</dodf> should bf rfndfrfd
+     * @throws NullPointfrExdfption if <dodf>str</dodf> is
+     *         <dodf>null</dodf>
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff jbvb.bwt.Grbphids#sftFont
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #sftClip
+     */
+    publid bbstrbdt void drbwString(String str, flobt x, flobt y);
+
+    /**
+     * Rfndfrs thf tfxt of thf spfdififd itfrbtor bpplying its bttributfs
+     * in bddordbndf with thf spfdifidbtion of thf {@link TfxtAttributf} dlbss.
+     * <p>
+     * Thf bbsflinf of thf first dhbrbdtfr is bt position
+     * (<i>x</i>,&nbsp;<i>y</i>) in Usfr Spbdf.
+     * For dhbrbdtfrs in sdript systfms sudh bs Hfbrfw bnd Arbbid,
+     * thf glyphs dbn bf rfndfrfd from right to lfft, in whidh dbsf thf
+     * doordinbtf supplifd is thf lodbtion of thf lfftmost dhbrbdtfr
+     * on thf bbsflinf.
+     * @pbrbm itfrbtor thf itfrbtor whosf tfxt is to bf rfndfrfd
+     * @pbrbm x thf x doordinbtf whfrf thf itfrbtor's tfxt is to bf
+     * rfndfrfd
+     * @pbrbm y thf y doordinbtf whfrf thf itfrbtor's tfxt is to bf
+     * rfndfrfd
+     * @throws NullPointfrExdfption if <dodf>itfrbtor</dodf> is
+     *         <dodf>null</dodf>
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #sftClip
+     */
+    publid bbstrbdt void drbwString(AttributfdChbrbdtfrItfrbtor itfrbtor,
+                                    int x, int y);
+
+    /**
+     * Rfndfrs thf tfxt of thf spfdififd itfrbtor bpplying its bttributfs
+     * in bddordbndf with thf spfdifidbtion of thf {@link TfxtAttributf} dlbss.
+     * <p>
+     * Thf bbsflinf of thf first dhbrbdtfr is bt position
+     * (<i>x</i>,&nbsp;<i>y</i>) in Usfr Spbdf.
+     * For dhbrbdtfrs in sdript systfms sudh bs Hfbrfw bnd Arbbid,
+     * thf glyphs dbn bf rfndfrfd from right to lfft, in whidh dbsf thf
+     * doordinbtf supplifd is thf lodbtion of thf lfftmost dhbrbdtfr
+     * on thf bbsflinf.
+     * @pbrbm itfrbtor thf itfrbtor whosf tfxt is to bf rfndfrfd
+     * @pbrbm x thf x doordinbtf whfrf thf itfrbtor's tfxt is to bf
+     * rfndfrfd
+     * @pbrbm y thf y doordinbtf whfrf thf itfrbtor's tfxt is to bf
+     * rfndfrfd
+     * @throws NullPointfrExdfption if <dodf>itfrbtor</dodf> is
+     *         <dodf>null</dodf>
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #sftClip
+     */
+    publid bbstrbdt void drbwString(AttributfdChbrbdtfrItfrbtor itfrbtor,
+                                    flobt x, flobt y);
+
+    /**
+     * Rfndfrs thf tfxt of thf spfdififd
+     * {@link GlyphVfdtor} using
+     * thf <dodf>Grbphids2D</dodf> dontfxt's rfndfring bttributfs.
+     * Thf rfndfring bttributfs bpplifd indludf thf <dodf>Clip</dodf>,
+     * <dodf>Trbnsform</dodf>, <dodf>Pbint</dodf>, bnd
+     * <dodf>Compositf</dodf> bttributfs.  Thf <dodf>GlyphVfdtor</dodf>
+     * spfdififs individubl glyphs from b {@link Font}.
+     * Thf <dodf>GlyphVfdtor</dodf> dbn blso dontbin thf glyph positions.
+     * This is thf fbstfst wby to rfndfr b sft of dhbrbdtfrs to thf
+     * sdrffn.
+     * @pbrbm g thf <dodf>GlyphVfdtor</dodf> to bf rfndfrfd
+     * @pbrbm x thf x position in Usfr Spbdf whfrf thf glyphs should
+     * bf rfndfrfd
+     * @pbrbm y thf y position in Usfr Spbdf whfrf thf glyphs should
+     * bf rfndfrfd
+     * @throws NullPointfrExdfption if <dodf>g</dodf> is <dodf>null</dodf>.
+     *
+     * @sff jbvb.bwt.Font#drfbtfGlyphVfdtor
+     * @sff jbvb.bwt.font.GlyphVfdtor
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #sftClip
+     */
+    publid bbstrbdt void drbwGlyphVfdtor(GlyphVfdtor g, flobt x, flobt y);
+
+    /**
+     * Fills thf intfrior of b <dodf>Shbpf</dodf> using thf sfttings of thf
+     * <dodf>Grbphids2D</dodf> dontfxt. Thf rfndfring bttributfs bpplifd
+     * indludf thf <dodf>Clip</dodf>, <dodf>Trbnsform</dodf>,
+     * <dodf>Pbint</dodf>, bnd <dodf>Compositf</dodf>.
+     * @pbrbm s thf <dodf>Shbpf</dodf> to bf fillfd
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid bbstrbdt void fill(Shbpf s);
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd <dodf>Shbpf</dodf> intfrsfdts
+     * thf spfdififd {@link Rfdtbnglf}, whidh is in dfvidf
+     * spbdf. If <dodf>onStrokf</dodf> is fblsf, this mfthod dhfdks
+     * whfthfr or not thf intfrior of thf spfdififd <dodf>Shbpf</dodf>
+     * intfrsfdts thf spfdififd <dodf>Rfdtbnglf</dodf>.  If
+     * <dodf>onStrokf</dodf> is <dodf>truf</dodf>, this mfthod dhfdks
+     * whfthfr or not thf <dodf>Strokf</dodf> of thf spfdififd
+     * <dodf>Shbpf</dodf> outlinf intfrsfdts thf spfdififd
+     * <dodf>Rfdtbnglf</dodf>.
+     * Thf rfndfring bttributfs tbkfn into bddount indludf thf
+     * <dodf>Clip</dodf>, <dodf>Trbnsform</dodf>, bnd <dodf>Strokf</dodf>
+     * bttributfs.
+     * @pbrbm rfdt thf brfb in dfvidf spbdf to dhfdk for b hit
+     * @pbrbm s thf <dodf>Shbpf</dodf> to dhfdk for b hit
+     * @pbrbm onStrokf flbg usfd to dhoosf bftwffn tfsting thf
+     * strokfd or thf fillfd shbpf.  If thf flbg is <dodf>truf</dodf>, thf
+     * <dodf>Strokf</dodf> outlinf is tfstfd.  If thf flbg is
+     * <dodf>fblsf</dodf>, thf fillfd <dodf>Shbpf</dodf> is tfstfd.
+     * @rfturn <dodf>truf</dodf> if thfrf is b hit; <dodf>fblsf</dodf>
+     * othfrwisf.
+     * @sff #sftStrokf
+     * @sff #fill
+     * @sff #drbw
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid bbstrbdt boolfbn hit(Rfdtbnglf rfdt,
+                                Shbpf s,
+                                boolfbn onStrokf);
+
+    /**
+     * Rfturns thf dfvidf donfigurbtion bssodibtfd with this
+     * <dodf>Grbphids2D</dodf>.
+     * @rfturn thf dfvidf donfigurbtion of this <dodf>Grbphids2D</dodf>.
+     */
+    publid bbstrbdt GrbphidsConfigurbtion gftDfvidfConfigurbtion();
+
+    /**
+     * Sfts thf <dodf>Compositf</dodf> for thf <dodf>Grbphids2D</dodf> dontfxt.
+     * Thf <dodf>Compositf</dodf> is usfd in bll drbwing mfthods sudh bs
+     * <dodf>drbwImbgf</dodf>, <dodf>drbwString</dodf>, <dodf>drbw</dodf>,
+     * bnd <dodf>fill</dodf>.  It spfdififs how nfw pixfls brf to bf dombinfd
+     * with thf fxisting pixfls on thf grbphids dfvidf during thf rfndfring
+     * prodfss.
+     * <p>If this <dodf>Grbphids2D</dodf> dontfxt is drbwing to b
+     * <dodf>Componfnt</dodf> on thf displby sdrffn bnd thf
+     * <dodf>Compositf</dodf> is b dustom objfdt rbthfr thbn bn
+     * instbndf of thf <dodf>AlphbCompositf</dodf> dlbss, bnd if
+     * thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkPfrmission</dodf>
+     * mfthod is dbllfd with bn <dodf>AWTPfrmission("rfbdDisplbyPixfls")</dodf>
+     * pfrmission.
+     * @throws SfdurityExdfption
+     *         if b dustom <dodf>Compositf</dodf> objfdt is bfing
+     *         usfd to rfndfr to thf sdrffn bnd b sfdurity mbnbgfr
+     *         is sft bnd its <dodf>dhfdkPfrmission</dodf> mfthod
+     *         dofs not bllow thf opfrbtion.
+     * @pbrbm domp thf <dodf>Compositf</dodf> objfdt to bf usfd for rfndfring
+     * @sff jbvb.bwt.Grbphids#sftXORModf
+     * @sff jbvb.bwt.Grbphids#sftPbintModf
+     * @sff #gftCompositf
+     * @sff AlphbCompositf
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.bwt.AWTPfrmission
+     */
+    publid bbstrbdt void sftCompositf(Compositf domp);
+
+    /**
+     * Sfts thf <dodf>Pbint</dodf> bttributf for thf
+     * <dodf>Grbphids2D</dodf> dontfxt.  Cblling this mfthod
+     * with b <dodf>null</dodf> <dodf>Pbint</dodf> objfdt dofs
+     * not hbvf bny ffffdt on thf durrfnt <dodf>Pbint</dodf> bttributf
+     * of this <dodf>Grbphids2D</dodf>.
+     * @pbrbm pbint thf <dodf>Pbint</dodf> objfdt to bf usfd to gfnfrbtf
+     * dolor during thf rfndfring prodfss, or <dodf>null</dodf>
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #gftPbint
+     * @sff GrbdifntPbint
+     * @sff TfxturfPbint
+     */
+    publid bbstrbdt void sftPbint( Pbint pbint );
+
+    /**
+     * Sfts thf <dodf>Strokf</dodf> for thf <dodf>Grbphids2D</dodf> dontfxt.
+     * @pbrbm s thf <dodf>Strokf</dodf> objfdt to bf usfd to strokf b
+     * <dodf>Shbpf</dodf> during thf rfndfring prodfss
+     * @sff BbsidStrokf
+     * @sff #gftStrokf
+     */
+    publid bbstrbdt void sftStrokf(Strokf s);
+
+    /**
+     * Sfts thf vbluf of b singlf prfffrfndf for thf rfndfring blgorithms.
+     * Hint dbtfgorifs indludf dontrols for rfndfring qublity bnd ovfrbll
+     * timf/qublity trbdf-off in thf rfndfring prodfss.  Rfffr to thf
+     * <dodf>RfndfringHints</dodf> dlbss for dffinitions of somf dommon
+     * kfys bnd vblufs.
+     * @pbrbm hintKfy thf kfy of thf hint to bf sft.
+     * @pbrbm hintVbluf thf vbluf indidbting prfffrfndfs for thf spfdififd
+     * hint dbtfgory.
+     * @sff #gftRfndfringHint(RfndfringHints.Kfy)
+     * @sff RfndfringHints
+     */
+    publid bbstrbdt void sftRfndfringHint(Kfy hintKfy, Objfdt hintVbluf);
+
+    /**
+     * Rfturns thf vbluf of b singlf prfffrfndf for thf rfndfring blgorithms.
+     * Hint dbtfgorifs indludf dontrols for rfndfring qublity bnd ovfrbll
+     * timf/qublity trbdf-off in thf rfndfring prodfss.  Rfffr to thf
+     * <dodf>RfndfringHints</dodf> dlbss for dffinitions of somf dommon
+     * kfys bnd vblufs.
+     * @pbrbm hintKfy thf kfy dorrfsponding to thf hint to gft.
+     * @rfturn bn objfdt rfprfsfnting thf vbluf for thf spfdififd hint kfy.
+     * Somf of thf kfys bnd thfir bssodibtfd vblufs brf dffinfd in thf
+     * <dodf>RfndfringHints</dodf> dlbss.
+     * @sff RfndfringHints
+     * @sff #sftRfndfringHint(RfndfringHints.Kfy, Objfdt)
+     */
+    publid bbstrbdt Objfdt gftRfndfringHint(Kfy hintKfy);
+
+    /**
+     * Rfplbdfs thf vblufs of bll prfffrfndfs for thf rfndfring
+     * blgorithms with thf spfdififd <dodf>hints</dodf>.
+     * Thf fxisting vblufs for bll rfndfring hints brf disdbrdfd bnd
+     * thf nfw sft of known hints bnd vblufs brf initiblizfd from thf
+     * spfdififd {@link Mbp} objfdt.
+     * Hint dbtfgorifs indludf dontrols for rfndfring qublity bnd
+     * ovfrbll timf/qublity trbdf-off in thf rfndfring prodfss.
+     * Rfffr to thf <dodf>RfndfringHints</dodf> dlbss for dffinitions of
+     * somf dommon kfys bnd vblufs.
+     * @pbrbm hints thf rfndfring hints to bf sft
+     * @sff #gftRfndfringHints
+     * @sff RfndfringHints
+     */
+    publid bbstrbdt void sftRfndfringHints(Mbp<?,?> hints);
+
+    /**
+     * Sfts thf vblufs of bn brbitrbry numbfr of prfffrfndfs for thf
+     * rfndfring blgorithms.
+     * Only vblufs for thf rfndfring hints thbt brf prfsfnt in thf
+     * spfdififd <dodf>Mbp</dodf> objfdt brf modififd.
+     * All othfr prfffrfndfs not prfsfnt in thf spfdififd
+     * objfdt brf lfft unmodififd.
+     * Hint dbtfgorifs indludf dontrols for rfndfring qublity bnd
+     * ovfrbll timf/qublity trbdf-off in thf rfndfring prodfss.
+     * Rfffr to thf <dodf>RfndfringHints</dodf> dlbss for dffinitions of
+     * somf dommon kfys bnd vblufs.
+     * @pbrbm hints thf rfndfring hints to bf sft
+     * @sff RfndfringHints
+     */
+    publid bbstrbdt void bddRfndfringHints(Mbp<?,?> hints);
+
+    /**
+     * Gfts thf prfffrfndfs for thf rfndfring blgorithms.  Hint dbtfgorifs
+     * indludf dontrols for rfndfring qublity bnd ovfrbll timf/qublity
+     * trbdf-off in thf rfndfring prodfss.
+     * Rfturns bll of thf hint kfy/vbluf pbirs thbt wfrf fvfr spfdififd in
+     * onf opfrbtion.  Rfffr to thf
+     * <dodf>RfndfringHints</dodf> dlbss for dffinitions of somf dommon
+     * kfys bnd vblufs.
+     * @rfturn b rfffrfndf to bn instbndf of <dodf>RfndfringHints</dodf>
+     * thbt dontbins thf durrfnt prfffrfndfs.
+     * @sff RfndfringHints
+     * @sff #sftRfndfringHints(Mbp)
+     */
+    publid bbstrbdt RfndfringHints gftRfndfringHints();
+
+    /**
+     * Trbnslbtfs thf origin of thf <dodf>Grbphids2D</dodf> dontfxt to thf
+     * point (<i>x</i>,&nbsp;<i>y</i>) in thf durrfnt doordinbtf systfm.
+     * Modififs thf <dodf>Grbphids2D</dodf> dontfxt so thbt its nfw origin
+     * dorrfsponds to thf point (<i>x</i>,&nbsp;<i>y</i>) in thf
+     * <dodf>Grbphids2D</dodf> dontfxt's formfr doordinbtf systfm.  All
+     * doordinbtfs usfd in subsfqufnt rfndfring opfrbtions on this grbphids
+     * dontfxt brf rflbtivf to this nfw origin.
+     * @pbrbm  x thf spfdififd x doordinbtf
+     * @pbrbm  y thf spfdififd y doordinbtf
+     * @sindf   1.0
+     */
+    publid bbstrbdt void trbnslbtf(int x, int y);
+
+    /**
+     * Condbtfnbtfs thf durrfnt
+     * <dodf>Grbphids2D</dodf> <dodf>Trbnsform</dodf>
+     * with b trbnslbtion trbnsform.
+     * Subsfqufnt rfndfring is trbnslbtfd by thf spfdififd
+     * distbndf rflbtivf to thf prfvious position.
+     * This is fquivblfnt to dblling trbnsform(T), whfrf T is bn
+     * <dodf>AffinfTrbnsform</dodf> rfprfsfntfd by thf following mbtrix:
+     * <prf>
+     *          [   1    0    tx  ]
+     *          [   0    1    ty  ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm tx thf distbndf to trbnslbtf blong thf x-bxis
+     * @pbrbm ty thf distbndf to trbnslbtf blong thf y-bxis
+     */
+    publid bbstrbdt void trbnslbtf(doublf tx, doublf ty);
+
+    /**
+     * Condbtfnbtfs thf durrfnt <dodf>Grbphids2D</dodf>
+     * <dodf>Trbnsform</dodf> with b rotbtion trbnsform.
+     * Subsfqufnt rfndfring is rotbtfd by thf spfdififd rbdibns rflbtivf
+     * to thf prfvious origin.
+     * This is fquivblfnt to dblling <dodf>trbnsform(R)</dodf>, whfrf R is bn
+     * <dodf>AffinfTrbnsform</dodf> rfprfsfntfd by thf following mbtrix:
+     * <prf>
+     *          [   dos(thftb)    -sin(thftb)    0   ]
+     *          [   sin(thftb)     dos(thftb)    0   ]
+     *          [       0              0         1   ]
+     * </prf>
+     * Rotbting with b positivf bnglf thftb rotbtfs points on thf positivf
+     * x bxis towbrd thf positivf y bxis.
+     * @pbrbm thftb thf bnglf of rotbtion in rbdibns
+     */
+    publid bbstrbdt void rotbtf(doublf thftb);
+
+    /**
+     * Condbtfnbtfs thf durrfnt <dodf>Grbphids2D</dodf>
+     * <dodf>Trbnsform</dodf> with b trbnslbtfd rotbtion
+     * trbnsform.  Subsfqufnt rfndfring is trbnsformfd by b trbnsform
+     * whidh is donstrudtfd by trbnslbting to thf spfdififd lodbtion,
+     * rotbting by thf spfdififd rbdibns, bnd trbnslbting bbdk by thf sbmf
+     * bmount bs thf originbl trbnslbtion.  This is fquivblfnt to thf
+     * following sfqufndf of dblls:
+     * <prf>
+     *          trbnslbtf(x, y);
+     *          rotbtf(thftb);
+     *          trbnslbtf(-x, -y);
+     * </prf>
+     * Rotbting with b positivf bnglf thftb rotbtfs points on thf positivf
+     * x bxis towbrd thf positivf y bxis.
+     * @pbrbm thftb thf bnglf of rotbtion in rbdibns
+     * @pbrbm x thf x doordinbtf of thf origin of thf rotbtion
+     * @pbrbm y thf y doordinbtf of thf origin of thf rotbtion
+     */
+    publid bbstrbdt void rotbtf(doublf thftb, doublf x, doublf y);
+
+    /**
+     * Condbtfnbtfs thf durrfnt <dodf>Grbphids2D</dodf>
+     * <dodf>Trbnsform</dodf> with b sdbling trbnsformbtion
+     * Subsfqufnt rfndfring is rfsizfd bddording to thf spfdififd sdbling
+     * fbdtors rflbtivf to thf prfvious sdbling.
+     * This is fquivblfnt to dblling <dodf>trbnsform(S)</dodf>, whfrf S is bn
+     * <dodf>AffinfTrbnsform</dodf> rfprfsfntfd by thf following mbtrix:
+     * <prf>
+     *          [   sx   0    0   ]
+     *          [   0    sy   0   ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm sx thf bmount by whidh X doordinbtfs in subsfqufnt
+     * rfndfring opfrbtions brf multiplifd rflbtivf to prfvious
+     * rfndfring opfrbtions.
+     * @pbrbm sy thf bmount by whidh Y doordinbtfs in subsfqufnt
+     * rfndfring opfrbtions brf multiplifd rflbtivf to prfvious
+     * rfndfring opfrbtions.
+     */
+    publid bbstrbdt void sdblf(doublf sx, doublf sy);
+
+    /**
+     * Condbtfnbtfs thf durrfnt <dodf>Grbphids2D</dodf>
+     * <dodf>Trbnsform</dodf> with b shfbring trbnsform.
+     * Subsfqufnt rfndfrings brf shfbrfd by thf spfdififd
+     * multiplifr rflbtivf to thf prfvious position.
+     * This is fquivblfnt to dblling <dodf>trbnsform(SH)</dodf>, whfrf SH
+     * is bn <dodf>AffinfTrbnsform</dodf> rfprfsfntfd by thf following
+     * mbtrix:
+     * <prf>
+     *          [   1   shx   0   ]
+     *          [  shy   1    0   ]
+     *          [   0    0    1   ]
+     * </prf>
+     * @pbrbm shx thf multiplifr by whidh doordinbtfs brf shiftfd in
+     * thf positivf X bxis dirfdtion bs b fundtion of thfir Y doordinbtf
+     * @pbrbm shy thf multiplifr by whidh doordinbtfs brf shiftfd in
+     * thf positivf Y bxis dirfdtion bs b fundtion of thfir X doordinbtf
+     */
+    publid bbstrbdt void shfbr(doublf shx, doublf shy);
+
+    /**
+     * Composfs bn <dodf>AffinfTrbnsform</dodf> objfdt with thf
+     * <dodf>Trbnsform</dodf> in this <dodf>Grbphids2D</dodf> bddording
+     * to thf rulf lbst-spfdififd-first-bpplifd.  If thf durrfnt
+     * <dodf>Trbnsform</dodf> is Cx, thf rfsult of domposition
+     * with Tx is b nfw <dodf>Trbnsform</dodf> Cx'.  Cx' bfdomfs thf
+     * durrfnt <dodf>Trbnsform</dodf> for this <dodf>Grbphids2D</dodf>.
+     * Trbnsforming b point p by thf updbtfd <dodf>Trbnsform</dodf> Cx' is
+     * fquivblfnt to first trbnsforming p by Tx bnd thfn trbnsforming
+     * thf rfsult by thf originbl <dodf>Trbnsform</dodf> Cx.  In othfr
+     * words, Cx'(p) = Cx(Tx(p)).  A dopy of thf Tx is mbdf, if nfdfssbry,
+     * so furthfr modifidbtions to Tx do not bfffdt rfndfring.
+     * @pbrbm Tx thf <dodf>AffinfTrbnsform</dodf> objfdt to bf domposfd with
+     * thf durrfnt <dodf>Trbnsform</dodf>
+     * @sff #sftTrbnsform
+     * @sff AffinfTrbnsform
+     */
+    publid bbstrbdt void trbnsform(AffinfTrbnsform Tx);
+
+    /**
+     * Ovfrwritfs thf Trbnsform in thf <dodf>Grbphids2D</dodf> dontfxt.
+     * WARNING: This mfthod should <b>nfvfr</b> bf usfd to bpply b nfw
+     * doordinbtf trbnsform on top of bn fxisting trbnsform bfdbusf thf
+     * <dodf>Grbphids2D</dodf> might blrfbdy hbvf b trbnsform thbt is
+     * nffdfd for othfr purposfs, sudh bs rfndfring Swing
+     * domponfnts or bpplying b sdbling trbnsformbtion to bdjust for thf
+     * rfsolution of b printfr.
+     * <p>To bdd b doordinbtf trbnsform, usf thf
+     * <dodf>trbnsform</dodf>, <dodf>rotbtf</dodf>, <dodf>sdblf</dodf>,
+     * or <dodf>shfbr</dodf> mfthods.  Thf <dodf>sftTrbnsform</dodf>
+     * mfthod is intfndfd only for rfstoring thf originbl
+     * <dodf>Grbphids2D</dodf> trbnsform bftfr rfndfring, bs shown in this
+     * fxbmplf:
+     * <prf>
+     * // Gft thf durrfnt trbnsform
+     * AffinfTrbnsform sbvfAT = g2.gftTrbnsform();
+     * // Pfrform trbnsformbtion
+     * g2d.trbnsform(...);
+     * // Rfndfr
+     * g2d.drbw(...);
+     * // Rfstorf originbl trbnsform
+     * g2d.sftTrbnsform(sbvfAT);
+     * </prf>
+     *
+     * @pbrbm Tx thf <dodf>AffinfTrbnsform</dodf> thbt wbs rftrifvfd
+     *           from thf <dodf>gftTrbnsform</dodf> mfthod
+     * @sff #trbnsform
+     * @sff #gftTrbnsform
+     * @sff AffinfTrbnsform
+     */
+    publid bbstrbdt void sftTrbnsform(AffinfTrbnsform Tx);
+
+    /**
+     * Rfturns b dopy of thf durrfnt <dodf>Trbnsform</dodf> in thf
+     * <dodf>Grbphids2D</dodf> dontfxt.
+     * @rfturn thf durrfnt <dodf>AffinfTrbnsform</dodf> in thf
+     *             <dodf>Grbphids2D</dodf> dontfxt.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     */
+    publid bbstrbdt AffinfTrbnsform gftTrbnsform();
+
+    /**
+     * Rfturns thf durrfnt <dodf>Pbint</dodf> of thf
+     * <dodf>Grbphids2D</dodf> dontfxt.
+     * @rfturn thf durrfnt <dodf>Grbphids2D</dodf> <dodf>Pbint</dodf>,
+     * whidh dffinfs b dolor or pbttfrn.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     */
+    publid bbstrbdt Pbint gftPbint();
+
+    /**
+     * Rfturns thf durrfnt <dodf>Compositf</dodf> in thf
+     * <dodf>Grbphids2D</dodf> dontfxt.
+     * @rfturn thf durrfnt <dodf>Grbphids2D</dodf> <dodf>Compositf</dodf>,
+     *              whidh dffinfs b dompositing stylf.
+     * @sff #sftCompositf
+     */
+    publid bbstrbdt Compositf gftCompositf();
+
+    /**
+     * Sfts thf bbdkground dolor for thf <dodf>Grbphids2D</dodf> dontfxt.
+     * Thf bbdkground dolor is usfd for dlfbring b rfgion.
+     * Whfn b <dodf>Grbphids2D</dodf> is donstrudtfd for b
+     * <dodf>Componfnt</dodf>, thf bbdkground dolor is
+     * inhfritfd from thf <dodf>Componfnt</dodf>. Sftting thf bbdkground dolor
+     * in thf <dodf>Grbphids2D</dodf> dontfxt only bfffdts thf subsfqufnt
+     * <dodf>dlfbrRfdt</dodf> dblls bnd not thf bbdkground dolor of thf
+     * <dodf>Componfnt</dodf>.  To dhbngf thf bbdkground
+     * of thf <dodf>Componfnt</dodf>, usf bppropribtf mfthods of
+     * thf <dodf>Componfnt</dodf>.
+     * @pbrbm dolor thf bbdkground dolor thbt is usfd in
+     * subsfqufnt dblls to <dodf>dlfbrRfdt</dodf>
+     * @sff #gftBbdkground
+     * @sff jbvb.bwt.Grbphids#dlfbrRfdt
+     */
+    publid bbstrbdt void sftBbdkground(Color dolor);
+
+    /**
+     * Rfturns thf bbdkground dolor usfd for dlfbring b rfgion.
+     * @rfturn thf durrfnt <dodf>Grbphids2D</dodf> <dodf>Color</dodf>,
+     * whidh dffinfs thf bbdkground dolor.
+     * @sff #sftBbdkground
+     */
+    publid bbstrbdt Color gftBbdkground();
+
+    /**
+     * Rfturns thf durrfnt <dodf>Strokf</dodf> in thf
+     * <dodf>Grbphids2D</dodf> dontfxt.
+     * @rfturn thf durrfnt <dodf>Grbphids2D</dodf> <dodf>Strokf</dodf>,
+     *                 whidh dffinfs thf linf stylf.
+     * @sff #sftStrokf
+     */
+    publid bbstrbdt Strokf gftStrokf();
+
+    /**
+     * Intfrsfdts thf durrfnt <dodf>Clip</dodf> with thf intfrior of thf
+     * spfdififd <dodf>Shbpf</dodf> bnd sfts thf <dodf>Clip</dodf> to thf
+     * rfsulting intfrsfdtion.  Thf spfdififd <dodf>Shbpf</dodf> is
+     * trbnsformfd with thf durrfnt <dodf>Grbphids2D</dodf>
+     * <dodf>Trbnsform</dodf> bfforf bfing intfrsfdtfd with thf durrfnt
+     * <dodf>Clip</dodf>.  This mfthod is usfd to mbkf thf durrfnt
+     * <dodf>Clip</dodf> smbllfr.
+     * To mbkf thf <dodf>Clip</dodf> lbrgfr, usf <dodf>sftClip</dodf>.
+     * Thf <i>usfr dlip</i> modififd by this mfthod is indfpfndfnt of thf
+     * dlipping bssodibtfd with dfvidf bounds bnd visibility.  If no dlip hbs
+     * prfviously bffn sft, or if thf dlip hbs bffn dlfbrfd using
+     * {@link Grbphids#sftClip(Shbpf) sftClip} with b <dodf>null</dodf>
+     * brgumfnt, thf spfdififd <dodf>Shbpf</dodf> bfdomfs thf nfw
+     * usfr dlip.
+     * @pbrbm s thf <dodf>Shbpf</dodf> to bf intfrsfdtfd with thf durrfnt
+     *          <dodf>Clip</dodf>.  If <dodf>s</dodf> is <dodf>null</dodf>,
+     *          this mfthod dlfbrs thf durrfnt <dodf>Clip</dodf>.
+     */
+     publid bbstrbdt void dlip(Shbpf s);
+
+     /**
+     * Gft thf rfndfring dontfxt of thf <dodf>Font</dodf> within this
+     * <dodf>Grbphids2D</dodf> dontfxt.
+     * Thf {@link FontRfndfrContfxt}
+     * fndbpsulbtfs bpplidbtion hints sudh bs bnti-blibsing bnd
+     * frbdtionbl mftrids, bs wfll bs tbrgft dfvidf spfdifid informbtion
+     * sudh bs dots-pfr-indh.  This informbtion should bf providfd by thf
+     * bpplidbtion whfn using objfdts thbt pfrform typogrbphidbl
+     * formbtting, sudh bs <dodf>Font</dodf> bnd
+     * <dodf>TfxtLbyout</dodf>.  This informbtion should blso bf providfd
+     * by bpplidbtions thbt pfrform thfir own lbyout bnd nffd bddurbtf
+     * mfbsurfmfnts of vbrious dhbrbdtfristids of glyphs sudh bs bdvbndf
+     * bnd linf hfight whfn vbrious rfndfring hints hbvf bffn bpplifd to
+     * thf tfxt rfndfring.
+     *
+     * @rfturn b rfffrfndf to bn instbndf of FontRfndfrContfxt.
+     * @sff jbvb.bwt.font.FontRfndfrContfxt
+     * @sff jbvb.bwt.Font#drfbtfGlyphVfdtor
+     * @sff jbvb.bwt.font.TfxtLbyout
+     * @sindf     1.2
+     */
+
+    publid bbstrbdt FontRfndfrContfxt gftFontRfndfrContfxt();
+
+}

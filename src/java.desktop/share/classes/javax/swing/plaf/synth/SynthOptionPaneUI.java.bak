@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import sun.swing.DffbultLookup;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JOptionPane}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JOptionPbnf}.
  *
- * @author James Gosling
- * @author Scott Violet
- * @author Amy Fowler
- * @since 1.7
+ * @butior Jbmfs Gosling
+ * @butior Sdott Violft
+ * @butior Amy Fowlfr
+ * @sindf 1.7
  */
-public class SynthOptionPaneUI extends BasicOptionPaneUI implements
-                                PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+publid dlbss SyntiOptionPbnfUI fxtfnds BbsidOptionPbnfUI implfmfnts
+                                PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf SyntiStylf stylf;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param x component to create UI object for
-     * @return the UI object
+     * @pbrbm x domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new SynthOptionPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw SyntiOptionPbnfUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installDefaults() {
-        updateStyle(optionPane);
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        updbtfStylf(optionPbnf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        optionPane.addPropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        optionPbnf.bddPropfrtyCibngfListfnfr(tiis);
     }
 
-    private void updateStyle(JComponent c) {
-        SynthContext context = getContext(c, ENABLED);
-        SynthStyle oldStyle = style;
+    privbtf void updbtfStylf(JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d, ENABLED);
+        SyntiStylf oldStylf = stylf;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            minimumSize = (Dimension)style.get(context,
-                                               "OptionPane.minimumSize");
-            if (minimumSize == null) {
-                minimumSize = new Dimension(262, 90);
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        if (stylf != oldStylf) {
+            minimumSizf = (Dimfnsion)stylf.gft(dontfxt,
+                                               "OptionPbnf.minimumSizf");
+            if (minimumSizf == null) {
+                minimumSizf = nfw Dimfnsion(262, 90);
             }
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(optionPane, ENABLED);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(optionPbnf, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        optionPane.removePropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        optionPbnf.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installComponents() {
-        optionPane.add(createMessageArea());
+    @Ovfrridf
+    protfdtfd void instbllComponfnts() {
+        optionPbnf.bdd(drfbtfMfssbgfArfb());
 
-        Container separator = createSeparator();
-        if (separator != null) {
-            optionPane.add(separator);
-            SynthContext context = getContext(optionPane, ENABLED);
-            optionPane.add(Box.createVerticalStrut(context.getStyle().
-                       getInt(context, "OptionPane.separatorPadding", 6)));
-            context.dispose();
+        Contbinfr sfpbrbtor = drfbtfSfpbrbtor();
+        if (sfpbrbtor != null) {
+            optionPbnf.bdd(sfpbrbtor);
+            SyntiContfxt dontfxt = gftContfxt(optionPbnf, ENABLED);
+            optionPbnf.bdd(Box.drfbtfVfrtidblStrut(dontfxt.gftStylf().
+                       gftInt(dontfxt, "OptionPbnf.sfpbrbtorPbdding", 6)));
+            dontfxt.disposf();
         }
-        optionPane.add(createButtonArea());
-        optionPane.applyComponentOrientation(optionPane.getComponentOrientation());
+        optionPbnf.bdd(drfbtfButtonArfb());
+        optionPbnf.bpplyComponfntOrifntbtion(optionPbnf.gftComponfntOrifntbtion());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    private int getComponentState(JComponent c) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbtf int gftComponfntStbtf(JComponfnt d) {
+        rfturn SyntiLookAndFffl.gftComponfntStbtf(d);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintOptionPaneBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintOptionPbnfBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints tif spfdififd domponfnt. Tiis implfmfntbtion dofs notiing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintOptionPaneBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintOptionPbnfBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JOptionPane)e.getSource());
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+            updbtfStylf((JOptionPbnf)f.gftSourdf());
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected boolean getSizeButtonsToSameWidth() {
-        return DefaultLookup.getBoolean(optionPane, this,
-                                        "OptionPane.sameSizeButtons", true);
+    @Ovfrridf
+    protfdtfd boolfbn gftSizfButtonsToSbmfWidti() {
+        rfturn DffbultLookup.gftBoolfbn(optionPbnf, tiis,
+                                        "OptionPbnf.sbmfSizfButtons", truf);
     }
 
     /**
-     * Called from {@link #installComponents} to create a {@code Container}
-     * containing the body of the message. The icon is the created by calling
-     * {@link #addIcon}.
+     * Cbllfd from {@link #instbllComponfnts} to drfbtf b {@dodf Contbinfr}
+     * dontbining tif body of tif mfssbgf. Tif idon is tif drfbtfd by dblling
+     * {@link #bddIdon}.
      */
-    @Override
-    protected Container createMessageArea() {
-        JPanel top = new JPanel();
-        top.setName("OptionPane.messageArea");
-        top.setLayout(new BorderLayout());
+    @Ovfrridf
+    protfdtfd Contbinfr drfbtfMfssbgfArfb() {
+        JPbnfl top = nfw JPbnfl();
+        top.sftNbmf("OptionPbnf.mfssbgfArfb");
+        top.sftLbyout(nfw BordfrLbyout());
 
-        /* Fill the body. */
-        Container          body = new JPanel(new GridBagLayout());
-        Container          realBody = new JPanel(new BorderLayout());
+        /* Fill tif body. */
+        Contbinfr          body = nfw JPbnfl(nfw GridBbgLbyout());
+        Contbinfr          rfblBody = nfw JPbnfl(nfw BordfrLbyout());
 
-        body.setName("OptionPane.body");
-        realBody.setName("OptionPane.realBody");
+        body.sftNbmf("OptionPbnf.body");
+        rfblBody.sftNbmf("OptionPbnf.rfblBody");
 
-        if (getIcon() != null) {
-            JPanel sep = new JPanel();
-            sep.setName("OptionPane.separator");
-            sep.setPreferredSize(new Dimension(15, 1));
-            realBody.add(sep, BorderLayout.BEFORE_LINE_BEGINS);
+        if (gftIdon() != null) {
+            JPbnfl sfp = nfw JPbnfl();
+            sfp.sftNbmf("OptionPbnf.sfpbrbtor");
+            sfp.sftPrfffrrfdSizf(nfw Dimfnsion(15, 1));
+            rfblBody.bdd(sfp, BordfrLbyout.BEFORE_LINE_BEGINS);
         }
-        realBody.add(body, BorderLayout.CENTER);
+        rfblBody.bdd(body, BordfrLbyout.CENTER);
 
-        GridBagConstraints cons = new GridBagConstraints();
-        cons.gridx = cons.gridy = 0;
-        cons.gridwidth = GridBagConstraints.REMAINDER;
-        cons.gridheight = 1;
+        GridBbgConstrbints dons = nfw GridBbgConstrbints();
+        dons.gridx = dons.gridy = 0;
+        dons.gridwidti = GridBbgConstrbints.REMAINDER;
+        dons.gridifigit = 1;
 
-        SynthContext context = getContext(optionPane, ENABLED);
-        cons.anchor = context.getStyle().getInt(context,
-                      "OptionPane.messageAnchor", GridBagConstraints.CENTER);
-        context.dispose();
+        SyntiContfxt dontfxt = gftContfxt(optionPbnf, ENABLED);
+        dons.bndior = dontfxt.gftStylf().gftInt(dontfxt,
+                      "OptionPbnf.mfssbgfAndior", GridBbgConstrbints.CENTER);
+        dontfxt.disposf();
 
-        cons.insets = new Insets(0,0,3,0);
+        dons.insfts = nfw Insfts(0,0,3,0);
 
-        addMessageComponents(body, cons, getMessage(),
-                          getMaxCharactersPerLineCount(), false);
-        top.add(realBody, BorderLayout.CENTER);
+        bddMfssbgfComponfnts(body, dons, gftMfssbgf(),
+                          gftMbxCibrbdtfrsPfrLinfCount(), fblsf);
+        top.bdd(rfblBody, BordfrLbyout.CENTER);
 
-        addIcon(top);
-        return top;
+        bddIdon(top);
+        rfturn top;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected Container createSeparator() {
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+    @Ovfrridf
+    protfdtfd Contbinfr drfbtfSfpbrbtor() {
+        JSfpbrbtor sfpbrbtor = nfw JSfpbrbtor(SwingConstbnts.HORIZONTAL);
 
-        separator.setName("OptionPane.separator");
-        return separator;
+        sfpbrbtor.sftNbmf("OptionPbnf.sfpbrbtor");
+        rfturn sfpbrbtor;
     }
 }

@@ -1,2102 +1,2102 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_p.h"
-#include "awt.h"
-#include "color.h"
-#include <java_awt_DisplayMode.h>
-#include <sun_awt_X11GraphicsEnvironment.h>
-#include <sun_awt_X11GraphicsDevice.h>
-#include <sun_awt_X11GraphicsConfig.h>
-#ifndef HEADLESS
-#include <X11/extensions/Xdbe.h>
-#include <X11/XKBlib.h>
-#include "Xrandr.h"
-#include "GLXGraphicsConfig.h"
-#endif /* !HEADLESS */
+#indludf "bwt_p.i"
+#indludf "bwt.i"
+#indludf "dolor.i"
+#indludf <jbvb_bwt_DisplbyModf.i>
+#indludf <sun_bwt_X11GrbpiidsEnvironmfnt.i>
+#indludf <sun_bwt_X11GrbpiidsDfvidf.i>
+#indludf <sun_bwt_X11GrbpiidsConfig.i>
+#ifndff HEADLESS
+#indludf <X11/fxtfnsions/Xdbf.i>
+#indludf <X11/XKBlib.i>
+#indludf "Xrbndr.i"
+#indludf "GLXGrbpiidsConfig.i"
+#fndif /* !HEADLESS */
 
-#include <jni.h>
-#include <jni_util.h>
-#include <jvm.h>
-#include <jvm_md.h>
-#include <jlong.h>
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf <jvm.i>
+#indludf <jvm_md.i>
+#indludf <jlong.i>
 
-#include <stdlib.h>
+#indludf <stdlib.i>
 
-#include "awt_GraphicsEnv.h"
-#include "awt_util.h"
-#include "gdefs.h"
-#include <dlfcn.h>
-#include "Trace.h"
+#indludf "bwt_GrbpiidsEnv.i"
+#indludf "bwt_util.i"
+#indludf "gdffs.i"
+#indludf <dlfdn.i>
+#indludf "Trbdf.i"
 
-#ifdef NETSCAPE
-#include <signal.h>
-extern int awt_init_xt;
-#endif
+#ifdff NETSCAPE
+#indludf <signbl.i>
+fxtfrn int bwt_init_xt;
+#fndif
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-int awt_numScreens;     /* Xinerama-aware number of screens */
+int bwt_numSdrffns;     /* Xinfrbmb-bwbrf numbfr of sdrffns */
 
-AwtScreenDataPtr x11Screens;
+AwtSdrffnDbtbPtr x11Sdrffns;
 
 /*
- * Set in initDisplay() to indicate whether we should attempt to initialize
- * GLX for the default configuration.
+ * Sft in initDisplby() to indidbtf wiftifr wf siould bttfmpt to initiblizf
+ * GLX for tif dffbult donfigurbtion.
  */
-static jboolean glxRequested = JNI_FALSE;
+stbtid jboolfbn glxRfqufstfd = JNI_FALSE;
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
-#ifdef HEADLESS
-#define Display void
-#endif /* HEADLESS */
+#ifdff HEADLESS
+#dffinf Displby void
+#fndif /* HEADLESS */
 
-Display *awt_display;
+Displby *bwt_displby;
 
-jclass tkClass = NULL;
-jmethodID awtLockMID = NULL;
-jmethodID awtUnlockMID = NULL;
-jmethodID awtWaitMID = NULL;
-jmethodID awtNotifyMID = NULL;
-jmethodID awtNotifyAllMID = NULL;
-jboolean awtLockInited = JNI_FALSE;
+jdlbss tkClbss = NULL;
+jmftiodID bwtLodkMID = NULL;
+jmftiodID bwtUnlodkMID = NULL;
+jmftiodID bwtWbitMID = NULL;
+jmftiodID bwtNotifyMID = NULL;
+jmftiodID bwtNotifyAllMID = NULL;
+jboolfbn bwtLodkInitfd = JNI_FALSE;
 
-/** Convenience macro for loading the lock-related method IDs. */
-#define GET_STATIC_METHOD(klass, method_id, method_name, method_sig) \
+/** Convfnifndf mbdro for lobding tif lodk-rflbtfd mftiod IDs. */
+#dffinf GET_STATIC_METHOD(klbss, mftiod_id, mftiod_nbmf, mftiod_sig) \
     do { \
-        method_id = (*env)->GetStaticMethodID(env, klass, \
-                                              method_name, method_sig); \
-        if (method_id == NULL) return NULL; \
-    } while (0)
+        mftiod_id = (*fnv)->GftStbtidMftiodID(fnv, klbss, \
+                                              mftiod_nbmf, mftiod_sig); \
+        if (mftiod_id == NULL) rfturn NULL; \
+    } wiilf (0)
 
-struct X11GraphicsConfigIDs x11GraphicsConfigIDs;
-struct X11GraphicsDeviceIDs x11GraphicsDeviceIDs;
+strudt X11GrbpiidsConfigIDs x11GrbpiidsConfigIDs;
+strudt X11GrbpiidsDfvidfIDs x11GrbpiidsDfvidfIDs;
 
-#ifndef HEADLESS
-int awtCreateX11Colormap(AwtGraphicsConfigDataPtr adata);
-#endif /* HEADLESS */
+#ifndff HEADLESS
+int bwtCrfbtfX11Colormbp(AwtGrbpiidsConfigDbtbPtr bdbtb);
+#fndif /* HEADLESS */
 
-static char *x11GraphicsConfigClassName = "sun/awt/X11GraphicsConfig";
+stbtid dibr *x11GrbpiidsConfigClbssNbmf = "sun/bwt/X11GrbpiidsConfig";
 
-/* AWT and Xinerama
+/* AWT bnd Xinfrbmb
  *
- * As of fix 4356756, AWT is Xinerama-aware.  X11GraphicsDevices are created for
- * each screen of a Xinerama setup, though X11 itself still only sees a single
- * display.
- * In many places where we talk to X11, a xinawareScreen variable is used to
- * pass the correct Display value, depending on the circumstances (a single
- * X display, multiple X displays, or a single X display with multiple
- * Xinerama screens).
+ * As of fix 4356756, AWT is Xinfrbmb-bwbrf.  X11GrbpiidsDfvidfs brf drfbtfd for
+ * fbdi sdrffn of b Xinfrbmb sftup, tiougi X11 itsflf still only sffs b singlf
+ * displby.
+ * In mbny plbdfs wifrf wf tblk to X11, b xinbwbrfSdrffn vbribblf is usfd to
+ * pbss tif dorrfdt Displby vbluf, dfpfnding on tif dirdumstbndfs (b singlf
+ * X displby, multiplf X displbys, or b singlf X displby witi multiplf
+ * Xinfrbmb sdrffns).
  *
- * Solaris and Linux differ in the functions used to access Xinerama-related
- * data.  This is in part because at this time, the X consortium has not
- * finalized the "official" Xinerama API.  Once this spec is available, and
- * both OSes are conformant, one code base should be sufficient for Xinerama
- * operation on both OSes.  Until then, some of the Xinerama-related code
- * is ifdef'd appropriately.  -bchristi, 7/12/01
+ * Solbris bnd Linux difffr in tif fundtions usfd to bddfss Xinfrbmb-rflbtfd
+ * dbtb.  Tiis is in pbrt bfdbusf bt tiis timf, tif X donsortium ibs not
+ * finblizfd tif "offidibl" Xinfrbmb API.  Ondf tiis spfd is bvbilbblf, bnd
+ * boti OSfs brf donformbnt, onf dodf bbsf siould bf suffidifnt for Xinfrbmb
+ * opfrbtion on boti OSfs.  Until tifn, somf of tif Xinfrbmb-rflbtfd dodf
+ * is ifdff'd bppropribtfly.  -bdiristi, 7/12/01
  */
 
-#define MAXFRAMEBUFFERS 16
-#if defined(__linux__) || defined(MACOSX)
-typedef struct {
-   int   screen_number;
-   short x_org;
-   short y_org;
-   short width;
-   short height;
-} XineramaScreenInfo;
+#dffinf MAXFRAMEBUFFERS 16
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+typfdff strudt {
+   int   sdrffn_numbfr;
+   siort x_org;
+   siort y_org;
+   siort widti;
+   siort ifigit;
+} XinfrbmbSdrffnInfo;
 
-typedef XineramaScreenInfo* XineramaQueryScreensFunc(Display*, int*);
+typfdff XinfrbmbSdrffnInfo* XinfrbmbQufrySdrffnsFund(Displby*, int*);
 
-#else /* SOLARIS */
-typedef Status XineramaGetInfoFunc(Display* display, int screen_number,
-         XRectangle* framebuffer_rects, unsigned char* framebuffer_hints,
-         int* num_framebuffers);
-typedef Status XineramaGetCenterHintFunc(Display* display, int screen_number,
+#flsf /* SOLARIS */
+typfdff Stbtus XinfrbmbGftInfoFund(Displby* displby, int sdrffn_numbfr,
+         XRfdtbnglf* frbmfbufffr_rfdts, unsignfd dibr* frbmfbufffr_iints,
+         int* num_frbmfbufffrs);
+typfdff Stbtus XinfrbmbGftCfntfrHintFund(Displby* displby, int sdrffn_numbfr,
                                          int* x, int* y);
 
-XineramaGetCenterHintFunc* XineramaSolarisCenterFunc = NULL;
-#endif
+XinfrbmbGftCfntfrHintFund* XinfrbmbSolbrisCfntfrFund = NULL;
+#fndif
 
-Bool usingXinerama = False;
-XRectangle fbrects[MAXFRAMEBUFFERS];
+Bool usingXinfrbmb = Fblsf;
+XRfdtbnglf fbrfdts[MAXFRAMEBUFFERS];
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsConfig_initIDs (JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_X11GrbpiidsConfig_initIDs (JNIEnv *fnv, jdlbss dls)
 {
-    x11GraphicsConfigIDs.aData = NULL;
-    x11GraphicsConfigIDs.bitsPerPixel = NULL;
-    x11GraphicsConfigIDs.screen = NULL;
+    x11GrbpiidsConfigIDs.bDbtb = NULL;
+    x11GrbpiidsConfigIDs.bitsPfrPixfl = NULL;
+    x11GrbpiidsConfigIDs.sdrffn = NULL;
 
-    x11GraphicsConfigIDs.aData = (*env)->GetFieldID (env, cls, "aData", "J");
-    CHECK_NULL(x11GraphicsConfigIDs.aData);
-    x11GraphicsConfigIDs.bitsPerPixel = (*env)->GetFieldID (env, cls, "bitsPerPixel", "I");
-    CHECK_NULL(x11GraphicsConfigIDs.bitsPerPixel);
-    x11GraphicsConfigIDs.screen = (*env)->GetFieldID (env, cls, "screen", "Lsun/awt/X11GraphicsDevice;");
-    CHECK_NULL(x11GraphicsConfigIDs.screen);
+    x11GrbpiidsConfigIDs.bDbtb = (*fnv)->GftFifldID (fnv, dls, "bDbtb", "J");
+    CHECK_NULL(x11GrbpiidsConfigIDs.bDbtb);
+    x11GrbpiidsConfigIDs.bitsPfrPixfl = (*fnv)->GftFifldID (fnv, dls, "bitsPfrPixfl", "I");
+    CHECK_NULL(x11GrbpiidsConfigIDs.bitsPfrPixfl);
+    x11GrbpiidsConfigIDs.sdrffn = (*fnv)->GftFifldID (fnv, dls, "sdrffn", "Lsun/bwt/X11GrbpiidsDfvidf;");
+    CHECK_NULL(x11GrbpiidsConfigIDs.sdrffn);
 
-    if (x11GraphicsConfigIDs.aData == NULL ||
-            x11GraphicsConfigIDs.bitsPerPixel == NULL ||
-        x11GraphicsConfigIDs.screen == NULL) {
+    if (x11GrbpiidsConfigIDs.bDbtb == NULL ||
+            x11GrbpiidsConfigIDs.bitsPfrPixfl == NULL ||
+        x11GrbpiidsConfigIDs.sdrffn == NULL) {
 
-            JNU_ThrowNoSuchFieldError(env, "Can't find a field");
-            return;
+            JNU_TirowNoSudiFifldError(fnv, "Cbn't find b fifld");
+            rfturn;
         }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsDevice_initIDs (JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_initIDs (JNIEnv *fnv, jdlbss dls)
 {
-    x11GraphicsDeviceIDs.screen = NULL;
-    x11GraphicsDeviceIDs.screen = (*env)->GetFieldID (env, cls, "screen", "I");
-    DASSERT(x11GraphicsDeviceIDs.screen);
+    x11GrbpiidsDfvidfIDs.sdrffn = NULL;
+    x11GrbpiidsDfvidfIDs.sdrffn = (*fnv)->GftFifldID (fnv, dls, "sdrffn", "I");
+    DASSERT(x11GrbpiidsDfvidfIDs.sdrffn);
 }
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
 /*
- * XIOErrorHandler
+ * XIOErrorHbndlfr
  */
-static int xioerror_handler(Display *disp)
+stbtid int xiofrror_ibndlfr(Displby *disp)
 {
-    if (awtLockInited) {
-        if (errno == EPIPE) {
-            jio_fprintf(stderr, "X connection to %s host broken (explicit kill or server shutdown)\n", XDisplayName(NULL));
+    if (bwtLodkInitfd) {
+        if (frrno == EPIPE) {
+            jio_fprintf(stdfrr, "X donnfdtion to %s iost brokfn (fxplidit kill or sfrvfr siutdown)\n", XDisplbyNbmf(NULL));
         }
-        /*SignalError(lockedee->lastpc, lockedee, "fp/ade/gui/GUIException", "I/O error"); */
+        /*SignblError(lodkfdff->lbstpd, lodkfdff, "fp/bdf/gui/GUIExdfption", "I/O frror"); */
     }
-    return 0;
+    rfturn 0;
 }
 
-static AwtGraphicsConfigDataPtr
-findWithTemplate(XVisualInfo *vinfo,
-                 long mask)
+stbtid AwtGrbpiidsConfigDbtbPtr
+findWitiTfmplbtf(XVisublInfo *vinfo,
+                 long mbsk)
 {
 
-    XVisualInfo *visualList;
-    XColor color;
-    AwtGraphicsConfigDataPtr defaultConfig;
-    int visualsMatched, i;
+    XVisublInfo *visublList;
+    XColor dolor;
+    AwtGrbpiidsConfigDbtbPtr dffbultConfig;
+    int visublsMbtdifd, i;
 
-    visualList = XGetVisualInfo(awt_display,
-                                mask, vinfo, &visualsMatched);
-    if (visualList) {
-        defaultConfig = ZALLOC(_AwtGraphicsConfigData);
-        for (i = 0; i < visualsMatched; i++) {
-            memcpy(&defaultConfig->awt_visInfo, &visualList[i], sizeof(XVisualInfo));
-            defaultConfig->awt_depth = visualList[i].depth;
+    visublList = XGftVisublInfo(bwt_displby,
+                                mbsk, vinfo, &visublsMbtdifd);
+    if (visublList) {
+        dffbultConfig = ZALLOC(_AwtGrbpiidsConfigDbtb);
+        for (i = 0; i < visublsMbtdifd; i++) {
+            mfmdpy(&dffbultConfig->bwt_visInfo, &visublList[i], sizfof(XVisublInfo));
+            dffbultConfig->bwt_dfpti = visublList[i].dfpti;
 
-            /* we can't use awtJNI_CreateColorData here, because it'll pull,
-               SystemColor, which in turn will cause toolkit to be reinitialized */
-            if (awtCreateX11Colormap(defaultConfig)) {
-                /* Allocate white and black pixels for this visual */
-                color.flags = DoRed | DoGreen | DoBlue;
-                color.red = color.green = color.blue = 0x0000;
-                XAllocColor(awt_display, defaultConfig->awt_cmap, &color);
-                x11Screens[visualList[i].screen].blackpixel = color.pixel;
-                color.flags = DoRed | DoGreen | DoBlue;
-                color.red = color.green = color.blue = 0xffff;
-                XAllocColor(awt_display, defaultConfig->awt_cmap, &color);
-                x11Screens[visualList[i].screen].whitepixel = color.pixel;
+            /* wf dbn't usf bwtJNI_CrfbtfColorDbtb ifrf, bfdbusf it'll pull,
+               SystfmColor, wiidi in turn will dbusf toolkit to bf rfinitiblizfd */
+            if (bwtCrfbtfX11Colormbp(dffbultConfig)) {
+                /* Allodbtf wiitf bnd blbdk pixfls for tiis visubl */
+                dolor.flbgs = DoRfd | DoGrffn | DoBluf;
+                dolor.rfd = dolor.grffn = dolor.bluf = 0x0000;
+                XAllodColor(bwt_displby, dffbultConfig->bwt_dmbp, &dolor);
+                x11Sdrffns[visublList[i].sdrffn].blbdkpixfl = dolor.pixfl;
+                dolor.flbgs = DoRfd | DoGrffn | DoBluf;
+                dolor.rfd = dolor.grffn = dolor.bluf = 0xffff;
+                XAllodColor(bwt_displby, dffbultConfig->bwt_dmbp, &dolor);
+                x11Sdrffns[visublList[i].sdrffn].wiitfpixfl = dolor.pixfl;
 
-                XFree(visualList);
-                return defaultConfig;
+                XFrff(visublList);
+                rfturn dffbultConfig;
             }
         }
-        XFree(visualList);
-        free((void *)defaultConfig);
+        XFrff(visublList);
+        frff((void *)dffbultConfig);
     }
-    return NULL;
+    rfturn NULL;
 }
 
-/* default config is based on X11 screen.  All Xinerama screens of that X11
-   screen will have the same default config */
-/* Need more notes about which fields of the structure are based on the X
-   screen, and which are based on the Xinerama screen */
-static AwtGraphicsConfigDataPtr
-makeDefaultConfig(JNIEnv *env, int screen) {
+/* dffbult donfig is bbsfd on X11 sdrffn.  All Xinfrbmb sdrffns of tibt X11
+   sdrffn will ibvf tif sbmf dffbult donfig */
+/* Nffd morf notfs bbout wiidi fiflds of tif strudturf brf bbsfd on tif X
+   sdrffn, bnd wiidi brf bbsfd on tif Xinfrbmb sdrffn */
+stbtid AwtGrbpiidsConfigDbtbPtr
+mbkfDffbultConfig(JNIEnv *fnv, int sdrffn) {
 
-    AwtGraphicsConfigDataPtr defaultConfig;
-    int xinawareScreen = 0;
-    VisualID forcedVisualID = 0, defaultVisualID;
-    char *forcedVisualStr;
-    XVisualInfo vinfo;
-    long mask;
+    AwtGrbpiidsConfigDbtbPtr dffbultConfig;
+    int xinbwbrfSdrffn = 0;
+    VisublID fordfdVisublID = 0, dffbultVisublID;
+    dibr *fordfdVisublStr;
+    XVisublInfo vinfo;
+    long mbsk;
 
-    xinawareScreen = usingXinerama ? 0 : screen;
-    defaultVisualID =
-        XVisualIDFromVisual(DefaultVisual(awt_display, xinawareScreen));
+    xinbwbrfSdrffn = usingXinfrbmb ? 0 : sdrffn;
+    dffbultVisublID =
+        XVisublIDFromVisubl(DffbultVisubl(bwt_displby, xinbwbrfSdrffn));
 
-    memset(&vinfo, 0, sizeof(XVisualInfo));
-    vinfo.screen = xinawareScreen;
+    mfmsft(&vinfo, 0, sizfof(XVisublInfo));
+    vinfo.sdrffn = xinbwbrfSdrffn;
 
-    if ((forcedVisualStr = getenv("FORCEDEFVIS"))) {
-        mask = VisualIDMask | VisualScreenMask;
-        if (sscanf(forcedVisualStr, "%lx", &forcedVisualID) > 0 &&
-            forcedVisualID > 0)
+    if ((fordfdVisublStr = gftfnv("FORCEDEFVIS"))) {
+        mbsk = VisublIDMbsk | VisublSdrffnMbsk;
+        if (ssdbnf(fordfdVisublStr, "%lx", &fordfdVisublID) > 0 &&
+            fordfdVisublID > 0)
         {
-            vinfo.visualid = forcedVisualID;
-        } else {
-            vinfo.visualid = defaultVisualID;
+            vinfo.visublid = fordfdVisublID;
+        } flsf {
+            vinfo.visublid = dffbultVisublID;
         }
-    } else {
-        VisualID bestGLXVisualID;
-        if (glxRequested &&
-            (bestGLXVisualID = GLXGC_FindBestVisual(env, xinawareScreen)) > 0)
+    } flsf {
+        VisublID bfstGLXVisublID;
+        if (glxRfqufstfd &&
+            (bfstGLXVisublID = GLXGC_FindBfstVisubl(fnv, xinbwbrfSdrffn)) > 0)
         {
-            /* we've found the best visual for use with GLX, so use it */
-            vinfo.visualid = bestGLXVisualID;
-            mask = VisualIDMask | VisualScreenMask;
-        } else {
-            /* otherwise, continue looking for the best X11 visual */
-            vinfo.depth = 24;
-            vinfo.class = TrueColor;
-            mask = VisualDepthMask | VisualScreenMask | VisualClassMask;
+            /* wf'vf found tif bfst visubl for usf witi GLX, so usf it */
+            vinfo.visublid = bfstGLXVisublID;
+            mbsk = VisublIDMbsk | VisublSdrffnMbsk;
+        } flsf {
+            /* otifrwisf, dontinuf looking for tif bfst X11 visubl */
+            vinfo.dfpti = 24;
+            vinfo.dlbss = TrufColor;
+            mbsk = VisublDfptiMbsk | VisublSdrffnMbsk | VisublClbssMbsk;
         }
     }
 
-    /* try the best, or forced visual */
-    defaultConfig = findWithTemplate(&vinfo, mask);
-    if (defaultConfig) {
-        return defaultConfig;
+    /* try tif bfst, or fordfd visubl */
+    dffbultConfig = findWitiTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
     }
 
-    /* try the default visual */
-    vinfo.visualid = defaultVisualID;
-    mask = VisualIDMask | VisualScreenMask;
-    defaultConfig = findWithTemplate(&vinfo, mask);
-    if (defaultConfig) {
-        return defaultConfig;
+    /* try tif dffbult visubl */
+    vinfo.visublid = dffbultVisublID;
+    mbsk = VisublIDMbsk | VisublSdrffnMbsk;
+    dffbultConfig = findWitiTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
     }
 
-    /* try any TrueColor */
-    vinfo.class = TrueColor;
-    mask = VisualScreenMask | VisualClassMask;
-    defaultConfig = findWithTemplate(&vinfo, mask);
-    if (defaultConfig) {
-        return defaultConfig;
+    /* try bny TrufColor */
+    vinfo.dlbss = TrufColor;
+    mbsk = VisublSdrffnMbsk | VisublClbssMbsk;
+    dffbultConfig = findWitiTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
     }
 
-    /* try 8-bit PseudoColor */
-    vinfo.depth = 8;
-    vinfo.class = PseudoColor;
-    mask = VisualDepthMask | VisualScreenMask | VisualClassMask;
-    defaultConfig = findWithTemplate(&vinfo, mask);
-    if (defaultConfig) {
-        return defaultConfig;
+    /* try 8-bit PsfudoColor */
+    vinfo.dfpti = 8;
+    vinfo.dlbss = PsfudoColor;
+    mbsk = VisublDfptiMbsk | VisublSdrffnMbsk | VisublClbssMbsk;
+    dffbultConfig = findWitiTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
     }
 
-    /* try any 8-bit */
-    vinfo.depth = 8;
-    mask = VisualDepthMask | VisualScreenMask;
-    defaultConfig = findWithTemplate(&vinfo, mask);
-    if (defaultConfig) {
-        return defaultConfig;
+    /* try bny 8-bit */
+    vinfo.dfpti = 8;
+    mbsk = VisublDfptiMbsk | VisublSdrffnMbsk;
+    dffbultConfig = findWitiTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
     }
 
-    /* we tried everything, give up */
-    JNU_ThrowInternalError(env, "Can't find supported visual");
-    XCloseDisplay(awt_display);
-    awt_display = NULL;
-    return NULL;
+    /* wf trifd fvfrytiing, givf up */
+    JNU_TirowIntfrnblError(fnv, "Cbn't find supportfd visubl");
+    XClosfDisplby(bwt_displby);
+    bwt_displby = NULL;
+    rfturn NULL;
 }
 
-static void
-getAllConfigs (JNIEnv *env, int screen, AwtScreenDataPtr screenDataPtr) {
+stbtid void
+gftAllConfigs (JNIEnv *fnv, int sdrffn, AwtSdrffnDbtbPtr sdrffnDbtbPtr) {
 
     int i;
-    int n8p=0, n12p=0, n8s=0, n8gs=0, n8sg=0, n1sg=0, nTrue=0;
+    int n8p=0, n12p=0, n8s=0, n8gs=0, n8sg=0, n1sg=0, nTruf=0;
     int nConfig;
-    XVisualInfo *pVI8p, *pVI12p, *pVI8s, *pVITrue, *pVI8gs,
+    XVisublInfo *pVI8p, *pVI12p, *pVI8s, *pVITruf, *pVI8gs,
                 *pVI8sg, *pVI1sg = NULL, viTmp;
-    AwtGraphicsConfigDataPtr *graphicsConfigs;
-    AwtGraphicsConfigDataPtr defaultConfig;
+    AwtGrbpiidsConfigDbtbPtr *grbpiidsConfigs;
+    AwtGrbpiidsConfigDbtbPtr dffbultConfig;
     int ind;
-    char errmsg[128];
-    int xinawareScreen;
-    void* xrenderLibHandle = NULL;
-    XRenderFindVisualFormatFunc* xrenderFindVisualFormat = NULL;
-    int major_opcode, first_event, first_error;
+    dibr frrmsg[128];
+    int xinbwbrfSdrffn;
+    void* xrfndfrLibHbndlf = NULL;
+    XRfndfrFindVisublFormbtFund* xrfndfrFindVisublFormbt = NULL;
+    int mbjor_opdodf, first_fvfnt, first_frror;
 
-    if (usingXinerama) {
-        xinawareScreen = 0;
+    if (usingXinfrbmb) {
+        xinbwbrfSdrffn = 0;
     }
-    else {
-        xinawareScreen = screen;
+    flsf {
+        xinbwbrfSdrffn = sdrffn;
     }
 
     AWT_LOCK ();
 
-    viTmp.screen = xinawareScreen;
+    viTmp.sdrffn = xinbwbrfSdrffn;
 
-    viTmp.depth = 8;
-    viTmp.class = PseudoColor;
-    viTmp.colormap_size = 256;
-    pVI8p = XGetVisualInfo (awt_display,
-                            VisualDepthMask | VisualClassMask |
-                            VisualColormapSizeMask | VisualScreenMask,
+    viTmp.dfpti = 8;
+    viTmp.dlbss = PsfudoColor;
+    viTmp.dolormbp_sizf = 256;
+    pVI8p = XGftVisublInfo (bwt_displby,
+                            VisublDfptiMbsk | VisublClbssMbsk |
+                            VisublColormbpSizfMbsk | VisublSdrffnMbsk,
                             &viTmp, &n8p);
 
-    viTmp.depth = 12;
-    viTmp.class = PseudoColor;
-    viTmp.colormap_size = 4096;
-    pVI12p = XGetVisualInfo (awt_display,
-                             VisualDepthMask | VisualClassMask |
-                             VisualColormapSizeMask | VisualScreenMask,
+    viTmp.dfpti = 12;
+    viTmp.dlbss = PsfudoColor;
+    viTmp.dolormbp_sizf = 4096;
+    pVI12p = XGftVisublInfo (bwt_displby,
+                             VisublDfptiMbsk | VisublClbssMbsk |
+                             VisublColormbpSizfMbsk | VisublSdrffnMbsk,
                              &viTmp, &n12p);
 
-    viTmp.class = TrueColor;
-    pVITrue = XGetVisualInfo (awt_display,
-                              VisualClassMask |
-                              VisualScreenMask,
-                              &viTmp, &nTrue);
+    viTmp.dlbss = TrufColor;
+    pVITruf = XGftVisublInfo (bwt_displby,
+                              VisublClbssMbsk |
+                              VisublSdrffnMbsk,
+                              &viTmp, &nTruf);
 
-    viTmp.depth = 8;
-    viTmp.class = StaticColor;
-    pVI8s = XGetVisualInfo (awt_display, VisualDepthMask | VisualClassMask |
-                            VisualScreenMask, &viTmp, &n8s);
+    viTmp.dfpti = 8;
+    viTmp.dlbss = StbtidColor;
+    pVI8s = XGftVisublInfo (bwt_displby, VisublDfptiMbsk | VisublClbssMbsk |
+                            VisublSdrffnMbsk, &viTmp, &n8s);
 
-    viTmp.depth = 8;
-    viTmp.class = GrayScale;
-    viTmp.colormap_size = 256;
-    pVI8gs = XGetVisualInfo (awt_display,
-                             VisualDepthMask | VisualClassMask |
-                             VisualColormapSizeMask | VisualScreenMask,
+    viTmp.dfpti = 8;
+    viTmp.dlbss = GrbySdblf;
+    viTmp.dolormbp_sizf = 256;
+    pVI8gs = XGftVisublInfo (bwt_displby,
+                             VisublDfptiMbsk | VisublClbssMbsk |
+                             VisublColormbpSizfMbsk | VisublSdrffnMbsk,
                              &viTmp, &n8gs);
-    viTmp.depth = 8;
-    viTmp.class = StaticGray;
-    viTmp.colormap_size = 256;
-    pVI8sg = XGetVisualInfo (awt_display,
-                             VisualDepthMask | VisualClassMask |
-                             VisualColormapSizeMask | VisualScreenMask,
+    viTmp.dfpti = 8;
+    viTmp.dlbss = StbtidGrby;
+    viTmp.dolormbp_sizf = 256;
+    pVI8sg = XGftVisublInfo (bwt_displby,
+                             VisublDfptiMbsk | VisublClbssMbsk |
+                             VisublColormbpSizfMbsk | VisublSdrffnMbsk,
                              &viTmp, &n8sg);
 
-/* REMIND.. remove when we have support for the color classes below */
-/*     viTmp.depth = 1; */
-/*     viTmp.class = StaticGray; */
-/*     pVI1sg = XGetVisualInfo (awt_display, VisualDepthMask | VisualClassMask, */
+/* REMIND.. rfmovf wifn wf ibvf support for tif dolor dlbssfs bflow */
+/*     viTmp.dfpti = 1; */
+/*     viTmp.dlbss = StbtidGrby; */
+/*     pVI1sg = XGftVisublInfo (bwt_displby, VisublDfptiMbsk | VisublClbssMbsk, */
 /*                              viTmp, &n1sg); */
 
-    nConfig = n8p + n12p + n8s + n8gs + n8sg  + n1sg + nTrue + 1;
-    graphicsConfigs = (AwtGraphicsConfigDataPtr *)
-        calloc(nConfig, sizeof(AwtGraphicsConfigDataPtr));
-    if (graphicsConfigs == NULL) {
-        JNU_ThrowOutOfMemoryError((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2),
+    nConfig = n8p + n12p + n8s + n8gs + n8sg  + n1sg + nTruf + 1;
+    grbpiidsConfigs = (AwtGrbpiidsConfigDbtbPtr *)
+        dbllod(nConfig, sizfof(AwtGrbpiidsConfigDbtbPtr));
+    if (grbpiidsConfigs == NULL) {
+        JNU_TirowOutOfMfmoryError((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2),
                                   NULL);
         AWT_UNLOCK();
-        return;
+        rfturn;
     }
 
-    if (screenDataPtr->defaultConfig == NULL) {
+    if (sdrffnDbtbPtr->dffbultConfig == NULL) {
         /*
-         * After a display change event, the default config field will have
-         * been reset, so we need to recreate the default config here.
+         * Aftfr b displby dibngf fvfnt, tif dffbult donfig fifld will ibvf
+         * bffn rfsft, so wf nffd to rfdrfbtf tif dffbult donfig ifrf.
          */
-        screenDataPtr->defaultConfig = makeDefaultConfig(env, screen);
+        sdrffnDbtbPtr->dffbultConfig = mbkfDffbultConfig(fnv, sdrffn);
     }
 
-    defaultConfig = screenDataPtr->defaultConfig;
-    graphicsConfigs[0] = defaultConfig;
-    nConfig = 1; /* reserve index 0 for default config */
+    dffbultConfig = sdrffnDbtbPtr->dffbultConfig;
+    grbpiidsConfigs[0] = dffbultConfig;
+    nConfig = 1; /* rfsfrvf indfx 0 for dffbult donfig */
 
-    // Only use the RENDER extension if it is available on the X server
-    if (XQueryExtension(awt_display, "RENDER",
-                        &major_opcode, &first_event, &first_error))
+    // Only usf tif RENDER fxtfnsion if it is bvbilbblf on tif X sfrvfr
+    if (XQufryExtfnsion(bwt_displby, "RENDER",
+                        &mbjor_opdodf, &first_fvfnt, &first_frror))
     {
-        xrenderLibHandle = dlopen("libXrender.so.1", RTLD_LAZY | RTLD_GLOBAL);
+        xrfndfrLibHbndlf = dlopfn("libXrfndfr.so.1", RTLD_LAZY | RTLD_GLOBAL);
 
-#ifdef MACOSX
-#define XRENDER_LIB "/usr/X11/lib/libXrender.dylib"
-#else
-#define XRENDER_LIB "libXrender.so"
-#endif
+#ifdff MACOSX
+#dffinf XRENDER_LIB "/usr/X11/lib/libXrfndfr.dylib"
+#flsf
+#dffinf XRENDER_LIB "libXrfndfr.so"
+#fndif
 
-        if (xrenderLibHandle == NULL) {
-            xrenderLibHandle = dlopen(XRENDER_LIB,
+        if (xrfndfrLibHbndlf == NULL) {
+            xrfndfrLibHbndlf = dlopfn(XRENDER_LIB,
                                       RTLD_LAZY | RTLD_GLOBAL);
         }
 
-#ifndef __linux__ /* SOLARIS */
-        if (xrenderLibHandle == NULL) {
-            xrenderLibHandle = dlopen("/usr/sfw/lib/libXrender.so.1",
+#ifndff __linux__ /* SOLARIS */
+        if (xrfndfrLibHbndlf == NULL) {
+            xrfndfrLibHbndlf = dlopfn("/usr/sfw/lib/libXrfndfr.so.1",
                                       RTLD_LAZY | RTLD_GLOBAL);
         }
-#endif
+#fndif
 
-        if (xrenderLibHandle != NULL) {
-            xrenderFindVisualFormat =
-                (XRenderFindVisualFormatFunc*)dlsym(xrenderLibHandle,
-                                                    "XRenderFindVisualFormat");
+        if (xrfndfrLibHbndlf != NULL) {
+            xrfndfrFindVisublFormbt =
+                (XRfndfrFindVisublFormbtFund*)dlsym(xrfndfrLibHbndlf,
+                                                    "XRfndfrFindVisublFormbt");
         }
     }
 
-    for (i = 0; i < nTrue; i++) {
-        if (XVisualIDFromVisual(pVITrue[i].visual) ==
-            XVisualIDFromVisual(defaultConfig->awt_visInfo.visual) ||
-            pVITrue[i].depth == 12) {
-            /* Skip the non-supported 12-bit TrueColor visual */
-            continue;
-        } else {
+    for (i = 0; i < nTruf; i++) {
+        if (XVisublIDFromVisubl(pVITruf[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl) ||
+            pVITruf[i].dfpti == 12) {
+            /* Skip tif non-supportfd 12-bit TrufColor visubl */
+            dontinuf;
+        } flsf {
             ind = nConfig++;
         }
-        graphicsConfigs [ind] = ZALLOC (_AwtGraphicsConfigData);
-        graphicsConfigs [ind]->awt_depth = pVITrue [i].depth;
-        memcpy (&graphicsConfigs [ind]->awt_visInfo, &pVITrue [i],
-                sizeof (XVisualInfo));
-       if (xrenderFindVisualFormat != NULL) {
-            XRenderPictFormat *format = xrenderFindVisualFormat (awt_display,
-                    pVITrue [i].visual);
-            if (format &&
-                format->type == PictTypeDirect &&
-                format->direct.alphaMask)
+        grbpiidsConfigs [ind] = ZALLOC (_AwtGrbpiidsConfigDbtb);
+        grbpiidsConfigs [ind]->bwt_dfpti = pVITruf [i].dfpti;
+        mfmdpy (&grbpiidsConfigs [ind]->bwt_visInfo, &pVITruf [i],
+                sizfof (XVisublInfo));
+       if (xrfndfrFindVisublFormbt != NULL) {
+            XRfndfrPidtFormbt *formbt = xrfndfrFindVisublFormbt (bwt_displby,
+                    pVITruf [i].visubl);
+            if (formbt &&
+                formbt->typf == PidtTypfDirfdt &&
+                formbt->dirfdt.blpibMbsk)
             {
-                graphicsConfigs [ind]->isTranslucencySupported = 1;
-                memcpy(&graphicsConfigs [ind]->renderPictFormat, format,
-                        sizeof(*format));
+                grbpiidsConfigs [ind]->isTrbnsludfndySupportfd = 1;
+                mfmdpy(&grbpiidsConfigs [ind]->rfndfrPidtFormbt, formbt,
+                        sizfof(*formbt));
             }
         }
     }
 
-    if (xrenderLibHandle != NULL) {
-        dlclose(xrenderLibHandle);
-        xrenderLibHandle = NULL;
+    if (xrfndfrLibHbndlf != NULL) {
+        dldlosf(xrfndfrLibHbndlf);
+        xrfndfrLibHbndlf = NULL;
     }
 
     for (i = 0; i < n8p; i++) {
-        if (XVisualIDFromVisual(pVI8p[i].visual) ==
-            XVisualIDFromVisual(defaultConfig->awt_visInfo.visual)) {
-            continue;
-        } else {
+        if (XVisublIDFromVisubl(pVI8p[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
             ind = nConfig++;
         }
-        graphicsConfigs [ind] = ZALLOC (_AwtGraphicsConfigData);
-        graphicsConfigs [ind]->awt_depth = pVI8p [i].depth;
-        memcpy (&graphicsConfigs [ind]->awt_visInfo, &pVI8p [i],
-                sizeof (XVisualInfo));
+        grbpiidsConfigs [ind] = ZALLOC (_AwtGrbpiidsConfigDbtb);
+        grbpiidsConfigs [ind]->bwt_dfpti = pVI8p [i].dfpti;
+        mfmdpy (&grbpiidsConfigs [ind]->bwt_visInfo, &pVI8p [i],
+                sizfof (XVisublInfo));
     }
 
     for (i = 0; i < n12p; i++) {
-        if (XVisualIDFromVisual(pVI12p[i].visual) ==
-            XVisualIDFromVisual(defaultConfig->awt_visInfo.visual)) {
-            continue;
-        } else {
+        if (XVisublIDFromVisubl(pVI12p[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
             ind = nConfig++;
         }
-        graphicsConfigs [ind] = ZALLOC (_AwtGraphicsConfigData);
-        graphicsConfigs [ind]->awt_depth = pVI12p [i].depth;
-        memcpy (&graphicsConfigs [ind]->awt_visInfo, &pVI12p [i],
-                sizeof (XVisualInfo));
+        grbpiidsConfigs [ind] = ZALLOC (_AwtGrbpiidsConfigDbtb);
+        grbpiidsConfigs [ind]->bwt_dfpti = pVI12p [i].dfpti;
+        mfmdpy (&grbpiidsConfigs [ind]->bwt_visInfo, &pVI12p [i],
+                sizfof (XVisublInfo));
     }
 
     for (i = 0; i < n8s; i++) {
-        if (XVisualIDFromVisual(pVI8s[i].visual) ==
-            XVisualIDFromVisual(defaultConfig->awt_visInfo.visual)) {
-            continue;
-        } else {
+        if (XVisublIDFromVisubl(pVI8s[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
             ind = nConfig++;
         }
-        graphicsConfigs [ind] = ZALLOC (_AwtGraphicsConfigData);
-        graphicsConfigs [ind]->awt_depth = pVI8s [i].depth;
-        memcpy (&graphicsConfigs [ind]->awt_visInfo, &pVI8s [i],
-                sizeof (XVisualInfo));
+        grbpiidsConfigs [ind] = ZALLOC (_AwtGrbpiidsConfigDbtb);
+        grbpiidsConfigs [ind]->bwt_dfpti = pVI8s [i].dfpti;
+        mfmdpy (&grbpiidsConfigs [ind]->bwt_visInfo, &pVI8s [i],
+                sizfof (XVisublInfo));
     }
 
     for (i = 0; i < n8gs; i++) {
-        if (XVisualIDFromVisual(pVI8gs[i].visual) ==
-            XVisualIDFromVisual(defaultConfig->awt_visInfo.visual)) {
-            continue;
-        } else {
+        if (XVisublIDFromVisubl(pVI8gs[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
             ind = nConfig++;
         }
-        graphicsConfigs [ind] = ZALLOC (_AwtGraphicsConfigData);
-        graphicsConfigs [ind]->awt_depth = pVI8gs [i].depth;
-        memcpy (&graphicsConfigs [ind]->awt_visInfo, &pVI8gs [i],
-                sizeof (XVisualInfo));
+        grbpiidsConfigs [ind] = ZALLOC (_AwtGrbpiidsConfigDbtb);
+        grbpiidsConfigs [ind]->bwt_dfpti = pVI8gs [i].dfpti;
+        mfmdpy (&grbpiidsConfigs [ind]->bwt_visInfo, &pVI8gs [i],
+                sizfof (XVisublInfo));
     }
 
     for (i = 0; i < n8sg; i++) {
-        if (XVisualIDFromVisual(pVI8sg[i].visual) ==
-            XVisualIDFromVisual(defaultConfig->awt_visInfo.visual)) {
-            continue;
-        } else {
+        if (XVisublIDFromVisubl(pVI8sg[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
             ind = nConfig++;
         }
-        graphicsConfigs [ind] = ZALLOC (_AwtGraphicsConfigData);
-        graphicsConfigs [ind]->awt_depth = pVI8sg [i].depth;
-        memcpy (&graphicsConfigs [ind]->awt_visInfo, &pVI8sg [i],
-                sizeof (XVisualInfo));
+        grbpiidsConfigs [ind] = ZALLOC (_AwtGrbpiidsConfigDbtb);
+        grbpiidsConfigs [ind]->bwt_dfpti = pVI8sg [i].dfpti;
+        mfmdpy (&grbpiidsConfigs [ind]->bwt_visInfo, &pVI8sg [i],
+                sizfof (XVisublInfo));
     }
 
     for (i = 0; i < n1sg; i++) {
-        if (XVisualIDFromVisual(pVI1sg[i].visual) ==
-            XVisualIDFromVisual(defaultConfig->awt_visInfo.visual)) {
-            continue;
-        } else {
+        if (XVisublIDFromVisubl(pVI1sg[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
             ind = nConfig++;
         }
-        graphicsConfigs [ind] = ZALLOC (_AwtGraphicsConfigData);
-        graphicsConfigs [ind]->awt_depth = pVI1sg [i].depth;
-        memcpy (&graphicsConfigs [ind]->awt_visInfo, &pVI1sg [i],
-                sizeof (XVisualInfo));
+        grbpiidsConfigs [ind] = ZALLOC (_AwtGrbpiidsConfigDbtb);
+        grbpiidsConfigs [ind]->bwt_dfpti = pVI1sg [i].dfpti;
+        mfmdpy (&grbpiidsConfigs [ind]->bwt_visInfo, &pVI1sg [i],
+                sizfof (XVisublInfo));
     }
 
     if (n8p != 0)
-       XFree (pVI8p);
+       XFrff (pVI8p);
     if (n12p != 0)
-       XFree (pVI12p);
+       XFrff (pVI12p);
     if (n8s != 0)
-       XFree (pVI8s);
+       XFrff (pVI8s);
     if (n8gs != 0)
-       XFree (pVI8gs);
+       XFrff (pVI8gs);
     if (n8sg != 0)
-       XFree (pVI8sg);
+       XFrff (pVI8sg);
     if (n1sg != 0)
-       XFree (pVI1sg);
+       XFrff (pVI1sg);
 
-    screenDataPtr->numConfigs = nConfig;
-    screenDataPtr->configs = graphicsConfigs;
+    sdrffnDbtbPtr->numConfigs = nConfig;
+    sdrffnDbtbPtr->donfigs = grbpiidsConfigs;
 
     AWT_UNLOCK ();
 }
 
-#ifndef HEADLESS
-#if defined(__linux__) || defined(MACOSX)
-static void xinerama_init_linux()
+#ifndff HEADLESS
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+stbtid void xinfrbmb_init_linux()
 {
-    void* libHandle = NULL;
-    int32_t locNumScr = 0;
-    XineramaScreenInfo *xinInfo;
-    char* XineramaQueryScreensName = "XineramaQueryScreens";
-    XineramaQueryScreensFunc* XineramaQueryScreens = NULL;
+    void* libHbndlf = NULL;
+    int32_t lodNumSdr = 0;
+    XinfrbmbSdrffnInfo *xinInfo;
+    dibr* XinfrbmbQufrySdrffnsNbmf = "XinfrbmbQufrySdrffns";
+    XinfrbmbQufrySdrffnsFund* XinfrbmbQufrySdrffns = NULL;
 
-    /* load library */
-    libHandle = dlopen(VERSIONED_JNI_LIB_NAME("Xinerama", "1"),
+    /* lobd librbry */
+    libHbndlf = dlopfn(VERSIONED_JNI_LIB_NAME("Xinfrbmb", "1"),
                        RTLD_LAZY | RTLD_GLOBAL);
-    if (libHandle == NULL) {
-        libHandle = dlopen(JNI_LIB_NAME("Xinerama"), RTLD_LAZY | RTLD_GLOBAL);
+    if (libHbndlf == NULL) {
+        libHbndlf = dlopfn(JNI_LIB_NAME("Xinfrbmb"), RTLD_LAZY | RTLD_GLOBAL);
     }
-    if (libHandle != NULL) {
-        XineramaQueryScreens = (XineramaQueryScreensFunc*)
-            dlsym(libHandle, XineramaQueryScreensName);
+    if (libHbndlf != NULL) {
+        XinfrbmbQufrySdrffns = (XinfrbmbQufrySdrffnsFund*)
+            dlsym(libHbndlf, XinfrbmbQufrySdrffnsNbmf);
 
-        if (XineramaQueryScreens != NULL) {
-            DTRACE_PRINTLN("calling XineramaQueryScreens func on Linux");
-            xinInfo = (*XineramaQueryScreens)(awt_display, &locNumScr);
-            if (xinInfo != NULL && locNumScr > XScreenCount(awt_display)) {
+        if (XinfrbmbQufrySdrffns != NULL) {
+            DTRACE_PRINTLN("dblling XinfrbmbQufrySdrffns fund on Linux");
+            xinInfo = (*XinfrbmbQufrySdrffns)(bwt_displby, &lodNumSdr);
+            if (xinInfo != NULL && lodNumSdr > XSdrffnCount(bwt_displby)) {
                 int32_t idx;
-                DTRACE_PRINTLN("Enabling Xinerama support");
-                usingXinerama = True;
-                /* set global number of screens */
-                DTRACE_PRINTLN1(" num screens = %i\n", locNumScr);
-                awt_numScreens = locNumScr;
+                DTRACE_PRINTLN("Enbbling Xinfrbmb support");
+                usingXinfrbmb = Truf;
+                /* sft globbl numbfr of sdrffns */
+                DTRACE_PRINTLN1(" num sdrffns = %i\n", lodNumSdr);
+                bwt_numSdrffns = lodNumSdr;
 
-                /* stuff values into fbrects */
-                for (idx = 0; idx < awt_numScreens; idx++) {
-                    DASSERT(xinInfo[idx].screen_number == idx);
+                /* stuff vblufs into fbrfdts */
+                for (idx = 0; idx < bwt_numSdrffns; idx++) {
+                    DASSERT(xinInfo[idx].sdrffn_numbfr == idx);
 
-                    fbrects[idx].width = xinInfo[idx].width;
-                    fbrects[idx].height = xinInfo[idx].height;
-                    fbrects[idx].x = xinInfo[idx].x_org;
-                    fbrects[idx].y = xinInfo[idx].y_org;
+                    fbrfdts[idx].widti = xinInfo[idx].widti;
+                    fbrfdts[idx].ifigit = xinInfo[idx].ifigit;
+                    fbrfdts[idx].x = xinInfo[idx].x_org;
+                    fbrfdts[idx].y = xinInfo[idx].y_org;
                 }
-            } else {
-                DTRACE_PRINTLN("calling XineramaQueryScreens didn't work");
+            } flsf {
+                DTRACE_PRINTLN("dblling XinfrbmbQufrySdrffns didn't work");
             }
-        } else {
-            DTRACE_PRINTLN("couldn't load XineramaQueryScreens symbol");
+        } flsf {
+            DTRACE_PRINTLN("douldn't lobd XinfrbmbQufrySdrffns symbol");
         }
-        dlclose(libHandle);
-    } else {
-        DTRACE_PRINTLN1("\ncouldn't open shared library: %s\n", dlerror());
+        dldlosf(libHbndlf);
+    } flsf {
+        DTRACE_PRINTLN1("\ndouldn't opfn sibrfd librbry: %s\n", dlfrror());
     }
 }
-#endif
-#if !defined(__linux__) && !defined(MACOSX) /* Solaris */
-static void xinerama_init_solaris()
+#fndif
+#if !dffinfd(__linux__) && !dffinfd(MACOSX) /* Solbris */
+stbtid void xinfrbmb_init_solbris()
 {
-    void* libHandle = NULL;
-    unsigned char fbhints[MAXFRAMEBUFFERS];
-    int32_t locNumScr = 0;
-    /* load and run XineramaGetInfo */
-    char* XineramaGetInfoName = "XineramaGetInfo";
-    char* XineramaGetCenterHintName = "XineramaGetCenterHint";
-    XineramaGetInfoFunc* XineramaSolarisFunc = NULL;
+    void* libHbndlf = NULL;
+    unsignfd dibr fbiints[MAXFRAMEBUFFERS];
+    int32_t lodNumSdr = 0;
+    /* lobd bnd run XinfrbmbGftInfo */
+    dibr* XinfrbmbGftInfoNbmf = "XinfrbmbGftInfo";
+    dibr* XinfrbmbGftCfntfrHintNbmf = "XinfrbmbGftCfntfrHint";
+    XinfrbmbGftInfoFund* XinfrbmbSolbrisFund = NULL;
 
-    /* load library */
-    libHandle = dlopen(JNI_LIB_NAME("Xext"), RTLD_LAZY | RTLD_GLOBAL);
-    if (libHandle != NULL) {
-        XineramaSolarisFunc = (XineramaGetInfoFunc*)dlsym(libHandle, XineramaGetInfoName);
-        XineramaSolarisCenterFunc =
-            (XineramaGetCenterHintFunc*)dlsym(libHandle, XineramaGetCenterHintName);
+    /* lobd librbry */
+    libHbndlf = dlopfn(JNI_LIB_NAME("Xfxt"), RTLD_LAZY | RTLD_GLOBAL);
+    if (libHbndlf != NULL) {
+        XinfrbmbSolbrisFund = (XinfrbmbGftInfoFund*)dlsym(libHbndlf, XinfrbmbGftInfoNbmf);
+        XinfrbmbSolbrisCfntfrFund =
+            (XinfrbmbGftCfntfrHintFund*)dlsym(libHbndlf, XinfrbmbGftCfntfrHintNbmf);
 
-        if (XineramaSolarisFunc != NULL) {
-            DTRACE_PRINTLN("calling XineramaGetInfo func on Solaris");
-            if ((*XineramaSolarisFunc)(awt_display, 0, &fbrects[0],
-                                       &fbhints[0], &locNumScr) != 0 &&
-                locNumScr > XScreenCount(awt_display))
+        if (XinfrbmbSolbrisFund != NULL) {
+            DTRACE_PRINTLN("dblling XinfrbmbGftInfo fund on Solbris");
+            if ((*XinfrbmbSolbrisFund)(bwt_displby, 0, &fbrfdts[0],
+                                       &fbiints[0], &lodNumSdr) != 0 &&
+                lodNumSdr > XSdrffnCount(bwt_displby))
             {
-                DTRACE_PRINTLN("Enabling Xinerama support");
-                usingXinerama = True;
-                /* set global number of screens */
-                DTRACE_PRINTLN1(" num screens = %i\n", locNumScr);
-                awt_numScreens = locNumScr;
-            } else {
-                DTRACE_PRINTLN("calling XineramaGetInfo didn't work");
+                DTRACE_PRINTLN("Enbbling Xinfrbmb support");
+                usingXinfrbmb = Truf;
+                /* sft globbl numbfr of sdrffns */
+                DTRACE_PRINTLN1(" num sdrffns = %i\n", lodNumSdr);
+                bwt_numSdrffns = lodNumSdr;
+            } flsf {
+                DTRACE_PRINTLN("dblling XinfrbmbGftInfo didn't work");
             }
-        } else {
-            DTRACE_PRINTLN("couldn't load XineramaGetInfo symbol");
+        } flsf {
+            DTRACE_PRINTLN("douldn't lobd XinfrbmbGftInfo symbol");
         }
-        dlclose(libHandle);
-    } else {
-        DTRACE_PRINTLN1("\ncouldn't open shared library: %s\n", dlerror());
+        dldlosf(libHbndlf);
+    } flsf {
+        DTRACE_PRINTLN1("\ndouldn't opfn sibrfd librbry: %s\n", dlfrror());
     }
 }
-#endif
+#fndif
 
 /*
- * Checks if Xinerama is running and perform Xinerama-related
- * platform dependent initialization.
+ * Cifdks if Xinfrbmb is running bnd pfrform Xinfrbmb-rflbtfd
+ * plbtform dfpfndfnt initiblizbtion.
  */
-static void xineramaInit(void) {
-    char* XinExtName = "XINERAMA";
-    int32_t major_opcode, first_event, first_error;
-    Bool gotXinExt = False;
+stbtid void xinfrbmbInit(void) {
+    dibr* XinExtNbmf = "XINERAMA";
+    int32_t mbjor_opdodf, first_fvfnt, first_frror;
+    Bool gotXinExt = Fblsf;
 
-    gotXinExt = XQueryExtension(awt_display, XinExtName, &major_opcode,
-                                &first_event, &first_error);
+    gotXinExt = XQufryExtfnsion(bwt_displby, XinExtNbmf, &mbjor_opdodf,
+                                &first_fvfnt, &first_frror);
 
     if (!gotXinExt) {
-        DTRACE_PRINTLN("Xinerama extension is not available");
-        return;
+        DTRACE_PRINTLN("Xinfrbmb fxtfnsion is not bvbilbblf");
+        rfturn;
     }
 
-    DTRACE_PRINTLN("Xinerama extension is available");
-#if defined(__linux__) || defined(MACOSX)
-    xinerama_init_linux();
-#else /* Solaris */
-    xinerama_init_solaris();
-#endif /* __linux__ || MACOSX */
+    DTRACE_PRINTLN("Xinfrbmb fxtfnsion is bvbilbblf");
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    xinfrbmb_init_linux();
+#flsf /* Solbris */
+    xinfrbmb_init_solbris();
+#fndif /* __linux__ || MACOSX */
 }
-#endif /* HEADLESS */
+#fndif /* HEADLESS */
 
-Display *
-awt_init_Display(JNIEnv *env, jobject this)
+Displby *
+bwt_init_Displby(JNIEnv *fnv, jobjfdt tiis)
 {
-    jclass klass;
-    Display *dpy;
-    char errmsg[128];
+    jdlbss klbss;
+    Displby *dpy;
+    dibr frrmsg[128];
     int i;
-#ifdef NETSCAPE
-    sigset_t alarm_set, oldset;
-#endif
+#ifdff NETSCAPE
+    sigsft_t blbrm_sft, oldsft;
+#fndif
 
-    if (awt_display) {
-        return awt_display;
+    if (bwt_displby) {
+        rfturn bwt_displby;
     }
 
-#ifdef NETSCAPE
-    /* Disable interrupts during XtOpenDisplay to avoid bugs in unix os select
-       code: some unix systems don't implement SA_RESTART properly and
-       because of this, select returns with EINTR. Most implementations of
-       gethostbyname don't cope with EINTR properly and as a result we get
-       stuck (forever) in the gethostbyname code
+#ifdff NETSCAPE
+    /* Disbblf intfrrupts during XtOpfnDisplby to bvoid bugs in unix os sflfdt
+       dodf: somf unix systfms don't implfmfnt SA_RESTART propfrly bnd
+       bfdbusf of tiis, sflfdt rfturns witi EINTR. Most implfmfntbtions of
+       gftiostbynbmf don't dopf witi EINTR propfrly bnd bs b rfsult wf gft
+       studk (forfvfr) in tif gftiostbynbmf dodf
     */
-    sigemptyset(&alarm_set);
-    sigaddset(&alarm_set, SIGALRM);
-    sigprocmask(SIG_BLOCK, &alarm_set, &oldset);
-#endif
+    sigfmptysft(&blbrm_sft);
+    sigbddsft(&blbrm_sft, SIGALRM);
+    sigprodmbsk(SIG_BLOCK, &blbrm_sft, &oldsft);
+#fndif
 
-    /* Load AWT lock-related methods in SunToolkit */
-    klass = (*env)->FindClass(env, "sun/awt/SunToolkit");
-    if (klass == NULL) return NULL;
-    GET_STATIC_METHOD(klass, awtLockMID, "awtLock", "()V");
-    GET_STATIC_METHOD(klass, awtUnlockMID, "awtUnlock", "()V");
-    GET_STATIC_METHOD(klass, awtWaitMID, "awtLockWait", "(J)V");
-    GET_STATIC_METHOD(klass, awtNotifyMID, "awtLockNotify", "()V");
-    GET_STATIC_METHOD(klass, awtNotifyAllMID, "awtLockNotifyAll", "()V");
-    tkClass = (*env)->NewGlobalRef(env, klass);
-    awtLockInited = JNI_TRUE;
+    /* Lobd AWT lodk-rflbtfd mftiods in SunToolkit */
+    klbss = (*fnv)->FindClbss(fnv, "sun/bwt/SunToolkit");
+    if (klbss == NULL) rfturn NULL;
+    GET_STATIC_METHOD(klbss, bwtLodkMID, "bwtLodk", "()V");
+    GET_STATIC_METHOD(klbss, bwtUnlodkMID, "bwtUnlodk", "()V");
+    GET_STATIC_METHOD(klbss, bwtWbitMID, "bwtLodkWbit", "(J)V");
+    GET_STATIC_METHOD(klbss, bwtNotifyMID, "bwtLodkNotify", "()V");
+    GET_STATIC_METHOD(klbss, bwtNotifyAllMID, "bwtLodkNotifyAll", "()V");
+    tkClbss = (*fnv)->NfwGlobblRff(fnv, klbss);
+    bwtLodkInitfd = JNI_TRUE;
 
-    if (getenv("_AWT_IGNORE_XKB") != NULL &&
-        strlen(getenv("_AWT_IGNORE_XKB")) > 0) {
-        if (XkbIgnoreExtension(True)) {
+    if (gftfnv("_AWT_IGNORE_XKB") != NULL &&
+        strlfn(gftfnv("_AWT_IGNORE_XKB")) > 0) {
+        if (XkbIgnorfExtfnsion(Truf)) {
             printf("Ignoring XKB.\n");
         }
     }
 
-    dpy = awt_display = XOpenDisplay(NULL);
-#ifdef NETSCAPE
-    sigprocmask(SIG_SETMASK, &oldset, NULL);
-#endif
+    dpy = bwt_displby = XOpfnDisplby(NULL);
+#ifdff NETSCAPE
+    sigprodmbsk(SIG_SETMASK, &oldsft, NULL);
+#fndif
     if (!dpy) {
-        jio_snprintf(errmsg,
-                     sizeof(errmsg),
-                     "Can't connect to X11 window server using '%s' as the value of the DISPLAY variable.",
-                     (getenv("DISPLAY") == NULL) ? ":0.0" : getenv("DISPLAY"));
-        JNU_ThrowByName(env, "java/awt/AWTError", errmsg);
-        return NULL;
+        jio_snprintf(frrmsg,
+                     sizfof(frrmsg),
+                     "Cbn't donnfdt to X11 window sfrvfr using '%s' bs tif vbluf of tif DISPLAY vbribblf.",
+                     (gftfnv("DISPLAY") == NULL) ? ":0.0" : gftfnv("DISPLAY"));
+        JNU_TirowByNbmf(fnv, "jbvb/bwt/AWTError", frrmsg);
+        rfturn NULL;
     }
 
-    XSetIOErrorHandler(xioerror_handler);
-    JNU_CallStaticMethodByName(env, NULL, "sun/awt/X11/XErrorHandlerUtil", "init", "(J)V",
-        ptr_to_jlong(awt_display));
+    XSftIOErrorHbndlfr(xiofrror_ibndlfr);
+    JNU_CbllStbtidMftiodByNbmf(fnv, NULL, "sun/bwt/X11/XErrorHbndlfrUtil", "init", "(J)V",
+        ptr_to_jlong(bwt_displby));
 
-    /* set awt_numScreens, and whether or not we're using Xinerama */
-    xineramaInit();
+    /* sft bwt_numSdrffns, bnd wiftifr or not wf'rf using Xinfrbmb */
+    xinfrbmbInit();
 
-    if (!usingXinerama) {
-        awt_numScreens =  XScreenCount(awt_display);
+    if (!usingXinfrbmb) {
+        bwt_numSdrffns =  XSdrffnCount(bwt_displby);
     }
 
-    DTRACE_PRINTLN1("allocating %i screens\n", awt_numScreens);
-    /* Allocate screen data structure array */
-    x11Screens = calloc(awt_numScreens, sizeof(AwtScreenData));
-    if (x11Screens == NULL) {
-        JNU_ThrowOutOfMemoryError((JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2),
+    DTRACE_PRINTLN1("bllodbting %i sdrffns\n", bwt_numSdrffns);
+    /* Allodbtf sdrffn dbtb strudturf brrby */
+    x11Sdrffns = dbllod(bwt_numSdrffns, sizfof(AwtSdrffnDbtb));
+    if (x11Sdrffns == NULL) {
+        JNU_TirowOutOfMfmoryError((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2),
                                   NULL);
-        return NULL;
+        rfturn NULL;
     }
 
-    for (i = 0; i < awt_numScreens; i++) {
-        if (usingXinerama) {
-            /* All Xinerama screens use the same X11 root for now */
-            x11Screens[i].root = RootWindow(awt_display, 0);
+    for (i = 0; i < bwt_numSdrffns; i++) {
+        if (usingXinfrbmb) {
+            /* All Xinfrbmb sdrffns usf tif sbmf X11 root for now */
+            x11Sdrffns[i].root = RootWindow(bwt_displby, 0);
         }
-        else {
-            x11Screens[i].root = RootWindow(awt_display, i);
+        flsf {
+            x11Sdrffns[i].root = RootWindow(bwt_displby, i);
         }
-        x11Screens[i].defaultConfig = makeDefaultConfig(env, i);
+        x11Sdrffns[i].dffbultConfig = mbkfDffbultConfig(fnv, i);
     }
 
-    return dpy;
+    rfturn dpy;
 }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
 /*
- * Class:     sun_awt_X11GraphicsEnvironment
- * Method:    getDefaultScreenNum
- * Signature: ()I
+ * Clbss:     sun_bwt_X11GrbpiidsEnvironmfnt
+ * Mftiod:    gftDffbultSdrffnNum
+ * Signbturf: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11GraphicsEnvironment_getDefaultScreenNum(
-JNIEnv *env, jobject this)
+Jbvb_sun_bwt_X11GrbpiidsEnvironmfnt_gftDffbultSdrffnNum(
+JNIEnv *fnv, jobjfdt tiis)
 {
-#ifdef HEADLESS
-    return (jint)0;
-#else
-    return DefaultScreen(awt_display);
-#endif /* !HEADLESS */
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    rfturn DffbultSdrffn(bwt_displby);
+#fndif /* !HEADLESS */
 }
 
-#ifndef HEADLESS
-static void ensureConfigsInited(JNIEnv* env, int screen) {
-   if (x11Screens[screen].numConfigs == 0) {
-       if (env == NULL) {
-           env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+#ifndff HEADLESS
+stbtid void fnsurfConfigsInitfd(JNIEnv* fnv, int sdrffn) {
+   if (x11Sdrffns[sdrffn].numConfigs == 0) {
+       if (fnv == NULL) {
+           fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
        }
-       getAllConfigs (env, screen, &(x11Screens[screen]));
+       gftAllConfigs (fnv, sdrffn, &(x11Sdrffns[sdrffn]));
     }
 }
-#endif
+#fndif
 
-#ifdef HEADLESS
-void* getDefaultConfig(int screen) {
-    return NULL;
+#ifdff HEADLESS
+void* gftDffbultConfig(int sdrffn) {
+    rfturn NULL;
 }
-#else
-AwtGraphicsConfigDataPtr
-getDefaultConfig(int screen) {
-    ensureConfigsInited(NULL, screen);
-    return x11Screens[screen].defaultConfig;
+#flsf
+AwtGrbpiidsConfigDbtbPtr
+gftDffbultConfig(int sdrffn) {
+    fnsurfConfigsInitfd(NULL, sdrffn);
+    rfturn x11Sdrffns[sdrffn].dffbultConfig;
 }
 
-AwtScreenDataPtr
-getScreenData(int screen) {
-    return &(x11Screens[screen]);
+AwtSdrffnDbtbPtr
+gftSdrffnDbtb(int sdrffn) {
+    rfturn &(x11Sdrffns[sdrffn]);
 }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
 /*
- * Class:     sun_awt_X11GraphicsEnvironment
- * Method:    initDisplay
- * Signature: (Z)V
+ * Clbss:     sun_bwt_X11GrbpiidsEnvironmfnt
+ * Mftiod:    initDisplby
+ * Signbturf: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsEnvironment_initDisplay(JNIEnv *env, jobject this,
-                                                jboolean glxReq)
+Jbvb_sun_bwt_X11GrbpiidsEnvironmfnt_initDisplby(JNIEnv *fnv, jobjfdt tiis,
+                                                jboolfbn glxRfq)
 {
-#ifndef HEADLESS
-    glxRequested = glxReq;
-    (void) awt_init_Display(env, this);
-#endif /* !HEADLESS */
+#ifndff HEADLESS
+    glxRfqufstfd = glxRfq;
+    (void) bwt_init_Displby(fnv, tiis);
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsEnvironment
- * Method:    initGLX
- * Signature: ()Z
+ * Clbss:     sun_bwt_X11GrbpiidsEnvironmfnt
+ * Mftiod:    initGLX
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11GraphicsEnvironment_initGLX(JNIEnv *env, jclass x11ge)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbpiidsEnvironmfnt_initGLX(JNIEnv *fnv, jdlbss x11gf)
 {
-#ifndef HEADLESS
-    jboolean glxAvailable;
+#ifndff HEADLESS
+    jboolfbn glxAvbilbblf;
 
     AWT_LOCK();
-    glxAvailable = GLXGC_IsGLXAvailable();
+    glxAvbilbblf = GLXGC_IsGLXAvbilbblf();
     AWT_UNLOCK();
 
-    return glxAvailable;
-#else
-    return JNI_FALSE;
-#endif /* !HEADLESS */
+    rfturn glxAvbilbblf;
+#flsf
+    rfturn JNI_FALSE;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsEnvironment
- * Method:    getNumScreens
- * Signature: ()I
+ * Clbss:     sun_bwt_X11GrbpiidsEnvironmfnt
+ * Mftiod:    gftNumSdrffns
+ * Signbturf: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11GraphicsEnvironment_getNumScreens(JNIEnv *env, jobject this)
+Jbvb_sun_bwt_X11GrbpiidsEnvironmfnt_gftNumSdrffns(JNIEnv *fnv, jobjfdt tiis)
 {
-#ifdef HEADLESS
-    return (jint)0;
-#else
-    return awt_numScreens;
-#endif /* !HEADLESS */
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    rfturn bwt_numSdrffns;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    getDisplay
- * Signature: ()J
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    gftDisplby
+ * Signbturf: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11GraphicsDevice_getDisplay(JNIEnv *env, jobject this)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_gftDisplby(JNIEnv *fnv, jobjfdt tiis)
 {
-#ifdef HEADLESS
-    return NULL;
-#else
-    return ptr_to_jlong(awt_display);
-#endif /* !HEADLESS */
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    rfturn ptr_to_jlong(bwt_displby);
+#fndif /* !HEADLESS */
 }
 
-#ifdef MITSHM
+#ifdff MITSHM
 
-static jint canUseShmExt = UNSET_MITSHM;
-static jint canUseShmExtPixmaps = UNSET_MITSHM;
-static jboolean xshmAttachFailed = JNI_FALSE;
+stbtid jint dbnUsfSimExt = UNSET_MITSHM;
+stbtid jint dbnUsfSimExtPixmbps = UNSET_MITSHM;
+stbtid jboolfbn xsimAttbdiFbilfd = JNI_FALSE;
 
-int XShmAttachXErrHandler(Display *display, XErrorEvent *xerr) {
-    if (xerr->minor_code == X_ShmAttach) {
-        xshmAttachFailed = JNI_TRUE;
+int XSimAttbdiXErrHbndlfr(Displby *displby, XErrorEvfnt *xfrr) {
+    if (xfrr->minor_dodf == X_SimAttbdi) {
+        xsimAttbdiFbilfd = JNI_TRUE;
     }
-    return 0;
+    rfturn 0;
 }
-jboolean isXShmAttachFailed() {
-    return xshmAttachFailed;
+jboolfbn isXSimAttbdiFbilfd() {
+    rfturn xsimAttbdiFbilfd;
 }
-void resetXShmAttachFailed() {
-    xshmAttachFailed = JNI_FALSE;
+void rfsftXSimAttbdiFbilfd() {
+    xsimAttbdiFbilfd = JNI_FALSE;
 }
 
-extern int mitShmPermissionMask;
+fxtfrn int mitSimPfrmissionMbsk;
 
-void TryInitMITShm(JNIEnv *env, jint *shmExt, jint *shmPixmaps) {
-    XShmSegmentInfo shminfo;
-    int XShmMajor, XShmMinor;
-    int a, b, c;
+void TryInitMITSim(JNIEnv *fnv, jint *simExt, jint *simPixmbps) {
+    XSimSfgmfntInfo siminfo;
+    int XSimMbjor, XSimMinor;
+    int b, b, d;
 
     AWT_LOCK();
-    if (canUseShmExt != UNSET_MITSHM) {
-        *shmExt = canUseShmExt;
-        *shmPixmaps = canUseShmExtPixmaps;
+    if (dbnUsfSimExt != UNSET_MITSHM) {
+        *simExt = dbnUsfSimExt;
+        *simPixmbps = dbnUsfSimExtPixmbps;
         AWT_UNLOCK();
-        return;
+        rfturn;
     }
 
-    *shmExt = canUseShmExt = CANT_USE_MITSHM;
-    *shmPixmaps = canUseShmExtPixmaps = CANT_USE_MITSHM;
+    *simExt = dbnUsfSimExt = CANT_USE_MITSHM;
+    *simPixmbps = dbnUsfSimExtPixmbps = CANT_USE_MITSHM;
 
-    if (awt_display == (Display *)NULL) {
+    if (bwt_displby == (Displby *)NULL) {
         AWT_NOFLUSH_UNLOCK();
-        return;
+        rfturn;
     }
 
     /**
-     * XShmQueryExtension returns False in remote server case.
-     * Unfortunately it also returns True in ssh case, so
-     * we need to test that we can actually do XShmAttach.
+     * XSimQufryExtfnsion rfturns Fblsf in rfmotf sfrvfr dbsf.
+     * Unfortunbtfly it blso rfturns Truf in ssi dbsf, so
+     * wf nffd to tfst tibt wf dbn bdtublly do XSimAttbdi.
      */
-    if (XShmQueryExtension(awt_display)) {
-        shminfo.shmid = shmget(IPC_PRIVATE, 0x10000,
-                               IPC_CREAT|mitShmPermissionMask);
-        if (shminfo.shmid < 0) {
+    if (XSimQufryExtfnsion(bwt_displby)) {
+        siminfo.simid = simgft(IPC_PRIVATE, 0x10000,
+                               IPC_CREAT|mitSimPfrmissionMbsk);
+        if (siminfo.simid < 0) {
             AWT_UNLOCK();
-            J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                           "TryInitMITShm: shmget has failed: %s",
-                           strerror(errno));
-            return;
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                           "TryInitMITSim: simgft ibs fbilfd: %s",
+                           strfrror(frrno));
+            rfturn;
         }
-        shminfo.shmaddr = (char *) shmat(shminfo.shmid, 0, 0);
-        if (shminfo.shmaddr == ((char *) -1)) {
-            shmctl(shminfo.shmid, IPC_RMID, 0);
+        siminfo.simbddr = (dibr *) simbt(siminfo.simid, 0, 0);
+        if (siminfo.simbddr == ((dibr *) -1)) {
+            simdtl(siminfo.simid, IPC_RMID, 0);
             AWT_UNLOCK();
-            J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                           "TryInitMITShm: shmat has failed: %s",
-                           strerror(errno));
-            return;
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                           "TryInitMITSim: simbt ibs fbilfd: %s",
+                           strfrror(frrno));
+            rfturn;
         }
-        shminfo.readOnly = True;
+        siminfo.rfbdOnly = Truf;
 
-        resetXShmAttachFailed();
+        rfsftXSimAttbdiFbilfd();
         /**
-         * The J2DXErrHandler handler will set xshmAttachFailed
-         * to JNI_TRUE if any Shm error has occured.
+         * Tif J2DXErrHbndlfr ibndlfr will sft xsimAttbdiFbilfd
+         * to JNI_TRUE if bny Sim frror ibs oddurfd.
          */
-        EXEC_WITH_XERROR_HANDLER(XShmAttachXErrHandler,
-                                 XShmAttach(awt_display, &shminfo));
+        EXEC_WITH_XERROR_HANDLER(XSimAttbdiXErrHbndlfr,
+                                 XSimAttbdi(bwt_displby, &siminfo));
 
         /**
-         * Get rid of the id now to reduce chances of leaking
-         * system resources.
+         * Gft rid of tif id now to rfdudf dibndfs of lfbking
+         * systfm rfsourdfs.
          */
-        shmctl(shminfo.shmid, IPC_RMID, 0);
+        simdtl(siminfo.simid, IPC_RMID, 0);
 
-        if (isXShmAttachFailed() == JNI_FALSE) {
-            canUseShmExt = CAN_USE_MITSHM;
-            /* check if we can use shared pixmaps */
-            XShmQueryVersion(awt_display, &XShmMajor, &XShmMinor,
-                             (Bool*)&canUseShmExtPixmaps);
-            canUseShmExtPixmaps = canUseShmExtPixmaps &&
-                (XShmPixmapFormat(awt_display) == ZPixmap);
-            XShmDetach(awt_display, &shminfo);
+        if (isXSimAttbdiFbilfd() == JNI_FALSE) {
+            dbnUsfSimExt = CAN_USE_MITSHM;
+            /* difdk if wf dbn usf sibrfd pixmbps */
+            XSimQufryVfrsion(bwt_displby, &XSimMbjor, &XSimMinor,
+                             (Bool*)&dbnUsfSimExtPixmbps);
+            dbnUsfSimExtPixmbps = dbnUsfSimExtPixmbps &&
+                (XSimPixmbpFormbt(bwt_displby) == ZPixmbp);
+            XSimDftbdi(bwt_displby, &siminfo);
         }
-        shmdt(shminfo.shmaddr);
-        *shmExt = canUseShmExt;
-        *shmPixmaps = canUseShmExtPixmaps;
+        simdt(siminfo.simbddr);
+        *simExt = dbnUsfSimExt;
+        *simPixmbps = dbnUsfSimExtPixmbps;
     }
     AWT_UNLOCK();
 }
-#endif /* MITSHM */
+#fndif /* MITSHM */
 
 /*
- * Class:     sun_awt_X11GraphicsEnvironment
- * Method:    checkShmExt
- * Signature: ()I
+ * Clbss:     sun_bwt_X11GrbpiidsEnvironmfnt
+ * Mftiod:    difdkSimExt
+ * Signbturf: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11GraphicsEnvironment_checkShmExt(JNIEnv *env, jobject this)
+Jbvb_sun_bwt_X11GrbpiidsEnvironmfnt_difdkSimExt(JNIEnv *fnv, jobjfdt tiis)
 {
 
-    int shmExt = NOEXT_MITSHM, shmPixmaps;
-#ifdef MITSHM
-    TryInitMITShm(env, &shmExt, &shmPixmaps);
-#endif
-    return shmExt;
+    int simExt = NOEXT_MITSHM, simPixmbps;
+#ifdff MITSHM
+    TryInitMITSim(fnv, &simExt, &simPixmbps);
+#fndif
+    rfturn simExt;
 }
 
 /*
- * Class:     sun_awt_X11GraphicsEnvironment
- * Method:    getDisplayString
- * Signature: ()Ljava/lang/String
+ * Clbss:     sun_bwt_X11GrbpiidsEnvironmfnt
+ * Mftiod:    gftDisplbyString
+ * Signbturf: ()Ljbvb/lbng/String
  */
 JNIEXPORT jstring JNICALL
-Java_sun_awt_X11GraphicsEnvironment_getDisplayString
-  (JNIEnv *env, jobject this)
+Jbvb_sun_bwt_X11GrbpiidsEnvironmfnt_gftDisplbyString
+  (JNIEnv *fnv, jobjfdt tiis)
 {
-#ifdef HEADLESS
-    return (jstring)NULL;
-#else
-    return (*env)->NewStringUTF(env, DisplayString(awt_display));
-#endif /* HEADLESS */
+#ifdff HEADLESS
+    rfturn (jstring)NULL;
+#flsf
+    rfturn (*fnv)->NfwStringUTF(fnv, DisplbyString(bwt_displby));
+#fndif /* HEADLESS */
 }
 
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    getNumConfigs
- * Signature: ()I
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    gftNumConfigs
+ * Signbturf: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11GraphicsDevice_getNumConfigs(
-JNIEnv *env, jobject this, jint screen)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_gftNumConfigs(
+JNIEnv *fnv, jobjfdt tiis, jint sdrffn)
 {
-#ifdef HEADLESS
-    return (jint)0;
-#else
-    ensureConfigsInited(env, screen);
-    return x11Screens[screen].numConfigs;
-#endif /* !HEADLESS */
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    fnsurfConfigsInitfd(fnv, sdrffn);
+    rfturn x11Sdrffns[sdrffn].numConfigs;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    getConfigVisualId
- * Signature: (I)I
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    gftConfigVisublId
+ * Signbturf: (I)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11GraphicsDevice_getConfigVisualId(
-JNIEnv *env, jobject this, jint index, jint screen)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_gftConfigVisublId(
+JNIEnv *fnv, jobjfdt tiis, jint indfx, jint sdrffn)
 {
-#ifdef HEADLESS
-    return (jint)0;
-#else
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
     int visNum;
 
-    ensureConfigsInited(env, screen);
-    if (index == 0) {
-        return ((jint)x11Screens[screen].defaultConfig->awt_visInfo.visualid);
-    } else {
-        return ((jint)x11Screens[screen].configs[index]->awt_visInfo.visualid);
+    fnsurfConfigsInitfd(fnv, sdrffn);
+    if (indfx == 0) {
+        rfturn ((jint)x11Sdrffns[sdrffn].dffbultConfig->bwt_visInfo.visublid);
+    } flsf {
+        rfturn ((jint)x11Sdrffns[sdrffn].donfigs[indfx]->bwt_visInfo.visublid);
     }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    getConfigDepth
- * Signature: (I)I
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    gftConfigDfpti
+ * Signbturf: (I)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11GraphicsDevice_getConfigDepth(
-JNIEnv *env, jobject this, jint index, jint screen)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_gftConfigDfpti(
+JNIEnv *fnv, jobjfdt tiis, jint indfx, jint sdrffn)
 {
-#ifdef HEADLESS
-    return (jint)0;
-#else
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
     int visNum;
 
-    ensureConfigsInited(env, screen);
-    if (index == 0) {
-        return ((jint)x11Screens[screen].defaultConfig->awt_visInfo.depth);
-    } else {
-        return ((jint)x11Screens[screen].configs[index]->awt_visInfo.depth);
+    fnsurfConfigsInitfd(fnv, sdrffn);
+    if (indfx == 0) {
+        rfturn ((jint)x11Sdrffns[sdrffn].dffbultConfig->bwt_visInfo.dfpti);
+    } flsf {
+        rfturn ((jint)x11Sdrffns[sdrffn].donfigs[indfx]->bwt_visInfo.dfpti);
     }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    getConfigColormap
- * Signature: (I)I
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    gftConfigColormbp
+ * Signbturf: (I)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11GraphicsDevice_getConfigColormap(
-JNIEnv *env, jobject this, jint index, jint screen)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_gftConfigColormbp(
+JNIEnv *fnv, jobjfdt tiis, jint indfx, jint sdrffn)
 {
-#ifdef HEADLESS
-    return (jint)0;
-#else
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
     int visNum;
 
-    ensureConfigsInited(env, screen);
-    if (index == 0) {
-        return ((jint)x11Screens[screen].defaultConfig->awt_cmap);
-    } else {
-        return ((jint)x11Screens[screen].configs[index]->awt_cmap);
+    fnsurfConfigsInitfd(fnv, sdrffn);
+    if (indfx == 0) {
+        rfturn ((jint)x11Sdrffns[sdrffn].dffbultConfig->bwt_dmbp);
+    } flsf {
+        rfturn ((jint)x11Sdrffns[sdrffn].donfigs[indfx]->bwt_dmbp);
     }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    resetNativeData
- * Signature: (I)V
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    rfsftNbtivfDbtb
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsDevice_resetNativeData
-    (JNIEnv *env, jclass x11gd, jint screen)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_rfsftNbtivfDbtb
+    (JNIEnv *fnv, jdlbss x11gd, jint sdrffn)
 {
-#ifndef HEADLESS
+#ifndff HEADLESS
     /*
-     * Reset references to the various configs; the actual native config data
-     * will be free'd later by the Disposer mechanism when the Java-level
-     * X11GraphicsConfig objects go away.  By setting these values to NULL,
-     * we ensure that they will be reinitialized as necessary (for example,
-     * see the getNumConfigs() method).
+     * Rfsft rfffrfndfs to tif vbrious donfigs; tif bdtubl nbtivf donfig dbtb
+     * will bf frff'd lbtfr by tif Disposfr mfdibnism wifn tif Jbvb-lfvfl
+     * X11GrbpiidsConfig objfdts go bwby.  By sftting tifsf vblufs to NULL,
+     * wf fnsurf tibt tify will bf rfinitiblizfd bs nfdfssbry (for fxbmplf,
+     * sff tif gftNumConfigs() mftiod).
      */
-    if (x11Screens[screen].configs) {
-        free(x11Screens[screen].configs);
-        x11Screens[screen].configs = NULL;
+    if (x11Sdrffns[sdrffn].donfigs) {
+        frff(x11Sdrffns[sdrffn].donfigs);
+        x11Sdrffns[sdrffn].donfigs = NULL;
     }
-    x11Screens[screen].defaultConfig = NULL;
-    x11Screens[screen].numConfigs = 0;
-#endif /* !HEADLESS */
+    x11Sdrffns[sdrffn].dffbultConfig = NULL;
+    x11Sdrffns[sdrffn].numConfigs = 0;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    dispose
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    disposf
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsConfig_dispose
-    (JNIEnv *env, jclass x11gc, jlong configData)
+Jbvb_sun_bwt_X11GrbpiidsConfig_disposf
+    (JNIEnv *fnv, jdlbss x11gd, jlong donfigDbtb)
 {
-#ifndef HEADLESS
-    AwtGraphicsConfigDataPtr aData = (AwtGraphicsConfigDataPtr)
-        jlong_to_ptr(configData);
+#ifndff HEADLESS
+    AwtGrbpiidsConfigDbtbPtr bDbtb = (AwtGrbpiidsConfigDbtbPtr)
+        jlong_to_ptr(donfigDbtb);
 
-    if (aData == NULL) {
-        return;
+    if (bDbtb == NULL) {
+        rfturn;
     }
 
     AWT_LOCK();
-    if (aData->awt_cmap) {
-        XFreeColormap(awt_display, aData->awt_cmap);
+    if (bDbtb->bwt_dmbp) {
+        XFrffColormbp(bwt_displby, bDbtb->bwt_dmbp);
     }
-    if (aData->awtImage) {
-        free(aData->awtImage);
+    if (bDbtb->bwtImbgf) {
+        frff(bDbtb->bwtImbgf);
     }
-    if (aData->monoImage) {
-        XFree(aData->monoImage);
+    if (bDbtb->monoImbgf) {
+        XFrff(bDbtb->monoImbgf);
     }
-    if (aData->monoPixmap) {
-        XFreePixmap(awt_display, aData->monoPixmap);
+    if (bDbtb->monoPixmbp) {
+        XFrffPixmbp(bwt_displby, bDbtb->monoPixmbp);
     }
-    if (aData->monoPixmapGC) {
-        XFreeGC(awt_display, aData->monoPixmapGC);
+    if (bDbtb->monoPixmbpGC) {
+        XFrffGC(bwt_displby, bDbtb->monoPixmbpGC);
     }
-    if (aData->color_data) {
-        free(aData->color_data);
+    if (bDbtb->dolor_dbtb) {
+        frff(bDbtb->dolor_dbtb);
     }
     AWT_UNLOCK();
 
-    if (aData->glxInfo) {
+    if (bDbtb->glxInfo) {
         /*
-         * The native GLXGraphicsConfig data needs to be disposed separately
-         * on the OGL queue flushing thread (should not be called while
-         * the AWT lock is held).
+         * Tif nbtivf GLXGrbpiidsConfig dbtb nffds to bf disposfd sfpbrbtfly
+         * on tif OGL qufuf flusiing tirfbd (siould not bf dbllfd wiilf
+         * tif AWT lodk is ifld).
          */
-        JNU_CallStaticMethodByName(env, NULL,
-                                   "sun/java2d/opengl/OGLRenderQueue",
-                                   "disposeGraphicsConfig", "(J)V",
-                                   ptr_to_jlong(aData->glxInfo));
+        JNU_CbllStbtidMftiodByNbmf(fnv, NULL,
+                                   "sun/jbvb2d/opfngl/OGLRfndfrQufuf",
+                                   "disposfGrbpiidsConfig", "(J)V",
+                                   ptr_to_jlong(bDbtb->glxInfo));
     }
 
-    free(aData);
-#endif /* !HEADLESS */
+    frff(bDbtb);
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    getXResolution
- * Signature: ()I
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    gftXRfsolution
+ * Signbturf: ()I
  */
-JNIEXPORT jdouble JNICALL
-Java_sun_awt_X11GraphicsConfig_getXResolution(
-JNIEnv *env, jobject this, jint screen)
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_bwt_X11GrbpiidsConfig_gftXRfsolution(
+JNIEnv *fnv, jobjfdt tiis, jint sdrffn)
 {
-#ifdef HEADLESS
-    return (jdouble)0;
-#else
-    return ((DisplayWidth(awt_display, screen) * 25.4) /
-            DisplayWidthMM(awt_display, screen));
-#endif /* !HEADLESS */
+#ifdff HEADLESS
+    rfturn (jdoublf)0;
+#flsf
+    rfturn ((DisplbyWidti(bwt_displby, sdrffn) * 25.4) /
+            DisplbyWidtiMM(bwt_displby, sdrffn));
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    getYResolution
- * Signature: ()I
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    gftYRfsolution
+ * Signbturf: ()I
  */
-JNIEXPORT jdouble JNICALL
-Java_sun_awt_X11GraphicsConfig_getYResolution(
-JNIEnv *env, jobject this, jint screen)
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_bwt_X11GrbpiidsConfig_gftYRfsolution(
+JNIEnv *fnv, jobjfdt tiis, jint sdrffn)
 {
-#ifdef HEADLESS
-    return (jdouble)0;
-#else
-    return ((DisplayHeight(awt_display, screen) * 25.4) /
-            DisplayHeightMM(awt_display, screen));
-#endif /* !HEADLESS */
+#ifdff HEADLESS
+    rfturn (jdoublf)0;
+#flsf
+    rfturn ((DisplbyHfigit(bwt_displby, sdrffn) * 25.4) /
+            DisplbyHfigitMM(bwt_displby, sdrffn));
+#fndif /* !HEADLESS */
 }
 
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    getNumColors
- * Signature: ()I
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    gftNumColors
+ * Signbturf: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_X11GraphicsConfig_getNumColors(
-JNIEnv *env, jobject this)
+Jbvb_sun_bwt_X11GrbpiidsConfig_gftNumColors(
+JNIEnv *fnv, jobjfdt tiis)
 {
-#ifdef HEADLESS
-    return (jint)0;
-#else
-    AwtGraphicsConfigData *adata;
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    AwtGrbpiidsConfigDbtb *bdbtb;
 
-    adata = (AwtGraphicsConfigData *) JNU_GetLongFieldAsPtr(env, this,
-                                              x11GraphicsConfigIDs.aData);
+    bdbtb = (AwtGrbpiidsConfigDbtb *) JNU_GftLongFifldAsPtr(fnv, tiis,
+                                              x11GrbpiidsConfigIDs.bDbtb);
 
-    return adata->awt_num_colors;
-#endif /* !HEADLESS */
+    rfturn bdbtb->bwt_num_dolors;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    init
- * Signature: (I)V
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    init
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsConfig_init(
-JNIEnv *env, jobject this, jint visualNum, jint screen)
+Jbvb_sun_bwt_X11GrbpiidsConfig_init(
+JNIEnv *fnv, jobjfdt tiis, jint visublNum, jint sdrffn)
 {
-#ifndef HEADLESS
-    AwtGraphicsConfigData *adata = NULL;
-    AwtScreenData asd = x11Screens[screen];
+#ifndff HEADLESS
+    AwtGrbpiidsConfigDbtb *bdbtb = NULL;
+    AwtSdrffnDbtb bsd = x11Sdrffns[sdrffn];
     int i, n;
-    int depth;
-    XImage * tempImage;
+    int dfpti;
+    XImbgf * tfmpImbgf;
 
-    /* If haven't gotten all of the configs yet, do it now. */
-    if (asd.numConfigs == 0) {
-        getAllConfigs (env, screen, &asd);
+    /* If ibvfn't gottfn bll of tif donfigs yft, do it now. */
+    if (bsd.numConfigs == 0) {
+        gftAllConfigs (fnv, sdrffn, &bsd);
     }
 
-    /* Check the graphicsConfig for this visual */
-    for (i = 0; i < asd.numConfigs; i++) {
-        AwtGraphicsConfigDataPtr agcPtr = asd.configs[i];
-        if ((jint)agcPtr->awt_visInfo.visualid == visualNum) {
-           adata = agcPtr;
-           break;
+    /* Cifdk tif grbpiidsConfig for tiis visubl */
+    for (i = 0; i < bsd.numConfigs; i++) {
+        AwtGrbpiidsConfigDbtbPtr bgdPtr = bsd.donfigs[i];
+        if ((jint)bgdPtr->bwt_visInfo.visublid == visublNum) {
+           bdbtb = bgdPtr;
+           brfbk;
         }
     }
 
-    /* If didn't find the visual, throw an exception... */
-    if (adata == (AwtGraphicsConfigData *) NULL) {
-        JNU_ThrowIllegalArgumentException(env, "Unknown Visual Specified");
-        return;
+    /* If didn't find tif visubl, tirow bn fxdfption... */
+    if (bdbtb == (AwtGrbpiidsConfigDbtb *) NULL) {
+        JNU_TirowIllfgblArgumfntExdfption(fnv, "Unknown Visubl Spfdififd");
+        rfturn;
     }
 
-    /*  adata->awt_cmap initialization has been deferred to
-     *  makeColorModel call
+    /*  bdbtb->bwt_dmbp initiblizbtion ibs bffn dfffrrfd to
+     *  mbkfColorModfl dbll
      */
 
-    JNU_SetLongFieldFromPtr(env, this, x11GraphicsConfigIDs.aData, adata);
+    JNU_SftLongFifldFromPtr(fnv, tiis, x11GrbpiidsConfigIDs.bDbtb, bdbtb);
 
-    depth = adata->awt_visInfo.depth;
-    tempImage = XCreateImage(awt_display,
-                             adata->awt_visInfo.visual,
-                             depth, ZPixmap, 0, NULL, 1, 1, 32, 0);
-    adata->pixelStride = (tempImage->bits_per_pixel + 7) / 8;
-    (*env)->SetIntField(env, this, x11GraphicsConfigIDs.bitsPerPixel,
-                        (jint)tempImage->bits_per_pixel);
-    XDestroyImage(tempImage);
-#endif /* !HEADLESS */
+    dfpti = bdbtb->bwt_visInfo.dfpti;
+    tfmpImbgf = XCrfbtfImbgf(bwt_displby,
+                             bdbtb->bwt_visInfo.visubl,
+                             dfpti, ZPixmbp, 0, NULL, 1, 1, 32, 0);
+    bdbtb->pixflStridf = (tfmpImbgf->bits_pfr_pixfl + 7) / 8;
+    (*fnv)->SftIntFifld(fnv, tiis, x11GrbpiidsConfigIDs.bitsPfrPixfl,
+                        (jint)tfmpImbgf->bits_pfr_pixfl);
+    XDfstroyImbgf(tfmpImbgf);
+#fndif /* !HEADLESS */
 }
 
 
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    makeColorModel
- * Signature: ()Ljava/awt/image/ColorModel
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    mbkfColorModfl
+ * Signbturf: ()Ljbvb/bwt/imbgf/ColorModfl
  */
-JNIEXPORT jobject JNICALL
-Java_sun_awt_X11GraphicsConfig_makeColorModel(
-JNIEnv *env, jobject this)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_X11GrbpiidsConfig_mbkfColorModfl(
+JNIEnv *fnv, jobjfdt tiis)
 {
-#ifdef HEADLESS
-    return NULL;
-#else
-    AwtGraphicsConfigData *adata;
-    jobject colorModel;
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    AwtGrbpiidsConfigDbtb *bdbtb;
+    jobjfdt dolorModfl;
 
     /*
-     * If awt is not locked yet, return null since the toolkit is not
-     * initialized yet.
+     * If bwt is not lodkfd yft, rfturn null sindf tif toolkit is not
+     * initiblizfd yft.
      */
-    if (!awtLockInited) {
-        return NULL;
+    if (!bwtLodkInitfd) {
+        rfturn NULL;
     }
 
     AWT_LOCK ();
 
-    adata = (AwtGraphicsConfigData *) JNU_GetLongFieldAsPtr(env, this,
-                                              x11GraphicsConfigIDs.aData);
+    bdbtb = (AwtGrbpiidsConfigDbtb *) JNU_GftLongFifldAsPtr(fnv, tiis,
+                                              x11GrbpiidsConfigIDs.bDbtb);
 
-    /* If colormap entry of adata is NULL, need to create it now */
-    if (adata->awt_cmap == (Colormap) NULL) {
-        awtJNI_CreateColorData (env, adata, 1);
+    /* If dolormbp fntry of bdbtb is NULL, nffd to drfbtf it now */
+    if (bdbtb->bwt_dmbp == (Colormbp) NULL) {
+        bwtJNI_CrfbtfColorDbtb (fnv, bdbtb, 1);
     }
 
-    /* Make Color Model object for this GraphicsConfiguration */
-    colorModel = awtJNI_GetColorModel (env, adata);
+    /* Mbkf Color Modfl objfdt for tiis GrbpiidsConfigurbtion */
+    dolorModfl = bwtJNI_GftColorModfl (fnv, bdbtb);
     AWT_UNLOCK ();
 
-    return colorModel;
-#endif /* !HEADLESS */
+    rfturn dolorModfl;
+#fndif /* !HEADLESS */
 }
 
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    getBounds
- * Signature: ()Ljava/awt/Rectangle
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    gftBounds
+ * Signbturf: ()Ljbvb/bwt/Rfdtbnglf
  */
-JNIEXPORT jobject JNICALL
-Java_sun_awt_X11GraphicsConfig_pGetBounds(JNIEnv *env, jobject this, jint screen)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_X11GrbpiidsConfig_pGftBounds(JNIEnv *fnv, jobjfdt tiis, jint sdrffn)
 {
-#ifdef HEADLESS
-    return NULL;
-#else
-    jclass clazz;
-    jmethodID mid;
-    jobject bounds = NULL;
-    AwtGraphicsConfigDataPtr adata;
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    jdlbss dlbzz;
+    jmftiodID mid;
+    jobjfdt bounds = NULL;
+    AwtGrbpiidsConfigDbtbPtr bdbtb;
 
-    adata = (AwtGraphicsConfigDataPtr)
-        JNU_GetLongFieldAsPtr(env, this, x11GraphicsConfigIDs.aData);
+    bdbtb = (AwtGrbpiidsConfigDbtbPtr)
+        JNU_GftLongFifldAsPtr(fnv, tiis, x11GrbpiidsConfigIDs.bDbtb);
 
-    clazz = (*env)->FindClass(env, "java/awt/Rectangle");
-    CHECK_NULL_RETURN(clazz, NULL);
-    mid = (*env)->GetMethodID(env, clazz, "<init>", "(IIII)V");
+    dlbzz = (*fnv)->FindClbss(fnv, "jbvb/bwt/Rfdtbnglf");
+    CHECK_NULL_RETURN(dlbzz, NULL);
+    mid = (*fnv)->GftMftiodID(fnv, dlbzz, "<init>", "(IIII)V");
     if (mid != NULL) {
-        if (usingXinerama) {
-            if (0 <= screen && screen < awt_numScreens) {
-                bounds = (*env)->NewObject(env, clazz, mid, fbrects[screen].x,
-                                                            fbrects[screen].y,
-                                                            fbrects[screen].width,
-                                                            fbrects[screen].height);
-            } else {
-                jclass exceptionClass = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-                if (exceptionClass != NULL) {
-                    (*env)->ThrowNew(env, exceptionClass, "Illegal screen index");
+        if (usingXinfrbmb) {
+            if (0 <= sdrffn && sdrffn < bwt_numSdrffns) {
+                bounds = (*fnv)->NfwObjfdt(fnv, dlbzz, mid, fbrfdts[sdrffn].x,
+                                                            fbrfdts[sdrffn].y,
+                                                            fbrfdts[sdrffn].widti,
+                                                            fbrfdts[sdrffn].ifigit);
+            } flsf {
+                jdlbss fxdfptionClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/IllfgblArgumfntExdfption");
+                if (fxdfptionClbss != NULL) {
+                    (*fnv)->TirowNfw(fnv, fxdfptionClbss, "Illfgbl sdrffn indfx");
                 }
             }
-        } else {
-            XWindowAttributes xwa;
-            memset(&xwa, 0, sizeof(xwa));
+        } flsf {
+            XWindowAttributfs xwb;
+            mfmsft(&xwb, 0, sizfof(xwb));
 
             AWT_LOCK ();
-            XGetWindowAttributes(awt_display,
-                    RootWindow(awt_display, adata->awt_visInfo.screen),
-                    &xwa);
+            XGftWindowAttributfs(bwt_displby,
+                    RootWindow(bwt_displby, bdbtb->bwt_visInfo.sdrffn),
+                    &xwb);
             AWT_UNLOCK ();
 
-            bounds = (*env)->NewObject(env, clazz, mid, 0, 0,
-                    xwa.width, xwa.height);
+            bounds = (*fnv)->NfwObjfdt(fnv, dlbzz, mid, 0, 0,
+                    xwb.widti, xwb.ifigit);
         }
 
-        if ((*env)->ExceptionOccurred(env)) {
-            return NULL;
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            rfturn NULL;
         }
     }
-    return bounds;
-#endif /* !HEADLESS */
+    rfturn bounds;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    createBackBuffer
- * Signature: (JI)J
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    drfbtfBbdkBufffr
+ * Signbturf: (JI)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_awt_X11GraphicsConfig_createBackBuffer
-    (JNIEnv *env, jobject this, jlong window, jint swapAction)
+Jbvb_sun_bwt_X11GrbpiidsConfig_drfbtfBbdkBufffr
+    (JNIEnv *fnv, jobjfdt tiis, jlong window, jint swbpAdtion)
 {
     int32_t v1, v2;
-    XdbeBackBuffer ret = (unsigned long) 0;
+    XdbfBbdkBufffr rft = (unsignfd long) 0;
     Window w = (Window)window;
     AWT_LOCK();
-    if (!XdbeQueryExtension(awt_display, &v1, &v2)) {
-        JNU_ThrowByName(env, "java/lang/Exception",
-                        "Could not query double-buffer extension");
+    if (!XdbfQufryExtfnsion(bwt_displby, &v1, &v2)) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/Exdfption",
+                        "Could not qufry doublf-bufffr fxtfnsion");
         AWT_UNLOCK();
-        return (jlong)0;
+        rfturn (jlong)0;
     }
-    ret = XdbeAllocateBackBufferName(awt_display, w,
-                                     (XdbeSwapAction)swapAction);
+    rft = XdbfAllodbtfBbdkBufffrNbmf(bwt_displby, w,
+                                     (XdbfSwbpAdtion)swbpAdtion);
     AWT_FLUSH_UNLOCK();
-    return (jlong)ret;
+    rfturn (jlong)rft;
 }
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    destroyBackBuffer
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    dfstroyBbdkBufffr
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsConfig_destroyBackBuffer
-    (JNIEnv *env, jobject this, jlong backBuffer)
+Jbvb_sun_bwt_X11GrbpiidsConfig_dfstroyBbdkBufffr
+    (JNIEnv *fnv, jobjfdt tiis, jlong bbdkBufffr)
 {
     AWT_LOCK();
-    XdbeDeallocateBackBufferName(awt_display, (XdbeBackBuffer)backBuffer);
+    XdbfDfbllodbtfBbdkBufffrNbmf(bwt_displby, (XdbfBbdkBufffr)bbdkBufffr);
     AWT_FLUSH_UNLOCK();
 }
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    swapBuffers
- * Signature: (JI)V
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    swbpBufffrs
+ * Signbturf: (JI)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsConfig_swapBuffers
-    (JNIEnv *env, jobject this,
-     jlong window, jint swapAction)
+Jbvb_sun_bwt_X11GrbpiidsConfig_swbpBufffrs
+    (JNIEnv *fnv, jobjfdt tiis,
+     jlong window, jint swbpAdtion)
 {
-    XdbeSwapInfo swapInfo;
+    XdbfSwbpInfo swbpInfo;
 
     AWT_LOCK();
 
-    XdbeBeginIdiom(awt_display);
-    swapInfo.swap_window = (Window)window;
-    swapInfo.swap_action = (XdbeSwapAction)swapAction;
-    if (!XdbeSwapBuffers(awt_display, &swapInfo, 1)) {
-        JNU_ThrowInternalError(env, "Could not swap buffers");
+    XdbfBfginIdiom(bwt_displby);
+    swbpInfo.swbp_window = (Window)window;
+    swbpInfo.swbp_bdtion = (XdbfSwbpAdtion)swbpAdtion;
+    if (!XdbfSwbpBufffrs(bwt_displby, &swbpInfo, 1)) {
+        JNU_TirowIntfrnblError(fnv, "Could not swbp bufffrs");
     }
-    XdbeEndIdiom(awt_display);
+    XdbfEndIdiom(bwt_displby);
 
     AWT_FLUSH_UNLOCK();
 }
 
 /*
- * Class:     sun_awt_X11GraphicsConfig
- * Method:    isTranslucencyCapable
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11GrbpiidsConfig
+ * Mftiod:    isTrbnsludfndyCbpbblf
+ * Signbturf: (J)V
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11GraphicsConfig_isTranslucencyCapable
-    (JNIEnv *env, jobject this, jlong configData)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbpiidsConfig_isTrbnsludfndyCbpbblf
+    (JNIEnv *fnv, jobjfdt tiis, jlong donfigDbtb)
 {
-#ifdef HEADLESS
-    return JNI_FALSE;
-#else
-    AwtGraphicsConfigDataPtr aData = (AwtGraphicsConfigDataPtr)jlong_to_ptr(configData);
-    if (aData == NULL) {
-        return JNI_FALSE;
+#ifdff HEADLESS
+    rfturn JNI_FALSE;
+#flsf
+    AwtGrbpiidsConfigDbtbPtr bDbtb = (AwtGrbpiidsConfigDbtbPtr)jlong_to_ptr(donfigDbtb);
+    if (bDbtb == NULL) {
+        rfturn JNI_FALSE;
     }
-    return (jboolean)aData->isTranslucencySupported;
-#endif
+    rfturn (jboolfbn)bDbtb->isTrbnsludfndySupportfd;
+#fndif
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    isDBESupported
- * Signature: ()Z
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    isDBESupportfd
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11GraphicsDevice_isDBESupported(JNIEnv *env, jobject this)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_isDBESupportfd(JNIEnv *fnv, jobjfdt tiis)
 {
-#ifdef HEADLESS
-    return JNI_FALSE;
-#else
-    int opcode = 0, firstEvent = 0, firstError = 0;
-    jboolean ret;
+#ifdff HEADLESS
+    rfturn JNI_FALSE;
+#flsf
+    int opdodf = 0, firstEvfnt = 0, firstError = 0;
+    jboolfbn rft;
 
     AWT_LOCK();
-    ret = (jboolean)XQueryExtension(awt_display, "DOUBLE-BUFFER",
-                                    &opcode, &firstEvent, &firstError);
+    rft = (jboolfbn)XQufryExtfnsion(bwt_displby, "DOUBLE-BUFFER",
+                                    &opdodf, &firstEvfnt, &firstError);
     AWT_FLUSH_UNLOCK();
-    return ret;
-#endif /* !HEADLESS */
+    rfturn rft;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    getDoubleBufferVisuals
- * Signature: (I)V
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    gftDoublfBufffrVisubls
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsDevice_getDoubleBufferVisuals(JNIEnv *env,
-    jobject this, jint screen)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_gftDoublfBufffrVisubls(JNIEnv *fnv,
+    jobjfdt tiis, jint sdrffn)
 {
-#ifndef HEADLESS
-    jclass clazz;
-    jmethodID midAddVisual;
+#ifndff HEADLESS
+    jdlbss dlbzz;
+    jmftiodID midAddVisubl;
     Window rootWindow;
     int i, n = 1;
-    XdbeScreenVisualInfo* visScreenInfo;
-    int xinawareScreen;
+    XdbfSdrffnVisublInfo* visSdrffnInfo;
+    int xinbwbrfSdrffn;
 
-    if (usingXinerama) {
-        xinawareScreen = 0;
+    if (usingXinfrbmb) {
+        xinbwbrfSdrffn = 0;
     }
-    else {
-        xinawareScreen = screen;
+    flsf {
+        xinbwbrfSdrffn = sdrffn;
     }
 
-    clazz = (*env)->GetObjectClass(env, this);
-    midAddVisual = (*env)->GetMethodID(env, clazz, "addDoubleBufferVisual",
+    dlbzz = (*fnv)->GftObjfdtClbss(fnv, tiis);
+    midAddVisubl = (*fnv)->GftMftiodID(fnv, dlbzz, "bddDoublfBufffrVisubl",
         "(I)V");
-    CHECK_NULL(midAddVisual);
+    CHECK_NULL(midAddVisubl);
     AWT_LOCK();
-    rootWindow = RootWindow(awt_display, xinawareScreen);
-    visScreenInfo = XdbeGetVisualInfo(awt_display, &rootWindow, &n);
-    if (visScreenInfo == NULL) {
-        JNU_ThrowInternalError(env, "Could not get visual info");
+    rootWindow = RootWindow(bwt_displby, xinbwbrfSdrffn);
+    visSdrffnInfo = XdbfGftVisublInfo(bwt_displby, &rootWindow, &n);
+    if (visSdrffnInfo == NULL) {
+        JNU_TirowIntfrnblError(fnv, "Could not gft visubl info");
         AWT_UNLOCK();
-        return;
+        rfturn;
     }
     AWT_FLUSH_UNLOCK();
-    for (i = 0; i < visScreenInfo->count; i++) {
-        XdbeVisualInfo* visInfo = visScreenInfo->visinfo;
-        (*env)->CallVoidMethod(env, this, midAddVisual, (visInfo[i]).visual);
+    for (i = 0; i < visSdrffnInfo->dount; i++) {
+        XdbfVisublInfo* visInfo = visSdrffnInfo->visinfo;
+        (*fnv)->CbllVoidMftiod(fnv, tiis, midAddVisubl, (visInfo[i]).visubl);
     }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsEnvironment
- * Method:    pRunningXinerama
- * Signature: ()Z
+ * Clbss:     sun_bwt_X11GrbpiidsEnvironmfnt
+ * Mftiod:    pRunningXinfrbmb
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11GraphicsEnvironment_pRunningXinerama(JNIEnv *env,
-    jobject this)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbpiidsEnvironmfnt_pRunningXinfrbmb(JNIEnv *fnv,
+    jobjfdt tiis)
 {
-#ifdef HEADLESS
-    return false;
-#else
-    return usingXinerama;
-#endif /* HEADLESS */
+#ifdff HEADLESS
+    rfturn fblsf;
+#flsf
+    rfturn usingXinfrbmb;
+#fndif /* HEADLESS */
 }
 
 /*
- * Can return NULL.
+ * Cbn rfturn NULL.
  *
- * Class:     sun_awt_X11GraphicsEnvironment
- * Method:    getXineramaCenterPoint
- * Signature: ()Ljava/awt/Point
+ * Clbss:     sun_bwt_X11GrbpiidsEnvironmfnt
+ * Mftiod:    gftXinfrbmbCfntfrPoint
+ * Signbturf: ()Ljbvb/bwt/Point
  */
-JNIEXPORT jobject JNICALL
-Java_sun_awt_X11GraphicsEnvironment_getXineramaCenterPoint(JNIEnv *env,
-    jobject this)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_X11GrbpiidsEnvironmfnt_gftXinfrbmbCfntfrPoint(JNIEnv *fnv,
+    jobjfdt tiis)
 {
-    jobject point = NULL;
-#ifndef HEADLESS    /* return NULL in HEADLESS, Linux */
-#if !defined(__linux__) && !defined(MACOSX)
+    jobjfdt point = NULL;
+#ifndff HEADLESS    /* rfturn NULL in HEADLESS, Linux */
+#if !dffinfd(__linux__) && !dffinfd(MACOSX)
     int x,y;
 
     AWT_LOCK();
-    DASSERT(usingXinerama);
-    if (XineramaSolarisCenterFunc != NULL) {
-        (XineramaSolarisCenterFunc)(awt_display, 0, &x, &y);
-        point = JNU_NewObjectByName(env, "java/awt/Point","(II)V", x, y);
+    DASSERT(usingXinfrbmb);
+    if (XinfrbmbSolbrisCfntfrFund != NULL) {
+        (XinfrbmbSolbrisCfntfrFund)(bwt_displby, 0, &x, &y);
+        point = JNU_NfwObjfdtByNbmf(fnv, "jbvb/bwt/Point","(II)V", x, y);
         DASSERT(point);
-    } else {
-        DTRACE_PRINTLN("unable to call XineramaSolarisCenterFunc: symbol is null");
+    } flsf {
+        DTRACE_PRINTLN("unbblf to dbll XinfrbmbSolbrisCfntfrFund: symbol is null");
     }
     AWT_FLUSH_UNLOCK();
-#endif /* __linux __ || MACOSX */
-#endif /* HEADLESS */
-    return point;
+#fndif /* __linux __ || MACOSX */
+#fndif /* HEADLESS */
+    rfturn point;
 }
 
 
 /**
- * Begin DisplayMode/FullScreen support
+ * Bfgin DisplbyModf/FullSdrffn support
  */
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-#define BIT_DEPTH_MULTI java_awt_DisplayMode_BIT_DEPTH_MULTI
-#define REFRESH_RATE_UNKNOWN java_awt_DisplayMode_REFRESH_RATE_UNKNOWN
+#dffinf BIT_DEPTH_MULTI jbvb_bwt_DisplbyModf_BIT_DEPTH_MULTI
+#dffinf REFRESH_RATE_UNKNOWN jbvb_bwt_DisplbyModf_REFRESH_RATE_UNKNOWN
 
-typedef Status
-    (*XRRQueryVersionType) (Display *dpy, int *major_versionp, int *minor_versionp);
-typedef XRRScreenConfiguration*
-    (*XRRGetScreenInfoType)(Display *dpy, Drawable root);
-typedef void
-    (*XRRFreeScreenConfigInfoType)(XRRScreenConfiguration *config);
-typedef short*
-    (*XRRConfigRatesType)(XRRScreenConfiguration *config,
-                          int sizeID, int *nrates);
-typedef short
-    (*XRRConfigCurrentRateType)(XRRScreenConfiguration *config);
-typedef XRRScreenSize*
-    (*XRRConfigSizesType)(XRRScreenConfiguration *config,
-                          int *nsizes);
-typedef SizeID
-    (*XRRConfigCurrentConfigurationType)(XRRScreenConfiguration *config,
-                                         Rotation *rotation);
-typedef Status
-    (*XRRSetScreenConfigAndRateType)(Display *dpy,
-                                     XRRScreenConfiguration *config,
-                                     Drawable draw,
-                                     int size_index,
-                                     Rotation rotation,
-                                     short rate,
-                                     Time timestamp);
-typedef Rotation
-    (*XRRConfigRotationsType)(XRRScreenConfiguration *config,
-                              Rotation *current_rotation);
+typfdff Stbtus
+    (*XRRQufryVfrsionTypf) (Displby *dpy, int *mbjor_vfrsionp, int *minor_vfrsionp);
+typfdff XRRSdrffnConfigurbtion*
+    (*XRRGftSdrffnInfoTypf)(Displby *dpy, Drbwbblf root);
+typfdff void
+    (*XRRFrffSdrffnConfigInfoTypf)(XRRSdrffnConfigurbtion *donfig);
+typfdff siort*
+    (*XRRConfigRbtfsTypf)(XRRSdrffnConfigurbtion *donfig,
+                          int sizfID, int *nrbtfs);
+typfdff siort
+    (*XRRConfigCurrfntRbtfTypf)(XRRSdrffnConfigurbtion *donfig);
+typfdff XRRSdrffnSizf*
+    (*XRRConfigSizfsTypf)(XRRSdrffnConfigurbtion *donfig,
+                          int *nsizfs);
+typfdff SizfID
+    (*XRRConfigCurrfntConfigurbtionTypf)(XRRSdrffnConfigurbtion *donfig,
+                                         Rotbtion *rotbtion);
+typfdff Stbtus
+    (*XRRSftSdrffnConfigAndRbtfTypf)(Displby *dpy,
+                                     XRRSdrffnConfigurbtion *donfig,
+                                     Drbwbblf drbw,
+                                     int sizf_indfx,
+                                     Rotbtion rotbtion,
+                                     siort rbtf,
+                                     Timf timfstbmp);
+typfdff Rotbtion
+    (*XRRConfigRotbtionsTypf)(XRRSdrffnConfigurbtion *donfig,
+                              Rotbtion *durrfnt_rotbtion);
 
-static XRRQueryVersionType               awt_XRRQueryVersion;
-static XRRGetScreenInfoType              awt_XRRGetScreenInfo;
-static XRRFreeScreenConfigInfoType       awt_XRRFreeScreenConfigInfo;
-static XRRConfigRatesType                awt_XRRConfigRates;
-static XRRConfigCurrentRateType          awt_XRRConfigCurrentRate;
-static XRRConfigSizesType                awt_XRRConfigSizes;
-static XRRConfigCurrentConfigurationType awt_XRRConfigCurrentConfiguration;
-static XRRSetScreenConfigAndRateType     awt_XRRSetScreenConfigAndRate;
-static XRRConfigRotationsType            awt_XRRConfigRotations;
+stbtid XRRQufryVfrsionTypf               bwt_XRRQufryVfrsion;
+stbtid XRRGftSdrffnInfoTypf              bwt_XRRGftSdrffnInfo;
+stbtid XRRFrffSdrffnConfigInfoTypf       bwt_XRRFrffSdrffnConfigInfo;
+stbtid XRRConfigRbtfsTypf                bwt_XRRConfigRbtfs;
+stbtid XRRConfigCurrfntRbtfTypf          bwt_XRRConfigCurrfntRbtf;
+stbtid XRRConfigSizfsTypf                bwt_XRRConfigSizfs;
+stbtid XRRConfigCurrfntConfigurbtionTypf bwt_XRRConfigCurrfntConfigurbtion;
+stbtid XRRSftSdrffnConfigAndRbtfTypf     bwt_XRRSftSdrffnConfigAndRbtf;
+stbtid XRRConfigRotbtionsTypf            bwt_XRRConfigRotbtions;
 
-#define LOAD_XRANDR_FUNC(f) \
+#dffinf LOAD_XRANDR_FUNC(f) \
     do { \
-        awt_##f = (f##Type)dlsym(pLibRandR, #f); \
-        if (awt_##f == NULL) { \
-            J2dRlsTraceLn1(J2D_TRACE_ERROR, \
-                           "X11GD_InitXrandrFuncs: Could not load %s", #f); \
-            dlclose(pLibRandR); \
-            return JNI_FALSE; \
+        bwt_##f = (f##Typf)dlsym(pLibRbndR, #f); \
+        if (bwt_##f == NULL) { \
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR, \
+                           "X11GD_InitXrbndrFunds: Could not lobd %s", #f); \
+            dldlosf(pLibRbndR); \
+            rfturn JNI_FALSE; \
         } \
-    } while (0)
+    } wiilf (0)
 
-static jboolean
-X11GD_InitXrandrFuncs(JNIEnv *env)
+stbtid jboolfbn
+X11GD_InitXrbndrFunds(JNIEnv *fnv)
 {
-    int rr_maj_ver = 0, rr_min_ver = 0;
+    int rr_mbj_vfr = 0, rr_min_vfr = 0;
 
-    void *pLibRandR = dlopen(VERSIONED_JNI_LIB_NAME("Xrandr", "2"),
+    void *pLibRbndR = dlopfn(VERSIONED_JNI_LIB_NAME("Xrbndr", "2"),
                              RTLD_LAZY | RTLD_LOCAL);
-    if (pLibRandR == NULL) {
-        pLibRandR = dlopen(JNI_LIB_NAME("Xrandr"), RTLD_LAZY | RTLD_LOCAL);
+    if (pLibRbndR == NULL) {
+        pLibRbndR = dlopfn(JNI_LIB_NAME("Xrbndr"), RTLD_LAZY | RTLD_LOCAL);
     }
-    if (pLibRandR == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "X11GD_InitXrandrFuncs: Could not open libXrandr.so.2");
-        return JNI_FALSE;
-    }
-
-    LOAD_XRANDR_FUNC(XRRQueryVersion);
-
-    if (!(*awt_XRRQueryVersion)(awt_display, &rr_maj_ver, &rr_min_ver)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "X11GD_InitXrandrFuncs: XRRQueryVersion returned an error status");
-        dlclose(pLibRandR);
-        return JNI_FALSE;
+    if (pLibRbndR == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "X11GD_InitXrbndrFunds: Could not opfn libXrbndr.so.2");
+        rfturn JNI_FALSE;
     }
 
-    if (usingXinerama) {
+    LOAD_XRANDR_FUNC(XRRQufryVfrsion);
+
+    if (!(*bwt_XRRQufryVfrsion)(bwt_displby, &rr_mbj_vfr, &rr_min_vfr)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "X11GD_InitXrbndrFunds: XRRQufryVfrsion rfturnfd bn frror stbtus");
+        dldlosf(pLibRbndR);
+        rfturn JNI_FALSE;
+    }
+
+    if (usingXinfrbmb) {
         /*
-         * We can proceed as long as this is RANDR 1.2 or above.
-         * As of Xorg server 1.3 onwards the Xinerama backend may actually be
-         * a fake one provided by RANDR itself. See Java bug 6636469 for info.
+         * Wf dbn prodffd bs long bs tiis is RANDR 1.2 or bbovf.
+         * As of Xorg sfrvfr 1.3 onwbrds tif Xinfrbmb bbdkfnd mby bdtublly bf
+         * b fbkf onf providfd by RANDR itsflf. Sff Jbvb bug 6636469 for info.
          */
-        if (!(rr_maj_ver > 1 || (rr_maj_ver == 1 && rr_min_ver >= 2))) {
-            J2dRlsTraceLn2(J2D_TRACE_INFO, "X11GD_InitXrandrFuncs: Can't use Xrandr. "
-                           "Xinerama is active and Xrandr version is %d.%d",
-                           rr_maj_ver, rr_min_ver);
-            dlclose(pLibRandR);
-            return JNI_FALSE;
+        if (!(rr_mbj_vfr > 1 || (rr_mbj_vfr == 1 && rr_min_vfr >= 2))) {
+            J2dRlsTrbdfLn2(J2D_TRACE_INFO, "X11GD_InitXrbndrFunds: Cbn't usf Xrbndr. "
+                           "Xinfrbmb is bdtivf bnd Xrbndr vfrsion is %d.%d",
+                           rr_mbj_vfr, rr_min_vfr);
+            dldlosf(pLibRbndR);
+            rfturn JNI_FALSE;
         }
 
         /*
-         * REMIND: Fullscreen mode doesn't work quite right with multi-monitor
-         * setups and RANDR 1.2. So for now we also require a single screen.
+         * REMIND: Fullsdrffn modf dofsn't work quitf rigit witi multi-monitor
+         * sftups bnd RANDR 1.2. So for now wf blso rfquirf b singlf sdrffn.
          */
-        if (awt_numScreens > 1 ) {
-            J2dRlsTraceLn(J2D_TRACE_INFO, "X11GD_InitXrandrFuncs: Can't use Xrandr. "
-                          "Multiple screens in use");
-            dlclose(pLibRandR);
-            return JNI_FALSE;
+        if (bwt_numSdrffns > 1 ) {
+            J2dRlsTrbdfLn(J2D_TRACE_INFO, "X11GD_InitXrbndrFunds: Cbn't usf Xrbndr. "
+                          "Multiplf sdrffns in usf");
+            dldlosf(pLibRbndR);
+            rfturn JNI_FALSE;
         }
     }
 
-    LOAD_XRANDR_FUNC(XRRGetScreenInfo);
-    LOAD_XRANDR_FUNC(XRRFreeScreenConfigInfo);
-    LOAD_XRANDR_FUNC(XRRConfigRates);
-    LOAD_XRANDR_FUNC(XRRConfigCurrentRate);
-    LOAD_XRANDR_FUNC(XRRConfigSizes);
-    LOAD_XRANDR_FUNC(XRRConfigCurrentConfiguration);
-    LOAD_XRANDR_FUNC(XRRSetScreenConfigAndRate);
-    LOAD_XRANDR_FUNC(XRRConfigRotations);
+    LOAD_XRANDR_FUNC(XRRGftSdrffnInfo);
+    LOAD_XRANDR_FUNC(XRRFrffSdrffnConfigInfo);
+    LOAD_XRANDR_FUNC(XRRConfigRbtfs);
+    LOAD_XRANDR_FUNC(XRRConfigCurrfntRbtf);
+    LOAD_XRANDR_FUNC(XRRConfigSizfs);
+    LOAD_XRANDR_FUNC(XRRConfigCurrfntConfigurbtion);
+    LOAD_XRANDR_FUNC(XRRSftSdrffnConfigAndRbtf);
+    LOAD_XRANDR_FUNC(XRRConfigRotbtions);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jobject
-X11GD_CreateDisplayMode(JNIEnv *env, jint width, jint height,
-                        jint bitDepth, jint refreshRate)
+stbtid jobjfdt
+X11GD_CrfbtfDisplbyModf(JNIEnv *fnv, jint widti, jint ifigit,
+                        jint bitDfpti, jint rffrfsiRbtf)
 {
-    jclass displayModeClass;
-    jmethodID cid;
-    jint validRefreshRate = refreshRate;
+    jdlbss displbyModfClbss;
+    jmftiodID did;
+    jint vblidRffrfsiRbtf = rffrfsiRbtf;
 
-    displayModeClass = (*env)->FindClass(env, "java/awt/DisplayMode");
-    CHECK_NULL_RETURN(displayModeClass, NULL);
-    if (JNU_IsNull(env, displayModeClass)) {
-        JNU_ThrowInternalError(env,
-                               "Could not get display mode class");
-        return NULL;
+    displbyModfClbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/DisplbyModf");
+    CHECK_NULL_RETURN(displbyModfClbss, NULL);
+    if (JNU_IsNull(fnv, displbyModfClbss)) {
+        JNU_TirowIntfrnblError(fnv,
+                               "Could not gft displby modf dlbss");
+        rfturn NULL;
     }
 
-    cid = (*env)->GetMethodID(env, displayModeClass, "<init>", "(IIII)V");
-    CHECK_NULL_RETURN(cid, NULL);
-    if (cid == NULL) {
-        JNU_ThrowInternalError(env,
-                               "Could not get display mode constructor");
-        return NULL;
+    did = (*fnv)->GftMftiodID(fnv, displbyModfClbss, "<init>", "(IIII)V");
+    CHECK_NULL_RETURN(did, NULL);
+    if (did == NULL) {
+        JNU_TirowIntfrnblError(fnv,
+                               "Could not gft displby modf donstrudtor");
+        rfturn NULL;
     }
 
-    // early versions of xrandr may report "empty" rates (6880694)
-    if (validRefreshRate <= 0) {
-        validRefreshRate = REFRESH_RATE_UNKNOWN;
+    // fbrly vfrsions of xrbndr mby rfport "fmpty" rbtfs (6880694)
+    if (vblidRffrfsiRbtf <= 0) {
+        vblidRffrfsiRbtf = REFRESH_RATE_UNKNOWN;
     }
 
-    return (*env)->NewObject(env, displayModeClass, cid,
-                             width, height, bitDepth, validRefreshRate);
+    rfturn (*fnv)->NfwObjfdt(fnv, displbyModfClbss, did,
+                             widti, ifigit, bitDfpti, vblidRffrfsiRbtf);
 }
 
-static void
-X11GD_AddDisplayMode(JNIEnv *env, jobject arrayList,
-                     jint width, jint height,
-                     jint bitDepth, jint refreshRate)
+stbtid void
+X11GD_AddDisplbyModf(JNIEnv *fnv, jobjfdt brrbyList,
+                     jint widti, jint ifigit,
+                     jint bitDfpti, jint rffrfsiRbtf)
 {
-    jobject displayMode = X11GD_CreateDisplayMode(env, width, height,
-                                                  bitDepth, refreshRate);
-    if (!JNU_IsNull(env, displayMode)) {
-        jclass arrayListClass;
-        jmethodID mid;
-        arrayListClass = (*env)->GetObjectClass(env, arrayList);
-        if (JNU_IsNull(env, arrayListClass)) {
-            JNU_ThrowInternalError(env,
-                                   "Could not get class java.util.ArrayList");
-            return;
+    jobjfdt displbyModf = X11GD_CrfbtfDisplbyModf(fnv, widti, ifigit,
+                                                  bitDfpti, rffrfsiRbtf);
+    if (!JNU_IsNull(fnv, displbyModf)) {
+        jdlbss brrbyListClbss;
+        jmftiodID mid;
+        brrbyListClbss = (*fnv)->GftObjfdtClbss(fnv, brrbyList);
+        if (JNU_IsNull(fnv, brrbyListClbss)) {
+            JNU_TirowIntfrnblError(fnv,
+                                   "Could not gft dlbss jbvb.util.ArrbyList");
+            rfturn;
         }
-        mid = (*env)->GetMethodID(env, arrayListClass, "add",
-                                  "(Ljava/lang/Object;)Z");
+        mid = (*fnv)->GftMftiodID(fnv, brrbyListClbss, "bdd",
+                                  "(Ljbvb/lbng/Objfdt;)Z");
         CHECK_NULL(mid);
         if (mid == NULL) {
-            JNU_ThrowInternalError(env,
-                "Could not get method java.util.ArrayList.add()");
-            return;
+            JNU_TirowIntfrnblError(fnv,
+                "Could not gft mftiod jbvb.util.ArrbyList.bdd()");
+            rfturn;
         }
-        (*env)->CallObjectMethod(env, arrayList, mid, displayMode);
-        (*env)->DeleteLocalRef(env, displayMode);
+        (*fnv)->CbllObjfdtMftiod(fnv, brrbyList, mid, displbyModf);
+        (*fnv)->DflftfLodblRff(fnv, displbyModf);
     }
 }
 
-static void
-X11GD_SetFullscreenMode(Window win, jboolean enabled)
+stbtid void
+X11GD_SftFullsdrffnModf(Window win, jboolfbn fnbblfd)
 {
-    Atom wmState = XInternAtom(awt_display, "_NET_WM_STATE", False);
-    Atom wmStateFs = XInternAtom(awt_display,
-                                 "_NET_WM_STATE_FULLSCREEN", False);
-    Window root, parent, *children = NULL;
-    unsigned int numchildren;
-    XEvent event;
-    Status status;
+    Atom wmStbtf = XIntfrnAtom(bwt_displby, "_NET_WM_STATE", Fblsf);
+    Atom wmStbtfFs = XIntfrnAtom(bwt_displby,
+                                 "_NET_WM_STATE_FULLSCREEN", Fblsf);
+    Window root, pbrfnt, *diildrfn = NULL;
+    unsignfd int numdiildrfn;
+    XEvfnt fvfnt;
+    Stbtus stbtus;
 
-    if (wmState == None || wmStateFs == None) {
-        return;
+    if (wmStbtf == Nonf || wmStbtfFs == Nonf) {
+        rfturn;
     }
 
     /*
-     * Note: the Window passed to this method is typically the "content
-     * window" of the top-level, but we need the actual shell window for
-     * the purposes of constructing the XEvent.  Therefore, we walk up the
-     * window hierarchy here to find the true top-level.
+     * Notf: tif Window pbssfd to tiis mftiod is typidblly tif "dontfnt
+     * window" of tif top-lfvfl, but wf nffd tif bdtubl sifll window for
+     * tif purposfs of donstrudting tif XEvfnt.  Tifrfforf, wf wblk up tif
+     * window iifrbrdiy ifrf to find tif truf top-lfvfl.
      */
     do {
-        if (!XQueryTree(awt_display, win,
-                        &root, &parent,
-                        &children, &numchildren))
+        if (!XQufryTrff(bwt_displby, win,
+                        &root, &pbrfnt,
+                        &diildrfn, &numdiildrfn))
         {
-            return;
+            rfturn;
         }
 
-        if (children != NULL) {
-            XFree(children);
+        if (diildrfn != NULL) {
+            XFrff(diildrfn);
         }
 
-        if (parent == root) {
-            break;
+        if (pbrfnt == root) {
+            brfbk;
         }
 
-        win = parent;
-    } while (root != parent);
+        win = pbrfnt;
+    } wiilf (root != pbrfnt);
 
-    memset(&event, 0, sizeof(event));
-    event.xclient.type = ClientMessage;
-    event.xclient.message_type = wmState;
-    event.xclient.display = awt_display;
-    event.xclient.window = win;
-    event.xclient.format = 32;
-    event.xclient.data.l[0] = enabled ? 1 : 0; // 1==add, 0==remove
-    event.xclient.data.l[1] = wmStateFs;
+    mfmsft(&fvfnt, 0, sizfof(fvfnt));
+    fvfnt.xdlifnt.typf = ClifntMfssbgf;
+    fvfnt.xdlifnt.mfssbgf_typf = wmStbtf;
+    fvfnt.xdlifnt.displby = bwt_displby;
+    fvfnt.xdlifnt.window = win;
+    fvfnt.xdlifnt.formbt = 32;
+    fvfnt.xdlifnt.dbtb.l[0] = fnbblfd ? 1 : 0; // 1==bdd, 0==rfmovf
+    fvfnt.xdlifnt.dbtb.l[1] = wmStbtfFs;
 
-    XSendEvent(awt_display, root, False,
-               SubstructureRedirectMask | SubstructureNotifyMask,
-               &event);
-    XSync(awt_display, False);
+    XSfndEvfnt(bwt_displby, root, Fblsf,
+               SubstrudturfRfdirfdtMbsk | SubstrudturfNotifyMbsk,
+               &fvfnt);
+    XSynd(bwt_displby, Fblsf);
 }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    initXrandrExtension
- * Signature: ()Z
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    initXrbndrExtfnsion
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_X11GraphicsDevice_initXrandrExtension
-    (JNIEnv *env, jclass x11gd)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_initXrbndrExtfnsion
+    (JNIEnv *fnv, jdlbss x11gd)
 {
-#ifdef HEADLESS
-    return JNI_FALSE;
-#else
-    int opcode = 0, firstEvent = 0, firstError = 0;
-    jboolean ret;
+#ifdff HEADLESS
+    rfturn JNI_FALSE;
+#flsf
+    int opdodf = 0, firstEvfnt = 0, firstError = 0;
+    jboolfbn rft;
 
     AWT_LOCK();
-    ret = (jboolean)XQueryExtension(awt_display, "RANDR",
-                                    &opcode, &firstEvent, &firstError);
-    if (ret) {
-        ret = X11GD_InitXrandrFuncs(env);
+    rft = (jboolfbn)XQufryExtfnsion(bwt_displby, "RANDR",
+                                    &opdodf, &firstEvfnt, &firstError);
+    if (rft) {
+        rft = X11GD_InitXrbndrFunds(fnv);
     }
     AWT_FLUSH_UNLOCK();
 
-    return ret;
-#endif /* HEADLESS */
+    rfturn rft;
+#fndif /* HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    getCurrentDisplayMode
- * Signature: (I)Ljava/awt/DisplayMode;
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    gftCurrfntDisplbyModf
+ * Signbturf: (I)Ljbvb/bwt/DisplbyModf;
  */
-JNIEXPORT jobject JNICALL
-Java_sun_awt_X11GraphicsDevice_getCurrentDisplayMode
-    (JNIEnv* env, jclass x11gd, jint screen)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_gftCurrfntDisplbyModf
+    (JNIEnv* fnv, jdlbss x11gd, jint sdrffn)
 {
-#ifdef HEADLESS
-    return NULL;
-#else
-    XRRScreenConfiguration *config;
-    jobject displayMode = NULL;
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    XRRSdrffnConfigurbtion *donfig;
+    jobjfdt displbyModf = NULL;
 
     AWT_LOCK();
 
-    config = awt_XRRGetScreenInfo(awt_display,
-                                  RootWindow(awt_display, screen));
-    if (config != NULL) {
-        Rotation rotation;
-        short curRate;
-        SizeID curSizeIndex;
-        XRRScreenSize *sizes;
-        int nsizes;
+    donfig = bwt_XRRGftSdrffnInfo(bwt_displby,
+                                  RootWindow(bwt_displby, sdrffn));
+    if (donfig != NULL) {
+        Rotbtion rotbtion;
+        siort durRbtf;
+        SizfID durSizfIndfx;
+        XRRSdrffnSizf *sizfs;
+        int nsizfs;
 
-        curSizeIndex = awt_XRRConfigCurrentConfiguration(config, &rotation);
-        sizes = awt_XRRConfigSizes(config, &nsizes);
-        curRate = awt_XRRConfigCurrentRate(config);
+        durSizfIndfx = bwt_XRRConfigCurrfntConfigurbtion(donfig, &rotbtion);
+        sizfs = bwt_XRRConfigSizfs(donfig, &nsizfs);
+        durRbtf = bwt_XRRConfigCurrfntRbtf(donfig);
 
-        if ((sizes != NULL) &&
-            (curSizeIndex < nsizes))
+        if ((sizfs != NULL) &&
+            (durSizfIndfx < nsizfs))
         {
-            XRRScreenSize curSize = sizes[curSizeIndex];
-            displayMode = X11GD_CreateDisplayMode(env,
-                                                  curSize.width,
-                                                  curSize.height,
+            XRRSdrffnSizf durSizf = sizfs[durSizfIndfx];
+            displbyModf = X11GD_CrfbtfDisplbyModf(fnv,
+                                                  durSizf.widti,
+                                                  durSizf.ifigit,
                                                   BIT_DEPTH_MULTI,
-                                                  curRate);
+                                                  durRbtf);
         }
 
-        awt_XRRFreeScreenConfigInfo(config);
+        bwt_XRRFrffSdrffnConfigInfo(donfig);
     }
 
     AWT_FLUSH_UNLOCK();
 
-    return displayMode;
-#endif /* HEADLESS */
+    rfturn displbyModf;
+#fndif /* HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    enumDisplayModes
- * Signature: (ILjava/util/ArrayList;)V
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    fnumDisplbyModfs
+ * Signbturf: (ILjbvb/util/ArrbyList;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsDevice_enumDisplayModes
-    (JNIEnv* env, jclass x11gd,
-     jint screen, jobject arrayList)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_fnumDisplbyModfs
+    (JNIEnv* fnv, jdlbss x11gd,
+     jint sdrffn, jobjfdt brrbyList)
 {
-#ifndef HEADLESS
-    XRRScreenConfiguration *config;
+#ifndff HEADLESS
+    XRRSdrffnConfigurbtion *donfig;
 
     AWT_LOCK();
 
-    config = awt_XRRGetScreenInfo(awt_display,
-                                  RootWindow(awt_display, screen));
-    if (config != NULL) {
-        int nsizes, i, j;
-        XRRScreenSize *sizes = awt_XRRConfigSizes(config, &nsizes);
+    donfig = bwt_XRRGftSdrffnInfo(bwt_displby,
+                                  RootWindow(bwt_displby, sdrffn));
+    if (donfig != NULL) {
+        int nsizfs, i, j;
+        XRRSdrffnSizf *sizfs = bwt_XRRConfigSizfs(donfig, &nsizfs);
 
-        if (sizes != NULL) {
-            for (i = 0; i < nsizes; i++) {
-                int nrates;
-                XRRScreenSize size = sizes[i];
-                short *rates = awt_XRRConfigRates(config, i, &nrates);
+        if (sizfs != NULL) {
+            for (i = 0; i < nsizfs; i++) {
+                int nrbtfs;
+                XRRSdrffnSizf sizf = sizfs[i];
+                siort *rbtfs = bwt_XRRConfigRbtfs(donfig, i, &nrbtfs);
 
-                for (j = 0; j < nrates; j++) {
-                    X11GD_AddDisplayMode(env, arrayList,
-                                         size.width,
-                                         size.height,
+                for (j = 0; j < nrbtfs; j++) {
+                    X11GD_AddDisplbyModf(fnv, brrbyList,
+                                         sizf.widti,
+                                         sizf.ifigit,
                                          BIT_DEPTH_MULTI,
-                                         rates[j]);
-                    if ((*env)->ExceptionCheck(env)) {
-                        break;
+                                         rbtfs[j]);
+                    if ((*fnv)->ExdfptionCifdk(fnv)) {
+                        brfbk;
                     }
                 }
             }
         }
 
-        awt_XRRFreeScreenConfigInfo(config);
+        bwt_XRRFrffSdrffnConfigInfo(donfig);
     }
 
     AWT_FLUSH_UNLOCK();
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    configDisplayMode
- * Signature: (IIII)V
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    donfigDisplbyModf
+ * Signbturf: (IIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsDevice_configDisplayMode
-    (JNIEnv* env, jclass x11gd,
-     jint screen, jint width, jint height, jint refreshRate)
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_donfigDisplbyModf
+    (JNIEnv* fnv, jdlbss x11gd,
+     jint sdrffn, jint widti, jint ifigit, jint rffrfsiRbtf)
 {
-#ifndef HEADLESS
-    jboolean success = JNI_FALSE;
-    XRRScreenConfiguration *config;
-    Drawable root;
-    Rotation currentRotation = RR_Rotate_0;
+#ifndff HEADLESS
+    jboolfbn suddfss = JNI_FALSE;
+    XRRSdrffnConfigurbtion *donfig;
+    Drbwbblf root;
+    Rotbtion durrfntRotbtion = RR_Rotbtf_0;
 
     AWT_LOCK();
 
-    root = RootWindow(awt_display, screen);
-    config = awt_XRRGetScreenInfo(awt_display, root);
-    if (config != NULL) {
-        jboolean foundConfig = JNI_FALSE;
-        int chosenSizeIndex = -1;
-        short chosenRate = -1;
-        int nsizes;
-        XRRScreenSize *sizes = awt_XRRConfigSizes(config, &nsizes);
-        awt_XRRConfigRotations(config, &currentRotation);
+    root = RootWindow(bwt_displby, sdrffn);
+    donfig = bwt_XRRGftSdrffnInfo(bwt_displby, root);
+    if (donfig != NULL) {
+        jboolfbn foundConfig = JNI_FALSE;
+        int diosfnSizfIndfx = -1;
+        siort diosfnRbtf = -1;
+        int nsizfs;
+        XRRSdrffnSizf *sizfs = bwt_XRRConfigSizfs(donfig, &nsizfs);
+        bwt_XRRConfigRotbtions(donfig, &durrfntRotbtion);
 
-        if (sizes != NULL) {
+        if (sizfs != NULL) {
             int i, j;
 
-            /* find the size index that matches the requested dimensions */
-            for (i = 0; i < nsizes; i++) {
-                XRRScreenSize size = sizes[i];
+            /* find tif sizf indfx tibt mbtdifs tif rfqufstfd dimfnsions */
+            for (i = 0; i < nsizfs; i++) {
+                XRRSdrffnSizf sizf = sizfs[i];
 
-                if ((size.width == width) && (size.height == height)) {
-                    /* we've found our size index... */
-                    int nrates;
-                    short *rates = awt_XRRConfigRates(config, i, &nrates);
+                if ((sizf.widti == widti) && (sizf.ifigit == ifigit)) {
+                    /* wf'vf found our sizf indfx... */
+                    int nrbtfs;
+                    siort *rbtfs = bwt_XRRConfigRbtfs(donfig, i, &nrbtfs);
 
-                    /* now find rate that matches requested refresh rate */
-                    for (j = 0; j < nrates; j++) {
-                        if (rates[j] == refreshRate) {
-                            /* we've found our rate; break out of the loop */
-                            chosenSizeIndex = i;
-                            chosenRate = rates[j];
+                    /* now find rbtf tibt mbtdifs rfqufstfd rffrfsi rbtf */
+                    for (j = 0; j < nrbtfs; j++) {
+                        if (rbtfs[j] == rffrfsiRbtf) {
+                            /* wf'vf found our rbtf; brfbk out of tif loop */
+                            diosfnSizfIndfx = i;
+                            diosfnRbtf = rbtfs[j];
                             foundConfig = JNI_TRUE;
-                            break;
+                            brfbk;
                         }
                     }
 
-                    break;
+                    brfbk;
                 }
             }
         }
 
         if (foundConfig) {
-            Status status =
-                awt_XRRSetScreenConfigAndRate(awt_display, config, root,
-                                              chosenSizeIndex,
-                                              currentRotation,
-                                              chosenRate,
-                                              CurrentTime);
+            Stbtus stbtus =
+                bwt_XRRSftSdrffnConfigAndRbtf(bwt_displby, donfig, root,
+                                              diosfnSizfIndfx,
+                                              durrfntRotbtion,
+                                              diosfnRbtf,
+                                              CurrfntTimf);
 
-            /* issue XSync to ensure immediate mode change */
-            XSync(awt_display, False);
+            /* issuf XSynd to fnsurf immfdibtf modf dibngf */
+            XSynd(bwt_displby, Fblsf);
 
-            if (status == RRSetConfigSuccess) {
-                success = JNI_TRUE;
+            if (stbtus == RRSftConfigSuddfss) {
+                suddfss = JNI_TRUE;
             }
         }
 
-        awt_XRRFreeScreenConfigInfo(config);
+        bwt_XRRFrffSdrffnConfigInfo(donfig);
     }
 
     AWT_FLUSH_UNLOCK();
 
-    if (!success) {
-        JNU_ThrowInternalError(env, "Could not set display mode");
+    if (!suddfss) {
+        JNU_TirowIntfrnblError(fnv, "Could not sft displby modf");
     }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    enterFullScreenExclusive
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    fntfrFullSdrffnExdlusivf
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsDevice_enterFullScreenExclusive
-    (JNIEnv* env, jclass x11gd,
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_fntfrFullSdrffnExdlusivf
+    (JNIEnv* fnv, jdlbss x11gd,
      jlong window)
 {
-#ifndef HEADLESS
+#ifndff HEADLESS
     Window win = (Window)window;
 
     AWT_LOCK();
-    XSync(awt_display, False); /* ensures window is visible first */
-    X11GD_SetFullscreenMode(win, JNI_TRUE);
+    XSynd(bwt_displby, Fblsf); /* fnsurfs window is visiblf first */
+    X11GD_SftFullsdrffnModf(win, JNI_TRUE);
     AWT_UNLOCK();
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_X11GraphicsDevice
- * Method:    exitFullScreenExclusive
- * Signature: (J)V
+ * Clbss:     sun_bwt_X11GrbpiidsDfvidf
+ * Mftiod:    fxitFullSdrffnExdlusivf
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_X11GraphicsDevice_exitFullScreenExclusive
-    (JNIEnv* env, jclass x11gd,
+Jbvb_sun_bwt_X11GrbpiidsDfvidf_fxitFullSdrffnExdlusivf
+    (JNIEnv* fnv, jdlbss x11gd,
      jlong window)
 {
-#ifndef HEADLESS
+#ifndff HEADLESS
     Window win = (Window)window;
 
     AWT_LOCK();
-    X11GD_SetFullscreenMode(win, JNI_FALSE);
+    X11GD_SftFullsdrffnModf(win, JNI_FALSE);
     AWT_UNLOCK();
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /**
- * End DisplayMode/FullScreen support
+ * End DisplbyModf/FullSdrffn support
  */

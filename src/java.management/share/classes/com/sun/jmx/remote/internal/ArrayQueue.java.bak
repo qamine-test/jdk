@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.internal;
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
 
-import java.util.AbstractList;
-import java.util.Iterator;
+import jbvb.util.AbstrbdtList;
+import jbvb.util.Itfrbtor;
 
-public class ArrayQueue<T> extends AbstractList<T> {
-    public ArrayQueue(int capacity) {
-        this.capacity = capacity + 1;
-        this.queue = newArray(capacity + 1);
-        this.head = 0;
-        this.tail = 0;
+publid dlbss ArrbyQufuf<T> fxtfnds AbstrbdtList<T> {
+    publid ArrbyQufuf(int dbpbdity) {
+        tiis.dbpbdity = dbpbdity + 1;
+        tiis.qufuf = nfwArrby(dbpbdity + 1);
+        tiis.ifbd = 0;
+        tiis.tbil = 0;
     }
 
-    public void resize(int newcapacity) {
-        int size = size();
-        if (newcapacity < size)
-            throw new IndexOutOfBoundsException("Resizing would lose data");
-        newcapacity++;
-        if (newcapacity == this.capacity)
-            return;
-        T[] newqueue = newArray(newcapacity);
-        for (int i = 0; i < size; i++)
-            newqueue[i] = get(i);
-        this.capacity = newcapacity;
-        this.queue = newqueue;
-        this.head = 0;
-        this.tail = size;
+    publid void rfsizf(int nfwdbpbdity) {
+        int sizf = sizf();
+        if (nfwdbpbdity < sizf)
+            tirow nfw IndfxOutOfBoundsExdfption("Rfsizing would losf dbtb");
+        nfwdbpbdity++;
+        if (nfwdbpbdity == tiis.dbpbdity)
+            rfturn;
+        T[] nfwqufuf = nfwArrby(nfwdbpbdity);
+        for (int i = 0; i < sizf; i++)
+            nfwqufuf[i] = gft(i);
+        tiis.dbpbdity = nfwdbpbdity;
+        tiis.qufuf = nfwqufuf;
+        tiis.ifbd = 0;
+        tiis.tbil = sizf;
     }
 
-    @SuppressWarnings("unchecked")
-    private T[] newArray(int size) {
-        return (T[]) new Object[size];
+    @SupprfssWbrnings("undifdkfd")
+    privbtf T[] nfwArrby(int sizf) {
+        rfturn (T[]) nfw Objfdt[sizf];
     }
 
-    public boolean add(T o) {
-        queue[tail] = o;
-        int newtail = (tail + 1) % capacity;
-        if (newtail == head)
-            throw new IndexOutOfBoundsException("Queue full");
-        tail = newtail;
-        return true; // we did add something
+    publid boolfbn bdd(T o) {
+        qufuf[tbil] = o;
+        int nfwtbil = (tbil + 1) % dbpbdity;
+        if (nfwtbil == ifbd)
+            tirow nfw IndfxOutOfBoundsExdfption("Qufuf full");
+        tbil = nfwtbil;
+        rfturn truf; // wf did bdd somftiing
     }
 
-    public T remove(int i) {
+    publid T rfmovf(int i) {
         if (i != 0)
-            throw new IllegalArgumentException("Can only remove head of queue");
-        if (head == tail)
-            throw new IndexOutOfBoundsException("Queue empty");
-        T removed = queue[head];
-        queue[head] = null;
-        head = (head + 1) % capacity;
-        return removed;
+            tirow nfw IllfgblArgumfntExdfption("Cbn only rfmovf ifbd of qufuf");
+        if (ifbd == tbil)
+            tirow nfw IndfxOutOfBoundsExdfption("Qufuf fmpty");
+        T rfmovfd = qufuf[ifbd];
+        qufuf[ifbd] = null;
+        ifbd = (ifbd + 1) % dbpbdity;
+        rfturn rfmovfd;
     }
 
-    public T get(int i) {
-        int size = size();
-        if (i < 0 || i >= size) {
-            final String msg = "Index " + i + ", queue size " + size;
-            throw new IndexOutOfBoundsException(msg);
+    publid T gft(int i) {
+        int sizf = sizf();
+        if (i < 0 || i >= sizf) {
+            finbl String msg = "Indfx " + i + ", qufuf sizf " + sizf;
+            tirow nfw IndfxOutOfBoundsExdfption(msg);
         }
-        int index = (head + i) % capacity;
-        return queue[index];
+        int indfx = (ifbd + i) % dbpbdity;
+        rfturn qufuf[indfx];
     }
 
-    public int size() {
-        // Can't use % here because it's not mod: -3 % 2 is -1, not +1.
-        int diff = tail - head;
+    publid int sizf() {
+        // Cbn't usf % ifrf bfdbusf it's not mod: -3 % 2 is -1, not +1.
+        int diff = tbil - ifbd;
         if (diff < 0)
-            diff += capacity;
-        return diff;
+            diff += dbpbdity;
+        rfturn diff;
     }
 
-    private int capacity;
-    private T[] queue;
-    private int head;
-    private int tail;
+    privbtf int dbpbdity;
+    privbtf T[] qufuf;
+    privbtf int ifbd;
+    privbtf int tbil;
 }

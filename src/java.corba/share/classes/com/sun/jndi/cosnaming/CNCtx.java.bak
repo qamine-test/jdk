@@ -1,1158 +1,1158 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.cosnaming;
+pbdkbgf dom.sun.jndi.dosnbming;
 
-import javax.naming.*;
-import javax.naming.spi.NamingManager;
-import javax.naming.spi.ResolveResult;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+import jbvbx.nbming.spi.RfsolvfRfsult;
 
-import java.util.Hashtable;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+import jbvb.util.Hbsitbblf;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
 
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
+import org.omg.CosNbming.*;
+import org.omg.CosNbming.NbmingContfxtPbdkbgf.*;
 import org.omg.CORBA.*;
 
-import com.sun.jndi.toolkit.corba.CorbaUtils;
+import dom.sun.jndi.toolkit.dorbb.CorbbUtils;
 
-// Needed for creating default ORB
-import java.applet.Applet;
+// Nffdfd for drfbting dffbult ORB
+import jbvb.bpplft.Applft;
 
 /**
-  * Provides a bridge to the CosNaming server provided by
-  * JavaIDL. This class provides the InitialContext from CosNaming.
+  * Providfs b bridgf to tif CosNbming sfrvfr providfd by
+  * JbvbIDL. Tiis dlbss providfs tif InitiblContfxt from CosNbming.
   *
-  * @author Raj Krishnamurthy
-  * @author Rosanna Lee
+  * @butior Rbj Krisinbmurtiy
+  * @butior Rosbnnb Lff
   */
 
-public class CNCtx implements javax.naming.Context {
+publid dlbss CNCtx implfmfnts jbvbx.nbming.Contfxt {
 
-    private final static boolean debug = false;
+    privbtf finbl stbtid boolfbn dfbug = fblsf;
 
     /*
-     * Implement one shared ORB among all CNCtx.  However, there is a public constructor
-     * accepting an ORB, so we need the option of using a given ORB.
+     * Implfmfnt onf sibrfd ORB bmong bll CNCtx.  Howfvfr, tifrf is b publid donstrudtor
+     * bddfpting bn ORB, so wf nffd tif option of using b givfn ORB.
      */
-    private static ORB _defaultOrb;
-    ORB _orb;                   // used by ExceptionMapper and RMI/IIOP factory
-    public NamingContext _nc;   // public for accessing underlying NamingContext
+    privbtf stbtid ORB _dffbultOrb;
+    ORB _orb;                   // usfd by ExdfptionMbppfr bnd RMI/IIOP fbdtory
+    publid NbmingContfxt _nd;   // publid for bddfssing undfrlying NbmingContfxt
 
-    private synchronized static ORB getDefaultOrb() {
-        if (_defaultOrb == null) {
-            _defaultOrb = CorbaUtils.getOrb(null, -1,
-               new Hashtable<String, java.lang.Object>());
+    privbtf syndironizfd stbtid ORB gftDffbultOrb() {
+        if (_dffbultOrb == null) {
+            _dffbultOrb = CorbbUtils.gftOrb(null, -1,
+               nfw Hbsitbblf<String, jbvb.lbng.Objfdt>());
         }
-        return _defaultOrb;
+        rfturn _dffbultOrb;
     }
 
-    private NameComponent[] _name = null;
+    privbtf NbmfComponfnt[] _nbmf = null;
 
-    Hashtable<String, java.lang.Object> _env; // used by ExceptionMapper
-    static final CNNameParser parser = new CNNameParser();
+    Hbsitbblf<String, jbvb.lbng.Objfdt> _fnv; // usfd by ExdfptionMbppfr
+    stbtid finbl CNNbmfPbrsfr pbrsfr = nfw CNNbmfPbrsfr();
 
-    private static final String FED_PROP = "com.sun.jndi.cosnaming.federation";
-    boolean federation = false;
+    privbtf stbtid finbl String FED_PROP = "dom.sun.jndi.dosnbming.ffdfrbtion";
+    boolfbn ffdfrbtion = fblsf;
 
-    // Reference counter for tracking _orb references
-    OrbReuseTracker orbTracker = null;
-    int enumCount;
-    boolean isCloseCalled = false;
+    // Rfffrfndf dountfr for trbdking _orb rfffrfndfs
+    OrbRfusfTrbdkfr orbTrbdkfr = null;
+    int fnumCount;
+    boolfbn isClosfCbllfd = fblsf;
 
     /**
-      * Create a CNCtx object. Gets the initial naming
-      * reference for the COS Naming Service from the ORB.
-      * The ORB can be passed in via the java.naming.corba.orb property
-      * or be created using properties in the environment properties.
-      * @param env Environment properties for initializing name service.
-      * @exception NamingException Cannot initialize ORB or naming context.
+      * Crfbtf b CNCtx objfdt. Gfts tif initibl nbming
+      * rfffrfndf for tif COS Nbming Sfrvidf from tif ORB.
+      * Tif ORB dbn bf pbssfd in vib tif jbvb.nbming.dorbb.orb propfrty
+      * or bf drfbtfd using propfrtifs in tif fnvironmfnt propfrtifs.
+      * @pbrbm fnv Environmfnt propfrtifs for initiblizing nbmf sfrvidf.
+      * @fxdfption NbmingExdfption Cbnnot initiblizf ORB or nbming dontfxt.
       */
-    @SuppressWarnings("unchecked")
-    CNCtx(Hashtable<?,?> env) throws NamingException {
-        if (env != null) {
-            env = (Hashtable<?,?>)env.clone();
+    @SupprfssWbrnings("undifdkfd")
+    CNCtx(Hbsitbblf<?,?> fnv) tirows NbmingExdfption {
+        if (fnv != null) {
+            fnv = (Hbsitbblf<?,?>)fnv.dlonf();
         }
-        _env = (Hashtable<String, java.lang.Object>)env;
-        federation = "true".equals(env != null ? env.get(FED_PROP) : null);
-        initOrbAndRootContext(env);
+        _fnv = (Hbsitbblf<String, jbvb.lbng.Objfdt>)fnv;
+        ffdfrbtion = "truf".fqubls(fnv != null ? fnv.gft(FED_PROP) : null);
+        initOrbAndRootContfxt(fnv);
     }
 
-    private CNCtx() {
+    privbtf CNCtx() {
     }
 
     /**
-     * This method is used by the iiop and iiopname URL Context factories.
+     * Tiis mftiod is usfd by tif iiop bnd iiopnbmf URL Contfxt fbdtorifs.
      */
-    @SuppressWarnings("unchecked")
-    public static ResolveResult createUsingURL(String url, Hashtable<?,?> env)
-    throws NamingException {
-        CNCtx ctx = new CNCtx();
-        if (env != null) {
-            env = (Hashtable<?,?>) env.clone();
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid RfsolvfRfsult drfbtfUsingURL(String url, Hbsitbblf<?,?> fnv)
+    tirows NbmingExdfption {
+        CNCtx dtx = nfw CNCtx();
+        if (fnv != null) {
+            fnv = (Hbsitbblf<?,?>) fnv.dlonf();
         }
-        ctx._env = (Hashtable<String, java.lang.Object>)env;
-        String rest = ctx.initUsingUrl(
-            env != null ?
-                (org.omg.CORBA.ORB) env.get("java.naming.corba.orb")
+        dtx._fnv = (Hbsitbblf<String, jbvb.lbng.Objfdt>)fnv;
+        String rfst = dtx.initUsingUrl(
+            fnv != null ?
+                (org.omg.CORBA.ORB) fnv.gft("jbvb.nbming.dorbb.orb")
                 : null,
-            url, env);
+            url, fnv);
 
-        // rest is the INS name
-        // Return the parsed form to prevent subsequent lookup
-        // from parsing the string as a composite name
-        // The caller should be aware that a toString() of the name,
-        // which came from the environment will yield its INS syntax,
-        // rather than a composite syntax
-        return new ResolveResult(ctx, parser.parse(rest));
+        // rfst is tif INS nbmf
+        // Rfturn tif pbrsfd form to prfvfnt subsfqufnt lookup
+        // from pbrsing tif string bs b dompositf nbmf
+        // Tif dbllfr siould bf bwbrf tibt b toString() of tif nbmf,
+        // wiidi dbmf from tif fnvironmfnt will yifld its INS syntbx,
+        // rbtifr tibn b dompositf syntbx
+        rfturn nfw RfsolvfRfsult(dtx, pbrsfr.pbrsf(rfst));
     }
 
     /**
-      * Creates a CNCtx object which supports the javax.naming
-      * apis given a COS Naming Context object.
-      * @param orb The ORB used by this context
-      * @param tracker The ORB reuse tracker for tracking references to the
-      *  orb object
-      * @param nctx The COS NamingContext object associated with this context
-      * @param name The name of this context relative to the root
+      * Crfbtfs b CNCtx objfdt wiidi supports tif jbvbx.nbming
+      * bpis givfn b COS Nbming Contfxt objfdt.
+      * @pbrbm orb Tif ORB usfd by tiis dontfxt
+      * @pbrbm trbdkfr Tif ORB rfusf trbdkfr for trbdking rfffrfndfs to tif
+      *  orb objfdt
+      * @pbrbm ndtx Tif COS NbmingContfxt objfdt bssodibtfd witi tiis dontfxt
+      * @pbrbm nbmf Tif nbmf of tiis dontfxt rflbtivf to tif root
       */
 
-    CNCtx(ORB orb, OrbReuseTracker tracker, NamingContext nctx,
-          Hashtable<String, java.lang.Object> env, NameComponent[]name)
-        throws NamingException {
-            if (orb == null || nctx == null)
-                throw new ConfigurationException(
-                    "Must supply ORB or NamingContext");
+    CNCtx(ORB orb, OrbRfusfTrbdkfr trbdkfr, NbmingContfxt ndtx,
+          Hbsitbblf<String, jbvb.lbng.Objfdt> fnv, NbmfComponfnt[]nbmf)
+        tirows NbmingExdfption {
+            if (orb == null || ndtx == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Must supply ORB or NbmingContfxt");
             if (orb != null) {
                 _orb = orb;
-            } else {
-                _orb = getDefaultOrb();
+            } flsf {
+                _orb = gftDffbultOrb();
             }
-            _nc = nctx;
-            _env = env;
-            _name = name;
-            federation = "true".equals(env != null ? env.get(FED_PROP) : null);
+            _nd = ndtx;
+            _fnv = fnv;
+            _nbmf = nbmf;
+            ffdfrbtion = "truf".fqubls(fnv != null ? fnv.gft(FED_PROP) : null);
     }
 
-    NameComponent[] makeFullName(NameComponent[] child) {
-        if (_name == null || _name.length == 0) {
-            return child;
+    NbmfComponfnt[] mbkfFullNbmf(NbmfComponfnt[] diild) {
+        if (_nbmf == null || _nbmf.lfngti == 0) {
+            rfturn diild;
         }
-        NameComponent[] answer = new NameComponent[_name.length+child.length];
+        NbmfComponfnt[] bnswfr = nfw NbmfComponfnt[_nbmf.lfngti+diild.lfngti];
 
-        // parent
-        System.arraycopy(_name, 0, answer, 0, _name.length);
+        // pbrfnt
+        Systfm.brrbydopy(_nbmf, 0, bnswfr, 0, _nbmf.lfngti);
 
-        // child
-        System.arraycopy(child, 0, answer, _name.length, child.length);
-        return answer;
+        // diild
+        Systfm.brrbydopy(diild, 0, bnswfr, _nbmf.lfngti, diild.lfngti);
+        rfturn bnswfr;
     }
 
 
-    public String getNameInNamespace() throws NamingException {
-        if (_name == null || _name.length == 0) {
-            return "";
+    publid String gftNbmfInNbmfspbdf() tirows NbmingExdfption {
+        if (_nbmf == null || _nbmf.lfngti == 0) {
+            rfturn "";
         }
-        return CNNameParser.cosNameToInsString(_name);
+        rfturn CNNbmfPbrsfr.dosNbmfToInsString(_nbmf);
     }
 
     /**
-     * These are the URL schemes that need to be processed.
-     * IOR and corbaloc URLs can be passed directly to ORB.string_to_object()
+     * Tifsf brf tif URL sdifmfs tibt nffd to bf prodfssfd.
+     * IOR bnd dorbblod URLs dbn bf pbssfd dirfdtly to ORB.string_to_objfdt()
      */
-    private static boolean isCorbaUrl(String url) {
-        return url.startsWith("iiop://")
-            || url.startsWith("iiopname://")
-            || url.startsWith("corbaname:")
+    privbtf stbtid boolfbn isCorbbUrl(String url) {
+        rfturn url.stbrtsWiti("iiop://")
+            || url.stbrtsWiti("iiopnbmf://")
+            || url.stbrtsWiti("dorbbnbmf:")
             ;
     }
 
     /**
-      * Initializes the COS Naming Service.
-      * This method initializes the three instance fields:
-      * _nc : The root naming context.
-      * _orb: The ORB to use for connecting RMI/IIOP stubs and for
-      *       getting the naming context (_nc) if one was not specified
-      *       explicitly via PROVIDER_URL.
-      * _name: The name of the root naming context.
+      * Initiblizfs tif COS Nbming Sfrvidf.
+      * Tiis mftiod initiblizfs tif tirff instbndf fiflds:
+      * _nd : Tif root nbming dontfxt.
+      * _orb: Tif ORB to usf for donnfdting RMI/IIOP stubs bnd for
+      *       gftting tif nbming dontfxt (_nd) if onf wbs not spfdififd
+      *       fxpliditly vib PROVIDER_URL.
+      * _nbmf: Tif nbmf of tif root nbming dontfxt.
       *<p>
-      * _orb is obtained from java.naming.corba.orb if it has been set.
-      * Otherwise, _orb is created using the host/port from PROVIDER_URL
-      * (if it contains an "iiop" or "iiopname" URL), or from initialization
-      * properties specified in env.
+      * _orb is obtbinfd from jbvb.nbming.dorbb.orb if it ibs bffn sft.
+      * Otifrwisf, _orb is drfbtfd using tif iost/port from PROVIDER_URL
+      * (if it dontbins bn "iiop" or "iiopnbmf" URL), or from initiblizbtion
+      * propfrtifs spfdififd in fnv.
       *<p>
-      * _nc is obtained from the IOR stored in PROVIDER_URL if it has been
-      * set and does not contain an "iiop" or "iiopname" URL. It can be
-      * a stringified IOR, "corbaloc" URL, "corbaname" URL,
-      * or a URL (such as file/http/ftp) to a location
-      * containing a stringified IOR. If PROVIDER_URL has not been
-      * set in this way, it is obtained from the result of
-      *     ORB.resolve_initial_reference("NameService");
+      * _nd is obtbinfd from tif IOR storfd in PROVIDER_URL if it ibs bffn
+      * sft bnd dofs not dontbin bn "iiop" or "iiopnbmf" URL. It dbn bf
+      * b stringififd IOR, "dorbblod" URL, "dorbbnbmf" URL,
+      * or b URL (sudi bs filf/ittp/ftp) to b lodbtion
+      * dontbining b stringififd IOR. If PROVIDER_URL ibs not bffn
+      * sft in tiis wby, it is obtbinfd from tif rfsult of
+      *     ORB.rfsolvf_initibl_rfffrfndf("NbmfSfrvidf");
       *<p>
-      * _name is obtained from the "iiop", "iiopname", or "corbaname" URL.
-      * It is the empty name by default.
+      * _nbmf is obtbinfd from tif "iiop", "iiopnbmf", or "dorbbnbmf" URL.
+      * It is tif fmpty nbmf by dffbult.
       *
-      * @param env Environment The possibly null environment.
-      * @exception NamingException When an error occurs while initializing the
-      * ORB or the naming context.
+      * @pbrbm fnv Environmfnt Tif possibly null fnvironmfnt.
+      * @fxdfption NbmingExdfption Wifn bn frror oddurs wiilf initiblizing tif
+      * ORB or tif nbming dontfxt.
       */
-    private void initOrbAndRootContext(Hashtable<?,?> env) throws NamingException {
+    privbtf void initOrbAndRootContfxt(Hbsitbblf<?,?> fnv) tirows NbmingExdfption {
         org.omg.CORBA.ORB inOrb = null;
-        String ncIor = null;
+        String ndIor = null;
 
-        if (inOrb == null && env != null) {
-            inOrb = (org.omg.CORBA.ORB) env.get("java.naming.corba.orb");
+        if (inOrb == null && fnv != null) {
+            inOrb = (org.omg.CORBA.ORB) fnv.gft("jbvb.nbming.dorbb.orb");
         }
 
         if (inOrb == null)
-            inOrb = getDefaultOrb(); // will create a default ORB if none exists
+            inOrb = gftDffbultOrb(); // will drfbtf b dffbult ORB if nonf fxists
 
-        // Extract PROVIDER_URL from environment
+        // Extrbdt PROVIDER_URL from fnvironmfnt
         String provUrl = null;
-        if (env != null) {
-            provUrl = (String)env.get(javax.naming.Context.PROVIDER_URL);
+        if (fnv != null) {
+            provUrl = (String)fnv.gft(jbvbx.nbming.Contfxt.PROVIDER_URL);
         }
 
-        if (provUrl != null && !isCorbaUrl(provUrl)) {
-            // Initialize the root naming context by using the IOR supplied
-            // in the PROVIDER_URL
-            ncIor = getStringifiedIor(provUrl);
-            setOrbAndRootContext(inOrb, ncIor);
-        } else if (provUrl != null) {
-            // Initialize the root naming context by using the URL supplied
-            // in the PROVIDER_URL
-            String insName = initUsingUrl(inOrb, provUrl, env);
+        if (provUrl != null && !isCorbbUrl(provUrl)) {
+            // Initiblizf tif root nbming dontfxt by using tif IOR supplifd
+            // in tif PROVIDER_URL
+            ndIor = gftStringififdIor(provUrl);
+            sftOrbAndRootContfxt(inOrb, ndIor);
+        } flsf if (provUrl != null) {
+            // Initiblizf tif root nbming dontfxt by using tif URL supplifd
+            // in tif PROVIDER_URL
+            String insNbmf = initUsingUrl(inOrb, provUrl, fnv);
 
-            // If name supplied in URL, resolve it to a NamingContext
-            if (insName.length() > 0) {
-                _name = CNNameParser.nameToCosName(parser.parse(insName));
+            // If nbmf supplifd in URL, rfsolvf it to b NbmingContfxt
+            if (insNbmf.lfngti() > 0) {
+                _nbmf = CNNbmfPbrsfr.nbmfToCosNbmf(pbrsfr.pbrsf(insNbmf));
                 try {
-                    org.omg.CORBA.Object obj = _nc.resolve(_name);
-                    _nc = NamingContextHelper.narrow(obj);
-                    if (_nc == null) {
-                        throw new ConfigurationException(insName +
-                            " does not name a NamingContext");
+                    org.omg.CORBA.Objfdt obj = _nd.rfsolvf(_nbmf);
+                    _nd = NbmingContfxtHflpfr.nbrrow(obj);
+                    if (_nd == null) {
+                        tirow nfw ConfigurbtionExdfption(insNbmf +
+                            " dofs not nbmf b NbmingContfxt");
                     }
-                } catch (org.omg.CORBA.BAD_PARAM e) {
-                    throw new ConfigurationException(insName +
-                        " does not name a NamingContext");
-                } catch (Exception e) {
-                    throw ExceptionMapper.mapException(e, this, _name);
+                } dbtdi (org.omg.CORBA.BAD_PARAM f) {
+                    tirow nfw ConfigurbtionExdfption(insNbmf +
+                        " dofs not nbmf b NbmingContfxt");
+                } dbtdi (Exdfption f) {
+                    tirow ExdfptionMbppfr.mbpExdfption(f, tiis, _nbmf);
                 }
             }
-        } else {
-            // No PROVIDER_URL supplied; initialize using defaults
-            if (debug) {
-                System.err.println("Getting default ORB: " + inOrb + env);
+        } flsf {
+            // No PROVIDER_URL supplifd; initiblizf using dffbults
+            if (dfbug) {
+                Systfm.frr.println("Gftting dffbult ORB: " + inOrb + fnv);
             }
-            setOrbAndRootContext(inOrb, (String)null);
+            sftOrbAndRootContfxt(inOrb, (String)null);
         }
     }
 
 
-    private String initUsingUrl(ORB orb, String url, Hashtable<?,?> env)
-        throws NamingException {
-        if (url.startsWith("iiop://") || url.startsWith("iiopname://")) {
-            return initUsingIiopUrl(orb, url, env);
-        } else {
-            return initUsingCorbanameUrl(orb, url, env);
+    privbtf String initUsingUrl(ORB orb, String url, Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption {
+        if (url.stbrtsWiti("iiop://") || url.stbrtsWiti("iiopnbmf://")) {
+            rfturn initUsingIiopUrl(orb, url, fnv);
+        } flsf {
+            rfturn initUsingCorbbnbmfUrl(orb, url, fnv);
         }
     }
 
     /**
-     * Handles "iiop" and "iiopname" URLs (INS 98-10-11)
+     * Hbndlfs "iiop" bnd "iiopnbmf" URLs (INS 98-10-11)
      */
-    private String initUsingIiopUrl(ORB defOrb, String url, Hashtable<?,?> env)
-        throws NamingException {
+    privbtf String initUsingIiopUrl(ORB dffOrb, String url, Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption {
 
-        if (defOrb == null)
-            defOrb = getDefaultOrb();
+        if (dffOrb == null)
+            dffOrb = gftDffbultOrb();
 
         try {
-            IiopUrl parsedUrl = new IiopUrl(url);
+            IiopUrl pbrsfdUrl = nfw IiopUrl(url);
 
-            NamingException savedException = null;
+            NbmingExdfption sbvfdExdfption = null;
 
-            for (IiopUrl.Address addr : parsedUrl.getAddresses()) {
+            for (IiopUrl.Addrfss bddr : pbrsfdUrl.gftAddrfssfs()) {
 
                 try {
                     try {
-                        String tmpUrl = "corbaloc:iiop:" + addr.host
-                            + ":" + addr.port + "/NameService";
-                        if (debug) {
-                            System.err.println("Using url: " + tmpUrl);
+                        String tmpUrl = "dorbblod:iiop:" + bddr.iost
+                            + ":" + bddr.port + "/NbmfSfrvidf";
+                        if (dfbug) {
+                            Systfm.frr.println("Using url: " + tmpUrl);
                         }
-                        org.omg.CORBA.Object rootCtx =
-                            defOrb.string_to_object(tmpUrl);
-                        setOrbAndRootContext(defOrb, rootCtx);
-                        return parsedUrl.getStringName();
-                    } catch (Exception e) {} // keep going
+                        org.omg.CORBA.Objfdt rootCtx =
+                            dffOrb.string_to_objfdt(tmpUrl);
+                        sftOrbAndRootContfxt(dffOrb, rootCtx);
+                        rfturn pbrsfdUrl.gftStringNbmf();
+                    } dbtdi (Exdfption f) {} // kffp going
 
-                    // Get ORB
-                    if (debug) {
-                        System.err.println("Getting ORB for " + addr.host
-                            + " and port " + addr.port);
+                    // Gft ORB
+                    if (dfbug) {
+                        Systfm.frr.println("Gftting ORB for " + bddr.iost
+                            + " bnd port " + bddr.port);
                     }
 
-                    // Assign to fields
-                    setOrbAndRootContext(defOrb, (String)null);
-                    return parsedUrl.getStringName();
+                    // Assign to fiflds
+                    sftOrbAndRootContfxt(dffOrb, (String)null);
+                    rfturn pbrsfdUrl.gftStringNbmf();
 
-                } catch (NamingException ne) {
-                    savedException = ne;
+                } dbtdi (NbmingExdfption nf) {
+                    sbvfdExdfption = nf;
                 }
             }
-            if (savedException != null) {
-                throw savedException;
-            } else {
-                throw new ConfigurationException("Problem with URL: " + url);
+            if (sbvfdExdfption != null) {
+                tirow sbvfdExdfption;
+            } flsf {
+                tirow nfw ConfigurbtionExdfption("Problfm witi URL: " + url);
             }
-        } catch (MalformedURLException e) {
-            throw new ConfigurationException(e.getMessage());
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw ConfigurbtionExdfption(f.gftMfssbgf());
         }
     }
 
     /**
-     * Initializes using "corbaname" URL (INS 99-12-03)
+     * Initiblizfs using "dorbbnbmf" URL (INS 99-12-03)
      */
-    private String initUsingCorbanameUrl(ORB orb, String url, Hashtable<?,?> env)
-        throws NamingException {
+    privbtf String initUsingCorbbnbmfUrl(ORB orb, String url, Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption {
 
         if (orb == null)
-                orb = getDefaultOrb();
+                orb = gftDffbultOrb();
 
         try {
-            CorbanameUrl parsedUrl = new CorbanameUrl(url);
+            CorbbnbmfUrl pbrsfdUrl = nfw CorbbnbmfUrl(url);
 
-            String corbaloc = parsedUrl.getLocation();
-            String cosName = parsedUrl.getStringName();
+            String dorbblod = pbrsfdUrl.gftLodbtion();
+            String dosNbmf = pbrsfdUrl.gftStringNbmf();
 
-            setOrbAndRootContext(orb, corbaloc);
+            sftOrbAndRootContfxt(orb, dorbblod);
 
-            return parsedUrl.getStringName();
-        } catch (MalformedURLException e) {
-            throw new ConfigurationException(e.getMessage());
+            rfturn pbrsfdUrl.gftStringNbmf();
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw ConfigurbtionExdfption(f.gftMfssbgf());
         }
     }
 
-    private void setOrbAndRootContext(ORB orb, String ncIor)
-        throws NamingException {
+    privbtf void sftOrbAndRootContfxt(ORB orb, String ndIor)
+        tirows NbmingExdfption {
         _orb = orb;
         try {
-            org.omg.CORBA.Object ncRef;
-            if (ncIor != null) {
-                if (debug) {
-                    System.err.println("Passing to string_to_object: " + ncIor);
+            org.omg.CORBA.Objfdt ndRff;
+            if (ndIor != null) {
+                if (dfbug) {
+                    Systfm.frr.println("Pbssing to string_to_objfdt: " + ndIor);
                 }
-                ncRef = _orb.string_to_object(ncIor);
-            } else {
-                ncRef = _orb.resolve_initial_references("NameService");
+                ndRff = _orb.string_to_objfdt(ndIor);
+            } flsf {
+                ndRff = _orb.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf");
             }
-            if (debug) {
-                System.err.println("Naming Context Ref: " + ncRef);
+            if (dfbug) {
+                Systfm.frr.println("Nbming Contfxt Rff: " + ndRff);
             }
-            _nc = NamingContextHelper.narrow(ncRef);
-            if (_nc == null) {
-                if (ncIor != null) {
-                    throw new ConfigurationException(
-                        "Cannot convert IOR to a NamingContext: " + ncIor);
-                } else {
-                    throw new ConfigurationException(
-"ORB.resolve_initial_references(\"NameService\") does not return a NamingContext");
+            _nd = NbmingContfxtHflpfr.nbrrow(ndRff);
+            if (_nd == null) {
+                if (ndIor != null) {
+                    tirow nfw ConfigurbtionExdfption(
+                        "Cbnnot donvfrt IOR to b NbmingContfxt: " + ndIor);
+                } flsf {
+                    tirow nfw ConfigurbtionExdfption(
+"ORB.rfsolvf_initibl_rfffrfndfs(\"NbmfSfrvidf\") dofs not rfturn b NbmingContfxt");
                 }
             }
-        } catch (org.omg.CORBA.ORBPackage.InvalidName in) {
-            NamingException ne =
-                new ConfigurationException(
-"COS Name Service not registered with ORB under the name 'NameService'");
-            ne.setRootCause(in);
-            throw ne;
-        } catch (org.omg.CORBA.COMM_FAILURE e) {
-            NamingException ne =
-                new CommunicationException("Cannot connect to ORB");
-            ne.setRootCause(e);
-            throw ne;
-        } catch (org.omg.CORBA.BAD_PARAM e) {
-            NamingException ne = new ConfigurationException(
-                "Invalid URL or IOR: " + ncIor);
-            ne.setRootCause(e);
-            throw ne;
-        } catch (org.omg.CORBA.INV_OBJREF e) {
-            NamingException ne = new ConfigurationException(
-                "Invalid object reference: " + ncIor);
-            ne.setRootCause(e);
-            throw ne;
+        } dbtdi (org.omg.CORBA.ORBPbdkbgf.InvblidNbmf in) {
+            NbmingExdfption nf =
+                nfw ConfigurbtionExdfption(
+"COS Nbmf Sfrvidf not rfgistfrfd witi ORB undfr tif nbmf 'NbmfSfrvidf'");
+            nf.sftRootCbusf(in);
+            tirow nf;
+        } dbtdi (org.omg.CORBA.COMM_FAILURE f) {
+            NbmingExdfption nf =
+                nfw CommunidbtionExdfption("Cbnnot donnfdt to ORB");
+            nf.sftRootCbusf(f);
+            tirow nf;
+        } dbtdi (org.omg.CORBA.BAD_PARAM f) {
+            NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                "Invblid URL or IOR: " + ndIor);
+            nf.sftRootCbusf(f);
+            tirow nf;
+        } dbtdi (org.omg.CORBA.INV_OBJREF f) {
+            NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                "Invblid objfdt rfffrfndf: " + ndIor);
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
     }
 
-    private void setOrbAndRootContext(ORB orb, org.omg.CORBA.Object ncRef)
-        throws NamingException {
+    privbtf void sftOrbAndRootContfxt(ORB orb, org.omg.CORBA.Objfdt ndRff)
+        tirows NbmingExdfption {
         _orb = orb;
         try {
-            _nc = NamingContextHelper.narrow(ncRef);
-            if (_nc == null) {
-                throw new ConfigurationException(
-                    "Cannot convert object reference to NamingContext: " + ncRef);
+            _nd = NbmingContfxtHflpfr.nbrrow(ndRff);
+            if (_nd == null) {
+                tirow nfw ConfigurbtionExdfption(
+                    "Cbnnot donvfrt objfdt rfffrfndf to NbmingContfxt: " + ndRff);
             }
-        } catch (org.omg.CORBA.COMM_FAILURE e) {
-            NamingException ne =
-                new CommunicationException("Cannot connect to ORB");
-            ne.setRootCause(e);
-            throw ne;
+        } dbtdi (org.omg.CORBA.COMM_FAILURE f) {
+            NbmingExdfption nf =
+                nfw CommunidbtionExdfption("Cbnnot donnfdt to ORB");
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
     }
 
-    private String getStringifiedIor(String url) throws NamingException {
-        if (url.startsWith("IOR:") || url.startsWith("corbaloc:")) {
-            return url;
-        } else {
-            InputStream in = null;
+    privbtf String gftStringififdIor(String url) tirows NbmingExdfption {
+        if (url.stbrtsWiti("IOR:") || url.stbrtsWiti("dorbblod:")) {
+            rfturn url;
+        } flsf {
+            InputStrfbm in = null;
             try {
-                URL u = new URL(url);
-                in = u.openStream();
+                URL u = nfw URL(url);
+                in = u.opfnStrfbm();
                 if (in != null) {
-                    BufferedReader bufin =
-                        new BufferedReader(new InputStreamReader(in, "8859_1"));
+                    BufffrfdRfbdfr bufin =
+                        nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in, "8859_1"));
                     String str;
-                    while ((str = bufin.readLine()) != null) {
-                        if (str.startsWith("IOR:")) {
-                            return str;
+                    wiilf ((str = bufin.rfbdLinf()) != null) {
+                        if (str.stbrtsWiti("IOR:")) {
+                            rfturn str;
                         }
                     }
                 }
-            } catch (IOException e) {
-                NamingException ne =
-                    new ConfigurationException("Invalid URL: " + url);
-                ne.setRootCause(e);
-                throw ne;
-            } finally {
+            } dbtdi (IOExdfption f) {
+                NbmingExdfption nf =
+                    nfw ConfigurbtionExdfption("Invblid URL: " + url);
+                nf.sftRootCbusf(f);
+                tirow nf;
+            } finblly {
                 try {
                     if (in != null) {
-                        in.close();
+                        in.dlosf();
                     }
-                } catch (IOException e) {
-                    NamingException ne =
-                        new ConfigurationException("Invalid URL: " + url);
-                    ne.setRootCause(e);
-                    throw ne;
+                } dbtdi (IOExdfption f) {
+                    NbmingExdfption nf =
+                        nfw ConfigurbtionExdfption("Invblid URL: " + url);
+                    nf.sftRootCbusf(f);
+                    tirow nf;
                 }
             }
-            throw new ConfigurationException(url + " does not contain an IOR");
+            tirow nfw ConfigurbtionExdfption(url + " dofs not dontbin bn IOR");
         }
     }
 
 
     /**
-      * Does the job of calling the COS Naming API,
-      * resolve, and performs the exception mapping. If the resolved
-      * object is a COS Naming Context (sub-context), then this function
-      * returns a new JNDI naming context object.
-      * @param path the NameComponent[] object.
-      * @exception NotFound No objects under the name.
-      * @exception CannotProceed Unable to obtain a continuation context
-      * @exception InvalidName Name not understood.
-      * @return Resolved object returned by the COS Name Server.
+      * Dofs tif job of dblling tif COS Nbming API,
+      * rfsolvf, bnd pfrforms tif fxdfption mbpping. If tif rfsolvfd
+      * objfdt is b COS Nbming Contfxt (sub-dontfxt), tifn tiis fundtion
+      * rfturns b nfw JNDI nbming dontfxt objfdt.
+      * @pbrbm pbti tif NbmfComponfnt[] objfdt.
+      * @fxdfption NotFound No objfdts undfr tif nbmf.
+      * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+      * @fxdfption InvblidNbmf Nbmf not undfrstood.
+      * @rfturn Rfsolvfd objfdt rfturnfd by tif COS Nbmf Sfrvfr.
       */
-    java.lang.Object callResolve(NameComponent[] path)
-        throws NamingException {
+    jbvb.lbng.Objfdt dbllRfsolvf(NbmfComponfnt[] pbti)
+        tirows NbmingExdfption {
             try {
-                org.omg.CORBA.Object obj = _nc.resolve(path);
+                org.omg.CORBA.Objfdt obj = _nd.rfsolvf(pbti);
                 try {
-                    NamingContext nc =
-                        NamingContextHelper.narrow(obj);
-                    if (nc != null) {
-                        return new CNCtx(_orb, orbTracker, nc, _env,
-                                        makeFullName(path));
-                    } else {
-                        return obj;
+                    NbmingContfxt nd =
+                        NbmingContfxtHflpfr.nbrrow(obj);
+                    if (nd != null) {
+                        rfturn nfw CNCtx(_orb, orbTrbdkfr, nd, _fnv,
+                                        mbkfFullNbmf(pbti));
+                    } flsf {
+                        rfturn obj;
                     }
-                } catch (org.omg.CORBA.SystemException e) {
-                    return obj;
+                } dbtdi (org.omg.CORBA.SystfmExdfption f) {
+                    rfturn obj;
                 }
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, path);
+            } dbtdi (Exdfption f) {
+                tirow ExdfptionMbppfr.mbpExdfption(f, tiis, pbti);
             }
     }
 
     /**
-      * Converts the "String" name into a CompositeName
-      * returns the object resolved by the COS Naming api,
-      * resolve. Returns the current context if the name is empty.
-      * Returns either an org.omg.CORBA.Object or javax.naming.Context object.
-      * @param name string used to resolve the object.
-      * @exception NamingException See callResolve.
-      * @return the resolved object
+      * Convfrts tif "String" nbmf into b CompositfNbmf
+      * rfturns tif objfdt rfsolvfd by tif COS Nbming bpi,
+      * rfsolvf. Rfturns tif durrfnt dontfxt if tif nbmf is fmpty.
+      * Rfturns fitifr bn org.omg.CORBA.Objfdt or jbvbx.nbming.Contfxt objfdt.
+      * @pbrbm nbmf string usfd to rfsolvf tif objfdt.
+      * @fxdfption NbmingExdfption Sff dbllRfsolvf.
+      * @rfturn tif rfsolvfd objfdt
       */
-    public java.lang.Object lookup(String name) throws NamingException {
-        if (debug) {
-            System.out.println("Looking up: " + name);
+    publid jbvb.lbng.Objfdt lookup(String nbmf) tirows NbmingExdfption {
+        if (dfbug) {
+            Systfm.out.println("Looking up: " + nbmf);
         }
-        return lookup(new CompositeName(name));
+        rfturn lookup(nfw CompositfNbmf(nbmf));
     }
 
     /**
-      * Converts the "Name" name into a NameComponent[] object and
-      * returns the object resolved by the COS Naming api,
-      * resolve. Returns the current context if the name is empty.
-      * Returns either an org.omg.CORBA.Object or javax.naming.Context object.
-      * @param name JNDI Name used to resolve the object.
-      * @exception NamingException See callResolve.
-      * @return the resolved object
+      * Convfrts tif "Nbmf" nbmf into b NbmfComponfnt[] objfdt bnd
+      * rfturns tif objfdt rfsolvfd by tif COS Nbming bpi,
+      * rfsolvf. Rfturns tif durrfnt dontfxt if tif nbmf is fmpty.
+      * Rfturns fitifr bn org.omg.CORBA.Objfdt or jbvbx.nbming.Contfxt objfdt.
+      * @pbrbm nbmf JNDI Nbmf usfd to rfsolvf tif objfdt.
+      * @fxdfption NbmingExdfption Sff dbllRfsolvf.
+      * @rfturn tif rfsolvfd objfdt
       */
-    public java.lang.Object lookup(Name name)
-        throws NamingException {
-            if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
-            if (name.size() == 0 )
-                return this; // %%% should clone() so that env can be changed
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+    publid jbvb.lbng.Objfdt lookup(Nbmf nbmf)
+        tirows NbmingExdfption {
+            if (_nd == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not ibvf b dorrfsponding NbmingContfxt");
+            if (nbmf.sizf() == 0 )
+                rfturn tiis; // %%% siould dlonf() so tibt fnv dbn bf dibngfd
+            NbmfComponfnt[] pbti = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
 
             try {
-                java.lang.Object answer = callResolve(path);
+                jbvb.lbng.Objfdt bnswfr = dbllRfsolvf(pbti);
 
                 try {
-                    return NamingManager.getObjectInstance(answer, name, this, _env);
-                } catch (NamingException e) {
-                    throw e;
-                } catch (Exception e) {
-                    NamingException ne = new NamingException(
-                        "problem generating object using object factory");
-                    ne.setRootCause(e);
-                    throw ne;
+                    rfturn NbmingMbnbgfr.gftObjfdtInstbndf(bnswfr, nbmf, tiis, _fnv);
+                } dbtdi (NbmingExdfption f) {
+                    tirow f;
+                } dbtdi (Exdfption f) {
+                    NbmingExdfption nf = nfw NbmingExdfption(
+                        "problfm gfnfrbting objfdt using objfdt fbdtory");
+                    nf.sftRootCbusf(f);
+                    tirow nf;
                 }
-            } catch (CannotProceedException cpe) {
-                javax.naming.Context cctx = getContinuationContext(cpe);
-                return cctx.lookup(cpe.getRemainingName());
+            } dbtdi (CbnnotProdffdExdfption dpf) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(dpf);
+                rfturn ddtx.lookup(dpf.gftRfmbiningNbmf());
             }
     }
 
     /**
-      * Performs bind or rebind in the context depending on whether the
-      * flag rebind is set. The only objects allowed to be bound are of
-      * types org.omg.CORBA.Object, org.omg.CosNaming.NamingContext.
-      * You can use a state factory to turn other objects (such as
-      * Remote) into these acceptable forms.
+      * Pfrforms bind or rfbind in tif dontfxt dfpfnding on wiftifr tif
+      * flbg rfbind is sft. Tif only objfdts bllowfd to bf bound brf of
+      * typfs org.omg.CORBA.Objfdt, org.omg.CosNbming.NbmingContfxt.
+      * You dbn usf b stbtf fbdtory to turn otifr objfdts (sudi bs
+      * Rfmotf) into tifsf bddfptbblf forms.
       *
-      * Uses the COS Naming apis bind/rebind or
-      * bind_context/rebind_context.
-      * @param pth NameComponent[] object
-      * @param obj Object to be bound.
-      * @param rebind perform rebind ? if true performs a rebind.
-      * @exception NotFound No objects under the name.
-      * @exception CannotProceed Unable to obtain a continuation context
-      * @exception AlreadyBound An object is already bound to this name.
+      * Usfs tif COS Nbming bpis bind/rfbind or
+      * bind_dontfxt/rfbind_dontfxt.
+      * @pbrbm pti NbmfComponfnt[] objfdt
+      * @pbrbm obj Objfdt to bf bound.
+      * @pbrbm rfbind pfrform rfbind ? if truf pfrforms b rfbind.
+      * @fxdfption NotFound No objfdts undfr tif nbmf.
+      * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+      * @fxdfption AlrfbdyBound An objfdt is blrfbdy bound to tiis nbmf.
       */
-    private void callBindOrRebind(NameComponent[] pth, Name name,
-        java.lang.Object obj, boolean rebind) throws NamingException {
-            if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
+    privbtf void dbllBindOrRfbind(NbmfComponfnt[] pti, Nbmf nbmf,
+        jbvb.lbng.Objfdt obj, boolfbn rfbind) tirows NbmingExdfption {
+            if (_nd == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not ibvf b dorrfsponding NbmingContfxt");
             try {
-                // Call state factories to convert
-                obj = NamingManager.getStateToBind(obj, name, this, _env);
+                // Cbll stbtf fbdtorifs to donvfrt
+                obj = NbmingMbnbgfr.gftStbtfToBind(obj, nbmf, tiis, _fnv);
 
-                if (obj instanceof CNCtx) {
-                    // Use naming context object reference
-                    obj = ((CNCtx)obj)._nc;
+                if (obj instbndfof CNCtx) {
+                    // Usf nbming dontfxt objfdt rfffrfndf
+                    obj = ((CNCtx)obj)._nd;
                 }
 
-                if ( obj instanceof org.omg.CosNaming.NamingContext) {
-                    NamingContext nobj =
-                        NamingContextHelper.narrow((org.omg.CORBA.Object)obj);
-                    if (rebind)
-                        _nc.rebind_context(pth,nobj);
-                    else
-                        _nc.bind_context(pth,nobj);
+                if ( obj instbndfof org.omg.CosNbming.NbmingContfxt) {
+                    NbmingContfxt nobj =
+                        NbmingContfxtHflpfr.nbrrow((org.omg.CORBA.Objfdt)obj);
+                    if (rfbind)
+                        _nd.rfbind_dontfxt(pti,nobj);
+                    flsf
+                        _nd.bind_dontfxt(pti,nobj);
 
-                } else if (obj instanceof org.omg.CORBA.Object) {
-                    if (rebind)
-                        _nc.rebind(pth,(org.omg.CORBA.Object)obj);
-                    else
-                        _nc.bind(pth,(org.omg.CORBA.Object)obj);
+                } flsf if (obj instbndfof org.omg.CORBA.Objfdt) {
+                    if (rfbind)
+                        _nd.rfbind(pti,(org.omg.CORBA.Objfdt)obj);
+                    flsf
+                        _nd.bind(pti,(org.omg.CORBA.Objfdt)obj);
                 }
-                else
-                    throw new IllegalArgumentException(
-                "Only instances of org.omg.CORBA.Object can be bound");
-            } catch (BAD_PARAM e) {
-                // probably narrow() failed?
-                NamingException ne = new NotContextException(name.toString());
-                ne.setRootCause(e);
-                throw ne;
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, pth);
+                flsf
+                    tirow nfw IllfgblArgumfntExdfption(
+                "Only instbndfs of org.omg.CORBA.Objfdt dbn bf bound");
+            } dbtdi (BAD_PARAM f) {
+                // probbbly nbrrow() fbilfd?
+                NbmingExdfption nf = nfw NotContfxtExdfption(nbmf.toString());
+                nf.sftRootCbusf(f);
+                tirow nf;
+            } dbtdi (Exdfption f) {
+                tirow ExdfptionMbppfr.mbpExdfption(f, tiis, pti);
             }
     }
 
     /**
-      * Converts the "Name" name into a NameComponent[] object and
-      * performs the bind operation. Uses callBindOrRebind. Throws an
-      * invalid name exception if the name is empty. We need a name to
-      * bind the object even when we work within the current context.
-      * @param name JNDI Name object
-      * @param obj Object to be bound.
-      * @exception NamingException See callBindOrRebind
+      * Convfrts tif "Nbmf" nbmf into b NbmfComponfnt[] objfdt bnd
+      * pfrforms tif bind opfrbtion. Usfs dbllBindOrRfbind. Tirows bn
+      * invblid nbmf fxdfption if tif nbmf is fmpty. Wf nffd b nbmf to
+      * bind tif objfdt fvfn wifn wf work witiin tif durrfnt dontfxt.
+      * @pbrbm nbmf JNDI Nbmf objfdt
+      * @pbrbm obj Objfdt to bf bound.
+      * @fxdfption NbmingExdfption Sff dbllBindOrRfbind
       */
-    public  void bind(Name name, java.lang.Object obj)
-        throws NamingException {
-            if (name.size() == 0 ) {
-                throw new InvalidNameException("Name is empty");
+    publid  void bind(Nbmf nbmf, jbvb.lbng.Objfdt obj)
+        tirows NbmingExdfption {
+            if (nbmf.sizf() == 0 ) {
+                tirow nfw InvblidNbmfExdfption("Nbmf is fmpty");
             }
 
-            if (debug) {
-                System.out.println("Bind: " + name);
+            if (dfbug) {
+                Systfm.out.println("Bind: " + nbmf);
             }
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+            NbmfComponfnt[] pbti = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
 
             try {
-                callBindOrRebind(path, name, obj, false);
-            } catch (CannotProceedException e) {
-                javax.naming.Context cctx = getContinuationContext(e);
-                cctx.bind(e.getRemainingName(), obj);
+                dbllBindOrRfbind(pbti, nbmf, obj, fblsf);
+            } dbtdi (CbnnotProdffdExdfption f) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                ddtx.bind(f.gftRfmbiningNbmf(), obj);
             }
     }
 
-    static private javax.naming.Context
-        getContinuationContext(CannotProceedException cpe)
-        throws NamingException {
+    stbtid privbtf jbvbx.nbming.Contfxt
+        gftContinubtionContfxt(CbnnotProdffdExdfption dpf)
+        tirows NbmingExdfption {
         try {
-            return NamingManager.getContinuationContext(cpe);
-        } catch (CannotProceedException e) {
-            java.lang.Object resObj = e.getResolvedObj();
-            if (resObj instanceof Reference) {
-                Reference ref = (Reference)resObj;
-                RefAddr addr = ref.get("nns");
-                if (addr.getContent() instanceof javax.naming.Context) {
-                    NamingException ne = new NameNotFoundException(
-                        "No object reference bound for specified name");
-                    ne.setRootCause(cpe.getRootCause());
-                    ne.setRemainingName(cpe.getRemainingName());
-                    throw ne;
+            rfturn NbmingMbnbgfr.gftContinubtionContfxt(dpf);
+        } dbtdi (CbnnotProdffdExdfption f) {
+            jbvb.lbng.Objfdt rfsObj = f.gftRfsolvfdObj();
+            if (rfsObj instbndfof Rfffrfndf) {
+                Rfffrfndf rff = (Rfffrfndf)rfsObj;
+                RffAddr bddr = rff.gft("nns");
+                if (bddr.gftContfnt() instbndfof jbvbx.nbming.Contfxt) {
+                    NbmingExdfption nf = nfw NbmfNotFoundExdfption(
+                        "No objfdt rfffrfndf bound for spfdififd nbmf");
+                    nf.sftRootCbusf(dpf.gftRootCbusf());
+                    nf.sftRfmbiningNbmf(dpf.gftRfmbiningNbmf());
+                    tirow nf;
                 }
             }
-            throw e;
+            tirow f;
         }
     }
 
     /**
-      * Converts the "String" name into a CompositeName object and
-      * performs the bind operation. Uses callBindOrRebind. Throws an
-      * invalid name exception if the name is empty.
-      * @param name string
-      * @param obj Object to be bound.
-      * @exception NamingException See callBindOrRebind
+      * Convfrts tif "String" nbmf into b CompositfNbmf objfdt bnd
+      * pfrforms tif bind opfrbtion. Usfs dbllBindOrRfbind. Tirows bn
+      * invblid nbmf fxdfption if tif nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @pbrbm obj Objfdt to bf bound.
+      * @fxdfption NbmingExdfption Sff dbllBindOrRfbind
       */
-    public void bind(String name, java.lang.Object obj) throws NamingException {
-        bind(new CompositeName(name), obj);
+    publid void bind(String nbmf, jbvb.lbng.Objfdt obj) tirows NbmingExdfption {
+        bind(nfw CompositfNbmf(nbmf), obj);
     }
 
     /**
-      * Converts the "Name" name into a NameComponent[] object and
-      * performs the rebind operation. Uses callBindOrRebind. Throws an
-      * invalid name exception if the name is empty. We must have a name
-      * to rebind the object to even if we are working within the current
-      * context.
-      * @param name string
-      * @param obj Object to be bound.
-      * @exception NamingException See callBindOrRebind
+      * Convfrts tif "Nbmf" nbmf into b NbmfComponfnt[] objfdt bnd
+      * pfrforms tif rfbind opfrbtion. Usfs dbllBindOrRfbind. Tirows bn
+      * invblid nbmf fxdfption if tif nbmf is fmpty. Wf must ibvf b nbmf
+      * to rfbind tif objfdt to fvfn if wf brf working witiin tif durrfnt
+      * dontfxt.
+      * @pbrbm nbmf string
+      * @pbrbm obj Objfdt to bf bound.
+      * @fxdfption NbmingExdfption Sff dbllBindOrRfbind
       */
-    public  void rebind(Name name, java.lang.Object obj)
-        throws NamingException {
-            if (name.size() == 0 ) {
-                throw new InvalidNameException("Name is empty");
+    publid  void rfbind(Nbmf nbmf, jbvb.lbng.Objfdt obj)
+        tirows NbmingExdfption {
+            if (nbmf.sizf() == 0 ) {
+                tirow nfw InvblidNbmfExdfption("Nbmf is fmpty");
             }
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+            NbmfComponfnt[] pbti = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
             try {
-                callBindOrRebind(path, name, obj, true);
-            } catch (CannotProceedException e) {
-                javax.naming.Context cctx = getContinuationContext(e);
-                cctx.rebind(e.getRemainingName(), obj);
+                dbllBindOrRfbind(pbti, nbmf, obj, truf);
+            } dbtdi (CbnnotProdffdExdfption f) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                ddtx.rfbind(f.gftRfmbiningNbmf(), obj);
             }
     }
 
     /**
-      * Converts the "String" name into a CompositeName object and
-      * performs the rebind operation. Uses callBindOrRebind. Throws an
-      * invalid name exception if the name is an empty string.
-      * @param name string
-      * @param obj Object to be bound.
-      * @exception NamingException See callBindOrRebind
+      * Convfrts tif "String" nbmf into b CompositfNbmf objfdt bnd
+      * pfrforms tif rfbind opfrbtion. Usfs dbllBindOrRfbind. Tirows bn
+      * invblid nbmf fxdfption if tif nbmf is bn fmpty string.
+      * @pbrbm nbmf string
+      * @pbrbm obj Objfdt to bf bound.
+      * @fxdfption NbmingExdfption Sff dbllBindOrRfbind
       */
-    public  void rebind(String name, java.lang.Object obj)
-        throws NamingException {
-            rebind(new CompositeName(name), obj);
+    publid  void rfbind(String nbmf, jbvb.lbng.Objfdt obj)
+        tirows NbmingExdfption {
+            rfbind(nfw CompositfNbmf(nbmf), obj);
     }
 
     /**
-      * Calls the unbind api of COS Naming and uses the exception mapper
-      * class  to map the exceptions
-      * @param path NameComponent[] object
-      * @exception NotFound No objects under the name. If leaf
-      * is not found, that's OK according to the JNDI spec
-      * @exception CannotProceed Unable to obtain a continuation context
-      * @exception InvalidName Name not understood.
+      * Cblls tif unbind bpi of COS Nbming bnd usfs tif fxdfption mbppfr
+      * dlbss  to mbp tif fxdfptions
+      * @pbrbm pbti NbmfComponfnt[] objfdt
+      * @fxdfption NotFound No objfdts undfr tif nbmf. If lfbf
+      * is not found, tibt's OK bddording to tif JNDI spfd
+      * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+      * @fxdfption InvblidNbmf Nbmf not undfrstood.
       */
-    private void callUnbind(NameComponent[] path) throws NamingException {
-            if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
+    privbtf void dbllUnbind(NbmfComponfnt[] pbti) tirows NbmingExdfption {
+            if (_nd == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not ibvf b dorrfsponding NbmingContfxt");
             try {
-                _nc.unbind(path);
-            } catch (NotFound e) {
-                // If leaf is the one missing, return success
-                // as per JNDI spec
+                _nd.unbind(pbti);
+            } dbtdi (NotFound f) {
+                // If lfbf is tif onf missing, rfturn suddfss
+                // bs pfr JNDI spfd
 
-                if (leafNotFound(e, path[path.length-1])) {
-                    // do nothing
-                } else {
-                    throw ExceptionMapper.mapException(e, this, path);
+                if (lfbfNotFound(f, pbti[pbti.lfngti-1])) {
+                    // do notiing
+                } flsf {
+                    tirow ExdfptionMbppfr.mbpExdfption(f, tiis, pbti);
                 }
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, path);
+            } dbtdi (Exdfption f) {
+                tirow ExdfptionMbppfr.mbpExdfption(f, tiis, pbti);
             }
     }
 
-    private boolean leafNotFound(NotFound e, NameComponent leaf) {
+    privbtf boolfbn lfbfNotFound(NotFound f, NbmfComponfnt lfbf) {
 
-        // This test is not foolproof because some name servers
-        // always just return one component in rest_of_name
-        // so you might not be able to tell whether that is
-        // the leaf (e.g. aa/aa/aa, which one is missing?)
+        // Tiis tfst is not foolproof bfdbusf somf nbmf sfrvfrs
+        // blwbys just rfturn onf domponfnt in rfst_of_nbmf
+        // so you migit not bf bblf to tfll wiftifr tibt is
+        // tif lfbf (f.g. bb/bb/bb, wiidi onf is missing?)
 
-        NameComponent rest;
-        return e.why.value() == NotFoundReason._missing_node &&
-            e.rest_of_name.length == 1 &&
-            (rest=e.rest_of_name[0]).id.equals(leaf.id) &&
-            (rest.kind == leaf.kind ||
-             (rest.kind != null && rest.kind.equals(leaf.kind)));
+        NbmfComponfnt rfst;
+        rfturn f.wiy.vbluf() == NotFoundRfbson._missing_nodf &&
+            f.rfst_of_nbmf.lfngti == 1 &&
+            (rfst=f.rfst_of_nbmf[0]).id.fqubls(lfbf.id) &&
+            (rfst.kind == lfbf.kind ||
+             (rfst.kind != null && rfst.kind.fqubls(lfbf.kind)));
     }
 
     /**
-      * Converts the "String" name into a CompositeName object and
-      * performs the unbind operation. Uses callUnbind. If the name is
-      * empty, throws an invalid name exception. Do we unbind the
-      * current context (JNDI spec says work with the current context if
-      * the name is empty) ?
-      * @param name string
-      * @exception NamingException See callUnbind
+      * Convfrts tif "String" nbmf into b CompositfNbmf objfdt bnd
+      * pfrforms tif unbind opfrbtion. Usfs dbllUnbind. If tif nbmf is
+      * fmpty, tirows bn invblid nbmf fxdfption. Do wf unbind tif
+      * durrfnt dontfxt (JNDI spfd sbys work witi tif durrfnt dontfxt if
+      * tif nbmf is fmpty) ?
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff dbllUnbind
       */
-    public  void unbind(String name) throws NamingException {
-        unbind(new CompositeName(name));
+    publid  void unbind(String nbmf) tirows NbmingExdfption {
+        unbind(nfw CompositfNbmf(nbmf));
     }
 
     /**
-      * Converts the "Name" name into a NameComponent[] object and
-      * performs the unbind operation. Uses callUnbind. Throws an
-      * invalid name exception if the name is empty.
-      * @param name string
-      * @exception NamingException See callUnbind
+      * Convfrts tif "Nbmf" nbmf into b NbmfComponfnt[] objfdt bnd
+      * pfrforms tif unbind opfrbtion. Usfs dbllUnbind. Tirows bn
+      * invblid nbmf fxdfption if tif nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff dbllUnbind
       */
-    public  void unbind(Name name)
-        throws NamingException {
-            if (name.size() == 0 )
-                throw new InvalidNameException("Name is empty");
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+    publid  void unbind(Nbmf nbmf)
+        tirows NbmingExdfption {
+            if (nbmf.sizf() == 0 )
+                tirow nfw InvblidNbmfExdfption("Nbmf is fmpty");
+            NbmfComponfnt[] pbti = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
             try {
-                callUnbind(path);
-            } catch (CannotProceedException e) {
-                javax.naming.Context cctx = getContinuationContext(e);
-                cctx.unbind(e.getRemainingName());
+                dbllUnbind(pbti);
+            } dbtdi (CbnnotProdffdExdfption f) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                ddtx.unbind(f.gftRfmbiningNbmf());
             }
     }
 
     /**
-      * Renames an object. Since COS Naming does not support a rename
-      * api, this method unbinds the object with the "oldName" and
-      * creates a new binding.
-      * @param oldName string, existing name for the binding.
-      * @param newName string, name used to replace.
-      * @exception NamingException See bind
+      * Rfnbmfs bn objfdt. Sindf COS Nbming dofs not support b rfnbmf
+      * bpi, tiis mftiod unbinds tif objfdt witi tif "oldNbmf" bnd
+      * drfbtfs b nfw binding.
+      * @pbrbm oldNbmf string, fxisting nbmf for tif binding.
+      * @pbrbm nfwNbmf string, nbmf usfd to rfplbdf.
+      * @fxdfption NbmingExdfption Sff bind
       */
-    public  void rename(String oldName,String newName)
-        throws NamingException {
-            rename(new CompositeName(oldName), new CompositeName(newName));
+    publid  void rfnbmf(String oldNbmf,String nfwNbmf)
+        tirows NbmingExdfption {
+            rfnbmf(nfw CompositfNbmf(oldNbmf), nfw CompositfNbmf(nfwNbmf));
     }
 
     /**
-      * Renames an object. Since COS Naming does not support a rename
-      * api, this method unbinds the object with the "oldName" and
-      * creates a new binding.
-      * @param oldName JNDI Name, existing name for the binding.
-      * @param newName JNDI Name, name used to replace.
-      * @exception NamingException See bind
+      * Rfnbmfs bn objfdt. Sindf COS Nbming dofs not support b rfnbmf
+      * bpi, tiis mftiod unbinds tif objfdt witi tif "oldNbmf" bnd
+      * drfbtfs b nfw binding.
+      * @pbrbm oldNbmf JNDI Nbmf, fxisting nbmf for tif binding.
+      * @pbrbm nfwNbmf JNDI Nbmf, nbmf usfd to rfplbdf.
+      * @fxdfption NbmingExdfption Sff bind
       */
-    public  void rename(Name oldName,Name newName)
-        throws NamingException {
-            if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
-            if (oldName.size() == 0 || newName.size() == 0)
-                throw new InvalidNameException("One or both names empty");
-            java.lang.Object obj = lookup(oldName);
-            bind(newName,obj);
-            unbind(oldName);
+    publid  void rfnbmf(Nbmf oldNbmf,Nbmf nfwNbmf)
+        tirows NbmingExdfption {
+            if (_nd == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not ibvf b dorrfsponding NbmingContfxt");
+            if (oldNbmf.sizf() == 0 || nfwNbmf.sizf() == 0)
+                tirow nfw InvblidNbmfExdfption("Onf or boti nbmfs fmpty");
+            jbvb.lbng.Objfdt obj = lookup(oldNbmf);
+            bind(nfwNbmf,obj);
+            unbind(oldNbmf);
     }
 
     /**
-      * Returns a NameClassEnumeration object which has a list of name
-      * class pairs. Lists the current context if the name is empty.
-      * @param name string
-      * @exception NamingException All exceptions thrown by lookup
-      * with a non-null argument
-      * @return a list of name-class objects as a NameClassEnumeration.
+      * Rfturns b NbmfClbssEnumfrbtion objfdt wiidi ibs b list of nbmf
+      * dlbss pbirs. Lists tif durrfnt dontfxt if tif nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption All fxdfptions tirown by lookup
+      * witi b non-null brgumfnt
+      * @rfturn b list of nbmf-dlbss objfdts bs b NbmfClbssEnumfrbtion.
       */
-    public  NamingEnumeration<NameClassPair> list(String name) throws NamingException {
-            return list(new CompositeName(name));
+    publid  NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf) tirows NbmingExdfption {
+            rfturn list(nfw CompositfNbmf(nbmf));
     }
 
     /**
-      * Returns a NameClassEnumeration object which has a list of name
-      * class pairs. Lists the current context if the name is empty.
-      * @param name JNDI Name
-      * @exception NamingException All exceptions thrown by lookup
-      * @return a list of name-class objects as a NameClassEnumeration.
+      * Rfturns b NbmfClbssEnumfrbtion objfdt wiidi ibs b list of nbmf
+      * dlbss pbirs. Lists tif durrfnt dontfxt if tif nbmf is fmpty.
+      * @pbrbm nbmf JNDI Nbmf
+      * @fxdfption NbmingExdfption All fxdfptions tirown by lookup
+      * @rfturn b list of nbmf-dlbss objfdts bs b NbmfClbssEnumfrbtion.
       */
-    @SuppressWarnings("unchecked")
-    public  NamingEnumeration<NameClassPair> list(Name name)
-        throws NamingException {
-            return (NamingEnumeration)listBindings(name);
+    @SupprfssWbrnings("undifdkfd")
+    publid  NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf)
+        tirows NbmingExdfption {
+            rfturn (NbmingEnumfrbtion)listBindings(nbmf);
     }
 
     /**
-      * Returns a BindingEnumeration object which has a list of name
-      * object pairs. Lists the current context if the name is empty.
-      * @param name string
-      * @exception NamingException all exceptions returned by lookup
-      * @return a list of bindings as a BindingEnumeration.
+      * Rfturns b BindingEnumfrbtion objfdt wiidi ibs b list of nbmf
+      * objfdt pbirs. Lists tif durrfnt dontfxt if tif nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption bll fxdfptions rfturnfd by lookup
+      * @rfturn b list of bindings bs b BindingEnumfrbtion.
       */
-    public  NamingEnumeration<javax.naming.Binding> listBindings(String name)
-        throws NamingException {
-            return listBindings(new CompositeName(name));
+    publid  NbmingEnumfrbtion<jbvbx.nbming.Binding> listBindings(String nbmf)
+        tirows NbmingExdfption {
+            rfturn listBindings(nfw CompositfNbmf(nbmf));
     }
 
     /**
-      * Returns a BindingEnumeration object which has a list of name
-      * class pairs. Lists the current context if the name is empty.
-      * @param name JNDI Name
-      * @exception NamingException all exceptions returned by lookup.
-      * @return a list of bindings as a BindingEnumeration.
+      * Rfturns b BindingEnumfrbtion objfdt wiidi ibs b list of nbmf
+      * dlbss pbirs. Lists tif durrfnt dontfxt if tif nbmf is fmpty.
+      * @pbrbm nbmf JNDI Nbmf
+      * @fxdfption NbmingExdfption bll fxdfptions rfturnfd by lookup.
+      * @rfturn b list of bindings bs b BindingEnumfrbtion.
       */
-    public  NamingEnumeration<javax.naming.Binding> listBindings(Name name)
-        throws NamingException {
-            if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
-            if (name.size() > 0) {
+    publid  NbmingEnumfrbtion<jbvbx.nbming.Binding> listBindings(Nbmf nbmf)
+        tirows NbmingExdfption {
+            if (_nd == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not ibvf b dorrfsponding NbmingContfxt");
+            if (nbmf.sizf() > 0) {
                 try {
-                    java.lang.Object obj = lookup(name);
-                    if (obj instanceof CNCtx) {
-                        return new CNBindingEnumeration(
-                                        (CNCtx) obj, true, _env);
-                    } else {
-                        throw new NotContextException(name.toString());
+                    jbvb.lbng.Objfdt obj = lookup(nbmf);
+                    if (obj instbndfof CNCtx) {
+                        rfturn nfw CNBindingEnumfrbtion(
+                                        (CNCtx) obj, truf, _fnv);
+                    } flsf {
+                        tirow nfw NotContfxtExdfption(nbmf.toString());
                     }
-                } catch (NamingException ne) {
-                    throw ne;
-                } catch (BAD_PARAM e) {
-                    NamingException ne =
-                        new NotContextException(name.toString());
-                    ne.setRootCause(e);
-                    throw ne;
+                } dbtdi (NbmingExdfption nf) {
+                    tirow nf;
+                } dbtdi (BAD_PARAM f) {
+                    NbmingExdfption nf =
+                        nfw NotContfxtExdfption(nbmf.toString());
+                    nf.sftRootCbusf(f);
+                    tirow nf;
                 }
             }
-            return new CNBindingEnumeration(this, false, _env);
+            rfturn nfw CNBindingEnumfrbtion(tiis, fblsf, _fnv);
     }
 
     /**
-      * Calls the destroy on the COS Naming Server
-      * @param nc The NamingContext object to use.
-      * @exception NotEmpty when the context is not empty and cannot be destroyed.
+      * Cblls tif dfstroy on tif COS Nbming Sfrvfr
+      * @pbrbm nd Tif NbmingContfxt objfdt to usf.
+      * @fxdfption NotEmpty wifn tif dontfxt is not fmpty bnd dbnnot bf dfstroyfd.
       */
-    private void callDestroy(NamingContext nc)
-        throws NamingException {
-            if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
+    privbtf void dbllDfstroy(NbmingContfxt nd)
+        tirows NbmingExdfption {
+            if (_nd == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not ibvf b dorrfsponding NbmingContfxt");
             try {
-                nc.destroy();
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, null);
+                nd.dfstroy();
+            } dbtdi (Exdfption f) {
+                tirow ExdfptionMbppfr.mbpExdfption(f, tiis, null);
             }
     }
 
     /**
-      * Uses the callDestroy function to destroy the context. If name is
-      * empty destroys the current context.
-      * @param name string
-      * @exception OperationNotSupportedException when list is invoked
-      * with a non-null argument
+      * Usfs tif dbllDfstroy fundtion to dfstroy tif dontfxt. If nbmf is
+      * fmpty dfstroys tif durrfnt dontfxt.
+      * @pbrbm nbmf string
+      * @fxdfption OpfrbtionNotSupportfdExdfption wifn list is invokfd
+      * witi b non-null brgumfnt
       */
-    public  void destroySubcontext(String name) throws NamingException {
-        destroySubcontext(new CompositeName(name));
+    publid  void dfstroySubdontfxt(String nbmf) tirows NbmingExdfption {
+        dfstroySubdontfxt(nfw CompositfNbmf(nbmf));
     }
 
     /**
-      * Uses the callDestroy function to destroy the context. Destroys
-      * the current context if name is empty.
-      * @param name JNDI Name
-      * @exception OperationNotSupportedException when list is invoked
-      * with a non-null argument
+      * Usfs tif dbllDfstroy fundtion to dfstroy tif dontfxt. Dfstroys
+      * tif durrfnt dontfxt if nbmf is fmpty.
+      * @pbrbm nbmf JNDI Nbmf
+      * @fxdfption OpfrbtionNotSupportfdExdfption wifn list is invokfd
+      * witi b non-null brgumfnt
       */
-    public  void destroySubcontext(Name name)
-        throws NamingException {
-            if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
-            NamingContext the_nc = _nc;
-            NameComponent[] path = CNNameParser.nameToCosName(name);
-            if ( name.size() > 0) {
+    publid  void dfstroySubdontfxt(Nbmf nbmf)
+        tirows NbmingExdfption {
+            if (_nd == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not ibvf b dorrfsponding NbmingContfxt");
+            NbmingContfxt tif_nd = _nd;
+            NbmfComponfnt[] pbti = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
+            if ( nbmf.sizf() > 0) {
                 try {
-                    javax.naming.Context ctx =
-                        (javax.naming.Context) callResolve(path);
-                    CNCtx cnc = (CNCtx)ctx;
-                    the_nc = cnc._nc;
-                    cnc.close(); //remove the reference to the context
-                } catch (ClassCastException e) {
-                    throw new NotContextException(name.toString());
-                } catch (CannotProceedException e) {
-                    javax.naming.Context cctx = getContinuationContext(e);
-                    cctx.destroySubcontext(e.getRemainingName());
-                    return;
-                } catch (NameNotFoundException e) {
-                    // If leaf is the one missing, return success
-                    // as per JNDI spec
+                    jbvbx.nbming.Contfxt dtx =
+                        (jbvbx.nbming.Contfxt) dbllRfsolvf(pbti);
+                    CNCtx dnd = (CNCtx)dtx;
+                    tif_nd = dnd._nd;
+                    dnd.dlosf(); //rfmovf tif rfffrfndf to tif dontfxt
+                } dbtdi (ClbssCbstExdfption f) {
+                    tirow nfw NotContfxtExdfption(nbmf.toString());
+                } dbtdi (CbnnotProdffdExdfption f) {
+                    jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                    ddtx.dfstroySubdontfxt(f.gftRfmbiningNbmf());
+                    rfturn;
+                } dbtdi (NbmfNotFoundExdfption f) {
+                    // If lfbf is tif onf missing, rfturn suddfss
+                    // bs pfr JNDI spfd
 
-                    if (e.getRootCause() instanceof NotFound &&
-                        leafNotFound((NotFound)e.getRootCause(),
-                            path[path.length-1])) {
-                        return; // leaf missing OK
+                    if (f.gftRootCbusf() instbndfof NotFound &&
+                        lfbfNotFound((NotFound)f.gftRootCbusf(),
+                            pbti[pbti.lfngti-1])) {
+                        rfturn; // lfbf missing OK
                     }
-                    throw e;
-                } catch (NamingException e) {
-                    throw e;
+                    tirow f;
+                } dbtdi (NbmingExdfption f) {
+                    tirow f;
                 }
             }
-            callDestroy(the_nc);
-            callUnbind(path);
+            dbllDfstroy(tif_nd);
+            dbllUnbind(pbti);
     }
 
     /**
-      * Calls the bind_new_context COS naming api to create a new subcontext.
-      * @param path NameComponent[] object
-      * @exception NotFound No objects under the name.
-      * @exception CannotProceed Unable to obtain a continuation context
-      * @exception InvalidName Name not understood.
-      * @exception AlreadyBound An object is already bound to this name.
-      * @return the new context object.
+      * Cblls tif bind_nfw_dontfxt COS nbming bpi to drfbtf b nfw subdontfxt.
+      * @pbrbm pbti NbmfComponfnt[] objfdt
+      * @fxdfption NotFound No objfdts undfr tif nbmf.
+      * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+      * @fxdfption InvblidNbmf Nbmf not undfrstood.
+      * @fxdfption AlrfbdyBound An objfdt is blrfbdy bound to tiis nbmf.
+      * @rfturn tif nfw dontfxt objfdt.
       */
-    private javax.naming.Context callBindNewContext(NameComponent[] path)
-        throws NamingException {
-            if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
+    privbtf jbvbx.nbming.Contfxt dbllBindNfwContfxt(NbmfComponfnt[] pbti)
+        tirows NbmingExdfption {
+            if (_nd == null)
+                tirow nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not ibvf b dorrfsponding NbmingContfxt");
             try {
-                NamingContext nctx = _nc.bind_new_context(path);
-                return new CNCtx(_orb, orbTracker, nctx, _env,
-                                        makeFullName(path));
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, path);
+                NbmingContfxt ndtx = _nd.bind_nfw_dontfxt(pbti);
+                rfturn nfw CNCtx(_orb, orbTrbdkfr, ndtx, _fnv,
+                                        mbkfFullNbmf(pbti));
+            } dbtdi (Exdfption f) {
+                tirow ExdfptionMbppfr.mbpExdfption(f, tiis, pbti);
             }
     }
 
     /**
-      * Uses the callBindNewContext convenience function to create a new
-      * context. Throws an invalid name exception if the name is empty.
-      * @param name string
-      * @exception NamingException See callBindNewContext
-      * @return the new context object.
+      * Usfs tif dbllBindNfwContfxt donvfnifndf fundtion to drfbtf b nfw
+      * dontfxt. Tirows bn invblid nbmf fxdfption if tif nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff dbllBindNfwContfxt
+      * @rfturn tif nfw dontfxt objfdt.
       */
-    public  javax.naming.Context createSubcontext(String name)
-        throws NamingException {
-            return createSubcontext(new CompositeName(name));
+    publid  jbvbx.nbming.Contfxt drfbtfSubdontfxt(String nbmf)
+        tirows NbmingExdfption {
+            rfturn drfbtfSubdontfxt(nfw CompositfNbmf(nbmf));
     }
 
     /**
-      * Uses the callBindNewContext convenience function to create a new
-      * context. Throws an invalid name exception if the name is empty.
-      * @param name string
-      * @exception NamingException See callBindNewContext
-      * @return the new context object.
+      * Usfs tif dbllBindNfwContfxt donvfnifndf fundtion to drfbtf b nfw
+      * dontfxt. Tirows bn invblid nbmf fxdfption if tif nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff dbllBindNfwContfxt
+      * @rfturn tif nfw dontfxt objfdt.
       */
-    public  javax.naming.Context createSubcontext(Name name)
-        throws NamingException {
-            if (name.size() == 0 )
-                throw new InvalidNameException("Name is empty");
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+    publid  jbvbx.nbming.Contfxt drfbtfSubdontfxt(Nbmf nbmf)
+        tirows NbmingExdfption {
+            if (nbmf.sizf() == 0 )
+                tirow nfw InvblidNbmfExdfption("Nbmf is fmpty");
+            NbmfComponfnt[] pbti = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
             try {
-                return callBindNewContext(path);
-            } catch (CannotProceedException e) {
-                javax.naming.Context cctx = getContinuationContext(e);
-                return cctx.createSubcontext(e.getRemainingName());
+                rfturn dbllBindNfwContfxt(pbti);
+            } dbtdi (CbnnotProdffdExdfption f) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                rfturn ddtx.drfbtfSubdontfxt(f.gftRfmbiningNbmf());
             }
     }
 
     /**
-      * Is mapped to resolve in the COS Naming api.
-      * @param name string
-      * @exception NamingException See lookup.
-      * @return the resolved object.
+      * Is mbppfd to rfsolvf in tif COS Nbming bpi.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff lookup.
+      * @rfturn tif rfsolvfd objfdt.
       */
-    public  java.lang.Object lookupLink(String name) throws NamingException {
-            return lookupLink(new CompositeName(name));
+    publid  jbvb.lbng.Objfdt lookupLink(String nbmf) tirows NbmingExdfption {
+            rfturn lookupLink(nfw CompositfNbmf(nbmf));
     }
 
     /**
-      * Is mapped to resolve in the COS Naming api.
-      * @param name string
-      * @exception NamingException See lookup.
-      * @return the resolved object.
+      * Is mbppfd to rfsolvf in tif COS Nbming bpi.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff lookup.
+      * @rfturn tif rfsolvfd objfdt.
       */
-    public  java.lang.Object lookupLink(Name name) throws NamingException {
-            return lookup(name);
+    publid  jbvb.lbng.Objfdt lookupLink(Nbmf nbmf) tirows NbmingExdfption {
+            rfturn lookup(nbmf);
     }
 
     /**
-      * Allow access to the name parser object.
-      * @param String JNDI name, is ignored since there is only one Name
-      * Parser object.
-      * @exception NamingException --
-      * @return NameParser object
+      * Allow bddfss to tif nbmf pbrsfr objfdt.
+      * @pbrbm String JNDI nbmf, is ignorfd sindf tifrf is only onf Nbmf
+      * Pbrsfr objfdt.
+      * @fxdfption NbmingExdfption --
+      * @rfturn NbmfPbrsfr objfdt
       */
-    public  NameParser getNameParser(String name) throws NamingException {
-        return parser;
+    publid  NbmfPbrsfr gftNbmfPbrsfr(String nbmf) tirows NbmingExdfption {
+        rfturn pbrsfr;
     }
 
     /**
-      * Allow access to the name parser object.
-      * @param Name JNDI name, is ignored since there is only one Name
-      * Parser object.
-      * @exception NamingException --
-      * @return NameParser object
+      * Allow bddfss to tif nbmf pbrsfr objfdt.
+      * @pbrbm Nbmf JNDI nbmf, is ignorfd sindf tifrf is only onf Nbmf
+      * Pbrsfr objfdt.
+      * @fxdfption NbmingExdfption --
+      * @rfturn NbmfPbrsfr objfdt
       */
-    public  NameParser getNameParser(Name name) throws NamingException {
-        return parser;
+    publid  NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn pbrsfr;
     }
 
     /**
-      * Returns the current environment.
-      * @return Environment.
+      * Rfturns tif durrfnt fnvironmfnt.
+      * @rfturn Environmfnt.
       */
-    @SuppressWarnings("unchecked")
-    public  Hashtable<String, java.lang.Object> getEnvironment() throws NamingException {
-        if (_env == null) {
-            return new Hashtable<>(5, 0.75f);
-        } else {
-            return (Hashtable<String, java.lang.Object>)_env.clone();
+    @SupprfssWbrnings("undifdkfd")
+    publid  Hbsitbblf<String, jbvb.lbng.Objfdt> gftEnvironmfnt() tirows NbmingExdfption {
+        if (_fnv == null) {
+            rfturn nfw Hbsitbblf<>(5, 0.75f);
+        } flsf {
+            rfturn (Hbsitbblf<String, jbvb.lbng.Objfdt>)_fnv.dlonf();
         }
     }
 
-    public String composeName(String name, String prefix) throws NamingException {
-        return composeName(new CompositeName(name),
-            new CompositeName(prefix)).toString();
+    publid String domposfNbmf(String nbmf, String prffix) tirows NbmingExdfption {
+        rfturn domposfNbmf(nfw CompositfNbmf(nbmf),
+            nfw CompositfNbmf(prffix)).toString();
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        Name result = (Name)prefix.clone();
-        return result.addAll(name);
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix) tirows NbmingExdfption {
+        Nbmf rfsult = (Nbmf)prffix.dlonf();
+        rfturn rfsult.bddAll(nbmf);
     }
 
     /**
-      * Adds to the environment for the current context.
-      * Record change but do not reinitialize ORB.
+      * Adds to tif fnvironmfnt for tif durrfnt dontfxt.
+      * Rfdord dibngf but do not rfinitiblizf ORB.
       *
-      * @param propName The property name.
-      * @param propVal  The ORB.
-      * @return the previous value of this property if any.
+      * @pbrbm propNbmf Tif propfrty nbmf.
+      * @pbrbm propVbl  Tif ORB.
+      * @rfturn tif prfvious vbluf of tiis propfrty if bny.
       */
-    @SuppressWarnings("unchecked")
-    public java.lang.Object addToEnvironment(String propName,
-        java.lang.Object propValue)
-        throws NamingException {
-            if (_env == null) {
-                _env = new Hashtable<>(7, 0.75f);
-            } else {
-                // copy-on-write
-                _env = (Hashtable<String, java.lang.Object>)_env.clone();
+    @SupprfssWbrnings("undifdkfd")
+    publid jbvb.lbng.Objfdt bddToEnvironmfnt(String propNbmf,
+        jbvb.lbng.Objfdt propVbluf)
+        tirows NbmingExdfption {
+            if (_fnv == null) {
+                _fnv = nfw Hbsitbblf<>(7, 0.75f);
+            } flsf {
+                // dopy-on-writf
+                _fnv = (Hbsitbblf<String, jbvb.lbng.Objfdt>)_fnv.dlonf();
             }
 
-            return _env.put(propName, propValue);
+            rfturn _fnv.put(propNbmf, propVbluf);
     }
 
-    // Record change but do not reinitialize ORB
-    @SuppressWarnings("unchecked")
-    public java.lang.Object removeFromEnvironment(String propName)
-        throws NamingException {
-            if (_env != null  && _env.get(propName) != null) {
-                // copy-on-write
-                _env = (Hashtable<String, java.lang.Object>)_env.clone();
-                return _env.remove(propName);
+    // Rfdord dibngf but do not rfinitiblizf ORB
+    @SupprfssWbrnings("undifdkfd")
+    publid jbvb.lbng.Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+        tirows NbmingExdfption {
+            if (_fnv != null  && _fnv.gft(propNbmf) != null) {
+                // dopy-on-writf
+                _fnv = (Hbsitbblf<String, jbvb.lbng.Objfdt>)_fnv.dlonf();
+                rfturn _fnv.rfmovf(propNbmf);
             }
-            return null;
+            rfturn null;
     }
 
-    synchronized public void incEnumCount() {
-        enumCount++;
-        if (debug) {
-            System.out.println("incEnumCount, new count:" + enumCount);
+    syndironizfd publid void indEnumCount() {
+        fnumCount++;
+        if (dfbug) {
+            Systfm.out.println("indEnumCount, nfw dount:" + fnumCount);
         }
     }
 
-    synchronized public void decEnumCount()
-            throws NamingException {
-        enumCount--;
-        if (debug) {
-            System.out.println("decEnumCount, new count:" + enumCount +
-                        "    isCloseCalled:" + isCloseCalled);
+    syndironizfd publid void dfdEnumCount()
+            tirows NbmingExdfption {
+        fnumCount--;
+        if (dfbug) {
+            Systfm.out.println("dfdEnumCount, nfw dount:" + fnumCount +
+                        "    isClosfCbllfd:" + isClosfCbllfd);
         }
-        if ((enumCount == 0) && isCloseCalled) {
-            close();
+        if ((fnumCount == 0) && isClosfCbllfd) {
+            dlosf();
         }
     }
 
-    synchronized public void close() throws NamingException {
+    syndironizfd publid void dlosf() tirows NbmingExdfption {
 
-        if (enumCount > 0) {
-            isCloseCalled = true;
-            return;
+        if (fnumCount > 0) {
+            isClosfCbllfd = truf;
+            rfturn;
         }
 
-        // Never destroy an orb in CNCtx.
-        // The orb we have is either the shared/default orb, or one passed in to a constructor
-        // from elsewhere, so that orb is somebody else's responsibility.
+        // Nfvfr dfstroy bn orb in CNCtx.
+        // Tif orb wf ibvf is fitifr tif sibrfd/dffbult orb, or onf pbssfd in to b donstrudtor
+        // from flsfwifrf, so tibt orb is somfbody flsf's rfsponsibility.
     }
 
-    protected void finalize() {
+    protfdtfd void finblizf() {
         try {
-            close();
-        } catch (NamingException e) {
-            // ignore failures
+            dlosf();
+        } dbtdi (NbmingExdfption f) {
+            // ignorf fbilurfs
         }
     }
 }

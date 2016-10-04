@@ -1,71 +1,71 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LEGlyphFilter.h"
-#include "OpenTypeTables.h"
-#include "GlyphSubstitutionTables.h"
-#include "AlternateSubstSubtables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "LEGlypiFiltfr.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "AltfrnbtfSubstSubtbblfs.i"
+#indludf "GlypiItfrbtor.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-le_uint32 AlternateSubstitutionSubtable::process(const LEReferenceTo<AlternateSubstitutionSubtable> &base,
-                                       GlyphIterator *glyphIterator, LEErrorCode &success, const LEGlyphFilter *filter) const
+lf_uint32 AltfrnbtfSubstitutionSubtbblf::prodfss(donst LERfffrfndfTo<AltfrnbtfSubstitutionSubtbblf> &bbsf,
+                                       GlypiItfrbtor *glypiItfrbtor, LEErrorCodf &suddfss, donst LEGlypiFiltfr *filtfr) donst
 {
-    // NOTE: For now, we'll just pick the first alternative...
-    LEGlyphID glyph = glyphIterator->getCurrGlyphID();
-    le_int32 coverageIndex = getGlyphCoverage(base, glyph, success);
+    // NOTE: For now, wf'll just pidk tif first bltfrnbtivf...
+    LEGlypiID glypi = glypiItfrbtor->gftCurrGlypiID();
+    lf_int32 dovfrbgfIndfx = gftGlypiCovfrbgf(bbsf, glypi, suddfss);
 
-    if (coverageIndex >= 0 && LE_SUCCESS(success)) {
-        le_uint16 altSetCount = SWAPW(alternateSetCount);
+    if (dovfrbgfIndfx >= 0 && LE_SUCCESS(suddfss)) {
+        lf_uint16 bltSftCount = SWAPW(bltfrnbtfSftCount);
 
-        if (coverageIndex < altSetCount) {
-            Offset alternateSetTableOffset = SWAPW(alternateSetTableOffsetArray[coverageIndex]);
-            const LEReferenceTo<AlternateSetTable> alternateSetTable(base, success,
-                                  (const AlternateSetTable *) ((char *) this + alternateSetTableOffset));
-            TTGlyphID alternate = SWAPW(alternateSetTable->alternateArray[0]);
+        if (dovfrbgfIndfx < bltSftCount) {
+            Offsft bltfrnbtfSftTbblfOffsft = SWAPW(bltfrnbtfSftTbblfOffsftArrby[dovfrbgfIndfx]);
+            donst LERfffrfndfTo<AltfrnbtfSftTbblf> bltfrnbtfSftTbblf(bbsf, suddfss,
+                                  (donst AltfrnbtfSftTbblf *) ((dibr *) tiis + bltfrnbtfSftTbblfOffsft));
+            TTGlypiID bltfrnbtf = SWAPW(bltfrnbtfSftTbblf->bltfrnbtfArrby[0]);
 
-            if (filter == NULL || filter->accept(LE_SET_GLYPH(glyph, alternate), success)) {
-                glyphIterator->setCurrGlyphID(SWAPW(alternateSetTable->alternateArray[0]));
+            if (filtfr == NULL || filtfr->bddfpt(LE_SET_GLYPH(glypi, bltfrnbtf), suddfss)) {
+                glypiItfrbtor->sftCurrGlypiID(SWAPW(bltfrnbtfSftTbblf->bltfrnbtfArrby[0]));
             }
 
-            return 1;
+            rfturn 1;
         }
 
-        // XXXX If we get here, the table's mal-formed...
+        // XXXX If wf gft ifrf, tif tbblf's mbl-formfd...
     }
 
-    return 0;
+    rfturn 0;
 }
 
 U_NAMESPACE_END

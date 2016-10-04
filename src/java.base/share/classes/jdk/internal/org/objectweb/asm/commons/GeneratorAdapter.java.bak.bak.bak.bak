@@ -1,0 +1,1657 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+
+/**
+ * A {@link jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor} with donvfnifnt mfthods to gfnfrbtf
+ * dodf. For fxbmplf, using this bdbptfr, thf dlbss bflow
+ *
+ * <prf>
+ * publid dlbss Exbmplf {
+ *     publid stbtid void mbin(String[] brgs) {
+ *         Systfm.out.println(&quot;Hfllo world!&quot;);
+ *     }
+ * }
+ * </prf>
+ *
+ * dbn bf gfnfrbtfd bs follows:
+ *
+ * <prf>
+ * ClbssWritfr dw = nfw ClbssWritfr(truf);
+ * dw.visit(V1_1, ACC_PUBLIC, &quot;Exbmplf&quot;, null, &quot;jbvb/lbng/Objfdt&quot;, null);
+ *
+ * Mfthod m = Mfthod.gftMfthod(&quot;void &lt;init&gt; ()&quot;);
+ * GfnfrbtorAdbptfr mg = nfw GfnfrbtorAdbptfr(ACC_PUBLIC, m, null, null, dw);
+ * mg.lobdThis();
+ * mg.invokfConstrudtor(Typf.gftTypf(Objfdt.dlbss), m);
+ * mg.rfturnVbluf();
+ * mg.fndMfthod();
+ *
+ * m = Mfthod.gftMfthod(&quot;void mbin (String[])&quot;);
+ * mg = nfw GfnfrbtorAdbptfr(ACC_PUBLIC + ACC_STATIC, m, null, null, dw);
+ * mg.gftStbtid(Typf.gftTypf(Systfm.dlbss), &quot;out&quot;, Typf.gftTypf(PrintStrfbm.dlbss));
+ * mg.push(&quot;Hfllo world!&quot;);
+ * mg.invokfVirtubl(Typf.gftTypf(PrintStrfbm.dlbss),
+ *         Mfthod.gftMfthod(&quot;void println (String)&quot;));
+ * mg.rfturnVbluf();
+ * mg.fndMfthod();
+ *
+ * dw.visitEnd();
+ * </prf>
+ *
+ * @buthor Juozbs Bbliukb
+ * @buthor Chris Noklfbfrg
+ * @buthor Erid Brunfton
+ * @buthor Prbshbnt Dfvb
+ */
+publid dlbss GfnfrbtorAdbptfr fxtfnds LodblVbribblfsSortfr {
+
+    privbtf stbtid finbl String CLDESC = "Ljbvb/lbng/Clbss;";
+
+    privbtf stbtid finbl Typf BYTE_TYPE = Typf.gftObjfdtTypf("jbvb/lbng/Bytf");
+
+    privbtf stbtid finbl Typf BOOLEAN_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Boolfbn");
+
+    privbtf stbtid finbl Typf SHORT_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Short");
+
+    privbtf stbtid finbl Typf CHARACTER_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Chbrbdtfr");
+
+    privbtf stbtid finbl Typf INTEGER_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Intfgfr");
+
+    privbtf stbtid finbl Typf FLOAT_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Flobt");
+
+    privbtf stbtid finbl Typf LONG_TYPE = Typf.gftObjfdtTypf("jbvb/lbng/Long");
+
+    privbtf stbtid finbl Typf DOUBLE_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Doublf");
+
+    privbtf stbtid finbl Typf NUMBER_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Numbfr");
+
+    privbtf stbtid finbl Typf OBJECT_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Objfdt");
+
+    privbtf stbtid finbl Mfthod BOOLEAN_VALUE = Mfthod
+            .gftMfthod("boolfbn boolfbnVbluf()");
+
+    privbtf stbtid finbl Mfthod CHAR_VALUE = Mfthod
+            .gftMfthod("dhbr dhbrVbluf()");
+
+    privbtf stbtid finbl Mfthod INT_VALUE = Mfthod.gftMfthod("int intVbluf()");
+
+    privbtf stbtid finbl Mfthod FLOAT_VALUE = Mfthod
+            .gftMfthod("flobt flobtVbluf()");
+
+    privbtf stbtid finbl Mfthod LONG_VALUE = Mfthod
+            .gftMfthod("long longVbluf()");
+
+    privbtf stbtid finbl Mfthod DOUBLE_VALUE = Mfthod
+            .gftMfthod("doublf doublfVbluf()");
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int ADD = Opdodfs.IADD;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int SUB = Opdodfs.ISUB;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int MUL = Opdodfs.IMUL;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int DIV = Opdodfs.IDIV;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int REM = Opdodfs.IREM;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int NEG = Opdodfs.INEG;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int SHL = Opdodfs.ISHL;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int SHR = Opdodfs.ISHR;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int USHR = Opdodfs.IUSHR;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int AND = Opdodfs.IAND;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int OR = Opdodfs.IOR;
+
+    /**
+     * Constbnt for thf {@link #mbth mbth} mfthod.
+     */
+    publid stbtid finbl int XOR = Opdodfs.IXOR;
+
+    /**
+     * Constbnt for thf {@link #ifCmp ifCmp} mfthod.
+     */
+    publid stbtid finbl int EQ = Opdodfs.IFEQ;
+
+    /**
+     * Constbnt for thf {@link #ifCmp ifCmp} mfthod.
+     */
+    publid stbtid finbl int NE = Opdodfs.IFNE;
+
+    /**
+     * Constbnt for thf {@link #ifCmp ifCmp} mfthod.
+     */
+    publid stbtid finbl int LT = Opdodfs.IFLT;
+
+    /**
+     * Constbnt for thf {@link #ifCmp ifCmp} mfthod.
+     */
+    publid stbtid finbl int GE = Opdodfs.IFGE;
+
+    /**
+     * Constbnt for thf {@link #ifCmp ifCmp} mfthod.
+     */
+    publid stbtid finbl int GT = Opdodfs.IFGT;
+
+    /**
+     * Constbnt for thf {@link #ifCmp ifCmp} mfthod.
+     */
+    publid stbtid finbl int LE = Opdodfs.IFLE;
+
+    /**
+     * Addfss flbgs of thf mfthod visitfd by this bdbptfr.
+     */
+    privbtf finbl int bddfss;
+
+    /**
+     * Rfturn typf of thf mfthod visitfd by this bdbptfr.
+     */
+    privbtf finbl Typf rfturnTypf;
+
+    /**
+     * Argumfnt typfs of thf mfthod visitfd by this bdbptfr.
+     */
+    privbtf finbl Typf[] brgumfntTypfs;
+
+    /**
+     * Typfs of thf lodbl vbribblfs of thf mfthod visitfd by this bdbptfr.
+     */
+    privbtf finbl List<Typf> lodblTypfs = nfw ArrbyList<Typf>();
+
+    /**
+     * Crfbtfs b nfw {@link GfnfrbtorAdbptfr}. <i>Subdlbssfs must not usf this
+     * donstrudtor</i>. Instfbd, thfy must usf thf
+     * {@link #GfnfrbtorAdbptfr(int, MfthodVisitor, int, String, String)}
+     * vfrsion.
+     *
+     * @pbrbm mv
+     *            thf mfthod visitor to whidh this bdbptfr dflfgbtfs dblls.
+     * @pbrbm bddfss
+     *            thf mfthod's bddfss flbgs (sff {@link Opdodfs}).
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf Typf}).
+     * @throws IllfgblStbtfExdfption
+     *             If b subdlbss dblls this donstrudtor.
+     */
+    publid GfnfrbtorAdbptfr(finbl MfthodVisitor mv, finbl int bddfss,
+            finbl String nbmf, finbl String dfsd) {
+        this(Opdodfs.ASM5, mv, bddfss, nbmf, dfsd);
+        if (gftClbss() != GfnfrbtorAdbptfr.dlbss) {
+            throw nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw {@link GfnfrbtorAdbptfr}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm mv
+     *            thf mfthod visitor to whidh this bdbptfr dflfgbtfs dblls.
+     * @pbrbm bddfss
+     *            thf mfthod's bddfss flbgs (sff {@link Opdodfs}).
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf Typf}).
+     */
+    protfdtfd GfnfrbtorAdbptfr(finbl int bpi, finbl MfthodVisitor mv,
+            finbl int bddfss, finbl String nbmf, finbl String dfsd) {
+        supfr(bpi, bddfss, dfsd, mv);
+        this.bddfss = bddfss;
+        this.rfturnTypf = Typf.gftRfturnTypf(dfsd);
+        this.brgumfntTypfs = Typf.gftArgumfntTypfs(dfsd);
+    }
+
+    /**
+     * Crfbtfs b nfw {@link GfnfrbtorAdbptfr}. <i>Subdlbssfs must not usf this
+     * donstrudtor</i>. Instfbd, thfy must usf thf
+     * {@link #GfnfrbtorAdbptfr(int, MfthodVisitor, int, String, String)}
+     * vfrsion.
+     *
+     * @pbrbm bddfss
+     *            bddfss flbgs of thf bdbptfd mfthod.
+     * @pbrbm mfthod
+     *            thf bdbptfd mfthod.
+     * @pbrbm mv
+     *            thf mfthod visitor to whidh this bdbptfr dflfgbtfs dblls.
+     */
+    publid GfnfrbtorAdbptfr(finbl int bddfss, finbl Mfthod mfthod,
+            finbl MfthodVisitor mv) {
+        this(mv, bddfss, null, mfthod.gftDfsdriptor());
+    }
+
+    /**
+     * Crfbtfs b nfw {@link GfnfrbtorAdbptfr}. <i>Subdlbssfs must not usf this
+     * donstrudtor</i>. Instfbd, thfy must usf thf
+     * {@link #GfnfrbtorAdbptfr(int, MfthodVisitor, int, String, String)}
+     * vfrsion.
+     *
+     * @pbrbm bddfss
+     *            bddfss flbgs of thf bdbptfd mfthod.
+     * @pbrbm mfthod
+     *            thf bdbptfd mfthod.
+     * @pbrbm signbturf
+     *            thf signbturf of thf bdbptfd mfthod (mby bf <tt>null</tt>).
+     * @pbrbm fxdfptions
+     *            thf fxdfptions thrown by thf bdbptfd mfthod (mby bf
+     *            <tt>null</tt>).
+     * @pbrbm dv
+     *            thf dlbss visitor to whidh this bdbptfr dflfgbtfs dblls.
+     */
+    publid GfnfrbtorAdbptfr(finbl int bddfss, finbl Mfthod mfthod,
+            finbl String signbturf, finbl Typf[] fxdfptions,
+            finbl ClbssVisitor dv) {
+        this(bddfss, mfthod, dv
+                .visitMfthod(bddfss, mfthod.gftNbmf(), mfthod.gftDfsdriptor(),
+                        signbturf, gftIntfrnblNbmfs(fxdfptions)));
+    }
+
+    /**
+     * Rfturns thf intfrnbl nbmfs of thf givfn typfs.
+     *
+     * @pbrbm typfs
+     *            b sft of typfs.
+     * @rfturn thf intfrnbl nbmfs of thf givfn typfs.
+     */
+    privbtf stbtid String[] gftIntfrnblNbmfs(finbl Typf[] typfs) {
+        if (typfs == null) {
+            rfturn null;
+        }
+        String[] nbmfs = nfw String[typfs.lfngth];
+        for (int i = 0; i < nbmfs.lfngth; ++i) {
+            nbmfs[i] = typfs[i].gftIntfrnblNbmf();
+        }
+        rfturn nbmfs;
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to push donstbnts on thf stbdk
+    // ------------------------------------------------------------------------
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf givfn vbluf on thf stbdk.
+     *
+     * @pbrbm vbluf
+     *            thf vbluf to bf pushfd on thf stbdk.
+     */
+    publid void push(finbl boolfbn vbluf) {
+        push(vbluf ? 1 : 0);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf givfn vbluf on thf stbdk.
+     *
+     * @pbrbm vbluf
+     *            thf vbluf to bf pushfd on thf stbdk.
+     */
+    publid void push(finbl int vbluf) {
+        if (vbluf >= -1 && vbluf <= 5) {
+            mv.visitInsn(Opdodfs.ICONST_0 + vbluf);
+        } flsf if (vbluf >= Bytf.MIN_VALUE && vbluf <= Bytf.MAX_VALUE) {
+            mv.visitIntInsn(Opdodfs.BIPUSH, vbluf);
+        } flsf if (vbluf >= Short.MIN_VALUE && vbluf <= Short.MAX_VALUE) {
+            mv.visitIntInsn(Opdodfs.SIPUSH, vbluf);
+        } flsf {
+            mv.visitLddInsn(nfw Intfgfr(vbluf));
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf givfn vbluf on thf stbdk.
+     *
+     * @pbrbm vbluf
+     *            thf vbluf to bf pushfd on thf stbdk.
+     */
+    publid void push(finbl long vbluf) {
+        if (vbluf == 0L || vbluf == 1L) {
+            mv.visitInsn(Opdodfs.LCONST_0 + (int) vbluf);
+        } flsf {
+            mv.visitLddInsn(nfw Long(vbluf));
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf givfn vbluf on thf stbdk.
+     *
+     * @pbrbm vbluf
+     *            thf vbluf to bf pushfd on thf stbdk.
+     */
+    publid void push(finbl flobt vbluf) {
+        int bits = Flobt.flobtToIntBits(vbluf);
+        if (bits == 0L || bits == 0x3f800000 || bits == 0x40000000) { // 0..2
+            mv.visitInsn(Opdodfs.FCONST_0 + (int) vbluf);
+        } flsf {
+            mv.visitLddInsn(nfw Flobt(vbluf));
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf givfn vbluf on thf stbdk.
+     *
+     * @pbrbm vbluf
+     *            thf vbluf to bf pushfd on thf stbdk.
+     */
+    publid void push(finbl doublf vbluf) {
+        long bits = Doublf.doublfToLongBits(vbluf);
+        if (bits == 0L || bits == 0x3ff0000000000000L) { // +0.0d bnd 1.0d
+            mv.visitInsn(Opdodfs.DCONST_0 + (int) vbluf);
+        } flsf {
+            mv.visitLddInsn(nfw Doublf(vbluf));
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf givfn vbluf on thf stbdk.
+     *
+     * @pbrbm vbluf
+     *            thf vbluf to bf pushfd on thf stbdk. Mby bf <tt>null</tt>.
+     */
+    publid void push(finbl String vbluf) {
+        if (vbluf == null) {
+            mv.visitInsn(Opdodfs.ACONST_NULL);
+        } flsf {
+            mv.visitLddInsn(vbluf);
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf givfn vbluf on thf stbdk.
+     *
+     * @pbrbm vbluf
+     *            thf vbluf to bf pushfd on thf stbdk.
+     */
+    publid void push(finbl Typf vbluf) {
+        if (vbluf == null) {
+            mv.visitInsn(Opdodfs.ACONST_NULL);
+        } flsf {
+            switdh (vbluf.gftSort()) {
+            dbsf Typf.BOOLEAN:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Boolfbn",
+                        "TYPE", CLDESC);
+                brfbk;
+            dbsf Typf.CHAR:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Chbrbdtfr",
+                        "TYPE", CLDESC);
+                brfbk;
+            dbsf Typf.BYTE:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Bytf", "TYPE",
+                        CLDESC);
+                brfbk;
+            dbsf Typf.SHORT:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Short", "TYPE",
+                        CLDESC);
+                brfbk;
+            dbsf Typf.INT:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Intfgfr",
+                        "TYPE", CLDESC);
+                brfbk;
+            dbsf Typf.FLOAT:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Flobt", "TYPE",
+                        CLDESC);
+                brfbk;
+            dbsf Typf.LONG:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Long", "TYPE",
+                        CLDESC);
+                brfbk;
+            dbsf Typf.DOUBLE:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Doublf",
+                        "TYPE", CLDESC);
+                brfbk;
+            dffbult:
+                mv.visitLddInsn(vbluf);
+            }
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push b hbndlf on thf stbdk.
+     *
+     * @pbrbm hbndlf
+     *            thf hbndlf to bf pushfd on thf stbdk.
+     */
+    publid void push(finbl Hbndlf hbndlf) {
+        mv.visitLddInsn(hbndlf);
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to lobd bnd storf mfthod brgumfnts
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf indfx of thf givfn mfthod brgumfnt in thf frbmf's lodbl
+     * vbribblfs brrby.
+     *
+     * @pbrbm brg
+     *            thf indfx of b mfthod brgumfnt.
+     * @rfturn thf indfx of thf givfn mfthod brgumfnt in thf frbmf's lodbl
+     *         vbribblfs brrby.
+     */
+    privbtf int gftArgIndfx(finbl int brg) {
+        int indfx = (bddfss & Opdodfs.ACC_STATIC) == 0 ? 1 : 0;
+        for (int i = 0; i < brg; i++) {
+            indfx += brgumfntTypfs[i].gftSizf();
+        }
+        rfturn indfx;
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push b lodbl vbribblf on thf stbdk.
+     *
+     * @pbrbm typf
+     *            thf typf of thf lodbl vbribblf to bf lobdfd.
+     * @pbrbm indfx
+     *            bn indfx in thf frbmf's lodbl vbribblfs brrby.
+     */
+    privbtf void lobdInsn(finbl Typf typf, finbl int indfx) {
+        mv.visitVbrInsn(typf.gftOpdodf(Opdodfs.ILOAD), indfx);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to storf thf top stbdk vbluf in b lodbl
+     * vbribblf.
+     *
+     * @pbrbm typf
+     *            thf typf of thf lodbl vbribblf to bf storfd.
+     * @pbrbm indfx
+     *            bn indfx in thf frbmf's lodbl vbribblfs brrby.
+     */
+    privbtf void storfInsn(finbl Typf typf, finbl int indfx) {
+        mv.visitVbrInsn(typf.gftOpdodf(Opdodfs.ISTORE), indfx);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to lobd 'this' on thf stbdk.
+     */
+    publid void lobdThis() {
+        if ((bddfss & Opdodfs.ACC_STATIC) != 0) {
+            throw nfw IllfgblStbtfExdfption(
+                    "no 'this' pointfr within stbtid mfthod");
+        }
+        mv.visitVbrInsn(Opdodfs.ALOAD, 0);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to lobd thf givfn mfthod brgumfnt on thf stbdk.
+     *
+     * @pbrbm brg
+     *            thf indfx of b mfthod brgumfnt.
+     */
+    publid void lobdArg(finbl int brg) {
+        lobdInsn(brgumfntTypfs[brg], gftArgIndfx(brg));
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to lobd thf givfn mfthod brgumfnts on thf
+     * stbdk.
+     *
+     * @pbrbm brg
+     *            thf indfx of thf first mfthod brgumfnt to bf lobdfd.
+     * @pbrbm dount
+     *            thf numbfr of mfthod brgumfnts to bf lobdfd.
+     */
+    publid void lobdArgs(finbl int brg, finbl int dount) {
+        int indfx = gftArgIndfx(brg);
+        for (int i = 0; i < dount; ++i) {
+            Typf t = brgumfntTypfs[brg + i];
+            lobdInsn(t, indfx);
+            indfx += t.gftSizf();
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to lobd bll thf mfthod brgumfnts on thf stbdk.
+     */
+    publid void lobdArgs() {
+        lobdArgs(0, brgumfntTypfs.lfngth);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to lobd bll thf mfthod brgumfnts on thf stbdk,
+     * bs b singlf objfdt brrby.
+     */
+    publid void lobdArgArrby() {
+        push(brgumfntTypfs.lfngth);
+        nfwArrby(OBJECT_TYPE);
+        for (int i = 0; i < brgumfntTypfs.lfngth; i++) {
+            dup();
+            push(i);
+            lobdArg(i);
+            box(brgumfntTypfs[i]);
+            brrbyStorf(OBJECT_TYPE);
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to storf thf top stbdk vbluf in thf givfn
+     * mfthod brgumfnt.
+     *
+     * @pbrbm brg
+     *            thf indfx of b mfthod brgumfnt.
+     */
+    publid void storfArg(finbl int brg) {
+        storfInsn(brgumfntTypfs[brg], gftArgIndfx(brg));
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to lobd bnd storf lodbl vbribblfs
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf typf of thf givfn lodbl vbribblf.
+     *
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     * @rfturn thf typf of thf givfn lodbl vbribblf.
+     */
+    publid Typf gftLodblTypf(finbl int lodbl) {
+        rfturn lodblTypfs.gft(lodbl - firstLodbl);
+    }
+
+    @Ovfrridf
+    protfdtfd void sftLodblTypf(finbl int lodbl, finbl Typf typf) {
+        int indfx = lodbl - firstLodbl;
+        whilf (lodblTypfs.sizf() < indfx + 1) {
+            lodblTypfs.bdd(null);
+        }
+        lodblTypfs.sft(indfx, typf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to lobd thf givfn lodbl vbribblf on thf stbdk.
+     *
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     */
+    publid void lobdLodbl(finbl int lodbl) {
+        lobdInsn(gftLodblTypf(lodbl), lodbl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to lobd thf givfn lodbl vbribblf on thf stbdk.
+     *
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     * @pbrbm typf
+     *            thf typf of this lodbl vbribblf.
+     */
+    publid void lobdLodbl(finbl int lodbl, finbl Typf typf) {
+        sftLodblTypf(lodbl, typf);
+        lobdInsn(typf, lodbl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to storf thf top stbdk vbluf in thf givfn lodbl
+     * vbribblf.
+     *
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     */
+    publid void storfLodbl(finbl int lodbl) {
+        storfInsn(gftLodblTypf(lodbl), lodbl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to storf thf top stbdk vbluf in thf givfn lodbl
+     * vbribblf.
+     *
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     * @pbrbm typf
+     *            thf typf of this lodbl vbribblf.
+     */
+    publid void storfLodbl(finbl int lodbl, finbl Typf typf) {
+        sftLodblTypf(lodbl, typf);
+        storfInsn(typf, lodbl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to lobd bn flfmfnt from bn brrby.
+     *
+     * @pbrbm typf
+     *            thf typf of thf brrby flfmfnt to bf lobdfd.
+     */
+    publid void brrbyLobd(finbl Typf typf) {
+        mv.visitInsn(typf.gftOpdodf(Opdodfs.IALOAD));
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to storf bn flfmfnt in bn brrby.
+     *
+     * @pbrbm typf
+     *            thf typf of thf brrby flfmfnt to bf storfd.
+     */
+    publid void brrbyStorf(finbl Typf typf) {
+        mv.visitInsn(typf.gftOpdodf(Opdodfs.IASTORE));
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to mbnbgf thf stbdk
+    // ------------------------------------------------------------------------
+
+    /**
+     * Gfnfrbtfs b POP instrudtion.
+     */
+    publid void pop() {
+        mv.visitInsn(Opdodfs.POP);
+    }
+
+    /**
+     * Gfnfrbtfs b POP2 instrudtion.
+     */
+    publid void pop2() {
+        mv.visitInsn(Opdodfs.POP2);
+    }
+
+    /**
+     * Gfnfrbtfs b DUP instrudtion.
+     */
+    publid void dup() {
+        mv.visitInsn(Opdodfs.DUP);
+    }
+
+    /**
+     * Gfnfrbtfs b DUP2 instrudtion.
+     */
+    publid void dup2() {
+        mv.visitInsn(Opdodfs.DUP2);
+    }
+
+    /**
+     * Gfnfrbtfs b DUP_X1 instrudtion.
+     */
+    publid void dupX1() {
+        mv.visitInsn(Opdodfs.DUP_X1);
+    }
+
+    /**
+     * Gfnfrbtfs b DUP_X2 instrudtion.
+     */
+    publid void dupX2() {
+        mv.visitInsn(Opdodfs.DUP_X2);
+    }
+
+    /**
+     * Gfnfrbtfs b DUP2_X1 instrudtion.
+     */
+    publid void dup2X1() {
+        mv.visitInsn(Opdodfs.DUP2_X1);
+    }
+
+    /**
+     * Gfnfrbtfs b DUP2_X2 instrudtion.
+     */
+    publid void dup2X2() {
+        mv.visitInsn(Opdodfs.DUP2_X2);
+    }
+
+    /**
+     * Gfnfrbtfs b SWAP instrudtion.
+     */
+    publid void swbp() {
+        mv.visitInsn(Opdodfs.SWAP);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to swbp thf top two stbdk vblufs.
+     *
+     * @pbrbm prfv
+     *            typf of thf top - 1 stbdk vbluf.
+     * @pbrbm typf
+     *            typf of thf top stbdk vbluf.
+     */
+    publid void swbp(finbl Typf prfv, finbl Typf typf) {
+        if (typf.gftSizf() == 1) {
+            if (prfv.gftSizf() == 1) {
+                swbp(); // sbmf bs dupX1(), pop();
+            } flsf {
+                dupX2();
+                pop();
+            }
+        } flsf {
+            if (prfv.gftSizf() == 1) {
+                dup2X1();
+                pop2();
+            } flsf {
+                dup2X2();
+                pop2();
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to do mbthfmbtidbl bnd logidbl opfrbtions
+    // ------------------------------------------------------------------------
+
+    /**
+     * Gfnfrbtfs thf instrudtion to do thf spfdififd mbthfmbtidbl or logidbl
+     * opfrbtion.
+     *
+     * @pbrbm op
+     *            b mbthfmbtidbl or logidbl opfrbtion. Must bf onf of ADD, SUB,
+     *            MUL, DIV, REM, NEG, SHL, SHR, USHR, AND, OR, XOR.
+     * @pbrbm typf
+     *            thf typf of thf opfrbnd(s) for this opfrbtion.
+     */
+    publid void mbth(finbl int op, finbl Typf typf) {
+        mv.visitInsn(typf.gftOpdodf(op));
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to domputf thf bitwisf nfgbtion of thf top
+     * stbdk vbluf.
+     */
+    publid void not() {
+        mv.visitInsn(Opdodfs.ICONST_1);
+        mv.visitInsn(Opdodfs.IXOR);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to indrfmfnt thf givfn lodbl vbribblf.
+     *
+     * @pbrbm lodbl
+     *            thf lodbl vbribblf to bf indrfmfntfd.
+     * @pbrbm bmount
+     *            thf bmount by whidh thf lodbl vbribblf must bf indrfmfntfd.
+     */
+    publid void iind(finbl int lodbl, finbl int bmount) {
+        mv.visitIindInsn(lodbl, bmount);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to dbst b numfridbl vbluf from onf typf to
+     * bnothfr.
+     *
+     * @pbrbm from
+     *            thf typf of thf top stbdk vbluf
+     * @pbrbm to
+     *            thf typf into whidh this vbluf must bf dbst.
+     */
+    publid void dbst(finbl Typf from, finbl Typf to) {
+        if (from != to) {
+            if (from == Typf.DOUBLE_TYPE) {
+                if (to == Typf.FLOAT_TYPE) {
+                    mv.visitInsn(Opdodfs.D2F);
+                } flsf if (to == Typf.LONG_TYPE) {
+                    mv.visitInsn(Opdodfs.D2L);
+                } flsf {
+                    mv.visitInsn(Opdodfs.D2I);
+                    dbst(Typf.INT_TYPE, to);
+                }
+            } flsf if (from == Typf.FLOAT_TYPE) {
+                if (to == Typf.DOUBLE_TYPE) {
+                    mv.visitInsn(Opdodfs.F2D);
+                } flsf if (to == Typf.LONG_TYPE) {
+                    mv.visitInsn(Opdodfs.F2L);
+                } flsf {
+                    mv.visitInsn(Opdodfs.F2I);
+                    dbst(Typf.INT_TYPE, to);
+                }
+            } flsf if (from == Typf.LONG_TYPE) {
+                if (to == Typf.DOUBLE_TYPE) {
+                    mv.visitInsn(Opdodfs.L2D);
+                } flsf if (to == Typf.FLOAT_TYPE) {
+                    mv.visitInsn(Opdodfs.L2F);
+                } flsf {
+                    mv.visitInsn(Opdodfs.L2I);
+                    dbst(Typf.INT_TYPE, to);
+                }
+            } flsf {
+                if (to == Typf.BYTE_TYPE) {
+                    mv.visitInsn(Opdodfs.I2B);
+                } flsf if (to == Typf.CHAR_TYPE) {
+                    mv.visitInsn(Opdodfs.I2C);
+                } flsf if (to == Typf.DOUBLE_TYPE) {
+                    mv.visitInsn(Opdodfs.I2D);
+                } flsf if (to == Typf.FLOAT_TYPE) {
+                    mv.visitInsn(Opdodfs.I2F);
+                } flsf if (to == Typf.LONG_TYPE) {
+                    mv.visitInsn(Opdodfs.I2L);
+                } flsf if (to == Typf.SHORT_TYPE) {
+                    mv.visitInsn(Opdodfs.I2S);
+                }
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to do boxing bnd unboxing opfrbtions
+    // ------------------------------------------------------------------------
+
+    privbtf stbtid Typf gftBoxfdTypf(finbl Typf typf) {
+        switdh (typf.gftSort()) {
+        dbsf Typf.BYTE:
+            rfturn BYTE_TYPE;
+        dbsf Typf.BOOLEAN:
+            rfturn BOOLEAN_TYPE;
+        dbsf Typf.SHORT:
+            rfturn SHORT_TYPE;
+        dbsf Typf.CHAR:
+            rfturn CHARACTER_TYPE;
+        dbsf Typf.INT:
+            rfturn INTEGER_TYPE;
+        dbsf Typf.FLOAT:
+            rfturn FLOAT_TYPE;
+        dbsf Typf.LONG:
+            rfturn LONG_TYPE;
+        dbsf Typf.DOUBLE:
+            rfturn DOUBLE_TYPE;
+        }
+        rfturn typf;
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to box thf top stbdk vbluf. This vbluf is
+     * rfplbdfd by its boxfd fquivblfnt on top of thf stbdk.
+     *
+     * @pbrbm typf
+     *            thf typf of thf top stbdk vbluf.
+     */
+    publid void box(finbl Typf typf) {
+        if (typf.gftSort() == Typf.OBJECT || typf.gftSort() == Typf.ARRAY) {
+            rfturn;
+        }
+        if (typf == Typf.VOID_TYPE) {
+            push((String) null);
+        } flsf {
+            Typf boxfd = gftBoxfdTypf(typf);
+            nfwInstbndf(boxfd);
+            if (typf.gftSizf() == 2) {
+                // Pp -> Ppo -> oPpo -> ooPpo -> ooPp -> o
+                dupX2();
+                dupX2();
+                pop();
+            } flsf {
+                // p -> po -> opo -> oop -> o
+                dupX1();
+                swbp();
+            }
+            invokfConstrudtor(boxfd, nfw Mfthod("<init>", Typf.VOID_TYPE,
+                    nfw Typf[] { typf }));
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to box thf top stbdk vbluf using Jbvb 5's
+     * vblufOf() mfthod. This vbluf is rfplbdfd by its boxfd fquivblfnt on top
+     * of thf stbdk.
+     *
+     * @pbrbm typf
+     *            thf typf of thf top stbdk vbluf.
+     */
+    publid void vblufOf(finbl Typf typf) {
+        if (typf.gftSort() == Typf.OBJECT || typf.gftSort() == Typf.ARRAY) {
+            rfturn;
+        }
+        if (typf == Typf.VOID_TYPE) {
+            push((String) null);
+        } flsf {
+            Typf boxfd = gftBoxfdTypf(typf);
+            invokfStbtid(boxfd, nfw Mfthod("vblufOf", boxfd,
+                    nfw Typf[] { typf }));
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to unbox thf top stbdk vbluf. This vbluf is
+     * rfplbdfd by its unboxfd fquivblfnt on top of thf stbdk.
+     *
+     * @pbrbm typf
+     *            thf typf of thf top stbdk vbluf.
+     */
+    publid void unbox(finbl Typf typf) {
+        Typf t = NUMBER_TYPE;
+        Mfthod sig = null;
+        switdh (typf.gftSort()) {
+        dbsf Typf.VOID:
+            rfturn;
+        dbsf Typf.CHAR:
+            t = CHARACTER_TYPE;
+            sig = CHAR_VALUE;
+            brfbk;
+        dbsf Typf.BOOLEAN:
+            t = BOOLEAN_TYPE;
+            sig = BOOLEAN_VALUE;
+            brfbk;
+        dbsf Typf.DOUBLE:
+            sig = DOUBLE_VALUE;
+            brfbk;
+        dbsf Typf.FLOAT:
+            sig = FLOAT_VALUE;
+            brfbk;
+        dbsf Typf.LONG:
+            sig = LONG_VALUE;
+            brfbk;
+        dbsf Typf.INT:
+        dbsf Typf.SHORT:
+        dbsf Typf.BYTE:
+            sig = INT_VALUE;
+        }
+        if (sig == null) {
+            dhfdkCbst(typf);
+        } flsf {
+            dhfdkCbst(t);
+            invokfVirtubl(t, sig);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to jump to othfr instrudtions
+    // ------------------------------------------------------------------------
+
+    /**
+     * Crfbtfs b nfw {@link Lbbfl}.
+     *
+     * @rfturn b nfw {@link Lbbfl}.
+     */
+    publid Lbbfl nfwLbbfl() {
+        rfturn nfw Lbbfl();
+    }
+
+    /**
+     * Mbrks thf durrfnt dodf position with thf givfn lbbfl.
+     *
+     * @pbrbm lbbfl
+     *            b lbbfl.
+     */
+    publid void mbrk(finbl Lbbfl lbbfl) {
+        mv.visitLbbfl(lbbfl);
+    }
+
+    /**
+     * Mbrks thf durrfnt dodf position with b nfw lbbfl.
+     *
+     * @rfturn thf lbbfl thbt wbs drfbtfd to mbrk thf durrfnt dodf position.
+     */
+    publid Lbbfl mbrk() {
+        Lbbfl lbbfl = nfw Lbbfl();
+        mv.visitLbbfl(lbbfl);
+        rfturn lbbfl;
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to jump to b lbbfl bbsfd on thf dompbrison of
+     * thf top two stbdk vblufs.
+     *
+     * @pbrbm typf
+     *            thf typf of thf top two stbdk vblufs.
+     * @pbrbm modf
+     *            how thfsf vblufs must bf dompbrfd. Onf of EQ, NE, LT, GE, GT,
+     *            LE.
+     * @pbrbm lbbfl
+     *            whfrf to jump if thf dompbrison rfsult is <tt>truf</tt>.
+     */
+    publid void ifCmp(finbl Typf typf, finbl int modf, finbl Lbbfl lbbfl) {
+        switdh (typf.gftSort()) {
+        dbsf Typf.LONG:
+            mv.visitInsn(Opdodfs.LCMP);
+            brfbk;
+        dbsf Typf.DOUBLE:
+            mv.visitInsn(modf == GE || modf == GT ? Opdodfs.DCMPL
+                    : Opdodfs.DCMPG);
+            brfbk;
+        dbsf Typf.FLOAT:
+            mv.visitInsn(modf == GE || modf == GT ? Opdodfs.FCMPL
+                    : Opdodfs.FCMPG);
+            brfbk;
+        dbsf Typf.ARRAY:
+        dbsf Typf.OBJECT:
+            switdh (modf) {
+            dbsf EQ:
+                mv.visitJumpInsn(Opdodfs.IF_ACMPEQ, lbbfl);
+                rfturn;
+            dbsf NE:
+                mv.visitJumpInsn(Opdodfs.IF_ACMPNE, lbbfl);
+                rfturn;
+            }
+            throw nfw IllfgblArgumfntExdfption("Bbd dompbrison for typf "
+                    + typf);
+        dffbult:
+            int intOp = -1;
+            switdh (modf) {
+            dbsf EQ:
+                intOp = Opdodfs.IF_ICMPEQ;
+                brfbk;
+            dbsf NE:
+                intOp = Opdodfs.IF_ICMPNE;
+                brfbk;
+            dbsf GE:
+                intOp = Opdodfs.IF_ICMPGE;
+                brfbk;
+            dbsf LT:
+                intOp = Opdodfs.IF_ICMPLT;
+                brfbk;
+            dbsf LE:
+                intOp = Opdodfs.IF_ICMPLE;
+                brfbk;
+            dbsf GT:
+                intOp = Opdodfs.IF_ICMPGT;
+                brfbk;
+            }
+            mv.visitJumpInsn(intOp, lbbfl);
+            rfturn;
+        }
+        mv.visitJumpInsn(modf, lbbfl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to jump to b lbbfl bbsfd on thf dompbrison of
+     * thf top two intfgfr stbdk vblufs.
+     *
+     * @pbrbm modf
+     *            how thfsf vblufs must bf dompbrfd. Onf of EQ, NE, LT, GE, GT,
+     *            LE.
+     * @pbrbm lbbfl
+     *            whfrf to jump if thf dompbrison rfsult is <tt>truf</tt>.
+     */
+    publid void ifICmp(finbl int modf, finbl Lbbfl lbbfl) {
+        ifCmp(Typf.INT_TYPE, modf, lbbfl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to jump to b lbbfl bbsfd on thf dompbrison of
+     * thf top intfgfr stbdk vbluf with zfro.
+     *
+     * @pbrbm modf
+     *            how thfsf vblufs must bf dompbrfd. Onf of EQ, NE, LT, GE, GT,
+     *            LE.
+     * @pbrbm lbbfl
+     *            whfrf to jump if thf dompbrison rfsult is <tt>truf</tt>.
+     */
+    publid void ifZCmp(finbl int modf, finbl Lbbfl lbbfl) {
+        mv.visitJumpInsn(modf, lbbfl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to jump to thf givfn lbbfl if thf top stbdk
+     * vbluf is null.
+     *
+     * @pbrbm lbbfl
+     *            whfrf to jump if thf dondition is <tt>truf</tt>.
+     */
+    publid void ifNull(finbl Lbbfl lbbfl) {
+        mv.visitJumpInsn(Opdodfs.IFNULL, lbbfl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to jump to thf givfn lbbfl if thf top stbdk
+     * vbluf is not null.
+     *
+     * @pbrbm lbbfl
+     *            whfrf to jump if thf dondition is <tt>truf</tt>.
+     */
+    publid void ifNonNull(finbl Lbbfl lbbfl) {
+        mv.visitJumpInsn(Opdodfs.IFNONNULL, lbbfl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to jump to thf givfn lbbfl.
+     *
+     * @pbrbm lbbfl
+     *            whfrf to jump if thf dondition is <tt>truf</tt>.
+     */
+    publid void goTo(finbl Lbbfl lbbfl) {
+        mv.visitJumpInsn(Opdodfs.GOTO, lbbfl);
+    }
+
+    /**
+     * Gfnfrbtfs b RET instrudtion.
+     *
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     */
+    publid void rft(finbl int lodbl) {
+        mv.visitVbrInsn(Opdodfs.RET, lodbl);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions for b switdh stbtfmfnt.
+     *
+     * @pbrbm kfys
+     *            thf switdh dbsf kfys.
+     * @pbrbm gfnfrbtor
+     *            b gfnfrbtor to gfnfrbtf thf dodf for thf switdh dbsfs.
+     */
+    publid void tbblfSwitdh(finbl int[] kfys,
+            finbl TbblfSwitdhGfnfrbtor gfnfrbtor) {
+        flobt dfnsity;
+        if (kfys.lfngth == 0) {
+            dfnsity = 0;
+        } flsf {
+            dfnsity = (flobt) kfys.lfngth
+                    / (kfys[kfys.lfngth - 1] - kfys[0] + 1);
+        }
+        tbblfSwitdh(kfys, gfnfrbtor, dfnsity >= 0.5f);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions for b switdh stbtfmfnt.
+     *
+     * @pbrbm kfys
+     *            thf switdh dbsf kfys.
+     * @pbrbm gfnfrbtor
+     *            b gfnfrbtor to gfnfrbtf thf dodf for thf switdh dbsfs.
+     * @pbrbm usfTbblf
+     *            <tt>truf</tt> to usf b TABLESWITCH instrudtion, or
+     *            <tt>fblsf</tt> to usf b LOOKUPSWITCH instrudtion.
+     */
+    publid void tbblfSwitdh(finbl int[] kfys,
+            finbl TbblfSwitdhGfnfrbtor gfnfrbtor, finbl boolfbn usfTbblf) {
+        for (int i = 1; i < kfys.lfngth; ++i) {
+            if (kfys[i] < kfys[i - 1]) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "kfys must bf sortfd bsdfnding");
+            }
+        }
+        Lbbfl dff = nfwLbbfl();
+        Lbbfl fnd = nfwLbbfl();
+        if (kfys.lfngth > 0) {
+            int lfn = kfys.lfngth;
+            int min = kfys[0];
+            int mbx = kfys[lfn - 1];
+            int rbngf = mbx - min + 1;
+            if (usfTbblf) {
+                Lbbfl[] lbbfls = nfw Lbbfl[rbngf];
+                Arrbys.fill(lbbfls, dff);
+                for (int i = 0; i < lfn; ++i) {
+                    lbbfls[kfys[i] - min] = nfwLbbfl();
+                }
+                mv.visitTbblfSwitdhInsn(min, mbx, dff, lbbfls);
+                for (int i = 0; i < rbngf; ++i) {
+                    Lbbfl lbbfl = lbbfls[i];
+                    if (lbbfl != dff) {
+                        mbrk(lbbfl);
+                        gfnfrbtor.gfnfrbtfCbsf(i + min, fnd);
+                    }
+                }
+            } flsf {
+                Lbbfl[] lbbfls = nfw Lbbfl[lfn];
+                for (int i = 0; i < lfn; ++i) {
+                    lbbfls[i] = nfwLbbfl();
+                }
+                mv.visitLookupSwitdhInsn(dff, kfys, lbbfls);
+                for (int i = 0; i < lfn; ++i) {
+                    mbrk(lbbfls[i]);
+                    gfnfrbtor.gfnfrbtfCbsf(kfys[i], fnd);
+                }
+            }
+        }
+        mbrk(dff);
+        gfnfrbtor.gfnfrbtfDffbult();
+        mbrk(fnd);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to rfturn thf top stbdk vbluf to thf dbllfr.
+     */
+    publid void rfturnVbluf() {
+        mv.visitInsn(rfturnTypf.gftOpdodf(Opdodfs.IRETURN));
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to lobd bnd storf fiflds
+    // ------------------------------------------------------------------------
+
+    /**
+     * Gfnfrbtfs b gft fifld or sft fifld instrudtion.
+     *
+     * @pbrbm opdodf
+     *            thf instrudtion's opdodf.
+     * @pbrbm ownfrTypf
+     *            thf dlbss in whidh thf fifld is dffinfd.
+     * @pbrbm nbmf
+     *            thf nbmf of thf fifld.
+     * @pbrbm fifldTypf
+     *            thf typf of thf fifld.
+     */
+    privbtf void fifldInsn(finbl int opdodf, finbl Typf ownfrTypf,
+            finbl String nbmf, finbl Typf fifldTypf) {
+        mv.visitFifldInsn(opdodf, ownfrTypf.gftIntfrnblNbmf(), nbmf,
+                fifldTypf.gftDfsdriptor());
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf vbluf of b stbtid fifld on thf
+     * stbdk.
+     *
+     * @pbrbm ownfr
+     *            thf dlbss in whidh thf fifld is dffinfd.
+     * @pbrbm nbmf
+     *            thf nbmf of thf fifld.
+     * @pbrbm typf
+     *            thf typf of thf fifld.
+     */
+    publid void gftStbtid(finbl Typf ownfr, finbl String nbmf, finbl Typf typf) {
+        fifldInsn(Opdodfs.GETSTATIC, ownfr, nbmf, typf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to storf thf top stbdk vbluf in b stbtid fifld.
+     *
+     * @pbrbm ownfr
+     *            thf dlbss in whidh thf fifld is dffinfd.
+     * @pbrbm nbmf
+     *            thf nbmf of thf fifld.
+     * @pbrbm typf
+     *            thf typf of thf fifld.
+     */
+    publid void putStbtid(finbl Typf ownfr, finbl String nbmf, finbl Typf typf) {
+        fifldInsn(Opdodfs.PUTSTATIC, ownfr, nbmf, typf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to push thf vbluf of b non stbtid fifld on thf
+     * stbdk.
+     *
+     * @pbrbm ownfr
+     *            thf dlbss in whidh thf fifld is dffinfd.
+     * @pbrbm nbmf
+     *            thf nbmf of thf fifld.
+     * @pbrbm typf
+     *            thf typf of thf fifld.
+     */
+    publid void gftFifld(finbl Typf ownfr, finbl String nbmf, finbl Typf typf) {
+        fifldInsn(Opdodfs.GETFIELD, ownfr, nbmf, typf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to storf thf top stbdk vbluf in b non stbtid
+     * fifld.
+     *
+     * @pbrbm ownfr
+     *            thf dlbss in whidh thf fifld is dffinfd.
+     * @pbrbm nbmf
+     *            thf nbmf of thf fifld.
+     * @pbrbm typf
+     *            thf typf of thf fifld.
+     */
+    publid void putFifld(finbl Typf ownfr, finbl String nbmf, finbl Typf typf) {
+        fifldInsn(Opdodfs.PUTFIELD, ownfr, nbmf, typf);
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to invokf mfthods
+    // ------------------------------------------------------------------------
+
+    /**
+     * Gfnfrbtfs bn invokf mfthod instrudtion.
+     *
+     * @pbrbm opdodf
+     *            thf instrudtion's opdodf.
+     * @pbrbm typf
+     *            thf dlbss in whidh thf mfthod is dffinfd.
+     * @pbrbm mfthod
+     *            thf mfthod to bf invokfd.
+     */
+    privbtf void invokfInsn(finbl int opdodf, finbl Typf typf,
+            finbl Mfthod mfthod, finbl boolfbn itf) {
+        String ownfr = typf.gftSort() == Typf.ARRAY ? typf.gftDfsdriptor()
+                : typf.gftIntfrnblNbmf();
+        mv.visitMfthodInsn(opdodf, ownfr, mfthod.gftNbmf(),
+                mfthod.gftDfsdriptor(), itf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to invokf b normbl mfthod.
+     *
+     * @pbrbm ownfr
+     *            thf dlbss in whidh thf mfthod is dffinfd.
+     * @pbrbm mfthod
+     *            thf mfthod to bf invokfd.
+     */
+    publid void invokfVirtubl(finbl Typf ownfr, finbl Mfthod mfthod) {
+        invokfInsn(Opdodfs.INVOKEVIRTUAL, ownfr, mfthod, fblsf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to invokf b donstrudtor.
+     *
+     * @pbrbm typf
+     *            thf dlbss in whidh thf donstrudtor is dffinfd.
+     * @pbrbm mfthod
+     *            thf donstrudtor to bf invokfd.
+     */
+    publid void invokfConstrudtor(finbl Typf typf, finbl Mfthod mfthod) {
+        invokfInsn(Opdodfs.INVOKESPECIAL, typf, mfthod, fblsf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to invokf b stbtid mfthod.
+     *
+     * @pbrbm ownfr
+     *            thf dlbss in whidh thf mfthod is dffinfd.
+     * @pbrbm mfthod
+     *            thf mfthod to bf invokfd.
+     */
+    publid void invokfStbtid(finbl Typf ownfr, finbl Mfthod mfthod) {
+        invokfInsn(Opdodfs.INVOKESTATIC, ownfr, mfthod, fblsf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to invokf bn intfrfbdf mfthod.
+     *
+     * @pbrbm ownfr
+     *            thf dlbss in whidh thf mfthod is dffinfd.
+     * @pbrbm mfthod
+     *            thf mfthod to bf invokfd.
+     */
+    publid void invokfIntfrfbdf(finbl Typf ownfr, finbl Mfthod mfthod) {
+        invokfInsn(Opdodfs.INVOKEINTERFACE, ownfr, mfthod, truf);
+    }
+
+    /**
+     * Gfnfrbtfs bn invokfdynbmid instrudtion.
+     *
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm bsm
+     *            thf bootstrbp mfthod.
+     * @pbrbm bsmArgs
+     *            thf bootstrbp mfthod donstbnt brgumfnts. Ebdh brgumfnt must bf
+     *            bn {@link Intfgfr}, {@link Flobt}, {@link Long},
+     *            {@link Doublf}, {@link String}, {@link Typf} or {@link Hbndlf}
+     *            vbluf. This mfthod is bllowfd to modify thf dontfnt of thf
+     *            brrby so b dbllfr should fxpfdt thbt this brrby mby dhbngf.
+     */
+    publid void invokfDynbmid(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        mv.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to drfbtf objfdts bnd brrbys
+    // ------------------------------------------------------------------------
+
+    /**
+     * Gfnfrbtfs b typf dfpfndfnt instrudtion.
+     *
+     * @pbrbm opdodf
+     *            thf instrudtion's opdodf.
+     * @pbrbm typf
+     *            thf instrudtion's opfrbnd.
+     */
+    privbtf void typfInsn(finbl int opdodf, finbl Typf typf) {
+        mv.visitTypfInsn(opdodf, typf.gftIntfrnblNbmf());
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to drfbtf b nfw objfdt.
+     *
+     * @pbrbm typf
+     *            thf dlbss of thf objfdt to bf drfbtfd.
+     */
+    publid void nfwInstbndf(finbl Typf typf) {
+        typfInsn(Opdodfs.NEW, typf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to drfbtf b nfw brrby.
+     *
+     * @pbrbm typf
+     *            thf typf of thf brrby flfmfnts.
+     */
+    publid void nfwArrby(finbl Typf typf) {
+        int typ;
+        switdh (typf.gftSort()) {
+        dbsf Typf.BOOLEAN:
+            typ = Opdodfs.T_BOOLEAN;
+            brfbk;
+        dbsf Typf.CHAR:
+            typ = Opdodfs.T_CHAR;
+            brfbk;
+        dbsf Typf.BYTE:
+            typ = Opdodfs.T_BYTE;
+            brfbk;
+        dbsf Typf.SHORT:
+            typ = Opdodfs.T_SHORT;
+            brfbk;
+        dbsf Typf.INT:
+            typ = Opdodfs.T_INT;
+            brfbk;
+        dbsf Typf.FLOAT:
+            typ = Opdodfs.T_FLOAT;
+            brfbk;
+        dbsf Typf.LONG:
+            typ = Opdodfs.T_LONG;
+            brfbk;
+        dbsf Typf.DOUBLE:
+            typ = Opdodfs.T_DOUBLE;
+            brfbk;
+        dffbult:
+            typfInsn(Opdodfs.ANEWARRAY, typf);
+            rfturn;
+        }
+        mv.visitIntInsn(Opdodfs.NEWARRAY, typ);
+    }
+
+    // ------------------------------------------------------------------------
+    // Misdflbnfous instrudtions
+    // ------------------------------------------------------------------------
+
+    /**
+     * Gfnfrbtfs thf instrudtion to domputf thf lfngth of bn brrby.
+     */
+    publid void brrbyLfngth() {
+        mv.visitInsn(Opdodfs.ARRAYLENGTH);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to throw bn fxdfption.
+     */
+    publid void throwExdfption() {
+        mv.visitInsn(Opdodfs.ATHROW);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtions to drfbtf bnd throw bn fxdfption. Thf
+     * fxdfption dlbss must hbvf b donstrudtor with b singlf String brgumfnt.
+     *
+     * @pbrbm typf
+     *            thf dlbss of thf fxdfption to bf thrown.
+     * @pbrbm msg
+     *            thf dftbilfd mfssbgf of thf fxdfption.
+     */
+    publid void throwExdfption(finbl Typf typf, finbl String msg) {
+        nfwInstbndf(typf);
+        dup();
+        push(msg);
+        invokfConstrudtor(typf, Mfthod.gftMfthod("void <init> (String)"));
+        throwExdfption();
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to dhfdk thbt thf top stbdk vbluf is of thf
+     * givfn typf.
+     *
+     * @pbrbm typf
+     *            b dlbss or intfrfbdf typf.
+     */
+    publid void dhfdkCbst(finbl Typf typf) {
+        if (!typf.fqubls(OBJECT_TYPE)) {
+            typfInsn(Opdodfs.CHECKCAST, typf);
+        }
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to tfst if thf top stbdk vbluf is of thf givfn
+     * typf.
+     *
+     * @pbrbm typf
+     *            b dlbss or intfrfbdf typf.
+     */
+    publid void instbndfOf(finbl Typf typf) {
+        typfInsn(Opdodfs.INSTANCEOF, typf);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to gft thf monitor of thf top stbdk vbluf.
+     */
+    publid void monitorEntfr() {
+        mv.visitInsn(Opdodfs.MONITORENTER);
+    }
+
+    /**
+     * Gfnfrbtfs thf instrudtion to rflfbsf thf monitor of thf top stbdk vbluf.
+     */
+    publid void monitorExit() {
+        mv.visitInsn(Opdodfs.MONITOREXIT);
+    }
+
+    // ------------------------------------------------------------------------
+    // Non instrudtions
+    // ------------------------------------------------------------------------
+
+    /**
+     * Mbrks thf fnd of thf visitfd mfthod.
+     */
+    publid void fndMfthod() {
+        if ((bddfss & Opdodfs.ACC_ABSTRACT) == 0) {
+            mv.visitMbxs(0, 0);
+        }
+        mv.visitEnd();
+    }
+
+    /**
+     * Mbrks thf stbrt of bn fxdfption hbndlfr.
+     *
+     * @pbrbm stbrt
+     *            bfginning of thf fxdfption hbndlfr's sdopf (indlusivf).
+     * @pbrbm fnd
+     *            fnd of thf fxdfption hbndlfr's sdopf (fxdlusivf).
+     * @pbrbm fxdfption
+     *            intfrnbl nbmf of thf typf of fxdfptions hbndlfd by thf
+     *            hbndlfr.
+     */
+    publid void dbtdhExdfption(finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl Typf fxdfption) {
+        if (fxdfption == null) {
+            mv.visitTryCbtdhBlodk(stbrt, fnd, mbrk(), null);
+        } flsf {
+            mv.visitTryCbtdhBlodk(stbrt, fnd, mbrk(),
+                    fxdfption.gftIntfrnblNbmf());
+        }
+    }
+}

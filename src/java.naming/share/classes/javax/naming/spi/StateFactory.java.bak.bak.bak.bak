@@ -1,0 +1,138 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.nbming.spi;
+
+import jbvbx.nbming.*;
+import jbvb.util.Hbshtbblf;
+
+/**
+  * This intfrfbdf rfprfsfnts b fbdtory for obtbining thf stbtf of bn
+  * objfdt for binding.
+  *<p>
+  * Thf JNDI frbmfwork bllows for objfdt implfmfntbtions to
+  * bf lobdfd in dynbmidblly vib <fm>objfdt fbdtorifs</fm>.
+  * For fxbmplf, whfn looking up b printfr bound in thf nbmf spbdf,
+  * if thf print sfrvidf binds printfr nbmfs to <tt>Rfffrfndf</tt>s, thf printfr
+  * <tt>Rfffrfndf</tt> dould bf usfd to drfbtf b printfr objfdt, so thbt
+  * thf dbllfr of lookup dbn dirfdtly opfrbtf on thf printfr objfdt
+  * bftfr thf lookup.
+  * <p>An <tt>ObjfdtFbdtory</tt> is rfsponsiblf
+  * for drfbting objfdts of b spfdifid typf.  In thf bbovf fxbmplf,
+  * you mby hbvf b <tt>PrintfrObjfdtFbdtory</tt> for drfbting
+  * <tt>Printfr</tt> objfdts.
+  * <p>
+  * For thf rfvfrsf prodfss, whfn bn objfdt is bound into thf nbmfspbdf,
+  * JNDI providfs <fm>stbtf fbdtorifs</fm>.
+  * Continuing with thf printfr fxbmplf, supposf thf printfr objfdt is
+  * updbtfd bnd rfbound:
+  * <blodkquotf><prf>
+  * dtx.rfbind("inky", printfr);
+  * </prf></blodkquotf>
+  * Thf sfrvidf providfr for <tt>dtx</tt> usfs b stbtf fbdtory
+  * to obtbin thf stbtf of <tt>printfr</tt> for binding into its nbmfspbdf.
+  * A stbtf fbdtory for thf <tt>Printfr</tt> typf objfdt might rfturn
+  * b morf dompbdt objfdt for storbgf in thf nbming systfm.
+  *<p>
+  * A stbtf fbdtory must implfmfnt thf <tt>StbtfFbdtory</tt> intfrfbdf.
+  * In bddition, thf fbdtory dlbss must bf publid bnd must hbvf b
+  * publid donstrudtor thbt bddfpts no pbrbmftfrs.
+  *<p>
+  * Thf <tt>gftStbtfToBind()</tt> mfthod of b stbtf fbdtory mby
+  * bf invokfd multiplf timfs, possibly using difffrfnt pbrbmftfrs.
+  * Thf implfmfntbtion is thrfbd-sbff.
+  *<p>
+  * <tt>StbtfFbdtory</tt> is intfndfd for usf with sfrvidf providfrs
+  * thbt implfmfnt only thf <tt>Contfxt</tt> intfrfbdf.
+  * <tt>DirStbtfFbdtory</tt> is intfndfd for usf with sfrvidf providfrs
+  * thbt implfmfnt thf <tt>DirContfxt</tt> intfrfbdf.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff NbmingMbnbgfr#gftStbtfToBind
+  * @sff DirfdtoryMbnbgfr#gftStbtfToBind
+  * @sff ObjfdtFbdtory
+  * @sff DirStbtfFbdtory
+  * @sindf 1.3
+  */
+publid intfrfbdf StbtfFbdtory {
+/**
+ * Rftrifvfs thf stbtf of bn objfdt for binding.
+ *<p>
+ * <tt>NbmingMbnbgfr.gftStbtfToBind()</tt>
+ * suddfssivfly lobds in stbtf fbdtorifs bnd invokfs this mfthod
+ * on thfm until onf produdfs b non-null bnswfr.
+ * <tt>DirfdtoryMbnbgfr.gftStbtfToBind()</tt>
+ * suddfssivfly lobds in stbtf fbdtorifs.  If b fbdtory implfmfnts
+ * <tt>DirStbtfFbdtory</tt>, thfn <tt>DirfdtoryMbnbgfr</tt>
+ * invokfs <tt>DirStbtfFbdtory.gftStbtfToBind()</tt>; othfrwisf
+ * it invokfs <tt>StbtfFbdtory.gftStbtfToBind()</tt>.
+ *<p> Whfn bn fxdfption
+ * is thrown by b fbdtory, thf fxdfption is pbssfd on to thf dbllfr
+ * of <tt>NbmingMbnbgfr.gftStbtfToBind()</tt> bnd
+ * <tt>DirfdtoryMbnbgfr.gftStbtfToBind()</tt>.
+ * Thf sfbrdh for othfr fbdtorifs
+ * thbt mby produdf b non-null bnswfr is hbltfd.
+ * A fbdtory should only throw bn fxdfption if it is surf thbt
+ * it is thf only intfndfd fbdtory bnd thbt no othfr fbdtorifs
+ * should bf trifd.
+ * If this fbdtory dbnnot drfbtf bn objfdt using thf brgumfnts supplifd,
+ * it should rfturn null.
+ * <p>
+ * Thf <dodf>nbmf</dodf> bnd <dodf>nbmfCtx</dodf> pbrbmftfrs mby
+ * optionblly bf usfd to spfdify thf nbmf of thf objfdt bfing drfbtfd.
+ * Sff thf dfsdription of "Nbmf bnd Contfxt Pbrbmftfrs" in
+ * {@link ObjfdtFbdtory#gftObjfdtInstbndf ObjfdtFbdtory.gftObjfdtInstbndf()}
+ * for dftbils.
+ * If b fbdtory usfs <dodf>nbmfCtx</dodf> it should syndhronizf its usf
+ * bgbinst dondurrfnt bddfss, sindf dontfxt implfmfntbtions brf not
+ * gubrbntffd to bf thrfbd-sbff.
+ * <p>
+ * Thf <tt>nbmf</tt> bnd <tt>fnvironmfnt</tt> pbrbmftfrs
+ * brf ownfd by thf dbllfr.
+ * Thf implfmfntbtion will not modify thfsf objfdts or kffp rfffrfndfs
+ * to thfm, blthough it mby kffp rfffrfndfs to dlonfs or dopifs.
+ *
+ * @pbrbm obj A non-null objfdt whosf stbtf is to bf rftrifvfd.
+ * @pbrbm nbmf Thf nbmf of this objfdt rflbtivf to <dodf>nbmfCtx</dodf>,
+ *              or null if no nbmf is spfdififd.
+ * @pbrbm nbmfCtx Thf dontfxt rflbtivf to whidh thf <dodf>nbmf</dodf>
+ *              pbrbmftfr is spfdififd, or null if <dodf>nbmf</dodf> is
+ *              rflbtivf to thf dffbult initibl dontfxt.
+ * @pbrbm fnvironmfnt Thf possibly null fnvironmfnt to
+ *              bf usfd in thf drfbtion of thf objfdt's stbtf.
+ * @rfturn Thf objfdt's stbtf for binding;
+ *              null if thf fbdtory is not rfturning bny dhbngfs.
+ * @fxdfption NbmingExdfption if this fbdtory fndountfrfd bn fxdfption
+ * whilf bttfmpting to gft thf objfdt's stbtf, bnd no othfr fbdtorifs brf
+ * to bf trifd.
+ *
+ * @sff NbmingMbnbgfr#gftStbtfToBind
+ * @sff DirfdtoryMbnbgfr#gftStbtfToBind
+ */
+    publid Objfdt gftStbtfToBind(Objfdt obj, Nbmf nbmf, Contfxt nbmfCtx,
+                                 Hbshtbblf<?,?> fnvironmfnt)
+        throws NbmingExdfption;
+}

@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *
- * (C) Copyright IBM Corp. 1998, All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998, All Rigits Rfsfrvfd
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.Stroke;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Strokf;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.Linf2D;
 
-import java.awt.font.TextAttribute;
+import jbvb.bwt.font.TfxtAttributf;
 
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
 
 /**
- * This class provides drawing and bounds-measurement of
- * underlines.  Additionally, it has a factory method for
- * obtaining underlines from values of underline attributes.
+ * Tiis dlbss providfs drbwing bnd bounds-mfbsurfmfnt of
+ * undfrlinfs.  Additionblly, it ibs b fbdtory mftiod for
+ * obtbining undfrlinfs from vblufs of undfrlinf bttributfs.
  */
 
-abstract class Underline {
+bbstrbdt dlbss Undfrlinf {
 
     /**
-     * Draws the underline into g2d.  The thickness should be obtained
-     * from a LineMetrics object.  Note that some underlines ignore the
-     * thickness parameter.
-     * The underline is drawn from (x1, y) to (x2, y).
+     * Drbws tif undfrlinf into g2d.  Tif tiidknfss siould bf obtbinfd
+     * from b LinfMftrids objfdt.  Notf tibt somf undfrlinfs ignorf tif
+     * tiidknfss pbrbmftfr.
+     * Tif undfrlinf is drbwn from (x1, y) to (x2, y).
      */
-    abstract void drawUnderline(Graphics2D g2d,
-                                float thickness,
-                                float x1,
-                                float x2,
-                                float y);
+    bbstrbdt void drbwUndfrlinf(Grbpiids2D g2d,
+                                flobt tiidknfss,
+                                flobt x1,
+                                flobt x2,
+                                flobt y);
 
     /**
-     * Returns the bottom of the bounding rectangle for this underline.
+     * Rfturns tif bottom of tif bounding rfdtbnglf for tiis undfrlinf.
      */
-    abstract float getLowerDrawLimit(float thickness);
+    bbstrbdt flobt gftLowfrDrbwLimit(flobt tiidknfss);
 
     /**
-     * Returns a Shape representing the underline.  The thickness should be obtained
-     * from a LineMetrics object.  Note that some underlines ignore the
-     * thickness parameter.
+     * Rfturns b Sibpf rfprfsfnting tif undfrlinf.  Tif tiidknfss siould bf obtbinfd
+     * from b LinfMftrids objfdt.  Notf tibt somf undfrlinfs ignorf tif
+     * tiidknfss pbrbmftfr.
      */
-    abstract Shape getUnderlineShape(float thickness,
-                                     float x1,
-                                     float x2,
-                                     float y);
+    bbstrbdt Sibpf gftUndfrlinfSibpf(flobt tiidknfss,
+                                     flobt x1,
+                                     flobt x2,
+                                     flobt y);
 
-     // Implementation of underline for standard and Input Method underlines.
-     // These classes are private.
+     // Implfmfntbtion of undfrlinf for stbndbrd bnd Input Mftiod undfrlinfs.
+     // Tifsf dlbssfs brf privbtf.
 
-    // IM Underlines ignore thickness param, and instead use
+    // IM Undfrlinfs ignorf tiidknfss pbrbm, bnd instfbd usf
     // DEFAULT_THICKNESS
-    private static final float DEFAULT_THICKNESS = 1.0f;
+    privbtf stbtid finbl flobt DEFAULT_THICKNESS = 1.0f;
 
-    // StandardUnderline's constructor takes a boolean param indicating
-    // whether to override the default thickness.  These values clarify
-    // the semantics of the parameter.
-    private static final boolean USE_THICKNESS = true;
-    private static final boolean IGNORE_THICKNESS = false;
+    // StbndbrdUndfrlinf's donstrudtor tbkfs b boolfbn pbrbm indidbting
+    // wiftifr to ovfrridf tif dffbult tiidknfss.  Tifsf vblufs dlbrify
+    // tif sfmbntids of tif pbrbmftfr.
+    privbtf stbtid finbl boolfbn USE_THICKNESS = truf;
+    privbtf stbtid finbl boolfbn IGNORE_THICKNESS = fblsf;
 
-    // Implementation of standard underline and all input method underlines
-    // except UNDERLINE_LOW_GRAY.
-    private static final class StandardUnderline extends Underline {
+    // Implfmfntbtion of stbndbrd undfrlinf bnd bll input mftiod undfrlinfs
+    // fxdfpt UNDERLINE_LOW_GRAY.
+    privbtf stbtid finbl dlbss StbndbrdUndfrlinf fxtfnds Undfrlinf {
 
-        // the amount by which to move the underline
-        private float shift;
+        // tif bmount by wiidi to movf tif undfrlinf
+        privbtf flobt siift;
 
-        // the actual line thickness is this value times
-        // the requested thickness
-        private float thicknessMultiplier;
+        // tif bdtubl linf tiidknfss is tiis vbluf timfs
+        // tif rfqufstfd tiidknfss
+        privbtf flobt tiidknfssMultiplifr;
 
-        // if non-null, underline is drawn with a BasicStroke
-        // with this dash pattern
-        private float[] dashPattern;
+        // if non-null, undfrlinf is drbwn witi b BbsidStrokf
+        // witi tiis dbsi pbttfrn
+        privbtf flobt[] dbsiPbttfrn;
 
-        // if false, all underlines are DEFAULT_THICKNESS thick
-        // if true, use thickness param
-        private boolean useThickness;
+        // if fblsf, bll undfrlinfs brf DEFAULT_THICKNESS tiidk
+        // if truf, usf tiidknfss pbrbm
+        privbtf boolfbn usfTiidknfss;
 
-        // cached BasicStroke
-        private BasicStroke cachedStroke;
+        // dbdifd BbsidStrokf
+        privbtf BbsidStrokf dbdifdStrokf;
 
-        StandardUnderline(float shift,
-                          float thicknessMultiplier,
-                          float[] dashPattern,
-                          boolean useThickness) {
+        StbndbrdUndfrlinf(flobt siift,
+                          flobt tiidknfssMultiplifr,
+                          flobt[] dbsiPbttfrn,
+                          boolfbn usfTiidknfss) {
 
-            this.shift = shift;
-            this.thicknessMultiplier = thicknessMultiplier;
-            this.dashPattern = dashPattern;
-            this.useThickness = useThickness;
-            this.cachedStroke = null;
+            tiis.siift = siift;
+            tiis.tiidknfssMultiplifr = tiidknfssMultiplifr;
+            tiis.dbsiPbttfrn = dbsiPbttfrn;
+            tiis.usfTiidknfss = usfTiidknfss;
+            tiis.dbdifdStrokf = null;
         }
 
-        private BasicStroke createStroke(float lineThickness) {
+        privbtf BbsidStrokf drfbtfStrokf(flobt linfTiidknfss) {
 
-            if (dashPattern == null) {
-                return new BasicStroke(lineThickness,
-                                       BasicStroke.CAP_BUTT,
-                                       BasicStroke.JOIN_MITER);
+            if (dbsiPbttfrn == null) {
+                rfturn nfw BbsidStrokf(linfTiidknfss,
+                                       BbsidStrokf.CAP_BUTT,
+                                       BbsidStrokf.JOIN_MITER);
             }
-            else {
-                return new BasicStroke(lineThickness,
-                                       BasicStroke.CAP_BUTT,
-                                       BasicStroke.JOIN_MITER,
+            flsf {
+                rfturn nfw BbsidStrokf(linfTiidknfss,
+                                       BbsidStrokf.CAP_BUTT,
+                                       BbsidStrokf.JOIN_MITER,
                                        10.0f,
-                                       dashPattern,
+                                       dbsiPbttfrn,
                                        0);
             }
         }
 
-        private float getLineThickness(float thickness) {
+        privbtf flobt gftLinfTiidknfss(flobt tiidknfss) {
 
-            if (useThickness) {
-                return thickness * thicknessMultiplier;
+            if (usfTiidknfss) {
+                rfturn tiidknfss * tiidknfssMultiplifr;
             }
-            else {
-                return DEFAULT_THICKNESS * thicknessMultiplier;
+            flsf {
+                rfturn DEFAULT_THICKNESS * tiidknfssMultiplifr;
             }
         }
 
-        private Stroke getStroke(float thickness) {
+        privbtf Strokf gftStrokf(flobt tiidknfss) {
 
-            float lineThickness = getLineThickness(thickness);
-            BasicStroke stroke = cachedStroke;
-            if (stroke == null ||
-                    stroke.getLineWidth() != lineThickness) {
+            flobt linfTiidknfss = gftLinfTiidknfss(tiidknfss);
+            BbsidStrokf strokf = dbdifdStrokf;
+            if (strokf == null ||
+                    strokf.gftLinfWidti() != linfTiidknfss) {
 
-                stroke = createStroke(lineThickness);
-                cachedStroke = stroke;
+                strokf = drfbtfStrokf(linfTiidknfss);
+                dbdifdStrokf = strokf;
             }
 
-            return stroke;
+            rfturn strokf;
         }
 
-        void drawUnderline(Graphics2D g2d,
-                           float thickness,
-                           float x1,
-                           float x2,
-                           float y) {
+        void drbwUndfrlinf(Grbpiids2D g2d,
+                           flobt tiidknfss,
+                           flobt x1,
+                           flobt x2,
+                           flobt y) {
 
 
-            Stroke saveStroke = g2d.getStroke();
-            g2d.setStroke(getStroke(thickness));
-            g2d.draw(new Line2D.Float(x1, y + shift, x2, y + shift));
-            g2d.setStroke(saveStroke);
+            Strokf sbvfStrokf = g2d.gftStrokf();
+            g2d.sftStrokf(gftStrokf(tiidknfss));
+            g2d.drbw(nfw Linf2D.Flobt(x1, y + siift, x2, y + siift));
+            g2d.sftStrokf(sbvfStrokf);
         }
 
-        float getLowerDrawLimit(float thickness) {
+        flobt gftLowfrDrbwLimit(flobt tiidknfss) {
 
-            return shift + getLineThickness(thickness);
+            rfturn siift + gftLinfTiidknfss(tiidknfss);
         }
 
-        Shape getUnderlineShape(float thickness,
-                                float x1,
-                                float x2,
-                                float y) {
+        Sibpf gftUndfrlinfSibpf(flobt tiidknfss,
+                                flobt x1,
+                                flobt x2,
+                                flobt y) {
 
-            Stroke ulStroke = getStroke(thickness);
-            Line2D line = new Line2D.Float(x1, y + shift, x2, y + shift);
-            return ulStroke.createStrokedShape(line);
+            Strokf ulStrokf = gftStrokf(tiidknfss);
+            Linf2D linf = nfw Linf2D.Flobt(x1, y + siift, x2, y + siift);
+            rfturn ulStrokf.drfbtfStrokfdSibpf(linf);
         }
     }
 
-    // Implementation of UNDERLINE_LOW_GRAY.
-    private static class IMGrayUnderline extends Underline {
+    // Implfmfntbtion of UNDERLINE_LOW_GRAY.
+    privbtf stbtid dlbss IMGrbyUndfrlinf fxtfnds Undfrlinf {
 
-        private BasicStroke stroke;
+        privbtf BbsidStrokf strokf;
 
-        IMGrayUnderline() {
-            stroke = new BasicStroke(DEFAULT_THICKNESS,
-                                     BasicStroke.CAP_BUTT,
-                                     BasicStroke.JOIN_MITER,
+        IMGrbyUndfrlinf() {
+            strokf = nfw BbsidStrokf(DEFAULT_THICKNESS,
+                                     BbsidStrokf.CAP_BUTT,
+                                     BbsidStrokf.JOIN_MITER,
                                      10.0f,
-                                     new float[] {1, 1},
+                                     nfw flobt[] {1, 1},
                                      0);
         }
 
-        void drawUnderline(Graphics2D g2d,
-                           float thickness,
-                           float x1,
-                           float x2,
-                           float y) {
+        void drbwUndfrlinf(Grbpiids2D g2d,
+                           flobt tiidknfss,
+                           flobt x1,
+                           flobt x2,
+                           flobt y) {
 
-            Stroke saveStroke = g2d.getStroke();
-            g2d.setStroke(stroke);
+            Strokf sbvfStrokf = g2d.gftStrokf();
+            g2d.sftStrokf(strokf);
 
-            Line2D.Float drawLine = new Line2D.Float(x1, y, x2, y);
-            g2d.draw(drawLine);
+            Linf2D.Flobt drbwLinf = nfw Linf2D.Flobt(x1, y, x2, y);
+            g2d.drbw(drbwLinf);
 
-            drawLine.y1 += DEFAULT_THICKNESS;
-            drawLine.y2 += DEFAULT_THICKNESS;
-            drawLine.x1 += DEFAULT_THICKNESS;
+            drbwLinf.y1 += DEFAULT_THICKNESS;
+            drbwLinf.y2 += DEFAULT_THICKNESS;
+            drbwLinf.x1 += DEFAULT_THICKNESS;
 
-            g2d.draw(drawLine);
+            g2d.drbw(drbwLinf);
 
-            g2d.setStroke(saveStroke);
+            g2d.sftStrokf(sbvfStrokf);
         }
 
-        float getLowerDrawLimit(float thickness) {
+        flobt gftLowfrDrbwLimit(flobt tiidknfss) {
 
-            return DEFAULT_THICKNESS * 2;
+            rfturn DEFAULT_THICKNESS * 2;
         }
 
-        Shape getUnderlineShape(float thickness,
-                                float x1,
-                                float x2,
-                                float y) {
+        Sibpf gftUndfrlinfSibpf(flobt tiidknfss,
+                                flobt x1,
+                                flobt x2,
+                                flobt y) {
 
-            GeneralPath gp = new GeneralPath();
+            GfnfrblPbti gp = nfw GfnfrblPbti();
 
-            Line2D.Float line = new Line2D.Float(x1, y, x2, y);
-            gp.append(stroke.createStrokedShape(line), false);
+            Linf2D.Flobt linf = nfw Linf2D.Flobt(x1, y, x2, y);
+            gp.bppfnd(strokf.drfbtfStrokfdSibpf(linf), fblsf);
 
-            line.y1 += DEFAULT_THICKNESS;
-            line.y2 += DEFAULT_THICKNESS;
-            line.x1 += DEFAULT_THICKNESS;
+            linf.y1 += DEFAULT_THICKNESS;
+            linf.y2 += DEFAULT_THICKNESS;
+            linf.x1 += DEFAULT_THICKNESS;
 
-            gp.append(stroke.createStrokedShape(line), false);
+            gp.bppfnd(strokf.drfbtfStrokfdSibpf(linf), fblsf);
 
-            return gp;
+            rfturn gp;
         }
     }
 
-     // Keep a map of underlines, one for each type
-     // of underline.  The Underline objects are Flyweights
-     // (shared across multiple clients), so they should be immutable.
-     // If this implementation changes then clone underline
-     // instances in getUnderline before returning them.
-    private static final ConcurrentHashMap<Object, Underline>
-        UNDERLINES = new ConcurrentHashMap<Object, Underline>(6);
-    private static final Underline[] UNDERLINE_LIST;
+     // Kffp b mbp of undfrlinfs, onf for fbdi typf
+     // of undfrlinf.  Tif Undfrlinf objfdts brf Flywfigits
+     // (sibrfd bdross multiplf dlifnts), so tify siould bf immutbblf.
+     // If tiis implfmfntbtion dibngfs tifn dlonf undfrlinf
+     // instbndfs in gftUndfrlinf bfforf rfturning tifm.
+    privbtf stbtid finbl CondurrfntHbsiMbp<Objfdt, Undfrlinf>
+        UNDERLINES = nfw CondurrfntHbsiMbp<Objfdt, Undfrlinf>(6);
+    privbtf stbtid finbl Undfrlinf[] UNDERLINE_LIST;
 
-    static {
-        Underline[] uls = new Underline[6];
+    stbtid {
+        Undfrlinf[] uls = nfw Undfrlinf[6];
 
-        uls[0] = new StandardUnderline(0, 1, null, USE_THICKNESS);
-        UNDERLINES.put(TextAttribute.UNDERLINE_ON, uls[0]);
+        uls[0] = nfw StbndbrdUndfrlinf(0, 1, null, USE_THICKNESS);
+        UNDERLINES.put(TfxtAttributf.UNDERLINE_ON, uls[0]);
 
-        uls[1] = new StandardUnderline(1, 1, null, IGNORE_THICKNESS);
-        UNDERLINES.put(TextAttribute.UNDERLINE_LOW_ONE_PIXEL, uls[1]);
+        uls[1] = nfw StbndbrdUndfrlinf(1, 1, null, IGNORE_THICKNESS);
+        UNDERLINES.put(TfxtAttributf.UNDERLINE_LOW_ONE_PIXEL, uls[1]);
 
-        uls[2] = new StandardUnderline(1, 2, null, IGNORE_THICKNESS);
-        UNDERLINES.put(TextAttribute.UNDERLINE_LOW_TWO_PIXEL, uls[2]);
+        uls[2] = nfw StbndbrdUndfrlinf(1, 2, null, IGNORE_THICKNESS);
+        UNDERLINES.put(TfxtAttributf.UNDERLINE_LOW_TWO_PIXEL, uls[2]);
 
-        uls[3] = new StandardUnderline(1, 1, new float[] { 1, 1 }, IGNORE_THICKNESS);
-        UNDERLINES.put(TextAttribute.UNDERLINE_LOW_DOTTED, uls[3]);
+        uls[3] = nfw StbndbrdUndfrlinf(1, 1, nfw flobt[] { 1, 1 }, IGNORE_THICKNESS);
+        UNDERLINES.put(TfxtAttributf.UNDERLINE_LOW_DOTTED, uls[3]);
 
-        uls[4] = new IMGrayUnderline();
-        UNDERLINES.put(TextAttribute.UNDERLINE_LOW_GRAY, uls[4]);
+        uls[4] = nfw IMGrbyUndfrlinf();
+        UNDERLINES.put(TfxtAttributf.UNDERLINE_LOW_GRAY, uls[4]);
 
-        uls[5] = new StandardUnderline(1, 1, new float[] { 4, 4 }, IGNORE_THICKNESS);
-        UNDERLINES.put(TextAttribute.UNDERLINE_LOW_DASHED, uls[5]);
+        uls[5] = nfw StbndbrdUndfrlinf(1, 1, nfw flobt[] { 4, 4 }, IGNORE_THICKNESS);
+        UNDERLINES.put(TfxtAttributf.UNDERLINE_LOW_DASHED, uls[5]);
 
         UNDERLINE_LIST = uls;
     }
 
     /**
-     * Return the Underline for the given value of
-     * TextAttribute.INPUT_METHOD_UNDERLINE or
-     * TextAttribute.UNDERLINE.
-     * If value is not an input method underline value or
-     * TextAttribute.UNDERLINE_ON, null is returned.
+     * Rfturn tif Undfrlinf for tif givfn vbluf of
+     * TfxtAttributf.INPUT_METHOD_UNDERLINE or
+     * TfxtAttributf.UNDERLINE.
+     * If vbluf is not bn input mftiod undfrlinf vbluf or
+     * TfxtAttributf.UNDERLINE_ON, null is rfturnfd.
      */
-    static Underline getUnderline(Object value) {
+    stbtid Undfrlinf gftUndfrlinf(Objfdt vbluf) {
 
-        if (value == null) {
-            return null;
+        if (vbluf == null) {
+            rfturn null;
         }
 
-        return UNDERLINES.get(value);
+        rfturn UNDERLINES.gft(vbluf);
     }
 
-    static Underline getUnderline(int index) {
-        return index < 0 ? null : UNDERLINE_LIST[index];
+    stbtid Undfrlinf gftUndfrlinf(int indfx) {
+        rfturn indfx < 0 ? null : UNDERLINE_LIST[indfx];
     }
 }

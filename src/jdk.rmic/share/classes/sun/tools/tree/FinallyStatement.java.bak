@@ -1,360 +1,360 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import sun.tools.asm.TryData;
-import sun.tools.asm.CatchData;
-import java.io.PrintStream;
-import java.util.Hashtable;
-import java.util.Enumeration;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.TryDbtb;
+import sun.tools.bsm.CbtdiDbtb;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class FinallyStatement extends Statement {
-    Statement body;
-    Statement finalbody;
-    boolean finallyCanFinish; // does finalBody never return?
-    boolean needReturnSlot;   // set by inner return statement
-    Statement init;           // try object expression  or declaration from parser
-    LocalMember tryTemp;      // temp holding the try object, if any
+publid
+dlbss FinbllyStbtfmfnt fxtfnds Stbtfmfnt {
+    Stbtfmfnt body;
+    Stbtfmfnt finblbody;
+    boolfbn finbllyCbnFinisi; // dofs finblBody nfvfr rfturn?
+    boolfbn nffdRfturnSlot;   // sft by innfr rfturn stbtfmfnt
+    Stbtfmfnt init;           // try objfdt fxprfssion  or dfdlbrbtion from pbrsfr
+    LodblMfmbfr tryTfmp;      // tfmp iolding tif try objfdt, if bny
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public FinallyStatement(long where, Statement body, Statement finalbody) {
-        super(FINALLY, where);
-        this.body = body;
-        this.finalbody = finalbody;
+    publid FinbllyStbtfmfnt(long wifrf, Stbtfmfnt body, Stbtfmfnt finblbody) {
+        supfr(FINALLY, wifrf);
+        tiis.body = body;
+        tiis.finblbody = finblbody;
     }
 
 //    /**
-//     * Constructor for  try (init) {body}
+//     * Construdtor for  try (init) {body}
 //     */
-//    public FinallyStatement(long where, Statement init, Statement body, int junk) {
-//      this(where, body, null);
-//      this.init = init;
+//    publid FinbllyStbtfmfnt(long wifrf, Stbtfmfnt init, Stbtfmfnt body, int junk) {
+//      tiis(wifrf, body, null);
+//      tiis.init = init;
 //    }
 
     /**
-     * Check statement
+     * Cifdk stbtfmfnt
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = reach(env, vset);
-        Hashtable<Object, Object> newexp = new Hashtable<>();
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        vsft = rfbdi(fnv, vsft);
+        Hbsitbblf<Objfdt, Objfdt> nfwfxp = nfw Hbsitbblf<>();
 
-        // Handle the proposed 'try (init) { stmts } finally { stmts }' syntax.
-        // This feature has not been adopted, and support is presently disabled.
+        // Hbndlf tif proposfd 'try (init) { stmts } finblly { stmts }' syntbx.
+        // Tiis ffbturf ibs not bffn bdoptfd, bnd support is prfsfntly disbblfd.
         /*-----------------------------------------------------------*
         if (init != null) {
-            ClassDefinition sourceClass = ctx.field.getClassDefinition();
-            Expression tryExpr = null;
-            DeclarationStatement tryDecl = null;
-            long where = init.getWhere();
-            // find out whether init is a simple expression or a declaration
-            if (init.getOp() == EXPRESSION) {
-                tryExpr = ((ExpressionStatement)init).expr;
-                init = null;    // restore it below
-                vset = tryExpr.checkValue(env, ctx, vset, exp);
-            } else if (init.getOp() == DECLARATION) {
-                tryDecl = (DeclarationStatement) init;
-                init = null;    // restore it below
-                vset = tryDecl.checkBlockStatement(env, ctx, vset, exp);
-                if (tryDecl.args.length != 1) {
-                    env.error(where, "invalid.decl");
-                } else {
-                    LocalMember field =
-                        ((VarDeclarationStatement) tryDecl.args[0]).field;
-                    tryExpr = new IdentifierExpression(where, field);
-                    tryExpr.type = field.getType();
+            ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+            Exprfssion tryExpr = null;
+            DfdlbrbtionStbtfmfnt tryDfdl = null;
+            long wifrf = init.gftWifrf();
+            // find out wiftifr init is b simplf fxprfssion or b dfdlbrbtion
+            if (init.gftOp() == EXPRESSION) {
+                tryExpr = ((ExprfssionStbtfmfnt)init).fxpr;
+                init = null;    // rfstorf it bflow
+                vsft = tryExpr.difdkVbluf(fnv, dtx, vsft, fxp);
+            } flsf if (init.gftOp() == DECLARATION) {
+                tryDfdl = (DfdlbrbtionStbtfmfnt) init;
+                init = null;    // rfstorf it bflow
+                vsft = tryDfdl.difdkBlodkStbtfmfnt(fnv, dtx, vsft, fxp);
+                if (tryDfdl.brgs.lfngti != 1) {
+                    fnv.frror(wifrf, "invblid.dfdl");
+                } flsf {
+                    LodblMfmbfr fifld =
+                        ((VbrDfdlbrbtionStbtfmfnt) tryDfdl.brgs[0]).fifld;
+                    tryExpr = nfw IdfntififrExprfssion(wifrf, fifld);
+                    tryExpr.typf = fifld.gftTypf();
                 }
-            } else {
-                env.error(where, "invalid.expr");
-                vset = init.check(env, ctx, vset, exp);
+            } flsf {
+                fnv.frror(wifrf, "invblid.fxpr");
+                vsft = init.difdk(fnv, dtx, vsft, fxp);
             }
-            Type type = (tryExpr == null) ? Type.tError : tryExpr.getType();
+            Typf typf = (tryExpr == null) ? Typf.tError : tryExpr.gftTypf();
 
-            MemberDefinition tryEnter = null;
-            MemberDefinition tryExit = null;
-            if (!type.isType(TC_CLASS)) {
-                if (!type.isType(TC_ERROR)) {
-                    env.error(where, "invalid.method.invoke", type);
+            MfmbfrDffinition tryEntfr = null;
+            MfmbfrDffinition tryExit = null;
+            if (!typf.isTypf(TC_CLASS)) {
+                if (!typf.isTypf(TC_ERROR)) {
+                    fnv.frror(wifrf, "invblid.mftiod.invokf", typf);
                 }
-            } else {
-                Identifier idTryEnter = Identifier.lookup("tryEnter");
-                Identifier idTryExit = Identifier.lookup("tryExit");
-                Type tTryMethod = Type.tMethod(Type.tVoid);
+            } flsf {
+                Idfntififr idTryEntfr = Idfntififr.lookup("tryEntfr");
+                Idfntififr idTryExit = Idfntififr.lookup("tryExit");
+                Typf tTryMftiod = Typf.tMftiod(Typf.tVoid);
                 try {
-                    ClassDefinition tryClass = env.getClassDefinition(type);
-                    tryEnter = tryClass.matchMethod(env, sourceClass, idTryEnter);
-                    tryExit = tryClass.matchMethod(env, sourceClass, idTryExit);
-                    if (tryEnter != null && !tryEnter.getType().equals(tTryMethod)) {
-                        tryEnter = null;
+                    ClbssDffinition tryClbss = fnv.gftClbssDffinition(typf);
+                    tryEntfr = tryClbss.mbtdiMftiod(fnv, sourdfClbss, idTryEntfr);
+                    tryExit = tryClbss.mbtdiMftiod(fnv, sourdfClbss, idTryExit);
+                    if (tryEntfr != null && !tryEntfr.gftTypf().fqubls(tTryMftiod)) {
+                        tryEntfr = null;
                     }
-                    if (tryExit != null && !tryExit.getType().equals(tTryMethod)) {
+                    if (tryExit != null && !tryExit.gftTypf().fqubls(tTryMftiod)) {
                         tryExit = null;
                     }
-                } catch (ClassNotFound ee) {
-                    env.error(where, "class.not.found", ee.name, ctx.field);
-                } catch (AmbiguousMember ee) {
-                    Identifier id = ee.field1.getName();
-                    env.error(where, "ambig.field", id, ee.field1, ee.field2);
+                } dbtdi (ClbssNotFound ff) {
+                    fnv.frror(wifrf, "dlbss.not.found", ff.nbmf, dtx.fifld);
+                } dbtdi (AmbiguousMfmbfr ff) {
+                    Idfntififr id = ff.fifld1.gftNbmf();
+                    fnv.frror(wifrf, "bmbig.fifld", id, ff.fifld1, ff.fifld2);
                 }
             }
-            if (tryEnter == null || tryExit == null) {
-                // Make a better (more didactic) error here!
-                env.error(where, "invalid.method.invoke", type);
-            } else {
-                tryTemp = new LocalMember(where, sourceClass, 0,
-                                          type, Identifier.lookup("<try_object>"));
-                ctx = new Context(ctx, this);
-                ctx.declare(env, tryTemp);
+            if (tryEntfr == null || tryExit == null) {
+                // Mbkf b bfttfr (morf didbdtid) frror ifrf!
+                fnv.frror(wifrf, "invblid.mftiod.invokf", typf);
+            } flsf {
+                tryTfmp = nfw LodblMfmbfr(wifrf, sourdfClbss, 0,
+                                          typf, Idfntififr.lookup("<try_objfdt>"));
+                dtx = nfw Contfxt(dtx, tiis);
+                dtx.dfdlbrf(fnv, tryTfmp);
 
-                Expression e;
-                e = new IdentifierExpression(where, tryTemp);
-                e = new AssignExpression(where, e, tryExpr);
-                e = new MethodExpression(where, e, tryEnter, new Expression[0]);
-                e.type = Type.tVoid;
-                Statement enterCall = new ExpressionStatement(where, e);
-                // store it on the init, for code generation
-                if (tryDecl != null) {
-                    Statement args2[] = { tryDecl.args[0], enterCall };
-                    tryDecl.args = args2;
-                    init = tryDecl;
-                } else {
-                    init = enterCall;
+                Exprfssion f;
+                f = nfw IdfntififrExprfssion(wifrf, tryTfmp);
+                f = nfw AssignExprfssion(wifrf, f, tryExpr);
+                f = nfw MftiodExprfssion(wifrf, f, tryEntfr, nfw Exprfssion[0]);
+                f.typf = Typf.tVoid;
+                Stbtfmfnt fntfrCbll = nfw ExprfssionStbtfmfnt(wifrf, f);
+                // storf it on tif init, for dodf gfnfrbtion
+                if (tryDfdl != null) {
+                    Stbtfmfnt brgs2[] = { tryDfdl.brgs[0], fntfrCbll };
+                    tryDfdl.brgs = brgs2;
+                    init = tryDfdl;
+                } flsf {
+                    init = fntfrCbll;
                 }
-                e = new IdentifierExpression(where, tryTemp);
-                e = new MethodExpression(where, e, tryExit, new Expression[0]);
-                e.type = Type.tVoid;
-                Statement exitCall = new ExpressionStatement(where, e);
-                finalbody = exitCall;
+                f = nfw IdfntififrExprfssion(wifrf, tryTfmp);
+                f = nfw MftiodExprfssion(wifrf, f, tryExit, nfw Exprfssion[0]);
+                f.typf = Typf.tVoid;
+                Stbtfmfnt fxitCbll = nfw ExprfssionStbtfmfnt(wifrf, f);
+                finblbody = fxitCbll;
             }
         }
         *-----------------------------------------------------------*/
 
-        // Check the try part. We reach the end of the try part either by
-        // finishing normally, or doing a break to the label of the try/finally.
-        // NOTE: I don't think newctx1.vsBreak is ever used -- see TryStatement.
-        CheckContext newctx1 = new CheckContext(ctx, this);
-        Vset vset1 = body.check(env, newctx1, vset.copy(), newexp)
-            .join(newctx1.vsBreak);
-        // Check the finally part.
-        CheckContext newctx2 = new CheckContext(ctx, this);
-        // Should never access this field.  The null indicates the finally part.
-        newctx2.vsContinue = null;
-        Vset vset2 = finalbody.check(env, newctx2, vset, exp);
-        finallyCanFinish = !vset2.isDeadEnd();
-        vset2 = vset2.join(newctx2.vsBreak);
-        // If !finallyCanFinish, then the only possible exceptions that can
-        // occur at this point are the ones preceding the try/finally, or
-        // the ones generated by the finally.  Anything in the try is
-        // irrelevant. Otherwise, we have to merge in all the exceptions
-        // generated by the body into exp.
-        if (finallyCanFinish) {
-            // Add newexp's back into exp; cf. ThrowStatement.check().
-            for (Enumeration<?> e = newexp.keys() ; e.hasMoreElements() ; ) {
-                Object def = e.nextElement();
-                exp.put(def, newexp.get(def));
+        // Cifdk tif try pbrt. Wf rfbdi tif fnd of tif try pbrt fitifr by
+        // finisiing normblly, or doing b brfbk to tif lbbfl of tif try/finblly.
+        // NOTE: I don't tiink nfwdtx1.vsBrfbk is fvfr usfd -- sff TryStbtfmfnt.
+        CifdkContfxt nfwdtx1 = nfw CifdkContfxt(dtx, tiis);
+        Vsft vsft1 = body.difdk(fnv, nfwdtx1, vsft.dopy(), nfwfxp)
+            .join(nfwdtx1.vsBrfbk);
+        // Cifdk tif finblly pbrt.
+        CifdkContfxt nfwdtx2 = nfw CifdkContfxt(dtx, tiis);
+        // Siould nfvfr bddfss tiis fifld.  Tif null indidbtfs tif finblly pbrt.
+        nfwdtx2.vsContinuf = null;
+        Vsft vsft2 = finblbody.difdk(fnv, nfwdtx2, vsft, fxp);
+        finbllyCbnFinisi = !vsft2.isDfbdEnd();
+        vsft2 = vsft2.join(nfwdtx2.vsBrfbk);
+        // If !finbllyCbnFinisi, tifn tif only possiblf fxdfptions tibt dbn
+        // oddur bt tiis point brf tif onfs prfdfding tif try/finblly, or
+        // tif onfs gfnfrbtfd by tif finblly.  Anytiing in tif try is
+        // irrflfvbnt. Otifrwisf, wf ibvf to mfrgf in bll tif fxdfptions
+        // gfnfrbtfd by tif body into fxp.
+        if (finbllyCbnFinisi) {
+            // Add nfwfxp's bbdk into fxp; df. TirowStbtfmfnt.difdk().
+            for (Enumfrbtion<?> f = nfwfxp.kfys() ; f.ibsMorfElfmfnts() ; ) {
+                Objfdt dff = f.nfxtElfmfnt();
+                fxp.put(dff, nfwfxp.gft(dff));
             }
         }
-        return ctx.removeAdditionalVars(vset1.addDAandJoinDU(vset2));
+        rfturn dtx.rfmovfAdditionblVbrs(vsft1.bddDAbndJoinDU(vsft2));
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
-        if (tryTemp != null) {
-            ctx = new Context(ctx, this);
-            ctx.declare(env, tryTemp);
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        if (tryTfmp != null) {
+            dtx = nfw Contfxt(dtx, tiis);
+            dtx.dfdlbrf(fnv, tryTfmp);
         }
         if (init != null) {
-            init = init.inline(env, ctx);
+            init = init.inlinf(fnv, dtx);
         }
         if (body != null) {
-            body = body.inline(env, ctx);
+            body = body.inlinf(fnv, dtx);
         }
-        if (finalbody != null) {
-            finalbody = finalbody.inline(env, ctx);
+        if (finblbody != null) {
+            finblbody = finblbody.inlinf(fnv, dtx);
         }
         if (body == null) {
-            return eliminate(env, finalbody);
+            rfturn fliminbtf(fnv, finblbody);
         }
-        if (finalbody == null) {
-            return eliminate(env, body);
+        if (finblbody == null) {
+            rfturn fliminbtf(fnv, body);
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        FinallyStatement s = (FinallyStatement)clone();
-        if (tryTemp != null) {
-            s.tryTemp = tryTemp.copyInline(ctx);
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        FinbllyStbtfmfnt s = (FinbllyStbtfmfnt)dlonf();
+        if (tryTfmp != null) {
+            s.tryTfmp = tryTfmp.dopyInlinf(dtx);
         }
         if (init != null) {
-            s.init = init.copyInline(ctx, valNeeded);
+            s.init = init.dopyInlinf(dtx, vblNffdfd);
         }
         if (body != null) {
-            s.body = body.copyInline(ctx, valNeeded);
+            s.body = body.dopyInlinf(dtx, vblNffdfd);
         }
-        if (finalbody != null) {
-            s.finalbody = finalbody.copyInline(ctx, valNeeded);
+        if (finblbody != null) {
+            s.finblbody = finblbody.dopyInlinf(dtx, vblNffdfd);
         }
-        return s;
+        rfturn s;
      }
 
     /**
-     * Compute cost of inlining this statement
+     * Computf dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx){
-        int cost = 4;
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx){
+        int dost = 4;
         if (init != null) {
-            cost += init.costInline(thresh, env,ctx);
-            if (cost >= thresh) return cost;
+            dost += init.dostInlinf(tirfsi, fnv,dtx);
+            if (dost >= tirfsi) rfturn dost;
         }
         if (body != null) {
-            cost += body.costInline(thresh, env,ctx);
-            if (cost >= thresh) return cost;
+            dost += body.dostInlinf(tirfsi, fnv,dtx);
+            if (dost >= tirfsi) rfturn dost;
         }
-        if (finalbody != null) {
-            cost += finalbody.costInline(thresh, env,ctx);
+        if (finblbody != null) {
+            dost += finblbody.dostInlinf(tirfsi, fnv,dtx);
         }
-        return cost;
+        rfturn dost;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        ctx = new Context(ctx);
-        Integer num1 = null, num2 = null;
-        Label endLabel = new Label();
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        dtx = nfw Contfxt(dtx);
+        Intfgfr num1 = null, num2 = null;
+        Lbbfl fndLbbfl = nfw Lbbfl();
 
-        if (tryTemp != null) {
-            ctx.declare(env, tryTemp);
+        if (tryTfmp != null) {
+            dtx.dfdlbrf(fnv, tryTfmp);
         }
         if (init != null) {
-            CodeContext exprctx = new CodeContext(ctx, this);
-            init.code(env, exprctx, asm);
+            CodfContfxt fxprdtx = nfw CodfContfxt(dtx, tiis);
+            init.dodf(fnv, fxprdtx, bsm);
         }
 
-        if (finallyCanFinish) {
-            LocalMember f1, f2;
-            ClassDefinition thisClass = ctx.field.getClassDefinition();
+        if (finbllyCbnFinisi) {
+            LodblMfmbfr f1, f2;
+            ClbssDffinition tiisClbss = dtx.fifld.gftClbssDffinition();
 
-            if (needReturnSlot) {
-                Type returnType = ctx.field.getType().getReturnType();
-                LocalMember localfield = new LocalMember(0, thisClass, 0,
-                                                       returnType,
-                                                       idFinallyReturnValue);
-                ctx.declare(env, localfield);
-                Environment.debugOutput("Assigning return slot to " + localfield.number);
+            if (nffdRfturnSlot) {
+                Typf rfturnTypf = dtx.fifld.gftTypf().gftRfturnTypf();
+                LodblMfmbfr lodblfifld = nfw LodblMfmbfr(0, tiisClbss, 0,
+                                                       rfturnTypf,
+                                                       idFinbllyRfturnVbluf);
+                dtx.dfdlbrf(fnv, lodblfifld);
+                Environmfnt.dfbugOutput("Assigning rfturn slot to " + lodblfifld.numbfr);
             }
 
-            // allocate space for the exception and return address
-            f1 = new LocalMember(where, thisClass, 0, Type.tObject, null);
-            f2 = new LocalMember(where, thisClass, 0, Type.tInt, null);
-            num1 = ctx.declare(env, f1);
-            num2 = ctx.declare(env, f2);
+            // bllodbtf spbdf for tif fxdfption bnd rfturn bddrfss
+            f1 = nfw LodblMfmbfr(wifrf, tiisClbss, 0, Typf.tObjfdt, null);
+            f2 = nfw LodblMfmbfr(wifrf, tiisClbss, 0, Typf.tInt, null);
+            num1 = dtx.dfdlbrf(fnv, f1);
+            num2 = dtx.dfdlbrf(fnv, f2);
         }
 
-        TryData td = new TryData();
-        td.add(null);
+        TryDbtb td = nfw TryDbtb();
+        td.bdd(null);
 
-        // Main body
-        CodeContext bodyctx = new CodeContext(ctx, this);
-        asm.add(where, opc_try, td); // start of protected code
-        body.code(env, bodyctx, asm);
-        asm.add(bodyctx.breakLabel);
-        asm.add(td.getEndLabel());   // end of protected code
+        // Mbin body
+        CodfContfxt bodydtx = nfw CodfContfxt(dtx, tiis);
+        bsm.bdd(wifrf, opd_try, td); // stbrt of protfdtfd dodf
+        body.dodf(fnv, bodydtx, bsm);
+        bsm.bdd(bodydtx.brfbkLbbfl);
+        bsm.bdd(td.gftEndLbbfl());   // fnd of protfdtfd dodf
 
-        // Cleanup afer body
-        if (finallyCanFinish) {
-            asm.add(where, opc_jsr, bodyctx.contLabel);
-            asm.add(where, opc_goto, endLabel);
-        } else {
-            // just goto the cleanup code.  It will never return.
-            asm.add(where, opc_goto, bodyctx.contLabel);
+        // Clfbnup bffr body
+        if (finbllyCbnFinisi) {
+            bsm.bdd(wifrf, opd_jsr, bodydtx.dontLbbfl);
+            bsm.bdd(wifrf, opd_goto, fndLbbfl);
+        } flsf {
+            // just goto tif dlfbnup dodf.  It will nfvfr rfturn.
+            bsm.bdd(wifrf, opd_goto, bodydtx.dontLbbfl);
         }
 
-        // Catch code
-        CatchData cd = td.getCatch(0);
-        asm.add(cd.getLabel());
-        if (finallyCanFinish) {
-            asm.add(where, opc_astore, num1); // store exception
-            asm.add(where, opc_jsr, bodyctx.contLabel);
-            asm.add(where, opc_aload, num1); // rethrow exception
-            asm.add(where, opc_athrow);
-        } else {
-            // pop exception off stack.  Fall through to finally code
-            asm.add(where, opc_pop);
+        // Cbtdi dodf
+        CbtdiDbtb dd = td.gftCbtdi(0);
+        bsm.bdd(dd.gftLbbfl());
+        if (finbllyCbnFinisi) {
+            bsm.bdd(wifrf, opd_bstorf, num1); // storf fxdfption
+            bsm.bdd(wifrf, opd_jsr, bodydtx.dontLbbfl);
+            bsm.bdd(wifrf, opd_blobd, num1); // rftirow fxdfption
+            bsm.bdd(wifrf, opd_btirow);
+        } flsf {
+            // pop fxdfption off stbdk.  Fbll tirougi to finblly dodf
+            bsm.bdd(wifrf, opd_pop);
         }
 
-        // The finally part, which is marked by the contLabel.  Update
-        //    breakLabel: since break's in the finally are different
-        //    contLabel:  to null to indicate no longer in the protected code.
-        asm.add(bodyctx.contLabel);
-        bodyctx.contLabel = null;
-        bodyctx.breakLabel = endLabel;
-        if (finallyCanFinish) {
-            asm.add(where, opc_astore, num2);  // save the return address
-            finalbody.code(env, bodyctx, asm); // execute the cleanup code
-            asm.add(where, opc_ret, num2);     // return
-        } else {
-            finalbody.code(env, bodyctx, asm); // execute the cleanup code
+        // Tif finblly pbrt, wiidi is mbrkfd by tif dontLbbfl.  Updbtf
+        //    brfbkLbbfl: sindf brfbk's in tif finblly brf difffrfnt
+        //    dontLbbfl:  to null to indidbtf no longfr in tif protfdtfd dodf.
+        bsm.bdd(bodydtx.dontLbbfl);
+        bodydtx.dontLbbfl = null;
+        bodydtx.brfbkLbbfl = fndLbbfl;
+        if (finbllyCbnFinisi) {
+            bsm.bdd(wifrf, opd_bstorf, num2);  // sbvf tif rfturn bddrfss
+            finblbody.dodf(fnv, bodydtx, bsm); // fxfdutf tif dlfbnup dodf
+            bsm.bdd(wifrf, opd_rft, num2);     // rfturn
+        } flsf {
+            finblbody.dodf(fnv, bodydtx, bsm); // fxfdutf tif dlfbnup dodf
         }
-        asm.add(endLabel);                     // breaks come here
+        bsm.bdd(fndLbbfl);                     // brfbks domf ifrf
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        super.print(out, indent);
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
         out.print("try ");
         if (body != null) {
-            body.print(out, indent);
-        } else {
-            out.print("<empty>");
+            body.print(out, indfnt);
+        } flsf {
+            out.print("<fmpty>");
         }
-        out.print(" finally ");
-        if (finalbody != null) {
-            finalbody.print(out, indent);
-        } else {
-            out.print("<empty>");
+        out.print(" finblly ");
+        if (finblbody != null) {
+            finblbody.print(out, indfnt);
+        } flsf {
+            out.print("<fmpty>");
         }
     }
 }

@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.nio.filf.*;
+import stbtid jbvb.nio.filf.StbndbrdWbtdhEvfntKinds.*;
+import stbtid jbvb.nio.filf.LinkOption.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
+
+/**
+ * Exbmplf to wbtdh b dirfdtory (or trff) for dhbngfs to filfs.
+ */
+
+publid dlbss WbtdhDir {
+
+    privbtf finbl WbtdhSfrvidf wbtdhfr;
+    privbtf finbl boolfbn rfdursivf;
+    privbtf boolfbn trbdf = fblsf;
+    privbtf int dount;
+
+    @SupprfssWbrnings("undhfdkfd")
+    stbtid <T> WbtdhEvfnt<T> dbst(WbtdhEvfnt<?> fvfnt) {
+        rfturn (WbtdhEvfnt<T>)fvfnt;
+    }
+
+    /**
+     * Rfgistfr thf givfn dirfdtory with thf WbtdhSfrvidf
+     */
+    privbtf void rfgistfr(Pbth dir) throws IOExdfption {
+        WbtdhKfy kfy = dir.rfgistfr(wbtdhfr, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+        dount++;
+        if (trbdf)
+            Systfm.out.formbt("rfgistfr: %s\n", dir);
+    }
+
+    /**
+     * Rfgistfr thf givfn dirfdtory, bnd bll its sub-dirfdtorifs, with thf
+     * WbtdhSfrvidf.
+     */
+    privbtf void rfgistfrAll(finbl Pbth stbrt) throws IOExdfption {
+        // rfgistfr dirfdtory bnd sub-dirfdtorifs
+        Filfs.wblkFilfTrff(stbrt, nfw SimplfFilfVisitor<Pbth>() {
+            @Ovfrridf
+            publid FilfVisitRfsult prfVisitDirfdtory(Pbth dir, BbsidFilfAttributfs bttrs)
+                throws IOExdfption
+            {
+                rfgistfr(dir);
+                rfturn FilfVisitRfsult.CONTINUE;
+            }
+        });
+    }
+
+    /**
+     * Crfbtfs b WbtdhSfrvidf bnd rfgistfrs thf givfn dirfdtory
+     */
+    WbtdhDir(Pbth dir, boolfbn rfdursivf) throws IOExdfption {
+        this.wbtdhfr = FilfSystfms.gftDffbult().nfwWbtdhSfrvidf();
+        this.rfdursivf = rfdursivf;
+
+        if (rfdursivf) {
+            Systfm.out.formbt("Sdbnning %s ...\n", dir);
+            rfgistfrAll(dir);
+            Systfm.out.println("Donf.");
+        } flsf {
+            rfgistfr(dir);
+        }
+
+        // fnbblf trbdf bftfr initibl rfgistrbtion
+        this.trbdf = truf;
+    }
+
+    /**
+     * Prodfss bll fvfnts for kfys qufufd to thf wbtdhfr
+     */
+    void prodfssEvfnts() {
+        for (;;) {
+
+            // wbit for kfy to bf signbllfd
+            WbtdhKfy kfy;
+            try {
+                kfy = wbtdhfr.tbkf();
+            } dbtdh (IntfrruptfdExdfption x) {
+                rfturn;
+            }
+
+            for (WbtdhEvfnt<?> fvfnt: kfy.pollEvfnts()) {
+                WbtdhEvfnt.Kind kind = fvfnt.kind();
+
+                // TBD - providf fxbmplf of how OVERFLOW fvfnt is hbndlfd
+                if (kind == OVERFLOW) {
+                    dontinuf;
+                }
+
+                // Contfxt for dirfdtory fntry fvfnt is thf filf nbmf of fntry
+                WbtdhEvfnt<Pbth> fv = dbst(fvfnt);
+                Pbth nbmf = fv.dontfxt();
+                Pbth dhild = ((Pbth)kfy.wbtdhbblf()).rfsolvf(nbmf);
+
+                // print out fvfnt
+                Systfm.out.formbt("%s: %s\n", fvfnt.kind().nbmf(), dhild);
+
+                // if dirfdtory is drfbtfd, bnd wbtdhing rfdursivfly, thfn
+                // rfgistfr it bnd its sub-dirfdtorifs
+                if (rfdursivf && (kind == ENTRY_CREATE)) {
+                    try {
+                        if (Filfs.isDirfdtory(dhild, NOFOLLOW_LINKS)) {
+                            rfgistfrAll(dhild);
+                        }
+                    } dbtdh (IOExdfption x) {
+                        // ignorf to kffp sbmplf rfbdbblf
+                    }
+                }
+            }
+
+            // rfsft kfy
+            boolfbn vblid = kfy.rfsft();
+            if (!vblid) {
+                // dirfdtory no longfr bddfssiblf
+                dount--;
+                if (dount == 0)
+                    brfbk;
+            }
+        }
+    }
+
+    stbtid void usbgf() {
+        Systfm.frr.println("usbgf: jbvb WbtdhDir [-r] dir");
+        Systfm.fxit(-1);
+    }
+
+    publid stbtid void mbin(String[] brgs) throws IOExdfption {
+        // pbrsf brgumfnts
+        if (brgs.lfngth == 0 || brgs.lfngth > 2)
+            usbgf();
+        boolfbn rfdursivf = fblsf;
+        int dirArg = 0;
+        if (brgs[0].fqubls("-r")) {
+            if (brgs.lfngth < 2)
+                usbgf();
+            rfdursivf = truf;
+            dirArg++;
+        }
+
+        // rfgistfr dirfdtory bnd prodfss its fvfnts
+        Pbth dir = Pbths.gft(brgs[dirArg]);
+        nfw WbtdhDir(dir, rfdursivf).prodfssEvfnts();
+    }
+}

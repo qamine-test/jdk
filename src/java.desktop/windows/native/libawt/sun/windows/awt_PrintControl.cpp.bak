@@ -1,1114 +1,1114 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_Component.h"
-#include "awt_PrintControl.h"
-#include "awt.h"
-#include "awt_PrintDialog.h"
-#include <winspool.h>
-#include <float.h>
-#include <math.h>
+#indludf "bwt_Componfnt.i"
+#indludf "bwt_PrintControl.i"
+#indludf "bwt.i"
+#indludf "bwt_PrintDiblog.i"
+#indludf <winspool.i>
+#indludf <flobt.i>
+#indludf <mbti.i>
 
-#define ROUNDTOINT(x) ((int)((x)+0.5))
-static const int DEFAULT_RES = 72;
-static const double TENTHS_MM_TO_POINTS = 3.527777778;
-static const double LOMETRIC_TO_POINTS = (72.0 / 254.0);
-
-
-/* Values must match those defined in WPrinterJob.java */
-static const DWORD SET_COLOR = 0x00000200;
-static const DWORD SET_ORIENTATION = 0x00004000;
-static const DWORD SET_DUP_VERTICAL = 0x00000010;
-static const DWORD SET_DUP_HORIZONTAL = 0x00000020;
-static const DWORD SET_RES_HIGH = 0x00000040;
-static const DWORD SET_RES_LOW = 0x00000080;
+#dffinf ROUNDTOINT(x) ((int)((x)+0.5))
+stbtid donst int DEFAULT_RES = 72;
+stbtid donst doublf TENTHS_MM_TO_POINTS = 3.527777778;
+stbtid donst doublf LOMETRIC_TO_POINTS = (72.0 / 254.0);
 
 
-/* These methods and fields are on sun.awt.windows.WPrinterJob */
-jfieldID  AwtPrintControl::dialogOwnerPeerID;
-jmethodID AwtPrintControl::getPrintDCID;
-jmethodID AwtPrintControl::setPrintDCID;
-jmethodID AwtPrintControl::getDevmodeID;
-jmethodID AwtPrintControl::setDevmodeID;
-jmethodID AwtPrintControl::getDevnamesID;
-jmethodID AwtPrintControl::setDevnamesID;
-jfieldID  AwtPrintControl::driverDoesMultipleCopiesID;
-jfieldID  AwtPrintControl::driverDoesCollationID;
-jmethodID AwtPrintControl::getWin32MediaID;
-jmethodID AwtPrintControl::setWin32MediaID;
-jmethodID AwtPrintControl::getWin32MediaTrayID;
-jmethodID AwtPrintControl::setWin32MediaTrayID;
-jmethodID AwtPrintControl::getColorID;
-jmethodID AwtPrintControl::getCopiesID;
-jmethodID AwtPrintControl::getSelectID;
-jmethodID AwtPrintControl::getDestID;
-jmethodID AwtPrintControl::getDialogID;
-jmethodID AwtPrintControl::getFromPageID;
-jmethodID AwtPrintControl::getMaxPageID;
-jmethodID AwtPrintControl::getMinPageID;
-jmethodID AwtPrintControl::getCollateID;
-jmethodID AwtPrintControl::getOrientID;
-jmethodID AwtPrintControl::getQualityID;
-jmethodID AwtPrintControl::getPrintToFileEnabledID;
-jmethodID AwtPrintControl::getPrinterID;
-jmethodID AwtPrintControl::setPrinterID;
-jmethodID AwtPrintControl::getResID;
-jmethodID AwtPrintControl::getSidesID;
-jmethodID AwtPrintControl::getToPageID;
-jmethodID AwtPrintControl::setToPageID;
-jmethodID AwtPrintControl::setNativeAttID;
-jmethodID AwtPrintControl::setRangeCopiesID;
-jmethodID AwtPrintControl::setResID;
-jmethodID AwtPrintControl::setJobAttributesID;
+/* Vblufs must mbtdi tiosf dffinfd in WPrintfrJob.jbvb */
+stbtid donst DWORD SET_COLOR = 0x00000200;
+stbtid donst DWORD SET_ORIENTATION = 0x00004000;
+stbtid donst DWORD SET_DUP_VERTICAL = 0x00000010;
+stbtid donst DWORD SET_DUP_HORIZONTAL = 0x00000020;
+stbtid donst DWORD SET_RES_HIGH = 0x00000040;
+stbtid donst DWORD SET_RES_LOW = 0x00000080;
 
 
-BOOL AwtPrintControl::IsSupportedLevel(HANDLE hPrinter, DWORD dwLevel) {
-    BOOL isSupported = FALSE;
-    DWORD cbBuf = 0;
-    LPBYTE pPrinter = NULL;
+/* Tifsf mftiods bnd fiflds brf on sun.bwt.windows.WPrintfrJob */
+jfifldID  AwtPrintControl::diblogOwnfrPffrID;
+jmftiodID AwtPrintControl::gftPrintDCID;
+jmftiodID AwtPrintControl::sftPrintDCID;
+jmftiodID AwtPrintControl::gftDfvmodfID;
+jmftiodID AwtPrintControl::sftDfvmodfID;
+jmftiodID AwtPrintControl::gftDfvnbmfsID;
+jmftiodID AwtPrintControl::sftDfvnbmfsID;
+jfifldID  AwtPrintControl::drivfrDofsMultiplfCopifsID;
+jfifldID  AwtPrintControl::drivfrDofsCollbtionID;
+jmftiodID AwtPrintControl::gftWin32MfdibID;
+jmftiodID AwtPrintControl::sftWin32MfdibID;
+jmftiodID AwtPrintControl::gftWin32MfdibTrbyID;
+jmftiodID AwtPrintControl::sftWin32MfdibTrbyID;
+jmftiodID AwtPrintControl::gftColorID;
+jmftiodID AwtPrintControl::gftCopifsID;
+jmftiodID AwtPrintControl::gftSflfdtID;
+jmftiodID AwtPrintControl::gftDfstID;
+jmftiodID AwtPrintControl::gftDiblogID;
+jmftiodID AwtPrintControl::gftFromPbgfID;
+jmftiodID AwtPrintControl::gftMbxPbgfID;
+jmftiodID AwtPrintControl::gftMinPbgfID;
+jmftiodID AwtPrintControl::gftCollbtfID;
+jmftiodID AwtPrintControl::gftOrifntID;
+jmftiodID AwtPrintControl::gftQublityID;
+jmftiodID AwtPrintControl::gftPrintToFilfEnbblfdID;
+jmftiodID AwtPrintControl::gftPrintfrID;
+jmftiodID AwtPrintControl::sftPrintfrID;
+jmftiodID AwtPrintControl::gftRfsID;
+jmftiodID AwtPrintControl::gftSidfsID;
+jmftiodID AwtPrintControl::gftToPbgfID;
+jmftiodID AwtPrintControl::sftToPbgfID;
+jmftiodID AwtPrintControl::sftNbtivfAttID;
+jmftiodID AwtPrintControl::sftRbngfCopifsID;
+jmftiodID AwtPrintControl::sftRfsID;
+jmftiodID AwtPrintControl::sftJobAttributfsID;
 
-    DASSERT(hPrinter != NULL);
 
-    VERIFY(::GetPrinter(hPrinter, dwLevel, NULL, 0, &cbBuf) == 0);
-    if (::GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
-        pPrinter = new BYTE[cbBuf];
-        if (::GetPrinter(hPrinter, dwLevel, pPrinter, cbBuf, &cbBuf)) {
-            isSupported = TRUE;
+BOOL AwtPrintControl::IsSupportfdLfvfl(HANDLE iPrintfr, DWORD dwLfvfl) {
+    BOOL isSupportfd = FALSE;
+    DWORD dbBuf = 0;
+    LPBYTE pPrintfr = NULL;
+
+    DASSERT(iPrintfr != NULL);
+
+    VERIFY(::GftPrintfr(iPrintfr, dwLfvfl, NULL, 0, &dbBuf) == 0);
+    if (::GftLbstError() == ERROR_INSUFFICIENT_BUFFER) {
+        pPrintfr = nfw BYTE[dbBuf];
+        if (::GftPrintfr(iPrintfr, dwLfvfl, pPrintfr, dbBuf, &dbBuf)) {
+            isSupportfd = TRUE;
         }
-        delete[] pPrinter;
+        dflftf[] pPrintfr;
     }
 
-    return isSupported;
+    rfturn isSupportfd;
 }
 
-BOOL AwtPrintControl::FindPrinter(jstring printerName, LPBYTE pPrinterEnum,
-                                  LPDWORD pcbBuf, LPTSTR * foundPrinter,
+BOOL AwtPrintControl::FindPrintfr(jstring printfrNbmf, LPBYTE pPrintfrEnum,
+                                  LPDWORD pdbBuf, LPTSTR * foundPrintfr,
                                   LPTSTR * foundPort)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    DWORD cReturned = 0;
+    DWORD dRfturnfd = 0;
 
-    if (pPrinterEnum == NULL) {
-        // Compute size of buffer
-        DWORD cbNeeded = 0;
-        ::EnumPrinters(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
-                           NULL, 2, NULL, 0, &cbNeeded, &cReturned);
-        ::EnumPrinters(PRINTER_ENUM_LOCAL,
-                       NULL, 5, NULL, 0, pcbBuf, &cReturned);
-        if (cbNeeded > (*pcbBuf)) {
-            *pcbBuf = cbNeeded;
+    if (pPrintfrEnum == NULL) {
+        // Computf sizf of bufffr
+        DWORD dbNffdfd = 0;
+        ::EnumPrintfrs(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
+                           NULL, 2, NULL, 0, &dbNffdfd, &dRfturnfd);
+        ::EnumPrintfrs(PRINTER_ENUM_LOCAL,
+                       NULL, 5, NULL, 0, pdbBuf, &dRfturnfd);
+        if (dbNffdfd > (*pdbBuf)) {
+            *pdbBuf = dbNffdfd;
         }
-        return TRUE;
+        rfturn TRUE;
     }
 
-    DASSERT(printerName != NULL);
+    DASSERT(printfrNbmf != NULL);
 
-    DWORD cbBuf = *pcbBuf, dummyWord = 0;
+    DWORD dbBuf = *pdbBuf, dummyWord = 0;
 
-    JavaStringBuffer printerNameBuf(env, printerName);
-    LPTSTR lpcPrinterName = (LPTSTR)printerNameBuf;
-    DASSERT(lpcPrinterName != NULL);
+    JbvbStringBufffr printfrNbmfBuf(fnv, printfrNbmf);
+    LPTSTR lpdPrintfrNbmf = (LPTSTR)printfrNbmfBuf;
+    DASSERT(lpdPrintfrNbmf != NULL);
 
-    // For NT, first do a quick check of all remote and local printers.
-    // This only allows us to search by name, though. PRINTER_INFO_4
-    // doesn't support port searches. So, if the user has specified the
-    // printer name as "LPT1:" (even though this is actually a port
-    // name), we won't find the printer here.
-    if (!::EnumPrinters(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
-                        NULL, 4, pPrinterEnum, cbBuf, &dummyWord, &cReturned)) {
-        return FALSE;
+    // For NT, first do b quidk difdk of bll rfmotf bnd lodbl printfrs.
+    // Tiis only bllows us to sfbrdi by nbmf, tiougi. PRINTER_INFO_4
+    // dofsn't support port sfbrdifs. So, if tif usfr ibs spfdififd tif
+    // printfr nbmf bs "LPT1:" (fvfn tiougi tiis is bdtublly b port
+    // nbmf), wf won't find tif printfr ifrf.
+    if (!::EnumPrintfrs(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
+                        NULL, 4, pPrintfrEnum, dbBuf, &dummyWord, &dRfturnfd)) {
+        rfturn FALSE;
     }
 
-    for (DWORD i = 0; i < cReturned; i++) {
+    for (DWORD i = 0; i < dRfturnfd; i++) {
         PRINTER_INFO_4 *info4 = (PRINTER_INFO_4 *)
-            (pPrinterEnum + i * sizeof(PRINTER_INFO_4));
-        if (info4->pPrinterName != NULL &&
-            _tcsicmp(lpcPrinterName, info4->pPrinterName) == 0) {
+            (pPrintfrEnum + i * sizfof(PRINTER_INFO_4));
+        if (info4->pPrintfrNbmf != NULL &&
+            _tdsidmp(lpdPrintfrNbmf, info4->pPrintfrNbmf) == 0) {
 
-            // Fix for BugTraq Id 4281380.
-            // Get the port name since some drivers may require
-            // this name to be passed to ::DeviceCapabilities().
-            HANDLE hPrinter = NULL;
-            if (::OpenPrinter(info4->pPrinterName, &hPrinter, NULL)) {
-                // Fix for BugTraq Id 4286812.
-                // Some drivers don't support PRINTER_INFO_5.
-                // In this case we try PRINTER_INFO_2, and if that
-                // isn't supported as well return NULL port name.
+            // Fix for BugTrbq Id 4281380.
+            // Gft tif port nbmf sindf somf drivfrs mby rfquirf
+            // tiis nbmf to bf pbssfd to ::DfvidfCbpbbilitifs().
+            HANDLE iPrintfr = NULL;
+            if (::OpfnPrintfr(info4->pPrintfrNbmf, &iPrintfr, NULL)) {
+                // Fix for BugTrbq Id 4286812.
+                // Somf drivfrs don't support PRINTER_INFO_5.
+                // In tiis dbsf wf try PRINTER_INFO_2, bnd if tibt
+                // isn't supportfd bs wfll rfturn NULL port nbmf.
                 try {
-                    if (AwtPrintControl::IsSupportedLevel(hPrinter, 5)) {
-                        VERIFY(::GetPrinter(hPrinter, 5, pPrinterEnum, cbBuf,
+                    if (AwtPrintControl::IsSupportfdLfvfl(iPrintfr, 5)) {
+                        VERIFY(::GftPrintfr(iPrintfr, 5, pPrintfrEnum, dbBuf,
                                             &dummyWord));
-                        PRINTER_INFO_5 *info5 = (PRINTER_INFO_5 *)pPrinterEnum;
-                        *foundPrinter = info5->pPrinterName;
-                        // pPortName may specify multiple ports. We only want one.
-                        *foundPort = (info5->pPortName != NULL)
-                            ? _tcstok(info5->pPortName, TEXT(",")) : NULL;
-                    } else if (AwtPrintControl::IsSupportedLevel(hPrinter, 2)) {
-                        VERIFY(::GetPrinter(hPrinter, 2, pPrinterEnum, cbBuf,
+                        PRINTER_INFO_5 *info5 = (PRINTER_INFO_5 *)pPrintfrEnum;
+                        *foundPrintfr = info5->pPrintfrNbmf;
+                        // pPortNbmf mby spfdify multiplf ports. Wf only wbnt onf.
+                        *foundPort = (info5->pPortNbmf != NULL)
+                            ? _tdstok(info5->pPortNbmf, TEXT(",")) : NULL;
+                    } flsf if (AwtPrintControl::IsSupportfdLfvfl(iPrintfr, 2)) {
+                        VERIFY(::GftPrintfr(iPrintfr, 2, pPrintfrEnum, dbBuf,
                                             &dummyWord));
-                        PRINTER_INFO_2 *info2 = (PRINTER_INFO_2 *)pPrinterEnum;
-                        *foundPrinter = info2->pPrinterName;
-                        // pPortName may specify multiple ports. We only want one.
-                        *foundPort = (info2->pPortName != NULL)
-                            ? _tcstok(info2->pPortName, TEXT(",")) : NULL;
-                    } else {
-                        *foundPrinter = info4->pPrinterName;
-                        // We failed to determine port name for the found printer.
+                        PRINTER_INFO_2 *info2 = (PRINTER_INFO_2 *)pPrintfrEnum;
+                        *foundPrintfr = info2->pPrintfrNbmf;
+                        // pPortNbmf mby spfdify multiplf ports. Wf only wbnt onf.
+                        *foundPort = (info2->pPortNbmf != NULL)
+                            ? _tdstok(info2->pPortNbmf, TEXT(",")) : NULL;
+                    } flsf {
+                        *foundPrintfr = info4->pPrintfrNbmf;
+                        // Wf fbilfd to dftfrminf port nbmf for tif found printfr.
                         *foundPort = NULL;
                     }
-                } catch (std::bad_alloc&) {
-                    VERIFY(::ClosePrinter(hPrinter));
-                    throw;
+                } dbtdi (std::bbd_bllod&) {
+                    VERIFY(::ClosfPrintfr(iPrintfr));
+                    tirow;
                 }
 
-                VERIFY(::ClosePrinter(hPrinter));
+                VERIFY(::ClosfPrintfr(iPrintfr));
 
-                return TRUE;
+                rfturn TRUE;
             }
 
-            return FALSE;
+            rfturn FALSE;
         }
     }
 
-    // We still haven't found the printer, /* or we're using 95/98. */
-    // PRINTER_INFO_5 supports both printer name and port name, so
-    // we'll test both. On NT, PRINTER_ENUM_LOCAL means just local
-    // printers. This is what we want, because we already tested all
-    // remote printer names above (and remote printer port names are
-    // the same as remote printer names). On 95/98, PRINTER_ENUM_LOCAL
-    // means both remote and local printers. This is also what we want
-    // because we haven't tested any printers yet.
-    if (!::EnumPrinters(PRINTER_ENUM_LOCAL,
-                        NULL, 5, pPrinterEnum, cbBuf, &dummyWord, &cReturned)) {
-        return FALSE;
+    // Wf still ibvfn't found tif printfr, /* or wf'rf using 95/98. */
+    // PRINTER_INFO_5 supports boti printfr nbmf bnd port nbmf, so
+    // wf'll tfst boti. On NT, PRINTER_ENUM_LOCAL mfbns just lodbl
+    // printfrs. Tiis is wibt wf wbnt, bfdbusf wf blrfbdy tfstfd bll
+    // rfmotf printfr nbmfs bbovf (bnd rfmotf printfr port nbmfs brf
+    // tif sbmf bs rfmotf printfr nbmfs). On 95/98, PRINTER_ENUM_LOCAL
+    // mfbns boti rfmotf bnd lodbl printfrs. Tiis is blso wibt wf wbnt
+    // bfdbusf wf ibvfn't tfstfd bny printfrs yft.
+    if (!::EnumPrintfrs(PRINTER_ENUM_LOCAL,
+                        NULL, 5, pPrintfrEnum, dbBuf, &dummyWord, &dRfturnfd)) {
+        rfturn FALSE;
     }
 
-    for (DWORD i = 0; i < cReturned; i++) {
+    for (DWORD i = 0; i < dRfturnfd; i++) {
         PRINTER_INFO_5 *info5 = (PRINTER_INFO_5 *)
-            (pPrinterEnum + i * sizeof(PRINTER_INFO_5));
-        // pPortName can specify multiple ports. Test them one at
-        // a time.
-        if (info5->pPortName != NULL) {
-            LPTSTR port = _tcstok(info5->pPortName, TEXT(","));
-            while (port != NULL) {
-                if (_tcsicmp(lpcPrinterName, port) == 0) {
-                    *foundPrinter = info5->pPrinterName;
+            (pPrintfrEnum + i * sizfof(PRINTER_INFO_5));
+        // pPortNbmf dbn spfdify multiplf ports. Tfst tifm onf bt
+        // b timf.
+        if (info5->pPortNbmf != NULL) {
+            LPTSTR port = _tdstok(info5->pPortNbmf, TEXT(","));
+            wiilf (port != NULL) {
+                if (_tdsidmp(lpdPrintfrNbmf, port) == 0) {
+                    *foundPrintfr = info5->pPrintfrNbmf;
                     *foundPort = port;
-                    return TRUE;
+                    rfturn TRUE;
                 }
-                port = _tcstok(NULL, TEXT(","));
+                port = _tdstok(NULL, TEXT(","));
             }
         }
     }
 
-    return FALSE;
+    rfturn FALSE;
 }
 
 
-void AwtPrintControl::initIDs(JNIEnv *env, jclass cls)
+void AwtPrintControl::initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    jclass cls = env->FindClass("sun/awt/windows/WPrinterJob");
-    CHECK_NULL(cls);
+    jdlbss dls = fnv->FindClbss("sun/bwt/windows/WPrintfrJob");
+    CHECK_NULL(dls);
 
-    AwtPrintControl::dialogOwnerPeerID =
-      env->GetFieldID(cls, "dialogOwnerPeer", "Ljava/awt/peer/ComponentPeer;");
-    DASSERT(AwtPrintControl::dialogOwnerPeerID != NULL);
-    CHECK_NULL(AwtPrintControl::dialogOwnerPeerID);
+    AwtPrintControl::diblogOwnfrPffrID =
+      fnv->GftFifldID(dls, "diblogOwnfrPffr", "Ljbvb/bwt/pffr/ComponfntPffr;");
+    DASSERT(AwtPrintControl::diblogOwnfrPffrID != NULL);
+    CHECK_NULL(AwtPrintControl::diblogOwnfrPffrID);
 
-    AwtPrintControl::getPrintDCID = env->GetMethodID(cls, "getPrintDC", "()J");
-    DASSERT(AwtPrintControl::getPrintDCID != NULL);
-    CHECK_NULL(AwtPrintControl::getPrintDCID);
+    AwtPrintControl::gftPrintDCID = fnv->GftMftiodID(dls, "gftPrintDC", "()J");
+    DASSERT(AwtPrintControl::gftPrintDCID != NULL);
+    CHECK_NULL(AwtPrintControl::gftPrintDCID);
 
-    AwtPrintControl::setPrintDCID =
-        env->GetMethodID(cls, "setPrintDC", "(J)V");
-    DASSERT(AwtPrintControl::setPrintDCID != NULL);
-    CHECK_NULL(AwtPrintControl::setPrintDCID);
+    AwtPrintControl::sftPrintDCID =
+        fnv->GftMftiodID(dls, "sftPrintDC", "(J)V");
+    DASSERT(AwtPrintControl::sftPrintDCID != NULL);
+    CHECK_NULL(AwtPrintControl::sftPrintDCID);
 
-    AwtPrintControl::getDevmodeID = env->GetMethodID(cls, "getDevMode", "()J");
-    DASSERT(AwtPrintControl::getDevmodeID != NULL);
-    CHECK_NULL(AwtPrintControl::getDevmodeID);
+    AwtPrintControl::gftDfvmodfID = fnv->GftMftiodID(dls, "gftDfvModf", "()J");
+    DASSERT(AwtPrintControl::gftDfvmodfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftDfvmodfID);
 
-    AwtPrintControl::setDevmodeID =
-        env->GetMethodID(cls, "setDevMode", "(J)V");
-    DASSERT(AwtPrintControl::setDevmodeID != NULL);
-    CHECK_NULL(AwtPrintControl::setDevmodeID);
+    AwtPrintControl::sftDfvmodfID =
+        fnv->GftMftiodID(dls, "sftDfvModf", "(J)V");
+    DASSERT(AwtPrintControl::sftDfvmodfID != NULL);
+    CHECK_NULL(AwtPrintControl::sftDfvmodfID);
 
-    AwtPrintControl::getDevnamesID =
-        env->GetMethodID(cls, "getDevNames", "()J");
-    DASSERT(AwtPrintControl::getDevnamesID != NULL);
-    CHECK_NULL(AwtPrintControl::getDevnamesID);
+    AwtPrintControl::gftDfvnbmfsID =
+        fnv->GftMftiodID(dls, "gftDfvNbmfs", "()J");
+    DASSERT(AwtPrintControl::gftDfvnbmfsID != NULL);
+    CHECK_NULL(AwtPrintControl::gftDfvnbmfsID);
 
-    AwtPrintControl::setDevnamesID =
-        env->GetMethodID(cls, "setDevNames", "(J)V");
-    DASSERT(AwtPrintControl::setDevnamesID != NULL);
-    CHECK_NULL(AwtPrintControl::setDevnamesID);
+    AwtPrintControl::sftDfvnbmfsID =
+        fnv->GftMftiodID(dls, "sftDfvNbmfs", "(J)V");
+    DASSERT(AwtPrintControl::sftDfvnbmfsID != NULL);
+    CHECK_NULL(AwtPrintControl::sftDfvnbmfsID);
 
-    AwtPrintControl::driverDoesMultipleCopiesID =
-      env->GetFieldID(cls, "driverDoesMultipleCopies", "Z");
-    DASSERT(AwtPrintControl::driverDoesMultipleCopiesID != NULL);
-    CHECK_NULL(AwtPrintControl::driverDoesMultipleCopiesID);
+    AwtPrintControl::drivfrDofsMultiplfCopifsID =
+      fnv->GftFifldID(dls, "drivfrDofsMultiplfCopifs", "Z");
+    DASSERT(AwtPrintControl::drivfrDofsMultiplfCopifsID != NULL);
+    CHECK_NULL(AwtPrintControl::drivfrDofsMultiplfCopifsID);
 
-    AwtPrintControl::driverDoesCollationID =
-      env->GetFieldID(cls, "driverDoesCollation", "Z");
-    DASSERT(AwtPrintControl::driverDoesCollationID != NULL);
-    CHECK_NULL(AwtPrintControl::driverDoesCollationID);
+    AwtPrintControl::drivfrDofsCollbtionID =
+      fnv->GftFifldID(dls, "drivfrDofsCollbtion", "Z");
+    DASSERT(AwtPrintControl::drivfrDofsCollbtionID != NULL);
+    CHECK_NULL(AwtPrintControl::drivfrDofsCollbtionID);
 
-    AwtPrintControl::getCopiesID =
-      env->GetMethodID(cls, "getCopiesAttrib", "()I");
-    DASSERT(AwtPrintControl::getCopiesID != NULL);
-    CHECK_NULL(AwtPrintControl::getCopiesID);
+    AwtPrintControl::gftCopifsID =
+      fnv->GftMftiodID(dls, "gftCopifsAttrib", "()I");
+    DASSERT(AwtPrintControl::gftCopifsID != NULL);
+    CHECK_NULL(AwtPrintControl::gftCopifsID);
 
-    AwtPrintControl::getCollateID =
-      env->GetMethodID(cls, "getCollateAttrib","()I");
-    DASSERT(AwtPrintControl::getCollateID != NULL);
-    CHECK_NULL(AwtPrintControl::getCollateID);
+    AwtPrintControl::gftCollbtfID =
+      fnv->GftMftiodID(dls, "gftCollbtfAttrib","()I");
+    DASSERT(AwtPrintControl::gftCollbtfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftCollbtfID);
 
-    AwtPrintControl::getOrientID =
-      env->GetMethodID(cls, "getOrientAttrib", "()I");
-    DASSERT(AwtPrintControl::getOrientID != NULL);
-    CHECK_NULL(AwtPrintControl::getOrientID);
+    AwtPrintControl::gftOrifntID =
+      fnv->GftMftiodID(dls, "gftOrifntAttrib", "()I");
+    DASSERT(AwtPrintControl::gftOrifntID != NULL);
+    CHECK_NULL(AwtPrintControl::gftOrifntID);
 
-    AwtPrintControl::getFromPageID =
-      env->GetMethodID(cls, "getFromPageAttrib", "()I");
-    DASSERT(AwtPrintControl::getFromPageID != NULL);
-    CHECK_NULL(AwtPrintControl::getFromPageID);
+    AwtPrintControl::gftFromPbgfID =
+      fnv->GftMftiodID(dls, "gftFromPbgfAttrib", "()I");
+    DASSERT(AwtPrintControl::gftFromPbgfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftFromPbgfID);
 
-    AwtPrintControl::getToPageID =
-      env->GetMethodID(cls, "getToPageAttrib", "()I");
-    DASSERT(AwtPrintControl::getToPageID != NULL);
-    CHECK_NULL(AwtPrintControl::getToPageID);
+    AwtPrintControl::gftToPbgfID =
+      fnv->GftMftiodID(dls, "gftToPbgfAttrib", "()I");
+    DASSERT(AwtPrintControl::gftToPbgfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftToPbgfID);
 
-    AwtPrintControl::getMinPageID =
-      env->GetMethodID(cls, "getMinPageAttrib", "()I");
-    DASSERT(AwtPrintControl::getMinPageID != NULL);
-    CHECK_NULL(AwtPrintControl::getMinPageID);
+    AwtPrintControl::gftMinPbgfID =
+      fnv->GftMftiodID(dls, "gftMinPbgfAttrib", "()I");
+    DASSERT(AwtPrintControl::gftMinPbgfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftMinPbgfID);
 
-    AwtPrintControl::getMaxPageID =
-      env->GetMethodID(cls, "getMaxPageAttrib", "()I");
-    DASSERT(AwtPrintControl::getMaxPageID != NULL);
-    CHECK_NULL(AwtPrintControl::getMaxPageID);
+    AwtPrintControl::gftMbxPbgfID =
+      fnv->GftMftiodID(dls, "gftMbxPbgfAttrib", "()I");
+    DASSERT(AwtPrintControl::gftMbxPbgfID != NULL);
+    CHECK_NULL(AwtPrintControl::gftMbxPbgfID);
 
-    AwtPrintControl::getDestID =
-      env->GetMethodID(cls, "getDestAttrib", "()Z");
-    DASSERT(AwtPrintControl::getDestID != NULL);
-    CHECK_NULL(AwtPrintControl::getDestID);
+    AwtPrintControl::gftDfstID =
+      fnv->GftMftiodID(dls, "gftDfstAttrib", "()Z");
+    DASSERT(AwtPrintControl::gftDfstID != NULL);
+    CHECK_NULL(AwtPrintControl::gftDfstID);
 
-    AwtPrintControl::getQualityID =
-      env->GetMethodID(cls, "getQualityAttrib", "()I");
-    DASSERT(AwtPrintControl::getQualityID != NULL);
-    CHECK_NULL(AwtPrintControl::getQualityID);
+    AwtPrintControl::gftQublityID =
+      fnv->GftMftiodID(dls, "gftQublityAttrib", "()I");
+    DASSERT(AwtPrintControl::gftQublityID != NULL);
+    CHECK_NULL(AwtPrintControl::gftQublityID);
 
-    AwtPrintControl::getColorID =
-      env->GetMethodID(cls, "getColorAttrib", "()I");
-    DASSERT(AwtPrintControl::getColorID != NULL);
-    CHECK_NULL(AwtPrintControl::getColorID);
+    AwtPrintControl::gftColorID =
+      fnv->GftMftiodID(dls, "gftColorAttrib", "()I");
+    DASSERT(AwtPrintControl::gftColorID != NULL);
+    CHECK_NULL(AwtPrintControl::gftColorID);
 
-    AwtPrintControl::getSidesID =
-      env->GetMethodID(cls, "getSidesAttrib", "()I");
-    DASSERT(AwtPrintControl::getSidesID != NULL);
-    CHECK_NULL(AwtPrintControl::getSidesID);
+    AwtPrintControl::gftSidfsID =
+      fnv->GftMftiodID(dls, "gftSidfsAttrib", "()I");
+    DASSERT(AwtPrintControl::gftSidfsID != NULL);
+    CHECK_NULL(AwtPrintControl::gftSidfsID);
 
-    AwtPrintControl::getPrinterID =
-      env->GetMethodID(cls, "getPrinterAttrib", "()Ljava/lang/String;");
-    DASSERT(AwtPrintControl::getPrinterID != NULL);
-    CHECK_NULL(AwtPrintControl::getPrinterID);
+    AwtPrintControl::gftPrintfrID =
+      fnv->GftMftiodID(dls, "gftPrintfrAttrib", "()Ljbvb/lbng/String;");
+    DASSERT(AwtPrintControl::gftPrintfrID != NULL);
+    CHECK_NULL(AwtPrintControl::gftPrintfrID);
 
-    AwtPrintControl::getWin32MediaID =
-        env->GetMethodID(cls, "getWin32MediaAttrib", "()[I");
-    DASSERT(AwtPrintControl::getWin32MediaID != NULL);
-    CHECK_NULL(AwtPrintControl::getWin32MediaID);
+    AwtPrintControl::gftWin32MfdibID =
+        fnv->GftMftiodID(dls, "gftWin32MfdibAttrib", "()[I");
+    DASSERT(AwtPrintControl::gftWin32MfdibID != NULL);
+    CHECK_NULL(AwtPrintControl::gftWin32MfdibID);
 
-    AwtPrintControl::setWin32MediaID =
-      env->GetMethodID(cls, "setWin32MediaAttrib", "(III)V");
-    DASSERT(AwtPrintControl::setWin32MediaID != NULL);
-    CHECK_NULL(AwtPrintControl::setWin32MediaID);
+    AwtPrintControl::sftWin32MfdibID =
+      fnv->GftMftiodID(dls, "sftWin32MfdibAttrib", "(III)V");
+    DASSERT(AwtPrintControl::sftWin32MfdibID != NULL);
+    CHECK_NULL(AwtPrintControl::sftWin32MfdibID);
 
-    AwtPrintControl::getWin32MediaTrayID =
-        env->GetMethodID(cls, "getMediaTrayAttrib", "()I");
-    DASSERT(AwtPrintControl::getWin32MediaTrayID != NULL);
-    CHECK_NULL(AwtPrintControl::getWin32MediaTrayID);
+    AwtPrintControl::gftWin32MfdibTrbyID =
+        fnv->GftMftiodID(dls, "gftMfdibTrbyAttrib", "()I");
+    DASSERT(AwtPrintControl::gftWin32MfdibTrbyID != NULL);
+    CHECK_NULL(AwtPrintControl::gftWin32MfdibTrbyID);
 
-    AwtPrintControl::setWin32MediaTrayID =
-      env->GetMethodID(cls, "setMediaTrayAttrib", "(I)V");
-    DASSERT(AwtPrintControl::setWin32MediaTrayID != NULL);
-    CHECK_NULL(AwtPrintControl::setWin32MediaTrayID);
+    AwtPrintControl::sftWin32MfdibTrbyID =
+      fnv->GftMftiodID(dls, "sftMfdibTrbyAttrib", "(I)V");
+    DASSERT(AwtPrintControl::sftWin32MfdibTrbyID != NULL);
+    CHECK_NULL(AwtPrintControl::sftWin32MfdibTrbyID);
 
-    AwtPrintControl::getSelectID =
-      env->GetMethodID(cls, "getSelectAttrib", "()I");
-    DASSERT(AwtPrintControl::getSelectID != NULL);
-    CHECK_NULL(AwtPrintControl::getSelectID);
+    AwtPrintControl::gftSflfdtID =
+      fnv->GftMftiodID(dls, "gftSflfdtAttrib", "()I");
+    DASSERT(AwtPrintControl::gftSflfdtID != NULL);
+    CHECK_NULL(AwtPrintControl::gftSflfdtID);
 
-    AwtPrintControl::getPrintToFileEnabledID =
-      env->GetMethodID(cls, "getPrintToFileEnabled", "()Z");
-    DASSERT(AwtPrintControl::getPrintToFileEnabledID != NULL);
-    CHECK_NULL(AwtPrintControl::getPrintToFileEnabledID);
+    AwtPrintControl::gftPrintToFilfEnbblfdID =
+      fnv->GftMftiodID(dls, "gftPrintToFilfEnbblfd", "()Z");
+    DASSERT(AwtPrintControl::gftPrintToFilfEnbblfdID != NULL);
+    CHECK_NULL(AwtPrintControl::gftPrintToFilfEnbblfdID);
 
-    AwtPrintControl::setNativeAttID =
-      env->GetMethodID(cls, "setNativeAttributes", "(III)V");
-    DASSERT(AwtPrintControl::setNativeAttID != NULL);
-    CHECK_NULL(AwtPrintControl::setNativeAttID);
+    AwtPrintControl::sftNbtivfAttID =
+      fnv->GftMftiodID(dls, "sftNbtivfAttributfs", "(III)V");
+    DASSERT(AwtPrintControl::sftNbtivfAttID != NULL);
+    CHECK_NULL(AwtPrintControl::sftNbtivfAttID);
 
-    AwtPrintControl::setRangeCopiesID =
-      env->GetMethodID(cls, "setRangeCopiesAttribute", "(IIZI)V");
-    DASSERT(AwtPrintControl::setRangeCopiesID != NULL);
-    CHECK_NULL(AwtPrintControl::setRangeCopiesID);
+    AwtPrintControl::sftRbngfCopifsID =
+      fnv->GftMftiodID(dls, "sftRbngfCopifsAttributf", "(IIZI)V");
+    DASSERT(AwtPrintControl::sftRbngfCopifsID != NULL);
+    CHECK_NULL(AwtPrintControl::sftRbngfCopifsID);
 
-    AwtPrintControl::setResID =
-      env->GetMethodID(cls, "setResolutionDPI", "(II)V");
-    DASSERT(AwtPrintControl::setResID != NULL);
-    CHECK_NULL(AwtPrintControl::setResID);
+    AwtPrintControl::sftRfsID =
+      fnv->GftMftiodID(dls, "sftRfsolutionDPI", "(II)V");
+    DASSERT(AwtPrintControl::sftRfsID != NULL);
+    CHECK_NULL(AwtPrintControl::sftRfsID);
 
-    AwtPrintControl::setPrinterID =
-      env->GetMethodID(cls, "setPrinterNameAttrib", "(Ljava/lang/String;)V");
-    DASSERT(AwtPrintControl::setPrinterID != NULL);
-    CHECK_NULL(AwtPrintControl::setPrinterID);
+    AwtPrintControl::sftPrintfrID =
+      fnv->GftMftiodID(dls, "sftPrintfrNbmfAttrib", "(Ljbvb/lbng/String;)V");
+    DASSERT(AwtPrintControl::sftPrintfrID != NULL);
+    CHECK_NULL(AwtPrintControl::sftPrintfrID);
 
-    AwtPrintControl::setJobAttributesID =
-        env->GetMethodID(cls, "setJobAttributes",
-        "(Ljavax/print/attribute/PrintRequestAttributeSet;IISSSSSSS)V");
-    DASSERT(AwtPrintControl::setJobAttributesID != NULL);
-    CHECK_NULL(AwtPrintControl::setJobAttributesID);
+    AwtPrintControl::sftJobAttributfsID =
+        fnv->GftMftiodID(dls, "sftJobAttributfs",
+        "(Ljbvbx/print/bttributf/PrintRfqufstAttributfSft;IISSSSSSS)V");
+    DASSERT(AwtPrintControl::sftJobAttributfsID != NULL);
+    CHECK_NULL(AwtPrintControl::sftJobAttributfsID);
 
     CATCH_BAD_ALLOC;
 }
 
-BOOL CALLBACK PrintDlgHook(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
+BOOL CALLBACK PrintDlgHook(HWND iDlg, UINT iMsg, WPARAM wPbrbm, LPARAM lPbrbm)
 {
     TRY;
 
     if (iMsg == WM_INITDIALOG) {
-        SetForegroundWindow(hDlg);
-        return FALSE;
+        SftForfgroundWindow(iDlg);
+        rfturn FALSE;
     }
-    return FALSE;
+    rfturn FALSE;
 
     CATCH_BAD_ALLOC_RET(TRUE);
 }
 
-BOOL AwtPrintControl::CreateDevModeAndDevNames(PRINTDLG *ppd,
-                                               LPTSTR pPrinterName,
-                                               LPTSTR pPortName)
+BOOL AwtPrintControl::CrfbtfDfvModfAndDfvNbmfs(PRINTDLG *ppd,
+                                               LPTSTR pPrintfrNbmf,
+                                               LPTSTR pPortNbmf)
 {
-    DWORD cbNeeded = 0;
-    LPBYTE pPrinter = NULL;
-    BOOL retval = FALSE;
-    HANDLE hPrinter;
+    DWORD dbNffdfd = 0;
+    LPBYTE pPrintfr = NULL;
+    BOOL rftvbl = FALSE;
+    HANDLE iPrintfr;
 
     try {
-        if (!::OpenPrinter(pPrinterName, &hPrinter, NULL)) {
-            goto done;
+        if (!::OpfnPrintfr(pPrintfrNbmf, &iPrintfr, NULL)) {
+            goto donf;
         }
-        VERIFY(::GetPrinter(hPrinter, 2, NULL, 0, &cbNeeded) == 0);
-        if (::GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
-            goto done;
+        VERIFY(::GftPrintfr(iPrintfr, 2, NULL, 0, &dbNffdfd) == 0);
+        if (::GftLbstError() != ERROR_INSUFFICIENT_BUFFER) {
+            goto donf;
         }
-        pPrinter = new BYTE[cbNeeded];
-        if (!::GetPrinter(hPrinter, 2, pPrinter, cbNeeded, &cbNeeded)) {
-            goto done;
+        pPrintfr = nfw BYTE[dbNffdfd];
+        if (!::GftPrintfr(iPrintfr, 2, pPrintfr, dbNffdfd, &dbNffdfd)) {
+            goto donf;
         }
-        PRINTER_INFO_2 *info2 = (PRINTER_INFO_2 *)pPrinter;
+        PRINTER_INFO_2 *info2 = (PRINTER_INFO_2 *)pPrintfr;
 
-        // Create DEVMODE, if it exists.
-        if (info2->pDevMode != NULL) {
-            size_t devmodeSize =
-                sizeof(DEVMODE) + info2->pDevMode->dmDriverExtra;
-            ppd->hDevMode = ::GlobalAlloc(GHND, devmodeSize);
-            if (ppd->hDevMode == NULL) {
-                throw std::bad_alloc();
+        // Crfbtf DEVMODE, if it fxists.
+        if (info2->pDfvModf != NULL) {
+            sizf_t dfvmodfSizf =
+                sizfof(DEVMODE) + info2->pDfvModf->dmDrivfrExtrb;
+            ppd->iDfvModf = ::GlobblAllod(GHND, dfvmodfSizf);
+            if (ppd->iDfvModf == NULL) {
+                tirow std::bbd_bllod();
             }
-            DEVMODE *devmode = (DEVMODE *)::GlobalLock(ppd->hDevMode);
-            DASSERT(!::IsBadWritePtr(devmode, devmodeSize));
-            memcpy(devmode, info2->pDevMode, devmodeSize);
-            VERIFY(::GlobalUnlock(ppd->hDevMode) == 0);
-            DASSERT(::GetLastError() == NO_ERROR);
+            DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(ppd->iDfvModf);
+            DASSERT(!::IsBbdWritfPtr(dfvmodf, dfvmodfSizf));
+            mfmdpy(dfvmodf, info2->pDfvModf, dfvmodfSizf);
+            VERIFY(::GlobblUnlodk(ppd->iDfvModf) == 0);
+            DASSERT(::GftLbstError() == NO_ERROR);
         }
 
-        // Create DEVNAMES.
-        if (pPortName != NULL) {
-            info2->pPortName = pPortName;
-        } else if (info2->pPortName != NULL) {
-            // pPortName may specify multiple ports. We only want one.
-            info2->pPortName = _tcstok(info2->pPortName, TEXT(","));
+        // Crfbtf DEVNAMES.
+        if (pPortNbmf != NULL) {
+            info2->pPortNbmf = pPortNbmf;
+        } flsf if (info2->pPortNbmf != NULL) {
+            // pPortNbmf mby spfdify multiplf ports. Wf only wbnt onf.
+            info2->pPortNbmf = _tdstok(info2->pPortNbmf, TEXT(","));
         }
 
-        size_t lenDriverName = ((info2->pDriverName != NULL)
-                                    ? _tcslen(info2->pDriverName)
+        sizf_t lfnDrivfrNbmf = ((info2->pDrivfrNbmf != NULL)
+                                    ? _tdslfn(info2->pDrivfrNbmf)
                                     : 0) + 1;
-        size_t lenPrinterName = ((pPrinterName != NULL)
-                                     ? _tcslen(pPrinterName)
+        sizf_t lfnPrintfrNbmf = ((pPrintfrNbmf != NULL)
+                                     ? _tdslfn(pPrintfrNbmf)
                                      : 0) + 1;
-        size_t lenOutputName = ((info2->pPortName != NULL)
-                                    ? _tcslen(info2->pPortName)
+        sizf_t lfnOutputNbmf = ((info2->pPortNbmf != NULL)
+                                    ? _tdslfn(info2->pPortNbmf)
                                     : 0) + 1;
-        size_t devnameSize= sizeof(DEVNAMES) +
-                        lenDriverName*sizeof(TCHAR) +
-                        lenPrinterName*sizeof(TCHAR) +
-                        lenOutputName*sizeof(TCHAR);
+        sizf_t dfvnbmfSizf= sizfof(DEVNAMES) +
+                        lfnDrivfrNbmf*sizfof(TCHAR) +
+                        lfnPrintfrNbmf*sizfof(TCHAR) +
+                        lfnOutputNbmf*sizfof(TCHAR);
 
-        ppd->hDevNames = ::GlobalAlloc(GHND, devnameSize);
-        if (ppd->hDevNames == NULL) {
-            throw std::bad_alloc();
+        ppd->iDfvNbmfs = ::GlobblAllod(GHND, dfvnbmfSizf);
+        if (ppd->iDfvNbmfs == NULL) {
+            tirow std::bbd_bllod();
         }
 
-        DEVNAMES *devnames =
-            (DEVNAMES *)::GlobalLock(ppd->hDevNames);
-        DASSERT(!IsBadWritePtr(devnames, devnameSize));
-        LPTSTR lpcDevnames = (LPTSTR)devnames;
+        DEVNAMES *dfvnbmfs =
+            (DEVNAMES *)::GlobblLodk(ppd->iDfvNbmfs);
+        DASSERT(!IsBbdWritfPtr(dfvnbmfs, dfvnbmfSizf));
+        LPTSTR lpdDfvnbmfs = (LPTSTR)dfvnbmfs;
 
-        // note: all sizes are in characters, not in bytes
-        devnames->wDriverOffset = sizeof(DEVNAMES)/sizeof(TCHAR);
-        devnames->wDeviceOffset =
-            static_cast<WORD>(sizeof(DEVNAMES)/sizeof(TCHAR) + lenDriverName);
-        devnames->wOutputOffset =
-            static_cast<WORD>(sizeof(DEVNAMES)/sizeof(TCHAR) + lenDriverName + lenPrinterName);
-        if (info2->pDriverName != NULL) {
-            _tcscpy_s(lpcDevnames + devnames->wDriverOffset, devnameSize - devnames->wDriverOffset, info2->pDriverName);
-        } else {
-            *(lpcDevnames + devnames->wDriverOffset) = _T('\0');
+        // notf: bll sizfs brf in dibrbdtfrs, not in bytfs
+        dfvnbmfs->wDrivfrOffsft = sizfof(DEVNAMES)/sizfof(TCHAR);
+        dfvnbmfs->wDfvidfOffsft =
+            stbtid_dbst<WORD>(sizfof(DEVNAMES)/sizfof(TCHAR) + lfnDrivfrNbmf);
+        dfvnbmfs->wOutputOffsft =
+            stbtid_dbst<WORD>(sizfof(DEVNAMES)/sizfof(TCHAR) + lfnDrivfrNbmf + lfnPrintfrNbmf);
+        if (info2->pDrivfrNbmf != NULL) {
+            _tdsdpy_s(lpdDfvnbmfs + dfvnbmfs->wDrivfrOffsft, dfvnbmfSizf - dfvnbmfs->wDrivfrOffsft, info2->pDrivfrNbmf);
+        } flsf {
+            *(lpdDfvnbmfs + dfvnbmfs->wDrivfrOffsft) = _T('\0');
         }
-        if (pPrinterName != NULL) {
-            _tcscpy_s(lpcDevnames + devnames->wDeviceOffset, devnameSize - devnames->wDeviceOffset, pPrinterName);
-        } else {
-            *(lpcDevnames + devnames->wDeviceOffset) = _T('\0');
+        if (pPrintfrNbmf != NULL) {
+            _tdsdpy_s(lpdDfvnbmfs + dfvnbmfs->wDfvidfOffsft, dfvnbmfSizf - dfvnbmfs->wDfvidfOffsft, pPrintfrNbmf);
+        } flsf {
+            *(lpdDfvnbmfs + dfvnbmfs->wDfvidfOffsft) = _T('\0');
         }
-        if (info2->pPortName != NULL) {
-            _tcscpy_s(lpcDevnames + devnames->wOutputOffset, devnameSize - devnames->wOutputOffset, info2->pPortName);
-        } else {
-            *(lpcDevnames + devnames->wOutputOffset) = _T('\0');
+        if (info2->pPortNbmf != NULL) {
+            _tdsdpy_s(lpdDfvnbmfs + dfvnbmfs->wOutputOffsft, dfvnbmfSizf - dfvnbmfs->wOutputOffsft, info2->pPortNbmf);
+        } flsf {
+            *(lpdDfvnbmfs + dfvnbmfs->wOutputOffsft) = _T('\0');
         }
-        VERIFY(::GlobalUnlock(ppd->hDevNames) == 0);
-        DASSERT(::GetLastError() == NO_ERROR);
-    } catch (std::bad_alloc&) {
-        if (ppd->hDevNames != NULL) {
-            VERIFY(::GlobalFree(ppd->hDevNames) == NULL);
-            ppd->hDevNames = NULL;
+        VERIFY(::GlobblUnlodk(ppd->iDfvNbmfs) == 0);
+        DASSERT(::GftLbstError() == NO_ERROR);
+    } dbtdi (std::bbd_bllod&) {
+        if (ppd->iDfvNbmfs != NULL) {
+            VERIFY(::GlobblFrff(ppd->iDfvNbmfs) == NULL);
+            ppd->iDfvNbmfs = NULL;
         }
-        if (ppd->hDevMode != NULL) {
-            VERIFY(::GlobalFree(ppd->hDevMode) == NULL);
-            ppd->hDevMode = NULL;
+        if (ppd->iDfvModf != NULL) {
+            VERIFY(::GlobblFrff(ppd->iDfvModf) == NULL);
+            ppd->iDfvModf = NULL;
         }
-        delete [] pPrinter;
-        VERIFY(::ClosePrinter(hPrinter));
-        hPrinter = NULL;
-        throw;
+        dflftf [] pPrintfr;
+        VERIFY(::ClosfPrintfr(iPrintfr));
+        iPrintfr = NULL;
+        tirow;
     }
 
-    retval = TRUE;
+    rftvbl = TRUE;
 
-done:
-    delete [] pPrinter;
-    if (hPrinter) {
-        VERIFY(::ClosePrinter(hPrinter));
-        hPrinter = NULL;
+donf:
+    dflftf [] pPrintfr;
+    if (iPrintfr) {
+        VERIFY(::ClosfPrintfr(iPrintfr));
+        iPrintfr = NULL;
     }
 
-    return retval;
+    rfturn rftvbl;
 }
 
 
-WORD AwtPrintControl::getNearestMatchingPaper(LPTSTR printer, LPTSTR port,
-                                      double origWid, double origHgt,
-                                      double* newWid, double *newHgt) {
-    const double epsilon = 0.50;
-    const double tolerance = (1.0 * 72.0);  // # inches * 72
-    int numPaperSizes = 0;
-    WORD *papers = NULL;
-    POINT *paperSizes = NULL;
+WORD AwtPrintControl::gftNfbrfstMbtdiingPbpfr(LPTSTR printfr, LPTSTR port,
+                                      doublf origWid, doublf origHgt,
+                                      doublf* nfwWid, doublf *nfwHgt) {
+    donst doublf fpsilon = 0.50;
+    donst doublf tolfrbndf = (1.0 * 72.0);  // # indifs * 72
+    int numPbpfrSizfs = 0;
+    WORD *pbpfrs = NULL;
+    POINT *pbpfrSizfs = NULL;
 
-    if ((printer== NULL) || (port == NULL)) {
-        return 0;
+    if ((printfr== NULL) || (port == NULL)) {
+        rfturn 0;
     }
 
     SAVE_CONTROLWORD
-    numPaperSizes = (int)DeviceCapabilities(printer, port, DC_PAPERSIZE,
+    numPbpfrSizfs = (int)DfvidfCbpbbilitifs(printfr, port, DC_PAPERSIZE,
                                               NULL, NULL);
 
-    if (numPaperSizes > 0) {
-        papers = (WORD*)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(WORD), numPaperSizes);
-        paperSizes = (POINT *)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, sizeof(*paperSizes),
-                                          numPaperSizes);
+    if (numPbpfrSizfs > 0) {
+        pbpfrs = (WORD*)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(WORD), numPbpfrSizfs);
+        pbpfrSizfs = (POINT *)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(*pbpfrSizfs),
+                                          numPbpfrSizfs);
 
-        DWORD result1 = DeviceCapabilities(printer, port,
-                                       DC_PAPERS, (LPTSTR) papers, NULL);
+        DWORD rfsult1 = DfvidfCbpbbilitifs(printfr, port,
+                                       DC_PAPERS, (LPTSTR) pbpfrs, NULL);
 
-        DWORD result2 = DeviceCapabilities(printer, port,
-                                       DC_PAPERSIZE, (LPTSTR) paperSizes,
+        DWORD rfsult2 = DfvidfCbpbbilitifs(printfr, port,
+                                       DC_PAPERSIZE, (LPTSTR) pbpfrSizfs,
                                        NULL);
 
-        // REMIND: cache in papers and paperSizes
-        if (result1 == -1 || result2 == -1 ) {
-            free((LPTSTR) papers);
-            papers = NULL;
-            free((LPTSTR) paperSizes);
-            paperSizes = NULL;
+        // REMIND: dbdif in pbpfrs bnd pbpfrSizfs
+        if (rfsult1 == -1 || rfsult2 == -1 ) {
+            frff((LPTSTR) pbpfrs);
+            pbpfrs = NULL;
+            frff((LPTSTR) pbpfrSizfs);
+            pbpfrSizfs = NULL;
         }
     }
     RESTORE_CONTROLWORD
 
-    double closestWid = 0.0;
-    double closestHgt = 0.0;
-    WORD   closestMatch = 0;
+    doublf dlosfstWid = 0.0;
+    doublf dlosfstHgt = 0.0;
+    WORD   dlosfstMbtdi = 0;
 
-    if (paperSizes != NULL) {
+    if (pbpfrSizfs != NULL) {
 
-      /* Paper sizes are in 0.1mm units. Convert to 1/72"
-       * For each paper size, compute the difference from the paper size
-       * passed in. Use a least-squares difference, so paper much different
-       * in x or y should score poorly
+      /* Pbpfr sizfs brf in 0.1mm units. Convfrt to 1/72"
+       * For fbdi pbpfr sizf, domputf tif difffrfndf from tif pbpfr sizf
+       * pbssfd in. Usf b lfbst-squbrfs difffrfndf, so pbpfr mudi difffrfnt
+       * in x or y siould sdorf poorly
        */
-        double diffw = origWid;
-        double diffh = origHgt;
-        double least_square = diffw * diffw + diffh * diffh;
-        double tmp_ls;
-        double widpts, hgtpts;
+        doublf diffw = origWid;
+        doublf diffi = origHgt;
+        doublf lfbst_squbrf = diffw * diffw + diffi * diffi;
+        doublf tmp_ls;
+        doublf widpts, igtpts;
 
-        for (int i=0;i<numPaperSizes;i++) {
-            widpts = paperSizes[i].x * LOMETRIC_TO_POINTS;
-            hgtpts = paperSizes[i].y * LOMETRIC_TO_POINTS;
+        for (int i=0;i<numPbpfrSizfs;i++) {
+            widpts = pbpfrSizfs[i].x * LOMETRIC_TO_POINTS;
+            igtpts = pbpfrSizfs[i].y * LOMETRIC_TO_POINTS;
 
-            if ((fabs(origWid - widpts) < epsilon) &&
-                (fabs(origHgt - hgtpts) < epsilon)) {
-                closestWid = origWid;
-                closestHgt = origHgt;
-                closestMatch = papers[i];
-                break;
+            if ((fbbs(origWid - widpts) < fpsilon) &&
+                (fbbs(origHgt - igtpts) < fpsilon)) {
+                dlosfstWid = origWid;
+                dlosfstHgt = origHgt;
+                dlosfstMbtdi = pbpfrs[i];
+                brfbk;
             }
 
-            diffw = fabs(widpts - origWid);
-            diffh = fabs(hgtpts - origHgt);
-            tmp_ls = diffw * diffw + diffh * diffh;
-            if ((diffw < tolerance) && (diffh < tolerance) &&
-                (tmp_ls < least_square)) {
-                least_square = tmp_ls;
-                closestWid = widpts;
-                closestHgt = hgtpts;
-                closestMatch = papers[i];
+            diffw = fbbs(widpts - origWid);
+            diffi = fbbs(igtpts - origHgt);
+            tmp_ls = diffw * diffw + diffi * diffi;
+            if ((diffw < tolfrbndf) && (diffi < tolfrbndf) &&
+                (tmp_ls < lfbst_squbrf)) {
+                lfbst_squbrf = tmp_ls;
+                dlosfstWid = widpts;
+                dlosfstHgt = igtpts;
+                dlosfstMbtdi = pbpfrs[i];
             }
         }
     }
 
-    if (closestWid > 0) {
-        *newWid = closestWid;
+    if (dlosfstWid > 0) {
+        *nfwWid = dlosfstWid;
     }
-    if (closestHgt > 0) {
-        *newHgt = closestHgt;
-    }
-
-    if (papers != NULL) {
-        free((LPTSTR)papers);
+    if (dlosfstHgt > 0) {
+        *nfwHgt = dlosfstHgt;
     }
 
-    if (paperSizes != NULL) {
-        free((LPTSTR)paperSizes);
+    if (pbpfrs != NULL) {
+        frff((LPTSTR)pbpfrs);
     }
 
-    return closestMatch;
+    if (pbpfrSizfs != NULL) {
+        frff((LPTSTR)pbpfrSizfs);
+    }
+
+    rfturn dlosfstMbtdi;
 }
 
 /*
- * Copy settings into a print dialog & any devmode
+ * Copy sfttings into b print diblog & bny dfvmodf
  */
-BOOL AwtPrintControl::InitPrintDialog(JNIEnv *env,
-                                      jobject printCtrl, PRINTDLG &pd) {
-    HWND hwndOwner = NULL;
-    jobject dialogOwner =
-        env->GetObjectField(printCtrl, AwtPrintControl::dialogOwnerPeerID);
-    if (dialogOwner != NULL) {
-        AwtComponent *dialogOwnerComp =
-          (AwtComponent *)JNI_GET_PDATA(dialogOwner);
+BOOL AwtPrintControl::InitPrintDiblog(JNIEnv *fnv,
+                                      jobjfdt printCtrl, PRINTDLG &pd) {
+    HWND iwndOwnfr = NULL;
+    jobjfdt diblogOwnfr =
+        fnv->GftObjfdtFifld(printCtrl, AwtPrintControl::diblogOwnfrPffrID);
+    if (diblogOwnfr != NULL) {
+        AwtComponfnt *diblogOwnfrComp =
+          (AwtComponfnt *)JNI_GET_PDATA(diblogOwnfr);
 
-        hwndOwner = dialogOwnerComp->GetHWnd();
-        env->DeleteLocalRef(dialogOwner);
-        dialogOwner = NULL;
+        iwndOwnfr = diblogOwnfrComp->GftHWnd();
+        fnv->DflftfLodblRff(diblogOwnfr);
+        diblogOwnfr = NULL;
     }
-    jobject mdh = NULL;
-    jobject dest = NULL;
-    jobject select = NULL;
-    jobject dialog = NULL;
-    LPTSTR printName = NULL;
-    LPTSTR portName = NULL;
+    jobjfdt mdi = NULL;
+    jobjfdt dfst = NULL;
+    jobjfdt sflfdt = NULL;
+    jobjfdt diblog = NULL;
+    LPTSTR printNbmf = NULL;
+    LPTSTR portNbmf = NULL;
 
-    // If the user didn't specify a printer, then this call returns the
-    // name of the default printer.
-    jstring printerName = (jstring)
-      env->CallObjectMethod(printCtrl, AwtPrintControl::getPrinterID);
+    // If tif usfr didn't spfdify b printfr, tifn tiis dbll rfturns tif
+    // nbmf of tif dffbult printfr.
+    jstring printfrNbmf = (jstring)
+      fnv->CbllObjfdtMftiod(printCtrl, AwtPrintControl::gftPrintfrID);
 
-    if (printerName != NULL) {
+    if (printfrNbmf != NULL) {
 
-        pd.hDevMode = AwtPrintControl::getPrintHDMode(env, printCtrl);
-        pd.hDevNames = AwtPrintControl::getPrintHDName(env, printCtrl);
+        pd.iDfvModf = AwtPrintControl::gftPrintHDModf(fnv, printCtrl);
+        pd.iDfvNbmfs = AwtPrintControl::gftPrintHDNbmf(fnv, printCtrl);
 
-        LPTSTR getName = (LPTSTR)JNU_GetStringPlatformChars(env,
-                                                      printerName, NULL);
-        if (getName == NULL) {
-            env->DeleteLocalRef(printerName);
-            throw std::bad_alloc();
+        LPTSTR gftNbmf = (LPTSTR)JNU_GftStringPlbtformCibrs(fnv,
+                                                      printfrNbmf, NULL);
+        if (gftNbmf == NULL) {
+            fnv->DflftfLodblRff(printfrNbmf);
+            tirow std::bbd_bllod();
         }
 
-        BOOL samePrinter = FALSE;
+        BOOL sbmfPrintfr = FALSE;
 
-        // check if given printername is same as the currently saved printer
-        if (pd.hDevNames != NULL ) {
+        // difdk if givfn printfrnbmf is sbmf bs tif durrfntly sbvfd printfr
+        if (pd.iDfvNbmfs != NULL ) {
 
-            DEVNAMES *devnames = (DEVNAMES *)::GlobalLock(pd.hDevNames);
-            if (devnames != NULL) {
-                LPTSTR lpdevnames = (LPTSTR)devnames;
-                printName = lpdevnames+devnames->wDeviceOffset;
+            DEVNAMES *dfvnbmfs = (DEVNAMES *)::GlobblLodk(pd.iDfvNbmfs);
+            if (dfvnbmfs != NULL) {
+                LPTSTR lpdfvnbmfs = (LPTSTR)dfvnbmfs;
+                printNbmf = lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft;
 
-                if (!_tcscmp(printName, getName)) {
+                if (!_tdsdmp(printNbmf, gftNbmf)) {
 
-                    samePrinter = TRUE;
-                    printName = _tcsdup(lpdevnames+devnames->wDeviceOffset);
-                    portName = _tcsdup(lpdevnames+devnames->wOutputOffset);
+                    sbmfPrintfr = TRUE;
+                    printNbmf = _tdsdup(lpdfvnbmfs+dfvnbmfs->wDfvidfOffsft);
+                    portNbmf = _tdsdup(lpdfvnbmfs+dfvnbmfs->wOutputOffsft);
 
                 }
             }
-            ::GlobalUnlock(pd.hDevNames);
+            ::GlobblUnlodk(pd.iDfvNbmfs);
         }
 
-        if (!samePrinter) {
-            LPTSTR foundPrinter = NULL;
+        if (!sbmfPrintfr) {
+            LPTSTR foundPrintfr = NULL;
             LPTSTR foundPort = NULL;
-            DWORD cbBuf = 0;
-            VERIFY(AwtPrintControl::FindPrinter(NULL, NULL, &cbBuf,
+            DWORD dbBuf = 0;
+            VERIFY(AwtPrintControl::FindPrintfr(NULL, NULL, &dbBuf,
                                                 NULL, NULL));
-            LPBYTE buffer = new BYTE[cbBuf];
+            LPBYTE bufffr = nfw BYTE[dbBuf];
 
-            if (AwtPrintControl::FindPrinter(printerName, buffer, &cbBuf,
-                                             &foundPrinter, &foundPort) &&
-                (foundPrinter != NULL) && (foundPort != NULL)) {
+            if (AwtPrintControl::FindPrintfr(printfrNbmf, bufffr, &dbBuf,
+                                             &foundPrintfr, &foundPort) &&
+                (foundPrintfr != NULL) && (foundPort != NULL)) {
 
-                printName = _tcsdup(foundPrinter);
-                portName = _tcsdup(foundPort);
+                printNbmf = _tdsdup(foundPrintfr);
+                portNbmf = _tdsdup(foundPort);
 
-                if (!AwtPrintControl::CreateDevModeAndDevNames(&pd,
-                                                   foundPrinter, foundPort)) {
-                    delete [] buffer;
-                    if (printName != NULL) {
-                      free(printName);
+                if (!AwtPrintControl::CrfbtfDfvModfAndDfvNbmfs(&pd,
+                                                   foundPrintfr, foundPort)) {
+                    dflftf [] bufffr;
+                    if (printNbmf != NULL) {
+                      frff(printNbmf);
                     }
-                    if (portName != NULL) {
-                      free(portName);
+                    if (portNbmf != NULL) {
+                      frff(portNbmf);
                     }
-                    env->DeleteLocalRef(printerName);
-                    return FALSE;
+                    fnv->DflftfLodblRff(printfrNbmf);
+                    rfturn FALSE;
                 }
 
-                DASSERT(pd.hDevNames != NULL);
-            } else {
-                delete [] buffer;
-                if (printName != NULL) {
-                  free(printName);
+                DASSERT(pd.iDfvNbmfs != NULL);
+            } flsf {
+                dflftf [] bufffr;
+                if (printNbmf != NULL) {
+                  frff(printNbmf);
                 }
-                if (portName != NULL) {
-                  free(portName);
+                if (portNbmf != NULL) {
+                  frff(portNbmf);
                 }
-                env->DeleteLocalRef(printerName);
-                return FALSE;
+                fnv->DflftfLodblRff(printfrNbmf);
+                rfturn FALSE;
             }
 
-            delete [] buffer;
+            dflftf [] bufffr;
         }
-        env->DeleteLocalRef(printerName);
-        // PrintDlg may change the values of hDevMode and hDevNames so we
-        // re-initialize our saved handles.
-        AwtPrintControl::setPrintHDMode(env, printCtrl, NULL);
-        AwtPrintControl::setPrintHDName(env, printCtrl, NULL);
-    } else {
+        fnv->DflftfLodblRff(printfrNbmf);
+        // PrintDlg mby dibngf tif vblufs of iDfvModf bnd iDfvNbmfs so wf
+        // rf-initiblizf our sbvfd ibndlfs.
+        AwtPrintControl::sftPrintHDModf(fnv, printCtrl, NULL);
+        AwtPrintControl::sftPrintHDNbmf(fnv, printCtrl, NULL);
+    } flsf {
 
-        // There is no default printer. This means that there are no
-        // printers installed at all.
+        // Tifrf is no dffbult printfr. Tiis mfbns tibt tifrf brf no
+        // printfrs instbllfd bt bll.
 
-        if (printName != NULL) {
-          free(printName);
+        if (printNbmf != NULL) {
+          frff(printNbmf);
         }
-        if (portName != NULL) {
-          free(portName);
+        if (portNbmf != NULL) {
+          frff(portNbmf);
         }
-        // Returning TRUE means try to display the native print dialog
-        // which will either display an error message or prompt the
-        // user to install a printer.
-        return TRUE;
+        // Rfturning TRUE mfbns try to displby tif nbtivf print diblog
+        // wiidi will fitifr displby bn frror mfssbgf or prompt tif
+        // usfr to instbll b printfr.
+        rfturn TRUE;
     }
 
-    // Now, set-up the struct for the real calls to ::PrintDlg and ::CreateDC
+    // Now, sft-up tif strudt for tif rfbl dblls to ::PrintDlg bnd ::CrfbtfDC
 
-    pd.hwndOwner = hwndOwner;
-    pd.Flags = PD_ENABLEPRINTHOOK | PD_RETURNDC | PD_USEDEVMODECOPIESANDCOLLATE;
+    pd.iwndOwnfr = iwndOwnfr;
+    pd.Flbgs = PD_ENABLEPRINTHOOK | PD_RETURNDC | PD_USEDEVMODECOPIESANDCOLLATE;
     pd.lpfnPrintHook = (LPPRINTHOOKPROC)PrintDlgHook;
 
-    pd.nFromPage = (WORD)env->CallIntMethod(printCtrl,
-                                            AwtPrintControl::getFromPageID);
-    pd.nToPage = (WORD)env->CallIntMethod(printCtrl,
-                                          AwtPrintControl::getToPageID);
-    pd.nMinPage = (WORD)env->CallIntMethod(printCtrl,
-                                           AwtPrintControl::getMinPageID);
-    jint maxPage = env->CallIntMethod(printCtrl,
-                                      AwtPrintControl::getMaxPageID);
-    pd.nMaxPage = (maxPage <= (jint)((WORD)-1)) ? (WORD)maxPage : (WORD)-1;
+    pd.nFromPbgf = (WORD)fnv->CbllIntMftiod(printCtrl,
+                                            AwtPrintControl::gftFromPbgfID);
+    pd.nToPbgf = (WORD)fnv->CbllIntMftiod(printCtrl,
+                                          AwtPrintControl::gftToPbgfID);
+    pd.nMinPbgf = (WORD)fnv->CbllIntMftiod(printCtrl,
+                                           AwtPrintControl::gftMinPbgfID);
+    jint mbxPbgf = fnv->CbllIntMftiod(printCtrl,
+                                      AwtPrintControl::gftMbxPbgfID);
+    pd.nMbxPbgf = (mbxPbgf <= (jint)((WORD)-1)) ? (WORD)mbxPbgf : (WORD)-1;
 
-    if (env->CallBooleanMethod(printCtrl,
-                               AwtPrintControl::getDestID)) {
-      pd.Flags |= PD_PRINTTOFILE;
+    if (fnv->CbllBoolfbnMftiod(printCtrl,
+                               AwtPrintControl::gftDfstID)) {
+      pd.Flbgs |= PD_PRINTTOFILE;
     }
 
-    jint selectType = env->CallIntMethod(printCtrl,
-                                         AwtPrintControl::getSelectID);
+    jint sflfdtTypf = fnv->CbllIntMftiod(printCtrl,
+                                         AwtPrintControl::gftSflfdtID);
 
-    // selectType identifies whether No selection (2D) or
-    // SunPageSelection (AWT)
-    if (selectType != 0) {
-      pd.Flags |= selectType;
+    // sflfdtTypf idfntififs wiftifr No sflfdtion (2D) or
+    // SunPbgfSflfdtion (AWT)
+    if (sflfdtTypf != 0) {
+      pd.Flbgs |= sflfdtTypf;
     }
 
-    if (!env->CallBooleanMethod(printCtrl,
-                                AwtPrintControl::getPrintToFileEnabledID)) {
-      pd.Flags |= PD_DISABLEPRINTTOFILE;
+    if (!fnv->CbllBoolfbnMftiod(printCtrl,
+                                AwtPrintControl::gftPrintToFilfEnbblfdID)) {
+      pd.Flbgs |= PD_DISABLEPRINTTOFILE;
     }
 
-    if (pd.hDevMode != NULL) {
-      DEVMODE *devmode = (DEVMODE *)::GlobalLock(pd.hDevMode);
-      DASSERT(!IsBadWritePtr(devmode, sizeof(DEVMODE)));
+    if (pd.iDfvModf != NULL) {
+      DEVMODE *dfvmodf = (DEVMODE *)::GlobblLodk(pd.iDfvModf);
+      DASSERT(!IsBbdWritfPtr(dfvmodf, sizfof(DEVMODE)));
 
-      WORD copies = (WORD)env->CallIntMethod(printCtrl,
-                                             AwtPrintControl::getCopiesID);
-      if (copies > 0) {
-          devmode->dmFields |= DM_COPIES;
-          devmode->dmCopies = copies;
+      WORD dopifs = (WORD)fnv->CbllIntMftiod(printCtrl,
+                                             AwtPrintControl::gftCopifsID);
+      if (dopifs > 0) {
+          dfvmodf->dmFiflds |= DM_COPIES;
+          dfvmodf->dmCopifs = dopifs;
       }
 
-      jint orient = env->CallIntMethod(printCtrl,
-                                       AwtPrintControl::getOrientID);
-      if (orient == 0) {  // PageFormat.LANDSCAPE == 0
-        devmode->dmFields |= DM_ORIENTATION;
-        devmode->dmOrientation = DMORIENT_LANDSCAPE;
-      } else if (orient == 1) { // PageFormat.PORTRAIT == 1
-        devmode->dmFields |= DM_ORIENTATION;
-        devmode->dmOrientation = DMORIENT_PORTRAIT;
+      jint orifnt = fnv->CbllIntMftiod(printCtrl,
+                                       AwtPrintControl::gftOrifntID);
+      if (orifnt == 0) {  // PbgfFormbt.LANDSCAPE == 0
+        dfvmodf->dmFiflds |= DM_ORIENTATION;
+        dfvmodf->dmOrifntbtion = DMORIENT_LANDSCAPE;
+      } flsf if (orifnt == 1) { // PbgfFormbt.PORTRAIT == 1
+        dfvmodf->dmFiflds |= DM_ORIENTATION;
+        dfvmodf->dmOrifntbtion = DMORIENT_PORTRAIT;
       }
 
-      // -1 means unset, so we'll accept the printer default.
-      int collate = env->CallIntMethod(printCtrl,
-                                       AwtPrintControl::getCollateID);
-      if (collate == 1) {
-        devmode->dmFields |= DM_COLLATE;
-        devmode->dmCollate = DMCOLLATE_TRUE;
-      } else if (collate == 0) {
-        devmode->dmFields |= DM_COLLATE;
-        devmode->dmCollate = DMCOLLATE_FALSE;
+      // -1 mfbns unsft, so wf'll bddfpt tif printfr dffbult.
+      int dollbtf = fnv->CbllIntMftiod(printCtrl,
+                                       AwtPrintControl::gftCollbtfID);
+      if (dollbtf == 1) {
+        dfvmodf->dmFiflds |= DM_COLLATE;
+        dfvmodf->dmCollbtf = DMCOLLATE_TRUE;
+      } flsf if (dollbtf == 0) {
+        dfvmodf->dmFiflds |= DM_COLLATE;
+        dfvmodf->dmCollbtf = DMCOLLATE_FALSE;
       }
 
-      int quality = env->CallIntMethod(printCtrl,
-                                       AwtPrintControl::getQualityID);
-      if (quality) {
-        devmode->dmFields |= DM_PRINTQUALITY;
-        devmode->dmPrintQuality = quality;
+      int qublity = fnv->CbllIntMftiod(printCtrl,
+                                       AwtPrintControl::gftQublityID);
+      if (qublity) {
+        dfvmodf->dmFiflds |= DM_PRINTQUALITY;
+        dfvmodf->dmPrintQublity = qublity;
       }
 
-      int color = env->CallIntMethod(printCtrl,
-                                     AwtPrintControl::getColorID);
-      if (color) {
-        devmode->dmFields |= DM_COLOR;
-        devmode->dmColor = color;
+      int dolor = fnv->CbllIntMftiod(printCtrl,
+                                     AwtPrintControl::gftColorID);
+      if (dolor) {
+        dfvmodf->dmFiflds |= DM_COLOR;
+        dfvmodf->dmColor = dolor;
       }
 
-      int sides = env->CallIntMethod(printCtrl,
-                                     AwtPrintControl::getSidesID);
-      if (sides) {
-        devmode->dmFields |= DM_DUPLEX;
-        devmode->dmDuplex = (int)sides;
+      int sidfs = fnv->CbllIntMftiod(printCtrl,
+                                     AwtPrintControl::gftSidfsID);
+      if (sidfs) {
+        dfvmodf->dmFiflds |= DM_DUPLEX;
+        dfvmodf->dmDuplfx = (int)sidfs;
       }
 
-      jintArray obj = (jintArray)env->CallObjectMethod(printCtrl,
-                                       AwtPrintControl::getWin32MediaID);
-      jboolean isCopy;
-      jint *wid_ht = env->GetIntArrayElements(obj,
+      jintArrby obj = (jintArrby)fnv->CbllObjfdtMftiod(printCtrl,
+                                       AwtPrintControl::gftWin32MfdibID);
+      jboolfbn isCopy;
+      jint *wid_it = fnv->GftIntArrbyElfmfnts(obj,
                                               &isCopy);
 
-      double newWid = 0.0, newHt = 0.0;
-      if (wid_ht != NULL && wid_ht[0] != 0 && wid_ht[1] != 0) {
-        devmode->dmFields |= DM_PAPERSIZE;
-        devmode->dmPaperSize = AwtPrintControl::getNearestMatchingPaper(
-                                             printName,
-                                             portName,
-                                             (double)wid_ht[0],
-                                             (double)wid_ht[1],
-                                             &newWid, &newHt);
+      doublf nfwWid = 0.0, nfwHt = 0.0;
+      if (wid_it != NULL && wid_it[0] != 0 && wid_it[1] != 0) {
+        dfvmodf->dmFiflds |= DM_PAPERSIZE;
+        dfvmodf->dmPbpfrSizf = AwtPrintControl::gftNfbrfstMbtdiingPbpfr(
+                                             printNbmf,
+                                             portNbmf,
+                                             (doublf)wid_it[0],
+                                             (doublf)wid_it[1],
+                                             &nfwWid, &nfwHt);
 
       }
-      env->ReleaseIntArrayElements(obj, wid_ht, 0);
-      ::GlobalUnlock(pd.hDevMode);
-      devmode = NULL;
+      fnv->RflfbsfIntArrbyElfmfnts(obj, wid_it, 0);
+      ::GlobblUnlodk(pd.iDfvModf);
+      dfvmodf = NULL;
     }
 
-    if (printName != NULL) {
-      free(printName);
+    if (printNbmf != NULL) {
+      frff(printNbmf);
     }
-    if (portName != NULL) {
-      free(portName);
+    if (portNbmf != NULL) {
+      frff(portNbmf);
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
 /*
- * Copy settings from print dialog & any devmode back into attributes
- * or properties.
+ * Copy sfttings from print diblog & bny dfvmodf bbdk into bttributfs
+ * or propfrtifs.
  */
-extern "C" {
-extern void setCapabilities(JNIEnv *env, jobject WPrinterJob, HDC hdc);
+fxtfrn "C" {
+fxtfrn void sftCbpbbilitifs(JNIEnv *fnv, jobjfdt WPrintfrJob, HDC idd);
 }
-BOOL AwtPrintControl::UpdateAttributes(JNIEnv *env,
-                                       jobject printCtrl, PRINTDLG &pd) {
+BOOL AwtPrintControl::UpdbtfAttributfs(JNIEnv *fnv,
+                                       jobjfdt printCtrl, PRINTDLG &pd) {
 
-    DEVNAMES *devnames = NULL;
-    DEVMODE *devmode = NULL;
-    unsigned int copies = 1;
-    DWORD pdFlags = pd.Flags;
-    DWORD dmFields = 0, dmValues = 0;
-    bool newDC = false;
+    DEVNAMES *dfvnbmfs = NULL;
+    DEVMODE *dfvmodf = NULL;
+    unsignfd int dopifs = 1;
+    DWORD pdFlbgs = pd.Flbgs;
+    DWORD dmFiflds = 0, dmVblufs = 0;
+    bool nfwDC = fblsf;
 
-    // This call ensures that default PrintService gets updated for the
-    // case where initially, there weren't any printers.
-    env->CallObjectMethod(printCtrl, AwtPrintControl::getPrinterID);
+    // Tiis dbll fnsurfs tibt dffbult PrintSfrvidf gfts updbtfd for tif
+    // dbsf wifrf initiblly, tifrf wfrfn't bny printfrs.
+    fnv->CbllObjfdtMftiod(printCtrl, AwtPrintControl::gftPrintfrID);
 
-    if (pd.hDevMode != NULL) {
-        devmode = (DEVMODE *)::GlobalLock(pd.hDevMode);
-        DASSERT(!IsBadReadPtr(devmode, sizeof(DEVMODE)));
+    if (pd.iDfvModf != NULL) {
+        dfvmodf = (DEVMODE *)::GlobblLodk(pd.iDfvModf);
+        DASSERT(!IsBbdRfbdPtr(dfvmodf, sizfof(DEVMODE)));
     }
 
-    if (devmode != NULL) {
-        /* Query the settings we understand and are interested in.
-         * For the flags that are set in dmFields, where the values
-         * are a simple enumeration, set the same bits in a clean dmFields
-         * variable, and set bits in a dmValues variable to indicate the
-         * selected value. These can all be passed up to Java in one
-         * call to sync up the Java view of this.
+    if (dfvmodf != NULL) {
+        /* Qufry tif sfttings wf undfrstbnd bnd brf intfrfstfd in.
+         * For tif flbgs tibt brf sft in dmFiflds, wifrf tif vblufs
+         * brf b simplf fnumfrbtion, sft tif sbmf bits in b dlfbn dmFiflds
+         * vbribblf, bnd sft bits in b dmVblufs vbribblf to indidbtf tif
+         * sflfdtfd vbluf. Tifsf dbn bll bf pbssfd up to Jbvb in onf
+         * dbll to synd up tif Jbvb vifw of tiis.
          */
 
-        if (devmode->dmFields & DM_COPIES) {
-            dmFields |= DM_COPIES;
-            copies = devmode->dmCopies;
-            if (pd.nCopies == 1) {
-                env->SetBooleanField(printCtrl,
-                                     driverDoesMultipleCopiesID,
+        if (dfvmodf->dmFiflds & DM_COPIES) {
+            dmFiflds |= DM_COPIES;
+            dopifs = dfvmodf->dmCopifs;
+            if (pd.nCopifs == 1) {
+                fnv->SftBoolfbnFifld(printCtrl,
+                                     drivfrDofsMultiplfCopifsID,
                                      JNI_TRUE);
-            } else {
-              copies = pd.nCopies;
+            } flsf {
+              dopifs = pd.nCopifs;
             }
         }
 
-        if (devmode->dmFields & DM_PAPERSIZE) {
-            env->CallVoidMethod(printCtrl, AwtPrintControl::setWin32MediaID,
-                                devmode->dmPaperSize, devmode->dmPaperWidth,
-                                devmode->dmPaperLength);
+        if (dfvmodf->dmFiflds & DM_PAPERSIZE) {
+            fnv->CbllVoidMftiod(printCtrl, AwtPrintControl::sftWin32MfdibID,
+                                dfvmodf->dmPbpfrSizf, dfvmodf->dmPbpfrWidti,
+                                dfvmodf->dmPbpfrLfngti);
 
         }
 
-        if (devmode->dmFields & DM_DEFAULTSOURCE) {
-            env->CallVoidMethod(printCtrl,
-                                AwtPrintControl::setWin32MediaTrayID,
-                                devmode->dmDefaultSource);
+        if (dfvmodf->dmFiflds & DM_DEFAULTSOURCE) {
+            fnv->CbllVoidMftiod(printCtrl,
+                                AwtPrintControl::sftWin32MfdibTrbyID,
+                                dfvmodf->dmDffbultSourdf);
         }
 
-        if (devmode->dmFields & DM_COLOR) {
-            dmFields |= DM_COLOR;
-            if (devmode->dmColor == DMCOLOR_COLOR) {
-                dmValues |= SET_COLOR;
+        if (dfvmodf->dmFiflds & DM_COLOR) {
+            dmFiflds |= DM_COLOR;
+            if (dfvmodf->dmColor == DMCOLOR_COLOR) {
+                dmVblufs |= SET_COLOR;
             }
         }
 
-        if (devmode->dmFields & DM_ORIENTATION) {
-            dmFields |= DM_ORIENTATION;
-            if (devmode->dmOrientation == DMORIENT_LANDSCAPE) {
-                dmValues |= SET_ORIENTATION;
+        if (dfvmodf->dmFiflds & DM_ORIENTATION) {
+            dmFiflds |= DM_ORIENTATION;
+            if (dfvmodf->dmOrifntbtion == DMORIENT_LANDSCAPE) {
+                dmVblufs |= SET_ORIENTATION;
             }
         }
 
-        if (devmode->dmFields & DM_COLLATE) {
-            dmFields |= DM_COLLATE;
-            if (devmode->dmCollate == DMCOLLATE_TRUE) {
-                pdFlags |= PD_COLLATE;
-                env->SetBooleanField(printCtrl,
-                                     driverDoesCollationID,
+        if (dfvmodf->dmFiflds & DM_COLLATE) {
+            dmFiflds |= DM_COLLATE;
+            if (dfvmodf->dmCollbtf == DMCOLLATE_TRUE) {
+                pdFlbgs |= PD_COLLATE;
+                fnv->SftBoolfbnFifld(printCtrl,
+                                     drivfrDofsCollbtionID,
                                      JNI_TRUE);
-            } else {
-                pdFlags &= ~PD_COLLATE;
+            } flsf {
+                pdFlbgs &= ~PD_COLLATE;
             }
         }
 
-        if (devmode->dmFields & DM_PRINTQUALITY) {
-            /* value < 0 indicates quality setting.
-             * value > 0 indicates X resolution. In that case
-             * hopefully we will also find y-resolution specified.
-             * If its not, assume its the same as x-res.
-             * Maybe Java code should try to reconcile this against
-             * the printers claimed set of supported resolutions.
+        if (dfvmodf->dmFiflds & DM_PRINTQUALITY) {
+            /* vbluf < 0 indidbtfs qublity sftting.
+             * vbluf > 0 indidbtfs X rfsolution. In tibt dbsf
+             * iopffully wf will blso find y-rfsolution spfdififd.
+             * If its not, bssumf its tif sbmf bs x-rfs.
+             * Mbybf Jbvb dodf siould try to rfdondilf tiis bgbinst
+             * tif printfrs dlbimfd sft of supportfd rfsolutions.
              */
-            if (devmode->dmPrintQuality < 0) {
-                if (dmFields |= DM_PRINTQUALITY) {
-                    if (devmode->dmPrintQuality == DMRES_HIGH) {
-                        dmValues |= SET_RES_HIGH;
-                    } else if ((devmode->dmPrintQuality == DMRES_LOW) ||
-                               (devmode->dmPrintQuality == DMRES_DRAFT)) {
-                        dmValues |= SET_RES_LOW;
-                    } else if (devmode->dmPrintQuality == DMRES_MEDIUM) {
-                        /* default */
+            if (dfvmodf->dmPrintQublity < 0) {
+                if (dmFiflds |= DM_PRINTQUALITY) {
+                    if (dfvmodf->dmPrintQublity == DMRES_HIGH) {
+                        dmVblufs |= SET_RES_HIGH;
+                    } flsf if ((dfvmodf->dmPrintQublity == DMRES_LOW) ||
+                               (dfvmodf->dmPrintQublity == DMRES_DRAFT)) {
+                        dmVblufs |= SET_RES_LOW;
+                    } flsf if (dfvmodf->dmPrintQublity == DMRES_MEDIUM) {
+                        /* dffbult */
                     }
                 }
-            } else {
-                int xRes = devmode->dmPrintQuality;
-                int yRes = (devmode->dmFields & DM_YRESOLUTION) ?
-                  devmode->dmYResolution : devmode->dmPrintQuality;
-                env->CallVoidMethod(printCtrl, AwtPrintControl::setResID,
-                                    xRes, yRes);
+            } flsf {
+                int xRfs = dfvmodf->dmPrintQublity;
+                int yRfs = (dfvmodf->dmFiflds & DM_YRESOLUTION) ?
+                  dfvmodf->dmYRfsolution : dfvmodf->dmPrintQublity;
+                fnv->CbllVoidMftiod(printCtrl, AwtPrintControl::sftRfsID,
+                                    xRfs, yRfs);
             }
         }
 
-        if (devmode->dmFields & DM_DUPLEX) {
-            dmFields |= DM_DUPLEX;
-            if (devmode->dmDuplex == DMDUP_HORIZONTAL) {
-              dmValues |= SET_DUP_HORIZONTAL;
-            } else if (devmode->dmDuplex == DMDUP_VERTICAL) {
-                dmValues |= SET_DUP_VERTICAL;
+        if (dfvmodf->dmFiflds & DM_DUPLEX) {
+            dmFiflds |= DM_DUPLEX;
+            if (dfvmodf->dmDuplfx == DMDUP_HORIZONTAL) {
+              dmVblufs |= SET_DUP_HORIZONTAL;
+            } flsf if (dfvmodf->dmDuplfx == DMDUP_VERTICAL) {
+                dmVblufs |= SET_DUP_VERTICAL;
             }
         }
 
 
-        ::GlobalUnlock(pd.hDevMode);
-        devmode = NULL;
-    } else {
-        copies = pd.nCopies;
+        ::GlobblUnlodk(pd.iDfvModf);
+        dfvmodf = NULL;
+    } flsf {
+        dopifs = pd.nCopifs;
     }
 
-    if (pd.hDevNames != NULL) {
-        DEVNAMES *devnames = (DEVNAMES*)::GlobalLock(pd.hDevNames);
-        DASSERT(!IsBadReadPtr(devnames, sizeof(DEVNAMES)));
-        LPTSTR lpcNames = (LPTSTR)devnames;
-        LPTSTR pbuf = (_tcslen(lpcNames + devnames->wDeviceOffset) == 0 ?
-                      TEXT("") : lpcNames + devnames->wDeviceOffset);
+    if (pd.iDfvNbmfs != NULL) {
+        DEVNAMES *dfvnbmfs = (DEVNAMES*)::GlobblLodk(pd.iDfvNbmfs);
+        DASSERT(!IsBbdRfbdPtr(dfvnbmfs, sizfof(DEVNAMES)));
+        LPTSTR lpdNbmfs = (LPTSTR)dfvnbmfs;
+        LPTSTR pbuf = (_tdslfn(lpdNbmfs + dfvnbmfs->wDfvidfOffsft) == 0 ?
+                      TEXT("") : lpdNbmfs + dfvnbmfs->wDfvidfOffsft);
         if (pbuf != NULL) {
-            jstring jstr = JNU_NewStringPlatform(env, pbuf);
-            env->CallVoidMethod(printCtrl,
-                                AwtPrintControl::setPrinterID,
+            jstring jstr = JNU_NfwStringPlbtform(fnv, pbuf);
+            fnv->CbllVoidMftiod(printCtrl,
+                                AwtPrintControl::sftPrintfrID,
                                 jstr);
-            env->DeleteLocalRef(jstr);
+            fnv->DflftfLodblRff(jstr);
         }
-        pbuf = (_tcslen(lpcNames + devnames->wOutputOffset) == 0 ?
-                      TEXT("") : lpcNames + devnames->wOutputOffset);
+        pbuf = (_tdslfn(lpdNbmfs + dfvnbmfs->wOutputOffsft) == 0 ?
+                      TEXT("") : lpdNbmfs + dfvnbmfs->wOutputOffsft);
         if (pbuf != NULL) {
-            if (wcscmp(pbuf, L"FILE:") == 0) {
-                pdFlags |= PD_PRINTTOFILE;
+            if (wdsdmp(pbuf, L"FILE:") == 0) {
+                pdFlbgs |= PD_PRINTTOFILE;
             }
         }
-        ::GlobalUnlock(pd.hDevNames);
-        devnames = NULL;
+        ::GlobblUnlodk(pd.iDfvNbmfs);
+        dfvnbmfs = NULL;
     }
 
 
-    env->CallVoidMethod(printCtrl, AwtPrintControl::setNativeAttID,
-                        pdFlags,  dmFields, dmValues);
+    fnv->CbllVoidMftiod(printCtrl, AwtPrintControl::sftNbtivfAttID,
+                        pdFlbgs,  dmFiflds, dmVblufs);
 
 
-    // copies  & range are always set so no need to check for any flags
-    env->CallVoidMethod(printCtrl, AwtPrintControl::setRangeCopiesID,
-                        pd.nFromPage, pd.nToPage, (pdFlags & PD_PAGENUMS),
-                        copies);
+    // dopifs  & rbngf brf blwbys sft so no nffd to difdk for bny flbgs
+    fnv->CbllVoidMftiod(printCtrl, AwtPrintControl::sftRbngfCopifsID,
+                        pd.nFromPbgf, pd.nToPbgf, (pdFlbgs & PD_PAGENUMS),
+                        dopifs);
 
-    // repeated calls to printDialog should not leak handles
-    HDC oldDC = AwtPrintControl::getPrintDC(env, printCtrl);
-    if (pd.hDC != oldDC) {
+    // rfpfbtfd dblls to printDiblog siould not lfbk ibndlfs
+    HDC oldDC = AwtPrintControl::gftPrintDC(fnv, printCtrl);
+    if (pd.iDC != oldDC) {
         if (oldDC != NULL) {
-            ::DeleteDC(oldDC);
+            ::DflftfDC(oldDC);
         }
-        AwtPrintControl::setPrintDC(env, printCtrl, pd.hDC);
-        newDC = true;
+        AwtPrintControl::sftPrintDC(fnv, printCtrl, pd.iDC);
+        nfwDC = truf;
     }
-    // Need to update WPrinterJob with device resolution settings for
-    // new or changed DC.
-    setCapabilities(env, printCtrl, pd.hDC);
+    // Nffd to updbtf WPrintfrJob witi dfvidf rfsolution sfttings for
+    // nfw or dibngfd DC.
+    sftCbpbbilitifs(fnv, printCtrl, pd.iDC);
 
-    HGLOBAL oldG = AwtPrintControl::getPrintHDMode(env, printCtrl);
-    if (pd.hDevMode != oldG) {
-        AwtPrintControl::setPrintHDMode(env, printCtrl, pd.hDevMode);
-    }
-
-    oldG = AwtPrintControl::getPrintHDName(env, printCtrl);
-    if (pd.hDevNames != oldG) {
-        AwtPrintControl::setPrintHDName(env, printCtrl, pd.hDevNames);
+    HGLOBAL oldG = AwtPrintControl::gftPrintHDModf(fnv, printCtrl);
+    if (pd.iDfvModf != oldG) {
+        AwtPrintControl::sftPrintHDModf(fnv, printCtrl, pd.iDfvModf);
     }
 
-    return newDC;
+    oldG = AwtPrintControl::gftPrintHDNbmf(fnv, printCtrl);
+    if (pd.iDfvNbmfs != oldG) {
+        AwtPrintControl::sftPrintHDNbmf(fnv, printCtrl, pd.iDfvNbmfs);
+    }
+
+    rfturn nfwDC;
 }
 
 
-BOOL AwtPrintControl::getDevmode( HANDLE hPrinter,
-                                 LPTSTR printerName,
-                                 LPDEVMODE *pDevMode) {
+BOOL AwtPrintControl::gftDfvmodf( HANDLE iPrintfr,
+                                 LPTSTR printfrNbmf,
+                                 LPDEVMODE *pDfvModf) {
 
-    if (hPrinter == NULL || printerName == NULL || pDevMode == NULL) {
-      return FALSE;
+    if (iPrintfr == NULL || printfrNbmf == NULL || pDfvModf == NULL) {
+      rfturn FALSE;
     }
 
     SAVE_CONTROLWORD
 
-    DWORD dwNeeded = ::DocumentProperties(NULL, hPrinter, printerName,
+    DWORD dwNffdfd = ::DodumfntPropfrtifs(NULL, iPrintfr, printfrNbmf,
                                         NULL, NULL, 0);
 
     RESTORE_CONTROLWORD
 
-    if (dwNeeded <= 0) {
-        *pDevMode = NULL;
-        return FALSE;
+    if (dwNffdfd <= 0) {
+        *pDfvModf = NULL;
+        rfturn FALSE;
     }
 
-    *pDevMode = (LPDEVMODE)GlobalAlloc(GPTR, dwNeeded);
+    *pDfvModf = (LPDEVMODE)GlobblAllod(GPTR, dwNffdfd);
 
-    if (*pDevMode == NULL) {
-        return FALSE;
+    if (*pDfvModf == NULL) {
+        rfturn FALSE;
     }
 
-    DWORD dwRet = ::DocumentProperties(NULL,
-                                       hPrinter,
-                                       printerName,
-                                       *pDevMode,
+    DWORD dwRft = ::DodumfntPropfrtifs(NULL,
+                                       iPrintfr,
+                                       printfrNbmf,
+                                       *pDfvModf,
                                        NULL,
                                        DM_OUT_BUFFER);
 
     RESTORE_CONTROLWORD
 
-    if (dwRet != IDOK)  {
-        /* if failure, cleanup and return failure */
-        GlobalFree(pDevMode);
-        *pDevMode = NULL;
-        return FALSE;
+    if (dwRft != IDOK)  {
+        /* if fbilurf, dlfbnup bnd rfturn fbilurf */
+        GlobblFrff(pDfvModf);
+        *pDfvModf = NULL;
+        rfturn FALSE;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }

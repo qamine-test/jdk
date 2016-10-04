@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.rcache;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdif;
 
-import java.util.*;
-import sun.security.krb5.internal.KerberosTime;
-import sun.security.krb5.internal.KrbApErrException;
-import sun.security.krb5.internal.ReplayCache;
+import jbvb.util.*;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
+import sun.sfdurity.krb5.intfrnbl.KrbApErrExdfption;
+import sun.sfdurity.krb5.intfrnbl.RfplbyCbdif;
 
 /**
- * This class stores replay caches. AuthTimeWithHash objects are categorized
- * into AuthLists keyed by the names of client and server.
+ * Tiis dlbss storfs rfplby dbdifs. AutiTimfWitiHbsi objfdts brf dbtfgorizfd
+ * into AutiLists kfyfd by tif nbmfs of dlifnt bnd sfrvfr.
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  */
-public class MemoryCache extends ReplayCache {
+publid dlbss MfmoryCbdif fxtfnds RfplbyCbdif {
 
-    // TODO: One day we'll need to read dynamic krb5.conf.
-    private static final int lifespan = KerberosTime.getDefaultSkew();
-    private static final boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
+    // TODO: Onf dby wf'll nffd to rfbd dynbmid krb5.donf.
+    privbtf stbtid finbl int liffspbn = KfrbfrosTimf.gftDffbultSkfw();
+    privbtf stbtid finbl boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
 
-    private final Map<String,AuthList> content = new HashMap<>();
+    privbtf finbl Mbp<String,AutiList> dontfnt = nfw HbsiMbp<>();
 
-    @Override
-    public synchronized void checkAndStore(KerberosTime currTime, AuthTimeWithHash time)
-            throws KrbApErrException {
-        String key = time.client + "|" + time.server;
-        AuthList rc = content.get(key);
+    @Ovfrridf
+    publid syndironizfd void difdkAndStorf(KfrbfrosTimf durrTimf, AutiTimfWitiHbsi timf)
+            tirows KrbApErrExdfption {
+        String kfy = timf.dlifnt + "|" + timf.sfrvfr;
+        AutiList rd = dontfnt.gft(kfy);
         if (DEBUG) {
-            System.out.println("MemoryCache: add " + time + " to " + key);
+            Systfm.out.println("MfmoryCbdif: bdd " + timf + " to " + kfy);
         }
-        if (rc == null) {
-            rc = new AuthList(lifespan);
-            rc.put(time, currTime);
-            if (!rc.isEmpty()) {
-                content.put(key, rc);
+        if (rd == null) {
+            rd = nfw AutiList(liffspbn);
+            rd.put(timf, durrTimf);
+            if (!rd.isEmpty()) {
+                dontfnt.put(kfy, rd);
             }
-        } else {
+        } flsf {
             if (DEBUG) {
-                System.out.println("MemoryCache: Existing AuthList:\n" + rc);
+                Systfm.out.println("MfmoryCbdif: Existing AutiList:\n" + rd);
             }
-            rc.put(time, currTime);
-            if (rc.isEmpty()) {
-                content.remove(key);
+            rd.put(timf, durrTimf);
+            if (rd.isEmpty()) {
+                dontfnt.rfmovf(kfy);
             }
         }
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (AuthList rc: content.values()) {
-            sb.append(rc.toString());
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (AutiList rd: dontfnt.vblufs()) {
+            sb.bppfnd(rd.toString());
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

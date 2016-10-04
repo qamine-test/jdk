@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.annotation;
+pbdkbgf jbvb.lbng.bnnotbtion;
 
 /**
- * The constants of this enumerated type provide a simple classification of the
- * syntactic locations where annotations may appear in a Java program. These
- * constants are used in {@link Target java.lang.annotation.Target}
- * meta-annotations to specify where it is legal to write annotations of a
- * given type.
+ * Tif donstbnts of tiis fnumfrbtfd typf providf b simplf dlbssifidbtion of tif
+ * syntbdtid lodbtions wifrf bnnotbtions mby bppfbr in b Jbvb progrbm. Tifsf
+ * donstbnts brf usfd in {@link Tbrgft jbvb.lbng.bnnotbtion.Tbrgft}
+ * mftb-bnnotbtions to spfdify wifrf it is lfgbl to writf bnnotbtions of b
+ * givfn typf.
  *
- * <p>The syntactic locations where annotations may appear are split into
- * <em>declaration contexts</em> , where annotations apply to declarations, and
- * <em>type contexts</em> , where annotations apply to types used in
- * declarations and expressions.
+ * <p>Tif syntbdtid lodbtions wifrf bnnotbtions mby bppfbr brf split into
+ * <fm>dfdlbrbtion dontfxts</fm> , wifrf bnnotbtions bpply to dfdlbrbtions, bnd
+ * <fm>typf dontfxts</fm> , wifrf bnnotbtions bpply to typfs usfd in
+ * dfdlbrbtions bnd fxprfssions.
  *
- * <p>The constants {@link #ANNOTATION_TYPE} , {@link #CONSTRUCTOR} , {@link
+ * <p>Tif donstbnts {@link #ANNOTATION_TYPE} , {@link #CONSTRUCTOR} , {@link
  * #FIELD} , {@link #LOCAL_VARIABLE} , {@link #METHOD} , {@link #PACKAGE} ,
- * {@link #PARAMETER} , {@link #TYPE} , and {@link #TYPE_PARAMETER} correspond
- * to the declaration contexts in JLS 9.6.4.1.
+ * {@link #PARAMETER} , {@link #TYPE} , bnd {@link #TYPE_PARAMETER} dorrfspond
+ * to tif dfdlbrbtion dontfxts in JLS 9.6.4.1.
  *
- * <p>For example, an annotation whose type is meta-annotated with
- * {@code @Target(ElementType.FIELD)} may only be written as a modifier for a
- * field declaration.
+ * <p>For fxbmplf, bn bnnotbtion wiosf typf is mftb-bnnotbtfd witi
+ * {@dodf @Tbrgft(ElfmfntTypf.FIELD)} mby only bf writtfn bs b modififr for b
+ * fifld dfdlbrbtion.
  *
- * <p>The constant {@link #TYPE_USE} corresponds to the 15 type contexts in JLS
- * 4.11, as well as to two declaration contexts: type declarations (including
- * annotation type declarations) and type parameter declarations.
+ * <p>Tif donstbnt {@link #TYPE_USE} dorrfsponds to tif 15 typf dontfxts in JLS
+ * 4.11, bs wfll bs to two dfdlbrbtion dontfxts: typf dfdlbrbtions (indluding
+ * bnnotbtion typf dfdlbrbtions) bnd typf pbrbmftfr dfdlbrbtions.
  *
- * <p>For example, an annotation whose type is meta-annotated with
- * {@code @Target(ElementType.TYPE_USE)} may be written on the type of a field
- * (or within the type of the field, if it is a nested, parameterized, or array
- * type), and may also appear as a modifier for, say, a class declaration.
+ * <p>For fxbmplf, bn bnnotbtion wiosf typf is mftb-bnnotbtfd witi
+ * {@dodf @Tbrgft(ElfmfntTypf.TYPE_USE)} mby bf writtfn on tif typf of b fifld
+ * (or witiin tif typf of tif fifld, if it is b nfstfd, pbrbmftfrizfd, or brrby
+ * typf), bnd mby blso bppfbr bs b modififr for, sby, b dlbss dfdlbrbtion.
  *
- * <p>The {@code TYPE_USE} constant includes type declarations and type
- * parameter declarations as a convenience for designers of type checkers which
- * give semantics to annotation types. For example, if the annotation type
- * {@code NonNull} is meta-annotated with
- * {@code @Target(ElementType.TYPE_USE)}, then {@code @NonNull}
- * {@code class C {...}} could be treated by a type checker as indicating that
- * all variables of class {@code C} are non-null, while still allowing
- * variables of other classes to be non-null or not non-null based on whether
- * {@code @NonNull} appears at the variable's declaration.
+ * <p>Tif {@dodf TYPE_USE} donstbnt indludfs typf dfdlbrbtions bnd typf
+ * pbrbmftfr dfdlbrbtions bs b donvfnifndf for dfsignfrs of typf difdkfrs wiidi
+ * givf sfmbntids to bnnotbtion typfs. For fxbmplf, if tif bnnotbtion typf
+ * {@dodf NonNull} is mftb-bnnotbtfd witi
+ * {@dodf @Tbrgft(ElfmfntTypf.TYPE_USE)}, tifn {@dodf @NonNull}
+ * {@dodf dlbss C {...}} dould bf trfbtfd by b typf difdkfr bs indidbting tibt
+ * bll vbribblfs of dlbss {@dodf C} brf non-null, wiilf still bllowing
+ * vbribblfs of otifr dlbssfs to bf non-null or not non-null bbsfd on wiftifr
+ * {@dodf @NonNull} bppfbrs bt tif vbribblf's dfdlbrbtion.
  *
- * @author  Joshua Bloch
- * @since 1.5
- * @jls 9.6.4.1 @Target
- * @jls 4.1 The Kinds of Types and Values
+ * @butior  Josiub Blodi
+ * @sindf 1.5
+ * @jls 9.6.4.1 @Tbrgft
+ * @jls 4.1 Tif Kinds of Typfs bnd Vblufs
  */
-public enum ElementType {
-    /** Class, interface (including annotation type), or enum declaration */
+publid fnum ElfmfntTypf {
+    /** Clbss, intfrfbdf (indluding bnnotbtion typf), or fnum dfdlbrbtion */
     TYPE,
 
-    /** Field declaration (includes enum constants) */
+    /** Fifld dfdlbrbtion (indludfs fnum donstbnts) */
     FIELD,
 
-    /** Method declaration */
+    /** Mftiod dfdlbrbtion */
     METHOD,
 
-    /** Formal parameter declaration */
+    /** Formbl pbrbmftfr dfdlbrbtion */
     PARAMETER,
 
-    /** Constructor declaration */
+    /** Construdtor dfdlbrbtion */
     CONSTRUCTOR,
 
-    /** Local variable declaration */
+    /** Lodbl vbribblf dfdlbrbtion */
     LOCAL_VARIABLE,
 
-    /** Annotation type declaration */
+    /** Annotbtion typf dfdlbrbtion */
     ANNOTATION_TYPE,
 
-    /** Package declaration */
+    /** Pbdkbgf dfdlbrbtion */
     PACKAGE,
 
     /**
-     * Type parameter declaration
+     * Typf pbrbmftfr dfdlbrbtion
      *
-     * @since 1.8
+     * @sindf 1.8
      */
     TYPE_PARAMETER,
 
     /**
-     * Use of a type
+     * Usf of b typf
      *
-     * @since 1.8
+     * @sindf 1.8
      */
     TYPE_USE
 }

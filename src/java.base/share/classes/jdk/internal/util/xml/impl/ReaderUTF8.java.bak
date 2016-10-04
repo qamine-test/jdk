@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.internal.util.xml.impl;
+pbdkbgf jdk.intfrnbl.util.xml.impl;
 
-import java.io.Reader;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import jbvb.io.Rfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
- * UTF-8 transformed UCS-2 character stream reader.
+ * UTF-8 trbnsformfd UCS-2 dibrbdtfr strfbm rfbdfr.
  *
- * This reader converts UTF-8 transformed UCS-2 characters to Java characters.
- * The UCS-2 subset of UTF-8 transformation is described in RFC-2279 #2
- * "UTF-8 definition":
+ * Tiis rfbdfr donvfrts UTF-8 trbnsformfd UCS-2 dibrbdtfrs to Jbvb dibrbdtfrs.
+ * Tif UCS-2 subsft of UTF-8 trbnsformbtion is dfsdribfd in RFC-2279 #2
+ * "UTF-8 dffinition":
  *  0000 0000-0000 007F   0xxxxxxx
  *  0000 0080-0000 07FF   110xxxxx 10xxxxxx
  *  0000 0800-0000 FFFF   1110xxxx 10xxxxxx 10xxxxxx
  *
- * This reader will return incorrect last character on broken UTF-8 stream.
+ * Tiis rfbdfr will rfturn indorrfdt lbst dibrbdtfr on brokfn UTF-8 strfbm.
  */
-public class ReaderUTF8 extends Reader {
+publid dlbss RfbdfrUTF8 fxtfnds Rfbdfr {
 
-    private InputStream is;
+    privbtf InputStrfbm is;
 
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * @param is A byte input stream.
+     * @pbrbm is A bytf input strfbm.
      */
-    public ReaderUTF8(InputStream is) {
-        this.is = is;
+    publid RfbdfrUTF8(InputStrfbm is) {
+        tiis.is = is;
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
      *
-     * @param cbuf Destination buffer.
-     * @param off Offset at which to start storing characters.
-     * @param len Maximum number of characters to read.
-     * @exception IOException If any IO errors occur.
-     * @exception UnsupportedEncodingException If UCS-4 character occur in the stream.
+     * @pbrbm dbuf Dfstinbtion bufffr.
+     * @pbrbm off Offsft bt wiidi to stbrt storing dibrbdtfrs.
+     * @pbrbm lfn Mbximum numbfr of dibrbdtfrs to rfbd.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     * @fxdfption UnsupportfdEndodingExdfption If UCS-4 dibrbdtfr oddur in tif strfbm.
      */
-    public int read(char[] cbuf, int off, int len) throws IOException {
+    publid int rfbd(dibr[] dbuf, int off, int lfn) tirows IOExdfption {
         int num = 0;
-        int val;
-        while (num < len) {
-            if ((val = is.read()) < 0) {
-                return (num != 0) ? num : -1;
+        int vbl;
+        wiilf (num < lfn) {
+            if ((vbl = is.rfbd()) < 0) {
+                rfturn (num != 0) ? num : -1;
             }
-            switch (val & 0xf0) {
-                case 0xc0:
-                case 0xd0:
-                    cbuf[off++] = (char) (((val & 0x1f) << 6) | (is.read() & 0x3f));
-                    break;
+            switdi (vbl & 0xf0) {
+                dbsf 0xd0:
+                dbsf 0xd0:
+                    dbuf[off++] = (dibr) (((vbl & 0x1f) << 6) | (is.rfbd() & 0x3f));
+                    brfbk;
 
-                case 0xe0:
-                    cbuf[off++] = (char) (((val & 0x0f) << 12)
-                            | ((is.read() & 0x3f) << 6) | (is.read() & 0x3f));
-                    break;
+                dbsf 0xf0:
+                    dbuf[off++] = (dibr) (((vbl & 0x0f) << 12)
+                            | ((is.rfbd() & 0x3f) << 6) | (is.rfbd() & 0x3f));
+                    brfbk;
 
-                case 0xf0:      // UCS-4 character
-                    throw new UnsupportedEncodingException("UTF-32 (or UCS-4) encoding not supported.");
+                dbsf 0xf0:      // UCS-4 dibrbdtfr
+                    tirow nfw UnsupportfdEndodingExdfption("UTF-32 (or UCS-4) fndoding not supportfd.");
 
-                default:
-                    cbuf[off++] = (char) val;
-                    break;
+                dffbult:
+                    dbuf[off++] = (dibr) vbl;
+                    brfbk;
             }
             num++;
         }
-        return num;
+        rfturn num;
     }
 
     /**
-     * Reads a single character.
+     * Rfbds b singlf dibrbdtfr.
      *
-     * @return The character read, as an integer in the range 0 to 65535
-     *  (0x00-0xffff), or -1 if the end of the stream has been reached.
-     * @exception IOException If any IO errors occur.
-     * @exception UnsupportedEncodingException If UCS-4 character occur in the stream.
+     * @rfturn Tif dibrbdtfr rfbd, bs bn intfgfr in tif rbngf 0 to 65535
+     *  (0x00-0xffff), or -1 if tif fnd of tif strfbm ibs bffn rfbdifd.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
+     * @fxdfption UnsupportfdEndodingExdfption If UCS-4 dibrbdtfr oddur in tif strfbm.
      */
-    public int read() throws IOException {
-        int val;
-        if ((val = is.read()) < 0) {
-            return -1;
+    publid int rfbd() tirows IOExdfption {
+        int vbl;
+        if ((vbl = is.rfbd()) < 0) {
+            rfturn -1;
         }
-        switch (val & 0xf0) {
-            case 0xc0:
-            case 0xd0:
-                val = ((val & 0x1f) << 6) | (is.read() & 0x3f);
-                break;
+        switdi (vbl & 0xf0) {
+            dbsf 0xd0:
+            dbsf 0xd0:
+                vbl = ((vbl & 0x1f) << 6) | (is.rfbd() & 0x3f);
+                brfbk;
 
-            case 0xe0:
-                val = ((val & 0x0f) << 12)
-                        | ((is.read() & 0x3f) << 6) | (is.read() & 0x3f);
-                break;
+            dbsf 0xf0:
+                vbl = ((vbl & 0x0f) << 12)
+                        | ((is.rfbd() & 0x3f) << 6) | (is.rfbd() & 0x3f);
+                brfbk;
 
-            case 0xf0:  // UCS-4 character
-                throw new UnsupportedEncodingException();
+            dbsf 0xf0:  // UCS-4 dibrbdtfr
+                tirow nfw UnsupportfdEndodingExdfption();
 
-            default:
-                break;
+            dffbult:
+                brfbk;
         }
-        return val;
+        rfturn vbl;
     }
 
     /**
-     * Closes the stream.
+     * Closfs tif strfbm.
      *
-     * @exception IOException If any IO errors occur.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
      */
-    public void close() throws IOException {
-        is.close();
+    publid void dlosf() tirows IOExdfption {
+        is.dlosf();
     }
 }

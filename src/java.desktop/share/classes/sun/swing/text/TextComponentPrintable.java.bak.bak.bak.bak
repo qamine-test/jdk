@@ -1,0 +1,847 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing.tfxt;
+
+import jbvb.bwt.ComponfntOrifntbtion;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.dondurrfnt.Cbllbblf;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvb.util.dondurrfnt.FuturfTbsk;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.TitlfdBordfr;
+import jbvbx.swing.tfxt.BbdLodbtionExdfption;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+import jbvbx.swing.tfxt.Dodumfnt;
+import jbvbx.swing.tfxt.EditorKit;
+import jbvbx.swing.tfxt.AbstrbdtDodumfnt;
+import jbvbx.swing.tfxt.html.HTMLDodumfnt;
+import jbvbx.swing.tfxt.html.HTML;
+
+import sun.font.FontDfsignMftrids;
+
+import sun.swing.tfxt.html.FrbmfEditorPbnfTbg;
+
+/**
+ * An implfmfntbtion of {@dodf Printbblf} to print {@dodf JTfxtComponfnt} with
+ * thf hfbdfr bnd footfr.
+ *
+ * <h1>
+ * WARNING: this dlbss is to bf usfd in
+ * jbvbx.swing.tfxt.JTfxtComponfnt only.
+ * </h1>
+ *
+ * <p>
+ * Thf implfmfntbtion drfbtfs b nfw {@dodf JTfxtComponfnt} ({@dodf printShfll})
+ * to print thf dontfnt using thf {@dodf Dodumfnt}, {@dodf EditorKit} bnd
+ * rfndfring-bfffdting propfrtifs from thf originbl {@dodf JTfxtComponfnt}.
+ *
+ * <p>
+ * {@dodf printShfll} is lbid out on thf first {@dodf print} invodbtion.
+ *
+ * <p>
+ * This dlbss dbn bf usfd on bny thrfbd. Pbrt of thf implfmfntbtion is fxfdutfd
+ * on thf EDT though.
+ *
+ * @buthor Igor Kushnirskiy
+ *
+ * @sindf 1.6
+ */
+publid dlbss TfxtComponfntPrintbblf implfmfnts CountingPrintbblf {
+
+
+    privbtf stbtid finbl int LIST_SIZE = 1000;
+
+    privbtf boolfbn isLbyoutfd = fblsf;
+
+    /*
+     * Thf tfxt domponfnt to print.
+     */
+    privbtf finbl JTfxtComponfnt tfxtComponfntToPrint;
+
+    /*
+     * Thf FontRfndfrContfxt to lbyout bnd print with
+     */
+    privbtf finbl AtomidRfffrfndf<FontRfndfrContfxt> frd =
+        nfw AtomidRfffrfndf<FontRfndfrContfxt>(null);
+
+    /**
+     * Spfdibl tfxt domponfnt usfd to print to thf printfr.
+     */
+    privbtf finbl JTfxtComponfnt printShfll;
+
+    privbtf finbl MfssbgfFormbt hfbdfrFormbt;
+    privbtf finbl MfssbgfFormbt footfrFormbt;
+
+    privbtf stbtid finbl flobt HEADER_FONT_SIZE = 18.0f;
+    privbtf stbtid finbl flobt FOOTER_FONT_SIZE = 12.0f;
+
+    privbtf finbl Font hfbdfrFont;
+    privbtf finbl Font footfrFont;
+
+    /**
+     * storfs mftrids for thf unhbndlfd rows. Thf only mftrids wf nffd brf
+     * yStbrt bnd yEnd whfn row is hbndlfd by updbtfPbgfsMftrids it is rfmovfd
+     * from thf list. Thus thf hfbd of thf list is thf fist row to hbndlf.
+     *
+     * sortfd
+     */
+    privbtf finbl List<IntfgfrSfgmfnt> rowsMftrids;
+
+    /**
+     * thrfbd-sbff list for storing pbgfs mftrids. Thf only mftrids wf nffd brf
+     * yStbrt bnd yEnd.
+     * It hbs to bf thrfbd-sbff sindf mftrids brf dbldulbtfd on
+     * thf printing thrfbd bnd bddfssfd on thf EDT thrfbd.
+     *
+     * sortfd
+     */
+    privbtf finbl List<IntfgfrSfgmfnt> pbgfsMftrids;
+
+    /**
+     * Rfturns {@dodf TfxtComponfntPrintbblf} to print {@dodf tfxtComponfnt}.
+     *
+     * @pbrbm tfxtComponfnt {@dodf JTfxtComponfnt} to print
+     * @pbrbm hfbdfrFormbt thf pbgf hfbdfr, or {@dodf null} for nonf
+     * @pbrbm footfrFormbt thf pbgf footfr, or {@dodf null} for nonf
+     * @rfturn {@dodf TfxtComponfntPrintbblf} to print {@dodf tfxtComponfnt}
+     */
+    publid stbtid Printbblf gftPrintbblf(finbl JTfxtComponfnt tfxtComponfnt,
+            finbl MfssbgfFormbt hfbdfrFormbt,
+            finbl MfssbgfFormbt footfrFormbt) {
+
+        if (tfxtComponfnt instbndfof JEditorPbnf
+                && isFrbmfSftDodumfnt(tfxtComponfnt.gftDodumfnt())) {
+            //for dodumfnt with frbmfs wf drfbtf onf printbblf pfr
+            //frbmf bnd mfrgf thfm with thf CompoundPrintbblf.
+            List<JEditorPbnf> frbmfs = gftFrbmfs((JEditorPbnf) tfxtComponfnt);
+            List<CountingPrintbblf> printbblfs =
+                nfw ArrbyList<CountingPrintbblf>();
+            for (JEditorPbnf frbmf : frbmfs) {
+                printbblfs.bdd((CountingPrintbblf)
+                               gftPrintbblf(frbmf, hfbdfrFormbt, footfrFormbt));
+            }
+            rfturn nfw CompoundPrintbblf(printbblfs);
+        } flsf {
+            rfturn nfw TfxtComponfntPrintbblf(tfxtComponfnt,
+               hfbdfrFormbt, footfrFormbt);
+        }
+    }
+
+    /**
+     * Chfdks whfthfr thf dodumfnt hbs frbmfs. Only HTMLDodumfnt might
+     * hbvf frbmfs.
+     *
+     * @pbrbm dodumfnt thf {@dodf Dodumfnt} to dhfdk
+     * @rfturn {@dodf truf} if thf {@dodf dodumfnt} hbs frbmfs
+     */
+    privbtf stbtid boolfbn isFrbmfSftDodumfnt(finbl Dodumfnt dodumfnt) {
+        boolfbn rft = fblsf;
+        if (dodumfnt instbndfof HTMLDodumfnt) {
+            HTMLDodumfnt htmlDodumfnt = (HTMLDodumfnt)dodumfnt;
+            if (htmlDodumfnt.gftItfrbtor(HTML.Tbg.FRAME).isVblid()) {
+                rft = truf;
+            }
+        }
+        rfturn rft;
+    }
+
+
+    /**
+     * Rfturns frbmfs undfr thf {@dodf fditor}.
+     * Thf frbmfs brf drfbtfd if nfdfssbry.
+     *
+     * @pbrbm fditor thf {@JEditorPbnf} to find thf frbmfs for
+     * @rfturn list of bll frbmfs
+     */
+    privbtf stbtid List<JEditorPbnf> gftFrbmfs(finbl JEditorPbnf fditor) {
+        List<JEditorPbnf> list = nfw ArrbyList<JEditorPbnf>();
+        gftFrbmfs(fditor, list);
+        if (list.sizf() == 0) {
+            //thf frbmfs hbvf not bffn drfbtfd yft.
+            //lft's triggfr thf frbmfs drfbtion.
+            drfbtfFrbmfs(fditor);
+            gftFrbmfs(fditor, list);
+        }
+        rfturn list;
+    }
+
+    /**
+     * Adds bll {@dodf JEditorPbnfs} undfr {@dodf dontbinfr} tbggfd by {@dodf
+     * FrbmfEditorPbnfTbg} to thf {@dodf list}. It bdds only top
+     * lfvfl {@dodf JEditorPbnfs}.  For instbndf if thfrf is b frbmf
+     * insidf thf frbmf it will rfturn thf top frbmf only.
+     *
+     * @pbrbm d thf dontbinfr to find bll frbmfs undfr
+     * @pbrbm list {@dodf List} to bppfnd thf rfsults too
+     */
+    privbtf stbtid void gftFrbmfs(finbl Contbinfr dontbinfr, List<JEditorPbnf> list) {
+        for (Componfnt d : dontbinfr.gftComponfnts()) {
+            if (d instbndfof FrbmfEditorPbnfTbg
+                && d instbndfof JEditorPbnf ) { //it should bf blwbys JEditorPbnf
+                list.bdd((JEditorPbnf) d);
+            } flsf {
+                if (d instbndfof Contbinfr) {
+                    gftFrbmfs((Contbinfr) d, list);
+                }
+            }
+        }
+    }
+
+    /**
+     * Triggfrs thf frbmfs drfbtion for {@dodf JEditorPbnf}
+     *
+     * @pbrbm fditor thf {@dodf JEditorPbnf} to drfbtf frbmfs for
+     */
+    privbtf stbtid void drfbtfFrbmfs(finbl JEditorPbnf fditor) {
+        Runnbblf doCrfbtfFrbmfs =
+            nfw Runnbblf() {
+                publid void run() {
+                    finbl int WIDTH = 500;
+                    finbl int HEIGHT = 500;
+                    CfllRfndfrfrPbnf rfndfrfrPbnf = nfw CfllRfndfrfrPbnf();
+                    rfndfrfrPbnf.bdd(fditor);
+                    //thf vblufs do not mbttfr
+                    //wf only nffd to gft frbmfs drfbtfd
+                    rfndfrfrPbnf.sftSizf(WIDTH, HEIGHT);
+                };
+            };
+        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            doCrfbtfFrbmfs.run();
+        } flsf {
+            try {
+                SwingUtilitifs.invokfAndWbit(doCrfbtfFrbmfs);
+            } dbtdh (Exdfption f) {
+                if (f instbndfof RuntimfExdfption) {
+                    throw (RuntimfExdfption) f;
+                } flsf {
+                    throw nfw RuntimfExdfption(f);
+                }
+            }
+        }
+    }
+
+    /**
+     * Construdts  {@dodf TfxtComponfntPrintbblf} to print {@dodf JTfxtComponfnt}
+     * {@dodf tfxtComponfnt} with {@dodf hfbdfrFormbt} bnd {@dodf footfrFormbt}.
+     *
+     * @pbrbm tfxtComponfnt {@dodf JTfxtComponfnt} to print
+     * @pbrbm hfbdfrFormbt thf pbgf hfbdfr or {@dodf null} for nonf
+     * @pbrbm footfrFormbt thf pbgf footfr or {@dodf null} for nonf
+     */
+    privbtf TfxtComponfntPrintbblf(JTfxtComponfnt tfxtComponfnt,
+            MfssbgfFormbt hfbdfrFormbt,
+            MfssbgfFormbt footfrFormbt) {
+        this.tfxtComponfntToPrint = tfxtComponfnt;
+        this.hfbdfrFormbt = hfbdfrFormbt;
+        this.footfrFormbt = footfrFormbt;
+        hfbdfrFont = tfxtComponfnt.gftFont().dfrivfFont(Font.BOLD,
+            HEADER_FONT_SIZE);
+        footfrFont = tfxtComponfnt.gftFont().dfrivfFont(Font.PLAIN,
+            FOOTER_FONT_SIZE);
+        this.pbgfsMftrids =
+            Collfdtions.syndhronizfdList(nfw ArrbyList<IntfgfrSfgmfnt>());
+        this.rowsMftrids = nfw ArrbyList<IntfgfrSfgmfnt>(LIST_SIZE);
+        this.printShfll = drfbtfPrintShfll(tfxtComponfnt);
+    }
+
+
+    /**
+     * drfbtfs b printShfll.
+     * It drfbtfs dlosfst tfxt domponfnt to {@dodf tfxtComponfnt}
+     * whidh usfs {@dodf frd} from thf {@dodf TfxtComponfntPrintbblf}
+     * for thf {@dodf gftFontMftrids} mfthod.
+     *
+     * @pbrbm tfxtComponfnt {@dodf JTfxtComponfnt} to drfbtf b
+     *        printShfll for
+     * @rfturn thf print shfll
+     */
+    privbtf JTfxtComponfnt drfbtfPrintShfll(finbl JTfxtComponfnt tfxtComponfnt) {
+        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            rfturn drfbtfPrintShfllOnEDT(tfxtComponfnt);
+        } flsf {
+            FuturfTbsk<JTfxtComponfnt> futurfCrfbtfShfll =
+                nfw FuturfTbsk<JTfxtComponfnt>(
+                    nfw Cbllbblf<JTfxtComponfnt>() {
+                        publid JTfxtComponfnt dbll() throws Exdfption {
+                            rfturn drfbtfPrintShfllOnEDT(tfxtComponfnt);
+                        }
+                    });
+            SwingUtilitifs.invokfLbtfr(futurfCrfbtfShfll);
+            try {
+                rfturn futurfCrfbtfShfll.gft();
+            } dbtdh (IntfrruptfdExdfption f) {
+                throw nfw RuntimfExdfption(f);
+            } dbtdh (ExfdutionExdfption f) {
+                Throwbblf dbusf = f.gftCbusf();
+                if (dbusf instbndfof Error) {
+                    throw (Error) dbusf;
+                }
+                if (dbusf instbndfof RuntimfExdfption) {
+                    throw (RuntimfExdfption) dbusf;
+                }
+                throw nfw AssfrtionError(dbusf);
+            }
+        }
+    }
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss insidf
+    privbtf JTfxtComponfnt drfbtfPrintShfllOnEDT(finbl JTfxtComponfnt tfxtComponfnt) {
+        bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+
+        JTfxtComponfnt rft = null;
+        if (tfxtComponfnt instbndfof JPbsswordFifld) {
+            rft =
+                nfw JPbsswordFifld() {
+                    {
+                        sftEdhoChbr(((JPbsswordFifld) tfxtComponfnt).gftEdhoChbr());
+                        sftHorizontblAlignmfnt(
+                            ((JTfxtFifld) tfxtComponfnt).gftHorizontblAlignmfnt());
+                    }
+                    @Ovfrridf
+                    publid FontMftrids gftFontMftrids(Font font) {
+                        rfturn (frd.gft() == null)
+                            ? supfr.gftFontMftrids(font)
+                            : FontDfsignMftrids.gftMftrids(font, frd.gft());
+                    }
+                };
+        } flsf if (tfxtComponfnt instbndfof JTfxtFifld) {
+            rft =
+                nfw JTfxtFifld() {
+                    {
+                        sftHorizontblAlignmfnt(
+                            ((JTfxtFifld) tfxtComponfnt).gftHorizontblAlignmfnt());
+                    }
+                    @Ovfrridf
+                    publid FontMftrids gftFontMftrids(Font font) {
+                        rfturn (frd.gft() == null)
+                            ? supfr.gftFontMftrids(font)
+                            : FontDfsignMftrids.gftMftrids(font, frd.gft());
+                    }
+                };
+        } flsf if (tfxtComponfnt instbndfof JTfxtArfb) {
+            rft =
+                nfw JTfxtArfb() {
+                    {
+                        JTfxtArfb tfxtArfb = (JTfxtArfb) tfxtComponfnt;
+                        sftLinfWrbp(tfxtArfb.gftLinfWrbp());
+                        sftWrbpStylfWord(tfxtArfb.gftWrbpStylfWord());
+                        sftTbbSizf(tfxtArfb.gftTbbSizf());
+                    }
+                    @Ovfrridf
+                    publid FontMftrids gftFontMftrids(Font font) {
+                        rfturn (frd.gft() == null)
+                            ? supfr.gftFontMftrids(font)
+                            : FontDfsignMftrids.gftMftrids(font, frd.gft());
+                    }
+                };
+        } flsf if (tfxtComponfnt instbndfof JTfxtPbnf) {
+            rft =
+                nfw JTfxtPbnf() {
+                    @Ovfrridf
+                    publid FontMftrids gftFontMftrids(Font font) {
+                        rfturn (frd.gft() == null)
+                            ? supfr.gftFontMftrids(font)
+                            : FontDfsignMftrids.gftMftrids(font, frd.gft());
+                    }
+                    @Ovfrridf
+                    publid EditorKit gftEditorKit() {
+                        if (gftDodumfnt() == tfxtComponfnt.gftDodumfnt()) {
+                            rfturn ((JTfxtPbnf) tfxtComponfnt).gftEditorKit();
+                        } flsf {
+                            rfturn supfr.gftEditorKit();
+                        }
+                    }
+                };
+        } flsf if (tfxtComponfnt instbndfof JEditorPbnf) {
+            rft =
+                nfw JEditorPbnf() {
+                    @Ovfrridf
+                    publid FontMftrids gftFontMftrids(Font font) {
+                        rfturn (frd.gft() == null)
+                            ? supfr.gftFontMftrids(font)
+                            : FontDfsignMftrids.gftMftrids(font, frd.gft());
+                    }
+                    @Ovfrridf
+                    publid EditorKit gftEditorKit() {
+                        if (gftDodumfnt() == tfxtComponfnt.gftDodumfnt()) {
+                            rfturn ((JEditorPbnf) tfxtComponfnt).gftEditorKit();
+                        } flsf {
+                            rfturn supfr.gftEditorKit();
+                        }
+                    }
+                };
+        }
+        //wbnt to oddupy thf wholf width bnd hfight by tfxt
+        rft.sftBordfr(null);
+
+        //sft propfrtifs from thf domponfnt to print
+        rft.sftOpbquf(tfxtComponfnt.isOpbquf());
+        rft.sftEditbblf(tfxtComponfnt.isEditbblf());
+        rft.sftEnbblfd(tfxtComponfnt.isEnbblfd());
+        rft.sftFont(tfxtComponfnt.gftFont());
+        rft.sftBbdkground(tfxtComponfnt.gftBbdkground());
+        rft.sftForfground(tfxtComponfnt.gftForfground());
+        rft.sftComponfntOrifntbtion(
+            tfxtComponfnt.gftComponfntOrifntbtion());
+
+        if (rft instbndfof JEditorPbnf) {
+            rft.putClifntPropfrty(JEditorPbnf.HONOR_DISPLAY_PROPERTIES,
+                tfxtComponfnt.gftClifntPropfrty(
+                JEditorPbnf.HONOR_DISPLAY_PROPERTIES));
+            rft.putClifntPropfrty(JEditorPbnf.W3C_LENGTH_UNITS,
+                tfxtComponfnt.gftClifntPropfrty(JEditorPbnf.W3C_LENGTH_UNITS));
+            rft.putClifntPropfrty("dhbrsft",
+                tfxtComponfnt.gftClifntPropfrty("dhbrsft"));
+        }
+        rft.sftDodumfnt(tfxtComponfnt.gftDodumfnt());
+        rfturn rft;
+    }
+
+
+
+
+    /**
+     * Rfturns thf numbfr of pbgfs in this printbblf.
+     * <p>
+     * This numbfr is dffinfd only bftfr {@dodf print} rfturns NO_SUCH_PAGE.
+     *
+     * @rfturn thf numbfr of pbgfs.
+     */
+    publid int gftNumbfrOfPbgfs() {
+        rfturn pbgfsMftrids.sizf();
+    }
+
+    /**
+     * Sff Printbblf.print for thf API dfsdription.
+     *
+     * Thfrf brf two pbrts in thf implfmfntbtion.
+     * First pbrt (print) is to bf dbllfd on thf printing thrfbd.
+     * Sfdond pbrt (printOnEDT) is to bf dbllfd on thf EDT only.
+     *
+     * print triggfrs printOnEDT
+     */
+    publid int print(finbl Grbphids grbphids,
+            finbl PbgfFormbt pf,
+            finbl int pbgfIndfx) throws PrintfrExdfption {
+        if (!isLbyoutfd) {
+            if (grbphids instbndfof Grbphids2D) {
+                frd.sft(((Grbphids2D)grbphids).gftFontRfndfrContfxt());
+            }
+            lbyout((int)Mbth.floor(pf.gftImbgfbblfWidth()));
+            dbldulbtfRowsMftrids();
+        }
+        int rft;
+        if (!SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            Cbllbblf<Intfgfr> doPrintOnEDT = nfw Cbllbblf<Intfgfr>() {
+                publid Intfgfr dbll() throws Exdfption {
+                    rfturn printOnEDT(grbphids, pf, pbgfIndfx);
+                }
+            };
+            FuturfTbsk<Intfgfr> futurfPrintOnEDT =
+                nfw FuturfTbsk<Intfgfr>(doPrintOnEDT);
+            SwingUtilitifs.invokfLbtfr(futurfPrintOnEDT);
+            try {
+                rft = futurfPrintOnEDT.gft();
+            } dbtdh (IntfrruptfdExdfption f) {
+                throw nfw RuntimfExdfption(f);
+            } dbtdh (ExfdutionExdfption f) {
+                Throwbblf dbusf = f.gftCbusf();
+                if (dbusf instbndfof PrintfrExdfption) {
+                    throw (PrintfrExdfption)dbusf;
+                } flsf if (dbusf instbndfof RuntimfExdfption) {
+                    throw (RuntimfExdfption) dbusf;
+                } flsf if (dbusf instbndfof Error) {
+                    throw (Error) dbusf;
+                } flsf {
+                    throw nfw RuntimfExdfption(dbusf);
+                }
+            }
+        } flsf {
+            rft = printOnEDT(grbphids, pf, pbgfIndfx);
+        }
+        rfturn rft;
+    }
+
+
+    /**
+     * Thf EDT pbrt of thf print mfthod.
+     *
+     * This mfthod is to bf dbllfd on thf EDT only. Lbyout should bf donf bfforf
+     * dblling this mfthod.
+     */
+    privbtf int printOnEDT(finbl Grbphids grbphids,
+            finbl PbgfFormbt pf,
+            finbl int pbgfIndfx) throws PrintfrExdfption {
+        bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+        Bordfr bordfr = BordfrFbdtory.drfbtfEmptyBordfr();
+        //hbndlf hfbdfr bnd footfr
+        if (hfbdfrFormbt != null || footfrFormbt != null) {
+            //Printbblf pbgf fnumfrbtion is 0 bbsf. Wf nffd 1 bbsfd.
+            Objfdt[] formbtArg = nfw Objfdt[]{Intfgfr.vblufOf(pbgfIndfx + 1)};
+            if (hfbdfrFormbt != null) {
+                bordfr = nfw TitlfdBordfr(bordfr,
+                    hfbdfrFormbt.formbt(formbtArg),
+                    TitlfdBordfr.CENTER, TitlfdBordfr.ABOVE_TOP,
+                    hfbdfrFont, printShfll.gftForfground());
+            }
+            if (footfrFormbt != null) {
+                bordfr = nfw TitlfdBordfr(bordfr,
+                    footfrFormbt.formbt(formbtArg),
+                    TitlfdBordfr.CENTER, TitlfdBordfr.BELOW_BOTTOM,
+                    footfrFont, printShfll.gftForfground());
+            }
+        }
+        Insfts bordfrInsfts = bordfr.gftBordfrInsfts(printShfll);
+        updbtfPbgfsMftrids(pbgfIndfx,
+            (int)Mbth.floor(pf.gftImbgfbblfHfight()) - bordfrInsfts.top
+                           - bordfrInsfts.bottom);
+
+        if (pbgfsMftrids.sizf() <= pbgfIndfx) {
+            rfturn NO_SUCH_PAGE;
+        }
+
+        Grbphids2D g2d = (Grbphids2D)grbphids.drfbtf();
+
+        g2d.trbnslbtf(pf.gftImbgfbblfX(), pf.gftImbgfbblfY());
+        bordfr.pbintBordfr(printShfll, g2d, 0, 0,
+            (int)Mbth.floor(pf.gftImbgfbblfWidth()),
+            (int)Mbth.floor(pf.gftImbgfbblfHfight()));
+
+        g2d.trbnslbtf(0, bordfrInsfts.top);
+        //wbnt to dlip only vfrtidblly
+        Rfdtbnglf dlip = nfw Rfdtbnglf(0, 0,
+            (int) pf.gftWidth(),
+            pbgfsMftrids.gft(pbgfIndfx).fnd
+                - pbgfsMftrids.gft(pbgfIndfx).stbrt + 1);
+
+        g2d.dlip(dlip);
+        int xStbrt = 0;
+        if (ComponfntOrifntbtion.RIGHT_TO_LEFT ==
+                printShfll.gftComponfntOrifntbtion()) {
+            xStbrt = (int) pf.gftImbgfbblfWidth() - printShfll.gftWidth();
+        }
+        g2d.trbnslbtf(xStbrt, - pbgfsMftrids.gft(pbgfIndfx).stbrt);
+        printShfll.print(g2d);
+
+        g2d.disposf();
+
+        rfturn Printbblf.PAGE_EXISTS;
+    }
+
+
+    privbtf boolfbn nffdRfbdLodk = fblsf;
+
+    /**
+     * Trifs to rflfbsf dodumfnt's rfbdlodk
+     *
+     * Notf: Not to bf dbllfd on thf EDT.
+     */
+    privbtf void rflfbsfRfbdLodk() {
+        bssfrt ! SwingUtilitifs.isEvfntDispbtdhThrfbd();
+        Dodumfnt dodumfnt = tfxtComponfntToPrint.gftDodumfnt();
+        if (dodumfnt instbndfof AbstrbdtDodumfnt) {
+            try {
+                ((AbstrbdtDodumfnt) dodumfnt).rfbdUnlodk();
+                nffdRfbdLodk = truf;
+            } dbtdh (Error ignorf) {
+                // rfbdUnlodk() might throw StbtfInvbribntError
+            }
+        }
+    }
+
+
+    /**
+     * Trifs to bdquirf dodumfnt's rfbdLodk if it wbs rflfbsfd
+     * in rflfbsfRfbdLodk() mfthod.
+     *
+     * Notf: Not to bf dbllfd on thf EDT.
+     */
+    privbtf void bdquirfRfbdLodk() {
+        bssfrt ! SwingUtilitifs.isEvfntDispbtdhThrfbd();
+        if (nffdRfbdLodk) {
+            try {
+                /*
+                 * wbit until bll thf EDT fvfnts brf prodfssfd
+                 * somf of thf dodumfnt dhbngfs brf bsyndhronous
+                 * wf nffd to mbkf surf wf gft thf lodk bftfr thosf dhbngfs
+                 */
+                SwingUtilitifs.invokfAndWbit(
+                    nfw Runnbblf() {
+                        publid void run() {
+                        }
+                    });
+            } dbtdh (IntfrruptfdExdfption ignorf) {
+            } dbtdh (jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption ignorf) {
+            }
+            Dodumfnt dodumfnt = tfxtComponfntToPrint.gftDodumfnt();
+            ((AbstrbdtDodumfnt) dodumfnt).rfbdLodk();
+            nffdRfbdLodk = fblsf;
+        }
+    }
+
+    /**
+     * Prfpbrfs {@dodf printShfll} for printing.
+     *
+     * Sfts propfrtifs from thf domponfnt to print.
+     * Sfts width bnd FontRfndfrContfxt.
+     *
+     * Triggfrs Vifws drfbtion for thf printShfll.
+     *
+     * Thfrf brf two pbrts in thf implfmfntbtion.
+     * First pbrt (lbyout) is to bf dbllfd on thf printing thrfbd.
+     * Sfdond pbrt (lbyoutOnEDT) is to bf dbllfd on thf EDT only.
+     *
+     * {@dodf lbyout} triggfrs {@dodf lbyoutOnEDT}.
+     *
+     * @pbrbm width width to lbyout thf tfxt for
+     */
+    privbtf void lbyout(finbl int width) {
+        if (!SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            Cbllbblf<Objfdt> doLbyoutOnEDT = nfw Cbllbblf<Objfdt>() {
+                publid Objfdt dbll() throws Exdfption {
+                    lbyoutOnEDT(width);
+                    rfturn null;
+                }
+            };
+            FuturfTbsk<Objfdt> futurfLbyoutOnEDT = nfw FuturfTbsk<Objfdt>(
+                doLbyoutOnEDT);
+
+            /*
+             * Wf nffd to rflfbsf dodumfnt's rfbdlodk whilf printShfll is
+             * initiblizing
+             */
+            rflfbsfRfbdLodk();
+            SwingUtilitifs.invokfLbtfr(futurfLbyoutOnEDT);
+            try {
+                futurfLbyoutOnEDT.gft();
+            } dbtdh (IntfrruptfdExdfption f) {
+                throw nfw RuntimfExdfption(f);
+            } dbtdh (ExfdutionExdfption f) {
+                Throwbblf dbusf = f.gftCbusf();
+                if (dbusf instbndfof RuntimfExdfption) {
+                    throw (RuntimfExdfption) dbusf;
+                } flsf if (dbusf instbndfof Error) {
+                    throw (Error) dbusf;
+                } flsf {
+                    throw nfw RuntimfExdfption(dbusf);
+                }
+            } finblly {
+                bdquirfRfbdLodk();
+            }
+        } flsf {
+            lbyoutOnEDT(width);
+        }
+
+        isLbyoutfd = truf;
+    }
+
+    /**
+     * Thf EDT pbrt of lbyout mfthod.
+     *
+     * This mfthod is to bf dbllfd on thf EDT only.
+     */
+    privbtf void lbyoutOnEDT(finbl int width) {
+        bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+        //nffd to hbvf big vbluf but smbllfr thbn MAX_VALUE othfrwisf
+        //printing gofs south duf to ovfrflow somfwhfrf
+        finbl int HUGE_INTEGER = Intfgfr.MAX_VALUE - 1000;
+
+        CfllRfndfrfrPbnf rfndfrfrPbnf = nfw CfllRfndfrfrPbnf();
+
+        //nffd to usf JVifwport sindf tfxt is lbyoutfd to thf vifwPort width
+        //othfrwisf it will bf lbyoutfd to thf mbximum tfxt width
+        JVifwport vifwport = nfw JVifwport();
+        vifwport.sftBordfr(null);
+        Dimfnsion sizf = nfw Dimfnsion(width, HUGE_INTEGER);
+
+        //JTfxtFifld is b spfdibl dbsf
+        //it lbyouts tfxt in thf middlf by Y
+        if (printShfll instbndfof JTfxtFifld) {
+            sizf =
+                nfw Dimfnsion(sizf.width, printShfll.gftPrfffrrfdSizf().hfight);
+        }
+        printShfll.sftSizf(sizf);
+        vifwport.sftComponfntOrifntbtion(printShfll.gftComponfntOrifntbtion());
+        vifwport.sftSizf(sizf);
+        vifwport.bdd(printShfll);
+        rfndfrfrPbnf.bdd(vifwport);
+    }
+
+    /**
+     * Cbldulbtfs pbgfMftrids for thf pbgfs up to thf {@dodf pbgfIndfx} using
+     * {@dodf rowsMftrids}.
+     * Mftrids brf storfd in thf {@dodf pbgfsMftrids}.
+     *
+     * @pbrbm pbgfIndfx thf pbgf to updbtf thf mftrids for
+     * @pbrbm pbgfHfight thf pbgf hfight
+     */
+    privbtf void updbtfPbgfsMftrids(finbl int pbgfIndfx, finbl int pbgfHfight) {
+        whilf (pbgfIndfx >= pbgfsMftrids.sizf() && !rowsMftrids.isEmpty()) {
+            // bdd onf pbgf to thf pbgfMftrids
+            int lbstPbgf = pbgfsMftrids.sizf() - 1;
+            int pbgfStbrt = (lbstPbgf >= 0)
+               ? pbgfsMftrids.gft(lbstPbgf).fnd + 1
+               : 0;
+            int rowIndfx;
+            for (rowIndfx = 0;
+                   rowIndfx < rowsMftrids.sizf()
+                   && (rowsMftrids.gft(rowIndfx).fnd - pbgfStbrt + 1)
+                     <= pbgfHfight;
+                   rowIndfx++) {
+            }
+            if (rowIndfx == 0) {
+                // dbn not fit b singlf row
+                // nffd to split
+                pbgfsMftrids.bdd(
+                    nfw IntfgfrSfgmfnt(pbgfStbrt, pbgfStbrt + pbgfHfight - 1));
+            } flsf {
+                rowIndfx--;
+                pbgfsMftrids.bdd(nfw IntfgfrSfgmfnt(pbgfStbrt,
+                    rowsMftrids.gft(rowIndfx).fnd));
+                for (int i = 0; i <= rowIndfx; i++) {
+                    rowsMftrids.rfmovf(0);
+                }
+            }
+        }
+    }
+
+    /**
+     * Cbldulbtfs rowsMftrids for thf dodumfnt. Thf rfsult is storfd
+     * in thf {@dodf rowsMftrids}.
+     *
+     * Two stfps prodfss.
+     * First stfp is to find yStbrt bnd yEnd for thf fvfry dodumfnt position.
+     * Sfdond stfp is to mfrgf bll intfrsfdtfd sfgmfnts ( [yStbrt, yEnd] ).
+     */
+    privbtf void dbldulbtfRowsMftrids() {
+        finbl int dodumfntLfngth = printShfll.gftDodumfnt().gftLfngth();
+        List<IntfgfrSfgmfnt> dodumfntMftrids = nfw ArrbyList<IntfgfrSfgmfnt>(LIST_SIZE);
+        Rfdtbnglf rfdt;
+        for (int i = 0, prfviousY = -1, prfviousHfight = -1; i < dodumfntLfngth;
+                 i++) {
+            try {
+                rfdt = printShfll.modflToVifw(i);
+                if (rfdt != null) {
+                    int y = (int) rfdt.gftY();
+                    int hfight = (int) rfdt.gftHfight();
+                    if (hfight != 0
+                            && (y != prfviousY || hfight != prfviousHfight)) {
+                        /*
+                         * wf do not storf thf sbmf vbluf bs prfvious. in our
+                         * dodumfnts it is oftfn for donsfqufnt positons to hbvf
+                         * thf sbmf modflToVifw y bnd hfight.
+                         */
+                        prfviousY = y;
+                        prfviousHfight = hfight;
+                        dodumfntMftrids.bdd(nfw IntfgfrSfgmfnt(y, y + hfight - 1));
+                    }
+                }
+            } dbtdh (BbdLodbtionExdfption f) {
+                bssfrt fblsf;
+            }
+        }
+        /*
+         * Mfrgf bll intfrsfdtfd sfgmfnts.
+         */
+        Collfdtions.sort(dodumfntMftrids);
+        int yStbrt = Intfgfr.MIN_VALUE;
+        int yEnd = Intfgfr.MIN_VALUE;
+        for (IntfgfrSfgmfnt sfgmfnt : dodumfntMftrids) {
+            if (yEnd < sfgmfnt.stbrt) {
+                if (yEnd != Intfgfr.MIN_VALUE) {
+                    rowsMftrids.bdd(nfw IntfgfrSfgmfnt(yStbrt, yEnd));
+                }
+                yStbrt = sfgmfnt.stbrt;
+                yEnd = sfgmfnt.fnd;
+            } flsf {
+                yEnd = sfgmfnt.fnd;
+            }
+        }
+        if (yEnd != Intfgfr.MIN_VALUE) {
+            rowsMftrids.bdd(nfw IntfgfrSfgmfnt(yStbrt, yEnd));
+        }
+    }
+
+    /**
+     *  Clbss to rfprfsfnt sfgmfnt of intfgfrs.
+     *  wf do not dbll it Sfgmfnt to bvoid donfusion with
+     *  jbvbx.swing.tfxt.Sfgmfnt
+     */
+    privbtf stbtid dlbss IntfgfrSfgmfnt implfmfnts Compbrbblf<IntfgfrSfgmfnt> {
+        finbl int stbrt;
+        finbl int fnd;
+
+        IntfgfrSfgmfnt(int stbrt, int fnd) {
+            this.stbrt = stbrt;
+            this.fnd = fnd;
+        }
+
+        publid int dompbrfTo(IntfgfrSfgmfnt objfdt) {
+            int stbrtsDfltb = stbrt - objfdt.stbrt;
+            rfturn (stbrtsDfltb != 0) ? stbrtsDfltb : fnd - objfdt.fnd;
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof IntfgfrSfgmfnt) {
+                rfturn dompbrfTo((IntfgfrSfgmfnt) obj) == 0;
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            // from thf "Efffdtivf Jbvb: Progrbmming Lbngubgf Guidf"
+            int rfsult = 17;
+            rfsult = 37 * rfsult + stbrt;
+            rfsult = 37 * rfsult + fnd;
+            rfturn rfsult;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn "IntfgfrSfgmfnt [" + stbrt + ", " + fnd + "]";
+        }
+    }
+}

@@ -1,428 +1,428 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// XMLReader.java - read an XML document.
-// http://www.saxproject.org
-// Written by David Megginson
-// NO WARRANTY!  This class is in the Public Domain.
-// $Id: XMLReader.java,v 1.3 2004/11/03 22:55:32 jsuttor Exp $
+// XMLRfbdfr.jbvb - rfbd bn XML dodumfnt.
+// ittp://www.sbxprojfdt.org
+// Writtfn by Dbvid Mfgginson
+// NO WARRANTY!  Tiis dlbss is in tif Publid Dombin.
+// $Id: XMLRfbdfr.jbvb,v 1.3 2004/11/03 22:55:32 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 
 /**
- * Interface for reading an XML document using callbacks.
+ * Intfrfbdf for rfbding bn XML dodumfnt using dbllbbdks.
  *
- * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
- * </blockquote>
+ * <blodkquotf>
+ * <fm>Tiis modulf, boti sourdf dodf bnd dodumfntbtion, is in tif
+ * Publid Dombin, bnd domfs witi <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b irff='ittp://www.sbxprojfdt.org'>ittp://www.sbxprojfdt.org</b>
+ * for furtifr informbtion.
+ * </blodkquotf>
  *
- * <p><strong>Note:</strong> despite its name, this interface does
- * <em>not</em> extend the standard Java {@link java.io.Reader Reader}
- * interface, because reading XML is a fundamentally different activity
- * than reading character data.</p>
+ * <p><strong>Notf:</strong> dfspitf its nbmf, tiis intfrfbdf dofs
+ * <fm>not</fm> fxtfnd tif stbndbrd Jbvb {@link jbvb.io.Rfbdfr Rfbdfr}
+ * intfrfbdf, bfdbusf rfbding XML is b fundbmfntblly difffrfnt bdtivity
+ * tibn rfbding dibrbdtfr dbtb.</p>
  *
- * <p>XMLReader is the interface that an XML parser's SAX2 driver must
- * implement.  This interface allows an application to set and
- * query features and properties in the parser, to register
- * event handlers for document processing, and to initiate
- * a document parse.</p>
+ * <p>XMLRfbdfr is tif intfrfbdf tibt bn XML pbrsfr's SAX2 drivfr must
+ * implfmfnt.  Tiis intfrfbdf bllows bn bpplidbtion to sft bnd
+ * qufry ffbturfs bnd propfrtifs in tif pbrsfr, to rfgistfr
+ * fvfnt ibndlfrs for dodumfnt prodfssing, bnd to initibtf
+ * b dodumfnt pbrsf.</p>
  *
- * <p>All SAX interfaces are assumed to be synchronous: the
- * {@link #parse parse} methods must not return until parsing
- * is complete, and readers must wait for an event-handler callback
- * to return before reporting the next event.</p>
+ * <p>All SAX intfrfbdfs brf bssumfd to bf syndironous: tif
+ * {@link #pbrsf pbrsf} mftiods must not rfturn until pbrsing
+ * is domplftf, bnd rfbdfrs must wbit for bn fvfnt-ibndlfr dbllbbdk
+ * to rfturn bfforf rfporting tif nfxt fvfnt.</p>
  *
- * <p>This interface replaces the (now deprecated) SAX 1.0 {@link
- * org.xml.sax.Parser Parser} interface.  The XMLReader interface
- * contains two important enhancements over the old Parser
- * interface (as well as some minor ones):</p>
+ * <p>Tiis intfrfbdf rfplbdfs tif (now dfprfdbtfd) SAX 1.0 {@link
+ * org.xml.sbx.Pbrsfr Pbrsfr} intfrfbdf.  Tif XMLRfbdfr intfrfbdf
+ * dontbins two importbnt fnibndfmfnts ovfr tif old Pbrsfr
+ * intfrfbdf (bs wfll bs somf minor onfs):</p>
  *
  * <ol>
- * <li>it adds a standard way to query and set features and
- *  properties; and</li>
- * <li>it adds Namespace support, which is required for many
- *  higher-level XML standards.</li>
+ * <li>it bdds b stbndbrd wby to qufry bnd sft ffbturfs bnd
+ *  propfrtifs; bnd</li>
+ * <li>it bdds Nbmfspbdf support, wiidi is rfquirfd for mbny
+ *  iigifr-lfvfl XML stbndbrds.</li>
  * </ol>
  *
- * <p>There are adapters available to convert a SAX1 Parser to
- * a SAX2 XMLReader and vice-versa.</p>
+ * <p>Tifrf brf bdbptfrs bvbilbblf to donvfrt b SAX1 Pbrsfr to
+ * b SAX2 XMLRfbdfr bnd vidf-vfrsb.</p>
  *
- * @since SAX 2.0
- * @author David Megginson
- * @see org.xml.sax.XMLFilter
- * @see org.xml.sax.helpers.ParserAdapter
- * @see org.xml.sax.helpers.XMLReaderAdapter
+ * @sindf SAX 2.0
+ * @butior Dbvid Mfgginson
+ * @sff org.xml.sbx.XMLFiltfr
+ * @sff org.xml.sbx.iflpfrs.PbrsfrAdbptfr
+ * @sff org.xml.sbx.iflpfrs.XMLRfbdfrAdbptfr
  */
-public interface XMLReader
+publid intfrfbdf XMLRfbdfr
 {
 
 
     ////////////////////////////////////////////////////////////////////
-    // Configuration.
+    // Configurbtion.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Look up the value of a feature flag.
+     * Look up tif vbluf of b ffbturf flbg.
      *
-     * <p>The feature name is any fully-qualified URI.  It is
-     * possible for an XMLReader to recognize a feature name but
-     * temporarily be unable to return its value.
-     * Some feature values may be available only in specific
-     * contexts, such as before, during, or after a parse.
-     * Also, some feature values may not be programmatically accessible.
-     * (In the case of an adapter for SAX1 {@link Parser}, there is no
-     * implementation-independent way to expose whether the underlying
-     * parser is performing validation, expanding external entities,
-     * and so forth.) </p>
+     * <p>Tif ffbturf nbmf is bny fully-qublififd URI.  It is
+     * possiblf for bn XMLRfbdfr to rfdognizf b ffbturf nbmf but
+     * tfmporbrily bf unbblf to rfturn its vbluf.
+     * Somf ffbturf vblufs mby bf bvbilbblf only in spfdifid
+     * dontfxts, sudi bs bfforf, during, or bftfr b pbrsf.
+     * Also, somf ffbturf vblufs mby not bf progrbmmbtidblly bddfssiblf.
+     * (In tif dbsf of bn bdbptfr for SAX1 {@link Pbrsfr}, tifrf is no
+     * implfmfntbtion-indfpfndfnt wby to fxposf wiftifr tif undfrlying
+     * pbrsfr is pfrforming vblidbtion, fxpbnding fxtfrnbl fntitifs,
+     * bnd so forti.) </p>
      *
-     * <p>All XMLReaders are required to recognize the
-     * http://xml.org/sax/features/namespaces and the
-     * http://xml.org/sax/features/namespace-prefixes feature names.</p>
+     * <p>All XMLRfbdfrs brf rfquirfd to rfdognizf tif
+     * ittp://xml.org/sbx/ffbturfs/nbmfspbdfs bnd tif
+     * ittp://xml.org/sbx/ffbturfs/nbmfspbdf-prffixfs ffbturf nbmfs.</p>
      *
-     * <p>Typical usage is something like this:</p>
+     * <p>Typidbl usbgf is somftiing likf tiis:</p>
      *
-     * <pre>
-     * XMLReader r = new MySAXDriver();
+     * <prf>
+     * XMLRfbdfr r = nfw MySAXDrivfr();
      *
-     *                         // try to activate validation
+     *                         // try to bdtivbtf vblidbtion
      * try {
-     *   r.setFeature("http://xml.org/sax/features/validation", true);
-     * } catch (SAXException e) {
-     *   System.err.println("Cannot activate validation.");
+     *   r.sftFfbturf("ittp://xml.org/sbx/ffbturfs/vblidbtion", truf);
+     * } dbtdi (SAXExdfption f) {
+     *   Systfm.frr.println("Cbnnot bdtivbtf vblidbtion.");
      * }
      *
-     *                         // register event handlers
-     * r.setContentHandler(new MyContentHandler());
-     * r.setErrorHandler(new MyErrorHandler());
+     *                         // rfgistfr fvfnt ibndlfrs
+     * r.sftContfntHbndlfr(nfw MyContfntHbndlfr());
+     * r.sftErrorHbndlfr(nfw MyErrorHbndlfr());
      *
-     *                         // parse the first document
+     *                         // pbrsf tif first dodumfnt
      * try {
-     *   r.parse("http://www.foo.com/mydoc.xml");
-     * } catch (IOException e) {
-     *   System.err.println("I/O exception reading XML document");
-     * } catch (SAXException e) {
-     *   System.err.println("XML exception reading document.");
+     *   r.pbrsf("ittp://www.foo.dom/mydod.xml");
+     * } dbtdi (IOExdfption f) {
+     *   Systfm.frr.println("I/O fxdfption rfbding XML dodumfnt");
+     * } dbtdi (SAXExdfption f) {
+     *   Systfm.frr.println("XML fxdfption rfbding dodumfnt.");
      * }
-     * </pre>
+     * </prf>
      *
-     * <p>Implementors are free (and encouraged) to invent their own features,
-     * using names built on their own URIs.</p>
+     * <p>Implfmfntors brf frff (bnd fndourbgfd) to invfnt tifir own ffbturfs,
+     * using nbmfs built on tifir own URIs.</p>
      *
-     * @param name The feature name, which is a fully-qualified URI.
-     * @return The current value of the feature (true or false).
-     * @exception org.xml.sax.SAXNotRecognizedException If the feature
-     *            value can't be assigned or retrieved.
-     * @exception org.xml.sax.SAXNotSupportedException When the
-     *            XMLReader recognizes the feature name but
-     *            cannot determine its value at this time.
-     * @see #setFeature
+     * @pbrbm nbmf Tif ffbturf nbmf, wiidi is b fully-qublififd URI.
+     * @rfturn Tif durrfnt vbluf of tif ffbturf (truf or fblsf).
+     * @fxdfption org.xml.sbx.SAXNotRfdognizfdExdfption If tif ffbturf
+     *            vbluf dbn't bf bssignfd or rftrifvfd.
+     * @fxdfption org.xml.sbx.SAXNotSupportfdExdfption Wifn tif
+     *            XMLRfbdfr rfdognizfs tif ffbturf nbmf but
+     *            dbnnot dftfrminf its vbluf bt tiis timf.
+     * @sff #sftFfbturf
      */
-    public boolean getFeature (String name)
-        throws SAXNotRecognizedException, SAXNotSupportedException;
+    publid boolfbn gftFfbturf (String nbmf)
+        tirows SAXNotRfdognizfdExdfption, SAXNotSupportfdExdfption;
 
 
     /**
-     * Set the value of a feature flag.
+     * Sft tif vbluf of b ffbturf flbg.
      *
-     * <p>The feature name is any fully-qualified URI.  It is
-     * possible for an XMLReader to expose a feature value but
-     * to be unable to change the current value.
-     * Some feature values may be immutable or mutable only
-     * in specific contexts, such as before, during, or after
-     * a parse.</p>
+     * <p>Tif ffbturf nbmf is bny fully-qublififd URI.  It is
+     * possiblf for bn XMLRfbdfr to fxposf b ffbturf vbluf but
+     * to bf unbblf to dibngf tif durrfnt vbluf.
+     * Somf ffbturf vblufs mby bf immutbblf or mutbblf only
+     * in spfdifid dontfxts, sudi bs bfforf, during, or bftfr
+     * b pbrsf.</p>
      *
-     * <p>All XMLReaders are required to support setting
-     * http://xml.org/sax/features/namespaces to true and
-     * http://xml.org/sax/features/namespace-prefixes to false.</p>
+     * <p>All XMLRfbdfrs brf rfquirfd to support sftting
+     * ittp://xml.org/sbx/ffbturfs/nbmfspbdfs to truf bnd
+     * ittp://xml.org/sbx/ffbturfs/nbmfspbdf-prffixfs to fblsf.</p>
      *
-     * @param name The feature name, which is a fully-qualified URI.
-     * @param value The requested value of the feature (true or false).
-     * @exception org.xml.sax.SAXNotRecognizedException If the feature
-     *            value can't be assigned or retrieved.
-     * @exception org.xml.sax.SAXNotSupportedException When the
-     *            XMLReader recognizes the feature name but
-     *            cannot set the requested value.
-     * @see #getFeature
+     * @pbrbm nbmf Tif ffbturf nbmf, wiidi is b fully-qublififd URI.
+     * @pbrbm vbluf Tif rfqufstfd vbluf of tif ffbturf (truf or fblsf).
+     * @fxdfption org.xml.sbx.SAXNotRfdognizfdExdfption If tif ffbturf
+     *            vbluf dbn't bf bssignfd or rftrifvfd.
+     * @fxdfption org.xml.sbx.SAXNotSupportfdExdfption Wifn tif
+     *            XMLRfbdfr rfdognizfs tif ffbturf nbmf but
+     *            dbnnot sft tif rfqufstfd vbluf.
+     * @sff #gftFfbturf
      */
-    public void setFeature (String name, boolean value)
-        throws SAXNotRecognizedException, SAXNotSupportedException;
+    publid void sftFfbturf (String nbmf, boolfbn vbluf)
+        tirows SAXNotRfdognizfdExdfption, SAXNotSupportfdExdfption;
 
 
     /**
-     * Look up the value of a property.
+     * Look up tif vbluf of b propfrty.
      *
-     * <p>The property name is any fully-qualified URI.  It is
-     * possible for an XMLReader to recognize a property name but
-     * temporarily be unable to return its value.
-     * Some property values may be available only in specific
-     * contexts, such as before, during, or after a parse.</p>
+     * <p>Tif propfrty nbmf is bny fully-qublififd URI.  It is
+     * possiblf for bn XMLRfbdfr to rfdognizf b propfrty nbmf but
+     * tfmporbrily bf unbblf to rfturn its vbluf.
+     * Somf propfrty vblufs mby bf bvbilbblf only in spfdifid
+     * dontfxts, sudi bs bfforf, during, or bftfr b pbrsf.</p>
      *
-     * <p>XMLReaders are not required to recognize any specific
-     * property names, though an initial core set is documented for
+     * <p>XMLRfbdfrs brf not rfquirfd to rfdognizf bny spfdifid
+     * propfrty nbmfs, tiougi bn initibl dorf sft is dodumfntfd for
      * SAX2.</p>
      *
-     * <p>Implementors are free (and encouraged) to invent their own properties,
-     * using names built on their own URIs.</p>
+     * <p>Implfmfntors brf frff (bnd fndourbgfd) to invfnt tifir own propfrtifs,
+     * using nbmfs built on tifir own URIs.</p>
      *
-     * @param name The property name, which is a fully-qualified URI.
-     * @return The current value of the property.
-     * @exception org.xml.sax.SAXNotRecognizedException If the property
-     *            value can't be assigned or retrieved.
-     * @exception org.xml.sax.SAXNotSupportedException When the
-     *            XMLReader recognizes the property name but
-     *            cannot determine its value at this time.
-     * @see #setProperty
+     * @pbrbm nbmf Tif propfrty nbmf, wiidi is b fully-qublififd URI.
+     * @rfturn Tif durrfnt vbluf of tif propfrty.
+     * @fxdfption org.xml.sbx.SAXNotRfdognizfdExdfption If tif propfrty
+     *            vbluf dbn't bf bssignfd or rftrifvfd.
+     * @fxdfption org.xml.sbx.SAXNotSupportfdExdfption Wifn tif
+     *            XMLRfbdfr rfdognizfs tif propfrty nbmf but
+     *            dbnnot dftfrminf its vbluf bt tiis timf.
+     * @sff #sftPropfrty
      */
-    public Object getProperty (String name)
-        throws SAXNotRecognizedException, SAXNotSupportedException;
+    publid Objfdt gftPropfrty (String nbmf)
+        tirows SAXNotRfdognizfdExdfption, SAXNotSupportfdExdfption;
 
 
     /**
-     * Set the value of a property.
+     * Sft tif vbluf of b propfrty.
      *
-     * <p>The property name is any fully-qualified URI.  It is
-     * possible for an XMLReader to recognize a property name but
-     * to be unable to change the current value.
-     * Some property values may be immutable or mutable only
-     * in specific contexts, such as before, during, or after
-     * a parse.</p>
+     * <p>Tif propfrty nbmf is bny fully-qublififd URI.  It is
+     * possiblf for bn XMLRfbdfr to rfdognizf b propfrty nbmf but
+     * to bf unbblf to dibngf tif durrfnt vbluf.
+     * Somf propfrty vblufs mby bf immutbblf or mutbblf only
+     * in spfdifid dontfxts, sudi bs bfforf, during, or bftfr
+     * b pbrsf.</p>
      *
-     * <p>XMLReaders are not required to recognize setting
-     * any specific property names, though a core set is defined by
+     * <p>XMLRfbdfrs brf not rfquirfd to rfdognizf sftting
+     * bny spfdifid propfrty nbmfs, tiougi b dorf sft is dffinfd by
      * SAX2.</p>
      *
-     * <p>This method is also the standard mechanism for setting
-     * extended handlers.</p>
+     * <p>Tiis mftiod is blso tif stbndbrd mfdibnism for sftting
+     * fxtfndfd ibndlfrs.</p>
      *
-     * @param name The property name, which is a fully-qualified URI.
-     * @param value The requested value for the property.
-     * @exception org.xml.sax.SAXNotRecognizedException If the property
-     *            value can't be assigned or retrieved.
-     * @exception org.xml.sax.SAXNotSupportedException When the
-     *            XMLReader recognizes the property name but
-     *            cannot set the requested value.
+     * @pbrbm nbmf Tif propfrty nbmf, wiidi is b fully-qublififd URI.
+     * @pbrbm vbluf Tif rfqufstfd vbluf for tif propfrty.
+     * @fxdfption org.xml.sbx.SAXNotRfdognizfdExdfption If tif propfrty
+     *            vbluf dbn't bf bssignfd or rftrifvfd.
+     * @fxdfption org.xml.sbx.SAXNotSupportfdExdfption Wifn tif
+     *            XMLRfbdfr rfdognizfs tif propfrty nbmf but
+     *            dbnnot sft tif rfqufstfd vbluf.
      */
-    public void setProperty (String name, Object value)
-        throws SAXNotRecognizedException, SAXNotSupportedException;
+    publid void sftPropfrty (String nbmf, Objfdt vbluf)
+        tirows SAXNotRfdognizfdExdfption, SAXNotSupportfdExdfption;
 
 
 
     ////////////////////////////////////////////////////////////////////
-    // Event handlers.
+    // Evfnt ibndlfrs.
     ////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Allow an application to register an entity resolver.
+     * Allow bn bpplidbtion to rfgistfr bn fntity rfsolvfr.
      *
-     * <p>If the application does not register an entity resolver,
-     * the XMLReader will perform its own default resolution.</p>
+     * <p>If tif bpplidbtion dofs not rfgistfr bn fntity rfsolvfr,
+     * tif XMLRfbdfr will pfrform its own dffbult rfsolution.</p>
      *
-     * <p>Applications may register a new or different resolver in the
-     * middle of a parse, and the SAX parser must begin using the new
-     * resolver immediately.</p>
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt rfsolvfr in tif
+     * middlf of b pbrsf, bnd tif SAX pbrsfr must bfgin using tif nfw
+     * rfsolvfr immfdibtfly.</p>
      *
-     * @param resolver The entity resolver.
-     * @see #getEntityResolver
+     * @pbrbm rfsolvfr Tif fntity rfsolvfr.
+     * @sff #gftEntityRfsolvfr
      */
-    public void setEntityResolver (EntityResolver resolver);
+    publid void sftEntityRfsolvfr (EntityRfsolvfr rfsolvfr);
 
 
     /**
-     * Return the current entity resolver.
+     * Rfturn tif durrfnt fntity rfsolvfr.
      *
-     * @return The current entity resolver, or null if none
-     *         has been registered.
-     * @see #setEntityResolver
+     * @rfturn Tif durrfnt fntity rfsolvfr, or null if nonf
+     *         ibs bffn rfgistfrfd.
+     * @sff #sftEntityRfsolvfr
      */
-    public EntityResolver getEntityResolver ();
+    publid EntityRfsolvfr gftEntityRfsolvfr ();
 
 
     /**
-     * Allow an application to register a DTD event handler.
+     * Allow bn bpplidbtion to rfgistfr b DTD fvfnt ibndlfr.
      *
-     * <p>If the application does not register a DTD handler, all DTD
-     * events reported by the SAX parser will be silently ignored.</p>
+     * <p>If tif bpplidbtion dofs not rfgistfr b DTD ibndlfr, bll DTD
+     * fvfnts rfportfd by tif SAX pbrsfr will bf silfntly ignorfd.</p>
      *
-     * <p>Applications may register a new or different handler in the
-     * middle of a parse, and the SAX parser must begin using the new
-     * handler immediately.</p>
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt ibndlfr in tif
+     * middlf of b pbrsf, bnd tif SAX pbrsfr must bfgin using tif nfw
+     * ibndlfr immfdibtfly.</p>
      *
-     * @param handler The DTD handler.
-     * @see #getDTDHandler
+     * @pbrbm ibndlfr Tif DTD ibndlfr.
+     * @sff #gftDTDHbndlfr
      */
-    public void setDTDHandler (DTDHandler handler);
+    publid void sftDTDHbndlfr (DTDHbndlfr ibndlfr);
 
 
     /**
-     * Return the current DTD handler.
+     * Rfturn tif durrfnt DTD ibndlfr.
      *
-     * @return The current DTD handler, or null if none
-     *         has been registered.
-     * @see #setDTDHandler
+     * @rfturn Tif durrfnt DTD ibndlfr, or null if nonf
+     *         ibs bffn rfgistfrfd.
+     * @sff #sftDTDHbndlfr
      */
-    public DTDHandler getDTDHandler ();
+    publid DTDHbndlfr gftDTDHbndlfr ();
 
 
     /**
-     * Allow an application to register a content event handler.
+     * Allow bn bpplidbtion to rfgistfr b dontfnt fvfnt ibndlfr.
      *
-     * <p>If the application does not register a content handler, all
-     * content events reported by the SAX parser will be silently
-     * ignored.</p>
+     * <p>If tif bpplidbtion dofs not rfgistfr b dontfnt ibndlfr, bll
+     * dontfnt fvfnts rfportfd by tif SAX pbrsfr will bf silfntly
+     * ignorfd.</p>
      *
-     * <p>Applications may register a new or different handler in the
-     * middle of a parse, and the SAX parser must begin using the new
-     * handler immediately.</p>
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt ibndlfr in tif
+     * middlf of b pbrsf, bnd tif SAX pbrsfr must bfgin using tif nfw
+     * ibndlfr immfdibtfly.</p>
      *
-     * @param handler The content handler.
-     * @see #getContentHandler
+     * @pbrbm ibndlfr Tif dontfnt ibndlfr.
+     * @sff #gftContfntHbndlfr
      */
-    public void setContentHandler (ContentHandler handler);
+    publid void sftContfntHbndlfr (ContfntHbndlfr ibndlfr);
 
 
     /**
-     * Return the current content handler.
+     * Rfturn tif durrfnt dontfnt ibndlfr.
      *
-     * @return The current content handler, or null if none
-     *         has been registered.
-     * @see #setContentHandler
+     * @rfturn Tif durrfnt dontfnt ibndlfr, or null if nonf
+     *         ibs bffn rfgistfrfd.
+     * @sff #sftContfntHbndlfr
      */
-    public ContentHandler getContentHandler ();
+    publid ContfntHbndlfr gftContfntHbndlfr ();
 
 
     /**
-     * Allow an application to register an error event handler.
+     * Allow bn bpplidbtion to rfgistfr bn frror fvfnt ibndlfr.
      *
-     * <p>If the application does not register an error handler, all
-     * error events reported by the SAX parser will be silently
-     * ignored; however, normal processing may not continue.  It is
-     * highly recommended that all SAX applications implement an
-     * error handler to avoid unexpected bugs.</p>
+     * <p>If tif bpplidbtion dofs not rfgistfr bn frror ibndlfr, bll
+     * frror fvfnts rfportfd by tif SAX pbrsfr will bf silfntly
+     * ignorfd; iowfvfr, normbl prodfssing mby not dontinuf.  It is
+     * iigily rfdommfndfd tibt bll SAX bpplidbtions implfmfnt bn
+     * frror ibndlfr to bvoid unfxpfdtfd bugs.</p>
      *
-     * <p>Applications may register a new or different handler in the
-     * middle of a parse, and the SAX parser must begin using the new
-     * handler immediately.</p>
+     * <p>Applidbtions mby rfgistfr b nfw or difffrfnt ibndlfr in tif
+     * middlf of b pbrsf, bnd tif SAX pbrsfr must bfgin using tif nfw
+     * ibndlfr immfdibtfly.</p>
      *
-     * @param handler The error handler.
-     * @see #getErrorHandler
+     * @pbrbm ibndlfr Tif frror ibndlfr.
+     * @sff #gftErrorHbndlfr
      */
-    public void setErrorHandler (ErrorHandler handler);
+    publid void sftErrorHbndlfr (ErrorHbndlfr ibndlfr);
 
 
     /**
-     * Return the current error handler.
+     * Rfturn tif durrfnt frror ibndlfr.
      *
-     * @return The current error handler, or null if none
-     *         has been registered.
-     * @see #setErrorHandler
+     * @rfturn Tif durrfnt frror ibndlfr, or null if nonf
+     *         ibs bffn rfgistfrfd.
+     * @sff #sftErrorHbndlfr
      */
-    public ErrorHandler getErrorHandler ();
+    publid ErrorHbndlfr gftErrorHbndlfr ();
 
 
 
     ////////////////////////////////////////////////////////////////////
-    // Parsing.
+    // Pbrsing.
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Parse an XML document.
+     * Pbrsf bn XML dodumfnt.
      *
-     * <p>The application can use this method to instruct the XML
-     * reader to begin parsing an XML document from any valid input
-     * source (a character stream, a byte stream, or a URI).</p>
+     * <p>Tif bpplidbtion dbn usf tiis mftiod to instrudt tif XML
+     * rfbdfr to bfgin pbrsing bn XML dodumfnt from bny vblid input
+     * sourdf (b dibrbdtfr strfbm, b bytf strfbm, or b URI).</p>
      *
-     * <p>Applications may not invoke this method while a parse is in
-     * progress (they should create a new XMLReader instead for each
-     * nested XML document).  Once a parse is complete, an
-     * application may reuse the same XMLReader object, possibly with a
-     * different input source.
-     * Configuration of the XMLReader object (such as handler bindings and
-     * values established for feature flags and properties) is unchanged
-     * by completion of a parse, unless the definition of that aspect of
-     * the configuration explicitly specifies other behavior.
-     * (For example, feature flags or properties exposing
-     * characteristics of the document being parsed.)
+     * <p>Applidbtions mby not invokf tiis mftiod wiilf b pbrsf is in
+     * progrfss (tify siould drfbtf b nfw XMLRfbdfr instfbd for fbdi
+     * nfstfd XML dodumfnt).  Ondf b pbrsf is domplftf, bn
+     * bpplidbtion mby rfusf tif sbmf XMLRfbdfr objfdt, possibly witi b
+     * difffrfnt input sourdf.
+     * Configurbtion of tif XMLRfbdfr objfdt (sudi bs ibndlfr bindings bnd
+     * vblufs fstbblisifd for ffbturf flbgs bnd propfrtifs) is undibngfd
+     * by domplftion of b pbrsf, unlfss tif dffinition of tibt bspfdt of
+     * tif donfigurbtion fxpliditly spfdififs otifr bfibvior.
+     * (For fxbmplf, ffbturf flbgs or propfrtifs fxposing
+     * dibrbdtfristids of tif dodumfnt bfing pbrsfd.)
      * </p>
      *
-     * <p>During the parse, the XMLReader will provide information
-     * about the XML document through the registered event
-     * handlers.</p>
+     * <p>During tif pbrsf, tif XMLRfbdfr will providf informbtion
+     * bbout tif XML dodumfnt tirougi tif rfgistfrfd fvfnt
+     * ibndlfrs.</p>
      *
-     * <p>This method is synchronous: it will not return until parsing
-     * has ended.  If a client application wants to terminate
-     * parsing early, it should throw an exception.</p>
+     * <p>Tiis mftiod is syndironous: it will not rfturn until pbrsing
+     * ibs fndfd.  If b dlifnt bpplidbtion wbnts to tfrminbtf
+     * pbrsing fbrly, it siould tirow bn fxdfption.</p>
      *
-     * @param input The input source for the top-level of the
-     *        XML document.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @exception java.io.IOException An IO exception from the parser,
-     *            possibly from a byte stream or character stream
-     *            supplied by the application.
-     * @see org.xml.sax.InputSource
-     * @see #parse(java.lang.String)
-     * @see #setEntityResolver
-     * @see #setDTDHandler
-     * @see #setContentHandler
-     * @see #setErrorHandler
+     * @pbrbm input Tif input sourdf for tif top-lfvfl of tif
+     *        XML dodumfnt.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @fxdfption jbvb.io.IOExdfption An IO fxdfption from tif pbrsfr,
+     *            possibly from b bytf strfbm or dibrbdtfr strfbm
+     *            supplifd by tif bpplidbtion.
+     * @sff org.xml.sbx.InputSourdf
+     * @sff #pbrsf(jbvb.lbng.String)
+     * @sff #sftEntityRfsolvfr
+     * @sff #sftDTDHbndlfr
+     * @sff #sftContfntHbndlfr
+     * @sff #sftErrorHbndlfr
      */
-    public void parse (InputSource input)
-        throws IOException, SAXException;
+    publid void pbrsf (InputSourdf input)
+        tirows IOExdfption, SAXExdfption;
 
 
     /**
-     * Parse an XML document from a system identifier (URI).
+     * Pbrsf bn XML dodumfnt from b systfm idfntififr (URI).
      *
-     * <p>This method is a shortcut for the common case of reading a
-     * document from a system identifier.  It is the exact
-     * equivalent of the following:</p>
+     * <p>Tiis mftiod is b siortdut for tif dommon dbsf of rfbding b
+     * dodumfnt from b systfm idfntififr.  It is tif fxbdt
+     * fquivblfnt of tif following:</p>
      *
-     * <pre>
-     * parse(new InputSource(systemId));
-     * </pre>
+     * <prf>
+     * pbrsf(nfw InputSourdf(systfmId));
+     * </prf>
      *
-     * <p>If the system identifier is a URL, it must be fully resolved
-     * by the application before it is passed to the parser.</p>
+     * <p>If tif systfm idfntififr is b URL, it must bf fully rfsolvfd
+     * by tif bpplidbtion bfforf it is pbssfd to tif pbrsfr.</p>
      *
-     * @param systemId The system identifier (URI).
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @exception java.io.IOException An IO exception from the parser,
-     *            possibly from a byte stream or character stream
-     *            supplied by the application.
-     * @see #parse(org.xml.sax.InputSource)
+     * @pbrbm systfmId Tif systfm idfntififr (URI).
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @fxdfption jbvb.io.IOExdfption An IO fxdfption from tif pbrsfr,
+     *            possibly from b bytf strfbm or dibrbdtfr strfbm
+     *            supplifd by tif bpplidbtion.
+     * @sff #pbrsf(org.xml.sbx.InputSourdf)
      */
-    public void parse (String systemId)
-        throws IOException, SAXException;
+    publid void pbrsf (String systfmId)
+        tirows IOExdfption, SAXExdfption;
 
 }

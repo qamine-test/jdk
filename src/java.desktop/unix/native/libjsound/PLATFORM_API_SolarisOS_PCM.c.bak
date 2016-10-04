@@ -1,622 +1,622 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#define USE_ERROR
-#define USE_TRACE
+#dffinf USE_ERROR
+#dffinf USE_TRACE
 
-#include "PLATFORM_API_SolarisOS_Utils.h"
-#include "DirectAudio.h"
+#indludf "PLATFORM_API_SolbrisOS_Utils.i"
+#indludf "DirfdtAudio.i"
 
 #if USE_DAUDIO == TRUE
 
 
-// The default buffer time
-#define DEFAULT_PERIOD_TIME_MILLIS 50
+// Tif dffbult bufffr timf
+#dffinf DEFAULT_PERIOD_TIME_MILLIS 50
 
-///// implemented functions of DirectAudio.h
+///// implfmfntfd fundtions of DirfdtAudio.i
 
-INT32 DAUDIO_GetDirectAudioDeviceCount() {
-    return (INT32) getAudioDeviceCount();
+INT32 DAUDIO_GftDirfdtAudioDfvidfCount() {
+    rfturn (INT32) gftAudioDfvidfCount();
 }
 
 
-INT32 DAUDIO_GetDirectAudioDeviceDescription(INT32 mixerIndex,
-                                             DirectAudioDeviceDescription* description) {
-    AudioDeviceDescription desc;
+INT32 DAUDIO_GftDirfdtAudioDfvidfDfsdription(INT32 mixfrIndfx,
+                                             DirfdtAudioDfvidfDfsdription* dfsdription) {
+    AudioDfvidfDfsdription dfsd;
 
-    if (getAudioDeviceDescriptionByIndex(mixerIndex, &desc, TRUE)) {
-        description->maxSimulLines = desc.maxSimulLines;
-        strncpy(description->name, desc.name, DAUDIO_STRING_LENGTH-1);
-        description->name[DAUDIO_STRING_LENGTH-1] = 0;
-        strncpy(description->vendor, desc.vendor, DAUDIO_STRING_LENGTH-1);
-        description->vendor[DAUDIO_STRING_LENGTH-1] = 0;
-        strncpy(description->version, desc.version, DAUDIO_STRING_LENGTH-1);
-        description->version[DAUDIO_STRING_LENGTH-1] = 0;
-        /*strncpy(description->description, desc.description, DAUDIO_STRING_LENGTH-1);*/
-        strncpy(description->description, "Solaris Mixer", DAUDIO_STRING_LENGTH-1);
-        description->description[DAUDIO_STRING_LENGTH-1] = 0;
-        return TRUE;
+    if (gftAudioDfvidfDfsdriptionByIndfx(mixfrIndfx, &dfsd, TRUE)) {
+        dfsdription->mbxSimulLinfs = dfsd.mbxSimulLinfs;
+        strndpy(dfsdription->nbmf, dfsd.nbmf, DAUDIO_STRING_LENGTH-1);
+        dfsdription->nbmf[DAUDIO_STRING_LENGTH-1] = 0;
+        strndpy(dfsdription->vfndor, dfsd.vfndor, DAUDIO_STRING_LENGTH-1);
+        dfsdription->vfndor[DAUDIO_STRING_LENGTH-1] = 0;
+        strndpy(dfsdription->vfrsion, dfsd.vfrsion, DAUDIO_STRING_LENGTH-1);
+        dfsdription->vfrsion[DAUDIO_STRING_LENGTH-1] = 0;
+        /*strndpy(dfsdription->dfsdription, dfsd.dfsdription, DAUDIO_STRING_LENGTH-1);*/
+        strndpy(dfsdription->dfsdription, "Solbris Mixfr", DAUDIO_STRING_LENGTH-1);
+        dfsdription->dfsdription[DAUDIO_STRING_LENGTH-1] = 0;
+        rfturn TRUE;
     }
-    return FALSE;
+    rfturn FALSE;
 
 }
 
-#define MAX_SAMPLE_RATES   20
+#dffinf MAX_SAMPLE_RATES   20
 
-void DAUDIO_GetFormats(INT32 mixerIndex, INT32 deviceID, int isSource, void* creator) {
+void DAUDIO_GftFormbts(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf, void* drfbtor) {
     int fd = -1;
-    AudioDeviceDescription desc;
-    am_sample_rates_t      *sr;
-    /* hardcoded bits and channels */
+    AudioDfvidfDfsdription dfsd;
+    bm_sbmplf_rbtfs_t      *sr;
+    /* ibrddodfd bits bnd dibnnfls */
     int bits[] = {8, 16};
     int bitsCount = 2;
-    int channels[] = {1, 2};
-    int channelsCount = 2;
-    /* for querying sample rates */
-    int err;
-    int ch, b, s;
+    int dibnnfls[] = {1, 2};
+    int dibnnflsCount = 2;
+    /* for qufrying sbmplf rbtfs */
+    int frr;
+    int di, b, s;
 
-    TRACE2("DAUDIO_GetFormats, mixer %d, isSource=%d\n", mixerIndex, isSource);
-    if (getAudioDeviceDescriptionByIndex(mixerIndex, &desc, FALSE)) {
-        fd = open(desc.pathctl, O_RDONLY);
+    TRACE2("DAUDIO_GftFormbts, mixfr %d, isSourdf=%d\n", mixfrIndfx, isSourdf);
+    if (gftAudioDfvidfDfsdriptionByIndfx(mixfrIndfx, &dfsd, FALSE)) {
+        fd = opfn(dfsd.pbtidtl, O_RDONLY);
     }
     if (fd < 0) {
-        ERROR1("Couldn't open audio device ctl for device %d!\n", mixerIndex);
-        return;
+        ERROR1("Couldn't opfn budio dfvidf dtl for dfvidf %d!\n", mixfrIndfx);
+        rfturn;
     }
 
-    /* get sample rates */
-    sr = (am_sample_rates_t*) malloc(AUDIO_MIXER_SAMP_RATES_STRUCT_SIZE(MAX_SAMPLE_RATES));
+    /* gft sbmplf rbtfs */
+    sr = (bm_sbmplf_rbtfs_t*) mbllod(AUDIO_MIXER_SAMP_RATES_STRUCT_SIZE(MAX_SAMPLE_RATES));
     if (sr == NULL) {
-        ERROR1("DAUDIO_GetFormats: out of memory for mixer %d\n", (int) mixerIndex);
-        close(fd);
-        return;
+        ERROR1("DAUDIO_GftFormbts: out of mfmory for mixfr %d\n", (int) mixfrIndfx);
+        dlosf(fd);
+        rfturn;
     }
 
-    sr->num_samp_rates = MAX_SAMPLE_RATES;
-    sr->type = isSource?AUDIO_PLAY:AUDIO_RECORD;
-    sr->samp_rates[0] = -2;
-    err = ioctl(fd, AUDIO_MIXER_GET_SAMPLE_RATES, sr);
-    if (err < 0) {
-        ERROR1("  DAUDIO_GetFormats: AUDIO_MIXER_GET_SAMPLE_RATES failed for mixer %d!\n",
-               (int)mixerIndex);
-        ERROR2(" -> num_sample_rates=%d sample_rates[0] = %d\n",
-               (int) sr->num_samp_rates,
-               (int) sr->samp_rates[0]);
-        /* Some Solaris 8 drivers fail for get sample rates!
-         * Do as if we support all sample rates
+    sr->num_sbmp_rbtfs = MAX_SAMPLE_RATES;
+    sr->typf = isSourdf?AUDIO_PLAY:AUDIO_RECORD;
+    sr->sbmp_rbtfs[0] = -2;
+    frr = iodtl(fd, AUDIO_MIXER_GET_SAMPLE_RATES, sr);
+    if (frr < 0) {
+        ERROR1("  DAUDIO_GftFormbts: AUDIO_MIXER_GET_SAMPLE_RATES fbilfd for mixfr %d!\n",
+               (int)mixfrIndfx);
+        ERROR2(" -> num_sbmplf_rbtfs=%d sbmplf_rbtfs[0] = %d\n",
+               (int) sr->num_sbmp_rbtfs,
+               (int) sr->sbmp_rbtfs[0]);
+        /* Somf Solbris 8 drivfrs fbil for gft sbmplf rbtfs!
+         * Do bs if wf support bll sbmplf rbtfs
          */
-        sr->flags = MIXER_SR_LIMITS;
+        sr->flbgs = MIXER_SR_LIMITS;
     }
-    if ((sr->flags & MIXER_SR_LIMITS)
-        || (sr->num_samp_rates > MAX_SAMPLE_RATES)) {
-#ifdef USE_TRACE
-        if ((sr->flags & MIXER_SR_LIMITS)) {
-            TRACE1("  DAUDIO_GetFormats: floating sample rate allowed by mixer %d\n",
-                   (int)mixerIndex);
+    if ((sr->flbgs & MIXER_SR_LIMITS)
+        || (sr->num_sbmp_rbtfs > MAX_SAMPLE_RATES)) {
+#ifdff USE_TRACE
+        if ((sr->flbgs & MIXER_SR_LIMITS)) {
+            TRACE1("  DAUDIO_GftFormbts: flobting sbmplf rbtf bllowfd by mixfr %d\n",
+                   (int)mixfrIndfx);
         }
-        if (sr->num_samp_rates > MAX_SAMPLE_RATES) {
-            TRACE2("  DAUDIO_GetFormats: more than %d formats. Use -1 for sample rates mixer %d\n",
-                   MAX_SAMPLE_RATES, (int)mixerIndex);
+        if (sr->num_sbmp_rbtfs > MAX_SAMPLE_RATES) {
+            TRACE2("  DAUDIO_GftFormbts: morf tibn %d formbts. Usf -1 for sbmplf rbtfs mixfr %d\n",
+                   MAX_SAMPLE_RATES, (int)mixfrIndfx);
         }
-#endif
+#fndif
         /*
-         * Fake it to have only one sample rate: -1
+         * Fbkf it to ibvf only onf sbmplf rbtf: -1
          */
-        sr->num_samp_rates = 1;
-        sr->samp_rates[0] = -1;
+        sr->num_sbmp_rbtfs = 1;
+        sr->sbmp_rbtfs[0] = -1;
     }
-    close(fd);
+    dlosf(fd);
 
-    for (ch = 0; ch < channelsCount; ch++) {
+    for (di = 0; di < dibnnflsCount; di++) {
         for (b = 0; b < bitsCount; b++) {
-            for (s = 0; s < sr->num_samp_rates; s++) {
-                DAUDIO_AddAudioFormat(creator,
-                                      bits[b], /* significant bits */
-                                      0, /* frameSize: let it be calculated */
-                                      channels[ch],
-                                      (float) ((int) sr->samp_rates[s]),
-                                      DAUDIO_PCM, /* encoding - let's only do PCM */
-                                      (bits[b] > 8)?TRUE:TRUE, /* isSigned */
-#ifdef _LITTLE_ENDIAN
-                                      FALSE /* little endian */
-#else
-                                      (bits[b] > 8)?TRUE:FALSE  /* big endian */
-#endif
+            for (s = 0; s < sr->num_sbmp_rbtfs; s++) {
+                DAUDIO_AddAudioFormbt(drfbtor,
+                                      bits[b], /* signifidbnt bits */
+                                      0, /* frbmfSizf: lft it bf dbldulbtfd */
+                                      dibnnfls[di],
+                                      (flobt) ((int) sr->sbmp_rbtfs[s]),
+                                      DAUDIO_PCM, /* fndoding - lft's only do PCM */
+                                      (bits[b] > 8)?TRUE:TRUE, /* isSignfd */
+#ifdff _LITTLE_ENDIAN
+                                      FALSE /* littlf fndibn */
+#flsf
+                                      (bits[b] > 8)?TRUE:FALSE  /* big fndibn */
+#fndif
                                       );
             }
         }
     }
-    free(sr);
+    frff(sr);
 }
 
 
-typedef struct {
+typfdff strudt {
     int fd;
-    audio_info_t info;
-    int bufferSizeInBytes;
-    int frameSize; /* storage size in Bytes */
-    /* how many bytes were written or read */
-    INT32 transferedBytes;
-    /* if transferedBytes exceed 32-bit boundary,
-     * it will be reset and positionOffset will receive
-     * the offset
+    budio_info_t info;
+    int bufffrSizfInBytfs;
+    int frbmfSizf; /* storbgf sizf in Bytfs */
+    /* iow mbny bytfs wfrf writtfn or rfbd */
+    INT32 trbnsffrfdBytfs;
+    /* if trbnsffrfdBytfs fxdffd 32-bit boundbry,
+     * it will bf rfsft bnd positionOffsft will rfdfivf
+     * tif offsft
      */
-    INT64 positionOffset;
-} SolPcmInfo;
+    INT64 positionOffsft;
+} SolPdmInfo;
 
 
-void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
-                  int encoding, float sampleRate, int sampleSizeInBits,
-                  int frameSize, int channels,
-                  int isSigned, int isBigEndian, int bufferSizeInBytes) {
-    int err = 0;
-    int openMode;
-    AudioDeviceDescription desc;
-    SolPcmInfo* info;
+void* DAUDIO_Opfn(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf,
+                  int fndoding, flobt sbmplfRbtf, int sbmplfSizfInBits,
+                  int frbmfSizf, int dibnnfls,
+                  int isSignfd, int isBigEndibn, int bufffrSizfInBytfs) {
+    int frr = 0;
+    int opfnModf;
+    AudioDfvidfDfsdription dfsd;
+    SolPdmInfo* info;
 
-    TRACE0("> DAUDIO_Open\n");
-    if (encoding != DAUDIO_PCM) {
-        ERROR1(" DAUDIO_Open: invalid encoding %d\n", (int) encoding);
-        return NULL;
+    TRACE0("> DAUDIO_Opfn\n");
+    if (fndoding != DAUDIO_PCM) {
+        ERROR1(" DAUDIO_Opfn: invblid fndoding %d\n", (int) fndoding);
+        rfturn NULL;
     }
 
-    info = (SolPcmInfo*) malloc(sizeof(SolPcmInfo));
+    info = (SolPdmInfo*) mbllod(sizfof(SolPdmInfo));
     if (!info) {
-        ERROR0("Out of memory\n");
-        return NULL;
+        ERROR0("Out of mfmory\n");
+        rfturn NULL;
     }
-    memset(info, 0, sizeof(SolPcmInfo));
-    info->frameSize = frameSize;
+    mfmsft(info, 0, sizfof(SolPdmInfo));
+    info->frbmfSizf = frbmfSizf;
     info->fd = -1;
 
-    if (isSource) {
-        openMode = O_WRONLY;
-    } else {
-        openMode = O_RDONLY;
+    if (isSourdf) {
+        opfnModf = O_WRONLY;
+    } flsf {
+        opfnModf = O_RDONLY;
     }
 
-#ifndef __linux__
-    /* blackdown does not use NONBLOCK */
-    openMode |= O_NONBLOCK;
-#endif
+#ifndff __linux__
+    /* blbdkdown dofs not usf NONBLOCK */
+    opfnModf |= O_NONBLOCK;
+#fndif
 
-    if (getAudioDeviceDescriptionByIndex(mixerIndex, &desc, FALSE)) {
-        info->fd = open(desc.path, openMode);
+    if (gftAudioDfvidfDfsdriptionByIndfx(mixfrIndfx, &dfsd, FALSE)) {
+        info->fd = opfn(dfsd.pbti, opfnModf);
     }
     if (info->fd < 0) {
-        ERROR1("Couldn't open audio device for mixer %d!\n", mixerIndex);
-        free(info);
-        return NULL;
+        ERROR1("Couldn't opfn budio dfvidf for mixfr %d!\n", mixfrIndfx);
+        frff(info);
+        rfturn NULL;
     }
-    /* set to multiple open */
-    if (ioctl(info->fd, AUDIO_MIXER_MULTIPLE_OPEN, NULL) >= 0) {
-        TRACE1("DAUDIO_Open: %s set to multiple open\n", desc.path);
-    } else {
-        ERROR1("DAUDIO_Open: ioctl AUDIO_MIXER_MULTIPLE_OPEN failed on %s!\n", desc.path);
+    /* sft to multiplf opfn */
+    if (iodtl(info->fd, AUDIO_MIXER_MULTIPLE_OPEN, NULL) >= 0) {
+        TRACE1("DAUDIO_Opfn: %s sft to multiplf opfn\n", dfsd.pbti);
+    } flsf {
+        ERROR1("DAUDIO_Opfn: iodtl AUDIO_MIXER_MULTIPLE_OPEN fbilfd on %s!\n", dfsd.pbti);
     }
 
     AUDIO_INITINFO(&(info->info));
-    /* need AUDIO_GETINFO ioctl to get this to work on solaris x86  */
-    err = ioctl(info->fd, AUDIO_GETINFO, &(info->info));
+    /* nffd AUDIO_GETINFO iodtl to gft tiis to work on solbris x86  */
+    frr = iodtl(info->fd, AUDIO_GETINFO, &(info->info));
 
-    /* not valid to call AUDIO_SETINFO ioctl with all the fields from AUDIO_GETINFO. */
+    /* not vblid to dbll AUDIO_SETINFO iodtl witi bll tif fiflds from AUDIO_GETINFO. */
     AUDIO_INITINFO(&(info->info));
 
-    if (isSource) {
-        info->info.play.sample_rate = sampleRate;
-        info->info.play.precision = sampleSizeInBits;
-        info->info.play.channels = channels;
-        info->info.play.encoding = AUDIO_ENCODING_LINEAR;
-        info->info.play.buffer_size = bufferSizeInBytes;
-        info->info.play.pause = 1;
-    } else {
-        info->info.record.sample_rate = sampleRate;
-        info->info.record.precision = sampleSizeInBits;
-        info->info.record.channels = channels;
-        info->info.record.encoding = AUDIO_ENCODING_LINEAR;
-        info->info.record.buffer_size = bufferSizeInBytes;
-        info->info.record.pause = 1;
+    if (isSourdf) {
+        info->info.plby.sbmplf_rbtf = sbmplfRbtf;
+        info->info.plby.prfdision = sbmplfSizfInBits;
+        info->info.plby.dibnnfls = dibnnfls;
+        info->info.plby.fndoding = AUDIO_ENCODING_LINEAR;
+        info->info.plby.bufffr_sizf = bufffrSizfInBytfs;
+        info->info.plby.pbusf = 1;
+    } flsf {
+        info->info.rfdord.sbmplf_rbtf = sbmplfRbtf;
+        info->info.rfdord.prfdision = sbmplfSizfInBits;
+        info->info.rfdord.dibnnfls = dibnnfls;
+        info->info.rfdord.fndoding = AUDIO_ENCODING_LINEAR;
+        info->info.rfdord.bufffr_sizf = bufffrSizfInBytfs;
+        info->info.rfdord.pbusf = 1;
     }
-    err = ioctl(info->fd, AUDIO_SETINFO,  &(info->info));
-    if (err < 0) {
-        ERROR0("DAUDIO_Open: could not set info!\n");
-        DAUDIO_Close((void*) info, isSource);
-        return NULL;
+    frr = iodtl(info->fd, AUDIO_SETINFO,  &(info->info));
+    if (frr < 0) {
+        ERROR0("DAUDIO_Opfn: dould not sft info!\n");
+        DAUDIO_Closf((void*) info, isSourdf);
+        rfturn NULL;
     }
-    DAUDIO_Flush((void*) info, isSource);
+    DAUDIO_Flusi((void*) info, isSourdf);
 
-    err = ioctl(info->fd, AUDIO_GETINFO, &(info->info));
-    if (err >= 0) {
-        if (isSource) {
-            info->bufferSizeInBytes = info->info.play.buffer_size;
-        } else {
-            info->bufferSizeInBytes = info->info.record.buffer_size;
+    frr = iodtl(info->fd, AUDIO_GETINFO, &(info->info));
+    if (frr >= 0) {
+        if (isSourdf) {
+            info->bufffrSizfInBytfs = info->info.plby.bufffr_sizf;
+        } flsf {
+            info->bufffrSizfInBytfs = info->info.rfdord.bufffr_sizf;
         }
-        TRACE2("DAUDIO: buffersize in bytes: requested=%d, got %d\n",
-               (int) bufferSizeInBytes,
-               (int) info->bufferSizeInBytes);
-    } else {
-        ERROR0("DAUDIO_Open: cannot get info!\n");
-        DAUDIO_Close((void*) info, isSource);
-        return NULL;
+        TRACE2("DAUDIO: bufffrsizf in bytfs: rfqufstfd=%d, got %d\n",
+               (int) bufffrSizfInBytfs,
+               (int) info->bufffrSizfInBytfs);
+    } flsf {
+        ERROR0("DAUDIO_Opfn: dbnnot gft info!\n");
+        DAUDIO_Closf((void*) info, isSourdf);
+        rfturn NULL;
     }
-    TRACE0("< DAUDIO_Open: Opened device successfully.\n");
-    return (void*) info;
+    TRACE0("< DAUDIO_Opfn: Opfnfd dfvidf suddfssfully.\n");
+    rfturn (void*) info;
 }
 
 
-int DAUDIO_Start(void* id, int isSource) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    int err, modified;
-    audio_info_t audioInfo;
+int DAUDIO_Stbrt(void* id, int isSourdf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    int frr, modififd;
+    budio_info_t budioInfo;
 
-    TRACE0("> DAUDIO_Start\n");
+    TRACE0("> DAUDIO_Stbrt\n");
 
-    AUDIO_INITINFO(&audioInfo);
-    err = ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
-    if (err >= 0) {
-        // unpause
-        modified = FALSE;
-        if (isSource && audioInfo.play.pause) {
-            audioInfo.play.pause = 0;
-            modified = TRUE;
+    AUDIO_INITINFO(&budioInfo);
+    frr = iodtl(info->fd, AUDIO_GETINFO, &budioInfo);
+    if (frr >= 0) {
+        // unpbusf
+        modififd = FALSE;
+        if (isSourdf && budioInfo.plby.pbusf) {
+            budioInfo.plby.pbusf = 0;
+            modififd = TRUE;
         }
-        if (!isSource && audioInfo.record.pause) {
-            audioInfo.record.pause = 0;
-            modified = TRUE;
+        if (!isSourdf && budioInfo.rfdord.pbusf) {
+            budioInfo.rfdord.pbusf = 0;
+            modififd = TRUE;
         }
-        if (modified) {
-            err = ioctl(info->fd, AUDIO_SETINFO, &audioInfo);
+        if (modififd) {
+            frr = iodtl(info->fd, AUDIO_SETINFO, &budioInfo);
         }
     }
 
-    TRACE1("< DAUDIO_Start %s\n", (err>=0)?"success":"error");
-    return (err >= 0)?TRUE:FALSE;
+    TRACE1("< DAUDIO_Stbrt %s\n", (frr>=0)?"suddfss":"frror");
+    rfturn (frr >= 0)?TRUE:FALSE;
 }
 
-int DAUDIO_Stop(void* id, int isSource) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    int err, modified;
-    audio_info_t audioInfo;
+int DAUDIO_Stop(void* id, int isSourdf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    int frr, modififd;
+    budio_info_t budioInfo;
 
     TRACE0("> DAUDIO_Stop\n");
 
-    AUDIO_INITINFO(&audioInfo);
-    err = ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
-    if (err >= 0) {
-        // pause
-        modified = FALSE;
-        if (isSource && !audioInfo.play.pause) {
-            audioInfo.play.pause = 1;
-            modified = TRUE;
+    AUDIO_INITINFO(&budioInfo);
+    frr = iodtl(info->fd, AUDIO_GETINFO, &budioInfo);
+    if (frr >= 0) {
+        // pbusf
+        modififd = FALSE;
+        if (isSourdf && !budioInfo.plby.pbusf) {
+            budioInfo.plby.pbusf = 1;
+            modififd = TRUE;
         }
-        if (!isSource && !audioInfo.record.pause) {
-            audioInfo.record.pause = 1;
-            modified = TRUE;
+        if (!isSourdf && !budioInfo.rfdord.pbusf) {
+            budioInfo.rfdord.pbusf = 1;
+            modififd = TRUE;
         }
-        if (modified) {
-            err = ioctl(info->fd, AUDIO_SETINFO, &audioInfo);
+        if (modififd) {
+            frr = iodtl(info->fd, AUDIO_SETINFO, &budioInfo);
         }
     }
 
-    TRACE1("< DAUDIO_Stop %s\n", (err>=0)?"success":"error");
-    return (err >= 0)?TRUE:FALSE;
+    TRACE1("< DAUDIO_Stop %s\n", (frr>=0)?"suddfss":"frror");
+    rfturn (frr >= 0)?TRUE:FALSE;
 }
 
-void DAUDIO_Close(void* id, int isSource) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
+void DAUDIO_Closf(void* id, int isSourdf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
 
-    TRACE0("DAUDIO_Close\n");
+    TRACE0("DAUDIO_Closf\n");
     if (info != NULL) {
         if (info->fd >= 0) {
-            DAUDIO_Flush(id, isSource);
-            close(info->fd);
+            DAUDIO_Flusi(id, isSourdf);
+            dlosf(info->fd);
         }
-        free(info);
+        frff(info);
     }
 }
 
-#ifndef USE_TRACE
-/* close to 2^31 */
-#define POSITION_MAX 2000000000
-#else
-/* for testing */
-#define POSITION_MAX 1000000
-#endif
+#ifndff USE_TRACE
+/* dlosf to 2^31 */
+#dffinf POSITION_MAX 2000000000
+#flsf
+/* for tfsting */
+#dffinf POSITION_MAX 1000000
+#fndif
 
-void resetErrorFlagAndAdjustPosition(SolPcmInfo* info, int isSource, int count) {
-    audio_info_t audioInfo;
-    audio_prinfo_t* prinfo;
-    int err;
-    int offset = -1;
-    int underrun = FALSE;
-    int devBytes = 0;
+void rfsftErrorFlbgAndAdjustPosition(SolPdmInfo* info, int isSourdf, int dount) {
+    budio_info_t budioInfo;
+    budio_prinfo_t* prinfo;
+    int frr;
+    int offsft = -1;
+    int undfrrun = FALSE;
+    int dfvBytfs = 0;
 
-    if (count > 0) {
-        info->transferedBytes += count;
+    if (dount > 0) {
+        info->trbnsffrfdBytfs += dount;
 
-        if (isSource) {
-            prinfo = &(audioInfo.play);
-        } else {
-            prinfo = &(audioInfo.record);
+        if (isSourdf) {
+            prinfo = &(budioInfo.plby);
+        } flsf {
+            prinfo = &(budioInfo.rfdord);
         }
-        AUDIO_INITINFO(&audioInfo);
-        err = ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
-        if (err >= 0) {
-            underrun = prinfo->error;
-            devBytes = prinfo->samples * info->frameSize;
+        AUDIO_INITINFO(&budioInfo);
+        frr = iodtl(info->fd, AUDIO_GETINFO, &budioInfo);
+        if (frr >= 0) {
+            undfrrun = prinfo->frror;
+            dfvBytfs = prinfo->sbmplfs * info->frbmfSizf;
         }
-        AUDIO_INITINFO(&audioInfo);
-        if (underrun) {
-            /* if an underrun occurred, reset */
-            ERROR1("DAUDIO_Write/Read: Underrun/overflow: adjusting positionOffset by %d:\n",
-                   (devBytes - info->transferedBytes));
-            ERROR1("    devBytes from %d to 0, ", devBytes);
-            ERROR2(" positionOffset from %d to %d ",
-                   (int) info->positionOffset,
-                   (int) (info->positionOffset + info->transferedBytes));
-            ERROR1(" transferedBytes from %d to 0\n",
-                   (int) info->transferedBytes);
-            prinfo->samples = 0;
-            info->positionOffset += info->transferedBytes;
-            info->transferedBytes = 0;
+        AUDIO_INITINFO(&budioInfo);
+        if (undfrrun) {
+            /* if bn undfrrun oddurrfd, rfsft */
+            ERROR1("DAUDIO_Writf/Rfbd: Undfrrun/ovfrflow: bdjusting positionOffsft by %d:\n",
+                   (dfvBytfs - info->trbnsffrfdBytfs));
+            ERROR1("    dfvBytfs from %d to 0, ", dfvBytfs);
+            ERROR2(" positionOffsft from %d to %d ",
+                   (int) info->positionOffsft,
+                   (int) (info->positionOffsft + info->trbnsffrfdBytfs));
+            ERROR1(" trbnsffrfdBytfs from %d to 0\n",
+                   (int) info->trbnsffrfdBytfs);
+            prinfo->sbmplfs = 0;
+            info->positionOffsft += info->trbnsffrfdBytfs;
+            info->trbnsffrfdBytfs = 0;
         }
-        else if (info->transferedBytes > POSITION_MAX) {
-            /* we will reset transferedBytes and
-             * the samples field in prinfo
+        flsf if (info->trbnsffrfdBytfs > POSITION_MAX) {
+            /* wf will rfsft trbnsffrfdBytfs bnd
+             * tif sbmplfs fifld in prinfo
              */
-            offset = devBytes;
-            prinfo->samples = 0;
+            offsft = dfvBytfs;
+            prinfo->sbmplfs = 0;
         }
-        /* reset error flag */
-        prinfo->error = 0;
+        /* rfsft frror flbg */
+        prinfo->frror = 0;
 
-        err = ioctl(info->fd, AUDIO_SETINFO, &audioInfo);
-        if (err >= 0) {
-            if (offset > 0) {
-                /* upon exit of AUDIO_SETINFO, the samples parameter
-                 * was set to the previous value. This is our
-                 * offset.
+        frr = iodtl(info->fd, AUDIO_SETINFO, &budioInfo);
+        if (frr >= 0) {
+            if (offsft > 0) {
+                /* upon fxit of AUDIO_SETINFO, tif sbmplfs pbrbmftfr
+                 * wbs sft to tif prfvious vbluf. Tiis is our
+                 * offsft.
                  */
-                TRACE1("Adjust samplePos: offset=%d, ", (int) offset);
-                TRACE2("transferedBytes=%d -> %d, ",
-                       (int) info->transferedBytes,
-                       (int) (info->transferedBytes - offset));
-                TRACE2("positionOffset=%d -> %d\n",
-                       (int) (info->positionOffset),
-                       (int) (((int) info->positionOffset) + offset));
-                info->transferedBytes -= offset;
-                info->positionOffset += offset;
+                TRACE1("Adjust sbmplfPos: offsft=%d, ", (int) offsft);
+                TRACE2("trbnsffrfdBytfs=%d -> %d, ",
+                       (int) info->trbnsffrfdBytfs,
+                       (int) (info->trbnsffrfdBytfs - offsft));
+                TRACE2("positionOffsft=%d -> %d\n",
+                       (int) (info->positionOffsft),
+                       (int) (((int) info->positionOffsft) + offsft));
+                info->trbnsffrfdBytfs -= offsft;
+                info->positionOffsft += offsft;
             }
-        } else {
-            ERROR0("DAUDIO: resetErrorFlagAndAdjustPosition ioctl failed!\n");
+        } flsf {
+            ERROR0("DAUDIO: rfsftErrorFlbgAndAdjustPosition iodtl fbilfd!\n");
         }
     }
 }
 
-// returns -1 on error
-int DAUDIO_Write(void* id, char* data, int byteSize) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    int ret = -1;
+// rfturns -1 on frror
+int DAUDIO_Writf(void* id, dibr* dbtb, int bytfSizf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    int rft = -1;
 
-    TRACE1("> DAUDIO_Write %d bytes\n", byteSize);
+    TRACE1("> DAUDIO_Writf %d bytfs\n", bytfSizf);
     if (info!=NULL) {
-        ret = write(info->fd, data, byteSize);
-        resetErrorFlagAndAdjustPosition(info, TRUE, ret);
-        /* sets ret to -1 if buffer full, no error! */
-        if (ret < 0) {
-            ret = 0;
+        rft = writf(info->fd, dbtb, bytfSizf);
+        rfsftErrorFlbgAndAdjustPosition(info, TRUE, rft);
+        /* sfts rft to -1 if bufffr full, no frror! */
+        if (rft < 0) {
+            rft = 0;
         }
     }
-    TRACE1("< DAUDIO_Write: returning %d bytes.\n", ret);
-    return ret;
+    TRACE1("< DAUDIO_Writf: rfturning %d bytfs.\n", rft);
+    rfturn rft;
 }
 
-// returns -1 on error
-int DAUDIO_Read(void* id, char* data, int byteSize) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    int ret = -1;
+// rfturns -1 on frror
+int DAUDIO_Rfbd(void* id, dibr* dbtb, int bytfSizf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    int rft = -1;
 
-    TRACE1("> DAUDIO_Read %d bytes\n", byteSize);
+    TRACE1("> DAUDIO_Rfbd %d bytfs\n", bytfSizf);
     if (info != NULL) {
-        ret = read(info->fd, data, byteSize);
-        resetErrorFlagAndAdjustPosition(info, TRUE, ret);
-        /* sets ret to -1 if buffer full, no error! */
-        if (ret < 0) {
-            ret = 0;
+        rft = rfbd(info->fd, dbtb, bytfSizf);
+        rfsftErrorFlbgAndAdjustPosition(info, TRUE, rft);
+        /* sfts rft to -1 if bufffr full, no frror! */
+        if (rft < 0) {
+            rft = 0;
         }
     }
-    TRACE1("< DAUDIO_Read: returning %d bytes.\n", ret);
-    return ret;
+    TRACE1("< DAUDIO_Rfbd: rfturning %d bytfs.\n", rft);
+    rfturn rft;
 }
 
 
-int DAUDIO_GetBufferSize(void* id, int isSource) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
+int DAUDIO_GftBufffrSizf(void* id, int isSourdf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
     if (info) {
-        return info->bufferSizeInBytes;
+        rfturn info->bufffrSizfInBytfs;
     }
-    return 0;
+    rfturn 0;
 }
 
-int DAUDIO_StillDraining(void* id, int isSource) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    audio_info_t audioInfo;
-    audio_prinfo_t* prinfo;
-    int ret = FALSE;
+int DAUDIO_StillDrbining(void* id, int isSourdf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    budio_info_t budioInfo;
+    budio_prinfo_t* prinfo;
+    int rft = FALSE;
 
     if (info!=NULL) {
-        if (isSource) {
-            prinfo = &(audioInfo.play);
-        } else {
-            prinfo = &(audioInfo.record);
+        if (isSourdf) {
+            prinfo = &(budioInfo.plby);
+        } flsf {
+            prinfo = &(budioInfo.rfdord);
         }
-        /* check error flag */
-        AUDIO_INITINFO(&audioInfo);
-        ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
-        ret = (prinfo->error != 0)?FALSE:TRUE;
+        /* difdk frror flbg */
+        AUDIO_INITINFO(&budioInfo);
+        iodtl(info->fd, AUDIO_GETINFO, &budioInfo);
+        rft = (prinfo->frror != 0)?FALSE:TRUE;
     }
-    return ret;
+    rfturn rft;
 }
 
 
-int getDevicePosition(SolPcmInfo* info, int isSource) {
-    audio_info_t audioInfo;
-    audio_prinfo_t* prinfo;
-    int err;
+int gftDfvidfPosition(SolPdmInfo* info, int isSourdf) {
+    budio_info_t budioInfo;
+    budio_prinfo_t* prinfo;
+    int frr;
 
-    if (isSource) {
-        prinfo = &(audioInfo.play);
-    } else {
-        prinfo = &(audioInfo.record);
+    if (isSourdf) {
+        prinfo = &(budioInfo.plby);
+    } flsf {
+        prinfo = &(budioInfo.rfdord);
     }
-    AUDIO_INITINFO(&audioInfo);
-    err = ioctl(info->fd, AUDIO_GETINFO, &audioInfo);
-    if (err >= 0) {
-        /*TRACE2("---> device paused: %d  eof=%d\n",
-               prinfo->pause, prinfo->eof);
+    AUDIO_INITINFO(&budioInfo);
+    frr = iodtl(info->fd, AUDIO_GETINFO, &budioInfo);
+    if (frr >= 0) {
+        /*TRACE2("---> dfvidf pbusfd: %d  fof=%d\n",
+               prinfo->pbusf, prinfo->fof);
         */
-        return (int) (prinfo->samples * info->frameSize);
+        rfturn (int) (prinfo->sbmplfs * info->frbmfSizf);
     }
-    ERROR0("DAUDIO: getDevicePosition: ioctl failed!\n");
-    return -1;
+    ERROR0("DAUDIO: gftDfvidfPosition: iodtl fbilfd!\n");
+    rfturn -1;
 }
 
-int DAUDIO_Flush(void* id, int isSource) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    int err = -1;
+int DAUDIO_Flusi(void* id, int isSourdf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    int frr = -1;
     int pos;
 
-    TRACE0("DAUDIO_Flush\n");
+    TRACE0("DAUDIO_Flusi\n");
     if (info) {
-        if (isSource) {
-            err = ioctl(info->fd, I_FLUSH, FLUSHW);
-        } else {
-            err = ioctl(info->fd, I_FLUSH, FLUSHR);
+        if (isSourdf) {
+            frr = iodtl(info->fd, I_FLUSH, FLUSHW);
+        } flsf {
+            frr = iodtl(info->fd, I_FLUSH, FLUSHR);
         }
-        if (err >= 0) {
-            /* resets the transferedBytes parameter to
-             * the current samples count of the device
+        if (frr >= 0) {
+            /* rfsfts tif trbnsffrfdBytfs pbrbmftfr to
+             * tif durrfnt sbmplfs dount of tif dfvidf
              */
-            pos = getDevicePosition(info, isSource);
+            pos = gftDfvidfPosition(info, isSourdf);
             if (pos >= 0) {
-                info->transferedBytes = pos;
+                info->trbnsffrfdBytfs = pos;
             }
         }
     }
-    if (err < 0) {
-        ERROR0("ERROR in DAUDIO_Flush\n");
+    if (frr < 0) {
+        ERROR0("ERROR in DAUDIO_Flusi\n");
     }
-    return (err < 0)?FALSE:TRUE;
+    rfturn (frr < 0)?FALSE:TRUE;
 }
 
-int DAUDIO_GetAvailable(void* id, int isSource) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    int ret = 0;
+int DAUDIO_GftAvbilbblf(void* id, int isSourdf) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    int rft = 0;
     int pos;
 
     if (info) {
-        /* unfortunately, the STREAMS architecture
-         * seems to not have a method for querying
-         * the available bytes to read/write!
-         * estimate it...
+        /* unfortunbtfly, tif STREAMS brdiitfdturf
+         * sffms to not ibvf b mftiod for qufrying
+         * tif bvbilbblf bytfs to rfbd/writf!
+         * fstimbtf it...
          */
-        pos = getDevicePosition(info, isSource);
+        pos = gftDfvidfPosition(info, isSourdf);
         if (pos >= 0) {
-            if (isSource) {
-                /* we usually have written more bytes
-                 * to the queue than the device position should be
+            if (isSourdf) {
+                /* wf usublly ibvf writtfn morf bytfs
+                 * to tif qufuf tibn tif dfvidf position siould bf
                  */
-                ret = (info->bufferSizeInBytes) - (info->transferedBytes - pos);
-            } else {
-                /* for record, the device stream should
-                 * be usually ahead of our read actions
+                rft = (info->bufffrSizfInBytfs) - (info->trbnsffrfdBytfs - pos);
+            } flsf {
+                /* for rfdord, tif dfvidf strfbm siould
+                 * bf usublly bifbd of our rfbd bdtions
                  */
-                ret = pos - info->transferedBytes;
+                rft = pos - info->trbnsffrfdBytfs;
             }
-            if (ret > info->bufferSizeInBytes) {
-                ERROR2("DAUDIO_GetAvailable: available=%d, too big at bufferSize=%d!\n",
-                       (int) ret, (int) info->bufferSizeInBytes);
-                ERROR2("                     devicePos=%d, transferedBytes=%d\n",
-                       (int) pos, (int) info->transferedBytes);
-                ret = info->bufferSizeInBytes;
+            if (rft > info->bufffrSizfInBytfs) {
+                ERROR2("DAUDIO_GftAvbilbblf: bvbilbblf=%d, too big bt bufffrSizf=%d!\n",
+                       (int) rft, (int) info->bufffrSizfInBytfs);
+                ERROR2("                     dfvidfPos=%d, trbnsffrfdBytfs=%d\n",
+                       (int) pos, (int) info->trbnsffrfdBytfs);
+                rft = info->bufffrSizfInBytfs;
             }
-            else if (ret < 0) {
-                ERROR1("DAUDIO_GetAvailable: available=%d, in theory not possible!\n",
-                       (int) ret);
-                ERROR2("                     devicePos=%d, transferedBytes=%d\n",
-                       (int) pos, (int) info->transferedBytes);
-                ret = 0;
+            flsf if (rft < 0) {
+                ERROR1("DAUDIO_GftAvbilbblf: bvbilbblf=%d, in tifory not possiblf!\n",
+                       (int) rft);
+                ERROR2("                     dfvidfPos=%d, trbnsffrfdBytfs=%d\n",
+                       (int) pos, (int) info->trbnsffrfdBytfs);
+                rft = 0;
             }
         }
     }
 
-    TRACE1("DAUDIO_GetAvailable returns %d bytes\n", ret);
-    return ret;
+    TRACE1("DAUDIO_GftAvbilbblf rfturns %d bytfs\n", rft);
+    rfturn rft;
 }
 
-INT64 DAUDIO_GetBytePosition(void* id, int isSource, INT64 javaBytePos) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    int ret;
+INT64 DAUDIO_GftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    int rft;
     int pos;
-    INT64 result = javaBytePos;
+    INT64 rfsult = jbvbBytfPos;
 
     if (info) {
-        pos = getDevicePosition(info, isSource);
+        pos = gftDfvidfPosition(info, isSourdf);
         if (pos >= 0) {
-            result = info->positionOffset + pos;
+            rfsult = info->positionOffsft + pos;
         }
     }
 
-    //printf("getbyteposition: javaBytePos=%d , return=%d\n", (int) javaBytePos, (int) result);
-    return result;
+    //printf("gftbytfposition: jbvbBytfPos=%d , rfturn=%d\n", (int) jbvbBytfPos, (int) rfsult);
+    rfturn rfsult;
 }
 
 
-void DAUDIO_SetBytePosition(void* id, int isSource, INT64 javaBytePos) {
-    SolPcmInfo* info = (SolPcmInfo*) id;
-    int ret;
+void DAUDIO_SftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos) {
+    SolPdmInfo* info = (SolPdmInfo*) id;
+    int rft;
     int pos;
 
     if (info) {
-        pos = getDevicePosition(info, isSource);
+        pos = gftDfvidfPosition(info, isSourdf);
         if (pos >= 0) {
-            info->positionOffset = javaBytePos - pos;
+            info->positionOffsft = jbvbBytfPos - pos;
         }
     }
 }
 
-int DAUDIO_RequiresServicing(void* id, int isSource) {
-    // never need servicing on Solaris
-    return FALSE;
+int DAUDIO_RfquirfsSfrviding(void* id, int isSourdf) {
+    // nfvfr nffd sfrviding on Solbris
+    rfturn FALSE;
 }
 
-void DAUDIO_Service(void* id, int isSource) {
-    // never need servicing on Solaris
+void DAUDIO_Sfrvidf(void* id, int isSourdf) {
+    // nfvfr nffd sfrviding on Solbris
 }
 
 
-#endif // USE_DAUDIO
+#fndif // USE_DAUDIO

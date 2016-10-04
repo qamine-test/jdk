@@ -1,633 +1,633 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
  * ===========================================================================
  *
- * (C) Copyright IBM Corp. 2003 All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
  *
  * ===========================================================================
  */
 /*
- * $Id: DOMXMLSignature.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMXMLSignbturf.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.dom.DOMSignContext;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.dom.DOMSignContfxt;
+import jbvbx.xml.drypto.dsig.dom.DOMVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo;
 
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.Provider;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.Collfdtions;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64;
 
 /**
- * DOM-based implementation of XMLSignature.
+ * DOM-bbsfd implfmfntbtion of XMLSignbturf.
  *
- * @author Sean Mullan
- * @author Joyce Leung
+ * @butior Sfbn Mullbn
+ * @butior Joydf Lfung
  */
-public final class DOMXMLSignature extends DOMStructure
-    implements XMLSignature {
+publid finbl dlbss DOMXMLSignbturf fxtfnds DOMStrudturf
+    implfmfnts XMLSignbturf {
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
-    private String id;
-    private SignatureValue sv;
-    private KeyInfo ki;
-    private List<XMLObject> objects;
-    private SignedInfo si;
-    private Document ownerDoc = null;
-    private Element localSigElem = null;
-    private Element sigElem = null;
-    private boolean validationStatus;
-    private boolean validated = false;
-    private KeySelectorResult ksr;
-    private HashMap<String, XMLStructure> signatureIdMap;
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr("org.jdp.xml.dsig.intfrnbl.dom");
+    privbtf String id;
+    privbtf SignbturfVbluf sv;
+    privbtf KfyInfo ki;
+    privbtf List<XMLObjfdt> objfdts;
+    privbtf SignfdInfo si;
+    privbtf Dodumfnt ownfrDod = null;
+    privbtf Elfmfnt lodblSigElfm = null;
+    privbtf Elfmfnt sigElfm = null;
+    privbtf boolfbn vblidbtionStbtus;
+    privbtf boolfbn vblidbtfd = fblsf;
+    privbtf KfySflfdtorRfsult ksr;
+    privbtf HbsiMbp<String, XMLStrudturf> signbturfIdMbp;
 
-    static {
-        com.sun.org.apache.xml.internal.security.Init.init();
+    stbtid {
+        dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.Init.init();
     }
 
     /**
-     * Creates a <code>DOMXMLSignature</code> from the specified components.
+     * Crfbtfs b <dodf>DOMXMLSignbturf</dodf> from tif spfdififd domponfnts.
      *
-     * @param si the <code>SignedInfo</code>
-     * @param ki the <code>KeyInfo</code>, or <code>null</code> if not specified
-     * @param objs a list of <code>XMLObject</code>s or <code>null</code>
-     *  if not specified. The list is copied to protect against subsequent
-     *  modification.
-     * @param id an optional id (specify <code>null</code> to omit)
-     * @param signatureValueId an optional id (specify <code>null</code> to
+     * @pbrbm si tif <dodf>SignfdInfo</dodf>
+     * @pbrbm ki tif <dodf>KfyInfo</dodf>, or <dodf>null</dodf> if not spfdififd
+     * @pbrbm objs b list of <dodf>XMLObjfdt</dodf>s or <dodf>null</dodf>
+     *  if not spfdififd. Tif list is dopifd to protfdt bgbinst subsfqufnt
+     *  modifidbtion.
+     * @pbrbm id bn optionbl id (spfdify <dodf>null</dodf> to omit)
+     * @pbrbm signbturfVblufId bn optionbl id (spfdify <dodf>null</dodf> to
      *  omit)
-     * @throws NullPointerException if <code>si</code> is <code>null</code>
+     * @tirows NullPointfrExdfption if <dodf>si</dodf> is <dodf>null</dodf>
      */
-    public DOMXMLSignature(SignedInfo si, KeyInfo ki,
-                           List<? extends XMLObject> objs,
-                           String id, String signatureValueId)
+    publid DOMXMLSignbturf(SignfdInfo si, KfyInfo ki,
+                           List<? fxtfnds XMLObjfdt> objs,
+                           String id, String signbturfVblufId)
     {
         if (si == null) {
-            throw new NullPointerException("signedInfo cannot be null");
+            tirow nfw NullPointfrExdfption("signfdInfo dbnnot bf null");
         }
-        this.si = si;
-        this.id = id;
-        this.sv = new DOMSignatureValue(signatureValueId);
+        tiis.si = si;
+        tiis.id = id;
+        tiis.sv = nfw DOMSignbturfVbluf(signbturfVblufId);
         if (objs == null) {
-            this.objects = Collections.emptyList();
-        } else {
-            this.objects =
-                Collections.unmodifiableList(new ArrayList<XMLObject>(objs));
-            for (int i = 0, size = this.objects.size(); i < size; i++) {
-                if (!(this.objects.get(i) instanceof XMLObject)) {
-                    throw new ClassCastException
-                        ("objs["+i+"] is not an XMLObject");
+            tiis.objfdts = Collfdtions.fmptyList();
+        } flsf {
+            tiis.objfdts =
+                Collfdtions.unmodifibblfList(nfw ArrbyList<XMLObjfdt>(objs));
+            for (int i = 0, sizf = tiis.objfdts.sizf(); i < sizf; i++) {
+                if (!(tiis.objfdts.gft(i) instbndfof XMLObjfdt)) {
+                    tirow nfw ClbssCbstExdfption
+                        ("objs["+i+"] is not bn XMLObjfdt");
                 }
             }
         }
-        this.ki = ki;
+        tiis.ki = ki;
     }
 
     /**
-     * Creates a <code>DOMXMLSignature</code> from XML.
+     * Crfbtfs b <dodf>DOMXMLSignbturf</dodf> from XML.
      *
-     * @param sigElem Signature element
-     * @throws MarshalException if XMLSignature cannot be unmarshalled
+     * @pbrbm sigElfm Signbturf flfmfnt
+     * @tirows MbrsiblExdfption if XMLSignbturf dbnnot bf unmbrsibllfd
      */
-    public DOMXMLSignature(Element sigElem, XMLCryptoContext context,
-                           Provider provider)
-        throws MarshalException
+    publid DOMXMLSignbturf(Elfmfnt sigElfm, XMLCryptoContfxt dontfxt,
+                           Providfr providfr)
+        tirows MbrsiblExdfption
     {
-        localSigElem = sigElem;
-        ownerDoc = localSigElem.getOwnerDocument();
+        lodblSigElfm = sigElfm;
+        ownfrDod = lodblSigElfm.gftOwnfrDodumfnt();
 
-        // get Id attribute, if specified
-        id = DOMUtils.getAttributeValue(localSigElem, "Id");
+        // gft Id bttributf, if spfdififd
+        id = DOMUtils.gftAttributfVbluf(lodblSigElfm, "Id");
 
-        // unmarshal SignedInfo
-        Element siElem = DOMUtils.getFirstChildElement(localSigElem,
-                                                       "SignedInfo");
-        si = new DOMSignedInfo(siElem, context, provider);
+        // unmbrsibl SignfdInfo
+        Elfmfnt siElfm = DOMUtils.gftFirstCiildElfmfnt(lodblSigElfm,
+                                                       "SignfdInfo");
+        si = nfw DOMSignfdInfo(siElfm, dontfxt, providfr);
 
-        // unmarshal SignatureValue
-        Element sigValElem = DOMUtils.getNextSiblingElement(siElem,
-                                                            "SignatureValue");
-        sv = new DOMSignatureValue(sigValElem, context);
+        // unmbrsibl SignbturfVbluf
+        Elfmfnt sigVblElfm = DOMUtils.gftNfxtSiblingElfmfnt(siElfm,
+                                                            "SignbturfVbluf");
+        sv = nfw DOMSignbturfVbluf(sigVblElfm, dontfxt);
 
-        // unmarshal KeyInfo, if specified
-        Element nextSibling = DOMUtils.getNextSiblingElement(sigValElem);
-        if (nextSibling != null && nextSibling.getLocalName().equals("KeyInfo")) {
-            ki = new DOMKeyInfo(nextSibling, context, provider);
-            nextSibling = DOMUtils.getNextSiblingElement(nextSibling);
+        // unmbrsibl KfyInfo, if spfdififd
+        Elfmfnt nfxtSibling = DOMUtils.gftNfxtSiblingElfmfnt(sigVblElfm);
+        if (nfxtSibling != null && nfxtSibling.gftLodblNbmf().fqubls("KfyInfo")) {
+            ki = nfw DOMKfyInfo(nfxtSibling, dontfxt, providfr);
+            nfxtSibling = DOMUtils.gftNfxtSiblingElfmfnt(nfxtSibling);
         }
 
-        // unmarshal Objects, if specified
-        if (nextSibling == null) {
-            objects = Collections.emptyList();
-        } else {
-            List<XMLObject> tempObjects = new ArrayList<XMLObject>();
-            while (nextSibling != null) {
-                String name = nextSibling.getLocalName();
-                if (!name.equals("Object")) {
-                    throw new MarshalException("Invalid element name: " + name +
-                                               ", expected KeyInfo or Object");
+        // unmbrsibl Objfdts, if spfdififd
+        if (nfxtSibling == null) {
+            objfdts = Collfdtions.fmptyList();
+        } flsf {
+            List<XMLObjfdt> tfmpObjfdts = nfw ArrbyList<XMLObjfdt>();
+            wiilf (nfxtSibling != null) {
+                String nbmf = nfxtSibling.gftLodblNbmf();
+                if (!nbmf.fqubls("Objfdt")) {
+                    tirow nfw MbrsiblExdfption("Invblid flfmfnt nbmf: " + nbmf +
+                                               ", fxpfdtfd KfyInfo or Objfdt");
                 }
-                tempObjects.add(new DOMXMLObject(nextSibling,
-                                                 context, provider));
-                nextSibling = DOMUtils.getNextSiblingElement(nextSibling);
+                tfmpObjfdts.bdd(nfw DOMXMLObjfdt(nfxtSibling,
+                                                 dontfxt, providfr));
+                nfxtSibling = DOMUtils.gftNfxtSiblingElfmfnt(nfxtSibling);
             }
-            objects = Collections.unmodifiableList(tempObjects);
+            objfdts = Collfdtions.unmodifibblfList(tfmpObjfdts);
         }
     }
 
-    public String getId() {
-        return id;
+    publid String gftId() {
+        rfturn id;
     }
 
-    public KeyInfo getKeyInfo() {
-        return ki;
+    publid KfyInfo gftKfyInfo() {
+        rfturn ki;
     }
 
-    public SignedInfo getSignedInfo() {
-        return si;
+    publid SignfdInfo gftSignfdInfo() {
+        rfturn si;
     }
 
-    public List<XMLObject> getObjects() {
-        return objects;
+    publid List<XMLObjfdt> gftObjfdts() {
+        rfturn objfdts;
     }
 
-    public SignatureValue getSignatureValue() {
-        return sv;
+    publid SignbturfVbluf gftSignbturfVbluf() {
+        rfturn sv;
     }
 
-    public KeySelectorResult getKeySelectorResult() {
-        return ksr;
+    publid KfySflfdtorRfsult gftKfySflfdtorRfsult() {
+        rfturn ksr;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        marshal(parent, null, dsPrefix, context);
+        mbrsibl(pbrfnt, null, dsPrffix, dontfxt);
     }
 
-    public void marshal(Node parent, Node nextSibling, String dsPrefix,
-                        DOMCryptoContext context)
-        throws MarshalException
+    publid void mbrsibl(Nodf pbrfnt, Nodf nfxtSibling, String dsPrffix,
+                        DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        ownerDoc = DOMUtils.getOwnerDocument(parent);
-        sigElem = DOMUtils.createElement(ownerDoc, "Signature",
-                                         XMLSignature.XMLNS, dsPrefix);
+        ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        sigElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Signbturf",
+                                         XMLSignbturf.XMLNS, dsPrffix);
 
-        // append xmlns attribute
-        if (dsPrefix == null || dsPrefix.length() == 0) {
-            sigElem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-                                   XMLSignature.XMLNS);
-        } else {
-            sigElem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" +
-                                   dsPrefix, XMLSignature.XMLNS);
+        // bppfnd xmlns bttributf
+        if (dsPrffix == null || dsPrffix.lfngti() == 0) {
+            sigElfm.sftAttributfNS("ittp://www.w3.org/2000/xmlns/", "xmlns",
+                                   XMLSignbturf.XMLNS);
+        } flsf {
+            sigElfm.sftAttributfNS("ittp://www.w3.org/2000/xmlns/", "xmlns:" +
+                                   dsPrffix, XMLSignbturf.XMLNS);
         }
 
-        // create and append SignedInfo element
-        ((DOMSignedInfo)si).marshal(sigElem, dsPrefix, context);
+        // drfbtf bnd bppfnd SignfdInfo flfmfnt
+        ((DOMSignfdInfo)si).mbrsibl(sigElfm, dsPrffix, dontfxt);
 
-        // create and append SignatureValue element
-        ((DOMSignatureValue)sv).marshal(sigElem, dsPrefix, context);
+        // drfbtf bnd bppfnd SignbturfVbluf flfmfnt
+        ((DOMSignbturfVbluf)sv).mbrsibl(sigElfm, dsPrffix, dontfxt);
 
-        // create and append KeyInfo element if necessary
+        // drfbtf bnd bppfnd KfyInfo flfmfnt if nfdfssbry
         if (ki != null) {
-            ((DOMKeyInfo)ki).marshal(sigElem, null, dsPrefix, context);
+            ((DOMKfyInfo)ki).mbrsibl(sigElfm, null, dsPrffix, dontfxt);
         }
 
-        // create and append Object elements if necessary
-        for (int i = 0, size = objects.size(); i < size; i++) {
-            ((DOMXMLObject)objects.get(i)).marshal(sigElem, dsPrefix, context);
+        // drfbtf bnd bppfnd Objfdt flfmfnts if nfdfssbry
+        for (int i = 0, sizf = objfdts.sizf(); i < sizf; i++) {
+            ((DOMXMLObjfdt)objfdts.gft(i)).mbrsibl(sigElfm, dsPrffix, dontfxt);
         }
 
-        // append Id attribute
-        DOMUtils.setAttributeID(sigElem, "Id", id);
+        // bppfnd Id bttributf
+        DOMUtils.sftAttributfID(sigElfm, "Id", id);
 
-        parent.insertBefore(sigElem, nextSibling);
+        pbrfnt.insfrtBfforf(sigElfm, nfxtSibling);
     }
 
-    public boolean validate(XMLValidateContext vc)
-        throws XMLSignatureException
+    publid boolfbn vblidbtf(XMLVblidbtfContfxt vd)
+        tirows XMLSignbturfExdfption
     {
-        if (vc == null) {
-            throw new NullPointerException("validateContext is null");
+        if (vd == null) {
+            tirow nfw NullPointfrExdfption("vblidbtfContfxt is null");
         }
 
-        if (!(vc instanceof DOMValidateContext)) {
-            throw new ClassCastException
-                ("validateContext must be of type DOMValidateContext");
+        if (!(vd instbndfof DOMVblidbtfContfxt)) {
+            tirow nfw ClbssCbstExdfption
+                ("vblidbtfContfxt must bf of typf DOMVblidbtfContfxt");
         }
 
-        if (validated) {
-            return validationStatus;
+        if (vblidbtfd) {
+            rfturn vblidbtionStbtus;
         }
 
-        // validate the signature
-        boolean sigValidity = sv.validate(vc);
-        if (!sigValidity) {
-            validationStatus = false;
-            validated = true;
-            return validationStatus;
+        // vblidbtf tif signbturf
+        boolfbn sigVblidity = sv.vblidbtf(vd);
+        if (!sigVblidity) {
+            vblidbtionStbtus = fblsf;
+            vblidbtfd = truf;
+            rfturn vblidbtionStbtus;
         }
 
-        // validate all References
-        @SuppressWarnings("unchecked")
-        List<Reference> refs = this.si.getReferences();
-        boolean validateRefs = true;
-        for (int i = 0, size = refs.size(); validateRefs && i < size; i++) {
-            Reference ref = refs.get(i);
-            boolean refValid = ref.validate(vc);
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Reference[" + ref.getURI() + "] is valid: " + refValid);
+        // vblidbtf bll Rfffrfndfs
+        @SupprfssWbrnings("undifdkfd")
+        List<Rfffrfndf> rffs = tiis.si.gftRfffrfndfs();
+        boolfbn vblidbtfRffs = truf;
+        for (int i = 0, sizf = rffs.sizf(); vblidbtfRffs && i < sizf; i++) {
+            Rfffrfndf rff = rffs.gft(i);
+            boolfbn rffVblid = rff.vblidbtf(vd);
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Rfffrfndf[" + rff.gftURI() + "] is vblid: " + rffVblid);
             }
-            validateRefs &= refValid;
+            vblidbtfRffs &= rffVblid;
         }
-        if (!validateRefs) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Couldn't validate the References");
+        if (!vblidbtfRffs) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Couldn't vblidbtf tif Rfffrfndfs");
             }
-            validationStatus = false;
-            validated = true;
-            return validationStatus;
+            vblidbtionStbtus = fblsf;
+            vblidbtfd = truf;
+            rfturn vblidbtionStbtus;
         }
 
-        // validate Manifests, if property set
-        boolean validateMans = true;
-        if (Boolean.TRUE.equals(vc.getProperty
-                                ("org.jcp.xml.dsig.validateManifests")))
+        // vblidbtf Mbniffsts, if propfrty sft
+        boolfbn vblidbtfMbns = truf;
+        if (Boolfbn.TRUE.fqubls(vd.gftPropfrty
+                                ("org.jdp.xml.dsig.vblidbtfMbniffsts")))
         {
-            for (int i=0, size=objects.size(); validateMans && i < size; i++) {
-                XMLObject xo = objects.get(i);
-                @SuppressWarnings("unchecked")
-                List<XMLStructure> content = xo.getContent();
-                int csize = content.size();
-                for (int j = 0; validateMans && j < csize; j++) {
-                    XMLStructure xs = content.get(j);
-                    if (xs instanceof Manifest) {
-                        if (log.isLoggable(java.util.logging.Level.FINE)) {
-                            log.log(java.util.logging.Level.FINE, "validating manifest");
+            for (int i=0, sizf=objfdts.sizf(); vblidbtfMbns && i < sizf; i++) {
+                XMLObjfdt xo = objfdts.gft(i);
+                @SupprfssWbrnings("undifdkfd")
+                List<XMLStrudturf> dontfnt = xo.gftContfnt();
+                int dsizf = dontfnt.sizf();
+                for (int j = 0; vblidbtfMbns && j < dsizf; j++) {
+                    XMLStrudturf xs = dontfnt.gft(j);
+                    if (xs instbndfof Mbniffst) {
+                        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                            log.log(jbvb.util.logging.Lfvfl.FINE, "vblidbting mbniffst");
                         }
-                        Manifest man = (Manifest)xs;
-                        @SuppressWarnings("unchecked")
-                        List<Reference> manRefs = man.getReferences();
-                        int rsize = manRefs.size();
-                        for (int k = 0; validateMans && k < rsize; k++) {
-                            Reference ref = manRefs.get(k);
-                            boolean refValid = ref.validate(vc);
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE,
-                                    "Manifest ref[" + ref.getURI() + "] is valid: " + refValid
+                        Mbniffst mbn = (Mbniffst)xs;
+                        @SupprfssWbrnings("undifdkfd")
+                        List<Rfffrfndf> mbnRffs = mbn.gftRfffrfndfs();
+                        int rsizf = mbnRffs.sizf();
+                        for (int k = 0; vblidbtfMbns && k < rsizf; k++) {
+                            Rfffrfndf rff = mbnRffs.gft(k);
+                            boolfbn rffVblid = rff.vblidbtf(vd);
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE,
+                                    "Mbniffst rff[" + rff.gftURI() + "] is vblid: " + rffVblid
                                 );
                             }
-                            validateMans &= refValid;
+                            vblidbtfMbns &= rffVblid;
                         }
                     }
                 }
             }
         }
 
-        validationStatus = validateMans;
-        validated = true;
-        return validationStatus;
+        vblidbtionStbtus = vblidbtfMbns;
+        vblidbtfd = truf;
+        rfturn vblidbtionStbtus;
     }
 
-    public void sign(XMLSignContext signContext)
-        throws MarshalException, XMLSignatureException
+    publid void sign(XMLSignContfxt signContfxt)
+        tirows MbrsiblExdfption, XMLSignbturfExdfption
     {
-        if (signContext == null) {
-            throw new NullPointerException("signContext cannot be null");
+        if (signContfxt == null) {
+            tirow nfw NullPointfrExdfption("signContfxt dbnnot bf null");
         }
-        DOMSignContext context = (DOMSignContext)signContext;
-        marshal(context.getParent(), context.getNextSibling(),
-                DOMUtils.getSignaturePrefix(context), context);
+        DOMSignContfxt dontfxt = (DOMSignContfxt)signContfxt;
+        mbrsibl(dontfxt.gftPbrfnt(), dontfxt.gftNfxtSibling(),
+                DOMUtils.gftSignbturfPrffix(dontfxt), dontfxt);
 
-        // generate references and signature value
-        List<Reference> allReferences = new ArrayList<Reference>();
+        // gfnfrbtf rfffrfndfs bnd signbturf vbluf
+        List<Rfffrfndf> bllRfffrfndfs = nfw ArrbyList<Rfffrfndf>();
 
-        // traverse the Signature and register all objects with IDs that
-        // may contain References
-        signatureIdMap = new HashMap<String, XMLStructure>();
-        signatureIdMap.put(id, this);
-        signatureIdMap.put(si.getId(), si);
-        @SuppressWarnings("unchecked")
-        List<Reference> refs = si.getReferences();
-        for (Reference ref : refs) {
-            signatureIdMap.put(ref.getId(), ref);
+        // trbvfrsf tif Signbturf bnd rfgistfr bll objfdts witi IDs tibt
+        // mby dontbin Rfffrfndfs
+        signbturfIdMbp = nfw HbsiMbp<String, XMLStrudturf>();
+        signbturfIdMbp.put(id, tiis);
+        signbturfIdMbp.put(si.gftId(), si);
+        @SupprfssWbrnings("undifdkfd")
+        List<Rfffrfndf> rffs = si.gftRfffrfndfs();
+        for (Rfffrfndf rff : rffs) {
+            signbturfIdMbp.put(rff.gftId(), rff);
         }
-        for (XMLObject obj : objects) {
-            signatureIdMap.put(obj.getId(), obj);
-            @SuppressWarnings("unchecked")
-            List<XMLStructure> content = obj.getContent();
-            for (XMLStructure xs : content) {
-                if (xs instanceof Manifest) {
-                    Manifest man = (Manifest)xs;
-                    signatureIdMap.put(man.getId(), man);
-                    @SuppressWarnings("unchecked")
-                    List<Reference> manRefs = man.getReferences();
-                    for (Reference ref : manRefs) {
-                        allReferences.add(ref);
-                        signatureIdMap.put(ref.getId(), ref);
+        for (XMLObjfdt obj : objfdts) {
+            signbturfIdMbp.put(obj.gftId(), obj);
+            @SupprfssWbrnings("undifdkfd")
+            List<XMLStrudturf> dontfnt = obj.gftContfnt();
+            for (XMLStrudturf xs : dontfnt) {
+                if (xs instbndfof Mbniffst) {
+                    Mbniffst mbn = (Mbniffst)xs;
+                    signbturfIdMbp.put(mbn.gftId(), mbn);
+                    @SupprfssWbrnings("undifdkfd")
+                    List<Rfffrfndf> mbnRffs = mbn.gftRfffrfndfs();
+                    for (Rfffrfndf rff : mbnRffs) {
+                        bllRfffrfndfs.bdd(rff);
+                        signbturfIdMbp.put(rff.gftId(), rff);
                     }
                 }
             }
         }
-        // always add SignedInfo references after Manifest references so
-        // that Manifest reference are digested first
-        allReferences.addAll(refs);
+        // blwbys bdd SignfdInfo rfffrfndfs bftfr Mbniffst rfffrfndfs so
+        // tibt Mbniffst rfffrfndf brf digfstfd first
+        bllRfffrfndfs.bddAll(rffs);
 
-        // generate/digest each reference
-        for (Reference ref : allReferences) {
-            digestReference((DOMReference)ref, signContext);
+        // gfnfrbtf/digfst fbdi rfffrfndf
+        for (Rfffrfndf rff : bllRfffrfndfs) {
+            digfstRfffrfndf((DOMRfffrfndf)rff, signContfxt);
         }
 
-        // do final sweep to digest any references that were skipped or missed
-        for (Reference ref : allReferences) {
-            if (((DOMReference)ref).isDigested()) {
-                continue;
+        // do finbl swffp to digfst bny rfffrfndfs tibt wfrf skippfd or missfd
+        for (Rfffrfndf rff : bllRfffrfndfs) {
+            if (((DOMRfffrfndf)rff).isDigfstfd()) {
+                dontinuf;
             }
-            ((DOMReference)ref).digest(signContext);
+            ((DOMRfffrfndf)rff).digfst(signContfxt);
         }
 
-        Key signingKey = null;
-        KeySelectorResult ksr = null;
+        Kfy signingKfy = null;
+        KfySflfdtorRfsult ksr = null;
         try {
-            ksr = signContext.getKeySelector().select(ki,
-                                                      KeySelector.Purpose.SIGN,
-                                                      si.getSignatureMethod(),
-                                                      signContext);
-            signingKey = ksr.getKey();
-            if (signingKey == null) {
-                throw new XMLSignatureException("the keySelector did not " +
-                                                "find a signing key");
+            ksr = signContfxt.gftKfySflfdtor().sflfdt(ki,
+                                                      KfySflfdtor.Purposf.SIGN,
+                                                      si.gftSignbturfMftiod(),
+                                                      signContfxt);
+            signingKfy = ksr.gftKfy();
+            if (signingKfy == null) {
+                tirow nfw XMLSignbturfExdfption("tif kfySflfdtor did not " +
+                                                "find b signing kfy");
             }
-        } catch (KeySelectorException kse) {
-            throw new XMLSignatureException("cannot find signing key", kse);
+        } dbtdi (KfySflfdtorExdfption ksf) {
+            tirow nfw XMLSignbturfExdfption("dbnnot find signing kfy", ksf);
         }
 
-        // calculate signature value
+        // dbldulbtf signbturf vbluf
         try {
-            byte[] val = ((AbstractDOMSignatureMethod)
-                si.getSignatureMethod()).sign(signingKey, si, signContext);
-            ((DOMSignatureValue)sv).setValue(val);
-        } catch (InvalidKeyException ike) {
-            throw new XMLSignatureException(ike);
+            bytf[] vbl = ((AbstrbdtDOMSignbturfMftiod)
+                si.gftSignbturfMftiod()).sign(signingKfy, si, signContfxt);
+            ((DOMSignbturfVbluf)sv).sftVbluf(vbl);
+        } dbtdi (InvblidKfyExdfption ikf) {
+            tirow nfw XMLSignbturfExdfption(ikf);
         }
 
-        this.localSigElem = sigElem;
-        this.ksr = ksr;
+        tiis.lodblSigElfm = sigElfm;
+        tiis.ksr = ksr;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
         }
 
-        if (!(o instanceof XMLSignature)) {
-            return false;
+        if (!(o instbndfof XMLSignbturf)) {
+            rfturn fblsf;
         }
-        XMLSignature osig = (XMLSignature)o;
+        XMLSignbturf osig = (XMLSignbturf)o;
 
-        boolean idEqual =
-            (id == null ? osig.getId() == null : id.equals(osig.getId()));
-        boolean keyInfoEqual =
-            (ki == null ? osig.getKeyInfo() == null
-                        : ki.equals(osig.getKeyInfo()));
+        boolfbn idEqubl =
+            (id == null ? osig.gftId() == null : id.fqubls(osig.gftId()));
+        boolfbn kfyInfoEqubl =
+            (ki == null ? osig.gftKfyInfo() == null
+                        : ki.fqubls(osig.gftKfyInfo()));
 
-        return (idEqual && keyInfoEqual &&
-                sv.equals(osig.getSignatureValue()) &&
-                si.equals(osig.getSignedInfo()) &&
-                objects.equals(osig.getObjects()));
+        rfturn (idEqubl && kfyInfoEqubl &&
+                sv.fqubls(osig.gftSignbturfVbluf()) &&
+                si.fqubls(osig.gftSignfdInfo()) &&
+                objfdts.fqubls(osig.gftObjfdts()));
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            rfsult = 31 * rfsult + id.ibsiCodf();
         }
         if (ki != null) {
-            result = 31 * result + ki.hashCode();
+            rfsult = 31 * rfsult + ki.ibsiCodf();
         }
-        result = 31 * result + sv.hashCode();
-        result = 31 * result + si.hashCode();
-        result = 31 * result + objects.hashCode();
+        rfsult = 31 * rfsult + sv.ibsiCodf();
+        rfsult = 31 * rfsult + si.ibsiCodf();
+        rfsult = 31 * rfsult + objfdts.ibsiCodf();
 
-        return result;
+        rfturn rfsult;
     }
 
-    private void digestReference(DOMReference ref, XMLSignContext signContext)
-        throws XMLSignatureException
+    privbtf void digfstRfffrfndf(DOMRfffrfndf rff, XMLSignContfxt signContfxt)
+        tirows XMLSignbturfExdfption
     {
-        if (ref.isDigested()) {
-            return;
+        if (rff.isDigfstfd()) {
+            rfturn;
         }
-        // check dependencies
-        String uri = ref.getURI();
-        if (Utils.sameDocumentURI(uri)) {
-            String id = Utils.parseIdFromSameDocumentURI(uri);
-            if (id != null && signatureIdMap.containsKey(id)) {
-                XMLStructure xs = signatureIdMap.get(id);
-                if (xs instanceof DOMReference) {
-                    digestReference((DOMReference)xs, signContext);
-                } else if (xs instanceof Manifest) {
-                    Manifest man = (Manifest)xs;
-                    List<Reference> manRefs =
-                        DOMManifest.getManifestReferences(man);
-                    for (int i = 0, size = manRefs.size(); i < size; i++) {
-                        digestReference((DOMReference)manRefs.get(i),
-                                        signContext);
+        // difdk dfpfndfndifs
+        String uri = rff.gftURI();
+        if (Utils.sbmfDodumfntURI(uri)) {
+            String id = Utils.pbrsfIdFromSbmfDodumfntURI(uri);
+            if (id != null && signbturfIdMbp.dontbinsKfy(id)) {
+                XMLStrudturf xs = signbturfIdMbp.gft(id);
+                if (xs instbndfof DOMRfffrfndf) {
+                    digfstRfffrfndf((DOMRfffrfndf)xs, signContfxt);
+                } flsf if (xs instbndfof Mbniffst) {
+                    Mbniffst mbn = (Mbniffst)xs;
+                    List<Rfffrfndf> mbnRffs =
+                        DOMMbniffst.gftMbniffstRfffrfndfs(mbn);
+                    for (int i = 0, sizf = mbnRffs.sizf(); i < sizf; i++) {
+                        digfstRfffrfndf((DOMRfffrfndf)mbnRffs.gft(i),
+                                        signContfxt);
                     }
                 }
             }
-            // if uri="" and there are XPath Transforms, there may be
-            // reference dependencies in the XPath Transform - so be on
-            // the safe side, and skip and do at end in the final sweep
-            if (uri.length() == 0) {
-                @SuppressWarnings("unchecked")
-                List<Transform> transforms = ref.getTransforms();
-                for (Transform transform : transforms) {
-                    String transformAlg = transform.getAlgorithm();
-                    if (transformAlg.equals(Transform.XPATH) ||
-                        transformAlg.equals(Transform.XPATH2)) {
-                        return;
+            // if uri="" bnd tifrf brf XPbti Trbnsforms, tifrf mby bf
+            // rfffrfndf dfpfndfndifs in tif XPbti Trbnsform - so bf on
+            // tif sbff sidf, bnd skip bnd do bt fnd in tif finbl swffp
+            if (uri.lfngti() == 0) {
+                @SupprfssWbrnings("undifdkfd")
+                List<Trbnsform> trbnsforms = rff.gftTrbnsforms();
+                for (Trbnsform trbnsform : trbnsforms) {
+                    String trbnsformAlg = trbnsform.gftAlgoritim();
+                    if (trbnsformAlg.fqubls(Trbnsform.XPATH) ||
+                        trbnsformAlg.fqubls(Trbnsform.XPATH2)) {
+                        rfturn;
                     }
                 }
             }
         }
-        ref.digest(signContext);
+        rff.digfst(signContfxt);
     }
 
-    public class DOMSignatureValue extends DOMStructure
-        implements SignatureValue
+    publid dlbss DOMSignbturfVbluf fxtfnds DOMStrudturf
+        implfmfnts SignbturfVbluf
     {
-        private String id;
-        private byte[] value;
-        private String valueBase64;
-        private Element sigValueElem;
-        private boolean validated = false;
-        private boolean validationStatus;
+        privbtf String id;
+        privbtf bytf[] vbluf;
+        privbtf String vblufBbsf64;
+        privbtf Elfmfnt sigVblufElfm;
+        privbtf boolfbn vblidbtfd = fblsf;
+        privbtf boolfbn vblidbtionStbtus;
 
-        DOMSignatureValue(String id) {
-            this.id = id;
+        DOMSignbturfVbluf(String id) {
+            tiis.id = id;
         }
 
-        DOMSignatureValue(Element sigValueElem, XMLCryptoContext context)
-            throws MarshalException
+        DOMSignbturfVbluf(Elfmfnt sigVblufElfm, XMLCryptoContfxt dontfxt)
+            tirows MbrsiblExdfption
         {
             try {
-                // base64 decode signatureValue
-                value = Base64.decode(sigValueElem);
-            } catch (Base64DecodingException bde) {
-                throw new MarshalException(bde);
+                // bbsf64 dfdodf signbturfVbluf
+                vbluf = Bbsf64.dfdodf(sigVblufElfm);
+            } dbtdi (Bbsf64DfdodingExdfption bdf) {
+                tirow nfw MbrsiblExdfption(bdf);
             }
 
-            Attr attr = sigValueElem.getAttributeNodeNS(null, "Id");
-            if (attr != null) {
-                id = attr.getValue();
-                sigValueElem.setIdAttributeNode(attr, true);
-            } else {
+            Attr bttr = sigVblufElfm.gftAttributfNodfNS(null, "Id");
+            if (bttr != null) {
+                id = bttr.gftVbluf();
+                sigVblufElfm.sftIdAttributfNodf(bttr, truf);
+            } flsf {
                 id = null;
             }
-            this.sigValueElem = sigValueElem;
+            tiis.sigVblufElfm = sigVblufElfm;
         }
 
-        public String getId() {
-            return id;
+        publid String gftId() {
+            rfturn id;
         }
 
-        public byte[] getValue() {
-            return (value == null) ? null : value.clone();
+        publid bytf[] gftVbluf() {
+            rfturn (vbluf == null) ? null : vbluf.dlonf();
         }
 
-        public boolean validate(XMLValidateContext validateContext)
-            throws XMLSignatureException
+        publid boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+            tirows XMLSignbturfExdfption
         {
-            if (validateContext == null) {
-                throw new NullPointerException("context cannot be null");
+            if (vblidbtfContfxt == null) {
+                tirow nfw NullPointfrExdfption("dontfxt dbnnot bf null");
             }
 
-            if (validated) {
-                return validationStatus;
+            if (vblidbtfd) {
+                rfturn vblidbtionStbtus;
             }
 
-            // get validating key
-            SignatureMethod sm = si.getSignatureMethod();
-            Key validationKey = null;
-            KeySelectorResult ksResult;
+            // gft vblidbting kfy
+            SignbturfMftiod sm = si.gftSignbturfMftiod();
+            Kfy vblidbtionKfy = null;
+            KfySflfdtorRfsult ksRfsult;
             try {
-                ksResult = validateContext.getKeySelector().select
-                    (ki, KeySelector.Purpose.VERIFY, sm, validateContext);
-                validationKey = ksResult.getKey();
-                if (validationKey == null) {
-                    throw new XMLSignatureException("the keyselector did not " +
-                                                    "find a validation key");
+                ksRfsult = vblidbtfContfxt.gftKfySflfdtor().sflfdt
+                    (ki, KfySflfdtor.Purposf.VERIFY, sm, vblidbtfContfxt);
+                vblidbtionKfy = ksRfsult.gftKfy();
+                if (vblidbtionKfy == null) {
+                    tirow nfw XMLSignbturfExdfption("tif kfysflfdtor did not " +
+                                                    "find b vblidbtion kfy");
                 }
-            } catch (KeySelectorException kse) {
-                throw new XMLSignatureException("cannot find validation " +
-                                                "key", kse);
+            } dbtdi (KfySflfdtorExdfption ksf) {
+                tirow nfw XMLSignbturfExdfption("dbnnot find vblidbtion " +
+                                                "kfy", ksf);
             }
 
-            // canonicalize SignedInfo and verify signature
+            // dbnonidblizf SignfdInfo bnd vfrify signbturf
             try {
-                validationStatus = ((AbstractDOMSignatureMethod)sm).verify
-                    (validationKey, si, value, validateContext);
-            } catch (Exception e) {
-                throw new XMLSignatureException(e);
+                vblidbtionStbtus = ((AbstrbdtDOMSignbturfMftiod)sm).vfrify
+                    (vblidbtionKfy, si, vbluf, vblidbtfContfxt);
+            } dbtdi (Exdfption f) {
+                tirow nfw XMLSignbturfExdfption(f);
             }
 
-            validated = true;
-            ksr = ksResult;
-            return validationStatus;
+            vblidbtfd = truf;
+            ksr = ksRfsult;
+            rfturn vblidbtionStbtus;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            if (tiis == o) {
+                rfturn truf;
             }
 
-            if (!(o instanceof SignatureValue)) {
-                return false;
+            if (!(o instbndfof SignbturfVbluf)) {
+                rfturn fblsf;
             }
-            SignatureValue osv = (SignatureValue)o;
+            SignbturfVbluf osv = (SignbturfVbluf)o;
 
-            boolean idEqual =
-                (id == null ? osv.getId() == null : id.equals(osv.getId()));
+            boolfbn idEqubl =
+                (id == null ? osv.gftId() == null : id.fqubls(osv.gftId()));
 
-            //XXX compare signature values?
-            return idEqual;
+            //XXX dompbrf signbturf vblufs?
+            rfturn idEqubl;
         }
 
-        @Override
-        public int hashCode() {
-            int result = 17;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            int rfsult = 17;
             if (id != null) {
-                result = 31 * result + id.hashCode();
+                rfsult = 31 * rfsult + id.ibsiCodf();
             }
 
-            return result;
+            rfturn rfsult;
         }
 
-        public void marshal(Node parent, String dsPrefix,
-                            DOMCryptoContext context)
-            throws MarshalException
+        publid void mbrsibl(Nodf pbrfnt, String dsPrffix,
+                            DOMCryptoContfxt dontfxt)
+            tirows MbrsiblExdfption
         {
-            // create SignatureValue element
-            sigValueElem = DOMUtils.createElement(ownerDoc, "SignatureValue",
-                                                  XMLSignature.XMLNS, dsPrefix);
-            if (valueBase64 != null) {
-                sigValueElem.appendChild(ownerDoc.createTextNode(valueBase64));
+            // drfbtf SignbturfVbluf flfmfnt
+            sigVblufElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfVbluf",
+                                                  XMLSignbturf.XMLNS, dsPrffix);
+            if (vblufBbsf64 != null) {
+                sigVblufElfm.bppfndCiild(ownfrDod.drfbtfTfxtNodf(vblufBbsf64));
             }
 
-            // append Id attribute, if specified
-            DOMUtils.setAttributeID(sigValueElem, "Id", id);
-            parent.appendChild(sigValueElem);
+            // bppfnd Id bttributf, if spfdififd
+            DOMUtils.sftAttributfID(sigVblufElfm, "Id", id);
+            pbrfnt.bppfndCiild(sigVblufElfm);
         }
 
-        void setValue(byte[] value) {
-            this.value = value;
-            valueBase64 = Base64.encode(value);
-            sigValueElem.appendChild(ownerDoc.createTextNode(valueBase64));
+        void sftVbluf(bytf[] vbluf) {
+            tiis.vbluf = vbluf;
+            vblufBbsf64 = Bbsf64.fndodf(vbluf);
+            sigVblufElfm.bppfndCiild(ownfrDod.drfbtfTfxtNodf(vblufBbsf64));
         }
     }
 }

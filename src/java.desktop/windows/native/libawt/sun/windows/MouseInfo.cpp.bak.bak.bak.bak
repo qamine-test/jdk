@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windowsx.h>
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf "bwt.h"
+#indludf "bwt_Objfdt.h"
+#indludf "bwt_Componfnt.h"
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_bwt_DffbultMousfInfoPffr
+ * Mfthod:    isWindowUndfrMousf
+ * Signbturf: (Ljbvb/bwt/Window)Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_DffbultMousfInfoPffr_isWindowUndfrMousf(JNIEnv *fnv, jdlbss dls,
+                                                        jobjfdt window)
+{
+    POINT pt;
+
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn JNI_FALSE;
+    }
+
+    jobjfdt winPffr = AwtObjfdt::GftPffrForTbrgft(fnv, window);
+    PDATA pDbtb;
+    pDbtb = JNI_GET_PDATA(winPffr);
+    fnv->DflftfLodblRff(winPffr);
+    if (pDbtb == NULL) {
+        rfturn JNI_FALSE;
+    }
+
+    AwtComponfnt * ourWindow = (AwtComponfnt *)pDbtb;
+    HWND hwnd = ourWindow->GftHWnd();
+    VERIFY(::GftCursorPos(&pt));
+
+    AwtComponfnt * domponfntFromPoint = AwtComponfnt::GftComponfnt(::WindowFromPoint(pt));
+
+    whilf (domponfntFromPoint != NULL
+        && domponfntFromPoint->GftHWnd() != hwnd
+        && !AwtComponfnt::IsTopLfvflHWnd(domponfntFromPoint->GftHWnd()))
+    {
+        domponfntFromPoint = domponfntFromPoint->GftPbrfnt();
+    }
+
+    rfturn ((domponfntFromPoint != NULL) && (domponfntFromPoint->GftHWnd() == hwnd)) ? JNI_TRUE : JNI_FALSE;
+
+}
+
+/*
+ * Clbss:     sun_bwt_DffbultMousfInfoPffr
+ * Mfthod:    fillPointWithCoords
+ * Signbturf: (Ljbvb/bwt/Point)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_DffbultMousfInfoPffr_fillPointWithCoords(JNIEnv *fnv, jdlbss dls, jobjfdt point)
+{
+    stbtid jdlbss pointClbss = NULL;
+    stbtid jfifldID xID, yID;
+    POINT pt;
+
+    VERIFY(::GftCursorPos(&pt));
+    if (pointClbss == NULL) {
+        jdlbss pointClbssLodbl = fnv->FindClbss("jbvb/bwt/Point");
+        DASSERT(pointClbssLodbl != NULL);
+        if (pointClbssLodbl == NULL) {
+            rfturn (jint)0;
+        }
+        pointClbss = (jdlbss)fnv->NfwGlobblRff(pointClbssLodbl);
+        fnv->DflftfLodblRff(pointClbssLodbl);
+    }
+    xID = fnv->GftFifldID(pointClbss, "x", "I");
+    CHECK_NULL_RETURN(xID, (jint)0);
+    yID = fnv->GftFifldID(pointClbss, "y", "I");
+    CHECK_NULL_RETURN(yID, (jint)0);
+    fnv->SftIntFifld(point, xID, pt.x);
+    fnv->SftIntFifld(point, yID, pt.y);
+
+    // Alwbys rfturn 0 on Windows: wf bssumf thfrf's blwbys b
+    // virtubl sdrffn dfvidf usfd.
+    rfturn (jint)0;
+}
+
+} // fxtfrn "C"

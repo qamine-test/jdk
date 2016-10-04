@@ -1,0 +1,1365 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2007-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf;
+
+import stbtid jbvb.timf.LodblTimf.NANOS_PER_SECOND;
+import stbtid jbvb.timf.LodblTimf.SECONDS_PER_DAY;
+import stbtid jbvb.timf.LodblTimf.SECONDS_PER_HOUR;
+import stbtid jbvb.timf.LodblTimf.SECONDS_PER_MINUTE;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.INSTANT_SECONDS;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MICRO_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MILLI_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.NANO_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.NANOS;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.formbt.DbtfTimfFormbttfr;
+import jbvb.timf.formbt.DbtfTimfPbrsfExdfption;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.ChronoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Objfdts;
+
+/**
+ * An instbntbnfous point on thf timf-linf.
+ * <p>
+ * This dlbss modfls b singlf instbntbnfous point on thf timf-linf.
+ * This might bf usfd to rfdord fvfnt timf-stbmps in thf bpplidbtion.
+ * <p>
+ * Thf rbngf of bn instbnt rfquirfs thf storbgf of b numbfr lbrgfr thbn b {@dodf long}.
+ * To bdhifvf this, thf dlbss storfs b {@dodf long} rfprfsfnting fpodh-sfdonds bnd bn
+ * {@dodf int} rfprfsfnting nbnosfdond-of-sfdond, whidh will blwbys bf bftwffn 0 bnd 999,999,999.
+ * Thf fpodh-sfdonds brf mfbsurfd from thf stbndbrd Jbvb fpodh of {@dodf 1970-01-01T00:00:00Z}
+ * whfrf instbnts bftfr thf fpodh hbvf positivf vblufs, bnd fbrlifr instbnts hbvf nfgbtivf vblufs.
+ * For both thf fpodh-sfdond bnd nbnosfdond pbrts, b lbrgfr vbluf is blwbys lbtfr on thf timf-linf
+ * thbn b smbllfr vbluf.
+ *
+ * <h3>Timf-sdblf</h3>
+ * <p>
+ * Thf lfngth of thf solbr dby is thf stbndbrd wby thbt humbns mfbsurf timf.
+ * This hbs trbditionblly bffn subdividfd into 24 hours of 60 minutfs of 60 sfdonds,
+ * forming b 86400 sfdond dby.
+ * <p>
+ * Modfrn timfkffping is bbsfd on btomid dlodks whidh prfdisfly dffinf bn SI sfdond
+ * rflbtivf to thf trbnsitions of b Cbfsium btom. Thf lfngth of bn SI sfdond wbs dffinfd
+ * to bf vfry dlosf to thf 86400th frbdtion of b dby.
+ * <p>
+ * Unfortunbtfly, bs thf Ebrth rotbtfs thf lfngth of thf dby vbrifs.
+ * In bddition, ovfr timf thf bvfrbgf lfngth of thf dby is gftting longfr bs thf Ebrth slows.
+ * As b rfsult, thf lfngth of b solbr dby in 2012 is slightly longfr thbn 86400 SI sfdonds.
+ * Thf bdtubl lfngth of bny givfn dby bnd thf bmount by whidh thf Ebrth is slowing
+ * brf not prfdidtbblf bnd dbn only bf dftfrminfd by mfbsurfmfnt.
+ * Thf UT1 timf-sdblf dbpturfs thf bddurbtf lfngth of dby, but is only bvbilbblf somf
+ * timf bftfr thf dby hbs domplftfd.
+ * <p>
+ * Thf UTC timf-sdblf is b stbndbrd bpprobdh to bundlf up bll thf bdditionbl frbdtions
+ * of b sfdond from UT1 into wholf sfdonds, known bs <i>lfbp-sfdonds</i>.
+ * A lfbp-sfdond mby bf bddfd or rfmovfd dfpfnding on thf Ebrth's rotbtionbl dhbngfs.
+ * As sudh, UTC pfrmits b dby to hbvf 86399 SI sfdonds or 86401 SI sfdonds whfrf
+ * nfdfssbry in ordfr to kffp thf dby blignfd with thf Sun.
+ * <p>
+ * Thf modfrn UTC timf-sdblf wbs introdudfd in 1972, introduding thf dondfpt of wholf lfbp-sfdonds.
+ * Bftwffn 1958 bnd 1972, thf dffinition of UTC wbs domplfx, with minor sub-sfdond lfbps bnd
+ * bltfrbtions to thf lfngth of thf notionbl sfdond. As of 2012, disdussions brf undfrwby
+ * to dhbngf thf dffinition of UTC bgbin, with thf potfntibl to rfmovf lfbp sfdonds or
+ * introdudf othfr dhbngfs.
+ * <p>
+ * Givfn thf domplfxity of bddurbtf timfkffping dfsdribfd bbovf, this Jbvb API dffinfs
+ * its own timf-sdblf, thf <i>Jbvb Timf-Sdblf</i>.
+ * <p>
+ * Thf Jbvb Timf-Sdblf dividfs fbdh dblfndbr dby into fxbdtly 86400
+ * subdivisions, known bs sfdonds.  Thfsf sfdonds mby difffr from thf
+ * SI sfdond.  It dlosfly mbtdhfs thf df fbdto intfrnbtionbl divil timf
+ * sdblf, thf dffinition of whidh dhbngfs from timf to timf.
+ * <p>
+ * Thf Jbvb Timf-Sdblf hbs slightly difffrfnt dffinitions for difffrfnt
+ * sfgmfnts of thf timf-linf, fbdh bbsfd on thf donsfnsus intfrnbtionbl
+ * timf sdblf thbt is usfd bs thf bbsis for divil timf. Whfnfvfr thf
+ * intfrnbtionblly-bgrffd timf sdblf is modififd or rfplbdfd, b nfw
+ * sfgmfnt of thf Jbvb Timf-Sdblf must bf dffinfd for it.  Ebdh sfgmfnt
+ * must mfft thfsf rfquirfmfnts:
+ * <ul>
+ * <li>thf Jbvb Timf-Sdblf shbll dlosfly mbtdh thf undfrlying intfrnbtionbl
+ *  divil timf sdblf;</li>
+ * <li>thf Jbvb Timf-Sdblf shbll fxbdtly mbtdh thf intfrnbtionbl divil
+ *  timf sdblf bt noon fbdh dby;</li>
+ * <li>thf Jbvb Timf-Sdblf shbll hbvf b prfdisfly-dffinfd rflbtionship to
+ *  thf intfrnbtionbl divil timf sdblf.</li>
+ * </ul>
+ * Thfrf brf durrfntly, bs of 2013, two sfgmfnts in thf Jbvb timf-sdblf.
+ * <p>
+ * For thf sfgmfnt from 1972-11-03 (fxbdt boundbry disdussfd bflow) until
+ * furthfr notidf, thf donsfnsus intfrnbtionbl timf sdblf is UTC (with
+ * lfbp sfdonds).  In this sfgmfnt, thf Jbvb Timf-Sdblf is idfntidbl to
+ * <b hrff="http://www.dl.dbm.bd.uk/~mgk25/timf/utd-sls/">UTC-SLS</b>.
+ * This is idfntidbl to UTC on dbys thbt do not hbvf b lfbp sfdond.
+ * On dbys thbt do hbvf b lfbp sfdond, thf lfbp sfdond is sprfbd fqublly
+ * ovfr thf lbst 1000 sfdonds of thf dby, mbintbining thf bppfbrbndf of
+ * fxbdtly 86400 sfdonds pfr dby.
+ * <p>
+ * For thf sfgmfnt prior to 1972-11-03, fxtfnding bbdk brbitrbrily fbr,
+ * thf donsfnsus intfrnbtionbl timf sdblf is dffinfd to bf UT1, bpplifd
+ * prolfptidblly, whidh is fquivblfnt to thf (mfbn) solbr timf on thf
+ * primf mfridibn (Grffnwidh). In this sfgmfnt, thf Jbvb Timf-Sdblf is
+ * idfntidbl to thf donsfnsus intfrnbtionbl timf sdblf. Thf fxbdt
+ * boundbry bftwffn thf two sfgmfnts is thf instbnt whfrf UT1 = UTC
+ * bftwffn 1972-11-03T00:00 bnd 1972-11-04T12:00.
+ * <p>
+ * Implfmfntbtions of thf Jbvb timf-sdblf using thf JSR-310 API brf not
+ * rfquirfd to providf bny dlodk thbt is sub-sfdond bddurbtf, or thbt
+ * progrfssfs monotonidblly or smoothly. Implfmfntbtions brf thfrfforf
+ * not rfquirfd to bdtublly pfrform thf UTC-SLS slfw or to othfrwisf bf
+ * bwbrf of lfbp sfdonds. JSR-310 dofs, howfvfr, rfquirf thbt
+ * implfmfntbtions must dodumfnt thf bpprobdh thfy usf whfn dffining b
+ * dlodk rfprfsfnting thf durrfnt instbnt.
+ * Sff {@link Clodk} for dftbils on thf bvbilbblf dlodks.
+ * <p>
+ * Thf Jbvb timf-sdblf is usfd for bll dbtf-timf dlbssfs.
+ * This indludfs {@dodf Instbnt}, {@dodf LodblDbtf}, {@dodf LodblTimf}, {@dodf OffsftDbtfTimf},
+ * {@dodf ZonfdDbtfTimf} bnd {@dodf Durbtion}.
+ *
+ * <p>
+ * This is b <b hrff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.html">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity hbsh dodf, or syndhronizbtion) on instbndfs of
+ * {@dodf Instbnt} mby hbvf unprfdidtbblf rfsults bnd should bf bvoidfd.
+ * Thf {@dodf fqubls} mfthod should bf usfd for dompbrisons.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss Instbnt
+        implfmfnts Tfmporbl, TfmporblAdjustfr, Compbrbblf<Instbnt>, Sfriblizbblf {
+
+    /**
+     * Constbnt for thf 1970-01-01T00:00:00Z fpodh instbnt.
+     */
+    publid stbtid finbl Instbnt EPOCH = nfw Instbnt(0, 0);
+    /**
+     * Thf minimum supportfd fpodh sfdond.
+     */
+    privbtf stbtid finbl long MIN_SECOND = -31557014167219200L;
+    /**
+     * Thf mbximum supportfd fpodh sfdond.
+     */
+    privbtf stbtid finbl long MAX_SECOND = 31556889864403199L;
+    /**
+     * Thf minimum supportfd {@dodf Instbnt}, '-1000000000-01-01T00:00Z'.
+     * This dould bf usfd by bn bpplidbtion bs b "fbr pbst" instbnt.
+     * <p>
+     * This is onf yfbr fbrlifr thbn thf minimum {@dodf LodblDbtfTimf}.
+     * This providfs suffidifnt vblufs to hbndlf thf rbngf of {@dodf ZonfOffsft}
+     * whidh bfffdt thf instbnt in bddition to thf lodbl dbtf-timf.
+     * Thf vbluf is blso dhosfn sudh thbt thf vbluf of thf yfbr fits in
+     * bn {@dodf int}.
+     */
+    publid stbtid finbl Instbnt MIN = Instbnt.ofEpodhSfdond(MIN_SECOND, 0);
+    /**
+     * Thf mbximum supportfd {@dodf Instbnt}, '1000000000-12-31T23:59:59.999999999Z'.
+     * This dould bf usfd by bn bpplidbtion bs b "fbr futurf" instbnt.
+     * <p>
+     * This is onf yfbr lbtfr thbn thf mbximum {@dodf LodblDbtfTimf}.
+     * This providfs suffidifnt vblufs to hbndlf thf rbngf of {@dodf ZonfOffsft}
+     * whidh bfffdt thf instbnt in bddition to thf lodbl dbtf-timf.
+     * Thf vbluf is blso dhosfn sudh thbt thf vbluf of thf yfbr fits in
+     * bn {@dodf int}.
+     */
+    publid stbtid finbl Instbnt MAX = Instbnt.ofEpodhSfdond(MAX_SECOND, 999_999_999);
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -665713676816604388L;
+
+    /**
+     * Thf numbfr of sfdonds from thf fpodh of 1970-01-01T00:00:00Z.
+     */
+    privbtf finbl long sfdonds;
+    /**
+     * Thf numbfr of nbnosfdonds, lbtfr blong thf timf-linf, from thf sfdonds fifld.
+     * This is blwbys positivf, bnd nfvfr fxdffds 999,999,999.
+     */
+    privbtf finbl int nbnos;
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins thf durrfnt instbnt from thf systfm dlodk.
+     * <p>
+     * This will qufry thf {@link Clodk#systfmUTC() systfm UTC dlodk} to
+     * obtbin thf durrfnt instbnt.
+     * <p>
+     * Using this mfthod will prfvfnt thf bbility to usf bn bltfrnbtf timf-sourdf for
+     * tfsting bfdbusf thf dlodk is ffffdtivfly hbrd-dodfd.
+     *
+     * @rfturn thf durrfnt instbnt using thf systfm dlodk, not null
+     */
+    publid stbtid Instbnt now() {
+        rfturn Clodk.systfmUTC().instbnt();
+    }
+
+    /**
+     * Obtbins thf durrfnt instbnt from thf spfdififd dlodk.
+     * <p>
+     * This will qufry thf spfdififd dlodk to obtbin thf durrfnt timf.
+     * <p>
+     * Using this mfthod bllows thf usf of bn bltfrnbtf dlodk for tfsting.
+     * Thf bltfrnbtf dlodk mby bf introdudfd using {@link Clodk dfpfndfndy injfdtion}.
+     *
+     * @pbrbm dlodk  thf dlodk to usf, not null
+     * @rfturn thf durrfnt instbnt, not null
+     */
+    publid stbtid Instbnt now(Clodk dlodk) {
+        Objfdts.rfquirfNonNull(dlodk, "dlodk");
+        rfturn dlodk.instbnt();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} using sfdonds from thf
+     * fpodh of 1970-01-01T00:00:00Z.
+     * <p>
+     * Thf nbnosfdond fifld is sft to zfro.
+     *
+     * @pbrbm fpodhSfdond  thf numbfr of sfdonds from 1970-01-01T00:00:00Z
+     * @rfturn bn instbnt, not null
+     * @throws DbtfTimfExdfption if thf instbnt fxdffds thf mbximum or minimum instbnt
+     */
+    publid stbtid Instbnt ofEpodhSfdond(long fpodhSfdond) {
+        rfturn drfbtf(fpodhSfdond, 0);
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} using sfdonds from thf
+     * fpodh of 1970-01-01T00:00:00Z bnd nbnosfdond frbdtion of sfdond.
+     * <p>
+     * This mfthod bllows bn brbitrbry numbfr of nbnosfdonds to bf pbssfd in.
+     * Thf fbdtory will bltfr thf vblufs of thf sfdond bnd nbnosfdond in ordfr
+     * to fnsurf thbt thf storfd nbnosfdond is in thf rbngf 0 to 999,999,999.
+     * For fxbmplf, thf following will rfsult in thf fxbdtly thf sbmf instbnt:
+     * <prf>
+     *  Instbnt.ofEpodhSfdond(3, 1);
+     *  Instbnt.ofEpodhSfdond(4, -999_999_999);
+     *  Instbnt.ofEpodhSfdond(2, 1000_000_001);
+     * </prf>
+     *
+     * @pbrbm fpodhSfdond  thf numbfr of sfdonds from 1970-01-01T00:00:00Z
+     * @pbrbm nbnoAdjustmfnt  thf nbnosfdond bdjustmfnt to thf numbfr of sfdonds, positivf or nfgbtivf
+     * @rfturn bn instbnt, not null
+     * @throws DbtfTimfExdfption if thf instbnt fxdffds thf mbximum or minimum instbnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid stbtid Instbnt ofEpodhSfdond(long fpodhSfdond, long nbnoAdjustmfnt) {
+        long sfds = Mbth.bddExbdt(fpodhSfdond, Mbth.floorDiv(nbnoAdjustmfnt, NANOS_PER_SECOND));
+        int nos = (int)Mbth.floorMod(nbnoAdjustmfnt, NANOS_PER_SECOND);
+        rfturn drfbtf(sfds, nos);
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} using millisfdonds from thf
+     * fpodh of 1970-01-01T00:00:00Z.
+     * <p>
+     * Thf sfdonds bnd nbnosfdonds brf fxtrbdtfd from thf spfdififd millisfdonds.
+     *
+     * @pbrbm fpodhMilli  thf numbfr of millisfdonds from 1970-01-01T00:00:00Z
+     * @rfturn bn instbnt, not null
+     * @throws DbtfTimfExdfption if thf instbnt fxdffds thf mbximum or minimum instbnt
+     */
+    publid stbtid Instbnt ofEpodhMilli(long fpodhMilli) {
+        long sfds = Mbth.floorDiv(fpodhMilli, 1000);
+        int mos = (int)Mbth.floorMod(fpodhMilli, 1000);
+        rfturn drfbtf(sfds, mos * 1000_000);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} from b tfmporbl objfdt.
+     * <p>
+     * This obtbins bn instbnt bbsfd on thf spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * whidh this fbdtory donvfrts to bn instbndf of {@dodf Instbnt}.
+     * <p>
+     * Thf donvfrsion fxtrbdts thf {@link ChronoFifld#INSTANT_SECONDS INSTANT_SECONDS}
+     * bnd {@link ChronoFifld#NANO_OF_SECOND NANO_OF_SECOND} fiflds.
+     * <p>
+     * This mfthod mbtdhfs thf signbturf of thf fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mfthod rfffrfndf, {@dodf Instbnt::from}.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to donvfrt, not null
+     * @rfturn thf instbnt, not null
+     * @throws DbtfTimfExdfption if unbblf to donvfrt to bn {@dodf Instbnt}
+     */
+    publid stbtid Instbnt from(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof Instbnt) {
+            rfturn (Instbnt) tfmporbl;
+        }
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
+        try {
+            long instbntSfds = tfmporbl.gftLong(INSTANT_SECONDS);
+            int nbnoOfSfdond = tfmporbl.gft(NANO_OF_SECOND);
+            rfturn Instbnt.ofEpodhSfdond(instbntSfds, nbnoOfSfdond);
+        } dbtdh (DbtfTimfExdfption fx) {
+            throw nfw DbtfTimfExdfption("Unbblf to obtbin Instbnt from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf(), fx);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} from b tfxt string sudh bs
+     * {@dodf 2007-12-03T10:15:30.00Z}.
+     * <p>
+     * Thf string must rfprfsfnt b vblid instbnt in UTC bnd is pbrsfd using
+     * {@link DbtfTimfFormbttfr#ISO_INSTANT}.
+     *
+     * @pbrbm tfxt  thf tfxt to pbrsf, not null
+     * @rfturn thf pbrsfd instbnt, not null
+     * @throws DbtfTimfPbrsfExdfption if thf tfxt dbnnot bf pbrsfd
+     */
+    publid stbtid Instbnt pbrsf(finbl ChbrSfqufndf tfxt) {
+        rfturn DbtfTimfFormbttfr.ISO_INSTANT.pbrsf(tfxt, Instbnt::from);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf Instbnt} using sfdonds bnd nbnosfdonds.
+     *
+     * @pbrbm sfdonds  thf lfngth of thf durbtion in sfdonds
+     * @pbrbm nbnoOfSfdond  thf nbno-of-sfdond, from 0 to 999,999,999
+     * @throws DbtfTimfExdfption if thf instbnt fxdffds thf mbximum or minimum instbnt
+     */
+    privbtf stbtid Instbnt drfbtf(long sfdonds, int nbnoOfSfdond) {
+        if ((sfdonds | nbnoOfSfdond) == 0) {
+            rfturn EPOCH;
+        }
+        if (sfdonds < MIN_SECOND || sfdonds > MAX_SECOND) {
+            throw nfw DbtfTimfExdfption("Instbnt fxdffds minimum or mbximum instbnt");
+        }
+        rfturn nfw Instbnt(sfdonds, nbnoOfSfdond);
+    }
+
+    /**
+     * Construdts bn instbndf of {@dodf Instbnt} using sfdonds from thf fpodh of
+     * 1970-01-01T00:00:00Z bnd nbnosfdond frbdtion of sfdond.
+     *
+     * @pbrbm fpodhSfdond  thf numbfr of sfdonds from 1970-01-01T00:00:00Z
+     * @pbrbm nbnos  thf nbnosfdonds within thf sfdond, must bf positivf
+     */
+    privbtf Instbnt(long fpodhSfdond, int nbnos) {
+        supfr();
+        this.sfdonds = fpodhSfdond;
+        this.nbnos = nbnos;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if thf spfdififd fifld is supportfd.
+     * <p>
+     * This dhfdks if this instbnt dbn bf qufrifd for thf spfdififd fifld.
+     * If fblsf, thfn dblling thf {@link #rbngf(TfmporblFifld) rbngf},
+     * {@link #gft(TfmporblFifld) gft} bnd {@link #with(TfmporblFifld, long)}
+     * mfthods will throw bn fxdfption.
+     * <p>
+     * If thf fifld is b {@link ChronoFifld} thfn thf qufry is implfmfntfd hfrf.
+     * Thf supportfd fiflds brf:
+     * <ul>
+     * <li>{@dodf NANO_OF_SECOND}
+     * <li>{@dodf MICRO_OF_SECOND}
+     * <li>{@dodf MILLI_OF_SECOND}
+     * <li>{@dodf INSTANT_SECONDS}
+     * </ul>
+     * All othfr {@dodf ChronoFifld} instbndfs will rfturn fblsf.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf fifld is supportfd is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to dhfdk, null rfturns fblsf
+     * @rfturn truf if thf fifld is supportfd on this instbnt, fblsf if not
+     */
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            rfturn fifld == INSTANT_SECONDS || fifld == NANO_OF_SECOND || fifld == MICRO_OF_SECOND || fifld == MILLI_OF_SECOND;
+        }
+        rfturn fifld != null && fifld.isSupportfdBy(this);
+    }
+
+    /**
+     * Chfdks if thf spfdififd unit is supportfd.
+     * <p>
+     * This dhfdks if thf spfdififd unit dbn bf bddfd to, or subtrbdtfd from, this dbtf-timf.
+     * If fblsf, thfn dblling thf {@link #plus(long, TfmporblUnit)} bnd
+     * {@link #minus(long, TfmporblUnit) minus} mfthods will throw bn fxdfption.
+     * <p>
+     * If thf unit is b {@link ChronoUnit} thfn thf qufry is implfmfntfd hfrf.
+     * Thf supportfd units brf:
+     * <ul>
+     * <li>{@dodf NANOS}
+     * <li>{@dodf MICROS}
+     * <li>{@dodf MILLIS}
+     * <li>{@dodf SECONDS}
+     * <li>{@dodf MINUTES}
+     * <li>{@dodf HOURS}
+     * <li>{@dodf HALF_DAYS}
+     * <li>{@dodf DAYS}
+     * </ul>
+     * All othfr {@dodf ChronoUnit} instbndfs will rfturn fblsf.
+     * <p>
+     * If thf unit is not b {@dodf ChronoUnit}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.isSupportfdBy(Tfmporbl)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf unit is supportfd is dftfrminfd by thf unit.
+     *
+     * @pbrbm unit  thf unit to dhfdk, null rfturns fblsf
+     * @rfturn truf if thf unit dbn bf bddfd/subtrbdtfd, fblsf if not
+     */
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblUnit unit) {
+        if (unit instbndfof ChronoUnit) {
+            rfturn unit.isTimfBbsfd() || unit == DAYS;
+        }
+        rfturn unit != null && unit.isSupportfdBy(this);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf rbngf of vblid vblufs for thf spfdififd fifld.
+     * <p>
+     * Thf rbngf objfdt fxprfssfs thf minimum bnd mbximum vblid vblufs for b fifld.
+     * This instbnt is usfd to fnhbndf thf bddurbdy of thf rfturnfd rbngf.
+     * If it is not possiblf to rfturn thf rbngf, bfdbusf thf fifld is not supportfd
+     * or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is b {@link ChronoFifld} thfn thf qufry is implfmfntfd hfrf.
+     * Thf {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn
+     * bppropribtf rbngf instbndfs.
+     * All othfr {@dodf ChronoFifld} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf rbngf dbn bf obtbinfd is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to qufry thf rbngf for, not null
+     * @rfturn thf rbngf of vblid vblufs for thf fifld, not null
+     * @throws DbtfTimfExdfption if thf rbngf for thf fifld dbnnot bf obtbinfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd
+     */
+    @Ovfrridf  // ovfrridf for Jbvbdod
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        rfturn Tfmporbl.supfr.rbngf(fifld);
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd fifld from this instbnt bs bn {@dodf int}.
+     * <p>
+     * This qufrifs this instbnt for thf vbluf of thf spfdififd fifld.
+     * Thf rfturnfd vbluf will blwbys bf within thf vblid rbngf of vblufs for thf fifld.
+     * If it is not possiblf to rfturn thf vbluf, bfdbusf thf fifld is not supportfd
+     * or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is b {@link ChronoFifld} thfn thf qufry is implfmfntfd hfrf.
+     * Thf {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn vblid
+     * vblufs bbsfd on this dbtf-timf, fxdfpt {@dodf INSTANT_SECONDS} whidh is too
+     * lbrgf to fit in bn {@dodf int} bnd throws b {@dodf DbtfTimfExdfption}.
+     * All othfr {@dodf ChronoFifld} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt. Whfthfr thf vbluf dbn bf obtbinfd,
+     * bnd whbt thf vbluf rfprfsfnts, is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to gft, not null
+     * @rfturn thf vbluf for thf fifld
+     * @throws DbtfTimfExdfption if b vbluf for thf fifld dbnnot bf obtbinfd or
+     *         thf vbluf is outsidf thf rbngf of vblid vblufs for thf fifld
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd or
+     *         thf rbngf of vblufs fxdffds bn {@dodf int}
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf  // ovfrridf for Jbvbdod bnd pfrformbndf
+    publid int gft(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            switdh ((ChronoFifld) fifld) {
+                dbsf NANO_OF_SECOND: rfturn nbnos;
+                dbsf MICRO_OF_SECOND: rfturn nbnos / 1000;
+                dbsf MILLI_OF_SECOND: rfturn nbnos / 1000_000;
+                dbsf INSTANT_SECONDS: INSTANT_SECONDS.dhfdkVblidIntVbluf(sfdonds);
+            }
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        rfturn rbngf(fifld).dhfdkVblidIntVbluf(fifld.gftFrom(this), fifld);
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd fifld from this instbnt bs b {@dodf long}.
+     * <p>
+     * This qufrifs this instbnt for thf vbluf of thf spfdififd fifld.
+     * If it is not possiblf to rfturn thf vbluf, bfdbusf thf fifld is not supportfd
+     * or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is b {@link ChronoFifld} thfn thf qufry is implfmfntfd hfrf.
+     * Thf {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn vblid
+     * vblufs bbsfd on this dbtf-timf.
+     * All othfr {@dodf ChronoFifld} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt. Whfthfr thf vbluf dbn bf obtbinfd,
+     * bnd whbt thf vbluf rfprfsfnts, is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to gft, not null
+     * @rfturn thf vbluf for thf fifld
+     * @throws DbtfTimfExdfption if b vbluf for thf fifld dbnnot bf obtbinfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            switdh ((ChronoFifld) fifld) {
+                dbsf NANO_OF_SECOND: rfturn nbnos;
+                dbsf MICRO_OF_SECOND: rfturn nbnos / 1000;
+                dbsf MILLI_OF_SECOND: rfturn nbnos / 1000_000;
+                dbsf INSTANT_SECONDS: rfturn sfdonds;
+            }
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        rfturn fifld.gftFrom(this);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf numbfr of sfdonds from thf Jbvb fpodh of 1970-01-01T00:00:00Z.
+     * <p>
+     * Thf fpodh sfdond dount is b simplf indrfmfnting dount of sfdonds whfrf
+     * sfdond 0 is 1970-01-01T00:00:00Z.
+     * Thf nbnosfdond pbrt of thf dby is rfturnfd by {@dodf gftNbnosOfSfdond}.
+     *
+     * @rfturn thf sfdonds from thf fpodh of 1970-01-01T00:00:00Z
+     */
+    publid long gftEpodhSfdond() {
+        rfturn sfdonds;
+    }
+
+    /**
+     * Gfts thf numbfr of nbnosfdonds, lbtfr blong thf timf-linf, from thf stbrt
+     * of thf sfdond.
+     * <p>
+     * Thf nbnosfdond-of-sfdond vbluf mfbsurfs thf totbl numbfr of nbnosfdonds from
+     * thf sfdond rfturnfd by {@dodf gftEpodhSfdond}.
+     *
+     * @rfturn thf nbnosfdonds within thf sfdond, blwbys positivf, nfvfr fxdffds 999,999,999
+     */
+    publid int gftNbno() {
+        rfturn nbnos;
+    }
+
+    //-------------------------------------------------------------------------
+    /**
+     * Rfturns bn bdjustfd dopy of this instbnt.
+     * <p>
+     * This rfturns bn {@dodf Instbnt}, bbsfd on this onf, with thf instbnt bdjustfd.
+     * Thf bdjustmfnt tbkfs plbdf using thf spfdififd bdjustfr strbtfgy objfdt.
+     * Rfbd thf dodumfntbtion of thf bdjustfr to undfrstbnd whbt bdjustmfnt will bf mbdf.
+     * <p>
+     * Thf rfsult of this mfthod is obtbinfd by invoking thf
+     * {@link TfmporblAdjustfr#bdjustInto(Tfmporbl)} mfthod on thf
+     * spfdififd bdjustfr pbssing {@dodf this} bs thf brgumfnt.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm bdjustfr thf bdjustfr to usf, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on {@dodf this} with thf bdjustmfnt mbdf, not null
+     * @throws DbtfTimfExdfption if thf bdjustmfnt dbnnot bf mbdf
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Instbnt with(TfmporblAdjustfr bdjustfr) {
+        rfturn (Instbnt) bdjustfr.bdjustInto(this);
+    }
+
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd fifld sft to b nfw vbluf.
+     * <p>
+     * This rfturns bn {@dodf Instbnt}, bbsfd on this onf, with thf vbluf
+     * for thf spfdififd fifld dhbngfd.
+     * If it is not possiblf to sft thf vbluf, bfdbusf thf fifld is not supportfd or for
+     * somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is b {@link ChronoFifld} thfn thf bdjustmfnt is implfmfntfd hfrf.
+     * Thf supportfd fiflds bfhbvf bs follows:
+     * <ul>
+     * <li>{@dodf NANO_OF_SECOND} -
+     *  Rfturns bn {@dodf Instbnt} with thf spfdififd nbno-of-sfdond.
+     *  Thf fpodh-sfdond will bf undhbngfd.
+     * <li>{@dodf MICRO_OF_SECOND} -
+     *  Rfturns bn {@dodf Instbnt} with thf nbno-of-sfdond rfplbdfd by thf spfdififd
+     *  midro-of-sfdond multiplifd by 1,000. Thf fpodh-sfdond will bf undhbngfd.
+     * <li>{@dodf MILLI_OF_SECOND} -
+     *  Rfturns bn {@dodf Instbnt} with thf nbno-of-sfdond rfplbdfd by thf spfdififd
+     *  milli-of-sfdond multiplifd by 1,000,000. Thf fpodh-sfdond will bf undhbngfd.
+     * <li>{@dodf INSTANT_SECONDS} -
+     *  Rfturns bn {@dodf Instbnt} with thf spfdififd fpodh-sfdond.
+     *  Thf nbno-of-sfdond will bf undhbngfd.
+     * </ul>
+     * <p>
+     * In bll dbsfs, if thf nfw vbluf is outsidf thf vblid rbngf of vblufs for thf fifld
+     * thfn b {@dodf DbtfTimfExdfption} will bf thrown.
+     * <p>
+     * All othfr {@dodf ChronoFifld} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.bdjustInto(Tfmporbl, long)}
+     * pbssing {@dodf this} bs thf brgumfnt. In this dbsf, thf fifld dftfrminfs
+     * whfthfr bnd how to bdjust thf instbnt.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm fifld  thf fifld to sft in thf rfsult, not null
+     * @pbrbm nfwVbluf  thf nfw vbluf of thf fifld in thf rfsult
+     * @rfturn bn {@dodf Instbnt} bbsfd on {@dodf this} with thf spfdififd fifld sft, not null
+     * @throws DbtfTimfExdfption if thf fifld dbnnot bf sft
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Instbnt with(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof ChronoFifld) {
+            ChronoFifld f = (ChronoFifld) fifld;
+            f.dhfdkVblidVbluf(nfwVbluf);
+            switdh (f) {
+                dbsf MILLI_OF_SECOND: {
+                    int nvbl = (int) nfwVbluf * 1000_000;
+                    rfturn (nvbl != nbnos ? drfbtf(sfdonds, nvbl) : this);
+                }
+                dbsf MICRO_OF_SECOND: {
+                    int nvbl = (int) nfwVbluf * 1000;
+                    rfturn (nvbl != nbnos ? drfbtf(sfdonds, nvbl) : this);
+                }
+                dbsf NANO_OF_SECOND: rfturn (nfwVbluf != nbnos ? drfbtf(sfdonds, (int) nfwVbluf) : this);
+                dbsf INSTANT_SECONDS: rfturn (nfwVbluf != sfdonds ? drfbtf(nfwVbluf, nbnos) : this);
+            }
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        rfturn fifld.bdjustInto(this, nfwVbluf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dopy of this {@dodf Instbnt} trundbtfd to thf spfdififd unit.
+     * <p>
+     * Trundbting thf instbnt rfturns b dopy of thf originbl with fiflds
+     * smbllfr thbn thf spfdififd unit sft to zfro.
+     * Thf fiflds brf dbldulbtfd on thf bbsis of using b UTC offsft bs sffn
+     * in {@dodf toString}.
+     * For fxbmplf, trundbting with thf {@link ChronoUnit#MINUTES MINUTES} unit will
+     * round down to thf nfbrfst minutf, sftting thf sfdonds bnd nbnosfdonds to zfro.
+     * <p>
+     * Thf unit must hbvf b {@linkplbin TfmporblUnit#gftDurbtion() durbtion}
+     * thbt dividfs into thf lfngth of b stbndbrd dby without rfmbindfr.
+     * This indludfs bll supplifd timf units on {@link ChronoUnit} bnd
+     * {@link ChronoUnit#DAYS DAYS}. Othfr units throw bn fxdfption.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm unit  thf unit to trundbtf to, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf timf trundbtfd, not null
+     * @throws DbtfTimfExdfption if thf unit is invblid for trundbtion
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd
+     */
+    publid Instbnt trundbtfdTo(TfmporblUnit unit) {
+        if (unit == ChronoUnit.NANOS) {
+            rfturn this;
+        }
+        Durbtion unitDur = unit.gftDurbtion();
+        if (unitDur.gftSfdonds() > LodblTimf.SECONDS_PER_DAY) {
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unit is too lbrgf to bf usfd for trundbtion");
+        }
+        long dur = unitDur.toNbnos();
+        if ((LodblTimf.NANOS_PER_DAY % dur) != 0) {
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unit must dividf into b stbndbrd dby without rfmbindfr");
+        }
+        long nod = (sfdonds % LodblTimf.SECONDS_PER_DAY) * LodblTimf.NANOS_PER_SECOND + nbnos;
+        long rfsult = (nod / dur) * dur;
+        rfturn plusNbnos(rfsult - nod);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd bmount bddfd.
+     * <p>
+     * This rfturns bn {@dodf Instbnt}, bbsfd on this onf, with thf spfdififd bmount bddfd.
+     * Thf bmount is typidblly {@link Durbtion} but mby bf bny othfr typf implfmfnting
+     * thf {@link TfmporblAmount} intfrfbdf.
+     * <p>
+     * Thf dbldulbtion is dflfgbtfd to thf bmount objfdt by dblling
+     * {@link TfmporblAmount#bddTo(Tfmporbl)}. Thf bmount implfmfntbtion is frff
+     * to implfmfnt thf bddition in bny wby it wishfs, howfvfr it typidblly
+     * dblls bbdk to {@link #plus(long, TfmporblUnit)}. Consult thf dodumfntbtion
+     * of thf bmount implfmfntbtion to dftfrminf if it dbn bf suddfssfully bddfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm bmountToAdd  thf bmount to bdd, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf bddition mbdf, not null
+     * @throws DbtfTimfExdfption if thf bddition dbnnot bf mbdf
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Instbnt plus(TfmporblAmount bmountToAdd) {
+        rfturn (Instbnt) bmountToAdd.bddTo(this);
+    }
+
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd bmount bddfd.
+     * <p>
+     * This rfturns bn {@dodf Instbnt}, bbsfd on this onf, with thf bmount
+     * in tfrms of thf unit bddfd. If it is not possiblf to bdd thf bmount, bfdbusf thf
+     * unit is not supportfd or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is b {@link ChronoUnit} thfn thf bddition is implfmfntfd hfrf.
+     * Thf supportfd fiflds bfhbvf bs follows:
+     * <ul>
+     * <li>{@dodf NANOS} -
+     *  Rfturns b {@dodf Instbnt} with thf spfdififd numbfr of nbnosfdonds bddfd.
+     *  This is fquivblfnt to {@link #plusNbnos(long)}.
+     * <li>{@dodf MICROS} -
+     *  Rfturns b {@dodf Instbnt} with thf spfdififd numbfr of midrosfdonds bddfd.
+     *  This is fquivblfnt to {@link #plusNbnos(long)} with thf bmount
+     *  multiplifd by 1,000.
+     * <li>{@dodf MILLIS} -
+     *  Rfturns b {@dodf Instbnt} with thf spfdififd numbfr of millisfdonds bddfd.
+     *  This is fquivblfnt to {@link #plusNbnos(long)} with thf bmount
+     *  multiplifd by 1,000,000.
+     * <li>{@dodf SECONDS} -
+     *  Rfturns b {@dodf Instbnt} with thf spfdififd numbfr of sfdonds bddfd.
+     *  This is fquivblfnt to {@link #plusSfdonds(long)}.
+     * <li>{@dodf MINUTES} -
+     *  Rfturns b {@dodf Instbnt} with thf spfdififd numbfr of minutfs bddfd.
+     *  This is fquivblfnt to {@link #plusSfdonds(long)} with thf bmount
+     *  multiplifd by 60.
+     * <li>{@dodf HOURS} -
+     *  Rfturns b {@dodf Instbnt} with thf spfdififd numbfr of hours bddfd.
+     *  This is fquivblfnt to {@link #plusSfdonds(long)} with thf bmount
+     *  multiplifd by 3,600.
+     * <li>{@dodf HALF_DAYS} -
+     *  Rfturns b {@dodf Instbnt} with thf spfdififd numbfr of hblf-dbys bddfd.
+     *  This is fquivblfnt to {@link #plusSfdonds(long)} with thf bmount
+     *  multiplifd by 43,200 (12 hours).
+     * <li>{@dodf DAYS} -
+     *  Rfturns b {@dodf Instbnt} with thf spfdififd numbfr of dbys bddfd.
+     *  This is fquivblfnt to {@link #plusSfdonds(long)} with thf bmount
+     *  multiplifd by 86,400 (24 hours).
+     * </ul>
+     * <p>
+     * All othfr {@dodf ChronoUnit} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoUnit}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.bddTo(Tfmporbl, long)}
+     * pbssing {@dodf this} bs thf brgumfnt. In this dbsf, thf unit dftfrminfs
+     * whfthfr bnd how to pfrform thf bddition.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm bmountToAdd  thf bmount of thf unit to bdd to thf rfsult, mby bf nfgbtivf
+     * @pbrbm unit  thf unit of thf bmount to bdd, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd bmount bddfd, not null
+     * @throws DbtfTimfExdfption if thf bddition dbnnot bf mbdf
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Instbnt plus(long bmountToAdd, TfmporblUnit unit) {
+        if (unit instbndfof ChronoUnit) {
+            switdh ((ChronoUnit) unit) {
+                dbsf NANOS: rfturn plusNbnos(bmountToAdd);
+                dbsf MICROS: rfturn plus(bmountToAdd / 1000_000, (bmountToAdd % 1000_000) * 1000);
+                dbsf MILLIS: rfturn plusMillis(bmountToAdd);
+                dbsf SECONDS: rfturn plusSfdonds(bmountToAdd);
+                dbsf MINUTES: rfturn plusSfdonds(Mbth.multiplyExbdt(bmountToAdd, SECONDS_PER_MINUTE));
+                dbsf HOURS: rfturn plusSfdonds(Mbth.multiplyExbdt(bmountToAdd, SECONDS_PER_HOUR));
+                dbsf HALF_DAYS: rfturn plusSfdonds(Mbth.multiplyExbdt(bmountToAdd, SECONDS_PER_DAY / 2));
+                dbsf DAYS: rfturn plusSfdonds(Mbth.multiplyExbdt(bmountToAdd, SECONDS_PER_DAY));
+            }
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd unit: " + unit);
+        }
+        rfturn unit.bddTo(this, bmountToAdd);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd durbtion in sfdonds bddfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm sfdondsToAdd  thf sfdonds to bdd, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd sfdonds bddfd, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf mbximum or minimum instbnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid Instbnt plusSfdonds(long sfdondsToAdd) {
+        rfturn plus(sfdondsToAdd, 0);
+    }
+
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd durbtion in millisfdonds bddfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm millisToAdd  thf millisfdonds to bdd, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd millisfdonds bddfd, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf mbximum or minimum instbnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid Instbnt plusMillis(long millisToAdd) {
+        rfturn plus(millisToAdd / 1000, (millisToAdd % 1000) * 1000_000);
+    }
+
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd durbtion in nbnosfdonds bddfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm nbnosToAdd  thf nbnosfdonds to bdd, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd nbnosfdonds bddfd, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf mbximum or minimum instbnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid Instbnt plusNbnos(long nbnosToAdd) {
+        rfturn plus(0, nbnosToAdd);
+    }
+
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd durbtion bddfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm sfdondsToAdd  thf sfdonds to bdd, positivf or nfgbtivf
+     * @pbrbm nbnosToAdd  thf nbnos to bdd, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd sfdonds bddfd, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf mbximum or minimum instbnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    privbtf Instbnt plus(long sfdondsToAdd, long nbnosToAdd) {
+        if ((sfdondsToAdd | nbnosToAdd) == 0) {
+            rfturn this;
+        }
+        long fpodhSfd = Mbth.bddExbdt(sfdonds, sfdondsToAdd);
+        fpodhSfd = Mbth.bddExbdt(fpodhSfd, nbnosToAdd / NANOS_PER_SECOND);
+        nbnosToAdd = nbnosToAdd % NANOS_PER_SECOND;
+        long nbnoAdjustmfnt = nbnos + nbnosToAdd;  // sbff int+NANOS_PER_SECOND
+        rfturn ofEpodhSfdond(fpodhSfd, nbnoAdjustmfnt);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd bmount subtrbdtfd.
+     * <p>
+     * This rfturns bn {@dodf Instbnt}, bbsfd on this onf, with thf spfdififd bmount subtrbdtfd.
+     * Thf bmount is typidblly {@link Durbtion} but mby bf bny othfr typf implfmfnting
+     * thf {@link TfmporblAmount} intfrfbdf.
+     * <p>
+     * Thf dbldulbtion is dflfgbtfd to thf bmount objfdt by dblling
+     * {@link TfmporblAmount#subtrbdtFrom(Tfmporbl)}. Thf bmount implfmfntbtion is frff
+     * to implfmfnt thf subtrbdtion in bny wby it wishfs, howfvfr it typidblly
+     * dblls bbdk to {@link #minus(long, TfmporblUnit)}. Consult thf dodumfntbtion
+     * of thf bmount implfmfntbtion to dftfrminf if it dbn bf suddfssfully subtrbdtfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm bmountToSubtrbdt  thf bmount to subtrbdt, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf subtrbdtion mbdf, not null
+     * @throws DbtfTimfExdfption if thf subtrbdtion dbnnot bf mbdf
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Instbnt minus(TfmporblAmount bmountToSubtrbdt) {
+        rfturn (Instbnt) bmountToSubtrbdt.subtrbdtFrom(this);
+    }
+
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd bmount subtrbdtfd.
+     * <p>
+     * This rfturns b {@dodf Instbnt}, bbsfd on this onf, with thf bmount
+     * in tfrms of thf unit subtrbdtfd. If it is not possiblf to subtrbdt thf bmount,
+     * bfdbusf thf unit is not supportfd or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * This mfthod is fquivblfnt to {@link #plus(long, TfmporblUnit)} with thf bmount nfgbtfd.
+     * Sff thbt mfthod for b full dfsdription of how bddition, bnd thus subtrbdtion, works.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm bmountToSubtrbdt  thf bmount of thf unit to subtrbdt from thf rfsult, mby bf nfgbtivf
+     * @pbrbm unit  thf unit of thf bmount to subtrbdt, not null
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd bmount subtrbdtfd, not null
+     * @throws DbtfTimfExdfption if thf subtrbdtion dbnnot bf mbdf
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Instbnt minus(long bmountToSubtrbdt, TfmporblUnit unit) {
+        rfturn (bmountToSubtrbdt == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbdt, unit));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd durbtion in sfdonds subtrbdtfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm sfdondsToSubtrbdt  thf sfdonds to subtrbdt, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd sfdonds subtrbdtfd, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf mbximum or minimum instbnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid Instbnt minusSfdonds(long sfdondsToSubtrbdt) {
+        if (sfdondsToSubtrbdt == Long.MIN_VALUE) {
+            rfturn plusSfdonds(Long.MAX_VALUE).plusSfdonds(1);
+        }
+        rfturn plusSfdonds(-sfdondsToSubtrbdt);
+    }
+
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd durbtion in millisfdonds subtrbdtfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm millisToSubtrbdt  thf millisfdonds to subtrbdt, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd millisfdonds subtrbdtfd, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf mbximum or minimum instbnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid Instbnt minusMillis(long millisToSubtrbdt) {
+        if (millisToSubtrbdt == Long.MIN_VALUE) {
+            rfturn plusMillis(Long.MAX_VALUE).plusMillis(1);
+        }
+        rfturn plusMillis(-millisToSubtrbdt);
+    }
+
+    /**
+     * Rfturns b dopy of this instbnt with thf spfdififd durbtion in nbnosfdonds subtrbdtfd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm nbnosToSubtrbdt  thf nbnosfdonds to subtrbdt, positivf or nfgbtivf
+     * @rfturn bn {@dodf Instbnt} bbsfd on this instbnt with thf spfdififd nbnosfdonds subtrbdtfd, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf mbximum or minimum instbnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid Instbnt minusNbnos(long nbnosToSubtrbdt) {
+        if (nbnosToSubtrbdt == Long.MIN_VALUE) {
+            rfturn plusNbnos(Long.MAX_VALUE).plusNbnos(1);
+        }
+        rfturn plusNbnos(-nbnosToSubtrbdt);
+    }
+
+    //-------------------------------------------------------------------------
+    /**
+     * Qufrifs this instbnt using thf spfdififd qufry.
+     * <p>
+     * This qufrifs this instbnt using thf spfdififd qufry strbtfgy objfdt.
+     * Thf {@dodf TfmporblQufry} objfdt dffinfs thf logid to bf usfd to
+     * obtbin thf rfsult. Rfbd thf dodumfntbtion of thf qufry to undfrstbnd
+     * whbt thf rfsult of this mfthod will bf.
+     * <p>
+     * Thf rfsult of this mfthod is obtbinfd by invoking thf
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mfthod on thf
+     * spfdififd qufry pbssing {@dodf this} bs thf brgumfnt.
+     *
+     * @pbrbm <R> thf typf of thf rfsult
+     * @pbrbm qufry  thf qufry to invokf, not null
+     * @rfturn thf qufry rfsult, null mby bf rfturnfd (dffinfd by thf qufry)
+     * @throws DbtfTimfExdfption if unbblf to qufry (dffinfd by thf qufry)
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs (dffinfd by thf qufry)
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    @Ovfrridf
+    publid <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.prfdision()) {
+            rfturn (R) NANOS;
+        }
+        // inlinf TfmporblAddfssor.supfr.qufry(qufry) bs bn optimizbtion
+        if (qufry == TfmporblQufrifs.dhronology() || qufry == TfmporblQufrifs.zonfId() ||
+                qufry == TfmporblQufrifs.zonf() || qufry == TfmporblQufrifs.offsft() ||
+                qufry == TfmporblQufrifs.lodblDbtf() || qufry == TfmporblQufrifs.lodblTimf()) {
+            rfturn null;
+        }
+        rfturn qufry.qufryFrom(this);
+    }
+
+    /**
+     * Adjusts thf spfdififd tfmporbl objfdt to hbvf this instbnt.
+     * <p>
+     * This rfturns b tfmporbl objfdt of thf sbmf obsfrvbblf typf bs thf input
+     * with thf instbnt dhbngfd to bf thf sbmf bs this.
+     * <p>
+     * Thf bdjustmfnt is fquivblfnt to using {@link Tfmporbl#with(TfmporblFifld, long)}
+     * twidf, pbssing {@link ChronoFifld#INSTANT_SECONDS} bnd
+     * {@link ChronoFifld#NANO_OF_SECOND} bs thf fiflds.
+     * <p>
+     * In most dbsfs, it is dlfbrfr to rfvfrsf thf dblling pbttfrn by using
+     * {@link Tfmporbl#with(TfmporblAdjustfr)}:
+     * <prf>
+     *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+     *   tfmporbl = thisInstbnt.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.with(thisInstbnt);
+     * </prf>
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm tfmporbl  thf tbrgft objfdt to bf bdjustfd, not null
+     * @rfturn thf bdjustfd objfdt, not null
+     * @throws DbtfTimfExdfption if unbblf to mbkf thf bdjustmfnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Tfmporbl bdjustInto(Tfmporbl tfmporbl) {
+        rfturn tfmporbl.with(INSTANT_SECONDS, sfdonds).with(NANO_OF_SECOND, nbnos);
+    }
+
+    /**
+     * Cbldulbtfs thf bmount of timf until bnothfr instbnt in tfrms of thf spfdififd unit.
+     * <p>
+     * This dbldulbtfs thf bmount of timf bftwffn two {@dodf Instbnt}
+     * objfdts in tfrms of b singlf {@dodf TfmporblUnit}.
+     * Thf stbrt bnd fnd points brf {@dodf this} bnd thf spfdififd instbnt.
+     * Thf rfsult will bf nfgbtivf if thf fnd is bfforf thf stbrt.
+     * Thf dbldulbtion rfturns b wholf numbfr, rfprfsfnting thf numbfr of
+     * domplftf units bftwffn thf two instbnts.
+     * Thf {@dodf Tfmporbl} pbssfd to this mfthod is donvfrtfd to b
+     * {@dodf Instbnt} using {@link #from(TfmporblAddfssor)}.
+     * For fxbmplf, thf bmount in dbys bftwffn two dbtfs dbn bf dbldulbtfd
+     * using {@dodf stbrtInstbnt.until(fndInstbnt, SECONDS)}.
+     * <p>
+     * Thfrf brf two fquivblfnt wbys of using this mfthod.
+     * Thf first is to invokf this mfthod.
+     * Thf sfdond is to usf {@link TfmporblUnit#bftwffn(Tfmporbl, Tfmporbl)}:
+     * <prf>
+     *   // thfsf two linfs brf fquivblfnt
+     *   bmount = stbrt.until(fnd, SECONDS);
+     *   bmount = SECONDS.bftwffn(stbrt, fnd);
+     * </prf>
+     * Thf dhoidf should bf mbdf bbsfd on whidh mbkfs thf dodf morf rfbdbblf.
+     * <p>
+     * Thf dbldulbtion is implfmfntfd in this mfthod for {@link ChronoUnit}.
+     * Thf units {@dodf NANOS}, {@dodf MICROS}, {@dodf MILLIS}, {@dodf SECONDS},
+     * {@dodf MINUTES}, {@dodf HOURS}, {@dodf HALF_DAYS} bnd {@dodf DAYS}
+     * brf supportfd. Othfr {@dodf ChronoUnit} vblufs will throw bn fxdfption.
+     * <p>
+     * If thf unit is not b {@dodf ChronoUnit}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.bftwffn(Tfmporbl, Tfmporbl)}
+     * pbssing {@dodf this} bs thf first brgumfnt bnd thf donvfrtfd input tfmporbl
+     * bs thf sfdond brgumfnt.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm fndExdlusivf  thf fnd dbtf, fxdlusivf, whidh is donvfrtfd to bn {@dodf Instbnt}, not null
+     * @pbrbm unit  thf unit to mfbsurf thf bmount in, not null
+     * @rfturn thf bmount of timf bftwffn this instbnt bnd thf fnd instbnt
+     * @throws DbtfTimfExdfption if thf bmount dbnnot bf dbldulbtfd, or thf fnd
+     *  tfmporbl dbnnot bf donvfrtfd to bn {@dodf Instbnt}
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid long until(Tfmporbl fndExdlusivf, TfmporblUnit unit) {
+        Instbnt fnd = Instbnt.from(fndExdlusivf);
+        if (unit instbndfof ChronoUnit) {
+            ChronoUnit f = (ChronoUnit) unit;
+            switdh (f) {
+                dbsf NANOS: rfturn nbnosUntil(fnd);
+                dbsf MICROS: rfturn nbnosUntil(fnd) / 1000;
+                dbsf MILLIS: rfturn Mbth.subtrbdtExbdt(fnd.toEpodhMilli(), toEpodhMilli());
+                dbsf SECONDS: rfturn sfdondsUntil(fnd);
+                dbsf MINUTES: rfturn sfdondsUntil(fnd) / SECONDS_PER_MINUTE;
+                dbsf HOURS: rfturn sfdondsUntil(fnd) / SECONDS_PER_HOUR;
+                dbsf HALF_DAYS: rfturn sfdondsUntil(fnd) / (12 * SECONDS_PER_HOUR);
+                dbsf DAYS: rfturn sfdondsUntil(fnd) / (SECONDS_PER_DAY);
+            }
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd unit: " + unit);
+        }
+        rfturn unit.bftwffn(this, fnd);
+    }
+
+    privbtf long nbnosUntil(Instbnt fnd) {
+        long sfdsDiff = Mbth.subtrbdtExbdt(fnd.sfdonds, sfdonds);
+        long totblNbnos = Mbth.multiplyExbdt(sfdsDiff, NANOS_PER_SECOND);
+        rfturn Mbth.bddExbdt(totblNbnos, fnd.nbnos - nbnos);
+    }
+
+    privbtf long sfdondsUntil(Instbnt fnd) {
+        long sfdsDiff = Mbth.subtrbdtExbdt(fnd.sfdonds, sfdonds);
+        long nbnosDiff = fnd.nbnos - nbnos;
+        if (sfdsDiff > 0 && nbnosDiff < 0) {
+            sfdsDiff--;
+        } flsf if (sfdsDiff < 0 && nbnosDiff > 0) {
+            sfdsDiff++;
+        }
+        rfturn sfdsDiff;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Combinfs this instbnt with bn offsft to drfbtf bn {@dodf OffsftDbtfTimf}.
+     * <p>
+     * This rfturns bn {@dodf OffsftDbtfTimf} formfd from this instbnt bt thf
+     * spfdififd offsft from UTC/Grffnwidh. An fxdfption will bf thrown if thf
+     * instbnt is too lbrgf to fit into bn offsft dbtf-timf.
+     * <p>
+     * This mfthod is fquivblfnt to
+     * {@link OffsftDbtfTimf#ofInstbnt(Instbnt, ZonfId) OffsftDbtfTimf.ofInstbnt(this, offsft)}.
+     *
+     * @pbrbm offsft  thf offsft to dombinf with, not null
+     * @rfturn thf offsft dbtf-timf formfd from this instbnt bnd thf spfdififd offsft, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf supportfd rbngf
+     */
+    publid OffsftDbtfTimf btOffsft(ZonfOffsft offsft) {
+        rfturn OffsftDbtfTimf.ofInstbnt(this, offsft);
+    }
+
+    /**
+     * Combinfs this instbnt with b timf-zonf to drfbtf b {@dodf ZonfdDbtfTimf}.
+     * <p>
+     * This rfturns bn {@dodf ZonfdDbtfTimf} formfd from this instbnt bt thf
+     * spfdififd timf-zonf. An fxdfption will bf thrown if thf instbnt is too
+     * lbrgf to fit into b zonfd dbtf-timf.
+     * <p>
+     * This mfthod is fquivblfnt to
+     * {@link ZonfdDbtfTimf#ofInstbnt(Instbnt, ZonfId) ZonfdDbtfTimf.ofInstbnt(this, zonf)}.
+     *
+     * @pbrbm zonf  thf zonf to dombinf with, not null
+     * @rfturn thf zonfd dbtf-timf formfd from this instbnt bnd thf spfdififd zonf, not null
+     * @throws DbtfTimfExdfption if thf rfsult fxdffds thf supportfd rbngf
+     */
+    publid ZonfdDbtfTimf btZonf(ZonfId zonf) {
+        rfturn ZonfdDbtfTimf.ofInstbnt(this, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Convfrts this instbnt to thf numbfr of millisfdonds from thf fpodh
+     * of 1970-01-01T00:00:00Z.
+     * <p>
+     * If this instbnt rfprfsfnts b point on thf timf-linf too fbr in thf futurf
+     * or pbst to fit in b {@dodf long} millisfdonds, thfn bn fxdfption is thrown.
+     * <p>
+     * If this instbnt hbs grfbtfr thbn millisfdond prfdision, thfn thf donvfrsion
+     * will drop bny fxdfss prfdision informbtion bs though thf bmount in nbnosfdonds
+     * wbs subjfdt to intfgfr division by onf million.
+     *
+     * @rfturn thf numbfr of millisfdonds sindf thf fpodh of 1970-01-01T00:00:00Z
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    publid long toEpodhMilli() {
+        long millis = Mbth.multiplyExbdt(sfdonds, 1000);
+        rfturn millis + nbnos / 1000_000;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Compbrfs this instbnt to thf spfdififd instbnt.
+     * <p>
+     * Thf dompbrison is bbsfd on thf timf-linf position of thf instbnts.
+     * It is "donsistfnt with fqubls", bs dffinfd by {@link Compbrbblf}.
+     *
+     * @pbrbm othfrInstbnt  thf othfr instbnt to dompbrf to, not null
+     * @rfturn thf dompbrbtor vbluf, nfgbtivf if lfss, positivf if grfbtfr
+     * @throws NullPointfrExdfption if othfrInstbnt is null
+     */
+    @Ovfrridf
+    publid int dompbrfTo(Instbnt othfrInstbnt) {
+        int dmp = Long.dompbrf(sfdonds, othfrInstbnt.sfdonds);
+        if (dmp != 0) {
+            rfturn dmp;
+        }
+        rfturn nbnos - othfrInstbnt.nbnos;
+    }
+
+    /**
+     * Chfdks if this instbnt is bftfr thf spfdififd instbnt.
+     * <p>
+     * Thf dompbrison is bbsfd on thf timf-linf position of thf instbnts.
+     *
+     * @pbrbm othfrInstbnt  thf othfr instbnt to dompbrf to, not null
+     * @rfturn truf if this instbnt is bftfr thf spfdififd instbnt
+     * @throws NullPointfrExdfption if othfrInstbnt is null
+     */
+    publid boolfbn isAftfr(Instbnt othfrInstbnt) {
+        rfturn dompbrfTo(othfrInstbnt) > 0;
+    }
+
+    /**
+     * Chfdks if this instbnt is bfforf thf spfdififd instbnt.
+     * <p>
+     * Thf dompbrison is bbsfd on thf timf-linf position of thf instbnts.
+     *
+     * @pbrbm othfrInstbnt  thf othfr instbnt to dompbrf to, not null
+     * @rfturn truf if this instbnt is bfforf thf spfdififd instbnt
+     * @throws NullPointfrExdfption if othfrInstbnt is null
+     */
+    publid boolfbn isBfforf(Instbnt othfrInstbnt) {
+        rfturn dompbrfTo(othfrInstbnt) < 0;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this instbnt is fqubl to thf spfdififd instbnt.
+     * <p>
+     * Thf dompbrison is bbsfd on thf timf-linf position of thf instbnts.
+     *
+     * @pbrbm othfrInstbnt  thf othfr instbnt, null rfturns fblsf
+     * @rfturn truf if thf othfr instbnt is fqubl to this onf
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt othfrInstbnt) {
+        if (this == othfrInstbnt) {
+            rfturn truf;
+        }
+        if (othfrInstbnt instbndfof Instbnt) {
+            Instbnt othfr = (Instbnt) othfrInstbnt;
+            rfturn this.sfdonds == othfr.sfdonds &&
+                   this.nbnos == othfr.nbnos;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this instbnt.
+     *
+     * @rfturn b suitbblf hbsh dodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn ((int) (sfdonds ^ (sfdonds >>> 32))) + 51 * nbnos;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * A string rfprfsfntbtion of this instbnt using ISO-8601 rfprfsfntbtion.
+     * <p>
+     * Thf formbt usfd is thf sbmf bs {@link DbtfTimfFormbttfr#ISO_INSTANT}.
+     *
+     * @rfturn bn ISO-8601 rfprfsfntbtion of this instbnt, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn DbtfTimfFormbttfr.ISO_INSTANT.formbt(this);
+    }
+
+    // -----------------------------------------------------------------------
+    /**
+     * Writfs thf objfdt using b
+     * <b hrff="../../sfriblizfd-form.html#jbvb.timf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(2);  // idfntififs bn Instbnt
+     *  out.writfLong(sfdonds);
+     *  out.writfInt(nbnos);
+     * </prf>
+     *
+     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.INSTANT_TYPE, this);
+    }
+
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    void writfExtfrnbl(DbtbOutput out) throws IOExdfption {
+        out.writfLong(sfdonds);
+        out.writfInt(nbnos);
+    }
+
+    stbtid Instbnt rfbdExtfrnbl(DbtbInput in) throws IOExdfption {
+        long sfdonds = in.rfbdLong();
+        int nbnos = in.rfbdInt();
+        rfturn Instbnt.ofEpodhSfdond(sfdonds, nbnos);
+    }
+
+}

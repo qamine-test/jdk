@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.cosnaming;
+pbdkbgf dom.sun.jndi.dosnbming;
 
-import javax.naming.Name;
-import javax.naming.NamingException;
+import jbvbx.nbming.Nbmf;
+import jbvbx.nbming.NbmingExdfption;
 
-import java.net.MalformedURLException;
-import com.sun.jndi.toolkit.url.UrlUtil;
+import jbvb.nft.MblformfdURLExdfption;
+import dom.sun.jndi.toolkit.url.UrlUtil;
 
 /**
- * Extract components of a "corbaname" URL.
+ * Extrbdt domponfnts of b "dorbbnbmf" URL.
  *
- * The format of an corbaname URL is defined in INS 99-12-03 as follows.
+ * Tif formbt of bn dorbbnbmf URL is dffinfd in INS 99-12-03 bs follows.
  *<p>
- * corbaname url = "corbaname:" <corbaloc_obj> ["#" <string_name>]
- * corbaloc_obj  = <obj_addr_list> ["/" <key_string>]
- * obj_addr_list = as defined in a corbaloc URL
- * key_string    = as defined in a corbaloc URL
- * string_name   = stringified COS name | empty_string
+ * dorbbnbmf url = "dorbbnbmf:" <dorbblod_obj> ["#" <string_nbmf>]
+ * dorbblod_obj  = <obj_bddr_list> ["/" <kfy_string>]
+ * obj_bddr_list = bs dffinfd in b dorbblod URL
+ * kfy_string    = bs dffinfd in b dorbblod URL
+ * string_nbmf   = stringififd COS nbmf | fmpty_string
  *<p>
- * Characters in <string_name> are escaped as follows.
- * US-ASCII alphanumeric characters are not escaped. Any characters outside
- * of this range are escaped except for the following:
+ * Cibrbdtfrs in <string_nbmf> brf fsdbpfd bs follows.
+ * US-ASCII blpibnumfrid dibrbdtfrs brf not fsdbpfd. Any dibrbdtfrs outsidf
+ * of tiis rbngf brf fsdbpfd fxdfpt for tif following:
  *        ; / : ? @ & = + $ , - _ . ! ~ * ; ( )
- * Escaped characters is escaped by using a % followed by its 2 hexadecimal
- * numbers representing the octet.
+ * Esdbpfd dibrbdtfrs is fsdbpfd by using b % followfd by its 2 ifxbdfdimbl
+ * numbfrs rfprfsfnting tif odtft.
  *<p>
- * The corbaname URL is parsed into two parts: a corbaloc URL and a COS name.
- * The corbaloc URL is constructed by concatenation "corbaloc:" with
- * <corbaloc_obj>.
- * The COS name is <string_name> with the escaped characters resolved.
+ * Tif dorbbnbmf URL is pbrsfd into two pbrts: b dorbblod URL bnd b COS nbmf.
+ * Tif dorbblod URL is donstrudtfd by dondbtfnbtion "dorbblod:" witi
+ * <dorbblod_obj>.
+ * Tif COS nbmf is <string_nbmf> witi tif fsdbpfd dibrbdtfrs rfsolvfd.
  *<p>
- * A corbaname URL is resolved by:
+ * A dorbbnbmf URL is rfsolvfd by:
  *<ol>
- *<li>Construct a corbaloc URL by concatenating "corbaloc:" and <corbaloc_obj>.
- *<li>Resolve the corbaloc URL to a NamingContext by using
- *     nctx = ORB.string_to_object(corbalocUrl);
- *<li>Resolve <string_name> in the NamingContext.
+ *<li>Construdt b dorbblod URL by dondbtfnbting "dorbblod:" bnd <dorbblod_obj>.
+ *<li>Rfsolvf tif dorbblod URL to b NbmingContfxt by using
+ *     ndtx = ORB.string_to_objfdt(dorbblodUrl);
+ *<li>Rfsolvf <string_nbmf> in tif NbmingContfxt.
  *</ol>
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
 
-public final class CorbanameUrl {
-    private String stringName;
-    private String location;
+publid finbl dlbss CorbbnbmfUrl {
+    privbtf String stringNbmf;
+    privbtf String lodbtion;
 
     /**
-     * Returns a possibly empty but non-null string that is the "string_name"
-     * portion of the URL.
+     * Rfturns b possibly fmpty but non-null string tibt is tif "string_nbmf"
+     * portion of tif URL.
      */
-    public String getStringName() {
-        return stringName;
+    publid String gftStringNbmf() {
+        rfturn stringNbmf;
     }
 
-    public Name getCosName() throws NamingException {
-        return CNCtx.parser.parse(stringName);
+    publid Nbmf gftCosNbmf() tirows NbmingExdfption {
+        rfturn CNCtx.pbrsfr.pbrsf(stringNbmf);
     }
 
-    public String getLocation() {
-        return "corbaloc:" + location;
+    publid String gftLodbtion() {
+        rfturn "dorbblod:" + lodbtion;
     }
 
-    public CorbanameUrl(String url) throws MalformedURLException {
+    publid CorbbnbmfUrl(String url) tirows MblformfdURLExdfption {
 
-        if (!url.startsWith("corbaname:")) {
-            throw new MalformedURLException("Invalid corbaname URL: " + url);
+        if (!url.stbrtsWiti("dorbbnbmf:")) {
+            tirow nfw MblformfdURLExdfption("Invblid dorbbnbmf URL: " + url);
         }
 
-        int addrStart = 10;  // "corbaname:"
+        int bddrStbrt = 10;  // "dorbbnbmf:"
 
-        int addrEnd = url.indexOf('#', addrStart);
-        if (addrEnd < 0) {
-            addrEnd = url.length();
-            stringName = "";
-        } else {
-            stringName = UrlUtil.decode(url.substring(addrEnd+1));
+        int bddrEnd = url.indfxOf('#', bddrStbrt);
+        if (bddrEnd < 0) {
+            bddrEnd = url.lfngti();
+            stringNbmf = "";
+        } flsf {
+            stringNbmf = UrlUtil.dfdodf(url.substring(bddrEnd+1));
         }
-        location = url.substring(addrStart, addrEnd);
+        lodbtion = url.substring(bddrStbrt, bddrEnd);
 
-        int keyStart = location.indexOf('/');
-        if (keyStart >= 0) {
-            // Has key string
-            if (keyStart == (location.length() -1)) {
-                location += "NameService";
+        int kfyStbrt = lodbtion.indfxOf('/');
+        if (kfyStbrt >= 0) {
+            // Hbs kfy string
+            if (kfyStbrt == (lodbtion.lfngti() -1)) {
+                lodbtion += "NbmfSfrvidf";
             }
-        } else {
-            location += "/NameService";
+        } flsf {
+            lodbtion += "/NbmfSfrvidf";
         }
     }
 /*
-    // for testing only
-    public static void main(String[] args) {
+    // for tfsting only
+    publid stbtid void mbin(String[] brgs) {
         try {
-            CorbanameUrl url = new CorbanameUrl(args[0]);
+            CorbbnbmfUrl url = nfw CorbbnbmfUrl(brgs[0]);
 
-            System.out.println("location: " + url.getLocation());
-            System.out.println("string name: " + url.getStringName());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Systfm.out.println("lodbtion: " + url.gftLodbtion());
+            Systfm.out.println("string nbmf: " + url.gftStringNbmf());
+        } dbtdi (MblformfdURLExdfption f) {
+            f.printStbdkTrbdf();
         }
     }
 */

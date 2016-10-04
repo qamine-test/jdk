@@ -1,109 +1,109 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "MorphTables.h"
-#include "StateTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor.h"
-#include "StateTableProcessor.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "StbtfTbblfs.i"
+#indludf "MorpiStbtfTbblfs.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "StbtfTbblfProdfssor.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-StateTableProcessor::StateTableProcessor()
+StbtfTbblfProdfssor::StbtfTbblfProdfssor()
 {
 }
 
-StateTableProcessor::StateTableProcessor(const LEReferenceTo<MorphSubtableHeader> &morphSubtableHeader, LEErrorCode &success)
-  : SubtableProcessor(morphSubtableHeader, success), stateTableHeader(morphSubtableHeader, success),
-    stHeader(stateTableHeader, success, (const StateTableHeader*)&stateTableHeader->stHeader)
+StbtfTbblfProdfssor::StbtfTbblfProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : SubtbblfProdfssor(morpiSubtbblfHfbdfr, suddfss), stbtfTbblfHfbdfr(morpiSubtbblfHfbdfr, suddfss),
+    stHfbdfr(stbtfTbblfHfbdfr, suddfss, (donst StbtfTbblfHfbdfr*)&stbtfTbblfHfbdfr->stHfbdfr)
 {
-  if(LE_FAILURE(success)) return;
-    stateSize = SWAPW(stateTableHeader->stHeader.stateSize);
-    classTableOffset = SWAPW(stateTableHeader->stHeader.classTableOffset);
-    stateArrayOffset = SWAPW(stateTableHeader->stHeader.stateArrayOffset);
-    entryTableOffset = SWAPW(stateTableHeader->stHeader.entryTableOffset);
+  if(LE_FAILURE(suddfss)) rfturn;
+    stbtfSizf = SWAPW(stbtfTbblfHfbdfr->stHfbdfr.stbtfSizf);
+    dlbssTbblfOffsft = SWAPW(stbtfTbblfHfbdfr->stHfbdfr.dlbssTbblfOffsft);
+    stbtfArrbyOffsft = SWAPW(stbtfTbblfHfbdfr->stHfbdfr.stbtfArrbyOffsft);
+    fntryTbblfOffsft = SWAPW(stbtfTbblfHfbdfr->stHfbdfr.fntryTbblfOffsft);
 
-    classTable = LEReferenceTo<ClassTable>(stateTableHeader, success, ((char *) &stateTableHeader->stHeader + classTableOffset));
-  if(LE_FAILURE(success)) return;
-    firstGlyph = SWAPW(classTable->firstGlyph);
-    lastGlyph  = firstGlyph + SWAPW(classTable->nGlyphs);
+    dlbssTbblf = LERfffrfndfTo<ClbssTbblf>(stbtfTbblfHfbdfr, suddfss, ((dibr *) &stbtfTbblfHfbdfr->stHfbdfr + dlbssTbblfOffsft));
+  if(LE_FAILURE(suddfss)) rfturn;
+    firstGlypi = SWAPW(dlbssTbblf->firstGlypi);
+    lbstGlypi  = firstGlypi + SWAPW(dlbssTbblf->nGlypis);
 }
 
-StateTableProcessor::~StateTableProcessor()
+StbtfTbblfProdfssor::~StbtfTbblfProdfssor()
 {
 }
 
-void StateTableProcessor::process(LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void StbtfTbblfProdfssor::prodfss(LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) return;
+    if (LE_FAILURE(suddfss)) rfturn;
     LE_STATE_PATIENCE_INIT();
 
-    // Start at state 0
-    // XXX: How do we know when to start at state 1?
-    ByteOffset currentState = stateArrayOffset;
+    // Stbrt bt stbtf 0
+    // XXX: How do wf know wifn to stbrt bt stbtf 1?
+    BytfOffsft durrfntStbtf = stbtfArrbyOffsft;
 
-    // XXX: reverse?
-    le_int32 currGlyph = 0;
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
+    // XXX: rfvfrsf?
+    lf_int32 durrGlypi = 0;
+    lf_int32 glypiCount = glypiStorbgf.gftGlypiCount();
 
-    beginStateTable();
+    bfginStbtfTbblf();
 
-    while (currGlyph <= glyphCount) {
-        if(LE_STATE_PATIENCE_DECR()) break; // patience exceeded.
-        ClassCode classCode = classCodeOOB;
-        if (currGlyph == glyphCount) {
-            // XXX: How do we handle EOT vs. EOL?
-            classCode = classCodeEOT;
-        } else {
-            TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(glyphStorage[currGlyph]);
+    wiilf (durrGlypi <= glypiCount) {
+        if(LE_STATE_PATIENCE_DECR()) brfbk; // pbtifndf fxdffdfd.
+        ClbssCodf dlbssCodf = dlbssCodfOOB;
+        if (durrGlypi == glypiCount) {
+            // XXX: How do wf ibndlf EOT vs. EOL?
+            dlbssCodf = dlbssCodfEOT;
+        } flsf {
+            TTGlypiID glypiCodf = (TTGlypiID) LE_GET_GLYPH(glypiStorbgf[durrGlypi]);
 
-            if (glyphCode == 0xFFFF) {
-                classCode = classCodeDEL;
-            } else if ((glyphCode >= firstGlyph) && (glyphCode < lastGlyph)) {
-                classCode = classTable->classArray[glyphCode - firstGlyph];
+            if (glypiCodf == 0xFFFF) {
+                dlbssCodf = dlbssCodfDEL;
+            } flsf if ((glypiCodf >= firstGlypi) && (glypiCodf < lbstGlypi)) {
+                dlbssCodf = dlbssTbblf->dlbssArrby[glypiCodf - firstGlypi];
             }
         }
 
-        LEReferenceToArrayOf<EntryTableIndex> stateArray(stHeader, success, currentState, LE_UNBOUNDED_ARRAY);
-        EntryTableIndex entryTableIndex = stateArray.getObject((le_uint8)classCode, success);
-        if (LE_FAILURE(success)) { break; }
-        LE_STATE_PATIENCE_CURR(le_int32, currGlyph);
-        currentState = processStateEntry(glyphStorage, currGlyph, entryTableIndex);
-        LE_STATE_PATIENCE_INCR(currGlyph);
+        LERfffrfndfToArrbyOf<EntryTbblfIndfx> stbtfArrby(stHfbdfr, suddfss, durrfntStbtf, LE_UNBOUNDED_ARRAY);
+        EntryTbblfIndfx fntryTbblfIndfx = stbtfArrby.gftObjfdt((lf_uint8)dlbssCodf, suddfss);
+        if (LE_FAILURE(suddfss)) { brfbk; }
+        LE_STATE_PATIENCE_CURR(lf_int32, durrGlypi);
+        durrfntStbtf = prodfssStbtfEntry(glypiStorbgf, durrGlypi, fntryTbblfIndfx);
+        LE_STATE_PATIENCE_INCR(durrGlypi);
     }
 
-    endStateTable();
+    fndStbtfTbblf();
 }
 
 U_NAMESPACE_END

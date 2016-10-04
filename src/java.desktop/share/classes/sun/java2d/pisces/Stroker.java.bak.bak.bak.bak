@@ -1,0 +1,1223 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pisdfs;
+
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
+import stbtid jbvb.lbng.Mbth.ulp;
+import stbtid jbvb.lbng.Mbth.sqrt;
+
+import sun.bwt.gfom.PbthConsumfr2D;
+
+// TODO: somf of thf brithmftid hfrf is too vfrbosf bnd pronf to hbrd to
+// dfbug typos. Wf should donsidfr mbking b smbll Point/Vfdtor dlbss thbt
+// hbs mfthods likf plus(Point), minus(Point), dot(Point), dross(Point)bnd sudh
+finbl dlbss Strokfr implfmfnts PbthConsumfr2D {
+
+    privbtf stbtid finbl int MOVE_TO = 0;
+    privbtf stbtid finbl int DRAWING_OP_TO = 1; // if. durvf, linf, or qubd
+    privbtf stbtid finbl int CLOSE = 2;
+
+    /**
+     * Constbnt vbluf for join stylf.
+     */
+    publid stbtid finbl int JOIN_MITER = 0;
+
+    /**
+     * Constbnt vbluf for join stylf.
+     */
+    publid stbtid finbl int JOIN_ROUND = 1;
+
+    /**
+     * Constbnt vbluf for join stylf.
+     */
+    publid stbtid finbl int JOIN_BEVEL = 2;
+
+    /**
+     * Constbnt vbluf for fnd dbp stylf.
+     */
+    publid stbtid finbl int CAP_BUTT = 0;
+
+    /**
+     * Constbnt vbluf for fnd dbp stylf.
+     */
+    publid stbtid finbl int CAP_ROUND = 1;
+
+    /**
+     * Constbnt vbluf for fnd dbp stylf.
+     */
+    publid stbtid finbl int CAP_SQUARE = 2;
+
+    privbtf finbl PbthConsumfr2D out;
+
+    privbtf finbl int dbpStylf;
+    privbtf finbl int joinStylf;
+
+    privbtf finbl flobt linfWidth2;
+
+    privbtf finbl flobt[][] offsft = nfw flobt[3][2];
+    privbtf finbl flobt[] mitfr = nfw flobt[2];
+    privbtf finbl flobt mitfrLimitSq;
+
+    privbtf int prfv;
+
+    // Thf stbrting point of thf pbth, bnd thf slopf thfrf.
+    privbtf flobt sx0, sy0, sdx, sdy;
+    // thf durrfnt point bnd thf slopf thfrf.
+    privbtf flobt dx0, dy0, ddx, ddy; // d stbnds for durrfnt
+    // vfdtors thbt whfn bddfd to (sx0,sy0) bnd (dx0,dy0) rfspfdtivfly yifld thf
+    // first bnd lbst points on thf lfft pbrbllfl pbth. Sindf this pbth is
+    // pbrbllfl, it's slopf bt bny point is pbrbllfl to thf slopf of thf
+    // originbl pbth (thought thfy mby hbvf difffrfnt dirfdtions), so thfsf
+    // dould bf domputfd from sdx,sdy bnd ddx,ddy (bnd vidf vfrsb), but thbt
+    // would bf frror pronf bnd hbrd to rfbd, so wf kffp thfsf bnywby.
+    privbtf flobt smx, smy, dmx, dmy;
+
+    privbtf finbl PolyStbdk rfvfrsf = nfw PolyStbdk();
+
+    /**
+     * Construdts b <dodf>Strokfr</dodf>.
+     *
+     * @pbrbm pd2d bn output <dodf>PbthConsumfr2D</dodf>.
+     * @pbrbm linfWidth thf dfsirfd linf width in pixfls
+     * @pbrbm dbpStylf thf dfsirfd fnd dbp stylf, onf of
+     * <dodf>CAP_BUTT</dodf>, <dodf>CAP_ROUND</dodf> or
+     * <dodf>CAP_SQUARE</dodf>.
+     * @pbrbm joinStylf thf dfsirfd linf join stylf, onf of
+     * <dodf>JOIN_MITER</dodf>, <dodf>JOIN_ROUND</dodf> or
+     * <dodf>JOIN_BEVEL</dodf>.
+     * @pbrbm mitfrLimit thf dfsirfd mitfr limit
+     */
+    publid Strokfr(PbthConsumfr2D pd2d,
+                   flobt linfWidth,
+                   int dbpStylf,
+                   int joinStylf,
+                   flobt mitfrLimit)
+    {
+        this.out = pd2d;
+
+        this.linfWidth2 = linfWidth / 2;
+        this.dbpStylf = dbpStylf;
+        this.joinStylf = joinStylf;
+
+        flobt limit = mitfrLimit * linfWidth2;
+        this.mitfrLimitSq = limit*limit;
+
+        this.prfv = CLOSE;
+    }
+
+    privbtf stbtid void domputfOffsft(finbl flobt lx, finbl flobt ly,
+                                      finbl flobt w, finbl flobt[] m)
+    {
+        finbl flobt lfn = (flobt) sqrt(lx*lx + ly*ly);
+        if (lfn == 0) {
+            m[0] = m[1] = 0;
+        } flsf {
+            m[0] = (ly * w)/lfn;
+            m[1] = -(lx * w)/lfn;
+        }
+    }
+
+    // Rfturns truf if thf vfdtors (dx1, dy1) bnd (dx2, dy2) brf
+    // dlodkwisf (if dx1,dy1 nffds to bf rotbtfd dlodkwisf to dlosf
+    // thf smbllfst bnglf bftwffn it bnd dx2,dy2).
+    // This is fquivblfnt to dftfdting whfthfr b point q is on thf right sidf
+    // of b linf pbssing through points p1, p2 whfrf p2 = p1+(dx1,dy1) bnd
+    // q = p2+(dx2,dy2), whidh is thf sbmf bs sbying p1, p2, q brf in b
+    // dlodkwisf ordfr.
+    // NOTE: "dlodkwisf" hfrf bssumfs doordinbtfs with 0,0 bt thf bottom lfft.
+    privbtf stbtid boolfbn isCW(finbl flobt dx1, finbl flobt dy1,
+                                finbl flobt dx2, finbl flobt dy2)
+    {
+        rfturn dx1 * dy2 <= dy1 * dx2;
+    }
+
+    // pisdfs usfd to usf fixfd point brithmftid with 16 dfdimbl digits. I
+    // didn't wbnt to dhbngf thf vblufs of thf donstbnt bflow whfn I donvfrtfd
+    // it to flobting point, so thbt's why thf divisions by 2^16 brf thfrf.
+    privbtf stbtid finbl flobt ROUND_JOIN_THRESHOLD = 1000/65536f;
+
+    privbtf void drbwRoundJoin(flobt x, flobt y,
+                               flobt omx, flobt omy, flobt mx, flobt my,
+                               boolfbn rfv,
+                               flobt thrfshold)
+    {
+        if ((omx == 0 && omy == 0) || (mx == 0 && my == 0)) {
+            rfturn;
+        }
+
+        flobt domx = omx - mx;
+        flobt domy = omy - my;
+        flobt lfn = domx*domx + domy*domy;
+        if (lfn < thrfshold) {
+            rfturn;
+        }
+
+        if (rfv) {
+            omx = -omx;
+            omy = -omy;
+            mx = -mx;
+            my = -my;
+        }
+        drbwRoundJoin(x, y, omx, omy, mx, my, rfv);
+    }
+
+    privbtf void drbwRoundJoin(flobt dx, flobt dy,
+                               flobt omx, flobt omy,
+                               flobt mx, flobt my,
+                               boolfbn rfv)
+    {
+        // Thf sign of thf dot produdt of mx,my bnd omx,omy is fqubl to thf
+        // thf sign of thf dosinf of fxt
+        // (fxt is thf bnglf bftwffn omx,omy bnd mx,my).
+        doublf dosfxt = omx * mx + omy * my;
+        // If it is >=0, wf know thbt bbs(fxt) is <= 90 dfgrffs, so wf only
+        // nffd 1 durvf to bpproximbtf thf dirdlf sfdtion thbt joins omx,omy
+        // bnd mx,my.
+        finbl int numCurvfs = dosfxt >= 0 ? 1 : 2;
+
+        switdh (numCurvfs) {
+        dbsf 1:
+            drbwBfzApproxForArd(dx, dy, omx, omy, mx, my, rfv);
+            brfbk;
+        dbsf 2:
+            // wf nffd to split thf brd into 2 brds spbnning thf sbmf bnglf.
+            // Thf point wf wbnt will bf onf of thf 2 intfrsfdtions of thf
+            // pfrpfndidulbr bisfdtor of thf dhord (omx,omy)->(mx,my) bnd thf
+            // dirdlf. Wf dould find this by sdbling thf vfdtor
+            // (omx+mx, omy+my)/2 so thbt it hbs lfngth=linfWidth2 (bnd thus lifs
+            // on thf dirdlf), but thbt dbn hbvf numfridbl problfms whfn thf bnglf
+            // bftwffn omx,omy bnd mx,my is dlosf to 180 dfgrffs. So wf domputf b
+            // normbl of (omx,omy)-(mx,my). This will bf thf dirfdtion of thf
+            // pfrpfndidulbr bisfdtor. To gft onf of thf intfrsfdtions, wf just sdblf
+            // this vfdtor thbt its lfngth is linfWidth2 (this works bfdbusf thf
+            // pfrpfndidulbr bisfdtor gofs through thf origin). This sdbling dofsn't
+            // hbvf numfridbl problfms bfdbusf wf know thbt linfWidth2 dividfd by
+            // this normbl's lfngth is bt lfbst 0.5 bnd bt most sqrt(2)/2 (bfdbusf
+            // wf know thf bnglf of thf brd is > 90 dfgrffs).
+            flobt nx = my - omy, ny = omx - mx;
+            flobt nlfn = (flobt) sqrt(nx*nx + ny*ny);
+            flobt sdblf = linfWidth2/nlfn;
+            flobt mmx = nx * sdblf, mmy = ny * sdblf;
+
+            // if (isCW(omx, omy, mx, my) != isCW(mmx, mmy, mx, my)) thfn wf'vf
+            // domputfd thf wrong intfrsfdtion so wf gft thf othfr onf.
+            // Thf tfst bbovf is fquivblfnt to if (rfv).
+            if (rfv) {
+                mmx = -mmx;
+                mmy = -mmy;
+            }
+            drbwBfzApproxForArd(dx, dy, omx, omy, mmx, mmy, rfv);
+            drbwBfzApproxForArd(dx, dy, mmx, mmy, mx, my, rfv);
+            brfbk;
+        }
+    }
+
+    // thf input brd dffinfd by omx,omy bnd mx,my must spbn <= 90 dfgrffs.
+    privbtf void drbwBfzApproxForArd(finbl flobt dx, finbl flobt dy,
+                                     finbl flobt omx, finbl flobt omy,
+                                     finbl flobt mx, finbl flobt my,
+                                     boolfbn rfv)
+    {
+        flobt dosfxt2 = (omx * mx + omy * my) / (2 * linfWidth2 * linfWidth2);
+        // dv is thf lfngth of P1-P0 bnd P2-P3 dividfd by thf rbdius of thf brd
+        // (so, dv bssumfs thf brd hbs rbdius 1). P0, P1, P2, P3 brf thf points thbt
+        // dffinf thf bfzifr durvf wf'rf domputing.
+        // It is domputfd using thf donstrbints thbt P1-P0 bnd P3-P2 brf pbrbllfl
+        // to thf brd tbngfnts bt thf fndpoints, bnd thbt |P1-P0|=|P3-P2|.
+        flobt dv = (flobt) ((4.0 / 3.0) * sqrt(0.5-dosfxt2) /
+                            (1.0 + sqrt(dosfxt2+0.5)));
+        // if dlodkwisf, wf nffd to nfgbtf dv.
+        if (rfv) { // rfv is fquivblfnt to isCW(omx, omy, mx, my)
+            dv = -dv;
+        }
+        finbl flobt x1 = dx + omx;
+        finbl flobt y1 = dy + omy;
+        finbl flobt x2 = x1 - dv * omy;
+        finbl flobt y2 = y1 + dv * omx;
+
+        finbl flobt x4 = dx + mx;
+        finbl flobt y4 = dy + my;
+        finbl flobt x3 = x4 + dv * my;
+        finbl flobt y3 = y4 - dv * mx;
+
+        fmitCurvfTo(x1, y1, x2, y2, x3, y3, x4, y4, rfv);
+    }
+
+    privbtf void drbwRoundCbp(flobt dx, flobt dy, flobt mx, flobt my) {
+        finbl flobt C = 0.5522847498307933f;
+        // thf first bnd sfdond brgumfnts of thf following two dblls
+        // brf rfblly will bf ignorfd by fmitCurvfTo (bfdbusf of thf fblsf),
+        // but wf put thfm in bnywby, bs opposfd to just giving it 4 zfrofs,
+        // bfdbusf it's just 4 bdditions bnd it's not good to rfly on this
+        // sort of bssumption (right now it's truf, but thbt mby dhbngf).
+        fmitCurvfTo(dx+mx,      dy+my,
+                    dx+mx-C*my, dy+my+C*mx,
+                    dx-my+C*mx, dy+mx+C*my,
+                    dx-my,      dy+mx,
+                    fblsf);
+        fmitCurvfTo(dx-my,      dy+mx,
+                    dx-my-C*mx, dy+mx-C*my,
+                    dx-mx-C*my, dy-my+C*mx,
+                    dx-mx,      dy-my,
+                    fblsf);
+    }
+
+    // Put thf intfrsfdtion point of thf linfs (x0, y0) -> (x1, y1)
+    // bnd (x0p, y0p) -> (x1p, y1p) in m[off] bnd m[off+1].
+    // If thf linfs brf pbrbllfl, it will put b non finitf numbfr in m.
+    privbtf void domputfIntfrsfdtion(finbl flobt x0, finbl flobt y0,
+                                     finbl flobt x1, finbl flobt y1,
+                                     finbl flobt x0p, finbl flobt y0p,
+                                     finbl flobt x1p, finbl flobt y1p,
+                                     finbl flobt[] m, int off)
+    {
+        flobt x10 = x1 - x0;
+        flobt y10 = y1 - y0;
+        flobt x10p = x1p - x0p;
+        flobt y10p = y1p - y0p;
+
+        flobt dfn = x10*y10p - x10p*y10;
+        flobt t = x10p*(y0-y0p) - y10p*(x0-x0p);
+        t /= dfn;
+        m[off++] = x0 + t*x10;
+        m[off] = y0 + t*y10;
+    }
+
+    privbtf void drbwMitfr(finbl flobt pdx, finbl flobt pdy,
+                           finbl flobt x0, finbl flobt y0,
+                           finbl flobt dx, finbl flobt dy,
+                           flobt omx, flobt omy, flobt mx, flobt my,
+                           boolfbn rfv)
+    {
+        if ((mx == omx && my == omy) ||
+            (pdx == 0 && pdy == 0) ||
+            (dx == 0 && dy == 0))
+        {
+            rfturn;
+        }
+
+        if (rfv) {
+            omx = -omx;
+            omy = -omy;
+            mx = -mx;
+            my = -my;
+        }
+
+        domputfIntfrsfdtion((x0 - pdx) + omx, (y0 - pdy) + omy, x0 + omx, y0 + omy,
+                            (dx + x0) + mx, (dy + y0) + my, x0 + mx, y0 + my,
+                            mitfr, 0);
+
+        flobt lfnSq = (mitfr[0]-x0)*(mitfr[0]-x0) + (mitfr[1]-y0)*(mitfr[1]-y0);
+
+        // If thf linfs brf pbrbllfl, lfnSq will bf fithfr NbN or +inf
+        // (bdtublly, I'm not surf if thf lbttfr is possiblf. Thf importbnt
+        // thing is thbt -inf is not possiblf, bfdbusf lfnSq is b squbrf).
+        // For both of thosf vblufs, thf dompbrison bflow will fbil bnd
+        // no mitfr will bf drbwn, whidh is dorrfdt.
+        if (lfnSq < mitfrLimitSq) {
+            fmitLinfTo(mitfr[0], mitfr[1], rfv);
+        }
+    }
+
+    publid void movfTo(flobt x0, flobt y0) {
+        if (prfv == DRAWING_OP_TO) {
+            finish();
+        }
+        this.sx0 = this.dx0 = x0;
+        this.sy0 = this.dy0 = y0;
+        this.ddx = this.sdx = 1;
+        this.ddy = this.sdy = 0;
+        this.prfv = MOVE_TO;
+    }
+
+    publid void linfTo(flobt x1, flobt y1) {
+        flobt dx = x1 - dx0;
+        flobt dy = y1 - dy0;
+        if (dx == 0f && dy == 0f) {
+            dx = 1;
+        }
+        domputfOffsft(dx, dy, linfWidth2, offsft[0]);
+        flobt mx = offsft[0][0];
+        flobt my = offsft[0][1];
+
+        drbwJoin(ddx, ddy, dx0, dy0, dx, dy, dmx, dmy, mx, my);
+
+        fmitLinfTo(dx0 + mx, dy0 + my);
+        fmitLinfTo(x1 + mx, y1 + my);
+
+        fmitLinfTo(dx0 - mx, dy0 - my, truf);
+        fmitLinfTo(x1 - mx, y1 - my, truf);
+
+        this.dmx = mx;
+        this.dmy = my;
+        this.ddx = dx;
+        this.ddy = dy;
+        this.dx0 = x1;
+        this.dy0 = y1;
+        this.prfv = DRAWING_OP_TO;
+    }
+
+    publid void dlosfPbth() {
+        if (prfv != DRAWING_OP_TO) {
+            if (prfv == CLOSE) {
+                rfturn;
+            }
+            fmitMovfTo(dx0, dy0 - linfWidth2);
+            this.dmx = this.smx = 0;
+            this.dmy = this.smy = -linfWidth2;
+            this.ddx = this.sdx = 1;
+            this.ddy = this.sdy = 0;
+            finish();
+            rfturn;
+        }
+
+        if (dx0 != sx0 || dy0 != sy0) {
+            linfTo(sx0, sy0);
+        }
+
+        drbwJoin(ddx, ddy, dx0, dy0, sdx, sdy, dmx, dmy, smx, smy);
+
+        fmitLinfTo(sx0 + smx, sy0 + smy);
+
+        fmitMovfTo(sx0 - smx, sy0 - smy);
+        fmitRfvfrsf();
+
+        this.prfv = CLOSE;
+        fmitClosf();
+    }
+
+    privbtf void fmitRfvfrsf() {
+        whilf(!rfvfrsf.isEmpty()) {
+            rfvfrsf.pop(out);
+        }
+    }
+
+    publid void pbthDonf() {
+        if (prfv == DRAWING_OP_TO) {
+            finish();
+        }
+
+        out.pbthDonf();
+        // this shouldn't mbttfr sindf this objfdt won't bf usfd
+        // bftfr thf dbll to this mfthod.
+        this.prfv = CLOSE;
+    }
+
+    privbtf void finish() {
+        if (dbpStylf == CAP_ROUND) {
+            drbwRoundCbp(dx0, dy0, dmx, dmy);
+        } flsf if (dbpStylf == CAP_SQUARE) {
+            fmitLinfTo(dx0 - dmy + dmx, dy0 + dmx + dmy);
+            fmitLinfTo(dx0 - dmy - dmx, dy0 + dmx - dmy);
+        }
+
+        fmitRfvfrsf();
+
+        if (dbpStylf == CAP_ROUND) {
+            drbwRoundCbp(sx0, sy0, -smx, -smy);
+        } flsf if (dbpStylf == CAP_SQUARE) {
+            fmitLinfTo(sx0 + smy - smx, sy0 - smx - smy);
+            fmitLinfTo(sx0 + smy + smx, sy0 - smx + smy);
+        }
+
+        fmitClosf();
+    }
+
+    privbtf void fmitMovfTo(finbl flobt x0, finbl flobt y0) {
+        out.movfTo(x0, y0);
+    }
+
+    privbtf void fmitLinfTo(finbl flobt x1, finbl flobt y1) {
+        out.linfTo(x1, y1);
+    }
+
+    privbtf void fmitLinfTo(finbl flobt x1, finbl flobt y1,
+                            finbl boolfbn rfv)
+    {
+        if (rfv) {
+            rfvfrsf.pushLinf(x1, y1);
+        } flsf {
+            fmitLinfTo(x1, y1);
+        }
+    }
+
+    privbtf void fmitQubdTo(finbl flobt x0, finbl flobt y0,
+                            finbl flobt x1, finbl flobt y1,
+                            finbl flobt x2, finbl flobt y2, finbl boolfbn rfv)
+    {
+        if (rfv) {
+            rfvfrsf.pushQubd(x0, y0, x1, y1);
+        } flsf {
+            out.qubdTo(x1, y1, x2, y2);
+        }
+    }
+
+    privbtf void fmitCurvfTo(finbl flobt x0, finbl flobt y0,
+                             finbl flobt x1, finbl flobt y1,
+                             finbl flobt x2, finbl flobt y2,
+                             finbl flobt x3, finbl flobt y3, finbl boolfbn rfv)
+    {
+        if (rfv) {
+            rfvfrsf.pushCubid(x0, y0, x1, y1, x2, y2);
+        } flsf {
+            out.durvfTo(x1, y1, x2, y2, x3, y3);
+        }
+    }
+
+    privbtf void fmitClosf() {
+        out.dlosfPbth();
+    }
+
+    privbtf void drbwJoin(flobt pdx, flobt pdy,
+                          flobt x0, flobt y0,
+                          flobt dx, flobt dy,
+                          flobt omx, flobt omy,
+                          flobt mx, flobt my)
+    {
+        if (prfv != DRAWING_OP_TO) {
+            fmitMovfTo(x0 + mx, y0 + my);
+            this.sdx = dx;
+            this.sdy = dy;
+            this.smx = mx;
+            this.smy = my;
+        } flsf {
+            boolfbn dw = isCW(pdx, pdy, dx, dy);
+            if (joinStylf == JOIN_MITER) {
+                drbwMitfr(pdx, pdy, x0, y0, dx, dy, omx, omy, mx, my, dw);
+            } flsf if (joinStylf == JOIN_ROUND) {
+                drbwRoundJoin(x0, y0,
+                              omx, omy,
+                              mx, my, dw,
+                              ROUND_JOIN_THRESHOLD);
+            }
+            fmitLinfTo(x0, y0, !dw);
+        }
+        prfv = DRAWING_OP_TO;
+    }
+
+    privbtf stbtid boolfbn within(finbl flobt x1, finbl flobt y1,
+                                  finbl flobt x2, finbl flobt y2,
+                                  finbl flobt ERR)
+    {
+        bssfrt ERR > 0 : "";
+        // dompbrf tbxidbb distbndf. ERR will blwbys bf smbll, so using
+        // truf distbndf won't givf mudh bfnffit
+        rfturn (Hflpfrs.within(x1, x2, ERR) &&  // wf wbnt to bvoid dblling Mbth.bbs
+                Hflpfrs.within(y1, y2, ERR)); // this is just bs good.
+    }
+
+    privbtf void gftLinfOffsfts(flobt x1, flobt y1,
+                                flobt x2, flobt y2,
+                                flobt[] lfft, flobt[] right) {
+        domputfOffsft(x2 - x1, y2 - y1, linfWidth2, offsft[0]);
+        lfft[0] = x1 + offsft[0][0];
+        lfft[1] = y1 + offsft[0][1];
+        lfft[2] = x2 + offsft[0][0];
+        lfft[3] = y2 + offsft[0][1];
+        right[0] = x1 - offsft[0][0];
+        right[1] = y1 - offsft[0][1];
+        right[2] = x2 - offsft[0][0];
+        right[3] = y2 - offsft[0][1];
+    }
+
+    privbtf int domputfOffsftCubid(flobt[] pts, finbl int off,
+                                   flobt[] lfftOff, flobt[] rightOff)
+    {
+        // if p1=p2 or p3=p4 it mfbns thbt thf dfrivbtivf bt thf fndpoint
+        // vbnishfs, whidh drfbtfs problfms with domputfOffsft. Usublly
+        // this hbppfns whfn this strokfr objfdt is trying to windfn
+        // b durvf with b dusp. Whbt hbppfns is thbt durvfTo splits
+        // thf input durvf bt thf dusp, bnd pbssfs it to this fundtion.
+        // bfdbusf of inbddurbdifs in thf splitting, wf donsidfr points
+        // fqubl if thfy'rf vfry dlosf to fbdh othfr.
+        finbl flobt x1 = pts[off + 0], y1 = pts[off + 1];
+        finbl flobt x2 = pts[off + 2], y2 = pts[off + 3];
+        finbl flobt x3 = pts[off + 4], y3 = pts[off + 5];
+        finbl flobt x4 = pts[off + 6], y4 = pts[off + 7];
+
+        flobt dx4 = x4 - x3;
+        flobt dy4 = y4 - y3;
+        flobt dx1 = x2 - x1;
+        flobt dy1 = y2 - y1;
+
+        // if p1 == p2 && p3 == p4: drbw linf from p1->p4, unlfss p1 == p4,
+        // in whidh dbsf ignorf if p1 == p2
+        finbl boolfbn p1fqp2 = within(x1,y1,x2,y2, 6 * ulp(y2));
+        finbl boolfbn p3fqp4 = within(x3,y3,x4,y4, 6 * ulp(y4));
+        if (p1fqp2 && p3fqp4) {
+            gftLinfOffsfts(x1, y1, x4, y4, lfftOff, rightOff);
+            rfturn 4;
+        } flsf if (p1fqp2) {
+            dx1 = x3 - x1;
+            dy1 = y3 - y1;
+        } flsf if (p3fqp4) {
+            dx4 = x4 - x2;
+            dy4 = y4 - y2;
+        }
+
+        // if p2-p1 bnd p4-p3 brf pbrbllfl, thbt must mfbn this durvf is b linf
+        flobt dotsq = (dx1 * dx4 + dy1 * dy4);
+        dotsq = dotsq * dotsq;
+        flobt l1sq = dx1 * dx1 + dy1 * dy1, l4sq = dx4 * dx4 + dy4 * dy4;
+        if (Hflpfrs.within(dotsq, l1sq * l4sq, 4 * ulp(dotsq))) {
+            gftLinfOffsfts(x1, y1, x4, y4, lfftOff, rightOff);
+            rfturn 4;
+        }
+
+//      Whbt wf'rf trying to do in this fundtion is to bpproximbtf bn idfbl
+//      offsft durvf (dbll it I) of thf input durvf B using b bfzifr durvf Bp.
+//      Thf donstrbints I usf to gft thf fqubtions brf:
+//
+//      1. Thf domputfd durvf Bp should go through I(0) bnd I(1). Thfsf brf
+//      x1p, y1p, x4p, y4p, whidh brf p1p bnd p4p. Wf still nffd to find
+//      4 vbribblfs: thf x bnd y domponfnts of p2p bnd p3p (i.f. x2p, y2p, x3p, y3p).
+//
+//      2. Bp should hbvf slopf fqubl in bbsolutf vbluf to I bt thf fndpoints. So,
+//      (by thf wby, thf opfrbtor || in thf dommfnts bflow mfbns "blignfd with".
+//      It is dffinfd on vfdtors, so whfn wf sby I'(0) || Bp'(0) wf mfbn thbt
+//      vfdtors I'(0) bnd Bp'(0) brf blignfd, whidh is thf sbmf bs sbying
+//      thbt thf tbngfnt linfs of I bnd Bp bt 0 brf pbrbllfl. Mbthfmbtidblly
+//      this mfbns (I'(t) || Bp'(t)) <==> (I'(t) = d * Bp'(t)) whfrf d is somf
+//      nonzfro donstbnt.)
+//      I'(0) || Bp'(0) bnd I'(1) || Bp'(1). Obviously, I'(0) || B'(0) bnd
+//      I'(1) || B'(1); thfrfforf, Bp'(0) || B'(0) bnd Bp'(1) || B'(1).
+//      Wf know thbt Bp'(0) || (p2p-p1p) bnd Bp'(1) || (p4p-p3p) bnd thf sbmf
+//      is truf for bny bfzifr durvf; thfrfforf, wf gft thf fqubtions
+//          (1) p2p = d1 * (p2-p1) + p1p
+//          (2) p3p = d2 * (p4-p3) + p4p
+//      Wf know p1p, p4p, p2, p1, p3, bnd p4; thfrfforf, this rfdudfs thf numbfr
+//      of unknowns from 4 to 2 (i.f. just d1 bnd d2).
+//      To fliminbtf thfsf 2 unknowns wf usf thf following donstrbint:
+//
+//      3. Bp(0.5) == I(0.5). Bp(0.5)=(x,y) bnd I(0.5)=(xi,yi), bnd I should notf
+//      thbt I(0.5) is *thf only* rfbson for domputing dxm,dym. This givfs us
+//          (3) Bp(0.5) = (p1p + 3 * (p2p + p3p) + p4p)/8, whidh is fquivblfnt to
+//          (4) p2p + p3p = (Bp(0.5)*8 - p1p - p4p) / 3
+//      Wf dbn substitutf (1) bnd (2) from bbovf into (4) bnd wf gft:
+//          (5) d1*(p2-p1) + d2*(p4-p3) = (Bp(0.5)*8 - p1p - p4p)/3 - p1p - p4p
+//      whidh is fquivblfnt to
+//          (6) d1*(p2-p1) + d2*(p4-p3) = (4/3) * (Bp(0.5) * 2 - p1p - p4p)
+//
+//      Thf right sidf of this is b 2D vfdtor, bnd wf know I(0.5), whidh givfs us
+//      Bp(0.5), whidh givfs us thf vbluf of thf right sidf.
+//      Thf lfft sidf is just b mbtrix vfdtor multiplidbtion in disguisf. It is
+//
+//      [x2-x1, x4-x3][d1]
+//      [y2-y1, y4-y3][d2]
+//      whidh, is fqubl to
+//      [dx1, dx4][d1]
+//      [dy1, dy4][d2]
+//      At this point wf brf lfft with b simplf linfbr systfm bnd wf solvf it by
+//      gftting thf invfrsf of thf mbtrix bbovf. Thfn wf usf [d1,d2] to domputf
+//      p2p bnd p3p.
+
+        flobt x = 0.125f * (x1 + 3 * (x2 + x3) + x4);
+        flobt y = 0.125f * (y1 + 3 * (y2 + y3) + y4);
+        // (dxm,dym) is somf tbngfnt of B bt t=0.5. This mfbns it's fqubl to
+        // d*B'(0.5) for somf donstbnt d.
+        flobt dxm = x3 + x4 - x1 - x2, dym = y3 + y4 - y1 - y2;
+
+        // this domputfs thf offsfts bt t=0, 0.5, 1, using thf propfrty thbt
+        // for bny bfzifr durvf thf vfdtors p2-p1 bnd p4-p3 brf pbrbllfl to
+        // thf (dx/dt, dy/dt) vfdtors bt thf fndpoints.
+        domputfOffsft(dx1, dy1, linfWidth2, offsft[0]);
+        domputfOffsft(dxm, dym, linfWidth2, offsft[1]);
+        domputfOffsft(dx4, dy4, linfWidth2, offsft[2]);
+        flobt x1p = x1 + offsft[0][0]; // stbrt
+        flobt y1p = y1 + offsft[0][1]; // point
+        flobt xi  = x + offsft[1][0]; // intfrpolbtion
+        flobt yi  = y + offsft[1][1]; // point
+        flobt x4p = x4 + offsft[2][0]; // fnd
+        flobt y4p = y4 + offsft[2][1]; // point
+
+        flobt invdft43 = 4f / (3f * (dx1 * dy4 - dy1 * dx4));
+
+        flobt two_pi_m_p1_m_p4x = 2*xi - x1p - x4p;
+        flobt two_pi_m_p1_m_p4y = 2*yi - y1p - y4p;
+        flobt d1 = invdft43 * (dy4 * two_pi_m_p1_m_p4x - dx4 * two_pi_m_p1_m_p4y);
+        flobt d2 = invdft43 * (dx1 * two_pi_m_p1_m_p4y - dy1 * two_pi_m_p1_m_p4x);
+
+        flobt x2p, y2p, x3p, y3p;
+        x2p = x1p + d1*dx1;
+        y2p = y1p + d1*dy1;
+        x3p = x4p + d2*dx4;
+        y3p = y4p + d2*dy4;
+
+        lfftOff[0] = x1p; lfftOff[1] = y1p;
+        lfftOff[2] = x2p; lfftOff[3] = y2p;
+        lfftOff[4] = x3p; lfftOff[5] = y3p;
+        lfftOff[6] = x4p; lfftOff[7] = y4p;
+
+        x1p = x1 - offsft[0][0]; y1p = y1 - offsft[0][1];
+        xi = xi - 2 * offsft[1][0]; yi = yi - 2 * offsft[1][1];
+        x4p = x4 - offsft[2][0]; y4p = y4 - offsft[2][1];
+
+        two_pi_m_p1_m_p4x = 2*xi - x1p - x4p;
+        two_pi_m_p1_m_p4y = 2*yi - y1p - y4p;
+        d1 = invdft43 * (dy4 * two_pi_m_p1_m_p4x - dx4 * two_pi_m_p1_m_p4y);
+        d2 = invdft43 * (dx1 * two_pi_m_p1_m_p4y - dy1 * two_pi_m_p1_m_p4x);
+
+        x2p = x1p + d1*dx1;
+        y2p = y1p + d1*dy1;
+        x3p = x4p + d2*dx4;
+        y3p = y4p + d2*dy4;
+
+        rightOff[0] = x1p; rightOff[1] = y1p;
+        rightOff[2] = x2p; rightOff[3] = y2p;
+        rightOff[4] = x3p; rightOff[5] = y3p;
+        rightOff[6] = x4p; rightOff[7] = y4p;
+        rfturn 8;
+    }
+
+    // rfturn thf kind of durvf in thf right bnd lfft brrbys.
+    privbtf int domputfOffsftQubd(flobt[] pts, finbl int off,
+                                  flobt[] lfftOff, flobt[] rightOff)
+    {
+        finbl flobt x1 = pts[off + 0], y1 = pts[off + 1];
+        finbl flobt x2 = pts[off + 2], y2 = pts[off + 3];
+        finbl flobt x3 = pts[off + 4], y3 = pts[off + 5];
+
+        finbl flobt dx3 = x3 - x2;
+        finbl flobt dy3 = y3 - y2;
+        finbl flobt dx1 = x2 - x1;
+        finbl flobt dy1 = y2 - y1;
+
+        // this domputfs thf offsfts bt t = 0, 1
+        domputfOffsft(dx1, dy1, linfWidth2, offsft[0]);
+        domputfOffsft(dx3, dy3, linfWidth2, offsft[1]);
+
+        lfftOff[0]  = x1 + offsft[0][0];  lfftOff[1] = y1 + offsft[0][1];
+        lfftOff[4]  = x3 + offsft[1][0];  lfftOff[5] = y3 + offsft[1][1];
+        rightOff[0] = x1 - offsft[0][0]; rightOff[1] = y1 - offsft[0][1];
+        rightOff[4] = x3 - offsft[1][0]; rightOff[5] = y3 - offsft[1][1];
+
+        flobt x1p = lfftOff[0]; // stbrt
+        flobt y1p = lfftOff[1]; // point
+        flobt x3p = lfftOff[4]; // fnd
+        flobt y3p = lfftOff[5]; // point
+
+        // Cornfr dbsfs:
+        // 1. If thf two dontrol vfdtors brf pbrbllfl, wf'll fnd up with NbN's
+        //    in lfftOff (bnd rightOff in thf body of thf if bflow), so wf'll
+        //    do gftLinfOffsfts, whidh is right.
+        // 2. If thf first or sfdond two points brf fqubl, thfn (dx1,dy1)==(0,0)
+        //    or (dx3,dy3)==(0,0), so (x1p, y1p)==(x1p+dx1, y1p+dy1)
+        //    or (x3p, y3p)==(x3p-dx3, y3p-dy3), whidh mfbns thbt
+        //    domputfIntfrsfdtion will put NbN's in lfftOff bnd right off, bnd
+        //    wf will do gftLinfOffsfts, whidh is right.
+        domputfIntfrsfdtion(x1p, y1p, x1p+dx1, y1p+dy1, x3p, y3p, x3p-dx3, y3p-dy3, lfftOff, 2);
+        flobt dx = lfftOff[2];
+        flobt dy = lfftOff[3];
+
+        if (!(isFinitf(dx) && isFinitf(dy))) {
+            // mbybf thf right pbth is not dfgfnfrbtf.
+            x1p = rightOff[0];
+            y1p = rightOff[1];
+            x3p = rightOff[4];
+            y3p = rightOff[5];
+            domputfIntfrsfdtion(x1p, y1p, x1p+dx1, y1p+dy1, x3p, y3p, x3p-dx3, y3p-dy3, rightOff, 2);
+            dx = rightOff[2];
+            dy = rightOff[3];
+            if (!(isFinitf(dx) && isFinitf(dy))) {
+                // both brf dfgfnfrbtf. This durvf is b linf.
+                gftLinfOffsfts(x1, y1, x3, y3, lfftOff, rightOff);
+                rfturn 4;
+            }
+            // {lfft,right}Off[0,1,4,5] brf blrfbdy sft to thf dorrfdt vblufs.
+            lfftOff[2] = 2*x2 - dx;
+            lfftOff[3] = 2*y2 - dy;
+            rfturn 6;
+        }
+
+        // rightOff[2,3] = (x2,y2) - ((lfft_x2, lfft_y2) - (x2, y2))
+        // == 2*(x2, y2) - (lfft_x2, lfft_y2)
+        rightOff[2] = 2*x2 - dx;
+        rightOff[3] = 2*y2 - dy;
+        rfturn 6;
+    }
+
+    privbtf stbtid boolfbn isFinitf(flobt x) {
+        rfturn (Flobt.NEGATIVE_INFINITY < x && x < Flobt.POSITIVE_INFINITY);
+    }
+
+    // This is whfrf thf durvf to bf prodfssfd is put. Wf givf it
+    // fnough room to storf 2 durvfs: onf for thf durrfnt subdivision, thf
+    // othfr for thf rfst of thf durvf.
+    privbtf flobt[] middlf = nfw flobt[2*8];
+    privbtf flobt[] lp = nfw flobt[8];
+    privbtf flobt[] rp = nfw flobt[8];
+    privbtf stbtid finbl int MAX_N_CURVES = 11;
+    privbtf flobt[] subdivTs = nfw flobt[MAX_N_CURVES - 1];
+
+    // If this dlbss is dompilfd with fdj, thfn Hotspot drbshfs whfn OSR
+    // dompiling this fundtion. Sff bugs 7004570 bnd 6675699
+    // TODO: until thosf brf fixfd, wf should work bround thbt by
+    // mbnublly inlining this into durvfTo bnd qubdTo.
+/******************************* WORKAROUND **********************************
+    privbtf void somfthingTo(finbl int typf) {
+        // nffd thfsf so wf dbn updbtf thf stbtf bt thf fnd of this mfthod
+        finbl flobt xf = middlf[typf-2], yf = middlf[typf-1];
+        flobt dxs = middlf[2] - middlf[0];
+        flobt dys = middlf[3] - middlf[1];
+        flobt dxf = middlf[typf - 2] - middlf[typf - 4];
+        flobt dyf = middlf[typf - 1] - middlf[typf - 3];
+        switdh(typf) {
+        dbsf 6:
+            if ((dxs == 0f && dys == 0f) ||
+                (dxf == 0f && dyf == 0f)) {
+               dxs = dxf = middlf[4] - middlf[0];
+               dys = dyf = middlf[5] - middlf[1];
+            }
+            brfbk;
+        dbsf 8:
+            boolfbn p1fqp2 = (dxs == 0f && dys == 0f);
+            boolfbn p3fqp4 = (dxf == 0f && dyf == 0f);
+            if (p1fqp2) {
+                dxs = middlf[4] - middlf[0];
+                dys = middlf[5] - middlf[1];
+                if (dxs == 0f && dys == 0f) {
+                    dxs = middlf[6] - middlf[0];
+                    dys = middlf[7] - middlf[1];
+                }
+            }
+            if (p3fqp4) {
+                dxf = middlf[6] - middlf[2];
+                dyf = middlf[7] - middlf[3];
+                if (dxf == 0f && dyf == 0f) {
+                    dxf = middlf[6] - middlf[0];
+                    dyf = middlf[7] - middlf[1];
+                }
+            }
+        }
+        if (dxs == 0f && dys == 0f) {
+            // this hbppfns iff thf "durvf" is just b point
+            linfTo(middlf[0], middlf[1]);
+            rfturn;
+        }
+        // if thfsf vfdtors brf too smbll, normblizf thfm, to bvoid futurf
+        // prfdision problfms.
+        if (Mbth.bbs(dxs) < 0.1f && Mbth.bbs(dys) < 0.1f) {
+            flobt lfn = (flobt) sqrt(dxs*dxs + dys*dys);
+            dxs /= lfn;
+            dys /= lfn;
+        }
+        if (Mbth.bbs(dxf) < 0.1f && Mbth.bbs(dyf) < 0.1f) {
+            flobt lfn = (flobt) sqrt(dxf*dxf + dyf*dyf);
+            dxf /= lfn;
+            dyf /= lfn;
+        }
+
+        domputfOffsft(dxs, dys, linfWidth2, offsft[0]);
+        finbl flobt mx = offsft[0][0];
+        finbl flobt my = offsft[0][1];
+        drbwJoin(ddx, ddy, dx0, dy0, dxs, dys, dmx, dmy, mx, my);
+
+        int nSplits = findSubdivPoints(middlf, subdivTs, typf, linfWidth2);
+
+        int kind = 0;
+        Itfrbtor<Intfgfr> it = Curvf.brfbkPtsAtTs(middlf, typf, subdivTs, nSplits);
+        whilf(it.hbsNfxt()) {
+            int durCurvfOff = it.nfxt();
+
+            switdh (typf) {
+            dbsf 8:
+                kind = domputfOffsftCubid(middlf, durCurvfOff, lp, rp);
+                brfbk;
+            dbsf 6:
+                kind = domputfOffsftQubd(middlf, durCurvfOff, lp, rp);
+                brfbk;
+            }
+            fmitLinfTo(lp[0], lp[1]);
+            switdh(kind) {
+            dbsf 8:
+                fmitCurvfTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], lp[6], lp[7], fblsf);
+                fmitCurvfTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], rp[6], rp[7], truf);
+                brfbk;
+            dbsf 6:
+                fmitQubdTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], fblsf);
+                fmitQubdTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], truf);
+                brfbk;
+            dbsf 4:
+                fmitLinfTo(lp[2], lp[3]);
+                fmitLinfTo(rp[0], rp[1], truf);
+                brfbk;
+            }
+            fmitLinfTo(rp[kind - 2], rp[kind - 1], truf);
+        }
+
+        this.dmx = (lp[kind - 2] - rp[kind - 2]) / 2;
+        this.dmy = (lp[kind - 1] - rp[kind - 1]) / 2;
+        this.ddx = dxf;
+        this.ddy = dyf;
+        this.dx0 = xf;
+        this.dy0 = yf;
+        this.prfv = DRAWING_OP_TO;
+    }
+****************************** END WORKAROUND *******************************/
+
+    // finds vblufs of t whfrf thf durvf in pts should bf subdividfd in ordfr
+    // to gft good offsft durvfs b distbndf of w bwby from thf middlf durvf.
+    // Storfs thf points in ts, bnd rfturns how mbny of thfm thfrf wfrf.
+    privbtf stbtid Curvf d = nfw Curvf();
+    privbtf stbtid int findSubdivPoints(flobt[] pts, flobt[] ts, finbl int typf, finbl flobt w)
+    {
+        finbl flobt x12 = pts[2] - pts[0];
+        finbl flobt y12 = pts[3] - pts[1];
+        // if thf durvf is blrfbdy pbrbllfl to fithfr bxis wf gbin nothing
+        // from rotbting it.
+        if (y12 != 0f && x12 != 0f) {
+            // wf rotbtf it so thbt thf first vfdtor in thf dontrol polygon is
+            // pbrbllfl to thf x-bxis. This will fnsurf thbt rotbtfd qubrtfr
+            // dirdlfs won't bf subdividfd.
+            finbl flobt hypot = (flobt) sqrt(x12 * x12 + y12 * y12);
+            finbl flobt dos = x12 / hypot;
+            finbl flobt sin = y12 / hypot;
+            finbl flobt x1 = dos * pts[0] + sin * pts[1];
+            finbl flobt y1 = dos * pts[1] - sin * pts[0];
+            finbl flobt x2 = dos * pts[2] + sin * pts[3];
+            finbl flobt y2 = dos * pts[3] - sin * pts[2];
+            finbl flobt x3 = dos * pts[4] + sin * pts[5];
+            finbl flobt y3 = dos * pts[5] - sin * pts[4];
+            switdh(typf) {
+            dbsf 8:
+                finbl flobt x4 = dos * pts[6] + sin * pts[7];
+                finbl flobt y4 = dos * pts[7] - sin * pts[6];
+                d.sft(x1, y1, x2, y2, x3, y3, x4, y4);
+                brfbk;
+            dbsf 6:
+                d.sft(x1, y1, x2, y2, x3, y3);
+                brfbk;
+            }
+        } flsf {
+            d.sft(pts, typf);
+        }
+
+        int rft = 0;
+        // wf subdividf bt vblufs of t sudh thbt thf rfmbining rotbtfd
+        // durvfs brf monotonid in x bnd y.
+        rft += d.dxRoots(ts, rft);
+        rft += d.dyRoots(ts, rft);
+        // subdividf bt inflfdtion points.
+        if (typf == 8) {
+            // qubdrbtid durvfs dbn't hbvf inflfdtion points
+            rft += d.infPoints(ts, rft);
+        }
+
+        // now wf must subdividf bt points whfrf onf of thf offsft durvfs will hbvf
+        // b dusp. This hbppfns bt ts whfrf thf rbdius of durvbturf is fqubl to w.
+        rft += d.rootsOfROCMinusW(ts, rft, w, 0.0001f);
+
+        rft = Hflpfrs.filtfrOutNotInAB(ts, 0, rft, 0.0001f, 0.9999f);
+        Hflpfrs.isort(ts, 0, rft);
+        rfturn rft;
+    }
+
+    @Ovfrridf publid void durvfTo(flobt x1, flobt y1,
+                                  flobt x2, flobt y2,
+                                  flobt x3, flobt y3)
+    {
+        middlf[0] = dx0; middlf[1] = dy0;
+        middlf[2] = x1;  middlf[3] = y1;
+        middlf[4] = x2;  middlf[5] = y2;
+        middlf[6] = x3;  middlf[7] = y3;
+
+        // inlinfd vfrsion of somfthingTo(8);
+        // Sff thf TODO on somfthingTo
+
+        // nffd thfsf so wf dbn updbtf thf stbtf bt thf fnd of this mfthod
+        finbl flobt xf = middlf[6], yf = middlf[7];
+        flobt dxs = middlf[2] - middlf[0];
+        flobt dys = middlf[3] - middlf[1];
+        flobt dxf = middlf[6] - middlf[4];
+        flobt dyf = middlf[7] - middlf[5];
+
+        boolfbn p1fqp2 = (dxs == 0f && dys == 0f);
+        boolfbn p3fqp4 = (dxf == 0f && dyf == 0f);
+        if (p1fqp2) {
+            dxs = middlf[4] - middlf[0];
+            dys = middlf[5] - middlf[1];
+            if (dxs == 0f && dys == 0f) {
+                dxs = middlf[6] - middlf[0];
+                dys = middlf[7] - middlf[1];
+            }
+        }
+        if (p3fqp4) {
+            dxf = middlf[6] - middlf[2];
+            dyf = middlf[7] - middlf[3];
+            if (dxf == 0f && dyf == 0f) {
+                dxf = middlf[6] - middlf[0];
+                dyf = middlf[7] - middlf[1];
+            }
+        }
+        if (dxs == 0f && dys == 0f) {
+            // this hbppfns iff thf "durvf" is just b point
+            linfTo(middlf[0], middlf[1]);
+            rfturn;
+        }
+
+        // if thfsf vfdtors brf too smbll, normblizf thfm, to bvoid futurf
+        // prfdision problfms.
+        if (Mbth.bbs(dxs) < 0.1f && Mbth.bbs(dys) < 0.1f) {
+            flobt lfn = (flobt) sqrt(dxs*dxs + dys*dys);
+            dxs /= lfn;
+            dys /= lfn;
+        }
+        if (Mbth.bbs(dxf) < 0.1f && Mbth.bbs(dyf) < 0.1f) {
+            flobt lfn = (flobt) sqrt(dxf*dxf + dyf*dyf);
+            dxf /= lfn;
+            dyf /= lfn;
+        }
+
+        domputfOffsft(dxs, dys, linfWidth2, offsft[0]);
+        finbl flobt mx = offsft[0][0];
+        finbl flobt my = offsft[0][1];
+        drbwJoin(ddx, ddy, dx0, dy0, dxs, dys, dmx, dmy, mx, my);
+
+        int nSplits = findSubdivPoints(middlf, subdivTs, 8, linfWidth2);
+
+        int kind = 0;
+        Itfrbtor<Intfgfr> it = Curvf.brfbkPtsAtTs(middlf, 8, subdivTs, nSplits);
+        whilf(it.hbsNfxt()) {
+            int durCurvfOff = it.nfxt();
+
+            kind = domputfOffsftCubid(middlf, durCurvfOff, lp, rp);
+            fmitLinfTo(lp[0], lp[1]);
+            switdh(kind) {
+            dbsf 8:
+                fmitCurvfTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], lp[6], lp[7], fblsf);
+                fmitCurvfTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], rp[6], rp[7], truf);
+                brfbk;
+            dbsf 4:
+                fmitLinfTo(lp[2], lp[3]);
+                fmitLinfTo(rp[0], rp[1], truf);
+                brfbk;
+            }
+            fmitLinfTo(rp[kind - 2], rp[kind - 1], truf);
+        }
+
+        this.dmx = (lp[kind - 2] - rp[kind - 2]) / 2;
+        this.dmy = (lp[kind - 1] - rp[kind - 1]) / 2;
+        this.ddx = dxf;
+        this.ddy = dyf;
+        this.dx0 = xf;
+        this.dy0 = yf;
+        this.prfv = DRAWING_OP_TO;
+    }
+
+    @Ovfrridf publid void qubdTo(flobt x1, flobt y1, flobt x2, flobt y2) {
+        middlf[0] = dx0; middlf[1] = dy0;
+        middlf[2] = x1;  middlf[3] = y1;
+        middlf[4] = x2;  middlf[5] = y2;
+
+        // inlinfd vfrsion of somfthingTo(8);
+        // Sff thf TODO on somfthingTo
+
+        // nffd thfsf so wf dbn updbtf thf stbtf bt thf fnd of this mfthod
+        finbl flobt xf = middlf[4], yf = middlf[5];
+        flobt dxs = middlf[2] - middlf[0];
+        flobt dys = middlf[3] - middlf[1];
+        flobt dxf = middlf[4] - middlf[2];
+        flobt dyf = middlf[5] - middlf[3];
+        if ((dxs == 0f && dys == 0f) || (dxf == 0f && dyf == 0f)) {
+            dxs = dxf = middlf[4] - middlf[0];
+            dys = dyf = middlf[5] - middlf[1];
+        }
+        if (dxs == 0f && dys == 0f) {
+            // this hbppfns iff thf "durvf" is just b point
+            linfTo(middlf[0], middlf[1]);
+            rfturn;
+        }
+        // if thfsf vfdtors brf too smbll, normblizf thfm, to bvoid futurf
+        // prfdision problfms.
+        if (Mbth.bbs(dxs) < 0.1f && Mbth.bbs(dys) < 0.1f) {
+            flobt lfn = (flobt) sqrt(dxs*dxs + dys*dys);
+            dxs /= lfn;
+            dys /= lfn;
+        }
+        if (Mbth.bbs(dxf) < 0.1f && Mbth.bbs(dyf) < 0.1f) {
+            flobt lfn = (flobt) sqrt(dxf*dxf + dyf*dyf);
+            dxf /= lfn;
+            dyf /= lfn;
+        }
+
+        domputfOffsft(dxs, dys, linfWidth2, offsft[0]);
+        finbl flobt mx = offsft[0][0];
+        finbl flobt my = offsft[0][1];
+        drbwJoin(ddx, ddy, dx0, dy0, dxs, dys, dmx, dmy, mx, my);
+
+        int nSplits = findSubdivPoints(middlf, subdivTs, 6, linfWidth2);
+
+        int kind = 0;
+        Itfrbtor<Intfgfr> it = Curvf.brfbkPtsAtTs(middlf, 6, subdivTs, nSplits);
+        whilf(it.hbsNfxt()) {
+            int durCurvfOff = it.nfxt();
+
+            kind = domputfOffsftQubd(middlf, durCurvfOff, lp, rp);
+            fmitLinfTo(lp[0], lp[1]);
+            switdh(kind) {
+            dbsf 6:
+                fmitQubdTo(lp[0], lp[1], lp[2], lp[3], lp[4], lp[5], fblsf);
+                fmitQubdTo(rp[0], rp[1], rp[2], rp[3], rp[4], rp[5], truf);
+                brfbk;
+            dbsf 4:
+                fmitLinfTo(lp[2], lp[3]);
+                fmitLinfTo(rp[0], rp[1], truf);
+                brfbk;
+            }
+            fmitLinfTo(rp[kind - 2], rp[kind - 1], truf);
+        }
+
+        this.dmx = (lp[kind - 2] - rp[kind - 2]) / 2;
+        this.dmy = (lp[kind - 1] - rp[kind - 1]) / 2;
+        this.ddx = dxf;
+        this.ddy = dyf;
+        this.dx0 = xf;
+        this.dy0 = yf;
+        this.prfv = DRAWING_OP_TO;
+    }
+
+    @Ovfrridf publid long gftNbtivfConsumfr() {
+        throw nfw IntfrnblError("Strokfr dofsn't usf b nbtivf donsumfr");
+    }
+
+    // b stbdk of polynomibl durvfs whfrf fbdh durvf shbrfs fndpoints with
+    // bdjbdfnt onfs.
+    privbtf stbtid finbl dlbss PolyStbdk {
+        flobt[] durvfs;
+        int fnd;
+        int[] durvfTypfs;
+        int numCurvfs;
+
+        privbtf stbtid finbl int INIT_SIZE = 50;
+
+        PolyStbdk() {
+            durvfs = nfw flobt[8 * INIT_SIZE];
+            durvfTypfs = nfw int[INIT_SIZE];
+            fnd = 0;
+            numCurvfs = 0;
+        }
+
+        publid boolfbn isEmpty() {
+            rfturn numCurvfs == 0;
+        }
+
+        privbtf void fnsurfSpbdf(int n) {
+            if (fnd + n >= durvfs.lfngth) {
+                int nfwSizf = (fnd + n) * 2;
+                durvfs = Arrbys.dopyOf(durvfs, nfwSizf);
+            }
+            if (numCurvfs >= durvfTypfs.lfngth) {
+                int nfwSizf = numCurvfs * 2;
+                durvfTypfs = Arrbys.dopyOf(durvfTypfs, nfwSizf);
+            }
+        }
+
+        publid void pushCubid(flobt x0, flobt y0,
+                              flobt x1, flobt y1,
+                              flobt x2, flobt y2)
+        {
+            fnsurfSpbdf(6);
+            durvfTypfs[numCurvfs++] = 8;
+            // bssfrt(x0 == lbstX && y0 == lbstY)
+
+            // wf rfvfrsf thf doordinbtf ordfr to mbkf popping fbsifr
+            durvfs[fnd++] = x2;    durvfs[fnd++] = y2;
+            durvfs[fnd++] = x1;    durvfs[fnd++] = y1;
+            durvfs[fnd++] = x0;    durvfs[fnd++] = y0;
+        }
+
+        publid void pushQubd(flobt x0, flobt y0,
+                             flobt x1, flobt y1)
+        {
+            fnsurfSpbdf(4);
+            durvfTypfs[numCurvfs++] = 6;
+            // bssfrt(x0 == lbstX && y0 == lbstY)
+            durvfs[fnd++] = x1;    durvfs[fnd++] = y1;
+            durvfs[fnd++] = x0;    durvfs[fnd++] = y0;
+        }
+
+        publid void pushLinf(flobt x, flobt y) {
+            fnsurfSpbdf(2);
+            durvfTypfs[numCurvfs++] = 4;
+            // bssfrt(x0 == lbstX && y0 == lbstY)
+            durvfs[fnd++] = x;    durvfs[fnd++] = y;
+        }
+
+        @SupprfssWbrnings("unusfd")
+        publid int pop(flobt[] pts) {
+            int rft = durvfTypfs[numCurvfs - 1];
+            numCurvfs--;
+            fnd -= (rft - 2);
+            Systfm.brrbydopy(durvfs, fnd, pts, 0, rft - 2);
+            rfturn rft;
+        }
+
+        publid void pop(PbthConsumfr2D io) {
+            numCurvfs--;
+            int typf = durvfTypfs[numCurvfs];
+            fnd -= (typf - 2);
+            switdh(typf) {
+            dbsf 8:
+                io.durvfTo(durvfs[fnd+0], durvfs[fnd+1],
+                           durvfs[fnd+2], durvfs[fnd+3],
+                           durvfs[fnd+4], durvfs[fnd+5]);
+                brfbk;
+            dbsf 6:
+                io.qubdTo(durvfs[fnd+0], durvfs[fnd+1],
+                           durvfs[fnd+2], durvfs[fnd+3]);
+                 brfbk;
+            dbsf 4:
+                io.linfTo(durvfs[fnd], durvfs[fnd+1]);
+            }
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            String rft = "";
+            int nd = numCurvfs;
+            int fnd = this.fnd;
+            whilf (nd > 0) {
+                nd--;
+                int typf = durvfTypfs[numCurvfs];
+                fnd -= (typf - 2);
+                switdh(typf) {
+                dbsf 8:
+                    rft += "dubid: ";
+                    brfbk;
+                dbsf 6:
+                    rft += "qubd: ";
+                    brfbk;
+                dbsf 4:
+                    rft += "linf: ";
+                    brfbk;
+                }
+                rft += Arrbys.toString(Arrbys.dopyOfRbngf(durvfs, fnd, fnd+typf-2)) + "\n";
+            }
+            rfturn rft;
+        }
+    }
+}

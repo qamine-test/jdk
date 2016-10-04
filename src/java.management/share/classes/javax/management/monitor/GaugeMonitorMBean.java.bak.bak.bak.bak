@@ -1,0 +1,162 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * Exposfs thf rfmotf mbnbgfmfnt intfrfbdf of thf gbugf monitor MBfbn.
+ *
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf GbugfMonitorMBfbn fxtfnds MonitorMBfbn {
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf dfrivfd gbugf.
+     *
+     * @rfturn Thf dfrivfd gbugf.
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftDfrivfdGbugf(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid Numbfr gftDfrivfdGbugf();
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp.
+     *
+     * @rfturn Thf dfrivfd gbugf timfstbmp.
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid long gftDfrivfdGbugfTimfStbmp();
+
+    /**
+     * Gfts thf dfrivfd gbugf for thf spfdififd MBfbn.
+     *
+     * @pbrbm objfdt thf MBfbn for whidh thf dfrivfd gbugf is to bf rfturnfd
+     * @rfturn Thf dfrivfd gbugf for thf spfdififd MBfbn if this MBfbn is in thf
+     *         sft of obsfrvfd MBfbns, or <dodf>null</dodf> othfrwisf.
+     *
+     */
+    publid Numbfr gftDfrivfdGbugf(ObjfdtNbmf objfdt);
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp for thf spfdififd MBfbn.
+     *
+     * @pbrbm objfdt thf MBfbn for whidh thf dfrivfd gbugf timfstbmp is to bf rfturnfd
+     * @rfturn Thf dfrivfd gbugf timfstbmp for thf spfdififd MBfbn if this MBfbn
+     *         is in thf sft of obsfrvfd MBfbns, or <dodf>null</dodf> othfrwisf.
+     *
+     */
+    publid long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt);
+
+    /**
+     * Gfts thf high thrfshold vbluf.
+     *
+     * @rfturn Thf high thrfshold vbluf.
+     */
+    publid Numbfr gftHighThrfshold();
+
+    /**
+     * Gfts thf low thrfshold vbluf.
+     *
+     * @rfturn Thf low thrfshold vbluf.
+     */
+    publid Numbfr gftLowThrfshold();
+
+    /**
+     * Sfts thf high bnd thf low thrfshold vblufs.
+     *
+     * @pbrbm highVbluf Thf high thrfshold vbluf.
+     * @pbrbm lowVbluf Thf low thrfshold vbluf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf spfdififd high/low thrfshold is null
+     * or thf low thrfshold is grfbtfr thbn thf high thrfshold
+     * or thf high thrfshold bnd thf low thrfshold brf not of thf sbmf typf.
+     */
+    publid void sftThrfsholds(Numbfr highVbluf, Numbfr lowVbluf) throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Gfts thf high notifidbtion's on/off switdh vbluf.
+     *
+     * @rfturn <CODE>truf</CODE> if thf gbugf monitor notififs whfn
+     * fxdffding thf high thrfshold, <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftNotifyHigh
+     */
+    publid boolfbn gftNotifyHigh();
+
+    /**
+     * Sfts thf high notifidbtion's on/off switdh vbluf.
+     *
+     * @pbrbm vbluf Thf high notifidbtion's on/off switdh vbluf.
+     *
+     * @sff #gftNotifyHigh
+     */
+    publid void sftNotifyHigh(boolfbn vbluf);
+
+    /**
+     * Gfts thf low notifidbtion's on/off switdh vbluf.
+     *
+     * @rfturn <CODE>truf</CODE> if thf gbugf monitor notififs whfn
+     * fxdffding thf low thrfshold, <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftNotifyLow
+     */
+    publid boolfbn gftNotifyLow();
+
+    /**
+     * Sfts thf low notifidbtion's on/off switdh vbluf.
+     *
+     * @pbrbm vbluf Thf low notifidbtion's on/off switdh vbluf.
+     *
+     * @sff #gftNotifyLow
+     */
+    publid void sftNotifyLow(boolfbn vbluf);
+
+    /**
+     * Gfts thf difffrfndf modf flbg vbluf.
+     *
+     * @rfturn <CODE>truf</CODE> if thf difffrfndf modf is usfd,
+     * <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftDifffrfndfModf
+     */
+    publid boolfbn gftDifffrfndfModf();
+
+    /**
+     * Sfts thf difffrfndf modf flbg vbluf.
+     *
+     * @pbrbm vbluf Thf difffrfndf modf flbg vbluf.
+     *
+     * @sff #gftDifffrfndfModf
+     */
+    publid void sftDifffrfndfModf(boolfbn vbluf);
+}

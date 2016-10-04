@@ -1,349 +1,349 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.util.Map;
-import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
-import java.io.IOException;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
+import jbvb.util.Compbrbtor;
+import jbvb.io.IOExdfption;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * CookieManager provides a concrete implementation of {@link CookieHandler},
- * which separates the storage of cookies from the policy surrounding accepting
- * and rejecting cookies. A CookieManager is initialized with a {@link CookieStore}
- * which manages storage, and a {@link CookiePolicy} object, which makes
- * policy decisions on cookie acceptance/rejection.
+ * CookifMbnbgfr providfs b dondrftf implfmfntbtion of {@link CookifHbndlfr},
+ * wiidi sfpbrbtfs tif storbgf of dookifs from tif polidy surrounding bddfpting
+ * bnd rfjfdting dookifs. A CookifMbnbgfr is initiblizfd witi b {@link CookifStorf}
+ * wiidi mbnbgfs storbgf, bnd b {@link CookifPolidy} objfdt, wiidi mbkfs
+ * polidy dfdisions on dookif bddfptbndf/rfjfdtion.
  *
- * <p> The HTTP cookie management in java.net package looks like:
- * <blockquote>
- * <pre>{@code
- *                  use
- * CookieHandler <------- HttpURLConnection
+ * <p> Tif HTTP dookif mbnbgfmfnt in jbvb.nft pbdkbgf looks likf:
+ * <blodkquotf>
+ * <prf>{@dodf
+ *                  usf
+ * CookifHbndlfr <------- HttpURLConnfdtion
  *       ^
  *       | impl
- *       |         use
- * CookieManager -------> CookiePolicy
- *             |   use
- *             |--------> HttpCookie
+ *       |         usf
+ * CookifMbnbgfr -------> CookifPolidy
+ *             |   usf
+ *             |--------> HttpCookif
  *             |              ^
- *             |              | use
- *             |   use        |
- *             |--------> CookieStore
+ *             |              | usf
+ *             |   usf        |
+ *             |--------> CookifStorf
  *                            ^
  *                            | impl
  *                            |
- *                  Internal in-memory implementation
- * }</pre>
+ *                  Intfrnbl in-mfmory implfmfntbtion
+ * }</prf>
  * <ul>
  *   <li>
- *     CookieHandler is at the core of cookie management. User can call
- *     CookieHandler.setDefault to set a concrete CookieHanlder implementation
- *     to be used.
+ *     CookifHbndlfr is bt tif dorf of dookif mbnbgfmfnt. Usfr dbn dbll
+ *     CookifHbndlfr.sftDffbult to sft b dondrftf CookifHbnldfr implfmfntbtion
+ *     to bf usfd.
  *   </li>
  *   <li>
- *     CookiePolicy.shouldAccept will be called by CookieManager.put to see whether
- *     or not one cookie should be accepted and put into cookie store. User can use
- *     any of three pre-defined CookiePolicy, namely ACCEPT_ALL, ACCEPT_NONE and
- *     ACCEPT_ORIGINAL_SERVER, or user can define his own CookiePolicy implementation
- *     and tell CookieManager to use it.
+ *     CookifPolidy.siouldAddfpt will bf dbllfd by CookifMbnbgfr.put to sff wiftifr
+ *     or not onf dookif siould bf bddfptfd bnd put into dookif storf. Usfr dbn usf
+ *     bny of tirff prf-dffinfd CookifPolidy, nbmfly ACCEPT_ALL, ACCEPT_NONE bnd
+ *     ACCEPT_ORIGINAL_SERVER, or usfr dbn dffinf iis own CookifPolidy implfmfntbtion
+ *     bnd tfll CookifMbnbgfr to usf it.
  *   </li>
  *   <li>
- *     CookieStore is the place where any accepted HTTP cookie is stored in.
- *     If not specified when created, a CookieManager instance will use an internal
- *     in-memory implementation. Or user can implements one and tell CookieManager
- *     to use it.
+ *     CookifStorf is tif plbdf wifrf bny bddfptfd HTTP dookif is storfd in.
+ *     If not spfdififd wifn drfbtfd, b CookifMbnbgfr instbndf will usf bn intfrnbl
+ *     in-mfmory implfmfntbtion. Or usfr dbn implfmfnts onf bnd tfll CookifMbnbgfr
+ *     to usf it.
  *   </li>
  *   <li>
- *     Currently, only CookieStore.add(URI, HttpCookie) and CookieStore.get(URI)
- *     are used by CookieManager. Others are for completeness and might be needed
- *     by a more sophisticated CookieStore implementation, e.g. a NetscapeCookieSotre.
+ *     Currfntly, only CookifStorf.bdd(URI, HttpCookif) bnd CookifStorf.gft(URI)
+ *     brf usfd by CookifMbnbgfr. Otifrs brf for domplftfnfss bnd migit bf nffdfd
+ *     by b morf sopiistidbtfd CookifStorf implfmfntbtion, f.g. b NftsdbpfCookifSotrf.
  *   </li>
  * </ul>
- * </blockquote>
+ * </blodkquotf>
  *
- * <p>There're various ways user can hook up his own HTTP cookie management behavior, e.g.
- * <blockquote>
+ * <p>Tifrf'rf vbrious wbys usfr dbn iook up iis own HTTP dookif mbnbgfmfnt bfibvior, f.g.
+ * <blodkquotf>
  * <ul>
- *   <li>Use CookieHandler.setDefault to set a brand new {@link CookieHandler} implementation
- *   <li>Let CookieManager be the default {@link CookieHandler} implementation,
- *       but implement user's own {@link CookieStore} and {@link CookiePolicy}
- *       and tell default CookieManager to use them:
- *     <blockquote><pre>
- *       // this should be done at the beginning of an HTTP session
- *       CookieHandler.setDefault(new CookieManager(new MyCookieStore(), new MyCookiePolicy()));
- *     </pre></blockquote>
- *   <li>Let CookieManager be the default {@link CookieHandler} implementation, but
- *       use customized {@link CookiePolicy}:
- *     <blockquote><pre>
- *       // this should be done at the beginning of an HTTP session
- *       CookieHandler.setDefault(new CookieManager());
- *       // this can be done at any point of an HTTP session
- *       ((CookieManager)CookieHandler.getDefault()).setCookiePolicy(new MyCookiePolicy());
- *     </pre></blockquote>
+ *   <li>Usf CookifHbndlfr.sftDffbult to sft b brbnd nfw {@link CookifHbndlfr} implfmfntbtion
+ *   <li>Lft CookifMbnbgfr bf tif dffbult {@link CookifHbndlfr} implfmfntbtion,
+ *       but implfmfnt usfr's own {@link CookifStorf} bnd {@link CookifPolidy}
+ *       bnd tfll dffbult CookifMbnbgfr to usf tifm:
+ *     <blodkquotf><prf>
+ *       // tiis siould bf donf bt tif bfginning of bn HTTP sfssion
+ *       CookifHbndlfr.sftDffbult(nfw CookifMbnbgfr(nfw MyCookifStorf(), nfw MyCookifPolidy()));
+ *     </prf></blodkquotf>
+ *   <li>Lft CookifMbnbgfr bf tif dffbult {@link CookifHbndlfr} implfmfntbtion, but
+ *       usf dustomizfd {@link CookifPolidy}:
+ *     <blodkquotf><prf>
+ *       // tiis siould bf donf bt tif bfginning of bn HTTP sfssion
+ *       CookifHbndlfr.sftDffbult(nfw CookifMbnbgfr());
+ *       // tiis dbn bf donf bt bny point of bn HTTP sfssion
+ *       ((CookifMbnbgfr)CookifHbndlfr.gftDffbult()).sftCookifPolidy(nfw MyCookifPolidy());
+ *     </prf></blodkquotf>
  * </ul>
- * </blockquote>
+ * </blodkquotf>
  *
- * <p>The implementation conforms to <a href="http://www.ietf.org/rfc/rfc2965.txt">RFC 2965</a>, section 3.3.
+ * <p>Tif implfmfntbtion donforms to <b irff="ittp://www.iftf.org/rfd/rfd2965.txt">RFC 2965</b>, sfdtion 3.3.
  *
- * @see CookiePolicy
- * @author Edward Wang
- * @since 1.6
+ * @sff CookifPolidy
+ * @butior Edwbrd Wbng
+ * @sindf 1.6
  */
-public class CookieManager extends CookieHandler
+publid dlbss CookifMbnbgfr fxtfnds CookifHbndlfr
 {
-    /* ---------------- Fields -------------- */
+    /* ---------------- Fiflds -------------- */
 
-    private CookiePolicy policyCallback;
+    privbtf CookifPolidy polidyCbllbbdk;
 
 
-    private CookieStore cookieJar = null;
+    privbtf CookifStorf dookifJbr = null;
 
 
     /* ---------------- Ctors -------------- */
 
     /**
-     * Create a new cookie manager.
+     * Crfbtf b nfw dookif mbnbgfr.
      *
-     * <p>This constructor will create new cookie manager with default
-     * cookie store and accept policy. The effect is same as
-     * {@code CookieManager(null, null)}.
+     * <p>Tiis donstrudtor will drfbtf nfw dookif mbnbgfr witi dffbult
+     * dookif storf bnd bddfpt polidy. Tif ffffdt is sbmf bs
+     * {@dodf CookifMbnbgfr(null, null)}.
      */
-    public CookieManager() {
-        this(null, null);
+    publid CookifMbnbgfr() {
+        tiis(null, null);
     }
 
 
     /**
-     * Create a new cookie manager with specified cookie store and cookie policy.
+     * Crfbtf b nfw dookif mbnbgfr witi spfdififd dookif storf bnd dookif polidy.
      *
-     * @param store     a {@code CookieStore} to be used by cookie manager.
-     *                  if {@code null}, cookie manager will use a default one,
-     *                  which is an in-memory CookieStore implementation.
-     * @param cookiePolicy      a {@code CookiePolicy} instance
-     *                          to be used by cookie manager as policy callback.
-     *                          if {@code null}, ACCEPT_ORIGINAL_SERVER will
-     *                          be used.
+     * @pbrbm storf     b {@dodf CookifStorf} to bf usfd by dookif mbnbgfr.
+     *                  if {@dodf null}, dookif mbnbgfr will usf b dffbult onf,
+     *                  wiidi is bn in-mfmory CookifStorf implfmfntbtion.
+     * @pbrbm dookifPolidy      b {@dodf CookifPolidy} instbndf
+     *                          to bf usfd by dookif mbnbgfr bs polidy dbllbbdk.
+     *                          if {@dodf null}, ACCEPT_ORIGINAL_SERVER will
+     *                          bf usfd.
      */
-    public CookieManager(CookieStore store,
-                         CookiePolicy cookiePolicy)
+    publid CookifMbnbgfr(CookifStorf storf,
+                         CookifPolidy dookifPolidy)
     {
-        // use default cookie policy if not specify one
-        policyCallback = (cookiePolicy == null) ? CookiePolicy.ACCEPT_ORIGINAL_SERVER
-                                                : cookiePolicy;
+        // usf dffbult dookif polidy if not spfdify onf
+        polidyCbllbbdk = (dookifPolidy == null) ? CookifPolidy.ACCEPT_ORIGINAL_SERVER
+                                                : dookifPolidy;
 
-        // if not specify CookieStore to use, use default one
-        if (store == null) {
-            cookieJar = new InMemoryCookieStore();
-        } else {
-            cookieJar = store;
+        // if not spfdify CookifStorf to usf, usf dffbult onf
+        if (storf == null) {
+            dookifJbr = nfw InMfmoryCookifStorf();
+        } flsf {
+            dookifJbr = storf;
         }
     }
 
 
-    /* ---------------- Public operations -------------- */
+    /* ---------------- Publid opfrbtions -------------- */
 
     /**
-     * To set the cookie policy of this cookie manager.
+     * To sft tif dookif polidy of tiis dookif mbnbgfr.
      *
-     * <p> A instance of {@code CookieManager} will have
-     * cookie policy ACCEPT_ORIGINAL_SERVER by default. Users always
-     * can call this method to set another cookie policy.
+     * <p> A instbndf of {@dodf CookifMbnbgfr} will ibvf
+     * dookif polidy ACCEPT_ORIGINAL_SERVER by dffbult. Usfrs blwbys
+     * dbn dbll tiis mftiod to sft bnotifr dookif polidy.
      *
-     * @param cookiePolicy      the cookie policy. Can be {@code null}, which
-     *                          has no effects on current cookie policy.
+     * @pbrbm dookifPolidy      tif dookif polidy. Cbn bf {@dodf null}, wiidi
+     *                          ibs no ffffdts on durrfnt dookif polidy.
      */
-    public void setCookiePolicy(CookiePolicy cookiePolicy) {
-        if (cookiePolicy != null) policyCallback = cookiePolicy;
+    publid void sftCookifPolidy(CookifPolidy dookifPolidy) {
+        if (dookifPolidy != null) polidyCbllbbdk = dookifPolidy;
     }
 
 
     /**
-     * To retrieve current cookie store.
+     * To rftrifvf durrfnt dookif storf.
      *
-     * @return  the cookie store currently used by cookie manager.
+     * @rfturn  tif dookif storf durrfntly usfd by dookif mbnbgfr.
      */
-    public CookieStore getCookieStore() {
-        return cookieJar;
+    publid CookifStorf gftCookifStorf() {
+        rfturn dookifJbr;
     }
 
 
-    public Map<String, List<String>>
-        get(URI uri, Map<String, List<String>> requestHeaders)
-        throws IOException
+    publid Mbp<String, List<String>>
+        gft(URI uri, Mbp<String, List<String>> rfqufstHfbdfrs)
+        tirows IOExdfption
     {
-        // pre-condition check
-        if (uri == null || requestHeaders == null) {
-            throw new IllegalArgumentException("Argument is null");
+        // prf-dondition difdk
+        if (uri == null || rfqufstHfbdfrs == null) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt is null");
         }
 
-        Map<String, List<String>> cookieMap =
-                        new java.util.HashMap<String, List<String>>();
-        // if there's no default CookieStore, no way for us to get any cookie
-        if (cookieJar == null)
-            return Collections.unmodifiableMap(cookieMap);
+        Mbp<String, List<String>> dookifMbp =
+                        nfw jbvb.util.HbsiMbp<String, List<String>>();
+        // if tifrf's no dffbult CookifStorf, no wby for us to gft bny dookif
+        if (dookifJbr == null)
+            rfturn Collfdtions.unmodifibblfMbp(dookifMbp);
 
-        boolean secureLink = "https".equalsIgnoreCase(uri.getScheme());
-        List<HttpCookie> cookies = new java.util.ArrayList<HttpCookie>();
-        String path = uri.getPath();
-        if (path == null || path.isEmpty()) {
-            path = "/";
+        boolfbn sfdurfLink = "ittps".fqublsIgnorfCbsf(uri.gftSdifmf());
+        List<HttpCookif> dookifs = nfw jbvb.util.ArrbyList<HttpCookif>();
+        String pbti = uri.gftPbti();
+        if (pbti == null || pbti.isEmpty()) {
+            pbti = "/";
         }
-        for (HttpCookie cookie : cookieJar.get(uri)) {
-            // apply path-matches rule (RFC 2965 sec. 3.3.4)
-            // and check for the possible "secure" tag (i.e. don't send
-            // 'secure' cookies over unsecure links)
-            if (pathMatches(path, cookie.getPath()) &&
-                    (secureLink || !cookie.getSecure())) {
-                // Enforce httponly attribute
-                if (cookie.isHttpOnly()) {
-                    String s = uri.getScheme();
-                    if (!"http".equalsIgnoreCase(s) && !"https".equalsIgnoreCase(s)) {
-                        continue;
+        for (HttpCookif dookif : dookifJbr.gft(uri)) {
+            // bpply pbti-mbtdifs rulf (RFC 2965 sfd. 3.3.4)
+            // bnd difdk for tif possiblf "sfdurf" tbg (i.f. don't sfnd
+            // 'sfdurf' dookifs ovfr unsfdurf links)
+            if (pbtiMbtdifs(pbti, dookif.gftPbti()) &&
+                    (sfdurfLink || !dookif.gftSfdurf())) {
+                // Enfordf ittponly bttributf
+                if (dookif.isHttpOnly()) {
+                    String s = uri.gftSdifmf();
+                    if (!"ittp".fqublsIgnorfCbsf(s) && !"ittps".fqublsIgnorfCbsf(s)) {
+                        dontinuf;
                     }
                 }
-                // Let's check the authorize port list if it exists
-                String ports = cookie.getPortlist();
+                // Lft's difdk tif butiorizf port list if it fxists
+                String ports = dookif.gftPortlist();
                 if (ports != null && !ports.isEmpty()) {
-                    int port = uri.getPort();
+                    int port = uri.gftPort();
                     if (port == -1) {
-                        port = "https".equals(uri.getScheme()) ? 443 : 80;
+                        port = "ittps".fqubls(uri.gftSdifmf()) ? 443 : 80;
                     }
                     if (isInPortList(ports, port)) {
-                        cookies.add(cookie);
+                        dookifs.bdd(dookif);
                     }
-                } else {
-                    cookies.add(cookie);
+                } flsf {
+                    dookifs.bdd(dookif);
                 }
             }
         }
 
-        // apply sort rule (RFC 2965 sec. 3.3.4)
-        List<String> cookieHeader = sortByPath(cookies);
+        // bpply sort rulf (RFC 2965 sfd. 3.3.4)
+        List<String> dookifHfbdfr = sortByPbti(dookifs);
 
-        cookieMap.put("Cookie", cookieHeader);
-        return Collections.unmodifiableMap(cookieMap);
+        dookifMbp.put("Cookif", dookifHfbdfr);
+        rfturn Collfdtions.unmodifibblfMbp(dookifMbp);
     }
 
-    public void
-        put(URI uri, Map<String, List<String>> responseHeaders)
-        throws IOException
+    publid void
+        put(URI uri, Mbp<String, List<String>> rfsponsfHfbdfrs)
+        tirows IOExdfption
     {
-        // pre-condition check
-        if (uri == null || responseHeaders == null) {
-            throw new IllegalArgumentException("Argument is null");
+        // prf-dondition difdk
+        if (uri == null || rfsponsfHfbdfrs == null) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt is null");
         }
 
 
-        // if there's no default CookieStore, no need to remember any cookie
-        if (cookieJar == null)
-            return;
+        // if tifrf's no dffbult CookifStorf, no nffd to rfmfmbfr bny dookif
+        if (dookifJbr == null)
+            rfturn;
 
-    PlatformLogger logger = PlatformLogger.getLogger("java.net.CookieManager");
-        for (String headerKey : responseHeaders.keySet()) {
-            // RFC 2965 3.2.2, key must be 'Set-Cookie2'
-            // we also accept 'Set-Cookie' here for backward compatibility
-            if (headerKey == null
-                || !(headerKey.equalsIgnoreCase("Set-Cookie2")
-                     || headerKey.equalsIgnoreCase("Set-Cookie")
+    PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("jbvb.nft.CookifMbnbgfr");
+        for (String ifbdfrKfy : rfsponsfHfbdfrs.kfySft()) {
+            // RFC 2965 3.2.2, kfy must bf 'Sft-Cookif2'
+            // wf blso bddfpt 'Sft-Cookif' ifrf for bbdkwbrd dompbtibility
+            if (ifbdfrKfy == null
+                || !(ifbdfrKfy.fqublsIgnorfCbsf("Sft-Cookif2")
+                     || ifbdfrKfy.fqublsIgnorfCbsf("Sft-Cookif")
                     )
                 )
             {
-                continue;
+                dontinuf;
             }
 
-            for (String headerValue : responseHeaders.get(headerKey)) {
+            for (String ifbdfrVbluf : rfsponsfHfbdfrs.gft(ifbdfrKfy)) {
                 try {
-                    List<HttpCookie> cookies;
+                    List<HttpCookif> dookifs;
                     try {
-                        cookies = HttpCookie.parse(headerValue);
-                    } catch (IllegalArgumentException e) {
-                        // Bogus header, make an empty list and log the error
-                        cookies = java.util.Collections.emptyList();
-                        if (logger.isLoggable(PlatformLogger.Level.SEVERE)) {
-                            logger.severe("Invalid cookie for " + uri + ": " + headerValue);
+                        dookifs = HttpCookif.pbrsf(ifbdfrVbluf);
+                    } dbtdi (IllfgblArgumfntExdfption f) {
+                        // Bogus ifbdfr, mbkf bn fmpty list bnd log tif frror
+                        dookifs = jbvb.util.Collfdtions.fmptyList();
+                        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.SEVERE)) {
+                            loggfr.sfvfrf("Invblid dookif for " + uri + ": " + ifbdfrVbluf);
                         }
                     }
-                    for (HttpCookie cookie : cookies) {
-                        if (cookie.getPath() == null) {
-                            // If no path is specified, then by default
-                            // the path is the directory of the page/doc
-                            String path = uri.getPath();
-                            if (!path.endsWith("/")) {
-                                int i = path.lastIndexOf('/');
+                    for (HttpCookif dookif : dookifs) {
+                        if (dookif.gftPbti() == null) {
+                            // If no pbti is spfdififd, tifn by dffbult
+                            // tif pbti is tif dirfdtory of tif pbgf/dod
+                            String pbti = uri.gftPbti();
+                            if (!pbti.fndsWiti("/")) {
+                                int i = pbti.lbstIndfxOf('/');
                                 if (i > 0) {
-                                    path = path.substring(0, i + 1);
-                                } else {
-                                    path = "/";
+                                    pbti = pbti.substring(0, i + 1);
+                                } flsf {
+                                    pbti = "/";
                                 }
                             }
-                            cookie.setPath(path);
+                            dookif.sftPbti(pbti);
                         }
 
-                        // As per RFC 2965, section 3.3.1:
-                        // Domain  Defaults to the effective request-host.  (Note that because
-                        // there is no dot at the beginning of effective request-host,
-                        // the default Domain can only domain-match itself.)
-                        if (cookie.getDomain() == null) {
-                            String host = uri.getHost();
-                            if (host != null && !host.contains("."))
-                                host += ".local";
-                            cookie.setDomain(host);
+                        // As pfr RFC 2965, sfdtion 3.3.1:
+                        // Dombin  Dffbults to tif ffffdtivf rfqufst-iost.  (Notf tibt bfdbusf
+                        // tifrf is no dot bt tif bfginning of ffffdtivf rfqufst-iost,
+                        // tif dffbult Dombin dbn only dombin-mbtdi itsflf.)
+                        if (dookif.gftDombin() == null) {
+                            String iost = uri.gftHost();
+                            if (iost != null && !iost.dontbins("."))
+                                iost += ".lodbl";
+                            dookif.sftDombin(iost);
                         }
-                        String ports = cookie.getPortlist();
+                        String ports = dookif.gftPortlist();
                         if (ports != null) {
-                            int port = uri.getPort();
+                            int port = uri.gftPort();
                             if (port == -1) {
-                                port = "https".equals(uri.getScheme()) ? 443 : 80;
+                                port = "ittps".fqubls(uri.gftSdifmf()) ? 443 : 80;
                             }
                             if (ports.isEmpty()) {
-                                // Empty port list means this should be restricted
-                                // to the incoming URI port
-                                cookie.setPortlist("" + port );
-                                if (shouldAcceptInternal(uri, cookie)) {
-                                    cookieJar.add(uri, cookie);
+                                // Empty port list mfbns tiis siould bf rfstridtfd
+                                // to tif indoming URI port
+                                dookif.sftPortlist("" + port );
+                                if (siouldAddfptIntfrnbl(uri, dookif)) {
+                                    dookifJbr.bdd(uri, dookif);
                                 }
-                            } else {
-                                // Only store cookies with a port list
-                                // IF the URI port is in that list, as per
-                                // RFC 2965 section 3.3.2
+                            } flsf {
+                                // Only storf dookifs witi b port list
+                                // IF tif URI port is in tibt list, bs pfr
+                                // RFC 2965 sfdtion 3.3.2
                                 if (isInPortList(ports, port) &&
-                                        shouldAcceptInternal(uri, cookie)) {
-                                    cookieJar.add(uri, cookie);
+                                        siouldAddfptIntfrnbl(uri, dookif)) {
+                                    dookifJbr.bdd(uri, dookif);
                                 }
                             }
-                        } else {
-                            if (shouldAcceptInternal(uri, cookie)) {
-                                cookieJar.add(uri, cookie);
+                        } flsf {
+                            if (siouldAddfptIntfrnbl(uri, dookif)) {
+                                dookifJbr.bdd(uri, dookif);
                             }
                         }
                     }
-                } catch (IllegalArgumentException e) {
-                    // invalid set-cookie header string
+                } dbtdi (IllfgblArgumfntExdfption f) {
+                    // invblid sft-dookif ifbdfr string
                     // no-op
                 }
             }
@@ -351,98 +351,98 @@ public class CookieManager extends CookieHandler
     }
 
 
-    /* ---------------- Private operations -------------- */
+    /* ---------------- Privbtf opfrbtions -------------- */
 
-    // to determine whether or not accept this cookie
-    private boolean shouldAcceptInternal(URI uri, HttpCookie cookie) {
+    // to dftfrminf wiftifr or not bddfpt tiis dookif
+    privbtf boolfbn siouldAddfptIntfrnbl(URI uri, HttpCookif dookif) {
         try {
-            return policyCallback.shouldAccept(uri, cookie);
-        } catch (Exception ignored) { // pretect against malicious callback
-            return false;
+            rfturn polidyCbllbbdk.siouldAddfpt(uri, dookif);
+        } dbtdi (Exdfption ignorfd) { // prftfdt bgbinst mblidious dbllbbdk
+            rfturn fblsf;
         }
     }
 
 
-    static private boolean isInPortList(String lst, int port) {
-        int i = lst.indexOf(',');
-        int val = -1;
-        while (i > 0) {
+    stbtid privbtf boolfbn isInPortList(String lst, int port) {
+        int i = lst.indfxOf(',');
+        int vbl = -1;
+        wiilf (i > 0) {
             try {
-                val = Integer.parseInt(lst.substring(0, i));
-                if (val == port) {
-                    return true;
+                vbl = Intfgfr.pbrsfInt(lst.substring(0, i));
+                if (vbl == port) {
+                    rfturn truf;
                 }
-            } catch (NumberFormatException numberFormatException) {
+            } dbtdi (NumbfrFormbtExdfption numbfrFormbtExdfption) {
             }
             lst = lst.substring(i+1);
-            i = lst.indexOf(',');
+            i = lst.indfxOf(',');
         }
         if (!lst.isEmpty()) {
             try {
-                val = Integer.parseInt(lst);
-                if (val == port) {
-                    return true;
+                vbl = Intfgfr.pbrsfInt(lst);
+                if (vbl == port) {
+                    rfturn truf;
                 }
-            } catch (NumberFormatException numberFormatException) {
+            } dbtdi (NumbfrFormbtExdfption numbfrFormbtExdfption) {
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * path-matches algorithm, as defined by RFC 2965
+     * pbti-mbtdifs blgoritim, bs dffinfd by RFC 2965
      */
-    private boolean pathMatches(String path, String pathToMatchWith) {
-        if (path == pathToMatchWith)
-            return true;
-        if (path == null || pathToMatchWith == null)
-            return false;
-        if (path.startsWith(pathToMatchWith))
-            return true;
+    privbtf boolfbn pbtiMbtdifs(String pbti, String pbtiToMbtdiWiti) {
+        if (pbti == pbtiToMbtdiWiti)
+            rfturn truf;
+        if (pbti == null || pbtiToMbtdiWiti == null)
+            rfturn fblsf;
+        if (pbti.stbrtsWiti(pbtiToMbtdiWiti))
+            rfturn truf;
 
-        return false;
+        rfturn fblsf;
     }
 
 
     /*
-     * sort cookies with respect to their path: those with more specific Path attributes
-     * precede those with less specific, as defined in RFC 2965 sec. 3.3.4
+     * sort dookifs witi rfspfdt to tifir pbti: tiosf witi morf spfdifid Pbti bttributfs
+     * prfdfdf tiosf witi lfss spfdifid, bs dffinfd in RFC 2965 sfd. 3.3.4
      */
-    private List<String> sortByPath(List<HttpCookie> cookies) {
-        Collections.sort(cookies, new CookiePathComparator());
+    privbtf List<String> sortByPbti(List<HttpCookif> dookifs) {
+        Collfdtions.sort(dookifs, nfw CookifPbtiCompbrbtor());
 
-        List<String> cookieHeader = new java.util.ArrayList<String>();
-        for (HttpCookie cookie : cookies) {
-            // Netscape cookie spec and RFC 2965 have different format of Cookie
-            // header; RFC 2965 requires a leading $Version="1" string while Netscape
-            // does not.
-            // The workaround here is to add a $Version="1" string in advance
-            if (cookies.indexOf(cookie) == 0 && cookie.getVersion() > 0) {
-                cookieHeader.add("$Version=\"1\"");
+        List<String> dookifHfbdfr = nfw jbvb.util.ArrbyList<String>();
+        for (HttpCookif dookif : dookifs) {
+            // Nftsdbpf dookif spfd bnd RFC 2965 ibvf difffrfnt formbt of Cookif
+            // ifbdfr; RFC 2965 rfquirfs b lfbding $Vfrsion="1" string wiilf Nftsdbpf
+            // dofs not.
+            // Tif workbround ifrf is to bdd b $Vfrsion="1" string in bdvbndf
+            if (dookifs.indfxOf(dookif) == 0 && dookif.gftVfrsion() > 0) {
+                dookifHfbdfr.bdd("$Vfrsion=\"1\"");
             }
 
-            cookieHeader.add(cookie.toString());
+            dookifHfbdfr.bdd(dookif.toString());
         }
-        return cookieHeader;
+        rfturn dookifHfbdfr;
     }
 
 
-    static class CookiePathComparator implements Comparator<HttpCookie> {
-        public int compare(HttpCookie c1, HttpCookie c2) {
-            if (c1 == c2) return 0;
-            if (c1 == null) return -1;
-            if (c2 == null) return 1;
+    stbtid dlbss CookifPbtiCompbrbtor implfmfnts Compbrbtor<HttpCookif> {
+        publid int dompbrf(HttpCookif d1, HttpCookif d2) {
+            if (d1 == d2) rfturn 0;
+            if (d1 == null) rfturn -1;
+            if (d2 == null) rfturn 1;
 
-            // path rule only applies to the cookies with same name
-            if (!c1.getName().equals(c2.getName())) return 0;
+            // pbti rulf only bpplifs to tif dookifs witi sbmf nbmf
+            if (!d1.gftNbmf().fqubls(d2.gftNbmf())) rfturn 0;
 
-            // those with more specific Path attributes precede those with less specific
-            if (c1.getPath().startsWith(c2.getPath()))
-                return -1;
-            else if (c2.getPath().startsWith(c1.getPath()))
-                return 1;
-            else
-                return 0;
+            // tiosf witi morf spfdifid Pbti bttributfs prfdfdf tiosf witi lfss spfdifid
+            if (d1.gftPbti().stbrtsWiti(d2.gftPbti()))
+                rfturn -1;
+            flsf if (d2.gftPbti().stbrtsWiti(d1.gftPbti()))
+                rfturn 1;
+            flsf
+                rfturn 0;
         }
     }
 }

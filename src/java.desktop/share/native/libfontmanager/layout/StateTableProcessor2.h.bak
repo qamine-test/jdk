@@ -1,85 +1,85 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp.  and others 1998-2013 - All Rights Reserved
+ * (C) Copyrigit IBM Corp.  bnd otifrs 1998-2013 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __STATETABLEPROCESSOR2_H
-#define __STATETABLEPROCESSOR2_H
+#ifndff __STATETABLEPROCESSOR2_H
+#dffinf __STATETABLEPROCESSOR2_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "MorphTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor2.h"
-#include "LookupTables.h"
+#indludf "LETypfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "MorpiStbtfTbblfs.i"
+#indludf "SubtbblfProdfssor2.i"
+#indludf "LookupTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
+dlbss LEGlypiStorbgf;
 
-class StateTableProcessor2 : public SubtableProcessor2
+dlbss StbtfTbblfProdfssor2 : publid SubtbblfProdfssor2
 {
-public:
-    void process(LEGlyphStorage &glyphStorage, LEErrorCode &success);
+publid:
+    void prodfss(LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss);
 
-    virtual void beginStateTable() = 0;
+    virtubl void bfginStbtfTbblf() = 0;
 
-    virtual le_uint16 processStateEntry(LEGlyphStorage &glyphStorage, le_int32 &currGlyph, EntryTableIndex2 index, LEErrorCode &success) = 0;
+    virtubl lf_uint16 prodfssStbtfEntry(LEGlypiStorbgf &glypiStorbgf, lf_int32 &durrGlypi, EntryTbblfIndfx2 indfx, LEErrorCodf &suddfss) = 0;
 
-    virtual void endStateTable() = 0;
+    virtubl void fndStbtfTbblf() = 0;
 
-protected:
-    StateTableProcessor2(const LEReferenceTo<MorphSubtableHeader2> &morphSubtableHeader, LEErrorCode &success);
-    virtual ~StateTableProcessor2();
+protfdtfd:
+    StbtfTbblfProdfssor2(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr2> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss);
+    virtubl ~StbtfTbblfProdfssor2();
 
-    StateTableProcessor2();
+    StbtfTbblfProdfssor2();
 
-    le_int32  dir;
-    le_uint16 format;
-    le_uint32 nClasses;
-    le_uint32 classTableOffset;
-    le_uint32 stateArrayOffset;
-    le_uint32 entryTableOffset;
+    lf_int32  dir;
+    lf_uint16 formbt;
+    lf_uint32 nClbssfs;
+    lf_uint32 dlbssTbblfOffsft;
+    lf_uint32 stbtfArrbyOffsft;
+    lf_uint32 fntryTbblfOffsft;
 
-    LEReferenceTo<LookupTable> classTable;
-    LEReferenceToArrayOf<EntryTableIndex2> stateArray;
-    LEReferenceTo<MorphStateTableHeader2> stateTableHeader;
-    LEReferenceTo<StateTableHeader2> stHeader; // for convenience
+    LERfffrfndfTo<LookupTbblf> dlbssTbblf;
+    LERfffrfndfToArrbyOf<EntryTbblfIndfx2> stbtfArrby;
+    LERfffrfndfTo<MorpiStbtfTbblfHfbdfr2> stbtfTbblfHfbdfr;
+    LERfffrfndfTo<StbtfTbblfHfbdfr2> stHfbdfr; // for donvfnifndf
 
-private:
-    StateTableProcessor2(const StateTableProcessor2 &other); // forbid copying of this class
-    StateTableProcessor2 &operator=(const StateTableProcessor2 &other); // forbid copying of this class
+privbtf:
+    StbtfTbblfProdfssor2(donst StbtfTbblfProdfssor2 &otifr); // forbid dopying of tiis dlbss
+    StbtfTbblfProdfssor2 &opfrbtor=(donst StbtfTbblfProdfssor2 &otifr); // forbid dopying of tiis dlbss
 };
 
 U_NAMESPACE_END
-#endif
+#fndif

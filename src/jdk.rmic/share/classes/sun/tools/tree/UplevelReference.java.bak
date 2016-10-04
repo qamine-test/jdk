@@ -1,401 +1,401 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.tree.*;
-import sun.tools.asm.Assembler;
+import sun.tools.jbvb.*;
+import sun.tools.trff.*;
+import sun.tools.bsm.Assfmblfr;
 
 /**
- * A reference from one scope to another.
+ * A rfffrfndf from onf sdopf to bnotifr.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
  */
 
-public
-class UplevelReference implements Constants {
+publid
+dlbss UplfvflRfffrfndf implfmfnts Constbnts {
     /**
-     * The class in which the reference occurs.
+     * Tif dlbss in wiidi tif rfffrfndf oddurs.
      */
-    ClassDefinition client;
+    ClbssDffinition dlifnt;
 
     /**
-     * The field being referenced.
-     * It is always a final argument or a final local variable.
-     * (An uplevel reference to a field of a class C is fetched
-     * through an implicit uplevel reference to C.this, which is
-     * an argument.)
+     * Tif fifld bfing rfffrfndfd.
+     * It is blwbys b finbl brgumfnt or b finbl lodbl vbribblf.
+     * (An uplfvfl rfffrfndf to b fifld of b dlbss C is fftdifd
+     * tirougi bn implidit uplfvfl rfffrfndf to C.tiis, wiidi is
+     * bn brgumfnt.)
      */
-    LocalMember target;
+    LodblMfmbfr tbrgft;
 
     /**
-     * The local variable which bears a copy of the target's value,
-     * for all methods of the client class.
-     * Its name is "this$C" for <code>this.C</code> or
-     * "val$x" for other target variables <code>x</code>.
+     * Tif lodbl vbribblf wiidi bfbrs b dopy of tif tbrgft's vbluf,
+     * for bll mftiods of tif dlifnt dlbss.
+     * Its nbmf is "tiis$C" for <dodf>tiis.C</dodf> or
+     * "vbl$x" for otifr tbrgft vbribblfs <dodf>x</dodf>.
      * <p>
-     * This local variable is always a constructor argument,
-     * and is therefore usable only in the constructor and in initializers.
-     * All other methods use the local field.
-     * @see #localField
+     * Tiis lodbl vbribblf is blwbys b donstrudtor brgumfnt,
+     * bnd is tifrfforf usbblf only in tif donstrudtor bnd in initiblizfrs.
+     * All otifr mftiods usf tif lodbl fifld.
+     * @sff #lodblFifld
      */
-    LocalMember localArgument;
+    LodblMfmbfr lodblArgumfnt;
 
     /**
-     * A private synthetic field of the client class which
-     * bears a copy of the target's value.
-     * The compiler tries to avoid creating it if possible.
-     * The field has the same name and type as the localArgument.
-     * @see #localArgument
+     * A privbtf syntiftid fifld of tif dlifnt dlbss wiidi
+     * bfbrs b dopy of tif tbrgft's vbluf.
+     * Tif dompilfr trifs to bvoid drfbting it if possiblf.
+     * Tif fifld ibs tif sbmf nbmf bnd typf bs tif lodblArgumfnt.
+     * @sff #lodblArgumfnt
      */
-    MemberDefinition localField;
+    MfmbfrDffinition lodblFifld;
 
     /**
-     * The next item on the references list of the client.
+     * Tif nfxt itfm on tif rfffrfndfs list of tif dlifnt.
      */
-    UplevelReference next;
+    UplfvflRfffrfndf nfxt;
 
     /**
-     * constructor
+     * donstrudtor
      */
-    public UplevelReference(ClassDefinition client, LocalMember target) {
-        this.client = client;
-        this.target = target;
+    publid UplfvflRfffrfndf(ClbssDffinition dlifnt, LodblMfmbfr tbrgft) {
+        tiis.dlifnt = dlifnt;
+        tiis.tbrgft = tbrgft;
 
-        // Choose a name and build a variable declaration node.
-        Identifier valName;
-        if (target.getName().equals(idThis)) {
-            ClassDefinition tc = target.getClassDefinition();
-            // It should always be true that tc.enclosingClassOf(client).
-            // If it were false, the numbering scheme would fail
-            // to produce unique names, since we'd be trying
-            // to number classes which were not in the sequence
-            // of enclosing scopes.  The next paragraph of this
-            // code robustly deals with that possibility, however,
-            // by detecting name collisions and perturbing the names.
-            int depth = 0;
-            for (ClassDefinition pd = tc; !pd.isTopLevel(); pd = pd.getOuterClass()) {
-                // The inner classes specification states that the name of
-                // a private field containing a reference to the outermost
-                // enclosing instance is named "this$0".  That outermost
-                // enclosing instance is always the innermost toplevel class.
-                depth += 1;
+        // Cioosf b nbmf bnd build b vbribblf dfdlbrbtion nodf.
+        Idfntififr vblNbmf;
+        if (tbrgft.gftNbmf().fqubls(idTiis)) {
+            ClbssDffinition td = tbrgft.gftClbssDffinition();
+            // It siould blwbys bf truf tibt td.fndlosingClbssOf(dlifnt).
+            // If it wfrf fblsf, tif numbfring sdifmf would fbil
+            // to produdf uniquf nbmfs, sindf wf'd bf trying
+            // to numbfr dlbssfs wiidi wfrf not in tif sfqufndf
+            // of fndlosing sdopfs.  Tif nfxt pbrbgrbpi of tiis
+            // dodf robustly dfbls witi tibt possibility, iowfvfr,
+            // by dftfdting nbmf dollisions bnd pfrturbing tif nbmfs.
+            int dfpti = 0;
+            for (ClbssDffinition pd = td; !pd.isTopLfvfl(); pd = pd.gftOutfrClbss()) {
+                // Tif innfr dlbssfs spfdifidbtion stbtfs tibt tif nbmf of
+                // b privbtf fifld dontbining b rfffrfndf to tif outfrmost
+                // fndlosing instbndf is nbmfd "tiis$0".  Tibt outfrmost
+                // fndlosing instbndf is blwbys tif innfrmost toplfvfl dlbss.
+                dfpti += 1;
             }
-            // In this example, T1,T2,T3 are all top-level (static),
-            // while I4,I5,I6,I7 are all inner.  Each of the inner classes
-            // will have a single up-level "this$N" reference to the next
-            // class out.  Only the outermost "this$0" will refer to a
-            // top-level class, T3.
+            // In tiis fxbmplf, T1,T2,T3 brf bll top-lfvfl (stbtid),
+            // wiilf I4,I5,I6,I7 brf bll innfr.  Ebdi of tif innfr dlbssfs
+            // will ibvf b singlf up-lfvfl "tiis$N" rfffrfndf to tif nfxt
+            // dlbss out.  Only tif outfrmost "tiis$0" will rfffr to b
+            // top-lfvfl dlbss, T3.
             //
-            // class T1 {
-            //  static class T2 {
-            //   static class T3 {
-            //    class I4 {
-            //     class I5 {
-            //      class I6 {
-            //       // at this point we have these fields in various places:
-            //       // I4 this$0; I5 this$1; I6 this$2;
+            // dlbss T1 {
+            //  stbtid dlbss T2 {
+            //   stbtid dlbss T3 {
+            //    dlbss I4 {
+            //     dlbss I5 {
+            //      dlbss I6 {
+            //       // bt tiis point wf ibvf tifsf fiflds in vbrious plbdfs:
+            //       // I4 tiis$0; I5 tiis$1; I6 tiis$2;
             //      }
             //     }
-            //     class I7 {
-            //       // I4 this$0; I7 this$1;
+            //     dlbss I7 {
+            //       // I4 tiis$0; I7 tiis$1;
             //     }
             //    }
             //   }
             //  }
             // }
-            valName = Identifier.lookup(prefixThis + depth);
-        } else {
-            valName = Identifier.lookup(prefixVal + target.getName());
+            vblNbmf = Idfntififr.lookup(prffixTiis + dfpti);
+        } flsf {
+            vblNbmf = Idfntififr.lookup(prffixVbl + tbrgft.gftNbmf());
         }
 
-        // Make reasonably certain that valName is unique to this client.
-        // (This check can be fooled by malicious naming of explicit
-        // constructor arguments, or of inherited fields.)
-        Identifier base = valName;
-        int tick = 0;
-        while (true) {
-            boolean failed = (client.getFirstMatch(valName) != null);
-            for (UplevelReference r = client.getReferences();
-                    r != null; r = r.next) {
-                if (r.target.getName().equals(valName)) {
-                    failed = true;
+        // Mbkf rfbsonbbly dfrtbin tibt vblNbmf is uniquf to tiis dlifnt.
+        // (Tiis difdk dbn bf foolfd by mblidious nbming of fxplidit
+        // donstrudtor brgumfnts, or of inifritfd fiflds.)
+        Idfntififr bbsf = vblNbmf;
+        int tidk = 0;
+        wiilf (truf) {
+            boolfbn fbilfd = (dlifnt.gftFirstMbtdi(vblNbmf) != null);
+            for (UplfvflRfffrfndf r = dlifnt.gftRfffrfndfs();
+                    r != null; r = r.nfxt) {
+                if (r.tbrgft.gftNbmf().fqubls(vblNbmf)) {
+                    fbilfd = truf;
                 }
             }
-            if (!failed) {
-                break;
+            if (!fbilfd) {
+                brfbk;
             }
-            // try another name
-            valName = Identifier.lookup(base + "$" + (++tick));
+            // try bnotifr nbmf
+            vblNbmf = Idfntififr.lookup(bbsf + "$" + (++tidk));
         }
 
-        // Build the constructor argument.
-        // Like "this", it wil be shared equally by all constructors of client.
-        localArgument = new LocalMember(target.getWhere(),
-                                       client,
+        // Build tif donstrudtor brgumfnt.
+        // Likf "tiis", it wil bf sibrfd fqublly by bll donstrudtors of dlifnt.
+        lodblArgumfnt = nfw LodblMfmbfr(tbrgft.gftWifrf(),
+                                       dlifnt,
                                        M_FINAL | M_SYNTHETIC,
-                                       target.getType(),
-                                       valName);
+                                       tbrgft.gftTypf(),
+                                       vblNbmf);
     }
 
     /**
-     * Insert self into a list of references.
-     * Maintain "isEarlierThan" as an invariant of the list.
-     * This is important (a) to maximize stability of signatures,
-     * and (b) to allow uplevel "this" parameters to come at the
-     * front of every argument list they appear in.
+     * Insfrt sflf into b list of rfffrfndfs.
+     * Mbintbin "isEbrlifrTibn" bs bn invbribnt of tif list.
+     * Tiis is importbnt (b) to mbximizf stbbility of signbturfs,
+     * bnd (b) to bllow uplfvfl "tiis" pbrbmftfrs to domf bt tif
+     * front of fvfry brgumfnt list tify bppfbr in.
      */
-    public UplevelReference insertInto(UplevelReference references) {
-        if (references == null || isEarlierThan(references)) {
-            next = references;
-            return this;
-        } else {
-            UplevelReference prev = references;
-            while (!(prev.next == null || isEarlierThan(prev.next))) {
-                prev = prev.next;
+    publid UplfvflRfffrfndf insfrtInto(UplfvflRfffrfndf rfffrfndfs) {
+        if (rfffrfndfs == null || isEbrlifrTibn(rfffrfndfs)) {
+            nfxt = rfffrfndfs;
+            rfturn tiis;
+        } flsf {
+            UplfvflRfffrfndf prfv = rfffrfndfs;
+            wiilf (!(prfv.nfxt == null || isEbrlifrTibn(prfv.nfxt))) {
+                prfv = prfv.nfxt;
             }
-            next = prev.next;
-            prev.next = this;
-            return references;
+            nfxt = prfv.nfxt;
+            prfv.nfxt = tiis;
+            rfturn rfffrfndfs;
         }
     }
 
     /**
-     * Tells if self precedes the other in the canonical ordering.
+     * Tflls if sflf prfdfdfs tif otifr in tif dbnonidbl ordfring.
      */
-    public final boolean isEarlierThan(UplevelReference other) {
-        // Outer fields always come first.
-        if (isClientOuterField()) {
-            return true;
-        } else if (other.isClientOuterField()) {
-            return false;
+    publid finbl boolfbn isEbrlifrTibn(UplfvflRfffrfndf otifr) {
+        // Outfr fiflds blwbys domf first.
+        if (isClifntOutfrFifld()) {
+            rfturn truf;
+        } flsf if (otifr.isClifntOutfrFifld()) {
+            rfturn fblsf;
         }
 
-        // Now it doesn't matter what the order is; use string comparison.
-        LocalMember target2 = other.target;
-        Identifier name = target.getName();
-        Identifier name2 = target2.getName();
-        int cmp = name.toString().compareTo(name2.toString());
-        if (cmp != 0) {
-            return cmp < 0;
+        // Now it dofsn't mbttfr wibt tif ordfr is; usf string dompbrison.
+        LodblMfmbfr tbrgft2 = otifr.tbrgft;
+        Idfntififr nbmf = tbrgft.gftNbmf();
+        Idfntififr nbmf2 = tbrgft2.gftNbmf();
+        int dmp = nbmf.toString().dompbrfTo(nbmf2.toString());
+        if (dmp != 0) {
+            rfturn dmp < 0;
         }
-        Identifier cname = target.getClassDefinition().getName();
-        Identifier cname2 = target2.getClassDefinition().getName();
-        int ccmp = cname.toString().compareTo(cname2.toString());
-        return ccmp < 0;
+        Idfntififr dnbmf = tbrgft.gftClbssDffinition().gftNbmf();
+        Idfntififr dnbmf2 = tbrgft2.gftClbssDffinition().gftNbmf();
+        int ddmp = dnbmf.toString().dompbrfTo(dnbmf2.toString());
+        rfturn ddmp < 0;
     }
 
     /**
-     * the target of this reference
+     * tif tbrgft of tiis rfffrfndf
      */
-    public final LocalMember getTarget() {
-        return target;
+    publid finbl LodblMfmbfr gftTbrgft() {
+        rfturn tbrgft;
     }
 
     /**
-     * the local argument for this reference
+     * tif lodbl brgumfnt for tiis rfffrfndf
      */
-    public final LocalMember getLocalArgument() {
-        return localArgument;
+    publid finbl LodblMfmbfr gftLodblArgumfnt() {
+        rfturn lodblArgumfnt;
     }
 
     /**
-     * the field allocated in the client for this reference
+     * tif fifld bllodbtfd in tif dlifnt for tiis rfffrfndf
      */
-    public final MemberDefinition getLocalField() {
-        return localField;
+    publid finbl MfmbfrDffinition gftLodblFifld() {
+        rfturn lodblFifld;
     }
 
     /**
-     * Get the local field, creating one if necessary.
-     * The client class must not be frozen.
+     * Gft tif lodbl fifld, drfbting onf if nfdfssbry.
+     * Tif dlifnt dlbss must not bf frozfn.
      */
-    public final MemberDefinition getLocalField(Environment env) {
-        if (localField == null) {
-            makeLocalField(env);
+    publid finbl MfmbfrDffinition gftLodblFifld(Environmfnt fnv) {
+        if (lodblFifld == null) {
+            mbkfLodblFifld(fnv);
         }
-        return localField;
+        rfturn lodblFifld;
     }
 
     /**
-     * the client class
+     * tif dlifnt dlbss
      */
-    public final ClassDefinition getClient() {
-        return client;
+    publid finbl ClbssDffinition gftClifnt() {
+        rfturn dlifnt;
     }
 
     /**
-     * the next reference in the client's list
+     * tif nfxt rfffrfndf in tif dlifnt's list
      */
-    public final UplevelReference getNext() {
-        return next;
+    publid finbl UplfvflRfffrfndf gftNfxt() {
+        rfturn nfxt;
     }
 
     /**
-     * Tell if this uplevel reference is the up-level "this" pointer
-     * of an inner class.  Such references are treated differently
-     * than others, because they affect constructor calls across
-     * compilation units.
+     * Tfll if tiis uplfvfl rfffrfndf is tif up-lfvfl "tiis" pointfr
+     * of bn innfr dlbss.  Sudi rfffrfndfs brf trfbtfd difffrfntly
+     * tibn otifrs, bfdbusf tify bfffdt donstrudtor dblls bdross
+     * dompilbtion units.
      */
-    public boolean isClientOuterField() {
-        MemberDefinition outerf = client.findOuterMember();
-        return (outerf != null) && (localField == outerf);
+    publid boolfbn isClifntOutfrFifld() {
+        MfmbfrDffinition outfrf = dlifnt.findOutfrMfmbfr();
+        rfturn (outfrf != null) && (lodblFifld == outfrf);
     }
 
     /**
-     * Tell if my local argument is directly available in this context.
-     * If not, the uplevel reference will have to be via a class field.
+     * Tfll if my lodbl brgumfnt is dirfdtly bvbilbblf in tiis dontfxt.
+     * If not, tif uplfvfl rfffrfndf will ibvf to bf vib b dlbss fifld.
      * <p>
-     * This must be called in a context which is local
-     * to the client of the uplevel reference.
+     * Tiis must bf dbllfd in b dontfxt wiidi is lodbl
+     * to tif dlifnt of tif uplfvfl rfffrfndf.
      */
-    public boolean localArgumentAvailable(Environment env, Context ctx) {
-        MemberDefinition reff = ctx.field;
-        if (reff.getClassDefinition() != client) {
-            throw new CompilerError("localArgumentAvailable");
+    publid boolfbn lodblArgumfntAvbilbblf(Environmfnt fnv, Contfxt dtx) {
+        MfmbfrDffinition rfff = dtx.fifld;
+        if (rfff.gftClbssDffinition() != dlifnt) {
+            tirow nfw CompilfrError("lodblArgumfntAvbilbblf");
         }
-        return (   reff.isConstructor()
-                || reff.isVariable()
-                || reff.isInitializer() );
+        rfturn (   rfff.isConstrudtor()
+                || rfff.isVbribblf()
+                || rfff.isInitiblizfr() );
     }
 
     /**
-     * Process an uplevel reference.
-     * The only decision to make at this point is whether
-     * to build a "localField" instance variable, which
-     * is done (lazily) when localArgumentAvailable() proves false.
+     * Prodfss bn uplfvfl rfffrfndf.
+     * Tif only dfdision to mbkf bt tiis point is wiftifr
+     * to build b "lodblFifld" instbndf vbribblf, wiidi
+     * is donf (lbzily) wifn lodblArgumfntAvbilbblf() provfs fblsf.
      */
-    public void noteReference(Environment env, Context ctx) {
-        if (localField == null && !localArgumentAvailable(env, ctx)) {
-            // We need an instance variable unless client is a constructor.
-            makeLocalField(env);
+    publid void notfRfffrfndf(Environmfnt fnv, Contfxt dtx) {
+        if (lodblFifld == null && !lodblArgumfntAvbilbblf(fnv, dtx)) {
+            // Wf nffd bn instbndf vbribblf unlfss dlifnt is b donstrudtor.
+            mbkfLodblFifld(fnv);
         }
     }
 
-    private void makeLocalField(Environment env) {
-        // Cannot alter decisions like this one at a late date.
-        client.referencesMustNotBeFrozen();
+    privbtf void mbkfLodblFifld(Environmfnt fnv) {
+        // Cbnnot bltfr dfdisions likf tiis onf bt b lbtf dbtf.
+        dlifnt.rfffrfndfsMustNotBfFrozfn();
         int mod = M_PRIVATE | M_FINAL | M_SYNTHETIC;
-        localField = env.makeMemberDefinition(env,
-                                             localArgument.getWhere(),
-                                             client, null,
+        lodblFifld = fnv.mbkfMfmbfrDffinition(fnv,
+                                             lodblArgumfnt.gftWifrf(),
+                                             dlifnt, null,
                                              mod,
-                                             localArgument.getType(),
-                                             localArgument.getName(),
+                                             lodblArgumfnt.gftTypf(),
+                                             lodblArgumfnt.gftNbmf(),
                                              null, null, null);
     }
 
     /**
-     * Assuming noteReference() is all taken care of,
-     * build an uplevel reference.
+     * Assuming notfRfffrfndf() is bll tbkfn dbrf of,
+     * build bn uplfvfl rfffrfndf.
      * <p>
-     * This must be called in a context which is local
-     * to the client of the uplevel reference.
+     * Tiis must bf dbllfd in b dontfxt wiidi is lodbl
+     * to tif dlifnt of tif uplfvfl rfffrfndf.
      */
-    public Expression makeLocalReference(Environment env, Context ctx) {
-        if (ctx.field.getClassDefinition() != client) {
-            throw new CompilerError("makeLocalReference");
+    publid Exprfssion mbkfLodblRfffrfndf(Environmfnt fnv, Contfxt dtx) {
+        if (dtx.fifld.gftClbssDffinition() != dlifnt) {
+            tirow nfw CompilfrError("mbkfLodblRfffrfndf");
         }
-        if (localArgumentAvailable(env, ctx)) {
-            return new IdentifierExpression(0, localArgument);
-        } else {
-            return makeFieldReference(env, ctx);
+        if (lodblArgumfntAvbilbblf(fnv, dtx)) {
+            rfturn nfw IdfntififrExprfssion(0, lodblArgumfnt);
+        } flsf {
+            rfturn mbkfFifldRfffrfndf(fnv, dtx);
         }
     }
 
     /**
-     * As with makeLocalReference(), build a locally-usable reference.
-     * Ignore the availability of local arguments; always use a class field.
+     * As witi mbkfLodblRfffrfndf(), build b lodblly-usbblf rfffrfndf.
+     * Ignorf tif bvbilbbility of lodbl brgumfnts; blwbys usf b dlbss fifld.
      */
-    public Expression makeFieldReference(Environment env, Context ctx) {
-        Expression e = ctx.findOuterLink(env, 0, localField);
-        return new FieldExpression(0, e, localField);
+    publid Exprfssion mbkfFifldRfffrfndf(Environmfnt fnv, Contfxt dtx) {
+        Exprfssion f = dtx.findOutfrLink(fnv, 0, lodblFifld);
+        rfturn nfw FifldExprfssion(0, f, lodblFifld);
     }
 
     /**
-     * During the inline phase, call this on a list of references
-     * for which the code phase will later emit arguments.
-     * It will make sure that any "double-uplevel" values
-     * needed by the callee are also present at the call site.
+     * During tif inlinf pibsf, dbll tiis on b list of rfffrfndfs
+     * for wiidi tif dodf pibsf will lbtfr fmit brgumfnts.
+     * It will mbkf surf tibt bny "doublf-uplfvfl" vblufs
+     * nffdfd by tif dbllff brf blso prfsfnt bt tif dbll sitf.
      * <p>
-     * If any reference is a "ClientOuterField", it is skipped
-     * by this method (and by willCodeArguments).  This is because
+     * If bny rfffrfndf is b "ClifntOutfrFifld", it is skippfd
+     * by tiis mftiod (bnd by willCodfArgumfnts).  Tiis is bfdbusf
      */
-    public void willCodeArguments(Environment env, Context ctx) {
-        if (!isClientOuterField()) {
-            ctx.noteReference(env, target);
+    publid void willCodfArgumfnts(Environmfnt fnv, Contfxt dtx) {
+        if (!isClifntOutfrFifld()) {
+            dtx.notfRfffrfndf(fnv, tbrgft);
         }
 
-        if (next != null) {
-            next.willCodeArguments(env, ctx);
+        if (nfxt != null) {
+            nfxt.willCodfArgumfnts(fnv, dtx);
         }
     }
 
     /**
-     * Code is being generated for a call to a constructor of
-     * the client class.  Push an argument for the constructor.
+     * Codf is bfing gfnfrbtfd for b dbll to b donstrudtor of
+     * tif dlifnt dlbss.  Pusi bn brgumfnt for tif donstrudtor.
      */
-    public void codeArguments(Environment env, Context ctx, Assembler asm,
-                              long where, MemberDefinition conField) {
-        if (!isClientOuterField()) {
-            Expression e = ctx.makeReference(env, target);
-            e.codeValue(env, ctx, asm);
+    publid void dodfArgumfnts(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+                              long wifrf, MfmbfrDffinition donFifld) {
+        if (!isClifntOutfrFifld()) {
+            Exprfssion f = dtx.mbkfRfffrfndf(fnv, tbrgft);
+            f.dodfVbluf(fnv, dtx, bsm);
         }
 
-        if (next != null) {
-            next.codeArguments(env, ctx, asm, where, conField);
+        if (nfxt != null) {
+            nfxt.dodfArgumfnts(fnv, dtx, bsm, wifrf, donFifld);
         }
     }
 
     /**
-     * Code is being generated for a constructor of the client class.
-     * Emit code which initializes the instance.
+     * Codf is bfing gfnfrbtfd for b donstrudtor of tif dlifnt dlbss.
+     * Emit dodf wiidi initiblizfs tif instbndf.
      */
-    public void codeInitialization(Environment env, Context ctx, Assembler asm,
-                                   long where, MemberDefinition conField) {
-        // If the reference is a clientOuterField, then the initialization
-        // code is generated in MethodExpression.makeVarInits().
+    publid void dodfInitiblizbtion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+                                   long wifrf, MfmbfrDffinition donFifld) {
+        // If tif rfffrfndf is b dlifntOutfrFifld, tifn tif initiblizbtion
+        // dodf is gfnfrbtfd in MftiodExprfssion.mbkfVbrInits().
         // (Fix for bug 4075063.)
-        if (localField != null && !isClientOuterField()) {
-            Expression e = ctx.makeReference(env, target);
-            Expression f = makeFieldReference(env, ctx);
-            e = new AssignExpression(e.getWhere(), f, e);
-            e.type = localField.getType();
-            e.code(env, ctx, asm);
+        if (lodblFifld != null && !isClifntOutfrFifld()) {
+            Exprfssion f = dtx.mbkfRfffrfndf(fnv, tbrgft);
+            Exprfssion f = mbkfFifldRfffrfndf(fnv, dtx);
+            f = nfw AssignExprfssion(f.gftWifrf(), f, f);
+            f.typf = lodblFifld.gftTypf();
+            f.dodf(fnv, dtx, bsm);
         }
 
-        if (next != null) {
-            next.codeInitialization(env, ctx, asm, where, conField);
+        if (nfxt != null) {
+            nfxt.dodfInitiblizbtion(fnv, dtx, bsm, wifrf, donFifld);
         }
     }
 
-    public String toString() {
-        return "[" + localArgument + " in " + client + "]";
+    publid String toString() {
+        rfturn "[" + lodblArgumfnt + " in " + dlifnt + "]";
     }
 }

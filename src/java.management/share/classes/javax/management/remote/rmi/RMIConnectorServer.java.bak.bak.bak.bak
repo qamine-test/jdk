@@ -1,0 +1,853 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
+
+
+import dom.sun.jmx.rfmotf.sfdurity.MBfbnSfrvfrFilfAddfssControllfr;
+import dom.sun.jmx.rfmotf.intfrnbl.IIOPHflpfr;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL;
+import jbvbx.mbnbgfmfnt.rfmotf.MBfbnSfrvfrForwbrdfr;
+
+import jbvbx.nbming.InitiblContfxt;
+import jbvbx.nbming.NbmingExdfption;
+
+/**
+ * <p>A JMX API donnfdtor sfrvfr thbt drfbtfs RMI-bbsfd donnfdtions
+ * from rfmotf dlifnts.  Usublly, sudh donnfdtor sfrvfrs brf mbdf
+ * using {@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory
+ * JMXConnfdtorSfrvfrFbdtory}.  Howfvfr, spfdiblizfd bpplidbtions dbn
+ * usf this dlbss dirfdtly, for fxbmplf with bn {@link RMISfrvfrImpl}
+ * objfdt.</p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss RMIConnfdtorSfrvfr fxtfnds JMXConnfdtorSfrvfr {
+    /**
+     * <p>Nbmf of thf bttributf thbt spfdififs whfthfr thf {@link
+     * RMISfrvfr} stub thbt rfprfsfnts bn RMI donnfdtor sfrvfr should
+     * ovfrridf bn fxisting stub bt thf sbmf bddrfss.  Thf vbluf
+     * bssodibtfd with this bttributf, if bny, should bf b string thbt
+     * is fqubl, ignoring dbsf, to <dodf>"truf"</dodf> or
+     * <dodf>"fblsf"</dodf>.  Thf dffbult vbluf is fblsf.</p>
+     */
+    publid stbtid finbl String JNDI_REBIND_ATTRIBUTE =
+        "jmx.rfmotf.jndi.rfbind";
+
+    /**
+     * <p>Nbmf of thf bttributf thbt spfdififs thf {@link
+     * RMIClifntSodkftFbdtory} for thf RMI objfdts drfbtfd in
+     * donjundtion with this donnfdtor. Thf vbluf bssodibtfd with this
+     * bttributf must bf of typf <dodf>RMIClifntSodkftFbdtory</dodf> bnd dbn
+     * only bf spfdififd in thf <dodf>Mbp</dodf> brgumfnt supplifd whfn
+     * drfbting b donnfdtor sfrvfr.</p>
+     */
+    publid stbtid finbl String RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE =
+        "jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory";
+
+    /**
+     * <p>Nbmf of thf bttributf thbt spfdififs thf {@link
+     * RMISfrvfrSodkftFbdtory} for thf RMI objfdts drfbtfd in
+     * donjundtion with this donnfdtor. Thf vbluf bssodibtfd with this
+     * bttributf must bf of typf <dodf>RMISfrvfrSodkftFbdtory</dodf> bnd dbn
+     * only bf spfdififd in thf <dodf>Mbp</dodf> brgumfnt supplifd whfn
+     * drfbting b donnfdtor sfrvfr.</p>
+     */
+    publid stbtid finbl String RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE =
+        "jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory";
+
+    /**
+     * <p>Mbkfs bn <dodf>RMIConnfdtorSfrvfr</dodf>.
+     * This is fquivblfnt to dblling {@link #RMIConnfdtorSfrvfr(
+     * JMXSfrvidfURL,Mbp,RMISfrvfrImpl,MBfbnSfrvfr)
+     * RMIConnfdtorSfrvfr(dirfdtoryURL,fnvironmfnt,null,null)}</p>
+     *
+     * @pbrbm url thf URL dffining how to drfbtf thf donnfdtor sfrvfr.
+     * Cbnnot bf null.
+     *
+     * @pbrbm fnvironmfnt bttributfs govfrning thf drfbtion bnd
+     * storing of thf RMI objfdt.  Cbn bf null, whidh is fquivblfnt to
+     * bn fmpty Mbp.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>url</dodf> is null.
+     *
+     * @fxdfption MblformfdURLExdfption if <dodf>url</dodf> dofs not
+     * donform to thf syntbx for bn RMI donnfdtor, or if its protodol
+     * is not rfdognizfd by this implfmfntbtion. Only "rmi" bnd "iiop"
+     * brf vblid whfn this donstrudtor is usfd.
+     *
+     * @fxdfption IOExdfption if thf donnfdtor sfrvfr dbnnot bf drfbtfd
+     * for somf rfbson or if it is infvitbblf thbt its {@link #stbrt()
+     * stbrt} mfthod will fbil.
+     */
+    publid RMIConnfdtorSfrvfr(JMXSfrvidfURL url, Mbp<String,?> fnvironmfnt)
+            throws IOExdfption {
+        this(url, fnvironmfnt, (MBfbnSfrvfr) null);
+    }
+
+    /**
+     * <p>Mbkfs bn <dodf>RMIConnfdtorSfrvfr</dodf> for thf givfn MBfbn
+     * sfrvfr.
+     * This is fquivblfnt to dblling {@link #RMIConnfdtorSfrvfr(
+     * JMXSfrvidfURL,Mbp,RMISfrvfrImpl,MBfbnSfrvfr)
+     * RMIConnfdtorSfrvfr(dirfdtoryURL,fnvironmfnt,null,mbfbnSfrvfr)}</p>
+     *
+     * @pbrbm url thf URL dffining how to drfbtf thf donnfdtor sfrvfr.
+     * Cbnnot bf null.
+     *
+     * @pbrbm fnvironmfnt bttributfs govfrning thf drfbtion bnd
+     * storing of thf RMI objfdt.  Cbn bf null, whidh is fquivblfnt to
+     * bn fmpty Mbp.
+     *
+     * @pbrbm mbfbnSfrvfr thf MBfbn sfrvfr to whidh thf nfw donnfdtor
+     * sfrvfr is bttbdhfd, or null if it will bf bttbdhfd by bfing
+     * rfgistfrfd bs bn MBfbn in thf MBfbn sfrvfr.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>url</dodf> is null.
+     *
+     * @fxdfption MblformfdURLExdfption if <dodf>url</dodf> dofs not
+     * donform to thf syntbx for bn RMI donnfdtor, or if its protodol
+     * is not rfdognizfd by this implfmfntbtion. Only "rmi" bnd "iiop"
+     * brf vblid whfn this donstrudtor is usfd.
+     *
+     * @fxdfption IOExdfption if thf donnfdtor sfrvfr dbnnot bf drfbtfd
+     * for somf rfbson or if it is infvitbblf thbt its {@link #stbrt()
+     * stbrt} mfthod will fbil.
+     */
+    publid RMIConnfdtorSfrvfr(JMXSfrvidfURL url, Mbp<String,?> fnvironmfnt,
+                              MBfbnSfrvfr mbfbnSfrvfr)
+            throws IOExdfption {
+        this(url, fnvironmfnt, (RMISfrvfrImpl) null, mbfbnSfrvfr);
+    }
+
+    /**
+     * <p>Mbkfs bn <dodf>RMIConnfdtorSfrvfr</dodf> for thf givfn MBfbn
+     * sfrvfr.</p>
+     *
+     * @pbrbm url thf URL dffining how to drfbtf thf donnfdtor sfrvfr.
+     * Cbnnot bf null.
+     *
+     * @pbrbm fnvironmfnt bttributfs govfrning thf drfbtion bnd
+     * storing of thf RMI objfdt.  Cbn bf null, whidh is fquivblfnt to
+     * bn fmpty Mbp.
+     *
+     * @pbrbm rmiSfrvfrImpl An implfmfntbtion of thf RMISfrvfr intfrfbdf,
+     *  donsistfnt with thf protodol typf spfdififd in <vbr>url</vbr>.
+     *  If this pbrbmftfr is non null, thf protodol typf spfdififd by
+     *  <vbr>url</vbr> is not donstrbinfd, bnd is bssumfd to bf vblid.
+     *  Othfrwisf, only "rmi" bnd "iiop" will bf rfdognizfd.
+     *
+     * @pbrbm mbfbnSfrvfr thf MBfbn sfrvfr to whidh thf nfw donnfdtor
+     * sfrvfr is bttbdhfd, or null if it will bf bttbdhfd by bfing
+     * rfgistfrfd bs bn MBfbn in thf MBfbn sfrvfr.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>url</dodf> is null.
+     *
+     * @fxdfption MblformfdURLExdfption if <dodf>url</dodf> dofs not
+     * donform to thf syntbx for bn RMI donnfdtor, or if its protodol
+     * is not rfdognizfd by this implfmfntbtion. Only "rmi" bnd "iiop"
+     * brf rfdognizfd whfn <vbr>rmiSfrvfrImpl</vbr> is null.
+     *
+     * @fxdfption IOExdfption if thf donnfdtor sfrvfr dbnnot bf drfbtfd
+     * for somf rfbson or if it is infvitbblf thbt its {@link #stbrt()
+     * stbrt} mfthod will fbil.
+     *
+     * @sff #stbrt
+     */
+    publid RMIConnfdtorSfrvfr(JMXSfrvidfURL url, Mbp<String,?> fnvironmfnt,
+                              RMISfrvfrImpl rmiSfrvfrImpl,
+                              MBfbnSfrvfr mbfbnSfrvfr)
+            throws IOExdfption {
+        supfr(mbfbnSfrvfr);
+
+        if (url == null) throw nfw
+            IllfgblArgumfntExdfption("Null JMXSfrvidfURL");
+        if (rmiSfrvfrImpl == null) {
+            finbl String prt = url.gftProtodol();
+            if (prt == null || !(prt.fqubls("rmi") || prt.fqubls("iiop"))) {
+                finbl String msg = "Invblid protodol typf: " + prt;
+                throw nfw MblformfdURLExdfption(msg);
+            }
+            finbl String urlPbth = url.gftURLPbth();
+            if (!urlPbth.fqubls("")
+                && !urlPbth.fqubls("/")
+                && !urlPbth.stbrtsWith("/jndi/")) {
+                finbl String msg = "URL pbth must bf fmpty or stbrt with " +
+                    "/jndi/";
+                throw nfw MblformfdURLExdfption(msg);
+            }
+        }
+
+        if (fnvironmfnt == null)
+            this.bttributfs = Collfdtions.fmptyMbp();
+        flsf {
+            EnvHflp.dhfdkAttributfs(fnvironmfnt);
+            this.bttributfs = Collfdtions.unmodifibblfMbp(fnvironmfnt);
+        }
+
+        this.bddrfss = url;
+        this.rmiSfrvfrImpl = rmiSfrvfrImpl;
+    }
+
+    /**
+     * <p>Rfturns b dlifnt stub for this donnfdtor sfrvfr.  A dlifnt
+     * stub is b sfriblizbblf objfdt whosf {@link
+     * JMXConnfdtor#donnfdt(Mbp) donnfdt} mfthod dbn bf usfd to mbkf
+     * onf nfw donnfdtion to this donnfdtor sfrvfr.</p>
+     *
+     * @pbrbm fnv dlifnt donnfdtion pbrbmftfrs of thf sbmf sort thbt
+     * dould bf providfd to {@link JMXConnfdtor#donnfdt(Mbp)
+     * JMXConnfdtor.donnfdt(Mbp)}.  Cbn bf null, whidh is fquivblfnt
+     * to bn fmpty mbp.
+     *
+     * @rfturn b dlifnt stub thbt dbn bf usfd to mbkf b nfw donnfdtion
+     * to this donnfdtor sfrvfr.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this donnfdtor
+     * sfrvfr dofs not support thf gfnfrbtion of dlifnt stubs.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf JMXConnfdtorSfrvfr is
+     * not stbrtfd (sff {@link #isAdtivf()}).
+     *
+     * @fxdfption IOExdfption if b dommunidbtions problfm mfbns thbt b
+     * stub dbnnot bf drfbtfd.
+     **/
+    publid JMXConnfdtor toJMXConnfdtor(Mbp<String,?> fnv) throws IOExdfption {
+        // Thf sfriblizfd for of rmiSfrvfrImpl is butombtidblly
+        // b RMI sfrvfr stub.
+        if (!isAdtivf()) throw nfw
+            IllfgblStbtfExdfption("Connfdtor is not bdtivf");
+
+        // Mfrgf mbps
+        Mbp<String, Objfdt> usfmbp = nfw HbshMbp<String, Objfdt>(
+                (this.bttributfs==null)?Collfdtions.<String, Objfdt>fmptyMbp():
+                    this.bttributfs);
+
+        if (fnv != null) {
+            EnvHflp.dhfdkAttributfs(fnv);
+            usfmbp.putAll(fnv);
+        }
+
+        usfmbp = EnvHflp.filtfrAttributfs(usfmbp);
+
+        finbl RMISfrvfr stub=(RMISfrvfr)rmiSfrvfrImpl.toStub();
+
+        rfturn nfw RMIConnfdtor(stub, usfmbp);
+    }
+
+    /**
+     * <p>Adtivbtfs thf donnfdtor sfrvfr, thbt is stbrts listfning for
+     * dlifnt donnfdtions.  Cblling this mfthod whfn thf donnfdtor
+     * sfrvfr is blrfbdy bdtivf hbs no ffffdt.  Cblling this mfthod
+     * whfn thf donnfdtor sfrvfr hbs bffn stoppfd will gfnfrbtf bn
+     * <dodf>IOExdfption</dodf>.</p>
+     *
+     * <p>Thf bfhbvior of this mfthod whfn dbllfd for thf first timf
+     * dfpfnds on thf pbrbmftfrs thbt wfrf supplifd bt donstrudtion,
+     * bs dfsdribfd bflow.</p>
+     *
+     * <p>First, bn objfdt of b subdlbss of {@link RMISfrvfrImpl} is
+     * rfquirfd, to fxport thf donnfdtor sfrvfr through RMI:</p>
+     *
+     * <ul>
+     *
+     * <li>If bn <dodf>RMISfrvfrImpl</dodf> wbs supplifd to thf
+     * donstrudtor, it is usfd.
+     *
+     * <li>Othfrwisf, if thf protodol pbrt of thf
+     * <dodf>JMXSfrvidfURL</dodf> supplifd to thf donstrudtor wbs
+     * <dodf>iiop</dodf>, bn objfdt of typf {@link RMIIIOPSfrvfrImpl}
+     * is drfbtfd.
+     *
+     * <li>Othfrwisf, if thf <dodf>JMXSfrvidfURL</dodf>
+     * wbs null, or its protodol pbrt wbs <dodf>rmi</dodf>, bn objfdt
+     * of typf {@link RMIJRMPSfrvfrImpl} is drfbtfd.
+     *
+     * <li>Othfrwisf, thf implfmfntbtion dbn drfbtf bn
+     * implfmfntbtion-spfdifid {@link RMISfrvfrImpl} or it dbn throw
+     * {@link MblformfdURLExdfption}.
+     *
+     * </ul>
+     *
+     * <p>If thf givfn bddrfss indludfs b JNDI dirfdtory URL bs
+     * spfdififd in thf pbdkbgf dodumfntbtion for {@link
+     * jbvbx.mbnbgfmfnt.rfmotf.rmi}, thfn this
+     * <dodf>RMIConnfdtorSfrvfr</dodf> will bootstrbp by binding thf
+     * <dodf>RMISfrvfrImpl</dodf> to thf givfn bddrfss.</p>
+     *
+     * <p>If thf URL pbth pbrt of thf <dodf>JMXSfrvidfURL</dodf> wbs
+     * fmpty or b singlf slbsh (<dodf>/</dodf>), thfn thf RMI objfdt
+     * will not bf bound to b dirfdtory.  Instfbd, b rfffrfndf to it
+     * will bf fndodfd in thf URL pbth of thf RMIConnfdtorSfrvfr
+     * bddrfss (rfturnfd by {@link #gftAddrfss()}).  Thf fndodings for
+     * <dodf>rmi</dodf> bnd <dodf>iiop</dodf> brf dfsdribfd in thf
+     * pbdkbgf dodumfntbtion for {@link
+     * jbvbx.mbnbgfmfnt.rfmotf.rmi}.</p>
+     *
+     * <p>Thf bfhbvior whfn thf URL pbth is nfithfr fmpty nor b JNDI
+     * dirfdtory URL, or whfn thf protodol is nfithfr <dodf>rmi</dodf>
+     * nor <dodf>iiop</dodf>, is implfmfntbtion dffinfd, bnd mby
+     * indludf throwing {@link MblformfdURLExdfption} whfn thf
+     * donnfdtor sfrvfr is drfbtfd or whfn it is stbrtfd.</p>
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf donnfdtor sfrvfr hbs
+     * not bffn bttbdhfd to bn MBfbn sfrvfr.
+     * @fxdfption IOExdfption if thf donnfdtor sfrvfr dbnnot bf
+     * stbrtfd, or in thf dbsf of thf {@dodf iiop} protodol, thbt
+     * RMI/IIOP is not supportfd.
+     */
+    publid syndhronizfd void stbrt() throws IOExdfption {
+        finbl boolfbn trbding = loggfr.trbdfOn();
+
+        if (stbtf == STARTED) {
+            if (trbding) loggfr.trbdf("stbrt", "blrfbdy stbrtfd");
+            rfturn;
+        } flsf if (stbtf == STOPPED) {
+            if (trbding) loggfr.trbdf("stbrt", "blrfbdy stoppfd");
+            throw nfw IOExdfption("Thf sfrvfr hbs bffn stoppfd.");
+        }
+
+        if (gftMBfbnSfrvfr() == null)
+            throw nfw IllfgblStbtfExdfption("This donnfdtor sfrvfr is not " +
+                                            "bttbdhfd to bn MBfbn sfrvfr");
+
+        // Chfdk thf intfrnbl bddfss filf propfrty to sff
+        // if bn MBfbnSfrvfrForwbrdfr is to bf providfd
+        //
+        if (bttributfs != null) {
+            // Chfdk if bddfss filf propfrty is spfdififd
+            //
+            String bddfssFilf =
+                (String) bttributfs.gft("jmx.rfmotf.x.bddfss.filf");
+            if (bddfssFilf != null) {
+                // Addfss filf propfrty spfdififd, drfbtf bn instbndf
+                // of thf MBfbnSfrvfrFilfAddfssControllfr dlbss
+                //
+                MBfbnSfrvfrForwbrdfr mbsf;
+                try {
+                    mbsf = nfw MBfbnSfrvfrFilfAddfssControllfr(bddfssFilf);
+                } dbtdh (IOExdfption f) {
+                    throw EnvHflp.initCbusf(
+                        nfw IllfgblArgumfntExdfption(f.gftMfssbgf()), f);
+                }
+                // Sft thf MBfbnSfrvfrForwbrdfr
+                //
+                sftMBfbnSfrvfrForwbrdfr(mbsf);
+            }
+        }
+
+        try {
+            if (trbding) loggfr.trbdf("stbrt", "sftting dffbult dlbss lobdfr");
+            dffbultClbssLobdfr = EnvHflp.rfsolvfSfrvfrClbssLobdfr(
+                    bttributfs, gftMBfbnSfrvfr());
+        } dbtdh (InstbndfNotFoundExdfption infd) {
+            IllfgblArgumfntExdfption x = nfw
+                IllfgblArgumfntExdfption("ClbssLobdfr not found: "+infd);
+            throw EnvHflp.initCbusf(x,infd);
+        }
+
+        if (trbding) loggfr.trbdf("stbrt", "sftting RMISfrvfr objfdt");
+        finbl RMISfrvfrImpl rmiSfrvfr;
+
+        if (rmiSfrvfrImpl != null)
+            rmiSfrvfr = rmiSfrvfrImpl;
+        flsf
+            rmiSfrvfr = nfwSfrvfr();
+
+        rmiSfrvfr.sftMBfbnSfrvfr(gftMBfbnSfrvfr());
+        rmiSfrvfr.sftDffbultClbssLobdfr(dffbultClbssLobdfr);
+        rmiSfrvfr.sftRMIConnfdtorSfrvfr(this);
+        rmiSfrvfr.fxport();
+
+        try {
+            if (trbding) loggfr.trbdf("stbrt", "gftting RMISfrvfr objfdt to fxport");
+            finbl RMISfrvfr objrff = objfdtToBind(rmiSfrvfr, bttributfs);
+
+            if (bddrfss != null && bddrfss.gftURLPbth().stbrtsWith("/jndi/")) {
+                finbl String jndiUrl = bddrfss.gftURLPbth().substring(6);
+
+                if (trbding)
+                    loggfr.trbdf("stbrt", "Using fxtfrnbl dirfdtory: " + jndiUrl);
+
+                String stringBoolfbn = (String) bttributfs.gft(JNDI_REBIND_ATTRIBUTE);
+                finbl boolfbn rfbind = EnvHflp.domputfBoolfbnFromString( stringBoolfbn );
+
+                if (trbding)
+                    loggfr.trbdf("stbrt", JNDI_REBIND_ATTRIBUTE + "=" + rfbind);
+
+                try {
+                    if (trbding) loggfr.trbdf("stbrt", "binding to " + jndiUrl);
+
+                    finbl Hbshtbblf<?, ?> usfmbp = EnvHflp.mbpToHbshtbblf(bttributfs);
+
+                    bind(jndiUrl, usfmbp, objrff, rfbind);
+
+                    boundJndiUrl = jndiUrl;
+                } dbtdh (NbmingExdfption f) {
+                    // fit f in thf nfstfd fxdfption if wf brf on 1.4
+                    throw nfwIOExdfption("Cbnnot bind to URL ["+jndiUrl+"]: "
+                                         + f, f);
+                }
+            } flsf {
+                // if jndiURL is null, wf must fndodf thf stub into thf URL.
+                if (trbding) loggfr.trbdf("stbrt", "Endoding URL");
+
+                fndodfStubInAddrfss(objrff, bttributfs);
+
+                if (trbding) loggfr.trbdf("stbrt", "Endodfd URL: " + this.bddrfss);
+            }
+        } dbtdh (Exdfption f) {
+            try {
+                rmiSfrvfr.dlosf();
+            } dbtdh (Exdfption x) {
+                // OK: wf brf blrfbdy throwing bnothfr fxdfption
+            }
+            if (f instbndfof RuntimfExdfption)
+                throw (RuntimfExdfption) f;
+            flsf if (f instbndfof IOExdfption)
+                throw (IOExdfption) f;
+            flsf
+                throw nfwIOExdfption("Got unfxpfdtfd fxdfption whilf " +
+                                     "stbrting thf donnfdtor sfrvfr: "
+                                     + f, f);
+        }
+
+        rmiSfrvfrImpl = rmiSfrvfr;
+
+        syndhronizfd(opfnfdSfrvfrs) {
+            opfnfdSfrvfrs.bdd(this);
+        }
+
+        stbtf = STARTED;
+
+        if (trbding) {
+            loggfr.trbdf("stbrt", "Connfdtor Sfrvfr Addrfss = " + bddrfss);
+            loggfr.trbdf("stbrt", "stbrtfd.");
+        }
+    }
+
+    /**
+     * <p>Dfbdtivbtfs thf donnfdtor sfrvfr, thbt is, stops listfning for
+     * dlifnt donnfdtions.  Cblling this mfthod will blso dlosf bll
+     * dlifnt donnfdtions thbt wfrf mbdf by this sfrvfr.  Aftfr this
+     * mfthod rfturns, whfthfr normblly or with bn fxdfption, thf
+     * donnfdtor sfrvfr will not drfbtf bny nfw dlifnt
+     * donnfdtions.</p>
+     *
+     * <p>Ondf b donnfdtor sfrvfr hbs bffn stoppfd, it dbnnot bf stbrtfd
+     * bgbin.</p>
+     *
+     * <p>Cblling this mfthod whfn thf donnfdtor sfrvfr hbs blrfbdy
+     * bffn stoppfd hbs no ffffdt.  Cblling this mfthod whfn thf
+     * donnfdtor sfrvfr hbs not yft bffn stbrtfd will disbblf thf
+     * donnfdtor sfrvfr objfdt pfrmbnfntly.</p>
+     *
+     * <p>If dlosing b dlifnt donnfdtion produdfs bn fxdfption, thbt
+     * fxdfption is not thrown from this mfthod.  A {@link
+     * JMXConnfdtionNotifidbtion} is fmittfd from this MBfbn with thf
+     * donnfdtion ID of thf donnfdtion thbt dould not bf dlosfd.</p>
+     *
+     * <p>Closing b donnfdtor sfrvfr is b potfntiblly slow opfrbtion.
+     * For fxbmplf, if b dlifnt mbdhinf with bn opfn donnfdtion hbs
+     * drbshfd, thf dlosf opfrbtion might hbvf to wbit for b nftwork
+     * protodol timfout.  Cbllfrs thbt do not wbnt to blodk in b dlosf
+     * opfrbtion should do it in b sfpbrbtf thrfbd.</p>
+     *
+     * <p>This mfthod dblls thf mfthod {@link RMISfrvfrImpl#dlosf()
+     * dlosf} on thf donnfdtor sfrvfr's <dodf>RMISfrvfrImpl</dodf>
+     * objfdt.</p>
+     *
+     * <p>If thf <dodf>RMISfrvfrImpl</dodf> wbs bound to b JNDI
+     * dirfdtory by thf {@link #stbrt() stbrt} mfthod, it is unbound
+     * from thf dirfdtory by this mfthod.</p>
+     *
+     * @fxdfption IOExdfption if thf sfrvfr dbnnot bf dlosfd dlfbnly,
+     * or if thf <dodf>RMISfrvfrImpl</dodf> dbnnot bf unbound from thf
+     * dirfdtory.  Whfn this fxdfption is thrown, thf sfrvfr hbs
+     * blrfbdy bttfmptfd to dlosf bll dlifnt donnfdtions, if
+     * bppropribtf; to dbll {@link RMISfrvfrImpl#dlosf()}; bnd to
+     * unbind thf <dodf>RMISfrvfrImpl</dodf> from its dirfdtory, if
+     * bppropribtf.  All dlifnt donnfdtions brf dlosfd fxdfpt possibly
+     * thosf thbt gfnfrbtfd fxdfptions whfn thf sfrvfr bttfmptfd to
+     * dlosf thfm.
+     */
+    publid void stop() throws IOExdfption {
+        finbl boolfbn trbding = loggfr.trbdfOn();
+
+        syndhronizfd (this) {
+            if (stbtf == STOPPED) {
+                if (trbding) loggfr.trbdf("stop","blrfbdy stoppfd.");
+                rfturn;
+            } flsf if (stbtf == CREATED) {
+                if (trbding) loggfr.trbdf("stop","not stbrtfd yft.");
+            }
+
+            if (trbding) loggfr.trbdf("stop", "stopping.");
+            stbtf = STOPPED;
+        }
+
+        syndhronizfd(opfnfdSfrvfrs) {
+            opfnfdSfrvfrs.rfmovf(this);
+        }
+
+        IOExdfption fxdfption = null;
+
+        // rmiSfrvfrImpl dbn bf null if stop() dbllfd without stbrt()
+        if (rmiSfrvfrImpl != null) {
+            try {
+                if (trbding) loggfr.trbdf("stop", "dlosing RMI sfrvfr.");
+                rmiSfrvfrImpl.dlosf();
+            } dbtdh (IOExdfption f) {
+                if (trbding) loggfr.trbdf("stop", "fbilfd to dlosf RMI sfrvfr: " + f);
+                if (loggfr.dfbugOn()) loggfr.dfbug("stop",f);
+                fxdfption = f;
+            }
+        }
+
+        if (boundJndiUrl != null) {
+            try {
+                if (trbding)
+                    loggfr.trbdf("stop",
+                          "unbind from fxtfrnbl dirfdtory: " + boundJndiUrl);
+
+                finbl Hbshtbblf<?, ?> usfmbp = EnvHflp.mbpToHbshtbblf(bttributfs);
+
+                InitiblContfxt dtx =
+                    nfw InitiblContfxt(usfmbp);
+
+                dtx.unbind(boundJndiUrl);
+
+                dtx.dlosf();
+            } dbtdh (NbmingExdfption f) {
+                if (trbding) loggfr.trbdf("stop", "fbilfd to unbind RMI sfrvfr: "+f);
+                if (loggfr.dfbugOn()) loggfr.dfbug("stop",f);
+                // fit f in bs thf nfstfd fxdfption if wf brf on 1.4
+                if (fxdfption == null)
+                    fxdfption = nfwIOExdfption("Cbnnot bind to URL: " + f, f);
+            }
+        }
+
+        if (fxdfption != null) throw fxdfption;
+
+        if (trbding) loggfr.trbdf("stop", "stoppfd");
+    }
+
+    publid syndhronizfd boolfbn isAdtivf() {
+        rfturn (stbtf == STARTED);
+    }
+
+    publid JMXSfrvidfURL gftAddrfss() {
+        if (!isAdtivf())
+            rfturn null;
+        rfturn bddrfss;
+    }
+
+    publid Mbp<String,?> gftAttributfs() {
+        Mbp<String, ?> mbp = EnvHflp.filtfrAttributfs(bttributfs);
+        rfturn Collfdtions.unmodifibblfMbp(mbp);
+    }
+
+    @Ovfrridf
+    publid syndhronizfd
+        void sftMBfbnSfrvfrForwbrdfr(MBfbnSfrvfrForwbrdfr mbsf) {
+        supfr.sftMBfbnSfrvfrForwbrdfr(mbsf);
+        if (rmiSfrvfrImpl != null)
+            rmiSfrvfrImpl.sftMBfbnSfrvfr(gftMBfbnSfrvfr());
+    }
+
+    /* Wf rfpfbt thf dffinitions of donnfdtion{Opfnfd,Closfd,Fbilfd}
+       hfrf so thbt thfy brf bddfssiblf to othfr dlbssfs in this pbdkbgf
+       fvfn though thfy hbvf protfdtfd bddfss.  */
+
+    @Ovfrridf
+    protfdtfd void donnfdtionOpfnfd(String donnfdtionId, String mfssbgf,
+                                    Objfdt usfrDbtb) {
+        supfr.donnfdtionOpfnfd(donnfdtionId, mfssbgf, usfrDbtb);
+    }
+
+    @Ovfrridf
+    protfdtfd void donnfdtionClosfd(String donnfdtionId, String mfssbgf,
+                                    Objfdt usfrDbtb) {
+        supfr.donnfdtionClosfd(donnfdtionId, mfssbgf, usfrDbtb);
+    }
+
+    @Ovfrridf
+    protfdtfd void donnfdtionFbilfd(String donnfdtionId, String mfssbgf,
+                                    Objfdt usfrDbtb) {
+        supfr.donnfdtionFbilfd(donnfdtionId, mfssbgf, usfrDbtb);
+    }
+
+    /**
+     * Bind b stub to b rfgistry.
+     * @pbrbm jndiUrl URL of thf stub in thf rfgistry, fxtrbdtfd
+     *        from thf <dodf>JMXSfrvidfURL</dodf>.
+     * @pbrbm bttributfs A Hbshtbblf dontbining fnvironmfnt pbrbmftfrs,
+     *        built from thf Mbp spfdififd bt this objfdt drfbtion.
+     * @pbrbm rmiSfrvfr Thf objfdt to bind in thf rfgistry
+     * @pbrbm rfbind truf if thf objfdt must bf rfbound.
+     **/
+    void bind(String jndiUrl, Hbshtbblf<?, ?> bttributfs,
+              RMISfrvfr rmiSfrvfr, boolfbn rfbind)
+        throws NbmingExdfption, MblformfdURLExdfption {
+        // if jndiURL is not null, wf nust bind thf stub to b
+        // dirfdtory.
+        InitiblContfxt dtx =
+            nfw InitiblContfxt(bttributfs);
+
+        if (rfbind)
+            dtx.rfbind(jndiUrl, rmiSfrvfr);
+        flsf
+            dtx.bind(jndiUrl, rmiSfrvfr);
+        dtx.dlosf();
+    }
+
+    /**
+     * Crfbtfs b nfw RMISfrvfrImpl.
+     **/
+    RMISfrvfrImpl nfwSfrvfr() throws IOExdfption {
+        finbl boolfbn iiop = isIiopURL(bddrfss,truf);
+        finbl int port;
+        if (bddrfss == null)
+            port = 0;
+        flsf
+            port = bddrfss.gftPort();
+        if (iiop)
+            rfturn nfwIIOPSfrvfr(bttributfs);
+        flsf
+            rfturn nfwJRMPSfrvfr(bttributfs, port);
+    }
+
+    /**
+     * Endodf b stub into thf JMXSfrvidfURL.
+     * @pbrbm rmiSfrvfr Thf stub objfdt to fndodf in thf URL
+     * @pbrbm bttributfs A Mbp dontbining fnvironmfnt pbrbmftfrs,
+     *        built from thf Mbp spfdififd bt this objfdt drfbtion.
+     **/
+    privbtf void fndodfStubInAddrfss(
+            RMISfrvfr rmiSfrvfr, Mbp<String, ?> bttributfs)
+            throws IOExdfption {
+
+        finbl String protodol, host;
+        finbl int port;
+
+        if (bddrfss == null) {
+            if (IIOPHflpfr.isStub(rmiSfrvfr))
+                protodol = "iiop";
+            flsf
+                protodol = "rmi";
+            host = null; // will dffbult to lodbl host nbmf
+            port = 0;
+        } flsf {
+            protodol = bddrfss.gftProtodol();
+            host = (bddrfss.gftHost().fqubls("")) ? null : bddrfss.gftHost();
+            port = bddrfss.gftPort();
+        }
+
+        finbl String urlPbth = fndodfStub(rmiSfrvfr, bttributfs);
+
+        bddrfss = nfw JMXSfrvidfURL(protodol, host, port, urlPbth);
+    }
+
+    stbtid boolfbn isIiopURL(JMXSfrvidfURL dirfdtoryURL, boolfbn stridt)
+        throws MblformfdURLExdfption {
+        String protodol = dirfdtoryURL.gftProtodol();
+        if (protodol.fqubls("rmi"))
+            rfturn fblsf;
+        flsf if (protodol.fqubls("iiop"))
+            rfturn truf;
+        flsf if (stridt) {
+
+            throw nfw MblformfdURLExdfption("URL must hbvf protodol " +
+                                            "\"rmi\" or \"iiop\": \"" +
+                                            protodol + "\"");
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf IOR of thf givfn rmiSfrvfr.
+     **/
+    stbtid String fndodfStub(
+            RMISfrvfr rmiSfrvfr, Mbp<String, ?> fnv) throws IOExdfption {
+        if (IIOPHflpfr.isStub(rmiSfrvfr))
+            rfturn "/ior/" + fndodfIIOPStub(rmiSfrvfr, fnv);
+        flsf
+            rfturn "/stub/" + fndodfJRMPStub(rmiSfrvfr, fnv);
+    }
+
+    stbtid String fndodfJRMPStub(
+            RMISfrvfr rmiSfrvfr, Mbp<String, ?> fnv)
+            throws IOExdfption {
+        BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+        ObjfdtOutputStrfbm oout = nfw ObjfdtOutputStrfbm(bout);
+        oout.writfObjfdt(rmiSfrvfr);
+        oout.dlosf();
+        bytf[] bytfs = bout.toBytfArrby();
+        rfturn bytfArrbyToBbsf64(bytfs);
+    }
+
+    stbtid String fndodfIIOPStub(
+            RMISfrvfr rmiSfrvfr, Mbp<String, ?> fnv)
+            throws IOExdfption {
+        try {
+            Objfdt orb = IIOPHflpfr.gftOrb(rmiSfrvfr);
+            rfturn IIOPHflpfr.objfdtToString(orb, rmiSfrvfr);
+        } dbtdh (RuntimfExdfption x) {
+            throw nfwIOExdfption(x.gftMfssbgf(), x);
+        }
+    }
+
+    /**
+     * Objfdt thbt wf will bind to thf rfgistry.
+     * This objfdt is b stub donnfdtfd to our RMISfrvfrImpl.
+     **/
+    privbtf stbtid RMISfrvfr objfdtToBind(
+            RMISfrvfrImpl rmiSfrvfr, Mbp<String, ?> fnv)
+        throws IOExdfption {
+        rfturn RMIConnfdtor.
+            donnfdtStub((RMISfrvfr)rmiSfrvfr.toStub(),fnv);
+    }
+
+    privbtf stbtid RMISfrvfrImpl nfwJRMPSfrvfr(Mbp<String, ?> fnv, int port)
+            throws IOExdfption {
+        RMIClifntSodkftFbdtory dsf = (RMIClifntSodkftFbdtory)
+            fnv.gft(RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE);
+        RMISfrvfrSodkftFbdtory ssf = (RMISfrvfrSodkftFbdtory)
+            fnv.gft(RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE);
+        rfturn nfw RMIJRMPSfrvfrImpl(port, dsf, ssf, fnv);
+    }
+
+    privbtf stbtid RMISfrvfrImpl nfwIIOPSfrvfr(Mbp<String, ?> fnv)
+            throws IOExdfption {
+        rfturn nfw RMIIIOPSfrvfrImpl(fnv);
+    }
+
+    privbtf stbtid String bytfArrbyToBbsf64(bytf[] b) {
+        int bLfn = b.lfngth;
+        int numFullGroups = bLfn/3;
+        int numBytfsInPbrtiblGroup = bLfn - 3*numFullGroups;
+        int rfsultLfn = 4*((bLfn + 2)/3);
+        finbl StringBuildfr rfsult = nfw StringBuildfr(rfsultLfn);
+
+        // Trbnslbtf bll full groups from bytf brrby flfmfnts to Bbsf64
+        int inCursor = 0;
+        for (int i=0; i<numFullGroups; i++) {
+            int bytf0 = b[inCursor++] & 0xff;
+            int bytf1 = b[inCursor++] & 0xff;
+            int bytf2 = b[inCursor++] & 0xff;
+            rfsult.bppfnd(intToAlphb[bytf0 >> 2]);
+            rfsult.bppfnd(intToAlphb[(bytf0 << 4)&0x3f | (bytf1 >> 4)]);
+            rfsult.bppfnd(intToAlphb[(bytf1 << 2)&0x3f | (bytf2 >> 6)]);
+            rfsult.bppfnd(intToAlphb[bytf2 & 0x3f]);
+        }
+
+        // Trbnslbtf pbrtibl group if prfsfnt
+        if (numBytfsInPbrtiblGroup != 0) {
+            int bytf0 = b[inCursor++] & 0xff;
+            rfsult.bppfnd(intToAlphb[bytf0 >> 2]);
+            if (numBytfsInPbrtiblGroup == 1) {
+                rfsult.bppfnd(intToAlphb[(bytf0 << 4) & 0x3f]);
+                rfsult.bppfnd("==");
+            } flsf {
+                // bssfrt numBytfsInPbrtiblGroup == 2;
+                int bytf1 = b[inCursor++] & 0xff;
+                rfsult.bppfnd(intToAlphb[(bytf0 << 4)&0x3f | (bytf1 >> 4)]);
+                rfsult.bppfnd(intToAlphb[(bytf1 << 2)&0x3f]);
+                rfsult.bppfnd('=');
+            }
+        }
+        // bssfrt inCursor == b.lfngth;
+        // bssfrt rfsult.lfngth() == rfsultLfn;
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * This brrby is b lookup tbblf thbt trbnslbtfs 6-bit positivf intfgfr
+     * indfx vblufs into thfir "Bbsf64 Alphbbft" fquivblfnts bs spfdififd
+     * in Tbblf 1 of RFC 2045.
+     */
+    privbtf stbtid finbl dhbr intToAlphb[] = {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        'b', 'b', 'd', 'd', 'f', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
+    };
+
+    /**
+     * Construdt b nfw IOExdfption with b nfstfd fxdfption.
+     * Thf nfstfd fxdfption is sft only if JDK {@litfrbl >= 1.4}
+     */
+    privbtf stbtid IOExdfption nfwIOExdfption(String mfssbgf,
+                                              Throwbblf dbusf) {
+        finbl IOExdfption x = nfw IOExdfption(mfssbgf);
+        rfturn EnvHflp.initCbusf(x,dbusf);
+    }
+
+
+    // Privbtf vbribblfs
+    // -----------------
+
+    privbtf stbtid ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.rmi", "RMIConnfdtorSfrvfr");
+
+    privbtf JMXSfrvidfURL bddrfss;
+    privbtf RMISfrvfrImpl rmiSfrvfrImpl;
+    privbtf finbl Mbp<String, ?> bttributfs;
+    privbtf ClbssLobdfr dffbultClbssLobdfr = null;
+
+    privbtf String boundJndiUrl;
+
+    // stbtf
+    privbtf stbtid finbl int CREATED = 0;
+    privbtf stbtid finbl int STARTED = 1;
+    privbtf stbtid finbl int STOPPED = 2;
+
+    privbtf int stbtf = CREATED;
+    privbtf finbl stbtid Sft<RMIConnfdtorSfrvfr> opfnfdSfrvfrs =
+            nfw HbshSft<RMIConnfdtorSfrvfr>();
+}

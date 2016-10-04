@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2001, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.util.logging;
+
+/**
+ * ErrorMbnbgfr objfdts dbn bf bttbdhfd to Hbndlfrs to prodfss
+ * bny frror thbt oddurs on b Hbndlfr during Logging.
+ * <p>
+ * Whfn prodfssing logging output, if b Hbndlfr fndountfrs problfms
+ * thfn rbthfr thbn throwing bn Exdfption bbdk to thf issufr of
+ * thf logging dbll (who is unlikfly to bf intfrfstfd) thf Hbndlfr
+ * should dbll its bssodibtfd ErrorMbnbgfr.
+ */
+
+publid dlbss ErrorMbnbgfr {
+   privbtf boolfbn rfportfd = fblsf;
+
+    /*
+     * Wf dfdlbrf stbndbrd frror dodfs for importbnt dbtfgorifs of frrors.
+     */
+
+    /**
+     * GENERIC_FAILURE is usfd for fbilurf thbt don't fit
+     * into onf of thf othfr dbtfgorifs.
+     */
+    publid finbl stbtid int GENERIC_FAILURE = 0;
+    /**
+     * WRITE_FAILURE is usfd whfn b writf to bn output strfbm fbils.
+     */
+    publid finbl stbtid int WRITE_FAILURE = 1;
+    /**
+     * FLUSH_FAILURE is usfd whfn b flush to bn output strfbm fbils.
+     */
+    publid finbl stbtid int FLUSH_FAILURE = 2;
+    /**
+     * CLOSE_FAILURE is usfd whfn b dlosf of bn output strfbm fbils.
+     */
+    publid finbl stbtid int CLOSE_FAILURE = 3;
+    /**
+     * OPEN_FAILURE is usfd whfn bn opfn of bn output strfbm fbils.
+     */
+    publid finbl stbtid int OPEN_FAILURE = 4;
+    /**
+     * FORMAT_FAILURE is usfd whfn formbtting fbils for bny rfbson.
+     */
+    publid finbl stbtid int FORMAT_FAILURE = 5;
+
+    /**
+     * Thf frror mfthod is dbllfd whfn b Hbndlfr fbilurf oddurs.
+     * <p>
+     * This mfthod mby bf ovfrriddfn in subdlbssfs.  Thf dffbult
+     * bfhbvior in this bbsf dlbss is thbt thf first dbll is
+     * rfportfd to Systfm.frr, bnd subsfqufnt dblls brf ignorfd.
+     *
+     * @pbrbm msg    b dfsdriptivf string (mby bf null)
+     * @pbrbm fx     bn fxdfption (mby bf null)
+     * @pbrbm dodf   bn frror dodf dffinfd in ErrorMbnbgfr
+     */
+    publid syndhronizfd void frror(String msg, Exdfption fx, int dodf) {
+        if (rfportfd) {
+            // Wf only rfport thf first frror, to bvoid dlogging
+            // thf sdrffn.
+            rfturn;
+        }
+        rfportfd = truf;
+        String tfxt = "jbvb.util.logging.ErrorMbnbgfr: " + dodf;
+        if (msg != null) {
+            tfxt = tfxt + ": " + msg;
+        }
+        Systfm.frr.println(tfxt);
+        if (fx != null) {
+            fx.printStbdkTrbdf();
+        }
+    }
+}

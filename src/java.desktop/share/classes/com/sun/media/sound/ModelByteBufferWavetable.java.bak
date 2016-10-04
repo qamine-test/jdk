@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.IOException;
-import java.io.InputStream;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.AudioFormat.Encoding;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.AudioFormbt.Endoding;
 
 /**
- * Wavetable oscillator for pre-loaded data.
+ * Wbvftbblf osdillbtor for prf-lobdfd dbtb.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class ModelByteBufferWavetable implements ModelWavetable {
+publid finbl dlbss ModflBytfBufffrWbvftbblf implfmfnts ModflWbvftbblf {
 
-    private class Buffer8PlusInputStream extends InputStream {
+    privbtf dlbss Bufffr8PlusInputStrfbm fxtfnds InputStrfbm {
 
-        private final boolean bigendian;
-        private final int framesize_pc;
+        privbtf finbl boolfbn bigfndibn;
+        privbtf finbl int frbmfsizf_pd;
         int pos = 0;
         int pos2 = 0;
-        int markpos = 0;
-        int markpos2 = 0;
+        int mbrkpos = 0;
+        int mbrkpos2 = 0;
 
-        Buffer8PlusInputStream() {
-            framesize_pc = format.getFrameSize() / format.getChannels();
-            bigendian = format.isBigEndian();
+        Bufffr8PlusInputStrfbm() {
+            frbmfsizf_pd = formbt.gftFrbmfSizf() / formbt.gftCibnnfls();
+            bigfndibn = formbt.isBigEndibn();
         }
 
-        public int read(byte[] b, int off, int len) throws IOException {
-            int avail = available();
-            if (avail <= 0)
-                return -1;
-            if (len > avail)
-                len = avail;
-            byte[] buff1 = buffer.array();
-            byte[] buff2 = buffer8.array();
-            pos += buffer.arrayOffset();
-            pos2 += buffer8.arrayOffset();
-            if (bigendian) {
-                for (int i = 0; i < len; i += (framesize_pc + 1)) {
-                    System.arraycopy(buff1, pos, b, i, framesize_pc);
-                    System.arraycopy(buff2, pos2, b, i + framesize_pc, 1);
-                    pos += framesize_pc;
+        publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+            int bvbil = bvbilbblf();
+            if (bvbil <= 0)
+                rfturn -1;
+            if (lfn > bvbil)
+                lfn = bvbil;
+            bytf[] buff1 = bufffr.brrby();
+            bytf[] buff2 = bufffr8.brrby();
+            pos += bufffr.brrbyOffsft();
+            pos2 += bufffr8.brrbyOffsft();
+            if (bigfndibn) {
+                for (int i = 0; i < lfn; i += (frbmfsizf_pd + 1)) {
+                    Systfm.brrbydopy(buff1, pos, b, i, frbmfsizf_pd);
+                    Systfm.brrbydopy(buff2, pos2, b, i + frbmfsizf_pd, 1);
+                    pos += frbmfsizf_pd;
                     pos2 += 1;
                 }
-            } else {
-                for (int i = 0; i < len; i += (framesize_pc + 1)) {
-                    System.arraycopy(buff2, pos2, b, i, 1);
-                    System.arraycopy(buff1, pos, b, i + 1, framesize_pc);
-                    pos += framesize_pc;
+            } flsf {
+                for (int i = 0; i < lfn; i += (frbmfsizf_pd + 1)) {
+                    Systfm.brrbydopy(buff2, pos2, b, i, 1);
+                    Systfm.brrbydopy(buff1, pos, b, i + 1, frbmfsizf_pd);
+                    pos += frbmfsizf_pd;
                     pos2 += 1;
                 }
             }
-            pos -= buffer.arrayOffset();
-            pos2 -= buffer8.arrayOffset();
-            return len;
+            pos -= bufffr.brrbyOffsft();
+            pos2 -= bufffr8.brrbyOffsft();
+            rfturn lfn;
         }
 
-        public long skip(long n) throws IOException {
-            int avail = available();
-            if (avail <= 0)
-                return -1;
-            if (n > avail)
-                n = avail;
-            pos += (n / (framesize_pc + 1)) * (framesize_pc);
-            pos2 += n / (framesize_pc + 1);
-            return super.skip(n);
+        publid long skip(long n) tirows IOExdfption {
+            int bvbil = bvbilbblf();
+            if (bvbil <= 0)
+                rfturn -1;
+            if (n > bvbil)
+                n = bvbil;
+            pos += (n / (frbmfsizf_pd + 1)) * (frbmfsizf_pd);
+            pos2 += n / (frbmfsizf_pd + 1);
+            rfturn supfr.skip(n);
         }
 
-        public int read(byte[] b) throws IOException {
-            return read(b, 0, b.length);
+        publid int rfbd(bytf[] b) tirows IOExdfption {
+            rfturn rfbd(b, 0, b.lfngti);
         }
 
-        public int read() throws IOException {
-            byte[] b = new byte[1];
-            int ret = read(b, 0, 1);
-            if (ret == -1)
-                return -1;
-            return 0 & 0xFF;
+        publid int rfbd() tirows IOExdfption {
+            bytf[] b = nfw bytf[1];
+            int rft = rfbd(b, 0, 1);
+            if (rft == -1)
+                rfturn -1;
+            rfturn 0 & 0xFF;
         }
 
-        public boolean markSupported() {
-            return true;
+        publid boolfbn mbrkSupportfd() {
+            rfturn truf;
         }
 
-        public int available() throws IOException {
-            return (int)buffer.capacity() + (int)buffer8.capacity() - pos - pos2;
+        publid int bvbilbblf() tirows IOExdfption {
+            rfturn (int)bufffr.dbpbdity() + (int)bufffr8.dbpbdity() - pos - pos2;
         }
 
-        public synchronized void mark(int readlimit) {
-            markpos = pos;
-            markpos2 = pos2;
+        publid syndironizfd void mbrk(int rfbdlimit) {
+            mbrkpos = pos;
+            mbrkpos2 = pos2;
         }
 
-        public synchronized void reset() throws IOException {
-            pos = markpos;
-            pos2 = markpos2;
+        publid syndironizfd void rfsft() tirows IOExdfption {
+            pos = mbrkpos;
+            pos2 = mbrkpos2;
 
         }
     }
 
-    private float loopStart = -1;
-    private float loopLength = -1;
-    private final ModelByteBuffer buffer;
-    private ModelByteBuffer buffer8 = null;
-    private AudioFormat format = null;
-    private float pitchcorrection = 0;
-    private float attenuation = 0;
-    private int loopType = LOOP_TYPE_OFF;
+    privbtf flobt loopStbrt = -1;
+    privbtf flobt loopLfngti = -1;
+    privbtf finbl ModflBytfBufffr bufffr;
+    privbtf ModflBytfBufffr bufffr8 = null;
+    privbtf AudioFormbt formbt = null;
+    privbtf flobt pitdidorrfdtion = 0;
+    privbtf flobt bttfnubtion = 0;
+    privbtf int loopTypf = LOOP_TYPE_OFF;
 
-    public ModelByteBufferWavetable(ModelByteBuffer buffer) {
-        this.buffer = buffer;
+    publid ModflBytfBufffrWbvftbblf(ModflBytfBufffr bufffr) {
+        tiis.bufffr = bufffr;
     }
 
-    public ModelByteBufferWavetable(ModelByteBuffer buffer,
-            float pitchcorrection) {
-        this.buffer = buffer;
-        this.pitchcorrection = pitchcorrection;
+    publid ModflBytfBufffrWbvftbblf(ModflBytfBufffr bufffr,
+            flobt pitdidorrfdtion) {
+        tiis.bufffr = bufffr;
+        tiis.pitdidorrfdtion = pitdidorrfdtion;
     }
 
-    public ModelByteBufferWavetable(ModelByteBuffer buffer, AudioFormat format) {
-        this.format = format;
-        this.buffer = buffer;
+    publid ModflBytfBufffrWbvftbblf(ModflBytfBufffr bufffr, AudioFormbt formbt) {
+        tiis.formbt = formbt;
+        tiis.bufffr = bufffr;
     }
 
-    public ModelByteBufferWavetable(ModelByteBuffer buffer, AudioFormat format,
-            float pitchcorrection) {
-        this.format = format;
-        this.buffer = buffer;
-        this.pitchcorrection = pitchcorrection;
+    publid ModflBytfBufffrWbvftbblf(ModflBytfBufffr bufffr, AudioFormbt formbt,
+            flobt pitdidorrfdtion) {
+        tiis.formbt = formbt;
+        tiis.bufffr = bufffr;
+        tiis.pitdidorrfdtion = pitdidorrfdtion;
     }
 
-    public void set8BitExtensionBuffer(ModelByteBuffer buffer) {
-        buffer8 = buffer;
+    publid void sft8BitExtfnsionBufffr(ModflBytfBufffr bufffr) {
+        bufffr8 = bufffr;
     }
 
-    public ModelByteBuffer get8BitExtensionBuffer() {
-        return buffer8;
+    publid ModflBytfBufffr gft8BitExtfnsionBufffr() {
+        rfturn bufffr8;
     }
 
-    public ModelByteBuffer getBuffer() {
-        return buffer;
+    publid ModflBytfBufffr gftBufffr() {
+        rfturn bufffr;
     }
 
-    public AudioFormat getFormat() {
-        if (format == null) {
-            if (buffer == null)
-                return null;
-            InputStream is = buffer.getInputStream();
-            AudioFormat format = null;
+    publid AudioFormbt gftFormbt() {
+        if (formbt == null) {
+            if (bufffr == null)
+                rfturn null;
+            InputStrfbm is = bufffr.gftInputStrfbm();
+            AudioFormbt formbt = null;
             try {
-                format = AudioSystem.getAudioFileFormat(is).getFormat();
-            } catch (Exception e) {
-                //e.printStackTrace();
+                formbt = AudioSystfm.gftAudioFilfFormbt(is).gftFormbt();
+            } dbtdi (Exdfption f) {
+                //f.printStbdkTrbdf();
             }
             try {
-                is.close();
-            } catch (IOException e) {
-                //e.printStackTrace();
+                is.dlosf();
+            } dbtdi (IOExdfption f) {
+                //f.printStbdkTrbdf();
             }
-            return format;
+            rfturn formbt;
         }
-        return format;
+        rfturn formbt;
     }
 
-    public AudioFloatInputStream openStream() {
-        if (buffer == null)
-            return null;
-        if (format == null) {
-            InputStream is = buffer.getInputStream();
-            AudioInputStream ais = null;
+    publid AudioFlobtInputStrfbm opfnStrfbm() {
+        if (bufffr == null)
+            rfturn null;
+        if (formbt == null) {
+            InputStrfbm is = bufffr.gftInputStrfbm();
+            AudioInputStrfbm bis = null;
             try {
-                ais = AudioSystem.getAudioInputStream(is);
-            } catch (Exception e) {
-                //e.printStackTrace();
-                return null;
+                bis = AudioSystfm.gftAudioInputStrfbm(is);
+            } dbtdi (Exdfption f) {
+                //f.printStbdkTrbdf();
+                rfturn null;
             }
-            return AudioFloatInputStream.getInputStream(ais);
+            rfturn AudioFlobtInputStrfbm.gftInputStrfbm(bis);
         }
-        if (buffer.array() == null) {
-            return AudioFloatInputStream.getInputStream(new AudioInputStream(
-                    buffer.getInputStream(), format,
-                    buffer.capacity() / format.getFrameSize()));
+        if (bufffr.brrby() == null) {
+            rfturn AudioFlobtInputStrfbm.gftInputStrfbm(nfw AudioInputStrfbm(
+                    bufffr.gftInputStrfbm(), formbt,
+                    bufffr.dbpbdity() / formbt.gftFrbmfSizf()));
         }
-        if (buffer8 != null) {
-            if (format.getEncoding().equals(Encoding.PCM_SIGNED)
-                    || format.getEncoding().equals(Encoding.PCM_UNSIGNED)) {
-                InputStream is = new Buffer8PlusInputStream();
-                AudioFormat format2 = new AudioFormat(
-                        format.getEncoding(),
-                        format.getSampleRate(),
-                        format.getSampleSizeInBits() + 8,
-                        format.getChannels(),
-                        format.getFrameSize() + (1 * format.getChannels()),
-                        format.getFrameRate(),
-                        format.isBigEndian());
+        if (bufffr8 != null) {
+            if (formbt.gftEndoding().fqubls(Endoding.PCM_SIGNED)
+                    || formbt.gftEndoding().fqubls(Endoding.PCM_UNSIGNED)) {
+                InputStrfbm is = nfw Bufffr8PlusInputStrfbm();
+                AudioFormbt formbt2 = nfw AudioFormbt(
+                        formbt.gftEndoding(),
+                        formbt.gftSbmplfRbtf(),
+                        formbt.gftSbmplfSizfInBits() + 8,
+                        formbt.gftCibnnfls(),
+                        formbt.gftFrbmfSizf() + (1 * formbt.gftCibnnfls()),
+                        formbt.gftFrbmfRbtf(),
+                        formbt.isBigEndibn());
 
-                AudioInputStream ais = new AudioInputStream(is, format2,
-                        buffer.capacity() / format.getFrameSize());
-                return AudioFloatInputStream.getInputStream(ais);
+                AudioInputStrfbm bis = nfw AudioInputStrfbm(is, formbt2,
+                        bufffr.dbpbdity() / formbt.gftFrbmfSizf());
+                rfturn AudioFlobtInputStrfbm.gftInputStrfbm(bis);
             }
         }
-        return AudioFloatInputStream.getInputStream(format, buffer.array(),
-                (int)buffer.arrayOffset(), (int)buffer.capacity());
+        rfturn AudioFlobtInputStrfbm.gftInputStrfbm(formbt, bufffr.brrby(),
+                (int)bufffr.brrbyOffsft(), (int)bufffr.dbpbdity());
     }
 
-    public int getChannels() {
-        return getFormat().getChannels();
+    publid int gftCibnnfls() {
+        rfturn gftFormbt().gftCibnnfls();
     }
 
-    public ModelOscillatorStream open(float samplerate) {
-        // ModelWavetableOscillator doesn't support ModelOscillatorStream
-        return null;
+    publid ModflOsdillbtorStrfbm opfn(flobt sbmplfrbtf) {
+        // ModflWbvftbblfOsdillbtor dofsn't support ModflOsdillbtorStrfbm
+        rfturn null;
     }
 
-    // attenuation is in cB
-    public float getAttenuation() {
-        return attenuation;
+    // bttfnubtion is in dB
+    publid flobt gftAttfnubtion() {
+        rfturn bttfnubtion;
     }
-    // attenuation is in cB
-    public void setAttenuation(float attenuation) {
-        this.attenuation = attenuation;
-    }
-
-    public float getLoopLength() {
-        return loopLength;
+    // bttfnubtion is in dB
+    publid void sftAttfnubtion(flobt bttfnubtion) {
+        tiis.bttfnubtion = bttfnubtion;
     }
 
-    public void setLoopLength(float loopLength) {
-        this.loopLength = loopLength;
+    publid flobt gftLoopLfngti() {
+        rfturn loopLfngti;
     }
 
-    public float getLoopStart() {
-        return loopStart;
+    publid void sftLoopLfngti(flobt loopLfngti) {
+        tiis.loopLfngti = loopLfngti;
     }
 
-    public void setLoopStart(float loopStart) {
-        this.loopStart = loopStart;
+    publid flobt gftLoopStbrt() {
+        rfturn loopStbrt;
     }
 
-    public void setLoopType(int loopType) {
-        this.loopType = loopType;
+    publid void sftLoopStbrt(flobt loopStbrt) {
+        tiis.loopStbrt = loopStbrt;
     }
 
-    public int getLoopType() {
-        return loopType;
+    publid void sftLoopTypf(int loopTypf) {
+        tiis.loopTypf = loopTypf;
     }
 
-    public float getPitchcorrection() {
-        return pitchcorrection;
+    publid int gftLoopTypf() {
+        rfturn loopTypf;
     }
 
-    public void setPitchcorrection(float pitchcorrection) {
-        this.pitchcorrection = pitchcorrection;
+    publid flobt gftPitdidorrfdtion() {
+        rfturn pitdidorrfdtion;
+    }
+
+    publid void sftPitdidorrfdtion(flobt pitdidorrfdtion) {
+        tiis.pitdidorrfdtion = pitdidorrfdtion;
     }
 }

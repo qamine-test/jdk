@@ -1,77 +1,77 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
 
 /**
- * Converts <code>String</code>s into <code>Node</code>s and visa versa.
+ * Convfrts <dodf>String</dodf>s into <dodf>Nodf</dodf>s bnd visb vfrsb.
  */
-public interface Serializer {
+publid intfrfbdf Sfriblizfr {
 
     /**
-     * Set the Canonicalizer object to use.
+     * Sft tif Cbnonidblizfr objfdt to usf.
      */
-    void setCanonicalizer(Canonicalizer canon);
+    void sftCbnonidblizfr(Cbnonidblizfr dbnon);
 
     /**
-     * Returns a <code>byte[]</code> representation of the specified
-     * <code>Element</code>.
+     * Rfturns b <dodf>bytf[]</dodf> rfprfsfntbtion of tif spfdififd
+     * <dodf>Elfmfnt</dodf>.
      *
-     * @param element the <code>Element</code> to serialize.
-     * @return the <code>byte[]</code> representation of the serilaized
-     *   <code>Element</code>.
-     * @throws Exception
+     * @pbrbm flfmfnt tif <dodf>Elfmfnt</dodf> to sfriblizf.
+     * @rfturn tif <dodf>bytf[]</dodf> rfprfsfntbtion of tif sfrilbizfd
+     *   <dodf>Elfmfnt</dodf>.
+     * @tirows Exdfption
      */
-    byte[] serializeToByteArray(Element element) throws Exception;
+    bytf[] sfriblizfToBytfArrby(Elfmfnt flfmfnt) tirows Exdfption;
 
     /**
-     * Returns a <code>byte[]</code> representation of the specified
-     * <code>NodeList</code>.
+     * Rfturns b <dodf>bytf[]</dodf> rfprfsfntbtion of tif spfdififd
+     * <dodf>NodfList</dodf>.
      *
-     * @param content the <code>NodeList</code> to serialize.
-     * @return the <code>byte[]</code> representation of the serialized
-     *   <code>NodeList</code>.
-     * @throws Exception
+     * @pbrbm dontfnt tif <dodf>NodfList</dodf> to sfriblizf.
+     * @rfturn tif <dodf>bytf[]</dodf> rfprfsfntbtion of tif sfriblizfd
+     *   <dodf>NodfList</dodf>.
+     * @tirows Exdfption
      */
-    byte[] serializeToByteArray(NodeList content) throws Exception;
+    bytf[] sfriblizfToBytfArrby(NodfList dontfnt) tirows Exdfption;
 
     /**
-     * Use the Canonicalizer to serialize the node
-     * @param node
-     * @return the (byte[]) canonicalization of the node
-     * @throws Exception
+     * Usf tif Cbnonidblizfr to sfriblizf tif nodf
+     * @pbrbm nodf
+     * @rfturn tif (bytf[]) dbnonidblizbtion of tif nodf
+     * @tirows Exdfption
      */
-    byte[] canonSerializeToByteArray(Node node) throws Exception;
+    bytf[] dbnonSfriblizfToBytfArrby(Nodf nodf) tirows Exdfption;
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
-     * @throws XMLEncryptionException
+     * @pbrbm sourdf
+     * @pbrbm dtx
+     * @rfturn tif Nodf rfsulting from tif pbrsf of tif sourdf
+     * @tirows XMLEndryptionExdfption
      */
-    Node deserialize(byte[] source, Node ctx) throws XMLEncryptionException;
+    Nodf dfsfriblizf(bytf[] sourdf, Nodf dtx) tirows XMLEndryptionExdfption;
 }

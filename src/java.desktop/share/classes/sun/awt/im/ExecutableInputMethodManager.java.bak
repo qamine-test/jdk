@@ -1,632 +1,632 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.im;
+pbdkbgf sun.bwt.im;
 
-import java.awt.AWTException;
-import java.awt.CheckboxMenuItem;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.PopupMenu;
-import java.awt.Menu;
-import java.awt.MenuItem;
-import java.awt.Toolkit;
-import sun.awt.AppContext;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InvocationEvent;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.ServiceLoader;
-import java.util.Vector;
-import java.util.Set;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-import sun.awt.InputMethodSupport;
-import sun.awt.SunToolkit;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.CifdkboxMfnuItfm;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.PopupMfnu;
+import jbvb.bwt.Mfnu;
+import jbvb.bwt.MfnuItfm;
+import jbvb.bwt.Toolkit;
+import sun.bwt.AppContfxt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+import jbvb.bwt.im.spi.InputMftiodDfsdriptor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.Vfdtor;
+import jbvb.util.Sft;
+import jbvb.util.prffs.BbdkingStorfExdfption;
+import jbvb.util.prffs.Prfffrfndfs;
+import sun.bwt.InputMftiodSupport;
+import sun.bwt.SunToolkit;
 
 /**
- * <code>ExecutableInputMethodManager</code> is the implementation of the
- * <code>InputMethodManager</code> class. It is runnable as a separate
- * thread in the AWT environment.&nbsp;
- * <code>InputMethodManager.getInstance()</code> creates an instance of
- * <code>ExecutableInputMethodManager</code> and executes it as a deamon
- * thread.
+ * <dodf>ExfdutbblfInputMftiodMbnbgfr</dodf> is tif implfmfntbtion of tif
+ * <dodf>InputMftiodMbnbgfr</dodf> dlbss. It is runnbblf bs b sfpbrbtf
+ * tirfbd in tif AWT fnvironmfnt.&nbsp;
+ * <dodf>InputMftiodMbnbgfr.gftInstbndf()</dodf> drfbtfs bn instbndf of
+ * <dodf>ExfdutbblfInputMftiodMbnbgfr</dodf> bnd fxfdutfs it bs b dfbmon
+ * tirfbd.
  *
- * @see InputMethodManager
+ * @sff InputMftiodMbnbgfr
  */
-class ExecutableInputMethodManager extends InputMethodManager
-                                   implements Runnable
+dlbss ExfdutbblfInputMftiodMbnbgfr fxtfnds InputMftiodMbnbgfr
+                                   implfmfnts Runnbblf
 {
-    // the input context that's informed about selections from the user interface
-    private InputContext currentInputContext;
+    // tif input dontfxt tibt's informfd bbout sflfdtions from tif usfr intfrfbdf
+    privbtf InputContfxt durrfntInputContfxt;
 
-    // Menu item string for the trigger menu.
-    private String triggerMenuString;
+    // Mfnu itfm string for tif triggfr mfnu.
+    privbtf String triggfrMfnuString;
 
-    // popup menu for selecting an input method
-    private InputMethodPopupMenu selectionMenu;
-    private static String selectInputMethodMenuTitle;
+    // popup mfnu for sflfdting bn input mftiod
+    privbtf InputMftiodPopupMfnu sflfdtionMfnu;
+    privbtf stbtid String sflfdtInputMftiodMfnuTitlf;
 
-    // locator and name of host adapter
-    private InputMethodLocator hostAdapterLocator;
+    // lodbtor bnd nbmf of iost bdbptfr
+    privbtf InputMftiodLodbtor iostAdbptfrLodbtor;
 
-    // locators for Java input methods
-    private int javaInputMethodCount;         // number of Java input methods found
-    private Vector<InputMethodLocator> javaInputMethodLocatorList;
+    // lodbtors for Jbvb input mftiods
+    privbtf int jbvbInputMftiodCount;         // numbfr of Jbvb input mftiods found
+    privbtf Vfdtor<InputMftiodLodbtor> jbvbInputMftiodLodbtorList;
 
-    // component that is requesting input method switch
-    // must be Frame or Dialog
-    private Component requestComponent;
+    // domponfnt tibt is rfqufsting input mftiod switdi
+    // must bf Frbmf or Diblog
+    privbtf Componfnt rfqufstComponfnt;
 
-    // input context that is requesting input method switch
-    private InputContext requestInputContext;
+    // input dontfxt tibt is rfqufsting input mftiod switdi
+    privbtf InputContfxt rfqufstInputContfxt;
 
-    // IM preference stuff
-    private static final String preferredIMNode = "/sun/awt/im/preferredInputMethod";
-    private static final String descriptorKey = "descriptor";
-    private Hashtable<String, InputMethodLocator> preferredLocatorCache = new Hashtable<>();
-    private Preferences userRoot;
+    // IM prfffrfndf stuff
+    privbtf stbtid finbl String prfffrrfdIMNodf = "/sun/bwt/im/prfffrrfdInputMftiod";
+    privbtf stbtid finbl String dfsdriptorKfy = "dfsdriptor";
+    privbtf Hbsitbblf<String, InputMftiodLodbtor> prfffrrfdLodbtorCbdif = nfw Hbsitbblf<>();
+    privbtf Prfffrfndfs usfrRoot;
 
-    ExecutableInputMethodManager() {
+    ExfdutbblfInputMftiodMbnbgfr() {
 
-        // set up host adapter locator
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        // sft up iost bdbptfr lodbtor
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
         try {
-            if (toolkit instanceof InputMethodSupport) {
-                InputMethodDescriptor hostAdapterDescriptor =
-                    ((InputMethodSupport)toolkit)
-                    .getInputMethodAdapterDescriptor();
-                if (hostAdapterDescriptor != null) {
-                    hostAdapterLocator = new InputMethodLocator(hostAdapterDescriptor, null, null);
+            if (toolkit instbndfof InputMftiodSupport) {
+                InputMftiodDfsdriptor iostAdbptfrDfsdriptor =
+                    ((InputMftiodSupport)toolkit)
+                    .gftInputMftiodAdbptfrDfsdriptor();
+                if (iostAdbptfrDfsdriptor != null) {
+                    iostAdbptfrLodbtor = nfw InputMftiodLodbtor(iostAdbptfrDfsdriptor, null, null);
                 }
             }
-        } catch (AWTException e) {
-            // if we can't get a descriptor, we'll just have to do without native input methods
+        } dbtdi (AWTExdfption f) {
+            // if wf dbn't gft b dfsdriptor, wf'll just ibvf to do witiout nbtivf input mftiods
         }
 
-        javaInputMethodLocatorList = new Vector<InputMethodLocator>();
-        initializeInputMethodLocatorList();
+        jbvbInputMftiodLodbtorList = nfw Vfdtor<InputMftiodLodbtor>();
+        initiblizfInputMftiodLodbtorList();
     }
 
-    synchronized void initialize() {
-        selectInputMethodMenuTitle = Toolkit.getProperty("AWT.InputMethodSelectionMenu", "Select Input Method");
+    syndironizfd void initiblizf() {
+        sflfdtInputMftiodMfnuTitlf = Toolkit.gftPropfrty("AWT.InputMftiodSflfdtionMfnu", "Sflfdt Input Mftiod");
 
-        triggerMenuString = selectInputMethodMenuTitle;
+        triggfrMfnuString = sflfdtInputMftiodMfnuTitlf;
     }
 
-    public void run() {
-        // If there are no multiple input methods to choose from, wait forever
-        while (!hasMultipleInputMethods()) {
+    publid void run() {
+        // If tifrf brf no multiplf input mftiods to dioosf from, wbit forfvfr
+        wiilf (!ibsMultiplfInputMftiods()) {
             try {
-                synchronized (this) {
-                    wait();
+                syndironizfd (tiis) {
+                    wbit();
                 }
-            } catch (InterruptedException e) {
+            } dbtdi (IntfrruptfdExdfption f) {
             }
         }
 
-        // Loop for processing input method change requests
-        while (true) {
-            waitForChangeRequest();
-            initializeInputMethodLocatorList();
+        // Loop for prodfssing input mftiod dibngf rfqufsts
+        wiilf (truf) {
+            wbitForCibngfRfqufst();
+            initiblizfInputMftiodLodbtorList();
             try {
-                if (requestComponent != null) {
-                    showInputMethodMenuOnRequesterEDT(requestComponent);
-                } else {
-                    // show the popup menu within the event thread
-                    EventQueue.invokeAndWait(new Runnable() {
-                        public void run() {
-                            showInputMethodMenu();
+                if (rfqufstComponfnt != null) {
+                    siowInputMftiodMfnuOnRfqufstfrEDT(rfqufstComponfnt);
+                } flsf {
+                    // siow tif popup mfnu witiin tif fvfnt tirfbd
+                    EvfntQufuf.invokfAndWbit(nfw Runnbblf() {
+                        publid void run() {
+                            siowInputMftiodMfnu();
                         }
                     });
                 }
-            } catch (InterruptedException ie) {
-            } catch (InvocationTargetException ite) {
-                // should we do anything under these exceptions?
+            } dbtdi (IntfrruptfdExdfption if) {
+            } dbtdi (InvodbtionTbrgftExdfption itf) {
+                // siould wf do bnytiing undfr tifsf fxdfptions?
             }
         }
     }
 
-    // Shows Input Method Menu on the EDT of requester component
-    // to avoid side effects. See 6544309.
-    private void showInputMethodMenuOnRequesterEDT(Component requester)
-        throws InterruptedException, InvocationTargetException {
+    // Siows Input Mftiod Mfnu on tif EDT of rfqufstfr domponfnt
+    // to bvoid sidf ffffdts. Sff 6544309.
+    privbtf void siowInputMftiodMfnuOnRfqufstfrEDT(Componfnt rfqufstfr)
+        tirows IntfrruptfdExdfption, InvodbtionTbrgftExdfption {
 
-        if (requester == null){
-            return;
+        if (rfqufstfr == null){
+            rfturn;
         }
 
-        class AWTInvocationLock {}
-        Object lock = new AWTInvocationLock();
+        dlbss AWTInvodbtionLodk {}
+        Objfdt lodk = nfw AWTInvodbtionLodk();
 
-        InvocationEvent event =
-                new InvocationEvent(requester,
-                                    new Runnable() {
-                                        public void run() {
-                                            showInputMethodMenu();
+        InvodbtionEvfnt fvfnt =
+                nfw InvodbtionEvfnt(rfqufstfr,
+                                    nfw Runnbblf() {
+                                        publid void run() {
+                                            siowInputMftiodMfnu();
                                         }
                                     },
-                                    lock,
-                                    true);
+                                    lodk,
+                                    truf);
 
-        AppContext requesterAppContext = SunToolkit.targetToAppContext(requester);
-        synchronized (lock) {
-            SunToolkit.postEvent(requesterAppContext, event);
-            while (!event.isDispatched()) {
-                lock.wait();
+        AppContfxt rfqufstfrAppContfxt = SunToolkit.tbrgftToAppContfxt(rfqufstfr);
+        syndironizfd (lodk) {
+            SunToolkit.postEvfnt(rfqufstfrAppContfxt, fvfnt);
+            wiilf (!fvfnt.isDispbtdifd()) {
+                lodk.wbit();
             }
         }
 
-        Throwable eventThrowable = event.getThrowable();
-        if (eventThrowable != null) {
-            throw new InvocationTargetException(eventThrowable);
+        Tirowbblf fvfntTirowbblf = fvfnt.gftTirowbblf();
+        if (fvfntTirowbblf != null) {
+            tirow nfw InvodbtionTbrgftExdfption(fvfntTirowbblf);
         }
     }
 
-    void setInputContext(InputContext inputContext) {
-        if (currentInputContext != null && inputContext != null) {
-            // don't throw this exception until 4237852 is fixed
-            // throw new IllegalStateException("Can't have two active InputContext at the same time");
+    void sftInputContfxt(InputContfxt inputContfxt) {
+        if (durrfntInputContfxt != null && inputContfxt != null) {
+            // don't tirow tiis fxdfption until 4237852 is fixfd
+            // tirow nfw IllfgblStbtfExdfption("Cbn't ibvf two bdtivf InputContfxt bt tif sbmf timf");
         }
-        currentInputContext = inputContext;
+        durrfntInputContfxt = inputContfxt;
     }
 
-    public synchronized void notifyChangeRequest(Component comp) {
-        if (!(comp instanceof Frame || comp instanceof Dialog))
-            return;
+    publid syndironizfd void notifyCibngfRfqufst(Componfnt domp) {
+        if (!(domp instbndfof Frbmf || domp instbndfof Diblog))
+            rfturn;
 
-        // if busy with the current request, ignore this request.
-        if (requestComponent != null)
-            return;
+        // if busy witi tif durrfnt rfqufst, ignorf tiis rfqufst.
+        if (rfqufstComponfnt != null)
+            rfturn;
 
-        requestComponent = comp;
+        rfqufstComponfnt = domp;
         notify();
     }
 
-    public synchronized void notifyChangeRequestByHotKey(Component comp) {
-        while (!(comp instanceof Frame || comp instanceof Dialog)) {
-            if (comp == null) {
-                // no Frame or Dialog found in containment hierarchy.
-                return;
+    publid syndironizfd void notifyCibngfRfqufstByHotKfy(Componfnt domp) {
+        wiilf (!(domp instbndfof Frbmf || domp instbndfof Diblog)) {
+            if (domp == null) {
+                // no Frbmf or Diblog found in dontbinmfnt iifrbrdiy.
+                rfturn;
             }
-            comp = comp.getParent();
+            domp = domp.gftPbrfnt();
         }
 
-        notifyChangeRequest(comp);
+        notifyCibngfRfqufst(domp);
     }
 
-    public String getTriggerMenuString() {
-        return triggerMenuString;
+    publid String gftTriggfrMfnuString() {
+        rfturn triggfrMfnuString;
     }
 
     /*
-     * Returns true if the environment indicates there are multiple input methods
+     * Rfturns truf if tif fnvironmfnt indidbtfs tifrf brf multiplf input mftiods
      */
-    boolean hasMultipleInputMethods() {
-        return ((hostAdapterLocator != null) && (javaInputMethodCount > 0)
-                || (javaInputMethodCount > 1));
+    boolfbn ibsMultiplfInputMftiods() {
+        rfturn ((iostAdbptfrLodbtor != null) && (jbvbInputMftiodCount > 0)
+                || (jbvbInputMftiodCount > 1));
     }
 
-    private synchronized void waitForChangeRequest() {
+    privbtf syndironizfd void wbitForCibngfRfqufst() {
         try {
-            while (requestComponent == null) {
-                wait();
+            wiilf (rfqufstComponfnt == null) {
+                wbit();
             }
-        } catch (InterruptedException e) {
+        } dbtdi (IntfrruptfdExdfption f) {
         }
     }
 
     /*
-     * initializes the input method locator list for all
-     * installed input method descriptors.
+     * initiblizfs tif input mftiod lodbtor list for bll
+     * instbllfd input mftiod dfsdriptors.
      */
-    private void initializeInputMethodLocatorList() {
-        synchronized (javaInputMethodLocatorList) {
-            javaInputMethodLocatorList.clear();
+    privbtf void initiblizfInputMftiodLodbtorList() {
+        syndironizfd (jbvbInputMftiodLodbtorList) {
+            jbvbInputMftiodLodbtorList.dlfbr();
             try {
-                AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                    public Object run() {
-                        for (InputMethodDescriptor descriptor :
-                            ServiceLoader.loadInstalled(InputMethodDescriptor.class)) {
-                            ClassLoader cl = descriptor.getClass().getClassLoader();
-                            javaInputMethodLocatorList.add(new InputMethodLocator(descriptor, cl, null));
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                    publid Objfdt run() {
+                        for (InputMftiodDfsdriptor dfsdriptor :
+                            SfrvidfLobdfr.lobdInstbllfd(InputMftiodDfsdriptor.dlbss)) {
+                            ClbssLobdfr dl = dfsdriptor.gftClbss().gftClbssLobdfr();
+                            jbvbInputMftiodLodbtorList.bdd(nfw InputMftiodLodbtor(dfsdriptor, dl, null));
                         }
-                        return null;
+                        rfturn null;
                     }
                 });
-            }  catch (PrivilegedActionException e) {
-                e.printStackTrace();
+            }  dbtdi (PrivilfgfdAdtionExdfption f) {
+                f.printStbdkTrbdf();
             }
-            javaInputMethodCount = javaInputMethodLocatorList.size();
+            jbvbInputMftiodCount = jbvbInputMftiodLodbtorList.sizf();
         }
 
-        if (hasMultipleInputMethods()) {
-            // initialize preferences
-            if (userRoot == null) {
-                userRoot = getUserRoot();
+        if (ibsMultiplfInputMftiods()) {
+            // initiblizf prfffrfndfs
+            if (usfrRoot == null) {
+                usfrRoot = gftUsfrRoot();
             }
-        } else {
-            // indicate to clients not to offer the menu
-            triggerMenuString = null;
+        } flsf {
+            // indidbtf to dlifnts not to offfr tif mfnu
+            triggfrMfnuString = null;
         }
     }
 
-    private void showInputMethodMenu() {
+    privbtf void siowInputMftiodMfnu() {
 
-        if (!hasMultipleInputMethods()) {
-            requestComponent = null;
-            return;
+        if (!ibsMultiplfInputMftiods()) {
+            rfqufstComponfnt = null;
+            rfturn;
         }
 
-        // initialize pop-up menu
-        selectionMenu = InputMethodPopupMenu.getInstance(requestComponent, selectInputMethodMenuTitle);
+        // initiblizf pop-up mfnu
+        sflfdtionMfnu = InputMftiodPopupMfnu.gftInstbndf(rfqufstComponfnt, sflfdtInputMftiodMfnuTitlf);
 
-        // we have to rebuild the menu each time because
-        // some input methods (such as IIIMP) may change
-        // their list of supported locales dynamically
-        selectionMenu.removeAll();
+        // wf ibvf to rfbuild tif mfnu fbdi timf bfdbusf
+        // somf input mftiods (sudi bs IIIMP) mby dibngf
+        // tifir list of supportfd lodblfs dynbmidblly
+        sflfdtionMfnu.rfmovfAll();
 
-        // get information about the currently selected input method
-        // ??? if there's no current input context, what's the point
-        // of showing the menu?
-        String currentSelection = getCurrentSelection();
+        // gft informbtion bbout tif durrfntly sflfdtfd input mftiod
+        // ??? if tifrf's no durrfnt input dontfxt, wibt's tif point
+        // of siowing tif mfnu?
+        String durrfntSflfdtion = gftCurrfntSflfdtion();
 
-        // Add menu item for host adapter
-        if (hostAdapterLocator != null) {
-            selectionMenu.addOneInputMethodToMenu(hostAdapterLocator, currentSelection);
-            selectionMenu.addSeparator();
+        // Add mfnu itfm for iost bdbptfr
+        if (iostAdbptfrLodbtor != null) {
+            sflfdtionMfnu.bddOnfInputMftiodToMfnu(iostAdbptfrLodbtor, durrfntSflfdtion);
+            sflfdtionMfnu.bddSfpbrbtor();
         }
 
-        // Add menu items for other input methods
-        for (int i = 0; i < javaInputMethodLocatorList.size(); i++) {
-            InputMethodLocator locator = javaInputMethodLocatorList.get(i);
-            selectionMenu.addOneInputMethodToMenu(locator, currentSelection);
+        // Add mfnu itfms for otifr input mftiods
+        for (int i = 0; i < jbvbInputMftiodLodbtorList.sizf(); i++) {
+            InputMftiodLodbtor lodbtor = jbvbInputMftiodLodbtorList.gft(i);
+            sflfdtionMfnu.bddOnfInputMftiodToMfnu(lodbtor, durrfntSflfdtion);
         }
 
-        synchronized (this) {
-            selectionMenu.addToComponent(requestComponent);
-            requestInputContext = currentInputContext;
-            selectionMenu.show(requestComponent, 60, 80); // TODO: get proper x, y...
-            requestComponent = null;
+        syndironizfd (tiis) {
+            sflfdtionMfnu.bddToComponfnt(rfqufstComponfnt);
+            rfqufstInputContfxt = durrfntInputContfxt;
+            sflfdtionMfnu.siow(rfqufstComponfnt, 60, 80); // TODO: gft propfr x, y...
+            rfqufstComponfnt = null;
         }
     }
 
-    private String getCurrentSelection() {
-        InputContext inputContext = currentInputContext;
-        if (inputContext != null) {
-            InputMethodLocator locator = inputContext.getInputMethodLocator();
-            if (locator != null) {
-                return locator.getActionCommandString();
+    privbtf String gftCurrfntSflfdtion() {
+        InputContfxt inputContfxt = durrfntInputContfxt;
+        if (inputContfxt != null) {
+            InputMftiodLodbtor lodbtor = inputContfxt.gftInputMftiodLodbtor();
+            if (lodbtor != null) {
+                rfturn lodbtor.gftAdtionCommbndString();
             }
         }
-        return null;
+        rfturn null;
     }
 
-    synchronized void changeInputMethod(String choice) {
-        InputMethodLocator locator = null;
+    syndironizfd void dibngfInputMftiod(String dioidf) {
+        InputMftiodLodbtor lodbtor = null;
 
-        String inputMethodName = choice;
-        String localeString = null;
-        int index = choice.indexOf('\n');
-        if (index != -1) {
-            localeString = choice.substring(index + 1);
-            inputMethodName = choice.substring(0, index);
+        String inputMftiodNbmf = dioidf;
+        String lodblfString = null;
+        int indfx = dioidf.indfxOf('\n');
+        if (indfx != -1) {
+            lodblfString = dioidf.substring(indfx + 1);
+            inputMftiodNbmf = dioidf.substring(0, indfx);
         }
-        if (hostAdapterLocator.getActionCommandString().equals(inputMethodName)) {
-            locator = hostAdapterLocator;
-        } else {
-            for (int i = 0; i < javaInputMethodLocatorList.size(); i++) {
-                InputMethodLocator candidate = javaInputMethodLocatorList.get(i);
-                String name = candidate.getActionCommandString();
-                if (name.equals(inputMethodName)) {
-                    locator = candidate;
-                    break;
+        if (iostAdbptfrLodbtor.gftAdtionCommbndString().fqubls(inputMftiodNbmf)) {
+            lodbtor = iostAdbptfrLodbtor;
+        } flsf {
+            for (int i = 0; i < jbvbInputMftiodLodbtorList.sizf(); i++) {
+                InputMftiodLodbtor dbndidbtf = jbvbInputMftiodLodbtorList.gft(i);
+                String nbmf = dbndidbtf.gftAdtionCommbndString();
+                if (nbmf.fqubls(inputMftiodNbmf)) {
+                    lodbtor = dbndidbtf;
+                    brfbk;
                 }
             }
         }
 
-        if (locator != null && localeString != null) {
-            String language = "", country = "", variant = "";
-            int postIndex = localeString.indexOf('_');
-            if (postIndex == -1) {
-                language = localeString;
-            } else {
-                language = localeString.substring(0, postIndex);
-                int preIndex = postIndex + 1;
-                postIndex = localeString.indexOf('_', preIndex);
-                if (postIndex == -1) {
-                    country = localeString.substring(preIndex);
-                } else {
-                    country = localeString.substring(preIndex, postIndex);
-                    variant = localeString.substring(postIndex + 1);
+        if (lodbtor != null && lodblfString != null) {
+            String lbngubgf = "", dountry = "", vbribnt = "";
+            int postIndfx = lodblfString.indfxOf('_');
+            if (postIndfx == -1) {
+                lbngubgf = lodblfString;
+            } flsf {
+                lbngubgf = lodblfString.substring(0, postIndfx);
+                int prfIndfx = postIndfx + 1;
+                postIndfx = lodblfString.indfxOf('_', prfIndfx);
+                if (postIndfx == -1) {
+                    dountry = lodblfString.substring(prfIndfx);
+                } flsf {
+                    dountry = lodblfString.substring(prfIndfx, postIndfx);
+                    vbribnt = lodblfString.substring(postIndfx + 1);
                 }
             }
-            Locale locale = new Locale(language, country, variant);
-            locator = locator.deriveLocator(locale);
+            Lodblf lodblf = nfw Lodblf(lbngubgf, dountry, vbribnt);
+            lodbtor = lodbtor.dfrivfLodbtor(lodblf);
         }
 
-        if (locator == null)
-            return;
+        if (lodbtor == null)
+            rfturn;
 
-        // tell the input context about the change
-        if (requestInputContext != null) {
-            requestInputContext.changeInputMethod(locator);
-            requestInputContext = null;
+        // tfll tif input dontfxt bbout tif dibngf
+        if (rfqufstInputContfxt != null) {
+            rfqufstInputContfxt.dibngfInputMftiod(lodbtor);
+            rfqufstInputContfxt = null;
 
-            // remember the selection
-            putPreferredInputMethod(locator);
+            // rfmfmbfr tif sflfdtion
+            putPrfffrrfdInputMftiod(lodbtor);
         }
     }
 
-    InputMethodLocator findInputMethod(Locale locale) {
-        // look for preferred input method first
-        InputMethodLocator locator = getPreferredInputMethod(locale);
-        if (locator != null) {
-            return locator;
+    InputMftiodLodbtor findInputMftiod(Lodblf lodblf) {
+        // look for prfffrrfd input mftiod first
+        InputMftiodLodbtor lodbtor = gftPrfffrrfdInputMftiod(lodblf);
+        if (lodbtor != null) {
+            rfturn lodbtor;
         }
 
-        if (hostAdapterLocator != null && hostAdapterLocator.isLocaleAvailable(locale)) {
-            return hostAdapterLocator.deriveLocator(locale);
+        if (iostAdbptfrLodbtor != null && iostAdbptfrLodbtor.isLodblfAvbilbblf(lodblf)) {
+            rfturn iostAdbptfrLodbtor.dfrivfLodbtor(lodblf);
         }
 
-        // Update the locator list
-        initializeInputMethodLocatorList();
+        // Updbtf tif lodbtor list
+        initiblizfInputMftiodLodbtorList();
 
-        for (int i = 0; i < javaInputMethodLocatorList.size(); i++) {
-            InputMethodLocator candidate = javaInputMethodLocatorList.get(i);
-            if (candidate.isLocaleAvailable(locale)) {
-                return candidate.deriveLocator(locale);
+        for (int i = 0; i < jbvbInputMftiodLodbtorList.sizf(); i++) {
+            InputMftiodLodbtor dbndidbtf = jbvbInputMftiodLodbtorList.gft(i);
+            if (dbndidbtf.isLodblfAvbilbblf(lodblf)) {
+                rfturn dbndidbtf.dfrivfLodbtor(lodblf);
             }
         }
-        return null;
+        rfturn null;
     }
 
-    Locale getDefaultKeyboardLocale() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (toolkit instanceof InputMethodSupport) {
-            return ((InputMethodSupport)toolkit).getDefaultKeyboardLocale();
-        } else {
-            return Locale.getDefault();
+    Lodblf gftDffbultKfybobrdLodblf() {
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        if (toolkit instbndfof InputMftiodSupport) {
+            rfturn ((InputMftiodSupport)toolkit).gftDffbultKfybobrdLodblf();
+        } flsf {
+            rfturn Lodblf.gftDffbult();
         }
     }
 
     /**
-     * Returns a InputMethodLocator object that the
-     * user prefers for the given locale.
+     * Rfturns b InputMftiodLodbtor objfdt tibt tif
+     * usfr prfffrs for tif givfn lodblf.
      *
-     * @param locale Locale for which the user prefers the input method.
+     * @pbrbm lodblf Lodblf for wiidi tif usfr prfffrs tif input mftiod.
      */
-    private synchronized InputMethodLocator getPreferredInputMethod(Locale locale) {
-        InputMethodLocator preferredLocator = null;
+    privbtf syndironizfd InputMftiodLodbtor gftPrfffrrfdInputMftiod(Lodblf lodblf) {
+        InputMftiodLodbtor prfffrrfdLodbtor = null;
 
-        if (!hasMultipleInputMethods()) {
-            // No need to look for a preferred Java input method
-            return null;
+        if (!ibsMultiplfInputMftiods()) {
+            // No nffd to look for b prfffrrfd Jbvb input mftiod
+            rfturn null;
         }
 
-        // look for the cached preference first.
-        preferredLocator = preferredLocatorCache.get(locale.toString().intern());
-        if (preferredLocator != null) {
-            return preferredLocator;
+        // look for tif dbdifd prfffrfndf first.
+        prfffrrfdLodbtor = prfffrrfdLodbtorCbdif.gft(lodblf.toString().intfrn());
+        if (prfffrrfdLodbtor != null) {
+            rfturn prfffrrfdLodbtor;
         }
 
-        // look for the preference in the user preference tree
-        String nodePath = findPreferredInputMethodNode(locale);
-        String descriptorName = readPreferredInputMethod(nodePath);
-        Locale advertised;
+        // look for tif prfffrfndf in tif usfr prfffrfndf trff
+        String nodfPbti = findPrfffrrfdInputMftiodNodf(lodblf);
+        String dfsdriptorNbmf = rfbdPrfffrrfdInputMftiod(nodfPbti);
+        Lodblf bdvfrtisfd;
 
-        // get the locator object
-        if (descriptorName != null) {
-            // check for the host adapter first
-            if (hostAdapterLocator != null &&
-                hostAdapterLocator.getDescriptor().getClass().getName().equals(descriptorName)) {
-                advertised = getAdvertisedLocale(hostAdapterLocator, locale);
-                if (advertised != null) {
-                    preferredLocator = hostAdapterLocator.deriveLocator(advertised);
-                    preferredLocatorCache.put(locale.toString().intern(), preferredLocator);
+        // gft tif lodbtor objfdt
+        if (dfsdriptorNbmf != null) {
+            // difdk for tif iost bdbptfr first
+            if (iostAdbptfrLodbtor != null &&
+                iostAdbptfrLodbtor.gftDfsdriptor().gftClbss().gftNbmf().fqubls(dfsdriptorNbmf)) {
+                bdvfrtisfd = gftAdvfrtisfdLodblf(iostAdbptfrLodbtor, lodblf);
+                if (bdvfrtisfd != null) {
+                    prfffrrfdLodbtor = iostAdbptfrLodbtor.dfrivfLodbtor(bdvfrtisfd);
+                    prfffrrfdLodbtorCbdif.put(lodblf.toString().intfrn(), prfffrrfdLodbtor);
                 }
-                return preferredLocator;
+                rfturn prfffrrfdLodbtor;
             }
-            // look for Java input methods
-            for (int i = 0; i < javaInputMethodLocatorList.size(); i++) {
-                InputMethodLocator locator = javaInputMethodLocatorList.get(i);
-                InputMethodDescriptor descriptor = locator.getDescriptor();
-                if (descriptor.getClass().getName().equals(descriptorName)) {
-                    advertised = getAdvertisedLocale(locator, locale);
-                    if (advertised != null) {
-                        preferredLocator = locator.deriveLocator(advertised);
-                        preferredLocatorCache.put(locale.toString().intern(), preferredLocator);
+            // look for Jbvb input mftiods
+            for (int i = 0; i < jbvbInputMftiodLodbtorList.sizf(); i++) {
+                InputMftiodLodbtor lodbtor = jbvbInputMftiodLodbtorList.gft(i);
+                InputMftiodDfsdriptor dfsdriptor = lodbtor.gftDfsdriptor();
+                if (dfsdriptor.gftClbss().gftNbmf().fqubls(dfsdriptorNbmf)) {
+                    bdvfrtisfd = gftAdvfrtisfdLodblf(lodbtor, lodblf);
+                    if (bdvfrtisfd != null) {
+                        prfffrrfdLodbtor = lodbtor.dfrivfLodbtor(bdvfrtisfd);
+                        prfffrrfdLodbtorCbdif.put(lodblf.toString().intfrn(), prfffrrfdLodbtor);
                     }
-                    return preferredLocator;
+                    rfturn prfffrrfdLodbtor;
                 }
             }
 
-            // maybe preferred input method information is bogus.
-            writePreferredInputMethod(nodePath, null);
+            // mbybf prfffrrfd input mftiod informbtion is bogus.
+            writfPrfffrrfdInputMftiod(nodfPbti, null);
         }
 
-        return null;
+        rfturn null;
     }
 
-    private String findPreferredInputMethodNode(Locale locale) {
-        if (userRoot == null) {
-            return null;
+    privbtf String findPrfffrrfdInputMftiodNodf(Lodblf lodblf) {
+        if (usfrRoot == null) {
+            rfturn null;
         }
 
-        // create locale node relative path
-        String nodePath = preferredIMNode + "/" + createLocalePath(locale);
+        // drfbtf lodblf nodf rflbtivf pbti
+        String nodfPbti = prfffrrfdIMNodf + "/" + drfbtfLodblfPbti(lodblf);
 
-        // look for the descriptor
-        while (!nodePath.equals(preferredIMNode)) {
+        // look for tif dfsdriptor
+        wiilf (!nodfPbti.fqubls(prfffrrfdIMNodf)) {
             try {
-                if (userRoot.nodeExists(nodePath)) {
-                    if (readPreferredInputMethod(nodePath) != null) {
-                        return nodePath;
+                if (usfrRoot.nodfExists(nodfPbti)) {
+                    if (rfbdPrfffrrfdInputMftiod(nodfPbti) != null) {
+                        rfturn nodfPbti;
                     }
                 }
-            } catch (BackingStoreException bse) {
+            } dbtdi (BbdkingStorfExdfption bsf) {
             }
 
-            // search at parent's node
-            nodePath = nodePath.substring(0, nodePath.lastIndexOf('/'));
+            // sfbrdi bt pbrfnt's nodf
+            nodfPbti = nodfPbti.substring(0, nodfPbti.lbstIndfxOf('/'));
         }
 
-        return null;
+        rfturn null;
     }
 
-    private String readPreferredInputMethod(String nodePath) {
-        if ((userRoot == null) || (nodePath == null)) {
-            return null;
+    privbtf String rfbdPrfffrrfdInputMftiod(String nodfPbti) {
+        if ((usfrRoot == null) || (nodfPbti == null)) {
+            rfturn null;
         }
 
-        return userRoot.node(nodePath).get(descriptorKey, null);
+        rfturn usfrRoot.nodf(nodfPbti).gft(dfsdriptorKfy, null);
     }
 
     /**
-     * Writes the preferred input method descriptor class name into
-     * the user's Preferences tree in accordance with the given locale.
+     * Writfs tif prfffrrfd input mftiod dfsdriptor dlbss nbmf into
+     * tif usfr's Prfffrfndfs trff in bddordbndf witi tif givfn lodblf.
      *
-     * @param inputMethodLocator input method locator to remember.
+     * @pbrbm inputMftiodLodbtor input mftiod lodbtor to rfmfmbfr.
      */
-    private synchronized void putPreferredInputMethod(InputMethodLocator locator) {
-        InputMethodDescriptor descriptor = locator.getDescriptor();
-        Locale preferredLocale = locator.getLocale();
+    privbtf syndironizfd void putPrfffrrfdInputMftiod(InputMftiodLodbtor lodbtor) {
+        InputMftiodDfsdriptor dfsdriptor = lodbtor.gftDfsdriptor();
+        Lodblf prfffrrfdLodblf = lodbtor.gftLodblf();
 
-        if (preferredLocale == null) {
-            // check available locales of the input method
+        if (prfffrrfdLodblf == null) {
+            // difdk bvbilbblf lodblfs of tif input mftiod
             try {
-                Locale[] availableLocales = descriptor.getAvailableLocales();
-                if (availableLocales.length == 1) {
-                    preferredLocale = availableLocales[0];
-                } else {
-                    // there is no way to know which locale is the preferred one, so do nothing.
-                    return;
+                Lodblf[] bvbilbblfLodblfs = dfsdriptor.gftAvbilbblfLodblfs();
+                if (bvbilbblfLodblfs.lfngti == 1) {
+                    prfffrrfdLodblf = bvbilbblfLodblfs[0];
+                } flsf {
+                    // tifrf is no wby to know wiidi lodblf is tif prfffrrfd onf, so do notiing.
+                    rfturn;
                 }
-            } catch (AWTException ae) {
-                // do nothing here, either.
-                return;
+            } dbtdi (AWTExdfption bf) {
+                // do notiing ifrf, fitifr.
+                rfturn;
             }
         }
 
-        // for regions that have only one language, we need to regard
-        // "xx_YY" as "xx" when putting the preference into tree
-        if (preferredLocale.equals(Locale.JAPAN)) {
-            preferredLocale = Locale.JAPANESE;
+        // for rfgions tibt ibvf only onf lbngubgf, wf nffd to rfgbrd
+        // "xx_YY" bs "xx" wifn putting tif prfffrfndf into trff
+        if (prfffrrfdLodblf.fqubls(Lodblf.JAPAN)) {
+            prfffrrfdLodblf = Lodblf.JAPANESE;
         }
-        if (preferredLocale.equals(Locale.KOREA)) {
-            preferredLocale = Locale.KOREAN;
+        if (prfffrrfdLodblf.fqubls(Lodblf.KOREA)) {
+            prfffrrfdLodblf = Lodblf.KOREAN;
         }
-        if (preferredLocale.equals(new Locale("th", "TH"))) {
-            preferredLocale = new Locale("th");
+        if (prfffrrfdLodblf.fqubls(nfw Lodblf("ti", "TH"))) {
+            prfffrrfdLodblf = nfw Lodblf("ti");
         }
 
-        // obtain node
-        String path = preferredIMNode + "/" + createLocalePath(preferredLocale);
+        // obtbin nodf
+        String pbti = prfffrrfdIMNodf + "/" + drfbtfLodblfPbti(prfffrrfdLodblf);
 
-        // write in the preference tree
-        writePreferredInputMethod(path, descriptor.getClass().getName());
-        preferredLocatorCache.put(preferredLocale.toString().intern(),
-            locator.deriveLocator(preferredLocale));
+        // writf in tif prfffrfndf trff
+        writfPrfffrrfdInputMftiod(pbti, dfsdriptor.gftClbss().gftNbmf());
+        prfffrrfdLodbtorCbdif.put(prfffrrfdLodblf.toString().intfrn(),
+            lodbtor.dfrivfLodbtor(prfffrrfdLodblf));
 
-        return;
+        rfturn;
     }
 
-    private String createLocalePath(Locale locale) {
-        String language = locale.getLanguage();
-        String country = locale.getCountry();
-        String variant = locale.getVariant();
-        String localePath = null;
-        if (!variant.equals("")) {
-            localePath = "_" + language + "/_" + country + "/_" + variant;
-        } else if (!country.equals("")) {
-            localePath = "_" + language + "/_" + country;
-        } else {
-            localePath = "_" + language;
+    privbtf String drfbtfLodblfPbti(Lodblf lodblf) {
+        String lbngubgf = lodblf.gftLbngubgf();
+        String dountry = lodblf.gftCountry();
+        String vbribnt = lodblf.gftVbribnt();
+        String lodblfPbti = null;
+        if (!vbribnt.fqubls("")) {
+            lodblfPbti = "_" + lbngubgf + "/_" + dountry + "/_" + vbribnt;
+        } flsf if (!dountry.fqubls("")) {
+            lodblfPbti = "_" + lbngubgf + "/_" + dountry;
+        } flsf {
+            lodblfPbti = "_" + lbngubgf;
         }
 
-        return localePath;
+        rfturn lodblfPbti;
     }
 
-    private void writePreferredInputMethod(String path, String descriptorName) {
-        if (userRoot != null) {
-            Preferences node = userRoot.node(path);
+    privbtf void writfPrfffrrfdInputMftiod(String pbti, String dfsdriptorNbmf) {
+        if (usfrRoot != null) {
+            Prfffrfndfs nodf = usfrRoot.nodf(pbti);
 
-            // record it
-            if (descriptorName != null) {
-                node.put(descriptorKey, descriptorName);
-            } else {
-                node.remove(descriptorKey);
+            // rfdord it
+            if (dfsdriptorNbmf != null) {
+                nodf.put(dfsdriptorKfy, dfsdriptorNbmf);
+            } flsf {
+                nodf.rfmovf(dfsdriptorKfy);
             }
         }
     }
 
-    private Preferences getUserRoot() {
-        return AccessController.doPrivileged(new PrivilegedAction<Preferences>() {
-            public Preferences run() {
-                return Preferences.userRoot();
+    privbtf Prfffrfndfs gftUsfrRoot() {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Prfffrfndfs>() {
+            publid Prfffrfndfs run() {
+                rfturn Prfffrfndfs.usfrRoot();
             }
         });
     }
 
-    private Locale getAdvertisedLocale(InputMethodLocator locator, Locale locale) {
-        Locale advertised = null;
+    privbtf Lodblf gftAdvfrtisfdLodblf(InputMftiodLodbtor lodbtor, Lodblf lodblf) {
+        Lodblf bdvfrtisfd = null;
 
-        if (locator.isLocaleAvailable(locale)) {
-            advertised = locale;
-        } else if (locale.getLanguage().equals("ja")) {
-            // for Japanese, Korean, and Thai, check whether the input method supports
-            // language or language_COUNTRY.
-            if (locator.isLocaleAvailable(Locale.JAPAN)) {
-                advertised = Locale.JAPAN;
-            } else if (locator.isLocaleAvailable(Locale.JAPANESE)) {
-                advertised = Locale.JAPANESE;
+        if (lodbtor.isLodblfAvbilbblf(lodblf)) {
+            bdvfrtisfd = lodblf;
+        } flsf if (lodblf.gftLbngubgf().fqubls("jb")) {
+            // for Jbpbnfsf, Korfbn, bnd Tibi, difdk wiftifr tif input mftiod supports
+            // lbngubgf or lbngubgf_COUNTRY.
+            if (lodbtor.isLodblfAvbilbblf(Lodblf.JAPAN)) {
+                bdvfrtisfd = Lodblf.JAPAN;
+            } flsf if (lodbtor.isLodblfAvbilbblf(Lodblf.JAPANESE)) {
+                bdvfrtisfd = Lodblf.JAPANESE;
             }
-        } else if (locale.getLanguage().equals("ko")) {
-            if (locator.isLocaleAvailable(Locale.KOREA)) {
-                advertised = Locale.KOREA;
-            } else if (locator.isLocaleAvailable(Locale.KOREAN)) {
-                advertised = Locale.KOREAN;
+        } flsf if (lodblf.gftLbngubgf().fqubls("ko")) {
+            if (lodbtor.isLodblfAvbilbblf(Lodblf.KOREA)) {
+                bdvfrtisfd = Lodblf.KOREA;
+            } flsf if (lodbtor.isLodblfAvbilbblf(Lodblf.KOREAN)) {
+                bdvfrtisfd = Lodblf.KOREAN;
             }
-        } else if (locale.getLanguage().equals("th")) {
-            if (locator.isLocaleAvailable(new Locale("th", "TH"))) {
-                advertised = new Locale("th", "TH");
-            } else if (locator.isLocaleAvailable(new Locale("th"))) {
-                advertised = new Locale("th");
+        } flsf if (lodblf.gftLbngubgf().fqubls("ti")) {
+            if (lodbtor.isLodblfAvbilbblf(nfw Lodblf("ti", "TH"))) {
+                bdvfrtisfd = nfw Lodblf("ti", "TH");
+            } flsf if (lodbtor.isLodblfAvbilbblf(nfw Lodblf("ti"))) {
+                bdvfrtisfd = nfw Lodblf("ti");
             }
         }
 
-        return advertised;
+        rfturn bdvfrtisfd;
     }
 }

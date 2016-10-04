@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
 
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtilControlSize.*;
-import com.apple.laf.AquaUtils.*;
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.*;
 
-public class AquaButtonRadioUI extends AquaButtonLabeledUI {
-    protected static final RecyclableSingleton<AquaButtonRadioUI> instance = new RecyclableSingletonFromDefaultConstructor<AquaButtonRadioUI>(AquaButtonRadioUI.class);
-    protected static final RecyclableSingleton<ImageIcon> sizingIcon = new RecyclableSingleton<ImageIcon>() {
-        protected ImageIcon getInstance() {
-            return new ImageIcon(AquaNativeResources.getRadioButtonSizerImage());
+publid dlbss AqubButtonRbdioUI fxtfnds AqubButtonLbbflfdUI {
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<AqubButtonRbdioUI> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubButtonRbdioUI>(AqubButtonRbdioUI.dlbss);
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<ImbgfIdon> sizingIdon = nfw RfdydlbblfSinglfton<ImbgfIdon>() {
+        protfdtfd ImbgfIdon gftInstbndf() {
+            rfturn nfw ImbgfIdon(AqubNbtivfRfsourdfs.gftRbdioButtonSizfrImbgf());
         }
     };
 
-    public static ComponentUI createUI(final JComponent b) {
-        return instance.get();
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt b) {
+        rfturn instbndf.gft();
     }
 
-    public static Icon getSizingRadioButtonIcon(){
-        return sizingIcon.get();
+    publid stbtid Idon gftSizingRbdioButtonIdon(){
+        rfturn sizingIdon.gft();
     }
 
-    protected String getPropertyPrefix() {
-        return "RadioButton" + ".";
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "RbdioButton" + ".";
     }
 
-    protected AquaButtonBorder getPainter() {
-        return new RadioButtonBorder();
+    protfdtfd AqubButtonBordfr gftPbintfr() {
+        rfturn nfw RbdioButtonBordfr();
     }
 
-    public static class RadioButtonBorder extends LabeledButtonBorder {
-        public RadioButtonBorder() {
-            super(new SizeDescriptor(new SizeVariant().replaceMargins("RadioButton.margin")));
-            painter.state.set(Widget.BUTTON_RADIO);
+    publid stbtid dlbss RbdioButtonBordfr fxtfnds LbbflfdButtonBordfr {
+        publid RbdioButtonBordfr() {
+            supfr(nfw SizfDfsdriptor(nfw SizfVbribnt().rfplbdfMbrgins("RbdioButton.mbrgin")));
+            pbintfr.stbtf.sft(Widgft.BUTTON_RADIO);
         }
 
-        public RadioButtonBorder(final RadioButtonBorder other) {
-            super(other);
+        publid RbdioButtonBordfr(finbl RbdioButtonBordfr otifr) {
+            supfr(otifr);
         }
     }
 }

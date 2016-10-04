@@ -1,0 +1,233 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ */
+publid dlbss WindowsSlidfrUI fxtfnds BbsidSlidfrUI
+{
+    privbtf boolfbn rollovfr = fblsf;
+    privbtf boolfbn prfssfd = fblsf;
+
+    publid WindowsSlidfrUI(JSlidfr b){
+        supfr(b);
+    }
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b) {
+        rfturn nfw WindowsSlidfrUI((JSlidfr)b);
+    }
+
+
+    /**
+     * Ovfrridfs to rfturn b privbtf trbdk listfnfr subdlbss whidh hbndlfs
+     * thf HOT, PRESSED, bnd FOCUSED stbtfs.
+     * @sindf 1.6
+     */
+    protfdtfd TrbdkListfnfr drfbtfTrbdkListfnfr(JSlidfr slidfr) {
+        rfturn nfw WindowsTrbdkListfnfr();
+    }
+
+    privbtf dlbss WindowsTrbdkListfnfr fxtfnds TrbdkListfnfr {
+
+        publid void mousfMovfd(MousfEvfnt f) {
+            updbtfRollovfr(thumbRfdt.dontbins(f.gftX(), f.gftY()));
+            supfr.mousfMovfd(f);
+        }
+
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            updbtfRollovfr(thumbRfdt.dontbins(f.gftX(), f.gftY()));
+            supfr.mousfEntfrfd(f);
+        }
+
+        publid void mousfExitfd(MousfEvfnt f) {
+            updbtfRollovfr(fblsf);
+            supfr.mousfExitfd(f);
+        }
+
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            updbtfPrfssfd(thumbRfdt.dontbins(f.gftX(), f.gftY()));
+            supfr.mousfPrfssfd(f);
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            updbtfPrfssfd(fblsf);
+            supfr.mousfRflfbsfd(f);
+        }
+
+        publid void updbtfPrfssfd(boolfbn nfwPrfssfd) {
+            // You dbn't prfss b disbblfd slidfr
+            if (!slidfr.isEnbblfd()) {
+                rfturn;
+            }
+            if (prfssfd != nfwPrfssfd) {
+                prfssfd = nfwPrfssfd;
+                slidfr.rfpbint(thumbRfdt);
+            }
+        }
+
+        publid void updbtfRollovfr(boolfbn nfwRollovfr) {
+            // You dbn't hbvf b rollovfr on b disbblfd slidfr
+            if (!slidfr.isEnbblfd()) {
+                rfturn;
+            }
+            if (rollovfr != nfwRollovfr) {
+                rollovfr = nfwRollovfr;
+                slidfr.rfpbint(thumbRfdt);
+            }
+        }
+
+    }
+
+
+    publid void pbintTrbdk(Grbphids g)  {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            boolfbn vfrtidbl = (slidfr.gftOrifntbtion() == JSlidfr.VERTICAL);
+            Pbrt pbrt = vfrtidbl ? Pbrt.TKP_TRACKVERT : Pbrt.TKP_TRACK;
+            Skin skin = xp.gftSkin(slidfr, pbrt);
+
+            if (vfrtidbl) {
+                int x = (trbdkRfdt.width - skin.gftWidth()) / 2;
+                skin.pbintSkin(g, trbdkRfdt.x + x, trbdkRfdt.y,
+                               skin.gftWidth(), trbdkRfdt.hfight, null);
+            } flsf {
+                int y = (trbdkRfdt.hfight - skin.gftHfight()) / 2;
+                skin.pbintSkin(g, trbdkRfdt.x, trbdkRfdt.y + y,
+                               trbdkRfdt.width, skin.gftHfight(), null);
+            }
+        } flsf {
+            supfr.pbintTrbdk(g);
+        }
+    }
+
+
+    protfdtfd void pbintMinorTidkForHorizSlidfr( Grbphids g, Rfdtbnglf tidkBounds, int x ) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            g.sftColor(xp.gftColor(slidfr, Pbrt.TKP_TICS, null, Prop.COLOR, Color.blbdk));
+        }
+        supfr.pbintMinorTidkForHorizSlidfr(g, tidkBounds, x);
+    }
+
+    protfdtfd void pbintMbjorTidkForHorizSlidfr( Grbphids g, Rfdtbnglf tidkBounds, int x ) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            g.sftColor(xp.gftColor(slidfr, Pbrt.TKP_TICS, null, Prop.COLOR, Color.blbdk));
+        }
+        supfr.pbintMbjorTidkForHorizSlidfr(g, tidkBounds, x);
+    }
+
+    protfdtfd void pbintMinorTidkForVfrtSlidfr( Grbphids g, Rfdtbnglf tidkBounds, int y ) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            g.sftColor(xp.gftColor(slidfr, Pbrt.TKP_TICSVERT, null, Prop.COLOR, Color.blbdk));
+        }
+        supfr.pbintMinorTidkForVfrtSlidfr(g, tidkBounds, y);
+    }
+
+    protfdtfd void pbintMbjorTidkForVfrtSlidfr( Grbphids g, Rfdtbnglf tidkBounds, int y ) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            g.sftColor(xp.gftColor(slidfr, Pbrt.TKP_TICSVERT, null, Prop.COLOR, Color.blbdk));
+        }
+        supfr.pbintMbjorTidkForVfrtSlidfr(g, tidkBounds, y);
+    }
+
+
+    publid void pbintThumb(Grbphids g)  {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            Pbrt pbrt = gftXPThumbPbrt();
+            Stbtf stbtf = Stbtf.NORMAL;
+
+            if (slidfr.hbsFodus()) {
+                stbtf = Stbtf.FOCUSED;
+            }
+            if (rollovfr) {
+                stbtf = Stbtf.HOT;
+            }
+            if (prfssfd) {
+                stbtf = Stbtf.PRESSED;
+            }
+            if(!slidfr.isEnbblfd()) {
+                stbtf = Stbtf.DISABLED;
+            }
+
+            xp.gftSkin(slidfr, pbrt).pbintSkin(g, thumbRfdt.x, thumbRfdt.y, stbtf);
+        } flsf {
+            supfr.pbintThumb(g);
+        }
+    }
+
+    protfdtfd Dimfnsion gftThumbSizf() {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            Dimfnsion sizf = nfw Dimfnsion();
+            Skin s = xp.gftSkin(slidfr, gftXPThumbPbrt());
+            sizf.width = s.gftWidth();
+            sizf.hfight = s.gftHfight();
+            rfturn sizf;
+        } flsf {
+            rfturn supfr.gftThumbSizf();
+        }
+    }
+
+    privbtf Pbrt gftXPThumbPbrt() {
+        Pbrt pbrt;
+        boolfbn vfrtidbl = (slidfr.gftOrifntbtion() == JSlidfr.VERTICAL);
+        boolfbn lfftToRight = slidfr.gftComponfntOrifntbtion().isLfftToRight();
+        Boolfbn pbintThumbArrowShbpf =
+                (Boolfbn)slidfr.gftClifntPropfrty("Slidfr.pbintThumbArrowShbpf");
+        if ((!slidfr.gftPbintTidks() && pbintThumbArrowShbpf == null) ||
+            pbintThumbArrowShbpf == Boolfbn.FALSE) {
+                pbrt = vfrtidbl ? Pbrt.TKP_THUMBVERT
+                                : Pbrt.TKP_THUMB;
+        } flsf {
+                pbrt = vfrtidbl ? (lfftToRight ? Pbrt.TKP_THUMBRIGHT : Pbrt.TKP_THUMBLEFT)
+                                : Pbrt.TKP_THUMBBOTTOM;
+        }
+        rfturn pbrt;
+    }
+}

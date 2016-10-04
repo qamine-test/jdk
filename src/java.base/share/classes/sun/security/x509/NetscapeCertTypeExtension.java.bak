@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.*;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * Represents Netscape Certificate Type Extension.
- * The details are defined
- * <a href=http://www.netscape.com/eng/security/comm4-cert-exts.html>
- * here </a>.
+ * Rfprfsfnts Nftsdbpf Cfrtifidbtf Typf Extfnsion.
+ * Tif dftbils brf dffinfd
+ * <b irff=ittp://www.nftsdbpf.dom/fng/sfdurity/domm4-dfrt-fxts.itml>
+ * ifrf </b>.
  *
- * <p>This extension, if present, defines both the purpose
- * (e.g., encipherment, signature, certificate signing) and the application
- * (e.g., SSL, S/Mime or Object Signing of the key contained in the
- * certificate. This extension has been superseded by IETF PKIX extensions
- * but is provided here for compatibility reasons.
+ * <p>Tiis fxtfnsion, if prfsfnt, dffinfs boti tif purposf
+ * (f.g., fndipifrmfnt, signbturf, dfrtifidbtf signing) bnd tif bpplidbtion
+ * (f.g., SSL, S/Mimf or Objfdt Signing of tif kfy dontbinfd in tif
+ * dfrtifidbtf. Tiis fxtfnsion ibs bffn supfrsfdfd by IETF PKIX fxtfnsions
+ * but is providfd ifrf for dompbtibility rfbsons.
  *
- * @author Hemma Prafullchandra
- * @see Extension
- * @see CertAttrSet
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
  */
 
-public class NetscapeCertTypeExtension extends Extension
-implements CertAttrSet<String> {
+publid dlbss NftsdbpfCfrtTypfExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.extensions.NetscapeCertType";
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.NftsdbpfCfrtTypf";
 
     /**
-     * Attribute names.
+     * Attributf nbmfs.
      */
-    public static final String NAME = "NetscapeCertType";
-    public static final String SSL_CLIENT = "ssl_client";
-    public static final String SSL_SERVER = "ssl_server";
-    public static final String S_MIME = "s_mime";
-    public static final String OBJECT_SIGNING = "object_signing";
-    public static final String SSL_CA = "ssl_ca";
-    public static final String S_MIME_CA = "s_mime_ca";
-    public static final String OBJECT_SIGNING_CA = "object_signing_ca";
+    publid stbtid finbl String NAME = "NftsdbpfCfrtTypf";
+    publid stbtid finbl String SSL_CLIENT = "ssl_dlifnt";
+    publid stbtid finbl String SSL_SERVER = "ssl_sfrvfr";
+    publid stbtid finbl String S_MIME = "s_mimf";
+    publid stbtid finbl String OBJECT_SIGNING = "objfdt_signing";
+    publid stbtid finbl String SSL_CA = "ssl_db";
+    publid stbtid finbl String S_MIME_CA = "s_mimf_db";
+    publid stbtid finbl String OBJECT_SIGNING_CA = "objfdt_signing_db";
 
-    private static final int CertType_data[] = { 2, 16, 840, 1, 113730, 1, 1 };
+    privbtf stbtid finbl int CfrtTypf_dbtb[] = { 2, 16, 840, 1, 113730, 1, 1 };
 
     /**
-     * Object identifier for the Netscape-Cert-Type extension.
+     * Objfdt idfntififr for tif Nftsdbpf-Cfrt-Typf fxtfnsion.
      */
-    public static ObjectIdentifier NetscapeCertType_Id;
+    publid stbtid ObjfdtIdfntififr NftsdbpfCfrtTypf_Id;
 
-    static {
+    stbtid {
         try {
-            NetscapeCertType_Id = new ObjectIdentifier(CertType_data);
-        } catch (IOException ioe) {
-            // should not happen
+            NftsdbpfCfrtTypf_Id = nfw ObjfdtIdfntififr(CfrtTypf_dbtb);
+        } dbtdi (IOExdfption iof) {
+            // siould not ibppfn
         }
     }
 
-    private boolean[] bitString;
+    privbtf boolfbn[] bitString;
 
-    private static class MapEntry {
-        String mName;
+    privbtf stbtid dlbss MbpEntry {
+        String mNbmf;
         int mPosition;
 
-        MapEntry(String name, int position) {
-            mName = name;
+        MbpEntry(String nbmf, int position) {
+            mNbmf = nbmf;
             mPosition = position;
         }
     }
 
-    private static MapEntry[] mMapData = {
-        new MapEntry(SSL_CLIENT, 0),
-        new MapEntry(SSL_SERVER, 1),
-        new MapEntry(S_MIME, 2),
-        new MapEntry(OBJECT_SIGNING, 3),
-        // note that bit 4 is reserved
-        new MapEntry(SSL_CA, 5),
-        new MapEntry(S_MIME_CA, 6),
-        new MapEntry(OBJECT_SIGNING_CA, 7),
+    privbtf stbtid MbpEntry[] mMbpDbtb = {
+        nfw MbpEntry(SSL_CLIENT, 0),
+        nfw MbpEntry(SSL_SERVER, 1),
+        nfw MbpEntry(S_MIME, 2),
+        nfw MbpEntry(OBJECT_SIGNING, 3),
+        // notf tibt bit 4 is rfsfrvfd
+        nfw MbpEntry(SSL_CA, 5),
+        nfw MbpEntry(S_MIME_CA, 6),
+        nfw MbpEntry(OBJECT_SIGNING_CA, 7),
     };
 
-    private static final Vector<String> mAttributeNames = new Vector<String>();
-    static {
-        for (MapEntry entry : mMapData) {
-            mAttributeNames.add(entry.mName);
+    privbtf stbtid finbl Vfdtor<String> mAttributfNbmfs = nfw Vfdtor<String>();
+    stbtid {
+        for (MbpEntry fntry : mMbpDbtb) {
+            mAttributfNbmfs.bdd(fntry.mNbmf);
         }
     }
 
-    private static int getPosition(String name) throws IOException {
-        for (int i = 0; i < mMapData.length; i++) {
-            if (name.equalsIgnoreCase(mMapData[i].mName))
-                return mMapData[i].mPosition;
+    privbtf stbtid int gftPosition(String nbmf) tirows IOExdfption {
+        for (int i = 0; i < mMbpDbtb.lfngti; i++) {
+            if (nbmf.fqublsIgnorfCbsf(mMbpDbtb[i].mNbmf))
+                rfturn mMbpDbtb[i].mPosition;
         }
-        throw new IOException("Attribute name [" + name
-                             + "] not recognized by CertAttrSet:NetscapeCertType.");
+        tirow nfw IOExdfption("Attributf nbmf [" + nbmf
+                             + "] not rfdognizfd by CfrtAttrSft:NftsdbpfCfrtTypf.");
     }
 
-    // Encode this extension value
-    private void encodeThis() throws IOException {
-        DerOutputStream os = new DerOutputStream();
-        os.putTruncatedUnalignedBitString(new BitArray(this.bitString));
-        this.extensionValue = os.toByteArray();
+    // Endodf tiis fxtfnsion vbluf
+    privbtf void fndodfTiis() tirows IOExdfption {
+        DfrOutputStrfbm os = nfw DfrOutputStrfbm();
+        os.putTrundbtfdUnblignfdBitString(nfw BitArrby(tiis.bitString));
+        tiis.fxtfnsionVbluf = os.toBytfArrby();
     }
 
     /**
-     * Check if bit is set.
+     * Cifdk if bit is sft.
      *
-     * @param position the position in the bit string to check.
+     * @pbrbm position tif position in tif bit string to difdk.
      */
-    private boolean isSet(int position) {
-        return bitString[position];
+    privbtf boolfbn isSft(int position) {
+        rfturn bitString[position];
     }
 
     /**
-     * Set the bit at the specified position.
+     * Sft tif bit bt tif spfdififd position.
      */
-    private void set(int position, boolean val) {
-        // enlarge bitString if necessary
-        if (position >= bitString.length) {
-            boolean[] tmp = new boolean[position+1];
-            System.arraycopy(bitString, 0, tmp, 0, bitString.length);
+    privbtf void sft(int position, boolfbn vbl) {
+        // fnlbrgf bitString if nfdfssbry
+        if (position >= bitString.lfngti) {
+            boolfbn[] tmp = nfw boolfbn[position+1];
+            Systfm.brrbydopy(bitString, 0, tmp, 0, bitString.lfngti);
             bitString = tmp;
         }
-        bitString[position] = val;
+        bitString[position] = vbl;
     }
 
     /**
-     * Create a NetscapeCertTypeExtension with the passed bit settings.
-     * The criticality is set to true.
+     * Crfbtf b NftsdbpfCfrtTypfExtfnsion witi tif pbssfd bit sfttings.
+     * Tif dritidblity is sft to truf.
      *
-     * @param bitString the bits to be set for the extension.
+     * @pbrbm bitString tif bits to bf sft for tif fxtfnsion.
      */
-    public NetscapeCertTypeExtension(byte[] bitString) throws IOException {
-        this.bitString =
-            new BitArray(bitString.length*8, bitString).toBooleanArray();
-        this.extensionId = NetscapeCertType_Id;
-        this.critical = true;
-        encodeThis();
+    publid NftsdbpfCfrtTypfExtfnsion(bytf[] bitString) tirows IOExdfption {
+        tiis.bitString =
+            nfw BitArrby(bitString.lfngti*8, bitString).toBoolfbnArrby();
+        tiis.fxtfnsionId = NftsdbpfCfrtTypf_Id;
+        tiis.dritidbl = truf;
+        fndodfTiis();
     }
 
     /**
-     * Create a NetscapeCertTypeExtension with the passed bit settings.
-     * The criticality is set to true.
+     * Crfbtf b NftsdbpfCfrtTypfExtfnsion witi tif pbssfd bit sfttings.
+     * Tif dritidblity is sft to truf.
      *
-     * @param bitString the bits to be set for the extension.
+     * @pbrbm bitString tif bits to bf sft for tif fxtfnsion.
      */
-    public NetscapeCertTypeExtension(boolean[] bitString) throws IOException {
-        this.bitString = bitString;
-        this.extensionId = NetscapeCertType_Id;
-        this.critical = true;
-        encodeThis();
+    publid NftsdbpfCfrtTypfExtfnsion(boolfbn[] bitString) tirows IOExdfption {
+        tiis.bitString = bitString;
+        tiis.fxtfnsionId = NftsdbpfCfrtTypf_Id;
+        tiis.dritidbl = truf;
+        fndodfTiis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crfbtf tif fxtfnsion from tif pbssfd DER fndodfd vbluf of tif sbmf.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception IOException on error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
      */
-    public NetscapeCertTypeExtension(Boolean critical, Object value)
-    throws IOException {
-        this.extensionId = NetscapeCertType_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        this.bitString = val.getUnalignedBitString().toBooleanArray();
+    publid NftsdbpfCfrtTypfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows IOExdfption {
+        tiis.fxtfnsionId = NftsdbpfCfrtTypf_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
+        tiis.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(tiis.fxtfnsionVbluf);
+        tiis.bitString = vbl.gftUnblignfdBitString().toBoolfbnArrby();
     }
 
     /**
-     * Create a default key usage.
+     * Crfbtf b dffbult kfy usbgf.
      */
-    public NetscapeCertTypeExtension() {
-        extensionId = NetscapeCertType_Id;
-        critical = true;
-        bitString = new boolean[0];
+    publid NftsdbpfCfrtTypfExtfnsion() {
+        fxtfnsionId = NftsdbpfCfrtTypf_Id;
+        dritidbl = truf;
+        bitString = nfw boolfbn[0];
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Boolean))
-            throw new IOException("Attribute must be of type Boolean.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (!(obj instbndfof Boolfbn))
+            tirow nfw IOExdfption("Attributf must bf of typf Boolfbn.");
 
-        boolean val = ((Boolean)obj).booleanValue();
-        set(getPosition(name), val);
-        encodeThis();
+        boolfbn vbl = ((Boolfbn)obj).boolfbnVbluf();
+        sft(gftPosition(nbmf), vbl);
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public Boolean get(String name) throws IOException {
-        return Boolean.valueOf(isSet(getPosition(name)));
+    publid Boolfbn gft(String nbmf) tirows IOExdfption {
+        rfturn Boolfbn.vblufOf(isSft(gftPosition(nbmf)));
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        set(getPosition(name), false);
-        encodeThis();
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        sft(gftPosition(nbmf), fblsf);
+        fndodfTiis();
     }
 
     /**
-     * Returns a printable representation of the NetscapeCertType.
+     * Rfturns b printbblf rfprfsfntbtion of tif NftsdbpfCfrtTypf.
      */
-    public String toString() {
-        String s = super.toString() + "NetscapeCertType [\n";
+    publid String toString() {
+        String s = supfr.toString() + "NftsdbpfCfrtTypf [\n";
 
         try {
-           if (isSet(getPosition(SSL_CLIENT)))
-               s += "   SSL client\n";
-           if (isSet(getPosition(SSL_SERVER)))
-               s += "   SSL server\n";
-           if (isSet(getPosition(S_MIME)))
+           if (isSft(gftPosition(SSL_CLIENT)))
+               s += "   SSL dlifnt\n";
+           if (isSft(gftPosition(SSL_SERVER)))
+               s += "   SSL sfrvfr\n";
+           if (isSft(gftPosition(S_MIME)))
                s += "   S/MIME\n";
-           if (isSet(getPosition(OBJECT_SIGNING)))
-               s += "   Object Signing\n";
-           if (isSet(getPosition(SSL_CA)))
+           if (isSft(gftPosition(OBJECT_SIGNING)))
+               s += "   Objfdt Signing\n";
+           if (isSft(gftPosition(SSL_CA)))
                s += "   SSL CA\n";
-           if (isSet(getPosition(S_MIME_CA)))
+           if (isSft(gftPosition(S_MIME_CA)))
                s += "   S/MIME CA\n";
-           if (isSet(getPosition(OBJECT_SIGNING_CA)))
-               s += "   Object Signing CA" ;
-        } catch (Exception e) { }
+           if (isSft(gftPosition(OBJECT_SIGNING_CA)))
+               s += "   Objfdt Signing CA" ;
+        } dbtdi (Exdfption f) { }
 
         s += "]\n";
-        return (s);
+        rfturn (s);
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream  tmp = new DerOutputStream();
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm  tmp = nfw DfrOutputStrfbm();
 
-        if (this.extensionValue == null) {
-            this.extensionId = NetscapeCertType_Id;
-            this.critical = true;
-            encodeThis();
+        if (tiis.fxtfnsionVbluf == null) {
+            tiis.fxtfnsionId = NftsdbpfCfrtTypf_Id;
+            tiis.dritidbl = truf;
+            fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        return mAttributeNames.elements();
+    publid Enumfrbtion<String> gftElfmfnts() {
+        rfturn mAttributfNbmfs.flfmfnts();
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return (NAME);
+    publid String gftNbmf() {
+        rfturn (NAME);
     }
 
     /**
-     * Get a boolean array representing the bits of this extension,
-     * as it maps to the KeyUsage extension.
-     * @return the bit values of this extension mapped to the bit values
-     * of the KeyUsage extension as an array of booleans.
+     * Gft b boolfbn brrby rfprfsfnting tif bits of tiis fxtfnsion,
+     * bs it mbps to tif KfyUsbgf fxtfnsion.
+     * @rfturn tif bit vblufs of tiis fxtfnsion mbppfd to tif bit vblufs
+     * of tif KfyUsbgf fxtfnsion bs bn brrby of boolfbns.
      */
-    public boolean[] getKeyUsageMappedBits() {
-        KeyUsageExtension keyUsage = new KeyUsageExtension();
-        Boolean val = Boolean.TRUE;
+    publid boolfbn[] gftKfyUsbgfMbppfdBits() {
+        KfyUsbgfExtfnsion kfyUsbgf = nfw KfyUsbgfExtfnsion();
+        Boolfbn vbl = Boolfbn.TRUE;
 
         try {
-            if (isSet(getPosition(SSL_CLIENT)) ||
-                isSet(getPosition(S_MIME)) ||
-                isSet(getPosition(OBJECT_SIGNING)))
-                keyUsage.set(KeyUsageExtension.DIGITAL_SIGNATURE, val);
+            if (isSft(gftPosition(SSL_CLIENT)) ||
+                isSft(gftPosition(S_MIME)) ||
+                isSft(gftPosition(OBJECT_SIGNING)))
+                kfyUsbgf.sft(KfyUsbgfExtfnsion.DIGITAL_SIGNATURE, vbl);
 
-            if (isSet(getPosition(SSL_SERVER)))
-                keyUsage.set(KeyUsageExtension.KEY_ENCIPHERMENT, val);
+            if (isSft(gftPosition(SSL_SERVER)))
+                kfyUsbgf.sft(KfyUsbgfExtfnsion.KEY_ENCIPHERMENT, vbl);
 
-            if (isSet(getPosition(SSL_CA)) ||
-                isSet(getPosition(S_MIME_CA)) ||
-                isSet(getPosition(OBJECT_SIGNING_CA)))
-                keyUsage.set(KeyUsageExtension.KEY_CERTSIGN, val);
-        } catch (IOException e) { }
-        return keyUsage.getBits();
+            if (isSft(gftPosition(SSL_CA)) ||
+                isSft(gftPosition(S_MIME_CA)) ||
+                isSft(gftPosition(OBJECT_SIGNING_CA)))
+                kfyUsbgf.sft(KfyUsbgfExtfnsion.KEY_CERTSIGN, vbl);
+        } dbtdi (IOExdfption f) { }
+        rfturn kfyUsbgf.gftBits();
     }
 }

@@ -1,0 +1,234 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import dom.sun.jmx.dffbults.JmxPropfrtifs;
+import dom.sun.jmx.dffbults.SfrvidfNbmf;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+
+/**
+ * Rfprfsfnts  thf MBfbn sfrvfr from thf mbnbgfmfnt point of vifw.
+ * Thf MBfbnSfrvfrDflfgbtf MBfbn fmits thf MBfbnSfrvfrNotifidbtions whfn
+ * bn MBfbn is rfgistfrfd/unrfgistfrfd in thf MBfbn sfrvfr.
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnSfrvfrDflfgbtf implfmfnts MBfbnSfrvfrDflfgbtfMBfbn,
+                                            NotifidbtionEmittfr   {
+
+    /** Thf MBfbn sfrvfr bgfnt idfntifidbtion.*/
+    privbtf String mbfbnSfrvfrId ;
+
+    /** Thf NotifidbtionBrobddbstfrSupport objfdt thbt sfnds thf
+        notifidbtions */
+    privbtf finbl NotifidbtionBrobddbstfrSupport brobddbstfr;
+
+    privbtf stbtid long oldStbmp = 0;
+    privbtf finbl long stbmp;
+    privbtf long sfqufndfNumbfr = 1;
+
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] notifsInfo;
+
+    stbtid {
+        finbl String[] typfs  = {
+            MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION,
+            MBfbnSfrvfrNotifidbtion.REGISTRATION_NOTIFICATION
+        };
+        notifsInfo = nfw MBfbnNotifidbtionInfo[1];
+        notifsInfo[0] =
+            nfw MBfbnNotifidbtionInfo(typfs,
+                    "jbvbx.mbnbgfmfnt.MBfbnSfrvfrNotifidbtion",
+                    "Notifidbtions sfnt by thf MBfbnSfrvfrDflfgbtf MBfbn");
+    }
+
+    /**
+     * Crfbtf b MBfbnSfrvfrDflfgbtf objfdt.
+     */
+    publid MBfbnSfrvfrDflfgbtf () {
+        stbmp = gftStbmp();
+        brobddbstfr = nfw NotifidbtionBrobddbstfrSupport() ;
+    }
+
+
+    /**
+     * Rfturns thf MBfbn sfrvfr bgfnt idfntity.
+     *
+     * @rfturn thf idfntity.
+     */
+    publid syndhronizfd String gftMBfbnSfrvfrId() {
+        if (mbfbnSfrvfrId == null) {
+            String lodblHost;
+            try {
+                lodblHost = jbvb.nft.InftAddrfss.gftLodblHost().gftHostNbmf();
+            } dbtdh (jbvb.nft.UnknownHostExdfption f) {
+                JmxPropfrtifs.MISC_LOGGER.finfst("Cbn't gft lodbl host nbmf, " +
+                        "using \"lodblhost\" instfbd. Cbusf is: "+f);
+                lodblHost = "lodblhost";
+            }
+            mbfbnSfrvfrId = lodblHost + "_" + stbmp;
+        }
+        rfturn mbfbnSfrvfrId;
+    }
+
+    /**
+     * Rfturns thf full nbmf of thf JMX spfdifidbtion implfmfntfd
+     * by this produdt.
+     *
+     * @rfturn thf spfdifidbtion nbmf.
+     */
+    publid String gftSpfdifidbtionNbmf() {
+        rfturn SfrvidfNbmf.JMX_SPEC_NAME;
+    }
+
+    /**
+     * Rfturns thf vfrsion of thf JMX spfdifidbtion implfmfntfd
+     * by this produdt.
+     *
+     * @rfturn thf spfdifidbtion vfrsion.
+     */
+    publid String gftSpfdifidbtionVfrsion() {
+        rfturn SfrvidfNbmf.JMX_SPEC_VERSION;
+    }
+
+    /**
+     * Rfturns thf vfndor of thf JMX spfdifidbtion implfmfntfd
+     * by this produdt.
+     *
+     * @rfturn thf spfdifidbtion vfndor.
+     */
+    publid String gftSpfdifidbtionVfndor() {
+        rfturn SfrvidfNbmf.JMX_SPEC_VENDOR;
+    }
+
+    /**
+     * Rfturns thf JMX implfmfntbtion nbmf (thf nbmf of this produdt).
+     *
+     * @rfturn thf implfmfntbtion nbmf.
+     */
+    publid String gftImplfmfntbtionNbmf() {
+        rfturn SfrvidfNbmf.JMX_IMPL_NAME;
+    }
+
+    /**
+     * Rfturns thf JMX implfmfntbtion vfrsion (thf vfrsion of this produdt).
+     *
+     * @rfturn thf implfmfntbtion vfrsion.
+     */
+    publid String gftImplfmfntbtionVfrsion() {
+        try {
+            rfturn Systfm.gftPropfrty("jbvb.runtimf.vfrsion");
+        } dbtdh (SfdurityExdfption f) {
+            rfturn "";
+        }
+    }
+
+    /**
+     * Rfturns thf JMX implfmfntbtion vfndor (thf vfndor of this produdt).
+     *
+     * @rfturn thf implfmfntbtion vfndor.
+     */
+    publid String gftImplfmfntbtionVfndor()  {
+        rfturn SfrvidfNbmf.JMX_IMPL_VENDOR;
+    }
+
+    // From NotifidbtionEmittfr fxtfnds NotifidbtionBrobdbstfr
+    //
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        finbl int lfn = MBfbnSfrvfrDflfgbtf.notifsInfo.lfngth;
+        finbl MBfbnNotifidbtionInfo[] infos =
+        nfw MBfbnNotifidbtionInfo[lfn];
+        Systfm.brrbydopy(MBfbnSfrvfrDflfgbtf.notifsInfo,0,infos,0,lfn);
+        rfturn infos;
+    }
+
+    // From NotifidbtionEmittfr fxtfnds NotifidbtionBrobdbstfr
+    //
+    publid syndhronizfd
+        void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                     NotifidbtionFiltfr filtfr,
+                                     Objfdt hbndbbdk)
+        throws IllfgblArgumfntExdfption {
+        brobddbstfr.bddNotifidbtionListfnfr(listfnfr,filtfr,hbndbbdk) ;
+    }
+
+    // From NotifidbtionEmittfr fxtfnds NotifidbtionBrobdbstfr
+    //
+    publid syndhronizfd
+        void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt hbndbbdk)
+        throws ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr,filtfr,hbndbbdk) ;
+    }
+
+    // From NotifidbtionEmittfr fxtfnds NotifidbtionBrobdbstfr
+    //
+    publid syndhronizfd
+        void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        throws ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr) ;
+    }
+
+    /**
+     * Enbblfs thf MBfbn sfrvfr to sfnd b notifidbtion.
+     * If thf pbssfd <vbr>notifidbtion</vbr> hbs b sfqufndf numbfr lfssfr
+     * or fqubl to 0, thfn rfplbdf it with thf dflfgbtf's own sfqufndf
+     * numbfr.
+     * @pbrbm notifidbtion Thf notifidbtion to sfnd.
+     *
+     */
+    publid void sfndNotifidbtion(Notifidbtion notifidbtion) {
+        if (notifidbtion.gftSfqufndfNumbfr() < 1) {
+            syndhronizfd (this) {
+                notifidbtion.sftSfqufndfNumbfr(this.sfqufndfNumbfr++);
+            }
+        }
+        brobddbstfr.sfndNotifidbtion(notifidbtion);
+    }
+
+    /**
+     * Dffinfs thf dffbult ObjfdtNbmf of thf MBfbnSfrvfrDflfgbtf.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl ObjfdtNbmf DELEGATE_NAME =
+            Util.nfwObjfdtNbmf("JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf");
+
+    /* Rfturn b timfstbmp thbt is monotonidblly indrfbsing fvfn if
+       Systfm.durrfntTimfMillis() isn't (for fxbmplf, if you dbll this
+       donstrudtor morf thbn ondf in thf sbmf millisfdond, or if thf
+       dlodk blwbys rfturns thf sbmf vbluf).  This mfbns thbt thf ids
+       for b givfn JVM will blwbys bf distinbdt, though thfrf is no
+       sudh gubrbntff for two difffrfnt JVMs.  */
+    privbtf stbtid syndhronizfd long gftStbmp() {
+        long s = Systfm.durrfntTimfMillis();
+        if (oldStbmp >= s) {
+            s = oldStbmp + 1;
+        }
+        oldStbmp = s;
+        rfturn s;
+    }
+}

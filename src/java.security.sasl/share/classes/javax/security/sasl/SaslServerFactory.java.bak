@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.sasl;
+pbdkbgf jbvbx.sfdurity.sbsl;
 
-import java.util.Map;
-import javax.security.auth.callback.CallbackHandler;
+import jbvb.util.Mbp;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
 
 /**
- * An interface for creating instances of {@code SaslServer}.
- * A class that implements this interface
- * must be thread-safe and handle multiple simultaneous
- * requests. It must also have a public constructor that accepts no
- * argument.
+ * An intfrfbdf for drfbting instbndfs of {@dodf SbslSfrvfr}.
+ * A dlbss tibt implfmfnts tiis intfrfbdf
+ * must bf tirfbd-sbff bnd ibndlf multiplf simultbnfous
+ * rfqufsts. It must blso ibvf b publid donstrudtor tibt bddfpts no
+ * brgumfnt.
  *<p>
- * This interface is not normally accessed directly by a server, which will use the
- * {@code Sasl} static methods
- * instead. However, a particular environment may provide and install a
- * new or different {@code SaslServerFactory}.
+ * Tiis intfrfbdf is not normblly bddfssfd dirfdtly by b sfrvfr, wiidi will usf tif
+ * {@dodf Sbsl} stbtid mftiods
+ * instfbd. Howfvfr, b pbrtidulbr fnvironmfnt mby providf bnd instbll b
+ * nfw or difffrfnt {@dodf SbslSfrvfrFbdtory}.
  *
- * @since 1.5
+ * @sindf 1.5
  *
- * @see SaslServer
- * @see Sasl
+ * @sff SbslSfrvfr
+ * @sff Sbsl
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @butior Rosbnnb Lff
+ * @butior Rob Wfltmbn
  */
-public abstract interface SaslServerFactory {
+publid bbstrbdt intfrfbdf SbslSfrvfrFbdtory {
     /**
-     * Creates a {@code SaslServer} using the parameters supplied.
-     * It returns null
-     * if no {@code SaslServer} can be created using the parameters supplied.
-     * Throws {@code SaslException} if it cannot create a {@code SaslServer}
-     * because of an error.
+     * Crfbtfs b {@dodf SbslSfrvfr} using tif pbrbmftfrs supplifd.
+     * It rfturns null
+     * if no {@dodf SbslSfrvfr} dbn bf drfbtfd using tif pbrbmftfrs supplifd.
+     * Tirows {@dodf SbslExdfption} if it dbnnot drfbtf b {@dodf SbslSfrvfr}
+     * bfdbusf of bn frror.
      *
-     * @param mechanism The non-null
-     * IANA-registered name of a SASL mechanism. (e.g. "GSSAPI", "CRAM-MD5").
-     * @param protocol The non-null string name of the protocol for which
-     * the authentication is being performed (e.g., "ldap").
-     * @param serverName The fully qualified host name of the server to
-     * authenticate to, or null if the server is not bound to any specific host
-     * name. If the mechanism does not allow an unbound server, a
-     * {@code SaslException} will be thrown.
-     * @param props The possibly null set of properties used to select the SASL
-     * mechanism and to configure the authentication exchange of the selected
-     * mechanism. See the {@code Sasl} class for a list of standard properties.
-     * Other, possibly mechanism-specific, properties can be included.
-     * Properties not relevant to the selected mechanism are ignored,
-     * including any map entries with non-String keys.
+     * @pbrbm mfdibnism Tif non-null
+     * IANA-rfgistfrfd nbmf of b SASL mfdibnism. (f.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm protodol Tif non-null string nbmf of tif protodol for wiidi
+     * tif butifntidbtion is bfing pfrformfd (f.g., "ldbp").
+     * @pbrbm sfrvfrNbmf Tif fully qublififd iost nbmf of tif sfrvfr to
+     * butifntidbtf to, or null if tif sfrvfr is not bound to bny spfdifid iost
+     * nbmf. If tif mfdibnism dofs not bllow bn unbound sfrvfr, b
+     * {@dodf SbslExdfption} will bf tirown.
+     * @pbrbm props Tif possibly null sft of propfrtifs usfd to sflfdt tif SASL
+     * mfdibnism bnd to donfigurf tif butifntidbtion fxdibngf of tif sflfdtfd
+     * mfdibnism. Sff tif {@dodf Sbsl} dlbss for b list of stbndbrd propfrtifs.
+     * Otifr, possibly mfdibnism-spfdifid, propfrtifs dbn bf indludfd.
+     * Propfrtifs not rflfvbnt to tif sflfdtfd mfdibnism brf ignorfd,
+     * indluding bny mbp fntrifs witi non-String kfys.
      *
-     * @param cbh The possibly null callback handler to used by the SASL
-     * mechanisms to get further information from the application/library
-     * to complete the authentication. For example, a SASL mechanism might
-     * require the authentication ID, password and realm from the caller.
-     * The authentication ID is requested by using a {@code NameCallback}.
-     * The password is requested by using a {@code PasswordCallback}.
-     * The realm is requested by using a {@code RealmChoiceCallback} if there is a list
-     * of realms to choose from, and by using a {@code RealmCallback} if
-     * the realm must be entered.
+     * @pbrbm dbi Tif possibly null dbllbbdk ibndlfr to usfd by tif SASL
+     * mfdibnisms to gft furtifr informbtion from tif bpplidbtion/librbry
+     * to domplftf tif butifntidbtion. For fxbmplf, b SASL mfdibnism migit
+     * rfquirf tif butifntidbtion ID, pbssword bnd rfblm from tif dbllfr.
+     * Tif butifntidbtion ID is rfqufstfd by using b {@dodf NbmfCbllbbdk}.
+     * Tif pbssword is rfqufstfd by using b {@dodf PbsswordCbllbbdk}.
+     * Tif rfblm is rfqufstfd by using b {@dodf RfblmCioidfCbllbbdk} if tifrf is b list
+     * of rfblms to dioosf from, bnd by using b {@dodf RfblmCbllbbdk} if
+     * tif rfblm must bf fntfrfd.
      *
-     *@return A possibly null {@code SaslServer} created using the parameters
-     * supplied. If null, this factory cannot produce a {@code SaslServer}
-     * using the parameters supplied.
-     *@exception SaslException If cannot create a {@code SaslServer} because
-     * of an error.
+     *@rfturn A possibly null {@dodf SbslSfrvfr} drfbtfd using tif pbrbmftfrs
+     * supplifd. If null, tiis fbdtory dbnnot produdf b {@dodf SbslSfrvfr}
+     * using tif pbrbmftfrs supplifd.
+     *@fxdfption SbslExdfption If dbnnot drfbtf b {@dodf SbslSfrvfr} bfdbusf
+     * of bn frror.
      */
-    public abstract SaslServer createSaslServer(
-        String mechanism,
-        String protocol,
-        String serverName,
-        Map<String,?> props,
-        CallbackHandler cbh) throws SaslException;
+    publid bbstrbdt SbslSfrvfr drfbtfSbslSfrvfr(
+        String mfdibnism,
+        String protodol,
+        String sfrvfrNbmf,
+        Mbp<String,?> props,
+        CbllbbdkHbndlfr dbi) tirows SbslExdfption;
 
     /**
-     * Returns an array of names of mechanisms that match the specified
-     * mechanism selection policies.
-     * @param props The possibly null set of properties used to specify the
-     * security policy of the SASL mechanisms. For example, if {@code props}
-     * contains the {@code Sasl.POLICY_NOPLAINTEXT} property with the value
-     * {@code "true"}, then the factory must not return any SASL mechanisms
-     * that are susceptible to simple plain passive attacks.
-     * See the {@code Sasl} class for a complete list of policy properties.
-     * Non-policy related properties, if present in {@code props}, are ignored,
-     * including any map entries with non-String keys.
-     * @return A non-null array containing a IANA-registered SASL mechanism names.
+     * Rfturns bn brrby of nbmfs of mfdibnisms tibt mbtdi tif spfdififd
+     * mfdibnism sflfdtion polidifs.
+     * @pbrbm props Tif possibly null sft of propfrtifs usfd to spfdify tif
+     * sfdurity polidy of tif SASL mfdibnisms. For fxbmplf, if {@dodf props}
+     * dontbins tif {@dodf Sbsl.POLICY_NOPLAINTEXT} propfrty witi tif vbluf
+     * {@dodf "truf"}, tifn tif fbdtory must not rfturn bny SASL mfdibnisms
+     * tibt brf susdfptiblf to simplf plbin pbssivf bttbdks.
+     * Sff tif {@dodf Sbsl} dlbss for b domplftf list of polidy propfrtifs.
+     * Non-polidy rflbtfd propfrtifs, if prfsfnt in {@dodf props}, brf ignorfd,
+     * indluding bny mbp fntrifs witi non-String kfys.
+     * @rfturn A non-null brrby dontbining b IANA-rfgistfrfd SASL mfdibnism nbmfs.
      */
-    public abstract String[] getMechanismNames(Map<String,?> props);
+    publid bbstrbdt String[] gftMfdibnismNbmfs(Mbp<String,?> props);
 }

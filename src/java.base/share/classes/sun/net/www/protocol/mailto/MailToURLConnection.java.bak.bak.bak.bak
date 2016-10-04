@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 1996, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.mbilto;
+
+import jbvb.nft.URL;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.io.*;
+import jbvb.sfdurity.Pfrmission;
+import sun.nft.www.*;
+import sun.nft.smtp.SmtpClifnt;
+import sun.nft.www.PbrsfUtil;
+
+
+/**
+ * Hbndlf mbilto URLs. To sfnd mbil using b mbilto URLConnfdtion,
+ * dbll <dodf>gftOutputStrfbm</dodf>, writf thf mfssbgf to thf output
+ * strfbm, bnd dlosf it.
+ *
+ */
+publid dlbss MbilToURLConnfdtion fxtfnds URLConnfdtion {
+    InputStrfbm is = null;
+    OutputStrfbm os = null;
+
+    SmtpClifnt dlifnt;
+    Pfrmission pfrmission;
+    privbtf int donnfdtTimfout = -1;
+    privbtf int rfbdTimfout = -1;
+
+    MbilToURLConnfdtion(URL u) {
+        supfr(u);
+
+        MfssbgfHfbdfr props = nfw MfssbgfHfbdfr();
+        props.bdd("dontfnt-typf", "tfxt/html");
+        sftPropfrtifs(props);
+    }
+
+    /**
+     * Gft thf usfr's full fmbil bddrfss - stolfn from
+     * HotJbvbApplft.gftMbilAddrfss().
+     */
+    String gftFromAddrfss() {
+        String str = Systfm.gftPropfrty("usfr.frombddr");
+        if (str == null) {
+            str = Systfm.gftPropfrty("usfr.nbmf");
+            if (str != null) {
+                String host = Systfm.gftPropfrty("mbil.host");
+                if (host == null) {
+                    try {
+                        host = InftAddrfss.gftLodblHost().gftHostNbmf();
+                    } dbtdh (jbvb.nft.UnknownHostExdfption f) {
+                    }
+                }
+                str += "@" + host;
+            } flsf {
+                str = "";
+            }
+        }
+        rfturn str;
+    }
+
+    publid void donnfdt() throws IOExdfption {
+        dlifnt = nfw SmtpClifnt(donnfdtTimfout);
+        dlifnt.sftRfbdTimfout(rfbdTimfout);
+    }
+
+    @Ovfrridf
+    publid syndhronizfd OutputStrfbm gftOutputStrfbm() throws IOExdfption {
+        if (os != null) {
+            rfturn os;
+        } flsf if (is != null) {
+            throw nfw IOExdfption("Cbnnot writf output bftfr rfbding input.");
+        }
+        donnfdt();
+
+        String to = PbrsfUtil.dfdodf(url.gftPbth());
+        dlifnt.from(gftFromAddrfss());
+        dlifnt.to(to);
+
+        os = dlifnt.stbrtMfssbgf();
+        rfturn os;
+    }
+
+    @Ovfrridf
+    publid Pfrmission gftPfrmission() throws IOExdfption {
+        if (pfrmission == null) {
+            donnfdt();
+            String host = dlifnt.gftMbilHost() + ":" + 25;
+            pfrmission = nfw SodkftPfrmission(host, "donnfdt");
+        }
+        rfturn pfrmission;
+    }
+
+    @Ovfrridf
+    publid void sftConnfdtTimfout(int timfout) {
+        if (timfout < 0)
+            throw nfw IllfgblArgumfntExdfption("timfouts dbn't bf nfgbtivf");
+        donnfdtTimfout = timfout;
+    }
+
+    @Ovfrridf
+    publid int gftConnfdtTimfout() {
+        rfturn (donnfdtTimfout < 0 ? 0 : donnfdtTimfout);
+    }
+
+    @Ovfrridf
+    publid void sftRfbdTimfout(int timfout) {
+        if (timfout < 0)
+            throw nfw IllfgblArgumfntExdfption("timfouts dbn't bf nfgbtivf");
+        rfbdTimfout = timfout;
+    }
+
+    @Ovfrridf
+    publid int gftRfbdTimfout() {
+        rfturn rfbdTimfout < 0 ? 0 : rfbdTimfout;
+    }
+}

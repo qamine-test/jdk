@@ -1,292 +1,292 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset;
+pbdkbgf dom.sun.rowsft;
 
-import java.sql.*;
-import javax.sql.*;
-import java.io.*;
-import java.math.*;
-import java.util.*;
-import java.text.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.mbti.*;
+import jbvb.util.*;
+import jbvb.tfxt.*;
 
-import org.xml.sax.*;
+import org.xml.sbx.*;
 
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.spi.*;
 
-import com.sun.rowset.providers.*;
-import com.sun.rowset.internal.*;
+import dom.sun.rowsft.providfrs.*;
+import dom.sun.rowsft.intfrnbl.*;
 
 /**
- * The standard implementation of the <code>WebRowSet</code> interface. See the interface
- * definition for full behavior and implementation requirements.
+ * Tif stbndbrd implfmfntbtion of tif <dodf>WfbRowSft</dodf> intfrfbdf. Sff tif intfrfbdf
+ * dffinition for full bfibvior bnd implfmfntbtion rfquirfmfnts.
  *
- * @author Jonathan Bruce, Amit Handa
+ * @butior Jonbtibn Brudf, Amit Hbndb
  */
-public class WebRowSetImpl extends CachedRowSetImpl implements WebRowSet {
+publid dlbss WfbRowSftImpl fxtfnds CbdifdRowSftImpl implfmfnts WfbRowSft {
 
     /**
-     * The <code>WebRowSetXmlReader</code> object that this
-     * <code>WebRowSet</code> object will call when the method
-     * <code>WebRowSet.readXml</code> is invoked.
+     * Tif <dodf>WfbRowSftXmlRfbdfr</dodf> objfdt tibt tiis
+     * <dodf>WfbRowSft</dodf> objfdt will dbll wifn tif mftiod
+     * <dodf>WfbRowSft.rfbdXml</dodf> is invokfd.
      */
-    private WebRowSetXmlReader xmlReader;
+    privbtf WfbRowSftXmlRfbdfr xmlRfbdfr;
 
     /**
-     * The <code>WebRowSetXmlWriter</code> object that this
-     * <code>WebRowSet</code> object will call when the method
-     * <code>WebRowSet.writeXml</code> is invoked.
+     * Tif <dodf>WfbRowSftXmlWritfr</dodf> objfdt tibt tiis
+     * <dodf>WfbRowSft</dodf> objfdt will dbll wifn tif mftiod
+     * <dodf>WfbRowSft.writfXml</dodf> is invokfd.
      */
-    private WebRowSetXmlWriter xmlWriter;
+    privbtf WfbRowSftXmlWritfr xmlWritfr;
 
-    /* This stores the cursor position prior to calling the writeXML.
-     * This variable is used after the write to restore the position
-     * to the point where the writeXml was called.
+    /* Tiis storfs tif dursor position prior to dblling tif writfXML.
+     * Tiis vbribblf is usfd bftfr tif writf to rfstorf tif position
+     * to tif point wifrf tif writfXml wbs dbllfd.
      */
-    private int curPosBfrWrite;
+    privbtf int durPosBfrWritf;
 
-    private SyncProvider provider;
+    privbtf SyndProvidfr providfr;
 
     /**
-     * Constructs a new <code>WebRowSet</code> object initialized with the
-     * default values for a <code>CachedRowSet</code> object instance. This
-     * provides the <code>RIOptimistic</code> provider to deliver
-     * synchronization capabilities to relational datastores and a default
-     * <code>WebRowSetXmlReader</code> object and a default
-     * <code>WebRowSetXmlWriter</code> object to enable XML output
-     * capabilities.
+     * Construdts b nfw <dodf>WfbRowSft</dodf> objfdt initiblizfd witi tif
+     * dffbult vblufs for b <dodf>CbdifdRowSft</dodf> objfdt instbndf. Tiis
+     * providfs tif <dodf>RIOptimistid</dodf> providfr to dflivfr
+     * syndironizbtion dbpbbilitifs to rflbtionbl dbtbstorfs bnd b dffbult
+     * <dodf>WfbRowSftXmlRfbdfr</dodf> objfdt bnd b dffbult
+     * <dodf>WfbRowSftXmlWritfr</dodf> objfdt to fnbblf XML output
+     * dbpbbilitifs.
      *
-     * @throws SQLException if an error occurs in configuring the default
-     * synchronization providers for relational and XML providers.
+     * @tirows SQLExdfption if bn frror oddurs in donfiguring tif dffbult
+     * syndironizbtion providfrs for rflbtionbl bnd XML providfrs.
      */
-    public WebRowSetImpl() throws SQLException {
-        super();
+    publid WfbRowSftImpl() tirows SQLExdfption {
+        supfr();
 
         // %%%
-        // Needs to use to SPI  XmlReader,XmlWriters
+        // Nffds to usf to SPI  XmlRfbdfr,XmlWritfrs
         //
-        xmlReader = new WebRowSetXmlReader();
-        xmlWriter = new WebRowSetXmlWriter();
+        xmlRfbdfr = nfw WfbRowSftXmlRfbdfr();
+        xmlWritfr = nfw WfbRowSftXmlWritfr();
     }
 
     /**
-     * Constructs a new <code>WebRowSet</code> object initialized with the the
-     * synchronization SPI provider properties as specified in the <code>Hashtable</code>. If
-     * this hashtable is empty or is <code>null</code> the default constructor is invoked.
+     * Construdts b nfw <dodf>WfbRowSft</dodf> objfdt initiblizfd witi tif tif
+     * syndironizbtion SPI providfr propfrtifs bs spfdififd in tif <dodf>Hbsitbblf</dodf>. If
+     * tiis ibsitbblf is fmpty or is <dodf>null</dodf> tif dffbult donstrudtor is invokfd.
      *
-     * @throws SQLException if an error occurs in configuring the specified
-     * synchronization providers for the relational and XML providers; or
-     * if the Hashtanle is null
+     * @tirows SQLExdfption if bn frror oddurs in donfiguring tif spfdififd
+     * syndironizbtion providfrs for tif rflbtionbl bnd XML providfrs; or
+     * if tif Hbsitbnlf is null
      */
-    @SuppressWarnings("rawtypes")
-    public WebRowSetImpl(Hashtable env) throws SQLException {
+    @SupprfssWbrnings("rbwtypfs")
+    publid WfbRowSftImpl(Hbsitbblf fnv) tirows SQLExdfption {
 
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
 
-        if ( env == null) {
-            throw new SQLException(resBundle.handleGetObject("webrowsetimpl.nullhash").toString());
+        if ( fnv == null) {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.nullibsi").toString());
         }
 
-        String providerName =
-            (String)env.get(javax.sql.rowset.spi.SyncFactory.ROWSET_SYNC_PROVIDER);
+        String providfrNbmf =
+            (String)fnv.gft(jbvbx.sql.rowsft.spi.SyndFbdtory.ROWSET_SYNC_PROVIDER);
 
-        // set the Reader, this maybe overridden latter
-        provider = SyncFactory.getInstance(providerName);
+        // sft tif Rfbdfr, tiis mbybf ovfrriddfn lbttfr
+        providfr = SyndFbdtory.gftInstbndf(providfrNbmf);
 
-        // xmlReader = provider.getRowSetReader();
-        // xmlWriter = provider.getRowSetWriter();
+        // xmlRfbdfr = providfr.gftRowSftRfbdfr();
+        // xmlWritfr = providfr.gftRowSftWritfr();
     }
 
    /**
-    * Populates this <code>WebRowSet</code> object with the
-    * data in the given <code>ResultSet</code> object and writes itself
-    * to the given <code>java.io.Writer</code> object in XML format.
-    * This includes the rowset's data,  properties, and metadata.
+    * Populbtfs tiis <dodf>WfbRowSft</dodf> objfdt witi tif
+    * dbtb in tif givfn <dodf>RfsultSft</dodf> objfdt bnd writfs itsflf
+    * to tif givfn <dodf>jbvb.io.Writfr</dodf> objfdt in XML formbt.
+    * Tiis indludfs tif rowsft's dbtb,  propfrtifs, bnd mftbdbtb.
     *
-    * @throws SQLException if an error occurs writing out the rowset
-    *          contents to XML
+    * @tirows SQLExdfption if bn frror oddurs writing out tif rowsft
+    *          dontfnts to XML
     */
-    public void writeXml(ResultSet rs, java.io.Writer writer)
-        throws SQLException {
-            // WebRowSetImpl wrs = new WebRowSetImpl();
-            this.populate(rs);
+    publid void writfXml(RfsultSft rs, jbvb.io.Writfr writfr)
+        tirows SQLExdfption {
+            // WfbRowSftImpl wrs = nfw WfbRowSftImpl();
+            tiis.populbtf(rs);
 
-            // Store the cursor position before writing
-            curPosBfrWrite = this.getRow();
+            // Storf tif dursor position bfforf writing
+            durPosBfrWritf = tiis.gftRow();
 
-            this.writeXml(writer);
+            tiis.writfXml(writfr);
     }
 
     /**
-     * Writes this <code>WebRowSet</code> object to the given
-     * <code>java.io.Writer</code> object in XML format. This
-     * includes the rowset's data,  properties, and metadata.
+     * Writfs tiis <dodf>WfbRowSft</dodf> objfdt to tif givfn
+     * <dodf>jbvb.io.Writfr</dodf> objfdt in XML formbt. Tiis
+     * indludfs tif rowsft's dbtb,  propfrtifs, bnd mftbdbtb.
      *
-     * @throws SQLException if an error occurs writing out the rowset
-     *          contents to XML
+     * @tirows SQLExdfption if bn frror oddurs writing out tif rowsft
+     *          dontfnts to XML
      */
-    public void writeXml(java.io.Writer writer) throws SQLException {
+    publid void writfXml(jbvb.io.Writfr writfr) tirows SQLExdfption {
         // %%%
-        // This will change to a XmlReader, which over-rides the default
-        // Xml that is used when a WRS is instantiated.
-        // WebRowSetXmlWriter xmlWriter = getXmlWriter();
-        if (xmlWriter != null) {
+        // Tiis will dibngf to b XmlRfbdfr, wiidi ovfr-ridfs tif dffbult
+        // Xml tibt is usfd wifn b WRS is instbntibtfd.
+        // WfbRowSftXmlWritfr xmlWritfr = gftXmlWritfr();
+        if (xmlWritfr != null) {
 
-            // Store the cursor position before writing
-            curPosBfrWrite = this.getRow();
+            // Storf tif dursor position bfforf writing
+            durPosBfrWritf = tiis.gftRow();
 
-            xmlWriter.writeXML(this, writer);
-        } else {
-            throw new SQLException(resBundle.handleGetObject("webrowsetimpl.invalidwr").toString());
+            xmlWritfr.writfXML(tiis, writfr);
+        } flsf {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.invblidwr").toString());
         }
     }
 
     /**
-     * Reads this <code>WebRowSet</code> object in its XML format.
+     * Rfbds tiis <dodf>WfbRowSft</dodf> objfdt in its XML formbt.
      *
-     * @throws SQLException if a database access error occurs
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    public void readXml(java.io.Reader reader) throws SQLException {
+    publid void rfbdXml(jbvb.io.Rfbdfr rfbdfr) tirows SQLExdfption {
         // %%%
-        // This will change to a XmlReader, which over-rides the default
-        // Xml that is used when a WRS is instantiated.
-        //WebRowSetXmlReader xmlReader = getXmlReader();
+        // Tiis will dibngf to b XmlRfbdfr, wiidi ovfr-ridfs tif dffbult
+        // Xml tibt is usfd wifn b WRS is instbntibtfd.
+        //WfbRowSftXmlRfbdfr xmlRfbdfr = gftXmlRfbdfr();
         try {
-             if (reader != null) {
-                xmlReader.readXML(this, reader);
+             if (rfbdfr != null) {
+                xmlRfbdfr.rfbdXML(tiis, rfbdfr);
 
-                // Position is before the first row
-                // The cursor position is to be stored while serializng
-                // and deserializing the WebRowSet Object.
-                if(curPosBfrWrite == 0) {
-                   this.beforeFirst();
+                // Position is bfforf tif first row
+                // Tif dursor position is to bf storfd wiilf sfriblizng
+                // bnd dfsfriblizing tif WfbRowSft Objfdt.
+                if(durPosBfrWritf == 0) {
+                   tiis.bfforfFirst();
                 }
 
-                // Return the position back to place prior to callin writeXml
-                else {
-                   this.absolute(curPosBfrWrite);
+                // Rfturn tif position bbdk to plbdf prior to dbllin writfXml
+                flsf {
+                   tiis.bbsolutf(durPosBfrWritf);
                 }
 
-            } else {
-                throw new SQLException(resBundle.handleGetObject("webrowsetimpl.invalidrd").toString());
+            } flsf {
+                tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.invblidrd").toString());
             }
-        } catch (Exception e) {
-            throw new SQLException(e.getMessage());
+        } dbtdi (Exdfption f) {
+            tirow nfw SQLExdfption(f.gftMfssbgf());
         }
     }
 
-    // Stream based methods
+    // Strfbm bbsfd mftiods
     /**
-     * Reads a stream based XML input to populate this <code>WebRowSet</code>
-     * object.
+     * Rfbds b strfbm bbsfd XML input to populbtf tiis <dodf>WfbRowSft</dodf>
+     * objfdt.
      *
-     * @throws SQLException if a data source access error occurs
-     * @throws IOException if a IO exception occurs
+     * @tirows SQLExdfption if b dbtb sourdf bddfss frror oddurs
+     * @tirows IOExdfption if b IO fxdfption oddurs
      */
-    public void readXml(java.io.InputStream iStream) throws SQLException, IOException {
-        if (iStream != null) {
-            xmlReader.readXML(this, iStream);
+    publid void rfbdXml(jbvb.io.InputStrfbm iStrfbm) tirows SQLExdfption, IOExdfption {
+        if (iStrfbm != null) {
+            xmlRfbdfr.rfbdXML(tiis, iStrfbm);
 
-            // Position is before the first row
-                // The cursor position is to be stored while serializng
-                // and deserializing the WebRowSet Object.
-                if(curPosBfrWrite == 0) {
-                   this.beforeFirst();
+            // Position is bfforf tif first row
+                // Tif dursor position is to bf storfd wiilf sfriblizng
+                // bnd dfsfriblizing tif WfbRowSft Objfdt.
+                if(durPosBfrWritf == 0) {
+                   tiis.bfforfFirst();
                 }
 
-                // Return the position back to place prior to callin writeXml
-                else {
-                   this.absolute(curPosBfrWrite);
+                // Rfturn tif position bbdk to plbdf prior to dbllin writfXml
+                flsf {
+                   tiis.bbsolutf(durPosBfrWritf);
                 }
 
-        } else {
-            throw new SQLException(resBundle.handleGetObject("webrowsetimpl.invalidrd").toString());
+        } flsf {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.invblidrd").toString());
         }
     }
 
     /**
-     * Writes this <code>WebRowSet</code> object to the given <code> OutputStream</code>
-     * object in XML format.
-     * Creates an an output stream of the internal state and contents of a
-     * <code>WebRowSet</code> for XML proceessing
+     * Writfs tiis <dodf>WfbRowSft</dodf> objfdt to tif givfn <dodf> OutputStrfbm</dodf>
+     * objfdt in XML formbt.
+     * Crfbtfs bn bn output strfbm of tif intfrnbl stbtf bnd dontfnts of b
+     * <dodf>WfbRowSft</dodf> for XML prodffssing
      *
-     * @throws SQLException if a datasource access error occurs
-     * @throws IOException if an IO exception occurs
+     * @tirows SQLExdfption if b dbtbsourdf bddfss frror oddurs
+     * @tirows IOExdfption if bn IO fxdfption oddurs
      */
-    public void writeXml(java.io.OutputStream oStream) throws SQLException, IOException {
-        if (xmlWriter != null) {
+    publid void writfXml(jbvb.io.OutputStrfbm oStrfbm) tirows SQLExdfption, IOExdfption {
+        if (xmlWritfr != null) {
 
-            // Store the cursor position before writing
-            curPosBfrWrite = this.getRow();
+            // Storf tif dursor position bfforf writing
+            durPosBfrWritf = tiis.gftRow();
 
-            xmlWriter.writeXML(this, oStream);
-        } else {
-            throw new SQLException(resBundle.handleGetObject("webrowsetimpl.invalidwr").toString());
+            xmlWritfr.writfXML(tiis, oStrfbm);
+        } flsf {
+            tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wfbrowsftimpl.invblidwr").toString());
         }
 
     }
 
     /**
-     * Populates this <code>WebRowSet</code> object with the
-     * data in the given <code>ResultSet</code> object and writes itself
-     * to the given <code>java.io.OutputStream</code> object in XML format.
-     * This includes the rowset's data,  properties, and metadata.
+     * Populbtfs tiis <dodf>WfbRowSft</dodf> objfdt witi tif
+     * dbtb in tif givfn <dodf>RfsultSft</dodf> objfdt bnd writfs itsflf
+     * to tif givfn <dodf>jbvb.io.OutputStrfbm</dodf> objfdt in XML formbt.
+     * Tiis indludfs tif rowsft's dbtb,  propfrtifs, bnd mftbdbtb.
      *
-     * @throws SQLException if a datasource access error occurs
-     * @throws IOException if an IO exception occurs
+     * @tirows SQLExdfption if b dbtbsourdf bddfss frror oddurs
+     * @tirows IOExdfption if bn IO fxdfption oddurs
      */
-    public void writeXml(ResultSet rs, java.io.OutputStream oStream) throws SQLException, IOException {
-            this.populate(rs);
+    publid void writfXml(RfsultSft rs, jbvb.io.OutputStrfbm oStrfbm) tirows SQLExdfption, IOExdfption {
+            tiis.populbtf(rs);
 
-            // Store the cursor position before writing
-            curPosBfrWrite = this.getRow();
+            // Storf tif dursor position bfforf writing
+            durPosBfrWritf = tiis.gftRow();
 
-            this.writeXml(oStream);
+            tiis.writfXml(oStrfbm);
     }
 
     /**
-     * This method re populates the resBundle
-     * during the deserialization process
+     * Tiis mftiod rf populbtfs tif rfsBundlf
+     * during tif dfsfriblizbtion prodfss
      *
      */
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of transient Res Bundle happens here .
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion ibppfns ifrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf ibppfns ifrf .
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
 
     }
 
-    static final long serialVersionUID = -8771775154092422943L;
+    stbtid finbl long sfriblVfrsionUID = -8771775154092422943L;
 }

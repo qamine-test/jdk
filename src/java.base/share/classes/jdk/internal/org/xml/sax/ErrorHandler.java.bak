@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// SAX error handler.
-// http://www.saxproject.org
-// No warranty; no copyright -- use this as you will.
-// $Id: ErrorHandler.java,v 1.2 2004/11/03 22:44:52 jsuttor Exp $
+// SAX frror ibndlfr.
+// ittp://www.sbxprojfdt.org
+// No wbrrbnty; no dopyrigit -- usf tiis bs you will.
+// $Id: ErrorHbndlfr.jbvb,v 1.2 2004/11/03 22:44:52 jsuttor Exp $
 
-package jdk.internal.org.xml.sax;
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
 
 
 /**
- * Basic interface for SAX error handlers.
+ * Bbsid intfrfbdf for SAX frror ibndlfrs.
  *
- * <blockquote>
- * <em>This module, both source code and documentation, is in the
- * Public Domain, and comes with <strong>NO WARRANTY</strong>.</em>
- * See <a href='http://www.saxproject.org'>http://www.saxproject.org</a>
- * for further information.
- * </blockquote>
+ * <blodkquotf>
+ * <fm>Tiis modulf, boti sourdf dodf bnd dodumfntbtion, is in tif
+ * Publid Dombin, bnd domfs witi <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b irff='ittp://www.sbxprojfdt.org'>ittp://www.sbxprojfdt.org</b>
+ * for furtifr informbtion.
+ * </blodkquotf>
  *
- * <p>If a SAX application needs to implement customized error
- * handling, it must implement this interface and then register an
- * instance with the XML reader using the
- * {@link org.xml.sax.XMLReader#setErrorHandler setErrorHandler}
- * method.  The parser will then report all errors and warnings
- * through this interface.</p>
+ * <p>If b SAX bpplidbtion nffds to implfmfnt dustomizfd frror
+ * ibndling, it must implfmfnt tiis intfrfbdf bnd tifn rfgistfr bn
+ * instbndf witi tif XML rfbdfr using tif
+ * {@link org.xml.sbx.XMLRfbdfr#sftErrorHbndlfr sftErrorHbndlfr}
+ * mftiod.  Tif pbrsfr will tifn rfport bll frrors bnd wbrnings
+ * tirougi tiis intfrfbdf.</p>
  *
- * <p><strong>WARNING:</strong> If an application does <em>not</em>
- * register an ErrorHandler, XML parsing errors will go unreported,
- * except that <em>SAXParseException</em>s will be thrown for fatal errors.
- * In order to detect validity errors, an ErrorHandler that does something
- * with {@link #error error()} calls must be registered.</p>
+ * <p><strong>WARNING:</strong> If bn bpplidbtion dofs <fm>not</fm>
+ * rfgistfr bn ErrorHbndlfr, XML pbrsing frrors will go unrfportfd,
+ * fxdfpt tibt <fm>SAXPbrsfExdfption</fm>s will bf tirown for fbtbl frrors.
+ * In ordfr to dftfdt vblidity frrors, bn ErrorHbndlfr tibt dofs somftiing
+ * witi {@link #frror frror()} dblls must bf rfgistfrfd.</p>
  *
- * <p>For XML processing errors, a SAX driver must use this interface
- * in preference to throwing an exception: it is up to the application
- * to decide whether to throw an exception for different types of
- * errors and warnings.  Note, however, that there is no requirement that
- * the parser continue to report additional errors after a call to
- * {@link #fatalError fatalError}.  In other words, a SAX driver class
- * may throw an exception after reporting any fatalError.
- * Also parsers may throw appropriate exceptions for non-XML errors.
- * For example, {@link XMLReader#parse XMLReader.parse()} would throw
- * an IOException for errors accessing entities or the document.</p>
+ * <p>For XML prodfssing frrors, b SAX drivfr must usf tiis intfrfbdf
+ * in prfffrfndf to tirowing bn fxdfption: it is up to tif bpplidbtion
+ * to dfdidf wiftifr to tirow bn fxdfption for difffrfnt typfs of
+ * frrors bnd wbrnings.  Notf, iowfvfr, tibt tifrf is no rfquirfmfnt tibt
+ * tif pbrsfr dontinuf to rfport bdditionbl frrors bftfr b dbll to
+ * {@link #fbtblError fbtblError}.  In otifr words, b SAX drivfr dlbss
+ * mby tirow bn fxdfption bftfr rfporting bny fbtblError.
+ * Also pbrsfrs mby tirow bppropribtf fxdfptions for non-XML frrors.
+ * For fxbmplf, {@link XMLRfbdfr#pbrsf XMLRfbdfr.pbrsf()} would tirow
+ * bn IOExdfption for frrors bddfssing fntitifs or tif dodumfnt.</p>
  *
- * @since SAX 1.0
- * @author David Megginson
- * @see org.xml.sax.XMLReader#setErrorHandler
- * @see org.xml.sax.SAXParseException
+ * @sindf SAX 1.0
+ * @butior Dbvid Mfgginson
+ * @sff org.xml.sbx.XMLRfbdfr#sftErrorHbndlfr
+ * @sff org.xml.sbx.SAXPbrsfExdfption
  */
-public interface ErrorHandler {
+publid intfrfbdf ErrorHbndlfr {
 
 
     /**
-     * Receive notification of a warning.
+     * Rfdfivf notifidbtion of b wbrning.
      *
-     * <p>SAX parsers will use this method to report conditions that
-     * are not errors or fatal errors as defined by the XML
-     * recommendation.  The default behaviour is to take no
-     * action.</p>
+     * <p>SAX pbrsfrs will usf tiis mftiod to rfport donditions tibt
+     * brf not frrors or fbtbl frrors bs dffinfd by tif XML
+     * rfdommfndbtion.  Tif dffbult bfibviour is to tbkf no
+     * bdtion.</p>
      *
-     * <p>The SAX parser must continue to provide normal parsing events
-     * after invoking this method: it should still be possible for the
-     * application to process the document through to the end.</p>
+     * <p>Tif SAX pbrsfr must dontinuf to providf normbl pbrsing fvfnts
+     * bftfr invoking tiis mftiod: it siould still bf possiblf for tif
+     * bpplidbtion to prodfss tif dodumfnt tirougi to tif fnd.</p>
      *
-     * <p>Filters may use this method to report other, non-XML warnings
-     * as well.</p>
+     * <p>Filtfrs mby usf tiis mftiod to rfport otifr, non-XML wbrnings
+     * bs wfll.</p>
      *
-     * @param exception The warning information encapsulated in a
-     *                  SAX parse exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm fxdfption Tif wbrning informbtion fndbpsulbtfd in b
+     *                  SAX pbrsf fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.SAXPbrsfExdfption
      */
-    public abstract void warning (SAXParseException exception)
-        throws SAXException;
+    publid bbstrbdt void wbrning (SAXPbrsfExdfption fxdfption)
+        tirows SAXExdfption;
 
 
     /**
-     * Receive notification of a recoverable error.
+     * Rfdfivf notifidbtion of b rfdovfrbblf frror.
      *
-     * <p>This corresponds to the definition of "error" in section 1.2
-     * of the W3C XML 1.0 Recommendation.  For example, a validating
-     * parser would use this callback to report the violation of a
-     * validity constraint.  The default behaviour is to take no
-     * action.</p>
+     * <p>Tiis dorrfsponds to tif dffinition of "frror" in sfdtion 1.2
+     * of tif W3C XML 1.0 Rfdommfndbtion.  For fxbmplf, b vblidbting
+     * pbrsfr would usf tiis dbllbbdk to rfport tif violbtion of b
+     * vblidity donstrbint.  Tif dffbult bfibviour is to tbkf no
+     * bdtion.</p>
      *
-     * <p>The SAX parser must continue to provide normal parsing
-     * events after invoking this method: it should still be possible
-     * for the application to process the document through to the end.
-     * If the application cannot do so, then the parser should report
-     * a fatal error even if the XML recommendation does not require
+     * <p>Tif SAX pbrsfr must dontinuf to providf normbl pbrsing
+     * fvfnts bftfr invoking tiis mftiod: it siould still bf possiblf
+     * for tif bpplidbtion to prodfss tif dodumfnt tirougi to tif fnd.
+     * If tif bpplidbtion dbnnot do so, tifn tif pbrsfr siould rfport
+     * b fbtbl frror fvfn if tif XML rfdommfndbtion dofs not rfquirf
      * it to do so.</p>
      *
-     * <p>Filters may use this method to report other, non-XML errors
-     * as well.</p>
+     * <p>Filtfrs mby usf tiis mftiod to rfport otifr, non-XML frrors
+     * bs wfll.</p>
      *
-     * @param exception The error information encapsulated in a
-     *                  SAX parse exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm fxdfption Tif frror informbtion fndbpsulbtfd in b
+     *                  SAX pbrsf fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.SAXPbrsfExdfption
      */
-    public abstract void error (SAXParseException exception)
-        throws SAXException;
+    publid bbstrbdt void frror (SAXPbrsfExdfption fxdfption)
+        tirows SAXExdfption;
 
 
     /**
-     * Receive notification of a non-recoverable error.
+     * Rfdfivf notifidbtion of b non-rfdovfrbblf frror.
      *
-     * <p><strong>There is an apparent contradiction between the
-     * documentation for this method and the documentation for {@link
-     * org.xml.sax.ContentHandler#endDocument}.  Until this ambiguity
-     * is resolved in a future major release, clients should make no
-     * assumptions about whether endDocument() will or will not be
-     * invoked when the parser has reported a fatalError() or thrown
-     * an exception.</strong></p>
+     * <p><strong>Tifrf is bn bppbrfnt dontrbdidtion bftwffn tif
+     * dodumfntbtion for tiis mftiod bnd tif dodumfntbtion for {@link
+     * org.xml.sbx.ContfntHbndlfr#fndDodumfnt}.  Until tiis bmbiguity
+     * is rfsolvfd in b futurf mbjor rflfbsf, dlifnts siould mbkf no
+     * bssumptions bbout wiftifr fndDodumfnt() will or will not bf
+     * invokfd wifn tif pbrsfr ibs rfportfd b fbtblError() or tirown
+     * bn fxdfption.</strong></p>
      *
-     * <p>This corresponds to the definition of "fatal error" in
-     * section 1.2 of the W3C XML 1.0 Recommendation.  For example, a
-     * parser would use this callback to report the violation of a
-     * well-formedness constraint.</p>
+     * <p>Tiis dorrfsponds to tif dffinition of "fbtbl frror" in
+     * sfdtion 1.2 of tif W3C XML 1.0 Rfdommfndbtion.  For fxbmplf, b
+     * pbrsfr would usf tiis dbllbbdk to rfport tif violbtion of b
+     * wfll-formfdnfss donstrbint.</p>
      *
-     * <p>The application must assume that the document is unusable
-     * after the parser has invoked this method, and should continue
-     * (if at all) only for the sake of collecting additional error
-     * messages: in fact, SAX parsers are free to stop reporting any
-     * other events once this method has been invoked.</p>
+     * <p>Tif bpplidbtion must bssumf tibt tif dodumfnt is unusbblf
+     * bftfr tif pbrsfr ibs invokfd tiis mftiod, bnd siould dontinuf
+     * (if bt bll) only for tif sbkf of dollfdting bdditionbl frror
+     * mfssbgfs: in fbdt, SAX pbrsfrs brf frff to stop rfporting bny
+     * otifr fvfnts ondf tiis mftiod ibs bffn invokfd.</p>
      *
-     * @param exception The error information encapsulated in a
-     *                  SAX parse exception.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
-     * @see org.xml.sax.SAXParseException
+     * @pbrbm fxdfption Tif frror informbtion fndbpsulbtfd in b
+     *                  SAX pbrsf fxdfption.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnotifr fxdfption.
+     * @sff org.xml.sbx.SAXPbrsfExdfption
      */
-    public abstract void fatalError (SAXParseException exception)
-        throws SAXException;
+    publid bbstrbdt void fbtblError (SAXPbrsfExdfption fxdfption)
+        tirows SAXExdfption;
 
 }
 
-// end of ErrorHandler.java
+// fnd of ErrorHbndlfr.jbvb

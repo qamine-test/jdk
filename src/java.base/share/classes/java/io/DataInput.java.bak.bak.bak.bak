@@ -1,0 +1,589 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * Thf {@dodf DbtbInput} intfrfbdf providfs
+ * for rfbding bytfs from b binbry strfbm bnd
+ * rfdonstrudting from thfm dbtb in bny of
+ * thf Jbvb primitivf typfs. Thfrf is blso
+ * b
+ * fbdility for rfdonstrudting b {@dodf String}
+ * from dbtb in
+ * <b hrff="#modififd-utf-8">modififd UTF-8</b>
+ * formbt.
+ * <p>
+ * It is gfnfrblly truf of bll thf rfbding
+ * routinfs in this intfrfbdf thbt if fnd of
+ * filf is rfbdhfd bfforf thf dfsirfd numbfr
+ * of bytfs hbs bffn rfbd, bn {@dodf EOFExdfption}
+ * (whidh is b kind of {@dodf IOExdfption})
+ * is thrown. If bny bytf dbnnot bf rfbd for
+ * bny rfbson othfr thbn fnd of filf, bn {@dodf IOExdfption}
+ * othfr thbn {@dodf EOFExdfption} is
+ * thrown. In pbrtidulbr, bn {@dodf IOExdfption}
+ * mby bf thrown if thf input strfbm hbs bffn
+ * dlosfd.
+ *
+ * <h3><b nbmf="modififd-utf-8">Modififd UTF-8</b></h3>
+ * <p>
+ * Implfmfntbtions of thf DbtbInput bnd DbtbOutput intfrfbdfs rfprfsfnt
+ * Unidodf strings in b formbt thbt is b slight modifidbtion of UTF-8.
+ * (For informbtion rfgbrding thf stbndbrd UTF-8 formbt, sff sfdtion
+ * <i>3.9 Unidodf Endoding Forms</i> of <i>Thf Unidodf Stbndbrd, Vfrsion
+ * 4.0</i>).
+ * Notf thbt in thf following tbblf, thf most signifidbnt bit bppfbrs in thf
+ * fbr lfft-hbnd dolumn.
+ *
+ * <blodkquotf>
+ *   <tbblf bordfr="1" dfllspbding="0" dfllpbdding="8"
+ *          summbry="Bit vblufs bnd bytfs">
+ *     <tr>
+ *       <th dolspbn="9"><spbn stylf="font-wfight:normbl">
+ *         All dhbrbdtfrs in thf rbngf {@dodf '\u005Cu0001'} to
+ *         {@dodf '\u005Cu007F'} brf rfprfsfntfd by b singlf bytf:</spbn></th>
+ *     </tr>
+ *     <tr>
+ *       <td></td>
+ *       <th dolspbn="8" id="bit_b">Bit Vblufs</th>
+ *     </tr>
+ *     <tr>
+ *       <th id="bytf1_b">Bytf 1</th>
+ *       <td><dfntfr>0</dfntfr>
+ *       <td dolspbn="7"><dfntfr>bits 6-0</dfntfr>
+ *     </tr>
+ *     <tr>
+ *       <th dolspbn="9"><spbn stylf="font-wfight:normbl">
+ *         Thf null dhbrbdtfr {@dodf '\u005Cu0000'} bnd dhbrbdtfrs
+ *         in thf rbngf {@dodf '\u005Cu0080'} to {@dodf '\u005Cu07FF'} brf
+ *         rfprfsfntfd by b pbir of bytfs:</spbn></th>
+ *     </tr>
+ *     <tr>
+ *       <td></td>
+ *       <th dolspbn="8" id="bit_b">Bit Vblufs</th>
+ *     </tr>
+ *     <tr>
+ *       <th id="bytf1_b">Bytf 1</th>
+ *       <td><dfntfr>1</dfntfr>
+ *       <td><dfntfr>1</dfntfr>
+ *       <td><dfntfr>0</dfntfr>
+ *       <td dolspbn="5"><dfntfr>bits 10-6</dfntfr>
+ *     </tr>
+ *     <tr>
+ *       <th id="bytf2_b">Bytf 2</th>
+ *       <td><dfntfr>1</dfntfr>
+ *       <td><dfntfr>0</dfntfr>
+ *       <td dolspbn="6"><dfntfr>bits 5-0</dfntfr>
+ *     </tr>
+ *     <tr>
+ *       <th dolspbn="9"><spbn stylf="font-wfight:normbl">
+ *         {@dodf dhbr} vblufs in thf rbngf {@dodf '\u005Cu0800'}
+ *         to {@dodf '\u005CuFFFF'} brf rfprfsfntfd by thrff bytfs:</spbn></th>
+ *     </tr>
+ *     <tr>
+ *       <td></td>
+ *       <th dolspbn="8"id="bit_d">Bit Vblufs</th>
+ *     </tr>
+ *     <tr>
+ *       <th id="bytf1_d">Bytf 1</th>
+ *       <td><dfntfr>1</dfntfr>
+ *       <td><dfntfr>1</dfntfr>
+ *       <td><dfntfr>1</dfntfr>
+ *       <td><dfntfr>0</dfntfr>
+ *       <td dolspbn="4"><dfntfr>bits 15-12</dfntfr>
+ *     </tr>
+ *     <tr>
+ *       <th id="bytf2_b">Bytf 2</th>
+ *       <td><dfntfr>1</dfntfr>
+ *       <td><dfntfr>0</dfntfr>
+ *       <td dolspbn="6"><dfntfr>bits 11-6</dfntfr>
+ *     </tr>
+ *     <tr>
+ *       <th id="bytf3">Bytf 3</th>
+ *       <td><dfntfr>1</dfntfr>
+ *       <td><dfntfr>0</dfntfr>
+ *       <td dolspbn="6"><dfntfr>bits 5-0</dfntfr>
+ *     </tr>
+ *   </tbblf>
+ * </blodkquotf>
+ * <p>
+ * Thf difffrfndfs bftwffn this formbt bnd thf
+ * stbndbrd UTF-8 formbt brf thf following:
+ * <ul>
+ * <li>Thf null bytf {@dodf '\u005Cu0000'} is fndodfd in 2-bytf formbt
+ *     rbthfr thbn 1-bytf, so thbt thf fndodfd strings nfvfr hbvf
+ *     fmbfddfd nulls.
+ * <li>Only thf 1-bytf, 2-bytf, bnd 3-bytf formbts brf usfd.
+ * <li><b hrff="../lbng/Chbrbdtfr.html#unidodf">Supplfmfntbry dhbrbdtfrs</b>
+ *     brf rfprfsfntfd in thf form of surrogbtf pbirs.
+ * </ul>
+ * @buthor  Frbnk Yfllin
+ * @sff     jbvb.io.DbtbInputStrfbm
+ * @sff     jbvb.io.DbtbOutput
+ * @sindf   1.0
+ */
+publid
+intfrfbdf DbtbInput {
+    /**
+     * Rfbds somf bytfs from bn input
+     * strfbm bnd storfs thfm into thf bufffr
+     * brrby {@dodf b}. Thf numbfr of bytfs
+     * rfbd is fqubl
+     * to thf lfngth of {@dodf b}.
+     * <p>
+     * This mfthod blodks until onf of thf
+     * following donditions oddurs:
+     * <ul>
+     * <li>{@dodf b.lfngth}
+     * bytfs of input dbtb brf bvbilbblf, in whidh
+     * dbsf b normbl rfturn is mbdf.
+     *
+     * <li>End of
+     * filf is dftfdtfd, in whidh dbsf bn {@dodf EOFExdfption}
+     * is thrown.
+     *
+     * <li>An I/O frror oddurs, in
+     * whidh dbsf bn {@dodf IOExdfption} othfr
+     * thbn {@dodf EOFExdfption} is thrown.
+     * </ul>
+     * <p>
+     * If {@dodf b} is {@dodf null},
+     * b {@dodf NullPointfrExdfption} is thrown.
+     * If {@dodf b.lfngth} is zfro, thfn
+     * no bytfs brf rfbd. Othfrwisf, thf first
+     * bytf rfbd is storfd into flfmfnt {@dodf b[0]},
+     * thf nfxt onf into {@dodf b[1]}, bnd
+     * so on.
+     * If bn fxdfption is thrown from
+     * this mfthod, thfn it mby bf thbt somf but
+     * not bll bytfs of {@dodf b} hbvf bffn
+     * updbtfd with dbtb from thf input strfbm.
+     *
+     * @pbrbm     b   thf bufffr into whidh thf dbtb is rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    void rfbdFully(bytf b[]) throws IOExdfption;
+
+    /**
+     *
+     * Rfbds {@dodf lfn}
+     * bytfs from
+     * bn input strfbm.
+     * <p>
+     * This mfthod
+     * blodks until onf of thf following donditions
+     * oddurs:
+     * <ul>
+     * <li>{@dodf lfn} bytfs
+     * of input dbtb brf bvbilbblf, in whidh dbsf
+     * b normbl rfturn is mbdf.
+     *
+     * <li>End of filf
+     * is dftfdtfd, in whidh dbsf bn {@dodf EOFExdfption}
+     * is thrown.
+     *
+     * <li>An I/O frror oddurs, in
+     * whidh dbsf bn {@dodf IOExdfption} othfr
+     * thbn {@dodf EOFExdfption} is thrown.
+     * </ul>
+     * <p>
+     * If {@dodf b} is {@dodf null},
+     * b {@dodf NullPointfrExdfption} is thrown.
+     * If {@dodf off} is nfgbtivf, or {@dodf lfn}
+     * is nfgbtivf, or {@dodf off+lfn} is
+     * grfbtfr thbn thf lfngth of thf brrby {@dodf b},
+     * thfn bn {@dodf IndfxOutOfBoundsExdfption}
+     * is thrown.
+     * If {@dodf lfn} is zfro,
+     * thfn no bytfs brf rfbd. Othfrwisf, thf first
+     * bytf rfbd is storfd into flfmfnt {@dodf b[off]},
+     * thf nfxt onf into {@dodf b[off+1]},
+     * bnd so on. Thf numbfr of bytfs rfbd is,
+     * bt most, fqubl to {@dodf lfn}.
+     *
+     * @pbrbm     b   thf bufffr into whidh thf dbtb is rfbd.
+     * @pbrbm off  bn int spfdifying thf offsft into thf dbtb.
+     * @pbrbm lfn  bn int spfdifying thf numbfr of bytfs to rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    void rfbdFully(bytf b[], int off, int lfn) throws IOExdfption;
+
+    /**
+     * Mbkfs bn bttfmpt to skip ovfr
+     * {@dodf n} bytfs
+     * of dbtb from thf input
+     * strfbm, disdbrding thf skippfd bytfs. Howfvfr,
+     * it mby skip
+     * ovfr somf smbllfr numbfr of
+     * bytfs, possibly zfro. This mby rfsult from
+     * bny of b
+     * numbfr of donditions; rfbdhing
+     * fnd of filf bfforf {@dodf n} bytfs
+     * hbvf bffn skippfd is
+     * only onf possibility.
+     * This mfthod nfvfr throws bn {@dodf EOFExdfption}.
+     * Thf bdtubl
+     * numbfr of bytfs skippfd is rfturnfd.
+     *
+     * @pbrbm      n   thf numbfr of bytfs to bf skippfd.
+     * @rfturn     thf numbfr of bytfs bdtublly skippfd.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    int skipBytfs(int n) throws IOExdfption;
+
+    /**
+     * Rfbds onf input bytf bnd rfturns
+     * {@dodf truf} if thbt bytf is nonzfro,
+     * {@dodf fblsf} if thbt bytf is zfro.
+     * This mfthod is suitbblf for rfbding
+     * thf bytf writtfn by thf {@dodf writfBoolfbn}
+     * mfthod of intfrfbdf {@dodf DbtbOutput}.
+     *
+     * @rfturn     thf {@dodf boolfbn} vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    boolfbn rfbdBoolfbn() throws IOExdfption;
+
+    /**
+     * Rfbds bnd rfturns onf input bytf.
+     * Thf bytf is trfbtfd bs b signfd vbluf in
+     * thf rbngf {@dodf -128} through {@dodf 127},
+     * indlusivf.
+     * This mfthod is suitbblf for
+     * rfbding thf bytf writtfn by thf {@dodf writfBytf}
+     * mfthod of intfrfbdf {@dodf DbtbOutput}.
+     *
+     * @rfturn     thf 8-bit vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    bytf rfbdBytf() throws IOExdfption;
+
+    /**
+     * Rfbds onf input bytf, zfro-fxtfnds
+     * it to typf {@dodf int}, bnd rfturns
+     * thf rfsult, whidh is thfrfforf in thf rbngf
+     * {@dodf 0}
+     * through {@dodf 255}.
+     * This mfthod is suitbblf for rfbding
+     * thf bytf writtfn by thf {@dodf writfBytf}
+     * mfthod of intfrfbdf {@dodf DbtbOutput}
+     * if thf brgumfnt to {@dodf writfBytf}
+     * wbs intfndfd to bf b vbluf in thf rbngf
+     * {@dodf 0} through {@dodf 255}.
+     *
+     * @rfturn     thf unsignfd 8-bit vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    int rfbdUnsignfdBytf() throws IOExdfption;
+
+    /**
+     * Rfbds two input bytfs bnd rfturns
+     * b {@dodf short} vbluf. Lft {@dodf b}
+     * bf thf first bytf rfbd bnd {@dodf b}
+     * bf thf sfdond bytf. Thf vbluf
+     * rfturnfd
+     * is:
+     * <prf>{@dodf (short)((b << 8) | (b & 0xff))
+     * }</prf>
+     * This mfthod
+     * is suitbblf for rfbding thf bytfs writtfn
+     * by thf {@dodf writfShort} mfthod of
+     * intfrfbdf {@dodf DbtbOutput}.
+     *
+     * @rfturn     thf 16-bit vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    short rfbdShort() throws IOExdfption;
+
+    /**
+     * Rfbds two input bytfs bnd rfturns
+     * bn {@dodf int} vbluf in thf rbngf {@dodf 0}
+     * through {@dodf 65535}. Lft {@dodf b}
+     * bf thf first bytf rfbd bnd
+     * {@dodf b}
+     * bf thf sfdond bytf. Thf vbluf rfturnfd is:
+     * <prf>{@dodf (((b & 0xff) << 8) | (b & 0xff))
+     * }</prf>
+     * This mfthod is suitbblf for rfbding thf bytfs
+     * writtfn by thf {@dodf writfShort} mfthod
+     * of intfrfbdf {@dodf DbtbOutput}  if
+     * thf brgumfnt to {@dodf writfShort}
+     * wbs intfndfd to bf b vbluf in thf rbngf
+     * {@dodf 0} through {@dodf 65535}.
+     *
+     * @rfturn     thf unsignfd 16-bit vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    int rfbdUnsignfdShort() throws IOExdfption;
+
+    /**
+     * Rfbds two input bytfs bnd rfturns b {@dodf dhbr} vbluf.
+     * Lft {@dodf b}
+     * bf thf first bytf rfbd bnd {@dodf b}
+     * bf thf sfdond bytf. Thf vbluf
+     * rfturnfd is:
+     * <prf>{@dodf (dhbr)((b << 8) | (b & 0xff))
+     * }</prf>
+     * This mfthod
+     * is suitbblf for rfbding bytfs writtfn by
+     * thf {@dodf writfChbr} mfthod of intfrfbdf
+     * {@dodf DbtbOutput}.
+     *
+     * @rfturn     thf {@dodf dhbr} vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    dhbr rfbdChbr() throws IOExdfption;
+
+    /**
+     * Rfbds four input bytfs bnd rfturns bn
+     * {@dodf int} vbluf. Lft {@dodf b-d}
+     * bf thf first through fourth bytfs rfbd. Thf vbluf rfturnfd is:
+     * <prf>{@dodf
+     * (((b & 0xff) << 24) | ((b & 0xff) << 16) |
+     *  ((d & 0xff) <<  8) | (d & 0xff))
+     * }</prf>
+     * This mfthod is suitbblf
+     * for rfbding bytfs writtfn by thf {@dodf writfInt}
+     * mfthod of intfrfbdf {@dodf DbtbOutput}.
+     *
+     * @rfturn     thf {@dodf int} vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    int rfbdInt() throws IOExdfption;
+
+    /**
+     * Rfbds fight input bytfs bnd rfturns
+     * b {@dodf long} vbluf. Lft {@dodf b-h}
+     * bf thf first through fighth bytfs rfbd.
+     * Thf vbluf rfturnfd is:
+     * <prf>{@dodf
+     * (((long)(b & 0xff) << 56) |
+     *  ((long)(b & 0xff) << 48) |
+     *  ((long)(d & 0xff) << 40) |
+     *  ((long)(d & 0xff) << 32) |
+     *  ((long)(f & 0xff) << 24) |
+     *  ((long)(f & 0xff) << 16) |
+     *  ((long)(g & 0xff) <<  8) |
+     *  ((long)(h & 0xff)))
+     * }</prf>
+     * <p>
+     * This mfthod is suitbblf
+     * for rfbding bytfs writtfn by thf {@dodf writfLong}
+     * mfthod of intfrfbdf {@dodf DbtbOutput}.
+     *
+     * @rfturn     thf {@dodf long} vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    long rfbdLong() throws IOExdfption;
+
+    /**
+     * Rfbds four input bytfs bnd rfturns
+     * b {@dodf flobt} vbluf. It dofs this
+     * by first donstrudting bn {@dodf int}
+     * vbluf in fxbdtly thf mbnnfr
+     * of thf {@dodf rfbdInt}
+     * mfthod, thfn donvfrting this {@dodf int}
+     * vbluf to b {@dodf flobt} in
+     * fxbdtly thf mbnnfr of thf mfthod {@dodf Flobt.intBitsToFlobt}.
+     * This mfthod is suitbblf for rfbding
+     * bytfs writtfn by thf {@dodf writfFlobt}
+     * mfthod of intfrfbdf {@dodf DbtbOutput}.
+     *
+     * @rfturn     thf {@dodf flobt} vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    flobt rfbdFlobt() throws IOExdfption;
+
+    /**
+     * Rfbds fight input bytfs bnd rfturns
+     * b {@dodf doublf} vbluf. It dofs this
+     * by first donstrudting b {@dodf long}
+     * vbluf in fxbdtly thf mbnnfr
+     * of thf {@dodf rfbdLong}
+     * mfthod, thfn donvfrting this {@dodf long}
+     * vbluf to b {@dodf doublf} in fxbdtly
+     * thf mbnnfr of thf mfthod {@dodf Doublf.longBitsToDoublf}.
+     * This mfthod is suitbblf for rfbding
+     * bytfs writtfn by thf {@dodf writfDoublf}
+     * mfthod of intfrfbdf {@dodf DbtbOutput}.
+     *
+     * @rfturn     thf {@dodf doublf} vbluf rfbd.
+     * @fxdfption  EOFExdfption  if this strfbm rfbdhfs thf fnd bfforf rfbding
+     *               bll thf bytfs.
+     * @fxdfption  IOExdfption   if bn I/O frror oddurs.
+     */
+    doublf rfbdDoublf() throws IOExdfption;
+
+    /**
+     * Rfbds thf nfxt linf of tfxt from thf input strfbm.
+     * It rfbds suddfssivf bytfs, donvfrting
+     * fbdh bytf sfpbrbtfly into b dhbrbdtfr,
+     * until it fndountfrs b linf tfrminbtor or
+     * fnd of
+     * filf; thf dhbrbdtfrs rfbd brf thfn
+     * rfturnfd bs b {@dodf String}. Notf
+     * thbt bfdbusf this
+     * mfthod prodfssfs bytfs,
+     * it dofs not support input of thf full Unidodf
+     * dhbrbdtfr sft.
+     * <p>
+     * If fnd of filf is fndountfrfd
+     * bfforf fvfn onf bytf dbn bf rfbd, thfn {@dodf null}
+     * is rfturnfd. Othfrwisf, fbdh bytf thbt is
+     * rfbd is donvfrtfd to typf {@dodf dhbr}
+     * by zfro-fxtfnsion. If thf dhbrbdtfr {@dodf '\n'}
+     * is fndountfrfd, it is disdbrdfd bnd rfbding
+     * dfbsfs. If thf dhbrbdtfr {@dodf '\r'}
+     * is fndountfrfd, it is disdbrdfd bnd, if
+     * thf following bytf donvfrts &#32;to thf
+     * dhbrbdtfr {@dodf '\n'}, thfn thbt is
+     * disdbrdfd blso; rfbding thfn dfbsfs. If
+     * fnd of filf is fndountfrfd bfforf fithfr
+     * of thf dhbrbdtfrs {@dodf '\n'} bnd
+     * {@dodf '\r'} is fndountfrfd, rfbding
+     * dfbsfs. Ondf rfbding hbs dfbsfd, b {@dodf String}
+     * is rfturnfd thbt dontbins bll thf dhbrbdtfrs
+     * rfbd bnd not disdbrdfd, tbkfn in ordfr.
+     * Notf thbt fvfry dhbrbdtfr in this string
+     * will hbvf b vbluf lfss thbn {@dodf \u005Cu0100},
+     * thbt is, {@dodf (dhbr)256}.
+     *
+     * @rfturn thf nfxt linf of tfxt from thf input strfbm,
+     *         or {@dodf null} if thf fnd of filf is
+     *         fndountfrfd bfforf b bytf dbn bf rfbd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    String rfbdLinf() throws IOExdfption;
+
+    /**
+     * Rfbds in b string thbt hbs bffn fndodfd using b
+     * <b hrff="#modififd-utf-8">modififd UTF-8</b>
+     * formbt.
+     * Thf gfnfrbl dontrbdt of {@dodf rfbdUTF}
+     * is thbt it rfbds b rfprfsfntbtion of b Unidodf
+     * dhbrbdtfr string fndodfd in modififd
+     * UTF-8 formbt; this string of dhbrbdtfrs
+     * is thfn rfturnfd bs b {@dodf String}.
+     * <p>
+     * First, two bytfs brf rfbd bnd usfd to
+     * donstrudt bn unsignfd 16-bit intfgfr in
+     * fxbdtly thf mbnnfr of thf {@dodf rfbdUnsignfdShort}
+     * mfthod . This intfgfr vbluf is dbllfd thf
+     * <i>UTF lfngth</i> bnd spfdififs thf numbfr
+     * of bdditionbl bytfs to bf rfbd. Thfsf bytfs
+     * brf thfn donvfrtfd to dhbrbdtfrs by donsidfring
+     * thfm in groups. Thf lfngth of fbdh group
+     * is domputfd from thf vbluf of thf first
+     * bytf of thf group. Thf bytf following b
+     * group, if bny, is thf first bytf of thf
+     * nfxt group.
+     * <p>
+     * If thf first bytf of b group
+     * mbtdhfs thf bit pbttfrn {@dodf 0xxxxxxx}
+     * (whfrf {@dodf x} mfbns "mby bf {@dodf 0}
+     * or {@dodf 1}"), thfn thf group donsists
+     * of just thbt bytf. Thf bytf is zfro-fxtfndfd
+     * to form b dhbrbdtfr.
+     * <p>
+     * If thf first bytf
+     * of b group mbtdhfs thf bit pbttfrn {@dodf 110xxxxx},
+     * thfn thf group donsists of thbt bytf {@dodf b}
+     * bnd b sfdond bytf {@dodf b}. If thfrf
+     * is no bytf {@dodf b} (bfdbusf bytf
+     * {@dodf b} wbs thf lbst of thf bytfs
+     * to bf rfbd), or if bytf {@dodf b} dofs
+     * not mbtdh thf bit pbttfrn {@dodf 10xxxxxx},
+     * thfn b {@dodf UTFDbtbFormbtExdfption}
+     * is thrown. Othfrwisf, thf group is donvfrtfd
+     * to thf dhbrbdtfr:
+     * <prf>{@dodf (dhbr)(((b & 0x1F) << 6) | (b & 0x3F))
+     * }</prf>
+     * If thf first bytf of b group
+     * mbtdhfs thf bit pbttfrn {@dodf 1110xxxx},
+     * thfn thf group donsists of thbt bytf {@dodf b}
+     * bnd two morf bytfs {@dodf b} bnd {@dodf d}.
+     * If thfrf is no bytf {@dodf d} (bfdbusf
+     * bytf {@dodf b} wbs onf of thf lbst
+     * two of thf bytfs to bf rfbd), or fithfr
+     * bytf {@dodf b} or bytf {@dodf d}
+     * dofs not mbtdh thf bit pbttfrn {@dodf 10xxxxxx},
+     * thfn b {@dodf UTFDbtbFormbtExdfption}
+     * is thrown. Othfrwisf, thf group is donvfrtfd
+     * to thf dhbrbdtfr:
+     * <prf>{@dodf
+     * (dhbr)(((b & 0x0F) << 12) | ((b & 0x3F) << 6) | (d & 0x3F))
+     * }</prf>
+     * If thf first bytf of b group mbtdhfs thf
+     * pbttfrn {@dodf 1111xxxx} or thf pbttfrn
+     * {@dodf 10xxxxxx}, thfn b {@dodf UTFDbtbFormbtExdfption}
+     * is thrown.
+     * <p>
+     * If fnd of filf is fndountfrfd
+     * bt bny timf during this fntirf prodfss,
+     * thfn bn {@dodf EOFExdfption} is thrown.
+     * <p>
+     * Aftfr fvfry group hbs bffn donvfrtfd to
+     * b dhbrbdtfr by this prodfss, thf dhbrbdtfrs
+     * brf gbthfrfd, in thf sbmf ordfr in whidh
+     * thfir dorrfsponding groups wfrf rfbd from
+     * thf input strfbm, to form b {@dodf String},
+     * whidh is rfturnfd.
+     * <p>
+     * Thf {@dodf writfUTF}
+     * mfthod of intfrfbdf {@dodf DbtbOutput}
+     * mby bf usfd to writf dbtb thbt is suitbblf
+     * for rfbding by this mfthod.
+     * @rfturn     b Unidodf string.
+     * @fxdfption  EOFExdfption            if this strfbm rfbdhfs thf fnd
+     *               bfforf rfbding bll thf bytfs.
+     * @fxdfption  IOExdfption             if bn I/O frror oddurs.
+     * @fxdfption  UTFDbtbFormbtExdfption  if thf bytfs do not rfprfsfnt b
+     *               vblid modififd UTF-8 fndoding of b string.
+     */
+    String rfbdUTF() throws IOExdfption;
+}

@@ -1,562 +1,562 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import java.security.PrivilegedAction;
-import java.security.Security;
-import java.util.Locale;
-import sun.security.krb5.internal.Krb5;
-import sun.security.krb5.internal.NetClient;
-import java.io.IOException;
-import java.net.SocketTimeoutException;
-import java.util.StringTokenizer;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
-import sun.security.krb5.internal.KRBError;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.Lodblf;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+import sun.sfdurity.krb5.intfrnbl.NftClifnt;
+import jbvb.io.IOExdfption;
+import jbvb.nft.SodkftTimfoutExdfption;
+import jbvb.util.StringTokfnizfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import sun.sfdurity.krb5.intfrnbl.KRBError;
 
 /**
- * KDC-REQ/KDC-REP communication. No more base class for KrbAsReq and
- * KrbTgsReq. This class is now communication only.
+ * KDC-REQ/KDC-REP dommunidbtion. No morf bbsf dlbss for KrbAsRfq bnd
+ * KrbTgsRfq. Tiis dlbss is now dommunidbtion only.
  */
-public final class KdcComm {
+publid finbl dlbss KddComm {
 
-    // The following settings can be configured in [libdefaults]
-    // section of krb5.conf, which are global for all realms. Each of
-    // them can also be defined in a realm, which overrides value here.
-
-    /**
-     * max retry time for a single KDC, default Krb5.KDC_RETRY_LIMIT (3)
-     */
-    private static int defaultKdcRetryLimit;
-    /**
-     * timeout requesting a ticket from KDC, in millisec, default 30 sec
-     */
-    private static int defaultKdcTimeout;
-    /**
-     * max UDP packet size, default unlimited (-1)
-     */
-    private static int defaultUdpPrefLimit;
-
-    private static final boolean DEBUG = Krb5.DEBUG;
-
-    private static final String BAD_POLICY_KEY = "krb5.kdc.bad.policy";
+    // Tif following sfttings dbn bf donfigurfd in [libdffbults]
+    // sfdtion of krb5.donf, wiidi brf globbl for bll rfblms. Ebdi of
+    // tifm dbn blso bf dffinfd in b rfblm, wiidi ovfrridfs vbluf ifrf.
 
     /**
-     * What to do when a KDC is unavailable, specified in the
-     * java.security file with key krb5.kdc.bad.policy.
-     * Possible values can be TRY_LAST or TRY_LESS. Reloaded when refreshed.
+     * mbx rftry timf for b singlf KDC, dffbult Krb5.KDC_RETRY_LIMIT (3)
      */
-    private enum BpType {
+    privbtf stbtid int dffbultKddRftryLimit;
+    /**
+     * timfout rfqufsting b tidkft from KDC, in millisfd, dffbult 30 sfd
+     */
+    privbtf stbtid int dffbultKddTimfout;
+    /**
+     * mbx UDP pbdkft sizf, dffbult unlimitfd (-1)
+     */
+    privbtf stbtid int dffbultUdpPrffLimit;
+
+    privbtf stbtid finbl boolfbn DEBUG = Krb5.DEBUG;
+
+    privbtf stbtid finbl String BAD_POLICY_KEY = "krb5.kdd.bbd.polidy";
+
+    /**
+     * Wibt to do wifn b KDC is unbvbilbblf, spfdififd in tif
+     * jbvb.sfdurity filf witi kfy krb5.kdd.bbd.polidy.
+     * Possiblf vblufs dbn bf TRY_LAST or TRY_LESS. Rflobdfd wifn rffrfsifd.
+     */
+    privbtf fnum BpTypf {
         NONE, TRY_LAST, TRY_LESS
     }
-    private static int tryLessMaxRetries = 1;
-    private static int tryLessTimeout = 5000;
+    privbtf stbtid int tryLfssMbxRftrifs = 1;
+    privbtf stbtid int tryLfssTimfout = 5000;
 
-    private static BpType badPolicy;
+    privbtf stbtid BpTypf bbdPolidy;
 
-    static {
-        initStatic();
+    stbtid {
+        initStbtid();
     }
 
     /**
-     * Read global settings
+     * Rfbd globbl sfttings
      */
-    public static void initStatic() {
-        String value = AccessController.doPrivileged(
-        new PrivilegedAction<String>() {
-            public String run() {
-                return Security.getProperty(BAD_POLICY_KEY);
+    publid stbtid void initStbtid() {
+        String vbluf = AddfssControllfr.doPrivilfgfd(
+        nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Sfdurity.gftPropfrty(BAD_POLICY_KEY);
             }
         });
-        if (value != null) {
-            value = value.toLowerCase(Locale.ENGLISH);
-            String[] ss = value.split(":");
-            if ("tryless".equals(ss[0])) {
-                if (ss.length > 1) {
-                    String[] params = ss[1].split(",");
+        if (vbluf != null) {
+            vbluf = vbluf.toLowfrCbsf(Lodblf.ENGLISH);
+            String[] ss = vbluf.split(":");
+            if ("trylfss".fqubls(ss[0])) {
+                if (ss.lfngti > 1) {
+                    String[] pbrbms = ss[1].split(",");
                     try {
-                        int tmp0 = Integer.parseInt(params[0]);
-                        if (params.length > 1) {
-                            tryLessTimeout = Integer.parseInt(params[1]);
+                        int tmp0 = Intfgfr.pbrsfInt(pbrbms[0]);
+                        if (pbrbms.lfngti > 1) {
+                            tryLfssTimfout = Intfgfr.pbrsfInt(pbrbms[1]);
                         }
-                        // Assign here in case of exception at params[1]
-                        tryLessMaxRetries = tmp0;
-                    } catch (NumberFormatException nfe) {
-                        // Ignored. Please note that tryLess is recognized and
-                        // used, parameters using default values
+                        // Assign ifrf in dbsf of fxdfption bt pbrbms[1]
+                        tryLfssMbxRftrifs = tmp0;
+                    } dbtdi (NumbfrFormbtExdfption nff) {
+                        // Ignorfd. Plfbsf notf tibt tryLfss is rfdognizfd bnd
+                        // usfd, pbrbmftfrs using dffbult vblufs
                         if (DEBUG) {
-                            System.out.println("Invalid " + BAD_POLICY_KEY +
-                                    " parameter for tryLess: " +
-                                    value + ", use default");
+                            Systfm.out.println("Invblid " + BAD_POLICY_KEY +
+                                    " pbrbmftfr for tryLfss: " +
+                                    vbluf + ", usf dffbult");
                         }
                     }
                 }
-                badPolicy = BpType.TRY_LESS;
-            } else if ("trylast".equals(ss[0])) {
-                badPolicy = BpType.TRY_LAST;
-            } else {
-                badPolicy = BpType.NONE;
+                bbdPolidy = BpTypf.TRY_LESS;
+            } flsf if ("trylbst".fqubls(ss[0])) {
+                bbdPolidy = BpTypf.TRY_LAST;
+            } flsf {
+                bbdPolidy = BpTypf.NONE;
             }
-        } else {
-            badPolicy = BpType.NONE;
+        } flsf {
+            bbdPolidy = BpTypf.NONE;
         }
 
 
-        int timeout = -1;
-        int max_retries = -1;
-        int udp_pref_limit = -1;
+        int timfout = -1;
+        int mbx_rftrifs = -1;
+        int udp_prff_limit = -1;
 
         try {
-            Config cfg = Config.getInstance();
-            String temp = cfg.get("libdefaults", "kdc_timeout");
-            timeout = parseTimeString(temp);
+            Config dfg = Config.gftInstbndf();
+            String tfmp = dfg.gft("libdffbults", "kdd_timfout");
+            timfout = pbrsfTimfString(tfmp);
 
-            temp = cfg.get("libdefaults", "max_retries");
-            max_retries = parsePositiveIntString(temp);
-            temp = cfg.get("libdefaults", "udp_preference_limit");
-            udp_pref_limit = parsePositiveIntString(temp);
-        } catch (Exception exc) {
-           // ignore any exceptions; use default values
+            tfmp = dfg.gft("libdffbults", "mbx_rftrifs");
+            mbx_rftrifs = pbrsfPositivfIntString(tfmp);
+            tfmp = dfg.gft("libdffbults", "udp_prfffrfndf_limit");
+            udp_prff_limit = pbrsfPositivfIntString(tfmp);
+        } dbtdi (Exdfption fxd) {
+           // ignorf bny fxdfptions; usf dffbult vblufs
            if (DEBUG) {
-                System.out.println ("Exception in getting KDC communication " +
-                                    "settings, using default value " +
-                                    exc.getMessage());
+                Systfm.out.println ("Exdfption in gftting KDC dommunidbtion " +
+                                    "sfttings, using dffbult vbluf " +
+                                    fxd.gftMfssbgf());
            }
         }
-        defaultKdcTimeout = timeout > 0 ? timeout : 30*1000; // 30 seconds
-        defaultKdcRetryLimit =
-                max_retries > 0 ? max_retries : Krb5.KDC_RETRY_LIMIT;
+        dffbultKddTimfout = timfout > 0 ? timfout : 30*1000; // 30 sfdonds
+        dffbultKddRftryLimit =
+                mbx_rftrifs > 0 ? mbx_rftrifs : Krb5.KDC_RETRY_LIMIT;
 
-        if (udp_pref_limit < 0) {
-            defaultUdpPrefLimit = Krb5.KDC_DEFAULT_UDP_PREF_LIMIT;
-        } else if (udp_pref_limit > Krb5.KDC_HARD_UDP_LIMIT) {
-            defaultUdpPrefLimit = Krb5.KDC_HARD_UDP_LIMIT;
-        } else {
-            defaultUdpPrefLimit = udp_pref_limit;
+        if (udp_prff_limit < 0) {
+            dffbultUdpPrffLimit = Krb5.KDC_DEFAULT_UDP_PREF_LIMIT;
+        } flsf if (udp_prff_limit > Krb5.KDC_HARD_UDP_LIMIT) {
+            dffbultUdpPrffLimit = Krb5.KDC_HARD_UDP_LIMIT;
+        } flsf {
+            dffbultUdpPrffLimit = udp_prff_limit;
         }
 
-        KdcAccessibility.reset();
+        KddAddfssibility.rfsft();
     }
 
     /**
-     * The instance fields
+     * Tif instbndf fiflds
      */
-    private String realm;
+    privbtf String rfblm;
 
-    public KdcComm(String realm) throws KrbException {
-        if (realm == null) {
-           realm = Config.getInstance().getDefaultRealm();
-            if (realm == null) {
-                throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                                       "Cannot find default realm");
+    publid KddComm(String rfblm) tirows KrbExdfption {
+        if (rfblm == null) {
+           rfblm = Config.gftInstbndf().gftDffbultRfblm();
+            if (rfblm == null) {
+                tirow nfw KrbExdfption(Krb5.KRB_ERR_GENERIC,
+                                       "Cbnnot find dffbult rfblm");
             }
         }
-        this.realm = realm;
+        tiis.rfblm = rfblm;
     }
 
-    public byte[] send(byte[] obuf)
-        throws IOException, KrbException {
-        int udpPrefLimit = getRealmSpecificValue(
-                realm, "udp_preference_limit", defaultUdpPrefLimit);
+    publid bytf[] sfnd(bytf[] obuf)
+        tirows IOExdfption, KrbExdfption {
+        int udpPrffLimit = gftRfblmSpfdifidVbluf(
+                rfblm, "udp_prfffrfndf_limit", dffbultUdpPrffLimit);
 
-        boolean useTCP = (udpPrefLimit > 0 &&
-             (obuf != null && obuf.length > udpPrefLimit));
+        boolfbn usfTCP = (udpPrffLimit > 0 &&
+             (obuf != null && obuf.lfngti > udpPrffLimit));
 
-        return send(obuf, useTCP);
+        rfturn sfnd(obuf, usfTCP);
     }
 
-    private byte[] send(byte[] obuf, boolean useTCP)
-        throws IOException, KrbException {
+    privbtf bytf[] sfnd(bytf[] obuf, boolfbn usfTCP)
+        tirows IOExdfption, KrbExdfption {
 
         if (obuf == null)
-            return null;
-        Config cfg = Config.getInstance();
+            rfturn null;
+        Config dfg = Config.gftInstbndf();
 
-        if (realm == null) {
-            realm = cfg.getDefaultRealm();
-            if (realm == null) {
-                throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                                       "Cannot find default realm");
+        if (rfblm == null) {
+            rfblm = dfg.gftDffbultRfblm();
+            if (rfblm == null) {
+                tirow nfw KrbExdfption(Krb5.KRB_ERR_GENERIC,
+                                       "Cbnnot find dffbult rfblm");
             }
         }
 
-        String kdcList = cfg.getKDCList(realm);
-        if (kdcList == null) {
-            throw new KrbException("Cannot get kdc for realm " + realm);
+        String kddList = dfg.gftKDCList(rfblm);
+        if (kddList == null) {
+            tirow nfw KrbExdfption("Cbnnot gft kdd for rfblm " + rfblm);
         }
-        // tempKdc may include the port number also
-        Iterator<String> tempKdc = KdcAccessibility.list(kdcList).iterator();
-        if (!tempKdc.hasNext()) {
-            throw new KrbException("Cannot get kdc for realm " + realm);
+        // tfmpKdd mby indludf tif port numbfr blso
+        Itfrbtor<String> tfmpKdd = KddAddfssibility.list(kddList).itfrbtor();
+        if (!tfmpKdd.ibsNfxt()) {
+            tirow nfw KrbExdfption("Cbnnot gft kdd for rfblm " + rfblm);
         }
-        byte[] ibuf = null;
+        bytf[] ibuf = null;
         try {
-            ibuf = sendIfPossible(obuf, tempKdc.next(), useTCP);
-        } catch(Exception first) {
-            boolean ok = false;
-            while(tempKdc.hasNext()) {
+            ibuf = sfndIfPossiblf(obuf, tfmpKdd.nfxt(), usfTCP);
+        } dbtdi(Exdfption first) {
+            boolfbn ok = fblsf;
+            wiilf(tfmpKdd.ibsNfxt()) {
                 try {
-                    ibuf = sendIfPossible(obuf, tempKdc.next(), useTCP);
-                    ok = true;
-                    break;
-                } catch(Exception ignore) {}
+                    ibuf = sfndIfPossiblf(obuf, tfmpKdd.nfxt(), usfTCP);
+                    ok = truf;
+                    brfbk;
+                } dbtdi(Exdfption ignorf) {}
             }
-            if (!ok) throw first;
+            if (!ok) tirow first;
         }
         if (ibuf == null) {
-            throw new IOException("Cannot get a KDC reply");
+            tirow nfw IOExdfption("Cbnnot gft b KDC rfply");
         }
-        return ibuf;
+        rfturn ibuf;
     }
 
-    // send the AS Request to the specified KDC
-    // failover to using TCP if useTCP is not set and response is too big
-    private byte[] sendIfPossible(byte[] obuf, String tempKdc, boolean useTCP)
-        throws IOException, KrbException {
+    // sfnd tif AS Rfqufst to tif spfdififd KDC
+    // fbilovfr to using TCP if usfTCP is not sft bnd rfsponsf is too big
+    privbtf bytf[] sfndIfPossiblf(bytf[] obuf, String tfmpKdd, boolfbn usfTCP)
+        tirows IOExdfption, KrbExdfption {
 
         try {
-            byte[] ibuf = send(obuf, tempKdc, useTCP);
-            KRBError ke = null;
+            bytf[] ibuf = sfnd(obuf, tfmpKdd, usfTCP);
+            KRBError kf = null;
             try {
-                ke = new KRBError(ibuf);
-            } catch (Exception e) {
+                kf = nfw KRBError(ibuf);
+            } dbtdi (Exdfption f) {
                 // OK
             }
-            if (ke != null && ke.getErrorCode() ==
+            if (kf != null && kf.gftErrorCodf() ==
                     Krb5.KRB_ERR_RESPONSE_TOO_BIG) {
-                ibuf = send(obuf, tempKdc, true);
+                ibuf = sfnd(obuf, tfmpKdd, truf);
             }
-            KdcAccessibility.removeBad(tempKdc);
-            return ibuf;
-        } catch(Exception e) {
+            KddAddfssibility.rfmovfBbd(tfmpKdd);
+            rfturn ibuf;
+        } dbtdi(Exdfption f) {
             if (DEBUG) {
-                System.out.println(">>> KrbKdcReq send: error trying " +
-                        tempKdc);
-                e.printStackTrace(System.out);
+                Systfm.out.println(">>> KrbKddRfq sfnd: frror trying " +
+                        tfmpKdd);
+                f.printStbdkTrbdf(Systfm.out);
             }
-            KdcAccessibility.addBad(tempKdc);
-            throw e;
+            KddAddfssibility.bddBbd(tfmpKdd);
+            tirow f;
         }
     }
 
-    // send the AS Request to the specified KDC
+    // sfnd tif AS Rfqufst to tif spfdififd KDC
 
-    private byte[] send(byte[] obuf, String tempKdc, boolean useTCP)
-        throws IOException, KrbException {
+    privbtf bytf[] sfnd(bytf[] obuf, String tfmpKdd, boolfbn usfTCP)
+        tirows IOExdfption, KrbExdfption {
 
         if (obuf == null)
-            return null;
+            rfturn null;
 
         int port = Krb5.KDC_INET_DEFAULT_PORT;
-        int retries = getRealmSpecificValue(
-                realm, "max_retries", defaultKdcRetryLimit);
-        int timeout = getRealmSpecificValue(
-                realm, "kdc_timeout", defaultKdcTimeout);
-        if (badPolicy == BpType.TRY_LESS &&
-                KdcAccessibility.isBad(tempKdc)) {
-            if (retries > tryLessMaxRetries) {
-                retries = tryLessMaxRetries; // less retries
+        int rftrifs = gftRfblmSpfdifidVbluf(
+                rfblm, "mbx_rftrifs", dffbultKddRftryLimit);
+        int timfout = gftRfblmSpfdifidVbluf(
+                rfblm, "kdd_timfout", dffbultKddTimfout);
+        if (bbdPolidy == BpTypf.TRY_LESS &&
+                KddAddfssibility.isBbd(tfmpKdd)) {
+            if (rftrifs > tryLfssMbxRftrifs) {
+                rftrifs = tryLfssMbxRftrifs; // lfss rftrifs
             }
-            if (timeout > tryLessTimeout) {
-                timeout = tryLessTimeout; // less time
+            if (timfout > tryLfssTimfout) {
+                timfout = tryLfssTimfout; // lfss timf
             }
         }
 
-        String kdc = null;
+        String kdd = null;
         String portStr = null;
 
-        if (tempKdc.charAt(0) == '[') {     // Explicit IPv6 in []
-            int pos = tempKdc.indexOf(']', 1);
+        if (tfmpKdd.dibrAt(0) == '[') {     // Explidit IPv6 in []
+            int pos = tfmpKdd.indfxOf(']', 1);
             if (pos == -1) {
-                throw new IOException("Illegal KDC: " + tempKdc);
+                tirow nfw IOExdfption("Illfgbl KDC: " + tfmpKdd);
             }
-            kdc = tempKdc.substring(1, pos);
-            if (pos != tempKdc.length() - 1) {  // with port number
-                if (tempKdc.charAt(pos+1) != ':') {
-                    throw new IOException("Illegal KDC: " + tempKdc);
+            kdd = tfmpKdd.substring(1, pos);
+            if (pos != tfmpKdd.lfngti() - 1) {  // witi port numbfr
+                if (tfmpKdd.dibrAt(pos+1) != ':') {
+                    tirow nfw IOExdfption("Illfgbl KDC: " + tfmpKdd);
                 }
-                portStr = tempKdc.substring(pos+2);
+                portStr = tfmpKdd.substring(pos+2);
             }
-        } else {
-            int colon = tempKdc.indexOf(':');
-            if (colon == -1) {      // Hostname or IPv4 host only
-                kdc = tempKdc;
-            } else {
-                int nextColon = tempKdc.indexOf(':', colon+1);
-                if (nextColon > 0) {    // >=2 ":", IPv6 with no port
-                    kdc = tempKdc;
-                } else {                // 1 ":", hostname or IPv4 with port
-                    kdc = tempKdc.substring(0, colon);
-                    portStr = tempKdc.substring(colon+1);
+        } flsf {
+            int dolon = tfmpKdd.indfxOf(':');
+            if (dolon == -1) {      // Hostnbmf or IPv4 iost only
+                kdd = tfmpKdd;
+            } flsf {
+                int nfxtColon = tfmpKdd.indfxOf(':', dolon+1);
+                if (nfxtColon > 0) {    // >=2 ":", IPv6 witi no port
+                    kdd = tfmpKdd;
+                } flsf {                // 1 ":", iostnbmf or IPv4 witi port
+                    kdd = tfmpKdd.substring(0, dolon);
+                    portStr = tfmpKdd.substring(dolon+1);
                 }
             }
         }
         if (portStr != null) {
-            int tempPort = parsePositiveIntString(portStr);
-            if (tempPort > 0)
-                port = tempPort;
+            int tfmpPort = pbrsfPositivfIntString(portStr);
+            if (tfmpPort > 0)
+                port = tfmpPort;
         }
 
         if (DEBUG) {
-            System.out.println(">>> KrbKdcReq send: kdc=" + kdc
-                               + (useTCP ? " TCP:":" UDP:")
-                               +  port +  ", timeout="
-                               + timeout
-                               + ", number of retries ="
-                               + retries
-                               + ", #bytes=" + obuf.length);
+            Systfm.out.println(">>> KrbKddRfq sfnd: kdd=" + kdd
+                               + (usfTCP ? " TCP:":" UDP:")
+                               +  port +  ", timfout="
+                               + timfout
+                               + ", numbfr of rftrifs ="
+                               + rftrifs
+                               + ", #bytfs=" + obuf.lfngti);
         }
 
-        KdcCommunication kdcCommunication =
-            new KdcCommunication(kdc, port, useTCP, timeout, retries, obuf);
+        KddCommunidbtion kddCommunidbtion =
+            nfw KddCommunidbtion(kdd, port, usfTCP, timfout, rftrifs, obuf);
         try {
-            byte[] ibuf = AccessController.doPrivileged(kdcCommunication);
+            bytf[] ibuf = AddfssControllfr.doPrivilfgfd(kddCommunidbtion);
             if (DEBUG) {
-                System.out.println(">>> KrbKdcReq send: #bytes read="
-                        + (ibuf != null ? ibuf.length : 0));
+                Systfm.out.println(">>> KrbKddRfq sfnd: #bytfs rfbd="
+                        + (ibuf != null ? ibuf.lfngti : 0));
             }
-            return ibuf;
-        } catch (PrivilegedActionException e) {
-            Exception wrappedException = e.getException();
-            if (wrappedException instanceof IOException) {
-                throw (IOException) wrappedException;
-            } else {
-                throw (KrbException) wrappedException;
+            rfturn ibuf;
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            Exdfption wrbppfdExdfption = f.gftExdfption();
+            if (wrbppfdExdfption instbndfof IOExdfption) {
+                tirow (IOExdfption) wrbppfdExdfption;
+            } flsf {
+                tirow (KrbExdfption) wrbppfdExdfption;
             }
         }
     }
 
-    private static class KdcCommunication
-        implements PrivilegedExceptionAction<byte[]> {
+    privbtf stbtid dlbss KddCommunidbtion
+        implfmfnts PrivilfgfdExdfptionAdtion<bytf[]> {
 
-        private String kdc;
-        private int port;
-        private boolean useTCP;
-        private int timeout;
-        private int retries;
-        private byte[] obuf;
+        privbtf String kdd;
+        privbtf int port;
+        privbtf boolfbn usfTCP;
+        privbtf int timfout;
+        privbtf int rftrifs;
+        privbtf bytf[] obuf;
 
-        public KdcCommunication(String kdc, int port, boolean useTCP,
-                                int timeout, int retries, byte[] obuf) {
-            this.kdc = kdc;
-            this.port = port;
-            this.useTCP = useTCP;
-            this.timeout = timeout;
-            this.retries = retries;
-            this.obuf = obuf;
+        publid KddCommunidbtion(String kdd, int port, boolfbn usfTCP,
+                                int timfout, int rftrifs, bytf[] obuf) {
+            tiis.kdd = kdd;
+            tiis.port = port;
+            tiis.usfTCP = usfTCP;
+            tiis.timfout = timfout;
+            tiis.rftrifs = rftrifs;
+            tiis.obuf = obuf;
         }
 
-        // The caller only casts IOException and KrbException so don't
-        // add any new ones!
+        // Tif dbllfr only dbsts IOExdfption bnd KrbExdfption so don't
+        // bdd bny nfw onfs!
 
-        public byte[] run() throws IOException, KrbException {
+        publid bytf[] run() tirows IOExdfption, KrbExdfption {
 
-            byte[] ibuf = null;
+            bytf[] ibuf = null;
 
-            for (int i=1; i <= retries; i++) {
-                String proto = useTCP?"TCP":"UDP";
-                try (NetClient kdcClient = NetClient.getInstance(
-                        proto, kdc, port, timeout)) {
+            for (int i=1; i <= rftrifs; i++) {
+                String proto = usfTCP?"TCP":"UDP";
+                try (NftClifnt kddClifnt = NftClifnt.gftInstbndf(
+                        proto, kdd, port, timfout)) {
                     if (DEBUG) {
-                        System.out.println(">>> KDCCommunication: kdc=" + kdc
+                        Systfm.out.println(">>> KDCCommunidbtion: kdd=" + kdd
                             + " " + proto + ":"
-                            +  port +  ", timeout="
-                            + timeout
-                            + ",Attempt =" + i
-                            + ", #bytes=" + obuf.length);
+                            +  port +  ", timfout="
+                            + timfout
+                            + ",Attfmpt =" + i
+                            + ", #bytfs=" + obuf.lfngti);
                     }
                     try {
                         /*
-                        * Send the data to the kdc.
+                        * Sfnd tif dbtb to tif kdd.
                         */
-                        kdcClient.send(obuf);
+                        kddClifnt.sfnd(obuf);
                         /*
-                        * And get a response.
+                        * And gft b rfsponsf.
                         */
-                        ibuf = kdcClient.receive();
-                        break;
-                    } catch (SocketTimeoutException se) {
+                        ibuf = kddClifnt.rfdfivf();
+                        brfbk;
+                    } dbtdi (SodkftTimfoutExdfption sf) {
                         if (DEBUG) {
-                            System.out.println ("SocketTimeOutException with " +
-                                                "attempt: " + i);
+                            Systfm.out.println ("SodkftTimfOutExdfption witi " +
+                                                "bttfmpt: " + i);
                         }
-                        if (i == retries) {
+                        if (i == rftrifs) {
                             ibuf = null;
-                            throw se;
+                            tirow sf;
                         }
                     }
                 }
             }
-            return ibuf;
+            rfturn ibuf;
         }
     }
 
     /**
-     * Parses a time value string. If it ends with "s", parses as seconds.
-     * Otherwise, parses as milliseconds.
-     * @param s the time string
-     * @return the integer value in milliseconds, or -1 if input is null or
-     * has an invalid format
+     * Pbrsfs b timf vbluf string. If it fnds witi "s", pbrsfs bs sfdonds.
+     * Otifrwisf, pbrsfs bs millisfdonds.
+     * @pbrbm s tif timf string
+     * @rfturn tif intfgfr vbluf in millisfdonds, or -1 if input is null or
+     * ibs bn invblid formbt
      */
-    private static int parseTimeString(String s) {
+    privbtf stbtid int pbrsfTimfString(String s) {
         if (s == null) {
-            return -1;
+            rfturn -1;
         }
-        if (s.endsWith("s")) {
-            int seconds = parsePositiveIntString(s.substring(0, s.length()-1));
-            return (seconds < 0) ? -1 : (seconds*1000);
-        } else {
-            return parsePositiveIntString(s);
+        if (s.fndsWiti("s")) {
+            int sfdonds = pbrsfPositivfIntString(s.substring(0, s.lfngti()-1));
+            rfturn (sfdonds < 0) ? -1 : (sfdonds*1000);
+        } flsf {
+            rfturn pbrsfPositivfIntString(s);
         }
     }
 
     /**
-     * Returns krb5.conf setting of {@code key} for a specific realm,
-     * which can be:
-     * 1. defined in the sub-stanza for the given realm inside [realms], or
-     * 2. defined in [libdefaults], or
-     * 3. defValue
-     * @param realm the given realm in which the setting is requested. Returns
-     * the global setting if null
-     * @param key the key for the setting
-     * @param defValue default value
-     * @return a value for the key
+     * Rfturns krb5.donf sftting of {@dodf kfy} for b spfdifid rfblm,
+     * wiidi dbn bf:
+     * 1. dffinfd in tif sub-stbnzb for tif givfn rfblm insidf [rfblms], or
+     * 2. dffinfd in [libdffbults], or
+     * 3. dffVbluf
+     * @pbrbm rfblm tif givfn rfblm in wiidi tif sftting is rfqufstfd. Rfturns
+     * tif globbl sftting if null
+     * @pbrbm kfy tif kfy for tif sftting
+     * @pbrbm dffVbluf dffbult vbluf
+     * @rfturn b vbluf for tif kfy
      */
-    private int getRealmSpecificValue(String realm, String key, int defValue) {
-        int v = defValue;
+    privbtf int gftRfblmSpfdifidVbluf(String rfblm, String kfy, int dffVbluf) {
+        int v = dffVbluf;
 
-        if (realm == null) return v;
+        if (rfblm == null) rfturn v;
 
-        int temp = -1;
+        int tfmp = -1;
         try {
-            String value =
-               Config.getInstance().get("realms", realm, key);
-            if (key.equals("kdc_timeout")) {
-                temp = parseTimeString(value);
-            } else {
-                temp = parsePositiveIntString(value);
+            String vbluf =
+               Config.gftInstbndf().gft("rfblms", rfblm, kfy);
+            if (kfy.fqubls("kdd_timfout")) {
+                tfmp = pbrsfTimfString(vbluf);
+            } flsf {
+                tfmp = pbrsfPositivfIntString(vbluf);
             }
-        } catch (Exception exc) {
-            // Ignored, defValue will be picked up
+        } dbtdi (Exdfption fxd) {
+            // Ignorfd, dffVbluf will bf pidkfd up
         }
 
-        if (temp > 0) v = temp;
+        if (tfmp > 0) v = tfmp;
 
-        return v;
+        rfturn v;
     }
 
-    private static int parsePositiveIntString(String intString) {
+    privbtf stbtid int pbrsfPositivfIntString(String intString) {
         if (intString == null)
-            return -1;
+            rfturn -1;
 
-        int ret = -1;
+        int rft = -1;
 
         try {
-            ret = Integer.parseInt(intString);
-        } catch (Exception exc) {
-            return -1;
+            rft = Intfgfr.pbrsfInt(intString);
+        } dbtdi (Exdfption fxd) {
+            rfturn -1;
         }
 
-        if (ret >= 0)
-            return ret;
+        if (rft >= 0)
+            rfturn rft;
 
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Maintains a KDC accessible list. Unavailable KDCs are put into a
-     * blacklist, when a KDC in the blacklist is available, it's removed
-     * from there. No insertion order in the blacklist.
+     * Mbintbins b KDC bddfssiblf list. Unbvbilbblf KDCs brf put into b
+     * blbdklist, wifn b KDC in tif blbdklist is bvbilbblf, it's rfmovfd
+     * from tifrf. No insfrtion ordfr in tif blbdklist.
      *
-     * There are two methods to deal with KDCs in the blacklist. 1. Only try
-     * them when there's no KDC not on the blacklist. 2. Still try them, but
-     * with lesser number of retries and smaller timeout value.
+     * Tifrf brf two mftiods to dfbl witi KDCs in tif blbdklist. 1. Only try
+     * tifm wifn tifrf's no KDC not on tif blbdklist. 2. Still try tifm, but
+     * witi lfssfr numbfr of rftrifs bnd smbllfr timfout vbluf.
      */
-    static class KdcAccessibility {
-        // Known bad KDCs
-        private static Set<String> bads = new HashSet<>();
+    stbtid dlbss KddAddfssibility {
+        // Known bbd KDCs
+        privbtf stbtid Sft<String> bbds = nfw HbsiSft<>();
 
-        private static synchronized void addBad(String kdc) {
+        privbtf stbtid syndironizfd void bddBbd(String kdd) {
             if (DEBUG) {
-                System.out.println(">>> KdcAccessibility: add " + kdc);
+                Systfm.out.println(">>> KddAddfssibility: bdd " + kdd);
             }
-            bads.add(kdc);
+            bbds.bdd(kdd);
         }
 
-        private static synchronized void removeBad(String kdc) {
+        privbtf stbtid syndironizfd void rfmovfBbd(String kdd) {
             if (DEBUG) {
-                System.out.println(">>> KdcAccessibility: remove " + kdc);
+                Systfm.out.println(">>> KddAddfssibility: rfmovf " + kdd);
             }
-            bads.remove(kdc);
+            bbds.rfmovf(kdd);
         }
 
-        private static synchronized boolean isBad(String kdc) {
-            return bads.contains(kdc);
+        privbtf stbtid syndironizfd boolfbn isBbd(String kdd) {
+            rfturn bbds.dontbins(kdd);
         }
 
-        private static synchronized void reset() {
+        privbtf stbtid syndironizfd void rfsft() {
             if (DEBUG) {
-                System.out.println(">>> KdcAccessibility: reset");
+                Systfm.out.println(">>> KddAddfssibility: rfsft");
             }
-            bads.clear();
+            bbds.dlfbr();
         }
 
-        // Returns a preferred KDC list by putting the bad ones at the end
-        private static synchronized List<String> list(String kdcList) {
-            StringTokenizer st = new StringTokenizer(kdcList);
-            List<String> list = new ArrayList<>();
-            if (badPolicy == BpType.TRY_LAST) {
-                List<String> badkdcs = new ArrayList<>();
-                while (st.hasMoreTokens()) {
-                    String t = st.nextToken();
-                    if (bads.contains(t)) badkdcs.add(t);
-                    else list.add(t);
+        // Rfturns b prfffrrfd KDC list by putting tif bbd onfs bt tif fnd
+        privbtf stbtid syndironizfd List<String> list(String kddList) {
+            StringTokfnizfr st = nfw StringTokfnizfr(kddList);
+            List<String> list = nfw ArrbyList<>();
+            if (bbdPolidy == BpTypf.TRY_LAST) {
+                List<String> bbdkdds = nfw ArrbyList<>();
+                wiilf (st.ibsMorfTokfns()) {
+                    String t = st.nfxtTokfn();
+                    if (bbds.dontbins(t)) bbdkdds.bdd(t);
+                    flsf list.bdd(t);
                 }
-                // Bad KDCs are put at last
-                list.addAll(badkdcs);
-            } else {
-                // All KDCs are returned in their original order,
-                // This include TRY_LESS and NONE
-                while (st.hasMoreTokens()) {
-                    list.add(st.nextToken());
+                // Bbd KDCs brf put bt lbst
+                list.bddAll(bbdkdds);
+            } flsf {
+                // All KDCs brf rfturnfd in tifir originbl ordfr,
+                // Tiis indludf TRY_LESS bnd NONE
+                wiilf (st.ibsMorfTokfns()) {
+                    list.bdd(st.nfxtTokfn());
                 }
             }
-            return list;
+            rfturn list;
         }
     }
 }

@@ -1,645 +1,645 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
 
-import java.net.URL;
-import java.net.SocketPermission;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Hashtable;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.security.cert.*;
+import jbvb.nft.URL;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Hbsitbblf;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.*;
 
 /**
  *
- * <p>This class extends the concept of a codebase to
- * encapsulate not only the location (URL) but also the certificate chains
- * that were used to verify signed code originating from that location.
+ * <p>Tiis dlbss fxtfnds tif dondfpt of b dodfbbsf to
+ * fndbpsulbtf not only tif lodbtion (URL) but blso tif dfrtifidbtf dibins
+ * tibt wfrf usfd to vfrify signfd dodf originbting from tibt lodbtion.
  *
- * @author Li Gong
- * @author Roland Schemers
+ * @butior Li Gong
+ * @butior Rolbnd Sdifmfrs
  */
 
-public class CodeSource implements java.io.Serializable {
+publid dlbss CodfSourdf implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 4977541819976013951L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4977541819976013951L;
 
     /**
-     * The code location.
+     * Tif dodf lodbtion.
      *
-     * @serial
+     * @sfribl
      */
-    private URL location;
+    privbtf URL lodbtion;
 
     /*
-     * The code signers.
+     * Tif dodf signfrs.
      */
-    private transient CodeSigner[] signers = null;
+    privbtf trbnsifnt CodfSignfr[] signfrs = null;
 
     /*
-     * The code signers. Certificate chains are concatenated.
+     * Tif dodf signfrs. Cfrtifidbtf dibins brf dondbtfnbtfd.
      */
-    private transient java.security.cert.Certificate certs[] = null;
+    privbtf trbnsifnt jbvb.sfdurity.dfrt.Cfrtifidbtf dfrts[] = null;
 
-    // cached SocketPermission used for matchLocation
-    private transient SocketPermission sp;
+    // dbdifd SodkftPfrmission usfd for mbtdiLodbtion
+    privbtf trbnsifnt SodkftPfrmission sp;
 
-    // for generating cert paths
-    private transient CertificateFactory factory = null;
+    // for gfnfrbting dfrt pbtis
+    privbtf trbnsifnt CfrtifidbtfFbdtory fbdtory = null;
 
     /**
-     * Constructs a CodeSource and associates it with the specified
-     * location and set of certificates.
+     * Construdts b CodfSourdf bnd bssodibtfs it witi tif spfdififd
+     * lodbtion bnd sft of dfrtifidbtfs.
      *
-     * @param url the location (URL).
+     * @pbrbm url tif lodbtion (URL).
      *
-     * @param certs the certificate(s). It may be null. The contents of the
-     * array are copied to protect against subsequent modification.
+     * @pbrbm dfrts tif dfrtifidbtf(s). It mby bf null. Tif dontfnts of tif
+     * brrby brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
      */
-    public CodeSource(URL url, java.security.cert.Certificate certs[]) {
-        this.location = url;
+    publid CodfSourdf(URL url, jbvb.sfdurity.dfrt.Cfrtifidbtf dfrts[]) {
+        tiis.lodbtion = url;
 
-        // Copy the supplied certs
-        if (certs != null) {
-            this.certs = certs.clone();
+        // Copy tif supplifd dfrts
+        if (dfrts != null) {
+            tiis.dfrts = dfrts.dlonf();
         }
     }
 
     /**
-     * Constructs a CodeSource and associates it with the specified
-     * location and set of code signers.
+     * Construdts b CodfSourdf bnd bssodibtfs it witi tif spfdififd
+     * lodbtion bnd sft of dodf signfrs.
      *
-     * @param url the location (URL).
-     * @param signers the code signers. It may be null. The contents of the
-     * array are copied to protect against subsequent modification.
+     * @pbrbm url tif lodbtion (URL).
+     * @pbrbm signfrs tif dodf signfrs. It mby bf null. Tif dontfnts of tif
+     * brrby brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public CodeSource(URL url, CodeSigner[] signers) {
-        this.location = url;
+    publid CodfSourdf(URL url, CodfSignfr[] signfrs) {
+        tiis.lodbtion = url;
 
-        // Copy the supplied signers
-        if (signers != null) {
-            this.signers = signers.clone();
+        // Copy tif supplifd signfrs
+        if (signfrs != null) {
+            tiis.signfrs = signfrs.dlonf();
         }
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
-    @Override
-    public int hashCode() {
-        if (location != null)
-            return location.hashCode();
-        else
-            return 0;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        if (lodbtion != null)
+            rfturn lodbtion.ibsiCodf();
+        flsf
+            rfturn 0;
     }
 
     /**
-     * Tests for equality between the specified object and this
-     * object. Two CodeSource objects are considered equal if their
-     * locations are of identical value and if their signer certificate
-     * chains are of identical value. It is not required that
-     * the certificate chains be in the same order.
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis
+     * objfdt. Two CodfSourdf objfdts brf donsidfrfd fqubl if tifir
+     * lodbtions brf of idfntidbl vbluf bnd if tifir signfr dfrtifidbtf
+     * dibins brf of idfntidbl vbluf. It is not rfquirfd tibt
+     * tif dfrtifidbtf dibins bf in tif sbmf ordfr.
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
      *
-     * @return true if the objects are considered equal, false otherwise.
+     * @rfturn truf if tif objfdts brf donsidfrfd fqubl, fblsf otifrwisf.
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
 
-        // objects types must be equal
-        if (!(obj instanceof CodeSource))
-            return false;
+        // objfdts typfs must bf fqubl
+        if (!(obj instbndfof CodfSourdf))
+            rfturn fblsf;
 
-        CodeSource cs = (CodeSource) obj;
+        CodfSourdf ds = (CodfSourdf) obj;
 
-        // URLs must match
-        if (location == null) {
-            // if location is null, then cs.location must be null as well
-            if (cs.location != null) return false;
-        } else {
-            // if location is not null, then it must equal cs.location
-            if (!location.equals(cs.location)) return false;
+        // URLs must mbtdi
+        if (lodbtion == null) {
+            // if lodbtion is null, tifn ds.lodbtion must bf null bs wfll
+            if (ds.lodbtion != null) rfturn fblsf;
+        } flsf {
+            // if lodbtion is not null, tifn it must fqubl ds.lodbtion
+            if (!lodbtion.fqubls(ds.lodbtion)) rfturn fblsf;
         }
 
-        // certs must match
-        return matchCerts(cs, true);
+        // dfrts must mbtdi
+        rfturn mbtdiCfrts(ds, truf);
     }
 
     /**
-     * Returns the location associated with this CodeSource.
+     * Rfturns tif lodbtion bssodibtfd witi tiis CodfSourdf.
      *
-     * @return the location (URL).
+     * @rfturn tif lodbtion (URL).
      */
-    public final URL getLocation() {
-        /* since URL is practically immutable, returning itself is not
-           a security problem */
-        return this.location;
+    publid finbl URL gftLodbtion() {
+        /* sindf URL is prbdtidblly immutbblf, rfturning itsflf is not
+           b sfdurity problfm */
+        rfturn tiis.lodbtion;
     }
 
     /**
-     * Returns the certificates associated with this CodeSource.
+     * Rfturns tif dfrtifidbtfs bssodibtfd witi tiis CodfSourdf.
      * <p>
-     * If this CodeSource object was created using the
-     * {@link #CodeSource(URL url, CodeSigner[] signers)}
-     * constructor then its certificate chains are extracted and used to
-     * create an array of Certificate objects. Each signer certificate is
-     * followed by its supporting certificate chain (which may be empty).
-     * Each signer certificate and its supporting certificate chain is ordered
-     * bottom-to-top (i.e., with the signer certificate first and the (root)
-     * certificate authority last).
+     * If tiis CodfSourdf objfdt wbs drfbtfd using tif
+     * {@link #CodfSourdf(URL url, CodfSignfr[] signfrs)}
+     * donstrudtor tifn its dfrtifidbtf dibins brf fxtrbdtfd bnd usfd to
+     * drfbtf bn brrby of Cfrtifidbtf objfdts. Ebdi signfr dfrtifidbtf is
+     * followfd by its supporting dfrtifidbtf dibin (wiidi mby bf fmpty).
+     * Ebdi signfr dfrtifidbtf bnd its supporting dfrtifidbtf dibin is ordfrfd
+     * bottom-to-top (i.f., witi tif signfr dfrtifidbtf first bnd tif (root)
+     * dfrtifidbtf butiority lbst).
      *
-     * @return A copy of the certificates array, or null if there is none.
+     * @rfturn A dopy of tif dfrtifidbtfs brrby, or null if tifrf is nonf.
      */
-    public final java.security.cert.Certificate[] getCertificates() {
-        if (certs != null) {
-            return certs.clone();
+    publid finbl jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrtifidbtfs() {
+        if (dfrts != null) {
+            rfturn dfrts.dlonf();
 
-        } else if (signers != null) {
-            // Convert the code signers to certs
-            ArrayList<java.security.cert.Certificate> certChains =
-                        new ArrayList<>();
-            for (int i = 0; i < signers.length; i++) {
-                certChains.addAll(
-                    signers[i].getSignerCertPath().getCertificates());
+        } flsf if (signfrs != null) {
+            // Convfrt tif dodf signfrs to dfrts
+            ArrbyList<jbvb.sfdurity.dfrt.Cfrtifidbtf> dfrtCibins =
+                        nfw ArrbyList<>();
+            for (int i = 0; i < signfrs.lfngti; i++) {
+                dfrtCibins.bddAll(
+                    signfrs[i].gftSignfrCfrtPbti().gftCfrtifidbtfs());
             }
-            certs = certChains.toArray(
-                        new java.security.cert.Certificate[certChains.size()]);
-            return certs.clone();
+            dfrts = dfrtCibins.toArrby(
+                        nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[dfrtCibins.sizf()]);
+            rfturn dfrts.dlonf();
 
-        } else {
-            return null;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Returns the code signers associated with this CodeSource.
+     * Rfturns tif dodf signfrs bssodibtfd witi tiis CodfSourdf.
      * <p>
-     * If this CodeSource object was created using the
-     * {@link #CodeSource(URL url, java.security.cert.Certificate[] certs)}
-     * constructor then its certificate chains are extracted and used to
-     * create an array of CodeSigner objects. Note that only X.509 certificates
-     * are examined - all other certificate types are ignored.
+     * If tiis CodfSourdf objfdt wbs drfbtfd using tif
+     * {@link #CodfSourdf(URL url, jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts)}
+     * donstrudtor tifn its dfrtifidbtf dibins brf fxtrbdtfd bnd usfd to
+     * drfbtf bn brrby of CodfSignfr objfdts. Notf tibt only X.509 dfrtifidbtfs
+     * brf fxbminfd - bll otifr dfrtifidbtf typfs brf ignorfd.
      *
-     * @return A copy of the code signer array, or null if there is none.
+     * @rfturn A dopy of tif dodf signfr brrby, or null if tifrf is nonf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public final CodeSigner[] getCodeSigners() {
-        if (signers != null) {
-            return signers.clone();
+    publid finbl CodfSignfr[] gftCodfSignfrs() {
+        if (signfrs != null) {
+            rfturn signfrs.dlonf();
 
-        } else if (certs != null) {
-            // Convert the certs to code signers
-            signers = convertCertArrayToSignerArray(certs);
-            return signers.clone();
+        } flsf if (dfrts != null) {
+            // Convfrt tif dfrts to dodf signfrs
+            signfrs = donvfrtCfrtArrbyToSignfrArrby(dfrts);
+            rfturn signfrs.dlonf();
 
-        } else {
-            return null;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Returns true if this CodeSource object "implies" the specified CodeSource.
+     * Rfturns truf if tiis CodfSourdf objfdt "implifs" tif spfdififd CodfSourdf.
      * <p>
-     * More specifically, this method makes the following checks.
-     * If any fail, it returns false. If they all succeed, it returns true.
+     * Morf spfdifidblly, tiis mftiod mbkfs tif following difdks.
+     * If bny fbil, it rfturns fblsf. If tify bll suddffd, it rfturns truf.
      * <ul>
-     * <li> <i>codesource</i> must not be null.
-     * <li> If this object's certificates are not null, then all
-     * of this object's certificates must be present in <i>codesource</i>'s
-     * certificates.
-     * <li> If this object's location (getLocation()) is not null, then the
-     * following checks are made against this object's location and
-     * <i>codesource</i>'s:
+     * <li> <i>dodfsourdf</i> must not bf null.
+     * <li> If tiis objfdt's dfrtifidbtfs brf not null, tifn bll
+     * of tiis objfdt's dfrtifidbtfs must bf prfsfnt in <i>dodfsourdf</i>'s
+     * dfrtifidbtfs.
+     * <li> If tiis objfdt's lodbtion (gftLodbtion()) is not null, tifn tif
+     * following difdks brf mbdf bgbinst tiis objfdt's lodbtion bnd
+     * <i>dodfsourdf</i>'s:
      *   <ul>
-     *     <li>  <i>codesource</i>'s location must not be null.
+     *     <li>  <i>dodfsourdf</i>'s lodbtion must not bf null.
      *
-     *     <li>  If this object's location
-     *           equals <i>codesource</i>'s location, then return true.
+     *     <li>  If tiis objfdt's lodbtion
+     *           fqubls <i>dodfsourdf</i>'s lodbtion, tifn rfturn truf.
      *
-     *     <li>  This object's protocol (getLocation().getProtocol()) must be
-     *           equal to <i>codesource</i>'s protocol, ignoring case.
+     *     <li>  Tiis objfdt's protodol (gftLodbtion().gftProtodol()) must bf
+     *           fqubl to <i>dodfsourdf</i>'s protodol, ignoring dbsf.
      *
-     *     <li>  If this object's host (getLocation().getHost()) is not null,
-     *           then the SocketPermission
-     *           constructed with this object's host must imply the
-     *           SocketPermission constructed with <i>codesource</i>'s host.
+     *     <li>  If tiis objfdt's iost (gftLodbtion().gftHost()) is not null,
+     *           tifn tif SodkftPfrmission
+     *           donstrudtfd witi tiis objfdt's iost must imply tif
+     *           SodkftPfrmission donstrudtfd witi <i>dodfsourdf</i>'s iost.
      *
-     *     <li>  If this object's port (getLocation().getPort()) is not
-     *           equal to -1 (that is, if a port is specified), it must equal
-     *           <i>codesource</i>'s port or default port
-     *           (codesource.getLocation().getDefaultPort()).
+     *     <li>  If tiis objfdt's port (gftLodbtion().gftPort()) is not
+     *           fqubl to -1 (tibt is, if b port is spfdififd), it must fqubl
+     *           <i>dodfsourdf</i>'s port or dffbult port
+     *           (dodfsourdf.gftLodbtion().gftDffbultPort()).
      *
-     *     <li>  If this object's file (getLocation().getFile()) doesn't equal
-     *           <i>codesource</i>'s file, then the following checks are made:
-     *           If this object's file ends with "/-",
-     *           then <i>codesource</i>'s file must start with this object's
-     *           file (exclusive the trailing "-").
-     *           If this object's file ends with a "/*",
-     *           then <i>codesource</i>'s file must start with this object's
-     *           file and must not have any further "/" separators.
-     *           If this object's file doesn't end with a "/",
-     *           then <i>codesource</i>'s file must match this object's
-     *           file with a '/' appended.
+     *     <li>  If tiis objfdt's filf (gftLodbtion().gftFilf()) dofsn't fqubl
+     *           <i>dodfsourdf</i>'s filf, tifn tif following difdks brf mbdf:
+     *           If tiis objfdt's filf fnds witi "/-",
+     *           tifn <i>dodfsourdf</i>'s filf must stbrt witi tiis objfdt's
+     *           filf (fxdlusivf tif trbiling "-").
+     *           If tiis objfdt's filf fnds witi b "/*",
+     *           tifn <i>dodfsourdf</i>'s filf must stbrt witi tiis objfdt's
+     *           filf bnd must not ibvf bny furtifr "/" sfpbrbtors.
+     *           If tiis objfdt's filf dofsn't fnd witi b "/",
+     *           tifn <i>dodfsourdf</i>'s filf must mbtdi tiis objfdt's
+     *           filf witi b '/' bppfndfd.
      *
-     *     <li>  If this object's reference (getLocation().getRef()) is
-     *           not null, it must equal <i>codesource</i>'s reference.
+     *     <li>  If tiis objfdt's rfffrfndf (gftLodbtion().gftRff()) is
+     *           not null, it must fqubl <i>dodfsourdf</i>'s rfffrfndf.
      *
      *   </ul>
      * </ul>
      * <p>
-     * For example, the codesource objects with the following locations
-     * and null certificates all imply
-     * the codesource with the location "http://java.sun.com/classes/foo.jar"
-     * and null certificates:
-     * <pre>
-     *     http:
-     *     http://*.sun.com/classes/*
-     *     http://java.sun.com/classes/-
-     *     http://java.sun.com/classes/foo.jar
-     * </pre>
+     * For fxbmplf, tif dodfsourdf objfdts witi tif following lodbtions
+     * bnd null dfrtifidbtfs bll imply
+     * tif dodfsourdf witi tif lodbtion "ittp://jbvb.sun.dom/dlbssfs/foo.jbr"
+     * bnd null dfrtifidbtfs:
+     * <prf>
+     *     ittp:
+     *     ittp://*.sun.dom/dlbssfs/*
+     *     ittp://jbvb.sun.dom/dlbssfs/-
+     *     ittp://jbvb.sun.dom/dlbssfs/foo.jbr
+     * </prf>
      *
-     * Note that if this CodeSource has a null location and a null
-     * certificate chain, then it implies every other CodeSource.
+     * Notf tibt if tiis CodfSourdf ibs b null lodbtion bnd b null
+     * dfrtifidbtf dibin, tifn it implifs fvfry otifr CodfSourdf.
      *
-     * @param codesource CodeSource to compare against.
+     * @pbrbm dodfsourdf CodfSourdf to dompbrf bgbinst.
      *
-     * @return true if the specified codesource is implied by this codesource,
-     * false if not.
+     * @rfturn truf if tif spfdififd dodfsourdf is implifd by tiis dodfsourdf,
+     * fblsf if not.
      */
 
-    public boolean implies(CodeSource codesource)
+    publid boolfbn implifs(CodfSourdf dodfsourdf)
     {
-        if (codesource == null)
-            return false;
+        if (dodfsourdf == null)
+            rfturn fblsf;
 
-        return matchCerts(codesource, false) && matchLocation(codesource);
+        rfturn mbtdiCfrts(dodfsourdf, fblsf) && mbtdiLodbtion(dodfsourdf);
     }
 
     /**
-     * Returns true if all the certs in this
-     * CodeSource are also in <i>that</i>.
+     * Rfturns truf if bll tif dfrts in tiis
+     * CodfSourdf brf blso in <i>tibt</i>.
      *
-     * @param that the CodeSource to check against.
-     * @param strict If true then a strict equality match is performed.
-     *               Otherwise a subset match is performed.
+     * @pbrbm tibt tif CodfSourdf to difdk bgbinst.
+     * @pbrbm stridt If truf tifn b stridt fqublity mbtdi is pfrformfd.
+     *               Otifrwisf b subsft mbtdi is pfrformfd.
      */
-    private boolean matchCerts(CodeSource that, boolean strict)
+    privbtf boolfbn mbtdiCfrts(CodfSourdf tibt, boolfbn stridt)
     {
-        boolean match;
+        boolfbn mbtdi;
 
-        // match any key
-        if (certs == null && signers == null) {
-            if (strict) {
-                return (that.certs == null && that.signers == null);
-            } else {
-                return true;
+        // mbtdi bny kfy
+        if (dfrts == null && signfrs == null) {
+            if (stridt) {
+                rfturn (tibt.dfrts == null && tibt.signfrs == null);
+            } flsf {
+                rfturn truf;
             }
-        // both have signers
-        } else if (signers != null && that.signers != null) {
-            if (strict && signers.length != that.signers.length) {
-                return false;
+        // boti ibvf signfrs
+        } flsf if (signfrs != null && tibt.signfrs != null) {
+            if (stridt && signfrs.lfngti != tibt.signfrs.lfngti) {
+                rfturn fblsf;
             }
-            for (int i = 0; i < signers.length; i++) {
-                match = false;
-                for (int j = 0; j < that.signers.length; j++) {
-                    if (signers[i].equals(that.signers[j])) {
-                        match = true;
-                        break;
+            for (int i = 0; i < signfrs.lfngti; i++) {
+                mbtdi = fblsf;
+                for (int j = 0; j < tibt.signfrs.lfngti; j++) {
+                    if (signfrs[i].fqubls(tibt.signfrs[j])) {
+                        mbtdi = truf;
+                        brfbk;
                     }
                 }
-                if (!match) return false;
+                if (!mbtdi) rfturn fblsf;
             }
-            return true;
+            rfturn truf;
 
-        // both have certs
-        } else if (certs != null && that.certs != null) {
-            if (strict && certs.length != that.certs.length) {
-                return false;
+        // boti ibvf dfrts
+        } flsf if (dfrts != null && tibt.dfrts != null) {
+            if (stridt && dfrts.lfngti != tibt.dfrts.lfngti) {
+                rfturn fblsf;
             }
-            for (int i = 0; i < certs.length; i++) {
-                match = false;
-                for (int j = 0; j < that.certs.length; j++) {
-                    if (certs[i].equals(that.certs[j])) {
-                        match = true;
-                        break;
+            for (int i = 0; i < dfrts.lfngti; i++) {
+                mbtdi = fblsf;
+                for (int j = 0; j < tibt.dfrts.lfngti; j++) {
+                    if (dfrts[i].fqubls(tibt.dfrts[j])) {
+                        mbtdi = truf;
+                        brfbk;
                     }
                 }
-                if (!match) return false;
+                if (!mbtdi) rfturn fblsf;
             }
-            return true;
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Returns true if two CodeSource's have the "same" location.
+     * Rfturns truf if two CodfSourdf's ibvf tif "sbmf" lodbtion.
      *
-     * @param that CodeSource to compare against
+     * @pbrbm tibt CodfSourdf to dompbrf bgbinst
      */
-    private boolean matchLocation(CodeSource that) {
-        if (location == null)
-            return true;
+    privbtf boolfbn mbtdiLodbtion(CodfSourdf tibt) {
+        if (lodbtion == null)
+            rfturn truf;
 
-        if ((that == null) || (that.location == null))
-            return false;
+        if ((tibt == null) || (tibt.lodbtion == null))
+            rfturn fblsf;
 
-        if (location.equals(that.location))
-            return true;
+        if (lodbtion.fqubls(tibt.lodbtion))
+            rfturn truf;
 
-        if (!location.getProtocol().equalsIgnoreCase(that.location.getProtocol()))
-            return false;
+        if (!lodbtion.gftProtodol().fqublsIgnorfCbsf(tibt.lodbtion.gftProtodol()))
+            rfturn fblsf;
 
-        int thisPort = location.getPort();
-        if (thisPort != -1) {
-            int thatPort = that.location.getPort();
-            int port = thatPort != -1 ? thatPort
-                                      : that.location.getDefaultPort();
-            if (thisPort != port)
-                return false;
+        int tiisPort = lodbtion.gftPort();
+        if (tiisPort != -1) {
+            int tibtPort = tibt.lodbtion.gftPort();
+            int port = tibtPort != -1 ? tibtPort
+                                      : tibt.lodbtion.gftDffbultPort();
+            if (tiisPort != port)
+                rfturn fblsf;
         }
 
-        if (location.getFile().endsWith("/-")) {
-            // Matches the directory and (recursively) all files
-            // and subdirectories contained in that directory.
-            // For example, "/a/b/-" implies anything that starts with
-            // "/a/b/"
-            String thisPath = location.getFile().substring(0,
-                                            location.getFile().length()-1);
-            if (!that.location.getFile().startsWith(thisPath))
-                return false;
-        } else if (location.getFile().endsWith("/*")) {
-            // Matches the directory and all the files contained in that
-            // directory.
-            // For example, "/a/b/*" implies anything that starts with
-            // "/a/b/" but has no further slashes
-            int last = that.location.getFile().lastIndexOf('/');
-            if (last == -1)
-                return false;
-            String thisPath = location.getFile().substring(0,
-                                            location.getFile().length()-1);
-            String thatPath = that.location.getFile().substring(0, last+1);
-            if (!thatPath.equals(thisPath))
-                return false;
-        } else {
-            // Exact matches only.
-            // For example, "/a/b" and "/a/b/" both imply "/a/b/"
-            if ((!that.location.getFile().equals(location.getFile()))
-                && (!that.location.getFile().equals(location.getFile()+"/"))) {
-                return false;
+        if (lodbtion.gftFilf().fndsWiti("/-")) {
+            // Mbtdifs tif dirfdtory bnd (rfdursivfly) bll filfs
+            // bnd subdirfdtorifs dontbinfd in tibt dirfdtory.
+            // For fxbmplf, "/b/b/-" implifs bnytiing tibt stbrts witi
+            // "/b/b/"
+            String tiisPbti = lodbtion.gftFilf().substring(0,
+                                            lodbtion.gftFilf().lfngti()-1);
+            if (!tibt.lodbtion.gftFilf().stbrtsWiti(tiisPbti))
+                rfturn fblsf;
+        } flsf if (lodbtion.gftFilf().fndsWiti("/*")) {
+            // Mbtdifs tif dirfdtory bnd bll tif filfs dontbinfd in tibt
+            // dirfdtory.
+            // For fxbmplf, "/b/b/*" implifs bnytiing tibt stbrts witi
+            // "/b/b/" but ibs no furtifr slbsifs
+            int lbst = tibt.lodbtion.gftFilf().lbstIndfxOf('/');
+            if (lbst == -1)
+                rfturn fblsf;
+            String tiisPbti = lodbtion.gftFilf().substring(0,
+                                            lodbtion.gftFilf().lfngti()-1);
+            String tibtPbti = tibt.lodbtion.gftFilf().substring(0, lbst+1);
+            if (!tibtPbti.fqubls(tiisPbti))
+                rfturn fblsf;
+        } flsf {
+            // Exbdt mbtdifs only.
+            // For fxbmplf, "/b/b" bnd "/b/b/" boti imply "/b/b/"
+            if ((!tibt.lodbtion.gftFilf().fqubls(lodbtion.gftFilf()))
+                && (!tibt.lodbtion.gftFilf().fqubls(lodbtion.gftFilf()+"/"))) {
+                rfturn fblsf;
             }
         }
 
-        if (location.getRef() != null
-            && !location.getRef().equals(that.location.getRef())) {
-            return false;
+        if (lodbtion.gftRff() != null
+            && !lodbtion.gftRff().fqubls(tibt.lodbtion.gftRff())) {
+            rfturn fblsf;
         }
 
-        String thisHost = location.getHost();
-        String thatHost = that.location.getHost();
-        if (thisHost != null) {
-            if (("".equals(thisHost) || "localhost".equals(thisHost)) &&
-                ("".equals(thatHost) || "localhost".equals(thatHost))) {
+        String tiisHost = lodbtion.gftHost();
+        String tibtHost = tibt.lodbtion.gftHost();
+        if (tiisHost != null) {
+            if (("".fqubls(tiisHost) || "lodbliost".fqubls(tiisHost)) &&
+                ("".fqubls(tibtHost) || "lodbliost".fqubls(tibtHost))) {
                 // ok
-            } else if (!thisHost.equals(thatHost)) {
-                if (thatHost == null) {
-                    return false;
+            } flsf if (!tiisHost.fqubls(tibtHost)) {
+                if (tibtHost == null) {
+                    rfturn fblsf;
                 }
-                if (this.sp == null) {
-                    this.sp = new SocketPermission(thisHost, "resolve");
+                if (tiis.sp == null) {
+                    tiis.sp = nfw SodkftPfrmission(tiisHost, "rfsolvf");
                 }
-                if (that.sp == null) {
-                    that.sp = new SocketPermission(thatHost, "resolve");
+                if (tibt.sp == null) {
+                    tibt.sp = nfw SodkftPfrmission(tibtHost, "rfsolvf");
                 }
-                if (!this.sp.implies(that.sp)) {
-                    return false;
+                if (!tiis.sp.implifs(tibt.sp)) {
+                    rfturn fblsf;
                 }
             }
         }
-        // everything matches
-        return true;
+        // fvfrytiing mbtdifs
+        rfturn truf;
     }
 
     /**
-     * Returns a string describing this CodeSource, telling its
-     * URL and certificates.
+     * Rfturns b string dfsdribing tiis CodfSourdf, tflling its
+     * URL bnd dfrtifidbtfs.
      *
-     * @return information about this CodeSource.
+     * @rfturn informbtion bbout tiis CodfSourdf.
      */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        sb.append(this.location);
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("(");
+        sb.bppfnd(tiis.lodbtion);
 
-        if (this.certs != null && this.certs.length > 0) {
-            for (int i = 0; i < this.certs.length; i++) {
-                sb.append( " " + this.certs[i]);
+        if (tiis.dfrts != null && tiis.dfrts.lfngti > 0) {
+            for (int i = 0; i < tiis.dfrts.lfngti; i++) {
+                sb.bppfnd( " " + tiis.dfrts[i]);
             }
 
-        } else if (this.signers != null && this.signers.length > 0) {
-            for (int i = 0; i < this.signers.length; i++) {
-                sb.append( " " + this.signers[i]);
+        } flsf if (tiis.signfrs != null && tiis.signfrs.lfngti > 0) {
+            for (int i = 0; i < tiis.signfrs.lfngti; i++) {
+                sb.bppfnd( " " + tiis.signfrs[i]);
             }
-        } else {
-            sb.append(" <no signer certificates>");
+        } flsf {
+            sb.bppfnd(" <no signfr dfrtifidbtfs>");
         }
-        sb.append(")");
-        return sb.toString();
+        sb.bppfnd(")");
+        rfturn sb.toString();
     }
 
     /**
-     * Writes this object out to a stream (i.e., serializes it).
+     * Writfs tiis objfdt out to b strfbm (i.f., sfriblizfs it).
      *
-     * @serialData An initial {@code URL} is followed by an
-     * {@code int} indicating the number of certificates to follow
-     * (a value of "zero" denotes that there are no certificates associated
-     * with this object).
-     * Each certificate is written out starting with a {@code String}
-     * denoting the certificate type, followed by an
-     * {@code int} specifying the length of the certificate encoding,
-     * followed by the certificate encoding itself which is written out as an
-     * array of bytes. Finally, if any code signers are present then the array
-     * of code signers is serialized and written out too.
+     * @sfriblDbtb An initibl {@dodf URL} is followfd by bn
+     * {@dodf int} indidbting tif numbfr of dfrtifidbtfs to follow
+     * (b vbluf of "zfro" dfnotfs tibt tifrf brf no dfrtifidbtfs bssodibtfd
+     * witi tiis objfdt).
+     * Ebdi dfrtifidbtf is writtfn out stbrting witi b {@dodf String}
+     * dfnoting tif dfrtifidbtf typf, followfd by bn
+     * {@dodf int} spfdifying tif lfngti of tif dfrtifidbtf fndoding,
+     * followfd by tif dfrtifidbtf fndoding itsflf wiidi is writtfn out bs bn
+     * brrby of bytfs. Finblly, if bny dodf signfrs brf prfsfnt tifn tif brrby
+     * of dodf signfrs is sfriblizfd bnd writtfn out too.
      */
-    private void writeObject(java.io.ObjectOutputStream oos)
-        throws IOException
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm oos)
+        tirows IOExdfption
     {
-        oos.defaultWriteObject(); // location
+        oos.dffbultWritfObjfdt(); // lodbtion
 
-        // Serialize the array of certs
-        if (certs == null || certs.length == 0) {
-            oos.writeInt(0);
-        } else {
-            // write out the total number of certs
-            oos.writeInt(certs.length);
-            // write out each cert, including its type
-            for (int i = 0; i < certs.length; i++) {
-                java.security.cert.Certificate cert = certs[i];
+        // Sfriblizf tif brrby of dfrts
+        if (dfrts == null || dfrts.lfngti == 0) {
+            oos.writfInt(0);
+        } flsf {
+            // writf out tif totbl numbfr of dfrts
+            oos.writfInt(dfrts.lfngti);
+            // writf out fbdi dfrt, indluding its typf
+            for (int i = 0; i < dfrts.lfngti; i++) {
+                jbvb.sfdurity.dfrt.Cfrtifidbtf dfrt = dfrts[i];
                 try {
-                    oos.writeUTF(cert.getType());
-                    byte[] encoded = cert.getEncoded();
-                    oos.writeInt(encoded.length);
-                    oos.write(encoded);
-                } catch (CertificateEncodingException cee) {
-                    throw new IOException(cee.getMessage());
+                    oos.writfUTF(dfrt.gftTypf());
+                    bytf[] fndodfd = dfrt.gftEndodfd();
+                    oos.writfInt(fndodfd.lfngti);
+                    oos.writf(fndodfd);
+                } dbtdi (CfrtifidbtfEndodingExdfption dff) {
+                    tirow nfw IOExdfption(dff.gftMfssbgf());
                 }
             }
         }
 
-        // Serialize the array of code signers (if any)
-        if (signers != null && signers.length > 0) {
-            oos.writeObject(signers);
+        // Sfriblizf tif brrby of dodf signfrs (if bny)
+        if (signfrs != null && signfrs.lfngti > 0) {
+            oos.writfObjfdt(signfrs);
         }
     }
 
     /**
-     * Restores this object from a stream (i.e., deserializes it).
+     * Rfstorfs tiis objfdt from b strfbm (i.f., dfsfriblizfs it).
      */
-    private void readObject(java.io.ObjectInputStream ois)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm ois)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        CertificateFactory cf;
-        Hashtable<String, CertificateFactory> cfs = null;
+        CfrtifidbtfFbdtory df;
+        Hbsitbblf<String, CfrtifidbtfFbdtory> dfs = null;
 
-        ois.defaultReadObject(); // location
+        ois.dffbultRfbdObjfdt(); // lodbtion
 
-        // process any new-style certs in the stream (if present)
-        int size = ois.readInt();
-        if (size > 0) {
-            // we know of 3 different cert types: X.509, PGP, SDSI, which
-            // could all be present in the stream at the same time
-            cfs = new Hashtable<String, CertificateFactory>(3);
-            this.certs = new java.security.cert.Certificate[size];
+        // prodfss bny nfw-stylf dfrts in tif strfbm (if prfsfnt)
+        int sizf = ois.rfbdInt();
+        if (sizf > 0) {
+            // wf know of 3 difffrfnt dfrt typfs: X.509, PGP, SDSI, wiidi
+            // dould bll bf prfsfnt in tif strfbm bt tif sbmf timf
+            dfs = nfw Hbsitbblf<String, CfrtifidbtfFbdtory>(3);
+            tiis.dfrts = nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[sizf];
         }
 
-        for (int i = 0; i < size; i++) {
-            // read the certificate type, and instantiate a certificate
-            // factory of that type (reuse existing factory if possible)
-            String certType = ois.readUTF();
-            if (cfs.containsKey(certType)) {
-                // reuse certificate factory
-                cf = cfs.get(certType);
-            } else {
-                // create new certificate factory
+        for (int i = 0; i < sizf; i++) {
+            // rfbd tif dfrtifidbtf typf, bnd instbntibtf b dfrtifidbtf
+            // fbdtory of tibt typf (rfusf fxisting fbdtory if possiblf)
+            String dfrtTypf = ois.rfbdUTF();
+            if (dfs.dontbinsKfy(dfrtTypf)) {
+                // rfusf dfrtifidbtf fbdtory
+                df = dfs.gft(dfrtTypf);
+            } flsf {
+                // drfbtf nfw dfrtifidbtf fbdtory
                 try {
-                    cf = CertificateFactory.getInstance(certType);
-                } catch (CertificateException ce) {
-                    throw new ClassNotFoundException
-                        ("Certificate factory for " + certType + " not found");
+                    df = CfrtifidbtfFbdtory.gftInstbndf(dfrtTypf);
+                } dbtdi (CfrtifidbtfExdfption df) {
+                    tirow nfw ClbssNotFoundExdfption
+                        ("Cfrtifidbtf fbdtory for " + dfrtTypf + " not found");
                 }
-                // store the certificate factory so we can reuse it later
-                cfs.put(certType, cf);
+                // storf tif dfrtifidbtf fbdtory so wf dbn rfusf it lbtfr
+                dfs.put(dfrtTypf, df);
             }
-            // parse the certificate
-            byte[] encoded = null;
+            // pbrsf tif dfrtifidbtf
+            bytf[] fndodfd = null;
             try {
-                encoded = new byte[ois.readInt()];
-            } catch (OutOfMemoryError oome) {
-                throw new IOException("Certificate too big");
+                fndodfd = nfw bytf[ois.rfbdInt()];
+            } dbtdi (OutOfMfmoryError oomf) {
+                tirow nfw IOExdfption("Cfrtifidbtf too big");
             }
-            ois.readFully(encoded);
-            ByteArrayInputStream bais = new ByteArrayInputStream(encoded);
+            ois.rfbdFully(fndodfd);
+            BytfArrbyInputStrfbm bbis = nfw BytfArrbyInputStrfbm(fndodfd);
             try {
-                this.certs[i] = cf.generateCertificate(bais);
-            } catch (CertificateException ce) {
-                throw new IOException(ce.getMessage());
+                tiis.dfrts[i] = df.gfnfrbtfCfrtifidbtf(bbis);
+            } dbtdi (CfrtifidbtfExdfption df) {
+                tirow nfw IOExdfption(df.gftMfssbgf());
             }
-            bais.close();
+            bbis.dlosf();
         }
 
-        // Deserialize array of code signers (if any)
+        // Dfsfriblizf brrby of dodf signfrs (if bny)
         try {
-            this.signers = ((CodeSigner[])ois.readObject()).clone();
-        } catch (IOException ioe) {
-            // no signers present
+            tiis.signfrs = ((CodfSignfr[])ois.rfbdObjfdt()).dlonf();
+        } dbtdi (IOExdfption iof) {
+            // no signfrs prfsfnt
         }
     }
 
     /*
-     * Convert an array of certificates to an array of code signers.
-     * The array of certificates is a concatenation of certificate chains
-     * where the initial certificate in each chain is the end-entity cert.
+     * Convfrt bn brrby of dfrtifidbtfs to bn brrby of dodf signfrs.
+     * Tif brrby of dfrtifidbtfs is b dondbtfnbtion of dfrtifidbtf dibins
+     * wifrf tif initibl dfrtifidbtf in fbdi dibin is tif fnd-fntity dfrt.
      *
-     * @return An array of code signers or null if none are generated.
+     * @rfturn An brrby of dodf signfrs or null if nonf brf gfnfrbtfd.
      */
-    private CodeSigner[] convertCertArrayToSignerArray(
-        java.security.cert.Certificate[] certs) {
+    privbtf CodfSignfr[] donvfrtCfrtArrbyToSignfrArrby(
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts) {
 
-        if (certs == null) {
-            return null;
+        if (dfrts == null) {
+            rfturn null;
         }
 
         try {
-            // Initialize certificate factory
-            if (factory == null) {
-                factory = CertificateFactory.getInstance("X.509");
+            // Initiblizf dfrtifidbtf fbdtory
+            if (fbdtory == null) {
+                fbdtory = CfrtifidbtfFbdtory.gftInstbndf("X.509");
             }
 
-            // Iterate through all the certificates
+            // Itfrbtf tirougi bll tif dfrtifidbtfs
             int i = 0;
-            List<CodeSigner> signers = new ArrayList<>();
-            while (i < certs.length) {
-                List<java.security.cert.Certificate> certChain =
-                        new ArrayList<>();
-                certChain.add(certs[i++]); // first cert is an end-entity cert
+            List<CodfSignfr> signfrs = nfw ArrbyList<>();
+            wiilf (i < dfrts.lfngti) {
+                List<jbvb.sfdurity.dfrt.Cfrtifidbtf> dfrtCibin =
+                        nfw ArrbyList<>();
+                dfrtCibin.bdd(dfrts[i++]); // first dfrt is bn fnd-fntity dfrt
                 int j = i;
 
-                // Extract chain of certificates
-                // (loop while certs are not end-entity certs)
-                while (j < certs.length &&
-                    certs[j] instanceof X509Certificate &&
-                    ((X509Certificate)certs[j]).getBasicConstraints() != -1) {
-                    certChain.add(certs[j]);
+                // Extrbdt dibin of dfrtifidbtfs
+                // (loop wiilf dfrts brf not fnd-fntity dfrts)
+                wiilf (j < dfrts.lfngti &&
+                    dfrts[j] instbndfof X509Cfrtifidbtf &&
+                    ((X509Cfrtifidbtf)dfrts[j]).gftBbsidConstrbints() != -1) {
+                    dfrtCibin.bdd(dfrts[j]);
                     j++;
                 }
                 i = j;
-                CertPath certPath = factory.generateCertPath(certChain);
-                signers.add(new CodeSigner(certPath, null));
+                CfrtPbti dfrtPbti = fbdtory.gfnfrbtfCfrtPbti(dfrtCibin);
+                signfrs.bdd(nfw CodfSignfr(dfrtPbti, null));
             }
 
-            if (signers.isEmpty()) {
-                return null;
-            } else {
-                return signers.toArray(new CodeSigner[signers.size()]);
+            if (signfrs.isEmpty()) {
+                rfturn null;
+            } flsf {
+                rfturn signfrs.toArrby(nfw CodfSignfr[signfrs.sizf()]);
             }
 
-        } catch (CertificateException e) {
-            return null; //TODO - may be better to throw an ex. here
+        } dbtdi (CfrtifidbtfExdfption f) {
+            rfturn null; //TODO - mby bf bfttfr to tirow bn fx. ifrf
         }
     }
 }

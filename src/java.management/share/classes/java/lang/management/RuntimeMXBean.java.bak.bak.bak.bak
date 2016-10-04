@@ -1,0 +1,339 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+/**
+ * Thf mbnbgfmfnt intfrfbdf for thf runtimf systfm of
+ * thf Jbvb virtubl mbdhinf.
+ *
+ * <p> A Jbvb virtubl mbdhinf hbs b singlf instbndf of thf implfmfntbtion
+ * dlbss of this intfrfbdf.  This instbndf implfmfnting this intfrfbdf is
+ * bn <b hrff="MbnbgfmfntFbdtory.html#MXBfbn">MXBfbn</b>
+ * thbt dbn bf obtbinfd by dblling
+ * thf {@link MbnbgfmfntFbdtory#gftRuntimfMXBfbn} mfthod or
+ * from thf {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mfthod.
+ *
+ * <p>Thf <tt>ObjfdtNbmf</tt> for uniqufly idfntifying thf MXBfbn for
+ * thf runtimf systfm within bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *    {@link MbnbgfmfntFbdtory#RUNTIME_MXBEAN_NAME
+ *           <tt>jbvb.lbng:typf=Runtimf</tt>}
+ * </blodkquotf>
+ *
+ * It dbn bf obtbinfd by dblling thf
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mfthod.
+ *
+ * <p> This intfrfbdf dffinfs sfvfrbl donvfnifnt mfthods for bddfssing
+ * systfm propfrtifs bbout thf Jbvb virtubl mbdhinf.
+ *
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b hrff="pbdkbgf-summbry.html#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+publid intfrfbdf RuntimfMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+    /**
+     * Rfturns thf nbmf rfprfsfnting thf running Jbvb virtubl mbdhinf.
+     * Thf rfturnfd nbmf string dbn bf bny brbitrbry string bnd
+     * b Jbvb virtubl mbdhinf implfmfntbtion dbn dhoosf
+     * to fmbfd plbtform-spfdifid usfful informbtion in thf
+     * rfturnfd nbmf string.  Ebdh running virtubl mbdhinf dould hbvf
+     * b difffrfnt nbmf.
+     *
+     * @rfturn thf nbmf rfprfsfnting thf running Jbvb virtubl mbdhinf.
+     */
+    publid String gftNbmf();
+
+    /**
+     * Rfturns thf Jbvb virtubl mbdhinf implfmfntbtion nbmf.
+     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.nbmf")}.
+     *
+     * @rfturn thf Jbvb virtubl mbdhinf implfmfntbtion nbmf.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to this systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+    publid String gftVmNbmf();
+
+    /**
+     * Rfturns thf Jbvb virtubl mbdhinf implfmfntbtion vfndor.
+     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.vfndor")}.
+     *
+     * @rfturn thf Jbvb virtubl mbdhinf implfmfntbtion vfndor.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to this systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+    publid String gftVmVfndor();
+
+    /**
+     * Rfturns thf Jbvb virtubl mbdhinf implfmfntbtion vfrsion.
+     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.vfrsion")}.
+     *
+     * @rfturn thf Jbvb virtubl mbdhinf implfmfntbtion vfrsion.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to this systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+    publid String gftVmVfrsion();
+
+    /**
+     * Rfturns thf Jbvb virtubl mbdhinf spfdifidbtion nbmf.
+     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf")}.
+     *
+     * @rfturn thf Jbvb virtubl mbdhinf spfdifidbtion nbmf.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to this systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+    publid String gftSpfdNbmf();
+
+    /**
+     * Rfturns thf Jbvb virtubl mbdhinf spfdifidbtion vfndor.
+     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor")}.
+     *
+     * @rfturn thf Jbvb virtubl mbdhinf spfdifidbtion vfndor.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to this systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+    publid String gftSpfdVfndor();
+
+    /**
+     * Rfturns thf Jbvb virtubl mbdhinf spfdifidbtion vfrsion.
+     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion")}.
+     *
+     * @rfturn thf Jbvb virtubl mbdhinf spfdifidbtion vfrsion.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to this systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+    publid String gftSpfdVfrsion();
+
+
+    /**
+     * Rfturns thf vfrsion of thf spfdifidbtion for thf mbnbgfmfnt intfrfbdf
+     * implfmfntfd by thf running Jbvb virtubl mbdhinf.
+     *
+     * @rfturn thf vfrsion of thf spfdifidbtion for thf mbnbgfmfnt intfrfbdf
+     * implfmfntfd by thf running Jbvb virtubl mbdhinf.
+     */
+    publid String gftMbnbgfmfntSpfdVfrsion();
+
+    /**
+     * Rfturns thf Jbvb dlbss pbth thbt is usfd by thf systfm dlbss lobdfr
+     * to sfbrdh for dlbss filfs.
+     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.dlbss.pbth")}.
+     *
+     * <p> Multiplf pbths in thf Jbvb dlbss pbth brf sfpbrbtfd by thf
+     * pbth sfpbrbtor dhbrbdtfr of thf plbtform of thf Jbvb virtubl mbdhinf
+     * bfing monitorfd.
+     *
+     * @rfturn thf Jbvb dlbss pbth.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to this systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+    publid String gftClbssPbth();
+
+    /**
+     * Rfturns thf Jbvb librbry pbth.
+     * This mfthod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.librbry.pbth")}.
+     *
+     * <p> Multiplf pbths in thf Jbvb librbry pbth brf sfpbrbtfd by thf
+     * pbth sfpbrbtor dhbrbdtfr of thf plbtform of thf Jbvb virtubl mbdhinf
+     * bfing monitorfd.
+     *
+     * @rfturn thf Jbvb librbry pbth.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to this systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
+     */
+    publid String gftLibrbryPbth();
+
+    /**
+     * Tfsts if thf Jbvb virtubl mbdhinf supports thf boot dlbss pbth
+     * mfdhbnism usfd by thf bootstrbp dlbss lobdfr to sfbrdh for dlbss
+     * filfs.
+     *
+     * @rfturn <tt>truf</tt> if thf Jbvb virtubl mbdhinf supports thf
+     * dlbss pbth mfdhbnism; <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isBootClbssPbthSupportfd();
+
+    /**
+     * Rfturns thf boot dlbss pbth thbt is usfd by thf bootstrbp dlbss lobdfr
+     * to sfbrdh for dlbss filfs.
+     *
+     * <p> Multiplf pbths in thf boot dlbss pbth brf sfpbrbtfd by thf
+     * pbth sfpbrbtor dhbrbdtfr of thf plbtform on whidh thf Jbvb
+     * virtubl mbdhinf is running.
+     *
+     * <p>A Jbvb virtubl mbdhinf implfmfntbtion mby not support
+     * thf boot dlbss pbth mfdhbnism for thf bootstrbp dlbss lobdfr
+     * to sfbrdh for dlbss filfs.
+     * Thf {@link #isBootClbssPbthSupportfd} mfthod dbn bf usfd
+     * to dftfrminf if thf Jbvb virtubl mbdhinf supports this mfthod.
+     *
+     * @rfturn thf boot dlbss pbth.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     *     if thf Jbvb virtubl mbdhinf dofs not support this opfrbtion.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd thf dbllfr dofs not hbvf
+     *     MbnbgfmfntPfrmission("monitor").
+     */
+    publid String gftBootClbssPbth();
+
+    /**
+     * Rfturns thf input brgumfnts pbssfd to thf Jbvb virtubl mbdhinf
+     * whidh dofs not indludf thf brgumfnts to thf <tt>mbin</tt> mfthod.
+     * This mfthod rfturns bn fmpty list if thfrf is no input brgumfnt
+     * to thf Jbvb virtubl mbdhinf.
+     * <p>
+     * Somf Jbvb virtubl mbdhinf implfmfntbtions mby tbkf input brgumfnts
+     * from multiplf difffrfnt sourdfs: for fxbmplfs, brgumfnts pbssfd from
+     * thf bpplidbtion thbt lbundhfs thf Jbvb virtubl mbdhinf sudh bs
+     * thf 'jbvb' dommbnd, fnvironmfnt vbribblfs, donfigurbtion filfs, ftd.
+     * <p>
+     * Typidblly, not bll dommbnd-linf options to thf 'jbvb' dommbnd
+     * brf pbssfd to thf Jbvb virtubl mbdhinf.
+     * Thus, thf rfturnfd input brgumfnts mby not
+     * indludf bll dommbnd-linf options.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of {@dodf List<String>} is <tt>String[]</tt>.
+     *
+     * @rfturn b list of <tt>String</tt> objfdts; fbdh flfmfnt
+     * is bn brgumfnt pbssfd to thf Jbvb virtubl mbdhinf.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd thf dbllfr dofs not hbvf
+     *     MbnbgfmfntPfrmission("monitor").
+     */
+    publid jbvb.util.List<String> gftInputArgumfnts();
+
+    /**
+     * Rfturns thf uptimf of thf Jbvb virtubl mbdhinf in millisfdonds.
+     *
+     * @rfturn uptimf of thf Jbvb virtubl mbdhinf in millisfdonds.
+     */
+    publid long gftUptimf();
+
+    /**
+     * Rfturns thf stbrt timf of thf Jbvb virtubl mbdhinf in millisfdonds.
+     * This mfthod rfturns thf bpproximbtf timf whfn thf Jbvb virtubl
+     * mbdhinf stbrtfd.
+     *
+     * @rfturn stbrt timf of thf Jbvb virtubl mbdhinf in millisfdonds.
+     *
+     */
+    publid long gftStbrtTimf();
+
+    /**
+     * Rfturns b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * This mfthod dblls {@link Systfm#gftPropfrtifs} to gft bll
+     * systfm propfrtifs.  Propfrtifs whosf nbmf or vbluf is not
+     * b <tt>String</tt> brf omittfd.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of {@dodf Mbp<String,String>} is
+     * {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+     * with two itfms in fbdh row bs follows:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Nbmf bnd Typf for fbdh itfm">
+     * <tr>
+     *   <th>Itfm Nbmf</th>
+     *   <th>Itfm Typf</th>
+     *   </tr>
+     * <tr>
+     *   <td><tt>kfy</tt></td>
+     *   <td><tt>String</tt></td>
+     *   </tr>
+     * <tr>
+     *   <td><tt>vbluf</tt></td>
+     *   <td><tt>String</tt></td>
+     *   </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @rfturn b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     *
+     * @throws  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow bddfss
+     *     to thf systfm propfrtifs.
+     */
+    publid jbvb.util.Mbp<String, String> gftSystfmPropfrtifs();
+}

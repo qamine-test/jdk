@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.*;
-import java.nio.*;
+import jbvb.io.*;
+import jbvb.nio.*;
 
 /**
- * A simple InputStream which uses ByteBuffers as it's backing store.
+ * A simplf InputStrfbm wiidi usfs BytfBufffrs bs it's bbdking storf.
  * <P>
- * The only IOException should come if the InputStream has been closed.
- * All other IOException should not occur because all the data is local.
- * Data reads on an exhausted ByteBuffer returns a -1.
+ * Tif only IOExdfption siould domf if tif InputStrfbm ibs bffn dlosfd.
+ * All otifr IOExdfption siould not oddur bfdbusf bll tif dbtb is lodbl.
+ * Dbtb rfbds on bn fxibustfd BytfBufffr rfturns b -1.
  *
- * @author  Brad Wetmore
+ * @butior  Brbd Wftmorf
  */
-class ByteBufferInputStream extends InputStream {
+dlbss BytfBufffrInputStrfbm fxtfnds InputStrfbm {
 
-    ByteBuffer bb;
+    BytfBufffr bb;
 
-    ByteBufferInputStream(ByteBuffer bb) {
-        this.bb = bb;
+    BytfBufffrInputStrfbm(BytfBufffr bb) {
+        tiis.bb = bb;
     }
 
     /**
-     * Returns a byte from the ByteBuffer.
+     * Rfturns b bytf from tif BytfBufffr.
      *
-     * Increments position().
+     * Indrfmfnts position().
      */
-    @Override
-    public int read() throws IOException {
+    @Ovfrridf
+    publid int rfbd() tirows IOExdfption {
 
         if (bb == null) {
-            throw new IOException("read on a closed InputStream");
+            tirow nfw IOExdfption("rfbd on b dlosfd InputStrfbm");
         }
 
-        if (bb.remaining() == 0) {
-            return -1;
+        if (bb.rfmbining() == 0) {
+            rfturn -1;
         }
 
-        return (bb.get() & 0xFF);   // need to be in the range 0 to 255
+        rfturn (bb.gft() & 0xFF);   // nffd to bf in tif rbngf 0 to 255
     }
 
     /**
-     * Returns a byte array from the ByteBuffer.
+     * Rfturns b bytf brrby from tif BytfBufffr.
      *
-     * Increments position().
+     * Indrfmfnts position().
      */
-    @Override
-    public int read(byte b[]) throws IOException {
+    @Ovfrridf
+    publid int rfbd(bytf b[]) tirows IOExdfption {
 
         if (bb == null) {
-            throw new IOException("read on a closed InputStream");
+            tirow nfw IOExdfption("rfbd on b dlosfd InputStrfbm");
         }
 
-        return read(b, 0, b.length);
+        rfturn rfbd(b, 0, b.lfngti);
     }
 
     /**
-     * Returns a byte array from the ByteBuffer.
+     * Rfturns b bytf brrby from tif BytfBufffr.
      *
-     * Increments position().
+     * Indrfmfnts position().
      */
-    @Override
-    public int read(byte b[], int off, int len) throws IOException {
+    @Ovfrridf
+    publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption {
 
         if (bb == null) {
-            throw new IOException("read on a closed InputStream");
+            tirow nfw IOExdfption("rfbd on b dlosfd InputStrfbm");
         }
 
         if (b == null) {
-            throw new NullPointerException();
-        } else if (off < 0 || len < 0 || len > b.length - off) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return 0;
+            tirow nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngti - off) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
         }
 
-        int length = Math.min(bb.remaining(), len);
-        if (length == 0) {
-            return -1;
+        int lfngti = Mbti.min(bb.rfmbining(), lfn);
+        if (lfngti == 0) {
+            rfturn -1;
         }
 
-        bb.get(b, off, length);
-        return length;
+        bb.gft(b, off, lfngti);
+        rfturn lfngti;
     }
 
     /**
-     * Skips over and discards <code>n</code> bytes of data from this input
-     * stream.
+     * Skips ovfr bnd disdbrds <dodf>n</dodf> bytfs of dbtb from tiis input
+     * strfbm.
      */
-    @Override
-    public long skip(long n) throws IOException {
+    @Ovfrridf
+    publid long skip(long n) tirows IOExdfption {
 
         if (bb == null) {
-            throw new IOException("skip on a closed InputStream");
+            tirow nfw IOExdfption("skip on b dlosfd InputStrfbm");
         }
 
         if (n <= 0) {
-            return 0;
+            rfturn 0;
         }
 
         /*
-         * ByteBuffers have at most an int, so lose the upper bits.
-         * The contract allows this.
+         * BytfBufffrs ibvf bt most bn int, so losf tif uppfr bits.
+         * Tif dontrbdt bllows tiis.
          */
         int nInt = (int) n;
-        int skip = Math.min(bb.remaining(), nInt);
+        int skip = Mbti.min(bb.rfmbining(), nInt);
 
         bb.position(bb.position() + skip);
 
-        return nInt;
+        rfturn nInt;
     }
 
     /**
-     * Returns the number of bytes that can be read (or skipped over)
-     * from this input stream without blocking by the next caller of a
-     * method for this input stream.
+     * Rfturns tif numbfr of bytfs tibt dbn bf rfbd (or skippfd ovfr)
+     * from tiis input strfbm witiout blodking by tif nfxt dbllfr of b
+     * mftiod for tiis input strfbm.
      */
-    @Override
-    public int available() throws IOException {
+    @Ovfrridf
+    publid int bvbilbblf() tirows IOExdfption {
 
         if (bb == null) {
-            throw new IOException("available on a closed InputStream");
+            tirow nfw IOExdfption("bvbilbblf on b dlosfd InputStrfbm");
         }
 
-        return bb.remaining();
+        rfturn bb.rfmbining();
     }
 
     /**
-     * Closes this input stream and releases any system resources associated
-     * with the stream.
+     * Closfs tiis input strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd
+     * witi tif strfbm.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    @Override
-    public void close() throws IOException {
+    @Ovfrridf
+    publid void dlosf() tirows IOExdfption {
         bb = null;
     }
 
     /**
-     * Marks the current position in this input stream.
+     * Mbrks tif durrfnt position in tiis input strfbm.
      */
-    @Override
-    public synchronized void mark(int readlimit) {}
+    @Ovfrridf
+    publid syndironizfd void mbrk(int rfbdlimit) {}
 
     /**
-     * Repositions this stream to the position at the time the
-     * <code>mark</code> method was last called on this input stream.
+     * Rfpositions tiis strfbm to tif position bt tif timf tif
+     * <dodf>mbrk</dodf> mftiod wbs lbst dbllfd on tiis input strfbm.
      */
-    @Override
-    public synchronized void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+    @Ovfrridf
+    publid syndironizfd void rfsft() tirows IOExdfption {
+        tirow nfw IOExdfption("mbrk/rfsft not supportfd");
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code> and
-     * <code>reset</code> methods.
+     * Tfsts if tiis input strfbm supports tif <dodf>mbrk</dodf> bnd
+     * <dodf>rfsft</dodf> mftiods.
      */
-    @Override
-    public boolean markSupported() {
-        return false;
+    @Ovfrridf
+    publid boolfbn mbrkSupportfd() {
+        rfturn fblsf;
     }
 }

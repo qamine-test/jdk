@@ -1,829 +1,829 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
-import sun.misc.FloatingDecimal;
+import jbvb.mbti.BigDfdimbl;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.mbti.RoundingModf;
+import sun.misd.FlobtingDfdimbl;
 
 /**
- * Digit List. Private to DecimalFormat.
- * Handles the transcoding
- * between numeric values and strings of characters.  Only handles
- * non-negative numbers.  The division of labor between DigitList and
- * DecimalFormat is that DigitList handles the radix 10 representation
- * issues; DecimalFormat handles the locale-specific issues such as
- * positive/negative, grouping, decimal point, currency, and so on.
+ * Digit List. Privbtf to DfdimblFormbt.
+ * Hbndlfs tif trbnsdoding
+ * bftwffn numfrid vblufs bnd strings of dibrbdtfrs.  Only ibndlfs
+ * non-nfgbtivf numbfrs.  Tif division of lbbor bftwffn DigitList bnd
+ * DfdimblFormbt is tibt DigitList ibndlfs tif rbdix 10 rfprfsfntbtion
+ * issufs; DfdimblFormbt ibndlfs tif lodblf-spfdifid issufs sudi bs
+ * positivf/nfgbtivf, grouping, dfdimbl point, durrfndy, bnd so on.
  *
- * A DigitList is really a representation of a floating point value.
- * It may be an integer value; we assume that a double has sufficient
- * precision to represent all digits of a long.
+ * A DigitList is rfblly b rfprfsfntbtion of b flobting point vbluf.
+ * It mby bf bn intfgfr vbluf; wf bssumf tibt b doublf ibs suffidifnt
+ * prfdision to rfprfsfnt bll digits of b long.
  *
- * The DigitList representation consists of a string of characters,
- * which are the digits radix 10, from '0' to '9'.  It also has a radix
- * 10 exponent associated with it.  The value represented by a DigitList
- * object can be computed by mulitplying the fraction f, where 0 <= f < 1,
- * derived by placing all the digits of the list to the right of the
- * decimal point, by 10^exponent.
+ * Tif DigitList rfprfsfntbtion donsists of b string of dibrbdtfrs,
+ * wiidi brf tif digits rbdix 10, from '0' to '9'.  It blso ibs b rbdix
+ * 10 fxponfnt bssodibtfd witi it.  Tif vbluf rfprfsfntfd by b DigitList
+ * objfdt dbn bf domputfd by mulitplying tif frbdtion f, wifrf 0 <= f < 1,
+ * dfrivfd by plbding bll tif digits of tif list to tif rigit of tif
+ * dfdimbl point, by 10^fxponfnt.
  *
- * @see  Locale
- * @see  Format
- * @see  NumberFormat
- * @see  DecimalFormat
- * @see  ChoiceFormat
- * @see  MessageFormat
- * @author       Mark Davis, Alan Liu
+ * @sff  Lodblf
+ * @sff  Formbt
+ * @sff  NumbfrFormbt
+ * @sff  DfdimblFormbt
+ * @sff  CioidfFormbt
+ * @sff  MfssbgfFormbt
+ * @butior       Mbrk Dbvis, Albn Liu
  */
-final class DigitList implements Cloneable {
+finbl dlbss DigitList implfmfnts Clonfbblf {
     /**
-     * The maximum number of significant digits in an IEEE 754 double, that
-     * is, in a Java double.  This must not be increased, or garbage digits
-     * will be generated, and should not be decreased, or accuracy will be lost.
+     * Tif mbximum numbfr of signifidbnt digits in bn IEEE 754 doublf, tibt
+     * is, in b Jbvb doublf.  Tiis must not bf indrfbsfd, or gbrbbgf digits
+     * will bf gfnfrbtfd, bnd siould not bf dfdrfbsfd, or bddurbdy will bf lost.
      */
-    public static final int MAX_COUNT = 19; // == Long.toString(Long.MAX_VALUE).length()
+    publid stbtid finbl int MAX_COUNT = 19; // == Long.toString(Long.MAX_VALUE).lfngti()
 
     /**
-     * These data members are intentionally public and can be set directly.
+     * Tifsf dbtb mfmbfrs brf intfntionblly publid bnd dbn bf sft dirfdtly.
      *
-     * The value represented is given by placing the decimal point before
-     * digits[decimalAt].  If decimalAt is < 0, then leading zeros between
-     * the decimal point and the first nonzero digit are implied.  If decimalAt
-     * is > count, then trailing zeros between the digits[count-1] and the
-     * decimal point are implied.
+     * Tif vbluf rfprfsfntfd is givfn by plbding tif dfdimbl point bfforf
+     * digits[dfdimblAt].  If dfdimblAt is < 0, tifn lfbding zfros bftwffn
+     * tif dfdimbl point bnd tif first nonzfro digit brf implifd.  If dfdimblAt
+     * is > dount, tifn trbiling zfros bftwffn tif digits[dount-1] bnd tif
+     * dfdimbl point brf implifd.
      *
-     * Equivalently, the represented value is given by f * 10^decimalAt.  Here
-     * f is a value 0.1 <= f < 1 arrived at by placing the digits in Digits to
-     * the right of the decimal.
+     * Equivblfntly, tif rfprfsfntfd vbluf is givfn by f * 10^dfdimblAt.  Hfrf
+     * f is b vbluf 0.1 <= f < 1 brrivfd bt by plbding tif digits in Digits to
+     * tif rigit of tif dfdimbl.
      *
-     * DigitList is normalized, so if it is non-zero, figits[0] is non-zero.  We
-     * don't allow denormalized numbers because our exponent is effectively of
-     * unlimited magnitude.  The count value contains the number of significant
-     * digits present in digits[].
+     * DigitList is normblizfd, so if it is non-zfro, figits[0] is non-zfro.  Wf
+     * don't bllow dfnormblizfd numbfrs bfdbusf our fxponfnt is ffffdtivfly of
+     * unlimitfd mbgnitudf.  Tif dount vbluf dontbins tif numbfr of signifidbnt
+     * digits prfsfnt in digits[].
      *
-     * Zero is represented by any DigitList with count == 0 or with each digits[i]
-     * for all i <= count == '0'.
+     * Zfro is rfprfsfntfd by bny DigitList witi dount == 0 or witi fbdi digits[i]
+     * for bll i <= dount == '0'.
      */
-    public int decimalAt = 0;
-    public int count = 0;
-    public char[] digits = new char[MAX_COUNT];
+    publid int dfdimblAt = 0;
+    publid int dount = 0;
+    publid dibr[] digits = nfw dibr[MAX_COUNT];
 
-    private char[] data;
-    private RoundingMode roundingMode = RoundingMode.HALF_EVEN;
-    private boolean isNegative = false;
+    privbtf dibr[] dbtb;
+    privbtf RoundingModf roundingModf = RoundingModf.HALF_EVEN;
+    privbtf boolfbn isNfgbtivf = fblsf;
 
     /**
-     * Return true if the represented number is zero.
+     * Rfturn truf if tif rfprfsfntfd numbfr is zfro.
      */
-    boolean isZero() {
-        for (int i=0; i < count; ++i) {
+    boolfbn isZfro() {
+        for (int i=0; i < dount; ++i) {
             if (digits[i] != '0') {
-                return false;
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Set the rounding mode
+     * Sft tif rounding modf
      */
-    void setRoundingMode(RoundingMode r) {
-        roundingMode = r;
+    void sftRoundingModf(RoundingModf r) {
+        roundingModf = r;
     }
 
     /**
-     * Clears out the digits.
-     * Use before appending them.
-     * Typically, you set a series of digits with append, then at the point
-     * you hit the decimal point, you set myDigitList.decimalAt = myDigitList.count;
-     * then go on appending digits.
+     * Clfbrs out tif digits.
+     * Usf bfforf bppfnding tifm.
+     * Typidblly, you sft b sfrifs of digits witi bppfnd, tifn bt tif point
+     * you iit tif dfdimbl point, you sft myDigitList.dfdimblAt = myDigitList.dount;
+     * tifn go on bppfnding digits.
      */
-    public void clear () {
-        decimalAt = 0;
-        count = 0;
+    publid void dlfbr () {
+        dfdimblAt = 0;
+        dount = 0;
     }
 
     /**
-     * Appends a digit to the list, extending the list when necessary.
+     * Appfnds b digit to tif list, fxtfnding tif list wifn nfdfssbry.
      */
-    public void append(char digit) {
-        if (count == digits.length) {
-            char[] data = new char[count + 100];
-            System.arraycopy(digits, 0, data, 0, count);
-            digits = data;
+    publid void bppfnd(dibr digit) {
+        if (dount == digits.lfngti) {
+            dibr[] dbtb = nfw dibr[dount + 100];
+            Systfm.brrbydopy(digits, 0, dbtb, 0, dount);
+            digits = dbtb;
         }
-        digits[count++] = digit;
+        digits[dount++] = digit;
     }
 
     /**
-     * Utility routine to get the value of the digit list
-     * If (count == 0) this throws a NumberFormatException, which
-     * mimics Long.parseLong().
+     * Utility routinf to gft tif vbluf of tif digit list
+     * If (dount == 0) tiis tirows b NumbfrFormbtExdfption, wiidi
+     * mimids Long.pbrsfLong().
      */
-    public final double getDouble() {
-        if (count == 0) {
-            return 0.0;
-        }
-
-        StringBuffer temp = getStringBuffer();
-        temp.append('.');
-        temp.append(digits, 0, count);
-        temp.append('E');
-        temp.append(decimalAt);
-        return Double.parseDouble(temp.toString());
-    }
-
-    /**
-     * Utility routine to get the value of the digit list.
-     * If (count == 0) this returns 0, unlike Long.parseLong().
-     */
-    public final long getLong() {
-        // for now, simple implementation; later, do proper IEEE native stuff
-
-        if (count == 0) {
-            return 0;
+    publid finbl doublf gftDoublf() {
+        if (dount == 0) {
+            rfturn 0.0;
         }
 
-        // We have to check for this, because this is the one NEGATIVE value
-        // we represent.  If we tried to just pass the digits off to parseLong,
-        // we'd get a parse failure.
+        StringBufffr tfmp = gftStringBufffr();
+        tfmp.bppfnd('.');
+        tfmp.bppfnd(digits, 0, dount);
+        tfmp.bppfnd('E');
+        tfmp.bppfnd(dfdimblAt);
+        rfturn Doublf.pbrsfDoublf(tfmp.toString());
+    }
+
+    /**
+     * Utility routinf to gft tif vbluf of tif digit list.
+     * If (dount == 0) tiis rfturns 0, unlikf Long.pbrsfLong().
+     */
+    publid finbl long gftLong() {
+        // for now, simplf implfmfntbtion; lbtfr, do propfr IEEE nbtivf stuff
+
+        if (dount == 0) {
+            rfturn 0;
+        }
+
+        // Wf ibvf to difdk for tiis, bfdbusf tiis is tif onf NEGATIVE vbluf
+        // wf rfprfsfnt.  If wf trifd to just pbss tif digits off to pbrsfLong,
+        // wf'd gft b pbrsf fbilurf.
         if (isLongMIN_VALUE()) {
-            return Long.MIN_VALUE;
+            rfturn Long.MIN_VALUE;
         }
 
-        StringBuffer temp = getStringBuffer();
-        temp.append(digits, 0, count);
-        for (int i = count; i < decimalAt; ++i) {
-            temp.append('0');
+        StringBufffr tfmp = gftStringBufffr();
+        tfmp.bppfnd(digits, 0, dount);
+        for (int i = dount; i < dfdimblAt; ++i) {
+            tfmp.bppfnd('0');
         }
-        return Long.parseLong(temp.toString());
+        rfturn Long.pbrsfLong(tfmp.toString());
     }
 
-    public final BigDecimal getBigDecimal() {
-        if (count == 0) {
-            if (decimalAt == 0) {
-                return BigDecimal.ZERO;
-            } else {
-                return new BigDecimal("0E" + decimalAt);
+    publid finbl BigDfdimbl gftBigDfdimbl() {
+        if (dount == 0) {
+            if (dfdimblAt == 0) {
+                rfturn BigDfdimbl.ZERO;
+            } flsf {
+                rfturn nfw BigDfdimbl("0E" + dfdimblAt);
             }
         }
 
-       if (decimalAt == count) {
-           return new BigDecimal(digits, 0, count);
-       } else {
-           return new BigDecimal(digits, 0, count).scaleByPowerOfTen(decimalAt - count);
+       if (dfdimblAt == dount) {
+           rfturn nfw BigDfdimbl(digits, 0, dount);
+       } flsf {
+           rfturn nfw BigDfdimbl(digits, 0, dount).sdblfByPowfrOfTfn(dfdimblAt - dount);
        }
     }
 
     /**
-     * Return true if the number represented by this object can fit into
-     * a long.
-     * @param isPositive true if this number should be regarded as positive
-     * @param ignoreNegativeZero true if -0 should be regarded as identical to
-     * +0; otherwise they are considered distinct
-     * @return true if this number fits into a Java long
+     * Rfturn truf if tif numbfr rfprfsfntfd by tiis objfdt dbn fit into
+     * b long.
+     * @pbrbm isPositivf truf if tiis numbfr siould bf rfgbrdfd bs positivf
+     * @pbrbm ignorfNfgbtivfZfro truf if -0 siould bf rfgbrdfd bs idfntidbl to
+     * +0; otifrwisf tify brf donsidfrfd distindt
+     * @rfturn truf if tiis numbfr fits into b Jbvb long
      */
-    boolean fitsIntoLong(boolean isPositive, boolean ignoreNegativeZero) {
-        // Figure out if the result will fit in a long.  We have to
-        // first look for nonzero digits after the decimal point;
-        // then check the size.  If the digit count is 18 or less, then
-        // the value can definitely be represented as a long.  If it is 19
-        // then it may be too large.
+    boolfbn fitsIntoLong(boolfbn isPositivf, boolfbn ignorfNfgbtivfZfro) {
+        // Figurf out if tif rfsult will fit in b long.  Wf ibvf to
+        // first look for nonzfro digits bftfr tif dfdimbl point;
+        // tifn difdk tif sizf.  If tif digit dount is 18 or lfss, tifn
+        // tif vbluf dbn dffinitfly bf rfprfsfntfd bs b long.  If it is 19
+        // tifn it mby bf too lbrgf.
 
-        // Trim trailing zeros.  This does not change the represented value.
-        while (count > 0 && digits[count - 1] == '0') {
-            --count;
+        // Trim trbiling zfros.  Tiis dofs not dibngf tif rfprfsfntfd vbluf.
+        wiilf (dount > 0 && digits[dount - 1] == '0') {
+            --dount;
         }
 
-        if (count == 0) {
-            // Positive zero fits into a long, but negative zero can only
-            // be represented as a double. - bug 4162852
-            return isPositive || ignoreNegativeZero;
+        if (dount == 0) {
+            // Positivf zfro fits into b long, but nfgbtivf zfro dbn only
+            // bf rfprfsfntfd bs b doublf. - bug 4162852
+            rfturn isPositivf || ignorfNfgbtivfZfro;
         }
 
-        if (decimalAt < count || decimalAt > MAX_COUNT) {
-            return false;
+        if (dfdimblAt < dount || dfdimblAt > MAX_COUNT) {
+            rfturn fblsf;
         }
 
-        if (decimalAt < MAX_COUNT) return true;
+        if (dfdimblAt < MAX_COUNT) rfturn truf;
 
-        // At this point we have decimalAt == count, and count == MAX_COUNT.
-        // The number will overflow if it is larger than 9223372036854775807
-        // or smaller than -9223372036854775808.
-        for (int i=0; i<count; ++i) {
-            char dig = digits[i], max = LONG_MIN_REP[i];
-            if (dig > max) return false;
-            if (dig < max) return true;
+        // At tiis point wf ibvf dfdimblAt == dount, bnd dount == MAX_COUNT.
+        // Tif numbfr will ovfrflow if it is lbrgfr tibn 9223372036854775807
+        // or smbllfr tibn -9223372036854775808.
+        for (int i=0; i<dount; ++i) {
+            dibr dig = digits[i], mbx = LONG_MIN_REP[i];
+            if (dig > mbx) rfturn fblsf;
+            if (dig < mbx) rfturn truf;
         }
 
-        // At this point the first count digits match.  If decimalAt is less
-        // than count, then the remaining digits are zero, and we return true.
-        if (count < decimalAt) return true;
+        // At tiis point tif first dount digits mbtdi.  If dfdimblAt is lfss
+        // tibn dount, tifn tif rfmbining digits brf zfro, bnd wf rfturn truf.
+        if (dount < dfdimblAt) rfturn truf;
 
-        // Now we have a representation of Long.MIN_VALUE, without the leading
-        // negative sign.  If this represents a positive value, then it does
-        // not fit; otherwise it fits.
-        return !isPositive;
+        // Now wf ibvf b rfprfsfntbtion of Long.MIN_VALUE, witiout tif lfbding
+        // nfgbtivf sign.  If tiis rfprfsfnts b positivf vbluf, tifn it dofs
+        // not fit; otifrwisf it fits.
+        rfturn !isPositivf;
     }
 
     /**
-     * Set the digit list to a representation of the given double value.
-     * This method supports fixed-point notation.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must not be Inf, -Inf, Nan,
-     * or a value <= 0.
-     * @param maximumFractionDigits The most fractional digits which should
-     * be converted.
+     * Sft tif digit list to b rfprfsfntbtion of tif givfn doublf vbluf.
+     * Tiis mftiod supports fixfd-point notbtion.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting wiftifr tif numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must not bf Inf, -Inf, Nbn,
+     * or b vbluf <= 0.
+     * @pbrbm mbximumFrbdtionDigits Tif most frbdtionbl digits wiidi siould
+     * bf donvfrtfd.
      */
-    final void set(boolean isNegative, double source, int maximumFractionDigits) {
-        set(isNegative, source, maximumFractionDigits, true);
+    finbl void sft(boolfbn isNfgbtivf, doublf sourdf, int mbximumFrbdtionDigits) {
+        sft(isNfgbtivf, sourdf, mbximumFrbdtionDigits, truf);
     }
 
     /**
-     * Set the digit list to a representation of the given double value.
-     * This method supports both fixed-point and exponential notation.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must not be Inf, -Inf, Nan,
-     * or a value <= 0.
-     * @param maximumDigits The most fractional or total digits which should
-     * be converted.
-     * @param fixedPoint If true, then maximumDigits is the maximum
-     * fractional digits to be converted.  If false, total digits.
+     * Sft tif digit list to b rfprfsfntbtion of tif givfn doublf vbluf.
+     * Tiis mftiod supports boti fixfd-point bnd fxponfntibl notbtion.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting wiftifr tif numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must not bf Inf, -Inf, Nbn,
+     * or b vbluf <= 0.
+     * @pbrbm mbximumDigits Tif most frbdtionbl or totbl digits wiidi siould
+     * bf donvfrtfd.
+     * @pbrbm fixfdPoint If truf, tifn mbximumDigits is tif mbximum
+     * frbdtionbl digits to bf donvfrtfd.  If fblsf, totbl digits.
      */
-    final void set(boolean isNegative, double source, int maximumDigits, boolean fixedPoint) {
+    finbl void sft(boolfbn isNfgbtivf, doublf sourdf, int mbximumDigits, boolfbn fixfdPoint) {
 
-        FloatingDecimal.BinaryToASCIIConverter fdConverter  = FloatingDecimal.getBinaryToASCIIConverter(source);
-        boolean hasBeenRoundedUp = fdConverter.digitsRoundedUp();
-        boolean allDecimalDigits = fdConverter.decimalDigitsExact();
-        assert !fdConverter.isExceptional();
-        String digitsString = fdConverter.toJavaFormatString();
+        FlobtingDfdimbl.BinbryToASCIIConvfrtfr fdConvfrtfr  = FlobtingDfdimbl.gftBinbryToASCIIConvfrtfr(sourdf);
+        boolfbn ibsBffnRoundfdUp = fdConvfrtfr.digitsRoundfdUp();
+        boolfbn bllDfdimblDigits = fdConvfrtfr.dfdimblDigitsExbdt();
+        bssfrt !fdConvfrtfr.isExdfptionbl();
+        String digitsString = fdConvfrtfr.toJbvbFormbtString();
 
-        set(isNegative, digitsString,
-            hasBeenRoundedUp, allDecimalDigits,
-            maximumDigits, fixedPoint);
+        sft(isNfgbtivf, digitsString,
+            ibsBffnRoundfdUp, bllDfdimblDigits,
+            mbximumDigits, fixfdPoint);
     }
 
     /**
-     * Generate a representation of the form DDDDD, DDDDD.DDDDD, or
+     * Gfnfrbtf b rfprfsfntbtion of tif form DDDDD, DDDDD.DDDDD, or
      * DDDDDE+/-DDDDD.
-     * @param roundedUp Boolean value indicating if the s digits were rounded-up.
-     * @param allDecimalDigits Boolean value indicating if the digits in s are
-     * an exact decimal representation of the double that was passed.
+     * @pbrbm roundfdUp Boolfbn vbluf indidbting if tif s digits wfrf roundfd-up.
+     * @pbrbm bllDfdimblDigits Boolfbn vbluf indidbting if tif digits in s brf
+     * bn fxbdt dfdimbl rfprfsfntbtion of tif doublf tibt wbs pbssfd.
      */
-    private void set(boolean isNegative, String s,
-                     boolean roundedUp, boolean allDecimalDigits,
-                     int maximumDigits, boolean fixedPoint) {
-        this.isNegative = isNegative;
-        int len = s.length();
-        char[] source = getDataChars(len);
-        s.getChars(0, len, source, 0);
+    privbtf void sft(boolfbn isNfgbtivf, String s,
+                     boolfbn roundfdUp, boolfbn bllDfdimblDigits,
+                     int mbximumDigits, boolfbn fixfdPoint) {
+        tiis.isNfgbtivf = isNfgbtivf;
+        int lfn = s.lfngti();
+        dibr[] sourdf = gftDbtbCibrs(lfn);
+        s.gftCibrs(0, lfn, sourdf, 0);
 
-        decimalAt = -1;
-        count = 0;
-        int exponent = 0;
-        // Number of zeros between decimal point and first non-zero digit after
-        // decimal point, for numbers < 1.
-        int leadingZerosAfterDecimal = 0;
-        boolean nonZeroDigitSeen = false;
+        dfdimblAt = -1;
+        dount = 0;
+        int fxponfnt = 0;
+        // Numbfr of zfros bftwffn dfdimbl point bnd first non-zfro digit bftfr
+        // dfdimbl point, for numbfrs < 1.
+        int lfbdingZfrosAftfrDfdimbl = 0;
+        boolfbn nonZfroDigitSffn = fblsf;
 
-        for (int i = 0; i < len; ) {
-            char c = source[i++];
-            if (c == '.') {
-                decimalAt = count;
-            } else if (c == 'e' || c == 'E') {
-                exponent = parseInt(source, i, len);
-                break;
-            } else {
-                if (!nonZeroDigitSeen) {
-                    nonZeroDigitSeen = (c != '0');
-                    if (!nonZeroDigitSeen && decimalAt != -1)
-                        ++leadingZerosAfterDecimal;
+        for (int i = 0; i < lfn; ) {
+            dibr d = sourdf[i++];
+            if (d == '.') {
+                dfdimblAt = dount;
+            } flsf if (d == 'f' || d == 'E') {
+                fxponfnt = pbrsfInt(sourdf, i, lfn);
+                brfbk;
+            } flsf {
+                if (!nonZfroDigitSffn) {
+                    nonZfroDigitSffn = (d != '0');
+                    if (!nonZfroDigitSffn && dfdimblAt != -1)
+                        ++lfbdingZfrosAftfrDfdimbl;
                 }
-                if (nonZeroDigitSeen) {
-                    digits[count++] = c;
+                if (nonZfroDigitSffn) {
+                    digits[dount++] = d;
                 }
             }
         }
-        if (decimalAt == -1) {
-            decimalAt = count;
+        if (dfdimblAt == -1) {
+            dfdimblAt = dount;
         }
-        if (nonZeroDigitSeen) {
-            decimalAt += exponent - leadingZerosAfterDecimal;
+        if (nonZfroDigitSffn) {
+            dfdimblAt += fxponfnt - lfbdingZfrosAftfrDfdimbl;
         }
 
-        if (fixedPoint) {
-            // The negative of the exponent represents the number of leading
-            // zeros between the decimal and the first non-zero digit, for
-            // a value < 0.1 (e.g., for 0.00123, -decimalAt == 2).  If this
-            // is more than the maximum fraction digits, then we have an underflow
-            // for the printed representation.
-            if (-decimalAt > maximumDigits) {
-                // Handle an underflow to zero when we round something like
-                // 0.0009 to 2 fractional digits.
-                count = 0;
-                return;
-            } else if (-decimalAt == maximumDigits) {
-                // If we round 0.0009 to 3 fractional digits, then we have to
-                // create a new one digit in the least significant location.
-                if (shouldRoundUp(0, roundedUp, allDecimalDigits)) {
-                    count = 1;
-                    ++decimalAt;
+        if (fixfdPoint) {
+            // Tif nfgbtivf of tif fxponfnt rfprfsfnts tif numbfr of lfbding
+            // zfros bftwffn tif dfdimbl bnd tif first non-zfro digit, for
+            // b vbluf < 0.1 (f.g., for 0.00123, -dfdimblAt == 2).  If tiis
+            // is morf tibn tif mbximum frbdtion digits, tifn wf ibvf bn undfrflow
+            // for tif printfd rfprfsfntbtion.
+            if (-dfdimblAt > mbximumDigits) {
+                // Hbndlf bn undfrflow to zfro wifn wf round somftiing likf
+                // 0.0009 to 2 frbdtionbl digits.
+                dount = 0;
+                rfturn;
+            } flsf if (-dfdimblAt == mbximumDigits) {
+                // If wf round 0.0009 to 3 frbdtionbl digits, tifn wf ibvf to
+                // drfbtf b nfw onf digit in tif lfbst signifidbnt lodbtion.
+                if (siouldRoundUp(0, roundfdUp, bllDfdimblDigits)) {
+                    dount = 1;
+                    ++dfdimblAt;
                     digits[0] = '1';
-                } else {
-                    count = 0;
+                } flsf {
+                    dount = 0;
                 }
-                return;
+                rfturn;
             }
-            // else fall through
+            // flsf fbll tirougi
         }
 
-        // Eliminate trailing zeros.
-        while (count > 1 && digits[count - 1] == '0') {
-            --count;
+        // Eliminbtf trbiling zfros.
+        wiilf (dount > 1 && digits[dount - 1] == '0') {
+            --dount;
         }
 
-        // Eliminate digits beyond maximum digits to be displayed.
-        // Round up if appropriate.
-        round(fixedPoint ? (maximumDigits + decimalAt) : maximumDigits,
-              roundedUp, allDecimalDigits);
+        // Eliminbtf digits bfyond mbximum digits to bf displbyfd.
+        // Round up if bppropribtf.
+        round(fixfdPoint ? (mbximumDigits + dfdimblAt) : mbximumDigits,
+              roundfdUp, bllDfdimblDigits);
     }
 
     /**
-     * Round the representation to the given number of digits.
-     * @param maximumDigits The maximum number of digits to be shown.
-     * @param alreadyRounded Boolean indicating if rounding up already happened.
-     * @param allDecimalDigits Boolean indicating if the digits provide an exact
-     * representation of the value.
+     * Round tif rfprfsfntbtion to tif givfn numbfr of digits.
+     * @pbrbm mbximumDigits Tif mbximum numbfr of digits to bf siown.
+     * @pbrbm blrfbdyRoundfd Boolfbn indidbting if rounding up blrfbdy ibppfnfd.
+     * @pbrbm bllDfdimblDigits Boolfbn indidbting if tif digits providf bn fxbdt
+     * rfprfsfntbtion of tif vbluf.
      *
-     * Upon return, count will be less than or equal to maximumDigits.
+     * Upon rfturn, dount will bf lfss tibn or fqubl to mbximumDigits.
      */
-    private final void round(int maximumDigits,
-                             boolean alreadyRounded,
-                             boolean allDecimalDigits) {
-        // Eliminate digits beyond maximum digits to be displayed.
-        // Round up if appropriate.
-        if (maximumDigits >= 0 && maximumDigits < count) {
-            if (shouldRoundUp(maximumDigits, alreadyRounded, allDecimalDigits)) {
-                // Rounding up involved incrementing digits from LSD to MSD.
-                // In most cases this is simple, but in a worst case situation
-                // (9999..99) we have to adjust the decimalAt value.
+    privbtf finbl void round(int mbximumDigits,
+                             boolfbn blrfbdyRoundfd,
+                             boolfbn bllDfdimblDigits) {
+        // Eliminbtf digits bfyond mbximum digits to bf displbyfd.
+        // Round up if bppropribtf.
+        if (mbximumDigits >= 0 && mbximumDigits < dount) {
+            if (siouldRoundUp(mbximumDigits, blrfbdyRoundfd, bllDfdimblDigits)) {
+                // Rounding up involvfd indrfmfnting digits from LSD to MSD.
+                // In most dbsfs tiis is simplf, but in b worst dbsf situbtion
+                // (9999..99) wf ibvf to bdjust tif dfdimblAt vbluf.
                 for (;;) {
-                    --maximumDigits;
-                    if (maximumDigits < 0) {
-                        // We have all 9's, so we increment to a single digit
-                        // of one and adjust the exponent.
+                    --mbximumDigits;
+                    if (mbximumDigits < 0) {
+                        // Wf ibvf bll 9's, so wf indrfmfnt to b singlf digit
+                        // of onf bnd bdjust tif fxponfnt.
                         digits[0] = '1';
-                        ++decimalAt;
-                        maximumDigits = 0; // Adjust the count
-                        break;
+                        ++dfdimblAt;
+                        mbximumDigits = 0; // Adjust tif dount
+                        brfbk;
                     }
 
-                    ++digits[maximumDigits];
-                    if (digits[maximumDigits] <= '9') break;
-                    // digits[maximumDigits] = '0'; // Unnecessary since we'll truncate this
+                    ++digits[mbximumDigits];
+                    if (digits[mbximumDigits] <= '9') brfbk;
+                    // digits[mbximumDigits] = '0'; // Unnfdfssbry sindf wf'll trundbtf tiis
                 }
-                ++maximumDigits; // Increment for use as count
+                ++mbximumDigits; // Indrfmfnt for usf bs dount
             }
-            count = maximumDigits;
+            dount = mbximumDigits;
 
-            // Eliminate trailing zeros.
-            while (count > 1 && digits[count-1] == '0') {
-                --count;
+            // Eliminbtf trbiling zfros.
+            wiilf (dount > 1 && digits[dount-1] == '0') {
+                --dount;
             }
         }
     }
 
 
     /**
-     * Return true if truncating the representation to the given number
-     * of digits will result in an increment to the last digit.  This
-     * method implements the rounding modes defined in the
-     * java.math.RoundingMode class.
+     * Rfturn truf if trundbting tif rfprfsfntbtion to tif givfn numbfr
+     * of digits will rfsult in bn indrfmfnt to tif lbst digit.  Tiis
+     * mftiod implfmfnts tif rounding modfs dffinfd in tif
+     * jbvb.mbti.RoundingModf dlbss.
      * [bnf]
-     * @param maximumDigits the number of digits to keep, from 0 to
-     * <code>count-1</code>.  If 0, then all digits are rounded away, and
-     * this method returns true if a one should be generated (e.g., formatting
-     * 0.09 with "#.#").
-     * @exception ArithmeticException if rounding is needed with rounding
-     *            mode being set to RoundingMode.UNNECESSARY
-     * @return true if digit <code>maximumDigits-1</code> should be
-     * incremented
+     * @pbrbm mbximumDigits tif numbfr of digits to kffp, from 0 to
+     * <dodf>dount-1</dodf>.  If 0, tifn bll digits brf roundfd bwby, bnd
+     * tiis mftiod rfturns truf if b onf siould bf gfnfrbtfd (f.g., formbtting
+     * 0.09 witi "#.#").
+     * @fxdfption AritimftidExdfption if rounding is nffdfd witi rounding
+     *            modf bfing sft to RoundingModf.UNNECESSARY
+     * @rfturn truf if digit <dodf>mbximumDigits-1</dodf> siould bf
+     * indrfmfntfd
      */
-    private boolean shouldRoundUp(int maximumDigits,
-                                  boolean alreadyRounded,
-                                  boolean allDecimalDigits) {
-        if (maximumDigits < count) {
+    privbtf boolfbn siouldRoundUp(int mbximumDigits,
+                                  boolfbn blrfbdyRoundfd,
+                                  boolfbn bllDfdimblDigits) {
+        if (mbximumDigits < dount) {
             /*
-             * To avoid erroneous double-rounding or truncation when converting
-             * a binary double value to text, information about the exactness
-             * of the conversion result in FloatingDecimal, as well as any
-             * rounding done, is needed in this class.
+             * To bvoid frronfous doublf-rounding or trundbtion wifn donvfrting
+             * b binbry doublf vbluf to tfxt, informbtion bbout tif fxbdtnfss
+             * of tif donvfrsion rfsult in FlobtingDfdimbl, bs wfll bs bny
+             * rounding donf, is nffdfd in tiis dlbss.
              *
-             * - For the  HALF_DOWN, HALF_EVEN, HALF_UP rounding rules below:
-             *   In the case of formating float or double, We must take into
-             *   account what FloatingDecimal has done in the binary to decimal
-             *   conversion.
+             * - For tif  HALF_DOWN, HALF_EVEN, HALF_UP rounding rulfs bflow:
+             *   In tif dbsf of formbting flobt or doublf, Wf must tbkf into
+             *   bddount wibt FlobtingDfdimbl ibs donf in tif binbry to dfdimbl
+             *   donvfrsion.
              *
-             *   Considering the tie cases, FloatingDecimal may round-up the
-             *   value (returning decimal digits equal to tie when it is below),
-             *   or "truncate" the value to the tie while value is above it,
-             *   or provide the exact decimal digits when the binary value can be
-             *   converted exactly to its decimal representation given formating
-             *   rules of FloatingDecimal ( we have thus an exact decimal
-             *   representation of the binary value).
+             *   Considfring tif tif dbsfs, FlobtingDfdimbl mby round-up tif
+             *   vbluf (rfturning dfdimbl digits fqubl to tif wifn it is bflow),
+             *   or "trundbtf" tif vbluf to tif tif wiilf vbluf is bbovf it,
+             *   or providf tif fxbdt dfdimbl digits wifn tif binbry vbluf dbn bf
+             *   donvfrtfd fxbdtly to its dfdimbl rfprfsfntbtion givfn formbting
+             *   rulfs of FlobtingDfdimbl ( wf ibvf tius bn fxbdt dfdimbl
+             *   rfprfsfntbtion of tif binbry vbluf).
              *
-             *   - If the double binary value was converted exactly as a decimal
-             *     value, then DigitList code must apply the expected rounding
-             *     rule.
+             *   - If tif doublf binbry vbluf wbs donvfrtfd fxbdtly bs b dfdimbl
+             *     vbluf, tifn DigitList dodf must bpply tif fxpfdtfd rounding
+             *     rulf.
              *
-             *   - If FloatingDecimal already rounded up the decimal value,
-             *     DigitList should neither round up the value again in any of
-             *     the three rounding modes above.
+             *   - If FlobtingDfdimbl blrfbdy roundfd up tif dfdimbl vbluf,
+             *     DigitList siould nfitifr round up tif vbluf bgbin in bny of
+             *     tif tirff rounding modfs bbovf.
              *
-             *   - If FloatingDecimal has truncated the decimal value to
-             *     an ending '5' digit, DigitList should round up the value in
-             *     all of the three rounding modes above.
+             *   - If FlobtingDfdimbl ibs trundbtfd tif dfdimbl vbluf to
+             *     bn fnding '5' digit, DigitList siould round up tif vbluf in
+             *     bll of tif tirff rounding modfs bbovf.
              *
              *
-             *   This has to be considered only if digit at maximumDigits index
-             *   is exactly the last one in the set of digits, otherwise there are
-             *   remaining digits after that position and we don't have to consider
-             *   what FloatingDecimal did.
+             *   Tiis ibs to bf donsidfrfd only if digit bt mbximumDigits indfx
+             *   is fxbdtly tif lbst onf in tif sft of digits, otifrwisf tifrf brf
+             *   rfmbining digits bftfr tibt position bnd wf don't ibvf to donsidfr
+             *   wibt FlobtingDfdimbl did.
              *
-             * - Other rounding modes are not impacted by these tie cases.
+             * - Otifr rounding modfs brf not impbdtfd by tifsf tif dbsfs.
              *
-             * - For other numbers that are always converted to exact digits
-             *   (like BigInteger, Long, ...), the passed alreadyRounded boolean
-             *   have to be  set to false, and allDecimalDigits has to be set to
-             *   true in the upper DigitList call stack, providing the right state
-             *   for those situations..
+             * - For otifr numbfrs tibt brf blwbys donvfrtfd to fxbdt digits
+             *   (likf BigIntfgfr, Long, ...), tif pbssfd blrfbdyRoundfd boolfbn
+             *   ibvf to bf  sft to fblsf, bnd bllDfdimblDigits ibs to bf sft to
+             *   truf in tif uppfr DigitList dbll stbdk, providing tif rigit stbtf
+             *   for tiosf situbtions..
              */
 
-            switch(roundingMode) {
-            case UP:
-                for (int i=maximumDigits; i<count; ++i) {
+            switdi(roundingModf) {
+            dbsf UP:
+                for (int i=mbximumDigits; i<dount; ++i) {
                     if (digits[i] != '0') {
-                        return true;
+                        rfturn truf;
                     }
                 }
-                break;
-            case DOWN:
-                break;
-            case CEILING:
-                for (int i=maximumDigits; i<count; ++i) {
+                brfbk;
+            dbsf DOWN:
+                brfbk;
+            dbsf CEILING:
+                for (int i=mbximumDigits; i<dount; ++i) {
                     if (digits[i] != '0') {
-                        return !isNegative;
+                        rfturn !isNfgbtivf;
                     }
                 }
-                break;
-            case FLOOR:
-                for (int i=maximumDigits; i<count; ++i) {
+                brfbk;
+            dbsf FLOOR:
+                for (int i=mbximumDigits; i<dount; ++i) {
                     if (digits[i] != '0') {
-                        return isNegative;
+                        rfturn isNfgbtivf;
                     }
                 }
-                break;
-            case HALF_UP:
-                if (digits[maximumDigits] >= '5') {
-                    // We should not round up if the rounding digits position is
-                    // exactly the last index and if digits were already rounded.
-                    if ((maximumDigits == (count - 1)) &&
-                        (alreadyRounded))
-                        return false;
+                brfbk;
+            dbsf HALF_UP:
+                if (digits[mbximumDigits] >= '5') {
+                    // Wf siould not round up if tif rounding digits position is
+                    // fxbdtly tif lbst indfx bnd if digits wfrf blrfbdy roundfd.
+                    if ((mbximumDigits == (dount - 1)) &&
+                        (blrfbdyRoundfd))
+                        rfturn fblsf;
 
-                    // Value was exactly at or was above tie. We must round up.
-                    return true;
+                    // Vbluf wbs fxbdtly bt or wbs bbovf tif. Wf must round up.
+                    rfturn truf;
                 }
-                break;
-            case HALF_DOWN:
-                if (digits[maximumDigits] > '5') {
-                    return true;
-                } else if (digits[maximumDigits] == '5' ) {
-                    if (maximumDigits == (count - 1)) {
-                        // The rounding position is exactly the last index.
-                        if (allDecimalDigits || alreadyRounded)
-                            /* FloatingDecimal rounded up (value was below tie),
-                             * or provided the exact list of digits (value was
-                             * an exact tie). We should not round up, following
-                             * the HALF_DOWN rounding rule.
+                brfbk;
+            dbsf HALF_DOWN:
+                if (digits[mbximumDigits] > '5') {
+                    rfturn truf;
+                } flsf if (digits[mbximumDigits] == '5' ) {
+                    if (mbximumDigits == (dount - 1)) {
+                        // Tif rounding position is fxbdtly tif lbst indfx.
+                        if (bllDfdimblDigits || blrfbdyRoundfd)
+                            /* FlobtingDfdimbl roundfd up (vbluf wbs bflow tif),
+                             * or providfd tif fxbdt list of digits (vbluf wbs
+                             * bn fxbdt tif). Wf siould not round up, following
+                             * tif HALF_DOWN rounding rulf.
                              */
-                            return false;
-                        else
-                            // Value was above the tie, we must round up.
-                            return true;
+                            rfturn fblsf;
+                        flsf
+                            // Vbluf wbs bbovf tif tif, wf must round up.
+                            rfturn truf;
                     }
 
-                    // We must round up if it gives a non null digit after '5'.
-                    for (int i=maximumDigits+1; i<count; ++i) {
+                    // Wf must round up if it givfs b non null digit bftfr '5'.
+                    for (int i=mbximumDigits+1; i<dount; ++i) {
                         if (digits[i] != '0') {
-                            return true;
+                            rfturn truf;
                         }
                     }
                 }
-                break;
-            case HALF_EVEN:
-                // Implement IEEE half-even rounding
-                if (digits[maximumDigits] > '5') {
-                    return true;
-                } else if (digits[maximumDigits] == '5' ) {
-                    if (maximumDigits == (count - 1)) {
-                        // the rounding position is exactly the last index :
-                        if (alreadyRounded)
-                            // If FloatingDecimal rounded up (value was below tie),
-                            // then we should not round up again.
-                            return false;
+                brfbk;
+            dbsf HALF_EVEN:
+                // Implfmfnt IEEE iblf-fvfn rounding
+                if (digits[mbximumDigits] > '5') {
+                    rfturn truf;
+                } flsf if (digits[mbximumDigits] == '5' ) {
+                    if (mbximumDigits == (dount - 1)) {
+                        // tif rounding position is fxbdtly tif lbst indfx :
+                        if (blrfbdyRoundfd)
+                            // If FlobtingDfdimbl roundfd up (vbluf wbs bflow tif),
+                            // tifn wf siould not round up bgbin.
+                            rfturn fblsf;
 
-                        if (!allDecimalDigits)
-                            // Otherwise if the digits don't represent exact value,
-                            // value was above tie and FloatingDecimal truncated
-                            // digits to tie. We must round up.
-                            return true;
-                        else {
-                            // This is an exact tie value, and FloatingDecimal
-                            // provided all of the exact digits. We thus apply
-                            // HALF_EVEN rounding rule.
-                            return ((maximumDigits > 0) &&
-                                    (digits[maximumDigits-1] % 2 != 0));
+                        if (!bllDfdimblDigits)
+                            // Otifrwisf if tif digits don't rfprfsfnt fxbdt vbluf,
+                            // vbluf wbs bbovf tif bnd FlobtingDfdimbl trundbtfd
+                            // digits to tif. Wf must round up.
+                            rfturn truf;
+                        flsf {
+                            // Tiis is bn fxbdt tif vbluf, bnd FlobtingDfdimbl
+                            // providfd bll of tif fxbdt digits. Wf tius bpply
+                            // HALF_EVEN rounding rulf.
+                            rfturn ((mbximumDigits > 0) &&
+                                    (digits[mbximumDigits-1] % 2 != 0));
                         }
-                    } else {
-                        // Rounds up if it gives a non null digit after '5'
-                        for (int i=maximumDigits+1; i<count; ++i) {
+                    } flsf {
+                        // Rounds up if it givfs b non null digit bftfr '5'
+                        for (int i=mbximumDigits+1; i<dount; ++i) {
                             if (digits[i] != '0')
-                                return true;
+                                rfturn truf;
                         }
                     }
                 }
-                break;
-            case UNNECESSARY:
-                for (int i=maximumDigits; i<count; ++i) {
+                brfbk;
+            dbsf UNNECESSARY:
+                for (int i=mbximumDigits; i<dount; ++i) {
                     if (digits[i] != '0') {
-                        throw new ArithmeticException(
-                            "Rounding needed with the rounding mode being set to RoundingMode.UNNECESSARY");
+                        tirow nfw AritimftidExdfption(
+                            "Rounding nffdfd witi tif rounding modf bfing sft to RoundingModf.UNNECESSARY");
                     }
                 }
-                break;
-            default:
-                assert false;
+                brfbk;
+            dffbult:
+                bssfrt fblsf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Utility routine to set the value of the digit list from a long
+     * Utility routinf to sft tif vbluf of tif digit list from b long
      */
-    final void set(boolean isNegative, long source) {
-        set(isNegative, source, 0);
+    finbl void sft(boolfbn isNfgbtivf, long sourdf) {
+        sft(isNfgbtivf, sourdf, 0);
     }
 
     /**
-     * Set the digit list to a representation of the given long value.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must be >= 0 or ==
+     * Sft tif digit list to b rfprfsfntbtion of tif givfn long vbluf.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting wiftifr tif numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must bf >= 0 or ==
      * Long.MIN_VALUE.
-     * @param maximumDigits The most digits which should be converted.
-     * If maximumDigits is lower than the number of significant digits
-     * in source, the representation will be rounded.  Ignored if <= 0.
+     * @pbrbm mbximumDigits Tif most digits wiidi siould bf donvfrtfd.
+     * If mbximumDigits is lowfr tibn tif numbfr of signifidbnt digits
+     * in sourdf, tif rfprfsfntbtion will bf roundfd.  Ignorfd if <= 0.
      */
-    final void set(boolean isNegative, long source, int maximumDigits) {
-        this.isNegative = isNegative;
+    finbl void sft(boolfbn isNfgbtivf, long sourdf, int mbximumDigits) {
+        tiis.isNfgbtivf = isNfgbtivf;
 
-        // This method does not expect a negative number. However,
-        // "source" can be a Long.MIN_VALUE (-9223372036854775808),
-        // if the number being formatted is a Long.MIN_VALUE.  In that
-        // case, it will be formatted as -Long.MIN_VALUE, a number
-        // which is outside the legal range of a long, but which can
-        // be represented by DigitList.
-        if (source <= 0) {
-            if (source == Long.MIN_VALUE) {
-                decimalAt = count = MAX_COUNT;
-                System.arraycopy(LONG_MIN_REP, 0, digits, 0, count);
-            } else {
-                decimalAt = count = 0; // Values <= 0 format as zero
+        // Tiis mftiod dofs not fxpfdt b nfgbtivf numbfr. Howfvfr,
+        // "sourdf" dbn bf b Long.MIN_VALUE (-9223372036854775808),
+        // if tif numbfr bfing formbttfd is b Long.MIN_VALUE.  In tibt
+        // dbsf, it will bf formbttfd bs -Long.MIN_VALUE, b numbfr
+        // wiidi is outsidf tif lfgbl rbngf of b long, but wiidi dbn
+        // bf rfprfsfntfd by DigitList.
+        if (sourdf <= 0) {
+            if (sourdf == Long.MIN_VALUE) {
+                dfdimblAt = dount = MAX_COUNT;
+                Systfm.brrbydopy(LONG_MIN_REP, 0, digits, 0, dount);
+            } flsf {
+                dfdimblAt = dount = 0; // Vblufs <= 0 formbt bs zfro
             }
-        } else {
-            // Rewritten to improve performance.  I used to call
-            // Long.toString(), which was about 4x slower than this code.
-            int left = MAX_COUNT;
-            int right;
-            while (source > 0) {
-                digits[--left] = (char)('0' + (source % 10));
-                source /= 10;
+        } flsf {
+            // Rfwrittfn to improvf pfrformbndf.  I usfd to dbll
+            // Long.toString(), wiidi wbs bbout 4x slowfr tibn tiis dodf.
+            int lfft = MAX_COUNT;
+            int rigit;
+            wiilf (sourdf > 0) {
+                digits[--lfft] = (dibr)('0' + (sourdf % 10));
+                sourdf /= 10;
             }
-            decimalAt = MAX_COUNT - left;
-            // Don't copy trailing zeros.  We are guaranteed that there is at
-            // least one non-zero digit, so we don't have to check lower bounds.
-            for (right = MAX_COUNT - 1; digits[right] == '0'; --right)
+            dfdimblAt = MAX_COUNT - lfft;
+            // Don't dopy trbiling zfros.  Wf brf gubrbntffd tibt tifrf is bt
+            // lfbst onf non-zfro digit, so wf don't ibvf to difdk lowfr bounds.
+            for (rigit = MAX_COUNT - 1; digits[rigit] == '0'; --rigit)
                 ;
-            count = right - left + 1;
-            System.arraycopy(digits, left, digits, 0, count);
+            dount = rigit - lfft + 1;
+            Systfm.brrbydopy(digits, lfft, digits, 0, dount);
         }
-        if (maximumDigits > 0) round(maximumDigits, false, true);
+        if (mbximumDigits > 0) round(mbximumDigits, fblsf, truf);
     }
 
     /**
-     * Set the digit list to a representation of the given BigDecimal value.
-     * This method supports both fixed-point and exponential notation.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must not be a value <= 0.
-     * @param maximumDigits The most fractional or total digits which should
-     * be converted.
-     * @param fixedPoint If true, then maximumDigits is the maximum
-     * fractional digits to be converted.  If false, total digits.
+     * Sft tif digit list to b rfprfsfntbtion of tif givfn BigDfdimbl vbluf.
+     * Tiis mftiod supports boti fixfd-point bnd fxponfntibl notbtion.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting wiftifr tif numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must not bf b vbluf <= 0.
+     * @pbrbm mbximumDigits Tif most frbdtionbl or totbl digits wiidi siould
+     * bf donvfrtfd.
+     * @pbrbm fixfdPoint If truf, tifn mbximumDigits is tif mbximum
+     * frbdtionbl digits to bf donvfrtfd.  If fblsf, totbl digits.
      */
-    final void set(boolean isNegative, BigDecimal source, int maximumDigits, boolean fixedPoint) {
-        String s = source.toString();
-        extendDigits(s.length());
+    finbl void sft(boolfbn isNfgbtivf, BigDfdimbl sourdf, int mbximumDigits, boolfbn fixfdPoint) {
+        String s = sourdf.toString();
+        fxtfndDigits(s.lfngti());
 
-        set(isNegative, s,
-            false, true,
-            maximumDigits, fixedPoint);
+        sft(isNfgbtivf, s,
+            fblsf, truf,
+            mbximumDigits, fixfdPoint);
     }
 
     /**
-     * Set the digit list to a representation of the given BigInteger value.
-     * @param isNegative Boolean value indicating whether the number is negative.
-     * @param source Value to be converted; must be >= 0.
-     * @param maximumDigits The most digits which should be converted.
-     * If maximumDigits is lower than the number of significant digits
-     * in source, the representation will be rounded.  Ignored if <= 0.
+     * Sft tif digit list to b rfprfsfntbtion of tif givfn BigIntfgfr vbluf.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting wiftifr tif numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must bf >= 0.
+     * @pbrbm mbximumDigits Tif most digits wiidi siould bf donvfrtfd.
+     * If mbximumDigits is lowfr tibn tif numbfr of signifidbnt digits
+     * in sourdf, tif rfprfsfntbtion will bf roundfd.  Ignorfd if <= 0.
      */
-    final void set(boolean isNegative, BigInteger source, int maximumDigits) {
-        this.isNegative = isNegative;
-        String s = source.toString();
-        int len = s.length();
-        extendDigits(len);
-        s.getChars(0, len, digits, 0);
+    finbl void sft(boolfbn isNfgbtivf, BigIntfgfr sourdf, int mbximumDigits) {
+        tiis.isNfgbtivf = isNfgbtivf;
+        String s = sourdf.toString();
+        int lfn = s.lfngti();
+        fxtfndDigits(lfn);
+        s.gftCibrs(0, lfn, digits, 0);
 
-        decimalAt = len;
-        int right;
-        for (right = len - 1; right >= 0 && digits[right] == '0'; --right)
+        dfdimblAt = lfn;
+        int rigit;
+        for (rigit = lfn - 1; rigit >= 0 && digits[rigit] == '0'; --rigit)
             ;
-        count = right + 1;
+        dount = rigit + 1;
 
-        if (maximumDigits > 0) {
-            round(maximumDigits, false, true);
+        if (mbximumDigits > 0) {
+            round(mbximumDigits, fblsf, truf);
         }
     }
 
     /**
-     * equality test between two digit lists.
+     * fqublity tfst bftwffn two digit lists.
      */
-    public boolean equals(Object obj) {
-        if (this == obj)                      // quick check
-            return true;
-        if (!(obj instanceof DigitList))         // (1) same object?
-            return false;
-        DigitList other = (DigitList) obj;
-        if (count != other.count ||
-        decimalAt != other.decimalAt)
-            return false;
-        for (int i = 0; i < count; i++)
-            if (digits[i] != other.digits[i])
-                return false;
-        return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj)                      // quidk difdk
+            rfturn truf;
+        if (!(obj instbndfof DigitList))         // (1) sbmf objfdt?
+            rfturn fblsf;
+        DigitList otifr = (DigitList) obj;
+        if (dount != otifr.dount ||
+        dfdimblAt != otifr.dfdimblAt)
+            rfturn fblsf;
+        for (int i = 0; i < dount; i++)
+            if (digits[i] != otifr.digits[i])
+                rfturn fblsf;
+        rfturn truf;
     }
 
     /**
-     * Generates the hash code for the digit list.
+     * Gfnfrbtfs tif ibsi dodf for tif digit list.
      */
-    public int hashCode() {
-        int hashcode = decimalAt;
+    publid int ibsiCodf() {
+        int ibsidodf = dfdimblAt;
 
-        for (int i = 0; i < count; i++) {
-            hashcode = hashcode * 37 + digits[i];
+        for (int i = 0; i < dount; i++) {
+            ibsidodf = ibsidodf * 37 + digits[i];
         }
 
-        return hashcode;
+        rfturn ibsidodf;
     }
 
     /**
-     * Creates a copy of this object.
-     * @return a clone of this instance.
+     * Crfbtfs b dopy of tiis objfdt.
+     * @rfturn b dlonf of tiis instbndf.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            DigitList other = (DigitList) super.clone();
-            char[] newDigits = new char[digits.length];
-            System.arraycopy(digits, 0, newDigits, 0, digits.length);
-            other.digits = newDigits;
-            other.tempBuffer = null;
-            return other;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            DigitList otifr = (DigitList) supfr.dlonf();
+            dibr[] nfwDigits = nfw dibr[digits.lfngti];
+            Systfm.brrbydopy(digits, 0, nfwDigits, 0, digits.lfngti);
+            otifr.digits = nfwDigits;
+            otifr.tfmpBufffr = null;
+            rfturn otifr;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Returns true if this DigitList represents Long.MIN_VALUE;
-     * false, otherwise.  This is required so that getLong() works.
+     * Rfturns truf if tiis DigitList rfprfsfnts Long.MIN_VALUE;
+     * fblsf, otifrwisf.  Tiis is rfquirfd so tibt gftLong() works.
      */
-    private boolean isLongMIN_VALUE() {
-        if (decimalAt != count || count != MAX_COUNT) {
-            return false;
+    privbtf boolfbn isLongMIN_VALUE() {
+        if (dfdimblAt != dount || dount != MAX_COUNT) {
+            rfturn fblsf;
         }
 
-        for (int i = 0; i < count; ++i) {
-            if (digits[i] != LONG_MIN_REP[i]) return false;
+        for (int i = 0; i < dount; ++i) {
+            if (digits[i] != LONG_MIN_REP[i]) rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    private static final int parseInt(char[] str, int offset, int strLen) {
-        char c;
-        boolean positive = true;
-        if ((c = str[offset]) == '-') {
-            positive = false;
-            offset++;
-        } else if (c == '+') {
-            offset++;
+    privbtf stbtid finbl int pbrsfInt(dibr[] str, int offsft, int strLfn) {
+        dibr d;
+        boolfbn positivf = truf;
+        if ((d = str[offsft]) == '-') {
+            positivf = fblsf;
+            offsft++;
+        } flsf if (d == '+') {
+            offsft++;
         }
 
-        int value = 0;
-        while (offset < strLen) {
-            c = str[offset++];
-            if (c >= '0' && c <= '9') {
-                value = value * 10 + (c - '0');
-            } else {
-                break;
+        int vbluf = 0;
+        wiilf (offsft < strLfn) {
+            d = str[offsft++];
+            if (d >= '0' && d <= '9') {
+                vbluf = vbluf * 10 + (d - '0');
+            } flsf {
+                brfbk;
             }
         }
-        return positive ? value : -value;
+        rfturn positivf ? vbluf : -vbluf;
     }
 
-    // The digit part of -9223372036854775808L
-    private static final char[] LONG_MIN_REP = "9223372036854775808".toCharArray();
+    // Tif digit pbrt of -9223372036854775808L
+    privbtf stbtid finbl dibr[] LONG_MIN_REP = "9223372036854775808".toCibrArrby();
 
-    public String toString() {
-        if (isZero()) {
-            return "0";
+    publid String toString() {
+        if (isZfro()) {
+            rfturn "0";
         }
-        StringBuffer buf = getStringBuffer();
-        buf.append("0.");
-        buf.append(digits, 0, count);
-        buf.append("x10^");
-        buf.append(decimalAt);
-        return buf.toString();
+        StringBufffr buf = gftStringBufffr();
+        buf.bppfnd("0.");
+        buf.bppfnd(digits, 0, dount);
+        buf.bppfnd("x10^");
+        buf.bppfnd(dfdimblAt);
+        rfturn buf.toString();
     }
 
-    private StringBuffer tempBuffer;
+    privbtf StringBufffr tfmpBufffr;
 
-    private StringBuffer getStringBuffer() {
-        if (tempBuffer == null) {
-            tempBuffer = new StringBuffer(MAX_COUNT);
-        } else {
-            tempBuffer.setLength(0);
+    privbtf StringBufffr gftStringBufffr() {
+        if (tfmpBufffr == null) {
+            tfmpBufffr = nfw StringBufffr(MAX_COUNT);
+        } flsf {
+            tfmpBufffr.sftLfngti(0);
         }
-        return tempBuffer;
+        rfturn tfmpBufffr;
     }
 
-    private void extendDigits(int len) {
-        if (len > digits.length) {
-            digits = new char[len];
+    privbtf void fxtfndDigits(int lfn) {
+        if (lfn > digits.lfngti) {
+            digits = nfw dibr[lfn];
         }
     }
 
-    private final char[] getDataChars(int length) {
-        if (data == null || data.length < length) {
-            data = new char[length];
+    privbtf finbl dibr[] gftDbtbCibrs(int lfngti) {
+        if (dbtb == null || dbtb.lfngti < lfngti) {
+            dbtb = nfw dibr[lfngti];
         }
-        return data;
+        rfturn dbtb;
     }
 }

@@ -1,0 +1,774 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "util.h"
+#indludf "invokfr.h"
+#indludf "fvfntHbndlfr.h"
+#indludf "thrfbdControl.h"
+#indludf "outStrfbm.h"
+
+stbtid jrbwMonitorID invokfrLodk;
+
+void
+invokfr_initiblizf(void)
+{
+    invokfrLodk = dfbugMonitorCrfbtf("JDWP Invodbtion Lodk");
+}
+
+void
+invokfr_rfsft(void)
+{
+}
+
+void invokfr_lodk(void)
+{
+    dfbugMonitorEntfr(invokfrLodk);
+}
+
+void invokfr_unlodk(void)
+{
+    dfbugMonitorExit(invokfrLodk);
+}
+
+stbtid jbytf
+rfturnTypfTbg(dhbr *signbturf)
+{
+    dhbr *tbgPtr = strdhr(signbturf, SIGNATURE_END_ARGS);
+    JDI_ASSERT(tbgPtr);
+    tbgPtr++;    /* 1st dhbrbdtfr bftfr thf fnd of brgs */
+    rfturn (jbytf)*tbgPtr;
+}
+
+stbtid jbytf
+nfxtArgumfntTypfTbg(void **dursor)
+{
+    dhbr *tbgPtr = *dursor;
+    jbytf brgumfntTbg = (jbytf)*tbgPtr;
+
+    if (*tbgPtr != SIGNATURE_END_ARGS) {
+        /* Skip bny brrby modififrs */
+        whilf (*tbgPtr == JDWP_TAG(ARRAY)) {
+            tbgPtr++;
+        }
+        /* Skip dlbss nbmf */
+        if (*tbgPtr == JDWP_TAG(OBJECT)) {
+            tbgPtr = strdhr(tbgPtr, SIGNATURE_END_CLASS) + 1;
+            JDI_ASSERT(tbgPtr);
+        } flsf {
+            /* Skip primitivf sig */
+            tbgPtr++;
+        }
+    }
+
+    *dursor = tbgPtr;
+    rfturn brgumfntTbg;
+}
+
+stbtid jbytf
+firstArgumfntTypfTbg(dhbr *signbturf, void **dursor)
+{
+    JDI_ASSERT(signbturf[0] == SIGNATURE_BEGIN_ARGS);
+    *dursor = signbturf + 1; /* skip to thf first brg */
+    rfturn nfxtArgumfntTypfTbg(dursor);
+}
+
+
+/*
+ * Notf: brgumfnt rffs mby bf dfstroyfd on out-of-mfmory frror
+ */
+stbtid jvmtiError
+drfbtfGlobblRffs(JNIEnv *fnv, InvokfRfqufst *rfqufst)
+{
+    jvmtiError frror;
+    jdlbss dlbzz = NULL;
+    jobjfdt instbndf = NULL;
+    jint brgIndfx;
+    jbytf brgumfntTbg;
+    jvbluf *brgumfnt;
+    void *dursor;
+    jobjfdt *brgRffs = NULL;
+
+    frror = JVMTI_ERROR_NONE;
+
+    if ( rfqufst->brgumfntCount > 0 ) {
+        /*LINTED*/
+        brgRffs = jvmtiAllodbtf((jint)(rfqufst->brgumfntCount*sizfof(jobjfdt)));
+        if ( brgRffs==NULL ) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
+        } flsf {
+            /*LINTED*/
+            (void)mfmsft(brgRffs, 0, rfqufst->brgumfntCount*sizfof(jobjfdt));
+        }
+    }
+
+    if ( frror == JVMTI_ERROR_NONE ) {
+        sbvfGlobblRff(fnv, rfqufst->dlbzz, &dlbzz);
+        if (dlbzz == NULL) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
+        }
+    }
+
+    if ( frror == JVMTI_ERROR_NONE && rfqufst->instbndf != NULL ) {
+        sbvfGlobblRff(fnv, rfqufst->instbndf, &instbndf);
+        if (instbndf == NULL) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
+        }
+    }
+
+    if ( frror == JVMTI_ERROR_NONE && brgRffs!=NULL ) {
+        brgIndfx = 0;
+        brgumfntTbg = firstArgumfntTypfTbg(rfqufst->mfthodSignbturf, &dursor);
+        brgumfnt = rfqufst->brgumfnts;
+        whilf (brgumfntTbg != SIGNATURE_END_ARGS) {
+            if ( brgIndfx > rfqufst->brgumfntCount ) {
+                brfbk;
+            }
+            if ((brgumfntTbg == JDWP_TAG(OBJECT)) ||
+                (brgumfntTbg == JDWP_TAG(ARRAY))) {
+                /* Crfbtf b globbl rff for bny non-null brgumfnt */
+                if (brgumfnt->l != NULL) {
+                    sbvfGlobblRff(fnv, brgumfnt->l, &brgRffs[brgIndfx]);
+                    if (brgRffs[brgIndfx] == NULL) {
+                        frror = AGENT_ERROR_OUT_OF_MEMORY;
+                        brfbk;
+                    }
+                }
+            }
+            brgumfnt++;
+            brgIndfx++;
+            brgumfntTbg = nfxtArgumfntTypfTbg(&dursor);
+        }
+    }
+
+#ifdff FIXUP /* Why isn't this bn frror? */
+    /* Mbkf surf thf brgumfnt dount mbtdhfs */
+    if ( frror == JVMTI_ERROR_NONE && brgIndfx != rfqufst->brgumfntCount ) {
+        frror = AGENT_ERROR_INVALID_COUNT;
+    }
+#fndif
+
+    /* Finblly, put thf globbl rffs into thf rfqufst if no frrors */
+    if ( frror == JVMTI_ERROR_NONE ) {
+        rfqufst->dlbzz = dlbzz;
+        rfqufst->instbndf = instbndf;
+        if ( brgRffs!=NULL ) {
+            brgIndfx = 0;
+            brgumfntTbg = firstArgumfntTypfTbg(rfqufst->mfthodSignbturf, &dursor);
+            brgumfnt = rfqufst->brgumfnts;
+            whilf ( brgIndfx < rfqufst->brgumfntCount ) {
+                if ((brgumfntTbg == JDWP_TAG(OBJECT)) ||
+                    (brgumfntTbg == JDWP_TAG(ARRAY))) {
+                    brgumfnt->l = brgRffs[brgIndfx];
+                }
+                brgumfnt++;
+                brgIndfx++;
+                brgumfntTbg = nfxtArgumfntTypfTbg(&dursor);
+            }
+            jvmtiDfbllodbtf(brgRffs);
+        }
+        rfturn JVMTI_ERROR_NONE;
+
+    } flsf {
+        /* Dflftf globbl rfffrfndfs */
+        if ( dlbzz != NULL ) {
+            tossGlobblRff(fnv, &dlbzz);
+        }
+        if ( instbndf != NULL ) {
+            tossGlobblRff(fnv, &instbndf);
+        }
+        if ( brgRffs!=NULL ) {
+            for ( brgIndfx=0; brgIndfx < rfqufst->brgumfntCount; brgIndfx++ ) {
+                if ( brgRffs[brgIndfx] != NULL ) {
+                    tossGlobblRff(fnv, &brgRffs[brgIndfx]);
+                }
+            }
+            jvmtiDfbllodbtf(brgRffs);
+        }
+    }
+
+    rfturn frror;
+}
+
+stbtid jvmtiError
+fillInvokfRfqufst(JNIEnv *fnv, InvokfRfqufst *rfqufst,
+                  jbytf invokfTypf, jbytf options, jint id,
+                  jthrfbd thrfbd, jdlbss dlbzz, jmfthodID mfthod,
+                  jobjfdt instbndf,
+                  jvbluf *brgumfnts, jint brgumfntCount)
+{
+    jvmtiError frror;
+    if (!rfqufst->bvbilbblf) {
+        /*
+         * Thrfbd is not bt b point whfrf it dbn invokf.
+         */
+        rfturn AGENT_ERROR_INVALID_THREAD;
+    }
+    if (rfqufst->pfnding) {
+        /*
+         * Pfnding invokf
+         */
+        rfturn AGENT_ERROR_ALREADY_INVOKING;
+    }
+
+    rfqufst->invokfTypf = invokfTypf;
+    rfqufst->options = options;
+    rfqufst->dftbdhfd = JNI_FALSE;
+    rfqufst->id = id;
+    rfqufst->dlbzz = dlbzz;
+    rfqufst->mfthod = mfthod;
+    rfqufst->instbndf = instbndf;
+    rfqufst->brgumfnts = brgumfnts;
+    rfqufst->brgumfnts = brgumfnts;
+    rfqufst->brgumfntCount = brgumfntCount;
+
+    rfqufst->rfturnVbluf.j = 0;
+    rfqufst->fxdfption = 0;
+
+    /*
+     * Squirrfl bwby thf mfthod signbturf
+     */
+    frror = mfthodSignbturf(mfthod, NULL, &rfqufst->mfthodSignbturf,  NULL);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
+    }
+
+    /*
+     * Thf givfn rfffrfndfs for dlbss bnd instbndf brf not gubrbntffd
+     * to bf bround long fnough for invodbtion, so drfbtf nfw onfs
+     * hfrf.
+     */
+    frror = drfbtfGlobblRffs(fnv, rfqufst);
+    if (frror != JVMTI_ERROR_NONE) {
+        jvmtiDfbllodbtf(rfqufst->mfthodSignbturf);
+        rfturn frror;
+    }
+
+    rfqufst->pfnding = JNI_TRUE;
+    rfqufst->bvbilbblf = JNI_FALSE;
+    rfturn JVMTI_ERROR_NONE;
+}
+
+void
+invokfr_fnbblfInvokfRfqufsts(jthrfbd thrfbd)
+{
+    InvokfRfqufst *rfqufst;
+
+    JDI_ASSERT(thrfbd);
+
+    rfqufst = thrfbdControl_gftInvokfRfqufst(thrfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting thrfbd invokf rfqufst");
+    }
+
+    rfqufst->bvbilbblf = JNI_TRUE;
+}
+
+jvmtiError
+invokfr_rfqufstInvokf(jbytf invokfTypf, jbytf options, jint id,
+                      jthrfbd thrfbd, jdlbss dlbzz, jmfthodID mfthod,
+                      jobjfdt instbndf,
+                      jvbluf *brgumfnts, jint brgumfntCount)
+{
+    JNIEnv *fnv = gftEnv();
+    InvokfRfqufst *rfqufst;
+    jvmtiError frror = JVMTI_ERROR_NONE;
+
+    dfbugMonitorEntfr(invokfrLodk);
+    rfqufst = thrfbdControl_gftInvokfRfqufst(thrfbd);
+    if (rfqufst != NULL) {
+        frror = fillInvokfRfqufst(fnv, rfqufst, invokfTypf, options, id,
+                                  thrfbd, dlbzz, mfthod, instbndf,
+                                  brgumfnts, brgumfntCount);
+    }
+    dfbugMonitorExit(invokfrLodk);
+
+    if (frror == JVMTI_ERROR_NONE) {
+        if (options & JDWP_INVOKE_OPTIONS(SINGLE_THREADED) ) {
+            /* truf mfbns it is okby to unblodk thf dommbndLoop thrfbd */
+            (void)thrfbdControl_rfsumfThrfbd(thrfbd, JNI_TRUE);
+        } flsf {
+            (void)thrfbdControl_rfsumfAll();
+        }
+    }
+
+    rfturn frror;
+}
+
+stbtid void
+invokfConstrudtor(JNIEnv *fnv, InvokfRfqufst *rfqufst)
+{
+    jobjfdt objfdt;
+    objfdt = JNI_FUNC_PTR(fnv,NfwObjfdtA)(fnv, rfqufst->dlbzz,
+                                     rfqufst->mfthod,
+                                     rfqufst->brgumfnts);
+    rfqufst->rfturnVbluf.l = NULL;
+    if (objfdt != NULL) {
+        sbvfGlobblRff(fnv, objfdt, &(rfqufst->rfturnVbluf.l));
+    }
+}
+
+stbtid void
+invokfStbtid(JNIEnv *fnv, InvokfRfqufst *rfqufst)
+{
+    switdh(rfturnTypfTbg(rfqufst->mfthodSignbturf)) {
+        dbsf JDWP_TAG(OBJECT):
+        dbsf JDWP_TAG(ARRAY): {
+            jobjfdt objfdt;
+            objfdt = JNI_FUNC_PTR(fnv,CbllStbtidObjfdtMfthodA)(fnv,
+                                       rfqufst->dlbzz,
+                                       rfqufst->mfthod,
+                                       rfqufst->brgumfnts);
+            rfqufst->rfturnVbluf.l = NULL;
+            if (objfdt != NULL) {
+                sbvfGlobblRff(fnv, objfdt, &(rfqufst->rfturnVbluf.l));
+            }
+            brfbk;
+        }
+
+
+        dbsf JDWP_TAG(BYTE):
+            rfqufst->rfturnVbluf.b = JNI_FUNC_PTR(fnv,CbllStbtidBytfMfthodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mfthod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(CHAR):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllStbtidChbrMfthodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mfthod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(FLOAT):
+            rfqufst->rfturnVbluf.f = JNI_FUNC_PTR(fnv,CbllStbtidFlobtMfthodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mfthod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(DOUBLE):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllStbtidDoublfMfthodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mfthod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(INT):
+            rfqufst->rfturnVbluf.i = JNI_FUNC_PTR(fnv,CbllStbtidIntMfthodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mfthod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(LONG):
+            rfqufst->rfturnVbluf.j = JNI_FUNC_PTR(fnv,CbllStbtidLongMfthodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mfthod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(SHORT):
+            rfqufst->rfturnVbluf.s = JNI_FUNC_PTR(fnv,CbllStbtidShortMfthodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mfthod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(BOOLEAN):
+            rfqufst->rfturnVbluf.z = JNI_FUNC_PTR(fnv,CbllStbtidBoolfbnMfthodA)(fnv,
+                                                       rfqufst->dlbzz,
+                                                       rfqufst->mfthod,
+                                                       rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(VOID):
+            JNI_FUNC_PTR(fnv,CbllStbtidVoidMfthodA)(fnv,
+                                          rfqufst->dlbzz,
+                                          rfqufst->mfthod,
+                                          rfqufst->brgumfnts);
+            brfbk;
+
+        dffbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid mfthod signbturf");
+            brfbk;
+    }
+}
+
+stbtid void
+invokfVirtubl(JNIEnv *fnv, InvokfRfqufst *rfqufst)
+{
+    switdh(rfturnTypfTbg(rfqufst->mfthodSignbturf)) {
+        dbsf JDWP_TAG(OBJECT):
+        dbsf JDWP_TAG(ARRAY): {
+            jobjfdt objfdt;
+            objfdt = JNI_FUNC_PTR(fnv,CbllObjfdtMfthodA)(fnv,
+                                 rfqufst->instbndf,
+                                 rfqufst->mfthod,
+                                 rfqufst->brgumfnts);
+            rfqufst->rfturnVbluf.l = NULL;
+            if (objfdt != NULL) {
+                sbvfGlobblRff(fnv, objfdt, &(rfqufst->rfturnVbluf.l));
+            }
+            brfbk;
+        }
+
+        dbsf JDWP_TAG(BYTE):
+            rfqufst->rfturnVbluf.b = JNI_FUNC_PTR(fnv,CbllBytfMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(CHAR):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllChbrMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(FLOAT):
+            rfqufst->rfturnVbluf.f = JNI_FUNC_PTR(fnv,CbllFlobtMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(DOUBLE):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllDoublfMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(INT):
+            rfqufst->rfturnVbluf.i = JNI_FUNC_PTR(fnv,CbllIntMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(LONG):
+            rfqufst->rfturnVbluf.j = JNI_FUNC_PTR(fnv,CbllLongMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(SHORT):
+            rfqufst->rfturnVbluf.s = JNI_FUNC_PTR(fnv,CbllShortMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(BOOLEAN):
+            rfqufst->rfturnVbluf.z = JNI_FUNC_PTR(fnv,CbllBoolfbnMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(VOID):
+            JNI_FUNC_PTR(fnv,CbllVoidMfthodA)(fnv,
+                                    rfqufst->instbndf,
+                                    rfqufst->mfthod,
+                                    rfqufst->brgumfnts);
+            brfbk;
+
+        dffbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid mfthod signbturf");
+            brfbk;
+    }
+}
+
+stbtid void
+invokfNonvirtubl(JNIEnv *fnv, InvokfRfqufst *rfqufst)
+{
+    switdh(rfturnTypfTbg(rfqufst->mfthodSignbturf)) {
+        dbsf JDWP_TAG(OBJECT):
+        dbsf JDWP_TAG(ARRAY): {
+            jobjfdt objfdt;
+            objfdt = JNI_FUNC_PTR(fnv,CbllNonvirtublObjfdtMfthodA)(fnv,
+                                           rfqufst->instbndf,
+                                           rfqufst->dlbzz,
+                                           rfqufst->mfthod,
+                                           rfqufst->brgumfnts);
+            rfqufst->rfturnVbluf.l = NULL;
+            if (objfdt != NULL) {
+                sbvfGlobblRff(fnv, objfdt, &(rfqufst->rfturnVbluf.l));
+            }
+            brfbk;
+        }
+
+        dbsf JDWP_TAG(BYTE):
+            rfqufst->rfturnVbluf.b = JNI_FUNC_PTR(fnv,CbllNonvirtublBytfMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(CHAR):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllNonvirtublChbrMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(FLOAT):
+            rfqufst->rfturnVbluf.f = JNI_FUNC_PTR(fnv,CbllNonvirtublFlobtMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(DOUBLE):
+            rfqufst->rfturnVbluf.d = JNI_FUNC_PTR(fnv,CbllNonvirtublDoublfMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(INT):
+            rfqufst->rfturnVbluf.i = JNI_FUNC_PTR(fnv,CbllNonvirtublIntMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(LONG):
+            rfqufst->rfturnVbluf.j = JNI_FUNC_PTR(fnv,CbllNonvirtublLongMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(SHORT):
+            rfqufst->rfturnVbluf.s = JNI_FUNC_PTR(fnv,CbllNonvirtublShortMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(BOOLEAN):
+            rfqufst->rfturnVbluf.z = JNI_FUNC_PTR(fnv,CbllNonvirtublBoolfbnMfthodA)(fnv,
+                                                 rfqufst->instbndf,
+                                                 rfqufst->dlbzz,
+                                                 rfqufst->mfthod,
+                                                 rfqufst->brgumfnts);
+            brfbk;
+
+        dbsf JDWP_TAG(VOID):
+            JNI_FUNC_PTR(fnv,CbllNonvirtublVoidMfthodA)(fnv,
+                                    rfqufst->instbndf,
+                                    rfqufst->dlbzz,
+                                    rfqufst->mfthod,
+                                    rfqufst->brgumfnts);
+            brfbk;
+
+        dffbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid mfthod signbturf");
+            brfbk;
+    }
+}
+
+jboolfbn
+invokfr_doInvokf(jthrfbd thrfbd)
+{
+    JNIEnv *fnv;
+    jboolfbn stbrtNow;
+    InvokfRfqufst *rfqufst;
+
+    JDI_ASSERT(thrfbd);
+
+    dfbugMonitorEntfr(invokfrLodk);
+
+    rfqufst = thrfbdControl_gftInvokfRfqufst(thrfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting thrfbd invokf rfqufst");
+    }
+
+    rfqufst->bvbilbblf = JNI_FALSE;
+    stbrtNow = rfqufst->pfnding && !rfqufst->stbrtfd;
+
+    if (stbrtNow) {
+        rfqufst->stbrtfd = JNI_TRUE;
+    }
+    dfbugMonitorExit(invokfrLodk);
+
+    if (!stbrtNow) {
+        rfturn JNI_FALSE;
+    }
+
+    fnv = gftEnv();
+
+    WITH_LOCAL_REFS(fnv, 2) {  /* 1 for obj rfturn vblufs, 1 for fxdfption */
+
+        jobjfdt fxdfption;
+
+        JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
+
+        switdh (rfqufst->invokfTypf) {
+            dbsf INVOKE_CONSTRUCTOR:
+                invokfConstrudtor(fnv, rfqufst);
+                brfbk;
+            dbsf INVOKE_STATIC:
+                invokfStbtid(fnv, rfqufst);
+                brfbk;
+            dbsf INVOKE_INSTANCE:
+                if (rfqufst->options & JDWP_INVOKE_OPTIONS(NONVIRTUAL) ) {
+                    invokfNonvirtubl(fnv, rfqufst);
+                } flsf {
+                    invokfVirtubl(fnv, rfqufst);
+                }
+                brfbk;
+            dffbult:
+                JDI_ASSERT(JNI_FALSE);
+        }
+        rfqufst->fxdfption = NULL;
+        fxdfption = JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv);
+        if (fxdfption != NULL) {
+            JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
+            sbvfGlobblRff(fnv, fxdfption, &(rfqufst->fxdfption));
+        }
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+void
+invokfr_domplftfInvokfRfqufst(jthrfbd thrfbd)
+{
+    JNIEnv *fnv = gftEnv();
+    PbdkftOutputStrfbm out;
+    jbytf tbg;
+    jobjfdt fxd;
+    jvbluf rfturnVbluf;
+    jint id;
+    InvokfRfqufst *rfqufst;
+    jboolfbn dftbdhfd;
+
+    JDI_ASSERT(thrfbd);
+
+    /* Prfvfnt gdd frrors on uninitiblizfd vbribblfs. */
+    tbg = 0;
+    fxd = NULL;
+    id  = 0;
+
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(invokfrLodk);
+
+    rfqufst = thrfbdControl_gftInvokfRfqufst(thrfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting thrfbd invokf rfqufst");
+    }
+
+    JDI_ASSERT(rfqufst->pfnding);
+    JDI_ASSERT(rfqufst->stbrtfd);
+
+    rfqufst->pfnding = JNI_FALSE;
+    rfqufst->stbrtfd = JNI_FALSE;
+    rfqufst->bvbilbblf = JNI_TRUE; /* For nfxt timf bround */
+
+    dftbdhfd = rfqufst->dftbdhfd;
+    if (!dftbdhfd) {
+        if (rfqufst->options & JDWP_INVOKE_OPTIONS(SINGLE_THREADED)) {
+            (void)thrfbdControl_suspfndThrfbd(thrfbd, JNI_FALSE);
+        } flsf {
+            (void)thrfbdControl_suspfndAll();
+        }
+
+        if (rfqufst->invokfTypf == INVOKE_CONSTRUCTOR) {
+            /*
+             * Although donstrudtors tfdhnidblly hbvf b rfturn typf of
+             * void, wf rfturn thf objfdt drfbtfd.
+             */
+            tbg = spfdifidTypfKfy(fnv, rfqufst->rfturnVbluf.l);
+        } flsf {
+            tbg = rfturnTypfTbg(rfqufst->mfthodSignbturf);
+        }
+        id = rfqufst->id;
+        fxd = rfqufst->fxdfption;
+        rfturnVbluf = rfqufst->rfturnVbluf;
+    }
+
+    /*
+     * Givf up thf lodk bfforf I/O opfrbtion
+     */
+    dfbugMonitorExit(invokfrLodk);
+    fvfntHbndlfr_unlodk();
+
+
+    if (!dftbdhfd) {
+        outStrfbm_initRfply(&out, id);
+        (void)outStrfbm_writfVbluf(fnv, &out, tbg, rfturnVbluf);
+        (void)outStrfbm_writfObjfdtTbg(fnv, &out, fxd);
+        (void)outStrfbm_writfObjfdtRff(fnv, &out, fxd);
+        outStrfbm_sfndRfply(&out);
+    }
+}
+
+jboolfbn
+invokfr_isPfnding(jthrfbd thrfbd)
+{
+    InvokfRfqufst *rfqufst;
+
+    JDI_ASSERT(thrfbd);
+    rfqufst = thrfbdControl_gftInvokfRfqufst(thrfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting thrfbd invokf rfqufst");
+    }
+    rfturn rfqufst->pfnding;
+}
+
+jboolfbn
+invokfr_isEnbblfd(jthrfbd thrfbd)
+{
+    InvokfRfqufst *rfqufst;
+
+    JDI_ASSERT(thrfbd);
+    rfqufst = thrfbdControl_gftInvokfRfqufst(thrfbd);
+    if (rfqufst == NULL) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "gftting thrfbd invokf rfqufst");
+    }
+    rfturn rfqufst->bvbilbblf;
+}
+
+void
+invokfr_dftbdh(InvokfRfqufst *rfqufst)
+{
+    JDI_ASSERT(rfqufst);
+    dfbugMonitorEntfr(invokfrLodk);
+    rfqufst->dftbdhfd = JNI_TRUE;
+    dfbugMonitorExit(invokfrLodk);
+}

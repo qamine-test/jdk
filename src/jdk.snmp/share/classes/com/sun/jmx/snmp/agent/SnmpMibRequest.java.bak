@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
 
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpEngine;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpEnginf;
 
 /**
- * This interface models the part of a SNMP request that involves
- * a specific MIB. One object implementing this interface will be created
- * for every MIB involved in a SNMP request, and that object will be passed
- * to the SnmpMibAgent in charge of handling that MIB.
+ * Tiis intfrfbdf modfls tif pbrt of b SNMP rfqufst tibt involvfs
+ * b spfdifid MIB. Onf objfdt implfmfnting tiis intfrfbdf will bf drfbtfd
+ * for fvfry MIB involvfd in b SNMP rfqufst, bnd tibt objfdt will bf pbssfd
+ * to tif SnmpMibAgfnt in dibrgf of ibndling tibt MIB.
  *
- * Objects implementing this interface will be allocated by the SNMP engine.
- * You will never need to implement this interface. You will only use it.
+ * Objfdts implfmfnting tiis intfrfbdf will bf bllodbtfd by tif SNMP fnginf.
+ * You will nfvfr nffd to implfmfnt tiis intfrfbdf. You will only usf it.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
-public interface SnmpMibRequest {
+publid intfrfbdf SnmpMibRfqufst {
     /**
-     * Returns the list of varbind to be handled by the SNMP mib node.
+     * Rfturns tif list of vbrbind to bf ibndlfd by tif SNMP mib nodf.
      *
-     * @return The element of the enumeration are instances of
-     *         {@link com.sun.jmx.snmp.SnmpVarBind}
+     * @rfturn Tif flfmfnt of tif fnumfrbtion brf instbndfs of
+     *         {@link dom.sun.jmx.snmp.SnmpVbrBind}
      */
-    public Enumeration<SnmpVarBind> getElements();
+    publid Enumfrbtion<SnmpVbrBind> gftElfmfnts();
 
     /**
-     * Returns the vector of varbind to be handled by the SNMP mib node.
-     * The caller shall not modify this vector.
+     * Rfturns tif vfdtor of vbrbind to bf ibndlfd by tif SNMP mib nodf.
+     * Tif dbllfr sibll not modify tiis vfdtor.
      *
-     * @return The element of the vector are instances of
-     *         {@link com.sun.jmx.snmp.SnmpVarBind}
+     * @rfturn Tif flfmfnt of tif vfdtor brf instbndfs of
+     *         {@link dom.sun.jmx.snmp.SnmpVbrBind}
      */
-    public Vector<SnmpVarBind> getSubList();
+    publid Vfdtor<SnmpVbrBind> gftSubList();
 
     /**
-     * Returns the SNMP protocol version of the original request. If SNMP V1 request are received, the version is upgraded to SNMP V2.
+     * Rfturns tif SNMP protodol vfrsion of tif originbl rfqufst. If SNMP V1 rfqufst brf rfdfivfd, tif vfrsion is upgrbdfd to SNMP V2.
      *
-     * @return The SNMP protocol version of the original request.
+     * @rfturn Tif SNMP protodol vfrsion of tif originbl rfqufst.
      */
-    public int getVersion();
+    publid int gftVfrsion();
 
     /**
-     * Returns the SNMP protocol version of the original request. No translation is done on the version. The actual received request SNMP version is returned.
+     * Rfturns tif SNMP protodol vfrsion of tif originbl rfqufst. No trbnslbtion is donf on tif vfrsion. Tif bdtubl rfdfivfd rfqufst SNMP vfrsion is rfturnfd.
      *
-     * @return The SNMP protocol version of the original request.
+     * @rfturn Tif SNMP protodol vfrsion of tif originbl rfqufst.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public int getRequestPduVersion();
+    publid int gftRfqufstPduVfrsion();
 
     /**
-     * Returns the local engine. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return the local engine.
+     * Rfturns tif lodbl fnginf. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf null is rfturnfd.
+     * @rfturn tif lodbl fnginf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpEngine getEngine();
+    publid SnmpEnginf gftEnginf();
     /**
-     * Gets the incoming request principal. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The request principal.
+     * Gfts tif indoming rfqufst prindipbl. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf null is rfturnfd.
+     * @rfturn Tif rfqufst prindipbl.
      *
-     * @since 1.5
+     * @sindf 1.5
      **/
-    public String getPrincipal();
+    publid String gftPrindipbl();
     /**
-     * Gets the incoming request security level. This level is defined in {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise -1 is returned.
-     * @return The security level.
+     * Gfts tif indoming rfqufst sfdurity lfvfl. Tiis lfvfl is dffinfd in {@link dom.sun.jmx.snmp.SnmpEnginf SnmpEnginf}. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf -1 is rfturnfd.
+     * @rfturn Tif sfdurity lfvfl.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public int getSecurityLevel();
+    publid int gftSfdurityLfvfl();
     /**
-     * Gets the incoming request security model. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise -1 is returned.
-     * @return The security model.
+     * Gfts tif indoming rfqufst sfdurity modfl. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf -1 is rfturnfd.
+     * @rfturn Tif sfdurity modfl.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public int getSecurityModel();
+    publid int gftSfdurityModfl();
     /**
-     * Gets the incoming request context name. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The context name.
+     * Gfts tif indoming rfqufst dontfxt nbmf. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf null is rfturnfd.
+     * @rfturn Tif dontfxt nbmf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public byte[] getContextName();
+    publid bytf[] gftContfxtNbmf();
     /**
-     * Gets the incoming request context name used by Access Control Model in order to allow or deny the access to OIDs. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The checked context name.
+     * Gfts tif indoming rfqufst dontfxt nbmf usfd by Addfss Control Modfl in ordfr to bllow or dfny tif bddfss to OIDs. Tiis pbrbmftfr is rfturnfd only if <CODE> SnmpV3AdbptorSfrvfr </CODE> is tif bdbptor rfdfiving tiis rfqufst. Otifrwisf null is rfturnfd.
+     * @rfturn Tif difdkfd dontfxt nbmf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public byte[] getAccessContextName();
+    publid bytf[] gftAddfssContfxtNbmf();
 
     /**
-     * Returns a handle on a user allocated contextual object.
-     * This contextual object is allocated through the SnmpUserDataFactory
-     * on a per SNMP request basis, and is handed back to the user via
-     * SnmpMibRequest (and derivative) objects. It is never accessed by
-     * the system, but might be handed back in multiple threads. It is thus
-     * the user responsibility to make sure he handles this object in a
-     * thread safe manner.
+     * Rfturns b ibndlf on b usfr bllodbtfd dontfxtubl objfdt.
+     * Tiis dontfxtubl objfdt is bllodbtfd tirougi tif SnmpUsfrDbtbFbdtory
+     * on b pfr SNMP rfqufst bbsis, bnd is ibndfd bbdk to tif usfr vib
+     * SnmpMibRfqufst (bnd dfrivbtivf) objfdts. It is nfvfr bddfssfd by
+     * tif systfm, but migit bf ibndfd bbdk in multiplf tirfbds. It is tius
+     * tif usfr rfsponsibility to mbkf surf if ibndlfs tiis objfdt in b
+     * tirfbd sbff mbnnfr.
      */
-    public Object getUserData();
+    publid Objfdt gftUsfrDbtb();
 
     /**
-     * Returns the varbind index that should be embedded in an
-     * SnmpStatusException for this particular varbind.
-     * This does not necessarily correspond to the "real"
-     * index value that will be returned in the result PDU.
+     * Rfturns tif vbrbind indfx tibt siould bf fmbfddfd in bn
+     * SnmpStbtusExdfption for tiis pbrtidulbr vbrbind.
+     * Tiis dofs not nfdfssbrily dorrfspond to tif "rfbl"
+     * indfx vbluf tibt will bf rfturnfd in tif rfsult PDU.
      *
-     * @param varbind The varbind for which the index value is
-     *        querried. Note that this varbind <b>must</b> have
-     *        been obtained from the enumeration returned by
-     *        <CODE>getElements()</CODE>, or from the vector
-     *        returned by <CODE>getSublist()</CODE>.
+     * @pbrbm vbrbind Tif vbrbind for wiidi tif indfx vbluf is
+     *        qufrrifd. Notf tibt tiis vbrbind <b>must</b> ibvf
+     *        bffn obtbinfd from tif fnumfrbtion rfturnfd by
+     *        <CODE>gftElfmfnts()</CODE>, or from tif vfdtor
+     *        rfturnfd by <CODE>gftSublist()</CODE>.
      *
-     * @return The varbind index that should be embedded in an
-     *         SnmpStatusException for this particular varbind.
+     * @rfturn Tif vbrbind indfx tibt siould bf fmbfddfd in bn
+     *         SnmpStbtusExdfption for tiis pbrtidulbr vbrbind.
      */
-    public int getVarIndex(SnmpVarBind varbind);
+    publid int gftVbrIndfx(SnmpVbrBind vbrbind);
 
     /**
-     * Adds a varbind to this request sublist. This method is used for
-     * internal purposes and you should never need to call it directly.
+     * Adds b vbrbind to tiis rfqufst sublist. Tiis mftiod is usfd for
+     * intfrnbl purposfs bnd you siould nfvfr nffd to dbll it dirfdtly.
      *
-     * @param varbind The varbind to be added in the sublist.
+     * @pbrbm vbrbind Tif vbrbind to bf bddfd in tif sublist.
      *
      */
-    public void addVarBind(SnmpVarBind varbind);
+    publid void bddVbrBind(SnmpVbrBind vbrbind);
 
 
     /**
-     * Returns the number of elements (varbinds) in this request sublist.
+     * Rfturns tif numbfr of flfmfnts (vbrbinds) in tiis rfqufst sublist.
      *
-     * @return The number of elements in the sublist.
+     * @rfturn Tif numbfr of flfmfnts in tif sublist.
      *
      **/
-    public int getSize();
+    publid int gftSizf();
     /**
-     * Returns the SNMP PDU attached to the request.
-     * @return The SNMP PDU.
+     * Rfturns tif SNMP PDU bttbdifd to tif rfqufst.
+     * @rfturn Tif SNMP PDU.
      *
-     * @since 1.5
+     * @sindf 1.5
      **/
-    public SnmpPdu getPdu();
+    publid SnmpPdu gftPdu();
 }

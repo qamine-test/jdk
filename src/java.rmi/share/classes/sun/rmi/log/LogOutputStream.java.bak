@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.log;
+pbdkbgf sun.rmi.log;
 
-import java.io.*;
+import jbvb.io.*;
 
-public
-class LogOutputStream extends OutputStream {
+publid
+dlbss LogOutputStrfbm fxtfnds OutputStrfbm {
 
-    private RandomAccessFile raf;
+    privbtf RbndomAddfssFilf rbf;
 
     /**
-     * Creates an output file with the specified system dependent
-     * file descriptor.
-     * @param fd the system dependent file descriptor
-     * @exception IOException If an I/O error has occurred.
+     * Crfbtfs bn output filf witi tif spfdififd systfm dfpfndfnt
+     * filf dfsdriptor.
+     * @pbrbm fd tif systfm dfpfndfnt filf dfsdriptor
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public LogOutputStream(RandomAccessFile raf) throws IOException {
-        this.raf = raf;
+    publid LogOutputStrfbm(RbndomAddfssFilf rbf) tirows IOExdfption {
+        tiis.rbf = rbf;
     }
 
     /**
-     * Writes a byte of data. This method will block until the byte is
-     * actually written.
-     * @param b the byte to be written
-     * @exception IOException If an I/O error has occurred.
+     * Writfs b bytf of dbtb. Tiis mftiod will blodk until tif bytf is
+     * bdtublly writtfn.
+     * @pbrbm b tif bytf to bf writtfn
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(int b) throws IOException {
-        raf.write(b);
+    publid void writf(int b) tirows IOExdfption {
+        rbf.writf(b);
     }
 
     /**
-     * Writes an array of bytes. Will block until the bytes
-     * are actually written.
-     * @param b the data to be written
-     * @exception IOException If an I/O error has occurred.
+     * Writfs bn brrby of bytfs. Will blodk until tif bytfs
+     * brf bdtublly writtfn.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(byte b[]) throws IOException {
-        raf.write(b);
+    publid void writf(bytf b[]) tirows IOExdfption {
+        rbf.writf(b);
     }
 
     /**
-     * Writes a sub array of bytes.
-     * @param b the data to be written
-     * @param off       the start offset in the data
-     * @param len       the number of bytes that are written
-     * @exception IOException If an I/O error has occurred.
+     * Writfs b sub brrby of bytfs.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @pbrbm off       tif stbrt offsft in tif dbtb
+     * @pbrbm lfn       tif numbfr of bytfs tibt brf writtfn
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(byte b[], int off, int len) throws IOException {
-        raf.write(b, off, len);
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+        rbf.writf(b, off, lfn);
     }
 
     /**
-     * Can not close a LogOutputStream, so this does nothing.
-     * @exception IOException If an I/O error has occurred.
+     * Cbn not dlosf b LogOutputStrfbm, so tiis dofs notiing.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public final void close() throws IOException {
+    publid finbl void dlosf() tirows IOExdfption {
     }
 
 }

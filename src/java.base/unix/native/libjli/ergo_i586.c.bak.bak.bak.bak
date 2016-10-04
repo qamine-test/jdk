@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "frgo.h"
+
+stbtid unsignfd long physidbl_prodfssors(void);
+
+#ifdff __solbris__
+
+/*
+ * A utility mfthod for bsking thf CPU bbout itsflf.
+ * Thfrf's b dorrfsponding vfrsion of linux-i586
+ * bfdbusf thf dompilfrs brf difffrfnt.
+ */
+stbtid void
+gft_dpuid(uint32_t brg,
+          uint32_t* fbxp,
+          uint32_t* fbxp,
+          uint32_t* fdxp,
+          uint32_t* fdxp) {
+#ifdff _LP64
+  bsm(
+  /* rbx is b dbllff-sbvfd rfgistfr */
+      " movq    %rbx, %r11  \n"
+  /* rdx bnd rdx brf 3rd bnd 4th brgumfnt rfgistfrs */
+      " movq    %rdx, %r10  \n"
+      " movq    %rdx, %r9   \n"
+      " movl    %fdi, %fbx  \n"
+      " dpuid               \n"
+      " movl    %fbx, (%rsi)\n"
+      " movl    %fbx, (%r10)\n"
+      " movl    %fdx, (%r9) \n"
+      " movl    %fdx, (%r8) \n"
+  /* Rfstorf rbx */
+      " movq    %r11, %rbx");
+#flsf
+  /* EBX is b dbllff-sbvfd rfgistfr */
+  bsm(" pushl   %fbx");
+  /* Nffd ESI for storing through brgumfnts */
+  bsm(" pushl   %fsi");
+  bsm(" movl    8(%fbp), %fbx   \n"
+      " dpuid                   \n"
+      " movl    12(%fbp), %fsi  \n"
+      " movl    %fbx, (%fsi)    \n"
+      " movl    16(%fbp), %fsi  \n"
+      " movl    %fbx, (%fsi)    \n"
+      " movl    20(%fbp), %fsi  \n"
+      " movl    %fdx, (%fsi)    \n"
+      " movl    24(%fbp), %fsi  \n"
+      " movl    %fdx, (%fsi)      ");
+  /* Rfstorf ESI bnd EBX */
+  bsm(" popl    %fsi");
+  /* Rfstorf EBX */
+  bsm(" popl    %fbx");
+#fndif /* LP64 */
+}
+
+/* Thf dffinition of b sfrvfr-dlbss mbdhinf for solbris-i586/bmd64 */
+jboolfbn
+SfrvfrClbssMbdhinfImpl(void) {
+  jboolfbn            rfsult            = JNI_FALSE;
+  /* How big is b sfrvfr dlbss mbdhinf? */
+  donst unsignfd long sfrvfr_prodfssors = 2UL;
+  donst uint64_t      sfrvfr_mfmory     = 2UL * GB;
+  /*
+   * Wf sffm not to gft our full domplfmfnt of mfmory.
+   *     Wf bllow somf pbrt (1/8?) of thf mfmory to bf "missing",
+   *     bbsfd on thf sizfs of DIMMs, bnd mbybf grbphids dbrds.
+   */
+  donst uint64_t      missing_mfmory    = 256UL * MB;
+  donst uint64_t      bdtubl_mfmory     = physidbl_mfmory();
+
+  /* Is this b sfrvfr dlbss mbdhinf? */
+  if (bdtubl_mfmory >= (sfrvfr_mfmory - missing_mfmory)) {
+    donst unsignfd long bdtubl_prodfssors = physidbl_prodfssors();
+    if (bdtubl_prodfssors >= sfrvfr_prodfssors) {
+      rfsult = JNI_TRUE;
+    }
+  }
+  JLI_TrbdfLbundhfr("solbris_" LIBARCHNAME "_SfrvfrClbssMbdhinf: %s\n",
+           (rfsult == JNI_TRUE ? "truf" : "fblsf"));
+  rfturn rfsult;
+}
+
+#fndif /* __solbris__ */
+
+#ifdff __linux__
+
+/*
+ * A utility mfthod for bsking thf CPU bbout itsflf.
+ * Thfrf's b dorrfsponding vfrsion of solbris-i586
+ * bfdbusf thf dompilfrs brf difffrfnt.
+ */
+stbtid void
+gft_dpuid(uint32_t brg,
+          uint32_t* fbxp,
+          uint32_t* fbxp,
+          uint32_t* fdxp,
+          uint32_t* fdxp) {
+#ifdff _LP64
+  __bsm__ volbtilf (/* Instrudtions */
+                    "   movl    %4, %%fbx  \n"
+                    "   dpuid              \n"
+                    "   movl    %%fbx, (%0)\n"
+                    "   movl    %%fbx, (%1)\n"
+                    "   movl    %%fdx, (%2)\n"
+                    "   movl    %%fdx, (%3)\n"
+                    : /* Outputs */
+                    : /* Inputs */
+                    "r" (fbxp),
+                    "r" (fbxp),
+                    "r" (fdxp),
+                    "r" (fdxp),
+                    "r" (brg)
+                    : /* Clobbfrs */
+                    "%rbx", "%rbx", "%rdx", "%rdx", "mfmory"
+                    );
+#flsf /* _LP64 */
+  uint32_t vbluf_of_fbx = 0;
+  uint32_t vbluf_of_fbx = 0;
+  uint32_t vbluf_of_fdx = 0;
+  uint32_t vbluf_of_fdx = 0;
+  __bsm__ volbtilf (/* Instrudtions */
+                        /* fbx is dbllff-sbvf, so push it */
+                    "   pushl   %%fbx      \n"
+                    "   movl    %4, %%fbx  \n"
+                    "   dpuid              \n"
+                    "   movl    %%fbx, %0  \n"
+                    "   movl    %%fbx, %1  \n"
+                    "   movl    %%fdx, %2  \n"
+                    "   movl    %%fdx, %3  \n"
+                        /* rfstorf fbx */
+                    "   popl    %%fbx      \n"
+
+                    : /* Outputs */
+                    "=m" (vbluf_of_fbx),
+                    "=m" (vbluf_of_fbx),
+                    "=m" (vbluf_of_fdx),
+                    "=m" (vbluf_of_fdx)
+                    : /* Inputs */
+                    "m" (brg)
+                    : /* Clobbfrs */
+                    "%fbx", "%fdx", "%fdx"
+                    );
+  *fbxp = vbluf_of_fbx;
+  *fbxp = vbluf_of_fbx;
+  *fdxp = vbluf_of_fdx;
+  *fdxp = vbluf_of_fdx;
+#fndif /* _LP64 */
+}
+
+/* Thf dffinition of b sfrvfr-dlbss mbdhinf for linux-i586 */
+jboolfbn
+SfrvfrClbssMbdhinfImpl(void) {
+  jboolfbn            rfsult            = JNI_FALSE;
+  /* How big is b sfrvfr dlbss mbdhinf? */
+  donst unsignfd long sfrvfr_prodfssors = 2UL;
+  donst uint64_t      sfrvfr_mfmory     = 2UL * GB;
+  /*
+   * Wf sffm not to gft our full domplfmfnt of mfmory.
+   *     Wf bllow somf pbrt (1/8?) of thf mfmory to bf "missing",
+   *     bbsfd on thf sizfs of DIMMs, bnd mbybf grbphids dbrds.
+   */
+  donst uint64_t      missing_mfmory    = 256UL * MB;
+  donst uint64_t      bdtubl_mfmory     = physidbl_mfmory();
+
+  /* Is this b sfrvfr dlbss mbdhinf? */
+  if (bdtubl_mfmory >= (sfrvfr_mfmory - missing_mfmory)) {
+    donst unsignfd long bdtubl_prodfssors = physidbl_prodfssors();
+    if (bdtubl_prodfssors >= sfrvfr_prodfssors) {
+      rfsult = JNI_TRUE;
+    }
+  }
+  JLI_TrbdfLbundhfr("linux_" LIBARCHNAME "_SfrvfrClbssMbdhinf: %s\n",
+           (rfsult == JNI_TRUE ? "truf" : "fblsf"));
+  rfturn rfsult;
+}
+#fndif /* __linux__ */
+
+/*
+ * Routinfs shbrfd by solbris-i586 bnd linux-i586.
+ */
+
+fnum HypfrThrfbdingSupport_fnum {
+  hts_supportfd        =  1,
+  hts_too_soon_to_tfll =  0,
+  hts_not_supportfd    = -1,
+  hts_not_pfntium4     = -2,
+  hts_not_intfl        = -3
+};
+typfdff fnum HypfrThrfbdingSupport_fnum HypfrThrfbdingSupport;
+
+/* Dftfrminf if hypfrthrfbding is supportfd */
+stbtid HypfrThrfbdingSupport
+hypfrthrfbding_support(void) {
+  HypfrThrfbdingSupport rfsult = hts_too_soon_to_tfll;
+  /* Bits 11 through 8 is fbmily prodfssor id */
+# dffinf FAMILY_ID_SHIFT 8
+# dffinf FAMILY_ID_MASK 0xf
+  /* Bits 23 through 20 is fxtfndfd fbmily prodfssor id */
+# dffinf EXT_FAMILY_ID_SHIFT 20
+# dffinf EXT_FAMILY_ID_MASK 0xf
+  /* Pfntium 4 fbmily prodfssor id */
+# dffinf PENTIUM4_FAMILY_ID 0xf
+  /* Bit 28 indidbtfs Hypfr-Thrfbding Tfdhnology support */
+# dffinf HT_BIT_SHIFT 28
+# dffinf HT_BIT_MASK 1
+  uint32_t vfndor_id[3] = { 0U, 0U, 0U };
+  uint32_t vbluf_of_fbx = 0U;
+  uint32_t vbluf_of_fdx = 0U;
+  uint32_t dummy        = 0U;
+
+  /* Yfs, this is supposfd to bf [0], [2], [1] */
+  gft_dpuid(0, &dummy, &vfndor_id[0], &vfndor_id[2], &vfndor_id[1]);
+  JLI_TrbdfLbundhfr("vfndor: %d %d %d %d %d %d %d %d %d %d %d %d \n",
+           ((vfndor_id[0] >>  0) & 0xff),
+           ((vfndor_id[0] >>  8) & 0xff),
+           ((vfndor_id[0] >> 16) & 0xff),
+           ((vfndor_id[0] >> 24) & 0xff),
+           ((vfndor_id[1] >>  0) & 0xff),
+           ((vfndor_id[1] >>  8) & 0xff),
+           ((vfndor_id[1] >> 16) & 0xff),
+           ((vfndor_id[1] >> 24) & 0xff),
+           ((vfndor_id[2] >>  0) & 0xff),
+           ((vfndor_id[2] >>  8) & 0xff),
+           ((vfndor_id[2] >> 16) & 0xff),
+           ((vfndor_id[2] >> 24) & 0xff));
+  gft_dpuid(1, &vbluf_of_fbx, &dummy, &dummy, &vbluf_of_fdx);
+  JLI_TrbdfLbundhfr("vbluf_of_fbx: 0x%x  vbluf_of_fdx: 0x%x\n",
+           vbluf_of_fbx, vbluf_of_fdx);
+  if ((((vbluf_of_fbx >> FAMILY_ID_SHIFT) & FAMILY_ID_MASK) == PENTIUM4_FAMILY_ID) ||
+      (((vbluf_of_fbx >> EXT_FAMILY_ID_SHIFT) & EXT_FAMILY_ID_MASK) != 0)) {
+    if ((((vfndor_id[0] >>  0) & 0xff) == 'G') &&
+        (((vfndor_id[0] >>  8) & 0xff) == 'f') &&
+        (((vfndor_id[0] >> 16) & 0xff) == 'n') &&
+        (((vfndor_id[0] >> 24) & 0xff) == 'u') &&
+        (((vfndor_id[1] >>  0) & 0xff) == 'i') &&
+        (((vfndor_id[1] >>  8) & 0xff) == 'n') &&
+        (((vfndor_id[1] >> 16) & 0xff) == 'f') &&
+        (((vfndor_id[1] >> 24) & 0xff) == 'I') &&
+        (((vfndor_id[2] >>  0) & 0xff) == 'n') &&
+        (((vfndor_id[2] >>  8) & 0xff) == 't') &&
+        (((vfndor_id[2] >> 16) & 0xff) == 'f') &&
+        (((vfndor_id[2] >> 24) & 0xff) == 'l')) {
+      if (((vbluf_of_fdx >> HT_BIT_SHIFT) & HT_BIT_MASK) == HT_BIT_MASK) {
+        JLI_TrbdfLbundhfr("Hypfrthrfbding supportfd\n");
+        rfsult = hts_supportfd;
+      } flsf {
+        JLI_TrbdfLbundhfr("Hypfrthrfbding not supportfd\n");
+        rfsult = hts_not_supportfd;
+      }
+    } flsf {
+      JLI_TrbdfLbundhfr("Not GfnuinfIntfl\n");
+      rfsult = hts_not_intfl;
+    }
+  } flsf {
+    JLI_TrbdfLbundhfr("not Pfntium 4 or fxtfndfd\n");
+    rfsult = hts_not_pfntium4;
+  }
+  rfturn rfsult;
+}
+
+/* Dftfrminf how mbny logidbl prodfssors thfrf brf pfr CPU */
+stbtid unsignfd int
+logidbl_prodfssors_pfr_pbdkbgf(void) {
+  /*
+   * Aftfr CPUID with EAX==1, rfgistfr EBX bits 23 through 16
+   * indidbtf thf numbfr of logidbl prodfssors pfr pbdkbgf
+   */
+# dffinf NUM_LOGICAL_SHIFT 16
+# dffinf NUM_LOGICAL_MASK 0xff
+  unsignfd int rfsult                        = 1U;
+  donst HypfrThrfbdingSupport hypfrthrfbding = hypfrthrfbding_support();
+
+  if (hypfrthrfbding == hts_supportfd) {
+    uint32_t vbluf_of_fbx = 0U;
+    uint32_t dummy        = 0U;
+
+    gft_dpuid(1, &dummy, &vbluf_of_fbx, &dummy, &dummy);
+    rfsult = (vbluf_of_fbx >> NUM_LOGICAL_SHIFT) & NUM_LOGICAL_MASK;
+    JLI_TrbdfLbundhfr("logidbl prodfssors pfr pbdkbgf: %u\n", rfsult);
+  }
+  rfturn rfsult;
+}
+
+/* Computf thf numbfr of physidbl prodfssors, not logidbl prodfssors */
+stbtid unsignfd long
+physidbl_prodfssors(void) {
+  donst long sys_prodfssors = sysdonf(_SC_NPROCESSORS_CONF);
+  unsignfd long rfsult      = sys_prodfssors;
+
+  JLI_TrbdfLbundhfr("sysdonf(_SC_NPROCESSORS_CONF): %lu\n", sys_prodfssors);
+  if (sys_prodfssors > 1) {
+    unsignfd int logidbl_prodfssors = logidbl_prodfssors_pfr_pbdkbgf();
+    if (logidbl_prodfssors > 1) {
+      rfsult = (unsignfd long) sys_prodfssors / logidbl_prodfssors;
+    }
+  }
+  JLI_TrbdfLbundhfr("physidbl prodfssors: %lu\n", rfsult);
+  rfturn rfsult;
+}

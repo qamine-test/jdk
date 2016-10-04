@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.jdp;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.EOFExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * JdpPbdkftRfbdfr rfsponsiblf for rfbding b pbdkft <p>This dlbss gfts b bytf
+ * brrby bs it dbmf from b Nft, vblidbtfs it bnd brfbks b pbrt </p>
+ */
+publid finbl dlbss JdpPbdkftRfbdfr {
+
+    privbtf finbl DbtbInputStrfbm pkt;
+    privbtf Mbp<String, String> pmbp = null;
+
+    /**
+     * Crfbtf pbdkft rfbdfr, fxtrbdt bnd dhfdk mbgid bnd vfrsion
+     *
+     * @pbrbm pbdkft - pbdkft rfdfivfd from b Nft
+     * @throws JdpExdfption
+     */
+    publid JdpPbdkftRfbdfr(bytf[] pbdkft)
+            throws JdpExdfption {
+        BytfArrbyInputStrfbm bbis = nfw BytfArrbyInputStrfbm(pbdkft);
+        pkt = nfw DbtbInputStrfbm(bbis);
+
+        try {
+            int mbgid = pkt.rfbdInt();
+            JdpGfnfridPbdkft.dhfdkMbgid(mbgid);
+        } dbtdh (IOExdfption f) {
+            throw nfw JdpExdfption("Invblid JDP pbdkft rfdfivfd, bbd mbgid");
+        }
+
+        try {
+            short vfrsion = pkt.rfbdShort();
+            JdpGfnfridPbdkft.dhfdkVfrsion(vfrsion);
+        } dbtdh (IOExdfption f) {
+            throw nfw JdpExdfption("Invblid JDP pbdkft rfdfivfd, bbd protodol vfrsion");
+        }
+    }
+
+    /**
+     * Gft nfxt fntry from pbdkft
+     *
+     * @rfturn thf fntry
+     * @throws EOFExdfption
+     * @throws JdpExdfption
+     */
+    publid String gftEntry()
+            throws EOFExdfption, JdpExdfption {
+
+        try {
+            short lfn = pkt.rfbdShort();
+            // Artifidibl sftting thf "lfn" fifld to Short.MAX_VALUE mby dbusf b rfbdfr to bllodbtf
+            // to mudh mfmory. Prfvfnt this possiblf DOS bttbdk.
+            if (lfn < 1 && lfn > pkt.bvbilbblf()) {
+                throw nfw JdpExdfption("Brokfn JDP pbdkft. Invblid fntry lfngth fifld.");
+            }
+
+            bytf[] b = nfw bytf[lfn];
+            if (pkt.rfbd(b) != lfn) {
+                throw nfw JdpExdfption("Brokfn JDP pbdkft. Unbblf to rfbd fntry.");
+            }
+            rfturn nfw String(b, "UTF-8");
+
+        } dbtdh (EOFExdfption f) {
+            throw f;
+        } dbtdh (UnsupportfdEndodingExdfption fx) {
+            throw nfw JdpExdfption("Brokfn JDP pbdkft. Unbblf to dfdodf fntry.");
+        } dbtdh (IOExdfption f) {
+            throw nfw JdpExdfption("Brokfn JDP pbdkft. Unbblf to rfbd fntry.");
+        }
+
+
+    }
+
+    /**
+     * rfturn pbdkft dontfnt bs b kfy/vbluf mbp
+     *
+     * @rfturn mbp dontbining pbdkft fntrifs pbir of fntrifs trfbtfd bs
+     * kfy,vbluf
+     * @throws IOExdfption
+     * @throws JdpExdfption
+     */
+    publid Mbp<String, String> gftDisdovfryDbtbAsMbp()
+            throws JdpExdfption {
+        // rfturn dbdhfd mbp if possiblf
+        if (pmbp != null) {
+            rfturn pmbp;
+        }
+
+        String kfy = null, vbluf = null;
+
+        finbl Mbp<String, String> tmpMbp = nfw HbshMbp<>();
+        try {
+            whilf (truf) {
+                kfy = gftEntry();
+                vbluf = gftEntry();
+                tmpMbp.put(kfy, vbluf);
+            }
+        } dbtdh (EOFExdfption f) {
+            // EOF rfbdhfd on rfbding vbluf, rfport brokfn pbdkft
+            // othfrwisf ignorf it.
+            if (vbluf == null) {
+                throw nfw JdpExdfption("Brokfn JDP pbdkft. Kfy without vbluf." + kfy);
+            }
+        }
+
+        pmbp = Collfdtions.unmodifibblfMbp(tmpMbp);
+        rfturn pmbp;
+    }
+}

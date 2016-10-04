@@ -1,428 +1,428 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.nio.sctp;
+pbdkbgf dom.sun.nio.sdtp;
 
-import java.net.SocketAddress;
-import java.net.InetAddress;
-import java.io.IOException;
-import java.util.Set;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.spi.SelectorProvider;
-import java.nio.channels.spi.AbstractSelectableChannel;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.nio.dibnnfls.SflfdtionKfy;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import jbvb.nio.dibnnfls.spi.AbstrbdtSflfdtbblfCibnnfl;
 
 /**
- * A selectable channel for message-oriented listening SCTP sockets.
+ * A sflfdtbblf dibnnfl for mfssbgf-orifntfd listfning SCTP sodkfts.
  *
- * <p> An {@code SCTPServerChannel} is created by invoking the
- * {@link #open open} method of this class. A newly-created SCTP server
- * channel is open but not yet bound. An attempt to invoke the
- * {@link #accept accept} method of an unbound channel will cause the
- * {@link java.nio.channels.NotYetBoundException} to be thrown. An SCTP server
- * channel can be bound by invoking one of the
- * {@link #bind(java.net.SocketAddress,int) bind} methods defined by this class.
+ * <p> An {@dodf SCTPSfrvfrCibnnfl} is drfbtfd by invoking tif
+ * {@link #opfn opfn} mftiod of tiis dlbss. A nfwly-drfbtfd SCTP sfrvfr
+ * dibnnfl is opfn but not yft bound. An bttfmpt to invokf tif
+ * {@link #bddfpt bddfpt} mftiod of bn unbound dibnnfl will dbusf tif
+ * {@link jbvb.nio.dibnnfls.NotYftBoundExdfption} to bf tirown. An SCTP sfrvfr
+ * dibnnfl dbn bf bound by invoking onf of tif
+ * {@link #bind(jbvb.nft.SodkftAddrfss,int) bind} mftiods dffinfd by tiis dlbss.
  *
- * <p> Socket options are configured using the
- * {@link #setOption(SctpSocketOption,Object) setOption} method. SCTP server socket
- * channels support the following options:
- * <blockquote>
- * <table border summary="Socket options">
+ * <p> Sodkft options brf donfigurfd using tif
+ * {@link #sftOption(SdtpSodkftOption,Objfdt) sftOption} mftiod. SCTP sfrvfr sodkft
+ * dibnnfls support tif following options:
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Sodkft options">
  *   <tr>
- *     <th>Option Name</th>
- *     <th>Description</th>
+ *     <ti>Option Nbmf</ti>
+ *     <ti>Dfsdription</ti>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_INIT_MAXSTREAMS
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_INIT_MAXSTREAMS
  *                                          SCTP_INIT_MAXSTREAMS} </td>
- *     <td> The maximum number of streams requested by the local endpoint during
- *          association initialization </td>
+ *     <td> Tif mbximum numbfr of strfbms rfqufstfd by tif lodbl fndpoint during
+ *          bssodibtion initiblizbtion </td>
  *   </tr>
- * </table>
- * </blockquote>
- * Additional (implementation specific) options may also be supported. The list
- * of options supported is obtained by invoking the {@link #supportedOptions()
- * supportedOptions} method.
+ * </tbblf>
+ * </blodkquotf>
+ * Additionbl (implfmfntbtion spfdifid) options mby blso bf supportfd. Tif list
+ * of options supportfd is obtbinfd by invoking tif {@link #supportfdOptions()
+ * supportfdOptions} mftiod.
  *
- * <p>SCTP server channels are safe for use by multiple concurrent threads.
+ * <p>SCTP sfrvfr dibnnfls brf sbff for usf by multiplf dondurrfnt tirfbds.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-@jdk.Exported
-public abstract class SctpServerChannel
-    extends AbstractSelectableChannel
+@jdk.Exportfd
+publid bbstrbdt dlbss SdtpSfrvfrCibnnfl
+    fxtfnds AbstrbdtSflfdtbblfCibnnfl
 {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @param  provider
-     *         The selector provider for this channel
+     * @pbrbm  providfr
+     *         Tif sflfdtor providfr for tiis dibnnfl
      */
-    protected SctpServerChannel(SelectorProvider provider) {
-        super(provider);
+    protfdtfd SdtpSfrvfrCibnnfl(SflfdtorProvidfr providfr) {
+        supfr(providfr);
     }
 
     /**
-     * Opens an SCTP server channel.
+     * Opfns bn SCTP sfrvfr dibnnfl.
      *
-     * <P> The new channel's socket is initially unbound; it must be bound
-     * to a specific address via one of its socket's {@link #bind bind}
-     * methods before associations can be accepted.
+     * <P> Tif nfw dibnnfl's sodkft is initiblly unbound; it must bf bound
+     * to b spfdifid bddrfss vib onf of its sodkft's {@link #bind bind}
+     * mftiods bfforf bssodibtions dbn bf bddfptfd.
      *
-     * @return  A new SCTP server channel
+     * @rfturn  A nfw SCTP sfrvfr dibnnfl
      *
-     * @throws  UnsupportedOperationException
-     *          If the SCTP protocol is not supported
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif SCTP protodol is not supportfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public static SctpServerChannel open() throws
-        IOException {
-        return new sun.nio.ch.sctp.SctpServerChannelImpl((SelectorProvider)null);
+    publid stbtid SdtpSfrvfrCibnnfl opfn() tirows
+        IOExdfption {
+        rfturn nfw sun.nio.di.sdtp.SdtpSfrvfrCibnnflImpl((SflfdtorProvidfr)null);
     }
 
     /**
-     * Accepts an association on this channel's socket.
+     * Addfpts bn bssodibtion on tiis dibnnfl's sodkft.
      *
-     * <P> If this channel is in non-blocking mode then this method will
-     * immediately return {@code null} if there are no pending associations.
-     * Otherwise it will block indefinitely until a new association is
-     * available or an I/O error occurs.
+     * <P> If tiis dibnnfl is in non-blodking modf tifn tiis mftiod will
+     * immfdibtfly rfturn {@dodf null} if tifrf brf no pfnding bssodibtions.
+     * Otifrwisf it will blodk indffinitfly until b nfw bssodibtion is
+     * bvbilbblf or bn I/O frror oddurs.
      *
-     * <P> The {@code SCTPChannel} returned by this method, if any, will be in
-     *  blocking mode regardless of the blocking mode of this channel.
+     * <P> Tif {@dodf SCTPCibnnfl} rfturnfd by tiis mftiod, if bny, will bf in
+     *  blodking modf rfgbrdlfss of tif blodking modf of tiis dibnnfl.
      *
-     * <P> If a security manager has been installed then for each new
-     * association this method verifies that the address and port number of the
-     * assocaitions's remote peer are permitted by the security manager's {@link
-     * java.lang.SecurityManager#checkAccept(String,int) checkAccept} method.
+     * <P> If b sfdurity mbnbgfr ibs bffn instbllfd tifn for fbdi nfw
+     * bssodibtion tiis mftiod vfrififs tibt tif bddrfss bnd port numbfr of tif
+     * bssodbitions's rfmotf pffr brf pfrmittfd by tif sfdurity mbnbgfr's {@link
+     * jbvb.lbng.SfdurityMbnbgfr#difdkAddfpt(String,int) difdkAddfpt} mftiod.
      *
-     * @return  The SCTP channel for the new association, or {@code null}
-     *          if this channel is in non-blocking mode and no association is
-     *          available to be accepted
+     * @rfturn  Tif SCTP dibnnfl for tif nfw bssodibtion, or {@dodf null}
+     *          if tiis dibnnfl is in non-blodking modf bnd no bssodibtion is
+     *          bvbilbblf to bf bddfptfd
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the accept operation is in progress
+     * @tirows  jbvb.nio.dibnnfls.AsyndironousClosfExdfption
+     *          If bnotifr tirfbd dlosfs tiis dibnnfl
+     *          wiilf tif bddfpt opfrbtion is in progrfss
      *
-     * @throws  java.nio.channels.ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the accept operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @tirows  jbvb.nio.dibnnfls.ClosfdByIntfrruptExdfption
+     *          If bnotifr tirfbd intfrrupts tif durrfnt tirfbd
+     *          wiilf tif bddfpt opfrbtion is in progrfss, tifrfby
+     *          dlosing tif dibnnfl bnd sftting tif durrfnt tirfbd's
+     *          intfrrupt stbtus
      *
-     * @throws  java.nio.channels.NotYetBoundException
-     *          If this channel's socket has not yet been bound
+     * @tirows  jbvb.nio.dibnnfls.NotYftBoundExdfption
+     *          If tiis dibnnfl's sodkft ibs not yft bffn bound
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it does not permit
-     *          access to the remote peer of the new association
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dofs not pfrmit
+     *          bddfss to tif rfmotf pffr of tif nfw bssodibtion
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpChannel accept() throws IOException;
+    publid bbstrbdt SdtpCibnnfl bddfpt() tirows IOExdfption;
 
     /**
-     * Binds the channel's socket to a local address and configures the socket
-     * to listen for associations.
+     * Binds tif dibnnfl's sodkft to b lodbl bddrfss bnd donfigurfs tif sodkft
+     * to listfn for bssodibtions.
      *
-     * <P> This method works as if invoking it were equivalent to evaluating the
-     * expression:
-     * <blockquote><pre>
-     * bind(local, 0);
-     * </pre></blockquote>
+     * <P> Tiis mftiod works bs if invoking it wfrf fquivblfnt to fvblubting tif
+     * fxprfssion:
+     * <blodkquotf><prf>
+     * bind(lodbl, 0);
+     * </prf></blodkquotf>
      *
-     * @param  local
-     *         The local address to bind the socket, or {@code null} to
-     *         bind the socket to an automatically assigned socket address
+     * @pbrbm  lodbl
+     *         Tif lodbl bddrfss to bind tif sodkft, or {@dodf null} to
+     *         bind tif sodkft to bn butombtidblly bssignfd sodkft bddrfss
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound
+     * @tirows  jbvb.nio.dibnnfls.AlrfbdyBoundExdfption
+     *          If tiis dibnnfl is blrfbdy bound
      *
-     * @throws  java.nio.channels.UnsupportedAddressTypeException
-     *          If the type of the given address is not supported
+     * @tirows  jbvb.nio.dibnnfls.UnsupportfdAddrfssTypfExdfption
+     *          If tif typf of tif givfn bddrfss is not supportfd
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and its {@link
-     *          java.lang.SecurityManager#checkListen(int) checkListen} method
-     *          denies the operation
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkListfn(int) difdkListfn} mftiod
+     *          dfnifs tif opfrbtion
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public final SctpServerChannel bind(SocketAddress local)
-        throws IOException {
-        return bind(local, 0);
+    publid finbl SdtpSfrvfrCibnnfl bind(SodkftAddrfss lodbl)
+        tirows IOExdfption {
+        rfturn bind(lodbl, 0);
     }
 
     /**
-     * Binds the channel's socket to a local address and configures the socket
-     * to listen for associations.
+     * Binds tif dibnnfl's sodkft to b lodbl bddrfss bnd donfigurfs tif sodkft
+     * to listfn for bssodibtions.
      *
-     * <P> This method is used to establish a relationship between the socket
-     * and the local address. Once a relationship is established then
-     * the socket remains bound until the channel is closed. This relationship
-     * may not necesssarily be with the address {@code local} as it may be
-     * removed by {@link #unbindAddress unbindAddress}, but there will always be
-     * at least one local address bound to the channel's socket once an
-     * invocation of this method successfully completes.
+     * <P> Tiis mftiod is usfd to fstbblisi b rflbtionsiip bftwffn tif sodkft
+     * bnd tif lodbl bddrfss. Ondf b rflbtionsiip is fstbblisifd tifn
+     * tif sodkft rfmbins bound until tif dibnnfl is dlosfd. Tiis rflbtionsiip
+     * mby not nfdfsssbrily bf witi tif bddrfss {@dodf lodbl} bs it mby bf
+     * rfmovfd by {@link #unbindAddrfss unbindAddrfss}, but tifrf will blwbys bf
+     * bt lfbst onf lodbl bddrfss bound to tif dibnnfl's sodkft ondf bn
+     * invodbtion of tiis mftiod suddfssfully domplftfs.
      *
-     * <P> Once the channel's socket has been successfully bound to a specific
-     * address, that is not automatically assigned, more addresses
-     * may be bound to it using {@link #bindAddress bindAddress}, or removed
-     * using {@link #unbindAddress unbindAddress}.
+     * <P> Ondf tif dibnnfl's sodkft ibs bffn suddfssfully bound to b spfdifid
+     * bddrfss, tibt is not butombtidblly bssignfd, morf bddrfssfs
+     * mby bf bound to it using {@link #bindAddrfss bindAddrfss}, or rfmovfd
+     * using {@link #unbindAddrfss unbindAddrfss}.
      *
-     * <P> The backlog parameter is the maximum number of pending associations
-     * on the socket. Its exact semantics are implementation specific. An
-     * implementation may impose an implementation specific maximum length or
-     * may choose to ignore the parameter. If the backlog parameter has the
-     * value {@code 0}, or a negative value, then an implementation specific
-     * default is used.
+     * <P> Tif bbdklog pbrbmftfr is tif mbximum numbfr of pfnding bssodibtions
+     * on tif sodkft. Its fxbdt sfmbntids brf implfmfntbtion spfdifid. An
+     * implfmfntbtion mby imposf bn implfmfntbtion spfdifid mbximum lfngti or
+     * mby dioosf to ignorf tif pbrbmftfr. If tif bbdklog pbrbmftfr ibs tif
+     * vbluf {@dodf 0}, or b nfgbtivf vbluf, tifn bn implfmfntbtion spfdifid
+     * dffbult is usfd.
      *
-     * @param  local
-     *         The local address to bind the socket, or {@code null} to
-     *         bind the socket to an automatically assigned socket address
+     * @pbrbm  lodbl
+     *         Tif lodbl bddrfss to bind tif sodkft, or {@dodf null} to
+     *         bind tif sodkft to bn butombtidblly bssignfd sodkft bddrfss
      *
-     * @param  backlog
-     *         The maximum number number of pending associations
+     * @pbrbm  bbdklog
+     *         Tif mbximum numbfr numbfr of pfnding bssodibtions
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound
+     * @tirows  jbvb.nio.dibnnfls.AlrfbdyBoundExdfption
+     *          If tiis dibnnfl is blrfbdy bound
      *
-     * @throws  java.nio.channels.UnsupportedAddressTypeException
-     *          If the type of the given address is not supported
+     * @tirows  jbvb.nio.dibnnfls.UnsupportfdAddrfssTypfExdfption
+     *          If tif typf of tif givfn bddrfss is not supportfd
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and its {@link
-     *          java.lang.SecurityManager#checkListen(int) checkListen} method
-     *          denies the operation
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkListfn(int) difdkListfn} mftiod
+     *          dfnifs tif opfrbtion
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpServerChannel bind(SocketAddress local,
-                                           int backlog)
-        throws IOException;
+    publid bbstrbdt SdtpSfrvfrCibnnfl bind(SodkftAddrfss lodbl,
+                                           int bbdklog)
+        tirows IOExdfption;
 
     /**
-     * Adds the given address to the bound addresses for the channel's
-     * socket.
+     * Adds tif givfn bddrfss to tif bound bddrfssfs for tif dibnnfl's
+     * sodkft.
      *
-     * <P> The given address must not be the {@link
-     * java.net.InetAddress#isAnyLocalAddress wildcard} address.
-     * The channel must be first bound using {@link #bind bind} before
-     * invoking this method, otherwise {@link
-     * java.nio.channels.NotYetBoundException} is thrown. The {@link #bind bind}
-     * method takes a {@code SocketAddress} as its argument which typically
-     * contains a port number as well as an address. Addresses subquently bound
-     * using this method are simply addresses as the SCTP port number remains
-     * the same for the lifetime of the channel.
+     * <P> Tif givfn bddrfss must not bf tif {@link
+     * jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss.
+     * Tif dibnnfl must bf first bound using {@link #bind bind} bfforf
+     * invoking tiis mftiod, otifrwisf {@link
+     * jbvb.nio.dibnnfls.NotYftBoundExdfption} is tirown. Tif {@link #bind bind}
+     * mftiod tbkfs b {@dodf SodkftAddrfss} bs its brgumfnt wiidi typidblly
+     * dontbins b port numbfr bs wfll bs bn bddrfss. Addrfssfs subqufntly bound
+     * using tiis mftiod brf simply bddrfssfs bs tif SCTP port numbfr rfmbins
+     * tif sbmf for tif lifftimf of tif dibnnfl.
      *
-     * <P> New associations accepted after this method successfully completes
-     * will be associated with the given address.
+     * <P> Nfw bssodibtions bddfptfd bftfr tiis mftiod suddfssfully domplftfs
+     * will bf bssodibtfd witi tif givfn bddrfss.
      *
-     * @param  address
-     *         The address to add to the bound addresses for the socket
+     * @pbrbm  bddrfss
+     *         Tif bddrfss to bdd to tif bound bddrfssfs for tif sodkft
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.NotYetBoundException
-     *          If this channel is not yet bound
+     * @tirows  jbvb.nio.dibnnfls.NotYftBoundExdfption
+     *          If tiis dibnnfl is not yft bound
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound to the given address
+     * @tirows  jbvb.nio.dibnnfls.AlrfbdyBoundExdfption
+     *          If tiis dibnnfl is blrfbdy bound to tif givfn bddrfss
      *
-     * @throws  IllegalArgumentException
-     *          If address is {@code null} or the {@link
-     *          java.net.InetAddress#isAnyLocalAddress wildcard} address
+     * @tirows  IllfgblArgumfntExdfption
+     *          If bddrfss is {@dodf null} or tif {@link
+     *          jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpServerChannel bindAddress(InetAddress address)
-         throws IOException;
+    publid bbstrbdt SdtpSfrvfrCibnnfl bindAddrfss(InftAddrfss bddrfss)
+         tirows IOExdfption;
 
     /**
-     * Removes the given address from the bound addresses for the channel's
-     * socket.
+     * Rfmovfs tif givfn bddrfss from tif bound bddrfssfs for tif dibnnfl's
+     * sodkft.
      *
-     * <P> The given address must not be the {@link
-     * java.net.InetAddress#isAnyLocalAddress wildcard} address.
-     * The channel must be first bound using {@link #bind bind} before
-     * invoking this method, otherwise
-     * {@link java.nio.channels.NotYetBoundException} is thrown.
-     * If this method is invoked on a channel that does not have
-     * {@code address} as one of its bound addresses, or that has only one
-     * local address bound to it, then this method throws {@link
-     * IllegalUnbindException}.
-     * The initial address that the channel's socket is bound to using
-     * {@link #bind bind} may be removed from the bound addresses for the
-     * channel's socket.
+     * <P> Tif givfn bddrfss must not bf tif {@link
+     * jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss.
+     * Tif dibnnfl must bf first bound using {@link #bind bind} bfforf
+     * invoking tiis mftiod, otifrwisf
+     * {@link jbvb.nio.dibnnfls.NotYftBoundExdfption} is tirown.
+     * If tiis mftiod is invokfd on b dibnnfl tibt dofs not ibvf
+     * {@dodf bddrfss} bs onf of its bound bddrfssfs, or tibt ibs only onf
+     * lodbl bddrfss bound to it, tifn tiis mftiod tirows {@link
+     * IllfgblUnbindExdfption}.
+     * Tif initibl bddrfss tibt tif dibnnfl's sodkft is bound to using
+     * {@link #bind bind} mby bf rfmovfd from tif bound bddrfssfs for tif
+     * dibnnfl's sodkft.
      *
-     * <P> New associations accepted after this method successfully completes
-     * will not be associated with the given address.
+     * <P> Nfw bssodibtions bddfptfd bftfr tiis mftiod suddfssfully domplftfs
+     * will not bf bssodibtfd witi tif givfn bddrfss.
      *
-     * @param  address
-     *         The address to remove from the bound addresses for the socket
+     * @pbrbm  bddrfss
+     *         Tif bddrfss to rfmovf from tif bound bddrfssfs for tif sodkft
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.NotYetBoundException
-     *          If this channel is not yet bound
+     * @tirows  jbvb.nio.dibnnfls.NotYftBoundExdfption
+     *          If tiis dibnnfl is not yft bound
      *
-     * @throws  IllegalArgumentException
-     *          If address is {@code null} or the {@link
-     *          java.net.InetAddress#isAnyLocalAddress wildcard} address
+     * @tirows  IllfgblArgumfntExdfption
+     *          If bddrfss is {@dodf null} or tif {@link
+     *          jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss
      *
-     * @throws  IllegalUnbindException
-     *          If the implementation does not support removing addresses from a
-     *          listening socket, {@code address} is not bound to the channel's
-     *          socket, or the channel has only one address bound to it
+     * @tirows  IllfgblUnbindExdfption
+     *          If tif implfmfntbtion dofs not support rfmoving bddrfssfs from b
+     *          listfning sodkft, {@dodf bddrfss} is not bound to tif dibnnfl's
+     *          sodkft, or tif dibnnfl ibs only onf bddrfss bound to it
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpServerChannel unbindAddress(InetAddress address)
-         throws IOException;
+    publid bbstrbdt SdtpSfrvfrCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+         tirows IOExdfption;
 
     /**
-     * Returns all of the socket addresses to which this channel's socket is
+     * Rfturns bll of tif sodkft bddrfssfs to wiidi tiis dibnnfl's sodkft is
      * bound.
      *
-     * @return  All the socket addresses that this channel's socket is
-     *          bound to, or an empty {@code Set} if the channel's socket is not
+     * @rfturn  All tif sodkft bddrfssfs tibt tiis dibnnfl's sodkft is
+     *          bound to, or bn fmpty {@dodf Sft} if tif dibnnfl's sodkft is not
      *          bound
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If the channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tif dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract Set<SocketAddress> getAllLocalAddresses()
-        throws IOException;
+    publid bbstrbdt Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+        tirows IOExdfption;
 
     /**
-     * Returns the value of a socket option.
+     * Rfturns tif vbluf of b sodkft option.
      *
-     * @param   <T>
-     *          The type of the socket option value
+     * @pbrbm   <T>
+     *          Tif typf of tif sodkft option vbluf
      *
-     * @param   name
-     *          The socket option
+     * @pbrbm   nbmf
+     *          Tif sodkft option
      *
-     * @return  The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @rfturn  Tif vbluf of tif sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif sodkft option is not supportfd by tiis dibnnfl
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see SctpStandardSocketOptions
+     * @sff SdtpStbndbrdSodkftOptions
      */
-    public abstract <T> T getOption(SctpSocketOption<T> name) throws IOException;
+    publid bbstrbdt <T> T gftOption(SdtpSodkftOption<T> nbmf) tirows IOExdfption;
 
     /**
-     * Sets the value of a socket option.
+     * Sfts tif vbluf of b sodkft option.
      *
-     * @param   <T>
-     *          The type of the socket option value
+     * @pbrbm   <T>
+     *          Tif typf of tif sodkft option vbluf
      *
-     * @param   name
-     *          The socket option
+     * @pbrbm   nbmf
+     *          Tif sodkft option
      *
-     * @param   value
-     *          The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @pbrbm   vbluf
+     *          Tif vbluf of tif sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif sodkft option is not supportfd by tiis dibnnfl
      *
-     * @throws  IllegalArgumentException
-     *          If the value is not a valid value for this socket option
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif vbluf is not b vblid vbluf for tiis sodkft option
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see SctpStandardSocketOptions
+     * @sff SdtpStbndbrdSodkftOptions
      */
-    public abstract <T> SctpServerChannel setOption(SctpSocketOption<T> name,
-                                                    T value)
-        throws IOException;
+    publid bbstrbdt <T> SdtpSfrvfrCibnnfl sftOption(SdtpSodkftOption<T> nbmf,
+                                                    T vbluf)
+        tirows IOExdfption;
 
     /**
-     * Returns a set of the socket options supported by this channel.
+     * Rfturns b sft of tif sodkft options supportfd by tiis dibnnfl.
      *
-     * <P> This method will continue to return the set of options even after the
-     * channel has been closed.
+     * <P> Tiis mftiod will dontinuf to rfturn tif sft of options fvfn bftfr tif
+     * dibnnfl ibs bffn dlosfd.
      *
-     * @return  A set of the socket options supported by this channel
+     * @rfturn  A sft of tif sodkft options supportfd by tiis dibnnfl
      */
-    public abstract Set<SctpSocketOption<?>> supportedOptions();
+    publid bbstrbdt Sft<SdtpSodkftOption<?>> supportfdOptions();
 
     /**
-     * Returns an operation set identifying this channel's supported
-     * operations.
+     * Rfturns bn opfrbtion sft idfntifying tiis dibnnfl's supportfd
+     * opfrbtions.
      *
-     * <P> SCTP server channels only support the accepting of new
-     * associations, so this method returns
-     * {@link java.nio.channels.SelectionKey#OP_ACCEPT}.
+     * <P> SCTP sfrvfr dibnnfls only support tif bddfpting of nfw
+     * bssodibtions, so tiis mftiod rfturns
+     * {@link jbvb.nio.dibnnfls.SflfdtionKfy#OP_ACCEPT}.
      *
-     * @return  The valid-operation set
+     * @rfturn  Tif vblid-opfrbtion sft
      */
-    @Override
-    public final int validOps() {
-        return SelectionKey.OP_ACCEPT;
+    @Ovfrridf
+    publid finbl int vblidOps() {
+        rfturn SflfdtionKfy.OP_ACCEPT;
     }
 }

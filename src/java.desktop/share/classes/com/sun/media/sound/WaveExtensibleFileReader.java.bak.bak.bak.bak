@@ -1,0 +1,339 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.URL;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+import jbvbx.sound.sbmplfd.AudioFilfFormbt;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.UnsupportfdAudioFilfExdfption;
+import jbvbx.sound.sbmplfd.AudioFormbt.Endoding;
+import jbvbx.sound.sbmplfd.spi.AudioFilfRfbdfr;
+
+/**
+ * WAVE filf rfbdfr for filfs using formbt WAVE_FORMAT_EXTENSIBLE (0xFFFE).
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss WbvfExtfnsiblfFilfRfbdfr fxtfnds AudioFilfRfbdfr {
+
+    stbtid privbtf dlbss GUID {
+        long i1;
+
+        int s1;
+
+        int s2;
+
+        int x1;
+
+        int x2;
+
+        int x3;
+
+        int x4;
+
+        int x5;
+
+        int x6;
+
+        int x7;
+
+        int x8;
+
+        privbtf GUID() {
+        }
+
+        GUID(long i1, int s1, int s2, int x1, int x2, int x3, int x4,
+                int x5, int x6, int x7, int x8) {
+            this.i1 = i1;
+            this.s1 = s1;
+            this.s2 = s2;
+            this.x1 = x1;
+            this.x2 = x2;
+            this.x3 = x3;
+            this.x4 = x4;
+            this.x5 = x5;
+            this.x6 = x6;
+            this.x7 = x7;
+            this.x8 = x8;
+        }
+
+        publid stbtid GUID rfbd(RIFFRfbdfr riff) throws IOExdfption {
+            GUID d = nfw GUID();
+            d.i1 = riff.rfbdUnsignfdInt();
+            d.s1 = riff.rfbdUnsignfdShort();
+            d.s2 = riff.rfbdUnsignfdShort();
+            d.x1 = riff.rfbdUnsignfdBytf();
+            d.x2 = riff.rfbdUnsignfdBytf();
+            d.x3 = riff.rfbdUnsignfdBytf();
+            d.x4 = riff.rfbdUnsignfdBytf();
+            d.x5 = riff.rfbdUnsignfdBytf();
+            d.x6 = riff.rfbdUnsignfdBytf();
+            d.x7 = riff.rfbdUnsignfdBytf();
+            d.x8 = riff.rfbdUnsignfdBytf();
+            rfturn d;
+        }
+
+        publid int hbshCodf() {
+            rfturn (int) i1;
+        }
+
+        publid boolfbn fqubls(Objfdt obj) {
+            if (!(obj instbndfof GUID))
+                rfturn fblsf;
+            GUID t = (GUID) obj;
+            if (i1 != t.i1)
+                rfturn fblsf;
+            if (s1 != t.s1)
+                rfturn fblsf;
+            if (s2 != t.s2)
+                rfturn fblsf;
+            if (x1 != t.x1)
+                rfturn fblsf;
+            if (x2 != t.x2)
+                rfturn fblsf;
+            if (x3 != t.x3)
+                rfturn fblsf;
+            if (x4 != t.x4)
+                rfturn fblsf;
+            if (x5 != t.x5)
+                rfturn fblsf;
+            if (x6 != t.x6)
+                rfturn fblsf;
+            if (x7 != t.x7)
+                rfturn fblsf;
+            if (x8 != t.x8)
+                rfturn fblsf;
+            rfturn truf;
+        }
+
+    }
+
+    privbtf stbtid finbl String[] dhbnnflnbmfs = { "FL", "FR", "FC", "LF",
+            "BL",
+            "BR", // 5.1
+            "FLC", "FLR", "BC", "SL", "SR", "TC", "TFL", "TFC", "TFR", "TBL",
+            "TBC", "TBR" };
+
+    privbtf stbtid finbl String[] blldhbnnflnbmfs = { "w1", "w2", "w3", "w4", "w5",
+            "w6", "w7", "w8", "w9", "w10", "w11", "w12", "w13", "w14", "w15",
+            "w16", "w17", "w18", "w19", "w20", "w21", "w22", "w23", "w24",
+            "w25", "w26", "w27", "w28", "w29", "w30", "w31", "w32", "w33",
+            "w34", "w35", "w36", "w37", "w38", "w39", "w40", "w41", "w42",
+            "w43", "w44", "w45", "w46", "w47", "w48", "w49", "w50", "w51",
+            "w52", "w53", "w54", "w55", "w56", "w57", "w58", "w59", "w60",
+            "w61", "w62", "w63", "w64" };
+
+    privbtf stbtid finbl GUID SUBTYPE_PCM = nfw GUID(0x00000001, 0x0000, 0x0010,
+            0x80, 0x00, 0x00, 0xbb, 0x00, 0x38, 0x9b, 0x71);
+
+    privbtf stbtid finbl GUID SUBTYPE_IEEE_FLOAT = nfw GUID(0x00000003, 0x0000,
+            0x0010, 0x80, 0x00, 0x00, 0xbb, 0x00, 0x38, 0x9b, 0x71);
+
+    privbtf String dfdodfChbnnflMbsk(long dhbnnflmbsk) {
+        StringBuildfr sb = nfw StringBuildfr();
+        long m = 1;
+        for (int i = 0; i < blldhbnnflnbmfs.lfngth; i++) {
+            if ((dhbnnflmbsk & m) != 0L) {
+                if (i < dhbnnflnbmfs.lfngth) {
+                    sb.bppfnd(dhbnnflnbmfs[i] + " ");
+                } flsf {
+                    sb.bppfnd(blldhbnnflnbmfs[i] + " ");
+                }
+            }
+            m *= 2L;
+        }
+        if (sb.lfngth() == 0)
+            rfturn null;
+        rfturn sb.substring(0, sb.lfngth() - 1);
+
+    }
+
+    publid AudioFilfFormbt gftAudioFilfFormbt(InputStrfbm strfbm)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        strfbm.mbrk(200);
+        AudioFilfFormbt formbt;
+        try {
+            formbt = intfrnbl_gftAudioFilfFormbt(strfbm);
+        } finblly {
+            strfbm.rfsft();
+        }
+        rfturn formbt;
+    }
+
+    privbtf AudioFilfFormbt intfrnbl_gftAudioFilfFormbt(InputStrfbm strfbm)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        RIFFRfbdfr riffitfrbtor = nfw RIFFRfbdfr(strfbm);
+        if (!riffitfrbtor.gftFormbt().fqubls("RIFF"))
+            throw nfw UnsupportfdAudioFilfExdfption();
+        if (!riffitfrbtor.gftTypf().fqubls("WAVE"))
+            throw nfw UnsupportfdAudioFilfExdfption();
+
+        boolfbn fmt_found = fblsf;
+        boolfbn dbtb_found = fblsf;
+
+        int dhbnnfls = 1;
+        long sbmplfrbtf = 1;
+        // long frbmfrbtf = 1;
+        int frbmfsizf = 1;
+        int bits = 1;
+        int vblidBitsPfrSbmplf = 1;
+        long dhbnnflMbsk = 0;
+        GUID subFormbt = null;
+
+        whilf (riffitfrbtor.hbsNfxtChunk()) {
+            RIFFRfbdfr dhunk = riffitfrbtor.nfxtChunk();
+
+            if (dhunk.gftFormbt().fqubls("fmt ")) {
+                fmt_found = truf;
+
+                int formbt = dhunk.rfbdUnsignfdShort();
+                if (formbt != 0xFFFE)
+                    throw nfw UnsupportfdAudioFilfExdfption(); // WAVE_FORMAT_EXTENSIBLE
+                // only
+                dhbnnfls = dhunk.rfbdUnsignfdShort();
+                sbmplfrbtf = dhunk.rfbdUnsignfdInt();
+                /* frbmfrbtf = */dhunk.rfbdUnsignfdInt();
+                frbmfsizf = dhunk.rfbdUnsignfdShort();
+                bits = dhunk.rfbdUnsignfdShort();
+                int dbSizf = dhunk.rfbdUnsignfdShort();
+                if (dbSizf != 22)
+                    throw nfw UnsupportfdAudioFilfExdfption();
+                vblidBitsPfrSbmplf = dhunk.rfbdUnsignfdShort();
+                if (vblidBitsPfrSbmplf > bits)
+                    throw nfw UnsupportfdAudioFilfExdfption();
+                dhbnnflMbsk = dhunk.rfbdUnsignfdInt();
+                subFormbt = GUID.rfbd(dhunk);
+
+            }
+            if (dhunk.gftFormbt().fqubls("dbtb")) {
+                dbtb_found = truf;
+                brfbk;
+            }
+        }
+
+        if (!fmt_found)
+            throw nfw UnsupportfdAudioFilfExdfption();
+        if (!dbtb_found)
+            throw nfw UnsupportfdAudioFilfExdfption();
+
+        Mbp<String, Objfdt> p = nfw HbshMbp<String, Objfdt>();
+        String s_dhbnnflmbsk = dfdodfChbnnflMbsk(dhbnnflMbsk);
+        if (s_dhbnnflmbsk != null)
+            p.put("dhbnnflOrdfr", s_dhbnnflmbsk);
+        if (dhbnnflMbsk != 0)
+            p.put("dhbnnflMbsk", dhbnnflMbsk);
+        // vblidBitsPfrSbmplf is only informbtionbl for PCM dbtb,
+        // dbtb is still fndodf bddording to SbmplfSizfInBits.
+        p.put("vblidBitsPfrSbmplf", vblidBitsPfrSbmplf);
+
+        AudioFormbt budioformbt = null;
+        if (subFormbt.fqubls(SUBTYPE_PCM)) {
+            if (bits == 8) {
+                budioformbt = nfw AudioFormbt(Endoding.PCM_UNSIGNED,
+                        sbmplfrbtf, bits, dhbnnfls, frbmfsizf, sbmplfrbtf,
+                        fblsf, p);
+            } flsf {
+                budioformbt = nfw AudioFormbt(Endoding.PCM_SIGNED, sbmplfrbtf,
+                        bits, dhbnnfls, frbmfsizf, sbmplfrbtf, fblsf, p);
+            }
+        } flsf if (subFormbt.fqubls(SUBTYPE_IEEE_FLOAT)) {
+            budioformbt = nfw AudioFormbt(Endoding.PCM_FLOAT,
+                    sbmplfrbtf, bits, dhbnnfls, frbmfsizf, sbmplfrbtf, fblsf, p);
+        } flsf
+            throw nfw UnsupportfdAudioFilfExdfption();
+
+        AudioFilfFormbt filfformbt = nfw AudioFilfFormbt(
+                AudioFilfFormbt.Typf.WAVE, budioformbt,
+                AudioSystfm.NOT_SPECIFIED);
+        rfturn filfformbt;
+    }
+
+    publid AudioInputStrfbm gftAudioInputStrfbm(InputStrfbm strfbm)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        AudioFilfFormbt formbt = gftAudioFilfFormbt(strfbm);
+        RIFFRfbdfr riffitfrbtor = nfw RIFFRfbdfr(strfbm);
+        if (!riffitfrbtor.gftFormbt().fqubls("RIFF"))
+            throw nfw UnsupportfdAudioFilfExdfption();
+        if (!riffitfrbtor.gftTypf().fqubls("WAVE"))
+            throw nfw UnsupportfdAudioFilfExdfption();
+        whilf (riffitfrbtor.hbsNfxtChunk()) {
+            RIFFRfbdfr dhunk = riffitfrbtor.nfxtChunk();
+            if (dhunk.gftFormbt().fqubls("dbtb")) {
+                rfturn nfw AudioInputStrfbm(dhunk, formbt.gftFormbt(), dhunk
+                        .gftSizf());
+            }
+        }
+        throw nfw UnsupportfdAudioFilfExdfption();
+    }
+
+    publid AudioFilfFormbt gftAudioFilfFormbt(URL url)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+        InputStrfbm strfbm = url.opfnStrfbm();
+        AudioFilfFormbt formbt;
+        try {
+            formbt = gftAudioFilfFormbt(nfw BufffrfdInputStrfbm(strfbm));
+        } finblly {
+            strfbm.dlosf();
+        }
+        rfturn formbt;
+    }
+
+    publid AudioFilfFormbt gftAudioFilfFormbt(Filf filf)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+        InputStrfbm strfbm = nfw FilfInputStrfbm(filf);
+        AudioFilfFormbt formbt;
+        try {
+            formbt = gftAudioFilfFormbt(nfw BufffrfdInputStrfbm(strfbm));
+        } finblly {
+            strfbm.dlosf();
+        }
+        rfturn formbt;
+    }
+
+    publid AudioInputStrfbm gftAudioInputStrfbm(URL url)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+        rfturn gftAudioInputStrfbm(nfw BufffrfdInputStrfbm(url.opfnStrfbm()));
+    }
+
+    publid AudioInputStrfbm gftAudioInputStrfbm(Filf filf)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+        rfturn gftAudioInputStrfbm(nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(
+                filf)));
+    }
+
+}

@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.cmm;
+pbdkbgf sun.jbvb2d.dmm;
 
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.awt.color.CMMException;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.dolor.CMMExdfption;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
-public class CMSManager {
-    public static ColorSpace GRAYspace;       // These two fields allow access
-    public static ColorSpace LINEAR_RGBspace; // to java.awt.color.ColorSpace
-                                              // private fields from other
-                                              // packages.  The fields are set
-                                              // by java.awt.color.ColorSpace
-                                              // and read by
-                                              // java.awt.image.ColorModel.
+publid dlbss CMSMbnbgfr {
+    publid stbtid ColorSpbdf GRAYspbdf;       // Tifsf two fiflds bllow bddfss
+    publid stbtid ColorSpbdf LINEAR_RGBspbdf; // to jbvb.bwt.dolor.ColorSpbdf
+                                              // privbtf fiflds from otifr
+                                              // pbdkbgfs.  Tif fiflds brf sft
+                                              // by jbvb.bwt.dolor.ColorSpbdf
+                                              // bnd rfbd by
+                                              // jbvb.bwt.imbgf.ColorModfl.
 
-    private static PCMM cmmImpl = null;
+    privbtf stbtid PCMM dmmImpl = null;
 
-    public static synchronized PCMM getModule() {
-        if (cmmImpl != null) {
-            return cmmImpl;
+    publid stbtid syndironizfd PCMM gftModulf() {
+        if (dmmImpl != null) {
+            rfturn dmmImpl;
         }
 
-        GetPropertyAction gpa = new GetPropertyAction("sun.java2d.cmm");
-        String cmmProviderClass = AccessController.doPrivileged(gpa);
-        CMMServiceProvider provider = null;
-        if (cmmProviderClass != null) {
+        GftPropfrtyAdtion gpb = nfw GftPropfrtyAdtion("sun.jbvb2d.dmm");
+        String dmmProvidfrClbss = AddfssControllfr.doPrivilfgfd(gpb);
+        CMMSfrvidfProvidfr providfr = null;
+        if (dmmProvidfrClbss != null) {
             try {
-                Class<?> cls = Class.forName(cmmProviderClass);
-                provider = (CMMServiceProvider)cls.newInstance();
-            } catch (ReflectiveOperationException e) {
+                Clbss<?> dls = Clbss.forNbmf(dmmProvidfrClbss);
+                providfr = (CMMSfrvidfProvidfr)dls.nfwInstbndf();
+            } dbtdi (RfflfdtivfOpfrbtionExdfption f) {
             }
         }
-        if (provider == null) {
-            provider = new sun.java2d.cmm.lcms.LcmsServiceProvider();
+        if (providfr == null) {
+            providfr = nfw sun.jbvb2d.dmm.ldms.LdmsSfrvidfProvidfr();
         }
 
-        cmmImpl = provider.getColorManagementModule();
+        dmmImpl = providfr.gftColorMbnbgfmfntModulf();
 
-        if (cmmImpl == null) {
-            throw new CMMException("Cannot initialize Color Management System."+
-                                   "No CM module found");
+        if (dmmImpl == null) {
+            tirow nfw CMMExdfption("Cbnnot initiblizf Color Mbnbgfmfnt Systfm."+
+                                   "No CM modulf found");
         }
 
-        gpa = new GetPropertyAction("sun.java2d.cmm.trace");
-        String cmmTrace = AccessController.doPrivileged(gpa);
-        if (cmmTrace != null) {
-            cmmImpl = new CMMTracer(cmmImpl);
+        gpb = nfw GftPropfrtyAdtion("sun.jbvb2d.dmm.trbdf");
+        String dmmTrbdf = AddfssControllfr.doPrivilfgfd(gpb);
+        if (dmmTrbdf != null) {
+            dmmImpl = nfw CMMTrbdfr(dmmImpl);
         }
 
-        return cmmImpl;
+        rfturn dmmImpl;
     }
 
-    static synchronized boolean canCreateModule() {
-        return (cmmImpl == null);
+    stbtid syndironizfd boolfbn dbnCrfbtfModulf() {
+        rfturn (dmmImpl == null);
     }
 
-    /* CMM trace routines */
+    /* CMM trbdf routinfs */
 
-    public static class CMMTracer implements PCMM {
-        PCMM tcmm;
-        String cName ;
+    publid stbtid dlbss CMMTrbdfr implfmfnts PCMM {
+        PCMM tdmm;
+        String dNbmf ;
 
-        public CMMTracer(PCMM tcmm) {
-            this.tcmm = tcmm;
-            cName = tcmm.getClass().getName();
+        publid CMMTrbdfr(PCMM tdmm) {
+            tiis.tdmm = tdmm;
+            dNbmf = tdmm.gftClbss().gftNbmf();
         }
 
-        public Profile loadProfile(byte[] data) {
-            System.err.print(cName + ".loadProfile");
-            Profile p = tcmm.loadProfile(data);
-            System.err.printf("(ID=%s)\n", p.toString());
-            return p;
+        publid Profilf lobdProfilf(bytf[] dbtb) {
+            Systfm.frr.print(dNbmf + ".lobdProfilf");
+            Profilf p = tdmm.lobdProfilf(dbtb);
+            Systfm.frr.printf("(ID=%s)\n", p.toString());
+            rfturn p;
         }
 
-        public void freeProfile(Profile p) {
-            System.err.printf(cName + ".freeProfile(ID=%s)\n", p.toString());
-            tcmm.freeProfile(p);
+        publid void frffProfilf(Profilf p) {
+            Systfm.frr.printf(dNbmf + ".frffProfilf(ID=%s)\n", p.toString());
+            tdmm.frffProfilf(p);
         }
 
-        public int getProfileSize(Profile p) {
-            System.err.print(cName + ".getProfileSize(ID=" + p + ")");
-            int size = tcmm.getProfileSize(p);
-            System.err.println("=" + size);
-            return size;
+        publid int gftProfilfSizf(Profilf p) {
+            Systfm.frr.print(dNbmf + ".gftProfilfSizf(ID=" + p + ")");
+            int sizf = tdmm.gftProfilfSizf(p);
+            Systfm.frr.println("=" + sizf);
+            rfturn sizf;
         }
 
-        public void getProfileData(Profile p, byte[] data) {
-            System.err.print(cName + ".getProfileData(ID=" + p + ") ");
-            System.err.println("requested " + data.length + " byte(s)");
-            tcmm.getProfileData(p, data);
+        publid void gftProfilfDbtb(Profilf p, bytf[] dbtb) {
+            Systfm.frr.print(dNbmf + ".gftProfilfDbtb(ID=" + p + ") ");
+            Systfm.frr.println("rfqufstfd " + dbtb.lfngti + " bytf(s)");
+            tdmm.gftProfilfDbtb(p, dbtb);
         }
 
-        public int getTagSize(Profile p, int tagSignature) {
-            System.err.printf(cName + ".getTagSize(ID=%x, TagSig=%s)",
-                              p, signatureToString(tagSignature));
-            int size = tcmm.getTagSize(p, tagSignature);
-            System.err.println("=" + size);
-            return size;
+        publid int gftTbgSizf(Profilf p, int tbgSignbturf) {
+            Systfm.frr.printf(dNbmf + ".gftTbgSizf(ID=%x, TbgSig=%s)",
+                              p, signbturfToString(tbgSignbturf));
+            int sizf = tdmm.gftTbgSizf(p, tbgSignbturf);
+            Systfm.frr.println("=" + sizf);
+            rfturn sizf;
         }
 
-        public void getTagData(Profile p, int tagSignature,
-                               byte[] data) {
-            System.err.printf(cName + ".getTagData(ID=%x, TagSig=%s)",
-                              p, signatureToString(tagSignature));
-            System.err.println(" requested " + data.length + " byte(s)");
-            tcmm.getTagData(p, tagSignature, data);
+        publid void gftTbgDbtb(Profilf p, int tbgSignbturf,
+                               bytf[] dbtb) {
+            Systfm.frr.printf(dNbmf + ".gftTbgDbtb(ID=%x, TbgSig=%s)",
+                              p, signbturfToString(tbgSignbturf));
+            Systfm.frr.println(" rfqufstfd " + dbtb.lfngti + " bytf(s)");
+            tdmm.gftTbgDbtb(p, tbgSignbturf, dbtb);
         }
 
-        public void setTagData(Profile p, int tagSignature,
-                               byte[] data) {
-            System.err.print(cName + ".setTagData(ID=" + p +
-                             ", TagSig=" + tagSignature + ")");
-            System.err.println(" sending " + data.length + " byte(s)");
-            tcmm.setTagData(p, tagSignature, data);
+        publid void sftTbgDbtb(Profilf p, int tbgSignbturf,
+                               bytf[] dbtb) {
+            Systfm.frr.print(dNbmf + ".sftTbgDbtb(ID=" + p +
+                             ", TbgSig=" + tbgSignbturf + ")");
+            Systfm.frr.println(" sfnding " + dbtb.lfngti + " bytf(s)");
+            tdmm.sftTbgDbtb(p, tbgSignbturf, dbtb);
         }
 
-        /* methods for creating ColorTransforms */
-        public ColorTransform createTransform(ICC_Profile profile,
-                                              int renderType,
-                                              int transformType) {
-            System.err.println(cName + ".createTransform(ICC_Profile,int,int)");
-            return tcmm.createTransform(profile, renderType, transformType);
+        /* mftiods for drfbting ColorTrbnsforms */
+        publid ColorTrbnsform drfbtfTrbnsform(ICC_Profilf profilf,
+                                              int rfndfrTypf,
+                                              int trbnsformTypf) {
+            Systfm.frr.println(dNbmf + ".drfbtfTrbnsform(ICC_Profilf,int,int)");
+            rfturn tdmm.drfbtfTrbnsform(profilf, rfndfrTypf, trbnsformTypf);
         }
 
-        public ColorTransform createTransform(ColorTransform[] transforms) {
-            System.err.println(cName + ".createTransform(ColorTransform[])");
-            return tcmm.createTransform(transforms);
+        publid ColorTrbnsform drfbtfTrbnsform(ColorTrbnsform[] trbnsforms) {
+            Systfm.frr.println(dNbmf + ".drfbtfTrbnsform(ColorTrbnsform[])");
+            rfturn tdmm.drfbtfTrbnsform(trbnsforms);
         }
 
-        private static String signatureToString(int sig) {
-            return String.format("%c%c%c%c",
-                                 (char)(0xff & (sig >> 24)),
-                                 (char)(0xff & (sig >> 16)),
-                                 (char)(0xff & (sig >>  8)),
-                                 (char)(0xff & (sig      )));
+        privbtf stbtid String signbturfToString(int sig) {
+            rfturn String.formbt("%d%d%d%d",
+                                 (dibr)(0xff & (sig >> 24)),
+                                 (dibr)(0xff & (sig >> 16)),
+                                 (dibr)(0xff & (sig >>  8)),
+                                 (dibr)(0xff & (sig      )));
         }
     }
 }

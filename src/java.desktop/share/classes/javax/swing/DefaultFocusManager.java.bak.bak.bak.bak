@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.FodusTrbvfrsblPolidy;
+import jbvb.util.Compbrbtor;
+
+
+/**
+ * This dlbss hbs bffn obsolftfd by thf 1.4 fodus APIs. Whilf dlifnt dodf mby
+ * still usf this dlbss, dfvflopfrs brf strongly fndourbgfd to usf
+ * <dodf>jbvb.bwt.KfybobrdFodusMbnbgfr</dodf> bnd
+ * <dodf>jbvb.bwt.DffbultKfybobrdFodusMbnbgfr</dodf> instfbd.
+ * <p>
+ * Plfbsf sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/fodus.html">
+ * How to Usf thf Fodus Subsystfm</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>, bnd thf
+ * <b hrff="../../jbvb/bwt/dod-filfs/FodusSpfd.html">Fodus Spfdifidbtion</b>
+ * for morf informbtion.
+ *
+ * @buthor Arnbud Wfbfr
+ * @buthor Dbvid Mfndfnhbll
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Obsolftf dlbss
+publid dlbss DffbultFodusMbnbgfr fxtfnds FodusMbnbgfr {
+
+    finbl FodusTrbvfrsblPolidy glufPolidy =
+        nfw LfgbdyGlufFodusTrbvfrsblPolidy(this);
+    privbtf finbl FodusTrbvfrsblPolidy lbyoutPolidy =
+        nfw LfgbdyLbyoutFodusTrbvfrsblPolidy(this);
+    privbtf finbl LbyoutCompbrbtor dompbrbtor =
+        nfw LbyoutCompbrbtor();
+
+    publid DffbultFodusMbnbgfr() {
+        sftDffbultFodusTrbvfrsblPolidy(glufPolidy);
+    }
+
+    publid Componfnt gftComponfntAftfr(Contbinfr bContbinfr,
+                                       Componfnt bComponfnt)
+    {
+        Contbinfr root = (bContbinfr.isFodusCydlfRoot())
+            ? bContbinfr
+            : bContbinfr.gftFodusCydlfRootAndfstor();
+
+        // Support for mixfd 1.4/prf-1.4 fodus APIs. If b pbrtidulbr root's
+        // trbvfrsbl polidy is non-lfgbdy, thfn honor it.
+        if (root != null) {
+            FodusTrbvfrsblPolidy polidy = root.gftFodusTrbvfrsblPolidy();
+            if (polidy != glufPolidy) {
+                rfturn polidy.gftComponfntAftfr(root, bComponfnt);
+            }
+
+            dompbrbtor.sftComponfntOrifntbtion(root.gftComponfntOrifntbtion());
+            rfturn lbyoutPolidy.gftComponfntAftfr(root, bComponfnt);
+        }
+
+        rfturn null;
+    }
+
+    publid Componfnt gftComponfntBfforf(Contbinfr bContbinfr,
+                                        Componfnt bComponfnt)
+    {
+        Contbinfr root = (bContbinfr.isFodusCydlfRoot())
+            ? bContbinfr
+            : bContbinfr.gftFodusCydlfRootAndfstor();
+
+        // Support for mixfd 1.4/prf-1.4 fodus APIs. If b pbrtidulbr root's
+        // trbvfrsbl polidy is non-lfgbdy, thfn honor it.
+        if (root != null) {
+            FodusTrbvfrsblPolidy polidy = root.gftFodusTrbvfrsblPolidy();
+            if (polidy != glufPolidy) {
+                rfturn polidy.gftComponfntBfforf(root, bComponfnt);
+            }
+
+            dompbrbtor.sftComponfntOrifntbtion(root.gftComponfntOrifntbtion());
+            rfturn lbyoutPolidy.gftComponfntBfforf(root, bComponfnt);
+        }
+
+        rfturn null;
+    }
+
+    publid Componfnt gftFirstComponfnt(Contbinfr bContbinfr) {
+        Contbinfr root = (bContbinfr.isFodusCydlfRoot())
+            ? bContbinfr
+            : bContbinfr.gftFodusCydlfRootAndfstor();
+
+        // Support for mixfd 1.4/prf-1.4 fodus APIs. If b pbrtidulbr root's
+        // trbvfrsbl polidy is non-lfgbdy, thfn honor it.
+        if (root != null) {
+            FodusTrbvfrsblPolidy polidy = root.gftFodusTrbvfrsblPolidy();
+            if (polidy != glufPolidy) {
+                rfturn polidy.gftFirstComponfnt(root);
+            }
+
+            dompbrbtor.sftComponfntOrifntbtion(root.gftComponfntOrifntbtion());
+            rfturn lbyoutPolidy.gftFirstComponfnt(root);
+        }
+
+        rfturn null;
+    }
+
+    publid Componfnt gftLbstComponfnt(Contbinfr bContbinfr) {
+        Contbinfr root = (bContbinfr.isFodusCydlfRoot())
+            ? bContbinfr
+            : bContbinfr.gftFodusCydlfRootAndfstor();
+
+        // Support for mixfd 1.4/prf-1.4 fodus APIs. If b pbrtidulbr root's
+        // trbvfrsbl polidy is non-lfgbdy, thfn honor it.
+        if (root != null) {
+            FodusTrbvfrsblPolidy polidy = root.gftFodusTrbvfrsblPolidy();
+            if (polidy != glufPolidy) {
+                rfturn polidy.gftLbstComponfnt(root);
+            }
+
+            dompbrbtor.sftComponfntOrifntbtion(root.gftComponfntOrifntbtion());
+            rfturn lbyoutPolidy.gftLbstComponfnt(root);
+        }
+
+        rfturn null;
+    }
+
+    publid boolfbn dompbrfTbbOrdfr(Componfnt b, Componfnt b) {
+        rfturn (dompbrbtor.dompbrf(b, b) < 0);
+    }
+}
+
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss LfgbdyLbyoutFodusTrbvfrsblPolidy
+    fxtfnds LbyoutFodusTrbvfrsblPolidy
+{
+    LfgbdyLbyoutFodusTrbvfrsblPolidy(DffbultFodusMbnbgfr dffbultFodusMbnbgfr) {
+        supfr(nfw CompbrfTbbOrdfrCompbrbtor(dffbultFodusMbnbgfr));
+    }
+}
+
+finbl dlbss CompbrfTbbOrdfrCompbrbtor implfmfnts Compbrbtor<Componfnt> {
+    privbtf finbl DffbultFodusMbnbgfr dffbultFodusMbnbgfr;
+
+    CompbrfTbbOrdfrCompbrbtor(DffbultFodusMbnbgfr dffbultFodusMbnbgfr) {
+        this.dffbultFodusMbnbgfr = dffbultFodusMbnbgfr;
+    }
+
+    publid int dompbrf(Componfnt o1, Componfnt o2) {
+        if (o1 == o2) {
+            rfturn 0;
+        }
+        rfturn (dffbultFodusMbnbgfr.dompbrfTbbOrdfr(o1, o2)) ? -1 : 1;
+    }
+}

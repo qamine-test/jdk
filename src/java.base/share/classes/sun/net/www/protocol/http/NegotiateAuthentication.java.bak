@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.http;
+pbdkbgf sun.nft.www.protodol.ittp;
 
-import java.net.URL;
-import java.io.IOException;
-import java.net.Authenticator.RequestorType;
-import java.util.Base64;
-import java.util.HashMap;
-import sun.net.www.HeaderParser;
-import sun.util.logging.PlatformLogger;
-import static sun.net.www.protocol.http.AuthScheme.NEGOTIATE;
-import static sun.net.www.protocol.http.AuthScheme.KERBEROS;
+import jbvb.nft.URL;
+import jbvb.io.IOExdfption;
+import jbvb.nft.Autifntidbtor.RfqufstorTypf;
+import jbvb.util.Bbsf64;
+import jbvb.util.HbsiMbp;
+import sun.nft.www.HfbdfrPbrsfr;
+import sun.util.logging.PlbtformLoggfr;
+import stbtid sun.nft.www.protodol.ittp.AutiSdifmf.NEGOTIATE;
+import stbtid sun.nft.www.protodol.ittp.AutiSdifmf.KERBEROS;
 
 /**
- * NegotiateAuthentication:
+ * NfgotibtfAutifntidbtion:
  *
- * @author weijun.wang@sun.com
- * @since 1.6
+ * @butior wfijun.wbng@sun.dom
+ * @sindf 1.6
  */
 
-class NegotiateAuthentication extends AuthenticationInfo {
+dlbss NfgotibtfAutifntidbtion fxtfnds AutifntidbtionInfo {
 
-    private static final long serialVersionUID = 100L;
-    private static final PlatformLogger logger = HttpURLConnection.getHttpLogger();
+    privbtf stbtid finbl long sfriblVfrsionUID = 100L;
+    privbtf stbtid finbl PlbtformLoggfr loggfr = HttpURLConnfdtion.gftHttpLoggfr();
 
-    final private HttpCallerInfo hci;
+    finbl privbtf HttpCbllfrInfo idi;
 
-    // These maps are used to manage the GSS availability for diffrent
-    // hosts. The key for both maps is the host name.
-    // <code>supported</code> is set when isSupported is checked,
-    // if it's true, a cached Negotiator is put into <code>cache</code>.
-    // the cache can be used only once, so after the first use, it's cleaned.
-    static HashMap <String, Boolean> supported = null;
-    static HashMap <String, Negotiator> cache = null;
+    // Tifsf mbps brf usfd to mbnbgf tif GSS bvbilbbility for diffrfnt
+    // iosts. Tif kfy for boti mbps is tif iost nbmf.
+    // <dodf>supportfd</dodf> is sft wifn isSupportfd is difdkfd,
+    // if it's truf, b dbdifd Nfgotibtor is put into <dodf>dbdif</dodf>.
+    // tif dbdif dbn bf usfd only ondf, so bftfr tif first usf, it's dlfbnfd.
+    stbtid HbsiMbp <String, Boolfbn> supportfd = null;
+    stbtid HbsiMbp <String, Nfgotibtor> dbdif = null;
 
-    // The HTTP Negotiate Helper
-    private Negotiator negotiator = null;
+    // Tif HTTP Nfgotibtf Hflpfr
+    privbtf Nfgotibtor nfgotibtor = null;
 
    /**
-    * Constructor used for both WWW and proxy entries.
-    * @param hci a schemed object.
+    * Construdtor usfd for boti WWW bnd proxy fntrifs.
+    * @pbrbm idi b sdifmfd objfdt.
     */
-    public NegotiateAuthentication(HttpCallerInfo hci) {
-        super(RequestorType.PROXY==hci.authType ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
-              hci.scheme.equalsIgnoreCase("Negotiate") ? NEGOTIATE : KERBEROS,
-              hci.url,
+    publid NfgotibtfAutifntidbtion(HttpCbllfrInfo idi) {
+        supfr(RfqufstorTypf.PROXY==idi.butiTypf ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              idi.sdifmf.fqublsIgnorfCbsf("Nfgotibtf") ? NEGOTIATE : KERBEROS,
+              idi.url,
               "");
-        this.hci = hci;
+        tiis.idi = idi;
     }
 
     /**
-     * @return true if this authentication supports preemptive authorization
+     * @rfturn truf if tiis butifntidbtion supports prffmptivf butiorizbtion
      */
-    @Override
-    public boolean supportsPreemptiveAuthorization() {
-        return false;
+    @Ovfrridf
+    publid boolfbn supportsPrffmptivfAutiorizbtion() {
+        rfturn fblsf;
     }
 
     /**
-     * Find out if the HttpCallerInfo supports Negotiate protocol.
-     * @return true if supported
+     * Find out if tif HttpCbllfrInfo supports Nfgotibtf protodol.
+     * @rfturn truf if supportfd
      */
-    public static boolean isSupported(HttpCallerInfo hci) {
-        ClassLoader loader = null;
+    publid stbtid boolfbn isSupportfd(HttpCbllfrInfo idi) {
+        ClbssLobdfr lobdfr = null;
         try {
-            loader = Thread.currentThread().getContextClassLoader();
-        } catch (SecurityException se) {
-            if (logger.isLoggable(PlatformLogger.Level.FINER)) {
-                logger.finer("NegotiateAuthentication: " +
-                    "Attempt to get the context class loader failed - " + se);
+            lobdfr = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+        } dbtdi (SfdurityExdfption sf) {
+            if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                loggfr.finfr("NfgotibtfAutifntidbtion: " +
+                    "Attfmpt to gft tif dontfxt dlbss lobdfr fbilfd - " + sf);
             }
         }
 
-        if (loader != null) {
-            // Lock on the class loader instance to avoid the deadlock engaging
-            // the lock in "ClassLoader.loadClass(String, boolean)" method.
-            synchronized (loader) {
-                return isSupportedImpl(hci);
+        if (lobdfr != null) {
+            // Lodk on tif dlbss lobdfr instbndf to bvoid tif dfbdlodk fngbging
+            // tif lodk in "ClbssLobdfr.lobdClbss(String, boolfbn)" mftiod.
+            syndironizfd (lobdfr) {
+                rfturn isSupportfdImpl(idi);
             }
         }
-        return isSupportedImpl(hci);
+        rfturn isSupportfdImpl(idi);
     }
 
     /**
-     * Find out if the HttpCallerInfo supports Negotiate protocol. In order to
-     * find out yes or no, an initialization of a Negotiator object against it
-     * is tried. The generated object will be cached under the name of ths
-     * hostname at a success try.<br>
+     * Find out if tif HttpCbllfrInfo supports Nfgotibtf protodol. In ordfr to
+     * find out yfs or no, bn initiblizbtion of b Nfgotibtor objfdt bgbinst it
+     * is trifd. Tif gfnfrbtfd objfdt will bf dbdifd undfr tif nbmf of tis
+     * iostnbmf bt b suddfss try.<br>
      *
-     * If this method is called for the second time on an HttpCallerInfo with
-     * the same hostname, the answer is retrieved from cache.
+     * If tiis mftiod is dbllfd for tif sfdond timf on bn HttpCbllfrInfo witi
+     * tif sbmf iostnbmf, tif bnswfr is rftrifvfd from dbdif.
      *
-     * @return true if supported
+     * @rfturn truf if supportfd
      */
-    private static synchronized boolean isSupportedImpl(HttpCallerInfo hci) {
-        if (supported == null) {
-            supported = new HashMap <String, Boolean>();
-            cache = new HashMap <String, Negotiator>();
+    privbtf stbtid syndironizfd boolfbn isSupportfdImpl(HttpCbllfrInfo idi) {
+        if (supportfd == null) {
+            supportfd = nfw HbsiMbp <String, Boolfbn>();
+            dbdif = nfw HbsiMbp <String, Nfgotibtor>();
         }
-        String hostname = hci.host;
-        hostname = hostname.toLowerCase();
-        if (supported.containsKey(hostname)) {
-            return supported.get(hostname);
+        String iostnbmf = idi.iost;
+        iostnbmf = iostnbmf.toLowfrCbsf();
+        if (supportfd.dontbinsKfy(iostnbmf)) {
+            rfturn supportfd.gft(iostnbmf);
         }
 
-        Negotiator neg = Negotiator.getNegotiator(hci);
-        if (neg != null) {
-            supported.put(hostname, true);
-            // the only place cache.put is called. here we can make sure
-            // the object is valid and the oneToken inside is not null
-            cache.put(hostname, neg);
-            return true;
-        } else {
-            supported.put(hostname, false);
-            return false;
+        Nfgotibtor nfg = Nfgotibtor.gftNfgotibtor(idi);
+        if (nfg != null) {
+            supportfd.put(iostnbmf, truf);
+            // tif only plbdf dbdif.put is dbllfd. ifrf wf dbn mbkf surf
+            // tif objfdt is vblid bnd tif onfTokfn insidf is not null
+            dbdif.put(iostnbmf, nfg);
+            rfturn truf;
+        } flsf {
+            supportfd.put(iostnbmf, fblsf);
+            rfturn fblsf;
         }
     }
 
     /**
-     * Not supported. Must use the setHeaders() method
+     * Not supportfd. Must usf tif sftHfbdfrs() mftiod
      */
-    @Override
-    public String getHeaderValue(URL url, String method) {
-        throw new RuntimeException ("getHeaderValue not supported");
+    @Ovfrridf
+    publid String gftHfbdfrVbluf(URL url, String mftiod) {
+        tirow nfw RuntimfExdfption ("gftHfbdfrVbluf not supportfd");
     }
 
     /**
-     * Check if the header indicates that the current auth. parameters are stale.
-     * If so, then replace the relevant field with the new value
-     * and return true. Otherwise return false.
-     * returning true means the request can be retried with the same userid/password
-     * returning false means we have to go back to the user to ask for a new
-     * username password.
+     * Cifdk if tif ifbdfr indidbtfs tibt tif durrfnt buti. pbrbmftfrs brf stblf.
+     * If so, tifn rfplbdf tif rflfvbnt fifld witi tif nfw vbluf
+     * bnd rfturn truf. Otifrwisf rfturn fblsf.
+     * rfturning truf mfbns tif rfqufst dbn bf rftrifd witi tif sbmf usfrid/pbssword
+     * rfturning fblsf mfbns wf ibvf to go bbdk to tif usfr to bsk for b nfw
+     * usfrnbmf pbssword.
      */
-    @Override
-    public boolean isAuthorizationStale (String header) {
-        return false; /* should not be called for Negotiate */
+    @Ovfrridf
+    publid boolfbn isAutiorizbtionStblf (String ifbdfr) {
+        rfturn fblsf; /* siould not bf dbllfd for Nfgotibtf */
     }
 
     /**
-     * Set header(s) on the given connection.
-     * @param conn The connection to apply the header(s) to
-     * @param p A source of header values for this connection, not used because
-     *          HeaderParser converts the fields to lower case, use raw instead
-     * @param raw The raw header field.
-     * @return true if all goes well, false if no headers were set.
+     * Sft ifbdfr(s) on tif givfn donnfdtion.
+     * @pbrbm donn Tif donnfdtion to bpply tif ifbdfr(s) to
+     * @pbrbm p A sourdf of ifbdfr vblufs for tiis donnfdtion, not usfd bfdbusf
+     *          HfbdfrPbrsfr donvfrts tif fiflds to lowfr dbsf, usf rbw instfbd
+     * @pbrbm rbw Tif rbw ifbdfr fifld.
+     * @rfturn truf if bll gofs wfll, fblsf if no ifbdfrs wfrf sft.
      */
-    @Override
-    public synchronized boolean setHeaders(HttpURLConnection conn, HeaderParser p, String raw) {
+    @Ovfrridf
+    publid syndironizfd boolfbn sftHfbdfrs(HttpURLConnfdtion donn, HfbdfrPbrsfr p, String rbw) {
 
         try {
-            String response;
-            byte[] incoming = null;
-            String[] parts = raw.split("\\s+");
-            if (parts.length > 1) {
-                incoming = Base64.getDecoder().decode(parts[1]);
+            String rfsponsf;
+            bytf[] indoming = null;
+            String[] pbrts = rbw.split("\\s+");
+            if (pbrts.lfngti > 1) {
+                indoming = Bbsf64.gftDfdodfr().dfdodf(pbrts[1]);
             }
-            response = hci.scheme + " " + Base64.getEncoder().encodeToString(
-                        incoming==null?firstToken():nextToken(incoming));
+            rfsponsf = idi.sdifmf + " " + Bbsf64.gftEndodfr().fndodfToString(
+                        indoming==null?firstTokfn():nfxtTokfn(indoming));
 
-            conn.setAuthenticationProperty(getHeaderName(), response);
-            return true;
-        } catch (IOException e) {
-            return false;
+            donn.sftAutifntidbtionPropfrty(gftHfbdfrNbmf(), rfsponsf);
+            rfturn truf;
+        } dbtdi (IOExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * return the first token.
-     * @returns the token
-     * @throws IOException if <code>Negotiator.getNegotiator()</code> or
-     *                     <code>Negotiator.firstToken()</code> failed.
+     * rfturn tif first tokfn.
+     * @rfturns tif tokfn
+     * @tirows IOExdfption if <dodf>Nfgotibtor.gftNfgotibtor()</dodf> or
+     *                     <dodf>Nfgotibtor.firstTokfn()</dodf> fbilfd.
      */
-    private byte[] firstToken() throws IOException {
-        negotiator = null;
-        if (cache != null) {
-            synchronized(cache) {
-                negotiator = cache.get(getHost());
-                if (negotiator != null) {
-                    cache.remove(getHost()); // so that it is only used once
+    privbtf bytf[] firstTokfn() tirows IOExdfption {
+        nfgotibtor = null;
+        if (dbdif != null) {
+            syndironizfd(dbdif) {
+                nfgotibtor = dbdif.gft(gftHost());
+                if (nfgotibtor != null) {
+                    dbdif.rfmovf(gftHost()); // so tibt it is only usfd ondf
                 }
             }
         }
-        if (negotiator == null) {
-            negotiator = Negotiator.getNegotiator(hci);
-            if (negotiator == null) {
-                IOException ioe = new IOException("Cannot initialize Negotiator");
-                throw ioe;
+        if (nfgotibtor == null) {
+            nfgotibtor = Nfgotibtor.gftNfgotibtor(idi);
+            if (nfgotibtor == null) {
+                IOExdfption iof = nfw IOExdfption("Cbnnot initiblizf Nfgotibtor");
+                tirow iof;
             }
         }
 
-        return negotiator.firstToken();
+        rfturn nfgotibtor.firstTokfn();
     }
 
     /**
-     * return more tokens
-     * @param token the token to be fed into <code>negotiator.nextToken()</code>
-     * @returns the token
-     * @throws IOException if <code>negotiator.nextToken()</code> throws Exception.
-     *  May happen if the input token is invalid.
+     * rfturn morf tokfns
+     * @pbrbm tokfn tif tokfn to bf ffd into <dodf>nfgotibtor.nfxtTokfn()</dodf>
+     * @rfturns tif tokfn
+     * @tirows IOExdfption if <dodf>nfgotibtor.nfxtTokfn()</dodf> tirows Exdfption.
+     *  Mby ibppfn if tif input tokfn is invblid.
      */
-    private byte[] nextToken(byte[] token) throws IOException {
-        return negotiator.nextToken(token);
+    privbtf bytf[] nfxtTokfn(bytf[] tokfn) tirows IOExdfption {
+        rfturn nfgotibtor.nfxtTokfn(tokfn);
     }
 
-    // MS will send a final WWW-Authenticate even if the status is already
-    // 200 OK. The token can be fed into initSecContext() again to determine
-    // if the server can be trusted. This is not the same concept as Digest's
-    // Authentication-Info header.
+    // MS will sfnd b finbl WWW-Autifntidbtf fvfn if tif stbtus is blrfbdy
+    // 200 OK. Tif tokfn dbn bf ffd into initSfdContfxt() bgbin to dftfrminf
+    // if tif sfrvfr dbn bf trustfd. Tiis is not tif sbmf dondfpt bs Digfst's
+    // Autifntidbtion-Info ifbdfr.
     //
-    // Currently we ignore this header.
+    // Currfntly wf ignorf tiis ifbdfr.
 
 }

@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.bdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.request.EventRequest;
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.EvfntRfqufst;
 
-abstract public class EventRequestSpec {
+bbstrbdt publid dlbss EvfntRfqufstSpfd {
 
-    static final int STATUS_UNRESOLVED = 1;
-    static final int STATUS_RESOLVED = 2;
-    static final int STATUS_ERROR = 3;
+    stbtid finbl int STATUS_UNRESOLVED = 1;
+    stbtid finbl int STATUS_RESOLVED = 2;
+    stbtid finbl int STATUS_ERROR = 3;
 
-    static final Object specPropertyKey = "spec";
+    stbtid finbl Objfdt spfdPropfrtyKfy = "spfd";
 
-    final EventRequestSpecList specs;
-    final ReferenceTypeSpec refSpec;
-    EventRequest request = null;
+    finbl EvfntRfqufstSpfdList spfds;
+    finbl RfffrfndfTypfSpfd rffSpfd;
+    EvfntRfqufst rfqufst = null;
 
-    int status = STATUS_UNRESOLVED;
+    int stbtus = STATUS_UNRESOLVED;
 
-    EventRequestSpec(EventRequestSpecList specs, ReferenceTypeSpec refSpec) {
-        this.specs = specs;
-        this.refSpec = refSpec;
+    EvfntRfqufstSpfd(EvfntRfqufstSpfdList spfds, RfffrfndfTypfSpfd rffSpfd) {
+        tiis.spfds = spfds;
+        tiis.rffSpfd = rffSpfd;
     }
 
-    void setRequest(EventRequest request) {
-        this.request = request;
-        request.putProperty(specPropertyKey, this);
-        request.enable();
+    void sftRfqufst(EvfntRfqufst rfqufst) {
+        tiis.rfqufst = rfqufst;
+        rfqufst.putPropfrty(spfdPropfrtyKfy, tiis);
+        rfqufst.fnbblf();
     }
 
     /**
-     * The 'refType' is known to match.
+     * Tif 'rffTypf' is known to mbtdi.
      */
-    abstract void resolve(ReferenceType refType) throws Exception;
+    bbstrbdt void rfsolvf(RfffrfndfTypf rffTypf) tirows Exdfption;
 
-    abstract void notifySet(SpecListener listener, SpecEvent evt);
-    abstract void notifyDeferred(SpecListener listener, SpecEvent evt);
-    abstract void notifyResolved(SpecListener listener, SpecEvent evt);
-    abstract void notifyDeleted(SpecListener listener, SpecEvent evt);
-    abstract void notifyError(SpecListener listener, SpecErrorEvent evt);
+    bbstrbdt void notifySft(SpfdListfnfr listfnfr, SpfdEvfnt fvt);
+    bbstrbdt void notifyDfffrrfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt);
+    bbstrbdt void notifyRfsolvfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt);
+    bbstrbdt void notifyDflftfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt);
+    bbstrbdt void notifyError(SpfdListfnfr listfnfr, SpfdErrorEvfnt fvt);
 
     /**
-     * The 'refType' is known to match.
+     * Tif 'rffTypf' is known to mbtdi.
      */
-    void resolveNotify(ReferenceType refType) {
+    void rfsolvfNotify(RfffrfndfTypf rffTypf) {
         try {
-            resolve(refType);
-            status = STATUS_RESOLVED;
-            specs.notifyResolved(this);
-        } catch(Exception exc) {
-            status = STATUS_ERROR;
-            specs.notifyError(this, exc);
+            rfsolvf(rffTypf);
+            stbtus = STATUS_RESOLVED;
+            spfds.notifyRfsolvfd(tiis);
+        } dbtdi(Exdfption fxd) {
+            stbtus = STATUS_ERROR;
+            spfds.notifyError(tiis, fxd);
         }
     }
 
     /**
-     * See if 'refType' matches and resolve.
+     * Sff if 'rffTypf' mbtdifs bnd rfsolvf.
      */
-    void attemptResolve(ReferenceType refType) {
-        if (!isResolved() && refSpec.matches(refType)) {
-            resolveNotify(refType);
+    void bttfmptRfsolvf(RfffrfndfTypf rffTypf) {
+        if (!isRfsolvfd() && rffSpfd.mbtdifs(rffTypf)) {
+            rfsolvfNotify(rffTypf);
         }
     }
 
-    void attemptImmediateResolve(VirtualMachine vm) {
-        // try to resolve immediately
-        for (ReferenceType refType : vm.allClasses()) {
-            if (refSpec.matches(refType)) {
+    void bttfmptImmfdibtfRfsolvf(VirtublMbdiinf vm) {
+        // try to rfsolvf immfdibtfly
+        for (RfffrfndfTypf rffTypf : vm.bllClbssfs()) {
+            if (rffSpfd.mbtdifs(rffTypf)) {
                 try {
-                    resolve(refType);
-                    status = STATUS_RESOLVED;
-                    specs.notifySet(this);
-                } catch(Exception exc) {
-                    status = STATUS_ERROR;
-                    specs.notifyError(this, exc);
+                    rfsolvf(rffTypf);
+                    stbtus = STATUS_RESOLVED;
+                    spfds.notifySft(tiis);
+                } dbtdi(Exdfption fxd) {
+                    stbtus = STATUS_ERROR;
+                    spfds.notifyError(tiis, fxd);
                 }
-                return;
+                rfturn;
             }
         }
-        specs.notifyDeferred(this);
+        spfds.notifyDfffrrfd(tiis);
     }
 
-    public EventRequest getEventRequest() {
-        return request;
-    }
-
-    /**
-     * @return true if this spec has been resolved.
-     */
-    public boolean isResolved() {
-        return status == STATUS_RESOLVED;
+    publid EvfntRfqufst gftEvfntRfqufst() {
+        rfturn rfqufst;
     }
 
     /**
-     * @return true if this spec has not yet been resolved.
+     * @rfturn truf if tiis spfd ibs bffn rfsolvfd.
      */
-    public boolean isUnresolved() {
-        return status == STATUS_UNRESOLVED;
+    publid boolfbn isRfsolvfd() {
+        rfturn stbtus == STATUS_RESOLVED;
     }
 
     /**
-     * @return true if this spec is unresolvable due to error.
+     * @rfturn truf if tiis spfd ibs not yft bffn rfsolvfd.
      */
-    public boolean isErroneous() {
-        return status == STATUS_ERROR;
+    publid boolfbn isUnrfsolvfd() {
+        rfturn stbtus == STATUS_UNRESOLVED;
     }
 
-    public String getStatusString() {
-        switch (status) {
-            case STATUS_RESOLVED:
-                return "resolved";
-            case STATUS_UNRESOLVED:
-                return "deferred";
-            case STATUS_ERROR:
-                return "erroneous";
+    /**
+     * @rfturn truf if tiis spfd is unrfsolvbblf duf to frror.
+     */
+    publid boolfbn isErronfous() {
+        rfturn stbtus == STATUS_ERROR;
+    }
+
+    publid String gftStbtusString() {
+        switdi (stbtus) {
+            dbsf STATUS_RESOLVED:
+                rfturn "rfsolvfd";
+            dbsf STATUS_UNRESOLVED:
+                rfturn "dfffrrfd";
+            dbsf STATUS_ERROR:
+                rfturn "frronfous";
         }
-        return "unknown";
+        rfturn "unknown";
     }
 
-    boolean isJavaIdentifier(String s) {
-        return Utils.isJavaIdentifier(s);
+    boolfbn isJbvbIdfntififr(String s) {
+        rfturn Utils.isJbvbIdfntififr(s);
     }
 
-    public String errorMessageFor(Exception e) {
-        if (e instanceof IllegalArgumentException) {
-            return ("Invalid command syntax");
-        } else if (e instanceof RuntimeException) {
-            // A runtime exception that we were not expecting
-            throw (RuntimeException)e;
-        } else {
-            return ("Internal error; unable to set" + this);
+    publid String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof IllfgblArgumfntExdfption) {
+            rfturn ("Invblid dommbnd syntbx");
+        } flsf if (f instbndfof RuntimfExdfption) {
+            // A runtimf fxdfption tibt wf wfrf not fxpfdting
+            tirow (RuntimfExdfption)f;
+        } flsf {
+            rfturn ("Intfrnbl frror; unbblf to sft" + tiis);
         }
     }
 }

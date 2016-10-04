@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef NET_UTILS_MD_H
-#define NET_UTILS_MD_H
+#ifndff NET_UTILS_MD_H
+#dffinf NET_UTILS_MD_H
 
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <unistd.h>
+#indludf <sys/sodkft.i>
+#indludf <sys/typfs.i>
+#indludf <nftdb.i>
+#indludf <nftinft/in.i>
+#indludf <unistd.i>
 
-#include <sys/poll.h>
+#indludf <sys/poll.i>
 
-int NET_Timeout(int s, long timeout);
-int NET_Read(int s, void* buf, size_t len);
-int NET_RecvFrom(int s, void *buf, int len, unsigned int flags,
-                 struct sockaddr *from, socklen_t *fromlen);
-int NET_ReadV(int s, const struct iovec * vector, int count);
-int NET_Send(int s, void *msg, int len, unsigned int flags);
-int NET_SendTo(int s, const void *msg, int len,  unsigned  int
-               flags, const struct sockaddr *to, int tolen);
-int NET_Writev(int s, const struct iovec * vector, int count);
-int NET_Connect(int s, struct sockaddr *addr, int addrlen);
-int NET_Accept(int s, struct sockaddr *addr, socklen_t *addrlen);
-int NET_SocketClose(int s);
-int NET_Dup2(int oldfd, int newfd);
-int NET_Poll(struct pollfd *ufds, unsigned int nfds, int timeout);
-int NET_SocketAvailable(int s, jint *pbytes);
+int NET_Timfout(int s, long timfout);
+int NET_Rfbd(int s, void* buf, sizf_t lfn);
+int NET_RfdvFrom(int s, void *buf, int lfn, unsignfd int flbgs,
+                 strudt sodkbddr *from, sodklfn_t *fromlfn);
+int NET_RfbdV(int s, donst strudt iovfd * vfdtor, int dount);
+int NET_Sfnd(int s, void *msg, int lfn, unsignfd int flbgs);
+int NET_SfndTo(int s, donst void *msg, int lfn,  unsignfd  int
+               flbgs, donst strudt sodkbddr *to, int tolfn);
+int NET_Writfv(int s, donst strudt iovfd * vfdtor, int dount);
+int NET_Connfdt(int s, strudt sodkbddr *bddr, int bddrlfn);
+int NET_Addfpt(int s, strudt sodkbddr *bddr, sodklfn_t *bddrlfn);
+int NET_SodkftClosf(int s);
+int NET_Dup2(int oldfd, int nfwfd);
+int NET_Poll(strudt pollfd *ufds, unsignfd int nfds, int timfout);
+int NET_SodkftAvbilbblf(int s, jint *pbytfs);
 
-void NET_ThrowUnknownHostExceptionWithGaiError(JNIEnv *env,
-                                               const char* hostname,
-                                               int gai_error);
-void NET_ThrowByNameWithLastError(JNIEnv *env, const char *name,
-                                  const char *defaultDetail);
+void NET_TirowUnknownHostExdfptionWitiGbiError(JNIEnv *fnv,
+                                               donst dibr* iostnbmf,
+                                               int gbi_frror);
+void NET_TirowByNbmfWitiLbstError(JNIEnv *fnv, donst dibr *nbmf,
+                                  donst dibr *dffbultDftbil);
 
-#define NET_WAIT_READ    0x01
-#define NET_WAIT_WRITE   0x02
-#define NET_WAIT_CONNECT 0x04
+#dffinf NET_WAIT_READ    0x01
+#dffinf NET_WAIT_WRITE   0x02
+#dffinf NET_WAIT_CONNECT 0x04
 
-jint NET_Wait(JNIEnv *env, jint fd, jint flags, jint timeout);
+jint NET_Wbit(JNIEnv *fnv, jint fd, jint flbgs, jint timfout);
 
 /************************************************************************
- * Macros and constants
+ * Mbdros bnd donstbnts
  */
 
 /*
- * On 64-bit JDKs we use a much larger stack and heap buffer.
+ * On 64-bit JDKs wf usf b mudi lbrgfr stbdk bnd ifbp bufffr.
  */
-#ifdef _LP64
-#define MAX_BUFFER_LEN 65536
-#define MAX_HEAP_BUFFER_LEN 131072
-#else
-#define MAX_BUFFER_LEN 8192
-#define MAX_HEAP_BUFFER_LEN 65536
-#endif
+#ifdff _LP64
+#dffinf MAX_BUFFER_LEN 65536
+#dffinf MAX_HEAP_BUFFER_LEN 131072
+#flsf
+#dffinf MAX_BUFFER_LEN 8192
+#dffinf MAX_HEAP_BUFFER_LEN 65536
+#fndif
 
-#ifdef AF_INET6
+#ifdff AF_INET6
 
-#define SOCKADDR        union { \
-                            struct sockaddr_in him4; \
-                            struct sockaddr_in6 him6; \
+#dffinf SOCKADDR        union { \
+                            strudt sodkbddr_in iim4; \
+                            strudt sodkbddr_in6 iim6; \
                         }
 
-#define SOCKADDR_LEN    (ipv6_available() ? sizeof(SOCKADDR) : \
-                         sizeof(struct sockaddr_in))
+#dffinf SOCKADDR_LEN    (ipv6_bvbilbblf() ? sizfof(SOCKADDR) : \
+                         sizfof(strudt sodkbddr_in))
 
-#else
+#flsf
 
-#define SOCKADDR        union { struct sockaddr_in him4; }
-#define SOCKADDR_LEN    sizeof(SOCKADDR)
+#dffinf SOCKADDR        union { strudt sodkbddr_in iim4; }
+#dffinf SOCKADDR_LEN    sizfof(SOCKADDR)
 
-#endif
+#fndif
 
 /************************************************************************
- *  Utilities
+ *  Utilitifs
  */
 
-#ifdef __linux__
-int kernelIsV24();
-#ifdef AF_INET6
-int getDefaultIPv6Interface(struct in6_addr *target_addr);
-#endif
-#endif
+#ifdff __linux__
+int kfrnflIsV24();
+#ifdff AF_INET6
+int gftDffbultIPv6Intfrfbdf(strudt in6_bddr *tbrgft_bddr);
+#fndif
+#fndif
 
-#ifdef __solaris__
-int net_getParam(char *driver, char *param);
+#ifdff __solbris__
+int nft_gftPbrbm(dibr *drivfr, dibr *pbrbm);
 
-#ifndef SO_FLOW_SLA
-#define SO_FLOW_SLA 0x1018
+#ifndff SO_FLOW_SLA
+#dffinf SO_FLOW_SLA 0x1018
 
 #if _LONG_LONG_ALIGNMENT == 8 && _LONG_LONG_ALIGNMENT_32 == 4
-#pragma pack(4)
-#endif
+#prbgmb pbdk(4)
+#fndif
 
 /*
- * Used with the setsockopt(SO_FLOW_SLA, ...) call to set
- * per socket service level properties.
- * When the application uses per-socket API, we will enforce the properties
- * on both outbound and inbound packets.
+ * Usfd witi tif sftsodkopt(SO_FLOW_SLA, ...) dbll to sft
+ * pfr sodkft sfrvidf lfvfl propfrtifs.
+ * Wifn tif bpplidbtion usfs pfr-sodkft API, wf will fnfordf tif propfrtifs
+ * on boti outbound bnd inbound pbdkfts.
  *
- * For now, only priority and maxbw are supported in SOCK_FLOW_PROP_VERSION1.
+ * For now, only priority bnd mbxbw brf supportfd in SOCK_FLOW_PROP_VERSION1.
  */
-typedef struct sock_flow_props_s {
-        int             sfp_version;
-        uint32_t        sfp_mask;
+typfdff strudt sodk_flow_props_s {
+        int             sfp_vfrsion;
+        uint32_t        sfp_mbsk;
         int             sfp_priority;   /* flow priority */
-        uint64_t        sfp_maxbw;      /* bandwidth limit in bps */
-        int             sfp_status;     /* flow create status for getsockopt */
-} sock_flow_props_t;
+        uint64_t        sfp_mbxbw;      /* bbndwidti limit in bps */
+        int             sfp_stbtus;     /* flow drfbtf stbtus for gftsodkopt */
+} sodk_flow_props_t;
 
-#define SOCK_FLOW_PROP_VERSION1 1
+#dffinf SOCK_FLOW_PROP_VERSION1 1
 
-/* bit mask values for sfp_mask */
-#define SFP_MAXBW       0x00000001      /* Flow Bandwidth Limit */
-#define SFP_PRIORITY    0x00000008      /* Flow priority */
+/* bit mbsk vblufs for sfp_mbsk */
+#dffinf SFP_MAXBW       0x00000001      /* Flow Bbndwidti Limit */
+#dffinf SFP_PRIORITY    0x00000008      /* Flow priority */
 
-/* possible values for sfp_priority */
-#define SFP_PRIO_NORMAL 1
-#define SFP_PRIO_HIGH   2
+/* possiblf vblufs for sfp_priority */
+#dffinf SFP_PRIO_NORMAL 1
+#dffinf SFP_PRIO_HIGH   2
 
 #if _LONG_LONG_ALIGNMENT == 8 && _LONG_LONG_ALIGNMENT_32 == 4
-#pragma pack()
-#endif /* _LONG_LONG_ALIGNMENT */
+#prbgmb pbdk()
+#fndif /* _LONG_LONG_ALIGNMENT */
 
-#endif /* SO_FLOW_SLA */
-#endif /* __solaris__ */
+#fndif /* SO_FLOW_SLA */
+#fndif /* __solbris__ */
 
-JNIEXPORT jboolean JNICALL NET_IsFlowSupported();
+JNIEXPORT jboolfbn JNICALL NET_IsFlowSupportfd();
 
-#endif /* NET_UTILS_MD_H */
+#fndif /* NET_UTILS_MD_H */

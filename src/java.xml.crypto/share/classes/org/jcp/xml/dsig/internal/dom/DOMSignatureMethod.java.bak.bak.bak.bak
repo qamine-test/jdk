@@ -1,0 +1,437 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMSignbturfMfthod.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMfthodPbrbmftfrSpfd;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.DSAKfy;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import org.w3d.dom.Elfmfnt;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.implfmfntbtions.SignbturfECDSA;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.JbvbUtils;
+import org.jdp.xml.dsig.intfrnbl.SignfrOutputStrfbm;
+
+/**
+ * DOM-bbsfd bbstrbdt implfmfntbtion of SignbturfMfthod.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid bbstrbdt dlbss DOMSignbturfMfthod fxtfnds AbstrbdtDOMSignbturfMfthod {
+
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr("org.jdp.xml.dsig.intfrnbl.dom");
+
+    privbtf SignbturfMfthodPbrbmftfrSpfd pbrbms;
+    privbtf Signbturf signbturf;
+
+    // sff RFC 4051 for thfsf blgorithm dffinitions
+    stbtid finbl String RSA_SHA256 =
+        "http://www.w3.org/2001/04/xmldsig-morf#rsb-shb256";
+    stbtid finbl String RSA_SHA384 =
+        "http://www.w3.org/2001/04/xmldsig-morf#rsb-shb384";
+    stbtid finbl String RSA_SHA512 =
+        "http://www.w3.org/2001/04/xmldsig-morf#rsb-shb512";
+    stbtid finbl String ECDSA_SHA1 =
+        "http://www.w3.org/2001/04/xmldsig-morf#fddsb-shb1";
+    stbtid finbl String ECDSA_SHA256 =
+        "http://www.w3.org/2001/04/xmldsig-morf#fddsb-shb256";
+    stbtid finbl String ECDSA_SHA384 =
+        "http://www.w3.org/2001/04/xmldsig-morf#fddsb-shb384";
+    stbtid finbl String ECDSA_SHA512 =
+        "http://www.w3.org/2001/04/xmldsig-morf#fddsb-shb512";
+    stbtid finbl String DSA_SHA256 =
+        "http://www.w3.org/2009/xmldsig11#dsb-shb256";
+
+    /**
+     * Crfbtfs b <dodf>DOMSignbturfMfthod</dodf>.
+     *
+     * @pbrbm pbrbms thf blgorithm-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf pbrbmftfrs brf not
+     *    bppropribtf for this signbturf mfthod
+     */
+    DOMSignbturfMfthod(AlgorithmPbrbmftfrSpfd pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        if (pbrbms != null &&
+            !(pbrbms instbndfof SignbturfMfthodPbrbmftfrSpfd)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("pbrbms must bf of typf SignbturfMfthodPbrbmftfrSpfd");
+        }
+        dhfdkPbrbms((SignbturfMfthodPbrbmftfrSpfd)pbrbms);
+        this.pbrbms = (SignbturfMfthodPbrbmftfrSpfd)pbrbms;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMSignbturfMfthod</dodf> from bn flfmfnt. This dtor
+     * invokfs thf {@link #unmbrshblPbrbms unmbrshblPbrbms} mfthod to
+     * unmbrshbl bny blgorithm-spfdifid input pbrbmftfrs.
+     *
+     * @pbrbm smElfm b SignbturfMfthod flfmfnt
+     */
+    DOMSignbturfMfthod(Elfmfnt smElfm) throws MbrshblExdfption {
+        Elfmfnt pbrbmsElfm = DOMUtils.gftFirstChildElfmfnt(smElfm);
+        if (pbrbmsElfm != null) {
+            pbrbms = unmbrshblPbrbms(pbrbmsElfm);
+        }
+        try {
+            dhfdkPbrbms(pbrbms);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+            throw nfw MbrshblExdfption(ibpf);
+        }
+    }
+
+    stbtid SignbturfMfthod unmbrshbl(Elfmfnt smElfm) throws MbrshblExdfption {
+        String blg = DOMUtils.gftAttributfVbluf(smElfm, "Algorithm");
+        if (blg.fqubls(SignbturfMfthod.RSA_SHA1)) {
+            rfturn nfw SHA1withRSA(smElfm);
+        } flsf if (blg.fqubls(RSA_SHA256)) {
+            rfturn nfw SHA256withRSA(smElfm);
+        } flsf if (blg.fqubls(RSA_SHA384)) {
+            rfturn nfw SHA384withRSA(smElfm);
+        } flsf if (blg.fqubls(RSA_SHA512)) {
+            rfturn nfw SHA512withRSA(smElfm);
+        } flsf if (blg.fqubls(SignbturfMfthod.DSA_SHA1)) {
+            rfturn nfw SHA1withDSA(smElfm);
+        } flsf if (blg.fqubls(DSA_SHA256)) {
+            rfturn nfw SHA256withDSA(smElfm);
+        } flsf if (blg.fqubls(ECDSA_SHA1)) {
+            rfturn nfw SHA1withECDSA(smElfm);
+        } flsf if (blg.fqubls(ECDSA_SHA256)) {
+            rfturn nfw SHA256withECDSA(smElfm);
+        } flsf if (blg.fqubls(ECDSA_SHA384)) {
+            rfturn nfw SHA384withECDSA(smElfm);
+        } flsf if (blg.fqubls(ECDSA_SHA512)) {
+            rfturn nfw SHA512withECDSA(smElfm);
+        } flsf if (blg.fqubls(SignbturfMfthod.HMAC_SHA1)) {
+            rfturn nfw DOMHMACSignbturfMfthod.SHA1(smElfm);
+        } flsf if (blg.fqubls(DOMHMACSignbturfMfthod.HMAC_SHA256)) {
+            rfturn nfw DOMHMACSignbturfMfthod.SHA256(smElfm);
+        } flsf if (blg.fqubls(DOMHMACSignbturfMfthod.HMAC_SHA384)) {
+            rfturn nfw DOMHMACSignbturfMfthod.SHA384(smElfm);
+        } flsf if (blg.fqubls(DOMHMACSignbturfMfthod.HMAC_SHA512)) {
+            rfturn nfw DOMHMACSignbturfMfthod.SHA512(smElfm);
+        } flsf {
+            throw nfw MbrshblExdfption
+                ("unsupportfd SignbturfMfthod blgorithm: " + blg);
+        }
+    }
+
+    publid finbl AlgorithmPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+        rfturn pbrbms;
+    }
+
+    boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
+                   XMLVblidbtfContfxt dontfxt)
+        throws InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption
+    {
+        if (kfy == null || si == null || sig == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        if (!(kfy instbndfof PublidKfy)) {
+            throw nfw InvblidKfyExdfption("kfy must bf PublidKfy");
+        }
+        if (signbturf == null) {
+            try {
+                Providfr p = (Providfr)dontfxt.gftPropfrty
+                    ("org.jdp.xml.dsig.intfrnbl.dom.SignbturfProvidfr");
+                signbturf = (p == null)
+                    ? Signbturf.gftInstbndf(gftJCAAlgorithm())
+                    : Signbturf.gftInstbndf(gftJCAAlgorithm(), p);
+            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                throw nfw XMLSignbturfExdfption(nsbf);
+            }
+        }
+        signbturf.initVfrify((PublidKfy)kfy);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Signbturf providfr:" + signbturf.gftProvidfr());
+            log.log(jbvb.util.logging.Lfvfl.FINE, "vfrifying with kfy: " + kfy);
+        }
+        ((DOMSignfdInfo)si).dbnonidblizf(dontfxt,
+                                         nfw SignfrOutputStrfbm(signbturf));
+
+        try {
+            Typf typf = gftAlgorithmTypf();
+            if (typf == Typf.DSA) {
+                int sizf = ((DSAKfy)kfy).gftPbrbms().gftQ().bitLfngth();
+                rfturn signbturf.vfrify(JbvbUtils.donvfrtDsbXMLDSIGtoASN1(sig,
+                                                                       sizf/8));
+            } flsf if (typf == Typf.ECDSA) {
+                rfturn signbturf.vfrify(SignbturfECDSA.donvfrtXMLDSIGtoASN1(sig));
+            } flsf {
+                rfturn signbturf.vfrify(sig);
+            }
+        } dbtdh (IOExdfption iof) {
+            throw nfw XMLSignbturfExdfption(iof);
+        }
+    }
+
+    bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
+        throws InvblidKfyExdfption, XMLSignbturfExdfption
+    {
+        if (kfy == null || si == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        if (!(kfy instbndfof PrivbtfKfy)) {
+            throw nfw InvblidKfyExdfption("kfy must bf PrivbtfKfy");
+        }
+        if (signbturf == null) {
+            try {
+                Providfr p = (Providfr)dontfxt.gftPropfrty
+                    ("org.jdp.xml.dsig.intfrnbl.dom.SignbturfProvidfr");
+                signbturf = (p == null)
+                    ? Signbturf.gftInstbndf(gftJCAAlgorithm())
+                    : Signbturf.gftInstbndf(gftJCAAlgorithm(), p);
+            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                throw nfw XMLSignbturfExdfption(nsbf);
+            }
+        }
+        signbturf.initSign((PrivbtfKfy)kfy);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Signbturf providfr:" + signbturf.gftProvidfr());
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Signing with kfy: " + kfy);
+        }
+
+        ((DOMSignfdInfo)si).dbnonidblizf(dontfxt,
+                                         nfw SignfrOutputStrfbm(signbturf));
+
+        try {
+            Typf typf = gftAlgorithmTypf();
+            if (typf == Typf.DSA) {
+                int sizf = ((DSAKfy)kfy).gftPbrbms().gftQ().bitLfngth();
+                rfturn JbvbUtils.donvfrtDsbASN1toXMLDSIG(signbturf.sign(),
+                                                         sizf/8);
+            } flsf if (typf == Typf.ECDSA) {
+                rfturn SignbturfECDSA.donvfrtASN1toXMLDSIG(signbturf.sign());
+            } flsf {
+                rfturn signbturf.sign();
+            }
+        } dbtdh (SignbturfExdfption sf) {
+            throw nfw XMLSignbturfExdfption(sf);
+        } dbtdh (IOExdfption iof) {
+            throw nfw XMLSignbturfExdfption(iof);
+        }
+    }
+
+    stbtid finbl dlbss SHA1withRSA fxtfnds DOMSignbturfMfthod {
+        SHA1withRSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA1withRSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn SignbturfMfthod.RSA_SHA1;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA1withRSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.RSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA256withRSA fxtfnds DOMSignbturfMfthod {
+        SHA256withRSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA256withRSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn RSA_SHA256;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA256withRSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.RSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA384withRSA fxtfnds DOMSignbturfMfthod {
+        SHA384withRSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA384withRSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn RSA_SHA384;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA384withRSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.RSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA512withRSA fxtfnds DOMSignbturfMfthod {
+        SHA512withRSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA512withRSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn RSA_SHA512;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA512withRSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.RSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA1withDSA fxtfnds DOMSignbturfMfthod {
+        SHA1withDSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA1withDSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn SignbturfMfthod.DSA_SHA1;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA1withDSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.DSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA256withDSA fxtfnds DOMSignbturfMfthod {
+        SHA256withDSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA256withDSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn DSA_SHA256;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA256withDSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.DSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA1withECDSA fxtfnds DOMSignbturfMfthod {
+        SHA1withECDSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA1withECDSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn ECDSA_SHA1;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA1withECDSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.ECDSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA256withECDSA fxtfnds DOMSignbturfMfthod {
+        SHA256withECDSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA256withECDSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn ECDSA_SHA256;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA256withECDSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.ECDSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA384withECDSA fxtfnds DOMSignbturfMfthod {
+        SHA384withECDSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA384withECDSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn ECDSA_SHA384;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA384withECDSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.ECDSA;
+        }
+    }
+
+    stbtid finbl dlbss SHA512withECDSA fxtfnds DOMSignbturfMfthod {
+        SHA512withECDSA(AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA512withECDSA(Elfmfnt dmElfm) throws MbrshblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgorithm() {
+            rfturn ECDSA_SHA512;
+        }
+        String gftJCAAlgorithm() {
+            rfturn "SHA512withECDSA";
+        }
+        Typf gftAlgorithmTypf() {
+            rfturn Typf.ECDSA;
+        }
+    }
+}

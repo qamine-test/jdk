@@ -1,0 +1,242 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts;
+
+import sun.rfflfdt.gfnfrids.trff.FifldTypfSignbturf;
+
+import jbvb.lbng.rfflfdt.MblformfdPbrbmftfrizfdTypfExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.TypfVbribblf;
+import jbvb.util.Arrbys;
+import jbvb.util.Objfdts;
+
+/** Implfmfnting dlbss for PbrbmftfrizfdTypf intfrfbdf. */
+
+publid dlbss PbrbmftfrizfdTypfImpl implfmfnts PbrbmftfrizfdTypf {
+    privbtf Typf[] bdtublTypfArgumfnts;
+    privbtf Clbss<?>  rbwTypf;
+    privbtf Typf   ownfrTypf;
+
+    privbtf PbrbmftfrizfdTypfImpl(Clbss<?> rbwTypf,
+                                  Typf[] bdtublTypfArgumfnts,
+                                  Typf ownfrTypf) {
+        this.bdtublTypfArgumfnts = bdtublTypfArgumfnts;
+        this.rbwTypf             = rbwTypf;
+        this.ownfrTypf = (ownfrTypf != null) ? ownfrTypf : rbwTypf.gftDfdlbringClbss();
+        vblidbtfConstrudtorArgumfnts();
+    }
+
+    privbtf void vblidbtfConstrudtorArgumfnts() {
+        TypfVbribblf<?>[] formbls = rbwTypf.gftTypfPbrbmftfrs();
+        // dhfdk dorrfdt brity of bdtubl typf brgs
+        if (formbls.lfngth != bdtublTypfArgumfnts.lfngth){
+            throw nfw MblformfdPbrbmftfrizfdTypfExdfption();
+        }
+        for (int i = 0; i < bdtublTypfArgumfnts.lfngth; i++) {
+            // dhfdk bdtubls bgbinst formbls' bounds
+        }
+    }
+
+    /**
+     * Stbtid fbdtory. Givfn b (gfnfrid) dlbss, bdtubl typf brgumfnts
+     * bnd bn ownfr typf, drfbtfs b pbrbmftfrizfd typf.
+     * This dlbss dbn bf instbntibtfd with b b rbw typf thbt dofs not
+     * rfprfsfnt b gfnfrid typf, providfd thf list of bdtubl typf
+     * brgumfnts is fmpty.
+     * If thf ownfrTypf brgumfnt is null, thf dfdlbring dlbss of thf
+     * rbw typf is usfd bs thf ownfr typf.
+     * <p> This mfthod throws b MblformfdPbrbmftfrizfdTypfExdfption
+     * undfr thf following dirdumstbndfs:
+     * If thf numbfr of bdtubl typf brgumfnts (i.f., thf sizf of thf
+     * brrby <tt>typfArgs</tt>) dofs not dorrfspond to thf numbfr of
+     * formbl typf brgumfnts.
+     * If bny of thf bdtubl typf brgumfnts is not bn instbndf of thf
+     * bounds on thf dorrfsponding formbl.
+     * @pbrbm rbwTypf thf Clbss rfprfsfnting thf gfnfrid typf dfdlbrbtion bfing
+     * instbntibtfd
+     * @pbrbm bdtublTypfArgumfnts - b (possibly fmpty) brrby of typfs
+     * rfprfsfnting thf bdtubl typf brgumfnts to thf pbrbmftfrizfd typf
+     * @pbrbm ownfrTypf - thf fndlosing typf, if known.
+     * @rfturn An instbndf of <tt>PbrbmftfrizfdTypf</tt>
+     * @throws MblformfdPbrbmftfrizfdTypfExdfption - if thf instbntibtion
+     * is invblid
+     */
+    publid stbtid PbrbmftfrizfdTypfImpl mbkf(Clbss<?> rbwTypf,
+                                             Typf[] bdtublTypfArgumfnts,
+                                             Typf ownfrTypf) {
+        rfturn nfw PbrbmftfrizfdTypfImpl(rbwTypf, bdtublTypfArgumfnts,
+                                         ownfrTypf);
+    }
+
+
+    /**
+     * Rfturns bn brrby of <tt>Typf</tt> objfdts rfprfsfnting thf bdtubl typf
+     * brgumfnts to this typf.
+     *
+     * <p>Notf thbt in somf dbsfs, thf rfturnfd brrby bf fmpty. This dbn oddur
+     * if this typf rfprfsfnts b non-pbrbmftfrizfd typf nfstfd within
+     * b pbrbmftfrizfd typf.
+     *
+     * @rfturn bn brrby of <tt>Typf</tt> objfdts rfprfsfnting thf bdtubl typf
+     *     brgumfnts to this typf
+     * @throws <tt>TypfNotPrfsfntExdfption</tt> if bny of thf
+     *     bdtubl typf brgumfnts rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @throws <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if bny of thf
+     *     bdtubl typf pbrbmftfrs rfffr to b pbrbmftfrizfd typf thbt dbnnot
+     *     bf instbntibtfd for bny rfbson
+     * @sindf 1.5
+     */
+    publid Typf[] gftAdtublTypfArgumfnts() {
+        rfturn bdtublTypfArgumfnts.dlonf();
+    }
+
+    /**
+     * Rfturns thf <tt>Typf</tt> objfdt rfprfsfnting thf dlbss or intfrfbdf
+     * thbt dfdlbrfd this typf.
+     *
+     * @rfturn thf <tt>Typf</tt> objfdt rfprfsfnting thf dlbss or intfrfbdf
+     *     thbt dfdlbrfd this typf
+     */
+    publid Clbss<?> gftRbwTypf() {
+        rfturn rbwTypf;
+    }
+
+
+    /**
+     * Rfturns b <tt>Typf</tt> objfdt rfprfsfnting thf typf thbt this typf
+     * is b mfmbfr of.  For fxbmplf, if this typf is <tt>O<T>.I<S></tt>,
+     * rfturn b rfprfsfntbtion of <tt>O<T></tt>.
+     *
+     * <p>If this typf is b top-lfvfl typf, <tt>null</tt> is rfturnfd.
+     *
+     * @rfturn b <tt>Typf</tt> objfdt rfprfsfnting thf typf thbt
+     *     this typf is b mfmbfr of. If this typf is b top-lfvfl typf,
+     *     <tt>null</tt> is rfturnfd
+     * @throws <tt>TypfNotPrfsfntExdfption</tt> if thf ownfr typf
+     *     rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @throws <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if thf ownfr typf
+     *     rfffrs to b pbrbmftfrizfd typf thbt dbnnot bf instbntibtfd
+     *     for bny rfbson
+     *
+     */
+    publid Typf gftOwnfrTypf() {
+        rfturn ownfrTypf;
+    }
+
+    /*
+     * From thf JbvbDod for jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf
+     * "Instbndfs of dlbssfs thbt implfmfnt this intfrfbdf must
+     * implfmfnt bn fqubls() mfthod thbt fqubtfs bny two instbndfs
+     * thbt shbrf thf sbmf gfnfrid typf dfdlbrbtion bnd hbvf fqubl
+     * typf pbrbmftfrs."
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof PbrbmftfrizfdTypf) {
+            // Chfdk thbt informbtion is fquivblfnt
+            PbrbmftfrizfdTypf thbt = (PbrbmftfrizfdTypf) o;
+
+            if (this == thbt)
+                rfturn truf;
+
+            Typf thbtOwnfr   = thbt.gftOwnfrTypf();
+            Typf thbtRbwTypf = thbt.gftRbwTypf();
+
+            if (fblsf) { // Dfbugging
+                boolfbn ownfrEqublity = (ownfrTypf == null ?
+                                         thbtOwnfr == null :
+                                         ownfrTypf.fqubls(thbtOwnfr));
+                boolfbn rbwEqublity = (rbwTypf == null ?
+                                       thbtRbwTypf == null :
+                                       rbwTypf.fqubls(thbtRbwTypf));
+
+                boolfbn typfArgEqublity = Arrbys.fqubls(bdtublTypfArgumfnts, // bvoid dlonf
+                                                        thbt.gftAdtublTypfArgumfnts());
+                for (Typf t : bdtublTypfArgumfnts) {
+                    Systfm.out.printf("\t\t%s%s%n", t, t.gftClbss());
+                }
+
+                Systfm.out.printf("\townfr %s\trbw %s\ttypfArg %s%n",
+                                  ownfrEqublity, rbwEqublity, typfArgEqublity);
+                rfturn ownfrEqublity && rbwEqublity && typfArgEqublity;
+            }
+
+            rfturn
+                Objfdts.fqubls(ownfrTypf, thbtOwnfr) &&
+                Objfdts.fqubls(rbwTypf, thbtRbwTypf) &&
+                Arrbys.fqubls(bdtublTypfArgumfnts, // bvoid dlonf
+                              thbt.gftAdtublTypfArgumfnts());
+        } flsf
+            rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn
+            Arrbys.hbshCodf(bdtublTypfArgumfnts) ^
+            Objfdts.hbshCodf(ownfrTypf) ^
+            Objfdts.hbshCodf(rbwTypf);
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        if (ownfrTypf != null) {
+            if (ownfrTypf instbndfof Clbss)
+                sb.bppfnd(((Clbss)ownfrTypf).gftNbmf());
+            flsf
+                sb.bppfnd(ownfrTypf.toString());
+
+            sb.bppfnd(".");
+
+            if (ownfrTypf instbndfof PbrbmftfrizfdTypfImpl) {
+                // Find simplf nbmf of nfstfd typf by rfmoving thf
+                // shbrfd prffix with ownfr.
+                sb.bppfnd(rbwTypf.gftNbmf().rfplbdf( ((PbrbmftfrizfdTypfImpl)ownfrTypf).rbwTypf.gftNbmf() + "$",
+                                         ""));
+            } flsf
+                sb.bppfnd(rbwTypf.gftNbmf());
+        } flsf
+            sb.bppfnd(rbwTypf.gftNbmf());
+
+        if (bdtublTypfArgumfnts != null &&
+            bdtublTypfArgumfnts.lfngth > 0) {
+            sb.bppfnd("<");
+            boolfbn first = truf;
+            for(Typf t: bdtublTypfArgumfnts) {
+                if (!first)
+                    sb.bppfnd(", ");
+                sb.bppfnd(t.gftTypfNbmf());
+                first = fblsf;
+            }
+            sb.bppfnd(">");
+        }
+
+        rfturn sb.toString();
+    }
+}

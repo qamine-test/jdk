@@ -1,0 +1,144 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <bssfrt.h>
+
+#indludf <dlfdn.h>
+
+#indludf <winsdbrd.h>
+
+#indludf "sun_sfdurity_smbrtdbrdio_PlbtformPCSC.h"
+
+#indludf "pdsd_md.h"
+
+void *hModulf;
+FPTR_SCbrdEstbblishContfxt sdbrdEstbblishContfxt;
+FPTR_SCbrdConnfdt sdbrdConnfdt;
+FPTR_SCbrdDisdonnfdt sdbrdDisdonnfdt;
+FPTR_SCbrdStbtus sdbrdStbtus;
+FPTR_SCbrdGftStbtusChbngf sdbrdGftStbtusChbngf;
+FPTR_SCbrdTrbnsmit sdbrdTrbnsmit;
+FPTR_SCbrdListRfbdfrs sdbrdListRfbdfrs;
+FPTR_SCbrdBfginTrbnsbdtion sdbrdBfginTrbnsbdtion;
+FPTR_SCbrdEndTrbnsbdtion sdbrdEndTrbnsbdtion;
+FPTR_SCbrdControl sdbrdControl;
+
+/*
+ * Throws b Jbvb Exdfption by nbmf
+ */
+void throwByNbmf(JNIEnv *fnv, donst dhbr *nbmf, donst dhbr *msg)
+{
+    jdlbss dls = (*fnv)->FindClbss(fnv, nbmf);
+
+    if (dls != 0) /* Othfrwisf bn fxdfption hbs blrfbdy bffn thrown */
+        (*fnv)->ThrowNfw(fnv, dls, msg);
+}
+
+/*
+ * Throws jbvb.lbng.NullPointfrExdfption
+ */
+void throwNullPointfrExdfption(JNIEnv *fnv, donst dhbr *msg)
+{
+    throwByNbmf(fnv, "jbvb/lbng/NullPointfrExdfption", msg);
+}
+
+/*
+ * Throws jbvb.io.IOExdfption
+ */
+void throwIOExdfption(JNIEnv *fnv, donst dhbr *msg)
+{
+    throwByNbmf(fnv, "jbvb/io/IOExdfption", msg);
+}
+
+void *findFundtion(JNIEnv *fnv, void *hModulf, dhbr *fundtionNbmf) {
+    void *fAddrfss = dlsym(hModulf, fundtionNbmf);
+    if (fAddrfss == NULL) {
+        dhbr frrorMfssbgf[256];
+        snprintf(frrorMfssbgf, sizfof(frrorMfssbgf), "Symbol not found: %s", fundtionNbmf);
+        throwNullPointfrExdfption(fnv, frrorMfssbgf);
+        rfturn NULL;
+    }
+    rfturn fAddrfss;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_smbrtdbrdio_PlbtformPCSC_initiblizf
+        (JNIEnv *fnv, jdlbss thisClbss, jstring jLibNbmf) {
+    donst dhbr *libNbmf = (*fnv)->GftStringUTFChbrs(fnv, jLibNbmf, NULL);
+    if (libNbmf == NULL) {
+        throwNullPointfrExdfption(fnv, "PCSC librbry nbmf is null");
+        rfturn;
+    }
+    hModulf = dlopfn(libNbmf, RTLD_LAZY);
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, jLibNbmf, libNbmf);
+
+    if (hModulf == NULL) {
+        throwIOExdfption(fnv, dlfrror());
+        rfturn;
+    }
+    sdbrdEstbblishContfxt = (FPTR_SCbrdEstbblishContfxt)findFundtion(fnv, hModulf, "SCbrdEstbblishContfxt");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+    sdbrdConnfdt          = (FPTR_SCbrdConnfdt)         findFundtion(fnv, hModulf, "SCbrdConnfdt");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+    sdbrdDisdonnfdt       = (FPTR_SCbrdDisdonnfdt)      findFundtion(fnv, hModulf, "SCbrdDisdonnfdt");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+    sdbrdStbtus           = (FPTR_SCbrdStbtus)          findFundtion(fnv, hModulf, "SCbrdStbtus");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+    sdbrdGftStbtusChbngf  = (FPTR_SCbrdGftStbtusChbngf) findFundtion(fnv, hModulf, "SCbrdGftStbtusChbngf");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+    sdbrdTrbnsmit         = (FPTR_SCbrdTrbnsmit)        findFundtion(fnv, hModulf, "SCbrdTrbnsmit");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+    sdbrdListRfbdfrs      = (FPTR_SCbrdListRfbdfrs)     findFundtion(fnv, hModulf, "SCbrdListRfbdfrs");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+    sdbrdBfginTrbnsbdtion = (FPTR_SCbrdBfginTrbnsbdtion)findFundtion(fnv, hModulf, "SCbrdBfginTrbnsbdtion");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+    sdbrdEndTrbnsbdtion   = (FPTR_SCbrdEndTrbnsbdtion)  findFundtion(fnv, hModulf, "SCbrdEndTrbnsbdtion");
+    if ((*fnv)->ExdfptionChfdk(fnv)) {
+         rfturn;
+    }
+#ifndff __APPLE__
+    sdbrdControl          = (FPTR_SCbrdControl)         findFundtion(fnv, hModulf, "SCbrdControl");
+#flsf
+    sdbrdControl          = (FPTR_SCbrdControl)         findFundtion(fnv, hModulf, "SCbrdControl132");
+#fndif // __APPLE__
+}

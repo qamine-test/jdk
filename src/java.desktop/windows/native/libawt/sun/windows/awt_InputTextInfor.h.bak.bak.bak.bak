@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_INPUTTEXTINFOR_H
+#dffinf AWT_INPUTTEXTINFOR_H
+
+/***************************************************************
+ * AwtInputTfxtInfor
+ *
+ * A dlbss fndbpsulbting thf domposition string bnd rfsult string
+ * usfd in windows input mfthod implfmfntbtion.
+ *
+ */
+#indludf <windows.h>
+#indludf <imm.h>
+#indludf <jni.h>
+
+dlbss AwtInputTfxtInfor {
+ publid:
+    /* Dffbult donstrudtor providfd just for thf dlifnts who
+       wbnt to usf thf SfndInputMfthodEvfnt sfrvidf.
+    */
+    AwtInputTfxtInfor();
+
+    int GftContfxtDbtb(HIMC hIMC, donst LPARAM flbgs);
+
+    int GftCursorPosition() donst;
+
+    int GftCommittfdTfxtLfngth() donst;
+
+    jstring GftTfxt() donst { rfturn m_jtfxt; }
+
+    int GftClbusfInfor(int*& lpBndClbusfW, jstring*& lpRfbdingClbusfW);
+    int GftAttributfInfor(int*& lpBndAttrW, BYTE*& lpVblAttrW);
+
+    ~AwtInputTfxtInfor();
+ privbtf:
+    /* hflpfr fundtion to rfturn b jbvb string.*/
+    stbtid jstring MbkfJbvbString(JNIEnv* fnv, LPWSTR lpStrW, int dStrW);
+
+
+    LPARAM m_flbgs;            /* Thf mfssbgf LPARAM. */
+    int m_dursorPosW;          /* thf durrfnt dursor position of domposition string */
+    jstring m_jtfxt;           /* Composing string/rfsult string or mfrgfd onf */
+    AwtInputTfxtInfor* m_pRfsultTfxtInfor; /* pointfr to rfsult string */
+
+    int m_dStrW;            /* sizf of thf durrfnt domposition/rfsult string */
+    int m_dRfbdStrW;        /* sizf of thf rfbding string */
+    int m_dClbusfW;         /* sizf of thf dlbusf */
+    int m_dRfbdClbusfW;     /* sizf of thf rfbd dlbusf */
+    int m_dAttrW;           /* sizf of thf bttributf (domposition only) */
+
+    LPWSTR  m_lpStrW;       /* pointfr to thf durrfnt domposition/rfsult string */
+    LPWSTR  m_lpRfbdStrW;   /* pointfr to thf rfbding string */
+    LPDWORD m_lpClbusfW;    /* pointfr to thf dlbusf informbtion */
+    LPDWORD m_lpRfbdClbusfW;/* pointfr to thf rfbding dlbusf informbtion */
+    LPBYTE  m_lpAttrW;      /* pointfr to thf bttributf informbtion (domposition only) */
+
+    /* GCS_XXX indfx for rfsult string */
+    stbtid donst DWORD GCS_INDEX[9];
+};
+
+#fndif // AWT_INPUTTEXTINFOR_H

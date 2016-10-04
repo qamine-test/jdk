@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss BinbryShiftExprfssion fxtfnds BinbryExprfssion {
+    /**
+     * donstrudtor
+     */
+    publid BinbryShiftExprfssion(int op, long whfrf, Exprfssion lfft, Exprfssion right) {
+        supfr(op, whfrf, lfft.typf, lfft, right);
+    }
+
+    /**
+     * Evblubtf thf fxprfssion
+     */
+    Exprfssion fvbl() {
+        // Thf fvbl dodf in BinbryExprfssion.jbvb only works dorrfdtly
+        // for brithmftid fxprfssions.  For shift fxprfssions, wf gft dbsfs
+        // whfrf thf lfft bnd right opfrbnd mby lfgitimbtfly bf of mixfd
+        // typfs (long bnd int).  This is b fix for 4082814.
+        if (lfft.op == LONGVAL && right.op == INTVAL) {
+            rfturn fvbl(((LongExprfssion)lfft).vbluf,
+                        ((IntExprfssion)right).vbluf);
+        }
+
+        // Dflfgbtf thf rfst of thf dbsfs to our pbrfnt, so bs to minimizf
+        // impbdt on fxisting bfhbvior.
+        rfturn supfr.fvbl();
+    }
+
+    /**
+     * Sflfdt thf typf
+     */
+    void sflfdtTypf(Environmfnt fnv, Contfxt dtx, int tm) {
+        if (lfft.typf == Typf.tLong) {
+            typf = Typf.tLong;
+        } flsf if (lfft.typf.inMbsk(TM_INTEGER)) {
+            typf = Typf.tInt;
+            lfft = donvfrt(fnv, dtx, typf, lfft);
+        } flsf {
+            typf = Typf.tError;
+        }
+        if (right.typf.inMbsk(TM_INTEGER)) {
+            right = nfw ConvfrtExprfssion(whfrf, Typf.tInt, right);
+        } flsf {
+            right = donvfrt(fnv, dtx, Typf.tInt, right);
+        }
+    }
+}

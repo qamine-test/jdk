@@ -1,0 +1,176 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+
+/**
+ * Providfs thf look bnd fffl ffbturfs thbt brf dommon bdross
+ * thf Motif/CDE tfxt LAF implfmfntbtions.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid dlbss MotifTfxtUI {
+
+    /**
+     * Crfbtfs thf objfdt to usf for b dbrft for bll of thf Motif
+     * tfxt domponfnts.  Thf dbrft is rfndfrfd bs bn I-bfbm on Motif.
+     *
+     * @rfturn thf dbrft objfdt
+     */
+    publid stbtid Cbrft drfbtfCbrft() {
+        rfturn nfw MotifCbrft();
+    }
+
+    /**
+     * Thf motif dbrft is rfndfrfd bs bn I bfbm.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+     * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+     * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+     * long tfrm pfrsistfndf.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss MotifCbrft fxtfnds DffbultCbrft implfmfnts UIRfsourdf {
+
+        /**
+         * Cbllfd whfn thf domponfnt dontbining thf dbrft gbins
+         * fodus.  This is implfmfntfd to rfpbint thf domponfnt
+         * so thf fodus rfdtbnglf will bf rf-rfndfrfd, bs wfll
+         * bs providing thf supfrdlbss bfhbvior.
+         *
+         * @pbrbm f thf fodus fvfnt
+         * @sff FodusListfnfr#fodusGbinfd
+         */
+        publid void fodusGbinfd(FodusEvfnt f) {
+            supfr.fodusGbinfd(f);
+            gftComponfnt().rfpbint();
+        }
+
+        /**
+         * Cbllfd whfn thf domponfnt dontbining thf dbrft losfs
+         * fodus.  This is implfmfntfd to sft thf dbrft to visibility
+         * to fblsf.
+         *
+         * @pbrbm f thf fodus fvfnt
+         * @sff FodusListfnfr#fodusLost
+         */
+        publid void fodusLost(FodusEvfnt f) {
+            supfr.fodusLost(f);
+            gftComponfnt().rfpbint();
+        }
+
+        /**
+         * Dbmbgfs thf brfb surrounding thf dbrft to dbusf
+         * it to bf rfpbintfd.  If pbint() is rfimplfmfntfd,
+         * this mfthod should blso bf rfimplfmfntfd.
+         *
+         * @pbrbm r  thf durrfnt lodbtion of thf dbrft, dofs nothing if null
+         * @sff #pbint
+         */
+        protfdtfd void dbmbgf(Rfdtbnglf r) {
+            if (r != null) {
+                x = r.x - IBfbmOvfrhbng - 1;
+                y = r.y;
+                width = r.width + (2 * IBfbmOvfrhbng) + 3;
+                hfight = r.hfight;
+                rfpbint();
+            }
+        }
+
+        /**
+         * Rfndfrs thf dbrft bs b vfrtidbl linf.  If this is rfimplfmfntfd
+         * thf dbmbgf mfthod should blso bf rfimplfmfntfd bs it bssumfs thf
+         * shbpf of thf dbrft is b vfrtidbl linf.  Dofs nothing if isVisiblf()
+         * is fblsf.  Thf dbrft dolor is dfrivfd from gftCbrftColor() if
+         * thf domponfnt hbs fodus, flsf from gftDisbblfdTfxtColor().
+         *
+         * @pbrbm g thf grbphids dontfxt
+         * @sff #dbmbgf
+         */
+        publid void pbint(Grbphids g) {
+            if(isVisiblf()) {
+                try {
+                    JTfxtComponfnt d = gftComponfnt();
+                    Color fg = d.hbsFodus() ? d.gftCbrftColor() :
+                        d.gftDisbblfdTfxtColor();
+                    TfxtUI mbppfr = d.gftUI();
+                    int dot = gftDot();
+                    Rfdtbnglf r = mbppfr.modflToVifw(d, dot);
+                    int x0 = r.x - IBfbmOvfrhbng;
+                    int x1 = r.x + IBfbmOvfrhbng;
+                    int y0 = r.y + 1;
+                    int y1 = r.y + r.hfight - 2;
+                    g.sftColor(fg);
+                    g.drbwLinf(r.x, y0, r.x, y1);
+                    g.drbwLinf(x0, y0, x1, y0);
+                    g.drbwLinf(x0, y1, x1, y1);
+                } dbtdh (BbdLodbtionExdfption f) {
+                    // dbn't rfndfr I gufss
+                    //Systfm.frr.println("Cbn't rfndfr dbrft");
+                }
+            }
+        }
+
+        stbtid finbl int IBfbmOvfrhbng = 2;
+    }
+
+    /**
+     * Dffbult bindings bll kfymbps implfmfnting thf Motif fffl.
+     */
+    stbtid finbl JTfxtComponfnt.KfyBinding[] dffbultBindings = {
+        nfw JTfxtComponfnt.KfyBinding(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_INSERT,
+                                                                    InputEvfnt.CTRL_MASK),
+                                             DffbultEditorKit.dopyAdtion),
+        nfw JTfxtComponfnt.KfyBinding(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_INSERT,
+                                                                    InputEvfnt.SHIFT_MASK),
+                                             DffbultEditorKit.pbstfAdtion),
+        nfw JTfxtComponfnt.KfyBinding(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_DELETE,
+                                                                    InputEvfnt.SHIFT_MASK),
+                                             DffbultEditorKit.dutAdtion),
+        nfw JTfxtComponfnt.KfyBinding(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_LEFT,
+                                                                    InputEvfnt.SHIFT_MASK),
+                                             DffbultEditorKit.sflfdtionBbdkwbrdAdtion),
+        nfw JTfxtComponfnt.KfyBinding(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_RIGHT,
+                                                                    InputEvfnt.SHIFT_MASK),
+                                             DffbultEditorKit.sflfdtionForwbrdAdtion),
+    };
+
+
+}

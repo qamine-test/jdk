@@ -1,170 +1,170 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.transforms.params;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
 
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import jbvb.util.Sft;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffSft;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.transforms.TransformParam;
-import com.sun.org.apache.xml.internal.security.utils.ElementProxy;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * This Object serves as Content for the ds:Transforms for exclusive
- * Canonicalization.
+ * Tiis Objfdt sfrvfs bs Contfnt for tif ds:Trbnsforms for fxdlusivf
+ * Cbnonidblizbtion.
  * <BR />
- * It implements the {@link Element} interface
- * and can be used directly in a DOM tree.
+ * It implfmfnts tif {@link Elfmfnt} intfrfbdf
+ * bnd dbn bf usfd dirfdtly in b DOM trff.
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class InclusiveNamespaces extends ElementProxy implements TransformParam {
+publid dlbss IndlusivfNbmfspbdfs fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
 
-    /** Field _TAG_EC_INCLUSIVENAMESPACES */
-    public static final String _TAG_EC_INCLUSIVENAMESPACES =
-        "InclusiveNamespaces";
+    /** Fifld _TAG_EC_INCLUSIVENAMESPACES */
+    publid stbtid finbl String _TAG_EC_INCLUSIVENAMESPACES =
+        "IndlusivfNbmfspbdfs";
 
-    /** Field _ATT_EC_PREFIXLIST */
-    public static final String _ATT_EC_PREFIXLIST = "PrefixList";
+    /** Fifld _ATT_EC_PREFIXLIST */
+    publid stbtid finbl String _ATT_EC_PREFIXLIST = "PrffixList";
 
-    /** Field ExclusiveCanonicalizationNamespace */
-    public static final String ExclusiveCanonicalizationNamespace =
-        "http://www.w3.org/2001/10/xml-exc-c14n#";
+    /** Fifld ExdlusivfCbnonidblizbtionNbmfspbdf */
+    publid stbtid finbl String ExdlusivfCbnonidblizbtionNbmfspbdf =
+        "ittp://www.w3.org/2001/10/xml-fxd-d14n#";
 
     /**
-     * Constructor XPathContainer
+     * Construdtor XPbtiContbinfr
      *
-     * @param doc
-     * @param prefixList
+     * @pbrbm dod
+     * @pbrbm prffixList
      */
-    public InclusiveNamespaces(Document doc, String prefixList) {
-        this(doc, InclusiveNamespaces.prefixStr2Set(prefixList));
+    publid IndlusivfNbmfspbdfs(Dodumfnt dod, String prffixList) {
+        tiis(dod, IndlusivfNbmfspbdfs.prffixStr2Sft(prffixList));
     }
 
     /**
-     * Constructor InclusiveNamespaces
+     * Construdtor IndlusivfNbmfspbdfs
      *
-     * @param doc
-     * @param prefixes
+     * @pbrbm dod
+     * @pbrbm prffixfs
      */
-    public InclusiveNamespaces(Document doc, Set<String> prefixes) {
-        super(doc);
+    publid IndlusivfNbmfspbdfs(Dodumfnt dod, Sft<String> prffixfs) {
+        supfr(dod);
 
-        SortedSet<String> prefixList = null;
-        if (prefixes instanceof SortedSet<?>) {
-            prefixList = (SortedSet<String>)prefixes;
-        } else {
-            prefixList = new TreeSet<String>(prefixes);
+        SortfdSft<String> prffixList = null;
+        if (prffixfs instbndfof SortfdSft<?>) {
+            prffixList = (SortfdSft<String>)prffixfs;
+        } flsf {
+            prffixList = nfw TrffSft<String>(prffixfs);
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (String prefix : prefixList) {
-            if (prefix.equals("xmlns")) {
-                sb.append("#default ");
-            } else {
-                sb.append(prefix + " ");
+        StringBuildfr sb = nfw StringBuildfr();
+        for (String prffix : prffixList) {
+            if (prffix.fqubls("xmlns")) {
+                sb.bppfnd("#dffbult ");
+            } flsf {
+                sb.bppfnd(prffix + " ");
             }
         }
 
-        this.constructionElement.setAttributeNS(
-            null, InclusiveNamespaces._ATT_EC_PREFIXLIST, sb.toString().trim());
+        tiis.donstrudtionElfmfnt.sftAttributfNS(
+            null, IndlusivfNbmfspbdfs._ATT_EC_PREFIXLIST, sb.toString().trim());
     }
 
     /**
-     * Constructor InclusiveNamespaces
+     * Construdtor IndlusivfNbmfspbdfs
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public InclusiveNamespaces(Element element, String BaseURI)
-        throws XMLSecurityException {
-        super(element, BaseURI);
+    publid IndlusivfNbmfspbdfs(Elfmfnt flfmfnt, String BbsfURI)
+        tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Method getInclusiveNamespaces
+     * Mftiod gftIndlusivfNbmfspbdfs
      *
-     * @return The Inclusive Namespace string
+     * @rfturn Tif Indlusivf Nbmfspbdf string
      */
-    public String getInclusiveNamespaces() {
-        return this.constructionElement.getAttributeNS(null, InclusiveNamespaces._ATT_EC_PREFIXLIST);
+    publid String gftIndlusivfNbmfspbdfs() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(null, IndlusivfNbmfspbdfs._ATT_EC_PREFIXLIST);
     }
 
     /**
-     * Decodes the <code>inclusiveNamespaces</code> String and returns all
-     * selected namespace prefixes as a Set. The <code>#default</code>
-     * namespace token is represented as an empty namespace prefix
-     * (<code>"xmlns"</code>).
+     * Dfdodfs tif <dodf>indlusivfNbmfspbdfs</dodf> String bnd rfturns bll
+     * sflfdtfd nbmfspbdf prffixfs bs b Sft. Tif <dodf>#dffbult</dodf>
+     * nbmfspbdf tokfn is rfprfsfntfd bs bn fmpty nbmfspbdf prffix
+     * (<dodf>"xmlns"</dodf>).
      * <BR/>
-     * The String <code>inclusiveNamespaces=" xenc    ds #default"</code>
-     * is returned as a Set containing the following Strings:
+     * Tif String <dodf>indlusivfNbmfspbdfs=" xfnd    ds #dffbult"</dodf>
+     * is rfturnfd bs b Sft dontbining tif following Strings:
      * <UL>
-     * <LI><code>xmlns</code></LI>
-     * <LI><code>xenc</code></LI>
-     * <LI><code>ds</code></LI>
+     * <LI><dodf>xmlns</dodf></LI>
+     * <LI><dodf>xfnd</dodf></LI>
+     * <LI><dodf>ds</dodf></LI>
      * </UL>
      *
-     * @param inclusiveNamespaces
-     * @return A set to string
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn A sft to string
      */
-    public static SortedSet<String> prefixStr2Set(String inclusiveNamespaces) {
-        SortedSet<String> prefixes = new TreeSet<String>();
+    publid stbtid SortfdSft<String> prffixStr2Sft(String indlusivfNbmfspbdfs) {
+        SortfdSft<String> prffixfs = nfw TrffSft<String>();
 
-        if ((inclusiveNamespaces == null) || (inclusiveNamespaces.length() == 0)) {
-            return prefixes;
+        if ((indlusivfNbmfspbdfs == null) || (indlusivfNbmfspbdfs.lfngti() == 0)) {
+            rfturn prffixfs;
         }
 
-        String[] tokens = inclusiveNamespaces.split("\\s");
-        for (String prefix : tokens) {
-            if (prefix.equals("#default")) {
-                prefixes.add("xmlns");
-            } else {
-                prefixes.add(prefix);
+        String[] tokfns = indlusivfNbmfspbdfs.split("\\s");
+        for (String prffix : tokfns) {
+            if (prffix.fqubls("#dffbult")) {
+                prffixfs.bdd("xmlns");
+            } flsf {
+                prffixfs.bdd(prffix);
             }
         }
 
-        return prefixes;
+        rfturn prffixfs;
     }
 
     /**
-     * Method getBaseNamespace
+     * Mftiod gftBbsfNbmfspbdf
      *
-     * @inheritDoc
+     * @inifritDod
      */
-    public String getBaseNamespace() {
-        return InclusiveNamespaces.ExclusiveCanonicalizationNamespace;
+    publid String gftBbsfNbmfspbdf() {
+        rfturn IndlusivfNbmfspbdfs.ExdlusivfCbnonidblizbtionNbmfspbdf;
     }
 
     /**
-     * Method getBaseLocalName
+     * Mftiod gftBbsfLodblNbmf
      *
-     * @inheritDoc
+     * @inifritDod
      */
-    public String getBaseLocalName() {
-        return InclusiveNamespaces._TAG_EC_INCLUSIVENAMESPACES;
+    publid String gftBbsfLodblNbmf() {
+        rfturn IndlusivfNbmfspbdfs._TAG_EC_INCLUSIVENAMESPACES;
     }
 }

@@ -1,0 +1,262 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosKfy;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buth.kfrbfros.KfyTbb;
+import jbvbx.sfdurity.buth.Subjfdt;
+
+import sun.sfdurity.krb5.Crfdfntibls;
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.krb5.KrbExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+
+/**
+ * Crfdfntibls of b kfrbfros bddfptor. A KfrbfrosPrindipbl objfdt (kp) is
+ * thf prindipbl. It dbn bf spfdififd bs thf sfrvfrPrindipbl brgumfnt
+ * in thf gftInstbndf() mfthod, or usfs only KfrbfrosPrindipbl in thf subjfdt.
+ * Othfrwisf, thf drfds objfdt is unbound bnd kp is null.
+ *
+ * Thf dlbss blso fndbpsulbtfs vbrious sfdrfts, whidh dbn bf:
+ *
+ *   1. Somf KfrbfrosKfys (gfnfrbtfd from pbssword)
+ *   2. Somf KfyTbbs (for b typidbl sfrvidf bbsfd on kfytbbs)
+ *   3. A TGT (for S4U2proxy fxtfnsion or usfr2usfr)
+ *
+ * Notf thbt somf sfdrfts dbn dofxist. For fxbmplf, b usfr2usfr sfrvidf
+ * dbn usf its kfytbb (or kfys) if thf dlifnt dbn suddfssfully obtbin b
+ * normbl sfrvidf tidkft, or it dbn usf thf TGT (bdtublly, thf sfssion kfy
+ * of thf TGT) if thf dlifnt dbn only bdquirf b sfrvidf tidkft
+ * of ENC-TKT-IN-SKEY stylf.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss SfrvidfCrfds {
+    // Thf prindipbl, or null if unbound
+    privbtf KfrbfrosPrindipbl kp;
+
+    // All prindipbls in thf subjfdt's prind sft
+    privbtf Sft<KfrbfrosPrindipbl> bllPrinds;
+
+    // All privbtf drfdfntibls thbt dbn bf usfd
+    privbtf List<KfyTbb> ktbbs;
+    privbtf List<KfrbfrosKfy> kk;
+    privbtf KfrbfrosTidkft tgt;
+
+    privbtf boolfbn dfstroyfd;
+
+    privbtf SfrvidfCrfds() {
+        // Mbkf surf this dlbss dbnnot bf instbntibtfd fxtfrnblly.
+    }
+
+    /**
+     * Crfbtfs b SfrvidfCrfds objfdt bbsfd on info in b Subjfdt for
+     * b givfn prindipbl nbmf (if spfdififd).
+     * @rfturn thf objfdt, or null if thfrf is no privbtf drfds for it
+     */
+    publid stbtid SfrvidfCrfds gftInstbndf(
+            Subjfdt subj, String sfrvfrPrindipbl) {
+
+        SfrvidfCrfds sd = nfw SfrvidfCrfds();
+
+        sd.bllPrinds =
+                subj.gftPrindipbls(KfrbfrosPrindipbl.dlbss);
+
+        // Compbtibility. A kfy implifs its own prindipbl
+        for (KfrbfrosKfy kfy: SubjfdtCombfr.findMbny(
+                subj, sfrvfrPrindipbl, null, KfrbfrosKfy.dlbss)) {
+            sd.bllPrinds.bdd(kfy.gftPrindipbl());
+        }
+
+        if (sfrvfrPrindipbl != null) {      // A nbmfd prindipbl
+            sd.kp = nfw KfrbfrosPrindipbl(sfrvfrPrindipbl);
+        } flsf {
+            // For dompbtibility rfbson, wf sft thf nbmf of dffbult prindipbl
+            // to thf "only possiblf" nbmf it dbn tbkf, whidh mfbns thfrf is
+            // only onf KfrbfrosPrindipbl bnd thfrf is no unbound kfytbbs
+            if (sd.bllPrinds.sizf() == 1) {
+                boolfbn hbsUnbound = fblsf;
+                for (KfyTbb ktbb: SubjfdtCombfr.findMbny(
+                        subj, null, null, KfyTbb.dlbss)) {
+                    if (!ktbb.isBound()) {
+                        hbsUnbound = truf;
+                        brfbk;
+                    }
+                }
+                if (!hbsUnbound) {
+                    sd.kp = sd.bllPrinds.itfrbtor().nfxt();
+                    sfrvfrPrindipbl = sd.kp.gftNbmf();
+                }
+            }
+        }
+
+        sd.ktbbs = SubjfdtCombfr.findMbny(
+                    subj, sfrvfrPrindipbl, null, KfyTbb.dlbss);
+        sd.kk = SubjfdtCombfr.findMbny(
+                    subj, sfrvfrPrindipbl, null, KfrbfrosKfy.dlbss);
+        sd.tgt = SubjfdtCombfr.find(
+                subj, null, sfrvfrPrindipbl, KfrbfrosTidkft.dlbss);
+        if (sd.ktbbs.isEmpty() && sd.kk.isEmpty() && sd.tgt == null) {
+            rfturn null;
+        }
+
+        sd.dfstroyfd = fblsf;
+
+        rfturn sd;
+    }
+
+    // dbn bf null
+    publid String gftNbmf() {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This objfdt is dfstroyfd");
+        }
+        rfturn kp == null ? null : kp.gftNbmf();
+    }
+
+    /**
+     * Gfts kfys for "somfonf". Usfd in 2 dbsfs:
+     * 1. By TLS bfdbusf it nffds to gft kfys bfforf dlifnt domfs in.
+     * 2. As b fbllbbdk in gftEKfys() bflow.
+     * This mfthod dbn still rfturn bn fmpty brrby.
+     */
+    publid KfrbfrosKfy[] gftKKfys() {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This objfdt is dfstroyfd");
+        }
+        KfrbfrosPrindipbl onf = kp;                 // nbmfd prindipbl
+        if (onf == null && !bllPrinds.isEmpty()) {  // or, b known prindipbl
+            onf = bllPrinds.itfrbtor().nfxt();
+        }
+        if (onf == null) {                          // Or, somf rbndom onf
+            for (KfyTbb ktbb: ktbbs) {
+                // Must bf unbound kfytbb, othfrwisf, bllPrinds is not fmpty
+                PrindipblNbmf pn =
+                        Krb5Util.snbpshotFromJbvbxKfyTbb(ktbb).gftOnfNbmf();
+                if (pn != null) {
+                    onf = nfw KfrbfrosPrindipbl(pn.gftNbmf());
+                    brfbk;
+                }
+            }
+        }
+        if (onf != null) {
+            rfturn gftKKfys(onf);
+        } flsf {
+            rfturn nfw KfrbfrosKfy[0];
+        }
+    }
+
+    /**
+     * Gft kkfys for b prindipbl,
+     * @pbrbm prind thf tbrgft nbmf initibtor rfqufsts. Not null.
+     * @rfturn kfys for thf prind, nfvfr null, might bf fmpty
+     */
+    publid KfrbfrosKfy[] gftKKfys(KfrbfrosPrindipbl prind) {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This objfdt is dfstroyfd");
+        }
+        ArrbyList<KfrbfrosKfy> kfys = nfw ArrbyList<>();
+        if (kp != null && !prind.fqubls(kp)) {      // nbmfd prindipbl
+            rfturn nfw KfrbfrosKfy[0];
+        }
+        for (KfrbfrosKfy k: kk) {
+            if (k.gftPrindipbl().fqubls(prind)) {
+                kfys.bdd(k);
+            }
+        }
+        for (KfyTbb ktbb: ktbbs) {
+            if (ktbb.gftPrindipbl() == null && ktbb.isBound()) {
+                // lfgbdy bound kfytbb. blthough wf don't know who
+                // thf bound prindipbl is, it must bf in bllPrinds
+                if (!bllPrinds.dontbins(prind)) {
+                    dontinuf;   // skip this lfgbdy bound kfytbb
+                }
+            }
+            for (KfrbfrosKfy k: ktbb.gftKfys(prind)) {
+                kfys.bdd(k);
+            }
+        }
+        rfturn kfys.toArrby(nfw KfrbfrosKfy[kfys.sizf()]);
+    }
+
+    /**
+     * Gfts EKfys for b prindipbl.
+     * @pbrbm prind thf tbrgft nbmf initibtor rfqufsts. Not null.
+     * @rfturn kfys for thf prind, nfvfr null, might bf fmpty
+     */
+    publid EndryptionKfy[] gftEKfys(PrindipblNbmf prind) {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This objfdt is dfstroyfd");
+        }
+        KfrbfrosKfy[] kkfys = gftKKfys(nfw KfrbfrosPrindipbl(prind.gftNbmf()));
+        if (kkfys.lfngth == 0) {
+            // Fbllbbdk: old JDK dofs not pfrform rfbl nbmf dhfdking. If thf
+            // bddfptor hbs host.sun.dom but initibtor rfqufsts for host,
+            // bs long bs thfir kfys mbtdh (i.f. kfys for onf dbn dfdrypt
+            // thf othfr's sfrvidf tidkft), thf buthfntidbtion is OK.
+            // Thfrf brf rfbl dustomfrs dfpfnding on this to usf difffrfnt
+            // nbmfs for b singlf sfrvidf.
+            kkfys = gftKKfys();
+        }
+        EndryptionKfy[] fkfys = nfw EndryptionKfy[kkfys.lfngth];
+        for (int i=0; i<fkfys.lfngth; i++) {
+            fkfys[i] =  nfw EndryptionKfy(
+                        kkfys[i].gftEndodfd(), kkfys[i].gftKfyTypf(),
+                        kkfys[i].gftVfrsionNumbfr());
+        }
+        rfturn fkfys;
+    }
+
+    publid Crfdfntibls gftInitCrfd() {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This objfdt is dfstroyfd");
+        }
+        if (tgt == null) {
+            rfturn null;
+        }
+        try {
+            rfturn Krb5Util.tidkftToCrfds(tgt);
+        } dbtdh (KrbExdfption | IOExdfption f) {
+            rfturn null;
+        }
+    }
+
+    publid void dfstroy() {
+        // Do not wipf out rfbl kfys bfdbusf thfy brf rfffrfndfs to thf
+        // priv drfds in subjfdt. Just mbkf it usflfss.
+        dfstroyfd = truf;
+        kp = null;
+        ktbbs.dlfbr();
+        kk.dlfbr();
+        tgt = null;
+    }
+}

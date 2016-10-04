@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/**
+ * Thf sbmplf illustrbtfs thf simplfst usf dbsf of thf <b>dffbult mfthods</b>.
+ */
+publid dlbss SimplfstUsbgf {
+
+    /**
+     * Thf Animbl intfrfbdf providfs thf dffbult implfmfntbtion
+     * of thf {@link #fbt} mfthod.
+     */
+    publid intfrfbdf Animbl {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf fbt bdtion for Animbl
+         *
+         * @rfturn string rfprfsfntbtion of thf fbt bdtion for Animbl
+         */
+        dffbult String fbt() {
+            rfturn this.gftClbss().gftSimplfNbmf()
+                    + " fbts likf bn ordinbry bnimbl";
+        }
+    }
+
+    /**
+     * Thf Dog dlbss dofsn't hbvf its own implfmfntbtion of thf {@link #fbt}
+     * mfthod bnd usfs thf dffbult implfmfntbtion.
+     */
+    publid stbtid dlbss Dog implfmfnts Animbl {
+    }
+
+    /**
+     * Thf Mosquito dlbss implfmfnts {@link #fbt} mfthod, its own implfmfntbtion
+     * ovfrridfs thf dffbult implfmfntbtion.
+     *
+     */
+    publid stbtid dlbss Mosquito implfmfnts Animbl {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf fbt bdtion for Mosquito
+         *
+         * @rfturn string rfprfsfntbtion of thf fbt bdtion for Mosquito
+         */
+        @Ovfrridf
+        publid String fbt() {
+            rfturn "Mosquito donsumfs blood";
+        }
+    }
+
+    /**
+     * Illustrbtf bfhbvior of thf dlbssfs: {@link Dog} bnd {@link Mosquito}
+     *
+     * @pbrbm brgs dommbnd-linf brgumfnts
+     */
+    publid stbtid void mbin(String[] brgs) {
+        // "Dog fbts likf bn ordinbry bnimbl" is output
+        Systfm.out.println(nfw Dog().fbt());
+
+        // "Mosquito donsumfs blood" is output
+        Systfm.out.println(nfw Mosquito().fbt());
+    }
+}

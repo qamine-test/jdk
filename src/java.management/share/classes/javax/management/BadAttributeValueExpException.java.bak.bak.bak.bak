@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+
+
+/**
+ * Thrown whfn bn invblid MBfbn bttributf is pbssfd to b qufry
+ * donstrudting mfthod.  This fxdfption is usfd intfrnblly by JMX
+ * during thf fvblubtion of b qufry.  Usfr dodf dofs not usublly
+ * sff it.
+ *
+ * @sindf 1.5
+ */
+publid dlbss BbdAttributfVblufExpExdfption fxtfnds Exdfption   {
+
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3105272988410493376L;
+
+    /**
+     * @sfribl A string rfprfsfntbtion of thf bttributf thbt originbtfd this fxdfption.
+     * for fxbmplf, thf string vbluf dbn bf thf rfturn of {@dodf bttributf.toString()}
+     */
+    privbtf Objfdt vbl;
+
+    /**
+     * Construdts b BbdAttributfVblufExpExdfption using thf spfdififd Objfdt to
+     * drfbtf thf toString() vbluf.
+     *
+     * @pbrbm vbl thf inbppropribtf vbluf.
+     */
+    publid BbdAttributfVblufExpExdfption (Objfdt vbl) {
+        this.vbl = vbl == null ? null : vbl.toString();
+    }
+
+
+    /**
+     * Rfturns thf string rfprfsfnting thf objfdt.
+     */
+    publid String toString()  {
+        rfturn "BbdAttributfVblufExdfption: " + vbl;
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld gf = ois.rfbdFiflds();
+        Objfdt vblObj = gf.gft("vbl", null);
+
+        if (vblObj == null) {
+            vbl = null;
+        } flsf if (vblObj instbndfof String) {
+            vbl= vblObj;
+        } flsf if (Systfm.gftSfdurityMbnbgfr() == null
+                || vblObj instbndfof Long
+                || vblObj instbndfof Intfgfr
+                || vblObj instbndfof Flobt
+                || vblObj instbndfof Doublf
+                || vblObj instbndfof Bytf
+                || vblObj instbndfof Short
+                || vblObj instbndfof Boolfbn) {
+            vbl = vblObj.toString();
+        } flsf { // thf sfriblizfd objfdt is from b vfrsion without JDK-8019292 fix
+            vbl = Systfm.idfntityHbshCodf(vblObj) + "@" + vblObj.gftClbss().gftNbmf();
+        }
+    }
+ }

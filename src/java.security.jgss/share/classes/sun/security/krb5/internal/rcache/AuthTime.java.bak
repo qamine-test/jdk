@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.rcache;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.rdbdif;
 
-import java.io.IOException;
-import java.nio.BufferUnderflowException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.channels.SeekableByteChannel;
-import java.nio.charset.StandardCharsets;
-import java.util.StringTokenizer;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.dibnnfls.SffkbblfBytfCibnnfl;
+import jbvb.nio.dibrsft.StbndbrdCibrsfts;
+import jbvb.util.StringTokfnizfr;
 
 /**
- * The class represents an old style replay cache entry. It is only used in
- * a dfl file.
+ * Tif dlbss rfprfsfnts bn old stylf rfplby dbdif fntry. It is only usfd in
+ * b dfl filf.
  *
- * @author Sun/Oracle
- * @author Yanni Zhang
+ * @butior Sun/Orbdlf
+ * @butior Ybnni Zibng
  */
-public class AuthTime {
-    final int ctime;
-    final int cusec;
-    final String client;
-    final String server;
+publid dlbss AutiTimf {
+    finbl int dtimf;
+    finbl int dusfd;
+    finbl String dlifnt;
+    finbl String sfrvfr;
 
     /**
-     * Constructs an <code>AuthTime</code>.
+     * Construdts bn <dodf>AutiTimf</dodf>.
      */
-    public AuthTime(String client, String server,
-            int ctime, int cusec) {
-        this.ctime = ctime;
-        this.cusec = cusec;
-        this.client = client;
-        this.server = server;
+    publid AutiTimf(String dlifnt, String sfrvfr,
+            int dtimf, int dusfd) {
+        tiis.dtimf = dtimf;
+        tiis.dusfd = dusfd;
+        tiis.dlifnt = dlifnt;
+        tiis.sfrvfr = sfrvfr;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%d/%06d/----/%s", ctime, cusec, client);
+    @Ovfrridf
+    publid String toString() {
+        rfturn String.formbt("%d/%06d/----/%s", dtimf, dusfd, dlifnt);
     }
 
-    // Methods used when saved in a dfl file. See DflCache.java
+    // Mftiods usfd wifn sbvfd in b dfl filf. Sff DflCbdif.jbvb
 
     /**
-     * Reads an LC style string from a channel, which is a int32 length
-     * plus a UTF-8 encoded string possibly ends with \0.
-     * @throws IOException if there is a format error
-     * @throws BufferUnderflowException if goes beyond the end
+     * Rfbds bn LC stylf string from b dibnnfl, wiidi is b int32 lfngti
+     * plus b UTF-8 fndodfd string possibly fnds witi \0.
+     * @tirows IOExdfption if tifrf is b formbt frror
+     * @tirows BufffrUndfrflowExdfption if gofs bfyond tif fnd
      */
-    private static String readStringWithLength(SeekableByteChannel chan)
-            throws IOException {
-        ByteBuffer bb = ByteBuffer.allocate(4);
-        bb.order(ByteOrder.nativeOrder());
-        chan.read(bb);
+    privbtf stbtid String rfbdStringWitiLfngti(SffkbblfBytfCibnnfl dibn)
+            tirows IOExdfption {
+        BytfBufffr bb = BytfBufffr.bllodbtf(4);
+        bb.ordfr(BytfOrdfr.nbtivfOrdfr());
+        dibn.rfbd(bb);
         bb.flip();
-        int len = bb.getInt();
-        if (len > 1024) {
-            // Memory attack? The string should be fairly short.
-            throw new IOException("Invalid string length");
+        int lfn = bb.gftInt();
+        if (lfn > 1024) {
+            // Mfmory bttbdk? Tif string siould bf fbirly siort.
+            tirow nfw IOExdfption("Invblid string lfngti");
         }
-        bb = ByteBuffer.allocate(len);
-        if (chan.read(bb) != len) {
-            throw new IOException("Not enough string");
+        bb = BytfBufffr.bllodbtf(lfn);
+        if (dibn.rfbd(bb) != lfn) {
+            tirow nfw IOExdfption("Not fnougi string");
         }
-        byte[] data = bb.array();
-        return (data[len-1] == 0)?
-                new String(data, 0, len-1, StandardCharsets.UTF_8):
-                new String(data, StandardCharsets.UTF_8);
+        bytf[] dbtb = bb.brrby();
+        rfturn (dbtb[lfn-1] == 0)?
+                nfw String(dbtb, 0, lfn-1, StbndbrdCibrsfts.UTF_8):
+                nfw String(dbtb, StbndbrdCibrsfts.UTF_8);
     }
 
     /**
-     * Reads an AuthTime or AuthTimeWithHash object from a channel.
-     * @throws IOException if there is a format error
-     * @throws BufferUnderflowException if goes beyond the end
+     * Rfbds bn AutiTimf or AutiTimfWitiHbsi objfdt from b dibnnfl.
+     * @tirows IOExdfption if tifrf is b formbt frror
+     * @tirows BufffrUndfrflowExdfption if gofs bfyond tif fnd
      */
-    public static AuthTime readFrom(SeekableByteChannel chan)
-            throws IOException {
-        String client = readStringWithLength(chan);
-        String server = readStringWithLength(chan);
-        ByteBuffer bb = ByteBuffer.allocate(8);
-        chan.read(bb);
-        bb.order(ByteOrder.nativeOrder());
-        int cusec = bb.getInt(0);
-        int ctime = bb.getInt(4);
-        if (client.isEmpty()) {
-            StringTokenizer st = new StringTokenizer(server, " :");
-            if (st.countTokens() != 6) {
-                throw new IOException("Incorrect rcache style");
+    publid stbtid AutiTimf rfbdFrom(SffkbblfBytfCibnnfl dibn)
+            tirows IOExdfption {
+        String dlifnt = rfbdStringWitiLfngti(dibn);
+        String sfrvfr = rfbdStringWitiLfngti(dibn);
+        BytfBufffr bb = BytfBufffr.bllodbtf(8);
+        dibn.rfbd(bb);
+        bb.ordfr(BytfOrdfr.nbtivfOrdfr());
+        int dusfd = bb.gftInt(0);
+        int dtimf = bb.gftInt(4);
+        if (dlifnt.isEmpty()) {
+            StringTokfnizfr st = nfw StringTokfnizfr(sfrvfr, " :");
+            if (st.dountTokfns() != 6) {
+                tirow nfw IOExdfption("Indorrfdt rdbdif stylf");
             }
-            st.nextToken();
-            String hash = st.nextToken();
-            st.nextToken();
-            client = st.nextToken();
-            st.nextToken();
-            server = st.nextToken();
-            return new AuthTimeWithHash(
-                    client, server, ctime, cusec, hash);
-        } else {
-            return new AuthTime(
-                    client, server, ctime, cusec);
+            st.nfxtTokfn();
+            String ibsi = st.nfxtTokfn();
+            st.nfxtTokfn();
+            dlifnt = st.nfxtTokfn();
+            st.nfxtTokfn();
+            sfrvfr = st.nfxtTokfn();
+            rfturn nfw AutiTimfWitiHbsi(
+                    dlifnt, sfrvfr, dtimf, dusfd, ibsi);
+        } flsf {
+            rfturn nfw AutiTimf(
+                    dlifnt, sfrvfr, dtimf, dusfd);
         }
     }
 
     /**
-     * Encodes to be used in a dfl file
+     * Endodfs to bf usfd in b dfl filf
      */
-    protected byte[] encode0(String cstring, String sstring) {
-        byte[] c = cstring.getBytes(StandardCharsets.UTF_8);;
-        byte[] s = sstring.getBytes(StandardCharsets.UTF_8);;
-        byte[] zero = new byte[1];
-        int len = 4 + c.length + 1 + 4 + s.length + 1 + 4 + 4;
-        ByteBuffer bb = ByteBuffer.allocate(len)
-                .order(ByteOrder.nativeOrder());
-        bb.putInt(c.length+1).put(c).put(zero)
-                .putInt(s.length+1).put(s).put(zero)
-                .putInt(cusec).putInt(ctime);
-        return bb.array();
+    protfdtfd bytf[] fndodf0(String dstring, String sstring) {
+        bytf[] d = dstring.gftBytfs(StbndbrdCibrsfts.UTF_8);;
+        bytf[] s = sstring.gftBytfs(StbndbrdCibrsfts.UTF_8);;
+        bytf[] zfro = nfw bytf[1];
+        int lfn = 4 + d.lfngti + 1 + 4 + s.lfngti + 1 + 4 + 4;
+        BytfBufffr bb = BytfBufffr.bllodbtf(lfn)
+                .ordfr(BytfOrdfr.nbtivfOrdfr());
+        bb.putInt(d.lfngti+1).put(d).put(zfro)
+                .putInt(s.lfngti+1).put(s).put(zfro)
+                .putInt(dusfd).putInt(dtimf);
+        rfturn bb.brrby();
     }
 
     /**
-     * Encodes to be used in a dfl file
-     * @param withHash useless here
+     * Endodfs to bf usfd in b dfl filf
+     * @pbrbm witiHbsi usflfss ifrf
      */
-    public byte[] encode(boolean withHash) {
-        return encode0(client, server);
+    publid bytf[] fndodf(boolfbn witiHbsi) {
+        rfturn fndodf0(dlifnt, sfrvfr);
     }
 }

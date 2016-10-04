@@ -1,322 +1,322 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio;
+pbdkbgf jbvbx.imbgfio;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.util.List;
-import javax.imageio.metadata.IIOMetadata;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.util.List;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
 
 /**
- * A simple container class to aggregate an image, a set of
- * thumbnail (preview) images, and an object representing metadata
- * associated with the image.
+ * A simplf dontbinfr dlbss to bggrfgbtf bn imbgf, b sft of
+ * tiumbnbil (prfvifw) imbgfs, bnd bn objfdt rfprfsfnting mftbdbtb
+ * bssodibtfd witi tif imbgf.
  *
- * <p> The image data may take the form of either a
- * <code>RenderedImage</code>, or a <code>Raster</code>.  Reader
- * methods that return an <code>IIOImage</code> will always return a
- * <code>BufferedImage</code> using the <code>RenderedImage</code>
- * reference.  Writer methods that accept an <code>IIOImage</code>
- * will always accept a <code>RenderedImage</code>, and may optionally
- * accept a <code>Raster</code>.
+ * <p> Tif imbgf dbtb mby tbkf tif form of fitifr b
+ * <dodf>RfndfrfdImbgf</dodf>, or b <dodf>Rbstfr</dodf>.  Rfbdfr
+ * mftiods tibt rfturn bn <dodf>IIOImbgf</dodf> will blwbys rfturn b
+ * <dodf>BufffrfdImbgf</dodf> using tif <dodf>RfndfrfdImbgf</dodf>
+ * rfffrfndf.  Writfr mftiods tibt bddfpt bn <dodf>IIOImbgf</dodf>
+ * will blwbys bddfpt b <dodf>RfndfrfdImbgf</dodf>, bnd mby optionblly
+ * bddfpt b <dodf>Rbstfr</dodf>.
  *
- * <p> Exactly one of <code>getRenderedImage</code> and
- * <code>getRaster</code> will return a non-<code>null</code> value.
- * Subclasses are responsible for ensuring this behavior.
+ * <p> Exbdtly onf of <dodf>gftRfndfrfdImbgf</dodf> bnd
+ * <dodf>gftRbstfr</dodf> will rfturn b non-<dodf>null</dodf> vbluf.
+ * Subdlbssfs brf rfsponsiblf for fnsuring tiis bfibvior.
  *
- * @see ImageReader#readAll(int, ImageReadParam)
- * @see ImageReader#readAll(java.util.Iterator)
- * @see ImageWriter#write(javax.imageio.metadata.IIOMetadata,
- *                        IIOImage, ImageWriteParam)
- * @see ImageWriter#write(IIOImage)
- * @see ImageWriter#writeToSequence(IIOImage, ImageWriteParam)
- * @see ImageWriter#writeInsert(int, IIOImage, ImageWriteParam)
+ * @sff ImbgfRfbdfr#rfbdAll(int, ImbgfRfbdPbrbm)
+ * @sff ImbgfRfbdfr#rfbdAll(jbvb.util.Itfrbtor)
+ * @sff ImbgfWritfr#writf(jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb,
+ *                        IIOImbgf, ImbgfWritfPbrbm)
+ * @sff ImbgfWritfr#writf(IIOImbgf)
+ * @sff ImbgfWritfr#writfToSfqufndf(IIOImbgf, ImbgfWritfPbrbm)
+ * @sff ImbgfWritfr#writfInsfrt(int, IIOImbgf, ImbgfWritfPbrbm)
  *
  */
-public class IIOImage {
+publid dlbss IIOImbgf {
 
     /**
-     * The <code>RenderedImage</code> being referenced.
+     * Tif <dodf>RfndfrfdImbgf</dodf> bfing rfffrfndfd.
      */
-    protected RenderedImage image;
+    protfdtfd RfndfrfdImbgf imbgf;
 
     /**
-     * The <code>Raster</code> being referenced.
+     * Tif <dodf>Rbstfr</dodf> bfing rfffrfndfd.
      */
-    protected Raster raster;
+    protfdtfd Rbstfr rbstfr;
 
     /**
-     * A <code>List</code> of <code>BufferedImage</code> thumbnails,
-     * or <code>null</code>.  Non-<code>BufferedImage</code> objects
-     * must not be stored in this <code>List</code>.
+     * A <dodf>List</dodf> of <dodf>BufffrfdImbgf</dodf> tiumbnbils,
+     * or <dodf>null</dodf>.  Non-<dodf>BufffrfdImbgf</dodf> objfdts
+     * must not bf storfd in tiis <dodf>List</dodf>.
      */
-    protected List<? extends BufferedImage> thumbnails = null;
+    protfdtfd List<? fxtfnds BufffrfdImbgf> tiumbnbils = null;
 
     /**
-     * An <code>IIOMetadata</code> object containing metadata
-     * associated with the image.
+     * An <dodf>IIOMftbdbtb</dodf> objfdt dontbining mftbdbtb
+     * bssodibtfd witi tif imbgf.
      */
-    protected IIOMetadata metadata;
+    protfdtfd IIOMftbdbtb mftbdbtb;
 
     /**
-     * Constructs an <code>IIOImage</code> containing a
-     * <code>RenderedImage</code>, and thumbnails and metadata
-     * associated with it.
+     * Construdts bn <dodf>IIOImbgf</dodf> dontbining b
+     * <dodf>RfndfrfdImbgf</dodf>, bnd tiumbnbils bnd mftbdbtb
+     * bssodibtfd witi it.
      *
-     * <p> All parameters are stored by reference.
+     * <p> All pbrbmftfrs brf storfd by rfffrfndf.
      *
-     * <p> The <code>thumbnails</code> argument must either be
-     * <code>null</code> or contain only <code>BufferedImage</code>
-     * objects.
+     * <p> Tif <dodf>tiumbnbils</dodf> brgumfnt must fitifr bf
+     * <dodf>null</dodf> or dontbin only <dodf>BufffrfdImbgf</dodf>
+     * objfdts.
      *
-     * @param image a <code>RenderedImage</code>.
-     * @param thumbnails a <code>List</code> of <code>BufferedImage</code>s,
-     * or <code>null</code>.
-     * @param metadata an <code>IIOMetadata</code> object, or
-     * <code>null</code>.
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf>.
+     * @pbrbm tiumbnbils b <dodf>List</dodf> of <dodf>BufffrfdImbgf</dodf>s,
+     * or <dodf>null</dodf>.
+     * @pbrbm mftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf>.
      *
-     * @exception IllegalArgumentException if <code>image</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
      */
-    public IIOImage(RenderedImage image,
-                    List<? extends BufferedImage> thumbnails,
-                    IIOMetadata metadata) {
-        if (image == null) {
-            throw new IllegalArgumentException("image == null!");
+    publid IIOImbgf(RfndfrfdImbgf imbgf,
+                    List<? fxtfnds BufffrfdImbgf> tiumbnbils,
+                    IIOMftbdbtb mftbdbtb) {
+        if (imbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption("imbgf == null!");
         }
-        this.image = image;
-        this.raster = null;
-        this.thumbnails = thumbnails;
-        this.metadata = metadata;
+        tiis.imbgf = imbgf;
+        tiis.rbstfr = null;
+        tiis.tiumbnbils = tiumbnbils;
+        tiis.mftbdbtb = mftbdbtb;
     }
 
     /**
-     * Constructs an <code>IIOImage</code> containing a
-     * <code>Raster</code>, and thumbnails and metadata
-     * associated with it.
+     * Construdts bn <dodf>IIOImbgf</dodf> dontbining b
+     * <dodf>Rbstfr</dodf>, bnd tiumbnbils bnd mftbdbtb
+     * bssodibtfd witi it.
      *
-     * <p> All parameters are stored by reference.
+     * <p> All pbrbmftfrs brf storfd by rfffrfndf.
      *
-     * @param raster a <code>Raster</code>.
-     * @param thumbnails a <code>List</code> of <code>BufferedImage</code>s,
-     * or <code>null</code>.
-     * @param metadata an <code>IIOMetadata</code> object, or
-     * <code>null</code>.
+     * @pbrbm rbstfr b <dodf>Rbstfr</dodf>.
+     * @pbrbm tiumbnbils b <dodf>List</dodf> of <dodf>BufffrfdImbgf</dodf>s,
+     * or <dodf>null</dodf>.
+     * @pbrbm mftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf>.
      *
-     * @exception IllegalArgumentException if <code>raster</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rbstfr</dodf> is
+     * <dodf>null</dodf>.
      */
-    public IIOImage(Raster raster,
-                    List<? extends BufferedImage> thumbnails,
-                    IIOMetadata metadata) {
-        if (raster == null) {
-            throw new IllegalArgumentException("raster == null!");
+    publid IIOImbgf(Rbstfr rbstfr,
+                    List<? fxtfnds BufffrfdImbgf> tiumbnbils,
+                    IIOMftbdbtb mftbdbtb) {
+        if (rbstfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("rbstfr == null!");
         }
-        this.raster = raster;
-        this.image = null;
-        this.thumbnails = thumbnails;
-        this.metadata = metadata;
+        tiis.rbstfr = rbstfr;
+        tiis.imbgf = null;
+        tiis.tiumbnbils = tiumbnbils;
+        tiis.mftbdbtb = mftbdbtb;
     }
 
     /**
-     * Returns the currently set <code>RenderedImage</code>, or
-     * <code>null</code> if only a <code>Raster</code> is available.
+     * Rfturns tif durrfntly sft <dodf>RfndfrfdImbgf</dodf>, or
+     * <dodf>null</dodf> if only b <dodf>Rbstfr</dodf> is bvbilbblf.
      *
-     * @return a <code>RenderedImage</code>, or <code>null</code>.
+     * @rfturn b <dodf>RfndfrfdImbgf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #setRenderedImage
+     * @sff #sftRfndfrfdImbgf
      */
-    public RenderedImage getRenderedImage() {
-        synchronized(this) {
-            return image;
+    publid RfndfrfdImbgf gftRfndfrfdImbgf() {
+        syndironizfd(tiis) {
+            rfturn imbgf;
         }
     }
 
     /**
-     * Sets the current <code>RenderedImage</code>.  The value is
-     * stored by reference.  Any existing <code>Raster</code> is
-     * discarded.
+     * Sfts tif durrfnt <dodf>RfndfrfdImbgf</dodf>.  Tif vbluf is
+     * storfd by rfffrfndf.  Any fxisting <dodf>Rbstfr</dodf> is
+     * disdbrdfd.
      *
-     * @param image a <code>RenderedImage</code>.
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf>.
      *
-     * @exception IllegalArgumentException if <code>image</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
      *
-     * @see #getRenderedImage
+     * @sff #gftRfndfrfdImbgf
      */
-    public void setRenderedImage(RenderedImage image) {
-        synchronized(this) {
-            if (image == null) {
-                throw new IllegalArgumentException("image == null!");
+    publid void sftRfndfrfdImbgf(RfndfrfdImbgf imbgf) {
+        syndironizfd(tiis) {
+            if (imbgf == null) {
+                tirow nfw IllfgblArgumfntExdfption("imbgf == null!");
             }
-            this.image = image;
-            this.raster = null;
+            tiis.imbgf = imbgf;
+            tiis.rbstfr = null;
         }
     }
 
     /**
-     * Returns <code>true</code> if this <code>IIOImage</code> stores
-     * a <code>Raster</code> rather than a <code>RenderedImage</code>.
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>IIOImbgf</dodf> storfs
+     * b <dodf>Rbstfr</dodf> rbtifr tibn b <dodf>RfndfrfdImbgf</dodf>.
      *
-     * @return <code>true</code> if a <code>Raster</code> is
-     * available.
+     * @rfturn <dodf>truf</dodf> if b <dodf>Rbstfr</dodf> is
+     * bvbilbblf.
      */
-    public boolean hasRaster() {
-        synchronized(this) {
-            return (raster != null);
+    publid boolfbn ibsRbstfr() {
+        syndironizfd(tiis) {
+            rfturn (rbstfr != null);
         }
     }
 
     /**
-     * Returns the currently set <code>Raster</code>, or
-     * <code>null</code> if only a <code>RenderedImage</code> is
-     * available.
+     * Rfturns tif durrfntly sft <dodf>Rbstfr</dodf>, or
+     * <dodf>null</dodf> if only b <dodf>RfndfrfdImbgf</dodf> is
+     * bvbilbblf.
      *
-     * @return a <code>Raster</code>, or <code>null</code>.
+     * @rfturn b <dodf>Rbstfr</dodf>, or <dodf>null</dodf>.
      *
-     * @see #setRaster
+     * @sff #sftRbstfr
      */
-    public Raster getRaster() {
-        synchronized(this) {
-            return raster;
+    publid Rbstfr gftRbstfr() {
+        syndironizfd(tiis) {
+            rfturn rbstfr;
         }
     }
 
     /**
-     * Sets the current <code>Raster</code>.  The value is
-     * stored by reference.  Any existing <code>RenderedImage</code> is
-     * discarded.
+     * Sfts tif durrfnt <dodf>Rbstfr</dodf>.  Tif vbluf is
+     * storfd by rfffrfndf.  Any fxisting <dodf>RfndfrfdImbgf</dodf> is
+     * disdbrdfd.
      *
-     * @param raster a <code>Raster</code>.
+     * @pbrbm rbstfr b <dodf>Rbstfr</dodf>.
      *
-     * @exception IllegalArgumentException if <code>raster</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rbstfr</dodf> is
+     * <dodf>null</dodf>.
      *
-     * @see #getRaster
+     * @sff #gftRbstfr
      */
-    public void setRaster(Raster raster) {
-        synchronized(this) {
-            if (raster == null) {
-                throw new IllegalArgumentException("raster == null!");
+    publid void sftRbstfr(Rbstfr rbstfr) {
+        syndironizfd(tiis) {
+            if (rbstfr == null) {
+                tirow nfw IllfgblArgumfntExdfption("rbstfr == null!");
             }
-            this.raster = raster;
-            this.image = null;
+            tiis.rbstfr = rbstfr;
+            tiis.imbgf = null;
         }
     }
 
     /**
-     * Returns the number of thumbnails stored in this
-     * <code>IIOImage</code>.
+     * Rfturns tif numbfr of tiumbnbils storfd in tiis
+     * <dodf>IIOImbgf</dodf>.
      *
-     * @return the number of thumbnails, as an <code>int</code>.
+     * @rfturn tif numbfr of tiumbnbils, bs bn <dodf>int</dodf>.
      */
-    public int getNumThumbnails() {
-        return thumbnails == null ? 0 : thumbnails.size();
+    publid int gftNumTiumbnbils() {
+        rfturn tiumbnbils == null ? 0 : tiumbnbils.sizf();
     }
 
     /**
-     * Returns a thumbnail associated with the main image.
+     * Rfturns b tiumbnbil bssodibtfd witi tif mbin imbgf.
      *
-     * @param index the index of the desired thumbnail image.
+     * @pbrbm indfx tif indfx of tif dfsirfd tiumbnbil imbgf.
      *
-     * @return a thumbnail image, as a <code>BufferedImage</code>.
+     * @rfturn b tiumbnbil imbgf, bs b <dodf>BufffrfdImbgf</dodf>.
      *
-     * @exception IndexOutOfBoundsException if the supplied index is
-     * negative or larger than the largest valid index.
-     * @exception ClassCastException if a
-     * non-<code>BufferedImage</code> object is encountered in the
-     * list of thumbnails at the given index.
+     * @fxdfption IndfxOutOfBoundsExdfption if tif supplifd indfx is
+     * nfgbtivf or lbrgfr tibn tif lbrgfst vblid indfx.
+     * @fxdfption ClbssCbstExdfption if b
+     * non-<dodf>BufffrfdImbgf</dodf> objfdt is fndountfrfd in tif
+     * list of tiumbnbils bt tif givfn indfx.
      *
-     * @see #getThumbnails
-     * @see #setThumbnails
+     * @sff #gftTiumbnbils
+     * @sff #sftTiumbnbils
      */
-    public BufferedImage getThumbnail(int index) {
-        if (thumbnails == null) {
-            throw new IndexOutOfBoundsException("No thumbnails available!");
+    publid BufffrfdImbgf gftTiumbnbil(int indfx) {
+        if (tiumbnbils == null) {
+            tirow nfw IndfxOutOfBoundsExdfption("No tiumbnbils bvbilbblf!");
         }
-        return (BufferedImage)thumbnails.get(index);
+        rfturn (BufffrfdImbgf)tiumbnbils.gft(indfx);
     }
 
     /**
-     * Returns the current <code>List</code> of thumbnail
-     * <code>BufferedImage</code>s, or <code>null</code> if none is
-     * set.  A live reference is returned.
+     * Rfturns tif durrfnt <dodf>List</dodf> of tiumbnbil
+     * <dodf>BufffrfdImbgf</dodf>s, or <dodf>null</dodf> if nonf is
+     * sft.  A livf rfffrfndf is rfturnfd.
      *
-     * @return the current <code>List</code> of
-     * <code>BufferedImage</code> thumbnails, or <code>null</code>.
+     * @rfturn tif durrfnt <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf> tiumbnbils, or <dodf>null</dodf>.
      *
-     * @see #getThumbnail(int)
-     * @see #setThumbnails
+     * @sff #gftTiumbnbil(int)
+     * @sff #sftTiumbnbils
      */
-    public List<? extends BufferedImage> getThumbnails() {
-        return thumbnails;
+    publid List<? fxtfnds BufffrfdImbgf> gftTiumbnbils() {
+        rfturn tiumbnbils;
     }
 
     /**
-     * Sets the list of thumbnails to a new <code>List</code> of
-     * <code>BufferedImage</code>s, or to <code>null</code>.  The
-     * reference to the previous <code>List</code> is discarded.
+     * Sfts tif list of tiumbnbils to b nfw <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf>s, or to <dodf>null</dodf>.  Tif
+     * rfffrfndf to tif prfvious <dodf>List</dodf> is disdbrdfd.
      *
-     * <p> The <code>thumbnails</code> argument must either be
-     * <code>null</code> or contain only <code>BufferedImage</code>
-     * objects.
+     * <p> Tif <dodf>tiumbnbils</dodf> brgumfnt must fitifr bf
+     * <dodf>null</dodf> or dontbin only <dodf>BufffrfdImbgf</dodf>
+     * objfdts.
      *
-     * @param thumbnails a <code>List</code> of
-     * <code>BufferedImage</code> thumbnails, or <code>null</code>.
+     * @pbrbm tiumbnbils b <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf> tiumbnbils, or <dodf>null</dodf>.
      *
-     * @see #getThumbnail(int)
-     * @see #getThumbnails
+     * @sff #gftTiumbnbil(int)
+     * @sff #gftTiumbnbils
      */
-    public void setThumbnails(List<? extends BufferedImage> thumbnails) {
-        this.thumbnails = thumbnails;
+    publid void sftTiumbnbils(List<? fxtfnds BufffrfdImbgf> tiumbnbils) {
+        tiis.tiumbnbils = tiumbnbils;
     }
 
     /**
-     * Returns a reference to the current <code>IIOMetadata</code>
-     * object, or <code>null</code> is none is set.
+     * Rfturns b rfffrfndf to tif durrfnt <dodf>IIOMftbdbtb</dodf>
+     * objfdt, or <dodf>null</dodf> is nonf is sft.
      *
-     * @return an <code>IIOMetadata</code> object, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt, or <dodf>null</dodf>.
      *
-     * @see #setMetadata
+     * @sff #sftMftbdbtb
      */
-    public IIOMetadata getMetadata() {
-        return metadata;
+    publid IIOMftbdbtb gftMftbdbtb() {
+        rfturn mftbdbtb;
     }
 
     /**
-     * Sets the <code>IIOMetadata</code> to a new object, or
-     * <code>null</code>.
+     * Sfts tif <dodf>IIOMftbdbtb</dodf> to b nfw objfdt, or
+     * <dodf>null</dodf>.
      *
-     * @param metadata an <code>IIOMetadata</code> object, or
-     * <code>null</code>.
+     * @pbrbm mftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf>.
      *
-     * @see #getMetadata
+     * @sff #gftMftbdbtb
      */
-    public void setMetadata(IIOMetadata metadata) {
-        this.metadata = metadata;
+    publid void sftMftbdbtb(IIOMftbdbtb mftbdbtb) {
+        tiis.mftbdbtb = mftbdbtb;
     }
 }

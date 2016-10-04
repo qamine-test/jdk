@@ -1,395 +1,395 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.spi;
+pbdkbgf sun.nft.spi;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.net.SocketAddress;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.StringJoiner;
-import java.util.regex.Pattern;
-import sun.net.NetProperties;
-import sun.net.SocksProxy;
-import static java.util.regex.Pattern.quote;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.Proxy;
+import jbvb.nft.ProxySflfdtor;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.URI;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.StringJoinfr;
+import jbvb.util.rfgfx.Pbttfrn;
+import sun.nft.NftPropfrtifs;
+import sun.nft.SodksProxy;
+import stbtid jbvb.util.rfgfx.Pbttfrn.quotf;
 
 /**
- * Supports proxy settings using system properties This proxy selector
- * provides backward compatibility with the old http protocol handler
- * as far as how proxy is set
+ * Supports proxy sfttings using systfm propfrtifs Tiis proxy sflfdtor
+ * providfs bbdkwbrd dompbtibility witi tif old ittp protodol ibndlfr
+ * bs fbr bs iow proxy is sft
  *
- * Most of the implementation copied from the old http protocol handler
+ * Most of tif implfmfntbtion dopifd from tif old ittp protodol ibndlfr
  *
- * Supports http/https/ftp.proxyHost, http/https/ftp.proxyPort,
- * proxyHost, proxyPort, and http/https/ftp.nonProxyHost, and socks.
- * NOTE: need to do gopher as well
+ * Supports ittp/ittps/ftp.proxyHost, ittp/ittps/ftp.proxyPort,
+ * proxyHost, proxyPort, bnd ittp/ittps/ftp.nonProxyHost, bnd sodks.
+ * NOTE: nffd to do gopifr bs wfll
  */
-public class DefaultProxySelector extends ProxySelector {
+publid dlbss DffbultProxySflfdtor fxtfnds ProxySflfdtor {
 
     /**
-     * This is where we define all the valid System Properties we have to
-     * support for each given protocol.
-     * The format of this 2 dimensional array is :
-     * - 1 row per protocol (http, ftp, ...)
-     * - 1st element of each row is the protocol name
-     * - subsequent elements are prefixes for Host & Port properties
-     *   listed in order of priority.
-     * Example:
-     * {"ftp", "ftp.proxy", "ftpProxy", "proxy", "socksProxy"},
-     * means for FTP we try in that oder:
+     * Tiis is wifrf wf dffinf bll tif vblid Systfm Propfrtifs wf ibvf to
+     * support for fbdi givfn protodol.
+     * Tif formbt of tiis 2 dimfnsionbl brrby is :
+     * - 1 row pfr protodol (ittp, ftp, ...)
+     * - 1st flfmfnt of fbdi row is tif protodol nbmf
+     * - subsfqufnt flfmfnts brf prffixfs for Host & Port propfrtifs
+     *   listfd in ordfr of priority.
+     * Exbmplf:
+     * {"ftp", "ftp.proxy", "ftpProxy", "proxy", "sodksProxy"},
+     * mfbns for FTP wf try in tibt odfr:
      *          + ftp.proxyHost & ftp.proxyPort
      *          + ftpProxyHost & ftpProxyPort
      *          + proxyHost & proxyPort
-     *          + socksProxyHost & socksProxyPort
+     *          + sodksProxyHost & sodksProxyPort
      *
-     * Note that the socksProxy should *always* be the last on the list
+     * Notf tibt tif sodksProxy siould *blwbys* bf tif lbst on tif list
      */
-    final static String[][] props = {
+    finbl stbtid String[][] props = {
         /*
-         * protocol, Property prefix 1, Property prefix 2, ...
+         * protodol, Propfrty prffix 1, Propfrty prffix 2, ...
          */
-        {"http", "http.proxy", "proxy", "socksProxy"},
-        {"https", "https.proxy", "proxy", "socksProxy"},
-        {"ftp", "ftp.proxy", "ftpProxy", "proxy", "socksProxy"},
-        {"gopher", "gopherProxy", "socksProxy"},
-        {"socket", "socksProxy"}
+        {"ittp", "ittp.proxy", "proxy", "sodksProxy"},
+        {"ittps", "ittps.proxy", "proxy", "sodksProxy"},
+        {"ftp", "ftp.proxy", "ftpProxy", "proxy", "sodksProxy"},
+        {"gopifr", "gopifrProxy", "sodksProxy"},
+        {"sodkft", "sodksProxy"}
     };
 
-    private static final String SOCKS_PROXY_VERSION = "socksProxyVersion";
+    privbtf stbtid finbl String SOCKS_PROXY_VERSION = "sodksProxyVfrsion";
 
-    private static boolean hasSystemProxies = false;
+    privbtf stbtid boolfbn ibsSystfmProxifs = fblsf;
 
-    static {
-        final String key = "java.net.useSystemProxies";
-        Boolean b = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    return NetProperties.getBoolean(key);
+    stbtid {
+        finbl String kfy = "jbvb.nft.usfSystfmProxifs";
+        Boolfbn b = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    rfturn NftPropfrtifs.gftBoolfbn(kfy);
                 }});
-        if (b != null && b.booleanValue()) {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
-                    public Void run() {
-                        System.loadLibrary("net");
-                        return null;
+        if (b != null && b.boolfbnVbluf()) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        Systfm.lobdLibrbry("nft");
+                        rfturn null;
                     }
                 });
-            hasSystemProxies = init();
+            ibsSystfmProxifs = init();
         }
     }
 
     /**
-     * How to deal with "non proxy hosts":
-     * since we do have to generate a pattern we don't want to do that if
-     * it's not necessary. Therefore we do cache the result, on a per-protocol
-     * basis, and change it only when the "source", i.e. the system property,
-     * did change.
+     * How to dfbl witi "non proxy iosts":
+     * sindf wf do ibvf to gfnfrbtf b pbttfrn wf don't wbnt to do tibt if
+     * it's not nfdfssbry. Tifrfforf wf do dbdif tif rfsult, on b pfr-protodol
+     * bbsis, bnd dibngf it only wifn tif "sourdf", i.f. tif systfm propfrty,
+     * did dibngf.
      */
 
-    static class NonProxyInfo {
-        // Default value for nonProxyHosts, this provides backward compatibility
-        // by excluding localhost and its litteral notations.
-        static final String defStringVal = "localhost|127.*|[::1]|0.0.0.0|[::0]";
+    stbtid dlbss NonProxyInfo {
+        // Dffbult vbluf for nonProxyHosts, tiis providfs bbdkwbrd dompbtibility
+        // by fxdluding lodbliost bnd its littfrbl notbtions.
+        stbtid finbl String dffStringVbl = "lodbliost|127.*|[::1]|0.0.0.0|[::0]";
 
-        String hostsSource;
-        Pattern pattern;
-        final String property;
-        final String defaultVal;
-        static NonProxyInfo ftpNonProxyInfo = new NonProxyInfo("ftp.nonProxyHosts", null, null, defStringVal);
-        static NonProxyInfo httpNonProxyInfo = new NonProxyInfo("http.nonProxyHosts", null, null, defStringVal);
-        static NonProxyInfo socksNonProxyInfo = new NonProxyInfo("socksNonProxyHosts", null, null, defStringVal);
+        String iostsSourdf;
+        Pbttfrn pbttfrn;
+        finbl String propfrty;
+        finbl String dffbultVbl;
+        stbtid NonProxyInfo ftpNonProxyInfo = nfw NonProxyInfo("ftp.nonProxyHosts", null, null, dffStringVbl);
+        stbtid NonProxyInfo ittpNonProxyInfo = nfw NonProxyInfo("ittp.nonProxyHosts", null, null, dffStringVbl);
+        stbtid NonProxyInfo sodksNonProxyInfo = nfw NonProxyInfo("sodksNonProxyHosts", null, null, dffStringVbl);
 
-        NonProxyInfo(String p, String s, Pattern pattern, String d) {
-            property = p;
-            hostsSource = s;
-            this.pattern = pattern;
-            defaultVal = d;
+        NonProxyInfo(String p, String s, Pbttfrn pbttfrn, String d) {
+            propfrty = p;
+            iostsSourdf = s;
+            tiis.pbttfrn = pbttfrn;
+            dffbultVbl = d;
         }
     }
 
 
     /**
-     * select() method. Where all the hard work is done.
-     * Build a list of proxies depending on URI.
-     * Since we're only providing compatibility with the system properties
-     * from previous releases (see list above), that list will always
-     * contain 1 single proxy, default being NO_PROXY.
+     * sflfdt() mftiod. Wifrf bll tif ibrd work is donf.
+     * Build b list of proxifs dfpfnding on URI.
+     * Sindf wf'rf only providing dompbtibility witi tif systfm propfrtifs
+     * from prfvious rflfbsfs (sff list bbovf), tibt list will blwbys
+     * dontbin 1 singlf proxy, dffbult bfing NO_PROXY.
      */
-    public java.util.List<Proxy> select(URI uri) {
+    publid jbvb.util.List<Proxy> sflfdt(URI uri) {
         if (uri == null) {
-            throw new IllegalArgumentException("URI can't be null.");
+            tirow nfw IllfgblArgumfntExdfption("URI dbn't bf null.");
         }
-        String protocol = uri.getScheme();
-        String host = uri.getHost();
+        String protodol = uri.gftSdifmf();
+        String iost = uri.gftHost();
 
-        if (host == null) {
-            // This is a hack to ensure backward compatibility in two
-            // cases: 1. hostnames contain non-ascii characters,
-            // internationalized domain names. in which case, URI will
-            // return null, see BugID 4957669; 2. Some hostnames can
-            // contain '_' chars even though it's not supposed to be
-            // legal, in which case URI will return null for getHost,
-            // but not for getAuthority() See BugID 4913253
-            String auth = uri.getAuthority();
-            if (auth != null) {
+        if (iost == null) {
+            // Tiis is b ibdk to fnsurf bbdkwbrd dompbtibility in two
+            // dbsfs: 1. iostnbmfs dontbin non-bsdii dibrbdtfrs,
+            // intfrnbtionblizfd dombin nbmfs. in wiidi dbsf, URI will
+            // rfturn null, sff BugID 4957669; 2. Somf iostnbmfs dbn
+            // dontbin '_' dibrs fvfn tiougi it's not supposfd to bf
+            // lfgbl, in wiidi dbsf URI will rfturn null for gftHost,
+            // but not for gftAutiority() Sff BugID 4913253
+            String buti = uri.gftAutiority();
+            if (buti != null) {
                 int i;
-                i = auth.indexOf('@');
+                i = buti.indfxOf('@');
                 if (i >= 0) {
-                    auth = auth.substring(i+1);
+                    buti = buti.substring(i+1);
                 }
-                i = auth.lastIndexOf(':');
+                i = buti.lbstIndfxOf(':');
                 if (i >= 0) {
-                    auth = auth.substring(0,i);
+                    buti = buti.substring(0,i);
                 }
-                host = auth;
+                iost = buti;
             }
         }
 
-        if (protocol == null || host == null) {
-            throw new IllegalArgumentException("protocol = "+protocol+" host = "+host);
+        if (protodol == null || iost == null) {
+            tirow nfw IllfgblArgumfntExdfption("protodol = "+protodol+" iost = "+iost);
         }
-        List<Proxy> proxyl = new ArrayList<Proxy>(1);
+        List<Proxy> proxyl = nfw ArrbyList<Proxy>(1);
 
         NonProxyInfo pinfo = null;
 
-        if ("http".equalsIgnoreCase(protocol)) {
-            pinfo = NonProxyInfo.httpNonProxyInfo;
-        } else if ("https".equalsIgnoreCase(protocol)) {
-            // HTTPS uses the same property as HTTP, for backward
-            // compatibility
-            pinfo = NonProxyInfo.httpNonProxyInfo;
-        } else if ("ftp".equalsIgnoreCase(protocol)) {
+        if ("ittp".fqublsIgnorfCbsf(protodol)) {
+            pinfo = NonProxyInfo.ittpNonProxyInfo;
+        } flsf if ("ittps".fqublsIgnorfCbsf(protodol)) {
+            // HTTPS usfs tif sbmf propfrty bs HTTP, for bbdkwbrd
+            // dompbtibility
+            pinfo = NonProxyInfo.ittpNonProxyInfo;
+        } flsf if ("ftp".fqublsIgnorfCbsf(protodol)) {
             pinfo = NonProxyInfo.ftpNonProxyInfo;
-        } else if ("socket".equalsIgnoreCase(protocol)) {
-            pinfo = NonProxyInfo.socksNonProxyInfo;
+        } flsf if ("sodkft".fqublsIgnorfCbsf(protodol)) {
+            pinfo = NonProxyInfo.sodksNonProxyInfo;
         }
 
         /**
-         * Let's check the System properties for that protocol
+         * Lft's difdk tif Systfm propfrtifs for tibt protodol
          */
-        final String proto = protocol;
-        final NonProxyInfo nprop = pinfo;
-        final String urlhost = host.toLowerCase();
+        finbl String proto = protodol;
+        finbl NonProxyInfo nprop = pinfo;
+        finbl String urliost = iost.toLowfrCbsf();
 
         /**
-         * This is one big doPrivileged call, but we're trying to optimize
-         * the code as much as possible. Since we're checking quite a few
-         * System properties it does help having only 1 call to doPrivileged.
-         * Be mindful what you do in here though!
+         * Tiis is onf big doPrivilfgfd dbll, but wf'rf trying to optimizf
+         * tif dodf bs mudi bs possiblf. Sindf wf'rf difdking quitf b ffw
+         * Systfm propfrtifs it dofs iflp ibving only 1 dbll to doPrivilfgfd.
+         * Bf mindful wibt you do in ifrf tiougi!
          */
-        Proxy p = AccessController.doPrivileged(
-            new PrivilegedAction<Proxy>() {
-                public Proxy run() {
+        Proxy p = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Proxy>() {
+                publid Proxy run() {
                     int i, j;
-                    String phost =  null;
+                    String piost =  null;
                     int pport = 0;
-                    String nphosts =  null;
-                    InetSocketAddress saddr = null;
+                    String npiosts =  null;
+                    InftSodkftAddrfss sbddr = null;
 
-                    // Then let's walk the list of protocols in our array
-                    for (i=0; i<props.length; i++) {
-                        if (props[i][0].equalsIgnoreCase(proto)) {
-                            for (j = 1; j < props[i].length; j++) {
-                                /* System.getProp() will give us an empty
-                                 * String, "" for a defined but "empty"
-                                 * property.
+                    // Tifn lft's wblk tif list of protodols in our brrby
+                    for (i=0; i<props.lfngti; i++) {
+                        if (props[i][0].fqublsIgnorfCbsf(proto)) {
+                            for (j = 1; j < props[i].lfngti; j++) {
+                                /* Systfm.gftProp() will givf us bn fmpty
+                                 * String, "" for b dffinfd but "fmpty"
+                                 * propfrty.
                                  */
-                                phost =  NetProperties.get(props[i][j]+"Host");
-                                if (phost != null && phost.length() != 0)
-                                    break;
+                                piost =  NftPropfrtifs.gft(props[i][j]+"Host");
+                                if (piost != null && piost.lfngti() != 0)
+                                    brfbk;
                             }
-                            if (phost == null || phost.length() == 0) {
+                            if (piost == null || piost.lfngti() == 0) {
                                 /**
-                                 * No system property defined for that
-                                 * protocol. Let's check System Proxy
-                                 * settings (Gnome & Windows) if we were
-                                 * instructed to.
+                                 * No systfm propfrty dffinfd for tibt
+                                 * protodol. Lft's difdk Systfm Proxy
+                                 * sfttings (Gnomf & Windows) if wf wfrf
+                                 * instrudtfd to.
                                  */
-                                if (hasSystemProxies) {
+                                if (ibsSystfmProxifs) {
                                     String sproto;
-                                    if (proto.equalsIgnoreCase("socket"))
-                                        sproto = "socks";
-                                    else
+                                    if (proto.fqublsIgnorfCbsf("sodkft"))
+                                        sproto = "sodks";
+                                    flsf
                                         sproto = proto;
-                                    Proxy sproxy = getSystemProxy(sproto, urlhost);
+                                    Proxy sproxy = gftSystfmProxy(sproto, urliost);
                                     if (sproxy != null) {
-                                        return sproxy;
+                                        rfturn sproxy;
                                     }
                                 }
-                                return Proxy.NO_PROXY;
+                                rfturn Proxy.NO_PROXY;
                             }
-                            // If a Proxy Host is defined for that protocol
-                            // Let's get the NonProxyHosts property
+                            // If b Proxy Host is dffinfd for tibt protodol
+                            // Lft's gft tif NonProxyHosts propfrty
                             if (nprop != null) {
-                                nphosts = NetProperties.get(nprop.property);
-                                synchronized (nprop) {
-                                    if (nphosts == null) {
-                                        if (nprop.defaultVal != null) {
-                                            nphosts = nprop.defaultVal;
-                                        } else {
-                                            nprop.hostsSource = null;
-                                            nprop.pattern = null;
+                                npiosts = NftPropfrtifs.gft(nprop.propfrty);
+                                syndironizfd (nprop) {
+                                    if (npiosts == null) {
+                                        if (nprop.dffbultVbl != null) {
+                                            npiosts = nprop.dffbultVbl;
+                                        } flsf {
+                                            nprop.iostsSourdf = null;
+                                            nprop.pbttfrn = null;
                                         }
-                                    } else if (nphosts.length() != 0) {
-                                        // add the required default patterns
-                                        // but only if property no set. If it
-                                        // is empty, leave empty.
-                                        nphosts += "|" + NonProxyInfo
-                                                         .defStringVal;
+                                    } flsf if (npiosts.lfngti() != 0) {
+                                        // bdd tif rfquirfd dffbult pbttfrns
+                                        // but only if propfrty no sft. If it
+                                        // is fmpty, lfbvf fmpty.
+                                        npiosts += "|" + NonProxyInfo
+                                                         .dffStringVbl;
                                     }
-                                    if (nphosts != null) {
-                                        if (!nphosts.equals(nprop.hostsSource)) {
-                                            nprop.pattern = toPattern(nphosts);
-                                            nprop.hostsSource = nphosts;
+                                    if (npiosts != null) {
+                                        if (!npiosts.fqubls(nprop.iostsSourdf)) {
+                                            nprop.pbttfrn = toPbttfrn(npiosts);
+                                            nprop.iostsSourdf = npiosts;
                                         }
                                     }
-                                    if (shouldNotUseProxyFor(nprop.pattern, urlhost)) {
-                                        return Proxy.NO_PROXY;
+                                    if (siouldNotUsfProxyFor(nprop.pbttfrn, urliost)) {
+                                        rfturn Proxy.NO_PROXY;
                                     }
                                 }
                             }
-                            // We got a host, let's check for port
+                            // Wf got b iost, lft's difdk for port
 
-                            pport = NetProperties.getInteger(props[i][j]+"Port", 0).intValue();
-                            if (pport == 0 && j < (props[i].length - 1)) {
-                                // Can't find a port with same prefix as Host
-                                // AND it's not a SOCKS proxy
-                                // Let's try the other prefixes for that proto
-                                for (int k = 1; k < (props[i].length - 1); k++) {
+                            pport = NftPropfrtifs.gftIntfgfr(props[i][j]+"Port", 0).intVbluf();
+                            if (pport == 0 && j < (props[i].lfngti - 1)) {
+                                // Cbn't find b port witi sbmf prffix bs Host
+                                // AND it's not b SOCKS proxy
+                                // Lft's try tif otifr prffixfs for tibt proto
+                                for (int k = 1; k < (props[i].lfngti - 1); k++) {
                                     if ((k != j) && (pport == 0))
-                                        pport = NetProperties.getInteger(props[i][k]+"Port", 0).intValue();
+                                        pport = NftPropfrtifs.gftIntfgfr(props[i][k]+"Port", 0).intVbluf();
                                 }
                             }
 
-                            // Still couldn't find a port, let's use default
+                            // Still douldn't find b port, lft's usf dffbult
                             if (pport == 0) {
-                                if (j == (props[i].length - 1)) // SOCKS
-                                    pport = defaultPort("socket");
-                                else
-                                    pport = defaultPort(proto);
+                                if (j == (props[i].lfngti - 1)) // SOCKS
+                                    pport = dffbultPort("sodkft");
+                                flsf
+                                    pport = dffbultPort(proto);
                             }
-                            // We did find a proxy definition.
-                            // Let's create the address, but don't resolve it
-                            // as this will be done at connection time
-                            saddr = InetSocketAddress.createUnresolved(phost, pport);
-                            // Socks is *always* the last on the list.
-                            if (j == (props[i].length - 1)) {
-                                int version = NetProperties.getInteger(SOCKS_PROXY_VERSION, 5).intValue();
-                                return SocksProxy.create(saddr, version);
-                            } else {
-                                return new Proxy(Proxy.Type.HTTP, saddr);
+                            // Wf did find b proxy dffinition.
+                            // Lft's drfbtf tif bddrfss, but don't rfsolvf it
+                            // bs tiis will bf donf bt donnfdtion timf
+                            sbddr = InftSodkftAddrfss.drfbtfUnrfsolvfd(piost, pport);
+                            // Sodks is *blwbys* tif lbst on tif list.
+                            if (j == (props[i].lfngti - 1)) {
+                                int vfrsion = NftPropfrtifs.gftIntfgfr(SOCKS_PROXY_VERSION, 5).intVbluf();
+                                rfturn SodksProxy.drfbtf(sbddr, vfrsion);
+                            } flsf {
+                                rfturn nfw Proxy(Proxy.Typf.HTTP, sbddr);
                             }
                         }
                     }
-                    return Proxy.NO_PROXY;
+                    rfturn Proxy.NO_PROXY;
                 }});
 
-        proxyl.add(p);
+        proxyl.bdd(p);
 
         /*
-         * If no specific property was set for that URI, we should be
-         * returning an iterator to an empty List.
+         * If no spfdifid propfrty wbs sft for tibt URI, wf siould bf
+         * rfturning bn itfrbtor to bn fmpty List.
          */
-        return proxyl;
+        rfturn proxyl;
     }
 
-    public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-        if (uri == null || sa == null || ioe == null) {
-            throw new IllegalArgumentException("Arguments can't be null.");
+    publid void donnfdtFbilfd(URI uri, SodkftAddrfss sb, IOExdfption iof) {
+        if (uri == null || sb == null || iof == null) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnts dbn't bf null.");
         }
-        // ignored
+        // ignorfd
     }
 
 
-    private int defaultPort(String protocol) {
-        if ("http".equalsIgnoreCase(protocol)) {
-            return 80;
-        } else if ("https".equalsIgnoreCase(protocol)) {
-            return 443;
-        } else if ("ftp".equalsIgnoreCase(protocol)) {
-            return 80;
-        } else if ("socket".equalsIgnoreCase(protocol)) {
-            return 1080;
-        } else if ("gopher".equalsIgnoreCase(protocol)) {
-            return 80;
-        } else {
-            return -1;
+    privbtf int dffbultPort(String protodol) {
+        if ("ittp".fqublsIgnorfCbsf(protodol)) {
+            rfturn 80;
+        } flsf if ("ittps".fqublsIgnorfCbsf(protodol)) {
+            rfturn 443;
+        } flsf if ("ftp".fqublsIgnorfCbsf(protodol)) {
+            rfturn 80;
+        } flsf if ("sodkft".fqublsIgnorfCbsf(protodol)) {
+            rfturn 1080;
+        } flsf if ("gopifr".fqublsIgnorfCbsf(protodol)) {
+            rfturn 80;
+        } flsf {
+            rfturn -1;
         }
     }
 
-    private native static boolean init();
-    private synchronized native Proxy getSystemProxy(String protocol, String host);
+    privbtf nbtivf stbtid boolfbn init();
+    privbtf syndironizfd nbtivf Proxy gftSystfmProxy(String protodol, String iost);
 
     /**
-     * @return {@code true} if given this pattern for non-proxy hosts and this
-     *         urlhost the proxy should NOT be used to access this urlhost
+     * @rfturn {@dodf truf} if givfn tiis pbttfrn for non-proxy iosts bnd tiis
+     *         urliost tif proxy siould NOT bf usfd to bddfss tiis urliost
      */
-    static boolean shouldNotUseProxyFor(Pattern pattern, String urlhost) {
-        if (pattern == null || urlhost.isEmpty())
-            return false;
-        boolean matches = pattern.matcher(urlhost).matches();
-        return matches;
-    }
-
-    /**
-     * @param mask non-null mask
-     * @return {@link java.util.regex.Pattern} corresponding to this mask
-     *         or {@code null} in case mask should not match anything
-     */
-    static Pattern toPattern(String mask) {
-        boolean disjunctionEmpty = true;
-        StringJoiner joiner = new StringJoiner("|");
-        for (String disjunct : mask.split("\\|")) {
-            if (disjunct.isEmpty())
-                continue;
-            disjunctionEmpty = false;
-            String regex = disjunctToRegex(disjunct.toLowerCase());
-            joiner.add(regex);
-        }
-        return disjunctionEmpty ? null : Pattern.compile(joiner.toString());
+    stbtid boolfbn siouldNotUsfProxyFor(Pbttfrn pbttfrn, String urliost) {
+        if (pbttfrn == null || urliost.isEmpty())
+            rfturn fblsf;
+        boolfbn mbtdifs = pbttfrn.mbtdifr(urliost).mbtdifs();
+        rfturn mbtdifs;
     }
 
     /**
-     * @param disjunct non-null mask disjunct
-     * @return java regex string corresponding to this mask
+     * @pbrbm mbsk non-null mbsk
+     * @rfturn {@link jbvb.util.rfgfx.Pbttfrn} dorrfsponding to tiis mbsk
+     *         or {@dodf null} in dbsf mbsk siould not mbtdi bnytiing
      */
-    static String disjunctToRegex(String disjunct) {
-        String regex;
-        if (disjunct.startsWith("*")) {
-            regex = ".*" + quote(disjunct.substring(1));
-        } else if (disjunct.endsWith("*")) {
-            regex = quote(disjunct.substring(0, disjunct.length() - 1)) + ".*";
-        } else {
-            regex = quote(disjunct);
+    stbtid Pbttfrn toPbttfrn(String mbsk) {
+        boolfbn disjundtionEmpty = truf;
+        StringJoinfr joinfr = nfw StringJoinfr("|");
+        for (String disjundt : mbsk.split("\\|")) {
+            if (disjundt.isEmpty())
+                dontinuf;
+            disjundtionEmpty = fblsf;
+            String rfgfx = disjundtToRfgfx(disjundt.toLowfrCbsf());
+            joinfr.bdd(rfgfx);
         }
-        return regex;
+        rfturn disjundtionEmpty ? null : Pbttfrn.dompilf(joinfr.toString());
+    }
+
+    /**
+     * @pbrbm disjundt non-null mbsk disjundt
+     * @rfturn jbvb rfgfx string dorrfsponding to tiis mbsk
+     */
+    stbtid String disjundtToRfgfx(String disjundt) {
+        String rfgfx;
+        if (disjundt.stbrtsWiti("*")) {
+            rfgfx = ".*" + quotf(disjundt.substring(1));
+        } flsf if (disjundt.fndsWiti("*")) {
+            rfgfx = quotf(disjundt.substring(0, disjundt.lfngti() - 1)) + ".*";
+        } flsf {
+            rfgfx = quotf(disjundt);
+        }
+        rfturn rfgfx;
     }
 }

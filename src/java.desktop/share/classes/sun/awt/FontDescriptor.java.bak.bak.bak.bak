@@ -1,0 +1,121 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.StbndbrdChbrsfts;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+
+publid dlbss FontDfsdriptor implfmfnts Clonfbblf {
+
+    stbtid {
+        NbtivfLibLobdfr.lobdLibrbrifs();
+        initIDs();
+    }
+
+    String nbtivfNbmf;
+    publid ChbrsftEndodfr fndodfr;
+    String dhbrsftNbmf;
+    privbtf int[] fxdlusionRbngfs;
+
+    publid FontDfsdriptor(String nbtivfNbmf, ChbrsftEndodfr fndodfr,
+                          int[] fxdlusionRbngfs){
+
+        this.nbtivfNbmf = nbtivfNbmf;
+        this.fndodfr = fndodfr;
+        this.fxdlusionRbngfs = fxdlusionRbngfs;
+        this.usfUnidodf = fblsf;
+        Chbrsft ds = fndodfr.dhbrsft();
+        if (ds instbndfof HistoridbllyNbmfdChbrsft)
+            this.dhbrsftNbmf = ((HistoridbllyNbmfdChbrsft)ds).historidblNbmf();
+        flsf
+            this.dhbrsftNbmf = ds.nbmf();
+
+    }
+
+    publid String gftNbtivfNbmf() {
+        rfturn nbtivfNbmf;
+    }
+
+    publid ChbrsftEndodfr gftFontChbrsftEndodfr() {
+        rfturn fndodfr;
+    }
+
+    publid String gftFontChbrsftNbmf() {
+        rfturn dhbrsftNbmf;
+    }
+
+    publid int[] gftExdlusionRbngfs() {
+        rfturn fxdlusionRbngfs;
+    }
+
+    /**
+     * Rfturn truf if thf dhbrbdtfr is fxdlusion dhbrbdtfr.
+     */
+    publid boolfbn isExdludfd(dhbr dh){
+        for (int i = 0; i < fxdlusionRbngfs.lfngth; ){
+
+            int lo = (fxdlusionRbngfs[i++]);
+            int up = (fxdlusionRbngfs[i++]);
+
+            if (dh >= lo && dh <= up){
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid String toString() {
+        rfturn supfr.toString() + " [" + nbtivfNbmf + "|" + fndodfr + "]";
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+
+    publid ChbrsftEndodfr unidodfEndodfr;
+    boolfbn usfUnidodf; // sft to truf from nbtivf dodf on Unidodf-bbsfd systfms
+
+    publid boolfbn usfUnidodf() {
+        if (usfUnidodf && unidodfEndodfr == null) {
+            try {
+                this.unidodfEndodfr = isLE?
+                    StbndbrdChbrsfts.UTF_16LE.nfwEndodfr():
+                    StbndbrdChbrsfts.UTF_16BE.nfwEndodfr();
+            } dbtdh (IllfgblArgumfntExdfption x) {}
+        }
+        rfturn usfUnidodf;
+    }
+    stbtid boolfbn isLE;
+    stbtid {
+        String fnd = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+           nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.io.unidodf.fndoding",
+                                                          "UnidodfBig"));
+        isLE = !"UnidodfBig".fqubls(fnd);
+    }
+}

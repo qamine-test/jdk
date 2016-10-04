@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import javax.swing.*;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
 
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Polygon;
-import java.io.Serializable;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Polygon;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * Factory object that can vend Icons appropriate for the basic L &amp; F.
+ * Fbdtory objfdt tibt dbn vfnd Idons bppropribtf for tif bbsid L &bmp; F.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author David Kloba
- * @author Georges Saab
+ * @butior Dbvid Klobb
+ * @butior Gforgfs Sbbb
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicIconFactory implements Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidIdonFbdtory implfmfnts Sfriblizbblf
 {
-    private static Icon frame_icon;
-    private static Icon checkBoxIcon;
-    private static Icon radioButtonIcon;
-    private static Icon checkBoxMenuItemIcon;
-    private static Icon radioButtonMenuItemIcon;
-    private static Icon menuItemCheckIcon;
-    private static Icon menuItemArrowIcon;
-    private static Icon menuArrowIcon;
+    privbtf stbtid Idon frbmf_idon;
+    privbtf stbtid Idon difdkBoxIdon;
+    privbtf stbtid Idon rbdioButtonIdon;
+    privbtf stbtid Idon difdkBoxMfnuItfmIdon;
+    privbtf stbtid Idon rbdioButtonMfnuItfmIdon;
+    privbtf stbtid Idon mfnuItfmCifdkIdon;
+    privbtf stbtid Idon mfnuItfmArrowIdon;
+    privbtf stbtid Idon mfnuArrowIdon;
 
     /**
-     * Returns a menu item check icon.
+     * Rfturns b mfnu itfm difdk idon.
      *
-     * @return a menu item check icon
+     * @rfturn b mfnu itfm difdk idon
      */
-    public static Icon getMenuItemCheckIcon() {
-        if (menuItemCheckIcon == null) {
-            menuItemCheckIcon = new MenuItemCheckIcon();
+    publid stbtid Idon gftMfnuItfmCifdkIdon() {
+        if (mfnuItfmCifdkIdon == null) {
+            mfnuItfmCifdkIdon = nfw MfnuItfmCifdkIdon();
         }
-        return menuItemCheckIcon;
+        rfturn mfnuItfmCifdkIdon;
     }
 
     /**
-     * Returns a menu item arrow icon.
+     * Rfturns b mfnu itfm brrow idon.
      *
-     * @return a menu item arrow icon
+     * @rfturn b mfnu itfm brrow idon
      */
-    public static Icon getMenuItemArrowIcon() {
-        if (menuItemArrowIcon == null) {
-            menuItemArrowIcon = new MenuItemArrowIcon();
+    publid stbtid Idon gftMfnuItfmArrowIdon() {
+        if (mfnuItfmArrowIdon == null) {
+            mfnuItfmArrowIdon = nfw MfnuItfmArrowIdon();
         }
-        return menuItemArrowIcon;
+        rfturn mfnuItfmArrowIdon;
     }
 
     /**
-     * Returns a menu arrow icon.
+     * Rfturns b mfnu brrow idon.
      *
-     * @return a menu arrow icon
+     * @rfturn b mfnu brrow idon
      */
-    public static Icon getMenuArrowIcon() {
-        if (menuArrowIcon == null) {
-            menuArrowIcon = new MenuArrowIcon();
+    publid stbtid Idon gftMfnuArrowIdon() {
+        if (mfnuArrowIdon == null) {
+            mfnuArrowIdon = nfw MfnuArrowIdon();
         }
-        return menuArrowIcon;
+        rfturn mfnuArrowIdon;
     }
 
     /**
-     * Returns a check box icon.
+     * Rfturns b difdk box idon.
      *
-     * @return a check box icon
+     * @rfturn b difdk box idon
      */
-    public static Icon getCheckBoxIcon() {
-        if (checkBoxIcon == null) {
-            checkBoxIcon = new CheckBoxIcon();
+    publid stbtid Idon gftCifdkBoxIdon() {
+        if (difdkBoxIdon == null) {
+            difdkBoxIdon = nfw CifdkBoxIdon();
         }
-        return checkBoxIcon;
+        rfturn difdkBoxIdon;
     }
 
     /**
-     * Returns a radio button icon.
+     * Rfturns b rbdio button idon.
      *
-     * @return a radio button icon
+     * @rfturn b rbdio button idon
      */
-    public static Icon getRadioButtonIcon() {
-        if (radioButtonIcon == null) {
-            radioButtonIcon = new RadioButtonIcon();
+    publid stbtid Idon gftRbdioButtonIdon() {
+        if (rbdioButtonIdon == null) {
+            rbdioButtonIdon = nfw RbdioButtonIdon();
         }
-        return radioButtonIcon;
+        rfturn rbdioButtonIdon;
     }
 
     /**
-     * Returns a check box menu item icon.
+     * Rfturns b difdk box mfnu itfm idon.
      *
-     * @return a check box menu item icon
+     * @rfturn b difdk box mfnu itfm idon
      */
-    public static Icon getCheckBoxMenuItemIcon() {
-        if (checkBoxMenuItemIcon == null) {
-            checkBoxMenuItemIcon = new CheckBoxMenuItemIcon();
+    publid stbtid Idon gftCifdkBoxMfnuItfmIdon() {
+        if (difdkBoxMfnuItfmIdon == null) {
+            difdkBoxMfnuItfmIdon = nfw CifdkBoxMfnuItfmIdon();
         }
-        return checkBoxMenuItemIcon;
+        rfturn difdkBoxMfnuItfmIdon;
     }
 
     /**
-     * Returns a radio button menu item icon.
+     * Rfturns b rbdio button mfnu itfm idon.
      *
-     * @return a radio button menu item icon
+     * @rfturn b rbdio button mfnu itfm idon
      */
-    public static Icon getRadioButtonMenuItemIcon() {
-        if (radioButtonMenuItemIcon == null) {
-            radioButtonMenuItemIcon = new RadioButtonMenuItemIcon();
+    publid stbtid Idon gftRbdioButtonMfnuItfmIdon() {
+        if (rbdioButtonMfnuItfmIdon == null) {
+            rbdioButtonMfnuItfmIdon = nfw RbdioButtonMfnuItfmIdon();
         }
-        return radioButtonMenuItemIcon;
+        rfturn rbdioButtonMfnuItfmIdon;
     }
 
     /**
-     * Returns an empty frame icon.
+     * Rfturns bn fmpty frbmf idon.
      *
-     * @return an empty frame icon
+     * @rfturn bn fmpty frbmf idon
      */
-    public static Icon createEmptyFrameIcon() {
-        if(frame_icon == null)
-            frame_icon = new EmptyFrameIcon();
-        return frame_icon;
+    publid stbtid Idon drfbtfEmptyFrbmfIdon() {
+        if(frbmf_idon == null)
+            frbmf_idon = nfw EmptyFrbmfIdon();
+        rfturn frbmf_idon;
     }
 
-    private static class EmptyFrameIcon implements Icon, Serializable {
-        int height = 16;
-        int width = 14;
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    privbtf stbtid dlbss EmptyFrbmfIdon implfmfnts Idon, Sfriblizbblf {
+        int ifigit = 16;
+        int widti = 14;
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
         }
-        public int getIconWidth() { return width; }
-        public int getIconHeight() { return height; }
+        publid int gftIdonWidti() { rfturn widti; }
+        publid int gftIdonHfigit() { rfturn ifigit; }
     };
 
-    private static class CheckBoxIcon implements Icon, Serializable
+    privbtf stbtid dlbss CifdkBoxIdon implfmfnts Idon, Sfriblizbblf
     {
-        final static int csize = 13;
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        finbl stbtid int dsizf = 13;
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
         }
 
-        public int getIconWidth() {
-            return csize;
+        publid int gftIdonWidti() {
+            rfturn dsizf;
         }
 
-        public int getIconHeight() {
-            return csize;
+        publid int gftIdonHfigit() {
+            rfturn dsizf;
         }
     }
 
-    private static class RadioButtonIcon implements Icon, UIResource, Serializable
+    privbtf stbtid dlbss RbdioButtonIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
         }
 
-        public int getIconWidth() {
-            return 13;
+        publid int gftIdonWidti() {
+            rfturn 13;
         }
 
-        public int getIconHeight() {
-            return 13;
+        publid int gftIdonHfigit() {
+            rfturn 13;
         }
-    } // end class RadioButtonIcon
+    } // fnd dlbss RbdioButtonIdon
 
 
-    private static class CheckBoxMenuItemIcon implements Icon, UIResource, Serializable
+    privbtf stbtid dlbss CifdkBoxMfnuItfmIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
-            boolean isSelected = model.isSelected();
-            if (isSelected) {
-                g.drawLine(x+7, y+1, x+7, y+3);
-                g.drawLine(x+6, y+2, x+6, y+4);
-                g.drawLine(x+5, y+3, x+5, y+5);
-                g.drawLine(x+4, y+4, x+4, y+6);
-                g.drawLine(x+3, y+5, x+3, y+7);
-                g.drawLine(x+2, y+4, x+2, y+6);
-                g.drawLine(x+1, y+3, x+1, y+5);
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+            boolfbn isSflfdtfd = modfl.isSflfdtfd();
+            if (isSflfdtfd) {
+                g.drbwLinf(x+7, y+1, x+7, y+3);
+                g.drbwLinf(x+6, y+2, x+6, y+4);
+                g.drbwLinf(x+5, y+3, x+5, y+5);
+                g.drbwLinf(x+4, y+4, x+4, y+6);
+                g.drbwLinf(x+3, y+5, x+3, y+7);
+                g.drbwLinf(x+2, y+4, x+2, y+6);
+                g.drbwLinf(x+1, y+3, x+1, y+5);
             }
         }
-        public int getIconWidth() { return 9; }
-        public int getIconHeight() { return 9; }
+        publid int gftIdonWidti() { rfturn 9; }
+        publid int gftIdonHfigit() { rfturn 9; }
 
-    } // End class CheckBoxMenuItemIcon
+    } // End dlbss CifdkBoxMfnuItfmIdon
 
 
-    private static class RadioButtonMenuItemIcon implements Icon, UIResource, Serializable
+    privbtf stbtid dlbss RbdioButtonMfnuItfmIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
-            if (b.isSelected() == true) {
-                g.fillOval(x+1, y+1, getIconWidth(), getIconHeight());
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+            if (b.isSflfdtfd() == truf) {
+                g.fillOvbl(x+1, y+1, gftIdonWidti(), gftIdonHfigit());
             }
         }
-        public int getIconWidth() { return 6; }
-        public int getIconHeight() { return 6; }
+        publid int gftIdonWidti() { rfturn 6; }
+        publid int gftIdonHfigit() { rfturn 6; }
 
-    } // End class RadioButtonMenuItemIcon
+    } // End dlbss RbdioButtonMfnuItfmIdon
 
 
-    private static class MenuItemCheckIcon implements Icon, UIResource, Serializable{
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    privbtf stbtid dlbss MfnuItfmCifdkIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf{
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
         }
-        public int getIconWidth() { return 9; }
-        public int getIconHeight() { return 9; }
+        publid int gftIdonWidti() { rfturn 9; }
+        publid int gftIdonHfigit() { rfturn 9; }
 
-    } // End class MenuItemCheckIcon
+    } // End dlbss MfnuItfmCifdkIdon
 
-    private static class MenuItemArrowIcon implements Icon, UIResource, Serializable {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+    privbtf stbtid dlbss MfnuItfmArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
         }
-        public int getIconWidth() { return 4; }
-        public int getIconHeight() { return 8; }
+        publid int gftIdonWidti() { rfturn 4; }
+        publid int gftIdonHfigit() { rfturn 8; }
 
-    } // End class MenuItemArrowIcon
+    } // End dlbss MfnuItfmArrowIdon
 
-    private static class MenuArrowIcon implements Icon, UIResource, Serializable {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            Polygon p = new Polygon();
-            p.addPoint(x, y);
-            p.addPoint(x+getIconWidth(), y+getIconHeight()/2);
-            p.addPoint(x, y+getIconHeight());
+    privbtf stbtid dlbss MfnuArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            Polygon p = nfw Polygon();
+            p.bddPoint(x, y);
+            p.bddPoint(x+gftIdonWidti(), y+gftIdonHfigit()/2);
+            p.bddPoint(x, y+gftIdonHfigit());
             g.fillPolygon(p);
 
         }
-        public int getIconWidth() { return 4; }
-        public int getIconHeight() { return 8; }
-    } // End class MenuArrowIcon
+        publid int gftIdonWidti() { rfturn 4; }
+        publid int gftIdonHfigit() { rfturn 8; }
+    } // End dlbss MfnuArrowIdon
 }

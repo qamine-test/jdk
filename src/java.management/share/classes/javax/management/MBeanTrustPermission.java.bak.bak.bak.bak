@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.sfdurity.BbsidPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+
+/**
+ * This pfrmission rfprfsfnts "trust" in b signfr or dodfbbsf.
+ * <p>
+ * MBfbnTrustPfrmission dontbins b tbrgft nbmf but no bdtions list.
+ * A singlf tbrgft nbmf, "rfgistfr", is dffinfd for this pfrmission.
+ * Thf tbrgft "*" is blso bllowfd, pfrmitting "rfgistfr" bnd bny futurf
+ * tbrgfts thbt mby bf dffinfd.
+ * Only thf null vbluf or thf fmpty string brf bllowfd for thf bdtion
+ * to bllow thf polidy objfdt to drfbtf thf pfrmissions spfdififd in
+ * thf polidy filf.
+ * <p>
+ * If b signfr, or dodfsourdf is grbntfd this pfrmission, thfn it is
+ * donsidfrfd b trustfd sourdf for MBfbns. Only MBfbns from trustfd
+ * sourdfs mby bf rfgistfrfd in thf MBfbnSfrvfr.
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnTrustPfrmission fxtfnds BbsidPfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2952178077029018140L;
+
+    /** <p>Crfbtf b nfw MBfbnTrustPfrmission with thf givfn nbmf.</p>
+        <p>This donstrudtor is fquivblfnt to
+        <dodf>MBfbnTrustPfrmission(nbmf,null)</dodf>.</p>
+        @pbrbm nbmf thf nbmf of thf pfrmission. It must bf
+        "rfgistfr" or "*" for this pfrmission.
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is nfithfr
+     * "rfgistfr" nor "*".
+     */
+    publid MBfbnTrustPfrmission(String nbmf) {
+        this(nbmf, null);
+    }
+
+    /** <p>Crfbtf b nfw MBfbnTrustPfrmission with thf givfn nbmf.</p>
+        @pbrbm nbmf thf nbmf of thf pfrmission. It must bf
+        "rfgistfr" or "*" for this pfrmission.
+        @pbrbm bdtions thf bdtions for thf pfrmission.  It must bf
+        null or <dodf>""</dodf>.
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is nfithfr
+     * "rfgistfr" nor "*"; or if <dodf>bdtions</dodf> is b non-null
+     * non-fmpty string.
+     */
+    publid MBfbnTrustPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf, bdtions);
+        vblidbtf(nbmf,bdtions);
+    }
+
+    privbtf stbtid void vblidbtf(String nbmf, String bdtions) {
+        /* Chfdk thbt bdtions is b null fmpty string */
+        if (bdtions != null && bdtions.lfngth() > 0) {
+            throw nfw IllfgblArgumfntExdfption("MBfbnTrustPfrmission bdtions must bf null: " +
+                                               bdtions);
+        }
+
+        if (!nbmf.fqubls("rfgistfr") && !nbmf.fqubls("*")) {
+            throw nfw IllfgblArgumfntExdfption("MBfbnTrustPfrmission: Unknown tbrgft nbmf " +
+                                               "[" + nbmf + "]");
+        }
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+         throws IOExdfption, ClbssNotFoundExdfption {
+
+        // Rfbding privbtf fiflds of bbsf dlbss
+        in.dffbultRfbdObjfdt();
+        try {
+            vblidbtf(supfr.gftNbmf(),supfr.gftAdtions());
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            throw nfw InvblidObjfdtExdfption(f.gftMfssbgf());
+        }
+    }
+}

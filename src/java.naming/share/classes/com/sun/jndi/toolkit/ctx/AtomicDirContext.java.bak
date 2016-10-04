@@ -1,393 +1,393 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.toolkit.ctx;
+pbdkbgf dom.sun.jndi.toolkit.dtx;
 
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
 
 /**
- * Direct subclasses of AtomicDirContext must provide implementations for
- * the abstract a_ DirContext methods, and override the a_ Context methods
- * (which are no longer abstract because they have been overriden by
- * PartialCompositeDirContext with dummy implementations).
+ * Dirfdt subdlbssfs of AtomidDirContfxt must providf implfmfntbtions for
+ * tif bbstrbdt b_ DirContfxt mftiods, bnd ovfrridf tif b_ Contfxt mftiods
+ * (wiidi brf no longfr bbstrbdt bfdbusf tify ibvf bffn ovfrridfn by
+ * PbrtiblCompositfDirContfxt witi dummy implfmfntbtions).
  *
- * If the subclass implements the notion of implicit nns,
- * it must override the a_*_nns DirContext and Context methods as well.
+ * If tif subdlbss implfmfnts tif notion of implidit nns,
+ * it must ovfrridf tif b_*_nns DirContfxt bnd Contfxt mftiods bs wfll.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  *
  */
 
-public abstract class AtomicDirContext extends ComponentDirContext {
+publid bbstrbdt dlbss AtomidDirContfxt fxtfnds ComponfntDirContfxt {
 
-    protected AtomicDirContext() {
-        _contextType = _ATOMIC;
+    protfdtfd AtomidDirContfxt() {
+        _dontfxtTypf = _ATOMIC;
     }
 
-// ------ Abstract methods whose implementations come from subclass
+// ------ Abstrbdt mftiods wiosf implfmfntbtions domf from subdlbss
 
-    protected abstract Attributes a_getAttributes(String name, String[] attrIds,
-                                                    Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt Attributfs b_gftAttributfs(String nbmf, String[] bttrIds,
+                                                    Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract void a_modifyAttributes(String name, int mod_op,
-                                               Attributes attrs,
-                                               Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt void b_modifyAttributfs(String nbmf, int mod_op,
+                                               Attributfs bttrs,
+                                               Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract void a_modifyAttributes(String name,
-                                               ModificationItem[] mods,
-                                               Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt void b_modifyAttributfs(String nbmf,
+                                               ModifidbtionItfm[] mods,
+                                               Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract void a_bind(String name, Object obj,
-                                   Attributes attrs,
-                                   Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt void b_bind(String nbmf, Objfdt obj,
+                                   Attributfs bttrs,
+                                   Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract void a_rebind(String name, Object obj,
-                                     Attributes attrs,
-                                     Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt void b_rfbind(String nbmf, Objfdt obj,
+                                     Attributfs bttrs,
+                                     Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract DirContext a_createSubcontext(String name,
-                                                    Attributes attrs,
-                                                    Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt DirContfxt b_drfbtfSubdontfxt(String nbmf,
+                                                    Attributfs bttrs,
+                                                    Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract NamingEnumeration<SearchResult> a_search(
-                                                  Attributes matchingAttributes,
-                                                  String[] attributesToReturn,
-                                                  Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdiRfsult> b_sfbrdi(
+                                                  Attributfs mbtdiingAttributfs,
+                                                  String[] bttributfsToRfturn,
+                                                  Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract NamingEnumeration<SearchResult> a_search(
-                                                  String name,
-                                                  String filterExpr,
-                                                  Object[] filterArgs,
-                                                  SearchControls cons,
-                                                  Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdiRfsult> b_sfbrdi(
+                                                  String nbmf,
+                                                  String filtfrExpr,
+                                                  Objfdt[] filtfrArgs,
+                                                  SfbrdiControls dons,
+                                                  Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract NamingEnumeration<SearchResult> a_search(
-                                                  String name,
-                                                  String filter,
-                                                  SearchControls cons,
-                                                  Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt NbmingEnumfrbtion<SfbrdiRfsult> b_sfbrdi(
+                                                  String nbmf,
+                                                  String filtfr,
+                                                  SfbrdiControls dons,
+                                                  Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract DirContext a_getSchema(Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt DirContfxt b_gftSdifmb(Continubtion dont)
+        tirows NbmingExdfption;
 
-    protected abstract DirContext a_getSchemaClassDefinition(Continuation cont)
-        throws NamingException;
+    protfdtfd bbstrbdt DirContfxt b_gftSdifmbClbssDffinition(Continubtion dont)
+        tirows NbmingExdfption;
 
-// ------ Methods that need to be overridden by subclass
+// ------ Mftiods tibt nffd to bf ovfrriddfn by subdlbss
 
-    //  default implementations of a_*_nns methods
+    //  dffbult implfmfntbtions of b_*_nns mftiods
 
-    // The following methods are called when the DirContext methods
-    // are invoked with a name that has a trailing slash.
-    // For naming systems that support implicit nns,
-    // the trailing slash signifies the implicit nns.
-    // For such naming systems, override these a_*_nns methods.
+    // Tif following mftiods brf dbllfd wifn tif DirContfxt mftiods
+    // brf invokfd witi b nbmf tibt ibs b trbiling slbsi.
+    // For nbming systfms tibt support implidit nns,
+    // tif trbiling slbsi signififs tif implidit nns.
+    // For sudi nbming systfms, ovfrridf tifsf b_*_nns mftiods.
     //
-    // For naming systems that support junctions (explicit nns),
-    // the trailing slash is meaningless because a junction does not
-    // have an implicit nns.  The default implementation here
-    // throws a NameNotFoundException for such names.
-    // If a context wants to accept a trailing slash as having
-    // the same meaning as the same name without a trailing slash,
-    // then it should override these a_*_nns methods.
+    // For nbming systfms tibt support jundtions (fxplidit nns),
+    // tif trbiling slbsi is mfbninglfss bfdbusf b jundtion dofs not
+    // ibvf bn implidit nns.  Tif dffbult implfmfntbtion ifrf
+    // tirows b NbmfNotFoundExdfption for sudi nbmfs.
+    // If b dontfxt wbnts to bddfpt b trbiling slbsi bs ibving
+    // tif sbmf mfbning bs tif sbmf nbmf witiout b trbiling slbsi,
+    // tifn it siould ovfrridf tifsf b_*_nns mftiods.
 
-    protected Attributes a_getAttributes_nns(String name,
-                                               String[] attrIds,
-                                               Continuation cont)
-        throws NamingException  {
-            a_processJunction_nns(name, cont);
-            return null;
+    protfdtfd Attributfs b_gftAttributfs_nns(String nbmf,
+                                               String[] bttrIds,
+                                               Continubtion dont)
+        tirows NbmingExdfption  {
+            b_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected void a_modifyAttributes_nns(String name, int mod_op,
-                                          Attributes attrs,
-                                          Continuation cont)
-        throws NamingException {
-            a_processJunction_nns(name, cont);
+    protfdtfd void b_modifyAttributfs_nns(String nbmf, int mod_op,
+                                          Attributfs bttrs,
+                                          Continubtion dont)
+        tirows NbmingExdfption {
+            b_prodfssJundtion_nns(nbmf, dont);
         }
 
-    protected void a_modifyAttributes_nns(String name,
-                                          ModificationItem[] mods,
-                                          Continuation cont)
-        throws NamingException {
-            a_processJunction_nns(name, cont);
+    protfdtfd void b_modifyAttributfs_nns(String nbmf,
+                                          ModifidbtionItfm[] mods,
+                                          Continubtion dont)
+        tirows NbmingExdfption {
+            b_prodfssJundtion_nns(nbmf, dont);
         }
 
-    protected void a_bind_nns(String name, Object obj,
-                              Attributes attrs,
-                              Continuation cont)
-        throws NamingException  {
-            a_processJunction_nns(name, cont);
+    protfdtfd void b_bind_nns(String nbmf, Objfdt obj,
+                              Attributfs bttrs,
+                              Continubtion dont)
+        tirows NbmingExdfption  {
+            b_prodfssJundtion_nns(nbmf, dont);
         }
 
-    protected void a_rebind_nns(String name, Object obj,
-                                Attributes attrs,
-                                Continuation cont)
-        throws NamingException  {
-            a_processJunction_nns(name, cont);
+    protfdtfd void b_rfbind_nns(String nbmf, Objfdt obj,
+                                Attributfs bttrs,
+                                Continubtion dont)
+        tirows NbmingExdfption  {
+            b_prodfssJundtion_nns(nbmf, dont);
         }
 
-    protected DirContext a_createSubcontext_nns(String name,
-                                               Attributes attrs,
-                                               Continuation cont)
-        throws NamingException  {
-            a_processJunction_nns(name, cont);
-            return null;
+    protfdtfd DirContfxt b_drfbtfSubdontfxt_nns(String nbmf,
+                                               Attributfs bttrs,
+                                               Continubtion dont)
+        tirows NbmingExdfption  {
+            b_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> a_search_nns(
-                                             Attributes matchingAttributes,
-                                             String[] attributesToReturn,
-                                             Continuation cont)
-        throws NamingException {
-            a_processJunction_nns(cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> b_sfbrdi_nns(
+                                             Attributfs mbtdiingAttributfs,
+                                             String[] bttributfsToRfturn,
+                                             Continubtion dont)
+        tirows NbmingExdfption {
+            b_prodfssJundtion_nns(dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> a_search_nns(String name,
-                                                           String filterExpr,
-                                                           Object[] filterArgs,
-                                                           SearchControls cons,
-                                                           Continuation cont)
-        throws NamingException {
-            a_processJunction_nns(name, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> b_sfbrdi_nns(String nbmf,
+                                                           String filtfrExpr,
+                                                           Objfdt[] filtfrArgs,
+                                                           SfbrdiControls dons,
+                                                           Continubtion dont)
+        tirows NbmingExdfption {
+            b_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> a_search_nns(String name,
-                                                           String filter,
-                                                           SearchControls cons,
-                                                           Continuation cont)
-        throws NamingException  {
-            a_processJunction_nns(name, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> b_sfbrdi_nns(String nbmf,
+                                                           String filtfr,
+                                                           SfbrdiControls dons,
+                                                           Continubtion dont)
+        tirows NbmingExdfption  {
+            b_prodfssJundtion_nns(nbmf, dont);
+            rfturn null;
         }
 
-    protected DirContext a_getSchema_nns(Continuation cont) throws NamingException {
-        a_processJunction_nns(cont);
-        return null;
+    protfdtfd DirContfxt b_gftSdifmb_nns(Continubtion dont) tirows NbmingExdfption {
+        b_prodfssJundtion_nns(dont);
+        rfturn null;
     }
 
-    protected DirContext a_getSchemaDefinition_nns(Continuation cont)
-        throws NamingException {
-            a_processJunction_nns(cont);
-            return null;
+    protfdtfd DirContfxt b_gftSdifmbDffinition_nns(Continubtion dont)
+        tirows NbmingExdfption {
+            b_prodfssJundtion_nns(dont);
+            rfturn null;
         }
 
-// ------- implementations of c_ DirContext methods using corresponding
-// ------- a_ and a_*_nns methods
+// ------- implfmfntbtions of d_ DirContfxt mftiods using dorrfsponding
+// ------- b_ bnd b_*_nns mftiods
 
-    protected Attributes c_getAttributes(Name name, String[] attrIds,
-                                           Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context(name, cont))
-                return a_getAttributes(name.toString(), attrIds, cont);
-            return null;
+    protfdtfd Attributfs d_gftAttributfs(Nbmf nbmf, String[] bttrIds,
+                                           Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt(nbmf, dont))
+                rfturn b_gftAttributfs(nbmf.toString(), bttrIds, dont);
+            rfturn null;
         }
 
-    protected void c_modifyAttributes(Name name, int mod_op,
-                                      Attributes attrs, Continuation cont)
-        throws NamingException {
-            if (resolve_to_penultimate_context(name, cont))
-                a_modifyAttributes(name.toString(), mod_op, attrs, cont);
+    protfdtfd void d_modifyAttributfs(Nbmf nbmf, int mod_op,
+                                      Attributfs bttrs, Continubtion dont)
+        tirows NbmingExdfption {
+            if (rfsolvf_to_pfnultimbtf_dontfxt(nbmf, dont))
+                b_modifyAttributfs(nbmf.toString(), mod_op, bttrs, dont);
         }
 
-    protected void c_modifyAttributes(Name name, ModificationItem[] mods,
-                                      Continuation cont)
-        throws NamingException {
-            if (resolve_to_penultimate_context(name, cont))
-                a_modifyAttributes(name.toString(), mods, cont);
+    protfdtfd void d_modifyAttributfs(Nbmf nbmf, ModifidbtionItfm[] mods,
+                                      Continubtion dont)
+        tirows NbmingExdfption {
+            if (rfsolvf_to_pfnultimbtf_dontfxt(nbmf, dont))
+                b_modifyAttributfs(nbmf.toString(), mods, dont);
         }
 
-    protected void c_bind(Name name, Object obj,
-                          Attributes attrs, Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context(name, cont))
-                a_bind(name.toString(), obj, attrs, cont);
+    protfdtfd void d_bind(Nbmf nbmf, Objfdt obj,
+                          Attributfs bttrs, Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt(nbmf, dont))
+                b_bind(nbmf.toString(), obj, bttrs, dont);
         }
 
-    protected void c_rebind(Name name, Object obj,
-                            Attributes attrs, Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context(name, cont))
-                a_rebind(name.toString(), obj, attrs, cont);
+    protfdtfd void d_rfbind(Nbmf nbmf, Objfdt obj,
+                            Attributfs bttrs, Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt(nbmf, dont))
+                b_rfbind(nbmf.toString(), obj, bttrs, dont);
         }
 
-    protected DirContext c_createSubcontext(Name name,
-                                           Attributes attrs,
-                                           Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context(name, cont))
-                return a_createSubcontext(name.toString(),
-                                          attrs, cont);
-            return null;
+    protfdtfd DirContfxt d_drfbtfSubdontfxt(Nbmf nbmf,
+                                           Attributfs bttrs,
+                                           Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt(nbmf, dont))
+                rfturn b_drfbtfSubdontfxt(nbmf.toString(),
+                                          bttrs, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search(Name name,
-                                         Attributes matchingAttributes,
-                                         String[] attributesToReturn,
-                                         Continuation cont)
-        throws NamingException  {
-            if (resolve_to_context(name, cont))
-                return a_search(matchingAttributes, attributesToReturn, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> d_sfbrdi(Nbmf nbmf,
+                                         Attributfs mbtdiingAttributfs,
+                                         String[] bttributfsToRfturn,
+                                         Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_dontfxt(nbmf, dont))
+                rfturn b_sfbrdi(mbtdiingAttributfs, bttributfsToRfturn, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search(Name name,
-                                                       String filter,
-                                                       SearchControls cons,
-                                                       Continuation cont)
-        throws NamingException {
-            if (resolve_to_penultimate_context(name, cont))
-                return a_search(name.toString(), filter, cons, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> d_sfbrdi(Nbmf nbmf,
+                                                       String filtfr,
+                                                       SfbrdiControls dons,
+                                                       Continubtion dont)
+        tirows NbmingExdfption {
+            if (rfsolvf_to_pfnultimbtf_dontfxt(nbmf, dont))
+                rfturn b_sfbrdi(nbmf.toString(), filtfr, dons, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search(Name name,
-                                                       String filterExpr,
-                                                       Object[] filterArgs,
-                                                       SearchControls cons,
-                                                       Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context(name, cont))
-                return a_search(name.toString(), filterExpr, filterArgs, cons, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> d_sfbrdi(Nbmf nbmf,
+                                                       String filtfrExpr,
+                                                       Objfdt[] filtfrArgs,
+                                                       SfbrdiControls dons,
+                                                       Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt(nbmf, dont))
+                rfturn b_sfbrdi(nbmf.toString(), filtfrExpr, filtfrArgs, dons, dont);
+            rfturn null;
         }
 
-    protected DirContext c_getSchema(Name name, Continuation cont)
-        throws NamingException  {
-            if (resolve_to_context(name, cont))
-                return a_getSchema(cont);
-            return null;
+    protfdtfd DirContfxt d_gftSdifmb(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_dontfxt(nbmf, dont))
+                rfturn b_gftSdifmb(dont);
+            rfturn null;
         }
 
-    protected DirContext c_getSchemaClassDefinition(Name name, Continuation cont)
-        throws NamingException  {
-            if (resolve_to_context(name, cont))
-                return a_getSchemaClassDefinition(cont);
-            return null;
+    protfdtfd DirContfxt d_gftSdifmbClbssDffinition(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_dontfxt(nbmf, dont))
+                rfturn b_gftSdifmbClbssDffinition(dont);
+            rfturn null;
         }
 
-    /* equivalent to methods in DirContext interface for nns */
+    /* fquivblfnt to mftiods in DirContfxt intfrfbdf for nns */
 
-    protected Attributes c_getAttributes_nns(Name name, String[] attrIds,
-                                           Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context_nns(name, cont))
-                return a_getAttributes_nns(name.toString(), attrIds, cont);
-            return null;
+    protfdtfd Attributfs d_gftAttributfs_nns(Nbmf nbmf, String[] bttrIds,
+                                           Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt_nns(nbmf, dont))
+                rfturn b_gftAttributfs_nns(nbmf.toString(), bttrIds, dont);
+            rfturn null;
         }
 
-    protected void c_modifyAttributes_nns(Name name, int mod_op,
-                                          Attributes attrs, Continuation cont)
-        throws NamingException {
-            if (resolve_to_penultimate_context_nns(name, cont))
-                a_modifyAttributes_nns(name.toString(), mod_op, attrs, cont);
+    protfdtfd void d_modifyAttributfs_nns(Nbmf nbmf, int mod_op,
+                                          Attributfs bttrs, Continubtion dont)
+        tirows NbmingExdfption {
+            if (rfsolvf_to_pfnultimbtf_dontfxt_nns(nbmf, dont))
+                b_modifyAttributfs_nns(nbmf.toString(), mod_op, bttrs, dont);
         }
 
-    protected void c_modifyAttributes_nns(Name name, ModificationItem[] mods,
-                                      Continuation cont)
-        throws NamingException {
-            if (resolve_to_penultimate_context_nns(name, cont))
-                a_modifyAttributes_nns(name.toString(), mods, cont);
+    protfdtfd void d_modifyAttributfs_nns(Nbmf nbmf, ModifidbtionItfm[] mods,
+                                      Continubtion dont)
+        tirows NbmingExdfption {
+            if (rfsolvf_to_pfnultimbtf_dontfxt_nns(nbmf, dont))
+                b_modifyAttributfs_nns(nbmf.toString(), mods, dont);
         }
 
-    protected void c_bind_nns(Name name, Object obj,
-                              Attributes attrs, Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context_nns(name, cont))
-                a_bind_nns(name.toString(), obj, attrs, cont);
+    protfdtfd void d_bind_nns(Nbmf nbmf, Objfdt obj,
+                              Attributfs bttrs, Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt_nns(nbmf, dont))
+                b_bind_nns(nbmf.toString(), obj, bttrs, dont);
         }
 
-    protected void c_rebind_nns(Name name, Object obj,
-                                Attributes attrs, Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context_nns(name, cont))
-                a_rebind_nns(name.toString(), obj, attrs, cont);
+    protfdtfd void d_rfbind_nns(Nbmf nbmf, Objfdt obj,
+                                Attributfs bttrs, Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt_nns(nbmf, dont))
+                b_rfbind_nns(nbmf.toString(), obj, bttrs, dont);
         }
 
-    protected DirContext c_createSubcontext_nns(Name name,
-                                               Attributes attrs,
-                                               Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context_nns(name, cont))
-                return a_createSubcontext_nns(name.toString(), attrs, cont);
-            return null;
+    protfdtfd DirContfxt d_drfbtfSubdontfxt_nns(Nbmf nbmf,
+                                               Attributfs bttrs,
+                                               Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt_nns(nbmf, dont))
+                rfturn b_drfbtfSubdontfxt_nns(nbmf.toString(), bttrs, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search_nns(
-                                         Name name,
-                                         Attributes matchingAttributes,
-                                         String[] attributesToReturn,
-                                         Continuation cont)
-        throws NamingException  {
-            resolve_to_nns_and_continue(name, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> d_sfbrdi_nns(
+                                         Nbmf nbmf,
+                                         Attributfs mbtdiingAttributfs,
+                                         String[] bttributfsToRfturn,
+                                         Continubtion dont)
+        tirows NbmingExdfption  {
+            rfsolvf_to_nns_bnd_dontinuf(nbmf, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search_nns(Name name,
-                                                           String filter,
-                                                           SearchControls cons,
-                                                           Continuation cont)
-        throws NamingException {
-            if (resolve_to_penultimate_context_nns(name, cont))
-                return a_search_nns(name.toString(), filter, cons, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> d_sfbrdi_nns(Nbmf nbmf,
+                                                           String filtfr,
+                                                           SfbrdiControls dons,
+                                                           Continubtion dont)
+        tirows NbmingExdfption {
+            if (rfsolvf_to_pfnultimbtf_dontfxt_nns(nbmf, dont))
+                rfturn b_sfbrdi_nns(nbmf.toString(), filtfr, dons, dont);
+            rfturn null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search_nns(Name name,
-                                                           String filterExpr,
-                                                           Object[] filterArgs,
-                                                           SearchControls cons,
-                                                           Continuation cont)
-        throws NamingException  {
-            if (resolve_to_penultimate_context_nns(name, cont))
-                return a_search_nns(name.toString(), filterExpr, filterArgs,
-                                    cons, cont);
-            return null;
+    protfdtfd NbmingEnumfrbtion<SfbrdiRfsult> d_sfbrdi_nns(Nbmf nbmf,
+                                                           String filtfrExpr,
+                                                           Objfdt[] filtfrArgs,
+                                                           SfbrdiControls dons,
+                                                           Continubtion dont)
+        tirows NbmingExdfption  {
+            if (rfsolvf_to_pfnultimbtf_dontfxt_nns(nbmf, dont))
+                rfturn b_sfbrdi_nns(nbmf.toString(), filtfrExpr, filtfrArgs,
+                                    dons, dont);
+            rfturn null;
         }
 
-    protected DirContext c_getSchema_nns(Name name, Continuation cont)
-        throws NamingException  {
-            resolve_to_nns_and_continue(name, cont);
-            return null;
+    protfdtfd DirContfxt d_gftSdifmb_nns(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption  {
+            rfsolvf_to_nns_bnd_dontinuf(nbmf, dont);
+            rfturn null;
         }
 
-    protected DirContext c_getSchemaClassDefinition_nns(Name name, Continuation cont)
-        throws NamingException  {
-            resolve_to_nns_and_continue(name, cont);
-            return null;
+    protfdtfd DirContfxt d_gftSdifmbClbssDffinition_nns(Nbmf nbmf, Continubtion dont)
+        tirows NbmingExdfption  {
+            rfsolvf_to_nns_bnd_dontinuf(nbmf, dont);
+            rfturn null;
         }
 }

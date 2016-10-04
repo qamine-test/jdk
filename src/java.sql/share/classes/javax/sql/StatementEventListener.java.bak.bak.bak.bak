@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Crfbtfd on Apr 28, 2005
+ */
+pbdkbgf jbvbx.sql;
+
+/**
+ * An objfdt thbt rfgistfrs to bf notififd of fvfnts thbt oddur on PrfpbrfdStbtfmfnts
+ * thbt brf in thf Stbtfmfnt pool.
+ * <p>
+ * Thf JDBC 3.0 spfdifidbtion bddfd thf mbxStbtfmfnts
+ * <dodf>ConnfdtionPoolfdDbtbSourdf</dodf> propfrty to providf b stbndbrd mfdhbnism for
+ * fnbbling thf pooling of <dodf>PrfpbrfdStbtfmfnts</dodf>
+ * bnd to spfdify thf sizf of thf stbtfmfnt
+ * pool.  Howfvfr, thfrf wbs no wby for b drivfr to notify bn fxtfrnbl
+ * stbtfmfnt pool whfn b <dodf>PrfpbrfdStbtfmfnt</dodf> bfdomfs invblid.  For somf dbtbbbsfs, b
+ * stbtfmfnt bfdomfs invblid if b DDL opfrbtion is pfrformfd thbt bfffdts thf
+ * tbblf.  For fxbmplf bn bpplidbtion mby drfbtf b tfmporbry tbblf to do somf work
+ * on thf tbblf bnd thfn dfstroy it.  It mby lbtfr rfdrfbtf thf sbmf tbblf whfn
+ * it is nffdfd bgbin.  Somf dbtbbbsfs will invblidbtf bny prfpbrfd stbtfmfnts
+ * thbt rfffrfndf thf tfmporbry tbblf whfn thf tbblf is droppfd.
+ * <p>
+ * Similbr to thf mfthods dffinfd in thf <dodf>ConnfdtionEvfntListfnfr</dodf> intfrfbdf,
+ * thf drivfr will dbll thf <dodf>StbtfmfntEvfntListfnfr.stbtfmfntErrorOddurrfd</dodf>
+ * mfthod prior to throwing bny fxdfptions whfn it dftfdts b stbtfmfnt is invblid.
+ * Thf drivfr will blso dbll thf <dodf>StbtfmfntEvfntListfnfr.stbtfmfntClosfd</dodf>
+ * mfthod whfn b <dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd.
+ * <p>
+ * Mfthods whidh bllow b domponfnt to rfgistfr b StbtfmfntEvfntListfnfr with b
+ * <dodf>PoolfdConnfdtion</dodf> hbvf bffn bddfd to thf <dodf>PoolfdConnfdtion</dodf> intfrfbdf.
+ *
+ * @sindf 1.6
+ */
+publid intfrfbdf StbtfmfntEvfntListfnfr  fxtfnds jbvb.util.EvfntListfnfr{
+  /**
+   * Thf drivfr dblls this mfthod on bll <dodf>StbtfmfntEvfntListfnfr</dodf>s rfgistfrfd on thf donnfdtion whfn it dftfdts thbt b
+   * <dodf>PrfpbrfdStbtfmfnt</dodf> is dlosfd.
+   *
+   * @pbrbm fvfnt bn fvfnt objfdt dfsdribing thf sourdf of
+   * thf fvfnt bnd thbt thf <dodf>PrfpbrfdStbtfmfnt</dodf> wbs dlosfd.
+   * @sindf 1.6
+   */
+  void stbtfmfntClosfd(StbtfmfntEvfnt fvfnt);
+
+        /**
+         * Thf drivfr dblls this mfthod on bll <dodf>StbtfmfntEvfntListfnfr</dodf>s
+         * rfgistfrfd on thf donnfdtion whfn it dftfdts thbt b
+         * <dodf>PrfpbrfdStbtfmfnt</dodf> is invblid. Thf drivfr dblls this mfthod
+         * just bfforf it throws thf <dodf>SQLExdfption</dodf>,
+         * dontbinfd in thf givfn fvfnt, to thf bpplidbtion.
+         *
+         * @pbrbm fvfnt    bn fvfnt objfdt dfsdribing thf sourdf of thf fvfnt,
+         *                 thf stbtfmfnt thbt is invblid bnd thf fxdfption thf
+         *                 drivfr is bbout to throw.  Thf sourdf of thf fvfnt is
+         *                 thf <dodf>PoolfdConnfdtion</dodf> whidh thf invblid <dodf>PrfpbrfdStbtfmfnt</dodf>
+         *                 is bssodibtfd with.
+         *
+         * @sindf 1.6
+         */
+        void stbtfmfntErrorOddurrfd(StbtfmfntEvfnt fvfnt);
+
+}

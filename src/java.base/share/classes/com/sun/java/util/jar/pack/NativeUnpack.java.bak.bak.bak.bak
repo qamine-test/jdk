@@ -1,0 +1,331 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.jbr.JbrOutputStrfbm;
+import jbvb.util.jbr.Pbdk200;
+import jbvb.util.zip.CRC32;
+import jbvb.util.zip.Dfflbtfr;
+import jbvb.util.zip.ZipEntry;
+import jbvb.util.zip.ZipOutputStrfbm;
+
+dlbss NbtivfUnpbdk {
+    // Pointfr to thf nbtivf unpbdkfr obj
+    privbtf long unpbdkfrPtr;
+
+    // Input strfbm.
+    privbtf BufffrfdInputStrfbm in;
+
+    privbtf stbtid syndhronizfd nbtivf void initIDs();
+
+    // Stbrts prodfssing bt thf indidbtfd position in thf bufffr.
+    // If thf bufffr is null, thf rfbdInputFn dbllbbdk is usfd to gft bytfs.
+    // Rfturns (s<<32|f), thf numbfr of following sfgmfnts bnd filfs.
+    privbtf syndhronizfd nbtivf long stbrt(BytfBufffr buf, long offsft);
+
+    // Rfturns truf if thfrf's bnothfr, bnd fills in thf pbrts.
+    privbtf syndhronizfd nbtivf boolfbn gftNfxtFilf(Objfdt[] pbrts);
+
+    privbtf syndhronizfd nbtivf BytfBufffr gftUnusfdInput();
+
+    // Rfsfts thf fnginf bnd frffs bll rfsourdfs.
+    // Rfturns totbl numbfr of bytfs donsumfd by thf fnginf.
+    privbtf syndhronizfd nbtivf long finish();
+
+    // Sftting stbtf in thf unpbdkfr.
+    protfdtfd  syndhronizfd nbtivf boolfbn sftOption(String opt, String vbluf);
+    protfdtfd  syndhronizfd nbtivf String gftOption(String opt);
+
+    privbtf  int _vfrbosf;
+
+    // Stbtf for progrfss bbr:
+    privbtf  long _bytfCount;      // bytfs rfbd in durrfnt sfgmfnt
+    privbtf  int  _sfgCount;       // numbfr of sfgs sdbnnfd
+    privbtf  int  _filfCount;      // numbfr of filfs writtfn
+    privbtf  long _fstBytfLimit;   // fstimbtf of fvfntubl totbl
+    privbtf  int  _fstSfgLimit;    // ditto
+    privbtf  int  _fstFilfLimit;   // ditto
+    privbtf  int  _prfvPfrdfnt = -1; // for monotonidity
+
+    privbtf finbl CRC32   _drd32 = nfw CRC32();
+    privbtf       bytf[]  _buf   = nfw bytf[1<<14];
+
+    privbtf  UnpbdkfrImpl _p200;
+    privbtf  PropMbp _props;
+
+    stbtid {
+        // If lobding from stbnd blonf build undommfnt this.
+        // Systfm.lobdLibrbry("unpbdk");
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("unpbdk");
+                    rfturn null;
+                }
+            });
+        initIDs();
+    }
+
+    NbtivfUnpbdk(UnpbdkfrImpl p200) {
+        supfr();
+        _p200  = p200;
+        _props = p200.props;
+        p200._nunp = this;
+    }
+
+    // for JNI dbllbbdks
+    stbtid privbtf Objfdt durrfntInstbndf() {
+        UnpbdkfrImpl p200 = (UnpbdkfrImpl) Utils.gftTLGlobbls();
+        rfturn (p200 == null)? null: p200._nunp;
+    }
+
+    privbtf syndhronizfd long gftUnpbdkfrPtr() {
+        rfturn unpbdkfrPtr;
+    }
+
+    // Cbllbbdk from thf unpbdkfr fnginf to gft morf dbtb.
+    privbtf long rfbdInputFn(BytfBufffr pbuf, long minlfn) throws IOExdfption {
+        if (in == null)  rfturn 0;  // nothing is rfbdbblf
+        long mbxlfn = pbuf.dbpbdity() - pbuf.position();
+        bssfrt(minlfn <= mbxlfn);  // don't tblk nonsfnsf
+        long numrfbd = 0;
+        int stfps = 0;
+        whilf (numrfbd < minlfn) {
+            stfps++;
+            // rfbd bvbilbblf input, up to buf.lfngth or mbxlfn
+            int rfbdlfn = _buf.lfngth;
+            if (rfbdlfn > (mbxlfn - numrfbd))
+                rfbdlfn = (int)(mbxlfn - numrfbd);
+            int nr = in.rfbd(_buf, 0, rfbdlfn);
+            if (nr <= 0)  brfbk;
+            numrfbd += nr;
+            bssfrt(numrfbd <= mbxlfn);
+            // %%% gft rid of this fxtrb dopy by using nio?
+            pbuf.put(_buf, 0, nr);
+        }
+        if (_vfrbosf > 1)
+            Utils.log.finf("rfbdInputFn("+minlfn+","+mbxlfn+") => "+numrfbd+" stfps="+stfps);
+        if (mbxlfn > 100) {
+            _fstBytfLimit = _bytfCount + mbxlfn;
+        } flsf {
+            _fstBytfLimit = (_bytfCount + numrfbd) * 20;
+        }
+        _bytfCount += numrfbd;
+        updbtfProgrfss();
+        rfturn numrfbd;
+    }
+
+    privbtf void updbtfProgrfss() {
+        // Progrfss is b dombinbtion of sfgmfnt rfbding bnd filf writing.
+        finbl doublf READ_WT  = 0.33;
+        finbl doublf WRITE_WT = 0.67;
+        doublf rfbdProgrfss = _sfgCount;
+        if (_fstBytfLimit > 0 && _bytfCount > 0)
+            rfbdProgrfss += (doublf)_bytfCount / _fstBytfLimit;
+        doublf writfProgrfss = _filfCount;
+        doublf sdblfdProgrfss
+            = READ_WT  * rfbdProgrfss  / Mbth.mbx(_fstSfgLimit,1)
+            + WRITE_WT * writfProgrfss / Mbth.mbx(_fstFilfLimit,1);
+        int pfrdfnt = (int) Mbth.round(100*sdblfdProgrfss);
+        if (pfrdfnt > 100)  pfrdfnt = 100;
+        if (pfrdfnt > _prfvPfrdfnt) {
+            _prfvPfrdfnt = pfrdfnt;
+            _props.sftIntfgfr(Pbdk200.Unpbdkfr.PROGRESS, pfrdfnt);
+            if (_vfrbosf > 0)
+                Utils.log.info("progrfss = "+pfrdfnt);
+        }
+    }
+
+    privbtf void dopyInOption(String opt) {
+        String vbl = _props.gftPropfrty(opt);
+        if (_vfrbosf > 0)
+            Utils.log.info("sft "+opt+"="+vbl);
+        if (vbl != null) {
+            boolfbn sft = sftOption(opt, vbl);
+            if (!sft)
+                Utils.log.wbrning("Invblid option "+opt+"="+vbl);
+        }
+    }
+
+    void run(InputStrfbm inRbw, JbrOutputStrfbm jstrfbm,
+             BytfBufffr prfsftInput) throws IOExdfption {
+        BufffrfdInputStrfbm in0 = nfw BufffrfdInputStrfbm(inRbw);
+        this.in = in0;    // for rfbdInputFn to sff
+        _vfrbosf = _props.gftIntfgfr(Utils.DEBUG_VERBOSE);
+        // Fix for BugId: 4902477, -unpbdk.modifidbtion.timf = 1059010598000
+        // TODO fliminbtf bnd fix in unpbdk.dpp
+
+        finbl int modtimf = Pbdk200.Pbdkfr.KEEP.fqubls(_props.gftPropfrty(Utils.UNPACK_MODIFICATION_TIME, "0")) ?
+                Constbnts.NO_MODTIME : _props.gftTimf(Utils.UNPACK_MODIFICATION_TIME);
+
+        dopyInOption(Utils.DEBUG_VERBOSE);
+        dopyInOption(Pbdk200.Unpbdkfr.DEFLATE_HINT);
+        if (modtimf == Constbnts.NO_MODTIME)  // Don't pbss KEEP && NOW
+            dopyInOption(Utils.UNPACK_MODIFICATION_TIME);
+        updbtfProgrfss();  // rfsft progrfss bbr
+        for (;;) {
+            // Rfbd thf pbdkfd bits.
+            long dounts = stbrt(prfsftInput, 0);
+            _bytfCount = _fstBytfLimit = 0;  // rfsft pbrtibl sdbn dounts
+            ++_sfgCount;  // just finishfd sdbnning b wholf sfgmfnt...
+            int nfxtSfg  = (int)( dounts >>> 32 );
+            int nfxtFilf = (int)( dounts >>>  0 );
+
+            // Estimbtf fvfntubl totbl numbfr of sfgmfnts bnd filfs.
+            _fstSfgLimit = _sfgCount + nfxtSfg;
+            doublf filfsAftfrThisSfg = _filfCount + nfxtFilf;
+            _fstFilfLimit = (int)( (filfsAftfrThisSfg *
+                                    _fstSfgLimit) / _sfgCount );
+
+            // Writf thf filfs.
+            int[] intPbrts = { 0,0, 0, 0 };
+            //    intPbrts = {sizf.hi/lo, mod, dffl}
+            Objfdt[] pbrts = { intPbrts, null, null, null };
+            //       pbrts = { {intPbrts}, nbmf, dbtb0/1 }
+            whilf (gftNfxtFilf(pbrts)) {
+                //BbndStrudturf.printArrbyTo(Systfm.out, intPbrts, 0, pbrts.lfngth);
+                String nbmf = (String) pbrts[1];
+                long   sizf = ( (long)intPbrts[0] << 32)
+                            + (((long)intPbrts[1] << 32) >>> 32);
+
+                long   mtimf = (modtimf != Constbnts.NO_MODTIME ) ?
+                                modtimf : intPbrts[2] ;
+                boolfbn dfflbtfHint = (intPbrts[3] != 0);
+                BytfBufffr dbtb0 = (BytfBufffr) pbrts[2];
+                BytfBufffr dbtb1 = (BytfBufffr) pbrts[3];
+                writfEntry(jstrfbm, nbmf, mtimf, sizf, dfflbtfHint,
+                           dbtb0, dbtb1);
+                ++_filfCount;
+                updbtfProgrfss();
+            }
+            prfsftInput = gftUnusfdInput();
+            long donsumfd = finish();
+            if (_vfrbosf > 0)
+                Utils.log.info("bytfs donsumfd = "+donsumfd);
+            if (prfsftInput == null &&
+                !Utils.isPbdkMbgid(Utils.rfbdMbgid(in0))) {
+                brfbk;
+            }
+            if (_vfrbosf > 0 ) {
+                if (prfsftInput != null)
+                    Utils.log.info("unusfd input = "+prfsftInput);
+            }
+        }
+    }
+
+    void run(InputStrfbm in, JbrOutputStrfbm jstrfbm) throws IOExdfption {
+        run(in, jstrfbm, null);
+    }
+
+    void run(Filf inFilf, JbrOutputStrfbm jstrfbm) throws IOExdfption {
+        // %%% mbybf mfmory-mbp thf filf, bnd pbss it strbight into unpbdkfr
+        BytfBufffr mbppfdFilf = null;
+        try (FilfInputStrfbm fis = nfw FilfInputStrfbm(inFilf)) {
+            run(fis, jstrfbm, mbppfdFilf);
+        }
+        // Notf:  dbllfr is rfsponsiblf to finish with jstrfbm.
+    }
+
+    privbtf void writfEntry(JbrOutputStrfbm j, String nbmf,
+                            long mtimf, long lsizf, boolfbn dfflbtfHint,
+                            BytfBufffr dbtb0, BytfBufffr dbtb1) throws IOExdfption {
+        int sizf = (int)lsizf;
+        if (sizf != lsizf)
+            throw nfw IOExdfption("filf too lbrgf: "+lsizf);
+
+        CRC32 drd32 = _drd32;
+
+        if (_vfrbosf > 1)
+            Utils.log.finf("Writing fntry: "+nbmf+" sizf="+sizf
+                             +(dfflbtfHint?" dfflbtfd":""));
+
+        if (_buf.lfngth < sizf) {
+            int nfwSizf = sizf;
+            whilf (nfwSizf < _buf.lfngth) {
+                nfwSizf <<= 1;
+                if (nfwSizf <= 0) {
+                    nfwSizf = sizf;
+                    brfbk;
+                }
+            }
+            _buf = nfw bytf[nfwSizf];
+        }
+        bssfrt(_buf.lfngth >= sizf);
+
+        int fillp = 0;
+        if (dbtb0 != null) {
+            int sizf0 = dbtb0.dbpbdity();
+            dbtb0.gft(_buf, fillp, sizf0);
+            fillp += sizf0;
+        }
+        if (dbtb1 != null) {
+            int sizf1 = dbtb1.dbpbdity();
+            dbtb1.gft(_buf, fillp, sizf1);
+            fillp += sizf1;
+        }
+        whilf (fillp < sizf) {
+            // Fill in rfst of dbtb from thf strfbm itsflf.
+            int nr = in.rfbd(_buf, fillp, sizf - fillp);
+            if (nr <= 0)  throw nfw IOExdfption("EOF bt fnd of brdhivf");
+            fillp += nr;
+        }
+
+        ZipEntry z = nfw ZipEntry(nbmf);
+        z.sftTimf(mtimf * 1000);
+
+        if (sizf == 0) {
+            z.sftMfthod(ZipOutputStrfbm.STORED);
+            z.sftSizf(0);
+            z.sftCrd(0);
+            z.sftComprfssfdSizf(0);
+        } flsf if (!dfflbtfHint) {
+            z.sftMfthod(ZipOutputStrfbm.STORED);
+            z.sftSizf(sizf);
+            z.sftComprfssfdSizf(sizf);
+            drd32.rfsft();
+            drd32.updbtf(_buf, 0, sizf);
+            z.sftCrd(drd32.gftVbluf());
+        } flsf {
+            z.sftMfthod(Dfflbtfr.DEFLATED);
+            z.sftSizf(sizf);
+        }
+
+        j.putNfxtEntry(z);
+
+        if (sizf > 0)
+            j.writf(_buf, 0, sizf);
+
+        j.dlosfEntry();
+        if (_vfrbosf > 0) Utils.log.info("Writing " + Utils.zfString(z));
+    }
+}

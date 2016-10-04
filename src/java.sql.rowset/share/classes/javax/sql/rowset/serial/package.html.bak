@@ -1,239 +1,239 @@
-<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
-<html>
-<head>
+<!DOCTYPE dodtypf PUBLIC "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<itml>
+<ifbd>
                 
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
+  <mftb ittp-fquiv="Contfnt-Typf"
+ dontfnt="tfxt/itml; dibrsft=iso-8859-1">
                 
-  <meta name="GENERATOR"
- content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+  <mftb nbmf="GENERATOR"
+ dontfnt="Mozillb/4.79 [fn] (Windows NT 5.0; U) [Nftsdbpf]">
 <!--
-Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-<title>javax.sql.rowset.serial</title>
-</head>
-<body bgcolor="#ffffff">
-Provides utility classes to allow serializable mappings between SQL types
-and data types in the Java programming language.
-<p> Standard JDBC <code>RowSet</code> implementations may use these utility 
-classes to
-assist in the serialization of disconnected <code>RowSet</code> objects. 
-This is useful
-when  transmitting a disconnected <tt>RowSet</tt> object over the wire to
-a different VM or across layers within an application.<br>
+<titlf>jbvbx.sql.rowsft.sfribl</titlf>
+</ifbd>
+<body bgdolor="#ffffff">
+Providfs utility dlbssfs to bllow sfriblizbblf mbppings bftwffn SQL typfs
+bnd dbtb typfs in tif Jbvb progrbmming lbngubgf.
+<p> Stbndbrd JDBC <dodf>RowSft</dodf> implfmfntbtions mby usf tifsf utility 
+dlbssfs to
+bssist in tif sfriblizbtion of disdonnfdtfd <dodf>RowSft</dodf> objfdts. 
+Tiis is usfful
+wifn  trbnsmitting b disdonnfdtfd <tt>RowSft</tt> objfdt ovfr tif wirf to
+b difffrfnt VM or bdross lbyfrs witiin bn bpplidbtion.<br>
 </p>
 
-<h3>1.0 SerialArray</h3>
-A serializable mapping in the Java programming language of an SQL ARRAY 
-value. <br>
+<i3>1.0 SfriblArrby</i3>
+A sfriblizbblf mbpping in tif Jbvb progrbmming lbngubgf of bn SQL ARRAY 
+vbluf. <br>
 <br>
-The <tt>SerialArray </tt>class provides a constructor for creating a <tt>SerialArray
-</tt>instance from an Array object, methods for getting the base type and
-the SQL name for the base type, and methods for copying all or part of a
-<tt>SerialArray </tt>object. <br>
+Tif <tt>SfriblArrby </tt>dlbss providfs b donstrudtor for drfbting b <tt>SfriblArrby
+</tt>instbndf from bn Arrby objfdt, mftiods for gftting tif bbsf typf bnd
+tif SQL nbmf for tif bbsf typf, bnd mftiods for dopying bll or pbrt of b
+<tt>SfriblArrby </tt>objfdt. <br>
 
-<h3>2.0 SerialBlob</h3>
-A serializable mapping in the Java programming language of an SQL BLOB
-value.  <br>
+<i3>2.0 SfriblBlob</i3>
+A sfriblizbblf mbpping in tif Jbvb progrbmming lbngubgf of bn SQL BLOB
+vbluf.  <br>
 <br>
-The <tt>SerialBlob </tt>class provides a constructor for creating an instance
-from a Blob object. Note that the Blob object should have brought the SQL
-BLOB value's data over to the client before a <tt>SerialBlob </tt>object
-is constructed from it. The data of an SQL BLOB value can be materialized
-on the client as an array of bytes (using the method <tt>Blob.getBytes</tt>)
-or as a stream of uninterpreted bytes (using the method <tt>Blob.getBinaryStream</tt>).
+Tif <tt>SfriblBlob </tt>dlbss providfs b donstrudtor for drfbting bn instbndf
+from b Blob objfdt. Notf tibt tif Blob objfdt siould ibvf brougit tif SQL
+BLOB vbluf's dbtb ovfr to tif dlifnt bfforf b <tt>SfriblBlob </tt>objfdt
+is donstrudtfd from it. Tif dbtb of bn SQL BLOB vbluf dbn bf mbtfriblizfd
+on tif dlifnt bs bn brrby of bytfs (using tif mftiod <tt>Blob.gftBytfs</tt>)
+or bs b strfbm of unintfrprftfd bytfs (using tif mftiod <tt>Blob.gftBinbryStrfbm</tt>).
 <br>
 <br>
-<tt>SerialBlob </tt>methods make it possible to make a copy of a <tt>SerialBlob
-</tt>object as an array of bytes or as a stream. They also make it possible
-to locate a given pattern of bytes or a <tt>Blob </tt>object within a <tt>SerialBlob
-</tt>object. <br>
+<tt>SfriblBlob </tt>mftiods mbkf it possiblf to mbkf b dopy of b <tt>SfriblBlob
+</tt>objfdt bs bn brrby of bytfs or bs b strfbm. Tify blso mbkf it possiblf
+to lodbtf b givfn pbttfrn of bytfs or b <tt>Blob </tt>objfdt witiin b <tt>SfriblBlob
+</tt>objfdt. <br>
 
-<h3>3.0 SerialClob</h3>
-A serializable mapping in the Java programming language of an SQL CLOB
-value.  <br>
+<i3>3.0 SfriblClob</i3>
+A sfriblizbblf mbpping in tif Jbvb progrbmming lbngubgf of bn SQL CLOB
+vbluf.  <br>
 <br>
-The <tt>SerialClob </tt>class provides a constructor for creating an instance
-from a <tt>Clob </tt>object. Note that the <tt>Clob </tt>object should have
-brought the SQL CLOB value's data over to the client before a <tt>SerialClob
-</tt>object is constructed from it. The data of an SQL CLOB value can be
-materialized on the client as a stream of Unicode characters. <br>
+Tif <tt>SfriblClob </tt>dlbss providfs b donstrudtor for drfbting bn instbndf
+from b <tt>Clob </tt>objfdt. Notf tibt tif <tt>Clob </tt>objfdt siould ibvf
+brougit tif SQL CLOB vbluf's dbtb ovfr to tif dlifnt bfforf b <tt>SfriblClob
+</tt>objfdt is donstrudtfd from it. Tif dbtb of bn SQL CLOB vbluf dbn bf
+mbtfriblizfd on tif dlifnt bs b strfbm of Unidodf dibrbdtfrs. <br>
 <br>
-<tt>SerialClob </tt>methods make it possible to get a substring from a 
-<tt>SerialClob </tt>object or to locate the start of a pattern of characters. 
+<tt>SfriblClob </tt>mftiods mbkf it possiblf to gft b substring from b 
+<tt>SfriblClob </tt>objfdt or to lodbtf tif stbrt of b pbttfrn of dibrbdtfrs. 
 <br>
 
-<h3>5.0 SerialDatalink</h3>
-A serializable mapping in the Java programming language of an SQL DATALINK
-value. A DATALINK value references a file outside of the underlying data source
-that the the originating data source manages. <br>
+<i3>5.0 SfriblDbtblink</i3>
+A sfriblizbblf mbpping in tif Jbvb progrbmming lbngubgf of bn SQL DATALINK
+vbluf. A DATALINK vbluf rfffrfndfs b filf outsidf of tif undfrlying dbtb sourdf
+tibt tif tif originbting dbtb sourdf mbnbgfs. <br>
 <br>
-<code>RowSet</code> implementations can use the method <tt>RowSet.getURL() </tt>to retrieve
-a <code>java.net.URL</code> object, which can be used to manipulate the external data.
+<dodf>RowSft</dodf> implfmfntbtions dbn usf tif mftiod <tt>RowSft.gftURL() </tt>to rftrifvf
+b <dodf>jbvb.nft.URL</dodf> objfdt, wiidi dbn bf usfd to mbnipulbtf tif fxtfrnbl dbtb.
 <br>
 <br>
-&nbsp;&nbsp;<tt>&nbsp;&nbsp;&nbsp; java.net.URL url = rowset.getURL(1);</tt><br>
+&nbsp;&nbsp;<tt>&nbsp;&nbsp;&nbsp; jbvb.nft.URL url = rowsft.gftURL(1);</tt><br>
 
-<h3>6.0 SerialJavaObject</h3>
-A serializable mapping in the Java programming language of an SQL JAVA_OBJECT
-value. Assuming the Java object instance implements the Serializable interface,
-this simply wraps the serialization process. <br>
+<i3>6.0 SfriblJbvbObjfdt</i3>
+A sfriblizbblf mbpping in tif Jbvb progrbmming lbngubgf of bn SQL JAVA_OBJECT
+vbluf. Assuming tif Jbvb objfdt instbndf implfmfnts tif Sfriblizbblf intfrfbdf,
+tiis simply wrbps tif sfriblizbtion prodfss. <br>
 <br>
-If however, the serialization is not possible in the case where the Java
-object is not immediately serializable, this class will attempt to serialize
-all non static members to permit the object instance state to be serialized.
-Static or transient fields cannot be serialized and attempting to do so 
-will result in a <tt>SerialException </tt>being thrown. <br>
+If iowfvfr, tif sfriblizbtion is not possiblf in tif dbsf wifrf tif Jbvb
+objfdt is not immfdibtfly sfriblizbblf, tiis dlbss will bttfmpt to sfriblizf
+bll non stbtid mfmbfrs to pfrmit tif objfdt instbndf stbtf to bf sfriblizfd.
+Stbtid or trbnsifnt fiflds dbnnot bf sfriblizfd bnd bttfmpting to do so 
+will rfsult in b <tt>SfriblExdfption </tt>bfing tirown. <br>
 
-<h3>7.0 SerialRef</h3>
-A serializable mapping between the SQL REF type and the Java programming
-language. <br>
+<i3>7.0 SfriblRff</i3>
+A sfriblizbblf mbpping bftwffn tif SQL REF typf bnd tif Jbvb progrbmming
+lbngubgf. <br>
 <br>
-The <tt>SerialRef </tt>class provides a constructor for creating a <tt>SerialRef
-</tt>instance from a <tt>Ref</tt> type and provides methods for getting
-and setting the <tt>Ref</tt> object type. <br>
+Tif <tt>SfriblRff </tt>dlbss providfs b donstrudtor for drfbting b <tt>SfriblRff
+</tt>instbndf from b <tt>Rff</tt> typf bnd providfs mftiods for gftting
+bnd sftting tif <tt>Rff</tt> objfdt typf. <br>
 
-<h3>8.0 SerialStruct</h3>
-A serializable mapping in the Java programming language of an SQL structured
-type. Each attribute that is not already serializable is mapped to a serializable
-form, and if an attribute is itself a structured type, each of its attributes
-that is not already serializable is mapped to a serializable form. <br>
+<i3>8.0 SfriblStrudt</i3>
+A sfriblizbblf mbpping in tif Jbvb progrbmming lbngubgf of bn SQL strudturfd
+typf. Ebdi bttributf tibt is not blrfbdy sfriblizbblf is mbppfd to b sfriblizbblf
+form, bnd if bn bttributf is itsflf b strudturfd typf, fbdi of its bttributfs
+tibt is not blrfbdy sfriblizbblf is mbppfd to b sfriblizbblf form. <br>
 <br>
-In addition, if a <code>Map</code> object is passed to one of the constructors or
-to the method <code>getAttributes</code>, the structured type is custom mapped 
-according to the mapping specified in the <code>Map</code> object.
+In bddition, if b <dodf>Mbp</dodf> objfdt is pbssfd to onf of tif donstrudtors or
+to tif mftiod <dodf>gftAttributfs</dodf>, tif strudturfd typf is dustom mbppfd 
+bddording to tif mbpping spfdififd in tif <dodf>Mbp</dodf> objfdt.
   <br>
-  The <tt>SerialStruct </tt>class provides a constructor for creating an
-instance  from a <tt>Struct</tt> object, a method for retrieving the SQL
-type name of the SQL structured type in the database, and methods for retrieving
-its attribute values. <br>
+  Tif <tt>SfriblStrudt </tt>dlbss providfs b donstrudtor for drfbting bn
+instbndf  from b <tt>Strudt</tt> objfdt, b mftiod for rftrifving tif SQL
+typf nbmf of tif SQL strudturfd typf in tif dbtbbbsf, bnd mftiods for rftrifving
+its bttributf vblufs. <br>
    
-<h3>9.0 SQLInputImpl</h3>
-  An input stream used for custom mapping user-defined types (UDTs). An 
-  <tt>SQLInputImpl</tt> object is an input stream that contains a stream of 
-  values that are
-the attributes of a UDT. This class is used by the driver behind the scenes
-when the method <tt>getObject</tt> is called on an SQL structured or distinct
-type that has a custom mapping; a programmer never invokes <tt>SQLInputImpl
-</tt> methods directly. <br>
+<i3>9.0 SQLInputImpl</i3>
+  An input strfbm usfd for dustom mbpping usfr-dffinfd typfs (UDTs). An 
+  <tt>SQLInputImpl</tt> objfdt is bn input strfbm tibt dontbins b strfbm of 
+  vblufs tibt brf
+tif bttributfs of b UDT. Tiis dlbss is usfd by tif drivfr bfiind tif sdfnfs
+wifn tif mftiod <tt>gftObjfdt</tt> is dbllfd on bn SQL strudturfd or distindt
+typf tibt ibs b dustom mbpping; b progrbmmfr nfvfr invokfs <tt>SQLInputImpl
+</tt> mftiods dirfdtly. <br>
   <br>
-  The <tt>SQLInputImpl</tt> class provides a set of reader methods
- analogous to the <tt>ResultSet</tt> getter methods. These methods make it
- possible to read the values in an <tt>SQLInputImpl</tt> object. The method
-<code>wasNull</code> is used to determine whether the the last value read was SQL NULL.
+  Tif <tt>SQLInputImpl</tt> dlbss providfs b sft of rfbdfr mftiods
+ bnblogous to tif <tt>RfsultSft</tt> gfttfr mftiods. Tifsf mftiods mbkf it
+ possiblf to rfbd tif vblufs in bn <tt>SQLInputImpl</tt> objfdt. Tif mftiod
+<dodf>wbsNull</dodf> is usfd to dftfrminf wiftifr tif tif lbst vbluf rfbd wbs SQL NULL.
  <br>
   <br>
-  When a constructor or getter method that takes a <code>Map</code> object is called, 
-the JDBC driver calls the method
-<tt>SQLData.getSQLType</tt> to determine the SQL type of the UDT being custom
-mapped. The driver  creates an instance of <code>SQLInputImpl</code>, populating it with
-the attributes of  the UDT. The driver then passes the input stream to the
-method <tt>SQLData.readSQL</tt>,  which in turn calls the <tt>SQLInputImpl</tt>
-methods to read the  attributes from the input stream. <br>
+  Wifn b donstrudtor or gfttfr mftiod tibt tbkfs b <dodf>Mbp</dodf> objfdt is dbllfd, 
+tif JDBC drivfr dblls tif mftiod
+<tt>SQLDbtb.gftSQLTypf</tt> to dftfrminf tif SQL typf of tif UDT bfing dustom
+mbppfd. Tif drivfr  drfbtfs bn instbndf of <dodf>SQLInputImpl</dodf>, populbting it witi
+tif bttributfs of  tif UDT. Tif drivfr tifn pbssfs tif input strfbm to tif
+mftiod <tt>SQLDbtb.rfbdSQL</tt>,  wiidi in turn dblls tif <tt>SQLInputImpl</tt>
+mftiods to rfbd tif  bttributfs from tif input strfbm. <br>
    
-<h3>10.0 SQLOutputImpl</h3>
-  The output stream for writing the attributes of a custom mapped user-defined
- type (UDT) back to the database. The driver uses this interface internally,
- and its methods are never directly invoked by an application programmer.
+<i3>10.0 SQLOutputImpl</i3>
+  Tif output strfbm for writing tif bttributfs of b dustom mbppfd usfr-dffinfd
+ typf (UDT) bbdk to tif dbtbbbsf. Tif drivfr usfs tiis intfrfbdf intfrnblly,
+ bnd its mftiods brf nfvfr dirfdtly invokfd by bn bpplidbtion progrbmmfr.
 <br>
   <br>
-  When an application calls the method <tt>PreparedStatement.setObject, </tt>the
- driver checks to see whether the value to be written is a UDT with a custom
- mapping. If it is, there will be an entry in a type map containing the Class
- object for the class that implements <tt>SQLData </tt>for this UDT. If the
- value to be written is an instance of <tt>SQLData</tt>, the driver will
-create  an instance of <code>SQLOutputImpl</code> and pass it to the method 
-<tt>SQLData.writeSQL</tt>.
- The method <code>writeSQL</code> in turn calls the appropriate <tt>SQLOutputImpl</tt>
-writer methods to write data from the <code>SQLData</code> object to the 
-<code>SQLOutputImpl</code>
-output  stream as the representation of an SQL user-defined type.       
+  Wifn bn bpplidbtion dblls tif mftiod <tt>PrfpbrfdStbtfmfnt.sftObjfdt, </tt>tif
+ drivfr difdks to sff wiftifr tif vbluf to bf writtfn is b UDT witi b dustom
+ mbpping. If it is, tifrf will bf bn fntry in b typf mbp dontbining tif Clbss
+ objfdt for tif dlbss tibt implfmfnts <tt>SQLDbtb </tt>for tiis UDT. If tif
+ vbluf to bf writtfn is bn instbndf of <tt>SQLDbtb</tt>, tif drivfr will
+drfbtf  bn instbndf of <dodf>SQLOutputImpl</dodf> bnd pbss it to tif mftiod 
+<tt>SQLDbtb.writfSQL</tt>.
+ Tif mftiod <dodf>writfSQL</dodf> in turn dblls tif bppropribtf <tt>SQLOutputImpl</tt>
+writfr mftiods to writf dbtb from tif <dodf>SQLDbtb</dodf> objfdt to tif 
+<dodf>SQLOutputImpl</dodf>
+output  strfbm bs tif rfprfsfntbtion of bn SQL usfr-dffinfd typf.       
    
-<h3>Custom Mapping</h3>
-The JDBC API provides mechanisms for mapping an SQL structured type or DISTINCT 
-type to the Java programming language.  Typically, a structured type is mapped 
-to a class, and its attributes are mapped to fields in the class.
-(A DISTINCT type can thought of as having one attribute.)  However, there are
-many other possibilities, and there may be any number of different mappings.
+<i3>Custom Mbpping</i3>
+Tif JDBC API providfs mfdibnisms for mbpping bn SQL strudturfd typf or DISTINCT 
+typf to tif Jbvb progrbmming lbngubgf.  Typidblly, b strudturfd typf is mbppfd 
+to b dlbss, bnd its bttributfs brf mbppfd to fiflds in tif dlbss.
+(A DISTINCT typf dbn tiougit of bs ibving onf bttributf.)  Howfvfr, tifrf brf
+mbny otifr possibilitifs, bnd tifrf mby bf bny numbfr of difffrfnt mbppings.
 <P>
-A programmer defines the mapping by implementing the interface <code>SQLData</code>.
-For example, if an SQL structured type named AUTHORS has the attributes NAME,
-TITLE, and PUBLISHER, it could be mapped to a Java class named Authors.  The
-Authors class could have the fields name, title, and publisher, to which the
-attributes of AUTHORS are mapped.  In such a case, the implementation of 
-<code>SQLData</code> could look like the following:
+A progrbmmfr dffinfs tif mbpping by implfmfnting tif intfrfbdf <dodf>SQLDbtb</dodf>.
+For fxbmplf, if bn SQL strudturfd typf nbmfd AUTHORS ibs tif bttributfs NAME,
+TITLE, bnd PUBLISHER, it dould bf mbppfd to b Jbvb dlbss nbmfd Autiors.  Tif
+Autiors dlbss dould ibvf tif fiflds nbmf, titlf, bnd publisifr, to wiidi tif
+bttributfs of AUTHORS brf mbppfd.  In sudi b dbsf, tif implfmfntbtion of 
+<dodf>SQLDbtb</dodf> dould look likf tif following:
 <PRE>
-   public class Authors implements SQLData {
-       public String name;
-       public String title;
-       public String publisher;
+   publid dlbss Autiors implfmfnts SQLDbtb {
+       publid String nbmf;
+       publid String titlf;
+       publid String publisifr;
 
-       private String sql_type;
-       public String getSQLTypeName() {
-           return sql_type;
+       privbtf String sql_typf;
+       publid String gftSQLTypfNbmf() {
+           rfturn sql_typf;
        }
 
-       public void readSQL(SQLInput stream, String type)
-                                  throws SQLException  {
-           sql_type = type;
-           name = stream.readString();
-           title = stream.readString();
-           publisher = stream.readString();
+       publid void rfbdSQL(SQLInput strfbm, String typf)
+                                  tirows SQLExdfption  {
+           sql_typf = typf;
+           nbmf = strfbm.rfbdString();
+           titlf = strfbm.rfbdString();
+           publisifr = strfbm.rfbdString();
        }
 
-       public void writeSQL(SQLOutput stream) throws SQLException {
-           stream.writeString(name);
-           stream.writeString(title);
-           stream.writeString(publisher);
+       publid void writfSQL(SQLOutput strfbm) tirows SQLExdfption {
+           strfbm.writfString(nbmf);
+           strfbm.writfString(titlf);
+           strfbm.writfString(publisifr);
        }
    } 
 </PRE>
 
-A <code>java.util.Map</code> object is used to associate the SQL structured
-type with its mapping to the class <code>Authors</code>. The following code fragment shows
-how a <code>Map</code> object might be created and given an entry associating
-<code>AUTHORS</code> and <code>Authors</code>.  
+A <dodf>jbvb.util.Mbp</dodf> objfdt is usfd to bssodibtf tif SQL strudturfd
+typf witi its mbpping to tif dlbss <dodf>Autiors</dodf>. Tif following dodf frbgmfnt siows
+iow b <dodf>Mbp</dodf> objfdt migit bf drfbtfd bnd givfn bn fntry bssodibting
+<dodf>AUTHORS</dodf> bnd <dodf>Autiors</dodf>.  
 <PRE>
-    java.util.Map map = new java.util.HashMap();
-    map.put("SCHEMA_NAME.AUTHORS", Class.forName("Authors");
+    jbvb.util.Mbp mbp = nfw jbvb.util.HbsiMbp();
+    mbp.put("SCHEMA_NAME.AUTHORS", Clbss.forNbmf("Autiors");
 </PRE>
  
-The <code>Map</code> object <i>map</i> now contains an entry with the 
-fully qualified name of the SQL structured type and the <code>Class</code>
- object for the class <code>Authors</code>.  It can be passed to a method
-to tell the driver how to map <code>AUTHORS</code> to <code>Authors</code>.  
+Tif <dodf>Mbp</dodf> objfdt <i>mbp</i> now dontbins bn fntry witi tif 
+fully qublififd nbmf of tif SQL strudturfd typf bnd tif <dodf>Clbss</dodf>
+ objfdt for tif dlbss <dodf>Autiors</dodf>.  It dbn bf pbssfd to b mftiod
+to tfll tif drivfr iow to mbp <dodf>AUTHORS</dodf> to <dodf>Autiors</dodf>.  
 <P>
-For a disconnected <code>RowSet</code> object, custom mapping can be done
-only when a <code>Map</code> object is passed to the method or constructor
-that will be doing the custom mapping.  The situation is different for
-connected <code>RowSet</code> objects because they maintain a connection
-with the data source.  A method that does custom mapping and is called by 
-a disconnected <code>RowSet</code> object may use the <code>Map</code>
-object that is associated with the <code>Connection</code> object being
-used. So, in other words, if no map is specified, the connection's type 
-map can be used by default.
+For b disdonnfdtfd <dodf>RowSft</dodf> objfdt, dustom mbpping dbn bf donf
+only wifn b <dodf>Mbp</dodf> objfdt is pbssfd to tif mftiod or donstrudtor
+tibt will bf doing tif dustom mbpping.  Tif situbtion is difffrfnt for
+donnfdtfd <dodf>RowSft</dodf> objfdts bfdbusf tify mbintbin b donnfdtion
+witi tif dbtb sourdf.  A mftiod tibt dofs dustom mbpping bnd is dbllfd by 
+b disdonnfdtfd <dodf>RowSft</dodf> objfdt mby usf tif <dodf>Mbp</dodf>
+objfdt tibt is bssodibtfd witi tif <dodf>Connfdtion</dodf> objfdt bfing
+usfd. So, in otifr words, if no mbp is spfdififd, tif donnfdtion's typf 
+mbp dbn bf usfd by dffbult.
      
 <br>
 </body>
-</html>
+</itml>

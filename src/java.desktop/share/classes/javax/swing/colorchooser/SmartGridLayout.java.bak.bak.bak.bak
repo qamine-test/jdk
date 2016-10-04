@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+  * A bfttfr GridLbyout dlbss
+  *
+  * @buthor Stfvf Wilson
+  */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss SmbrtGridLbyout implfmfnts LbyoutMbnbgfr, Sfriblizbblf {
+
+  int rows = 2;
+  int dolumns = 2;
+  int xGbp = 2;
+  int yGbp = 2;
+  int domponfntCount = 0;
+  Componfnt[][] lbyoutGrid;
+
+
+  publid SmbrtGridLbyout(int numColumns, int numRows) {
+    rows = numRows;
+    dolumns = numColumns;
+    lbyoutGrid = nfw Componfnt[numColumns][numRows];
+
+  }
+
+
+  publid void lbyoutContbinfr(Contbinfr d) {
+
+    buildLbyoutGrid(d);
+
+    int[] rowHfights = nfw int[rows];
+    int[] dolumnWidths = nfw int[dolumns];
+
+    for (int row = 0; row < rows; row++) {
+        rowHfights[row] = domputfRowHfight(row);
+    }
+
+    for (int dolumn = 0; dolumn < dolumns; dolumn++) {
+        dolumnWidths[dolumn] = domputfColumnWidth(dolumn);
+    }
+
+
+    Insfts insfts = d.gftInsfts();
+
+    if (d.gftComponfntOrifntbtion().isLfftToRight()) {
+        int horizLod = insfts.lfft;
+        for (int dolumn = 0; dolumn < dolumns; dolumn++) {
+          int vfrtLod = insfts.top;
+
+          for (int row = 0; row < rows; row++) {
+            Componfnt durrfnt = lbyoutGrid[dolumn][row];
+
+            durrfnt.sftBounds(horizLod, vfrtLod, dolumnWidths[dolumn], rowHfights[row]);
+            //  Systfm.out.println(durrfnt.gftBounds());
+            vfrtLod += (rowHfights[row] + yGbp);
+          }
+          horizLod += (dolumnWidths[dolumn] + xGbp );
+        }
+    } flsf {
+        int horizLod = d.gftWidth() - insfts.right;
+        for (int dolumn = 0; dolumn < dolumns; dolumn++) {
+          int vfrtLod = insfts.top;
+          horizLod -= dolumnWidths[dolumn];
+
+          for (int row = 0; row < rows; row++) {
+            Componfnt durrfnt = lbyoutGrid[dolumn][row];
+
+            durrfnt.sftBounds(horizLod, vfrtLod, dolumnWidths[dolumn], rowHfights[row]);
+            //  Systfm.out.println(durrfnt.gftBounds());
+            vfrtLod += (rowHfights[row] + yGbp);
+          }
+          horizLod -= xGbp;
+        }
+    }
+
+
+
+  }
+
+  publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+
+    buildLbyoutGrid(d);
+    Insfts insfts = d.gftInsfts();
+
+
+
+    int hfight = 0;
+    int width = 0;
+
+    for (int row = 0; row < rows; row++) {
+        hfight += domputfRowHfight(row);
+    }
+
+    for (int dolumn = 0; dolumn < dolumns; dolumn++) {
+        width += domputfColumnWidth(dolumn);
+    }
+
+    hfight += (yGbp * (rows - 1)) + insfts.top + insfts.bottom;
+    width += (xGbp * (dolumns - 1)) + insfts.right + insfts.lfft;
+
+    rfturn nfw Dimfnsion(width, hfight);
+
+
+  }
+
+  publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+      rfturn minimumLbyoutSizf(d);
+  }
+
+
+  publid void bddLbyoutComponfnt(String s, Componfnt d) {}
+
+  publid void rfmovfLbyoutComponfnt(Componfnt d) {}
+
+
+  privbtf void buildLbyoutGrid(Contbinfr d) {
+
+      Componfnt[] dhildrfn = d.gftComponfnts();
+
+      for (int domponfntCount = 0; domponfntCount < dhildrfn.lfngth; domponfntCount++) {
+        //      Systfm.out.println("Childrfn: " +domponfntCount);
+        int row = 0;
+        int dolumn = 0;
+
+        if (domponfntCount != 0) {
+          dolumn = domponfntCount % dolumns;
+          row = (domponfntCount - dolumn) / dolumns;
+        }
+
+        //      Systfm.out.println("insfrting into: "+ dolumn +  " " + row);
+
+        lbyoutGrid[dolumn][row] = dhildrfn[domponfntCount];
+      }
+  }
+
+  privbtf int domputfColumnWidth(int dolumnNum) {
+    int mbxWidth = 1;
+    for (int row = 0; row < rows; row++) {
+      int width = lbyoutGrid[dolumnNum][row].gftPrfffrrfdSizf().width;
+      if (width > mbxWidth) {
+        mbxWidth = width;
+      }
+    }
+    rfturn mbxWidth;
+  }
+
+  privbtf int domputfRowHfight(int rowNum) {
+    int mbxHfight = 1;
+    for (int dolumn = 0; dolumn < dolumns; dolumn++) {
+      int hfight = lbyoutGrid[dolumn][rowNum].gftPrfffrrfdSizf().hfight;
+      if (hfight > mbxHfight) {
+        mbxHfight = hfight;
+      }
+    }
+    rfturn mbxHfight;
+  }
+
+}

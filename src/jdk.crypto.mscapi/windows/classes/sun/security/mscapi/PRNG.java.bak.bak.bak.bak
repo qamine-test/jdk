@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.msdbpi;
+
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.SfdurfRbndomSpi;
+
+/**
+ * Nbtivf PRNG implfmfntbtion for Windows using thf Midrosoft Crypto API.
+ *
+ * @sindf 1.6
+ */
+
+publid finbl dlbss PRNG fxtfnds SfdurfRbndomSpi
+    implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4129268715132691532L;
+
+    /*
+     * Thf CryptGfnRbndom fundtion fills b bufffr with dryptogrbphidblly rbndom
+     * bytfs.
+     */
+    privbtf stbtid nbtivf bytf[] gfnfrbtfSffd(int lfngth, bytf[] sffd);
+
+    /**
+     * Crfbtfs b rbndom numbfr gfnfrbtor.
+     */
+    publid PRNG() {
+    }
+
+    /**
+     * Rfsffds this rbndom objfdt. Thf givfn sffd supplfmfnts, rbthfr thbn
+     * rfplbdfs, thf fxisting sffd. Thus, rfpfbtfd dblls brf gubrbntffd
+     * nfvfr to rfdudf rbndomnfss.
+     *
+     * @pbrbm sffd thf sffd.
+     */
+    @Ovfrridf
+    protfdtfd void fnginfSftSffd(bytf[] sffd) {
+        if (sffd != null) {
+            gfnfrbtfSffd(-1, sffd);
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
+     *
+     * @pbrbm bytfs thf brrby to bf fillfd in with rbndom bytfs.
+     */
+    @Ovfrridf
+    protfdtfd void fnginfNfxtBytfs(bytf[] bytfs) {
+        if (bytfs != null) {
+            if (gfnfrbtfSffd(0, bytfs) == null) {
+                throw nfw ProvidfrExdfption("Error gfnfrbting rbndom bytfs");
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf givfn numbfr of sffd bytfs.  This dbll mby bf usfd to
+     * sffd othfr rbndom numbfr gfnfrbtors.
+     *
+     * @pbrbm numBytfs thf numbfr of sffd bytfs to gfnfrbtf.
+     *
+     * @rfturn thf sffd bytfs.
+     */
+    @Ovfrridf
+    protfdtfd bytf[] fnginfGfnfrbtfSffd(int numBytfs) {
+        bytf[] sffd = gfnfrbtfSffd(numBytfs, null);
+
+        if (sffd == null) {
+            throw nfw ProvidfrExdfption("Error gfnfrbting sffd bytfs");
+        }
+        rfturn sffd;
+    }
+}

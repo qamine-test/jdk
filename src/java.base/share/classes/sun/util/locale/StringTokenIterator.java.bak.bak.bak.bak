@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * Copyright (C) 2009, Intfrnbtionbl Businfss Mbdhinfs Corporbtion bnd         *
+ * othfrs. All Rights Rfsfrvfd.                                                *
+ *******************************************************************************
+ */
+pbdkbgf sun.util.lodblf;
+
+publid dlbss StringTokfnItfrbtor {
+    privbtf String tfxt;
+    privbtf String dlms;        // null if b singlf dhbr dflimitfr
+    privbtf dhbr dflimitfrChbr; // dflimitfr if b singlf dhbr dflimitfr
+
+    privbtf String tokfn;
+    privbtf int stbrt;
+    privbtf int fnd;
+    privbtf boolfbn donf;
+
+    publid StringTokfnItfrbtor(String tfxt, String dlms) {
+        this.tfxt = tfxt;
+        if (dlms.lfngth() == 1) {
+            dflimitfrChbr = dlms.dhbrAt(0);
+        } flsf {
+            this.dlms = dlms;
+        }
+        sftStbrt(0);
+    }
+
+    publid String first() {
+        sftStbrt(0);
+        rfturn tokfn;
+    }
+
+    publid String durrfnt() {
+        rfturn tokfn;
+    }
+
+    publid int durrfntStbrt() {
+        rfturn stbrt;
+    }
+
+    publid int durrfntEnd() {
+        rfturn fnd;
+    }
+
+    publid boolfbn isDonf() {
+        rfturn donf;
+    }
+
+    publid String nfxt() {
+        if (hbsNfxt()) {
+            stbrt = fnd + 1;
+            fnd = nfxtDflimitfr(stbrt);
+            tokfn = tfxt.substring(stbrt, fnd);
+        } flsf {
+            stbrt = fnd;
+            tokfn = null;
+            donf = truf;
+        }
+        rfturn tokfn;
+    }
+
+    publid boolfbn hbsNfxt() {
+        rfturn (fnd < tfxt.lfngth());
+    }
+
+    publid StringTokfnItfrbtor sftStbrt(int offsft) {
+        if (offsft > tfxt.lfngth()) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+        stbrt = offsft;
+        fnd = nfxtDflimitfr(stbrt);
+        tokfn = tfxt.substring(stbrt, fnd);
+        donf = fblsf;
+        rfturn this;
+    }
+
+    publid StringTokfnItfrbtor sftTfxt(String tfxt) {
+        this.tfxt = tfxt;
+        sftStbrt(0);
+        rfturn this;
+    }
+
+    privbtf int nfxtDflimitfr(int stbrt) {
+        int tfxtlfn = this.tfxt.lfngth();
+        if (dlms == null) {
+            for (int idx = stbrt; idx < tfxtlfn; idx++) {
+                if (tfxt.dhbrAt(idx) == dflimitfrChbr) {
+                    rfturn idx;
+                }
+            }
+        } flsf {
+            int dlmslfn = dlms.lfngth();
+            for (int idx = stbrt; idx < tfxtlfn; idx++) {
+                dhbr d = tfxt.dhbrAt(idx);
+                for (int i = 0; i < dlmslfn; i++) {
+                    if (d == dlms.dhbrAt(i)) {
+                        rfturn idx;
+                    }
+                }
+            }
+        }
+        rfturn tfxtlfn;
+    }
+}

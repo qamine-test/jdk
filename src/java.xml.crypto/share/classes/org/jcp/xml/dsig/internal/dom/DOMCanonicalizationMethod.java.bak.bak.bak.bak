@@ -1,0 +1,143 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMCbnonidblizbtionMfthod.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import org.w3d.dom.Elfmfnt;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+
+/**
+ * DOM-bbsfd bbstrbdt implfmfntbtion of CbnonidblizbtionMfthod.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid dlbss DOMCbnonidblizbtionMfthod fxtfnds DOMTrbnsform
+    implfmfnts CbnonidblizbtionMfthod {
+
+    /**
+     * Crfbtfs b <dodf>DOMCbnonidblizbtionMfthod</dodf>.
+     *
+     * @pbrbm spi TrbnsformSfrvidf
+     */
+    publid DOMCbnonidblizbtionMfthod(TrbnsformSfrvidf spi)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        supfr(spi);
+        if (!(spi instbndfof ApbdhfCbnonidblizfr) &&
+                !isC14Nblg(spi.gftAlgorithm())) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "Illfgbl CbnonidblizbtionMfthod");
+        }
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMCbnonidblizbtionMfthod</dodf> from bn flfmfnt. This
+     * dtor invokfs thf bbstrbdt {@link #unmbrshblPbrbms unmbrshblPbrbms}
+     * mfthod to unmbrshbl bny blgorithm-spfdifid input pbrbmftfrs.
+     *
+     * @pbrbm dmElfm b CbnonidblizbtionMfthod flfmfnt
+     */
+    publid DOMCbnonidblizbtionMfthod(Elfmfnt dmElfm, XMLCryptoContfxt dontfxt,
+                                     Providfr providfr)
+        throws MbrshblExdfption
+    {
+        supfr(dmElfm, dontfxt, providfr);
+        if (!(spi instbndfof ApbdhfCbnonidblizfr) &&
+                !isC14Nblg(spi.gftAlgorithm())) {
+            throw nfw MbrshblExdfption("Illfgbl CbnonidblizbtionMfthod");
+        }
+    }
+
+    /**
+     * Cbnonidblizfs thf spfdififd dbtb using thf undfrlying dbnonidblizbtion
+     * blgorithm. This is b donvfnifndf mfthod thbt is fquivblfnt to invoking
+     * thf {@link #trbnsform trbnsform} mfthod.
+     *
+     * @pbrbm dbtb thf dbtb to bf dbnonidblizfd
+     * @pbrbm xd thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *     bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @rfturn thf dbnonidblizfd dbtb
+     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @throws TrbnsformExdfption if bn unfxpfdtfd frror oddurs whilf
+     *    dbnonidblizing thf dbtb
+     */
+    publid Dbtb dbnonidblizf(Dbtb dbtb, XMLCryptoContfxt xd)
+        throws TrbnsformExdfption
+    {
+        rfturn trbnsform(dbtb, xd);
+    }
+
+    publid Dbtb dbnonidblizf(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+        throws TrbnsformExdfption
+    {
+        rfturn trbnsform(dbtb, xd, os);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof CbnonidblizbtionMfthod)) {
+            rfturn fblsf;
+        }
+        CbnonidblizbtionMfthod odm = (CbnonidblizbtionMfthod)o;
+
+        rfturn (gftAlgorithm().fqubls(odm.gftAlgorithm()) &&
+            DOMUtils.pbrbmsEqubl(gftPbrbmftfrSpfd(), odm.gftPbrbmftfrSpfd()));
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftAlgorithm().hbshCodf();
+        AlgorithmPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        if (spfd != null) {
+            rfsult = 31 * rfsult + spfd.hbshCodf();
+        }
+
+        rfturn rfsult;
+    }
+
+    privbtf stbtid boolfbn isC14Nblg(String blg) {
+        rfturn (blg.fqubls(CbnonidblizbtionMfthod.INCLUSIVE) ||
+                blg.fqubls(CbnonidblizbtionMfthod.INCLUSIVE_WITH_COMMENTS) ||
+                blg.fqubls(CbnonidblizbtionMfthod.EXCLUSIVE) ||
+                blg.fqubls(CbnonidblizbtionMfthod.EXCLUSIVE_WITH_COMMENTS) ||
+                blg.fqubls(DOMCbnonidblXMLC14N11Mfthod.C14N_11) ||
+                blg.fqubls(DOMCbnonidblXMLC14N11Mfthod.C14N_11_WITH_COMMENTS));
+    }
+}

@@ -1,269 +1,269 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.ComponentPeer;
-import java.lang.ref.WeakReference;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.bwt.AWTAddfssor;
 
-import sun.awt.GlobalCursorManager;
-import sun.awt.SunToolkit;
+import sun.bwt.GlobblCursorMbnbgfr;
+import sun.bwt.SunToolkit;
 
-public final class XGlobalCursorManager extends GlobalCursorManager {
+publid finbl dlbss XGlobblCursorMbnbgfr fxtfnds GlobblCursorMbnbgfr {
 
-    // cached nativeContainer
-    private WeakReference<Component> nativeContainer;
+    // dbdifd nbtivfContbinfr
+    privbtf WfbkRfffrfndf<Componfnt> nbtivfContbinfr;
 
 
     /**
-     * The XGlobalCursorManager is a singleton.
+     * Tif XGlobblCursorMbnbgfr is b singlfton.
      */
-    private static XGlobalCursorManager manager;
+    privbtf stbtid XGlobblCursorMbnbgfr mbnbgfr;
 
 
-    static GlobalCursorManager getCursorManager() {
-        if (manager == null) {
-            manager = new XGlobalCursorManager();
+    stbtid GlobblCursorMbnbgfr gftCursorMbnbgfr() {
+        if (mbnbgfr == null) {
+            mbnbgfr = nfw XGlobblCursorMbnbgfr();
         }
-        return manager;
+        rfturn mbnbgfr;
     }
 
     /**
-     * Should be called in response to a native mouse enter or native mouse
-     * button released message. Should not be called during a mouse drag.
+     * Siould bf dbllfd in rfsponsf to b nbtivf mousf fntfr or nbtivf mousf
+     * button rflfbsfd mfssbgf. Siould not bf dbllfd during b mousf drbg.
      */
-    static void nativeUpdateCursor(Component heavy) {
-        XGlobalCursorManager.getCursorManager().updateCursorLater(heavy);
+    stbtid void nbtivfUpdbtfCursor(Componfnt ifbvy) {
+        XGlobblCursorMbnbgfr.gftCursorMbnbgfr().updbtfCursorLbtfr(ifbvy);
     }
 
 
-    protected void setCursor(Component comp, Cursor cursor, boolean useCache) {
-        if (comp == null) {
-            return;
+    protfdtfd void sftCursor(Componfnt domp, Cursor dursor, boolfbn usfCbdif) {
+        if (domp == null) {
+            rfturn;
         }
 
-        Cursor cur = useCache ? cursor : getCapableCursor(comp);
+        Cursor dur = usfCbdif ? dursor : gftCbpbblfCursor(domp);
 
-        Component nc = null;
-        if (useCache) {
-            synchronized (this) {
-                nc = nativeContainer.get();
+        Componfnt nd = null;
+        if (usfCbdif) {
+            syndironizfd (tiis) {
+                nd = nbtivfContbinfr.gft();
             }
-        } else {
-           nc = SunToolkit.getHeavyweightComponent(comp);
+        } flsf {
+           nd = SunToolkit.gftHfbvywfigitComponfnt(domp);
         }
 
-        if (nc != null) {
-            ComponentPeer nc_peer = AWTAccessor.getComponentAccessor().getPeer(nc);
-            if (nc_peer instanceof XComponentPeer) {
-                synchronized (this) {
-                    nativeContainer = new WeakReference<Component>(nc);
+        if (nd != null) {
+            ComponfntPffr nd_pffr = AWTAddfssor.gftComponfntAddfssor().gftPffr(nd);
+            if (nd_pffr instbndfof XComponfntPffr) {
+                syndironizfd (tiis) {
+                    nbtivfContbinfr = nfw WfbkRfffrfndf<Componfnt>(nd);
                 }
 
-                //6431076. A subcomponents (a XTextArea in particular)
-                //may want to override the cursor over some of their parts.
-                ((XComponentPeer)nc_peer).pSetCursor(cur, false);
-                // in case of grab we do for Swing we need to update keep cursor updated
-                // (we don't need this in case of AWT menus).  Window Manager consider
-                // the grabber as a current window and use its cursor.  So we need to
-                // change cursor on the grabber too.
-                updateGrabbedCursor(cur);
+                //6431076. A subdomponfnts (b XTfxtArfb in pbrtidulbr)
+                //mby wbnt to ovfrridf tif dursor ovfr somf of tifir pbrts.
+                ((XComponfntPffr)nd_pffr).pSftCursor(dur, fblsf);
+                // in dbsf of grbb wf do for Swing wf nffd to updbtf kffp dursor updbtfd
+                // (wf don't nffd tiis in dbsf of AWT mfnus).  Window Mbnbgfr donsidfr
+                // tif grbbbfr bs b durrfnt window bnd usf its dursor.  So wf nffd to
+                // dibngf dursor on tif grbbbfr too.
+                updbtfGrbbbfdCursor(dur);
             }
         }
     }
 
     /**
-     * Updates cursor on the grabber if it is window peer (i.e. current grab is for
+     * Updbtfs dursor on tif grbbbfr if it is window pffr (i.f. durrfnt grbb is for
      * Swing, not for AWT.
      */
-    private static void updateGrabbedCursor(Cursor cur) {
-        XBaseWindow target = XAwtState.getGrabWindow();
-        if (target instanceof XWindowPeer) {
-            XWindowPeer grabber = (XWindowPeer) target;
-            grabber.pSetCursor(cur);
+    privbtf stbtid void updbtfGrbbbfdCursor(Cursor dur) {
+        XBbsfWindow tbrgft = XAwtStbtf.gftGrbbWindow();
+        if (tbrgft instbndfof XWindowPffr) {
+            XWindowPffr grbbbfr = (XWindowPffr) tbrgft;
+            grbbbfr.pSftCursor(dur);
         }
     }
 
-    protected void updateCursorOutOfJava() {
-        // in case we have grabbed input for Swing we need to reset cursor
-        // when mouse pointer is out of any java toplevel.
-        // let's use default cursor for this.
-        updateGrabbedCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    protfdtfd void updbtfCursorOutOfJbvb() {
+        // in dbsf wf ibvf grbbbfd input for Swing wf nffd to rfsft dursor
+        // wifn mousf pointfr is out of bny jbvb toplfvfl.
+        // lft's usf dffbult dursor for tiis.
+        updbtfGrbbbfdCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
     }
 
-    protected void getCursorPos(Point p) {
+    protfdtfd void gftCursorPos(Point p) {
 
-        if (!((XToolkit)Toolkit.getDefaultToolkit()).getLastCursorPos(p)) {
-            XToolkit.awtLock();
+        if (!((XToolkit)Toolkit.gftDffbultToolkit()).gftLbstCursorPos(p)) {
+            XToolkit.bwtLodk();
             try {
-                long display = XToolkit.getDisplay();
-                long root_window = XlibWrapper.RootWindow(display,
-                                                          XlibWrapper.DefaultScreen(display));
+                long displby = XToolkit.gftDisplby();
+                long root_window = XlibWrbppfr.RootWindow(displby,
+                                                          XlibWrbppfr.DffbultSdrffn(displby));
 
-                XlibWrapper.XQueryPointer(display, root_window,
-                                          XlibWrapper.larg1,
-                                          XlibWrapper.larg2,
-                                          XlibWrapper.larg3,
-                                          XlibWrapper.larg4,
-                                          XlibWrapper.larg5,
-                                          XlibWrapper.larg6,
-                                          XlibWrapper.larg7);
+                XlibWrbppfr.XQufryPointfr(displby, root_window,
+                                          XlibWrbppfr.lbrg1,
+                                          XlibWrbppfr.lbrg2,
+                                          XlibWrbppfr.lbrg3,
+                                          XlibWrbppfr.lbrg4,
+                                          XlibWrbppfr.lbrg5,
+                                          XlibWrbppfr.lbrg6,
+                                          XlibWrbppfr.lbrg7);
 
-                p.x = XlibWrapper.unsafe.getInt(XlibWrapper.larg3);
-                p.y = XlibWrapper.unsafe.getInt(XlibWrapper.larg4);
-            } finally {
-                XToolkit.awtUnlock();
+                p.x = XlibWrbppfr.unsbff.gftInt(XlibWrbppfr.lbrg3);
+                p.y = XlibWrbppfr.unsbff.gftInt(XlibWrbppfr.lbrg4);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
     }
-    protected  Component findHeavyweightUnderCursor() {
-        return XAwtState.getComponentMouseEntered();
+    protfdtfd  Componfnt findHfbvywfigitUndfrCursor() {
+        rfturn XAwtStbtf.gftComponfntMousfEntfrfd();
     }
 
     /*
-     * native method to call corresponding methods in Component
+     * nbtivf mftiod to dbll dorrfsponding mftiods in Componfnt
      */
-    protected  Point getLocationOnScreen(Component c) {
-        return c.getLocationOnScreen();
+    protfdtfd  Point gftLodbtionOnSdrffn(Componfnt d) {
+        rfturn d.gftLodbtionOnSdrffn();
     }
 
-    protected Component findHeavyweightUnderCursor(boolean useCache) {
-        return findHeavyweightUnderCursor();
+    protfdtfd Componfnt findHfbvywfigitUndfrCursor(boolfbn usfCbdif) {
+        rfturn findHfbvywfigitUndfrCursor();
     }
 
-    private Cursor getCapableCursor(Component comp) {
-        AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
+    privbtf Cursor gftCbpbblfCursor(Componfnt domp) {
+        AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
 
-        Component c = comp;
-        while ((c != null) && !(c instanceof Window)
-               && compAccessor.isEnabled(c)
-               && compAccessor.isVisible(c)
-               && compAccessor.isDisplayable(c))
+        Componfnt d = domp;
+        wiilf ((d != null) && !(d instbndfof Window)
+               && dompAddfssor.isEnbblfd(d)
+               && dompAddfssor.isVisiblf(d)
+               && dompAddfssor.isDisplbybblf(d))
         {
-            c = compAccessor.getParent(c);
+            d = dompAddfssor.gftPbrfnt(d);
         }
-        if (c instanceof Window) {
-            return (compAccessor.isEnabled(c)
-                    && compAccessor.isVisible(c)
-                    && compAccessor.isDisplayable(c)
-                    && compAccessor.isEnabled(comp))
+        if (d instbndfof Window) {
+            rfturn (dompAddfssor.isEnbblfd(d)
+                    && dompAddfssor.isVisiblf(d)
+                    && dompAddfssor.isDisplbybblf(d)
+                    && dompAddfssor.isEnbblfd(domp))
                    ?
-                    compAccessor.getCursor(comp)
+                    dompAddfssor.gftCursor(domp)
                    :
-                    Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-        } else if (c == null) {
-            return null;
+                    Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
+        } flsf if (d == null) {
+            rfturn null;
         }
-        return getCapableCursor(compAccessor.getParent(c));
+        rfturn gftCbpbblfCursor(dompAddfssor.gftPbrfnt(d));
     }
 
-    /* This methods needs to be called from within XToolkit.awtLock / XToolkit.awtUnlock section. */
+    /* Tiis mftiods nffds to bf dbllfd from witiin XToolkit.bwtLodk / XToolkit.bwtUnlodk sfdtion. */
 
-    static long getCursor(Cursor c) {
+    stbtid long gftCursor(Cursor d) {
 
-        long pData = 0;
-        int type = 0;
+        long pDbtb = 0;
+        int typf = 0;
         try {
-            pData = AWTAccessor.getCursorAccessor().getPData(c);
-            type = AWTAccessor.getCursorAccessor().getType(c);
+            pDbtb = AWTAddfssor.gftCursorAddfssor().gftPDbtb(d);
+            typf = AWTAddfssor.gftCursorAddfssor().gftTypf(d);
         }
-        catch (Exception e)
+        dbtdi (Exdfption f)
         {
-            e.printStackTrace();
+            f.printStbdkTrbdf();
         }
 
-        if (pData != 0) return pData;
+        if (pDbtb != 0) rfturn pDbtb;
 
-        int cursorType = 0;
-        switch (type) {
-          case Cursor.DEFAULT_CURSOR:
-              cursorType = XCursorFontConstants.XC_left_ptr;
-              break;
-          case Cursor.CROSSHAIR_CURSOR:
-              cursorType = XCursorFontConstants.XC_crosshair;
-              break;
-          case Cursor.TEXT_CURSOR:
-              cursorType = XCursorFontConstants.XC_xterm;
-              break;
-          case Cursor.WAIT_CURSOR:
-              cursorType = XCursorFontConstants.XC_watch;
-              break;
-          case Cursor.SW_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_bottom_left_corner;
-              break;
-          case Cursor.NW_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_top_left_corner;
-              break;
-          case Cursor.SE_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_bottom_right_corner;
-              break;
-          case Cursor.NE_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_top_right_corner;
-              break;
-          case Cursor.S_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_bottom_side;
-              break;
-          case Cursor.N_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_top_side;
-              break;
-          case Cursor.W_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_left_side;
-              break;
-          case Cursor.E_RESIZE_CURSOR:
-              cursorType = XCursorFontConstants.XC_right_side;
-              break;
-          case Cursor.HAND_CURSOR:
-              cursorType = XCursorFontConstants.XC_hand2;
-              break;
-          case Cursor.MOVE_CURSOR:
-              cursorType = XCursorFontConstants.XC_fleur;
-              break;
+        int dursorTypf = 0;
+        switdi (typf) {
+          dbsf Cursor.DEFAULT_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_lfft_ptr;
+              brfbk;
+          dbsf Cursor.CROSSHAIR_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_drossibir;
+              brfbk;
+          dbsf Cursor.TEXT_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_xtfrm;
+              brfbk;
+          dbsf Cursor.WAIT_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_wbtdi;
+              brfbk;
+          dbsf Cursor.SW_RESIZE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_bottom_lfft_dornfr;
+              brfbk;
+          dbsf Cursor.NW_RESIZE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_top_lfft_dornfr;
+              brfbk;
+          dbsf Cursor.SE_RESIZE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_bottom_rigit_dornfr;
+              brfbk;
+          dbsf Cursor.NE_RESIZE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_top_rigit_dornfr;
+              brfbk;
+          dbsf Cursor.S_RESIZE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_bottom_sidf;
+              brfbk;
+          dbsf Cursor.N_RESIZE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_top_sidf;
+              brfbk;
+          dbsf Cursor.W_RESIZE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_lfft_sidf;
+              brfbk;
+          dbsf Cursor.E_RESIZE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_rigit_sidf;
+              brfbk;
+          dbsf Cursor.HAND_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_ibnd2;
+              brfbk;
+          dbsf Cursor.MOVE_CURSOR:
+              dursorTypf = XCursorFontConstbnts.XC_flfur;
+              brfbk;
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            pData =(long) XlibWrapper.XCreateFontCursor(XToolkit.getDisplay(), cursorType);
+            pDbtb =(long) XlibWrbppfr.XCrfbtfFontCursor(XToolkit.gftDisplby(), dursorTypf);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        setPData(c,pData);
-        return pData;
+        sftPDbtb(d,pDbtb);
+        rfturn pDbtb;
     }
 
 
-    static void setPData(Cursor c, long pData) {
+    stbtid void sftPDbtb(Cursor d, long pDbtb) {
         try {
-            AWTAccessor.getCursorAccessor().setPData(c, pData);
+            AWTAddfssor.gftCursorAddfssor().sftPDbtb(d, pDbtb);
         }
-        catch (Exception e)
+        dbtdi (Exdfption f)
         {
-            e.printStackTrace();
+            f.printStbdkTrbdf();
         }
 
     }

@@ -1,531 +1,531 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <math.h>
+#indludf <mbti.i>
 
-#include "jni_util.h"
-#include "GraphicsPrimitiveMgr.h"
-#include "Region.h"
+#indludf "jni_util.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "Rfgion.i"
 
-#include "sun_java2d_loops_ScaledBlit.h"
+#indludf "sun_jbvb2d_loops_SdblfdBlit.i"
 
 /*
- * The scaling loops used inside the helper functions are based on the
- * following pseudocode for stepping through the source image:
+ * Tif sdbling loops usfd insidf tif iflpfr fundtions brf bbsfd on tif
+ * following psfudododf for stfpping tirougi tif sourdf imbgf:
  *
- * shift - number of bits of sub-pixel precision in scaled values
- * srcxorig, srcyorig - scaled location of first pixel
- * srcxinc, srcyinc - scaled x and y increments
- * dstwidth, dstheight - number of pixels to process across and down
+ * siift - numbfr of bits of sub-pixfl prfdision in sdblfd vblufs
+ * srdxorig, srdyorig - sdblfd lodbtion of first pixfl
+ * srdxind, srdyind - sdblfd x bnd y indrfmfnts
+ * dstwidti, dstifigit - numbfr of pixfls to prodfss bdross bnd down
  *
- * 1. srcy = srcyorig;
- * 2. for (dstheight) {
- * 3.     srcx = srcxorig;
- * 4.     for (dstwidth) {
- * 5.         fetch and process pixel for (srcx >> shift, srcy >> shift)
- * 6.         srcx += srcxinc;
+ * 1. srdy = srdyorig;
+ * 2. for (dstifigit) {
+ * 3.     srdx = srdxorig;
+ * 4.     for (dstwidti) {
+ * 5.         fftdi bnd prodfss pixfl for (srdx >> siift, srdy >> siift)
+ * 6.         srdx += srdxind;
  * 7.     }
- * 8.     srcy += srcyinc;
+ * 8.     srdy += srdyind;
  * 9. }
  *
- * Note that each execution of line 6 or 8 accumulates error of
- * +/- 1 into the scaled coordinate variables.  These lines are
- * each executed once per pixel across or once per pixel down
- * the region being iterated over, thus the error can accumulate
- * up to a magnitude of dstwidth in the horizontal direction and
- * dstheight in the vertical direction.
+ * Notf tibt fbdi fxfdution of linf 6 or 8 bddumulbtfs frror of
+ * +/- 1 into tif sdblfd doordinbtf vbribblfs.  Tifsf linfs brf
+ * fbdi fxfdutfd ondf pfr pixfl bdross or ondf pfr pixfl down
+ * tif rfgion bfing itfrbtfd ovfr, tius tif frror dbn bddumulbtf
+ * up to b mbgnitudf of dstwidti in tif iorizontbl dirfdtion bnd
+ * dstifigit in tif vfrtidbl dirfdtion.
  *
- * If the error ever reaches a magnitude of (1 << shift) then we
- * will be off by at least 1 source pixel in our mapping.
+ * If tif frror fvfr rfbdifs b mbgnitudf of (1 << siift) tifn wf
+ * will bf off by bt lfbst 1 sourdf pixfl in our mbpping.
  *
- * Note that we increment the source coordinates by the srcxinc
- * and srcyinc variables in each step.  Thus, if our error ever
- * accumulates to a magnitude equal to srcxinc or srcyinc then
- * we will be ahead or behind of "where we should be" by at least
- * one iteration.  Since each iteration is a destination pixel,
- * this means that our actual location will be off by at least
- * one destination pixel.
+ * Notf tibt wf indrfmfnt tif sourdf doordinbtfs by tif srdxind
+ * bnd srdyind vbribblfs in fbdi stfp.  Tius, if our frror fvfr
+ * bddumulbtfs to b mbgnitudf fqubl to srdxind or srdyind tifn
+ * wf will bf bifbd or bfiind of "wifrf wf siould bf" by bt lfbst
+ * onf itfrbtion.  Sindf fbdi itfrbtion is b dfstinbtion pixfl,
+ * tiis mfbns tibt our bdtubl lodbtion will bf off by bt lfbst
+ * onf dfstinbtion pixfl.
  *
- * This means that all of the values:
+ * Tiis mfbns tibt bll of tif vblufs:
  *
- *     - (1 << shift)
- *     - srcxinc
- *     - srcyinc
+ *     - (1 << siift)
+ *     - srdxind
+ *     - srdyind
  *
- * all represent a maximum bound on how much error we can accumulate
- * before we are off by a source or a destination pixel.  Thus,
- * we should make sure that we never process more than that many
- * pixels if we want to maintain single pixel accuracy.  Even
- * better would be to process many fewer pixels than those bounds
- * to ensure that our accumulated error is much smaller than a
- * pixel.
+ * bll rfprfsfnt b mbximum bound on iow mudi frror wf dbn bddumulbtf
+ * bfforf wf brf off by b sourdf or b dfstinbtion pixfl.  Tius,
+ * wf siould mbkf surf tibt wf nfvfr prodfss morf tibn tibt mbny
+ * pixfls if wf wbnt to mbintbin singlf pixfl bddurbdy.  Evfn
+ * bfttfr would bf to prodfss mbny ffwfr pixfls tibn tiosf bounds
+ * to fnsurf tibt our bddumulbtfd frror is mudi smbllfr tibn b
+ * pixfl.
  */
 
 /*
- * Find and return the largest tile size that is a power of 2 and
- * which is small enough to yield some reassuring degree of subpixel
- * accuracy.  The degree of subpixel accuracy that will be preserved
- * by the tile size it chooses will vary and the details on how
- * it makes this decision are detailed in the comments below.
+ * Find bnd rfturn tif lbrgfst tilf sizf tibt is b powfr of 2 bnd
+ * wiidi is smbll fnougi to yifld somf rfbssuring dfgrff of subpixfl
+ * bddurbdy.  Tif dfgrff of subpixfl bddurbdy tibt will bf prfsfrvfd
+ * by tif tilf sizf it dioosfs will vbry bnd tif dftbils on iow
+ * it mbkfs tiis dfdision brf dftbilfd in tif dommfnts bflow.
  */
-static jint
-findpow2tilesize(jint shift, jint sxinc, jint syinc)
+stbtid jint
+findpow2tilfsizf(jint siift, jint sxind, jint syind)
 {
     /*
-     * The initial value of shift is our first estimate for
-     * the power of 2 for our tilesize since it ensures
-     * less than 1 source pixel of error.
+     * Tif initibl vbluf of siift is our first fstimbtf for
+     * tif powfr of 2 for our tilfsizf sindf it fnsurfs
+     * lfss tibn 1 sourdf pixfl of frror.
      *
-     * Reducing it until (1 << shift) is not larger than the
-     * smallest of our increments ensures we will have no more
-     * than 1 destination pixel of error as well.
+     * Rfduding it until (1 << siift) is not lbrgfr tibn tif
+     * smbllfst of our indrfmfnts fnsurfs wf will ibvf no morf
+     * tibn 1 dfstinbtion pixfl of frror bs wfll.
      */
-    if (sxinc > syinc) {
-        sxinc = syinc;
+    if (sxind > syind) {
+        sxind = syind;
     }
-    if (sxinc == 0) {
-        /* Degenerate case will cause infinite loop in next loop... */
-        return 1;
+    if (sxind == 0) {
+        /* Dfgfnfrbtf dbsf will dbusf infinitf loop in nfxt loop... */
+        rfturn 1;
     }
-    while ((1 << shift) > sxinc) {
-        shift--;
+    wiilf ((1 << siift) > sxind) {
+        siift--;
     }
     /*
-     * shift is now the largest it can be for less than 1 pixel
-     * of error in either source or destination spaces.
+     * siift is now tif lbrgfst it dbn bf for lfss tibn 1 pixfl
+     * of frror in fitifr sourdf or dfstinbtion spbdfs.
      *
-     * Now we will try for at least 8 bits of subpixel accuracy
-     * with a tile size of at least 256x256 and reduce our subpixel
-     * accuracy on a sliding scale down to a tilesize of 1x1 when
-     * we have no bits of sub-pixel accuracy.
+     * Now wf will try for bt lfbst 8 bits of subpixfl bddurbdy
+     * witi b tilf sizf of bt lfbst 256x256 bnd rfdudf our subpixfl
+     * bddurbdy on b sliding sdblf down to b tilfsizf of 1x1 wifn
+     * wf ibvf no bits of sub-pixfl bddurbdy.
      */
-    if (shift >= 16) {
-        /* Subtracting 8 asks for 8 bits of subpixel accuracy. */
-        shift -= 8;
-    } else {
-        /* Ask for half of the remaining bits to be subpixel accuracy. */
-        /* Rounding is in favor of subpixel accuracy over tile size. */
-        /* Worst case, shift == 0 and tilesize == (1 << 0) == 1 */
-        shift /= 2;
+    if (siift >= 16) {
+        /* Subtrbdting 8 bsks for 8 bits of subpixfl bddurbdy. */
+        siift -= 8;
+    } flsf {
+        /* Ask for iblf of tif rfmbining bits to bf subpixfl bddurbdy. */
+        /* Rounding is in fbvor of subpixfl bddurbdy ovfr tilf sizf. */
+        /* Worst dbsf, siift == 0 bnd tilfsizf == (1 << 0) == 1 */
+        siift /= 2;
     }
-    return (1 << shift);
+    rfturn (1 << siift);
 }
 
 /*
- * For a given integer destination pixel coordinate "id", calculate the
- * integer destination coordinate of the start of the "ts" sized tile
- * in which it resides.
- * Tiles all start at even multiples of the tile size from the integer
- * destination origin "io".
+ * For b givfn intfgfr dfstinbtion pixfl doordinbtf "id", dbldulbtf tif
+ * intfgfr dfstinbtion doordinbtf of tif stbrt of tif "ts" sizfd tilf
+ * in wiidi it rfsidfs.
+ * Tilfs bll stbrt bt fvfn multiplfs of tif tilf sizf from tif intfgfr
+ * dfstinbtion origin "io".
  *
- * id == integer destination coordinate
- * io == integer destination operation origin
- * ts == tilesize (must be power of 2)
+ * id == intfgfr dfstinbtion doordinbtf
+ * io == intfgfr dfstinbtion opfrbtion origin
+ * ts == tilfsizf (must bf powfr of 2)
  */
-#define TILESTART(id, io, ts)   ((io) + (((id)-(io)) & (~((ts)-1))))
+#dffinf TILESTART(id, io, ts)   ((io) + (((id)-(io)) & (~((ts)-1))))
 
 /*
- * For a given integer destination pixel coordinate "id", calculate the
- * sub-pixel accurate source coordinate from which its sample comes.
- * The returned source coordinate is expressed in a shifted fractional
- * arithmetic number system.
+ * For b givfn intfgfr dfstinbtion pixfl doordinbtf "id", dbldulbtf tif
+ * sub-pixfl bddurbtf sourdf doordinbtf from wiidi its sbmplf domfs.
+ * Tif rfturnfd sourdf doordinbtf is fxprfssfd in b siiftfd frbdtionbl
+ * britimftid numbfr systfm.
  *
- * id == integer destination coordinate
- * fo == floating point destination operation origin,
- * sf == source coordinate scale factor per destination pixel
- *       (multiplied by fractional arithmetic "shift")
+ * id == intfgfr dfstinbtion doordinbtf
+ * fo == flobting point dfstinbtion opfrbtion origin,
+ * sf == sourdf doordinbtf sdblf fbdtor pfr dfstinbtion pixfl
+ *       (multiplifd by frbdtionbl britimftid "siift")
  *
- * The caller is required to cast this value to the appropriate
- * integer type for the needed precision.  The rendering code which
- * deals only with valid coordinates within the bounds of the source
- * rectangle uses jint.  The setup code, which occasionally deals
- * with coordinates that run out of bounds, uses jlong.
+ * Tif dbllfr is rfquirfd to dbst tiis vbluf to tif bppropribtf
+ * intfgfr typf for tif nffdfd prfdision.  Tif rfndfring dodf wiidi
+ * dfbls only witi vblid doordinbtfs witiin tif bounds of tif sourdf
+ * rfdtbnglf usfs jint.  Tif sftup dodf, wiidi oddbsionblly dfbls
+ * witi doordinbtfs tibt run out of bounds, usfs jlong.
  *
- * Note that the rounding in this calculation is at a fraction of a
- * source pixel of (1.0 / (1<<shift)) since the scale factor includes
- * the fractional shift.  As a result, the type of rounding used is
- * not very significant (floor, floor(x+.5), or ceil(x-.5)), but the
- * ceil(x-.5) version is used for consistency with the way that pixel
- * coordinates are rounded to assign the ".5" value to the lower
- * integer.
+ * Notf tibt tif rounding in tiis dbldulbtion is bt b frbdtion of b
+ * sourdf pixfl of (1.0 / (1<<siift)) sindf tif sdblf fbdtor indludfs
+ * tif frbdtionbl siift.  As b rfsult, tif typf of rounding usfd is
+ * not vfry signifidbnt (floor, floor(x+.5), or dfil(x-.5)), but tif
+ * dfil(x-.5) vfrsion is usfd for donsistfndy witi tif wby tibt pixfl
+ * doordinbtfs brf roundfd to bssign tif ".5" vbluf to tif lowfr
+ * intfgfr.
  */
-#define SRCLOC(id, fo, sf)   (ceil((((id) + 0.5) - (fo)) * (sf) - 0.5))
+#dffinf SRCLOC(id, fo, sf)   (dfil((((id) + 0.5) - (fo)) * (sf) - 0.5))
 
 /*
- * Reverse map a srctarget coordinate into device space and refine the
- * answer.  More specifically, what we are looking for is the smallest
- * destination coordinate that maps to a source coordinate that is
- * greater than or equal to the given target source coordinate.
+ * Rfvfrsf mbp b srdtbrgft doordinbtf into dfvidf spbdf bnd rffinf tif
+ * bnswfr.  Morf spfdifidblly, wibt wf brf looking for is tif smbllfst
+ * dfstinbtion doordinbtf tibt mbps to b sourdf doordinbtf tibt is
+ * grfbtfr tibn or fqubl to tif givfn tbrgft sourdf doordinbtf.
  *
- * Note that since the inner loops use math that maps a destination
- * coordinate into source space and that, even though the equation
- * we use below is the theoretical inverse of the dst->src mapping,
- * we cannot rely on floating point math to guarantee that applying
- * both of these equations in sequence will give us an exact mapping
- * of src->dst->src.  Thus, we must search back and forth to see if
- * we really map back to the given source coordinate and that we are
- * the smallest destination coordinate that does so.
+ * Notf tibt sindf tif innfr loops usf mbti tibt mbps b dfstinbtion
+ * doordinbtf into sourdf spbdf bnd tibt, fvfn tiougi tif fqubtion
+ * wf usf bflow is tif tiforftidbl invfrsf of tif dst->srd mbpping,
+ * wf dbnnot rfly on flobting point mbti to gubrbntff tibt bpplying
+ * boti of tifsf fqubtions in sfqufndf will givf us bn fxbdt mbpping
+ * of srd->dst->srd.  Tius, wf must sfbrdi bbdk bnd forti to sff if
+ * wf rfblly mbp bbdk to tif givfn sourdf doordinbtf bnd tibt wf brf
+ * tif smbllfst dfstinbtion doordinbtf tibt dofs so.
  *
- * Note that, in practice, the answer from the initial guess tends to
- * be the right answer most of the time and the loop ends up finding
- * one iteration to be ">= srctarget" and the next to be "< srctarget"
- * and thus finds the answer in 2 iterations.  A small number of
- * times, the initial guess is 1 too low and so we do one iteration
- * at "< srctarget" and the next at ">= srctarget" and again find the
- * answer in 2 iterations.  All cases encountered during testing ended
- * up falling into one of those 2 categories and so the loop was always
- * executed exactly twice.
+ * Notf tibt, in prbdtidf, tif bnswfr from tif initibl gufss tfnds to
+ * bf tif rigit bnswfr most of tif timf bnd tif loop fnds up finding
+ * onf itfrbtion to bf ">= srdtbrgft" bnd tif nfxt to bf "< srdtbrgft"
+ * bnd tius finds tif bnswfr in 2 itfrbtions.  A smbll numbfr of
+ * timfs, tif initibl gufss is 1 too low bnd so wf do onf itfrbtion
+ * bt "< srdtbrgft" bnd tif nfxt bt ">= srdtbrgft" bnd bgbin find tif
+ * bnswfr in 2 itfrbtions.  All dbsfs fndountfrfd during tfsting fndfd
+ * up fblling into onf of tiosf 2 dbtfgorifs bnd so tif loop wbs blwbys
+ * fxfdutfd fxbdtly twidf.
  *
- * Note also that the calculation of srcloc below may attempt to calculate
- * the src location of the destination pixel which is "1 beyond" the
- * end of the source image.  Since our shift calculation code in the
- * main function only guaranteed that "srcw << shift" did not overflow
- * a 32-bit signed integer, we cannot guarantee that "(srcw+1) << shift"
- * or, more generally, "(srcw << shift)+srcinc" does not overflow.
- * As a result, we perform our calculations here with jlong values
- * so that we aren't affected by this overflow.  Since srcw (shifted)
- * and srcinc are both 32-bit values, their sum cannot possibly overflow
- * a jlong.  In fact, we can step up to a couple of billion steps of
- * size "srcinc" past the end of the image before we have to worry
- * about overflow - in practice, though, the search never steps more
- * than 1 past the end of the image so this buffer is more than enough.
+ * Notf blso tibt tif dbldulbtion of srdlod bflow mby bttfmpt to dbldulbtf
+ * tif srd lodbtion of tif dfstinbtion pixfl wiidi is "1 bfyond" tif
+ * fnd of tif sourdf imbgf.  Sindf our siift dbldulbtion dodf in tif
+ * mbin fundtion only gubrbntffd tibt "srdw << siift" did not ovfrflow
+ * b 32-bit signfd intfgfr, wf dbnnot gubrbntff tibt "(srdw+1) << siift"
+ * or, morf gfnfrblly, "(srdw << siift)+srdind" dofs not ovfrflow.
+ * As b rfsult, wf pfrform our dbldulbtions ifrf witi jlong vblufs
+ * so tibt wf brfn't bfffdtfd by tiis ovfrflow.  Sindf srdw (siiftfd)
+ * bnd srdind brf boti 32-bit vblufs, tifir sum dbnnot possibly ovfrflow
+ * b jlong.  In fbdt, wf dbn stfp up to b douplf of billion stfps of
+ * sizf "srdind" pbst tif fnd of tif imbgf bfforf wf ibvf to worry
+ * bbout ovfrflow - in prbdtidf, tiougi, tif sfbrdi nfvfr stfps morf
+ * tibn 1 pbst tif fnd of tif imbgf so tiis bufffr is morf tibn fnougi.
  */
-static jint
-refine(jint intorigin, jdouble dblorigin, jint tilesize,
-       jdouble scale, jint srctarget, jint srcinc)
+stbtid jint
+rffinf(jint intorigin, jdoublf dblorigin, jint tilfsizf,
+       jdoublf sdblf, jint srdtbrgft, jint srdind)
 {
-    /* Make a first estimate of dest coordinate from srctarget */
-    jint dstloc = (jint) ceil(dblorigin + srctarget / scale - 0.5);
-    /* Loop until we get at least one value < and one >= the target */
-    jboolean wasneg = JNI_FALSE;
-    jboolean waspos = JNI_FALSE;
-    jlong lsrcinc = srcinc;
-    jlong lsrctarget = srctarget;
+    /* Mbkf b first fstimbtf of dfst doordinbtf from srdtbrgft */
+    jint dstlod = (jint) dfil(dblorigin + srdtbrgft / sdblf - 0.5);
+    /* Loop until wf gft bt lfbst onf vbluf < bnd onf >= tif tbrgft */
+    jboolfbn wbsnfg = JNI_FALSE;
+    jboolfbn wbspos = JNI_FALSE;
+    jlong lsrdind = srdind;
+    jlong lsrdtbrgft = srdtbrgft;
 
-    while (JNI_TRUE) {
+    wiilf (JNI_TRUE) {
         /*
-         * Find src coordinate from dest coordinate using the same
-         * math we will use below when iterating over tiles.
+         * Find srd doordinbtf from dfst doordinbtf using tif sbmf
+         * mbti wf will usf bflow wifn itfrbting ovfr tilfs.
          */
-        jint tilestart = TILESTART(dstloc, intorigin, tilesize);
-        jlong lsrcloc = (jlong) SRCLOC(tilestart, dblorigin, scale);
-        if (dstloc > tilestart) {
-            lsrcloc += lsrcinc * ((jlong) dstloc - tilestart);
+        jint tilfstbrt = TILESTART(dstlod, intorigin, tilfsizf);
+        jlong lsrdlod = (jlong) SRCLOC(tilfstbrt, dblorigin, sdblf);
+        if (dstlod > tilfstbrt) {
+            lsrdlod += lsrdind * ((jlong) dstlod - tilfstbrt);
         }
-        if (lsrcloc >= lsrctarget) {
+        if (lsrdlod >= lsrdtbrgft) {
             /*
-             * If we were previously less than target, then the current
-             * dstloc is the smallest dst which maps >= the target.
+             * If wf wfrf prfviously lfss tibn tbrgft, tifn tif durrfnt
+             * dstlod is tif smbllfst dst wiidi mbps >= tif tbrgft.
              */
-            if (wasneg) break;
-            dstloc--;
-            waspos = JNI_TRUE;
-        } else {
+            if (wbsnfg) brfbk;
+            dstlod--;
+            wbspos = JNI_TRUE;
+        } flsf {
             /*
-             * If we were previously greater than target, then this must
-             * be the first dstloc which maps to < the target.  Since we
-             * want the smallest which maps >= the target, increment it
-             * first before returning.
+             * If wf wfrf prfviously grfbtfr tibn tbrgft, tifn tiis must
+             * bf tif first dstlod wiidi mbps to < tif tbrgft.  Sindf wf
+             * wbnt tif smbllfst wiidi mbps >= tif tbrgft, indrfmfnt it
+             * first bfforf rfturning.
              */
-            dstloc++;
-            if (waspos) break;
-            wasneg = JNI_TRUE;
+            dstlod++;
+            if (wbspos) brfbk;
+            wbsnfg = JNI_TRUE;
         }
     }
-    return dstloc;
+    rfturn dstlod;
 }
 
 /*
- * Class:     sun_java2d_loops_ScaledBlit
- * Method:    Scale
- * Signature: (Lsun/java2d/SurfaceData;Lsun/java2d/SurfaceData;Ljava/awt/Composite;Lsun/java2d/pipe/Region;IIIIDDDD)V
+ * Clbss:     sun_jbvb2d_loops_SdblfdBlit
+ * Mftiod:    Sdblf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;Lsun/jbvb2d/pipf/Rfgion;IIIIDDDD)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_ScaledBlit_Scale
-    (JNIEnv *env, jobject self,
-     jobject srcData, jobject dstData,
-     jobject comp, jobject clip,
+Jbvb_sun_jbvb2d_loops_SdblfdBlit_Sdblf
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt srdDbtb, jobjfdt dstDbtb,
+     jobjfdt domp, jobjfdt dlip,
      jint sx1, jint sy1, jint sx2, jint sy2,
-     jdouble ddx1, jdouble ddy1, jdouble ddx2, jdouble ddy2)
+     jdoublf ddx1, jdoublf ddy1, jdoublf ddx2, jdoublf ddy2)
 {
-    SurfaceDataOps *srcOps;
-    SurfaceDataOps *dstOps;
-    SurfaceDataRasInfo srcInfo;
-    SurfaceDataRasInfo dstInfo;
-    NativePrimitive *pPrim;
-    CompositeInfo compInfo;
-    jint sxinc, syinc, shift;
-    jint tilesize;
+    SurfbdfDbtbOps *srdOps;
+    SurfbdfDbtbOps *dstOps;
+    SurfbdfDbtbRbsInfo srdInfo;
+    SurfbdfDbtbRbsInfo dstInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
+    jint sxind, syind, siift;
+    jint tilfsizf;
     jint idx1, idy1;
-    jdouble scalex, scaley;
-    RegionData clipInfo;
-    jint dstFlags;
-    jboolean xunderflow, yunderflow;
+    jdoublf sdblfx, sdblfy;
+    RfgionDbtb dlipInfo;
+    jint dstFlbgs;
+    jboolfbn xundfrflow, yundfrflow;
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GftNbtivfPrim(fnv, sflf);
     if (pPrim == NULL) {
-        return;
+        rfturn;
     }
-    if (pPrim->pCompType->getCompInfo != NULL) {
-        (*pPrim->pCompType->getCompInfo)(env, &compInfo, comp);
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
     }
-    if (Region_GetInfo(env, clip, &clipInfo)) {
-        return;
+    if (Rfgion_GftInfo(fnv, dlip, &dlipInfo)) {
+        rfturn;
     }
 
-    srcOps = SurfaceData_GetOps(env, srcData);
-    if (srcOps == 0) {
-        return;
+    srdOps = SurfbdfDbtb_GftOps(fnv, srdDbtb);
+    if (srdOps == 0) {
+        rfturn;
     }
-    dstOps = SurfaceData_GetOps(env, dstData);
+    dstOps = SurfbdfDbtb_GftOps(fnv, dstDbtb);
     if (dstOps == 0) {
-        return;
+        rfturn;
     }
 
     /*
-     * Determine the precision to use for the fixed point math
-     * for the coordinate scaling.
-     * - OR together srcw and srch to get the MSB between the two
-     * - Next shift it up until it goes negative
-     * - Count the shifts and that will be the most accurate
-     *   precision available for the fixed point math
-     * - a source coordinate of 1.0 will be (1 << shift)
-     * - srcw & srch will be (srcw << shift) and (srch << shift)
-     *   and will not overflow
-     * Note that if srcw or srch are so large that they are
-     * negative numbers before shifting, then:
-     * - shift will be 0
-     * - tilesize will end up being 1x1 tiles
-     * - we will brute force calculate the source location
-     *   of every destination pixel using the TILESTART and
-     *   SRCLOC macros in this function and then call the
-     *   scale helper function to copy one pixel at a time.
-     * - TILESTART involves mostly jdouble calculations so
-     *   it should not have integer overflow problems.
+     * Dftfrminf tif prfdision to usf for tif fixfd point mbti
+     * for tif doordinbtf sdbling.
+     * - OR togftifr srdw bnd srdi to gft tif MSB bftwffn tif two
+     * - Nfxt siift it up until it gofs nfgbtivf
+     * - Count tif siifts bnd tibt will bf tif most bddurbtf
+     *   prfdision bvbilbblf for tif fixfd point mbti
+     * - b sourdf doordinbtf of 1.0 will bf (1 << siift)
+     * - srdw & srdi will bf (srdw << siift) bnd (srdi << siift)
+     *   bnd will not ovfrflow
+     * Notf tibt if srdw or srdi brf so lbrgf tibt tify brf
+     * nfgbtivf numbfrs bfforf siifting, tifn:
+     * - siift will bf 0
+     * - tilfsizf will fnd up bfing 1x1 tilfs
+     * - wf will brutf fordf dbldulbtf tif sourdf lodbtion
+     *   of fvfry dfstinbtion pixfl using tif TILESTART bnd
+     *   SRCLOC mbdros in tiis fundtion bnd tifn dbll tif
+     *   sdblf iflpfr fundtion to dopy onf pixfl bt b timf.
+     * - TILESTART involvfs mostly jdoublf dbldulbtions so
+     *   it siould not ibvf intfgfr ovfrflow problfms.
      */
-    sxinc = (sx2 - sx1) | (sy2 - sy1);
-    shift = 0;
-    if (sxinc > 0) {
-        while ((sxinc <<= 1) > 0) {
-            shift++;
+    sxind = (sx2 - sx1) | (sy2 - sy1);
+    siift = 0;
+    if (sxind > 0) {
+        wiilf ((sxind <<= 1) > 0) {
+            siift++;
         }
     }
     /*
-     * Now determine the scaled integer increments used to traverse
-     * the source image for each destination pixel.  Our shift value
-     * has been calculated above so that any location within the
-     * destination image can be represented as a scaled integer
-     * without incurring integer overflow.
+     * Now dftfrminf tif sdblfd intfgfr indrfmfnts usfd to trbvfrsf
+     * tif sourdf imbgf for fbdi dfstinbtion pixfl.  Our siift vbluf
+     * ibs bffn dbldulbtfd bbovf so tibt bny lodbtion witiin tif
+     * dfstinbtion imbgf dbn bf rfprfsfntfd bs b sdblfd intfgfr
+     * witiout indurring intfgfr ovfrflow.
      *
-     * But we also need to worry about overflow of the sxinc and syinc
-     * parameters.  We already know that "srcw<<shift" and "srch<<shift"
-     * cannot overflow a jint, and the only time that sxinc and syinc
-     * can be larger than those two values is if ddy2-ddy1 or ddx2-ddx1
-     * are smaller than 1.  Since this situation implies that the
-     * output area is no more than one pixel wide or tall, then we are
-     * stepping by distances that are at least the size of the image
-     * and only one destination pixel will ever be rendered - thus the
-     * amount by which we step is largely irrelevant since after
-     * drawing the first "in bounds" pixel, we will step completely
-     * out of the source image and render nothing more.  As a result,
-     * we assign the appropriate "size of image" stepping parameter
-     * for any scale to smaller than one device pixel.
+     * But wf blso nffd to worry bbout ovfrflow of tif sxind bnd syind
+     * pbrbmftfrs.  Wf blrfbdy know tibt "srdw<<siift" bnd "srdi<<siift"
+     * dbnnot ovfrflow b jint, bnd tif only timf tibt sxind bnd syind
+     * dbn bf lbrgfr tibn tiosf two vblufs is if ddy2-ddy1 or ddx2-ddx1
+     * brf smbllfr tibn 1.  Sindf tiis situbtion implifs tibt tif
+     * output brfb is no morf tibn onf pixfl widf or tbll, tifn wf brf
+     * stfpping by distbndfs tibt brf bt lfbst tif sizf of tif imbgf
+     * bnd only onf dfstinbtion pixfl will fvfr bf rfndfrfd - tius tif
+     * bmount by wiidi wf stfp is lbrgfly irrflfvbnt sindf bftfr
+     * drbwing tif first "in bounds" pixfl, wf will stfp domplftfly
+     * out of tif sourdf imbgf bnd rfndfr notiing morf.  As b rfsult,
+     * wf bssign tif bppropribtf "sizf of imbgf" stfpping pbrbmftfr
+     * for bny sdblf to smbllfr tibn onf dfvidf pixfl.
      */
-    yunderflow = (ddy2 - ddy1) < 1.0;
-    scaley = (((jdouble) (sy2 - sy1)) / (ddy2 - ddy1)) * (1 << shift);
-    syinc = (yunderflow ? ((sy2 - sy1) << shift) : (jint) scaley);
-    xunderflow = (ddx2 - ddx1) < 1.0;
-    scalex = (((jdouble) (sx2 - sx1)) / (ddx2 - ddx1)) * (1 << shift);
-    sxinc = (xunderflow ? ((sx2 - sx1) << shift) : (jint) scalex);
-    tilesize = findpow2tilesize(shift, sxinc, syinc);
+    yundfrflow = (ddy2 - ddy1) < 1.0;
+    sdblfy = (((jdoublf) (sy2 - sy1)) / (ddy2 - ddy1)) * (1 << siift);
+    syind = (yundfrflow ? ((sy2 - sy1) << siift) : (jint) sdblfy);
+    xundfrflow = (ddx2 - ddx1) < 1.0;
+    sdblfx = (((jdoublf) (sx2 - sx1)) / (ddx2 - ddx1)) * (1 << siift);
+    sxind = (xundfrflow ? ((sx2 - sx1) << siift) : (jint) sdblfx);
+    tilfsizf = findpow2tilfsizf(siift, sxind, syind);
 
 
-    srcInfo.bounds.x1 = sx1;
-    srcInfo.bounds.y1 = sy1;
-    srcInfo.bounds.x2 = sx2;
-    srcInfo.bounds.y2 = sy2;
-    if (srcOps->Lock(env, srcOps, &srcInfo, pPrim->srcflags) != SD_SUCCESS) {
-        return;
+    srdInfo.bounds.x1 = sx1;
+    srdInfo.bounds.y1 = sy1;
+    srdInfo.bounds.x2 = sx2;
+    srdInfo.bounds.y2 = sy2;
+    if (srdOps->Lodk(fnv, srdOps, &srdInfo, pPrim->srdflbgs) != SD_SUCCESS) {
+        rfturn;
     }
-    if (srcInfo.bounds.x2 <= srcInfo.bounds.x1 ||
-        srcInfo.bounds.y2 <= srcInfo.bounds.y1)
+    if (srdInfo.bounds.x2 <= srdInfo.bounds.x1 ||
+        srdInfo.bounds.y2 <= srdInfo.bounds.y1)
     {
-        SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
-        return;
+        SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+        rfturn;
     }
 
     /*
-     * Only refine lower bounds if lower source coordinate was clipped
-     * because the math will work out to be exactly idx1, idy1 if not.
-     * Always refine upper bounds since we want to make sure not to
-     * overstep the source bounds based on the tiled iteration math.
+     * Only rffinf lowfr bounds if lowfr sourdf doordinbtf wbs dlippfd
+     * bfdbusf tif mbti will work out to bf fxbdtly idx1, idy1 if not.
+     * Alwbys rffinf uppfr bounds sindf wf wbnt to mbkf surf not to
+     * ovfrstfp tif sourdf bounds bbsfd on tif tilfd itfrbtion mbti.
      *
-     * For underflow cases, simply check if the SRCLOC for the single
-     * destination pixel maps inside the source bounds.  If it does,
-     * we render that pixel row or column (and only that pixel row
-     * or column).  If it does not, we render nothing.
+     * For undfrflow dbsfs, simply difdk if tif SRCLOC for tif singlf
+     * dfstinbtion pixfl mbps insidf tif sourdf bounds.  If it dofs,
+     * wf rfndfr tibt pixfl row or dolumn (bnd only tibt pixfl row
+     * or dolumn).  If it dofs not, wf rfndfr notiing.
      */
-    idx1 = (jint) ceil(ddx1 - 0.5);
-    idy1 = (jint) ceil(ddy1 - 0.5);
-    if (xunderflow) {
-        jdouble x = sx1 + (SRCLOC(idx1, ddx1, scalex) / (1 << shift));
+    idx1 = (jint) dfil(ddx1 - 0.5);
+    idy1 = (jint) dfil(ddy1 - 0.5);
+    if (xundfrflow) {
+        jdoublf x = sx1 + (SRCLOC(idx1, ddx1, sdblfx) / (1 << siift));
         dstInfo.bounds.x1 = dstInfo.bounds.x2 = idx1;
-        if (x >= srcInfo.bounds.x1 && x < srcInfo.bounds.x2) {
+        if (x >= srdInfo.bounds.x1 && x < srdInfo.bounds.x2) {
             dstInfo.bounds.x2++;
         }
-    } else {
-        dstInfo.bounds.x1 = ((srcInfo.bounds.x1 <= sx1)
+    } flsf {
+        dstInfo.bounds.x1 = ((srdInfo.bounds.x1 <= sx1)
                              ? idx1
-                             : refine(idx1, ddx1, tilesize, scalex,
-                                      (srcInfo.bounds.x1-sx1) << shift, sxinc));
-        dstInfo.bounds.x2 = refine(idx1, ddx1, tilesize, scalex,
-                                   (srcInfo.bounds.x2-sx1) << shift, sxinc);
+                             : rffinf(idx1, ddx1, tilfsizf, sdblfx,
+                                      (srdInfo.bounds.x1-sx1) << siift, sxind));
+        dstInfo.bounds.x2 = rffinf(idx1, ddx1, tilfsizf, sdblfx,
+                                   (srdInfo.bounds.x2-sx1) << siift, sxind);
     }
-    if (yunderflow) {
-        jdouble y = sy1 + (SRCLOC(idy1, ddy1, scaley) / (1 << shift));
+    if (yundfrflow) {
+        jdoublf y = sy1 + (SRCLOC(idy1, ddy1, sdblfy) / (1 << siift));
         dstInfo.bounds.y1 = dstInfo.bounds.y2 = idy1;
-        if (y >= srcInfo.bounds.y1 && y < srcInfo.bounds.y2) {
+        if (y >= srdInfo.bounds.y1 && y < srdInfo.bounds.y2) {
             dstInfo.bounds.y2++;
         }
-    } else {
-        dstInfo.bounds.y1 = ((srcInfo.bounds.y1 <= sy1)
+    } flsf {
+        dstInfo.bounds.y1 = ((srdInfo.bounds.y1 <= sy1)
                              ? idy1
-                             : refine(idy1, ddy1, tilesize, scaley,
-                                      (srcInfo.bounds.y1-sy1) << shift, syinc));
-        dstInfo.bounds.y2 = refine(idy1, ddy1, tilesize, scaley,
-                                   (srcInfo.bounds.y2-sy1) << shift, syinc);
+                             : rffinf(idy1, ddy1, tilfsizf, sdblfy,
+                                      (srdInfo.bounds.y1-sy1) << siift, syind));
+        dstInfo.bounds.y2 = rffinf(idy1, ddy1, tilfsizf, sdblfy,
+                                   (srdInfo.bounds.y2-sy1) << siift, syind);
     }
 
-    SurfaceData_IntersectBounds(&dstInfo.bounds, &clipInfo.bounds);
-    dstFlags = pPrim->dstflags;
-    if (!Region_IsRectangular(&clipInfo)) {
-        dstFlags |= SD_LOCK_PARTIAL_WRITE;
+    SurfbdfDbtb_IntfrsfdtBounds(&dstInfo.bounds, &dlipInfo.bounds);
+    dstFlbgs = pPrim->dstflbgs;
+    if (!Rfgion_IsRfdtbngulbr(&dlipInfo)) {
+        dstFlbgs |= SD_LOCK_PARTIAL_WRITE;
     }
-    if (dstOps->Lock(env, dstOps, &dstInfo, dstFlags) != SD_SUCCESS) {
-        SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
-        return;
+    if (dstOps->Lodk(fnv, dstOps, &dstInfo, dstFlbgs) != SD_SUCCESS) {
+        SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+        rfturn;
     }
 
     if (dstInfo.bounds.x2 > dstInfo.bounds.x1 &&
         dstInfo.bounds.y2 > dstInfo.bounds.y1)
     {
-        srcOps->GetRasInfo(env, srcOps, &srcInfo);
-        dstOps->GetRasInfo(env, dstOps, &dstInfo);
-        if (srcInfo.rasBase && dstInfo.rasBase) {
-            SurfaceDataBounds span;
-            void *pSrc = PtrCoord(srcInfo.rasBase,
-                                  sx1, srcInfo.pixelStride,
-                                  sy1, srcInfo.scanStride);
+        srdOps->GftRbsInfo(fnv, srdOps, &srdInfo);
+        dstOps->GftRbsInfo(fnv, dstOps, &dstInfo);
+        if (srdInfo.rbsBbsf && dstInfo.rbsBbsf) {
+            SurfbdfDbtbBounds spbn;
+            void *pSrd = PtrCoord(srdInfo.rbsBbsf,
+                                  sx1, srdInfo.pixflStridf,
+                                  sy1, srdInfo.sdbnStridf);
 
-            Region_IntersectBounds(&clipInfo, &dstInfo.bounds);
-            Region_StartIteration(env, &clipInfo);
-            if (tilesize >= (ddx2 - ddx1) &&
-                tilesize >= (ddy2 - ddy1))
+            Rfgion_IntfrsfdtBounds(&dlipInfo, &dstInfo.bounds);
+            Rfgion_StbrtItfrbtion(fnv, &dlipInfo);
+            if (tilfsizf >= (ddx2 - ddx1) &&
+                tilfsizf >= (ddy2 - ddy1))
             {
-                /* Do everything in one tile */
-                jint sxloc = (jint) SRCLOC(idx1, ddx1, scalex);
-                jint syloc = (jint) SRCLOC(idy1, ddy1, scaley);
-                while (Region_NextIteration(&clipInfo, &span)) {
-                    jint tsxloc = sxloc;
-                    jint tsyloc = syloc;
+                /* Do fvfrytiing in onf tilf */
+                jint sxlod = (jint) SRCLOC(idx1, ddx1, sdblfx);
+                jint sylod = (jint) SRCLOC(idy1, ddy1, sdblfy);
+                wiilf (Rfgion_NfxtItfrbtion(&dlipInfo, &spbn)) {
+                    jint tsxlod = sxlod;
+                    jint tsylod = sylod;
                     void *pDst;
 
-                    if (span.y1 > idy1) {
-                        tsyloc += syinc * (span.y1 - idy1);
+                    if (spbn.y1 > idy1) {
+                        tsylod += syind * (spbn.y1 - idy1);
                     }
-                    if (span.x1 > idx1) {
-                        tsxloc += sxinc * (span.x1 - idx1);
+                    if (spbn.x1 > idx1) {
+                        tsxlod += sxind * (spbn.x1 - idx1);
                     }
 
-                    pDst = PtrCoord(dstInfo.rasBase,
-                                    span.x1, dstInfo.pixelStride,
-                                    span.y1, dstInfo.scanStride);
-                    (*pPrim->funcs.scaledblit)(pSrc, pDst,
-                                               span.x2-span.x1, span.y2-span.y1,
-                                               tsxloc, tsyloc,
-                                               sxinc, syinc, shift,
-                                               &srcInfo, &dstInfo,
-                                               pPrim, &compInfo);
+                    pDst = PtrCoord(dstInfo.rbsBbsf,
+                                    spbn.x1, dstInfo.pixflStridf,
+                                    spbn.y1, dstInfo.sdbnStridf);
+                    (*pPrim->funds.sdblfdblit)(pSrd, pDst,
+                                               spbn.x2-spbn.x1, spbn.y2-spbn.y1,
+                                               tsxlod, tsylod,
+                                               sxind, syind, siift,
+                                               &srdInfo, &dstInfo,
+                                               pPrim, &dompInfo);
                 }
-            } else {
-                /* Break each clip span into tiles for better accuracy. */
-                while (Region_NextIteration(&clipInfo, &span)) {
-                    jint tilex, tiley;
-                    jint sxloc, syloc;
+            } flsf {
+                /* Brfbk fbdi dlip spbn into tilfs for bfttfr bddurbdy. */
+                wiilf (Rfgion_NfxtItfrbtion(&dlipInfo, &spbn)) {
+                    jint tilfx, tilfy;
+                    jint sxlod, sylod;
                     jint x1, y1, x2, y2;
                     void *pDst;
 
-                    for (tiley = TILESTART(span.y1, idy1, tilesize);
-                         tiley < span.y2;
-                         tiley += tilesize)
+                    for (tilfy = TILESTART(spbn.y1, idy1, tilfsizf);
+                         tilfy < spbn.y2;
+                         tilfy += tilfsizf)
                     {
-                        /* Clip span to Y range of current tile */
-                        y1 = tiley;
-                        y2 = tiley + tilesize;
-                        if (y1 < span.y1) y1 = span.y1;
-                        if (y2 > span.y2) y2 = span.y2;
+                        /* Clip spbn to Y rbngf of durrfnt tilf */
+                        y1 = tilfy;
+                        y2 = tilfy + tilfsizf;
+                        if (y1 < spbn.y1) y1 = spbn.y1;
+                        if (y2 > spbn.y2) y2 = spbn.y2;
 
-                        /* Find scaled source coordinate of first pixel */
-                        syloc = (jint) SRCLOC(tiley, ddy1, scaley);
-                        if (y1 > tiley) {
-                            syloc += syinc * (y1 - tiley);
+                        /* Find sdblfd sourdf doordinbtf of first pixfl */
+                        sylod = (jint) SRCLOC(tilfy, ddy1, sdblfy);
+                        if (y1 > tilfy) {
+                            sylod += syind * (y1 - tilfy);
                         }
 
-                        for (tilex = TILESTART(span.x1, idx1, tilesize);
-                             tilex < span.x2;
-                             tilex += tilesize)
+                        for (tilfx = TILESTART(spbn.x1, idx1, tilfsizf);
+                             tilfx < spbn.x2;
+                             tilfx += tilfsizf)
                         {
-                            /* Clip span to X range of current tile */
-                            x1 = tilex;
-                            x2 = tilex + tilesize;
-                            if (x1 < span.x1) x1 = span.x1;
-                            if (x2 > span.x2) x2 = span.x2;
+                            /* Clip spbn to X rbngf of durrfnt tilf */
+                            x1 = tilfx;
+                            x2 = tilfx + tilfsizf;
+                            if (x1 < spbn.x1) x1 = spbn.x1;
+                            if (x2 > spbn.x2) x2 = spbn.x2;
 
-                            /* Find scaled source coordinate of first pixel */
-                            sxloc = (jint) SRCLOC(tilex, ddx1, scalex);
-                            if (x1 > tilex) {
-                                sxloc += sxinc * (x1 - tilex);
+                            /* Find sdblfd sourdf doordinbtf of first pixfl */
+                            sxlod = (jint) SRCLOC(tilfx, ddx1, sdblfx);
+                            if (x1 > tilfx) {
+                                sxlod += sxind * (x1 - tilfx);
                             }
 
-                            pDst = PtrCoord(dstInfo.rasBase,
-                                            x1, dstInfo.pixelStride,
-                                            y1, dstInfo.scanStride);
-                            (*pPrim->funcs.scaledblit)(pSrc, pDst, x2-x1, y2-y1,
-                                                       sxloc, syloc,
-                                                       sxinc, syinc, shift,
-                                                       &srcInfo, &dstInfo,
-                                                       pPrim, &compInfo);
+                            pDst = PtrCoord(dstInfo.rbsBbsf,
+                                            x1, dstInfo.pixflStridf,
+                                            y1, dstInfo.sdbnStridf);
+                            (*pPrim->funds.sdblfdblit)(pSrd, pDst, x2-x1, y2-y1,
+                                                       sxlod, sylod,
+                                                       sxind, syind, siift,
+                                                       &srdInfo, &dstInfo,
+                                                       pPrim, &dompInfo);
                         }
                     }
                 }
             }
-            Region_EndIteration(env, &clipInfo);
+            Rfgion_EndItfrbtion(fnv, &dlipInfo);
         }
-        SurfaceData_InvokeRelease(env, dstOps, &dstInfo);
-        SurfaceData_InvokeRelease(env, srcOps, &srcInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, dstOps, &dstInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, srdOps, &srdInfo);
     }
-    SurfaceData_InvokeUnlock(env, dstOps, &dstInfo);
-    SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, dstOps, &dstInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
 }

@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.event.*;
-import javax.swing.event.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
 
 
 /**
- * A model for a potentially unbounded sequence of object values.  This model
- * is similar to <code>ListModel</code> however there are some important differences:
+ * A modfl for b potfntiblly unboundfd sfqufndf of objfdt vblufs.  Tiis modfl
+ * is similbr to <dodf>ListModfl</dodf> iowfvfr tifrf brf somf importbnt difffrfndfs:
  * <ul>
- * <li> The number of sequence elements isn't necessarily bounded.
- * <li> The model doesn't support indexed random access to sequence elements.
- *      Only three sequence values are accessible at a time: current, next and
- *      previous.
- * <li> The current sequence element, can be set.
+ * <li> Tif numbfr of sfqufndf flfmfnts isn't nfdfssbrily boundfd.
+ * <li> Tif modfl dofsn't support indfxfd rbndom bddfss to sfqufndf flfmfnts.
+ *      Only tirff sfqufndf vblufs brf bddfssiblf bt b timf: durrfnt, nfxt bnd
+ *      prfvious.
+ * <li> Tif durrfnt sfqufndf flfmfnt, dbn bf sft.
  * </ul>
  * <p>
- * A <code>SpinnerModel</code> has three properties, only the first is read/write.
+ * A <dodf>SpinnfrModfl</dodf> ibs tirff propfrtifs, only tif first is rfbd/writf.
  * <dl>
- *   <dt><code>value</code>
- *   <dd>The current element of the sequence.
+ *   <dt><dodf>vbluf</dodf>
+ *   <dd>Tif durrfnt flfmfnt of tif sfqufndf.
  *
- *   <dt><code>nextValue</code>
- *   <dd>The following element or null if <code>value</code> is the
- *     last element of the sequence.
+ *   <dt><dodf>nfxtVbluf</dodf>
+ *   <dd>Tif following flfmfnt or null if <dodf>vbluf</dodf> is tif
+ *     lbst flfmfnt of tif sfqufndf.
  *
- *   <dt><code>previousValue</code>
- *   <dd>The preceding element or null if <code>value</code> is the
- *     first element of the sequence.
+ *   <dt><dodf>prfviousVbluf</dodf>
+ *   <dd>Tif prfdfding flfmfnt or null if <dodf>vbluf</dodf> is tif
+ *     first flfmfnt of tif sfqufndf.
  * </dl>
- * When the the <code>value</code> property changes,
- * <code>ChangeListeners</code> are notified.  <code>SpinnerModel</code> may
- * choose to notify the <code>ChangeListeners</code> under other circumstances.
+ * Wifn tif tif <dodf>vbluf</dodf> propfrty dibngfs,
+ * <dodf>CibngfListfnfrs</dodf> brf notififd.  <dodf>SpinnfrModfl</dodf> mby
+ * dioosf to notify tif <dodf>CibngfListfnfrs</dodf> undfr otifr dirdumstbndfs.
  *
- * @see JSpinner
- * @see AbstractSpinnerModel
- * @see SpinnerListModel
- * @see SpinnerNumberModel
- * @see SpinnerDateModel
+ * @sff JSpinnfr
+ * @sff AbstrbdtSpinnfrModfl
+ * @sff SpinnfrListModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff SpinnfrDbtfModfl
  *
- * @author Hans Muller
- * @since 1.4
+ * @butior Hbns Mullfr
+ * @sindf 1.4
  */
-public interface SpinnerModel
+publid intfrfbdf SpinnfrModfl
 {
     /**
-     * The <i>current element</i> of the sequence.  This element is usually
-     * displayed by the <code>editor</code> part of a <code>JSpinner</code>.
+     * Tif <i>durrfnt flfmfnt</i> of tif sfqufndf.  Tiis flfmfnt is usublly
+     * displbyfd by tif <dodf>fditor</dodf> pbrt of b <dodf>JSpinnfr</dodf>.
      *
-     * @return the current spinner value.
-     * @see #setValue
+     * @rfturn tif durrfnt spinnfr vbluf.
+     * @sff #sftVbluf
      */
-    Object getValue();
+    Objfdt gftVbluf();
 
 
     /**
-     * Changes current value of the model, typically this value is displayed
-     * by the <code>editor</code> part of a  <code>JSpinner</code>.
-     * If the <code>SpinnerModel</code> implementation doesn't support
-     * the specified value then an <code>IllegalArgumentException</code>
-     * is thrown.  For example a <code>SpinnerModel</code> for numbers might
-     * only support values that are integer multiples of ten. In
-     * that case, <code>model.setValue(new Number(11))</code>
-     * would throw an exception.
+     * Cibngfs durrfnt vbluf of tif modfl, typidblly tiis vbluf is displbyfd
+     * by tif <dodf>fditor</dodf> pbrt of b  <dodf>JSpinnfr</dodf>.
+     * If tif <dodf>SpinnfrModfl</dodf> implfmfntbtion dofsn't support
+     * tif spfdififd vbluf tifn bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * is tirown.  For fxbmplf b <dodf>SpinnfrModfl</dodf> for numbfrs migit
+     * only support vblufs tibt brf intfgfr multiplfs of tfn. In
+     * tibt dbsf, <dodf>modfl.sftVbluf(nfw Numbfr(11))</dodf>
+     * would tirow bn fxdfption.
      *
-     * @param value  new value for the spinner
-     * @throws IllegalArgumentException if <code>value</code> isn't allowed
-     * @see #getValue
+     * @pbrbm vbluf  nfw vbluf for tif spinnfr
+     * @tirows IllfgblArgumfntExdfption if <dodf>vbluf</dodf> isn't bllowfd
+     * @sff #gftVbluf
      */
-    void setValue(Object value);
+    void sftVbluf(Objfdt vbluf);
 
 
     /**
-     * Return the object in the sequence that comes after the object returned
-     * by <code>getValue()</code>. If the end of the sequence has been reached
-     * then return null.  Calling this method does not effect <code>value</code>.
+     * Rfturn tif objfdt in tif sfqufndf tibt domfs bftfr tif objfdt rfturnfd
+     * by <dodf>gftVbluf()</dodf>. If tif fnd of tif sfqufndf ibs bffn rfbdifd
+     * tifn rfturn null.  Cblling tiis mftiod dofs not ffffdt <dodf>vbluf</dodf>.
      *
-     * @return the next legal value or null if one doesn't exist
-     * @see #getValue
-     * @see #getPreviousValue
+     * @rfturn tif nfxt lfgbl vbluf or null if onf dofsn't fxist
+     * @sff #gftVbluf
+     * @sff #gftPrfviousVbluf
      */
-    Object getNextValue();
+    Objfdt gftNfxtVbluf();
 
 
     /**
-     * Return the object in the sequence that comes before the object returned
-     * by <code>getValue()</code>.  If the end of the sequence has been reached then
-     * return null. Calling this method does not effect <code>value</code>.
+     * Rfturn tif objfdt in tif sfqufndf tibt domfs bfforf tif objfdt rfturnfd
+     * by <dodf>gftVbluf()</dodf>.  If tif fnd of tif sfqufndf ibs bffn rfbdifd tifn
+     * rfturn null. Cblling tiis mftiod dofs not ffffdt <dodf>vbluf</dodf>.
      *
-     * @return the previous legal value or null if one doesn't exist
-     * @see #getValue
-     * @see #getNextValue
+     * @rfturn tif prfvious lfgbl vbluf or null if onf dofsn't fxist
+     * @sff #gftVbluf
+     * @sff #gftNfxtVbluf
      */
-    Object getPreviousValue();
+    Objfdt gftPrfviousVbluf();
 
 
     /**
-     * Adds a <code>ChangeListener</code> to the model's listener list.  The
-     * <code>ChangeListeners</code> must be notified when models <code>value</code>
-     * changes.
+     * Adds b <dodf>CibngfListfnfr</dodf> to tif modfl's listfnfr list.  Tif
+     * <dodf>CibngfListfnfrs</dodf> must bf notififd wifn modfls <dodf>vbluf</dodf>
+     * dibngfs.
      *
-     * @param l the ChangeListener to add
-     * @see #removeChangeListener
+     * @pbrbm l tif CibngfListfnfr to bdd
+     * @sff #rfmovfCibngfListfnfr
      */
-    void addChangeListener(ChangeListener l);
+    void bddCibngfListfnfr(CibngfListfnfr l);
 
 
     /**
-     * Removes a <code>ChangeListener</code> from the model's listener list.
+     * Rfmovfs b <dodf>CibngfListfnfr</dodf> from tif modfl's listfnfr list.
      *
-     * @param l the ChangeListener to remove
-     * @see #addChangeListener
+     * @pbrbm l tif CibngfListfnfr to rfmovf
+     * @sff #bddCibngfListfnfr
      */
-    void removeChangeListener(ChangeListener l);
+    void rfmovfCibngfListfnfr(CibngfListfnfr l);
 }

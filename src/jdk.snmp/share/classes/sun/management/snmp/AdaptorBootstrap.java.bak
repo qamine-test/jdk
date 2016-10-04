@@ -1,395 +1,395 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management.snmp;
+pbdkbgf sun.mbnbgfmfnt.snmp;
 
-import com.sun.jmx.snmp.daemon.SnmpAdaptorServer;
-import com.sun.jmx.snmp.InetAddressAcl;
-import com.sun.jmx.snmp.IPAcl.SnmpAcl;
-import sun.management.snmp.jvmmib.JVM_MANAGEMENT_MIB;
-import sun.management.snmp.jvminstr.JVM_MANAGEMENT_MIB_IMPL;
-import sun.management.snmp.jvminstr.NotificationTarget;
-import sun.management.snmp.jvminstr.NotificationTargetImpl;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import dom.sun.jmx.snmp.dbfmon.SnmpAdbptorSfrvfr;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
+import dom.sun.jmx.snmp.IPAdl.SnmpAdl;
+import sun.mbnbgfmfnt.snmp.jvmmib.JVM_MANAGEMENT_MIB;
+import sun.mbnbgfmfnt.snmp.jvminstr.JVM_MANAGEMENT_MIB_IMPL;
+import sun.mbnbgfmfnt.snmp.jvminstr.NotifidbtionTbrgft;
+import sun.mbnbgfmfnt.snmp.jvminstr.NotifidbtionTbrgftImpl;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
 
-import sun.management.Agent;
-import sun.management.AgentConfigurationError;
-import static sun.management.AgentConfigurationError.*;
-import sun.management.FileSystem;
+import sun.mbnbgfmfnt.Agfnt;
+import sun.mbnbgfmfnt.AgfntConfigurbtionError;
+import stbtid sun.mbnbgfmfnt.AgfntConfigurbtionError.*;
+import sun.mbnbgfmfnt.FilfSystfm;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Properties;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
 
-import java.io.IOException;
-import java.io.File;
-import java.io.FileInputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
 
 /**
- * This class initializes and starts the SNMP Adaptor for JSR 163 SNMP
+ * Tiis dlbss initiblizfs bnd stbrts tif SNMP Adbptor for JSR 163 SNMP
  * Monitoring.
  **/
-public final class AdaptorBootstrap {
+publid finbl dlbss AdbptorBootstrbp {
 
-    private static final MibLogger log = new MibLogger(AdaptorBootstrap.class);
+    privbtf stbtid finbl MibLoggfr log = nfw MibLoggfr(AdbptorBootstrbp.dlbss);
 
     /**
-     * Default values for SNMP configuration properties.
+     * Dffbult vblufs for SNMP donfigurbtion propfrtifs.
      **/
-    public static interface DefaultValues {
-        public static final String PORT="161";
-        public static final String CONFIG_FILE_NAME="management.properties";
-        public static final String TRAP_PORT="162";
-        public static final String USE_ACL="true";
-        public static final String ACL_FILE_NAME="snmp.acl";
-        public static final String BIND_ADDRESS="localhost";
+    publid stbtid intfrfbdf DffbultVblufs {
+        publid stbtid finbl String PORT="161";
+        publid stbtid finbl String CONFIG_FILE_NAME="mbnbgfmfnt.propfrtifs";
+        publid stbtid finbl String TRAP_PORT="162";
+        publid stbtid finbl String USE_ACL="truf";
+        publid stbtid finbl String ACL_FILE_NAME="snmp.bdl";
+        publid stbtid finbl String BIND_ADDRESS="lodbliost";
     }
 
     /**
-     * Names of SNMP configuration properties.
+     * Nbmfs of SNMP donfigurbtion propfrtifs.
      **/
-    public static interface PropertyNames {
-        public static final String PORT="com.sun.management.snmp.port";
-        public static final String CONFIG_FILE_NAME=
-            "com.sun.management.config.file";
-        public static final String TRAP_PORT=
-            "com.sun.management.snmp.trap";
-        public static final String USE_ACL=
-            "com.sun.management.snmp.acl";
-        public static final String ACL_FILE_NAME=
-            "com.sun.management.snmp.acl.file";
-        public static final String BIND_ADDRESS=
-            "com.sun.management.snmp.interface";
+    publid stbtid intfrfbdf PropfrtyNbmfs {
+        publid stbtid finbl String PORT="dom.sun.mbnbgfmfnt.snmp.port";
+        publid stbtid finbl String CONFIG_FILE_NAME=
+            "dom.sun.mbnbgfmfnt.donfig.filf";
+        publid stbtid finbl String TRAP_PORT=
+            "dom.sun.mbnbgfmfnt.snmp.trbp";
+        publid stbtid finbl String USE_ACL=
+            "dom.sun.mbnbgfmfnt.snmp.bdl";
+        publid stbtid finbl String ACL_FILE_NAME=
+            "dom.sun.mbnbgfmfnt.snmp.bdl.filf";
+        publid stbtid finbl String BIND_ADDRESS=
+            "dom.sun.mbnbgfmfnt.snmp.intfrfbdf";
     }
 
     /**
-     * We keep a reference - so that we can possibly call
-     * terminate(). As of now, terminate() is only called by unit tests
-     * (makes it possible to run several testcases sequentially in the
-     * same JVM).
+     * Wf kffp b rfffrfndf - so tibt wf dbn possibly dbll
+     * tfrminbtf(). As of now, tfrminbtf() is only dbllfd by unit tfsts
+     * (mbkfs it possiblf to run sfvfrbl tfstdbsfs sfqufntiblly in tif
+     * sbmf JVM).
      **/
-    private SnmpAdaptorServer       adaptor;
-    private JVM_MANAGEMENT_MIB_IMPL jvmmib;
+    privbtf SnmpAdbptorSfrvfr       bdbptor;
+    privbtf JVM_MANAGEMENT_MIB_IMPL jvmmib;
 
-    private AdaptorBootstrap(SnmpAdaptorServer snmpas,
+    privbtf AdbptorBootstrbp(SnmpAdbptorSfrvfr snmpbs,
                              JVM_MANAGEMENT_MIB_IMPL mib) {
         jvmmib  = mib;
-        adaptor = snmpas;
+        bdbptor = snmpbs;
     }
 
     /**
-     * Compute the full path name for a default file.
-     * @param basename basename (with extension) of the default file.
-     * @return ${JRE}/lib/management/${basename}
+     * Computf tif full pbti nbmf for b dffbult filf.
+     * @pbrbm bbsfnbmf bbsfnbmf (witi fxtfnsion) of tif dffbult filf.
+     * @rfturn ${JRE}/lib/mbnbgfmfnt/${bbsfnbmf}
      **/
-    private static String getDefaultFileName(String basename) {
-        final String fileSeparator = File.separator;
-        return System.getProperty("java.home") + fileSeparator + "lib" +
-            fileSeparator + "management" + fileSeparator + basename;
+    privbtf stbtid String gftDffbultFilfNbmf(String bbsfnbmf) {
+        finbl String filfSfpbrbtor = Filf.sfpbrbtor;
+        rfturn Systfm.gftPropfrty("jbvb.iomf") + filfSfpbrbtor + "lib" +
+            filfSfpbrbtor + "mbnbgfmfnt" + filfSfpbrbtor + bbsfnbmf;
     }
 
     /**
-     * Retrieve the Trap Target List from the ACL file.
+     * Rftrifvf tif Trbp Tbrgft List from tif ACL filf.
      **/
-    @SuppressWarnings("unchecked")
-    private static List<NotificationTarget> getTargetList(InetAddressAcl acl,
-                                                          int defaultTrapPort) {
-        final ArrayList<NotificationTarget> result =
-                new ArrayList<>();
-        if (acl != null) {
-            if (log.isDebugOn())
-                log.debug("getTargetList",Agent.getText("jmxremote.AdaptorBootstrap.getTargetList.processing"));
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid List<NotifidbtionTbrgft> gftTbrgftList(InftAddrfssAdl bdl,
+                                                          int dffbultTrbpPort) {
+        finbl ArrbyList<NotifidbtionTbrgft> rfsult =
+                nfw ArrbyList<>();
+        if (bdl != null) {
+            if (log.isDfbugOn())
+                log.dfbug("gftTbrgftList",Agfnt.gftTfxt("jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.prodfssing"));
 
-            final Enumeration<InetAddress> td = acl.getTrapDestinations();
-            for (; td.hasMoreElements() ;) {
-                final InetAddress targetAddr = td.nextElement();
-                final Enumeration<String> tc =
-                    acl.getTrapCommunities(targetAddr);
-                for (;tc.hasMoreElements() ;) {
-                    final String community = tc.nextElement();
-                    final NotificationTarget target =
-                        new NotificationTargetImpl(targetAddr,
-                                                   defaultTrapPort,
-                                                   community);
-                    if (log.isDebugOn())
-                        log.debug("getTargetList",
-                                  Agent.getText("jmxremote.AdaptorBootstrap.getTargetList.adding",
-                                                target.toString()));
-                    result.add(target);
+            finbl Enumfrbtion<InftAddrfss> td = bdl.gftTrbpDfstinbtions();
+            for (; td.ibsMorfElfmfnts() ;) {
+                finbl InftAddrfss tbrgftAddr = td.nfxtElfmfnt();
+                finbl Enumfrbtion<String> td =
+                    bdl.gftTrbpCommunitifs(tbrgftAddr);
+                for (;td.ibsMorfElfmfnts() ;) {
+                    finbl String dommunity = td.nfxtElfmfnt();
+                    finbl NotifidbtionTbrgft tbrgft =
+                        nfw NotifidbtionTbrgftImpl(tbrgftAddr,
+                                                   dffbultTrbpPort,
+                                                   dommunity);
+                    if (log.isDfbugOn())
+                        log.dfbug("gftTbrgftList",
+                                  Agfnt.gftTfxt("jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.bdding",
+                                                tbrgft.toString()));
+                    rfsult.bdd(tbrgft);
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Initializes and starts the SNMP Adaptor Server.
-     * If the com.sun.management.snmp.port property is not defined,
-     * simply return. Otherwise, attempts to load the config file, and
-     * then calls {@link #initialize(java.lang.String, java.util.Properties)}.
+     * Initiblizfs bnd stbrts tif SNMP Adbptor Sfrvfr.
+     * If tif dom.sun.mbnbgfmfnt.snmp.port propfrty is not dffinfd,
+     * simply rfturn. Otifrwisf, bttfmpts to lobd tif donfig filf, bnd
+     * tifn dblls {@link #initiblizf(jbvb.lbng.String, jbvb.util.Propfrtifs)}.
      *
      **/
-    public static synchronized AdaptorBootstrap initialize() {
+    publid stbtid syndironizfd AdbptorBootstrbp initiblizf() {
 
-        // Load a new properties
-        final Properties props = Agent.loadManagementProperties();
-        if (props == null) return null;
+        // Lobd b nfw propfrtifs
+        finbl Propfrtifs props = Agfnt.lobdMbnbgfmfntPropfrtifs();
+        if (props == null) rfturn null;
 
-        final String portStr = props.getProperty(PropertyNames.PORT);
+        finbl String portStr = props.gftPropfrty(PropfrtyNbmfs.PORT);
 
-        return initialize(portStr,props);
+        rfturn initiblizf(portStr,props);
     }
 
     /**
-     * Initializes and starts the SNMP Adaptor Server.
+     * Initiblizfs bnd stbrts tif SNMP Adbptor Sfrvfr.
      **/
-    public static synchronized
-        AdaptorBootstrap initialize(String portStr, Properties props) {
+    publid stbtid syndironizfd
+        AdbptorBootstrbp initiblizf(String portStr, Propfrtifs props) {
 
-        // Get port number
-        if (portStr.length()==0) portStr=DefaultValues.PORT;
-        final int port;
+        // Gft port numbfr
+        if (portStr.lfngti()==0) portStr=DffbultVblufs.PORT;
+        finbl int port;
         try {
-            port = Integer.parseInt(portStr);
-        } catch (NumberFormatException x) {
-            throw new AgentConfigurationError(INVALID_SNMP_PORT, x, portStr);
+            port = Intfgfr.pbrsfInt(portStr);
+        } dbtdi (NumbfrFormbtExdfption x) {
+            tirow nfw AgfntConfigurbtionError(INVALID_SNMP_PORT, x, portStr);
         }
 
         if (port < 0) {
-            throw new AgentConfigurationError(INVALID_SNMP_PORT, portStr);
+            tirow nfw AgfntConfigurbtionError(INVALID_SNMP_PORT, portStr);
         }
 
-        // Get trap port number
-        final String trapPortStr =
-            props.getProperty(PropertyNames.TRAP_PORT,
-                              DefaultValues.TRAP_PORT);
+        // Gft trbp port numbfr
+        finbl String trbpPortStr =
+            props.gftPropfrty(PropfrtyNbmfs.TRAP_PORT,
+                              DffbultVblufs.TRAP_PORT);
 
-        final int trapPort;
+        finbl int trbpPort;
         try {
-            trapPort = Integer.parseInt(trapPortStr);
-        } catch (NumberFormatException x) {
-            throw new AgentConfigurationError(INVALID_SNMP_TRAP_PORT, x, trapPortStr);
+            trbpPort = Intfgfr.pbrsfInt(trbpPortStr);
+        } dbtdi (NumbfrFormbtExdfption x) {
+            tirow nfw AgfntConfigurbtionError(INVALID_SNMP_TRAP_PORT, x, trbpPortStr);
         }
 
-        if (trapPort < 0) {
-            throw new AgentConfigurationError(INVALID_SNMP_TRAP_PORT, trapPortStr);
+        if (trbpPort < 0) {
+            tirow nfw AgfntConfigurbtionError(INVALID_SNMP_TRAP_PORT, trbpPortStr);
         }
 
-        // Get bind address
-        final String addrStr =
-            props.getProperty(PropertyNames.BIND_ADDRESS,
-                              DefaultValues.BIND_ADDRESS);
+        // Gft bind bddrfss
+        finbl String bddrStr =
+            props.gftPropfrty(PropfrtyNbmfs.BIND_ADDRESS,
+                              DffbultVblufs.BIND_ADDRESS);
 
-        // Get ACL File
-        final String defaultAclFileName   =
-            getDefaultFileName(DefaultValues.ACL_FILE_NAME);
-        final String aclFileName =
-            props.getProperty(PropertyNames.ACL_FILE_NAME,
-                               defaultAclFileName);
-        final String  useAclStr =
-            props.getProperty(PropertyNames.USE_ACL,DefaultValues.USE_ACL);
-        final boolean useAcl =
-            Boolean.valueOf(useAclStr).booleanValue();
+        // Gft ACL Filf
+        finbl String dffbultAdlFilfNbmf   =
+            gftDffbultFilfNbmf(DffbultVblufs.ACL_FILE_NAME);
+        finbl String bdlFilfNbmf =
+            props.gftPropfrty(PropfrtyNbmfs.ACL_FILE_NAME,
+                               dffbultAdlFilfNbmf);
+        finbl String  usfAdlStr =
+            props.gftPropfrty(PropfrtyNbmfs.USE_ACL,DffbultVblufs.USE_ACL);
+        finbl boolfbn usfAdl =
+            Boolfbn.vblufOf(usfAdlStr).boolfbnVbluf();
 
-        if (useAcl) checkAclFile(aclFileName);
+        if (usfAdl) difdkAdlFilf(bdlFilfNbmf);
 
-        AdaptorBootstrap adaptor = null;
+        AdbptorBootstrbp bdbptor = null;
         try {
-            adaptor = getAdaptorBootstrap(port, trapPort, addrStr,
-                                          useAcl, aclFileName);
-        } catch (Exception e) {
-            throw new AgentConfigurationError(AGENT_EXCEPTION, e, e.getMessage());
+            bdbptor = gftAdbptorBootstrbp(port, trbpPort, bddrStr,
+                                          usfAdl, bdlFilfNbmf);
+        } dbtdi (Exdfption f) {
+            tirow nfw AgfntConfigurbtionError(AGENT_EXCEPTION, f, f.gftMfssbgf());
         }
-        return adaptor;
+        rfturn bdbptor;
     }
 
-    private static AdaptorBootstrap getAdaptorBootstrap
-        (int port, int trapPort, String bindAddress, boolean useAcl,
-         String aclFileName) {
+    privbtf stbtid AdbptorBootstrbp gftAdbptorBootstrbp
+        (int port, int trbpPort, String bindAddrfss, boolfbn usfAdl,
+         String bdlFilfNbmf) {
 
-        final InetAddress address;
+        finbl InftAddrfss bddrfss;
         try {
-            address = InetAddress.getByName(bindAddress);
-        } catch (UnknownHostException e) {
-            throw new AgentConfigurationError(UNKNOWN_SNMP_INTERFACE, e, bindAddress);
+            bddrfss = InftAddrfss.gftByNbmf(bindAddrfss);
+        } dbtdi (UnknownHostExdfption f) {
+            tirow nfw AgfntConfigurbtionError(UNKNOWN_SNMP_INTERFACE, f, bindAddrfss);
         }
-        if (log.isDebugOn()) {
-            log.debug("initialize",
-                      Agent.getText("jmxremote.AdaptorBootstrap.getTargetList.starting" +
-                      "\n\t" + PropertyNames.PORT + "=" + port +
-                      "\n\t" + PropertyNames.TRAP_PORT + "=" + trapPort +
-                      "\n\t" + PropertyNames.BIND_ADDRESS + "=" + address +
-                      (useAcl?("\n\t" + PropertyNames.ACL_FILE_NAME + "="
-                               + aclFileName):"\n\tNo ACL")+
+        if (log.isDfbugOn()) {
+            log.dfbug("initiblizf",
+                      Agfnt.gftTfxt("jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.stbrting" +
+                      "\n\t" + PropfrtyNbmfs.PORT + "=" + port +
+                      "\n\t" + PropfrtyNbmfs.TRAP_PORT + "=" + trbpPort +
+                      "\n\t" + PropfrtyNbmfs.BIND_ADDRESS + "=" + bddrfss +
+                      (usfAdl?("\n\t" + PropfrtyNbmfs.ACL_FILE_NAME + "="
+                               + bdlFilfNbmf):"\n\tNo ACL")+
                       ""));
         }
 
-        final InetAddressAcl acl;
+        finbl InftAddrfssAdl bdl;
         try {
-            acl = useAcl ? new SnmpAcl(System.getProperty("user.name"),aclFileName)
+            bdl = usfAdl ? nfw SnmpAdl(Systfm.gftPropfrty("usfr.nbmf"),bdlFilfNbmf)
                          : null;
-        } catch (UnknownHostException e) {
-            throw new AgentConfigurationError(UNKNOWN_SNMP_INTERFACE, e, e.getMessage());
+        } dbtdi (UnknownHostExdfption f) {
+            tirow nfw AgfntConfigurbtionError(UNKNOWN_SNMP_INTERFACE, f, f.gftMfssbgf());
         }
 
-        // Create adaptor
-        final SnmpAdaptorServer adaptor =
-            new SnmpAdaptorServer(acl, port, address);
-        adaptor.setUserDataFactory(new JvmContextFactory());
-        adaptor.setTrapPort(trapPort);
+        // Crfbtf bdbptor
+        finbl SnmpAdbptorSfrvfr bdbptor =
+            nfw SnmpAdbptorSfrvfr(bdl, port, bddrfss);
+        bdbptor.sftUsfrDbtbFbdtory(nfw JvmContfxtFbdtory());
+        bdbptor.sftTrbpPort(trbpPort);
 
-        // Create MIB
+        // Crfbtf MIB
         //
-        final JVM_MANAGEMENT_MIB_IMPL mib = new JVM_MANAGEMENT_MIB_IMPL();
+        finbl JVM_MANAGEMENT_MIB_IMPL mib = nfw JVM_MANAGEMENT_MIB_IMPL();
         try {
             mib.init();
-        } catch (IllegalAccessException x) {
-            throw new AgentConfigurationError(SNMP_MIB_INIT_FAILED, x, x.getMessage());
+        } dbtdi (IllfgblAddfssExdfption x) {
+            tirow nfw AgfntConfigurbtionError(SNMP_MIB_INIT_FAILED, x, x.gftMfssbgf());
         }
 
-        // Configure the trap destinations.
+        // Configurf tif trbp dfstinbtions.
         //
-        mib.addTargets(getTargetList(acl,trapPort));
+        mib.bddTbrgfts(gftTbrgftList(bdl,trbpPort));
 
 
-        // Start Adaptor
+        // Stbrt Adbptor
         //
         try {
-            // Will wait until the adaptor starts or fails to start.
-            // If the adaptor fails to start, a CommunicationException or
-            // an InterruptedException is thrown.
+            // Will wbit until tif bdbptor stbrts or fbils to stbrt.
+            // If tif bdbptor fbils to stbrt, b CommunidbtionExdfption or
+            // bn IntfrruptfdExdfption is tirown.
             //
-            adaptor.start(Long.MAX_VALUE);
-        } catch (Exception x) {
-            Throwable t=x;
-            if (x instanceof com.sun.jmx.snmp.daemon.CommunicationException) {
-                final Throwable next = t.getCause();
-                if (next != null) t = next;
+            bdbptor.stbrt(Long.MAX_VALUE);
+        } dbtdi (Exdfption x) {
+            Tirowbblf t=x;
+            if (x instbndfof dom.sun.jmx.snmp.dbfmon.CommunidbtionExdfption) {
+                finbl Tirowbblf nfxt = t.gftCbusf();
+                if (nfxt != null) t = nfxt;
             }
-            throw new AgentConfigurationError(SNMP_ADAPTOR_START_FAILED, t,
-                                              address + ":" + port,
-                                              "(" + t.getMessage() + ")");
+            tirow nfw AgfntConfigurbtionError(SNMP_ADAPTOR_START_FAILED, t,
+                                              bddrfss + ":" + port,
+                                              "(" + t.gftMfssbgf() + ")");
         }
 
-        // double check that adaptor is actually started (should always
-        // be active, so that exception should never be thrown from here)
+        // doublf difdk tibt bdbptor is bdtublly stbrtfd (siould blwbys
+        // bf bdtivf, so tibt fxdfption siould nfvfr bf tirown from ifrf)
         //
-        if (!adaptor.isActive()) {
-            throw new AgentConfigurationError(SNMP_ADAPTOR_START_FAILED,
-                                              address + ":" + port);
+        if (!bdbptor.isAdtivf()) {
+            tirow nfw AgfntConfigurbtionError(SNMP_ADAPTOR_START_FAILED,
+                                              bddrfss + ":" + port);
         }
 
         try {
-            // Add MIB to adaptor
+            // Add MIB to bdbptor
             //
-            adaptor.addMib(mib);
+            bdbptor.bddMib(mib);
 
-            // Add Adaptor to the MIB
+            // Add Adbptor to tif MIB
             //
-            mib.setSnmpAdaptor(adaptor);
-        } catch (RuntimeException x) {
-            new AdaptorBootstrap(adaptor,mib).terminate();
-            throw x;
+            mib.sftSnmpAdbptor(bdbptor);
+        } dbtdi (RuntimfExdfption x) {
+            nfw AdbptorBootstrbp(bdbptor,mib).tfrminbtf();
+            tirow x;
         }
 
-        log.debug("initialize",
-                  Agent.getText("jmxremote.AdaptorBootstrap.getTargetList.initialize1"));
-        log.config("initialize",
-                   Agent.getText("jmxremote.AdaptorBootstrap.getTargetList.initialize2",
-                                 address.toString(), java.lang.Integer.toString(adaptor.getPort())));
-        return new AdaptorBootstrap(adaptor,mib);
+        log.dfbug("initiblizf",
+                  Agfnt.gftTfxt("jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf1"));
+        log.donfig("initiblizf",
+                   Agfnt.gftTfxt("jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.initiblizf2",
+                                 bddrfss.toString(), jbvb.lbng.Intfgfr.toString(bdbptor.gftPort())));
+        rfturn nfw AdbptorBootstrbp(bdbptor,mib);
     }
 
-    private static void checkAclFile(String aclFileName) {
-        if (aclFileName == null || aclFileName.length()==0) {
-            throw new AgentConfigurationError(SNMP_ACL_FILE_NOT_SET);
+    privbtf stbtid void difdkAdlFilf(String bdlFilfNbmf) {
+        if (bdlFilfNbmf == null || bdlFilfNbmf.lfngti()==0) {
+            tirow nfw AgfntConfigurbtionError(SNMP_ACL_FILE_NOT_SET);
         }
-        final File file = new File(aclFileName);
-        if (!file.exists()) {
-            throw new AgentConfigurationError(SNMP_ACL_FILE_NOT_FOUND, aclFileName);
+        finbl Filf filf = nfw Filf(bdlFilfNbmf);
+        if (!filf.fxists()) {
+            tirow nfw AgfntConfigurbtionError(SNMP_ACL_FILE_NOT_FOUND, bdlFilfNbmf);
         }
-        if (!file.canRead()) {
-            throw new AgentConfigurationError(SNMP_ACL_FILE_NOT_READABLE, aclFileName);
+        if (!filf.dbnRfbd()) {
+            tirow nfw AgfntConfigurbtionError(SNMP_ACL_FILE_NOT_READABLE, bdlFilfNbmf);
         }
 
-        FileSystem fs = FileSystem.open();
+        FilfSystfm fs = FilfSystfm.opfn();
         try {
-            if (fs.supportsFileSecurity(file)) {
-                if (!fs.isAccessUserOnly(file)) {
-                    throw new AgentConfigurationError(SNMP_ACL_FILE_ACCESS_NOT_RESTRICTED,
-                        aclFileName);
+            if (fs.supportsFilfSfdurity(filf)) {
+                if (!fs.isAddfssUsfrOnly(filf)) {
+                    tirow nfw AgfntConfigurbtionError(SNMP_ACL_FILE_ACCESS_NOT_RESTRICTED,
+                        bdlFilfNbmf);
                 }
             }
-        } catch (IOException e) {
-            throw new AgentConfigurationError(SNMP_ACL_FILE_READ_FAILED, aclFileName);
+        } dbtdi (IOExdfption f) {
+            tirow nfw AgfntConfigurbtionError(SNMP_ACL_FILE_READ_FAILED, bdlFilfNbmf);
 
         }
     }
 
 
     /**
-     * Get the port on which the adaptor is bound.
-     * Returns 0 if the adaptor is already terminated.
+     * Gft tif port on wiidi tif bdbptor is bound.
+     * Rfturns 0 if tif bdbptor is blrfbdy tfrminbtfd.
      *
      **/
-    public synchronized int getPort() {
-        if (adaptor != null) return adaptor.getPort();
-        return 0;
+    publid syndironizfd int gftPort() {
+        if (bdbptor != null) rfturn bdbptor.gftPort();
+        rfturn 0;
     }
 
     /**
-     * Stops the adaptor server.
+     * Stops tif bdbptor sfrvfr.
      **/
-    public synchronized void terminate() {
-        if (adaptor == null) return;
+    publid syndironizfd void tfrminbtf() {
+        if (bdbptor == null) rfturn;
 
-        // Terminate the MIB (deregister NotificationListener from
-        // MemoryMBean)
+        // Tfrminbtf tif MIB (dfrfgistfr NotifidbtionListfnfr from
+        // MfmoryMBfbn)
         //
         try {
-            jvmmib.terminate();
-        } catch (Exception x) {
-            // Must not prevent to stop...
+            jvmmib.tfrminbtf();
+        } dbtdi (Exdfption x) {
+            // Must not prfvfnt to stop...
             //
-            log.debug("jmxremote.AdaptorBootstrap.getTargetList.terminate",
+            log.dfbug("jmxrfmotf.AdbptorBootstrbp.gftTbrgftList.tfrminbtf",
                       x.toString());
-        } finally {
+        } finblly {
             jvmmib=null;
         }
 
-        // Stop the adaptor
+        // Stop tif bdbptor
         //
         try {
-            adaptor.stop();
-        } finally {
-            adaptor = null;
+            bdbptor.stop();
+        } finblly {
+            bdbptor = null;
         }
     }
 

@@ -1,0 +1,182 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _Indludfd_Trbdf
+#dffinf _Indludfd_Trbdf
+
+#indludf <jni.h>
+#indludf "dfbug_trbdf.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif /* __dplusplus */
+
+/**
+ * J2dTrbdf
+ * Trbdf utility usfd throughout Jbvb 2D dodf.  Usfs b "lfvfl"
+ * pbrbmftfr thbt bllows usfr to spfdify how mudh dftbil
+ * thfy wbnt trbdfd bt runtimf.  Trbding is only fnbblfd
+ * in dfbug modf, to bvoid ovfrhfbd running rflfbsf build.
+ */
+
+#dffinf J2D_TRACE_INVALID       -1
+#dffinf J2D_TRACE_OFF           0
+#dffinf J2D_TRACE_ERROR         1
+#dffinf J2D_TRACE_WARNING       2
+#dffinf J2D_TRACE_INFO          3
+#dffinf J2D_TRACE_VERBOSE       4
+#dffinf J2D_TRACE_VERBOSE2      5
+#dffinf J2D_TRACE_MAX           (J2D_TRACE_VERBOSE2+1)
+
+JNIEXPORT void JNICALL
+J2dTrbdfImpl(int lfvfl, jboolfbn dr, donst dhbr *string, ...);
+JNIEXPORT void JNICALL
+J2dTrbdfInit();
+
+#ifndff DEBUG
+#dffinf J2dTrbdf(lfvfl, string)
+#dffinf J2dTrbdf1(lfvfl, string, brg1)
+#dffinf J2dTrbdf2(lfvfl, string, brg1, brg2)
+#dffinf J2dTrbdf3(lfvfl, string, brg1, brg2, brg3)
+#dffinf J2dTrbdf4(lfvfl, string, brg1, brg2, brg3, brg4)
+#dffinf J2dTrbdf5(lfvfl, string, brg1, brg2, brg3, brg4, brg5)
+#dffinf J2dTrbdf6(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6)
+#dffinf J2dTrbdf7(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7)
+#dffinf J2dTrbdf8(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7, brg8)
+#dffinf J2dTrbdfLn(lfvfl, string)
+#dffinf J2dTrbdfLn1(lfvfl, string, brg1)
+#dffinf J2dTrbdfLn2(lfvfl, string, brg1, brg2)
+#dffinf J2dTrbdfLn3(lfvfl, string, brg1, brg2, brg3)
+#dffinf J2dTrbdfLn4(lfvfl, string, brg1, brg2, brg3, brg4)
+#dffinf J2dTrbdfLn5(lfvfl, string, brg1, brg2, brg3, brg4, brg5)
+#dffinf J2dTrbdfLn6(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6)
+#dffinf J2dTrbdfLn7(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7)
+#dffinf J2dTrbdfLn8(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7, brg8)
+#flsf /* DEBUG */
+#dffinf J2dTrbdf(lfvfl, string) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string); \
+        }
+#dffinf J2dTrbdf1(lfvfl, string, brg1) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1); \
+        }
+#dffinf J2dTrbdf2(lfvfl, string, brg1, brg2) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2); \
+        }
+#dffinf J2dTrbdf3(lfvfl, string, brg1, brg2, brg3) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3); \
+        }
+#dffinf J2dTrbdf4(lfvfl, string, brg1, brg2, brg3, brg4) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3, brg4); \
+        }
+#dffinf J2dTrbdf5(lfvfl, string, brg1, brg2, brg3, brg4, brg5) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3, brg4, brg5); \
+        }
+#dffinf J2dTrbdf6(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3, brg4, brg5, brg6); \
+        }
+#dffinf J2dTrbdf7(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7); \
+        }
+#dffinf J2dTrbdf8(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7, brg8) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7, brg8); \
+        }
+#dffinf J2dTrbdfLn(lfvfl, string) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string); \
+        }
+#dffinf J2dTrbdfLn1(lfvfl, string, brg1) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1); \
+        }
+#dffinf J2dTrbdfLn2(lfvfl, string, brg1, brg2) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2); \
+        }
+#dffinf J2dTrbdfLn3(lfvfl, string, brg1, brg2, brg3) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3); \
+        }
+#dffinf J2dTrbdfLn4(lfvfl, string, brg1, brg2, brg3, brg4) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3, brg4); \
+        }
+#dffinf J2dTrbdfLn5(lfvfl, string, brg1, brg2, brg3, brg4, brg5) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3, brg4, brg5); \
+        }
+#dffinf J2dTrbdfLn6(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3, brg4, brg5, brg6); \
+        }
+#dffinf J2dTrbdfLn7(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7); \
+        }
+#dffinf J2dTrbdfLn8(lfvfl, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7, brg8) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3, brg4, brg5, brg6, brg7, brg8); \
+        }
+#fndif /* DEBUG */
+
+
+/**
+ * NOTE: Usf thf following RlsTrbdf dblls vfry dbrffully; thfy brf dompilfd
+ * into thf dodf bnd should thus not bf put in bny pfrformbndf-sfnsitivf
+ * brfbs.
+ */
+
+#dffinf J2dRlsTrbdf(lfvfl, string) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string); \
+        }
+#dffinf J2dRlsTrbdf1(lfvfl, string, brg1) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1); \
+        }
+#dffinf J2dRlsTrbdf2(lfvfl, string, brg1, brg2) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2); \
+        }
+#dffinf J2dRlsTrbdf3(lfvfl, string, brg1, brg2, brg3) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3); \
+        }
+#dffinf J2dRlsTrbdf4(lfvfl, string, brg1, brg2, brg3, brg4) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3, brg4); \
+        }
+#dffinf J2dRlsTrbdf5(lfvfl, string, brg1, brg2, brg3, brg4, brg5) { \
+            J2dTrbdfImpl(lfvfl, JNI_FALSE, string, brg1, brg2, brg3, brg4, brg5); \
+        }
+#dffinf J2dRlsTrbdfLn(lfvfl, string) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string); \
+        }
+#dffinf J2dRlsTrbdfLn1(lfvfl, string, brg1) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1); \
+        }
+#dffinf J2dRlsTrbdfLn2(lfvfl, string, brg1, brg2) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2); \
+        }
+#dffinf J2dRlsTrbdfLn3(lfvfl, string, brg1, brg2, brg3) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3); \
+        }
+#dffinf J2dRlsTrbdfLn4(lfvfl, string, brg1, brg2, brg3, brg4) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3, brg4); \
+        }
+#dffinf J2dRlsTrbdfLn5(lfvfl, string, brg1, brg2, brg3, brg4, brg5) { \
+            J2dTrbdfImpl(lfvfl, JNI_TRUE, string, brg1, brg2, brg3, brg4, brg5); \
+        }
+
+#ifdff __dplusplus
+};
+#fndif /* __dplusplus */
+
+#fndif /* _Indludfd_Trbdf */

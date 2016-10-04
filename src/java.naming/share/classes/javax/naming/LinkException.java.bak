@@ -1,304 +1,304 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
 /**
- * This exception is used to describe problems encountered while resolving links.
- * Additional information is added to the base NamingException for pinpointing
- * the problem with the link.
+ * Tiis fxdfption is usfd to dfsdribf problfms fndountfrfd wiilf rfsolving links.
+ * Additionbl informbtion is bddfd to tif bbsf NbmingExdfption for pinpointing
+ * tif problfm witi tif link.
  *<p>
- * Analogously to how NamingException captures name resolution information,
- * LinkException captures "link"-name resolution information pinpointing
- * the problem encountered while resolving a link. All these fields may
- * be null.
+ * Anblogously to iow NbmingExdfption dbpturfs nbmf rfsolution informbtion,
+ * LinkExdfption dbpturfs "link"-nbmf rfsolution informbtion pinpointing
+ * tif problfm fndountfrfd wiilf rfsolving b link. All tifsf fiflds mby
+ * bf null.
  * <ul>
- * <li> Link Resolved Name. Portion of link name that has been resolved.
- * <li> Link Resolved Object. Object to which resolution of link name proceeded.
- * <li> Link Remaining Name. Portion of link name that has not been resolved.
- * <li> Link Explanation. Detail explaining why link resolution failed.
+ * <li> Link Rfsolvfd Nbmf. Portion of link nbmf tibt ibs bffn rfsolvfd.
+ * <li> Link Rfsolvfd Objfdt. Objfdt to wiidi rfsolution of link nbmf prodffdfd.
+ * <li> Link Rfmbining Nbmf. Portion of link nbmf tibt ibs not bffn rfsolvfd.
+ * <li> Link Explbnbtion. Dftbil fxplbining wiy link rfsolution fbilfd.
  *</ul>
  *
   *<p>
-  * A LinkException instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single LinkException instance should lock the object.
+  * A LinkExdfption instbndf is not syndironizfd bgbinst dondurrfnt
+  * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify
+  * b singlf LinkExdfption instbndf siould lodk tif objfdt.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see Context#lookupLink
-  * @see LinkRef
-  * @since 1.3
+  * @sff Contfxt#lookupLink
+  * @sff LinkRff
+  * @sindf 1.3
   */
 
 
   /*<p>
-  * The serialized form of a LinkException object consists of the
-  * serialized fields of its NamingException superclass, the link resolved
-  * name (a Name object), the link resolved object, link remaining name
-  * (a Name object), and the link explanation String.
+  * Tif sfriblizfd form of b LinkExdfption objfdt donsists of tif
+  * sfriblizfd fiflds of its NbmingExdfption supfrdlbss, tif link rfsolvfd
+  * nbmf (b Nbmf objfdt), tif link rfsolvfd objfdt, link rfmbining nbmf
+  * (b Nbmf objfdt), bnd tif link fxplbnbtion String.
 */
 
 
-public class LinkException extends NamingException {
+publid dlbss LinkExdfption fxtfnds NbmingExdfption {
     /**
-     * Contains the part of the link that has been successfully resolved.
-     * It is a composite name and can be null.
-     * This field is initialized by the constructors.
-     * You should access and manipulate this field
-     * through its get and set methods.
-     * @serial
-     * @see #getLinkResolvedName
-     * @see #setLinkResolvedName
+     * Contbins tif pbrt of tif link tibt ibs bffn suddfssfully rfsolvfd.
+     * It is b dompositf nbmf bnd dbn bf null.
+     * Tiis fifld is initiblizfd by tif donstrudtors.
+     * You siould bddfss bnd mbnipulbtf tiis fifld
+     * tirougi its gft bnd sft mftiods.
+     * @sfribl
+     * @sff #gftLinkRfsolvfdNbmf
+     * @sff #sftLinkRfsolvfdNbmf
      */
-    protected Name linkResolvedName;
+    protfdtfd Nbmf linkRfsolvfdNbmf;
 
     /**
-      * Contains the object to which resolution of the part of the link was successful.
-      * Can be null. This field is initialized by the constructors.
-      * You should access and manipulate this field
-      * through its get and set methods.
-      * @serial
-      * @see #getLinkResolvedObj
-      * @see #setLinkResolvedObj
+      * Contbins tif objfdt to wiidi rfsolution of tif pbrt of tif link wbs suddfssful.
+      * Cbn bf null. Tiis fifld is initiblizfd by tif donstrudtors.
+      * You siould bddfss bnd mbnipulbtf tiis fifld
+      * tirougi its gft bnd sft mftiods.
+      * @sfribl
+      * @sff #gftLinkRfsolvfdObj
+      * @sff #sftLinkRfsolvfdObj
       */
-    protected Object linkResolvedObj;
+    protfdtfd Objfdt linkRfsolvfdObj;
 
     /**
-     * Contains the remaining link name that has not been resolved yet.
-     * It is a composite name and can be null.
-     * This field is initialized by the constructors.
-     * You should access and manipulate this field
-     * through its get and set methods.
-     * @serial
-     * @see #getLinkRemainingName
-     * @see #setLinkRemainingName
+     * Contbins tif rfmbining link nbmf tibt ibs not bffn rfsolvfd yft.
+     * It is b dompositf nbmf bnd dbn bf null.
+     * Tiis fifld is initiblizfd by tif donstrudtors.
+     * You siould bddfss bnd mbnipulbtf tiis fifld
+     * tirougi its gft bnd sft mftiods.
+     * @sfribl
+     * @sff #gftLinkRfmbiningNbmf
+     * @sff #sftLinkRfmbiningNbmf
      */
-    protected Name linkRemainingName;
+    protfdtfd Nbmf linkRfmbiningNbmf;
 
     /**
-     * Contains the exception of why resolution of the link failed.
-     * Can be null. This field is initialized by the constructors.
-     * You should access and manipulate this field
-     * through its get and set methods.
-     * @serial
-     * @see #getLinkExplanation
-     * @see #setLinkExplanation
+     * Contbins tif fxdfption of wiy rfsolution of tif link fbilfd.
+     * Cbn bf null. Tiis fifld is initiblizfd by tif donstrudtors.
+     * You siould bddfss bnd mbnipulbtf tiis fifld
+     * tirougi its gft bnd sft mftiods.
+     * @sfribl
+     * @sff #gftLinkExplbnbtion
+     * @sff #sftLinkExplbnbtion
      */
-    protected String linkExplanation;
+    protfdtfd String linkExplbnbtion;
 
     /**
-      * Constructs a new instance of LinkException with an explanation.
-      * All the other fields are initialized to null.
-      * @param  explanation     A possibly null string containing additional
-      *                         detail about this exception.
-      * @see java.lang.Throwable#getMessage
+      * Construdts b nfw instbndf of LinkExdfption witi bn fxplbnbtion.
+      * All tif otifr fiflds brf initiblizfd to null.
+      * @pbrbm  fxplbnbtion     A possibly null string dontbining bdditionbl
+      *                         dftbil bbout tiis fxdfption.
+      * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
       */
-    public LinkException(String explanation) {
-        super(explanation);
-        linkResolvedName = null;
-        linkResolvedObj = null;
-        linkRemainingName = null;
-        linkExplanation = null;
+    publid LinkExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
+        linkRfsolvfdNbmf = null;
+        linkRfsolvfdObj = null;
+        linkRfmbiningNbmf = null;
+        linkExplbnbtion = null;
     }
 
     /**
-      * Constructs a new instance of LinkException.
-      * All the non-link-related and link-related fields are initialized to null.
+      * Construdts b nfw instbndf of LinkExdfption.
+      * All tif non-link-rflbtfd bnd link-rflbtfd fiflds brf initiblizfd to null.
       */
-    public LinkException() {
-        super();
-        linkResolvedName = null;
-        linkResolvedObj = null;
-        linkRemainingName = null;
-        linkExplanation = null;
+    publid LinkExdfption() {
+        supfr();
+        linkRfsolvfdNbmf = null;
+        linkRfsolvfdObj = null;
+        linkRfmbiningNbmf = null;
+        linkExplbnbtion = null;
     }
 
     /**
-     * Retrieves the leading portion of the link name that was resolved
-     * successfully.
+     * Rftrifvfs tif lfbding portion of tif link nbmf tibt wbs rfsolvfd
+     * suddfssfully.
      *
-     * @return The part of the link name that was resolved successfully.
-     *          It is a composite name. It can be null, which means
-     *          the link resolved name field has not been set.
-     * @see #getLinkResolvedObj
-     * @see #setLinkResolvedName
+     * @rfturn Tif pbrt of tif link nbmf tibt wbs rfsolvfd suddfssfully.
+     *          It is b dompositf nbmf. It dbn bf null, wiidi mfbns
+     *          tif link rfsolvfd nbmf fifld ibs not bffn sft.
+     * @sff #gftLinkRfsolvfdObj
+     * @sff #sftLinkRfsolvfdNbmf
      */
-    public Name getLinkResolvedName() {
-        return this.linkResolvedName;
+    publid Nbmf gftLinkRfsolvfdNbmf() {
+        rfturn tiis.linkRfsolvfdNbmf;
     }
 
     /**
-     * Retrieves the remaining unresolved portion of the link name.
-     * @return The part of the link name that has not been resolved.
-     *          It is a composite name. It can be null, which means
-     *          the link remaining name field has not been set.
-     * @see #setLinkRemainingName
+     * Rftrifvfs tif rfmbining unrfsolvfd portion of tif link nbmf.
+     * @rfturn Tif pbrt of tif link nbmf tibt ibs not bffn rfsolvfd.
+     *          It is b dompositf nbmf. It dbn bf null, wiidi mfbns
+     *          tif link rfmbining nbmf fifld ibs not bffn sft.
+     * @sff #sftLinkRfmbiningNbmf
      */
-    public Name getLinkRemainingName() {
-        return this.linkRemainingName;
+    publid Nbmf gftLinkRfmbiningNbmf() {
+        rfturn tiis.linkRfmbiningNbmf;
     }
 
     /**
-     * Retrieves the object to which resolution was successful.
-     * This is the object to which the resolved link name is bound.
+     * Rftrifvfs tif objfdt to wiidi rfsolution wbs suddfssful.
+     * Tiis is tif objfdt to wiidi tif rfsolvfd link nbmf is bound.
      *
-     * @return The possibly null object that was resolved so far.
-     * If null, it means the link resolved object field has not been set.
-     * @see #getLinkResolvedName
-     * @see #setLinkResolvedObj
+     * @rfturn Tif possibly null objfdt tibt wbs rfsolvfd so fbr.
+     * If null, it mfbns tif link rfsolvfd objfdt fifld ibs not bffn sft.
+     * @sff #gftLinkRfsolvfdNbmf
+     * @sff #sftLinkRfsolvfdObj
      */
-    public Object getLinkResolvedObj() {
-        return this.linkResolvedObj;
+    publid Objfdt gftLinkRfsolvfdObj() {
+        rfturn tiis.linkRfsolvfdObj;
     }
 
     /**
-      * Retrieves the explanation associated with the problem encountered
-      * when resolving a link.
+      * Rftrifvfs tif fxplbnbtion bssodibtfd witi tif problfm fndountfrfd
+      * wifn rfsolving b link.
       *
-      * @return The possibly null detail string explaining more about the problem
-      * with resolving a link.
-      *         If null, it means there is no
-      *         link detail message for this exception.
-      * @see #setLinkExplanation
+      * @rfturn Tif possibly null dftbil string fxplbining morf bbout tif problfm
+      * witi rfsolving b link.
+      *         If null, it mfbns tifrf is no
+      *         link dftbil mfssbgf for tiis fxdfption.
+      * @sff #sftLinkExplbnbtion
       */
-    public String getLinkExplanation() {
-        return this.linkExplanation;
+    publid String gftLinkExplbnbtion() {
+        rfturn tiis.linkExplbnbtion;
     }
 
     /**
-      * Sets the explanation associated with the problem encountered
-      * when resolving a link.
+      * Sfts tif fxplbnbtion bssodibtfd witi tif problfm fndountfrfd
+      * wifn rfsolving b link.
       *
-      * @param msg The possibly null detail string explaining more about the problem
-      * with resolving a link. If null, it means no detail will be recorded.
-      * @see #getLinkExplanation
+      * @pbrbm msg Tif possibly null dftbil string fxplbining morf bbout tif problfm
+      * witi rfsolving b link. If null, it mfbns no dftbil will bf rfdordfd.
+      * @sff #gftLinkExplbnbtion
       */
-    public void setLinkExplanation(String msg) {
-        this.linkExplanation = msg;
+    publid void sftLinkExplbnbtion(String msg) {
+        tiis.linkExplbnbtion = msg;
     }
 
     /**
-     * Sets the resolved link name field of this exception.
+     * Sfts tif rfsolvfd link nbmf fifld of tiis fxdfption.
      *<p>
-     * <tt>name</tt> is a composite name. If the intent is to set
-     * this field using a compound name or string, you must
-     * "stringify" the compound name, and create a composite
-     * name with a single component using the string. You can then
-     * invoke this method using the resulting composite name.
+     * <tt>nbmf</tt> is b dompositf nbmf. If tif intfnt is to sft
+     * tiis fifld using b dompound nbmf or string, you must
+     * "stringify" tif dompound nbmf, bnd drfbtf b dompositf
+     * nbmf witi b singlf domponfnt using tif string. You dbn tifn
+     * invokf tiis mftiod using tif rfsulting dompositf nbmf.
      *<p>
-     * A copy of <code>name</code> is made and stored.
-     * Subsequent changes to <code>name</code> do not
-     * affect the copy in this NamingException and vice versa.
+     * A dopy of <dodf>nbmf</dodf> is mbdf bnd storfd.
+     * Subsfqufnt dibngfs to <dodf>nbmf</dodf> do not
+     * bfffdt tif dopy in tiis NbmingExdfption bnd vidf vfrsb.
      *
      *
-     * @param name The name to set resolved link name to. This can be null.
-     *          If null, it sets the link resolved name field to null.
-     * @see #getLinkResolvedName
+     * @pbrbm nbmf Tif nbmf to sft rfsolvfd link nbmf to. Tiis dbn bf null.
+     *          If null, it sfts tif link rfsolvfd nbmf fifld to null.
+     * @sff #gftLinkRfsolvfdNbmf
      */
-    public void setLinkResolvedName(Name name) {
-        if (name != null) {
-            this.linkResolvedName = (Name)(name.clone());
-        } else {
-            this.linkResolvedName = null;
+    publid void sftLinkRfsolvfdNbmf(Nbmf nbmf) {
+        if (nbmf != null) {
+            tiis.linkRfsolvfdNbmf = (Nbmf)(nbmf.dlonf());
+        } flsf {
+            tiis.linkRfsolvfdNbmf = null;
         }
     }
 
     /**
-     * Sets the remaining link name field of this exception.
+     * Sfts tif rfmbining link nbmf fifld of tiis fxdfption.
      *<p>
-     * <tt>name</tt> is a composite name. If the intent is to set
-     * this field using a compound name or string, you must
-     * "stringify" the compound name, and create a composite
-     * name with a single component using the string. You can then
-     * invoke this method using the resulting composite name.
+     * <tt>nbmf</tt> is b dompositf nbmf. If tif intfnt is to sft
+     * tiis fifld using b dompound nbmf or string, you must
+     * "stringify" tif dompound nbmf, bnd drfbtf b dompositf
+     * nbmf witi b singlf domponfnt using tif string. You dbn tifn
+     * invokf tiis mftiod using tif rfsulting dompositf nbmf.
      *<p>
-     * A copy of <code>name</code> is made and stored.
-     * Subsequent changes to <code>name</code> do not
-     * affect the copy in this NamingException and vice versa.
+     * A dopy of <dodf>nbmf</dodf> is mbdf bnd storfd.
+     * Subsfqufnt dibngfs to <dodf>nbmf</dodf> do not
+     * bfffdt tif dopy in tiis NbmingExdfption bnd vidf vfrsb.
      *
-     * @param name The name to set remaining link name to. This can be null.
-     *  If null, it sets the remaining name field to null.
-     * @see #getLinkRemainingName
+     * @pbrbm nbmf Tif nbmf to sft rfmbining link nbmf to. Tiis dbn bf null.
+     *  If null, it sfts tif rfmbining nbmf fifld to null.
+     * @sff #gftLinkRfmbiningNbmf
      */
-    public void setLinkRemainingName(Name name) {
-        if (name != null)
-            this.linkRemainingName = (Name)(name.clone());
-        else
-            this.linkRemainingName = null;
+    publid void sftLinkRfmbiningNbmf(Nbmf nbmf) {
+        if (nbmf != null)
+            tiis.linkRfmbiningNbmf = (Nbmf)(nbmf.dlonf());
+        flsf
+            tiis.linkRfmbiningNbmf = null;
     }
 
     /**
-     * Sets the link resolved object field of this exception.
-     * This indicates the last successfully resolved object of link name.
-     * @param obj The object to set link resolved object to. This can be null.
-     *            If null, the link resolved object field is set to null.
-     * @see #getLinkResolvedObj
+     * Sfts tif link rfsolvfd objfdt fifld of tiis fxdfption.
+     * Tiis indidbtfs tif lbst suddfssfully rfsolvfd objfdt of link nbmf.
+     * @pbrbm obj Tif objfdt to sft link rfsolvfd objfdt to. Tiis dbn bf null.
+     *            If null, tif link rfsolvfd objfdt fifld is sft to null.
+     * @sff #gftLinkRfsolvfdObj
      */
-    public void setLinkResolvedObj(Object obj) {
-        this.linkResolvedObj = obj;
+    publid void sftLinkRfsolvfdObj(Objfdt obj) {
+        tiis.linkRfsolvfdObj = obj;
     }
 
     /**
-     * Generates the string representation of this exception.
-     * This string consists of the NamingException information plus
-     * the link's remaining name.
-     * This string is used for debugging and not meant to be interpreted
-     * programmatically.
-     * @return The non-null string representation of this link exception.
+     * Gfnfrbtfs tif string rfprfsfntbtion of tiis fxdfption.
+     * Tiis string donsists of tif NbmingExdfption informbtion plus
+     * tif link's rfmbining nbmf.
+     * Tiis string is usfd for dfbugging bnd not mfbnt to bf intfrprftfd
+     * progrbmmbtidblly.
+     * @rfturn Tif non-null string rfprfsfntbtion of tiis link fxdfption.
      */
-    public String toString() {
-        return super.toString() + "; Link Remaining Name: '" +
-            this.linkRemainingName + "'";
+    publid String toString() {
+        rfturn supfr.toString() + "; Link Rfmbining Nbmf: '" +
+            tiis.linkRfmbiningNbmf + "'";
     }
 
     /**
-     * Generates the string representation of this exception.
-     * This string consists of the NamingException information plus
-     * the additional information of resolving the link.
-     * If 'detail' is true, the string also contains information on
-     * the link resolved object. If false, this method is the same
-     * as the form of toString() that accepts no parameters.
-     * This string is used for debugging and not meant to be interpreted
-     * programmatically.
+     * Gfnfrbtfs tif string rfprfsfntbtion of tiis fxdfption.
+     * Tiis string donsists of tif NbmingExdfption informbtion plus
+     * tif bdditionbl informbtion of rfsolving tif link.
+     * If 'dftbil' is truf, tif string blso dontbins informbtion on
+     * tif link rfsolvfd objfdt. If fblsf, tiis mftiod is tif sbmf
+     * bs tif form of toString() tibt bddfpts no pbrbmftfrs.
+     * Tiis string is usfd for dfbugging bnd not mfbnt to bf intfrprftfd
+     * progrbmmbtidblly.
      *
-     * @param   detail  If true, add information about the link resolved
-     *                  object.
-     * @return The non-null string representation of this link exception.
+     * @pbrbm   dftbil  If truf, bdd informbtion bbout tif link rfsolvfd
+     *                  objfdt.
+     * @rfturn Tif non-null string rfprfsfntbtion of tiis link fxdfption.
      */
-    public String toString(boolean detail) {
-        if (!detail || this.linkResolvedObj == null)
-            return this.toString();
+    publid String toString(boolfbn dftbil) {
+        if (!dftbil || tiis.linkRfsolvfdObj == null)
+            rfturn tiis.toString();
 
-        return this.toString() + "; Link Resolved Object: " +
-            this.linkResolvedObj;
+        rfturn tiis.toString() + "; Link Rfsolvfd Objfdt: " +
+            tiis.linkRfsolvfdObj;
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = -7967662604076777712L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7967662604076777712L;
 };

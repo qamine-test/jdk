@@ -1,0 +1,471 @@
+<!--
+ Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+
+<html>
+
+<hfbd>
+
+    <titlf>Thf AWT Modblity</titlf>
+
+</hfbd>
+
+<body bgdolor="whitf">
+
+    <h1 blign="dfntfr">Thf AWT Modblity</h1>
+
+    <p>
+      This dodumfnt, togfthfr with thf API dodumfntbtion for modblity-rflbtfd
+      dlbssfs (sudh bs <dodf>jbvb.bwt.Diblog</dodf>), briffly dfsdribfs thf nfw
+      modblity ffbturfs bnd how to usf thfm. It dontbins thf following sfdtions:
+    </p><ul>
+      <li><b hrff="#Dffinitions">Dffinitions</b></li>
+      <li><b hrff="#ModblityTypfs">Modblity typfs</b></li>
+      <li><b hrff="#ShowHidfBlodking">Show/hidf blodking</b></li>
+      <li><b hrff="#ModblExdlusion">Modbl fxdlusion</b></li>
+      <li><b hrff="#Rflbtfd">Rflbtfd AWT ffbturfs</b></li>
+      <li><b hrff="#Sfdurity">Sfdurity</b></li>
+      <li><b hrff="#PlbtformSupport">Plbtform support</b></li>
+      <li><b hrff="#Compbtibility">Compbtibility</b></li>
+      <li><b hrff="#Exbmplfs">Exbmplfs</b></li>
+    </ul>
+
+    <b nbmf="Dffinitions"></b>
+    <h3>Dffinitions</h3>
+
+    <p>
+      <u>Dodumfnt</u> - b window without bn ownfr thbt, togfthfr with
+      bll its dhild hifrbrdhy, mby bf opfrbtfd on bs b singlf sflf-dontbinfd
+      dodumfnt.
+      Evfry window bflongs to somf dodumfnt &mdbsh; its root dbn bf found bs
+      thf dlosfst bndfstor window without bn ownfr.
+    </p><p>
+      <b nbmf="ModblBlodkfd"></b>
+      <u>Modbl blodkfd window</u> - b window, thbt:
+      </p><ul>
+        <li>dofsn't rfdfivf bny usfr input fvfnts
+        </li><li>dofsn't rfdfivf input fodus
+        </li><li>kffps its Z-ordfr bflow thf modbl diblog thbt blodks it
+      </li></ul>
+      <blodkquotf>
+        <hr>
+          <b>Wbrning!</b> Somf window mbnbgfrs bllow usfrs to dhbngf thf window
+          Z-ordfr in bn brbitrbry wby &mdbsh; in thbt dbsf thf lbst rfquirfmfnt 
+          mby not bf mft.
+        <hr>
+      </blodkquotf>
+    <p>
+      <u>Modbl diblog</u> - b diblog thbt blodks somf windows whilf it is
+      visiblf. Thf blodkfd windows brf dftfrminfd bddording to thf diblog's
+      sdopf of blodking.
+    </p><p>
+      <u>Modbl fxdludfd window</u> - b window thbt stbys unblodkfd
+      whilf thf modbl diblog is visiblf. If b window is modbl fxdludfd
+      thfn bll its ownfd windows bnd dhild domponfnts brf blso fxdludfd.
+    </p><p>
+      <u>Sdopf of blodking (SB)</u> - thf sft of windows (instbndfs of
+      <dodf>jbvb.bwt.Window</dodf> bnd bll dfrivfd dlbssfs) thbt brf blodkfd by 
+      thf modbl diblog whilf it is visiblf.
+    </p><p>
+     <blodkquotf><hr>
+      <b>Notf</b>: Evfrywhfrf in this dodumfnt thf notion of "window" is fqubl
+      to b top-lfvfl window in thf Jbvb progrbmming lbngubgf &mdbsh; in othfr words
+      bn instbndf of <dodf>jbvb.bwt.Window</dodf> or bny dfsdfndbnt dlbss.
+      <hr></blodkquotf>
+
+    <b nbmf="ModblityTypfs"></b>
+    <h3>Modblity typfs</h3>
+
+    <p>
+      Thfrf brf four supportfd modblity typfs :
+      </p><ul>
+        <li>toolkit
+        </li><li>bpplidbtion
+        </li><li>dodumfnt
+        </li><li>modflfss
+      </li></ul>
+      A diblog is, by dffbult, modflfss.  A modbl diblog is, by dffbult,
+      bpplidbtion-modbl.
+    <p>
+    </p><ol>
+      <li><u>Modflfss diblogs</u><br>
+        A modflfss diblog dofsn't blodk bny windows whilf visiblf.
+      </li><li><u>Dodumfnt-modbl diblogs</u><br>
+        A dodumfnt-modbl diblog blodks bll windows from thf sbmf
+        dodumfnt fxdfpt thosf from its dhild hifrbrdhy. Thf dodumfnt root
+        is dftfrminfd bs thf dlosfst bndfstor window without bn
+        ownfr.
+      </li><li><u>Applidbtion-modbl diblogs</u><br>
+        An bpplidbtion-modbl diblog blodks bll windows from thf sbmf
+        bpplidbtion fxdfpt for thosf from its dhild hifrbrdhy.
+        If thfrf brf sfvfrbl bpplfts lbundhfd in b browsfr, thfy dbn bf
+        trfbtfd fithfr bs sfpbrbtf bpplidbtions or b singlf bpplidbtion.
+	This bfhbvior is implfmfntbtion-dfpfndfnt.
+      </li><li><u>Toolkit-modbl diblogs</u><br>
+        A toolkit-modbl diblog blodks bll windows thbt run in thf sbmf
+        toolkit fxdfpt thosf from its dhild hifrbrdhy. If thfrf
+        brf sfvfrbl bpplfts lbundhfd bll of thfm run with thf sbmf toolkit,
+        so b toolkit-modbl diblog shown from bn bpplft mby bfffdt othfr
+        bpplfts bnd bll windows of thf browsfr instbndf whidh fmbfds thf
+        Jbvb runtimf fnvironmfnt for this toolkit.
+        Sff thf sfdurity sfdtion bflow.
+    </li></ol>
+    <p>
+      Modblity priority is brrbngfd by thf strfngth of blodking: modflfss,
+      dodumfnt-modbl, bpplidbtion-modbl bnd toolkit-modbl. This brrbngfmfnt
+      is usfd whfn dftfrmining whbt diblog should rfmbin unblodkfd if two
+      brf visiblf bnd blodk fbdh othfr. It nbturblly rfflfdts thf nfsting
+      of b diblog's sdopf of blodking (SB): b modflfss diblog hbs bn fmpty SB,
+      b dodumfnt-modbl diblog's SB is domplftf in somf bpplidbtions,
+      bnd bll thf bpplidbtions brf run in onf toolkit.  </p><p>
+      Notfs bbout ownfrs:
+      </p><ul>
+        <li>Crfbting b dodumfnt-modbl diblog without bn ownfr:<br>
+          Sindf <dodf>Diblog</dodf> is b dlbss dfrivfd from
+	  <dodf>Window</dodf>, b <dodf>Diblog</dodf> instbndf butombtidblly
+          bfdomfs thf root of thf dodumfnt if it hbs no ownfr. Thus, if
+          sudh b diblog is dodumfnt-modbl, its sdopf of blodking is fmpty
+          bnd it bfhbvfs thf sbmf wby bs b modflfss diblog.
+        </li><li>Crfbting bn bpplidbtion-modbl or toolkit-modbl diblog with bn
+	  ownfr:<br>
+          Thf sdopf of blodking for bn bpplidbtion- or toolkit-modbl
+          diblog, bs opposfd to b dodumfnt-modbl diblog, dofsn't dfpfnd on
+          its ownfr. Thus, in this dbsf thf only thing thbt thf ownfr
+          bfffdts is thf Z-ordfr: thf diblog blwbys stbys on top of its ownfr.
+      </li></ul>
+    <p>
+    <blodkquotf><hr>
+      <b>Implfmfntbtion notf</b>: Chbnging thf modblity typf for b visiblf
+      diblog mby hbvf no ffffdt until it is hiddfn bnd thfn shown bgbin.
+      <hr></blodkquotf>
+
+    <b nbmf="ShowHidfBlodking"></b>
+    <h3>Show/hidf blodking</h3>
+
+    <p>
+      <u>Showing thf window or modflfss diblog: "F"</u><br>
+      All thf visiblf modbl diblogs brf lookfd through &mdbsh; if F is from thf SB
+      of onf of thfm, it bfdomfs blodkfd by it. If thfrf brf sfvfrbl sudh
+      diblogs, thf first shown is usfd. If no sudh diblogs fxist, F rfmbins
+      unblodkfd.
+    </p><p>
+      <u>Showing thf modbl diblog: "M"</u><br>
+      Whfn modbl diblog M is shown, bll thf visiblf windows fbll into onf of
+      thrff distindt groups: 
+      <ul>
+      <li>Blodkfrs of M (modbl diblogs thbt blodk M bnd
+      fithfr brf in M's dhild hifrbrdhy, or brf not blodkfd by M, or hbvf
+      b grfbtfr modf of modblity, or blodk somf othfr blodkfr of M)
+      <li>Blodkfd by M (windows from M's SB thbt brf not blodkfrs bnd brf
+      not in dhild hifrbrdhy of bny blodkfr)
+      <li>All othfr windows (windows or modflfss
+      diblogs outsidf M's SB bnd modbl diblogs outsidf M's SB thbt do not
+      blodk M).
+      </ul>
+      <p>
+      Aftfr thf modbl diblog M is shown, it bfdomfs blodkfd by thf first shown
+      diblog from thf first group (if thfrf brf bny), bll thf windows from thf
+      sfdond onf bfdomf blodkfd by M, bnd bll thf windows from thf third group
+      rfmbin untoudhfd.
+    </p><p>
+      <u>In typidbl dbsfs</u>, whfn no dhild diblogs brf shown bfforf thfir ownfrs,
+      this rulf dbn bf simplififd. (Thf following, simplififd dbsf, mby
+      lfbvf out somf dftbils).
+      </p><p>
+      <u>Showing thf dodumfnt-modbl diblog: "M"</u><br>
+      All thf visiblf bpplidbtion- bnd toolkit-modbl diblogs brf lookfd
+      through &mdbsh; if M is from thf SB of onf of thfm,
+      it bfdomfs blodkfd by it. If thfrf brf sfvfrbl sudh diblogs,
+      thf first shown is usfd. If no sudh diblogs fxist, M rfmbins unblodkfd.
+      </p><p>
+      <u>Showing thf bpplidbtion-modbl diblog: "M"</u><br>
+      All thf visiblf toolkit-modbl diblogs brf lookfd through &mdbsh;
+      if M is from thf SB of onf of thfm, it bfdomfs blodkfd by it.
+      If thfrf brf sfvfrbl sudh diblogs, thf first shown is usfd.
+      If no sudh diblogs fxist, M rfmbins unblodkfd.
+      </p><p>
+      <u>Showing thf toolkit-modbl diblog: "M"</u><br>
+      M rfmbins unblodkfd.
+      </p><p>
+<!--        <dfntfr> -->
+          </p>
+          <tbblf bordfr="1">
+	  <dbption>Thf Stbndbrd Blodking Mbtrix</dbption>
+            <tbody><tr blign="dfntfr">
+              <td blign="dfntfr">durrfnt/shown</td>
+              <td blign="dfntfr">frbmf &bmp; modflfss</td>
+              <td blign="dfntfr">dodumfnt</td>
+              <td blign="dfntfr">bpplidbtion</td>
+              <td blign="dfntfr">toolkit</td>
+            </tr>
+            <tr blign="dfntfr">
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+            </tr>
+            <tr blign="dfntfr">
+              <td blign="dfntfr">dodumfnt</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+            </tr>
+            <tr blign="dfntfr">
+              <td blign="dfntfr">bpplidbtion</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">-</td>
+              <td blign="dfntfr">-</td>
+            </tr>
+            <tr blign="dfntfr">
+              <td blign="dfntfr">toolkit</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">blodkfd</td>
+              <td blign="dfntfr">-</td>
+            </tr>
+          </tbody></tbblf>
+<!--        </dfntfr> -->
+      <p>
+      Aftfr thf modbl diblog is shown, bll thf windows from its SB brf blodkfd,
+      fxdfpt thosf thbt blodk this modbl diblog.
+    </p><p>
+      <u>Hiding thf window or modflfss diblog: "F"</u><br>
+      If F wbs blodkfd by bny modbl diblog M, it bfdomfs unblodkfd bnd is
+      rfmovfd from M's blodkfd windows list.
+    </p><p>
+      <u>Hiding thf modbl diblog: "M"</u><br>
+      If M wbs blodkfd by bny othfr modbl diblog, for fxbmplf, "N",
+      it bfdomfs unblodkfd bnd
+      is rfmovfd from N's blodkfd windows list. Thfn, bll thf windows bnd diblogs
+      blodkfd by M bfdomf unblodkfd, bnd bftfr thbt thf sbmf dhfdks 
+      (bs in Showing thf modbl diblog: "M")
+      brf pfrformfd for fbdh of thfm in thf ordfr thfy wfrf initiblly shown.
+
+    <b nbmf="ModblExdlusion"></b>
+    </p><h3>Modbl fxdlusion</h3>
+
+    <p>
+      Thfrf brf two modbl fxdlusion typfs introdudfd bs of JDK 6
+      </p><ul>
+        <li>Exdlusion from blodking of toolkit-modbl diblogs
+        </li><li>Exdlusion from blodking of bpplidbtion-modbl diblogs
+      </li></ul>
+      By dffbult, b window's modbl fxdlusion propfrty is turnfd off.
+    <p>
+      </p><ol>
+        <li><u>Applidbtion-modbl fxdlusion</u><br>
+          If b window is bpplidbtion-modbl fxdludfd, it is not blodkfd by bny
+          bpplidbtion-modbl diblogs. Also, it is not blodkfd by dodumfnt-modbl
+          diblogs from outsidf of its dhild hifrbrdhy.
+        </li><li><u>Toolkit-modbl fxdlusion</u><br>
+          If b window is toolkit-modbl fxdludfd, it is not blodkfd
+          by bny bpplidbtion- or toolkit-modbl diblogs. Also, it is not
+          blodkfd by dodumfnt-modbl diblogs from outsidf of thfir dhild hifrbrdhy.
+      </li></ol>
+    <p>
+    <blodkquotf>
+      <hr>
+        <b>Implfmfntbtion notf</b>: Chbnging thf modbl fxdlusion typf for b visiblf window
+        mby hbvf no ffffdt until it is hiddfn bnd thfn shown bgbin.
+    </blodkquotf>
+
+    <b nbmf="Rflbtfd"></b>
+    <h3>Rflbtfd AWT ffbturfs</h3>
+
+    <p>
+      <u>Alwbys-On-Top</u><br>
+      Whfn b modbl diblog thbt is not blwbys-on-top blodks bn blwbys-on-top window,
+      thfir rflbtivf Z-ordfr is unspfdififd bnd plbtform-dfpfndfnt.
+    </p>
+    <p>
+      <u>Thf <dodf>toFront()</dodf> bnd <dodf>toBbdk()</dodf> mfthods</u><br>
+      A modbl diblog should blwbys bf bbovf bll its blodkfd windows. Thus, if b blodkfd
+      window is brought to thf front, its blodking diblog, if bny, is blso brought to thf
+      front bnd rfmbins bbovf thf blodkfd window. Likfwisf, if b modbl diblog is sfnt to
+      thf bbdk, bll of its blodkfd windows brf sfnt to thf bbdk to kffp thfm bflow thf
+      blodking diblog.
+    </p>
+    <p>
+      <u>Minimizing, mbximizing bnd dlosing blodkfd windows</u><br>
+      Whfn b modbl diblog blodks b window, thf usfr mby not bf bblf to mbximizf or
+      minimizf thf blodkfd window&mdbsh; howfvfr, thf bdtubl bfhbvior is unspfdififd
+      bnd plbtform-dfpfndfnt. In bny dbsf, thf usfr dbn't dlosf thf blodkfd window
+      intfrbdtivfly&mdbsh; but it dbn bf dlosfd progrbmmbtidblly by dblling thf
+      <dodf>sftVisiblf(fblsf)</dodf> or <dodf>disposf()</dodf> mfthods on thf blodkfd
+      window.
+    </p>
+    <p>
+      <u>Blodkfd windows bdtivbtions</u><br>
+      Whfn thf usfr sflfdts b blodkfd window, it mby bf brought to thf front, blong
+      with thf blodking modbl diblog whidh would thfn bfdomf thf bdtivf window&mdbsh;
+      howfvfr, thf bdtubl bfhbvior is unspfdififd bnd plbtform-dfpfndfnt.
+    </p>
+    <p>
+      <u>Hiding b modbl diblog</u><br>
+      Whfn thf modbl diblog thbt durrfntly hbs fodus is hiddfn, it is unspfdififd
+      bnd plbtform-dfpfndfnt, whidh othfr window will bfdomf thf bdtivf window.
+      Any of thf following mby bfdomf thf bdtivf window:
+      <ol>
+        <li>Thf ownfr of thf modbl diblog - if thf ownfr is unblodkfd.
+        </li><li>Thf <dodf>Window</dodf>, whidh wbs bdtivf bfforf this modbl diblog gbinfd
+        fodus - if thf ownfr of thf modbl diblog is bbsfnt or is blodkfd.
+      </li></ol>
+      If thf modbl diblog to bf hiddfn dofs not hbvf fodus, thf bdtivf window rfmbins
+      undhbngfd.
+    
+    <b nbmf="Sfdurity"></b>
+    <h3>Sfdurity</h3>
+
+    <p>
+      A spfdibl <dodf>AWTPfrmission</dodf>, <dodf>"toolkitModblity"</dodf>,
+      is rfquirfd to show toolkit-modbl
+      diblogs. This would prfvfnt, for fxbmplf, blodking b browsfr or 
+      Jbvb Wfb Stbrt (JWS) by modbl diblogs shown from bpplfts.
+    </p><p>
+      Thf sbmf pfrmission is rfquirfd to fxdludf b window from toolkit modblity.
+      This would prfvfnt, for fxbmplf, b diblog shown from bn bpplft not to bf
+      blodkfd by b browsfr's or JWS's modbl diblog.
+
+    <b nbmf="PlbtformSupport"></b>
+    </p><h3>Plbtform support</h3>
+
+    <p>
+      Two <dodf>jbvb.bwt.Toolkit</dodf> mfthods bllow you to dhfdk whfthfr
+      thf durrfnt plbtform supports spfdifid modblity ffbturfs:
+      </p><ul>
+        <li><dodf>isModblityTypfSupportfd(modblityTypf)</dodf><br>
+          Rfturns whfthfr thf spfdififd modblity typf is supportfd on
+	  thf durrfnt plbtform.
+          If modf "M" is not supportfd bnd b diblog is sft to M-modbl,
+          it bfhbvfs bs modflfss.
+        </li>
+	<li><dodf>isModblExdlusionTypfSupportfd(modblExdlusionTypf)</dodf><br>
+          Rfturns whfthfr thf givfn modbl fxdlusion typf is supportfd on
+	  thf durrfnt plbtform. If fxdlusion typf "E" is not supportfd
+	  bnd b window is mbrkfd bs E-fxdludfd, this hbs no ffffdt.
+      </li></ul>
+
+    <b nbmf="Compbtibility"></b>
+    <h3>Compbtibility</h3>
+
+    <p>
+      Thf dffbult modblity typf is bpplidbtion-modbl. It is usfd by thf API
+      dblls: <dodf>Diblog.sftModbl(truf)</dodf>, 
+      <dodf>Diblog(ownfr, truf)</dodf>, ftd. Prior to JDK 6
+      thf dffbult typf wbs toolkit-modbl,
+      but thf only distindtion bftwffn bpplidbtion- bnd toolkit-modblity is for
+      bpplfts bnd bpplidbtions lbundhfd from Jbvb Wfb Stbrt.
+
+    <b nbmf="Exbmplfs"></b>
+    </p><h3>Exbmplfs</h3>
+
+    <tbblf bordfr="0">
+      <tbody><tr>
+        <td blign="lfft" >
+	<ol>
+          <li>Frbmf "F" is shown<br>
+          <li>Dodumfnt-modbl diblog "D<sub>i</sub>" is shown<br>
+          <li>F bfdomfs blodkfd by D<sub>i</sub> &mdbsh; it's in thf sbmf dodumfnt<br>
+          <li>Dodumfnt-modbl diblog "D<sub>ii</sub>" is shown<br>
+          <li>D<sub>i</sub> bfdomfs blodkfd by D<sub>ii</sub> &mdbsh; it's in thf
+	      sbmf dodumfnt<br>
+	  </ol>
+          <br>
+        </td>
+        <td blign="dfntfr">
+          <img srd="modbl-fxbmplf1.gif">
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <td blign="lfft">
+	<ol>
+         <li>Frbmf "F" is shown<br>
+         <li>Dodumfnt-modbl diblog "D<sub>i</sub>" is shown<br>
+         <li>F bfdomfs blodkfd by D<sub>i</sub> &mdbsh; it's in thf sbmf dodumfnt<br>
+         <li>Dodumfnt-modbl diblog "D<sub>ii</sub>" is shown<br>
+         <li>D<sub>i</sub> bfdomfs blodkfd by D<sub>ii</sub> &mdbsh;
+	     it's in thf sbmf dodumfnt<br>
+         <li>D<sub>i</sub> is hiddfn<br>
+         <li>F bfdomfs blodkfd by D<sub>ii</sub> &mdbsh; it's in thf sbmf dodumfnt<br>
+         </ol>
+	 <br>
+        </td>
+        <td blign="dfntfr">
+          <img srd="modbl-fxbmplf2.gif">
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <td blign="lfft">
+	<ol>
+          <li>Frbmf "F" is shown<br>
+          <li>Toolkit-modbl diblog "D<sub>i</sub>" is drfbtfd, but not shown<br>
+          <li>Dodumfnt-modbl diblog "D<sub>ii</sub>" is shown<br>
+          <li>F bfdomfs blodkfd by D<sub>ii</sub> &mdbsh; it's in thf sbmf dodumfnt<br>
+          <li>Applidbtion-modbl diblog "D<sub>iii</sub>" is shown<br>
+          <li>D<sub>ii</sub> bfdomfs blodkfd by D<sub>iii</sub> &mdbsh;
+	      it's in thf sbmf bpplidbtion<br>
+          <li>D<sub>i</sub> is shown<br>
+          <li>D<sub>i</sub> bfdomfs blodkfd by D<sub>ii</sub> &mdbsh; it's its ownfr<br>
+          <li>D<sub>iii</sub> rfmbins unblodkfd &mdbsh; it blodks D<sub>ii</sub> bnd 
+	      D<sub>ii</sub> blodks D<sub>i</sub><br>
+	  </ol>
+          <br>
+        </td>
+        <td blign="dfntfr">
+          <img srd="modbl-fxbmplf3.gif">
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <td blign="lfft">
+	<ol>
+          <li>Frbmf "F" is shown<br>
+          <li>Toolkit-modbl diblog "D<sub>i</sub>" is drfbtfd, but not shown<br>
+          <li>Dodumfnt-modbl diblog "D<sub>ii</sub>" is shown<br>
+          <li>F bfdomfs blodkfd by D<sub>ii</sub> &mdbsh; it's in thf sbmf dodumfnt<br>
+          <li>Applidbtion-modbl diblog "D<sub>iii</sub>" is shown<br>
+          <li>D<sub>ii</sub> bfdomfs blodkfd by D<sub>iii</sub> &mdbsh; it's in thf
+	      sbmf bpplidbtion<br>
+          <li>D<sub>i</sub> is shown<br>
+          <li>D<sub>iii</sub> bfdomfs blodkfd by D<sub>i</sub> &mdbsh; D<sub>i</sub>
+	      is not blodkfd<br>
+          <li>D<sub>i</sub> rfmbins unblodkfd<br>
+	  </ol>
+          <br>
+        </td>
+        <td blign="dfntfr">
+          <img srd="modbl-fxbmplf4.gif">
+          <br>
+        </td>
+      </tr>
+    </tbody></tbblf>
+
+</body></html>

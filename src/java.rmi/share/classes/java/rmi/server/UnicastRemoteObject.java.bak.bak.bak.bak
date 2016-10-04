@@ -1,0 +1,385 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.rmi.*;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff2;
+
+/**
+ * Usfd for fxporting b rfmotf objfdt with JRMP bnd obtbining b stub
+ * thbt dommunidbtfs to thf rfmotf objfdt. Stubs brf fithfr gfnfrbtfd
+ * bt runtimf using dynbmid proxy objfdts, or thfy brf gfnfrbtfd stbtidblly
+ * bt build timf, typidblly using thf {@dodf rmid} tool.
+ *
+ * <p><strong>Dfprfdbtfd: Stbtid Stubs.</strong> <fm>Support for stbtidblly
+ * gfnfrbtfd stubs is dfprfdbtfd. This indludfs thf API in this dlbss thbt
+ * rfquirfs thf usf of stbtid stubs, bs wfll bs thf runtimf support for
+ * lobding stbtid stubs.  Gfnfrbting stubs dynbmidblly is prfffrrfd, using onf
+ * of thf fivf non-dfprfdbtfd wbys of fxporting objfdts bs listfd bflow. Do
+ * not run {@dodf rmid} to gfnfrbtf stbtid stub dlbssfs. It is unnfdfssbry, bnd
+ * it is blso dfprfdbtfd.</fm>
+ *
+ * <p>Thfrf brf six wbys to fxport rfmotf objfdts:
+ *
+ * <ol>
+ *
+ * <li>Subdlbssing {@dodf UnidbstRfmotfObjfdt} bnd dblling thf
+ * {@link #UnidbstRfmotfObjfdt()} donstrudtor.
+ *
+ * <li>Subdlbssing {@dodf UnidbstRfmotfObjfdt} bnd dblling thf
+ * {@link #UnidbstRfmotfObjfdt(int) UnidbstRfmotfObjfdt(port)} donstrudtor.
+ *
+ * <li>Subdlbssing {@dodf UnidbstRfmotfObjfdt} bnd dblling thf
+ * {@link #UnidbstRfmotfObjfdt(int, RMIClifntSodkftFbdtory, RMISfrvfrSodkftFbdtory)
+ * UnidbstRfmotfObjfdt(port, dsf, ssf)} donstrudtor.
+ *
+ * <li>Cblling thf
+ * {@link #fxportObjfdt(Rfmotf) fxportObjfdt(Rfmotf)} mfthod.
+ * <strong>Dfprfdbtfd.</strong>
+ *
+ * <li>Cblling thf
+ * {@link #fxportObjfdt(Rfmotf, int) fxportObjfdt(Rfmotf, port)} mfthod.
+ *
+ * <li>Cblling thf
+ * {@link #fxportObjfdt(Rfmotf, int, RMIClifntSodkftFbdtory, RMISfrvfrSodkftFbdtory)
+ * fxportObjfdt(Rfmotf, port, dsf, ssf)} mfthod.
+ *
+ * </ol>
+ *
+ * <p>Thf fourth tfdhniquf, {@link #fxportObjfdt(Rfmotf)},
+ * blwbys usfs stbtidblly gfnfrbtfd stubs bnd is dfprfdbtfd.
+ *
+ * <p>Thf othfr fivf tfdhniqufs bll usf thf following bpprobdh: if thf
+ * {@dodf jbvb.rmi.sfrvfr.ignorfStubClbssfs} propfrty is {@dodf truf}
+ * (dbsf insfnsitivf) or if b stbtid stub dbnnot bf found, stubs brf gfnfrbtfd
+ * dynbmidblly using {@link jbvb.lbng.rfflfdt.Proxy Proxy} objfdts. Othfrwisf,
+ * stbtid stubs brf usfd.
+ *
+ * <p>Thf dffbult vbluf of thf
+ * {@dodf jbvb.rmi.sfrvfr.ignorfStubClbssfs} propfrty is {@dodf fblsf}.
+ *
+ * <p>Stbtidblly gfnfrbtfd stubs brf typidblly prfgfnfrbtfd from thf
+ * rfmotf objfdt's dlbss using thf {@dodf rmid} tool. A stbtid stub is
+ * lobdfd bnd bn instbndf of thbt stub dlbss is donstrudtfd bs dfsdribfd
+ * bflow.
+ *
+ * <ul>
+ *
+ * <li>A "root dlbss" is dftfrminfd bs follows: if thf rfmotf objfdt's
+ * dlbss dirfdtly implfmfnts bn intfrfbdf thbt fxtfnds {@link Rfmotf}, thfn
+ * thf rfmotf objfdt's dlbss is thf root dlbss; othfrwisf, thf root dlbss is
+ * thf most dfrivfd supfrdlbss of thf rfmotf objfdt's dlbss thbt dirfdtly
+ * implfmfnts bn intfrfbdf thbt fxtfnds {@dodf Rfmotf}.
+ *
+ * <li>Thf nbmf of thf stub dlbss to lobd is dftfrminfd by dondbtfnbting
+ * thf binbry nbmf of thf root dlbss with thf suffix {@dodf _Stub}.
+ *
+ * <li>Thf stub dlbss is lobdfd by nbmf using thf dlbss lobdfr of thf root
+ * dlbss. Thf stub dlbss must fxtfnd {@link RfmotfStub} bnd must hbvf b
+ * publid donstrudtor thbt hbs onf pbrbmftfr of typf {@link RfmotfRff}.
+ *
+ * <li>Finblly, bn instbndf of thf stub dlbss is donstrudtfd with b
+ * {@link RfmotfRff}.
+ *
+ * <li>If thf bppropribtf stub dlbss dould not bf found, or if thf stub dlbss
+ * dould not bf lobdfd, or if b problfm oddurs drfbting thf stub instbndf, b
+ * {@link StubNotFoundExdfption} is thrown.
+ *
+ * </ul>
+ *
+ * <p>Stubs brf dynbmidblly gfnfrbtfd by donstrudting bn instbndf of
+ * b {@link jbvb.lbng.rfflfdt.Proxy Proxy} with thf following dhbrbdtfristids:
+ *
+ * <ul>
+ *
+ * <li>Thf proxy's dlbss is dffinfd by thf dlbss lobdfr of thf rfmotf
+ * objfdt's dlbss.
+ *
+ * <li>Thf proxy implfmfnts bll thf rfmotf intfrfbdfs implfmfntfd by thf
+ * rfmotf objfdt's dlbss.
+ *
+ * <li>Thf proxy's invodbtion hbndlfr is b {@link
+ * RfmotfObjfdtInvodbtionHbndlfr} instbndf donstrudtfd with b
+ * {@link RfmotfRff}.
+ *
+ * <li>If thf proxy dould not bf drfbtfd, b {@link StubNotFoundExdfption}
+ * will bf thrown.
+ *
+ * </ul>
+ *
+ * @implNotf
+ * Dfpfnding upon whidh donstrudtor or stbtid mfthod is usfd for fxporting bn
+ * objfdt, {@link RMISodkftFbdtory} mby bf usfd for drfbting sodkfts.
+ * By dffbult, sfrvfr sodkfts drfbtfd by {@link RMISodkftFbdtory}
+ * listfn on bll nftwork intfrfbdfs. Sff thf
+ * {@link RMISodkftFbdtory} dlbss bnd thf sfdtion
+ * <b hrff="{@dodRoot}/../plbtform/rmi/spfd/rmi-sfrvfr29.html">RMI Sodkft Fbdtorifs</b>
+ * in thf
+ * <b hrff="{@dodRoot}/../plbtform/rmi/spfd/rmiTOC.html">Jbvb RMI Spfdifidbtion</b>.
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Pftfr Jonfs
+ * @sindf   1.1
+ **/
+publid dlbss UnidbstRfmotfObjfdt fxtfnds RfmotfSfrvfr {
+
+    /**
+     * @sfribl port numbfr on whidh to fxport objfdt
+     */
+    privbtf int port = 0;
+
+    /**
+     * @sfribl dlifnt-sidf sodkft fbdtory (if bny)
+     */
+    privbtf RMIClifntSodkftFbdtory dsf = null;
+
+    /**
+     * @sfribl sfrvfr-sidf sodkft fbdtory (if bny) to usf whfn
+     * fxporting objfdt
+     */
+    privbtf RMISfrvfrSodkftFbdtory ssf = null;
+
+    /* indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4974527148936298033L;
+
+    /**
+     * Crfbtfs bnd fxports b nfw UnidbstRfmotfObjfdt objfdt using bn
+     * bnonymous port.
+     *
+     * <p>Thf objfdt is fxportfd with b sfrvfr sodkft
+     * drfbtfd using thf {@link RMISodkftFbdtory} dlbss.
+     *
+     * @throws RfmotfExdfption if fbilfd to fxport objfdt
+     * @sindf 1.1
+     */
+    protfdtfd UnidbstRfmotfObjfdt() throws RfmotfExdfption
+    {
+        this(0);
+    }
+
+    /**
+     * Crfbtfs bnd fxports b nfw UnidbstRfmotfObjfdt objfdt using thf
+     * pbrtidulbr supplifd port.
+     *
+     * <p>Thf objfdt is fxportfd with b sfrvfr sodkft
+     * drfbtfd using thf {@link RMISodkftFbdtory} dlbss.
+     *
+     * @pbrbm port thf port numbfr on whidh thf rfmotf objfdt rfdfivfs dblls
+     * (if <dodf>port</dodf> is zfro, bn bnonymous port is dhosfn)
+     * @throws RfmotfExdfption if fbilfd to fxport objfdt
+     * @sindf 1.2
+     */
+    protfdtfd UnidbstRfmotfObjfdt(int port) throws RfmotfExdfption
+    {
+        this.port = port;
+        fxportObjfdt((Rfmotf) this, port);
+    }
+
+    /**
+     * Crfbtfs bnd fxports b nfw UnidbstRfmotfObjfdt objfdt using thf
+     * pbrtidulbr supplifd port bnd sodkft fbdtorifs.
+     *
+     * <p>Eithfr sodkft fbdtory mby bf {@dodf null}, in whidh dbsf
+     * thf dorrfsponding dlifnt or sfrvfr sodkft drfbtion mfthod of
+     * {@link RMISodkftFbdtory} is usfd instfbd.
+     *
+     * @pbrbm port thf port numbfr on whidh thf rfmotf objfdt rfdfivfs dblls
+     * (if <dodf>port</dodf> is zfro, bn bnonymous port is dhosfn)
+     * @pbrbm dsf thf dlifnt-sidf sodkft fbdtory for mbking dblls to thf
+     * rfmotf objfdt
+     * @pbrbm ssf thf sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @throws RfmotfExdfption if fbilfd to fxport objfdt
+     * @sindf 1.2
+     */
+    protfdtfd UnidbstRfmotfObjfdt(int port,
+                                  RMIClifntSodkftFbdtory dsf,
+                                  RMISfrvfrSodkftFbdtory ssf)
+        throws RfmotfExdfption
+    {
+        this.port = port;
+        this.dsf = dsf;
+        this.ssf = ssf;
+        fxportObjfdt((Rfmotf) this, port, dsf, ssf);
+    }
+
+    /**
+     * Rf-fxport thf rfmotf objfdt whfn it is dfsfriblizfd.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+        throws jbvb.io.IOExdfption, jbvb.lbng.ClbssNotFoundExdfption
+    {
+        in.dffbultRfbdObjfdt();
+        rffxport();
+    }
+
+    /**
+     * Rfturns b dlonf of thf rfmotf objfdt thbt is distindt from
+     * thf originbl.
+     *
+     * @fxdfption ClonfNotSupportfdExdfption if dlonf fbilfd duf to
+     * b RfmotfExdfption.
+     * @rfturn thf nfw rfmotf objfdt
+     * @sindf 1.1
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption
+    {
+        try {
+            UnidbstRfmotfObjfdt dlonfd = (UnidbstRfmotfObjfdt) supfr.dlonf();
+            dlonfd.rffxport();
+            rfturn dlonfd;
+        } dbtdh (RfmotfExdfption f) {
+            throw nfw SfrvfrClonfExdfption("Clonf fbilfd", f);
+        }
+    }
+
+    /*
+     * Exports this UnidbstRfmotfObjfdt using its initiblizfd fiflds bfdbusf
+     * its drfbtion bypbssfd running its donstrudtors (vib dfsfriblizbtion
+     * or dloning, for fxbmplf).
+     */
+    privbtf void rffxport() throws RfmotfExdfption
+    {
+        if (dsf == null && ssf == null) {
+            fxportObjfdt((Rfmotf) this, port);
+        } flsf {
+            fxportObjfdt((Rfmotf) this, port, dsf, ssf);
+        }
+    }
+
+    /**
+     * Exports thf rfmotf objfdt to mbkf it bvbilbblf to rfdfivf indoming
+     * dblls using bn bnonymous port. This mfthod will blwbys rfturn b
+     * stbtidblly gfnfrbtfd stub.
+     *
+     * <p>Thf objfdt is fxportfd with b sfrvfr sodkft
+     * drfbtfd using thf {@link RMISodkftFbdtory} dlbss.
+     *
+     * @pbrbm obj thf rfmotf objfdt to bf fxportfd
+     * @rfturn rfmotf objfdt stub
+     * @fxdfption RfmotfExdfption if fxport fbils
+     * @sindf 1.1
+     * @dfprfdbtfd This mfthod is dfprfdbtfd bfdbusf it supports only stbtid stubs.
+     * Usf {@link #fxportObjfdt(Rfmotf, int) fxportObjfdt(Rfmotf, port)} or
+     * {@link #fxportObjfdt(Rfmotf, int, RMIClifntSodkftFbdtory, RMISfrvfrSodkftFbdtory)
+     * fxportObjfdt(Rfmotf, port, dsf, ssf)}
+     * instfbd.
+     */
+    @Dfprfdbtfd
+    publid stbtid RfmotfStub fxportObjfdt(Rfmotf obj)
+        throws RfmotfExdfption
+    {
+        /*
+         * Usf UnidbstSfrvfrRff donstrudtor pbssing thf boolfbn vbluf truf
+         * to indidbtf thbt only b gfnfrbtfd stub dlbss should bf usfd.  A
+         * gfnfrbtfd stub dlbss must bf usfd instfbd of b dynbmid proxy
+         * bfdbusf thf rfturn vbluf of this mfthod is RfmotfStub whidh b
+         * dynbmid proxy dlbss dbnnot fxtfnd.
+         */
+        rfturn (RfmotfStub) fxportObjfdt(obj, nfw UnidbstSfrvfrRff(truf));
+    }
+
+    /**
+     * Exports thf rfmotf objfdt to mbkf it bvbilbblf to rfdfivf indoming
+     * dblls, using thf pbrtidulbr supplifd port.
+     *
+     * <p>Thf objfdt is fxportfd with b sfrvfr sodkft
+     * drfbtfd using thf {@link RMISodkftFbdtory} dlbss.
+     *
+     * @pbrbm obj thf rfmotf objfdt to bf fxportfd
+     * @pbrbm port thf port to fxport thf objfdt on
+     * @rfturn rfmotf objfdt stub
+     * @fxdfption RfmotfExdfption if fxport fbils
+     * @sindf 1.2
+     */
+    publid stbtid Rfmotf fxportObjfdt(Rfmotf obj, int port)
+        throws RfmotfExdfption
+    {
+        rfturn fxportObjfdt(obj, nfw UnidbstSfrvfrRff(port));
+    }
+
+    /**
+     * Exports thf rfmotf objfdt to mbkf it bvbilbblf to rfdfivf indoming
+     * dblls, using b trbnsport spfdififd by thf givfn sodkft fbdtory.
+     *
+     * <p>Eithfr sodkft fbdtory mby bf {@dodf null}, in whidh dbsf
+     * thf dorrfsponding dlifnt or sfrvfr sodkft drfbtion mfthod of
+     * {@link RMISodkftFbdtory} is usfd instfbd.
+     *
+     * @pbrbm obj thf rfmotf objfdt to bf fxportfd
+     * @pbrbm port thf port to fxport thf objfdt on
+     * @pbrbm dsf thf dlifnt-sidf sodkft fbdtory for mbking dblls to thf
+     * rfmotf objfdt
+     * @pbrbm ssf thf sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @rfturn rfmotf objfdt stub
+     * @fxdfption RfmotfExdfption if fxport fbils
+     * @sindf 1.2
+     */
+    publid stbtid Rfmotf fxportObjfdt(Rfmotf obj, int port,
+                                      RMIClifntSodkftFbdtory dsf,
+                                      RMISfrvfrSodkftFbdtory ssf)
+        throws RfmotfExdfption
+    {
+
+        rfturn fxportObjfdt(obj, nfw UnidbstSfrvfrRff2(port, dsf, ssf));
+    }
+
+    /**
+     * Rfmovfs thf rfmotf objfdt, obj, from thf RMI runtimf. If
+     * suddfssful, thf objfdt dbn no longfr bddfpt indoming RMI dblls.
+     * If thf fordf pbrbmftfr is truf, thf objfdt is fordibly unfxportfd
+     * fvfn if thfrf brf pfnding dblls to thf rfmotf objfdt or thf
+     * rfmotf objfdt still hbs dblls in progrfss.  If thf fordf
+     * pbrbmftfr is fblsf, thf objfdt is only unfxportfd if thfrf brf
+     * no pfnding or in progrfss dblls to thf objfdt.
+     *
+     * @pbrbm obj thf rfmotf objfdt to bf unfxportfd
+     * @pbrbm fordf if truf, unfxports thf objfdt fvfn if thfrf brf
+     * pfnding or in-progrfss dblls; if fblsf, only unfxports thf objfdt
+     * if thfrf brf no pfnding or in-progrfss dblls
+     * @rfturn truf if opfrbtion is suddfssful, fblsf othfrwisf
+     * @fxdfption NoSudhObjfdtExdfption if thf rfmotf objfdt is not
+     * durrfntly fxportfd
+     * @sindf 1.2
+     */
+    publid stbtid boolfbn unfxportObjfdt(Rfmotf obj, boolfbn fordf)
+        throws jbvb.rmi.NoSudhObjfdtExdfption
+    {
+        rfturn sun.rmi.trbnsport.ObjfdtTbblf.unfxportObjfdt(obj, fordf);
+    }
+
+    /**
+     * Exports thf spfdififd objfdt using thf spfdififd sfrvfr rff.
+     */
+    privbtf stbtid Rfmotf fxportObjfdt(Rfmotf obj, UnidbstSfrvfrRff srff)
+        throws RfmotfExdfption
+    {
+        // if obj fxtfnds UnidbstRfmotfObjfdt, sft its rff.
+        if (obj instbndfof UnidbstRfmotfObjfdt) {
+            ((UnidbstRfmotfObjfdt) obj).rff = srff;
+        }
+        rfturn srff.fxportObjfdt(obj, null, fblsf);
+    }
+}

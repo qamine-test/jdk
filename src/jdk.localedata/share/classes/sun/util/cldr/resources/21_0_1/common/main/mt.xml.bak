@@ -1,1170 +1,1170 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="mt"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="aa">Afar</language>
-			<language type="ab">Abkażjan</language>
-			<language type="ace">Aċiniż</language>
-			<language type="ach">Akoli</language>
-			<language type="ada">Adangme</language>
-			<language type="ady">Adyghe</language>
-			<language type="ae">Avestan</language>
-			<language type="af">Afrikans</language>
-			<language type="afa">Afro-Asjatiku (Oħra)</language>
-			<language type="afh">Afriħili</language>
-			<language type="ain">Ajnu</language>
-			<language type="ak">Akan</language>
-			<language type="akk">Akkadjen</language>
-			<language type="ale">Aleut</language>
-			<language type="alg">Lingwi Algonqwinjani</language>
-			<language type="am">Amħariku</language>
-			<language type="an">Aragonese</language>
-			<language type="ang">Ingliż, Antik</language>
-			<language type="anp">Angika</language>
-			<language type="apa">Lingwi Apaċi</language>
-			<language type="ar">Għarbi</language>
-			<language type="arc">Aramajk</language>
-			<language type="arn">Arawkanjan</language>
-			<language type="arp">Arapaħo</language>
-			<language type="art">Artifiċjali (Oħra)</language>
-			<language type="arw">Arawak</language>
-			<language type="as">Assamese</language>
-			<language type="ast">Asturian</language>
-			<language type="ath">Lingwi Atabaskani</language>
-			<language type="aus">Lingwi Awstraljani</language>
-			<language type="av">Avarik</language>
-			<language type="awa">Awadħi</language>
-			<language type="ay">Ajmara</language>
-			<language type="az">Ażerbajġani</language>
-			<language type="ba">Baxkir</language>
-			<language type="bad">Banda</language>
-			<language type="bai">Lingwi Bamileke</language>
-			<language type="bal">Baluċi</language>
-			<language type="ban">Baliniż</language>
-			<language type="bas">Basa</language>
-			<language type="bat">Baltiku (Oħra)</language>
-			<language type="be">Belarussu</language>
-			<language type="bej">Beja</language>
-			<language type="bem">Bemba</language>
-			<language type="ber">Beber</language>
-			<language type="bg">Bulgaru</language>
-			<language type="bh">Biħari</language>
-			<language type="bho">Bojpuri</language>
-			<language type="bi">Bislama</language>
-			<language type="bik">Bikol</language>
-			<language type="bin">Bini</language>
-			<language type="bla">Siksika</language>
-			<language type="bm">Bambara</language>
-			<language type="bn">Bengali</language>
-			<language type="bnt">Bantu</language>
-			<language type="bo">Tibetjan</language>
-			<language type="br">Brenton</language>
-			<language type="bra">Braj</language>
-			<language type="bs">Bosnijan</language>
-			<language type="btk">Batak</language>
-			<language type="bua">Burjat</language>
-			<language type="bug">Buginiż</language>
-			<language type="byn">Blin</language>
-			<language type="ca">Katalan</language>
-			<language type="cad">Kaddo</language>
-			<language type="cai">Amerika Ċentrali (Oħra)</language>
-			<language type="car">Karib</language>
-			<language type="cau">Kawkasu (Oħra)</language>
-			<language type="cch">Atsam</language>
-			<language type="ce">Ċeċen</language>
-			<language type="ceb">Sibwano</language>
-			<language type="cel">Keltiku (Oħra)</language>
-			<language type="ch">Ċamorro</language>
-			<language type="chb">Ċibċa</language>
-			<language type="chg">Ċagataj</language>
-			<language type="chk">Ċukese</language>
-			<language type="chm">Mari</language>
-			<language type="chn">Ġargon taċ-Ċinuk</language>
-			<language type="cho">Ċostaw</language>
-			<language type="chp">Ċipewjan</language>
-			<language type="chr">Ċerokij</language>
-			<language type="chy">Xajenn</language>
-			<language type="cmc">Lingwi Ċamiki</language>
-			<language type="co">Korsiku</language>
-			<language type="cop">Koptiku</language>
-			<language type="cpe">Kreoli u Piġini, Bbażat fuq l-Ingliż (Oħra)</language>
-			<language type="cpf">Kreoli u Piġini, Bbażat fuq il-Franċiż (Oħra)</language>
-			<language type="cpp">Kreoli u Piġini, Bbażat fuq il-Portugiż (Oħra)</language>
-			<language type="cr">Krij</language>
-			<language type="crh">Crimean Turkish; Crimean Tatar</language>
-			<language type="crp">Kreoli u Piġini (Oħra)</language>
-			<language type="cs">Ċek</language>
-			<language type="csb">Kashubian</language>
-			<language type="cu">Slaviku tal-Knisja</language>
-			<language type="cus">Kuxtiku (Oħra)</language>
-			<language type="cv">Ċuvax</language>
-			<language type="cy">Welx</language>
-			<language type="da">Daniż</language>
-			<language type="dak">Dakota</language>
-			<language type="dar">Dargwa</language>
-			<language type="day">Dajak</language>
-			<language type="de">Ġermaniż</language>
-			<language type="del">Delawerjan</language>
-			<language type="den">Slav</language>
-			<language type="dgr">Dogrib</language>
-			<language type="din">Dinka</language>
-			<language type="doi">Dogri</language>
-			<language type="dra">Dravidjan (Oħra)</language>
-			<language type="dsb">Lower Sorbian</language>
-			<language type="dua">Dwala</language>
-			<language type="dum">Olandiż, Medjevali</language>
-			<language type="dv">Diveħi</language>
-			<language type="dyu">Djula</language>
-			<language type="dz">Dżongka</language>
-			<language type="ee">Ewe</language>
-			<language type="efi">Efik</language>
-			<language type="egy">Eġizzjan (Antik)</language>
-			<language type="eka">Ekajuk</language>
-			<language type="el">Grieg</language>
-			<language type="elx">Elamit</language>
-			<language type="en">Ingliż</language>
-			<language type="enm">Ingliż, Medjevali (1100-1500)</language>
-			<language type="eo">Esperanto</language>
-			<language type="es">Spanjol</language>
-			<language type="et">Estonjan</language>
-			<language type="eu">Bask</language>
-			<language type="ewo">Ewondo</language>
-			<language type="fa">Persjan</language>
-			<language type="fan">Fang</language>
-			<language type="fat">Fanti</language>
-			<language type="ff">Fulaħ</language>
-			<language type="fi">Finlandiż</language>
-			<language type="fil">Filippino</language>
-			<language type="fiu">Finno - Ugrijan</language>
-			<language type="fj">Fiġi</language>
-			<language type="fo">Fawriż</language>
-			<language type="fon">Fon</language>
-			<language type="fr">Franċiż</language>
-			<language type="frm">Franċiż, Medjevali</language>
-			<language type="fro">Franċiż, Antik</language>
-			<language type="fur">Frijuljan</language>
-			<language type="fy">Friżjan</language>
-			<language type="ga">Irlandiż</language>
-			<language type="gaa">Ga</language>
-			<language type="gay">Gajo</language>
-			<language type="gba">Gbaja</language>
-			<language type="gd">Galliku Skoċċiż</language>
-			<language type="gem">Ġermaniku (Oħra)</language>
-			<language type="gez">Geez</language>
-			<language type="gil">Gilbertjan</language>
-			<language type="gl">Gallegjan</language>
-			<language type="gmh">Ġermaniku, Medjevali Pulit</language>
-			<language type="gn">Gwarani</language>
-			<language type="goh">Ġermaniku, Antik Pulit</language>
-			<language type="gon">Gondi</language>
-			<language type="gor">Gorontalo</language>
-			<language type="got">Gotiku</language>
-			<language type="grb">Ġerbo</language>
-			<language type="grc">Grieg, Antik (to 1453)</language>
-			<language type="gu">Guġarati</language>
-			<language type="gv">Manks</language>
-			<language type="gwi">Gwiċin</language>
-			<language type="ha">Ħawsa</language>
-			<language type="hai">Ħajda</language>
-			<language type="haw">Ħawajjan</language>
-			<language type="he">Ebrajk</language>
-			<language type="hi">Ħindi</language>
-			<language type="hil">Hiligaynon</language>
-			<language type="him">Ħimaċali</language>
-			<language type="hit">Ħittit</language>
-			<language type="hmn">Ħmong</language>
-			<language type="ho">Ħiri Motu</language>
-			<language type="hr">Kroat</language>
-			<language type="hsb">Upper Sorbian</language>
-			<language type="ht">Haitian</language>
-			<language type="hu">Ungeriż</language>
-			<language type="hup">Ħupa</language>
-			<language type="hy">Armenjan</language>
-			<language type="hz">Ħerero</language>
-			<language type="ia">Interlingua</language>
-			<language type="iba">Iban</language>
-			<language type="id">Indoneżjan</language>
-			<language type="ie">Interlingue</language>
-			<language type="ig">Igbo</language>
-			<language type="ii">Sichuan Yi</language>
-			<language type="ijo">Iġo</language>
-			<language type="ik">Inupjak</language>
-			<language type="ilo">Iloko</language>
-			<language type="inc">Indjan (Oħra)</language>
-			<language type="ine">Indo-Ewropew</language>
-			<language type="inh">Ingush</language>
-			<language type="io">Ido</language>
-			<language type="ira">Iranjan</language>
-			<language type="iro">Lingwi Irogwjani</language>
-			<language type="is">Iżlandiż</language>
-			<language type="it">Taljan</language>
-			<language type="iu">Inukitut</language>
-			<language type="ja">Ġappuniż</language>
-			<language type="jbo">Lojban</language>
-			<language type="jpr">Lhudi-Persjan</language>
-			<language type="jrb">Lhudi-Għarbi</language>
-			<language type="jv">Ġavaniż</language>
-			<language type="ka">Ġorġjan</language>
-			<language type="kaa">Kara-Kalpak</language>
-			<language type="kab">Kabuljan</language>
-			<language type="kac">Kaċin</language>
-			<language type="kam">Kamba</language>
-			<language type="kar">Karen</language>
-			<language type="kaw">Kawi</language>
-			<language type="kbd">Kabardian</language>
-			<language type="kg">Kongo</language>
-			<language type="kha">Kasi</language>
-			<language type="khi">Kojsan</language>
-			<language type="kho">Kotaniż</language>
-			<language type="ki">Kikuju</language>
-			<language type="kj">Kuanyama</language>
-			<language type="kk">Każak</language>
-			<language type="kl">Kalallisut</language>
-			<language type="km">Kmer</language>
-			<language type="kmb">Kimbundu</language>
-			<language type="kn">Kannada</language>
-			<language type="ko">Korejan</language>
-			<language type="kok">Konkani</language>
-			<language type="kos">Kosrejan</language>
-			<language type="kpe">Kpelle</language>
-			<language type="kr">Kanuri</language>
-			<language type="krc">Karachay-Balkar</language>
-			<language type="kro">Kru</language>
-			<language type="kru">Kurusk</language>
-			<language type="ks">Kaxmiri</language>
-			<language type="ku">Kurdiż</language>
-			<language type="kum">Kumiku</language>
-			<language type="kut">Kutenaj</language>
-			<language type="kv">Komi</language>
-			<language type="kw">Korniku</language>
-			<language type="ky">Kirgiż</language>
-			<language type="la">Latin</language>
-			<language type="lad">Ladino</language>
-			<language type="lah">Landa</language>
-			<language type="lam">Lamba</language>
-			<language type="lb">Letżburgiż</language>
-			<language type="lez">Leżgjan</language>
-			<language type="lg">Ganda</language>
-			<language type="li">Limburgish</language>
-			<language type="ln">Lingaljan</language>
-			<language type="lo">Lao</language>
-			<language type="lol">Mongo</language>
-			<language type="loz">Lożi</language>
-			<language type="lt">Litwanjan</language>
-			<language type="lu">Luba-Katanga</language>
-			<language type="lua">Luba-Luluwa</language>
-			<language type="lui">Luwisinuż</language>
-			<language type="lun">Lunda</language>
-			<language type="luo">Luwa</language>
-			<language type="lus">Luxaj</language>
-			<language type="lv">Latvjan (Lettix)</language>
-			<language type="mad">Maduriż</language>
-			<language type="mag">Magaħi</language>
-			<language type="mai">Majtili</language>
-			<language type="mak">Makasar</language>
-			<language type="man">Mandingwan</language>
-			<language type="map">Awstronesjan</language>
-			<language type="mas">Masaj</language>
-			<language type="mdf">Moksha</language>
-			<language type="mdr">Mandar</language>
-			<language type="men">Mende</language>
-			<language type="mg">Malagażi</language>
-			<language type="mga">Irlandiż, Medjevali (900-1200)</language>
-			<language type="mh">Marxall</language>
-			<language type="mi">Maori</language>
-			<language type="mic">Mikmek</language>
-			<language type="min">Minangkabaw</language>
-			<language type="mis">Lingwi Oħra</language>
-			<language type="mk">Maċedonjan</language>
-			<language type="mkh">Mon-Kmer (Oħra)</language>
-			<language type="ml">Malajalam</language>
-			<language type="mn">Mongoljan</language>
-			<language type="mnc">Manċurjan</language>
-			<language type="mni">Manipuri</language>
-			<language type="mno">Lingwi Manobo</language>
-			<language type="mo">Moldavjan</language>
-			<language type="moh">Moħak</language>
-			<language type="mos">Mossi</language>
-			<language type="mr">Marati</language>
-			<language type="ms">Malajan</language>
-			<language type="mt">Malti</language>
-			<language type="mul">Lingwi Diversi</language>
-			<language type="mun">Lingwi tal-Munda</language>
-			<language type="mus">Kriek</language>
-			<language type="mwl">Mirandiż</language>
-			<language type="mwr">Marwari</language>
-			<language type="my">Burmiż</language>
-			<language type="myn">Majan</language>
-			<language type="myv">Erzya</language>
-			<language type="na">Nawuru</language>
-			<language type="nah">Naħwatil</language>
-			<language type="nai">Indjan tal-Amerika ta’ Fuq (Oħra)</language>
-			<language type="nap">Neapolitan</language>
-			<language type="nb">Bokmahal Norveġiż</language>
-			<language type="nd">Ndebele, ta’ Fuq</language>
-			<language type="nds">Ġermaniż Komuni; Sassonu Komuni</language>
-			<language type="ne">Nepaliż</language>
-			<language type="new">Newari</language>
-			<language type="ng">Ndonga</language>
-			<language type="nia">Nijas</language>
-			<language type="nic">Niġerjan - Kordofanjan</language>
-			<language type="niu">Nijuwejan</language>
-			<language type="nl">Olandiż</language>
-			<language type="nn">Ninorsk Norveġiż</language>
-			<language type="no">Norveġiż</language>
-			<language type="nog">Nogai</language>
-			<language type="non">Skandinav, Antik</language>
-			<language type="nr">Ndebele, t’Isfel</language>
-			<language type="nso">Soto, ta’ Fuq</language>
-			<language type="nub">Lingwi Nubjani</language>
-			<language type="nv">Navaħo</language>
-			<language type="nwc">Classical Newari</language>
-			<language type="ny">Ċiċewa; Njanġa</language>
-			<language type="nym">Njamweżi</language>
-			<language type="nyn">Nyankole</language>
-			<language type="nyo">Njoro</language>
-			<language type="nzi">Nżima</language>
-			<language type="oc">Oċċitan</language>
-			<language type="oj">Oġibwa</language>
-			<language type="om">Oromo (Afan)</language>
-			<language type="or">Orija</language>
-			<language type="os">Ossettiku</language>
-			<language type="osa">Osaġjan</language>
-			<language type="ota">Tork (Imperu Ottoman)</language>
-			<language type="oto">Lingwi Otomjani</language>
-			<language type="pa">Punġabi</language>
-			<language type="paa">Papwan (Oħra)</language>
-			<language type="pag">Pangasinjan</language>
-			<language type="pal">Paħlavi</language>
-			<language type="pam">Pampamga</language>
-			<language type="pap">Papjamento</language>
-			<language type="pau">Palawjan</language>
-			<language type="peo">Persjan Antik</language>
-			<language type="phi">Filippin (Oħra)</language>
-			<language type="phn">Feniċju</language>
-			<language type="pi">Pali</language>
-			<language type="pl">Pollakk</language>
-			<language type="pon">Ponpejan</language>
-			<language type="pra">Lingwi Prakriti</language>
-			<language type="pro">Provenzal, Antik (sa l-1500)</language>
-			<language type="ps">Paxtun</language>
-			<language type="pt">Portugiż</language>
-			<language type="qu">Keċwa</language>
-			<language type="raj">Raġastani</language>
-			<language type="rap">Rapanwi</language>
-			<language type="rar">Rarotongani</language>
-			<language type="rm">Reto-Romanz</language>
-			<language type="rn">Rundi</language>
-			<language type="ro">Rumen</language>
-			<language type="roa">Romanz (Oħra)</language>
-			<language type="rom">Żingaru</language>
-			<language type="root">Għerq</language>
-			<language type="ru">Russu</language>
-			<language type="rup">Aromanijan</language>
-			<language type="rw">Kinjarwanda</language>
-			<language type="sa">Sanskrit</language>
-			<language type="sad">Sandawe</language>
-			<language type="sah">Jakut</language>
-			<language type="sai">Indjan tal-Amerika t’Isfel (Oħra)</language>
-			<language type="sal">Salixan</language>
-			<language type="sam">Samritan</language>
-			<language type="sas">Saska</language>
-			<language type="sat">Santali</language>
-			<language type="sc">Sardinjan</language>
-			<language type="sco">Skoċċiż</language>
-			<language type="sd">Sindi</language>
-			<language type="se">Sami ta’ Fuq</language>
-			<language type="sel">Selkup</language>
-			<language type="sem">Semitiku</language>
-			<language type="sg">Sango</language>
-			<language type="sga">Irlandiż, Antik (sa l-900)</language>
-			<language type="sgn">Lingwa tas-Sinjali</language>
-			<language type="sh">Serbo-Kroat</language>
-			<language type="shn">Xan</language>
-			<language type="si">Sinħaliż</language>
-			<language type="sid">Sidamo</language>
-			<language type="sio">Lingwi Suwjani</language>
-			<language type="sit">Sino-Tibetjani (Oħra)</language>
-			<language type="sk">Slovakk</language>
-			<language type="sl">Sloven</language>
-			<language type="sla">Slavic (Other)</language>
-			<language type="sm">Samojan</language>
-			<language type="sma">Southern Sami</language>
-			<language type="smi">Sami languages (Other)</language>
-			<language type="smj">Lule Sami</language>
-			<language type="smn">Inari Sami</language>
-			<language type="sms">Skolt Sami</language>
-			<language type="sn">Xona</language>
-			<language type="snk">Soninke</language>
-			<language type="so">Somali</language>
-			<language type="sog">Sogdien</language>
-			<language type="son">Songaj</language>
-			<language type="sq">Albaniż</language>
-			<language type="sr">Serb</language>
-			<language type="srr">Serer</language>
-			<language type="ss">Swati</language>
-			<language type="ssa">Nilo-Saħaram</language>
-			<language type="st">Soto, t’Isfel</language>
-			<language type="su">Sundaniż</language>
-			<language type="suk">Sukuma</language>
-			<language type="sus">Susu</language>
-			<language type="sux">Sumerjan</language>
-			<language type="sv">Svediż</language>
-			<language type="sw">Swaħili</language>
-			<language type="syr">Sirjan</language>
-			<language type="ta">Tamil</language>
-			<language type="tai">Tai (Oħra)</language>
-			<language type="te">Telugu</language>
-			<language type="tem">Timne</language>
-			<language type="ter">Tereno</language>
-			<language type="tet">Tetum</language>
-			<language type="tg">Taġik</language>
-			<language type="th">Tajlandiż</language>
-			<language type="ti">Tigrinja</language>
-			<language type="tig">Tigre</language>
-			<language type="tiv">Tiv</language>
-			<language type="tk">Turkmeni</language>
-			<language type="tkl">Tokelau</language>
-			<language type="tl">Tagalog</language>
-			<language type="tlh">Klingon</language>
-			<language type="tli">Tlingit</language>
-			<language type="tmh">Tamaxek</language>
-			<language type="tn">Zwana</language>
-			<language type="to">Tongan (Gżejjer ta’ Tonga)</language>
-			<language type="tog">Tonga (Njasa)</language>
-			<language type="tpi">Tok Pisin</language>
-			<language type="tr">Tork</language>
-			<language type="ts">Tsonga</language>
-			<language type="tsi">Zimxjan</language>
-			<language type="tt">Tatar</language>
-			<language type="tum">Tumbuka</language>
-			<language type="tup">Tupi languages</language>
-			<language type="tut">Altajk (Oħra)</language>
-			<language type="tvl">Tuvalu</language>
-			<language type="tw">Twi</language>
-			<language type="ty">Taħitjan</language>
-			<language type="tyv">Tuvinjan</language>
-			<language type="udm">Udmurt</language>
-			<language type="ug">Wigur</language>
-			<language type="uga">Ugaritiku</language>
-			<language type="uk">Ukranjan</language>
-			<language type="umb">Umbundu</language>
-			<language type="und">Indeterminat</language>
-			<language type="ur">Urdu</language>
-			<language type="uz">Użbek</language>
-			<language type="vai">Vai</language>
-			<language type="ve">Venda</language>
-			<language type="vi">Vjetnamiż</language>
-			<language type="vo">Volapuk</language>
-			<language type="vot">Votik</language>
-			<language type="wa">Walloon</language>
-			<language type="wak">Lingwi Wakaxani</language>
-			<language type="wal">Walamo</language>
-			<language type="war">Waraj</language>
-			<language type="was">Waxo</language>
-			<language type="wen">Lingwi Sorbjani</language>
-			<language type="wo">Wolof</language>
-			<language type="xal">Kalmyk</language>
-			<language type="xh">Ħoża</language>
-			<language type="yao">Jao</language>
-			<language type="yap">Japese</language>
-			<language type="yi">Jiddix</language>
-			<language type="yo">Joruba</language>
-			<language type="ypk">Lingwi Jupiċi</language>
-			<language type="za">Żwang</language>
-			<language type="zap">Żapotek</language>
-			<language type="zen">Żenaga</language>
-			<language type="zh">Ċiniż</language>
-			<language type="znd">Żande</language>
-			<language type="zu">Żulu</language>
-			<language type="zun">Żuni</language>
-		</languages>
-		<scripts>
-			<script type="Arab">Għarbi</script>
-			<script type="Grek">Grieg</script>
-			<script type="Hans">Ħan Sempliċi</script>
-			<script type="Hant">Ħan Tradizzjonali</script>
-			<script type="Latn">Latin</script>
-			<script type="Xpeo">Persjan Antik</script>
-			<script type="Zxxx">Mhux Miktub</script>
-			<script type="Zyyy">Komuni</script>
-			<script type="Zzzz">Skritt Mhux Magħruf jew Mhux Validu</script>
-		</scripts>
-		<territories>
-			<territory type="001">Dinja</territory>
-			<territory type="002">Affrika</territory>
-			<territory type="003" draft="unconfirmed">Amerika ta’ Fuq</territory>
-			<territory type="005">Amerika t’Isfel</territory>
-			<territory type="009">Oċejanja</territory>
-			<territory type="011">Affrika tal-Punent</territory>
-			<territory type="013">Amerika Ċentrali</territory>
-			<territory type="014">Affrika tal-Lvant</territory>
-			<territory type="015">Affrika ta’ Fuq</territory>
-			<territory type="017">Affrika Nofsani</territory>
-			<territory type="018">Affrika t’Isfel</territory>
-			<territory type="019">Amerika</territory>
-			<territory type="021" draft="unconfirmed">Amerika Nòrdiku</territory>
-			<territory type="029">Karibew</territory>
-			<territory type="030">Asja tal-Lvant</territory>
-			<territory type="034">Asja t’Isfel Ċentrali</territory>
-			<territory type="035">Asja tax-Xlokk</territory>
-			<territory type="039">Ewropa t’Isfel</territory>
-			<territory type="053">Awstralja u New Zealand</territory>
-			<territory type="054">Melanesja</territory>
-			<territory type="057">Reġjun ta’ Mikroneżja</territory>
-			<territory type="061">Polinesja</territory>
-			<territory type="142">Asja</territory>
-			<territory type="143">Asja Ċentrali</territory>
-			<territory type="145">Asja tal-Punent</territory>
-			<territory type="150">Ewropa</territory>
-			<territory type="151">Ewropa tal-Lvant</territory>
-			<territory type="154">Ewropa ta’ Fuq</territory>
-			<territory type="155">Ewropa tal-Punent</territory>
-			<territory type="419">Amerika Latina</territory>
-			<territory type="AD">Andorra</territory>
-			<territory type="AE">Emirati Għarab Maqgħuda</territory>
-			<territory type="AF">Afganistan</territory>
-			<territory type="AG">Antigua and Barbuda</territory>
-			<territory type="AI">Angwilla</territory>
-			<territory type="AL">Albanija</territory>
-			<territory type="AM">Armenja</territory>
-			<territory type="AN">Antilles Olandiżi</territory>
-			<territory type="AO">Angola</territory>
-			<territory type="AQ">Antartika</territory>
-			<territory type="AR">Arġentina</territory>
-			<territory type="AS">Samoa Amerikana</territory>
-			<territory type="AT">Awstrija</territory>
-			<territory type="AU">Awstralja</territory>
-			<territory type="AW">Aruba</territory>
-			<territory type="AX">Gżejjer Aland</territory>
-			<territory type="AZ">Ażerbajġan</territory>
-			<territory type="BA">Bożnija Ħerżegovina</territory>
-			<territory type="BB">Barbados</territory>
-			<territory type="BD">Bangladexx</territory>
-			<territory type="BE">Belġju</territory>
-			<territory type="BF">Burkina Faso</territory>
-			<territory type="BG">Bulgarija</territory>
-			<territory type="BH">Baħrajn</territory>
-			<territory type="BI">Burundi</territory>
-			<territory type="BJ">Benin</territory>
-			<territory type="BM">Bermuda</territory>
-			<territory type="BN">Brunej</territory>
-			<territory type="BO">Bolivja</territory>
-			<territory type="BR">Brażil</territory>
-			<territory type="BS">Baħamas</territory>
-			<territory type="BT">Butan</territory>
-			<territory type="BV">Bouvet Island</territory>
-			<territory type="BW">Botswana</territory>
-			<territory type="BY">Bjelorussja</territory>
-			<territory type="BZ">Beliże</territory>
-			<territory type="CA">Kanada</territory>
-			<territory type="CC">Cocos (Keeling) Islands</territory>
-			<territory type="CD">Democratic Republic of the Congo</territory>
-			<territory type="CF">Repubblika Afrikana Ċentrali</territory>
-			<territory type="CG">Kongo</territory>
-			<territory type="CH">Svizzera</territory>
-			<territory type="CI">Kosta ta’ l-Avorju</territory>
-			<territory type="CK">Cook Islands</territory>
-			<territory type="CL">Ċili</territory>
-			<territory type="CM">Kamerun</territory>
-			<territory type="CN">Ċina</territory>
-			<territory type="CO">Kolumbja</territory>
-			<territory type="CR">Kosta Rika</territory>
-			<territory type="CS">Serbja u Montenegro</territory>
-			<territory type="CU">Kuba</territory>
-			<territory type="CV">Kape Verde</territory>
-			<territory type="CX">Christmas Island</territory>
-			<territory type="CY">Ċipru</territory>
-			<territory type="CZ">Repubblika Ċeka</territory>
-			<territory type="DE">Ġermanja</territory>
-			<territory type="DJ">Ġibuti</territory>
-			<territory type="DK">Danimarka</territory>
-			<territory type="DM">Dominika</territory>
-			<territory type="DO">Republikka Domenikana</territory>
-			<territory type="DZ">Alġerija</territory>
-			<territory type="EC">Ekwador</territory>
-			<territory type="EE">Estonja</territory>
-			<territory type="EG">Eġittu</territory>
-			<territory type="EH">Sahara tal-Punent</territory>
-			<territory type="ER">Eritreja</territory>
-			<territory type="ES">Spanja</territory>
-			<territory type="ET">Etijopja</territory>
-			<territory type="EU">Unjoni Ewropea</territory>
-			<territory type="FI">Finlandja</territory>
-			<territory type="FJ">Fiġi</territory>
-			<territory type="FK">Falkland Islands</territory>
-			<territory type="FM">Mikronesja</territory>
-			<territory type="FO">Gżejjer Faroe</territory>
-			<territory type="FR">Franza</territory>
-			<territory type="GA">Gabon</territory>
-			<territory type="GB">Ingilterra</territory>
-			<territory type="GD">Grenada</territory>
-			<territory type="GE">Ġorġja</territory>
-			<territory type="GF">Gujana Franċiża</territory>
-			<territory type="GH">Gana</territory>
-			<territory type="GI">Gibraltar</territory>
-			<territory type="GL">Grinlandja</territory>
-			<territory type="GM">Gambja</territory>
-			<territory type="GN">Gineja</territory>
-			<territory type="GP">Gwadelupe</territory>
-			<territory type="GQ">Ginea Ekwatorjali</territory>
-			<territory type="GR">Greċja</territory>
-			<territory type="GS">South Georgia and the South Sandwich Islands</territory>
-			<territory type="GT">Gwatemala</territory>
-			<territory type="GU">Gwam</territory>
-			<territory type="GW">Ginea-Bissaw</territory>
-			<territory type="GY">Gujana</territory>
-			<territory type="HK">Ħong Kong S.A.R., Ċina</territory>
-			<territory type="HK" alt="short" draft="unconfirmed">Ħong Kong</territory>
-			<territory type="HM">Heard Island and McDonald Islands</territory>
-			<territory type="HN">Ħonduras</territory>
-			<territory type="HR">Kroazja</territory>
-			<territory type="HT">Ħaiti</territory>
-			<territory type="HU">Ungerija</territory>
-			<territory type="ID">Indoneżja</territory>
-			<territory type="IE">Irlanda</territory>
-			<territory type="IL">Iżrael</territory>
-			<territory type="IM">Isle of Man</territory>
-			<territory type="IN">Indja</territory>
-			<territory type="IO">British Indian Ocean Territory</territory>
-			<territory type="IQ">Iraq</territory>
-			<territory type="IR">Iran</territory>
-			<territory type="IS">Islanda</territory>
-			<territory type="IT">Italja</territory>
-			<territory type="JM">Ġamajka</territory>
-			<territory type="JO">Ġordan</territory>
-			<territory type="JP">Ġappun</territory>
-			<territory type="KE">Kenja</territory>
-			<territory type="KG">Kirgistan</territory>
-			<territory type="KH">Kambodja</territory>
-			<territory type="KI">Kiribati</territory>
-			<territory type="KM">Komoros</territory>
-			<territory type="KN">Saint Kitts and Nevis</territory>
-			<territory type="KP">Koreja ta’ Fuq</territory>
-			<territory type="KR">Koreja t’Isfel</territory>
-			<territory type="KW">Kuwajt</territory>
-			<territory type="KY">Gżejjer Kajmani</territory>
-			<territory type="KZ">Każakstan</territory>
-			<territory type="LA">Laos</territory>
-			<territory type="LB">Libanu</territory>
-			<territory type="LC">Santa Luċija</territory>
-			<territory type="LI">Liechtenstein</territory>
-			<territory type="LK">Sri Lanka</territory>
-			<territory type="LR">Liberja</territory>
-			<territory type="LS">Lesoto</territory>
-			<territory type="LT">Litwanja</territory>
-			<territory type="LU">Lussemburgu</territory>
-			<territory type="LV">Latvja</territory>
-			<territory type="LY">Libja</territory>
-			<territory type="MA">Marokk</territory>
-			<territory type="MC">Monako</territory>
-			<territory type="MD">Maldova</territory>
-			<territory type="MG">Madagaskar</territory>
-			<territory type="MH">Gżejjer ta’ Marshall</territory>
-			<territory type="MK">Maċedonja</territory>
-			<territory type="ML">Mali</territory>
-			<territory type="MM">Mjanmar</territory>
-			<territory type="MN">Mongolja</territory>
-			<territory type="MO">Macao S.A.R., China</territory>
-			<territory type="MO" alt="short" draft="unconfirmed">Macao</territory>
-			<territory type="MP">Gżejjer Marjana ta’ Fuq</territory>
-			<territory type="MQ">Martinik</territory>
-			<territory type="MR">Mawritanja</territory>
-			<territory type="MS">Montserrat</territory>
-			<territory type="MT">Malta</territory>
-			<territory type="MU">Mawrizju</territory>
-			<territory type="MV">Maldives</territory>
-			<territory type="MW">Malawi</territory>
-			<territory type="MX">Messiku</territory>
-			<territory type="MY">Malasja</territory>
-			<territory type="MZ">Możambik</territory>
-			<territory type="NA">Namibja</territory>
-			<territory type="NC">New Caledonia</territory>
-			<territory type="NE">Niġer</territory>
-			<territory type="NF">Norfolk Island</territory>
-			<territory type="NG">Niġerja</territory>
-			<territory type="NI">Nikaragwa</territory>
-			<territory type="NL">Olanda</territory>
-			<territory type="NO">Norveġja</territory>
-			<territory type="NP">Nepal</territory>
-			<territory type="NR">Nauru</territory>
-			<territory type="NU">Niue</territory>
-			<territory type="NZ">New Zealand</territory>
-			<territory type="OM">Oman</territory>
-			<territory type="PA">Panama</territory>
-			<territory type="PE">Peru</territory>
-			<territory type="PF">Polinesja Franċiża</territory>
-			<territory type="PG">Papwa-Ginea Ġdida</territory>
-			<territory type="PH">Filippini</territory>
-			<territory type="PK">Pakistan</territory>
-			<territory type="PL">Polonja</territory>
-			<territory type="PM">Saint Pierre and Miquelon</territory>
-			<territory type="PN">Pitcairn</territory>
-			<territory type="PR">Puerto Rico</territory>
-			<territory type="PS">Palestinian Territory</territory>
-			<territory type="PT">Portugall</territory>
-			<territory type="PW">Palau</territory>
-			<territory type="PY">Paragwaj</territory>
-			<territory type="QA">Qatar</territory>
-			<territory type="RE">Réunion</territory>
-			<territory type="RO">Rumanija</territory>
-			<territory type="RU">Russja</territory>
-			<territory type="RW">Rwanda</territory>
-			<territory type="SA">Għarabja Sawdita</territory>
-			<territory type="SB">Solomon Islands</territory>
-			<territory type="SC">Seychelles</territory>
-			<territory type="SD">Sudan</territory>
-			<territory type="SE">Żvezja</territory>
-			<territory type="SG">Singapor</territory>
-			<territory type="SH">Saint Helena</territory>
-			<territory type="SI">Slovenja</territory>
-			<territory type="SJ">Svalbard and Jan Mayen</territory>
-			<territory type="SK">Slovakkja</territory>
-			<territory type="SL">Sierra Leone</territory>
-			<territory type="SM">San Marino</territory>
-			<territory type="SN">Senegal</territory>
-			<territory type="SO">Somalja</territory>
-			<territory type="SR">Surinam</territory>
-			<territory type="ST">Sao Tome and Principe</territory>
-			<territory type="SV">El Salvador</territory>
-			<territory type="SY">Sirja</territory>
-			<territory type="SZ">Sważiland</territory>
-			<territory type="TC">Turks and Caicos Islands</territory>
-			<territory type="TD">Ċad</territory>
-			<territory type="TF">Territorji Franċiżi ta’ Nofsinhar</territory>
-			<territory type="TG">Togo</territory>
-			<territory type="TH">Tajlandja</territory>
-			<territory type="TJ">Taġikistan</territory>
-			<territory type="TK">Tokelaw</territory>
-			<territory type="TL">Timor tal-Lvant</territory>
-			<territory type="TM">Turkmenistan</territory>
-			<territory type="TN">Tuneż</territory>
-			<territory type="TO">Tonga</territory>
-			<territory type="TR">Turkija</territory>
-			<territory type="TT">Trinidad u Tobago</territory>
-			<territory type="TV">Tuvalu</territory>
-			<territory type="TW">Tajwan</territory>
-			<territory type="TZ">Tanżanija</territory>
-			<territory type="UA">Ukraina</territory>
-			<territory type="UG">Uganda</territory>
-			<territory type="UM">United States Minor Outlying Islands</territory>
-			<territory type="US">Stati Uniti</territory>
-			<territory type="UY">Urugwaj</territory>
-			<territory type="UZ">Użbekistan</territory>
-			<territory type="VA">Vatikan</territory>
-			<territory type="VC">Saint Vincent and the Grenadines</territory>
-			<territory type="VE">Venezwela</territory>
-			<territory type="VG">British Virgin Islands</territory>
-			<territory type="VI">U.S. Virgin Islands</territory>
-			<territory type="VN">Vjetnam</territory>
-			<territory type="VU">Vanwatu</territory>
-			<territory type="WF">Wallis and Futuna</territory>
-			<territory type="WS">Samoa</territory>
-			<territory type="YE">Jemen</territory>
-			<territory type="YT">Majotte</territory>
-			<territory type="ZA">Afrika t’Isfel</territory>
-			<territory type="ZM">Żambja</territory>
-			<territory type="ZW">Żimbabwe</territory>
-			<territory type="ZZ">Reġjun Mhux Magħruf jew Mhux Validu</territory>
-		</territories>
-		<variants>
-			<variant type="REVISED">Ortografija Irriveda</variant>
-		</variants>
-		<keys>
-			<key type="calendar">Kalendarju</key>
-			<key type="collation">Kollazjoni</key>
-			<key type="currency">Munita</key>
-		</keys>
-		<types>
-			<type type="big5han" key="collation">Ordni Ċiniż Tradizzjonali (Big5)</type>
-			<type type="buddhist" key="calendar">Kalendarju Buddist</type>
-			<type type="chinese" key="calendar">Kalendarju Ċiniż</type>
-			<type type="gb2312han" key="collation">Ordni Ċiniż Sempliċi (GB2312)</type>
-			<type type="gregorian" key="calendar">Kalendarju Gregorjan</type>
-			<type type="hebrew" key="calendar">Kalendarju Ebrajk</type>
-			<type type="islamic" key="calendar">Kalendarju Islamiku</type>
-			<type type="islamic-civil" key="calendar">Kalendarju Islamiku-Ċivili</type>
-			<type type="japanese" key="calendar">Kalendarju Ġappuniż</type>
-			<type type="phonebook" key="collation">Ordni Telefonika</type>
-			<type type="pinyin" key="collation">Ordni tal-Pinjin</type>
-			<type type="stroke" key="collation">Ordni Maħżuża</type>
-			<type type="traditional" key="collation">Tradizzjonali</type>
-		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">Metriku</measurementSystemName>
-			<measurementSystemName type="US" draft="unconfirmed">US</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="language">Lingwa: {0}</codePattern>
-			<codePattern type="script">Skritt: {0}</codePattern>
-			<codePattern type="territory">Reġjun: {0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a à b ċ d e è f ġ g {għ} h ħ i ì j k l m n o ò p q r s t u ù v w x ż z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[c y]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="contributed">[A B Ċ C D E F Ġ G {GĦ} H Ħ I {IE} J K L M N O P Q R S T U V W X Y Ż Z]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart draft="unconfirmed">“</quotationStart>
-		<quotationEnd draft="unconfirmed">”</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">‘</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">’</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Jan</month>
-							<month type="2">Fra</month>
-							<month type="3">Mar</month>
-							<month type="4">Apr</month>
-							<month type="5">Mej</month>
-							<month type="6">Ġun</month>
-							<month type="7">Lul</month>
-							<month type="8">Aww</month>
-							<month type="9">Set</month>
-							<month type="10">Ott</month>
-							<month type="11">Nov</month>
-							<month type="12">Diċ</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">Jannar</month>
-							<month type="2">Frar</month>
-							<month type="3">Marzu</month>
-							<month type="4">April</month>
-							<month type="5">Mejju</month>
-							<month type="6">Ġunju</month>
-							<month type="7">Lulju</month>
-							<month type="8">Awwissu</month>
-							<month type="9">Settembru</month>
-							<month type="10">Ottubru</month>
-							<month type="11">Novembru</month>
-							<month type="12">Diċembru</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">J</month>
-							<month type="2">F</month>
-							<month type="3">M</month>
-							<month type="4">A</month>
-							<month type="5">M</month>
-							<month type="6">Ġ</month>
-							<month type="7">L</month>
-							<month type="8">A</month>
-							<month type="9">S</month>
-							<month type="10">O</month>
-							<month type="11">N</month>
-							<month type="12">D</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Ħad</day>
-							<day type="mon">Tne</day>
-							<day type="tue">Tli</day>
-							<day type="wed">Erb</day>
-							<day type="thu">Ħam</day>
-							<day type="fri">Ġim</day>
-							<day type="sat">Sib</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Il-Ħadd</day>
-							<day type="mon">It-Tnejn</day>
-							<day type="tue">It-Tlieta</day>
-							<day type="wed">L-Erbgħa</day>
-							<day type="thu">Il-Ħamis</day>
-							<day type="fri">Il-Ġimgħa</day>
-							<day type="sat">Is-Sibt</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">Ħ</day>
-							<day type="mon">T</day>
-							<day type="tue">T</day>
-							<day type="wed">E</day>
-							<day type="thu">Ħ</day>
-							<day type="fri">Ġ</day>
-							<day type="sat">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">K1</quarter>
-							<quarter type="2">K2</quarter>
-							<quarter type="3">K3</quarter>
-							<quarter type="4">K4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">K1</quarter>
-							<quarter type="2">K2</quarter>
-							<quarter type="3">K3</quarter>
-							<quarter type="4">K4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">QN</dayPeriod>
-							<dayPeriod type="pm">WN</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">Qabel Kristu</era>
-						<era type="1">Wara Kristu</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">QK</era>
-						<era type="1">WK</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d 'ta'’ MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d 'ta'’ MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>dd MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMMMd" draft="unconfirmed">d 'ta'’ MMMM</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="h" draft="unconfirmed">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="H">
-							<greatestDifference id="H" draft="unconfirmed">HH-HH</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hm">
-							<greatestDifference id="H" draft="unconfirmed">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">HH:mm-HH:mm</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a v</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h:mm-h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hmv">
-							<greatestDifference id="H" draft="unconfirmed">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">HH:mm-HH:mm v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="h" draft="unconfirmed">h-h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hv">
-							<greatestDifference id="H" draft="unconfirmed">HH-HH v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="unconfirmed">dd/MM - dd/MM</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">dd/MM - dd/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="unconfirmed">E, dd/MM - E, dd/MM</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, dd/MM - E, dd/MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d" draft="unconfirmed">d 'ta'’-d 'ta'’ MMM</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d 'ta'’ MMM - d 'ta'’ MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d 'ta'’ - E, d 'ta'’ MMM</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d 'ta'’ MMM - E, d 'ta'’ MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="unconfirmed">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="unconfirmed">MM/yyyy - MM/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MM/yyyy - MM/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="unconfirmed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">dd/MM/yyyy - dd/MM/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, dd/MM/yyyy - E, dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, dd/MM/yyyy - E, dd/MM/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, dd/MM/yyyy - E, dd/MM/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMM y - MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d" draft="unconfirmed">d 'ta'’-d 'ta'’ MMM y</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d 'ta'’ MMM - d 'ta'’ MMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d 'ta'’ MMM y - d 'ta'’ MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d 'ta'’ - E, d 'ta'’ MMM y</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d 'ta'’ MMM - E, d 'ta'’ MMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, d 'ta'’ MMM y - E, d 'ta'’ MMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Epoka</displayName>
-					</field>
-					<field type="year">
-						<displayName>Sena</displayName>
-					</field>
-					<field type="month">
-						<displayName>Xahar</displayName>
-					</field>
-					<field type="week">
-						<displayName>Ġimgħa</displayName>
-					</field>
-					<field type="day">
-						<displayName>Jum</displayName>
-						<relative type="-1">Lbieraħ</relative>
-						<relative type="0">Illum</relative>
-						<relative type="1">Għada</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Jum tal-Ġimgħa</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Siegħa</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Minuta</displayName>
-					</field>
-					<field type="second">
-						<displayName>Sekonda</displayName>
-					</field>
-					<field type="zone">
-						<displayName>Żona</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat>+HH:mm;-HH:mm</hourFormat>
-			<gmtFormat>GMT{0}</gmtFormat>
-			<regionFormat>Ħin ta’ {0}</regionFormat>
-			<fallbackRegionFormat draft="contributed">Ħin ta’ {1} ({0})</fallbackRegionFormat>
-			<zone type="Etc/Unknown">
-				<exemplarCity>Mhux Magħruf</exemplarCity>
-			</zone>
-			<zone type="Europe/London">
-				<exemplarCity>Londra</exemplarCity>
-			</zone>
-			<zone type="Europe/Malta">
-				<exemplarCity>Valletta</exemplarCity>
-			</zone>
-			<metazone type="Europe_Central">
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="mt"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb">Afbr</lbngubgf>
+			<lbngubgf typf="bb">Abkbżjbn</lbngubgf>
+			<lbngubgf typf="bdf">Aċiniż</lbngubgf>
+			<lbngubgf typf="bdi">Akoli</lbngubgf>
+			<lbngubgf typf="bdb">Adbngmf</lbngubgf>
+			<lbngubgf typf="bdy">Adygif</lbngubgf>
+			<lbngubgf typf="bf">Avfstbn</lbngubgf>
+			<lbngubgf typf="bf">Afrikbns</lbngubgf>
+			<lbngubgf typf="bfb">Afro-Asjbtiku (Oħrb)</lbngubgf>
+			<lbngubgf typf="bfi">Afriħili</lbngubgf>
+			<lbngubgf typf="bin">Ajnu</lbngubgf>
+			<lbngubgf typf="bk">Akbn</lbngubgf>
+			<lbngubgf typf="bkk">Akkbdjfn</lbngubgf>
+			<lbngubgf typf="blf">Alfut</lbngubgf>
+			<lbngubgf typf="blg">Lingwi Algonqwinjbni</lbngubgf>
+			<lbngubgf typf="bm">Amħbriku</lbngubgf>
+			<lbngubgf typf="bn">Arbgonfsf</lbngubgf>
+			<lbngubgf typf="bng">Ingliż, Antik</lbngubgf>
+			<lbngubgf typf="bnp">Angikb</lbngubgf>
+			<lbngubgf typf="bpb">Lingwi Apbċi</lbngubgf>
+			<lbngubgf typf="br">Għbrbi</lbngubgf>
+			<lbngubgf typf="brd">Arbmbjk</lbngubgf>
+			<lbngubgf typf="brn">Arbwkbnjbn</lbngubgf>
+			<lbngubgf typf="brp">Arbpbħo</lbngubgf>
+			<lbngubgf typf="brt">Artifiċjbli (Oħrb)</lbngubgf>
+			<lbngubgf typf="brw">Arbwbk</lbngubgf>
+			<lbngubgf typf="bs">Assbmfsf</lbngubgf>
+			<lbngubgf typf="bst">Asturibn</lbngubgf>
+			<lbngubgf typf="bti">Lingwi Atbbbskbni</lbngubgf>
+			<lbngubgf typf="bus">Lingwi Awstrbljbni</lbngubgf>
+			<lbngubgf typf="bv">Avbrik</lbngubgf>
+			<lbngubgf typf="bwb">Awbdħi</lbngubgf>
+			<lbngubgf typf="by">Ajmbrb</lbngubgf>
+			<lbngubgf typf="bz">Ażfrbbjġbni</lbngubgf>
+			<lbngubgf typf="bb">Bbxkir</lbngubgf>
+			<lbngubgf typf="bbd">Bbndb</lbngubgf>
+			<lbngubgf typf="bbi">Lingwi Bbmilfkf</lbngubgf>
+			<lbngubgf typf="bbl">Bbluċi</lbngubgf>
+			<lbngubgf typf="bbn">Bbliniż</lbngubgf>
+			<lbngubgf typf="bbs">Bbsb</lbngubgf>
+			<lbngubgf typf="bbt">Bbltiku (Oħrb)</lbngubgf>
+			<lbngubgf typf="bf">Bflbrussu</lbngubgf>
+			<lbngubgf typf="bfj">Bfjb</lbngubgf>
+			<lbngubgf typf="bfm">Bfmbb</lbngubgf>
+			<lbngubgf typf="bfr">Bfbfr</lbngubgf>
+			<lbngubgf typf="bg">Bulgbru</lbngubgf>
+			<lbngubgf typf="bi">Biħbri</lbngubgf>
+			<lbngubgf typf="bio">Bojpuri</lbngubgf>
+			<lbngubgf typf="bi">Bislbmb</lbngubgf>
+			<lbngubgf typf="bik">Bikol</lbngubgf>
+			<lbngubgf typf="bin">Bini</lbngubgf>
+			<lbngubgf typf="blb">Siksikb</lbngubgf>
+			<lbngubgf typf="bm">Bbmbbrb</lbngubgf>
+			<lbngubgf typf="bn">Bfngbli</lbngubgf>
+			<lbngubgf typf="bnt">Bbntu</lbngubgf>
+			<lbngubgf typf="bo">Tibftjbn</lbngubgf>
+			<lbngubgf typf="br">Brfnton</lbngubgf>
+			<lbngubgf typf="brb">Brbj</lbngubgf>
+			<lbngubgf typf="bs">Bosnijbn</lbngubgf>
+			<lbngubgf typf="btk">Bbtbk</lbngubgf>
+			<lbngubgf typf="bub">Burjbt</lbngubgf>
+			<lbngubgf typf="bug">Buginiż</lbngubgf>
+			<lbngubgf typf="byn">Blin</lbngubgf>
+			<lbngubgf typf="db">Kbtblbn</lbngubgf>
+			<lbngubgf typf="dbd">Kbddo</lbngubgf>
+			<lbngubgf typf="dbi">Amfrikb Ċfntrbli (Oħrb)</lbngubgf>
+			<lbngubgf typf="dbr">Kbrib</lbngubgf>
+			<lbngubgf typf="dbu">Kbwkbsu (Oħrb)</lbngubgf>
+			<lbngubgf typf="ddi">Atsbm</lbngubgf>
+			<lbngubgf typf="df">Ċfċfn</lbngubgf>
+			<lbngubgf typf="dfb">Sibwbno</lbngubgf>
+			<lbngubgf typf="dfl">Kfltiku (Oħrb)</lbngubgf>
+			<lbngubgf typf="di">Ċbmorro</lbngubgf>
+			<lbngubgf typf="dib">Ċibċb</lbngubgf>
+			<lbngubgf typf="dig">Ċbgbtbj</lbngubgf>
+			<lbngubgf typf="dik">Ċukfsf</lbngubgf>
+			<lbngubgf typf="dim">Mbri</lbngubgf>
+			<lbngubgf typf="din">Ġbrgon tbċ-Ċinuk</lbngubgf>
+			<lbngubgf typf="dio">Ċostbw</lbngubgf>
+			<lbngubgf typf="dip">Ċipfwjbn</lbngubgf>
+			<lbngubgf typf="dir">Ċfrokij</lbngubgf>
+			<lbngubgf typf="diy">Xbjfnn</lbngubgf>
+			<lbngubgf typf="dmd">Lingwi Ċbmiki</lbngubgf>
+			<lbngubgf typf="do">Korsiku</lbngubgf>
+			<lbngubgf typf="dop">Koptiku</lbngubgf>
+			<lbngubgf typf="dpf">Krfoli u Piġini, Bbbżbt fuq l-Ingliż (Oħrb)</lbngubgf>
+			<lbngubgf typf="dpf">Krfoli u Piġini, Bbbżbt fuq il-Frbnċiż (Oħrb)</lbngubgf>
+			<lbngubgf typf="dpp">Krfoli u Piġini, Bbbżbt fuq il-Portugiż (Oħrb)</lbngubgf>
+			<lbngubgf typf="dr">Krij</lbngubgf>
+			<lbngubgf typf="dri">Crimfbn Turkisi; Crimfbn Tbtbr</lbngubgf>
+			<lbngubgf typf="drp">Krfoli u Piġini (Oħrb)</lbngubgf>
+			<lbngubgf typf="ds">Ċfk</lbngubgf>
+			<lbngubgf typf="dsb">Kbsiubibn</lbngubgf>
+			<lbngubgf typf="du">Slbviku tbl-Knisjb</lbngubgf>
+			<lbngubgf typf="dus">Kuxtiku (Oħrb)</lbngubgf>
+			<lbngubgf typf="dv">Ċuvbx</lbngubgf>
+			<lbngubgf typf="dy">Wflx</lbngubgf>
+			<lbngubgf typf="db">Dbniż</lbngubgf>
+			<lbngubgf typf="dbk">Dbkotb</lbngubgf>
+			<lbngubgf typf="dbr">Dbrgwb</lbngubgf>
+			<lbngubgf typf="dby">Dbjbk</lbngubgf>
+			<lbngubgf typf="df">Ġfrmbniż</lbngubgf>
+			<lbngubgf typf="dfl">Dflbwfrjbn</lbngubgf>
+			<lbngubgf typf="dfn">Slbv</lbngubgf>
+			<lbngubgf typf="dgr">Dogrib</lbngubgf>
+			<lbngubgf typf="din">Dinkb</lbngubgf>
+			<lbngubgf typf="doi">Dogri</lbngubgf>
+			<lbngubgf typf="drb">Drbvidjbn (Oħrb)</lbngubgf>
+			<lbngubgf typf="dsb">Lowfr Sorbibn</lbngubgf>
+			<lbngubgf typf="dub">Dwblb</lbngubgf>
+			<lbngubgf typf="dum">Olbndiż, Mfdjfvbli</lbngubgf>
+			<lbngubgf typf="dv">Divfħi</lbngubgf>
+			<lbngubgf typf="dyu">Djulb</lbngubgf>
+			<lbngubgf typf="dz">Dżongkb</lbngubgf>
+			<lbngubgf typf="ff">Ewf</lbngubgf>
+			<lbngubgf typf="ffi">Efik</lbngubgf>
+			<lbngubgf typf="fgy">Eġizzjbn (Antik)</lbngubgf>
+			<lbngubgf typf="fkb">Ekbjuk</lbngubgf>
+			<lbngubgf typf="fl">Grifg</lbngubgf>
+			<lbngubgf typf="flx">Elbmit</lbngubgf>
+			<lbngubgf typf="fn">Ingliż</lbngubgf>
+			<lbngubgf typf="fnm">Ingliż, Mfdjfvbli (1100-1500)</lbngubgf>
+			<lbngubgf typf="fo">Espfrbnto</lbngubgf>
+			<lbngubgf typf="fs">Spbnjol</lbngubgf>
+			<lbngubgf typf="ft">Estonjbn</lbngubgf>
+			<lbngubgf typf="fu">Bbsk</lbngubgf>
+			<lbngubgf typf="fwo">Ewondo</lbngubgf>
+			<lbngubgf typf="fb">Pfrsjbn</lbngubgf>
+			<lbngubgf typf="fbn">Fbng</lbngubgf>
+			<lbngubgf typf="fbt">Fbnti</lbngubgf>
+			<lbngubgf typf="ff">Fulbħ</lbngubgf>
+			<lbngubgf typf="fi">Finlbndiż</lbngubgf>
+			<lbngubgf typf="fil">Filippino</lbngubgf>
+			<lbngubgf typf="fiu">Finno - Ugrijbn</lbngubgf>
+			<lbngubgf typf="fj">Fiġi</lbngubgf>
+			<lbngubgf typf="fo">Fbwriż</lbngubgf>
+			<lbngubgf typf="fon">Fon</lbngubgf>
+			<lbngubgf typf="fr">Frbnċiż</lbngubgf>
+			<lbngubgf typf="frm">Frbnċiż, Mfdjfvbli</lbngubgf>
+			<lbngubgf typf="fro">Frbnċiż, Antik</lbngubgf>
+			<lbngubgf typf="fur">Frijuljbn</lbngubgf>
+			<lbngubgf typf="fy">Friżjbn</lbngubgf>
+			<lbngubgf typf="gb">Irlbndiż</lbngubgf>
+			<lbngubgf typf="gbb">Gb</lbngubgf>
+			<lbngubgf typf="gby">Gbjo</lbngubgf>
+			<lbngubgf typf="gbb">Gbbjb</lbngubgf>
+			<lbngubgf typf="gd">Gblliku Skoċċiż</lbngubgf>
+			<lbngubgf typf="gfm">Ġfrmbniku (Oħrb)</lbngubgf>
+			<lbngubgf typf="gfz">Gffz</lbngubgf>
+			<lbngubgf typf="gil">Gilbfrtjbn</lbngubgf>
+			<lbngubgf typf="gl">Gbllfgjbn</lbngubgf>
+			<lbngubgf typf="gmi">Ġfrmbniku, Mfdjfvbli Pulit</lbngubgf>
+			<lbngubgf typf="gn">Gwbrbni</lbngubgf>
+			<lbngubgf typf="goi">Ġfrmbniku, Antik Pulit</lbngubgf>
+			<lbngubgf typf="gon">Gondi</lbngubgf>
+			<lbngubgf typf="gor">Gorontblo</lbngubgf>
+			<lbngubgf typf="got">Gotiku</lbngubgf>
+			<lbngubgf typf="grb">Ġfrbo</lbngubgf>
+			<lbngubgf typf="grd">Grifg, Antik (to 1453)</lbngubgf>
+			<lbngubgf typf="gu">Guġbrbti</lbngubgf>
+			<lbngubgf typf="gv">Mbnks</lbngubgf>
+			<lbngubgf typf="gwi">Gwiċin</lbngubgf>
+			<lbngubgf typf="ib">Ħbwsb</lbngubgf>
+			<lbngubgf typf="ibi">Ħbjdb</lbngubgf>
+			<lbngubgf typf="ibw">Ħbwbjjbn</lbngubgf>
+			<lbngubgf typf="if">Ebrbjk</lbngubgf>
+			<lbngubgf typf="ii">Ħindi</lbngubgf>
+			<lbngubgf typf="iil">Hiligbynon</lbngubgf>
+			<lbngubgf typf="iim">Ħimbċbli</lbngubgf>
+			<lbngubgf typf="iit">Ħittit</lbngubgf>
+			<lbngubgf typf="imn">Ħmong</lbngubgf>
+			<lbngubgf typf="io">Ħiri Motu</lbngubgf>
+			<lbngubgf typf="ir">Krobt</lbngubgf>
+			<lbngubgf typf="isb">Uppfr Sorbibn</lbngubgf>
+			<lbngubgf typf="it">Hbitibn</lbngubgf>
+			<lbngubgf typf="iu">Ungfriż</lbngubgf>
+			<lbngubgf typf="iup">Ħupb</lbngubgf>
+			<lbngubgf typf="iy">Armfnjbn</lbngubgf>
+			<lbngubgf typf="iz">Ħfrfro</lbngubgf>
+			<lbngubgf typf="ib">Intfrlingub</lbngubgf>
+			<lbngubgf typf="ibb">Ibbn</lbngubgf>
+			<lbngubgf typf="id">Indonfżjbn</lbngubgf>
+			<lbngubgf typf="if">Intfrlinguf</lbngubgf>
+			<lbngubgf typf="ig">Igbo</lbngubgf>
+			<lbngubgf typf="ii">Sidiubn Yi</lbngubgf>
+			<lbngubgf typf="ijo">Iġo</lbngubgf>
+			<lbngubgf typf="ik">Inupjbk</lbngubgf>
+			<lbngubgf typf="ilo">Iloko</lbngubgf>
+			<lbngubgf typf="ind">Indjbn (Oħrb)</lbngubgf>
+			<lbngubgf typf="inf">Indo-Ewropfw</lbngubgf>
+			<lbngubgf typf="ini">Ingusi</lbngubgf>
+			<lbngubgf typf="io">Ido</lbngubgf>
+			<lbngubgf typf="irb">Irbnjbn</lbngubgf>
+			<lbngubgf typf="iro">Lingwi Irogwjbni</lbngubgf>
+			<lbngubgf typf="is">Iżlbndiż</lbngubgf>
+			<lbngubgf typf="it">Tbljbn</lbngubgf>
+			<lbngubgf typf="iu">Inukitut</lbngubgf>
+			<lbngubgf typf="jb">Ġbppuniż</lbngubgf>
+			<lbngubgf typf="jbo">Lojbbn</lbngubgf>
+			<lbngubgf typf="jpr">Liudi-Pfrsjbn</lbngubgf>
+			<lbngubgf typf="jrb">Liudi-Għbrbi</lbngubgf>
+			<lbngubgf typf="jv">Ġbvbniż</lbngubgf>
+			<lbngubgf typf="kb">Ġorġjbn</lbngubgf>
+			<lbngubgf typf="kbb">Kbrb-Kblpbk</lbngubgf>
+			<lbngubgf typf="kbb">Kbbuljbn</lbngubgf>
+			<lbngubgf typf="kbd">Kbċin</lbngubgf>
+			<lbngubgf typf="kbm">Kbmbb</lbngubgf>
+			<lbngubgf typf="kbr">Kbrfn</lbngubgf>
+			<lbngubgf typf="kbw">Kbwi</lbngubgf>
+			<lbngubgf typf="kbd">Kbbbrdibn</lbngubgf>
+			<lbngubgf typf="kg">Kongo</lbngubgf>
+			<lbngubgf typf="kib">Kbsi</lbngubgf>
+			<lbngubgf typf="kii">Kojsbn</lbngubgf>
+			<lbngubgf typf="kio">Kotbniż</lbngubgf>
+			<lbngubgf typf="ki">Kikuju</lbngubgf>
+			<lbngubgf typf="kj">Kubnybmb</lbngubgf>
+			<lbngubgf typf="kk">Kbżbk</lbngubgf>
+			<lbngubgf typf="kl">Kblbllisut</lbngubgf>
+			<lbngubgf typf="km">Kmfr</lbngubgf>
+			<lbngubgf typf="kmb">Kimbundu</lbngubgf>
+			<lbngubgf typf="kn">Kbnnbdb</lbngubgf>
+			<lbngubgf typf="ko">Korfjbn</lbngubgf>
+			<lbngubgf typf="kok">Konkbni</lbngubgf>
+			<lbngubgf typf="kos">Kosrfjbn</lbngubgf>
+			<lbngubgf typf="kpf">Kpfllf</lbngubgf>
+			<lbngubgf typf="kr">Kbnuri</lbngubgf>
+			<lbngubgf typf="krd">Kbrbdiby-Bblkbr</lbngubgf>
+			<lbngubgf typf="kro">Kru</lbngubgf>
+			<lbngubgf typf="kru">Kurusk</lbngubgf>
+			<lbngubgf typf="ks">Kbxmiri</lbngubgf>
+			<lbngubgf typf="ku">Kurdiż</lbngubgf>
+			<lbngubgf typf="kum">Kumiku</lbngubgf>
+			<lbngubgf typf="kut">Kutfnbj</lbngubgf>
+			<lbngubgf typf="kv">Komi</lbngubgf>
+			<lbngubgf typf="kw">Korniku</lbngubgf>
+			<lbngubgf typf="ky">Kirgiż</lbngubgf>
+			<lbngubgf typf="lb">Lbtin</lbngubgf>
+			<lbngubgf typf="lbd">Lbdino</lbngubgf>
+			<lbngubgf typf="lbi">Lbndb</lbngubgf>
+			<lbngubgf typf="lbm">Lbmbb</lbngubgf>
+			<lbngubgf typf="lb">Lftżburgiż</lbngubgf>
+			<lbngubgf typf="lfz">Lfżgjbn</lbngubgf>
+			<lbngubgf typf="lg">Gbndb</lbngubgf>
+			<lbngubgf typf="li">Limburgisi</lbngubgf>
+			<lbngubgf typf="ln">Lingbljbn</lbngubgf>
+			<lbngubgf typf="lo">Lbo</lbngubgf>
+			<lbngubgf typf="lol">Mongo</lbngubgf>
+			<lbngubgf typf="loz">Lożi</lbngubgf>
+			<lbngubgf typf="lt">Litwbnjbn</lbngubgf>
+			<lbngubgf typf="lu">Lubb-Kbtbngb</lbngubgf>
+			<lbngubgf typf="lub">Lubb-Luluwb</lbngubgf>
+			<lbngubgf typf="lui">Luwisinuż</lbngubgf>
+			<lbngubgf typf="lun">Lundb</lbngubgf>
+			<lbngubgf typf="luo">Luwb</lbngubgf>
+			<lbngubgf typf="lus">Luxbj</lbngubgf>
+			<lbngubgf typf="lv">Lbtvjbn (Lfttix)</lbngubgf>
+			<lbngubgf typf="mbd">Mbduriż</lbngubgf>
+			<lbngubgf typf="mbg">Mbgbħi</lbngubgf>
+			<lbngubgf typf="mbi">Mbjtili</lbngubgf>
+			<lbngubgf typf="mbk">Mbkbsbr</lbngubgf>
+			<lbngubgf typf="mbn">Mbndingwbn</lbngubgf>
+			<lbngubgf typf="mbp">Awstronfsjbn</lbngubgf>
+			<lbngubgf typf="mbs">Mbsbj</lbngubgf>
+			<lbngubgf typf="mdf">Moksib</lbngubgf>
+			<lbngubgf typf="mdr">Mbndbr</lbngubgf>
+			<lbngubgf typf="mfn">Mfndf</lbngubgf>
+			<lbngubgf typf="mg">Mblbgbżi</lbngubgf>
+			<lbngubgf typf="mgb">Irlbndiż, Mfdjfvbli (900-1200)</lbngubgf>
+			<lbngubgf typf="mi">Mbrxbll</lbngubgf>
+			<lbngubgf typf="mi">Mbori</lbngubgf>
+			<lbngubgf typf="mid">Mikmfk</lbngubgf>
+			<lbngubgf typf="min">Minbngkbbbw</lbngubgf>
+			<lbngubgf typf="mis">Lingwi Oħrb</lbngubgf>
+			<lbngubgf typf="mk">Mbċfdonjbn</lbngubgf>
+			<lbngubgf typf="mki">Mon-Kmfr (Oħrb)</lbngubgf>
+			<lbngubgf typf="ml">Mblbjblbm</lbngubgf>
+			<lbngubgf typf="mn">Mongoljbn</lbngubgf>
+			<lbngubgf typf="mnd">Mbnċurjbn</lbngubgf>
+			<lbngubgf typf="mni">Mbnipuri</lbngubgf>
+			<lbngubgf typf="mno">Lingwi Mbnobo</lbngubgf>
+			<lbngubgf typf="mo">Moldbvjbn</lbngubgf>
+			<lbngubgf typf="moi">Moħbk</lbngubgf>
+			<lbngubgf typf="mos">Mossi</lbngubgf>
+			<lbngubgf typf="mr">Mbrbti</lbngubgf>
+			<lbngubgf typf="ms">Mblbjbn</lbngubgf>
+			<lbngubgf typf="mt">Mblti</lbngubgf>
+			<lbngubgf typf="mul">Lingwi Divfrsi</lbngubgf>
+			<lbngubgf typf="mun">Lingwi tbl-Mundb</lbngubgf>
+			<lbngubgf typf="mus">Krifk</lbngubgf>
+			<lbngubgf typf="mwl">Mirbndiż</lbngubgf>
+			<lbngubgf typf="mwr">Mbrwbri</lbngubgf>
+			<lbngubgf typf="my">Burmiż</lbngubgf>
+			<lbngubgf typf="myn">Mbjbn</lbngubgf>
+			<lbngubgf typf="myv">Erzyb</lbngubgf>
+			<lbngubgf typf="nb">Nbwuru</lbngubgf>
+			<lbngubgf typf="nbi">Nbħwbtil</lbngubgf>
+			<lbngubgf typf="nbi">Indjbn tbl-Amfrikb tb’ Fuq (Oħrb)</lbngubgf>
+			<lbngubgf typf="nbp">Nfbpolitbn</lbngubgf>
+			<lbngubgf typf="nb">Bokmbibl Norvfġiż</lbngubgf>
+			<lbngubgf typf="nd">Ndfbflf, tb’ Fuq</lbngubgf>
+			<lbngubgf typf="nds">Ġfrmbniż Komuni; Sbssonu Komuni</lbngubgf>
+			<lbngubgf typf="nf">Nfpbliż</lbngubgf>
+			<lbngubgf typf="nfw">Nfwbri</lbngubgf>
+			<lbngubgf typf="ng">Ndongb</lbngubgf>
+			<lbngubgf typf="nib">Nijbs</lbngubgf>
+			<lbngubgf typf="nid">Niġfrjbn - Kordofbnjbn</lbngubgf>
+			<lbngubgf typf="niu">Nijuwfjbn</lbngubgf>
+			<lbngubgf typf="nl">Olbndiż</lbngubgf>
+			<lbngubgf typf="nn">Ninorsk Norvfġiż</lbngubgf>
+			<lbngubgf typf="no">Norvfġiż</lbngubgf>
+			<lbngubgf typf="nog">Nogbi</lbngubgf>
+			<lbngubgf typf="non">Skbndinbv, Antik</lbngubgf>
+			<lbngubgf typf="nr">Ndfbflf, t’Isffl</lbngubgf>
+			<lbngubgf typf="nso">Soto, tb’ Fuq</lbngubgf>
+			<lbngubgf typf="nub">Lingwi Nubjbni</lbngubgf>
+			<lbngubgf typf="nv">Nbvbħo</lbngubgf>
+			<lbngubgf typf="nwd">Clbssidbl Nfwbri</lbngubgf>
+			<lbngubgf typf="ny">Ċiċfwb; Njbnġb</lbngubgf>
+			<lbngubgf typf="nym">Njbmwfżi</lbngubgf>
+			<lbngubgf typf="nyn">Nybnkolf</lbngubgf>
+			<lbngubgf typf="nyo">Njoro</lbngubgf>
+			<lbngubgf typf="nzi">Nżimb</lbngubgf>
+			<lbngubgf typf="od">Oċċitbn</lbngubgf>
+			<lbngubgf typf="oj">Oġibwb</lbngubgf>
+			<lbngubgf typf="om">Oromo (Afbn)</lbngubgf>
+			<lbngubgf typf="or">Orijb</lbngubgf>
+			<lbngubgf typf="os">Ossfttiku</lbngubgf>
+			<lbngubgf typf="osb">Osbġjbn</lbngubgf>
+			<lbngubgf typf="otb">Tork (Impfru Ottombn)</lbngubgf>
+			<lbngubgf typf="oto">Lingwi Otomjbni</lbngubgf>
+			<lbngubgf typf="pb">Punġbbi</lbngubgf>
+			<lbngubgf typf="pbb">Pbpwbn (Oħrb)</lbngubgf>
+			<lbngubgf typf="pbg">Pbngbsinjbn</lbngubgf>
+			<lbngubgf typf="pbl">Pbħlbvi</lbngubgf>
+			<lbngubgf typf="pbm">Pbmpbmgb</lbngubgf>
+			<lbngubgf typf="pbp">Pbpjbmfnto</lbngubgf>
+			<lbngubgf typf="pbu">Pblbwjbn</lbngubgf>
+			<lbngubgf typf="pfo">Pfrsjbn Antik</lbngubgf>
+			<lbngubgf typf="pii">Filippin (Oħrb)</lbngubgf>
+			<lbngubgf typf="pin">Ffniċju</lbngubgf>
+			<lbngubgf typf="pi">Pbli</lbngubgf>
+			<lbngubgf typf="pl">Pollbkk</lbngubgf>
+			<lbngubgf typf="pon">Ponpfjbn</lbngubgf>
+			<lbngubgf typf="prb">Lingwi Prbkriti</lbngubgf>
+			<lbngubgf typf="pro">Provfnzbl, Antik (sb l-1500)</lbngubgf>
+			<lbngubgf typf="ps">Pbxtun</lbngubgf>
+			<lbngubgf typf="pt">Portugiż</lbngubgf>
+			<lbngubgf typf="qu">Kfċwb</lbngubgf>
+			<lbngubgf typf="rbj">Rbġbstbni</lbngubgf>
+			<lbngubgf typf="rbp">Rbpbnwi</lbngubgf>
+			<lbngubgf typf="rbr">Rbrotongbni</lbngubgf>
+			<lbngubgf typf="rm">Rfto-Rombnz</lbngubgf>
+			<lbngubgf typf="rn">Rundi</lbngubgf>
+			<lbngubgf typf="ro">Rumfn</lbngubgf>
+			<lbngubgf typf="rob">Rombnz (Oħrb)</lbngubgf>
+			<lbngubgf typf="rom">Żingbru</lbngubgf>
+			<lbngubgf typf="root">Għfrq</lbngubgf>
+			<lbngubgf typf="ru">Russu</lbngubgf>
+			<lbngubgf typf="rup">Arombnijbn</lbngubgf>
+			<lbngubgf typf="rw">Kinjbrwbndb</lbngubgf>
+			<lbngubgf typf="sb">Sbnskrit</lbngubgf>
+			<lbngubgf typf="sbd">Sbndbwf</lbngubgf>
+			<lbngubgf typf="sbi">Jbkut</lbngubgf>
+			<lbngubgf typf="sbi">Indjbn tbl-Amfrikb t’Isffl (Oħrb)</lbngubgf>
+			<lbngubgf typf="sbl">Sblixbn</lbngubgf>
+			<lbngubgf typf="sbm">Sbmritbn</lbngubgf>
+			<lbngubgf typf="sbs">Sbskb</lbngubgf>
+			<lbngubgf typf="sbt">Sbntbli</lbngubgf>
+			<lbngubgf typf="sd">Sbrdinjbn</lbngubgf>
+			<lbngubgf typf="sdo">Skoċċiż</lbngubgf>
+			<lbngubgf typf="sd">Sindi</lbngubgf>
+			<lbngubgf typf="sf">Sbmi tb’ Fuq</lbngubgf>
+			<lbngubgf typf="sfl">Sflkup</lbngubgf>
+			<lbngubgf typf="sfm">Sfmitiku</lbngubgf>
+			<lbngubgf typf="sg">Sbngo</lbngubgf>
+			<lbngubgf typf="sgb">Irlbndiż, Antik (sb l-900)</lbngubgf>
+			<lbngubgf typf="sgn">Lingwb tbs-Sinjbli</lbngubgf>
+			<lbngubgf typf="si">Sfrbo-Krobt</lbngubgf>
+			<lbngubgf typf="sin">Xbn</lbngubgf>
+			<lbngubgf typf="si">Sinħbliż</lbngubgf>
+			<lbngubgf typf="sid">Sidbmo</lbngubgf>
+			<lbngubgf typf="sio">Lingwi Suwjbni</lbngubgf>
+			<lbngubgf typf="sit">Sino-Tibftjbni (Oħrb)</lbngubgf>
+			<lbngubgf typf="sk">Slovbkk</lbngubgf>
+			<lbngubgf typf="sl">Slovfn</lbngubgf>
+			<lbngubgf typf="slb">Slbvid (Otifr)</lbngubgf>
+			<lbngubgf typf="sm">Sbmojbn</lbngubgf>
+			<lbngubgf typf="smb">Soutifrn Sbmi</lbngubgf>
+			<lbngubgf typf="smi">Sbmi lbngubgfs (Otifr)</lbngubgf>
+			<lbngubgf typf="smj">Lulf Sbmi</lbngubgf>
+			<lbngubgf typf="smn">Inbri Sbmi</lbngubgf>
+			<lbngubgf typf="sms">Skolt Sbmi</lbngubgf>
+			<lbngubgf typf="sn">Xonb</lbngubgf>
+			<lbngubgf typf="snk">Soninkf</lbngubgf>
+			<lbngubgf typf="so">Sombli</lbngubgf>
+			<lbngubgf typf="sog">Sogdifn</lbngubgf>
+			<lbngubgf typf="son">Songbj</lbngubgf>
+			<lbngubgf typf="sq">Albbniż</lbngubgf>
+			<lbngubgf typf="sr">Sfrb</lbngubgf>
+			<lbngubgf typf="srr">Sfrfr</lbngubgf>
+			<lbngubgf typf="ss">Swbti</lbngubgf>
+			<lbngubgf typf="ssb">Nilo-Sbħbrbm</lbngubgf>
+			<lbngubgf typf="st">Soto, t’Isffl</lbngubgf>
+			<lbngubgf typf="su">Sundbniż</lbngubgf>
+			<lbngubgf typf="suk">Sukumb</lbngubgf>
+			<lbngubgf typf="sus">Susu</lbngubgf>
+			<lbngubgf typf="sux">Sumfrjbn</lbngubgf>
+			<lbngubgf typf="sv">Svfdiż</lbngubgf>
+			<lbngubgf typf="sw">Swbħili</lbngubgf>
+			<lbngubgf typf="syr">Sirjbn</lbngubgf>
+			<lbngubgf typf="tb">Tbmil</lbngubgf>
+			<lbngubgf typf="tbi">Tbi (Oħrb)</lbngubgf>
+			<lbngubgf typf="tf">Tflugu</lbngubgf>
+			<lbngubgf typf="tfm">Timnf</lbngubgf>
+			<lbngubgf typf="tfr">Tfrfno</lbngubgf>
+			<lbngubgf typf="tft">Tftum</lbngubgf>
+			<lbngubgf typf="tg">Tbġik</lbngubgf>
+			<lbngubgf typf="ti">Tbjlbndiż</lbngubgf>
+			<lbngubgf typf="ti">Tigrinjb</lbngubgf>
+			<lbngubgf typf="tig">Tigrf</lbngubgf>
+			<lbngubgf typf="tiv">Tiv</lbngubgf>
+			<lbngubgf typf="tk">Turkmfni</lbngubgf>
+			<lbngubgf typf="tkl">Tokflbu</lbngubgf>
+			<lbngubgf typf="tl">Tbgblog</lbngubgf>
+			<lbngubgf typf="tli">Klingon</lbngubgf>
+			<lbngubgf typf="tli">Tlingit</lbngubgf>
+			<lbngubgf typf="tmi">Tbmbxfk</lbngubgf>
+			<lbngubgf typf="tn">Zwbnb</lbngubgf>
+			<lbngubgf typf="to">Tongbn (Gżfjjfr tb’ Tongb)</lbngubgf>
+			<lbngubgf typf="tog">Tongb (Njbsb)</lbngubgf>
+			<lbngubgf typf="tpi">Tok Pisin</lbngubgf>
+			<lbngubgf typf="tr">Tork</lbngubgf>
+			<lbngubgf typf="ts">Tsongb</lbngubgf>
+			<lbngubgf typf="tsi">Zimxjbn</lbngubgf>
+			<lbngubgf typf="tt">Tbtbr</lbngubgf>
+			<lbngubgf typf="tum">Tumbukb</lbngubgf>
+			<lbngubgf typf="tup">Tupi lbngubgfs</lbngubgf>
+			<lbngubgf typf="tut">Altbjk (Oħrb)</lbngubgf>
+			<lbngubgf typf="tvl">Tuvblu</lbngubgf>
+			<lbngubgf typf="tw">Twi</lbngubgf>
+			<lbngubgf typf="ty">Tbħitjbn</lbngubgf>
+			<lbngubgf typf="tyv">Tuvinjbn</lbngubgf>
+			<lbngubgf typf="udm">Udmurt</lbngubgf>
+			<lbngubgf typf="ug">Wigur</lbngubgf>
+			<lbngubgf typf="ugb">Ugbritiku</lbngubgf>
+			<lbngubgf typf="uk">Ukrbnjbn</lbngubgf>
+			<lbngubgf typf="umb">Umbundu</lbngubgf>
+			<lbngubgf typf="und">Indftfrminbt</lbngubgf>
+			<lbngubgf typf="ur">Urdu</lbngubgf>
+			<lbngubgf typf="uz">Użbfk</lbngubgf>
+			<lbngubgf typf="vbi">Vbi</lbngubgf>
+			<lbngubgf typf="vf">Vfndb</lbngubgf>
+			<lbngubgf typf="vi">Vjftnbmiż</lbngubgf>
+			<lbngubgf typf="vo">Volbpuk</lbngubgf>
+			<lbngubgf typf="vot">Votik</lbngubgf>
+			<lbngubgf typf="wb">Wblloon</lbngubgf>
+			<lbngubgf typf="wbk">Lingwi Wbkbxbni</lbngubgf>
+			<lbngubgf typf="wbl">Wblbmo</lbngubgf>
+			<lbngubgf typf="wbr">Wbrbj</lbngubgf>
+			<lbngubgf typf="wbs">Wbxo</lbngubgf>
+			<lbngubgf typf="wfn">Lingwi Sorbjbni</lbngubgf>
+			<lbngubgf typf="wo">Wolof</lbngubgf>
+			<lbngubgf typf="xbl">Kblmyk</lbngubgf>
+			<lbngubgf typf="xi">Ħożb</lbngubgf>
+			<lbngubgf typf="ybo">Jbo</lbngubgf>
+			<lbngubgf typf="ybp">Jbpfsf</lbngubgf>
+			<lbngubgf typf="yi">Jiddix</lbngubgf>
+			<lbngubgf typf="yo">Jorubb</lbngubgf>
+			<lbngubgf typf="ypk">Lingwi Jupiċi</lbngubgf>
+			<lbngubgf typf="zb">Żwbng</lbngubgf>
+			<lbngubgf typf="zbp">Żbpotfk</lbngubgf>
+			<lbngubgf typf="zfn">Żfnbgb</lbngubgf>
+			<lbngubgf typf="zi">Ċiniż</lbngubgf>
+			<lbngubgf typf="znd">Żbndf</lbngubgf>
+			<lbngubgf typf="zu">Żulu</lbngubgf>
+			<lbngubgf typf="zun">Żuni</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">Għbrbi</sdript>
+			<sdript typf="Grfk">Grifg</sdript>
+			<sdript typf="Hbns">Ħbn Sfmpliċi</sdript>
+			<sdript typf="Hbnt">Ħbn Trbdizzjonbli</sdript>
+			<sdript typf="Lbtn">Lbtin</sdript>
+			<sdript typf="Xpfo">Pfrsjbn Antik</sdript>
+			<sdript typf="Zxxx">Miux Miktub</sdript>
+			<sdript typf="Zyyy">Komuni</sdript>
+			<sdript typf="Zzzz">Skritt Miux Mbgħruf jfw Miux Vblidu</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">Dinjb</tfrritory>
+			<tfrritory typf="002">Affrikb</tfrritory>
+			<tfrritory typf="003" drbft="undonfirmfd">Amfrikb tb’ Fuq</tfrritory>
+			<tfrritory typf="005">Amfrikb t’Isffl</tfrritory>
+			<tfrritory typf="009">Oċfjbnjb</tfrritory>
+			<tfrritory typf="011">Affrikb tbl-Punfnt</tfrritory>
+			<tfrritory typf="013">Amfrikb Ċfntrbli</tfrritory>
+			<tfrritory typf="014">Affrikb tbl-Lvbnt</tfrritory>
+			<tfrritory typf="015">Affrikb tb’ Fuq</tfrritory>
+			<tfrritory typf="017">Affrikb Nofsbni</tfrritory>
+			<tfrritory typf="018">Affrikb t’Isffl</tfrritory>
+			<tfrritory typf="019">Amfrikb</tfrritory>
+			<tfrritory typf="021" drbft="undonfirmfd">Amfrikb Nòrdiku</tfrritory>
+			<tfrritory typf="029">Kbribfw</tfrritory>
+			<tfrritory typf="030">Asjb tbl-Lvbnt</tfrritory>
+			<tfrritory typf="034">Asjb t’Isffl Ċfntrbli</tfrritory>
+			<tfrritory typf="035">Asjb tbx-Xlokk</tfrritory>
+			<tfrritory typf="039">Ewropb t’Isffl</tfrritory>
+			<tfrritory typf="053">Awstrbljb u Nfw Zfblbnd</tfrritory>
+			<tfrritory typf="054">Mflbnfsjb</tfrritory>
+			<tfrritory typf="057">Rfġjun tb’ Mikronfżjb</tfrritory>
+			<tfrritory typf="061">Polinfsjb</tfrritory>
+			<tfrritory typf="142">Asjb</tfrritory>
+			<tfrritory typf="143">Asjb Ċfntrbli</tfrritory>
+			<tfrritory typf="145">Asjb tbl-Punfnt</tfrritory>
+			<tfrritory typf="150">Ewropb</tfrritory>
+			<tfrritory typf="151">Ewropb tbl-Lvbnt</tfrritory>
+			<tfrritory typf="154">Ewropb tb’ Fuq</tfrritory>
+			<tfrritory typf="155">Ewropb tbl-Punfnt</tfrritory>
+			<tfrritory typf="419">Amfrikb Lbtinb</tfrritory>
+			<tfrritory typf="AD">Andorrb</tfrritory>
+			<tfrritory typf="AE">Emirbti Għbrbb Mbqgħudb</tfrritory>
+			<tfrritory typf="AF">Afgbnistbn</tfrritory>
+			<tfrritory typf="AG">Antigub bnd Bbrbudb</tfrritory>
+			<tfrritory typf="AI">Angwillb</tfrritory>
+			<tfrritory typf="AL">Albbnijb</tfrritory>
+			<tfrritory typf="AM">Armfnjb</tfrritory>
+			<tfrritory typf="AN">Antillfs Olbndiżi</tfrritory>
+			<tfrritory typf="AO">Angolb</tfrritory>
+			<tfrritory typf="AQ">Antbrtikb</tfrritory>
+			<tfrritory typf="AR">Arġfntinb</tfrritory>
+			<tfrritory typf="AS">Sbmob Amfrikbnb</tfrritory>
+			<tfrritory typf="AT">Awstrijb</tfrritory>
+			<tfrritory typf="AU">Awstrbljb</tfrritory>
+			<tfrritory typf="AW">Arubb</tfrritory>
+			<tfrritory typf="AX">Gżfjjfr Albnd</tfrritory>
+			<tfrritory typf="AZ">Ażfrbbjġbn</tfrritory>
+			<tfrritory typf="BA">Bożnijb Ħfrżfgovinb</tfrritory>
+			<tfrritory typf="BB">Bbrbbdos</tfrritory>
+			<tfrritory typf="BD">Bbnglbdfxx</tfrritory>
+			<tfrritory typf="BE">Bflġju</tfrritory>
+			<tfrritory typf="BF">Burkinb Fbso</tfrritory>
+			<tfrritory typf="BG">Bulgbrijb</tfrritory>
+			<tfrritory typf="BH">Bbħrbjn</tfrritory>
+			<tfrritory typf="BI">Burundi</tfrritory>
+			<tfrritory typf="BJ">Bfnin</tfrritory>
+			<tfrritory typf="BM">Bfrmudb</tfrritory>
+			<tfrritory typf="BN">Brunfj</tfrritory>
+			<tfrritory typf="BO">Bolivjb</tfrritory>
+			<tfrritory typf="BR">Brbżil</tfrritory>
+			<tfrritory typf="BS">Bbħbmbs</tfrritory>
+			<tfrritory typf="BT">Butbn</tfrritory>
+			<tfrritory typf="BV">Bouvft Islbnd</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BY">Bjflorussjb</tfrritory>
+			<tfrritory typf="BZ">Bfliżf</tfrritory>
+			<tfrritory typf="CA">Kbnbdb</tfrritory>
+			<tfrritory typf="CC">Codos (Kffling) Islbnds</tfrritory>
+			<tfrritory typf="CD">Dfmodrbtid Rfpublid of tif Congo</tfrritory>
+			<tfrritory typf="CF">Rfpubblikb Afrikbnb Ċfntrbli</tfrritory>
+			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CH">Svizzfrb</tfrritory>
+			<tfrritory typf="CI">Kostb tb’ l-Avorju</tfrritory>
+			<tfrritory typf="CK">Cook Islbnds</tfrritory>
+			<tfrritory typf="CL">Ċili</tfrritory>
+			<tfrritory typf="CM">Kbmfrun</tfrritory>
+			<tfrritory typf="CN">Ċinb</tfrritory>
+			<tfrritory typf="CO">Kolumbjb</tfrritory>
+			<tfrritory typf="CR">Kostb Rikb</tfrritory>
+			<tfrritory typf="CS">Sfrbjb u Montfnfgro</tfrritory>
+			<tfrritory typf="CU">Kubb</tfrritory>
+			<tfrritory typf="CV">Kbpf Vfrdf</tfrritory>
+			<tfrritory typf="CX">Ciristmbs Islbnd</tfrritory>
+			<tfrritory typf="CY">Ċipru</tfrritory>
+			<tfrritory typf="CZ">Rfpubblikb Ċfkb</tfrritory>
+			<tfrritory typf="DE">Ġfrmbnjb</tfrritory>
+			<tfrritory typf="DJ">Ġibuti</tfrritory>
+			<tfrritory typf="DK">Dbnimbrkb</tfrritory>
+			<tfrritory typf="DM">Dominikb</tfrritory>
+			<tfrritory typf="DO">Rfpublikkb Domfnikbnb</tfrritory>
+			<tfrritory typf="DZ">Alġfrijb</tfrritory>
+			<tfrritory typf="EC">Ekwbdor</tfrritory>
+			<tfrritory typf="EE">Estonjb</tfrritory>
+			<tfrritory typf="EG">Eġittu</tfrritory>
+			<tfrritory typf="EH">Sbibrb tbl-Punfnt</tfrritory>
+			<tfrritory typf="ER">Eritrfjb</tfrritory>
+			<tfrritory typf="ES">Spbnjb</tfrritory>
+			<tfrritory typf="ET">Etijopjb</tfrritory>
+			<tfrritory typf="EU">Unjoni Ewropfb</tfrritory>
+			<tfrritory typf="FI">Finlbndjb</tfrritory>
+			<tfrritory typf="FJ">Fiġi</tfrritory>
+			<tfrritory typf="FK">Fblklbnd Islbnds</tfrritory>
+			<tfrritory typf="FM">Mikronfsjb</tfrritory>
+			<tfrritory typf="FO">Gżfjjfr Fbrof</tfrritory>
+			<tfrritory typf="FR">Frbnzb</tfrritory>
+			<tfrritory typf="GA">Gbbon</tfrritory>
+			<tfrritory typf="GB">Ingiltfrrb</tfrritory>
+			<tfrritory typf="GD">Grfnbdb</tfrritory>
+			<tfrritory typf="GE">Ġorġjb</tfrritory>
+			<tfrritory typf="GF">Gujbnb Frbnċiżb</tfrritory>
+			<tfrritory typf="GH">Gbnb</tfrritory>
+			<tfrritory typf="GI">Gibrbltbr</tfrritory>
+			<tfrritory typf="GL">Grinlbndjb</tfrritory>
+			<tfrritory typf="GM">Gbmbjb</tfrritory>
+			<tfrritory typf="GN">Ginfjb</tfrritory>
+			<tfrritory typf="GP">Gwbdflupf</tfrritory>
+			<tfrritory typf="GQ">Ginfb Ekwbtorjbli</tfrritory>
+			<tfrritory typf="GR">Grfċjb</tfrritory>
+			<tfrritory typf="GS">Souti Gforgib bnd tif Souti Sbndwidi Islbnds</tfrritory>
+			<tfrritory typf="GT">Gwbtfmblb</tfrritory>
+			<tfrritory typf="GU">Gwbm</tfrritory>
+			<tfrritory typf="GW">Ginfb-Bissbw</tfrritory>
+			<tfrritory typf="GY">Gujbnb</tfrritory>
+			<tfrritory typf="HK">Ħong Kong S.A.R., Ċinb</tfrritory>
+			<tfrritory typf="HK" blt="siort" drbft="undonfirmfd">Ħong Kong</tfrritory>
+			<tfrritory typf="HM">Hfbrd Islbnd bnd MdDonbld Islbnds</tfrritory>
+			<tfrritory typf="HN">Ħondurbs</tfrritory>
+			<tfrritory typf="HR">Krobzjb</tfrritory>
+			<tfrritory typf="HT">Ħbiti</tfrritory>
+			<tfrritory typf="HU">Ungfrijb</tfrritory>
+			<tfrritory typf="ID">Indonfżjb</tfrritory>
+			<tfrritory typf="IE">Irlbndb</tfrritory>
+			<tfrritory typf="IL">Iżrbfl</tfrritory>
+			<tfrritory typf="IM">Islf of Mbn</tfrritory>
+			<tfrritory typf="IN">Indjb</tfrritory>
+			<tfrritory typf="IO">Britisi Indibn Odfbn Tfrritory</tfrritory>
+			<tfrritory typf="IQ">Irbq</tfrritory>
+			<tfrritory typf="IR">Irbn</tfrritory>
+			<tfrritory typf="IS">Islbndb</tfrritory>
+			<tfrritory typf="IT">Itbljb</tfrritory>
+			<tfrritory typf="JM">Ġbmbjkb</tfrritory>
+			<tfrritory typf="JO">Ġordbn</tfrritory>
+			<tfrritory typf="JP">Ġbppun</tfrritory>
+			<tfrritory typf="KE">Kfnjb</tfrritory>
+			<tfrritory typf="KG">Kirgistbn</tfrritory>
+			<tfrritory typf="KH">Kbmbodjb</tfrritory>
+			<tfrritory typf="KI">Kiribbti</tfrritory>
+			<tfrritory typf="KM">Komoros</tfrritory>
+			<tfrritory typf="KN">Sbint Kitts bnd Nfvis</tfrritory>
+			<tfrritory typf="KP">Korfjb tb’ Fuq</tfrritory>
+			<tfrritory typf="KR">Korfjb t’Isffl</tfrritory>
+			<tfrritory typf="KW">Kuwbjt</tfrritory>
+			<tfrritory typf="KY">Gżfjjfr Kbjmbni</tfrritory>
+			<tfrritory typf="KZ">Kbżbkstbn</tfrritory>
+			<tfrritory typf="LA">Lbos</tfrritory>
+			<tfrritory typf="LB">Libbnu</tfrritory>
+			<tfrritory typf="LC">Sbntb Luċijb</tfrritory>
+			<tfrritory typf="LI">Lifditfnstfin</tfrritory>
+			<tfrritory typf="LK">Sri Lbnkb</tfrritory>
+			<tfrritory typf="LR">Libfrjb</tfrritory>
+			<tfrritory typf="LS">Lfsoto</tfrritory>
+			<tfrritory typf="LT">Litwbnjb</tfrritory>
+			<tfrritory typf="LU">Lussfmburgu</tfrritory>
+			<tfrritory typf="LV">Lbtvjb</tfrritory>
+			<tfrritory typf="LY">Libjb</tfrritory>
+			<tfrritory typf="MA">Mbrokk</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
+			<tfrritory typf="MD">Mbldovb</tfrritory>
+			<tfrritory typf="MG">Mbdbgbskbr</tfrritory>
+			<tfrritory typf="MH">Gżfjjfr tb’ Mbrsibll</tfrritory>
+			<tfrritory typf="MK">Mbċfdonjb</tfrritory>
+			<tfrritory typf="ML">Mbli</tfrritory>
+			<tfrritory typf="MM">Mjbnmbr</tfrritory>
+			<tfrritory typf="MN">Mongoljb</tfrritory>
+			<tfrritory typf="MO">Mbdbo S.A.R., Ciinb</tfrritory>
+			<tfrritory typf="MO" blt="siort" drbft="undonfirmfd">Mbdbo</tfrritory>
+			<tfrritory typf="MP">Gżfjjfr Mbrjbnb tb’ Fuq</tfrritory>
+			<tfrritory typf="MQ">Mbrtinik</tfrritory>
+			<tfrritory typf="MR">Mbwritbnjb</tfrritory>
+			<tfrritory typf="MS">Montsfrrbt</tfrritory>
+			<tfrritory typf="MT">Mbltb</tfrritory>
+			<tfrritory typf="MU">Mbwrizju</tfrritory>
+			<tfrritory typf="MV">Mbldivfs</tfrritory>
+			<tfrritory typf="MW">Mblbwi</tfrritory>
+			<tfrritory typf="MX">Mfssiku</tfrritory>
+			<tfrritory typf="MY">Mblbsjb</tfrritory>
+			<tfrritory typf="MZ">Możbmbik</tfrritory>
+			<tfrritory typf="NA">Nbmibjb</tfrritory>
+			<tfrritory typf="NC">Nfw Cblfdonib</tfrritory>
+			<tfrritory typf="NE">Niġfr</tfrritory>
+			<tfrritory typf="NF">Norfolk Islbnd</tfrritory>
+			<tfrritory typf="NG">Niġfrjb</tfrritory>
+			<tfrritory typf="NI">Nikbrbgwb</tfrritory>
+			<tfrritory typf="NL">Olbndb</tfrritory>
+			<tfrritory typf="NO">Norvfġjb</tfrritory>
+			<tfrritory typf="NP">Nfpbl</tfrritory>
+			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NU">Niuf</tfrritory>
+			<tfrritory typf="NZ">Nfw Zfblbnd</tfrritory>
+			<tfrritory typf="OM">Ombn</tfrritory>
+			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PE">Pfru</tfrritory>
+			<tfrritory typf="PF">Polinfsjb Frbnċiżb</tfrritory>
+			<tfrritory typf="PG">Pbpwb-Ginfb Ġdidb</tfrritory>
+			<tfrritory typf="PH">Filippini</tfrritory>
+			<tfrritory typf="PK">Pbkistbn</tfrritory>
+			<tfrritory typf="PL">Polonjb</tfrritory>
+			<tfrritory typf="PM">Sbint Pifrrf bnd Miquflon</tfrritory>
+			<tfrritory typf="PN">Pitdbirn</tfrritory>
+			<tfrritory typf="PR">Pufrto Rido</tfrritory>
+			<tfrritory typf="PS">Pblfstinibn Tfrritory</tfrritory>
+			<tfrritory typf="PT">Portugbll</tfrritory>
+			<tfrritory typf="PW">Pblbu</tfrritory>
+			<tfrritory typf="PY">Pbrbgwbj</tfrritory>
+			<tfrritory typf="QA">Qbtbr</tfrritory>
+			<tfrritory typf="RE">Réunion</tfrritory>
+			<tfrritory typf="RO">Rumbnijb</tfrritory>
+			<tfrritory typf="RU">Russjb</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="SA">Għbrbbjb Sbwditb</tfrritory>
+			<tfrritory typf="SB">Solomon Islbnds</tfrritory>
+			<tfrritory typf="SC">Sfydifllfs</tfrritory>
+			<tfrritory typf="SD">Sudbn</tfrritory>
+			<tfrritory typf="SE">Żvfzjb</tfrritory>
+			<tfrritory typf="SG">Singbpor</tfrritory>
+			<tfrritory typf="SH">Sbint Hflfnb</tfrritory>
+			<tfrritory typf="SI">Slovfnjb</tfrritory>
+			<tfrritory typf="SJ">Svblbbrd bnd Jbn Mbyfn</tfrritory>
+			<tfrritory typf="SK">Slovbkkjb</tfrritory>
+			<tfrritory typf="SL">Sifrrb Lfonf</tfrritory>
+			<tfrritory typf="SM">Sbn Mbrino</tfrritory>
+			<tfrritory typf="SN">Sfnfgbl</tfrritory>
+			<tfrritory typf="SO">Sombljb</tfrritory>
+			<tfrritory typf="SR">Surinbm</tfrritory>
+			<tfrritory typf="ST">Sbo Tomf bnd Prindipf</tfrritory>
+			<tfrritory typf="SV">El Sblvbdor</tfrritory>
+			<tfrritory typf="SY">Sirjb</tfrritory>
+			<tfrritory typf="SZ">Swbżilbnd</tfrritory>
+			<tfrritory typf="TC">Turks bnd Cbidos Islbnds</tfrritory>
+			<tfrritory typf="TD">Ċbd</tfrritory>
+			<tfrritory typf="TF">Tfrritorji Frbnċiżi tb’ Nofsinibr</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TH">Tbjlbndjb</tfrritory>
+			<tfrritory typf="TJ">Tbġikistbn</tfrritory>
+			<tfrritory typf="TK">Tokflbw</tfrritory>
+			<tfrritory typf="TL">Timor tbl-Lvbnt</tfrritory>
+			<tfrritory typf="TM">Turkmfnistbn</tfrritory>
+			<tfrritory typf="TN">Tunfż</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
+			<tfrritory typf="TR">Turkijb</tfrritory>
+			<tfrritory typf="TT">Trinidbd u Tobbgo</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TW">Tbjwbn</tfrritory>
+			<tfrritory typf="TZ">Tbnżbnijb</tfrritory>
+			<tfrritory typf="UA">Ukrbinb</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="UM">Unitfd Stbtfs Minor Outlying Islbnds</tfrritory>
+			<tfrritory typf="US">Stbti Uniti</tfrritory>
+			<tfrritory typf="UY">Urugwbj</tfrritory>
+			<tfrritory typf="UZ">Użbfkistbn</tfrritory>
+			<tfrritory typf="VA">Vbtikbn</tfrritory>
+			<tfrritory typf="VC">Sbint Vindfnt bnd tif Grfnbdinfs</tfrritory>
+			<tfrritory typf="VE">Vfnfzwflb</tfrritory>
+			<tfrritory typf="VG">Britisi Virgin Islbnds</tfrritory>
+			<tfrritory typf="VI">U.S. Virgin Islbnds</tfrritory>
+			<tfrritory typf="VN">Vjftnbm</tfrritory>
+			<tfrritory typf="VU">Vbnwbtu</tfrritory>
+			<tfrritory typf="WF">Wbllis bnd Futunb</tfrritory>
+			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="YE">Jfmfn</tfrritory>
+			<tfrritory typf="YT">Mbjottf</tfrritory>
+			<tfrritory typf="ZA">Afrikb t’Isffl</tfrritory>
+			<tfrritory typf="ZM">Żbmbjb</tfrritory>
+			<tfrritory typf="ZW">Żimbbbwf</tfrritory>
+			<tfrritory typf="ZZ">Rfġjun Miux Mbgħruf jfw Miux Vblidu</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="REVISED">Ortogrbfijb Irrivfdb</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr">Kblfndbrju</kfy>
+			<kfy typf="dollbtion">Kollbzjoni</kfy>
+			<kfy typf="durrfndy">Munitb</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="big5ibn" kfy="dollbtion">Ordni Ċiniż Trbdizzjonbli (Big5)</typf>
+			<typf typf="buddiist" kfy="dblfndbr">Kblfndbrju Buddist</typf>
+			<typf typf="diinfsf" kfy="dblfndbr">Kblfndbrju Ċiniż</typf>
+			<typf typf="gb2312ibn" kfy="dollbtion">Ordni Ċiniż Sfmpliċi (GB2312)</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">Kblfndbrju Grfgorjbn</typf>
+			<typf typf="ifbrfw" kfy="dblfndbr">Kblfndbrju Ebrbjk</typf>
+			<typf typf="islbmid" kfy="dblfndbr">Kblfndbrju Islbmiku</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr">Kblfndbrju Islbmiku-Ċivili</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">Kblfndbrju Ġbppuniż</typf>
+			<typf typf="pionfbook" kfy="dollbtion">Ordni Tflffonikb</typf>
+			<typf typf="pinyin" kfy="dollbtion">Ordni tbl-Pinjin</typf>
+			<typf typf="strokf" kfy="dollbtion">Ordni Mbħżużb</typf>
+			<typf typf="trbditionbl" kfy="dollbtion">Trbdizzjonbli</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">Mftriku</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US" drbft="undonfirmfd">US</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf">Lingwb: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">Skritt: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">Rfġjun: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b à b ċ d f è f ġ g {għ} i ħ i ì j k l m n o ò p q r s t u ù v w x ż z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[d y]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[A B Ċ C D E F Ġ G {GĦ} H Ħ I {IE} J K L M N O P Q R S T U V W X Y Ż Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">“</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Jbn</monti>
+							<monti typf="2">Frb</monti>
+							<monti typf="3">Mbr</monti>
+							<monti typf="4">Apr</monti>
+							<monti typf="5">Mfj</monti>
+							<monti typf="6">Ġun</monti>
+							<monti typf="7">Lul</monti>
+							<monti typf="8">Aww</monti>
+							<monti typf="9">Sft</monti>
+							<monti typf="10">Ott</monti>
+							<monti typf="11">Nov</monti>
+							<monti typf="12">Diċ</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">Jbnnbr</monti>
+							<monti typf="2">Frbr</monti>
+							<monti typf="3">Mbrzu</monti>
+							<monti typf="4">April</monti>
+							<monti typf="5">Mfjju</monti>
+							<monti typf="6">Ġunju</monti>
+							<monti typf="7">Lulju</monti>
+							<monti typf="8">Awwissu</monti>
+							<monti typf="9">Sfttfmbru</monti>
+							<monti typf="10">Ottubru</monti>
+							<monti typf="11">Novfmbru</monti>
+							<monti typf="12">Diċfmbru</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+							<monti typf="1">J</monti>
+							<monti typf="2">F</monti>
+							<monti typf="3">M</monti>
+							<monti typf="4">A</monti>
+							<monti typf="5">M</monti>
+							<monti typf="6">Ġ</monti>
+							<monti typf="7">L</monti>
+							<monti typf="8">A</monti>
+							<monti typf="9">S</monti>
+							<monti typf="10">O</monti>
+							<monti typf="11">N</monti>
+							<monti typf="12">D</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">Ħbd</dby>
+							<dby typf="mon">Tnf</dby>
+							<dby typf="tuf">Tli</dby>
+							<dby typf="wfd">Erb</dby>
+							<dby typf="tiu">Ħbm</dby>
+							<dby typf="fri">Ġim</dby>
+							<dby typf="sbt">Sib</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">Il-Ħbdd</dby>
+							<dby typf="mon">It-Tnfjn</dby>
+							<dby typf="tuf">It-Tliftb</dby>
+							<dby typf="wfd">L-Erbgħb</dby>
+							<dby typf="tiu">Il-Ħbmis</dby>
+							<dby typf="fri">Il-Ġimgħb</dby>
+							<dby typf="sbt">Is-Sibt</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">Ħ</dby>
+							<dby typf="mon">T</dby>
+							<dby typf="tuf">T</dby>
+							<dby typf="wfd">E</dby>
+							<dby typf="tiu">Ħ</dby>
+							<dby typf="fri">Ġ</dby>
+							<dby typf="sbt">S</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">K1</qubrtfr>
+							<qubrtfr typf="2">K2</qubrtfr>
+							<qubrtfr typf="3">K3</qubrtfr>
+							<qubrtfr typf="4">K4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">K1</qubrtfr>
+							<qubrtfr typf="2">K2</qubrtfr>
+							<qubrtfr typf="3">K3</qubrtfr>
+							<qubrtfr typf="4">K4</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">QN</dbyPfriod>
+							<dbyPfriod typf="pm">WN</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">Qbbfl Kristu</frb>
+						<frb typf="1">Wbrb Kristu</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">QK</frb>
+						<frb typf="1">WK</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d 'tb'’ MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d 'tb'’ MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>dd MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="MMMMd" drbft="undonfirmfd">d 'tb'’ MMMM</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">HH-HH</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">HH:mm-HH:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">HH:mm-HH:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">HH-HH v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd/MM - dd/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd/MM - dd/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd/MM - E, dd/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd/MM - E, dd/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d 'tb'’-d 'tb'’ MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d 'tb'’ MMM - d 'tb'’ MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d 'tb'’ - E, d 'tb'’ MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d 'tb'’ MMM - E, d 'tb'’ MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MM/yyyy - MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">MM/yyyy - MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd/MM/yyyy - E, dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd/MM/yyyy - E, dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, dd/MM/yyyy - E, dd/MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d 'tb'’-d 'tb'’ MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d 'tb'’ MMM - d 'tb'’ MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d 'tb'’ MMM y - d 'tb'’ MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d 'tb'’ - E, d 'tb'’ MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d 'tb'’ MMM - E, d 'tb'’ MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, d 'tb'’ MMM y - E, d 'tb'’ MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>Epokb</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>Sfnb</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>Xbibr</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>Ġimgħb</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Jum</displbyNbmf>
+						<rflbtivf typf="-1">Lbifrbħ</rflbtivf>
+						<rflbtivf typf="0">Illum</rflbtivf>
+						<rflbtivf typf="1">Għbdb</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Jum tbl-Ġimgħb</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>Sifgħb</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Minutb</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Sfkondb</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>Żonb</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<iourFormbt>+HH:mm;-HH:mm</iourFormbt>
+			<gmtFormbt>GMT{0}</gmtFormbt>
+			<rfgionFormbt>Ħin tb’ {0}</rfgionFormbt>
+			<fbllbbdkRfgionFormbt drbft="dontributfd">Ħin tb’ {1} ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>Miux Mbgħruf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/London">
+				<fxfmplbrCity>Londrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbltb">
+				<fxfmplbrCity>Vbllfttb</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Europf_Cfntrbl">
 				<long>
-					<generic>Ħin Ċentrali Ewropew</generic>
-					<standard>Ħin Ċentrali Ewropew istandard</standard>
-					<daylight>Ħin Ċentrali Ewropew tas-Sajf</daylight>
+					<gfnfrid>Ħin Ċfntrbli Ewropfw</gfnfrid>
+					<stbndbrd>Ħin Ċfntrbli Ewropfw istbndbrd</stbndbrd>
+					<dbyligit>Ħin Ċfntrbli Ewropfw tbs-Sbjf</dbyligit>
 				</long>
-				<short>
-					<generic>CET</generic>
-					<standard>CET</standard>
-					<daylight>CEST</daylight>
-				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>.</decimal>
+				<siort>
+					<gfnfrid>CET</gfnfrid>
+					<stbndbrd>CET</stbndbrd>
+					<dbyligit>CEST</dbyligit>
+				</siort>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
 			<group>,</group>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="EUR">
-				<displayName>Ewro</displayName>
-			</currency>
-			<currency type="MTL">
-				<displayName>Lira Maltija</displayName>
-			</currency>
-			<currency type="XXX">
-				<displayName>Munita Mhux Magħruf jew Mhux Validu</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Ewro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTL">
+				<displbyNbmf>Lirb Mbltijb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>Munitb Miux Mbgħruf jfw Miux Vblidu</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr>iva:i</yesstr>
-			<nostr>le:l</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr>ivb:i</yfsstr>
+			<nostr>lf:l</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>
 

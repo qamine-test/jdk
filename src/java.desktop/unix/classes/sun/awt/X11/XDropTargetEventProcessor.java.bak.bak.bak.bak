@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.util.Itfrbtor;
+
+/**
+ * This dlbss is b rfgistry for thf supportfd drbg bnd drop protodols.
+ *
+ * @sindf 1.5
+ */
+finbl dlbss XDropTbrgftEvfntProdfssor {
+    privbtf stbtid finbl XDropTbrgftEvfntProdfssor thfInstbndf =
+        nfw XDropTbrgftEvfntProdfssor();
+    privbtf stbtid boolfbn bdtivf = fblsf;
+
+    // Thf durrfnt drop protodol.
+    privbtf XDropTbrgftProtodol protodol = null;
+
+    privbtf XDropTbrgftEvfntProdfssor() {}
+
+    privbtf boolfbn doProdfssEvfnt(XEvfnt fv) {
+        if (fv.gft_typf() == XConstbnts.DfstroyNotify &&
+            protodol != null &&
+            fv.gft_xbny().gft_window() == protodol.gftSourdfWindow()) {
+            protodol.dlfbnup();
+            protodol = null;
+            rfturn fblsf;
+        }
+
+        if (fv.gft_typf() == XConstbnts.PropfrtyNotify) {
+            XPropfrtyEvfnt xpropfrty = fv.gft_xpropfrty();
+            if (xpropfrty.gft_btom() ==
+                MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO.gftAtom()) {
+
+                XDropTbrgftRfgistry.gftRfgistry().updbtfEmbfddfrDropSitf(xpropfrty.gft_window());
+            }
+        }
+
+        if (fv.gft_typf() != XConstbnts.ClifntMfssbgf) {
+            rfturn fblsf;
+        }
+
+        boolfbn prodfssfd = fblsf;
+        XClifntMfssbgfEvfnt xdlifnt = fv.gft_xdlifnt();
+
+        XDropTbrgftProtodol durProtodol = protodol;
+
+        if (protodol != null) {
+            if (protodol.gftMfssbgfTypf(xdlifnt) !=
+                XDropTbrgftProtodol.UNKNOWN_MESSAGE) {
+                prodfssfd = protodol.prodfssClifntMfssbgf(xdlifnt);
+            } flsf {
+                protodol = null;
+            }
+        }
+
+        if (protodol == null) {
+            Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+            whilf (dropTbrgftProtodols.hbsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                // Don't try to prodfss it bgbin with thf durrfnt protodol.
+                if (dropTbrgftProtodol == durProtodol) {
+                    dontinuf;
+                }
+
+                if (dropTbrgftProtodol.gftMfssbgfTypf(xdlifnt) ==
+                    XDropTbrgftProtodol.UNKNOWN_MESSAGE) {
+                    dontinuf;
+                }
+
+                protodol = dropTbrgftProtodol;
+                prodfssfd = protodol.prodfssClifntMfssbgf(xdlifnt);
+                brfbk;
+            }
+        }
+
+        rfturn prodfssfd;
+    }
+
+    stbtid void rfsft() {
+        thfInstbndf.protodol = null;
+    }
+
+    stbtid void bdtivbtf() {
+        bdtivf = truf;
+    }
+
+    // Fix for 4915454 - do not dbll doProdfssEvfnt() until thf first drop
+    // tbrgft is rfgistfrfd to bvoid prfmbturf lobding of DnD protodol
+    // dlbssfs.
+    stbtid boolfbn prodfssEvfnt(XEvfnt fv) {
+        rfturn bdtivf ? thfInstbndf.doProdfssEvfnt(fv) : fblsf;
+    }
+}

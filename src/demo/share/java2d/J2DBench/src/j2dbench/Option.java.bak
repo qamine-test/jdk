@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,835 +30,835 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench;
+pbdkbgf j2dbfndi;
 
-import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import java.awt.Color;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import javax.swing.JComponent;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.border.LineBorder;
-import java.io.PrintWriter;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Color;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.fvfnt.ItfmListfnfr;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JCifdkBox;
+import jbvbx.swing.JComboBox;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JList;
+import jbvbx.swing.fvfnt.ListSflfdtionEvfnt;
+import jbvbx.swing.fvfnt.ListSflfdtionListfnfr;
+import jbvbx.swing.tfxt.BbdLodbtionExdfption;
+import jbvbx.swing.tfxt.PlbinDodumfnt;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.swing.bordfr.LinfBordfr;
+import jbvb.io.PrintWritfr;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.StringTokfnizfr;
 
-public abstract class Option extends Node implements Modifier {
-    public Option(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+publid bbstrbdt dlbss Option fxtfnds Nodf implfmfnts Modififr {
+    publid Option(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    public abstract boolean isDefault();
+    publid bbstrbdt boolfbn isDffbult();
 
-    public void modifyTest(TestEnvironment env, Object val) {
-        env.setModifier(this, val);
+    publid void modifyTfst(TfstEnvironmfnt fnv, Objfdt vbl) {
+        fnv.sftModififr(tiis, vbl);
     }
 
-    public void restoreTest(TestEnvironment env, Object val) {
-        env.removeModifier(this);
+    publid void rfstorfTfst(TfstEnvironmfnt fnv, Objfdt vbl) {
+        fnv.rfmovfModififr(tiis);
     }
 
-    public abstract String getValString();
+    publid bbstrbdt String gftVblString();
 
-    public String getValString(Object v) {
-        return v.toString();
+    publid String gftVblString(Objfdt v) {
+        rfturn v.toString();
     }
 
-    public String getOptionString() {
-        return getTreeName()+"="+getValString();
+    publid String gftOptionString() {
+        rfturn gftTrffNbmf()+"="+gftVblString();
     }
 
-    public String getOptionString(Object value) {
-        return getTreeName()+"="+getValString(value);
+    publid String gftOptionString(Objfdt vbluf) {
+        rfturn gftTrffNbmf()+"="+gftVblString(vbluf);
     }
 
-    public String getAbbreviatedModifierDescription(Object value) {
-        return getNodeName()+"="+getValString(value);
+    publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+        rfturn gftNodfNbmf()+"="+gftVblString(vbluf);
     }
 
-    public String getModifierValueName(Object val) {
-        return getValString(val);
+    publid String gftModififrVblufNbmf(Objfdt vbl) {
+        rfturn gftVblString(vbl);
     }
 
-    public String setOption(String key, String value) {
-        if (key.length() != 0) {
-            return "Option name too specific";
+    publid String sftOption(String kfy, String vbluf) {
+        if (kfy.lfngti() != 0) {
+            rfturn "Option nbmf too spfdifid";
         }
-        return setValueFromString(value);
+        rfturn sftVblufFromString(vbluf);
     }
 
-    public abstract String setValueFromString(String value);
+    publid bbstrbdt String sftVblufFromString(String vbluf);
 
-    public void write(PrintWriter pw) {
-        //if (!isDefault()) {
-            pw.println(getOptionString());
+    publid void writf(PrintWritfr pw) {
+        //if (!isDffbult()) {
+            pw.println(gftOptionString());
         //}
     }
 
-    public String toString() {
-        return "Option("+getOptionString()+")";
+    publid String toString() {
+        rfturn "Option("+gftOptionString()+")";
     }
 
-    public static class Toggle extends Option {
-        public static final int Off = 0;
-        public static final int On = 1;
-        public static final int Both = 2;
+    publid stbtid dlbss Togglf fxtfnds Option {
+        publid stbtid finbl int Off = 0;
+        publid stbtid finbl int On = 1;
+        publid stbtid finbl int Boti = 2;
 
-        private static final String valnames[] = {"Off", "On", "Both"};
-        private static final Boolean valuelist[][] = {
-            BooleanIterator.FalseList,
-            BooleanIterator.TrueList,
-            BooleanIterator.FalseTrueList,
+        privbtf stbtid finbl String vblnbmfs[] = {"Off", "On", "Boti"};
+        privbtf stbtid finbl Boolfbn vbluflist[][] = {
+            BoolfbnItfrbtor.FblsfList,
+            BoolfbnItfrbtor.TrufList,
+            BoolfbnItfrbtor.FblsfTrufList,
         };
 
-        int defaultvalue;
-        int value;
-        JPanel jp;
-        JComboBox jcb;
+        int dffbultvbluf;
+        int vbluf;
+        JPbnfl jp;
+        JComboBox jdb;
 
-        public Toggle(Group parent, String nodeName, String description,
-                      int defaultvalue)
+        publid Togglf(Group pbrfnt, String nodfNbmf, String dfsdription,
+                      int dffbultvbluf)
         {
-            super(parent, nodeName, description);
-            if (defaultvalue != Off &&
-                defaultvalue != On &&
-                defaultvalue != Both)
+            supfr(pbrfnt, nodfNbmf, dfsdription);
+            if (dffbultvbluf != Off &&
+                dffbultvbluf != On &&
+                dffbultvbluf != Boti)
             {
-                throw new IllegalArgumentException("bad default");
+                tirow nfw IllfgblArgumfntExdfption("bbd dffbult");
             }
-            this.defaultvalue = this.value = defaultvalue;
+            tiis.dffbultvbluf = tiis.vbluf = dffbultvbluf;
         }
 
-        public void restoreDefault() {
-            if (value != defaultvalue) {
-                value = defaultvalue;
-                updateGUI();
-            }
-        }
-
-        public void updateGUI() {
-            if (jcb != null) {
-                jcb.setSelectedIndex(value);
+        publid void rfstorfDffbult() {
+            if (vbluf != dffbultvbluf) {
+                vbluf = dffbultvbluf;
+                updbtfGUI();
             }
         }
 
-        public boolean isDefault() {
-            return (value == defaultvalue);
+        publid void updbtfGUI() {
+            if (jdb != null) {
+                jdb.sftSflfdtfdIndfx(vbluf);
+            }
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new BooleanIterator(valuelist[value]);
+        publid boolfbn isDffbult() {
+            rfturn (vbluf == dffbultvbluf);
         }
 
-        public JComponent getJComponent() {
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw BoolfbnItfrbtor(vbluflist[vbluf]);
+        }
+
+        publid JComponfnt gftJComponfnt() {
             if (jp == null) {
-                jp = new JPanel();
-                jp.setLayout(new BorderLayout());
-                JLabel jl = new JLabel(getDescription());
-                jp.add(jl, BorderLayout.WEST);
-                jcb = new JComboBox(valnames);
-                updateGUI();
-                jcb.addItemListener(new ItemListener() {
-                    public void itemStateChanged(ItemEvent e) {
-                        if (e.getStateChange() == ItemEvent.SELECTED) {
-                            JComboBox jcb = (JComboBox) e.getItemSelectable();
-                            value = jcb.getSelectedIndex();
-                            if (J2DBench.verbose.isEnabled()) {
-                                System.out.println(getOptionString());
+                jp = nfw JPbnfl();
+                jp.sftLbyout(nfw BordfrLbyout());
+                JLbbfl jl = nfw JLbbfl(gftDfsdription());
+                jp.bdd(jl, BordfrLbyout.WEST);
+                jdb = nfw JComboBox(vblnbmfs);
+                updbtfGUI();
+                jdb.bddItfmListfnfr(nfw ItfmListfnfr() {
+                    publid void itfmStbtfCibngfd(ItfmEvfnt f) {
+                        if (f.gftStbtfCibngf() == ItfmEvfnt.SELECTED) {
+                            JComboBox jdb = (JComboBox) f.gftItfmSflfdtbblf();
+                            vbluf = jdb.gftSflfdtfdIndfx();
+                            if (J2DBfndi.vfrbosf.isEnbblfd()) {
+                                Systfm.out.println(gftOptionString());
                             }
                         }
                     }
                 });
-                jp.add(jcb, BorderLayout.EAST);
+                jp.bdd(jdb, BordfrLbyout.EAST);
             }
-            return jp;
+            rfturn jp;
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            String ret = getNodeName();
-            if (value.equals(Boolean.FALSE)) {
-                ret = "!"+ret;
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            String rft = gftNodfNbmf();
+            if (vbluf.fqubls(Boolfbn.FALSE)) {
+                rft = "!"+rft;
             }
-            return ret;
+            rfturn rft;
         }
 
-        public String getValString() {
-            return valnames[value];
+        publid String gftVblString() {
+            rfturn vblnbmfs[vbluf];
         }
 
-        public String setValueFromString(String value) {
-            for (int i = 0; i < valnames.length; i++) {
-                if (valnames[i].equalsIgnoreCase(value)) {
-                    if (this.value != i) {
-                        this.value = i;
-                        updateGUI();
+        publid String sftVblufFromString(String vbluf) {
+            for (int i = 0; i < vblnbmfs.lfngti; i++) {
+                if (vblnbmfs[i].fqublsIgnorfCbsf(vbluf)) {
+                    if (tiis.vbluf != i) {
+                        tiis.vbluf = i;
+                        updbtfGUI();
                     }
-                    return null;
+                    rfturn null;
                 }
             }
-            return "Bad value";
+            rfturn "Bbd vbluf";
         }
     }
 
-    public static class Enable extends Option {
-        boolean defaultvalue;
-        boolean value;
-        JCheckBox jcb;
+    publid stbtid dlbss Enbblf fxtfnds Option {
+        boolfbn dffbultvbluf;
+        boolfbn vbluf;
+        JCifdkBox jdb;
 
-        public Enable(Group parent, String nodeName, String description,
-                      boolean defaultvalue)
+        publid Enbblf(Group pbrfnt, String nodfNbmf, String dfsdription,
+                      boolfbn dffbultvbluf)
         {
-            super(parent, nodeName, description);
-            this.defaultvalue = this.value = defaultvalue;
+            supfr(pbrfnt, nodfNbmf, dfsdription);
+            tiis.dffbultvbluf = tiis.vbluf = dffbultvbluf;
         }
 
-        public boolean isEnabled() {
-            return value;
+        publid boolfbn isEnbblfd() {
+            rfturn vbluf;
         }
 
-        public void modifyTest(TestEnvironment env) {
-            // Used from within a Group.EnableSet group.
+        publid void modifyTfst(TfstEnvironmfnt fnv) {
+            // Usfd from witiin b Group.EnbblfSft group.
         }
 
-        public void restoreTest(TestEnvironment env) {
-            // Used from within a Group.EnableSet group.
+        publid void rfstorfTfst(TfstEnvironmfnt fnv) {
+            // Usfd from witiin b Group.EnbblfSft group.
         }
 
-        public void restoreDefault() {
-            if (value != defaultvalue) {
-                value = defaultvalue;
-                updateGUI();
+        publid void rfstorfDffbult() {
+            if (vbluf != dffbultvbluf) {
+                vbluf = dffbultvbluf;
+                updbtfGUI();
             }
         }
 
-        public void updateGUI() {
-            if (jcb != null) {
-                jcb.setSelected(value);
+        publid void updbtfGUI() {
+            if (jdb != null) {
+                jdb.sftSflfdtfd(vbluf);
             }
         }
 
-        public boolean isDefault() {
-            return (value == defaultvalue);
+        publid boolfbn isDffbult() {
+            rfturn (vbluf == dffbultvbluf);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new BooleanIterator(value);
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw BoolfbnItfrbtor(vbluf);
         }
 
-        public JComponent getJComponent() {
-            if (jcb == null) {
-                jcb = new JCheckBox(getDescription());
-                updateGUI();
-                jcb.addItemListener(new ItemListener() {
-                    public void itemStateChanged(ItemEvent e) {
-                        value = (e.getStateChange() == ItemEvent.SELECTED);
-                        if (J2DBench.verbose.isEnabled()) {
-                            System.out.println(getOptionString());
+        publid JComponfnt gftJComponfnt() {
+            if (jdb == null) {
+                jdb = nfw JCifdkBox(gftDfsdription());
+                updbtfGUI();
+                jdb.bddItfmListfnfr(nfw ItfmListfnfr() {
+                    publid void itfmStbtfCibngfd(ItfmEvfnt f) {
+                        vbluf = (f.gftStbtfCibngf() == ItfmEvfnt.SELECTED);
+                        if (J2DBfndi.vfrbosf.isEnbblfd()) {
+                            Systfm.out.println(gftOptionString());
                         }
                     }
                 });
             }
-            return jcb;
+            rfturn jdb;
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            String ret = getNodeName();
-            if (value.equals(Boolean.FALSE)) {
-                ret = "!"+ret;
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            String rft = gftNodfNbmf();
+            if (vbluf.fqubls(Boolfbn.FALSE)) {
+                rft = "!"+rft;
             }
-            return ret;
+            rfturn rft;
         }
 
-        public String getValString() {
-            return (value ? "enabled" : "disabled");
+        publid String gftVblString() {
+            rfturn (vbluf ? "fnbblfd" : "disbblfd");
         }
 
-        public String setValueFromString(String value) {
-            boolean newval;
-            if (value.equalsIgnoreCase("enabled")) {
-                newval = true;
-            } else if (value.equalsIgnoreCase("disabled")) {
-                newval = false;
-            } else {
-                return "Bad Value";
+        publid String sftVblufFromString(String vbluf) {
+            boolfbn nfwvbl;
+            if (vbluf.fqublsIgnorfCbsf("fnbblfd")) {
+                nfwvbl = truf;
+            } flsf if (vbluf.fqublsIgnorfCbsf("disbblfd")) {
+                nfwvbl = fblsf;
+            } flsf {
+                rfturn "Bbd Vbluf";
             }
-            if (this.value != newval) {
-                this.value = newval;
-                updateGUI();
+            if (tiis.vbluf != nfwvbl) {
+                tiis.vbluf = nfwvbl;
+                updbtfGUI();
             }
-            return null;
+            rfturn null;
         }
     }
 
-    public static class Int extends Option {
-        int minvalue;
-        int maxvalue;
-        int defaultvalue;
-        int value;
-        JPanel jp;
-        JTextField jtf;
+    publid stbtid dlbss Int fxtfnds Option {
+        int minvbluf;
+        int mbxvbluf;
+        int dffbultvbluf;
+        int vbluf;
+        JPbnfl jp;
+        JTfxtFifld jtf;
 
-        public Int(Group parent, String nodeName, String description,
-                   int minvalue, int maxvalue, int defaultvalue)
+        publid Int(Group pbrfnt, String nodfNbmf, String dfsdription,
+                   int minvbluf, int mbxvbluf, int dffbultvbluf)
         {
-            super(parent, nodeName, description);
-            this.minvalue = minvalue;
-            this.maxvalue = maxvalue;
-            if (defaultvalue < minvalue || defaultvalue > maxvalue) {
-                throw new RuntimeException("bad value string: "+value);
+            supfr(pbrfnt, nodfNbmf, dfsdription);
+            tiis.minvbluf = minvbluf;
+            tiis.mbxvbluf = mbxvbluf;
+            if (dffbultvbluf < minvbluf || dffbultvbluf > mbxvbluf) {
+                tirow nfw RuntimfExdfption("bbd vbluf string: "+vbluf);
             }
-            this.defaultvalue = this.value = defaultvalue;
+            tiis.dffbultvbluf = tiis.vbluf = dffbultvbluf;
         }
 
-        public int getIntValue() {
-            return value;
+        publid int gftIntVbluf() {
+            rfturn vbluf;
         }
 
-        public void restoreDefault() {
-            if (value != defaultvalue) {
-                value = defaultvalue;
-                updateGUI();
+        publid void rfstorfDffbult() {
+            if (vbluf != dffbultvbluf) {
+                vbluf = dffbultvbluf;
+                updbtfGUI();
             }
         }
 
-        public void updateGUI() {
+        publid void updbtfGUI() {
             if (jtf != null) {
-                jtf.setText(getValString());
+                jtf.sftTfxt(gftVblString());
             }
         }
 
-        public boolean isDefault() {
-            return (value == defaultvalue);
+        publid boolfbn isDffbult() {
+            rfturn (vbluf == dffbultvbluf);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new SwitchIterator(new Object[] { new Integer(value) }, 1);
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw SwitdiItfrbtor(nfw Objfdt[] { nfw Intfgfr(vbluf) }, 1);
         }
 
-        public JComponent getJComponent() {
+        publid JComponfnt gftJComponfnt() {
             if (jp == null) {
-                jp = new JPanel();
-                jp.setLayout(new BorderLayout());
-                jp.add(new JLabel(getDescription()), BorderLayout.WEST);
-                jtf = new JTextField(10);
-                updateGUI();
-                jtf.setDocument(new PlainDocument() {
-                    public void insertString(int offs, String str,
-                                             AttributeSet a)
-                        throws BadLocationException
+                jp = nfw JPbnfl();
+                jp.sftLbyout(nfw BordfrLbyout());
+                jp.bdd(nfw JLbbfl(gftDfsdription()), BordfrLbyout.WEST);
+                jtf = nfw JTfxtFifld(10);
+                updbtfGUI();
+                jtf.sftDodumfnt(nfw PlbinDodumfnt() {
+                    publid void insfrtString(int offs, String str,
+                                             AttributfSft b)
+                        tirows BbdLodbtionExdfption
                     {
                         if (str == null) {
-                            return;
+                            rfturn;
                         }
-                        for (int i = 0; i < str.length(); i++) {
-                            char c = str.charAt(i);
-                            if (c < '0' || c > '9') {
-                                Toolkit.getDefaultToolkit().beep();
-                                return;
+                        for (int i = 0; i < str.lfngti(); i++) {
+                            dibr d = str.dibrAt(i);
+                            if (d < '0' || d > '9') {
+                                Toolkit.gftDffbultToolkit().bffp();
+                                rfturn;
                             }
                         }
-                        String oldstr = jtf.getText();
-                        super.insertString(offs, str, a);
-                        str = jtf.getText();
-                        if (setValueFromString(str) == null) {
-                            if (J2DBench.verbose.isEnabled()) {
-                                System.out.println(getOptionString());
+                        String oldstr = jtf.gftTfxt();
+                        supfr.insfrtString(offs, str, b);
+                        str = jtf.gftTfxt();
+                        if (sftVblufFromString(str) == null) {
+                            if (J2DBfndi.vfrbosf.isEnbblfd()) {
+                                Systfm.out.println(gftOptionString());
                             }
-                        } else {
-                            super.remove(0, super.getLength());
-                            super.insertString(0, oldstr, null);
-                            Toolkit.getDefaultToolkit().beep();
+                        } flsf {
+                            supfr.rfmovf(0, supfr.gftLfngti());
+                            supfr.insfrtString(0, oldstr, null);
+                            Toolkit.gftDffbultToolkit().bffp();
                         }
                     }
                 });
-                jtf.setText(getValString());
-                jp.add(jtf, BorderLayout.EAST);
+                jtf.sftTfxt(gftVblString());
+                jp.bdd(jtf, BordfrLbyout.EAST);
             }
-            return jp;
+            rfturn jp;
         }
 
-        public String getValString() {
-            return Integer.toString(value);
+        publid String gftVblString() {
+            rfturn Intfgfr.toString(vbluf);
         }
 
-        public String setValueFromString(String value) {
-            int val;
+        publid String sftVblufFromString(String vbluf) {
+            int vbl;
             try {
-                val = Integer.parseInt(value);
-            } catch (NumberFormatException e) {
-                return "Value not an integer ("+value+")";
+                vbl = Intfgfr.pbrsfInt(vbluf);
+            } dbtdi (NumbfrFormbtExdfption f) {
+                rfturn "Vbluf not bn intfgfr ("+vbluf+")";
             }
-            if (val < minvalue || val > maxvalue) {
-                return "Value out of range";
+            if (vbl < minvbluf || vbl > mbxvbluf) {
+                rfturn "Vbluf out of rbngf";
             }
-            if (this.value != val) {
-                this.value = val;
-                updateGUI();
+            if (tiis.vbluf != vbl) {
+                tiis.vbluf = vbl;
+                updbtfGUI();
             }
-            return null;
+            rfturn null;
         }
     }
 
-    public static class ObjectList extends Option {
-        int size;
-        String optionnames[];
-        Object optionvalues[];
-        String abbrevnames[];
-        String descnames[];
-        int defaultenabled;
-        int enabled;
-        JPanel jp;
+    publid stbtid dlbss ObjfdtList fxtfnds Option {
+        int sizf;
+        String optionnbmfs[];
+        Objfdt optionvblufs[];
+        String bbbrfvnbmfs[];
+        String dfsdnbmfs[];
+        int dffbultfnbblfd;
+        int fnbblfd;
+        JPbnfl jp;
         JList jlist;
         int numrows;
 
-        public ObjectList(Group parent, String nodeName, String description,
-                          String optionnames[],
-                          Object optionvalues[],
-                          String abbrevnames[],
-                          String descnames[],
-                          int defaultenabled)
+        publid ObjfdtList(Group pbrfnt, String nodfNbmf, String dfsdription,
+                          String optionnbmfs[],
+                          Objfdt optionvblufs[],
+                          String bbbrfvnbmfs[],
+                          String dfsdnbmfs[],
+                          int dffbultfnbblfd)
         {
-            this(parent, nodeName, description,
-                 Math.min(Math.min(optionnames.length,
-                                   optionvalues.length),
-                          Math.min(abbrevnames.length,
-                                   descnames.length)),
-                 optionnames, optionvalues,
-                 abbrevnames, descnames, defaultenabled);
+            tiis(pbrfnt, nodfNbmf, dfsdription,
+                 Mbti.min(Mbti.min(optionnbmfs.lfngti,
+                                   optionvblufs.lfngti),
+                          Mbti.min(bbbrfvnbmfs.lfngti,
+                                   dfsdnbmfs.lfngti)),
+                 optionnbmfs, optionvblufs,
+                 bbbrfvnbmfs, dfsdnbmfs, dffbultfnbblfd);
         }
 
-        public ObjectList(Group parent, String nodeName, String description,
-                          int size,
-                          String optionnames[],
-                          Object optionvalues[],
-                          String abbrevnames[],
-                          String descnames[],
-                          int defaultenabled)
+        publid ObjfdtList(Group pbrfnt, String nodfNbmf, String dfsdription,
+                          int sizf,
+                          String optionnbmfs[],
+                          Objfdt optionvblufs[],
+                          String bbbrfvnbmfs[],
+                          String dfsdnbmfs[],
+                          int dffbultfnbblfd)
         {
-            super(parent, nodeName, description);
-            this.size = size;
-            this.optionnames = trim(optionnames, size);
-            this.optionvalues = trim(optionvalues, size);
-            this.abbrevnames = trim(abbrevnames, size);
-            this.descnames = trim(descnames, size);
-            this.enabled = this.defaultenabled = defaultenabled;
+            supfr(pbrfnt, nodfNbmf, dfsdription);
+            tiis.sizf = sizf;
+            tiis.optionnbmfs = trim(optionnbmfs, sizf);
+            tiis.optionvblufs = trim(optionvblufs, sizf);
+            tiis.bbbrfvnbmfs = trim(bbbrfvnbmfs, sizf);
+            tiis.dfsdnbmfs = trim(dfsdnbmfs, sizf);
+            tiis.fnbblfd = tiis.dffbultfnbblfd = dffbultfnbblfd;
         }
 
-        private static String[] trim(String list[], int size) {
-            if (list.length == size) {
-                return list;
+        privbtf stbtid String[] trim(String list[], int sizf) {
+            if (list.lfngti == sizf) {
+                rfturn list;
             }
-            String newlist[] = new String[size];
-            System.arraycopy(list, 0, newlist, 0, size);
-            return newlist;
+            String nfwlist[] = nfw String[sizf];
+            Systfm.brrbydopy(list, 0, nfwlist, 0, sizf);
+            rfturn nfwlist;
         }
 
-        private static Object[] trim(Object list[], int size) {
-            if (list.length == size) {
-                return list;
+        privbtf stbtid Objfdt[] trim(Objfdt list[], int sizf) {
+            if (list.lfngti == sizf) {
+                rfturn list;
             }
-            Object newlist[] = new Object[size];
-            System.arraycopy(list, 0, newlist, 0, size);
-            return newlist;
+            Objfdt nfwlist[] = nfw Objfdt[sizf];
+            Systfm.brrbydopy(list, 0, nfwlist, 0, sizf);
+            rfturn nfwlist;
         }
 
-        public void restoreDefault() {
-            if (enabled != defaultenabled) {
-                enabled = defaultenabled;
-                updateGUI();
+        publid void rfstorfDffbult() {
+            if (fnbblfd != dffbultfnbblfd) {
+                fnbblfd = dffbultfnbblfd;
+                updbtfGUI();
             }
         }
 
-        public void updateGUI() {
+        publid void updbtfGUI() {
             if (jlist != null) {
-                int enabled = this.enabled;
-                jlist.clearSelection();
-                for (int curindex = 0; curindex < size; curindex++) {
-                    if ((enabled & (1 << curindex)) != 0) {
-                        jlist.addSelectionInterval(curindex, curindex);
+                int fnbblfd = tiis.fnbblfd;
+                jlist.dlfbrSflfdtion();
+                for (int durindfx = 0; durindfx < sizf; durindfx++) {
+                    if ((fnbblfd & (1 << durindfx)) != 0) {
+                        jlist.bddSflfdtionIntfrvbl(durindfx, durindfx);
                     }
                 }
             }
         }
 
-        public boolean isDefault() {
-            return (enabled == defaultenabled);
+        publid boolfbn isDffbult() {
+            rfturn (fnbblfd == dffbultfnbblfd);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new SwitchIterator(optionvalues, enabled);
+        publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+            rfturn nfw SwitdiItfrbtor(optionvblufs, fnbblfd);
         }
 
-        public void setNumRows(int numrows) {
-            this.numrows = numrows;
+        publid void sftNumRows(int numrows) {
+            tiis.numrows = numrows;
         }
 
-        public JComponent getJComponent() {
+        publid JComponfnt gftJComponfnt() {
             if (jp == null) {
-                jp = new JPanel();
-                jp.setLayout(new BorderLayout());
-                jp.add(new JLabel(getDescription()), BorderLayout.WEST);
-                jlist = new JList(descnames);
+                jp = nfw JPbnfl();
+                jp.sftLbyout(nfw BordfrLbyout());
+                jp.bdd(nfw JLbbfl(gftDfsdription()), BordfrLbyout.WEST);
+                jlist = nfw JList(dfsdnbmfs);
                 if (numrows > 0) {
                     try {
-                        jlist.setLayoutOrientation(JList.VERTICAL_WRAP);
-                    } catch (NoSuchMethodError e) {
+                        jlist.sftLbyoutOrifntbtion(JList.VERTICAL_WRAP);
+                    } dbtdi (NoSudiMftiodError f) {
                     }
-                    jlist.setVisibleRowCount(numrows);
+                    jlist.sftVisiblfRowCount(numrows);
                 }
-                jlist.setBorder(new LineBorder(Color.black, 2));
-                updateGUI();
-                jlist.addListSelectionListener(new ListSelectionListener() {
-                    public void valueChanged(ListSelectionEvent e) {
-                        int flags = 0;
-                        for (int curindex = 0; curindex < size; curindex++) {
-                            JList list = (JList) e.getSource();
-                            if (list.isSelectedIndex(curindex)) {
-                                flags |= (1 << curindex);
+                jlist.sftBordfr(nfw LinfBordfr(Color.blbdk, 2));
+                updbtfGUI();
+                jlist.bddListSflfdtionListfnfr(nfw ListSflfdtionListfnfr() {
+                    publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+                        int flbgs = 0;
+                        for (int durindfx = 0; durindfx < sizf; durindfx++) {
+                            JList list = (JList) f.gftSourdf();
+                            if (list.isSflfdtfdIndfx(durindfx)) {
+                                flbgs |= (1 << durindfx);
                             }
                         }
-                        enabled = flags;
-                        if (J2DBench.verbose.isEnabled()) {
-                            System.out.println(getOptionString());
+                        fnbblfd = flbgs;
+                        if (J2DBfndi.vfrbosf.isEnbblfd()) {
+                            Systfm.out.println(gftOptionString());
                         }
                     }
                 });
-                jp.add(jlist, BorderLayout.EAST);
+                jp.bdd(jlist, BordfrLbyout.EAST);
             }
-            return jp;
+            rfturn jp;
         }
 
-        public String getValString() {
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < size; i++) {
-                if ((enabled & (1 << i)) != 0) {
-                    if (sb.length() > 0) {
-                        sb.append(',');
+        publid String gftVblString() {
+            StringBufffr sb = nfw StringBufffr();
+            for (int i = 0; i < sizf; i++) {
+                if ((fnbblfd & (1 << i)) != 0) {
+                    if (sb.lfngti() > 0) {
+                        sb.bppfnd(',');
                     }
-                    sb.append(optionnames[i]);
+                    sb.bppfnd(optionnbmfs[i]);
                 }
             }
-            return sb.toString();
+            rfturn sb.toString();
         }
 
-        int findValueIndex(Object value) {
-            for (int i = 0; i < size; i++) {
-                if (optionvalues[i] == value) {
-                    return i;
+        int findVblufIndfx(Objfdt vbluf) {
+            for (int i = 0; i < sizf; i++) {
+                if (optionvblufs[i] == vbluf) {
+                    rfturn i;
                 }
             }
-            return -1;
+            rfturn -1;
         }
 
-        public String getValString(Object value) {
-            return optionnames[findValueIndex(value)];
+        publid String gftVblString(Objfdt vbluf) {
+            rfturn optionnbmfs[findVblufIndfx(vbluf)];
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            return abbrevnames[findValueIndex(value)];
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            rfturn bbbrfvnbmfs[findVblufIndfx(vbluf)];
         }
 
-        public String setValueFromString(String value) {
-            int enabled = 0;
-            StringTokenizer st = new StringTokenizer(value, ",");
-            while (st.hasMoreTokens()) {
-                String s = st.nextToken();
+        publid String sftVblufFromString(String vbluf) {
+            int fnbblfd = 0;
+            StringTokfnizfr st = nfw StringTokfnizfr(vbluf, ",");
+            wiilf (st.ibsMorfTokfns()) {
+                String s = st.nfxtTokfn();
                 try {
-                    for (int i = 0; i < size; i++) {
-                        if (optionnames[i].equals(s)) {
-                            enabled |= (1 << i);
+                    for (int i = 0; i < sizf; i++) {
+                        if (optionnbmfs[i].fqubls(s)) {
+                            fnbblfd |= (1 << i);
                             s = null;
-                            break;
+                            brfbk;
                         }
                     }
-                } catch (NumberFormatException e) {
+                } dbtdi (NumbfrFormbtExdfption f) {
                 }
                 if (s != null) {
-                    return "Bad value in list ("+s+")";
+                    rfturn "Bbd vbluf in list ("+s+")";
                 }
             }
-            this.enabled = enabled;
-            updateGUI();
-            return null;
+            tiis.fnbblfd = fnbblfd;
+            updbtfGUI();
+            rfturn null;
         }
     }
 
-    public static class IntList extends ObjectList {
-        public IntList(Group parent, String nodeName, String description,
-                       int values[], String abbrevnames[], String descnames[],
-                       int defaultenabled)
+    publid stbtid dlbss IntList fxtfnds ObjfdtList {
+        publid IntList(Group pbrfnt, String nodfNbmf, String dfsdription,
+                       int vblufs[], String bbbrfvnbmfs[], String dfsdnbmfs[],
+                       int dffbultfnbblfd)
         {
-            super(parent, nodeName, description,
-                  makeNames(values), makeValues(values),
-                  abbrevnames, descnames, defaultenabled);
+            supfr(pbrfnt, nodfNbmf, dfsdription,
+                  mbkfNbmfs(vblufs), mbkfVblufs(vblufs),
+                  bbbrfvnbmfs, dfsdnbmfs, dffbultfnbblfd);
         }
 
-        private static String[] makeNames(int intvalues[]) {
-            String names[] = new String[intvalues.length];
-            for (int i = 0; i < intvalues.length; i++) {
-                names[i] = Integer.toString(intvalues[i]);
+        privbtf stbtid String[] mbkfNbmfs(int intvblufs[]) {
+            String nbmfs[] = nfw String[intvblufs.lfngti];
+            for (int i = 0; i < intvblufs.lfngti; i++) {
+                nbmfs[i] = Intfgfr.toString(intvblufs[i]);
             }
-            return names;
+            rfturn nbmfs;
         }
 
-        private static Object[] makeValues(int intvalues[]) {
-            Object values[] = new Object[intvalues.length];
-            for (int i = 0; i < intvalues.length; i++) {
-                values[i] = new Integer(intvalues[i]);
+        privbtf stbtid Objfdt[] mbkfVblufs(int intvblufs[]) {
+            Objfdt vblufs[] = nfw Objfdt[intvblufs.lfngti];
+            for (int i = 0; i < intvblufs.lfngti; i++) {
+                vblufs[i] = nfw Intfgfr(intvblufs[i]);
             }
-            return values;
+            rfturn vblufs;
         }
     }
 
-    public static class ObjectChoice extends Option {
-         int size;
-         String optionnames[];
-         Object optionvalues[];
-         String abbrevnames[];
-         String descnames[];
-         int defaultselected;
-         int selected;
-         JPanel jp;
-         JComboBox jcombo;
+    publid stbtid dlbss ObjfdtCioidf fxtfnds Option {
+         int sizf;
+         String optionnbmfs[];
+         Objfdt optionvblufs[];
+         String bbbrfvnbmfs[];
+         String dfsdnbmfs[];
+         int dffbultsflfdtfd;
+         int sflfdtfd;
+         JPbnfl jp;
+         JComboBox jdombo;
 
-         public ObjectChoice(Group parent, String nodeName, String description,
-                             String optionnames[],
-                             Object optionvalues[],
-                             String abbrevnames[],
-                             String descnames[],
-                             int defaultselected)
+         publid ObjfdtCioidf(Group pbrfnt, String nodfNbmf, String dfsdription,
+                             String optionnbmfs[],
+                             Objfdt optionvblufs[],
+                             String bbbrfvnbmfs[],
+                             String dfsdnbmfs[],
+                             int dffbultsflfdtfd)
          {
-             this(parent, nodeName, description,
-                  Math.min(Math.min(optionnames.length,
-                                    optionvalues.length),
-                           Math.min(abbrevnames.length,
-                                    descnames.length)),
-                  optionnames, optionvalues,
-                  abbrevnames, descnames, defaultselected);
+             tiis(pbrfnt, nodfNbmf, dfsdription,
+                  Mbti.min(Mbti.min(optionnbmfs.lfngti,
+                                    optionvblufs.lfngti),
+                           Mbti.min(bbbrfvnbmfs.lfngti,
+                                    dfsdnbmfs.lfngti)),
+                  optionnbmfs, optionvblufs,
+                  bbbrfvnbmfs, dfsdnbmfs, dffbultsflfdtfd);
          }
 
-         public ObjectChoice(Group parent, String nodeName, String description,
-                             int size,
-                             String optionnames[],
-                             Object optionvalues[],
-                             String abbrevnames[],
-                             String descnames[],
-                             int defaultselected)
+         publid ObjfdtCioidf(Group pbrfnt, String nodfNbmf, String dfsdription,
+                             int sizf,
+                             String optionnbmfs[],
+                             Objfdt optionvblufs[],
+                             String bbbrfvnbmfs[],
+                             String dfsdnbmfs[],
+                             int dffbultsflfdtfd)
          {
-             super(parent, nodeName, description);
-             this.size = size;
-             this.optionnames = trim(optionnames, size);
-             this.optionvalues = trim(optionvalues, size);
-             this.abbrevnames = trim(abbrevnames, size);
-             this.descnames = trim(descnames, size);
-             this.selected = this.defaultselected = defaultselected;
+             supfr(pbrfnt, nodfNbmf, dfsdription);
+             tiis.sizf = sizf;
+             tiis.optionnbmfs = trim(optionnbmfs, sizf);
+             tiis.optionvblufs = trim(optionvblufs, sizf);
+             tiis.bbbrfvnbmfs = trim(bbbrfvnbmfs, sizf);
+             tiis.dfsdnbmfs = trim(dfsdnbmfs, sizf);
+             tiis.sflfdtfd = tiis.dffbultsflfdtfd = dffbultsflfdtfd;
          }
 
-         private static String[] trim(String list[], int size) {
-             if (list.length == size) {
-                 return list;
+         privbtf stbtid String[] trim(String list[], int sizf) {
+             if (list.lfngti == sizf) {
+                 rfturn list;
              }
-             String newlist[] = new String[size];
-             System.arraycopy(list, 0, newlist, 0, size);
-             return newlist;
+             String nfwlist[] = nfw String[sizf];
+             Systfm.brrbydopy(list, 0, nfwlist, 0, sizf);
+             rfturn nfwlist;
          }
 
-         private static Object[] trim(Object list[], int size) {
-             if (list.length == size) {
-                 return list;
+         privbtf stbtid Objfdt[] trim(Objfdt list[], int sizf) {
+             if (list.lfngti == sizf) {
+                 rfturn list;
              }
-             Object newlist[] = new Object[size];
-             System.arraycopy(list, 0, newlist, 0, size);
-             return newlist;
+             Objfdt nfwlist[] = nfw Objfdt[sizf];
+             Systfm.brrbydopy(list, 0, nfwlist, 0, sizf);
+             rfturn nfwlist;
          }
 
-         public void restoreDefault() {
-             if (selected != defaultselected) {
-                 selected = defaultselected;
-                 updateGUI();
-             }
-         }
-
-         public void updateGUI() {
-             if (jcombo != null) {
-                 jcombo.setSelectedIndex(this.selected);
+         publid void rfstorfDffbult() {
+             if (sflfdtfd != dffbultsflfdtfd) {
+                 sflfdtfd = dffbultsflfdtfd;
+                 updbtfGUI();
              }
          }
 
-         public boolean isDefault() {
-             return (selected == defaultselected);
+         publid void updbtfGUI() {
+             if (jdombo != null) {
+                 jdombo.sftSflfdtfdIndfx(tiis.sflfdtfd);
+             }
          }
 
-         public Modifier.Iterator getIterator(TestEnvironment env) {
-             return new SwitchIterator(optionvalues, 1 << selected);
+         publid boolfbn isDffbult() {
+             rfturn (sflfdtfd == dffbultsflfdtfd);
          }
 
-         public JComponent getJComponent() {
+         publid Modififr.Itfrbtor gftItfrbtor(TfstEnvironmfnt fnv) {
+             rfturn nfw SwitdiItfrbtor(optionvblufs, 1 << sflfdtfd);
+         }
+
+         publid JComponfnt gftJComponfnt() {
              if (jp == null) {
-                 jp = new JPanel();
-                 jp.setLayout(new BorderLayout());
-                 jp.add(new JLabel(getDescription()), BorderLayout.WEST);
-                 jcombo = new JComboBox(descnames);
-                 updateGUI();
-                 jcombo.addItemListener(new ItemListener() {
-                     public void itemStateChanged(ItemEvent e) {
-                         if (e.getStateChange() == ItemEvent.SELECTED) {
-                             selected = jcombo.getSelectedIndex();
-                             if (J2DBench.verbose.isEnabled()) {
-                                 System.out.println(getOptionString());
+                 jp = nfw JPbnfl();
+                 jp.sftLbyout(nfw BordfrLbyout());
+                 jp.bdd(nfw JLbbfl(gftDfsdription()), BordfrLbyout.WEST);
+                 jdombo = nfw JComboBox(dfsdnbmfs);
+                 updbtfGUI();
+                 jdombo.bddItfmListfnfr(nfw ItfmListfnfr() {
+                     publid void itfmStbtfCibngfd(ItfmEvfnt f) {
+                         if (f.gftStbtfCibngf() == ItfmEvfnt.SELECTED) {
+                             sflfdtfd = jdombo.gftSflfdtfdIndfx();
+                             if (J2DBfndi.vfrbosf.isEnbblfd()) {
+                                 Systfm.out.println(gftOptionString());
                              }
                          }
                      }
                  });
-                 jp.add(jcombo, BorderLayout.EAST);
+                 jp.bdd(jdombo, BordfrLbyout.EAST);
              }
-             return jp;
+             rfturn jp;
          }
 
-         public Object getValue() {
-             return optionvalues[selected];
+         publid Objfdt gftVbluf() {
+             rfturn optionvblufs[sflfdtfd];
          }
 
-         public int getIntValue() {
-             return ((Integer) optionvalues[selected]).intValue();
+         publid int gftIntVbluf() {
+             rfturn ((Intfgfr) optionvblufs[sflfdtfd]).intVbluf();
          }
 
-         public boolean getBooleanValue() {
-             return ((Boolean) optionvalues[selected]).booleanValue();
+         publid boolfbn gftBoolfbnVbluf() {
+             rfturn ((Boolfbn) optionvblufs[sflfdtfd]).boolfbnVbluf();
          }
 
-         public String getValString() {
-             return optionnames[selected];
+         publid String gftVblString() {
+             rfturn optionnbmfs[sflfdtfd];
          }
 
-         int findValueIndex(Object value) {
-             for (int i = 0; i < size; i++) {
-                 if (optionvalues[i] == value) {
-                     return i;
+         int findVblufIndfx(Objfdt vbluf) {
+             for (int i = 0; i < sizf; i++) {
+                 if (optionvblufs[i] == vbluf) {
+                     rfturn i;
                  }
              }
-             return -1;
+             rfturn -1;
          }
 
-         public String getValString(Object value) {
-             return optionnames[findValueIndex(value)];
+         publid String gftVblString(Objfdt vbluf) {
+             rfturn optionnbmfs[findVblufIndfx(vbluf)];
          }
 
-         public String getAbbreviatedModifierDescription(Object value) {
-             return abbrevnames[findValueIndex(value)];
+         publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+             rfturn bbbrfvnbmfs[findVblufIndfx(vbluf)];
          }
 
-         public String setValue(int v) {
-             return setValue(new Integer(v));
+         publid String sftVbluf(int v) {
+             rfturn sftVbluf(nfw Intfgfr(v));
          }
 
-         public String setValue(boolean v) {
-             return setValue(new Boolean(v));
+         publid String sftVbluf(boolfbn v) {
+             rfturn sftVbluf(nfw Boolfbn(v));
          }
 
-         public String setValue(Object value) {
-             for (int i = 0; i < size; i++) {
-                 if (optionvalues[i].equals(value)) {
-                     this.selected = i;
-                     updateGUI();
-                     return null;
+         publid String sftVbluf(Objfdt vbluf) {
+             for (int i = 0; i < sizf; i++) {
+                 if (optionvblufs[i].fqubls(vbluf)) {
+                     tiis.sflfdtfd = i;
+                     updbtfGUI();
+                     rfturn null;
                  }
              }
-             return "Bad value";
+             rfturn "Bbd vbluf";
          }
 
-         public String setValueFromString(String value) {
-             for (int i = 0; i < size; i++) {
-                 if (optionnames[i].equals(value)) {
-                     this.selected = i;
-                     updateGUI();
-                     return null;
+         publid String sftVblufFromString(String vbluf) {
+             for (int i = 0; i < sizf; i++) {
+                 if (optionnbmfs[i].fqubls(vbluf)) {
+                     tiis.sflfdtfd = i;
+                     updbtfGUI();
+                     rfturn null;
                  }
              }
-             return "Bad value";
+             rfturn "Bbd vbluf";
          }
     }
 
-    public static class BooleanIterator implements Modifier.Iterator {
-        private Boolean list[];
-        private int index;
+    publid stbtid dlbss BoolfbnItfrbtor implfmfnts Modififr.Itfrbtor {
+        privbtf Boolfbn list[];
+        privbtf int indfx;
 
-        public static final Boolean FalseList[] = { Boolean.FALSE };
-        public static final Boolean TrueList[] = { Boolean.TRUE };
-        public static final Boolean
-            FalseTrueList[] = { Boolean.FALSE, Boolean.TRUE };
-        public static final Boolean
-            TrueFalseList[] = { Boolean.TRUE, Boolean.FALSE };
+        publid stbtid finbl Boolfbn FblsfList[] = { Boolfbn.FALSE };
+        publid stbtid finbl Boolfbn TrufList[] = { Boolfbn.TRUE };
+        publid stbtid finbl Boolfbn
+            FblsfTrufList[] = { Boolfbn.FALSE, Boolfbn.TRUE };
+        publid stbtid finbl Boolfbn
+            TrufFblsfList[] = { Boolfbn.TRUE, Boolfbn.FALSE };
 
-        public BooleanIterator(boolean v) {
-            this(v ? TrueList : FalseList);
+        publid BoolfbnItfrbtor(boolfbn v) {
+            tiis(v ? TrufList : FblsfList);
         }
 
-        public BooleanIterator(Boolean list[]) {
-            this.list = list;
+        publid BoolfbnItfrbtor(Boolfbn list[]) {
+            tiis.list = list;
         }
 
-        public boolean hasNext() {
-            return (index < list.length);
+        publid boolfbn ibsNfxt() {
+            rfturn (indfx < list.lfngti);
         }
 
-        public Object next() {
-            if (index >= list.length) {
-                throw new NoSuchElementException();
+        publid Objfdt nfxt() {
+            if (indfx >= list.lfngti) {
+                tirow nfw NoSudiElfmfntExdfption();
             }
-            return list[index++];
+            rfturn list[indfx++];
         }
 
-        public void remove() {
-            throw new UnsupportedOperationException();
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
-    public static class SwitchIterator implements Modifier.Iterator {
-        private Object list[];
-        private int enabled;
-        private int index;
+    publid stbtid dlbss SwitdiItfrbtor implfmfnts Modififr.Itfrbtor {
+        privbtf Objfdt list[];
+        privbtf int fnbblfd;
+        privbtf int indfx;
 
-        public SwitchIterator(Object[] list, int enabled) {
-            this.list = list;
-            this.enabled = enabled;
+        publid SwitdiItfrbtor(Objfdt[] list, int fnbblfd) {
+            tiis.list = list;
+            tiis.fnbblfd = fnbblfd;
         }
 
-        public boolean hasNext() {
-            return ((1 << index) <= enabled);
+        publid boolfbn ibsNfxt() {
+            rfturn ((1 << indfx) <= fnbblfd);
         }
 
-        public Object next() {
-            while ((enabled & (1 << index)) == 0) {
-                index++;
-                if (index >= list.length) {
-                    throw new NoSuchElementException();
+        publid Objfdt nfxt() {
+            wiilf ((fnbblfd & (1 << indfx)) == 0) {
+                indfx++;
+                if (indfx >= list.lfngti) {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
             }
-            return list[index++];
+            rfturn list[indfx++];
         }
 
-        public void remove() {
-            throw new UnsupportedOperationException();
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 }

@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns.bfbndontfxt;
+
+import jbvb.util.EvfntObjfdt;
+
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
+
+/**
+ * <p>
+ * <dodf>BfbnContfxtEvfnt</dodf> is thf bbstrbdt root fvfnt dlbss
+ * for bll fvfnts fmittfd
+ * from, bnd pfrtbining to thf sfmbntids of, b <dodf>BfbnContfxt</dodf>.
+ * This dlbss introdudfs b mfdhbnism to bllow thf propbgbtion of
+ * <dodf>BfbnContfxtEvfnt</dodf> subdlbssfs through b hifrbrdhy of
+ * <dodf>BfbnContfxt</dodf>s. Thf <dodf>sftPropbgbtfdFrom()</dodf>
+ * bnd <dodf>gftPropbgbtfdFrom()</dodf> mfthods bllow b
+ * <dodf>BfbnContfxt</dodf> to idfntify itsflf bs thf sourdf
+ * of b propbgbtfd fvfnt.
+ * </p>
+ *
+ * @buthor      Lburfndf P. G. Cbblf
+ * @sindf       1.2
+ * @sff         jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ */
+
+publid bbstrbdt dlbss BfbnContfxtEvfnt fxtfnds EvfntObjfdt {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7267998073569045052L;
+
+    /**
+     * Contrudt b BfbnContfxtEvfnt
+     *
+     * @pbrbm bd        Thf BfbnContfxt sourdf
+     */
+    protfdtfd BfbnContfxtEvfnt(BfbnContfxt bd) {
+        supfr(bd);
+    }
+
+    /**
+     * Gfts thf <dodf>BfbnContfxt</dodf> bssodibtfd with this fvfnt.
+     * @rfturn thf <dodf>BfbnContfxt</dodf> bssodibtfd with this fvfnt.
+     */
+    publid BfbnContfxt gftBfbnContfxt() { rfturn (BfbnContfxt)gftSourdf(); }
+
+    /**
+     * Sfts thf <dodf>BfbnContfxt</dodf> from whidh this fvfnt wbs propbgbtfd.
+     * @pbrbm bd thf <dodf>BfbnContfxt</dodf> from whidh this fvfnt
+     * wbs propbgbtfd
+     */
+    publid syndhronizfd void sftPropbgbtfdFrom(BfbnContfxt bd) {
+        propbgbtfdFrom = bd;
+    }
+
+    /**
+     * Gfts thf <dodf>BfbnContfxt</dodf> from whidh this fvfnt wbs propbgbtfd.
+     * @rfturn thf <dodf>BfbnContfxt</dodf> from whidh this
+     * fvfnt wbs propbgbtfd
+     */
+    publid syndhronizfd BfbnContfxt gftPropbgbtfdFrom() {
+        rfturn propbgbtfdFrom;
+    }
+
+    /**
+     * Rfports whfthfr or not this fvfnt is
+     * propbgbtfd from somf othfr <dodf>BfbnContfxt</dodf>.
+     * @rfturn <dodf>truf</dodf> if propbgbtfd, <dodf>fblsf</dodf>
+     * if not
+     */
+    publid syndhronizfd boolfbn isPropbgbtfd() {
+        rfturn propbgbtfdFrom != null;
+    }
+
+    /*
+     * fiflds
+     */
+
+    /**
+     * Thf <dodf>BfbnContfxt</dodf> from whidh this fvfnt wbs propbgbtfd
+     */
+    protfdtfd BfbnContfxt propbgbtfdFrom;
+}

@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvbx.swing.Adtion;
+import jbvbx.swing.KfyStrokf;
+
+/**
+ * A dollfdtion of bindings of KfyStrokfs to bdtions.  Thf
+ * bindings brf bbsidblly nbmf-vbluf pbirs thbt potfntiblly
+ * rfsolvf in b hifrbrdhy.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid intfrfbdf Kfymbp {
+
+    /**
+     * Fftdhfs thf nbmf of thf sft of kfy-bindings.
+     *
+     * @rfturn thf nbmf
+     */
+    publid String gftNbmf();
+
+    /**
+     * Fftdhfs thf dffbult bdtion to firf if b
+     * kfy is typfd (i.f. b KEY_TYPED KfyEvfnt is rfdfivfd)
+     * bnd thfrf is no binding for it.  Typidblly this
+     * would bf somf bdtion thbt insfrts tfxt so thbt
+     * thf kfymbp dofsn't rfquirf bn bdtion for fbdh
+     * possiblf kfy.
+     *
+     * @rfturn thf dffbult bdtion
+     */
+    publid Adtion gftDffbultAdtion();
+
+    /**
+     * Sft thf dffbult bdtion to firf if b kfy is typfd.
+     *
+     * @pbrbm b thf bdtion
+     */
+    publid void sftDffbultAdtion(Adtion b);
+
+    /**
+     * Fftdhfs thf bdtion bppropribtf for thf givfn symbolid
+     * fvfnt sfqufndf.  This is usfd by JTfxtControllfr to
+     * dftfrminf how to intfrprft kfy sfqufndfs.  If thf
+     * binding is not rfsolvfd lodblly, bn bttfmpt is mbdf
+     * to rfsolvf through thf pbrfnt kfymbp, if onf is sft.
+     *
+     * @pbrbm kfy thf kfy sfqufndf
+     * @rfturn  thf bdtion bssodibtfd with thf kfy
+     *  sfqufndf if onf is dffinfd, othfrwisf <dodf>null</dodf>
+     */
+    publid Adtion gftAdtion(KfyStrokf kfy);
+
+    /**
+     * Fftdhfs bll of thf kfystrokfs in this mbp thbt
+     * brf bound to somf bdtion.
+     *
+     * @rfturn thf list of kfystrokfs
+     */
+    publid KfyStrokf[] gftBoundKfyStrokfs();
+
+    /**
+     * Fftdhfs bll of thf bdtions dffinfd in this kfymbp.
+     *
+     * @rfturn thf list of bdtions
+     */
+    publid Adtion[] gftBoundAdtions();
+
+    /**
+     * Fftdhfs thf kfystrokfs thbt will rfsult in
+     * thf givfn bdtion.
+     *
+     * @pbrbm b thf bdtion
+     * @rfturn thf list of kfystrokfs
+     */
+    publid KfyStrokf[] gftKfyStrokfsForAdtion(Adtion b);
+
+    /**
+     * Dftfrminfs if thf givfn kfy sfqufndf is lodblly dffinfd.
+     *
+     * @pbrbm kfy thf kfy sfqufndf
+     * @rfturn truf if thf kfy sfqufndf is lodblly dffinfd flsf fblsf
+     */
+    publid boolfbn isLodbllyDffinfd(KfyStrokf kfy);
+
+    /**
+     * Adds b binding to thf kfymbp.
+     *
+     * @pbrbm kfy thf kfy sfqufndf
+     * @pbrbm b thf bdtion
+     */
+    publid void bddAdtionForKfyStrokf(KfyStrokf kfy, Adtion b);
+
+    /**
+     * Rfmovfs b binding from thf kfymbp.
+     *
+     * @pbrbm kfys thf kfy sfqufndf
+     */
+    publid void rfmovfKfyStrokfBinding(KfyStrokf kfys);
+
+    /**
+     * Rfmovfs bll bindings from thf kfymbp.
+     */
+    publid void rfmovfBindings();
+
+    /**
+     * Fftdhfs thf pbrfnt kfymbp usfd to rfsolvf kfy-bindings.
+     *
+     * @rfturn thf kfymbp
+     */
+    publid Kfymbp gftRfsolvfPbrfnt();
+
+    /**
+     * Sfts thf pbrfnt kfymbp, whidh will bf usfd to
+     * rfsolvf kfy-bindings.
+     * Thf bfhbvior is unspfdififd if b {@dodf Kfymbp} hbs itsflf
+     * bs onf of its rfsolvf pbrfnts.
+     *
+     * @pbrbm pbrfnt thf pbrfnt kfymbp
+     */
+    publid void sftRfsolvfPbrfnt(Kfymbp pbrfnt);
+
+}

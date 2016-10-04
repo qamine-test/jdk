@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.security.*;
+import jbvb.sfdurity.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>SSLContext</code> class.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif <dodf>SSLContfxt</dodf> dlbss.
  *
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular SSL context.
+ * <p> All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b pbrtidulbr SSL dontfxt.
  *
- * @since 1.4
- * @see SSLContext
+ * @sindf 1.4
+ * @sff SSLContfxt
  */
-public abstract class SSLContextSpi {
+publid bbstrbdt dlbss SSLContfxtSpi {
     /**
-     * Initializes this context.
+     * Initiblizfs tiis dontfxt.
      *
-     * @param km the sources of authentication keys
-     * @param tm the sources of peer authentication trust decisions
-     * @param sr the source of randomness
-     * @throws KeyManagementException if this operation fails
-     * @see SSLContext#init(KeyManager [], TrustManager [], SecureRandom)
+     * @pbrbm km tif sourdfs of butifntidbtion kfys
+     * @pbrbm tm tif sourdfs of pffr butifntidbtion trust dfdisions
+     * @pbrbm sr tif sourdf of rbndomnfss
+     * @tirows KfyMbnbgfmfntExdfption if tiis opfrbtion fbils
+     * @sff SSLContfxt#init(KfyMbnbgfr [], TrustMbnbgfr [], SfdurfRbndom)
      */
-    protected abstract void engineInit(KeyManager[] km, TrustManager[] tm,
-        SecureRandom sr) throws KeyManagementException;
+    protfdtfd bbstrbdt void fnginfInit(KfyMbnbgfr[] km, TrustMbnbgfr[] tm,
+        SfdurfRbndom sr) tirows KfyMbnbgfmfntExdfption;
 
     /**
-     * Returns a <code>SocketFactory</code> object for this
-     * context.
+     * Rfturns b <dodf>SodkftFbdtory</dodf> objfdt for tiis
+     * dontfxt.
      *
-     * @return the <code>SocketFactory</code> object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *         initialization and the <code>engineInit()</code>
-     *         has not been called
-     * @see javax.net.ssl.SSLContext#getSocketFactory()
+     * @rfturn tif <dodf>SodkftFbdtory</dodf> objfdt
+     * @tirows IllfgblStbtfExdfption if tif SSLContfxtImpl rfquirfs
+     *         initiblizbtion bnd tif <dodf>fnginfInit()</dodf>
+     *         ibs not bffn dbllfd
+     * @sff jbvbx.nft.ssl.SSLContfxt#gftSodkftFbdtory()
      */
-    protected abstract SSLSocketFactory engineGetSocketFactory();
+    protfdtfd bbstrbdt SSLSodkftFbdtory fnginfGftSodkftFbdtory();
 
     /**
-     * Returns a <code>ServerSocketFactory</code> object for
-     * this context.
+     * Rfturns b <dodf>SfrvfrSodkftFbdtory</dodf> objfdt for
+     * tiis dontfxt.
      *
-     * @return the <code>ServerSocketFactory</code> object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *         initialization and the <code>engineInit()</code>
-     *         has not been called
-     * @see javax.net.ssl.SSLContext#getServerSocketFactory()
+     * @rfturn tif <dodf>SfrvfrSodkftFbdtory</dodf> objfdt
+     * @tirows IllfgblStbtfExdfption if tif SSLContfxtImpl rfquirfs
+     *         initiblizbtion bnd tif <dodf>fnginfInit()</dodf>
+     *         ibs not bffn dbllfd
+     * @sff jbvbx.nft.ssl.SSLContfxt#gftSfrvfrSodkftFbdtory()
      */
-    protected abstract SSLServerSocketFactory engineGetServerSocketFactory();
+    protfdtfd bbstrbdt SSLSfrvfrSodkftFbdtory fnginfGftSfrvfrSodkftFbdtory();
 
     /**
-     * Creates a new <code>SSLEngine</code> using this context.
+     * Crfbtfs b nfw <dodf>SSLEnginf</dodf> using tiis dontfxt.
      * <P>
-     * Applications using this factory method are providing no hints
-     * for an internal session reuse strategy. If hints are desired,
-     * {@link #engineCreateSSLEngine(String, int)} should be used
-     * instead.
+     * Applidbtions using tiis fbdtory mftiod brf providing no iints
+     * for bn intfrnbl sfssion rfusf strbtfgy. If iints brf dfsirfd,
+     * {@link #fnginfCrfbtfSSLEnginf(String, int)} siould bf usfd
+     * instfbd.
      * <P>
-     * Some cipher suites (such as Kerberos) require remote hostname
-     * information, in which case this factory method should not be used.
+     * Somf dipifr suitfs (sudi bs Kfrbfros) rfquirf rfmotf iostnbmf
+     * informbtion, in wiidi dbsf tiis fbdtory mftiod siould not bf usfd.
      *
-     * @return  the <code>SSLEngine</code> Object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *         initialization and the <code>engineInit()</code>
-     *         has not been called
+     * @rfturn  tif <dodf>SSLEnginf</dodf> Objfdt
+     * @tirows IllfgblStbtfExdfption if tif SSLContfxtImpl rfquirfs
+     *         initiblizbtion bnd tif <dodf>fnginfInit()</dodf>
+     *         ibs not bffn dbllfd
      *
-     * @see     SSLContext#createSSLEngine()
+     * @sff     SSLContfxt#drfbtfSSLEnginf()
      *
-     * @since   1.5
+     * @sindf   1.5
      */
-    protected abstract SSLEngine engineCreateSSLEngine();
+    protfdtfd bbstrbdt SSLEnginf fnginfCrfbtfSSLEnginf();
 
     /**
-     * Creates a <code>SSLEngine</code> using this context.
+     * Crfbtfs b <dodf>SSLEnginf</dodf> using tiis dontfxt.
      * <P>
-     * Applications using this factory method are providing hints
-     * for an internal session reuse strategy.
+     * Applidbtions using tiis fbdtory mftiod brf providing iints
+     * for bn intfrnbl sfssion rfusf strbtfgy.
      * <P>
-     * Some cipher suites (such as Kerberos) require remote hostname
-     * information, in which case peerHost needs to be specified.
+     * Somf dipifr suitfs (sudi bs Kfrbfros) rfquirf rfmotf iostnbmf
+     * informbtion, in wiidi dbsf pffrHost nffds to bf spfdififd.
      *
-     * @param host the non-authoritative name of the host
-     * @param port the non-authoritative port
-     * @return  the <code>SSLEngine</code> Object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *         initialization and the <code>engineInit()</code>
-     *         has not been called
+     * @pbrbm iost tif non-butioritbtivf nbmf of tif iost
+     * @pbrbm port tif non-butioritbtivf port
+     * @rfturn  tif <dodf>SSLEnginf</dodf> Objfdt
+     * @tirows IllfgblStbtfExdfption if tif SSLContfxtImpl rfquirfs
+     *         initiblizbtion bnd tif <dodf>fnginfInit()</dodf>
+     *         ibs not bffn dbllfd
      *
-     * @see     SSLContext#createSSLEngine(String, int)
+     * @sff     SSLContfxt#drfbtfSSLEnginf(String, int)
      *
-     * @since   1.5
+     * @sindf   1.5
      */
-    protected abstract SSLEngine engineCreateSSLEngine(String host, int port);
+    protfdtfd bbstrbdt SSLEnginf fnginfCrfbtfSSLEnginf(String iost, int port);
 
     /**
-     * Returns a server <code>SSLSessionContext</code> object for
-     * this context.
+     * Rfturns b sfrvfr <dodf>SSLSfssionContfxt</dodf> objfdt for
+     * tiis dontfxt.
      *
-     * @return the <code>SSLSessionContext</code> object
-     * @see javax.net.ssl.SSLContext#getServerSessionContext()
+     * @rfturn tif <dodf>SSLSfssionContfxt</dodf> objfdt
+     * @sff jbvbx.nft.ssl.SSLContfxt#gftSfrvfrSfssionContfxt()
      */
-    protected abstract SSLSessionContext engineGetServerSessionContext();
+    protfdtfd bbstrbdt SSLSfssionContfxt fnginfGftSfrvfrSfssionContfxt();
 
     /**
-     * Returns a client <code>SSLSessionContext</code> object for
-     * this context.
+     * Rfturns b dlifnt <dodf>SSLSfssionContfxt</dodf> objfdt for
+     * tiis dontfxt.
      *
-     * @return the <code>SSLSessionContext</code> object
-     * @see javax.net.ssl.SSLContext#getClientSessionContext()
+     * @rfturn tif <dodf>SSLSfssionContfxt</dodf> objfdt
+     * @sff jbvbx.nft.ssl.SSLContfxt#gftClifntSfssionContfxt()
      */
-    protected abstract SSLSessionContext engineGetClientSessionContext();
+    protfdtfd bbstrbdt SSLSfssionContfxt fnginfGftClifntSfssionContfxt();
 
-    private SSLSocket getDefaultSocket() {
+    privbtf SSLSodkft gftDffbultSodkft() {
         try {
-            SSLSocketFactory factory = engineGetSocketFactory();
-            return (SSLSocket)factory.createSocket();
-        } catch (java.io.IOException e) {
-            throw new UnsupportedOperationException("Could not obtain parameters", e);
+            SSLSodkftFbdtory fbdtory = fnginfGftSodkftFbdtory();
+            rfturn (SSLSodkft)fbdtory.drfbtfSodkft();
+        } dbtdi (jbvb.io.IOExdfption f) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Could not obtbin pbrbmftfrs", f);
         }
     }
 
     /**
-     * Returns a copy of the SSLParameters indicating the default
-     * settings for this SSL context.
+     * Rfturns b dopy of tif SSLPbrbmftfrs indidbting tif dffbult
+     * sfttings for tiis SSL dontfxt.
      *
-     * <p>The parameters will always have the ciphersuite and protocols
-     * arrays set to non-null values.
+     * <p>Tif pbrbmftfrs will blwbys ibvf tif dipifrsuitf bnd protodols
+     * brrbys sft to non-null vblufs.
      *
-     * <p>The default implementation obtains the parameters from an
-     * SSLSocket created by calling the
-     * {@linkplain javax.net.SocketFactory#createSocket
-     * SocketFactory.createSocket()} method of this context's SocketFactory.
+     * <p>Tif dffbult implfmfntbtion obtbins tif pbrbmftfrs from bn
+     * SSLSodkft drfbtfd by dblling tif
+     * {@linkplbin jbvbx.nft.SodkftFbdtory#drfbtfSodkft
+     * SodkftFbdtory.drfbtfSodkft()} mftiod of tiis dontfxt's SodkftFbdtory.
      *
-     * @return a copy of the SSLParameters object with the default settings
-     * @throws UnsupportedOperationException if the default SSL parameters
-     *   could not be obtained.
+     * @rfturn b dopy of tif SSLPbrbmftfrs objfdt witi tif dffbult sfttings
+     * @tirows UnsupportfdOpfrbtionExdfption if tif dffbult SSL pbrbmftfrs
+     *   dould not bf obtbinfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    protected SSLParameters engineGetDefaultSSLParameters() {
-        SSLSocket socket = getDefaultSocket();
-        return socket.getSSLParameters();
+    protfdtfd SSLPbrbmftfrs fnginfGftDffbultSSLPbrbmftfrs() {
+        SSLSodkft sodkft = gftDffbultSodkft();
+        rfturn sodkft.gftSSLPbrbmftfrs();
     }
 
     /**
-     * Returns a copy of the SSLParameters indicating the maximum supported
-     * settings for this SSL context.
+     * Rfturns b dopy of tif SSLPbrbmftfrs indidbting tif mbximum supportfd
+     * sfttings for tiis SSL dontfxt.
      *
-     * <p>The parameters will always have the ciphersuite and protocols
-     * arrays set to non-null values.
+     * <p>Tif pbrbmftfrs will blwbys ibvf tif dipifrsuitf bnd protodols
+     * brrbys sft to non-null vblufs.
      *
-     * <p>The default implementation obtains the parameters from an
-     * SSLSocket created by calling the
-     * {@linkplain javax.net.SocketFactory#createSocket
-     * SocketFactory.createSocket()} method of this context's SocketFactory.
+     * <p>Tif dffbult implfmfntbtion obtbins tif pbrbmftfrs from bn
+     * SSLSodkft drfbtfd by dblling tif
+     * {@linkplbin jbvbx.nft.SodkftFbdtory#drfbtfSodkft
+     * SodkftFbdtory.drfbtfSodkft()} mftiod of tiis dontfxt's SodkftFbdtory.
      *
-     * @return a copy of the SSLParameters object with the maximum supported
-     *   settings
-     * @throws UnsupportedOperationException if the supported SSL parameters
-     *   could not be obtained.
+     * @rfturn b dopy of tif SSLPbrbmftfrs objfdt witi tif mbximum supportfd
+     *   sfttings
+     * @tirows UnsupportfdOpfrbtionExdfption if tif supportfd SSL pbrbmftfrs
+     *   dould not bf obtbinfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    protected SSLParameters engineGetSupportedSSLParameters() {
-        SSLSocket socket = getDefaultSocket();
-        SSLParameters params = new SSLParameters();
-        params.setCipherSuites(socket.getSupportedCipherSuites());
-        params.setProtocols(socket.getSupportedProtocols());
-        return params;
+    protfdtfd SSLPbrbmftfrs fnginfGftSupportfdSSLPbrbmftfrs() {
+        SSLSodkft sodkft = gftDffbultSodkft();
+        SSLPbrbmftfrs pbrbms = nfw SSLPbrbmftfrs();
+        pbrbms.sftCipifrSuitfs(sodkft.gftSupportfdCipifrSuitfs());
+        pbrbms.sftProtodols(sodkft.gftSupportfdProtodols());
+        rfturn pbrbms;
     }
 
 }

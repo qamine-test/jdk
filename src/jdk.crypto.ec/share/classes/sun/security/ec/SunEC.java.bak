@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ec;
+pbdkbgf sun.sfdurity.fd;
 
-import java.util.*;
-import java.security.*;
-import sun.security.action.PutAllAction;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import sun.sfdurity.bdtion.PutAllAdtion;
 
 /**
- * Provider class for the Elliptic Curve provider.
- * Supports EC keypair and parameter generation, ECDSA signing and
- * ECDH key agreement.
+ * Providfr dlbss for tif Elliptid Curvf providfr.
+ * Supports EC kfypbir bnd pbrbmftfr gfnfrbtion, ECDSA signing bnd
+ * ECDH kfy bgrffmfnt.
  *
  * IMPLEMENTATION NOTE:
- * The Java classes in this provider access a native ECC implementation
- * via JNI to a C++ wrapper class which in turn calls C functions.
- * The Java classes are packaged into the signed sunec.jar in the JRE
- * extensions directory and the C++ and C functions are packaged into
- * libsunec.so or sunec.dll in the JRE native libraries directory.
- * If the native library is not present then this provider is registered
- * with support for fewer ECC algorithms (KeyPairGenerator, Signature and
- * KeyAgreement are omitted).
+ * Tif Jbvb dlbssfs in tiis providfr bddfss b nbtivf ECC implfmfntbtion
+ * vib JNI to b C++ wrbppfr dlbss wiidi in turn dblls C fundtions.
+ * Tif Jbvb dlbssfs brf pbdkbgfd into tif signfd sunfd.jbr in tif JRE
+ * fxtfnsions dirfdtory bnd tif C++ bnd C fundtions brf pbdkbgfd into
+ * libsunfd.so or sunfd.dll in tif JRE nbtivf librbrifs dirfdtory.
+ * If tif nbtivf librbry is not prfsfnt tifn tiis providfr is rfgistfrfd
+ * witi support for ffwfr ECC blgoritims (KfyPbirGfnfrbtor, Signbturf bnd
+ * KfyAgrffmfnt brf omittfd).
  *
- * @since   1.7
+ * @sindf   1.7
  */
-public final class SunEC extends Provider {
+publid finbl dlbss SunEC fxtfnds Providfr {
 
-    private static final long serialVersionUID = -2279741672933606418L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2279741672933606418L;
 
-    // flag indicating whether the full EC implementation is present
-    // (when native library is absent then fewer EC algorithms are available)
-    private static boolean useFullImplementation = true;
-    static {
+    // flbg indidbting wiftifr tif full EC implfmfntbtion is prfsfnt
+    // (wifn nbtivf librbry is bbsfnt tifn ffwfr EC blgoritims brf bvbilbblf)
+    privbtf stbtid boolfbn usfFullImplfmfntbtion = truf;
+    stbtid {
         try {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("sunec"); // check for native library
-                    return null;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("sunfd"); // difdk for nbtivf librbry
+                    rfturn null;
                 }
             });
-        } catch (UnsatisfiedLinkError e) {
-            useFullImplementation = false;
+        } dbtdi (UnsbtisfifdLinkError f) {
+            usfFullImplfmfntbtion = fblsf;
         }
     }
 
-    public SunEC() {
-        super("SunEC", 1.9d, "Sun Elliptic Curve provider (EC, ECDSA, ECDH)");
+    publid SunEC() {
+        supfr("SunEC", 1.9d, "Sun Elliptid Curvf providfr (EC, ECDSA, ECDH)");
 
-        // if there is no security manager installed, put directly into
-        // the provider. Otherwise, create a temporary map and use a
-        // doPrivileged() call at the end to transfer the contents
-        if (System.getSecurityManager() == null) {
-            SunECEntries.putEntries(this, useFullImplementation);
-        } else {
-            Map<Object, Object> map = new HashMap<Object, Object>();
-            SunECEntries.putEntries(map, useFullImplementation);
-            AccessController.doPrivileged(new PutAllAction(this, map));
+        // if tifrf is no sfdurity mbnbgfr instbllfd, put dirfdtly into
+        // tif providfr. Otifrwisf, drfbtf b tfmporbry mbp bnd usf b
+        // doPrivilfgfd() dbll bt tif fnd to trbnsffr tif dontfnts
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            SunECEntrifs.putEntrifs(tiis, usfFullImplfmfntbtion);
+        } flsf {
+            Mbp<Objfdt, Objfdt> mbp = nfw HbsiMbp<Objfdt, Objfdt>();
+            SunECEntrifs.putEntrifs(mbp, usfFullImplfmfntbtion);
+            AddfssControllfr.doPrivilfgfd(nfw PutAllAdtion(tiis, mbp));
         }
     }
 

@@ -1,371 +1,371 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.applet;
+pbdkbgf sun.bpplft;
 
-import java.io.File;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.net.SocketPermission;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.HashSet;
-import java.util.StringTokenizer;
-import java.security.*;
-import java.lang.reflect.*;
-import sun.awt.AWTSecurityManager;
-import sun.awt.AppContext;
-import sun.awt.AWTPermissions;
-import sun.security.provider.*;
-import sun.security.util.SecurityConstants;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.HbsiSft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.sfdurity.*;
+import jbvb.lbng.rfflfdt.*;
+import sun.bwt.AWTSfdurityMbnbgfr;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTPfrmissions;
+import sun.sfdurity.providfr.*;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 
 /**
- * This class defines an applet security policy
+ * Tiis dlbss dffinfs bn bpplft sfdurity polidy
  *
  */
-public
-class AppletSecurity extends AWTSecurityManager {
+publid
+dlbss ApplftSfdurity fxtfnds AWTSfdurityMbnbgfr {
 
-    //URLClassLoader.acc
-    private static Field facc = null;
+    //URLClbssLobdfr.bdd
+    privbtf stbtid Fifld fbdd = null;
 
-    //AccessControlContext.context;
-    private static Field fcontext = null;
+    //AddfssControlContfxt.dontfxt;
+    privbtf stbtid Fifld fdontfxt = null;
 
-    static {
+    stbtid {
         try {
-            facc = URLClassLoader.class.getDeclaredField("acc");
-            facc.setAccessible(true);
-            fcontext = AccessControlContext.class.getDeclaredField("context");
-            fcontext.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            throw new UnsupportedOperationException(e);
+            fbdd = URLClbssLobdfr.dlbss.gftDfdlbrfdFifld("bdd");
+            fbdd.sftAddfssiblf(truf);
+            fdontfxt = AddfssControlContfxt.dlbss.gftDfdlbrfdFifld("dontfxt");
+            fdontfxt.sftAddfssiblf(truf);
+        } dbtdi (NoSudiFifldExdfption f) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(f);
         }
     }
 
 
     /**
-     * Construct and initialize.
+     * Construdt bnd initiblizf.
      */
-    public AppletSecurity() {
-        reset();
+    publid ApplftSfdurity() {
+        rfsft();
     }
 
-    // Cache to store known restricted packages
-    private HashSet<String> restrictedPackages = new HashSet<>();
+    // Cbdif to storf known rfstridtfd pbdkbgfs
+    privbtf HbsiSft<String> rfstridtfdPbdkbgfs = nfw HbsiSft<>();
 
     /**
-     * Reset from Properties
+     * Rfsft from Propfrtifs
      */
-    public void reset()
+    publid void rfsft()
     {
-        // Clear cache
-        restrictedPackages.clear();
+        // Clfbr dbdif
+        rfstridtfdPbdkbgfs.dlfbr();
 
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run()
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run()
             {
-                // Enumerate system properties
-                Enumeration<?> e = System.getProperties().propertyNames();
+                // Enumfrbtf systfm propfrtifs
+                Enumfrbtion<?> f = Systfm.gftPropfrtifs().propfrtyNbmfs();
 
-                while (e.hasMoreElements())
+                wiilf (f.ibsMorfElfmfnts())
                 {
-                    String name = (String) e.nextElement();
+                    String nbmf = (String) f.nfxtElfmfnt();
 
-                    if (name != null && name.startsWith("package.restrict.access."))
+                    if (nbmf != null && nbmf.stbrtsWiti("pbdkbgf.rfstridt.bddfss."))
                     {
-                        String value = System.getProperty(name);
+                        String vbluf = Systfm.gftPropfrty(nbmf);
 
-                        if (value != null && value.equalsIgnoreCase("true"))
+                        if (vbluf != null && vbluf.fqublsIgnorfCbsf("truf"))
                         {
-                            String pkg = name.substring(24);
+                            String pkg = nbmf.substring(24);
 
-                            // Cache restricted packages
-                            restrictedPackages.add(pkg);
+                            // Cbdif rfstridtfd pbdkbgfs
+                            rfstridtfdPbdkbgfs.bdd(pkg);
                         }
                     }
                 }
-                return null;
+                rfturn null;
             }
         });
     }
 
     /**
-     * get the current (first) instance of an AppletClassLoader on the stack.
+     * gft tif durrfnt (first) instbndf of bn ApplftClbssLobdfr on tif stbdk.
      */
-    private AppletClassLoader currentAppletClassLoader()
+    privbtf ApplftClbssLobdfr durrfntApplftClbssLobdfr()
     {
-        // try currentClassLoader first
-        ClassLoader loader = currentClassLoader();
+        // try durrfntClbssLobdfr first
+        ClbssLobdfr lobdfr = durrfntClbssLobdfr();
 
-        if ((loader == null) || (loader instanceof AppletClassLoader))
-            return (AppletClassLoader)loader;
+        if ((lobdfr == null) || (lobdfr instbndfof ApplftClbssLobdfr))
+            rfturn (ApplftClbssLobdfr)lobdfr;
 
-        // if that fails, get all the classes on the stack and check them.
-        Class<?>[] context = getClassContext();
-        for (int i = 0; i < context.length; i++) {
-            loader = context[i].getClassLoader();
-            if (loader instanceof AppletClassLoader)
-                return (AppletClassLoader)loader;
+        // if tibt fbils, gft bll tif dlbssfs on tif stbdk bnd difdk tifm.
+        Clbss<?>[] dontfxt = gftClbssContfxt();
+        for (int i = 0; i < dontfxt.lfngti; i++) {
+            lobdfr = dontfxt[i].gftClbssLobdfr();
+            if (lobdfr instbndfof ApplftClbssLobdfr)
+                rfturn (ApplftClbssLobdfr)lobdfr;
         }
 
         /*
-         * fix bug # 6433620 the logic here is : try to find URLClassLoader from
-         * class context, check its AccessControlContext to see if
-         * AppletClassLoader is in stack when it's created. for this kind of
-         * URLClassLoader, return the AppContext associated with the
-         * AppletClassLoader.
+         * fix bug # 6433620 tif logid ifrf is : try to find URLClbssLobdfr from
+         * dlbss dontfxt, difdk its AddfssControlContfxt to sff if
+         * ApplftClbssLobdfr is in stbdk wifn it's drfbtfd. for tiis kind of
+         * URLClbssLobdfr, rfturn tif AppContfxt bssodibtfd witi tif
+         * ApplftClbssLobdfr.
          */
-        for (int i = 0; i < context.length; i++) {
-            final ClassLoader currentLoader = context[i].getClassLoader();
+        for (int i = 0; i < dontfxt.lfngti; i++) {
+            finbl ClbssLobdfr durrfntLobdfr = dontfxt[i].gftClbssLobdfr();
 
-            if (currentLoader instanceof URLClassLoader) {
-                loader = AccessController.doPrivileged(
-                    new PrivilegedAction<ClassLoader>() {
-                        public ClassLoader run() {
+            if (durrfntLobdfr instbndfof URLClbssLobdfr) {
+                lobdfr = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                        publid ClbssLobdfr run() {
 
-                            AccessControlContext acc = null;
-                            ProtectionDomain[] pds = null;
+                            AddfssControlContfxt bdd = null;
+                            ProtfdtionDombin[] pds = null;
 
                             try {
-                                acc = (AccessControlContext) facc.get(currentLoader);
-                                if (acc == null) {
-                                    return null;
+                                bdd = (AddfssControlContfxt) fbdd.gft(durrfntLobdfr);
+                                if (bdd == null) {
+                                    rfturn null;
                                 }
 
-                                pds = (ProtectionDomain[]) fcontext.get(acc);
+                                pds = (ProtfdtionDombin[]) fdontfxt.gft(bdd);
                                 if (pds == null) {
-                                    return null;
+                                    rfturn null;
                                 }
-                            } catch (Exception e) {
-                                throw new UnsupportedOperationException(e);
+                            } dbtdi (Exdfption f) {
+                                tirow nfw UnsupportfdOpfrbtionExdfption(f);
                             }
 
-                            for (int i=0; i<pds.length; i++) {
-                                ClassLoader cl = pds[i].getClassLoader();
+                            for (int i=0; i<pds.lfngti; i++) {
+                                ClbssLobdfr dl = pds[i].gftClbssLobdfr();
 
-                                if (cl instanceof AppletClassLoader) {
-                                        return cl;
+                                if (dl instbndfof ApplftClbssLobdfr) {
+                                        rfturn dl;
                                 }
                             }
 
-                            return null;
+                            rfturn null;
                         }
                     });
 
-                if (loader != null) {
-                    return (AppletClassLoader) loader;
+                if (lobdfr != null) {
+                    rfturn (ApplftClbssLobdfr) lobdfr;
                 }
             }
         }
 
-        // if that fails, try the context class loader
-        loader = Thread.currentThread().getContextClassLoader();
-        if (loader instanceof AppletClassLoader)
-            return (AppletClassLoader)loader;
+        // if tibt fbils, try tif dontfxt dlbss lobdfr
+        lobdfr = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+        if (lobdfr instbndfof ApplftClbssLobdfr)
+            rfturn (ApplftClbssLobdfr)lobdfr;
 
-        // no AppletClassLoaders on the stack
-        return (AppletClassLoader)null;
+        // no ApplftClbssLobdfrs on tif stbdk
+        rfturn (ApplftClbssLobdfr)null;
     }
 
     /**
-     * Returns true if this threadgroup is in the applet's own thread
-     * group. This will return false if there is no current class
-     * loader.
+     * Rfturns truf if tiis tirfbdgroup is in tif bpplft's own tirfbd
+     * group. Tiis will rfturn fblsf if tifrf is no durrfnt dlbss
+     * lobdfr.
      */
-    protected boolean inThreadGroup(ThreadGroup g) {
-        if (currentAppletClassLoader() == null)
-            return false;
-        else
-            return getThreadGroup().parentOf(g);
+    protfdtfd boolfbn inTirfbdGroup(TirfbdGroup g) {
+        if (durrfntApplftClbssLobdfr() == null)
+            rfturn fblsf;
+        flsf
+            rfturn gftTirfbdGroup().pbrfntOf(g);
     }
 
     /**
-     * Returns true of the threadgroup of thread is in the applet's
-     * own threadgroup.
+     * Rfturns truf of tif tirfbdgroup of tirfbd is in tif bpplft's
+     * own tirfbdgroup.
      */
-    protected boolean inThreadGroup(Thread thread) {
-        return inThreadGroup(thread.getThreadGroup());
+    protfdtfd boolfbn inTirfbdGroup(Tirfbd tirfbd) {
+        rfturn inTirfbdGroup(tirfbd.gftTirfbdGroup());
     }
 
     /**
-     * Applets are not allowed to manipulate threads outside
-     * applet thread groups. However a terminated thread no longer belongs
-     * to any group.
+     * Applfts brf not bllowfd to mbnipulbtf tirfbds outsidf
+     * bpplft tirfbd groups. Howfvfr b tfrminbtfd tirfbd no longfr bflongs
+     * to bny group.
      */
-    public void checkAccess(Thread t) {
-        /* When multiple applets is reloaded simultaneously, there will be
-         * multiple invocations to this method from plugin's SecurityManager.
-         * This method should not be synchronized to avoid deadlock when
-         * a page with multiple applets is reloaded
+    publid void difdkAddfss(Tirfbd t) {
+        /* Wifn multiplf bpplfts is rflobdfd simultbnfously, tifrf will bf
+         * multiplf invodbtions to tiis mftiod from plugin's SfdurityMbnbgfr.
+         * Tiis mftiod siould not bf syndironizfd to bvoid dfbdlodk wifn
+         * b pbgf witi multiplf bpplfts is rflobdfd
          */
-        if ((t.getState() != Thread.State.TERMINATED) && !inThreadGroup(t)) {
-            checkPermission(SecurityConstants.MODIFY_THREAD_PERMISSION);
+        if ((t.gftStbtf() != Tirfbd.Stbtf.TERMINATED) && !inTirfbdGroup(t)) {
+            difdkPfrmission(SfdurityConstbnts.MODIFY_THREAD_PERMISSION);
         }
     }
 
-    private boolean inThreadGroupCheck = false;
+    privbtf boolfbn inTirfbdGroupCifdk = fblsf;
 
     /**
-     * Applets are not allowed to manipulate thread groups outside
-     * applet thread groups.
+     * Applfts brf not bllowfd to mbnipulbtf tirfbd groups outsidf
+     * bpplft tirfbd groups.
      */
-    public synchronized void checkAccess(ThreadGroup g) {
-        if (inThreadGroupCheck) {
-            // if we are in a recursive check, it is because
-            // inThreadGroup is calling appletLoader.getThreadGroup
-            // in that case, only do the super check, as appletLoader
-            // has a begin/endPrivileged
-            checkPermission(SecurityConstants.MODIFY_THREADGROUP_PERMISSION);
-        } else {
+    publid syndironizfd void difdkAddfss(TirfbdGroup g) {
+        if (inTirfbdGroupCifdk) {
+            // if wf brf in b rfdursivf difdk, it is bfdbusf
+            // inTirfbdGroup is dblling bpplftLobdfr.gftTirfbdGroup
+            // in tibt dbsf, only do tif supfr difdk, bs bpplftLobdfr
+            // ibs b bfgin/fndPrivilfgfd
+            difdkPfrmission(SfdurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
+        } flsf {
             try {
-                inThreadGroupCheck = true;
-                if (!inThreadGroup(g)) {
-                    checkPermission(SecurityConstants.MODIFY_THREADGROUP_PERMISSION);
+                inTirfbdGroupCifdk = truf;
+                if (!inTirfbdGroup(g)) {
+                    difdkPfrmission(SfdurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
                 }
-            } finally {
-                inThreadGroupCheck = false;
+            } finblly {
+                inTirfbdGroupCifdk = fblsf;
             }
         }
     }
 
 
     /**
-     * Throws a <code>SecurityException</code> if the
-     * calling thread is not allowed to access the package specified by
-     * the argument.
+     * Tirows b <dodf>SfdurityExdfption</dodf> if tif
+     * dblling tirfbd is not bllowfd to bddfss tif pbdkbgf spfdififd by
+     * tif brgumfnt.
      * <p>
-     * This method is used by the <code>loadClass</code> method of class
-     * loaders.
+     * Tiis mftiod is usfd by tif <dodf>lobdClbss</dodf> mftiod of dlbss
+     * lobdfrs.
      * <p>
-     * The <code>checkPackageAccess</code> method for class
-     * <code>SecurityManager</code>  calls
-     * <code>checkPermission</code> with the
-     * <code>RuntimePermission("accessClassInPackage."+pkg)</code>
-     * permission.
+     * Tif <dodf>difdkPbdkbgfAddfss</dodf> mftiod for dlbss
+     * <dodf>SfdurityMbnbgfr</dodf>  dblls
+     * <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>RuntimfPfrmission("bddfssClbssInPbdkbgf."+pkg)</dodf>
+     * pfrmission.
      *
-     * @param      pkg   the package name.
-     * @exception  SecurityException  if the caller does not have
-     *             permission to access the specified package.
-     * @see        java.lang.ClassLoader#loadClass(java.lang.String, boolean)
+     * @pbrbm      pkg   tif pbdkbgf nbmf.
+     * @fxdfption  SfdurityExdfption  if tif dbllfr dofs not ibvf
+     *             pfrmission to bddfss tif spfdififd pbdkbgf.
+     * @sff        jbvb.lbng.ClbssLobdfr#lobdClbss(jbvb.lbng.String, boolfbn)
      */
-    public void checkPackageAccess(final String pkgname) {
+    publid void difdkPbdkbgfAddfss(finbl String pkgnbmf) {
 
-        // first see if the VM-wide policy allows access to this package
-        super.checkPackageAccess(pkgname);
+        // first sff if tif VM-widf polidy bllows bddfss to tiis pbdkbgf
+        supfr.difdkPbdkbgfAddfss(pkgnbmf);
 
-        // now check the list of restricted packages
-        for (Iterator<String> iter = restrictedPackages.iterator(); iter.hasNext();)
+        // now difdk tif list of rfstridtfd pbdkbgfs
+        for (Itfrbtor<String> itfr = rfstridtfdPbdkbgfs.itfrbtor(); itfr.ibsNfxt();)
         {
-            String pkg = iter.next();
+            String pkg = itfr.nfxt();
 
-            // Prevent matching "sun" and "sunir" even if they
-            // starts with similar beginning characters
+            // Prfvfnt mbtdiing "sun" bnd "sunir" fvfn if tify
+            // stbrts witi similbr bfginning dibrbdtfrs
             //
-            if (pkgname.equals(pkg) || pkgname.startsWith(pkg + "."))
+            if (pkgnbmf.fqubls(pkg) || pkgnbmf.stbrtsWiti(pkg + "."))
             {
-                checkPermission(new java.lang.RuntimePermission
-                            ("accessClassInPackage." + pkgname));
+                difdkPfrmission(nfw jbvb.lbng.RuntimfPfrmission
+                            ("bddfssClbssInPbdkbgf." + pkgnbmf));
             }
         }
     }
 
     /**
-     * Tests if a client can get access to the AWT event queue.
+     * Tfsts if b dlifnt dbn gft bddfss to tif AWT fvfnt qufuf.
      * <p>
-     * This method calls <code>checkPermission</code> with the
-     * <code>AWTPermission("accessEventQueue")</code> permission.
+     * Tiis mftiod dblls <dodf>difdkPfrmission</dodf> witi tif
+     * <dodf>AWTPfrmission("bddfssEvfntQufuf")</dodf> pfrmission.
      *
-     * @since   1.1
-     * @exception  SecurityException  if the caller does not have
-     *             permission to access the AWT event queue.
+     * @sindf   1.1
+     * @fxdfption  SfdurityExdfption  if tif dbllfr dofs not ibvf
+     *             pfrmission to bddfss tif AWT fvfnt qufuf.
      */
-    public void checkAwtEventQueueAccess() {
-        AppContext appContext = AppContext.getAppContext();
-        AppletClassLoader appletClassLoader = currentAppletClassLoader();
+    publid void difdkAwtEvfntQufufAddfss() {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        ApplftClbssLobdfr bpplftClbssLobdfr = durrfntApplftClbssLobdfr();
 
-        if (AppContext.isMainContext(appContext) && (appletClassLoader != null)) {
-            // If we're about to allow access to the main EventQueue,
-            // and anything untrusted is on the class context stack,
-            // disallow access.
-            super.checkPermission(AWTPermissions.CHECK_AWT_EVENTQUEUE_PERMISSION);
+        if (AppContfxt.isMbinContfxt(bppContfxt) && (bpplftClbssLobdfr != null)) {
+            // If wf'rf bbout to bllow bddfss to tif mbin EvfntQufuf,
+            // bnd bnytiing untrustfd is on tif dlbss dontfxt stbdk,
+            // disbllow bddfss.
+            supfr.difdkPfrmission(AWTPfrmissions.CHECK_AWT_EVENTQUEUE_PERMISSION);
         }
-    } // checkAwtEventQueueAccess()
+    } // difdkAwtEvfntQufufAddfss()
 
     /**
-     * Returns the thread group of the applet. We consult the classloader
-     * if there is one.
+     * Rfturns tif tirfbd group of tif bpplft. Wf donsult tif dlbsslobdfr
+     * if tifrf is onf.
      */
-    public ThreadGroup getThreadGroup() {
-        /* If any applet code is on the execution stack, we return
-           that applet's ThreadGroup.  Otherwise, we use the default
-           behavior. */
-        AppletClassLoader appletLoader = currentAppletClassLoader();
-        ThreadGroup loaderGroup = (appletLoader == null) ? null
-                                          : appletLoader.getThreadGroup();
-        if (loaderGroup != null) {
-            return loaderGroup;
-        } else {
-            return super.getThreadGroup();
+    publid TirfbdGroup gftTirfbdGroup() {
+        /* If bny bpplft dodf is on tif fxfdution stbdk, wf rfturn
+           tibt bpplft's TirfbdGroup.  Otifrwisf, wf usf tif dffbult
+           bfibvior. */
+        ApplftClbssLobdfr bpplftLobdfr = durrfntApplftClbssLobdfr();
+        TirfbdGroup lobdfrGroup = (bpplftLobdfr == null) ? null
+                                          : bpplftLobdfr.gftTirfbdGroup();
+        if (lobdfrGroup != null) {
+            rfturn lobdfrGroup;
+        } flsf {
+            rfturn supfr.gftTirfbdGroup();
         }
-    } // getThreadGroup()
+    } // gftTirfbdGroup()
 
     /**
-      * Get the AppContext corresponding to the current context.
-      * The default implementation returns null, but this method
-      * may be overridden by various SecurityManagers
-      * (e.g. AppletSecurity) to index AppContext objects by the
-      * calling context.
+      * Gft tif AppContfxt dorrfsponding to tif durrfnt dontfxt.
+      * Tif dffbult implfmfntbtion rfturns null, but tiis mftiod
+      * mby bf ovfrriddfn by vbrious SfdurityMbnbgfrs
+      * (f.g. ApplftSfdurity) to indfx AppContfxt objfdts by tif
+      * dblling dontfxt.
       *
-      * @return  the AppContext corresponding to the current context.
-      * @see     sun.awt.AppContext
-      * @see     java.lang.SecurityManager
-      * @since   1.2.1
+      * @rfturn  tif AppContfxt dorrfsponding to tif durrfnt dontfxt.
+      * @sff     sun.bwt.AppContfxt
+      * @sff     jbvb.lbng.SfdurityMbnbgfr
+      * @sindf   1.2.1
       */
-    public AppContext getAppContext() {
-        AppletClassLoader appletLoader = currentAppletClassLoader();
+    publid AppContfxt gftAppContfxt() {
+        ApplftClbssLobdfr bpplftLobdfr = durrfntApplftClbssLobdfr();
 
-        if (appletLoader == null) {
-            return null;
-        } else {
-            AppContext context =  appletLoader.getAppContext();
+        if (bpplftLobdfr == null) {
+            rfturn null;
+        } flsf {
+            AppContfxt dontfxt =  bpplftLobdfr.gftAppContfxt();
 
-            // context == null when some thread in applet thread group
-            // has not been destroyed in AppContext.dispose()
-            if (context == null) {
-                throw new SecurityException("Applet classloader has invalid AppContext");
+            // dontfxt == null wifn somf tirfbd in bpplft tirfbd group
+            // ibs not bffn dfstroyfd in AppContfxt.disposf()
+            if (dontfxt == null) {
+                tirow nfw SfdurityExdfption("Applft dlbsslobdfr ibs invblid AppContfxt");
             }
 
-            return context;
+            rfturn dontfxt;
         }
     }
 
-} // class AppletSecurity
+} // dlbss ApplftSfdurity

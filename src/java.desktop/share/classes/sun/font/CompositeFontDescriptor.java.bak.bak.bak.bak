@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+/**
+ * Endbpsulbtfs thf informbtion thbt 2D nffds to drfbtf b dompositf font,
+ * thf runtimf rfprfsfntbtion of b logidbl font.
+ */
+publid dlbss CompositfFontDfsdriptor {
+
+    privbtf String fbdfNbmf;
+    privbtf int dorfComponfntCount;
+    privbtf String[] domponfntFbdfNbmfs;
+    privbtf String[] domponfntFilfNbmfs;
+    privbtf int[] fxdlusionRbngfs;
+    privbtf int[] fxdlusionRbngfLimits;
+
+    /**
+     * Construdts b dompositf font dfsdriptor.
+     * @pbrbm fbdfNbmf thf font fbdf nbmf, i.f., thf fbmily nbmf suffixfd
+     *                 with ".plbin", ".bold", ".itblid", ".bolditblid".
+     * @pbrbm dorfComponfntCount thf numbfr of dorf fonts, i.f., thf onfs
+     *                 dfrivfd from b non-fbllbbdk sfqufndf.
+     * @pbrbm domponfntFbdfNbmfs thf fbdf nbmfs for thf domponfnt fonts
+     * @pbrbm domponfntFilfNbmfs thf filf nbmfs for thf domponfnt fonts
+     * @pbrbm fxdlusionRbngfs bn brrby holding lowfr bnd uppfr boundbrifs
+     *                 for bll fxdlusion rbngfs for bll domponfnt fonts
+     * @pbrbm fxdlusionRbngfLimits bn brrby holding thf limits of thf
+     *                 sfdtions for fbdh domponfnt font within thf prfvious
+     *                 brrby
+     */
+    publid CompositfFontDfsdriptor(String fbdfNbmf,
+            int dorfComponfntCount,
+            String[] domponfntFbdfNbmfs,
+            String[] domponfntFilfNbmfs,
+            int[] fxdlusionRbngfs,
+            int[] fxdlusionRbngfLimits) {
+        this.fbdfNbmf = fbdfNbmf;
+        this.dorfComponfntCount = dorfComponfntCount;
+        this.domponfntFbdfNbmfs = domponfntFbdfNbmfs;
+        this.domponfntFilfNbmfs = domponfntFilfNbmfs;
+        this.fxdlusionRbngfs = fxdlusionRbngfs;
+        this.fxdlusionRbngfLimits = fxdlusionRbngfLimits;
+    }
+
+    publid String gftFbdfNbmf() {
+        rfturn fbdfNbmf;
+    }
+
+    publid int gftCorfComponfntCount() {
+        rfturn dorfComponfntCount;
+    }
+
+    publid String[] gftComponfntFbdfNbmfs() {
+        rfturn domponfntFbdfNbmfs;
+    }
+
+    publid String[] gftComponfntFilfNbmfs() {
+        rfturn domponfntFilfNbmfs;
+    }
+
+    publid int[] gftExdlusionRbngfs() {
+        rfturn fxdlusionRbngfs;
+    }
+
+    publid int[] gftExdlusionRbngfLimits() {
+        rfturn fxdlusionRbngfLimits;
+    }
+}

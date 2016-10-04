@@ -1,0 +1,259 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.html.pbrsfr;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.util.BitSft;
+import jbvb.io.*;
+import sun.bwt.AppContfxt;
+
+/**
+ * An flfmfnt bs dfsdribfd in b DTD using thf ELEMENT donstrudt.
+ * This is fssfntibl thf dfsdription of b tbg. It dfsdribfs thf
+ * typf, dontfnt modfl, bttributfs, bttributf typfs ftd. It is usfd
+ * to dorrfdtly pbrsf b dodumfnt by thf Pbrsfr.
+ *
+ * @sff DTD
+ * @sff AttributfList
+ * @buthor Arthur vbn Hoff
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid finbl
+dlbss Elfmfnt implfmfnts DTDConstbnts, Sfriblizbblf {
+
+    /**
+     * Thf flfmfnt indfx
+     */
+    publid int indfx;
+
+    /**
+     * Thf nbmf of thf flfmfnt
+     */
+    publid String nbmf;
+
+    /**
+     * {@dodf truf} if thf stbrt tbg dbn bf omittfd
+     */
+    publid boolfbn oStbrt;
+
+    /**
+     * {@dodf truf} if thf fnd tbg dbn bf omittfd
+     */
+    publid boolfbn oEnd;
+
+    /**
+     * Thf sft of flfmfnts thbt dbn oddur insidf thf flfmfnt
+     */
+    publid BitSft indlusions;
+
+    /**
+     * Thf sft of flfmfnts thbt must not oddur insidf thf flfmfnt
+     */
+    publid BitSft fxdlusions;
+
+    /**
+     * Thf flfmfnt typf
+     */
+    publid int typf = ANY;
+
+    /**
+     * Thf dontfnt modfl
+     */
+    publid ContfntModfl dontfnt;
+
+    /**
+     * Thf bttributfs
+     */
+    publid AttributfList btts;
+
+    /**
+     * A fifld to storf usfr dbtb. Mostly usfd to storf
+     * stylf shffts.
+     */
+    publid Objfdt dbtb;
+
+    Elfmfnt() {
+    }
+
+    /**
+     * Crfbtf b nfw flfmfnt.
+     *
+     * @pbrbm nbmf   thf nbmf of thf flfmfnt
+     * @pbrbm indfx  thf indfx
+     */
+    Elfmfnt(String nbmf, int indfx) {
+        this.nbmf = nbmf;
+        this.indfx = indfx;
+        if (indfx > gftMbxIndfx()) {
+            AppContfxt.gftAppContfxt().put(MAX_INDEX_KEY, indfx);
+        }
+    }
+
+    privbtf stbtid finbl Objfdt MAX_INDEX_KEY = nfw Objfdt();
+
+    stbtid int gftMbxIndfx() {
+        Intfgfr vbluf = (Intfgfr) AppContfxt.gftAppContfxt().gft(MAX_INDEX_KEY);
+        rfturn (vbluf != null)
+                ? vbluf.intVbluf()
+                : 0;
+    }
+
+    /**
+     * Gft thf nbmf of thf flfmfnt.
+     *
+     * @rfturn  thf nbmf of thf flfmfnt
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturn truf if thf stbrt tbg dbn bf omittfd.
+     *
+     * @rfturn  {@dodf truf} if thf stbrt tbg dbn bf omittfd
+     */
+    publid boolfbn omitStbrt() {
+        rfturn oStbrt;
+    }
+
+    /**
+     * Rfturn truf if thf fnd tbg dbn bf omittfd.
+     *
+     * @rfturn  {@dodf truf} if thf fnd tbg dbn bf omittfd
+     */
+    publid boolfbn omitEnd() {
+        rfturn oEnd;
+    }
+
+    /**
+     * Gft typf.
+     *
+     * @rfturn  thf typf of thf flfmfnt
+     */
+    publid int gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Gft dontfnt modfl
+     *
+     * @rfturn  thf dontfnt modfl
+     */
+    publid ContfntModfl gftContfnt() {
+        rfturn dontfnt;
+    }
+
+    /**
+     * Gft thf bttributfs.
+     *
+     * @rfturn  thf {@dodf AttributfList} spfdifying thf flfmfnt
+     */
+    publid AttributfList gftAttributfs() {
+        rfturn btts;
+    }
+
+    /**
+     * Gft indfx.
+     *
+     * @rfturn thf flfmfnt indfx
+     */
+    publid int gftIndfx() {
+        rfturn indfx;
+    }
+
+    /**
+     * Chfdk if fmpty
+     *
+     * @rfturn  truf if thf durrfnt flfmfnt is fmpty
+     */
+    publid boolfbn isEmpty() {
+        rfturn typf == EMPTY;
+    }
+
+    /**
+     * Convfrt to b string.
+     *
+     * @rfturn  b string rfprfsfntbtion for thf givfn {@dodf Elfmfnt} instbndf
+     */
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Gft bn bttributf by nbmf.
+     *
+     * @pbrbm nbmf  thf bttributf nbmf
+     *
+     * @rfturn thf {@dodf AttributfList} for thf givfn {@dodf nbmf}
+     */
+    publid AttributfList gftAttributf(String nbmf) {
+        for (AttributfList b = btts ; b != null ; b = b.nfxt) {
+            if (b.nbmf.fqubls(nbmf)) {
+                rfturn b;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Gft bn bttributf by vbluf.
+     *
+     * @pbrbm vbluf  thf string rfprfsfntbtion of vbluf
+     *
+     * @rfturn  thf {@dodf AttributfList} for thf givfn {@dodf vbluf}
+     */
+    publid AttributfList gftAttributfByVbluf(String vbluf) {
+        for (AttributfList b = btts ; b != null ; b = b.nfxt) {
+            if ((b.vblufs != null) && b.vblufs.dontbins(vbluf)) {
+                rfturn b;
+            }
+        }
+        rfturn null;
+    }
+
+
+    stbtid Hbshtbblf<String, Intfgfr> dontfntTypfs = nfw Hbshtbblf<String, Intfgfr>();
+
+    stbtid {
+        dontfntTypfs.put("CDATA", Intfgfr.vblufOf(CDATA));
+        dontfntTypfs.put("RCDATA", Intfgfr.vblufOf(RCDATA));
+        dontfntTypfs.put("EMPTY", Intfgfr.vblufOf(EMPTY));
+        dontfntTypfs.put("ANY", Intfgfr.vblufOf(ANY));
+    }
+
+    /**
+     * Convfrts {@dodf nm} to typf. Rfturns bppropribtf DTDConstbnts
+     * if thf {@dodf nm} is fqubl to CDATA, RCDATA, EMPTY or ANY, 0 othfrwisf.
+     *
+     * @pbrbm nm b nbmf
+     * @rfturn bppropribtf DTDConstbnts if thf {@dodf nm} is fqubl to
+     * CDATA, RCDATA, EMPTY or ANY, 0 othfrwisf.
+     */
+    publid stbtid int nbmf2typf(String nm) {
+        Intfgfr vbl = dontfntTypfs.gft(nm);
+        rfturn (vbl != null) ? vbl.intVbluf() : 0;
+    }
+}

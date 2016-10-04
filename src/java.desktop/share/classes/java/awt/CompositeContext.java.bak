@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
 
 /**
- * The <code>CompositeContext</code> interface defines the encapsulated
- * and optimized environment for a compositing operation.
- * <code>CompositeContext</code> objects maintain state for
- * compositing operations.  In a multi-threaded environment, several
- * contexts can exist simultaneously for a single {@link Composite}
- * object.
- * @see Composite
+ * Tif <dodf>CompositfContfxt</dodf> intfrfbdf dffinfs tif fndbpsulbtfd
+ * bnd optimizfd fnvironmfnt for b dompositing opfrbtion.
+ * <dodf>CompositfContfxt</dodf> objfdts mbintbin stbtf for
+ * dompositing opfrbtions.  In b multi-tirfbdfd fnvironmfnt, sfvfrbl
+ * dontfxts dbn fxist simultbnfously for b singlf {@link Compositf}
+ * objfdt.
+ * @sff Compositf
  */
 
-public interface CompositeContext {
+publid intfrfbdf CompositfContfxt {
     /**
-     * Releases resources allocated for a context.
+     * Rflfbsfs rfsourdfs bllodbtfd for b dontfxt.
      */
-    public void dispose();
+    publid void disposf();
 
     /**
-     * Composes the two source {@link Raster} objects and
-     * places the result in the destination
-     * {@link WritableRaster}.  Note that the destination
-     * can be the same object as either the first or second
-     * source. Note that <code>dstIn</code> and
-     * <code>dstOut</code> must be compatible with the
-     * <code>dstColorModel</code> passed to the
-     * {@link Composite#createContext(java.awt.image.ColorModel, java.awt.image.ColorModel, java.awt.RenderingHints) createContext}
-     * method of the <code>Composite</code> interface.
-     * @param src the first source for the compositing operation
-     * @param dstIn the second source for the compositing operation
-     * @param dstOut the <code>WritableRaster</code> into which the
-     * result of the operation is stored
-     * @see Composite
+     * Composfs tif two sourdf {@link Rbstfr} objfdts bnd
+     * plbdfs tif rfsult in tif dfstinbtion
+     * {@link WritbblfRbstfr}.  Notf tibt tif dfstinbtion
+     * dbn bf tif sbmf objfdt bs fitifr tif first or sfdond
+     * sourdf. Notf tibt <dodf>dstIn</dodf> bnd
+     * <dodf>dstOut</dodf> must bf dompbtiblf witi tif
+     * <dodf>dstColorModfl</dodf> pbssfd to tif
+     * {@link Compositf#drfbtfContfxt(jbvb.bwt.imbgf.ColorModfl, jbvb.bwt.imbgf.ColorModfl, jbvb.bwt.RfndfringHints) drfbtfContfxt}
+     * mftiod of tif <dodf>Compositf</dodf> intfrfbdf.
+     * @pbrbm srd tif first sourdf for tif dompositing opfrbtion
+     * @pbrbm dstIn tif sfdond sourdf for tif dompositing opfrbtion
+     * @pbrbm dstOut tif <dodf>WritbblfRbstfr</dodf> into wiidi tif
+     * rfsult of tif opfrbtion is storfd
+     * @sff Compositf
      */
-    public void compose(Raster src,
-                        Raster dstIn,
-                        WritableRaster dstOut);
+    publid void domposf(Rbstfr srd,
+                        Rbstfr dstIn,
+                        WritbblfRbstfr dstOut);
 
 
 }

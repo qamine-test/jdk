@@ -1,0 +1,472 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.rmi.dgd.VMID;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.Unrfffrfndfd;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.*;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwThrfbdAdtion;
+import sun.rmi.sfrvfr.Dispbtdhfr;
+
+/**
+ * A tbrgft dontbins informbtion pfrtbining to b rfmotf objfdt thbt
+ * rfsidfs in this bddrfss spbdf.  Tbrgfts brf lodbtfd vib thf
+ * ObjfdtTbblf.
+ */
+publid finbl dlbss Tbrgft {
+    /** objfdt id for tbrgft */
+    privbtf finbl ObjID id;
+    /** flbg indidbting whfthfr tbrgft is subjfdt to dollfdtion */
+    privbtf finbl boolfbn pfrmbnfnt;
+    /** wfbk rfffrfndf to rfmotf objfdt implfmfntbtion */
+    privbtf finbl WfbkRff wfbkImpl;
+    /** dispbtdhfr for rfmotf objfdt */
+    privbtf volbtilf Dispbtdhfr disp;
+    /** stub for rfmotf objfdt */
+    privbtf finbl Rfmotf stub;
+    /** sft of dlifnts thbt hold rfffrfndfs to this tbrgft */
+    privbtf finbl Vfdtor<VMID> rffSft = nfw Vfdtor<>();
+    /** tbblf thbt mbps dlifnt fndpoints to sfqufndf numbfrs */
+    privbtf finbl Hbshtbblf<VMID, SfqufndfEntry> sfqufndfTbblf =
+        nfw Hbshtbblf<>(5);
+    /** bddfss dontrol dontfxt in whidh tbrgft wbs drfbtfd */
+    privbtf finbl AddfssControlContfxt bdd;
+    /** dontfxt dlbss lobdfr in whidh tbrgft wbs drfbtfd */
+    privbtf finbl ClbssLobdfr ddl;
+    /** numbfr of pfnding/fxfduting dblls */
+    privbtf int dbllCount = 0;
+    /** truf if this tbrgft hbs bffn rfmovfd from thf objfdt tbblf */
+    privbtf boolfbn rfmovfd = fblsf;
+    /**
+     * thf trbnsport through whidh this tbrgft wbs fxportfd bnd
+     * through whidh rfmotf dblls will bf bllowfd
+     */
+    privbtf volbtilf Trbnsport fxportfdTrbnsport = null;
+
+    /** numbfr to idfntify nfxt dbllbbdk thrfbd drfbtfd hfrf */
+    privbtf stbtid int nfxtThrfbdNum = 0;
+
+    /**
+     * Construdt b Tbrgft for b rfmotf objfdt "impl" with
+     * b spfdifid objfdt id.
+     *
+     * If "pfrmbnfnt" is truf, thfn thf impl is pinnfd pfrmbnfntly
+     * (thf impl will not bf dollfdtfd vib distributfd bnd/or lodbl
+     * GC).  If "on" is fblsf, thbn thf impl is subjfdt to
+     * dollfdtion. Pfrmbnfnt objfdts do not kffp b sfrvfr from
+     * fxiting.
+     */
+    publid Tbrgft(Rfmotf impl, Dispbtdhfr disp, Rfmotf stub, ObjID id,
+                  boolfbn pfrmbnfnt)
+    {
+        this.wfbkImpl = nfw WfbkRff(impl, ObjfdtTbblf.rfbpQufuf);
+        this.disp = disp;
+        this.stub = stub;
+        this.id = id;
+        this.bdd = AddfssControllfr.gftContfxt();
+
+        /*
+         * Fix for 4149366: so thbt downlobdfd pbrbmftfr typfs unmbrshbllfd
+         * for this impl will bf dompbtiblf with typfs known only to thf
+         * impl dlbss's dlbss lobdfr (whfn it's not idfntidbl to thf
+         * fxporting thrfbd's dontfxt dlbss lobdfr), mbrk thf impl's dlbss
+         * lobdfr bs thf lobdfr to usf bs thf dontfxt dlbss lobdfr in thf
+         * sfrvfr's dispbtdh thrfbd whilf b dbll to this impl is bfing
+         * prodfssfd (unlfss this fxporting thrfbd's dontfxt dlbss lobdfr is
+         * b dhild of thf impl's dlbss lobdfr, sudh bs whfn b rfgistry is
+         * fxportfd by bn bpplidbtion, in whidh dbsf this thrfbd's dontfxt
+         * dlbss lobdfr is prfffrrfd).
+         */
+        ClbssLobdfr thrfbdContfxtLobdfr =
+            Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+        ClbssLobdfr sfrvfrLobdfr = impl.gftClbss().gftClbssLobdfr();
+        if (dhfdkLobdfrAndfstry(thrfbdContfxtLobdfr, sfrvfrLobdfr)) {
+            this.ddl = thrfbdContfxtLobdfr;
+        } flsf {
+            this.ddl = sfrvfrLobdfr;
+        }
+
+        this.pfrmbnfnt = pfrmbnfnt;
+        if (pfrmbnfnt) {
+            pinImpl();
+        }
+    }
+
+    /**
+     * Rfturn truf if thf first dlbss lobdfr is b dhild of (or idfntidbl
+     * to) thf sfdond dlbss lobdfr.  Eithfr lobdfr mby bf "null", whidh is
+     * donsidfrfd to bf thf pbrfnt of bny non-null dlbss lobdfr.
+     *
+     * (utility mfthod bddfd for thf 1.2bftb4 fix for 4149366)
+     */
+    privbtf stbtid boolfbn dhfdkLobdfrAndfstry(ClbssLobdfr dhild,
+                                               ClbssLobdfr bndfstor)
+    {
+        if (bndfstor == null) {
+            rfturn truf;
+        } flsf if (dhild == null) {
+            rfturn fblsf;
+        } flsf {
+            for (ClbssLobdfr pbrfnt = dhild;
+                 pbrfnt != null;
+                 pbrfnt = pbrfnt.gftPbrfnt())
+            {
+                if (pbrfnt == bndfstor) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+    }
+
+    /** Gft thf stub (proxy) objfdt for this tbrgft
+     */
+    publid Rfmotf gftStub() {
+        rfturn stub;
+    }
+
+    /**
+     * Rfturns thf objfdt fndpoint for thf tbrgft.
+     */
+    ObjfdtEndpoint gftObjfdtEndpoint() {
+        rfturn nfw ObjfdtEndpoint(id, fxportfdTrbnsport);
+    }
+
+    /**
+     * Gft thf wfbk rfffrfndf for thf Impl of this tbrgft.
+     */
+    WfbkRff gftWfbkImpl() {
+        rfturn wfbkImpl;
+    }
+
+    /**
+     * Rfturns thf dispbtdhfr for this rfmotf objfdt tbrgft.
+     */
+    Dispbtdhfr gftDispbtdhfr() {
+        rfturn disp;
+    }
+
+    AddfssControlContfxt gftAddfssControlContfxt() {
+        rfturn bdd;
+    }
+
+    ClbssLobdfr gftContfxtClbssLobdfr() {
+        rfturn ddl;
+    }
+
+    /**
+     * Gft thf impl for this tbrgft.
+     * Notf: this mby rfturn null if thf impl hbs bffn gbrbbgf dollfdtfd.
+     * (durrfntly, thfrf is no nffd to mbkf this mfthod publid)
+     */
+    Rfmotf gftImpl() {
+        rfturn (Rfmotf)wfbkImpl.gft();
+    }
+
+    /**
+     * Rfturns truf if thf tbrgft is pfrmbnfnt.
+     */
+    boolfbn isPfrmbnfnt() {
+        rfturn pfrmbnfnt;
+    }
+
+    /**
+     * Pin impl in tbrgft. Pin thf WfbkRff objfdt so it holds b strong
+     * rfffrfndf to thf objfdt to it will not bf gbrbbgf dollfdtfd lodblly.
+     * This wby thfrf is b singlf objfdt rfsponsiblf for thf wfbk rff
+     * mfdhbnism.
+     */
+    syndhronizfd void pinImpl() {
+        wfbkImpl.pin();
+    }
+
+    /**
+     * Unpin impl in tbrgft.  Wfbkfn thf rfffrfndf to impl so thbt it
+     * dbn bf gbrbbgf dollfdtfd lodblly. But only if thfrf thf rffSft
+     * is fmpty.  All of thf wfbk/strong hbndling is in WfbkRff
+     */
+    syndhronizfd void unpinImpl() {
+        /* only unpin if:
+         * b) impl is not pfrmbnfnt, bnd
+         * b) impl is not blrfbdy unpinnfd, bnd
+         * d) thfrf brf no fxtfrnbl rfffrfndfs (outsidf this
+         *    bddrfss spbdf) for thf impl
+         */
+        if (!pfrmbnfnt && rffSft.isEmpty()) {
+            wfbkImpl.unpin();
+        }
+    }
+
+    /**
+     * Enbblf thf trbnsport through whidh rfmotf dblls to this tbrgft
+     * brf bllowfd to bf sft if it hbs not blrfbdy bffn sft.
+     */
+    void sftExportfdTrbnsport(Trbnsport fxportfdTrbnsport) {
+        if (this.fxportfdTrbnsport == null) {
+            this.fxportfdTrbnsport = fxportfdTrbnsport;
+        }
+    }
+
+    /**
+     * Add bn fndpoint to thf rfmfmbfrfd sft.  Also bdds b notififr
+     * to dbll bbdk if thf bddrfss spbdf bssodibtfd with thf fndpoint
+     * difs.
+     */
+    syndhronizfd void rfffrfndfd(long sfqufndfNum, VMID vmid) {
+        // dhfdk sfqufndf numbfr for vmid
+        SfqufndfEntry fntry = sfqufndfTbblf.gft(vmid);
+        if (fntry == null) {
+            sfqufndfTbblf.put(vmid, nfw SfqufndfEntry(sfqufndfNum));
+        } flsf if (fntry.sfqufndfNum < sfqufndfNum) {
+            fntry.updbtf(sfqufndfNum);
+        } flsf  {
+            // lbtf dirty dbll; ignorf.
+            rfturn;
+        }
+
+        if (!rffSft.dontbins(vmid)) {
+            /*
+             * A Tbrgft must bf pinnfd whilf its rffSft is not fmpty.  It mby
+             * hbvf bfdomf unpinnfd if fxtfrnbl LivfRffs only fxistfd in
+             * sfriblizfd form for somf pfriod of timf, or if b dlifnt fbilfd
+             * to rfnfw its lfbsf duf to b trbnsifnt nftwork fbilurf.  So,
+             * mbkf surf thbt it is pinnfd hfrf; this fixfs bugid 4069644.
+             */
+            pinImpl();
+            if (gftImpl() == null)      // too lbtf if impl wbs dollfdtfd
+                rfturn;
+
+            if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+                DGCImpl.dgdLog.log(Log.VERBOSE, "bdd to dirty sft: " + vmid);
+            }
+
+            rffSft.bddElfmfnt(vmid);
+
+            DGCImpl.gftDGCImpl().rfgistfrTbrgft(vmid, this);
+        }
+    }
+
+    /**
+     * Rfmovf fndpoint from rfmfmbfrfd sft.  If sft bfdomfs fmpty,
+     * rfmovf sfrvfr from Trbnsport's objfdt tbblf.
+     */
+    syndhronizfd void unrfffrfndfd(long sfqufndfNum, VMID vmid, boolfbn strong)
+    {
+        // dhfdk sfqufndf numbfr for vmid
+        SfqufndfEntry fntry = sfqufndfTbblf.gft(vmid);
+        if (fntry == null || fntry.sfqufndfNum > sfqufndfNum) {
+            // lbtf dlfbn dbll; ignorf
+            rfturn;
+        } flsf if (strong) {
+            // strong dlfbn dbll; rftbin sfqufndfNum
+            fntry.rftbin(sfqufndfNum);
+        } flsf if (fntry.kffp == fblsf) {
+            // gft rid of sfqufndf numbfr
+            sfqufndfTbblf.rfmovf(vmid);
+        }
+
+        if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+            DGCImpl.dgdLog.log(Log.VERBOSE, "rfmovf from dirty sft: " + vmid);
+        }
+
+        rffSftRfmovf(vmid);
+    }
+
+    /**
+     * Rfmovf fndpoint from thf rfffrfndf sft.
+     */
+    syndhronizfd privbtf void rffSftRfmovf(VMID vmid) {
+        // rfmovf notifidbtion rfqufst
+        DGCImpl.gftDGCImpl().unrfgistfrTbrgft(vmid, this);
+
+        if (rffSft.rfmovfElfmfnt(vmid) && rffSft.isEmpty()) {
+            // rfffrfndf sft is fmpty, so sfrvfr dbn bf gbrbbgf dollfdtfd.
+            // rfmovf objfdt from tbblf.
+            if (DGCImpl.dgdLog.isLoggbblf(Log.VERBOSE)) {
+                DGCImpl.dgdLog.log(Log.VERBOSE,
+                    "rfffrfndf sft is fmpty: tbrgft = " + this);
+            }
+
+            /*
+             * If thf rfmotf objfdt implfmfnts thf Unrfffrfndfd intfrfbdf,
+             * invokf its unrfffrfndfd dbllbbdk in b sfpbrbtf thrfbd.
+             */
+            Rfmotf obj = gftImpl();
+            if (obj instbndfof Unrfffrfndfd) {
+                finbl Unrfffrfndfd unrffObj = (Unrfffrfndfd) obj;
+                finbl Thrfbd t =
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw NfwThrfbdAdtion(nfw Runnbblf() {
+                            publid void run() {
+                                unrffObj.unrfffrfndfd();
+                            }
+                        }, "Unrfffrfndfd-" + nfxtThrfbdNum++, fblsf, truf));
+                // REMIND: bddfss to nfxtThrfbdNum not syndhronizfd; you dbrf?
+                /*
+                 * Wf must mbnublly sft thf dontfxt dlbss lobdfr bppropribtfly
+                 * for thrfbds thbt mby invokf usfr dodf (sff bugid 4171278).
+                 */
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                        t.sftContfxtClbssLobdfr(ddl);
+                        rfturn null;
+                    }
+                });
+
+                t.stbrt();
+            }
+
+            unpinImpl();
+        }
+    }
+
+    /**
+     * Mbrk this tbrgft bs not bddfpting nfw dblls if bny of thf
+     * following donditions fxist: b) thf fordf pbrbmftfr is truf,
+     * b) thf tbrgft's dbll dount is zfro, or d) thf objfdt is blrfbdy
+     * not bddfpting dblls. Rfturns truf if tbrgft is mbrkfd bs not
+     * bddfpting nfw dblls; rfturns fblsf othfrwisf.
+     */
+    syndhronizfd boolfbn unfxport(boolfbn fordf) {
+
+        if ((fordf == truf) || (dbllCount == 0) || (disp == null)) {
+            disp = null;
+            /*
+             * Fix for 4331349: unpin objfdt so thbt it mby bf gd'd.
+             * Also, unrfgistfr bll vmids rfffrfnding this tbrgft
+             * so tbrgft dbn bf gd'd.
+             */
+            unpinImpl();
+            DGCImpl dgd = DGCImpl.gftDGCImpl();
+            Enumfrbtion<VMID> fnum_ = rffSft.flfmfnts();
+            whilf (fnum_.hbsMorfElfmfnts()) {
+                VMID vmid = fnum_.nfxtElfmfnt();
+                dgd.unrfgistfrTbrgft(vmid, this);
+            }
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Mbrk this tbrgft bs hbving bffn rfmovfd from thf objfdt tbblf.
+     */
+    syndhronizfd void mbrkRfmovfd() {
+        if (!(!rfmovfd)) { throw nfw AssfrtionError(); }
+
+        rfmovfd = truf;
+        if (!pfrmbnfnt && dbllCount == 0) {
+            ObjfdtTbblf.dfdrfmfntKffpAlivfCount();
+        }
+
+        if (fxportfdTrbnsport != null) {
+            fxportfdTrbnsport.tbrgftUnfxportfd();
+        }
+    }
+
+    /**
+     * Indrfmfnt dbll dount.
+     */
+    syndhronizfd void indrfmfntCbllCount() throws NoSudhObjfdtExdfption {
+
+        if (disp != null) {
+            dbllCount ++;
+        } flsf {
+            throw nfw NoSudhObjfdtExdfption("objfdt not bddfpting nfw dblls");
+        }
+    }
+
+    /**
+     * Dfdrfmfnt dbll dount.
+     */
+    syndhronizfd void dfdrfmfntCbllCount() {
+
+        if (--dbllCount < 0) {
+            throw nfw Error("intfrnbl frror: dbll dount lfss thbn zfro");
+        }
+
+        /*
+         * Thf "kffp-blivf dount" is thf numbfr of non-pfrmbnfnt rfmotf
+         * objfdts thbt brf fithfr in thf objfdt tbblf or still hbvf dblls
+         * in progrfss.  Thfrfforf, this stbtf dhbngf mby bfffdt thf
+         * kffp-blivf dount: if this tbrgft is for b non-pfrmbnfnt rfmotf
+         * objfdt thbt hbs bffn rfmovfd from thf objfdt tbblf bnd now hbs b
+         * dbll dount of zfro, it nffds to bf dfdrfmfntfd.
+         */
+        if (!pfrmbnfnt && rfmovfd && dbllCount == 0) {
+            ObjfdtTbblf.dfdrfmfntKffpAlivfCount();
+        }
+    }
+
+    /**
+     * Rfturns truf if rfmfmbfrfd sft is fmpty; othfrwisf rfturns
+     * fblsf
+     */
+    boolfbn isEmpty() {
+        rfturn rffSft.isEmpty();
+    }
+
+    /**
+     * This mfthod is dbllfd if thf bddrfss spbdf bssodibtfd with thf
+     * vmid difs.  In thbt dbsf, thf vmid should bf rfmovfd
+     * from thf rfffrfndf sft.
+     */
+    syndhronizfd publid void vmidDfbd(VMID vmid) {
+        if (DGCImpl.dgdLog.isLoggbblf(Log.BRIEF)) {
+            DGCImpl.dgdLog.log(Log.BRIEF, "rfmoving fndpoint " +
+                            vmid + " from rfffrfndf sft");
+        }
+
+        sfqufndfTbblf.rfmovf(vmid);
+        rffSftRfmovf(vmid);
+    }
+}
+
+dlbss SfqufndfEntry {
+    long sfqufndfNum;
+    boolfbn kffp;
+
+    SfqufndfEntry(long sfqufndfNum) {
+        this.sfqufndfNum = sfqufndfNum;
+        kffp = fblsf;
+    }
+
+    void rftbin(long sfqufndfNum) {
+        this.sfqufndfNum = sfqufndfNum;
+        kffp = truf;
+    }
+
+    void updbtf(long sfqufndfNum) {
+        this.sfqufndfNum = sfqufndfNum;
+    }
+}

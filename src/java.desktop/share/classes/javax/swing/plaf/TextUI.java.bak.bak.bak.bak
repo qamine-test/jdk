@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf;
+
+import jbvbx.swing.Adtion;
+import jbvbx.swing.BoundfdRbngfModfl;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Insfts;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * Tfxt fditor usfr intfrfbdf
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid bbstrbdt dlbss TfxtUI fxtfnds ComponfntUI
+{
+    /**
+     * Convfrts thf givfn lodbtion in thf modfl to b plbdf in
+     * thf vifw doordinbtf systfm.
+     *
+     * @pbrbm pos  thf lodbl lodbtion in thf modfl to trbnslbtf &gt;= 0
+     * @rfturn thf doordinbtfs bs b rfdtbnglf
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+     */
+    publid bbstrbdt Rfdtbnglf modflToVifw(JTfxtComponfnt t, int pos) throws BbdLodbtionExdfption;
+
+    /**
+     * Convfrts thf givfn lodbtion in thf modfl to b plbdf in
+     * thf vifw doordinbtf systfm.
+     *
+     * @pbrbm pos  thf lodbl lodbtion in thf modfl to trbnslbtf &gt;= 0
+     * @rfturn thf doordinbtfs bs b rfdtbnglf
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+     */
+    publid bbstrbdt Rfdtbnglf modflToVifw(JTfxtComponfnt t, int pos, Position.Bibs bibs) throws BbdLodbtionExdfption;
+
+    /**
+     * Convfrts thf givfn plbdf in thf vifw doordinbtf systfm
+     * to thf nfbrfst rfprfsfntbtivf lodbtion in thf modfl.
+     *
+     * @pbrbm pt  thf lodbtion in thf vifw to trbnslbtf.  This
+     *   should bf in thf sbmf doordinbtf systfm bs thf mousf
+     *   fvfnts.
+     * @rfturn thf offsft from thf stbrt of thf dodumfnt &gt;= 0
+     */
+    publid bbstrbdt int vifwToModfl(JTfxtComponfnt t, Point pt);
+
+    /**
+     * Providfs b mbpping from thf vifw doordinbtf spbdf to thf logidbl
+     * doordinbtf spbdf of thf modfl.
+     *
+     * @pbrbm pt thf lodbtion in thf vifw to trbnslbtf.
+     *           This should bf in thf sbmf doordinbtf systfm
+     *           bs thf mousf fvfnts.
+     * @pbrbm bibsRfturn
+     *           fillfd in by this mfthod to indidbtf whfthfr
+     *           thf point givfn is dlosfr to thf prfvious or thf nfxt
+     *           dhbrbdtfr in thf modfl
+     *
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf
+     *         givfn point in thf vifw &gt;= 0
+     */
+    publid bbstrbdt int vifwToModfl(JTfxtComponfnt t, Point pt,
+                                    Position.Bibs[] bibsRfturn);
+
+    /**
+     * Providfs b wby to dftfrminf thf nfxt visublly rfprfsfntfd modfl
+     * lodbtion thbt onf might plbdf b dbrft.  Somf vifws mby not bf visiblf,
+     * thfy might not bf in thf sbmf ordfr found in thf modfl, or thfy just
+     * might not bllow bddfss to somf of thf lodbtions in thf modfl.
+     *
+     * @pbrbm t thf tfxt domponfnt for whidh this UI is instbllfd
+     * @pbrbm pos thf position to donvfrt &gt;= 0
+     * @pbrbm b thf bibs for thf position
+     * @pbrbm dirfdtion thf dirfdtion from thf durrfnt position thbt dbn
+     *  bf thought of bs thf brrow kfys typidblly found on b kfybobrd.
+     *  This mby bf SwingConstbnts.WEST, SwingConstbnts.EAST,
+     *  SwingConstbnts.NORTH, or SwingConstbnts.SOUTH
+     * @pbrbm bibsRft bn brrby to dontbin thf bibs for thf rfturnfd position
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf nfxt
+     *  lodbtion visubl position
+     * @fxdfption BbdLodbtionExdfption for b bbd lodbtion within b dodumfnt modfl
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid dirfdtion
+     */
+    publid bbstrbdt int gftNfxtVisublPositionFrom(JTfxtComponfnt t,
+                         int pos, Position.Bibs b,
+                         int dirfdtion, Position.Bibs[] bibsRft)
+                         throws BbdLodbtionExdfption;
+
+    /**
+     * Cbusfs thf portion of thf vifw rfsponsiblf for thf
+     * givfn pbrt of thf modfl to bf rfpbintfd.
+     *
+     * @pbrbm p0 thf bfginning of thf rbngf &gt;= 0
+     * @pbrbm p1 thf fnd of thf rbngf &gt;= p0
+     */
+    publid bbstrbdt void dbmbgfRbngf(JTfxtComponfnt t, int p0, int p1);
+
+    /**
+     * Cbusfs thf portion of thf vifw rfsponsiblf for thf
+     * givfn pbrt of thf modfl to bf rfpbintfd.
+     *
+     * @pbrbm p0 thf bfginning of thf rbngf &gt;= 0
+     * @pbrbm p1 thf fnd of thf rbngf &gt;= p0
+     */
+    publid bbstrbdt void dbmbgfRbngf(JTfxtComponfnt t, int p0, int p1,
+                                     Position.Bibs firstBibs,
+                                     Position.Bibs sfdondBibs);
+
+    /**
+     * Fftdhfs thf binding of sfrvidfs thbt sft b polidy
+     * for thf typf of dodumfnt bfing fditfd.  This dontbins
+     * things likf thf dommbnds bvbilbblf, strfbm rfbdfrs bnd
+     * writfrs, ftd.
+     *
+     * @rfturn thf fditor kit binding
+     */
+    publid bbstrbdt EditorKit gftEditorKit(JTfxtComponfnt t);
+
+    /**
+     * Fftdhfs b Vifw with thf bllodbtion of thf bssodibtfd
+     * tfxt domponfnt (i.f. thf root of thf hifrbrdhy) thbt
+     * dbn bf trbvfrsfd to dftfrminf how thf modfl is bfing
+     * rfprfsfntfd spbtiblly.
+     *
+     * @rfturn thf vifw
+     */
+    publid bbstrbdt Vifw gftRootVifw(JTfxtComponfnt t);
+
+    /**
+     * Rfturns thf string to bf usfd bs thf tooltip bt thf pbssfd in lodbtion.
+     *
+     * @sff jbvbx.swing.tfxt.JTfxtComponfnt#gftToolTipTfxt
+     * @sindf 1.4
+     */
+    publid String gftToolTipTfxt(JTfxtComponfnt t, Point pt) {
+        rfturn null;
+    }
+}

@@ -1,251 +1,251 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf;
+pbdkbgf jbvbx.swing.plbf;
 
-import java.awt.Component;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.io.Serializable;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids;
+import jbvb.io.Sfriblizbblf;
 
-import java.beans.ConstructorProperties;
-import javax.swing.border.*;
-import javax.swing.Icon;
-import javax.swing.plaf.UIResource;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.Idon;
+import jbvbx.swing.plbf.UIRfsourdf;
 
 
 /*
- * A Border wrapper class which implements UIResource.  UI
- * classes which set border properties should use this class
- * to wrap any borders specified as defaults.
+ * A Bordfr wrbppfr dlbss wiidi implfmfnts UIRfsourdf.  UI
+ * dlbssfs wiidi sft bordfr propfrtifs siould usf tiis dlbss
+ * to wrbp bny bordfrs spfdififd bs dffbults.
  *
- * This class delegates all method invocations to the
- * Border "delegate" object specified at construction.
+ * Tiis dlbss dflfgbtfs bll mftiod invodbtions to tif
+ * Bordfr "dflfgbtf" objfdt spfdififd bt donstrudtion.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see javax.swing.plaf.UIResource
- * @author Amy Fowler
+ * @sff jbvbx.swing.plbf.UIRfsourdf
+ * @butior Amy Fowlfr
  *
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BorderUIResource implements Border, UIResource, Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BordfrUIRfsourdf implfmfnts Bordfr, UIRfsourdf, Sfriblizbblf
 {
-    static Border etched;
-    static Border loweredBevel;
-    static Border raisedBevel;
-    static Border blackLine;
+    stbtid Bordfr ftdifd;
+    stbtid Bordfr lowfrfdBfvfl;
+    stbtid Bordfr rbisfdBfvfl;
+    stbtid Bordfr blbdkLinf;
 
-    public static Border getEtchedBorderUIResource() {
-        if (etched == null) {
-            etched = new EtchedBorderUIResource();
+    publid stbtid Bordfr gftEtdifdBordfrUIRfsourdf() {
+        if (ftdifd == null) {
+            ftdifd = nfw EtdifdBordfrUIRfsourdf();
         }
-        return etched;
+        rfturn ftdifd;
     }
 
-    public static Border getLoweredBevelBorderUIResource() {
-        if (loweredBevel == null) {
-            loweredBevel = new BevelBorderUIResource(BevelBorder.LOWERED);
+    publid stbtid Bordfr gftLowfrfdBfvflBordfrUIRfsourdf() {
+        if (lowfrfdBfvfl == null) {
+            lowfrfdBfvfl = nfw BfvflBordfrUIRfsourdf(BfvflBordfr.LOWERED);
         }
-        return loweredBevel;
+        rfturn lowfrfdBfvfl;
     }
 
-    public static Border getRaisedBevelBorderUIResource() {
-        if (raisedBevel == null) {
-            raisedBevel = new BevelBorderUIResource(BevelBorder.RAISED);
+    publid stbtid Bordfr gftRbisfdBfvflBordfrUIRfsourdf() {
+        if (rbisfdBfvfl == null) {
+            rbisfdBfvfl = nfw BfvflBordfrUIRfsourdf(BfvflBordfr.RAISED);
         }
-        return raisedBevel;
+        rfturn rbisfdBfvfl;
     }
 
-    public static Border getBlackLineBorderUIResource() {
-        if (blackLine == null) {
-            blackLine = new LineBorderUIResource(Color.black);
+    publid stbtid Bordfr gftBlbdkLinfBordfrUIRfsourdf() {
+        if (blbdkLinf == null) {
+            blbdkLinf = nfw LinfBordfrUIRfsourdf(Color.blbdk);
         }
-        return blackLine;
+        rfturn blbdkLinf;
     }
 
-    private Border delegate;
+    privbtf Bordfr dflfgbtf;
 
     /**
-     * Creates a UIResource border object which wraps
-     * an existing Border instance.
-     * @param delegate the border being wrapped
+     * Crfbtfs b UIRfsourdf bordfr objfdt wiidi wrbps
+     * bn fxisting Bordfr instbndf.
+     * @pbrbm dflfgbtf tif bordfr bfing wrbppfd
      */
-    public BorderUIResource(Border delegate) {
-        if (delegate == null) {
-            throw new IllegalArgumentException("null border delegate argument");
+    publid BordfrUIRfsourdf(Bordfr dflfgbtf) {
+        if (dflfgbtf == null) {
+            tirow nfw IllfgblArgumfntExdfption("null bordfr dflfgbtf brgumfnt");
         }
-        this.delegate = delegate;
+        tiis.dflfgbtf = dflfgbtf;
     }
 
-    public void paintBorder(Component c, Graphics g, int x, int y,
-                            int width, int height) {
-        delegate.paintBorder(c, g, x, y, width, height);
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y,
+                            int widti, int ifigit) {
+        dflfgbtf.pbintBordfr(d, g, x, y, widti, ifigit);
     }
 
-    public Insets getBorderInsets(Component c)       {
-        return delegate.getBorderInsets(c);
+    publid Insfts gftBordfrInsfts(Componfnt d)       {
+        rfturn dflfgbtf.gftBordfrInsfts(d);
     }
 
-    public boolean isBorderOpaque() {
-        return delegate.isBorderOpaque();
+    publid boolfbn isBordfrOpbquf() {
+        rfturn dflfgbtf.isBordfrOpbquf();
     }
 
-    public static class CompoundBorderUIResource extends CompoundBorder implements UIResource {
-        @ConstructorProperties({"outsideBorder", "insideBorder"})
-        public CompoundBorderUIResource(Border outsideBorder, Border insideBorder) {
-            super(outsideBorder, insideBorder);
-        }
-
-    }
-
-    public static class EmptyBorderUIResource extends EmptyBorder implements UIResource {
-
-        public EmptyBorderUIResource(int top, int left, int bottom, int right)   {
-            super(top, left, bottom, right);
-        }
-        @ConstructorProperties({"borderInsets"})
-        public EmptyBorderUIResource(Insets insets) {
-            super(insets);
-        }
-    }
-
-    public static class LineBorderUIResource extends LineBorder implements UIResource {
-
-        public LineBorderUIResource(Color color) {
-            super(color);
+    publid stbtid dlbss CompoundBordfrUIRfsourdf fxtfnds CompoundBordfr implfmfnts UIRfsourdf {
+        @ConstrudtorPropfrtifs({"outsidfBordfr", "insidfBordfr"})
+        publid CompoundBordfrUIRfsourdf(Bordfr outsidfBordfr, Bordfr insidfBordfr) {
+            supfr(outsidfBordfr, insidfBordfr);
         }
 
-        @ConstructorProperties({"lineColor", "thickness"})
-        public LineBorderUIResource(Color color, int thickness)  {
-            super(color, thickness);
+    }
+
+    publid stbtid dlbss EmptyBordfrUIRfsourdf fxtfnds EmptyBordfr implfmfnts UIRfsourdf {
+
+        publid EmptyBordfrUIRfsourdf(int top, int lfft, int bottom, int rigit)   {
+            supfr(top, lfft, bottom, rigit);
+        }
+        @ConstrudtorPropfrtifs({"bordfrInsfts"})
+        publid EmptyBordfrUIRfsourdf(Insfts insfts) {
+            supfr(insfts);
         }
     }
 
+    publid stbtid dlbss LinfBordfrUIRfsourdf fxtfnds LinfBordfr implfmfnts UIRfsourdf {
 
-    public static class BevelBorderUIResource extends BevelBorder implements UIResource {
-
-        public BevelBorderUIResource(int bevelType) {
-            super(bevelType);
+        publid LinfBordfrUIRfsourdf(Color dolor) {
+            supfr(dolor);
         }
 
-        public BevelBorderUIResource(int bevelType, Color highlight, Color shadow) {
-            super(bevelType, highlight, shadow);
-        }
-
-        @ConstructorProperties({"bevelType", "highlightOuterColor", "highlightInnerColor", "shadowOuterColor", "shadowInnerColor"})
-        public BevelBorderUIResource(int bevelType,
-                                     Color highlightOuter, Color highlightInner,
-                                     Color shadowOuter, Color shadowInner) {
-            super(bevelType, highlightOuter, highlightInner, shadowOuter, shadowInner);
+        @ConstrudtorPropfrtifs({"linfColor", "tiidknfss"})
+        publid LinfBordfrUIRfsourdf(Color dolor, int tiidknfss)  {
+            supfr(dolor, tiidknfss);
         }
     }
 
-    public static class EtchedBorderUIResource extends EtchedBorder implements UIResource {
 
-        public EtchedBorderUIResource()    {
-            super();
+    publid stbtid dlbss BfvflBordfrUIRfsourdf fxtfnds BfvflBordfr implfmfnts UIRfsourdf {
+
+        publid BfvflBordfrUIRfsourdf(int bfvflTypf) {
+            supfr(bfvflTypf);
         }
 
-        public EtchedBorderUIResource(int etchType)    {
-            super(etchType);
+        publid BfvflBordfrUIRfsourdf(int bfvflTypf, Color iigiligit, Color sibdow) {
+            supfr(bfvflTypf, iigiligit, sibdow);
         }
 
-        public EtchedBorderUIResource(Color highlight, Color shadow)    {
-            super(highlight, shadow);
-        }
-
-        @ConstructorProperties({"etchType", "highlightColor", "shadowColor"})
-        public EtchedBorderUIResource(int etchType, Color highlight, Color shadow)    {
-            super(etchType, highlight, shadow);
-        }
-    }
-
-    public static class MatteBorderUIResource extends MatteBorder implements UIResource {
-
-        public MatteBorderUIResource(int top, int left, int bottom, int right,
-                                     Color color)   {
-            super(top, left, bottom, right, color);
-        }
-
-        public MatteBorderUIResource(int top, int left, int bottom, int right,
-                                     Icon tileIcon)   {
-            super(top, left, bottom, right, tileIcon);
-        }
-
-        public MatteBorderUIResource(Icon tileIcon)   {
-            super(tileIcon);
+        @ConstrudtorPropfrtifs({"bfvflTypf", "iigiligitOutfrColor", "iigiligitInnfrColor", "sibdowOutfrColor", "sibdowInnfrColor"})
+        publid BfvflBordfrUIRfsourdf(int bfvflTypf,
+                                     Color iigiligitOutfr, Color iigiligitInnfr,
+                                     Color sibdowOutfr, Color sibdowInnfr) {
+            supfr(bfvflTypf, iigiligitOutfr, iigiligitInnfr, sibdowOutfr, sibdowInnfr);
         }
     }
 
-    public static class TitledBorderUIResource extends TitledBorder implements UIResource {
+    publid stbtid dlbss EtdifdBordfrUIRfsourdf fxtfnds EtdifdBordfr implfmfnts UIRfsourdf {
 
-        public TitledBorderUIResource(String title)     {
-            super(title);
+        publid EtdifdBordfrUIRfsourdf()    {
+            supfr();
         }
 
-        public TitledBorderUIResource(Border border)       {
-            super(border);
+        publid EtdifdBordfrUIRfsourdf(int ftdiTypf)    {
+            supfr(ftdiTypf);
         }
 
-        public TitledBorderUIResource(Border border, String title) {
-            super(border, title);
+        publid EtdifdBordfrUIRfsourdf(Color iigiligit, Color sibdow)    {
+            supfr(iigiligit, sibdow);
         }
 
-        public TitledBorderUIResource(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition)      {
-            super(border, title, titleJustification, titlePosition);
+        @ConstrudtorPropfrtifs({"ftdiTypf", "iigiligitColor", "sibdowColor"})
+        publid EtdifdBordfrUIRfsourdf(int ftdiTypf, Color iigiligit, Color sibdow)    {
+            supfr(ftdiTypf, iigiligit, sibdow);
+        }
+    }
+
+    publid stbtid dlbss MbttfBordfrUIRfsourdf fxtfnds MbttfBordfr implfmfnts UIRfsourdf {
+
+        publid MbttfBordfrUIRfsourdf(int top, int lfft, int bottom, int rigit,
+                                     Color dolor)   {
+            supfr(top, lfft, bottom, rigit, dolor);
         }
 
-        public TitledBorderUIResource(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition,
-                        Font titleFont) {
-            super(border, title, titleJustification, titlePosition, titleFont);
+        publid MbttfBordfrUIRfsourdf(int top, int lfft, int bottom, int rigit,
+                                     Idon tilfIdon)   {
+            supfr(top, lfft, bottom, rigit, tilfIdon);
         }
 
-        @ConstructorProperties({"border", "title", "titleJustification", "titlePosition", "titleFont", "titleColor"})
-        public TitledBorderUIResource(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition,
-                        Font titleFont,
-                        Color titleColor)       {
-            super(border, title, titleJustification, titlePosition, titleFont, titleColor);
+        publid MbttfBordfrUIRfsourdf(Idon tilfIdon)   {
+            supfr(tilfIdon);
+        }
+    }
+
+    publid stbtid dlbss TitlfdBordfrUIRfsourdf fxtfnds TitlfdBordfr implfmfnts UIRfsourdf {
+
+        publid TitlfdBordfrUIRfsourdf(String titlf)     {
+            supfr(titlf);
+        }
+
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr)       {
+            supfr(bordfr);
+        }
+
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr, String titlf) {
+            supfr(bordfr, titlf);
+        }
+
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition)      {
+            supfr(bordfr, titlf, titlfJustifidbtion, titlfPosition);
+        }
+
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont) {
+            supfr(bordfr, titlf, titlfJustifidbtion, titlfPosition, titlfFont);
+        }
+
+        @ConstrudtorPropfrtifs({"bordfr", "titlf", "titlfJustifidbtion", "titlfPosition", "titlfFont", "titlfColor"})
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont,
+                        Color titlfColor)       {
+            supfr(bordfr, titlf, titlfJustifidbtion, titlfPosition, titlfFont, titlfColor);
         }
     }
 

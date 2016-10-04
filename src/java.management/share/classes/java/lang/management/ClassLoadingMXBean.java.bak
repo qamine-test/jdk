@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
 /**
- * The management interface for the class loading system of
- * the Java virtual machine.
+ * Tif mbnbgfmfnt intfrfbdf for tif dlbss lobding systfm of
+ * tif Jbvb virtubl mbdiinf.
  *
- * <p> A Java virtual machine has a single instance of the implementation
- * class of this interface.  This instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getClassLoadingMXBean} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>}.
+ * <p> A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif implfmfntbtion
+ * dlbss of tiis intfrfbdf.  Tiis instbndf implfmfnting tiis intfrfbdf is
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * tibt dbn bf obtbinfd by dblling
+ * tif {@link MbnbgfmfntFbdtory#gftClbssLobdingMXBfbn} mftiod or
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>}.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * the class loading system within an <tt>MBeanServer</tt> is:
- * <blockquote>
- * {@link ManagementFactory#CLASS_LOADING_MXBEAN_NAME
- *        <tt>java.lang:type=ClassLoading</tt>}
- * </blockquote>
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * tif dlbss lobding systfm witiin bn <tt>MBfbnSfrvfr</tt> is:
+ * <blodkquotf>
+ * {@link MbnbgfmfntFbdtory#CLASS_LOADING_MXBEAN_NAME
+ *        <tt>jbvb.lbng:typf=ClbssLobding</tt>}
+ * </blodkquotf>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It dbn bf obtbinfd by dblling tif
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
-public interface ClassLoadingMXBean extends PlatformManagedObject {
+publid intfrfbdf ClbssLobdingMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
 
     /**
-     * Returns the total number of classes that have been loaded since
-     * the Java virtual machine has started execution.
+     * Rfturns tif totbl numbfr of dlbssfs tibt ibvf bffn lobdfd sindf
+     * tif Jbvb virtubl mbdiinf ibs stbrtfd fxfdution.
      *
-     * @return the total number of classes loaded.
+     * @rfturn tif totbl numbfr of dlbssfs lobdfd.
      *
      */
-    public long getTotalLoadedClassCount();
+    publid long gftTotblLobdfdClbssCount();
 
     /**
-     * Returns the number of classes that are currently loaded in the
-     * Java virtual machine.
+     * Rfturns tif numbfr of dlbssfs tibt brf durrfntly lobdfd in tif
+     * Jbvb virtubl mbdiinf.
      *
-     * @return the number of currently loaded classes.
+     * @rfturn tif numbfr of durrfntly lobdfd dlbssfs.
      */
-    public int getLoadedClassCount();
+    publid int gftLobdfdClbssCount();
 
     /**
-     * Returns the total number of classes unloaded since the Java virtual machine
-     * has started execution.
+     * Rfturns tif totbl numbfr of dlbssfs unlobdfd sindf tif Jbvb virtubl mbdiinf
+     * ibs stbrtfd fxfdution.
      *
-     * @return the total number of unloaded classes.
+     * @rfturn tif totbl numbfr of unlobdfd dlbssfs.
      */
-    public long getUnloadedClassCount();
+    publid long gftUnlobdfdClbssCount();
 
     /**
-     * Tests if the verbose output for the class loading system is enabled.
+     * Tfsts if tif vfrbosf output for tif dlbss lobding systfm is fnbblfd.
      *
-     * @return <tt>true</tt> if the verbose output for the class loading
-     * system is enabled; <tt>false</tt> otherwise.
+     * @rfturn <tt>truf</tt> if tif vfrbosf output for tif dlbss lobding
+     * systfm is fnbblfd; <tt>fblsf</tt> otifrwisf.
      */
-    public boolean isVerbose();
+    publid boolfbn isVfrbosf();
 
     /**
-     * Enables or disables the verbose output for the class loading
-     * system.  The verbose output information and the output stream
-     * to which the verbose information is emitted are implementation
-     * dependent.  Typically, a Java virtual machine implementation
-     * prints a message each time a class file is loaded.
+     * Enbblfs or disbblfs tif vfrbosf output for tif dlbss lobding
+     * systfm.  Tif vfrbosf output informbtion bnd tif output strfbm
+     * to wiidi tif vfrbosf informbtion is fmittfd brf implfmfntbtion
+     * dfpfndfnt.  Typidblly, b Jbvb virtubl mbdiinf implfmfntbtion
+     * prints b mfssbgf fbdi timf b dlbss filf is lobdfd.
      *
-     * <p>This method can be called by multiple threads concurrently.
-     * Each invocation of this method enables or disables the verbose
-     * output globally.
+     * <p>Tiis mftiod dbn bf dbllfd by multiplf tirfbds dondurrfntly.
+     * Ebdi invodbtion of tiis mftiod fnbblfs or disbblfs tif vfrbosf
+     * output globblly.
      *
-     * @param value <tt>true</tt> to enable the verbose output;
-     *              <tt>false</tt> to disable.
+     * @pbrbm vbluf <tt>truf</tt> to fnbblf tif vfrbosf output;
+     *              <tt>fblsf</tt> to disbblf.
      *
-     * @exception  java.lang.SecurityException if a security manager
-     *             exists and the caller does not have
-     *             ManagementPermission("control").
+     * @fxdfption  jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *             fxists bnd tif dbllfr dofs not ibvf
+     *             MbnbgfmfntPfrmission("dontrol").
      */
-    public void setVerbose(boolean value);
+    publid void sftVfrbosf(boolfbn vbluf);
 
 }

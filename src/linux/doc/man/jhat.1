@@ -1,136 +1,136 @@
 '\" t
-.\"  Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Troubleshooting Tools
-.\"     Title: jhbt.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Troublfsiooting Tools
+.\"     Titlf: jibt.1
 .\"
 .if n .pl 99999
-.TH jhbt 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
+.TH jibt 1 "21 Novfmbfr 2013" "JDK 8" "Troublfsiooting Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jhbt \- Anblyzes the Jbvb hebp\&. This commbnd is experimentbl bnd unsupported\&.
+jibt \- Anblyzfs tif Jbvb ifbp\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjhbt\fR [ \fIoptions\fR ] \fIhebp\-dump\-file\fR 
+\fBjibt\fR [ \fIoptions\fR ] \fIifbp\-dump\-filf\fR 
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The commbnd-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-\fIhebp-dump-file\fR
-Jbvb binbry hebp dump file to be browsed\&. For b dump file thbt contbins multiple hebp dumps, you cbn specify which dump in the file by bppending \f3#<number>\fR to the file nbme, for exbmple, \f3myfile\&.hprof#3\fR\&.
+\fIifbp-dump-filf\fR
+Jbvb binbry ifbp dump filf to bf browsfd\&. For b dump filf tibt dontbins multiplf ifbp dumps, you dbn spfdify wiidi dump in tif filf by bppfnding \f3#<numbfr>\fR to tif filf nbmf, for fxbmplf, \f3myfilf\&.iprof#3\fR\&.
 .SH DESCRIPTION    
-The \f3jhbt\fR commbnd pbrses b Jbvb hebp dump file bnd stbrts b web server\&. The \f3jhbt\fR commbnd lets you to browse hebp dumps with your fbvorite web browser\&. The \f3jhbt\fR commbnd supports predesigned queries such bs show bll instbnces of b known clbss \f3MyClbss\fR, bnd Object Query Lbngubge (OQL)\&. OQL is similbr to SQL, except for querying hebp dumps\&. Help on OQL is bvbilbble from the OQL help pbge shown by the \f3jhbt\fR commbnd\&. With the defbult port, OQL help is bvbilbble bt http://locblhost:7000/oqlhelp/
+Tif \f3jibt\fR dommbnd pbrsfs b Jbvb ifbp dump filf bnd stbrts b wfb sfrvfr\&. Tif \f3jibt\fR dommbnd lfts you to browsf ifbp dumps witi your fbvoritf wfb browsfr\&. Tif \f3jibt\fR dommbnd supports prfdfsignfd qufrifs sudi bs siow bll instbndfs of b known dlbss \f3MyClbss\fR, bnd Objfdt Qufry Lbngubgf (OQL)\&. OQL is similbr to SQL, fxdfpt for qufrying ifbp dumps\&. Hflp on OQL is bvbilbblf from tif OQL iflp pbgf siown by tif \f3jibt\fR dommbnd\&. Witi tif dffbult port, OQL iflp is bvbilbblf bt ittp://lodbliost:7000/oqliflp/
 .PP
-There bre severbl wbys to generbte b Jbvb hebp dump:
+Tifrf brf sfvfrbl wbys to gfnfrbtf b Jbvb ifbp dump:
 .TP 0.2i    
 \(bu
-Use the \f3jmbp -dump\fR option to obtbin b hebp dump bt runtime\&. See jmbp(1)\&.
+Usf tif \f3jmbp -dump\fR option to obtbin b ifbp dump bt runtimf\&. Sff jmbp(1)\&.
 .TP 0.2i    
 \(bu
-Use the \f3jconsole\fR option to obtbin b hebp dump through \f3HotSpotDibgnosticMXBebn\fR bt runtime\&. See jconsole(1) bnd the \f3HotSpotDibgnosticMXBebn\fR interfbce description bt http://docs\&.orbcle\&.com/jbvbse/8/docs/jre/bpi/mbnbgement/extension/com/sun/mbnbgement/HotSpotDibgnosticMXBebn\&.html
+Usf tif \f3jdonsolf\fR option to obtbin b ifbp dump tirougi \f3HotSpotDibgnostidMXBfbn\fR bt runtimf\&. Sff jdonsolf(1) bnd tif \f3HotSpotDibgnostidMXBfbn\fR intfrfbdf dfsdription bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/HotSpotDibgnostidMXBfbn\&.itml
 .TP 0.2i    
 \(bu
-Hebp dump is generbted when bn \f3OutOfMemoryError\fR is thrown by specifying the \f3-XX:+HebpDumpOnOutOfMemoryError\fR Jbvb Virtubl Mbchine (JVM) option\&.
+Hfbp dump is gfnfrbtfd wifn bn \f3OutOfMfmoryError\fR is tirown by spfdifying tif \f3-XX:+HfbpDumpOnOutOfMfmoryError\fR Jbvb Virtubl Mbdiinf (JVM) option\&.
 .TP 0.2i    
 \(bu
-Use the \f3hprof\fR commbnd\&. See the HPROF: A Hebp/CPU Profiling Tool bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/sbmples/hprof\&.html
+Usf tif \f3iprof\fR dommbnd\&. Sff tif HPROF: A Hfbp/CPU Profiling Tool bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml
 .SH OPTIONS    
 .TP
--stbck fblse|true
+-stbdk fblsf|truf
 .br
-Turns off trbcking object bllocbtion cbll stbck\&. If bllocbtion site informbtion is not bvbilbble in the hebp dump, then you hbve to set this flbg to \f3fblse\fR\&. The defbult is \f3true\fR\&.
+Turns off trbdking objfdt bllodbtion dbll stbdk\&. If bllodbtion sitf informbtion is not bvbilbblf in tif ifbp dump, tifn you ibvf to sft tiis flbg to \f3fblsf\fR\&. Tif dffbult is \f3truf\fR\&.
 .TP
--refs fblse|true
+-rffs fblsf|truf
 .br
-Turns off trbcking of references to objects\&. Defbult is \f3true\fR\&. By defbult, bbck pointers, which bre objects thbt point to b specified object such bs referrers or incoming references, bre cblculbted for bll objects in the hebp\&.
+Turns off trbdking of rfffrfndfs to objfdts\&. Dffbult is \f3truf\fR\&. By dffbult, bbdk pointfrs, wiidi brf objfdts tibt point to b spfdififd objfdt sudi bs rfffrrfrs or indoming rfffrfndfs, brf dbldulbtfd for bll objfdts in tif ifbp\&.
 .TP
--port \fIport-number\fR
+-port \fIport-numbfr\fR
 .br
-Sets the port for the \f3jhbt\fR HTTP server\&. Defbult is 7000\&.
+Sfts tif port for tif \f3jibt\fR HTTP sfrvfr\&. Dffbult is 7000\&.
 .TP
--exclude \fIexclude-file\fR
+-fxdludf \fIfxdludf-filf\fR
 .br
-Specifies b file thbt lists dbtb members thbt should be excluded from the rebchbble objects query\&. For exbmple, if the file lists \f3jbvb\&.lbng\&.String\&.vblue\fR, then, then whenever the list of objects thbt bre rebchbble from b specific object \f3o\fR bre cblculbted, reference pbths thbt involve \f3jbvb\&.lbng\&.String\&.vblue\fR field bre not considered\&.
+Spfdififs b filf tibt lists dbtb mfmbfrs tibt siould bf fxdludfd from tif rfbdibblf objfdts qufry\&. For fxbmplf, if tif filf lists \f3jbvb\&.lbng\&.String\&.vbluf\fR, tifn, tifn wifnfvfr tif list of objfdts tibt brf rfbdibblf from b spfdifid objfdt \f3o\fR brf dbldulbtfd, rfffrfndf pbtis tibt involvf \f3jbvb\&.lbng\&.String\&.vbluf\fR fifld brf not donsidfrfd\&.
 .TP
--bbseline \fIexclude-file\fR
+-bbsflinf \fIfxdludf-filf\fR
 .br
-Specifies b bbseline hebp dump\&. Objects in both hebp dumps with the sbme object ID bre mbrked bs not being new\&. Other objects bre mbrked bs new\&. This is useful for compbring two different hebp dumps\&.
+Spfdififs b bbsflinf ifbp dump\&. Objfdts in boti ifbp dumps witi tif sbmf objfdt ID brf mbrkfd bs not bfing nfw\&. Otifr objfdts brf mbrkfd bs nfw\&. Tiis is usfful for dompbring two difffrfnt ifbp dumps\&.
 .TP
--debug \fIint\fR
+-dfbug \fIint\fR
 .br
-Sets the debug level for this tool\&. A level of 0 mebns no debug output\&. Set higher vblues for more verbose modes\&.
+Sfts tif dfbug lfvfl for tiis tool\&. A lfvfl of 0 mfbns no dfbug output\&. Sft iigifr vblufs for morf vfrbosf modfs\&.
 .TP
--version
+-vfrsion
 .br
-Reports the relebse number bnd exits
+Rfports tif rflfbsf numbfr bnd fxits
 .TP
--h
+-i
 .br
-Dsiplbys b help messbge bnd exits\&.
+Dsiplbys b iflp mfssbgf bnd fxits\&.
 .TP
--help
+-iflp
 .br
-Displbys b help messbge bnd exits\&.
+Displbys b iflp mfssbgf bnd fxits\&.
 .TP
 -J\fIflbg\fR
 .br
-Pbsses \f3flbg\fR to the Jbvb Virtubl Mbchine on which the \f3jhbt\fR commbnd is running\&. For exbmple, \f3-J-Xmx512m\fR to use b mbximum hebp size of 512 MB\&.
+Pbssfs \f3flbg\fR to tif Jbvb Virtubl Mbdiinf on wiidi tif \f3jibt\fR dommbnd is running\&. For fxbmplf, \f3-J-Xmx512m\fR to usf b mbximum ifbp sizf of 512 MB\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
 jmbp(1)
 .TP 0.2i    
 \(bu
-jconsole(1)
+jdonsolf(1)
 .TP 0.2i    
 \(bu
-HPROF: A Hebp/CPU Profiling Tool bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/sbmples/hprof\&.html
+HPROF: A Hfbp/CPU Profiling Tool bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/sbmplfs/iprof\&.itml
 .RE
 .br
 'pl 8.5i

@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2008-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+/**
+ * Enumfrbtion of wbys to hbndlf thf positivf/nfgbtivf sign.
+ * <p>
+ * Thf formbtting fnginf bllows thf positivf bnd nfgbtivf signs of numbfrs
+ * to bf dontrollfd using this fnum.
+ * Sff {@link DbtfTimfFormbttfrBuildfr} for usbgf.
+ *
+ * @implSpfd
+ * This is bn immutbblf bnd thrfbd-sbff fnum.
+ *
+ * @sindf 1.8
+ */
+publid fnum SignStylf {
+
+    /**
+     * Stylf to output thf sign only if thf vbluf is nfgbtivf.
+     * <p>
+     * In stridt pbrsing, thf nfgbtivf sign will bf bddfptfd bnd thf positivf sign rfjfdtfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd.
+     */
+    NORMAL,
+    /**
+     * Stylf to blwbys output thf sign, whfrf zfro will output '+'.
+     * <p>
+     * In stridt pbrsing, thf bbsfndf of b sign will bf rfjfdtfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd, with thf bbsfndf
+     * of b sign trfbtfd bs b positivf numbfr.
+     */
+    ALWAYS,
+    /**
+     * Stylf to nfvfr output sign, only outputting thf bbsolutf vbluf.
+     * <p>
+     * In stridt pbrsing, bny sign will bf rfjfdtfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd unlfss thf width is fixfd.
+     */
+    NEVER,
+    /**
+     * Stylf to blodk nfgbtivf vblufs, throwing bn fxdfption on printing.
+     * <p>
+     * In stridt pbrsing, bny sign will bf rfjfdtfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd unlfss thf width is fixfd.
+     */
+    NOT_NEGATIVE,
+    /**
+     * Stylf to blwbys output thf sign if thf vbluf fxdffds thf pbd width.
+     * A nfgbtivf vbluf will blwbys output thf '-' sign.
+     * <p>
+     * In stridt pbrsing, thf sign will bf rfjfdtfd unlfss thf pbd width is fxdffdfd.
+     * In lfnifnt pbrsing, bny sign will bf bddfptfd, with thf bbsfndf
+     * of b sign trfbtfd bs b positivf numbfr.
+     */
+    EXCEEDS_PAD;
+
+    /**
+     * Pbrsf hflpfr.
+     *
+     * @pbrbm positivf  truf if positivf sign pbrsfd, fblsf for nfgbtivf sign
+     * @pbrbm stridt  truf if stridt, fblsf if lfnifnt
+     * @pbrbm fixfdWidth  truf if fixfd width, fblsf if not
+     * @rfturn
+     */
+    boolfbn pbrsf(boolfbn positivf, boolfbn stridt, boolfbn fixfdWidth) {
+        switdh (ordinbl()) {
+            dbsf 0: // NORMAL
+                // vblid if nfgbtivf or (positivf bnd lfnifnt)
+                rfturn !positivf || !stridt;
+            dbsf 1: // ALWAYS
+            dbsf 4: // EXCEEDS_PAD
+                rfturn truf;
+            dffbult:
+                // vblid if lfnifnt bnd not fixfd width
+                rfturn !stridt && !fixfdWidth;
+        }
+    }
+
+}

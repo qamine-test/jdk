@@ -1,0 +1,774 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+
+import jbvb.util.Lodblf;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfSupport;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bwt.IllfgblComponfntStbtfExdfption;
+
+/**
+ * AddfssiblfContfxt rfprfsfnts thf minimum informbtion bll bddfssiblf objfdts
+ * rfturn.  This informbtion indludfs thf bddfssiblf nbmf, dfsdription, rolf,
+ * bnd stbtf of thf objfdt, bs wfll bs informbtion bbout its pbrfnt bnd
+ * dhildrfn.  AddfssiblfContfxt blso dontbins mfthods for
+ * obtbining morf spfdifid bddfssibility informbtion bbout b domponfnt.
+ * If thf domponfnt supports thfm, thfsf mfthods will rfturn bn objfdt thbt
+ * implfmfnts onf or morf of thf following intfrfbdfs:
+ * <ul>
+ * <li>{@link AddfssiblfAdtion} - thf objfdt dbn pfrform onf or morf bdtions.
+ * This intfrfbdf providfs thf stbndbrd mfdhbnism for bn bssistivf
+ * tfdhnology to dftfrminf whbt thosf bdtions brf bnd tfll thf objfdt
+ * to pfrform thfm.  Any objfdt thbt dbn bf mbnipulbtfd should
+ * support this intfrfbdf.
+ * <li>{@link AddfssiblfComponfnt} - thf objfdt hbs b grbphidbl rfprfsfntbtion.
+ * This intfrfbdf providfs thf stbndbrd mfdhbnism for bn bssistivf
+ * tfdhnology to dftfrminf bnd sft thf grbphidbl rfprfsfntbtion of thf
+ * objfdt.  Any objfdt thbt is rfndfrfd on thf sdrffn should support
+ * this intfrfbdf.
+ * <li>{@link  AddfssiblfSflfdtion} - thf objfdt bllows its dhildrfn to bf
+ * sflfdtfd.  This intfrfbdf providfs thf stbndbrd mfdhbnism for bn
+ * bssistivf tfdhnology to dftfrminf thf durrfntly sflfdtfd dhildrfn of thf objfdt
+ * bs wfll bs modify its sflfdtion sft.  Any objfdt thbt hbs dhildrfn
+ * thbt dbn bf sflfdtfd should support this intfrfbdf.
+ * <li>{@link AddfssiblfTfxt} - thf objfdt prfsfnts fditbblf tfxtubl informbtion
+ * on thf displby.  This intfrfbdf providfs thf stbndbrd mfdhbnism for
+ * bn bssistivf tfdhnology to bddfss thbt tfxt vib its dontfnt, bttributfs,
+ * bnd spbtibl lodbtion.  Any objfdt thbt dontbins fditbblf tfxt should
+ * support this intfrfbdf.
+ * <li>{@link AddfssiblfVbluf} - thf objfdt supports b numfridbl vbluf.  This
+ * intfrfbdf providfs thf stbndbrd mfdhbnism for bn bssistivf tfdhnology
+ * to dftfrminf bnd sft thf durrfnt vbluf of thf objfdt, bs wfll bs obtbin its
+ * minimum bnd mbximum vblufs.  Any objfdt thbt supports b numfridbl vbluf
+ * should support this intfrfbdf.</ul>
+ *
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: Minimbl informbtion thbt bll bddfssiblf objfdts rfturn
+ *
+
+ * @buthor      Pftfr Korn
+ * @buthor      Hbns Mullfr
+ * @buthor      Willif Wblkfr
+ * @buthor      Lynn Monsbnto
+ */
+publid bbstrbdt dlbss AddfssiblfContfxt {
+
+    /**
+     * Thf AppContfxt thbt should bf usfd to dispbtdh fvfnts for this
+     * AddfssiblfContfxt
+     */
+    privbtf volbtilf AppContfxt tbrgftAppContfxt;
+
+    stbtid {
+        AWTAddfssor.sftAddfssiblfContfxtAddfssor(nfw AWTAddfssor.AddfssiblfContfxtAddfssor() {
+            @Ovfrridf
+            publid void sftAppContfxt(AddfssiblfContfxt bddfssiblfContfxt, AppContfxt bppContfxt) {
+                bddfssiblfContfxt.tbrgftAppContfxt = bppContfxt;
+            }
+
+            @Ovfrridf
+            publid AppContfxt gftAppContfxt(AddfssiblfContfxt bddfssiblfContfxt) {
+                rfturn bddfssiblfContfxt.tbrgftAppContfxt;
+            }
+        });
+    }
+
+   /**
+    * Constbnt usfd to dftfrminf whfn thf bddfssiblfNbmf propfrty hbs
+    * dhbngfd.  Thf old vbluf in thf PropfrtyChbngfEvfnt will bf thf old
+    * bddfssiblfNbmf bnd thf nfw vbluf will bf thf nfw bddfssiblfNbmf.
+    *
+    * @sff #gftAddfssiblfNbmf
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_NAME_PROPERTY = "AddfssiblfNbmf";
+
+   /**
+    * Constbnt usfd to dftfrminf whfn thf bddfssiblfDfsdription propfrty hbs
+    * dhbngfd.  Thf old vbluf in thf PropfrtyChbngfEvfnt will bf thf
+    * old bddfssiblfDfsdription bnd thf nfw vbluf will bf thf nfw
+    * bddfssiblfDfsdription.
+    *
+    * @sff #gftAddfssiblfDfsdription
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_DESCRIPTION_PROPERTY = "AddfssiblfDfsdription";
+
+   /**
+    * Constbnt usfd to dftfrminf whfn thf bddfssiblfStbtfSft propfrty hbs
+    * dhbngfd.  Thf old vbluf will bf thf old AddfssiblfStbtf bnd thf nfw
+    * vbluf will bf thf nfw AddfssiblfStbtf in thf bddfssiblfStbtfSft.
+    * For fxbmplf, if b domponfnt thbt supports thf vfrtidbl bnd horizontbl
+    * stbtfs dhbngfs its orifntbtion from vfrtidbl to horizontbl, thf old
+    * vbluf will bf AddfssiblfStbtf.VERTICAL bnd thf nfw vbluf will bf
+    * AddfssiblfStbtf.HORIZONTAL.  Plfbsf notf thbt fithfr vbluf dbn blso
+    * bf null.  For fxbmplf, whfn b domponfnt dhbngfs from bfing fnbblfd
+    * to disbblfd, thf old vbluf will bf AddfssiblfStbtf.ENABLED
+    * bnd thf nfw vbluf will bf null.
+    *
+    * @sff #gftAddfssiblfStbtfSft
+    * @sff AddfssiblfStbtf
+    * @sff AddfssiblfStbtfSft
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_STATE_PROPERTY = "AddfssiblfStbtf";
+
+   /**
+    * Constbnt usfd to dftfrminf whfn thf bddfssiblfVbluf propfrty hbs
+    * dhbngfd.  Thf old vbluf in thf PropfrtyChbngfEvfnt will bf b Numbfr
+    * rfprfsfnting thf old vbluf bnd thf nfw vbluf will bf b Numbfr
+    * rfprfsfnting thf nfw vbluf
+    *
+    * @sff #gftAddfssiblfVbluf
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_VALUE_PROPERTY = "AddfssiblfVbluf";
+
+   /**
+    * Constbnt usfd to dftfrminf whfn thf bddfssiblfSflfdtion hbs dhbngfd.
+    * Thf old bnd nfw vblufs in thf PropfrtyChbngfEvfnt brf durrfntly
+    * rfsfrvfd for futurf usf.
+    *
+    * @sff #gftAddfssiblfSflfdtion
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_SELECTION_PROPERTY = "AddfssiblfSflfdtion";
+
+   /**
+    * Constbnt usfd to dftfrminf whfn thf bddfssiblfTfxt dbrft hbs dhbngfd.
+    * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf bn
+    * intfgfr rfprfsfnting thf old dbrft position, bnd thf nfw vbluf will
+    * bf bn intfgfr rfprfsfnting thf nfw/durrfnt dbrft position.
+    *
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_CARET_PROPERTY = "AddfssiblfCbrft";
+
+   /**
+    * Constbnt usfd to dftfrminf whfn thf visubl bppfbrbndf of thf objfdt
+    * hbs dhbngfd.  Thf old bnd nfw vblufs in thf PropfrtyChbngfEvfnt brf
+    * durrfntly rfsfrvfd for futurf usf.
+    *
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_VISIBLE_DATA_PROPERTY = "AddfssiblfVisiblfDbtb";
+
+   /**
+    * Constbnt usfd to dftfrminf whfn Addfssiblf dhildrfn brf bddfd/rfmovfd
+    * from thf objfdt.  If bn Addfssiblf dhild is bfing bddfd, thf old
+    * vbluf will bf null bnd thf nfw vbluf will bf thf Addfssiblf dhild.  If bn
+    * Addfssiblf dhild is bfing rfmovfd, thf old vbluf will bf thf Addfssiblf
+    * dhild, bnd thf nfw vbluf will bf null.
+    *
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_CHILD_PROPERTY = "AddfssiblfChild";
+
+   /**
+    * Constbnt usfd to dftfrminf whfn thf bdtivf dfsdfndbnt of b domponfnt
+    * hbs dhbngfd.  Thf bdtivf dfsdfndbnt is usfd for objfdts sudh bs
+    * list, trff, bnd tbblf, whidh mby hbvf trbnsifnt dhildrfn.  Whfn thf
+    * bdtivf dfsdfndbnt hbs dhbngfd, thf old vbluf of thf propfrty dhbngf
+    * fvfnt will bf thf Addfssiblf rfprfsfnting thf prfvious bdtivf dhild, bnd
+    * thf nfw vbluf will bf thf Addfssiblf rfprfsfnting thf durrfnt bdtivf
+    * dhild.
+    *
+    * @sff #bddPropfrtyChbngfListfnfr
+    */
+   publid stbtid finbl String ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY = "AddfssiblfAdtivfDfsdfndbnt";
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf tbblf dbption hbs dhbngfd
+     * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf bn Addfssiblf
+     * rfprfsfnting thf prfvious tbblf dbption bnd thf nfw vbluf will
+     * bf bn Addfssiblf rfprfsfnting thf nfw tbblf dbption.
+     * @sff Addfssiblf
+     * @sff AddfssiblfTbblf
+     */
+    publid stbtid finbl String ACCESSIBLE_TABLE_CAPTION_CHANGED =
+        "bddfssiblfTbblfCbptionChbngfd";
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf tbblf summbry hbs dhbngfd
+     * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf bn Addfssiblf
+     * rfprfsfnting thf prfvious tbblf summbry bnd thf nfw vbluf will
+     * bf bn Addfssiblf rfprfsfnting thf nfw tbblf summbry.
+     * @sff Addfssiblf
+     * @sff AddfssiblfTbblf
+     */
+    publid stbtid finbl String ACCESSIBLE_TABLE_SUMMARY_CHANGED =
+        "bddfssiblfTbblfSummbryChbngfd";
+
+    /**
+     * Constbnt usfd to indidbtf thbt tbblf dbtb hbs dhbngfd.
+     * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf null bnd thf
+     * nfw vbluf will bf bn AddfssiblfTbblfModflChbngf rfprfsfnting
+     * thf tbblf dhbngf.
+     * @sff AddfssiblfTbblf
+     * @sff AddfssiblfTbblfModflChbngf
+     */
+    publid stbtid finbl String ACCESSIBLE_TABLE_MODEL_CHANGED =
+        "bddfssiblfTbblfModflChbngfd";
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf row hfbdfr hbs dhbngfd
+     * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf null bnd thf
+     * nfw vbluf will bf bn AddfssiblfTbblfModflChbngf rfprfsfnting
+     * thf hfbdfr dhbngf.
+     * @sff AddfssiblfTbblf
+     * @sff AddfssiblfTbblfModflChbngf
+     */
+    publid stbtid finbl String ACCESSIBLE_TABLE_ROW_HEADER_CHANGED =
+        "bddfssiblfTbblfRowHfbdfrChbngfd";
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf row dfsdription hbs dhbngfd
+     * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf null bnd thf
+     * nfw vbluf will bf bn Intfgfr rfprfsfnting thf row indfx.
+     * @sff AddfssiblfTbblf
+     */
+    publid stbtid finbl String ACCESSIBLE_TABLE_ROW_DESCRIPTION_CHANGED =
+        "bddfssiblfTbblfRowDfsdriptionChbngfd";
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf dolumn hfbdfr hbs dhbngfd
+     * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf null bnd thf
+     * nfw vbluf will bf bn AddfssiblfTbblfModflChbngf rfprfsfnting
+     * thf hfbdfr dhbngf.
+     * @sff AddfssiblfTbblf
+     * @sff AddfssiblfTbblfModflChbngf
+     */
+    publid stbtid finbl String ACCESSIBLE_TABLE_COLUMN_HEADER_CHANGED =
+        "bddfssiblfTbblfColumnHfbdfrChbngfd";
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf dolumn dfsdription hbs dhbngfd
+     * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf null bnd thf
+     * nfw vbluf will bf bn Intfgfr rfprfsfnting thf dolumn indfx.
+     * @sff AddfssiblfTbblf
+     */
+    publid stbtid finbl String ACCESSIBLE_TABLE_COLUMN_DESCRIPTION_CHANGED =
+        "bddfssiblfTbblfColumnDfsdriptionChbngfd";
+
+    /**
+     * Constbnt usfd to indidbtf thbt thf supportfd sft of bdtions
+     * hbs dhbngfd.  Thf old vbluf in thf PropfrtyChbngfEvfnt will
+     * bf bn Intfgfr rfprfsfnting thf old numbfr of bdtions supportfd
+     * bnd thf nfw vbluf will bf bn Intfgfr rfprfsfnting thf nfw
+     * numbfr of bdtions supportfd.
+     * @sff AddfssiblfAdtion
+     */
+    publid stbtid finbl String ACCESSIBLE_ACTION_PROPERTY =
+        "bddfssiblfAdtionPropfrty";
+
+    /**
+     * Constbnt usfd to indidbtf thbt b hypfrtfxt flfmfnt hbs rfdfivfd fodus.
+     * Thf old vbluf in thf PropfrtyChbngfEvfnt will bf bn Intfgfr
+     * rfprfsfnting thf stbrt indfx in thf dodumfnt of thf prfvious flfmfnt
+     * thbt hbd fodus bnd thf nfw vbluf will bf bn Intfgfr rfprfsfnting
+     * thf stbrt indfx in thf dodumfnt of thf durrfnt flfmfnt thbt hbs
+     * fodus.  A vbluf of -1 indidbtfs thbt bn flfmfnt dofs not or did
+     * not hbvf fodus.
+     * @sff AddfssiblfHypfrlink
+     */
+    publid stbtid finbl String ACCESSIBLE_HYPERTEXT_OFFSET =
+        "AddfssiblfHypfrtfxtOffsft";
+
+    /**
+     * PropfrtyChbngfEvfnt whidh indidbtfs thbt tfxt hbs dhbngfd.
+     * <br>
+     * For tfxt insfrtion, thf oldVbluf is null bnd thf nfwVbluf
+     * is bn AddfssiblfTfxtSfqufndf spfdifying thf tfxt thbt wbs
+     * insfrtfd.
+     * <br>
+     * For tfxt dflftion, thf oldVbluf is bn AddfssiblfTfxtSfqufndf
+     * spfdifying thf tfxt thbt wbs dflftfd bnd thf nfwVbluf is null.
+     * <br>
+     * For tfxt rfplbdfmfnt, thf oldVbluf is bn AddfssiblfTfxtSfqufndf
+     * spfdifying thf old tfxt bnd thf nfwVbluf is bn AddfssiblfTfxtSfqufndf
+     * spfdifying thf nfw tfxt.
+     *
+     * @sff #gftAddfssiblfTfxt
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff AddfssiblfTfxtSfqufndf
+     */
+    publid stbtid finbl String ACCESSIBLE_TEXT_PROPERTY
+        = "AddfssiblfTfxt";
+
+    /**
+     * PropfrtyChbngfEvfnt whidh indidbtfs thbt b signifidbnt dhbngf
+     * hbs oddurrfd to thf dhildrfn of b domponfnt likf b trff or tfxt.
+     * This dhbngf notififs thf fvfnt listfnfr thbt it nffds to
+     * rfbdquirf thf stbtf of thf subdomponfnts. Thf oldVbluf is
+     * null bnd thf nfwVbluf is thf domponfnt whosf dhildrfn hbvf
+     * bfdomf invblid.
+     *
+     * @sff #gftAddfssiblfTfxt
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff AddfssiblfTfxtSfqufndf
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String ACCESSIBLE_INVALIDATE_CHILDREN =
+        "bddfssiblfInvblidbtfChildrfn";
+
+     /**
+     * PropfrtyChbngfEvfnt whidh indidbtfs thbt tfxt bttributfs hbvf dhbngfd.
+     * <br>
+     * For bttributf insfrtion, thf oldVbluf is null bnd thf nfwVbluf
+     * is bn AddfssiblfAttributfSfqufndf spfdifying thf bttributfs thbt wfrf
+     * insfrtfd.
+     * <br>
+     * For bttributf dflftion, thf oldVbluf is bn AddfssiblfAttributfSfqufndf
+     * spfdifying thf bttributfs thbt wfrf dflftfd bnd thf nfwVbluf is null.
+     * <br>
+     * For bttributf rfplbdfmfnt, thf oldVbluf is bn AddfssiblfAttributfSfqufndf
+     * spfdifying thf old bttributfs bnd thf nfwVbluf is bn
+     * AddfssiblfAttributfSfqufndf spfdifying thf nfw bttributfs.
+     *
+     * @sff #gftAddfssiblfTfxt
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff AddfssiblfAttributfSfqufndf
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String ACCESSIBLE_TEXT_ATTRIBUTES_CHANGED =
+        "bddfssiblfTfxtAttributfsChbngfd";
+
+   /**
+     * PropfrtyChbngfEvfnt whidh indidbtfs thbt b dhbngf hbs oddurrfd
+     * in b domponfnt's bounds.
+     * Thf oldVbluf is thf old domponfnt bounds bnd thf nfwVbluf is
+     * thf nfw domponfnt bounds.
+     *
+     * @sff #bddPropfrtyChbngfListfnfr
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl String ACCESSIBLE_COMPONENT_BOUNDS_CHANGED =
+        "bddfssiblfComponfntBoundsChbngfd";
+
+    /**
+     * Thf bddfssiblf pbrfnt of this objfdt.
+     *
+     * @sff #gftAddfssiblfPbrfnt
+     * @sff #sftAddfssiblfPbrfnt
+     */
+    protfdtfd Addfssiblf bddfssiblfPbrfnt = null;
+
+    /**
+     * A lodblizfd String dontbining thf nbmf of thf objfdt.
+     *
+     * @sff #gftAddfssiblfNbmf
+     * @sff #sftAddfssiblfNbmf
+     */
+    protfdtfd String bddfssiblfNbmf = null;
+
+    /**
+     * A lodblizfd String dontbining thf dfsdription of thf objfdt.
+     *
+     * @sff #gftAddfssiblfDfsdription
+     * @sff #sftAddfssiblfDfsdription
+     */
+    protfdtfd String bddfssiblfDfsdription = null;
+
+    /**
+     * Usfd to hbndlf thf listfnfr list for propfrty dhbngf fvfnts.
+     *
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff #rfmovfPropfrtyChbngfListfnfr
+     * @sff #firfPropfrtyChbngfListfnfr
+     */
+    privbtf PropfrtyChbngfSupport bddfssiblfChbngfSupport = null;
+
+    /**
+     * Usfd to rfprfsfnt thf dontfxt's rflbtion sft
+     * @sff #gftAddfssiblfRflbtionSft
+     */
+    privbtf AddfssiblfRflbtionSft rflbtionSft
+        = nfw AddfssiblfRflbtionSft();
+
+    privbtf Objfdt nbtivfAXRfsourdf;
+
+    /**
+     * Gfts thf bddfssiblfNbmf propfrty of this objfdt.  Thf bddfssiblfNbmf
+     * propfrty of bn objfdt is b lodblizfd String thbt dfsignbtfs thf purposf
+     * of thf objfdt.  For fxbmplf, thf bddfssiblfNbmf propfrty of b lbbfl
+     * or button might bf thf tfxt of thf lbbfl or button itsflf.  In thf
+     * dbsf of bn objfdt thbt dofsn't displby its nbmf, thf bddfssiblfNbmf
+     * should still bf sft.  For fxbmplf, in thf dbsf of b tfxt fifld usfd
+     * to fntfr thf nbmf of b dity, thf bddfssiblfNbmf for thf fn_US lodblf
+     * dould bf 'dity.'
+     *
+     * @rfturn thf lodblizfd nbmf of thf objfdt; null if this
+     * objfdt dofs not hbvf b nbmf
+     *
+     * @sff #sftAddfssiblfNbmf
+     */
+    publid String gftAddfssiblfNbmf() {
+        rfturn bddfssiblfNbmf;
+    }
+
+    /**
+     * Sfts thf lodblizfd bddfssiblf nbmf of this objfdt.  Chbnging thf
+     * nbmf will dbusf b PropfrtyChbngfEvfnt to bf firfd for thf
+     * ACCESSIBLE_NAME_PROPERTY propfrty.
+     *
+     * @pbrbm s thf nfw lodblizfd nbmf of thf objfdt.
+     *
+     * @sff #gftAddfssiblfNbmf
+     * @sff #bddPropfrtyChbngfListfnfr
+     *
+     * @bfbninfo
+     *    prfffrrfd:   truf
+     *    dfsdription: Sfts thf bddfssiblf nbmf for thf domponfnt.
+     */
+    publid void sftAddfssiblfNbmf(String s) {
+        String oldNbmf = bddfssiblfNbmf;
+        bddfssiblfNbmf = s;
+        firfPropfrtyChbngf(ACCESSIBLE_NAME_PROPERTY,oldNbmf,bddfssiblfNbmf);
+    }
+
+    /**
+     * Gfts thf bddfssiblfDfsdription propfrty of this objfdt.  Thf
+     * bddfssiblfDfsdription propfrty of this objfdt is b short lodblizfd
+     * phrbsf dfsdribing thf purposf of thf objfdt.  For fxbmplf, in thf
+     * dbsf of b 'Cbndfl' button, thf bddfssiblfDfsdription dould bf
+     * 'Ignorf dhbngfs bnd dlosf diblog box.'
+     *
+     * @rfturn thf lodblizfd dfsdription of thf objfdt; null if
+     * this objfdt dofs not hbvf b dfsdription
+     *
+     * @sff #sftAddfssiblfDfsdription
+     */
+    publid String gftAddfssiblfDfsdription() {
+        rfturn bddfssiblfDfsdription;
+    }
+
+    /**
+     * Sfts thf bddfssiblf dfsdription of this objfdt.  Chbnging thf
+     * nbmf will dbusf b PropfrtyChbngfEvfnt to bf firfd for thf
+     * ACCESSIBLE_DESCRIPTION_PROPERTY propfrty.
+     *
+     * @pbrbm s thf nfw lodblizfd dfsdription of thf objfdt
+     *
+     * @sff #sftAddfssiblfNbmf
+     * @sff #bddPropfrtyChbngfListfnfr
+     *
+     * @bfbninfo
+     *    prfffrrfd:   truf
+     *    dfsdription: Sfts thf bddfssiblf dfsdription for thf domponfnt.
+     */
+    publid void sftAddfssiblfDfsdription(String s) {
+        String oldDfsdription = bddfssiblfDfsdription;
+        bddfssiblfDfsdription = s;
+        firfPropfrtyChbngf(ACCESSIBLE_DESCRIPTION_PROPERTY,
+                           oldDfsdription,bddfssiblfDfsdription);
+    }
+
+    /**
+     * Gfts thf rolf of this objfdt.  Thf rolf of thf objfdt is thf gfnfrid
+     * purposf or usf of thf dlbss of this objfdt.  For fxbmplf, thf rolf
+     * of b push button is AddfssiblfRolf.PUSH_BUTTON.  Thf rolfs in
+     * AddfssiblfRolf brf providfd so domponfnt dfvflopfrs dbn pidk from
+     * b sft of prfdffinfd rolfs.  This fnbblfs bssistivf tfdhnologifs to
+     * providf b donsistfnt intfrfbdf to vbrious twfbkfd subdlbssfs of
+     * domponfnts (f.g., usf AddfssiblfRolf.PUSH_BUTTON for bll domponfnts
+     * thbt bdt likf b push button) bs wfll bs distinguish bftwffn subdlbssfs
+     * thbt bfhbvf difffrfntly (f.g., AddfssiblfRolf.CHECK_BOX for dhfdk boxfs
+     * bnd AddfssiblfRolf.RADIO_BUTTON for rbdio buttons).
+     * <p>Notf thbt thf AddfssiblfRolf dlbss is blso fxtfnsiblf, so
+     * dustom domponfnt dfvflopfrs dbn dffinf thfir own AddfssiblfRolf's
+     * if thf sft of prfdffinfd rolfs is inbdfqubtf.
+     *
+     * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf objfdt
+     * @sff AddfssiblfRolf
+     */
+    publid bbstrbdt AddfssiblfRolf gftAddfssiblfRolf();
+
+    /**
+     * Gfts thf stbtf sft of this objfdt.  Thf AddfssiblfStbtfSft of bn objfdt
+     * is domposfd of b sft of uniquf AddfssiblfStbtfs.  A dhbngf in thf
+     * AddfssiblfStbtfSft of bn objfdt will dbusf b PropfrtyChbngfEvfnt to
+     * bf firfd for thf ACCESSIBLE_STATE_PROPERTY propfrty.
+     *
+     * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining thf
+     * durrfnt stbtf sft of thf objfdt
+     * @sff AddfssiblfStbtfSft
+     * @sff AddfssiblfStbtf
+     * @sff #bddPropfrtyChbngfListfnfr
+     */
+    publid bbstrbdt AddfssiblfStbtfSft gftAddfssiblfStbtfSft();
+
+    /**
+     * Gfts thf Addfssiblf pbrfnt of this objfdt.
+     *
+     * @rfturn thf Addfssiblf pbrfnt of this objfdt; null if this
+     * objfdt dofs not hbvf bn Addfssiblf pbrfnt
+     */
+    publid Addfssiblf gftAddfssiblfPbrfnt() {
+        rfturn bddfssiblfPbrfnt;
+    }
+
+    /**
+     * Sfts thf Addfssiblf pbrfnt of this objfdt.  This is mfbnt to bf usfd
+     * only in thf situbtions whfrf thf bdtubl domponfnt's pbrfnt should
+     * not bf trfbtfd bs thf domponfnt's bddfssiblf pbrfnt bnd is b mfthod
+     * thbt should only bf dbllfd by thf pbrfnt of thf bddfssiblf dhild.
+     *
+     * @pbrbm b - Addfssiblf to bf sft bs thf pbrfnt
+     */
+    publid void sftAddfssiblfPbrfnt(Addfssiblf b) {
+        bddfssiblfPbrfnt = b;
+    }
+
+    /**
+     * Gfts thf 0-bbsfd indfx of this objfdt in its bddfssiblf pbrfnt.
+     *
+     * @rfturn thf 0-bbsfd indfx of this objfdt in its pbrfnt; -1 if this
+     * objfdt dofs not hbvf bn bddfssiblf pbrfnt.
+     *
+     * @sff #gftAddfssiblfPbrfnt
+     * @sff #gftAddfssiblfChildrfnCount
+     * @sff #gftAddfssiblfChild
+     */
+    publid bbstrbdt int gftAddfssiblfIndfxInPbrfnt();
+
+    /**
+     * Rfturns thf numbfr of bddfssiblf dhildrfn of thf objfdt.
+     *
+     * @rfturn thf numbfr of bddfssiblf dhildrfn of thf objfdt.
+     */
+    publid bbstrbdt int gftAddfssiblfChildrfnCount();
+
+    /**
+     * Rfturns thf spfdififd Addfssiblf dhild of thf objfdt.  Thf Addfssiblf
+     * dhildrfn of bn Addfssiblf objfdt brf zfro-bbsfd, so thf first dhild
+     * of bn Addfssiblf dhild is bt indfx 0, thf sfdond dhild is bt indfx 1,
+     * bnd so on.
+     *
+     * @pbrbm i zfro-bbsfd indfx of dhild
+     * @rfturn thf Addfssiblf dhild of thf objfdt
+     * @sff #gftAddfssiblfChildrfnCount
+     */
+    publid bbstrbdt Addfssiblf gftAddfssiblfChild(int i);
+
+    /**
+     * Gfts thf lodblf of thf domponfnt. If thf domponfnt dofs not hbvf b
+     * lodblf, thfn thf lodblf of its pbrfnt is rfturnfd.
+     *
+     * @rfturn this domponfnt's lodblf.  If this domponfnt dofs not hbvf
+     * b lodblf, thf lodblf of its pbrfnt is rfturnfd.
+     *
+     * @fxdfption IllfgblComponfntStbtfExdfption
+     * If thf Componfnt dofs not hbvf its own lodblf bnd hbs not yft bffn
+     * bddfd to b dontbinmfnt hifrbrdhy sudh thbt thf lodblf dbn bf
+     * dftfrminfd from thf dontbining pbrfnt.
+     */
+    publid bbstrbdt Lodblf gftLodblf() throws IllfgblComponfntStbtfExdfption;
+
+    /**
+     * Adds b PropfrtyChbngfListfnfr to thf listfnfr list.
+     * Thf listfnfr is rfgistfrfd for bll Addfssiblf propfrtifs bnd will
+     * bf dbllfd whfn thosf propfrtifs dhbngf.
+     *
+     * @sff #ACCESSIBLE_NAME_PROPERTY
+     * @sff #ACCESSIBLE_DESCRIPTION_PROPERTY
+     * @sff #ACCESSIBLE_STATE_PROPERTY
+     * @sff #ACCESSIBLE_VALUE_PROPERTY
+     * @sff #ACCESSIBLE_SELECTION_PROPERTY
+     * @sff #ACCESSIBLE_TEXT_PROPERTY
+     * @sff #ACCESSIBLE_VISIBLE_DATA_PROPERTY
+     *
+     * @pbrbm listfnfr  Thf PropfrtyChbngfListfnfr to bf bddfd
+     */
+    publid void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+        if (bddfssiblfChbngfSupport == null) {
+            bddfssiblfChbngfSupport = nfw PropfrtyChbngfSupport(this);
+        }
+        bddfssiblfChbngfSupport.bddPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfmovfs b PropfrtyChbngfListfnfr from thf listfnfr list.
+     * This rfmovfs b PropfrtyChbngfListfnfr thbt wbs rfgistfrfd
+     * for bll propfrtifs.
+     *
+     * @pbrbm listfnfr  Thf PropfrtyChbngfListfnfr to bf rfmovfd
+     */
+    publid void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+        if (bddfssiblfChbngfSupport != null) {
+            bddfssiblfChbngfSupport.rfmovfPropfrtyChbngfListfnfr(listfnfr);
+        }
+    }
+
+    /**
+     * Gfts thf AddfssiblfAdtion bssodibtfd with this objfdt thbt supports
+     * onf or morf bdtions.
+     *
+     * @rfturn AddfssiblfAdtion if supportfd by objfdt; flsf rfturn null
+     * @sff AddfssiblfAdtion
+     */
+    publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf AddfssiblfComponfnt bssodibtfd with this objfdt thbt hbs b
+     * grbphidbl rfprfsfntbtion.
+     *
+     * @rfturn AddfssiblfComponfnt if supportfd by objfdt; flsf rfturn null
+     * @sff AddfssiblfComponfnt
+     */
+    publid AddfssiblfComponfnt gftAddfssiblfComponfnt() {
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf AddfssiblfSflfdtion bssodibtfd with this objfdt whidh bllows its
+     * Addfssiblf dhildrfn to bf sflfdtfd.
+     *
+     * @rfturn AddfssiblfSflfdtion if supportfd by objfdt; flsf rfturn null
+     * @sff AddfssiblfSflfdtion
+     */
+    publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf AddfssiblfTfxt bssodibtfd with this objfdt prfsfnting
+     * tfxt on thf displby.
+     *
+     * @rfturn AddfssiblfTfxt if supportfd by objfdt; flsf rfturn null
+     * @sff AddfssiblfTfxt
+     */
+    publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf AddfssiblfEditbblfTfxt bssodibtfd with this objfdt
+     * prfsfnting fditbblf tfxt on thf displby.
+     *
+     * @rfturn AddfssiblfEditbblfTfxt if supportfd by objfdt; flsf rfturn null
+     * @sff AddfssiblfEditbblfTfxt
+     * @sindf 1.4
+     */
+    publid AddfssiblfEditbblfTfxt gftAddfssiblfEditbblfTfxt() {
+        rfturn null;
+    }
+
+
+    /**
+     * Gfts thf AddfssiblfVbluf bssodibtfd with this objfdt thbt supports b
+     * Numfridbl vbluf.
+     *
+     * @rfturn AddfssiblfVbluf if supportfd by objfdt; flsf rfturn null
+     * @sff AddfssiblfVbluf
+     */
+    publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf AddfssiblfIdons bssodibtfd with bn objfdt thbt hbs
+     * onf or morf bssodibtfd idons
+     *
+     * @rfturn bn brrby of AddfssiblfIdon if supportfd by objfdt;
+     * othfrwisf rfturn null
+     * @sff AddfssiblfIdon
+     * @sindf 1.3
+     */
+    publid AddfssiblfIdon [] gftAddfssiblfIdon() {
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf AddfssiblfRflbtionSft bssodibtfd with bn objfdt
+     *
+     * @rfturn bn AddfssiblfRflbtionSft if supportfd by objfdt;
+     * othfrwisf rfturn null
+     * @sff AddfssiblfRflbtionSft
+     * @sindf 1.3
+     */
+    publid AddfssiblfRflbtionSft gftAddfssiblfRflbtionSft() {
+        rfturn rflbtionSft;
+    }
+
+    /**
+     * Gfts thf AddfssiblfTbblf bssodibtfd with bn objfdt
+     *
+     * @rfturn bn AddfssiblfTbblf if supportfd by objfdt;
+     * othfrwisf rfturn null
+     * @sff AddfssiblfTbblf
+     * @sindf 1.3
+     */
+    publid AddfssiblfTbblf gftAddfssiblfTbblf() {
+        rfturn null;
+    }
+
+    /**
+     * Support for rfporting bound propfrty dhbngfs.  If oldVbluf bnd
+     * nfwVbluf brf not fqubl bnd thf PropfrtyChbngfEvfnt listfnfr list
+     * is not fmpty, thfn firf b PropfrtyChbngf fvfnt to fbdh listfnfr.
+     * In gfnfrbl, this is for usf by thf Addfssiblf objfdts thfmsflvfs
+     * bnd should not bf dbllfd by bn bpplidbtion progrbm.
+     * @pbrbm propfrtyNbmf  Thf progrbmmbtid nbmf of thf propfrty thbt
+     * wbs dhbngfd.
+     * @pbrbm oldVbluf  Thf old vbluf of thf propfrty.
+     * @pbrbm nfwVbluf  Thf nfw vbluf of thf propfrty.
+     * @sff jbvb.bfbns.PropfrtyChbngfSupport
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff #rfmovfPropfrtyChbngfListfnfr
+     * @sff #ACCESSIBLE_NAME_PROPERTY
+     * @sff #ACCESSIBLE_DESCRIPTION_PROPERTY
+     * @sff #ACCESSIBLE_STATE_PROPERTY
+     * @sff #ACCESSIBLE_VALUE_PROPERTY
+     * @sff #ACCESSIBLE_SELECTION_PROPERTY
+     * @sff #ACCESSIBLE_TEXT_PROPERTY
+     * @sff #ACCESSIBLE_VISIBLE_DATA_PROPERTY
+     */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf,
+                                   Objfdt oldVbluf,
+                                   Objfdt nfwVbluf) {
+        if (bddfssiblfChbngfSupport != null) {
+            if (nfwVbluf instbndfof PropfrtyChbngfEvfnt) {
+                PropfrtyChbngfEvfnt pdf = (PropfrtyChbngfEvfnt)nfwVbluf;
+                bddfssiblfChbngfSupport.firfPropfrtyChbngf(pdf);
+            } flsf {
+                bddfssiblfChbngfSupport.firfPropfrtyChbngf(propfrtyNbmf,
+                                                           oldVbluf,
+                                                           nfwVbluf);
+            }
+        }
+    }
+}

@@ -1,1618 +1,1618 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.prefs;
+pbdkbgf jbvb.util.prffs;
 
-import java.util.*;
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-// These imports needed only as a workaround for a JavaDoc bug
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.Float;
-import java.lang.Double;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+// Tifsf imports nffdfd only bs b workbround for b JbvbDod bug
+import jbvb.lbng.Intfgfr;
+import jbvb.lbng.Long;
+import jbvb.lbng.Flobt;
+import jbvb.lbng.Doublf;
 
 /**
- * This class provides a skeletal implementation of the {@link Preferences}
- * class, greatly easing the task of implementing it.
+ * Tiis dlbss providfs b skflftbl implfmfntbtion of tif {@link Prfffrfndfs}
+ * dlbss, grfbtly fbsing tif tbsk of implfmfnting it.
  *
- * <p><strong>This class is for <tt>Preferences</tt> implementers only.
- * Normal users of the <tt>Preferences</tt> facility should have no need to
- * consult this documentation.  The {@link Preferences} documentation
- * should suffice.</strong>
+ * <p><strong>Tiis dlbss is for <tt>Prfffrfndfs</tt> implfmfntfrs only.
+ * Normbl usfrs of tif <tt>Prfffrfndfs</tt> fbdility siould ibvf no nffd to
+ * donsult tiis dodumfntbtion.  Tif {@link Prfffrfndfs} dodumfntbtion
+ * siould suffidf.</strong>
  *
- * <p>Implementors must override the nine abstract service-provider interface
- * (SPI) methods: {@link #getSpi(String)}, {@link #putSpi(String,String)},
- * {@link #removeSpi(String)}, {@link #childSpi(String)}, {@link
- * #removeNodeSpi()}, {@link #keysSpi()}, {@link #childrenNamesSpi()}, {@link
- * #syncSpi()} and {@link #flushSpi()}.  All of the concrete methods specify
- * precisely how they are implemented atop these SPI methods.  The implementor
- * may, at his discretion, override one or more of the concrete methods if the
- * default implementation is unsatisfactory for any reason, such as
- * performance.
+ * <p>Implfmfntors must ovfrridf tif ninf bbstrbdt sfrvidf-providfr intfrfbdf
+ * (SPI) mftiods: {@link #gftSpi(String)}, {@link #putSpi(String,String)},
+ * {@link #rfmovfSpi(String)}, {@link #diildSpi(String)}, {@link
+ * #rfmovfNodfSpi()}, {@link #kfysSpi()}, {@link #diildrfnNbmfsSpi()}, {@link
+ * #syndSpi()} bnd {@link #flusiSpi()}.  All of tif dondrftf mftiods spfdify
+ * prfdisfly iow tify brf implfmfntfd btop tifsf SPI mftiods.  Tif implfmfntor
+ * mby, bt iis disdrftion, ovfrridf onf or morf of tif dondrftf mftiods if tif
+ * dffbult implfmfntbtion is unsbtisfbdtory for bny rfbson, sudi bs
+ * pfrformbndf.
  *
- * <p>The SPI methods fall into three groups concerning exception
- * behavior. The <tt>getSpi</tt> method should never throw exceptions, but it
- * doesn't really matter, as any exception thrown by this method will be
- * intercepted by {@link #get(String,String)}, which will return the specified
- * default value to the caller.  The <tt>removeNodeSpi, keysSpi,
- * childrenNamesSpi, syncSpi</tt> and <tt>flushSpi</tt> methods are specified
- * to throw {@link BackingStoreException}, and the implementation is required
- * to throw this checked exception if it is unable to perform the operation.
- * The exception propagates outward, causing the corresponding API method
- * to fail.
+ * <p>Tif SPI mftiods fbll into tirff groups dondfrning fxdfption
+ * bfibvior. Tif <tt>gftSpi</tt> mftiod siould nfvfr tirow fxdfptions, but it
+ * dofsn't rfblly mbttfr, bs bny fxdfption tirown by tiis mftiod will bf
+ * intfrdfptfd by {@link #gft(String,String)}, wiidi will rfturn tif spfdififd
+ * dffbult vbluf to tif dbllfr.  Tif <tt>rfmovfNodfSpi, kfysSpi,
+ * diildrfnNbmfsSpi, syndSpi</tt> bnd <tt>flusiSpi</tt> mftiods brf spfdififd
+ * to tirow {@link BbdkingStorfExdfption}, bnd tif implfmfntbtion is rfquirfd
+ * to tirow tiis difdkfd fxdfption if it is unbblf to pfrform tif opfrbtion.
+ * Tif fxdfption propbgbtfs outwbrd, dbusing tif dorrfsponding API mftiod
+ * to fbil.
  *
- * <p>The remaining SPI methods {@link #putSpi(String,String)}, {@link
- * #removeSpi(String)} and {@link #childSpi(String)} have more complicated
- * exception behavior.  They are not specified to throw
- * <tt>BackingStoreException</tt>, as they can generally obey their contracts
- * even if the backing store is unavailable.  This is true because they return
- * no information and their effects are not required to become permanent until
- * a subsequent call to {@link Preferences#flush()} or
- * {@link Preferences#sync()}. Generally speaking, these SPI methods should not
- * throw exceptions.  In some implementations, there may be circumstances
- * under which these calls cannot even enqueue the requested operation for
- * later processing.  Even under these circumstances it is generally better to
- * simply ignore the invocation and return, rather than throwing an
- * exception.  Under these circumstances, however, all subsequent invocations
- * of <tt>flush()</tt> and <tt>sync</tt> should return <tt>false</tt>, as
- * returning <tt>true</tt> would imply that all previous operations had
- * successfully been made permanent.
+ * <p>Tif rfmbining SPI mftiods {@link #putSpi(String,String)}, {@link
+ * #rfmovfSpi(String)} bnd {@link #diildSpi(String)} ibvf morf domplidbtfd
+ * fxdfption bfibvior.  Tify brf not spfdififd to tirow
+ * <tt>BbdkingStorfExdfption</tt>, bs tify dbn gfnfrblly obfy tifir dontrbdts
+ * fvfn if tif bbdking storf is unbvbilbblf.  Tiis is truf bfdbusf tify rfturn
+ * no informbtion bnd tifir ffffdts brf not rfquirfd to bfdomf pfrmbnfnt until
+ * b subsfqufnt dbll to {@link Prfffrfndfs#flusi()} or
+ * {@link Prfffrfndfs#synd()}. Gfnfrblly spfbking, tifsf SPI mftiods siould not
+ * tirow fxdfptions.  In somf implfmfntbtions, tifrf mby bf dirdumstbndfs
+ * undfr wiidi tifsf dblls dbnnot fvfn fnqufuf tif rfqufstfd opfrbtion for
+ * lbtfr prodfssing.  Evfn undfr tifsf dirdumstbndfs it is gfnfrblly bfttfr to
+ * simply ignorf tif invodbtion bnd rfturn, rbtifr tibn tirowing bn
+ * fxdfption.  Undfr tifsf dirdumstbndfs, iowfvfr, bll subsfqufnt invodbtions
+ * of <tt>flusi()</tt> bnd <tt>synd</tt> siould rfturn <tt>fblsf</tt>, bs
+ * rfturning <tt>truf</tt> would imply tibt bll prfvious opfrbtions ibd
+ * suddfssfully bffn mbdf pfrmbnfnt.
  *
- * <p>There is one circumstance under which <tt>putSpi, removeSpi and
- * childSpi</tt> <i>should</i> throw an exception: if the caller lacks
- * sufficient privileges on the underlying operating system to perform the
- * requested operation.  This will, for instance, occur on most systems
- * if a non-privileged user attempts to modify system preferences.
- * (The required privileges will vary from implementation to
- * implementation.  On some implementations, they are the right to modify the
- * contents of some directory in the file system; on others they are the right
- * to modify contents of some key in a registry.)  Under any of these
- * circumstances, it would generally be undesirable to let the program
- * continue executing as if these operations would become permanent at a later
- * time.  While implementations are not required to throw an exception under
- * these circumstances, they are encouraged to do so.  A {@link
- * SecurityException} would be appropriate.
+ * <p>Tifrf is onf dirdumstbndf undfr wiidi <tt>putSpi, rfmovfSpi bnd
+ * diildSpi</tt> <i>siould</i> tirow bn fxdfption: if tif dbllfr lbdks
+ * suffidifnt privilfgfs on tif undfrlying opfrbting systfm to pfrform tif
+ * rfqufstfd opfrbtion.  Tiis will, for instbndf, oddur on most systfms
+ * if b non-privilfgfd usfr bttfmpts to modify systfm prfffrfndfs.
+ * (Tif rfquirfd privilfgfs will vbry from implfmfntbtion to
+ * implfmfntbtion.  On somf implfmfntbtions, tify brf tif rigit to modify tif
+ * dontfnts of somf dirfdtory in tif filf systfm; on otifrs tify brf tif rigit
+ * to modify dontfnts of somf kfy in b rfgistry.)  Undfr bny of tifsf
+ * dirdumstbndfs, it would gfnfrblly bf undfsirbblf to lft tif progrbm
+ * dontinuf fxfduting bs if tifsf opfrbtions would bfdomf pfrmbnfnt bt b lbtfr
+ * timf.  Wiilf implfmfntbtions brf not rfquirfd to tirow bn fxdfption undfr
+ * tifsf dirdumstbndfs, tify brf fndourbgfd to do so.  A {@link
+ * SfdurityExdfption} would bf bppropribtf.
  *
- * <p>Most of the SPI methods require the implementation to read or write
- * information at a preferences node.  The implementor should beware of the
- * fact that another VM may have concurrently deleted this node from the
- * backing store.  It is the implementation's responsibility to recreate the
- * node if it has been deleted.
+ * <p>Most of tif SPI mftiods rfquirf tif implfmfntbtion to rfbd or writf
+ * informbtion bt b prfffrfndfs nodf.  Tif implfmfntor siould bfwbrf of tif
+ * fbdt tibt bnotifr VM mby ibvf dondurrfntly dflftfd tiis nodf from tif
+ * bbdking storf.  It is tif implfmfntbtion's rfsponsibility to rfdrfbtf tif
+ * nodf if it ibs bffn dflftfd.
  *
- * <p>Implementation note: In Sun's default <tt>Preferences</tt>
- * implementations, the user's identity is inherited from the underlying
- * operating system and does not change for the lifetime of the virtual
- * machine.  It is recognized that server-side <tt>Preferences</tt>
- * implementations may have the user identity change from request to request,
- * implicitly passed to <tt>Preferences</tt> methods via the use of a
- * static {@link ThreadLocal} instance.  Authors of such implementations are
- * <i>strongly</i> encouraged to determine the user at the time preferences
- * are accessed (for example by the {@link #get(String,String)} or {@link
- * #put(String,String)} method) rather than permanently associating a user
- * with each <tt>Preferences</tt> instance.  The latter behavior conflicts
- * with normal <tt>Preferences</tt> usage and would lead to great confusion.
+ * <p>Implfmfntbtion notf: In Sun's dffbult <tt>Prfffrfndfs</tt>
+ * implfmfntbtions, tif usfr's idfntity is inifritfd from tif undfrlying
+ * opfrbting systfm bnd dofs not dibngf for tif lifftimf of tif virtubl
+ * mbdiinf.  It is rfdognizfd tibt sfrvfr-sidf <tt>Prfffrfndfs</tt>
+ * implfmfntbtions mby ibvf tif usfr idfntity dibngf from rfqufst to rfqufst,
+ * impliditly pbssfd to <tt>Prfffrfndfs</tt> mftiods vib tif usf of b
+ * stbtid {@link TirfbdLodbl} instbndf.  Autiors of sudi implfmfntbtions brf
+ * <i>strongly</i> fndourbgfd to dftfrminf tif usfr bt tif timf prfffrfndfs
+ * brf bddfssfd (for fxbmplf by tif {@link #gft(String,String)} or {@link
+ * #put(String,String)} mftiod) rbtifr tibn pfrmbnfntly bssodibting b usfr
+ * witi fbdi <tt>Prfffrfndfs</tt> instbndf.  Tif lbttfr bfibvior donflidts
+ * witi normbl <tt>Prfffrfndfs</tt> usbgf bnd would lfbd to grfbt donfusion.
  *
- * @author  Josh Bloch
- * @see     Preferences
- * @since   1.4
+ * @butior  Josi Blodi
+ * @sff     Prfffrfndfs
+ * @sindf   1.4
  */
-public abstract class AbstractPreferences extends Preferences {
+publid bbstrbdt dlbss AbstrbdtPrfffrfndfs fxtfnds Prfffrfndfs {
     /**
-     * Our name relative to parent.
+     * Our nbmf rflbtivf to pbrfnt.
      */
-    private final String name;
+    privbtf finbl String nbmf;
 
     /**
-     * Our absolute path name.
+     * Our bbsolutf pbti nbmf.
      */
-    private final String absolutePath;
+    privbtf finbl String bbsolutfPbti;
 
     /**
-     * Our parent node.
+     * Our pbrfnt nodf.
      */
-    final AbstractPreferences parent;
+    finbl AbstrbdtPrfffrfndfs pbrfnt;
 
     /**
-     * Our root node.
+     * Our root nodf.
      */
-    private final AbstractPreferences root; // Relative to this node
+    privbtf finbl AbstrbdtPrfffrfndfs root; // Rflbtivf to tiis nodf
 
     /**
-     * This field should be <tt>true</tt> if this node did not exist in the
-     * backing store prior to the creation of this object.  The field
-     * is initialized to false, but may be set to true by a subclass
-     * constructor (and should not be modified thereafter).  This field
-     * indicates whether a node change event should be fired when
-     * creation is complete.
+     * Tiis fifld siould bf <tt>truf</tt> if tiis nodf did not fxist in tif
+     * bbdking storf prior to tif drfbtion of tiis objfdt.  Tif fifld
+     * is initiblizfd to fblsf, but mby bf sft to truf by b subdlbss
+     * donstrudtor (bnd siould not bf modififd tifrfbftfr).  Tiis fifld
+     * indidbtfs wiftifr b nodf dibngf fvfnt siould bf firfd wifn
+     * drfbtion is domplftf.
      */
-    protected boolean newNode = false;
+    protfdtfd boolfbn nfwNodf = fblsf;
 
     /**
-     * All known unremoved children of this node.  (This "cache" is consulted
-     * prior to calling childSpi() or getChild().
+     * All known unrfmovfd diildrfn of tiis nodf.  (Tiis "dbdif" is donsultfd
+     * prior to dblling diildSpi() or gftCiild().
      */
-    private Map<String, AbstractPreferences> kidCache = new HashMap<>();
+    privbtf Mbp<String, AbstrbdtPrfffrfndfs> kidCbdif = nfw HbsiMbp<>();
 
     /**
-     * This field is used to keep track of whether or not this node has
-     * been removed.  Once it's set to true, it will never be reset to false.
+     * Tiis fifld is usfd to kffp trbdk of wiftifr or not tiis nodf ibs
+     * bffn rfmovfd.  Ondf it's sft to truf, it will nfvfr bf rfsft to fblsf.
      */
-    private boolean removed = false;
+    privbtf boolfbn rfmovfd = fblsf;
 
     /**
-     * Registered preference change listeners.
+     * Rfgistfrfd prfffrfndf dibngf listfnfrs.
      */
-    private PreferenceChangeListener[] prefListeners =
-        new PreferenceChangeListener[0];
+    privbtf PrfffrfndfCibngfListfnfr[] prffListfnfrs =
+        nfw PrfffrfndfCibngfListfnfr[0];
 
     /**
-     * Registered node change listeners.
+     * Rfgistfrfd nodf dibngf listfnfrs.
      */
-    private NodeChangeListener[] nodeListeners = new NodeChangeListener[0];
+    privbtf NodfCibngfListfnfr[] nodfListfnfrs = nfw NodfCibngfListfnfr[0];
 
     /**
-     * An object whose monitor is used to lock this node.  This object
-     * is used in preference to the node itself to reduce the likelihood of
-     * intentional or unintentional denial of service due to a locked node.
-     * To avoid deadlock, a node is <i>never</i> locked by a thread that
-     * holds a lock on a descendant of that node.
+     * An objfdt wiosf monitor is usfd to lodk tiis nodf.  Tiis objfdt
+     * is usfd in prfffrfndf to tif nodf itsflf to rfdudf tif likfliiood of
+     * intfntionbl or unintfntionbl dfnibl of sfrvidf duf to b lodkfd nodf.
+     * To bvoid dfbdlodk, b nodf is <i>nfvfr</i> lodkfd by b tirfbd tibt
+     * iolds b lodk on b dfsdfndbnt of tibt nodf.
      */
-    protected final Object lock = new Object();
+    protfdtfd finbl Objfdt lodk = nfw Objfdt();
 
     /**
-     * Creates a preference node with the specified parent and the specified
-     * name relative to its parent.
+     * Crfbtfs b prfffrfndf nodf witi tif spfdififd pbrfnt bnd tif spfdififd
+     * nbmf rflbtivf to its pbrfnt.
      *
-     * @param parent the parent of this preference node, or null if this
-     *               is the root.
-     * @param name the name of this preference node, relative to its parent,
-     *             or <tt>""</tt> if this is the root.
-     * @throws IllegalArgumentException if <tt>name</tt> contains a slash
-     *          (<tt>'/'</tt>),  or <tt>parent</tt> is <tt>null</tt> and
-     *          name isn't <tt>""</tt>.
+     * @pbrbm pbrfnt tif pbrfnt of tiis prfffrfndf nodf, or null if tiis
+     *               is tif root.
+     * @pbrbm nbmf tif nbmf of tiis prfffrfndf nodf, rflbtivf to its pbrfnt,
+     *             or <tt>""</tt> if tiis is tif root.
+     * @tirows IllfgblArgumfntExdfption if <tt>nbmf</tt> dontbins b slbsi
+     *          (<tt>'/'</tt>),  or <tt>pbrfnt</tt> is <tt>null</tt> bnd
+     *          nbmf isn't <tt>""</tt>.
      */
-    protected AbstractPreferences(AbstractPreferences parent, String name) {
-        if (parent==null) {
-            if (!name.equals(""))
-                throw new IllegalArgumentException("Root name '"+name+
-                                                   "' must be \"\"");
-            this.absolutePath = "/";
-            root = this;
-        } else {
-            if (name.indexOf('/') != -1)
-                throw new IllegalArgumentException("Name '" + name +
-                                                 "' contains '/'");
-            if (name.equals(""))
-              throw new IllegalArgumentException("Illegal name: empty string");
+    protfdtfd AbstrbdtPrfffrfndfs(AbstrbdtPrfffrfndfs pbrfnt, String nbmf) {
+        if (pbrfnt==null) {
+            if (!nbmf.fqubls(""))
+                tirow nfw IllfgblArgumfntExdfption("Root nbmf '"+nbmf+
+                                                   "' must bf \"\"");
+            tiis.bbsolutfPbti = "/";
+            root = tiis;
+        } flsf {
+            if (nbmf.indfxOf('/') != -1)
+                tirow nfw IllfgblArgumfntExdfption("Nbmf '" + nbmf +
+                                                 "' dontbins '/'");
+            if (nbmf.fqubls(""))
+              tirow nfw IllfgblArgumfntExdfption("Illfgbl nbmf: fmpty string");
 
-            root = parent.root;
-            absolutePath = (parent==root ? "/" + name
-                                         : parent.absolutePath() + "/" + name);
+            root = pbrfnt.root;
+            bbsolutfPbti = (pbrfnt==root ? "/" + nbmf
+                                         : pbrfnt.bbsolutfPbti() + "/" + nbmf);
         }
-        this.name = name;
-        this.parent = parent;
+        tiis.nbmf = nbmf;
+        tiis.pbrfnt = pbrfnt;
     }
 
     /**
-     * Implements the <tt>put</tt> method as per the specification in
-     * {@link Preferences#put(String,String)}.
+     * Implfmfnts tif <tt>put</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#put(String,String)}.
      *
-     * <p>This implementation checks that the key and value are legal,
-     * obtains this preference node's lock, checks that the node
-     * has not been removed, invokes {@link #putSpi(String,String)}, and if
-     * there are any preference change listeners, enqueues a notification
-     * event for processing by the event dispatch thread.
+     * <p>Tiis implfmfntbtion difdks tibt tif kfy bnd vbluf brf lfgbl,
+     * obtbins tiis prfffrfndf nodf's lodk, difdks tibt tif nodf
+     * ibs not bffn rfmovfd, invokfs {@link #putSpi(String,String)}, bnd if
+     * tifrf brf bny prfffrfndf dibngf listfnfrs, fnqufufs b notifidbtion
+     * fvfnt for prodfssing by tif fvfnt dispbtdi tirfbd.
      *
-     * @param key key with which the specified value is to be associated.
-     * @param value value to be associated with the specified key.
-     * @throws NullPointerException if key or value is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
-     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>value.length</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif spfdififd vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf to bf bssodibtfd witi tif spfdififd kfy.
+     * @tirows NullPointfrExdfption if kfy or vbluf is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
+     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>vbluf.lfngti</tt> fxdffds
      *       <tt>MAX_VALUE_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public void put(String key, String value) {
-        if (key==null || value==null)
-            throw new NullPointerException();
-        if (key.length() > MAX_KEY_LENGTH)
-            throw new IllegalArgumentException("Key too long: "+key);
-        if (value.length() > MAX_VALUE_LENGTH)
-            throw new IllegalArgumentException("Value too long: "+value);
+    publid void put(String kfy, String vbluf) {
+        if (kfy==null || vbluf==null)
+            tirow nfw NullPointfrExdfption();
+        if (kfy.lfngti() > MAX_KEY_LENGTH)
+            tirow nfw IllfgblArgumfntExdfption("Kfy too long: "+kfy);
+        if (vbluf.lfngti() > MAX_VALUE_LENGTH)
+            tirow nfw IllfgblArgumfntExdfption("Vbluf too long: "+vbluf);
 
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
 
-            putSpi(key, value);
-            enqueuePreferenceChangeEvent(key, value);
+            putSpi(kfy, vbluf);
+            fnqufufPrfffrfndfCibngfEvfnt(kfy, vbluf);
         }
     }
 
     /**
-     * Implements the <tt>get</tt> method as per the specification in
-     * {@link Preferences#get(String,String)}.
+     * Implfmfnts tif <tt>gft</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#gft(String,String)}.
      *
-     * <p>This implementation first checks to see if <tt>key</tt> is
-     * <tt>null</tt> throwing a <tt>NullPointerException</tt> if this is
-     * the case.  Then it obtains this preference node's lock,
-     * checks that the node has not been removed, invokes {@link
-     * #getSpi(String)}, and returns the result, unless the <tt>getSpi</tt>
-     * invocation returns <tt>null</tt> or throws an exception, in which case
-     * this invocation returns <tt>def</tt>.
+     * <p>Tiis implfmfntbtion first difdks to sff if <tt>kfy</tt> is
+     * <tt>null</tt> tirowing b <tt>NullPointfrExdfption</tt> if tiis is
+     * tif dbsf.  Tifn it obtbins tiis prfffrfndf nodf's lodk,
+     * difdks tibt tif nodf ibs not bffn rfmovfd, invokfs {@link
+     * #gftSpi(String)}, bnd rfturns tif rfsult, unlfss tif <tt>gftSpi</tt>
+     * invodbtion rfturns <tt>null</tt> or tirows bn fxdfption, in wiidi dbsf
+     * tiis invodbtion rfturns <tt>dff</tt>.
      *
-     * @param key key whose associated value is to be returned.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>.
-     * @return the value associated with <tt>key</tt>, or <tt>def</tt>
-     *         if no value is associated with <tt>key</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if key is <tt>null</tt>.  (A
-     *         <tt>null</tt> default <i>is</i> permitted.)
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>.
+     * @rfturn tif vbluf bssodibtfd witi <tt>kfy</tt>, or <tt>dff</tt>
+     *         if no vbluf is bssodibtfd witi <tt>kfy</tt>.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if kfy is <tt>null</tt>.  (A
+     *         <tt>null</tt> dffbult <i>is</i> pfrmittfd.)
      */
-    public String get(String key, String def) {
-        if (key==null)
-            throw new NullPointerException("Null key");
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
+    publid String gft(String kfy, String dff) {
+        if (kfy==null)
+            tirow nfw NullPointfrExdfption("Null kfy");
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
 
-            String result = null;
+            String rfsult = null;
             try {
-                result = getSpi(key);
-            } catch (Exception e) {
-                // Ignoring exception causes default to be returned
+                rfsult = gftSpi(kfy);
+            } dbtdi (Exdfption f) {
+                // Ignoring fxdfption dbusfs dffbult to bf rfturnfd
             }
-            return (result==null ? def : result);
+            rfturn (rfsult==null ? dff : rfsult);
         }
     }
 
     /**
-     * Implements the <tt>remove(String)</tt> method as per the specification
-     * in {@link Preferences#remove(String)}.
+     * Implfmfnts tif <tt>rfmovf(String)</tt> mftiod bs pfr tif spfdifidbtion
+     * in {@link Prfffrfndfs#rfmovf(String)}.
      *
-     * <p>This implementation obtains this preference node's lock,
-     * checks that the node has not been removed, invokes
-     * {@link #removeSpi(String)} and if there are any preference
-     * change listeners, enqueues a notification event for processing by the
-     * event dispatch thread.
+     * <p>Tiis implfmfntbtion obtbins tiis prfffrfndf nodf's lodk,
+     * difdks tibt tif nodf ibs not bffn rfmovfd, invokfs
+     * {@link #rfmovfSpi(String)} bnd if tifrf brf bny prfffrfndf
+     * dibngf listfnfrs, fnqufufs b notifidbtion fvfnt for prodfssing by tif
+     * fvfnt dispbtdi tirfbd.
      *
-     * @param key key whose mapping is to be removed from the preference node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException {@inheritDoc}.
+     * @pbrbm kfy kfy wiosf mbpping is to bf rfmovfd from tif prfffrfndf nodf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption {@inifritDod}.
      */
-    public void remove(String key) {
-        Objects.requireNonNull(key, "Specified key cannot be null");
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
+    publid void rfmovf(String kfy) {
+        Objfdts.rfquirfNonNull(kfy, "Spfdififd kfy dbnnot bf null");
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
 
-            removeSpi(key);
-            enqueuePreferenceChangeEvent(key, null);
+            rfmovfSpi(kfy);
+            fnqufufPrfffrfndfCibngfEvfnt(kfy, null);
         }
     }
 
     /**
-     * Implements the <tt>clear</tt> method as per the specification in
-     * {@link Preferences#clear()}.
+     * Implfmfnts tif <tt>dlfbr</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#dlfbr()}.
      *
-     * <p>This implementation obtains this preference node's lock,
-     * invokes {@link #keys()} to obtain an array of keys, and
-     * iterates over the array invoking {@link #remove(String)} on each key.
+     * <p>Tiis implfmfntbtion obtbins tiis prfffrfndf nodf's lodk,
+     * invokfs {@link #kfys()} to obtbin bn brrby of kfys, bnd
+     * itfrbtfs ovfr tif brrby invoking {@link #rfmovf(String)} on fbdi kfy.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public void clear() throws BackingStoreException {
-        synchronized(lock) {
-            for (String key : keys())
-                remove(key);
+    publid void dlfbr() tirows BbdkingStorfExdfption {
+        syndironizfd(lodk) {
+            for (String kfy : kfys())
+                rfmovf(kfy);
         }
     }
 
     /**
-     * Implements the <tt>putInt</tt> method as per the specification in
-     * {@link Preferences#putInt(String,int)}.
+     * Implfmfnts tif <tt>putInt</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#putInt(String,int)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link Integer#toString(int)} and invokes {@link #put(String,String)}
-     * on the result.
+     * <p>Tiis implfmfntbtion trbnslbtfs <tt>vbluf</tt> to b string witi
+     * {@link Intfgfr#toString(int)} bnd invokfs {@link #put(String,String)}
+     * on tif rfsult.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if kfy is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public void putInt(String key, int value) {
-        put(key, Integer.toString(value));
+    publid void putInt(String kfy, int vbluf) {
+        put(kfy, Intfgfr.toString(vbluf));
     }
 
     /**
-     * Implements the <tt>getInt</tt> method as per the specification in
-     * {@link Preferences#getInt(String,int)}.
+     * Implfmfnts tif <tt>gftInt</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#gftInt(String,int)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, the implementation
-     * attempts to translate it to an <tt>int</tt> with
-     * {@link Integer#parseInt(String)}.  If the attempt succeeds, the return
-     * value is returned by this method.  Otherwise, <tt>def</tt> is returned.
+     * <p>Tiis implfmfntbtion invokfs {@link #gft(String,String) <tt>gft(kfy,
+     * null)</tt>}.  If tif rfturn vbluf is non-null, tif implfmfntbtion
+     * bttfmpts to trbnslbtf it to bn <tt>int</tt> witi
+     * {@link Intfgfr#pbrsfInt(String)}.  If tif bttfmpt suddffds, tif rfturn
+     * vbluf is rfturnfd by tiis mftiod.  Otifrwisf, <tt>dff</tt> is rfturnfd.
      *
-     * @param key key whose associated value is to be returned as an int.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as an int.
-     * @return the int value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         an int.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs bn int.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs bn int.
+     * @rfturn tif int vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         bn int.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
      */
-    public int getInt(String key, int def) {
-        int result = def;
+    publid int gftInt(String kfy, int dff) {
+        int rfsult = dff;
         try {
-            String value = get(key, null);
-            if (value != null)
-                result = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            // Ignoring exception causes specified default to be returned
+            String vbluf = gft(kfy, null);
+            if (vbluf != null)
+                rfsult = Intfgfr.pbrsfInt(vbluf);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            // Ignoring fxdfption dbusfs spfdififd dffbult to bf rfturnfd
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Implements the <tt>putLong</tt> method as per the specification in
-     * {@link Preferences#putLong(String,long)}.
+     * Implfmfnts tif <tt>putLong</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#putLong(String,long)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link Long#toString(long)} and invokes {@link #put(String,String)}
-     * on the result.
+     * <p>Tiis implfmfntbtion trbnslbtfs <tt>vbluf</tt> to b string witi
+     * {@link Long#toString(long)} bnd invokfs {@link #put(String,String)}
+     * on tif rfsult.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if kfy is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public void putLong(String key, long value) {
-        put(key, Long.toString(value));
+    publid void putLong(String kfy, long vbluf) {
+        put(kfy, Long.toString(vbluf));
     }
 
     /**
-     * Implements the <tt>getLong</tt> method as per the specification in
-     * {@link Preferences#getLong(String,long)}.
+     * Implfmfnts tif <tt>gftLong</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#gftLong(String,long)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, the implementation
-     * attempts to translate it to a <tt>long</tt> with
-     * {@link Long#parseLong(String)}.  If the attempt succeeds, the return
-     * value is returned by this method.  Otherwise, <tt>def</tt> is returned.
+     * <p>Tiis implfmfntbtion invokfs {@link #gft(String,String) <tt>gft(kfy,
+     * null)</tt>}.  If tif rfturn vbluf is non-null, tif implfmfntbtion
+     * bttfmpts to trbnslbtf it to b <tt>long</tt> witi
+     * {@link Long#pbrsfLong(String)}.  If tif bttfmpt suddffds, tif rfturn
+     * vbluf is rfturnfd by tiis mftiod.  Otifrwisf, <tt>dff</tt> is rfturnfd.
      *
-     * @param key key whose associated value is to be returned as a long.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a long.
-     * @return the long value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a long.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b long.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b long.
+     * @rfturn tif long vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b long.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
      */
-    public long getLong(String key, long def) {
-        long result = def;
+    publid long gftLong(String kfy, long dff) {
+        long rfsult = dff;
         try {
-            String value = get(key, null);
-            if (value != null)
-                result = Long.parseLong(value);
-        } catch (NumberFormatException e) {
-            // Ignoring exception causes specified default to be returned
+            String vbluf = gft(kfy, null);
+            if (vbluf != null)
+                rfsult = Long.pbrsfLong(vbluf);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            // Ignoring fxdfption dbusfs spfdififd dffbult to bf rfturnfd
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Implements the <tt>putBoolean</tt> method as per the specification in
-     * {@link Preferences#putBoolean(String,boolean)}.
+     * Implfmfnts tif <tt>putBoolfbn</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#putBoolfbn(String,boolfbn)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link String#valueOf(boolean)} and invokes {@link #put(String,String)}
-     * on the result.
+     * <p>Tiis implfmfntbtion trbnslbtfs <tt>vbluf</tt> to b string witi
+     * {@link String#vblufOf(boolfbn)} bnd invokfs {@link #put(String,String)}
+     * on tif rfsult.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if kfy is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public void putBoolean(String key, boolean value) {
-        put(key, String.valueOf(value));
+    publid void putBoolfbn(String kfy, boolfbn vbluf) {
+        put(kfy, String.vblufOf(vbluf));
     }
 
     /**
-     * Implements the <tt>getBoolean</tt> method as per the specification in
-     * {@link Preferences#getBoolean(String,boolean)}.
+     * Implfmfnts tif <tt>gftBoolfbn</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#gftBoolfbn(String,boolfbn)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, it is compared with
-     * <tt>"true"</tt> using {@link String#equalsIgnoreCase(String)}.  If the
-     * comparison returns <tt>true</tt>, this invocation returns
-     * <tt>true</tt>.  Otherwise, the original return value is compared with
-     * <tt>"false"</tt>, again using {@link String#equalsIgnoreCase(String)}.
-     * If the comparison returns <tt>true</tt>, this invocation returns
-     * <tt>false</tt>.  Otherwise, this invocation returns <tt>def</tt>.
+     * <p>Tiis implfmfntbtion invokfs {@link #gft(String,String) <tt>gft(kfy,
+     * null)</tt>}.  If tif rfturn vbluf is non-null, it is dompbrfd witi
+     * <tt>"truf"</tt> using {@link String#fqublsIgnorfCbsf(String)}.  If tif
+     * dompbrison rfturns <tt>truf</tt>, tiis invodbtion rfturns
+     * <tt>truf</tt>.  Otifrwisf, tif originbl rfturn vbluf is dompbrfd witi
+     * <tt>"fblsf"</tt>, bgbin using {@link String#fqublsIgnorfCbsf(String)}.
+     * If tif dompbrison rfturns <tt>truf</tt>, tiis invodbtion rfturns
+     * <tt>fblsf</tt>.  Otifrwisf, tiis invodbtion rfturns <tt>dff</tt>.
      *
-     * @param key key whose associated value is to be returned as a boolean.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a boolean.
-     * @return the boolean value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a boolean.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b boolfbn.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b boolfbn.
+     * @rfturn tif boolfbn vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b boolfbn.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
      */
-    public boolean getBoolean(String key, boolean def) {
-        boolean result = def;
-        String value = get(key, null);
-        if (value != null) {
-            if (value.equalsIgnoreCase("true"))
-                result = true;
-            else if (value.equalsIgnoreCase("false"))
-                result = false;
+    publid boolfbn gftBoolfbn(String kfy, boolfbn dff) {
+        boolfbn rfsult = dff;
+        String vbluf = gft(kfy, null);
+        if (vbluf != null) {
+            if (vbluf.fqublsIgnorfCbsf("truf"))
+                rfsult = truf;
+            flsf if (vbluf.fqublsIgnorfCbsf("fblsf"))
+                rfsult = fblsf;
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Implements the <tt>putFloat</tt> method as per the specification in
-     * {@link Preferences#putFloat(String,float)}.
+     * Implfmfnts tif <tt>putFlobt</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#putFlobt(String,flobt)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link Float#toString(float)} and invokes {@link #put(String,String)}
-     * on the result.
+     * <p>Tiis implfmfntbtion trbnslbtfs <tt>vbluf</tt> to b string witi
+     * {@link Flobt#toString(flobt)} bnd invokfs {@link #put(String,String)}
+     * on tif rfsult.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if kfy is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public void putFloat(String key, float value) {
-        put(key, Float.toString(value));
+    publid void putFlobt(String kfy, flobt vbluf) {
+        put(kfy, Flobt.toString(vbluf));
     }
 
     /**
-     * Implements the <tt>getFloat</tt> method as per the specification in
-     * {@link Preferences#getFloat(String,float)}.
+     * Implfmfnts tif <tt>gftFlobt</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#gftFlobt(String,flobt)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, the implementation
-     * attempts to translate it to an <tt>float</tt> with
-     * {@link Float#parseFloat(String)}.  If the attempt succeeds, the return
-     * value is returned by this method.  Otherwise, <tt>def</tt> is returned.
+     * <p>Tiis implfmfntbtion invokfs {@link #gft(String,String) <tt>gft(kfy,
+     * null)</tt>}.  If tif rfturn vbluf is non-null, tif implfmfntbtion
+     * bttfmpts to trbnslbtf it to bn <tt>flobt</tt> witi
+     * {@link Flobt#pbrsfFlobt(String)}.  If tif bttfmpt suddffds, tif rfturn
+     * vbluf is rfturnfd by tiis mftiod.  Otifrwisf, <tt>dff</tt> is rfturnfd.
      *
-     * @param key key whose associated value is to be returned as a float.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a float.
-     * @return the float value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a float.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b flobt.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b flobt.
+     * @rfturn tif flobt vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b flobt.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
      */
-    public float getFloat(String key, float def) {
-        float result = def;
+    publid flobt gftFlobt(String kfy, flobt dff) {
+        flobt rfsult = dff;
         try {
-            String value = get(key, null);
-            if (value != null)
-                result = Float.parseFloat(value);
-        } catch (NumberFormatException e) {
-            // Ignoring exception causes specified default to be returned
+            String vbluf = gft(kfy, null);
+            if (vbluf != null)
+                rfsult = Flobt.pbrsfFlobt(vbluf);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            // Ignoring fxdfption dbusfs spfdififd dffbult to bf rfturnfd
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Implements the <tt>putDouble</tt> method as per the specification in
-     * {@link Preferences#putDouble(String,double)}.
+     * Implfmfnts tif <tt>putDoublf</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#putDoublf(String,doublf)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link Double#toString(double)} and invokes {@link #put(String,String)}
-     * on the result.
+     * <p>Tiis implfmfntbtion trbnslbtfs <tt>vbluf</tt> to b string witi
+     * {@link Doublf#toString(doublf)} bnd invokfs {@link #put(String,String)}
+     * on tif rfsult.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if kfy is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if <tt>kfy.lfngti()</tt> fxdffds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public void putDouble(String key, double value) {
-        put(key, Double.toString(value));
+    publid void putDoublf(String kfy, doublf vbluf) {
+        put(kfy, Doublf.toString(vbluf));
     }
 
     /**
-     * Implements the <tt>getDouble</tt> method as per the specification in
-     * {@link Preferences#getDouble(String,double)}.
+     * Implfmfnts tif <tt>gftDoublf</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#gftDoublf(String,doublf)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, the implementation
-     * attempts to translate it to an <tt>double</tt> with
-     * {@link Double#parseDouble(String)}.  If the attempt succeeds, the return
-     * value is returned by this method.  Otherwise, <tt>def</tt> is returned.
+     * <p>Tiis implfmfntbtion invokfs {@link #gft(String,String) <tt>gft(kfy,
+     * null)</tt>}.  If tif rfturn vbluf is non-null, tif implfmfntbtion
+     * bttfmpts to trbnslbtf it to bn <tt>doublf</tt> witi
+     * {@link Doublf#pbrsfDoublf(String)}.  If tif bttfmpt suddffds, tif rfturn
+     * vbluf is rfturnfd by tiis mftiod.  Otifrwisf, <tt>dff</tt> is rfturnfd.
      *
-     * @param key key whose associated value is to be returned as a double.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a double.
-     * @return the double value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a double.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b doublf.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b doublf.
+     * @rfturn tif doublf vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b doublf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.
      */
-    public double getDouble(String key, double def) {
-        double result = def;
+    publid doublf gftDoublf(String kfy, doublf dff) {
+        doublf rfsult = dff;
         try {
-            String value = get(key, null);
-            if (value != null)
-                result = Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            // Ignoring exception causes specified default to be returned
+            String vbluf = gft(kfy, null);
+            if (vbluf != null)
+                rfsult = Doublf.pbrsfDoublf(vbluf);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            // Ignoring fxdfption dbusfs spfdififd dffbult to bf rfturnfd
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Implements the <tt>putByteArray</tt> method as per the specification in
-     * {@link Preferences#putByteArray(String,byte[])}.
+     * Implfmfnts tif <tt>putBytfArrby</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#putBytfArrby(String,bytf[])}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key or value is <tt>null</tt>.
-     * @throws IllegalArgumentException if key.length() exceeds MAX_KEY_LENGTH
-     *         or if value.length exceeds MAX_VALUE_LENGTH*3/4.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @pbrbm kfy kfy witi wiidi tif string form of vbluf is to bf bssodibtfd.
+     * @pbrbm vbluf vbluf wiosf string form is to bf bssodibtfd witi kfy.
+     * @tirows NullPointfrExdfption if kfy or vbluf is <tt>null</tt>.
+     * @tirows IllfgblArgumfntExdfption if kfy.lfngti() fxdffds MAX_KEY_LENGTH
+     *         or if vbluf.lfngti fxdffds MAX_VALUE_LENGTH*3/4.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public void putByteArray(String key, byte[] value) {
-        put(key, Base64.byteArrayToBase64(value));
+    publid void putBytfArrby(String kfy, bytf[] vbluf) {
+        put(kfy, Bbsf64.bytfArrbyToBbsf64(vbluf));
     }
 
     /**
-     * Implements the <tt>getByteArray</tt> method as per the specification in
-     * {@link Preferences#getByteArray(String,byte[])}.
+     * Implfmfnts tif <tt>gftBytfArrby</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#gftBytfArrby(String,bytf[])}.
      *
-     * @param key key whose associated value is to be returned as a byte array.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a byte array.
-     * @return the byte array value represented by the string associated with
-     *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a byte array.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.  (A
-     *         <tt>null</tt> value for <tt>def</tt> <i>is</i> permitted.)
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd bs b bytf brrby.
+     * @pbrbm dff tif vbluf to bf rfturnfd in tif fvfnt tibt tiis
+     *        prfffrfndf nodf ibs no vbluf bssodibtfd witi <tt>kfy</tt>
+     *        or tif bssodibtfd vbluf dbnnot bf intfrprftfd bs b bytf brrby.
+     * @rfturn tif bytf brrby vbluf rfprfsfntfd by tif string bssodibtfd witi
+     *         <tt>kfy</tt> in tiis prfffrfndf nodf, or <tt>dff</tt> if tif
+     *         bssodibtfd vbluf dofs not fxist or dbnnot bf intfrprftfd bs
+     *         b bytf brrby.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows NullPointfrExdfption if <tt>kfy</tt> is <tt>null</tt>.  (A
+     *         <tt>null</tt> vbluf for <tt>dff</tt> <i>is</i> pfrmittfd.)
      */
-    public byte[] getByteArray(String key, byte[] def) {
-        byte[] result = def;
-        String value = get(key, null);
+    publid bytf[] gftBytfArrby(String kfy, bytf[] dff) {
+        bytf[] rfsult = dff;
+        String vbluf = gft(kfy, null);
         try {
-            if (value != null)
-                result = Base64.base64ToByteArray(value);
+            if (vbluf != null)
+                rfsult = Bbsf64.bbsf64ToBytfArrby(vbluf);
         }
-        catch (RuntimeException e) {
-            // Ignoring exception causes specified default to be returned
+        dbtdi (RuntimfExdfption f) {
+            // Ignoring fxdfption dbusfs spfdififd dffbult to bf rfturnfd
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Implements the <tt>keys</tt> method as per the specification in
-     * {@link Preferences#keys()}.
+     * Implfmfnts tif <tt>kfys</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#kfys()}.
      *
-     * <p>This implementation obtains this preference node's lock, checks that
-     * the node has not been removed and invokes {@link #keysSpi()}.
+     * <p>Tiis implfmfntbtion obtbins tiis prfffrfndf nodf's lodk, difdks tibt
+     * tif nodf ibs not bffn rfmovfd bnd invokfs {@link #kfysSpi()}.
      *
-     * @return an array of the keys that have an associated value in this
-     *         preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @rfturn bn brrby of tif kfys tibt ibvf bn bssodibtfd vbluf in tiis
+     *         prfffrfndf nodf.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    public String[] keys() throws BackingStoreException {
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
+    publid String[] kfys() tirows BbdkingStorfExdfption {
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
 
-            return keysSpi();
-        }
-    }
-
-    /**
-     * Implements the <tt>children</tt> method as per the specification in
-     * {@link Preferences#childrenNames()}.
-     *
-     * <p>This implementation obtains this preference node's lock, checks that
-     * the node has not been removed, constructs a <tt>TreeSet</tt> initialized
-     * to the names of children already cached (the children in this node's
-     * "child-cache"), invokes {@link #childrenNamesSpi()}, and adds all of the
-     * returned child-names into the set.  The elements of the tree set are
-     * dumped into a <tt>String</tt> array using the <tt>toArray</tt> method,
-     * and this array is returned.
-     *
-     * @return the names of the children of this preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #cachedChildren()
-     */
-    public String[] childrenNames() throws BackingStoreException {
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
-
-            Set<String> s = new TreeSet<>(kidCache.keySet());
-            for (String kid : childrenNamesSpi())
-                s.add(kid);
-            return s.toArray(EMPTY_STRING_ARRAY);
-        }
-    }
-
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
-
-    /**
-     * Returns all known unremoved children of this node.
-     *
-     * @return all known unremoved children of this node.
-     */
-    protected final AbstractPreferences[] cachedChildren() {
-        return kidCache.values().toArray(EMPTY_ABSTRACT_PREFS_ARRAY);
-    }
-
-    private static final AbstractPreferences[] EMPTY_ABSTRACT_PREFS_ARRAY
-        = new AbstractPreferences[0];
-
-    /**
-     * Implements the <tt>parent</tt> method as per the specification in
-     * {@link Preferences#parent()}.
-     *
-     * <p>This implementation obtains this preference node's lock, checks that
-     * the node has not been removed and returns the parent value that was
-     * passed to this node's constructor.
-     *
-     * @return the parent of this preference node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     */
-    public Preferences parent() {
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
-
-            return parent;
+            rfturn kfysSpi();
         }
     }
 
     /**
-     * Implements the <tt>node</tt> method as per the specification in
-     * {@link Preferences#node(String)}.
+     * Implfmfnts tif <tt>diildrfn</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#diildrfnNbmfs()}.
      *
-     * <p>This implementation obtains this preference node's lock and checks
-     * that the node has not been removed.  If <tt>path</tt> is <tt>""</tt>,
-     * this node is returned; if <tt>path</tt> is <tt>"/"</tt>, this node's
-     * root is returned.  If the first character in <tt>path</tt> is
-     * not <tt>'/'</tt>, the implementation breaks <tt>path</tt> into
-     * tokens and recursively traverses the path from this node to the
-     * named node, "consuming" a name and a slash from <tt>path</tt> at
-     * each step of the traversal.  At each step, the current node is locked
-     * and the node's child-cache is checked for the named node.  If it is
-     * not found, the name is checked to make sure its length does not
-     * exceed <tt>MAX_NAME_LENGTH</tt>.  Then the {@link #childSpi(String)}
-     * method is invoked, and the result stored in this node's child-cache.
-     * If the newly created <tt>Preferences</tt> object's {@link #newNode}
-     * field is <tt>true</tt> and there are any node change listeners,
-     * a notification event is enqueued for processing by the event dispatch
-     * thread.
+     * <p>Tiis implfmfntbtion obtbins tiis prfffrfndf nodf's lodk, difdks tibt
+     * tif nodf ibs not bffn rfmovfd, donstrudts b <tt>TrffSft</tt> initiblizfd
+     * to tif nbmfs of diildrfn blrfbdy dbdifd (tif diildrfn in tiis nodf's
+     * "diild-dbdif"), invokfs {@link #diildrfnNbmfsSpi()}, bnd bdds bll of tif
+     * rfturnfd diild-nbmfs into tif sft.  Tif flfmfnts of tif trff sft brf
+     * dumpfd into b <tt>String</tt> brrby using tif <tt>toArrby</tt> mftiod,
+     * bnd tiis brrby is rfturnfd.
      *
-     * <p>When there are no more tokens, the last value found in the
-     * child-cache or returned by <tt>childSpi</tt> is returned by this
-     * method.  If during the traversal, two <tt>"/"</tt> tokens occur
-     * consecutively, or the final token is <tt>"/"</tt> (rather than a name),
-     * an appropriate <tt>IllegalArgumentException</tt> is thrown.
-     *
-     * <p> If the first character of <tt>path</tt> is <tt>'/'</tt>
-     * (indicating an absolute path name) this preference node's
-     * lock is dropped prior to breaking <tt>path</tt> into tokens, and
-     * this method recursively traverses the path starting from the root
-     * (rather than starting from this node).  The traversal is otherwise
-     * identical to the one described for relative path names.  Dropping
-     * the lock on this node prior to commencing the traversal at the root
-     * node is essential to avoid the possibility of deadlock, as per the
-     * {@link #lock locking invariant}.
-     *
-     * @param path the path name of the preference node to return.
-     * @return the specified preference node.
-     * @throws IllegalArgumentException if the path name is invalid (i.e.,
-     *         it contains multiple consecutive slash characters, or ends
-     *         with a slash character and is more than one character long).
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
+     * @rfturn tif nbmfs of tif diildrfn of tiis prfffrfndf nodf.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #dbdifdCiildrfn()
      */
-    public Preferences node(String path) {
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
-            if (path.equals(""))
-                return this;
-            if (path.equals("/"))
-                return root;
-            if (path.charAt(0) != '/')
-                return node(new StringTokenizer(path, "/", true));
-        }
+    publid String[] diildrfnNbmfs() tirows BbdkingStorfExdfption {
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
 
-        // Absolute path.  Note that we've dropped our lock to avoid deadlock
-        return root.node(new StringTokenizer(path.substring(1), "/", true));
+            Sft<String> s = nfw TrffSft<>(kidCbdif.kfySft());
+            for (String kid : diildrfnNbmfsSpi())
+                s.bdd(kid);
+            rfturn s.toArrby(EMPTY_STRING_ARRAY);
+        }
+    }
+
+    privbtf stbtid finbl String[] EMPTY_STRING_ARRAY = nfw String[0];
+
+    /**
+     * Rfturns bll known unrfmovfd diildrfn of tiis nodf.
+     *
+     * @rfturn bll known unrfmovfd diildrfn of tiis nodf.
+     */
+    protfdtfd finbl AbstrbdtPrfffrfndfs[] dbdifdCiildrfn() {
+        rfturn kidCbdif.vblufs().toArrby(EMPTY_ABSTRACT_PREFS_ARRAY);
+    }
+
+    privbtf stbtid finbl AbstrbdtPrfffrfndfs[] EMPTY_ABSTRACT_PREFS_ARRAY
+        = nfw AbstrbdtPrfffrfndfs[0];
+
+    /**
+     * Implfmfnts tif <tt>pbrfnt</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#pbrfnt()}.
+     *
+     * <p>Tiis implfmfntbtion obtbins tiis prfffrfndf nodf's lodk, difdks tibt
+     * tif nodf ibs not bffn rfmovfd bnd rfturns tif pbrfnt vbluf tibt wbs
+     * pbssfd to tiis nodf's donstrudtor.
+     *
+     * @rfturn tif pbrfnt of tiis prfffrfndf nodf.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     */
+    publid Prfffrfndfs pbrfnt() {
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
+
+            rfturn pbrfnt;
+        }
     }
 
     /**
-     * tokenizer contains <name> {'/' <name>}*
+     * Implfmfnts tif <tt>nodf</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#nodf(String)}.
+     *
+     * <p>Tiis implfmfntbtion obtbins tiis prfffrfndf nodf's lodk bnd difdks
+     * tibt tif nodf ibs not bffn rfmovfd.  If <tt>pbti</tt> is <tt>""</tt>,
+     * tiis nodf is rfturnfd; if <tt>pbti</tt> is <tt>"/"</tt>, tiis nodf's
+     * root is rfturnfd.  If tif first dibrbdtfr in <tt>pbti</tt> is
+     * not <tt>'/'</tt>, tif implfmfntbtion brfbks <tt>pbti</tt> into
+     * tokfns bnd rfdursivfly trbvfrsfs tif pbti from tiis nodf to tif
+     * nbmfd nodf, "donsuming" b nbmf bnd b slbsi from <tt>pbti</tt> bt
+     * fbdi stfp of tif trbvfrsbl.  At fbdi stfp, tif durrfnt nodf is lodkfd
+     * bnd tif nodf's diild-dbdif is difdkfd for tif nbmfd nodf.  If it is
+     * not found, tif nbmf is difdkfd to mbkf surf its lfngti dofs not
+     * fxdffd <tt>MAX_NAME_LENGTH</tt>.  Tifn tif {@link #diildSpi(String)}
+     * mftiod is invokfd, bnd tif rfsult storfd in tiis nodf's diild-dbdif.
+     * If tif nfwly drfbtfd <tt>Prfffrfndfs</tt> objfdt's {@link #nfwNodf}
+     * fifld is <tt>truf</tt> bnd tifrf brf bny nodf dibngf listfnfrs,
+     * b notifidbtion fvfnt is fnqufufd for prodfssing by tif fvfnt dispbtdi
+     * tirfbd.
+     *
+     * <p>Wifn tifrf brf no morf tokfns, tif lbst vbluf found in tif
+     * diild-dbdif or rfturnfd by <tt>diildSpi</tt> is rfturnfd by tiis
+     * mftiod.  If during tif trbvfrsbl, two <tt>"/"</tt> tokfns oddur
+     * donsfdutivfly, or tif finbl tokfn is <tt>"/"</tt> (rbtifr tibn b nbmf),
+     * bn bppropribtf <tt>IllfgblArgumfntExdfption</tt> is tirown.
+     *
+     * <p> If tif first dibrbdtfr of <tt>pbti</tt> is <tt>'/'</tt>
+     * (indidbting bn bbsolutf pbti nbmf) tiis prfffrfndf nodf's
+     * lodk is droppfd prior to brfbking <tt>pbti</tt> into tokfns, bnd
+     * tiis mftiod rfdursivfly trbvfrsfs tif pbti stbrting from tif root
+     * (rbtifr tibn stbrting from tiis nodf).  Tif trbvfrsbl is otifrwisf
+     * idfntidbl to tif onf dfsdribfd for rflbtivf pbti nbmfs.  Dropping
+     * tif lodk on tiis nodf prior to dommfnding tif trbvfrsbl bt tif root
+     * nodf is fssfntibl to bvoid tif possibility of dfbdlodk, bs pfr tif
+     * {@link #lodk lodking invbribnt}.
+     *
+     * @pbrbm pbti tif pbti nbmf of tif prfffrfndf nodf to rfturn.
+     * @rfturn tif spfdififd prfffrfndf nodf.
+     * @tirows IllfgblArgumfntExdfption if tif pbti nbmf is invblid (i.f.,
+     *         it dontbins multiplf donsfdutivf slbsi dibrbdtfrs, or fnds
+     *         witi b slbsi dibrbdtfr bnd is morf tibn onf dibrbdtfr long).
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    private Preferences node(StringTokenizer path) {
-        String token = path.nextToken();
-        if (token.equals("/"))  // Check for consecutive slashes
-            throw new IllegalArgumentException("Consecutive slashes in path");
-        synchronized(lock) {
-            AbstractPreferences child = kidCache.get(token);
-            if (child == null) {
-                if (token.length() > MAX_NAME_LENGTH)
-                    throw new IllegalArgumentException(
-                        "Node name " + token + " too long");
-                child = childSpi(token);
-                if (child.newNode)
-                    enqueueNodeAddedEvent(child);
-                kidCache.put(token, child);
+    publid Prfffrfndfs nodf(String pbti) {
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
+            if (pbti.fqubls(""))
+                rfturn tiis;
+            if (pbti.fqubls("/"))
+                rfturn root;
+            if (pbti.dibrAt(0) != '/')
+                rfturn nodf(nfw StringTokfnizfr(pbti, "/", truf));
+        }
+
+        // Absolutf pbti.  Notf tibt wf'vf droppfd our lodk to bvoid dfbdlodk
+        rfturn root.nodf(nfw StringTokfnizfr(pbti.substring(1), "/", truf));
+    }
+
+    /**
+     * tokfnizfr dontbins <nbmf> {'/' <nbmf>}*
+     */
+    privbtf Prfffrfndfs nodf(StringTokfnizfr pbti) {
+        String tokfn = pbti.nfxtTokfn();
+        if (tokfn.fqubls("/"))  // Cifdk for donsfdutivf slbsifs
+            tirow nfw IllfgblArgumfntExdfption("Consfdutivf slbsifs in pbti");
+        syndironizfd(lodk) {
+            AbstrbdtPrfffrfndfs diild = kidCbdif.gft(tokfn);
+            if (diild == null) {
+                if (tokfn.lfngti() > MAX_NAME_LENGTH)
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "Nodf nbmf " + tokfn + " too long");
+                diild = diildSpi(tokfn);
+                if (diild.nfwNodf)
+                    fnqufufNodfAddfdEvfnt(diild);
+                kidCbdif.put(tokfn, diild);
             }
-            if (!path.hasMoreTokens())
-                return child;
-            path.nextToken();  // Consume slash
-            if (!path.hasMoreTokens())
-                throw new IllegalArgumentException("Path ends with slash");
-            return child.node(path);
+            if (!pbti.ibsMorfTokfns())
+                rfturn diild;
+            pbti.nfxtTokfn();  // Consumf slbsi
+            if (!pbti.ibsMorfTokfns())
+                tirow nfw IllfgblArgumfntExdfption("Pbti fnds witi slbsi");
+            rfturn diild.nodf(pbti);
         }
     }
 
     /**
-     * Implements the <tt>nodeExists</tt> method as per the specification in
-     * {@link Preferences#nodeExists(String)}.
+     * Implfmfnts tif <tt>nodfExists</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#nodfExists(String)}.
      *
-     * <p>This implementation is very similar to {@link #node(String)},
-     * except that {@link #getChild(String)} is used instead of {@link
-     * #childSpi(String)}.
+     * <p>Tiis implfmfntbtion is vfry similbr to {@link #nodf(String)},
+     * fxdfpt tibt {@link #gftCiild(String)} is usfd instfbd of {@link
+     * #diildSpi(String)}.
      *
-     * @param path the path name of the node whose existence is to be checked.
-     * @return true if the specified node exists.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalArgumentException if the path name is invalid (i.e.,
-     *         it contains multiple consecutive slash characters, or ends
-     *         with a slash character and is more than one character long).
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method and
-     *         <tt>pathname</tt> is not the empty string (<tt>""</tt>).
+     * @pbrbm pbti tif pbti nbmf of tif nodf wiosf fxistfndf is to bf difdkfd.
+     * @rfturn truf if tif spfdififd nodf fxists.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblArgumfntExdfption if tif pbti nbmf is invblid (i.f.,
+     *         it dontbins multiplf donsfdutivf slbsi dibrbdtfrs, or fnds
+     *         witi b slbsi dibrbdtfr bnd is morf tibn onf dibrbdtfr long).
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod bnd
+     *         <tt>pbtinbmf</tt> is not tif fmpty string (<tt>""</tt>).
      */
-    public boolean nodeExists(String path)
-        throws BackingStoreException
+    publid boolfbn nodfExists(String pbti)
+        tirows BbdkingStorfExdfption
     {
-        synchronized(lock) {
-            if (path.equals(""))
-                return !removed;
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
-            if (path.equals("/"))
-                return true;
-            if (path.charAt(0) != '/')
-                return nodeExists(new StringTokenizer(path, "/", true));
+        syndironizfd(lodk) {
+            if (pbti.fqubls(""))
+                rfturn !rfmovfd;
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
+            if (pbti.fqubls("/"))
+                rfturn truf;
+            if (pbti.dibrAt(0) != '/')
+                rfturn nodfExists(nfw StringTokfnizfr(pbti, "/", truf));
         }
 
-        // Absolute path.  Note that we've dropped our lock to avoid deadlock
-        return root.nodeExists(new StringTokenizer(path.substring(1), "/",
-                                                   true));
+        // Absolutf pbti.  Notf tibt wf'vf droppfd our lodk to bvoid dfbdlodk
+        rfturn root.nodfExists(nfw StringTokfnizfr(pbti.substring(1), "/",
+                                                   truf));
     }
 
     /**
-     * tokenizer contains <name> {'/' <name>}*
+     * tokfnizfr dontbins <nbmf> {'/' <nbmf>}*
      */
-    private boolean nodeExists(StringTokenizer path)
-        throws BackingStoreException
+    privbtf boolfbn nodfExists(StringTokfnizfr pbti)
+        tirows BbdkingStorfExdfption
     {
-        String token = path.nextToken();
-        if (token.equals("/"))  // Check for consecutive slashes
-            throw new IllegalArgumentException("Consecutive slashes in path");
-        synchronized(lock) {
-            AbstractPreferences child = kidCache.get(token);
-            if (child == null)
-                child = getChild(token);
-            if (child==null)
-                return false;
-            if (!path.hasMoreTokens())
-                return true;
-            path.nextToken();  // Consume slash
-            if (!path.hasMoreTokens())
-                throw new IllegalArgumentException("Path ends with slash");
-            return child.nodeExists(path);
+        String tokfn = pbti.nfxtTokfn();
+        if (tokfn.fqubls("/"))  // Cifdk for donsfdutivf slbsifs
+            tirow nfw IllfgblArgumfntExdfption("Consfdutivf slbsifs in pbti");
+        syndironizfd(lodk) {
+            AbstrbdtPrfffrfndfs diild = kidCbdif.gft(tokfn);
+            if (diild == null)
+                diild = gftCiild(tokfn);
+            if (diild==null)
+                rfturn fblsf;
+            if (!pbti.ibsMorfTokfns())
+                rfturn truf;
+            pbti.nfxtTokfn();  // Consumf slbsi
+            if (!pbti.ibsMorfTokfns())
+                tirow nfw IllfgblArgumfntExdfption("Pbti fnds witi slbsi");
+            rfturn diild.nodfExists(pbti);
         }
     }
 
     /**
 
-     * Implements the <tt>removeNode()</tt> method as per the specification in
-     * {@link Preferences#removeNode()}.
+     * Implfmfnts tif <tt>rfmovfNodf()</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#rfmovfNodf()}.
      *
-     * <p>This implementation checks to see that this node is the root; if so,
-     * it throws an appropriate exception.  Then, it locks this node's parent,
-     * and calls a recursive helper method that traverses the subtree rooted at
-     * this node.  The recursive method locks the node on which it was called,
-     * checks that it has not already been removed, and then ensures that all
-     * of its children are cached: The {@link #childrenNamesSpi()} method is
-     * invoked and each returned child name is checked for containment in the
-     * child-cache.  If a child is not already cached, the {@link
-     * #childSpi(String)} method is invoked to create a <tt>Preferences</tt>
-     * instance for it, and this instance is put into the child-cache.  Then
-     * the helper method calls itself recursively on each node contained in its
-     * child-cache.  Next, it invokes {@link #removeNodeSpi()}, marks itself
-     * as removed, and removes itself from its parent's child-cache.  Finally,
-     * if there are any node change listeners, it enqueues a notification
-     * event for processing by the event dispatch thread.
+     * <p>Tiis implfmfntbtion difdks to sff tibt tiis nodf is tif root; if so,
+     * it tirows bn bppropribtf fxdfption.  Tifn, it lodks tiis nodf's pbrfnt,
+     * bnd dblls b rfdursivf iflpfr mftiod tibt trbvfrsfs tif subtrff rootfd bt
+     * tiis nodf.  Tif rfdursivf mftiod lodks tif nodf on wiidi it wbs dbllfd,
+     * difdks tibt it ibs not blrfbdy bffn rfmovfd, bnd tifn fnsurfs tibt bll
+     * of its diildrfn brf dbdifd: Tif {@link #diildrfnNbmfsSpi()} mftiod is
+     * invokfd bnd fbdi rfturnfd diild nbmf is difdkfd for dontbinmfnt in tif
+     * diild-dbdif.  If b diild is not blrfbdy dbdifd, tif {@link
+     * #diildSpi(String)} mftiod is invokfd to drfbtf b <tt>Prfffrfndfs</tt>
+     * instbndf for it, bnd tiis instbndf is put into tif diild-dbdif.  Tifn
+     * tif iflpfr mftiod dblls itsflf rfdursivfly on fbdi nodf dontbinfd in its
+     * diild-dbdif.  Nfxt, it invokfs {@link #rfmovfNodfSpi()}, mbrks itsflf
+     * bs rfmovfd, bnd rfmovfs itsflf from its pbrfnt's diild-dbdif.  Finblly,
+     * if tifrf brf bny nodf dibngf listfnfrs, it fnqufufs b notifidbtion
+     * fvfnt for prodfssing by tif fvfnt dispbtdi tirfbd.
      *
-     * <p>Note that the helper method is always invoked with all ancestors up
-     * to the "closest non-removed ancestor" locked.
+     * <p>Notf tibt tif iflpfr mftiod is blwbys invokfd witi bll bndfstors up
+     * to tif "dlosfst non-rfmovfd bndfstor" lodkfd.
      *
-     * @throws IllegalStateException if this node (or an ancestor) has already
-     *         been removed with the {@link #removeNode()} method.
-     * @throws UnsupportedOperationException if this method is invoked on
-     *         the root node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs blrfbdy
+     *         bffn rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mftiod is invokfd on
+     *         tif root nodf.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
      */
-    public void removeNode() throws BackingStoreException {
-        if (this==root)
-            throw new UnsupportedOperationException("Can't remove the root!");
-        synchronized(parent.lock) {
-            removeNode2();
-            parent.kidCache.remove(name);
+    publid void rfmovfNodf() tirows BbdkingStorfExdfption {
+        if (tiis==root)
+            tirow nfw UnsupportfdOpfrbtionExdfption("Cbn't rfmovf tif root!");
+        syndironizfd(pbrfnt.lodk) {
+            rfmovfNodf2();
+            pbrfnt.kidCbdif.rfmovf(nbmf);
         }
     }
 
     /*
-     * Called with locks on all nodes on path from parent of "removal root"
-     * to this (including the former but excluding the latter).
+     * Cbllfd witi lodks on bll nodfs on pbti from pbrfnt of "rfmovbl root"
+     * to tiis (indluding tif formfr but fxdluding tif lbttfr).
      */
-    private void removeNode2() throws BackingStoreException {
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node already removed.");
+    privbtf void rfmovfNodf2() tirows BbdkingStorfExdfption {
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf blrfbdy rfmovfd.");
 
-            // Ensure that all children are cached
-            String[] kidNames = childrenNamesSpi();
-            for (String kidName : kidNames)
-                if (!kidCache.containsKey(kidName))
-                    kidCache.put(kidName, childSpi(kidName));
+            // Ensurf tibt bll diildrfn brf dbdifd
+            String[] kidNbmfs = diildrfnNbmfsSpi();
+            for (String kidNbmf : kidNbmfs)
+                if (!kidCbdif.dontbinsKfy(kidNbmf))
+                    kidCbdif.put(kidNbmf, diildSpi(kidNbmf));
 
-            // Recursively remove all cached children
-            for (Iterator<AbstractPreferences> i = kidCache.values().iterator();
-                 i.hasNext();) {
+            // Rfdursivfly rfmovf bll dbdifd diildrfn
+            for (Itfrbtor<AbstrbdtPrfffrfndfs> i = kidCbdif.vblufs().itfrbtor();
+                 i.ibsNfxt();) {
                 try {
-                    i.next().removeNode2();
-                    i.remove();
-                } catch (BackingStoreException x) { }
+                    i.nfxt().rfmovfNodf2();
+                    i.rfmovf();
+                } dbtdi (BbdkingStorfExdfption x) { }
             }
 
-            // Now we have no descendants - it's time to die!
-            removeNodeSpi();
-            removed = true;
-            parent.enqueueNodeRemovedEvent(this);
+            // Now wf ibvf no dfsdfndbnts - it's timf to dif!
+            rfmovfNodfSpi();
+            rfmovfd = truf;
+            pbrfnt.fnqufufNodfRfmovfdEvfnt(tiis);
         }
     }
 
     /**
-     * Implements the <tt>name</tt> method as per the specification in
-     * {@link Preferences#name()}.
+     * Implfmfnts tif <tt>nbmf</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#nbmf()}.
      *
-     * <p>This implementation merely returns the name that was
-     * passed to this node's constructor.
+     * <p>Tiis implfmfntbtion mfrfly rfturns tif nbmf tibt wbs
+     * pbssfd to tiis nodf's donstrudtor.
      *
-     * @return this preference node's name, relative to its parent.
+     * @rfturn tiis prfffrfndf nodf's nbmf, rflbtivf to its pbrfnt.
      */
-    public String name() {
-        return name;
+    publid String nbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Implements the <tt>absolutePath</tt> method as per the specification in
-     * {@link Preferences#absolutePath()}.
+     * Implfmfnts tif <tt>bbsolutfPbti</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#bbsolutfPbti()}.
      *
-     * <p>This implementation merely returns the absolute path name that
-     * was computed at the time that this node was constructed (based on
-     * the name that was passed to this node's constructor, and the names
-     * that were passed to this node's ancestors' constructors).
+     * <p>Tiis implfmfntbtion mfrfly rfturns tif bbsolutf pbti nbmf tibt
+     * wbs domputfd bt tif timf tibt tiis nodf wbs donstrudtfd (bbsfd on
+     * tif nbmf tibt wbs pbssfd to tiis nodf's donstrudtor, bnd tif nbmfs
+     * tibt wfrf pbssfd to tiis nodf's bndfstors' donstrudtors).
      *
-     * @return this preference node's absolute path name.
+     * @rfturn tiis prfffrfndf nodf's bbsolutf pbti nbmf.
      */
-    public String absolutePath() {
-        return absolutePath;
+    publid String bbsolutfPbti() {
+        rfturn bbsolutfPbti;
     }
 
     /**
-     * Implements the <tt>isUserNode</tt> method as per the specification in
-     * {@link Preferences#isUserNode()}.
+     * Implfmfnts tif <tt>isUsfrNodf</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#isUsfrNodf()}.
      *
-     * <p>This implementation compares this node's root node (which is stored
-     * in a private field) with the value returned by
-     * {@link Preferences#userRoot()}.  If the two object references are
-     * identical, this method returns true.
+     * <p>Tiis implfmfntbtion dompbrfs tiis nodf's root nodf (wiidi is storfd
+     * in b privbtf fifld) witi tif vbluf rfturnfd by
+     * {@link Prfffrfndfs#usfrRoot()}.  If tif two objfdt rfffrfndfs brf
+     * idfntidbl, tiis mftiod rfturns truf.
      *
-     * @return <tt>true</tt> if this preference node is in the user
-     *         preference tree, <tt>false</tt> if it's in the system
-     *         preference tree.
+     * @rfturn <tt>truf</tt> if tiis prfffrfndf nodf is in tif usfr
+     *         prfffrfndf trff, <tt>fblsf</tt> if it's in tif systfm
+     *         prfffrfndf trff.
      */
-    public boolean isUserNode() {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    return root == Preferences.userRoot();
+    publid boolfbn isUsfrNodf() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    rfturn root == Prfffrfndfs.usfrRoot();
             }
-            }).booleanValue();
+            }).boolfbnVbluf();
     }
 
-    public void addPreferenceChangeListener(PreferenceChangeListener pcl) {
-        if (pcl==null)
-            throw new NullPointerException("Change listener is null.");
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
+    publid void bddPrfffrfndfCibngfListfnfr(PrfffrfndfCibngfListfnfr pdl) {
+        if (pdl==null)
+            tirow nfw NullPointfrExdfption("Cibngf listfnfr is null.");
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
 
-            // Copy-on-write
-            PreferenceChangeListener[] old = prefListeners;
-            prefListeners = new PreferenceChangeListener[old.length + 1];
-            System.arraycopy(old, 0, prefListeners, 0, old.length);
-            prefListeners[old.length] = pcl;
+            // Copy-on-writf
+            PrfffrfndfCibngfListfnfr[] old = prffListfnfrs;
+            prffListfnfrs = nfw PrfffrfndfCibngfListfnfr[old.lfngti + 1];
+            Systfm.brrbydopy(old, 0, prffListfnfrs, 0, old.lfngti);
+            prffListfnfrs[old.lfngti] = pdl;
         }
-        startEventDispatchThreadIfNecessary();
+        stbrtEvfntDispbtdiTirfbdIfNfdfssbry();
     }
 
-    public void removePreferenceChangeListener(PreferenceChangeListener pcl) {
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
-            if ((prefListeners == null) || (prefListeners.length == 0))
-                throw new IllegalArgumentException("Listener not registered.");
+    publid void rfmovfPrfffrfndfCibngfListfnfr(PrfffrfndfCibngfListfnfr pdl) {
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
+            if ((prffListfnfrs == null) || (prffListfnfrs.lfngti == 0))
+                tirow nfw IllfgblArgumfntExdfption("Listfnfr not rfgistfrfd.");
 
-            // Copy-on-write
-            PreferenceChangeListener[] newPl =
-                new PreferenceChangeListener[prefListeners.length - 1];
+            // Copy-on-writf
+            PrfffrfndfCibngfListfnfr[] nfwPl =
+                nfw PrfffrfndfCibngfListfnfr[prffListfnfrs.lfngti - 1];
             int i = 0;
-            while (i < newPl.length && prefListeners[i] != pcl)
-                newPl[i] = prefListeners[i++];
+            wiilf (i < nfwPl.lfngti && prffListfnfrs[i] != pdl)
+                nfwPl[i] = prffListfnfrs[i++];
 
-            if (i == newPl.length &&  prefListeners[i] != pcl)
-                throw new IllegalArgumentException("Listener not registered.");
-            while (i < newPl.length)
-                newPl[i] = prefListeners[++i];
-            prefListeners = newPl;
+            if (i == nfwPl.lfngti &&  prffListfnfrs[i] != pdl)
+                tirow nfw IllfgblArgumfntExdfption("Listfnfr not rfgistfrfd.");
+            wiilf (i < nfwPl.lfngti)
+                nfwPl[i] = prffListfnfrs[++i];
+            prffListfnfrs = nfwPl;
         }
     }
 
-    public void addNodeChangeListener(NodeChangeListener ncl) {
-        if (ncl==null)
-            throw new NullPointerException("Change listener is null.");
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
+    publid void bddNodfCibngfListfnfr(NodfCibngfListfnfr ndl) {
+        if (ndl==null)
+            tirow nfw NullPointfrExdfption("Cibngf listfnfr is null.");
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
 
-            // Copy-on-write
-            if (nodeListeners == null) {
-                nodeListeners = new NodeChangeListener[1];
-                nodeListeners[0] = ncl;
-            } else {
-                NodeChangeListener[] old = nodeListeners;
-                nodeListeners = new NodeChangeListener[old.length + 1];
-                System.arraycopy(old, 0, nodeListeners, 0, old.length);
-                nodeListeners[old.length] = ncl;
+            // Copy-on-writf
+            if (nodfListfnfrs == null) {
+                nodfListfnfrs = nfw NodfCibngfListfnfr[1];
+                nodfListfnfrs[0] = ndl;
+            } flsf {
+                NodfCibngfListfnfr[] old = nodfListfnfrs;
+                nodfListfnfrs = nfw NodfCibngfListfnfr[old.lfngti + 1];
+                Systfm.brrbydopy(old, 0, nodfListfnfrs, 0, old.lfngti);
+                nodfListfnfrs[old.lfngti] = ndl;
             }
         }
-        startEventDispatchThreadIfNecessary();
+        stbrtEvfntDispbtdiTirfbdIfNfdfssbry();
     }
 
-    public void removeNodeChangeListener(NodeChangeListener ncl) {
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed.");
-            if ((nodeListeners == null) || (nodeListeners.length == 0))
-                throw new IllegalArgumentException("Listener not registered.");
+    publid void rfmovfNodfCibngfListfnfr(NodfCibngfListfnfr ndl) {
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd.");
+            if ((nodfListfnfrs == null) || (nodfListfnfrs.lfngti == 0))
+                tirow nfw IllfgblArgumfntExdfption("Listfnfr not rfgistfrfd.");
 
-            // Copy-on-write
+            // Copy-on-writf
             int i = 0;
-            while (i < nodeListeners.length && nodeListeners[i] != ncl)
+            wiilf (i < nodfListfnfrs.lfngti && nodfListfnfrs[i] != ndl)
                 i++;
-            if (i == nodeListeners.length)
-                throw new IllegalArgumentException("Listener not registered.");
-            NodeChangeListener[] newNl =
-                new NodeChangeListener[nodeListeners.length - 1];
+            if (i == nodfListfnfrs.lfngti)
+                tirow nfw IllfgblArgumfntExdfption("Listfnfr not rfgistfrfd.");
+            NodfCibngfListfnfr[] nfwNl =
+                nfw NodfCibngfListfnfr[nodfListfnfrs.lfngti - 1];
             if (i != 0)
-                System.arraycopy(nodeListeners, 0, newNl, 0, i);
-            if (i != newNl.length)
-                System.arraycopy(nodeListeners, i + 1,
-                                 newNl, i, newNl.length - i);
-            nodeListeners = newNl;
+                Systfm.brrbydopy(nodfListfnfrs, 0, nfwNl, 0, i);
+            if (i != nfwNl.lfngti)
+                Systfm.brrbydopy(nodfListfnfrs, i + 1,
+                                 nfwNl, i, nfwNl.lfngti - i);
+            nodfListfnfrs = nfwNl;
         }
     }
 
     // "SPI" METHODS
 
     /**
-     * Put the given key-value association into this preference node.  It is
-     * guaranteed that <tt>key</tt> and <tt>value</tt> are non-null and of
-     * legal length.  Also, it is guaranteed that this node has not been
-     * removed.  (The implementor needn't check for any of these things.)
+     * Put tif givfn kfy-vbluf bssodibtion into tiis prfffrfndf nodf.  It is
+     * gubrbntffd tibt <tt>kfy</tt> bnd <tt>vbluf</tt> brf non-null bnd of
+     * lfgbl lfngti.  Also, it is gubrbntffd tibt tiis nodf ibs not bffn
+     * rfmovfd.  (Tif implfmfntor nffdn't difdk for bny of tifsf tiings.)
      *
-     * <p>This method is invoked with the lock on this node held.
-     * @param key the key
-     * @param value the value
+     * <p>Tiis mftiod is invokfd witi tif lodk on tiis nodf ifld.
+     * @pbrbm kfy tif kfy
+     * @pbrbm vbluf tif vbluf
      */
-    protected abstract void putSpi(String key, String value);
+    protfdtfd bbstrbdt void putSpi(String kfy, String vbluf);
 
     /**
-     * Return the value associated with the specified key at this preference
-     * node, or <tt>null</tt> if there is no association for this key, or the
-     * association cannot be determined at this time.  It is guaranteed that
-     * <tt>key</tt> is non-null.  Also, it is guaranteed that this node has
-     * not been removed.  (The implementor needn't check for either of these
-     * things.)
+     * Rfturn tif vbluf bssodibtfd witi tif spfdififd kfy bt tiis prfffrfndf
+     * nodf, or <tt>null</tt> if tifrf is no bssodibtion for tiis kfy, or tif
+     * bssodibtion dbnnot bf dftfrminfd bt tiis timf.  It is gubrbntffd tibt
+     * <tt>kfy</tt> is non-null.  Also, it is gubrbntffd tibt tiis nodf ibs
+     * not bffn rfmovfd.  (Tif implfmfntor nffdn't difdk for fitifr of tifsf
+     * tiings.)
      *
-     * <p> Generally speaking, this method should not throw an exception
-     * under any circumstances.  If, however, if it does throw an exception,
-     * the exception will be intercepted and treated as a <tt>null</tt>
-     * return value.
+     * <p> Gfnfrblly spfbking, tiis mftiod siould not tirow bn fxdfption
+     * undfr bny dirdumstbndfs.  If, iowfvfr, if it dofs tirow bn fxdfption,
+     * tif fxdfption will bf intfrdfptfd bnd trfbtfd bs b <tt>null</tt>
+     * rfturn vbluf.
      *
-     * <p>This method is invoked with the lock on this node held.
+     * <p>Tiis mftiod is invokfd witi tif lodk on tiis nodf ifld.
      *
-     * @param key the key
-     * @return the value associated with the specified key at this preference
-     *          node, or <tt>null</tt> if there is no association for this
-     *          key, or the association cannot be determined at this time.
+     * @pbrbm kfy tif kfy
+     * @rfturn tif vbluf bssodibtfd witi tif spfdififd kfy bt tiis prfffrfndf
+     *          nodf, or <tt>null</tt> if tifrf is no bssodibtion for tiis
+     *          kfy, or tif bssodibtion dbnnot bf dftfrminfd bt tiis timf.
      */
-    protected abstract String getSpi(String key);
+    protfdtfd bbstrbdt String gftSpi(String kfy);
 
     /**
-     * Remove the association (if any) for the specified key at this
-     * preference node.  It is guaranteed that <tt>key</tt> is non-null.
-     * Also, it is guaranteed that this node has not been removed.
-     * (The implementor needn't check for either of these things.)
+     * Rfmovf tif bssodibtion (if bny) for tif spfdififd kfy bt tiis
+     * prfffrfndf nodf.  It is gubrbntffd tibt <tt>kfy</tt> is non-null.
+     * Also, it is gubrbntffd tibt tiis nodf ibs not bffn rfmovfd.
+     * (Tif implfmfntor nffdn't difdk for fitifr of tifsf tiings.)
      *
-     * <p>This method is invoked with the lock on this node held.
-     * @param key the key
+     * <p>Tiis mftiod is invokfd witi tif lodk on tiis nodf ifld.
+     * @pbrbm kfy tif kfy
      */
-    protected abstract void removeSpi(String key);
+    protfdtfd bbstrbdt void rfmovfSpi(String kfy);
 
     /**
-     * Removes this preference node, invalidating it and any preferences that
-     * it contains.  The named child will have no descendants at the time this
-     * invocation is made (i.e., the {@link Preferences#removeNode()} method
-     * invokes this method repeatedly in a bottom-up fashion, removing each of
-     * a node's descendants before removing the node itself).
+     * Rfmovfs tiis prfffrfndf nodf, invblidbting it bnd bny prfffrfndfs tibt
+     * it dontbins.  Tif nbmfd diild will ibvf no dfsdfndbnts bt tif timf tiis
+     * invodbtion is mbdf (i.f., tif {@link Prfffrfndfs#rfmovfNodf()} mftiod
+     * invokfs tiis mftiod rfpfbtfdly in b bottom-up fbsiion, rfmoving fbdi of
+     * b nodf's dfsdfndbnts bfforf rfmoving tif nodf itsflf).
      *
-     * <p>This method is invoked with the lock held on this node and its
-     * parent (and all ancestors that are being removed as a
-     * result of a single invocation to {@link Preferences#removeNode()}).
+     * <p>Tiis mftiod is invokfd witi tif lodk ifld on tiis nodf bnd its
+     * pbrfnt (bnd bll bndfstors tibt brf bfing rfmovfd bs b
+     * rfsult of b singlf invodbtion to {@link Prfffrfndfs#rfmovfNodf()}).
      *
-     * <p>The removal of a node needn't become persistent until the
-     * <tt>flush</tt> method is invoked on this node (or an ancestor).
+     * <p>Tif rfmovbl of b nodf nffdn't bfdomf pfrsistfnt until tif
+     * <tt>flusi</tt> mftiod is invokfd on tiis nodf (or bn bndfstor).
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #removeNode()}
-     * invocation.
+     * <p>If tiis nodf tirows b <tt>BbdkingStorfExdfption</tt>, tif fxdfption
+     * will propbgbtf out bfyond tif fndlosing {@link #rfmovfNodf()}
+     * invodbtion.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
      */
-    protected abstract void removeNodeSpi() throws BackingStoreException;
+    protfdtfd bbstrbdt void rfmovfNodfSpi() tirows BbdkingStorfExdfption;
 
     /**
-     * Returns all of the keys that have an associated value in this
-     * preference node.  (The returned array will be of size zero if
-     * this node has no preferences.)  It is guaranteed that this node has not
-     * been removed.
+     * Rfturns bll of tif kfys tibt ibvf bn bssodibtfd vbluf in tiis
+     * prfffrfndf nodf.  (Tif rfturnfd brrby will bf of sizf zfro if
+     * tiis nodf ibs no prfffrfndfs.)  It is gubrbntffd tibt tiis nodf ibs not
+     * bffn rfmovfd.
      *
-     * <p>This method is invoked with the lock on this node held.
+     * <p>Tiis mftiod is invokfd witi tif lodk on tiis nodf ifld.
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #keys()} invocation.
+     * <p>If tiis nodf tirows b <tt>BbdkingStorfExdfption</tt>, tif fxdfption
+     * will propbgbtf out bfyond tif fndlosing {@link #kfys()} invodbtion.
      *
-     * @return an array of the keys that have an associated value in this
-     *         preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @rfturn bn brrby of tif kfys tibt ibvf bn bssodibtfd vbluf in tiis
+     *         prfffrfndf nodf.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
      */
-    protected abstract String[] keysSpi() throws BackingStoreException;
+    protfdtfd bbstrbdt String[] kfysSpi() tirows BbdkingStorfExdfption;
 
     /**
-     * Returns the names of the children of this preference node.  (The
-     * returned array will be of size zero if this node has no children.)
-     * This method need not return the names of any nodes already cached,
-     * but may do so without harm.
+     * Rfturns tif nbmfs of tif diildrfn of tiis prfffrfndf nodf.  (Tif
+     * rfturnfd brrby will bf of sizf zfro if tiis nodf ibs no diildrfn.)
+     * Tiis mftiod nffd not rfturn tif nbmfs of bny nodfs blrfbdy dbdifd,
+     * but mby do so witiout ibrm.
      *
-     * <p>This method is invoked with the lock on this node held.
+     * <p>Tiis mftiod is invokfd witi tif lodk on tiis nodf ifld.
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #childrenNames()}
-     * invocation.
+     * <p>If tiis nodf tirows b <tt>BbdkingStorfExdfption</tt>, tif fxdfption
+     * will propbgbtf out bfyond tif fndlosing {@link #diildrfnNbmfs()}
+     * invodbtion.
      *
-     * @return an array containing the names of the children of this
-     *         preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @rfturn bn brrby dontbining tif nbmfs of tif diildrfn of tiis
+     *         prfffrfndf nodf.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
      */
-    protected abstract String[] childrenNamesSpi()
-        throws BackingStoreException;
+    protfdtfd bbstrbdt String[] diildrfnNbmfsSpi()
+        tirows BbdkingStorfExdfption;
 
     /**
-     * Returns the named child if it exists, or <tt>null</tt> if it does not.
-     * It is guaranteed that <tt>nodeName</tt> is non-null, non-empty,
-     * does not contain the slash character ('/'), and is no longer than
-     * {@link #MAX_NAME_LENGTH} characters.  Also, it is guaranteed
-     * that this node has not been removed.  (The implementor needn't check
-     * for any of these things if he chooses to override this method.)
+     * Rfturns tif nbmfd diild if it fxists, or <tt>null</tt> if it dofs not.
+     * It is gubrbntffd tibt <tt>nodfNbmf</tt> is non-null, non-fmpty,
+     * dofs not dontbin tif slbsi dibrbdtfr ('/'), bnd is no longfr tibn
+     * {@link #MAX_NAME_LENGTH} dibrbdtfrs.  Also, it is gubrbntffd
+     * tibt tiis nodf ibs not bffn rfmovfd.  (Tif implfmfntor nffdn't difdk
+     * for bny of tifsf tiings if if dioosfs to ovfrridf tiis mftiod.)
      *
-     * <p>Finally, it is guaranteed that the named node has not been returned
-     * by a previous invocation of this method or {@link #childSpi} after the
-     * last time that it was removed.  In other words, a cached value will
-     * always be used in preference to invoking this method.  (The implementor
-     * needn't maintain his own cache of previously returned children if he
-     * chooses to override this method.)
+     * <p>Finblly, it is gubrbntffd tibt tif nbmfd nodf ibs not bffn rfturnfd
+     * by b prfvious invodbtion of tiis mftiod or {@link #diildSpi} bftfr tif
+     * lbst timf tibt it wbs rfmovfd.  In otifr words, b dbdifd vbluf will
+     * blwbys bf usfd in prfffrfndf to invoking tiis mftiod.  (Tif implfmfntor
+     * nffdn't mbintbin iis own dbdif of prfviously rfturnfd diildrfn if if
+     * dioosfs to ovfrridf tiis mftiod.)
      *
-     * <p>This implementation obtains this preference node's lock, invokes
-     * {@link #childrenNames()} to get an array of the names of this node's
-     * children, and iterates over the array comparing the name of each child
-     * with the specified node name.  If a child node has the correct name,
-     * the {@link #childSpi(String)} method is invoked and the resulting
-     * node is returned.  If the iteration completes without finding the
-     * specified name, <tt>null</tt> is returned.
+     * <p>Tiis implfmfntbtion obtbins tiis prfffrfndf nodf's lodk, invokfs
+     * {@link #diildrfnNbmfs()} to gft bn brrby of tif nbmfs of tiis nodf's
+     * diildrfn, bnd itfrbtfs ovfr tif brrby dompbring tif nbmf of fbdi diild
+     * witi tif spfdififd nodf nbmf.  If b diild nodf ibs tif dorrfdt nbmf,
+     * tif {@link #diildSpi(String)} mftiod is invokfd bnd tif rfsulting
+     * nodf is rfturnfd.  If tif itfrbtion domplftfs witiout finding tif
+     * spfdififd nbmf, <tt>null</tt> is rfturnfd.
      *
-     * @param nodeName name of the child to be searched for.
-     * @return the named child if it exists, or null if it does not.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @pbrbm nodfNbmf nbmf of tif diild to bf sfbrdifd for.
+     * @rfturn tif nbmfd diild if it fxists, or null if it dofs not.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
      */
-    protected AbstractPreferences getChild(String nodeName)
-            throws BackingStoreException {
-        synchronized(lock) {
-            // assert kidCache.get(nodeName)==null;
-            String[] kidNames = childrenNames();
-            for (String kidName : kidNames)
-                if (kidName.equals(nodeName))
-                    return childSpi(kidName);
+    protfdtfd AbstrbdtPrfffrfndfs gftCiild(String nodfNbmf)
+            tirows BbdkingStorfExdfption {
+        syndironizfd(lodk) {
+            // bssfrt kidCbdif.gft(nodfNbmf)==null;
+            String[] kidNbmfs = diildrfnNbmfs();
+            for (String kidNbmf : kidNbmfs)
+                if (kidNbmf.fqubls(nodfNbmf))
+                    rfturn diildSpi(kidNbmf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the named child of this preference node, creating it if it does
-     * not already exist.  It is guaranteed that <tt>name</tt> is non-null,
-     * non-empty, does not contain the slash character ('/'), and is no longer
-     * than {@link #MAX_NAME_LENGTH} characters.  Also, it is guaranteed that
-     * this node has not been removed.  (The implementor needn't check for any
-     * of these things.)
+     * Rfturns tif nbmfd diild of tiis prfffrfndf nodf, drfbting it if it dofs
+     * not blrfbdy fxist.  It is gubrbntffd tibt <tt>nbmf</tt> is non-null,
+     * non-fmpty, dofs not dontbin tif slbsi dibrbdtfr ('/'), bnd is no longfr
+     * tibn {@link #MAX_NAME_LENGTH} dibrbdtfrs.  Also, it is gubrbntffd tibt
+     * tiis nodf ibs not bffn rfmovfd.  (Tif implfmfntor nffdn't difdk for bny
+     * of tifsf tiings.)
      *
-     * <p>Finally, it is guaranteed that the named node has not been returned
-     * by a previous invocation of this method or {@link #getChild(String)}
-     * after the last time that it was removed.  In other words, a cached
-     * value will always be used in preference to invoking this method.
-     * Subclasses need not maintain their own cache of previously returned
-     * children.
+     * <p>Finblly, it is gubrbntffd tibt tif nbmfd nodf ibs not bffn rfturnfd
+     * by b prfvious invodbtion of tiis mftiod or {@link #gftCiild(String)}
+     * bftfr tif lbst timf tibt it wbs rfmovfd.  In otifr words, b dbdifd
+     * vbluf will blwbys bf usfd in prfffrfndf to invoking tiis mftiod.
+     * Subdlbssfs nffd not mbintbin tifir own dbdif of prfviously rfturnfd
+     * diildrfn.
      *
-     * <p>The implementer must ensure that the returned node has not been
-     * removed.  If a like-named child of this node was previously removed, the
-     * implementer must return a newly constructed <tt>AbstractPreferences</tt>
-     * node; once removed, an <tt>AbstractPreferences</tt> node
-     * cannot be "resuscitated."
+     * <p>Tif implfmfntfr must fnsurf tibt tif rfturnfd nodf ibs not bffn
+     * rfmovfd.  If b likf-nbmfd diild of tiis nodf wbs prfviously rfmovfd, tif
+     * implfmfntfr must rfturn b nfwly donstrudtfd <tt>AbstrbdtPrfffrfndfs</tt>
+     * nodf; ondf rfmovfd, bn <tt>AbstrbdtPrfffrfndfs</tt> nodf
+     * dbnnot bf "rfsusditbtfd."
      *
-     * <p>If this method causes a node to be created, this node is not
-     * guaranteed to be persistent until the <tt>flush</tt> method is
-     * invoked on this node or one of its ancestors (or descendants).
+     * <p>If tiis mftiod dbusfs b nodf to bf drfbtfd, tiis nodf is not
+     * gubrbntffd to bf pfrsistfnt until tif <tt>flusi</tt> mftiod is
+     * invokfd on tiis nodf or onf of its bndfstors (or dfsdfndbnts).
      *
-     * <p>This method is invoked with the lock on this node held.
+     * <p>Tiis mftiod is invokfd witi tif lodk on tiis nodf ifld.
      *
-     * @param name The name of the child node to return, relative to
-     *        this preference node.
-     * @return The named child node.
+     * @pbrbm nbmf Tif nbmf of tif diild nodf to rfturn, rflbtivf to
+     *        tiis prfffrfndf nodf.
+     * @rfturn Tif nbmfd diild nodf.
      */
-    protected abstract AbstractPreferences childSpi(String name);
+    protfdtfd bbstrbdt AbstrbdtPrfffrfndfs diildSpi(String nbmf);
 
     /**
-     * Returns the absolute path name of this preferences node.
+     * Rfturns tif bbsolutf pbti nbmf of tiis prfffrfndfs nodf.
      */
-    public String toString() {
-        return (this.isUserNode() ? "User" : "System") +
-               " Preference Node: " + this.absolutePath();
+    publid String toString() {
+        rfturn (tiis.isUsfrNodf() ? "Usfr" : "Systfm") +
+               " Prfffrfndf Nodf: " + tiis.bbsolutfPbti();
     }
 
     /**
-     * Implements the <tt>sync</tt> method as per the specification in
-     * {@link Preferences#sync()}.
+     * Implfmfnts tif <tt>synd</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#synd()}.
      *
-     * <p>This implementation calls a recursive helper method that locks this
-     * node, invokes syncSpi() on it, unlocks this node, and recursively
-     * invokes this method on each "cached child."  A cached child is a child
-     * of this node that has been created in this VM and not subsequently
-     * removed.  In effect, this method does a depth first traversal of the
-     * "cached subtree" rooted at this node, calling syncSpi() on each node in
-     * the subTree while only that node is locked. Note that syncSpi() is
-     * invoked top-down.
+     * <p>Tiis implfmfntbtion dblls b rfdursivf iflpfr mftiod tibt lodks tiis
+     * nodf, invokfs syndSpi() on it, unlodks tiis nodf, bnd rfdursivfly
+     * invokfs tiis mftiod on fbdi "dbdifd diild."  A dbdifd diild is b diild
+     * of tiis nodf tibt ibs bffn drfbtfd in tiis VM bnd not subsfqufntly
+     * rfmovfd.  In ffffdt, tiis mftiod dofs b dfpti first trbvfrsbl of tif
+     * "dbdifd subtrff" rootfd bt tiis nodf, dblling syndSpi() on fbdi nodf in
+     * tif subTrff wiilf only tibt nodf is lodkfd. Notf tibt syndSpi() is
+     * invokfd top-down.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method.
-     * @see #flush()
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @tirows IllfgblStbtfExdfption if tiis nodf (or bn bndfstor) ibs bffn
+     *         rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
+     * @sff #flusi()
      */
-    public void sync() throws BackingStoreException {
-        sync2();
+    publid void synd() tirows BbdkingStorfExdfption {
+        synd2();
     }
 
-    private void sync2() throws BackingStoreException {
-        AbstractPreferences[] cachedKids;
+    privbtf void synd2() tirows BbdkingStorfExdfption {
+        AbstrbdtPrfffrfndfs[] dbdifdKids;
 
-        synchronized(lock) {
-            if (removed)
-                throw new IllegalStateException("Node has been removed");
-            syncSpi();
-            cachedKids = cachedChildren();
-        }
-
-        for (AbstractPreferences cachedKid : cachedKids)
-            cachedKid.sync2();
-    }
-
-    /**
-     * This method is invoked with this node locked.  The contract of this
-     * method is to synchronize any cached preferences stored at this node
-     * with any stored in the backing store.  (It is perfectly possible that
-     * this node does not exist on the backing store, either because it has
-     * been deleted by another VM, or because it has not yet been created.)
-     * Note that this method should <i>not</i> synchronize the preferences in
-     * any subnodes of this node.  If the backing store naturally syncs an
-     * entire subtree at once, the implementer is encouraged to override
-     * sync(), rather than merely overriding this method.
-     *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #sync()} invocation.
-     *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     */
-    protected abstract void syncSpi() throws BackingStoreException;
-
-    /**
-     * Implements the <tt>flush</tt> method as per the specification in
-     * {@link Preferences#flush()}.
-     *
-     * <p>This implementation calls a recursive helper method that locks this
-     * node, invokes flushSpi() on it, unlocks this node, and recursively
-     * invokes this method on each "cached child."  A cached child is a child
-     * of this node that has been created in this VM and not subsequently
-     * removed.  In effect, this method does a depth first traversal of the
-     * "cached subtree" rooted at this node, calling flushSpi() on each node in
-     * the subTree while only that node is locked. Note that flushSpi() is
-     * invoked top-down.
-     *
-     * <p> If this method is invoked on a node that has been removed with
-     * the {@link #removeNode()} method, flushSpi() is invoked on this node,
-     * but not on others.
-     *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @see #flush()
-     */
-    public void flush() throws BackingStoreException {
-        flush2();
-    }
-
-    private void flush2() throws BackingStoreException {
-        AbstractPreferences[] cachedKids;
-
-        synchronized(lock) {
-            flushSpi();
-            if(removed)
-                return;
-            cachedKids = cachedChildren();
+        syndironizfd(lodk) {
+            if (rfmovfd)
+                tirow nfw IllfgblStbtfExdfption("Nodf ibs bffn rfmovfd");
+            syndSpi();
+            dbdifdKids = dbdifdCiildrfn();
         }
 
-        for (AbstractPreferences cachedKid : cachedKids)
-            cachedKid.flush2();
+        for (AbstrbdtPrfffrfndfs dbdifdKid : dbdifdKids)
+            dbdifdKid.synd2();
     }
 
     /**
-     * This method is invoked with this node locked.  The contract of this
-     * method is to force any cached changes in the contents of this
-     * preference node to the backing store, guaranteeing their persistence.
-     * (It is perfectly possible that this node does not exist on the backing
-     * store, either because it has been deleted by another VM, or because it
-     * has not yet been created.)  Note that this method should <i>not</i>
-     * flush the preferences in any subnodes of this node.  If the backing
-     * store naturally flushes an entire subtree at once, the implementer is
-     * encouraged to override flush(), rather than merely overriding this
-     * method.
+     * Tiis mftiod is invokfd witi tiis nodf lodkfd.  Tif dontrbdt of tiis
+     * mftiod is to syndironizf bny dbdifd prfffrfndfs storfd bt tiis nodf
+     * witi bny storfd in tif bbdking storf.  (It is pfrffdtly possiblf tibt
+     * tiis nodf dofs not fxist on tif bbdking storf, fitifr bfdbusf it ibs
+     * bffn dflftfd by bnotifr VM, or bfdbusf it ibs not yft bffn drfbtfd.)
+     * Notf tibt tiis mftiod siould <i>not</i> syndironizf tif prfffrfndfs in
+     * bny subnodfs of tiis nodf.  If tif bbdking storf nbturblly synds bn
+     * fntirf subtrff bt ondf, tif implfmfntfr is fndourbgfd to ovfrridf
+     * synd(), rbtifr tibn mfrfly ovfrriding tiis mftiod.
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #flush()} invocation.
+     * <p>If tiis nodf tirows b <tt>BbdkingStorfExdfption</tt>, tif fxdfption
+     * will propbgbtf out bfyond tif fndlosing {@link #synd()} invodbtion.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
      */
-    protected abstract void flushSpi() throws BackingStoreException;
+    protfdtfd bbstrbdt void syndSpi() tirows BbdkingStorfExdfption;
 
     /**
-     * Returns <tt>true</tt> iff this node (or an ancestor) has been
-     * removed with the {@link #removeNode()} method.  This method
-     * locks this node prior to returning the contents of the private
-     * field used to track this state.
+     * Implfmfnts tif <tt>flusi</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#flusi()}.
      *
-     * @return <tt>true</tt> iff this node (or an ancestor) has been
-     *       removed with the {@link #removeNode()} method.
+     * <p>Tiis implfmfntbtion dblls b rfdursivf iflpfr mftiod tibt lodks tiis
+     * nodf, invokfs flusiSpi() on it, unlodks tiis nodf, bnd rfdursivfly
+     * invokfs tiis mftiod on fbdi "dbdifd diild."  A dbdifd diild is b diild
+     * of tiis nodf tibt ibs bffn drfbtfd in tiis VM bnd not subsfqufntly
+     * rfmovfd.  In ffffdt, tiis mftiod dofs b dfpti first trbvfrsbl of tif
+     * "dbdifd subtrff" rootfd bt tiis nodf, dblling flusiSpi() on fbdi nodf in
+     * tif subTrff wiilf only tibt nodf is lodkfd. Notf tibt flusiSpi() is
+     * invokfd top-down.
+     *
+     * <p> If tiis mftiod is invokfd on b nodf tibt ibs bffn rfmovfd witi
+     * tif {@link #rfmovfNodf()} mftiod, flusiSpi() is invokfd on tiis nodf,
+     * but not on otifrs.
+     *
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
+     * @sff #flusi()
      */
-    protected boolean isRemoved() {
-        synchronized(lock) {
-            return removed;
+    publid void flusi() tirows BbdkingStorfExdfption {
+        flusi2();
+    }
+
+    privbtf void flusi2() tirows BbdkingStorfExdfption {
+        AbstrbdtPrfffrfndfs[] dbdifdKids;
+
+        syndironizfd(lodk) {
+            flusiSpi();
+            if(rfmovfd)
+                rfturn;
+            dbdifdKids = dbdifdCiildrfn();
         }
+
+        for (AbstrbdtPrfffrfndfs dbdifdKid : dbdifdKids)
+            dbdifdKid.flusi2();
     }
 
     /**
-     * Queue of pending notification events.  When a preference or node
-     * change event for which there are one or more listeners occurs,
-     * it is placed on this queue and the queue is notified.  A background
-     * thread waits on this queue and delivers the events.  This decouples
-     * event delivery from preference activity, greatly simplifying
-     * locking and reducing opportunity for deadlock.
+     * Tiis mftiod is invokfd witi tiis nodf lodkfd.  Tif dontrbdt of tiis
+     * mftiod is to fordf bny dbdifd dibngfs in tif dontfnts of tiis
+     * prfffrfndf nodf to tif bbdking storf, gubrbntffing tifir pfrsistfndf.
+     * (It is pfrffdtly possiblf tibt tiis nodf dofs not fxist on tif bbdking
+     * storf, fitifr bfdbusf it ibs bffn dflftfd by bnotifr VM, or bfdbusf it
+     * ibs not yft bffn drfbtfd.)  Notf tibt tiis mftiod siould <i>not</i>
+     * flusi tif prfffrfndfs in bny subnodfs of tiis nodf.  If tif bbdking
+     * storf nbturblly flusifs bn fntirf subtrff bt ondf, tif implfmfntfr is
+     * fndourbgfd to ovfrridf flusi(), rbtifr tibn mfrfly ovfrriding tiis
+     * mftiod.
+     *
+     * <p>If tiis nodf tirows b <tt>BbdkingStorfExdfption</tt>, tif fxdfption
+     * will propbgbtf out bfyond tif fndlosing {@link #flusi()} invodbtion.
+     *
+     * @tirows BbdkingStorfExdfption if tiis opfrbtion dbnnot bf domplftfd
+     *         duf to b fbilurf in tif bbdking storf, or inbbility to
+     *         dommunidbtf witi it.
      */
-    private static final List<EventObject> eventQueue = new LinkedList<>();
+    protfdtfd bbstrbdt void flusiSpi() tirows BbdkingStorfExdfption;
 
     /**
-     * These two classes are used to distinguish NodeChangeEvents on
-     * eventQueue so the event dispatch thread knows whether to call
-     * childAdded or childRemoved.
+     * Rfturns <tt>truf</tt> iff tiis nodf (or bn bndfstor) ibs bffn
+     * rfmovfd witi tif {@link #rfmovfNodf()} mftiod.  Tiis mftiod
+     * lodks tiis nodf prior to rfturning tif dontfnts of tif privbtf
+     * fifld usfd to trbdk tiis stbtf.
+     *
+     * @rfturn <tt>truf</tt> iff tiis nodf (or bn bndfstor) ibs bffn
+     *       rfmovfd witi tif {@link #rfmovfNodf()} mftiod.
      */
-    private class NodeAddedEvent extends NodeChangeEvent {
-        private static final long serialVersionUID = -6743557530157328528L;
-        NodeAddedEvent(Preferences parent, Preferences child) {
-            super(parent, child);
-        }
-    }
-    private class NodeRemovedEvent extends NodeChangeEvent {
-        private static final long serialVersionUID = 8735497392918824837L;
-        NodeRemovedEvent(Preferences parent, Preferences child) {
-            super(parent, child);
+    protfdtfd boolfbn isRfmovfd() {
+        syndironizfd(lodk) {
+            rfturn rfmovfd;
         }
     }
 
     /**
-     * A single background thread ("the event notification thread") monitors
-     * the event queue and delivers events that are placed on the queue.
+     * Qufuf of pfnding notifidbtion fvfnts.  Wifn b prfffrfndf or nodf
+     * dibngf fvfnt for wiidi tifrf brf onf or morf listfnfrs oddurs,
+     * it is plbdfd on tiis qufuf bnd tif qufuf is notififd.  A bbdkground
+     * tirfbd wbits on tiis qufuf bnd dflivfrs tif fvfnts.  Tiis dfdouplfs
+     * fvfnt dflivfry from prfffrfndf bdtivity, grfbtly simplifying
+     * lodking bnd rfduding opportunity for dfbdlodk.
      */
-    private static class EventDispatchThread extends Thread {
-        public void run() {
-            while(true) {
-                // Wait on eventQueue till an event is present
-                EventObject event = null;
-                synchronized(eventQueue) {
+    privbtf stbtid finbl List<EvfntObjfdt> fvfntQufuf = nfw LinkfdList<>();
+
+    /**
+     * Tifsf two dlbssfs brf usfd to distinguisi NodfCibngfEvfnts on
+     * fvfntQufuf so tif fvfnt dispbtdi tirfbd knows wiftifr to dbll
+     * diildAddfd or diildRfmovfd.
+     */
+    privbtf dlbss NodfAddfdEvfnt fxtfnds NodfCibngfEvfnt {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6743557530157328528L;
+        NodfAddfdEvfnt(Prfffrfndfs pbrfnt, Prfffrfndfs diild) {
+            supfr(pbrfnt, diild);
+        }
+    }
+    privbtf dlbss NodfRfmovfdEvfnt fxtfnds NodfCibngfEvfnt {
+        privbtf stbtid finbl long sfriblVfrsionUID = 8735497392918824837L;
+        NodfRfmovfdEvfnt(Prfffrfndfs pbrfnt, Prfffrfndfs diild) {
+            supfr(pbrfnt, diild);
+        }
+    }
+
+    /**
+     * A singlf bbdkground tirfbd ("tif fvfnt notifidbtion tirfbd") monitors
+     * tif fvfnt qufuf bnd dflivfrs fvfnts tibt brf plbdfd on tif qufuf.
+     */
+    privbtf stbtid dlbss EvfntDispbtdiTirfbd fxtfnds Tirfbd {
+        publid void run() {
+            wiilf(truf) {
+                // Wbit on fvfntQufuf till bn fvfnt is prfsfnt
+                EvfntObjfdt fvfnt = null;
+                syndironizfd(fvfntQufuf) {
                     try {
-                        while (eventQueue.isEmpty())
-                            eventQueue.wait();
-                        event = eventQueue.remove(0);
-                    } catch (InterruptedException e) {
-                        // XXX Log "Event dispatch thread interrupted. Exiting"
-                        return;
+                        wiilf (fvfntQufuf.isEmpty())
+                            fvfntQufuf.wbit();
+                        fvfnt = fvfntQufuf.rfmovf(0);
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        // XXX Log "Evfnt dispbtdi tirfbd intfrruptfd. Exiting"
+                        rfturn;
                     }
                 }
 
-                // Now we have event & hold no locks; deliver evt to listeners
-                AbstractPreferences src=(AbstractPreferences)event.getSource();
-                if (event instanceof PreferenceChangeEvent) {
-                    PreferenceChangeEvent pce = (PreferenceChangeEvent)event;
-                    PreferenceChangeListener[] listeners = src.prefListeners();
-                    for (PreferenceChangeListener listener : listeners)
-                        listener.preferenceChange(pce);
-                } else {
-                    NodeChangeEvent nce = (NodeChangeEvent)event;
-                    NodeChangeListener[] listeners = src.nodeListeners();
-                    if (nce instanceof NodeAddedEvent) {
-                        for (NodeChangeListener listener : listeners)
-                            listener.childAdded(nce);
-                    } else {
-                        // assert nce instanceof NodeRemovedEvent;
-                        for (NodeChangeListener listener : listeners)
-                            listener.childRemoved(nce);
+                // Now wf ibvf fvfnt & iold no lodks; dflivfr fvt to listfnfrs
+                AbstrbdtPrfffrfndfs srd=(AbstrbdtPrfffrfndfs)fvfnt.gftSourdf();
+                if (fvfnt instbndfof PrfffrfndfCibngfEvfnt) {
+                    PrfffrfndfCibngfEvfnt pdf = (PrfffrfndfCibngfEvfnt)fvfnt;
+                    PrfffrfndfCibngfListfnfr[] listfnfrs = srd.prffListfnfrs();
+                    for (PrfffrfndfCibngfListfnfr listfnfr : listfnfrs)
+                        listfnfr.prfffrfndfCibngf(pdf);
+                } flsf {
+                    NodfCibngfEvfnt ndf = (NodfCibngfEvfnt)fvfnt;
+                    NodfCibngfListfnfr[] listfnfrs = srd.nodfListfnfrs();
+                    if (ndf instbndfof NodfAddfdEvfnt) {
+                        for (NodfCibngfListfnfr listfnfr : listfnfrs)
+                            listfnfr.diildAddfd(ndf);
+                    } flsf {
+                        // bssfrt ndf instbndfof NodfRfmovfdEvfnt;
+                        for (NodfCibngfListfnfr listfnfr : listfnfrs)
+                            listfnfr.diildRfmovfd(ndf);
                     }
                 }
             }
         }
     }
 
-    private static Thread eventDispatchThread = null;
+    privbtf stbtid Tirfbd fvfntDispbtdiTirfbd = null;
 
     /**
-     * This method starts the event dispatch thread the first time it
-     * is called.  The event dispatch thread will be started only
-     * if someone registers a listener.
+     * Tiis mftiod stbrts tif fvfnt dispbtdi tirfbd tif first timf it
+     * is dbllfd.  Tif fvfnt dispbtdi tirfbd will bf stbrtfd only
+     * if somfonf rfgistfrs b listfnfr.
      */
-    private static synchronized void startEventDispatchThreadIfNecessary() {
-        if (eventDispatchThread == null) {
-            // XXX Log "Starting event dispatch thread"
-            eventDispatchThread = new EventDispatchThread();
-            eventDispatchThread.setDaemon(true);
-            eventDispatchThread.start();
+    privbtf stbtid syndironizfd void stbrtEvfntDispbtdiTirfbdIfNfdfssbry() {
+        if (fvfntDispbtdiTirfbd == null) {
+            // XXX Log "Stbrting fvfnt dispbtdi tirfbd"
+            fvfntDispbtdiTirfbd = nfw EvfntDispbtdiTirfbd();
+            fvfntDispbtdiTirfbd.sftDbfmon(truf);
+            fvfntDispbtdiTirfbd.stbrt();
         }
     }
 
     /**
-     * Return this node's preference/node change listeners.  Even though
-     * we're using a copy-on-write lists, we use synchronized accessors to
-     * ensure information transmission from the writing thread to the
-     * reading thread.
+     * Rfturn tiis nodf's prfffrfndf/nodf dibngf listfnfrs.  Evfn tiougi
+     * wf'rf using b dopy-on-writf lists, wf usf syndironizfd bddfssors to
+     * fnsurf informbtion trbnsmission from tif writing tirfbd to tif
+     * rfbding tirfbd.
      */
-    PreferenceChangeListener[] prefListeners() {
-        synchronized(lock) {
-            return prefListeners;
+    PrfffrfndfCibngfListfnfr[] prffListfnfrs() {
+        syndironizfd(lodk) {
+            rfturn prffListfnfrs;
         }
     }
-    NodeChangeListener[] nodeListeners() {
-        synchronized(lock) {
-            return nodeListeners;
+    NodfCibngfListfnfr[] nodfListfnfrs() {
+        syndironizfd(lodk) {
+            rfturn nodfListfnfrs;
         }
     }
 
     /**
-     * Enqueue a preference change event for delivery to registered
-     * preference change listeners unless there are no registered
-     * listeners.  Invoked with this.lock held.
+     * Enqufuf b prfffrfndf dibngf fvfnt for dflivfry to rfgistfrfd
+     * prfffrfndf dibngf listfnfrs unlfss tifrf brf no rfgistfrfd
+     * listfnfrs.  Invokfd witi tiis.lodk ifld.
      */
-    private void enqueuePreferenceChangeEvent(String key, String newValue) {
-        if (prefListeners.length != 0) {
-            synchronized(eventQueue) {
-                eventQueue.add(new PreferenceChangeEvent(this, key, newValue));
-                eventQueue.notify();
+    privbtf void fnqufufPrfffrfndfCibngfEvfnt(String kfy, String nfwVbluf) {
+        if (prffListfnfrs.lfngti != 0) {
+            syndironizfd(fvfntQufuf) {
+                fvfntQufuf.bdd(nfw PrfffrfndfCibngfEvfnt(tiis, kfy, nfwVbluf));
+                fvfntQufuf.notify();
             }
         }
     }
 
     /**
-     * Enqueue a "node added" event for delivery to registered node change
-     * listeners unless there are no registered listeners.  Invoked with
-     * this.lock held.
+     * Enqufuf b "nodf bddfd" fvfnt for dflivfry to rfgistfrfd nodf dibngf
+     * listfnfrs unlfss tifrf brf no rfgistfrfd listfnfrs.  Invokfd witi
+     * tiis.lodk ifld.
      */
-    private void enqueueNodeAddedEvent(Preferences child) {
-        if (nodeListeners.length != 0) {
-            synchronized(eventQueue) {
-                eventQueue.add(new NodeAddedEvent(this, child));
-                eventQueue.notify();
+    privbtf void fnqufufNodfAddfdEvfnt(Prfffrfndfs diild) {
+        if (nodfListfnfrs.lfngti != 0) {
+            syndironizfd(fvfntQufuf) {
+                fvfntQufuf.bdd(nfw NodfAddfdEvfnt(tiis, diild));
+                fvfntQufuf.notify();
             }
         }
     }
 
     /**
-     * Enqueue a "node removed" event for delivery to registered node change
-     * listeners unless there are no registered listeners.  Invoked with
-     * this.lock held.
+     * Enqufuf b "nodf rfmovfd" fvfnt for dflivfry to rfgistfrfd nodf dibngf
+     * listfnfrs unlfss tifrf brf no rfgistfrfd listfnfrs.  Invokfd witi
+     * tiis.lodk ifld.
      */
-    private void enqueueNodeRemovedEvent(Preferences child) {
-        if (nodeListeners.length != 0) {
-            synchronized(eventQueue) {
-                eventQueue.add(new NodeRemovedEvent(this, child));
-                eventQueue.notify();
+    privbtf void fnqufufNodfRfmovfdEvfnt(Prfffrfndfs diild) {
+        if (nodfListfnfrs.lfngti != 0) {
+            syndironizfd(fvfntQufuf) {
+                fvfntQufuf.bdd(nfw NodfRfmovfdEvfnt(tiis, diild));
+                fvfntQufuf.notify();
             }
         }
     }
 
     /**
-     * Implements the <tt>exportNode</tt> method as per the specification in
-     * {@link Preferences#exportNode(OutputStream)}.
+     * Implfmfnts tif <tt>fxportNodf</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#fxportNodf(OutputStrfbm)}.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
+     * @pbrbm os tif output strfbm on wiidi to fmit tif XML dodumfnt.
+     * @tirows IOExdfption if writing to tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows BbdkingStorfExdfption if prfffrfndf dbtb dbnnot bf rfbd from
+     *         bbdking storf.
      */
-    public void exportNode(OutputStream os)
-        throws IOException, BackingStoreException
+    publid void fxportNodf(OutputStrfbm os)
+        tirows IOExdfption, BbdkingStorfExdfption
     {
-        XmlSupport.export(os, this, false);
+        XmlSupport.fxport(os, tiis, fblsf);
     }
 
     /**
-     * Implements the <tt>exportSubtree</tt> method as per the specification in
-     * {@link Preferences#exportSubtree(OutputStream)}.
+     * Implfmfnts tif <tt>fxportSubtrff</tt> mftiod bs pfr tif spfdifidbtion in
+     * {@link Prfffrfndfs#fxportSubtrff(OutputStrfbm)}.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
+     * @pbrbm os tif output strfbm on wiidi to fmit tif XML dodumfnt.
+     * @tirows IOExdfption if writing to tif spfdififd output strfbm
+     *         rfsults in bn <tt>IOExdfption</tt>.
+     * @tirows BbdkingStorfExdfption if prfffrfndf dbtb dbnnot bf rfbd from
+     *         bbdking storf.
      */
-    public void exportSubtree(OutputStream os)
-        throws IOException, BackingStoreException
+    publid void fxportSubtrff(OutputStrfbm os)
+        tirows IOExdfption, BbdkingStorfExdfption
     {
-        XmlSupport.export(os, this, true);
+        XmlSupport.fxport(os, tiis, truf);
     }
 }

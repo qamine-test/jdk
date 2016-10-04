@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.internal;
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
 
-import java.net.InetAddress;
+import jbvb.nft.InftAddrfss;
 
-import com.sun.jmx.snmp.SnmpSecurityParameters;
-import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpMsg;
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpMsg;
 
-import com.sun.jmx.snmp.SnmpUnknownSecModelException;
-import com.sun.jmx.snmp.SnmpBadSecurityLevelException;
+import dom.sun.jmx.snmp.SnmpUnknownSfdModflExdfption;
+import dom.sun.jmx.snmp.SnmpBbdSfdurityLfvflExdfption;
 
 /**
-<P> An <CODE>SnmpIncomingRequest</CODE> handles both sides of an incoming SNMP request:
+<P> An <CODE>SnmpIndomingRfqufst</CODE> ibndlfs boti sidfs of bn indoming SNMP rfqufst:
 <ul>
-<li> The request. Unmarshalling of the received message. </li>
-<li> The response. Marshalling of the message to send. </li>
+<li> Tif rfqufst. Unmbrsiblling of tif rfdfivfd mfssbgf. </li>
+<li> Tif rfsponsf. Mbrsiblling of tif mfssbgf to sfnd. </li>
 </ul>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
-public interface SnmpIncomingRequest {
+publid intfrfbdf SnmpIndomingRfqufst {
     /**
-     * Once the incoming request decoded, returns the decoded security parameters.
-     * @return The decoded security parameters.
+     * Ondf tif indoming rfqufst dfdodfd, rfturns tif dfdodfd sfdurity pbrbmftfrs.
+     * @rfturn Tif dfdodfd sfdurity pbrbmftfrs.
      */
-    public SnmpSecurityParameters getSecurityParameters();
+    publid SnmpSfdurityPbrbmftfrs gftSfdurityPbrbmftfrs();
      /**
-     * Tests if a report is expected.
-     * @return boolean indicating if a report is to be sent.
+     * Tfsts if b rfport is fxpfdtfd.
+     * @rfturn boolfbn indidbting if b rfport is to bf sfnt.
      */
-    public boolean isReport();
+    publid boolfbn isRfport();
     /**
-     * Tests if a response is expected.
-     * @return boolean indicating if a response is to be sent.
+     * Tfsts if b rfsponsf is fxpfdtfd.
+     * @rfturn boolfbn indidbting if b rfsponsf is to bf sfnt.
      */
-    public boolean isResponse();
+    publid boolfbn isRfsponsf();
 
     /**
-     * Tells this request that no response will be sent.
+     * Tflls tiis rfqufst tibt no rfsponsf will bf sfnt.
      */
-    public void noResponse();
+    publid void noRfsponsf();
     /**
-     * Gets the incoming request principal.
-     * @return The request principal.
+     * Gfts tif indoming rfqufst prindipbl.
+     * @rfturn Tif rfqufst prindipbl.
      **/
-    public String getPrincipal();
+    publid String gftPrindipbl();
     /**
-     * Gets the incoming request security level. This level is defined in {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}.
-     * @return The security level.
+     * Gfts tif indoming rfqufst sfdurity lfvfl. Tiis lfvfl is dffinfd in {@link dom.sun.jmx.snmp.SnmpEnginf SnmpEnginf}.
+     * @rfturn Tif sfdurity lfvfl.
      */
-    public int getSecurityLevel();
+    publid int gftSfdurityLfvfl();
     /**
-     * Gets the incoming request security model.
-     * @return The security model.
+     * Gfts tif indoming rfqufst sfdurity modfl.
+     * @rfturn Tif sfdurity modfl.
      */
-    public int getSecurityModel();
+    publid int gftSfdurityModfl();
     /**
-     * Gets the incoming request context name.
-     * @return The context name.
+     * Gfts tif indoming rfqufst dontfxt nbmf.
+     * @rfturn Tif dontfxt nbmf.
      */
-    public byte[] getContextName();
+    publid bytf[] gftContfxtNbmf();
     /**
-     * Gets the incoming request context engine Id.
-     * @return The context engine Id.
+     * Gfts tif indoming rfqufst dontfxt fnginf Id.
+     * @rfturn Tif dontfxt fnginf Id.
      */
-    public byte[] getContextEngineId();
+    publid bytf[] gftContfxtEnginfId();
     /**
-     * Gets the incoming request context name used by Access Control Model in order to allow or deny the access to OIDs.
+     * Gfts tif indoming rfqufst dontfxt nbmf usfd by Addfss Control Modfl in ordfr to bllow or dfny tif bddfss to OIDs.
      */
-    public byte[] getAccessContext();
+    publid bytf[] gftAddfssContfxt();
     /**
-     * Encodes the response message to send and puts the result in the specified byte array.
+     * Endodfs tif rfsponsf mfssbgf to sfnd bnd puts tif rfsult in tif spfdififd bytf brrby.
      *
-     * @param outputBytes An array to receive the resulting encoding.
+     * @pbrbm outputBytfs An brrby to rfdfivf tif rfsulting fndoding.
      *
-     * @exception ArrayIndexOutOfBoundsException If the result does not fit
-     *                                           into the specified array.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If tif rfsult dofs not fit
+     *                                           into tif spfdififd brrby.
      */
-    public int encodeMessage(byte[] outputBytes)
-        throws SnmpTooBigException;
+    publid int fndodfMfssbgf(bytf[] outputBytfs)
+        tirows SnmpTooBigExdfption;
 
     /**
-     * Decodes the specified bytes and initializes the request with the incoming message.
+     * Dfdodfs tif spfdififd bytfs bnd initiblizfs tif rfqufst witi tif indoming mfssbgf.
      *
-     * @param inputBytes The bytes to be decoded.
+     * @pbrbm inputBytfs Tif bytfs to bf dfdodfd.
      *
-     * @exception SnmpStatusException If the specified bytes are not a valid encoding or if the security applied to this request failed and no report is to be sent (typically trap PDU).
+     * @fxdfption SnmpStbtusExdfption If tif spfdififd bytfs brf not b vblid fndoding or if tif sfdurity bpplifd to tiis rfqufst fbilfd bnd no rfport is to bf sfnt (typidblly trbp PDU).
      */
-    public void decodeMessage(byte[] inputBytes,
-                              int byteCount,
-                              InetAddress address,
+    publid void dfdodfMfssbgf(bytf[] inputBytfs,
+                              int bytfCount,
+                              InftAddrfss bddrfss,
                               int port)
-        throws SnmpStatusException, SnmpUnknownSecModelException,
-               SnmpBadSecurityLevelException;
+        tirows SnmpStbtusExdfption, SnmpUnknownSfdModflExdfption,
+               SnmpBbdSfdurityLfvflExdfption;
 
      /**
-     * Initializes the response to send with the passed Pdu.
+     * Initiblizfs tif rfsponsf to sfnd witi tif pbssfd Pdu.
      * <P>
-     * If the encoding length exceeds <CODE>maxDataLength</CODE>,
-     * the method throws an exception.
+     * If tif fndoding lfngti fxdffds <CODE>mbxDbtbLfngti</CODE>,
+     * tif mftiod tirows bn fxdfption.
      *
-     * @param p The PDU to be encoded.
-     * @param maxDataLength The maximum length permitted for the data field.
+     * @pbrbm p Tif PDU to bf fndodfd.
+     * @pbrbm mbxDbtbLfngti Tif mbximum lfngti pfrmittfd for tif dbtb fifld.
      *
-     * @exception SnmpStatusException If the specified <CODE>pdu</CODE>
-     *     is not valid.
-     * @exception SnmpTooBigException If the resulting encoding does not fit
-     * into <CODE>maxDataLength</CODE> bytes.
-     * @exception ArrayIndexOutOfBoundsException If the encoding exceeds
-     *   <CODE>maxDataLength</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif spfdififd <CODE>pdu</CODE>
+     *     is not vblid.
+     * @fxdfption SnmpTooBigExdfption If tif rfsulting fndoding dofs not fit
+     * into <CODE>mbxDbtbLfngti</CODE> bytfs.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption If tif fndoding fxdffds
+     *   <CODE>mbxDbtbLfngti</CODE>.
      */
-    public SnmpMsg encodeSnmpPdu(SnmpPdu p,
-                                 int maxDataLength)
-        throws SnmpStatusException, SnmpTooBigException;
+    publid SnmpMsg fndodfSnmpPdu(SnmpPdu p,
+                                 int mbxDbtbLfngti)
+        tirows SnmpStbtusExdfption, SnmpTooBigExdfption;
 
     /**
-     * Gets the request PDU encoded in the received message.
+     * Gfts tif rfqufst PDU fndodfd in tif rfdfivfd mfssbgf.
      * <P>
-     * This method decodes the data field and returns the resulting PDU.
+     * Tiis mftiod dfdodfs tif dbtb fifld bnd rfturns tif rfsulting PDU.
      *
-     * @return The resulting PDU.
-     * @exception SnmpStatusException If the encoding is not valid.
+     * @rfturn Tif rfsulting PDU.
+     * @fxdfption SnmpStbtusExdfption If tif fndoding is not vblid.
      */
-    public SnmpPdu decodeSnmpPdu()
-        throws SnmpStatusException;
+    publid SnmpPdu dfdodfSnmpPdu()
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Returns a stringified form of the received message.
-     * @return The message state string.
+     * Rfturns b stringififd form of tif rfdfivfd mfssbgf.
+     * @rfturn Tif mfssbgf stbtf string.
      */
-    public String printRequestMessage();
+    publid String printRfqufstMfssbgf();
     /**
-     * Returns a stringified form of the message to send.
-     * @return The message state string.
+     * Rfturns b stringififd form of tif mfssbgf to sfnd.
+     * @rfturn Tif mfssbgf stbtf string.
      */
-    public String printResponseMessage();
+    publid String printRfsponsfMfssbgf();
 }

@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import dom.sun.mbnbgfmfnt.VMOption;
+import dom.sun.mbnbgfmfnt.VMOption.Origin;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+
+/**
+ * A CompositfDbtb for VMOption for thf lodbl mbnbgfmfnt support.
+ * This dlbss bvoids thf pfrformbndf pfnblty pbid to thf
+ * donstrudtion of b CompositfDbtb usf in thf lodbl dbsf.
+ */
+publid dlbss VMOptionCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl VMOption option;
+
+    privbtf VMOptionCompositfDbtb(VMOption option) {
+        this.option = option;
+    }
+
+    publid VMOption gftVMOption() {
+        rfturn option;
+    }
+
+    publid stbtid CompositfDbtb toCompositfDbtb(VMOption option) {
+        VMOptionCompositfDbtb vdd = nfw VMOptionCompositfDbtb(option);
+        rfturn vdd.gftCompositfDbtb();
+    }
+
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
+        // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
+        // vmOptionItfmNbmfs!
+        finbl Objfdt[] vmOptionItfmVblufs = {
+            option.gftNbmf(),
+            option.gftVbluf(),
+            option.isWritfbblf(),
+            option.gftOrigin().toString(),
+        };
+
+        try {
+            rfturn nfw CompositfDbtbSupport(vmOptionCompositfTypf,
+                                            vmOptionItfmNbmfs,
+                                            vmOptionItfmVblufs);
+        } dbtdh (OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    privbtf stbtid finbl CompositfTypf vmOptionCompositfTypf;
+    stbtid {
+        try {
+            vmOptionCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(VMOption.dlbss);
+        } dbtdh (OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw nfw AssfrtionError(f);
+        }
+    }
+
+    stbtid CompositfTypf gftVMOptionCompositfTypf() {
+        rfturn vmOptionCompositfTypf;
+    }
+
+    privbtf stbtid finbl String NAME      = "nbmf";
+    privbtf stbtid finbl String VALUE     = "vbluf";
+    privbtf stbtid finbl String WRITEABLE = "writfbblf";
+    privbtf stbtid finbl String ORIGIN    = "origin";
+
+    privbtf stbtid finbl String[] vmOptionItfmNbmfs = {
+        NAME,
+        VALUE,
+        WRITEABLE,
+        ORIGIN,
+    };
+
+    publid stbtid String gftNbmf(CompositfDbtb dd) {
+        rfturn gftString(dd, NAME);
+    }
+    publid stbtid String gftVbluf(CompositfDbtb dd) {
+        rfturn gftString(dd, VALUE);
+    }
+    publid stbtid Origin gftOrigin(CompositfDbtb dd) {
+        String o = gftString(dd, ORIGIN);
+        rfturn Enum.vblufOf(Origin.dlbss, o);
+    }
+    publid stbtid boolfbn isWritfbblf(CompositfDbtb dd) {
+        rfturn gftBoolfbn(dd, WRITEABLE);
+    }
+
+    /** Vblidbtf if thf input CompositfDbtb hbs thf fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs with fxpfdtfd
+     * nbmfs bnd typfs).
+     */
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            throw nfw NullPointfrExdfption("Null CompositfDbtb");
+        }
+
+        if (!isTypfMbtdhfd(vmOptionCompositfTypf, dd.gftCompositfTypf())) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for VMOption");
+        }
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2395573975093578470L;
+}

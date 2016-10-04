@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 2010, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.bordfr;
+
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+/**
+ * A dlbss whidh implfmfnts b bordfr of bn brbitrbry strokf.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI
+ * bftwffn bpplidbtions running thf sbmf vfrsion of Swing.
+ * As of 1.4, support for long tfrm storbgf of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ *
+ * @sindf 1.7
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss StrokfBordfr fxtfnds AbstrbdtBordfr {
+    privbtf finbl BbsidStrokf strokf;
+    privbtf finbl Pbint pbint;
+
+    /**
+     * Crfbtfs b bordfr of thf spfdififd {@dodf strokf}.
+     * Thf domponfnt's forfground dolor will bf usfd to rfndfr thf bordfr.
+     *
+     * @pbrbm strokf  thf {@link BbsidStrokf} objfdt usfd to strokf b shbpf
+     *
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf strokf} is {@dodf null}
+     */
+    publid StrokfBordfr(BbsidStrokf strokf) {
+        this(strokf, null);
+    }
+
+    /**
+     * Crfbtfs b bordfr of thf spfdififd {@dodf strokf} bnd {@dodf pbint}.
+     * If thf spfdififd {@dodf pbint} is {@dodf null},
+     * thf domponfnt's forfground dolor will bf usfd to rfndfr thf bordfr.
+     *
+     * @pbrbm strokf  thf {@link BbsidStrokf} objfdt usfd to strokf b shbpf
+     * @pbrbm pbint   thf {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     *
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf strokf} is {@dodf null}
+     */
+    @ConstrudtorPropfrtifs({ "strokf", "pbint" })
+    publid StrokfBordfr(BbsidStrokf strokf, Pbint pbint) {
+        if (strokf == null) {
+            throw nfw NullPointfrExdfption("bordfr's strokf");
+        }
+        this.strokf = strokf;
+        this.pbint = pbint;
+    }
+
+    /**
+     * Pbints thf bordfr for thf spfdififd domponfnt
+     * with thf spfdififd position bnd sizf.
+     * If thf bordfr wbs not spfdififd with b {@link Pbint} objfdt,
+     * thf domponfnt's forfground dolor will bf usfd to rfndfr thf bordfr.
+     * If thf domponfnt's forfground dolor is not bvbilbblf,
+     * thf dffbult dolor of thf {@link Grbphids} objfdt will bf usfd.
+     *
+     * @pbrbm d       thf domponfnt for whidh this bordfr is bfing pbintfd
+     * @pbrbm g       thf pbint grbphids
+     * @pbrbm x       thf x position of thf pbintfd bordfr
+     * @pbrbm y       thf y position of thf pbintfd bordfr
+     * @pbrbm width   thf width of thf pbintfd bordfr
+     * @pbrbm hfight  thf hfight of thf pbintfd bordfr
+     *
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf g} is {@dodf null}
+     */
+    @Ovfrridf
+    publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+        flobt sizf = this.strokf.gftLinfWidth();
+        if (sizf > 0.0f) {
+            g = g.drfbtf();
+            if (g instbndfof Grbphids2D) {
+                Grbphids2D g2d = (Grbphids2D) g;
+                g2d.sftStrokf(this.strokf);
+                g2d.sftPbint(this.pbint != null ? this.pbint : d == null ? null : d.gftForfground());
+                g2d.sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING,
+                                     RfndfringHints.VALUE_ANTIALIAS_ON);
+                g2d.drbw(nfw Rfdtbnglf2D.Flobt(x + sizf / 2, y + sizf / 2, width - sizf, hfight - sizf));
+            }
+            g.disposf();
+        }
+    }
+
+    /**
+     * Rfinitiblizfs thf {@dodf insfts} pbrbmftfr
+     * with this bordfr's durrfnt insfts.
+     * Evfry insft is thf smbllfst (dlosfst to nfgbtivf infinity) intfgfr vbluf
+     * thbt is grfbtfr thbn or fqubl to thf linf width of thf strokf
+     * thbt is usfd to pbint thf bordfr.
+     *
+     * @pbrbm d       thf domponfnt for whidh this bordfr insfts vbluf bpplifs
+     * @pbrbm insfts  thf {@dodf Insfts} objfdt to bf rfinitiblizfd
+     * @rfturn thf rfinitiblizfd {@dodf insfts} pbrbmftfr
+     *
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf insfts} is {@dodf null}
+     *
+     * @sff Mbth#dfil
+     */
+    @Ovfrridf
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        int sizf = (int) Mbth.dfil(this.strokf.gftLinfWidth());
+        insfts.sft(sizf, sizf, sizf, sizf);
+        rfturn insfts;
+    }
+
+    /**
+     * Rfturns thf {@link BbsidStrokf} objfdt usfd to strokf b shbpf
+     * during thf bordfr rfndfring.
+     *
+     * @rfturn thf {@link BbsidStrokf} objfdt
+     */
+    publid BbsidStrokf gftStrokf() {
+        rfturn this.strokf;
+    }
+
+    /**
+     * Rfturns thf {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * during thf bordfr rfndfring.
+     *
+     * @rfturn thf {@link Pbint} objfdt or {@dodf null}
+     *         if thf {@dodf pbint} pbrbmftfr is not sft
+     */
+    publid Pbint gftPbint() {
+        rfturn this.pbint;
+    }
+}

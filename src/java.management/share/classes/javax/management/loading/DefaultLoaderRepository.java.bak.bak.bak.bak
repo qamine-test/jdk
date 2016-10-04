@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory;
+
+/**
+ * <p>Kffps thf list of Clbss Lobdfrs rfgistfrfd in thf MBfbn Sfrvfr.
+ * It providfs thf nfdfssbry mfthods to lobd dlbssfs using thf rfgistfrfd
+ * Clbss Lobdfrs.</p>
+ *
+ * <p>This dfprfdbtfd dlbss is mbintbinfd for dompbtibility.  In
+ * prfvious vfrsions of JMX, thfrf wbs onf
+ * <dodf>DffbultLobdfrRfpository</dodf> shbrfd by bll MBfbn sfrvfrs.
+ * As of JMX 1.2, thbt fundtionblity is bpproximbtfd by using {@link
+ * MBfbnSfrvfrFbdtory#findMBfbnSfrvfr} to find bll known MBfbn
+ * sfrvfrs, bnd donsulting thf {@link ClbssLobdfrRfpository} of fbdh
+ * onf.  It is strongly rfdommfndfd thbt dodf rfffrfnding
+ * <dodf>DffbultLobdfrRfpository</dodf> bf rfwrittfn.</p>
+ *
+ * @dfprfdbtfd Usf
+ * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr#gftClbssLobdfrRfpository()}}
+ * instfbd.
+ *
+ * @sindf 1.5
+ */
+@Dfprfdbtfd
+publid dlbss DffbultLobdfrRfpository {
+
+    /**
+     * Go through thf list of dlbss lobdfrs bnd try to lobd thf rfqufstfd
+     * dlbss.
+     * Thf mfthod will stop bs soon bs thf dlbss is found. If thf dlbss
+     * is not found thf mfthod will throw b <CODE>ClbssNotFoundExdfption</CODE>
+     * fxdfption.
+     *
+     * @pbrbm dlbssNbmf Thf nbmf of thf dlbss to bf lobdfd.
+     *
+     * @rfturn thf lobdfd dlbss.
+     *
+     * @fxdfption ClbssNotFoundExdfption Thf spfdififd dlbss dould not bf
+     *            found.
+     */
+    publid stbtid Clbss<?> lobdClbss(String dlbssNbmf)
+        throws ClbssNotFoundExdfption {
+        MBEANSERVER_LOGGER.logp(Lfvfl.FINEST,
+                DffbultLobdfrRfpository.dlbss.gftNbmf(),
+                "lobdClbss", dlbssNbmf);
+        rfturn lobd(null, dlbssNbmf);
+    }
+
+    /**
+     * Go through thf list of dlbss lobdfrs but fxdludf thf givfn
+     * dlbss lobdfr, thfn try to lobd
+     * thf rfqufstfd dlbss.
+     * Thf mfthod will stop bs soon bs thf dlbss is found. If thf dlbss
+     * is not found thf mfthod will throw b <CODE>ClbssNotFoundExdfption</CODE>
+     * fxdfption.
+     *
+     * @pbrbm dlbssNbmf Thf nbmf of thf dlbss to bf lobdfd.
+     * @pbrbm lobdfr Thf dlbss lobdfr to bf fxdludfd.
+     *
+     * @rfturn thf lobdfd dlbss.
+     *
+     * @fxdfption ClbssNotFoundExdfption Thf spfdififd dlbss dould not bf
+     *    found.
+     */
+    publid stbtid Clbss<?> lobdClbssWithout(ClbssLobdfr lobdfr,
+                                         String dlbssNbmf)
+        throws ClbssNotFoundExdfption {
+        MBEANSERVER_LOGGER.logp(Lfvfl.FINEST,
+                DffbultLobdfrRfpository.dlbss.gftNbmf(),
+                "lobdClbssWithout", dlbssNbmf);
+        rfturn lobd(lobdfr, dlbssNbmf);
+    }
+
+    privbtf stbtid Clbss<?> lobd(ClbssLobdfr without, String dlbssNbmf)
+            throws ClbssNotFoundExdfption {
+        finbl List<MBfbnSfrvfr> mbsList = MBfbnSfrvfrFbdtory.findMBfbnSfrvfr(null);
+
+        for (MBfbnSfrvfr mbs : mbsList) {
+            ClbssLobdfrRfpository dlr = mbs.gftClbssLobdfrRfpository();
+            try {
+                rfturn dlr.lobdClbssWithout(without, dlbssNbmf);
+            } dbtdh (ClbssNotFoundExdfption f) {
+                // OK : Try with nfxt onf...
+            }
+        }
+        throw nfw ClbssNotFoundExdfption(dlbssNbmf);
+    }
+
+ }

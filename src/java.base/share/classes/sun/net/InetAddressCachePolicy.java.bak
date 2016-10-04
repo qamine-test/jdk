@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 1998, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.security.PrivilegedAction;
-import java.security.Security;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.Sfdurity;
 
-public final class InetAddressCachePolicy {
+publid finbl dlbss InftAddrfssCbdifPolidy {
 
-    // Controls the cache policy for successful lookups only
-    private static final String cachePolicyProp = "networkaddress.cache.ttl";
-    private static final String cachePolicyPropFallback =
-        "sun.net.inetaddr.ttl";
+    // Controls tif dbdif polidy for suddfssful lookups only
+    privbtf stbtid finbl String dbdifPolidyProp = "nftworkbddrfss.dbdif.ttl";
+    privbtf stbtid finbl String dbdifPolidyPropFbllbbdk =
+        "sun.nft.inftbddr.ttl";
 
-    // Controls the cache policy for negative lookups only
-    private static final String negativeCachePolicyProp =
-        "networkaddress.cache.negative.ttl";
-    private static final String negativeCachePolicyPropFallback =
-        "sun.net.inetaddr.negative.ttl";
+    // Controls tif dbdif polidy for nfgbtivf lookups only
+    privbtf stbtid finbl String nfgbtivfCbdifPolidyProp =
+        "nftworkbddrfss.dbdif.nfgbtivf.ttl";
+    privbtf stbtid finbl String nfgbtivfCbdifPolidyPropFbllbbdk =
+        "sun.nft.inftbddr.nfgbtivf.ttl";
 
-    public static final int FOREVER = -1;
-    public static final int NEVER = 0;
+    publid stbtid finbl int FOREVER = -1;
+    publid stbtid finbl int NEVER = 0;
 
-    /* default value for positive lookups */
-    public static final int DEFAULT_POSITIVE = 30;
+    /* dffbult vbluf for positivf lookups */
+    publid stbtid finbl int DEFAULT_POSITIVE = 30;
 
-    /* The Java-level namelookup cache policy for successful lookups:
+    /* Tif Jbvb-lfvfl nbmflookup dbdif polidy for suddfssful lookups:
      *
-     * -1: caching forever
-     * any positive value: the number of seconds to cache an address for
+     * -1: dbdiing forfvfr
+     * bny positivf vbluf: tif numbfr of sfdonds to dbdif bn bddrfss for
      *
-     * default value is forever (FOREVER), as we let the platform do the
-     * caching. For security reasons, this caching is made forever when
-     * a security manager is set.
+     * dffbult vbluf is forfvfr (FOREVER), bs wf lft tif plbtform do tif
+     * dbdiing. For sfdurity rfbsons, tiis dbdiing is mbdf forfvfr wifn
+     * b sfdurity mbnbgfr is sft.
      */
-    private static int cachePolicy = FOREVER;
+    privbtf stbtid int dbdifPolidy = FOREVER;
 
-    /* The Java-level namelookup cache policy for negative lookups:
+    /* Tif Jbvb-lfvfl nbmflookup dbdif polidy for nfgbtivf lookups:
      *
-     * -1: caching forever
-     * any positive value: the number of seconds to cache an address for
+     * -1: dbdiing forfvfr
+     * bny positivf vbluf: tif numbfr of sfdonds to dbdif bn bddrfss for
      *
-     * default value is 0. It can be set to some other value for
-     * performance reasons.
+     * dffbult vbluf is 0. It dbn bf sft to somf otifr vbluf for
+     * pfrformbndf rfbsons.
      */
-    private static int negativeCachePolicy = NEVER;
+    privbtf stbtid int nfgbtivfCbdifPolidy = NEVER;
 
     /*
-     * Whether or not the cache policy for successful lookups was set
-     * using a property (cmd line).
+     * Wiftifr or not tif dbdif polidy for suddfssful lookups wbs sft
+     * using b propfrty (dmd linf).
      */
-    private static boolean propertySet;
+    privbtf stbtid boolfbn propfrtySft;
 
     /*
-     * Whether or not the cache policy for negative lookups was set
-     * using a property (cmd line).
+     * Wiftifr or not tif dbdif polidy for nfgbtivf lookups wbs sft
+     * using b propfrty (dmd linf).
      */
-    private static boolean propertyNegativeSet;
+    privbtf stbtid boolfbn propfrtyNfgbtivfSft;
 
     /*
-     * Initialize
+     * Initiblizf
      */
-    static {
+    stbtid {
 
-        Integer tmp = java.security.AccessController.doPrivileged(
-          new PrivilegedAction<Integer>() {
-            public Integer run() {
+        Intfgfr tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+          nfw PrivilfgfdAdtion<Intfgfr>() {
+            publid Intfgfr run() {
                 try {
-                    String tmpString = Security.getProperty(cachePolicyProp);
+                    String tmpString = Sfdurity.gftPropfrty(dbdifPolidyProp);
                     if (tmpString != null) {
-                        return Integer.valueOf(tmpString);
+                        rfturn Intfgfr.vblufOf(tmpString);
                     }
-                } catch (NumberFormatException ignored) {
-                    // Ignore
+                } dbtdi (NumbfrFormbtExdfption ignorfd) {
+                    // Ignorf
                 }
 
                 try {
-                    String tmpString = System.getProperty(cachePolicyPropFallback);
+                    String tmpString = Systfm.gftPropfrty(dbdifPolidyPropFbllbbdk);
                     if (tmpString != null) {
-                        return Integer.decode(tmpString);
+                        rfturn Intfgfr.dfdodf(tmpString);
                     }
-                } catch (NumberFormatException ignored) {
-                    // Ignore
+                } dbtdi (NumbfrFormbtExdfption ignorfd) {
+                    // Ignorf
                 }
-                return null;
+                rfturn null;
             }
           });
 
         if (tmp != null) {
-            cachePolicy = tmp.intValue();
-            if (cachePolicy < 0) {
-                cachePolicy = FOREVER;
+            dbdifPolidy = tmp.intVbluf();
+            if (dbdifPolidy < 0) {
+                dbdifPolidy = FOREVER;
             }
-            propertySet = true;
-        } else {
-            /* No properties defined for positive caching. If there is no
-             * security manager then use the default positive cache value.
+            propfrtySft = truf;
+        } flsf {
+            /* No propfrtifs dffinfd for positivf dbdiing. If tifrf is no
+             * sfdurity mbnbgfr tifn usf tif dffbult positivf dbdif vbluf.
              */
-            if (System.getSecurityManager() == null) {
-                cachePolicy = DEFAULT_POSITIVE;
+            if (Systfm.gftSfdurityMbnbgfr() == null) {
+                dbdifPolidy = DEFAULT_POSITIVE;
             }
         }
-        tmp = java.security.AccessController.doPrivileged (
-          new PrivilegedAction<Integer>() {
-            public Integer run() {
+        tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd (
+          nfw PrivilfgfdAdtion<Intfgfr>() {
+            publid Intfgfr run() {
                 try {
-                    String tmpString = Security.getProperty(negativeCachePolicyProp);
+                    String tmpString = Sfdurity.gftPropfrty(nfgbtivfCbdifPolidyProp);
                     if (tmpString != null) {
-                        return Integer.valueOf(tmpString);
+                        rfturn Intfgfr.vblufOf(tmpString);
                     }
-                } catch (NumberFormatException ignored) {
-                    // Ignore
+                } dbtdi (NumbfrFormbtExdfption ignorfd) {
+                    // Ignorf
                 }
 
                 try {
-                    String tmpString = System.getProperty(negativeCachePolicyPropFallback);
+                    String tmpString = Systfm.gftPropfrty(nfgbtivfCbdifPolidyPropFbllbbdk);
                     if (tmpString != null) {
-                        return Integer.decode(tmpString);
+                        rfturn Intfgfr.dfdodf(tmpString);
                     }
-                } catch (NumberFormatException ignored) {
-                    // Ignore
+                } dbtdi (NumbfrFormbtExdfption ignorfd) {
+                    // Ignorf
                 }
-                return null;
+                rfturn null;
             }
           });
 
         if (tmp != null) {
-            negativeCachePolicy = tmp.intValue();
-            if (negativeCachePolicy < 0) {
-                negativeCachePolicy = FOREVER;
+            nfgbtivfCbdifPolidy = tmp.intVbluf();
+            if (nfgbtivfCbdifPolidy < 0) {
+                nfgbtivfCbdifPolidy = FOREVER;
             }
-            propertyNegativeSet = true;
+            propfrtyNfgbtivfSft = truf;
         }
     }
 
-    public static synchronized int get() {
-        return cachePolicy;
+    publid stbtid syndironizfd int gft() {
+        rfturn dbdifPolidy;
     }
 
-    public static synchronized int getNegative() {
-        return negativeCachePolicy;
+    publid stbtid syndironizfd int gftNfgbtivf() {
+        rfturn nfgbtivfCbdifPolidy;
     }
 
     /**
-     * Sets the cache policy for successful lookups if the user has not
-     * already specified a cache policy for it using a
-     * command-property.
-     * @param newPolicy the value in seconds for how long the lookup
-     * should be cached
+     * Sfts tif dbdif polidy for suddfssful lookups if tif usfr ibs not
+     * blrfbdy spfdififd b dbdif polidy for it using b
+     * dommbnd-propfrty.
+     * @pbrbm nfwPolidy tif vbluf in sfdonds for iow long tif lookup
+     * siould bf dbdifd
      */
-    public static synchronized void setIfNotSet(int newPolicy) {
+    publid stbtid syndironizfd void sftIfNotSft(int nfwPolidy) {
         /*
-         * When setting the new value we may want to signal that the
-         * cache should be flushed, though this doesn't seem strictly
-         * necessary.
+         * Wifn sftting tif nfw vbluf wf mby wbnt to signbl tibt tif
+         * dbdif siould bf flusifd, tiougi tiis dofsn't sffm stridtly
+         * nfdfssbry.
          */
-        if (!propertySet) {
-            checkValue(newPolicy, cachePolicy);
-            cachePolicy = newPolicy;
+        if (!propfrtySft) {
+            difdkVbluf(nfwPolidy, dbdifPolidy);
+            dbdifPolidy = nfwPolidy;
         }
     }
 
     /**
-     * Sets the cache policy for negative lookups if the user has not
-     * already specified a cache policy for it using a
-     * command-property.
-     * @param newPolicy the value in seconds for how long the lookup
-     * should be cached
+     * Sfts tif dbdif polidy for nfgbtivf lookups if tif usfr ibs not
+     * blrfbdy spfdififd b dbdif polidy for it using b
+     * dommbnd-propfrty.
+     * @pbrbm nfwPolidy tif vbluf in sfdonds for iow long tif lookup
+     * siould bf dbdifd
      */
-    public static synchronized void setNegativeIfNotSet(int newPolicy) {
+    publid stbtid syndironizfd void sftNfgbtivfIfNotSft(int nfwPolidy) {
         /*
-         * When setting the new value we may want to signal that the
-         * cache should be flushed, though this doesn't seem strictly
-         * necessary.
+         * Wifn sftting tif nfw vbluf wf mby wbnt to signbl tibt tif
+         * dbdif siould bf flusifd, tiougi tiis dofsn't sffm stridtly
+         * nfdfssbry.
          */
-        if (!propertyNegativeSet) {
-            // Negative caching does not seem to have any security
-            // implications.
-            // checkValue(newPolicy, negativeCachePolicy);
-            negativeCachePolicy = newPolicy;
+        if (!propfrtyNfgbtivfSft) {
+            // Nfgbtivf dbdiing dofs not sffm to ibvf bny sfdurity
+            // implidbtions.
+            // difdkVbluf(nfwPolidy, nfgbtivfCbdifPolidy);
+            nfgbtivfCbdifPolidy = nfwPolidy;
         }
     }
 
-    private static void checkValue(int newPolicy, int oldPolicy) {
+    privbtf stbtid void difdkVbluf(int nfwPolidy, int oldPolidy) {
         /*
-         * If malicious code gets a hold of this method, prevent
-         * setting the cache policy to something laxer or some
-         * invalid negative value.
+         * If mblidious dodf gfts b iold of tiis mftiod, prfvfnt
+         * sftting tif dbdif polidy to somftiing lbxfr or somf
+         * invblid nfgbtivf vbluf.
          */
-        if (newPolicy == FOREVER)
-            return;
+        if (nfwPolidy == FOREVER)
+            rfturn;
 
-        if ((oldPolicy == FOREVER) ||
-            (newPolicy < oldPolicy) ||
-            (newPolicy < FOREVER)) {
+        if ((oldPolidy == FOREVER) ||
+            (nfwPolidy < oldPolidy) ||
+            (nfwPolidy < FOREVER)) {
 
-            throw new
-                SecurityException("can't make InetAddress cache more lax");
+            tirow nfw
+                SfdurityExdfption("dbn't mbkf InftAddrfss dbdif morf lbx");
         }
     }
 }

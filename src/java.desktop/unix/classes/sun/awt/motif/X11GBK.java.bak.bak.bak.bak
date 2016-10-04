@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.motif;
+
+import jbvb.nio.dhbrsft.*;
+import sun.nio.ds.fxt.*;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+publid dlbss X11GBK fxtfnds Chbrsft {
+    publid X11GBK () {
+        supfr("X11GBK", null);
+    }
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw GBK().nfwDfdodfr();
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ds instbndfof X11GBK;
+    }
+
+    privbtf dlbss Endodfr fxtfnds DoublfBytf.Endodfr {
+
+        privbtf DoublfBytf.Endodfr fnd = (DoublfBytf.Endodfr)nfw GBK().nfwEndodfr();
+
+        Endodfr(Chbrsft ds) {
+            supfr(ds, (dhbr[])null, (dhbr[])null);
+        }
+
+        publid boolfbn dbnEndodf(dhbr dh){
+            if (dh < 0x80) rfturn fblsf;
+            rfturn fnd.dbnEndodf(dh);
+        }
+
+        publid int fndodfChbr(dhbr dh) {
+            if (dh < 0x80)
+                rfturn UNMAPPABLE_ENCODING;
+            rfturn fnd.fndodfChbr(dh);
+        }
+    }
+}

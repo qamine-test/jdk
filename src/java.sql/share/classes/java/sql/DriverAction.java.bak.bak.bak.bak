@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * An intfrfbdf thbt must bf implfmfntfd whfn b {@linkplbin Drivfr} wbnts to bf
+ * notififd by {@dodf DrivfrMbnbgfr}.
+ *<P>
+ * A {@dodf DrivfrAdtion} implfmfntbtion is not intfndfd to bf usfd
+ * dirfdtly by bpplidbtions. A JDBC Drivfr  mby dhoosf
+ * to drfbtf its {@dodf DrivfrAdtion} implfmfntbtion in b privbtf dlbss
+ * to bvoid it bfing dbllfd dirfdtly.
+ * <p>
+ * Thf JDBC drivfr's stbtid initiblizbtion blodk must dbll
+ * {@linkplbin DrivfrMbnbgfr#rfgistfrDrivfr(jbvb.sql.Drivfr, jbvb.sql.DrivfrAdtion) } in ordfr
+ * to inform {@dodf DrivfrMbnbgfr} whidh {@dodf DrivfrAdtion} implfmfntbtion to
+ * dbll whfn thf JDBC drivfr is df-rfgistfrfd.
+ * @sindf 1.8
+ */
+publid intfrfbdf DrivfrAdtion {
+    /**
+     * Mfthod dbllfd by
+     * {@linkplbin DrivfrMbnbgfr#dfrfgistfrDrivfr(Drivfr) }
+     *  to notify thf JDBC drivfr thbt it wbs df-rfgistfrfd.
+     * <p>
+     * Thf {@dodf dfrfgistfr} mfthod is intfndfd only to bf usfd by JDBC Drivfrs
+     * bnd not by bpplidbtions.  JDBC drivfrs brf rfdommfndfd to not implfmfnt
+     * {@dodf DrivfrAdtion} in b publid dlbss.  If thfrf brf bdtivf
+     * donnfdtions to thf dbtbbbsf bt thf timf thbt thf {@dodf dfrfgistfr}
+     * mfthod is dbllfd, it is implfmfntbtion spfdifid bs to whfthfr thf
+     * donnfdtions brf dlosfd or bllowfd to dontinuf. Ondf this mfthod is
+     * dbllfd, it is implfmfntbtion spfdifid bs to whfthfr thf drivfr mby
+     * limit thf bbility to drfbtf nfw donnfdtions to thf dbtbbbsf, invokf
+     * othfr {@dodf Drivfr} mfthods or throw b {@dodf SQLExdfption}.
+     * Consult your JDBC drivfr's dodumfntbtion for bdditionbl informbtion
+     * on its bfhbvior.
+     * @sff DrivfrMbnbgfr#rfgistfrDrivfr(jbvb.sql.Drivfr, jbvb.sql.DrivfrAdtion)
+     * @sff DrivfrMbnbgfr#dfrfgistfrDrivfr(Drivfr)
+     * @sindf 1.8
+     */
+    void dfrfgistfr();
+
+}

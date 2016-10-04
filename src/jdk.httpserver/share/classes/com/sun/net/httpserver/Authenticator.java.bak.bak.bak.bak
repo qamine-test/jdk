@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * Authfntidbtor rfprfsfnts bn implfmfntbtion of bn HTTP buthfntidbtion
+ * mfdhbnism. Sub-dlbssfs providf implfmfntbtions of spfdifid mfdhbnisms
+ * sudh bs Digfst or Bbsid buth. Instbndfs brf invokfd to providf vfrifidbtion
+ * of thf buthfntidbtion informbtion providfd in bll indoming rfqufsts.
+ * Notf. This implifs thbt bny dbdhing of drfdfntibls or othfr buthfntidbtion
+ * informbtion must bf donf outsidf of this dlbss.
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss Authfntidbtor {
+
+    /**
+     * Bbsf dlbss for rfturn typf from buthfntidbtf() mfthod
+     */
+    publid bbstrbdt stbtid dlbss Rfsult {}
+
+    /**
+     * Indidbtfs bn buthfntidbtion fbilurf. Thf buthfntidbtion
+     * bttfmpt hbs domplftfd.
+     */
+    @jdk.Exportfd
+    publid stbtid dlbss Fbilurf fxtfnds Rfsult {
+
+        privbtf int rfsponsfCodf;
+
+        publid Fbilurf (int rfsponsfCodf) {
+            this.rfsponsfCodf = rfsponsfCodf;
+        }
+
+        /**
+         * rfturns thf rfsponsf dodf to sfnd to thf dlifnt
+         */
+        publid int gftRfsponsfCodf() {
+            rfturn rfsponsfCodf;
+        }
+    }
+
+    /**
+     * Indidbtfs bn buthfntidbtion hbs suddffdfd bnd thf
+     * buthfntidbtfd usfr prindipbl dbn bf bdquirfd by dblling
+     * gftPrindipbl().
+     */
+    @jdk.Exportfd
+    publid stbtid dlbss Suddfss fxtfnds Rfsult {
+        privbtf HttpPrindipbl prindipbl;
+
+        publid Suddfss (HttpPrindipbl p) {
+            prindipbl = p;
+        }
+        /**
+         * rfturns thf buthfntidbtfd usfr Prindipbl
+         */
+        publid HttpPrindipbl gftPrindipbl() {
+            rfturn prindipbl;
+        }
+    }
+
+    /**
+     * Indidbtfs bn buthfntidbtion must bf rftrifd. Thf
+     * rfsponsf dodf to bf sfnt bbdk is bs rfturnfd from
+     * gftRfsponsfCodf(). Thf Authfntidbtor must blso hbvf
+     * sft bny nfdfssbry rfsponsf hfbdfrs in thf givfn HttpExdhbngf
+     * bfforf rfturning this Rftry objfdt.
+     */
+    @jdk.Exportfd
+    publid stbtid dlbss Rftry fxtfnds Rfsult {
+
+        privbtf int rfsponsfCodf;
+
+        publid Rftry (int rfsponsfCodf) {
+            this.rfsponsfCodf = rfsponsfCodf;
+        }
+
+        /**
+         * rfturns thf rfsponsf dodf to sfnd to thf dlifnt
+         */
+        publid int gftRfsponsfCodf() {
+            rfturn rfsponsfCodf;
+        }
+    }
+
+    /**
+     * dbllfd to buthfntidbtf fbdh indoming rfqufst. Thf implfmfntbtion
+     * must rfturn b Fbilurf, Suddfss or Rftry objfdt bs bppropribtf :-
+     * <p>
+     * Fbilurf mfbns thf buthfntidbtion hbs domplftfd, but hbs fbilfd
+     * duf to invblid drfdfntibls.
+     * <p>
+     * Sudfss mfbns thbt thf buthfntidbtion
+     * hbs suddffdfd, bnd b Prindipbl objfdt rfprfsfnting thf usfr
+     * dbn bf rftrifvfd by dblling Sudfss.gftPrindipbl() .
+     * <p>
+     * Rftry mfbns thbt bnothfr HTTP fxdhbngf is rfquirfd. Any rfsponsf
+     * hfbdfrs nffding to bf sfnt bbdk to thf dlifnt brf sft in thf
+     * givfn HttpExdhbngf. Thf rfsponsf dodf to bf rfturnfd must bf providfd
+     * in thf Rftry objfdt. Rftry mby oddur multiplf timfs.
+     */
+    publid bbstrbdt Rfsult buthfntidbtf (HttpExdhbngf fxdh);
+}

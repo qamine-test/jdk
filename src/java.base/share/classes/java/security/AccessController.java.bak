@@ -1,896 +1,896 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import sun.security.util.Debug;
-import sun.reflect.CallerSensitive;
-import sun.reflect.Reflection;
+import sun.sfdurity.util.Dfbug;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
 
 /**
- * <p> The AccessController class is used for access control operations
- * and decisions.
+ * <p> Tif AddfssControllfr dlbss is usfd for bddfss dontrol opfrbtions
+ * bnd dfdisions.
  *
- * <p> More specifically, the AccessController class is used for
- * three purposes:
+ * <p> Morf spfdifidblly, tif AddfssControllfr dlbss is usfd for
+ * tirff purposfs:
  *
  * <ul>
- * <li> to decide whether an access to a critical system
- * resource is to be allowed or denied, based on the security policy
- * currently in effect,
- * <li>to mark code as being "privileged", thus affecting subsequent
- * access determinations, and
- * <li>to obtain a "snapshot" of the current calling context so
- * access-control decisions from a different context can be made with
- * respect to the saved context. </ul>
+ * <li> to dfdidf wiftifr bn bddfss to b dritidbl systfm
+ * rfsourdf is to bf bllowfd or dfnifd, bbsfd on tif sfdurity polidy
+ * durrfntly in ffffdt,
+ * <li>to mbrk dodf bs bfing "privilfgfd", tius bfffdting subsfqufnt
+ * bddfss dftfrminbtions, bnd
+ * <li>to obtbin b "snbpsiot" of tif durrfnt dblling dontfxt so
+ * bddfss-dontrol dfdisions from b difffrfnt dontfxt dbn bf mbdf witi
+ * rfspfdt to tif sbvfd dontfxt. </ul>
  *
- * <p> The {@link #checkPermission(Permission) checkPermission} method
- * determines whether the access request indicated by a specified
- * permission should be granted or denied. A sample call appears
- * below. In this example, {@code checkPermission} will determine
- * whether or not to grant "read" access to the file named "testFile" in
- * the "/temp" directory.
+ * <p> Tif {@link #difdkPfrmission(Pfrmission) difdkPfrmission} mftiod
+ * dftfrminfs wiftifr tif bddfss rfqufst indidbtfd by b spfdififd
+ * pfrmission siould bf grbntfd or dfnifd. A sbmplf dbll bppfbrs
+ * bflow. In tiis fxbmplf, {@dodf difdkPfrmission} will dftfrminf
+ * wiftifr or not to grbnt "rfbd" bddfss to tif filf nbmfd "tfstFilf" in
+ * tif "/tfmp" dirfdtory.
  *
- * <pre>
+ * <prf>
  *
- * FilePermission perm = new FilePermission("/temp/testFile", "read");
- * AccessController.checkPermission(perm);
+ * FilfPfrmission pfrm = nfw FilfPfrmission("/tfmp/tfstFilf", "rfbd");
+ * AddfssControllfr.difdkPfrmission(pfrm);
  *
- * </pre>
+ * </prf>
  *
- * <p> If a requested access is allowed,
- * {@code checkPermission} returns quietly. If denied, an
- * AccessControlException is
- * thrown. AccessControlException can also be thrown if the requested
- * permission is of an incorrect type or contains an invalid value.
- * Such information is given whenever possible.
+ * <p> If b rfqufstfd bddfss is bllowfd,
+ * {@dodf difdkPfrmission} rfturns quiftly. If dfnifd, bn
+ * AddfssControlExdfption is
+ * tirown. AddfssControlExdfption dbn blso bf tirown if tif rfqufstfd
+ * pfrmission is of bn indorrfdt typf or dontbins bn invblid vbluf.
+ * Sudi informbtion is givfn wifnfvfr possiblf.
  *
- * Suppose the current thread traversed m callers, in the order of caller 1
- * to caller 2 to caller m. Then caller m invoked the
- * {@code checkPermission} method.
- * The {@code checkPermission} method determines whether access
- * is granted or denied based on the following algorithm:
+ * Supposf tif durrfnt tirfbd trbvfrsfd m dbllfrs, in tif ordfr of dbllfr 1
+ * to dbllfr 2 to dbllfr m. Tifn dbllfr m invokfd tif
+ * {@dodf difdkPfrmission} mftiod.
+ * Tif {@dodf difdkPfrmission} mftiod dftfrminfs wiftifr bddfss
+ * is grbntfd or dfnifd bbsfd on tif following blgoritim:
  *
- *  <pre> {@code
+ *  <prf> {@dodf
  * for (int i = m; i > 0; i--) {
  *
- *     if (caller i's domain does not have the permission)
- *         throw AccessControlException
+ *     if (dbllfr i's dombin dofs not ibvf tif pfrmission)
+ *         tirow AddfssControlExdfption
  *
- *     else if (caller i is marked as privileged) {
- *         if (a context was specified in the call to doPrivileged)
- *             context.checkPermission(permission)
- *         if (limited permissions were specified in the call to doPrivileged) {
- *             for (each limited permission) {
- *                 if (the limited permission implies the requested permission)
- *                     return;
+ *     flsf if (dbllfr i is mbrkfd bs privilfgfd) {
+ *         if (b dontfxt wbs spfdififd in tif dbll to doPrivilfgfd)
+ *             dontfxt.difdkPfrmission(pfrmission)
+ *         if (limitfd pfrmissions wfrf spfdififd in tif dbll to doPrivilfgfd) {
+ *             for (fbdi limitfd pfrmission) {
+ *                 if (tif limitfd pfrmission implifs tif rfqufstfd pfrmission)
+ *                     rfturn;
  *             }
- *         } else
- *             return;
+ *         } flsf
+ *             rfturn;
  *     }
  * }
  *
- * // Next, check the context inherited when the thread was created.
- * // Whenever a new thread is created, the AccessControlContext at
- * // that time is stored and associated with the new thread, as the
- * // "inherited" context.
+ * // Nfxt, difdk tif dontfxt inifritfd wifn tif tirfbd wbs drfbtfd.
+ * // Wifnfvfr b nfw tirfbd is drfbtfd, tif AddfssControlContfxt bt
+ * // tibt timf is storfd bnd bssodibtfd witi tif nfw tirfbd, bs tif
+ * // "inifritfd" dontfxt.
  *
- * inheritedContext.checkPermission(permission);
- * }</pre>
+ * inifritfdContfxt.difdkPfrmission(pfrmission);
+ * }</prf>
  *
- * <p> A caller can be marked as being "privileged"
- * (see {@link #doPrivileged(PrivilegedAction) doPrivileged} and below).
- * When making access control decisions, the {@code checkPermission}
- * method stops checking if it reaches a caller that
- * was marked as "privileged" via a {@code doPrivileged}
- * call without a context argument (see below for information about a
- * context argument). If that caller's domain has the
- * specified permission and at least one limiting permission argument (if any)
- * implies the requested permission, no further checking is done and
- * {@code checkPermission}
- * returns quietly, indicating that the requested access is allowed.
- * If that domain does not have the specified permission, an exception
- * is thrown, as usual. If the caller's domain had the specified permission
- * but it was not implied by any limiting permission arguments given in the call
- * to {@code doPrivileged} then the permission checking continues
- * until there are no more callers or another {@code doPrivileged}
- * call matches the requested permission and returns normally.
+ * <p> A dbllfr dbn bf mbrkfd bs bfing "privilfgfd"
+ * (sff {@link #doPrivilfgfd(PrivilfgfdAdtion) doPrivilfgfd} bnd bflow).
+ * Wifn mbking bddfss dontrol dfdisions, tif {@dodf difdkPfrmission}
+ * mftiod stops difdking if it rfbdifs b dbllfr tibt
+ * wbs mbrkfd bs "privilfgfd" vib b {@dodf doPrivilfgfd}
+ * dbll witiout b dontfxt brgumfnt (sff bflow for informbtion bbout b
+ * dontfxt brgumfnt). If tibt dbllfr's dombin ibs tif
+ * spfdififd pfrmission bnd bt lfbst onf limiting pfrmission brgumfnt (if bny)
+ * implifs tif rfqufstfd pfrmission, no furtifr difdking is donf bnd
+ * {@dodf difdkPfrmission}
+ * rfturns quiftly, indidbting tibt tif rfqufstfd bddfss is bllowfd.
+ * If tibt dombin dofs not ibvf tif spfdififd pfrmission, bn fxdfption
+ * is tirown, bs usubl. If tif dbllfr's dombin ibd tif spfdififd pfrmission
+ * but it wbs not implifd by bny limiting pfrmission brgumfnts givfn in tif dbll
+ * to {@dodf doPrivilfgfd} tifn tif pfrmission difdking dontinufs
+ * until tifrf brf no morf dbllfrs or bnotifr {@dodf doPrivilfgfd}
+ * dbll mbtdifs tif rfqufstfd pfrmission bnd rfturns normblly.
  *
- * <p> The normal use of the "privileged" feature is as follows. If you
- * don't need to return a value from within the "privileged" block, do
- * the following:
+ * <p> Tif normbl usf of tif "privilfgfd" ffbturf is bs follows. If you
+ * don't nffd to rfturn b vbluf from witiin tif "privilfgfd" blodk, do
+ * tif following:
  *
- *  <pre> {@code
- * somemethod() {
- *     ...normal code here...
- *     AccessController.doPrivileged(new PrivilegedAction<Void>() {
- *         public Void run() {
- *             // privileged code goes here, for example:
- *             System.loadLibrary("awt");
- *             return null; // nothing to return
+ *  <prf> {@dodf
+ * somfmftiod() {
+ *     ...normbl dodf ifrf...
+ *     AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+ *         publid Void run() {
+ *             // privilfgfd dodf gofs ifrf, for fxbmplf:
+ *             Systfm.lobdLibrbry("bwt");
+ *             rfturn null; // notiing to rfturn
  *         }
  *     });
- *     ...normal code here...
- * }}</pre>
+ *     ...normbl dodf ifrf...
+ * }}</prf>
  *
  * <p>
- * PrivilegedAction is an interface with a single method, named
- * {@code run}.
- * The above example shows creation of an implementation
- * of that interface; a concrete implementation of the
- * {@code run} method is supplied.
- * When the call to {@code doPrivileged} is made, an
- * instance of the PrivilegedAction implementation is passed
- * to it. The {@code doPrivileged} method calls the
- * {@code run} method from the PrivilegedAction
- * implementation after enabling privileges, and returns the
- * {@code run} method's return value as the
- * {@code doPrivileged} return value (which is
- * ignored in this example).
+ * PrivilfgfdAdtion is bn intfrfbdf witi b singlf mftiod, nbmfd
+ * {@dodf run}.
+ * Tif bbovf fxbmplf siows drfbtion of bn implfmfntbtion
+ * of tibt intfrfbdf; b dondrftf implfmfntbtion of tif
+ * {@dodf run} mftiod is supplifd.
+ * Wifn tif dbll to {@dodf doPrivilfgfd} is mbdf, bn
+ * instbndf of tif PrivilfgfdAdtion implfmfntbtion is pbssfd
+ * to it. Tif {@dodf doPrivilfgfd} mftiod dblls tif
+ * {@dodf run} mftiod from tif PrivilfgfdAdtion
+ * implfmfntbtion bftfr fnbbling privilfgfs, bnd rfturns tif
+ * {@dodf run} mftiod's rfturn vbluf bs tif
+ * {@dodf doPrivilfgfd} rfturn vbluf (wiidi is
+ * ignorfd in tiis fxbmplf).
  *
- * <p> If you need to return a value, you can do something like the following:
+ * <p> If you nffd to rfturn b vbluf, you dbn do somftiing likf tif following:
  *
- *  <pre> {@code
- * somemethod() {
- *     ...normal code here...
- *     String user = AccessController.doPrivileged(
- *         new PrivilegedAction<String>() {
- *         public String run() {
- *             return System.getProperty("user.name");
+ *  <prf> {@dodf
+ * somfmftiod() {
+ *     ...normbl dodf ifrf...
+ *     String usfr = AddfssControllfr.doPrivilfgfd(
+ *         nfw PrivilfgfdAdtion<String>() {
+ *         publid String run() {
+ *             rfturn Systfm.gftPropfrty("usfr.nbmf");
  *             }
  *         });
- *     ...normal code here...
- * }}</pre>
+ *     ...normbl dodf ifrf...
+ * }}</prf>
  *
- * <p>If the action performed in your {@code run} method could
- * throw a "checked" exception (those listed in the {@code throws} clause
- * of a method), then you need to use the
- * {@code PrivilegedExceptionAction} interface instead of the
- * {@code PrivilegedAction} interface:
+ * <p>If tif bdtion pfrformfd in your {@dodf run} mftiod dould
+ * tirow b "difdkfd" fxdfption (tiosf listfd in tif {@dodf tirows} dlbusf
+ * of b mftiod), tifn you nffd to usf tif
+ * {@dodf PrivilfgfdExdfptionAdtion} intfrfbdf instfbd of tif
+ * {@dodf PrivilfgfdAdtion} intfrfbdf:
  *
- *  <pre> {@code
- * somemethod() throws FileNotFoundException {
- *     ...normal code here...
+ *  <prf> {@dodf
+ * somfmftiod() tirows FilfNotFoundExdfption {
+ *     ...normbl dodf ifrf...
  *     try {
- *         FileInputStream fis = AccessController.doPrivileged(
- *         new PrivilegedExceptionAction<FileInputStream>() {
- *             public FileInputStream run() throws FileNotFoundException {
- *                 return new FileInputStream("someFile");
+ *         FilfInputStrfbm fis = AddfssControllfr.doPrivilfgfd(
+ *         nfw PrivilfgfdExdfptionAdtion<FilfInputStrfbm>() {
+ *             publid FilfInputStrfbm run() tirows FilfNotFoundExdfption {
+ *                 rfturn nfw FilfInputStrfbm("somfFilf");
  *             }
  *         });
- *     } catch (PrivilegedActionException e) {
- *         // e.getException() should be an instance of FileNotFoundException,
- *         // as only "checked" exceptions will be "wrapped" in a
- *         // PrivilegedActionException.
- *         throw (FileNotFoundException) e.getException();
+ *     } dbtdi (PrivilfgfdAdtionExdfption f) {
+ *         // f.gftExdfption() siould bf bn instbndf of FilfNotFoundExdfption,
+ *         // bs only "difdkfd" fxdfptions will bf "wrbppfd" in b
+ *         // PrivilfgfdAdtionExdfption.
+ *         tirow (FilfNotFoundExdfption) f.gftExdfption();
  *     }
- *     ...normal code here...
- *  }}</pre>
+ *     ...normbl dodf ifrf...
+ *  }}</prf>
  *
- * <p> Be *very* careful in your use of the "privileged" construct, and
- * always remember to make the privileged code section as small as possible.
- * You can pass {@code Permission} arguments to further limit the
- * scope of the "privilege" (see below).
+ * <p> Bf *vfry* dbrfful in your usf of tif "privilfgfd" donstrudt, bnd
+ * blwbys rfmfmbfr to mbkf tif privilfgfd dodf sfdtion bs smbll bs possiblf.
+ * You dbn pbss {@dodf Pfrmission} brgumfnts to furtifr limit tif
+ * sdopf of tif "privilfgf" (sff bflow).
  *
  *
- * <p> Note that {@code checkPermission} always performs security checks
- * within the context of the currently executing thread.
- * Sometimes a security check that should be made within a given context
- * will actually need to be done from within a
- * <i>different</i> context (for example, from within a worker thread).
- * The {@link #getContext() getContext} method and
- * AccessControlContext class are provided
- * for this situation. The {@code getContext} method takes a "snapshot"
- * of the current calling context, and places
- * it in an AccessControlContext object, which it returns. A sample call is
- * the following:
+ * <p> Notf tibt {@dodf difdkPfrmission} blwbys pfrforms sfdurity difdks
+ * witiin tif dontfxt of tif durrfntly fxfduting tirfbd.
+ * Somftimfs b sfdurity difdk tibt siould bf mbdf witiin b givfn dontfxt
+ * will bdtublly nffd to bf donf from witiin b
+ * <i>difffrfnt</i> dontfxt (for fxbmplf, from witiin b workfr tirfbd).
+ * Tif {@link #gftContfxt() gftContfxt} mftiod bnd
+ * AddfssControlContfxt dlbss brf providfd
+ * for tiis situbtion. Tif {@dodf gftContfxt} mftiod tbkfs b "snbpsiot"
+ * of tif durrfnt dblling dontfxt, bnd plbdfs
+ * it in bn AddfssControlContfxt objfdt, wiidi it rfturns. A sbmplf dbll is
+ * tif following:
  *
- * <pre>
+ * <prf>
  *
- * AccessControlContext acc = AccessController.getContext()
+ * AddfssControlContfxt bdd = AddfssControllfr.gftContfxt()
  *
- * </pre>
+ * </prf>
  *
  * <p>
- * AccessControlContext itself has a {@code checkPermission} method
- * that makes access decisions based on the context <i>it</i> encapsulates,
- * rather than that of the current execution thread.
- * Code within a different context can thus call that method on the
- * previously-saved AccessControlContext object. A sample call is the
+ * AddfssControlContfxt itsflf ibs b {@dodf difdkPfrmission} mftiod
+ * tibt mbkfs bddfss dfdisions bbsfd on tif dontfxt <i>it</i> fndbpsulbtfs,
+ * rbtifr tibn tibt of tif durrfnt fxfdution tirfbd.
+ * Codf witiin b difffrfnt dontfxt dbn tius dbll tibt mftiod on tif
+ * prfviously-sbvfd AddfssControlContfxt objfdt. A sbmplf dbll is tif
  * following:
  *
- * <pre>
+ * <prf>
  *
- * acc.checkPermission(permission)
+ * bdd.difdkPfrmission(pfrmission)
  *
- * </pre>
+ * </prf>
  *
- * <p> There are also times where you don't know a priori which permissions
- * to check the context against. In these cases you can use the
- * doPrivileged method that takes a context. You can also limit the scope
- * of the privileged code by passing additional {@code Permission}
- * parameters.
+ * <p> Tifrf brf blso timfs wifrf you don't know b priori wiidi pfrmissions
+ * to difdk tif dontfxt bgbinst. In tifsf dbsfs you dbn usf tif
+ * doPrivilfgfd mftiod tibt tbkfs b dontfxt. You dbn blso limit tif sdopf
+ * of tif privilfgfd dodf by pbssing bdditionbl {@dodf Pfrmission}
+ * pbrbmftfrs.
  *
- *  <pre> {@code
- * somemethod() {
- *     AccessController.doPrivileged(new PrivilegedAction<Object>() {
- *         public Object run() {
- *             // Code goes here. Any permission checks within this
- *             // run method will require that the intersection of the
- *             // caller's protection domain and the snapshot's
- *             // context have the desired permission. If a requested
- *             // permission is not implied by the limiting FilePermission
- *             // argument then checking of the thread continues beyond the
- *             // caller of doPrivileged.
+ *  <prf> {@dodf
+ * somfmftiod() {
+ *     AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+ *         publid Objfdt run() {
+ *             // Codf gofs ifrf. Any pfrmission difdks witiin tiis
+ *             // run mftiod will rfquirf tibt tif intfrsfdtion of tif
+ *             // dbllfr's protfdtion dombin bnd tif snbpsiot's
+ *             // dontfxt ibvf tif dfsirfd pfrmission. If b rfqufstfd
+ *             // pfrmission is not implifd by tif limiting FilfPfrmission
+ *             // brgumfnt tifn difdking of tif tirfbd dontinufs bfyond tif
+ *             // dbllfr of doPrivilfgfd.
  *         }
- *     }, acc, new FilePermission("/temp/*", read));
- *     ...normal code here...
- * }}</pre>
- * <p> Passing a limiting {@code Permission} argument of an instance of
- * {@code AllPermission} is equivalent to calling the equivalent
- * {@code doPrivileged} method without limiting {@code Permission}
- * arguments. Passing a zero length array of {@code Permission} disables
- * the code privileges so that checking always continues beyond the caller of
- * that {@code doPrivileged} method.
+ *     }, bdd, nfw FilfPfrmission("/tfmp/*", rfbd));
+ *     ...normbl dodf ifrf...
+ * }}</prf>
+ * <p> Pbssing b limiting {@dodf Pfrmission} brgumfnt of bn instbndf of
+ * {@dodf AllPfrmission} is fquivblfnt to dblling tif fquivblfnt
+ * {@dodf doPrivilfgfd} mftiod witiout limiting {@dodf Pfrmission}
+ * brgumfnts. Pbssing b zfro lfngti brrby of {@dodf Pfrmission} disbblfs
+ * tif dodf privilfgfs so tibt difdking blwbys dontinufs bfyond tif dbllfr of
+ * tibt {@dodf doPrivilfgfd} mftiod.
  *
- * @see AccessControlContext
+ * @sff AddfssControlContfxt
  *
- * @author Li Gong
- * @author Roland Schemers
+ * @butior Li Gong
+ * @butior Rolbnd Sdifmfrs
  */
 
-public final class AccessController {
+publid finbl dlbss AddfssControllfr {
 
     /**
-     * Don't allow anyone to instantiate an AccessController
+     * Don't bllow bnyonf to instbntibtf bn AddfssControllfr
      */
-    private AccessController() { }
+    privbtf AddfssControllfr() { }
 
     /**
-     * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled. The action is performed with <i>all</i> of the permissions
-     * possessed by the caller's protection domain.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdAdtion} witi privilfgfs
+     * fnbblfd. Tif bdtion is pfrformfd witi <i>bll</i> of tif pfrmissions
+     * possfssfd by tif dbllfr's protfdtion dombin.
      *
-     * <p> If the action's {@code run} method throws an (unchecked)
-     * exception, it will propagate through this method.
+     * <p> If tif bdtion's {@dodf run} mftiod tirows bn (undifdkfd)
+     * fxdfption, it will propbgbtf tirougi tiis mftiod.
      *
-     * <p> Note that any DomainCombiner associated with the current
-     * AccessControlContext will be ignored while the action is performed.
+     * <p> Notf tibt bny DombinCombinfr bssodibtfd witi tif durrfnt
+     * AddfssControlContfxt will bf ignorfd wiilf tif bdtion is pfrformfd.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
-     *                  {@code run} method.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
      *
-     * @param action the action to be performed.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod.
      *
-     * @exception NullPointerException if the action is {@code null}
+     * @fxdfption NullPointfrExdfption if tif bdtion is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction,AccessControlContext)
-     * @see #doPrivileged(PrivilegedExceptionAction)
-     * @see #doPrivilegedWithCombiner(PrivilegedAction)
-     * @see java.security.DomainCombiner
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion,AddfssControlContfxt)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion)
+     * @sff #doPrivilfgfdWitiCombinfr(PrivilfgfdAdtion)
+     * @sff jbvb.sfdurity.DombinCombinfr
      */
 
-    @CallerSensitive
-    public static native <T> T doPrivileged(PrivilegedAction<T> action);
+    @CbllfrSfnsitivf
+    publid stbtid nbtivf <T> T doPrivilfgfd(PrivilfgfdAdtion<T> bdtion);
 
     /**
-     * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled. The action is performed with <i>all</i> of the permissions
-     * possessed by the caller's protection domain.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdAdtion} witi privilfgfs
+     * fnbblfd. Tif bdtion is pfrformfd witi <i>bll</i> of tif pfrmissions
+     * possfssfd by tif dbllfr's protfdtion dombin.
      *
-     * <p> If the action's {@code run} method throws an (unchecked)
-     * exception, it will propagate through this method.
+     * <p> If tif bdtion's {@dodf run} mftiod tirows bn (undifdkfd)
+     * fxdfption, it will propbgbtf tirougi tiis mftiod.
      *
-     * <p> This method preserves the current AccessControlContext's
-     * DomainCombiner (which may be null) while the action is performed.
+     * <p> Tiis mftiod prfsfrvfs tif durrfnt AddfssControlContfxt's
+     * DombinCombinfr (wiidi mby bf null) wiilf tif bdtion is pfrformfd.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
-     *                  {@code run} method.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
      *
-     * @param action the action to be performed.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod.
      *
-     * @exception NullPointerException if the action is {@code null}
+     * @fxdfption NullPointfrExdfption if tif bdtion is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see java.security.DomainCombiner
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff jbvb.sfdurity.DombinCombinfr
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    @CallerSensitive
-    public static <T> T doPrivilegedWithCombiner(PrivilegedAction<T> action) {
-        AccessControlContext acc = getStackAccessControlContext();
-        if (acc == null) {
-            return AccessController.doPrivileged(action);
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfdWitiCombinfr(PrivilfgfdAdtion<T> bdtion) {
+        AddfssControlContfxt bdd = gftStbdkAddfssControlContfxt();
+        if (bdd == null) {
+            rfturn AddfssControllfr.doPrivilfgfd(bdtion);
         }
-        DomainCombiner dc = acc.getAssignedCombiner();
-        return AccessController.doPrivileged(action,
-                                             preserveCombiner(dc, Reflection.getCallerClass()));
+        DombinCombinfr dd = bdd.gftAssignfdCombinfr();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion,
+                                             prfsfrvfCombinfr(dd, Rfflfdtion.gftCbllfrClbss()));
     }
 
 
     /**
-     * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled and restricted by the specified {@code AccessControlContext}.
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified {@code AccessControlContext}.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdAdtion} witi privilfgfs
+     * fnbblfd bnd rfstridtfd by tif spfdififd {@dodf AddfssControlContfxt}.
+     * Tif bdtion is pfrformfd witi tif intfrsfdtion of tif pfrmissions
+     * possfssfd by tif dbllfr's protfdtion dombin, bnd tiosf possfssfd
+     * by tif dombins rfprfsfntfd by tif spfdififd {@dodf AddfssControlContfxt}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If tif bdtion's {@dodf run} mftiod tirows bn (undifdkfd) fxdfption,
+     * it will propbgbtf tirougi tiis mftiod.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
-     * with no permissions.
+     * If b sfdurity mbnbgfr is instbllfd bnd tif spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd tif
+     * dbllfr's {@dodf ProtfdtionDombin} ibs not bffn grbntfd tif
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, tifn tif bdtion is pfrformfd
+     * witi no pfrmissions.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
-     *                  {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
-     *                {@code null}, then no additional restriction is applied.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting tif rfstridtion to bf bpplifd to tif
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                tif spfdififd bdtion.  If tif dontfxt is
+     *                {@dodf null}, tifn no bdditionbl rfstridtion is bpplifd.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod.
      *
-     * @exception NullPointerException if the action is {@code null}
+     * @fxdfption NullPointfrExdfption if tif bdtion is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
      */
-    @CallerSensitive
-    public static native <T> T doPrivileged(PrivilegedAction<T> action,
-                                            AccessControlContext context);
+    @CbllfrSfnsitivf
+    publid stbtid nbtivf <T> T doPrivilfgfd(PrivilfgfdAdtion<T> bdtion,
+                                            AddfssControlContfxt dontfxt);
 
 
     /**
-     * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled and restricted by the specified
-     * {@code AccessControlContext} and with a privilege scope limited
-     * by specified {@code Permission} arguments.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdAdtion} witi privilfgfs
+     * fnbblfd bnd rfstridtfd by tif spfdififd
+     * {@dodf AddfssControlContfxt} bnd witi b privilfgf sdopf limitfd
+     * by spfdififd {@dodf Pfrmission} brgumfnts.
      *
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified
-     * {@code AccessControlContext}.
+     * Tif bdtion is pfrformfd witi tif intfrsfdtion of tif pfrmissions
+     * possfssfd by tif dbllfr's protfdtion dombin, bnd tiosf possfssfd
+     * by tif dombins rfprfsfntfd by tif spfdififd
+     * {@dodf AddfssControlContfxt}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If tif bdtion's {@dodf run} mftiod tirows bn (undifdkfd) fxdfption,
+     * it will propbgbtf tirougi tiis mftiod.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
-     * with no permissions.
+     * If b sfdurity mbnbgfr is instbllfd bnd tif spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd tif
+     * dbllfr's {@dodf ProtfdtionDombin} ibs not bffn grbntfd tif
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, tifn tif bdtion is pfrformfd
+     * witi no pfrmissions.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
-     *                  {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
-     *                {@code null},
-     *                then no additional restriction is applied.
-     * @param perms the {@code Permission} arguments which limit the
-     *              scope of the caller's privileges. The number of arguments
-     *              is variable.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting tif rfstridtion to bf bpplifd to tif
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                tif spfdififd bdtion.  If tif dontfxt is
+     *                {@dodf null},
+     *                tifn no bdditionbl rfstridtion is bpplifd.
+     * @pbrbm pfrms tif {@dodf Pfrmission} brgumfnts wiidi limit tif
+     *              sdopf of tif dbllfr's privilfgfs. Tif numbfr of brgumfnts
+     *              is vbribblf.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod.
      *
-     * @throws NullPointerException if action or perms or any element of
-     *         perms is {@code null}
+     * @tirows NullPointfrExdfption if bdtion or pfrms or bny flfmfnt of
+     *         pfrms is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    @CallerSensitive
-    public static <T> T doPrivileged(PrivilegedAction<T> action,
-        AccessControlContext context, Permission... perms) {
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfd(PrivilfgfdAdtion<T> bdtion,
+        AddfssControlContfxt dontfxt, Pfrmission... pfrms) {
 
-        AccessControlContext parent = getContext();
-        if (perms == null) {
-            throw new NullPointerException("null permissions parameter");
+        AddfssControlContfxt pbrfnt = gftContfxt();
+        if (pfrms == null) {
+            tirow nfw NullPointfrExdfption("null pfrmissions pbrbmftfr");
         }
-        Class <?> caller = Reflection.getCallerClass();
-        return AccessController.doPrivileged(action, createWrapper(null,
-            caller, parent, context, perms));
+        Clbss <?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion, drfbtfWrbppfr(null,
+            dbllfr, pbrfnt, dontfxt, pfrms));
     }
 
 
     /**
-     * Performs the specified {@code PrivilegedAction} with privileges
-     * enabled and restricted by the specified
-     * {@code AccessControlContext} and with a privilege scope limited
-     * by specified {@code Permission} arguments.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdAdtion} witi privilfgfs
+     * fnbblfd bnd rfstridtfd by tif spfdififd
+     * {@dodf AddfssControlContfxt} bnd witi b privilfgf sdopf limitfd
+     * by spfdififd {@dodf Pfrmission} brgumfnts.
      *
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified
-     * {@code AccessControlContext}.
+     * Tif bdtion is pfrformfd witi tif intfrsfdtion of tif pfrmissions
+     * possfssfd by tif dbllfr's protfdtion dombin, bnd tiosf possfssfd
+     * by tif dombins rfprfsfntfd by tif spfdififd
+     * {@dodf AddfssControlContfxt}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If tif bdtion's {@dodf run} mftiod tirows bn (undifdkfd) fxdfption,
+     * it will propbgbtf tirougi tiis mftiod.
      *
-     * <p> This method preserves the current AccessControlContext's
-     * DomainCombiner (which may be null) while the action is performed.
+     * <p> Tiis mftiod prfsfrvfs tif durrfnt AddfssControlContfxt's
+     * DombinCombinfr (wiidi mby bf null) wiilf tif bdtion is pfrformfd.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
-     * with no permissions.
+     * If b sfdurity mbnbgfr is instbllfd bnd tif spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd tif
+     * dbllfr's {@dodf ProtfdtionDombin} ibs not bffn grbntfd tif
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, tifn tif bdtion is pfrformfd
+     * witi no pfrmissions.
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
-     *                  {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
-     *                {@code null},
-     *                then no additional restriction is applied.
-     * @param perms the {@code Permission} arguments which limit the
-     *              scope of the caller's privileges. The number of arguments
-     *              is variable.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting tif rfstridtion to bf bpplifd to tif
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                tif spfdififd bdtion.  If tif dontfxt is
+     *                {@dodf null},
+     *                tifn no bdditionbl rfstridtion is bpplifd.
+     * @pbrbm pfrms tif {@dodf Pfrmission} brgumfnts wiidi limit tif
+     *              sdopf of tif dbllfr's privilfgfs. Tif numbfr of brgumfnts
+     *              is vbribblf.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod.
      *
-     * @throws NullPointerException if action or perms or any element of
-     *         perms is {@code null}
+     * @tirows NullPointfrExdfption if bdtion or pfrms or bny flfmfnt of
+     *         pfrms is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
-     * @see java.security.DomainCombiner
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     * @sff jbvb.sfdurity.DombinCombinfr
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    @CallerSensitive
-    public static <T> T doPrivilegedWithCombiner(PrivilegedAction<T> action,
-        AccessControlContext context, Permission... perms) {
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfdWitiCombinfr(PrivilfgfdAdtion<T> bdtion,
+        AddfssControlContfxt dontfxt, Pfrmission... pfrms) {
 
-        AccessControlContext parent = getContext();
-        DomainCombiner dc = parent.getCombiner();
-        if (dc == null && context != null) {
-            dc = context.getCombiner();
+        AddfssControlContfxt pbrfnt = gftContfxt();
+        DombinCombinfr dd = pbrfnt.gftCombinfr();
+        if (dd == null && dontfxt != null) {
+            dd = dontfxt.gftCombinfr();
         }
-        if (perms == null) {
-            throw new NullPointerException("null permissions parameter");
+        if (pfrms == null) {
+            tirow nfw NullPointfrExdfption("null pfrmissions pbrbmftfr");
         }
-        Class <?> caller = Reflection.getCallerClass();
-        return AccessController.doPrivileged(action, createWrapper(dc, caller,
-            parent, context, perms));
+        Clbss <?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion, drfbtfWrbppfr(dd, dbllfr,
+            pbrfnt, dontfxt, pfrms));
     }
 
     /**
-     * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled.  The action is performed with <i>all</i> of the
-     * permissions possessed by the caller's protection domain.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdExdfptionAdtion} witi
+     * privilfgfs fnbblfd.  Tif bdtion is pfrformfd witi <i>bll</i> of tif
+     * pfrmissions possfssfd by tif dbllfr's protfdtion dombin.
      *
-     * <p> If the action's {@code run} method throws an <i>unchecked</i>
-     * exception, it will propagate through this method.
+     * <p> If tif bdtion's {@dodf run} mftiod tirows bn <i>undifdkfd</i>
+     * fxdfption, it will propbgbtf tirougi tiis mftiod.
      *
-     * <p> Note that any DomainCombiner associated with the current
-     * AccessControlContext will be ignored while the action is performed.
+     * <p> Notf tibt bny DombinCombinfr bssodibtfd witi tif durrfnt
+     * AddfssControlContfxt will bf ignorfd wiilf tif bdtion is pfrformfd.
      *
-     * @param <T> the type of the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
      *
-     * @param action the action to be performed
+     * @pbrbm bdtion tif bdtion to bf pfrformfd
      *
-     * @return the value returned by the action's {@code run} method
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod
      *
-     * @exception PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @exception NullPointerException if the action is {@code null}
+     * @fxdfption PrivilfgfdAdtionExdfption if tif spfdififd bdtion's
+     *         {@dodf run} mftiod tirfw b <i>difdkfd</i> fxdfption
+     * @fxdfption NullPointfrExdfption if tif bdtion is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
-     * @see #doPrivilegedWithCombiner(PrivilegedExceptionAction)
-     * @see java.security.DomainCombiner
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     * @sff #doPrivilfgfdWitiCombinfr(PrivilfgfdExdfptionAdtion)
+     * @sff jbvb.sfdurity.DombinCombinfr
      */
-    @CallerSensitive
-    public static native <T> T
-        doPrivileged(PrivilegedExceptionAction<T> action)
-        throws PrivilegedActionException;
+    @CbllfrSfnsitivf
+    publid stbtid nbtivf <T> T
+        doPrivilfgfd(PrivilfgfdExdfptionAdtion<T> bdtion)
+        tirows PrivilfgfdAdtionExdfption;
 
 
     /**
-     * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled.  The action is performed with <i>all</i> of the
-     * permissions possessed by the caller's protection domain.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdExdfptionAdtion} witi
+     * privilfgfs fnbblfd.  Tif bdtion is pfrformfd witi <i>bll</i> of tif
+     * pfrmissions possfssfd by tif dbllfr's protfdtion dombin.
      *
-     * <p> If the action's {@code run} method throws an <i>unchecked</i>
-     * exception, it will propagate through this method.
+     * <p> If tif bdtion's {@dodf run} mftiod tirows bn <i>undifdkfd</i>
+     * fxdfption, it will propbgbtf tirougi tiis mftiod.
      *
-     * <p> This method preserves the current AccessControlContext's
-     * DomainCombiner (which may be null) while the action is performed.
+     * <p> Tiis mftiod prfsfrvfs tif durrfnt AddfssControlContfxt's
+     * DombinCombinfr (wiidi mby bf null) wiilf tif bdtion is pfrformfd.
      *
-     * @param <T> the type of the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
      *
-     * @param action the action to be performed.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd.
      *
-     * @return the value returned by the action's {@code run} method
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod
      *
-     * @exception PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @exception NullPointerException if the action is {@code null}
+     * @fxdfption PrivilfgfdAdtionExdfption if tif spfdififd bdtion's
+     *         {@dodf run} mftiod tirfw b <i>difdkfd</i> fxdfption
+     * @fxdfption NullPointfrExdfption if tif bdtion is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see #doPrivileged(PrivilegedExceptionAction,AccessControlContext)
-     * @see java.security.DomainCombiner
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+     * @sff jbvb.sfdurity.DombinCombinfr
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    @CallerSensitive
-    public static <T> T doPrivilegedWithCombiner(PrivilegedExceptionAction<T> action)
-        throws PrivilegedActionException
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfdWitiCombinfr(PrivilfgfdExdfptionAdtion<T> bdtion)
+        tirows PrivilfgfdAdtionExdfption
     {
-        AccessControlContext acc = getStackAccessControlContext();
-        if (acc == null) {
-            return AccessController.doPrivileged(action);
+        AddfssControlContfxt bdd = gftStbdkAddfssControlContfxt();
+        if (bdd == null) {
+            rfturn AddfssControllfr.doPrivilfgfd(bdtion);
         }
-        DomainCombiner dc = acc.getAssignedCombiner();
-        return AccessController.doPrivileged(action,
-                                             preserveCombiner(dc, Reflection.getCallerClass()));
+        DombinCombinfr dd = bdd.gftAssignfdCombinfr();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion,
+                                             prfsfrvfCombinfr(dd, Rfflfdtion.gftCbllfrClbss()));
     }
 
     /**
-     * preserve the combiner across the doPrivileged call
+     * prfsfrvf tif dombinfr bdross tif doPrivilfgfd dbll
      */
-    private static AccessControlContext preserveCombiner(DomainCombiner combiner,
-                                                         Class<?> caller)
+    privbtf stbtid AddfssControlContfxt prfsfrvfCombinfr(DombinCombinfr dombinfr,
+                                                         Clbss<?> dbllfr)
     {
-        return createWrapper(combiner, caller, null, null, null);
+        rfturn drfbtfWrbppfr(dombinfr, dbllfr, null, null, null);
     }
 
     /**
-     * Create a wrapper to contain the limited privilege scope data.
+     * Crfbtf b wrbppfr to dontbin tif limitfd privilfgf sdopf dbtb.
      */
-    private static AccessControlContext
-        createWrapper(DomainCombiner combiner, Class<?> caller,
-                      AccessControlContext parent, AccessControlContext context,
-                      Permission[] perms)
+    privbtf stbtid AddfssControlContfxt
+        drfbtfWrbppfr(DombinCombinfr dombinfr, Clbss<?> dbllfr,
+                      AddfssControlContfxt pbrfnt, AddfssControlContfxt dontfxt,
+                      Pfrmission[] pfrms)
     {
-        ProtectionDomain callerPD = getCallerPD(caller);
-        // check if caller is authorized to create context
-        if (context != null && !context.isAuthorized() &&
-            System.getSecurityManager() != null &&
-            !callerPD.impliesCreateAccessControlContext())
+        ProtfdtionDombin dbllfrPD = gftCbllfrPD(dbllfr);
+        // difdk if dbllfr is butiorizfd to drfbtf dontfxt
+        if (dontfxt != null && !dontfxt.isAutiorizfd() &&
+            Systfm.gftSfdurityMbnbgfr() != null &&
+            !dbllfrPD.implifsCrfbtfAddfssControlContfxt())
         {
-            return getInnocuousAcc();
-        } else {
-            return new AccessControlContext(callerPD, combiner, parent,
-                                            context, perms);
+            rfturn gftInnoduousAdd();
+        } flsf {
+            rfturn nfw AddfssControlContfxt(dbllfrPD, dombinfr, pbrfnt,
+                                            dontfxt, pfrms);
         }
     }
 
-    private static class AccHolder {
-        // An AccessControlContext with no granted permissions.
-        // Only initialized on demand when getInnocuousAcc() is called.
-        static final AccessControlContext innocuousAcc =
-            new AccessControlContext(new ProtectionDomain[] {
-                                     new ProtectionDomain(null, null) });
+    privbtf stbtid dlbss AddHoldfr {
+        // An AddfssControlContfxt witi no grbntfd pfrmissions.
+        // Only initiblizfd on dfmbnd wifn gftInnoduousAdd() is dbllfd.
+        stbtid finbl AddfssControlContfxt innoduousAdd =
+            nfw AddfssControlContfxt(nfw ProtfdtionDombin[] {
+                                     nfw ProtfdtionDombin(null, null) });
     }
-    private static AccessControlContext getInnocuousAcc() {
-        return AccHolder.innocuousAcc;
+    privbtf stbtid AddfssControlContfxt gftInnoduousAdd() {
+        rfturn AddHoldfr.innoduousAdd;
     }
 
-    private static ProtectionDomain getCallerPD(final Class <?> caller) {
-        ProtectionDomain callerPd = doPrivileged
-            (new PrivilegedAction<ProtectionDomain>() {
-            public ProtectionDomain run() {
-                return caller.getProtectionDomain();
+    privbtf stbtid ProtfdtionDombin gftCbllfrPD(finbl Clbss <?> dbllfr) {
+        ProtfdtionDombin dbllfrPd = doPrivilfgfd
+            (nfw PrivilfgfdAdtion<ProtfdtionDombin>() {
+            publid ProtfdtionDombin run() {
+                rfturn dbllfr.gftProtfdtionDombin();
             }
         });
 
-        return callerPd;
+        rfturn dbllfrPd;
     }
 
     /**
-     * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled and restricted by the specified
-     * {@code AccessControlContext}.  The action is performed with the
-     * intersection of the permissions possessed by the caller's
-     * protection domain, and those possessed by the domains represented by the
-     * specified {@code AccessControlContext}.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdExdfptionAdtion} witi
+     * privilfgfs fnbblfd bnd rfstridtfd by tif spfdififd
+     * {@dodf AddfssControlContfxt}.  Tif bdtion is pfrformfd witi tif
+     * intfrsfdtion of tif pfrmissions possfssfd by tif dbllfr's
+     * protfdtion dombin, bnd tiosf possfssfd by tif dombins rfprfsfntfd by tif
+     * spfdififd {@dodf AddfssControlContfxt}.
      * <p>
-     * If the action's {@code run} method throws an <i>unchecked</i>
-     * exception, it will propagate through this method.
+     * If tif bdtion's {@dodf run} mftiod tirows bn <i>undifdkfd</i>
+     * fxdfption, it will propbgbtf tirougi tiis mftiod.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
-     * with no permissions.
+     * If b sfdurity mbnbgfr is instbllfd bnd tif spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd tif
+     * dbllfr's {@dodf ProtfdtionDombin} ibs not bffn grbntfd tif
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, tifn tif bdtion is pfrformfd
+     * witi no pfrmissions.
      *
-     * @param <T> the type of the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
-     * @param action the action to be performed
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
-     *                {@code null}, then no additional restriction is applied.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting tif rfstridtion to bf bpplifd to tif
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                tif spfdififd bdtion.  If tif dontfxt is
+     *                {@dodf null}, tifn no bdditionbl rfstridtion is bpplifd.
      *
-     * @return the value returned by the action's {@code run} method
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod
      *
-     * @exception PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @exception NullPointerException if the action is {@code null}
+     * @fxdfption PrivilfgfdAdtionExdfption if tif spfdififd bdtion's
+     *         {@dodf run} mftiod tirfw b <i>difdkfd</i> fxdfption
+     * @fxdfption NullPointfrExdfption if tif bdtion is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see #doPrivileged(PrivilegedAction,AccessControlContext)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion,AddfssControlContfxt)
      */
-    @CallerSensitive
-    public static native <T> T
-        doPrivileged(PrivilegedExceptionAction<T> action,
-                     AccessControlContext context)
-        throws PrivilegedActionException;
+    @CbllfrSfnsitivf
+    publid stbtid nbtivf <T> T
+        doPrivilfgfd(PrivilfgfdExdfptionAdtion<T> bdtion,
+                     AddfssControlContfxt dontfxt)
+        tirows PrivilfgfdAdtionExdfption;
 
 
     /**
-     * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled and restricted by the specified
-     * {@code AccessControlContext} and with a privilege scope limited by
-     * specified {@code Permission} arguments.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdExdfptionAdtion} witi
+     * privilfgfs fnbblfd bnd rfstridtfd by tif spfdififd
+     * {@dodf AddfssControlContfxt} bnd witi b privilfgf sdopf limitfd by
+     * spfdififd {@dodf Pfrmission} brgumfnts.
      *
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified
-     * {@code AccessControlContext}.
+     * Tif bdtion is pfrformfd witi tif intfrsfdtion of tif pfrmissions
+     * possfssfd by tif dbllfr's protfdtion dombin, bnd tiosf possfssfd
+     * by tif dombins rfprfsfntfd by tif spfdififd
+     * {@dodf AddfssControlContfxt}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If tif bdtion's {@dodf run} mftiod tirows bn (undifdkfd) fxdfption,
+     * it will propbgbtf tirougi tiis mftiod.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
-     * with no permissions.
+     * If b sfdurity mbnbgfr is instbllfd bnd tif spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd tif
+     * dbllfr's {@dodf ProtfdtionDombin} ibs not bffn grbntfd tif
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, tifn tif bdtion is pfrformfd
+     * witi no pfrmissions.
      *
-     * @param <T> the type of the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
-     *                {@code null},
-     *                then no additional restriction is applied.
-     * @param perms the {@code Permission} arguments which limit the
-     *              scope of the caller's privileges. The number of arguments
-     *              is variable.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting tif rfstridtion to bf bpplifd to tif
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                tif spfdififd bdtion.  If tif dontfxt is
+     *                {@dodf null},
+     *                tifn no bdditionbl rfstridtion is bpplifd.
+     * @pbrbm pfrms tif {@dodf Pfrmission} brgumfnts wiidi limit tif
+     *              sdopf of tif dbllfr's privilfgfs. Tif numbfr of brgumfnts
+     *              is vbribblf.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod.
      *
-     * @throws PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @throws NullPointerException if action or perms or any element of
-     *         perms is {@code null}
+     * @tirows PrivilfgfdAdtionExdfption if tif spfdififd bdtion's
+     *         {@dodf run} mftiod tirfw b <i>difdkfd</i> fxdfption
+     * @tirows NullPointfrExdfption if bdtion or pfrms or bny flfmfnt of
+     *         pfrms is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see #doPrivileged(PrivilegedAction,AccessControlContext)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion,AddfssControlContfxt)
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    @CallerSensitive
-    public static <T> T doPrivileged(PrivilegedExceptionAction<T> action,
-                                     AccessControlContext context, Permission... perms)
-        throws PrivilegedActionException
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfd(PrivilfgfdExdfptionAdtion<T> bdtion,
+                                     AddfssControlContfxt dontfxt, Pfrmission... pfrms)
+        tirows PrivilfgfdAdtionExdfption
     {
-        AccessControlContext parent = getContext();
-        if (perms == null) {
-            throw new NullPointerException("null permissions parameter");
+        AddfssControlContfxt pbrfnt = gftContfxt();
+        if (pfrms == null) {
+            tirow nfw NullPointfrExdfption("null pfrmissions pbrbmftfr");
         }
-        Class <?> caller = Reflection.getCallerClass();
-        return AccessController.doPrivileged(action, createWrapper(null, caller, parent, context, perms));
+        Clbss <?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion, drfbtfWrbppfr(null, dbllfr, pbrfnt, dontfxt, pfrms));
     }
 
 
     /**
-     * Performs the specified {@code PrivilegedExceptionAction} with
-     * privileges enabled and restricted by the specified
-     * {@code AccessControlContext} and with a privilege scope limited by
-     * specified {@code Permission} arguments.
+     * Pfrforms tif spfdififd {@dodf PrivilfgfdExdfptionAdtion} witi
+     * privilfgfs fnbblfd bnd rfstridtfd by tif spfdififd
+     * {@dodf AddfssControlContfxt} bnd witi b privilfgf sdopf limitfd by
+     * spfdififd {@dodf Pfrmission} brgumfnts.
      *
-     * The action is performed with the intersection of the permissions
-     * possessed by the caller's protection domain, and those possessed
-     * by the domains represented by the specified
-     * {@code AccessControlContext}.
+     * Tif bdtion is pfrformfd witi tif intfrsfdtion of tif pfrmissions
+     * possfssfd by tif dbllfr's protfdtion dombin, bnd tiosf possfssfd
+     * by tif dombins rfprfsfntfd by tif spfdififd
+     * {@dodf AddfssControlContfxt}.
      * <p>
-     * If the action's {@code run} method throws an (unchecked) exception,
-     * it will propagate through this method.
+     * If tif bdtion's {@dodf run} mftiod tirows bn (undifdkfd) fxdfption,
+     * it will propbgbtf tirougi tiis mftiod.
      *
-     * <p> This method preserves the current AccessControlContext's
-     * DomainCombiner (which may be null) while the action is performed.
+     * <p> Tiis mftiod prfsfrvfs tif durrfnt AddfssControlContfxt's
+     * DombinCombinfr (wiidi mby bf null) wiilf tif bdtion is pfrformfd.
      * <p>
-     * If a security manager is installed and the specified
-     * {@code AccessControlContext} was not created by system code and the
-     * caller's {@code ProtectionDomain} has not been granted the
-     * {@literal "createAccessControlContext"}
-     * {@link java.security.SecurityPermission}, then the action is performed
-     * with no permissions.
+     * If b sfdurity mbnbgfr is instbllfd bnd tif spfdififd
+     * {@dodf AddfssControlContfxt} wbs not drfbtfd by systfm dodf bnd tif
+     * dbllfr's {@dodf ProtfdtionDombin} ibs not bffn grbntfd tif
+     * {@litfrbl "drfbtfAddfssControlContfxt"}
+     * {@link jbvb.sfdurity.SfdurityPfrmission}, tifn tif bdtion is pfrformfd
+     * witi no pfrmissions.
      *
-     * @param <T> the type of the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
-     * @param action the action to be performed.
-     * @param context an <i>access control context</i>
-     *                representing the restriction to be applied to the
-     *                caller's domain's privileges before performing
-     *                the specified action.  If the context is
-     *                {@code null},
-     *                then no additional restriction is applied.
-     * @param perms the {@code Permission} arguments which limit the
-     *              scope of the caller's privileges. The number of arguments
-     *              is variable.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
+     * @pbrbm bdtion tif bdtion to bf pfrformfd.
+     * @pbrbm dontfxt bn <i>bddfss dontrol dontfxt</i>
+     *                rfprfsfnting tif rfstridtion to bf bpplifd to tif
+     *                dbllfr's dombin's privilfgfs bfforf pfrforming
+     *                tif spfdififd bdtion.  If tif dontfxt is
+     *                {@dodf null},
+     *                tifn no bdditionbl rfstridtion is bpplifd.
+     * @pbrbm pfrms tif {@dodf Pfrmission} brgumfnts wiidi limit tif
+     *              sdopf of tif dbllfr's privilfgfs. Tif numbfr of brgumfnts
+     *              is vbribblf.
      *
-     * @return the value returned by the action's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif bdtion's {@dodf run} mftiod.
      *
-     * @throws PrivilegedActionException if the specified action's
-     *         {@code run} method threw a <i>checked</i> exception
-     * @throws NullPointerException if action or perms or any element of
-     *         perms is {@code null}
+     * @tirows PrivilfgfdAdtionExdfption if tif spfdififd bdtion's
+     *         {@dodf run} mftiod tirfw b <i>difdkfd</i> fxdfption
+     * @tirows NullPointfrExdfption if bdtion or pfrms or bny flfmfnt of
+     *         pfrms is {@dodf null}
      *
-     * @see #doPrivileged(PrivilegedAction)
-     * @see #doPrivileged(PrivilegedAction,AccessControlContext)
-     * @see java.security.DomainCombiner
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion)
+     * @sff #doPrivilfgfd(PrivilfgfdAdtion,AddfssControlContfxt)
+     * @sff jbvb.sfdurity.DombinCombinfr
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    @CallerSensitive
-    public static <T> T doPrivilegedWithCombiner(PrivilegedExceptionAction<T> action,
-                                                 AccessControlContext context,
-                                                 Permission... perms)
-        throws PrivilegedActionException
+    @CbllfrSfnsitivf
+    publid stbtid <T> T doPrivilfgfdWitiCombinfr(PrivilfgfdExdfptionAdtion<T> bdtion,
+                                                 AddfssControlContfxt dontfxt,
+                                                 Pfrmission... pfrms)
+        tirows PrivilfgfdAdtionExdfption
     {
-        AccessControlContext parent = getContext();
-        DomainCombiner dc = parent.getCombiner();
-        if (dc == null && context != null) {
-            dc = context.getCombiner();
+        AddfssControlContfxt pbrfnt = gftContfxt();
+        DombinCombinfr dd = pbrfnt.gftCombinfr();
+        if (dd == null && dontfxt != null) {
+            dd = dontfxt.gftCombinfr();
         }
-        if (perms == null) {
-            throw new NullPointerException("null permissions parameter");
+        if (pfrms == null) {
+            tirow nfw NullPointfrExdfption("null pfrmissions pbrbmftfr");
         }
-        Class <?> caller = Reflection.getCallerClass();
-        return AccessController.doPrivileged(action, createWrapper(dc, caller,
-            parent, context, perms));
+        Clbss <?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+        rfturn AddfssControllfr.doPrivilfgfd(bdtion, drfbtfWrbppfr(dd, dbllfr,
+            pbrfnt, dontfxt, pfrms));
     }
 
     /**
-     * Returns the AccessControl context. i.e., it gets
-     * the protection domains of all the callers on the stack,
-     * starting at the first class with a non-null
-     * ProtectionDomain.
+     * Rfturns tif AddfssControl dontfxt. i.f., it gfts
+     * tif protfdtion dombins of bll tif dbllfrs on tif stbdk,
+     * stbrting bt tif first dlbss witi b non-null
+     * ProtfdtionDombin.
      *
-     * @return the access control context based on the current stack or
-     *         null if there was only privileged system code.
+     * @rfturn tif bddfss dontrol dontfxt bbsfd on tif durrfnt stbdk or
+     *         null if tifrf wbs only privilfgfd systfm dodf.
      */
 
-    private static native AccessControlContext getStackAccessControlContext();
+    privbtf stbtid nbtivf AddfssControlContfxt gftStbdkAddfssControlContfxt();
 
 
     /**
-     * Returns the "inherited" AccessControl context. This is the context
-     * that existed when the thread was created. Package private so
-     * AccessControlContext can use it.
+     * Rfturns tif "inifritfd" AddfssControl dontfxt. Tiis is tif dontfxt
+     * tibt fxistfd wifn tif tirfbd wbs drfbtfd. Pbdkbgf privbtf so
+     * AddfssControlContfxt dbn usf it.
      */
 
-    static native AccessControlContext getInheritedAccessControlContext();
+    stbtid nbtivf AddfssControlContfxt gftInifritfdAddfssControlContfxt();
 
     /**
-     * This method takes a "snapshot" of the current calling context, which
-     * includes the current Thread's inherited AccessControlContext and any
-     * limited privilege scope, and places it in an AccessControlContext object.
-     * This context may then be checked at a later point, possibly in another thread.
+     * Tiis mftiod tbkfs b "snbpsiot" of tif durrfnt dblling dontfxt, wiidi
+     * indludfs tif durrfnt Tirfbd's inifritfd AddfssControlContfxt bnd bny
+     * limitfd privilfgf sdopf, bnd plbdfs it in bn AddfssControlContfxt objfdt.
+     * Tiis dontfxt mby tifn bf difdkfd bt b lbtfr point, possibly in bnotifr tirfbd.
      *
-     * @see AccessControlContext
+     * @sff AddfssControlContfxt
      *
-     * @return the AccessControlContext based on the current context.
+     * @rfturn tif AddfssControlContfxt bbsfd on tif durrfnt dontfxt.
      */
 
-    public static AccessControlContext getContext()
+    publid stbtid AddfssControlContfxt gftContfxt()
     {
-        AccessControlContext acc = getStackAccessControlContext();
-        if (acc == null) {
-            // all we had was privileged system code. We don't want
-            // to return null though, so we construct a real ACC.
-            return new AccessControlContext(null, true);
-        } else {
-            return acc.optimize();
+        AddfssControlContfxt bdd = gftStbdkAddfssControlContfxt();
+        if (bdd == null) {
+            // bll wf ibd wbs privilfgfd systfm dodf. Wf don't wbnt
+            // to rfturn null tiougi, so wf donstrudt b rfbl ACC.
+            rfturn nfw AddfssControlContfxt(null, truf);
+        } flsf {
+            rfturn bdd.optimizf();
         }
     }
 
     /**
-     * Determines whether the access request indicated by the
-     * specified permission should be allowed or denied, based on
-     * the current AccessControlContext and security policy.
-     * This method quietly returns if the access request
-     * is permitted, or throws an AccessControlException otherwise. The
-     * getPermission method of the AccessControlException returns the
-     * {@code perm} Permission object instance.
+     * Dftfrminfs wiftifr tif bddfss rfqufst indidbtfd by tif
+     * spfdififd pfrmission siould bf bllowfd or dfnifd, bbsfd on
+     * tif durrfnt AddfssControlContfxt bnd sfdurity polidy.
+     * Tiis mftiod quiftly rfturns if tif bddfss rfqufst
+     * is pfrmittfd, or tirows bn AddfssControlExdfption otifrwisf. Tif
+     * gftPfrmission mftiod of tif AddfssControlExdfption rfturns tif
+     * {@dodf pfrm} Pfrmission objfdt instbndf.
      *
-     * @param perm the requested permission.
+     * @pbrbm pfrm tif rfqufstfd pfrmission.
      *
-     * @exception AccessControlException if the specified permission
-     *            is not permitted, based on the current security policy.
-     * @exception NullPointerException if the specified permission
-     *            is {@code null} and is checked based on the
-     *            security policy currently in effect.
+     * @fxdfption AddfssControlExdfption if tif spfdififd pfrmission
+     *            is not pfrmittfd, bbsfd on tif durrfnt sfdurity polidy.
+     * @fxdfption NullPointfrExdfption if tif spfdififd pfrmission
+     *            is {@dodf null} bnd is difdkfd bbsfd on tif
+     *            sfdurity polidy durrfntly in ffffdt.
      */
 
-    public static void checkPermission(Permission perm)
-        throws AccessControlException
+    publid stbtid void difdkPfrmission(Pfrmission pfrm)
+        tirows AddfssControlExdfption
     {
-        //System.err.println("checkPermission "+perm);
-        //Thread.currentThread().dumpStack();
+        //Systfm.frr.println("difdkPfrmission "+pfrm);
+        //Tirfbd.durrfntTirfbd().dumpStbdk();
 
-        if (perm == null) {
-            throw new NullPointerException("permission can't be null");
+        if (pfrm == null) {
+            tirow nfw NullPointfrExdfption("pfrmission dbn't bf null");
         }
 
-        AccessControlContext stack = getStackAccessControlContext();
-        // if context is null, we had privileged system code on the stack.
-        if (stack == null) {
-            Debug debug = AccessControlContext.getDebug();
-            boolean dumpDebug = false;
-            if (debug != null) {
-                dumpDebug = !Debug.isOn("codebase=");
-                dumpDebug &= !Debug.isOn("permission=") ||
-                    Debug.isOn("permission=" + perm.getClass().getCanonicalName());
+        AddfssControlContfxt stbdk = gftStbdkAddfssControlContfxt();
+        // if dontfxt is null, wf ibd privilfgfd systfm dodf on tif stbdk.
+        if (stbdk == null) {
+            Dfbug dfbug = AddfssControlContfxt.gftDfbug();
+            boolfbn dumpDfbug = fblsf;
+            if (dfbug != null) {
+                dumpDfbug = !Dfbug.isOn("dodfbbsf=");
+                dumpDfbug &= !Dfbug.isOn("pfrmission=") ||
+                    Dfbug.isOn("pfrmission=" + pfrm.gftClbss().gftCbnonidblNbmf());
             }
 
-            if (dumpDebug && Debug.isOn("stack")) {
-                Thread.dumpStack();
+            if (dumpDfbug && Dfbug.isOn("stbdk")) {
+                Tirfbd.dumpStbdk();
             }
 
-            if (dumpDebug && Debug.isOn("domain")) {
-                debug.println("domain (context is null)");
+            if (dumpDfbug && Dfbug.isOn("dombin")) {
+                dfbug.println("dombin (dontfxt is null)");
             }
 
-            if (dumpDebug) {
-                debug.println("access allowed "+perm);
+            if (dumpDfbug) {
+                dfbug.println("bddfss bllowfd "+pfrm);
             }
-            return;
+            rfturn;
         }
 
-        AccessControlContext acc = stack.optimize();
-        acc.checkPermission(perm);
+        AddfssControlContfxt bdd = stbdk.optimizf();
+        bdd.difdkPfrmission(pfrm);
     }
 }

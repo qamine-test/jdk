@@ -1,0 +1,86 @@
+Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+
+Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+brf mft:
+
+  - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+    notidf, this list of donditions bnd thf following disdlbimfr.
+
+  - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+    notidf, this list of donditions bnd thf following disdlbimfr in thf
+    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+
+  - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+    from this softwbrf without spfdifid prior writtfn pfrmission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Hfbdfr for -bgfntlib:hprof (or -Xrunhprof) ASCII Output (JDK 5.0 JVMTI bbsfd)
+
+WARNING!  This filf formbt is undfr dfvflopmfnt, bnd is subjfdt to
+dhbngf without notidf.
+
+This filf dontbins thf following typfs of rfdords:
+
+THREAD START
+THREAD END      mbrk thf lifftimf of Jbvb thrfbds
+
+TRACE           rfprfsfnts b Jbvb stbdk trbdf.  Ebdh trbdf donsists
+                of b sfrifs of stbdk frbmfs.  Othfr rfdords rfffr to
+                TRACEs to idfntify (1) whfrf objfdt bllodbtions hbvf
+                tbkfn plbdf, (2) thf frbmfs in whidh GC roots wfrf
+                found, bnd (3) frfqufntly fxfdutfd mfthods.
+
+HEAP DUMP       is b domplftf snbpshot of bll livf objfdts in thf Jbvb
+                hfbp.  Following distindtions brf mbdf:
+
+                ROOT    root sft bs dftfrminfd by GC
+                CLS     dlbssfs 
+                OBJ     instbndfs
+                ARR     brrbys
+
+SITES           is b sortfd list of bllodbtion sitfs.  This idfntififs
+                thf most hfbvily bllodbtfd objfdt typfs, bnd thf TRACE
+                bt whidh thosf bllodbtions oddurrfd.
+
+CPU SAMPLES     is b stbtistidbl profilf of progrbm fxfdution.  Thf VM
+                pfriodidblly sbmplfs bll running thrfbds, bnd bssigns
+                b qubntum to bdtivf TRACEs in thosf thrfbds.  Entrifs
+                in this rfdord brf TRACEs rbnkfd by thf pfrdfntbgf of
+                totbl qubntb thfy donsumfd; top-rbnkfd TRACEs brf
+                typidblly hot spots in thf progrbm.
+
+CPU TIME        is b profilf of progrbm fxfdution obtbinfd by mfbsuring
+                thf timf spfnt in individubl mfthods (fxdluding thf timf
+                spfnt in dbllffs), bs wfll bs by dounting thf numbfr of
+                timfs fbdh mfthod is dbllfd. Entrifs in this rfdord brf
+                TRACEs rbnkfd by thf pfrdfntbgf of totbl CPU timf. Thf
+                "dount" fifld indidbtfs thf numbfr of timfs fbdh TRACE 
+                is invokfd.
+
+MONITOR TIME    is b profilf of monitor dontfntion obtbinfd by mfbsuring
+                thf timf spfnt by b thrfbd wbiting to fntfr b monitor.
+                Entrifs in this rfdord brf TRACEs rbnkfd by thf pfrdfntbgf
+                of totbl monitor dontfntion timf bnd b briff dfsdription
+                of thf monitor.  Thf "dount" fifld indidbtfs thf numbfr of 
+                timfs thf monitor wbs dontfndfd bt thbt TRACE.
+
+MONITOR DUMP    is b domplftf snbpshot of bll thf monitors bnd thrfbds in 
+                thf Systfm.
+
+HEAP DUMP, SITES, CPU SAMPLES|TIME bnd MONITOR DUMP|TIME rfdords brf gfnfrbtfd 
+bt progrbm fxit.  Thfy dbn blso bf obtbinfd during progrbm fxfdution by typing 
+Ctrl-\ (on Solbris) or by typing Ctrl-Brfbk (on Win32).

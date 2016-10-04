@@ -1,907 +1,907 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AlphaMacros_h_Included
-#define AlphaMacros_h_Included
+#ifndff AlpibMbdros_i_Indludfd
+#dffinf AlpibMbdros_i_Indludfd
 
-#include "GraphicsPrimitiveMgr.h"
-#include "AlphaMath.h"
-#include "IntArgb.h"                 /* for "Extract...FromArgb" macros */
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "AlpibMbti.i"
+#indludf "IntArgb.i"                 /* for "Extrbdt...FromArgb" mbdros */
 
-#define DeclareAlphaOperands(PREFIX) \
+#dffinf DfdlbrfAlpibOpfrbnds(PREFIX) \
     jint PREFIX ## And, PREFIX ## Xor, PREFIX ## Add;
 
-#define ExtractAlphaOperandsFor4ByteArgb(f, PREFIX) \
+#dffinf ExtrbdtAlpibOpfrbndsFor4BytfArgb(f, PREFIX) \
     do { \
-        PREFIX ## And = (f).andval; \
-        PREFIX ## Xor = (f).xorval; \
-        PREFIX ## Add = (jint) (f).addval - PREFIX ## Xor; \
-    } while (0)
+        PREFIX ## And = (f).bndvbl; \
+        PREFIX ## Xor = (f).xorvbl; \
+        PREFIX ## Add = (jint) (f).bddvbl - PREFIX ## Xor; \
+    } wiilf (0)
 
-#define ExtractAlphaOperandsFor1ByteGray(f, PREFIX) \
-    ExtractAlphaOperandsFor4ByteArgb(f, PREFIX)
+#dffinf ExtrbdtAlpibOpfrbndsFor1BytfGrby(f, PREFIX) \
+    ExtrbdtAlpibOpfrbndsFor4BytfArgb(f, PREFIX)
 
-#define ExtractAlphaOperandsFor1ShortGray(f, PREFIX) \
+#dffinf ExtrbdtAlpibOpfrbndsFor1SiortGrby(f, PREFIX) \
     do { \
-        PREFIX ## And = ((f).andval << 8) + (f).andval; \
-        PREFIX ## Xor = (f).xorval; \
-        PREFIX ## Add = (jint) (((f).addval << 8) + (f).addval) - \
+        PREFIX ## And = ((f).bndvbl << 8) + (f).bndvbl; \
+        PREFIX ## Xor = (f).xorvbl; \
+        PREFIX ## Add = (jint) (((f).bddvbl << 8) + (f).bddvbl) - \
                                                             PREFIX ## Xor; \
-    } while (0)
+    } wiilf (0)
 
-#define ApplyAlphaOperands(PREFIX, a) \
-    ((((a) & PREFIX ## And) ^ PREFIX ## Xor) + PREFIX ## Add)
+#dffinf ApplyAlpibOpfrbnds(PREFIX, b) \
+    ((((b) & PREFIX ## And) ^ PREFIX ## Xor) + PREFIX ## Add)
 
-#define FuncNeedsAlpha(PREFIX)  (PREFIX ## And != 0)
-#define FuncIsZero(PREFIX)      ((PREFIX ## And | PREFIX ## Add) == 0)
+#dffinf FundNffdsAlpib(PREFIX)  (PREFIX ## And != 0)
+#dffinf FundIsZfro(PREFIX)      ((PREFIX ## And | PREFIX ## Add) == 0)
 
-typedef struct {
-    jubyte      addval;
-    jubyte      andval;
-    jshort      xorval;
-} AlphaOperands;
+typfdff strudt {
+    jubytf      bddvbl;
+    jubytf      bndvbl;
+    jsiort      xorvbl;
+} AlpibOpfrbnds;
 
-typedef struct {
-    AlphaOperands       srcOps;
-    AlphaOperands       dstOps;
-} AlphaFunc;
+typfdff strudt {
+    AlpibOpfrbnds       srdOps;
+    AlpibOpfrbnds       dstOps;
+} AlpibFund;
 
-extern AlphaFunc AlphaRules[];
+fxtfrn AlpibFund AlpibRulfs[];
 
-#define DEFINE_ALPHA_MASKBLIT(SRC, DST, STRATEGY) \
+#dffinf DEFINE_ALPHA_MASKBLIT(SRC, DST, STRATEGY) \
 void NAME_ALPHA_MASKBLIT(SRC, DST) \
-    (void *dstBase, void *srcBase, \
-     jubyte *pMask, jint maskOff, jint maskScan, \
-     jint width, jint height, \
-     SurfaceDataRasInfo *pDstInfo, \
-     SurfaceDataRasInfo *pSrcInfo, \
-     NativePrimitive *pPrim, \
-     CompositeInfo *pCompInfo) \
+    (void *dstBbsf, void *srdBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint widti, jint ifigit, \
+     SurfbdfDbtbRbsInfo *pDstInfo, \
+     SurfbdfDbtbRbsInfo *pSrdInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
 { \
-    DeclareAndSetOpaqueAlphaVarFor ## STRATEGY(pathA) \
-    DeclareAndClearAlphaVarFor ## STRATEGY(srcA) \
-    DeclareAndClearAlphaVarFor ## STRATEGY(dstA) \
-    DeclareAndInitExtraAlphaFor ## STRATEGY(extraA) \
-    jint srcScan = pSrcInfo->scanStride; \
-    jint dstScan = pDstInfo->scanStride; \
-    jboolean loadsrc, loaddst; \
-    SRC ## DataType *pSrc = (SRC ## DataType *) (srcBase); \
-    DST ## DataType *pDst = (DST ## DataType *) (dstBase); \
-    Declare ## SRC ## AlphaLoadData(SrcPix) \
-    Declare ## DST ## AlphaLoadData(DstPix) \
-    Declare ## DST ## StoreVars(DstWrite) \
-    DeclareAlphaOperands(SrcOp) \
-    DeclareAlphaOperands(DstOp) \
+    DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(pbtiA) \
+    DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(srdA) \
+    DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(dstA) \
+    DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(fxtrbA) \
+    jint srdSdbn = pSrdInfo->sdbnStridf; \
+    jint dstSdbn = pDstInfo->sdbnStridf; \
+    jboolfbn lobdsrd, lobddst; \
+    SRC ## DbtbTypf *pSrd = (SRC ## DbtbTypf *) (srdBbsf); \
+    DST ## DbtbTypf *pDst = (DST ## DbtbTypf *) (dstBbsf); \
+    Dfdlbrf ## SRC ## AlpibLobdDbtb(SrdPix) \
+    Dfdlbrf ## DST ## AlpibLobdDbtb(DstPix) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
+    DfdlbrfAlpibOpfrbnds(SrdOp) \
+    DfdlbrfAlpibOpfrbnds(DstOp) \
  \
-    ExtractAlphaOperandsFor ## STRATEGY(AlphaRules[pCompInfo->rule].srcOps, \
-                                        SrcOp); \
-    ExtractAlphaOperandsFor ## STRATEGY(AlphaRules[pCompInfo->rule].dstOps, \
+    ExtrbdtAlpibOpfrbndsFor ## STRATEGY(AlpibRulfs[pCompInfo->rulf].srdOps, \
+                                        SrdOp); \
+    ExtrbdtAlpibOpfrbndsFor ## STRATEGY(AlpibRulfs[pCompInfo->rulf].dstOps, \
                                         DstOp); \
-    loadsrc = !FuncIsZero(SrcOp) || FuncNeedsAlpha(DstOp); \
-    loaddst = pMask || !FuncIsZero(DstOp) || FuncNeedsAlpha(SrcOp); \
+    lobdsrd = !FundIsZfro(SrdOp) || FundNffdsAlpib(DstOp); \
+    lobddst = pMbsk || !FundIsZfro(DstOp) || FundNffdsAlpib(SrdOp); \
  \
-    Init ## SRC ## AlphaLoadData(SrcPix, pSrcInfo); \
-    Init ## DST ## AlphaLoadData(DstPix, pDstInfo); \
-    srcScan -= width * SRC ## PixelStride; \
-    dstScan -= width * DST ## PixelStride; \
-    maskScan -= width; \
-    if (pMask) { \
-        pMask += maskOff; \
+    Init ## SRC ## AlpibLobdDbtb(SrdPix, pSrdInfo); \
+    Init ## DST ## AlpibLobdDbtb(DstPix, pDstInfo); \
+    srdSdbn -= widti * SRC ## PixflStridf; \
+    dstSdbn -= widti * DST ## PixflStridf; \
+    mbskSdbn -= widti; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
     } \
  \
-    Init ## DST ## StoreVarsY(DstWrite, pDstInfo); \
+    Init ## DST ## StorfVbrsY(DstWritf, pDstInfo); \
     do { \
-        jint w = width; \
-        Init ## DST ## StoreVarsX(DstWrite, pDstInfo); \
+        jint w = widti; \
+        Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
         do { \
-            DeclareAlphaVarFor ## STRATEGY(resA) \
-            DeclareCompVarsFor ## STRATEGY(res) \
-            DeclareAlphaVarFor ## STRATEGY(srcF) \
-            DeclareAlphaVarFor ## STRATEGY(dstF) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+            DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(srdF) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(dstF) \
  \
-            if (pMask) { \
-                pathA = *pMask++; \
-                if (!pathA) { \
-                    pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                    pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                    Next ## DST ## StoreVarsX(DstWrite); \
-                    continue; \
+            if (pMbsk) { \
+                pbtiA = *pMbsk++; \
+                if (!pbtiA) { \
+                    pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                    pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                    Nfxt ## DST ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
                 } \
-                PromoteByteAlphaFor ## STRATEGY(pathA); \
+                PromotfBytfAlpibFor ## STRATEGY(pbtiA); \
             } \
-            if (loadsrc) { \
-                LoadAlphaFrom ## SRC ## For ## STRATEGY(pSrc, SrcPix, src); \
-                srcA = MultiplyAlphaFor ## STRATEGY(extraA, srcA); \
+            if (lobdsrd) { \
+                LobdAlpibFrom ## SRC ## For ## STRATEGY(pSrd, SrdPix, srd); \
+                srdA = MultiplyAlpibFor ## STRATEGY(fxtrbA, srdA); \
             } \
-            if (loaddst) { \
-                LoadAlphaFrom ## DST ## For ## STRATEGY(pDst, DstPix, dst); \
+            if (lobddst) { \
+                LobdAlpibFrom ## DST ## For ## STRATEGY(pDst, DstPix, dst); \
             } \
-            srcF = ApplyAlphaOperands(SrcOp, dstA); \
-            dstF = ApplyAlphaOperands(DstOp, srcA); \
-            if (pathA != MaxValFor ## STRATEGY) { \
-                srcF = MultiplyAlphaFor ## STRATEGY(pathA, srcF); \
-                dstF = MaxValFor ## STRATEGY - pathA + \
-                           MultiplyAlphaFor ## STRATEGY(pathA, dstF); \
+            srdF = ApplyAlpibOpfrbnds(SrdOp, dstA); \
+            dstF = ApplyAlpibOpfrbnds(DstOp, srdA); \
+            if (pbtiA != MbxVblFor ## STRATEGY) { \
+                srdF = MultiplyAlpibFor ## STRATEGY(pbtiA, srdF); \
+                dstF = MbxVblFor ## STRATEGY - pbtiA + \
+                           MultiplyAlpibFor ## STRATEGY(pbtiA, dstF); \
             } \
-            if (srcF) { \
-                resA = MultiplyAlphaFor ## STRATEGY(srcF, srcA); \
-                if (!(SRC ## IsPremultiplied)) { \
-                    srcF = resA; \
-                } else { \
-                    srcF = MultiplyAlphaFor ## STRATEGY(srcF, extraA); \
+            if (srdF) { \
+                rfsA = MultiplyAlpibFor ## STRATEGY(srdF, srdA); \
+                if (!(SRC ## IsPrfmultiplifd)) { \
+                    srdF = rfsA; \
+                } flsf { \
+                    srdF = MultiplyAlpibFor ## STRATEGY(srdF, fxtrbA); \
                 } \
-                if (srcF) { \
-                    /* assert(loadsrc); */ \
-                    Postload ## STRATEGY ## From ## SRC(pSrc, SrcPix, res); \
-                    if (srcF != MaxValFor ## STRATEGY) { \
-                        MultiplyAndStore ## STRATEGY ## Comps(res, \
-                                                              srcF, res); \
+                if (srdF) { \
+                    /* bssfrt(lobdsrd); */ \
+                    Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, rfs); \
+                    if (srdF != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              srdF, rfs); \
                     } \
-                } else { \
-                    if (dstF == MaxValFor ## STRATEGY) { \
-                        pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                        pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                        Next ## DST ## StoreVarsX(DstWrite); \
-                        continue; \
+                } flsf { \
+                    if (dstF == MbxVblFor ## STRATEGY) { \
+                        pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                        pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                        Nfxt ## DST ## StorfVbrsX(DstWritf); \
+                        dontinuf; \
                     } \
-                    Set ## STRATEGY ## CompsToZero(res); \
+                    Sft ## STRATEGY ## CompsToZfro(rfs); \
                 } \
-            } else { \
-                if (dstF == MaxValFor ## STRATEGY) { \
-                    pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                    pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                    Next ## DST ## StoreVarsX(DstWrite); \
-                    continue; \
+            } flsf { \
+                if (dstF == MbxVblFor ## STRATEGY) { \
+                    pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                    pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                    Nfxt ## DST ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
                 } \
-                resA = 0; \
-                Set ## STRATEGY ## CompsToZero(res); \
+                rfsA = 0; \
+                Sft ## STRATEGY ## CompsToZfro(rfs); \
             } \
             if (dstF) { \
-                dstA = MultiplyAlphaFor ## STRATEGY(dstF, dstA); \
-                if (!(DST ## IsPremultiplied)) { \
+                dstA = MultiplyAlpibFor ## STRATEGY(dstF, dstA); \
+                if (!(DST ## IsPrfmultiplifd)) { \
                     dstF = dstA; \
                 } \
-                resA += dstA; \
+                rfsA += dstA; \
                 if (dstF) { \
-                    DeclareCompVarsFor ## STRATEGY(tmp) \
-                    /* assert(loaddst); */ \
-                    Postload ## STRATEGY ## From ## DST(pDst, DstPix, tmp); \
-                    if (dstF != MaxValFor ## STRATEGY) { \
-                        MultiplyAndStore ## STRATEGY ## Comps(tmp, \
+                    DfdlbrfCompVbrsFor ## STRATEGY(tmp) \
+                    /* bssfrt(lobddst); */ \
+                    Postlobd ## STRATEGY ## From ## DST(pDst, DstPix, tmp); \
+                    if (dstF != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(tmp, \
                                                               dstF, tmp); \
                     } \
-                    Store ## STRATEGY ## CompsUsingOp(res, +=, tmp); \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, +=, tmp); \
                 } \
             } \
-            if (!(DST ## IsPremultiplied) && resA && \
-                resA < MaxValFor ## STRATEGY) \
+            if (!(DST ## IsPrfmultiplifd) && rfsA && \
+                rfsA < MbxVblFor ## STRATEGY) \
             { \
-                DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
             } \
-            Store ## DST ## From ## STRATEGY ## Comps(pDst, DstWrite, \
-                                                      0, res); \
-            pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-            pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-            Next ## DST ## StoreVarsX(DstWrite); \
-        } while (--w > 0); \
-        pSrc = PtrAddBytes(pSrc, srcScan); \
-        pDst = PtrAddBytes(pDst, dstScan); \
-        Next ## DST ## StoreVarsY(DstWrite); \
-        if (pMask) { \
-            pMask = PtrAddBytes(pMask, maskScan); \
+            Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf, \
+                                                      0, rfs); \
+            pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+            pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+            Nfxt ## DST ## StorfVbrsX(DstWritf); \
+        } wiilf (--w > 0); \
+        pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+        pDst = PtrAddBytfs(pDst, dstSdbn); \
+        Nfxt ## DST ## StorfVbrsY(DstWritf); \
+        if (pMbsk) { \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
         } \
-    } while (--height > 0); \
+    } wiilf (--ifigit > 0); \
 }
 
-/* REMIND: This macro is as yet, untested */
-#define DEFINE_SRC_MASKBLIT(SRC, DST, STRATEGY) \
+/* REMIND: Tiis mbdro is bs yft, untfstfd */
+#dffinf DEFINE_SRC_MASKBLIT(SRC, DST, STRATEGY) \
 void NAME_SRC_MASKBLIT(SRC, DST) \
-    (void *dstBase, void *srcBase, \
-     jubyte *pMask, jint maskOff, jint maskScan, \
-     jint width, jint height, \
-     SurfaceDataRasInfo *pDstInfo, \
-     SurfaceDataRasInfo *pSrcInfo, \
-     NativePrimitive *pPrim, \
-     CompositeInfo *pCompInfo) \
+    (void *dstBbsf, void *srdBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint widti, jint ifigit, \
+     SurfbdfDbtbRbsInfo *pDstInfo, \
+     SurfbdfDbtbRbsInfo *pSrdInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
 { \
-    DeclareAndInitExtraAlphaFor ## STRATEGY(extraA) \
-    jint srcScan = pSrcInfo->scanStride; \
-    jint dstScan = pDstInfo->scanStride; \
-    SRC ## DataType *pSrc = (SRC ## DataType *) (srcBase); \
-    DST ## DataType *pDst = (DST ## DataType *) (dstBase); \
-    Declare ## SRC ## AlphaLoadData(SrcPix) \
-    Declare ## DST ## AlphaLoadData(DstPix) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(fxtrbA) \
+    jint srdSdbn = pSrdInfo->sdbnStridf; \
+    jint dstSdbn = pDstInfo->sdbnStridf; \
+    SRC ## DbtbTypf *pSrd = (SRC ## DbtbTypf *) (srdBbsf); \
+    DST ## DbtbTypf *pDst = (DST ## DbtbTypf *) (dstBbsf); \
+    Dfdlbrf ## SRC ## AlpibLobdDbtb(SrdPix) \
+    Dfdlbrf ## DST ## AlpibLobdDbtb(DstPix) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
  \
-    Init ## SRC ## AlphaLoadData(SrcPix, pSrcInfo); \
-    Init ## DST ## AlphaLoadData(DstPix, pDstInfo); \
-    srcScan -= width * SRC ## PixelStride; \
-    dstScan -= width * DST ## PixelStride; \
+    Init ## SRC ## AlpibLobdDbtb(SrdPix, pSrdInfo); \
+    Init ## DST ## AlpibLobdDbtb(DstPix, pDstInfo); \
+    srdSdbn -= widti * SRC ## PixflStridf; \
+    dstSdbn -= widti * DST ## PixflStridf; \
  \
-    Init ## DST ## StoreVarsY(DstWrite, pDstInfo); \
-    if (pMask) { \
-        maskScan -= width; \
-        pMask += maskOff; \
+    Init ## DST ## StorfVbrsY(DstWritf, pDstInfo); \
+    if (pMbsk) { \
+        mbskSdbn -= widti; \
+        pMbsk += mbskOff; \
         do { \
-            jint w = width; \
-            Init ## DST ## StoreVarsX(DstWrite, pDstInfo); \
+            jint w = widti; \
+            Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
             do { \
-                DeclareAlphaVarFor ## STRATEGY(resA) \
-                DeclareCompVarsFor ## STRATEGY(res) \
-                DeclareAlphaVarFor ## STRATEGY(srcF) \
-                DeclareAlphaVarFor ## STRATEGY(dstF) \
-                DeclareAndInitPathAlphaFor ## STRATEGY(pathA) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(srdF) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(dstF) \
+                DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(pbtiA) \
  \
-                if (pathA) { \
-                    LoadAlphaFrom ## SRC ## For ## STRATEGY(pSrc, \
-                                                            SrcPix, res); \
-                    resA = MultiplyAlphaFor ## STRATEGY(extraA, resA); \
-                    if (SRC ## IsPremultiplied) { \
-                        srcF = extraA; \
-                    } else { \
-                        srcF = resA; \
+                if (pbtiA) { \
+                    LobdAlpibFrom ## SRC ## For ## STRATEGY(pSrd, \
+                                                            SrdPix, rfs); \
+                    rfsA = MultiplyAlpibFor ## STRATEGY(fxtrbA, rfsA); \
+                    if (SRC ## IsPrfmultiplifd) { \
+                        srdF = fxtrbA; \
+                    } flsf { \
+                        srdF = rfsA; \
                     } \
-                    Postload ## STRATEGY ## From ## SRC(pSrc, SrcPix, res); \
-                    if (pathA < 0xff) { \
-                        DeclareAlphaVarFor ## STRATEGY(dstA) \
-                        DeclareCompVarsFor ## STRATEGY(dst) \
-                        PromoteByteAlphaFor ## STRATEGY(pathA); \
-                        srcF = MultiplyAlphaFor ## STRATEGY(pathA, srcF); \
-                        dstF = MaxValFor ## STRATEGY - pathA; \
-                        LoadAlphaFrom ## DST ## For ## STRATEGY(pDst, \
+                    Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, rfs); \
+                    if (pbtiA < 0xff) { \
+                        DfdlbrfAlpibVbrFor ## STRATEGY(dstA) \
+                        DfdlbrfCompVbrsFor ## STRATEGY(dst) \
+                        PromotfBytfAlpibFor ## STRATEGY(pbtiA); \
+                        srdF = MultiplyAlpibFor ## STRATEGY(pbtiA, srdF); \
+                        dstF = MbxVblFor ## STRATEGY - pbtiA; \
+                        LobdAlpibFrom ## DST ## For ## STRATEGY(pDst, \
                                                                 DstPix, \
                                                                 dst); \
-                        dstA = MultiplyAlphaFor ## STRATEGY(dstF, dstA) \
-                        if (!(DST ## IsPremultiplied)) { \
+                        dstA = MultiplyAlpibFor ## STRATEGY(dstF, dstA) \
+                        if (!(DST ## IsPrfmultiplifd)) { \
                             dstF = dstA; \
                         } \
-                        Postload ## STRATEGY ## From ## DST(pDst, DstPix, \
+                        Postlobd ## STRATEGY ## From ## DST(pDst, DstPix, \
                                                             dst); \
-                        resA = dstA + \
-                                 MultiplyAlphaFor ## STRATEGY(pathA, resA); \
-                        MultMultAddAndStore ## STRATEGY ## Comps(res, \
+                        rfsA = dstA + \
+                                 MultiplyAlpibFor ## STRATEGY(pbtiA, rfsA); \
+                        MultMultAddAndStorf ## STRATEGY ## Comps(rfs, \
                                                                  dstF, dst, \
-                                                                 srcF, res); \
-                    } else if (srcF < MaxValFor ## STRATEGY) { \
-                        MultiplyAndStore ## STRATEGY ## Comps(res, \
-                                                              srcF, src); \
+                                                                 srdF, rfs); \
+                    } flsf if (srdF < MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              srdF, srd); \
                     } \
-                    if (!(DST ## IsPremultiplied) && resA && \
-                        resA < MaxValFor ## STRATEGY) \
+                    if (!(DST ## IsPrfmultiplifd) && rfsA && \
+                        rfsA < MbxVblFor ## STRATEGY) \
                     { \
-                        DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                        DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
                     } \
-                    Store ## DST ## From ## STRATEGY ## Comps(pDst, DstWrite,\
-                                                              0, res);\
+                    Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf,\
+                                                              0, rfs);\
                 } \
-                pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                Next ## DST ## StoreVarsX(DstWrite); \
-            } while (--w > 0); \
-            pSrc = PtrAddBytes(pSrc, srcScan); \
-            pDst = PtrAddBytes(pDst, dstScan); \
-            Next ## DST ## StoreVarsY(DstWrite); \
-            pMask = PtrAddBytes(pMask, maskScan); \
-        } while (--height > 0); \
-    } else /* pMask == 0 */ { \
+                pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                Nfxt ## DST ## StorfVbrsX(DstWritf); \
+            } wiilf (--w > 0); \
+            pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+            pDst = PtrAddBytfs(pDst, dstSdbn); \
+            Nfxt ## DST ## StorfVbrsY(DstWritf); \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } wiilf (--ifigit > 0); \
+    } flsf /* pMbsk == 0 */ { \
         do { \
-            jint w = width; \
-            Init ## DST ## StoreVarsX(DstWrite, pDstInfo); \
+            jint w = widti; \
+            Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
             do { \
-                DeclareAlphaVarFor ## STRATEGY(resA) \
-                DeclareCompVarsFor ## STRATEGY(res) \
-                DeclareAlphaVarFor ## STRATEGY(srcF) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(srdF) \
  \
-                LoadAlphaFrom ## SRC ## For ## STRATEGY(pSrc, SrcPix, res); \
-                resA = MultiplyAlphaFor ## STRATEGY(extraA, resA); \
-                if (SRC ## IsPremultiplied) { \
-                    srcF = extraA; \
-                } else { \
-                    srcF = resA; \
+                LobdAlpibFrom ## SRC ## For ## STRATEGY(pSrd, SrdPix, rfs); \
+                rfsA = MultiplyAlpibFor ## STRATEGY(fxtrbA, rfsA); \
+                if (SRC ## IsPrfmultiplifd) { \
+                    srdF = fxtrbA; \
+                } flsf { \
+                    srdF = rfsA; \
                 } \
-                Postload ## STRATEGY ## From ## SRC(pSrc, SrcPix, res); \
-                if (srcF < MaxValFor ## STRATEGY) { \
-                    MultiplyAndStore ## STRATEGY ## Comps(res, srcF, src); \
+                Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, rfs); \
+                if (srdF < MbxVblFor ## STRATEGY) { \
+                    MultiplyAndStorf ## STRATEGY ## Comps(rfs, srdF, srd); \
                 } \
-                if (!(DST ## IsPremultiplied) && resA && \
-                    resA < MaxValFor ## STRATEGY) \
+                if (!(DST ## IsPrfmultiplifd) && rfsA && \
+                    rfsA < MbxVblFor ## STRATEGY) \
                 { \
-                    DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                    DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
                 } \
-                Store ## DST ## From ## STRATEGY ## Comps(pDst, DstWrite, \
-                                                          0, res); \
-                pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                Next ## DST ## StoreVarsX(DstWrite); \
-            } while (--w > 0); \
-            pSrc = PtrAddBytes(pSrc, srcScan); \
-            pDst = PtrAddBytes(pDst, dstScan); \
-            Next ## DST ## StoreVarsY(DstWrite); \
-        } while (--height > 0); \
+                Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf, \
+                                                          0, rfs); \
+                pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                Nfxt ## DST ## StorfVbrsX(DstWritf); \
+            } wiilf (--w > 0); \
+            pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+            pDst = PtrAddBytfs(pDst, dstSdbn); \
+            Nfxt ## DST ## StorfVbrsY(DstWritf); \
+        } wiilf (--ifigit > 0); \
     } \
 }
 
-#define DEFINE_SRCOVER_MASKBLIT(SRC, DST, STRATEGY) \
+#dffinf DEFINE_SRCOVER_MASKBLIT(SRC, DST, STRATEGY) \
 void NAME_SRCOVER_MASKBLIT(SRC, DST) \
-    (void *dstBase, void *srcBase, \
-     jubyte *pMask, jint maskOff, jint maskScan, \
-     jint width, jint height, \
-     SurfaceDataRasInfo *pDstInfo, \
-     SurfaceDataRasInfo *pSrcInfo, \
-     NativePrimitive *pPrim, \
-     CompositeInfo *pCompInfo) \
+    (void *dstBbsf, void *srdBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint widti, jint ifigit, \
+     SurfbdfDbtbRbsInfo *pDstInfo, \
+     SurfbdfDbtbRbsInfo *pSrdInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
 { \
-    DeclareAndInitExtraAlphaFor ## STRATEGY(extraA) \
-    jint srcScan = pSrcInfo->scanStride; \
-    jint dstScan = pDstInfo->scanStride; \
-    SRC ## DataType *pSrc = (SRC ## DataType *) (srcBase); \
-    DST ## DataType *pDst = (DST ## DataType *) (dstBase); \
-    Declare ## SRC ## AlphaLoadData(SrcPix) \
-    Declare ## DST ## AlphaLoadData(DstPix) \
-    Declare ## DST ## StoreVars(DstWrite) \
+    DfdlbrfAndInitExtrbAlpibFor ## STRATEGY(fxtrbA) \
+    jint srdSdbn = pSrdInfo->sdbnStridf; \
+    jint dstSdbn = pDstInfo->sdbnStridf; \
+    SRC ## DbtbTypf *pSrd = (SRC ## DbtbTypf *) (srdBbsf); \
+    DST ## DbtbTypf *pDst = (DST ## DbtbTypf *) (dstBbsf); \
+    Dfdlbrf ## SRC ## AlpibLobdDbtb(SrdPix) \
+    Dfdlbrf ## DST ## AlpibLobdDbtb(DstPix) \
+    Dfdlbrf ## DST ## StorfVbrs(DstWritf) \
  \
-    Init ## SRC ## AlphaLoadData(SrcPix, pSrcInfo); \
-    Init ## DST ## AlphaLoadData(DstPix, pDstInfo); \
-    srcScan -= width * SRC ## PixelStride; \
-    dstScan -= width * DST ## PixelStride; \
+    Init ## SRC ## AlpibLobdDbtb(SrdPix, pSrdInfo); \
+    Init ## DST ## AlpibLobdDbtb(DstPix, pDstInfo); \
+    srdSdbn -= widti * SRC ## PixflStridf; \
+    dstSdbn -= widti * DST ## PixflStridf; \
  \
-    Init ## DST ## StoreVarsY(DstWrite, pDstInfo); \
-    if (pMask) { \
-        pMask += maskOff; \
-        maskScan -= width; \
+    Init ## DST ## StorfVbrsY(DstWritf, pDstInfo); \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
+        mbskSdbn -= widti; \
         do { \
-            jint w = width; \
-            Init ## DST ## StoreVarsX(DstWrite, pDstInfo); \
+            jint w = widti; \
+            Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
             do { \
-                DeclareAndInitPathAlphaFor ## STRATEGY(pathA) \
+                DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(pbtiA) \
  \
-                if (pathA) { \
-                    DeclareAlphaVarFor ## STRATEGY(resA) \
-                    DeclareCompVarsFor ## STRATEGY(res) \
-                    DeclareAlphaVarFor ## STRATEGY(srcF) \
-                    PromoteByteAlphaFor ## STRATEGY(pathA); \
-                    pathA = MultiplyAlphaFor ## STRATEGY(pathA, extraA); \
-                    LoadAlphaFrom ## SRC ## For ## STRATEGY(pSrc, \
-                                                            SrcPix, res); \
-                    resA = MultiplyAlphaFor ## STRATEGY(pathA, resA); \
-                    if (resA) { \
-                        if (SRC ## IsPremultiplied) { \
-                            srcF = pathA; \
-                        } else { \
-                            srcF = resA; \
+                if (pbtiA) { \
+                    DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+                    DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                    DfdlbrfAlpibVbrFor ## STRATEGY(srdF) \
+                    PromotfBytfAlpibFor ## STRATEGY(pbtiA); \
+                    pbtiA = MultiplyAlpibFor ## STRATEGY(pbtiA, fxtrbA); \
+                    LobdAlpibFrom ## SRC ## For ## STRATEGY(pSrd, \
+                                                            SrdPix, rfs); \
+                    rfsA = MultiplyAlpibFor ## STRATEGY(pbtiA, rfsA); \
+                    if (rfsA) { \
+                        if (SRC ## IsPrfmultiplifd) { \
+                            srdF = pbtiA; \
+                        } flsf { \
+                            srdF = rfsA; \
                         } \
-                        Postload ## STRATEGY ## From ## SRC(pSrc, SrcPix, \
-                                                            res); \
-                        if (resA < MaxValFor ## STRATEGY) { \
-                            DeclareAlphaVarFor ## STRATEGY(dstA) \
-                            DeclareCompVarsFor ## STRATEGY(dst) \
-                            DeclareAndInvertAlphaVarFor ## STRATEGY(dstF, \
-                                                                    resA) \
-                            LoadAlphaFrom ## DST ## For ## STRATEGY(pDst, \
+                        Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, \
+                                                            rfs); \
+                        if (rfsA < MbxVblFor ## STRATEGY) { \
+                            DfdlbrfAlpibVbrFor ## STRATEGY(dstA) \
+                            DfdlbrfCompVbrsFor ## STRATEGY(dst) \
+                            DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(dstF, \
+                                                                    rfsA) \
+                            LobdAlpibFrom ## DST ## For ## STRATEGY(pDst, \
                                                                     DstPix, \
                                                                     dst); \
-                            dstA = MultiplyAlphaFor ## STRATEGY(dstF, dstA); \
-                            if (!(DST ## IsPremultiplied)) { \
+                            dstA = MultiplyAlpibFor ## STRATEGY(dstF, dstA); \
+                            if (!(DST ## IsPrfmultiplifd)) { \
                                 dstF = dstA; \
                             } \
-                            Postload ## STRATEGY ## From ## DST(pDst, DstPix,\
+                            Postlobd ## STRATEGY ## From ## DST(pDst, DstPix,\
                                                                 dst); \
-                            resA += dstA; \
-                            MultMultAddAndStore ## STRATEGY ## Comps(res, \
+                            rfsA += dstA; \
+                            MultMultAddAndStorf ## STRATEGY ## Comps(rfs, \
                                                                   dstF, dst, \
-                                                                  srcF, res);\
-                        } else if (srcF < MaxValFor ## STRATEGY) { \
-                            MultiplyAndStore ## STRATEGY ## Comps(res, \
-                                                                  srcF, res);\
+                                                                  srdF, rfs);\
+                        } flsf if (srdF < MbxVblFor ## STRATEGY) { \
+                            MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                  srdF, rfs);\
                         } \
-                        if (!(DST ## IsOpaque) && \
-                            !(DST ## IsPremultiplied) && resA && \
-                            resA < MaxValFor ## STRATEGY) \
+                        if (!(DST ## IsOpbquf) && \
+                            !(DST ## IsPrfmultiplifd) && rfsA && \
+                            rfsA < MbxVblFor ## STRATEGY) \
                         { \
-                            DivideAndStore ## STRATEGY ## Comps(res, \
-                                                                res, resA); \
+                            DividfAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                rfs, rfsA); \
                         } \
-                        Store ## DST ## From ## STRATEGY ## Comps(pDst, \
-                                                                  DstWrite, \
-                                                                  0, res); \
+                        Storf ## DST ## From ## STRATEGY ## Comps(pDst, \
+                                                                  DstWritf, \
+                                                                  0, rfs); \
                     } \
                 } \
-                pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                Next ## DST ## StoreVarsX(DstWrite); \
-            } while (--w > 0); \
-            pSrc = PtrAddBytes(pSrc, srcScan); \
-            pDst = PtrAddBytes(pDst, dstScan); \
-            Next ## DST ## StoreVarsY(DstWrite); \
-            pMask = PtrAddBytes(pMask, maskScan); \
-        } while (--height > 0); \
-    } else /* pMask == 0 */ { \
+                pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                Nfxt ## DST ## StorfVbrsX(DstWritf); \
+            } wiilf (--w > 0); \
+            pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+            pDst = PtrAddBytfs(pDst, dstSdbn); \
+            Nfxt ## DST ## StorfVbrsY(DstWritf); \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } wiilf (--ifigit > 0); \
+    } flsf /* pMbsk == 0 */ { \
         do { \
-            jint w = width; \
-            Init ## DST ## StoreVarsX(DstWrite, pDstInfo); \
+            jint w = widti; \
+            Init ## DST ## StorfVbrsX(DstWritf, pDstInfo); \
             do { \
-                DeclareAlphaVarFor ## STRATEGY(resA) \
-                DeclareCompVarsFor ## STRATEGY(res) \
-                DeclareAlphaVarFor ## STRATEGY(srcF) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(srdF) \
  \
-                LoadAlphaFrom ## SRC ## For ## STRATEGY(pSrc, SrcPix, res); \
-                resA = MultiplyAlphaFor ## STRATEGY(extraA, resA); \
-                if (resA) { \
-                    if (SRC ## IsPremultiplied) { \
-                        srcF = extraA; \
-                    } else { \
-                        srcF = resA; \
+                LobdAlpibFrom ## SRC ## For ## STRATEGY(pSrd, SrdPix, rfs); \
+                rfsA = MultiplyAlpibFor ## STRATEGY(fxtrbA, rfsA); \
+                if (rfsA) { \
+                    if (SRC ## IsPrfmultiplifd) { \
+                        srdF = fxtrbA; \
+                    } flsf { \
+                        srdF = rfsA; \
                     } \
-                    Postload ## STRATEGY ## From ## SRC(pSrc, SrcPix, res); \
-                    if (resA < MaxValFor ## STRATEGY) { \
-                        DeclareAlphaVarFor ## STRATEGY(dstA) \
-                        DeclareCompVarsFor ## STRATEGY(dst) \
-                        DeclareAndInvertAlphaVarFor ## STRATEGY(dstF, resA) \
-                        LoadAlphaFrom ## DST ## For ## STRATEGY(pDst, \
+                    Postlobd ## STRATEGY ## From ## SRC(pSrd, SrdPix, rfs); \
+                    if (rfsA < MbxVblFor ## STRATEGY) { \
+                        DfdlbrfAlpibVbrFor ## STRATEGY(dstA) \
+                        DfdlbrfCompVbrsFor ## STRATEGY(dst) \
+                        DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(dstF, rfsA) \
+                        LobdAlpibFrom ## DST ## For ## STRATEGY(pDst, \
                                                                 DstPix, \
                                                                 dst); \
-                        dstA = MultiplyAlphaFor ## STRATEGY(dstF, dstA); \
-                        if (!(DST ## IsPremultiplied)) { \
+                        dstA = MultiplyAlpibFor ## STRATEGY(dstF, dstA); \
+                        if (!(DST ## IsPrfmultiplifd)) { \
                             dstF = dstA; \
                         } \
-                        Postload ## STRATEGY ## From ## DST(pDst, DstPix, \
+                        Postlobd ## STRATEGY ## From ## DST(pDst, DstPix, \
                                                             dst); \
-                        resA += dstA; \
-                        MultMultAddAndStore ## STRATEGY ## Comps(res, \
+                        rfsA += dstA; \
+                        MultMultAddAndStorf ## STRATEGY ## Comps(rfs, \
                                                                  dstF, dst, \
-                                                                 srcF, res); \
-                    } else if (srcF < MaxValFor ## STRATEGY) { \
-                        MultiplyAndStore ## STRATEGY ## Comps(res, \
-                                                              srcF, res); \
+                                                                 srdF, rfs); \
+                    } flsf if (srdF < MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              srdF, rfs); \
                     } \
-                    if (!(DST ## IsOpaque) && \
-                        !(DST ## IsPremultiplied) && resA && \
-                        resA < MaxValFor ## STRATEGY) \
+                    if (!(DST ## IsOpbquf) && \
+                        !(DST ## IsPrfmultiplifd) && rfsA && \
+                        rfsA < MbxVblFor ## STRATEGY) \
                     { \
-                        DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                        DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
                     } \
-                    Store ## DST ## From ## STRATEGY ## Comps(pDst, DstWrite,\
-                                                              0, res); \
+                    Storf ## DST ## From ## STRATEGY ## Comps(pDst, DstWritf,\
+                                                              0, rfs); \
                 } \
-                pSrc = PtrAddBytes(pSrc, SRC ## PixelStride); \
-                pDst = PtrAddBytes(pDst, DST ## PixelStride); \
-                Next ## DST ## StoreVarsX(DstWrite); \
-            } while (--w > 0); \
-            pSrc = PtrAddBytes(pSrc, srcScan); \
-            pDst = PtrAddBytes(pDst, dstScan); \
-            Next ## DST ## StoreVarsY(DstWrite); \
-        } while (--height > 0); \
+                pSrd = PtrAddBytfs(pSrd, SRC ## PixflStridf); \
+                pDst = PtrAddBytfs(pDst, DST ## PixflStridf); \
+                Nfxt ## DST ## StorfVbrsX(DstWritf); \
+            } wiilf (--w > 0); \
+            pSrd = PtrAddBytfs(pSrd, srdSdbn); \
+            pDst = PtrAddBytfs(pDst, dstSdbn); \
+            Nfxt ## DST ## StorfVbrsY(DstWritf); \
+        } wiilf (--ifigit > 0); \
     } \
 }
 
-#define DEFINE_ALPHA_MASKFILL(TYPE, STRATEGY) \
+#dffinf DEFINE_ALPHA_MASKFILL(TYPE, STRATEGY) \
 void NAME_ALPHA_MASKFILL(TYPE) \
-    (void *rasBase, \
-     jubyte *pMask, jint maskOff, jint maskScan, \
-     jint width, jint height, \
+    (void *rbsBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint widti, jint ifigit, \
      jint fgColor, \
-     SurfaceDataRasInfo *pRasInfo, \
-     NativePrimitive *pPrim, \
-     CompositeInfo *pCompInfo) \
+     SurfbdfDbtbRbsInfo *pRbsInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
 { \
-    DeclareAndSetOpaqueAlphaVarFor ## STRATEGY(pathA) \
-    DeclareAlphaVarFor ## STRATEGY(srcA) \
-    DeclareCompVarsFor ## STRATEGY(src) \
-    DeclareAndClearAlphaVarFor ## STRATEGY(dstA) \
-    DeclareAlphaVarFor ## STRATEGY(dstF) \
-    DeclareAlphaVarFor ## STRATEGY(dstFbase) \
-    jint rasScan = pRasInfo->scanStride; \
-    jboolean loaddst; \
-    TYPE ## DataType *pRas = (TYPE ## DataType *) (rasBase); \
-    Declare ## TYPE ## AlphaLoadData(DstPix) \
-    Declare ## TYPE ## StoreVars(DstWrite) \
-    DeclareAlphaOperands(SrcOp) \
-    DeclareAlphaOperands(DstOp) \
+    DfdlbrfAndSftOpbqufAlpibVbrFor ## STRATEGY(pbtiA) \
+    DfdlbrfAlpibVbrFor ## STRATEGY(srdA) \
+    DfdlbrfCompVbrsFor ## STRATEGY(srd) \
+    DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(dstA) \
+    DfdlbrfAlpibVbrFor ## STRATEGY(dstF) \
+    DfdlbrfAlpibVbrFor ## STRATEGY(dstFbbsf) \
+    jint rbsSdbn = pRbsInfo->sdbnStridf; \
+    jboolfbn lobddst; \
+    TYPE ## DbtbTypf *pRbs = (TYPE ## DbtbTypf *) (rbsBbsf); \
+    Dfdlbrf ## TYPE ## AlpibLobdDbtb(DstPix) \
+    Dfdlbrf ## TYPE ## StorfVbrs(DstWritf) \
+    DfdlbrfAlpibOpfrbnds(SrdOp) \
+    DfdlbrfAlpibOpfrbnds(DstOp) \
  \
-    Extract ## STRATEGY ## CompsAndAlphaFromArgb(fgColor, src); \
-    if (srcA != MaxValFor ## STRATEGY) { \
-        MultiplyAndStore ## STRATEGY ## Comps(src, srcA, src); \
+    Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(fgColor, srd); \
+    if (srdA != MbxVblFor ## STRATEGY) { \
+        MultiplyAndStorf ## STRATEGY ## Comps(srd, srdA, srd); \
     } \
  \
-    ExtractAlphaOperandsFor ## STRATEGY(AlphaRules[pCompInfo->rule].srcOps, \
-                                        SrcOp); \
-    ExtractAlphaOperandsFor ## STRATEGY(AlphaRules[pCompInfo->rule].dstOps, \
+    ExtrbdtAlpibOpfrbndsFor ## STRATEGY(AlpibRulfs[pCompInfo->rulf].srdOps, \
+                                        SrdOp); \
+    ExtrbdtAlpibOpfrbndsFor ## STRATEGY(AlpibRulfs[pCompInfo->rulf].dstOps, \
                                         DstOp); \
-    loaddst = pMask || !FuncIsZero(DstOp) || FuncNeedsAlpha(SrcOp); \
+    lobddst = pMbsk || !FundIsZfro(DstOp) || FundNffdsAlpib(SrdOp); \
  \
-    dstFbase = dstF = ApplyAlphaOperands(DstOp, srcA); \
+    dstFbbsf = dstF = ApplyAlpibOpfrbnds(DstOp, srdA); \
  \
-    Init ## TYPE ## AlphaLoadData(DstPix, pRasInfo); \
-    rasScan -= width * TYPE ## PixelStride; \
-    maskScan -= width; \
-    if (pMask) { \
-        pMask += maskOff; \
+    Init ## TYPE ## AlpibLobdDbtb(DstPix, pRbsInfo); \
+    rbsSdbn -= widti * TYPE ## PixflStridf; \
+    mbskSdbn -= widti; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
     } \
  \
-    Init ## TYPE ## StoreVarsY(DstWrite, pRasInfo); \
+    Init ## TYPE ## StorfVbrsY(DstWritf, pRbsInfo); \
     do { \
-        jint w = width; \
-        Init ## TYPE ## StoreVarsX(DstWrite, pRasInfo); \
+        jint w = widti; \
+        Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
         do { \
-            DeclareAlphaVarFor ## STRATEGY(resA) \
-            DeclareCompVarsFor ## STRATEGY(res) \
-            DeclareAlphaVarFor ## STRATEGY(srcF) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+            DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+            DfdlbrfAlpibVbrFor ## STRATEGY(srdF) \
  \
-            if (pMask) { \
-                pathA = *pMask++; \
-                if (!pathA) { \
-                    pRas = PtrAddBytes(pRas, TYPE ## PixelStride); \
-                    Next ## TYPE ## StoreVarsX(DstWrite); \
-                    continue; \
+            if (pMbsk) { \
+                pbtiA = *pMbsk++; \
+                if (!pbtiA) { \
+                    pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                    Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
                 } \
-                PromoteByteAlphaFor ## STRATEGY(pathA); \
-                dstF = dstFbase; \
+                PromotfBytfAlpibFor ## STRATEGY(pbtiA); \
+                dstF = dstFbbsf; \
             } \
-            if (loaddst) { \
-                LoadAlphaFrom ## TYPE ## For ## STRATEGY(pRas, DstPix, dst);\
+            if (lobddst) { \
+                LobdAlpibFrom ## TYPE ## For ## STRATEGY(pRbs, DstPix, dst);\
             } \
-            srcF = ApplyAlphaOperands(SrcOp, dstA); \
-            if (pathA != MaxValFor ## STRATEGY) { \
-                srcF = MultiplyAlphaFor ## STRATEGY(pathA, srcF); \
-                dstF = MaxValFor ## STRATEGY - pathA + \
-                           MultiplyAlphaFor ## STRATEGY(pathA, dstF); \
+            srdF = ApplyAlpibOpfrbnds(SrdOp, dstA); \
+            if (pbtiA != MbxVblFor ## STRATEGY) { \
+                srdF = MultiplyAlpibFor ## STRATEGY(pbtiA, srdF); \
+                dstF = MbxVblFor ## STRATEGY - pbtiA + \
+                           MultiplyAlpibFor ## STRATEGY(pbtiA, dstF); \
             } \
-            if (srcF) { \
-                if (srcF == MaxValFor ## STRATEGY) { \
-                    resA = srcA; \
-                    Store ## STRATEGY ## CompsUsingOp(res, =, src); \
-                } else { \
-                    resA = MultiplyAlphaFor ## STRATEGY(srcF, srcA); \
-                    MultiplyAndStore ## STRATEGY ## Comps(res, srcF, src); \
+            if (srdF) { \
+                if (srdF == MbxVblFor ## STRATEGY) { \
+                    rfsA = srdA; \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, =, srd); \
+                } flsf { \
+                    rfsA = MultiplyAlpibFor ## STRATEGY(srdF, srdA); \
+                    MultiplyAndStorf ## STRATEGY ## Comps(rfs, srdF, srd); \
                 } \
-            } else { \
-                if (dstF == MaxValFor ## STRATEGY) { \
-                    pRas = PtrAddBytes(pRas, TYPE ## PixelStride); \
-                    Next ## TYPE ## StoreVarsX(DstWrite); \
-                    continue; \
+            } flsf { \
+                if (dstF == MbxVblFor ## STRATEGY) { \
+                    pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                    Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+                    dontinuf; \
                 } \
-                resA = 0; \
-                Set ## STRATEGY ## CompsToZero(res); \
+                rfsA = 0; \
+                Sft ## STRATEGY ## CompsToZfro(rfs); \
             } \
             if (dstF) { \
-                dstA = MultiplyAlphaFor ## STRATEGY(dstF, dstA); \
-                resA += dstA; \
-                if (TYPE ## IsPremultiplied) { \
+                dstA = MultiplyAlpibFor ## STRATEGY(dstF, dstA); \
+                rfsA += dstA; \
+                if (TYPE ## IsPrfmultiplifd) { \
                     dstA = dstF; \
                 } \
                 if (dstA) { \
-                    DeclareCompVarsFor ## STRATEGY(tmp) \
-                    /* assert(loaddst); */ \
-                    Postload ## STRATEGY ## From ## TYPE(pRas, DstPix, tmp); \
-                    if (dstA != MaxValFor ## STRATEGY) { \
-                        MultiplyAndStore ## STRATEGY ## Comps(tmp, \
+                    DfdlbrfCompVbrsFor ## STRATEGY(tmp) \
+                    /* bssfrt(lobddst); */ \
+                    Postlobd ## STRATEGY ## From ## TYPE(pRbs, DstPix, tmp); \
+                    if (dstA != MbxVblFor ## STRATEGY) { \
+                        MultiplyAndStorf ## STRATEGY ## Comps(tmp, \
                                                               dstA, tmp); \
                     } \
-                    Store ## STRATEGY ## CompsUsingOp(res, +=, tmp); \
+                    Storf ## STRATEGY ## CompsUsingOp(rfs, +=, tmp); \
                 } \
             } \
-            if (!(TYPE ## IsPremultiplied) && resA && \
-                resA < MaxValFor ## STRATEGY) \
+            if (!(TYPE ## IsPrfmultiplifd) && rfsA && \
+                rfsA < MbxVblFor ## STRATEGY) \
             { \
-                DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
             } \
-            Store ## TYPE ## From ## STRATEGY ## Comps(pRas, DstWrite, \
-                                                       0, res); \
-            pRas = PtrAddBytes(pRas, TYPE ## PixelStride); \
-            Next ## TYPE ## StoreVarsX(DstWrite); \
-        } while (--w > 0); \
-        pRas = PtrAddBytes(pRas, rasScan); \
-        Next ## TYPE ## StoreVarsY(DstWrite); \
-        if (pMask) { \
-            pMask = PtrAddBytes(pMask, maskScan); \
+            Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, DstWritf, \
+                                                       0, rfs); \
+            pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+            Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+        } wiilf (--w > 0); \
+        pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+        Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+        if (pMbsk) { \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
         } \
-    } while (--height > 0); \
+    } wiilf (--ifigit > 0); \
 }
 
-#define DEFINE_SRC_MASKFILL(TYPE, STRATEGY) \
+#dffinf DEFINE_SRC_MASKFILL(TYPE, STRATEGY) \
 void NAME_SRC_MASKFILL(TYPE) \
-    (void *rasBase, \
-     jubyte *pMask, jint maskOff, jint maskScan, \
-     jint width, jint height, \
+    (void *rbsBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint widti, jint ifigit, \
      jint fgColor, \
-     SurfaceDataRasInfo *pRasInfo, \
-     NativePrimitive *pPrim, \
-     CompositeInfo *pCompInfo) \
+     SurfbdfDbtbRbsInfo *pRbsInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
 { \
-    DeclareAlphaVarFor ## STRATEGY(srcA) \
-    DeclareCompVarsFor ## STRATEGY(src) \
-    jint rasScan = pRasInfo->scanStride; \
-    TYPE ## DataType *pRas = (TYPE ## DataType *) (rasBase); \
-    Declare ## TYPE ## AlphaLoadData(DstPix) \
-    Declare ## TYPE ## StoreVars(DstWrite) \
-    Declare ## TYPE ## BlendFillVars(DstFill) \
+    DfdlbrfAlpibVbrFor ## STRATEGY(srdA) \
+    DfdlbrfCompVbrsFor ## STRATEGY(srd) \
+    jint rbsSdbn = pRbsInfo->sdbnStridf; \
+    TYPE ## DbtbTypf *pRbs = (TYPE ## DbtbTypf *) (rbsBbsf); \
+    Dfdlbrf ## TYPE ## AlpibLobdDbtb(DstPix) \
+    Dfdlbrf ## TYPE ## StorfVbrs(DstWritf) \
+    Dfdlbrf ## TYPE ## BlfndFillVbrs(DstFill) \
  \
-    Extract ## STRATEGY ## CompsAndAlphaFromArgb(fgColor, src); \
-    if (srcA == 0) { \
-        Set ## STRATEGY ## CompsToZero(src); \
-        Clear ## TYPE ## BlendFillVars(DstFill, fgColor); \
-    } else { \
-        if (!(TYPE ## IsPremultiplied)) { \
-            Init ## TYPE ## BlendFillVarsNonPre(DstFill, fgColor, src); \
+    Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(fgColor, srd); \
+    if (srdA == 0) { \
+        Sft ## STRATEGY ## CompsToZfro(srd); \
+        Clfbr ## TYPE ## BlfndFillVbrs(DstFill, fgColor); \
+    } flsf { \
+        if (!(TYPE ## IsPrfmultiplifd)) { \
+            Init ## TYPE ## BlfndFillVbrsNonPrf(DstFill, fgColor, srd); \
         } \
-        if (srcA != MaxValFor ## STRATEGY) { \
-            MultiplyAndStore ## STRATEGY ## Comps(src, srcA, src); \
+        if (srdA != MbxVblFor ## STRATEGY) { \
+            MultiplyAndStorf ## STRATEGY ## Comps(srd, srdA, srd); \
         } \
-        if (TYPE ## IsPremultiplied) { \
-            Init ## TYPE ## BlendFillVarsPre(DstFill, fgColor, src); \
+        if (TYPE ## IsPrfmultiplifd) { \
+            Init ## TYPE ## BlfndFillVbrsPrf(DstFill, fgColor, srd); \
         } \
     } \
  \
-    Init ## TYPE ## AlphaLoadData(DstPix, pRasInfo); \
-    Init ## TYPE ## StoreVarsY(DstWrite, pRasInfo); \
+    Init ## TYPE ## AlpibLobdDbtb(DstPix, pRbsInfo); \
+    Init ## TYPE ## StorfVbrsY(DstWritf, pRbsInfo); \
  \
-    rasScan -= width * TYPE ## PixelStride; \
-    if (pMask) { \
-        pMask += maskOff; \
-        maskScan -= width; \
+    rbsSdbn -= widti * TYPE ## PixflStridf; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
+        mbskSdbn -= widti; \
         do { \
-            jint w = width; \
-            Init ## TYPE ## StoreVarsX(DstWrite, pRasInfo); \
+            jint w = widti; \
+            Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
             do { \
-                DeclareAlphaVarFor ## STRATEGY(resA) \
-                DeclareCompVarsFor ## STRATEGY(res) \
-                DeclareAlphaVarFor ## STRATEGY(dstF) \
-                DeclareAndInitPathAlphaFor ## STRATEGY(pathA) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(dstF) \
+                DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(pbtiA) \
  \
-                if (pathA > 0) { \
-                    if (pathA == 0xff) { \
-                        /* pathA ignored here, not promoted */ \
-                        Store ## TYPE ## BlendFill(pRas, DstFill, 0, \
-                                                   fgColor, src); \
-                    } else { \
-                        PromoteByteAlphaFor ## STRATEGY(pathA); \
-                        dstF = MaxValFor ## STRATEGY - pathA; \
-                        LoadAlphaFrom ## TYPE ## For ## STRATEGY(pRas, \
+                if (pbtiA > 0) { \
+                    if (pbtiA == 0xff) { \
+                        /* pbtiA ignorfd ifrf, not promotfd */ \
+                        Storf ## TYPE ## BlfndFill(pRbs, DstFill, 0, \
+                                                   fgColor, srd); \
+                    } flsf { \
+                        PromotfBytfAlpibFor ## STRATEGY(pbtiA); \
+                        dstF = MbxVblFor ## STRATEGY - pbtiA; \
+                        LobdAlpibFrom ## TYPE ## For ## STRATEGY(pRbs, \
                                                                  DstPix, \
-                                                                 res); \
-                        resA = MultiplyAlphaFor ## STRATEGY(dstF, resA); \
-                        if (!(TYPE ## IsPremultiplied)) { \
-                            dstF = resA; \
+                                                                 rfs); \
+                        rfsA = MultiplyAlpibFor ## STRATEGY(dstF, rfsA); \
+                        if (!(TYPE ## IsPrfmultiplifd)) { \
+                            dstF = rfsA; \
                         } \
-                        resA += MultiplyAlphaFor ## STRATEGY(pathA, srcA); \
-                        Postload ## STRATEGY ## From ## TYPE(pRas, DstPix, \
-                                                             res); \
-                        MultMultAddAndStore ## STRATEGY ## Comps(res, \
-                                                                 dstF, res, \
-                                                                 pathA, src);\
-                        if (!(TYPE ## IsPremultiplied) && resA && \
-                            resA < MaxValFor ## STRATEGY) \
+                        rfsA += MultiplyAlpibFor ## STRATEGY(pbtiA, srdA); \
+                        Postlobd ## STRATEGY ## From ## TYPE(pRbs, DstPix, \
+                                                             rfs); \
+                        MultMultAddAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                 dstF, rfs, \
+                                                                 pbtiA, srd);\
+                        if (!(TYPE ## IsPrfmultiplifd) && rfsA && \
+                            rfsA < MbxVblFor ## STRATEGY) \
                         { \
-                            DivideAndStore ## STRATEGY ## Comps(res, \
-                                                                res, resA); \
+                            DividfAndStorf ## STRATEGY ## Comps(rfs, \
+                                                                rfs, rfsA); \
                         } \
-                        Store ## TYPE ## From ## STRATEGY ## Comps(pRas, \
-                                                                   DstWrite, \
-                                                                   0, res); \
+                        Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, \
+                                                                   DstWritf, \
+                                                                   0, rfs); \
                     } \
                 } \
-                pRas = PtrAddBytes(pRas, TYPE ## PixelStride); \
-                Next ## TYPE ## StoreVarsX(DstWrite); \
-            } while (--w > 0); \
-            pRas = PtrAddBytes(pRas, rasScan); \
-            Next ## TYPE ## StoreVarsY(DstWrite); \
-            pMask = PtrAddBytes(pMask, maskScan); \
-        } while (--height > 0); \
-    } else /* pMask == 0 */ { \
+                pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+            } wiilf (--w > 0); \
+            pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+            Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } wiilf (--ifigit > 0); \
+    } flsf /* pMbsk == 0 */ { \
         do { \
-            jint w = width; \
-            Init ## TYPE ## StoreVarsX(DstWrite, pRasInfo); \
+            jint w = widti; \
+            Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
             do { \
-                Store ## TYPE ## BlendFill(pRas, DstFill, 0, fgColor, src); \
-                pRas = PtrAddBytes(pRas, TYPE ## PixelStride); \
-                Next ## TYPE ## StoreVarsX(DstWrite); \
-            } while (--w > 0); \
-            pRas = PtrAddBytes(pRas, rasScan); \
-            Next ## TYPE ## StoreVarsY(DstWrite); \
-        } while (--height > 0); \
+                Storf ## TYPE ## BlfndFill(pRbs, DstFill, 0, fgColor, srd); \
+                pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+            } wiilf (--w > 0); \
+            pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+            Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+        } wiilf (--ifigit > 0); \
     } \
 }
 
-#define DEFINE_SRCOVER_MASKFILL(TYPE, STRATEGY) \
+#dffinf DEFINE_SRCOVER_MASKFILL(TYPE, STRATEGY) \
 void NAME_SRCOVER_MASKFILL(TYPE) \
-    (void *rasBase, \
-     jubyte *pMask, jint maskOff, jint maskScan, \
-     jint width, jint height, \
+    (void *rbsBbsf, \
+     jubytf *pMbsk, jint mbskOff, jint mbskSdbn, \
+     jint widti, jint ifigit, \
      jint fgColor, \
-     SurfaceDataRasInfo *pRasInfo, \
-     NativePrimitive *pPrim, \
-     CompositeInfo *pCompInfo) \
+     SurfbdfDbtbRbsInfo *pRbsInfo, \
+     NbtivfPrimitivf *pPrim, \
+     CompositfInfo *pCompInfo) \
 { \
-    DeclareAlphaVarFor ## STRATEGY(srcA) \
-    DeclareCompVarsFor ## STRATEGY(src) \
-    jint rasScan = pRasInfo->scanStride; \
-    TYPE ## DataType *pRas = (TYPE ## DataType *) (rasBase); \
-    Declare ## TYPE ## AlphaLoadData(DstPix) \
-    Declare ## TYPE ## StoreVars(DstWrite) \
+    DfdlbrfAlpibVbrFor ## STRATEGY(srdA) \
+    DfdlbrfCompVbrsFor ## STRATEGY(srd) \
+    jint rbsSdbn = pRbsInfo->sdbnStridf; \
+    TYPE ## DbtbTypf *pRbs = (TYPE ## DbtbTypf *) (rbsBbsf); \
+    Dfdlbrf ## TYPE ## AlpibLobdDbtb(DstPix) \
+    Dfdlbrf ## TYPE ## StorfVbrs(DstWritf) \
  \
-    Extract ## STRATEGY ## CompsAndAlphaFromArgb(fgColor, src); \
-    if (srcA != MaxValFor ## STRATEGY) { \
-        if (srcA == 0) { \
-            return; \
+    Extrbdt ## STRATEGY ## CompsAndAlpibFromArgb(fgColor, srd); \
+    if (srdA != MbxVblFor ## STRATEGY) { \
+        if (srdA == 0) { \
+            rfturn; \
         } \
-        MultiplyAndStore ## STRATEGY ## Comps(src, srcA, src); \
+        MultiplyAndStorf ## STRATEGY ## Comps(srd, srdA, srd); \
     } \
  \
-    Init ## TYPE ## AlphaLoadData(DstPix, pRasInfo); \
-    Init ## TYPE ## StoreVarsY(DstWrite, pRasInfo); \
+    Init ## TYPE ## AlpibLobdDbtb(DstPix, pRbsInfo); \
+    Init ## TYPE ## StorfVbrsY(DstWritf, pRbsInfo); \
  \
-    rasScan -= width * TYPE ## PixelStride; \
-    if (pMask) { \
-        pMask += maskOff; \
-        maskScan -= width; \
+    rbsSdbn -= widti * TYPE ## PixflStridf; \
+    if (pMbsk) { \
+        pMbsk += mbskOff; \
+        mbskSdbn -= widti; \
         do { \
-            jint w = width; \
-            Init ## TYPE ## StoreVarsX(DstWrite, pRasInfo); \
+            jint w = widti; \
+            Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
             do { \
-                DeclareAlphaVarFor ## STRATEGY(resA) \
-                DeclareCompVarsFor ## STRATEGY(res) \
-                DeclareAndInitPathAlphaFor ## STRATEGY(pathA) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAndInitPbtiAlpibFor ## STRATEGY(pbtiA) \
  \
-                if (pathA > 0) { \
-                    if (pathA != 0xff) { \
-                        PromoteByteAlphaFor ## STRATEGY(pathA); \
-                        resA = MultiplyAlphaFor ## STRATEGY(pathA, srcA); \
-                        MultiplyAndStore ## STRATEGY ## Comps(res, \
-                                                              pathA, src); \
-                    } else { \
-                        /* pathA ignored here, not promoted */ \
-                        resA = srcA; \
-                        Store ## STRATEGY ## CompsUsingOp(res, =, src); \
+                if (pbtiA > 0) { \
+                    if (pbtiA != 0xff) { \
+                        PromotfBytfAlpibFor ## STRATEGY(pbtiA); \
+                        rfsA = MultiplyAlpibFor ## STRATEGY(pbtiA, srdA); \
+                        MultiplyAndStorf ## STRATEGY ## Comps(rfs, \
+                                                              pbtiA, srd); \
+                    } flsf { \
+                        /* pbtiA ignorfd ifrf, not promotfd */ \
+                        rfsA = srdA; \
+                        Storf ## STRATEGY ## CompsUsingOp(rfs, =, srd); \
                     } \
-                    if (resA != MaxValFor ## STRATEGY) { \
-                        DeclareAndInvertAlphaVarFor ## STRATEGY(dstF, resA) \
-                        DeclareAndClearAlphaVarFor ## STRATEGY(dstA) \
-                        LoadAlphaFrom ## TYPE ## For ## STRATEGY(pRas, \
+                    if (rfsA != MbxVblFor ## STRATEGY) { \
+                        DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(dstF, rfsA) \
+                        DfdlbrfAndClfbrAlpibVbrFor ## STRATEGY(dstA) \
+                        LobdAlpibFrom ## TYPE ## For ## STRATEGY(pRbs, \
                                                                  DstPix, \
                                                                  dst); \
-                        dstA = MultiplyAlphaFor ## STRATEGY(dstF, dstA); \
-                        if (!(TYPE ## IsPremultiplied)) { \
+                        dstA = MultiplyAlpibFor ## STRATEGY(dstF, dstA); \
+                        if (!(TYPE ## IsPrfmultiplifd)) { \
                             dstF = dstA; \
                         } \
-                        resA += dstA; \
+                        rfsA += dstA; \
                         if (dstF) { \
-                            DeclareCompVarsFor ## STRATEGY(tmp) \
-                            Postload ## STRATEGY ## From ## TYPE(pRas, \
+                            DfdlbrfCompVbrsFor ## STRATEGY(tmp) \
+                            Postlobd ## STRATEGY ## From ## TYPE(pRbs, \
                                                                  DstPix, \
                                                                  tmp); \
-                            if (dstF != MaxValFor ## STRATEGY) { \
-                                MultiplyAndStore ## STRATEGY ## Comps(tmp, \
+                            if (dstF != MbxVblFor ## STRATEGY) { \
+                                MultiplyAndStorf ## STRATEGY ## Comps(tmp, \
                                                                       dstF, \
                                                                       tmp); \
                             } \
-                            Store ## STRATEGY ## CompsUsingOp(res, +=, tmp); \
+                            Storf ## STRATEGY ## CompsUsingOp(rfs, +=, tmp); \
                         } \
                     } \
-                    if (!(TYPE ## IsOpaque) && \
-                        !(TYPE ## IsPremultiplied) && resA && \
-                        resA < MaxValFor ## STRATEGY) \
+                    if (!(TYPE ## IsOpbquf) && \
+                        !(TYPE ## IsPrfmultiplifd) && rfsA && \
+                        rfsA < MbxVblFor ## STRATEGY) \
                     { \
-                        DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                        DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
                     } \
-                    Store ## TYPE ## From ## STRATEGY ## Comps(pRas, \
-                                                               DstWrite, 0, \
-                                                               res); \
+                    Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, \
+                                                               DstWritf, 0, \
+                                                               rfs); \
                 } \
-                pRas = PtrAddBytes(pRas, TYPE ## PixelStride); \
-                Next ## TYPE ## StoreVarsX(DstWrite); \
-            } while (--w > 0); \
-            pRas = PtrAddBytes(pRas, rasScan); \
-            Next ## TYPE ## StoreVarsY(DstWrite); \
-            pMask = PtrAddBytes(pMask, maskScan); \
-        } while (--height > 0); \
-    } else /* pMask == 0 */ { \
+                pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+            } wiilf (--w > 0); \
+            pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+            Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+            pMbsk = PtrAddBytfs(pMbsk, mbskSdbn); \
+        } wiilf (--ifigit > 0); \
+    } flsf /* pMbsk == 0 */ { \
         do { \
-            jint w = width; \
-            Init ## TYPE ## StoreVarsX(DstWrite, pRasInfo); \
+            jint w = widti; \
+            Init ## TYPE ## StorfVbrsX(DstWritf, pRbsInfo); \
             do { \
-                DeclareAlphaVarFor ## STRATEGY(resA) \
-                DeclareCompVarsFor ## STRATEGY(res) \
-                DeclareAndInvertAlphaVarFor ## STRATEGY(dstF, srcA) \
+                DfdlbrfAlpibVbrFor ## STRATEGY(rfsA) \
+                DfdlbrfCompVbrsFor ## STRATEGY(rfs) \
+                DfdlbrfAndInvfrtAlpibVbrFor ## STRATEGY(dstF, srdA) \
 \
-                LoadAlphaFrom ## TYPE ## For ## STRATEGY(pRas, DstPix, res);\
-                resA = MultiplyAlphaFor ## STRATEGY(dstF, resA); \
-                if (!(TYPE ## IsPremultiplied)) { \
-                    dstF = resA; \
+                LobdAlpibFrom ## TYPE ## For ## STRATEGY(pRbs, DstPix, rfs);\
+                rfsA = MultiplyAlpibFor ## STRATEGY(dstF, rfsA); \
+                if (!(TYPE ## IsPrfmultiplifd)) { \
+                    dstF = rfsA; \
                 } \
-                resA += srcA; \
-                Postload ## STRATEGY ## From ## TYPE(pRas, DstPix, res); \
-                MultiplyAddAndStore ## STRATEGY ## Comps(res, \
-                                                         dstF, res, src); \
-                if (!(TYPE ## IsOpaque) && \
-                    !(TYPE ## IsPremultiplied) && resA && \
-                    resA < MaxValFor ## STRATEGY) \
+                rfsA += srdA; \
+                Postlobd ## STRATEGY ## From ## TYPE(pRbs, DstPix, rfs); \
+                MultiplyAddAndStorf ## STRATEGY ## Comps(rfs, \
+                                                         dstF, rfs, srd); \
+                if (!(TYPE ## IsOpbquf) && \
+                    !(TYPE ## IsPrfmultiplifd) && rfsA && \
+                    rfsA < MbxVblFor ## STRATEGY) \
                 { \
-                    DivideAndStore ## STRATEGY ## Comps(res, res, resA); \
+                    DividfAndStorf ## STRATEGY ## Comps(rfs, rfs, rfsA); \
                 } \
-                Store ## TYPE ## From ## STRATEGY ## Comps(pRas, DstWrite, \
-                                                           0, res); \
-                pRas = PtrAddBytes(pRas, TYPE ## PixelStride); \
-                Next ## TYPE ## StoreVarsX(DstWrite); \
-            } while (--w > 0); \
-            pRas = PtrAddBytes(pRas, rasScan); \
-            Next ## TYPE ## StoreVarsY(DstWrite); \
-        } while (--height > 0); \
+                Storf ## TYPE ## From ## STRATEGY ## Comps(pRbs, DstWritf, \
+                                                           0, rfs); \
+                pRbs = PtrAddBytfs(pRbs, TYPE ## PixflStridf); \
+                Nfxt ## TYPE ## StorfVbrsX(DstWritf); \
+            } wiilf (--w > 0); \
+            pRbs = PtrAddBytfs(pRbs, rbsSdbn); \
+            Nfxt ## TYPE ## StorfVbrsY(DstWritf); \
+        } wiilf (--ifigit > 0); \
     } \
 }
 
 
 /*
- * The macros defined above use the following macro definitions supplied
- * for the various surface types to manipulate pixels and pixel data.
- * The surface-specific macros are typically supplied by header files
- * named after the SurfaceType name (eg. IntArgb.h, ByteGray.h, etc.).
+ * Tif mbdros dffinfd bbovf usf tif following mbdro dffinitions supplifd
+ * for tif vbrious surfbdf typfs to mbnipulbtf pixfls bnd pixfl dbtb.
+ * Tif surfbdf-spfdifid mbdros brf typidblly supplifd by ifbdfr filfs
+ * nbmfd bftfr tif SurfbdfTypf nbmf (fg. IntArgb.i, BytfGrby.i, ftd.).
  *
- * In the macro names in the following definitions, the string <stype>
- * is used as a place holder for the SurfaceType name (eg. IntArgb).  The
- * string <strategy> is a place holder for the strategy name (eg. 4ByteArgb).
- * The macros above access these type specific macros using the ANSI
- * CPP token concatenation operator "##".
+ * In tif mbdro nbmfs in tif following dffinitions, tif string <stypf>
+ * is usfd bs b plbdf ioldfr for tif SurfbdfTypf nbmf (fg. IntArgb).  Tif
+ * string <strbtfgy> is b plbdf ioldfr for tif strbtfgy nbmf (fg. 4BytfArgb).
+ * Tif mbdros bbovf bddfss tifsf typf spfdifid mbdros using tif ANSI
+ * CPP tokfn dondbtfnbtion opfrbtor "##".
  *
- * Declare<stype>AlphaLoadData       Declare the variables used when an alpha
- *                                   value is pre-fetched to see whether or
- *                                   not blending needs to occur
- * Init<stype>AlphaLoadData          Initialize the aforementioned variables
- * LoadAlphaFrom<stype>For<strategy> Load the alpha value for the given pixel
- *                                   into a variable used later (the strategy
- *                                   type determines the bit depth of the
- *                                   alpha value)
- * Postload<strategy>From<stype>     Load the pixel components from the given
- *                                   surface type into the form required by
- *                                   the given strategy.  Typically there will
- *                                   be a couple macros of this variety, one
- *                                   for 4ByteArgb, one for 1ByteGray, one
- *                                   for 1ShortGray, etc.  Its code is only
- *                                   executed when blending needs to occur.
+ * Dfdlbrf<stypf>AlpibLobdDbtb       Dfdlbrf tif vbribblfs usfd wifn bn blpib
+ *                                   vbluf is prf-fftdifd to sff wiftifr or
+ *                                   not blfnding nffds to oddur
+ * Init<stypf>AlpibLobdDbtb          Initiblizf tif bforfmfntionfd vbribblfs
+ * LobdAlpibFrom<stypf>For<strbtfgy> Lobd tif blpib vbluf for tif givfn pixfl
+ *                                   into b vbribblf usfd lbtfr (tif strbtfgy
+ *                                   typf dftfrminfs tif bit dfpti of tif
+ *                                   blpib vbluf)
+ * Postlobd<strbtfgy>From<stypf>     Lobd tif pixfl domponfnts from tif givfn
+ *                                   surfbdf typf into tif form rfquirfd by
+ *                                   tif givfn strbtfgy.  Typidblly tifrf will
+ *                                   bf b douplf mbdros of tiis vbrifty, onf
+ *                                   for 4BytfArgb, onf for 1BytfGrby, onf
+ *                                   for 1SiortGrby, ftd.  Its dodf is only
+ *                                   fxfdutfd wifn blfnding nffds to oddur.
  *
- * <stype>IsPremultiplied            Constant specifying whether the pixel
- *                                   components have been premultiplied with
- *                                   the alpha value
- * Declare<stype>BlendFillVars       Declare the variables used when alpha
- *                                   blending need not occur (mask and source
- *                                   pixel are opaque)
- * Clear<stype>BlendFillVars         Clear the variables used in a no-blend
- *                                   situation (may modify argb argument)
- * Init<stype>BlendFillVarsNonPre    Initialize the variables used for a
- *                                   no-blending situation (this macro is for
- *                                   surfaces that do not have premultiplied
- *                                   components) (may modify argb argument)
- * Init<stype>BlendFillVarsPre       Initialize the variables used for a
- *                                   no-blending situation (this macro is for
- *                                   surfaces that have premultiplied
- *                                   components) (may modify argb argument)
- * Store<stype>BlendFill             Simply store the pixel for the given
- *                                   surface (used when blending is
- *                                   unnecessary)
- * Store<stype>From<strategy>Comps   Store the pixel for the given surface
- *                                   type after converting it from a pixel of
- *                                   the given strategy
+ * <stypf>IsPrfmultiplifd            Constbnt spfdifying wiftifr tif pixfl
+ *                                   domponfnts ibvf bffn prfmultiplifd witi
+ *                                   tif blpib vbluf
+ * Dfdlbrf<stypf>BlfndFillVbrs       Dfdlbrf tif vbribblfs usfd wifn blpib
+ *                                   blfnding nffd not oddur (mbsk bnd sourdf
+ *                                   pixfl brf opbquf)
+ * Clfbr<stypf>BlfndFillVbrs         Clfbr tif vbribblfs usfd in b no-blfnd
+ *                                   situbtion (mby modify brgb brgumfnt)
+ * Init<stypf>BlfndFillVbrsNonPrf    Initiblizf tif vbribblfs usfd for b
+ *                                   no-blfnding situbtion (tiis mbdro is for
+ *                                   surfbdfs tibt do not ibvf prfmultiplifd
+ *                                   domponfnts) (mby modify brgb brgumfnt)
+ * Init<stypf>BlfndFillVbrsPrf       Initiblizf tif vbribblfs usfd for b
+ *                                   no-blfnding situbtion (tiis mbdro is for
+ *                                   surfbdfs tibt ibvf prfmultiplifd
+ *                                   domponfnts) (mby modify brgb brgumfnt)
+ * Storf<stypf>BlfndFill             Simply storf tif pixfl for tif givfn
+ *                                   surfbdf (usfd wifn blfnding is
+ *                                   unnfdfssbry)
+ * Storf<stypf>From<strbtfgy>Comps   Storf tif pixfl for tif givfn surfbdf
+ *                                   typf bftfr donvfrting it from b pixfl of
+ *                                   tif givfn strbtfgy
  */
 
-#endif /* AlphaMacros_h_Included */
+#fndif /* AlpibMbdros_i_Indludfd */

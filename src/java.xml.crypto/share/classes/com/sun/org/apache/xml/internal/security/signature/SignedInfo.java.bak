@@ -1,397 +1,397 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
 
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm;
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.transforms.params.InclusiveNamespaces;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.SignbturfAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms.IndlusivfNbmfspbdfs;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.xml.sbx.SAXExdfption;
 
 /**
- * Handles <code>&lt;ds:SignedInfo&gt;</code> elements
- * This <code>SignedInfo<code> element includes the canonicalization algorithm,
- * a signature algorithm, and one or more references.
+ * Hbndlfs <dodf>&lt;ds:SignfdInfo&gt;</dodf> flfmfnts
+ * Tiis <dodf>SignfdInfo<dodf> flfmfnt indludfs tif dbnonidblizbtion blgoritim,
+ * b signbturf blgoritim, bnd onf or morf rfffrfndfs.
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class SignedInfo extends Manifest {
+publid dlbss SignfdInfo fxtfnds Mbniffst {
 
-    /** Field signatureAlgorithm */
-    private SignatureAlgorithm signatureAlgorithm = null;
+    /** Fifld signbturfAlgoritim */
+    privbtf SignbturfAlgoritim signbturfAlgoritim = null;
 
-    /** Field c14nizedBytes           */
-    private byte[] c14nizedBytes = null;
+    /** Fifld d14nizfdBytfs           */
+    privbtf bytf[] d14nizfdBytfs = null;
 
-    private Element c14nMethod;
-    private Element signatureMethod;
+    privbtf Elfmfnt d14nMftiod;
+    privbtf Elfmfnt signbturfMftiod;
 
     /**
-     * Overwrites {@link Manifest#addDocument} because it creates another
-     * Element.
+     * Ovfrwritfs {@link Mbniffst#bddDodumfnt} bfdbusf it drfbtfs bnotifr
+     * Elfmfnt.
      *
-     * @param doc the {@link Document} in which <code>XMLsignature</code> will
-     *    be placed
-     * @throws XMLSecurityException
+     * @pbrbm dod tif {@link Dodumfnt} in wiidi <dodf>XMLsignbturf</dodf> will
+     *    bf plbdfd
+     * @tirows XMLSfdurityExdfption
      */
-    public SignedInfo(Document doc) throws XMLSecurityException {
-        this(doc, XMLSignature.ALGO_ID_SIGNATURE_DSA,
-             Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS);
+    publid SignfdInfo(Dodumfnt dod) tirows XMLSfdurityExdfption {
+        tiis(dod, XMLSignbturf.ALGO_ID_SIGNATURE_DSA,
+             Cbnonidblizfr.ALGO_ID_C14N_OMIT_COMMENTS);
     }
 
     /**
-     * Constructs {@link SignedInfo} using given Canonicalization algorithm and
-     * Signature algorithm.
+     * Construdts {@link SignfdInfo} using givfn Cbnonidblizbtion blgoritim bnd
+     * Signbturf blgoritim.
      *
-     * @param doc <code>SignedInfo</code> is placed in this document
-     * @param signatureMethodURI URI representation of the Digest and
-     *    Signature algorithm
-     * @param canonicalizationMethodURI URI representation of the
-     *    Canonicalization method
-     * @throws XMLSecurityException
+     * @pbrbm dod <dodf>SignfdInfo</dodf> is plbdfd in tiis dodumfnt
+     * @pbrbm signbturfMftiodURI URI rfprfsfntbtion of tif Digfst bnd
+     *    Signbturf blgoritim
+     * @pbrbm dbnonidblizbtionMftiodURI URI rfprfsfntbtion of tif
+     *    Cbnonidblizbtion mftiod
+     * @tirows XMLSfdurityExdfption
      */
-    public SignedInfo(
-        Document doc, String signatureMethodURI, String canonicalizationMethodURI
-    ) throws XMLSecurityException {
-        this(doc, signatureMethodURI, 0, canonicalizationMethodURI);
+    publid SignfdInfo(
+        Dodumfnt dod, String signbturfMftiodURI, String dbnonidblizbtionMftiodURI
+    ) tirows XMLSfdurityExdfption {
+        tiis(dod, signbturfMftiodURI, 0, dbnonidblizbtionMftiodURI);
     }
 
     /**
-     * Constructor SignedInfo
+     * Construdtor SignfdInfo
      *
-     * @param doc <code>SignedInfo</code> is placed in this document
-     * @param signatureMethodURI URI representation of the Digest and
-     *    Signature algorithm
-     * @param hMACOutputLength
-     * @param canonicalizationMethodURI URI representation of the
-     *    Canonicalization method
-     * @throws XMLSecurityException
+     * @pbrbm dod <dodf>SignfdInfo</dodf> is plbdfd in tiis dodumfnt
+     * @pbrbm signbturfMftiodURI URI rfprfsfntbtion of tif Digfst bnd
+     *    Signbturf blgoritim
+     * @pbrbm iMACOutputLfngti
+     * @pbrbm dbnonidblizbtionMftiodURI URI rfprfsfntbtion of tif
+     *    Cbnonidblizbtion mftiod
+     * @tirows XMLSfdurityExdfption
      */
-    public SignedInfo(
-        Document doc, String signatureMethodURI,
-        int hMACOutputLength, String canonicalizationMethodURI
-    ) throws XMLSecurityException {
-        super(doc);
+    publid SignfdInfo(
+        Dodumfnt dod, String signbturfMftiodURI,
+        int iMACOutputLfngti, String dbnonidblizbtionMftiodURI
+    ) tirows XMLSfdurityExdfption {
+        supfr(dod);
 
-        c14nMethod =
-            XMLUtils.createElementInSignatureSpace(this.doc, Constants._TAG_CANONICALIZATIONMETHOD);
+        d14nMftiod =
+            XMLUtils.drfbtfElfmfntInSignbturfSpbdf(tiis.dod, Constbnts._TAG_CANONICALIZATIONMETHOD);
 
-        c14nMethod.setAttributeNS(null, Constants._ATT_ALGORITHM, canonicalizationMethodURI);
-        this.constructionElement.appendChild(c14nMethod);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        d14nMftiod.sftAttributfNS(null, Constbnts._ATT_ALGORITHM, dbnonidblizbtionMftiodURI);
+        tiis.donstrudtionElfmfnt.bppfndCiild(d14nMftiod);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        if (hMACOutputLength > 0) {
-            this.signatureAlgorithm =
-                new SignatureAlgorithm(this.doc, signatureMethodURI, hMACOutputLength);
-        } else {
-            this.signatureAlgorithm = new SignatureAlgorithm(this.doc, signatureMethodURI);
+        if (iMACOutputLfngti > 0) {
+            tiis.signbturfAlgoritim =
+                nfw SignbturfAlgoritim(tiis.dod, signbturfMftiodURI, iMACOutputLfngti);
+        } flsf {
+            tiis.signbturfAlgoritim = nfw SignbturfAlgoritim(tiis.dod, signbturfMftiodURI);
         }
 
-        signatureMethod = this.signatureAlgorithm.getElement();
-        this.constructionElement.appendChild(signatureMethod);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        signbturfMftiod = tiis.signbturfAlgoritim.gftElfmfnt();
+        tiis.donstrudtionElfmfnt.bppfndCiild(signbturfMftiod);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * @param doc
-     * @param signatureMethodElem
-     * @param canonicalizationMethodElem
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm signbturfMftiodElfm
+     * @pbrbm dbnonidblizbtionMftiodElfm
+     * @tirows XMLSfdurityExdfption
      */
-    public SignedInfo(
-        Document doc, Element signatureMethodElem, Element canonicalizationMethodElem
-    ) throws XMLSecurityException {
-        super(doc);
-        // Check this?
-        this.c14nMethod = canonicalizationMethodElem;
-        this.constructionElement.appendChild(c14nMethod);
-        XMLUtils.addReturnToElement(this.constructionElement);
+    publid SignfdInfo(
+        Dodumfnt dod, Elfmfnt signbturfMftiodElfm, Elfmfnt dbnonidblizbtionMftiodElfm
+    ) tirows XMLSfdurityExdfption {
+        supfr(dod);
+        // Cifdk tiis?
+        tiis.d14nMftiod = dbnonidblizbtionMftiodElfm;
+        tiis.donstrudtionElfmfnt.bppfndCiild(d14nMftiod);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        this.signatureAlgorithm =
-            new SignatureAlgorithm(signatureMethodElem, null);
+        tiis.signbturfAlgoritim =
+            nfw SignbturfAlgoritim(signbturfMftiodElfm, null);
 
-        signatureMethod = this.signatureAlgorithm.getElement();
-        this.constructionElement.appendChild(signatureMethod);
+        signbturfMftiod = tiis.signbturfAlgoritim.gftElfmfnt();
+        tiis.donstrudtionElfmfnt.bppfndCiild(signbturfMftiod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Build a {@link SignedInfo} from an {@link Element}
+     * Build b {@link SignfdInfo} from bn {@link Elfmfnt}
      *
-     * @param element <code>SignedInfo</code>
-     * @param baseURI the URI of the resource where the XML instance was stored
-     * @throws XMLSecurityException
-     * @see <A HREF="http://lists.w3.org/Archives/Public/w3c-ietf-xmldsig/2001OctDec/0033.html">
-     * Question</A>
-     * @see <A HREF="http://lists.w3.org/Archives/Public/w3c-ietf-xmldsig/2001OctDec/0054.html">
-     * Answer</A>
+     * @pbrbm flfmfnt <dodf>SignfdInfo</dodf>
+     * @pbrbm bbsfURI tif URI of tif rfsourdf wifrf tif XML instbndf wbs storfd
+     * @tirows XMLSfdurityExdfption
+     * @sff <A HREF="ittp://lists.w3.org/Ardiivfs/Publid/w3d-iftf-xmldsig/2001OdtDfd/0033.itml">
+     * Qufstion</A>
+     * @sff <A HREF="ittp://lists.w3.org/Ardiivfs/Publid/w3d-iftf-xmldsig/2001OdtDfd/0054.itml">
+     * Answfr</A>
      */
-    public SignedInfo(Element element, String baseURI) throws XMLSecurityException {
-        this(element, baseURI, false);
+    publid SignfdInfo(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+        tiis(flfmfnt, bbsfURI, fblsf);
     }
 
     /**
-     * Build a {@link SignedInfo} from an {@link Element}
+     * Build b {@link SignfdInfo} from bn {@link Elfmfnt}
      *
-     * @param element <code>SignedInfo</code>
-     * @param baseURI the URI of the resource where the XML instance was stored
-     * @param secureValidation whether secure validation is enabled or not
-     * @throws XMLSecurityException
-     * @see <A HREF="http://lists.w3.org/Archives/Public/w3c-ietf-xmldsig/2001OctDec/0033.html">
-     * Question</A>
-     * @see <A HREF="http://lists.w3.org/Archives/Public/w3c-ietf-xmldsig/2001OctDec/0054.html">
-     * Answer</A>
+     * @pbrbm flfmfnt <dodf>SignfdInfo</dodf>
+     * @pbrbm bbsfURI tif URI of tif rfsourdf wifrf tif XML instbndf wbs storfd
+     * @pbrbm sfdurfVblidbtion wiftifr sfdurf vblidbtion is fnbblfd or not
+     * @tirows XMLSfdurityExdfption
+     * @sff <A HREF="ittp://lists.w3.org/Ardiivfs/Publid/w3d-iftf-xmldsig/2001OdtDfd/0033.itml">
+     * Qufstion</A>
+     * @sff <A HREF="ittp://lists.w3.org/Ardiivfs/Publid/w3d-iftf-xmldsig/2001OdtDfd/0054.itml">
+     * Answfr</A>
      */
-    public SignedInfo(
-        Element element, String baseURI, boolean secureValidation
-    ) throws XMLSecurityException {
-        // Parse the Reference children and Id attribute in the Manifest
-        super(reparseSignedInfoElem(element), baseURI, secureValidation);
+    publid SignfdInfo(
+        Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion
+    ) tirows XMLSfdurityExdfption {
+        // Pbrsf tif Rfffrfndf diildrfn bnd Id bttributf in tif Mbniffst
+        supfr(rfpbrsfSignfdInfoElfm(flfmfnt), bbsfURI, sfdurfVblidbtion);
 
-        c14nMethod = XMLUtils.getNextElement(element.getFirstChild());
-        signatureMethod = XMLUtils.getNextElement(c14nMethod.getNextSibling());
-        this.signatureAlgorithm =
-            new SignatureAlgorithm(signatureMethod, this.getBaseURI(), secureValidation);
+        d14nMftiod = XMLUtils.gftNfxtElfmfnt(flfmfnt.gftFirstCiild());
+        signbturfMftiod = XMLUtils.gftNfxtElfmfnt(d14nMftiod.gftNfxtSibling());
+        tiis.signbturfAlgoritim =
+            nfw SignbturfAlgoritim(signbturfMftiod, tiis.gftBbsfURI(), sfdurfVblidbtion);
     }
 
-    private static Element reparseSignedInfoElem(Element element)
-        throws XMLSecurityException {
+    privbtf stbtid Elfmfnt rfpbrsfSignfdInfoElfm(Elfmfnt flfmfnt)
+        tirows XMLSfdurityExdfption {
         /*
-         * If a custom canonicalizationMethod is used, canonicalize
-         * ds:SignedInfo, reparse it into a new document
-         * and replace the original not-canonicalized ds:SignedInfo by
-         * the re-parsed canonicalized one.
+         * If b dustom dbnonidblizbtionMftiod is usfd, dbnonidblizf
+         * ds:SignfdInfo, rfpbrsf it into b nfw dodumfnt
+         * bnd rfplbdf tif originbl not-dbnonidblizfd ds:SignfdInfo by
+         * tif rf-pbrsfd dbnonidblizfd onf.
          */
-        Element c14nMethod = XMLUtils.getNextElement(element.getFirstChild());
-        String c14nMethodURI =
-            c14nMethod.getAttributeNS(null, Constants._ATT_ALGORITHM);
-        if (!(c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N_EXCL_WITH_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N11_OMIT_COMMENTS) ||
-            c14nMethodURI.equals(Canonicalizer.ALGO_ID_C14N11_WITH_COMMENTS))) {
-            // the c14n is not a secure one and can rewrite the URIs or like
-            // so reparse the SignedInfo to be sure
+        Elfmfnt d14nMftiod = XMLUtils.gftNfxtElfmfnt(flfmfnt.gftFirstCiild());
+        String d14nMftiodURI =
+            d14nMftiod.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
+        if (!(d14nMftiodURI.fqubls(Cbnonidblizfr.ALGO_ID_C14N_OMIT_COMMENTS) ||
+            d14nMftiodURI.fqubls(Cbnonidblizfr.ALGO_ID_C14N_WITH_COMMENTS) ||
+            d14nMftiodURI.fqubls(Cbnonidblizfr.ALGO_ID_C14N_EXCL_OMIT_COMMENTS) ||
+            d14nMftiodURI.fqubls(Cbnonidblizfr.ALGO_ID_C14N_EXCL_WITH_COMMENTS) ||
+            d14nMftiodURI.fqubls(Cbnonidblizfr.ALGO_ID_C14N11_OMIT_COMMENTS) ||
+            d14nMftiodURI.fqubls(Cbnonidblizfr.ALGO_ID_C14N11_WITH_COMMENTS))) {
+            // tif d14n is not b sfdurf onf bnd dbn rfwritf tif URIs or likf
+            // so rfpbrsf tif SignfdInfo to bf surf
             try {
-                Canonicalizer c14nizer =
-                    Canonicalizer.getInstance(c14nMethodURI);
+                Cbnonidblizfr d14nizfr =
+                    Cbnonidblizfr.gftInstbndf(d14nMftiodURI);
 
-                byte[] c14nizedBytes = c14nizer.canonicalizeSubtree(element);
-                javax.xml.parsers.DocumentBuilderFactory dbf =
-                    javax.xml.parsers.DocumentBuilderFactory.newInstance();
-                dbf.setNamespaceAware(true);
-                dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-                javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
-                Document newdoc =
-                    db.parse(new ByteArrayInputStream(c14nizedBytes));
-                Node imported =
-                    element.getOwnerDocument().importNode(newdoc.getDocumentElement(), true);
+                bytf[] d14nizfdBytfs = d14nizfr.dbnonidblizfSubtrff(flfmfnt);
+                jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory dbf =
+                    jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory.nfwInstbndf();
+                dbf.sftNbmfspbdfAwbrf(truf);
+                dbf.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+                jbvbx.xml.pbrsfrs.DodumfntBuildfr db = dbf.nfwDodumfntBuildfr();
+                Dodumfnt nfwdod =
+                    db.pbrsf(nfw BytfArrbyInputStrfbm(d14nizfdBytfs));
+                Nodf importfd =
+                    flfmfnt.gftOwnfrDodumfnt().importNodf(nfwdod.gftDodumfntElfmfnt(), truf);
 
-                element.getParentNode().replaceChild(imported, element);
+                flfmfnt.gftPbrfntNodf().rfplbdfCiild(importfd, flfmfnt);
 
-                return (Element) imported;
-            } catch (ParserConfigurationException ex) {
-                throw new XMLSecurityException("empty", ex);
-            } catch (IOException ex) {
-                throw new XMLSecurityException("empty", ex);
-            } catch (SAXException ex) {
-                throw new XMLSecurityException("empty", ex);
+                rfturn (Elfmfnt) importfd;
+            } dbtdi (PbrsfrConfigurbtionExdfption fx) {
+                tirow nfw XMLSfdurityExdfption("fmpty", fx);
+            } dbtdi (IOExdfption fx) {
+                tirow nfw XMLSfdurityExdfption("fmpty", fx);
+            } dbtdi (SAXExdfption fx) {
+                tirow nfw XMLSfdurityExdfption("fmpty", fx);
             }
         }
-        return element;
+        rfturn flfmfnt;
     }
 
     /**
-     * Tests core validation process
+     * Tfsts dorf vblidbtion prodfss
      *
-     * @return true if verification was successful
-     * @throws MissingResourceFailureException
-     * @throws XMLSecurityException
+     * @rfturn truf if vfrifidbtion wbs suddfssful
+     * @tirows MissingRfsourdfFbilurfExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    public boolean verify()
-        throws MissingResourceFailureException, XMLSecurityException {
-        return super.verifyReferences(false);
+    publid boolfbn vfrify()
+        tirows MissingRfsourdfFbilurfExdfption, XMLSfdurityExdfption {
+        rfturn supfr.vfrifyRfffrfndfs(fblsf);
     }
 
     /**
-     * Tests core validation process
+     * Tfsts dorf vblidbtion prodfss
      *
-     * @param followManifests defines whether the verification process has to verify referenced <CODE>ds:Manifest</CODE>s, too
-     * @return true if verification was successful
-     * @throws MissingResourceFailureException
-     * @throws XMLSecurityException
+     * @pbrbm followMbniffsts dffinfs wiftifr tif vfrifidbtion prodfss ibs to vfrify rfffrfndfd <CODE>ds:Mbniffst</CODE>s, too
+     * @rfturn truf if vfrifidbtion wbs suddfssful
+     * @tirows MissingRfsourdfFbilurfExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    public boolean verify(boolean followManifests)
-        throws MissingResourceFailureException, XMLSecurityException {
-        return super.verifyReferences(followManifests);
+    publid boolfbn vfrify(boolfbn followMbniffsts)
+        tirows MissingRfsourdfFbilurfExdfption, XMLSfdurityExdfption {
+        rfturn supfr.vfrifyRfffrfndfs(followMbniffsts);
     }
 
     /**
-     * Returns getCanonicalizedOctetStream
+     * Rfturns gftCbnonidblizfdOdtftStrfbm
      *
-     * @return the canonicalization result octet stream of <code>SignedInfo</code> element
-     * @throws CanonicalizationException
-     * @throws InvalidCanonicalizerException
-     * @throws XMLSecurityException
+     * @rfturn tif dbnonidblizbtion rfsult odtft strfbm of <dodf>SignfdInfo</dodf> flfmfnt
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows InvblidCbnonidblizfrExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    public byte[] getCanonicalizedOctetStream()
-        throws CanonicalizationException, InvalidCanonicalizerException, XMLSecurityException {
-        if (this.c14nizedBytes == null) {
-            Canonicalizer c14nizer =
-                Canonicalizer.getInstance(this.getCanonicalizationMethodURI());
+    publid bytf[] gftCbnonidblizfdOdtftStrfbm()
+        tirows CbnonidblizbtionExdfption, InvblidCbnonidblizfrExdfption, XMLSfdurityExdfption {
+        if (tiis.d14nizfdBytfs == null) {
+            Cbnonidblizfr d14nizfr =
+                Cbnonidblizfr.gftInstbndf(tiis.gftCbnonidblizbtionMftiodURI());
 
-            this.c14nizedBytes =
-                c14nizer.canonicalizeSubtree(this.constructionElement);
+            tiis.d14nizfdBytfs =
+                d14nizfr.dbnonidblizfSubtrff(tiis.donstrudtionElfmfnt);
         }
 
-        // make defensive copy
-        return this.c14nizedBytes.clone();
+        // mbkf dfffnsivf dopy
+        rfturn tiis.d14nizfdBytfs.dlonf();
     }
 
     /**
-     * Output the C14n stream to the given OutputStream.
-     * @param os
-     * @throws CanonicalizationException
-     * @throws InvalidCanonicalizerException
-     * @throws XMLSecurityException
+     * Output tif C14n strfbm to tif givfn OutputStrfbm.
+     * @pbrbm os
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows InvblidCbnonidblizfrExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    public void signInOctetStream(OutputStream os)
-        throws CanonicalizationException, InvalidCanonicalizerException, XMLSecurityException {
-        if (this.c14nizedBytes == null) {
-            Canonicalizer c14nizer =
-                Canonicalizer.getInstance(this.getCanonicalizationMethodURI());
-            c14nizer.setWriter(os);
-            String inclusiveNamespaces = this.getInclusiveNamespaces();
+    publid void signInOdtftStrfbm(OutputStrfbm os)
+        tirows CbnonidblizbtionExdfption, InvblidCbnonidblizfrExdfption, XMLSfdurityExdfption {
+        if (tiis.d14nizfdBytfs == null) {
+            Cbnonidblizfr d14nizfr =
+                Cbnonidblizfr.gftInstbndf(tiis.gftCbnonidblizbtionMftiodURI());
+            d14nizfr.sftWritfr(os);
+            String indlusivfNbmfspbdfs = tiis.gftIndlusivfNbmfspbdfs();
 
-            if (inclusiveNamespaces == null) {
-                c14nizer.canonicalizeSubtree(this.constructionElement);
-            } else {
-                c14nizer.canonicalizeSubtree(this.constructionElement, inclusiveNamespaces);
+            if (indlusivfNbmfspbdfs == null) {
+                d14nizfr.dbnonidblizfSubtrff(tiis.donstrudtionElfmfnt);
+            } flsf {
+                d14nizfr.dbnonidblizfSubtrff(tiis.donstrudtionElfmfnt, indlusivfNbmfspbdfs);
             }
-        } else {
+        } flsf {
             try {
-                os.write(this.c14nizedBytes);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                os.writf(tiis.d14nizfdBytfs);
+            } dbtdi (IOExdfption f) {
+                tirow nfw RuntimfExdfption(f);
             }
         }
     }
 
     /**
-     * Returns the Canonicalization method URI
+     * Rfturns tif Cbnonidblizbtion mftiod URI
      *
-     * @return the Canonicalization method URI
+     * @rfturn tif Cbnonidblizbtion mftiod URI
      */
-    public String getCanonicalizationMethodURI() {
-        return c14nMethod.getAttributeNS(null, Constants._ATT_ALGORITHM);
+    publid String gftCbnonidblizbtionMftiodURI() {
+        rfturn d14nMftiod.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
     }
 
     /**
-     * Returns the Signature method URI
+     * Rfturns tif Signbturf mftiod URI
      *
-     * @return the Signature method URI
+     * @rfturn tif Signbturf mftiod URI
      */
-    public String getSignatureMethodURI() {
-        Element signatureElement = this.getSignatureMethodElement();
+    publid String gftSignbturfMftiodURI() {
+        Elfmfnt signbturfElfmfnt = tiis.gftSignbturfMftiodElfmfnt();
 
-        if (signatureElement != null) {
-            return signatureElement.getAttributeNS(null, Constants._ATT_ALGORITHM);
+        if (signbturfElfmfnt != null) {
+            rfturn signbturfElfmfnt.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method getSignatureMethodElement
-     * @return returns the SignatureMethod Element
+     * Mftiod gftSignbturfMftiodElfmfnt
+     * @rfturn rfturns tif SignbturfMftiod Elfmfnt
      *
      */
-    public Element getSignatureMethodElement() {
-        return signatureMethod;
+    publid Elfmfnt gftSignbturfMftiodElfmfnt() {
+        rfturn signbturfMftiod;
     }
 
     /**
-     * Creates a SecretKey for the appropriate Mac algorithm based on a
-     * byte[] array password.
+     * Crfbtfs b SfdrftKfy for tif bppropribtf Mbd blgoritim bbsfd on b
+     * bytf[] brrby pbssword.
      *
-     * @param secretKeyBytes
-     * @return the secret key for the SignedInfo element.
+     * @pbrbm sfdrftKfyBytfs
+     * @rfturn tif sfdrft kfy for tif SignfdInfo flfmfnt.
      */
-    public SecretKey createSecretKey(byte[] secretKeyBytes) {
-        return new SecretKeySpec(secretKeyBytes, this.signatureAlgorithm.getJCEAlgorithmString());
+    publid SfdrftKfy drfbtfSfdrftKfy(bytf[] sfdrftKfyBytfs) {
+        rfturn nfw SfdrftKfySpfd(sfdrftKfyBytfs, tiis.signbturfAlgoritim.gftJCEAlgoritimString());
     }
 
-    protected SignatureAlgorithm getSignatureAlgorithm() {
-        return signatureAlgorithm;
+    protfdtfd SignbturfAlgoritim gftSignbturfAlgoritim() {
+        rfturn signbturfAlgoritim;
     }
 
     /**
-     * Method getBaseLocalName
-     * @inheritDoc
+     * Mftiod gftBbsfLodblNbmf
+     * @inifritDod
      *
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_SIGNEDINFO;
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_SIGNEDINFO;
     }
 
-    public String getInclusiveNamespaces() {
-        String c14nMethodURI = c14nMethod.getAttributeNS(null, Constants._ATT_ALGORITHM);
-        if (!(c14nMethodURI.equals("http://www.w3.org/2001/10/xml-exc-c14n#") ||
-            c14nMethodURI.equals("http://www.w3.org/2001/10/xml-exc-c14n#WithComments"))) {
-            return null;
+    publid String gftIndlusivfNbmfspbdfs() {
+        String d14nMftiodURI = d14nMftiod.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
+        if (!(d14nMftiodURI.fqubls("ittp://www.w3.org/2001/10/xml-fxd-d14n#") ||
+            d14nMftiodURI.fqubls("ittp://www.w3.org/2001/10/xml-fxd-d14n#WitiCommfnts"))) {
+            rfturn null;
         }
 
-        Element inclusiveElement = XMLUtils.getNextElement(c14nMethod.getFirstChild());
+        Elfmfnt indlusivfElfmfnt = XMLUtils.gftNfxtElfmfnt(d14nMftiod.gftFirstCiild());
 
-        if (inclusiveElement != null) {
+        if (indlusivfElfmfnt != null) {
             try {
-                String inclusiveNamespaces =
-                    new InclusiveNamespaces(
-                        inclusiveElement,
-                        InclusiveNamespaces.ExclusiveCanonicalizationNamespace
-                    ).getInclusiveNamespaces();
-                return inclusiveNamespaces;
-            } catch (XMLSecurityException e) {
-                return null;
+                String indlusivfNbmfspbdfs =
+                    nfw IndlusivfNbmfspbdfs(
+                        indlusivfElfmfnt,
+                        IndlusivfNbmfspbdfs.ExdlusivfCbnonidblizbtionNbmfspbdf
+                    ).gftIndlusivfNbmfspbdfs();
+                rfturn indlusivfNbmfspbdfs;
+            } dbtdi (XMLSfdurityExdfption f) {
+                rfturn null;
             }
         }
-        return null;
+        rfturn null;
     }
 }

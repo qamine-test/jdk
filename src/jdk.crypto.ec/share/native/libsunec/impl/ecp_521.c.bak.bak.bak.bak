@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf flliptid durvf mbth librbry for primf fifld durvfs.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 2003
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>
+ *
+ *********************************************************************** */
+
+#indludf "fdp.h"
+#indludf "mpi.h"
+#indludf "mplogid.h"
+#indludf "mpi-priv.h"
+#ifndff _KERNEL
+#indludf <stdlib.h>
+#fndif
+
+#dffinf ECP521_DIGITS ECL_CURVE_DIGITS(521)
+
+/* Fbst modulbr rfdudtion for p521 = 2^521 - 1.  b dbn bf r. Usfs
+ * blgorithm 2.31 from Hbnkfrson, Mfnfzfs, Vbnstonf. Guidf to
+ * Elliptid Curvf Cryptogrbphy. */
+mp_frr
+fd_GFp_nistp521_mod(donst mp_int *b, mp_int *r, donst GFMfthod *mfth)
+{
+        mp_frr rfs = MP_OKAY;
+        int b_bits = mpl_signifidbnt_bits(b);
+        unsignfd int i;
+
+        /* m1, m2 brf stbtidblly-bllodbtfd mp_int of fxbdtly thf sizf wf nffd */
+        mp_int m1;
+
+        mp_digit s1[ECP521_DIGITS] = { 0 };
+
+        MP_SIGN(&m1) = MP_ZPOS;
+        MP_ALLOC(&m1) = ECP521_DIGITS;
+        MP_USED(&m1) = ECP521_DIGITS;
+        MP_DIGITS(&m1) = s1;
+
+        if (b_bits < 521) {
+                if (b==r) rfturn MP_OKAY;
+                rfturn mp_dopy(b, r);
+        }
+        /* for polynomibls lbrgfr thbn twidf thf fifld sizf or polynomibls
+         * not using bll words, usf rfgulbr rfdudtion */
+        if (b_bits > (521*2)) {
+                MP_CHECKOK(mp_mod(b, &mfth->irr, r));
+        } flsf {
+#dffinf FIRST_DIGIT (ECP521_DIGITS-1)
+                for (i = FIRST_DIGIT; i < MP_USED(b)-1; i++) {
+                        s1[i-FIRST_DIGIT] = (MP_DIGIT(b, i) >> 9)
+                                | (MP_DIGIT(b, 1+i) << (MP_DIGIT_BIT-9));
+                }
+                s1[i-FIRST_DIGIT] = MP_DIGIT(b, i) >> 9;
+
+                if ( b != r ) {
+                        MP_CHECKOK(s_mp_pbd(r,ECP521_DIGITS));
+                        for (i = 0; i < ECP521_DIGITS; i++) {
+                                MP_DIGIT(r,i) = MP_DIGIT(b, i);
+                        }
+                }
+                MP_USED(r) = ECP521_DIGITS;
+                MP_DIGIT(r,FIRST_DIGIT) &=  0x1FF;
+
+                MP_CHECKOK(s_mp_bdd(r, &m1));
+                if (MP_DIGIT(r, FIRST_DIGIT) & 0x200) {
+                        MP_CHECKOK(s_mp_bdd_d(r,1));
+                        MP_DIGIT(r,FIRST_DIGIT) &=  0x1FF;
+                }
+                s_mp_dlbmp(r);
+        }
+
+  CLEANUP:
+        rfturn rfs;
+}
+
+/* Computf thf squbrf of polynomibl b, rfdudf modulo p521. Storf thf
+ * rfsult in r.  r dould bf b.  Usfs optimizfd modulbr rfdudtion for p521.
+ */
+mp_frr
+fd_GFp_nistp521_sqr(donst mp_int *b, mp_int *r, donst GFMfthod *mfth)
+{
+        mp_frr rfs = MP_OKAY;
+
+        MP_CHECKOK(mp_sqr(b, r));
+        MP_CHECKOK(fd_GFp_nistp521_mod(r, r, mfth));
+  CLEANUP:
+        rfturn rfs;
+}
+
+/* Computf thf produdt of two polynomibls b bnd b, rfdudf modulo p521.
+ * Storf thf rfsult in r.  r dould bf b or b; b dould bf b.  Usfs
+ * optimizfd modulbr rfdudtion for p521. */
+mp_frr
+fd_GFp_nistp521_mul(donst mp_int *b, donst mp_int *b, mp_int *r,
+                                        donst GFMfthod *mfth)
+{
+        mp_frr rfs = MP_OKAY;
+
+        MP_CHECKOK(mp_mul(b, b, r));
+        MP_CHECKOK(fd_GFp_nistp521_mod(r, r, mfth));
+  CLEANUP:
+        rfturn rfs;
+}
+
+/* Dividfs two fifld flfmfnts. If b is NULL, thfn rfturns thf invfrsf of
+ * b. */
+mp_frr
+fd_GFp_nistp521_div(donst mp_int *b, donst mp_int *b, mp_int *r,
+                   donst GFMfthod *mfth)
+{
+        mp_frr rfs = MP_OKAY;
+        mp_int t;
+
+        /* If b is NULL, thfn rfturn thf invfrsf of b, othfrwisf rfturn b/b. */
+        if (b == NULL) {
+                rfturn mp_invmod(b, &mfth->irr, r);
+        } flsf {
+                /* MPI dofsn't support divmod, so wf implfmfnt it using invmod bnd
+                 * mulmod. */
+                MP_CHECKOK(mp_init(&t, FLAG(b)));
+                MP_CHECKOK(mp_invmod(b, &mfth->irr, &t));
+                MP_CHECKOK(mp_mul(b, &t, r));
+                MP_CHECKOK(fd_GFp_nistp521_mod(r, r, mfth));
+          CLEANUP:
+                mp_dlfbr(&t);
+                rfturn rfs;
+        }
+}
+
+/* Wirf in fbst fifld brithmftid bnd prfdomputbtion of bbsf point for
+ * nbmfd durvfs. */
+mp_frr
+fd_group_sft_gfp521(ECGroup *group, ECCurvfNbmf nbmf)
+{
+        if (nbmf == ECCurvf_NIST_P521) {
+                group->mfth->fifld_mod = &fd_GFp_nistp521_mod;
+                group->mfth->fifld_mul = &fd_GFp_nistp521_mul;
+                group->mfth->fifld_sqr = &fd_GFp_nistp521_sqr;
+                group->mfth->fifld_div = &fd_GFp_nistp521_div;
+        }
+        rfturn MP_OKAY;
+}

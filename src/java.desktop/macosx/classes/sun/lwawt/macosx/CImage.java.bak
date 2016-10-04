@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import java.awt.geom.Dimension2D;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.Dimfnsion2D;
+import jbvb.bwt.imbgf.*;
 
-import java.util.Arrays;
-import java.util.List;
-import sun.awt.image.MultiResolutionImage;
-import sun.awt.image.MultiResolutionCachedImage;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import sun.bwt.imbgf.MultiRfsolutionImbgf;
+import sun.bwt.imbgf.MultiRfsolutionCbdifdImbgf;
 
-import sun.awt.image.SunWritableRaster;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
 
-public class CImage extends CFRetainedResource {
-    private static native long nativeCreateNSImageFromArray(int[] buffer, int w, int h);
-    private static native long nativeCreateNSImageFromBytes(byte[] buffer);
-    private static native long nativeCreateNSImageFromArrays(int[][] buffers, int w[], int h[]);
-    private static native long nativeCreateNSImageFromFileContents(String file);
-    private static native long nativeCreateNSImageOfFileFromLaunchServices(String file);
-    private static native long nativeCreateNSImageFromImageName(String name);
-    private static native long nativeCreateNSImageFromIconSelector(int selector);
-    private static native byte[] nativeGetPlatformImageBytes(int[] buffer, int w, int h);
-    private static native void nativeCopyNSImageIntoArray(long image, int[] buffer, int sw, int sh, int dw, int dh);
-    private static native Dimension2D nativeGetNSImageSize(long image);
-    private static native void nativeSetNSImageSize(long image, double w, double h);
-    private static native void nativeResizeNSImageRepresentations(long image, double w, double h);
-    private static native Dimension2D[] nativeGetNSImageRepresentationSizes(long image, double w, double h);
+publid dlbss CImbgf fxtfnds CFRftbinfdRfsourdf {
+    privbtf stbtid nbtivf long nbtivfCrfbtfNSImbgfFromArrby(int[] bufffr, int w, int i);
+    privbtf stbtid nbtivf long nbtivfCrfbtfNSImbgfFromBytfs(bytf[] bufffr);
+    privbtf stbtid nbtivf long nbtivfCrfbtfNSImbgfFromArrbys(int[][] bufffrs, int w[], int i[]);
+    privbtf stbtid nbtivf long nbtivfCrfbtfNSImbgfFromFilfContfnts(String filf);
+    privbtf stbtid nbtivf long nbtivfCrfbtfNSImbgfOfFilfFromLbundiSfrvidfs(String filf);
+    privbtf stbtid nbtivf long nbtivfCrfbtfNSImbgfFromImbgfNbmf(String nbmf);
+    privbtf stbtid nbtivf long nbtivfCrfbtfNSImbgfFromIdonSflfdtor(int sflfdtor);
+    privbtf stbtid nbtivf bytf[] nbtivfGftPlbtformImbgfBytfs(int[] bufffr, int w, int i);
+    privbtf stbtid nbtivf void nbtivfCopyNSImbgfIntoArrby(long imbgf, int[] bufffr, int sw, int si, int dw, int di);
+    privbtf stbtid nbtivf Dimfnsion2D nbtivfGftNSImbgfSizf(long imbgf);
+    privbtf stbtid nbtivf void nbtivfSftNSImbgfSizf(long imbgf, doublf w, doublf i);
+    privbtf stbtid nbtivf void nbtivfRfsizfNSImbgfRfprfsfntbtions(long imbgf, doublf w, doublf i);
+    privbtf stbtid nbtivf Dimfnsion2D[] nbtivfGftNSImbgfRfprfsfntbtionSizfs(long imbgf, doublf w, doublf i);
 
-    static Creator creator = new Creator();
-    static Creator getCreator() {
-        return creator;
+    stbtid Crfbtor drfbtor = nfw Crfbtor();
+    stbtid Crfbtor gftCrfbtor() {
+        rfturn drfbtor;
     }
 
-    public static class Creator {
-        Creator() { }
+    publid stbtid dlbss Crfbtor {
+        Crfbtor() { }
 
-        // This is used to create a CImage with an NSImage pointer. It MUST be a CFRetained
-        // NSImage, and the CImage takes ownership of the non-GC retain. If callers need the
-        // NSImage themselves, they MUST call retain on the NSImage themselves.
-        public Image createImageUsingNativeSize(final long image) {
-            if (image == 0) return null;
-            final Dimension2D size = nativeGetNSImageSize(image);
-            return createImage(image, size.getWidth(), size.getHeight());
+        // Tiis is usfd to drfbtf b CImbgf witi bn NSImbgf pointfr. It MUST bf b CFRftbinfd
+        // NSImbgf, bnd tif CImbgf tbkfs ownfrsiip of tif non-GC rftbin. If dbllfrs nffd tif
+        // NSImbgf tifmsflvfs, tify MUST dbll rftbin on tif NSImbgf tifmsflvfs.
+        publid Imbgf drfbtfImbgfUsingNbtivfSizf(finbl long imbgf) {
+            if (imbgf == 0) rfturn null;
+            finbl Dimfnsion2D sizf = nbtivfGftNSImbgfSizf(imbgf);
+            rfturn drfbtfImbgf(imbgf, sizf.gftWidti(), sizf.gftHfigit());
         }
 
-        // the width and height passed in as a parameter could differ than the width and the height of the NSImage (image), in that case, the image will be scaled
-        Image createImage(long image, double width, double height) {
-            if (image == 0) throw new Error("Unable to instantiate CImage with null native image reference.");
-            return createImageWithSize(image, width, height);
+        // tif widti bnd ifigit pbssfd in bs b pbrbmftfr dould difffr tibn tif widti bnd tif ifigit of tif NSImbgf (imbgf), in tibt dbsf, tif imbgf will bf sdblfd
+        Imbgf drfbtfImbgf(long imbgf, doublf widti, doublf ifigit) {
+            if (imbgf == 0) tirow nfw Error("Unbblf to instbntibtf CImbgf witi null nbtivf imbgf rfffrfndf.");
+            rfturn drfbtfImbgfWitiSizf(imbgf, widti, ifigit);
         }
 
-        public Image createImageWithSize(final long image, final double width, final double height) {
-            final CImage img = new CImage(image);
-            img.resize(width, height);
-            return img.toImage();
+        publid Imbgf drfbtfImbgfWitiSizf(finbl long imbgf, finbl doublf widti, finbl doublf ifigit) {
+            finbl CImbgf img = nfw CImbgf(imbgf);
+            img.rfsizf(widti, ifigit);
+            rfturn img.toImbgf();
         }
 
-        // This is used to create a CImage that represents the icon of the given file.
-        public Image createImageOfFile(final String file, final int width, final int height) {
-            return createImage(nativeCreateNSImageOfFileFromLaunchServices(file), width, height);
+        // Tiis is usfd to drfbtf b CImbgf tibt rfprfsfnts tif idon of tif givfn filf.
+        publid Imbgf drfbtfImbgfOfFilf(finbl String filf, finbl int widti, finbl int ifigit) {
+            rfturn drfbtfImbgf(nbtivfCrfbtfNSImbgfOfFilfFromLbundiSfrvidfs(filf), widti, ifigit);
         }
 
-        public Image createImageFromFile(final String file, final double width, final double height) {
-            final long image = nativeCreateNSImageFromFileContents(file);
-            nativeSetNSImageSize(image, width, height);
-            return createImage(image, width, height);
+        publid Imbgf drfbtfImbgfFromFilf(finbl String filf, finbl doublf widti, finbl doublf ifigit) {
+            finbl long imbgf = nbtivfCrfbtfNSImbgfFromFilfContfnts(filf);
+            nbtivfSftNSImbgfSizf(imbgf, widti, ifigit);
+            rfturn drfbtfImbgf(imbgf, widti, ifigit);
         }
 
-        public Image createSystemImageFromSelector(final String iconSelector, final int width, final int height) {
-            return createImage(nativeCreateNSImageFromIconSelector(getSelectorAsInt(iconSelector)), width, height);
+        publid Imbgf drfbtfSystfmImbgfFromSflfdtor(finbl String idonSflfdtor, finbl int widti, finbl int ifigit) {
+            rfturn drfbtfImbgf(nbtivfCrfbtfNSImbgfFromIdonSflfdtor(gftSflfdtorAsInt(idonSflfdtor)), widti, ifigit);
         }
 
-        public Image createImageFromName(final String name, final int width, final int height) {
-            return createImage(nativeCreateNSImageFromImageName(name), width, height);
+        publid Imbgf drfbtfImbgfFromNbmf(finbl String nbmf, finbl int widti, finbl int ifigit) {
+            rfturn drfbtfImbgf(nbtivfCrfbtfNSImbgfFromImbgfNbmf(nbmf), widti, ifigit);
         }
 
-        public Image createImageFromName(final String name) {
-            return createImageUsingNativeSize(nativeCreateNSImageFromImageName(name));
+        publid Imbgf drfbtfImbgfFromNbmf(finbl String nbmf) {
+            rfturn drfbtfImbgfUsingNbtivfSizf(nbtivfCrfbtfNSImbgfFromImbgfNbmf(nbmf));
         }
 
-        private static int[] imageToArray(Image image, boolean prepareImage) {
-            if (image == null) return null;
+        privbtf stbtid int[] imbgfToArrby(Imbgf imbgf, boolfbn prfpbrfImbgf) {
+            if (imbgf == null) rfturn null;
 
-            if (prepareImage && !(image instanceof BufferedImage)) {
-                final MediaTracker mt = new MediaTracker(new Label());
-                final int id = 0;
-                mt.addImage(image, id);
+            if (prfpbrfImbgf && !(imbgf instbndfof BufffrfdImbgf)) {
+                finbl MfdibTrbdkfr mt = nfw MfdibTrbdkfr(nfw Lbbfl());
+                finbl int id = 0;
+                mt.bddImbgf(imbgf, id);
 
                 try {
-                    mt.waitForID(id);
-                } catch (InterruptedException e) {
-                    return null;
+                    mt.wbitForID(id);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    rfturn null;
                 }
 
                 if (mt.isErrorID(id)) {
-                    return null;
+                    rfturn null;
                 }
             }
 
-            int w = image.getWidth(null);
-            int h = image.getHeight(null);
+            int w = imbgf.gftWidti(null);
+            int i = imbgf.gftHfigit(null);
 
-            if (w < 0 || h < 0) {
-                return null;
+            if (w < 0 || i < 0) {
+                rfturn null;
             }
 
-            BufferedImage bimg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB_PRE);
-            Graphics2D g2 = bimg.createGraphics();
-            g2.setComposite(AlphaComposite.Src);
-            g2.drawImage(image, 0, 0, null);
-            g2.dispose();
+            BufffrfdImbgf bimg = nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+            Grbpiids2D g2 = bimg.drfbtfGrbpiids();
+            g2.sftCompositf(AlpibCompositf.Srd);
+            g2.drbwImbgf(imbgf, 0, 0, null);
+            g2.disposf();
 
-            return ((DataBufferInt)bimg.getRaster().getDataBuffer()).getData();
+            rfturn ((DbtbBufffrInt)bimg.gftRbstfr().gftDbtbBufffr()).gftDbtb();
         }
 
-        public CImage createFromImageImmediately(final Image image) {
-            int[]  buffer = imageToArray(image, false);
+        publid CImbgf drfbtfFromImbgfImmfdibtfly(finbl Imbgf imbgf) {
+            int[]  bufffr = imbgfToArrby(imbgf, fblsf);
 
-            if (buffer == null) {
-                return null;
+            if (bufffr == null) {
+                rfturn null;
             }
 
-            return new CImage(nativeCreateNSImageFromArray(buffer, image.getWidth(null),
-                                                           image.getHeight(null)));
+            rfturn nfw CImbgf(nbtivfCrfbtfNSImbgfFromArrby(bufffr, imbgf.gftWidti(null),
+                                                           imbgf.gftHfigit(null)));
         }
 
-        public byte[] getPlatformImageBytes(final Image image) {
-            int[] buffer = imageToArray(image, false);
+        publid bytf[] gftPlbtformImbgfBytfs(finbl Imbgf imbgf) {
+            int[] bufffr = imbgfToArrby(imbgf, fblsf);
 
-            if (buffer == null) {
-                return null;
+            if (bufffr == null) {
+                rfturn null;
             }
 
-            return nativeGetPlatformImageBytes(buffer, image.getWidth(null), image.getHeight(null));
+            rfturn nbtivfGftPlbtformImbgfBytfs(bufffr, imbgf.gftWidti(null), imbgf.gftHfigit(null));
         }
 
         /**
-         * Translates a byte array which contains platform-specific image data in the given format into an Image.
+         * Trbnslbtfs b bytf brrby wiidi dontbins plbtform-spfdifid imbgf dbtb in tif givfn formbt into bn Imbgf.
          */
-        public Image createImageFromPlatformImageBytes(final byte[] buffer) {
-            return createImageUsingNativeSize(nativeCreateNSImageFromBytes(buffer));
+        publid Imbgf drfbtfImbgfFromPlbtformImbgfBytfs(finbl bytf[] bufffr) {
+            rfturn drfbtfImbgfUsingNbtivfSizf(nbtivfCrfbtfNSImbgfFromBytfs(bufffr));
         }
 
-        // This is used to create a CImage from a Image
-        public CImage createFromImage(final Image image) {
-            if (image instanceof MultiResolutionImage) {
-                List<Image> resolutionVariants
-                        = ((MultiResolutionImage) image).getResolutionVariants();
-                return createFromImages(resolutionVariants);
+        // Tiis is usfd to drfbtf b CImbgf from b Imbgf
+        publid CImbgf drfbtfFromImbgf(finbl Imbgf imbgf) {
+            if (imbgf instbndfof MultiRfsolutionImbgf) {
+                List<Imbgf> rfsolutionVbribnts
+                        = ((MultiRfsolutionImbgf) imbgf).gftRfsolutionVbribnts();
+                rfturn drfbtfFromImbgfs(rfsolutionVbribnts);
             }
 
-            int[] buffer = imageToArray(image, true);
-            if (buffer == null) {
-                return null;
+            int[] bufffr = imbgfToArrby(imbgf, truf);
+            if (bufffr == null) {
+                rfturn null;
             }
-            return new CImage(nativeCreateNSImageFromArray(buffer, image.getWidth(null), image.getHeight(null)));
+            rfturn nfw CImbgf(nbtivfCrfbtfNSImbgfFromArrby(bufffr, imbgf.gftWidti(null), imbgf.gftHfigit(null)));
         }
 
-        public CImage createFromImages(List<Image> images) {
-            if (images == null || images.isEmpty()) {
-                return null;
+        publid CImbgf drfbtfFromImbgfs(List<Imbgf> imbgfs) {
+            if (imbgfs == null || imbgfs.isEmpty()) {
+                rfturn null;
             }
 
-            int num = images.size();
+            int num = imbgfs.sizf();
 
-            int[][] buffers = new int[num][];
-            int[] w = new int[num];
-            int[] h = new int[num];
+            int[][] bufffrs = nfw int[num][];
+            int[] w = nfw int[num];
+            int[] i = nfw int[num];
 
             num = 0;
 
-            for (Image img : images) {
-                buffers[num] = imageToArray(img, true);
-                if (buffers[num] == null) {
-                    // Unable to process the image
-                    continue;
+            for (Imbgf img : imbgfs) {
+                bufffrs[num] = imbgfToArrby(img, truf);
+                if (bufffrs[num] == null) {
+                    // Unbblf to prodfss tif imbgf
+                    dontinuf;
                 }
-                w[num] = img.getWidth(null);
-                h[num] = img.getHeight(null);
+                w[num] = img.gftWidti(null);
+                i[num] = img.gftHfigit(null);
                 num++;
             }
 
             if (num == 0) {
-                return null;
+                rfturn null;
             }
 
-            return new CImage(nativeCreateNSImageFromArrays(
-                        Arrays.copyOf(buffers, num),
-                        Arrays.copyOf(w, num),
-                        Arrays.copyOf(h, num)));
+            rfturn nfw CImbgf(nbtivfCrfbtfNSImbgfFromArrbys(
+                        Arrbys.dopyOf(bufffrs, num),
+                        Arrbys.dopyOf(w, num),
+                        Arrbys.dopyOf(i, num)));
         }
 
-        static int getSelectorAsInt(final String fromString) {
-            final byte[] b = fromString.getBytes();
-            final int len = Math.min(b.length, 4);
-            int result = 0;
-            for (int i = 0; i < len; i++) {
-                if (i > 0) result <<= 8;
-                result |= (b[i] & 0xff);
+        stbtid int gftSflfdtorAsInt(finbl String fromString) {
+            finbl bytf[] b = fromString.gftBytfs();
+            finbl int lfn = Mbti.min(b.lfngti, 4);
+            int rfsult = 0;
+            for (int i = 0; i < lfn; i++) {
+                if (i > 0) rfsult <<= 8;
+                rfsult |= (b[i] & 0xff);
             }
-            return result;
+            rfturn rfsult;
         }
     }
 
-    CImage(long nsImagePtr) {
-        super(nsImagePtr, true);
+    CImbgf(long nsImbgfPtr) {
+        supfr(nsImbgfPtr, truf);
     }
 
-    /** @return A MultiResolution image created from nsImagePtr, or null. */
-    private Image toImage() {
-        if (ptr == 0) return null;
+    /** @rfturn A MultiRfsolution imbgf drfbtfd from nsImbgfPtr, or null. */
+    privbtf Imbgf toImbgf() {
+        if (ptr == 0) rfturn null;
 
-        final Dimension2D size = nativeGetNSImageSize(ptr);
-        final int w = (int)size.getWidth();
-        final int h = (int)size.getHeight();
+        finbl Dimfnsion2D sizf = nbtivfGftNSImbgfSizf(ptr);
+        finbl int w = (int)sizf.gftWidti();
+        finbl int i = (int)sizf.gftHfigit();
 
-        Dimension2D[] sizes
-                = nativeGetNSImageRepresentationSizes(ptr,
-                        size.getWidth(), size.getHeight());
+        Dimfnsion2D[] sizfs
+                = nbtivfGftNSImbgfRfprfsfntbtionSizfs(ptr,
+                        sizf.gftWidti(), sizf.gftHfigit());
 
-        return sizes == null || sizes.length < 2 ?
-                new MultiResolutionCachedImage(w, h, (width, height)
-                        -> toImage(w, h, width, height))
-                : new MultiResolutionCachedImage(w, h, sizes, (width, height)
-                        -> toImage(w, h, width, height));
+        rfturn sizfs == null || sizfs.lfngti < 2 ?
+                nfw MultiRfsolutionCbdifdImbgf(w, i, (widti, ifigit)
+                        -> toImbgf(w, i, widti, ifigit))
+                : nfw MultiRfsolutionCbdifdImbgf(w, i, sizfs, (widti, ifigit)
+                        -> toImbgf(w, i, widti, ifigit));
     }
 
-    private BufferedImage toImage(int srcWidth, int srcHeight, int dstWidth, int dstHeight) {
-        final BufferedImage bimg = new BufferedImage(dstWidth, dstHeight, BufferedImage.TYPE_INT_ARGB_PRE);
-        final DataBufferInt dbi = (DataBufferInt)bimg.getRaster().getDataBuffer();
-        final int[] buffer = SunWritableRaster.stealData(dbi, 0);
-        nativeCopyNSImageIntoArray(ptr, buffer, srcWidth, srcHeight, dstWidth, dstHeight);
-        SunWritableRaster.markDirty(dbi);
-        return bimg;
+    privbtf BufffrfdImbgf toImbgf(int srdWidti, int srdHfigit, int dstWidti, int dstHfigit) {
+        finbl BufffrfdImbgf bimg = nfw BufffrfdImbgf(dstWidti, dstHfigit, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+        finbl DbtbBufffrInt dbi = (DbtbBufffrInt)bimg.gftRbstfr().gftDbtbBufffr();
+        finbl int[] bufffr = SunWritbblfRbstfr.stfblDbtb(dbi, 0);
+        nbtivfCopyNSImbgfIntoArrby(ptr, bufffr, srdWidti, srdHfigit, dstWidti, dstHfigit);
+        SunWritbblfRbstfr.mbrkDirty(dbi);
+        rfturn bimg;
     }
 
-    /** If nsImagePtr != 0 then scale this NSImage. @return *this* */
-    CImage resize(final double w, final double h) {
-        if (ptr != 0) nativeSetNSImageSize(ptr, w, h);
-        return this;
+    /** If nsImbgfPtr != 0 tifn sdblf tiis NSImbgf. @rfturn *tiis* */
+    CImbgf rfsizf(finbl doublf w, finbl doublf i) {
+        if (ptr != 0) nbtivfSftNSImbgfSizf(ptr, w, i);
+        rfturn tiis;
     }
 
-    void resizeRepresentations(double w, double h) {
-        if (ptr != 0) nativeResizeNSImageRepresentations(ptr, w, h);
+    void rfsizfRfprfsfntbtions(doublf w, doublf i) {
+        if (ptr != 0) nbtivfRfsizfNSImbgfRfprfsfntbtions(ptr, w, i);
     }
 }

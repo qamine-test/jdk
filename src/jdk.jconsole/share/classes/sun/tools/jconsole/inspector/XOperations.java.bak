@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.Component;
-import java.awt.event.*;
-import java.util.*;
+import jbvbx.swing.*;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.*;
 
-import javax.management.*;
+import jbvbx.mbnbgfmfnt.*;
 
-import sun.tools.jconsole.MBeansTab;
-import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.Messages;
+import sun.tools.jdonsolf.MBfbnsTbb;
+import sun.tools.jdonsolf.JConsolf;
+import sun.tools.jdonsolf.Mfssbgfs;
 
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class XOperations extends JPanel implements ActionListener {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss XOpfrbtions fxtfnds JPbnfl implfmfnts AdtionListfnfr {
 
-    public final static String OPERATION_INVOCATION_EVENT =
-            "jam.xoperations.invoke.result";
-    private java.util.List<NotificationListener> notificationListenersList;
-    private Hashtable<JButton, OperationEntry> operationEntryTable;
-    private XMBean mbean;
-    private MBeanInfo mbeanInfo;
-    private MBeansTab mbeansTab;
+    publid finbl stbtid String OPERATION_INVOCATION_EVENT =
+            "jbm.xopfrbtions.invokf.rfsult";
+    privbtf jbvb.util.List<NotifidbtionListfnfr> notifidbtionListfnfrsList;
+    privbtf Hbsitbblf<JButton, OpfrbtionEntry> opfrbtionEntryTbblf;
+    privbtf XMBfbn mbfbn;
+    privbtf MBfbnInfo mbfbnInfo;
+    privbtf MBfbnsTbb mbfbnsTbb;
 
-    public XOperations(MBeansTab mbeansTab) {
-        super(new GridLayout(1, 1));
-        this.mbeansTab = mbeansTab;
-        operationEntryTable = new Hashtable<JButton, OperationEntry>();
-        ArrayList<NotificationListener> l =
-                new ArrayList<NotificationListener>(1);
-        notificationListenersList =
-                Collections.synchronizedList(l);
+    publid XOpfrbtions(MBfbnsTbb mbfbnsTbb) {
+        supfr(nfw GridLbyout(1, 1));
+        tiis.mbfbnsTbb = mbfbnsTbb;
+        opfrbtionEntryTbblf = nfw Hbsitbblf<JButton, OpfrbtionEntry>();
+        ArrbyList<NotifidbtionListfnfr> l =
+                nfw ArrbyList<NotifidbtionListfnfr>(1);
+        notifidbtionListfnfrsList =
+                Collfdtions.syndironizfdList(l);
     }
 
-    // Call on EDT
-    public void removeOperations() {
-        removeAll();
+    // Cbll on EDT
+    publid void rfmovfOpfrbtions() {
+        rfmovfAll();
     }
 
-    // Call on EDT
-    public void loadOperations(XMBean mbean, MBeanInfo mbeanInfo) {
-        this.mbean = mbean;
-        this.mbeanInfo = mbeanInfo;
-        // add operations information
-        MBeanOperationInfo operations[] = mbeanInfo.getOperations();
-        invalidate();
+    // Cbll on EDT
+    publid void lobdOpfrbtions(XMBfbn mbfbn, MBfbnInfo mbfbnInfo) {
+        tiis.mbfbn = mbfbn;
+        tiis.mbfbnInfo = mbfbnInfo;
+        // bdd opfrbtions informbtion
+        MBfbnOpfrbtionInfo opfrbtions[] = mbfbnInfo.gftOpfrbtions();
+        invblidbtf();
 
-        // remove listeners, if any
-        Component listeners[] = getComponents();
-        for (int i = 0; i < listeners.length; i++) {
-            if (listeners[i] instanceof JButton) {
-                ((JButton) listeners[i]).removeActionListener(this);
+        // rfmovf listfnfrs, if bny
+        Componfnt listfnfrs[] = gftComponfnts();
+        for (int i = 0; i < listfnfrs.lfngti; i++) {
+            if (listfnfrs[i] instbndfof JButton) {
+                ((JButton) listfnfrs[i]).rfmovfAdtionListfnfr(tiis);
             }
         }
 
-        removeAll();
-        setLayout(new BorderLayout());
+        rfmovfAll();
+        sftLbyout(nfw BordfrLbyout());
 
-        JButton methodButton;
-        JLabel methodLabel;
-        JPanel innerPanelLeft, innerPanelRight;
-        JPanel outerPanelLeft, outerPanelRight;
-        outerPanelLeft = new JPanel(new GridLayout(operations.length, 1));
-        outerPanelRight = new JPanel(new GridLayout(operations.length, 1));
+        JButton mftiodButton;
+        JLbbfl mftiodLbbfl;
+        JPbnfl innfrPbnflLfft, innfrPbnflRigit;
+        JPbnfl outfrPbnflLfft, outfrPbnflRigit;
+        outfrPbnflLfft = nfw JPbnfl(nfw GridLbyout(opfrbtions.lfngti, 1));
+        outfrPbnflRigit = nfw JPbnfl(nfw GridLbyout(opfrbtions.lfngti, 1));
 
-        for (int i = 0; i < operations.length; i++) {
-            innerPanelLeft = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            innerPanelRight = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            String returnType = operations[i].getReturnType();
-            if (returnType == null) {
-                methodLabel = new JLabel("null", JLabel.RIGHT);
-                if (JConsole.isDebug()) {
-                    System.err.println(
-                            "WARNING: The operation's return type " +
-                            "shouldn't be \"null\". Check how the " +
-                            "MBeanOperationInfo for the \"" +
-                            operations[i].getName() + "\" operation has " +
-                            "been defined in the MBean's implementation code.");
+        for (int i = 0; i < opfrbtions.lfngti; i++) {
+            innfrPbnflLfft = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.RIGHT));
+            innfrPbnflRigit = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.LEFT));
+            String rfturnTypf = opfrbtions[i].gftRfturnTypf();
+            if (rfturnTypf == null) {
+                mftiodLbbfl = nfw JLbbfl("null", JLbbfl.RIGHT);
+                if (JConsolf.isDfbug()) {
+                    Systfm.frr.println(
+                            "WARNING: Tif opfrbtion's rfturn typf " +
+                            "siouldn't bf \"null\". Cifdk iow tif " +
+                            "MBfbnOpfrbtionInfo for tif \"" +
+                            opfrbtions[i].gftNbmf() + "\" opfrbtion ibs " +
+                            "bffn dffinfd in tif MBfbn's implfmfntbtion dodf.");
                 }
-            } else {
-                methodLabel = new JLabel(
-                        Utils.getReadableClassName(returnType), JLabel.RIGHT);
+            } flsf {
+                mftiodLbbfl = nfw JLbbfl(
+                        Utils.gftRfbdbblfClbssNbmf(rfturnTypf), JLbbfl.RIGHT);
             }
-            innerPanelLeft.add(methodLabel);
-            if (methodLabel.getText().length() > 20) {
-                methodLabel.setText(methodLabel.getText().
-                        substring(methodLabel.getText().
-                        lastIndexOf('.') + 1,
-                        methodLabel.getText().length()));
-            }
-
-            methodButton = new JButton(operations[i].getName());
-            methodButton.setToolTipText(operations[i].getDescription());
-            boolean callable = isCallable(operations[i].getSignature());
-            if (callable) {
-                methodButton.addActionListener(this);
-            } else {
-                methodButton.setEnabled(false);
+            innfrPbnflLfft.bdd(mftiodLbbfl);
+            if (mftiodLbbfl.gftTfxt().lfngti() > 20) {
+                mftiodLbbfl.sftTfxt(mftiodLbbfl.gftTfxt().
+                        substring(mftiodLbbfl.gftTfxt().
+                        lbstIndfxOf('.') + 1,
+                        mftiodLbbfl.gftTfxt().lfngti()));
             }
 
-            MBeanParameterInfo[] signature = operations[i].getSignature();
-            OperationEntry paramEntry = new OperationEntry(operations[i],
-                    callable,
-                    methodButton,
-                    this);
-            operationEntryTable.put(methodButton, paramEntry);
-            innerPanelRight.add(methodButton);
-            if (signature.length == 0) {
-                innerPanelRight.add(new JLabel("( )", JLabel.CENTER));
-            } else {
-                innerPanelRight.add(paramEntry);
+            mftiodButton = nfw JButton(opfrbtions[i].gftNbmf());
+            mftiodButton.sftToolTipTfxt(opfrbtions[i].gftDfsdription());
+            boolfbn dbllbblf = isCbllbblf(opfrbtions[i].gftSignbturf());
+            if (dbllbblf) {
+                mftiodButton.bddAdtionListfnfr(tiis);
+            } flsf {
+                mftiodButton.sftEnbblfd(fblsf);
             }
 
-            outerPanelLeft.add(innerPanelLeft, BorderLayout.WEST);
-            outerPanelRight.add(innerPanelRight, BorderLayout.CENTER);
+            MBfbnPbrbmftfrInfo[] signbturf = opfrbtions[i].gftSignbturf();
+            OpfrbtionEntry pbrbmEntry = nfw OpfrbtionEntry(opfrbtions[i],
+                    dbllbblf,
+                    mftiodButton,
+                    tiis);
+            opfrbtionEntryTbblf.put(mftiodButton, pbrbmEntry);
+            innfrPbnflRigit.bdd(mftiodButton);
+            if (signbturf.lfngti == 0) {
+                innfrPbnflRigit.bdd(nfw JLbbfl("( )", JLbbfl.CENTER));
+            } flsf {
+                innfrPbnflRigit.bdd(pbrbmEntry);
+            }
+
+            outfrPbnflLfft.bdd(innfrPbnflLfft, BordfrLbyout.WEST);
+            outfrPbnflRigit.bdd(innfrPbnflRigit, BordfrLbyout.CENTER);
         }
-        add(outerPanelLeft, BorderLayout.WEST);
-        add(outerPanelRight, BorderLayout.CENTER);
-        validate();
+        bdd(outfrPbnflLfft, BordfrLbyout.WEST);
+        bdd(outfrPbnflRigit, BordfrLbyout.CENTER);
+        vblidbtf();
     }
 
-    private boolean isCallable(MBeanParameterInfo[] signature) {
-        for (int i = 0; i < signature.length; i++) {
-            if (!Utils.isEditableType(signature[i].getType())) {
-                return false;
+    privbtf boolfbn isCbllbblf(MBfbnPbrbmftfrInfo[] signbturf) {
+        for (int i = 0; i < signbturf.lfngti; i++) {
+            if (!Utils.isEditbblfTypf(signbturf[i].gftTypf())) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    // Call on EDT
-    public void actionPerformed(final ActionEvent e) {
-        performInvokeRequest((JButton) e.getSource());
+    // Cbll on EDT
+    publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+        pfrformInvokfRfqufst((JButton) f.gftSourdf());
     }
 
-    void performInvokeRequest(final JButton button) {
-        final OperationEntry entryIf = operationEntryTable.get(button);
-        new SwingWorker<Object, Void>() {
-            @Override
-            public Object doInBackground() throws Exception {
-                return mbean.invoke(button.getText(),
-                        entryIf.getParameters(), entryIf.getSignature());
+    void pfrformInvokfRfqufst(finbl JButton button) {
+        finbl OpfrbtionEntry fntryIf = opfrbtionEntryTbblf.gft(button);
+        nfw SwingWorkfr<Objfdt, Void>() {
+            @Ovfrridf
+            publid Objfdt doInBbdkground() tirows Exdfption {
+                rfturn mbfbn.invokf(button.gftTfxt(),
+                        fntryIf.gftPbrbmftfrs(), fntryIf.gftSignbturf());
             }
-            @Override
-            protected void done() {
+            @Ovfrridf
+            protfdtfd void donf() {
                 try {
-                    Object result = get();
-                    // sends result notification to upper level if
-                    // there is a return value
-                    if (entryIf.getReturnType() != null &&
-                            !entryIf.getReturnType().equals(Void.TYPE.getName()) &&
-                            !entryIf.getReturnType().equals(Void.class.getName())) {
-                        fireChangedNotification(OPERATION_INVOCATION_EVENT, button, result);
-                    } else {
-                        new ThreadDialog(
+                    Objfdt rfsult = gft();
+                    // sfnds rfsult notifidbtion to uppfr lfvfl if
+                    // tifrf is b rfturn vbluf
+                    if (fntryIf.gftRfturnTypf() != null &&
+                            !fntryIf.gftRfturnTypf().fqubls(Void.TYPE.gftNbmf()) &&
+                            !fntryIf.gftRfturnTypf().fqubls(Void.dlbss.gftNbmf())) {
+                        firfCibngfdNotifidbtion(OPERATION_INVOCATION_EVENT, button, rfsult);
+                    } flsf {
+                        nfw TirfbdDiblog(
                                 button,
-                                Messages.METHOD_SUCCESSFULLY_INVOKED,
-                                Messages.INFO,
-                                JOptionPane.INFORMATION_MESSAGE).run();
+                                Mfssbgfs.METHOD_SUCCESSFULLY_INVOKED,
+                                Mfssbgfs.INFO,
+                                JOptionPbnf.INFORMATION_MESSAGE).run();
                     }
-                } catch (Throwable t) {
-                    t = Utils.getActualException(t);
-                    if (JConsole.isDebug()) {
-                        t.printStackTrace();
+                } dbtdi (Tirowbblf t) {
+                    t = Utils.gftAdtublExdfption(t);
+                    if (JConsolf.isDfbug()) {
+                        t.printStbdkTrbdf();
                     }
-                    new ThreadDialog(
+                    nfw TirfbdDiblog(
                             button,
-                            Messages.PROBLEM_INVOKING + " " +
-                            button.getText() + " : " + t.toString(),
-                            Messages.ERROR,
-                            JOptionPane.ERROR_MESSAGE).run();
+                            Mfssbgfs.PROBLEM_INVOKING + " " +
+                            button.gftTfxt() + " : " + t.toString(),
+                            Mfssbgfs.ERROR,
+                            JOptionPbnf.ERROR_MESSAGE).run();
                 }
             }
-        }.execute();
+        }.fxfdutf();
     }
 
-    public void addOperationsListener(NotificationListener nl) {
-        notificationListenersList.add(nl);
+    publid void bddOpfrbtionsListfnfr(NotifidbtionListfnfr nl) {
+        notifidbtionListfnfrsList.bdd(nl);
     }
 
-    public void removeOperationsListener(NotificationListener nl) {
-        notificationListenersList.remove(nl);
+    publid void rfmovfOpfrbtionsListfnfr(NotifidbtionListfnfr nl) {
+        notifidbtionListfnfrsList.rfmovf(nl);
     }
 
-    // Call on EDT
-    private void fireChangedNotification(
-            String type, Object source, Object handback) {
-        Notification n = new Notification(type, source, 0);
-        for (NotificationListener nl : notificationListenersList) {
-            nl.handleNotification(n, handback);
+    // Cbll on EDT
+    privbtf void firfCibngfdNotifidbtion(
+            String typf, Objfdt sourdf, Objfdt ibndbbdk) {
+        Notifidbtion n = nfw Notifidbtion(typf, sourdf, 0);
+        for (NotifidbtionListfnfr nl : notifidbtionListfnfrsList) {
+            nl.ibndlfNotifidbtion(n, ibndbbdk);
         }
     }
 
-    protected abstract MBeanOperationInfo[] updateOperations(MBeanOperationInfo[] operations);
+    protfdtfd bbstrbdt MBfbnOpfrbtionInfo[] updbtfOpfrbtions(MBfbnOpfrbtionInfo[] opfrbtions);
 }

@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
-import java.io.*;
-import java.util.*;
-import java.util.logging.Logger;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+pbdkbgf sun.nft.ittpsfrvfr;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.logging.Loggfr;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
 /**
- * HttpContext represents a mapping between a protocol (http or https) together with a root URI path
- * to a {@link HttpHandler} which is invoked to handle requests destined
- * for the protocol/path on the associated HttpServer.
+ * HttpContfxt rfprfsfnts b mbpping bftwffn b protodol (ittp or ittps) togftifr witi b root URI pbti
+ * to b {@link HttpHbndlfr} wiidi is invokfd to ibndlf rfqufsts dfstinfd
+ * for tif protodol/pbti on tif bssodibtfd HttpSfrvfr.
  * <p>
- * HttpContext instances are created by {@link HttpServer#createContext(String,String,HttpHandler,Object)}
+ * HttpContfxt instbndfs brf drfbtfd by {@link HttpSfrvfr#drfbtfContfxt(String,String,HttpHbndlfr,Objfdt)}
  * <p>
  */
-class HttpContextImpl extends HttpContext {
+dlbss HttpContfxtImpl fxtfnds HttpContfxt {
 
-    private String path;
-    private String protocol;
-    private HttpHandler handler;
-    private Map<String,Object> attributes = new HashMap<String,Object>();
-    private ServerImpl server;
-    /* system filters, not visible to applications */
-    private LinkedList<Filter> sfilters = new LinkedList<Filter>();
-    /* user filters, set by applications */
-    private LinkedList<Filter> ufilters = new LinkedList<Filter>();
-    private Authenticator authenticator;
-    private AuthFilter authfilter;
+    privbtf String pbti;
+    privbtf String protodol;
+    privbtf HttpHbndlfr ibndlfr;
+    privbtf Mbp<String,Objfdt> bttributfs = nfw HbsiMbp<String,Objfdt>();
+    privbtf SfrvfrImpl sfrvfr;
+    /* systfm filtfrs, not visiblf to bpplidbtions */
+    privbtf LinkfdList<Filtfr> sfiltfrs = nfw LinkfdList<Filtfr>();
+    /* usfr filtfrs, sft by bpplidbtions */
+    privbtf LinkfdList<Filtfr> ufiltfrs = nfw LinkfdList<Filtfr>();
+    privbtf Autifntidbtor butifntidbtor;
+    privbtf AutiFiltfr butifiltfr;
 
     /**
-     * constructor is package private.
+     * donstrudtor is pbdkbgf privbtf.
      */
-    HttpContextImpl (String protocol, String path, HttpHandler cb, ServerImpl server) {
-        if (path == null || protocol == null || path.length() < 1 || path.charAt(0) != '/') {
-            throw new IllegalArgumentException ("Illegal value for path or protocol");
+    HttpContfxtImpl (String protodol, String pbti, HttpHbndlfr db, SfrvfrImpl sfrvfr) {
+        if (pbti == null || protodol == null || pbti.lfngti() < 1 || pbti.dibrAt(0) != '/') {
+            tirow nfw IllfgblArgumfntExdfption ("Illfgbl vbluf for pbti or protodol");
         }
-        this.protocol = protocol.toLowerCase();
-        this.path = path;
-        if (!this.protocol.equals ("http") && !this.protocol.equals ("https")) {
-            throw new IllegalArgumentException ("Illegal value for protocol");
+        tiis.protodol = protodol.toLowfrCbsf();
+        tiis.pbti = pbti;
+        if (!tiis.protodol.fqubls ("ittp") && !tiis.protodol.fqubls ("ittps")) {
+            tirow nfw IllfgblArgumfntExdfption ("Illfgbl vbluf for protodol");
         }
-        this.handler = cb;
-        this.server = server;
-        authfilter = new AuthFilter(null);
-        sfilters.add (authfilter);
+        tiis.ibndlfr = db;
+        tiis.sfrvfr = sfrvfr;
+        butifiltfr = nfw AutiFiltfr(null);
+        sfiltfrs.bdd (butifiltfr);
     }
 
     /**
-     * returns the handler for this context
-     * @return the HttpHandler for this context
+     * rfturns tif ibndlfr for tiis dontfxt
+     * @rfturn tif HttpHbndlfr for tiis dontfxt
      */
-    public HttpHandler getHandler () {
-        return handler;
+    publid HttpHbndlfr gftHbndlfr () {
+        rfturn ibndlfr;
     }
 
-    public void setHandler (HttpHandler h) {
-        if (h == null) {
-            throw new NullPointerException ("Null handler parameter");
+    publid void sftHbndlfr (HttpHbndlfr i) {
+        if (i == null) {
+            tirow nfw NullPointfrExdfption ("Null ibndlfr pbrbmftfr");
         }
-        if (handler != null) {
-            throw new IllegalArgumentException ("handler already set");
+        if (ibndlfr != null) {
+            tirow nfw IllfgblArgumfntExdfption ("ibndlfr blrfbdy sft");
         }
-        handler = h;
+        ibndlfr = i;
     }
 
     /**
-     * returns the path this context was created with
-     * @return this context's path
+     * rfturns tif pbti tiis dontfxt wbs drfbtfd witi
+     * @rfturn tiis dontfxt's pbti
      */
-    public String getPath() {
-        return path;
+    publid String gftPbti() {
+        rfturn pbti;
     }
 
     /**
-     * returns the server this context was created with
-     * @return this context's server
+     * rfturns tif sfrvfr tiis dontfxt wbs drfbtfd witi
+     * @rfturn tiis dontfxt's sfrvfr
      */
-    public HttpServer getServer () {
-        return server.getWrapper();
+    publid HttpSfrvfr gftSfrvfr () {
+        rfturn sfrvfr.gftWrbppfr();
     }
 
-    ServerImpl getServerImpl () {
-        return server;
+    SfrvfrImpl gftSfrvfrImpl () {
+        rfturn sfrvfr;
     }
 
     /**
-     * returns the protocol this context was created with
-     * @return this context's path
+     * rfturns tif protodol tiis dontfxt wbs drfbtfd witi
+     * @rfturn tiis dontfxt's pbti
      */
-    public String getProtocol() {
-        return protocol;
+    publid String gftProtodol() {
+        rfturn protodol;
     }
 
     /**
-     * returns a mutable Map, which can be used to pass
-     * configuration and other data to Filter modules
-     * and to the context's exchange handler.
+     * rfturns b mutbblf Mbp, wiidi dbn bf usfd to pbss
+     * donfigurbtion bnd otifr dbtb to Filtfr modulfs
+     * bnd to tif dontfxt's fxdibngf ibndlfr.
      * <p>
-     * Every attribute stored in this Map will be visible to
-     * every HttpExchange processed by this context
+     * Evfry bttributf storfd in tiis Mbp will bf visiblf to
+     * fvfry HttpExdibngf prodfssfd by tiis dontfxt
      */
-    public Map<String,Object> getAttributes() {
-        return attributes;
+    publid Mbp<String,Objfdt> gftAttributfs() {
+        rfturn bttributfs;
     }
 
-    public List<Filter> getFilters () {
-        return ufilters;
+    publid List<Filtfr> gftFiltfrs () {
+        rfturn ufiltfrs;
     }
 
-    List<Filter> getSystemFilters () {
-        return sfilters;
+    List<Filtfr> gftSystfmFiltfrs () {
+        rfturn sfiltfrs;
     }
 
-    public Authenticator setAuthenticator (Authenticator auth) {
-        Authenticator old = authenticator;
-        authenticator = auth;
-        authfilter.setAuthenticator (auth);
-        return old;
+    publid Autifntidbtor sftAutifntidbtor (Autifntidbtor buti) {
+        Autifntidbtor old = butifntidbtor;
+        butifntidbtor = buti;
+        butifiltfr.sftAutifntidbtor (buti);
+        rfturn old;
     }
 
-    public Authenticator getAuthenticator () {
-        return authenticator;
+    publid Autifntidbtor gftAutifntidbtor () {
+        rfturn butifntidbtor;
     }
-    Logger getLogger () {
-        return server.getLogger();
+    Loggfr gftLoggfr () {
+        rfturn sfrvfr.gftLoggfr();
     }
 }

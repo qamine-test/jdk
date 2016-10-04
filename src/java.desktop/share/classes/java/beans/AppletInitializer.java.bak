@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.applet.Applet;
+import jbvb.bpplft.Applft;
 
-import java.beans.beancontext.BeanContext;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
 
 /**
  * <p>
- * This interface is designed to work in collusion with java.beans.Beans.instantiate.
- * The interface is intended to provide mechanism to allow the proper
- * initialization of JavaBeans that are also Applets, during their
- * instantiation by java.beans.Beans.instantiate().
+ * Tiis intfrfbdf is dfsignfd to work in dollusion witi jbvb.bfbns.Bfbns.instbntibtf.
+ * Tif intfrfbdf is intfndfd to providf mfdibnism to bllow tif propfr
+ * initiblizbtion of JbvbBfbns tibt brf blso Applfts, during tifir
+ * instbntibtion by jbvb.bfbns.Bfbns.instbntibtf().
  * </p>
  *
- * @see java.beans.Beans#instantiate
+ * @sff jbvb.bfbns.Bfbns#instbntibtf
  *
- * @since 1.2
+ * @sindf 1.2
  *
  */
 
 
-public interface AppletInitializer {
+publid intfrfbdf ApplftInitiblizfr {
 
     /**
      * <p>
-     * If passed to the appropriate variant of java.beans.Beans.instantiate
-     * this method will be called in order to associate the newly instantiated
-     * Applet (JavaBean) with its AppletContext, AppletStub, and Container.
+     * If pbssfd to tif bppropribtf vbribnt of jbvb.bfbns.Bfbns.instbntibtf
+     * tiis mftiod will bf dbllfd in ordfr to bssodibtf tif nfwly instbntibtfd
+     * Applft (JbvbBfbn) witi its ApplftContfxt, ApplftStub, bnd Contbinfr.
      * </p>
      * <p>
-     * Conformant implementations shall:
+     * Conformbnt implfmfntbtions sibll:
      * <ol>
-     * <li> Associate the newly instantiated Applet with the appropriate
-     * AppletContext.
+     * <li> Assodibtf tif nfwly instbntibtfd Applft witi tif bppropribtf
+     * ApplftContfxt.
      *
-     * <li> Instantiate an AppletStub() and associate that AppletStub with
-     * the Applet via an invocation of setStub().
+     * <li> Instbntibtf bn ApplftStub() bnd bssodibtf tibt ApplftStub witi
+     * tif Applft vib bn invodbtion of sftStub().
      *
-     * <li> If BeanContext parameter is null, then it shall associate the
-     * Applet with its appropriate Container by adding that Applet to its
-     * Container via an invocation of add(). If the BeanContext parameter is
-     * non-null, then it is the responsibility of the BeanContext to associate
-     * the Applet with its Container during the subsequent invocation of its
-     * addChildren() method.
+     * <li> If BfbnContfxt pbrbmftfr is null, tifn it sibll bssodibtf tif
+     * Applft witi its bppropribtf Contbinfr by bdding tibt Applft to its
+     * Contbinfr vib bn invodbtion of bdd(). If tif BfbnContfxt pbrbmftfr is
+     * non-null, tifn it is tif rfsponsibility of tif BfbnContfxt to bssodibtf
+     * tif Applft witi its Contbinfr during tif subsfqufnt invodbtion of its
+     * bddCiildrfn() mftiod.
      * </ol>
      *
-     * @param newAppletBean  The newly instantiated JavaBean
-     * @param bCtxt          The BeanContext intended for this Applet, or
+     * @pbrbm nfwApplftBfbn  Tif nfwly instbntibtfd JbvbBfbn
+     * @pbrbm bCtxt          Tif BfbnContfxt intfndfd for tiis Applft, or
      *                       null.
      */
 
-    void initialize(Applet newAppletBean, BeanContext bCtxt);
+    void initiblizf(Applft nfwApplftBfbn, BfbnContfxt bCtxt);
 
     /**
      * <p>
-     * Activate, and/or mark Applet active. Implementors of this interface
-     * shall mark this Applet as active, and optionally invoke its start()
-     * method.
+     * Adtivbtf, bnd/or mbrk Applft bdtivf. Implfmfntors of tiis intfrfbdf
+     * sibll mbrk tiis Applft bs bdtivf, bnd optionblly invokf its stbrt()
+     * mftiod.
      * </p>
      *
-     * @param newApplet  The newly instantiated JavaBean
+     * @pbrbm nfwApplft  Tif nfwly instbntibtfd JbvbBfbn
      */
 
-    void activate(Applet newApplet);
+    void bdtivbtf(Applft nfwApplft);
 }

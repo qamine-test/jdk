@@ -1,0 +1,676 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio;
+
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * A supfrdlbss of bll dlbssfs dfsdribing how strfbms should bf
+ * dfdodfd or fndodfd.  This dlbss dontbins bll thf vbribblfs bnd
+ * mfthods thbt brf shbrfd by <dodf>ImbgfRfbdPbrbm</dodf> bnd
+ * <dodf>ImbgfWritfPbrbm</dodf>.
+ *
+ * <p> This dlbss providfs mfdhbnisms to spfdify b sourdf rfgion bnd b
+ * dfstinbtion rfgion.  Whfn rfbding, thf sourdf is thf strfbm bnd
+ * thf in-mfmory imbgf is thf dfstinbtion.  Whfn writing, thfsf brf
+ * rfvfrsfd.  In thf dbsf of writing, dfstinbtion rfgions mby bf usfd
+ * only with b writfr thbt supports pixfl rfplbdfmfnt.
+ * <p>
+ * Dfdimbtion subsbmpling mby bf spfdififd for both rfbdfrs
+ * bnd writfrs, using b movbblf subsbmpling grid.
+ * <p>
+ * Subsfts of thf sourdf bnd dfstinbtion bbnds mby bf sflfdtfd.
+ *
+ */
+publid bbstrbdt dlbss IIOPbrbm {
+
+    /**
+     * Thf sourdf rfgion, on <dodf>null</dodf> if nonf is sft.
+     */
+    protfdtfd Rfdtbnglf sourdfRfgion = null;
+
+    /**
+     * Thf dfdimbtion subsbmpling to bf bpplifd in thf horizontbl
+     * dirfdtion.  By dffbult, thf vbluf is <dodf>1</dodf>.
+     * Thf vbluf must not bf nfgbtivf or 0.
+     */
+    protfdtfd int sourdfXSubsbmpling = 1;
+
+    /**
+     * Thf dfdimbtion subsbmpling to bf bpplifd in thf vfrtidbl
+     * dirfdtion.  By dffbult, thf vbluf is <dodf>1</dodf>.
+     * Thf vbluf must not bf nfgbtivf or 0.
+     */
+    protfdtfd int sourdfYSubsbmpling = 1;
+
+    /**
+     * A horizontbl offsft to bf bpplifd to thf subsbmpling grid bfforf
+     * subsbmpling.  Thf first pixfl to bf usfd will bf offsft this
+     * bmount from thf origin of thf rfgion, or of thf imbgf if no
+     * rfgion is spfdififd.
+     */
+    protfdtfd int subsbmplingXOffsft = 0;
+
+    /**
+     * A vfrtidbl offsft to bf bpplifd to thf subsbmpling grid bfforf
+     * subsbmpling.  Thf first pixfl to bf usfd will bf offsft this
+     * bmount from thf origin of thf rfgion, or of thf imbgf if no
+     * rfgion is spfdififd.
+     */
+    protfdtfd int subsbmplingYOffsft = 0;
+
+    /**
+     * An brrby of <dodf>int</dodf>s indidbting whidh sourdf bbnds
+     * will bf usfd, or <dodf>null</dodf>.  If <dodf>null</dodf>, thf
+     * sft of sourdf bbnds to bf usfd is bs dfsdribfd in thf dommfnt
+     * for thf <dodf>sftSourdfBbnds</dodf> mfthod.  No vbluf should
+     * bf bllowfd to bf nfgbtivf.
+     */
+    protfdtfd int[] sourdfBbnds = null;
+
+    /**
+     * An <dodf>ImbgfTypfSpfdififr</dodf> to bf usfd to gfnfrbtf b
+     * dfstinbtion imbgf whfn rfbding, or to sft thf output dolor typf
+     * whfn writing.  If non hbs bffn sft thf vbluf will bf
+     * <dodf>null</dodf>.  By dffbult, thf vbluf is <dodf>null</dodf>.
+     */
+    protfdtfd ImbgfTypfSpfdififr dfstinbtionTypf = null;
+
+    /**
+     * Thf offsft in thf dfstinbtion whfrf thf uppfr-lfft dfdodfd
+     * pixfl should bf plbdfd.  By dffbult, thf vbluf is (0, 0).
+     */
+    protfdtfd Point dfstinbtionOffsft = nfw Point(0, 0);
+
+    /**
+     * Thf dffbult <dodf>IIOPbrbmControllfr</dodf> thbt will bf
+     * usfd to providf sfttings for this <dodf>IIOPbrbm</dodf>
+     * objfdt whfn thf <dodf>bdtivbtfControllfr</dodf> mfthod
+     * is dbllfd.  This dffbult should bf sft by subdlbssfs
+     * thbt dhoosf to providf thfir own dffbult dontrollfr,
+     * usublly b GUI, for sftting pbrbmftfrs.
+     *
+     * @sff IIOPbrbmControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #bdtivbtfControllfr
+     */
+    protfdtfd IIOPbrbmControllfr dffbultControllfr = null;
+
+    /**
+     * Thf <dodf>IIOPbrbmControllfr</dodf> thbt will bf
+     * usfd to providf sfttings for this <dodf>IIOPbrbm</dodf>
+     * objfdt whfn thf <dodf>bdtivbtfControllfr</dodf> mfthod
+     * is dbllfd.  This vbluf ovfrridfs bny dffbult dontrollfr,
+     * fvfn whfn null.
+     *
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr(IIOPbrbmControllfr)
+     * @sff #hbsControllfr()
+     * @sff #bdtivbtfControllfr()
+     */
+    protfdtfd IIOPbrbmControllfr dontrollfr = null;
+
+    /**
+     * Protfdtfd donstrudtor mby bf dbllfd only by subdlbssfs.
+     */
+    protfdtfd IIOPbrbm() {
+        dontrollfr = dffbultControllfr;
+    }
+
+    /**
+     * Sfts thf sourdf rfgion of intfrfst.  Thf rfgion of intfrfst is
+     * dfsdribfd bs b rfdtbnglf, with thf uppfr-lfft dornfr of thf
+     * sourdf imbgf bs pixfl (0, 0) bnd indrfbsing vblufs down bnd to
+     * thf right.  Thf bdtubl numbfr of pixfls usfd will dfpfnd on
+     * thf subsbmpling fbdtors sft by <dodf>sftSourdfSubsbmpling</dodf>.
+     * If subsbmpling hbs bffn sft sudh thbt this numbfr is zfro,
+     * bn <dodf>IllfgblStbtfExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf sourdf rfgion of intfrfst spfdififd by this mfthod will
+     * bf dlippfd bs nffdfd to fit within thf sourdf bounds, bs wfll
+     * bs thf dfstinbtion offsfts, width, bnd hfight bt thf timf of
+     * bdtubl I/O.
+     *
+     * <p> A vbluf of <dodf>null</dodf> for <dodf>sourdfRfgion</dodf>
+     * will rfmovf bny rfgion spfdifidbtion, dbusing thf fntirf imbgf
+     * to bf usfd.
+     *
+     * @pbrbm sourdfRfgion b <dodf>Rfdtbnglf</dodf> spfdifying thf
+     * sourdf rfgion of intfrfst, or <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>sourdfRfgion</dodf> is non-<dodf>null</dodf> bnd fithfr
+     * <dodf>sourdfRfgion.x</dodf> or <dodf>sourdfRfgion.y</dodf> is
+     * nfgbtivf.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>sourdfRfgion</dodf> is non-<dodf>null</dodf> bnd fithfr
+     * <dodf>sourdfRfgion.width</dodf> or
+     * <dodf>sourdfRfgion.hfight</dodf> is nfgbtivf or 0.
+     * @fxdfption IllfgblStbtfExdfption if subsbmpling is sudh thbt
+     * this rfgion will hbvf b subsbmplfd width or hfight of zfro.
+     *
+     * @sff #gftSourdfRfgion
+     * @sff #sftSourdfSubsbmpling
+     * @sff ImbgfRfbdPbrbm#sftDfstinbtionOffsft
+     * @sff ImbgfRfbdPbrbm#gftDfstinbtionOffsft
+     */
+    publid void sftSourdfRfgion(Rfdtbnglf sourdfRfgion) {
+        if (sourdfRfgion == null) {
+            this.sourdfRfgion = null;
+            rfturn;
+        }
+
+        if (sourdfRfgion.x < 0) {
+            throw nfw IllfgblArgumfntExdfption("sourdfRfgion.x < 0!");
+        }
+        if (sourdfRfgion.y < 0){
+            throw nfw IllfgblArgumfntExdfption("sourdfRfgion.y < 0!");
+        }
+        if (sourdfRfgion.width <= 0) {
+            throw nfw IllfgblArgumfntExdfption("sourdfRfgion.width <= 0!");
+        }
+        if (sourdfRfgion.hfight <= 0) {
+            throw nfw IllfgblArgumfntExdfption("sourdfRfgion.hfight <= 0!");
+        }
+
+        // Throw bn IllfgblStbtfExdfption if rfgion fblls bftwffn subsbmplfs
+        if (sourdfRfgion.width <= subsbmplingXOffsft) {
+            throw nfw IllfgblStbtfExdfption
+                ("sourdfRfgion.width <= subsbmplingXOffsft!");
+        }
+        if (sourdfRfgion.hfight <= subsbmplingYOffsft) {
+            throw nfw IllfgblStbtfExdfption
+                ("sourdfRfgion.hfight <= subsbmplingYOffsft!");
+        }
+
+        this.sourdfRfgion = (Rfdtbnglf)sourdfRfgion.dlonf();
+    }
+
+    /**
+     * Rfturns thf sourdf rfgion to bf usfd.  Thf rfturnfd vbluf is
+     * thbt sft by thf most rfdfnt dbll to
+     * <dodf>sftSourdfRfgion</dodf>, bnd will bf <dodf>null</dodf> if
+     * thfrf is no rfgion sft.
+     *
+     * @rfturn thf sourdf rfgion of intfrfst bs b
+     * <dodf>Rfdtbnglf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #sftSourdfRfgion
+     */
+    publid Rfdtbnglf gftSourdfRfgion() {
+        if (sourdfRfgion == null) {
+            rfturn null;
+        }
+        rfturn (Rfdtbnglf)sourdfRfgion.dlonf();
+    }
+
+    /**
+     * Spfdififs b dfdimbtion subsbmpling to bpply on I/O.  Thf
+     * <dodf>sourdfXSubsbmpling</dodf> bnd
+     * <dodf>sourdfYSubsbmpling</dodf> pbrbmftfrs spfdify thf
+     * subsbmpling pfriod (<i>i.f.</i>, thf numbfr of rows bnd dolumns
+     * to bdvbndf bftfr fvfry sourdf pixfl).  Spfdifidblly, b pfriod of
+     * 1 will usf fvfry row or dolumn; b pfriod of 2 will usf fvfry
+     * othfr row or dolumn.  Thf <dodf>subsbmplingXOffsft</dodf> bnd
+     * <dodf>subsbmplingYOffsft</dodf> pbrbmftfrs spfdify bn offsft
+     * from thf rfgion (or imbgf) origin for thf first subsbmplfd pixfl.
+     * Adjusting thf origin of thf subsbmplf grid is usfful for bvoiding
+     * sfbms whfn subsbmpling b vfry lbrgf sourdf imbgf into dfstinbtion
+     * rfgions thbt will bf bssfmblfd into b domplftf subsbmplfd imbgf.
+     * Most usfrs will wbnt to simply lfbvf thfsf pbrbmftfrs bt 0.
+     *
+     * <p> Thf numbfr of pixfls bnd sdbnlinfs to bf usfd brf dbldulbtfd
+     * bs follows.
+     * <p>
+     * Thf numbfr of subsbmplfd pixfls in b sdbnlinf is givfn by
+     * <p>
+     * <dodf>trundbtf[(width - subsbmplingXOffsft + sourdfXSubsbmpling - 1)
+     * / sourdfXSubsbmpling]</dodf>.
+     * <p>
+     * If thf rfgion is sudh thbt this width is zfro, bn
+     * <dodf>IllfgblStbtfExdfption</dodf> is thrown.
+     * <p>
+     * Thf numbfr of sdbnlinfs to bf usfd dbn bf domputfd similbrly.
+     *
+     * <p>Thf bbility to sft thf subsbmpling grid to stbrt somfwhfrf
+     * othfr thbn thf sourdf rfgion origin is usfful if thf
+     * rfgion is bfing usfd to drfbtf subsbmplfd tilfs of b lbrgf imbgf,
+     * whfrf thf tilf width bnd hfight brf not multiplfs of thf
+     * subsbmpling pfriods.  If thf subsbmpling grid dofs not rfmbin
+     * donsistfnt from tilf to tilf, thfrf will bf brtifbdts bt thf tilf
+     * boundbrifs.  By bdjusting thf subsbmpling grid offsft for fbdh
+     * tilf to dompfnsbtf, thfsf brtifbdts dbn bf bvoidfd.  Thf trbdfoff
+     * is thbt in ordfr to bvoid thfsf brtifbdts, thf tilfs brf not bll
+     * thf sbmf sizf.  Thf grid offsft to usf in this dbsf is givfn by:
+     * <br>
+     * grid offsft = [pfriod - (rfgion offsft modulo pfriod)] modulo pfriod)
+     *
+     * <p> If fithfr <dodf>sourdfXSubsbmpling</dodf> or
+     * <dodf>sourdfYSubsbmpling</dodf> is 0 or nfgbtivf, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> will bf thrown.
+     *
+     * <p> If fithfr <dodf>subsbmplingXOffsft</dodf> or
+     * <dodf>subsbmplingYOffsft</dodf> is nfgbtivf or grfbtfr thbn or
+     * fqubl to thf dorrfsponding pfriod, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> will bf thrown.
+     *
+     * <p> Thfrf is no <dodf>unsftSourdfSubsbmpling</dodf> mfthod;
+     * simply dbll <dodf>sftSourdfSubsbmpling(1, 1, 0, 0)</dodf> to
+     * rfstorf dffbult vblufs.
+     *
+     * @pbrbm sourdfXSubsbmpling thf numbfr of dolumns to bdvbndf
+     * bftwffn pixfls.
+     * @pbrbm sourdfYSubsbmpling thf numbfr of rows to bdvbndf bftwffn
+     * pixfls.
+     * @pbrbm subsbmplingXOffsft thf horizontbl offsft of thf first subsbmplf
+     * within thf rfgion, or within thf imbgf if no rfgion is sft.
+     * @pbrbm subsbmplingYOffsft thf horizontbl offsft of thf first subsbmplf
+     * within thf rfgion, or within thf imbgf if no rfgion is sft.
+     * @fxdfption IllfgblArgumfntExdfption if fithfr pfriod is
+     * nfgbtivf or 0, or if fithfr grid offsft is nfgbtivf or grfbtfr thbn
+     * thf dorrfsponding pfriod.
+     * @fxdfption IllfgblStbtfExdfption if thf sourdf rfgion is sudh thbt
+     * thf subsbmplfd output would dontbin no pixfls.
+     */
+    publid void sftSourdfSubsbmpling(int sourdfXSubsbmpling,
+                                     int sourdfYSubsbmpling,
+                                     int subsbmplingXOffsft,
+                                     int subsbmplingYOffsft) {
+        if (sourdfXSubsbmpling <= 0) {
+            throw nfw IllfgblArgumfntExdfption("sourdfXSubsbmpling <= 0!");
+        }
+        if (sourdfYSubsbmpling <= 0) {
+            throw nfw IllfgblArgumfntExdfption("sourdfYSubsbmpling <= 0!");
+        }
+        if (subsbmplingXOffsft < 0 ||
+            subsbmplingXOffsft >= sourdfXSubsbmpling) {
+            throw nfw IllfgblArgumfntExdfption
+                ("subsbmplingXOffsft out of rbngf!");
+        }
+        if (subsbmplingYOffsft < 0 ||
+            subsbmplingYOffsft >= sourdfYSubsbmpling) {
+            throw nfw IllfgblArgumfntExdfption
+                ("subsbmplingYOffsft out of rbngf!");
+        }
+
+        // Throw bn IllfgblStbtfExdfption if rfgion fblls bftwffn subsbmplfs
+        if (sourdfRfgion != null) {
+            if (subsbmplingXOffsft >= sourdfRfgion.width ||
+                subsbmplingYOffsft >= sourdfRfgion.hfight) {
+                throw nfw IllfgblStbtfExdfption("rfgion dontbins no pixfls!");
+            }
+        }
+
+        this.sourdfXSubsbmpling = sourdfXSubsbmpling;
+        this.sourdfYSubsbmpling = sourdfYSubsbmpling;
+        this.subsbmplingXOffsft = subsbmplingXOffsft;
+        this.subsbmplingYOffsft = subsbmplingYOffsft;
+    }
+
+    /**
+     * Rfturns thf numbfr of sourdf dolumns to bdvbndf for fbdh pixfl.
+     *
+     * <p>If <dodf>sftSourdfSubsbmpling</dodf> hbs not bffn dbllfd, 1
+     * is rfturnfd (whidh is thf dorrfdt vbluf).
+     *
+     * @rfturn thf sourdf subsbmpling X pfriod.
+     *
+     * @sff #sftSourdfSubsbmpling
+     * @sff #gftSourdfYSubsbmpling
+     */
+    publid int gftSourdfXSubsbmpling() {
+        rfturn sourdfXSubsbmpling;
+    }
+
+    /**
+     * Rfturns thf numbfr of rows to bdvbndf for fbdh pixfl.
+     *
+     * <p>If <dodf>sftSourdfSubsbmpling</dodf> hbs not bffn dbllfd, 1
+     * is rfturnfd (whidh is thf dorrfdt vbluf).
+     *
+     * @rfturn thf sourdf subsbmpling Y pfriod.
+     *
+     * @sff #sftSourdfSubsbmpling
+     * @sff #gftSourdfXSubsbmpling
+     */
+    publid int gftSourdfYSubsbmpling() {
+        rfturn sourdfYSubsbmpling;
+    }
+
+    /**
+     * Rfturns thf horizontbl offsft of thf subsbmpling grid.
+     *
+     * <p>If <dodf>sftSourdfSubsbmpling</dodf> hbs not bffn dbllfd, 0
+     * is rfturnfd (whidh is thf dorrfdt vbluf).
+     *
+     * @rfturn thf sourdf subsbmpling grid X offsft.
+     *
+     * @sff #sftSourdfSubsbmpling
+     * @sff #gftSubsbmplingYOffsft
+     */
+    publid int gftSubsbmplingXOffsft() {
+        rfturn subsbmplingXOffsft;
+    }
+
+    /**
+     * Rfturns thf vfrtidbl offsft of thf subsbmpling grid.
+     *
+     * <p>If <dodf>sftSourdfSubsbmpling</dodf> hbs not bffn dbllfd, 0
+     * is rfturnfd (whidh is thf dorrfdt vbluf).
+     *
+     * @rfturn thf sourdf subsbmpling grid Y offsft.
+     *
+     * @sff #sftSourdfSubsbmpling
+     * @sff #gftSubsbmplingXOffsft
+     */
+    publid int gftSubsbmplingYOffsft() {
+        rfturn subsbmplingYOffsft;
+    }
+
+    /**
+     * Sfts thf indidfs of thf sourdf bbnds to bf usfd.  Duplidbtf
+     * indidfs brf not bllowfd.
+     *
+     * <p> A <dodf>null</dodf> vbluf indidbtfs thbt bll sourdf bbnds
+     * will bf usfd.
+     *
+     * <p> At thf timf of rfbding, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> will bf thrown by thf
+     * rfbdfr or writfr if b vbluf lbrgfr thbn thf lbrgfst bvbilbblf
+     * sourdf bbnd indfx hbs bffn spfdififd or if thf numbfr of sourdf
+     * bbnds bnd dfstinbtion bbnds to bf usfd difffr.  Thf
+     * <dodf>ImbgfRfbdfr.dhfdkRfbdPbrbmBbndSfttings</dodf> mfthod mby
+     * bf usfd to butombtf this tfst.
+     *
+     * <p> Sfmbntidblly, b dopy is mbdf of thf brrby; dhbngfs to thf
+     * brrby dontfnts subsfqufnt to this dbll hbvf no ffffdt on
+     * this <dodf>IIOPbrbm</dodf>.
+     *
+     * @pbrbm sourdfBbnds bn brrby of intfgfr bbnd indidfs to bf
+     * usfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>sourdfBbnds</dodf>
+     * dontbins b nfgbtivf or duplidbtf vbluf.
+     *
+     * @sff #gftSourdfBbnds
+     * @sff ImbgfRfbdPbrbm#sftDfstinbtionBbnds
+     * @sff ImbgfRfbdfr#dhfdkRfbdPbrbmBbndSfttings
+     */
+    publid void sftSourdfBbnds(int[] sourdfBbnds) {
+        if (sourdfBbnds == null) {
+            this.sourdfBbnds = null;
+        } flsf {
+            int numBbnds = sourdfBbnds.lfngth;
+            for (int i = 0; i < numBbnds; i++) {
+                int bbnd = sourdfBbnds[i];
+                if (bbnd < 0) {
+                    throw nfw IllfgblArgumfntExdfption("Bbnd vbluf < 0!");
+                }
+                for (int j = i + 1; j < numBbnds; j++) {
+                    if (bbnd == sourdfBbnds[j]) {
+                        throw nfw IllfgblArgumfntExdfption("Duplidbtf bbnd vbluf!");
+                    }
+                }
+
+            }
+            this.sourdfBbnds = (sourdfBbnds.dlonf());
+        }
+    }
+
+    /**
+     * Rfturns thf sft of of sourdf bbnds to bf usfd. Thf rfturnfd
+     * vbluf is thbt sft by thf most rfdfnt dbll to
+     * <dodf>sftSourdfBbnds</dodf>, or <dodf>null</dodf> if thfrf hbvf
+     * bffn no dblls to <dodf>sftSourdfBbnds</dodf>.
+     *
+     * <p> Sfmbntidblly, thf brrby rfturnfd is b dopy; dhbngfs to
+     * brrby dontfnts subsfqufnt to this dbll hbvf no ffffdt on this
+     * <dodf>IIOPbrbm</dodf>.
+     *
+     * @rfturn thf sft of sourdf bbnds to bf usfd, or
+     * <dodf>null</dodf>.
+     *
+     * @sff #sftSourdfBbnds
+     */
+    publid int[] gftSourdfBbnds() {
+        if (sourdfBbnds == null) {
+            rfturn null;
+        }
+        rfturn (sourdfBbnds.dlonf());
+    }
+
+    /**
+     * Sfts thf dfsirfd imbgf typf for thf dfstinbtion imbgf, using bn
+     * <dodf>ImbgfTypfSpfdififr</dodf>.
+     *
+     * <p> Whfn rfbding, if thf lbyout of thf dfstinbtion hbs bffn sft
+     * using this mfthod, fbdh dbll to bn <dodf>ImbgfRfbdfr</dodf>
+     * <dodf>rfbd</dodf> mfthod will rfturn b nfw
+     * <dodf>BufffrfdImbgf</dodf> using thf formbt spfdififd by thf
+     * supplifd typf spfdififr.  As b sidf ffffdt, bny dfstinbtion
+     * <dodf>BufffrfdImbgf</dodf> sft by
+     * <dodf>ImbgfRfbdPbrbm.sftDfstinbtion(BufffrfdImbgf)</dodf> will
+     * no longfr bf sft bs thf dfstinbtion.  In othfr words, this
+     * mfthod mby bf thought of bs dblling
+     * <dodf>sftDfstinbtion((BufffrfdImbgf)null)</dodf>.
+     *
+     * <p> Whfn writing, thf dfstinbtion typf mbybf usfd to dftfrminf
+     * thf dolor typf of thf imbgf.  Thf <dodf>SbmplfModfl</dodf>
+     * informbtion will bf ignorfd, bnd mby bf <dodf>null</dodf>.  For
+     * fxbmplf, b 4-bbndfd imbgf dould rfprfsfnt fithfr CMYK or RGBA
+     * dbtb.  If b dfstinbtion typf is sft, its
+     * <dodf>ColorModfl</dodf> will ovfrridf bny
+     * <dodf>ColorModfl</dodf> on thf imbgf itsflf.  This is drudibl
+     * whfn <dodf>sftSourdfBbnds</dodf> is usfd sindf thf imbgf's
+     * <dodf>ColorModfl</dodf> will rfffr to thf fntirf imbgf rbthfr
+     * thbn to thf subsft of bbnds bfing writtfn.
+     *
+     * @pbrbm dfstinbtionTypf thf <dodf>ImbgfTypfSpfdififr</dodf> to
+     * bf usfd to dftfrminf thf dfstinbtion lbyout bnd dolor typf.
+     *
+     * @sff #gftDfstinbtionTypf
+     */
+    publid void sftDfstinbtionTypf(ImbgfTypfSpfdififr dfstinbtionTypf) {
+        this.dfstinbtionTypf = dfstinbtionTypf;
+    }
+
+    /**
+     * Rfturns thf typf of imbgf to bf rfturnfd by thf rfbd, if onf
+     * wbs sft by b dbll to
+     * <dodf>sftDfstinbtion(ImbgfTypfSpfdififr)</dodf>, bs bn
+     * <dodf>ImbgfTypfSpfdififr</dodf>.  If nonf wbs sft,
+     * <dodf>null</dodf> is rfturnfd.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> dfsdribing thf
+     * dfstinbtion typf, or <dodf>null</dodf>.
+     *
+     * @sff #sftDfstinbtionTypf
+     */
+    publid ImbgfTypfSpfdififr gftDfstinbtionTypf() {
+        rfturn dfstinbtionTypf;
+    }
+
+    /**
+     * Spfdififs thf offsft in thf dfstinbtion imbgf bt whidh futurf
+     * dfdodfd pixfls brf to bf plbdfd, whfn rfbding, or whfrf b
+     * rfgion will bf writtfn, whfn writing.
+     *
+     * <p> Whfn rfbding, thf rfgion to bf writtfn within thf
+     * dfstinbtion <dodf>BufffrfdImbgf</dodf> will stbrt bt this
+     * offsft bnd hbvf b width bnd hfight dftfrminfd by thf sourdf
+     * rfgion of intfrfst, thf subsbmpling pbrbmftfrs, bnd thf
+     * dfstinbtion bounds.
+     *
+     * <p> Normbl writfs brf not bfffdtfd by this mfthod, only writfs
+     * pfrformfd using <dodf>ImbgfWritfr.rfplbdfPixfls</dodf>.  For
+     * sudh writfs, thf offsft spfdififd is within thf output strfbm
+     * imbgf whosf pixfls brf bfing modififd.
+     *
+     * <p> Thfrf is no <dodf>unsftDfstinbtionOffsft</dodf> mfthod;
+     * simply dbll <dodf>sftDfstinbtionOffsft(nfw Point(0, 0))</dodf> to
+     * rfstorf dffbult vblufs.
+     *
+     * @pbrbm dfstinbtionOffsft thf offsft in thf dfstinbtion, bs b
+     * <dodf>Point</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>dfstinbtionOffsft</dodf> is <dodf>null</dodf>.
+     *
+     * @sff #gftDfstinbtionOffsft
+     * @sff ImbgfWritfr#rfplbdfPixfls
+     */
+    publid void sftDfstinbtionOffsft(Point dfstinbtionOffsft) {
+        if (dfstinbtionOffsft == null) {
+            throw nfw IllfgblArgumfntExdfption("dfstinbtionOffsft == null!");
+        }
+        this.dfstinbtionOffsft = (Point)dfstinbtionOffsft.dlonf();
+    }
+
+    /**
+     * Rfturns thf offsft in thf dfstinbtion imbgf bt whidh pixfls brf
+     * to bf plbdfd.
+     *
+     * <p> If <dodf>sftDfstinbtionOffsfts</dodf> hbs not bffn dbllfd,
+     * b <dodf>Point</dodf> with zfro X bnd Y vblufs is rfturnfd
+     * (whidh is thf dorrfdt vbluf).
+     *
+     * @rfturn thf dfstinbtion offsft bs b <dodf>Point</dodf>.
+     *
+     * @sff #sftDfstinbtionOffsft
+     */
+    publid Point gftDfstinbtionOffsft() {
+        rfturn (Point)dfstinbtionOffsft.dlonf();
+    }
+
+    /**
+     * Sfts thf <dodf>IIOPbrbmControllfr</dodf> to bf usfd
+     * to providf sfttings for this <dodf>IIOPbrbm</dodf>
+     * objfdt whfn thf <dodf>bdtivbtfControllfr</dodf> mfthod
+     * is dbllfd, ovfrriding bny dffbult dontrollfr.  If thf
+     * brgumfnt is <dodf>null</dodf>, no dontrollfr will bf
+     * usfd, indluding bny dffbult.  To rfstorf thf dffbult, usf
+     * <dodf>sftControllfr(gftDffbultControllfr())</dodf>.
+     *
+     * @pbrbm dontrollfr An bppropribtf
+     * <dodf>IIOPbrbmControllfr</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff IIOPbrbmControllfr
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #hbsControllfr
+     * @sff #bdtivbtfControllfr()
+     */
+    publid void sftControllfr(IIOPbrbmControllfr dontrollfr) {
+        this.dontrollfr = dontrollfr;
+    }
+
+    /**
+     * Rfturns whbtfvfr <dodf>IIOPbrbmControllfr</dodf> is durrfntly
+     * instbllfd.  This dould bf thf dffbult if thfrf is onf,
+     * <dodf>null</dodf>, or thf brgumfnt of thf most rfdfnt dbll
+     * to <dodf>sftControllfr</dodf>.
+     *
+     * @rfturn thf durrfntly instbllfd
+     * <dodf>IIOPbrbmControllfr</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #hbsControllfr
+     * @sff #bdtivbtfControllfr()
+     */
+    publid IIOPbrbmControllfr gftControllfr() {
+        rfturn dontrollfr;
+    }
+
+    /**
+     * Rfturns thf dffbult <dodf>IIOPbrbmControllfr</dodf>, if thfrf
+     * is onf, rfgbrdlfss of thf durrfntly instbllfd dontrollfr.  If
+     * thfrf is no dffbult dontrollfr, rfturns <dodf>null</dodf>.
+     *
+     * @rfturn thf dffbult <dodf>IIOPbrbmControllfr</dodf>, or
+     * <dodf>null</dodf>.
+     *
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr(IIOPbrbmControllfr)
+     * @sff #gftControllfr
+     * @sff #hbsControllfr
+     * @sff #bdtivbtfControllfr()
+     */
+    publid IIOPbrbmControllfr gftDffbultControllfr() {
+        rfturn dffbultControllfr;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thfrf is b dontrollfr instbllfd
+     * for this <dodf>IIOPbrbm</dodf> objfdt.  This will rfturn
+     * <dodf>truf</dodf> if <dodf>gftControllfr</dodf> would not
+     * rfturn <dodf>null</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if b dontrollfr is instbllfd.
+     *
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr(IIOPbrbmControllfr)
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #bdtivbtfControllfr()
+     */
+    publid boolfbn hbsControllfr() {
+        rfturn (dontrollfr != null);
+    }
+
+    /**
+     * Adtivbtfs thf instbllfd <dodf>IIOPbrbmControllfr</dodf> for
+     * this <dodf>IIOPbrbm</dodf> objfdt bnd rfturns thf rfsulting
+     * vbluf.  Whfn this mfthod rfturns <dodf>truf</dodf>, bll vblufs
+     * for this <dodf>IIOPbrbm</dodf> objfdt will bf rfbdy for thf
+     * nfxt rfbd or writf opfrbtion.  If <dodf>fblsf</dodf> is
+     * rfturnfd, no sfttings in this objfdt will hbvf bffn disturbfd
+     * (<i>i.f.</i>, thf usfr dbndflfd thf opfrbtion).
+     *
+     * <p> Ordinbrily, thf dontrollfr will bf b GUI providing b usfr
+     * intfrfbdf for b subdlbss of <dodf>IIOPbrbm</dodf> for b
+     * pbrtidulbr plug-in.  Controllfrs nffd not bf GUIs, howfvfr.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dontrollfr domplftfd normblly.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thfrf is no dontrollfr
+     * durrfntly instbllfd.
+     *
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr(IIOPbrbmControllfr)
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #hbsControllfr
+     */
+    publid boolfbn bdtivbtfControllfr() {
+        if (!hbsControllfr()) {
+            throw nfw IllfgblStbtfExdfption("hbsControllfr() == fblsf!");
+        }
+        rfturn gftControllfr().bdtivbtf(this);
+    }
+}

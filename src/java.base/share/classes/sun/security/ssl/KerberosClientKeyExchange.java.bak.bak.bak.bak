@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvbx.drypto.SfdrftKfy;
+
+/**
+ * A hflpfr dlbss thbt dblls thf KfrbfrosClifntKfyExdhbngf implfmfntbtion.
+ */
+publid dlbss KfrbfrosClifntKfyExdhbngf fxtfnds HbndshbkfMfssbgf {
+
+    privbtf stbtid finbl String IMPL_CLASS =
+        "sun.sfdurity.ssl.krb5.KfrbfrosClifntKfyExdhbngfImpl";
+
+    privbtf stbtid finbl Clbss<?> implClbss = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Clbss<?>>() {
+                @Ovfrridf
+                publid Clbss<?> run() {
+                    try {
+                        rfturn Clbss.forNbmf(IMPL_CLASS, truf, null);
+                    } dbtdh (ClbssNotFoundExdfption dnf) {
+                        rfturn null;
+                    }
+                }
+            }
+        );
+    privbtf finbl KfrbfrosClifntKfyExdhbngf impl = drfbtfImpl();
+
+    privbtf KfrbfrosClifntKfyExdhbngf drfbtfImpl() {
+        if (implClbss != null &&
+                gftClbss() == KfrbfrosClifntKfyExdhbngf.dlbss) {
+            try {
+                rfturn (KfrbfrosClifntKfyExdhbngf)implClbss.nfwInstbndf();
+            } dbtdh (InstbntibtionExdfption f) {
+                throw nfw AssfrtionError(f);
+            } dbtdh (IllfgblAddfssExdfption f) {
+                throw nfw AssfrtionError(f);
+            }
+        }
+        rfturn null;
+    }
+
+    // This donstrudtor will bf dbllfd whfn donstrudting bn instbndf of its
+    // subdlbss -- KfrbfrosClifntKfyExdhbngfImpl.  Plfbsf won't dhfdk thf
+    // vbluf of impl vbribblf in this donstrudtor.
+    protfdtfd KfrbfrosClifntKfyExdhbngf() {
+        // plfbsf won't dhfdk thf vbluf of impl vbribblf
+    }
+
+    publid KfrbfrosClifntKfyExdhbngf(String sfrvfrNbmf,
+        AddfssControlContfxt bdd, ProtodolVfrsion protodolVfrsion,
+        SfdurfRbndom rbnd) throws IOExdfption {
+
+        if (impl != null) {
+            init(sfrvfrNbmf, bdd, protodolVfrsion, rbnd);
+        } flsf {
+            throw nfw IllfgblStbtfExdfption("Kfrbfros is unbvbilbblf");
+        }
+    }
+
+    publid KfrbfrosClifntKfyExdhbngf(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion dlifntVfrsion, SfdurfRbndom rbnd,
+            HbndshbkfInStrfbm input, AddfssControlContfxt bdd,
+            Objfdt sfrvfrKfys) throws IOExdfption {
+
+        if (impl != null) {
+            init(protodolVfrsion, dlifntVfrsion, rbnd, input, bdd, sfrvfrKfys);
+        } flsf {
+            throw nfw IllfgblStbtfExdfption("Kfrbfros is unbvbilbblf");
+        }
+    }
+
+    @Ovfrridf
+    int mfssbgfTypf() {
+        rfturn ht_dlifnt_kfy_fxdhbngf;
+    }
+
+    @Ovfrridf
+    publid int mfssbgfLfngth() {
+        rfturn impl.mfssbgfLfngth();
+    }
+
+    @Ovfrridf
+    publid void sfnd(HbndshbkfOutStrfbm s) throws IOExdfption {
+        impl.sfnd(s);
+    }
+
+    @Ovfrridf
+    publid void print(PrintStrfbm p) throws IOExdfption {
+        impl.print(p);
+    }
+
+    publid void init(String sfrvfrNbmf,
+        AddfssControlContfxt bdd, ProtodolVfrsion protodolVfrsion,
+        SfdurfRbndom rbnd) throws IOExdfption {
+
+        if (impl != null) {
+            impl.init(sfrvfrNbmf, bdd, protodolVfrsion, rbnd);
+        }
+    }
+
+    publid void init(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion dlifntVfrsion, SfdurfRbndom rbnd,
+            HbndshbkfInStrfbm input, AddfssControlContfxt bdd,
+            Objfdt SfrvidfCrfds) throws IOExdfption {
+
+        if (impl != null) {
+            impl.init(protodolVfrsion, dlifntVfrsion,
+                                    rbnd, input, bdd, SfrvidfCrfds);
+        }
+    }
+
+    publid bytf[] gftUnfndryptfdPrfMbstfrSfdrft() {
+        rfturn impl.gftUnfndryptfdPrfMbstfrSfdrft();
+    }
+
+    publid Prindipbl gftPffrPrindipbl(){
+        rfturn impl.gftPffrPrindipbl();
+    }
+
+    publid Prindipbl gftLodblPrindipbl(){
+        rfturn impl.gftLodblPrindipbl();
+    }
+}

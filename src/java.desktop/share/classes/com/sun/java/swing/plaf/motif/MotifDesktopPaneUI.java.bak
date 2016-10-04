@@ -1,269 +1,269 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import javax.swing.*;
-import java.awt.Rectangle;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Component;
-import java.awt.Point;
-import javax.swing.plaf.*;
-import java.io.Serializable;
+import jbvbx.swing.*;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Point;
+import jbvbx.swing.plbf.*;
+import jbvb.io.Sfriblizbblf;
 
 /**
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author David Kloba
+ * @butior Dbvid Klobb
  */
-public class MotifDesktopPaneUI extends javax.swing.plaf.basic.BasicDesktopPaneUI
+publid dlbss MotifDfsktopPbnfUI fxtfnds jbvbx.swing.plbf.bbsid.BbsidDfsktopPbnfUI
 {
 
-/// DesktopPaneUI methods
-    public static ComponentUI createUI(JComponent d)    {
-        return new MotifDesktopPaneUI();
+/// DfsktopPbnfUI mftiods
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw MotifDfsktopPbnfUI();
     }
 
-    public MotifDesktopPaneUI() {
+    publid MotifDfsktopPbnfUI() {
     }
 
-    protected void installDesktopManager() {
-        desktopManager = desktop.getDesktopManager();
-        if(desktopManager == null) {
-            desktopManager = new MotifDesktopManager();
-            desktop.setDesktopManager(desktopManager);
-            ((MotifDesktopManager)desktopManager).adjustIcons(desktop);
+    protfdtfd void instbllDfsktopMbnbgfr() {
+        dfsktopMbnbgfr = dfsktop.gftDfsktopMbnbgfr();
+        if(dfsktopMbnbgfr == null) {
+            dfsktopMbnbgfr = nfw MotifDfsktopMbnbgfr();
+            dfsktop.sftDfsktopMbnbgfr(dfsktopMbnbgfr);
+            ((MotifDfsktopMbnbgfr)dfsktopMbnbgfr).bdjustIdons(dfsktop);
         }
     }
 
-    public Insets getInsets(JComponent c) {return new Insets(0,0,0,0);}
+    publid Insfts gftInsfts(JComponfnt d) {rfturn nfw Insfts(0,0,0,0);}
 
 ////////////////////////////////////////////////////////////////////////////////////
-///  DragPane class
+///  DrbgPbnf dlbss
 ////////////////////////////////////////////////////////////////////////////////////
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class DragPane extends JComponent {
-        public void paint(Graphics g) {
-            g.setColor(Color.darkGray);
-            g.drawRect(0, 0, getWidth()-1, getHeight()-1);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss DrbgPbnf fxtfnds JComponfnt {
+        publid void pbint(Grbpiids g) {
+            g.sftColor(Color.dbrkGrby);
+            g.drbwRfdt(0, 0, gftWidti()-1, gftHfigit()-1);
         }
     };
 
 ////////////////////////////////////////////////////////////////////////////////////
-///  MotifDesktopManager class
+///  MotifDfsktopMbnbgfr dlbss
 ////////////////////////////////////////////////////////////////////////////////////
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class MotifDesktopManager extends DefaultDesktopManager implements Serializable, UIResource {
-        JComponent dragPane;
-        boolean usingDragPane = false;
-        private transient JLayeredPane layeredPaneForDragPane;
-        int iconWidth, iconHeight;
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss MotifDfsktopMbnbgfr fxtfnds DffbultDfsktopMbnbgfr implfmfnts Sfriblizbblf, UIRfsourdf {
+        JComponfnt drbgPbnf;
+        boolfbn usingDrbgPbnf = fblsf;
+        privbtf trbnsifnt JLbyfrfdPbnf lbyfrfdPbnfForDrbgPbnf;
+        int idonWidti, idonHfigit;
 
-    // PENDING(klobad) this should be optimized
-    public void setBoundsForFrame(JComponent f, int newX, int newY,
-                        int newWidth, int newHeight) {
-        if(!usingDragPane) {
-            boolean didResize;
-            didResize = (f.getWidth() != newWidth || f.getHeight() != newHeight);
-            Rectangle r = f.getBounds();
-            f.setBounds(newX, newY, newWidth, newHeight);
-            SwingUtilities.computeUnion(newX, newY, newWidth, newHeight, r);
-            f.getParent().repaint(r.x, r.y, r.width, r.height);
-            if(didResize) {
-                f.validate();
+    // PENDING(klobbd) tiis siould bf optimizfd
+    publid void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY,
+                        int nfwWidti, int nfwHfigit) {
+        if(!usingDrbgPbnf) {
+            boolfbn didRfsizf;
+            didRfsizf = (f.gftWidti() != nfwWidti || f.gftHfigit() != nfwHfigit);
+            Rfdtbnglf r = f.gftBounds();
+            f.sftBounds(nfwX, nfwY, nfwWidti, nfwHfigit);
+            SwingUtilitifs.domputfUnion(nfwX, nfwY, nfwWidti, nfwHfigit, r);
+            f.gftPbrfnt().rfpbint(r.x, r.y, r.widti, r.ifigit);
+            if(didRfsizf) {
+                f.vblidbtf();
             }
-        } else {
-            Rectangle r = dragPane.getBounds();
-            dragPane.setBounds(newX, newY, newWidth, newHeight);
-            SwingUtilities.computeUnion(newX, newY, newWidth, newHeight, r);
-            dragPane.getParent().repaint(r.x, r.y, r.width, r.height);
+        } flsf {
+            Rfdtbnglf r = drbgPbnf.gftBounds();
+            drbgPbnf.sftBounds(nfwX, nfwY, nfwWidti, nfwHfigit);
+            SwingUtilitifs.domputfUnion(nfwX, nfwY, nfwWidti, nfwHfigit, r);
+            drbgPbnf.gftPbrfnt().rfpbint(r.x, r.y, r.widti, r.ifigit);
         }
     }
 
-    public void beginDraggingFrame(JComponent f) {
-        usingDragPane = false;
-        if(f.getParent() instanceof JLayeredPane) {
-            if(dragPane == null)
-                dragPane = new DragPane();
-            layeredPaneForDragPane = (JLayeredPane)f.getParent();
-            layeredPaneForDragPane.setLayer(dragPane, Integer.MAX_VALUE);
-            dragPane.setBounds(f.getX(), f.getY(), f.getWidth(), f.getHeight());
-            layeredPaneForDragPane.add(dragPane);
-            usingDragPane = true;
+    publid void bfginDrbggingFrbmf(JComponfnt f) {
+        usingDrbgPbnf = fblsf;
+        if(f.gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+            if(drbgPbnf == null)
+                drbgPbnf = nfw DrbgPbnf();
+            lbyfrfdPbnfForDrbgPbnf = (JLbyfrfdPbnf)f.gftPbrfnt();
+            lbyfrfdPbnfForDrbgPbnf.sftLbyfr(drbgPbnf, Intfgfr.MAX_VALUE);
+            drbgPbnf.sftBounds(f.gftX(), f.gftY(), f.gftWidti(), f.gftHfigit());
+            lbyfrfdPbnfForDrbgPbnf.bdd(drbgPbnf);
+            usingDrbgPbnf = truf;
         }
     }
 
-    public void dragFrame(JComponent f, int newX, int newY) {
-        setBoundsForFrame(f, newX, newY, f.getWidth(), f.getHeight());
+    publid void drbgFrbmf(JComponfnt f, int nfwX, int nfwY) {
+        sftBoundsForFrbmf(f, nfwX, nfwY, f.gftWidti(), f.gftHfigit());
     }
 
-    public void endDraggingFrame(JComponent f) {
-        if(usingDragPane) {
-            layeredPaneForDragPane.remove(dragPane);
-            usingDragPane = false;
-            if (f instanceof JInternalFrame) {
-                setBoundsForFrame(f, dragPane.getX(), dragPane.getY(),
-                        dragPane.getWidth(), dragPane.getHeight());
-            } else if (f instanceof JInternalFrame.JDesktopIcon) {
-                adjustBoundsForIcon((JInternalFrame.JDesktopIcon)f,
-                        dragPane.getX(), dragPane.getY());
+    publid void fndDrbggingFrbmf(JComponfnt f) {
+        if(usingDrbgPbnf) {
+            lbyfrfdPbnfForDrbgPbnf.rfmovf(drbgPbnf);
+            usingDrbgPbnf = fblsf;
+            if (f instbndfof JIntfrnblFrbmf) {
+                sftBoundsForFrbmf(f, drbgPbnf.gftX(), drbgPbnf.gftY(),
+                        drbgPbnf.gftWidti(), drbgPbnf.gftHfigit());
+            } flsf if (f instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                bdjustBoundsForIdon((JIntfrnblFrbmf.JDfsktopIdon)f,
+                        drbgPbnf.gftX(), drbgPbnf.gftY());
             }
         }
     }
 
-    public void beginResizingFrame(JComponent f, int direction) {
-        usingDragPane = false;
-        if(f.getParent() instanceof JLayeredPane) {
-            if(dragPane == null)
-                dragPane = new DragPane();
-            JLayeredPane p = (JLayeredPane)f.getParent();
-            p.setLayer(dragPane, Integer.MAX_VALUE);
-            dragPane.setBounds(f.getX(), f.getY(),
-                                f.getWidth(), f.getHeight());
-            p.add(dragPane);
-            usingDragPane = true;
+    publid void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion) {
+        usingDrbgPbnf = fblsf;
+        if(f.gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+            if(drbgPbnf == null)
+                drbgPbnf = nfw DrbgPbnf();
+            JLbyfrfdPbnf p = (JLbyfrfdPbnf)f.gftPbrfnt();
+            p.sftLbyfr(drbgPbnf, Intfgfr.MAX_VALUE);
+            drbgPbnf.sftBounds(f.gftX(), f.gftY(),
+                                f.gftWidti(), f.gftHfigit());
+            p.bdd(drbgPbnf);
+            usingDrbgPbnf = truf;
         }
     }
 
-    public void resizeFrame(JComponent f, int newX, int newY,
-                                int newWidth, int newHeight) {
-        setBoundsForFrame(f, newX, newY, newWidth, newHeight);
+    publid void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY,
+                                int nfwWidti, int nfwHfigit) {
+        sftBoundsForFrbmf(f, nfwX, nfwY, nfwWidti, nfwHfigit);
     }
 
-    public void endResizingFrame(JComponent f) {
-        if(usingDragPane) {
-            JLayeredPane p = (JLayeredPane)f.getParent();
-            p.remove(dragPane);
-            usingDragPane = false;
-            setBoundsForFrame(f, dragPane.getX(), dragPane.getY(),
-                                dragPane.getWidth(), dragPane.getHeight());
+    publid void fndRfsizingFrbmf(JComponfnt f) {
+        if(usingDrbgPbnf) {
+            JLbyfrfdPbnf p = (JLbyfrfdPbnf)f.gftPbrfnt();
+            p.rfmovf(drbgPbnf);
+            usingDrbgPbnf = fblsf;
+            sftBoundsForFrbmf(f, drbgPbnf.gftX(), drbgPbnf.gftY(),
+                                drbgPbnf.gftWidti(), drbgPbnf.gftHfigit());
         }
     }
 
-        public void iconifyFrame(JInternalFrame f) {
-            JInternalFrame.JDesktopIcon icon = f.getDesktopIcon();
-            Point p = icon.getLocation();
-            adjustBoundsForIcon(icon, p.x, p.y);
-            super.iconifyFrame(f);
+        publid void idonifyFrbmf(JIntfrnblFrbmf f) {
+            JIntfrnblFrbmf.JDfsktopIdon idon = f.gftDfsktopIdon();
+            Point p = idon.gftLodbtion();
+            bdjustBoundsForIdon(idon, p.x, p.y);
+            supfr.idonifyFrbmf(f);
         }
 
         /**
-         * Change positions of icons in the desktop pane so that
-         * they do not overlap
+         * Cibngf positions of idons in tif dfsktop pbnf so tibt
+         * tify do not ovfrlbp
          */
-        protected void adjustIcons(JDesktopPane desktop) {
-            // We need to know Motif icon size
-            JInternalFrame.JDesktopIcon icon = new JInternalFrame.JDesktopIcon(
-                    new JInternalFrame());
-            Dimension iconSize = icon.getPreferredSize();
-            iconWidth = iconSize.width;
-            iconHeight = iconSize.height;
+        protfdtfd void bdjustIdons(JDfsktopPbnf dfsktop) {
+            // Wf nffd to know Motif idon sizf
+            JIntfrnblFrbmf.JDfsktopIdon idon = nfw JIntfrnblFrbmf.JDfsktopIdon(
+                    nfw JIntfrnblFrbmf());
+            Dimfnsion idonSizf = idon.gftPrfffrrfdSizf();
+            idonWidti = idonSizf.widti;
+            idonHfigit = idonSizf.ifigit;
 
-            JInternalFrame[] frames = desktop.getAllFrames();
-            for (int i=0; i<frames.length; i++) {
-                icon = frames[i].getDesktopIcon();
-                Point ip = icon.getLocation();
-                adjustBoundsForIcon(icon, ip.x, ip.y);
+            JIntfrnblFrbmf[] frbmfs = dfsktop.gftAllFrbmfs();
+            for (int i=0; i<frbmfs.lfngti; i++) {
+                idon = frbmfs[i].gftDfsktopIdon();
+                Point ip = idon.gftLodbtion();
+                bdjustBoundsForIdon(idon, ip.x, ip.y);
             }
         }
 
         /**
-         * Change positions of icon so that it doesn't overlap
-         * other icons.
+         * Cibngf positions of idon so tibt it dofsn't ovfrlbp
+         * otifr idons.
          */
-        protected void adjustBoundsForIcon(JInternalFrame.JDesktopIcon icon,
+        protfdtfd void bdjustBoundsForIdon(JIntfrnblFrbmf.JDfsktopIdon idon,
                 int x, int y) {
-            JDesktopPane c = icon.getDesktopPane();
+            JDfsktopPbnf d = idon.gftDfsktopPbnf();
 
-            int maxy = c.getHeight();
-            int w = iconWidth;
-            int h = iconHeight;
-            c.repaint(x, y, w, h);
+            int mbxy = d.gftHfigit();
+            int w = idonWidti;
+            int i = idonHfigit;
+            d.rfpbint(x, y, w, i);
             x = x < 0 ? 0 : x;
             y = y < 0 ? 0 : y;
 
-            /* Fix for disappearing icons. If the y value is maxy then this
-             * algorithm would place the icon in a non-displayed cell.  Never
-             * to be ssen again.*/
-            y = y >= maxy ? (maxy - 1) : y;
+            /* Fix for disbppfbring idons. If tif y vbluf is mbxy tifn tiis
+             * blgoritim would plbdf tif idon in b non-displbyfd dfll.  Nfvfr
+             * to bf ssfn bgbin.*/
+            y = y >= mbxy ? (mbxy - 1) : y;
 
-            /* Compute the offset for the cell we are trying to go in. */
+            /* Computf tif offsft for tif dfll wf brf trying to go in. */
             int lx = (x / w) * w;
-            int ygap = maxy % h;
-            int ly = ((y-ygap) / h) * h + ygap;
+            int ygbp = mbxy % i;
+            int ly = ((y-ygbp) / i) * i + ygbp;
 
-            /* How far are we into the cell we dropped the icon in. */
+            /* How fbr brf wf into tif dfll wf droppfd tif idon in. */
             int dx = x - lx;
             int dy = y - ly;
 
-            /* Set coordinates for the icon. */
+            /* Sft doordinbtfs for tif idon. */
             x = dx < w/2 ? lx: lx + w;
-            y = dy < h/2 ? ly: ((ly + h) < maxy ? ly + h: ly);
+            y = dy < i/2 ? ly: ((ly + i) < mbxy ? ly + i: ly);
 
-            while (getIconAt(c, icon, x, y) != null) {
+            wiilf (gftIdonAt(d, idon, x, y) != null) {
                 x += w;
             }
 
-            /* Cancel the move if the x value was moved off screen. */
-            if (x > c.getWidth()) {
-                return;
+            /* Cbndfl tif movf if tif x vbluf wbs movfd off sdrffn. */
+            if (x > d.gftWidti()) {
+                rfturn;
             }
-            if (icon.getParent() != null) {
-                setBoundsForFrame(icon, x, y, w, h);
-            } else {
-                icon.setLocation(x, y);
+            if (idon.gftPbrfnt() != null) {
+                sftBoundsForFrbmf(idon, x, y, w, i);
+            } flsf {
+                idon.sftLodbtion(x, y);
             }
         }
 
-        protected JInternalFrame.JDesktopIcon getIconAt(JDesktopPane desktop,
-            JInternalFrame.JDesktopIcon icon, int x, int y) {
+        protfdtfd JIntfrnblFrbmf.JDfsktopIdon gftIdonAt(JDfsktopPbnf dfsktop,
+            JIntfrnblFrbmf.JDfsktopIdon idon, int x, int y) {
 
-            JInternalFrame.JDesktopIcon currentIcon = null;
-            Component[] components = desktop.getComponents();
+            JIntfrnblFrbmf.JDfsktopIdon durrfntIdon = null;
+            Componfnt[] domponfnts = dfsktop.gftComponfnts();
 
-            for (int i=0; i<components.length; i++) {
-                Component comp = components[i];
-                if (comp instanceof JInternalFrame.JDesktopIcon &&
-                    comp != icon) {
+            for (int i=0; i<domponfnts.lfngti; i++) {
+                Componfnt domp = domponfnts[i];
+                if (domp instbndfof JIntfrnblFrbmf.JDfsktopIdon &&
+                    domp != idon) {
 
-                    Point p = comp.getLocation();
+                    Point p = domp.gftLodbtion();
                     if (p.x == x && p.y == y) {
-                        return (JInternalFrame.JDesktopIcon)comp;
+                        rfturn (JIntfrnblFrbmf.JDfsktopIdon)domp;
                     }
                 }
             }
-            return null;
+            rfturn null;
         }
-    }; /// END of MotifDesktopManager
+    }; /// END of MotifDfsktopMbnbgfr
 }

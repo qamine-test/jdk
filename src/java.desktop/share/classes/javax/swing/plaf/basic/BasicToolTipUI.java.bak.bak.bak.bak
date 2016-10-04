@@ -1,0 +1,281 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import sun.swing.SwingUtilitifs2;
+import jbvb.bwt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+
+import jbvbx.swing.*;
+import jbvbx.swing.BordfrFbdtory;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.ToolTipUI;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.tfxt.Vifw;
+
+
+/**
+ * Stbndbrd tool tip L&bmp;F.
+ *
+ * @buthor Dbvf Moorf
+ */
+publid dlbss BbsidToolTipUI fxtfnds ToolTipUI
+{
+    stbtid BbsidToolTipUI shbrfdInstbndf = nfw BbsidToolTipUI();
+    /**
+     * Globbl <dodf>PropfrtyChbngfListfnfr</dodf> thbt
+     * <dodf>drfbtfPropfrtyChbngfListfnfr</dodf> rfturns.
+     */
+    privbtf stbtid PropfrtyChbngfListfnfr shbrfdPropfrtyChbngfdListfnfr;
+
+    privbtf PropfrtyChbngfListfnfr propfrtyChbngfListfnfr;
+
+    /**
+     * Rfturns thf instbndf of {@dodf BbsidToolTipUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn thf instbndf of {@dodf BbsidToolTipUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn shbrfdInstbndf;
+    }
+
+    /**
+     * Construdts b nfw instbndf of {@dodf BbsidToolTipUI}.
+     */
+    publid BbsidToolTipUI() {
+        supfr();
+    }
+
+    publid void instbllUI(JComponfnt d) {
+        instbllDffbults(d);
+        instbllComponfnts(d);
+        instbllListfnfrs(d);
+    }
+
+    publid void uninstbllUI(JComponfnt d) {
+        // REMIND: this is NOT gftting dbllfd
+        uninstbllDffbults(d);
+        uninstbllComponfnts(d);
+        uninstbllListfnfrs(d);
+    }
+
+    /**
+     * Instblls dffbult propfrtifs.
+     *
+     * @pbrbm d b domponfnt
+     */
+    protfdtfd void instbllDffbults(JComponfnt d){
+        LookAndFffl.instbllColorsAndFont(d, "ToolTip.bbdkground",
+                "ToolTip.forfground",
+                "ToolTip.font");
+        LookAndFffl.instbllPropfrty(d, "opbquf", Boolfbn.TRUE);
+        domponfntChbngfd(d);
+    }
+
+    /**
+     * Uninstblls dffbult propfrtifs.
+     *
+     * @pbrbm d b domponfnt
+     */
+    protfdtfd void uninstbllDffbults(JComponfnt d){
+        LookAndFffl.uninstbllBordfr(d);
+    }
+
+    /* Unfortunbtfly this hbs to rfmbin privbtf until wf dbn mbkf API bdditions.
+     */
+    privbtf void instbllComponfnts(JComponfnt d){
+        BbsidHTML.updbtfRfndfrfr(d, ((JToolTip) d).gftTipTfxt());
+    }
+
+    /* Unfortunbtfly this hbs to rfmbin privbtf until wf dbn mbkf API bdditions.
+     */
+    privbtf void uninstbllComponfnts(JComponfnt d){
+        BbsidHTML.updbtfRfndfrfr(d, "");
+    }
+
+    /**
+     * Rfgistfrs listfnfrs.
+     *
+     * @pbrbm d b domponfnt
+     */
+    protfdtfd void instbllListfnfrs(JComponfnt d) {
+        propfrtyChbngfListfnfr = drfbtfPropfrtyChbngfListfnfr(d);
+
+        d.bddPropfrtyChbngfListfnfr(propfrtyChbngfListfnfr);
+    }
+
+    /**
+     * Unrfgistfrs listfnfrs.
+     *
+     * @pbrbm d b domponfnt
+     */
+    protfdtfd void uninstbllListfnfrs(JComponfnt d) {
+        d.rfmovfPropfrtyChbngfListfnfr(propfrtyChbngfListfnfr);
+
+        propfrtyChbngfListfnfr = null;
+    }
+
+    /* Unfortunbtfly this hbs to rfmbin privbtf until wf dbn mbkf API bdditions.
+     */
+    privbtf PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr(JComponfnt d) {
+        if (shbrfdPropfrtyChbngfdListfnfr == null) {
+            shbrfdPropfrtyChbngfdListfnfr = nfw PropfrtyChbngfHbndlfr();
+        }
+        rfturn shbrfdPropfrtyChbngfdListfnfr;
+    }
+
+    publid void pbint(Grbphids g, JComponfnt d) {
+        Font font = d.gftFont();
+        FontMftrids mftrids = SwingUtilitifs2.gftFontMftrids(d, g, font);
+        Dimfnsion sizf = d.gftSizf();
+
+        g.sftColor(d.gftForfground());
+        // fix for bug 4153892
+        String tipTfxt = ((JToolTip)d).gftTipTfxt();
+        if (tipTfxt == null) {
+            tipTfxt = "";
+        }
+
+        Insfts insfts = d.gftInsfts();
+        Rfdtbnglf pbintTfxtR = nfw Rfdtbnglf(
+            insfts.lfft + 3,
+            insfts.top,
+            sizf.width - (insfts.lfft + insfts.right) - 6,
+            sizf.hfight - (insfts.top + insfts.bottom));
+        Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        if (v != null) {
+            v.pbint(g, pbintTfxtR);
+        } flsf {
+            g.sftFont(font);
+            SwingUtilitifs2.drbwString(d, g, tipTfxt, pbintTfxtR.x,
+                                  pbintTfxtR.y + mftrids.gftAsdfnt());
+        }
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        Font font = d.gftFont();
+        FontMftrids fm = d.gftFontMftrids(font);
+        Insfts insfts = d.gftInsfts();
+
+        Dimfnsion prffSizf = nfw Dimfnsion(insfts.lfft+insfts.right,
+                                           insfts.top+insfts.bottom);
+        String tfxt = ((JToolTip)d).gftTipTfxt();
+
+        if ((tfxt == null) || tfxt.fqubls("")) {
+            tfxt = "";
+        }
+        flsf {
+            Vifw v = (d != null) ? (Vifw) d.gftClifntPropfrty("html") : null;
+            if (v != null) {
+                prffSizf.width += (int) v.gftPrfffrrfdSpbn(Vifw.X_AXIS) + 6;
+                prffSizf.hfight += (int) v.gftPrfffrrfdSpbn(Vifw.Y_AXIS);
+            } flsf {
+                prffSizf.width += SwingUtilitifs2.stringWidth(d,fm,tfxt) + 6;
+                prffSizf.hfight += fm.gftHfight();
+            }
+        }
+        rfturn prffSizf;
+    }
+
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        Dimfnsion d = gftPrfffrrfdSizf(d);
+        Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        if (v != null) {
+            d.width -= v.gftPrfffrrfdSpbn(Vifw.X_AXIS) - v.gftMinimumSpbn(Vifw.X_AXIS);
+        }
+        rfturn d;
+    }
+
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        Dimfnsion d = gftPrfffrrfdSizf(d);
+        Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        if (v != null) {
+            d.width += v.gftMbximumSpbn(Vifw.X_AXIS) - v.gftPrfffrrfdSpbn(Vifw.X_AXIS);
+        }
+        rfturn d;
+    }
+
+    /**
+     * Invokfd whfn thf <dodf>JCompomfnt</dodf> bssodibtfd with thf
+     * <dodf>JToolTip</dodf> hbs dhbngfd, or bt initiblizbtion timf. This
+     * should updbtf bny stbtf dfpfndbnt upon thf <dodf>JComponfnt</dodf>.
+     *
+     * @pbrbm d thf JToolTip thf JComponfnt hbs dhbngfd on.
+     */
+    privbtf void domponfntChbngfd(JComponfnt d) {
+        JComponfnt domp = ((JToolTip)d).gftComponfnt();
+
+        if (domp != null && !(domp.isEnbblfd())) {
+            // For bfttfr bbdkwbrd dompbtibility, only instbll inbdtivf
+            // propfrtifs if thfy brf dffinfd.
+            if (UIMbnbgfr.gftBordfr("ToolTip.bordfrInbdtivf") != null) {
+                LookAndFffl.instbllBordfr(d, "ToolTip.bordfrInbdtivf");
+            }
+            flsf {
+                LookAndFffl.instbllBordfr(d, "ToolTip.bordfr");
+            }
+            if (UIMbnbgfr.gftColor("ToolTip.bbdkgroundInbdtivf") != null) {
+                LookAndFffl.instbllColors(d,"ToolTip.bbdkgroundInbdtivf",
+                                          "ToolTip.forfgroundInbdtivf");
+            }
+            flsf {
+                LookAndFffl.instbllColors(d,"ToolTip.bbdkground",
+                                          "ToolTip.forfground");
+            }
+        } flsf {
+            LookAndFffl.instbllBordfr(d, "ToolTip.bordfr");
+            LookAndFffl.instbllColors(d, "ToolTip.bbdkground",
+                                      "ToolTip.forfground");
+        }
+    }
+
+
+    privbtf stbtid dlbss PropfrtyChbngfHbndlfr implfmfnts
+                                 PropfrtyChbngfListfnfr {
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            String nbmf = f.gftPropfrtyNbmf();
+            if (nbmf.fqubls("tiptfxt") || "font".fqubls(nbmf) ||
+                "forfground".fqubls(nbmf)) {
+                // rfmovf thf old html vifw dlifnt propfrty if onf
+                // fxistfd, bnd instbll b nfw onf if thf tfxt instbllfd
+                // into thf JLbbfl is html sourdf.
+                JToolTip tip = ((JToolTip) f.gftSourdf());
+                String tfxt = tip.gftTipTfxt();
+                BbsidHTML.updbtfRfndfrfr(tip, tfxt);
+            }
+            flsf if ("domponfnt".fqubls(nbmf)) {
+                JToolTip tip = ((JToolTip) f.gftSourdf());
+
+                if (tip.gftUI() instbndfof BbsidToolTipUI) {
+                    ((BbsidToolTipUI)tip.gftUI()).domponfntChbngfd(tip);
+                }
+            }
+        }
+    }
+}

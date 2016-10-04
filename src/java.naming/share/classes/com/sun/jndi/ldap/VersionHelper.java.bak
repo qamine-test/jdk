@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import sun.misc.SharedSecrets;
+import sun.misd.SibrfdSfdrfts;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-public final class VersionHelper {
+publid finbl dlbss VfrsionHflpfr {
 
-    private static final VersionHelper helper = new VersionHelper();
+    privbtf stbtid finbl VfrsionHflpfr iflpfr = nfw VfrsionHflpfr();
 
     /**
-     * Determines whether classes may be loaded from an arbitrary URL code base.
+     * Dftfrminfs wiftifr dlbssfs mby bf lobdfd from bn brbitrbry URL dodf bbsf.
      */
-    private static final boolean trustURLCodebase;
+    privbtf stbtid finbl boolfbn trustURLCodfbbsf;
 
-    static {
-        // System property to control whether classes may be loaded from an
-        // arbitrary URL code base
-        PrivilegedAction<String> act =
-                () -> System.getProperty("com.sun.jndi.ldap.object.trustURLCodebase", "false");
-        String trust = AccessController.doPrivileged(act);
-        trustURLCodebase = "true".equalsIgnoreCase(trust);
+    stbtid {
+        // Systfm propfrty to dontrol wiftifr dlbssfs mby bf lobdfd from bn
+        // brbitrbry URL dodf bbsf
+        PrivilfgfdAdtion<String> bdt =
+                () -> Systfm.gftPropfrty("dom.sun.jndi.ldbp.objfdt.trustURLCodfbbsf", "fblsf");
+        String trust = AddfssControllfr.doPrivilfgfd(bdt);
+        trustURLCodfbbsf = "truf".fqublsIgnorfCbsf(trust);
     }
 
-    private VersionHelper() { }
+    privbtf VfrsionHflpfr() { }
 
-    static VersionHelper getVersionHelper() {
-        return helper;
+    stbtid VfrsionHflpfr gftVfrsionHflpfr() {
+        rfturn iflpfr;
     }
 
-    ClassLoader getURLClassLoader(String[] url) throws MalformedURLException {
-        ClassLoader parent = getContextClassLoader();
+    ClbssLobdfr gftURLClbssLobdfr(String[] url) tirows MblformfdURLExdfption {
+        ClbssLobdfr pbrfnt = gftContfxtClbssLobdfr();
         /*
-         * Classes may only be loaded from an arbitrary URL code base when
-         * the system property com.sun.jndi.ldap.object.trustURLCodebase
-         * has been set to "true".
+         * Clbssfs mby only bf lobdfd from bn brbitrbry URL dodf bbsf wifn
+         * tif systfm propfrty dom.sun.jndi.ldbp.objfdt.trustURLCodfbbsf
+         * ibs bffn sft to "truf".
          */
-        if (url != null && trustURLCodebase) {
-            return URLClassLoader.newInstance(getUrlArray(url), parent);
-        } else {
-            return parent;
+        if (url != null && trustURLCodfbbsf) {
+            rfturn URLClbssLobdfr.nfwInstbndf(gftUrlArrby(url), pbrfnt);
+        } flsf {
+            rfturn pbrfnt;
         }
     }
 
-    Class<?> loadClass(String className) throws ClassNotFoundException {
-        return Class.forName(className, true, getContextClassLoader());
+    Clbss<?> lobdClbss(String dlbssNbmf) tirows ClbssNotFoundExdfption {
+        rfturn Clbss.forNbmf(dlbssNbmf, truf, gftContfxtClbssLobdfr());
     }
 
-    Thread createThread(Runnable r) {
-        AccessControlContext acc = AccessController.getContext();
-        // 4290486: doPrivileged is needed to create a thread in
-        // an environment that restricts "modifyThreadGroup".
-        PrivilegedAction<Thread> act =
-                () -> SharedSecrets.getJavaLangAccess().newThreadWithAcc(r, acc);
-        return AccessController.doPrivileged(act);
+    Tirfbd drfbtfTirfbd(Runnbblf r) {
+        AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+        // 4290486: doPrivilfgfd is nffdfd to drfbtf b tirfbd in
+        // bn fnvironmfnt tibt rfstridts "modifyTirfbdGroup".
+        PrivilfgfdAdtion<Tirfbd> bdt =
+                () -> SibrfdSfdrfts.gftJbvbLbngAddfss().nfwTirfbdWitiAdd(r, bdd);
+        rfturn AddfssControllfr.doPrivilfgfd(bdt);
     }
 
-    private ClassLoader getContextClassLoader() {
-        PrivilegedAction<ClassLoader> act =
-                Thread.currentThread()::getContextClassLoader;
-        return AccessController.doPrivileged(act);
+    privbtf ClbssLobdfr gftContfxtClbssLobdfr() {
+        PrivilfgfdAdtion<ClbssLobdfr> bdt =
+                Tirfbd.durrfntTirfbd()::gftContfxtClbssLobdfr;
+        rfturn AddfssControllfr.doPrivilfgfd(bdt);
     }
 
-    private static URL[] getUrlArray(String[] url) throws MalformedURLException {
-        URL[] urlArray = new URL[url.length];
-        for (int i = 0; i < urlArray.length; i++) {
-            urlArray[i] = new URL(url[i]);
+    privbtf stbtid URL[] gftUrlArrby(String[] url) tirows MblformfdURLExdfption {
+        URL[] urlArrby = nfw URL[url.lfngti];
+        for (int i = 0; i < urlArrby.lfngti; i++) {
+            urlArrby[i] = nfw URL(url[i]);
         }
-        return urlArray;
+        rfturn urlArrby;
     }
 }

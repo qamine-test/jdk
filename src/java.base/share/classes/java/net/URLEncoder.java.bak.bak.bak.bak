@@ -1,0 +1,292 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.ChbrArrbyWritfr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.IllfgblChbrsftNbmfExdfption;
+import jbvb.nio.dhbrsft.UnsupportfdChbrsftExdfption ;
+import jbvb.util.BitSft;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Utility dlbss for HTML form fndoding. This dlbss dontbins stbtid mfthods
+ * for donvfrting b String to thf <CODE>bpplidbtion/x-www-form-urlfndodfd</CODE> MIME
+ * formbt. For morf informbtion bbout HTML form fndoding, donsult thf HTML
+ * <A HREF="http://www.w3.org/TR/html4/">spfdifidbtion</A>.
+ *
+ * <p>
+ * Whfn fndoding b String, thf following rulfs bpply:
+ *
+ * <ul>
+ * <li>Thf blphbnumfrid dhbrbdtfrs &quot;{@dodf b}&quot; through
+ *     &quot;{@dodf z}&quot;, &quot;{@dodf A}&quot; through
+ *     &quot;{@dodf Z}&quot; bnd &quot;{@dodf 0}&quot;
+ *     through &quot;{@dodf 9}&quot; rfmbin thf sbmf.
+ * <li>Thf spfdibl dhbrbdtfrs &quot;{@dodf .}&quot;,
+ *     &quot;{@dodf -}&quot;, &quot;{@dodf *}&quot;, bnd
+ *     &quot;{@dodf _}&quot; rfmbin thf sbmf.
+ * <li>Thf spbdf dhbrbdtfr &quot; &nbsp; &quot; is
+ *     donvfrtfd into b plus sign &quot;{@dodf +}&quot;.
+ * <li>All othfr dhbrbdtfrs brf unsbff bnd brf first donvfrtfd into
+ *     onf or morf bytfs using somf fndoding sdhfmf. Thfn fbdh bytf is
+ *     rfprfsfntfd by thf 3-dhbrbdtfr string
+ *     &quot;<i>{@dodf %xy}</i>&quot;, whfrf <i>xy</i> is thf
+ *     two-digit hfxbdfdimbl rfprfsfntbtion of thf bytf.
+ *     Thf rfdommfndfd fndoding sdhfmf to usf is UTF-8. Howfvfr,
+ *     for dompbtibility rfbsons, if bn fndoding is not spfdififd,
+ *     thfn thf dffbult fndoding of thf plbtform is usfd.
+ * </ul>
+ *
+ * <p>
+ * For fxbmplf using UTF-8 bs thf fndoding sdhfmf thf string &quot;Thf
+ * string &#252;@foo-bbr&quot; would gft donvfrtfd to
+ * &quot;Thf+string+%C3%BC%40foo-bbr&quot; bfdbusf in UTF-8 thf dhbrbdtfr
+ * &#252; is fndodfd bs two bytfs C3 (hfx) bnd BC (hfx), bnd thf
+ * dhbrbdtfr @ is fndodfd bs onf bytf 40 (hfx).
+ *
+ * @buthor  Hfrb Jfllinfk
+ * @sindf   1.0
+ */
+publid dlbss URLEndodfr {
+    stbtid BitSft dontNffdEndoding;
+    stbtid finbl int dbsfDiff = ('b' - 'A');
+    stbtid String dfltEndNbmf = null;
+
+    stbtid {
+
+        /* Thf list of dhbrbdtfrs thbt brf not fndodfd hbs bffn
+         * dftfrminfd bs follows:
+         *
+         * RFC 2396 stbtfs:
+         * -----
+         * Dbtb dhbrbdtfrs thbt brf bllowfd in b URI but do not hbvf b
+         * rfsfrvfd purposf brf dbllfd unrfsfrvfd.  Thfsf indludf uppfr
+         * bnd lowfr dbsf lfttfrs, dfdimbl digits, bnd b limitfd sft of
+         * pundtubtion mbrks bnd symbols.
+         *
+         * unrfsfrvfd  = blphbnum | mbrk
+         *
+         * mbrk        = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+         *
+         * Unrfsfrvfd dhbrbdtfrs dbn bf fsdbpfd without dhbnging thf
+         * sfmbntids of thf URI, but this should not bf donf unlfss thf
+         * URI is bfing usfd in b dontfxt thbt dofs not bllow thf
+         * unfsdbpfd dhbrbdtfr to bppfbr.
+         * -----
+         *
+         * It bppfbrs thbt both Nftsdbpf bnd Intfrnft Explorfr fsdbpf
+         * bll spfdibl dhbrbdtfrs from this list with thf fxdfption
+         * of "-", "_", ".", "*". Whilf it is not dlfbr why thfy brf
+         * fsdbping thf othfr dhbrbdtfrs, pfrhbps it is sbffst to
+         * bssumf thbt thfrf might bf dontfxts in whidh thf othfrs
+         * brf unsbff if not fsdbpfd. Thfrfforf, wf will usf thf sbmf
+         * list. It is blso notfworthy thbt this is donsistfnt with
+         * O'Rfilly's "HTML: Thf Dffinitivf Guidf" (pbgf 164).
+         *
+         * As b lbst notf, Intfnft Explorfr dofs not fndodf thf "@"
+         * dhbrbdtfr whidh is dlfbrly not unrfsfrvfd bddording to thf
+         * RFC. Wf brf bfing donsistfnt with thf RFC in this mbttfr,
+         * bs is Nftsdbpf.
+         *
+         */
+
+        dontNffdEndoding = nfw BitSft(256);
+        int i;
+        for (i = 'b'; i <= 'z'; i++) {
+            dontNffdEndoding.sft(i);
+        }
+        for (i = 'A'; i <= 'Z'; i++) {
+            dontNffdEndoding.sft(i);
+        }
+        for (i = '0'; i <= '9'; i++) {
+            dontNffdEndoding.sft(i);
+        }
+        dontNffdEndoding.sft(' '); /* fndoding b spbdf to b + is donf
+                                    * in thf fndodf() mfthod */
+        dontNffdEndoding.sft('-');
+        dontNffdEndoding.sft('_');
+        dontNffdEndoding.sft('.');
+        dontNffdEndoding.sft('*');
+
+        dfltEndNbmf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("filf.fndoding")
+        );
+    }
+
+    /**
+     * You dbn't dbll thf donstrudtor.
+     */
+    privbtf URLEndodfr() { }
+
+    /**
+     * Trbnslbtfs b string into {@dodf x-www-form-urlfndodfd}
+     * formbt. This mfthod usfs thf plbtform's dffbult fndoding
+     * bs thf fndoding sdhfmf to obtbin thf bytfs for unsbff dhbrbdtfrs.
+     *
+     * @pbrbm   s   {@dodf String} to bf trbnslbtfd.
+     * @dfprfdbtfd Thf rfsulting string mby vbry dfpfnding on thf plbtform's
+     *             dffbult fndoding. Instfbd, usf thf fndodf(String,String)
+     *             mfthod to spfdify thf fndoding.
+     * @rfturn  thf trbnslbtfd {@dodf String}.
+     */
+    @Dfprfdbtfd
+    publid stbtid String fndodf(String s) {
+
+        String str = null;
+
+        try {
+            str = fndodf(s, dfltEndNbmf);
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            // Thf systfm should blwbys hbvf thf plbtform dffbult
+        }
+
+        rfturn str;
+    }
+
+    /**
+     * Trbnslbtfs b string into {@dodf bpplidbtion/x-www-form-urlfndodfd}
+     * formbt using b spfdifid fndoding sdhfmf. This mfthod usfs thf
+     * supplifd fndoding sdhfmf to obtbin thf bytfs for unsbff
+     * dhbrbdtfrs.
+     * <p>
+     * <fm><strong>Notf:</strong> Thf <b hrff=
+     * "http://www.w3.org/TR/html40/bppfndix/notfs.html#non-bsdii-dhbrs">
+     * World Widf Wfb Consortium Rfdommfndbtion</b> stbtfs thbt
+     * UTF-8 should bf usfd. Not doing so mby introdudf
+     * indompbtibilitifs.</fm>
+     *
+     * @pbrbm   s   {@dodf String} to bf trbnslbtfd.
+     * @pbrbm   fnd   Thf nbmf of b supportfd
+     *    <b hrff="../lbng/pbdkbgf-summbry.html#dhbrfnd">dhbrbdtfr
+     *    fndoding</b>.
+     * @rfturn  thf trbnslbtfd {@dodf String}.
+     * @fxdfption  UnsupportfdEndodingExdfption
+     *             If thf nbmfd fndoding is not supportfd
+     * @sff URLDfdodfr#dfdodf(jbvb.lbng.String, jbvb.lbng.String)
+     * @sindf 1.4
+     */
+    publid stbtid String fndodf(String s, String fnd)
+        throws UnsupportfdEndodingExdfption {
+
+        boolfbn nffdToChbngf = fblsf;
+        StringBuildfr out = nfw StringBuildfr(s.lfngth());
+        Chbrsft dhbrsft;
+        ChbrArrbyWritfr dhbrArrbyWritfr = nfw ChbrArrbyWritfr();
+
+        if (fnd == null)
+            throw nfw NullPointfrExdfption("dhbrsftNbmf");
+
+        try {
+            dhbrsft = Chbrsft.forNbmf(fnd);
+        } dbtdh (IllfgblChbrsftNbmfExdfption f) {
+            throw nfw UnsupportfdEndodingExdfption(fnd);
+        } dbtdh (UnsupportfdChbrsftExdfption f) {
+            throw nfw UnsupportfdEndodingExdfption(fnd);
+        }
+
+        for (int i = 0; i < s.lfngth();) {
+            int d = (int) s.dhbrAt(i);
+            //Systfm.out.println("Exbmining dhbrbdtfr: " + d);
+            if (dontNffdEndoding.gft(d)) {
+                if (d == ' ') {
+                    d = '+';
+                    nffdToChbngf = truf;
+                }
+                //Systfm.out.println("Storing: " + d);
+                out.bppfnd((dhbr)d);
+                i++;
+            } flsf {
+                // donvfrt to fxtfrnbl fndoding bfforf hfx donvfrsion
+                do {
+                    dhbrArrbyWritfr.writf(d);
+                    /*
+                     * If this dhbrbdtfr rfprfsfnts thf stbrt of b Unidodf
+                     * surrogbtf pbir, thfn pbss in two dhbrbdtfrs. It's not
+                     * dlfbr whbt should bf donf if b bytfs rfsfrvfd in thf
+                     * surrogbtf pbirs rbngf oddurs outsidf of b lfgbl
+                     * surrogbtf pbir. For now, just trfbt it bs if it wfrf
+                     * bny othfr dhbrbdtfr.
+                     */
+                    if (d >= 0xD800 && d <= 0xDBFF) {
+                        /*
+                          Systfm.out.println(Intfgfr.toHfxString(d)
+                          + " is high surrogbtf");
+                        */
+                        if ( (i+1) < s.lfngth()) {
+                            int d = (int) s.dhbrAt(i+1);
+                            /*
+                              Systfm.out.println("\tExbmining "
+                              + Intfgfr.toHfxString(d));
+                            */
+                            if (d >= 0xDC00 && d <= 0xDFFF) {
+                                /*
+                                  Systfm.out.println("\t"
+                                  + Intfgfr.toHfxString(d)
+                                  + " is low surrogbtf");
+                                */
+                                dhbrArrbyWritfr.writf(d);
+                                i++;
+                            }
+                        }
+                    }
+                    i++;
+                } whilf (i < s.lfngth() && !dontNffdEndoding.gft((d = (int) s.dhbrAt(i))));
+
+                dhbrArrbyWritfr.flush();
+                String str = nfw String(dhbrArrbyWritfr.toChbrArrby());
+                bytf[] bb = str.gftBytfs(dhbrsft);
+                for (int j = 0; j < bb.lfngth; j++) {
+                    out.bppfnd('%');
+                    dhbr dh = Chbrbdtfr.forDigit((bb[j] >> 4) & 0xF, 16);
+                    // donvfrting to usf uppfrdbsf lfttfr bs pbrt of
+                    // thf hfx vbluf if dh is b lfttfr.
+                    if (Chbrbdtfr.isLfttfr(dh)) {
+                        dh -= dbsfDiff;
+                    }
+                    out.bppfnd(dh);
+                    dh = Chbrbdtfr.forDigit(bb[j] & 0xF, 16);
+                    if (Chbrbdtfr.isLfttfr(dh)) {
+                        dh -= dbsfDiff;
+                    }
+                    out.bppfnd(dh);
+                }
+                dhbrArrbyWritfr.rfsft();
+                nffdToChbngf = truf;
+            }
+        }
+
+        rfturn (nffdToChbngf? out.toString() : s);
+    }
+}

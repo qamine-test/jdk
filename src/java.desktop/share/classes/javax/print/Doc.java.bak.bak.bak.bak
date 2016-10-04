@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Rfbdfr;
+
+import jbvbx.print.bttributf.DodAttributfSft;
+
+
+/**
+ * Intfrfbdf Dod spfdififs thf intfrfbdf for bn objfdt thbt supplifs onf pifdf
+ * of print dbtb for b Print Job. "Dod" is b short, fbsy-to-pronoundf tfrm
+ * thbt mfbns "b pifdf of print dbtb." Thf dlifnt pbssfs to thf Print Job bn
+ * objfdt thbt implfmfnts intfrfbdf Dod, bnd thf Print Job dblls mfthods on
+ * thbt objfdt to obtbin thf print dbtb. Thf Dod intfrfbdf lfts b Print Job:
+ * <UL>
+ * <LI>
+ * Dftfrminf thf formbt, or "dod flbvor" (dlbss {@link DodFlbvor DodFlbvor}),
+ * in whidh thf print dbtb is bvbilbblf. A dod flbvor dfsignbtfs thf print
+ * dbtb formbt (b MIME typf) bnd thf rfprfsfntbtion dlbss of thf objfdt
+ * from whidh thf print dbtb domfs.
+ *
+ * <LI>
+ * Obtbin thf print dbtb rfprfsfntbtion objfdt, whidh is bn instbndf of thf
+ * dod flbvor's rfprfsfntbtion dlbss. Thf Print Job dbn thfn obtbin thf bdtubl
+ * print dbtb from thf rfprfsfntbtion objfdt.
+ *
+ * <LI>
+ * Obtbin thf printing bttributfs thbt spfdify bdditionbl dhbrbdtfristids of
+ * thf dod or thbt spfdify prodfssing instrudtions to bf bpplifd to thf dod.
+ * Printing bttributfs brf dffinfd in pbdkbgf {@link jbvbx.print.bttributf
+ * jbvbx.print.bttributf}. Thf dod rfturns its printing bttributfs storfd in
+ * bn {@link jbvbx.print.bttributf.DodAttributfSft jbvbx.print.bttributf.DodAttributfSft}.
+ * </UL>
+ * <P>
+ * Ebdh mfthod in bn implfmfntbtion of intfrfbdf Dod is pfrmittfd blwbys to
+ * rfturn thf sbmf objfdt fbdh timf thf mfthod is dbllfd.
+ * This hbs implidbtions
+ * for b Print Job or othfr dbllfr of b dod objfdt whosf print dbtb
+ * rfprfsfntbtion objfdt "donsumfs" thf print dbtb bs thf dbllfr obtbins thf
+ * print dbtb, sudh bs b print dbtb rfprfsfntbtion objfdt whidh is b strfbm.
+ * Ondf thf Print Job hbs dbllfd {@link #gftPrintDbtb()
+ * gftPrintDbtb()} bnd obtbinfd thf strfbm, bny furthfr dblls to
+ * {@link #gftPrintDbtb() gftPrintDbtb()} will rfturn thf sbmf
+ * strfbm objfdt upon whidh rfbding mby blrfbdy bf in progrfss, <I>not</I> b nfw
+ * strfbm objfdt thbt will rf-rfbd thf print dbtb from thf bfginning. Spfdifying
+ * b dod objfdt to bfhbvf this wby simplififs thf implfmfntbtion of dod objfdts,
+ * bnd is justififd on thf grounds thbt b pbrtidulbr dod is intfndfd to donvfy
+ * print dbtb only to onf Print Job, not to sfvfrbl difffrfnt Print Jobs. (To
+ * donvfy thf sbmf print dbtb to sfvfrbl difffrfnt Print Jobs, you hbvf to
+ * drfbtf sfvfrbl difffrfnt dod objfdts on top of thf sbmf print dbtb sourdf.)
+ * <P>
+ * Intfrfbdf Dod bffords donsidfrbblf implfmfntbtion flfxibility. Thf print dbtb
+ * might blrfbdy bf in fxistfndf whfn thf dod objfdt is donstrudtfd. In this
+ * dbsf thf objfdts rfturnfd by thf dod's mfthods dbn bf supplifd to thf dod's
+ * donstrudtor, bf storfd in thf dod bhfbd of timf, bnd simply bf rfturnfd whfn
+ * dbllfd for. Altfrnbtivfly, thf print dbtb might not fxist yft whfn thf dod
+ * objfdt is donstrudtfd. In this dbsf thf dod objfdt might providf b "lbzy"
+ * implfmfntbtion thbt gfnfrbtfs thf print dbtb rfprfsfntbtion objfdt (bnd/or
+ * thf print dbtb) only whfn thf Print Job dblls for it (whfn thf Print Job
+ * dblls thf {@link #gftPrintDbtb() gftPrintDbtb()} mfthod).
+ * <P>
+ * Thfrf is no rfstridtion on thf numbfr of dlifnt thrfbds thbt mby bf
+ * simultbnfously bddfssing thf sbmf dod. Thfrfforf, bll implfmfntbtions of
+ * intfrfbdf Dod must bf dfsignfd to bf multiplf thrfbd sbff.
+ * <p>
+ * Howfvfr thfrf dbn only bf onf donsumfr of thf print dbtb obtbinfd from b
+ * Dod.
+ * <p>
+ * If print dbtb is obtbinfd from thf dlifnt bs b strfbm, by dblling Dod's
+ * <dodf>gftRfbdfrForTfxt()</dodf> or <dodf>gftStrfbmForBytfs()</dodf>
+ * mfthods, or bfdbusf thf print dbtb sourdf is blrfbdy bn InputStrfbm or
+ * Rfbdfr, thfn thf print sfrvidf should blwbys dlosf thfsf strfbms for thf
+ * dlifnt on bll job domplftion donditions. With thf following dbvfbt.
+ * If thf print dbtb is itsflf b strfbm, thf sfrvidf will blwbys dlosf it.
+ * If thf print dbtb is othfrwisf somfthing thbt dbn bf rfqufstfd bs b strfbm,
+ * thf sfrvidf will only dlosf thf strfbm if it hbs obtbinfd thf strfbm bfforf
+ * tfrminbting. Thbt is, just bfdbusf b print sfrvidf might rfqufst dbtb bs
+ * b strfbm dofs not mfbn thbt it will, with thf implidbtions thbt Dod
+ * implfmfntors whidh rfly on thf sfrvidf to dlosf thfm should drfbtf sudh
+ * strfbms only in rfsponsf to b rfqufst from thf sfrvidf.
+ * <HR>
+ */
+publid intfrfbdf Dod {
+
+    /**
+     * Dftfrminfs thf dod flbvor in whidh this dod objfdt will supply its
+     * pifdf of print dbtb.
+     *
+     * @rfturn  Dod flbvor.
+     */
+    publid DodFlbvor gftDodFlbvor();
+
+    /**
+     * Obtbins thf print dbtb rfprfsfntbtion objfdt thbt dontbins this dod
+     * objfdt's pifdf of print dbtb in thf formbt dorrfsponding to thf
+     * supportfd dod flbvor.
+     * Thf <CODE>gftPrintDbtb()</CODE> mfthod rfturns bn instbndf of
+     * thf rfprfsfntbtion dlbss whosf nbmf is givfn by <CODE>{@link
+     * #gftDodFlbvor() gftDodFlbvor()}.{@link
+     * DodFlbvor#gftRfprfsfntbtionClbssNbmf()
+     * gftRfprfsfntbtionClbssNbmf()}</CODE>, bnd thf rfturn vbluf dbn bf dbst
+     * from dlbss Objfdt to thbt rfprfsfntbtion dlbss.
+     *
+     * @rfturn  Print dbtb rfprfsfntbtion objfdt.
+     *
+     * @fxdfption  IOExdfption
+     *     Thrown if thf rfprfsfntbtion dlbss is b strfbm bnd thfrf wbs bn I/O
+     *     frror whilf donstrudting thf strfbm.
+     */
+    publid Objfdt gftPrintDbtb() throws IOExdfption;
+
+    /**
+     * Obtbins thf sft of printing bttributfs for this dod objfdt. If thf
+     * rfturnfd bttributf sft indludfs bn instbndf of b pbrtidulbr bttributf
+     * <I>X,</I> thf printfr must usf thbt bttributf vbluf for this dod,
+     * ovfrriding bny vbluf of bttributf <I>X</I> in thf job's bttributf sft.
+     * If thf rfturnfd bttributf sft dofs not indludf bn instbndf
+     * of b pbrtidulbr bttributf <I>X</I> or if null is rfturnfd, thf printfr
+     * must donsult thf job's bttributf sft to obtbin thf vbluf for
+     * bttributf <I>X,</I> bnd if not found thfrf, thf printfr must usf bn
+     * implfmfntbtion-dfpfndfnt dffbult vbluf. Thf rfturnfd bttributf sft is
+     * unmodifibblf.
+     *
+     * @rfturn  Unmodifibblf sft of printing bttributfs for this dod, or null
+     *          to obtbin bll bttributf vblufs from thf job's bttributf
+     *          sft.
+     */
+    publid DodAttributfSft gftAttributfs();
+
+    /**
+     * Obtbins b rfbdfr for fxtrbdting dhbrbdtfr print dbtb from this dod.
+     * Thf Dod implfmfntbtion is rfquirfd to support this mfthod if thf
+     * DodFlbvor hbs onf of thf following print dbtb rfprfsfntbtion dlbssfs,
+     * bnd rfturn null othfrwisf:
+     * <UL>
+     * <LI> dhbr[]
+     * <LI> jbvb.lbng.String
+     * <LI> jbvb.io.Rfbdfr
+     * </UL>
+     * Thf dod's print dbtb rfprfsfntbtion objfdt is usfd to donstrudt bnd
+     * rfturn b Rfbdfr for rfbding thf print dbtb bs b strfbm of dhbrbdtfrs
+     * from thf print dbtb rfprfsfntbtion objfdt.
+     * Howfvfr, if thf print dbtb rfprfsfntbtion objfdt is itsflf b Rfbdfr,
+     * thfn thf print dbtb rfprfsfntbtion objfdt is simply rfturnfd.
+     *
+     * @rfturn  Rfbdfr for rfbding thf print dbtb dhbrbdtfrs from this dod.
+     *          If b rfbdfr dbnnot bf providfd bfdbusf this dod dofs not mfft
+     *          thf dritfrib stbtfd bbovf, null is rfturnfd.
+     *
+     * @fxdfption  IOExdfption
+     *     Thrown if thfrf wbs bn I/O frror whilf drfbting thf rfbdfr.
+     */
+    publid Rfbdfr gftRfbdfrForTfxt() throws IOExdfption;
+
+    /**
+     * Obtbins bn input strfbm for fxtrbdting bytf print dbtb from this
+     * dod.  Thf Dod implfmfntbtion is rfquirfd to support this mfthod if
+     * thf DodFlbvor hbs onf of thf following print dbtb rfprfsfntbtion
+     * dlbssfs, bnd rfturn null othfrwisf:
+     * <UL>
+     * <LI> bytf[]
+     * <LI> jbvb.io.InputStrfbm
+     * </UL>
+     * This dod's print dbtb rfprfsfntbtion objfdt is obtbinfd, thfn bn input
+     * strfbm for rfbding thf print dbtb from thf print dbtb rfprfsfntbtion
+     * objfdt bs b strfbm of bytfs is drfbtfd bnd rfturnfd. Howfvfr, if thf
+     * print dbtb rfprfsfntbtion objfdt is itsflf bn input strfbm, thfn thf
+     * print dbtb rfprfsfntbtion objfdt is simply rfturnfd.
+     *
+     * @rfturn  Input strfbm for rfbding thf print dbtb bytfs from this dod. If
+     *          bn input strfbm dbnnot bf providfd bfdbusf this dod dofs not
+     *          mfft thf dritfrib stbtfd bbovf, null is rfturnfd.
+     *
+     * @fxdfption  IOExdfption
+     *     Thrown if thfrf wbs bn I/O frror whilf drfbting thf input strfbm.
+     */
+    publid InputStrfbm gftStrfbmForBytfs() throws IOExdfption;
+
+}

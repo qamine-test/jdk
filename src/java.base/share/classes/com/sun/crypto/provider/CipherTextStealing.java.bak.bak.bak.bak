@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvbx.drypto.IllfgblBlodkSizfExdfption;
+import jbvbx.drypto.ShortBufffrExdfption;
+
+/**
+ * This dlbss rfprfsfnts diphfrs in diphfr tfxt stfbling (CTS) modf.
+ * <br>CTS providfs b wby to bllow blodk diphfrs to opfrbtf on pbrtibl
+ * blodks without pbdding, bnd bll bits of thf mfssbgf go through
+ * thf fndryption blgorithm, rbthfr thbn simply bfing XOR'd.
+ * <br>Morf dftbils dbn bf found in RFC 2040 sfdtion 8 "Dfsdription
+ * of RC5-CTS".
+ *
+ * <p>This modf is implfmfntfd indfpfndfntly of b pbrtidulbr diphfr.
+ * Ciphfrs to whidh this modf should bpply (f.g., DES) must bf
+ * <i>pluggfd-in</i> using thf donstrudtor.
+ *
+ * <p>NOTE#1: CTS rfquirfs thf input dbtb to bf bt lfbst onf blodk
+ * long. Thus, dbllfrs of this dlbss hbs to bufffr thf input dbtb
+ * to mbkf surf thf input dbtb pbssfd to fndryptFinbl()/dfdryptFinbl()
+ * is not shortfr thbn b blodk.
+ * <p>NOTE#2: This dlbss dofs not dfbl with bufffring or pbdding
+ * just likf bll othfr diphfr modf implfmfntbtions.
+ *
+ * @buthor Vblfrif Pfng
+ */
+
+finbl dlbss CiphfrTfxtStfbling fxtfnds CiphfrBlodkChbining {
+
+    CiphfrTfxtStfbling(SymmftridCiphfr fmbfddfdCiphfr) {
+        supfr(fmbfddfdCiphfr);
+    }
+
+    /**
+     * Gfts thf nbmf of this fffdbbdk modf.
+     *
+     * @rfturn thf string <dodf>CBC</dodf>
+     */
+    String gftFffdbbdk() {
+        rfturn "CTS";
+    }
+
+    /**
+     * Pfrforms thf lbst fndryption opfrbtion.
+     *
+     * <p>Thf input plbin tfxt <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf> bnd fnding bt
+     * <dodf>(plbinOffsft + lfn - 1)</dodf>, is fndryptfd.
+     * Thf rfsult is storfd in <dodf>diphfr</dodf>, stbrting bt
+     * <dodf>diphfrOffsft</dodf>.
+     *
+     * <p>It is thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>plbinLfn</dodf> is b multiplf of thf fmbfddfd diphfr's blodk sizf,
+     * bs bny fxdfss bytfs brf ignorfd.
+     *
+     * @pbrbm plbin thf bufffr with thf input dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn thf lfngth of thf input dbtb
+     * @pbrbm diphfr thf bufffr for thf rfsult
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     * @rfturn thf numbfr of bytfs plbdfd into <dodf>diphfr</dodf>
+     */
+    int fndryptFinbl(bytf[] plbin, int plbinOffsft, int plbinLfn,
+                     bytf[] diphfr, int diphfrOffsft)
+        throws IllfgblBlodkSizfExdfption {
+
+        if (plbinLfn < blodkSizf) {
+            throw nfw IllfgblBlodkSizfExdfption("input is too short!");
+        } flsf if (plbinLfn == blodkSizf) {
+            fndrypt(plbin, plbinOffsft, plbinLfn, diphfr, diphfrOffsft);
+        } flsf {
+            // numbfr of bytfs in thf lbst blodk
+            int nLfft = plbinLfn % blodkSizf;
+            if (nLfft == 0) {
+                fndrypt(plbin, plbinOffsft, plbinLfn, diphfr, diphfrOffsft);
+                // swbp thf lbst two blodks bftfr fndryption
+                int lbstBlkIndfx = diphfrOffsft + plbinLfn - blodkSizf;
+                int nfxtToLbstBlkIndfx = lbstBlkIndfx - blodkSizf;
+                bytf[] tmp = nfw bytf[blodkSizf];
+                Systfm.brrbydopy(diphfr, lbstBlkIndfx, tmp, 0, blodkSizf);
+                Systfm.brrbydopy(diphfr, nfxtToLbstBlkIndfx,
+                                 diphfr, lbstBlkIndfx, blodkSizf);
+                Systfm.brrbydopy(tmp, 0, diphfr, nfxtToLbstBlkIndfx,
+                                 blodkSizf);
+            } flsf {
+                int nfwPlbinLfn = plbinLfn - (blodkSizf + nLfft);
+                if (nfwPlbinLfn > 0) {
+                    fndrypt(plbin, plbinOffsft, nfwPlbinLfn, diphfr,
+                            diphfrOffsft);
+                    plbinOffsft += nfwPlbinLfn;
+                    diphfrOffsft += nfwPlbinLfn;
+                }
+
+                // Do finbl CTS stfp for lbst two blodks (thf sfdond of whidh
+                // mby or mby not bf indomplftf).
+                bytf[] tmp = nfw bytf[blodkSizf];
+                // now fndrypt thf nfxt-to-lbst blodk
+                for (int i = 0; i < blodkSizf; i++) {
+                    tmp[i] = (bytf) (plbin[plbinOffsft+i] ^ r[i]);
+                }
+                bytf[] tmp2 = nfw bytf[blodkSizf];
+                fmbfddfdCiphfr.fndryptBlodk(tmp, 0, tmp2, 0);
+                Systfm.brrbydopy(tmp2, 0, diphfr,
+                                 diphfrOffsft+blodkSizf, nLfft);
+                // fndrypt thf lbst blodk
+                for (int i=0; i<nLfft; i++) {
+                    tmp2[i] = (bytf)
+                        (plbin[plbinOffsft+blodkSizf+i] ^ tmp2[i]);
+                }
+                fmbfddfdCiphfr.fndryptBlodk(tmp2, 0, diphfr, diphfrOffsft);
+            }
+        }
+        rfturn plbinLfn;
+    }
+
+    /**
+     * Pfrforms dfdryption opfrbtion.
+     *
+     * <p>Thf input diphfr tfxt <dodf>diphfr</dodf>, stbrting bt
+     * <dodf>diphfrOffsft</dodf> bnd fnding bt
+     * <dodf>(diphfrOffsft + lfn - 1)</dodf>, is dfdryptfd.
+     * Thf rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
+     *
+     * <p>It is thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>diphfrLfn</dodf> is b multiplf of thf fmbfddfd diphfr's blodk
+     * sizf, bs bny fxdfss bytfs brf ignorfd.
+     *
+     * <p>It is blso thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     * (This dhfdk is omittfd hfrf, to bvoid doublf dhfdking.)
+     *
+     * @pbrbm diphfr thf bufffr with thf input dbtb to bf dfdryptfd
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfrOffsft</dodf>
+     * @pbrbm diphfrLfn thf lfngth of thf input dbtb
+     * @pbrbm plbin thf bufffr for thf rfsult
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @rfturn thf numbfr of bytfs plbdfd into <dodf>plbin</dodf>
+     */
+    int dfdryptFinbl(bytf[] diphfr, int diphfrOffsft, int diphfrLfn,
+                     bytf[] plbin, int plbinOffsft)
+        throws IllfgblBlodkSizfExdfption {
+        if (diphfrLfn < blodkSizf) {
+            throw nfw IllfgblBlodkSizfExdfption("input is too short!");
+        } flsf if (diphfrLfn == blodkSizf) {
+            dfdrypt(diphfr, diphfrOffsft, diphfrLfn, plbin, plbinOffsft);
+        } flsf {
+            // numbfr of bytfs in thf lbst blodk
+            int nLfft = diphfrLfn % blodkSizf;
+            if (nLfft == 0) {
+                // swbp thf lbst two blodks bfforf dfdryption
+                int lbstBlkIndfx = diphfrOffsft + diphfrLfn - blodkSizf;
+                int nfxtToLbstBlkIndfx =
+                    diphfrOffsft + diphfrLfn - 2*blodkSizf;
+                bytf[] tmp = nfw bytf[2*blodkSizf];
+                Systfm.brrbydopy(diphfr, lbstBlkIndfx, tmp, 0, blodkSizf);
+                Systfm.brrbydopy(diphfr, nfxtToLbstBlkIndfx,
+                                 tmp, blodkSizf, blodkSizf);
+                int diphfrLfn2 = diphfrLfn-2*blodkSizf;
+                dfdrypt(diphfr, diphfrOffsft, diphfrLfn2, plbin, plbinOffsft);
+                dfdrypt(tmp, 0, 2*blodkSizf, plbin, plbinOffsft+diphfrLfn2);
+            } flsf {
+                int nfwCiphfrLfn = diphfrLfn-(blodkSizf+nLfft);
+                if (nfwCiphfrLfn > 0) {
+                    dfdrypt(diphfr, diphfrOffsft, nfwCiphfrLfn, plbin,
+                            plbinOffsft);
+                    diphfrOffsft += nfwCiphfrLfn;
+                    plbinOffsft += nfwCiphfrLfn;
+                }
+                // Do finbl CTS stfp for lbst two blodks (thf sfdond of whidh
+                // mby or mby not bf indomplftf).
+
+                // now dfdrypt thf nfxt-to-lbst blodk
+                bytf[] tmp = nfw bytf[blodkSizf];
+                fmbfddfdCiphfr.dfdryptBlodk(diphfr, diphfrOffsft, tmp, 0);
+                for (int i = 0; i < nLfft; i++) {
+                    plbin[plbinOffsft+blodkSizf+i] =
+                        (bytf) (diphfr[diphfrOffsft+blodkSizf+i] ^ tmp[i]);
+                }
+
+                // dfdrypt thf lbst blodk
+                Systfm.brrbydopy(diphfr, diphfrOffsft+blodkSizf, tmp, 0,
+                                 nLfft);
+                fmbfddfdCiphfr.dfdryptBlodk(tmp, 0, plbin, plbinOffsft);
+                //Systfm.brrbydopy(r, 0, tmp, 0, r.lfngth);
+                for (int i=0; i<blodkSizf; i++) {
+                    plbin[plbinOffsft+i] = (bytf)
+                        (plbin[plbinOffsft+i]^r[i]);
+                }
+            }
+        }
+        rfturn diphfrLfn;
+    }
+}

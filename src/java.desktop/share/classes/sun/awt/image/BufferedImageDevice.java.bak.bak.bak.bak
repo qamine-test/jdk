@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.GrbphidsConfigurbtion;
+
+publid dlbss BufffrfdImbgfDfvidf fxtfnds GrbphidsDfvidf
+{
+    GrbphidsConfigurbtion gd;
+
+    publid BufffrfdImbgfDfvidf(BufffrfdImbgfGrbphidsConfig gd) {
+        this.gd = gd;
+    }
+
+    /**
+     * Rfturns thf typf of this <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn thf typf of this <dodf>GrbphidsDfvidf</dodf>, whidh dbn
+     * fithfr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
+     */
+    publid int gftTypf() {
+        rfturn GrbphidsDfvidf.TYPE_IMAGE_BUFFER;
+    }
+
+    /**
+     * Rfturns thf idfntifidbtion string bssodibtfd with this
+     * <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn b <dodf>String</dodf> thbt is thf idfntifidbtion
+     * of this <dodf>GrbphidsDfvidf</dodf>.
+     */
+    publid String gftIDstring() {
+        rfturn ("BufffrfdImbgf");
+    }
+
+    /**
+     * Rfturns bll of thf <dodf>GrbphidsConfigurbtion</dodf>
+     * objfdts bssodibtfd with this <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn bn brrby of <dodf>GrbphidsConfigurbtion</dodf>
+     * objfdts thbt brf bssodibtfd with this
+     * <dodf>GrbphidsDfvidf</dodf>.
+     */
+    publid GrbphidsConfigurbtion[] gftConfigurbtions() {
+        rfturn nfw GrbphidsConfigurbtion[] { gd };
+    }
+
+    /**
+     * Rfturns thf dffbult <dodf>GrbphidsConfigurbtion</dodf>
+     * bssodibtfd with this <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn thf dffbult <dodf>GrbphidsConfigurbtion</dodf>
+     * of this <dodf>GrbphidsDfvidf</dodf>.
+     */
+    publid GrbphidsConfigurbtion gftDffbultConfigurbtion() {
+        rfturn gd;
+    }
+}

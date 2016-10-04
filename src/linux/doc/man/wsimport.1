@@ -1,56 +1,56 @@
 '\" t
-.\"  Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Jbvb Web Services Tools
-.\"     Title: wsimport.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     Titlf: wsimport.1
 .\"
 .if n .pl 99999
-.TH wsimport 1 "21 November 2013" "JDK 8" "Jbvb Web Services Tools"
+.TH wsimport 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-wsimport \- Generbtes JAX-WS portbble brtifbcts thbt cbn be pbckbged in b web bpplicbtion brchive (WAR) file bnd provides bn Ant tbsk\&.
+wsimport \- Gfnfrbtfs JAX-WS portbblf brtifbdts tibt dbn bf pbdkbgfd in b wfb bpplidbtion brdiivf (WAR) filf bnd providfs bn Ant tbsk\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
@@ -60,34 +60,34 @@ wsimport \- Generbtes JAX-WS portbble brtifbcts thbt cbn be pbckbged in b web bp
 .sp     
 .TP     
 \fIoptions\fR
-The commbnd-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
 \fIwsdl\fR
-The file thbt contbins the mbchine-rebdbble description of how the web service cbn be cblled, whbt pbrbmeters it expects, bnd whbt dbtb structures it returns\&.
+Tif filf tibt dontbins tif mbdiinf-rfbdbblf dfsdription of iow tif wfb sfrvidf dbn bf dbllfd, wibt pbrbmftfrs it fxpfdts, bnd wibt dbtb strudturfs it rfturns\&.
 .SH DESCRIPTION    
-The \f3wsimport\fR commbnd generbtes the following JAX-WS portbble brtifbcts\&. These brtifbcts cbn be pbckbged in b WAR file with the WSDL bnd schemb documents bnd the endpoint implementbtion to be deployed\&. The \f3wsimport\fR commbnd blso provides b \f3wsimport\fR Ant tbsk, see the Tools tbb of the Wsimport Ant Tbsk pbge bt http://jbx-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsimportbnt\&.html
+Tif \f3wsimport\fR dommbnd gfnfrbtfs tif following JAX-WS portbblf brtifbdts\&. Tifsf brtifbdts dbn bf pbdkbgfd in b WAR filf witi tif WSDL bnd sdifmb dodumfnts bnd tif fndpoint implfmfntbtion to bf dfployfd\&. Tif \f3wsimport\fR dommbnd blso providfs b \f3wsimport\fR Ant tbsk, sff tif Tools tbb of tif Wsimport Ant Tbsk pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
 .TP 0.2i    
 \(bu
-Service Endpoint Interfbce (SEI)
+Sfrvidf Endpoint Intfrfbdf (SEI)
 .TP 0.2i    
 \(bu
-Service
+Sfrvidf
 .TP 0.2i    
 \(bu
-Exception clbss is mbpped from \f3wsdl:fbult\fR (if bny)
+Exdfption dlbss is mbppfd from \f3wsdl:fbult\fR (if bny)
 .TP 0.2i    
 \(bu
-Async Response Bebn is derived from response \f3wsdl:messbge\fR (if bny)
+Asynd Rfsponsf Bfbn is dfrivfd from rfsponsf \f3wsdl:mfssbgf\fR (if bny)
 .TP 0.2i    
 \(bu
-JAXB generbted vblue types (mbpped jbvb clbsses from schemb types)
+JAXB gfnfrbtfd vbluf typfs (mbppfd jbvb dlbssfs from sdifmb typfs)
 .PP
-To stbrt the \f3wsgen\fR commbnd, do the following:
+To stbrt tif \f3wsgfn\fR dommbnd, do tif following:
 .PP
-\fIOrbcle Solbris/Linux\fR:
+\fIOrbdlf Solbris/Linux\fR:
 .sp     
 .nf     
-\f3/bin/wsimport\&.sh \-help\fP
+\f3/bin/wsimport\&.si \-iflp\fP
 .fi     
 .nf     
 \f3\fP
@@ -96,7 +96,7 @@ To stbrt the \f3wsgen\fR commbnd, do the following:
 \fIWindows\fR:
 .sp     
 .nf     
-\f3\ebin\ewsimport\&.bbt \-help\fP
+\f3\fbin\fwsimport\&.bbt \-iflp\fP
 .fi     
 .nf     
 \f3\fP
@@ -104,95 +104,95 @@ To stbrt the \f3wsgen\fR commbnd, do the following:
 .sp     
 .SH OPTIONS    
 .TP
--d \fIdirectory\fR
+-d \fIdirfdtory\fR
 .br
-Specifies where to plbce generbted output files\&.
+Spfdififs wifrf to plbdf gfnfrbtfd output filfs\&.
 .TP
--b \fIpbth\fR
+-b \fIpbti\fR
 .br
-Specifies externbl JAX-WS or JAXB binding files\&. Multiple JAX-WS bnd JAXB binding files cbn be specified with the \f3-b\fR option\&. You cbn use these files to customize pbckbge nbmes, bebn nbmes, bnd so on\&. For more informbtion bbout JAX-WS bnd JAXB binding files, see the \fIUsers Guide\fR tbb of WSDL Customizbtion bt http://jbx-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsimportbnt\&.html
+Spfdififs fxtfrnbl JAX-WS or JAXB binding filfs\&. Multiplf JAX-WS bnd JAXB binding filfs dbn bf spfdififd witi tif \f3-b\fR option\&. You dbn usf tifsf filfs to dustomizf pbdkbgf nbmfs, bfbn nbmfs, bnd so on\&. For morf informbtion bbout JAX-WS bnd JAXB binding filfs, sff tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
 .TP
 -B \fIjbxbOption\fR
 .br
-Pbsses the \f3jbxbOption\fR option to the JAXB schemb compiler\&.
+Pbssfs tif \f3jbxbOption\fR option to tif JAXB sdifmb dompilfr\&.
 .TP
--cbtblog
+-dbtblog
 .br
-Specifies b cbtblog file to resolve externbl entity references\&. The \f3-cbtblog\fR option supports the TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. See the \fIUsers Guide\fR tbb of the Cbtblog Support pbge bt http://jbx-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/cbtblog-support\&.html
+Spfdififs b dbtblog filf to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Tif \f3-dbtblog\fR option supports tif TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff tif \fIUsfrs Guidf\fR tbb of tif Cbtblog Support pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
 .TP
--extension
+-fxtfnsion
 .br
-Allows vendor extensions\&. Use of extensions cbn result in bpplicbtions thbt bre not portbble or thbt do not work with other implementbtions\&.
+Allows vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions tibt brf not portbblf or tibt do not work witi otifr implfmfntbtions\&.
 .TP
--help
+-iflp
 .br
-Displbys b help messbge for the \f3wsimport\fR commbnd\&.
+Displbys b iflp mfssbgf for tif \f3wsimport\fR dommbnd\&.
 .TP
--httpproxy: \fIhost\fR:\fIport\fR
+-ittpproxy: \fIiost\fR:\fIport\fR
 .br
-Specifies bn HTTP proxy server\&. The defbult is 8080\&.
+Spfdififs bn HTTP proxy sfrvfr\&. Tif dffbult is 8080\&.
 .TP
--keep
+-kffp
 .br
-Keeps generbted files\&.
+Kffps gfnfrbtfd filfs\&.
 .TP
--p \fInbme\fR
+-p \fInbmf\fR
 .br
-Specifies b tbrget pbckbge \fInbme\fR to override the WSDL bnd schemb binding customizbtions, bnd the defbult blgorithm defined in the specificbtion\&.
+Spfdififs b tbrgft pbdkbgf \fInbmf\fR to ovfrridf tif WSDL bnd sdifmb binding dustomizbtions, bnd tif dffbult blgoritim dffinfd in tif spfdifidbtion\&.
 .TP
--s \fIdirectory\fR
+-s \fIdirfdtory\fR
 .br
-Specifies where to plbce generbted source files\&.
+Spfdififs wifrf to plbdf gfnfrbtfd sourdf filfs\&.
 .TP
--verbose
+-vfrbosf
 .br
-Displbys compiler messbges\&.
+Displbys dompilfr mfssbgfs\&.
 .TP
--version
+-vfrsion
 .br
-Prints relebse informbtion\&.
+Prints rflfbsf informbtion\&.
 .TP
--wsdllocbtion \fIlocbtion\fR
+-wsdllodbtion \fIlodbtion\fR
 .br
-Specifies the \f3@WebServiceClient\&.wsdlLocbtion\fR vblue\&.
+Spfdififs tif \f3@WfbSfrvidfClifnt\&.wsdlLodbtion\fR vbluf\&.
 .TP
--tbrget
+-tbrgft
 .br
-Generbtes code bccording to the specified JAX-WS specificbtion version\&. Version 2\&.0 generbtes complibnt code for the JAX-WS 2\&.0 specificbtion\&.
+Gfnfrbtfs dodf bddording to tif spfdififd JAX-WS spfdifidbtion vfrsion\&. Vfrsion 2\&.0 gfnfrbtfs domplibnt dodf for tif JAX-WS 2\&.0 spfdifidbtion\&.
 .TP
--quiet
+-quift
 .br
-Suppresses the \f3wsimport\fR commbnd output\&.
+Supprfssfs tif \f3wsimport\fR dommbnd output\&.
 .PP
-Multiple \f3JAX-WS\fR bnd \f3JAXB\fR binding files cbn be specified using the \f3-b\fR option, bnd they cbn be used to customize vbrious things such bs pbckbge nbmes bnd bebn nbmes\&. More informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding files cbn be found in the customizbtion documentbtion bt https://jbx-ws\&.dev\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/customizbtions\&.html
+Multiplf \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf spfdififd using tif \f3-b\fR option, bnd tify dbn bf usfd to dustomizf vbrious tiings sudi bs pbdkbgf nbmfs bnd bfbn nbmfs\&. Morf informbtion bbout \f3JAX-WS\fR bnd \f3JAXB\fR binding filfs dbn bf found in tif dustomizbtion dodumfntbtion bt ittps://jbx-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.itml
 .SH NONSTANDARD\ OPTIONS    
 .TP
--XbdditionblHebders
+-XbdditionblHfbdfrs
 .br
-Mbps hebders not bound to b request or response messbge to Jbvb method pbrbmeters\&.
+Mbps ifbdfrs not bound to b rfqufst or rfsponsf mfssbgf to Jbvb mftiod pbrbmftfrs\&.
 .TP
--Xbuthfile \fIfile\fR
+-Xbutifilf \fIfilf\fR
 .br
-The WSDL URI thbt specifies the file thbt contbins buthorizbtion informbtion\&. This URI is in the following formbt:
+Tif WSDL URI tibt spfdififs tif filf tibt dontbins butiorizbtion informbtion\&. Tiis URI is in tif following formbt:
 
-http://\fIuser-nbme\fR:\f3pbssword\fR@\fIhost-nbme\fR/\fIweb-service-nbme\fR>?wsdl\&.
+ittp://\fIusfr-nbmf\fR:\f3pbssword\fR@\fIiost-nbmf\fR/\fIwfb-sfrvidf-nbmf\fR>?wsdl\&.
 .TP
--Xdebug
+-Xdfbug
 .br
-Prints debugging informbtion\&.
+Prints dfbugging informbtion\&.
 .TP
--Xno-bddressing-dbtbbinding
+-Xno-bddrfssing-dbtbbinding
 .br
-Enbbles binding of W3C EndpointReferenceType to Jbvb\&.
+Enbblfs binding of W3C EndpointRfffrfndfTypf to Jbvb\&.
 .TP
--Xnocompile
+-Xnodompilf
 .br
-Does not compile the generbted Jbvb files\&.
+Dofs not dompilf tif gfnfrbtfd Jbvb filfs\&.
 .SH EXAMPLE    
-The following exbmple generbtes the Jbvb brtifbcts bnd compiles the brtifbcts by importing \f3http://stockquote\&.exbmple\&.com/quote?wsdl\fR
+Tif following fxbmplf gfnfrbtfs tif Jbvb brtifbdts bnd dompilfs tif brtifbdts by importing \f3ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fR
 .sp     
 .nf     
-\f3wsimport \-p stockquote http://stockquote\&.exbmple\&.com/quote?wsdl\fP
+\f3wsimport \-p stodkquotf ittp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fP
 .fi     
 .nf     
 \f3\fP
@@ -201,16 +201,16 @@ The following exbmple generbtes the Jbvb brtifbcts bnd compiles the brtifbcts by
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-wsgen(1)
+wsgfn(1)
 .TP 0.2i    
 \(bu
-The Tools tbb of Wsimport Ant Tbsk pbge http://jbx-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsimportbnt\&.html
+Tif Tools tbb of Wsimport Ant Tbsk pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
 .TP 0.2i    
 \(bu
-The \fIUsers Guide\fR tbb of Cbtblog Support pbge http://jbx-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/cbtblog-support\&.html
+Tif \fIUsfrs Guidf\fR tbb of Cbtblog Support pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog-support\&.itml
 .TP 0.2i    
 \(bu
-The \fIUsers Guide\fR tbb of WSDL Customizbtion pbge http://jbx-ws\&.jbvb\&.net/nonbv/2\&.1\&.1/docs/wsimportbnt\&.html
+Tif \fIUsfrs Guidf\fR tbb of WSDL Customizbtion pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.itml
 .RE
 .br
 'pl 8.5i

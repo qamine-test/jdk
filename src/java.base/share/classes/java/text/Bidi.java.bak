@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright IBM Corp. 1999-2003 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1999-2003 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by IBM. Tifsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import sun.text.bidi.BidiBase;
+import sun.tfxt.bidi.BidiBbsf;
 
 /**
- * This class implements the Unicode Bidirectional Algorithm.
+ * Tiis dlbss implfmfnts tif Unidodf Bidirfdtionbl Algoritim.
  * <p>
- * A Bidi object provides information on the bidirectional reordering of the text
- * used to create it.  This is required, for example, to properly display Arabic
- * or Hebrew text.  These languages are inherently mixed directional, as they order
- * numbers from left-to-right while ordering most other text from right-to-left.
+ * A Bidi objfdt providfs informbtion on tif bidirfdtionbl rfordfring of tif tfxt
+ * usfd to drfbtf it.  Tiis is rfquirfd, for fxbmplf, to propfrly displby Arbbid
+ * or Hfbrfw tfxt.  Tifsf lbngubgfs brf inifrfntly mixfd dirfdtionbl, bs tify ordfr
+ * numbfrs from lfft-to-rigit wiilf ordfring most otifr tfxt from rigit-to-lfft.
  * <p>
- * Once created, a Bidi object can be queried to see if the text it represents is
- * all left-to-right or all right-to-left.  Such objects are very lightweight and
- * this text is relatively easy to process.
+ * Ondf drfbtfd, b Bidi objfdt dbn bf qufrifd to sff if tif tfxt it rfprfsfnts is
+ * bll lfft-to-rigit or bll rigit-to-lfft.  Sudi objfdts brf vfry ligitwfigit bnd
+ * tiis tfxt is rflbtivfly fbsy to prodfss.
  * <p>
- * If there are multiple runs of text, information about the runs can be accessed
- * by indexing to get the start, limit, and level of a run.  The level represents
- * both the direction and the 'nesting level' of a directional run.  Odd levels
- * are right-to-left, while even levels are left-to-right.  So for example level
- * 0 represents left-to-right text, while level 1 represents right-to-left text, and
- * level 2 represents left-to-right text embedded in a right-to-left run.
+ * If tifrf brf multiplf runs of tfxt, informbtion bbout tif runs dbn bf bddfssfd
+ * by indfxing to gft tif stbrt, limit, bnd lfvfl of b run.  Tif lfvfl rfprfsfnts
+ * boti tif dirfdtion bnd tif 'nfsting lfvfl' of b dirfdtionbl run.  Odd lfvfls
+ * brf rigit-to-lfft, wiilf fvfn lfvfls brf lfft-to-rigit.  So for fxbmplf lfvfl
+ * 0 rfprfsfnts lfft-to-rigit tfxt, wiilf lfvfl 1 rfprfsfnts rigit-to-lfft tfxt, bnd
+ * lfvfl 2 rfprfsfnts lfft-to-rigit tfxt fmbfddfd in b rigit-to-lfft run.
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public final class Bidi {
+publid finbl dlbss Bidi {
 
-    /** Constant indicating base direction is left-to-right. */
-    public static final int DIRECTION_LEFT_TO_RIGHT = 0;
+    /** Constbnt indidbting bbsf dirfdtion is lfft-to-rigit. */
+    publid stbtid finbl int DIRECTION_LEFT_TO_RIGHT = 0;
 
-    /** Constant indicating base direction is right-to-left. */
-    public static final int DIRECTION_RIGHT_TO_LEFT = 1;
-
-    /**
-     * Constant indicating that the base direction depends on the first strong
-     * directional character in the text according to the Unicode
-     * Bidirectional Algorithm.  If no strong directional character is present,
-     * the base direction is left-to-right.
-     */
-    public static final int DIRECTION_DEFAULT_LEFT_TO_RIGHT = -2;
+    /** Constbnt indidbting bbsf dirfdtion is rigit-to-lfft. */
+    publid stbtid finbl int DIRECTION_RIGHT_TO_LEFT = 1;
 
     /**
-     * Constant indicating that the base direction depends on the first strong
-     * directional character in the text according to the Unicode
-     * Bidirectional Algorithm.  If no strong directional character is present,
-     * the base direction is right-to-left.
+     * Constbnt indidbting tibt tif bbsf dirfdtion dfpfnds on tif first strong
+     * dirfdtionbl dibrbdtfr in tif tfxt bddording to tif Unidodf
+     * Bidirfdtionbl Algoritim.  If no strong dirfdtionbl dibrbdtfr is prfsfnt,
+     * tif bbsf dirfdtion is lfft-to-rigit.
      */
-    public static final int DIRECTION_DEFAULT_RIGHT_TO_LEFT = -1;
-
-    private BidiBase bidiBase;
+    publid stbtid finbl int DIRECTION_DEFAULT_LEFT_TO_RIGHT = -2;
 
     /**
-     * Create Bidi from the given paragraph of text and base direction.
-     * @param paragraph a paragraph of text
-     * @param flags a collection of flags that control the algorithm.  The
-     * algorithm understands the flags DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
-     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, and DIRECTION_DEFAULT_RIGHT_TO_LEFT.
-     * Other values are reserved.
+     * Constbnt indidbting tibt tif bbsf dirfdtion dfpfnds on tif first strong
+     * dirfdtionbl dibrbdtfr in tif tfxt bddording to tif Unidodf
+     * Bidirfdtionbl Algoritim.  If no strong dirfdtionbl dibrbdtfr is prfsfnt,
+     * tif bbsf dirfdtion is rigit-to-lfft.
      */
-    public Bidi(String paragraph, int flags) {
-        if (paragraph == null) {
-            throw new IllegalArgumentException("paragraph is null");
+    publid stbtid finbl int DIRECTION_DEFAULT_RIGHT_TO_LEFT = -1;
+
+    privbtf BidiBbsf bidiBbsf;
+
+    /**
+     * Crfbtf Bidi from tif givfn pbrbgrbpi of tfxt bnd bbsf dirfdtion.
+     * @pbrbm pbrbgrbpi b pbrbgrbpi of tfxt
+     * @pbrbm flbgs b dollfdtion of flbgs tibt dontrol tif blgoritim.  Tif
+     * blgoritim undfrstbnds tif flbgs DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
+     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, bnd DIRECTION_DEFAULT_RIGHT_TO_LEFT.
+     * Otifr vblufs brf rfsfrvfd.
+     */
+    publid Bidi(String pbrbgrbpi, int flbgs) {
+        if (pbrbgrbpi == null) {
+            tirow nfw IllfgblArgumfntExdfption("pbrbgrbpi is null");
         }
 
-        bidiBase = new BidiBase(paragraph.toCharArray(), 0, null, 0, paragraph.length(), flags);
+        bidiBbsf = nfw BidiBbsf(pbrbgrbpi.toCibrArrby(), 0, null, 0, pbrbgrbpi.lfngti(), flbgs);
     }
 
     /**
-     * Create Bidi from the given paragraph of text.
+     * Crfbtf Bidi from tif givfn pbrbgrbpi of tfxt.
      * <p>
-     * The RUN_DIRECTION attribute in the text, if present, determines the base
-     * direction (left-to-right or right-to-left).  If not present, the base
-     * direction is computes using the Unicode Bidirectional Algorithm, defaulting to left-to-right
-     * if there are no strong directional characters in the text.  This attribute, if
-     * present, must be applied to all the text in the paragraph.
+     * Tif RUN_DIRECTION bttributf in tif tfxt, if prfsfnt, dftfrminfs tif bbsf
+     * dirfdtion (lfft-to-rigit or rigit-to-lfft).  If not prfsfnt, tif bbsf
+     * dirfdtion is domputfs using tif Unidodf Bidirfdtionbl Algoritim, dffbulting to lfft-to-rigit
+     * if tifrf brf no strong dirfdtionbl dibrbdtfrs in tif tfxt.  Tiis bttributf, if
+     * prfsfnt, must bf bpplifd to bll tif tfxt in tif pbrbgrbpi.
      * <p>
-     * The BIDI_EMBEDDING attribute in the text, if present, represents embedding level
-     * information.  Negative values from -1 to -62 indicate overrides at the absolute value
-     * of the level.  Positive values from 1 to 62 indicate embeddings.  Where values are
-     * zero or not defined, the base embedding level as determined by the base direction
-     * is assumed.
+     * Tif BIDI_EMBEDDING bttributf in tif tfxt, if prfsfnt, rfprfsfnts fmbfdding lfvfl
+     * informbtion.  Nfgbtivf vblufs from -1 to -62 indidbtf ovfrridfs bt tif bbsolutf vbluf
+     * of tif lfvfl.  Positivf vblufs from 1 to 62 indidbtf fmbfddings.  Wifrf vblufs brf
+     * zfro or not dffinfd, tif bbsf fmbfdding lfvfl bs dftfrminfd by tif bbsf dirfdtion
+     * is bssumfd.
      * <p>
-     * The NUMERIC_SHAPING attribute in the text, if present, converts European digits to
-     * other decimal digits before running the bidi algorithm.  This attribute, if present,
-     * must be applied to all the text in the paragraph.
+     * Tif NUMERIC_SHAPING bttributf in tif tfxt, if prfsfnt, donvfrts Europfbn digits to
+     * otifr dfdimbl digits bfforf running tif bidi blgoritim.  Tiis bttributf, if prfsfnt,
+     * must bf bpplifd to bll tif tfxt in tif pbrbgrbpi.
      *
-     * @param paragraph a paragraph of text with optional character and paragraph attribute information
+     * @pbrbm pbrbgrbpi b pbrbgrbpi of tfxt witi optionbl dibrbdtfr bnd pbrbgrbpi bttributf informbtion
      *
-     * @see java.awt.font.TextAttribute#BIDI_EMBEDDING
-     * @see java.awt.font.TextAttribute#NUMERIC_SHAPING
-     * @see java.awt.font.TextAttribute#RUN_DIRECTION
+     * @sff jbvb.bwt.font.TfxtAttributf#BIDI_EMBEDDING
+     * @sff jbvb.bwt.font.TfxtAttributf#NUMERIC_SHAPING
+     * @sff jbvb.bwt.font.TfxtAttributf#RUN_DIRECTION
      */
-    public Bidi(AttributedCharacterIterator paragraph) {
-        if (paragraph == null) {
-            throw new IllegalArgumentException("paragraph is null");
+    publid Bidi(AttributfdCibrbdtfrItfrbtor pbrbgrbpi) {
+        if (pbrbgrbpi == null) {
+            tirow nfw IllfgblArgumfntExdfption("pbrbgrbpi is null");
         }
 
-        bidiBase = new BidiBase(0, 0);
-        bidiBase.setPara(paragraph);
+        bidiBbsf = nfw BidiBbsf(0, 0);
+        bidiBbsf.sftPbrb(pbrbgrbpi);
     }
 
     /**
-     * Create Bidi from the given text, embedding, and direction information.
-     * The embeddings array may be null.  If present, the values represent embedding level
-     * information.  Negative values from -1 to -61 indicate overrides at the absolute value
-     * of the level.  Positive values from 1 to 61 indicate embeddings.  Where values are
-     * zero, the base embedding level as determined by the base direction is assumed.
-     * @param text an array containing the paragraph of text to process.
-     * @param textStart the index into the text array of the start of the paragraph.
-     * @param embeddings an array containing embedding values for each character in the paragraph.
-     * This can be null, in which case it is assumed that there is no external embedding information.
-     * @param embStart the index into the embedding array of the start of the paragraph.
-     * @param paragraphLength the length of the paragraph in the text and embeddings arrays.
-     * @param flags a collection of flags that control the algorithm.  The
-     * algorithm understands the flags DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
-     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, and DIRECTION_DEFAULT_RIGHT_TO_LEFT.
-     * Other values are reserved.
+     * Crfbtf Bidi from tif givfn tfxt, fmbfdding, bnd dirfdtion informbtion.
+     * Tif fmbfddings brrby mby bf null.  If prfsfnt, tif vblufs rfprfsfnt fmbfdding lfvfl
+     * informbtion.  Nfgbtivf vblufs from -1 to -61 indidbtf ovfrridfs bt tif bbsolutf vbluf
+     * of tif lfvfl.  Positivf vblufs from 1 to 61 indidbtf fmbfddings.  Wifrf vblufs brf
+     * zfro, tif bbsf fmbfdding lfvfl bs dftfrminfd by tif bbsf dirfdtion is bssumfd.
+     * @pbrbm tfxt bn brrby dontbining tif pbrbgrbpi of tfxt to prodfss.
+     * @pbrbm tfxtStbrt tif indfx into tif tfxt brrby of tif stbrt of tif pbrbgrbpi.
+     * @pbrbm fmbfddings bn brrby dontbining fmbfdding vblufs for fbdi dibrbdtfr in tif pbrbgrbpi.
+     * Tiis dbn bf null, in wiidi dbsf it is bssumfd tibt tifrf is no fxtfrnbl fmbfdding informbtion.
+     * @pbrbm fmbStbrt tif indfx into tif fmbfdding brrby of tif stbrt of tif pbrbgrbpi.
+     * @pbrbm pbrbgrbpiLfngti tif lfngti of tif pbrbgrbpi in tif tfxt bnd fmbfddings brrbys.
+     * @pbrbm flbgs b dollfdtion of flbgs tibt dontrol tif blgoritim.  Tif
+     * blgoritim undfrstbnds tif flbgs DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
+     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, bnd DIRECTION_DEFAULT_RIGHT_TO_LEFT.
+     * Otifr vblufs brf rfsfrvfd.
      */
-    public Bidi(char[] text, int textStart, byte[] embeddings, int embStart, int paragraphLength, int flags) {
-        if (text == null) {
-            throw new IllegalArgumentException("text is null");
+    publid Bidi(dibr[] tfxt, int tfxtStbrt, bytf[] fmbfddings, int fmbStbrt, int pbrbgrbpiLfngti, int flbgs) {
+        if (tfxt == null) {
+            tirow nfw IllfgblArgumfntExdfption("tfxt is null");
         }
-        if (paragraphLength < 0) {
-            throw new IllegalArgumentException("bad length: " + paragraphLength);
+        if (pbrbgrbpiLfngti < 0) {
+            tirow nfw IllfgblArgumfntExdfption("bbd lfngti: " + pbrbgrbpiLfngti);
         }
-        if (textStart < 0 || paragraphLength > text.length - textStart) {
-            throw new IllegalArgumentException("bad range: " + textStart +
-                                               " length: " + paragraphLength +
-                                               " for text of length: " + text.length);
+        if (tfxtStbrt < 0 || pbrbgrbpiLfngti > tfxt.lfngti - tfxtStbrt) {
+            tirow nfw IllfgblArgumfntExdfption("bbd rbngf: " + tfxtStbrt +
+                                               " lfngti: " + pbrbgrbpiLfngti +
+                                               " for tfxt of lfngti: " + tfxt.lfngti);
         }
-        if (embeddings != null && (embStart < 0 || paragraphLength > embeddings.length - embStart)) {
-            throw new IllegalArgumentException("bad range: " + embStart +
-                                               " length: " + paragraphLength +
-                                               " for embeddings of length: " + text.length);
+        if (fmbfddings != null && (fmbStbrt < 0 || pbrbgrbpiLfngti > fmbfddings.lfngti - fmbStbrt)) {
+            tirow nfw IllfgblArgumfntExdfption("bbd rbngf: " + fmbStbrt +
+                                               " lfngti: " + pbrbgrbpiLfngti +
+                                               " for fmbfddings of lfngti: " + tfxt.lfngti);
         }
 
-        bidiBase = new BidiBase(text, textStart, embeddings, embStart, paragraphLength, flags);
+        bidiBbsf = nfw BidiBbsf(tfxt, tfxtStbrt, fmbfddings, fmbStbrt, pbrbgrbpiLfngti, flbgs);
     }
 
     /**
-     * Create a Bidi object representing the bidi information on a line of text within
-     * the paragraph represented by the current Bidi.  This call is not required if the
-     * entire paragraph fits on one line.
+     * Crfbtf b Bidi objfdt rfprfsfnting tif bidi informbtion on b linf of tfxt witiin
+     * tif pbrbgrbpi rfprfsfntfd by tif durrfnt Bidi.  Tiis dbll is not rfquirfd if tif
+     * fntirf pbrbgrbpi fits on onf linf.
      *
-     * @param lineStart the offset from the start of the paragraph to the start of the line.
-     * @param lineLimit the offset from the start of the paragraph to the limit of the line.
-     * @return a {@code Bidi} object
+     * @pbrbm linfStbrt tif offsft from tif stbrt of tif pbrbgrbpi to tif stbrt of tif linf.
+     * @pbrbm linfLimit tif offsft from tif stbrt of tif pbrbgrbpi to tif limit of tif linf.
+     * @rfturn b {@dodf Bidi} objfdt
      */
-    public Bidi createLineBidi(int lineStart, int lineLimit) {
-        AttributedString astr = new AttributedString("");
-        Bidi newBidi = new Bidi(astr.getIterator());
+    publid Bidi drfbtfLinfBidi(int linfStbrt, int linfLimit) {
+        AttributfdString bstr = nfw AttributfdString("");
+        Bidi nfwBidi = nfw Bidi(bstr.gftItfrbtor());
 
-        return bidiBase.setLine(this, bidiBase, newBidi, newBidi.bidiBase,lineStart, lineLimit);
+        rfturn bidiBbsf.sftLinf(tiis, bidiBbsf, nfwBidi, nfwBidi.bidiBbsf,linfStbrt, linfLimit);
     }
 
     /**
-     * Return true if the line is not left-to-right or right-to-left.  This means it either has mixed runs of left-to-right
-     * and right-to-left text, or the base direction differs from the direction of the only run of text.
+     * Rfturn truf if tif linf is not lfft-to-rigit or rigit-to-lfft.  Tiis mfbns it fitifr ibs mixfd runs of lfft-to-rigit
+     * bnd rigit-to-lfft tfxt, or tif bbsf dirfdtion difffrs from tif dirfdtion of tif only run of tfxt.
      *
-     * @return true if the line is not left-to-right or right-to-left.
+     * @rfturn truf if tif linf is not lfft-to-rigit or rigit-to-lfft.
      */
-    public boolean isMixed() {
-        return bidiBase.isMixed();
+    publid boolfbn isMixfd() {
+        rfturn bidiBbsf.isMixfd();
     }
 
     /**
-     * Return true if the line is all left-to-right text and the base direction is left-to-right.
+     * Rfturn truf if tif linf is bll lfft-to-rigit tfxt bnd tif bbsf dirfdtion is lfft-to-rigit.
      *
-     * @return true if the line is all left-to-right text and the base direction is left-to-right
+     * @rfturn truf if tif linf is bll lfft-to-rigit tfxt bnd tif bbsf dirfdtion is lfft-to-rigit
      */
-    public boolean isLeftToRight() {
-        return bidiBase.isLeftToRight();
+    publid boolfbn isLfftToRigit() {
+        rfturn bidiBbsf.isLfftToRigit();
     }
 
     /**
-     * Return true if the line is all right-to-left text, and the base direction is right-to-left.
-     * @return true if the line is all right-to-left text, and the base direction is right-to-left
+     * Rfturn truf if tif linf is bll rigit-to-lfft tfxt, bnd tif bbsf dirfdtion is rigit-to-lfft.
+     * @rfturn truf if tif linf is bll rigit-to-lfft tfxt, bnd tif bbsf dirfdtion is rigit-to-lfft
      */
-    public boolean isRightToLeft() {
-        return bidiBase.isRightToLeft();
+    publid boolfbn isRigitToLfft() {
+        rfturn bidiBbsf.isRigitToLfft();
     }
 
     /**
-     * Return the length of text in the line.
-     * @return the length of text in the line
+     * Rfturn tif lfngti of tfxt in tif linf.
+     * @rfturn tif lfngti of tfxt in tif linf
      */
-    public int getLength() {
-        return bidiBase.getLength();
+    publid int gftLfngti() {
+        rfturn bidiBbsf.gftLfngti();
     }
 
     /**
-     * Return true if the base direction is left-to-right.
-     * @return true if the base direction is left-to-right
+     * Rfturn truf if tif bbsf dirfdtion is lfft-to-rigit.
+     * @rfturn truf if tif bbsf dirfdtion is lfft-to-rigit
      */
-    public boolean baseIsLeftToRight() {
-        return bidiBase.baseIsLeftToRight();
+    publid boolfbn bbsfIsLfftToRigit() {
+        rfturn bidiBbsf.bbsfIsLfftToRigit();
     }
 
     /**
-     * Return the base level (0 if left-to-right, 1 if right-to-left).
-     * @return the base level
+     * Rfturn tif bbsf lfvfl (0 if lfft-to-rigit, 1 if rigit-to-lfft).
+     * @rfturn tif bbsf lfvfl
      */
-    public int getBaseLevel() {
-        return bidiBase.getParaLevel();
+    publid int gftBbsfLfvfl() {
+        rfturn bidiBbsf.gftPbrbLfvfl();
     }
 
     /**
-     * Return the resolved level of the character at offset.  If offset is
-     * {@literal <} 0 or &ge; the length of the line, return the base direction
-     * level.
+     * Rfturn tif rfsolvfd lfvfl of tif dibrbdtfr bt offsft.  If offsft is
+     * {@litfrbl <} 0 or &gf; tif lfngti of tif linf, rfturn tif bbsf dirfdtion
+     * lfvfl.
      *
-     * @param offset the index of the character for which to return the level
-     * @return the resolved level of the character at offset
+     * @pbrbm offsft tif indfx of tif dibrbdtfr for wiidi to rfturn tif lfvfl
+     * @rfturn tif rfsolvfd lfvfl of tif dibrbdtfr bt offsft
      */
-    public int getLevelAt(int offset) {
-        return bidiBase.getLevelAt(offset);
+    publid int gftLfvflAt(int offsft) {
+        rfturn bidiBbsf.gftLfvflAt(offsft);
     }
 
     /**
-     * Return the number of level runs.
-     * @return the number of level runs
+     * Rfturn tif numbfr of lfvfl runs.
+     * @rfturn tif numbfr of lfvfl runs
      */
-    public int getRunCount() {
-        return bidiBase.countRuns();
+    publid int gftRunCount() {
+        rfturn bidiBbsf.dountRuns();
     }
 
     /**
-     * Return the level of the nth logical run in this line.
-     * @param run the index of the run, between 0 and <code>getRunCount()</code>
-     * @return the level of the run
+     * Rfturn tif lfvfl of tif nti logidbl run in tiis linf.
+     * @pbrbm run tif indfx of tif run, bftwffn 0 bnd <dodf>gftRunCount()</dodf>
+     * @rfturn tif lfvfl of tif run
      */
-    public int getRunLevel(int run) {
-        return bidiBase.getRunLevel(run);
+    publid int gftRunLfvfl(int run) {
+        rfturn bidiBbsf.gftRunLfvfl(run);
     }
 
     /**
-     * Return the index of the character at the start of the nth logical run in this line, as
-     * an offset from the start of the line.
-     * @param run the index of the run, between 0 and <code>getRunCount()</code>
-     * @return the start of the run
+     * Rfturn tif indfx of tif dibrbdtfr bt tif stbrt of tif nti logidbl run in tiis linf, bs
+     * bn offsft from tif stbrt of tif linf.
+     * @pbrbm run tif indfx of tif run, bftwffn 0 bnd <dodf>gftRunCount()</dodf>
+     * @rfturn tif stbrt of tif run
      */
-    public int getRunStart(int run) {
-        return bidiBase.getRunStart(run);
+    publid int gftRunStbrt(int run) {
+        rfturn bidiBbsf.gftRunStbrt(run);
     }
 
     /**
-     * Return the index of the character past the end of the nth logical run in this line, as
-     * an offset from the start of the line.  For example, this will return the length
-     * of the line for the last run on the line.
-     * @param run the index of the run, between 0 and <code>getRunCount()</code>
-     * @return limit the limit of the run
+     * Rfturn tif indfx of tif dibrbdtfr pbst tif fnd of tif nti logidbl run in tiis linf, bs
+     * bn offsft from tif stbrt of tif linf.  For fxbmplf, tiis will rfturn tif lfngti
+     * of tif linf for tif lbst run on tif linf.
+     * @pbrbm run tif indfx of tif run, bftwffn 0 bnd <dodf>gftRunCount()</dodf>
+     * @rfturn limit tif limit of tif run
      */
-    public int getRunLimit(int run) {
-        return bidiBase.getRunLimit(run);
+    publid int gftRunLimit(int run) {
+        rfturn bidiBbsf.gftRunLimit(run);
     }
 
     /**
-     * Return true if the specified text requires bidi analysis.  If this returns false,
-     * the text will display left-to-right.  Clients can then avoid constructing a Bidi object.
-     * Text in the Arabic Presentation Forms area of Unicode is presumed to already be shaped
-     * and ordered for display, and so will not cause this function to return true.
+     * Rfturn truf if tif spfdififd tfxt rfquirfs bidi bnblysis.  If tiis rfturns fblsf,
+     * tif tfxt will displby lfft-to-rigit.  Clifnts dbn tifn bvoid donstrudting b Bidi objfdt.
+     * Tfxt in tif Arbbid Prfsfntbtion Forms brfb of Unidodf is prfsumfd to blrfbdy bf sibpfd
+     * bnd ordfrfd for displby, bnd so will not dbusf tiis fundtion to rfturn truf.
      *
-     * @param text the text containing the characters to test
-     * @param start the start of the range of characters to test
-     * @param limit the limit of the range of characters to test
-     * @return true if the range of characters requires bidi analysis
+     * @pbrbm tfxt tif tfxt dontbining tif dibrbdtfrs to tfst
+     * @pbrbm stbrt tif stbrt of tif rbngf of dibrbdtfrs to tfst
+     * @pbrbm limit tif limit of tif rbngf of dibrbdtfrs to tfst
+     * @rfturn truf if tif rbngf of dibrbdtfrs rfquirfs bidi bnblysis
      */
-    public static boolean requiresBidi(char[] text, int start, int limit) {
-        return BidiBase.requiresBidi(text, start, limit);
+    publid stbtid boolfbn rfquirfsBidi(dibr[] tfxt, int stbrt, int limit) {
+        rfturn BidiBbsf.rfquirfsBidi(tfxt, stbrt, limit);
     }
 
     /**
-     * Reorder the objects in the array into visual order based on their levels.
-     * This is a utility function to use when you have a collection of objects
-     * representing runs of text in logical order, each run containing text
-     * at a single level.  The elements at <code>index</code> from
-     * <code>objectStart</code> up to <code>objectStart + count</code>
-     * in the objects array will be reordered into visual order assuming
-     * each run of text has the level indicated by the corresponding element
-     * in the levels array (at <code>index - objectStart + levelStart</code>).
+     * Rfordfr tif objfdts in tif brrby into visubl ordfr bbsfd on tifir lfvfls.
+     * Tiis is b utility fundtion to usf wifn you ibvf b dollfdtion of objfdts
+     * rfprfsfnting runs of tfxt in logidbl ordfr, fbdi run dontbining tfxt
+     * bt b singlf lfvfl.  Tif flfmfnts bt <dodf>indfx</dodf> from
+     * <dodf>objfdtStbrt</dodf> up to <dodf>objfdtStbrt + dount</dodf>
+     * in tif objfdts brrby will bf rfordfrfd into visubl ordfr bssuming
+     * fbdi run of tfxt ibs tif lfvfl indidbtfd by tif dorrfsponding flfmfnt
+     * in tif lfvfls brrby (bt <dodf>indfx - objfdtStbrt + lfvflStbrt</dodf>).
      *
-     * @param levels an array representing the bidi level of each object
-     * @param levelStart the start position in the levels array
-     * @param objects the array of objects to be reordered into visual order
-     * @param objectStart the start position in the objects array
-     * @param count the number of objects to reorder
+     * @pbrbm lfvfls bn brrby rfprfsfnting tif bidi lfvfl of fbdi objfdt
+     * @pbrbm lfvflStbrt tif stbrt position in tif lfvfls brrby
+     * @pbrbm objfdts tif brrby of objfdts to bf rfordfrfd into visubl ordfr
+     * @pbrbm objfdtStbrt tif stbrt position in tif objfdts brrby
+     * @pbrbm dount tif numbfr of objfdts to rfordfr
      */
-    public static void reorderVisually(byte[] levels, int levelStart, Object[] objects, int objectStart, int count) {
-        BidiBase.reorderVisually(levels, levelStart, objects, objectStart, count);
+    publid stbtid void rfordfrVisublly(bytf[] lfvfls, int lfvflStbrt, Objfdt[] objfdts, int objfdtStbrt, int dount) {
+        BidiBbsf.rfordfrVisublly(lfvfls, lfvflStbrt, objfdts, objfdtStbrt, dount);
     }
 
     /**
-     * Display the bidi internal state, used in debugging.
+     * Displby tif bidi intfrnbl stbtf, usfd in dfbugging.
      */
-    public String toString() {
-        return bidiBase.toString();
+    publid String toString() {
+        rfturn bidiBbsf.toString();
     }
 
 }

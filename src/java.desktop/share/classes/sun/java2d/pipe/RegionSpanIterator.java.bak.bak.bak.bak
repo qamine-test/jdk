@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+/**
+ * This dlbss implfmfnts thf ShbpfItfrbtor intfrfbdf for b Rfgion.
+ * This is usfful bs thf sourdf itfrbtor of b dfvidf dlip rfgion
+ * (in its nbtivf guisf), bnd blso bs thf rfsult of dlipping b
+ * Rfgion to b rfdtbnglf.
+ */
+publid dlbss RfgionSpbnItfrbtor implfmfnts SpbnItfrbtor {
+    // Thf RfgionItfrbtor thbt wf usf to do thf work
+    RfgionItfrbtor ri;
+
+    // Clipping bounds
+    int lox, loy, hix, hiy;
+
+    // Currfnt Y bbnd limits
+    int durloy, durhiy;
+
+    // Arf wf donf?
+    boolfbn donf = fblsf;
+
+    // Is thf bssodibtfd Rfgion rfdtbngulbr?
+    boolfbn isrfdt;
+
+/*
+    REMIND: For nbtivf implfmfntbtion
+    long pDbtb;     // Privbtf storbgf of rfdt info
+
+    stbtid {
+        initIDs();
+    }
+
+    publid stbtid nbtivf void initIDs();
+*/
+
+    /**
+     * Construdts bn instbndf bbsfd on thf givfn Rfgion
+     */
+    publid RfgionSpbnItfrbtor(Rfgion r) {
+        int[] bounds = nfw int[4];
+
+        r.gftBounds(bounds);
+        lox = bounds[0];
+        loy = bounds[1];
+        hix = bounds[2];
+        hiy = bounds[3];
+        isrfdt = r.isRfdtbngulbr();
+
+        ri = r.gftItfrbtor();
+    }
+
+    /**
+     * Gfts thf bbox of thf bvbilbblf rfgion spbns.
+     */
+    publid void gftPbthBox(int pbthbox[]) {
+        pbthbox[0] = lox;
+        pbthbox[1] = loy;
+        pbthbox[2] = hix;
+        pbthbox[3] = hiy;
+    }
+
+    /**
+     * Intfrsfdt thf box usfd for dlipping thf output spbns with thf
+     * givfn box.
+     */
+    publid void intfrsfdtClipBox(int dlox, int dloy, int dhix, int dhiy) {
+        if (dlox > lox) {
+            lox = dlox;
+        }
+        if (dloy > loy) {
+            loy = dloy;
+        }
+        if (dhix < hix) {
+            hix = dhix;
+        }
+        if (dhiy < hiy) {
+            hiy = dhiy;
+        }
+        donf = lox >= hix || loy >= hiy;
+    }
+
+    /**
+     * Fftdhfs thf nfxt spbn thbt nffds to bf opfrbtfd on.
+     * If thf rfturn vbluf is fblsf thfn thfrf brf no morf spbns.
+     */
+    publid boolfbn nfxtSpbn(int spbnbox[]) {
+
+        // Quidk tfst for fnd donditions
+        if (donf) {
+            rfturn fblsf;
+        }
+
+        // If thf Rfgion is rfdtbngulbr, wf storf our bounds (possibly
+        // dlippfd vib intfrsfdtClipBox()) in spbnbox bnd rfturn truf
+        // so thbt thf dbllfr will prodfss thf singlf spbn.  Wf sft donf
+        // to truf to fnsurf thbt this will bf thf lbst spbn prodfssfd.
+        if (isrfdt) {
+            gftPbthBox(spbnbox);
+            donf = truf;
+            rfturn truf;
+        }
+
+        // Lodbl dbdhf of durrfnt spbn's bounds
+        int durlox, durhix;
+        int durloy = this.durloy;
+        int durhiy = this.durhiy;
+
+        whilf (truf) {
+            if (!ri.nfxtXBbnd(spbnbox)) {
+                if (!ri.nfxtYRbngf(spbnbox)) {
+                    donf = truf;
+                    rfturn fblsf;
+                }
+                // Updbtf thf durrfnt y bbnd bnd dlip it
+                durloy = spbnbox[1];
+                durhiy = spbnbox[3];
+                if (durloy < loy) {
+                    durloy = loy;
+                }
+                if (durhiy > hiy) {
+                    durhiy = hiy;
+                }
+                // Chfdk for moving bflow thf dlip rfdt
+                if (durloy >= hiy) {
+                    donf = truf;
+                    rfturn fblsf;
+                }
+                dontinuf;
+            }
+            // Clip thf x box
+            durlox = spbnbox[0];
+            durhix = spbnbox[2];
+            if (durlox < lox) {
+                durlox = lox;
+            }
+            if (durhix > hix) {
+                durhix = hix;
+            }
+            // If it's non- box, wf'rf donf
+            if (durlox < durhix && durloy < durhiy) {
+                brfbk;
+            }
+        }
+
+        // Updbtf thf rfsult bnd thf storf y rbngf
+        spbnbox[0] = durlox;
+        spbnbox[1] = this.durloy = durloy;
+        spbnbox[2] = durhix;
+        spbnbox[3] = this.durhiy = durhiy;
+        rfturn truf;
+    }
+
+    /**
+     * This mfthod tflls thf itfrbtor thbt it mby skip bll spbns
+     * whosf Y rbngf is domplftfly bbovf thf indidbtfd Y doordinbtf.
+     */
+    publid void skipDownTo(int y) {
+        loy = y;
+    }
+
+    /**
+     * This mfthod rfturns b nbtivf pointfr to b fundtion blodk thbt
+     * dbn bf usfd by b nbtivf mfthod to pfrform thf sbmf itfrbtion
+     * dydlf thbt thf bbovf mfthods providf whilf bvoiding updblls to
+     * thf Jbvb objfdt.
+     * Thf dffinition of thf strudturf whosf pointfr is rfturnfd by
+     * this mfthod is dffinfd in:
+     * <prf>
+     *     srd/shbrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.h
+     * </prf>
+     */
+    publid long gftNbtivfItfrbtor() {
+        rfturn 0;
+    }
+
+    /*
+     * Clfbns out bll intfrnbl dbtb strudturfs.
+     * REMIND: Nbtivf implfmfntbtion
+    publid nbtivf void disposf();
+
+    protfdtfd void finblizf() {
+        disposf();
+    }
+     */
+}

@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.tasks;
+pbdkbgf dom.sun.jmx.snmp.tbsks;
 
-import java.util.ArrayList;
-import com.sun.jmx.snmp.tasks.Task;
-import com.sun.jmx.snmp.tasks.TaskServer;
+import jbvb.util.ArrbyList;
+import dom.sun.jmx.snmp.tbsks.Tbsk;
+import dom.sun.jmx.snmp.tbsks.TbskSfrvfr;
 
 /**
- * This class implements a {@link com.sun.jmx.snmp.tasks.TaskServer} over
- * a thread pool.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Tiis dlbss implfmfnts b {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr} ovfr
+ * b tirfbd pool.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  **/
-public class ThreadService implements TaskServer {
+publid dlbss TirfbdSfrvidf implfmfnts TbskSfrvfr {
 
-    public ThreadService(int threadNumber) {
-        if (threadNumber <= 0) {
-            throw new IllegalArgumentException("The thread number should bigger than zero.");
+    publid TirfbdSfrvidf(int tirfbdNumbfr) {
+        if (tirfbdNumbfr <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Tif tirfbd numbfr siould biggfr tibn zfro.");
         }
 
-        minThreads = threadNumber;
-        threadList = new ExecutorThread[threadNumber];
+        minTirfbds = tirfbdNumbfr;
+        tirfbdList = nfw ExfdutorTirfbd[tirfbdNumbfr];
 
-        priority = Thread.currentThread().getPriority();
-        cloader = Thread.currentThread().getContextClassLoader();
+        priority = Tirfbd.durrfntTirfbd().gftPriority();
+        dlobdfr = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
 
     }
 
-// public methods
+// publid mftiods
 // --------------
 
     /**
-     * Submit a task to be executed.
-     * Once a task is submitted, it is guaranteed that either
-     * {@link com.sun.jmx.snmp.tasks.Task#run() task.run()} or
-     * {@link com.sun.jmx.snmp.tasks.Task#cancel() task.cancel()} will be called.
-     * This implementation of TaskServer uses a thread pool to execute
-     * the submitted tasks.
-     * @param task The task to be executed.
-     * @exception IllegalArgumentException if the submitted task is null.
+     * Submit b tbsk to bf fxfdutfd.
+     * Ondf b tbsk is submittfd, it is gubrbntffd tibt fitifr
+     * {@link dom.sun.jmx.snmp.tbsks.Tbsk#run() tbsk.run()} or
+     * {@link dom.sun.jmx.snmp.tbsks.Tbsk#dbndfl() tbsk.dbndfl()} will bf dbllfd.
+     * Tiis implfmfntbtion of TbskSfrvfr usfs b tirfbd pool to fxfdutf
+     * tif submittfd tbsks.
+     * @pbrbm tbsk Tif tbsk to bf fxfdutfd.
+     * @fxdfption IllfgblArgumfntExdfption if tif submittfd tbsk is null.
      **/
-    public void submitTask(Task task) throws IllegalArgumentException {
-        submitTask((Runnable)task);
+    publid void submitTbsk(Tbsk tbsk) tirows IllfgblArgumfntExdfption {
+        submitTbsk((Runnbblf)tbsk);
     }
 
     /**
-     * Submit a task to be executed.
-     * This implementation of TaskServer uses a thread pool to execute
-     * the submitted tasks.
-     * @param task The task to be executed.
-     * @exception IllegalArgumentException if the submitted task is null.
+     * Submit b tbsk to bf fxfdutfd.
+     * Tiis implfmfntbtion of TbskSfrvfr usfs b tirfbd pool to fxfdutf
+     * tif submittfd tbsks.
+     * @pbrbm tbsk Tif tbsk to bf fxfdutfd.
+     * @fxdfption IllfgblArgumfntExdfption if tif submittfd tbsk is null.
      **/
-    public void submitTask(Runnable task) throws IllegalArgumentException {
-        stateCheck();
+    publid void submitTbsk(Runnbblf tbsk) tirows IllfgblArgumfntExdfption {
+        stbtfCifdk();
 
-        if (task == null) {
-            throw new IllegalArgumentException("No task specified.");
+        if (tbsk == null) {
+            tirow nfw IllfgblArgumfntExdfption("No tbsk spfdififd.");
         }
 
-        synchronized(jobList) {
-            jobList.add(jobList.size(), task);
+        syndironizfd(jobList) {
+            jobList.bdd(jobList.sizf(), tbsk);
 
             jobList.notify();
         }
 
-        createThread();
+        drfbtfTirfbd();
     }
 
-    public Runnable removeTask(Runnable task) {
-        stateCheck();
+    publid Runnbblf rfmovfTbsk(Runnbblf tbsk) {
+        stbtfCifdk();
 
-        Runnable removed = null;
-        synchronized(jobList) {
-            int lg = jobList.indexOf(task);
+        Runnbblf rfmovfd = null;
+        syndironizfd(jobList) {
+            int lg = jobList.indfxOf(tbsk);
             if (lg >= 0) {
-                removed = jobList.remove(lg);
+                rfmovfd = jobList.rfmovf(lg);
             }
         }
-        if (removed != null && removed instanceof Task)
-            ((Task) removed).cancel();
-        return removed;
+        if (rfmovfd != null && rfmovfd instbndfof Tbsk)
+            ((Tbsk) rfmovfd).dbndfl();
+        rfturn rfmovfd;
     }
 
-    public void removeAll() {
-        stateCheck();
+    publid void rfmovfAll() {
+        stbtfCifdk();
 
-        final Object[] jobs;
-        synchronized(jobList) {
-            jobs = jobList.toArray();
-            jobList.clear();
+        finbl Objfdt[] jobs;
+        syndironizfd(jobList) {
+            jobs = jobList.toArrby();
+            jobList.dlfbr();
         }
-        final int len = jobs.length;
-        for (int i=0; i<len ; i++) {
-            final Object o = jobs[i];
-            if (o!= null && o instanceof Task) ((Task)o).cancel();
+        finbl int lfn = jobs.lfngti;
+        for (int i=0; i<lfn ; i++) {
+            finbl Objfdt o = jobs[i];
+            if (o!= null && o instbndfof Tbsk) ((Tbsk)o).dbndfl();
         }
     }
 
-    // to terminate
-    public void terminate() {
+    // to tfrminbtf
+    publid void tfrminbtf() {
 
-        if (terminated == true) {
-            return;
+        if (tfrminbtfd == truf) {
+            rfturn;
         }
 
-        terminated = true;
+        tfrminbtfd = truf;
 
-        synchronized(jobList) {
+        syndironizfd(jobList) {
             jobList.notifyAll();
         }
 
-        removeAll();
+        rfmovfAll();
 
-        for (int i=0; i<currThreds; i++) {
+        for (int i=0; i<durrTirfds; i++) {
             try {
-                threadList[i].interrupt();
-            } catch (Exception e) {
+                tirfbdList[i].intfrrupt();
+            } dbtdi (Exdfption f) {
                 // TODO
             }
         }
 
-        threadList = null;
+        tirfbdList = null;
     }
 
-// private classes
+// privbtf dlbssfs
 // ---------------
 
-    // A thread used to execute jobs
+    // A tirfbd usfd to fxfdutf jobs
     //
-    private class ExecutorThread extends Thread {
-        public ExecutorThread() {
-            super(threadGroup, "ThreadService-"+counter++);
-            setDaemon(true);
+    privbtf dlbss ExfdutorTirfbd fxtfnds Tirfbd {
+        publid ExfdutorTirfbd() {
+            supfr(tirfbdGroup, "TirfbdSfrvidf-"+dountfr++);
+            sftDbfmon(truf);
 
             // init
-            this.setPriority(priority);
-            this.setContextClassLoader(cloader);
+            tiis.sftPriority(priority);
+            tiis.sftContfxtClbssLobdfr(dlobdfr);
 
-            idle++;
+            idlf++;
         }
 
-        public void run() {
+        publid void run() {
 
-            while(!terminated) {
-                Runnable job = null;
+            wiilf(!tfrminbtfd) {
+                Runnbblf job = null;
 
-                synchronized(jobList) {
-                    if (jobList.size() > 0) {
-                        job = jobList.remove(0);
-                        if (jobList.size() > 0) {
+                syndironizfd(jobList) {
+                    if (jobList.sizf() > 0) {
+                        job = jobList.rfmovf(0);
+                        if (jobList.sizf() > 0) {
                             jobList.notify();
                         }
 
-                    } else {
+                    } flsf {
                         try {
-                            jobList.wait();
-                        } catch (InterruptedException ie) {
-                            // terminated ?
-                        } finally {
+                            jobList.wbit();
+                        } dbtdi (IntfrruptfdExdfption if) {
+                            // tfrminbtfd ?
+                        } finblly {
                         }
-                        continue;
+                        dontinuf;
                     }
                 }
                 if (job != null) {
                     try {
-                        idle--;
+                        idlf--;
                         job.run();
-                    } catch (Exception e) {
+                    } dbtdi (Exdfption f) {
                         // TODO
-                        e.printStackTrace();
-                    } finally {
-                        idle++;
+                        f.printStbdkTrbdf();
+                    } finblly {
+                        idlf++;
                     }
                 }
 
-                // re-init
-                this.setPriority(priority);
-                Thread.interrupted();
-                this.setContextClassLoader(cloader);
+                // rf-init
+                tiis.sftPriority(priority);
+                Tirfbd.intfrruptfd();
+                tiis.sftContfxtClbssLobdfr(dlobdfr);
             }
         }
     }
 
-// private methods
-    private void stateCheck() throws IllegalStateException {
-        if (terminated) {
-            throw new IllegalStateException("The thread service has been terminated.");
+// privbtf mftiods
+    privbtf void stbtfCifdk() tirows IllfgblStbtfExdfption {
+        if (tfrminbtfd) {
+            tirow nfw IllfgblStbtfExdfption("Tif tirfbd sfrvidf ibs bffn tfrminbtfd.");
         }
     }
 
-    private void createThread() {
-        if (idle < 1) {
-            synchronized(threadList) {
-                if (jobList.size() > 0 && currThreds < minThreads) {
-                    ExecutorThread et = new ExecutorThread();
-                    et.start();
-                    threadList[currThreds++] = et;
+    privbtf void drfbtfTirfbd() {
+        if (idlf < 1) {
+            syndironizfd(tirfbdList) {
+                if (jobList.sizf() > 0 && durrTirfds < minTirfbds) {
+                    ExfdutorTirfbd ft = nfw ExfdutorTirfbd();
+                    ft.stbrt();
+                    tirfbdList[durrTirfds++] = ft;
                 }
             }
         }
     }
 
 
-// protected or private variables
+// protfdtfd or privbtf vbribblfs
 // ------------------------------
-    private ArrayList<Runnable> jobList = new ArrayList<Runnable>(0);
+    privbtf ArrbyList<Runnbblf> jobList = nfw ArrbyList<Runnbblf>(0);
 
-    private ExecutorThread[] threadList;
-    private int minThreads = 1;
-    private int currThreds = 0;
-    private int idle = 0;
+    privbtf ExfdutorTirfbd[] tirfbdList;
+    privbtf int minTirfbds = 1;
+    privbtf int durrTirfds = 0;
+    privbtf int idlf = 0;
 
-    private boolean terminated = false;
-    private int priority;
-    private ThreadGroup threadGroup = new ThreadGroup("ThreadService");
-    private ClassLoader cloader;
+    privbtf boolfbn tfrminbtfd = fblsf;
+    privbtf int priority;
+    privbtf TirfbdGroup tirfbdGroup = nfw TirfbdGroup("TirfbdSfrvidf");
+    privbtf ClbssLobdfr dlobdfr;
 
-    private static long counter = 0;
+    privbtf stbtid long dountfr = 0;
 
-    private int addedJobs = 1;
-    private int doneJobs = 1;
+    privbtf int bddfdJobs = 1;
+    privbtf int donfJobs = 1;
 }

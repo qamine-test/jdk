@@ -1,0 +1,2035 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import jbvbx.imbgfio.fvfnt.IIOWritfWbrningListfnfr;
+import jbvbx.imbgfio.fvfnt.IIOWritfProgrfssListfnfr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+
+/**
+ * An bbstrbdt supfrdlbss for fndoding bnd writing imbgfs.  This dlbss
+ * must bf subdlbssfd by dlbssfs thbt writf out imbgfs in thf dontfxt
+ * of thf Jbvb Imbgf I/O frbmfwork.
+ *
+ * <p> <dodf>ImbgfWritfr</dodf> objfdts brf normblly instbntibtfd by
+ * thf sfrvidf providfr dlbss for thf spfdifid formbt.  Sfrvidf
+ * providfr dlbssfs brf rfgistfrfd with thf <dodf>IIORfgistry</dodf>,
+ * whidh usfs thfm for formbt rfdognition bnd prfsfntbtion of
+ * bvbilbblf formbt rfbdfrs bnd writfrs.
+ *
+ * @sff ImbgfRfbdfr
+ * @sff ImbgfWritfPbrbm
+ * @sff jbvbx.imbgfio.spi.IIORfgistry
+ * @sff jbvbx.imbgfio.spi.ImbgfWritfrSpi
+ *
+ */
+publid bbstrbdt dlbss ImbgfWritfr implfmfnts ImbgfTrbnsdodfr {
+
+    /**
+     * Thf <dodf>ImbgfWritfrSpi</dodf> thbt instbntibtfd this objfdt,
+     * or <dodf>null</dodf> if its idfntity is not known or nonf
+     * fxists.  By dffbult it is initiblizfd to <dodf>null</dodf>.
+     */
+    protfdtfd ImbgfWritfrSpi originbtingProvidfr = null;
+
+    /**
+     * Thf <dodf>ImbgfOutputStrfbm</dodf> or othfr <dodf>Objfdt</dodf>
+     * sft by <dodf>sftOutput</dodf> bnd rftrifvfd by
+     * <dodf>gftOutput</dodf>.  By dffbult it is initiblizfd to
+     * <dodf>null</dodf>.
+     */
+    protfdtfd Objfdt output = null;
+
+    /**
+     * An brrby of <dodf>Lodblf</dodf>s thbt mby bf usfd to lodblizf
+     * wbrning mfssbgfs bnd domprfssion sftting vblufs, or
+     * <dodf>null</dodf> if lodblizbtion is not supportfd.  By dffbult
+     * it is initiblizfd to <dodf>null</dodf>.
+     */
+    protfdtfd Lodblf[] bvbilbblfLodblfs = null;
+
+    /**
+     * Thf durrfnt <dodf>Lodblf</dodf> to bf usfd for lodblizbtion, or
+     * <dodf>null</dodf> if nonf hbs bffn sft.  By dffbult it is
+     * initiblizfd to <dodf>null</dodf>.
+     */
+    protfdtfd Lodblf lodblf = null;
+
+    /**
+     * A <dodf>List</dodf> of durrfntly rfgistfrfd
+     * <dodf>IIOWritfWbrningListfnfr</dodf>s, initiblizfd by dffbult to
+     * <dodf>null</dodf>, whidh is synonymous with bn fmpty
+     * <dodf>List</dodf>.
+     */
+    protfdtfd List<IIOWritfWbrningListfnfr> wbrningListfnfrs = null;
+
+    /**
+     * A <dodf>List</dodf> of <dodf>Lodblf</dodf>s, onf for fbdh
+     * flfmfnt of <dodf>wbrningListfnfrs</dodf>, initiblizfd by dffbult
+     * <dodf>null</dodf>, whidh is synonymous with bn fmpty
+     * <dodf>List</dodf>.
+     */
+    protfdtfd List<Lodblf> wbrningLodblfs = null;
+
+    /**
+     * A <dodf>List</dodf> of durrfntly rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s, initiblizfd by dffbult
+     * <dodf>null</dodf>, whidh is synonymous with bn fmpty
+     * <dodf>List</dodf>.
+     */
+    protfdtfd List<IIOWritfProgrfssListfnfr> progrfssListfnfrs = null;
+
+    /**
+     * If <dodf>truf</dodf>, thf durrfnt writf opfrbtion should bf
+     * bbortfd.
+     */
+    privbtf boolfbn bbortFlbg = fblsf;
+
+    /**
+     * Construdts bn <dodf>ImbgfWritfr</dodf> bnd sfts its
+     * <dodf>originbtingProvidfr</dodf> instbndf vbribblf to thf
+     * supplifd vbluf.
+     *
+     * <p> Subdlbssfs thbt mbkf usf of fxtfnsions should providf b
+     * donstrudtor with signbturf <dodf>(ImbgfWritfrSpi,
+     * Objfdt)</dodf> in ordfr to rftrifvf thf fxtfnsion objfdt.  If
+     * thf fxtfnsion objfdt is unsuitbblf, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> should bf thrown.
+     *
+     * @pbrbm originbtingProvidfr thf <dodf>ImbgfWritfrSpi</dodf> thbt
+     * is donstrudting this objfdt, or <dodf>null</dodf>.
+     */
+    protfdtfd ImbgfWritfr(ImbgfWritfrSpi originbtingProvidfr) {
+        this.originbtingProvidfr = originbtingProvidfr;
+    }
+
+    /**
+     * Rfturns thf <dodf>ImbgfWritfrSpi</dodf> objfdt thbt drfbtfd
+     * this <dodf>ImbgfWritfr</dodf>, or <dodf>null</dodf> if this
+     * objfdt wbs not drfbtfd through thf <dodf>IIORfgistry</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>originbtingProvidfr</dodf> instbndf vbribblf.
+     *
+     * @rfturn bn <dodf>ImbgfWritfrSpi</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff ImbgfWritfrSpi
+     */
+    publid ImbgfWritfrSpi gftOriginbtingProvidfr() {
+        rfturn originbtingProvidfr;
+    }
+
+    /**
+     * Sfts thf dfstinbtion to thf givfn
+     * <dodf>ImbgfOutputStrfbm</dodf> or othfr <dodf>Objfdt</dodf>.
+     * Thf dfstinbtion is bssumfd to bf rfbdy to bddfpt dbtb, bnd will
+     * not bf dlosfd bt thf fnd of fbdh writf. This bllows distributfd
+     * imbging bpplidbtions to trbnsmit b sfrifs of imbgfs ovfr b
+     * singlf nftwork donnfdtion.  If <dodf>output</dodf> is
+     * <dodf>null</dodf>, bny durrfntly sft output will bf rfmovfd.
+     *
+     * <p> If <dodf>output</dodf> is bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, dblls to thf
+     * <dodf>writf</dodf>, <dodf>writfToSfqufndf</dodf>, bnd
+     * <dodf>prfpbrfWritfEmpty</dodf>/<dodf>fndWritfEmpty</dodf>
+     * mfthods will prfsfrvf thf fxisting dontfnts of thf strfbm.
+     * Othfr writf mfthods, sudh bs <dodf>writfInsfrt</dodf>,
+     * <dodf>rfplbdfStrfbmMftbdbtb</dodf>,
+     * <dodf>rfplbdfImbgfMftbdbtb</dodf>, <dodf>rfplbdfPixfls</dodf>,
+     * <dodf>prfpbrfInsfrtEmpty</dodf>/<dodf>fndInsfrtEmpty</dodf>,
+     * bnd <dodf>fndWritfSfqufndf</dodf>, rfquirf thf full dontfnts
+     * of thf strfbm to bf rfbdbblf bnd writbblf, bnd mby bltfr bny
+     * portion of thf strfbm.
+     *
+     * <p> Usf of b gfnfrbl <dodf>Objfdt</dodf> othfr thbn bn
+     * <dodf>ImbgfOutputStrfbm</dodf> is intfndfd for writfrs thbt
+     * intfrbdt dirfdtly with bn output dfvidf or imbging protodol.
+     * Thf sft of lfgbl dlbssfs is bdvfrtisfd by thf writfr's sfrvidf
+     * providfr's <dodf>gftOutputTypfs</dodf> mfthod; most writfrs
+     * will rfturn b singlf-flfmfnt brrby dontbining only
+     * <dodf>ImbgfOutputStrfbm.dlbss</dodf> to indidbtf thbt thfy
+     * bddfpt only bn <dodf>ImbgfOutputStrfbm</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion sfts thf <dodf>output</dodf>
+     * instbndf vbribblf to thf vbluf of <dodf>output</dodf> bftfr
+     * dhfdking <dodf>output</dodf> bgbinst thf sft of dlbssfs
+     * bdvfrtisfd by thf originbting providfr, if thfrf is onf.
+     *
+     * @pbrbm output thf <dodf>ImbgfOutputStrfbm</dodf> or othfr
+     * <dodf>Objfdt</dodf> to usf for futurf writing.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>output</dodf> is
+     * not bn instbndf of onf of thf dlbssfs rfturnfd by thf
+     * originbting sfrvidf providfr's <dodf>gftOutputTypfs</dodf>
+     * mfthod.
+     *
+     * @sff #gftOutput
+     */
+    publid void sftOutput(Objfdt output) {
+        if (output != null) {
+            ImbgfWritfrSpi providfr = gftOriginbtingProvidfr();
+            if (providfr != null) {
+                Clbss<?>[] dlbssfs = providfr.gftOutputTypfs();
+                boolfbn found = fblsf;
+                for (int i = 0; i < dlbssfs.lfngth; i++) {
+                    if (dlbssfs[i].isInstbndf(output)) {
+                        found = truf;
+                        brfbk;
+                    }
+                }
+                if (!found) {
+                    throw nfw IllfgblArgumfntExdfption("Illfgbl output typf!");
+                }
+            }
+        }
+
+        this.output = output;
+    }
+
+    /**
+     * Rfturns thf <dodf>ImbgfOutputStrfbm</dodf> or othfr
+     * <dodf>Objfdt</dodf> sft by thf most rfdfnt dbll to thf
+     * <dodf>sftOutput</dodf> mfthod.  If no dfstinbtion hbs bffn
+     * sft, <dodf>null</dodf> is rfturnfd.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>output</dodf> instbndf vbribblf.
+     *
+     * @rfturn thf <dodf>Objfdt</dodf> thbt wbs spfdififd using
+     * <dodf>sftOutput</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #sftOutput
+     */
+    publid Objfdt gftOutput() {
+        rfturn output;
+    }
+
+    // Lodblizbtion
+
+    /**
+     * Rfturns bn brrby of <dodf>Lodblf</dodf>s thbt mby bf usfd to
+     * lodblizf wbrning listfnfrs bnd domprfssion sfttings.  A rfturn
+     * vbluf of <dodf>null</dodf> indidbtfs thbt lodblizbtion is not
+     * supportfd.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns b dlonf of thf
+     * <dodf>bvbilbblfLodblfs</dodf> instbndf vbribblf if it is
+     * non-<dodf>null</dodf>, or flsf rfturns <dodf>null</dodf>.
+     *
+     * @rfturn bn brrby of <dodf>Lodblf</dodf>s thbt mby bf usfd bs
+     * brgumfnts to <dodf>sftLodblf</dodf>, or <dodf>null</dodf>.
+     */
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn (bvbilbblfLodblfs == null) ?
+            null : bvbilbblfLodblfs.dlonf();
+    }
+
+    /**
+     * Sfts thf durrfnt <dodf>Lodblf</dodf> of this
+     * <dodf>ImbgfWritfr</dodf> to thf givfn vbluf.  A vbluf of
+     * <dodf>null</dodf> rfmovfs bny prfvious sftting, bnd indidbtfs
+     * thbt thf writfr should lodblizf bs it sffs fit.
+     *
+     * <p> Thf dffbult implfmfntbtion dhfdks <dodf>lodblf</dodf>
+     * bgbinst thf vblufs rfturnfd by
+     * <dodf>gftAvbilbblfLodblfs</dodf>, bnd sfts thf
+     * <dodf>lodblf</dodf> instbndf vbribblf if it is found.  If
+     * <dodf>lodblf</dodf> is <dodf>null</dodf>, thf instbndf vbribblf
+     * is sft to <dodf>null</dodf> without bny dhfdking.
+     *
+     * @pbrbm lodblf thf dfsirfd <dodf>Lodblf</dodf>, or
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> is
+     * non-<dodf>null</dodf> but is not onf of thf vblufs rfturnfd by
+     * <dodf>gftAvbilbblfLodblfs</dodf>.
+     *
+     * @sff #gftLodblf
+     */
+    publid void sftLodblf(Lodblf lodblf) {
+        if (lodblf != null) {
+            Lodblf[] lodblfs = gftAvbilbblfLodblfs();
+            boolfbn found = fblsf;
+            if (lodblfs != null) {
+                for (int i = 0; i < lodblfs.lfngth; i++) {
+                    if (lodblf.fqubls(lodblfs[i])) {
+                        found = truf;
+                        brfbk;
+                    }
+                }
+            }
+            if (!found) {
+                throw nfw IllfgblArgumfntExdfption("Invblid lodblf!");
+            }
+        }
+        this.lodblf = lodblf;
+    }
+
+    /**
+     * Rfturns thf durrfntly sft <dodf>Lodblf</dodf>, or
+     * <dodf>null</dodf> if nonf hbs bffn sft.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>lodblf</dodf> instbndf vbribblf.
+     *
+     * @rfturn thf durrfnt <dodf>Lodblf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #sftLodblf
+     */
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+    // Writf pbrbms
+
+    /**
+     * Rfturns b nfw <dodf>ImbgfWritfPbrbm</dodf> objfdt of thf
+     * bppropribtf typf for this filf formbt dontbining dffbult
+     * vblufs, thbt is, thosf vblufs thbt would bf usfd
+     * if no <dodf>ImbgfWritfPbrbm</dodf> objfdt wfrf spfdififd.  This
+     * is usfful bs b stbrting point for twfbking just b ffw pbrbmftfrs
+     * bnd othfrwisf lfbving thf dffbult sfttings blonf.
+     *
+     * <p> Thf dffbult implfmfntbtion donstrudts bnd rfturns b nfw
+     * <dodf>ImbgfWritfPbrbm</dodf> objfdt thbt dofs not bllow tiling,
+     * progrfssivf fndoding, or domprfssion, bnd thbt will bf
+     * lodblizfd for thf durrfnt <dodf>Lodblf</dodf> (<i>i.f.</i>,
+     * whbt you would gft by dblling <dodf>nfw
+     * ImbgfWritfPbrbm(gftLodblf())</dodf>.
+     *
+     * <p> Individubl plug-ins mby rfturn bn instbndf of
+     * <dodf>ImbgfWritfPbrbm</dodf> with bdditionbl optionbl ffbturfs
+     * fnbblfd, or thfy mby rfturn bn instbndf of b plug-in spfdifid
+     * subdlbss of <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @rfturn b nfw <dodf>ImbgfWritfPbrbm</dodf> objfdt dontbining
+     * dffbult vblufs.
+     */
+    publid ImbgfWritfPbrbm gftDffbultWritfPbrbm() {
+        rfturn nfw ImbgfWritfPbrbm(gftLodblf());
+    }
+
+    // Mftbdbtb
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt dontbining dffbult
+     * vblufs for fndoding b strfbm of imbgfs.  Thf dontfnts of thf
+     * objfdt mby bf mbnipulbtfd using fithfr thf XML trff strudturf
+     * rfturnfd by thf <dodf>IIOMftbdbtb.gftAsTrff</dodf> mfthod, bn
+     * <dodf>IIOMftbdbtbControllfr</dodf> objfdt, or vib plug-in
+     * spfdifid intfrfbdfs, bnd thf rfsulting dbtb supplifd to onf of
+     * thf <dodf>writf</dodf> mfthods thbt tbkf b strfbm mftbdbtb
+     * pbrbmftfr.
+     *
+     * <p> An optionbl <dodf>ImbgfWritfPbrbm</dodf> mby bf supplifd
+     * for dbsfs whfrf it mby bfffdt thf strudturf of thf strfbm
+     * mftbdbtb.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> Writfrs thbt do not mbkf usf of strfbm mftbdbtb
+     * (<i>f.g.</i>, writfrs for singlf-imbgf formbts) should rfturn
+     * <dodf>null</dodf>.
+     *
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf> thbt will bf usfd to
+     * fndodf thf imbgf, or <dodf>null</dodf>.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt.
+     */
+    publid bbstrbdt IIOMftbdbtb
+        gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm);
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt dontbining dffbult
+     * vblufs for fndoding bn imbgf of thf givfn typf.  Thf dontfnts
+     * of thf objfdt mby bf mbnipulbtfd using fithfr thf XML trff
+     * strudturf rfturnfd by thf <dodf>IIOMftbdbtb.gftAsTrff</dodf>
+     * mfthod, bn <dodf>IIOMftbdbtbControllfr</dodf> objfdt, or vib
+     * plug-in spfdifid intfrfbdfs, bnd thf rfsulting dbtb supplifd to
+     * onf of thf <dodf>writf</dodf> mfthods thbt tbkf b strfbm
+     * mftbdbtb pbrbmftfr.
+     *
+     * <p> An optionbl <dodf>ImbgfWritfPbrbm</dodf> mby bf supplifd
+     * for dbsfs whfrf it mby bfffdt thf strudturf of thf imbgf
+     * mftbdbtb.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting thf
+     * formbt of thf imbgf to bf writtfn lbtfr.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf> thbt will bf usfd to
+     * fndodf thf imbgf, or <dodf>null</dodf>.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt.
+     */
+    publid bbstrbdt IIOMftbdbtb
+        gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                ImbgfWritfPbrbm pbrbm);
+
+    // dommfnt inhfritfd
+    publid bbstrbdt IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                                      ImbgfWritfPbrbm pbrbm);
+
+    // dommfnt inhfritfd
+    publid bbstrbdt IIOMftbdbtb
+        donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                             ImbgfTypfSpfdififr imbgfTypf,
+                             ImbgfWritfPbrbm pbrbm);
+
+    // Thumbnbils
+
+    /**
+     * Rfturns thf numbfr of thumbnbils supportfd by thf formbt bfing
+     * writtfn, givfn thf imbgf typf bnd bny bdditionbl writf
+     * pbrbmftfrs bnd mftbdbtb objfdts thbt will bf usfd during
+     * fndoding.  A rfturn vbluf of <dodf>-1</dodf> indidbtfs thbt
+     * insuffidifnt informbtion is bvbilbblf.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * for dbsfs whfrf it mby bfffdt thumbnbil hbndling.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns 0.
+     *
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting
+     * thf typf of imbgf to bf writtfn, or <dodf>null</dodf>.
+     * @pbrbm pbrbm thf <dodf>ImbgfWritfPbrbm</dodf> thbt will bf usfd for
+     * writing, or <dodf>null</dodf>.
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt thbt will
+     * bf usfd for writing, or <dodf>null</dodf>.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt thbt will
+     * bf usfd for writing, or <dodf>null</dodf>.
+     *
+     * @rfturn thf numbfr of thumbnbils thbt mby bf writtfn givfn thf
+     * supplifd pbrbmftfrs, or <dodf>-1</dodf> if insuffidifnt
+     * informbtion is bvbilbblf.
+     */
+    publid int gftNumThumbnbilsSupportfd(ImbgfTypfSpfdififr imbgfTypf,
+                                         ImbgfWritfPbrbm pbrbm,
+                                         IIOMftbdbtb strfbmMftbdbtb,
+                                         IIOMftbdbtb imbgfMftbdbtb) {
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns bn brrby of <dodf>Dimfnsion</dodf>s indidbting thf
+     * lfgbl sizf rbngfs for thumbnbil imbgfs bs thfy will bf fndodfd
+     * in thf output filf or strfbm.  This informbtion is mfrfly
+     * bdvisory; thf writfr will rfsizf bny supplifd thumbnbils bs
+     * nfdfssbry.
+     *
+     * <p> Thf informbtion is rfturnfd bs b sft of pbirs; thf first
+     * flfmfnt of b pbir dontbins bn (indlusivf) minimum width bnd
+     * hfight, bnd thf sfdond flfmfnt dontbins bn (indlusivf) mbximum
+     * width bnd hfight.  Togfthfr, fbdh pbir dffinfs b vblid rbngf of
+     * sizfs.  To spfdify b fixfd sizf, thf sbmf width bnd hfight will
+     * bppfbr for both flfmfnts.  A rfturn vbluf of <dodf>null</dodf>
+     * indidbtfs thbt thf sizf is brbitrbry or unknown.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * for dbsfs whfrf it mby bfffdt thumbnbil hbndling.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting thf
+     * typf of imbgf to bf writtfn, or <dodf>null</dodf>.
+     * @pbrbm pbrbm thf <dodf>ImbgfWritfPbrbm</dodf> thbt will bf usfd for
+     * writing, or <dodf>null</dodf>.
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt thbt will
+     * bf usfd for writing, or <dodf>null</dodf>.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt thbt will
+     * bf usfd for writing, or <dodf>null</dodf>.
+     *
+     * @rfturn bn brrby of <dodf>Dimfnsion</dodf>s with bn fvfn lfngth
+     * of bt lfbst two, or <dodf>null</dodf>.
+     */
+    publid Dimfnsion[] gftPrfffrrfdThumbnbilSizfs(ImbgfTypfSpfdififr imbgfTypf,
+                                                  ImbgfWritfPbrbm pbrbm,
+                                                  IIOMftbdbtb strfbmMftbdbtb,
+                                                  IIOMftbdbtb imbgfMftbdbtb) {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf mfthods thbt tbkf bn
+     * <dodf>IIOImbgf</dodf> pbrbmftfr brf dbpbblf of dfbling with b
+     * <dodf>Rbstfr</dodf> (bs opposfd to <dodf>RfndfrfdImbgf</dodf>)
+     * sourdf imbgf.  If this mfthod rfturns <dodf>fblsf</dodf>, thfn
+     * thosf mfthods will throw bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> if supplifd with bn
+     * <dodf>IIOImbgf</dodf> dontbining b <dodf>Rbstfr</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if <dodf>Rbstfr</dodf> sourdfs brf
+     * supportfd.
+     */
+    publid boolfbn dbnWritfRbstfrs() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Appfnds b domplftf imbgf strfbm dontbining b singlf imbgf bnd
+     * bssodibtfd strfbm bnd imbgf mftbdbtb bnd thumbnbils to thf
+     * output.  Any nfdfssbry hfbdfr informbtion is indludfd.  If thf
+     * output is bn <dodf>ImbgfOutputStrfbm</dodf>, its fxisting
+     * dontfnts prior to thf durrfnt sffk position brf not bfffdtfd,
+     * bnd nffd not bf rfbdbblf or writbblf.
+     *
+     * <p> Thf output must hbvf bffn sft bfforfhbnd using thf
+     * <dodf>sftOutput</dodf> mfthod.
+     *
+     * <p> Strfbm mftbdbtb mby optionblly bf supplifd; if it is
+     * <dodf>null</dodf>, dffbult strfbm mftbdbtb will bf usfd.
+     *
+     * <p> If <dodf>dbnWritfRbstfrs</dodf> rfturns <dodf>truf</dodf>,
+     * thf <dodf>IIOImbgf</dodf> mby dontbin b <dodf>Rbstfr</dodf>
+     * sourdf.  Othfrwisf, it must dontbin b
+     * <dodf>RfndfrfdImbgf</dodf> sourdf.
+     *
+     * <p> Thf supplifd thumbnbils will bf rfsizfd if nffdfd, bnd bny
+     * thumbnbils in fxdfss of thf supportfd numbfr will bf ignorfd.
+     * If thf formbt rfquirfs bdditionbl thumbnbils thbt brf not
+     * providfd, thf writfr should gfnfrbtf thfm intfrnblly.
+     *
+     * <p>  An <dodf>ImbgfWritfPbrbm</dodf> mby
+     * optionblly bf supplifd to dontrol thf writing prodfss.  If
+     * <dodf>pbrbm</dodf> is <dodf>null</dodf>, b dffbult writf pbrbm
+     * will bf usfd.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * strfbm mftbdbtb, or <dodf>null</dodf> to usf dffbult vblufs.
+     * @pbrbm imbgf bn <dodf>IIOImbgf</dodf> objfdt dontbining bn
+     * imbgf, thumbnbils, bnd mftbdbtb to bf writtfn.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if <dodf>imbgf</dodf>
+     * dontbins b <dodf>Rbstfr</dodf> bnd <dodf>dbnWritfRbstfrs</dodf>
+     * rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid bbstrbdt void writf(IIOMftbdbtb strfbmMftbdbtb,
+                               IIOImbgf imbgf,
+                               ImbgfWritfPbrbm pbrbm) throws IOExdfption;
+
+    /**
+     * Appfnds b domplftf imbgf strfbm dontbining b singlf imbgf with
+     * dffbult mftbdbtb bnd thumbnbils to thf output.  This mfthod is
+     * b shorthbnd for <dodf>writf(null, imbgf, null)</dodf>.
+     *
+     * @pbrbm imbgf bn <dodf>IIOImbgf</dodf> objfdt dontbining bn
+     * imbgf, thumbnbils, bnd mftbdbtb to bf writtfn.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if <dodf>imbgf</dodf>
+     * dontbins b <dodf>Rbstfr</dodf> bnd <dodf>dbnWritfRbstfrs</dodf>
+     * rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void writf(IIOImbgf imbgf) throws IOExdfption {
+        writf(null, imbgf, null);
+    }
+
+    /**
+     * Appfnds b domplftf imbgf strfbm donsisting of b singlf imbgf
+     * with dffbult mftbdbtb bnd thumbnbils to thf output.  This
+     * mfthod is b shorthbnd for <dodf>writf(null, nfw IIOImbgf(imbgf,
+     * null, null), null)</dodf>.
+     *
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf> to bf writtfn.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void writf(RfndfrfdImbgf imbgf) throws IOExdfption {
+        writf(null, nfw IIOImbgf(imbgf, null, null), null);
+    }
+
+    // Chfdk thbt thf output hbs bffn sft, thfn throw bn
+    // UnsupportfdOpfrbtionExdfption.
+    privbtf void unsupportfd() {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        throw nfw UnsupportfdOpfrbtionExdfption("Unsupportfd writf vbribnt!");
+    }
+
+    // Sfqufndf writfs
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf writfr is bblf to bppfnd bn
+     * imbgf to bn imbgf strfbm thbt blrfbdy dontbins hfbdfr
+     * informbtion bnd possibly prior imbgfs.
+     *
+     * <p> If <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>,
+     * <dodf>writfToSfqufndf</dodf> bnd <dodf>fndWritfSfqufndf</dodf>
+     * will throw bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if imbgfs mby bf bppfndfd sfqufntiblly.
+     */
+    publid boolfbn dbnWritfSfqufndf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Prfpbrfs b strfbm to bddfpt b sfrifs of subsfqufnt
+     * <dodf>writfToSfqufndf</dodf> dblls, using thf providfd strfbm
+     * mftbdbtb objfdt.  Thf mftbdbtb will bf writtfn to thf strfbm if
+     * it should prfdfdf thf imbgf dbtb.  If thf brgumfnt is <dodf>null</dodf>,
+     * dffbult strfbm mftbdbtb is usfd.
+     *
+     * <p> If thf output is bn <dodf>ImbgfOutputStrfbm</dodf>, thf fxisting
+     * dontfnts of thf output prior to thf durrfnt sffk position brf
+     * flushfd, bnd nffd not bf rfbdbblf or writbblf.  If thf formbt
+     * rfquirfs thbt <dodf>fndWritfSfqufndf</dodf> bf bblf to rfwind to
+     * pbtdh up thf hfbdfr informbtion, sudh bs for b sfqufndf of imbgfs
+     * in b singlf TIFF filf, thfn thf mftbdbtb writtfn by this mfthod
+     * must rfmbin in b writbblf portion of thf strfbm.  Othfr formbts
+     * mby flush thf strfbm bftfr this mfthod bnd bftfr fbdh imbgf.
+     *
+     * <p> If <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>,
+     * this mfthod will throw bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> Thf output must hbvf bffn sft bfforfhbnd using fithfr
+     * thf <dodf>sftOutput</dodf> mfthod.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm strfbmMftbdbtb A strfbm mftbdbtb objfdt, or <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs writing thf strfbm
+     * mftbdbtb.
+     */
+    publid void prfpbrfWritfSfqufndf(IIOMftbdbtb strfbmMftbdbtb)
+        throws IOExdfption {
+        unsupportfd();
+    }
+
+    /**
+     * Appfnds b singlf imbgf bnd possibly bssodibtfd mftbdbtb bnd
+     * thumbnbils, to thf output.  If thf output is bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, thf fxisting dontfnts of thf
+     * output prior to thf durrfnt sffk position mby bf flushfd, bnd
+     * nffd not bf rfbdbblf or writbblf, unlfss thf plug-in nffds to
+     * bf bblf to pbtdh up thf hfbdfr informbtion whfn
+     * <dodf>fndWritfSfqufndf</dodf> is dbllfd (<i>f.g.</i> TIFF).
+     *
+     * <p> If <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>,
+     * this mfthod will throw bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> Thf output must hbvf bffn sft bfforfhbnd using
+     * thf <dodf>sftOutput</dodf> mfthod.
+     *
+     * <p> <dodf>prfpbrfWritfSfqufndf</dodf> must hbvf bffn dbllfd
+     * bfforfhbnd, or bn <dodf>IllfgblStbtfExdfption</dodf> is thrown.
+     *
+     * <p> If <dodf>dbnWritfRbstfrs</dodf> rfturns <dodf>truf</dodf>,
+     * thf <dodf>IIOImbgf</dodf> mby dontbin b <dodf>Rbstfr</dodf>
+     * sourdf.  Othfrwisf, it must dontbin b
+     * <dodf>RfndfrfdImbgf</dodf> sourdf.
+     *
+     * <p> Thf supplifd thumbnbils will bf rfsizfd if nffdfd, bnd bny
+     * thumbnbils in fxdfss of thf supportfd numbfr will bf ignorfd.
+     * If thf formbt rfquirfs bdditionbl thumbnbils thbt brf not
+     * providfd, thf writfr will gfnfrbtf thfm intfrnblly.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol thf writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgf bn <dodf>IIOImbgf</dodf> objfdt dontbining bn
+     * imbgf, thumbnbils, bnd mftbdbtb to bf writtfn.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft, or <dodf>prfpbrfWritfSfqufndf</dodf> hbs not bffn dbllfd.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if <dodf>imbgf</dodf>
+     * dontbins b <dodf>Rbstfr</dodf> bnd <dodf>dbnWritfRbstfrs</dodf>
+     * rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void writfToSfqufndf(IIOImbgf imbgf, ImbgfWritfPbrbm pbrbm)
+        throws IOExdfption {
+        unsupportfd();
+    }
+
+    /**
+     * Complftfs thf writing of b sfqufndf of imbgfs bfgun with
+     * <dodf>prfpbrfWritfSfqufndf</dodf>.  Any strfbm mftbdbtb thbt
+     * should domf bt thf fnd of thf sfqufndf of imbgfs is writtfn out,
+     * bnd bny hfbdfr informbtion bt thf bfginning of thf sfqufndf is
+     * pbtdhfd up if nfdfssbry.  If thf output is bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, dbtb through thf strfbm mftbdbtb
+     * bt thf fnd of thf sfqufndf brf flushfd bnd nffd not bf rfbdbblf
+     * or writbblf.
+     *
+     * <p> If <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>,
+     * this mfthod will throw bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft, or <dodf>prfpbrfWritfSfqufndf</dodf> hbs not bffn dbllfd.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void fndWritfSfqufndf() throws IOExdfption {
+        unsupportfd();
+    }
+
+    // Mftbdbtb rfplbdfmfnt
+
+    /**
+     * Rfturns <dodf>truf</dodf> if it is possiblf to rfplbdf thf
+     * strfbm mftbdbtb blrfbdy prfsfnt in thf output.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf rfturns <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if rfplbdfmfnt of strfbm mftbdbtb is
+     * bllowfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf qufry.
+     */
+    publid boolfbn dbnRfplbdfStrfbmMftbdbtb() throws IOExdfption {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfplbdfs thf strfbm mftbdbtb in thf output with nfw
+     * informbtion.  If thf output is bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, thf prior dontfnts of thf
+     * strfbm brf fxbminfd bnd possibly fditfd to mbkf room for thf
+     * nfw dbtb.  All of thf prior dontfnts of thf output must bf
+     * bvbilbblf for rfbding bnd writing.
+     *
+     * <p> If <dodf>dbnRfplbdfStrfbmMftbdbtb</dodf> rfturns
+     * <dodf>fblsf</dodf>, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * strfbm mftbdbtb, or <dodf>null</dodf> to usf dffbult vblufs.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thf
+     * <dodf>dbnRfplbdfStrfbmMftbdbtb</dodf> rfturns
+     * <dodf>fblsf</dodf>.  modfs do not indludf
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void rfplbdfStrfbmMftbdbtb(IIOMftbdbtb strfbmMftbdbtb)
+        throws IOExdfption {
+        unsupportfd();
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if it is possiblf to rfplbdf thf
+     * imbgf mftbdbtb bssodibtfd with bn fxisting imbgf with indfx
+     * <dodf>imbgfIndfx</dodf>.  If this mfthod rfturns
+     * <dodf>fblsf</dodf>, b dbll to
+     * <dodf>rfplbdfImbgfMftbdbtb(imbgfIndfx)</dodf> will throw bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> A writfr thbt dofs not support bny imbgf mftbdbtb
+     * rfplbdfmfnt mby rfturn <dodf>fblsf</dodf> without pfrforming
+     * bounds dhfdking on thf indfx.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf rfturns <dodf>fblsf</dodf>
+     * without dhfdking thf vbluf of <dodf>imbgfIndfx</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf whosf mftbdbtb is to
+     * bf rfplbdfd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf imbgf mftbdbtb of thf givfn
+     * imbgf dbn bf rfplbdfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf writfr supports
+     * imbgf mftbdbtb rfplbdfmfnt in gfnfrbl, but
+     * <dodf>imbgfIndfx</dodf> is lfss thbn 0 or grfbtfr thbn thf
+     * lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf qufry.
+     */
+    publid boolfbn dbnRfplbdfImbgfMftbdbtb(int imbgfIndfx)
+        throws IOExdfption {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfplbdfs thf imbgf mftbdbtb bssodibtfd with bn fxisting imbgf.
+     *
+     * <p> If <dodf>dbnRfplbdfImbgfMftbdbtb(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf whosf mftbdbtb is to
+     * bf rfplbdfd.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfprfsfnting imbgf mftbdbtb, or <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not bffn
+     * sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfImbgfMftbdbtb</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss thbn 0 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void rfplbdfImbgfMftbdbtb(int imbgfIndfx,
+                                     IIOMftbdbtb imbgfMftbdbtb)
+        throws IOExdfption {
+        unsupportfd();
+    }
+
+    // Imbgf insfrtion
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf writfr supports thf insfrtion
+     * of b nfw imbgf bt thf givfn indfx.  Existing imbgfs with
+     * indidfs grfbtfr thbn or fqubl to thf insfrtion indfx will hbvf
+     * thfir indidfs indrfbsfd by 1.  A vbluf for
+     * <dodf>imbgfIndfx</dodf> of <dodf>-1</dodf> mby bf usfd to
+     * signify bn indfx onf lbrgfr thbn thf durrfnt lbrgfst indfx.
+     *
+     * <p> A writfr thbt dofs not support bny imbgf insfrtion mby
+     * rfturn <dodf>fblsf</dodf> without pfrforming bounds dhfdking on
+     * thf indfx.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf rfturns <dodf>fblsf</dodf>
+     * without dhfdking thf vbluf of <dodf>imbgfIndfx</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx bt whidh thf imbgf is to bf
+     * insfrtfd.
+     *
+     * @rfturn <dodf>truf</dodf> if bn imbgf mby bf insfrtfd bt thf
+     * givfn indfx.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf writfr supports
+     * imbgf insfrtion in gfnfrbl, but <dodf>imbgfIndfx</dodf> is lfss
+     * thbn -1 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf qufry.
+     */
+    publid boolfbn dbnInsfrtImbgf(int imbgfIndfx) throws IOExdfption {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Insfrts b nfw imbgf into bn fxisting imbgf strfbm.  Existing
+     * imbgfs with bn indfx grfbtfr thbn <dodf>imbgfIndfx</dodf> brf
+     * prfsfrvfd, bnd thfir indidfs brf fbdh indrfbsfd by 1.  A vbluf
+     * for <dodf>imbgfIndfx</dodf> of -1 mby bf usfd to signify bn
+     * indfx onf lbrgfr thbn thf prfvious lbrgfst indfx; thbt is, it
+     * will dbusf thf imbgf to bf logidblly bppfndfd to thf fnd of thf
+     * sfqufndf.  If thf output is bn <dodf>ImbgfOutputStrfbm</dodf>,
+     * thf fntirfty of thf strfbm must bf both rfbdbblf bnd writfbblf.
+     *
+     * <p> If <dodf>dbnInsfrtImbgf(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf thrown.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol thf writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx bt whidh to writf thf imbgf.
+     * @pbrbm imbgf bn <dodf>IIOImbgf</dodf> objfdt dontbining bn
+     * imbgf, thumbnbils, bnd mftbdbtb to bf writtfn.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnInsfrtImbgf(imbgfIndfx)</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss thbn -1 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if <dodf>imbgf</dodf>
+     * dontbins b <dodf>Rbstfr</dodf> bnd <dodf>dbnWritfRbstfrs</dodf>
+     * rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void writfInsfrt(int imbgfIndfx,
+                            IIOImbgf imbgf,
+                            ImbgfWritfPbrbm pbrbm) throws IOExdfption {
+        unsupportfd();
+    }
+
+    // Imbgf rfmovbl
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf writfr supports thf rfmovbl
+     * of bn fxisting imbgf bt thf givfn indfx.  Existing imbgfs with
+     * indidfs grfbtfr thbn thf insfrtion indfx will hbvf
+     * thfir indidfs dfdrfbsfd by 1.
+     *
+     * <p> A writfr thbt dofs not support bny imbgf rfmovbl mby
+     * rfturn <dodf>fblsf</dodf> without pfrforming bounds dhfdking on
+     * thf indfx.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf rfturns <dodf>fblsf</dodf>
+     * without dhfdking thf vbluf of <dodf>imbgfIndfx</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rfmovfd.
+     *
+     * @rfturn <dodf>truf</dodf> if it is possiblf to rfmovf thf givfn
+     * imbgf.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf writfr supports
+     * imbgf rfmovbl in gfnfrbl, but <dodf>imbgfIndfx</dodf> is lfss
+     * thbn 0 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf
+     * qufry.
+     */
+    publid boolfbn dbnRfmovfImbgf(int imbgfIndfx) throws IOExdfption {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfmovfs bn imbgf from thf strfbm.
+     *
+     * <p> If <dodf>dbnRfmovfImbgf(imbgfIndfx)</dodf> rfturns fblsf,
+     * bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>will bf thrown.
+     *
+     * <p> Thf rfmovbl mby or mby not dbusf b rfdudtion in thf bdtubl
+     * filf sizf.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rfmovfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfmovfImbgf(imbgfIndfx)</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss thbn 0 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf
+     * rfmovbl.
+     */
+    publid void rfmovfImbgf(int imbgfIndfx) throws IOExdfption {
+        unsupportfd();
+    }
+
+    // Empty imbgfs
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf writfr supports thf writing of
+     * b domplftf imbgf strfbm donsisting of b singlf imbgf with
+     * undffinfd pixfl vblufs bnd bssodibtfd mftbdbtb bnd thumbnbils
+     * to thf output.  Thf pixfl vblufs mby bf dffinfd by futurf
+     * dblls to thf <dodf>rfplbdfPixfls</dodf> mfthods.  If thf output
+     * is bn <dodf>ImbgfOutputStrfbm</dodf>, its fxisting dontfnts
+     * prior to thf durrfnt sffk position brf not bfffdtfd, bnd nffd
+     * not bf rfbdbblf or writbblf.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf rfturns <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if thf writing of domplftf imbgf
+     * strfbm with dontfnts to bf dffinfd lbtfr is supportfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not bffn
+     * sft.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf
+     * qufry.
+     */
+    publid boolfbn dbnWritfEmpty() throws IOExdfption {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Bfgins thf writing of b domplftf imbgf strfbm, donsisting of b
+     * singlf imbgf with undffinfd pixfl vblufs bnd bssodibtfd
+     * mftbdbtb bnd thumbnbils, to thf output.  Thf pixfl vblufs will
+     * bf dffinfd by futurf dblls to thf <dodf>rfplbdfPixfls</dodf>
+     * mfthods.  If thf output is bn <dodf>ImbgfOutputStrfbm</dodf>,
+     * its fxisting dontfnts prior to thf durrfnt sffk position brf
+     * not bfffdtfd, bnd nffd not bf rfbdbblf or writbblf.
+     *
+     * <p> Thf writing is not domplftf until b dbll to
+     * <dodf>fndWritfEmpty</dodf> oddurs.  Cblls to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>, <dodf>rfplbdfPixfls</dodf>,
+     * bnd <dodf>fndRfplbdfPixfls</dodf> mby oddur bftwffn dblls to
+     * <dodf>prfpbrfWritfEmpty</dodf> bnd <dodf>fndWritfEmpty</dodf>.
+     * Howfvfr, dblls to <dodf>prfpbrfWritfEmpty</dodf> dbnnot bf
+     * nfstfd, bnd dblls to <dodf>prfpbrfWritfEmpty</dodf> bnd
+     * <dodf>prfpbrfInsfrtEmpty</dodf> mby not bf intfrspfrsfd.
+     *
+     * <p> If <dodf>dbnWritfEmpty</dodf> rfturns <dodf>fblsf</dodf>,
+     * bn <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf thrown.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol thf writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * strfbm mftbdbtb, or <dodf>null</dodf> to usf dffbult vblufs.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> dfsdribing
+     * thf lbyout of thf imbgf.
+     * @pbrbm width thf width of thf imbgf.
+     * @pbrbm hfight thf hfight of thf imbgf.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfprfsfnting imbgf mftbdbtb, or <dodf>null</dodf>.
+     * @pbrbm thumbnbils b <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf> thumbnbils for this imbgf, or
+     * <dodf>null</dodf>.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfEmpty</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfWritfEmpty</dodf> hbs bffn mbdf without b
+     * dorrfsponding dbll to <dodf>fndWritfEmpty</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> hbs bffn mbdf without b
+     * dorrfsponding dbll to <dodf>fndInsfrtEmpty</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgfTypf</dodf>
+     * is <dodf>null</dodf> or <dodf>thumbnbils</dodf> dontbins
+     * <dodf>null</dodf> rfffrfndfs or objfdts othfr thbn
+     * <dodf>BufffrfdImbgf</dodf>s.
+     * @fxdfption IllfgblArgumfntExdfption if width or hfight brf lfss
+     * thbn 1.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
+     */
+    publid void prfpbrfWritfEmpty(IIOMftbdbtb strfbmMftbdbtb,
+                                  ImbgfTypfSpfdififr imbgfTypf,
+                                  int width, int hfight,
+                                  IIOMftbdbtb imbgfMftbdbtb,
+                                  List<? fxtfnds BufffrfdImbgf> thumbnbils,
+                                  ImbgfWritfPbrbm pbrbm) throws IOExdfption {
+        unsupportfd();
+    }
+
+    /**
+     * Complftfs thf writing of b nfw imbgf thbt wbs bfgun with b
+     * prior dbll to <dodf>prfpbrfWritfEmpty</dodf>.
+     *
+     * <p> If <dodf>dbnWritfEmpty()</dodf> rfturns <dodf>fblsf</dodf>,
+     * bn <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfEmpty(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfWritfEmpty</dodf> without b dorrfsponding dbll to
+     * <dodf>fndWritfEmpty</dodf> hbs not bffn mbdf.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> without b dorrfsponding dbll to
+     * <dodf>fndInsfrtEmpty</dodf> hbs bffn mbdf.
+     * @fxdfption IllfgblStbtfExdfption if b dbll to
+     * <dodf>prfpbrfRfiplbdfPixfls</dodf> hbs bffn mbdf without b
+     * mbtdhing dbll to <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
+     */
+    publid void fndWritfEmpty() throws IOExdfption {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        throw nfw IllfgblStbtfExdfption("No dbll to prfpbrfWritfEmpty!");
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf writfr supports thf insfrtion
+     * of b nfw, fmpty imbgf bt thf givfn indfx.  Thf pixfl vblufs of
+     * thf imbgf brf undffinfd, bnd mby bf spfdififd in pifdfs using
+     * thf <dodf>rfplbdfPixfls</dodf> mfthods.  Existing imbgfs with
+     * indidfs grfbtfr thbn or fqubl to thf insfrtion indfx will hbvf
+     * thfir indidfs indrfbsfd by 1.  A vbluf for
+     * <dodf>imbgfIndfx</dodf> of <dodf>-1</dodf> mby bf usfd to
+     * signify bn indfx onf lbrgfr thbn thf durrfnt lbrgfst indfx.
+     *
+     * <p> A writfr thbt dofs not support insfrtion of fmpty imbgfs
+     * mby rfturn <dodf>fblsf</dodf> without pfrforming bounds
+     * dhfdking on thf indfx.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf rfturns <dodf>fblsf</dodf>
+     * without dhfdking thf vbluf of <dodf>imbgfIndfx</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx bt whidh thf imbgf is to bf
+     * insfrtfd.
+     *
+     * @rfturn <dodf>truf</dodf> if bn fmpty imbgf mby bf insfrtfd bt
+     * thf givfn indfx.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf writfr supports
+     * fmpty imbgf insfrtion in gfnfrbl, but <dodf>imbgfIndfx</dodf>
+     * is lfss thbn -1 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf
+     * qufry.
+     */
+    publid boolfbn dbnInsfrtEmpty(int imbgfIndfx) throws IOExdfption {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Bfgins thf insfrtion of b nfw imbgf with undffinfd pixfl vblufs
+     * into bn fxisting imbgf strfbm.  Existing imbgfs with bn indfx
+     * grfbtfr thbn <dodf>imbgfIndfx</dodf> brf prfsfrvfd, bnd thfir
+     * indidfs brf fbdh indrfbsfd by 1.  A vbluf for
+     * <dodf>imbgfIndfx</dodf> of -1 mby bf usfd to signify bn indfx
+     * onf lbrgfr thbn thf prfvious lbrgfst indfx; thbt is, it will
+     * dbusf thf imbgf to bf logidblly bppfndfd to thf fnd of thf
+     * sfqufndf.  If thf output is bn <dodf>ImbgfOutputStrfbm</dodf>,
+     * thf fntirfty of thf strfbm must bf both rfbdbblf bnd writfbblf.
+     *
+     * <p> Thf imbgf dontfnts mby bf
+     * supplifd lbtfr using thf <dodf>rfplbdfPixfls</dodf> mfthod.
+     * Thf insfrtion is not domplftf until b dbll to
+     * <dodf>fndInsfrtEmpty</dodf> oddurs.  Cblls to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>, <dodf>rfplbdfPixfls</dodf>,
+     * bnd <dodf>fndRfplbdfPixfls</dodf> mby oddur bftwffn dblls to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> bnd
+     * <dodf>fndInsfrtEmpty</dodf>.  Howfvfr, dblls to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> dbnnot bf nfstfd, bnd dblls to
+     * <dodf>prfpbrfWritfEmpty</dodf> bnd
+     * <dodf>prfpbrfInsfrtEmpty</dodf> mby not bf intfrspfrsfd.
+     *
+     * <p> If <dodf>dbnInsfrtEmpty(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf thrown.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol thf writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx bt whidh to writf thf imbgf.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> dfsdribing
+     * thf lbyout of thf imbgf.
+     * @pbrbm width thf width of thf imbgf.
+     * @pbrbm hfight thf hfight of thf imbgf.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfprfsfnting imbgf mftbdbtb, or <dodf>null</dodf>.
+     * @pbrbm thumbnbils b <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf> thumbnbils for this imbgf, or
+     * <dodf>null</dodf>.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnInsfrtEmpty(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss thbn -1 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> hbs bffn mbdf without b
+     * dorrfsponding dbll to <dodf>fndInsfrtEmpty</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfWritfEmpty</dodf> hbs bffn mbdf without b
+     * dorrfsponding dbll to <dodf>fndWritfEmpty</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgfTypf</dodf>
+     * is <dodf>null</dodf> or <dodf>thumbnbils</dodf> dontbins
+     * <dodf>null</dodf> rfffrfndfs or objfdts othfr thbn
+     * <dodf>BufffrfdImbgf</dodf>s.
+     * @fxdfption IllfgblArgumfntExdfption if width or hfight brf lfss
+     * thbn 1.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
+     */
+    publid void prfpbrfInsfrtEmpty(int imbgfIndfx,
+                                   ImbgfTypfSpfdififr imbgfTypf,
+                                   int width, int hfight,
+                                   IIOMftbdbtb imbgfMftbdbtb,
+                                   List<? fxtfnds BufffrfdImbgf> thumbnbils,
+                                   ImbgfWritfPbrbm pbrbm) throws IOExdfption {
+        unsupportfd();
+    }
+
+    /**
+     * Complftfs thf insfrtion of b nfw imbgf thbt wbs bfgun with b
+     * prior dbll to <dodf>prfpbrfInsfrtEmpty</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnInsfrtEmpty(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> without b dorrfsponding dbll to
+     * <dodf>fndInsfrtEmpty</dodf> hbs not bffn mbdf.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfWritfEmpty</dodf> without b dorrfsponding dbll to
+     * <dodf>fndWritfEmpty</dodf> hbs bffn mbdf.
+     * @fxdfption IllfgblStbtfExdfption if b dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf> hbs bffn mbdf without b
+     * mbtdhing dbll to <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
+     */
+    publid void fndInsfrtEmpty() throws IOExdfption {
+        unsupportfd();
+    }
+
+    // Pixfl rfplbdfmfnt
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf writfr bllows pixfls of thf
+     * givfn imbgf to bf rfplbdfd using thf <dodf>rfplbdfPixfls</dodf>
+     * mfthods.
+     *
+     * <p> A writfr thbt dofs not support bny pixfl rfplbdfmfnt mby
+     * rfturn <dodf>fblsf</dodf> without pfrforming bounds dhfdking on
+     * thf indfx.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf rfturns <dodf>fblsf</dodf>
+     * without dhfdking thf vbluf of <dodf>imbgfIndfx</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf whosf pixfls brf to bf
+     * rfplbdfd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf pixfls of thf givfn
+     * imbgf dbn bf rfplbdfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf writfr supports
+     * pixfl rfplbdfmfnt in gfnfrbl, but <dodf>imbgfIndfx</dodf> is
+     * lfss thbn 0 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf qufry.
+     */
+    publid boolfbn dbnRfplbdfPixfls(int imbgfIndfx) throws IOExdfption {
+        if (gftOutput() == null) {
+            throw nfw IllfgblStbtfExdfption("gftOutput() == null!");
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Prfpbrfs thf writfr to hbndlf b sfrifs of dblls to thf
+     * <dodf>rfplbdfPixfls</dodf> mfthods.  Thf bfffdtfd pixfl brfb
+     * will bf dlippfd bgbinst thf supplifd
+     *
+     * <p> If <dodf>dbnRfplbdfPixfls</dodf> rfturns
+     * <dodf>fblsf</dodf>, bnd
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf whosf pixfls brf to bf
+     * rfplbdfd.
+     * @pbrbm rfgion b <dodf>Rfdtbnglf</dodf> thbt will bf usfd to dlip
+     * futurf pixfl rfgions.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfPixfls(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss thbn 0 or grfbtfr thbn thf lbrgfst bvbilbblf indfx.
+     * @fxdfption IllfgblStbtfExdfption if thfrf is b prfvious dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf> without b mbtdhing dbll to
+     * <dodf>fndRfplbdfPixfls</dodf> (<i>i.f.</i>, nfsting is not
+     * bllowfd).
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rfgion</dodf> is
+     * <dodf>null</dodf> or hbs b width or hfight lfss thbn 1.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during thf
+     * prfpbrbtion.
+     */
+    publid void prfpbrfRfplbdfPixfls(int imbgfIndfx,
+                                     Rfdtbnglf rfgion)  throws IOExdfption {
+        unsupportfd();
+    }
+
+    /**
+     * Rfplbdfs b portion of bn imbgf blrfbdy prfsfnt in thf output
+     * with b portion of thf givfn imbgf.  Thf imbgf dbtb must mbtdh,
+     * or bf donvfrtiblf to, thf imbgf lbyout of thf fxisting imbgf.
+     *
+     * <p> Thf dfstinbtion rfgion is spfdififd in thf
+     * <dodf>pbrbm</dodf> brgumfnt, bnd will bf dlippfd to thf imbgf
+     * boundbrifs bnd thf rfgion supplifd to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>.  At lfbst onf pixfl of thf
+     * sourdf must not bf dlippfd, or bn fxdfption is thrown.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol thf writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> This mfthod mby only bf dbllfd bftfr b dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>, or flsf bn
+     * <dodf>IllfgblStbtfExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf> dontbining sourdf
+     * pixfls.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfPixfls(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if thfrf is no prfvious dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf> without b mbtdhing dbll to
+     * <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if bny of thf following brf truf:
+     * <ul>
+     * <li> <dodf>imbgf</dodf> is <dodf>null</dodf>.
+     * <li> <dodf>pbrbm</dodf> is <dodf>null</dodf>.
+     * <li> thf intfrsfdtfd rfgion dofs not dontbin bt lfbst onf pixfl.
+     * <li> thf lbyout of <dodf>imbgf</dodf> dofs not mbtdh, or this
+     * writfr dbnnot donvfrt it to, thf fxisting imbgf lbyout.
+     * </ul>
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
+     */
+    publid void rfplbdfPixfls(RfndfrfdImbgf imbgf, ImbgfWritfPbrbm pbrbm)
+        throws IOExdfption {
+        unsupportfd();
+    }
+
+    /**
+     * Rfplbdfs b portion of bn imbgf blrfbdy prfsfnt in thf output
+     * with b portion of thf givfn <dodf>Rbstfr</dodf>.  Thf imbgf
+     * dbtb must mbtdh, or bf donvfrtiblf to, thf imbgf lbyout of thf
+     * fxisting imbgf.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol thf writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
+     *
+     * <p> Thf dfstinbtion rfgion is spfdififd in thf
+     * <dodf>pbrbm</dodf> brgumfnt, bnd will bf dlippfd to thf imbgf
+     * boundbrifs bnd thf rfgion supplifd to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>.  At lfbst onf pixfl of thf
+     * sourdf must not bf dlippfd, or bn fxdfption is thrown.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), thfy
+     * will bf ignorfd.
+     *
+     * <p> This mfthod mby only bf dbllfd bftfr b dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>, or flsf bn
+     * <dodf>IllfgblStbtfExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm rbstfr b <dodf>Rbstfr</dodf> dontbining sourdf
+     * pixfls.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfPixfls(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if thfrf is no prfvious dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf> without b mbtdhing dbll to
+     * <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfRbstfrs</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if bny of thf following brf truf:
+     * <ul>
+     * <li> <dodf>rbstfr</dodf> is <dodf>null</dodf>.
+     * <li> <dodf>pbrbm</dodf> is <dodf>null</dodf>.
+     * <li> thf intfrsfdtfd rfgion dofs not dontbin bt lfbst onf pixfl.
+     * <li> thf lbyout of <dodf>rbstfr</dodf> dofs not mbtdh, or this
+     * writfr dbnnot donvfrt it to, thf fxisting imbgf lbyout.
+     * </ul>
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
+     */
+    publid void rfplbdfPixfls(Rbstfr rbstfr, ImbgfWritfPbrbm pbrbm)
+        throws IOExdfption {
+        unsupportfd();
+    }
+
+    /**
+     * Tfrminbtfs b sfqufndf of dblls to <dodf>rfplbdfPixfls</dodf>.
+     *
+     * <p> If <dodf>dbnRfplbdfPixfls</dodf> rfturns
+     * <dodf>fblsf</dodf>, bnd
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if thf output is
+     * <dodf>null</dodf>, bnd othfrwisf throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf output hbs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfPixfls(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if thfrf is no prfvious dbll
+     * to <dodf>prfpbrfRfplbdfPixfls</dodf> without b mbtdhing dbll to
+     * <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
+     */
+    publid void fndRfplbdfPixfls() throws IOExdfption {
+        unsupportfd();
+    }
+
+    // Abort
+
+    /**
+     * Rfqufsts thbt bny durrfnt writf opfrbtion bf bbortfd.  Thf
+     * dontfnts of thf output following thf bbort will bf undffinfd.
+     *
+     * <p> Writfrs should dbll <dodf>dlfbrAbortRfqufst</dodf> bt thf
+     * bfginning of fbdh writf opfrbtion, bnd poll thf vbluf of
+     * <dodf>bbortRfqufstfd</dodf> rfgulbrly during thf writf.
+     */
+    publid syndhronizfd void bbort() {
+        this.bbortFlbg = truf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if b rfqufst to bbort thf durrfnt
+     * writf opfrbtion hbs bffn mbdf sindf thf writfr wbs instbntibtfd or
+     * <dodf>dlfbrAbortRfqufst</dodf> wbs dbllfd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf durrfnt writf opfrbtion should
+     * bf bbortfd.
+     *
+     * @sff #bbort
+     * @sff #dlfbrAbortRfqufst
+     */
+    protfdtfd syndhronizfd boolfbn bbortRfqufstfd() {
+        rfturn this.bbortFlbg;
+    }
+
+    /**
+     * Clfbrs bny prfvious bbort rfqufst.  Aftfr this mfthod hbs bffn
+     * dbllfd, <dodf>bbortRfqufstfd</dodf> will rfturn
+     * <dodf>fblsf</dodf>.
+     *
+     * @sff #bbort
+     * @sff #bbortRfqufstfd
+     */
+    protfdtfd syndhronizfd void dlfbrAbortRfqufst() {
+        this.bbortFlbg = fblsf;
+    }
+
+    // Listfnfrs
+
+    /**
+     * Adds bn <dodf>IIOWritfWbrningListfnfr</dodf> to thf list of
+     * rfgistfrfd wbrning listfnfrs.  If <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.  Mfssbgfs sfnt to thf givfn listfnfr will bf
+     * lodblizfd, if possiblf, to mbtdh thf durrfnt
+     * <dodf>Lodblf</dodf>.  If no <dodf>Lodblf</dodf> hbs bffn sft,
+     * wbrning mfssbgfs mby bf lodblizfd bs thf writfr sffs fit.
+     *
+     * @pbrbm listfnfr bn <dodf>IIOWritfWbrningListfnfr</dodf> to bf
+     * rfgistfrfd.
+     *
+     * @sff #rfmovfIIOWritfWbrningListfnfr
+     */
+    publid void bddIIOWritfWbrningListfnfr(IIOWritfWbrningListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        wbrningListfnfrs = ImbgfRfbdfr.bddToList(wbrningListfnfrs, listfnfr);
+        wbrningLodblfs = ImbgfRfbdfr.bddToList(wbrningLodblfs, gftLodblf());
+    }
+
+    /**
+     * Rfmovfs bn <dodf>IIOWritfWbrningListfnfr</dodf> from thf list
+     * of rfgistfrfd wbrning listfnfrs.  If thf listfnfr wbs not
+     * prfviously rfgistfrfd, or if <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.
+     *
+     * @pbrbm listfnfr bn <dodf>IIOWritfWbrningListfnfr</dodf> to bf
+     * dfrfgistfrfd.
+     *
+     * @sff #bddIIOWritfWbrningListfnfr
+     */
+    publid
+        void rfmovfIIOWritfWbrningListfnfr(IIOWritfWbrningListfnfr listfnfr) {
+        if (listfnfr == null || wbrningListfnfrs == null) {
+            rfturn;
+        }
+        int indfx = wbrningListfnfrs.indfxOf(listfnfr);
+        if (indfx != -1) {
+            wbrningListfnfrs.rfmovf(indfx);
+            wbrningLodblfs.rfmovf(indfx);
+            if (wbrningListfnfrs.sizf() == 0) {
+                wbrningListfnfrs = null;
+                wbrningLodblfs = null;
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs bll durrfntly rfgistfrfd
+     * <dodf>IIOWritfWbrningListfnfr</dodf> objfdts.
+     *
+     * <p> Thf dffbult implfmfntbtion sfts thf
+     * <dodf>wbrningListfnfrs</dodf> bnd <dodf>wbrningLodblfs</dodf>
+     * instbndf vbribblfs to <dodf>null</dodf>.
+     */
+    publid void rfmovfAllIIOWritfWbrningListfnfrs() {
+        this.wbrningListfnfrs = null;
+        this.wbrningLodblfs = null;
+    }
+
+    /**
+     * Adds bn <dodf>IIOWritfProgrfssListfnfr</dodf> to thf list of
+     * rfgistfrfd progrfss listfnfrs.  If <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.
+     *
+     * @pbrbm listfnfr bn <dodf>IIOWritfProgrfssListfnfr</dodf> to bf
+     * rfgistfrfd.
+     *
+     * @sff #rfmovfIIOWritfProgrfssListfnfr
+     */
+    publid void
+        bddIIOWritfProgrfssListfnfr(IIOWritfProgrfssListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        progrfssListfnfrs = ImbgfRfbdfr.bddToList(progrfssListfnfrs, listfnfr);
+    }
+
+    /**
+     * Rfmovfs bn <dodf>IIOWritfProgrfssListfnfr</dodf> from thf list
+     * of rfgistfrfd progrfss listfnfrs.  If thf listfnfr wbs not
+     * prfviously rfgistfrfd, or if <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.
+     *
+     * @pbrbm listfnfr bn <dodf>IIOWritfProgrfssListfnfr</dodf> to bf
+     * dfrfgistfrfd.
+     *
+     * @sff #bddIIOWritfProgrfssListfnfr
+     */
+    publid void
+        rfmovfIIOWritfProgrfssListfnfr(IIOWritfProgrfssListfnfr listfnfr) {
+        if (listfnfr == null || progrfssListfnfrs == null) {
+            rfturn;
+        }
+        progrfssListfnfrs =
+            ImbgfRfbdfr.rfmovfFromList(progrfssListfnfrs, listfnfr);
+    }
+
+    /**
+     * Rfmovfs bll durrfntly rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf> objfdts.
+     *
+     * <p> Thf dffbult implfmfntbtion sfts thf
+     * <dodf>progrfssListfnfrs</dodf> instbndf vbribblf to
+     * <dodf>null</dodf>.
+     */
+    publid void rfmovfAllIIOWritfProgrfssListfnfrs() {
+        this.progrfssListfnfrs = null;
+    }
+
+    /**
+     * Brobddbsts thf stbrt of bn imbgf writf to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>imbgfStbrtfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf bbout to bf writtfn.
+     */
+    protfdtfd void prodfssImbgfStbrtfd(int imbgfIndfx) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfStbrtfd(this, imbgfIndfx);
+        }
+    }
+
+    /**
+     * Brobddbsts thf durrfnt pfrdfntbgf of imbgf domplftion to bll
+     * rfgistfrfd <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling
+     * thfir <dodf>imbgfProgrfss</dodf> mfthod.  Subdlbssfs mby usf
+     * this mfthod bs b donvfnifndf.
+     *
+     * @pbrbm pfrdfntbgfDonf thf durrfnt pfrdfntbgf of domplftion,
+     * bs b <dodf>flobt</dodf>.
+     */
+    protfdtfd void prodfssImbgfProgrfss(flobt pfrdfntbgfDonf) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfProgrfss(this, pfrdfntbgfDonf);
+        }
+    }
+
+    /**
+     * Brobddbsts thf domplftion of bn imbgf writf to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>imbgfComplftf</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     */
+    protfdtfd void prodfssImbgfComplftf() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfComplftf(this);
+        }
+    }
+
+    /**
+     * Brobddbsts thf stbrt of b thumbnbil writf to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>thumbnbilStbrtfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf bssodibtfd with thf
+     * thumbnbil.
+     * @pbrbm thumbnbilIndfx thf indfx of thf thumbnbil.
+     */
+    protfdtfd void prodfssThumbnbilStbrtfd(int imbgfIndfx,
+                                           int thumbnbilIndfx) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.thumbnbilStbrtfd(this, imbgfIndfx, thumbnbilIndfx);
+        }
+    }
+
+    /**
+     * Brobddbsts thf durrfnt pfrdfntbgf of thumbnbil domplftion to
+     * bll rfgistfrfd <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling
+     * thfir <dodf>thumbnbilProgrfss</dodf> mfthod.  Subdlbssfs mby
+     * usf this mfthod bs b donvfnifndf.
+     *
+     * @pbrbm pfrdfntbgfDonf thf durrfnt pfrdfntbgf of domplftion,
+     * bs b <dodf>flobt</dodf>.
+     */
+    protfdtfd void prodfssThumbnbilProgrfss(flobt pfrdfntbgfDonf) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.thumbnbilProgrfss(this, pfrdfntbgfDonf);
+        }
+    }
+
+    /**
+     * Brobddbsts thf domplftion of b thumbnbil writf to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>thumbnbilComplftf</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     */
+    protfdtfd void prodfssThumbnbilComplftf() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.thumbnbilComplftf(this);
+        }
+    }
+
+    /**
+     * Brobddbsts thbt thf writf hbs bffn bbortfd to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>writfAbortfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     */
+    protfdtfd void prodfssWritfAbortfd() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.writfAbortfd(this);
+        }
+    }
+
+    /**
+     * Brobddbsts b wbrning mfssbgf to bll rfgistfrfd
+     * <dodf>IIOWritfWbrningListfnfr</dodf>s by dblling thfir
+     * <dodf>wbrningOddurrfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf on whidh thf wbrning
+     * oddurrfd.
+     * @pbrbm wbrning thf wbrning mfssbgf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>wbrning</dodf>
+     * is <dodf>null</dodf>.
+     */
+    protfdtfd void prodfssWbrningOddurrfd(int imbgfIndfx,
+                                          String wbrning) {
+        if (wbrningListfnfrs == null) {
+            rfturn;
+        }
+        if (wbrning == null) {
+            throw nfw IllfgblArgumfntExdfption("wbrning == null!");
+        }
+        int numListfnfrs = wbrningListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfWbrningListfnfr listfnfr =
+                wbrningListfnfrs.gft(i);
+
+            listfnfr.wbrningOddurrfd(this, imbgfIndfx, wbrning);
+        }
+    }
+
+    /**
+     * Brobddbsts b lodblizfd wbrning mfssbgf to bll rfgistfrfd
+     * <dodf>IIOWritfWbrningListfnfr</dodf>s by dblling thfir
+     * <dodf>wbrningOddurrfd</dodf> mfthod with b string tbkfn
+     * from b <dodf>RfsourdfBundlf</dodf>.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf on whidh thf wbrning
+     * oddurrfd.
+     * @pbrbm bbsfNbmf thf bbsf nbmf of b sft of
+     * <dodf>RfsourdfBundlf</dodf>s dontbining lodblizfd wbrning
+     * mfssbgfs.
+     * @pbrbm kfyword thf kfyword usfd to indfx thf wbrning mfssbgf
+     * within thf sft of <dodf>RfsourdfBundlf</dodf>s.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bbsfNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>kfyword</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if no bppropribtf
+     * <dodf>RfsourdfBundlf</dodf> mby bf lodbtfd.
+     * @fxdfption IllfgblArgumfntExdfption if thf nbmfd rfsourdf is
+     * not found in thf lodbtfd <dodf>RfsourdfBundlf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if thf objfdt rftrifvfd
+     * from thf <dodf>RfsourdfBundlf</dodf> is not b
+     * <dodf>String</dodf>.
+     */
+    protfdtfd void prodfssWbrningOddurrfd(int imbgfIndfx,
+                                          String bbsfNbmf,
+                                          String kfyword) {
+        if (wbrningListfnfrs == null) {
+            rfturn;
+        }
+        if (bbsfNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("bbsfNbmf == null!");
+        }
+        if (kfyword == null) {
+            throw nfw IllfgblArgumfntExdfption("kfyword == null!");
+        }
+        int numListfnfrs = wbrningListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfWbrningListfnfr listfnfr =
+                wbrningListfnfrs.gft(i);
+            Lodblf lodblf = wbrningLodblfs.gft(i);
+            if (lodblf == null) {
+                lodblf = Lodblf.gftDffbult();
+            }
+
+            /**
+             * If bn bpplft supplifs bn implfmfntbtion of ImbgfWritfr bnd
+             * rfsourdf bundlfs, thfn thf rfsourdf bundlf will nffd to bf
+             * bddfssfd vib thf bpplft dlbss lobdfr. So first try thf dontfxt
+             * dlbss lobdfr to lodbtf thf rfsourdf bundlf.
+             * If thbt throws MissingRfsourdfExdfption, thfn try thf
+             * systfm dlbss lobdfr.
+             */
+            ClbssLobdfr lobdfr =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                   nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                      publid ClbssLobdfr run() {
+                        rfturn Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+                      }
+                });
+
+            RfsourdfBundlf bundlf = null;
+            try {
+                bundlf = RfsourdfBundlf.gftBundlf(bbsfNbmf, lodblf, lobdfr);
+            } dbtdh (MissingRfsourdfExdfption mrf) {
+                try {
+                    bundlf = RfsourdfBundlf.gftBundlf(bbsfNbmf, lodblf);
+                } dbtdh (MissingRfsourdfExdfption mrf1) {
+                    throw nfw IllfgblArgumfntExdfption("Bundlf not found!");
+                }
+            }
+
+            String wbrning = null;
+            try {
+                wbrning = bundlf.gftString(kfyword);
+            } dbtdh (ClbssCbstExdfption ddf) {
+                throw nfw IllfgblArgumfntExdfption("Rfsourdf is not b String!");
+            } dbtdh (MissingRfsourdfExdfption mrf) {
+                throw nfw IllfgblArgumfntExdfption("Rfsourdf is missing!");
+            }
+
+            listfnfr.wbrningOddurrfd(this, imbgfIndfx, wbrning);
+        }
+    }
+
+    // Stbtf mbnbgfmfnt
+
+    /**
+     * Rfstorfs thf <dodf>ImbgfWritfr</dodf> to its initibl stbtf.
+     *
+     * <p> Thf dffbult implfmfntbtion dblls
+     * <dodf>sftOutput(null)</dodf>, <dodf>sftLodblf(null)</dodf>,
+     * <dodf>rfmovfAllIIOWritfWbrningListfnfrs()</dodf>,
+     * <dodf>rfmovfAllIIOWritfProgrfssListfnfrs()</dodf>, bnd
+     * <dodf>dlfbrAbortRfqufst</dodf>.
+     */
+    publid void rfsft() {
+        sftOutput(null);
+        sftLodblf(null);
+        rfmovfAllIIOWritfWbrningListfnfrs();
+        rfmovfAllIIOWritfProgrfssListfnfrs();
+        dlfbrAbortRfqufst();
+    }
+
+    /**
+     * Allows bny rfsourdfs hfld by this objfdt to bf rflfbsfd.  Thf
+     * rfsult of dblling bny othfr mfthod (othfr thbn
+     * <dodf>finblizf</dodf>) subsfqufnt to b dbll to this mfthod
+     * is undffinfd.
+     *
+     * <p>It is importbnt for bpplidbtions to dbll this mfthod whfn thfy
+     * know thfy will no longfr bf using this <dodf>ImbgfWritfr</dodf>.
+     * Othfrwisf, thf writfr mby dontinuf to hold on to rfsourdfs
+     * indffinitfly.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod in thf supfrdlbss dofs
+     * nothing.  Subdlbss implfmfntbtions should fnsurf thbt bll rfsourdfs,
+     * fspfdiblly nbtivf rfsourdfs, brf rflfbsfd.
+     */
+    publid void disposf() {
+    }
+}

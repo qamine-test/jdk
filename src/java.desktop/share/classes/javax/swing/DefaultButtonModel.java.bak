@@ -1,536 +1,536 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.io.Serializable;
-import java.util.EventListener;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.EvfntListfnfr;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * The default implementation of a <code>Button</code> component's data model.
+ * Tif dffbult implfmfntbtion of b <dodf>Button</dodf> domponfnt's dbtb modfl.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing. As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing. As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Jeff Dinkins
- * @since 1.2
+ * @butior Jfff Dinkins
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultButtonModel implements ButtonModel, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultButtonModfl implfmfnts ButtonModfl, Sfriblizbblf {
 
-    /** The bitmask used to store the state of the button. */
-    protected int stateMask = 0;
+    /** Tif bitmbsk usfd to storf tif stbtf of tif button. */
+    protfdtfd int stbtfMbsk = 0;
 
-    /** The action command string fired by the button. */
-    protected String actionCommand = null;
+    /** Tif bdtion dommbnd string firfd by tif button. */
+    protfdtfd String bdtionCommbnd = null;
 
-    /** The button group that the button belongs to. */
-    protected ButtonGroup group = null;
+    /** Tif button group tibt tif button bflongs to. */
+    protfdtfd ButtonGroup group = null;
 
-    /** The button's mnemonic. */
-    protected int mnemonic = 0;
+    /** Tif button's mnfmonid. */
+    protfdtfd int mnfmonid = 0;
 
     /**
-     * Only one <code>ChangeEvent</code> is needed per button model
-     * instance since the event's only state is the source property.
-     * The source of events generated is always "this".
+     * Only onf <dodf>CibngfEvfnt</dodf> is nffdfd pfr button modfl
+     * instbndf sindf tif fvfnt's only stbtf is tif sourdf propfrty.
+     * Tif sourdf of fvfnts gfnfrbtfd is blwbys "tiis".
      */
-    protected transient ChangeEvent changeEvent = null;
+    protfdtfd trbnsifnt CibngfEvfnt dibngfEvfnt = null;
 
-    /** Stores the listeners on this model. */
-    protected EventListenerList listenerList = new EventListenerList();
+    /** Storfs tif listfnfrs on tiis modfl. */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
-    // controls the usage of the MenuItem.disabledAreNavigable UIDefaults
-    // property in the setArmed() method
-    private boolean menuItem = false;
+    // dontrols tif usbgf of tif MfnuItfm.disbblfdArfNbvigbblf UIDffbults
+    // propfrty in tif sftArmfd() mftiod
+    privbtf boolfbn mfnuItfm = fblsf;
 
     /**
-     * Constructs a <code>DefaultButtonModel</code>.
+     * Construdts b <dodf>DffbultButtonModfl</dodf>.
      *
      */
-    public DefaultButtonModel() {
-        stateMask = 0;
-        setEnabled(true);
+    publid DffbultButtonModfl() {
+        stbtfMbsk = 0;
+        sftEnbblfd(truf);
     }
 
     /**
-     * Identifies the "armed" bit in the bitmask, which
-     * indicates partial commitment towards choosing/triggering
-     * the button.
+     * Idfntififs tif "brmfd" bit in tif bitmbsk, wiidi
+     * indidbtfs pbrtibl dommitmfnt towbrds dioosing/triggfring
+     * tif button.
      */
-    public final static int ARMED = 1 << 0;
+    publid finbl stbtid int ARMED = 1 << 0;
 
     /**
-     * Identifies the "selected" bit in the bitmask, which
-     * indicates that the button has been selected. Only needed for
-     * certain types of buttons - such as radio button or check box.
+     * Idfntififs tif "sflfdtfd" bit in tif bitmbsk, wiidi
+     * indidbtfs tibt tif button ibs bffn sflfdtfd. Only nffdfd for
+     * dfrtbin typfs of buttons - sudi bs rbdio button or difdk box.
      */
-    public final static int SELECTED = 1 << 1;
+    publid finbl stbtid int SELECTED = 1 << 1;
 
     /**
-     * Identifies the "pressed" bit in the bitmask, which
-     * indicates that the button is pressed.
+     * Idfntififs tif "prfssfd" bit in tif bitmbsk, wiidi
+     * indidbtfs tibt tif button is prfssfd.
      */
-    public final static int PRESSED = 1 << 2;
+    publid finbl stbtid int PRESSED = 1 << 2;
 
     /**
-     * Identifies the "enabled" bit in the bitmask, which
-     * indicates that the button can be selected by
-     * an input device (such as a mouse pointer).
+     * Idfntififs tif "fnbblfd" bit in tif bitmbsk, wiidi
+     * indidbtfs tibt tif button dbn bf sflfdtfd by
+     * bn input dfvidf (sudi bs b mousf pointfr).
      */
-    public final static int ENABLED = 1 << 3;
+    publid finbl stbtid int ENABLED = 1 << 3;
 
     /**
-     * Identifies the "rollover" bit in the bitmask, which
-     * indicates that the mouse is over the button.
+     * Idfntififs tif "rollovfr" bit in tif bitmbsk, wiidi
+     * indidbtfs tibt tif mousf is ovfr tif button.
      */
-    public final static int ROLLOVER = 1 << 4;
+    publid finbl stbtid int ROLLOVER = 1 << 4;
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setActionCommand(String actionCommand) {
-        this.actionCommand = actionCommand;
+    publid void sftAdtionCommbnd(String bdtionCommbnd) {
+        tiis.bdtionCommbnd = bdtionCommbnd;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public String getActionCommand() {
-        return actionCommand;
+    publid String gftAdtionCommbnd() {
+        rfturn bdtionCommbnd;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public boolean isArmed() {
-        return (stateMask & ARMED) != 0;
+    publid boolfbn isArmfd() {
+        rfturn (stbtfMbsk & ARMED) != 0;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public boolean isSelected() {
-        return (stateMask & SELECTED) != 0;
+    publid boolfbn isSflfdtfd() {
+        rfturn (stbtfMbsk & SELECTED) != 0;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public boolean isEnabled() {
-        return (stateMask & ENABLED) != 0;
+    publid boolfbn isEnbblfd() {
+        rfturn (stbtfMbsk & ENABLED) != 0;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public boolean isPressed() {
-        return (stateMask & PRESSED) != 0;
+    publid boolfbn isPrfssfd() {
+        rfturn (stbtfMbsk & PRESSED) != 0;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public boolean isRollover() {
-        return (stateMask & ROLLOVER) != 0;
+    publid boolfbn isRollovfr() {
+        rfturn (stbtfMbsk & ROLLOVER) != 0;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setArmed(boolean b) {
-        if(isMenuItem() &&
-                UIManager.getBoolean("MenuItem.disabledAreNavigable")) {
-            if ((isArmed() == b)) {
-                return;
+    publid void sftArmfd(boolfbn b) {
+        if(isMfnuItfm() &&
+                UIMbnbgfr.gftBoolfbn("MfnuItfm.disbblfdArfNbvigbblf")) {
+            if ((isArmfd() == b)) {
+                rfturn;
             }
-        } else {
-            if ((isArmed() == b) || !isEnabled()) {
-                return;
+        } flsf {
+            if ((isArmfd() == b) || !isEnbblfd()) {
+                rfturn;
             }
         }
 
         if (b) {
-            stateMask |= ARMED;
-        } else {
-            stateMask &= ~ARMED;
+            stbtfMbsk |= ARMED;
+        } flsf {
+            stbtfMbsk &= ~ARMED;
         }
 
-        fireStateChanged();
+        firfStbtfCibngfd();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setEnabled(boolean b) {
-        if(isEnabled() == b) {
-            return;
+    publid void sftEnbblfd(boolfbn b) {
+        if(isEnbblfd() == b) {
+            rfturn;
         }
 
         if (b) {
-            stateMask |= ENABLED;
-        } else {
-            stateMask &= ~ENABLED;
-            // unarm and unpress, just in case
-            stateMask &= ~ARMED;
-            stateMask &= ~PRESSED;
+            stbtfMbsk |= ENABLED;
+        } flsf {
+            stbtfMbsk &= ~ENABLED;
+            // unbrm bnd unprfss, just in dbsf
+            stbtfMbsk &= ~ARMED;
+            stbtfMbsk &= ~PRESSED;
         }
 
 
-        fireStateChanged();
+        firfStbtfCibngfd();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setSelected(boolean b) {
-        if (this.isSelected() == b) {
-            return;
+    publid void sftSflfdtfd(boolfbn b) {
+        if (tiis.isSflfdtfd() == b) {
+            rfturn;
         }
 
         if (b) {
-            stateMask |= SELECTED;
-        } else {
-            stateMask &= ~SELECTED;
+            stbtfMbsk |= SELECTED;
+        } flsf {
+            stbtfMbsk &= ~SELECTED;
         }
 
-        fireItemStateChanged(
-                new ItemEvent(this,
-                              ItemEvent.ITEM_STATE_CHANGED,
-                              this,
-                              b ?  ItemEvent.SELECTED : ItemEvent.DESELECTED));
+        firfItfmStbtfCibngfd(
+                nfw ItfmEvfnt(tiis,
+                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                              tiis,
+                              b ?  ItfmEvfnt.SELECTED : ItfmEvfnt.DESELECTED));
 
-        fireStateChanged();
+        firfStbtfCibngfd();
 
     }
 
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setPressed(boolean b) {
-        if((isPressed() == b) || !isEnabled()) {
-            return;
+    publid void sftPrfssfd(boolfbn b) {
+        if((isPrfssfd() == b) || !isEnbblfd()) {
+            rfturn;
         }
 
         if (b) {
-            stateMask |= PRESSED;
-        } else {
-            stateMask &= ~PRESSED;
+            stbtfMbsk |= PRESSED;
+        } flsf {
+            stbtfMbsk &= ~PRESSED;
         }
 
-        if(!isPressed() && isArmed()) {
-            int modifiers = 0;
-            AWTEvent currentEvent = EventQueue.getCurrentEvent();
-            if (currentEvent instanceof InputEvent) {
-                modifiers = ((InputEvent)currentEvent).getModifiers();
-            } else if (currentEvent instanceof ActionEvent) {
-                modifiers = ((ActionEvent)currentEvent).getModifiers();
+        if(!isPrfssfd() && isArmfd()) {
+            int modififrs = 0;
+            AWTEvfnt durrfntEvfnt = EvfntQufuf.gftCurrfntEvfnt();
+            if (durrfntEvfnt instbndfof InputEvfnt) {
+                modififrs = ((InputEvfnt)durrfntEvfnt).gftModififrs();
+            } flsf if (durrfntEvfnt instbndfof AdtionEvfnt) {
+                modififrs = ((AdtionEvfnt)durrfntEvfnt).gftModififrs();
             }
-            fireActionPerformed(
-                new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                                getActionCommand(),
-                                EventQueue.getMostRecentEventTime(),
-                                modifiers));
+            firfAdtionPfrformfd(
+                nfw AdtionEvfnt(tiis, AdtionEvfnt.ACTION_PERFORMED,
+                                gftAdtionCommbnd(),
+                                EvfntQufuf.gftMostRfdfntEvfntTimf(),
+                                modififrs));
         }
 
-        fireStateChanged();
+        firfStbtfCibngfd();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setRollover(boolean b) {
-        if((isRollover() == b) || !isEnabled()) {
-            return;
+    publid void sftRollovfr(boolfbn b) {
+        if((isRollovfr() == b) || !isEnbblfd()) {
+            rfturn;
         }
 
         if (b) {
-            stateMask |= ROLLOVER;
-        } else {
-            stateMask &= ~ROLLOVER;
+            stbtfMbsk |= ROLLOVER;
+        } flsf {
+            stbtfMbsk &= ~ROLLOVER;
         }
 
-        fireStateChanged();
+        firfStbtfCibngfd();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setMnemonic(int key) {
-        mnemonic = key;
-        fireStateChanged();
+    publid void sftMnfmonid(int kfy) {
+        mnfmonid = kfy;
+        firfStbtfCibngfd();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public int getMnemonic() {
-        return mnemonic;
+    publid int gftMnfmonid() {
+        rfturn mnfmonid;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.bdd(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the change listeners
-     * registered on this <code>DefaultButtonModel</code>.
+     * Rfturns bn brrby of bll tif dibngf listfnfrs
+     * rfgistfrfd on tiis <dodf>DffbultButtonModfl</dodf>.
      *
-     * @return all of this model's <code>ChangeListener</code>s
-     *         or an empty
-     *         array if no change listeners are currently registered
+     * @rfturn bll of tiis modfl's <dodf>CibngfListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no dibngf listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see #addChangeListener
-     * @see #removeChangeListener
+     * @sff #bddCibngfListfnfr
+     * @sff #rfmovfCibngfListfnfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is created lazily.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is drfbtfd lbzily.
      *
-     * @see EventListenerList
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ChangeListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
-            }
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void addActionListener(ActionListener l) {
-        listenerList.add(ActionListener.class, l);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void removeActionListener(ActionListener l) {
-        listenerList.remove(ActionListener.class, l);
-    }
-
-    /**
-     * Returns an array of all the action listeners
-     * registered on this <code>DefaultButtonModel</code>.
-     *
-     * @return all of this model's <code>ActionListener</code>s
-     *         or an empty
-     *         array if no action listeners are currently registered
-     *
-     * @see #addActionListener
-     * @see #removeActionListener
-     *
-     * @since 1.4
-     */
-    public ActionListener[] getActionListeners() {
-        return listenerList.getListeners(ActionListener.class);
-    }
-
-    /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
-     *
-     * @param e the <code>ActionEvent</code> to deliver to listeners
-     * @see EventListenerList
-     */
-    protected void fireActionPerformed(ActionEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ActionListener.class) {
-                // Lazily create the event:
-                // if (changeEvent == null)
-                // changeEvent = new ChangeEvent(this);
-                ((ActionListener)listeners[i+1]).actionPerformed(e);
+    protfdtfd void firfStbtfCibngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==CibngfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (dibngfEvfnt == null)
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void addItemListener(ItemListener l) {
-        listenerList.add(ItemListener.class, l);
+    publid void bddAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.bdd(AdtionListfnfr.dlbss, l);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void removeItemListener(ItemListener l) {
-        listenerList.remove(ItemListener.class, l);
+    publid void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.rfmovf(AdtionListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the item listeners
-     * registered on this <code>DefaultButtonModel</code>.
+     * Rfturns bn brrby of bll tif bdtion listfnfrs
+     * rfgistfrfd on tiis <dodf>DffbultButtonModfl</dodf>.
      *
-     * @return all of this model's <code>ItemListener</code>s
-     *         or an empty
-     *         array if no item listeners are currently registered
+     * @rfturn bll of tiis modfl's <dodf>AdtionListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no bdtion listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see #addItemListener
-     * @see #removeItemListener
+     * @sff #bddAdtionListfnfr
+     * @sff #rfmovfAdtionListfnfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public ItemListener[] getItemListeners() {
-        return listenerList.getListeners(ItemListener.class);
+    publid AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AdtionListfnfr.dlbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param e the <code>ItemEvent</code> to deliver to listeners
-     * @see EventListenerList
+     * @pbrbm f tif <dodf>AdtionEvfnt</dodf> to dflivfr to listfnfrs
+     * @sff EvfntListfnfrList
      */
-    protected void fireItemStateChanged(ItemEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ItemListener.class) {
-                // Lazily create the event:
-                // if (changeEvent == null)
-                // changeEvent = new ChangeEvent(this);
-                ((ItemListener)listeners[i+1]).itemStateChanged(e);
+    protfdtfd void firfAdtionPfrformfd(AdtionEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AdtionListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                // if (dibngfEvfnt == null)
+                // dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((AdtionListfnfr)listfnfrs[i+1]).bdtionPfrformfd(f);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered as
-     * <code><em>Foo</em>Listener</code>s
-     * upon this model.
-     * <code><em>Foo</em>Listener</code>s
-     * are registered using the <code>add<em>Foo</em>Listener</code> method.
+     * {@inifritDod}
+     */
+    publid void bddItfmListfnfr(ItfmListfnfr l) {
+        listfnfrList.bdd(ItfmListfnfr.dlbss, l);
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    publid void rfmovfItfmListfnfr(ItfmListfnfr l) {
+        listfnfrList.rfmovf(ItfmListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif itfm listfnfrs
+     * rfgistfrfd on tiis <dodf>DffbultButtonModfl</dodf>.
+     *
+     * @rfturn bll of tiis modfl's <dodf>ItfmListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no itfm listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddItfmListfnfr
+     * @sff #rfmovfItfmListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid ItfmListfnfr[] gftItfmListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ItfmListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
+     *
+     * @pbrbm f tif <dodf>ItfmEvfnt</dodf> to dflivfr to listfnfrs
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfItfmStbtfCibngfd(ItfmEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==ItfmListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                // if (dibngfEvfnt == null)
+                // dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((ItfmListfnfr)listfnfrs[i+1]).itfmStbtfCibngfd(f);
+            }
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd bs
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * brf rfgistfrfd using tif <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a <code>DefaultButtonModel</code>
-     * instance <code>m</code>
-     * for its action listeners
-     * with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b <dodf>DffbultButtonModfl</dodf>
+     * instbndf <dodf>m</dodf>
+     * for its bdtion listfnfrs
+     * witi tif following dodf:
      *
-     * <pre>ActionListener[] als = (ActionListener[])(m.getListeners(ActionListener.class));</pre>
+     * <prf>AdtionListfnfr[] bls = (AdtionListfnfr[])(m.gftListfnfrs(AdtionListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist,
-     * this method returns an empty array.
+     * If no sudi listfnfrs fxist,
+     * tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param <T> the type of requested listeners
-     * @param listenerType  the type of listeners requested;
-     *          this parameter should specify an interface
-     *          that descends from <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s
-     *          on this model,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code> doesn't
-     *          specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm <T> tif typf of rfqufstfd listfnfrs
+     * @pbrbm listfnfrTypf  tif typf of listfnfrs rfqufstfd;
+     *          tiis pbrbmftfr siould spfdify bn intfrfbdf
+     *          tibt dfsdfnds from <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     *          on tiis modfl,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf> dofsn't
+     *          spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getActionListeners
-     * @see #getChangeListeners
-     * @see #getItemListeners
+     * @sff #gftAdtionListfnfrs
+     * @sff #gftCibngfListfnfrs
+     * @sff #gftItfmListfnfrs
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        return listenerList.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
     }
 
-    /** Overridden to return <code>null</code>. */
-    public Object[] getSelectedObjects() {
-        return null;
+    /** Ovfrriddfn to rfturn <dodf>null</dodf>. */
+    publid Objfdt[] gftSflfdtfdObjfdts() {
+        rfturn null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void setGroup(ButtonGroup group) {
-        this.group = group;
+    publid void sftGroup(ButtonGroup group) {
+        tiis.group = group;
     }
 
     /**
-     * Returns the group that the button belongs to.
-     * Normally used with radio buttons, which are mutually
-     * exclusive within their group.
+     * Rfturns tif group tibt tif button bflongs to.
+     * Normblly usfd witi rbdio buttons, wiidi brf mutublly
+     * fxdlusivf witiin tifir group.
      *
-     * @return the <code>ButtonGroup</code> that the button belongs to
+     * @rfturn tif <dodf>ButtonGroup</dodf> tibt tif button bflongs to
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public ButtonGroup getGroup() {
-        return group;
+    publid ButtonGroup gftGroup() {
+        rfturn group;
     }
 
-    boolean isMenuItem() {
-        return menuItem;
+    boolfbn isMfnuItfm() {
+        rfturn mfnuItfm;
     }
 
-    void setMenuItem(boolean menuItem) {
-        this.menuItem = menuItem;
+    void sftMfnuItfm(boolfbn mfnuItfm) {
+        tiis.mfnuItfm = mfnuItfm;
     }
 }

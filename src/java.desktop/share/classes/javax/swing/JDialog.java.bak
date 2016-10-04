@@ -1,1303 +1,1303 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.bddfssibility.*;
 
 /**
- * The main class for creating a dialog window. You can use this class
- * to create a custom dialog, or invoke the many class methods
- * in {@link JOptionPane} to create a variety of standard dialogs.
- * For information about creating dialogs, see
- * <em>The Java Tutorial</em> section
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html">How
- * to Make Dialogs</a>.
+ * Tif mbin dlbss for drfbting b diblog window. You dbn usf tiis dlbss
+ * to drfbtf b dustom diblog, or invokf tif mbny dlbss mftiods
+ * in {@link JOptionPbnf} to drfbtf b vbrifty of stbndbrd diblogs.
+ * For informbtion bbout drfbting diblogs, sff
+ * <fm>Tif Jbvb Tutoribl</fm> sfdtion
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/diblog.itml">How
+ * to Mbkf Diblogs</b>.
  *
  * <p>
  *
- * The {@code JDialog} component contains a {@code JRootPane}
- * as its only child.
- * The {@code contentPane} should be the parent of any children of the
- * {@code JDialog}.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to a dialog as follows:
- * <pre>
- *       dialog.add(child);
- * </pre>
- * And the child will be added to the contentPane.
- * The {@code contentPane} is always non-{@code null}.
- * Attempting to set it to {@code null} generates an exception.
- * The default {@code contentPane} has a {@code BorderLayout}
- * manager set on it.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the {@code LayoutManager}
- * of a {@code JDialog}.
+ * Tif {@dodf JDiblog} domponfnt dontbins b {@dodf JRootPbnf}
+ * bs its only diild.
+ * Tif {@dodf dontfntPbnf} siould bf tif pbrfnt of bny diildrfn of tif
+ * {@dodf JDiblog}.
+ * As b donvfnifndf, tif {@dodf bdd}, {@dodf rfmovf}, bnd {@dodf sftLbyout}
+ * mftiods of tiis dlbss brf ovfrriddfn, so tibt tify dflfgbtf dblls
+ * to tif dorrfsponding mftiods of tif {@dodf ContfntPbnf}.
+ * For fxbmplf, you dbn bdd b diild domponfnt to b diblog bs follows:
+ * <prf>
+ *       diblog.bdd(diild);
+ * </prf>
+ * And tif diild will bf bddfd to tif dontfntPbnf.
+ * Tif {@dodf dontfntPbnf} is blwbys non-{@dodf null}.
+ * Attfmpting to sft it to {@dodf null} gfnfrbtfs bn fxdfption.
+ * Tif dffbult {@dodf dontfntPbnf} ibs b {@dodf BordfrLbyout}
+ * mbnbgfr sft on it.
+ * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr}
+ * for dftbils on bdding, rfmoving bnd sftting tif {@dodf LbyoutMbnbgfr}
+ * of b {@dodf JDiblog}.
  * <p>
- * Please see the {@code JRootPane} documentation for a complete
- * description of the {@code contentPane}, {@code glassPane},
- * and {@code layeredPane} components.
+ * Plfbsf sff tif {@dodf JRootPbnf} dodumfntbtion for b domplftf
+ * dfsdription of tif {@dodf dontfntPbnf}, {@dodf glbssPbnf},
+ * bnd {@dodf lbyfrfdPbnf} domponfnts.
  * <p>
- * In a multi-screen environment, you can create a {@code JDialog}
- * on a different screen device than its owner.  See {@link java.awt.Frame} for
- * more information.
+ * In b multi-sdrffn fnvironmfnt, you dbn drfbtf b {@dodf JDiblog}
+ * on b difffrfnt sdrffn dfvidf tibn its ownfr.  Sff {@link jbvb.bwt.Frbmf} for
+ * morf informbtion.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the {@code java.beans} package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif {@dodf jbvb.bfbns} pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see JOptionPane
- * @see JRootPane
- * @see javax.swing.RootPaneContainer
+ * @sff JOptionPbnf
+ * @sff JRootPbnf
+ * @sff jbvbx.swing.RootPbnfContbinfr
  *
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *    description: A toplevel window for creating dialog boxes.
+ * @bfbninfo
+ *      bttributf: isContbinfr truf
+ *      bttributf: dontbinfrDflfgbtf gftContfntPbnf
+ *    dfsdription: A toplfvfl window for drfbting diblog boxfs.
  *
- * @author David Kloba
- * @author James Gosling
- * @author Scott Violet
- * @since 1.2
+ * @butior Dbvid Klobb
+ * @butior Jbmfs Gosling
+ * @butior Sdott Violft
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JDialog extends Dialog implements WindowConstants,
-                                               Accessible,
-                                               RootPaneContainer,
-                               TransferHandler.HasGetTransferHandler
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JDiblog fxtfnds Diblog implfmfnts WindowConstbnts,
+                                               Addfssiblf,
+                                               RootPbnfContbinfr,
+                               TrbnsffrHbndlfr.HbsGftTrbnsffrHbndlfr
 {
     /**
-     * Key into the AppContext, used to check if should provide decorations
-     * by default.
+     * Kfy into tif AppContfxt, usfd to difdk if siould providf dfdorbtions
+     * by dffbult.
      */
-    private static final Object defaultLookAndFeelDecoratedKey =
-            new StringBuffer("JDialog.defaultLookAndFeelDecorated");
+    privbtf stbtid finbl Objfdt dffbultLookAndFfflDfdorbtfdKfy =
+            nfw StringBufffr("JDiblog.dffbultLookAndFfflDfdorbtfd");
 
-    private int defaultCloseOperation = HIDE_ON_CLOSE;
+    privbtf int dffbultClosfOpfrbtion = HIDE_ON_CLOSE;
 
     /**
-     * @see #getRootPane
-     * @see #setRootPane
+     * @sff #gftRootPbnf
+     * @sff #sftRootPbnf
      */
-    protected JRootPane rootPane;
+    protfdtfd JRootPbnf rootPbnf;
 
     /**
-     * If true then calls to {@code add} and {@code setLayout}
-     * will be forwarded to the {@code contentPane}. This is initially
-     * false, but is set to true when the {@code JDialog} is constructed.
+     * If truf tifn dblls to {@dodf bdd} bnd {@dodf sftLbyout}
+     * will bf forwbrdfd to tif {@dodf dontfntPbnf}. Tiis is initiblly
+     * fblsf, but is sft to truf wifn tif {@dodf JDiblog} is donstrudtfd.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #isRootPbnfCifdkingEnbblfd
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protfdtfd boolfbn rootPbnfCifdkingEnbblfd = fblsf;
 
     /**
-     * The {@code TransferHandler} for this dialog.
+     * Tif {@dodf TrbnsffrHbndlfr} for tiis diblog.
      */
-    private TransferHandler transferHandler;
+    privbtf TrbnsffrHbndlfr trbnsffrHbndlfr;
 
     /**
-     * Creates a modeless dialog without a title and without a specified
-     * {@code Frame} owner.  A shared, hidden frame will be
-     * set as the owner of the dialog.
+     * Crfbtfs b modflfss diblog witiout b titlf bnd witiout b spfdififd
+     * {@dodf Frbmf} ownfr.  A sibrfd, iiddfn frbmf will bf
+     * sft bs tif ownfr of tif diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
-     * {@code null}.
+     * NOTE: Tiis donstrudtor dofs not bllow you to drfbtf bn unownfd
+     * {@dodf JDiblog}. To drfbtf bn unownfd {@dodf JDiblog}
+     * you must usf fitifr tif {@dodf JDiblog(Window)} or
+     * {@dodf JDiblog(Diblog)} donstrudtor witi bn brgumfnt of
+     * {@dodf null}.
      *
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog() {
-        this((Frame)null, false);
+    publid JDiblog() {
+        tiis((Frbmf)null, fblsf);
     }
 
     /**
-     * Creates a modeless dialog with the specified {@code Frame}
-     * as its owner and an empty title. If {@code owner}
-     * is {@code null}, a shared, hidden frame will be set as the
-     * owner of the dialog.
+     * Crfbtfs b modflfss diblog witi tif spfdififd {@dodf Frbmf}
+     * bs its ownfr bnd bn fmpty titlf. If {@dodf ownfr}
+     * is {@dodf null}, b sibrfd, iiddfn frbmf will bf sft bs tif
+     * ownfr of tif diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
-     * {@code null}.
+     * NOTE: Tiis donstrudtor dofs not bllow you to drfbtf bn unownfd
+     * {@dodf JDiblog}. To drfbtf bn unownfd {@dodf JDiblog}
+     * you must usf fitifr tif {@dodf JDiblog(Window)} or
+     * {@dodf JDiblog(Diblog)} donstrudtor witi bn brgumfnt of
+     * {@dodf null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif {@dodf Frbmf} from wiidi tif diblog is displbyfd
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog(Frame owner) {
-        this(owner, false);
+    publid JDiblog(Frbmf ownfr) {
+        tiis(ownfr, fblsf);
     }
 
     /**
-     * Creates a dialog with an empty title and the specified modality and
-     * {@code Frame} as its owner. If {@code owner} is {@code null},
-     * a shared, hidden frame will be set as the owner of the dialog.
+     * Crfbtfs b diblog witi bn fmpty titlf bnd tif spfdififd modblity bnd
+     * {@dodf Frbmf} bs its ownfr. If {@dodf ownfr} is {@dodf null},
+     * b sibrfd, iiddfn frbmf will bf sft bs tif ownfr of tif diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
-     * {@code null}.
+     * NOTE: Tiis donstrudtor dofs not bllow you to drfbtf bn unownfd
+     * {@dodf JDiblog}. To drfbtf bn unownfd {@dodf JDiblog}
+     * you must usf fitifr tif {@dodf JDiblog(Window)} or
+     * {@dodf JDiblog(Diblog)} donstrudtor witi bn brgumfnt of
+     * {@dodf null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless.
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif {@dodf Frbmf} from wiidi tif diblog is displbyfd
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If {@dodf truf}, tif modblity typf propfrty is sft to
+     *     {@dodf DEFAULT_MODALITY_TYPE}, otifrwisf tif diblog is modflfss.
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog(Frame owner, boolean modal) {
-        this(owner, "", modal);
+    publid JDiblog(Frbmf ownfr, boolfbn modbl) {
+        tiis(ownfr, "", modbl);
     }
 
     /**
-     * Creates a modeless dialog with the specified title and
-     * with the specified owner frame.  If {@code owner}
-     * is {@code null}, a shared, hidden frame will be set as the
-     * owner of the dialog.
+     * Crfbtfs b modflfss diblog witi tif spfdififd titlf bnd
+     * witi tif spfdififd ownfr frbmf.  If {@dodf ownfr}
+     * is {@dodf null}, b sibrfd, iiddfn frbmf will bf sft bs tif
+     * ownfr of tif diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
-     * {@code null}.
+     * NOTE: Tiis donstrudtor dofs not bllow you to drfbtf bn unownfd
+     * {@dodf JDiblog}. To drfbtf bn unownfd {@dodf JDiblog}
+     * you must usf fitifr tif {@dodf JDiblog(Window)} or
+     * {@dodf JDiblog(Diblog)} donstrudtor witi bn brgumfnt of
+     * {@dodf null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @param title  the {@code String} to display in the dialog's
-     *                  title bar
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif {@dodf Frbmf} from wiidi tif diblog is displbyfd
+     * @pbrbm titlf  tif {@dodf String} to displby in tif diblog's
+     *                  titlf bbr
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog(Frame owner, String title) {
-        this(owner, title, false);
+    publid JDiblog(Frbmf ownfr, String titlf) {
+        tiis(ownfr, titlf, fblsf);
     }
 
     /**
-     * Creates a dialog with the specified title, owner {@code Frame}
-     * and modality. If {@code owner} is {@code null},
-     * a shared, hidden frame will be set as the owner of this dialog.
+     * Crfbtfs b diblog witi tif spfdififd titlf, ownfr {@dodf Frbmf}
+     * bnd modblity. If {@dodf ownfr} is {@dodf null},
+     * b sibrfd, iiddfn frbmf will bf sft bs tif ownfr of tiis diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      * <p>
-     * NOTE: Any popup components ({@code JComboBox},
-     * {@code JPopupMenu}, {@code JMenuBar})
-     * created within a modal dialog will be forced to be lightweight.
+     * NOTE: Any popup domponfnts ({@dodf JComboBox},
+     * {@dodf JPopupMfnu}, {@dodf JMfnuBbr})
+     * drfbtfd witiin b modbl diblog will bf fordfd to bf ligitwfigit.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
-     * {@code null}.
+     * NOTE: Tiis donstrudtor dofs not bllow you to drfbtf bn unownfd
+     * {@dodf JDiblog}. To drfbtf bn unownfd {@dodf JDiblog}
+     * you must usf fitifr tif {@dodf JDiblog(Window)} or
+     * {@dodf JDiblog(Diblog)} donstrudtor witi bn brgumfnt of
+     * {@dodf null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @param title  the {@code String} to display in the dialog's
-     *     title bar
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE} otherwise the dialog is modeless
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
+     * @pbrbm ownfr tif {@dodf Frbmf} from wiidi tif diblog is displbyfd
+     * @pbrbm titlf  tif {@dodf String} to displby in tif diblog's
+     *     titlf bbr
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If {@dodf truf}, tif modblity typf propfrty is sft to
+     *     {@dodf DEFAULT_MODALITY_TYPE} otifrwisf tif diblog is modflfss
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog(Frame owner, String title, boolean modal) {
-        super(owner == null? SwingUtilities.getSharedOwnerFrame() : owner,
-              title, modal);
-        if (owner == null) {
-            WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+    publid JDiblog(Frbmf ownfr, String titlf, boolfbn modbl) {
+        supfr(ownfr == null? SwingUtilitifs.gftSibrfdOwnfrFrbmf() : ownfr,
+              titlf, modbl);
+        if (ownfr == null) {
+            WindowListfnfr ownfrSiutdownListfnfr =
+                    SwingUtilitifs.gftSibrfdOwnfrFrbmfSiutdownListfnfr();
+            bddWindowListfnfr(ownfrSiutdownListfnfr);
         }
-        dialogInit();
+        diblogInit();
     }
 
     /**
-     * Creates a dialog with the specified title,
-     * owner {@code Frame}, modality and {@code GraphicsConfiguration}.
-     * If {@code owner} is {@code null},
-     * a shared, hidden frame will be set as the owner of this dialog.
+     * Crfbtfs b diblog witi tif spfdififd titlf,
+     * ownfr {@dodf Frbmf}, modblity bnd {@dodf GrbpiidsConfigurbtion}.
+     * If {@dodf ownfr} is {@dodf null},
+     * b sibrfd, iiddfn frbmf will bf sft bs tif ownfr of tiis diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      * <p>
-     * NOTE: Any popup components ({@code JComboBox},
-     * {@code JPopupMenu}, {@code JMenuBar})
-     * created within a modal dialog will be forced to be lightweight.
+     * NOTE: Any popup domponfnts ({@dodf JComboBox},
+     * {@dodf JPopupMfnu}, {@dodf JMfnuBbr})
+     * drfbtfd witiin b modbl diblog will bf fordfd to bf ligitwfigit.
      * <p>
-     * NOTE: This constructor does not allow you to create an unowned
-     * {@code JDialog}. To create an unowned {@code JDialog}
-     * you must use either the {@code JDialog(Window)} or
-     * {@code JDialog(Dialog)} constructor with an argument of
-     * {@code null}.
+     * NOTE: Tiis donstrudtor dofs not bllow you to drfbtf bn unownfd
+     * {@dodf JDiblog}. To drfbtf bn unownfd {@dodf JDiblog}
+     * you must usf fitifr tif {@dodf JDiblog(Window)} or
+     * {@dodf JDiblog(Diblog)} donstrudtor witi bn brgumfnt of
+     * {@dodf null}.
      *
-     * @param owner the {@code Frame} from which the dialog is displayed
-     * @param title  the {@code String} to display in the dialog's
-     *     title bar
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless.
-     * @param gc the {@code GraphicsConfiguration} of the target screen device;
-     *     if {@code null}, the default system {@code GraphicsConfiguration}
-     *     is assumed
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
-     * @since 1.4
+     * @pbrbm ownfr tif {@dodf Frbmf} from wiidi tif diblog is displbyfd
+     * @pbrbm titlf  tif {@dodf String} to displby in tif diblog's
+     *     titlf bbr
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If {@dodf truf}, tif modblity typf propfrty is sft to
+     *     {@dodf DEFAULT_MODALITY_TYPE}, otifrwisf tif diblog is modflfss.
+     * @pbrbm gd tif {@dodf GrbpiidsConfigurbtion} of tif tbrgft sdrffn dfvidf;
+     *     if {@dodf null}, tif dffbult systfm {@dodf GrbpiidsConfigurbtion}
+     *     is bssumfd
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
+     * @sindf 1.4
      */
-    public JDialog(Frame owner, String title, boolean modal,
-                   GraphicsConfiguration gc) {
-        super(owner == null? SwingUtilities.getSharedOwnerFrame() : owner,
-              title, modal, gc);
-        if (owner == null) {
-            WindowListener ownerShutdownListener =
-                    SwingUtilities.getSharedOwnerFrameShutdownListener();
-            addWindowListener(ownerShutdownListener);
+    publid JDiblog(Frbmf ownfr, String titlf, boolfbn modbl,
+                   GrbpiidsConfigurbtion gd) {
+        supfr(ownfr == null? SwingUtilitifs.gftSibrfdOwnfrFrbmf() : ownfr,
+              titlf, modbl, gd);
+        if (ownfr == null) {
+            WindowListfnfr ownfrSiutdownListfnfr =
+                    SwingUtilitifs.gftSibrfdOwnfrFrbmfSiutdownListfnfr();
+            bddWindowListfnfr(ownfrSiutdownListfnfr);
         }
-        dialogInit();
+        diblogInit();
     }
 
     /**
-     * Creates a modeless dialog with the specified {@code Dialog}
-     * as its owner and an empty title.
+     * Crfbtfs b modflfss diblog witi tif spfdififd {@dodf Diblog}
+     * bs its ownfr bnd bn fmpty titlf.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @throws HeadlessException {@code if GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif ownfr {@dodf Diblog} from wiidi tif diblog is displbyfd
+     *     or {@dodf null} if tiis diblog ibs no ownfr
+     * @tirows HfbdlfssExdfption {@dodf if GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog(Dialog owner) {
-        this(owner, false);
+    publid JDiblog(Diblog ownfr) {
+        tiis(ownfr, fblsf);
     }
 
     /**
-     * Creates a dialog with an empty title and the specified modality and
-     * {@code Dialog} as its owner.
+     * Crfbtfs b diblog witi bn fmpty titlf bnd tif spfdififd modblity bnd
+     * {@dodf Diblog} bs its ownfr.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless.
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif ownfr {@dodf Diblog} from wiidi tif diblog is displbyfd
+     *     or {@dodf null} if tiis diblog ibs no ownfr
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If {@dodf truf}, tif modblity typf propfrty is sft to
+     *     {@dodf DEFAULT_MODALITY_TYPE}, otifrwisf tif diblog is modflfss.
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog(Dialog owner, boolean modal) {
-        this(owner, "", modal);
+    publid JDiblog(Diblog ownfr, boolfbn modbl) {
+        tiis(ownfr, "", modbl);
     }
 
     /**
-     * Creates a modeless dialog with the specified title and
-     * with the specified owner dialog.
+     * Crfbtfs b modflfss diblog witi tif spfdififd titlf bnd
+     * witi tif spfdififd ownfr diblog.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @param title  the {@code String} to display in the dialog's
-     *                  title bar
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif ownfr {@dodf Diblog} from wiidi tif diblog is displbyfd
+     *     or {@dodf null} if tiis diblog ibs no ownfr
+     * @pbrbm titlf  tif {@dodf String} to displby in tif diblog's
+     *                  titlf bbr
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog(Dialog owner, String title) {
-        this(owner, title, false);
+    publid JDiblog(Diblog ownfr, String titlf) {
+        tiis(ownfr, titlf, fblsf);
     }
 
     /**
-     * Creates a dialog with the specified title, modality
-     * and the specified owner {@code Dialog}.
+     * Crfbtfs b diblog witi tif spfdififd titlf, modblity
+     * bnd tif spfdififd ownfr {@dodf Diblog}.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @param title  the {@code String} to display in the dialog's
-     *     title bar
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @pbrbm ownfr tif ownfr {@dodf Diblog} from wiidi tif diblog is displbyfd
+     *     or {@dodf null} if tiis diblog ibs no ownfr
+     * @pbrbm titlf  tif {@dodf String} to displby in tif diblog's
+     *     titlf bbr
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If {@dodf truf}, tif modblity typf propfrty is sft to
+     *     {@dodf DEFAULT_MODALITY_TYPE}, otifrwisf tif diblog is modflfss
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      */
-    public JDialog(Dialog owner, String title, boolean modal) {
-        super(owner, title, modal);
-        dialogInit();
+    publid JDiblog(Diblog ownfr, String titlf, boolfbn modbl) {
+        supfr(ownfr, titlf, modbl);
+        diblogInit();
     }
 
     /**
-     * Creates a dialog with the specified title, owner {@code Dialog},
-     * modality and {@code GraphicsConfiguration}.
+     * Crfbtfs b diblog witi tif spfdififd titlf, ownfr {@dodf Diblog},
+     * modblity bnd {@dodf GrbpiidsConfigurbtion}.
      *
      * <p>
-     * NOTE: Any popup components ({@code JComboBox},
-     * {@code JPopupMenu}, {@code JMenuBar})
-     * created within a modal dialog will be forced to be lightweight.
+     * NOTE: Any popup domponfnts ({@dodf JComboBox},
+     * {@dodf JPopupMfnu}, {@dodf JMfnuBbr})
+     * drfbtfd witiin b modbl diblog will bf fordfd to bf ligitwfigit.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the owner {@code Dialog} from which the dialog is displayed
-     *     or {@code null} if this dialog has no owner
-     * @param title  the {@code String} to display in the dialog's
-     *     title bar
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If {@code true}, the modality type property is set to
-     *     {@code DEFAULT_MODALITY_TYPE}, otherwise the dialog is modeless
-     * @param gc the {@code GraphicsConfiguration} of the target screen device;
-     *     if {@code null}, the default system {@code GraphicsConfiguration}
-     *     is assumed
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
-     *     returns {@code true}.
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
-     * @since 1.4
+     * @pbrbm ownfr tif ownfr {@dodf Diblog} from wiidi tif diblog is displbyfd
+     *     or {@dodf null} if tiis diblog ibs no ownfr
+     * @pbrbm titlf  tif {@dodf String} to displby in tif diblog's
+     *     titlf bbr
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If {@dodf truf}, tif modblity typf propfrty is sft to
+     *     {@dodf DEFAULT_MODALITY_TYPE}, otifrwisf tif diblog is modflfss
+     * @pbrbm gd tif {@dodf GrbpiidsConfigurbtion} of tif tbrgft sdrffn dfvidf;
+     *     if {@dodf null}, tif dffbult systfm {@dodf GrbpiidsConfigurbtion}
+     *     is bssumfd
+     * @tirows HfbdlfssExdfption if {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()}
+     *     rfturns {@dodf truf}.
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
+     * @sindf 1.4
      */
-    public JDialog(Dialog owner, String title, boolean modal,
-                   GraphicsConfiguration gc) {
-        super(owner, title, modal, gc);
-        dialogInit();
+    publid JDiblog(Diblog ownfr, String titlf, boolfbn modbl,
+                   GrbpiidsConfigurbtion gd) {
+        supfr(ownfr, titlf, modbl, gd);
+        diblogInit();
     }
 
     /**
-     * Creates a modeless dialog with the specified {@code Window}
-     * as its owner and an empty title.
+     * Crfbtfs b modflfss diblog witi tif spfdififd {@dodf Window}
+     * bs its ownfr bnd bn fmpty titlf.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
+     * @pbrbm ownfr tif {@dodf Window} from wiidi tif diblog is displbyfd or
+     *     {@dodf null} if tiis diblog ibs no ownfr
      *
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr} is not bn instbndf of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbmf Frbmf}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr}'s {@dodf GrbpiidsConfigurbtion} is not from b sdrffn dfvidf
+     * @tirows HfbdlfssExdfption
+     *     wifn {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()} rfturns {@dodf truf}
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public JDialog(Window owner) {
-        this(owner, Dialog.ModalityType.MODELESS);
+    publid JDiblog(Window ownfr) {
+        tiis(ownfr, Diblog.ModblityTypf.MODELESS);
     }
 
     /**
-     * Creates a dialog with an empty title and the specified modality and
-     * {@code Window} as its owner.
+     * Crfbtfs b diblog witi bn fmpty titlf bnd tif spfdififd modblity bnd
+     * {@dodf Window} bs its ownfr.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
-     * @param modalityType specifies whether dialog blocks input to other
-     *     windows when shown. {@code null} value and unsupported modality
-     *     types are equivalent to {@code MODELESS}
+     * @pbrbm ownfr tif {@dodf Window} from wiidi tif diblog is displbyfd or
+     *     {@dodf null} if tiis diblog ibs no ownfr
+     * @pbrbm modblityTypf spfdififs wiftifr diblog blodks input to otifr
+     *     windows wifn siown. {@dodf null} vbluf bnd unsupportfd modblity
+     *     typfs brf fquivblfnt to {@dodf MODELESS}
      *
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException
-     *     if the calling thread does not have permission to create modal dialogs
-     *     with the given {@code modalityType}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr} is not bn instbndf of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbmf Frbmf}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr}'s {@dodf GrbpiidsConfigurbtion} is not from b sdrffn dfvidf
+     * @tirows HfbdlfssExdfption
+     *     wifn {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()} rfturns {@dodf truf}
+     * @tirows SfdurityExdfption
+     *     if tif dblling tirfbd dofs not ibvf pfrmission to drfbtf modbl diblogs
+     *     witi tif givfn {@dodf modblityTypf}
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public JDialog(Window owner, ModalityType modalityType) {
-        this(owner, "", modalityType);
+    publid JDiblog(Window ownfr, ModblityTypf modblityTypf) {
+        tiis(ownfr, "", modblityTypf);
     }
 
     /**
-     * Creates a modeless dialog with the specified title and owner
-     * {@code Window}.
+     * Crfbtfs b modflfss diblog witi tif spfdififd titlf bnd ownfr
+     * {@dodf Window}.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
-     * @param title the {@code String} to display in the dialog's
-     *     title bar or {@code null} if the dialog has no title
+     * @pbrbm ownfr tif {@dodf Window} from wiidi tif diblog is displbyfd or
+     *     {@dodf null} if tiis diblog ibs no ownfr
+     * @pbrbm titlf tif {@dodf String} to displby in tif diblog's
+     *     titlf bbr or {@dodf null} if tif diblog ibs no titlf
      *
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr} is not bn instbndf of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbmf Frbmf}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr}'s {@dodf GrbpiidsConfigurbtion} is not from b sdrffn dfvidf
+     * @tirows HfbdlfssExdfption
+     *     wifn {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()} rfturns {@dodf truf}
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public JDialog(Window owner, String title) {
-        this(owner, title, Dialog.ModalityType.MODELESS);
+    publid JDiblog(Window ownfr, String titlf) {
+        tiis(ownfr, titlf, Diblog.ModblityTypf.MODELESS);
     }
 
     /**
-     * Creates a dialog with the specified title, owner {@code Window} and
-     * modality.
+     * Crfbtfs b diblog witi tif spfdififd titlf, ownfr {@dodf Window} bnd
+     * modblity.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
-     * @param title the {@code String} to display in the dialog's
-     *     title bar or {@code null} if the dialog has no title
-     * @param modalityType specifies whether dialog blocks input to other
-     *     windows when shown. {@code null} value and unsupported modality
-     *     types are equivalent to {@code MODELESS}
+     * @pbrbm ownfr tif {@dodf Window} from wiidi tif diblog is displbyfd or
+     *     {@dodf null} if tiis diblog ibs no ownfr
+     * @pbrbm titlf tif {@dodf String} to displby in tif diblog's
+     *     titlf bbr or {@dodf null} if tif diblog ibs no titlf
+     * @pbrbm modblityTypf spfdififs wiftifr diblog blodks input to otifr
+     *     windows wifn siown. {@dodf null} vbluf bnd unsupportfd modblity
+     *     typfs brf fquivblfnt to {@dodf MODELESS}
      *
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException
-     *     if the calling thread does not have permission to create modal dialogs
-     *     with the given {@code modalityType}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr} is not bn instbndf of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbmf Frbmf}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr}'s {@dodf GrbpiidsConfigurbtion} is not from b sdrffn dfvidf
+     * @tirows HfbdlfssExdfption
+     *     wifn {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()} rfturns {@dodf truf}
+     * @tirows SfdurityExdfption
+     *     if tif dblling tirfbd dofs not ibvf pfrmission to drfbtf modbl diblogs
+     *     witi tif givfn {@dodf modblityTypf}
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public JDialog(Window owner, String title, Dialog.ModalityType modalityType) {
-        super(owner, title, modalityType);
-        dialogInit();
+    publid JDiblog(Window ownfr, String titlf, Diblog.ModblityTypf modblityTypf) {
+        supfr(ownfr, titlf, modblityTypf);
+        diblogInit();
     }
 
     /**
-     * Creates a dialog with the specified title, owner {@code Window},
-     * modality and {@code GraphicsConfiguration}.
+     * Crfbtfs b diblog witi tif spfdififd titlf, ownfr {@dodf Window},
+     * modblity bnd {@dodf GrbpiidsConfigurbtion}.
      * <p>
-     * NOTE: Any popup components ({@code JComboBox},
-     * {@code JPopupMenu}, {@code JMenuBar})
-     * created within a modal dialog will be forced to be lightweight.
+     * NOTE: Any popup domponfnts ({@dodf JComboBox},
+     * {@dodf JPopupMfnu}, {@dodf JMfnuBbr})
+     * drfbtfd witiin b modbl diblog will bf fordfd to bf ligitwfigit.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by {@code JComponent.getDefaultLocale}.
+     * Tiis donstrudtor sfts tif domponfnt's lodblf propfrty to tif vbluf
+     * rfturnfd by {@dodf JComponfnt.gftDffbultLodblf}.
      *
-     * @param owner the {@code Window} from which the dialog is displayed or
-     *     {@code null} if this dialog has no owner
-     * @param title the {@code String} to display in the dialog's
-     *     title bar or {@code null} if the dialog has no title
-     * @param modalityType specifies whether dialog blocks input to other
-     *     windows when shown. {@code null} value and unsupported modality
-     *     types are equivalent to {@code MODELESS}
-     * @param gc the {@code GraphicsConfiguration} of the target screen device;
-     *     if {@code null}, the default system {@code GraphicsConfiguration}
-     *     is assumed
-     * @throws IllegalArgumentException
-     *     if the {@code owner} is not an instance of {@link java.awt.Dialog Dialog}
-     *     or {@link java.awt.Frame Frame}
-     * @throws IllegalArgumentException
-     *     if the {@code owner}'s {@code GraphicsConfiguration} is not from a screen device
-     * @throws HeadlessException
-     *     when {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException
-     *     if the calling thread does not have permission to create modal dialogs
-     *     with the given {@code modalityType}
+     * @pbrbm ownfr tif {@dodf Window} from wiidi tif diblog is displbyfd or
+     *     {@dodf null} if tiis diblog ibs no ownfr
+     * @pbrbm titlf tif {@dodf String} to displby in tif diblog's
+     *     titlf bbr or {@dodf null} if tif diblog ibs no titlf
+     * @pbrbm modblityTypf spfdififs wiftifr diblog blodks input to otifr
+     *     windows wifn siown. {@dodf null} vbluf bnd unsupportfd modblity
+     *     typfs brf fquivblfnt to {@dodf MODELESS}
+     * @pbrbm gd tif {@dodf GrbpiidsConfigurbtion} of tif tbrgft sdrffn dfvidf;
+     *     if {@dodf null}, tif dffbult systfm {@dodf GrbpiidsConfigurbtion}
+     *     is bssumfd
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr} is not bn instbndf of {@link jbvb.bwt.Diblog Diblog}
+     *     or {@link jbvb.bwt.Frbmf Frbmf}
+     * @tirows IllfgblArgumfntExdfption
+     *     if tif {@dodf ownfr}'s {@dodf GrbpiidsConfigurbtion} is not from b sdrffn dfvidf
+     * @tirows HfbdlfssExdfption
+     *     wifn {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()} rfturns {@dodf truf}
+     * @tirows SfdurityExdfption
+     *     if tif dblling tirfbd dofs not ibvf pfrmission to drfbtf modbl diblogs
+     *     witi tif givfn {@dodf modblityTypf}
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff JComponfnt#gftDffbultLodblf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public JDialog(Window owner, String title, Dialog.ModalityType modalityType,
-                   GraphicsConfiguration gc) {
-        super(owner, title, modalityType, gc);
-        dialogInit();
+    publid JDiblog(Window ownfr, String titlf, Diblog.ModblityTypf modblityTypf,
+                   GrbpiidsConfigurbtion gd) {
+        supfr(ownfr, titlf, modblityTypf, gd);
+        diblogInit();
     }
 
     /**
-     * Called by the constructors to init the {@code JDialog} properly.
+     * Cbllfd by tif donstrudtors to init tif {@dodf JDiblog} propfrly.
      */
-    protected void dialogInit() {
-        enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.WINDOW_EVENT_MASK);
-        setLocale( JComponent.getDefaultLocale() );
-        setRootPane(createRootPane());
-        setBackground(UIManager.getColor("control"));
-        setRootPaneCheckingEnabled(true);
-        if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-            UIManager.getLookAndFeel().getSupportsWindowDecorations();
-            if (supportsWindowDecorations) {
-                setUndecorated(true);
-                getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
+    protfdtfd void diblogInit() {
+        fnbblfEvfnts(AWTEvfnt.KEY_EVENT_MASK | AWTEvfnt.WINDOW_EVENT_MASK);
+        sftLodblf( JComponfnt.gftDffbultLodblf() );
+        sftRootPbnf(drfbtfRootPbnf());
+        sftBbdkground(UIMbnbgfr.gftColor("dontrol"));
+        sftRootPbnfCifdkingEnbblfd(truf);
+        if (JDiblog.isDffbultLookAndFfflDfdorbtfd()) {
+            boolfbn supportsWindowDfdorbtions =
+            UIMbnbgfr.gftLookAndFffl().gftSupportsWindowDfdorbtions();
+            if (supportsWindowDfdorbtions) {
+                sftUndfdorbtfd(truf);
+                gftRootPbnf().sftWindowDfdorbtionStylf(JRootPbnf.PLAIN_DIALOG);
             }
         }
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
+        sun.bwt.SunToolkit.difdkAndSftPolidy(tiis);
     }
 
     /**
-     * Called by the constructor methods to create the default
-     * {@code rootPane}.
+     * Cbllfd by tif donstrudtor mftiods to drfbtf tif dffbult
+     * {@dodf rootPbnf}.
      *
-     * @return  a new {@code JRootPane}
+     * @rfturn  b nfw {@dodf JRootPbnf}
      */
-    protected JRootPane createRootPane() {
-        JRootPane rp = new JRootPane();
-        // NOTE: this uses setOpaque vs LookAndFeel.installProperty as there
-        // is NO reason for the RootPane not to be opaque. For painting to
-        // work the contentPane must be opaque, therefor the RootPane can
-        // also be opaque.
-        rp.setOpaque(true);
-        return rp;
+    protfdtfd JRootPbnf drfbtfRootPbnf() {
+        JRootPbnf rp = nfw JRootPbnf();
+        // NOTE: tiis usfs sftOpbquf vs LookAndFffl.instbllPropfrty bs tifrf
+        // is NO rfbson for tif RootPbnf not to bf opbquf. For pbinting to
+        // work tif dontfntPbnf must bf opbquf, tifrffor tif RootPbnf dbn
+        // blso bf opbquf.
+        rp.sftOpbquf(truf);
+        rfturn rp;
     }
 
     /**
-     * Handles window events depending on the state of the
-     * {@code defaultCloseOperation} property.
+     * Hbndlfs window fvfnts dfpfnding on tif stbtf of tif
+     * {@dodf dffbultClosfOpfrbtion} propfrty.
      *
-     * @see #setDefaultCloseOperation
+     * @sff #sftDffbultClosfOpfrbtion
      */
-    protected void processWindowEvent(WindowEvent e) {
-        super.processWindowEvent(e);
+    protfdtfd void prodfssWindowEvfnt(WindowEvfnt f) {
+        supfr.prodfssWindowEvfnt(f);
 
-        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            switch(defaultCloseOperation) {
-              case HIDE_ON_CLOSE:
-                 setVisible(false);
-                 break;
-              case DISPOSE_ON_CLOSE:
-                 dispose();
-                 break;
-              case DO_NOTHING_ON_CLOSE:
-                 default:
-                 break;
+        if (f.gftID() == WindowEvfnt.WINDOW_CLOSING) {
+            switdi(dffbultClosfOpfrbtion) {
+              dbsf HIDE_ON_CLOSE:
+                 sftVisiblf(fblsf);
+                 brfbk;
+              dbsf DISPOSE_ON_CLOSE:
+                 disposf();
+                 brfbk;
+              dbsf DO_NOTHING_ON_CLOSE:
+                 dffbult:
+                 brfbk;
             }
         }
     }
 
 
     /**
-     * Sets the operation that will happen by default when
-     * the user initiates a "close" on this dialog.
-     * You must specify one of the following choices:
+     * Sfts tif opfrbtion tibt will ibppfn by dffbult wifn
+     * tif usfr initibtfs b "dlosf" on tiis diblog.
+     * You must spfdify onf of tif following dioidfs:
      * <br><br>
      * <ul>
-     * <li>{@code DO_NOTHING_ON_CLOSE}
-     * (defined in {@code WindowConstants}):
-     * Don't do anything; require the
-     * program to handle the operation in the {@code windowClosing}
-     * method of a registered {@code WindowListener} object.
+     * <li>{@dodf DO_NOTHING_ON_CLOSE}
+     * (dffinfd in {@dodf WindowConstbnts}):
+     * Don't do bnytiing; rfquirf tif
+     * progrbm to ibndlf tif opfrbtion in tif {@dodf windowClosing}
+     * mftiod of b rfgistfrfd {@dodf WindowListfnfr} objfdt.
      *
-     * <li>{@code HIDE_ON_CLOSE}
-     * (defined in {@code WindowConstants}):
-     * Automatically hide the dialog after
-     * invoking any registered {@code WindowListener}
-     * objects.
+     * <li>{@dodf HIDE_ON_CLOSE}
+     * (dffinfd in {@dodf WindowConstbnts}):
+     * Autombtidblly iidf tif diblog bftfr
+     * invoking bny rfgistfrfd {@dodf WindowListfnfr}
+     * objfdts.
      *
-     * <li>{@code DISPOSE_ON_CLOSE}
-     * (defined in {@code WindowConstants}):
-     * Automatically hide and dispose the
-     * dialog after invoking any registered {@code WindowListener}
-     * objects.
+     * <li>{@dodf DISPOSE_ON_CLOSE}
+     * (dffinfd in {@dodf WindowConstbnts}):
+     * Autombtidblly iidf bnd disposf tif
+     * diblog bftfr invoking bny rfgistfrfd {@dodf WindowListfnfr}
+     * objfdts.
      * </ul>
      * <p>
-     * The value is set to {@code HIDE_ON_CLOSE} by default. Changes
-     * to the value of this property cause the firing of a property
-     * change event, with property name "defaultCloseOperation".
+     * Tif vbluf is sft to {@dodf HIDE_ON_CLOSE} by dffbult. Cibngfs
+     * to tif vbluf of tiis propfrty dbusf tif firing of b propfrty
+     * dibngf fvfnt, witi propfrty nbmf "dffbultClosfOpfrbtion".
      * <p>
-     * <b>Note</b>: When the last displayable window within the
-     * Java virtual machine (VM) is disposed of, the VM may
-     * terminate.  See <a href="../../java/awt/doc-files/AWTThreadIssues.html">
-     * AWT Threading Issues</a> for more information.
+     * <b>Notf</b>: Wifn tif lbst displbybblf window witiin tif
+     * Jbvb virtubl mbdiinf (VM) is disposfd of, tif VM mby
+     * tfrminbtf.  Sff <b irff="../../jbvb/bwt/dod-filfs/AWTTirfbdIssufs.itml">
+     * AWT Tirfbding Issufs</b> for morf informbtion.
      *
-     * @param operation the operation which should be performed when the
-     *        user closes the dialog
-     * @throws IllegalArgumentException if defaultCloseOperation value
-     *         isn't one of the above valid values
-     * @see #addWindowListener
-     * @see #getDefaultCloseOperation
-     * @see WindowConstants
+     * @pbrbm opfrbtion tif opfrbtion wiidi siould bf pfrformfd wifn tif
+     *        usfr dlosfs tif diblog
+     * @tirows IllfgblArgumfntExdfption if dffbultClosfOpfrbtion vbluf
+     *         isn't onf of tif bbovf vblid vblufs
+     * @sff #bddWindowListfnfr
+     * @sff #gftDffbultClosfOpfrbtion
+     * @sff WindowConstbnts
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     *        enum: DO_NOTHING_ON_CLOSE WindowConstants.DO_NOTHING_ON_CLOSE
-     *              HIDE_ON_CLOSE       WindowConstants.HIDE_ON_CLOSE
-     *              DISPOSE_ON_CLOSE    WindowConstants.DISPOSE_ON_CLOSE
-     * description: The dialog's default close operation.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     *        fnum: DO_NOTHING_ON_CLOSE WindowConstbnts.DO_NOTHING_ON_CLOSE
+     *              HIDE_ON_CLOSE       WindowConstbnts.HIDE_ON_CLOSE
+     *              DISPOSE_ON_CLOSE    WindowConstbnts.DISPOSE_ON_CLOSE
+     * dfsdription: Tif diblog's dffbult dlosf opfrbtion.
      */
-    public void setDefaultCloseOperation(int operation) {
-        if (operation != DO_NOTHING_ON_CLOSE &&
-            operation != HIDE_ON_CLOSE &&
-            operation != DISPOSE_ON_CLOSE) {
-            throw new IllegalArgumentException("defaultCloseOperation must be one of: DO_NOTHING_ON_CLOSE, HIDE_ON_CLOSE, or DISPOSE_ON_CLOSE");
+    publid void sftDffbultClosfOpfrbtion(int opfrbtion) {
+        if (opfrbtion != DO_NOTHING_ON_CLOSE &&
+            opfrbtion != HIDE_ON_CLOSE &&
+            opfrbtion != DISPOSE_ON_CLOSE) {
+            tirow nfw IllfgblArgumfntExdfption("dffbultClosfOpfrbtion must bf onf of: DO_NOTHING_ON_CLOSE, HIDE_ON_CLOSE, or DISPOSE_ON_CLOSE");
         }
 
-        int oldValue = this.defaultCloseOperation;
-        this.defaultCloseOperation = operation;
-        firePropertyChange("defaultCloseOperation", oldValue, operation);
+        int oldVbluf = tiis.dffbultClosfOpfrbtion;
+        tiis.dffbultClosfOpfrbtion = opfrbtion;
+        firfPropfrtyCibngf("dffbultClosfOpfrbtion", oldVbluf, opfrbtion);
     }
 
    /**
-    * Returns the operation which occurs when the user
-    * initiates a "close" on this dialog.
+    * Rfturns tif opfrbtion wiidi oddurs wifn tif usfr
+    * initibtfs b "dlosf" on tiis diblog.
     *
-    * @return an integer indicating the window-close operation
-    * @see #setDefaultCloseOperation
+    * @rfturn bn intfgfr indidbting tif window-dlosf opfrbtion
+    * @sff #sftDffbultClosfOpfrbtion
     */
-    public int getDefaultCloseOperation() {
-        return defaultCloseOperation;
+    publid int gftDffbultClosfOpfrbtion() {
+        rfturn dffbultClosfOpfrbtion;
     }
 
     /**
-     * Sets the {@code transferHandler} property, which is a mechanism to
-     * support transfer of data into this component. Use {@code null}
-     * if the component does not support data transfer operations.
+     * Sfts tif {@dodf trbnsffrHbndlfr} propfrty, wiidi is b mfdibnism to
+     * support trbnsffr of dbtb into tiis domponfnt. Usf {@dodf null}
+     * if tif domponfnt dofs not support dbtb trbnsffr opfrbtions.
      * <p>
-     * If the system property {@code suppressSwingDropSupport} is {@code false}
-     * (the default) and the current drop target on this component is either
-     * {@code null} or not a user-set drop target, this method will change the
-     * drop target as follows: If {@code newHandler} is {@code null} it will
-     * clear the drop target. If not {@code null} it will install a new
-     * {@code DropTarget}.
+     * If tif systfm propfrty {@dodf supprfssSwingDropSupport} is {@dodf fblsf}
+     * (tif dffbult) bnd tif durrfnt drop tbrgft on tiis domponfnt is fitifr
+     * {@dodf null} or not b usfr-sft drop tbrgft, tiis mftiod will dibngf tif
+     * drop tbrgft bs follows: If {@dodf nfwHbndlfr} is {@dodf null} it will
+     * dlfbr tif drop tbrgft. If not {@dodf null} it will instbll b nfw
+     * {@dodf DropTbrgft}.
      * <p>
-     * Note: When used with {@code JDialog}, {@code TransferHandler} only
-     * provides data import capability, as the data export related methods
-     * are currently typed to {@code JComponent}.
+     * Notf: Wifn usfd witi {@dodf JDiblog}, {@dodf TrbnsffrHbndlfr} only
+     * providfs dbtb import dbpbbility, bs tif dbtb fxport rflbtfd mftiods
+     * brf durrfntly typfd to {@dodf JComponfnt}.
      * <p>
-     * Please see
-     * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
-     * How to Use Drag and Drop and Data Transfer</a>, a section in
-     * <em>The Java Tutorial</em>, for more information.
+     * Plfbsf sff
+     * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dnd/indfx.itml">
+     * How to Usf Drbg bnd Drop bnd Dbtb Trbnsffr</b>, b sfdtion in
+     * <fm>Tif Jbvb Tutoribl</fm>, for morf informbtion.
      *
-     * @param newHandler the new {@code TransferHandler}
+     * @pbrbm nfwHbndlfr tif nfw {@dodf TrbnsffrHbndlfr}
      *
-     * @see TransferHandler
-     * @see #getTransferHandler
-     * @see java.awt.Component#setDropTarget
-     * @since 1.6
+     * @sff TrbnsffrHbndlfr
+     * @sff #gftTrbnsffrHbndlfr
+     * @sff jbvb.bwt.Componfnt#sftDropTbrgft
+     * @sindf 1.6
      *
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *  description: Mechanism for transfer of data into the component
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *  dfsdription: Mfdibnism for trbnsffr of dbtb into tif domponfnt
      */
-    public void setTransferHandler(TransferHandler newHandler) {
-        TransferHandler oldHandler = transferHandler;
-        transferHandler = newHandler;
-        SwingUtilities.installSwingDropTargetAsNecessary(this, transferHandler);
-        firePropertyChange("transferHandler", oldHandler, newHandler);
+    publid void sftTrbnsffrHbndlfr(TrbnsffrHbndlfr nfwHbndlfr) {
+        TrbnsffrHbndlfr oldHbndlfr = trbnsffrHbndlfr;
+        trbnsffrHbndlfr = nfwHbndlfr;
+        SwingUtilitifs.instbllSwingDropTbrgftAsNfdfssbry(tiis, trbnsffrHbndlfr);
+        firfPropfrtyCibngf("trbnsffrHbndlfr", oldHbndlfr, nfwHbndlfr);
     }
 
     /**
-     * Gets the {@code transferHandler} property.
+     * Gfts tif {@dodf trbnsffrHbndlfr} propfrty.
      *
-     * @return the value of the {@code transferHandler} property
+     * @rfturn tif vbluf of tif {@dodf trbnsffrHbndlfr} propfrty
      *
-     * @see TransferHandler
-     * @see #setTransferHandler
-     * @since 1.6
+     * @sff TrbnsffrHbndlfr
+     * @sff #sftTrbnsffrHbndlfr
+     * @sindf 1.6
      */
-    public TransferHandler getTransferHandler() {
-        return transferHandler;
+    publid TrbnsffrHbndlfr gftTrbnsffrHbndlfr() {
+        rfturn trbnsffrHbndlfr;
     }
 
     /**
-     * Calls {@code paint(g)}.  This method was overridden to
-     * prevent an unnecessary call to clear the background.
+     * Cblls {@dodf pbint(g)}.  Tiis mftiod wbs ovfrriddfn to
+     * prfvfnt bn unnfdfssbry dbll to dlfbr tif bbdkground.
      *
-     * @param g  the {@code Graphics} context in which to paint
+     * @pbrbm g  tif {@dodf Grbpiids} dontfxt in wiidi to pbint
      */
-    public void update(Graphics g) {
-        paint(g);
+    publid void updbtf(Grbpiids g) {
+        pbint(g);
     }
 
    /**
-    * Sets the menubar for this dialog.
+    * Sfts tif mfnubbr for tiis diblog.
     *
-    * @param menu the menubar being placed in the dialog
+    * @pbrbm mfnu tif mfnubbr bfing plbdfd in tif diblog
     *
-    * @see #getJMenuBar
+    * @sff #gftJMfnuBbr
     *
-    * @beaninfo
-    *      hidden: true
-    * description: The menubar for accessing pulldown menus from this dialog.
+    * @bfbninfo
+    *      iiddfn: truf
+    * dfsdription: Tif mfnubbr for bddfssing pulldown mfnus from tiis diblog.
     */
-    public void setJMenuBar(JMenuBar menu) {
-        getRootPane().setMenuBar(menu);
+    publid void sftJMfnuBbr(JMfnuBbr mfnu) {
+        gftRootPbnf().sftMfnuBbr(mfnu);
     }
 
    /**
-    * Returns the menubar set on this dialog.
+    * Rfturns tif mfnubbr sft on tiis diblog.
     *
-    * @return the menubar set on this dialog
-    * @see #setJMenuBar
+    * @rfturn tif mfnubbr sft on tiis diblog
+    * @sff #sftJMfnuBbr
     */
-    public JMenuBar getJMenuBar() {
-        return getRootPane().getMenuBar();
+    publid JMfnuBbr gftJMfnuBbr() {
+        rfturn gftRootPbnf().gftMfnuBbr();
     }
 
 
     /**
-     * Returns whether calls to {@code add} and
-     * {@code setLayout} are forwarded to the {@code contentPane}.
+     * Rfturns wiftifr dblls to {@dodf bdd} bnd
+     * {@dodf sftLbyout} brf forwbrdfd to tif {@dodf dontfntPbnf}.
      *
-     * @return true if {@code add} and {@code setLayout}
-     *         are forwarded; false otherwise
+     * @rfturn truf if {@dodf bdd} bnd {@dodf sftLbyout}
+     *         brf forwbrdfd; fblsf otifrwisf
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protfdtfd boolfbn isRootPbnfCifdkingEnbblfd() {
+        rfturn rootPbnfCifdkingEnbblfd;
     }
 
 
     /**
-     * Sets whether calls to {@code add} and
-     * {@code setLayout} are forwarded to the {@code contentPane}.
+     * Sfts wiftifr dblls to {@dodf bdd} bnd
+     * {@dodf sftLbyout} brf forwbrdfd to tif {@dodf dontfntPbnf}.
      *
-     * @param enabled  true if {@code add} and {@code setLayout}
-     *        are forwarded, false if they should operate directly on the
-     *        {@code JDialog}.
+     * @pbrbm fnbblfd  truf if {@dodf bdd} bnd {@dodf sftLbyout}
+     *        brf forwbrdfd, fblsf if tify siould opfrbtf dirfdtly on tif
+     *        {@dodf JDiblog}.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
-     *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #isRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     * @bfbninfo
+     *      iiddfn: truf
+     * dfsdription: Wiftifr tif bdd bnd sftLbyout mftiods brf forwbrdfd
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protfdtfd void sftRootPbnfCifdkingEnbblfd(boolfbn fnbblfd) {
+        rootPbnfCifdkingEnbblfd = fnbblfd;
     }
 
     /**
-     * Adds the specified child {@code Component}.
-     * This method is overridden to conditionally forward calls to the
-     * {@code contentPane}.
-     * By default, children are added to the {@code contentPane} instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * Adds tif spfdififd diild {@dodf Componfnt}.
+     * Tiis mftiod is ovfrriddfn to donditionblly forwbrd dblls to tif
+     * {@dodf dontfntPbnf}.
+     * By dffbult, diildrfn brf bddfd to tif {@dodf dontfntPbnf} instfbd
+     * of tif frbmf, rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * dftbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @throws IllegalArgumentException if {@code index} is invalid
-     * @throws IllegalArgumentException if adding the container's parent
-     *                  to itself
-     * @throws IllegalArgumentException if adding a window to a container
+     * @pbrbm domp tif domponfnt to bf fnibndfd
+     * @pbrbm donstrbints tif donstrbints to bf rfspfdtfd
+     * @pbrbm indfx tif indfx
+     * @tirows IllfgblArgumfntExdfption if {@dodf indfx} is invblid
+     * @tirows IllfgblArgumfntExdfption if bdding tif dontbinfr's pbrfnt
+     *                  to itsflf
+     * @tirows IllfgblArgumfntExdfption if bdding b window to b dontbinfr
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx)
     {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+        if(isRootPbnfCifdkingEnbblfd()) {
+            gftContfntPbnf().bdd(domp, donstrbints, indfx);
         }
-        else {
-            super.addImpl(comp, constraints, index);
+        flsf {
+            supfr.bddImpl(domp, donstrbints, indfx);
         }
     }
 
     /**
-     * Removes the specified component from the container. If
-     * {@code comp} is not the {@code rootPane}, this will forward
-     * the call to the {@code contentPane}. This will do nothing if
-     * {@code comp} is not a child of the {@code JDialog} or
-     * {@code contentPane}.
+     * Rfmovfs tif spfdififd domponfnt from tif dontbinfr. If
+     * {@dodf domp} is not tif {@dodf rootPbnf}, tiis will forwbrd
+     * tif dbll to tif {@dodf dontfntPbnf}. Tiis will do notiing if
+     * {@dodf domp} is not b diild of tif {@dodf JDiblog} or
+     * {@dodf dontfntPbnf}.
      *
-     * @param comp the component to be removed
-     * @throws NullPointerException if {@code comp} is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
+     * @pbrbm domp tif domponfnt to bf rfmovfd
+     * @tirows NullPointfrExdfption if {@dodf domp} is null
+     * @sff #bdd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    public void remove(Component comp) {
-        if (comp == rootPane) {
-            super.remove(comp);
-        } else {
-            getContentPane().remove(comp);
-        }
-    }
-
-
-    /**
-     * Sets the {@code LayoutManager}.
-     * Overridden to conditionally forward the call to the
-     * {@code contentPane}.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
-     *
-     * @param manager the {@code LayoutManager}
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
-        }
-        else {
-            super.setLayout(manager);
+    publid void rfmovf(Componfnt domp) {
+        if (domp == rootPbnf) {
+            supfr.rfmovf(domp);
+        } flsf {
+            gftContfntPbnf().rfmovf(domp);
         }
     }
 
 
     /**
-     * Returns the {@code rootPane} object for this dialog.
+     * Sfts tif {@dodf LbyoutMbnbgfr}.
+     * Ovfrriddfn to donditionblly forwbrd tif dbll to tif
+     * {@dodf dontfntPbnf}.
+     * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * morf informbtion.
      *
-     * @see #setRootPane
-     * @see RootPaneContainer#getRootPane
+     * @pbrbm mbnbgfr tif {@dodf LbyoutMbnbgfr}
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    publid void sftLbyout(LbyoutMbnbgfr mbnbgfr) {
+        if(isRootPbnfCifdkingEnbblfd()) {
+            gftContfntPbnf().sftLbyout(mbnbgfr);
+        }
+        flsf {
+            supfr.sftLbyout(mbnbgfr);
+        }
     }
 
 
     /**
-     * Sets the {@code rootPane} property.
-     * This method is called by the constructor.
+     * Rfturns tif {@dodf rootPbnf} objfdt for tiis diblog.
      *
-     * @param root the {@code rootPane} object for this dialog
-     *
-     * @see #getRootPane
-     *
-     * @beaninfo
-     *   hidden: true
-     * description: the RootPane object for this dialog.
+     * @sff #sftRootPbnf
+     * @sff RootPbnfContbinfr#gftRootPbnf
      */
-    protected void setRootPane(JRootPane root) {
-        if(rootPane != null) {
-            remove(rootPane);
+    publid JRootPbnf gftRootPbnf() {
+        rfturn rootPbnf;
+    }
+
+
+    /**
+     * Sfts tif {@dodf rootPbnf} propfrty.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
+     *
+     * @pbrbm root tif {@dodf rootPbnf} objfdt for tiis diblog
+     *
+     * @sff #gftRootPbnf
+     *
+     * @bfbninfo
+     *   iiddfn: truf
+     * dfsdription: tif RootPbnf objfdt for tiis diblog.
+     */
+    protfdtfd void sftRootPbnf(JRootPbnf root) {
+        if(rootPbnf != null) {
+            rfmovf(rootPbnf);
         }
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        rootPbnf = root;
+        if(rootPbnf != null) {
+            boolfbn difdkingEnbblfd = isRootPbnfCifdkingEnbblfd();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                sftRootPbnfCifdkingEnbblfd(fblsf);
+                bdd(rootPbnf, BordfrLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                sftRootPbnfCifdkingEnbblfd(difdkingEnbblfd);
             }
         }
     }
 
 
     /**
-     * Returns the {@code contentPane} object for this dialog.
+     * Rfturns tif {@dodf dontfntPbnf} objfdt for tiis diblog.
      *
-     * @return the {@code contentPane} property
+     * @rfturn tif {@dodf dontfntPbnf} propfrty
      *
-     * @see #setContentPane
-     * @see RootPaneContainer#getContentPane
+     * @sff #sftContfntPbnf
+     * @sff RootPbnfContbinfr#gftContfntPbnf
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
+    publid Contbinfr gftContfntPbnf() {
+        rfturn gftRootPbnf().gftContfntPbnf();
     }
 
 
    /**
-     * Sets the {@code contentPane} property.
-     * This method is called by the constructor.
+     * Sfts tif {@dodf dontfntPbnf} propfrty.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
      * <p>
-     * Swing's painting architecture requires an opaque {@code JComponent}
-     * in the containment hierarchy. This is typically provided by the
-     * content pane. If you replace the content pane it is recommended you
-     * replace it with an opaque {@code JComponent}.
-     * @see JRootPane
+     * Swing's pbinting brdiitfdturf rfquirfs bn opbquf {@dodf JComponfnt}
+     * in tif dontbinmfnt iifrbrdiy. Tiis is typidblly providfd by tif
+     * dontfnt pbnf. If you rfplbdf tif dontfnt pbnf it is rfdommfndfd you
+     * rfplbdf it witi bn opbquf {@dodf JComponfnt}.
+     * @sff JRootPbnf
      *
-     * @param contentPane the {@code contentPane} object for this dialog
+     * @pbrbm dontfntPbnf tif {@dodf dontfntPbnf} objfdt for tiis diblog
      *
-     * @throws java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is {@code null}
-     * @see #getContentPane
-     * @see RootPaneContainer#setContentPane
+     * @tirows jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if tif dontfnt pbnf pbrbmftfr is {@dodf null}
+     * @sff #gftContfntPbnf
+     * @sff RootPbnfContbinfr#sftContfntPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: The client area of the dialog where child
-     *                  components are normally inserted.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: Tif dlifnt brfb of tif diblog wifrf diild
+     *                  domponfnts brf normblly insfrtfd.
      */
-    public void setContentPane(Container contentPane) {
-        getRootPane().setContentPane(contentPane);
+    publid void sftContfntPbnf(Contbinfr dontfntPbnf) {
+        gftRootPbnf().sftContfntPbnf(dontfntPbnf);
     }
 
     /**
-     * Returns the {@code layeredPane} object for this dialog.
+     * Rfturns tif {@dodf lbyfrfdPbnf} objfdt for tiis diblog.
      *
-     * @return the {@code layeredPane} property
+     * @rfturn tif {@dodf lbyfrfdPbnf} propfrty
      *
-     * @see #setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
+     * @sff #sftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#gftLbyfrfdPbnf
      */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
+    publid JLbyfrfdPbnf gftLbyfrfdPbnf() {
+        rfturn gftRootPbnf().gftLbyfrfdPbnf();
     }
 
     /**
-     * Sets the {@code layeredPane} property.
-     * This method is called by the constructor.
+     * Sfts tif {@dodf lbyfrfdPbnf} propfrty.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
      *
-     * @param layeredPane the new {@code layeredPane} property
+     * @pbrbm lbyfrfdPbnf tif nfw {@dodf lbyfrfdPbnf} propfrty
      *
-     * @throws java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the layered pane parameter is null
-     * @see #getLayeredPane
-     * @see RootPaneContainer#setLayeredPane
+     * @tirows jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if tif lbyfrfd pbnf pbrbmftfr is null
+     * @sff #gftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#sftLbyfrfdPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: The pane which holds the various dialog layers.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: Tif pbnf wiidi iolds tif vbrious diblog lbyfrs.
      */
-    public void setLayeredPane(JLayeredPane layeredPane) {
-        getRootPane().setLayeredPane(layeredPane);
+    publid void sftLbyfrfdPbnf(JLbyfrfdPbnf lbyfrfdPbnf) {
+        gftRootPbnf().sftLbyfrfdPbnf(lbyfrfdPbnf);
     }
 
     /**
-     * Returns the {@code glassPane} object for this dialog.
+     * Rfturns tif {@dodf glbssPbnf} objfdt for tiis diblog.
      *
-     * @return the {@code glassPane} property
+     * @rfturn tif {@dodf glbssPbnf} propfrty
      *
-     * @see #setGlassPane
-     * @see RootPaneContainer#getGlassPane
+     * @sff #sftGlbssPbnf
+     * @sff RootPbnfContbinfr#gftGlbssPbnf
      */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
+    publid Componfnt gftGlbssPbnf() {
+        rfturn gftRootPbnf().gftGlbssPbnf();
     }
 
     /**
-     * Sets the {@code glassPane} property.
-     * This method is called by the constructor.
+     * Sfts tif {@dodf glbssPbnf} propfrty.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
      *
-     * @param glassPane the {@code glassPane} object for this dialog
-     * @see #getGlassPane
-     * @see RootPaneContainer#setGlassPane
+     * @pbrbm glbssPbnf tif {@dodf glbssPbnf} objfdt for tiis diblog
+     * @sff #gftGlbssPbnf
+     * @sff RootPbnfContbinfr#sftGlbssPbnf
      *
-     * @beaninfo
-     *     hidden: true
-     *     description: A transparent pane used for menu rendering.
+     * @bfbninfo
+     *     iiddfn: truf
+     *     dfsdription: A trbnspbrfnt pbnf usfd for mfnu rfndfring.
      */
-    public void setGlassPane(Component glassPane) {
-        getRootPane().setGlassPane(glassPane);
+    publid void sftGlbssPbnf(Componfnt glbssPbnf) {
+        gftRootPbnf().sftGlbssPbnf(glbssPbnf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Graphics getGraphics() {
-        JComponent.getGraphicsInvoked(this);
-        return super.getGraphics();
+    publid Grbpiids gftGrbpiids() {
+        JComponfnt.gftGrbpiidsInvokfd(tiis);
+        rfturn supfr.gftGrbpiids();
     }
 
     /**
-     * Repaints the specified rectangle of this component within
-     * {@code time} milliseconds.  Refer to {@code RepaintManager}
-     * for details on how the repaint is handled.
+     * Rfpbints tif spfdififd rfdtbnglf of tiis domponfnt witiin
+     * {@dodf timf} millisfdonds.  Rfffr to {@dodf RfpbintMbnbgfr}
+     * for dftbils on iow tif rfpbint is ibndlfd.
      *
-     * @param     time   maximum time in milliseconds before update
-     * @param     x    the <i>x</i> coordinate
-     * @param     y    the <i>y</i> coordinate
-     * @param     width    the width
-     * @param     height   the height
-     * @see       RepaintManager
-     * @since     1.6
+     * @pbrbm     timf   mbximum timf in millisfdonds bfforf updbtf
+     * @pbrbm     x    tif <i>x</i> doordinbtf
+     * @pbrbm     y    tif <i>y</i> doordinbtf
+     * @pbrbm     widti    tif widti
+     * @pbrbm     ifigit   tif ifigit
+     * @sff       RfpbintMbnbgfr
+     * @sindf     1.6
      */
-    public void repaint(long time, int x, int y, int width, int height) {
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            RepaintManager.currentManager(this).addDirtyRegion(
-                              this, x, y, width, height);
+    publid void rfpbint(long timf, int x, int y, int widti, int ifigit) {
+        if (RfpbintMbnbgfr.HANDLE_TOP_LEVEL_PAINT) {
+            RfpbintMbnbgfr.durrfntMbnbgfr(tiis).bddDirtyRfgion(
+                              tiis, x, y, widti, ifigit);
         }
-        else {
-            super.repaint(time, x, y, width, height);
+        flsf {
+            supfr.rfpbint(timf, x, y, widti, ifigit);
         }
     }
 
     /**
-     * Provides a hint as to whether or not newly created {@code JDialog}s
-     * should have their Window decorations (such as borders, widgets to
-     * close the window, title...) provided by the current look
-     * and feel. If {@code defaultLookAndFeelDecorated} is true,
-     * the current {@code LookAndFeel} supports providing window
-     * decorations, and the current window manager supports undecorated
-     * windows, then newly created {@code JDialog}s will have their
-     * Window decorations provided by the current {@code LookAndFeel}.
-     * Otherwise, newly created {@code JDialog}s will have their
-     * Window decorations provided by the current window manager.
+     * Providfs b iint bs to wiftifr or not nfwly drfbtfd {@dodf JDiblog}s
+     * siould ibvf tifir Window dfdorbtions (sudi bs bordfrs, widgfts to
+     * dlosf tif window, titlf...) providfd by tif durrfnt look
+     * bnd fffl. If {@dodf dffbultLookAndFfflDfdorbtfd} is truf,
+     * tif durrfnt {@dodf LookAndFffl} supports providing window
+     * dfdorbtions, bnd tif durrfnt window mbnbgfr supports undfdorbtfd
+     * windows, tifn nfwly drfbtfd {@dodf JDiblog}s will ibvf tifir
+     * Window dfdorbtions providfd by tif durrfnt {@dodf LookAndFffl}.
+     * Otifrwisf, nfwly drfbtfd {@dodf JDiblog}s will ibvf tifir
+     * Window dfdorbtions providfd by tif durrfnt window mbnbgfr.
      * <p>
-     * You can get the same effect on a single JDialog by doing the following:
-     * <pre>
-     *    JDialog dialog = new JDialog();
-     *    dialog.setUndecorated(true);
-     *    dialog.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
-     * </pre>
+     * You dbn gft tif sbmf ffffdt on b singlf JDiblog by doing tif following:
+     * <prf>
+     *    JDiblog diblog = nfw JDiblog();
+     *    diblog.sftUndfdorbtfd(truf);
+     *    diblog.gftRootPbnf().sftWindowDfdorbtionStylf(JRootPbnf.PLAIN_DIALOG);
+     * </prf>
      *
-     * @param defaultLookAndFeelDecorated A hint as to whether or not current
-     *        look and feel should provide window decorations
-     * @see javax.swing.LookAndFeel#getSupportsWindowDecorations
-     * @since 1.4
+     * @pbrbm dffbultLookAndFfflDfdorbtfd A iint bs to wiftifr or not durrfnt
+     *        look bnd fffl siould providf window dfdorbtions
+     * @sff jbvbx.swing.LookAndFffl#gftSupportsWindowDfdorbtions
+     * @sindf 1.4
      */
-    public static void setDefaultLookAndFeelDecorated(boolean defaultLookAndFeelDecorated) {
-        if (defaultLookAndFeelDecorated) {
-            SwingUtilities.appContextPut(defaultLookAndFeelDecoratedKey, Boolean.TRUE);
-        } else {
-            SwingUtilities.appContextPut(defaultLookAndFeelDecoratedKey, Boolean.FALSE);
+    publid stbtid void sftDffbultLookAndFfflDfdorbtfd(boolfbn dffbultLookAndFfflDfdorbtfd) {
+        if (dffbultLookAndFfflDfdorbtfd) {
+            SwingUtilitifs.bppContfxtPut(dffbultLookAndFfflDfdorbtfdKfy, Boolfbn.TRUE);
+        } flsf {
+            SwingUtilitifs.bppContfxtPut(dffbultLookAndFfflDfdorbtfdKfy, Boolfbn.FALSE);
         }
     }
 
     /**
-     * Returns true if newly created {@code JDialog}s should have their
-     * Window decorations provided by the current look and feel. This is only
-     * a hint, as certain look and feels may not support this feature.
+     * Rfturns truf if nfwly drfbtfd {@dodf JDiblog}s siould ibvf tifir
+     * Window dfdorbtions providfd by tif durrfnt look bnd fffl. Tiis is only
+     * b iint, bs dfrtbin look bnd fffls mby not support tiis ffbturf.
      *
-     * @return true if look and feel should provide Window decorations.
-     * @since 1.4
+     * @rfturn truf if look bnd fffl siould providf Window dfdorbtions.
+     * @sindf 1.4
      */
-    public static boolean isDefaultLookAndFeelDecorated() {
-        Boolean defaultLookAndFeelDecorated =
-            (Boolean) SwingUtilities.appContextGet(defaultLookAndFeelDecoratedKey);
-        if (defaultLookAndFeelDecorated == null) {
-            defaultLookAndFeelDecorated = Boolean.FALSE;
+    publid stbtid boolfbn isDffbultLookAndFfflDfdorbtfd() {
+        Boolfbn dffbultLookAndFfflDfdorbtfd =
+            (Boolfbn) SwingUtilitifs.bppContfxtGft(dffbultLookAndFfflDfdorbtfdKfy);
+        if (dffbultLookAndFfflDfdorbtfd == null) {
+            dffbultLookAndFfflDfdorbtfd = Boolfbn.FALSE;
         }
-        return defaultLookAndFeelDecorated.booleanValue();
+        rfturn dffbultLookAndFfflDfdorbtfd.boolfbnVbluf();
     }
 
     /**
-     * Returns a string representation of this {@code JDialog}.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be {@code null}.
+     * Rfturns b string rfprfsfntbtion of tiis {@dodf JDiblog}.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf {@dodf null}.
      *
-     * @return  a string representation of this {@code JDialog}.
+     * @rfturn  b string rfprfsfntbtion of tiis {@dodf JDiblog}.
      */
-    protected String paramString() {
-        String defaultCloseOperationString;
-        if (defaultCloseOperation == HIDE_ON_CLOSE) {
-            defaultCloseOperationString = "HIDE_ON_CLOSE";
-        } else if (defaultCloseOperation == DISPOSE_ON_CLOSE) {
-            defaultCloseOperationString = "DISPOSE_ON_CLOSE";
-        } else if (defaultCloseOperation == DO_NOTHING_ON_CLOSE) {
-            defaultCloseOperationString = "DO_NOTHING_ON_CLOSE";
-        } else defaultCloseOperationString = "";
-        String rootPaneString = (rootPane != null ?
-                                 rootPane.toString() : "");
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
+    protfdtfd String pbrbmString() {
+        String dffbultClosfOpfrbtionString;
+        if (dffbultClosfOpfrbtion == HIDE_ON_CLOSE) {
+            dffbultClosfOpfrbtionString = "HIDE_ON_CLOSE";
+        } flsf if (dffbultClosfOpfrbtion == DISPOSE_ON_CLOSE) {
+            dffbultClosfOpfrbtionString = "DISPOSE_ON_CLOSE";
+        } flsf if (dffbultClosfOpfrbtion == DO_NOTHING_ON_CLOSE) {
+            dffbultClosfOpfrbtionString = "DO_NOTHING_ON_CLOSE";
+        } flsf dffbultClosfOpfrbtionString = "";
+        String rootPbnfString = (rootPbnf != null ?
+                                 rootPbnf.toString() : "");
+        String rootPbnfCifdkingEnbblfdString = (rootPbnfCifdkingEnbblfd ?
+                                                "truf" : "fblsf");
 
-        return super.paramString() +
-        ",defaultCloseOperation=" + defaultCloseOperationString +
-        ",rootPane=" + rootPaneString +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString;
+        rfturn supfr.pbrbmString() +
+        ",dffbultClosfOpfrbtion=" + dffbultClosfOpfrbtionString +
+        ",rootPbnf=" + rootPbnfString +
+        ",rootPbnfCifdkingEnbblfd=" + rootPbnfCifdkingEnbblfdString;
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * {@code AccessibleContext} associated with this {@code JDialog}
+     * {@dodf AddfssiblfContfxt} bssodibtfd witi tiis {@dodf JDiblog}
      */
-    protected AccessibleContext accessibleContext = null;
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
 
     /**
-     * Gets the AccessibleContext associated with this JDialog.
-     * For JDialogs, the AccessibleContext takes the form of an
-     * AccessibleJDialog.
-     * A new AccessibleJDialog instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JDiblog.
+     * For JDiblogs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJDiblog.
+     * A nfw AddfssiblfJDiblog instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJDialog that serves as the
-     *         AccessibleContext of this JDialog
+     * @rfturn bn AddfssiblfJDiblog tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JDiblog
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJDialog();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJDiblog();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * {@code JDialog} class.  It provides an implementation of the
-     * Java Accessibility API appropriate to dialog user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * {@dodf JDiblog} dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to diblog usfr-intfrfbdf
+     * flfmfnts.
      */
-    protected class AccessibleJDialog extends AccessibleAWTDialog {
+    protfdtfd dlbss AddfssiblfJDiblog fxtfnds AddfssiblfAWTDiblog {
 
-        // AccessibleContext methods
+        // AddfssiblfContfxt mftiods
         //
         /**
-         * Get the accessible name of this object.
+         * Gft tif bddfssiblf nbmf of tiis objfdt.
          *
-         * @return the localized name of the object -- can be null if this
-         * object does not have a name
+         * @rfturn tif lodblizfd nbmf of tif objfdt -- dbn bf null if tiis
+         * objfdt dofs not ibvf b nbmf
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
-            } else {
-                if (getTitle() == null) {
-                    return super.getAccessibleName();
-                } else {
-                    return getTitle();
+        publid String gftAddfssiblfNbmf() {
+            if (bddfssiblfNbmf != null) {
+                rfturn bddfssiblfNbmf;
+            } flsf {
+                if (gftTitlf() == null) {
+                    rfturn supfr.gftAddfssiblfNbmf();
+                } flsf {
+                    rfturn gftTitlf();
                 }
             }
         }
 
         /**
-         * Get the state of this object.
+         * Gft tif stbtf of tiis objfdt.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif durrfnt
+         * stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
 
-            if (isResizable()) {
-                states.add(AccessibleState.RESIZABLE);
+            if (isRfsizbblf()) {
+                stbtfs.bdd(AddfssiblfStbtf.RESIZABLE);
             }
-            if (getFocusOwner() != null) {
-                states.add(AccessibleState.ACTIVE);
+            if (gftFodusOwnfr() != null) {
+                stbtfs.bdd(AddfssiblfStbtf.ACTIVE);
             }
-            if (isModal()) {
-                states.add(AccessibleState.MODAL);
+            if (isModbl()) {
+                stbtfs.bdd(AddfssiblfStbtf.MODAL);
             }
-            return states;
+            rfturn stbtfs;
         }
 
-    } // inner class AccessibleJDialog
+    } // innfr dlbss AddfssiblfJDiblog
 }

@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-// java import
-import javax.swing.*;
-import java.util.Objects;
+// jbvb import
+import jbvbx.swing.*;
+import jbvb.util.Objfdts;
 
 /**
- * This provides a wrapper to the Object class to allow it to be
- displayed/manipulated as a GUI object.
+ * Tiis providfs b wrbppfr to tif Objfdt dlbss to bllow it to bf
+ displbyfd/mbnipulbtfd bs b GUI objfdt.
 */
-@SuppressWarnings("serial")
-public class XObject extends JLabel {
-    private Object object;
-    private static boolean useHashCodeRepresentation = true;
-    public final static XObject NULL_OBJECT = new XObject("null");
-    public XObject (Object object, Icon icon) {
-        this(object);
-        setIcon(icon);
+@SupprfssWbrnings("sfribl")
+publid dlbss XObjfdt fxtfnds JLbbfl {
+    privbtf Objfdt objfdt;
+    privbtf stbtid boolfbn usfHbsiCodfRfprfsfntbtion = truf;
+    publid finbl stbtid XObjfdt NULL_OBJECT = nfw XObjfdt("null");
+    publid XObjfdt (Objfdt objfdt, Idon idon) {
+        tiis(objfdt);
+        sftIdon(idon);
     }
 
-    public XObject (Object object) {
-        setObject(object);
-        setHorizontalAlignment(SwingConstants.LEFT);
+    publid XObjfdt (Objfdt objfdt) {
+        sftObjfdt(objfdt);
+        sftHorizontblAlignmfnt(SwingConstbnts.LEFT);
     }
 
-    public boolean equals(Object o) {
-        if (o instanceof XObject) {
-            return Objects.equals(object, ((XObject)o).getObject());
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof XObjfdt) {
+            rfturn Objfdts.fqubls(objfdt, ((XObjfdt)o).gftObjfdt());
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        return object.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn objfdt.ibsiCodf();
     }
 
 
-    public Object getObject() {
-        return object;
+    publid Objfdt gftObjfdt() {
+        rfturn objfdt;
     }
 
-    //if true the the object.hashcode is added to the label
-    public static void
-        useHashCodeRepresentation(boolean useHashCodeRepresentation) {
-        XObject.useHashCodeRepresentation = useHashCodeRepresentation;
+    //if truf tif tif objfdt.ibsidodf is bddfd to tif lbbfl
+    publid stbtid void
+        usfHbsiCodfRfprfsfntbtion(boolfbn usfHbsiCodfRfprfsfntbtion) {
+        XObjfdt.usfHbsiCodfRfprfsfntbtion = usfHbsiCodfRfprfsfntbtion;
     }
 
-    public static boolean hashCodeRepresentation() {
-        return useHashCodeRepresentation;
+    publid stbtid boolfbn ibsiCodfRfprfsfntbtion() {
+        rfturn usfHbsiCodfRfprfsfntbtion;
     }
 
-    public void setObject(Object object) {
-        this.object = object;
-        // if the object is not  a swing component,
-        // use default icon
+    publid void sftObjfdt(Objfdt objfdt) {
+        tiis.objfdt = objfdt;
+        // if tif objfdt is not  b swing domponfnt,
+        // usf dffbult idon
         try {
-            String text = null;
-            if (object instanceof JLabel) {
-                setIcon(((JLabel)object).getIcon());
-                if (getText() != null) {
-                    text = ((JLabel)object).getText();
+            String tfxt = null;
+            if (objfdt instbndfof JLbbfl) {
+                sftIdon(((JLbbfl)objfdt).gftIdon());
+                if (gftTfxt() != null) {
+                    tfxt = ((JLbbfl)objfdt).gftTfxt();
 
                 }
             }
-            else if (object instanceof JButton) {
-                setIcon(((JButton)object).getIcon());
-                if (getText() != null) {
-                    text = ((JButton)object).getText();
+            flsf if (objfdt instbndfof JButton) {
+                sftIdon(((JButton)objfdt).gftIdon());
+                if (gftTfxt() != null) {
+                    tfxt = ((JButton)objfdt).gftTfxt();
                 }
             }
-            else if (getText() != null) {
-                text = object.toString();
-                setIcon(IconManager.DEFAULT_XOBJECT);
+            flsf if (gftTfxt() != null) {
+                tfxt = objfdt.toString();
+                sftIdon(IdonMbnbgfr.DEFAULT_XOBJECT);
             }
-            if (text != null) {
-                if (useHashCodeRepresentation && (this != NULL_OBJECT)) {
-                    text = text + "     ("+object.hashCode()+")";
+            if (tfxt != null) {
+                if (usfHbsiCodfRfprfsfntbtion && (tiis != NULL_OBJECT)) {
+                    tfxt = tfxt + "     ("+objfdt.ibsiCodf()+")";
                 }
-                setText(text);
+                sftTfxt(tfxt);
             }
         }
-        catch (Exception e) {
-             System.out.println("Error setting XObject object :"+
-                                e.getMessage());
+        dbtdi (Exdfption f) {
+             Systfm.out.println("Error sftting XObjfdt objfdt :"+
+                                f.gftMfssbgf());
         }
     }
 }

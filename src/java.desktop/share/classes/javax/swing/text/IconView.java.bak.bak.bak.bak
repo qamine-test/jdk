@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.*;
+import jbvbx.swing.Idon;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * Idon dfdorbtor thbt implfmfnts thf vifw intfrfbdf.  Thf
+ * fntirf flfmfnt is usfd to rfprfsfnt thf idon.  This bdts
+ * bs b gbtfwby from thf displby-only Vifw implfmfntbtions to
+ * intfrbdtivf lightwfight idons (thbt is, it bllows idons
+ * to bf fmbfddfd into thf Vifw hifrbrdhy.  Thf pbrfnt of thf idon
+ * is thf dontbinfr thbt is hbndfd out by thf bssodibtfd vifw
+ * fbdtory.
+ *
+ * @buthor Timothy Prinzing
+ */
+publid dlbss IdonVifw fxtfnds Vifw  {
+
+    /**
+     * Crfbtfs b nfw idon vifw thbt rfprfsfnts bn flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt to drfbtf b vifw for
+     */
+    publid IdonVifw(Elfmfnt flfm) {
+        supfr(flfm);
+        AttributfSft bttr = flfm.gftAttributfs();
+        d = StylfConstbnts.gftIdon(bttr);
+    }
+
+    // --- Vifw mfthods ---------------------------------------------
+
+    /**
+     * Pbints thf idon.
+     * Thf rfbl pbint bfhbvior oddurs nbturblly from thf bssodibtion
+     * thbt thf idon hbs with its pbrfnt dontbinfr (thf sbmf
+     * dontbinfr hosting this vifw), so this simply bllows us to
+     * position thf idon propfrly rflbtivf to thf vifw.  Sindf
+     * thf doordinbtf systfm for thf vifw is simply thf pbrfnt
+     * dontbinfrs, positioning thf dhild idon is fbsy.
+     *
+     * @pbrbm g thf rfndfring surfbdf to usf
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
+     */
+    publid void pbint(Grbphids g, Shbpf b) {
+        Rfdtbnglf bllod = b.gftBounds();
+        d.pbintIdon(gftContbinfr(), g, bllod.x, bllod.y);
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd spbn for this vifw blong bn
+     * bxis.
+     *
+     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn  thf spbn thf vifw would likf to bf rfndfrfd into
+     *           Typidblly thf vifw is told to rfndfr into thf spbn
+     *           thbt is rfturnfd, blthough thfrf is no gubrbntff.
+     *           Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
+     */
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        switdh (bxis) {
+        dbsf Vifw.X_AXIS:
+            rfturn d.gftIdonWidth();
+        dbsf Vifw.Y_AXIS:
+            rfturn d.gftIdonHfight();
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
+        }
+    }
+
+    /**
+     * Dftfrminfs thf dfsirfd blignmfnt for this vifw blong bn
+     * bxis.  This is implfmfntfd to givf thf blignmfnt to thf
+     * bottom of thf idon blong thf y bxis, bnd thf dffbult
+     * blong thf x bxis.
+     *
+     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn thf dfsirfd blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f.  This should bf
+     *   b vbluf bftwffn 0.0 bnd 1.0 whfrf 0 indidbtfs blignmfnt bt thf
+     *   origin bnd 1.0 indidbtfs blignmfnt to thf full spbn
+     *   bwby from thf origin.  An blignmfnt of 0.5 would bf thf
+     *   dfntfr of thf vifw.
+     */
+    publid flobt gftAlignmfnt(int bxis) {
+        switdh (bxis) {
+        dbsf Vifw.Y_AXIS:
+            rfturn 1;
+        dffbult:
+            rfturn supfr.gftAlignmfnt(bxis);
+        }
+    }
+
+    /**
+     * Providfs b mbpping from thf dodumfnt modfl doordinbtf spbdf
+     * to thf doordinbtf spbdf of thf vifw mbppfd to it.
+     *
+     * @pbrbm pos thf position to donvfrt &gt;= 0
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @rfturn thf bounding box of thf givfn position
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
+     */
+    publid Shbpf modflToVifw(int pos, Shbpf b, Position.Bibs b) throws BbdLodbtionExdfption {
+        int p0 = gftStbrtOffsft();
+        int p1 = gftEndOffsft();
+        if ((pos >= p0) && (pos <= p1)) {
+            Rfdtbnglf r = b.gftBounds();
+            if (pos == p1) {
+                r.x += r.width;
+            }
+            r.width = 0;
+            rfturn r;
+        }
+        throw nfw BbdLodbtionExdfption(pos + " not in rbngf " + p0 + "," + p1, pos);
+    }
+
+    /**
+     * Providfs b mbpping from thf vifw doordinbtf spbdf to thf logidbl
+     * doordinbtf spbdf of thf modfl.
+     *
+     * @pbrbm x thf X doordinbtf &gt;= 0
+     * @pbrbm y thf Y doordinbtf &gt;= 0
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf
+     *  givfn point of vifw &gt;= 0
+     * @sff Vifw#vifwToModfl
+     */
+    publid int vifwToModfl(flobt x, flobt y, Shbpf b, Position.Bibs[] bibs) {
+        Rfdtbnglf bllod = (Rfdtbnglf) b;
+        if (x < bllod.x + (bllod.width / 2)) {
+            bibs[0] = Position.Bibs.Forwbrd;
+            rfturn gftStbrtOffsft();
+        }
+        bibs[0] = Position.Bibs.Bbdkwbrd;
+        rfturn gftEndOffsft();
+    }
+
+    // --- mfmbfr vbribblfs ------------------------------------------------
+
+    privbtf Idon d;
+}

@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * Exception indicating the failure of an object read operation due to
- * unread primitive data, or the end of data belonging to a serialized
- * object in the stream.  This exception may be thrown in two cases:
+ * Exdfption indidbting tif fbilurf of bn objfdt rfbd opfrbtion duf to
+ * unrfbd primitivf dbtb, or tif fnd of dbtb bflonging to b sfriblizfd
+ * objfdt in tif strfbm.  Tiis fxdfption mby bf tirown in two dbsfs:
  *
  * <ul>
- *   <li>An attempt was made to read an object when the next element in the
- *       stream is primitive data.  In this case, the OptionalDataException's
- *       length field is set to the number of bytes of primitive data
- *       immediately readable from the stream, and the eof field is set to
- *       false.
+ *   <li>An bttfmpt wbs mbdf to rfbd bn objfdt wifn tif nfxt flfmfnt in tif
+ *       strfbm is primitivf dbtb.  In tiis dbsf, tif OptionblDbtbExdfption's
+ *       lfngti fifld is sft to tif numbfr of bytfs of primitivf dbtb
+ *       immfdibtfly rfbdbblf from tif strfbm, bnd tif fof fifld is sft to
+ *       fblsf.
  *
- *   <li>An attempt was made to read past the end of data consumable by a
- *       class-defined readObject or readExternal method.  In this case, the
- *       OptionalDataException's eof field is set to true, and the length field
- *       is set to 0.
+ *   <li>An bttfmpt wbs mbdf to rfbd pbst tif fnd of dbtb donsumbblf by b
+ *       dlbss-dffinfd rfbdObjfdt or rfbdExtfrnbl mftiod.  In tiis dbsf, tif
+ *       OptionblDbtbExdfption's fof fifld is sft to truf, bnd tif lfngti fifld
+ *       is sft to 0.
  * </ul>
  *
- * @author  unascribed
- * @since   1.1
+ * @butior  unbsdribfd
+ * @sindf   1.1
  */
-public class OptionalDataException extends ObjectStreamException {
+publid dlbss OptionblDbtbExdfption fxtfnds ObjfdtStrfbmExdfption {
 
-    private static final long serialVersionUID = -8011121865681257820L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8011121865681257820L;
 
     /*
-     * Create an <code>OptionalDataException</code> with a length.
+     * Crfbtf bn <dodf>OptionblDbtbExdfption</dodf> witi b lfngti.
      */
-    OptionalDataException(int len) {
-        eof = false;
-        length = len;
+    OptionblDbtbExdfption(int lfn) {
+        fof = fblsf;
+        lfngti = lfn;
     }
 
     /*
-     * Create an <code>OptionalDataException</code> signifying no
-     * more primitive data is available.
+     * Crfbtf bn <dodf>OptionblDbtbExdfption</dodf> signifying no
+     * morf primitivf dbtb is bvbilbblf.
      */
-    OptionalDataException(boolean end) {
-        length = 0;
-        eof = end;
+    OptionblDbtbExdfption(boolfbn fnd) {
+        lfngti = 0;
+        fof = fnd;
     }
 
     /**
-     * The number of bytes of primitive data available to be read
-     * in the current buffer.
+     * Tif numbfr of bytfs of primitivf dbtb bvbilbblf to bf rfbd
+     * in tif durrfnt bufffr.
      *
-     * @serial
+     * @sfribl
      */
-    public int length;
+    publid int lfngti;
 
     /**
-     * True if there is no more data in the buffered part of the stream.
+     * Truf if tifrf is no morf dbtb in tif bufffrfd pbrt of tif strfbm.
      *
-     * @serial
+     * @sfribl
      */
-    public boolean eof;
+    publid boolfbn fof;
 }

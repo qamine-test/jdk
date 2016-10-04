@@ -1,831 +1,831 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import java.security.AccessController;
-import static java.security.AccessController.doPrivileged;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Arrbys;
+import jbvb.util.EnumSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.Exfdutors;
+import jbvb.util.dondurrfnt.Exfdutor;
+import jbvb.util.dondurrfnt.TirfbdFbdtory;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.sfdurity.AddfssControllfr;
+import stbtid jbvb.sfdurity.AddfssControllfr.doPrivilfgfd;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
 
 /**
- * java.lang.Process subclass in the UNIX environment.
+ * jbvb.lbng.Prodfss subdlbss in tif UNIX fnvironmfnt.
  *
- * @author Mario Wolczko and Ross Knippel.
- * @author Konstantin Kladko (ported to Linux and Bsd)
- * @author Martin Buchholz
- * @author Volker Simonis (ported to AIX)
+ * @butior Mbrio Woldzko bnd Ross Knippfl.
+ * @butior Konstbntin Klbdko (portfd to Linux bnd Bsd)
+ * @butior Mbrtin Budiiolz
+ * @butior Volkfr Simonis (portfd to AIX)
  */
-final class UNIXProcess extends Process {
-    private static final sun.misc.JavaIOFileDescriptorAccess fdAccess
-        = sun.misc.SharedSecrets.getJavaIOFileDescriptorAccess();
+finbl dlbss UNIXProdfss fxtfnds Prodfss {
+    privbtf stbtid finbl sun.misd.JbvbIOFilfDfsdriptorAddfss fdAddfss
+        = sun.misd.SibrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
 
-    private final int pid;
-    private int exitcode;
-    private boolean hasExited;
+    privbtf finbl int pid;
+    privbtf int fxitdodf;
+    privbtf boolfbn ibsExitfd;
 
-    private /* final */ OutputStream stdin;
-    private /* final */ InputStream  stdout;
-    private /* final */ InputStream  stderr;
+    privbtf /* finbl */ OutputStrfbm stdin;
+    privbtf /* finbl */ InputStrfbm  stdout;
+    privbtf /* finbl */ InputStrfbm  stdfrr;
 
-    // only used on Solaris
-    private /* final */ DeferredCloseInputStream stdout_inner_stream;
+    // only usfd on Solbris
+    privbtf /* finbl */ DfffrrfdClosfInputStrfbm stdout_innfr_strfbm;
 
-    private static enum LaunchMechanism {
-        // order IS important!
+    privbtf stbtid fnum LbundiMfdibnism {
+        // ordfr IS importbnt!
         FORK,
         POSIX_SPAWN,
         VFORK
     }
 
-    private static enum Platform {
+    privbtf stbtid fnum Plbtform {
 
-        LINUX(LaunchMechanism.VFORK, LaunchMechanism.FORK),
+        LINUX(LbundiMfdibnism.VFORK, LbundiMfdibnism.FORK),
 
-        BSD(LaunchMechanism.POSIX_SPAWN, LaunchMechanism.FORK),
+        BSD(LbundiMfdibnism.POSIX_SPAWN, LbundiMfdibnism.FORK),
 
-        SOLARIS(LaunchMechanism.POSIX_SPAWN, LaunchMechanism.FORK),
+        SOLARIS(LbundiMfdibnism.POSIX_SPAWN, LbundiMfdibnism.FORK),
 
-        AIX(LaunchMechanism.POSIX_SPAWN, LaunchMechanism.FORK);
+        AIX(LbundiMfdibnism.POSIX_SPAWN, LbundiMfdibnism.FORK);
 
-        final LaunchMechanism defaultLaunchMechanism;
-        final Set<LaunchMechanism> validLaunchMechanisms;
+        finbl LbundiMfdibnism dffbultLbundiMfdibnism;
+        finbl Sft<LbundiMfdibnism> vblidLbundiMfdibnisms;
 
-        Platform(LaunchMechanism ... launchMechanisms) {
-            this.defaultLaunchMechanism = launchMechanisms[0];
-            this.validLaunchMechanisms =
-                EnumSet.copyOf(Arrays.asList(launchMechanisms));
+        Plbtform(LbundiMfdibnism ... lbundiMfdibnisms) {
+            tiis.dffbultLbundiMfdibnism = lbundiMfdibnisms[0];
+            tiis.vblidLbundiMfdibnisms =
+                EnumSft.dopyOf(Arrbys.bsList(lbundiMfdibnisms));
         }
 
-        @SuppressWarnings("fallthrough")
-        private String helperPath(String javahome, String osArch) {
-            switch (this) {
-                case SOLARIS:
-                    if (osArch.equals("x86")) { osArch = "i386"; }
-                    else if (osArch.equals("x86_64")) { osArch = "amd64"; }
-                    // fall through...
-                case LINUX:
-                case AIX:
-                    return javahome + "/lib/" + osArch + "/jspawnhelper";
+        @SupprfssWbrnings("fblltirougi")
+        privbtf String iflpfrPbti(String jbvbiomf, String osArdi) {
+            switdi (tiis) {
+                dbsf SOLARIS:
+                    if (osArdi.fqubls("x86")) { osArdi = "i386"; }
+                    flsf if (osArdi.fqubls("x86_64")) { osArdi = "bmd64"; }
+                    // fbll tirougi...
+                dbsf LINUX:
+                dbsf AIX:
+                    rfturn jbvbiomf + "/lib/" + osArdi + "/jspbwniflpfr";
 
-                case BSD:
-                    return javahome + "/lib/jspawnhelper";
+                dbsf BSD:
+                    rfturn jbvbiomf + "/lib/jspbwniflpfr";
 
-                default:
-                    throw new AssertionError("Unsupported platform: " + this);
+                dffbult:
+                    tirow nfw AssfrtionError("Unsupportfd plbtform: " + tiis);
             }
         }
 
-        String helperPath() {
-            return AccessController.doPrivileged(
-                (PrivilegedAction<String>) () ->
-                    helperPath(System.getProperty("java.home"),
-                               System.getProperty("os.arch"))
+        String iflpfrPbti() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () ->
+                    iflpfrPbti(Systfm.gftPropfrty("jbvb.iomf"),
+                               Systfm.gftPropfrty("os.brdi"))
             );
         }
 
-        LaunchMechanism launchMechanism() {
-            return AccessController.doPrivileged(
-                (PrivilegedAction<LaunchMechanism>) () -> {
-                    String s = System.getProperty(
-                        "jdk.lang.Process.launchMechanism");
-                    LaunchMechanism lm;
+        LbundiMfdibnism lbundiMfdibnism() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<LbundiMfdibnism>) () -> {
+                    String s = Systfm.gftPropfrty(
+                        "jdk.lbng.Prodfss.lbundiMfdibnism");
+                    LbundiMfdibnism lm;
                     if (s == null) {
-                        lm = defaultLaunchMechanism;
-                        s = lm.name().toLowerCase(Locale.ENGLISH);
-                    } else {
+                        lm = dffbultLbundiMfdibnism;
+                        s = lm.nbmf().toLowfrCbsf(Lodblf.ENGLISH);
+                    } flsf {
                         try {
-                            lm = LaunchMechanism.valueOf(
-                                s.toUpperCase(Locale.ENGLISH));
-                        } catch (IllegalArgumentException e) {
+                            lm = LbundiMfdibnism.vblufOf(
+                                s.toUppfrCbsf(Lodblf.ENGLISH));
+                        } dbtdi (IllfgblArgumfntExdfption f) {
                             lm = null;
                         }
                     }
-                    if (lm == null || !validLaunchMechanisms.contains(lm)) {
-                        throw new Error(
-                            s + " is not a supported " +
-                            "process launch mechanism on this platform."
+                    if (lm == null || !vblidLbundiMfdibnisms.dontbins(lm)) {
+                        tirow nfw Error(
+                            s + " is not b supportfd " +
+                            "prodfss lbundi mfdibnism on tiis plbtform."
                         );
                     }
-                    return lm;
+                    rfturn lm;
                 }
             );
         }
 
-        static Platform get() {
-            String osName = AccessController.doPrivileged(
-                (PrivilegedAction<String>) () -> System.getProperty("os.name")
+        stbtid Plbtform gft() {
+            String osNbmf = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("os.nbmf")
             );
 
-            if (osName.equals("Linux")) { return LINUX; }
-            if (osName.contains("OS X")) { return BSD; }
-            if (osName.equals("SunOS")) { return SOLARIS; }
-            if (osName.equals("AIX")) { return AIX; }
+            if (osNbmf.fqubls("Linux")) { rfturn LINUX; }
+            if (osNbmf.dontbins("OS X")) { rfturn BSD; }
+            if (osNbmf.fqubls("SunOS")) { rfturn SOLARIS; }
+            if (osNbmf.fqubls("AIX")) { rfturn AIX; }
 
-            throw new Error(osName + " is not a supported OS platform.");
+            tirow nfw Error(osNbmf + " is not b supportfd OS plbtform.");
         }
     }
 
-    private static final Platform platform = Platform.get();
-    private static final LaunchMechanism launchMechanism = platform.launchMechanism();
-    private static final byte[] helperpath = toCString(platform.helperPath());
+    privbtf stbtid finbl Plbtform plbtform = Plbtform.gft();
+    privbtf stbtid finbl LbundiMfdibnism lbundiMfdibnism = plbtform.lbundiMfdibnism();
+    privbtf stbtid finbl bytf[] iflpfrpbti = toCString(plbtform.iflpfrPbti());
 
-    private static byte[] toCString(String s) {
+    privbtf stbtid bytf[] toCString(String s) {
         if (s == null)
-            return null;
-        byte[] bytes = s.getBytes();
-        byte[] result = new byte[bytes.length + 1];
-        System.arraycopy(bytes, 0,
-                         result, 0,
-                         bytes.length);
-        result[result.length-1] = (byte)0;
-        return result;
+            rfturn null;
+        bytf[] bytfs = s.gftBytfs();
+        bytf[] rfsult = nfw bytf[bytfs.lfngti + 1];
+        Systfm.brrbydopy(bytfs, 0,
+                         rfsult, 0,
+                         bytfs.lfngti);
+        rfsult[rfsult.lfngti-1] = (bytf)0;
+        rfturn rfsult;
     }
 
-    /* this is for the reaping thread */
-    private native int waitForProcessExit(int pid);
+    /* tiis is for tif rfbping tirfbd */
+    privbtf nbtivf int wbitForProdfssExit(int pid);
 
     /**
-     * Creates a process. Depending on the {@code mode} flag, this is done by
-     * one of the following mechanisms:
-     * <pre>
-     *   1 - fork(2) and exec(2)
-     *   2 - posix_spawn(3P)
-     *   3 - vfork(2) and exec(2)
+     * Crfbtfs b prodfss. Dfpfnding on tif {@dodf modf} flbg, tiis is donf by
+     * onf of tif following mfdibnisms:
+     * <prf>
+     *   1 - fork(2) bnd fxfd(2)
+     *   2 - posix_spbwn(3P)
+     *   3 - vfork(2) bnd fxfd(2)
      *
-     *  (4 - clone(2) and exec(2) - obsolete and currently disabled in native code)
-     * </pre>
-     * @param fds an array of three file descriptors.
-     *        Indexes 0, 1, and 2 correspond to standard input,
-     *        standard output and standard error, respectively.  On
-     *        input, a value of -1 means to create a pipe to connect
-     *        child and parent processes.  On output, a value which
-     *        is not -1 is the parent pipe fd corresponding to the
-     *        pipe which has been created.  An element of this array
-     *        is -1 on input if and only if it is <em>not</em> -1 on
+     *  (4 - dlonf(2) bnd fxfd(2) - obsolftf bnd durrfntly disbblfd in nbtivf dodf)
+     * </prf>
+     * @pbrbm fds bn brrby of tirff filf dfsdriptors.
+     *        Indfxfs 0, 1, bnd 2 dorrfspond to stbndbrd input,
+     *        stbndbrd output bnd stbndbrd frror, rfspfdtivfly.  On
+     *        input, b vbluf of -1 mfbns to drfbtf b pipf to donnfdt
+     *        diild bnd pbrfnt prodfssfs.  On output, b vbluf wiidi
+     *        is not -1 is tif pbrfnt pipf fd dorrfsponding to tif
+     *        pipf wiidi ibs bffn drfbtfd.  An flfmfnt of tiis brrby
+     *        is -1 on input if bnd only if it is <fm>not</fm> -1 on
      *        output.
-     * @return the pid of the subprocess
+     * @rfturn tif pid of tif subprodfss
      */
-    private native int forkAndExec(int mode, byte[] helperpath,
-                                   byte[] prog,
-                                   byte[] argBlock, int argc,
-                                   byte[] envBlock, int envc,
-                                   byte[] dir,
+    privbtf nbtivf int forkAndExfd(int modf, bytf[] iflpfrpbti,
+                                   bytf[] prog,
+                                   bytf[] brgBlodk, int brgd,
+                                   bytf[] fnvBlodk, int fnvd,
+                                   bytf[] dir,
                                    int[] fds,
-                                   boolean redirectErrorStream)
-        throws IOException;
+                                   boolfbn rfdirfdtErrorStrfbm)
+        tirows IOExdfption;
 
     /**
-     * The thread pool of "process reaper" daemon threads.
+     * Tif tirfbd pool of "prodfss rfbpfr" dbfmon tirfbds.
      */
-    private static final Executor processReaperExecutor =
-        doPrivileged((PrivilegedAction<Executor>) () -> {
+    privbtf stbtid finbl Exfdutor prodfssRfbpfrExfdutor =
+        doPrivilfgfd((PrivilfgfdAdtion<Exfdutor>) () -> {
 
-            ThreadGroup tg = Thread.currentThread().getThreadGroup();
-            while (tg.getParent() != null) tg = tg.getParent();
-            ThreadGroup systemThreadGroup = tg;
+            TirfbdGroup tg = Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+            wiilf (tg.gftPbrfnt() != null) tg = tg.gftPbrfnt();
+            TirfbdGroup systfmTirfbdGroup = tg;
 
-            ThreadFactory threadFactory = grimReaper -> {
-                // Our thread stack requirement is quite modest.
-                Thread t = new Thread(systemThreadGroup, grimReaper,
-                                      "process reaper", 32768);
-                t.setDaemon(true);
-                // A small attempt (probably futile) to avoid priority inversion
-                t.setPriority(Thread.MAX_PRIORITY);
-                return t;
+            TirfbdFbdtory tirfbdFbdtory = grimRfbpfr -> {
+                // Our tirfbd stbdk rfquirfmfnt is quitf modfst.
+                Tirfbd t = nfw Tirfbd(systfmTirfbdGroup, grimRfbpfr,
+                                      "prodfss rfbpfr", 32768);
+                t.sftDbfmon(truf);
+                // A smbll bttfmpt (probbbly futilf) to bvoid priority invfrsion
+                t.sftPriority(Tirfbd.MAX_PRIORITY);
+                rfturn t;
             };
 
-            return Executors.newCachedThreadPool(threadFactory);
+            rfturn Exfdutors.nfwCbdifdTirfbdPool(tirfbdFbdtory);
         });
 
-    UNIXProcess(final byte[] prog,
-                final byte[] argBlock, final int argc,
-                final byte[] envBlock, final int envc,
-                final byte[] dir,
-                final int[] fds,
-                final boolean redirectErrorStream)
-            throws IOException {
+    UNIXProdfss(finbl bytf[] prog,
+                finbl bytf[] brgBlodk, finbl int brgd,
+                finbl bytf[] fnvBlodk, finbl int fnvd,
+                finbl bytf[] dir,
+                finbl int[] fds,
+                finbl boolfbn rfdirfdtErrorStrfbm)
+            tirows IOExdfption {
 
-        pid = forkAndExec(launchMechanism.ordinal() + 1,
-                          helperpath,
+        pid = forkAndExfd(lbundiMfdibnism.ordinbl() + 1,
+                          iflpfrpbti,
                           prog,
-                          argBlock, argc,
-                          envBlock, envc,
+                          brgBlodk, brgd,
+                          fnvBlodk, fnvd,
                           dir,
                           fds,
-                          redirectErrorStream);
+                          rfdirfdtErrorStrfbm);
 
         try {
-            doPrivileged((PrivilegedExceptionAction<Void>) () -> {
-                initStreams(fds);
-                return null;
+            doPrivilfgfd((PrivilfgfdExdfptionAdtion<Void>) () -> {
+                initStrfbms(fds);
+                rfturn null;
             });
-        } catch (PrivilegedActionException ex) {
-            throw (IOException) ex.getException();
+        } dbtdi (PrivilfgfdAdtionExdfption fx) {
+            tirow (IOExdfption) fx.gftExdfption();
         }
     }
 
-    static FileDescriptor newFileDescriptor(int fd) {
-        FileDescriptor fileDescriptor = new FileDescriptor();
-        fdAccess.set(fileDescriptor, fd);
-        return fileDescriptor;
+    stbtid FilfDfsdriptor nfwFilfDfsdriptor(int fd) {
+        FilfDfsdriptor filfDfsdriptor = nfw FilfDfsdriptor();
+        fdAddfss.sft(filfDfsdriptor, fd);
+        rfturn filfDfsdriptor;
     }
 
-    void initStreams(int[] fds) throws IOException {
-        switch (platform) {
-            case LINUX:
-            case BSD:
+    void initStrfbms(int[] fds) tirows IOExdfption {
+        switdi (plbtform) {
+            dbsf LINUX:
+            dbsf BSD:
                 stdin = (fds[0] == -1) ?
-                        ProcessBuilder.NullOutputStream.INSTANCE :
-                        new ProcessPipeOutputStream(fds[0]);
+                        ProdfssBuildfr.NullOutputStrfbm.INSTANCE :
+                        nfw ProdfssPipfOutputStrfbm(fds[0]);
 
                 stdout = (fds[1] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new ProcessPipeInputStream(fds[1]);
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw ProdfssPipfInputStrfbm(fds[1]);
 
-                stderr = (fds[2] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new ProcessPipeInputStream(fds[2]);
+                stdfrr = (fds[2] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw ProdfssPipfInputStrfbm(fds[2]);
 
-                processReaperExecutor.execute(() -> {
-                    int exitcode = waitForProcessExit(pid);
+                prodfssRfbpfrExfdutor.fxfdutf(() -> {
+                    int fxitdodf = wbitForProdfssExit(pid);
 
-                    synchronized (this) {
-                        this.exitcode = exitcode;
-                        this.hasExited = true;
-                        this.notifyAll();
+                    syndironizfd (tiis) {
+                        tiis.fxitdodf = fxitdodf;
+                        tiis.ibsExitfd = truf;
+                        tiis.notifyAll();
                     }
 
-                    if (stdout instanceof ProcessPipeInputStream)
-                        ((ProcessPipeInputStream) stdout).processExited();
+                    if (stdout instbndfof ProdfssPipfInputStrfbm)
+                        ((ProdfssPipfInputStrfbm) stdout).prodfssExitfd();
 
-                    if (stderr instanceof ProcessPipeInputStream)
-                        ((ProcessPipeInputStream) stderr).processExited();
+                    if (stdfrr instbndfof ProdfssPipfInputStrfbm)
+                        ((ProdfssPipfInputStrfbm) stdfrr).prodfssExitfd();
 
-                    if (stdin instanceof ProcessPipeOutputStream)
-                        ((ProcessPipeOutputStream) stdin).processExited();
+                    if (stdin instbndfof ProdfssPipfOutputStrfbm)
+                        ((ProdfssPipfOutputStrfbm) stdin).prodfssExitfd();
                 });
-                break;
+                brfbk;
 
-            case SOLARIS:
+            dbsf SOLARIS:
                 stdin = (fds[0] == -1) ?
-                        ProcessBuilder.NullOutputStream.INSTANCE :
-                        new BufferedOutputStream(
-                            new FileOutputStream(newFileDescriptor(fds[0])));
+                        ProdfssBuildfr.NullOutputStrfbm.INSTANCE :
+                        nfw BufffrfdOutputStrfbm(
+                            nfw FilfOutputStrfbm(nfwFilfDfsdriptor(fds[0])));
 
                 stdout = (fds[1] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new BufferedInputStream(
-                             stdout_inner_stream =
-                                 new DeferredCloseInputStream(
-                                     newFileDescriptor(fds[1])));
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw BufffrfdInputStrfbm(
+                             stdout_innfr_strfbm =
+                                 nfw DfffrrfdClosfInputStrfbm(
+                                     nfwFilfDfsdriptor(fds[1])));
 
-                stderr = (fds[2] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new DeferredCloseInputStream(newFileDescriptor(fds[2]));
+                stdfrr = (fds[2] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw DfffrrfdClosfInputStrfbm(nfwFilfDfsdriptor(fds[2]));
 
                 /*
-                 * For each subprocess forked a corresponding reaper task
-                 * is submitted.  That task is the only thread which waits
-                 * for the subprocess to terminate and it doesn't hold any
-                 * locks while doing so.  This design allows waitFor() and
-                 * exitStatus() to be safely executed in parallel (and they
-                 * need no native code).
+                 * For fbdi subprodfss forkfd b dorrfsponding rfbpfr tbsk
+                 * is submittfd.  Tibt tbsk is tif only tirfbd wiidi wbits
+                 * for tif subprodfss to tfrminbtf bnd it dofsn't iold bny
+                 * lodks wiilf doing so.  Tiis dfsign bllows wbitFor() bnd
+                 * fxitStbtus() to bf sbffly fxfdutfd in pbrbllfl (bnd tify
+                 * nffd no nbtivf dodf).
                  */
-                processReaperExecutor.execute(() -> {
-                    int exitcode = waitForProcessExit(pid);
+                prodfssRfbpfrExfdutor.fxfdutf(() -> {
+                    int fxitdodf = wbitForProdfssExit(pid);
 
-                    synchronized (this) {
-                        this.exitcode = exitcode;
-                        this.hasExited = true;
-                        this.notifyAll();
+                    syndironizfd (tiis) {
+                        tiis.fxitdodf = fxitdodf;
+                        tiis.ibsExitfd = truf;
+                        tiis.notifyAll();
                     }
                 });
-                break;
+                brfbk;
 
-            case AIX:
+            dbsf AIX:
                 stdin = (fds[0] == -1) ?
-                        ProcessBuilder.NullOutputStream.INSTANCE :
-                        new ProcessPipeOutputStream(fds[0]);
+                        ProdfssBuildfr.NullOutputStrfbm.INSTANCE :
+                        nfw ProdfssPipfOutputStrfbm(fds[0]);
 
                 stdout = (fds[1] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new DeferredCloseProcessPipeInputStream(fds[1]);
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw DfffrrfdClosfProdfssPipfInputStrfbm(fds[1]);
 
-                stderr = (fds[2] == -1) ?
-                         ProcessBuilder.NullInputStream.INSTANCE :
-                         new DeferredCloseProcessPipeInputStream(fds[2]);
+                stdfrr = (fds[2] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw DfffrrfdClosfProdfssPipfInputStrfbm(fds[2]);
 
-                processReaperExecutor.execute(() -> {
-                    int exitcode = waitForProcessExit(pid);
+                prodfssRfbpfrExfdutor.fxfdutf(() -> {
+                    int fxitdodf = wbitForProdfssExit(pid);
 
-                    synchronized (this) {
-                        this.exitcode = exitcode;
-                        this.hasExited = true;
-                        this.notifyAll();
+                    syndironizfd (tiis) {
+                        tiis.fxitdodf = fxitdodf;
+                        tiis.ibsExitfd = truf;
+                        tiis.notifyAll();
                     }
 
-                    if (stdout instanceof DeferredCloseProcessPipeInputStream)
-                        ((DeferredCloseProcessPipeInputStream) stdout).processExited();
+                    if (stdout instbndfof DfffrrfdClosfProdfssPipfInputStrfbm)
+                        ((DfffrrfdClosfProdfssPipfInputStrfbm) stdout).prodfssExitfd();
 
-                    if (stderr instanceof DeferredCloseProcessPipeInputStream)
-                        ((DeferredCloseProcessPipeInputStream) stderr).processExited();
+                    if (stdfrr instbndfof DfffrrfdClosfProdfssPipfInputStrfbm)
+                        ((DfffrrfdClosfProdfssPipfInputStrfbm) stdfrr).prodfssExitfd();
 
-                    if (stdin instanceof ProcessPipeOutputStream)
-                        ((ProcessPipeOutputStream) stdin).processExited();
+                    if (stdin instbndfof ProdfssPipfOutputStrfbm)
+                        ((ProdfssPipfOutputStrfbm) stdin).prodfssExitfd();
                 });
-                break;
+                brfbk;
 
-            default: throw new AssertionError("Unsupported platform: " + platform);
+            dffbult: tirow nfw AssfrtionError("Unsupportfd plbtform: " + plbtform);
         }
     }
 
-    public OutputStream getOutputStream() {
-        return stdin;
+    publid OutputStrfbm gftOutputStrfbm() {
+        rfturn stdin;
     }
 
-    public InputStream getInputStream() {
-        return stdout;
+    publid InputStrfbm gftInputStrfbm() {
+        rfturn stdout;
     }
 
-    public InputStream getErrorStream() {
-        return stderr;
+    publid InputStrfbm gftErrorStrfbm() {
+        rfturn stdfrr;
     }
 
-    public synchronized int waitFor() throws InterruptedException {
-        while (!hasExited) {
-            wait();
+    publid syndironizfd int wbitFor() tirows IntfrruptfdExdfption {
+        wiilf (!ibsExitfd) {
+            wbit();
         }
-        return exitcode;
+        rfturn fxitdodf;
     }
 
-    @Override
-    public synchronized boolean waitFor(long timeout, TimeUnit unit)
-        throws InterruptedException
+    @Ovfrridf
+    publid syndironizfd boolfbn wbitFor(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption
     {
-        if (hasExited) return true;
-        if (timeout <= 0) return false;
+        if (ibsExitfd) rfturn truf;
+        if (timfout <= 0) rfturn fblsf;
 
-        long timeoutAsNanos = unit.toNanos(timeout);
-        long startTime = System.nanoTime();
-        long rem = timeoutAsNanos;
+        long timfoutAsNbnos = unit.toNbnos(timfout);
+        long stbrtTimf = Systfm.nbnoTimf();
+        long rfm = timfoutAsNbnos;
 
-        while (!hasExited && (rem > 0)) {
-            wait(Math.max(TimeUnit.NANOSECONDS.toMillis(rem), 1));
-            rem = timeoutAsNanos - (System.nanoTime() - startTime);
+        wiilf (!ibsExitfd && (rfm > 0)) {
+            wbit(Mbti.mbx(TimfUnit.NANOSECONDS.toMillis(rfm), 1));
+            rfm = timfoutAsNbnos - (Systfm.nbnoTimf() - stbrtTimf);
         }
-        return hasExited;
+        rfturn ibsExitfd;
     }
 
-    public synchronized int exitValue() {
-        if (!hasExited) {
-            throw new IllegalThreadStateException("process hasn't exited");
+    publid syndironizfd int fxitVbluf() {
+        if (!ibsExitfd) {
+            tirow nfw IllfgblTirfbdStbtfExdfption("prodfss ibsn't fxitfd");
         }
-        return exitcode;
+        rfturn fxitdodf;
     }
 
-    private static native void destroyProcess(int pid, boolean force);
+    privbtf stbtid nbtivf void dfstroyProdfss(int pid, boolfbn fordf);
 
-    private void destroy(boolean force) {
-        switch (platform) {
-            case LINUX:
-            case BSD:
-            case AIX:
-                // There is a risk that pid will be recycled, causing us to
-                // kill the wrong process!  So we only terminate processes
-                // that appear to still be running.  Even with this check,
-                // there is an unavoidable race condition here, but the window
-                // is very small, and OSes try hard to not recycle pids too
-                // soon, so this is quite safe.
-                synchronized (this) {
-                    if (!hasExited)
-                        destroyProcess(pid, force);
+    privbtf void dfstroy(boolfbn fordf) {
+        switdi (plbtform) {
+            dbsf LINUX:
+            dbsf BSD:
+            dbsf AIX:
+                // Tifrf is b risk tibt pid will bf rfdydlfd, dbusing us to
+                // kill tif wrong prodfss!  So wf only tfrminbtf prodfssfs
+                // tibt bppfbr to still bf running.  Evfn witi tiis difdk,
+                // tifrf is bn unbvoidbblf rbdf dondition ifrf, but tif window
+                // is vfry smbll, bnd OSfs try ibrd to not rfdydlf pids too
+                // soon, so tiis is quitf sbff.
+                syndironizfd (tiis) {
+                    if (!ibsExitfd)
+                        dfstroyProdfss(pid, fordf);
                 }
-                try { stdin.close();  } catch (IOException ignored) {}
-                try { stdout.close(); } catch (IOException ignored) {}
-                try { stderr.close(); } catch (IOException ignored) {}
-                break;
+                try { stdin.dlosf();  } dbtdi (IOExdfption ignorfd) {}
+                try { stdout.dlosf(); } dbtdi (IOExdfption ignorfd) {}
+                try { stdfrr.dlosf(); } dbtdi (IOExdfption ignorfd) {}
+                brfbk;
 
-            case SOLARIS:
-                // There is a risk that pid will be recycled, causing us to
-                // kill the wrong process!  So we only terminate processes
-                // that appear to still be running.  Even with this check,
-                // there is an unavoidable race condition here, but the window
-                // is very small, and OSes try hard to not recycle pids too
-                // soon, so this is quite safe.
-                synchronized (this) {
-                    if (!hasExited)
-                        destroyProcess(pid, force);
+            dbsf SOLARIS:
+                // Tifrf is b risk tibt pid will bf rfdydlfd, dbusing us to
+                // kill tif wrong prodfss!  So wf only tfrminbtf prodfssfs
+                // tibt bppfbr to still bf running.  Evfn witi tiis difdk,
+                // tifrf is bn unbvoidbblf rbdf dondition ifrf, but tif window
+                // is vfry smbll, bnd OSfs try ibrd to not rfdydlf pids too
+                // soon, so tiis is quitf sbff.
+                syndironizfd (tiis) {
+                    if (!ibsExitfd)
+                        dfstroyProdfss(pid, fordf);
                     try {
-                        stdin.close();
-                        if (stdout_inner_stream != null)
-                            stdout_inner_stream.closeDeferred(stdout);
-                        if (stderr instanceof DeferredCloseInputStream)
-                            ((DeferredCloseInputStream) stderr)
-                                .closeDeferred(stderr);
-                    } catch (IOException e) {
-                        // ignore
+                        stdin.dlosf();
+                        if (stdout_innfr_strfbm != null)
+                            stdout_innfr_strfbm.dlosfDfffrrfd(stdout);
+                        if (stdfrr instbndfof DfffrrfdClosfInputStrfbm)
+                            ((DfffrrfdClosfInputStrfbm) stdfrr)
+                                .dlosfDfffrrfd(stdfrr);
+                    } dbtdi (IOExdfption f) {
+                        // ignorf
                     }
                 }
-                break;
+                brfbk;
 
-            default: throw new AssertionError("Unsupported platform: " + platform);
+            dffbult: tirow nfw AssfrtionError("Unsupportfd plbtform: " + plbtform);
         }
     }
 
-    public void destroy() {
-        destroy(false);
+    publid void dfstroy() {
+        dfstroy(fblsf);
     }
 
-    @Override
-    public Process destroyForcibly() {
-        destroy(true);
-        return this;
+    @Ovfrridf
+    publid Prodfss dfstroyFordibly() {
+        dfstroy(truf);
+        rfturn tiis;
     }
 
-    @Override
-    public long getPid() {
-        return pid;
+    @Ovfrridf
+    publid long gftPid() {
+        rfturn pid;
     }
 
-    @Override
-    public synchronized boolean isAlive() {
-        return !hasExited;
+    @Ovfrridf
+    publid syndironizfd boolfbn isAlivf() {
+        rfturn !ibsExitfd;
     }
 
-    private static native void init();
+    privbtf stbtid nbtivf void init();
 
-    static {
+    stbtid {
         init();
     }
 
     /**
-     * A buffered input stream for a subprocess pipe file descriptor
-     * that allows the underlying file descriptor to be reclaimed when
-     * the process exits, via the processExited hook.
+     * A bufffrfd input strfbm for b subprodfss pipf filf dfsdriptor
+     * tibt bllows tif undfrlying filf dfsdriptor to bf rfdlbimfd wifn
+     * tif prodfss fxits, vib tif prodfssExitfd iook.
      *
-     * This is tricky because we do not want the user-level InputStream to be
-     * closed until the user invokes close(), and we need to continue to be
-     * able to read any buffered data lingering in the OS pipe buffer.
+     * Tiis is tridky bfdbusf wf do not wbnt tif usfr-lfvfl InputStrfbm to bf
+     * dlosfd until tif usfr invokfs dlosf(), bnd wf nffd to dontinuf to bf
+     * bblf to rfbd bny bufffrfd dbtb lingfring in tif OS pipf bufffr.
      */
-    private static class ProcessPipeInputStream extends BufferedInputStream {
-        private final Object closeLock = new Object();
+    privbtf stbtid dlbss ProdfssPipfInputStrfbm fxtfnds BufffrfdInputStrfbm {
+        privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
 
-        ProcessPipeInputStream(int fd) {
-            super(new FileInputStream(newFileDescriptor(fd)));
+        ProdfssPipfInputStrfbm(int fd) {
+            supfr(nfw FilfInputStrfbm(nfwFilfDfsdriptor(fd)));
         }
-        private static byte[] drainInputStream(InputStream in)
-                throws IOException {
+        privbtf stbtid bytf[] drbinInputStrfbm(InputStrfbm in)
+                tirows IOExdfption {
             int n = 0;
             int j;
-            byte[] a = null;
-            while ((j = in.available()) > 0) {
-                a = (a == null) ? new byte[j] : Arrays.copyOf(a, n + j);
-                n += in.read(a, n, j);
+            bytf[] b = null;
+            wiilf ((j = in.bvbilbblf()) > 0) {
+                b = (b == null) ? nfw bytf[j] : Arrbys.dopyOf(b, n + j);
+                n += in.rfbd(b, n, j);
             }
-            return (a == null || n == a.length) ? a : Arrays.copyOf(a, n);
+            rfturn (b == null || n == b.lfngti) ? b : Arrbys.dopyOf(b, n);
         }
 
-        /** Called by the process reaper thread when the process exits. */
-        synchronized void processExited() {
-            synchronized (closeLock) {
+        /** Cbllfd by tif prodfss rfbpfr tirfbd wifn tif prodfss fxits. */
+        syndironizfd void prodfssExitfd() {
+            syndironizfd (dlosfLodk) {
                 try {
-                    InputStream in = this.in;
-                    // this stream is closed if and only if: in == null
+                    InputStrfbm in = tiis.in;
+                    // tiis strfbm is dlosfd if bnd only if: in == null
                     if (in != null) {
-                        byte[] stragglers = drainInputStream(in);
-                        in.close();
-                        this.in = (stragglers == null) ?
-                            ProcessBuilder.NullInputStream.INSTANCE :
-                            new ByteArrayInputStream(stragglers);
+                        bytf[] strbgglfrs = drbinInputStrfbm(in);
+                        in.dlosf();
+                        tiis.in = (strbgglfrs == null) ?
+                            ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                            nfw BytfArrbyInputStrfbm(strbgglfrs);
                     }
-                } catch (IOException ignored) {}
+                } dbtdi (IOExdfption ignorfd) {}
             }
         }
 
-        @Override
-        public void close() throws IOException {
-            // BufferedInputStream#close() is not synchronized unlike most other
-            // methods. Synchronizing helps avoid race with processExited().
-            synchronized (closeLock) {
-                super.close();
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            // BufffrfdInputStrfbm#dlosf() is not syndironizfd unlikf most otifr
+            // mftiods. Syndironizing iflps bvoid rbdf witi prodfssExitfd().
+            syndironizfd (dlosfLodk) {
+                supfr.dlosf();
             }
         }
     }
 
     /**
-     * A buffered output stream for a subprocess pipe file descriptor
-     * that allows the underlying file descriptor to be reclaimed when
-     * the process exits, via the processExited hook.
+     * A bufffrfd output strfbm for b subprodfss pipf filf dfsdriptor
+     * tibt bllows tif undfrlying filf dfsdriptor to bf rfdlbimfd wifn
+     * tif prodfss fxits, vib tif prodfssExitfd iook.
      */
-    private static class ProcessPipeOutputStream extends BufferedOutputStream {
-        ProcessPipeOutputStream(int fd) {
-            super(new FileOutputStream(newFileDescriptor(fd)));
+    privbtf stbtid dlbss ProdfssPipfOutputStrfbm fxtfnds BufffrfdOutputStrfbm {
+        ProdfssPipfOutputStrfbm(int fd) {
+            supfr(nfw FilfOutputStrfbm(nfwFilfDfsdriptor(fd)));
         }
 
-        /** Called by the process reaper thread when the process exits. */
-        synchronized void processExited() {
-            OutputStream out = this.out;
+        /** Cbllfd by tif prodfss rfbpfr tirfbd wifn tif prodfss fxits. */
+        syndironizfd void prodfssExitfd() {
+            OutputStrfbm out = tiis.out;
             if (out != null) {
                 try {
-                    out.close();
-                } catch (IOException ignored) {
-                    // We know of no reason to get an IOException, but if
-                    // we do, there's nothing else to do but carry on.
+                    out.dlosf();
+                } dbtdi (IOExdfption ignorfd) {
+                    // Wf know of no rfbson to gft bn IOExdfption, but if
+                    // wf do, tifrf's notiing flsf to do but dbrry on.
                 }
-                this.out = ProcessBuilder.NullOutputStream.INSTANCE;
+                tiis.out = ProdfssBuildfr.NullOutputStrfbm.INSTANCE;
             }
         }
     }
 
-    // A FileInputStream that supports the deferment of the actual close
-    // operation until the last pending I/O operation on the stream has
-    // finished.  This is required on Solaris because we must close the stdin
-    // and stdout streams in the destroy method in order to reclaim the
-    // underlying file descriptors.  Doing so, however, causes any thread
-    // currently blocked in a read on one of those streams to receive an
-    // IOException("Bad file number"), which is incompatible with historical
-    // behavior.  By deferring the close we allow any pending reads to see -1
-    // (EOF) as they did before.
+    // A FilfInputStrfbm tibt supports tif dfffrmfnt of tif bdtubl dlosf
+    // opfrbtion until tif lbst pfnding I/O opfrbtion on tif strfbm ibs
+    // finisifd.  Tiis is rfquirfd on Solbris bfdbusf wf must dlosf tif stdin
+    // bnd stdout strfbms in tif dfstroy mftiod in ordfr to rfdlbim tif
+    // undfrlying filf dfsdriptors.  Doing so, iowfvfr, dbusfs bny tirfbd
+    // durrfntly blodkfd in b rfbd on onf of tiosf strfbms to rfdfivf bn
+    // IOExdfption("Bbd filf numbfr"), wiidi is indompbtiblf witi iistoridbl
+    // bfibvior.  By dfffrring tif dlosf wf bllow bny pfnding rfbds to sff -1
+    // (EOF) bs tify did bfforf.
     //
-    private static class DeferredCloseInputStream extends FileInputStream
+    privbtf stbtid dlbss DfffrrfdClosfInputStrfbm fxtfnds FilfInputStrfbm
     {
-        DeferredCloseInputStream(FileDescriptor fd) {
-            super(fd);
+        DfffrrfdClosfInputStrfbm(FilfDfsdriptor fd) {
+            supfr(fd);
         }
 
-        private Object lock = new Object();     // For the following fields
-        private boolean closePending = false;
-        private int useCount = 0;
-        private InputStream streamToClose;
+        privbtf Objfdt lodk = nfw Objfdt();     // For tif following fiflds
+        privbtf boolfbn dlosfPfnding = fblsf;
+        privbtf int usfCount = 0;
+        privbtf InputStrfbm strfbmToClosf;
 
-        private void raise() {
-            synchronized (lock) {
-                useCount++;
+        privbtf void rbisf() {
+            syndironizfd (lodk) {
+                usfCount++;
             }
         }
 
-        private void lower() throws IOException {
-            synchronized (lock) {
-                useCount--;
-                if (useCount == 0 && closePending) {
-                    streamToClose.close();
+        privbtf void lowfr() tirows IOExdfption {
+            syndironizfd (lodk) {
+                usfCount--;
+                if (usfCount == 0 && dlosfPfnding) {
+                    strfbmToClosf.dlosf();
                 }
             }
         }
 
-        // stc is the actual stream to be closed; it might be this object, or
-        // it might be an upstream object for which this object is downstream.
+        // std is tif bdtubl strfbm to bf dlosfd; it migit bf tiis objfdt, or
+        // it migit bf bn upstrfbm objfdt for wiidi tiis objfdt is downstrfbm.
         //
-        private void closeDeferred(InputStream stc) throws IOException {
-            synchronized (lock) {
-                if (useCount == 0) {
-                    stc.close();
-                } else {
-                    closePending = true;
-                    streamToClose = stc;
+        privbtf void dlosfDfffrrfd(InputStrfbm std) tirows IOExdfption {
+            syndironizfd (lodk) {
+                if (usfCount == 0) {
+                    std.dlosf();
+                } flsf {
+                    dlosfPfnding = truf;
+                    strfbmToClosf = std;
                 }
             }
         }
 
-        public void close() throws IOException {
-            synchronized (lock) {
-                useCount = 0;
-                closePending = false;
+        publid void dlosf() tirows IOExdfption {
+            syndironizfd (lodk) {
+                usfCount = 0;
+                dlosfPfnding = fblsf;
             }
-            super.close();
+            supfr.dlosf();
         }
 
-        public int read() throws IOException {
-            raise();
+        publid int rfbd() tirows IOExdfption {
+            rbisf();
             try {
-                return super.read();
-            } finally {
-                lower();
-            }
-        }
-
-        public int read(byte[] b) throws IOException {
-            raise();
-            try {
-                return super.read(b);
-            } finally {
-                lower();
+                rfturn supfr.rfbd();
+            } finblly {
+                lowfr();
             }
         }
 
-        public int read(byte[] b, int off, int len) throws IOException {
-            raise();
+        publid int rfbd(bytf[] b) tirows IOExdfption {
+            rbisf();
             try {
-                return super.read(b, off, len);
-            } finally {
-                lower();
+                rfturn supfr.rfbd(b);
+            } finblly {
+                lowfr();
             }
         }
 
-        public long skip(long n) throws IOException {
-            raise();
+        publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+            rbisf();
             try {
-                return super.skip(n);
-            } finally {
-                lower();
+                rfturn supfr.rfbd(b, off, lfn);
+            } finblly {
+                lowfr();
             }
         }
 
-        public int available() throws IOException {
-            raise();
+        publid long skip(long n) tirows IOExdfption {
+            rbisf();
             try {
-                return super.available();
-            } finally {
-                lower();
+                rfturn supfr.skip(n);
+            } finblly {
+                lowfr();
+            }
+        }
+
+        publid int bvbilbblf() tirows IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.bvbilbblf();
+            } finblly {
+                lowfr();
             }
         }
     }
 
     /**
-     * A buffered input stream for a subprocess pipe file descriptor
-     * that allows the underlying file descriptor to be reclaimed when
-     * the process exits, via the processExited hook.
+     * A bufffrfd input strfbm for b subprodfss pipf filf dfsdriptor
+     * tibt bllows tif undfrlying filf dfsdriptor to bf rfdlbimfd wifn
+     * tif prodfss fxits, vib tif prodfssExitfd iook.
      *
-     * This is tricky because we do not want the user-level InputStream to be
-     * closed until the user invokes close(), and we need to continue to be
-     * able to read any buffered data lingering in the OS pipe buffer.
+     * Tiis is tridky bfdbusf wf do not wbnt tif usfr-lfvfl InputStrfbm to bf
+     * dlosfd until tif usfr invokfs dlosf(), bnd wf nffd to dontinuf to bf
+     * bblf to rfbd bny bufffrfd dbtb lingfring in tif OS pipf bufffr.
      *
-     * On AIX this is especially tricky, because the 'close()' system call
-     * will block if another thread is at the same time blocked in a file
-     * operation (e.g. 'read()') on the same file descriptor. We therefore
-     * combine 'ProcessPipeInputStream' approach used on Linux and Bsd
-     * with the DeferredCloseInputStream approach used on Solaris. This means
-     * that every potentially blocking operation on the file descriptor
-     * increments a counter before it is executed and decrements it once it
-     * finishes. The 'close()' operation will only be executed if there are
-     * no pending operations. Otherwise it is deferred after the last pending
-     * operation has finished.
+     * On AIX tiis is fspfdiblly tridky, bfdbusf tif 'dlosf()' systfm dbll
+     * will blodk if bnotifr tirfbd is bt tif sbmf timf blodkfd in b filf
+     * opfrbtion (f.g. 'rfbd()') on tif sbmf filf dfsdriptor. Wf tifrfforf
+     * dombinf 'ProdfssPipfInputStrfbm' bpprobdi usfd on Linux bnd Bsd
+     * witi tif DfffrrfdClosfInputStrfbm bpprobdi usfd on Solbris. Tiis mfbns
+     * tibt fvfry potfntiblly blodking opfrbtion on tif filf dfsdriptor
+     * indrfmfnts b dountfr bfforf it is fxfdutfd bnd dfdrfmfnts it ondf it
+     * finisifs. Tif 'dlosf()' opfrbtion will only bf fxfdutfd if tifrf brf
+     * no pfnding opfrbtions. Otifrwisf it is dfffrrfd bftfr tif lbst pfnding
+     * opfrbtion ibs finisifd.
      *
      */
-    private static class DeferredCloseProcessPipeInputStream
-        extends BufferedInputStream {
+    privbtf stbtid dlbss DfffrrfdClosfProdfssPipfInputStrfbm
+        fxtfnds BufffrfdInputStrfbm {
 
-        private final Object closeLock = new Object();
-        private int useCount = 0;
-        private boolean closePending = false;
+        privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
+        privbtf int usfCount = 0;
+        privbtf boolfbn dlosfPfnding = fblsf;
 
-        DeferredCloseProcessPipeInputStream(int fd) {
-            super(new FileInputStream(newFileDescriptor(fd)));
+        DfffrrfdClosfProdfssPipfInputStrfbm(int fd) {
+            supfr(nfw FilfInputStrfbm(nfwFilfDfsdriptor(fd)));
         }
 
-        private InputStream drainInputStream(InputStream in)
-                throws IOException {
+        privbtf InputStrfbm drbinInputStrfbm(InputStrfbm in)
+                tirows IOExdfption {
             int n = 0;
             int j;
-            byte[] a = null;
-            synchronized (closeLock) {
-                if (buf == null) // asynchronous close()?
-                    return null; // discard
-                j = in.available();
+            bytf[] b = null;
+            syndironizfd (dlosfLodk) {
+                if (buf == null) // bsyndironous dlosf()?
+                    rfturn null; // disdbrd
+                j = in.bvbilbblf();
             }
-            while (j > 0) {
-                a = (a == null) ? new byte[j] : Arrays.copyOf(a, n + j);
-                synchronized (closeLock) {
-                    if (buf == null) // asynchronous close()?
-                        return null; // discard
-                    n += in.read(a, n, j);
-                    j = in.available();
+            wiilf (j > 0) {
+                b = (b == null) ? nfw bytf[j] : Arrbys.dopyOf(b, n + j);
+                syndironizfd (dlosfLodk) {
+                    if (buf == null) // bsyndironous dlosf()?
+                        rfturn null; // disdbrd
+                    n += in.rfbd(b, n, j);
+                    j = in.bvbilbblf();
                 }
             }
-            return (a == null) ?
-                    ProcessBuilder.NullInputStream.INSTANCE :
-                    new ByteArrayInputStream(n == a.length ? a : Arrays.copyOf(a, n));
+            rfturn (b == null) ?
+                    ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                    nfw BytfArrbyInputStrfbm(n == b.lfngti ? b : Arrbys.dopyOf(b, n));
         }
 
-        /** Called by the process reaper thread when the process exits. */
-        synchronized void processExited() {
+        /** Cbllfd by tif prodfss rfbpfr tirfbd wifn tif prodfss fxits. */
+        syndironizfd void prodfssExitfd() {
             try {
-                InputStream in = this.in;
+                InputStrfbm in = tiis.in;
                 if (in != null) {
-                    InputStream stragglers = drainInputStream(in);
-                    in.close();
-                    this.in = stragglers;
+                    InputStrfbm strbgglfrs = drbinInputStrfbm(in);
+                    in.dlosf();
+                    tiis.in = strbgglfrs;
                 }
-            } catch (IOException ignored) { }
+            } dbtdi (IOExdfption ignorfd) { }
         }
 
-        private void raise() {
-            synchronized (closeLock) {
-                useCount++;
+        privbtf void rbisf() {
+            syndironizfd (dlosfLodk) {
+                usfCount++;
             }
         }
 
-        private void lower() throws IOException {
-            synchronized (closeLock) {
-                useCount--;
-                if (useCount == 0 && closePending) {
-                    closePending = false;
-                    super.close();
+        privbtf void lowfr() tirows IOExdfption {
+            syndironizfd (dlosfLodk) {
+                usfCount--;
+                if (usfCount == 0 && dlosfPfnding) {
+                    dlosfPfnding = fblsf;
+                    supfr.dlosf();
                 }
             }
         }
 
-        @Override
-        public int read() throws IOException {
-            raise();
+        @Ovfrridf
+        publid int rfbd() tirows IOExdfption {
+            rbisf();
             try {
-                return super.read();
-            } finally {
-                lower();
+                rfturn supfr.rfbd();
+            } finblly {
+                lowfr();
             }
         }
 
-        @Override
-        public int read(byte[] b) throws IOException {
-            raise();
+        @Ovfrridf
+        publid int rfbd(bytf[] b) tirows IOExdfption {
+            rbisf();
             try {
-                return super.read(b);
-            } finally {
-                lower();
+                rfturn supfr.rfbd(b);
+            } finblly {
+                lowfr();
             }
         }
 
-        @Override
-        public int read(byte[] b, int off, int len) throws IOException {
-            raise();
+        @Ovfrridf
+        publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+            rbisf();
             try {
-                return super.read(b, off, len);
-            } finally {
-                lower();
+                rfturn supfr.rfbd(b, off, lfn);
+            } finblly {
+                lowfr();
             }
         }
 
-        @Override
-        public long skip(long n) throws IOException {
-            raise();
+        @Ovfrridf
+        publid long skip(long n) tirows IOExdfption {
+            rbisf();
             try {
-                return super.skip(n);
-            } finally {
-                lower();
+                rfturn supfr.skip(n);
+            } finblly {
+                lowfr();
             }
         }
 
-        @Override
-        public int available() throws IOException {
-            raise();
+        @Ovfrridf
+        publid int bvbilbblf() tirows IOExdfption {
+            rbisf();
             try {
-                return super.available();
-            } finally {
-                lower();
+                rfturn supfr.bvbilbblf();
+            } finblly {
+                lowfr();
             }
         }
 
-        @Override
-        public void close() throws IOException {
-            // BufferedInputStream#close() is not synchronized unlike most other
-            // methods. Synchronizing helps avoid racing with drainInputStream().
-            synchronized (closeLock) {
-                if (useCount == 0) {
-                    super.close();
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            // BufffrfdInputStrfbm#dlosf() is not syndironizfd unlikf most otifr
+            // mftiods. Syndironizing iflps bvoid rbding witi drbinInputStrfbm().
+            syndironizfd (dlosfLodk) {
+                if (usfCount == 0) {
+                    supfr.dlosf();
                 }
-                else {
-                    closePending = true;
+                flsf {
+                    dlosfPfnding = truf;
                 }
             }
         }

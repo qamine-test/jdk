@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.KeyUsage;
-import sun.security.util.*;
-import java.io.IOException;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
 
 /**
- * This class encapsulates a KRB-AP-REP sent from the service to the
- * client.
+ * Tiis dlbss fndbpsulbtfs b KRB-AP-REP sfnt from tif sfrvidf to tif
+ * dlifnt.
  */
-public class KrbApRep {
-    private byte[] obuf;
-    private byte[] ibuf;
-    private EncAPRepPart encPart; // although in plain text
-    private APRep apRepMessg;
+publid dlbss KrbApRfp {
+    privbtf bytf[] obuf;
+    privbtf bytf[] ibuf;
+    privbtf EndAPRfpPbrt fndPbrt; // bltiougi in plbin tfxt
+    privbtf APRfp bpRfpMfssg;
 
     /**
-     * Constructs a KRB-AP-REP to send to a client.
-     * @throws KrbException
-     * @throws IOException
+     * Construdts b KRB-AP-REP to sfnd to b dlifnt.
+     * @tirows KrbExdfption
+     * @tirows IOExdfption
      */
-     // Used in AcceptSecContextToken
-    public KrbApRep(KrbApReq incomingReq,
-                     boolean useSeqNumber,
-                     EncryptionKey subKey)
-            throws KrbException, IOException {
+     // Usfd in AddfptSfdContfxtTokfn
+    publid KrbApRfp(KrbApRfq indomingRfq,
+                     boolfbn usfSfqNumbfr,
+                     EndryptionKfy subKfy)
+            tirows KrbExdfption, IOExdfption {
 
-        SeqNumber seqNum = new LocalSeqNumber();
+        SfqNumbfr sfqNum = nfw LodblSfqNumbfr();
 
-        init(incomingReq, subKey, seqNum);
+        init(indomingRfq, subKfy, sfqNum);
     }
 
     /**
-     * Constructs a KRB-AP-REQ from the bytes received from a service.
-     * @throws KrbException
-     * @throws IOException
+     * Construdts b KRB-AP-REQ from tif bytfs rfdfivfd from b sfrvidf.
+     * @tirows KrbExdfption
+     * @tirows IOExdfption
      */
-     // Used in AcceptSecContextToken
-    public KrbApRep(byte[] message, Credentials tgtCreds,
-                    KrbApReq outgoingReq) throws KrbException, IOException {
-        this(message, tgtCreds);
-        authenticate(outgoingReq);
+     // Usfd in AddfptSfdContfxtTokfn
+    publid KrbApRfp(bytf[] mfssbgf, Crfdfntibls tgtCrfds,
+                    KrbApRfq outgoingRfq) tirows KrbExdfption, IOExdfption {
+        tiis(mfssbgf, tgtCrfds);
+        butifntidbtf(outgoingRfq);
     }
 
-    private void init(KrbApReq apReq,
-              EncryptionKey subKey,
-        SeqNumber seqNumber)
-        throws KrbException, IOException {
-        createMessage(
-                      apReq.getCreds().key,
-                      apReq.getCtime(),
-                      apReq.cusec(),
-                      subKey,
-                      seqNumber);
-        obuf = apRepMessg.asn1Encode();
+    privbtf void init(KrbApRfq bpRfq,
+              EndryptionKfy subKfy,
+        SfqNumbfr sfqNumbfr)
+        tirows KrbExdfption, IOExdfption {
+        drfbtfMfssbgf(
+                      bpRfq.gftCrfds().kfy,
+                      bpRfq.gftCtimf(),
+                      bpRfq.dusfd(),
+                      subKfy,
+                      sfqNumbfr);
+        obuf = bpRfpMfssg.bsn1Endodf();
     }
 
 
     /**
-     * Constructs a KrbApRep object.
-     * @param msg a byte array of reply message.
-     * @param tgs_creds client's credential.
-     * @exception KrbException
-     * @exception IOException
+     * Construdts b KrbApRfp objfdt.
+     * @pbrbm msg b bytf brrby of rfply mfssbgf.
+     * @pbrbm tgs_drfds dlifnt's drfdfntibl.
+     * @fxdfption KrbExdfption
+     * @fxdfption IOExdfption
      */
-    private KrbApRep(byte[] msg, Credentials tgs_creds)
-        throws KrbException, IOException {
-        this(new DerValue(msg), tgs_creds);
+    privbtf KrbApRfp(bytf[] msg, Crfdfntibls tgs_drfds)
+        tirows KrbExdfption, IOExdfption {
+        tiis(nfw DfrVbluf(msg), tgs_drfds);
     }
 
     /**
-     * Constructs a KrbApRep object.
-     * @param msg a byte array of reply message.
-     * @param tgs_creds client's credential.
-     * @exception KrbException
-     * @exception IOException
+     * Construdts b KrbApRfp objfdt.
+     * @pbrbm msg b bytf brrby of rfply mfssbgf.
+     * @pbrbm tgs_drfds dlifnt's drfdfntibl.
+     * @fxdfption KrbExdfption
+     * @fxdfption IOExdfption
      */
-    private KrbApRep(DerValue encoding, Credentials tgs_creds)
-        throws KrbException, IOException {
-        APRep rep = null;
+    privbtf KrbApRfp(DfrVbluf fndoding, Crfdfntibls tgs_drfds)
+        tirows KrbExdfption, IOExdfption {
+        APRfp rfp = null;
         try {
-            rep = new APRep(encoding);
-        } catch (Asn1Exception e) {
-            rep = null;
-            KRBError err = new KRBError(encoding);
-            String errStr = err.getErrorString();
-            String eText;
-            if (errStr.charAt(errStr.length() - 1) == 0)
-                eText = errStr.substring(0, errStr.length() - 1);
-            else
-                eText = errStr;
-            KrbException ke = new KrbException(err.getErrorCode(), eText);
-            ke.initCause(e);
-            throw ke;
+            rfp = nfw APRfp(fndoding);
+        } dbtdi (Asn1Exdfption f) {
+            rfp = null;
+            KRBError frr = nfw KRBError(fndoding);
+            String frrStr = frr.gftErrorString();
+            String fTfxt;
+            if (frrStr.dibrAt(frrStr.lfngti() - 1) == 0)
+                fTfxt = frrStr.substring(0, frrStr.lfngti() - 1);
+            flsf
+                fTfxt = frrStr;
+            KrbExdfption kf = nfw KrbExdfption(frr.gftErrorCodf(), fTfxt);
+            kf.initCbusf(f);
+            tirow kf;
         }
 
-        byte[] temp = rep.encPart.decrypt(tgs_creds.key,
-            KeyUsage.KU_ENC_AP_REP_PART);
-        byte[] enc_ap_rep_part = rep.encPart.reset(temp);
+        bytf[] tfmp = rfp.fndPbrt.dfdrypt(tgs_drfds.kfy,
+            KfyUsbgf.KU_ENC_AP_REP_PART);
+        bytf[] fnd_bp_rfp_pbrt = rfp.fndPbrt.rfsft(tfmp);
 
-        encoding = new DerValue(enc_ap_rep_part);
-        encPart = new EncAPRepPart(encoding);
+        fndoding = nfw DfrVbluf(fnd_bp_rfp_pbrt);
+        fndPbrt = nfw EndAPRfpPbrt(fndoding);
     }
 
-    private void authenticate(KrbApReq apReq)
-        throws KrbException, IOException {
-        if (encPart.ctime.getSeconds() != apReq.getCtime().getSeconds() ||
-            encPart.cusec != apReq.getCtime().getMicroSeconds())
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MUT_FAIL);
+    privbtf void butifntidbtf(KrbApRfq bpRfq)
+        tirows KrbExdfption, IOExdfption {
+        if (fndPbrt.dtimf.gftSfdonds() != bpRfq.gftCtimf().gftSfdonds() ||
+            fndPbrt.dusfd != bpRfq.gftCtimf().gftMidroSfdonds())
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MUT_FAIL);
     }
 
 
     /**
-     * Returns the optional subkey stored in
-     * this message. Returns null if none is stored.
+     * Rfturns tif optionbl subkfy storfd in
+     * tiis mfssbgf. Rfturns null if nonf is storfd.
      */
-    public EncryptionKey getSubKey() {
-        // XXX Can encPart be null
-        return encPart.getSubKey();
+    publid EndryptionKfy gftSubKfy() {
+        // XXX Cbn fndPbrt bf null
+        rfturn fndPbrt.gftSubKfy();
 
     }
 
     /**
-     * Returns the optional sequence number stored in the
-     * this message. Returns null if none is stored.
+     * Rfturns tif optionbl sfqufndf numbfr storfd in tif
+     * tiis mfssbgf. Rfturns null if nonf is storfd.
      */
-    public Integer getSeqNumber() {
-        // XXX Can encPart be null
-        return encPart.getSeqNumber();
+    publid Intfgfr gftSfqNumbfr() {
+        // XXX Cbn fndPbrt bf null
+        rfturn fndPbrt.gftSfqNumbfr();
     }
 
     /**
-     * Returns the ASN.1 encoding that should be sent to the peer.
+     * Rfturns tif ASN.1 fndoding tibt siould bf sfnt to tif pffr.
      */
-    public byte[] getMessage() {
-        return obuf;
+    publid bytf[] gftMfssbgf() {
+        rfturn obuf;
     }
 
-    private void createMessage(
-                               EncryptionKey key,
-                               KerberosTime ctime,
-                               int cusec,
-                               EncryptionKey subKey,
-                               SeqNumber seqNumber)
-        throws Asn1Exception, IOException,
-               KdcErrException, KrbCryptoException {
+    privbtf void drfbtfMfssbgf(
+                               EndryptionKfy kfy,
+                               KfrbfrosTimf dtimf,
+                               int dusfd,
+                               EndryptionKfy subKfy,
+                               SfqNumbfr sfqNumbfr)
+        tirows Asn1Exdfption, IOExdfption,
+               KddErrExdfption, KrbCryptoExdfption {
 
-        Integer seqno = null;
+        Intfgfr sfqno = null;
 
-        if (seqNumber != null)
-            seqno = seqNumber.current();
+        if (sfqNumbfr != null)
+            sfqno = sfqNumbfr.durrfnt();
 
-        encPart = new EncAPRepPart(ctime,
-                                   cusec,
-                                   subKey,
-                                   seqno);
+        fndPbrt = nfw EndAPRfpPbrt(dtimf,
+                                   dusfd,
+                                   subKfy,
+                                   sfqno);
 
-        byte[] encPartEncoding = encPart.asn1Encode();
+        bytf[] fndPbrtEndoding = fndPbrt.bsn1Endodf();
 
-        EncryptedData encEncPart = new EncryptedData(key, encPartEncoding,
-            KeyUsage.KU_ENC_AP_REP_PART);
+        EndryptfdDbtb fndEndPbrt = nfw EndryptfdDbtb(kfy, fndPbrtEndoding,
+            KfyUsbgf.KU_ENC_AP_REP_PART);
 
-        apRepMessg = new APRep(encEncPart);
+        bpRfpMfssg = nfw APRfp(fndEndPbrt);
     }
 
 }

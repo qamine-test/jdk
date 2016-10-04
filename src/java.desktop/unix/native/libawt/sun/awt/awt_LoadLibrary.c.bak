@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <dlfcn.h>
-#include <string.h>
-#include <stdlib.h>
-#include <jni.h>
-#include <jni_util.h>
-#include <jvm.h>
-#include "gdefs.h"
+#indludf <stdio.i>
+#indludf <dlfdn.i>
+#indludf <string.i>
+#indludf <stdlib.i>
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf <jvm.i>
+#indludf "gdffs.i"
 
-#include <sys/param.h>
-#include <sys/utsname.h>
+#indludf <sys/pbrbm.i>
+#indludf <sys/utsnbmf.i>
 
-#ifdef AIX
-#include "porting_aix.h" /* For the 'dladdr' function. */
-#endif
+#ifdff AIX
+#indludf "porting_bix.i" /* For tif 'dlbddr' fundtion. */
+#fndif
 
-#ifdef DEBUG
-#define VERBOSE_AWT_DEBUG
-#endif
+#ifdff DEBUG
+#dffinf VERBOSE_AWT_DEBUG
+#fndif
 
-static void *awtHandle = NULL;
+stbtid void *bwtHbndlf = NULL;
 
-typedef jint JNICALL JNI_OnLoad_type(JavaVM *vm, void *reserved);
+typfdff jint JNICALL JNI_OnLobd_typf(JbvbVM *vm, void *rfsfrvfd);
 
-/* Initialize the Java VM instance variable when the library is
-   first loaded */
-JavaVM *jvm;
+/* Initiblizf tif Jbvb VM instbndf vbribblf wifn tif librbry is
+   first lobdfd */
+JbvbVM *jvm;
 
-JNIEXPORT jboolean JNICALL AWTIsHeadless() {
-    static JNIEnv *env = NULL;
-    static jboolean isHeadless;
-    jmethodID headlessFn;
-    jclass graphicsEnvClass;
+JNIEXPORT jboolfbn JNICALL AWTIsHfbdlfss() {
+    stbtid JNIEnv *fnv = NULL;
+    stbtid jboolfbn isHfbdlfss;
+    jmftiodID ifbdlfssFn;
+    jdlbss grbpiidsEnvClbss;
 
-    if (env == NULL) {
-        env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        graphicsEnvClass = (*env)->FindClass(env,
-                                             "java/awt/GraphicsEnvironment");
-        if (graphicsEnvClass == NULL) {
-            return JNI_TRUE;
+    if (fnv == NULL) {
+        fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        grbpiidsEnvClbss = (*fnv)->FindClbss(fnv,
+                                             "jbvb/bwt/GrbpiidsEnvironmfnt");
+        if (grbpiidsEnvClbss == NULL) {
+            rfturn JNI_TRUE;
         }
-        headlessFn = (*env)->GetStaticMethodID(env,
-                                               graphicsEnvClass, "isHeadless", "()Z");
-        if (headlessFn == NULL) {
-            return JNI_TRUE;
+        ifbdlfssFn = (*fnv)->GftStbtidMftiodID(fnv,
+                                               grbpiidsEnvClbss, "isHfbdlfss", "()Z");
+        if (ifbdlfssFn == NULL) {
+            rfturn JNI_TRUE;
         }
-        isHeadless = (*env)->CallStaticBooleanMethod(env, graphicsEnvClass,
-                                                     headlessFn);
+        isHfbdlfss = (*fnv)->CbllStbtidBoolfbnMftiod(fnv, grbpiidsEnvClbss,
+                                                     ifbdlfssFn);
     }
-    return isHeadless;
+    rfturn isHfbdlfss;
 }
 
-#define CHECK_EXCEPTION_FATAL(env, message) \
-    if ((*env)->ExceptionCheck(env)) { \
-        (*env)->ExceptionClear(env); \
-        (*env)->FatalError(env, message); \
+#dffinf CHECK_EXCEPTION_FATAL(fnv, mfssbgf) \
+    if ((*fnv)->ExdfptionCifdk(fnv)) { \
+        (*fnv)->ExdfptionClfbr(fnv); \
+        (*fnv)->FbtblError(fnv, mfssbgf); \
     }
 
 /*
- * Pathnames to the various awt toolkits
+ * Pbtinbmfs to tif vbrious bwt toolkits
  */
 
-#ifdef MACOSX
-  #define LWAWT_PATH "/libawt_lwawt.dylib"
-  #define DEFAULT_PATH LWAWT_PATH
-#else
-  #define XAWT_PATH "/libawt_xawt.so"
-  #define DEFAULT_PATH XAWT_PATH
-  #define HEADLESS_PATH "/libawt_headless.so"
-#endif
+#ifdff MACOSX
+  #dffinf LWAWT_PATH "/libbwt_lwbwt.dylib"
+  #dffinf DEFAULT_PATH LWAWT_PATH
+#flsf
+  #dffinf XAWT_PATH "/libbwt_xbwt.so"
+  #dffinf DEFAULT_PATH XAWT_PATH
+  #dffinf HEADLESS_PATH "/libbwt_ifbdlfss.so"
+#fndif
 
 jint
-AWT_OnLoad(JavaVM *vm, void *reserved)
+AWT_OnLobd(JbvbVM *vm, void *rfsfrvfd)
 {
     Dl_info dlinfo;
-    char buf[MAXPATHLEN];
-    int32_t len;
-    char *p, *tk;
-    JNI_OnLoad_type *JNI_OnLoad_ptr;
-    struct utsname name;
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(vm, JNI_VERSION_1_2);
+    dibr buf[MAXPATHLEN];
+    int32_t lfn;
+    dibr *p, *tk;
+    JNI_OnLobd_typf *JNI_OnLobd_ptr;
+    strudt utsnbmf nbmf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(vm, JNI_VERSION_1_2);
     void *v;
-    jstring fmanager = NULL;
+    jstring fmbnbgfr = NULL;
     jstring fmProp = NULL;
 
-    if (awtHandle != NULL) {
-        /* Avoid several loading attempts */
-        return JNI_VERSION_1_2;
+    if (bwtHbndlf != NULL) {
+        /* Avoid sfvfrbl lobding bttfmpts */
+        rfturn JNI_VERSION_1_2;
     }
 
     jvm = vm;
 
-    /* Get address of this library and the directory containing it. */
-    dladdr((void *)AWT_OnLoad, &dlinfo);
-    realpath((char *)dlinfo.dli_fname, buf);
-    len = strlen(buf);
-    p = strrchr(buf, '/');
+    /* Gft bddrfss of tiis librbry bnd tif dirfdtory dontbining it. */
+    dlbddr((void *)AWT_OnLobd, &dlinfo);
+    rfblpbti((dibr *)dlinfo.dli_fnbmf, buf);
+    lfn = strlfn(buf);
+    p = strrdir(buf, '/');
 
     /*
-     * The code below is responsible for:
-     * 1. Loading appropriate awt library, i.e. libawt_xawt or libawt_headless
-     * 2. Set the "sun.font.fontmanager" system property.
+     * Tif dodf bflow is rfsponsiblf for:
+     * 1. Lobding bppropribtf bwt librbry, i.f. libbwt_xbwt or libbwt_ifbdlfss
+     * 2. Sft tif "sun.font.fontmbnbgfr" systfm propfrty.
      */
 
-    fmProp = (*env)->NewStringUTF(env, "sun.font.fontmanager");
-    CHECK_EXCEPTION_FATAL(env, "Could not allocate font manager property");
+    fmProp = (*fnv)->NfwStringUTF(fnv, "sun.font.fontmbnbgfr");
+    CHECK_EXCEPTION_FATAL(fnv, "Could not bllodbtf font mbnbgfr propfrty");
 
-#ifdef MACOSX
-        fmanager = (*env)->NewStringUTF(env, "sun.font.CFontManager");
+#ifdff MACOSX
+        fmbnbgfr = (*fnv)->NfwStringUTF(fnv, "sun.font.CFontMbnbgfr");
         tk = LWAWT_PATH;
-#else
-        fmanager = (*env)->NewStringUTF(env, "sun.awt.X11FontManager");
+#flsf
+        fmbnbgfr = (*fnv)->NfwStringUTF(fnv, "sun.bwt.X11FontMbnbgfr");
         tk = XAWT_PATH;
-#endif
-    CHECK_EXCEPTION_FATAL(env, "Could not allocate font manager name");
+#fndif
+    CHECK_EXCEPTION_FATAL(fnv, "Could not bllodbtf font mbnbgfr nbmf");
 
-    if (fmanager && fmProp) {
-        JNU_CallStaticMethodByName(env, NULL, "java/lang/System", "setProperty",
-                                   "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
-                                   fmProp, fmanager);
-        CHECK_EXCEPTION_FATAL(env, "Could not allocate set properties");
+    if (fmbnbgfr && fmProp) {
+        JNU_CbllStbtidMftiodByNbmf(fnv, NULL, "jbvb/lbng/Systfm", "sftPropfrty",
+                                   "(Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;",
+                                   fmProp, fmbnbgfr);
+        CHECK_EXCEPTION_FATAL(fnv, "Could not bllodbtf sft propfrtifs");
     }
 
-#ifndef MACOSX
-    if (AWTIsHeadless()) {
+#ifndff MACOSX
+    if (AWTIsHfbdlfss()) {
         tk = HEADLESS_PATH;
     }
-#endif
+#fndif
 
-    /* Calculate library name to load */
-    strncpy(p, tk, MAXPATHLEN-len-1);
+    /* Cbldulbtf librbry nbmf to lobd */
+    strndpy(p, tk, MAXPATHLEN-lfn-1);
 
     if (fmProp) {
-        (*env)->DeleteLocalRef(env, fmProp);
+        (*fnv)->DflftfLodblRff(fnv, fmProp);
     }
-    if (fmanager) {
-        (*env)->DeleteLocalRef(env, fmanager);
+    if (fmbnbgfr) {
+        (*fnv)->DflftfLodblRff(fnv, fmbnbgfr);
     }
 
-    jstring jbuf = JNU_NewStringPlatform(env, buf);
-    CHECK_EXCEPTION_FATAL(env, "Could not allocate library name");
-    JNU_CallStaticMethodByName(env, NULL, "java/lang/System", "load",
-                               "(Ljava/lang/String;)V",
+    jstring jbuf = JNU_NfwStringPlbtform(fnv, buf);
+    CHECK_EXCEPTION_FATAL(fnv, "Could not bllodbtf librbry nbmf");
+    JNU_CbllStbtidMftiodByNbmf(fnv, NULL, "jbvb/lbng/Systfm", "lobd",
+                               "(Ljbvb/lbng/String;)V",
                                jbuf);
 
-    awtHandle = dlopen(buf, RTLD_LAZY | RTLD_GLOBAL);
+    bwtHbndlf = dlopfn(buf, RTLD_LAZY | RTLD_GLOBAL);
 
-    return JNI_VERSION_1_2;
+    rfturn JNI_VERSION_1_2;
 }
 
 JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM *vm, void *reserved)
+JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd)
 {
-    return AWT_OnLoad(vm, reserved);
+    rfturn AWT_OnLobd(vm, rfsfrvfd);
 }
 
 /*
- * This entry point must remain in libawt.so as part of a contract
- * with the CDE variant of Java Media Framework. (sdtjmplay)
- * Reflect this call over to the correct libawt_<toolkit>.so.
+ * Tiis fntry point must rfmbin in libbwt.so bs pbrt of b dontrbdt
+ * witi tif CDE vbribnt of Jbvb Mfdib Frbmfwork. (sdtjmplby)
+ * Rfflfdt tiis dbll ovfr to tif dorrfdt libbwt_<toolkit>.so.
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_motif_XsessionWMcommand(JNIEnv *env, jobject this,
-                                     jobject frame, jstring jcommand)
+Jbvb_sun_bwt_motif_XsfssionWMdommbnd(JNIEnv *fnv, jobjfdt tiis,
+                                     jobjfdt frbmf, jstring jdommbnd)
 {
-    /* type of the old backdoor function */
-    typedef void JNICALL
-        XsessionWMcommand_type(JNIEnv *env, jobject this,
-                               jobject frame, jstring jcommand);
+    /* typf of tif old bbdkdoor fundtion */
+    typfdff void JNICALL
+        XsfssionWMdommbnd_typf(JNIEnv *fnv, jobjfdt tiis,
+                               jobjfdt frbmf, jstring jdommbnd);
 
-    static XsessionWMcommand_type *XsessionWMcommand = NULL;
+    stbtid XsfssionWMdommbnd_typf *XsfssionWMdommbnd = NULL;
 
-    if (XsessionWMcommand == NULL && awtHandle == NULL) {
-        return;
+    if (XsfssionWMdommbnd == NULL && bwtHbndlf == NULL) {
+        rfturn;
     }
 
-    XsessionWMcommand = (XsessionWMcommand_type *)
-        dlsym(awtHandle, "Java_sun_awt_motif_XsessionWMcommand");
+    XsfssionWMdommbnd = (XsfssionWMdommbnd_typf *)
+        dlsym(bwtHbndlf, "Jbvb_sun_bwt_motif_XsfssionWMdommbnd");
 
-    if (XsessionWMcommand == NULL)
-        return;
+    if (XsfssionWMdommbnd == NULL)
+        rfturn;
 
-    (*XsessionWMcommand)(env, this, frame, jcommand);
+    (*XsfssionWMdommbnd)(fnv, tiis, frbmf, jdommbnd);
 }
 
 
 /*
- * This entry point must remain in libawt.so as part of a contract
- * with the CDE variant of Java Media Framework. (sdtjmplay)
- * Reflect this call over to the correct libawt_<toolkit>.so.
+ * Tiis fntry point must rfmbin in libbwt.so bs pbrt of b dontrbdt
+ * witi tif CDE vbribnt of Jbvb Mfdib Frbmfwork. (sdtjmplby)
+ * Rfflfdt tiis dbll ovfr to tif dorrfdt libbwt_<toolkit>.so.
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_motif_XsessionWMcommand_New(JNIEnv *env, jobjectArray jargv)
+Jbvb_sun_bwt_motif_XsfssionWMdommbnd_Nfw(JNIEnv *fnv, jobjfdtArrby jbrgv)
 {
-    typedef void JNICALL
-        XsessionWMcommand_New_type(JNIEnv *env, jobjectArray jargv);
+    typfdff void JNICALL
+        XsfssionWMdommbnd_Nfw_typf(JNIEnv *fnv, jobjfdtArrby jbrgv);
 
-    static XsessionWMcommand_New_type *XsessionWMcommand = NULL;
+    stbtid XsfssionWMdommbnd_Nfw_typf *XsfssionWMdommbnd = NULL;
 
-    if (XsessionWMcommand == NULL && awtHandle == NULL) {
-        return;
+    if (XsfssionWMdommbnd == NULL && bwtHbndlf == NULL) {
+        rfturn;
     }
 
-    XsessionWMcommand = (XsessionWMcommand_New_type *)
-        dlsym(awtHandle, "Java_sun_awt_motif_XsessionWMcommand_New");
+    XsfssionWMdommbnd = (XsfssionWMdommbnd_Nfw_typf *)
+        dlsym(bwtHbndlf, "Jbvb_sun_bwt_motif_XsfssionWMdommbnd_Nfw");
 
-    if (XsessionWMcommand == NULL)
-        return;
+    if (XsfssionWMdommbnd == NULL)
+        rfturn;
 
-    (*XsessionWMcommand)(env, jargv);
+    (*XsfssionWMdommbnd)(fnv, jbrgv);
 }

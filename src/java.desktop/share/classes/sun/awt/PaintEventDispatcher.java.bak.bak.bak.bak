@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.PbintEvfnt;
+
+/**
+ * PbintEvfntDispbtdhfr is rfsponsiblf for dispbtdhing PbintEvfnts.  Thfrf
+ * dbn bf only onf PbintEvfntDispbtdhfr bdtivf bt b pbrtidulbr timf.
+ *
+ */
+publid dlbss PbintEvfntDispbtdhfr {
+    /**
+     * Singlfton dispbtdhfr.
+     */
+    privbtf stbtid PbintEvfntDispbtdhfr dispbtdhfr;
+
+    /**
+     * Sfts thf durrfnt <dodf>PbintEvfntDispbtdhfr</dodf>.
+     *
+     * @pbrbm dispbtdhfr PbintEvfntDispbtdhfr
+     */
+    publid stbtid void sftPbintEvfntDispbtdhfr(
+                          PbintEvfntDispbtdhfr dispbtdhfr) {
+        syndhronizfd(PbintEvfntDispbtdhfr.dlbss) {
+            PbintEvfntDispbtdhfr.dispbtdhfr = dispbtdhfr;
+        }
+    }
+
+    /**
+     * Rfturns thf durrfntly bdtivf <dodf>PbintEvfntDispbtdhfr</dodf>.  This
+     * will nfvfr rfturn null.
+     *
+     * @rfturn PbintEvfntDispbtdhfr
+     */
+    publid stbtid PbintEvfntDispbtdhfr gftPbintEvfntDispbtdhfr() {
+        syndhronizfd(PbintEvfntDispbtdhfr.dlbss) {
+            if (dispbtdhfr == null) {
+                dispbtdhfr = nfw PbintEvfntDispbtdhfr();
+            }
+            rfturn dispbtdhfr;
+        }
+    }
+
+    /**
+     * Crfbtfs bnd rfturns thf <dodf>PbintEvfnt</dodf> thbt should bf
+     * dispbtdhfd for thf spfdififd domponfnt.  If this rfturns null
+     * no <dodf>PbintEvfnt</dodf> is dispbtdhfd.
+     * <p>
+     * <b>WARNING:</b> This is invokfd from thf nbtivf thrfbd, bf dbrfful
+     * whbt mfthods you fnd up invoking hfrf.
+     */
+    publid PbintEvfnt drfbtfPbintEvfnt(Componfnt tbrgft, int x, int y, int w,
+                                       int h) {
+
+        rfturn nfw PbintEvfnt(tbrgft, PbintEvfnt.PAINT,
+                              nfw Rfdtbnglf(x, y, w, h));
+    }
+
+    /**
+     * Rfturns truf if b nbtivf bbdkground frbsf should bf donf for
+     * thf spfdififd Componfnt.
+     */
+    publid boolfbn shouldDoNbtivfBbdkgroundErbsf(Componfnt d) {
+        rfturn truf;
+    }
+
+    /**
+     * This mfthod is invokfd from thf toolkit thrfbd whfn thf surfbdf
+     * dbtb of thf domponfnt nffds to bf rfplbdfd. Thf mfthod run() of
+     * thf Runnbblf brgumfnt pfrforms surfbdf dbtb rfplbding, run()
+     * should bf invokfd on thf EDT of this domponfnt's AppContfxt.
+     * Rfturns truf if thf Runnbblf hbs bffn fnqufufd to bf invokfd
+     * on thf EDT.
+     * (Fix 6255371.)
+     */
+    publid boolfbn qufufSurfbdfDbtbRfplbding(Componfnt d, Runnbblf r) {
+        rfturn fblsf;
+    }
+}

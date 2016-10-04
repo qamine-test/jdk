@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
 /**
- * A class or instance variable in the target VM.
- * See {@link TypeComponent}
- * for general information about Field and Method mirrors.
+ * A dlbss or instbndf vbribblf in tif tbrgft VM.
+ * Sff {@link TypfComponfnt}
+ * for gfnfrbl informbtion bbout Fifld bnd Mftiod mirrors.
  *
- * @see ObjectReference
- * @see ReferenceType
+ * @sff ObjfdtRfffrfndf
+ * @sff RfffrfndfTypf
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface Field extends TypeComponent, Comparable<Field> {
+@jdk.Exportfd
+publid intfrfbdf Fifld fxtfnds TypfComponfnt, Compbrbblf<Fifld> {
 
     /**
-     * Returns a text representation of the type
-     * of this field.
-     * Where the type is the type specified in the declaration
-     * of this field.
+     * Rfturns b tfxt rfprfsfntbtion of tif typf
+     * of tiis fifld.
+     * Wifrf tif typf is tif typf spfdififd in tif dfdlbrbtion
+     * of tiis fifld.
      * <P>
-     * This type name is always available even if
-     * the type has not yet been created or loaded.
+     * Tiis typf nbmf is blwbys bvbilbblf fvfn if
+     * tif typf ibs not yft bffn drfbtfd or lobdfd.
      *
-     * @return a String representing the
-     * type of this field.
+     * @rfturn b String rfprfsfnting tif
+     * typf of tiis fifld.
      */
-    String typeName();
+    String typfNbmf();
 
     /**
-     * Returns the type of this field.
-     * Where the type is the type specified in the declaration
-     * of this field.
+     * Rfturns tif typf of tiis fifld.
+     * Wifrf tif typf is tif typf spfdififd in tif dfdlbrbtion
+     * of tiis fifld.
      * <P>
-     * For example, if a target class defines:
+     * For fxbmplf, if b tbrgft dlbss dffinfs:
      * <PRE>
-     *    short s;
-     *    Date d;
-     *    byte[] ba;</PRE>
-     * And the JDI client defines these <CODE>Field</CODE> objects:
+     *    siort s;
+     *    Dbtf d;
+     *    bytf[] bb;</PRE>
+     * And tif JDI dlifnt dffinfs tifsf <CODE>Fifld</CODE> objfdts:
      * <PRE>
-     *    Field sField = targetClass.fieldByName("s");
-     *    Field dField = targetClass.fieldByName("d");
-     *    Field baField = targetClass.fieldByName("ba");</PRE>
-     * to mirror the corresponding fields, then <CODE>sField.type()</CODE>
-     * is a {@link ShortType}, <CODE>dField.type()</CODE> is the
-     * {@link ReferenceType} for <CODE>java.util.Date</CODE> and
-     * <CODE>((ArrayType)(baField.type())).componentType()</CODE> is a
-     * {@link ByteType}.
+     *    Fifld sFifld = tbrgftClbss.fifldByNbmf("s");
+     *    Fifld dFifld = tbrgftClbss.fifldByNbmf("d");
+     *    Fifld bbFifld = tbrgftClbss.fifldByNbmf("bb");</PRE>
+     * to mirror tif dorrfsponding fiflds, tifn <CODE>sFifld.typf()</CODE>
+     * is b {@link SiortTypf}, <CODE>dFifld.typf()</CODE> is tif
+     * {@link RfffrfndfTypf} for <CODE>jbvb.util.Dbtf</CODE> bnd
+     * <CODE>((ArrbyTypf)(bbFifld.typf())).domponfntTypf()</CODE> is b
+     * {@link BytfTypf}.
      * <P>
-     * Note: if the type of this field is a reference type (class,
-     * interface, or array) and it has not been created or loaded
-     * by the declaring type's class loader - that is,
-     * {@link TypeComponent#declaringType <CODE>declaringType()</CODE>}
-     * <CODE>.classLoader()</CODE>,
-     * then ClassNotLoadedException will be thrown.
-     * Also, a reference type may have been loaded but not yet prepared,
-     * in which case the type will be returned
-     * but attempts to perform some operations on the returned type
-     * (e.g. {@link ReferenceType#fields() fields()}) will throw
-     * a {@link ClassNotPreparedException}.
-     * Use {@link ReferenceType#isPrepared()} to determine if
-     * a reference type is prepared.
+     * Notf: if tif typf of tiis fifld is b rfffrfndf typf (dlbss,
+     * intfrfbdf, or brrby) bnd it ibs not bffn drfbtfd or lobdfd
+     * by tif dfdlbring typf's dlbss lobdfr - tibt is,
+     * {@link TypfComponfnt#dfdlbringTypf <CODE>dfdlbringTypf()</CODE>}
+     * <CODE>.dlbssLobdfr()</CODE>,
+     * tifn ClbssNotLobdfdExdfption will bf tirown.
+     * Also, b rfffrfndf typf mby ibvf bffn lobdfd but not yft prfpbrfd,
+     * in wiidi dbsf tif typf will bf rfturnfd
+     * but bttfmpts to pfrform somf opfrbtions on tif rfturnfd typf
+     * (f.g. {@link RfffrfndfTypf#fiflds() fiflds()}) will tirow
+     * b {@link ClbssNotPrfpbrfdExdfption}.
+     * Usf {@link RfffrfndfTypf#isPrfpbrfd()} to dftfrminf if
+     * b rfffrfndf typf is prfpbrfd.
      *
-     * @see Type
-     * @return the {@link Type} of this field.
-     * @throws ClassNotLoadedException if the type has not yet been loaded
-     * or created through the appropriate class loader.
+     * @sff Typf
+     * @rfturn tif {@link Typf} of tiis fifld.
+     * @tirows ClbssNotLobdfdExdfption if tif typf ibs not yft bffn lobdfd
+     * or drfbtfd tirougi tif bppropribtf dlbss lobdfr.
      */
-    Type type() throws ClassNotLoadedException;
+    Typf typf() tirows ClbssNotLobdfdExdfption;
 
     /**
-     * Determine if this is a transient field.
+     * Dftfrminf if tiis is b trbnsifnt fifld.
      *
-     * @return <code>true</code> if this field is transient; false otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis fifld is trbnsifnt; fblsf otifrwisf.
      */
-    boolean isTransient();
+    boolfbn isTrbnsifnt();
 
     /**
-     * Determine if this is a volatile field.
+     * Dftfrminf if tiis is b volbtilf fifld.
      *
-     * @return <code>true</code> if this field is volatile; false otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis fifld is volbtilf; fblsf otifrwisf.
      */
-    boolean isVolatile();
+    boolfbn isVolbtilf();
 
     /**
-     * Determine if this is a field that represents an enum constant.
-     * @return <code>true</code> if this field represents an enum constant;
-     * false otherwise.
+     * Dftfrminf if tiis is b fifld tibt rfprfsfnts bn fnum donstbnt.
+     * @rfturn <dodf>truf</dodf> if tiis fifld rfprfsfnts bn fnum donstbnt;
+     * fblsf otifrwisf.
      */
-    boolean isEnumConstant();
+    boolfbn isEnumConstbnt();
 
     /**
-     * Compares the specified Object with this field for equality.
+     * Compbrfs tif spfdififd Objfdt witi tiis fifld for fqublity.
      *
-     * @return true if the Object is a Field and if both
-     * mirror the same field (declared in the same class or interface, in
-     * the same VM).
+     * @rfturn truf if tif Objfdt is b Fifld bnd if boti
+     * mirror tif sbmf fifld (dfdlbrfd in tif sbmf dlbss or intfrfbdf, in
+     * tif sbmf VM).
      */
-    boolean equals(Object obj);
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns the hash code value for this Field.
+     * Rfturns tif ibsi dodf vbluf for tiis Fifld.
      *
-     * @return the integer hash code
+     * @rfturn tif intfgfr ibsi dodf
      */
-    int hashCode();
+    int ibsiCodf();
 }

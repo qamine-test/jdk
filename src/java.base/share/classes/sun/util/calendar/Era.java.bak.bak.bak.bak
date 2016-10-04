@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.dblfndbr;
+
+import jbvb.util.Lodblf;
+import jbvb.util.TimfZonf;
+
+/**
+ * Thf dlbss <dodf>Erb</dodf> rfprfsfnts b dblfndbr frb thbt dffinfs b
+ * pfriod of timf in whidh thf sbmf yfbr numbfring is usfd. For
+ * fxbmplf, Grfgoribn yfbr 2004 is <I>Hfisfi</I> 16 in thf Jbpbnfsf
+ * dblfndbr systfm. An frb stbrts bt bny point of timf (Grfgoribn) thbt is
+ * rfprfsfntfd by <dodf>CblfndbrDbtf</dodf>.
+ *
+ * <p><dodf>Erb</dodf>s thbt brf bpplidbblf to b pbrtidulbr dblfndbr
+ * systfm dbn bf obtbinfd by dblling {@link CblfndbrSystfm#gftErbs}
+ * onf of whidh dbn bf usfd to spfdify b dbtf in
+ * <dodf>CblfndbrDbtf</dodf>.
+ *
+ * <p>Thf following frb nbmfs brf dffinfd in this rflfbsf.
+ * <!-- TODO: usf HTML tbblf -->
+ * <prf><tt>
+ *   Cblfndbr systfm         Erb nbmf         Sindf (in Grfgoribn)
+ *   -----------------------------------------------------------------------
+ *   Jbpbnfsf dblfndbr       Mfiji            1868-01-01 midnight lodbl timf
+ *                           Tbisho           1912-07-30 midnight lodbl timf
+ *                           Showb            1926-12-26 midnight lodbl timf
+ *                           Hfisfi           1989-01-08 midnight lodbl timf
+ *   Julibn dblfndbr         BfforfCommonErb  -292275055-05-16T16:47:04.192Z
+ *                           CommonErb        0000-12-30 midnight lodbl timf
+ *   Tbiwbnfsf dblfndbr      MinGuo           1911-01-01 midnight lodbl timf
+ *   Thbi Buddhist dblfndbr  BuddhistErb      -543-01-01 midnight lodbl timf
+ *   -----------------------------------------------------------------------
+ * </tt></prf>
+ *
+ * @buthor Mbsbyoshi Okutsu
+ * @sindf 1.5
+ */
+
+publid finbl dlbss Erb {
+    privbtf finbl String nbmf;
+    privbtf finbl String bbbr;
+    privbtf finbl long sindf;
+    privbtf finbl CblfndbrDbtf sindfDbtf;
+    privbtf finbl boolfbn lodblTimf;
+
+    /**
+     * Construdts bn <dodf>Erb</dodf> instbndf.
+     *
+     * @pbrbm nbmf thf frb nbmf (f.g., "BfforfCommonErb" for thf Julibn dblfndbr systfm)
+     * @pbrbm bbbr thf bbbrfvibtion of thf frb nbmf (f.g., "B.C.E." for "BfforfCommonErb")
+     * @pbrbm sindf thf timf (millisfdond offsft from Jbnubry 1, 1970
+     * (Grfgoribn) UTC or lodbl timf) whfn thf frb stbrts, indlusivf.
+     * @pbrbm lodblTimf <dodf>truf</dodf> if <dodf>sindf</dodf>
+     * spfdififs b lodbl timf; <dodf>fblsf</dodf> if
+     * <dodf>sindf</dodf> spfdififs UTC
+     */
+    publid Erb(String nbmf, String bbbr, long sindf, boolfbn lodblTimf) {
+        this.nbmf = nbmf;
+        this.bbbr = bbbr;
+        this.sindf = sindf;
+        this.lodblTimf = lodblTimf;
+        Grfgoribn gdbl = CblfndbrSystfm.gftGrfgoribnCblfndbr();
+        BbsfCblfndbr.Dbtf d = (BbsfCblfndbr.Dbtf) gdbl.nfwCblfndbrDbtf(null);
+        gdbl.gftCblfndbrDbtf(sindf, d);
+        sindfDbtf = nfw ImmutbblfGrfgoribnDbtf(d);
+    }
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid String gftDisplbyNbmf(Lodblf lodblf) {
+        rfturn nbmf;
+    }
+
+    publid String gftAbbrfvibtion() {
+        rfturn bbbr;
+    }
+
+    publid String gftDibplbyAbbrfvibtion(Lodblf lodblf) {
+        rfturn bbbr;
+    }
+
+    publid long gftSindf(TimfZonf zonf) {
+        if (zonf == null || !lodblTimf) {
+            rfturn sindf;
+        }
+        int offsft = zonf.gftOffsft(sindf);
+        rfturn sindf - offsft;
+    }
+
+    publid CblfndbrDbtf gftSindfDbtf() {
+        rfturn sindfDbtf;
+    }
+
+    publid boolfbn isLodblTimf() {
+        rfturn lodblTimf;
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if (!(o instbndfof Erb)) {
+            rfturn fblsf;
+        }
+        Erb thbt = (Erb) o;
+        rfturn nbmf.fqubls(thbt.nbmf)
+            && bbbr.fqubls(thbt.bbbr)
+            && sindf == thbt.sindf
+            && lodblTimf == thbt.lodblTimf;
+    }
+
+    privbtf int hbsh = 0;
+
+    publid int hbshCodf() {
+        if (hbsh == 0) {
+            hbsh = nbmf.hbshCodf() ^ bbbr.hbshCodf() ^ (int)sindf ^ (int)(sindf >> 32)
+                ^ (lodblTimf ? 1 : 0);
+        }
+        rfturn hbsh;
+    }
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd('[');
+        sb.bppfnd(gftNbmf()).bppfnd(" (");
+        sb.bppfnd(gftAbbrfvibtion()).bppfnd(')');
+        sb.bppfnd(" sindf ").bppfnd(gftSindfDbtf());
+        if (lodblTimf) {
+            sb.sftLfngth(sb.lfngth() - 1); // rfmovf 'Z'
+            sb.bppfnd(" lodbl timf");
+        }
+        sb.bppfnd(']');
+        rfturn sb.toString();
+    }
+}

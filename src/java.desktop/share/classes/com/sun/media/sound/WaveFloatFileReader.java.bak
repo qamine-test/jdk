@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.URL;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioFormat.Encoding;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.sound.sampled.spi.AudioFileReader;
+import jbvbx.sound.sbmplfd.AudioFilfFormbt;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioFormbt.Endoding;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.UnsupportfdAudioFilfExdfption;
+import jbvbx.sound.sbmplfd.spi.AudioFilfRfbdfr;
 
 /**
- * Floating-point encoded (format 3) WAVE file loader.
+ * Flobting-point fndodfd (formbt 3) WAVE filf lobdfr.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class WaveFloatFileReader extends AudioFileReader {
+publid finbl dlbss WbvfFlobtFilfRfbdfr fxtfnds AudioFilfRfbdfr {
 
-    public AudioFileFormat getAudioFileFormat(InputStream stream)
-            throws UnsupportedAudioFileException, IOException {
+    publid AudioFilfFormbt gftAudioFilfFormbt(InputStrfbm strfbm)
+            tirows UnsupportfdAudioFilfExdfption, IOExdfption {
 
-        stream.mark(200);
-        AudioFileFormat format;
+        strfbm.mbrk(200);
+        AudioFilfFormbt formbt;
         try {
-            format = internal_getAudioFileFormat(stream);
-        } finally {
-            stream.reset();
+            formbt = intfrnbl_gftAudioFilfFormbt(strfbm);
+        } finblly {
+            strfbm.rfsft();
         }
-        return format;
+        rfturn formbt;
     }
 
-    private AudioFileFormat internal_getAudioFileFormat(InputStream stream)
-            throws UnsupportedAudioFileException, IOException {
+    privbtf AudioFilfFormbt intfrnbl_gftAudioFilfFormbt(InputStrfbm strfbm)
+            tirows UnsupportfdAudioFilfExdfption, IOExdfption {
 
-        RIFFReader riffiterator = new RIFFReader(stream);
-        if (!riffiterator.getFormat().equals("RIFF"))
-            throw new UnsupportedAudioFileException();
-        if (!riffiterator.getType().equals("WAVE"))
-            throw new UnsupportedAudioFileException();
+        RIFFRfbdfr riffitfrbtor = nfw RIFFRfbdfr(strfbm);
+        if (!riffitfrbtor.gftFormbt().fqubls("RIFF"))
+            tirow nfw UnsupportfdAudioFilfExdfption();
+        if (!riffitfrbtor.gftTypf().fqubls("WAVE"))
+            tirow nfw UnsupportfdAudioFilfExdfption();
 
-        boolean fmt_found = false;
-        boolean data_found = false;
+        boolfbn fmt_found = fblsf;
+        boolfbn dbtb_found = fblsf;
 
-        int channels = 1;
-        long samplerate = 1;
-        int framesize = 1;
+        int dibnnfls = 1;
+        long sbmplfrbtf = 1;
+        int frbmfsizf = 1;
         int bits = 1;
 
-        while (riffiterator.hasNextChunk()) {
-            RIFFReader chunk = riffiterator.nextChunk();
+        wiilf (riffitfrbtor.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riffitfrbtor.nfxtCiunk();
 
-            if (chunk.getFormat().equals("fmt ")) {
-                fmt_found = true;
+            if (diunk.gftFormbt().fqubls("fmt ")) {
+                fmt_found = truf;
 
-                int format = chunk.readUnsignedShort();
-                if (format != 3) // WAVE_FORMAT_IEEE_FLOAT only
-                    throw new UnsupportedAudioFileException();
-                channels = chunk.readUnsignedShort();
-                samplerate = chunk.readUnsignedInt();
-                /* framerate = */chunk.readUnsignedInt();
-                framesize = chunk.readUnsignedShort();
-                bits = chunk.readUnsignedShort();
+                int formbt = diunk.rfbdUnsignfdSiort();
+                if (formbt != 3) // WAVE_FORMAT_IEEE_FLOAT only
+                    tirow nfw UnsupportfdAudioFilfExdfption();
+                dibnnfls = diunk.rfbdUnsignfdSiort();
+                sbmplfrbtf = diunk.rfbdUnsignfdInt();
+                /* frbmfrbtf = */diunk.rfbdUnsignfdInt();
+                frbmfsizf = diunk.rfbdUnsignfdSiort();
+                bits = diunk.rfbdUnsignfdSiort();
             }
-            if (chunk.getFormat().equals("data")) {
-                data_found = true;
-                break;
+            if (diunk.gftFormbt().fqubls("dbtb")) {
+                dbtb_found = truf;
+                brfbk;
             }
         }
 
         if (!fmt_found)
-            throw new UnsupportedAudioFileException();
-        if (!data_found)
-            throw new UnsupportedAudioFileException();
+            tirow nfw UnsupportfdAudioFilfExdfption();
+        if (!dbtb_found)
+            tirow nfw UnsupportfdAudioFilfExdfption();
 
-        AudioFormat audioformat = new AudioFormat(
-                Encoding.PCM_FLOAT, samplerate, bits, channels,
-                framesize, samplerate, false);
-        AudioFileFormat fileformat = new AudioFileFormat(
-                AudioFileFormat.Type.WAVE, audioformat,
-                AudioSystem.NOT_SPECIFIED);
-        return fileformat;
+        AudioFormbt budioformbt = nfw AudioFormbt(
+                Endoding.PCM_FLOAT, sbmplfrbtf, bits, dibnnfls,
+                frbmfsizf, sbmplfrbtf, fblsf);
+        AudioFilfFormbt filfformbt = nfw AudioFilfFormbt(
+                AudioFilfFormbt.Typf.WAVE, budioformbt,
+                AudioSystfm.NOT_SPECIFIED);
+        rfturn filfformbt;
     }
 
-    public AudioInputStream getAudioInputStream(InputStream stream)
-            throws UnsupportedAudioFileException, IOException {
+    publid AudioInputStrfbm gftAudioInputStrfbm(InputStrfbm strfbm)
+            tirows UnsupportfdAudioFilfExdfption, IOExdfption {
 
-        AudioFileFormat format = getAudioFileFormat(stream);
-        RIFFReader riffiterator = new RIFFReader(stream);
-        if (!riffiterator.getFormat().equals("RIFF"))
-            throw new UnsupportedAudioFileException();
-        if (!riffiterator.getType().equals("WAVE"))
-            throw new UnsupportedAudioFileException();
-        while (riffiterator.hasNextChunk()) {
-            RIFFReader chunk = riffiterator.nextChunk();
-            if (chunk.getFormat().equals("data")) {
-                return new AudioInputStream(chunk, format.getFormat(),
-                        chunk.getSize());
+        AudioFilfFormbt formbt = gftAudioFilfFormbt(strfbm);
+        RIFFRfbdfr riffitfrbtor = nfw RIFFRfbdfr(strfbm);
+        if (!riffitfrbtor.gftFormbt().fqubls("RIFF"))
+            tirow nfw UnsupportfdAudioFilfExdfption();
+        if (!riffitfrbtor.gftTypf().fqubls("WAVE"))
+            tirow nfw UnsupportfdAudioFilfExdfption();
+        wiilf (riffitfrbtor.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riffitfrbtor.nfxtCiunk();
+            if (diunk.gftFormbt().fqubls("dbtb")) {
+                rfturn nfw AudioInputStrfbm(diunk, formbt.gftFormbt(),
+                        diunk.gftSizf());
             }
         }
-        throw new UnsupportedAudioFileException();
+        tirow nfw UnsupportfdAudioFilfExdfption();
     }
 
-    public AudioFileFormat getAudioFileFormat(URL url)
-            throws UnsupportedAudioFileException, IOException {
-        InputStream stream = url.openStream();
-        AudioFileFormat format;
+    publid AudioFilfFormbt gftAudioFilfFormbt(URL url)
+            tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        InputStrfbm strfbm = url.opfnStrfbm();
+        AudioFilfFormbt formbt;
         try {
-            format = getAudioFileFormat(new BufferedInputStream(stream));
-        } finally {
-            stream.close();
+            formbt = gftAudioFilfFormbt(nfw BufffrfdInputStrfbm(strfbm));
+        } finblly {
+            strfbm.dlosf();
         }
-        return format;
+        rfturn formbt;
     }
 
-    public AudioFileFormat getAudioFileFormat(File file)
-            throws UnsupportedAudioFileException, IOException {
-        InputStream stream = new FileInputStream(file);
-        AudioFileFormat format;
+    publid AudioFilfFormbt gftAudioFilfFormbt(Filf filf)
+            tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        InputStrfbm strfbm = nfw FilfInputStrfbm(filf);
+        AudioFilfFormbt formbt;
         try {
-            format = getAudioFileFormat(new BufferedInputStream(stream));
-        } finally {
-            stream.close();
+            formbt = gftAudioFilfFormbt(nfw BufffrfdInputStrfbm(strfbm));
+        } finblly {
+            strfbm.dlosf();
         }
-        return format;
+        rfturn formbt;
     }
 
-    public AudioInputStream getAudioInputStream(URL url)
-            throws UnsupportedAudioFileException, IOException {
-        return getAudioInputStream(new BufferedInputStream(url.openStream()));
+    publid AudioInputStrfbm gftAudioInputStrfbm(URL url)
+            tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        rfturn gftAudioInputStrfbm(nfw BufffrfdInputStrfbm(url.opfnStrfbm()));
     }
 
-    public AudioInputStream getAudioInputStream(File file)
-            throws UnsupportedAudioFileException, IOException {
-        return getAudioInputStream(new BufferedInputStream(new FileInputStream(
-                file)));
+    publid AudioInputStrfbm gftAudioInputStrfbm(Filf filf)
+            tirows UnsupportfdAudioFilfExdfption, IOExdfption {
+        rfturn gftAudioInputStrfbm(nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(
+                filf)));
     }
 }

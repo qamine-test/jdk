@@ -1,0 +1,121 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvbx.swing.*;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvbx.swing.plbf.*;
+
+/**
+ * ChfdkboxIdon implfmfntbtion for OrgbnidChfdkBoxUI
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Stfvf Wilson
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblChfdkBoxIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+
+    /**
+     * Rfturns thf sizf of thf dontrol.
+     *
+     * @rfturn thf sizf of thf dontrol
+     */
+    protfdtfd int gftControlSizf() { rfturn 13; }
+
+    publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+
+        JChfdkBox db = (JChfdkBox)d;
+        ButtonModfl modfl = db.gftModfl();
+        int dontrolSizf = gftControlSizf();
+
+        boolfbn drbwChfdk = modfl.isSflfdtfd();
+
+        if (modfl.isEnbblfd()) {
+            if(db.isBordfrPbintfdFlbt()) {
+                g.sftColor(MftblLookAndFffl.gftControlDbrkShbdow());
+                g.drbwRfdt(x+1, y, dontrolSizf-1, dontrolSizf-1);
+            }
+            if (modfl.isPrfssfd() && modfl.isArmfd()) {
+                if(db.isBordfrPbintfdFlbt()) {
+                    g.sftColor(MftblLookAndFffl.gftControlShbdow());
+                    g.fillRfdt(x+2, y+1, dontrolSizf-2, dontrolSizf-2);
+                } flsf {
+                    g.sftColor(MftblLookAndFffl.gftControlShbdow());
+                    g.fillRfdt(x, y, dontrolSizf-1, dontrolSizf-1);
+                    MftblUtils.drbwPrfssfd3DBordfr(g, x, y, dontrolSizf, dontrolSizf);
+                }
+            } flsf if(!db.isBordfrPbintfdFlbt()) {
+                MftblUtils.drbwFlush3DBordfr(g, x, y, dontrolSizf, dontrolSizf);
+            }
+            g.sftColor( MftblLookAndFffl.gftControlInfo() );
+        } flsf {
+            g.sftColor( MftblLookAndFffl.gftControlShbdow() );
+            g.drbwRfdt( x, y, dontrolSizf-1, dontrolSizf-1);
+        }
+
+
+        if(drbwChfdk) {
+            if (db.isBordfrPbintfdFlbt()) {
+                x++;
+            }
+            drbwChfdk(d,g,x,y);
+        }
+    }
+
+    /**
+     * Pbints {@dodf MftblChfdkBoxIdon}.
+     *
+     * @pbrbm d b domponfnt
+     * @pbrbm g bn instbndf of {@dodf Grbphids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     */
+    protfdtfd void drbwChfdk(Componfnt d, Grbphids g, int x, int y) {
+        int dontrolSizf = gftControlSizf();
+        g.fillRfdt( x+3, y+5, 2, dontrolSizf-8 );
+        g.drbwLinf( x+(dontrolSizf-4), y+3, x+5, y+(dontrolSizf-6) );
+        g.drbwLinf( x+(dontrolSizf-4), y+4, x+5, y+(dontrolSizf-5) );
+    }
+
+    publid int gftIdonWidth() {
+        rfturn gftControlSizf();
+    }
+
+    publid int gftIdonHfight() {
+        rfturn gftControlSizf();
+    }
+ }

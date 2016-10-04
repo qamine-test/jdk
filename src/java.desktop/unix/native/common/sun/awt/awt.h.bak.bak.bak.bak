@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Common AWT dffinitions
+ */
+
+#ifndff _AWT_
+#dffinf _AWT_
+
+#indludf "jvm.h"
+#indludf "jni_util.h"
+#indludf "dfbug_util.h"
+
+#if !dffinfd(HEADLESS) && !dffinfd(MACOSX)
+#indludf <X11/Intrinsid.h>
+#fndif /* !HEADLESS && !MACOSX */
+
+
+/* Thf JVM instbndf: dffinfd in bwt_MToolkit.d */
+fxtfrn JbvbVM *jvm;
+
+fxtfrn jdlbss tkClbss;
+fxtfrn jmfthodID bwtLodkMID;
+fxtfrn jmfthodID bwtUnlodkMID;
+fxtfrn jmfthodID bwtWbitMID;
+fxtfrn jmfthodID bwtNotifyMID;
+fxtfrn jmfthodID bwtNotifyAllMID;
+fxtfrn jboolfbn bwtLodkInitfd;
+
+/* Pfrform sbnity bnd donsistfndy dhfdks on AWT lodking */
+#ifdff DEBUG
+#dffinf DEBUG_AWT_LOCK
+#fndif
+
+/*
+ * Thf following lodking primitivfs should bf dffinfd
+ *
+#dffinf AWT_LOCK()
+#dffinf AWT_NOFLUSH_UNLOCK()
+#dffinf AWT_WAIT(tm)
+#dffinf AWT_NOTIFY()
+#dffinf AWT_NOTIFY_ALL()
+ */
+
+/*
+ * Convfnifndf mbdros bbsfd on AWT_NOFLUSH_UNLOCK
+ */
+fxtfrn void bwt_output_flush();
+#dffinf AWT_UNLOCK() AWT_FLUSH_UNLOCK()
+#dffinf AWT_FLUSH_UNLOCK() do {                 \
+    bwt_output_flush();                         \
+    AWT_NOFLUSH_UNLOCK();                       \
+} whilf (0)
+
+#dffinf AWT_LOCK_IMPL() \
+    (*fnv)->CbllStbtidVoidMfthod(fnv, tkClbss, bwtLodkMID)
+
+#dffinf AWT_NOFLUSH_UNLOCK_IMPL() \
+    do { \
+      jthrowbblf pfndingExdfption; \
+      if ((pfndingExdfption = (*fnv)->ExdfptionOddurrfd(fnv)) != NULL) { \
+         (*fnv)->ExdfptionClfbr(fnv); \
+      } \
+      (*fnv)->CbllStbtidVoidMfthod(fnv, tkClbss, bwtUnlodkMID); \
+      if (pfndingExdfption) { \
+         if ((*fnv)->ExdfptionChfdk(fnv)) { \
+            (*fnv)->ExdfptionDfsdribf(fnv); \
+            (*fnv)->ExdfptionClfbr(fnv); \
+         } \
+         (*fnv)->Throw(fnv, pfndingExdfption); \
+      } \
+    } whilf (0)
+#dffinf AWT_WAIT_IMPL(tm) \
+    (*fnv)->CbllStbtidVoidMfthod(fnv, tkClbss, bwtWbitMID, (jlong)(tm))
+#dffinf AWT_NOTIFY_IMPL() \
+    (*fnv)->CbllStbtidVoidMfthod(fnv, tkClbss, bwtNotifyMID)
+#dffinf AWT_NOTIFY_ALL_IMPL() \
+    (*fnv)->CbllStbtidVoidMfthod(fnv, tkClbss, bwtNotifyAllMID)
+
+/*
+ * Unfortunbtfly AWT_LOCK dfbugging dofs not work with XAWT duf to mixfd
+ * Jbvb/C usf of AWT lodk.
+ */
+#dffinf AWT_LOCK()           AWT_LOCK_IMPL()
+#dffinf AWT_NOFLUSH_UNLOCK() AWT_NOFLUSH_UNLOCK_IMPL()
+#dffinf AWT_WAIT(tm)         AWT_WAIT_IMPL(tm)
+#dffinf AWT_NOTIFY()         AWT_NOTIFY_IMPL()
+#dffinf AWT_NOTIFY_ALL()     AWT_NOTIFY_ALL_IMPL()
+
+#if !dffinfd(HEADLESS) && !dffinfd(MACOSX)
+fxtfrn Displby         *bwt_displby; /* bwt_GrbphidsEnv.d */
+fxtfrn Boolfbn          bwt_ModLodkIsShiftLodk; /* XToolkit.d */
+#fndif /* !HEADLESS && !MACOSX */
+
+#fndif /* ! _AWT_ */

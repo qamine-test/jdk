@@ -1,193 +1,193 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jddctmgr.c
+ * jdddtmgr.d
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1994-1996, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains the inverse-DCT management logic.
- * This code selects a particular IDCT implementation to be used,
- * and it performs related housekeeping chores.  No code in this file
- * is executed per IDCT step, only during output pass setup.
+ * Tiis filf dontbins tif invfrsf-DCT mbnbgfmfnt logid.
+ * Tiis dodf sflfdts b pbrtidulbr IDCT implfmfntbtion to bf usfd,
+ * bnd it pfrforms rflbtfd iousfkffping diorfs.  No dodf in tiis filf
+ * is fxfdutfd pfr IDCT stfp, only during output pbss sftup.
  *
- * Note that the IDCT routines are responsible for performing coefficient
- * dequantization as well as the IDCT proper.  This module sets up the
- * dequantization multiplier table needed by the IDCT routine.
+ * Notf tibt tif IDCT routinfs brf rfsponsiblf for pfrforming dofffidifnt
+ * dfqubntizbtion bs wfll bs tif IDCT propfr.  Tiis modulf sfts up tif
+ * dfqubntizbtion multiplifr tbblf nffdfd by tif IDCT routinf.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
-#include "jdct.h"               /* Private declarations for DCT subsystem */
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
+#indludf "jddt.i"               /* Privbtf dfdlbrbtions for DCT subsystfm */
 
 
 /*
- * The decompressor input side (jdinput.c) saves away the appropriate
- * quantization table for each component at the start of the first scan
- * involving that component.  (This is necessary in order to correctly
- * decode files that reuse Q-table slots.)
- * When we are ready to make an output pass, the saved Q-table is converted
- * to a multiplier table that will actually be used by the IDCT routine.
- * The multiplier table contents are IDCT-method-dependent.  To support
- * application changes in IDCT method between scans, we can remake the
- * multiplier tables if necessary.
- * In buffered-image mode, the first output pass may occur before any data
- * has been seen for some components, and thus before their Q-tables have
- * been saved away.  To handle this case, multiplier tables are preset
- * to zeroes; the result of the IDCT will be a neutral gray level.
+ * Tif dfdomprfssor input sidf (jdinput.d) sbvfs bwby tif bppropribtf
+ * qubntizbtion tbblf for fbdi domponfnt bt tif stbrt of tif first sdbn
+ * involving tibt domponfnt.  (Tiis is nfdfssbry in ordfr to dorrfdtly
+ * dfdodf filfs tibt rfusf Q-tbblf slots.)
+ * Wifn wf brf rfbdy to mbkf bn output pbss, tif sbvfd Q-tbblf is donvfrtfd
+ * to b multiplifr tbblf tibt will bdtublly bf usfd by tif IDCT routinf.
+ * Tif multiplifr tbblf dontfnts brf IDCT-mftiod-dfpfndfnt.  To support
+ * bpplidbtion dibngfs in IDCT mftiod bftwffn sdbns, wf dbn rfmbkf tif
+ * multiplifr tbblfs if nfdfssbry.
+ * In bufffrfd-imbgf modf, tif first output pbss mby oddur bfforf bny dbtb
+ * ibs bffn sffn for somf domponfnts, bnd tius bfforf tifir Q-tbblfs ibvf
+ * bffn sbvfd bwby.  To ibndlf tiis dbsf, multiplifr tbblfs brf prfsft
+ * to zfrofs; tif rfsult of tif IDCT will bf b nfutrbl grby lfvfl.
  */
 
 
-/* Private subobject for this module */
+/* Privbtf subobjfdt for tiis modulf */
 
-typedef struct {
-  struct jpeg_inverse_dct pub;  /* public fields */
+typfdff strudt {
+  strudt jpfg_invfrsf_ddt pub;  /* publid fiflds */
 
-  /* This array contains the IDCT method code that each multiplier table
-   * is currently set up for, or -1 if it's not yet set up.
-   * The actual multiplier tables are pointed to by dct_table in the
-   * per-component comp_info structures.
+  /* Tiis brrby dontbins tif IDCT mftiod dodf tibt fbdi multiplifr tbblf
+   * is durrfntly sft up for, or -1 if it's not yft sft up.
+   * Tif bdtubl multiplifr tbblfs brf pointfd to by ddt_tbblf in tif
+   * pfr-domponfnt domp_info strudturfs.
    */
-  int cur_method[MAX_COMPONENTS];
-} my_idct_controller;
+  int dur_mftiod[MAX_COMPONENTS];
+} my_iddt_dontrollfr;
 
-typedef my_idct_controller * my_idct_ptr;
-
-
-/* Allocated multiplier tables: big enough for any supported variant */
-
-typedef union {
-  ISLOW_MULT_TYPE islow_array[DCTSIZE2];
-#ifdef DCT_IFAST_SUPPORTED
-  IFAST_MULT_TYPE ifast_array[DCTSIZE2];
-#endif
-#ifdef DCT_FLOAT_SUPPORTED
-  FLOAT_MULT_TYPE float_array[DCTSIZE2];
-#endif
-} multiplier_table;
+typfdff my_iddt_dontrollfr * my_iddt_ptr;
 
 
-/* The current scaled-IDCT routines require ISLOW-style multiplier tables,
- * so be sure to compile that code if either ISLOW or SCALING is requested.
+/* Allodbtfd multiplifr tbblfs: big fnougi for bny supportfd vbribnt */
+
+typfdff union {
+  ISLOW_MULT_TYPE islow_brrby[DCTSIZE2];
+#ifdff DCT_IFAST_SUPPORTED
+  IFAST_MULT_TYPE ifbst_brrby[DCTSIZE2];
+#fndif
+#ifdff DCT_FLOAT_SUPPORTED
+  FLOAT_MULT_TYPE flobt_brrby[DCTSIZE2];
+#fndif
+} multiplifr_tbblf;
+
+
+/* Tif durrfnt sdblfd-IDCT routinfs rfquirf ISLOW-stylf multiplifr tbblfs,
+ * so bf surf to dompilf tibt dodf if fitifr ISLOW or SCALING is rfqufstfd.
  */
-#ifdef DCT_ISLOW_SUPPORTED
-#define PROVIDE_ISLOW_TABLES
-#else
-#ifdef IDCT_SCALING_SUPPORTED
-#define PROVIDE_ISLOW_TABLES
-#endif
-#endif
+#ifdff DCT_ISLOW_SUPPORTED
+#dffinf PROVIDE_ISLOW_TABLES
+#flsf
+#ifdff IDCT_SCALING_SUPPORTED
+#dffinf PROVIDE_ISLOW_TABLES
+#fndif
+#fndif
 
 
 /*
- * Prepare for an output pass.
- * Here we select the proper IDCT routine for each component and build
- * a matching multiplier table.
+ * Prfpbrf for bn output pbss.
+ * Hfrf wf sflfdt tif propfr IDCT routinf for fbdi domponfnt bnd build
+ * b mbtdiing multiplifr tbblf.
  */
 
 METHODDEF(void)
-start_pass (j_decompress_ptr cinfo)
+stbrt_pbss (j_dfdomprfss_ptr dinfo)
 {
-  my_idct_ptr idct = (my_idct_ptr) cinfo->idct;
-  int ci, i;
-  jpeg_component_info *compptr;
-  int method = 0;
-  inverse_DCT_method_ptr method_ptr = NULL;
+  my_iddt_ptr iddt = (my_iddt_ptr) dinfo->iddt;
+  int di, i;
+  jpfg_domponfnt_info *dompptr;
+  int mftiod = 0;
+  invfrsf_DCT_mftiod_ptr mftiod_ptr = NULL;
   JQUANT_TBL * qtbl;
 
-  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-       ci++, compptr++) {
-    /* Select the proper IDCT routine for this component's scaling */
-    switch (compptr->DCT_scaled_size) {
-#ifdef IDCT_SCALING_SUPPORTED
-    case 1:
-      method_ptr = jpeg_idct_1x1;
-      method = JDCT_ISLOW;      /* jidctred uses islow-style table */
-      break;
-    case 2:
-      method_ptr = jpeg_idct_2x2;
-      method = JDCT_ISLOW;      /* jidctred uses islow-style table */
-      break;
-    case 4:
-      method_ptr = jpeg_idct_4x4;
-      method = JDCT_ISLOW;      /* jidctred uses islow-style table */
-      break;
-#endif
-    case DCTSIZE:
-      switch (cinfo->dct_method) {
-#ifdef DCT_ISLOW_SUPPORTED
-      case JDCT_ISLOW:
-        method_ptr = jpeg_idct_islow;
-        method = JDCT_ISLOW;
-        break;
-#endif
-#ifdef DCT_IFAST_SUPPORTED
-      case JDCT_IFAST:
-        method_ptr = jpeg_idct_ifast;
-        method = JDCT_IFAST;
-        break;
-#endif
-#ifdef DCT_FLOAT_SUPPORTED
-      case JDCT_FLOAT:
-        method_ptr = jpeg_idct_float;
-        method = JDCT_FLOAT;
-        break;
-#endif
-      default:
-        ERREXIT(cinfo, JERR_NOT_COMPILED);
-        break;
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Sflfdt tif propfr IDCT routinf for tiis domponfnt's sdbling */
+    switdi (dompptr->DCT_sdblfd_sizf) {
+#ifdff IDCT_SCALING_SUPPORTED
+    dbsf 1:
+      mftiod_ptr = jpfg_iddt_1x1;
+      mftiod = JDCT_ISLOW;      /* jiddtrfd usfs islow-stylf tbblf */
+      brfbk;
+    dbsf 2:
+      mftiod_ptr = jpfg_iddt_2x2;
+      mftiod = JDCT_ISLOW;      /* jiddtrfd usfs islow-stylf tbblf */
+      brfbk;
+    dbsf 4:
+      mftiod_ptr = jpfg_iddt_4x4;
+      mftiod = JDCT_ISLOW;      /* jiddtrfd usfs islow-stylf tbblf */
+      brfbk;
+#fndif
+    dbsf DCTSIZE:
+      switdi (dinfo->ddt_mftiod) {
+#ifdff DCT_ISLOW_SUPPORTED
+      dbsf JDCT_ISLOW:
+        mftiod_ptr = jpfg_iddt_islow;
+        mftiod = JDCT_ISLOW;
+        brfbk;
+#fndif
+#ifdff DCT_IFAST_SUPPORTED
+      dbsf JDCT_IFAST:
+        mftiod_ptr = jpfg_iddt_ifbst;
+        mftiod = JDCT_IFAST;
+        brfbk;
+#fndif
+#ifdff DCT_FLOAT_SUPPORTED
+      dbsf JDCT_FLOAT:
+        mftiod_ptr = jpfg_iddt_flobt;
+        mftiod = JDCT_FLOAT;
+        brfbk;
+#fndif
+      dffbult:
+        ERREXIT(dinfo, JERR_NOT_COMPILED);
+        brfbk;
       }
-      break;
-    default:
-      ERREXIT1(cinfo, JERR_BAD_DCTSIZE, compptr->DCT_scaled_size);
-      break;
+      brfbk;
+    dffbult:
+      ERREXIT1(dinfo, JERR_BAD_DCTSIZE, dompptr->DCT_sdblfd_sizf);
+      brfbk;
     }
-    idct->pub.inverse_DCT[ci] = method_ptr;
-    /* Create multiplier table from quant table.
-     * However, we can skip this if the component is uninteresting
-     * or if we already built the table.  Also, if no quant table
-     * has yet been saved for the component, we leave the
-     * multiplier table all-zero; we'll be reading zeroes from the
-     * coefficient controller's buffer anyway.
+    iddt->pub.invfrsf_DCT[di] = mftiod_ptr;
+    /* Crfbtf multiplifr tbblf from qubnt tbblf.
+     * Howfvfr, wf dbn skip tiis if tif domponfnt is unintfrfsting
+     * or if wf blrfbdy built tif tbblf.  Also, if no qubnt tbblf
+     * ibs yft bffn sbvfd for tif domponfnt, wf lfbvf tif
+     * multiplifr tbblf bll-zfro; wf'll bf rfbding zfrofs from tif
+     * dofffidifnt dontrollfr's bufffr bnywby.
      */
-    if (! compptr->component_needed || idct->cur_method[ci] == method)
-      continue;
-    qtbl = compptr->quant_table;
-    if (qtbl == NULL)           /* happens if no data yet for component */
-      continue;
-    idct->cur_method[ci] = method;
-    switch (method) {
-#ifdef PROVIDE_ISLOW_TABLES
-    case JDCT_ISLOW:
+    if (! dompptr->domponfnt_nffdfd || iddt->dur_mftiod[di] == mftiod)
+      dontinuf;
+    qtbl = dompptr->qubnt_tbblf;
+    if (qtbl == NULL)           /* ibppfns if no dbtb yft for domponfnt */
+      dontinuf;
+    iddt->dur_mftiod[di] = mftiod;
+    switdi (mftiod) {
+#ifdff PROVIDE_ISLOW_TABLES
+    dbsf JDCT_ISLOW:
       {
-        /* For LL&M IDCT method, multipliers are equal to raw quantization
-         * coefficients, but are stored as ints to ensure access efficiency.
+        /* For LL&M IDCT mftiod, multiplifrs brf fqubl to rbw qubntizbtion
+         * dofffidifnts, but brf storfd bs ints to fnsurf bddfss fffidifndy.
          */
-        ISLOW_MULT_TYPE * ismtbl = (ISLOW_MULT_TYPE *) compptr->dct_table;
+        ISLOW_MULT_TYPE * ismtbl = (ISLOW_MULT_TYPE *) dompptr->ddt_tbblf;
         for (i = 0; i < DCTSIZE2; i++) {
-          ismtbl[i] = (ISLOW_MULT_TYPE) qtbl->quantval[i];
+          ismtbl[i] = (ISLOW_MULT_TYPE) qtbl->qubntvbl[i];
         }
       }
-      break;
-#endif
-#ifdef DCT_IFAST_SUPPORTED
-    case JDCT_IFAST:
+      brfbk;
+#fndif
+#ifdff DCT_IFAST_SUPPORTED
+    dbsf JDCT_IFAST:
       {
-        /* For AA&N IDCT method, multipliers are equal to quantization
-         * coefficients scaled by scalefactor[row]*scalefactor[col], where
-         *   scalefactor[0] = 1
-         *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-         * For integer operation, the multiplier table is to be scaled by
+        /* For AA&N IDCT mftiod, multiplifrs brf fqubl to qubntizbtion
+         * dofffidifnts sdblfd by sdblffbdtor[row]*sdblffbdtor[dol], wifrf
+         *   sdblffbdtor[0] = 1
+         *   sdblffbdtor[k] = dos(k*PI/16) * sqrt(2)    for k=1..7
+         * For intfgfr opfrbtion, tif multiplifr tbblf is to bf sdblfd by
          * IFAST_SCALE_BITS.
          */
-        IFAST_MULT_TYPE * ifmtbl = (IFAST_MULT_TYPE *) compptr->dct_table;
-#define CONST_BITS 14
-        static const INT16 aanscales[DCTSIZE2] = {
-          /* precomputed values scaled up by 14 bits */
+        IFAST_MULT_TYPE * ifmtbl = (IFAST_MULT_TYPE *) dompptr->ddt_tbblf;
+#dffinf CONST_BITS 14
+        stbtid donst INT16 bbnsdblfs[DCTSIZE2] = {
+          /* prfdomputfd vblufs sdblfd up by 14 bits */
           16384, 22725, 21407, 19266, 16384, 12873,  8867,  4520,
           22725, 31521, 29692, 26722, 22725, 17855, 12299,  6270,
           21407, 29692, 27969, 25172, 21407, 16819, 11585,  5906,
@@ -201,73 +201,73 @@ start_pass (j_decompress_ptr cinfo)
 
         for (i = 0; i < DCTSIZE2; i++) {
           ifmtbl[i] = (IFAST_MULT_TYPE)
-            DESCALE(MULTIPLY16V16((INT32) qtbl->quantval[i],
-                                  (INT32) aanscales[i]),
+            DESCALE(MULTIPLY16V16((INT32) qtbl->qubntvbl[i],
+                                  (INT32) bbnsdblfs[i]),
                     CONST_BITS-IFAST_SCALE_BITS);
         }
       }
-      break;
-#endif
-#ifdef DCT_FLOAT_SUPPORTED
-    case JDCT_FLOAT:
+      brfbk;
+#fndif
+#ifdff DCT_FLOAT_SUPPORTED
+    dbsf JDCT_FLOAT:
       {
-        /* For float AA&N IDCT method, multipliers are equal to quantization
-         * coefficients scaled by scalefactor[row]*scalefactor[col], where
-         *   scalefactor[0] = 1
-         *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+        /* For flobt AA&N IDCT mftiod, multiplifrs brf fqubl to qubntizbtion
+         * dofffidifnts sdblfd by sdblffbdtor[row]*sdblffbdtor[dol], wifrf
+         *   sdblffbdtor[0] = 1
+         *   sdblffbdtor[k] = dos(k*PI/16) * sqrt(2)    for k=1..7
          */
-        FLOAT_MULT_TYPE * fmtbl = (FLOAT_MULT_TYPE *) compptr->dct_table;
-        int row, col;
-        static const double aanscalefactor[DCTSIZE] = {
+        FLOAT_MULT_TYPE * fmtbl = (FLOAT_MULT_TYPE *) dompptr->ddt_tbblf;
+        int row, dol;
+        stbtid donst doublf bbnsdblffbdtor[DCTSIZE] = {
           1.0, 1.387039845, 1.306562965, 1.175875602,
           1.0, 0.785694958, 0.541196100, 0.275899379
         };
 
         i = 0;
         for (row = 0; row < DCTSIZE; row++) {
-          for (col = 0; col < DCTSIZE; col++) {
+          for (dol = 0; dol < DCTSIZE; dol++) {
             fmtbl[i] = (FLOAT_MULT_TYPE)
-              ((double) qtbl->quantval[i] *
-               aanscalefactor[row] * aanscalefactor[col]);
+              ((doublf) qtbl->qubntvbl[i] *
+               bbnsdblffbdtor[row] * bbnsdblffbdtor[dol]);
             i++;
           }
         }
       }
-      break;
-#endif
-    default:
-      ERREXIT(cinfo, JERR_NOT_COMPILED);
-      break;
+      brfbk;
+#fndif
+    dffbult:
+      ERREXIT(dinfo, JERR_NOT_COMPILED);
+      brfbk;
     }
   }
 }
 
 
 /*
- * Initialize IDCT manager.
+ * Initiblizf IDCT mbnbgfr.
  */
 
 GLOBAL(void)
-jinit_inverse_dct (j_decompress_ptr cinfo)
+jinit_invfrsf_ddt (j_dfdomprfss_ptr dinfo)
 {
-  my_idct_ptr idct;
-  int ci;
-  jpeg_component_info *compptr;
+  my_iddt_ptr iddt;
+  int di;
+  jpfg_domponfnt_info *dompptr;
 
-  idct = (my_idct_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_idct_controller));
-  cinfo->idct = (struct jpeg_inverse_dct *) idct;
-  idct->pub.start_pass = start_pass;
+  iddt = (my_iddt_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_iddt_dontrollfr));
+  dinfo->iddt = (strudt jpfg_invfrsf_ddt *) iddt;
+  iddt->pub.stbrt_pbss = stbrt_pbss;
 
-  for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-       ci++, compptr++) {
-    /* Allocate and pre-zero a multiplier table for each component */
-    compptr->dct_table =
-      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                  SIZEOF(multiplier_table));
-    MEMZERO(compptr->dct_table, SIZEOF(multiplier_table));
-    /* Mark multiplier table not yet set up for any method */
-    idct->cur_method[ci] = -1;
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Allodbtf bnd prf-zfro b multiplifr tbblf for fbdi domponfnt */
+    dompptr->ddt_tbblf =
+      (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                  SIZEOF(multiplifr_tbblf));
+    MEMZERO(dompptr->ddt_tbblf, SIZEOF(multiplifr_tbblf));
+    /* Mbrk multiplifr tbblf not yft sft up for bny mftiod */
+    iddt->dur_mftiod[di] = -1;
   }
 }

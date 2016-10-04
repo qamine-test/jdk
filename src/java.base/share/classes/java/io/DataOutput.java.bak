@@ -1,354 +1,354 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * The <code>DataOutput</code> interface provides
- * for converting data from any of the Java
- * primitive types to a series of bytes and
- * writing these bytes to a binary stream.
- * There is  also a facility for converting
- * a <code>String</code> into
- * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
- * format and writing the resulting series
- * of bytes.
+ * Tif <dodf>DbtbOutput</dodf> intfrfbdf providfs
+ * for donvfrting dbtb from bny of tif Jbvb
+ * primitivf typfs to b sfrifs of bytfs bnd
+ * writing tifsf bytfs to b binbry strfbm.
+ * Tifrf is  blso b fbdility for donvfrting
+ * b <dodf>String</dodf> into
+ * <b irff="DbtbInput.itml#modififd-utf-8">modififd UTF-8</b>
+ * formbt bnd writing tif rfsulting sfrifs
+ * of bytfs.
  * <p>
- * For all the methods in this interface that
- * write bytes, it is generally true that if
- * a byte cannot be written for any reason,
- * an <code>IOException</code> is thrown.
+ * For bll tif mftiods in tiis intfrfbdf tibt
+ * writf bytfs, it is gfnfrblly truf tibt if
+ * b bytf dbnnot bf writtfn for bny rfbson,
+ * bn <dodf>IOExdfption</dodf> is tirown.
  *
- * @author  Frank Yellin
- * @see     java.io.DataInput
- * @see     java.io.DataOutputStream
- * @since   1.0
+ * @butior  Frbnk Yfllin
+ * @sff     jbvb.io.DbtbInput
+ * @sff     jbvb.io.DbtbOutputStrfbm
+ * @sindf   1.0
  */
-public
-interface DataOutput {
+publid
+intfrfbdf DbtbOutput {
     /**
-     * Writes to the output stream the eight
-     * low-order bits of the argument <code>b</code>.
-     * The 24 high-order  bits of <code>b</code>
-     * are ignored.
+     * Writfs to tif output strfbm tif figit
+     * low-ordfr bits of tif brgumfnt <dodf>b</dodf>.
+     * Tif 24 iigi-ordfr  bits of <dodf>b</dodf>
+     * brf ignorfd.
      *
-     * @param      b   the byte to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      b   tif bytf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void write(int b) throws IOException;
+    void writf(int b) tirows IOExdfption;
 
     /**
-     * Writes to the output stream all the bytes in array <code>b</code>.
-     * If <code>b</code> is <code>null</code>,
-     * a <code>NullPointerException</code> is thrown.
-     * If <code>b.length</code> is zero, then
-     * no bytes are written. Otherwise, the byte
-     * <code>b[0]</code> is written first, then
-     * <code>b[1]</code>, and so on; the last byte
-     * written is <code>b[b.length-1]</code>.
+     * Writfs to tif output strfbm bll tif bytfs in brrby <dodf>b</dodf>.
+     * If <dodf>b</dodf> is <dodf>null</dodf>,
+     * b <dodf>NullPointfrExdfption</dodf> is tirown.
+     * If <dodf>b.lfngti</dodf> is zfro, tifn
+     * no bytfs brf writtfn. Otifrwisf, tif bytf
+     * <dodf>b[0]</dodf> is writtfn first, tifn
+     * <dodf>b[1]</dodf>, bnd so on; tif lbst bytf
+     * writtfn is <dodf>b[b.lfngti-1]</dodf>.
      *
-     * @param      b   the data.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      b   tif dbtb.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void write(byte b[]) throws IOException;
+    void writf(bytf b[]) tirows IOExdfption;
 
     /**
-     * Writes <code>len</code> bytes from array
-     * <code>b</code>, in order,  to
-     * the output stream.  If <code>b</code>
-     * is <code>null</code>, a <code>NullPointerException</code>
-     * is thrown.  If <code>off</code> is negative,
-     * or <code>len</code> is negative, or <code>off+len</code>
-     * is greater than the length of the array
-     * <code>b</code>, then an <code>IndexOutOfBoundsException</code>
-     * is thrown.  If <code>len</code> is zero,
-     * then no bytes are written. Otherwise, the
-     * byte <code>b[off]</code> is written first,
-     * then <code>b[off+1]</code>, and so on; the
-     * last byte written is <code>b[off+len-1]</code>.
+     * Writfs <dodf>lfn</dodf> bytfs from brrby
+     * <dodf>b</dodf>, in ordfr,  to
+     * tif output strfbm.  If <dodf>b</dodf>
+     * is <dodf>null</dodf>, b <dodf>NullPointfrExdfption</dodf>
+     * is tirown.  If <dodf>off</dodf> is nfgbtivf,
+     * or <dodf>lfn</dodf> is nfgbtivf, or <dodf>off+lfn</dodf>
+     * is grfbtfr tibn tif lfngti of tif brrby
+     * <dodf>b</dodf>, tifn bn <dodf>IndfxOutOfBoundsExdfption</dodf>
+     * is tirown.  If <dodf>lfn</dodf> is zfro,
+     * tifn no bytfs brf writtfn. Otifrwisf, tif
+     * bytf <dodf>b[off]</dodf> is writtfn first,
+     * tifn <dodf>b[off+1]</dodf>, bnd so on; tif
+     * lbst bytf writtfn is <dodf>b[off+lfn-1]</dodf>.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void write(byte b[], int off, int len) throws IOException;
+    void writf(bytf b[], int off, int lfn) tirows IOExdfption;
 
     /**
-     * Writes a <code>boolean</code> value to this output stream.
-     * If the argument <code>v</code>
-     * is <code>true</code>, the value <code>(byte)1</code>
-     * is written; if <code>v</code> is <code>false</code>,
-     * the  value <code>(byte)0</code> is written.
-     * The byte written by this method may
-     * be read by the <code>readBoolean</code>
-     * method of interface <code>DataInput</code>,
-     * which will then return a <code>boolean</code>
-     * equal to <code>v</code>.
+     * Writfs b <dodf>boolfbn</dodf> vbluf to tiis output strfbm.
+     * If tif brgumfnt <dodf>v</dodf>
+     * is <dodf>truf</dodf>, tif vbluf <dodf>(bytf)1</dodf>
+     * is writtfn; if <dodf>v</dodf> is <dodf>fblsf</dodf>,
+     * tif  vbluf <dodf>(bytf)0</dodf> is writtfn.
+     * Tif bytf writtfn by tiis mftiod mby
+     * bf rfbd by tif <dodf>rfbdBoolfbn</dodf>
+     * mftiod of intfrfbdf <dodf>DbtbInput</dodf>,
+     * wiidi will tifn rfturn b <dodf>boolfbn</dodf>
+     * fqubl to <dodf>v</dodf>.
      *
-     * @param      v   the boolean to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      v   tif boolfbn to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeBoolean(boolean v) throws IOException;
+    void writfBoolfbn(boolfbn v) tirows IOExdfption;
 
     /**
-     * Writes to the output stream the eight low-
-     * order bits of the argument <code>v</code>.
-     * The 24 high-order bits of <code>v</code>
-     * are ignored. (This means  that <code>writeByte</code>
-     * does exactly the same thing as <code>write</code>
-     * for an integer argument.) The byte written
-     * by this method may be read by the <code>readByte</code>
-     * method of interface <code>DataInput</code>,
-     * which will then return a <code>byte</code>
-     * equal to <code>(byte)v</code>.
+     * Writfs to tif output strfbm tif figit low-
+     * ordfr bits of tif brgumfnt <dodf>v</dodf>.
+     * Tif 24 iigi-ordfr bits of <dodf>v</dodf>
+     * brf ignorfd. (Tiis mfbns  tibt <dodf>writfBytf</dodf>
+     * dofs fxbdtly tif sbmf tiing bs <dodf>writf</dodf>
+     * for bn intfgfr brgumfnt.) Tif bytf writtfn
+     * by tiis mftiod mby bf rfbd by tif <dodf>rfbdBytf</dodf>
+     * mftiod of intfrfbdf <dodf>DbtbInput</dodf>,
+     * wiidi will tifn rfturn b <dodf>bytf</dodf>
+     * fqubl to <dodf>(bytf)v</dodf>.
      *
-     * @param      v   the byte value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      v   tif bytf vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeByte(int v) throws IOException;
+    void writfBytf(int v) tirows IOExdfption;
 
     /**
-     * Writes two bytes to the output
-     * stream to represent the value of the argument.
-     * The byte values to be written, in the  order
-     * shown, are:
-     * <pre>{@code
-     * (byte)(0xff & (v >> 8))
-     * (byte)(0xff & v)
-     * }</pre> <p>
-     * The bytes written by this method may be
-     * read by the <code>readShort</code> method
-     * of interface <code>DataInput</code> , which
-     * will then return a <code>short</code> equal
-     * to <code>(short)v</code>.
+     * Writfs two bytfs to tif output
+     * strfbm to rfprfsfnt tif vbluf of tif brgumfnt.
+     * Tif bytf vblufs to bf writtfn, in tif  ordfr
+     * siown, brf:
+     * <prf>{@dodf
+     * (bytf)(0xff & (v >> 8))
+     * (bytf)(0xff & v)
+     * }</prf> <p>
+     * Tif bytfs writtfn by tiis mftiod mby bf
+     * rfbd by tif <dodf>rfbdSiort</dodf> mftiod
+     * of intfrfbdf <dodf>DbtbInput</dodf> , wiidi
+     * will tifn rfturn b <dodf>siort</dodf> fqubl
+     * to <dodf>(siort)v</dodf>.
      *
-     * @param      v   the <code>short</code> value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      v   tif <dodf>siort</dodf> vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeShort(int v) throws IOException;
+    void writfSiort(int v) tirows IOExdfption;
 
     /**
-     * Writes a <code>char</code> value, which
-     * is comprised of two bytes, to the
-     * output stream.
-     * The byte values to be written, in the  order
-     * shown, are:
-     * <pre>{@code
-     * (byte)(0xff & (v >> 8))
-     * (byte)(0xff & v)
-     * }</pre><p>
-     * The bytes written by this method may be
-     * read by the <code>readChar</code> method
-     * of interface <code>DataInput</code> , which
-     * will then return a <code>char</code> equal
-     * to <code>(char)v</code>.
+     * Writfs b <dodf>dibr</dodf> vbluf, wiidi
+     * is domprisfd of two bytfs, to tif
+     * output strfbm.
+     * Tif bytf vblufs to bf writtfn, in tif  ordfr
+     * siown, brf:
+     * <prf>{@dodf
+     * (bytf)(0xff & (v >> 8))
+     * (bytf)(0xff & v)
+     * }</prf><p>
+     * Tif bytfs writtfn by tiis mftiod mby bf
+     * rfbd by tif <dodf>rfbdCibr</dodf> mftiod
+     * of intfrfbdf <dodf>DbtbInput</dodf> , wiidi
+     * will tifn rfturn b <dodf>dibr</dodf> fqubl
+     * to <dodf>(dibr)v</dodf>.
      *
-     * @param      v   the <code>char</code> value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      v   tif <dodf>dibr</dodf> vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeChar(int v) throws IOException;
+    void writfCibr(int v) tirows IOExdfption;
 
     /**
-     * Writes an <code>int</code> value, which is
-     * comprised of four bytes, to the output stream.
-     * The byte values to be written, in the  order
-     * shown, are:
-     * <pre>{@code
-     * (byte)(0xff & (v >> 24))
-     * (byte)(0xff & (v >> 16))
-     * (byte)(0xff & (v >>  8))
-     * (byte)(0xff & v)
-     * }</pre><p>
-     * The bytes written by this method may be read
-     * by the <code>readInt</code> method of interface
-     * <code>DataInput</code> , which will then
-     * return an <code>int</code> equal to <code>v</code>.
+     * Writfs bn <dodf>int</dodf> vbluf, wiidi is
+     * domprisfd of four bytfs, to tif output strfbm.
+     * Tif bytf vblufs to bf writtfn, in tif  ordfr
+     * siown, brf:
+     * <prf>{@dodf
+     * (bytf)(0xff & (v >> 24))
+     * (bytf)(0xff & (v >> 16))
+     * (bytf)(0xff & (v >>  8))
+     * (bytf)(0xff & v)
+     * }</prf><p>
+     * Tif bytfs writtfn by tiis mftiod mby bf rfbd
+     * by tif <dodf>rfbdInt</dodf> mftiod of intfrfbdf
+     * <dodf>DbtbInput</dodf> , wiidi will tifn
+     * rfturn bn <dodf>int</dodf> fqubl to <dodf>v</dodf>.
      *
-     * @param      v   the <code>int</code> value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      v   tif <dodf>int</dodf> vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeInt(int v) throws IOException;
+    void writfInt(int v) tirows IOExdfption;
 
     /**
-     * Writes a <code>long</code> value, which is
-     * comprised of eight bytes, to the output stream.
-     * The byte values to be written, in the  order
-     * shown, are:
-     * <pre>{@code
-     * (byte)(0xff & (v >> 56))
-     * (byte)(0xff & (v >> 48))
-     * (byte)(0xff & (v >> 40))
-     * (byte)(0xff & (v >> 32))
-     * (byte)(0xff & (v >> 24))
-     * (byte)(0xff & (v >> 16))
-     * (byte)(0xff & (v >>  8))
-     * (byte)(0xff & v)
-     * }</pre><p>
-     * The bytes written by this method may be
-     * read by the <code>readLong</code> method
-     * of interface <code>DataInput</code> , which
-     * will then return a <code>long</code> equal
-     * to <code>v</code>.
+     * Writfs b <dodf>long</dodf> vbluf, wiidi is
+     * domprisfd of figit bytfs, to tif output strfbm.
+     * Tif bytf vblufs to bf writtfn, in tif  ordfr
+     * siown, brf:
+     * <prf>{@dodf
+     * (bytf)(0xff & (v >> 56))
+     * (bytf)(0xff & (v >> 48))
+     * (bytf)(0xff & (v >> 40))
+     * (bytf)(0xff & (v >> 32))
+     * (bytf)(0xff & (v >> 24))
+     * (bytf)(0xff & (v >> 16))
+     * (bytf)(0xff & (v >>  8))
+     * (bytf)(0xff & v)
+     * }</prf><p>
+     * Tif bytfs writtfn by tiis mftiod mby bf
+     * rfbd by tif <dodf>rfbdLong</dodf> mftiod
+     * of intfrfbdf <dodf>DbtbInput</dodf> , wiidi
+     * will tifn rfturn b <dodf>long</dodf> fqubl
+     * to <dodf>v</dodf>.
      *
-     * @param      v   the <code>long</code> value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      v   tif <dodf>long</dodf> vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeLong(long v) throws IOException;
+    void writfLong(long v) tirows IOExdfption;
 
     /**
-     * Writes a <code>float</code> value,
-     * which is comprised of four bytes, to the output stream.
-     * It does this as if it first converts this
-     * <code>float</code> value to an <code>int</code>
-     * in exactly the manner of the <code>Float.floatToIntBits</code>
-     * method  and then writes the <code>int</code>
-     * value in exactly the manner of the  <code>writeInt</code>
-     * method.  The bytes written by this method
-     * may be read by the <code>readFloat</code>
-     * method of interface <code>DataInput</code>,
-     * which will then return a <code>float</code>
-     * equal to <code>v</code>.
+     * Writfs b <dodf>flobt</dodf> vbluf,
+     * wiidi is domprisfd of four bytfs, to tif output strfbm.
+     * It dofs tiis bs if it first donvfrts tiis
+     * <dodf>flobt</dodf> vbluf to bn <dodf>int</dodf>
+     * in fxbdtly tif mbnnfr of tif <dodf>Flobt.flobtToIntBits</dodf>
+     * mftiod  bnd tifn writfs tif <dodf>int</dodf>
+     * vbluf in fxbdtly tif mbnnfr of tif  <dodf>writfInt</dodf>
+     * mftiod.  Tif bytfs writtfn by tiis mftiod
+     * mby bf rfbd by tif <dodf>rfbdFlobt</dodf>
+     * mftiod of intfrfbdf <dodf>DbtbInput</dodf>,
+     * wiidi will tifn rfturn b <dodf>flobt</dodf>
+     * fqubl to <dodf>v</dodf>.
      *
-     * @param      v   the <code>float</code> value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      v   tif <dodf>flobt</dodf> vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeFloat(float v) throws IOException;
+    void writfFlobt(flobt v) tirows IOExdfption;
 
     /**
-     * Writes a <code>double</code> value,
-     * which is comprised of eight bytes, to the output stream.
-     * It does this as if it first converts this
-     * <code>double</code> value to a <code>long</code>
-     * in exactly the manner of the <code>Double.doubleToLongBits</code>
-     * method  and then writes the <code>long</code>
-     * value in exactly the manner of the  <code>writeLong</code>
-     * method. The bytes written by this method
-     * may be read by the <code>readDouble</code>
-     * method of interface <code>DataInput</code>,
-     * which will then return a <code>double</code>
-     * equal to <code>v</code>.
+     * Writfs b <dodf>doublf</dodf> vbluf,
+     * wiidi is domprisfd of figit bytfs, to tif output strfbm.
+     * It dofs tiis bs if it first donvfrts tiis
+     * <dodf>doublf</dodf> vbluf to b <dodf>long</dodf>
+     * in fxbdtly tif mbnnfr of tif <dodf>Doublf.doublfToLongBits</dodf>
+     * mftiod  bnd tifn writfs tif <dodf>long</dodf>
+     * vbluf in fxbdtly tif mbnnfr of tif  <dodf>writfLong</dodf>
+     * mftiod. Tif bytfs writtfn by tiis mftiod
+     * mby bf rfbd by tif <dodf>rfbdDoublf</dodf>
+     * mftiod of intfrfbdf <dodf>DbtbInput</dodf>,
+     * wiidi will tifn rfturn b <dodf>doublf</dodf>
+     * fqubl to <dodf>v</dodf>.
      *
-     * @param      v   the <code>double</code> value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      v   tif <dodf>doublf</dodf> vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeDouble(double v) throws IOException;
+    void writfDoublf(doublf v) tirows IOExdfption;
 
     /**
-     * Writes a string to the output stream.
-     * For every character in the string
-     * <code>s</code>,  taken in order, one byte
-     * is written to the output stream.  If
-     * <code>s</code> is <code>null</code>, a <code>NullPointerException</code>
-     * is thrown.<p>  If <code>s.length</code>
-     * is zero, then no bytes are written. Otherwise,
-     * the character <code>s[0]</code> is written
-     * first, then <code>s[1]</code>, and so on;
-     * the last character written is <code>s[s.length-1]</code>.
-     * For each character, one byte is written,
-     * the low-order byte, in exactly the manner
-     * of the <code>writeByte</code> method . The
-     * high-order eight bits of each character
-     * in the string are ignored.
+     * Writfs b string to tif output strfbm.
+     * For fvfry dibrbdtfr in tif string
+     * <dodf>s</dodf>,  tbkfn in ordfr, onf bytf
+     * is writtfn to tif output strfbm.  If
+     * <dodf>s</dodf> is <dodf>null</dodf>, b <dodf>NullPointfrExdfption</dodf>
+     * is tirown.<p>  If <dodf>s.lfngti</dodf>
+     * is zfro, tifn no bytfs brf writtfn. Otifrwisf,
+     * tif dibrbdtfr <dodf>s[0]</dodf> is writtfn
+     * first, tifn <dodf>s[1]</dodf>, bnd so on;
+     * tif lbst dibrbdtfr writtfn is <dodf>s[s.lfngti-1]</dodf>.
+     * For fbdi dibrbdtfr, onf bytf is writtfn,
+     * tif low-ordfr bytf, in fxbdtly tif mbnnfr
+     * of tif <dodf>writfBytf</dodf> mftiod . Tif
+     * iigi-ordfr figit bits of fbdi dibrbdtfr
+     * in tif string brf ignorfd.
      *
-     * @param      s   the string of bytes to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      s   tif string of bytfs to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeBytes(String s) throws IOException;
+    void writfBytfs(String s) tirows IOExdfption;
 
     /**
-     * Writes every character in the string <code>s</code>,
-     * to the output stream, in order,
-     * two bytes per character. If <code>s</code>
-     * is <code>null</code>, a <code>NullPointerException</code>
-     * is thrown.  If <code>s.length</code>
-     * is zero, then no characters are written.
-     * Otherwise, the character <code>s[0]</code>
-     * is written first, then <code>s[1]</code>,
-     * and so on; the last character written is
-     * <code>s[s.length-1]</code>. For each character,
-     * two bytes are actually written, high-order
-     * byte first, in exactly the manner of the
-     * <code>writeChar</code> method.
+     * Writfs fvfry dibrbdtfr in tif string <dodf>s</dodf>,
+     * to tif output strfbm, in ordfr,
+     * two bytfs pfr dibrbdtfr. If <dodf>s</dodf>
+     * is <dodf>null</dodf>, b <dodf>NullPointfrExdfption</dodf>
+     * is tirown.  If <dodf>s.lfngti</dodf>
+     * is zfro, tifn no dibrbdtfrs brf writtfn.
+     * Otifrwisf, tif dibrbdtfr <dodf>s[0]</dodf>
+     * is writtfn first, tifn <dodf>s[1]</dodf>,
+     * bnd so on; tif lbst dibrbdtfr writtfn is
+     * <dodf>s[s.lfngti-1]</dodf>. For fbdi dibrbdtfr,
+     * two bytfs brf bdtublly writtfn, iigi-ordfr
+     * bytf first, in fxbdtly tif mbnnfr of tif
+     * <dodf>writfCibr</dodf> mftiod.
      *
-     * @param      s   the string value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      s   tif string vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeChars(String s) throws IOException;
+    void writfCibrs(String s) tirows IOExdfption;
 
     /**
-     * Writes two bytes of length information
-     * to the output stream, followed
-     * by the
-     * <a href="DataInput.html#modified-utf-8">modified UTF-8</a>
-     * representation
-     * of  every character in the string <code>s</code>.
-     * If <code>s</code> is <code>null</code>,
-     * a <code>NullPointerException</code> is thrown.
-     * Each character in the string <code>s</code>
-     * is converted to a group of one, two, or
-     * three bytes, depending on the value of the
-     * character.<p>
-     * If a character <code>c</code>
-     * is in the range <code>&#92;u0001</code> through
-     * <code>&#92;u007f</code>, it is represented
-     * by one byte:
-     * <pre>(byte)c </pre>  <p>
-     * If a character <code>c</code> is <code>&#92;u0000</code>
-     * or is in the range <code>&#92;u0080</code>
-     * through <code>&#92;u07ff</code>, then it is
-     * represented by two bytes, to be written
-     * in the order shown: <pre>{@code
-     * (byte)(0xc0 | (0x1f & (c >> 6)))
-     * (byte)(0x80 | (0x3f & c))
-     * }</pre> <p> If a character
-     * <code>c</code> is in the range <code>&#92;u0800</code>
-     * through <code>uffff</code>, then it is
-     * represented by three bytes, to be written
-     * in the order shown: <pre>{@code
-     * (byte)(0xe0 | (0x0f & (c >> 12)))
-     * (byte)(0x80 | (0x3f & (c >>  6)))
-     * (byte)(0x80 | (0x3f & c))
-     * }</pre>  <p> First,
-     * the total number of bytes needed to represent
-     * all the characters of <code>s</code> is
-     * calculated. If this number is larger than
-     * <code>65535</code>, then a <code>UTFDataFormatException</code>
-     * is thrown. Otherwise, this length is written
-     * to the output stream in exactly the manner
-     * of the <code>writeShort</code> method;
-     * after this, the one-, two-, or three-byte
-     * representation of each character in the
-     * string <code>s</code> is written.<p>  The
-     * bytes written by this method may be read
-     * by the <code>readUTF</code> method of interface
-     * <code>DataInput</code> , which will then
-     * return a <code>String</code> equal to <code>s</code>.
+     * Writfs two bytfs of lfngti informbtion
+     * to tif output strfbm, followfd
+     * by tif
+     * <b irff="DbtbInput.itml#modififd-utf-8">modififd UTF-8</b>
+     * rfprfsfntbtion
+     * of  fvfry dibrbdtfr in tif string <dodf>s</dodf>.
+     * If <dodf>s</dodf> is <dodf>null</dodf>,
+     * b <dodf>NullPointfrExdfption</dodf> is tirown.
+     * Ebdi dibrbdtfr in tif string <dodf>s</dodf>
+     * is donvfrtfd to b group of onf, two, or
+     * tirff bytfs, dfpfnding on tif vbluf of tif
+     * dibrbdtfr.<p>
+     * If b dibrbdtfr <dodf>d</dodf>
+     * is in tif rbngf <dodf>&#92;u0001</dodf> tirougi
+     * <dodf>&#92;u007f</dodf>, it is rfprfsfntfd
+     * by onf bytf:
+     * <prf>(bytf)d </prf>  <p>
+     * If b dibrbdtfr <dodf>d</dodf> is <dodf>&#92;u0000</dodf>
+     * or is in tif rbngf <dodf>&#92;u0080</dodf>
+     * tirougi <dodf>&#92;u07ff</dodf>, tifn it is
+     * rfprfsfntfd by two bytfs, to bf writtfn
+     * in tif ordfr siown: <prf>{@dodf
+     * (bytf)(0xd0 | (0x1f & (d >> 6)))
+     * (bytf)(0x80 | (0x3f & d))
+     * }</prf> <p> If b dibrbdtfr
+     * <dodf>d</dodf> is in tif rbngf <dodf>&#92;u0800</dodf>
+     * tirougi <dodf>uffff</dodf>, tifn it is
+     * rfprfsfntfd by tirff bytfs, to bf writtfn
+     * in tif ordfr siown: <prf>{@dodf
+     * (bytf)(0xf0 | (0x0f & (d >> 12)))
+     * (bytf)(0x80 | (0x3f & (d >>  6)))
+     * (bytf)(0x80 | (0x3f & d))
+     * }</prf>  <p> First,
+     * tif totbl numbfr of bytfs nffdfd to rfprfsfnt
+     * bll tif dibrbdtfrs of <dodf>s</dodf> is
+     * dbldulbtfd. If tiis numbfr is lbrgfr tibn
+     * <dodf>65535</dodf>, tifn b <dodf>UTFDbtbFormbtExdfption</dodf>
+     * is tirown. Otifrwisf, tiis lfngti is writtfn
+     * to tif output strfbm in fxbdtly tif mbnnfr
+     * of tif <dodf>writfSiort</dodf> mftiod;
+     * bftfr tiis, tif onf-, two-, or tirff-bytf
+     * rfprfsfntbtion of fbdi dibrbdtfr in tif
+     * string <dodf>s</dodf> is writtfn.<p>  Tif
+     * bytfs writtfn by tiis mftiod mby bf rfbd
+     * by tif <dodf>rfbdUTF</dodf> mftiod of intfrfbdf
+     * <dodf>DbtbInput</dodf> , wiidi will tifn
+     * rfturn b <dodf>String</dodf> fqubl to <dodf>s</dodf>.
      *
-     * @param      s   the string value to be written.
-     * @throws     IOException  if an I/O error occurs.
+     * @pbrbm      s   tif string vbluf to bf writtfn.
+     * @tirows     IOExdfption  if bn I/O frror oddurs.
      */
-    void writeUTF(String s) throws IOException;
+    void writfUTF(String s) tirows IOExdfption;
 }

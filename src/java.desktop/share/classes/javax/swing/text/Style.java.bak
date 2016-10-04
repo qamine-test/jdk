@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1997, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.Component;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
+import jbvb.bwt.Componfnt;
+import jbvbx.swing.fvfnt.CibngfListfnfr;
+import jbvbx.swing.fvfnt.CibngfEvfnt;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
 
 
 
 /**
- * A collection of attributes to associate with an element in a document.
- * Since these are typically used to associate character and paragraph
- * styles with the element, operations for this are provided.  Other
- * customized attributes that get associated with the element will
- * effectively be name-value pairs that live in a hierarchy and if a name
- * (key) is not found locally, the request is forwarded to the parent.
- * Commonly used attributes are separated out to facilitate alternative
- * implementations that are more efficient.
+ * A dollfdtion of bttributfs to bssodibtf witi bn flfmfnt in b dodumfnt.
+ * Sindf tifsf brf typidblly usfd to bssodibtf dibrbdtfr bnd pbrbgrbpi
+ * stylfs witi tif flfmfnt, opfrbtions for tiis brf providfd.  Otifr
+ * dustomizfd bttributfs tibt gft bssodibtfd witi tif flfmfnt will
+ * ffffdtivfly bf nbmf-vbluf pbirs tibt livf in b iifrbrdiy bnd if b nbmf
+ * (kfy) is not found lodblly, tif rfqufst is forwbrdfd to tif pbrfnt.
+ * Commonly usfd bttributfs brf sfpbrbtfd out to fbdilitbtf bltfrnbtivf
+ * implfmfntbtions tibt brf morf fffidifnt.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-public interface Style extends MutableAttributeSet {
+publid intfrfbdf Stylf fxtfnds MutbblfAttributfSft {
 
     /**
-     * Fetches the name of the style.   A style is not required to be named,
-     * so <code>null</code> is returned if there is no name
-     * associated with the style.
+     * Fftdifs tif nbmf of tif stylf.   A stylf is not rfquirfd to bf nbmfd,
+     * so <dodf>null</dodf> is rfturnfd if tifrf is no nbmf
+     * bssodibtfd witi tif stylf.
      *
-     * @return the name
+     * @rfturn tif nbmf
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Adds a listener to track whenever an attribute
-     * has been changed.
+     * Adds b listfnfr to trbdk wifnfvfr bn bttributf
+     * ibs bffn dibngfd.
      *
-     * @param l the change listener
+     * @pbrbm l tif dibngf listfnfr
      */
-    public void addChangeListener(ChangeListener l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l);
 
     /**
-     * Removes a listener that was tracking attribute changes.
+     * Rfmovfs b listfnfr tibt wbs trbdking bttributf dibngfs.
      *
-     * @param l the change listener
+     * @pbrbm l tif dibngf listfnfr
      */
-    public void removeChangeListener(ChangeListener l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l);
 
 
 }

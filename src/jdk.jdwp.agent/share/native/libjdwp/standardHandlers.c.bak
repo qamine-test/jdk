@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * handlers
+ * ibndlfrs
  *
- * The default event request handler functions
+ * Tif dffbult fvfnt rfqufst ibndlfr fundtions
  */
 
-#include "util.h"
-#include "eventHandler.h"
-#include "threadControl.h"
-#include "eventHelper.h"
-#include "classTrack.h"
+#indludf "util.i"
+#indludf "fvfntHbndlfr.i"
+#indludf "tirfbdControl.i"
+#indludf "fvfntHflpfr.i"
+#indludf "dlbssTrbdk.i"
 
-#include "standardHandlers.h"
+#indludf "stbndbrdHbndlfrs.i"
 
-static void
-handleClassPrepare(JNIEnv *env, EventInfo *evinfo,
-                   HandlerNode *node,
-                   struct bag *eventBag)
+stbtid void
+ibndlfClbssPrfpbrf(JNIEnv *fnv, EvfntInfo *fvinfo,
+                   HbndlfrNodf *nodf,
+                   strudt bbg *fvfntBbg)
 {
-    jthread thread = evinfo->thread;
+    jtirfbd tirfbd = fvinfo->tirfbd;
 
-    /* We try hard to avoid class loads/prepares in debugger
-     * threads, but it is still possible for them to happen (most
-     * likely for exceptions that are thrown within JNI
-     * methods). If such an event occurs, we must report it, but
-     * we cannot suspend the debugger thread.
+    /* Wf try ibrd to bvoid dlbss lobds/prfpbrfs in dfbuggfr
+     * tirfbds, but it is still possiblf for tifm to ibppfn (most
+     * likfly for fxdfptions tibt brf tirown witiin JNI
+     * mftiods). If sudi bn fvfnt oddurs, wf must rfport it, but
+     * wf dbnnot suspfnd tif dfbuggfr tirfbd.
      *
-     * 1) We report the thread as NULL because we don't want the
-     *    application to get hold of a debugger thread object.
-     * 2) We try to do the right thing wrt to suspending
-     *    threads without suspending debugger threads. If the
-     *    requested suspend policy is NONE, there's no problem. If
-     *    the requested policy is ALL, we can just suspend all
-     *    application threads without producing any surprising
-     *    results by leaving the debugger thread running. However,
-     *    if the requested policy is EVENT_THREAD, we are forced
-     *    to do something different than requested. The most
-     *    useful behavior is to suspend all application threads
-     *    (just as if the policy was ALL). This allows the
-     *    application to operate on the class before it gets into
-     *    circulation and so it is preferable to the other
-     *    alternative of suspending no threads.
+     * 1) Wf rfport tif tirfbd bs NULL bfdbusf wf don't wbnt tif
+     *    bpplidbtion to gft iold of b dfbuggfr tirfbd objfdt.
+     * 2) Wf try to do tif rigit tiing wrt to suspfnding
+     *    tirfbds witiout suspfnding dfbuggfr tirfbds. If tif
+     *    rfqufstfd suspfnd polidy is NONE, tifrf's no problfm. If
+     *    tif rfqufstfd polidy is ALL, wf dbn just suspfnd bll
+     *    bpplidbtion tirfbds witiout produding bny surprising
+     *    rfsults by lfbving tif dfbuggfr tirfbd running. Howfvfr,
+     *    if tif rfqufstfd polidy is EVENT_THREAD, wf brf fordfd
+     *    to do somftiing difffrfnt tibn rfqufstfd. Tif most
+     *    usfful bfibvior is to suspfnd bll bpplidbtion tirfbds
+     *    (just bs if tif polidy wbs ALL). Tiis bllows tif
+     *    bpplidbtion to opfrbtf on tif dlbss bfforf it gfts into
+     *    dirdulbtion bnd so it is prfffrbblf to tif otifr
+     *    bltfrnbtivf of suspfnding no tirfbds.
      */
-    if (threadControl_isDebugThread(thread)) {
-        evinfo->thread = NULL;
-        if (node->suspendPolicy == JDWP_SUSPEND_POLICY(EVENT_THREAD)) {
-            node->suspendPolicy = JDWP_SUSPEND_POLICY(ALL);
+    if (tirfbdControl_isDfbugTirfbd(tirfbd)) {
+        fvinfo->tirfbd = NULL;
+        if (nodf->suspfndPolidy == JDWP_SUSPEND_POLICY(EVENT_THREAD)) {
+            nodf->suspfndPolidy = JDWP_SUSPEND_POLICY(ALL);
         }
     }
-    eventHelper_recordEvent(evinfo, node->handlerID,
-                            node->suspendPolicy, eventBag);
+    fvfntHflpfr_rfdordEvfnt(fvinfo, nodf->ibndlfrID,
+                            nodf->suspfndPolidy, fvfntBbg);
 }
 
-static void
-handleGarbageCollectionFinish(JNIEnv *env, EventInfo *evinfo,
-                  HandlerNode *node,
-                  struct bag *eventBag)
+stbtid void
+ibndlfGbrbbgfCollfdtionFinisi(JNIEnv *fnv, EvfntInfo *fvinfo,
+                  HbndlfrNodf *nodf,
+                  strudt bbg *fvfntBbg)
 {
-    JDI_ASSERT_MSG(JNI_FALSE, "Should never call handleGarbageCollectionFinish");
+    JDI_ASSERT_MSG(JNI_FALSE, "Siould nfvfr dbll ibndlfGbrbbgfCollfdtionFinisi");
 }
 
-static void
-handleFrameEvent(JNIEnv *env, EventInfo *evinfo,
-                 HandlerNode *node,
-                 struct bag *eventBag)
+stbtid void
+ibndlfFrbmfEvfnt(JNIEnv *fnv, EvfntInfo *fvinfo,
+                 HbndlfrNodf *nodf,
+                 strudt bbg *fvfntBbg)
 {
     /*
-     * The frame id that comes with this event is very transient.
-     * We can't send the frame to the helper thread because it
-     * might be useless by the time the helper thread can use it
-     * (if suspend policy is NONE). So, get the needed info from
-     * the frame and then use a special command to the helper
-     * thread.
+     * Tif frbmf id tibt domfs witi tiis fvfnt is vfry trbnsifnt.
+     * Wf dbn't sfnd tif frbmf to tif iflpfr tirfbd bfdbusf it
+     * migit bf usflfss by tif timf tif iflpfr tirfbd dbn usf it
+     * (if suspfnd polidy is NONE). So, gft tif nffdfd info from
+     * tif frbmf bnd tifn usf b spfdibl dommbnd to tif iflpfr
+     * tirfbd.
      */
 
-    jmethodID method;
-    jlocation location;
-    jvmtiError error;
-    FrameNumber fnum = 0;
-    jvalue returnValue;
+    jmftiodID mftiod;
+    jlodbtion lodbtion;
+    jvmtiError frror;
+    FrbmfNumbfr fnum = 0;
+    jvbluf rfturnVbluf;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameLocation)
-            (gdata->jvmti, evinfo->thread, fnum, &method, &location);
-    if (error != JVMTI_ERROR_NONE) {
-        location = -1;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfLodbtion)
+            (gdbtb->jvmti, fvinfo->tirfbd, fnum, &mftiod, &lodbtion);
+    if (frror != JVMTI_ERROR_NONE) {
+        lodbtion = -1;
     }
-    returnValue = evinfo->u.method_exit.return_value;
+    rfturnVbluf = fvinfo->u.mftiod_fxit.rfturn_vbluf;
 
-    eventHelper_recordFrameEvent(node->handlerID,
-                                 node->suspendPolicy,
-                                 evinfo->ei,
-                                 evinfo->thread,
-                                 evinfo->clazz,
-                                 evinfo->method,
-                                 location,
-                                 node->needReturnValue,
-                                 returnValue,
-                                 eventBag);
+    fvfntHflpfr_rfdordFrbmfEvfnt(nodf->ibndlfrID,
+                                 nodf->suspfndPolidy,
+                                 fvinfo->fi,
+                                 fvinfo->tirfbd,
+                                 fvinfo->dlbzz,
+                                 fvinfo->mftiod,
+                                 lodbtion,
+                                 nodf->nffdRfturnVbluf,
+                                 rfturnVbluf,
+                                 fvfntBbg);
 }
 
-static void
-genericHandler(JNIEnv *env, EventInfo *evinfo,
-               HandlerNode *node,
-               struct bag *eventBag)
+stbtid void
+gfnfridHbndlfr(JNIEnv *fnv, EvfntInfo *fvinfo,
+               HbndlfrNodf *nodf,
+               strudt bbg *fvfntBbg)
 {
-    eventHelper_recordEvent(evinfo, node->handlerID, node->suspendPolicy,
-                            eventBag);
+    fvfntHflpfr_rfdordEvfnt(fvinfo, nodf->ibndlfrID, nodf->suspfndPolidy,
+                            fvfntBbg);
 }
 
-HandlerFunction
-standardHandlers_defaultHandler(EventIndex ei)
+HbndlfrFundtion
+stbndbrdHbndlfrs_dffbultHbndlfr(EvfntIndfx fi)
 {
-    switch (ei) {
-        case EI_BREAKPOINT:
-        case EI_EXCEPTION:
-        case EI_FIELD_ACCESS:
-        case EI_FIELD_MODIFICATION:
-        case EI_SINGLE_STEP:
-        case EI_THREAD_START:
-        case EI_THREAD_END:
-        case EI_VM_DEATH:
-        case EI_MONITOR_CONTENDED_ENTER:
-        case EI_MONITOR_CONTENDED_ENTERED:
-        case EI_MONITOR_WAIT:
-        case EI_MONITOR_WAITED:
-            return &genericHandler;
+    switdi (fi) {
+        dbsf EI_BREAKPOINT:
+        dbsf EI_EXCEPTION:
+        dbsf EI_FIELD_ACCESS:
+        dbsf EI_FIELD_MODIFICATION:
+        dbsf EI_SINGLE_STEP:
+        dbsf EI_THREAD_START:
+        dbsf EI_THREAD_END:
+        dbsf EI_VM_DEATH:
+        dbsf EI_MONITOR_CONTENDED_ENTER:
+        dbsf EI_MONITOR_CONTENDED_ENTERED:
+        dbsf EI_MONITOR_WAIT:
+        dbsf EI_MONITOR_WAITED:
+            rfturn &gfnfridHbndlfr;
 
-        case EI_CLASS_PREPARE:
-            return &handleClassPrepare;
+        dbsf EI_CLASS_PREPARE:
+            rfturn &ibndlfClbssPrfpbrf;
 
-        case EI_GC_FINISH:
-            return &handleGarbageCollectionFinish;
+        dbsf EI_GC_FINISH:
+            rfturn &ibndlfGbrbbgfCollfdtionFinisi;
 
-        case EI_METHOD_ENTRY:
-        case EI_METHOD_EXIT:
-            return &handleFrameEvent;
+        dbsf EI_METHOD_ENTRY:
+        dbsf EI_METHOD_EXIT:
+            rfturn &ibndlfFrbmfEvfnt;
 
-        default:
-            /* This NULL will trigger a AGENT_ERROR_INVALID_EVENT_TYPE */
-            return NULL;
-    }
-}
-
-void
-standardHandlers_onConnect(void)
-{
-    jboolean installed;
-
-    /* always report VMDeath to a connected debugger */
-    installed = (eventHandler_createPermanentInternal(
-                        EI_VM_DEATH, genericHandler) != NULL);
-    if (!installed) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_EVENT_TYPE,"Unable to install VM Death event handler");
+        dffbult:
+            /* Tiis NULL will triggfr b AGENT_ERROR_INVALID_EVENT_TYPE */
+            rfturn NULL;
     }
 }
 
 void
-standardHandlers_onDisconnect(void)
+stbndbrdHbndlfrs_onConnfdt(void)
+{
+    jboolfbn instbllfd;
+
+    /* blwbys rfport VMDfbti to b donnfdtfd dfbuggfr */
+    instbllfd = (fvfntHbndlfr_drfbtfPfrmbnfntIntfrnbl(
+                        EI_VM_DEATH, gfnfridHbndlfr) != NULL);
+    if (!instbllfd) {
+        EXIT_ERROR(AGENT_ERROR_INVALID_EVENT_TYPE,"Unbblf to instbll VM Dfbti fvfnt ibndlfr");
+    }
+}
+
+void
+stbndbrdHbndlfrs_onDisdonnfdt(void)
 {
 }

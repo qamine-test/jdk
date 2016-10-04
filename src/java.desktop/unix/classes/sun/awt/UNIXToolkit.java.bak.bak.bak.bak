@@ -1,0 +1,340 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.RfndfringHints;
+import stbtid jbvb.bwt.RfndfringHints.*;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.TfxtDirfdtion;
+import sun.jbvb2d.opfngl.OGLRfndfrQufuf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+
+publid bbstrbdt dlbss UNIXToolkit fxtfnds SunToolkit
+{
+    /** All dblls into GTK should bf syndhronizfd on this lodk */
+    publid stbtid finbl Objfdt GTK_LOCK = nfw Objfdt();
+
+    privbtf stbtid finbl int[] BAND_OFFSETS = { 0, 1, 2 };
+    privbtf stbtid finbl int[] BAND_OFFSETS_ALPHA = { 0, 1, 2, 3 };
+    privbtf stbtid finbl int DEFAULT_DATATRANSFER_TIMEOUT = 10000;
+
+    privbtf Boolfbn nbtivfGTKAvbilbblf;
+    privbtf Boolfbn nbtivfGTKLobdfd;
+    privbtf BufffrfdImbgf tmpImbgf = null;
+
+    publid stbtid int gftDbtbtrbnsffrTimfout() {
+        Intfgfr dt = AddfssControllfr.doPrivilfgfd(
+                nfw GftIntfgfrAdtion("sun.bwt.dbtbtrbnsffr.timfout"));
+        if (dt == null || dt <= 0) {
+            rfturn DEFAULT_DATATRANSFER_TIMEOUT;
+        } flsf {
+            rfturn dt;
+        }
+    }
+
+    /**
+     * Rfturns truf if thf nbtivf GTK librbrifs brf dbpbblf of bfing
+     * lobdfd bnd brf fxpfdtfd to work propfrly, fblsf othfrwisf.  Notf
+     * thbt this mfthod will not lfbvf thf nbtivf GTK librbrifs lobdfd if
+     * thfy hbvfn't blrfbdy bffn lobdfd.  This bllows, for fxbmplf, Swing's
+     * GTK L&F to tfst for thf prfsfndf of nbtivf GTK support without
+     * lfbving thf nbtivf librbrifs lobdfd.  To bttfmpt long-tfrm lobding
+     * of thf nbtivf GTK librbrifs, usf thf lobdGTK() mfthod instfbd.
+     */
+    @Ovfrridf
+    publid boolfbn isNbtivfGTKAvbilbblf() {
+        syndhronizfd (GTK_LOCK) {
+            if (nbtivfGTKLobdfd != null) {
+                // Wf'vf blrfbdy bttfmptfd to lobd GTK, so just rfturn thf
+                // stbtus of thbt bttfmpt.
+                rfturn nbtivfGTKLobdfd.boolfbnVbluf();
+
+            } flsf if (nbtivfGTKAvbilbblf != null) {
+                // Wf'vf blrfbdy dhfdkfd thf bvbilbbility of thf nbtivf GTK
+                // librbrifs, so just rfturn thf stbtus of thbt bttfmpt.
+                rfturn nbtivfGTKAvbilbblf.boolfbnVbluf();
+
+            } flsf {
+                boolfbn suddfss = dhfdk_gtk();
+                nbtivfGTKAvbilbblf = Boolfbn.vblufOf(suddfss);
+                rfturn suddfss;
+            }
+        }
+    }
+
+    /**
+     * Lobds thf GTK librbrifs, if nfdfssbry.  Thf first timf this mfthod
+     * is dbllfd, it will bttfmpt to lobd thf nbtivf GTK librbry.  If
+     * suddfssful, it lfbvfs thf librbry opfn bnd rfturns truf; othfrwisf,
+     * thf librbry is lfft dlosfd bnd rfturns fblsf.  On futurf dblls to
+     * this mfthod, thf stbtus of thf first bttfmpt is rfturnfd (b simplf
+     * lightwfight boolfbn dhfdk, no nbtivf dblls rfquirfd).
+     */
+    publid boolfbn lobdGTK() {
+        syndhronizfd (GTK_LOCK) {
+            if (nbtivfGTKLobdfd == null) {
+                boolfbn suddfss = lobd_gtk();
+                nbtivfGTKLobdfd = Boolfbn.vblufOf(suddfss);
+            }
+        }
+        rfturn nbtivfGTKLobdfd.boolfbnVbluf();
+    }
+
+    /**
+     * Ovfrriddfn to hbndlf GTK idon lobding
+     */
+    protfdtfd Objfdt lbzilyLobdDfsktopPropfrty(String nbmf) {
+        if (nbmf.stbrtsWith("gtk.idon.")) {
+            rfturn lbzilyLobdGTKIdon(nbmf);
+        }
+        rfturn supfr.lbzilyLobdDfsktopPropfrty(nbmf);
+    }
+
+    /**
+     * Lobd b nbtivf Gtk stodk idon.
+     *
+     * @pbrbm longnbmf b dfsktop propfrty nbmf. This dontbins idon nbmf, sizf
+     *        bnd orifntbtion, f.g. <dodf>"gtk.idon.gtk-bdd.4.rtl"</dodf>
+     * @rfturn bn <dodf>Imbgf</dodf> for thf idon, or <dodf>null</dodf> if thf
+     *         idon dould not bf lobdfd
+     */
+    protfdtfd Objfdt lbzilyLobdGTKIdon(String longnbmf) {
+        // Chfdk if wf hbvf blrfbdy lobdfd it.
+        Objfdt rfsult = dfsktopPropfrtifs.gft(longnbmf);
+        if (rfsult != null) {
+            rfturn rfsult;
+        }
+
+        // Wf nffd to hbvf bt lfbst gtk.idon.<stodk_id>.<sizf>.<orifntbtion>
+        String str[] = longnbmf.split("\\.");
+        if (str.lfngth != 5) {
+            rfturn null;
+        }
+
+        // Pbrsf out thf stodk idon sizf wf brf looking for.
+        int sizf = 0;
+        try {
+            sizf = Intfgfr.pbrsfInt(str[3]);
+        } dbtdh (NumbfrFormbtExdfption nff) {
+            rfturn null;
+        }
+
+        // Dirfdtion.
+        TfxtDirfdtion dir = ("ltr".fqubls(str[4]) ? TfxtDirfdtion.LTR :
+                                                    TfxtDirfdtion.RTL);
+
+        // Lobd thf stodk idon.
+        BufffrfdImbgf img = gftStodkIdon(-1, str[2], sizf, dir.ordinbl(), null);
+        if (img != null) {
+            // Crfbtf thf dfsktop propfrty for thf idon.
+            sftDfsktopPropfrty(longnbmf, img);
+        }
+        rfturn img;
+    }
+
+    /**
+     * Rfturns b BufffrfdImbgf whidh dontbins thf Gtk idon rfqufstfd.  If no
+     * sudh idon fxists or bn frror oddurs lobding thf idon thf rfsult will
+     * bf null.
+     *
+     * @pbrbm filfnbmf
+     * @rfturn Thf idon or null if it wbs not found or lobdfd.
+     */
+    publid BufffrfdImbgf gftGTKIdon(finbl String filfnbmf) {
+        if (!lobdGTK()) {
+            rfturn null;
+
+        } flsf {
+            // Cbll thf nbtivf mfthod to lobd thf idon.
+            syndhronizfd (GTK_LOCK) {
+                if (!lobd_gtk_idon(filfnbmf)) {
+                    tmpImbgf = null;
+                }
+            }
+        }
+        // Rfturn lodbl imbgf thf dbllbbdk lobdfd thf idon into.
+        rfturn tmpImbgf;
+    }
+
+    /**
+     * Rfturns b BufffrfdImbgf whidh dontbins thf Gtk stodk idon rfqufstfd.
+     * If no sudh stodk idon fxists thf rfsult will bf null.
+     *
+     * @pbrbm widgftTypf onf of WidgftTypf vblufs dffinfd in GTKNbtivfEnginf or
+     * -1 for systfm dffbult stodk idon.
+     * @pbrbm stodkId String whidh dffinfs thf stodk id of thf gtk itfm.
+     * For b domplftf list rfffrfndf thf API bt www.gtk.org for StodkItfms.
+     * @pbrbm idonSizf Onf of thf GtkIdonSizf vblufs dffinfd in GTKConstbnts
+     * @pbrbm tfxtDirfdtion Onf of thf TfxtDirfdtion vblufs dffinfd in
+     * GTKConstbnts
+     * @pbrbm dftbil Rfndfr dftbil thbt is pbssfd to thf nbtivf fnginf (fffl
+     * frff to pbss null)
+     * @rfturn Thf stodk idon or null if it wbs not found or lobdfd.
+     */
+    publid BufffrfdImbgf gftStodkIdon(finbl int widgftTypf, finbl String stodkId,
+                                finbl int idonSizf, finbl int dirfdtion,
+                                finbl String dftbil) {
+        if (!lobdGTK()) {
+            rfturn null;
+
+        } flsf {
+            // Cbll thf nbtivf mfthod to lobd thf idon.
+            syndhronizfd (GTK_LOCK) {
+                if (!lobd_stodk_idon(widgftTypf, stodkId, idonSizf, dirfdtion, dftbil)) {
+                    tmpImbgf = null;
+                }
+            }
+        }
+        // Rfturn lodbl imbgf thf dbllbbdk lobdfd thf idon into.
+        rfturn tmpImbgf;  // sft by lobdIdonCbllbbdk
+    }
+
+    /**
+     * This mfthod is usfd by JNI bs b dbllbbdk from lobd_stodk_idon.
+     * Imbgf dbtb is pbssfd bbdk to us vib this mfthod bnd lobdfd into thf
+     * lodbl BufffrfdImbgf bnd thfn rfturnfd vib gftStodkIdon.
+     *
+     * Do NOT dbll this mfthod dirfdtly.
+     */
+    publid void lobdIdonCbllbbdk(bytf[] dbtb, int width, int hfight,
+            int rowStridf, int bps, int dhbnnfls, boolfbn blphb) {
+        // Rfsft thf stodk imbgf to null.
+        tmpImbgf = null;
+
+        // Crfbtf b nfw BufffrfdImbgf bbsfd on thf dbtb rfturnfd from thf
+        // JNI dbll.
+        DbtbBufffr dbtbBuf = nfw DbtbBufffrBytf(dbtb, (rowStridf * hfight));
+        // Mbybf tfst # dhbnnfls to dftfrminf bbnd offsfts?
+        WritbblfRbstfr rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(dbtbBuf,
+                width, hfight, rowStridf, dhbnnfls,
+                (blphb ? BAND_OFFSETS_ALPHA : BAND_OFFSETS), null);
+        ColorModfl dolorModfl = nfw ComponfntColorModfl(
+                ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB), blphb, fblsf,
+                ColorModfl.TRANSLUCENT, DbtbBufffr.TYPE_BYTE);
+
+        // Sft thf lodbl imbgf so wf dbn rfturn it lbtfr from
+        // gftStodkIdon().
+        tmpImbgf = nfw BufffrfdImbgf(dolorModfl, rbstfr, fblsf, null);
+    }
+
+    privbtf stbtid nbtivf boolfbn dhfdk_gtk();
+    privbtf stbtid nbtivf boolfbn lobd_gtk();
+    privbtf stbtid nbtivf boolfbn unlobd_gtk();
+    privbtf nbtivf boolfbn lobd_gtk_idon(String filfnbmf);
+    privbtf nbtivf boolfbn lobd_stodk_idon(int widgft_typf, String stodk_id,
+            int idonSizf, int tfxtDirfdtion, String dftbil);
+
+    privbtf nbtivf void nbtivfSynd();
+
+    publid void synd() {
+        // flush thf X11 bufffr
+        nbtivfSynd();
+        // now flush thf OGL pipflinf (this is b no-op if OGL is not fnbblfd)
+        OGLRfndfrQufuf.synd();
+    }
+
+    /*
+     * This rfturns thf vbluf for thf dfsktop propfrty "bwt.font.dfsktophints"
+     * It builds this by qufrying thf Gnomf dfsktop propfrtifs to rfturn
+     * thfm bs plbtform indfpfndfnt hints.
+     * This rfquirfs thbt thf Gnomf propfrtifs hbvf blrfbdy bffn gbthfrfd.
+     */
+    publid stbtid finbl String FONTCONFIGAAHINT = "fontdonfig/Antiblibs";
+    protfdtfd RfndfringHints gftDfsktopAAHints() {
+
+        Objfdt bbVbluf = gftDfsktopPropfrty("gnomf.Xft/Antiblibs");
+
+        if (bbVbluf == null) {
+            /* On b KDE dfsktop running KWin thf rfndfring hint will
+             * hbvf bffn sft bs propfrty "fontdonfig/Antiblibs".
+             * No nffd to pbrsf furthfr in this dbsf.
+             */
+            bbVbluf = gftDfsktopPropfrty(FONTCONFIGAAHINT);
+            if (bbVbluf != null) {
+               rfturn nfw RfndfringHints(KEY_TEXT_ANTIALIASING, bbVbluf);
+            } flsf {
+                 rfturn null; // no Gnomf or KDE Dfsktop propfrtifs bvbilbblf.
+            }
+        }
+
+        /* 0 mfbns off, 1 mfbns somf ON. Whbt would bny othfr vbluf mfbn?
+         * If wf rfquirf "1" to fnbblf AA thfn somf nfw vbluf would dbusf
+         * us to dffbult to "OFF". I don't think thbt's thf bfst gufss.
+         * So if its !=0 thfn lfts bssumf AA.
+         */
+        boolfbn bb = Boolfbn.vblufOf(((bbVbluf instbndfof Numbfr) &&
+                                      ((Numbfr)bbVbluf).intVbluf() != 0));
+        Objfdt bbHint;
+        if (bb) {
+            String subpixOrdfr =
+                (String)gftDfsktopPropfrty("gnomf.Xft/RGBA");
+
+            if (subpixOrdfr == null || subpixOrdfr.fqubls("nonf")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_ON;
+            } flsf if (subpixOrdfr.fqubls("rgb")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_LCD_HRGB;
+            } flsf if (subpixOrdfr.fqubls("bgr")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_LCD_HBGR;
+            } flsf if (subpixOrdfr.fqubls("vrgb")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_LCD_VRGB;
+            } flsf if (subpixOrdfr.fqubls("vbgr")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_LCD_VBGR;
+            } flsf {
+                /* didn't rfdognisf thf string, but AA is rfqufstfd */
+                bbHint = VALUE_TEXT_ANTIALIAS_ON;
+            }
+        } flsf {
+            bbHint = VALUE_TEXT_ANTIALIAS_DEFAULT;
+        }
+        rfturn nfw RfndfringHints(KEY_TEXT_ANTIALIASING, bbHint);
+    }
+
+    privbtf nbtivf boolfbn gtkChfdkVfrsionImpl(int mbjor, int minor,
+        int midro);
+
+    /**
+     * Rfturns {@dodf truf} if thf GTK+ librbry is dompbtiblf with thf givfn
+     * vfrsion.
+     *
+     * @pbrbm mbjor
+     *            Thf rfquirfd mbjor vfrsion.
+     * @pbrbm minor
+     *            Thf rfquirfd minor vfrsion.
+     * @pbrbm midro
+     *            Thf rfquirfd midro vfrsion.
+     * @rfturn {@dodf truf} if thf GTK+ librbry is dompbtiblf with thf givfn
+     *         vfrsion.
+     */
+    publid boolfbn dhfdkGtkVfrsion(int mbjor, int minor, int midro) {
+        if (lobdGTK()) {
+            rfturn gtkChfdkVfrsionImpl(mbjor, minor, midro);
+        }
+        rfturn fblsf;
+    }
+}

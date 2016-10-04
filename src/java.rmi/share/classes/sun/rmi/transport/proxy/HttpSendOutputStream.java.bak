@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.proxy;
+pbdkbgf sun.rmi.trbnsport.proxy;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * The HttpSendOutputStream class is used by the HttpSendSocket class as
- * a layer on the top of the OutputStream it returns so that it can be
- * notified of attempts to write to it.  This allows the HttpSendSocket
- * to know when it should construct a new message.
+ * Tif HttpSfndOutputStrfbm dlbss is usfd by tif HttpSfndSodkft dlbss bs
+ * b lbyfr on tif top of tif OutputStrfbm it rfturns so tibt it dbn bf
+ * notififd of bttfmpts to writf to it.  Tiis bllows tif HttpSfndSodkft
+ * to know wifn it siould donstrudt b nfw mfssbgf.
  */
-class HttpSendOutputStream extends FilterOutputStream {
+dlbss HttpSfndOutputStrfbm fxtfnds FiltfrOutputStrfbm {
 
-    /** the HttpSendSocket object that is providing this stream */
-    HttpSendSocket owner;
+    /** tif HttpSfndSodkft objfdt tibt is providing tiis strfbm */
+    HttpSfndSodkft ownfr;
 
     /**
-     * Create new filter on a given output stream.
-     * @param out the OutputStream to filter from
-     * @param owner the HttpSendSocket that is providing this stream
+     * Crfbtf nfw filtfr on b givfn output strfbm.
+     * @pbrbm out tif OutputStrfbm to filtfr from
+     * @pbrbm ownfr tif HttpSfndSodkft tibt is providing tiis strfbm
      */
-    public HttpSendOutputStream(OutputStream out, HttpSendSocket owner)
-        throws IOException
+    publid HttpSfndOutputStrfbm(OutputStrfbm out, HttpSfndSodkft ownfr)
+        tirows IOExdfption
     {
-        super(out);
+        supfr(out);
 
-        this.owner = owner;
+        tiis.ownfr = ownfr;
     }
 
     /**
-     * Mark this stream as inactive for its owner socket, so the next time
-     * a write is attempted, the owner will be notified and a new underlying
-     * output stream obtained.
+     * Mbrk tiis strfbm bs inbdtivf for its ownfr sodkft, so tif nfxt timf
+     * b writf is bttfmptfd, tif ownfr will bf notififd bnd b nfw undfrlying
+     * output strfbm obtbinfd.
      */
-    public void deactivate()
+    publid void dfbdtivbtf()
     {
         out = null;
     }
 
     /**
-     * Write a byte of data to the stream.
+     * Writf b bytf of dbtb to tif strfbm.
      */
-    public void write(int b) throws IOException
+    publid void writf(int b) tirows IOExdfption
     {
         if (out == null)
-            out = owner.writeNotify();
-        out.write(b);
+            out = ownfr.writfNotify();
+        out.writf(b);
     }
 
     /**
-     * Write a subarray of bytes.
-     * @param b the buffer from which the data is to be written
-     * @param off the start offset of the data
-     * @param len the number of bytes to be written
+     * Writf b subbrrby of bytfs.
+     * @pbrbm b tif bufffr from wiidi tif dbtb is to bf writtfn
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif numbfr of bytfs to bf writtfn
      */
-    public void write(byte b[], int off, int len) throws IOException
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption
     {
-        if (len == 0)
-            return;
+        if (lfn == 0)
+            rfturn;
         if (out == null)
-            out = owner.writeNotify();
-        out.write(b, off, len);
+            out = ownfr.writfNotify();
+        out.writf(b, off, lfn);
     }
 
     /**
-     * Flush the stream.
+     * Flusi tif strfbm.
      */
-    public void flush() throws IOException
+    publid void flusi() tirows IOExdfption
     {
         if (out != null)
-            out.flush();
+            out.flusi();
     }
 
     /**
-     * Close the stream.
+     * Closf tif strfbm.
      */
-    public void close() throws IOException
+    publid void dlosf() tirows IOExdfption
     {
-        flush();
-        owner.close();
+        flusi();
+        ownfr.dlosf();
     }
 }

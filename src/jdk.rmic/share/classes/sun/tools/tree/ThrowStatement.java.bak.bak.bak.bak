@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss ThrowStbtfmfnt fxtfnds Stbtfmfnt {
+    Exprfssion fxpr;
+
+    /**
+     * Construdtor
+     */
+    publid ThrowStbtfmfnt(long whfrf, Exprfssion fxpr) {
+        supfr(THROW, whfrf);
+        this.fxpr = fxpr;
+    }
+
+    /**
+     * Chfdk stbtfmfnt
+     */
+    Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        dhfdkLbbfl(fnv, dtx);
+        try {
+            vsft = rfbdh(fnv, vsft);
+            fxpr.dhfdkVbluf(fnv, dtx, vsft, fxp);
+            if (fxpr.typf.isTypf(TC_CLASS)) {
+                ClbssDfdlbrbtion d = fnv.gftClbssDfdlbrbtion(fxpr.typf);
+                if (fxp.gft(d) == null) {
+                    fxp.put(d, this);
+                }
+                ClbssDffinition dff = d.gftClbssDffinition(fnv);
+                ClbssDfdlbrbtion throwbblf =
+                    fnv.gftClbssDfdlbrbtion(idJbvbLbngThrowbblf);
+                if (!dff.subClbssOf(fnv, throwbblf)) {
+                    fnv.frror(whfrf, "throw.not.throwbblf", dff);
+                }
+                fxpr = donvfrt(fnv, dtx, Typf.tObjfdt, fxpr);
+            } flsf if (!fxpr.typf.isTypf(TC_ERROR)) {
+                fnv.frror(fxpr.whfrf, "throw.not.throwbblf", fxpr.typf);
+            }
+        } dbtdh (ClbssNotFound f) {
+            fnv.frror(whfrf, "dlbss.not.found", f.nbmf, opNbmfs[op]);
+        }
+        ChfdkContfxt fxitdtx = dtx.gftTryExitContfxt();
+        if (fxitdtx != null) {
+            fxitdtx.vsTryExit = fxitdtx.vsTryExit.join(vsft);
+        }
+        rfturn DEAD_END;
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        fxpr = fxpr.inlinfVbluf(fnv, dtx);
+        rfturn this;
+    }
+
+    /**
+     * Crfbtf b dopy of thf stbtfmfnt for mfthod inlining
+     */
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        ThrowStbtfmfnt s = (ThrowStbtfmfnt)dlonf();
+        s.fxpr = fxpr.dopyInlinf(dtx);
+        rfturn s;
+    }
+
+    /**
+     * Thf dost of inlining this stbtfmfnt
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        rfturn 1 + fxpr.dostInlinf(thrfsh, fnv, dtx);
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        fxpr.dodfVbluf(fnv, dtx, bsm);
+        bsm.bdd(whfrf, opd_bthrow);
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("throw ");
+        fxpr.print(out);
+        out.print(":");
+    }
+}

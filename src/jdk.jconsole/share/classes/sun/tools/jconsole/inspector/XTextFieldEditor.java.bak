@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.util.EventObject;
-import javax.swing.JMenuItem;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.EventListenerList;
-import javax.swing.table.TableCellEditor;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.FodusAdbptfr;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.FodusListfnfr;
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.JMfnuItfm;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.fvfnt.CfllEditorListfnfr;
+import jbvbx.swing.fvfnt.CibngfEvfnt;
+import jbvbx.swing.fvfnt.EvfntListfnfrList;
+import jbvbx.swing.tbblf.TbblfCfllEditor;
 
-@SuppressWarnings("serial")
-public class XTextFieldEditor extends XTextField implements TableCellEditor {
+@SupprfssWbrnings("sfribl")
+publid dlbss XTfxtFifldEditor fxtfnds XTfxtFifld implfmfnts TbblfCfllEditor {
 
-    protected EventListenerList evtListenerList = new EventListenerList();
-    protected ChangeEvent changeEvent = new ChangeEvent(this);
+    protfdtfd EvfntListfnfrList fvtListfnfrList = nfw EvfntListfnfrList();
+    protfdtfd CibngfEvfnt dibngfEvfnt = nfw CibngfEvfnt(tiis);
 
-    private FocusListener editorFocusListener = new FocusAdapter() {
-        @Override
-        public void focusLost(FocusEvent e) {
-            // fireEditingStopped();
-            // must not call fireEditingStopped() here!
+    privbtf FodusListfnfr fditorFodusListfnfr = nfw FodusAdbptfr() {
+        @Ovfrridf
+        publid void fodusLost(FodusEvfnt f) {
+            // firfEditingStoppfd();
+            // must not dbll firfEditingStoppfd() ifrf!
         }
     };
 
-    public XTextFieldEditor() {
-        super();
-        textField.addFocusListener(editorFocusListener);
+    publid XTfxtFifldEditor() {
+        supfr();
+        tfxtFifld.bddFodusListfnfr(fditorFodusListfnfr);
     }
 
-    //edition stopped ou JMenuItem selection & JTextField selection
-    @Override
-    public void  actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if ((e.getSource() instanceof JMenuItem) ||
-            (e.getSource() instanceof JTextField)) {
-            fireEditingStopped();
+    //fdition stoppfd ou JMfnuItfm sflfdtion & JTfxtFifld sflfdtion
+    @Ovfrridf
+    publid void  bdtionPfrformfd(AdtionEvfnt f) {
+        supfr.bdtionPfrformfd(f);
+        if ((f.gftSourdf() instbndfof JMfnuItfm) ||
+            (f.gftSourdf() instbndfof JTfxtFifld)) {
+            firfEditingStoppfd();
         }
     }
 
-    //edition stopped on drag & drop success
-    protected void dropSuccess() {
-        fireEditingStopped();
+    //fdition stoppfd on drbg & drop suddfss
+    protfdtfd void dropSuddfss() {
+        firfEditingStoppfd();
     }
 
-    //TableCellEditor implementation
+    //TbblfCfllEditor implfmfntbtion
 
-    public void addCellEditorListener(CellEditorListener listener) {
-        evtListenerList.add(CellEditorListener.class,listener);
+    publid void bddCfllEditorListfnfr(CfllEditorListfnfr listfnfr) {
+        fvtListfnfrList.bdd(CfllEditorListfnfr.dlbss,listfnfr);
     }
 
-    public void removeCellEditorListener(CellEditorListener listener) {
-        evtListenerList.remove(CellEditorListener.class, listener);
+    publid void rfmovfCfllEditorListfnfr(CfllEditorListfnfr listfnfr) {
+        fvtListfnfrList.rfmovf(CfllEditorListfnfr.dlbss, listfnfr);
     }
 
-    protected void fireEditingStopped() {
-        CellEditorListener listener;
-        Object[] listeners = evtListenerList.getListenerList();
-        for (int i=0;i< listeners.length;i++) {
-            if (listeners[i] == CellEditorListener.class) {
-                listener = (CellEditorListener) listeners[i+1];
-                listener.editingStopped(changeEvent);
+    protfdtfd void firfEditingStoppfd() {
+        CfllEditorListfnfr listfnfr;
+        Objfdt[] listfnfrs = fvtListfnfrList.gftListfnfrList();
+        for (int i=0;i< listfnfrs.lfngti;i++) {
+            if (listfnfrs[i] == CfllEditorListfnfr.dlbss) {
+                listfnfr = (CfllEditorListfnfr) listfnfrs[i+1];
+                listfnfr.fditingStoppfd(dibngfEvfnt);
             }
         }
     }
 
-    protected void fireEditingCanceled() {
-        CellEditorListener listener;
-        Object[] listeners = evtListenerList.getListenerList();
-        for (int i=0;i< listeners.length;i++) {
-            if (listeners[i] == CellEditorListener.class) {
-                listener = (CellEditorListener) listeners[i+1];
-                listener.editingCanceled(changeEvent);
+    protfdtfd void firfEditingCbndflfd() {
+        CfllEditorListfnfr listfnfr;
+        Objfdt[] listfnfrs = fvtListfnfrList.gftListfnfrList();
+        for (int i=0;i< listfnfrs.lfngti;i++) {
+            if (listfnfrs[i] == CfllEditorListfnfr.dlbss) {
+                listfnfr = (CfllEditorListfnfr) listfnfrs[i+1];
+                listfnfr.fditingCbndflfd(dibngfEvfnt);
             }
         }
     }
 
-    public void cancelCellEditing() {
-        fireEditingCanceled();
+    publid void dbndflCfllEditing() {
+        firfEditingCbndflfd();
     }
 
-    public boolean stopCellEditing() {
-        fireEditingStopped();
-        return true;
+    publid boolfbn stopCfllEditing() {
+        firfEditingStoppfd();
+        rfturn truf;
     }
 
-    public boolean isCellEditable(EventObject event) {
-        return true;
+    publid boolfbn isCfllEditbblf(EvfntObjfdt fvfnt) {
+        rfturn truf;
     }
 
-    public boolean shouldSelectCell(EventObject event) {
-        return true;
+    publid boolfbn siouldSflfdtCfll(EvfntObjfdt fvfnt) {
+        rfturn truf;
     }
 
-    public Object getCellEditorValue() {
-        Object object = getValue();
+    publid Objfdt gftCfllEditorVbluf() {
+        Objfdt objfdt = gftVbluf();
 
-        if (object instanceof XObject) {
-            return ((XObject) object).getObject();
+        if (objfdt instbndfof XObjfdt) {
+            rfturn ((XObjfdt) objfdt).gftObjfdt();
         }
-        else {
-            return object;
+        flsf {
+            rfturn objfdt;
         }
     }
 
-    public Component getTableCellEditorComponent(JTable table,
-                                                 Object value,
-                                                 boolean isSelected,
+    publid Componfnt gftTbblfCfllEditorComponfnt(JTbblf tbblf,
+                                                 Objfdt vbluf,
+                                                 boolfbn isSflfdtfd,
                                                  int row,
-                                                 int column) {
-        String className;
-        if (table instanceof XTable) {
-            XTable mytable = (XTable) table;
-            className = mytable.getClassName(row);
-        } else {
-            className = String.class.getName();
+                                                 int dolumn) {
+        String dlbssNbmf;
+        if (tbblf instbndfof XTbblf) {
+            XTbblf mytbblf = (XTbblf) tbblf;
+            dlbssNbmf = mytbblf.gftClbssNbmf(row);
+        } flsf {
+            dlbssNbmf = String.dlbss.gftNbmf();
         }
         try {
-            init(value,Utils.getClass(className));
+            init(vbluf,Utils.gftClbss(dlbssNbmf));
         }
-        catch(Exception e) {}
+        dbtdi(Exdfption f) {}
 
-        return this;
+        rfturn tiis;
     }
 
 }

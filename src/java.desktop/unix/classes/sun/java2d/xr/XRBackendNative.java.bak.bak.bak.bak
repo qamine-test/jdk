@@ -1,0 +1,330 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.xr;
+
+import jbvb.bwt.gfom.*;
+import jbvb.util.*;
+
+import sun.font.*;
+import sun.jbvb2d.julfs.*;
+import sun.jbvb2d.pipf.*;
+
+import stbtid sun.jbvb2d.xr.XRUtils.XDoublfToFixfd;
+
+/**
+ * Nbtivf implfmfntbtion of XRBbdkfnd.
+ * Almost dirfdt 1:1 binding to libX11.
+ *
+ * @buthor Clfmfns Eissfrfr
+ */
+
+publid dlbss XRBbdkfndNbtivf implfmfnts XRBbdkfnd {
+
+    stbtid {
+        initIDs();
+    }
+
+    privbtf stbtid long FMTPTR_A8;
+    privbtf stbtid long FMTPTR_ARGB32;
+    privbtf stbtid long MASK_XIMG;
+
+    privbtf stbtid nbtivf void initIDs();
+
+    publid nbtivf long drfbtfGC(int drbwbblf);
+
+    publid nbtivf void frffGC(long gd);
+
+    publid nbtivf int drfbtfPixmbp(int drbwbblf, int dfpth,
+                                   int width, int hfight);
+
+    privbtf nbtivf int drfbtfPidturfNbtivf(int drbwbblf, long formbtID);
+
+    publid nbtivf void frffPidturf(int pidturf);
+
+    publid nbtivf void frffPixmbp(int pixmbp);
+
+    publid nbtivf void sftGCExposurfs(long gd, boolfbn fxposurf);
+
+    publid nbtivf void sftGCForfground(long gd, int pixfl);
+
+    publid nbtivf void sftPidturfRfpfbt(int pidturf, int rfpfbt);
+
+    publid nbtivf void dopyArfb(int srd, int dst, long gd,
+                                int srdx, int srdy, int width, int hfight,
+                                 int dstx, int dsty);
+
+    publid nbtivf void sftGCModf(long gd, boolfbn dopy);
+
+    privbtf stbtid nbtivf void GCRfdtbnglfsNbtivf(int drbwbblf, long gd,
+                                                  int[] rfdtArrby, int rfdtCnt);
+
+    publid nbtivf void rfndfrCompositf(bytf op, int srd, int mbsk,
+                                       int dst, int srdX, int srdY,
+                                       int mbskX, int mbskY, int dstX, int dstY,
+                                       int width, int hfight);
+
+    privbtf nbtivf void rfndfrRfdtbnglf(int dst, bytf op,
+                                        short rfd, short grffn,
+                                        short bluf, short blphb,
+                                        int x, int y, int width, int hfight);
+
+    privbtf stbtid nbtivf void
+         XRfndfrRfdtbnglfsNbtivf(int dst, bytf op,
+                                 short rfd, short grffn,
+                                 short bluf, short blphb,
+                                 int[] rfdts, int rfdtCnt);
+
+    privbtf nbtivf void XRSftTrbnsformNbtivf(int pid,
+                                             int m00, int m01, int m02,
+                                             int m10, int m11, int m12);
+
+    privbtf stbtid nbtivf int
+        XRCrfbtfLinfbrGrbdifntPbintNbtivf(flobt[] frbdtionsArrby,
+                                          short[] pixflsArrby,
+                                          int x1, int y1, int x2, int y2,
+                                          int numStops, int rfpfbt);
+
+    privbtf nbtivf stbtid int
+        XRCrfbtfRbdiblGrbdifntPbintNbtivf(flobt[] frbdtionsArrby,
+                                          short[] pixflsArrby, int numStops,
+                                          int dfntfrX, int dfntfrY,
+                                          int innfrRbdius, int outfrRbdius,
+                                          int rfpfbt);
+
+    publid nbtivf void sftFiltfr(int pidturf, int filtfr);
+
+    privbtf stbtid nbtivf void XRSftClipNbtivf(long dst,
+                                               int x1, int y1, int x2, int y2,
+                                               Rfgion dlip, boolfbn isGC);
+
+    publid void GCRfdtbnglfs(int drbwbblf, long gd, GrowbblfRfdtArrby rfdts) {
+        GCRfdtbnglfsNbtivf(drbwbblf, gd, rfdts.gftArrby(), rfdts.gftSizf());
+    }
+
+    publid int drfbtfPidturf(int drbwbblf, int formbtID) {
+        rfturn drfbtfPidturfNbtivf(drbwbblf, gftFormbtPtr(formbtID));
+    }
+
+    publid void sftPidturfTrbnsform(int pidturf, AffinfTrbnsform trbnsform) {
+        XRSftTrbnsformNbtivf(pidturf,
+                             XDoublfToFixfd(trbnsform.gftSdblfX()),
+                             XDoublfToFixfd(trbnsform.gftShfbrX()),
+                             XDoublfToFixfd(trbnsform.gftTrbnslbtfX()),
+                             XDoublfToFixfd(trbnsform.gftShfbrY()),
+                             XDoublfToFixfd(trbnsform.gftSdblfY()),
+                             XDoublfToFixfd(trbnsform.gftTrbnslbtfY()));
+    }
+
+    publid void rfndfrRfdtbnglf(int dst, bytf op, XRColor dolor,
+                                int x, int y, int width, int hfight) {
+        rfndfrRfdtbnglf(dst, op, (short)dolor.rfd, (short)dolor.grffn,
+                       (short)dolor.bluf, (short)dolor.blphb,
+                        x, y, width, hfight);
+    }
+
+    privbtf short[] gftRfndfrColors(int[] pixfls) {
+        short[] rfndfrColors = nfw short[pixfls.lfngth * 4];
+
+        XRColor d = nfw XRColor();
+        for (int i = 0; i < pixfls.lfngth; i++) {
+            d.sftColorVblufs(pixfls[i], truf);
+            rfndfrColors[i * 4 + 0] = (short) d.blphb;
+            rfndfrColors[i * 4 + 1] = (short) d.rfd;
+            rfndfrColors[i * 4 + 2] = (short) d.grffn;
+            rfndfrColors[i * 4 + 3] = (short) d.bluf;
+        }
+
+        rfturn rfndfrColors;
+    }
+
+    privbtf stbtid long gftFormbtPtr(int formbtID) {
+        switdh (formbtID) {
+        dbsf XRUtils.PidtStbndbrdA8:
+            rfturn FMTPTR_A8;
+        dbsf XRUtils.PidtStbndbrdARGB32:
+            rfturn FMTPTR_ARGB32;
+        }
+
+        rfturn 0L;
+    }
+
+    publid int drfbtfLinfbrGrbdifnt(Point2D p1, Point2D p2, flobt[] frbdtions,
+                              int[] pixfls,  int rfpfbt) {
+
+        short[] dolorVblufs = gftRfndfrColors(pixfls);
+        int grbdifnt =
+           XRCrfbtfLinfbrGrbdifntPbintNbtivf(frbdtions, dolorVblufs,
+                XDoublfToFixfd(p1.gftX()), XDoublfToFixfd(p1.gftY()),
+                XDoublfToFixfd(p2.gftX()), XDoublfToFixfd(p2.gftY()),
+                frbdtions.lfngth, rfpfbt);
+        rfturn grbdifnt;
+    }
+
+    publid int drfbtfRbdiblGrbdifnt(flobt dfntfrX, flobt dfntfrY,
+                                   flobt innfrRbdius, flobt outfrRbdius,
+                                   flobt[] frbdtions, int[] pixfls, int rfpfbt) {
+
+        short[] dolorVblufs = gftRfndfrColors(pixfls);
+        rfturn XRCrfbtfRbdiblGrbdifntPbintNbtivf
+             (frbdtions, dolorVblufs, frbdtions.lfngth,
+              XDoublfToFixfd(dfntfrX),
+              XDoublfToFixfd(dfntfrY),
+              XDoublfToFixfd(innfrRbdius),
+              XDoublfToFixfd(outfrRbdius),
+              rfpfbt);
+    }
+
+    publid void sftGCClipRfdtbnglfs(long gd, Rfgion dlip) {
+        XRSftClipNbtivf(gd, dlip.gftLoX(), dlip.gftLoY(),
+                        dlip.gftHiX(), dlip.gftHiY(),
+                        dlip.isRfdtbngulbr() ? null : dlip, truf);
+    }
+
+    publid void sftClipRfdtbnglfs(int pidturf, Rfgion dlip) {
+        if (dlip != null) {
+            XRSftClipNbtivf(pidturf, dlip.gftLoX(), dlip.gftLoY(),
+                            dlip.gftHiX(), dlip.gftHiY(),
+                            dlip.isRfdtbngulbr() ? null : dlip, fblsf);
+        } flsf {
+            XRSftClipNbtivf(pidturf, 0, 0, 32767, 32767, null, fblsf);
+        }
+    }
+
+    publid void rfndfrRfdtbnglfs(int dst, bytf op, XRColor dolor,
+                                 GrowbblfRfdtArrby rfdts) {
+        XRfndfrRfdtbnglfsNbtivf(dst, op,
+                                (short) dolor.rfd, (short) dolor.grffn,
+                                (short) dolor.bluf, (short) dolor.blphb,
+                                rfdts.gftArrby(), rfdts
+                .gftSizf());
+    }
+
+    privbtf stbtid long[] gftGlyphInfoPtrs(List<XRGlyphCbdhfEntry> dbdhfEntrifs) {
+        long[] glyphInfoPtrs = nfw long[dbdhfEntrifs.sizf()];
+        for (int i = 0; i < dbdhfEntrifs.sizf(); i++) {
+            glyphInfoPtrs[i] = dbdhfEntrifs.gft(i).gftGlyphInfoPtr();
+        }
+        rfturn glyphInfoPtrs;
+    }
+
+    publid void XRfndfrAddGlyphs(int glyphSft, GlyphList gl,
+                                 List<XRGlyphCbdhfEntry> dbdhfEntrifs,
+                                 bytf[] pixflDbtb) {
+        long[] glyphInfoPtrs = gftGlyphInfoPtrs(dbdhfEntrifs);
+        XRAddGlyphsNbtivf(glyphSft, glyphInfoPtrs,
+                          glyphInfoPtrs.lfngth, pixflDbtb, pixflDbtb.lfngth);
+    }
+
+    publid void XRfndfrFrffGlyphs(int glyphSft, int[] gids) {
+        XRFrffGlyphsNbtivf(glyphSft, gids, gids.lfngth);
+    }
+
+    privbtf stbtid nbtivf void XRAddGlyphsNbtivf(int glyphSft,
+                                                 long[] glyphInfoPtrs,
+                                                 int glyphCnt,
+                                                 bytf[] pixflDbtb,
+                                                 int pixflDbtbLfngth);
+
+    privbtf stbtid nbtivf void XRFrffGlyphsNbtivf(int glyphSft,
+                                                  int[] gids, int idCnt);
+
+    privbtf stbtid nbtivf void
+        XRfndfrCompositfTfxtNbtivf(int op, int srd, int dst,
+                                   int srdX, int srdY, long mbskFormbt,
+                                   int[] fltArrby, int[] glyphIDs, int fltCnt,
+                                   int glyphCnt);
+
+    publid int XRfndfrCrfbtfGlyphSft(int formbtID) {
+        rfturn XRfndfrCrfbtfGlyphSftNbtivf(gftFormbtPtr(formbtID));
+    }
+
+    privbtf stbtid nbtivf int XRfndfrCrfbtfGlyphSftNbtivf(long formbt);
+
+    publid void XRfndfrCompositfTfxt(bytf op, int srd, int dst,
+                                     int mbskFormbtID,
+                                     int sx, int sy, int dx, int dy,
+                                     int glyphsft, GrowbblfEltArrby flts) {
+
+        GrowbblfIntArrby glyphs = flts.gftGlyphs();
+        XRfndfrCompositfTfxtNbtivf(op, srd, dst, sx, sy, 0, flts.gftArrby(),
+                                   glyphs.gftArrby(), flts.gftSizf(),
+                                   glyphs.gftSizf());
+    }
+
+    publid void putMbskImbgf(int drbwbblf, long gd, bytf[] imbgfDbtb,
+                             int sx, int sy, int dx, int dy,
+                             int width, int hfight, int mbskOff,
+                             int mbskSdbn, flobt fb) {
+        putMbskNbtivf(drbwbblf, gd, imbgfDbtb, sx, sy, dx, dy,
+                      width, hfight, mbskOff, mbskSdbn, fb, MASK_XIMG);
+    }
+
+    privbtf stbtid nbtivf void putMbskNbtivf(int drbwbblf, long gd,
+                                             bytf[] imbgfDbtb,
+                                             int sx, int sy, int dx, int dy,
+                                             int width, int hfight,
+                                             int mbskOff, int mbskSdbn,
+                                             flobt fb, long xImg);
+
+    publid void pbdBlit(bytf op, int srdPidt, int mbskPidt, int dstPidt,
+                        AffinfTrbnsform mbskTrx, int mbskWidth, int mbskHfight,
+                        int lbstMbskWidth, int lbstMbskHfight,
+                        int sx, int sy, int dx, int dy, int w, int h) {
+
+        pbdBlitNbtivf(op, srdPidt, mbskPidt, dstPidt,
+                      XDoublfToFixfd(mbskTrx.gftSdblfX()),
+                      XDoublfToFixfd(mbskTrx.gftShfbrX()),
+                      XDoublfToFixfd(mbskTrx.gftTrbnslbtfX()),
+                      XDoublfToFixfd(mbskTrx.gftShfbrY()),
+                      XDoublfToFixfd(mbskTrx.gftSdblfY()),
+                      XDoublfToFixfd(mbskTrx.gftTrbnslbtfY()),
+                      mbskWidth, mbskHfight, lbstMbskWidth, lbstMbskHfight,
+                      sx, sy, dx, dy, w, h);
+    }
+
+    privbtf stbtid nbtivf void pbdBlitNbtivf(bytf op, int srdPidt,
+                                             int mbskPidt, int dstPidt,
+                                             int m00, int m01, int m02,
+                                             int m10, int m11, int m12,
+                                             int mbskWidth, int mbskHfight,
+                                             int lbstMbskWidth,
+                                             int lbstMbskHfight,
+                                             int sx, int sy, int dx, int dy,
+                                             int w, int h);
+
+    publid void rfndfrCompositfTrbpfzoids(bytf op, int srd, int mbskFormbt,
+                                          int dst, int srdX, int srdY,
+                                          TrbpfzoidList trbpList) {
+        rfndfrCompositfTrbpfzoidsNbtivf(op, srd, gftFormbtPtr(mbskFormbt),
+                                        dst, srdX, srdY,
+                                        trbpList.gftTrbpArrby());
+    }
+
+    privbtf stbtid nbtivf void
+        rfndfrCompositfTrbpfzoidsNbtivf(bytf op, int srd, long mbskFormbt,
+                                        int dst, int srdX, int srdY,
+                                        int[] trbpfzoids);
+}

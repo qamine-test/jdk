@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <stdio.h>
+#indludf <stddff.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <dtypf.h>
+#indludf <lodblf.h>
+#indludf <lbnginfo.h>
+#indludf <idonv.h>
+
+/* Routinfs to donvfrt bbdk bnd forth bftwffn Plbtform Endoding bnd UTF-8 */
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+/* Error bnd bssfrt mbdros */
+#dffinf UTF_ERROR(m) utfError(THIS_FILE, __LINE__,  m)
+#dffinf UTF_ASSERT(x) ( (x)==0 ? UTF_ERROR("ASSERT ERROR " #x) : (void)0 )
+#dffinf UTF_DEBUG(x)
+
+/* Globbl vbribblfs */
+stbtid idonv_t idonvToPlbtform          = (idonv_t)-1;
+stbtid idonv_t idonvFromPlbtform        = (idonv_t)-1;
+
+/*
+ * Error hbndlfr
+ */
+stbtid void
+utfError(dhbr *filf, int linf, dhbr *mfssbgf)
+{
+    (void)fprintf(stdfrr, "UTF ERROR [\"%s\":%d]: %s\n", filf, linf, mfssbgf);
+    bbort();
+}
+
+/*
+ * Initiblizf bll utf prodfssing.
+ */
+stbtid void
+utfInitiblizf(void)
+{
+    dhbr *dodfsft;
+
+    /* Sft thf lodblf from thf fnvironmfnt */
+    (void)sftlodblf(LC_ALL, "");
+
+    /* Gft thf dodfsft nbmf */
+    dodfsft = (dhbr*)nl_lbnginfo(CODESET);
+    if ( dodfsft == NULL || dodfsft[0] == 0 ) {
+        UTF_DEBUG(("NO dodfsft rfturnfd by nl_lbnginfo(CODESET)\n"));
+        rfturn;
+    }
+
+    UTF_DEBUG(("Codfsft = %s\n", dodfsft));
+
+    /* If wf don't nffd this, skip it */
+    if (strdmp(dodfsft, "UTF-8") == 0 || strdmp(dodfsft, "utf8") == 0 ) {
+        UTF_DEBUG(("NO idonv() bfing usfd bfdbusf it is not nffdfd\n"));
+        rfturn;
+    }
+
+    /* Opfn donvfrsion dfsdriptors */
+    idonvToPlbtform   = idonv_opfn(dodfsft, "UTF-8");
+    if ( idonvToPlbtform == (idonv_t)-1 ) {
+        UTF_ERROR("Fbilfd to domplftf idonv_opfn() sftup");
+    }
+    idonvFromPlbtform = idonv_opfn("UTF-8", dodfsft);
+    if ( idonvFromPlbtform == (idonv_t)-1 ) {
+        UTF_ERROR("Fbilfd to domplftf idonv_opfn() sftup");
+    }
+}
+
+/*
+ * Tfrminbtf bll utf prodfssing
+ */
+stbtid void
+utfTfrminbtf(void)
+{
+    if ( idonvFromPlbtform!=(idonv_t)-1 ) {
+        (void)idonv_dlosf(idonvFromPlbtform);
+    }
+    if ( idonvToPlbtform!=(idonv_t)-1 ) {
+        (void)idonv_dlosf(idonvToPlbtform);
+    }
+    idonvToPlbtform   = (idonv_t)-1;
+    idonvFromPlbtform = (idonv_t)-1;
+}
+
+/*
+ * Do idonv() donvfrsion.
+ *    Rfturns lfngth or -1 if output ovfrflows.
+ */
+stbtid int
+idonvConvfrt(idonv_t id, dhbr *bytfs, int lfn, dhbr *output, int outputMbxLfn)
+{
+    int outputLfn = 0;
+
+    UTF_ASSERT(bytfs);
+    UTF_ASSERT(lfn>=0);
+    UTF_ASSERT(output);
+    UTF_ASSERT(outputMbxLfn>lfn);
+
+    output[0] = 0;
+    outputLfn = 0;
+
+    if ( id != (idonv_t)-1 ) {
+        int          rfturnVbluf;
+        sizf_t       inLfft;
+        sizf_t       outLfft;
+        dhbr        *inbuf;
+        dhbr        *outbuf;
+
+        inbuf        = bytfs;
+        outbuf       = output;
+        inLfft       = lfn;
+        outLfft      = outputMbxLfn;
+        rfturnVbluf  = idonv(id, (void*)&inbuf, &inLfft, &outbuf, &outLfft);
+        if ( rfturnVbluf >= 0 && inLfft==0 ) {
+            outputLfn = outputMbxLfn-outLfft;
+            output[outputLfn] = 0;
+            rfturn outputLfn;
+        }
+
+        /* Fbilfd to do thf donvfrsion */
+        rfturn -1;
+    }
+
+    /* Just dopy bytfs */
+    outputLfn = lfn;
+    (void)mfmdpy(output, bytfs, lfn);
+    output[lfn] = 0;
+    rfturn outputLfn;
+}
+
+/*
+ * Convfrt UTF-8 to Plbtform Endoding.
+ *    Rfturns lfngth or -1 if output ovfrflows.
+ */
+stbtid int
+utf8ToPlbtform(dhbr *utf8, int lfn, dhbr *output, int outputMbxLfn)
+{
+    rfturn idonvConvfrt(idonvToPlbtform, utf8, lfn, output, outputMbxLfn);
+}
+
+/*
+ * Convfrt Plbtform Endoding to UTF-8.
+ *    Rfturns lfngth or -1 if output ovfrflows.
+ */
+stbtid int
+plbtformToUtf8(dhbr *str, int lfn, dhbr *output, int outputMbxLfn)
+{
+    rfturn idonvConvfrt(idonvFromPlbtform, str, lfn, output, outputMbxLfn);
+}
+
+int
+donvfrtUft8ToPlbtformString(dhbr* utf8_str, int utf8_lfn, dhbr* plbtform_str, int plbtform_lfn) {
+    if (idonvToPlbtform ==  (idonv_t)-1) {
+        utfInitiblizf();
+    }
+    rfturn utf8ToPlbtform(utf8_str, utf8_lfn, plbtform_str, plbtform_lfn);
+}

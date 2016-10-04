@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+/**
+ * Rfports bn frror whidh oddurrfd during b gft/sft opfrbtion on b mib nodf.
+ *
+ * This fxdfption indludfs b stbtus frror dodf bs dffinfd in thf SNMP protodol.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpStbtusExdfption fxtfnds Exdfption implfmfnts SnmpDffinitions {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5809485694133115675L;
+
+    /**
+     * Error dodf bs dffinfd in RFC 1448 for: <CODE>noSudhNbmf</CODE>.
+     */
+    publid stbtid finbl int noSudhNbmf         = 2 ;
+
+    /**
+     * Error dodf bs dffinfd in RFC 1448 for: <CODE>bbdVbluf</CODE>.
+     */
+    publid stbtid finbl int bbdVbluf           = 3 ;
+
+    /**
+     * Error dodf bs dffinfd in RFC 1448 for: <CODE>rfbdOnly</CODE>.
+     */
+    publid stbtid finbl int rfbdOnly           = 4 ;
+
+
+    /**
+     * Error dodf bs dffinfd in RFC 1448 for: <CODE>noAddfss</CODE>.
+     */
+    publid stbtid finbl int noAddfss           = 6 ;
+
+    /**
+     * Error dodf for rfporting b no sudh instbndf frror.
+     */
+    publid stbtid finbl int noSudhInstbndf     = 0xE0;
+
+    /**
+     * Error dodf for rfporting b no sudh objfdt frror.
+     */
+    publid stbtid finbl int noSudhObjfdt     = 0xE1;
+
+    /**
+     * Construdts b nfw <CODE>SnmpStbtusExdfption</CODE> with thf spfdififd stbtus frror.
+     * @pbrbm stbtus Thf frror stbtus.
+     */
+    publid SnmpStbtusExdfption(int stbtus) {
+        frrorStbtus = stbtus ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpStbtusExdfption</CODE> with thf spfdififd stbtus frror bnd stbtus indfx.
+     * @pbrbm stbtus Thf frror stbtus.
+     * @pbrbm indfx Thf frror indfx.
+     */
+    publid SnmpStbtusExdfption(int stbtus, int indfx) {
+        frrorStbtus = stbtus ;
+        frrorIndfx = indfx ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpStbtusExdfption</CODE> with bn frror mfssbgf.
+     * Thf frror stbtus is sft to 0 (noError) bnd thf indfx to -1.
+     * @pbrbm s Thf frror mfssbgf.
+     */
+    publid SnmpStbtusExdfption(String s) {
+        supfr(s);
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpStbtusExdfption</CODE> with bn frror indfx.
+     * @pbrbm x Thf originbl <CODE>SnmpStbtusExdfption</CODE>.
+     * @pbrbm indfx Thf frror indfx.
+     */
+    publid SnmpStbtusExdfption(SnmpStbtusExdfption x, int indfx) {
+        supfr(x.gftMfssbgf());
+        frrorStbtus= x.frrorStbtus;
+        frrorIndfx= indfx;
+    }
+
+    /**
+     * Rfturn thf frror stbtus.
+     * @rfturn Thf frror stbtus.
+     */
+    publid int gftStbtus() {
+        rfturn frrorStbtus ;
+    }
+
+    /**
+     * Rfturns thf indfx of thf frror.
+     * A vbluf of -1 mfbns thbt thf indfx is not known/bpplidbblf.
+     * @rfturn Thf frror indfx.
+     */
+    publid int gftErrorIndfx() {
+        rfturn frrorIndfx;
+    }
+
+
+    // PRIVATE VARIABLES
+    //--------------------
+
+    /**
+     * Stbtus of thf frror.
+     * @sfribl
+     */
+    privbtf int frrorStbtus = 0 ;
+
+    /**
+     * Indfx of thf frror.
+     * If difffrfnt from -1, indidbtfs thf indfx whfrf thf frror oddurs.
+     * @sfribl
+     */
+    privbtf int frrorIndfx= -1;
+
+}

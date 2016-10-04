@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+/**
+ * <dodf>MidiMfssbgf</dodf> is thf bbsf dlbss for MIDI mfssbgfs.  Thfy indludf
+ * not only thf stbndbrd MIDI mfssbgfs thbt b synthfsizfr dbn rfspond to, but blso
+ * "mftb-fvfnts" thbt dbn bf usfd by sfqufndfr progrbms.  Thfrf brf mftb-fvfnts
+ * for sudh informbtion bs lyrids, dopyrights, tfmpo indidbtions, timf bnd kfy
+ * signbturfs, mbrkfrs, ftd.  For morf informbtion, sff thf Stbndbrd MIDI Filfs 1.0
+ * spfdifidbtion, whidh is pbrt of thf Complftf MIDI 1.0 Dftbilfd Spfdifidbtion
+ * publishfd by thf MIDI Mbnufbdturfr's Assodibtion
+ * (<b hrff = http://www.midi.org>http://www.midi.org</b>).
+ * <p>
+ * Thf bbsf <dodf>MidiMfssbgf</dodf> dlbss providfs bddfss to thrff typfs of
+ * informbtion bbout b MIDI mfssbgf:
+ * <ul>
+ * <li>Thf mfssbgfs's stbtus bytf</li>
+ * <li>Thf totbl lfngth of thf mfssbgf in bytfs (thf stbtus bytf plus bny dbtb bytfs)</li>
+ * <li>A bytf brrby dontbining thf domplftf mfssbgf</li>
+ * </ul>
+ *
+ * <dodf>MidiMfssbgf</dodf> indludfs mfthods to gft, but not sft, thfsf vblufs.
+ * Sftting thfm is b subdlbss rfsponsibility.
+ * <p>
+ * <b nbmf="intfgfrsVsBytfs"></b>
+ * Thf MIDI stbndbrd fxprfssfs MIDI dbtb in bytfs.  Howfvfr, bfdbusf
+ * Jbvb<sup>TM</sup> usfs signfd bytfs, thf Jbvb Sound API usfs intfgfrs
+ * instfbd of bytfs whfn fxprfssing MIDI dbtb.  For fxbmplf, thf
+ * {@link #gftStbtus()} mfthod of
+ * <dodf>MidiMfssbgf</dodf> rfturns MIDI stbtus bytfs bs intfgfrs.  If you brf
+ * prodfssing MIDI dbtb thbt originbtfd outsidf Jbvb Sound bnd now
+ * is fndodfd bs signfd bytfs, thf bytfs dbn
+ * dbn bf donvfrtfd to intfgfrs using this donvfrsion:
+ * <dfntfr>{@dodf int i = (int)(bytf & 0xFF)}</dfntfr>
+ * <p>
+ * If you simply nffd to pbss b known MIDI bytf vbluf bs b mfthod pbrbmftfr,
+ * it dbn bf fxprfssfd dirfdtly bs bn intfgfr, using (for fxbmplf) dfdimbl or
+ * hfxbdfdimbl notbtion.  For instbndf, to pbss thf "bdtivf sfnsing" stbtus bytf
+ * bs thf first brgumfnt to ShortMfssbgf's
+ * {@link ShortMfssbgf#sftMfssbgf(int) sftMfssbgf(int)}
+ * mfthod, you dbn fxprfss it bs 254 or 0xFE.
+ *
+ * @sff Trbdk
+ * @sff Sfqufndf
+ * @sff Rfdfivfr
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ */
+
+publid bbstrbdt dlbss MidiMfssbgf implfmfnts Clonfbblf {
+
+    // Instbndf vbribblfs
+
+    /**
+     * Thf MIDI mfssbgf dbtb.  Thf first bytf is thf stbtus
+     * bytf for thf mfssbgf; subsfqufnt bytfs up to thf lfngth
+     * of thf mfssbgf brf dbtb bytfs for this mfssbgf.
+     * @sff #gftLfngth
+     */
+    protfdtfd bytf[] dbtb;
+
+
+    /**
+     * Thf numbfr of bytfs in thf MIDI mfssbgf, indluding thf
+     * stbtus bytf bnd bny dbtb bytfs.
+     * @sff #gftLfngth
+     */
+    protfdtfd int lfngth = 0;
+
+
+    /**
+     * Construdts b nfw <dodf>MidiMfssbgf</dodf>.  This protfdtfd
+     * donstrudtor is dbllfd by dondrftf subdlbssfs, whidh should
+     * fnsurf thbt thf dbtb brrby spfdififs b domplftf, vblid MIDI
+     * mfssbgf.
+     *
+     * @pbrbm dbtb bn brrby of bytfs dontbining thf domplftf mfssbgf.
+     * Thf mfssbgf dbtb mby bf dhbngfd using thf <dodf>sftMfssbgf</dodf>
+     * mfthod.
+     *
+     * @sff #sftMfssbgf
+     */
+    protfdtfd MidiMfssbgf(bytf[] dbtb) {
+        this.dbtb = dbtb;
+        if (dbtb != null) {
+            this.lfngth = dbtb.lfngth;
+        }
+    }
+
+
+    /**
+     * Sfts thf dbtb for thf MIDI mfssbgf.   This protfdtfd
+     * mfthod is dbllfd by dondrftf subdlbssfs, whidh should
+     * fnsurf thbt thf dbtb brrby spfdififs b domplftf, vblid MIDI
+     * mfssbgf.
+     *
+     * @pbrbm dbtb thf dbtb bytfs in thf MIDI mfssbgf
+     * @pbrbm lfngth thf numbfr of bytfs in thf dbtb bytf brrby
+     * @throws InvblidMidiDbtbExdfption if thf pbrbmftfr vblufs do not spfdify b vblid MIDI mftb mfssbgf
+     */
+    protfdtfd void sftMfssbgf(bytf[] dbtb, int lfngth) throws InvblidMidiDbtbExdfption {
+        if (lfngth < 0 || (lfngth > 0 && lfngth > dbtb.lfngth)) {
+            throw nfw IndfxOutOfBoundsExdfption("lfngth out of bounds: "+lfngth);
+        }
+        this.lfngth = lfngth;
+
+        if (this.dbtb == null || this.dbtb.lfngth < this.lfngth) {
+            this.dbtb = nfw bytf[this.lfngth];
+        }
+        Systfm.brrbydopy(dbtb, 0, this.dbtb, 0, lfngth);
+    }
+
+
+    /**
+     * Obtbins thf MIDI mfssbgf dbtb.  Thf first bytf of thf rfturnfd bytf
+     * brrby is thf stbtus bytf of thf mfssbgf.  Any subsfqufnt bytfs up to
+     * thf lfngth of thf mfssbgf brf dbtb bytfs.  Thf bytf brrby mby hbvf b
+     * lfngth whidh is grfbtfr thbn thbt of thf bdtubl mfssbgf; thf totbl
+     * lfngth of thf mfssbgf in bytfs is rfportfd by thf <dodf>{@link #gftLfngth}</dodf>
+     * mfthod.
+     *
+     * @rfturn thf bytf brrby dontbining thf domplftf <dodf>MidiMfssbgf</dodf> dbtb
+     */
+    publid bytf[] gftMfssbgf() {
+        bytf[] rfturnfdArrby = nfw bytf[lfngth];
+        Systfm.brrbydopy(dbtb, 0, rfturnfdArrby, 0, lfngth);
+        rfturn rfturnfdArrby;
+    }
+
+
+    /**
+     * Obtbins thf stbtus bytf for thf MIDI mfssbgf.  Thf stbtus "bytf" is
+     * rfprfsfntfd bs bn intfgfr; sff thf
+     * <b hrff="#intfgfrsVsBytfs">disdussion</b> in thf
+     * <dodf>MidiMfssbgf</dodf> dlbss dfsdription.
+     *
+     * @rfturn thf intfgfr rfprfsfntbtion of this fvfnt's stbtus bytf
+     */
+    publid int gftStbtus() {
+        if (lfngth > 0) {
+            rfturn (dbtb[0] & 0xFF);
+        }
+        rfturn 0;
+    }
+
+
+    /**
+     * Obtbins thf totbl lfngth of thf MIDI mfssbgf in bytfs.  A
+     * MIDI mfssbgf donsists of onf stbtus bytf bnd zfro or morf
+     * dbtb bytfs.  Thf rfturn vbluf rbngfs from 1 for systfm rfbl-timf mfssbgfs,
+     * to 2 or 3 for dhbnnfl mfssbgfs, to bny vbluf for mftb bnd systfm
+     * fxdlusivf mfssbgfs.
+     *
+     * @rfturn thf lfngth of thf mfssbgf in bytfs
+     */
+    publid int gftLfngth() {
+        rfturn lfngth;
+    }
+
+
+    /**
+     * Crfbtfs b nfw objfdt of thf sbmf dlbss bnd with thf sbmf dontfnts
+     * bs this objfdt.
+     * @rfturn b dlonf of this instbndf.
+     */
+    publid bbstrbdt Objfdt dlonf();
+}

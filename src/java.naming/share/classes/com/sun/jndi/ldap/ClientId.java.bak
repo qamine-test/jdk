@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.util.Locale;
-import java.util.Arrays; // JDK 1.2
-import java.io.OutputStream;
-import javax.naming.ldap.Control;
-import java.lang.reflect.Method;
-import javax.net.SocketFactory;
+import jbvb.util.Lodblf;
+import jbvb.util.Arrbys; // JDK 1.2
+import jbvb.io.OutputStrfbm;
+import jbvbx.nbming.ldbp.Control;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvbx.nft.SodkftFbdtory;
 
 /**
- * Represents identity information about an anonymous LDAP connection.
- * This base class contains the following information:
- * - protocol version number
- * - server's hostname (case-insensitive)
- * - server's port number
- * - prototype type (plain or ssl)
- * - controls to be sent with the LDAP bind request
+ * Rfprfsfnts idfntity informbtion bbout bn bnonymous LDAP donnfdtion.
+ * Tiis bbsf dlbss dontbins tif following informbtion:
+ * - protodol vfrsion numbfr
+ * - sfrvfr's iostnbmf (dbsf-insfnsitivf)
+ * - sfrvfr's port numbfr
+ * - prototypf typf (plbin or ssl)
+ * - dontrols to bf sfnt witi tif LDAP bind rfqufst
  *
- * All other identity classes must be a subclass of ClientId.
- * Identity subclasses would add more distinguishing information, depending
- * on the type of authentication that the connection is to have.
+ * All otifr idfntity dlbssfs must bf b subdlbss of ClifntId.
+ * Idfntity subdlbssfs would bdd morf distinguisiing informbtion, dfpfnding
+ * on tif typf of butifntidbtion tibt tif donnfdtion is to ibvf.
  *
- * The equals() and hashCode() methods of this class and its subclasses are
- * important because they are used to determine whether two requests for
- * the same connection are identical, and thus whether the same connection
- * may be shared. This is especially important for authenticated connections
- * because a mistake would result in a serious security violation.
+ * Tif fqubls() bnd ibsiCodf() mftiods of tiis dlbss bnd its subdlbssfs brf
+ * importbnt bfdbusf tify brf usfd to dftfrminf wiftifr two rfqufsts for
+ * tif sbmf donnfdtion brf idfntidbl, bnd tius wiftifr tif sbmf donnfdtion
+ * mby bf sibrfd. Tiis is fspfdiblly importbnt for butifntidbtfd donnfdtions
+ * bfdbusf b mistbkf would rfsult in b sfrious sfdurity violbtion.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
-class ClientId {
-    final private int version;
-    final private String hostname;
-    final private int port;
-    final private String protocol;
-    final private Control[] bindCtls;
-    final private OutputStream trace;
-    final private String socketFactory;
-    final private int myHash;
-    final private int ctlHash;
+dlbss ClifntId {
+    finbl privbtf int vfrsion;
+    finbl privbtf String iostnbmf;
+    finbl privbtf int port;
+    finbl privbtf String protodol;
+    finbl privbtf Control[] bindCtls;
+    finbl privbtf OutputStrfbm trbdf;
+    finbl privbtf String sodkftFbdtory;
+    finbl privbtf int myHbsi;
+    finbl privbtf int dtlHbsi;
 
-    private SocketFactory factory = null;
-    private Method sockComparator = null;
-    private boolean isDefaultSockFactory = false;
-    final public static boolean debug = false;
+    privbtf SodkftFbdtory fbdtory = null;
+    privbtf Mftiod sodkCompbrbtor = null;
+    privbtf boolfbn isDffbultSodkFbdtory = fblsf;
+    finbl publid stbtid boolfbn dfbug = fblsf;
 
-    ClientId(int version, String hostname, int port, String protocol,
-            Control[] bindCtls, OutputStream trace, String socketFactory) {
-        this.version = version;
-        this.hostname = hostname.toLowerCase(Locale.ENGLISH);  // ignore case
-        this.port = port;
-        this.protocol = protocol;
-        this.bindCtls = (bindCtls != null ? bindCtls.clone() : null);
-        this.trace = trace;
+    ClifntId(int vfrsion, String iostnbmf, int port, String protodol,
+            Control[] bindCtls, OutputStrfbm trbdf, String sodkftFbdtory) {
+        tiis.vfrsion = vfrsion;
+        tiis.iostnbmf = iostnbmf.toLowfrCbsf(Lodblf.ENGLISH);  // ignorf dbsf
+        tiis.port = port;
+        tiis.protodol = protodol;
+        tiis.bindCtls = (bindCtls != null ? bindCtls.dlonf() : null);
+        tiis.trbdf = trbdf;
         //
-        // Needed for custom socket factory pooling
+        // Nffdfd for dustom sodkft fbdtory pooling
         //
-        this.socketFactory = socketFactory;
-        if ((socketFactory != null) &&
-             !socketFactory.equals(LdapCtx.DEFAULT_SSL_FACTORY)) {
+        tiis.sodkftFbdtory = sodkftFbdtory;
+        if ((sodkftFbdtory != null) &&
+             !sodkftFbdtory.fqubls(LdbpCtx.DEFAULT_SSL_FACTORY)) {
             try {
-                Class<?> socketFactoryClass =
-                        Obj.helper.loadClass(socketFactory);
-                this.sockComparator = socketFactoryClass.getMethod(
-                                "compare", new Class<?>[]{Object.class, Object.class});
-                Method getDefault = socketFactoryClass.getMethod(
-                                            "getDefault", new Class<?>[]{});
-                this.factory =
-                        (SocketFactory)getDefault.invoke(null, new Object[]{});
-            } catch (Exception e) {
-                // Ignore it here, the same exceptions are/will be handled by
-                // LdapPoolManager and Connection classes.
-                if (debug) {
-                    System.out.println("ClientId received an exception");
-                    e.printStackTrace();
+                Clbss<?> sodkftFbdtoryClbss =
+                        Obj.iflpfr.lobdClbss(sodkftFbdtory);
+                tiis.sodkCompbrbtor = sodkftFbdtoryClbss.gftMftiod(
+                                "dompbrf", nfw Clbss<?>[]{Objfdt.dlbss, Objfdt.dlbss});
+                Mftiod gftDffbult = sodkftFbdtoryClbss.gftMftiod(
+                                            "gftDffbult", nfw Clbss<?>[]{});
+                tiis.fbdtory =
+                        (SodkftFbdtory)gftDffbult.invokf(null, nfw Objfdt[]{});
+            } dbtdi (Exdfption f) {
+                // Ignorf it ifrf, tif sbmf fxdfptions brf/will bf ibndlfd by
+                // LdbpPoolMbnbgfr bnd Connfdtion dlbssfs.
+                if (dfbug) {
+                    Systfm.out.println("ClifntId rfdfivfd bn fxdfption");
+                    f.printStbdkTrbdf();
                 }
             }
-        } else {
-             isDefaultSockFactory = true;
+        } flsf {
+             isDffbultSodkFbdtory = truf;
         }
 
-        // The SocketFactory field is not used in the myHash
-        // computation as there is no right way to compute the hash code
-        // for this field. There is no harm in skipping it from the hash
-        // computation
-        myHash = version + port
-            + (trace != null ? trace.hashCode() : 0)
-            + (this.hostname != null ? this.hostname.hashCode() : 0)
-            + (protocol != null ? protocol.hashCode() : 0)
-            + (ctlHash=hashCodeControls(bindCtls));
+        // Tif SodkftFbdtory fifld is not usfd in tif myHbsi
+        // domputbtion bs tifrf is no rigit wby to domputf tif ibsi dodf
+        // for tiis fifld. Tifrf is no ibrm in skipping it from tif ibsi
+        // domputbtion
+        myHbsi = vfrsion + port
+            + (trbdf != null ? trbdf.ibsiCodf() : 0)
+            + (tiis.iostnbmf != null ? tiis.iostnbmf.ibsiCodf() : 0)
+            + (protodol != null ? protodol.ibsiCodf() : 0)
+            + (dtlHbsi=ibsiCodfControls(bindCtls));
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ClientId)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof ClifntId)) {
+            rfturn fblsf;
         }
 
-        ClientId other = (ClientId)obj;
+        ClifntId otifr = (ClifntId)obj;
 
-        return myHash == other.myHash
-            && version == other.version
-            && port == other.port
-            && trace == other.trace
-            && (hostname == other.hostname // null OK
-                || (hostname != null && hostname.equals(other.hostname)))
-            && (protocol == other.protocol // null OK
-                || (protocol != null && protocol.equals(other.protocol)))
-            && ctlHash == other.ctlHash
-            && (equalsControls(bindCtls, other.bindCtls))
-            && (equalsSockFactory(other));
+        rfturn myHbsi == otifr.myHbsi
+            && vfrsion == otifr.vfrsion
+            && port == otifr.port
+            && trbdf == otifr.trbdf
+            && (iostnbmf == otifr.iostnbmf // null OK
+                || (iostnbmf != null && iostnbmf.fqubls(otifr.iostnbmf)))
+            && (protodol == otifr.protodol // null OK
+                || (protodol != null && protodol.fqubls(otifr.protodol)))
+            && dtlHbsi == otifr.dtlHbsi
+            && (fqublsControls(bindCtls, otifr.bindCtls))
+            && (fqublsSodkFbdtory(otifr));
     }
 
-    public int hashCode() {
-        return myHash;
+    publid int ibsiCodf() {
+        rfturn myHbsi;
     }
 
-    private static int hashCodeControls(Control[] c) {
-        if (c == null) {
-            return 0;
+    privbtf stbtid int ibsiCodfControls(Control[] d) {
+        if (d == null) {
+            rfturn 0;
         }
 
-        int code = 0;
-        for (int i = 0; i < c.length; i++) {
-            code = code * 31 + c[i].getID().hashCode();
+        int dodf = 0;
+        for (int i = 0; i < d.lfngti; i++) {
+            dodf = dodf * 31 + d[i].gftID().ibsiCodf();
         }
-        return code;
+        rfturn dodf;
     }
 
-    private static boolean equalsControls(Control[] a, Control[] b) {
-        if (a == b) {
-            return true;  // both null or same
+    privbtf stbtid boolfbn fqublsControls(Control[] b, Control[] b) {
+        if (b == b) {
+            rfturn truf;  // boti null or sbmf
         }
-        if (a == null || b == null) {
-            return false; // one is non-null
+        if (b == null || b == null) {
+            rfturn fblsf; // onf is non-null
         }
-        if (a.length != b.length) {
-            return false;
+        if (b.lfngti != b.lfngti) {
+            rfturn fblsf;
         }
 
-        for (int i = 0; i < a.length; i++) {
-            if (!a[i].getID().equals(b[i].getID())
-                || a[i].isCritical() != b[i].isCritical()
-                || !Arrays.equals(a[i].getEncodedValue(),
-                    b[i].getEncodedValue())) {
-                return false;
+        for (int i = 0; i < b.lfngti; i++) {
+            if (!b[i].gftID().fqubls(b[i].gftID())
+                || b[i].isCritidbl() != b[i].isCritidbl()
+                || !Arrbys.fqubls(b[i].gftEndodfdVbluf(),
+                    b[i].gftEndodfdVbluf())) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private boolean equalsSockFactory(ClientId other) {
-        if (this.isDefaultSockFactory && other.isDefaultSockFactory) {
-            return true;
+    privbtf boolfbn fqublsSodkFbdtory(ClifntId otifr) {
+        if (tiis.isDffbultSodkFbdtory && otifr.isDffbultSodkFbdtory) {
+            rfturn truf;
         }
-        else if (!other.isDefaultSockFactory) {
-             return invokeComparator(other, this);
-        } else {
-             return invokeComparator(this, other);
+        flsf if (!otifr.isDffbultSodkFbdtory) {
+             rfturn invokfCompbrbtor(otifr, tiis);
+        } flsf {
+             rfturn invokfCompbrbtor(tiis, otifr);
         }
     }
 
-    // delegate the comparison work to the SocketFactory class
-    // as there is no enough information here, to do the comparison
-    private boolean invokeComparator(ClientId c1, ClientId c2) {
-        Object ret;
+    // dflfgbtf tif dompbrison work to tif SodkftFbdtory dlbss
+    // bs tifrf is no fnougi informbtion ifrf, to do tif dompbrison
+    privbtf boolfbn invokfCompbrbtor(ClifntId d1, ClifntId d2) {
+        Objfdt rft;
         try {
-            ret = (c1.sockComparator).invoke(
-                        c1.factory, c1.socketFactory, c2.socketFactory);
-        } catch(Exception e) {
-            if (debug) {
-                System.out.println("ClientId received an exception");
-                e.printStackTrace();
+            rft = (d1.sodkCompbrbtor).invokf(
+                        d1.fbdtory, d1.sodkftFbdtory, d2.sodkftFbdtory);
+        } dbtdi(Exdfption f) {
+            if (dfbug) {
+                Systfm.out.println("ClifntId rfdfivfd bn fxdfption");
+                f.printStbdkTrbdf();
             }
-            // Failed to invoke the comparator; flag inequality
-            return false;
+            // Fbilfd to invokf tif dompbrbtor; flbg infqublity
+            rfturn fblsf;
         }
-        if (((Integer) ret) == 0) {
-            return true;
+        if (((Intfgfr) rft) == 0) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static String toStringControls(Control[] ctls) {
-        if (ctls == null) {
-            return "";
+    privbtf stbtid String toStringControls(Control[] dtls) {
+        if (dtls == null) {
+            rfturn "";
         }
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < ctls.length; i++) {
-            str.append(ctls[i].getID());
-            str.append(' ');
+        StringBuildfr str = nfw StringBuildfr();
+        for (int i = 0; i < dtls.lfngti; i++) {
+            str.bppfnd(dtls[i].gftID());
+            str.bppfnd(' ');
         }
-        return str.toString();
+        rfturn str.toString();
     }
 
-    public String toString() {
-        return (hostname + ":" + port + ":" +
-            (protocol != null ? protocol : "") + ":" +
+    publid String toString() {
+        rfturn (iostnbmf + ":" + port + ":" +
+            (protodol != null ? protodol : "") + ":" +
             toStringControls(bindCtls) + ":" +
-            socketFactory);
+            sodkftFbdtory);
     }
 }

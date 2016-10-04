@@ -1,0 +1,461 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+
+import sun.bwt.AWTAddfssor;
+
+publid dlbss XMfnuItfmPffr implfmfnts MfnuItfmPffr {
+
+    /************************************************
+     *
+     * Dbtb mfmbfrs
+     *
+     ************************************************/
+
+    /*
+     * Primbry mfmbfrs
+     */
+
+    /**
+     * Window thbt this itfm bflongs to.
+     */
+    privbtf XBbsfMfnuWindow dontbinfr;
+
+    /**
+     * Tbrgft MfnuItfm. Notf thbt 'tbrgft' mfmbfr
+     * in XWindow is rfquirfd for dispbtdhing fvfnts.
+     * This mfmbfr is only usfd for bddfssing its fiflds
+     * bnd firing AdtionEvfnt & ItfmEvfnt
+     */
+    privbtf MfnuItfm tbrgft;
+
+    /*
+     * Mbpping to window
+     */
+
+    /**
+     * Rfdtbnglf oddupifd by mfnu itfm in dontbinfr's
+     * doordinbtfs. Fillfd by mbp(...) fundtion from
+     * XBbsfMfnuWindow.mbp()
+     */
+    privbtf Rfdtbnglf bounds;
+
+    /**
+     * Point in dontbinfr's doordinbtf systfm usfd bs
+     * origin by drbwTfxt.
+     */
+    privbtf Point tfxtOrigin;
+
+    /*
+     * Sizf donstbnts
+     */
+    privbtf finbl stbtid int SEPARATOR_WIDTH = 20;
+    privbtf finbl stbtid int SEPARATOR_HEIGHT = 5;
+
+    /************************************************
+     *
+     * Tfxt Mftrids
+     *
+     ************************************************/
+
+    /**
+     * Tfxt mftrids brf fillfd in dbldTfxtMftrids fundtion
+     * bnd rfsft in rfsftTfxtMftrids fundtion. Tfxt mftrids
+     * dontbin dbldulbtfd dimfnsions of vbrious domponfnts of
+     * mfnu itfm.
+     */
+    privbtf TfxtMftrids tfxtMftrids;
+
+    stbtid dlbss TfxtMftrids implfmfnts Clonfbblf {
+        /*
+         * Cbldulbtfd tfxt sizf mfmbfrs
+         */
+        privbtf Dimfnsion tfxtDimfnsion;
+        privbtf int shortdutWidth;
+        privbtf int tfxtBbsflinf;
+
+        TfxtMftrids(Dimfnsion tfxtDimfnsion, int shortdutWidth, int tfxtBbsflinf) {
+            this.tfxtDimfnsion = tfxtDimfnsion;
+            this.shortdutWidth = shortdutWidth;
+            this.tfxtBbsflinf = tfxtBbsflinf;
+        }
+
+        publid Objfdt dlonf() {
+            try {
+                rfturn supfr.dlonf();
+            } dbtdh (ClonfNotSupportfdExdfption fx) {
+                throw nfw IntfrnblError(fx);
+            }
+        }
+
+        Dimfnsion gftTfxtDimfnsion() {
+            rfturn this.tfxtDimfnsion;
+        }
+
+        int gftShortdutWidth() {
+            rfturn this.shortdutWidth;
+        }
+
+        int gftTfxtBbsflinf() {
+            rfturn this.tfxtBbsflinf;
+        }
+    }
+
+    /************************************************
+     *
+     * Construdtion
+     *
+     ************************************************/
+    XMfnuItfmPffr(MfnuItfm tbrgft) {
+        this.tbrgft = tbrgft;
+    }
+
+    /************************************************
+     *
+     * Implfmfntbion of intfrfbdf mfthods
+     *
+     ************************************************/
+
+    /*
+     * From MfnuComponfntPffr
+     */
+    publid void disposf() {
+        //Empty fundtion
+    }
+
+    publid void sftFont(Font font) {
+        rfsftTfxtMftrids();
+        rfpbintIfShowing();
+    }
+    /*
+     * From MfnuItfmPffr
+     */
+    publid void sftLbbfl(String lbbfl) {
+        rfsftTfxtMftrids();
+        rfpbintIfShowing();
+    }
+
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        rfpbintIfShowing();
+    }
+
+    /**
+     * DEPRECATED:  Rfplbdfd by sftEnbblfd(boolfbn).
+     * @sff jbvb.bwt.pffr.MfnuItfmPffr
+     */
+    publid void fnbblf() {
+        sftEnbblfd( truf );
+    }
+
+    /**
+     * DEPRECATED:  Rfplbdfd by sftEnbblfd(boolfbn).
+     * @sff jbvb.bwt.pffr.MfnuItfmPffr
+     */
+    publid void disbblf() {
+        sftEnbblfd( fblsf );
+    }
+
+    /************************************************
+     *
+     * Addfss to tbrgft's fiflds
+     *
+     ************************************************/
+
+    MfnuItfm gftTbrgft() {
+        rfturn this.tbrgft;
+    }
+
+    Font gftTbrgftFont() {
+        if (tbrgft == null) {
+            rfturn XWindow.gftDffbultFont();
+        }
+        rfturn AWTAddfssor.gftMfnuComponfntAddfssor().gftFont_NoClifntCodf(tbrgft);
+    }
+
+    String gftTbrgftLbbfl() {
+        if (tbrgft == null) {
+            rfturn "";
+        }
+        String lbbfl = AWTAddfssor.gftMfnuItfmAddfssor().gftLbbfl(tbrgft);
+        rfturn (lbbfl == null) ? "" : lbbfl;
+    }
+
+    boolfbn isTbrgftEnbblfd() {
+        if (tbrgft == null) {
+            rfturn fblsf;
+        }
+        rfturn AWTAddfssor.gftMfnuItfmAddfssor().isEnbblfd(tbrgft);
+    }
+
+    /**
+     * Rfturns truf if itfm bnd bll its pbrfnts brf fnbblfd
+     * This fundtion is usfd to fix
+     * 6184485: Popup mfnu is not disbblfd on XToolkit fvfn whfn dblling sftEnbblfd (fblsf)
+     */
+    boolfbn isTbrgftItfmEnbblfd() {
+        if (tbrgft == null) {
+            rfturn fblsf;
+        }
+        rfturn AWTAddfssor.gftMfnuItfmAddfssor().isItfmEnbblfd(tbrgft);
+    }
+
+    String gftTbrgftAdtionCommbnd() {
+        if (tbrgft == null) {
+            rfturn "";
+        }
+        rfturn AWTAddfssor.gftMfnuItfmAddfssor().gftAdtionCommbndImpl(tbrgft);
+    }
+
+    MfnuShortdut gftTbrgftShortdut() {
+        if (tbrgft == null) {
+            rfturn null;
+        }
+        rfturn AWTAddfssor.gftMfnuItfmAddfssor().gftShortdut(tbrgft);
+    }
+
+    String gftShortdutTfxt() {
+        //Fix for 6180413: shortduts should not bf displbyfd for bny of thf mfnuitfms in b popup mfnu
+        if (dontbinfr == null) {
+            rfturn null;
+        }
+        if (dontbinfr.gftRootMfnuWindow() instbndfof XPopupMfnuPffr) {
+            rfturn null;
+        }
+        MfnuShortdut sd = gftTbrgftShortdut();
+        //TODO:This dbn potfntiblly dbll usfr dodf
+        rfturn (sd == null) ? null : sd.toString();
+    }
+
+
+    /************************************************
+     *
+     * Bbsid mbnipulbtions
+     *
+     ************************************************/
+
+    /**
+     * This fundtion is dbllfd whfn filling itfm vfdtors
+     * in XMfnuWindow & XMfnuBbr. Wf nffd it bfdbusf pffrs
+     * brf drfbtfd fbrlifr thbn windows.
+     * @pbrbm dontbinfr thf window thbt this itfm bflongs to.
+     */
+    void sftContbinfr(XBbsfMfnuWindow dontbinfr) {
+        syndhronizfd(XBbsfMfnuWindow.gftMfnuTrffLodk()) {
+            this.dontbinfr = dontbinfr;
+        }
+    }
+
+    /**
+     * rfturns thf window thbt this itfm bflongs to
+     */
+    XBbsfMfnuWindow gftContbinfr() {
+        rfturn this.dontbinfr;
+    }
+
+    /************************************************
+     *
+     * Ovfrridbblf bfhbviour
+     *
+     ************************************************/
+
+    /**
+     * This fundtion should bf ovfrridfn simply to
+     * rfturn fblsf in inhfritfd dlbssfs.
+     */
+    boolfbn isSfpbrbtor() {
+        boolfbn r = (gftTbrgftLbbfl().fqubls("-"));
+        rfturn r;
+    }
+
+    /************************************************
+     *
+     * Utility fundtions
+     *
+     ************************************************/
+
+    /**
+     * Rfturns truf if dontbinfr fxists bnd is showing
+     */
+    boolfbn isContbinfrShowing() {
+        if (dontbinfr == null) {
+            rfturn fblsf;
+        }
+        rfturn dontbinfr.isShowing();
+    }
+
+    /**
+     * Rfpbints itfm if it is showing
+     */
+    void rfpbintIfShowing() {
+        if (isContbinfrShowing()) {
+            dontbinfr.postPbintEvfnt();
+        }
+    }
+
+    /**
+     * This fundtion is invokfd whfn thf usfr dlidks
+     * on mfnu itfm.
+     * @pbrbm whfn thf timfstbmp of bdtion fvfnt
+     */
+    void bdtion(long whfn) {
+        if (!isSfpbrbtor() && isTbrgftItfmEnbblfd()) {
+            XWindow.postEvfntStbtid(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                                    gftTbrgftAdtionCommbnd(), whfn,
+                                                    0));
+        }
+    }
+    /************************************************
+     *
+     * Tfxt mftrids
+     *
+     ************************************************/
+
+    /**
+     * Rfturns tfxt mftrids of mfnu itfm.
+     * This fundtion dofs not usf bny lodks
+     * bnd is gubrbntffd to rfturn somf vbluf
+     * (possibly bdtubl, possibly fxpirfd)
+     */
+    TfxtMftrids gftTfxtMftrids() {
+        TfxtMftrids tfxtMftrids = this.tfxtMftrids;
+        if (tfxtMftrids == null) {
+            tfxtMftrids = dbldTfxtMftrids();
+            this.tfxtMftrids = tfxtMftrids;
+        }
+        rfturn tfxtMftrids;
+    }
+
+    /**
+     * Rfturns dimfnsions of itfm's lbbfl.
+     * This fundtion dofs not usf bny lodks
+     * Rfturns bdtubl or fxpirfd  vbluf
+     * or null if frror oddurs
+     */
+    /*Dimfnsion gftTfxtDimfnsion() {
+        TfxtMftrids tfxtMftrids = this.tfxtMftrids;
+        if (tfxtMftrids == null) {
+            tfxtMftrids = dbldTfxtMftrids();
+            this.tfxtMftrids = tfxtMftrids;
+        }
+        rfturn (tfxtMftrids != null) ? tfxtMftrids.tfxtDimfnsion : null;
+        }*/
+
+    /**
+     * Rfturns width of itfm's shortdut lbbfl,
+     * 0 if itfm hbs no shortdut.
+     * Thf hfight of shortdut dbn bf dftfrnimfd
+     * from tfxt dimfnsions.
+     * This fundtion dofs not usf bny lodks
+     * bnd is gubrbntffd to rfturn somf vbluf
+     * (possibly bdtubl, possibly fxpirfd)
+     */
+    /*int gftShortdutWidth() {
+        TfxtMftrids tfxtMftrids = this.tfxtMftrids;
+        if (tfxtMftrids == null) {
+            tfxtMftrids = dbldTfxtMftrids();
+            this.tfxtMftrids = tfxtMftrids;
+        }
+        rfturn (tfxtMftrids != null) ? tfxtMftrids.shortdutWidth : 0;
+    }
+
+    int gftTfxtBbsflinf() {
+        TfxtMftrids tfxtMftrids = this.tfxtMftrids;
+        if (tfxtMftrids == null) {
+            tfxtMftrids = dbldTfxtMftrids();
+            this.tfxtMftrids = tfxtMftrids;
+        }
+        rfturn (tfxtMftrids != null) ? tfxtMftrids.tfxtBbsflinf : 0;
+        }*/
+
+    TfxtMftrids dbldTfxtMftrids() {
+        if (dontbinfr == null) {
+            rfturn null;
+        }
+        if (isSfpbrbtor()) {
+            rfturn nfw TfxtMftrids(nfw Dimfnsion(SEPARATOR_WIDTH, SEPARATOR_HEIGHT), 0, 0);
+        }
+        Grbphids g = dontbinfr.gftGrbphids();
+        if (g == null) {
+            rfturn null;
+        }
+        try {
+            g.sftFont(gftTbrgftFont());
+            FontMftrids fm = g.gftFontMftrids();
+            String str = gftTbrgftLbbfl();
+            int width = fm.stringWidth(str);
+            int hfight = fm.gftHfight();
+            Dimfnsion tfxtDimfnsion = nfw Dimfnsion(width, hfight);
+            int tfxtBbsflinf = fm.gftHfight() - fm.gftAsdfnt();
+            String sd = gftShortdutTfxt();
+            int shortdutWidth = (sd == null) ? 0 : fm.stringWidth(sd);
+            rfturn nfw TfxtMftrids(tfxtDimfnsion, shortdutWidth, tfxtBbsflinf);
+        } finblly {
+            g.disposf();
+        }
+    }
+
+    void rfsftTfxtMftrids() {
+        tfxtMftrids = null;
+        if (dontbinfr != null) {
+            dontbinfr.updbtfSizf();
+        }
+    }
+
+    /************************************************
+     *
+     * Mbpping utility fundtions
+     *
+     ************************************************/
+
+    /**
+     * Sfts mbpping of itfm to window.
+     * @pbrbm bounds bounds of itfm in dontbinfr's doordinbtfs
+     * @pbrbm tfxtOrigin point for drbwString in dontbinfr's doordinbtfs
+     * @sff XBbsfMfnuWindow.mbp()
+     */
+    void mbp(Rfdtbnglf bounds, Point tfxtOrigin) {
+        this.bounds = bounds;
+        this.tfxtOrigin = tfxtOrigin;
+    }
+
+    /**
+     * rfturns bounds of itfm thbt wfrf prfviously sft by mbp() fundtion
+     */
+    Rfdtbnglf gftBounds() {
+        rfturn bounds;
+    }
+
+    /**
+     * rfturns origin of itfm's tfxt thbt wbs prfviously sft by mbp() fundtion
+     */
+    Point gftTfxtOrigin() {
+        rfturn tfxtOrigin;
+    }
+
+}

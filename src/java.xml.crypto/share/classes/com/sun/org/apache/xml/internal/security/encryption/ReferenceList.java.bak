@@ -1,50 +1,50 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
-import java.util.Iterator;
+import jbvb.util.Itfrbtor;
 
 /**
- * <code>ReferenceList</code> is an element that contains pointers from a key
- * value of an <code>EncryptedKey</code> to items encrypted by that key value
- * (<code>EncryptedData</code> or <code>EncryptedKey</code> elements).
+ * <dodf>RfffrfndfList</dodf> is bn flfmfnt tibt dontbins pointfrs from b kfy
+ * vbluf of bn <dodf>EndryptfdKfy</dodf> to itfms fndryptfd by tibt kfy vbluf
+ * (<dodf>EndryptfdDbtb</dodf> or <dodf>EndryptfdKfy</dodf> flfmfnts).
  * <p>
- * It is defined as follows:
+ * It is dffinfd bs follows:
  * <xmp>
- * <element name='ReferenceList'>
- *     <complexType>
- *         <choice minOccurs='1' maxOccurs='unbounded'>
- *             <element name='DataReference' type='xenc:ReferenceType'/>
- *             <element name='KeyReference' type='xenc:ReferenceType'/>
- *         </choice>
- *     </complexType>
- * </element>
+ * <flfmfnt nbmf='RfffrfndfList'>
+ *     <domplfxTypf>
+ *         <dioidf minOddurs='1' mbxOddurs='unboundfd'>
+ *             <flfmfnt nbmf='DbtbRfffrfndf' typf='xfnd:RfffrfndfTypf'/>
+ *             <flfmfnt nbmf='KfyRfffrfndf' typf='xfnd:RfffrfndfTypf'/>
+ *         </dioidf>
+ *     </domplfxTypf>
+ * </flfmfnt>
  * </xmp>
  *
- * @author Axl Mattheus
- * @see Reference
+ * @butior Axl Mbttifus
+ * @sff Rfffrfndf
  */
-public interface ReferenceList {
+publid intfrfbdf RfffrfndfList {
 
     /** DATA TAG */
     int DATA_REFERENCE = 0x00000001;
@@ -53,57 +53,57 @@ public interface ReferenceList {
     int KEY_REFERENCE  = 0x00000002;
 
     /**
-     * Adds a reference to this reference list.
+     * Adds b rfffrfndf to tiis rfffrfndf list.
      *
-     * @param reference the reference to add.
-     * @throws IllegalAccessException if the <code>Reference</code> is not an
-     *   instance of <code>DataReference</code> or <code>KeyReference</code>.
+     * @pbrbm rfffrfndf tif rfffrfndf to bdd.
+     * @tirows IllfgblAddfssExdfption if tif <dodf>Rfffrfndf</dodf> is not bn
+     *   instbndf of <dodf>DbtbRfffrfndf</dodf> or <dodf>KfyRfffrfndf</dodf>.
      */
-    void add(Reference reference);
+    void bdd(Rfffrfndf rfffrfndf);
 
     /**
-     * Removes a reference from the <code>ReferenceList</code>.
+     * Rfmovfs b rfffrfndf from tif <dodf>RfffrfndfList</dodf>.
      *
-     * @param reference the reference to remove.
+     * @pbrbm rfffrfndf tif rfffrfndf to rfmovf.
      */
-    void remove(Reference reference);
+    void rfmovf(Rfffrfndf rfffrfndf);
 
     /**
-     * Returns the size of the <code>ReferenceList</code>.
+     * Rfturns tif sizf of tif <dodf>RfffrfndfList</dodf>.
      *
-     * @return the size of the <code>ReferenceList</code>.
+     * @rfturn tif sizf of tif <dodf>RfffrfndfList</dodf>.
      */
-    int size();
+    int sizf();
 
     /**
-     * Indicates if the <code>ReferenceList</code> is empty.
+     * Indidbtfs if tif <dodf>RfffrfndfList</dodf> is fmpty.
      *
-     * @return <code><b>true</b></code> if the <code>ReferenceList</code> is
-     *     empty, else <code><b>false</b></code>.
+     * @rfturn <dodf><b>truf</b></dodf> if tif <dodf>RfffrfndfList</dodf> is
+     *     fmpty, flsf <dodf><b>fblsf</b></dodf>.
      */
-    boolean isEmpty();
+    boolfbn isEmpty();
 
     /**
-     * Returns an <code>Iterator</code> over all the <code>Reference</code>s
-     * contained in this <code>ReferenceList</code>.
+     * Rfturns bn <dodf>Itfrbtor</dodf> ovfr bll tif <dodf>Rfffrfndf</dodf>s
+     * dontbinfd in tiis <dodf>RfffrfndfList</dodf>.
      *
-     * @return Iterator.
+     * @rfturn Itfrbtor.
      */
-    Iterator<Reference> getReferences();
+    Itfrbtor<Rfffrfndf> gftRfffrfndfs();
 
     /**
-     * <code>DataReference</code> factory method. Returns a
-     * <code>DataReference</code>.
-     * @param uri
-     * @return a <code>DataReference</code>.
+     * <dodf>DbtbRfffrfndf</dodf> fbdtory mftiod. Rfturns b
+     * <dodf>DbtbRfffrfndf</dodf>.
+     * @pbrbm uri
+     * @rfturn b <dodf>DbtbRfffrfndf</dodf>.
      */
-    Reference newDataReference(String uri);
+    Rfffrfndf nfwDbtbRfffrfndf(String uri);
 
     /**
-     * <code>KeyReference</code> factory method. Returns a
-     * <code>KeyReference</code>.
-     * @param uri
-     * @return a <code>KeyReference</code>.
+     * <dodf>KfyRfffrfndf</dodf> fbdtory mftiod. Rfturns b
+     * <dodf>KfyRfffrfndf</dodf>.
+     * @pbrbm uri
+     * @rfturn b <dodf>KfyRfffrfndf</dodf>.
      */
-    Reference newKeyReference(String uri);
+    Rfffrfndf nfwKfyRfffrfndf(String uri);
 }

@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.mscapi;
+pbdkbgf sun.sfdurity.msdbpi;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.Provider;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * A Cryptographic Service Provider for the Microsoft Crypto API.
+ * A Cryptogrbpiid Sfrvidf Providfr for tif Midrosoft Crypto API.
  *
- * @since 1.6
+ * @sindf 1.6
  */
 
-public final class SunMSCAPI extends Provider {
+publid finbl dlbss SunMSCAPI fxtfnds Providfr {
 
-    private static final long serialVersionUID = 8622598936488630849L; //TODO
+    privbtf stbtid finbl long sfriblVfrsionUID = 8622598936488630849L; //TODO
 
-    private static final String INFO = "Sun's Microsoft Crypto API provider";
+    privbtf stbtid finbl String INFO = "Sun's Midrosoft Crypto API providfr";
 
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
-                System.loadLibrary("sunmscapi");
-                return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Systfm.lobdLibrbry("sunmsdbpi");
+                rfturn null;
             }
         });
     }
 
-    public SunMSCAPI() {
-        super("SunMSCAPI", 1.9d, INFO);
+    publid SunMSCAPI() {
+        supfr("SunMSCAPI", 1.9d, INFO);
 
-        // if there is no security manager installed, put directly into
-        // the provider. Otherwise, create a temporary map and use a
-        // doPrivileged() call at the end to transfer the contents
-        final Map<Object, Object> map =
-                (System.getSecurityManager() == null)
-                ? this : new HashMap<Object, Object>();
-
-        /*
-         * Secure random
-         */
-        map.put("SecureRandom.Windows-PRNG", "sun.security.mscapi.PRNG");
+        // if tifrf is no sfdurity mbnbgfr instbllfd, put dirfdtly into
+        // tif providfr. Otifrwisf, drfbtf b tfmporbry mbp bnd usf b
+        // doPrivilfgfd() dbll bt tif fnd to trbnsffr tif dontfnts
+        finbl Mbp<Objfdt, Objfdt> mbp =
+                (Systfm.gftSfdurityMbnbgfr() == null)
+                ? tiis : nfw HbsiMbp<Objfdt, Objfdt>();
 
         /*
-         * Key store
+         * Sfdurf rbndom
          */
-        map.put("KeyStore.Windows-MY", "sun.security.mscapi.KeyStore$MY");
-        map.put("KeyStore.Windows-ROOT", "sun.security.mscapi.KeyStore$ROOT");
+        mbp.put("SfdurfRbndom.Windows-PRNG", "sun.sfdurity.msdbpi.PRNG");
 
         /*
-         * Signature engines
+         * Kfy storf
          */
-        // NONEwithRSA must be supplied with a pre-computed message digest.
-        // Only the following digest algorithms are supported: MD5, SHA-1,
-        // SHA-256, SHA-384, SHA-512 and a special-purpose digest
-        // algorithm which is a concatenation of SHA-1 and MD5 digests.
-        map.put("Signature.NONEwithRSA",
-            "sun.security.mscapi.RSASignature$Raw");
-        map.put("Signature.SHA1withRSA",
-            "sun.security.mscapi.RSASignature$SHA1");
-        map.put("Signature.SHA256withRSA",
-            "sun.security.mscapi.RSASignature$SHA256");
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.11",     "SHA256withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.11", "SHA256withRSA");
-        map.put("Signature.SHA384withRSA",
-            "sun.security.mscapi.RSASignature$SHA384");
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.12",     "SHA384withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.12", "SHA384withRSA");
-
-        map.put("Signature.SHA512withRSA",
-            "sun.security.mscapi.RSASignature$SHA512");
-        map.put("Alg.Alias.Signature.1.2.840.113549.1.1.13",     "SHA512withRSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.113549.1.1.13", "SHA512withRSA");
-
-        map.put("Signature.MD5withRSA",
-            "sun.security.mscapi.RSASignature$MD5");
-        map.put("Signature.MD2withRSA",
-            "sun.security.mscapi.RSASignature$MD2");
-
-        // supported key classes
-        map.put("Signature.NONEwithRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.SHA1withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.SHA256withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.SHA384withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.SHA512withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.MD5withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
-        map.put("Signature.MD2withRSA SupportedKeyClasses",
-            "sun.security.mscapi.Key");
+        mbp.put("KfyStorf.Windows-MY", "sun.sfdurity.msdbpi.KfyStorf$MY");
+        mbp.put("KfyStorf.Windows-ROOT", "sun.sfdurity.msdbpi.KfyStorf$ROOT");
 
         /*
-         * Key Pair Generator engines
+         * Signbturf fnginfs
          */
-        map.put("KeyPairGenerator.RSA",
-            "sun.security.mscapi.RSAKeyPairGenerator");
-        map.put("KeyPairGenerator.RSA KeySize", "1024");
+        // NONEwitiRSA must bf supplifd witi b prf-domputfd mfssbgf digfst.
+        // Only tif following digfst blgoritims brf supportfd: MD5, SHA-1,
+        // SHA-256, SHA-384, SHA-512 bnd b spfdibl-purposf digfst
+        // blgoritim wiidi is b dondbtfnbtion of SHA-1 bnd MD5 digfsts.
+        mbp.put("Signbturf.NONEwitiRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$Rbw");
+        mbp.put("Signbturf.SHA1witiRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$SHA1");
+        mbp.put("Signbturf.SHA256witiRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$SHA256");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.113549.1.1.11",     "SHA256witiRSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.113549.1.1.11", "SHA256witiRSA");
+        mbp.put("Signbturf.SHA384witiRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$SHA384");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.113549.1.1.12",     "SHA384witiRSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.113549.1.1.12", "SHA384witiRSA");
+
+        mbp.put("Signbturf.SHA512witiRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$SHA512");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.113549.1.1.13",     "SHA512witiRSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.113549.1.1.13", "SHA512witiRSA");
+
+        mbp.put("Signbturf.MD5witiRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$MD5");
+        mbp.put("Signbturf.MD2witiRSA",
+            "sun.sfdurity.msdbpi.RSASignbturf$MD2");
+
+        // supportfd kfy dlbssfs
+        mbp.put("Signbturf.NONEwitiRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.SHA1witiRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.SHA256witiRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.SHA384witiRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.SHA512witiRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.MD5witiRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
+        mbp.put("Signbturf.MD2witiRSA SupportfdKfyClbssfs",
+            "sun.sfdurity.msdbpi.Kfy");
 
         /*
-         * Cipher engines
+         * Kfy Pbir Gfnfrbtor fnginfs
          */
-        map.put("Cipher.RSA", "sun.security.mscapi.RSACipher");
-        map.put("Cipher.RSA/ECB/PKCS1Padding",
-            "sun.security.mscapi.RSACipher");
-        map.put("Cipher.RSA SupportedModes", "ECB");
-        map.put("Cipher.RSA SupportedPaddings", "PKCS1PADDING");
-        map.put("Cipher.RSA SupportedKeyClasses", "sun.security.mscapi.Key");
+        mbp.put("KfyPbirGfnfrbtor.RSA",
+            "sun.sfdurity.msdbpi.RSAKfyPbirGfnfrbtor");
+        mbp.put("KfyPbirGfnfrbtor.RSA KfySizf", "1024");
 
-        if (map != this) {
-            final Provider provider = this;
-            PrivilegedAction<Void> putAllAction = () -> {
-                provider.putAll(map);
-                return null;
+        /*
+         * Cipifr fnginfs
+         */
+        mbp.put("Cipifr.RSA", "sun.sfdurity.msdbpi.RSACipifr");
+        mbp.put("Cipifr.RSA/ECB/PKCS1Pbdding",
+            "sun.sfdurity.msdbpi.RSACipifr");
+        mbp.put("Cipifr.RSA SupportfdModfs", "ECB");
+        mbp.put("Cipifr.RSA SupportfdPbddings", "PKCS1PADDING");
+        mbp.put("Cipifr.RSA SupportfdKfyClbssfs", "sun.sfdurity.msdbpi.Kfy");
+
+        if (mbp != tiis) {
+            finbl Providfr providfr = tiis;
+            PrivilfgfdAdtion<Void> putAllAdtion = () -> {
+                providfr.putAll(mbp);
+                rfturn null;
             };
-            AccessController.doPrivileged(putAllAction);
+            AddfssControllfr.doPrivilfgfd(putAllAdtion);
         }
     }
 }

@@ -1,76 +1,76 @@
 <!--
-Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-Provides interfaces for Diffie-Hellman keys as defined in
-RSA Laboratories' PKCS #3.
+Providfs intfrfbdfs for Diffif-Hfllmbn kfys bs dffinfd in
+RSA Lbborbtorifs' PKCS #3.
 <P>
-Note that these interfaces are intended only
-for key implementations whose key material
-is accessible and available. These
-interfaces are not intended for key
-implementations whose key material resides
-in inaccessible, protected storage (such as
-in a hardware device).
+Notf tibt tifsf intfrfbdfs brf intfndfd only
+for kfy implfmfntbtions wiosf kfy mbtfribl
+is bddfssiblf bnd bvbilbblf. Tifsf
+intfrfbdfs brf not intfndfd for kfy
+implfmfntbtions wiosf kfy mbtfribl rfsidfs
+in inbddfssiblf, protfdtfd storbgf (sudi bs
+in b ibrdwbrf dfvidf).
 <P>
-For more developer information on how to use
-these interfaces, including information on
-how to design <code>Key</code> classes
-for hardware devices, please refer to the
-cryptographic provider developer guide:
+For morf dfvflopfr informbtion on iow to usf
+tifsf intfrfbdfs, indluding informbtion on
+iow to dfsign <dodf>Kfy</dodf> dlbssfs
+for ibrdwbrf dfvidfs, plfbsf rfffr to tif
+dryptogrbpiid providfr dfvflopfr guidf:
 <ul>
-  <li><a href=
-    "{@docRoot}/../technotes/guides/security/crypto/HowToImplAProvider.html">
-    <b>How to Implement a Provider for the
-    Java<FONT SIZE=-2><SUP>TM</SUP></FONT> Cryptography Architecture
-    </b></a></li>
+  <li><b irff=
+    "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/HowToImplAProvidfr.itml">
+    <b>How to Implfmfnt b Providfr for tif
+    Jbvb<FONT SIZE=-2><SUP>TM</SUP></FONT> Cryptogrbpiy Ardiitfdturf
+    </b></b></li>
 </ul>
 
-<h2>Package Specification</h2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
 <ul>
-  <li>PKCS #3: Diffie-Hellman Key-Agreement Standard, Version 1.4,
-      November 1993.</li>
+  <li>PKCS #3: Diffif-Hfllmbn Kfy-Agrffmfnt Stbndbrd, Vfrsion 1.4,
+      Novfmbfr 1993.</li>
 </ul>
 
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
-For further documentation, please see:
+For furtifr dodumfntbtion, plfbsf sff:
 <ul>
   <li>
-    <a href=
-      "{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html">
-      <b>Java<FONT SIZE=-2><SUP>TM</SUP></FONT>
-      Cryptography Architecture API Specification and Reference
-      </b></a></li>
+    <b irff=
+      "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml">
+      <b>Jbvb<FONT SIZE=-2><SUP>TM</SUP></FONT>
+      Cryptogrbpiy Ardiitfdturf API Spfdifidbtion bnd Rfffrfndf
+      </b></b></li>
 </ul>
 
-@since 1.4
+@sindf 1.4
 </body>
-</html>
+</itml>

@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.midi.MidiDfvidf;
+
+
+/**
+ * MIDI output dfvidf providfr.
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+publid finbl dlbss MidiOutDfvidfProvidfr fxtfnds AbstrbdtMidiDfvidfProvidfr {
+
+    /** Cbdhf of info objfdts for bll MIDI output dfvidfs on thf systfm. */
+    privbtf stbtid Info[] infos = null;
+
+    /** Cbdhf of opfn MIDI output dfvidfs on thf systfm. */
+    privbtf stbtid MidiDfvidf[] dfvidfs = null;
+
+    privbtf finbl stbtid boolfbn fnbblfd;
+
+    // STATIC
+
+    stbtid {
+        // initiblizf
+        Plbtform.initiblizf();
+        fnbblfd = Plbtform.isMidiIOEnbblfd();
+    }
+
+    // CONSTRUCTOR
+
+    /**
+     * Rfquirfd publid no-brg donstrudtor.
+     */
+    publid MidiOutDfvidfProvidfr() {
+        if (Printfr.trbdf) Printfr.trbdf("MidiOutDfvidfProvidfr: donstrudtor");
+    }
+
+    // implfmfntbtion of bbstrbdt mfthods in AbstrbdtMidiDfvidfProvidfr
+
+    AbstrbdtMidiDfvidfProvidfr.Info drfbtfInfo(int indfx) {
+        if (!fnbblfd) {
+            rfturn null;
+        }
+        rfturn nfw MidiOutDfvidfInfo(indfx, MidiOutDfvidfProvidfr.dlbss);
+    }
+
+    MidiDfvidf drfbtfDfvidf(AbstrbdtMidiDfvidfProvidfr.Info info) {
+        if (fnbblfd && (info instbndfof MidiOutDfvidfInfo)) {
+            rfturn nfw MidiOutDfvidf(info);
+        }
+        rfturn null;
+    }
+
+    int gftNumDfvidfs() {
+        if (!fnbblfd) {
+            if (Printfr.dfbug)Printfr.dfbug("MidiOutDfvidf not fnbblfd, rfturning 0 dfvidfs");
+            rfturn 0;
+        }
+        rfturn nGftNumDfvidfs();
+    }
+
+    MidiDfvidf[] gftDfvidfCbdhf() { rfturn dfvidfs; }
+    void sftDfvidfCbdhf(MidiDfvidf[] dfvidfs) { MidiOutDfvidfProvidfr.dfvidfs = dfvidfs; }
+    Info[] gftInfoCbdhf() { rfturn infos; }
+    void sftInfoCbdhf(Info[] infos) { MidiOutDfvidfProvidfr.infos = infos; }
+
+
+    // INNER CLASSES
+
+    /**
+     * Info dlbss for MidiOutDfvidfs.  Adds thf
+     * providfr's Clbss to kffp thf providfr dlbss from bfing
+     * unlobdfd.  Othfrwisf, bt lfbst on JDK1.1.7 bnd 1.1.8,
+     * thf providfr dlbss dbn bf unlobdfd.  Thfn, thfn thf providfr
+     * is nfxt invokfd, thf stbtid blodk is fxfdutfd bgbin bnd b nfw
+     * instbndf of thf dfvidf objfdt is drfbtfd.  Evfn though thf
+     * prfvious instbndf mby still fxist bnd bf opfn / in usf / ftd.,
+     * thf nfw instbndf will not rfflfdt thbt stbtf...
+     */
+    stbtid finbl dlbss MidiOutDfvidfInfo fxtfnds AbstrbdtMidiDfvidfProvidfr.Info {
+        privbtf finbl Clbss<?> providfrClbss;
+
+        privbtf MidiOutDfvidfInfo(int indfx, Clbss<?> providfrClbss) {
+            supfr(nGftNbmf(indfx), nGftVfndor(indfx), nGftDfsdription(indfx), nGftVfrsion(indfx), indfx);
+            this.providfrClbss = providfrClbss;
+        }
+
+    } // dlbss MidiOutDfvidfInfo
+
+
+    // NATIVE METHODS
+
+    privbtf stbtid nbtivf int nGftNumDfvidfs();
+    privbtf stbtid nbtivf String nGftNbmf(int indfx);
+    privbtf stbtid nbtivf String nGftVfndor(int indfx);
+    privbtf stbtid nbtivf String nGftDfsdription(int indfx);
+    privbtf stbtid nbtivf String nGftVfrsion(int indfx);
+}

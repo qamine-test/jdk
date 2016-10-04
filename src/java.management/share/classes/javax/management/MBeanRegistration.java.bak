@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * <p>Can be implemented by an MBean in order to
- * carry out operations before and after being registered or unregistered from
- * the MBean Server.  An MBean can also implement this interface in order
- * to get a reference to the MBean Server and/or its name within that
- * MBean Server.</p>
+ * <p>Cbn bf implfmfntfd by bn MBfbn in ordfr to
+ * dbrry out opfrbtions bfforf bnd bftfr bfing rfgistfrfd or unrfgistfrfd from
+ * tif MBfbn Sfrvfr.  An MBfbn dbn blso implfmfnt tiis intfrfbdf in ordfr
+ * to gft b rfffrfndf to tif MBfbn Sfrvfr bnd/or its nbmf witiin tibt
+ * MBfbn Sfrvfr.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface MBeanRegistration   {
+publid intfrfbdf MBfbnRfgistrbtion   {
 
 
     /**
-     * Allows the MBean to perform any operations it needs before
-     * being registered in the MBean Server.  If the name of the MBean
-     * is not specified, the MBean can provide a name for its
-     * registration.  If any exception is raised, the MBean will not be
-     * registered in the MBean Server.
+     * Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf
+     * bfing rfgistfrfd in tif MBfbn Sfrvfr.  If tif nbmf of tif MBfbn
+     * is not spfdififd, tif MBfbn dbn providf b nbmf for its
+     * rfgistrbtion.  If bny fxdfption is rbisfd, tif MBfbn will not bf
+     * rfgistfrfd in tif MBfbn Sfrvfr.
      *
-     * @param server The MBean Server in which the MBean will be registered.
+     * @pbrbm sfrvfr Tif MBfbn Sfrvfr in wiidi tif MBfbn will bf rfgistfrfd.
      *
-     * @param name The object name of the MBean.  This name is null if
-     * the name parameter to one of the <code>createMBean</code> or
-     * <code>registerMBean</code> methods in the {@link MBeanServer}
-     * interface is null.  In that case, this method must return a
-     * non-null ObjectName for the new MBean.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn.  Tiis nbmf is null if
+     * tif nbmf pbrbmftfr to onf of tif <dodf>drfbtfMBfbn</dodf> or
+     * <dodf>rfgistfrMBfbn</dodf> mftiods in tif {@link MBfbnSfrvfr}
+     * intfrfbdf is null.  In tibt dbsf, tiis mftiod must rfturn b
+     * non-null ObjfdtNbmf for tif nfw MBfbn.
      *
-     * @return The name under which the MBean is to be registered.
-     * This value must not be null.  If the <code>name</code>
-     * parameter is not null, it will usually but not necessarily be
-     * the returned value.
+     * @rfturn Tif nbmf undfr wiidi tif MBfbn is to bf rfgistfrfd.
+     * Tiis vbluf must not bf null.  If tif <dodf>nbmf</dodf>
+     * pbrbmftfr is not null, it will usublly but not nfdfssbrily bf
+     * tif rfturnfd vbluf.
      *
-     * @exception java.lang.Exception This exception will be caught by
-     * the MBean Server and re-thrown as an {@link
-     * MBeanRegistrationException}.
+     * @fxdfption jbvb.lbng.Exdfption Tiis fxdfption will bf dbugit by
+     * tif MBfbn Sfrvfr bnd rf-tirown bs bn {@link
+     * MBfbnRfgistrbtionExdfption}.
      */
-    public ObjectName preRegister(MBeanServer server,
-                                  ObjectName name) throws java.lang.Exception;
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr,
+                                  ObjfdtNbmf nbmf) tirows jbvb.lbng.Exdfption;
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * registered in the MBean server or after the registration has failed.
-     * <p>If the implementation of this method throws a {@link RuntimeException}
-     * or an {@link Error}, the MBean Server will rethrow those inside
-     * a {@link RuntimeMBeanException} or {@link RuntimeErrorException},
-     * respectively. However, throwing an exception in {@code postRegister}
-     * will not change the state of the MBean:
-     * if the MBean was already registered ({@code registrationDone} is
-     * {@code true}), the MBean will remain registered. </p>
-     * <p>This might be confusing for the code calling {@code createMBean()}
-     * or {@code registerMBean()}, as such code might assume that MBean
-     * registration has failed when such an exception is raised.
-     * Therefore it is recommended that implementations of
-     * {@code postRegister} do not throw Runtime Exceptions or Errors if it
-     * can be avoided.</p>
-     * @param registrationDone Indicates whether or not the MBean has
-     * been successfully registered in the MBean server. The value
-     * false means that the registration phase has failed.
+     * Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * rfgistfrfd in tif MBfbn sfrvfr or bftfr tif rfgistrbtion ibs fbilfd.
+     * <p>If tif implfmfntbtion of tiis mftiod tirows b {@link RuntimfExdfption}
+     * or bn {@link Error}, tif MBfbn Sfrvfr will rftirow tiosf insidf
+     * b {@link RuntimfMBfbnExdfption} or {@link RuntimfErrorExdfption},
+     * rfspfdtivfly. Howfvfr, tirowing bn fxdfption in {@dodf postRfgistfr}
+     * will not dibngf tif stbtf of tif MBfbn:
+     * if tif MBfbn wbs blrfbdy rfgistfrfd ({@dodf rfgistrbtionDonf} is
+     * {@dodf truf}), tif MBfbn will rfmbin rfgistfrfd. </p>
+     * <p>Tiis migit bf donfusing for tif dodf dblling {@dodf drfbtfMBfbn()}
+     * or {@dodf rfgistfrMBfbn()}, bs sudi dodf migit bssumf tibt MBfbn
+     * rfgistrbtion ibs fbilfd wifn sudi bn fxdfption is rbisfd.
+     * Tifrfforf it is rfdommfndfd tibt implfmfntbtions of
+     * {@dodf postRfgistfr} do not tirow Runtimf Exdfptions or Errors if it
+     * dbn bf bvoidfd.</p>
+     * @pbrbm rfgistrbtionDonf Indidbtfs wiftifr or not tif MBfbn ibs
+     * bffn suddfssfully rfgistfrfd in tif MBfbn sfrvfr. Tif vbluf
+     * fblsf mfbns tibt tif rfgistrbtion pibsf ibs fbilfd.
      */
-    public void postRegister(Boolean registrationDone);
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf);
 
     /**
-     * Allows the MBean to perform any operations it needs before
-     * being unregistered by the MBean server.
+     * Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf
+     * bfing unrfgistfrfd by tif MBfbn sfrvfr.
      *
-     * @exception java.lang.Exception This exception will be caught by
-     * the MBean server and re-thrown as an {@link
-     * MBeanRegistrationException}.
+     * @fxdfption jbvb.lbng.Exdfption Tiis fxdfption will bf dbugit by
+     * tif MBfbn sfrvfr bnd rf-tirown bs bn {@link
+     * MBfbnRfgistrbtionExdfption}.
      */
-    public void preDeregister() throws java.lang.Exception ;
+    publid void prfDfrfgistfr() tirows jbvb.lbng.Exdfption ;
 
     /**
-     * Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.
-     * <p>If the implementation of this method throws a {@link RuntimeException}
-     * or an {@link Error}, the MBean Server will rethrow those inside
-     * a {@link RuntimeMBeanException} or {@link RuntimeErrorException},
-     * respectively. However, throwing an exception in {@code postDeregister}
-     * will not change the state of the MBean:
-     * the MBean was already successfully deregistered and will remain so. </p>
-     * <p>This might be confusing for the code calling
-     * {@code unregisterMBean()}, as it might assume that MBean deregistration
-     * has failed. Therefore it is recommended that implementations of
-     * {@code postDeregister} do not throw Runtime Exceptions or Errors if it
-     * can be avoided.</p>
+     * Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * unrfgistfrfd in tif MBfbn sfrvfr.
+     * <p>If tif implfmfntbtion of tiis mftiod tirows b {@link RuntimfExdfption}
+     * or bn {@link Error}, tif MBfbn Sfrvfr will rftirow tiosf insidf
+     * b {@link RuntimfMBfbnExdfption} or {@link RuntimfErrorExdfption},
+     * rfspfdtivfly. Howfvfr, tirowing bn fxdfption in {@dodf postDfrfgistfr}
+     * will not dibngf tif stbtf of tif MBfbn:
+     * tif MBfbn wbs blrfbdy suddfssfully dfrfgistfrfd bnd will rfmbin so. </p>
+     * <p>Tiis migit bf donfusing for tif dodf dblling
+     * {@dodf unrfgistfrMBfbn()}, bs it migit bssumf tibt MBfbn dfrfgistrbtion
+     * ibs fbilfd. Tifrfforf it is rfdommfndfd tibt implfmfntbtions of
+     * {@dodf postDfrfgistfr} do not tirow Runtimf Exdfptions or Errors if it
+     * dbn bf bvoidfd.</p>
      */
-    public void postDeregister();
+    publid void postDfrfgistfr();
 
  }

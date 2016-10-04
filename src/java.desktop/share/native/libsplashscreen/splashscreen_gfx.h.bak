@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef SPLASHSCREEN_GFX_H
-#define SPLASHSCREEN_GFX_H
+#ifndff SPLASHSCREEN_GFX_H
+#dffinf SPLASHSCREEN_GFX_H
 
-/*  splashscreen_gfx is a general purpose code for converting pixmaps between various visuals
-    it is not very effective, but is universal and concise */
+/*  splbsisdrffn_gfx is b gfnfrbl purposf dodf for donvfrting pixmbps bftwffn vbrious visubls
+    it is not vfry ffffdtivf, but is univfrsbl bnd dondisf */
 
-#include "splashscreen_config.h"
+#indludf "splbsisdrffn_donfig.i"
 
-enum
+fnum
 {
-    BYTE_ORDER_LSBFIRST = 0,    // least significant byte first
-    BYTE_ORDER_MSBFIRST = 1,    // most significant byte first
-    BYTE_ORDER_NATIVE = 2       // exactly the same as the arch we're running this on
-        // will behave identical to _LSBFIRST or _MSBFIRST,
-        // but more effective
+    BYTE_ORDER_LSBFIRST = 0,    // lfbst signifidbnt bytf first
+    BYTE_ORDER_MSBFIRST = 1,    // most signifidbnt bytf first
+    BYTE_ORDER_NATIVE = 2       // fxbdtly tif sbmf bs tif brdi wf'rf running tiis on
+        // will bfibvf idfntidbl to _LSBFIRST or _MSBFIRST,
+        // but morf ffffdtivf
 };
 
-enum
+fnum
 {
     DITHER_SIZE = 16,
     DITHER_MASK = 15
 };
 
-typedef struct DitherSettings
+typfdff strudt DitifrSfttings
 {
     int numColors;
-    rgbquad_t colorTable[512];
-    unsigned matrix[DITHER_SIZE][DITHER_SIZE];
-} DitherSettings;
+    rgbqubd_t dolorTbblf[512];
+    unsignfd mbtrix[DITHER_SIZE][DITHER_SIZE];
+} DitifrSfttings;
 
-/* this structure is similar to Xlib's Visual */
+/* tiis strudturf is similbr to Xlib's Visubl */
 
-typedef struct ImageFormat
+typfdff strudt ImbgfFormbt
 {
-    rgbquad_t mask[4];
-    int shift[4];
-    int depthBytes;             // 1,2,3 or 4. 3 is not supported for XCVT_BYTE_ORDER_NATIVE.
-    int byteOrder;              // see BYTE_ORDER_LSBFIRST, BYTE_ORDER_MSBFIRST or BYTE_ORDER_NATIVE
-    int fixedBits;              // this value is or'ed with the color value on get or put, non-indexed only
-                                // for indexed color, may be used when pre-decoding the colormap
-    rgbquad_t *colorMap;        // colormap should be pre-decoded (i.e. an array of rgbquads)
-                                // when colormap is non-NULL, the source color is an index to a colormap, and
-                                // masks/shifts are unused.
-    unsigned transparentColor;  // only for indexed colors. this is transparent color _INDEX_.
-                                // use a more-than-max value when you don't need transparency.
-    int premultiplied;
-    DitherSettings *dithers;
-    int numColors;              // in the colormap, only for indexed color
-    rgbquad_t *colorIndex;      // color remapping index for dithering mode
-} ImageFormat;
+    rgbqubd_t mbsk[4];
+    int siift[4];
+    int dfptiBytfs;             // 1,2,3 or 4. 3 is not supportfd for XCVT_BYTE_ORDER_NATIVE.
+    int bytfOrdfr;              // sff BYTE_ORDER_LSBFIRST, BYTE_ORDER_MSBFIRST or BYTE_ORDER_NATIVE
+    int fixfdBits;              // tiis vbluf is or'fd witi tif dolor vbluf on gft or put, non-indfxfd only
+                                // for indfxfd dolor, mby bf usfd wifn prf-dfdoding tif dolormbp
+    rgbqubd_t *dolorMbp;        // dolormbp siould bf prf-dfdodfd (i.f. bn brrby of rgbqubds)
+                                // wifn dolormbp is non-NULL, tif sourdf dolor is bn indfx to b dolormbp, bnd
+                                // mbsks/siifts brf unusfd.
+    unsignfd trbnspbrfntColor;  // only for indfxfd dolors. tiis is trbnspbrfnt dolor _INDEX_.
+                                // usf b morf-tibn-mbx vbluf wifn you don't nffd trbnspbrfndy.
+    int prfmultiplifd;
+    DitifrSfttings *ditifrs;
+    int numColors;              // in tif dolormbp, only for indfxfd dolor
+    rgbqubd_t *dolorIndfx;      // dolor rfmbpping indfx for ditifring modf
+} ImbgfFormbt;
 
-/* this structure defines a rectangular portion of an image buffer. height and/or width may be inverted. */
+/* tiis strudturf dffinfs b rfdtbngulbr portion of bn imbgf bufffr. ifigit bnd/or widti mby bf invfrtfd. */
 
-typedef struct ImageRect
+typfdff strudt ImbgfRfdt
 {
-    int numLines;               // number of scanlines in the rectangle
-    int numSamples;             // number of samples in the line
-    int stride;                 // distance between first samples of n'th and n+1'th scanlines, in bytes
-    int depthBytes;             // distance between n'th and n+1'th sample in a scanline, in bytes
-    void *pBits;                // points to sample 0, scanline 0
-    ImageFormat *format;        // format of the samples
-    int row, col, jump;         // dithering indexes
-} ImageRect;
+    int numLinfs;               // numbfr of sdbnlinfs in tif rfdtbnglf
+    int numSbmplfs;             // numbfr of sbmplfs in tif linf
+    int stridf;                 // distbndf bftwffn first sbmplfs of n'ti bnd n+1'ti sdbnlinfs, in bytfs
+    int dfptiBytfs;             // distbndf bftwffn n'ti bnd n+1'ti sbmplf in b sdbnlinf, in bytfs
+    void *pBits;                // points to sbmplf 0, sdbnlinf 0
+    ImbgfFormbt *formbt;        // formbt of tif sbmplfs
+    int row, dol, jump;         // ditifring indfxfs
+} ImbgfRfdt;
 
-enum
+fnum
 {
     CVT_COPY,
     CVT_ALPHATEST,
     CVT_BLEND
 };
 
-#define  MAX_COLOR_VALUE    255
-#define  QUAD_ALPHA_MASK    0xFF000000
-#define  QUAD_RED_MASK      0x00FF0000
-#define  QUAD_GREEN_MASK    0x0000FF00
-#define  QUAD_BLUE_MASK     0x000000FF
+#dffinf  MAX_COLOR_VALUE    255
+#dffinf  QUAD_ALPHA_MASK    0xFF000000
+#dffinf  QUAD_RED_MASK      0x00FF0000
+#dffinf  QUAD_GREEN_MASK    0x0000FF00
+#dffinf  QUAD_BLUE_MASK     0x000000FF
 
-#define  QUAD_ALPHA_SHIFT   24
-#define  QUAD_RED_SHIFT     16
-#define  QUAD_GREEN_SHIFT   8
-#define  QUAD_BLUE_SHIFT    0
+#dffinf  QUAD_ALPHA_SHIFT   24
+#dffinf  QUAD_RED_SHIFT     16
+#dffinf  QUAD_GREEN_SHIFT   8
+#dffinf  QUAD_BLUE_SHIFT    0
 
-#define QUAD_ALPHA(value) (((value)&QUAD_ALPHA_MASK)>>QUAD_ALPHA_SHIFT)
-#define QUAD_RED(value) (((value)&QUAD_RED_MASK)>>QUAD_RED_SHIFT)
-#define QUAD_GREEN(value) (((value)&QUAD_GREEN_MASK)>>QUAD_GREEN_SHIFT)
-#define QUAD_BLUE(value) (((value)&QUAD_BLUE_MASK)>>QUAD_BLUE_SHIFT)
+#dffinf QUAD_ALPHA(vbluf) (((vbluf)&QUAD_ALPHA_MASK)>>QUAD_ALPHA_SHIFT)
+#dffinf QUAD_RED(vbluf) (((vbluf)&QUAD_RED_MASK)>>QUAD_RED_SHIFT)
+#dffinf QUAD_GREEN(vbluf) (((vbluf)&QUAD_GREEN_MASK)>>QUAD_GREEN_SHIFT)
+#dffinf QUAD_BLUE(vbluf) (((vbluf)&QUAD_BLUE_MASK)>>QUAD_BLUE_SHIFT)
 
-#define MAKE_QUAD(r,g,b,a) \
-    (((a)<<QUAD_ALPHA_SHIFT)&QUAD_ALPHA_MASK)| \
+#dffinf MAKE_QUAD(r,g,b,b) \
+    (((b)<<QUAD_ALPHA_SHIFT)&QUAD_ALPHA_MASK)| \
     (((r)<<QUAD_RED_SHIFT)&QUAD_RED_MASK)| \
     (((g)<<QUAD_GREEN_SHIFT)&QUAD_GREEN_MASK)| \
     (((b)<<QUAD_BLUE_SHIFT)&QUAD_BLUE_MASK) \
 
 
-/* alpha testing threshold. what's >= the threshold is considered non-transparent when doing
-   conversion operation with CVT_ALPHATEST and when generating shapes/regions with
-   BitmapToYXBandedRectangles */
+/* blpib tfsting tirfsiold. wibt's >= tif tirfsiold is donsidfrfd non-trbnspbrfnt wifn doing
+   donvfrsion opfrbtion witi CVT_ALPHATEST bnd wifn gfnfrbting sibpfs/rfgions witi
+   BitmbpToYXBbndfdRfdtbnglfs */
 
-#define ALPHA_THRESHOLD     0x80000000
+#dffinf ALPHA_THRESHOLD     0x80000000
 
-void initRect(ImageRect * pRect, int x, int y, int width, int height, int jump,
-        int stride, void *pBits, ImageFormat * format);
-int convertRect2(ImageRect * pSrcRect, ImageRect * pDstRect, int mode,
-        ImageRect * pSrcRect2);
-int convertRect(ImageRect * pSrcRect, ImageRect * pDstRect, int mode);
-void convertLine(void *pSrc, int incSrc, void *pDst, int incDst, int n,
-        ImageFormat * srcFormat, ImageFormat * dstFormat, int mode,
-        void *pSrc2, int incSrc2, ImageFormat * srcFormat2, int row, int col);
-void initFormat(ImageFormat * format, int redMask, int greenMask,
-        int blueMask, int alphaMask);
-int fillRect(rgbquad_t color, ImageRect * pDstRect);
-void dumpFormat(ImageFormat * format);
+void initRfdt(ImbgfRfdt * pRfdt, int x, int y, int widti, int ifigit, int jump,
+        int stridf, void *pBits, ImbgfFormbt * formbt);
+int donvfrtRfdt2(ImbgfRfdt * pSrdRfdt, ImbgfRfdt * pDstRfdt, int modf,
+        ImbgfRfdt * pSrdRfdt2);
+int donvfrtRfdt(ImbgfRfdt * pSrdRfdt, ImbgfRfdt * pDstRfdt, int modf);
+void donvfrtLinf(void *pSrd, int indSrd, void *pDst, int indDst, int n,
+        ImbgfFormbt * srdFormbt, ImbgfFormbt * dstFormbt, int modf,
+        void *pSrd2, int indSrd2, ImbgfFormbt * srdFormbt2, int row, int dol);
+void initFormbt(ImbgfFormbt * formbt, int rfdMbsk, int grffnMbsk,
+        int blufMbsk, int blpibMbsk);
+int fillRfdt(rgbqubd_t dolor, ImbgfRfdt * pDstRfdt);
+void dumpFormbt(ImbgfFormbt * formbt);
 
-void optimizeFormat(ImageFormat * format);
+void optimizfFormbt(ImbgfFormbt * formbt);
 
-void initDither(DitherSettings * pDither, int numColors, int scale);
+void initDitifr(DitifrSfttings * pDitifr, int numColors, int sdblf);
 
-int quantizeColors(int maxNumColors, int *numColors);
+int qubntizfColors(int mbxNumColors, int *numColors);
 
-void initColorCube(int *numColors, rgbquad_t * pColorMap,
-        DitherSettings * pDithers, rgbquad_t * colorIndex);
-int platformByteOrder();
+void initColorCubf(int *numColors, rgbqubd_t * pColorMbp,
+        DitifrSfttings * pDitifrs, rgbqubd_t * dolorIndfx);
+int plbtformBytfOrdfr();
 
-#endif
+#fndif

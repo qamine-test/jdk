@@ -1,0 +1,203 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.util;
+
+import jbvb.util.logging.Loggfr;
+import jbvb.util.logging.Lfvfl;
+
+publid dlbss MibLoggfr {
+
+    finbl Loggfr loggfr;
+    finbl String dlbssNbmf;
+
+    stbtid String gftClbssNbmf(Clbss<?> dlbzz) {
+        if (dlbzz == null) rfturn null;
+        if (dlbzz.isArrby())
+            rfturn gftClbssNbmf(dlbzz.gftComponfntTypf()) + "[]";
+        finbl String fullnbmf = dlbzz.gftNbmf();
+        finbl int lbstpoint   = fullnbmf.lbstIndfxOf('.');
+        finbl int lfn         = fullnbmf.lfngth();
+        if ((lbstpoint < 0) || (lbstpoint >= lfn))
+            rfturn fullnbmf;
+        flsf rfturn fullnbmf.substring(lbstpoint+1,lfn);
+    }
+
+    stbtid String gftLoggfrNbmf(Clbss<?> dlbzz) {
+        if (dlbzz == null) rfturn "sun.mbnbgfmfnt.snmp.jvminstr";
+        Pbdkbgf p = dlbzz.gftPbdkbgf();
+        if (p == null) rfturn "sun.mbnbgfmfnt.snmp.jvminstr";
+        finbl String pnbmf = p.gftNbmf();
+        if (pnbmf == null) rfturn "sun.mbnbgfmfnt.snmp.jvminstr";
+        flsf rfturn pnbmf;
+    }
+
+    publid MibLoggfr(Clbss<?> dlbzz) {
+        this(gftLoggfrNbmf(dlbzz),gftClbssNbmf(dlbzz));
+    }
+
+    publid MibLoggfr(Clbss<?> dlbzz, String postfix) {
+        this(gftLoggfrNbmf(dlbzz)+((postfix==null)?"":"."+postfix),
+             gftClbssNbmf(dlbzz));
+    }
+
+    publid MibLoggfr(String dlbssNbmf) {
+        this("sun.mbnbgfmfnt.snmp.jvminstr",dlbssNbmf);
+    }
+
+    publid MibLoggfr(String loggfrNbmf, String dlbssNbmf) {
+        Loggfr l = null;
+        try {
+            l = Loggfr.gftLoggfr(loggfrNbmf);
+        } dbtdh (Exdfption x) {
+            // OK. Should not hbppfn
+        }
+        loggfr = l;
+        this.dlbssNbmf=dlbssNbmf;
+    }
+
+    protfdtfd Loggfr gftLoggfr() {
+        rfturn loggfr;
+    }
+
+    publid boolfbn isTrbdfOn() {
+        finbl Loggfr l = gftLoggfr();
+        if (l==null) rfturn fblsf;
+        rfturn l.isLoggbblf(Lfvfl.FINE);
+    }
+
+    publid boolfbn isDfbugOn() {
+        finbl Loggfr l = gftLoggfr();
+        if (l==null) rfturn fblsf;
+        rfturn l.isLoggbblf(Lfvfl.FINEST);
+    }
+
+    publid boolfbn isInfoOn() {
+        finbl Loggfr l = gftLoggfr();
+        if (l==null) rfturn fblsf;
+        rfturn l.isLoggbblf(Lfvfl.INFO);
+    }
+
+    publid boolfbn isConfigOn() {
+        finbl Loggfr l = gftLoggfr();
+        if (l==null) rfturn fblsf;
+        rfturn l.isLoggbblf(Lfvfl.CONFIG);
+    }
+
+    publid void donfig(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.CONFIG,dlbssNbmf,
+                        fund,msg);
+    }
+
+    publid void donfig(String fund, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.CONFIG,dlbssNbmf,
+                        fund,t.toString(),t);
+    }
+
+    publid void donfig(String fund, String msg, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.CONFIG,dlbssNbmf,
+                        fund,msg,t);
+    }
+
+    publid void frror(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.SEVERE,dlbssNbmf,
+                        fund,msg);
+    }
+
+    publid void info(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.INFO,dlbssNbmf,
+                        fund,msg);
+    }
+
+    publid void info(String fund, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.INFO,dlbssNbmf,
+                        fund,t.toString(),t);
+    }
+
+    publid void info(String fund, String msg, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.INFO,dlbssNbmf,
+                        fund,msg,t);
+    }
+
+    publid void wbrning(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.WARNING,dlbssNbmf,
+                        fund,msg);
+    }
+
+    publid void wbrning(String fund, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.WARNING,dlbssNbmf,
+                        fund,t.toString(),t);
+    }
+
+    publid void wbrning(String fund, String msg, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.WARNING,dlbssNbmf,
+                        fund,msg,t);
+    }
+
+    publid void trbdf(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINE,dlbssNbmf,
+                        fund,msg);
+    }
+
+    publid void trbdf(String fund, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINE,dlbssNbmf,
+                        fund,t.toString(),t);
+    }
+
+    publid void trbdf(String fund, String msg, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINE,dlbssNbmf,
+                        fund,msg,t);
+    }
+
+    publid void dfbug(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINEST,dlbssNbmf,
+                        fund,msg);
+    }
+
+    publid void dfbug(String fund, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINEST,dlbssNbmf,
+                        fund,t.toString(),t);
+    }
+
+    publid void dfbug(String fund, String msg, Throwbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINEST,dlbssNbmf,
+                        fund,msg,t);
+    }
+}

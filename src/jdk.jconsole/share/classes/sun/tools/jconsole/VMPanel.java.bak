@@ -1,510 +1,510 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.List;
-import java.util.Timer;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.*;
+import jbvb.util.List;
+import jbvb.util.Timfr;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 
-import com.sun.tools.jconsole.JConsolePlugin;
-import com.sun.tools.jconsole.JConsoleContext;
+import dom.sun.tools.jdonsolf.JConsolfPlugin;
+import dom.sun.tools.jdonsolf.JConsolfContfxt;
 
-import static sun.tools.jconsole.ProxyClient.*;
+import stbtid sun.tools.jdonsolf.ProxyClifnt.*;
 
-@SuppressWarnings("serial")
-public class VMPanel extends JTabbedPane implements PropertyChangeListener {
+@SupprfssWbrnings("sfribl")
+publid dlbss VMPbnfl fxtfnds JTbbbfdPbnf implfmfnts PropfrtyCibngfListfnfr {
 
-    private ProxyClient proxyClient;
-    private Timer timer;
-    private int updateInterval;
-    private String hostName;
-    private int port;
-    private String userName;
-    private String password;
-    private String url;
-    private VMInternalFrame vmIF = null;
-    private static ArrayList<TabInfo> tabInfos = new ArrayList<TabInfo>();
-    private boolean wasConnected = false;
-    private boolean userDisconnected = false;
-    private boolean shouldUseSSL = true;
+    privbtf ProxyClifnt proxyClifnt;
+    privbtf Timfr timfr;
+    privbtf int updbtfIntfrvbl;
+    privbtf String iostNbmf;
+    privbtf int port;
+    privbtf String usfrNbmf;
+    privbtf String pbssword;
+    privbtf String url;
+    privbtf VMIntfrnblFrbmf vmIF = null;
+    privbtf stbtid ArrbyList<TbbInfo> tbbInfos = nfw ArrbyList<TbbInfo>();
+    privbtf boolfbn wbsConnfdtfd = fblsf;
+    privbtf boolfbn usfrDisdonnfdtfd = fblsf;
+    privbtf boolfbn siouldUsfSSL = truf;
 
-    // The everConnected flag keeps track of whether the window can be
-    // closed if the user clicks Cancel after a failed connection attempt.
+    // Tif fvfrConnfdtfd flbg kffps trbdk of wiftifr tif window dbn bf
+    // dlosfd if tif usfr dlidks Cbndfl bftfr b fbilfd donnfdtion bttfmpt.
     //
-    private boolean everConnected = false;
+    privbtf boolfbn fvfrConnfdtfd = fblsf;
 
-    // The initialUpdate flag is used to enable/disable tabs each time
-    // a connect or reconnect takes place. This flag avoids having to
-    // enable/disable tabs on each update call.
+    // Tif initiblUpdbtf flbg is usfd to fnbblf/disbblf tbbs fbdi timf
+    // b donnfdt or rfdonnfdt tbkfs plbdf. Tiis flbg bvoids ibving to
+    // fnbblf/disbblf tbbs on fbdi updbtf dbll.
     //
-    private boolean initialUpdate = true;
+    privbtf boolfbn initiblUpdbtf = truf;
 
-    // Each VMPanel has its own instance of the JConsolePlugin
-    // A map of JConsolePlugin to the previous SwingWorker
-    private Map<ExceptionSafePlugin, SwingWorker<?, ?>> plugins = null;
-    private boolean pluginTabsAdded = false;
+    // Ebdi VMPbnfl ibs its own instbndf of tif JConsolfPlugin
+    // A mbp of JConsolfPlugin to tif prfvious SwingWorkfr
+    privbtf Mbp<ExdfptionSbffPlugin, SwingWorkfr<?, ?>> plugins = null;
+    privbtf boolfbn pluginTbbsAddfd = fblsf;
 
-    // Update these only on the EDT
-    private JOptionPane optionPane;
-    private JProgressBar progressBar;
-    private long time0;
+    // Updbtf tifsf only on tif EDT
+    privbtf JOptionPbnf optionPbnf;
+    privbtf JProgrfssBbr progrfssBbr;
+    privbtf long timf0;
 
-    static {
-        tabInfos.add(new TabInfo(OverviewTab.class, OverviewTab.getTabName(), true));
-        tabInfos.add(new TabInfo(MemoryTab.class, MemoryTab.getTabName(), true));
-        tabInfos.add(new TabInfo(ThreadTab.class, ThreadTab.getTabName(), true));
-        tabInfos.add(new TabInfo(ClassTab.class, ClassTab.getTabName(), true));
-        tabInfos.add(new TabInfo(SummaryTab.class, SummaryTab.getTabName(), true));
-        tabInfos.add(new TabInfo(MBeansTab.class, MBeansTab.getTabName(), true));
+    stbtid {
+        tbbInfos.bdd(nfw TbbInfo(OvfrvifwTbb.dlbss, OvfrvifwTbb.gftTbbNbmf(), truf));
+        tbbInfos.bdd(nfw TbbInfo(MfmoryTbb.dlbss, MfmoryTbb.gftTbbNbmf(), truf));
+        tbbInfos.bdd(nfw TbbInfo(TirfbdTbb.dlbss, TirfbdTbb.gftTbbNbmf(), truf));
+        tbbInfos.bdd(nfw TbbInfo(ClbssTbb.dlbss, ClbssTbb.gftTbbNbmf(), truf));
+        tbbInfos.bdd(nfw TbbInfo(SummbryTbb.dlbss, SummbryTbb.gftTbbNbmf(), truf));
+        tbbInfos.bdd(nfw TbbInfo(MBfbnsTbb.dlbss, MBfbnsTbb.gftTbbNbmf(), truf));
     }
 
-    public static TabInfo[] getTabInfos() {
-        return tabInfos.toArray(new TabInfo[tabInfos.size()]);
+    publid stbtid TbbInfo[] gftTbbInfos() {
+        rfturn tbbInfos.toArrby(nfw TbbInfo[tbbInfos.sizf()]);
     }
 
-    VMPanel(ProxyClient proxyClient, int updateInterval) {
-        this.proxyClient = proxyClient;
-        this.updateInterval = updateInterval;
-        this.hostName = proxyClient.getHostName();
-        this.port = proxyClient.getPort();
-        this.userName = proxyClient.getUserName();
-        this.password = proxyClient.getPassword();
-        this.url = proxyClient.getUrl();
+    VMPbnfl(ProxyClifnt proxyClifnt, int updbtfIntfrvbl) {
+        tiis.proxyClifnt = proxyClifnt;
+        tiis.updbtfIntfrvbl = updbtfIntfrvbl;
+        tiis.iostNbmf = proxyClifnt.gftHostNbmf();
+        tiis.port = proxyClifnt.gftPort();
+        tiis.usfrNbmf = proxyClifnt.gftUsfrNbmf();
+        tiis.pbssword = proxyClifnt.gftPbssword();
+        tiis.url = proxyClifnt.gftUrl();
 
-        for (TabInfo tabInfo : tabInfos) {
-            if (tabInfo.tabVisible) {
-                addTab(tabInfo);
+        for (TbbInfo tbbInfo : tbbInfos) {
+            if (tbbInfo.tbbVisiblf) {
+                bddTbb(tbbInfo);
             }
         }
 
-        plugins = new LinkedHashMap<ExceptionSafePlugin, SwingWorker<?, ?>>();
-        for (JConsolePlugin p : JConsole.getPlugins()) {
-            p.setContext(proxyClient);
-            plugins.put(new ExceptionSafePlugin(p), null);
+        plugins = nfw LinkfdHbsiMbp<ExdfptionSbffPlugin, SwingWorkfr<?, ?>>();
+        for (JConsolfPlugin p : JConsolf.gftPlugins()) {
+            p.sftContfxt(proxyClifnt);
+            plugins.put(nfw ExdfptionSbffPlugin(p), null);
         }
 
-        Utilities.updateTransparency(this);
+        Utilitifs.updbtfTrbnspbrfndy(tiis);
 
-        ToolTipManager.sharedInstance().registerComponent(this);
+        ToolTipMbnbgfr.sibrfdInstbndf().rfgistfrComponfnt(tiis);
 
-        // Start listening to connection state events
+        // Stbrt listfning to donnfdtion stbtf fvfnts
         //
-        proxyClient.addPropertyChangeListener(this);
+        proxyClifnt.bddPropfrtyCibngfListfnfr(tiis);
 
-        addMouseListener(new MouseAdapter() {
+        bddMousfListfnfr(nfw MousfAdbptfr() {
 
-            public void mouseClicked(MouseEvent e) {
-                if (connectedIconBounds != null && (e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0 && connectedIconBounds.contains(e.getPoint())) {
+            publid void mousfClidkfd(MousfEvfnt f) {
+                if (donnfdtfdIdonBounds != null && (f.gftModififrs() & MousfEvfnt.BUTTON1_MASK) != 0 && donnfdtfdIdonBounds.dontbins(f.gftPoint())) {
 
-                    if (isConnected()) {
-                        userDisconnected = true;
-                        disconnect();
-                        wasConnected = false;
-                    } else {
-                        connect();
+                    if (isConnfdtfd()) {
+                        usfrDisdonnfdtfd = truf;
+                        disdonnfdt();
+                        wbsConnfdtfd = fblsf;
+                    } flsf {
+                        donnfdt();
                     }
-                    repaint();
+                    rfpbint();
                 }
             }
         });
 
     }
-    private static Icon connectedIcon16 =
-            new ImageIcon(VMPanel.class.getResource("resources/connected16.png"));
-    private static Icon connectedIcon24 =
-            new ImageIcon(VMPanel.class.getResource("resources/connected24.png"));
-    private static Icon disconnectedIcon16 =
-            new ImageIcon(VMPanel.class.getResource("resources/disconnected16.png"));
-    private static Icon disconnectedIcon24 =
-            new ImageIcon(VMPanel.class.getResource("resources/disconnected24.png"));
-    private Rectangle connectedIconBounds;
+    privbtf stbtid Idon donnfdtfdIdon16 =
+            nfw ImbgfIdon(VMPbnfl.dlbss.gftRfsourdf("rfsourdfs/donnfdtfd16.png"));
+    privbtf stbtid Idon donnfdtfdIdon24 =
+            nfw ImbgfIdon(VMPbnfl.dlbss.gftRfsourdf("rfsourdfs/donnfdtfd24.png"));
+    privbtf stbtid Idon disdonnfdtfdIdon16 =
+            nfw ImbgfIdon(VMPbnfl.dlbss.gftRfsourdf("rfsourdfs/disdonnfdtfd16.png"));
+    privbtf stbtid Idon disdonnfdtfdIdon24 =
+            nfw ImbgfIdon(VMPbnfl.dlbss.gftRfsourdf("rfsourdfs/disdonnfdtfd24.png"));
+    privbtf Rfdtbnglf donnfdtfdIdonBounds;
 
-    // Override to increase right inset for tab area,
-    // in order to reserve space for the connect toggle.
-    public void setUI(TabbedPaneUI ui) {
-        Insets insets = (Insets) UIManager.getLookAndFeelDefaults().get("TabbedPane.tabAreaInsets");
-        if (insets != null) {
-            insets = (Insets) insets.clone();
-            insets.right += connectedIcon24.getIconWidth() + 8;
-            UIManager.put("TabbedPane.tabAreaInsets", insets);
+    // Ovfrridf to indrfbsf rigit insft for tbb brfb,
+    // in ordfr to rfsfrvf spbdf for tif donnfdt togglf.
+    publid void sftUI(TbbbfdPbnfUI ui) {
+        Insfts insfts = (Insfts) UIMbnbgfr.gftLookAndFfflDffbults().gft("TbbbfdPbnf.tbbArfbInsfts");
+        if (insfts != null) {
+            insfts = (Insfts) insfts.dlonf();
+            insfts.rigit += donnfdtfdIdon24.gftIdonWidti() + 8;
+            UIMbnbgfr.put("TbbbfdPbnf.tbbArfbInsfts", insfts);
         }
-        super.setUI(ui);
+        supfr.sftUI(ui);
     }
 
-    // Override to paint the connect toggle
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    // Ovfrridf to pbint tif donnfdt togglf
+    protfdtfd void pbintComponfnt(Grbpiids g) {
+        supfr.pbintComponfnt(g);
 
-        Icon icon;
-        Component c0 = getComponent(0);
-        if (c0 != null && c0.getY() > 24) {
-            icon = isConnected() ? connectedIcon24 : disconnectedIcon24;
-        } else {
-            icon = isConnected() ? connectedIcon16 : disconnectedIcon16;
+        Idon idon;
+        Componfnt d0 = gftComponfnt(0);
+        if (d0 != null && d0.gftY() > 24) {
+            idon = isConnfdtfd() ? donnfdtfdIdon24 : disdonnfdtfdIdon24;
+        } flsf {
+            idon = isConnfdtfd() ? donnfdtfdIdon16 : disdonnfdtfdIdon16;
         }
-        Insets insets = getInsets();
-        int x = getWidth() - insets.right - icon.getIconWidth() - 4;
-        int y = insets.top;
-        if (c0 != null) {
-            y = (c0.getY() - icon.getIconHeight()) / 2;
+        Insfts insfts = gftInsfts();
+        int x = gftWidti() - insfts.rigit - idon.gftIdonWidti() - 4;
+        int y = insfts.top;
+        if (d0 != null) {
+            y = (d0.gftY() - idon.gftIdonHfigit()) / 2;
         }
-        icon.paintIcon(this, g, x, y);
-        connectedIconBounds = new Rectangle(x, y, icon.getIconWidth(), icon.getIconHeight());
+        idon.pbintIdon(tiis, g, x, y);
+        donnfdtfdIdonBounds = nfw Rfdtbnglf(x, y, idon.gftIdonWidti(), idon.gftIdonHfigit());
     }
 
-    public String getToolTipText(MouseEvent event) {
-        if (connectedIconBounds.contains(event.getPoint())) {
-            if (isConnected()) {
-                return Messages.CONNECTED_PUNCTUATION_CLICK_TO_DISCONNECT_;
-            } else {
-                return Messages.DISCONNECTED_PUNCTUATION_CLICK_TO_CONNECT_;
+    publid String gftToolTipTfxt(MousfEvfnt fvfnt) {
+        if (donnfdtfdIdonBounds.dontbins(fvfnt.gftPoint())) {
+            if (isConnfdtfd()) {
+                rfturn Mfssbgfs.CONNECTED_PUNCTUATION_CLICK_TO_DISCONNECT_;
+            } flsf {
+                rfturn Mfssbgfs.DISCONNECTED_PUNCTUATION_CLICK_TO_CONNECT_;
             }
-        } else {
-            return super.getToolTipText(event);
+        } flsf {
+            rfturn supfr.gftToolTipTfxt(fvfnt);
         }
     }
 
-    private synchronized void addTab(TabInfo tabInfo) {
-        Tab tab = instantiate(tabInfo);
-        if (tab != null) {
-            addTab(tabInfo.name, tab);
-        } else {
-            tabInfo.tabVisible = false;
+    privbtf syndironizfd void bddTbb(TbbInfo tbbInfo) {
+        Tbb tbb = instbntibtf(tbbInfo);
+        if (tbb != null) {
+            bddTbb(tbbInfo.nbmf, tbb);
+        } flsf {
+            tbbInfo.tbbVisiblf = fblsf;
         }
     }
 
-    private synchronized void insertTab(TabInfo tabInfo, int index) {
-        Tab tab = instantiate(tabInfo);
-        if (tab != null) {
-            insertTab(tabInfo.name, null, tab, null, index);
-        } else {
-            tabInfo.tabVisible = false;
+    privbtf syndironizfd void insfrtTbb(TbbInfo tbbInfo, int indfx) {
+        Tbb tbb = instbntibtf(tbbInfo);
+        if (tbb != null) {
+            insfrtTbb(tbbInfo.nbmf, null, tbb, null, indfx);
+        } flsf {
+            tbbInfo.tbbVisiblf = fblsf;
         }
     }
 
-    public synchronized void removeTabAt(int index) {
-        super.removeTabAt(index);
+    publid syndironizfd void rfmovfTbbAt(int indfx) {
+        supfr.rfmovfTbbAt(indfx);
     }
 
-    private Tab instantiate(TabInfo tabInfo) {
+    privbtf Tbb instbntibtf(TbbInfo tbbInfo) {
         try {
-            Constructor<?> con = tabInfo.tabClass.getConstructor(VMPanel.class);
-            return (Tab) con.newInstance(this);
-        } catch (Exception ex) {
-            System.err.println(ex);
-            return null;
+            Construdtor<?> don = tbbInfo.tbbClbss.gftConstrudtor(VMPbnfl.dlbss);
+            rfturn (Tbb) don.nfwInstbndf(tiis);
+        } dbtdi (Exdfption fx) {
+            Systfm.frr.println(fx);
+            rfturn null;
         }
     }
 
-    boolean isConnected() {
-        return proxyClient.isConnected();
+    boolfbn isConnfdtfd() {
+        rfturn proxyClifnt.isConnfdtfd();
     }
 
-    public int getUpdateInterval() {
-        return updateInterval;
+    publid int gftUpdbtfIntfrvbl() {
+        rfturn updbtfIntfrvbl;
     }
 
     /**
      * WARNING NEVER CALL THIS METHOD TO MAKE JMX REQUEST
-     * IF  assertThread == false.
+     * IF  bssfrtTirfbd == fblsf.
      * DISPATCHER THREAD IS NOT ASSERTED.
      * IT IS USED TO MAKE SOME LOCAL MANIPULATIONS.
      */
-    ProxyClient getProxyClient(boolean assertThread) {
-        if (assertThread) {
-            return getProxyClient();
-        } else {
-            return proxyClient;
+    ProxyClifnt gftProxyClifnt(boolfbn bssfrtTirfbd) {
+        if (bssfrtTirfbd) {
+            rfturn gftProxyClifnt();
+        } flsf {
+            rfturn proxyClifnt;
         }
     }
 
-    public ProxyClient getProxyClient() {
-        String threadClass = Thread.currentThread().getClass().getName();
-        if (threadClass.equals("java.awt.EventDispatchThread")) {
-            String msg = "Calling VMPanel.getProxyClient() from the Event Dispatch Thread!";
-            new RuntimeException(msg).printStackTrace();
-            System.exit(1);
+    publid ProxyClifnt gftProxyClifnt() {
+        String tirfbdClbss = Tirfbd.durrfntTirfbd().gftClbss().gftNbmf();
+        if (tirfbdClbss.fqubls("jbvb.bwt.EvfntDispbtdiTirfbd")) {
+            String msg = "Cblling VMPbnfl.gftProxyClifnt() from tif Evfnt Dispbtdi Tirfbd!";
+            nfw RuntimfExdfption(msg).printStbdkTrbdf();
+            Systfm.fxit(1);
         }
-        return proxyClient;
+        rfturn proxyClifnt;
     }
 
-    public void cleanUp() {
-        //proxyClient.disconnect();
-        for (Tab tab : getTabs()) {
-            tab.dispose();
+    publid void dlfbnUp() {
+        //proxyClifnt.disdonnfdt();
+        for (Tbb tbb : gftTbbs()) {
+            tbb.disposf();
         }
-        for (JConsolePlugin p : plugins.keySet()) {
-            p.dispose();
+        for (JConsolfPlugin p : plugins.kfySft()) {
+            p.disposf();
         }
-        // Cancel pending update tasks
+        // Cbndfl pfnding updbtf tbsks
         //
-        if (timer != null) {
-            timer.cancel();
+        if (timfr != null) {
+            timfr.dbndfl();
         }
-        // Stop listening to connection state events
+        // Stop listfning to donnfdtion stbtf fvfnts
         //
-        proxyClient.removePropertyChangeListener(this);
+        proxyClifnt.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
-    // Call on EDT
-    public void connect() {
-        if (isConnected()) {
-            // create plugin tabs if not done
-            createPluginTabs();
-            // Notify tabs
-            fireConnectedChange(true);
-            // Enable/disable tabs on initial update
-            initialUpdate = true;
-            // Start/Restart update timer on connect/reconnect
-            startUpdateTimer();
-        } else {
-            new Thread("VMPanel.connect") {
+    // Cbll on EDT
+    publid void donnfdt() {
+        if (isConnfdtfd()) {
+            // drfbtf plugin tbbs if not donf
+            drfbtfPluginTbbs();
+            // Notify tbbs
+            firfConnfdtfdCibngf(truf);
+            // Enbblf/disbblf tbbs on initibl updbtf
+            initiblUpdbtf = truf;
+            // Stbrt/Rfstbrt updbtf timfr on donnfdt/rfdonnfdt
+            stbrtUpdbtfTimfr();
+        } flsf {
+            nfw Tirfbd("VMPbnfl.donnfdt") {
 
-                public void run() {
-                    proxyClient.connect(shouldUseSSL);
+                publid void run() {
+                    proxyClifnt.donnfdt(siouldUsfSSL);
                 }
-            }.start();
+            }.stbrt();
         }
     }
 
-    // Call on EDT
-    public void disconnect() {
-        proxyClient.disconnect();
-        updateFrameTitle();
+    // Cbll on EDT
+    publid void disdonnfdt() {
+        proxyClifnt.disdonnfdt();
+        updbtfFrbmfTitlf();
     }
 
-    // Called on EDT
-    public void propertyChange(PropertyChangeEvent ev) {
-        String prop = ev.getPropertyName();
+    // Cbllfd on EDT
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fv) {
+        String prop = fv.gftPropfrtyNbmf();
 
         if (prop == CONNECTION_STATE_PROPERTY) {
-            ConnectionState oldState = (ConnectionState) ev.getOldValue();
-            ConnectionState newState = (ConnectionState) ev.getNewValue();
-            switch (newState) {
-                case CONNECTING:
-                    onConnecting();
-                    break;
+            ConnfdtionStbtf oldStbtf = (ConnfdtionStbtf) fv.gftOldVbluf();
+            ConnfdtionStbtf nfwStbtf = (ConnfdtionStbtf) fv.gftNfwVbluf();
+            switdi (nfwStbtf) {
+                dbsf CONNECTING:
+                    onConnfdting();
+                    brfbk;
 
-                case CONNECTED:
-                    if (progressBar != null) {
-                        progressBar.setIndeterminate(false);
-                        progressBar.setValue(100);
+                dbsf CONNECTED:
+                    if (progrfssBbr != null) {
+                        progrfssBbr.sftIndftfrminbtf(fblsf);
+                        progrfssBbr.sftVbluf(100);
                     }
-                    closeOptionPane();
-                    updateFrameTitle();
-                    // create tabs if not done
-                    createPluginTabs();
-                    repaint();
-                    // Notify tabs
-                    fireConnectedChange(true);
-                    // Enable/disable tabs on initial update
-                    initialUpdate = true;
-                    // Start/Restart update timer on connect/reconnect
-                    startUpdateTimer();
-                    break;
+                    dlosfOptionPbnf();
+                    updbtfFrbmfTitlf();
+                    // drfbtf tbbs if not donf
+                    drfbtfPluginTbbs();
+                    rfpbint();
+                    // Notify tbbs
+                    firfConnfdtfdCibngf(truf);
+                    // Enbblf/disbblf tbbs on initibl updbtf
+                    initiblUpdbtf = truf;
+                    // Stbrt/Rfstbrt updbtf timfr on donnfdt/rfdonnfdt
+                    stbrtUpdbtfTimfr();
+                    brfbk;
 
-                case DISCONNECTED:
-                    if (progressBar != null) {
-                        progressBar.setIndeterminate(false);
-                        progressBar.setValue(0);
-                        closeOptionPane();
+                dbsf DISCONNECTED:
+                    if (progrfssBbr != null) {
+                        progrfssBbr.sftIndftfrminbtf(fblsf);
+                        progrfssBbr.sftVbluf(0);
+                        dlosfOptionPbnf();
                     }
-                    vmPanelDied();
-                    if (oldState == ConnectionState.CONNECTED) {
-                        // Notify tabs
-                        fireConnectedChange(false);
+                    vmPbnflDifd();
+                    if (oldStbtf == ConnfdtionStbtf.CONNECTED) {
+                        // Notify tbbs
+                        firfConnfdtfdCibngf(fblsf);
                     }
-                    break;
+                    brfbk;
             }
         }
     }
 
-    // Called on EDT
-    private void onConnecting() {
-        time0 = System.currentTimeMillis();
+    // Cbllfd on EDT
+    privbtf void onConnfdting() {
+        timf0 = Systfm.durrfntTimfMillis();
 
-        SwingUtilities.getWindowAncestor(this);
+        SwingUtilitifs.gftWindowAndfstor(tiis);
 
-        String connectionName = getConnectionName();
-        progressBar = new JProgressBar();
-        progressBar.setIndeterminate(true);
-        JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        progressPanel.add(progressBar);
+        String donnfdtionNbmf = gftConnfdtionNbmf();
+        progrfssBbr = nfw JProgrfssBbr();
+        progrfssBbr.sftIndftfrminbtf(truf);
+        JPbnfl progrfssPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.CENTER));
+        progrfssPbnfl.bdd(progrfssBbr);
 
-        Object[] message = {
-            "<html><h3>" + Resources.format(Messages.CONNECTING_TO1, connectionName) + "</h3></html>",
-            progressPanel,
-            "<html><b>" + Resources.format(Messages.CONNECTING_TO2, connectionName) + "</b></html>"
+        Objfdt[] mfssbgf = {
+            "<itml><i3>" + Rfsourdfs.formbt(Mfssbgfs.CONNECTING_TO1, donnfdtionNbmf) + "</i3></itml>",
+            progrfssPbnfl,
+            "<itml><b>" + Rfsourdfs.formbt(Mfssbgfs.CONNECTING_TO2, donnfdtionNbmf) + "</b></itml>"
         };
 
-        optionPane =
-                SheetDialog.showOptionDialog(this,
-                message,
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE, null,
-                new String[]{Messages.CANCEL},
+        optionPbnf =
+                SifftDiblog.siowOptionDiblog(tiis,
+                mfssbgf,
+                JOptionPbnf.DEFAULT_OPTION,
+                JOptionPbnf.INFORMATION_MESSAGE, null,
+                nfw String[]{Mfssbgfs.CANCEL},
                 0);
 
 
     }
 
-    // Called on EDT
-    private void closeOptionPane() {
-        if (optionPane != null) {
-            new Thread("VMPanel.sleeper") {
-                public void run() {
-                    long elapsed = System.currentTimeMillis() - time0;
-                    if (elapsed < 2000) {
+    // Cbllfd on EDT
+    privbtf void dlosfOptionPbnf() {
+        if (optionPbnf != null) {
+            nfw Tirfbd("VMPbnfl.slffpfr") {
+                publid void run() {
+                    long flbpsfd = Systfm.durrfntTimfMillis() - timf0;
+                    if (flbpsfd < 2000) {
                         try {
-                            sleep(2000 - elapsed);
-                        } catch (InterruptedException ex) {
-                        // Ignore
+                            slffp(2000 - flbpsfd);
+                        } dbtdi (IntfrruptfdExdfption fx) {
+                        // Ignorf
                         }
                     }
-                    SwingUtilities.invokeLater(new Runnable() {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
 
-                        public void run() {
-                            optionPane.setVisible(false);
-                            progressBar = null;
+                        publid void run() {
+                            optionPbnf.sftVisiblf(fblsf);
+                            progrfssBbr = null;
                         }
                     });
                 }
-            }.start();
+            }.stbrt();
         }
     }
 
-    void updateFrameTitle() {
-        VMInternalFrame vmIF = getFrame();
+    void updbtfFrbmfTitlf() {
+        VMIntfrnblFrbmf vmIF = gftFrbmf();
         if (vmIF != null) {
-            String displayName = getDisplayName();
-            if (!proxyClient.isConnected()) {
-                displayName = Resources.format(Messages.CONNECTION_NAME__DISCONNECTED_, displayName);
+            String displbyNbmf = gftDisplbyNbmf();
+            if (!proxyClifnt.isConnfdtfd()) {
+                displbyNbmf = Rfsourdfs.formbt(Mfssbgfs.CONNECTION_NAME__DISCONNECTED_, displbyNbmf);
             }
-            vmIF.setTitle(displayName);
+            vmIF.sftTitlf(displbyNbmf);
         }
     }
 
-    private VMInternalFrame getFrame() {
+    privbtf VMIntfrnblFrbmf gftFrbmf() {
         if (vmIF == null) {
-            vmIF = (VMInternalFrame) SwingUtilities.getAncestorOfClass(VMInternalFrame.class,
-                    this);
+            vmIF = (VMIntfrnblFrbmf) SwingUtilitifs.gftAndfstorOfClbss(VMIntfrnblFrbmf.dlbss,
+                    tiis);
         }
-        return vmIF;
+        rfturn vmIF;
     }
 
-    // TODO: this method is not needed when all JConsole tabs
-    // are migrated to use the new JConsolePlugin API.
+    // TODO: tiis mftiod is not nffdfd wifn bll JConsolf tbbs
+    // brf migrbtfd to usf tif nfw JConsolfPlugin API.
     //
-    // A thread safe clone of all JConsole tabs
-    synchronized List<Tab> getTabs() {
-        ArrayList<Tab> list = new ArrayList<Tab>();
-        int n = getTabCount();
+    // A tirfbd sbff dlonf of bll JConsolf tbbs
+    syndironizfd List<Tbb> gftTbbs() {
+        ArrbyList<Tbb> list = nfw ArrbyList<Tbb>();
+        int n = gftTbbCount();
         for (int i = 0; i < n; i++) {
-            Component c = getComponentAt(i);
-            if (c instanceof Tab) {
-                list.add((Tab) c);
+            Componfnt d = gftComponfntAt(i);
+            if (d instbndfof Tbb) {
+                list.bdd((Tbb) d);
             }
         }
-        return list;
+        rfturn list;
     }
 
-    private void startUpdateTimer() {
-        if (timer != null) {
-            timer.cancel();
+    privbtf void stbrtUpdbtfTimfr() {
+        if (timfr != null) {
+            timfr.dbndfl();
         }
-        TimerTask timerTask = new TimerTask() {
+        TimfrTbsk timfrTbsk = nfw TimfrTbsk() {
 
-            public void run() {
-                update();
+            publid void run() {
+                updbtf();
             }
         };
-        String timerName = "Timer-" + getConnectionName();
-        timer = new Timer(timerName, true);
-        timer.schedule(timerTask, 0, updateInterval);
+        String timfrNbmf = "Timfr-" + gftConnfdtionNbmf();
+        timfr = nfw Timfr(timfrNbmf, truf);
+        timfr.sdifdulf(timfrTbsk, 0, updbtfIntfrvbl);
     }
 
-    // Call on EDT
-    private void vmPanelDied() {
-        disconnect();
+    // Cbll on EDT
+    privbtf void vmPbnflDifd() {
+        disdonnfdt();
 
-        if (userDisconnected) {
-            userDisconnected = false;
-            return;
+        if (usfrDisdonnfdtfd) {
+            usfrDisdonnfdtfd = fblsf;
+            rfturn;
         }
 
-        JOptionPane optionPane;
-        String msgTitle, msgExplanation, buttonStr;
+        JOptionPbnf optionPbnf;
+        String msgTitlf, msgExplbnbtion, buttonStr;
 
-        if (wasConnected) {
-            wasConnected = false;
-            msgTitle = Messages.CONNECTION_LOST1;
-            msgExplanation = Resources.format(Messages.CONNECTING_TO2, getConnectionName());
-            buttonStr = Messages.RECONNECT;
-        } else if (shouldUseSSL) {
-            msgTitle = Messages.CONNECTION_FAILED_SSL1;
-            msgExplanation = Resources.format(Messages.CONNECTION_FAILED_SSL2, getConnectionName());
-            buttonStr = Messages.INSECURE;
-        } else {
-            msgTitle = Messages.CONNECTION_FAILED1;
-            msgExplanation = Resources.format(Messages.CONNECTION_FAILED2, getConnectionName());
-            buttonStr = Messages.CONNECT;
+        if (wbsConnfdtfd) {
+            wbsConnfdtfd = fblsf;
+            msgTitlf = Mfssbgfs.CONNECTION_LOST1;
+            msgExplbnbtion = Rfsourdfs.formbt(Mfssbgfs.CONNECTING_TO2, gftConnfdtionNbmf());
+            buttonStr = Mfssbgfs.RECONNECT;
+        } flsf if (siouldUsfSSL) {
+            msgTitlf = Mfssbgfs.CONNECTION_FAILED_SSL1;
+            msgExplbnbtion = Rfsourdfs.formbt(Mfssbgfs.CONNECTION_FAILED_SSL2, gftConnfdtionNbmf());
+            buttonStr = Mfssbgfs.INSECURE;
+        } flsf {
+            msgTitlf = Mfssbgfs.CONNECTION_FAILED1;
+            msgExplbnbtion = Rfsourdfs.formbt(Mfssbgfs.CONNECTION_FAILED2, gftConnfdtionNbmf());
+            buttonStr = Mfssbgfs.CONNECT;
         }
 
-        optionPane =
-                SheetDialog.showOptionDialog(this,
-                "<html><h3>" + msgTitle + "</h3>" +
-                "<b>" + msgExplanation + "</b>",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.WARNING_MESSAGE, null,
-                new String[]{buttonStr, Messages.CANCEL},
+        optionPbnf =
+                SifftDiblog.siowOptionDiblog(tiis,
+                "<itml><i3>" + msgTitlf + "</i3>" +
+                "<b>" + msgExplbnbtion + "</b>",
+                JOptionPbnf.DEFAULT_OPTION,
+                JOptionPbnf.WARNING_MESSAGE, null,
+                nfw String[]{buttonStr, Mfssbgfs.CANCEL},
                 0);
 
-        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
+        optionPbnf.bddPropfrtyCibngfListfnfr(nfw PropfrtyCibngfListfnfr() {
 
-            public void propertyChange(PropertyChangeEvent event) {
-                if (event.getPropertyName().equals(JOptionPane.VALUE_PROPERTY)) {
-                    Object value = event.getNewValue();
+            publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+                if (fvfnt.gftPropfrtyNbmf().fqubls(JOptionPbnf.VALUE_PROPERTY)) {
+                    Objfdt vbluf = fvfnt.gftNfwVbluf();
 
-                    if (value == Messages.RECONNECT || value == Messages.CONNECT) {
-                        connect();
-                    } else if (value == Messages.INSECURE) {
-                        shouldUseSSL = false;
-                        connect();
-                    } else if (!everConnected) {
+                    if (vbluf == Mfssbgfs.RECONNECT || vbluf == Mfssbgfs.CONNECT) {
+                        donnfdt();
+                    } flsf if (vbluf == Mfssbgfs.INSECURE) {
+                        siouldUsfSSL = fblsf;
+                        donnfdt();
+                    } flsf if (!fvfrConnfdtfd) {
                         try {
-                            getFrame().setClosed(true);
-                        } catch (PropertyVetoException ex) {
-                        // Should not happen, but can be ignored.
+                            gftFrbmf().sftClosfd(truf);
+                        } dbtdi (PropfrtyVftoExdfption fx) {
+                        // Siould not ibppfn, but dbn bf ignorfd.
                         }
                     }
                 }
@@ -512,157 +512,157 @@ public class VMPanel extends JTabbedPane implements PropertyChangeListener {
         });
     }
 
-    // Note: This method is called on a TimerTask thread. Any GUI manipulation
-    // must be performed with invokeLater() or invokeAndWait().
-    private Object lockObject = new Object();
+    // Notf: Tiis mftiod is dbllfd on b TimfrTbsk tirfbd. Any GUI mbnipulbtion
+    // must bf pfrformfd witi invokfLbtfr() or invokfAndWbit().
+    privbtf Objfdt lodkObjfdt = nfw Objfdt();
 
-    private void update() {
-        synchronized (lockObject) {
-            if (!isConnected()) {
-                if (wasConnected) {
-                    EventQueue.invokeLater(new Runnable() {
+    privbtf void updbtf() {
+        syndironizfd (lodkObjfdt) {
+            if (!isConnfdtfd()) {
+                if (wbsConnfdtfd) {
+                    EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
 
-                        public void run() {
-                            vmPanelDied();
+                        publid void run() {
+                            vmPbnflDifd();
                         }
                     });
                 }
-                wasConnected = false;
-                return;
-            } else {
-                wasConnected = true;
-                everConnected = true;
+                wbsConnfdtfd = fblsf;
+                rfturn;
+            } flsf {
+                wbsConnfdtfd = truf;
+                fvfrConnfdtfd = truf;
             }
-            proxyClient.flush();
-            List<Tab> tabs = getTabs();
-            final int n = tabs.size();
+            proxyClifnt.flusi();
+            List<Tbb> tbbs = gftTbbs();
+            finbl int n = tbbs.sizf();
             for (int i = 0; i < n; i++) {
-                final int index = i;
+                finbl int indfx = i;
                 try {
-                    if (!proxyClient.isDead()) {
-                        // Update tab
+                    if (!proxyClifnt.isDfbd()) {
+                        // Updbtf tbb
                         //
-                        tabs.get(index).update();
-                        // Enable tab on initial update
+                        tbbs.gft(indfx).updbtf();
+                        // Enbblf tbb on initibl updbtf
                         //
-                        if (initialUpdate) {
-                            EventQueue.invokeLater(new Runnable() {
+                        if (initiblUpdbtf) {
+                            EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
 
-                                public void run() {
-                                    setEnabledAt(index, true);
+                                publid void run() {
+                                    sftEnbblfdAt(indfx, truf);
                                 }
                             });
                         }
                     }
-                } catch (Exception e) {
-                    // Disable tab on initial update
+                } dbtdi (Exdfption f) {
+                    // Disbblf tbb on initibl updbtf
                     //
-                    if (initialUpdate) {
-                        EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                setEnabledAt(index, false);
+                    if (initiblUpdbtf) {
+                        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+                            publid void run() {
+                                sftEnbblfdAt(indfx, fblsf);
                             }
                         });
                     }
                 }
             }
 
-            // plugin GUI update
-            for (ExceptionSafePlugin p : plugins.keySet()) {
-                SwingWorker<?, ?> sw = p.newSwingWorker();
-                SwingWorker<?, ?> prevSW = plugins.get(p);
-                // schedule SwingWorker to run only if the previous
-                // SwingWorker has finished its task and it hasn't started.
-                if (prevSW == null || prevSW.isDone()) {
-                    if (sw == null || sw.getState() == SwingWorker.StateValue.PENDING) {
+            // plugin GUI updbtf
+            for (ExdfptionSbffPlugin p : plugins.kfySft()) {
+                SwingWorkfr<?, ?> sw = p.nfwSwingWorkfr();
+                SwingWorkfr<?, ?> prfvSW = plugins.gft(p);
+                // sdifdulf SwingWorkfr to run only if tif prfvious
+                // SwingWorkfr ibs finisifd its tbsk bnd it ibsn't stbrtfd.
+                if (prfvSW == null || prfvSW.isDonf()) {
+                    if (sw == null || sw.gftStbtf() == SwingWorkfr.StbtfVbluf.PENDING) {
                         plugins.put(p, sw);
                         if (sw != null) {
-                            p.executeSwingWorker(sw);
+                            p.fxfdutfSwingWorkfr(sw);
                         }
                     }
                 }
             }
 
-            // Set the first enabled tab in the tab's list
-            // as the selected tab on initial update
+            // Sft tif first fnbblfd tbb in tif tbb's list
+            // bs tif sflfdtfd tbb on initibl updbtf
             //
-            if (initialUpdate) {
-                EventQueue.invokeLater(new Runnable() {
-                    public void run() {
-                        // Select first enabled tab if current tab isn't.
-                        int index = getSelectedIndex();
-                        if (index < 0 || !isEnabledAt(index)) {
+            if (initiblUpdbtf) {
+                EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        // Sflfdt first fnbblfd tbb if durrfnt tbb isn't.
+                        int indfx = gftSflfdtfdIndfx();
+                        if (indfx < 0 || !isEnbblfdAt(indfx)) {
                             for (int i = 0; i < n; i++) {
-                                if (isEnabledAt(i)) {
-                                    setSelectedIndex(i);
-                                    break;
+                                if (isEnbblfdAt(i)) {
+                                    sftSflfdtfdIndfx(i);
+                                    brfbk;
                                 }
                             }
                         }
                     }
                 });
-                initialUpdate = false;
+                initiblUpdbtf = fblsf;
             }
         }
     }
 
-    public String getHostName() {
-        return hostName;
+    publid String gftHostNbmf() {
+        rfturn iostNbmf;
     }
 
-    public int getPort() {
-        return port;
+    publid int gftPort() {
+        rfturn port;
     }
 
-    public String getUserName() {
-        return userName;
+    publid String gftUsfrNbmf() {
+        rfturn usfrNbmf;
     }
 
-    public String getUrl() {
-        return url;
+    publid String gftUrl() {
+        rfturn url;
     }
 
-    public String getPassword() {
-        return password;
+    publid String gftPbssword() {
+        rfturn pbssword;
     }
 
-    public String getConnectionName() {
-        return proxyClient.connectionName();
+    publid String gftConnfdtionNbmf() {
+        rfturn proxyClifnt.donnfdtionNbmf();
     }
 
-    public String getDisplayName() {
-        return proxyClient.getDisplayName();
+    publid String gftDisplbyNbmf() {
+        rfturn proxyClifnt.gftDisplbyNbmf();
     }
 
-    static class TabInfo {
+    stbtid dlbss TbbInfo {
 
-        Class<? extends Tab> tabClass;
-        String name;
-        boolean tabVisible;
+        Clbss<? fxtfnds Tbb> tbbClbss;
+        String nbmf;
+        boolfbn tbbVisiblf;
 
-        TabInfo(Class<? extends Tab> tabClass, String name, boolean tabVisible) {
-            this.tabClass = tabClass;
-            this.name = name;
-            this.tabVisible = tabVisible;
+        TbbInfo(Clbss<? fxtfnds Tbb> tbbClbss, String nbmf, boolfbn tbbVisiblf) {
+            tiis.tbbClbss = tbbClbss;
+            tiis.nbmf = nbmf;
+            tiis.tbbVisiblf = tbbVisiblf;
         }
     }
 
-    private void createPluginTabs() {
-        // add plugin tabs if not done
-        if (!pluginTabsAdded) {
-            for (JConsolePlugin p : plugins.keySet()) {
-                Map<String, JPanel> tabs = p.getTabs();
-                for (Map.Entry<String, JPanel> e : tabs.entrySet()) {
-                    addTab(e.getKey(), e.getValue());
+    privbtf void drfbtfPluginTbbs() {
+        // bdd plugin tbbs if not donf
+        if (!pluginTbbsAddfd) {
+            for (JConsolfPlugin p : plugins.kfySft()) {
+                Mbp<String, JPbnfl> tbbs = p.gftTbbs();
+                for (Mbp.Entry<String, JPbnfl> f : tbbs.fntrySft()) {
+                    bddTbb(f.gftKfy(), f.gftVbluf());
                 }
             }
-            pluginTabsAdded = true;
+            pluginTbbsAddfd = truf;
         }
     }
 
-    private void fireConnectedChange(boolean connected) {
-        for (Tab tab : getTabs()) {
-            tab.firePropertyChange(JConsoleContext.CONNECTION_STATE_PROPERTY, !connected, connected);
+    privbtf void firfConnfdtfdCibngf(boolfbn donnfdtfd) {
+        for (Tbb tbb : gftTbbs()) {
+            tbb.firfPropfrtyCibngf(JConsolfContfxt.CONNECTION_STATE_PROPERTY, !donnfdtfd, donnfdtfd);
         }
     }
 }

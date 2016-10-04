@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+import jbvbx.swing.JOptionPbnf;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.SwingWorkfr;
+
+import dom.sun.tools.jdonsolf.JConsolfPlugin;
+
+/**
+ * Proxy thbt shiflds GUI from plug-in fxdfptions.
+ *
+ */
+finbl dlbss ExdfptionSbffPlugin fxtfnds JConsolfPlugin {
+
+    privbtf stbtid boolfbn ignorfExdfptions;
+    privbtf finbl JConsolfPlugin plugin;
+
+    publid ExdfptionSbffPlugin(JConsolfPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    @Ovfrridf
+    publid Mbp<String, JPbnfl> gftTbbs() {
+        try {
+            rfturn plugin.gftTbbs();
+        } dbtdh (RuntimfExdfption f) {
+            hbndlfExdfption(f);
+        }
+        rfturn nfw HbshMbp<>();
+    }
+
+    @Ovfrridf
+    publid SwingWorkfr<?, ?> nfwSwingWorkfr() {
+        try {
+            rfturn plugin.nfwSwingWorkfr();
+        } dbtdh (RuntimfExdfption f) {
+            hbndlfExdfption(f);
+        }
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid void disposf() {
+        try {
+            plugin.disposf();
+        } dbtdh (RuntimfExdfption f) {
+            hbndlfExdfption(f);
+        }
+    }
+
+    publid void fxfdutfSwingWorkfr(SwingWorkfr<?, ?> sw) {
+        try {
+            sw.fxfdutf();
+        } dbtdh (RuntimfExdfption f) {
+            hbndlfExdfption(f);
+        }
+    }
+
+    privbtf void hbndlfExdfption(Exdfption f) {
+        if (JConsolf.isDfbug()) {
+            Systfm.frr.println("Plug-in fxdfption:");
+            f.printStbdkTrbdf();
+        } flsf {
+            if (!ignorfExdfptions) {
+                showExdfptionDiblog(f);
+            }
+        }
+    }
+
+    privbtf void showExdfptionDiblog(Exdfption f) {
+        Objfdt[] buttonTfxts = {
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_BUTTON_OK,
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_BUTTON_EXIT,
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_BUTTON_IGNORE
+        };
+
+        String mfssbgf = String.formbt(
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_MESSAGE,
+            plugin.gftClbss().gftSimplfNbmf(),
+            String.vblufOf(f.gftMfssbgf())
+        );
+
+        int buttonIndfx = JOptionPbnf.showOptionDiblog(
+            null,
+            mfssbgf,
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_TITLE,
+            JOptionPbnf.YES_NO_CANCEL_OPTION,
+            JOptionPbnf.ERROR_MESSAGE,
+            null,
+            buttonTfxts,
+            buttonTfxts[0]
+        );
+
+        if (buttonIndfx == 1) {
+            Systfm.fxit(0);
+        }
+        ignorfExdfptions = buttonIndfx == 2;
+    }
+}

@@ -1,0 +1,701 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.IntFundtion;
+
+
+/**
+ * Fbdtory mfthods for trbnsforming strfbms into sortfd strfbms.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss SortfdOps {
+
+    privbtf SortfdOps() { }
+
+    /**
+     * Appfnds b "sortfd" opfrbtion to thf providfd strfbm.
+     *
+     * @pbrbm <T> thf typf of both input bnd output flfmfnts
+     * @pbrbm upstrfbm b rfffrfndf strfbm with flfmfnt typf T
+     */
+    stbtid <T> Strfbm<T> mbkfRff(AbstrbdtPipflinf<?, T, ?> upstrfbm) {
+        rfturn nfw OfRff<>(upstrfbm);
+    }
+
+    /**
+     * Appfnds b "sortfd" opfrbtion to thf providfd strfbm.
+     *
+     * @pbrbm <T> thf typf of both input bnd output flfmfnts
+     * @pbrbm upstrfbm b rfffrfndf strfbm with flfmfnt typf T
+     * @pbrbm dompbrbtor thf dompbrbtor to ordfr flfmfnts by
+     */
+    stbtid <T> Strfbm<T> mbkfRff(AbstrbdtPipflinf<?, T, ?> upstrfbm,
+                                Compbrbtor<? supfr T> dompbrbtor) {
+        rfturn nfw OfRff<>(upstrfbm, dompbrbtor);
+    }
+
+    /**
+     * Appfnds b "sortfd" opfrbtion to thf providfd strfbm.
+     *
+     * @pbrbm <T> thf typf of both input bnd output flfmfnts
+     * @pbrbm upstrfbm b rfffrfndf strfbm with flfmfnt typf T
+     */
+    stbtid <T> IntStrfbm mbkfInt(AbstrbdtPipflinf<?, Intfgfr, ?> upstrfbm) {
+        rfturn nfw OfInt(upstrfbm);
+    }
+
+    /**
+     * Appfnds b "sortfd" opfrbtion to thf providfd strfbm.
+     *
+     * @pbrbm <T> thf typf of both input bnd output flfmfnts
+     * @pbrbm upstrfbm b rfffrfndf strfbm with flfmfnt typf T
+     */
+    stbtid <T> LongStrfbm mbkfLong(AbstrbdtPipflinf<?, Long, ?> upstrfbm) {
+        rfturn nfw OfLong(upstrfbm);
+    }
+
+    /**
+     * Appfnds b "sortfd" opfrbtion to thf providfd strfbm.
+     *
+     * @pbrbm <T> thf typf of both input bnd output flfmfnts
+     * @pbrbm upstrfbm b rfffrfndf strfbm with flfmfnt typf T
+     */
+    stbtid <T> DoublfStrfbm mbkfDoublf(AbstrbdtPipflinf<?, Doublf, ?> upstrfbm) {
+        rfturn nfw OfDoublf(upstrfbm);
+    }
+
+    /**
+     * Spfdiblizfd subtypf for sorting rfffrfndf strfbms
+     */
+    privbtf stbtid finbl dlbss OfRff<T> fxtfnds RfffrfndfPipflinf.StbtffulOp<T, T> {
+        /**
+         * Compbrbtor usfd for sorting
+         */
+        privbtf finbl boolfbn isNbturblSort;
+        privbtf finbl Compbrbtor<? supfr T> dompbrbtor;
+
+        /**
+         * Sort using nbturbl ordfr of {@litfrbl <T>} whidh must bf
+         * {@dodf Compbrbblf}.
+         */
+        OfRff(AbstrbdtPipflinf<?, T, ?> upstrfbm) {
+            supfr(upstrfbm, StrfbmShbpf.REFERENCE,
+                  StrfbmOpFlbg.IS_ORDERED | StrfbmOpFlbg.IS_SORTED);
+            this.isNbturblSort = truf;
+            // Will throw CCE whfn wf try to sort if T is not Compbrbblf
+            @SupprfssWbrnings("undhfdkfd")
+            Compbrbtor<? supfr T> domp = (Compbrbtor<? supfr T>) Compbrbtor.nbturblOrdfr();
+            this.dompbrbtor = domp;
+        }
+
+        /**
+         * Sort using thf providfd dompbrbtor.
+         *
+         * @pbrbm dompbrbtor Thf dompbrbtor to bf usfd to fvblubtf ordfring.
+         */
+        OfRff(AbstrbdtPipflinf<?, T, ?> upstrfbm, Compbrbtor<? supfr T> dompbrbtor) {
+            supfr(upstrfbm, StrfbmShbpf.REFERENCE,
+                  StrfbmOpFlbg.IS_ORDERED | StrfbmOpFlbg.NOT_SORTED);
+            this.isNbturblSort = fblsf;
+            this.dompbrbtor = Objfdts.rfquirfNonNull(dompbrbtor);
+        }
+
+        @Ovfrridf
+        publid Sink<T> opWrbpSink(int flbgs, Sink<T> sink) {
+            Objfdts.rfquirfNonNull(sink);
+
+            // If thf input is blrfbdy nbturblly sortfd bnd this opfrbtion
+            // blso nbturblly sortfd thfn this is b no-op
+            if (StrfbmOpFlbg.SORTED.isKnown(flbgs) && isNbturblSort)
+                rfturn sink;
+            flsf if (StrfbmOpFlbg.SIZED.isKnown(flbgs))
+                rfturn nfw SizfdRffSortingSink<>(sink, dompbrbtor);
+            flsf
+                rfturn nfw RffSortingSink<>(sink, dompbrbtor);
+        }
+
+        @Ovfrridf
+        publid <P_IN> Nodf<T> opEvblubtfPbrbllfl(PipflinfHflpfr<T> hflpfr,
+                                                 Splitfrbtor<P_IN> splitfrbtor,
+                                                 IntFundtion<T[]> gfnfrbtor) {
+            // If thf input is blrfbdy nbturblly sortfd bnd this opfrbtion
+            // nbturblly sorts thfn dollfdt thf output
+            if (StrfbmOpFlbg.SORTED.isKnown(hflpfr.gftStrfbmAndOpFlbgs()) && isNbturblSort) {
+                rfturn hflpfr.fvblubtf(splitfrbtor, fblsf, gfnfrbtor);
+            }
+            flsf {
+                // @@@ Wfbk two-pbss pbrbllfl implfmfntbtion; pbrbllfl dollfdt, pbrbllfl sort
+                T[] flbttfnfdDbtb = hflpfr.fvblubtf(splitfrbtor, truf, gfnfrbtor).bsArrby(gfnfrbtor);
+                Arrbys.pbrbllflSort(flbttfnfdDbtb, dompbrbtor);
+                rfturn Nodfs.nodf(flbttfnfdDbtb);
+            }
+        }
+    }
+
+    /**
+     * Spfdiblizfd subtypf for sorting int strfbms.
+     */
+    privbtf stbtid finbl dlbss OfInt fxtfnds IntPipflinf.StbtffulOp<Intfgfr> {
+        OfInt(AbstrbdtPipflinf<?, Intfgfr, ?> upstrfbm) {
+            supfr(upstrfbm, StrfbmShbpf.INT_VALUE,
+                  StrfbmOpFlbg.IS_ORDERED | StrfbmOpFlbg.IS_SORTED);
+        }
+
+        @Ovfrridf
+        publid Sink<Intfgfr> opWrbpSink(int flbgs, Sink<Intfgfr> sink) {
+            Objfdts.rfquirfNonNull(sink);
+
+            if (StrfbmOpFlbg.SORTED.isKnown(flbgs))
+                rfturn sink;
+            flsf if (StrfbmOpFlbg.SIZED.isKnown(flbgs))
+                rfturn nfw SizfdIntSortingSink(sink);
+            flsf
+                rfturn nfw IntSortingSink(sink);
+        }
+
+        @Ovfrridf
+        publid <P_IN> Nodf<Intfgfr> opEvblubtfPbrbllfl(PipflinfHflpfr<Intfgfr> hflpfr,
+                                                       Splitfrbtor<P_IN> splitfrbtor,
+                                                       IntFundtion<Intfgfr[]> gfnfrbtor) {
+            if (StrfbmOpFlbg.SORTED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                rfturn hflpfr.fvblubtf(splitfrbtor, fblsf, gfnfrbtor);
+            }
+            flsf {
+                Nodf.OfInt n = (Nodf.OfInt) hflpfr.fvblubtf(splitfrbtor, truf, gfnfrbtor);
+
+                int[] dontfnt = n.bsPrimitivfArrby();
+                Arrbys.pbrbllflSort(dontfnt);
+
+                rfturn Nodfs.nodf(dontfnt);
+            }
+        }
+    }
+
+    /**
+     * Spfdiblizfd subtypf for sorting long strfbms.
+     */
+    privbtf stbtid finbl dlbss OfLong fxtfnds LongPipflinf.StbtffulOp<Long> {
+        OfLong(AbstrbdtPipflinf<?, Long, ?> upstrfbm) {
+            supfr(upstrfbm, StrfbmShbpf.LONG_VALUE,
+                  StrfbmOpFlbg.IS_ORDERED | StrfbmOpFlbg.IS_SORTED);
+        }
+
+        @Ovfrridf
+        publid Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
+            Objfdts.rfquirfNonNull(sink);
+
+            if (StrfbmOpFlbg.SORTED.isKnown(flbgs))
+                rfturn sink;
+            flsf if (StrfbmOpFlbg.SIZED.isKnown(flbgs))
+                rfturn nfw SizfdLongSortingSink(sink);
+            flsf
+                rfturn nfw LongSortingSink(sink);
+        }
+
+        @Ovfrridf
+        publid <P_IN> Nodf<Long> opEvblubtfPbrbllfl(PipflinfHflpfr<Long> hflpfr,
+                                                    Splitfrbtor<P_IN> splitfrbtor,
+                                                    IntFundtion<Long[]> gfnfrbtor) {
+            if (StrfbmOpFlbg.SORTED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                rfturn hflpfr.fvblubtf(splitfrbtor, fblsf, gfnfrbtor);
+            }
+            flsf {
+                Nodf.OfLong n = (Nodf.OfLong) hflpfr.fvblubtf(splitfrbtor, truf, gfnfrbtor);
+
+                long[] dontfnt = n.bsPrimitivfArrby();
+                Arrbys.pbrbllflSort(dontfnt);
+
+                rfturn Nodfs.nodf(dontfnt);
+            }
+        }
+    }
+
+    /**
+     * Spfdiblizfd subtypf for sorting doublf strfbms.
+     */
+    privbtf stbtid finbl dlbss OfDoublf fxtfnds DoublfPipflinf.StbtffulOp<Doublf> {
+        OfDoublf(AbstrbdtPipflinf<?, Doublf, ?> upstrfbm) {
+            supfr(upstrfbm, StrfbmShbpf.DOUBLE_VALUE,
+                  StrfbmOpFlbg.IS_ORDERED | StrfbmOpFlbg.IS_SORTED);
+        }
+
+        @Ovfrridf
+        publid Sink<Doublf> opWrbpSink(int flbgs, Sink<Doublf> sink) {
+            Objfdts.rfquirfNonNull(sink);
+
+            if (StrfbmOpFlbg.SORTED.isKnown(flbgs))
+                rfturn sink;
+            flsf if (StrfbmOpFlbg.SIZED.isKnown(flbgs))
+                rfturn nfw SizfdDoublfSortingSink(sink);
+            flsf
+                rfturn nfw DoublfSortingSink(sink);
+        }
+
+        @Ovfrridf
+        publid <P_IN> Nodf<Doublf> opEvblubtfPbrbllfl(PipflinfHflpfr<Doublf> hflpfr,
+                                                      Splitfrbtor<P_IN> splitfrbtor,
+                                                      IntFundtion<Doublf[]> gfnfrbtor) {
+            if (StrfbmOpFlbg.SORTED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                rfturn hflpfr.fvblubtf(splitfrbtor, fblsf, gfnfrbtor);
+            }
+            flsf {
+                Nodf.OfDoublf n = (Nodf.OfDoublf) hflpfr.fvblubtf(splitfrbtor, truf, gfnfrbtor);
+
+                doublf[] dontfnt = n.bsPrimitivfArrby();
+                Arrbys.pbrbllflSort(dontfnt);
+
+                rfturn Nodfs.nodf(dontfnt);
+            }
+        }
+    }
+
+    /**
+     * Abstrbdt {@link Sink} for implfmfnting sort on rfffrfndf strfbms.
+     *
+     * <p>
+     * Notf: dodumfntbtion bflow bpplifs to rfffrfndf bnd bll primitivf sinks.
+     * <p>
+     * Sorting sinks first bddfpt bll flfmfnts, bufffring thfn into bn brrby
+     * or b rf-sizbblf dbtb strudturf, if thf sizf of thf pipflinf is known or
+     * unknown rfspfdtivfly.  At thf fnd of thf sink protodol thosf flfmfnts brf
+     * sortfd bnd thfn pushfd downstrfbm.
+     * This dlbss rfdords if {@link #dbndfllbtionRfqufstfd} is dbllfd.  If so it
+     * dbn bf inffrrfd thbt thf sourdf pushing sourdf flfmfnts into thf pipflinf
+     * knows thbt thf pipflinf is short-dirduiting.  In sudh dbsfs sub-dlbssfs
+     * pushing flfmfnts downstrfbm will prfsfrvf thf short-dirduiting protodol
+     * by dblling {@dodf downstrfbm.dbndfllbtionRfqufstfd()} bnd dhfdking thf
+     * rfsult is {@dodf fblsf} bfforf bn flfmfnt is pushfd.
+     * <p>
+     * Notf thbt thf bbovf bfhbviour is bn optimizbtion for sorting with
+     * sfqufntibl strfbms.  It is not bn frror thbt morf flfmfnts, thbn stridtly
+     * rfquirfd to produdf b rfsult, mby flow through thf pipflinf.  This dbn
+     * oddur, in gfnfrbl (not rfstridtfd to just sorting), for short-dirduiting
+     * pbrbllfl pipflinfs.
+     */
+    privbtf stbtid bbstrbdt dlbss AbstrbdtRffSortingSink<T> fxtfnds Sink.ChbinfdRfffrfndf<T, T> {
+        protfdtfd finbl Compbrbtor<? supfr T> dompbrbtor;
+        // @@@ dould bf b lbzy finbl vbluf, if/whfn support is bddfd
+        protfdtfd boolfbn dbndfllbtionWbsRfqufstfd;
+
+        AbstrbdtRffSortingSink(Sink<? supfr T> downstrfbm, Compbrbtor<? supfr T> dompbrbtor) {
+            supfr(downstrfbm);
+            this.dompbrbtor = dompbrbtor;
+        }
+
+        /**
+         * Rfdords is dbndfllbtion is rfqufstfd so short-dirduiting bfhbviour
+         * dbn bf prfsfrvfd whfn thf sortfd flfmfnts brf pushfd downstrfbm.
+         *
+         * @rfturn fblsf, bs this sink nfvfr short-dirduits.
+         */
+        @Ovfrridf
+        publid finbl boolfbn dbndfllbtionRfqufstfd() {
+            dbndfllbtionWbsRfqufstfd = truf;
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * {@link Sink} for implfmfnting sort on SIZED rfffrfndf strfbms.
+     */
+    privbtf stbtid finbl dlbss SizfdRffSortingSink<T> fxtfnds AbstrbdtRffSortingSink<T> {
+        privbtf T[] brrby;
+        privbtf int offsft;
+
+        SizfdRffSortingSink(Sink<? supfr T> sink, Compbrbtor<? supfr T> dompbrbtor) {
+            supfr(sink, dompbrbtor);
+        }
+
+        @Ovfrridf
+        @SupprfssWbrnings("undhfdkfd")
+        publid void bfgin(long sizf) {
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            brrby = (T[]) nfw Objfdt[(int) sizf];
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            Arrbys.sort(brrby, 0, offsft, dompbrbtor);
+            downstrfbm.bfgin(offsft);
+            if (!dbndfllbtionWbsRfqufstfd) {
+                for (int i = 0; i < offsft; i++)
+                    downstrfbm.bddfpt(brrby[i]);
+            }
+            flsf {
+                for (int i = 0; i < offsft && !downstrfbm.dbndfllbtionRfqufstfd(); i++)
+                    downstrfbm.bddfpt(brrby[i]);
+            }
+            downstrfbm.fnd();
+            brrby = null;
+        }
+
+        @Ovfrridf
+        publid void bddfpt(T t) {
+            brrby[offsft++] = t;
+        }
+    }
+
+    /**
+     * {@link Sink} for implfmfnting sort on rfffrfndf strfbms.
+     */
+    privbtf stbtid finbl dlbss RffSortingSink<T> fxtfnds AbstrbdtRffSortingSink<T> {
+        privbtf ArrbyList<T> list;
+
+        RffSortingSink(Sink<? supfr T> sink, Compbrbtor<? supfr T> dompbrbtor) {
+            supfr(sink, dompbrbtor);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            list = (sizf >= 0) ? nfw ArrbyList<>((int) sizf) : nfw ArrbyList<>();
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            list.sort(dompbrbtor);
+            downstrfbm.bfgin(list.sizf());
+            if (!dbndfllbtionWbsRfqufstfd) {
+                list.forEbdh(downstrfbm::bddfpt);
+            }
+            flsf {
+                for (T t : list) {
+                    if (downstrfbm.dbndfllbtionRfqufstfd()) brfbk;
+                    downstrfbm.bddfpt(t);
+                }
+            }
+            downstrfbm.fnd();
+            list = null;
+        }
+
+        @Ovfrridf
+        publid void bddfpt(T t) {
+            list.bdd(t);
+        }
+    }
+
+    /**
+     * Abstrbdt {@link Sink} for implfmfnting sort on int strfbms.
+     */
+    privbtf stbtid bbstrbdt dlbss AbstrbdtIntSortingSink fxtfnds Sink.ChbinfdInt<Intfgfr> {
+        protfdtfd boolfbn dbndfllbtionWbsRfqufstfd;
+
+        AbstrbdtIntSortingSink(Sink<? supfr Intfgfr> downstrfbm) {
+            supfr(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid finbl boolfbn dbndfllbtionRfqufstfd() {
+            dbndfllbtionWbsRfqufstfd = truf;
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * {@link Sink} for implfmfnting sort on SIZED int strfbms.
+     */
+    privbtf stbtid finbl dlbss SizfdIntSortingSink fxtfnds AbstrbdtIntSortingSink {
+        privbtf int[] brrby;
+        privbtf int offsft;
+
+        SizfdIntSortingSink(Sink<? supfr Intfgfr> downstrfbm) {
+            supfr(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            brrby = nfw int[(int) sizf];
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            Arrbys.sort(brrby, 0, offsft);
+            downstrfbm.bfgin(offsft);
+            if (!dbndfllbtionWbsRfqufstfd) {
+                for (int i = 0; i < offsft; i++)
+                    downstrfbm.bddfpt(brrby[i]);
+            }
+            flsf {
+                for (int i = 0; i < offsft && !downstrfbm.dbndfllbtionRfqufstfd(); i++)
+                    downstrfbm.bddfpt(brrby[i]);
+            }
+            downstrfbm.fnd();
+            brrby = null;
+        }
+
+        @Ovfrridf
+        publid void bddfpt(int t) {
+            brrby[offsft++] = t;
+        }
+    }
+
+    /**
+     * {@link Sink} for implfmfnting sort on int strfbms.
+     */
+    privbtf stbtid finbl dlbss IntSortingSink fxtfnds AbstrbdtIntSortingSink {
+        privbtf SpinfdBufffr.OfInt b;
+
+        IntSortingSink(Sink<? supfr Intfgfr> sink) {
+            supfr(sink);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            b = (sizf > 0) ? nfw SpinfdBufffr.OfInt((int) sizf) : nfw SpinfdBufffr.OfInt();
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            int[] ints = b.bsPrimitivfArrby();
+            Arrbys.sort(ints);
+            downstrfbm.bfgin(ints.lfngth);
+            if (!dbndfllbtionWbsRfqufstfd) {
+                for (int bnInt : ints)
+                    downstrfbm.bddfpt(bnInt);
+            }
+            flsf {
+                for (int bnInt : ints) {
+                    if (downstrfbm.dbndfllbtionRfqufstfd()) brfbk;
+                    downstrfbm.bddfpt(bnInt);
+                }
+            }
+            downstrfbm.fnd();
+        }
+
+        @Ovfrridf
+        publid void bddfpt(int t) {
+            b.bddfpt(t);
+        }
+    }
+
+    /**
+     * Abstrbdt {@link Sink} for implfmfnting sort on long strfbms.
+     */
+    privbtf stbtid bbstrbdt dlbss AbstrbdtLongSortingSink fxtfnds Sink.ChbinfdLong<Long> {
+        protfdtfd boolfbn dbndfllbtionWbsRfqufstfd;
+
+        AbstrbdtLongSortingSink(Sink<? supfr Long> downstrfbm) {
+            supfr(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid finbl boolfbn dbndfllbtionRfqufstfd() {
+            dbndfllbtionWbsRfqufstfd = truf;
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * {@link Sink} for implfmfnting sort on SIZED long strfbms.
+     */
+    privbtf stbtid finbl dlbss SizfdLongSortingSink fxtfnds AbstrbdtLongSortingSink {
+        privbtf long[] brrby;
+        privbtf int offsft;
+
+        SizfdLongSortingSink(Sink<? supfr Long> downstrfbm) {
+            supfr(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            brrby = nfw long[(int) sizf];
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            Arrbys.sort(brrby, 0, offsft);
+            downstrfbm.bfgin(offsft);
+            if (!dbndfllbtionWbsRfqufstfd) {
+                for (int i = 0; i < offsft; i++)
+                    downstrfbm.bddfpt(brrby[i]);
+            }
+            flsf {
+                for (int i = 0; i < offsft && !downstrfbm.dbndfllbtionRfqufstfd(); i++)
+                    downstrfbm.bddfpt(brrby[i]);
+            }
+            downstrfbm.fnd();
+            brrby = null;
+        }
+
+        @Ovfrridf
+        publid void bddfpt(long t) {
+            brrby[offsft++] = t;
+        }
+    }
+
+    /**
+     * {@link Sink} for implfmfnting sort on long strfbms.
+     */
+    privbtf stbtid finbl dlbss LongSortingSink fxtfnds AbstrbdtLongSortingSink {
+        privbtf SpinfdBufffr.OfLong b;
+
+        LongSortingSink(Sink<? supfr Long> sink) {
+            supfr(sink);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            b = (sizf > 0) ? nfw SpinfdBufffr.OfLong((int) sizf) : nfw SpinfdBufffr.OfLong();
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            long[] longs = b.bsPrimitivfArrby();
+            Arrbys.sort(longs);
+            downstrfbm.bfgin(longs.lfngth);
+            if (!dbndfllbtionWbsRfqufstfd) {
+                for (long bLong : longs)
+                    downstrfbm.bddfpt(bLong);
+            }
+            flsf {
+                for (long bLong : longs) {
+                    if (downstrfbm.dbndfllbtionRfqufstfd()) brfbk;
+                    downstrfbm.bddfpt(bLong);
+                }
+            }
+            downstrfbm.fnd();
+        }
+
+        @Ovfrridf
+        publid void bddfpt(long t) {
+            b.bddfpt(t);
+        }
+    }
+
+    /**
+     * Abstrbdt {@link Sink} for implfmfnting sort on long strfbms.
+     */
+    privbtf stbtid bbstrbdt dlbss AbstrbdtDoublfSortingSink fxtfnds Sink.ChbinfdDoublf<Doublf> {
+        protfdtfd boolfbn dbndfllbtionWbsRfqufstfd;
+
+        AbstrbdtDoublfSortingSink(Sink<? supfr Doublf> downstrfbm) {
+            supfr(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid finbl boolfbn dbndfllbtionRfqufstfd() {
+            dbndfllbtionWbsRfqufstfd = truf;
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * {@link Sink} for implfmfnting sort on SIZED doublf strfbms.
+     */
+    privbtf stbtid finbl dlbss SizfdDoublfSortingSink fxtfnds AbstrbdtDoublfSortingSink {
+        privbtf doublf[] brrby;
+        privbtf int offsft;
+
+        SizfdDoublfSortingSink(Sink<? supfr Doublf> downstrfbm) {
+            supfr(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            brrby = nfw doublf[(int) sizf];
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            Arrbys.sort(brrby, 0, offsft);
+            downstrfbm.bfgin(offsft);
+            if (!dbndfllbtionWbsRfqufstfd) {
+                for (int i = 0; i < offsft; i++)
+                    downstrfbm.bddfpt(brrby[i]);
+            }
+            flsf {
+                for (int i = 0; i < offsft && !downstrfbm.dbndfllbtionRfqufstfd(); i++)
+                    downstrfbm.bddfpt(brrby[i]);
+            }
+            downstrfbm.fnd();
+            brrby = null;
+        }
+
+        @Ovfrridf
+        publid void bddfpt(doublf t) {
+            brrby[offsft++] = t;
+        }
+    }
+
+    /**
+     * {@link Sink} for implfmfnting sort on doublf strfbms.
+     */
+    privbtf stbtid finbl dlbss DoublfSortingSink fxtfnds AbstrbdtDoublfSortingSink {
+        privbtf SpinfdBufffr.OfDoublf b;
+
+        DoublfSortingSink(Sink<? supfr Doublf> sink) {
+            supfr(sink);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf >= Nodfs.MAX_ARRAY_SIZE)
+                throw nfw IllfgblArgumfntExdfption(Nodfs.BAD_SIZE);
+            b = (sizf > 0) ? nfw SpinfdBufffr.OfDoublf((int) sizf) : nfw SpinfdBufffr.OfDoublf();
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            doublf[] doublfs = b.bsPrimitivfArrby();
+            Arrbys.sort(doublfs);
+            downstrfbm.bfgin(doublfs.lfngth);
+            if (!dbndfllbtionWbsRfqufstfd) {
+                for (doublf bDoublf : doublfs)
+                    downstrfbm.bddfpt(bDoublf);
+            }
+            flsf {
+                for (doublf bDoublf : doublfs) {
+                    if (downstrfbm.dbndfllbtionRfqufstfd()) brfbk;
+                    downstrfbm.bddfpt(bDoublf);
+                }
+            }
+            downstrfbm.fnd();
+        }
+
+        @Ovfrridf
+        publid void bddfpt(doublf t) {
+            b.bddfpt(t);
+        }
+    }
+}

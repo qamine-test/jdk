@@ -1,124 +1,124 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.keyvalues;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.kfyvblufs;
 
-import java.math.BigInteger;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.RSAPublicKeySpec;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.intfrfbdfs.RSAPublidKfy;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.sfdurity.spfd.RSAPublidKfySpfd;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.I18n;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
-public class RSAKeyValue extends SignatureElementProxy implements KeyValueContent {
+publid dlbss RSAKfyVbluf fxtfnds SignbturfElfmfntProxy implfmfnts KfyVblufContfnt {
 
     /**
-     * Constructor RSAKeyValue
+     * Construdtor RSAKfyVbluf
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public RSAKeyValue(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    publid RSAKfyVbluf(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Constructor RSAKeyValue
+     * Construdtor RSAKfyVbluf
      *
-     * @param doc
-     * @param modulus
-     * @param exponent
+     * @pbrbm dod
+     * @pbrbm modulus
+     * @pbrbm fxponfnt
      */
-    public RSAKeyValue(Document doc, BigInteger modulus, BigInteger exponent) {
-        super(doc);
+    publid RSAKfyVbluf(Dodumfnt dod, BigIntfgfr modulus, BigIntfgfr fxponfnt) {
+        supfr(dod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
-        this.addBigIntegerElement(modulus, Constants._TAG_MODULUS);
-        this.addBigIntegerElement(exponent, Constants._TAG_EXPONENT);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
+        tiis.bddBigIntfgfrElfmfnt(modulus, Constbnts._TAG_MODULUS);
+        tiis.bddBigIntfgfrElfmfnt(fxponfnt, Constbnts._TAG_EXPONENT);
     }
 
     /**
-     * Constructor RSAKeyValue
+     * Construdtor RSAKfyVbluf
      *
-     * @param doc
-     * @param key
-     * @throws IllegalArgumentException
+     * @pbrbm dod
+     * @pbrbm kfy
+     * @tirows IllfgblArgumfntExdfption
      */
-    public RSAKeyValue(Document doc, Key key) throws IllegalArgumentException {
-        super(doc);
+    publid RSAKfyVbluf(Dodumfnt dod, Kfy kfy) tirows IllfgblArgumfntExdfption {
+        supfr(dod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        if (key instanceof java.security.interfaces.RSAPublicKey ) {
-            this.addBigIntegerElement(
-                ((RSAPublicKey) key).getModulus(), Constants._TAG_MODULUS
+        if (kfy instbndfof jbvb.sfdurity.intfrfbdfs.RSAPublidKfy ) {
+            tiis.bddBigIntfgfrElfmfnt(
+                ((RSAPublidKfy) kfy).gftModulus(), Constbnts._TAG_MODULUS
             );
-            this.addBigIntegerElement(
-                ((RSAPublicKey) key).getPublicExponent(), Constants._TAG_EXPONENT
+            tiis.bddBigIntfgfrElfmfnt(
+                ((RSAPublidKfy) kfy).gftPublidExponfnt(), Constbnts._TAG_EXPONENT
             );
-        } else {
-            Object exArgs[] = { Constants._TAG_RSAKEYVALUE, key.getClass().getName() };
+        } flsf {
+            Objfdt fxArgs[] = { Constbnts._TAG_RSAKEYVALUE, kfy.gftClbss().gftNbmf() };
 
-            throw new IllegalArgumentException(I18n.translate("KeyValue.IllegalArgument", exArgs));
+            tirow nfw IllfgblArgumfntExdfption(I18n.trbnslbtf("KfyVbluf.IllfgblArgumfnt", fxArgs));
         }
     }
 
-    /** @inheritDoc */
-    public PublicKey getPublicKey() throws XMLSecurityException {
+    /** @inifritDod */
+    publid PublidKfy gftPublidKfy() tirows XMLSfdurityExdfption {
         try {
-            KeyFactory rsaFactory = KeyFactory.getInstance("RSA");
+            KfyFbdtory rsbFbdtory = KfyFbdtory.gftInstbndf("RSA");
 
-            RSAPublicKeySpec rsaKeyspec =
-                new RSAPublicKeySpec(
-                    this.getBigIntegerFromChildElement(
-                        Constants._TAG_MODULUS, Constants.SignatureSpecNS
+            RSAPublidKfySpfd rsbKfyspfd =
+                nfw RSAPublidKfySpfd(
+                    tiis.gftBigIntfgfrFromCiildElfmfnt(
+                        Constbnts._TAG_MODULUS, Constbnts.SignbturfSpfdNS
                     ),
-                    this.getBigIntegerFromChildElement(
-                        Constants._TAG_EXPONENT, Constants.SignatureSpecNS
+                    tiis.gftBigIntfgfrFromCiildElfmfnt(
+                        Constbnts._TAG_EXPONENT, Constbnts.SignbturfSpfdNS
                     )
                 );
-            PublicKey pk = rsaFactory.generatePublic(rsaKeyspec);
+            PublidKfy pk = rsbFbdtory.gfnfrbtfPublid(rsbKfyspfd);
 
-            return pk;
-        } catch (NoSuchAlgorithmException ex) {
-            throw new XMLSecurityException("empty", ex);
-        } catch (InvalidKeySpecException ex) {
-            throw new XMLSecurityException("empty", ex);
+            rfturn pk;
+        } dbtdi (NoSudiAlgoritimExdfption fx) {
+            tirow nfw XMLSfdurityExdfption("fmpty", fx);
+        } dbtdi (InvblidKfySpfdExdfption fx) {
+            tirow nfw XMLSfdurityExdfption("fmpty", fx);
         }
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_RSAKEYVALUE;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_RSAKEYVALUE;
     }
 }

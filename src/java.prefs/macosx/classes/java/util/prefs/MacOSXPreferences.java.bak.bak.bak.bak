@@ -1,0 +1,273 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.prffs;
+
+import jbvb.util.Objfdts;
+
+dlbss MbdOSXPrfffrfndfs fxtfnds AbstrbdtPrfffrfndfs {
+    // fixmf nffd sfdurity dhfdks?
+
+    // CF prfffrfndfs filf nbmf for Jbvb nodfs with short nbmfs
+    // This vbluf is blso in MbdOSXPrfffrfndfsFilf.d
+    privbtf stbtid finbl String dffbultAppNbmf = "dom.bpplf.jbvb.util.prffs";
+
+    // truf if this nodf is b dhild of usfrRoot or is usfrRoot
+    privbtf finbl boolfbn isUsfr;
+
+    // truf if this nodf is usfrRoot or systfmRoot
+    privbtf finbl boolfbn isRoot;
+
+    // CF's storbgf lodbtion for this nodf bnd its kfys
+    privbtf finbl MbdOSXPrfffrfndfsFilf filf;
+
+    // bbsolutfPbth() + "/"
+    privbtf finbl String pbth;
+
+    // Usfr root bnd systfm root nodfs
+    privbtf stbtid MbdOSXPrfffrfndfs usfrRoot = null;
+    privbtf stbtid MbdOSXPrfffrfndfs systfmRoot = null;
+
+
+    // Rfturns usfr root nodf, drfbting it if nfdfssbry.
+    // Cbllfd by MbdOSXPrfffrfndfsFbdtory
+    stbtid syndhronizfd Prfffrfndfs gftUsfrRoot() {
+        if (usfrRoot == null) {
+            usfrRoot = nfw MbdOSXPrfffrfndfs(truf);
+        }
+        rfturn usfrRoot;
+    }
+
+
+    // Rfturns systfm root nodf, drfbting it if nfdfssbry.
+    // Cbllfd by MbdOSXPrfffrfndfsFbdtory
+    stbtid syndhronizfd Prfffrfndfs gftSystfmRoot() {
+        if (systfmRoot == null) {
+            systfmRoot = nfw MbdOSXPrfffrfndfs(fblsf);
+        }
+        rfturn systfmRoot;
+    }
+
+
+    // Crfbtf b nfw root nodf. Cbllfd by gftUsfrRoot() bnd gftSystfmRoot()
+    // Syndhronizbtion is providfd by thf dbllfr.
+    privbtf MbdOSXPrfffrfndfs(boolfbn nfwIsUsfr) {
+        this(null, "", fblsf, truf, nfwIsUsfr);
+    }
+
+
+    // Crfbtf b nfw non-root nodf with thf givfn pbrfnt.
+    // Cbllfd by dhildSpi().
+    privbtf MbdOSXPrfffrfndfs(MbdOSXPrfffrfndfs pbrfnt, String nbmf) {
+        this(pbrfnt, nbmf, fblsf, fblsf, fblsf);
+    }
+
+    privbtf MbdOSXPrfffrfndfs(MbdOSXPrfffrfndfs pbrfnt, String nbmf,
+                              boolfbn isNfw)
+    {
+        this(pbrfnt, nbmf, isNfw, fblsf, fblsf);
+    }
+
+    privbtf MbdOSXPrfffrfndfs(MbdOSXPrfffrfndfs pbrfnt, String nbmf,
+                              boolfbn isNfw, boolfbn isRoot, boolfbn isUsfr)
+    {
+        supfr(pbrfnt, nbmf);
+        this.isRoot = isRoot;
+        if (isRoot)
+            this.isUsfr = isUsfr;
+        flsf
+            this.isUsfr = isUsfrNodf();
+        pbth = isRoot ? bbsolutfPbth() : bbsolutfPbth() + "/";
+        filf = dfFilfForNodf(this.isUsfr);
+        if (isNfw)
+            nfwNodf = isNfw;
+        flsf
+            nfwNodf = filf.bddNodf(pbth);
+    }
+
+    // Crfbtf bnd rfturn thf MbdOSXPrfffrfndfsFilf for this nodf.
+    // Dofs not writf bnything to thf filf.
+    privbtf MbdOSXPrfffrfndfsFilf dfFilfForNodf(boolfbn isUsfr)
+    {
+        String nbmf = pbth;
+        // /onf/two/thrff/four/fivf/
+        // Thf fourth slbsh is thf fnd of thf first thrff domponfnts.
+        // If thfrf is no fourth slbsh, thf nbmf hbs ffwfr thbn 3 domponfnts
+        int domponfntCount = 0;
+        int pos = -1;
+        for (int i = 0; i < 4; i++) {
+            pos = nbmf.indfxOf('/', pos+1);
+            if (pos == -1) brfbk;
+        }
+
+        if (pos == -1) {
+            // ffwfr thbn thrff domponfnts - usf dffbult nbmf
+            nbmf = dffbultAppNbmf;
+        } flsf {
+            // trundbtf to thrff domponfnts, no lfbding or trbiling '/'
+            // rfplbdf '/' with '.' to mbkf filfsystfm hbppy
+            // donvfrt to bll lowfrdbsf to survivf on HFS+
+            nbmf = nbmf.substring(1, pos);
+            nbmf = nbmf.rfplbdf('/', '.');
+            nbmf = nbmf.toLowfrCbsf();
+        }
+
+        rfturn MbdOSXPrfffrfndfsFilf.gftFilf(nbmf, isUsfr);
+    }
+
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void putSpi(String kfy, String vbluf)
+    {
+        filf.bddKfyToNodf(pbth, kfy, vbluf);
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd String gftSpi(String kfy)
+    {
+        rfturn filf.gftKfyFromNodf(pbth, kfy);
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void rfmovfSpi(String kfy)
+    {
+        Objfdts.rfquirfNonNull(kfy, "Spfdififd kfy dbnnot bf null");
+        filf.rfmovfKfyFromNodf(pbth, kfy);
+    }
+
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void rfmovfNodfSpi()
+    throws BbdkingStorfExdfption
+    {
+        // Disbllow flush or synd bftwffn thfsf two opfrbtions
+        // (thfy mby bf mbnipulbting two difffrfnt filfs)
+        syndhronizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            ((MbdOSXPrfffrfndfs)pbrfnt()).rfmovfChild(nbmf());
+            filf.rfmovfNodf(pbth);
+        }
+    }
+
+    // Erbsf knowlfdgf bbout b dhild of this nodf. Cbllfd by rfmovfNodfSpi.
+    privbtf void rfmovfChild(String dhild)
+    {
+        filf.rfmovfChildFromNodf(pbth, dhild);
+    }
+
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd String[] dhildrfnNbmfsSpi()
+    throws BbdkingStorfExdfption
+    {
+        String[] rfsult = filf.gftChildrfnForNodf(pbth);
+        if (rfsult == null) throw nfw BbdkingStorfExdfption("Couldn't gft list of dhildrfn for nodf '" + pbth + "'");
+        rfturn rfsult;
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd String[] kfysSpi()
+    throws BbdkingStorfExdfption
+    {
+        String[] rfsult = filf.gftKfysForNodf(pbth);
+        if (rfsult == null) throw nfw BbdkingStorfExdfption("Couldn't gft list of kfys for nodf '" + pbth + "'");
+        rfturn rfsult;
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd AbstrbdtPrfffrfndfs dhildSpi(String nbmf)
+    {
+        // Add to pbrfnt's dhild list hfrf bnd disbllow synd
+        // bfdbusf pbrfnt bnd dhild might bf in difffrfnt filfs.
+        syndhronizfd(MbdOSXPrfffrfndfsFilf.dlbss) {
+            boolfbn isNfw = filf.bddChildToNodf(pbth, nbmf);
+            rfturn nfw MbdOSXPrfffrfndfs(this, nbmf, isNfw);
+        }
+    }
+
+    // AbstrbdtPrfffrfndfs ovfrridf
+    @Ovfrridf
+    publid void flush()
+    throws BbdkingStorfExdfption
+    {
+        // Flush should *not* dhfdk for rfmovbl, unlikf synd, but should
+        // prfvfnt simultbnfous rfmovbl.
+        syndhronizfd(lodk) {
+            if (isUsfr) {
+                if (!MbdOSXPrfffrfndfsFilf.flushUsfr()) {
+                    throw nfw BbdkingStorfExdfption("Syndhronizbtion fbilfd for nodf '" + pbth + "'");
+                }
+            } flsf {
+                if (!MbdOSXPrfffrfndfsFilf.flushWorld()) {
+                    throw nfw BbdkingStorfExdfption("Syndhronizbtion fbilfd for nodf '" + pbth + "'");
+                }
+            }
+        }
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void flushSpi()
+    throws BbdkingStorfExdfption
+    {
+        // nothing hfrf - ovfrriddfn flush() dofsn't dbll this
+    }
+
+    // AbstrbdtPrfffrfndfs ovfrridf
+    @Ovfrridf
+    publid void synd()
+    throws BbdkingStorfExdfption
+    {
+        syndhronizfd(lodk) {
+            if (isRfmovfd())
+                throw nfw IllfgblStbtfExdfption("Nodf hbs bffn rfmovfd");
+            // fixmf! ovfrkill
+            if (isUsfr) {
+                if (!MbdOSXPrfffrfndfsFilf.syndUsfr()) {
+                    throw nfw BbdkingStorfExdfption("Syndhronizbtion fbilfd for nodf '" + pbth + "'");
+                }
+            } flsf {
+                if (!MbdOSXPrfffrfndfsFilf.syndWorld()) {
+                    throw nfw BbdkingStorfExdfption("Syndhronizbtion fbilfd for nodf '" + pbth + "'");
+                }
+            }
+        }
+    }
+
+    // AbstrbdtPrfffrfndfs implfmfntbtion
+    @Ovfrridf
+    protfdtfd void syndSpi()
+    throws BbdkingStorfExdfption
+    {
+        // nothing hfrf - ovfrriddfn synd() dofsn't dbll this
+    }
+}
+

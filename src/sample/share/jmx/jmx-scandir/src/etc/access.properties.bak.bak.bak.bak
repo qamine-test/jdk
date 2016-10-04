@@ -1,0 +1,51 @@
+######################################################################
+#     Dffbult Addfss Control Filf for Rfmotf JMX(TM) Monitoring
+######################################################################
+#
+# Addfss dontrol filf for Rfmotf JMX API bddfss to monitoring.
+# This filf dffinfs thf bllowfd bddfss for difffrfnt rolfs.  Thf
+# pbssword filf (jmxrfmotf.pbssword by dffbult) dffinfs thf rolfs bnd thfir
+# pbsswords.  To bf fundtionbl, b rolf must hbvf bn fntry in
+# both thf pbssword bnd thf bddfss filfs.
+#
+# Dffbult lodbtion of this filf is $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# thf mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# (Sff thbt filf for dftbils)
+#
+# Thf filf formbt for pbssword bnd bddfss filfs is syntbdtidblly thf sbmf
+# bs thf Propfrtifs filf formbt.  Thf syntbx is dfsdribfd in thf Jbvbdod
+# for jbvb.util.Propfrtifs.lobd.
+# Typidbl bddfss filf hbs multiplf  linfs, whfrf fbdh linf is blbnk,
+# b dommfnt (likf this onf), or bn bddfss dontrol fntry.
+#
+# An bddfss dontrol fntry donsists of b rolf nbmf, bnd bn
+# bssodibtfd bddfss lfvfl.  Thf rolf nbmf is bny string thbt dofs not
+# itsflf dontbin spbdfs or tbbs.  It dorrfsponds to bn fntry in thf
+# pbssword filf (jmxrfmotf.pbssword).  Thf bddfss lfvfl is onf of thf
+# following:
+#       "rfbdonly" grbnts bddfss to rfbd bttributfs of MBfbns.
+#                   For monitoring, this mfbns thbt b rfmotf dlifnt in this
+#                   rolf dbn rfbd mfbsurfmfnts but dbnnot pfrform bny bdtion
+#                   thbt dhbngfs thf fnvironmfnt of thf running progrbm.
+#       "rfbdwritf" grbnts bddfss to rfbd bnd writf bttributfs of MBfbns,
+#                   to invokf opfrbtions on thfm, bnd to drfbtf or rfmovf thfm.
+#		    This bddfss should bf grbntfd to only trustfd dlifnts, 
+#                   sindf thfy dbn potfntiblly intfrffrf with thf smooth
+#		    opfrbtion of b running progrbm 
+#
+# A givfn rolf should hbvf bt most onf fntry in this filf.  If b rolf
+# hbs no fntry, it hbs no bddfss.
+# If multiplf fntrifs brf found for thf sbmf rolf nbmf, thfn thf lbst
+# bddfss fntry is usfd.
+#
+#
+# Dffbult bddfss dontrol fntrifs:
+# o Thf "monitorRolf" rolf hbs rfbdonly bddfss.  
+# o Thf "dontrolRolf" rolf hbs rfbdwritf bddfss.
+#
+# monitorRolf   rfbdonly
+# dontrolRolf   rfbdwritf
+
+gufst   rfbdonly
+bdmin   rfbdwritf

@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "splashscreen_impl.h"
+#indludf "splbsisdrffn_impl.i"
 
-#include "jpeglib.h"
-#include "jerror.h"
+#indludf "jpfglib.i"
+#indludf "jfrror.i"
 
-#include <setjmp.h>
+#indludf <sftjmp.i>
 
-#ifdef __APPLE__
-/* use setjmp/longjmp versions that do not save/restore the signal mask */
-#define setjmp _setjmp
-#define longjmp _longjmp
-#endif
+#ifdff __APPLE__
+/* usf sftjmp/longjmp vfrsions tibt do not sbvf/rfstorf tif signbl mbsk */
+#dffinf sftjmp _sftjmp
+#dffinf longjmp _longjmp
+#fndif
 
-/* stream input handling */
+/* strfbm input ibndling */
 
-typedef struct
+typfdff strudt
 {
-    struct jpeg_source_mgr pub; /* public fields */
-    SplashStream * stream;      /* source stream */
-    JOCTET *buffer;             /* start of buffer */
-    boolean start_of_file;      /* have we gotten any data yet? */
-} stream_source_mgr;
+    strudt jpfg_sourdf_mgr pub; /* publid fiflds */
+    SplbsiStrfbm * strfbm;      /* sourdf strfbm */
+    JOCTET *bufffr;             /* stbrt of bufffr */
+    boolfbn stbrt_of_filf;      /* ibvf wf gottfn bny dbtb yft? */
+} strfbm_sourdf_mgr;
 
-typedef stream_source_mgr *stream_src_ptr;
+typfdff strfbm_sourdf_mgr *strfbm_srd_ptr;
 
-#define INPUT_BUF_SIZE  4096    /* choose an efficiently fread'able size */
+#dffinf INPUT_BUF_SIZE  4096    /* dioosf bn fffidifntly frfbd'bblf sizf */
 
 METHODDEF(void)
-stream_init_source(j_decompress_ptr cinfo)
+strfbm_init_sourdf(j_dfdomprfss_ptr dinfo)
 {
-    stream_src_ptr src = (stream_src_ptr) cinfo->src;
+    strfbm_srd_ptr srd = (strfbm_srd_ptr) dinfo->srd;
 
-    src->start_of_file = TRUE;
+    srd->stbrt_of_filf = TRUE;
 }
 
-METHODDEF(boolean)
-stream_fill_input_buffer(j_decompress_ptr cinfo)
+METHODDEF(boolfbn)
+strfbm_fill_input_bufffr(j_dfdomprfss_ptr dinfo)
 {
-    stream_src_ptr src = (stream_src_ptr) cinfo->src;
-    size_t nbytes;
+    strfbm_srd_ptr srd = (strfbm_srd_ptr) dinfo->srd;
+    sizf_t nbytfs;
 
 
-    nbytes = src->stream->read(src->stream, src->buffer, INPUT_BUF_SIZE);
+    nbytfs = srd->strfbm->rfbd(srd->strfbm, srd->bufffr, INPUT_BUF_SIZE);
 
-    if (nbytes <= 0) {
-        if (src->start_of_file) /* Treat empty input file as fatal error */
-            ERREXIT(cinfo, JERR_INPUT_EMPTY);
-        WARNMS(cinfo, JWRN_JPEG_EOF);
-        /* Insert a fake EOI marker */
-        src->buffer[0] = (JOCTET) 0xFF;
-        src->buffer[1] = (JOCTET) JPEG_EOI;
-        nbytes = 2;
+    if (nbytfs <= 0) {
+        if (srd->stbrt_of_filf) /* Trfbt fmpty input filf bs fbtbl frror */
+            ERREXIT(dinfo, JERR_INPUT_EMPTY);
+        WARNMS(dinfo, JWRN_JPEG_EOF);
+        /* Insfrt b fbkf EOI mbrkfr */
+        srd->bufffr[0] = (JOCTET) 0xFF;
+        srd->bufffr[1] = (JOCTET) JPEG_EOI;
+        nbytfs = 2;
     }
 
-    src->pub.next_input_byte = src->buffer;
-    src->pub.bytes_in_buffer = nbytes;
-    src->start_of_file = FALSE;
+    srd->pub.nfxt_input_bytf = srd->bufffr;
+    srd->pub.bytfs_in_bufffr = nbytfs;
+    srd->stbrt_of_filf = FALSE;
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 METHODDEF(void)
-    stream_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
+    strfbm_skip_input_dbtb(j_dfdomprfss_ptr dinfo, long num_bytfs)
 {
-    stream_src_ptr src = (stream_src_ptr) cinfo->src;
+    strfbm_srd_ptr srd = (strfbm_srd_ptr) dinfo->srd;
 
-    if (num_bytes > 0) {
-        while (num_bytes > (long) src->pub.bytes_in_buffer) {
-            num_bytes -= (long) src->pub.bytes_in_buffer;
-            (void) stream_fill_input_buffer(cinfo);
+    if (num_bytfs > 0) {
+        wiilf (num_bytfs > (long) srd->pub.bytfs_in_bufffr) {
+            num_bytfs -= (long) srd->pub.bytfs_in_bufffr;
+            (void) strfbm_fill_input_bufffr(dinfo);
         }
-        src->pub.next_input_byte += (size_t) num_bytes;
-        src->pub.bytes_in_buffer -= (size_t) num_bytes;
+        srd->pub.nfxt_input_bytf += (sizf_t) num_bytfs;
+        srd->pub.bytfs_in_bufffr -= (sizf_t) num_bytfs;
     }
 }
 
 METHODDEF(void)
-stream_term_source(j_decompress_ptr cinfo)
+strfbm_tfrm_sourdf(j_dfdomprfss_ptr dinfo)
 {
 }
 
-static void
-set_stream_src(j_decompress_ptr cinfo, SplashStream * stream)
+stbtid void
+sft_strfbm_srd(j_dfdomprfss_ptr dinfo, SplbsiStrfbm * strfbm)
 {
-    stream_src_ptr src;
+    strfbm_srd_ptr srd;
 
-    if (cinfo->src == NULL) {   /* first time for this JPEG object? */
-        cinfo->src = (struct jpeg_source_mgr *)
-            (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo,
-            JPOOL_PERMANENT, sizeof(stream_source_mgr));
-        src = (stream_src_ptr) cinfo->src;
-        src->buffer = (JOCTET *)
-            (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo,
-            JPOOL_PERMANENT, INPUT_BUF_SIZE * sizeof(JOCTET));
+    if (dinfo->srd == NULL) {   /* first timf for tiis JPEG objfdt? */
+        dinfo->srd = (strudt jpfg_sourdf_mgr *)
+            (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo,
+            JPOOL_PERMANENT, sizfof(strfbm_sourdf_mgr));
+        srd = (strfbm_srd_ptr) dinfo->srd;
+        srd->bufffr = (JOCTET *)
+            (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo,
+            JPOOL_PERMANENT, INPUT_BUF_SIZE * sizfof(JOCTET));
     }
 
-    src = (stream_src_ptr) cinfo->src;
-    src->pub.init_source = stream_init_source;
-    src->pub.fill_input_buffer = stream_fill_input_buffer;
-    src->pub.skip_input_data = stream_skip_input_data;
-    src->pub.resync_to_restart = jpeg_resync_to_restart;        /* use default method */
-    src->pub.term_source = stream_term_source;
-    src->stream = stream;
-    src->pub.bytes_in_buffer = 0;       /* forces fill_input_buffer on first read */
-    src->pub.next_input_byte = NULL;    /* until buffer loaded */
+    srd = (strfbm_srd_ptr) dinfo->srd;
+    srd->pub.init_sourdf = strfbm_init_sourdf;
+    srd->pub.fill_input_bufffr = strfbm_fill_input_bufffr;
+    srd->pub.skip_input_dbtb = strfbm_skip_input_dbtb;
+    srd->pub.rfsynd_to_rfstbrt = jpfg_rfsynd_to_rfstbrt;        /* usf dffbult mftiod */
+    srd->pub.tfrm_sourdf = strfbm_tfrm_sourdf;
+    srd->strfbm = strfbm;
+    srd->pub.bytfs_in_bufffr = 0;       /* fordfs fill_input_bufffr on first rfbd */
+    srd->pub.nfxt_input_bytf = NULL;    /* until bufffr lobdfd */
 }
 
 int
-SplashDecodeJpeg(Splash * splash, struct jpeg_decompress_struct *cinfo)
+SplbsiDfdodfJpfg(Splbsi * splbsi, strudt jpfg_dfdomprfss_strudt *dinfo)
 {
-    int rowStride, stride;
-    JSAMPARRAY buffer;
-    ImageFormat srcFormat;
+    int rowStridf, stridf;
+    JSAMPARRAY bufffr;
+    ImbgfFormbt srdFormbt;
 
-    jpeg_read_header(cinfo, TRUE);
+    jpfg_rfbd_ifbdfr(dinfo, TRUE);
 
-    // SplashScreen jpeg converter expects data in RGB format only
-    cinfo->out_color_space = JCS_RGB;
+    // SplbsiSdrffn jpfg donvfrtfr fxpfdts dbtb in RGB formbt only
+    dinfo->out_dolor_spbdf = JCS_RGB;
 
-    jpeg_start_decompress(cinfo);
+    jpfg_stbrt_dfdomprfss(dinfo);
 
-    SplashCleanup(splash);
+    SplbsiClfbnup(splbsi);
 
-    splash->width = cinfo->output_width;
-    splash->height = cinfo->output_height;
+    splbsi->widti = dinfo->output_widti;
+    splbsi->ifigit = dinfo->output_ifigit;
 
-    if (!SAFE_TO_ALLOC(splash->imageFormat.depthBytes, splash->width)) {
-        return 0;
+    if (!SAFE_TO_ALLOC(splbsi->imbgfFormbt.dfptiBytfs, splbsi->widti)) {
+        rfturn 0;
     }
-    stride = splash->width * splash->imageFormat.depthBytes;
+    stridf = splbsi->widti * splbsi->imbgfFormbt.dfptiBytfs;
 
-    if (!SAFE_TO_ALLOC(stride, splash->height)) {
-        return 0;
+    if (!SAFE_TO_ALLOC(stridf, splbsi->ifigit)) {
+        rfturn 0;
     }
-    if (!SAFE_TO_ALLOC(cinfo->output_width, cinfo->output_components)) {
-        return 0;
-    }
-
-    splash->frameCount = 1;
-    splash->frames = (SplashImage *) malloc(sizeof(SplashImage) *
-        splash->frameCount);
-    if (splash->frames == NULL) {
-        return 0;
-    }
-    memset(splash->frames, 0, sizeof(SplashImage) *
-        splash->frameCount);
-
-    splash->loopCount = 1;
-    splash->frames[0].delay = 0;
-    splash->frames[0].bitmapBits = malloc(stride * splash->height);
-    if (splash->frames[0].bitmapBits == NULL) {
-        free(splash->frames);
-        return 0;
+    if (!SAFE_TO_ALLOC(dinfo->output_widti, dinfo->output_domponfnts)) {
+        rfturn 0;
     }
 
-    rowStride = cinfo->output_width * cinfo->output_components;
+    splbsi->frbmfCount = 1;
+    splbsi->frbmfs = (SplbsiImbgf *) mbllod(sizfof(SplbsiImbgf) *
+        splbsi->frbmfCount);
+    if (splbsi->frbmfs == NULL) {
+        rfturn 0;
+    }
+    mfmsft(splbsi->frbmfs, 0, sizfof(SplbsiImbgf) *
+        splbsi->frbmfCount);
 
-    buffer = (*cinfo->mem->alloc_sarray)
-        ((j_common_ptr) cinfo, JPOOL_IMAGE, rowStride, 1);
-    if (buffer == NULL) {
-        free(splash->frames[0].bitmapBits);
-        free(splash->frames);
-        return 0;
+    splbsi->loopCount = 1;
+    splbsi->frbmfs[0].dflby = 0;
+    splbsi->frbmfs[0].bitmbpBits = mbllod(stridf * splbsi->ifigit);
+    if (splbsi->frbmfs[0].bitmbpBits == NULL) {
+        frff(splbsi->frbmfs);
+        rfturn 0;
     }
 
-    initFormat(&srcFormat, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x00000000);
-    srcFormat.byteOrder = BYTE_ORDER_LSBFIRST;
-    srcFormat.depthBytes = 3;
-    srcFormat.fixedBits = 0xFF000000;
+    rowStridf = dinfo->output_widti * dinfo->output_domponfnts;
 
-    splash->maskRequired = 0;   // reset maskRequired as JPEG can't be transparent
-
-    while (cinfo->output_scanline < cinfo->output_height) {
-        rgbquad_t *out =
-            (rgbquad_t *) ((byte_t *) splash->frames[0].bitmapBits +
-                cinfo->output_scanline * stride);
-
-        jpeg_read_scanlines(cinfo, buffer, 1);
-        convertLine(buffer[0], sizeof(JSAMPLE) * 3, out,
-            splash->imageFormat.depthBytes, cinfo->output_width, &srcFormat,
-            &splash->imageFormat, CVT_COPY, NULL, 0, NULL,
-            cinfo->output_scanline, 0);
+    bufffr = (*dinfo->mfm->bllod_sbrrby)
+        ((j_dommon_ptr) dinfo, JPOOL_IMAGE, rowStridf, 1);
+    if (bufffr == NULL) {
+        frff(splbsi->frbmfs[0].bitmbpBits);
+        frff(splbsi->frbmfs);
+        rfturn 0;
     }
-    jpeg_finish_decompress(cinfo);
 
-    return 1;
+    initFormbt(&srdFormbt, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x00000000);
+    srdFormbt.bytfOrdfr = BYTE_ORDER_LSBFIRST;
+    srdFormbt.dfptiBytfs = 3;
+    srdFormbt.fixfdBits = 0xFF000000;
+
+    splbsi->mbskRfquirfd = 0;   // rfsft mbskRfquirfd bs JPEG dbn't bf trbnspbrfnt
+
+    wiilf (dinfo->output_sdbnlinf < dinfo->output_ifigit) {
+        rgbqubd_t *out =
+            (rgbqubd_t *) ((bytf_t *) splbsi->frbmfs[0].bitmbpBits +
+                dinfo->output_sdbnlinf * stridf);
+
+        jpfg_rfbd_sdbnlinfs(dinfo, bufffr, 1);
+        donvfrtLinf(bufffr[0], sizfof(JSAMPLE) * 3, out,
+            splbsi->imbgfFormbt.dfptiBytfs, dinfo->output_widti, &srdFormbt,
+            &splbsi->imbgfFormbt, CVT_COPY, NULL, 0, NULL,
+            dinfo->output_sdbnlinf, 0);
+    }
+    jpfg_finisi_dfdomprfss(dinfo);
+
+    rfturn 1;
 }
 
-struct my_error_mgr
+strudt my_frror_mgr
 {
-    struct jpeg_error_mgr pub;  /* "public" fields */
-    jmp_buf setjmp_buffer;      /* for return to caller */
+    strudt jpfg_frror_mgr pub;  /* "publid" fiflds */
+    jmp_buf sftjmp_bufffr;      /* for rfturn to dbllfr */
 };
 
-typedef struct my_error_mgr *my_error_ptr;
+typfdff strudt my_frror_mgr *my_frror_ptr;
 
-static void
-my_error_exit(j_common_ptr cinfo)
+stbtid void
+my_frror_fxit(j_dommon_ptr dinfo)
 {
-    /* cinfo->err really points to a my_error_mgr struct, so coerce pointer */
-    my_error_ptr myerr = (my_error_ptr) cinfo->err;
+    /* dinfo->frr rfblly points to b my_frror_mgr strudt, so dofrdf pointfr */
+    my_frror_ptr myfrr = (my_frror_ptr) dinfo->frr;
 
-    /* Always display the message. */
-    /* We could postpone this until after returning, if we chose. */
-    (*cinfo->err->output_message) (cinfo);
+    /* Alwbys displby tif mfssbgf. */
+    /* Wf dould postponf tiis until bftfr rfturning, if wf diosf. */
+    (*dinfo->frr->output_mfssbgf) (dinfo);
 
-    /* Return control to the setjmp point */
-    longjmp(myerr->setjmp_buffer, 1);
+    /* Rfturn dontrol to tif sftjmp point */
+    longjmp(myfrr->sftjmp_bufffr, 1);
 }
 
 int
-SplashDecodeJpegStream(Splash * splash, SplashStream * stream)
+SplbsiDfdodfJpfgStrfbm(Splbsi * splbsi, SplbsiStrfbm * strfbm)
 {
-    struct jpeg_decompress_struct cinfo;
-    int success = 0;
-    struct my_error_mgr jerr;
+    strudt jpfg_dfdomprfss_strudt dinfo;
+    int suddfss = 0;
+    strudt my_frror_mgr jfrr;
 
-    cinfo.err = jpeg_std_error(&jerr.pub);
-    jerr.pub.error_exit = my_error_exit;
+    dinfo.frr = jpfg_std_frror(&jfrr.pub);
+    jfrr.pub.frror_fxit = my_frror_fxit;
 
-    if (setjmp(jerr.setjmp_buffer)) {
-        goto done;
+    if (sftjmp(jfrr.sftjmp_bufffr)) {
+        goto donf;
     }
-    jpeg_create_decompress(&cinfo);
-    set_stream_src(&cinfo, stream);
-    success = SplashDecodeJpeg(splash, &cinfo);
+    jpfg_drfbtf_dfdomprfss(&dinfo);
+    sft_strfbm_srd(&dinfo, strfbm);
+    suddfss = SplbsiDfdodfJpfg(splbsi, &dinfo);
 
-  done:
-    jpeg_destroy_decompress(&cinfo);
-    return success;
+  donf:
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    rfturn suddfss;
 }

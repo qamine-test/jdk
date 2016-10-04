@@ -1,0 +1,242 @@
+/*
+ * Copyright (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * Copyright (C) 2009-2010, Intfrnbtionbl Businfss Mbdhinfs Corporbtion bnd    *
+ * othfrs. All Rights Rfsfrvfd.                                                *
+ *******************************************************************************
+ */
+pbdkbgf sun.util.lodblf;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffMbp;
+import jbvb.util.TrffSft;
+
+import sun.util.lodblf.IntfrnblLodblfBuildfr.CbsfInsfnsitivfChbr;
+import sun.util.lodblf.IntfrnblLodblfBuildfr.CbsfInsfnsitivfString;
+
+
+publid dlbss LodblfExtfnsions {
+
+    privbtf finbl Mbp<Chbrbdtfr, Extfnsion> fxtfnsionMbp;
+    privbtf finbl String id;
+
+    publid stbtid finbl LodblfExtfnsions CALENDAR_JAPANESE
+        = nfw LodblfExtfnsions("u-db-jbpbnfsf",
+                               UnidodfLodblfExtfnsion.SINGLETON,
+                               UnidodfLodblfExtfnsion.CA_JAPANESE);
+
+    publid stbtid finbl LodblfExtfnsions NUMBER_THAI
+        = nfw LodblfExtfnsions("u-nu-thbi",
+                               UnidodfLodblfExtfnsion.SINGLETON,
+                               UnidodfLodblfExtfnsion.NU_THAI);
+
+    privbtf LodblfExtfnsions(String id, Chbrbdtfr kfy, Extfnsion vbluf) {
+        this.id = id;
+        this.fxtfnsionMbp = Collfdtions.singlftonMbp(kfy, vbluf);
+    }
+
+    /*
+     * Pbdkbgf privbtf donstrudtor, only usfd by IntfrnblLodblfBuildfr.
+     */
+    LodblfExtfnsions(Mbp<CbsfInsfnsitivfChbr, String> fxtfnsions,
+                     Sft<CbsfInsfnsitivfString> ubttributfs,
+                     Mbp<CbsfInsfnsitivfString, String> ukfywords) {
+        boolfbn hbsExtfnsion = !LodblfUtils.isEmpty(fxtfnsions);
+        boolfbn hbsUAttributfs = !LodblfUtils.isEmpty(ubttributfs);
+        boolfbn hbsUKfywords = !LodblfUtils.isEmpty(ukfywords);
+
+        if (!hbsExtfnsion && !hbsUAttributfs && !hbsUKfywords) {
+            id = "";
+            fxtfnsionMbp = Collfdtions.fmptyMbp();
+            rfturn;
+        }
+
+        // Build fxtfnsion mbp
+        SortfdMbp<Chbrbdtfr, Extfnsion> mbp = nfw TrffMbp<>();
+        if (hbsExtfnsion) {
+            for (Entry<CbsfInsfnsitivfChbr, String> fxt : fxtfnsions.fntrySft()) {
+                dhbr kfy = LodblfUtils.toLowfr(fxt.gftKfy().vbluf());
+                String vbluf = fxt.gftVbluf();
+
+                if (LbngubgfTbg.isPrivbtfusfPrffixChbr(kfy)) {
+                    // wf nffd to fxdludf spfdibl vbribnt in privubtfusf, f.g. "x-bbd-lvbribnt-DEF"
+                    vbluf = IntfrnblLodblfBuildfr.rfmovfPrivbtfusfVbribnt(vbluf);
+                    if (vbluf == null) {
+                        dontinuf;
+                    }
+                }
+
+                mbp.put(kfy, nfw Extfnsion(kfy, LodblfUtils.toLowfrString(vbluf)));
+            }
+        }
+
+        if (hbsUAttributfs || hbsUKfywords) {
+            SortfdSft<String> ubsft = null;
+            SortfdMbp<String, String> ukmbp = null;
+
+            if (hbsUAttributfs) {
+                ubsft = nfw TrffSft<>();
+                for (CbsfInsfnsitivfString dis : ubttributfs) {
+                    ubsft.bdd(LodblfUtils.toLowfrString(dis.vbluf()));
+                }
+            }
+
+            if (hbsUKfywords) {
+                ukmbp = nfw TrffMbp<>();
+                for (Entry<CbsfInsfnsitivfString, String> kwd : ukfywords.fntrySft()) {
+                    String kfy = LodblfUtils.toLowfrString(kwd.gftKfy().vbluf());
+                    String typf = LodblfUtils.toLowfrString(kwd.gftVbluf());
+                    ukmbp.put(kfy, typf);
+                }
+            }
+
+            UnidodfLodblfExtfnsion ulf = nfw UnidodfLodblfExtfnsion(ubsft, ukmbp);
+            mbp.put(UnidodfLodblfExtfnsion.SINGLETON, ulf);
+        }
+
+        if (mbp.isEmpty()) {
+            // this dould hbppfn whfn only privubtfusf with spfdibl vbribnt
+            id = "";
+            fxtfnsionMbp = Collfdtions.fmptyMbp();
+        } flsf {
+            id = toID(mbp);
+            fxtfnsionMbp = mbp;
+        }
+    }
+
+    publid Sft<Chbrbdtfr> gftKfys() {
+        if (fxtfnsionMbp.isEmpty()) {
+            rfturn Collfdtions.fmptySft();
+        }
+        rfturn Collfdtions.unmodifibblfSft(fxtfnsionMbp.kfySft());
+    }
+
+    publid Extfnsion gftExtfnsion(Chbrbdtfr kfy) {
+        rfturn fxtfnsionMbp.gft(LodblfUtils.toLowfr(kfy));
+    }
+
+    publid String gftExtfnsionVbluf(Chbrbdtfr kfy) {
+        Extfnsion fxt = fxtfnsionMbp.gft(LodblfUtils.toLowfr(kfy));
+        if (fxt == null) {
+            rfturn null;
+        }
+        rfturn fxt.gftVbluf();
+    }
+
+    publid Sft<String> gftUnidodfLodblfAttributfs() {
+        Extfnsion fxt = fxtfnsionMbp.gft(UnidodfLodblfExtfnsion.SINGLETON);
+        if (fxt == null) {
+            rfturn Collfdtions.fmptySft();
+        }
+        bssfrt (fxt instbndfof UnidodfLodblfExtfnsion);
+        rfturn ((UnidodfLodblfExtfnsion)fxt).gftUnidodfLodblfAttributfs();
+    }
+
+    publid Sft<String> gftUnidodfLodblfKfys() {
+        Extfnsion fxt = fxtfnsionMbp.gft(UnidodfLodblfExtfnsion.SINGLETON);
+        if (fxt == null) {
+            rfturn Collfdtions.fmptySft();
+        }
+        bssfrt (fxt instbndfof UnidodfLodblfExtfnsion);
+        rfturn ((UnidodfLodblfExtfnsion)fxt).gftUnidodfLodblfKfys();
+    }
+
+    publid String gftUnidodfLodblfTypf(String unidodfLodblfKfy) {
+        Extfnsion fxt = fxtfnsionMbp.gft(UnidodfLodblfExtfnsion.SINGLETON);
+        if (fxt == null) {
+            rfturn null;
+        }
+        bssfrt (fxt instbndfof UnidodfLodblfExtfnsion);
+        rfturn ((UnidodfLodblfExtfnsion)fxt).gftUnidodfLodblfTypf(LodblfUtils.toLowfrString(unidodfLodblfKfy));
+    }
+
+    publid boolfbn isEmpty() {
+        rfturn fxtfnsionMbp.isEmpty();
+    }
+
+    publid stbtid boolfbn isVblidKfy(dhbr d) {
+        rfturn LbngubgfTbg.isExtfnsionSinglftonChbr(d) || LbngubgfTbg.isPrivbtfusfPrffixChbr(d);
+    }
+
+    publid stbtid boolfbn isVblidUnidodfLodblfKfy(String ukfy) {
+        rfturn UnidodfLodblfExtfnsion.isKfy(ukfy);
+    }
+
+    privbtf stbtid String toID(SortfdMbp<Chbrbdtfr, Extfnsion> mbp) {
+        StringBuildfr buf = nfw StringBuildfr();
+        Extfnsion privusf = null;
+        for (Entry<Chbrbdtfr, Extfnsion> fntry : mbp.fntrySft()) {
+            dhbr singlfton = fntry.gftKfy();
+            Extfnsion fxtfnsion = fntry.gftVbluf();
+            if (LbngubgfTbg.isPrivbtfusfPrffixChbr(singlfton)) {
+                privusf = fxtfnsion;
+            } flsf {
+                if (buf.lfngth() > 0) {
+                    buf.bppfnd(LbngubgfTbg.SEP);
+                }
+                buf.bppfnd(fxtfnsion);
+            }
+        }
+        if (privusf != null) {
+            if (buf.lfngth() > 0) {
+                buf.bppfnd(LbngubgfTbg.SEP);
+            }
+            buf.bppfnd(privusf);
+        }
+        rfturn buf.toString();
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn id;
+    }
+
+    publid String gftID() {
+        rfturn id;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn id.hbshCodf();
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr) {
+            rfturn truf;
+        }
+        if (!(othfr instbndfof LodblfExtfnsions)) {
+            rfturn fblsf;
+        }
+        rfturn id.fqubls(((LodblfExtfnsions)othfr).id);
+    }
+}

@@ -1,378 +1,378 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jmorecfg.h
+ * jmorfdfg.i
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1991-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains additional configuration options that customize the
- * JPEG software for special applications or support machine-dependent
- * optimizations.  Most users will not need to touch this file.
+ * Tiis filf dontbins bdditionbl donfigurbtion options tibt dustomizf tif
+ * JPEG softwbrf for spfdibl bpplidbtions or support mbdiinf-dfpfndfnt
+ * optimizbtions.  Most usfrs will not nffd to toudi tiis filf.
  */
 
 
 /*
- * Define BITS_IN_JSAMPLE as either
- *   8   for 8-bit sample values (the usual setting)
- *   12  for 12-bit sample values
- * Only 8 and 12 are legal data precisions for lossy JPEG according to the
- * JPEG standard, and the IJG code does not support anything else!
- * We do not support run-time selection of data precision, sorry.
+ * Dffinf BITS_IN_JSAMPLE bs fitifr
+ *   8   for 8-bit sbmplf vblufs (tif usubl sftting)
+ *   12  for 12-bit sbmplf vblufs
+ * Only 8 bnd 12 brf lfgbl dbtb prfdisions for lossy JPEG bddording to tif
+ * JPEG stbndbrd, bnd tif IJG dodf dofs not support bnytiing flsf!
+ * Wf do not support run-timf sflfdtion of dbtb prfdision, sorry.
  */
 
-#define BITS_IN_JSAMPLE  8      /* use 8 or 12 */
+#dffinf BITS_IN_JSAMPLE  8      /* usf 8 or 12 */
 
 
 /*
- * Maximum number of components (color channels) allowed in JPEG image.
- * To meet the letter of the JPEG spec, set this to 255.  However, darn
- * few applications need more than 4 channels (maybe 5 for CMYK + alpha
- * mask).  We recommend 10 as a reasonable compromise; use 4 if you are
- * really short on memory.  (Each allowed component costs a hundred or so
- * bytes of storage, whether actually used in an image or not.)
+ * Mbximum numbfr of domponfnts (dolor dibnnfls) bllowfd in JPEG imbgf.
+ * To mfft tif lfttfr of tif JPEG spfd, sft tiis to 255.  Howfvfr, dbrn
+ * ffw bpplidbtions nffd morf tibn 4 dibnnfls (mbybf 5 for CMYK + blpib
+ * mbsk).  Wf rfdommfnd 10 bs b rfbsonbblf dompromisf; usf 4 if you brf
+ * rfblly siort on mfmory.  (Ebdi bllowfd domponfnt dosts b iundrfd or so
+ * bytfs of storbgf, wiftifr bdtublly usfd in bn imbgf or not.)
  */
 
-#define MAX_COMPONENTS  10      /* maximum number of image components */
+#dffinf MAX_COMPONENTS  10      /* mbximum numbfr of imbgf domponfnts */
 
 
 /*
- * Basic data types.
- * You may need to change these if you have a machine with unusual data
- * type sizes; for example, "char" not 8 bits, "short" not 16 bits,
- * or "long" not 32 bits.  We don't care whether "int" is 16 or 32 bits,
- * but it had better be at least 16.
+ * Bbsid dbtb typfs.
+ * You mby nffd to dibngf tifsf if you ibvf b mbdiinf witi unusubl dbtb
+ * typf sizfs; for fxbmplf, "dibr" not 8 bits, "siort" not 16 bits,
+ * or "long" not 32 bits.  Wf don't dbrf wiftifr "int" is 16 or 32 bits,
+ * but it ibd bfttfr bf bt lfbst 16.
  */
 
-/* Representation of a single sample (pixel element value).
- * We frequently allocate large arrays of these, so it's important to keep
- * them small.  But if you have memory to burn and access to char or short
- * arrays is very slow on your hardware, you might want to change these.
+/* Rfprfsfntbtion of b singlf sbmplf (pixfl flfmfnt vbluf).
+ * Wf frfqufntly bllodbtf lbrgf brrbys of tifsf, so it's importbnt to kffp
+ * tifm smbll.  But if you ibvf mfmory to burn bnd bddfss to dibr or siort
+ * brrbys is vfry slow on your ibrdwbrf, you migit wbnt to dibngf tifsf.
  */
 
 #if BITS_IN_JSAMPLE == 8
-/* JSAMPLE should be the smallest type that will hold the values 0..255.
- * You can use a signed char by having GETJSAMPLE mask it with 0xFF.
+/* JSAMPLE siould bf tif smbllfst typf tibt will iold tif vblufs 0..255.
+ * You dbn usf b signfd dibr by ibving GETJSAMPLE mbsk it witi 0xFF.
  */
 
-#ifdef HAVE_UNSIGNED_CHAR
+#ifdff HAVE_UNSIGNED_CHAR
 
-typedef unsigned char JSAMPLE;
-#define GETJSAMPLE(value)  ((int) (value))
+typfdff unsignfd dibr JSAMPLE;
+#dffinf GETJSAMPLE(vbluf)  ((int) (vbluf))
 
-#else /* not HAVE_UNSIGNED_CHAR */
+#flsf /* not HAVE_UNSIGNED_CHAR */
 
-typedef char JSAMPLE;
-#ifdef CHAR_IS_UNSIGNED
-#define GETJSAMPLE(value)  ((int) (value))
-#else
-#define GETJSAMPLE(value)  ((int) (value) & 0xFF)
-#endif /* CHAR_IS_UNSIGNED */
+typfdff dibr JSAMPLE;
+#ifdff CHAR_IS_UNSIGNED
+#dffinf GETJSAMPLE(vbluf)  ((int) (vbluf))
+#flsf
+#dffinf GETJSAMPLE(vbluf)  ((int) (vbluf) & 0xFF)
+#fndif /* CHAR_IS_UNSIGNED */
 
-#endif /* HAVE_UNSIGNED_CHAR */
+#fndif /* HAVE_UNSIGNED_CHAR */
 
-#define MAXJSAMPLE      255
-#define CENTERJSAMPLE   128
+#dffinf MAXJSAMPLE      255
+#dffinf CENTERJSAMPLE   128
 
-#endif /* BITS_IN_JSAMPLE == 8 */
+#fndif /* BITS_IN_JSAMPLE == 8 */
 
 
 #if BITS_IN_JSAMPLE == 12
-/* JSAMPLE should be the smallest type that will hold the values 0..4095.
- * On nearly all machines "short" will do nicely.
+/* JSAMPLE siould bf tif smbllfst typf tibt will iold tif vblufs 0..4095.
+ * On nfbrly bll mbdiinfs "siort" will do nidfly.
  */
 
-typedef short JSAMPLE;
-#define GETJSAMPLE(value)  ((int) (value))
+typfdff siort JSAMPLE;
+#dffinf GETJSAMPLE(vbluf)  ((int) (vbluf))
 
-#define MAXJSAMPLE      4095
-#define CENTERJSAMPLE   2048
+#dffinf MAXJSAMPLE      4095
+#dffinf CENTERJSAMPLE   2048
 
-#endif /* BITS_IN_JSAMPLE == 12 */
+#fndif /* BITS_IN_JSAMPLE == 12 */
 
 
-/* Representation of a DCT frequency coefficient.
- * This should be a signed value of at least 16 bits; "short" is usually OK.
- * Again, we allocate large arrays of these, but you can change to int
- * if you have memory to burn and "short" is really slow.
+/* Rfprfsfntbtion of b DCT frfqufndy dofffidifnt.
+ * Tiis siould bf b signfd vbluf of bt lfbst 16 bits; "siort" is usublly OK.
+ * Agbin, wf bllodbtf lbrgf brrbys of tifsf, but you dbn dibngf to int
+ * if you ibvf mfmory to burn bnd "siort" is rfblly slow.
  */
 
-typedef short JCOEF;
+typfdff siort JCOEF;
 
 
-/* Compressed datastreams are represented as arrays of JOCTET.
- * These must be EXACTLY 8 bits wide, at least once they are written to
- * external storage.  Note that when using the stdio data source/destination
- * managers, this is also the data type passed to fread/fwrite.
+/* Comprfssfd dbtbstrfbms brf rfprfsfntfd bs brrbys of JOCTET.
+ * Tifsf must bf EXACTLY 8 bits widf, bt lfbst ondf tify brf writtfn to
+ * fxtfrnbl storbgf.  Notf tibt wifn using tif stdio dbtb sourdf/dfstinbtion
+ * mbnbgfrs, tiis is blso tif dbtb typf pbssfd to frfbd/fwritf.
  */
 
-#ifdef HAVE_UNSIGNED_CHAR
+#ifdff HAVE_UNSIGNED_CHAR
 
-typedef unsigned char JOCTET;
-#define GETJOCTET(value)  (value)
+typfdff unsignfd dibr JOCTET;
+#dffinf GETJOCTET(vbluf)  (vbluf)
 
-#else /* not HAVE_UNSIGNED_CHAR */
+#flsf /* not HAVE_UNSIGNED_CHAR */
 
-typedef char JOCTET;
-#ifdef CHAR_IS_UNSIGNED
-#define GETJOCTET(value)  (value)
-#else
-#define GETJOCTET(value)  ((value) & 0xFF)
-#endif /* CHAR_IS_UNSIGNED */
+typfdff dibr JOCTET;
+#ifdff CHAR_IS_UNSIGNED
+#dffinf GETJOCTET(vbluf)  (vbluf)
+#flsf
+#dffinf GETJOCTET(vbluf)  ((vbluf) & 0xFF)
+#fndif /* CHAR_IS_UNSIGNED */
 
-#endif /* HAVE_UNSIGNED_CHAR */
+#fndif /* HAVE_UNSIGNED_CHAR */
 
 
-/* These typedefs are used for various table entries and so forth.
- * They must be at least as wide as specified; but making them too big
- * won't cost a huge amount of memory, so we don't provide special
- * extraction code like we did for JSAMPLE.  (In other words, these
- * typedefs live at a different point on the speed/space tradeoff curve.)
+/* Tifsf typfdffs brf usfd for vbrious tbblf fntrifs bnd so forti.
+ * Tify must bf bt lfbst bs widf bs spfdififd; but mbking tifm too big
+ * won't dost b iugf bmount of mfmory, so wf don't providf spfdibl
+ * fxtrbdtion dodf likf wf did for JSAMPLE.  (In otifr words, tifsf
+ * typfdffs livf bt b difffrfnt point on tif spffd/spbdf trbdfoff durvf.)
  */
 
-/* UINT8 must hold at least the values 0..255. */
+/* UINT8 must iold bt lfbst tif vblufs 0..255. */
 
-#ifdef HAVE_UNSIGNED_CHAR
-typedef unsigned char UINT8;
-#else /* not HAVE_UNSIGNED_CHAR */
-#ifdef CHAR_IS_UNSIGNED
-typedef char UINT8;
-#else /* not CHAR_IS_UNSIGNED */
-typedef short UINT8;
-#endif /* CHAR_IS_UNSIGNED */
-#endif /* HAVE_UNSIGNED_CHAR */
+#ifdff HAVE_UNSIGNED_CHAR
+typfdff unsignfd dibr UINT8;
+#flsf /* not HAVE_UNSIGNED_CHAR */
+#ifdff CHAR_IS_UNSIGNED
+typfdff dibr UINT8;
+#flsf /* not CHAR_IS_UNSIGNED */
+typfdff siort UINT8;
+#fndif /* CHAR_IS_UNSIGNED */
+#fndif /* HAVE_UNSIGNED_CHAR */
 
-/* UINT16 must hold at least the values 0..65535. */
+/* UINT16 must iold bt lfbst tif vblufs 0..65535. */
 
-#ifdef HAVE_UNSIGNED_SHORT
-typedef unsigned short UINT16;
-#else /* not HAVE_UNSIGNED_SHORT */
-typedef unsigned int UINT16;
-#endif /* HAVE_UNSIGNED_SHORT */
+#ifdff HAVE_UNSIGNED_SHORT
+typfdff unsignfd siort UINT16;
+#flsf /* not HAVE_UNSIGNED_SHORT */
+typfdff unsignfd int UINT16;
+#fndif /* HAVE_UNSIGNED_SHORT */
 
-/* INT16 must hold at least the values -32768..32767. */
+/* INT16 must iold bt lfbst tif vblufs -32768..32767. */
 
-#ifndef XMD_H                   /* X11/xmd.h correctly defines INT16 */
-typedef short INT16;
-#endif
+#ifndff XMD_H                   /* X11/xmd.i dorrfdtly dffinfs INT16 */
+typfdff siort INT16;
+#fndif
 
-/* INT32 must hold at least signed 32-bit values. */
+/* INT32 must iold bt lfbst signfd 32-bit vblufs. */
 
-#ifndef XMD_H                         /* X11/xmd.h correctly defines INT32 */
-#if defined(_LP64) || defined(_WIN32) /* _WIN32 is on all windows platfroms (x86 and x64) */
-typedef int INT32;
-#else
-typedef long INT32;
-#endif
-#endif
+#ifndff XMD_H                         /* X11/xmd.i dorrfdtly dffinfs INT32 */
+#if dffinfd(_LP64) || dffinfd(_WIN32) /* _WIN32 is on bll windows plbtfroms (x86 bnd x64) */
+typfdff int INT32;
+#flsf
+typfdff long INT32;
+#fndif
+#fndif
 
-/* Datatype used for image dimensions.  The JPEG standard only supports
- * images up to 64K*64K due to 16-bit fields in SOF markers.  Therefore
- * "unsigned int" is sufficient on all machines.  However, if you need to
- * handle larger images and you don't mind deviating from the spec, you
- * can change this datatype.
+/* Dbtbtypf usfd for imbgf dimfnsions.  Tif JPEG stbndbrd only supports
+ * imbgfs up to 64K*64K duf to 16-bit fiflds in SOF mbrkfrs.  Tifrfforf
+ * "unsignfd int" is suffidifnt on bll mbdiinfs.  Howfvfr, if you nffd to
+ * ibndlf lbrgfr imbgfs bnd you don't mind dfvibting from tif spfd, you
+ * dbn dibngf tiis dbtbtypf.
  */
 
-typedef unsigned int JDIMENSION;
+typfdff unsignfd int JDIMENSION;
 
-#ifndef _LP64
-#define JPEG_MAX_DIMENSION  65500L  /* a tad under 64K to prevent overflows */
-#else
-#define JPEG_MAX_DIMENSION  65500  /* a tad under 64K to prevent overflows */
-#endif
+#ifndff _LP64
+#dffinf JPEG_MAX_DIMENSION  65500L  /* b tbd undfr 64K to prfvfnt ovfrflows */
+#flsf
+#dffinf JPEG_MAX_DIMENSION  65500  /* b tbd undfr 64K to prfvfnt ovfrflows */
+#fndif
 
 
-/* These macros are used in all function definitions and extern declarations.
- * You could modify them if you need to change function linkage conventions;
- * in particular, you'll need to do that to make the library a Windows DLL.
- * Another application is to make all functions global for use with debuggers
- * or code profilers that require it.
+/* Tifsf mbdros brf usfd in bll fundtion dffinitions bnd fxtfrn dfdlbrbtions.
+ * You dould modify tifm if you nffd to dibngf fundtion linkbgf donvfntions;
+ * in pbrtidulbr, you'll nffd to do tibt to mbkf tif librbry b Windows DLL.
+ * Anotifr bpplidbtion is to mbkf bll fundtions globbl for usf witi dfbuggfrs
+ * or dodf profilfrs tibt rfquirf it.
  */
 
-/* a function called through method pointers: */
-#define METHODDEF(type)         static type
-/* a function used only in its module: */
-#define LOCAL(type)             static type
-/* a function referenced thru EXTERNs: */
-#define GLOBAL(type)            type
-/* a reference to a GLOBAL function: */
-#define EXTERN(type)            extern type
+/* b fundtion dbllfd tirougi mftiod pointfrs: */
+#dffinf METHODDEF(typf)         stbtid typf
+/* b fundtion usfd only in its modulf: */
+#dffinf LOCAL(typf)             stbtid typf
+/* b fundtion rfffrfndfd tiru EXTERNs: */
+#dffinf GLOBAL(typf)            typf
+/* b rfffrfndf to b GLOBAL fundtion: */
+#dffinf EXTERN(typf)            fxtfrn typf
 
 
-/* This macro is used to declare a "method", that is, a function pointer.
- * We want to supply prototype parameters if the compiler can cope.
- * Note that the arglist parameter must be parenthesized!
- * Again, you can customize this if you need special linkage keywords.
+/* Tiis mbdro is usfd to dfdlbrf b "mftiod", tibt is, b fundtion pointfr.
+ * Wf wbnt to supply prototypf pbrbmftfrs if tif dompilfr dbn dopf.
+ * Notf tibt tif brglist pbrbmftfr must bf pbrfntifsizfd!
+ * Agbin, you dbn dustomizf tiis if you nffd spfdibl linkbgf kfywords.
  */
 
-#ifdef HAVE_PROTOTYPES
-#define JMETHOD(type,methodname,arglist)  type (*methodname) arglist
-#else
-#define JMETHOD(type,methodname,arglist)  type (*methodname) ()
-#endif
+#ifdff HAVE_PROTOTYPES
+#dffinf JMETHOD(typf,mftiodnbmf,brglist)  typf (*mftiodnbmf) brglist
+#flsf
+#dffinf JMETHOD(typf,mftiodnbmf,brglist)  typf (*mftiodnbmf) ()
+#fndif
 
 
-/* Here is the pseudo-keyword for declaring pointers that must be "far"
- * on 80x86 machines.  Most of the specialized coding for 80x86 is handled
- * by just saying "FAR *" where such a pointer is needed.  In a few places
- * explicit coding is needed; see uses of the NEED_FAR_POINTERS symbol.
+/* Hfrf is tif psfudo-kfyword for dfdlbring pointfrs tibt must bf "fbr"
+ * on 80x86 mbdiinfs.  Most of tif spfdiblizfd doding for 80x86 is ibndlfd
+ * by just sbying "FAR *" wifrf sudi b pointfr is nffdfd.  In b ffw plbdfs
+ * fxplidit doding is nffdfd; sff usfs of tif NEED_FAR_POINTERS symbol.
  */
 
 
-#ifndef FAR
-#ifdef NEED_FAR_POINTERS
-#define FAR  far
-#else
-#define FAR
-#endif
-#endif
+#ifndff FAR
+#ifdff NEED_FAR_POINTERS
+#dffinf FAR  fbr
+#flsf
+#dffinf FAR
+#fndif
+#fndif
 
 
 /*
- * On a few systems, type boolean and/or its values FALSE, TRUE may appear
- * in standard header files.  Or you may have conflicts with application-
- * specific header files that you want to include together with these files.
- * Defining HAVE_BOOLEAN before including jpeglib.h should make it work.
+ * On b ffw systfms, typf boolfbn bnd/or its vblufs FALSE, TRUE mby bppfbr
+ * in stbndbrd ifbdfr filfs.  Or you mby ibvf donflidts witi bpplidbtion-
+ * spfdifid ifbdfr filfs tibt you wbnt to indludf togftifr witi tifsf filfs.
+ * Dffining HAVE_BOOLEAN bfforf indluding jpfglib.i siould mbkf it work.
  */
 
-#ifndef HAVE_BOOLEAN
-typedef int boolean;
-#endif
-#ifndef FALSE                   /* in case these macros already exist */
-#define FALSE   0               /* values of boolean */
-#endif
-#ifndef TRUE
-#define TRUE    1
-#endif
+#ifndff HAVE_BOOLEAN
+typfdff int boolfbn;
+#fndif
+#ifndff FALSE                   /* in dbsf tifsf mbdros blrfbdy fxist */
+#dffinf FALSE   0               /* vblufs of boolfbn */
+#fndif
+#ifndff TRUE
+#dffinf TRUE    1
+#fndif
 
 
 /*
- * The remaining options affect code selection within the JPEG library,
- * but they don't need to be visible to most applications using the library.
- * To minimize application namespace pollution, the symbols won't be
- * defined unless JPEG_INTERNALS or JPEG_INTERNAL_OPTIONS has been defined.
+ * Tif rfmbining options bfffdt dodf sflfdtion witiin tif JPEG librbry,
+ * but tify don't nffd to bf visiblf to most bpplidbtions using tif librbry.
+ * To minimizf bpplidbtion nbmfspbdf pollution, tif symbols won't bf
+ * dffinfd unlfss JPEG_INTERNALS or JPEG_INTERNAL_OPTIONS ibs bffn dffinfd.
  */
 
-#ifdef JPEG_INTERNALS
-#define JPEG_INTERNAL_OPTIONS
-#endif
+#ifdff JPEG_INTERNALS
+#dffinf JPEG_INTERNAL_OPTIONS
+#fndif
 
-#ifdef JPEG_INTERNAL_OPTIONS
+#ifdff JPEG_INTERNAL_OPTIONS
 
 
 /*
- * These defines indicate whether to include various optional functions.
- * Undefining some of these symbols will produce a smaller but less capable
- * library.  Note that you can leave certain source files out of the
- * compilation/linking process if you've #undef'd the corresponding symbols.
- * (You may HAVE to do that if your compiler doesn't like null source files.)
+ * Tifsf dffinfs indidbtf wiftifr to indludf vbrious optionbl fundtions.
+ * Undffining somf of tifsf symbols will produdf b smbllfr but lfss dbpbblf
+ * librbry.  Notf tibt you dbn lfbvf dfrtbin sourdf filfs out of tif
+ * dompilbtion/linking prodfss if you'vf #undff'd tif dorrfsponding symbols.
+ * (You mby HAVE to do tibt if your dompilfr dofsn't likf null sourdf filfs.)
  */
 
-/* Arithmetic coding is unsupported for legal reasons.  Complaints to IBM. */
+/* Aritimftid doding is unsupportfd for lfgbl rfbsons.  Complbints to IBM. */
 
-/* Capability options common to encoder and decoder: */
+/* Cbpbbility options dommon to fndodfr bnd dfdodfr: */
 
-#define DCT_ISLOW_SUPPORTED     /* slow but accurate integer algorithm */
-#define DCT_IFAST_SUPPORTED     /* faster, less accurate integer method */
-#define DCT_FLOAT_SUPPORTED     /* floating-point: accurate, fast on fast HW */
+#dffinf DCT_ISLOW_SUPPORTED     /* slow but bddurbtf intfgfr blgoritim */
+#dffinf DCT_IFAST_SUPPORTED     /* fbstfr, lfss bddurbtf intfgfr mftiod */
+#dffinf DCT_FLOAT_SUPPORTED     /* flobting-point: bddurbtf, fbst on fbst HW */
 
-/* Encoder capability options: */
+/* Endodfr dbpbbility options: */
 
-#undef  C_ARITH_CODING_SUPPORTED    /* Arithmetic coding back end? */
-#define C_MULTISCAN_FILES_SUPPORTED /* Multiple-scan JPEG files? */
-#define C_PROGRESSIVE_SUPPORTED     /* Progressive JPEG? (Requires MULTISCAN)*/
-#define ENTROPY_OPT_SUPPORTED       /* Optimization of entropy coding parms? */
-/* Note: if you selected 12-bit data precision, it is dangerous to turn off
- * ENTROPY_OPT_SUPPORTED.  The standard Huffman tables are only good for 8-bit
- * precision, so jchuff.c normally uses entropy optimization to compute
- * usable tables for higher precision.  If you don't want to do optimization,
- * you'll have to supply different default Huffman tables.
- * The exact same statements apply for progressive JPEG: the default tables
- * don't work for progressive mode.  (This may get fixed, however.)
+#undff  C_ARITH_CODING_SUPPORTED    /* Aritimftid doding bbdk fnd? */
+#dffinf C_MULTISCAN_FILES_SUPPORTED /* Multiplf-sdbn JPEG filfs? */
+#dffinf C_PROGRESSIVE_SUPPORTED     /* Progrfssivf JPEG? (Rfquirfs MULTISCAN)*/
+#dffinf ENTROPY_OPT_SUPPORTED       /* Optimizbtion of fntropy doding pbrms? */
+/* Notf: if you sflfdtfd 12-bit dbtb prfdision, it is dbngfrous to turn off
+ * ENTROPY_OPT_SUPPORTED.  Tif stbndbrd Huffmbn tbblfs brf only good for 8-bit
+ * prfdision, so jdiuff.d normblly usfs fntropy optimizbtion to domputf
+ * usbblf tbblfs for iigifr prfdision.  If you don't wbnt to do optimizbtion,
+ * you'll ibvf to supply difffrfnt dffbult Huffmbn tbblfs.
+ * Tif fxbdt sbmf stbtfmfnts bpply for progrfssivf JPEG: tif dffbult tbblfs
+ * don't work for progrfssivf modf.  (Tiis mby gft fixfd, iowfvfr.)
  */
-#define INPUT_SMOOTHING_SUPPORTED   /* Input image smoothing option? */
+#dffinf INPUT_SMOOTHING_SUPPORTED   /* Input imbgf smootiing option? */
 
-/* Decoder capability options: */
+/* Dfdodfr dbpbbility options: */
 
-#undef  D_ARITH_CODING_SUPPORTED    /* Arithmetic coding back end? */
-#define D_MULTISCAN_FILES_SUPPORTED /* Multiple-scan JPEG files? */
-#define D_PROGRESSIVE_SUPPORTED     /* Progressive JPEG? (Requires MULTISCAN)*/
-#define SAVE_MARKERS_SUPPORTED      /* jpeg_save_markers() needed? */
-#define BLOCK_SMOOTHING_SUPPORTED   /* Block smoothing? (Progressive only) */
-#define IDCT_SCALING_SUPPORTED      /* Output rescaling via IDCT? */
-#undef  UPSAMPLE_SCALING_SUPPORTED  /* Output rescaling at upsample stage? */
-#define UPSAMPLE_MERGING_SUPPORTED  /* Fast path for sloppy upsampling? */
-#define QUANT_1PASS_SUPPORTED       /* 1-pass color quantization? */
-#define QUANT_2PASS_SUPPORTED       /* 2-pass color quantization? */
+#undff  D_ARITH_CODING_SUPPORTED    /* Aritimftid doding bbdk fnd? */
+#dffinf D_MULTISCAN_FILES_SUPPORTED /* Multiplf-sdbn JPEG filfs? */
+#dffinf D_PROGRESSIVE_SUPPORTED     /* Progrfssivf JPEG? (Rfquirfs MULTISCAN)*/
+#dffinf SAVE_MARKERS_SUPPORTED      /* jpfg_sbvf_mbrkfrs() nffdfd? */
+#dffinf BLOCK_SMOOTHING_SUPPORTED   /* Blodk smootiing? (Progrfssivf only) */
+#dffinf IDCT_SCALING_SUPPORTED      /* Output rfsdbling vib IDCT? */
+#undff  UPSAMPLE_SCALING_SUPPORTED  /* Output rfsdbling bt upsbmplf stbgf? */
+#dffinf UPSAMPLE_MERGING_SUPPORTED  /* Fbst pbti for sloppy upsbmpling? */
+#dffinf QUANT_1PASS_SUPPORTED       /* 1-pbss dolor qubntizbtion? */
+#dffinf QUANT_2PASS_SUPPORTED       /* 2-pbss dolor qubntizbtion? */
 
-/* more capability options later, no doubt */
+/* morf dbpbbility options lbtfr, no doubt */
 
 
 /*
- * Ordering of RGB data in scanlines passed to or from the application.
- * If your application wants to deal with data in the order B,G,R, just
- * change these macros.  You can also deal with formats such as R,G,B,X
- * (one extra byte per pixel) by changing RGB_PIXELSIZE.  Note that changing
- * the offsets will also change the order in which colormap data is organized.
+ * Ordfring of RGB dbtb in sdbnlinfs pbssfd to or from tif bpplidbtion.
+ * If your bpplidbtion wbnts to dfbl witi dbtb in tif ordfr B,G,R, just
+ * dibngf tifsf mbdros.  You dbn blso dfbl witi formbts sudi bs R,G,B,X
+ * (onf fxtrb bytf pfr pixfl) by dibnging RGB_PIXELSIZE.  Notf tibt dibnging
+ * tif offsfts will blso dibngf tif ordfr in wiidi dolormbp dbtb is orgbnizfd.
  * RESTRICTIONS:
- * 1. The sample applications cjpeg,djpeg do NOT support modified RGB formats.
- * 2. These macros only affect RGB<=>YCbCr color conversion, so they are not
- *    useful if you are using JPEG color spaces other than YCbCr or grayscale.
- * 3. The color quantizer modules will not behave desirably if RGB_PIXELSIZE
- *    is not 3 (they don't understand about dummy color components!).  So you
- *    can't use color quantization if you change that value.
+ * 1. Tif sbmplf bpplidbtions djpfg,djpfg do NOT support modififd RGB formbts.
+ * 2. Tifsf mbdros only bfffdt RGB<=>YCbCr dolor donvfrsion, so tify brf not
+ *    usfful if you brf using JPEG dolor spbdfs otifr tibn YCbCr or grbysdblf.
+ * 3. Tif dolor qubntizfr modulfs will not bfibvf dfsirbbly if RGB_PIXELSIZE
+ *    is not 3 (tify don't undfrstbnd bbout dummy dolor domponfnts!).  So you
+ *    dbn't usf dolor qubntizbtion if you dibngf tibt vbluf.
  */
 
-#define RGB_RED         0       /* Offset of Red in an RGB scanline element */
-#define RGB_GREEN       1       /* Offset of Green */
-#define RGB_BLUE        2       /* Offset of Blue */
-#define RGB_PIXELSIZE   3       /* JSAMPLEs per RGB scanline element */
+#dffinf RGB_RED         0       /* Offsft of Rfd in bn RGB sdbnlinf flfmfnt */
+#dffinf RGB_GREEN       1       /* Offsft of Grffn */
+#dffinf RGB_BLUE        2       /* Offsft of Bluf */
+#dffinf RGB_PIXELSIZE   3       /* JSAMPLEs pfr RGB sdbnlinf flfmfnt */
 
 
-/* Definitions for speed-related optimizations. */
+/* Dffinitions for spffd-rflbtfd optimizbtions. */
 
 
-/* If your compiler supports inline functions, define INLINE
- * as the inline keyword; otherwise define it as empty.
+/* If your dompilfr supports inlinf fundtions, dffinf INLINE
+ * bs tif inlinf kfyword; otifrwisf dffinf it bs fmpty.
  */
 
-#ifndef INLINE
-#ifdef __GNUC__                 /* for instance, GNU C knows about inline */
-#define INLINE __inline__
-#endif
-#ifndef INLINE
-#define INLINE                  /* default is to define it as empty */
-#endif
-#endif
+#ifndff INLINE
+#ifdff __GNUC__                 /* for instbndf, GNU C knows bbout inlinf */
+#dffinf INLINE __inlinf__
+#fndif
+#ifndff INLINE
+#dffinf INLINE                  /* dffbult is to dffinf it bs fmpty */
+#fndif
+#fndif
 
 
-/* On some machines (notably 68000 series) "int" is 32 bits, but multiplying
- * two 16-bit shorts is faster than multiplying two ints.  Define MULTIPLIER
- * as short on such a machine.  MULTIPLIER must be at least 16 bits wide.
+/* On somf mbdiinfs (notbbly 68000 sfrifs) "int" is 32 bits, but multiplying
+ * two 16-bit siorts is fbstfr tibn multiplying two ints.  Dffinf MULTIPLIER
+ * bs siort on sudi b mbdiinf.  MULTIPLIER must bf bt lfbst 16 bits widf.
  */
 
-#ifndef MULTIPLIER
-#define MULTIPLIER  int         /* type for fastest integer multiply */
-#endif
+#ifndff MULTIPLIER
+#dffinf MULTIPLIER  int         /* typf for fbstfst intfgfr multiply */
+#fndif
 
 
-/* FAST_FLOAT should be either float or double, whichever is done faster
- * by your compiler.  (Note that this type is only used in the floating point
- * DCT routines, so it only matters if you've defined DCT_FLOAT_SUPPORTED.)
- * Typically, float is faster in ANSI C compilers, while double is faster in
- * pre-ANSI compilers (because they insist on converting to double anyway).
- * The code below therefore chooses float if we have ANSI-style prototypes.
+/* FAST_FLOAT siould bf fitifr flobt or doublf, wiidifvfr is donf fbstfr
+ * by your dompilfr.  (Notf tibt tiis typf is only usfd in tif flobting point
+ * DCT routinfs, so it only mbttfrs if you'vf dffinfd DCT_FLOAT_SUPPORTED.)
+ * Typidblly, flobt is fbstfr in ANSI C dompilfrs, wiilf doublf is fbstfr in
+ * prf-ANSI dompilfrs (bfdbusf tify insist on donvfrting to doublf bnywby).
+ * Tif dodf bflow tifrfforf dioosfs flobt if wf ibvf ANSI-stylf prototypfs.
  */
 
-#ifndef FAST_FLOAT
-#ifdef HAVE_PROTOTYPES
-#define FAST_FLOAT  float
-#else
-#define FAST_FLOAT  double
-#endif
-#endif
+#ifndff FAST_FLOAT
+#ifdff HAVE_PROTOTYPES
+#dffinf FAST_FLOAT  flobt
+#flsf
+#dffinf FAST_FLOAT  doublf
+#fndif
+#fndif
 
-#endif /* JPEG_INTERNAL_OPTIONS */
+#fndif /* JPEG_INTERNAL_OPTIONS */

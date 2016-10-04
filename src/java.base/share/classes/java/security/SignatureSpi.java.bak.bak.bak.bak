@@ -1,0 +1,390 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.util.*;
+import jbvb.io.*;
+
+import jbvb.nio.BytfBufffr;
+
+import sun.sfdurity.jdb.JCAUtil;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf {@dodf Signbturf} dlbss, whidh is usfd to providf thf
+ * fundtionblity of b digitbl signbturf blgorithm. Digitbl signbturfs brf usfd
+ * for buthfntidbtion bnd intfgrity bssurbndf of digitbl dbtb.
+ *.
+ * <p> All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b pbrtidulbr signbturf blgorithm.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ *
+ *
+ * @sff Signbturf
+ */
+
+publid bbstrbdt dlbss SignbturfSpi {
+
+    /**
+     * Applidbtion-spfdififd sourdf of rbndomnfss.
+     */
+    protfdtfd SfdurfRbndom bppRbndom = null;
+
+    /**
+     * Initiblizfs this signbturf objfdt with thf spfdififd
+     * publid kfy for vfrifidbtion opfrbtions.
+     *
+     * @pbrbm publidKfy thf publid kfy of thf idfntity whosf signbturf is
+     * going to bf vfrififd.
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is impropfrly
+     * fndodfd, pbrbmftfrs brf missing, bnd so on.
+     */
+    protfdtfd bbstrbdt void fnginfInitVfrify(PublidKfy publidKfy)
+        throws InvblidKfyExdfption;
+
+    /**
+     * Initiblizfs this signbturf objfdt with thf spfdififd
+     * privbtf kfy for signing opfrbtions.
+     *
+     * @pbrbm privbtfKfy thf privbtf kfy of thf idfntity whosf signbturf
+     * will bf gfnfrbtfd.
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is impropfrly
+     * fndodfd, pbrbmftfrs brf missing, bnd so on.
+     */
+    protfdtfd bbstrbdt void fnginfInitSign(PrivbtfKfy privbtfKfy)
+        throws InvblidKfyExdfption;
+
+    /**
+     * Initiblizfs this signbturf objfdt with thf spfdififd
+     * privbtf kfy bnd sourdf of rbndomnfss for signing opfrbtions.
+     *
+     * <p>This dondrftf mfthod hbs bffn bddfd to this prfviously-dffinfd
+     * bbstrbdt dlbss. (For bbdkwbrds dompbtibility, it dbnnot bf bbstrbdt.)
+     *
+     * @pbrbm privbtfKfy thf privbtf kfy of thf idfntity whosf signbturf
+     * will bf gfnfrbtfd.
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is impropfrly
+     * fndodfd, pbrbmftfrs brf missing, bnd so on.
+     */
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy,
+                                  SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption {
+            this.bppRbndom = rbndom;
+            fnginfInitSign(privbtfKfy);
+    }
+
+    /**
+     * Updbtfs thf dbtb to bf signfd or vfrififd
+     * using thf spfdififd bytf.
+     *
+     * @pbrbm b thf bytf to usf for thf updbtf.
+     *
+     * @fxdfption SignbturfExdfption if thf fnginf is not initiblizfd
+     * propfrly.
+     */
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf b) throws SignbturfExdfption;
+
+    /**
+     * Updbtfs thf dbtb to bf signfd or vfrififd, using thf
+     * spfdififd brrby of bytfs, stbrting bt thf spfdififd offsft.
+     *
+     * @pbrbm b thf brrby of bytfs
+     * @pbrbm off thf offsft to stbrt from in thf brrby of bytfs
+     * @pbrbm lfn thf numbfr of bytfs to usf, stbrting bt offsft
+     *
+     * @fxdfption SignbturfExdfption if thf fnginf is not initiblizfd
+     * propfrly
+     */
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf[] b, int off, int lfn)
+        throws SignbturfExdfption;
+
+    /**
+     * Updbtfs thf dbtb to bf signfd or vfrififd using thf spfdififd
+     * BytfBufffr. Prodfssfs thf {@dodf dbtb.rfmbining()} bytfs
+     * stbrting bt bt {@dodf dbtb.position()}.
+     * Upon rfturn, thf bufffr's position will bf fqubl to its limit;
+     * its limit will not hbvf dhbngfd.
+     *
+     * @pbrbm input thf BytfBufffr
+     * @sindf 1.5
+     */
+    protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        if (input.hbsRfmbining() == fblsf) {
+            rfturn;
+        }
+        try {
+            if (input.hbsArrby()) {
+                bytf[] b = input.brrby();
+                int ofs = input.brrbyOffsft();
+                int pos = input.position();
+                int lim = input.limit();
+                fnginfUpdbtf(b, ofs + pos, lim - pos);
+                input.position(lim);
+            } flsf {
+                int lfn = input.rfmbining();
+                bytf[] b = nfw bytf[JCAUtil.gftTfmpArrbySizf(lfn)];
+                whilf (lfn > 0) {
+                    int dhunk = Mbth.min(lfn, b.lfngth);
+                    input.gft(b, 0, dhunk);
+                    fnginfUpdbtf(b, 0, dhunk);
+                    lfn -= dhunk;
+                }
+            }
+        } dbtdh (SignbturfExdfption f) {
+            // is spfdififd to only oddur whfn thf fnginf is not initiblizfd
+            // this dbsf should nfvfr oddur bs it is dbught in Signbturf.jbvb
+            throw nfw ProvidfrExdfption("updbtf() fbilfd", f);
+        }
+    }
+
+    /**
+     * Rfturns thf signbturf bytfs of bll thf dbtb
+     * updbtfd so fbr.
+     * Thf formbt of thf signbturf dfpfnds on thf undfrlying
+     * signbturf sdhfmf.
+     *
+     * @rfturn thf signbturf bytfs of thf signing opfrbtion's rfsult.
+     *
+     * @fxdfption SignbturfExdfption if thf fnginf is not
+     * initiblizfd propfrly or if this signbturf blgorithm is unbblf to
+     * prodfss thf input dbtb providfd.
+     */
+    protfdtfd bbstrbdt bytf[] fnginfSign() throws SignbturfExdfption;
+
+    /**
+     * Finishfs this signbturf opfrbtion bnd storfs thf rfsulting signbturf
+     * bytfs in thf providfd bufffr {@dodf outbuf}, stbrting bt
+     * {@dodf offsft}.
+     * Thf formbt of thf signbturf dfpfnds on thf undfrlying
+     * signbturf sdhfmf.
+     *
+     * <p>Thf signbturf implfmfntbtion is rfsft to its initibl stbtf
+     * (thf stbtf it wbs in bftfr b dbll to onf of thf
+     * {@dodf fnginfInitSign} mfthods)
+     * bnd dbn bf rfusfd to gfnfrbtf furthfr signbturfs with thf sbmf privbtf
+     * kfy.
+     *
+     * This mfthod should bf bbstrbdt, but wf lfbvf it dondrftf for
+     * binbry dompbtibility.  Knowlfdgfbblf providfrs should ovfrridf this
+     * mfthod.
+     *
+     * @pbrbm outbuf bufffr for thf signbturf rfsult.
+     *
+     * @pbrbm offsft offsft into {@dodf outbuf} whfrf thf signbturf is
+     * storfd.
+     *
+     * @pbrbm lfn numbfr of bytfs within {@dodf outbuf} bllottfd for thf
+     * signbturf.
+     * Both this dffbult implfmfntbtion bnd thf SUN providfr do not
+     * rfturn pbrtibl digfsts. If thf vbluf of this pbrbmftfr is lfss
+     * thbn thf bdtubl signbturf lfngth, this mfthod will throw b
+     * SignbturfExdfption.
+     * This pbrbmftfr is ignorfd if its vbluf is grfbtfr thbn or fqubl to
+     * thf bdtubl signbturf lfngth.
+     *
+     * @rfturn thf numbfr of bytfs plbdfd into {@dodf outbuf}
+     *
+     * @fxdfption SignbturfExdfption if thf fnginf is not
+     * initiblizfd propfrly, if this signbturf blgorithm is unbblf to
+     * prodfss thf input dbtb providfd, or if {@dodf lfn} is lfss
+     * thbn thf bdtubl signbturf lfngth.
+     *
+     * @sindf 1.2
+     */
+    protfdtfd int fnginfSign(bytf[] outbuf, int offsft, int lfn)
+                        throws SignbturfExdfption {
+        bytf[] sig = fnginfSign();
+        if (lfn < sig.lfngth) {
+                throw nfw SignbturfExdfption
+                    ("pbrtibl signbturfs not rfturnfd");
+        }
+        if (outbuf.lfngth - offsft < sig.lfngth) {
+                throw nfw SignbturfExdfption
+                    ("insuffidifnt spbdf in thf output bufffr to storf thf "
+                     + "signbturf");
+        }
+        Systfm.brrbydopy(sig, 0, outbuf, offsft, sig.lfngth);
+        rfturn sig.lfngth;
+    }
+
+    /**
+     * Vfrififs thf pbssfd-in signbturf.
+     *
+     * @pbrbm sigBytfs thf signbturf bytfs to bf vfrififd.
+     *
+     * @rfturn truf if thf signbturf wbs vfrififd, fblsf if not.
+     *
+     * @fxdfption SignbturfExdfption if thf fnginf is not
+     * initiblizfd propfrly, thf pbssfd-in signbturf is impropfrly
+     * fndodfd or of thf wrong typf, if this signbturf blgorithm is unbblf to
+     * prodfss thf input dbtb providfd, ftd.
+     */
+    protfdtfd bbstrbdt boolfbn fnginfVfrify(bytf[] sigBytfs)
+        throws SignbturfExdfption;
+
+    /**
+     * Vfrififs thf pbssfd-in signbturf in thf spfdififd brrby
+     * of bytfs, stbrting bt thf spfdififd offsft.
+     *
+     * <p> Notf: Subdlbssfs should ovfrwritf thf dffbult implfmfntbtion.
+     *
+     *
+     * @pbrbm sigBytfs thf signbturf bytfs to bf vfrififd.
+     * @pbrbm offsft thf offsft to stbrt from in thf brrby of bytfs.
+     * @pbrbm lfngth thf numbfr of bytfs to usf, stbrting bt offsft.
+     *
+     * @rfturn truf if thf signbturf wbs vfrififd, fblsf if not.
+     *
+     * @fxdfption SignbturfExdfption if thf fnginf is not
+     * initiblizfd propfrly, thf pbssfd-in signbturf is impropfrly
+     * fndodfd or of thf wrong typf, if this signbturf blgorithm is unbblf to
+     * prodfss thf input dbtb providfd, ftd.
+     * @sindf 1.4
+     */
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs, int offsft, int lfngth)
+        throws SignbturfExdfption {
+        bytf[] sigBytfsCopy = nfw bytf[lfngth];
+        Systfm.brrbydopy(sigBytfs, offsft, sigBytfsCopy, 0, lfngth);
+        rfturn fnginfVfrify(sigBytfsCopy);
+    }
+
+    /**
+     * Sfts thf spfdififd blgorithm pbrbmftfr to thf spfdififd
+     * vbluf. This mfthod supplifs b gfnfrbl-purposf mfdhbnism through
+     * whidh it is possiblf to sft thf vbrious pbrbmftfrs of this objfdt.
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for thf blgorithm, sudh bs
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * (if bppropribtf), or bn indidbtion of whfthfr or not to pfrform
+     * b spfdifid but optionbl domputbtion. A uniform blgorithm-spfdifid
+     * nbming sdhfmf for fbdh pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt this timf.
+     *
+     * @pbrbm pbrbm thf string idfntififr of thf pbrbmftfr.
+     *
+     * @pbrbm vbluf thf pbrbmftfr vbluf.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf pbrbm} is bn
+     * invblid pbrbmftfr for this signbturf blgorithm fnginf,
+     * thf pbrbmftfr is blrfbdy sft
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
+     *
+     * @dfprfdbtfd Rfplbdfd by {@link
+     * #fnginfSftPbrbmftfr(jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd)
+     * fnginfSftPbrbmftfr}.
+     */
+    @Dfprfdbtfd
+    protfdtfd bbstrbdt void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+        throws InvblidPbrbmftfrExdfption;
+
+    /**
+     * <p>This mfthod is ovfrriddfn by providfrs to initiblizf
+     * this signbturf fnginf with thf spfdififd pbrbmftfr sft.
+     *
+     * @pbrbm pbrbms thf pbrbmftfrs
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this mfthod is not
+     * ovfrriddfn by b providfr
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if this mfthod is
+     * ovfrriddfn by b providfr bnd thf givfn pbrbmftfrs
+     * brf inbppropribtf for this signbturf fnginf
+     */
+    protfdtfd void fnginfSftPbrbmftfr(AlgorithmPbrbmftfrSpfd pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * <p>This mfthod is ovfrriddfn by providfrs to rfturn thf
+     * pbrbmftfrs usfd with this signbturf fnginf, or null
+     * if this signbturf fnginf dofs not usf bny pbrbmftfrs.
+     *
+     * <p>Thf rfturnfd pbrbmftfrs mby bf thf sbmf thbt wfrf usfd to initiblizf
+     * this signbturf fnginf, or mby dontbin b dombinbtion of dffbult bnd
+     * rbndomly gfnfrbtfd pbrbmftfr vblufs usfd by thf undfrlying signbturf
+     * implfmfntbtion if this signbturf fnginf rfquirfs blgorithm pbrbmftfrs
+     * but wbs not initiblizfd with bny.
+     *
+     * @rfturn thf pbrbmftfrs usfd with this signbturf fnginf, or null if this
+     * signbturf fnginf dofs not usf bny pbrbmftfrs
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this mfthod is
+     * not ovfrriddfn by b providfr
+     * @sindf 1.4
+     */
+    protfdtfd AlgorithmPbrbmftfrs fnginfGftPbrbmftfrs() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd blgorithm pbrbmftfr.
+     * This mfthod supplifs b gfnfrbl-purposf mfdhbnism through whidh it
+     * is possiblf to gft thf vbrious pbrbmftfrs of this objfdt. A pbrbmftfr
+     * mby bf bny sfttbblf pbrbmftfr for thf blgorithm, sudh bs b pbrbmftfr
+     * sizf, or  b sourdf of rbndom bits for signbturf gfnfrbtion (if
+     * bppropribtf), or bn indidbtion of whfthfr or not to pfrform b
+     * spfdifid but optionbl domputbtion. A uniform blgorithm-spfdifid
+     * nbming sdhfmf for fbdh pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt this timf.
+     *
+     * @pbrbm pbrbm thf string nbmf of thf pbrbmftfr.
+     *
+     * @rfturn thf objfdt thbt rfprfsfnts thf pbrbmftfr vbluf, or null if
+     * thfrf is nonf.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf pbrbm} is bn
+     * invblid pbrbmftfr for this fnginf, or bnothfr fxdfption oddurs whilf
+     * trying to gft this pbrbmftfr.
+     *
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    protfdtfd bbstrbdt Objfdt fnginfGftPbrbmftfr(String pbrbm)
+        throws InvblidPbrbmftfrExdfption;
+
+    /**
+     * Rfturns b dlonf if thf implfmfntbtion is dlonfbblf.
+     *
+     * @rfturn b dlonf if thf implfmfntbtion is dlonfbblf.
+     *
+     * @fxdfption ClonfNotSupportfdExdfption if this is dbllfd
+     * on bn implfmfntbtion thbt dofs not support {@dodf Clonfbblf}.
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        if (this instbndfof Clonfbblf) {
+            rfturn supfr.dlonf();
+        } flsf {
+            throw nfw ClonfNotSupportfdExdfption();
+        }
+    }
+}

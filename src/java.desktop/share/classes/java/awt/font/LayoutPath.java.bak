@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * (C) Copyright IBM Corp. 2005, All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 2005, All Rigits Rfsfrvfd.
  */
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.geom.Point2D;
+import jbvb.bwt.gfom.Point2D;
 
 /**
- * LayoutPath provides a mapping between locations relative to the
- * baseline and points in user space.  Locations consist of an advance
- * along the baseline, and an offset perpendicular to the baseline at
- * the advance.  Positive values along the perpendicular are in the
- * direction that is 90 degrees clockwise from the baseline vector.
- * Locations are represented as a <code>Point2D</code>, where x is the advance and
- * y is the offset.
+ * LbyoutPbti providfs b mbpping bftwffn lodbtions rflbtivf to tif
+ * bbsflinf bnd points in usfr spbdf.  Lodbtions donsist of bn bdvbndf
+ * blong tif bbsflinf, bnd bn offsft pfrpfndidulbr to tif bbsflinf bt
+ * tif bdvbndf.  Positivf vblufs blong tif pfrpfndidulbr brf in tif
+ * dirfdtion tibt is 90 dfgrffs dlodkwisf from tif bbsflinf vfdtor.
+ * Lodbtions brf rfprfsfntfd bs b <dodf>Point2D</dodf>, wifrf x is tif bdvbndf bnd
+ * y is tif offsft.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public abstract class LayoutPath {
+publid bbstrbdt dlbss LbyoutPbti {
     /**
-     * Convert a point in user space to a location relative to the
-     * path. The location is chosen so as to minimize the distance
-     * from the point to the path (e.g., the magnitude of the offset
-     * will be smallest).  If there is more than one such location,
-     * the location with the smallest advance is chosen.
-     * @param point the point to convert.  If it is not the same
-     * object as location, point will remain unmodified by this call.
-     * @param location a <code>Point2D</code> to hold the returned location.
-     * It can be the same object as point.
-     * @return true if the point is associated with the portion of the
-     * path preceding the location, false if it is associated with
-     * the portion following.  The default, if the location is not at
-     * a break or sharp bend in the path, is to return true.
-     * @throws NullPointerException if point or location is null
-     * @since 1.6
+     * Convfrt b point in usfr spbdf to b lodbtion rflbtivf to tif
+     * pbti. Tif lodbtion is diosfn so bs to minimizf tif distbndf
+     * from tif point to tif pbti (f.g., tif mbgnitudf of tif offsft
+     * will bf smbllfst).  If tifrf is morf tibn onf sudi lodbtion,
+     * tif lodbtion witi tif smbllfst bdvbndf is diosfn.
+     * @pbrbm point tif point to donvfrt.  If it is not tif sbmf
+     * objfdt bs lodbtion, point will rfmbin unmodififd by tiis dbll.
+     * @pbrbm lodbtion b <dodf>Point2D</dodf> to iold tif rfturnfd lodbtion.
+     * It dbn bf tif sbmf objfdt bs point.
+     * @rfturn truf if tif point is bssodibtfd witi tif portion of tif
+     * pbti prfdfding tif lodbtion, fblsf if it is bssodibtfd witi
+     * tif portion following.  Tif dffbult, if tif lodbtion is not bt
+     * b brfbk or sibrp bfnd in tif pbti, is to rfturn truf.
+     * @tirows NullPointfrExdfption if point or lodbtion is null
+     * @sindf 1.6
      */
-    public abstract boolean pointToPath(Point2D point, Point2D location);
+    publid bbstrbdt boolfbn pointToPbti(Point2D point, Point2D lodbtion);
 
     /**
-     * Convert a location relative to the path to a point in user
-     * coordinates.  The path might bend abruptly or be disjoint at
-     * the location's advance.  If this is the case, the value of
-     * 'preceding' is used to disambiguate the portion of the path
-     * whose location and slope is to be used to interpret the offset.
-     * @param location a <code>Point2D</code> representing the advance (in x) and
-     * offset (in y) of a location relative to the path.  If location
-     * is not the same object as point, location will remain
-     * unmodified by this call.
-     * @param preceding if true, the portion preceding the advance
-     * should be used, if false the portion after should be used.
-     * This has no effect if the path does not break or bend sharply
-     * at the advance.
-     * @param point a <code>Point2D</code> to hold the returned point.  It can be
-     * the same object as location.
-     * @throws NullPointerException if location or point is null
-     * @since 1.6
+     * Convfrt b lodbtion rflbtivf to tif pbti to b point in usfr
+     * doordinbtfs.  Tif pbti migit bfnd bbruptly or bf disjoint bt
+     * tif lodbtion's bdvbndf.  If tiis is tif dbsf, tif vbluf of
+     * 'prfdfding' is usfd to disbmbigubtf tif portion of tif pbti
+     * wiosf lodbtion bnd slopf is to bf usfd to intfrprft tif offsft.
+     * @pbrbm lodbtion b <dodf>Point2D</dodf> rfprfsfnting tif bdvbndf (in x) bnd
+     * offsft (in y) of b lodbtion rflbtivf to tif pbti.  If lodbtion
+     * is not tif sbmf objfdt bs point, lodbtion will rfmbin
+     * unmodififd by tiis dbll.
+     * @pbrbm prfdfding if truf, tif portion prfdfding tif bdvbndf
+     * siould bf usfd, if fblsf tif portion bftfr siould bf usfd.
+     * Tiis ibs no ffffdt if tif pbti dofs not brfbk or bfnd sibrply
+     * bt tif bdvbndf.
+     * @pbrbm point b <dodf>Point2D</dodf> to iold tif rfturnfd point.  It dbn bf
+     * tif sbmf objfdt bs lodbtion.
+     * @tirows NullPointfrExdfption if lodbtion or point is null
+     * @sindf 1.6
      */
-    public abstract void pathToPoint(Point2D location, boolean preceding,
+    publid bbstrbdt void pbtiToPoint(Point2D lodbtion, boolfbn prfdfding,
                                      Point2D point);
 }

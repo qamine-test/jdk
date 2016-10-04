@@ -1,638 +1,638 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.DefaultFocusTraversalPolicy;
-import java.awt.FocusTraversalPolicy;
-import java.awt.Window;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.beans.PropertyVetoException;
-import java.util.Set;
-import java.util.TreeSet;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.DffbultFodusTrbvfrsblPolidy;
+import jbvb.bwt.FodusTrbvfrsblPolidy;
+import jbvb.bwt.Window;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+import jbvb.util.Sft;
+import jbvb.util.TrffSft;
 /**
- * A container used to create a multiple-document interface or a virtual desktop.
- * You create <code>JInternalFrame</code> objects and add them to the
- * <code>JDesktopPane</code>. <code>JDesktopPane</code> extends
- * <code>JLayeredPane</code> to manage the potentially overlapping internal
- * frames. It also maintains a reference to an instance of
- * <code>DesktopManager</code> that is set by the UI
- * class for the current look and feel (L&amp;F).  Note that <code>JDesktopPane</code>
- * does not support borders.
+ * A dontbinfr usfd to drfbtf b multiplf-dodumfnt intfrfbdf or b virtubl dfsktop.
+ * You drfbtf <dodf>JIntfrnblFrbmf</dodf> objfdts bnd bdd tifm to tif
+ * <dodf>JDfsktopPbnf</dodf>. <dodf>JDfsktopPbnf</dodf> fxtfnds
+ * <dodf>JLbyfrfdPbnf</dodf> to mbnbgf tif potfntiblly ovfrlbpping intfrnbl
+ * frbmfs. It blso mbintbins b rfffrfndf to bn instbndf of
+ * <dodf>DfsktopMbnbgfr</dodf> tibt is sft by tif UI
+ * dlbss for tif durrfnt look bnd fffl (L&bmp;F).  Notf tibt <dodf>JDfsktopPbnf</dodf>
+ * dofs not support bordfrs.
  * <p>
- * This class is normally used as the parent of <code>JInternalFrames</code>
- * to provide a pluggable <code>DesktopManager</code> object to the
- * <code>JInternalFrames</code>. The <code>installUI</code> of the
- * L&amp;F specific implementation is responsible for setting the
- * <code>desktopManager</code> variable appropriately.
- * When the parent of a <code>JInternalFrame</code> is a <code>JDesktopPane</code>,
- * it should delegate most of its behavior to the <code>desktopManager</code>
- * (closing, resizing, etc).
+ * Tiis dlbss is normblly usfd bs tif pbrfnt of <dodf>JIntfrnblFrbmfs</dodf>
+ * to providf b pluggbblf <dodf>DfsktopMbnbgfr</dodf> objfdt to tif
+ * <dodf>JIntfrnblFrbmfs</dodf>. Tif <dodf>instbllUI</dodf> of tif
+ * L&bmp;F spfdifid implfmfntbtion is rfsponsiblf for sftting tif
+ * <dodf>dfsktopMbnbgfr</dodf> vbribblf bppropribtfly.
+ * Wifn tif pbrfnt of b <dodf>JIntfrnblFrbmf</dodf> is b <dodf>JDfsktopPbnf</dodf>,
+ * it siould dflfgbtf most of its bfibvior to tif <dodf>dfsktopMbnbgfr</dodf>
+ * (dlosing, rfsizing, ftd).
  * <p>
- * For further documentation and examples see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/internalframe.html">How to Use Internal Frames</a>,
- * a section in <em>The Java Tutorial</em>.
+ * For furtifr dodumfntbtion bnd fxbmplfs sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/intfrnblfrbmf.itml">How to Usf Intfrnbl Frbmfs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see JInternalFrame
- * @see JInternalFrame.JDesktopIcon
- * @see DesktopManager
+ * @sff JIntfrnblFrbmf
+ * @sff JIntfrnblFrbmf.JDfsktopIdon
+ * @sff DfsktopMbnbgfr
  *
- * @author David Kloba
- * @since 1.2
+ * @butior Dbvid Klobb
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JDesktopPane extends JLayeredPane implements Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JDfsktopPbnf fxtfnds JLbyfrfdPbnf implfmfnts Addfssiblf
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "DesktopPaneUI";
+    privbtf stbtid finbl String uiClbssID = "DfsktopPbnfUI";
 
-    transient DesktopManager desktopManager;
+    trbnsifnt DfsktopMbnbgfr dfsktopMbnbgfr;
 
-    private transient JInternalFrame selectedFrame = null;
+    privbtf trbnsifnt JIntfrnblFrbmf sflfdtfdFrbmf = null;
 
     /**
-      * Indicates that the entire contents of the item being dragged
-      * should appear inside the desktop pane.
+      * Indidbtfs tibt tif fntirf dontfnts of tif itfm bfing drbggfd
+      * siould bppfbr insidf tif dfsktop pbnf.
       *
-      * @see #OUTLINE_DRAG_MODE
-      * @see #setDragMode
+      * @sff #OUTLINE_DRAG_MODE
+      * @sff #sftDrbgModf
       */
-    public static final int LIVE_DRAG_MODE = 0;
+    publid stbtid finbl int LIVE_DRAG_MODE = 0;
 
     /**
-      * Indicates that an outline only of the item being dragged
-      * should appear inside the desktop pane.
+      * Indidbtfs tibt bn outlinf only of tif itfm bfing drbggfd
+      * siould bppfbr insidf tif dfsktop pbnf.
       *
-      * @see #LIVE_DRAG_MODE
-      * @see #setDragMode
+      * @sff #LIVE_DRAG_MODE
+      * @sff #sftDrbgModf
       */
-    public static final int OUTLINE_DRAG_MODE = 1;
+    publid stbtid finbl int OUTLINE_DRAG_MODE = 1;
 
-    private int dragMode = LIVE_DRAG_MODE;
-    private boolean dragModeSet = false;
-    private transient List<JInternalFrame> framesCache;
-    private boolean componentOrderCheckingEnabled = true;
-    private boolean componentOrderChanged = false;
+    privbtf int drbgModf = LIVE_DRAG_MODE;
+    privbtf boolfbn drbgModfSft = fblsf;
+    privbtf trbnsifnt List<JIntfrnblFrbmf> frbmfsCbdif;
+    privbtf boolfbn domponfntOrdfrCifdkingEnbblfd = truf;
+    privbtf boolfbn domponfntOrdfrCibngfd = fblsf;
 
     /**
-     * Creates a new <code>JDesktopPane</code>.
+     * Crfbtfs b nfw <dodf>JDfsktopPbnf</dodf>.
      */
-    public JDesktopPane() {
-        setUIProperty("opaque", Boolean.TRUE);
-        setFocusCycleRoot(true);
+    publid JDfsktopPbnf() {
+        sftUIPropfrty("opbquf", Boolfbn.TRUE);
+        sftFodusCydlfRoot(truf);
 
-        setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
-            public Component getDefaultComponent(Container c) {
-                JInternalFrame jifArray[] = getAllFrames();
-                Component comp = null;
-                for (JInternalFrame jif : jifArray) {
-                    comp = jif.getFocusTraversalPolicy().getDefaultComponent(jif);
-                    if (comp != null) {
-                        break;
+        sftFodusTrbvfrsblPolidy(nfw LbyoutFodusTrbvfrsblPolidy() {
+            publid Componfnt gftDffbultComponfnt(Contbinfr d) {
+                JIntfrnblFrbmf jifArrby[] = gftAllFrbmfs();
+                Componfnt domp = null;
+                for (JIntfrnblFrbmf jif : jifArrby) {
+                    domp = jif.gftFodusTrbvfrsblPolidy().gftDffbultComponfnt(jif);
+                    if (domp != null) {
+                        brfbk;
                     }
                 }
-                return comp;
+                rfturn domp;
             }
         });
-        updateUI();
+        updbtfUI();
     }
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Rfturns tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @return the <code>DesktopPaneUI</code> object that
-     *   renders this component
+     * @rfturn tif <dodf>DfsktopPbnfUI</dodf> objfdt tibt
+     *   rfndfrs tiis domponfnt
      */
-    public DesktopPaneUI getUI() {
-        return (DesktopPaneUI)ui;
+    publid DfsktopPbnfUI gftUI() {
+        rfturn (DfsktopPbnfUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sfts tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the DesktopPaneUI L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     * @pbrbm ui  tif DfsktopPbnfUI L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
      */
-    public void setUI(DesktopPaneUI ui) {
-        super.setUI(ui);
+    publid void sftUI(DfsktopPbnfUI ui) {
+        supfr.sftUI(ui);
     }
 
     /**
-     * Sets the "dragging style" used by the desktop pane.
-     * You may want to change to one mode or another for
-     * performance or aesthetic reasons.
+     * Sfts tif "drbgging stylf" usfd by tif dfsktop pbnf.
+     * You mby wbnt to dibngf to onf modf or bnotifr for
+     * pfrformbndf or bfstiftid rfbsons.
      *
-     * @param dragMode the style of drag to use for items in the Desktop
+     * @pbrbm drbgModf tif stylf of drbg to usf for itfms in tif Dfsktop
      *
-     * @see #LIVE_DRAG_MODE
-     * @see #OUTLINE_DRAG_MODE
+     * @sff #LIVE_DRAG_MODE
+     * @sff #OUTLINE_DRAG_MODE
      *
-     * @beaninfo
-     *        bound: true
-     *  description: Dragging style for internal frame children.
-     *         enum: LIVE_DRAG_MODE JDesktopPane.LIVE_DRAG_MODE
-     *               OUTLINE_DRAG_MODE JDesktopPane.OUTLINE_DRAG_MODE
-     * @since 1.3
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Drbgging stylf for intfrnbl frbmf diildrfn.
+     *         fnum: LIVE_DRAG_MODE JDfsktopPbnf.LIVE_DRAG_MODE
+     *               OUTLINE_DRAG_MODE JDfsktopPbnf.OUTLINE_DRAG_MODE
+     * @sindf 1.3
      */
-    public void setDragMode(int dragMode) {
-        int oldDragMode = this.dragMode;
-        this.dragMode = dragMode;
-        firePropertyChange("dragMode", oldDragMode, this.dragMode);
-        dragModeSet = true;
+    publid void sftDrbgModf(int drbgModf) {
+        int oldDrbgModf = tiis.drbgModf;
+        tiis.drbgModf = drbgModf;
+        firfPropfrtyCibngf("drbgModf", oldDrbgModf, tiis.drbgModf);
+        drbgModfSft = truf;
      }
 
     /**
-     * Gets the current "dragging style" used by the desktop pane.
-     * @return either <code>Live_DRAG_MODE</code> or
-     *   <code>OUTLINE_DRAG_MODE</code>
-     * @see #setDragMode
-     * @since 1.3
+     * Gfts tif durrfnt "drbgging stylf" usfd by tif dfsktop pbnf.
+     * @rfturn fitifr <dodf>Livf_DRAG_MODE</dodf> or
+     *   <dodf>OUTLINE_DRAG_MODE</dodf>
+     * @sff #sftDrbgModf
+     * @sindf 1.3
      */
-     public int getDragMode() {
-         return dragMode;
+     publid int gftDrbgModf() {
+         rfturn drbgModf;
      }
 
     /**
-     * Returns the {@code DesktopManger} that handles
-     * desktop-specific UI actions.
+     * Rfturns tif {@dodf DfsktopMbngfr} tibt ibndlfs
+     * dfsktop-spfdifid UI bdtions.
      *
-     * @return the {@code DesktopManger} that handles desktop-specific
-     *         UI actions
+     * @rfturn tif {@dodf DfsktopMbngfr} tibt ibndlfs dfsktop-spfdifid
+     *         UI bdtions
      */
-    public DesktopManager getDesktopManager() {
-        return desktopManager;
+    publid DfsktopMbnbgfr gftDfsktopMbnbgfr() {
+        rfturn dfsktopMbnbgfr;
     }
 
     /**
-     * Sets the <code>DesktopManger</code> that will handle
-     * desktop-specific UI actions. This may be overridden by
-     * {@code LookAndFeel}.
+     * Sfts tif <dodf>DfsktopMbngfr</dodf> tibt will ibndlf
+     * dfsktop-spfdifid UI bdtions. Tiis mby bf ovfrriddfn by
+     * {@dodf LookAndFffl}.
      *
-     * @param d the <code>DesktopManager</code> to use
+     * @pbrbm d tif <dodf>DfsktopMbnbgfr</dodf> to usf
      *
-     * @beaninfo
-     *        bound: true
-     *  description: Desktop manager to handle the internal frames in the
-     *               desktop pane.
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Dfsktop mbnbgfr to ibndlf tif intfrnbl frbmfs in tif
+     *               dfsktop pbnf.
      */
-    public void setDesktopManager(DesktopManager d) {
-        DesktopManager oldValue = desktopManager;
-        desktopManager = d;
-        firePropertyChange("desktopManager", oldValue, desktopManager);
+    publid void sftDfsktopMbnbgfr(DfsktopMbnbgfr d) {
+        DfsktopMbnbgfr oldVbluf = dfsktopMbnbgfr;
+        dfsktopMbnbgfr = d;
+        firfPropfrtyCibngf("dfsktopMbnbgfr", oldVbluf, dfsktopMbnbgfr);
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the L&amp;F has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notifidbtion from tif <dodf>UIMbnbgfr</dodf> tibt tif L&bmp;F ibs dibngfd.
+     * Rfplbdfs tif durrfnt UI objfdt witi tif lbtfst vfrsion from tif
+     * <dodf>UIMbnbgfr</dodf>.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((DesktopPaneUI)UIManager.getUI(this));
+    publid void updbtfUI() {
+        sftUI((DfsktopPbnfUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Rfturns tif nbmf of tif L&bmp;F dlbss tibt rfndfrs tiis domponfnt.
      *
-     * @return the string "DesktopPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif string "DfsktopPbnfUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
     /**
-     * Returns all <code>JInternalFrames</code> currently displayed in the
-     * desktop. Returns iconified frames as well as expanded frames.
+     * Rfturns bll <dodf>JIntfrnblFrbmfs</dodf> durrfntly displbyfd in tif
+     * dfsktop. Rfturns idonififd frbmfs bs wfll bs fxpbndfd frbmfs.
      *
-     * @return an array of <code>JInternalFrame</code> objects
+     * @rfturn bn brrby of <dodf>JIntfrnblFrbmf</dodf> objfdts
      */
-    public JInternalFrame[] getAllFrames() {
-        return getAllFrames(this).toArray(new JInternalFrame[0]);
+    publid JIntfrnblFrbmf[] gftAllFrbmfs() {
+        rfturn gftAllFrbmfs(tiis).toArrby(nfw JIntfrnblFrbmf[0]);
     }
 
-    private static Collection<JInternalFrame> getAllFrames(Container parent) {
-        int i, count;
-        Collection<JInternalFrame> results = new ArrayList<JInternalFrame>();
-        count = parent.getComponentCount();
-        for (i = 0; i < count; i++) {
-            Component next = parent.getComponent(i);
-            if (next instanceof JInternalFrame) {
-                results.add((JInternalFrame) next);
-            } else if (next instanceof JInternalFrame.JDesktopIcon) {
-                JInternalFrame tmp = ((JInternalFrame.JDesktopIcon) next).getInternalFrame();
+    privbtf stbtid Collfdtion<JIntfrnblFrbmf> gftAllFrbmfs(Contbinfr pbrfnt) {
+        int i, dount;
+        Collfdtion<JIntfrnblFrbmf> rfsults = nfw ArrbyList<JIntfrnblFrbmf>();
+        dount = pbrfnt.gftComponfntCount();
+        for (i = 0; i < dount; i++) {
+            Componfnt nfxt = pbrfnt.gftComponfnt(i);
+            if (nfxt instbndfof JIntfrnblFrbmf) {
+                rfsults.bdd((JIntfrnblFrbmf) nfxt);
+            } flsf if (nfxt instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                JIntfrnblFrbmf tmp = ((JIntfrnblFrbmf.JDfsktopIdon) nfxt).gftIntfrnblFrbmf();
                 if (tmp != null) {
-                    results.add(tmp);
+                    rfsults.bdd(tmp);
                 }
-            } else if (next instanceof Container) {
-                results.addAll(getAllFrames((Container) next));
+            } flsf if (nfxt instbndfof Contbinfr) {
+                rfsults.bddAll(gftAllFrbmfs((Contbinfr) nfxt));
             }
         }
-        return results;
+        rfturn rfsults;
     }
 
-    /** Returns the currently active <code>JInternalFrame</code>
-      * in this <code>JDesktopPane</code>, or <code>null</code>
-      * if no <code>JInternalFrame</code> is currently active.
+    /** Rfturns tif durrfntly bdtivf <dodf>JIntfrnblFrbmf</dodf>
+      * in tiis <dodf>JDfsktopPbnf</dodf>, or <dodf>null</dodf>
+      * if no <dodf>JIntfrnblFrbmf</dodf> is durrfntly bdtivf.
       *
-      * @return the currently active <code>JInternalFrame</code> or
-      *   <code>null</code>
-      * @since 1.3
+      * @rfturn tif durrfntly bdtivf <dodf>JIntfrnblFrbmf</dodf> or
+      *   <dodf>null</dodf>
+      * @sindf 1.3
       */
 
-    public JInternalFrame getSelectedFrame() {
-      return selectedFrame;
+    publid JIntfrnblFrbmf gftSflfdtfdFrbmf() {
+      rfturn sflfdtfdFrbmf;
     }
 
-    /** Sets the currently active <code>JInternalFrame</code>
-     *  in this <code>JDesktopPane</code>. This method is used to bridge
-     *  the package gap between JDesktopPane and the platform implementation
-     *  code and should not be called directly. To visually select the frame
-     *  the client must call JInternalFrame.setSelected(true) to activate
-     *  the frame.
-     *  @see JInternalFrame#setSelected(boolean)
+    /** Sfts tif durrfntly bdtivf <dodf>JIntfrnblFrbmf</dodf>
+     *  in tiis <dodf>JDfsktopPbnf</dodf>. Tiis mftiod is usfd to bridgf
+     *  tif pbdkbgf gbp bftwffn JDfsktopPbnf bnd tif plbtform implfmfntbtion
+     *  dodf bnd siould not bf dbllfd dirfdtly. To visublly sflfdt tif frbmf
+     *  tif dlifnt must dbll JIntfrnblFrbmf.sftSflfdtfd(truf) to bdtivbtf
+     *  tif frbmf.
+     *  @sff JIntfrnblFrbmf#sftSflfdtfd(boolfbn)
      *
-     * @param f the internal frame that's currently selected
-     * @since 1.3
+     * @pbrbm f tif intfrnbl frbmf tibt's durrfntly sflfdtfd
+     * @sindf 1.3
      */
 
-    public void setSelectedFrame(JInternalFrame f) {
-      selectedFrame = f;
+    publid void sftSflfdtfdFrbmf(JIntfrnblFrbmf f) {
+      sflfdtfdFrbmf = f;
     }
 
     /**
-     * Returns all <code>JInternalFrames</code> currently displayed in the
-     * specified layer of the desktop. Returns iconified frames as well
-     * expanded frames.
+     * Rfturns bll <dodf>JIntfrnblFrbmfs</dodf> durrfntly displbyfd in tif
+     * spfdififd lbyfr of tif dfsktop. Rfturns idonififd frbmfs bs wfll
+     * fxpbndfd frbmfs.
      *
-     * @param layer  an int specifying the desktop layer
-     * @return an array of <code>JInternalFrame</code> objects
-     * @see JLayeredPane
+     * @pbrbm lbyfr  bn int spfdifying tif dfsktop lbyfr
+     * @rfturn bn brrby of <dodf>JIntfrnblFrbmf</dodf> objfdts
+     * @sff JLbyfrfdPbnf
      */
-    public JInternalFrame[] getAllFramesInLayer(int layer) {
-        Collection<JInternalFrame> allFrames = getAllFrames(this);
-        Iterator<JInternalFrame> iterator = allFrames.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getLayer() != layer) {
-                iterator.remove();
+    publid JIntfrnblFrbmf[] gftAllFrbmfsInLbyfr(int lbyfr) {
+        Collfdtion<JIntfrnblFrbmf> bllFrbmfs = gftAllFrbmfs(tiis);
+        Itfrbtor<JIntfrnblFrbmf> itfrbtor = bllFrbmfs.itfrbtor();
+        wiilf (itfrbtor.ibsNfxt()) {
+            if (itfrbtor.nfxt().gftLbyfr() != lbyfr) {
+                itfrbtor.rfmovf();
             }
         }
-        return allFrames.toArray(new JInternalFrame[0]);
+        rfturn bllFrbmfs.toArrby(nfw JIntfrnblFrbmf[0]);
     }
 
-    private List<JInternalFrame> getFrames() {
-        Component c;
-        Set<ComponentPosition> set = new TreeSet<ComponentPosition>();
-        for (int i = 0; i < getComponentCount(); i++) {
-            c = getComponent(i);
-            if (c instanceof JInternalFrame) {
-                set.add(new ComponentPosition((JInternalFrame)c, getLayer(c),
+    privbtf List<JIntfrnblFrbmf> gftFrbmfs() {
+        Componfnt d;
+        Sft<ComponfntPosition> sft = nfw TrffSft<ComponfntPosition>();
+        for (int i = 0; i < gftComponfntCount(); i++) {
+            d = gftComponfnt(i);
+            if (d instbndfof JIntfrnblFrbmf) {
+                sft.bdd(nfw ComponfntPosition((JIntfrnblFrbmf)d, gftLbyfr(d),
                     i));
             }
-            else if (c instanceof JInternalFrame.JDesktopIcon)  {
-                c = ((JInternalFrame.JDesktopIcon)c).getInternalFrame();
-                set.add(new ComponentPosition((JInternalFrame)c, getLayer(c),
+            flsf if (d instbndfof JIntfrnblFrbmf.JDfsktopIdon)  {
+                d = ((JIntfrnblFrbmf.JDfsktopIdon)d).gftIntfrnblFrbmf();
+                sft.bdd(nfw ComponfntPosition((JIntfrnblFrbmf)d, gftLbyfr(d),
                     i));
             }
         }
-        List<JInternalFrame> frames = new ArrayList<JInternalFrame>(
-                set.size());
-        for (ComponentPosition position : set) {
-            frames.add(position.component);
+        List<JIntfrnblFrbmf> frbmfs = nfw ArrbyList<JIntfrnblFrbmf>(
+                sft.sizf());
+        for (ComponfntPosition position : sft) {
+            frbmfs.bdd(position.domponfnt);
         }
-        return frames;
+        rfturn frbmfs;
    }
 
-    private static class ComponentPosition implements
-        Comparable<ComponentPosition> {
-        private final JInternalFrame component;
-        private final int layer;
-        private final int zOrder;
+    privbtf stbtid dlbss ComponfntPosition implfmfnts
+        Compbrbblf<ComponfntPosition> {
+        privbtf finbl JIntfrnblFrbmf domponfnt;
+        privbtf finbl int lbyfr;
+        privbtf finbl int zOrdfr;
 
-        ComponentPosition(JInternalFrame component, int layer, int zOrder) {
-            this.component = component;
-            this.layer = layer;
-            this.zOrder = zOrder;
+        ComponfntPosition(JIntfrnblFrbmf domponfnt, int lbyfr, int zOrdfr) {
+            tiis.domponfnt = domponfnt;
+            tiis.lbyfr = lbyfr;
+            tiis.zOrdfr = zOrdfr;
         }
 
-        public int compareTo(ComponentPosition o) {
-            int delta = o.layer - layer;
-            if (delta == 0) {
-                return zOrder - o.zOrder;
+        publid int dompbrfTo(ComponfntPosition o) {
+            int dfltb = o.lbyfr - lbyfr;
+            if (dfltb == 0) {
+                rfturn zOrdfr - o.zOrdfr;
             }
-            return delta;
+            rfturn dfltb;
         }
     }
 
-    private JInternalFrame getNextFrame(JInternalFrame f, boolean forward) {
-        verifyFramesCache();
+    privbtf JIntfrnblFrbmf gftNfxtFrbmf(JIntfrnblFrbmf f, boolfbn forwbrd) {
+        vfrifyFrbmfsCbdif();
         if (f == null) {
-            return getTopInternalFrame();
+            rfturn gftTopIntfrnblFrbmf();
         }
-        int i = framesCache.indexOf(f);
-        if (i == -1 || framesCache.size() == 1) {
-            /* error */
-            return null;
+        int i = frbmfsCbdif.indfxOf(f);
+        if (i == -1 || frbmfsCbdif.sizf() == 1) {
+            /* frror */
+            rfturn null;
         }
-        if (forward) {
-            // navigate to the next frame
-            if (++i == framesCache.size()) {
-                /* wrap */
+        if (forwbrd) {
+            // nbvigbtf to tif nfxt frbmf
+            if (++i == frbmfsCbdif.sizf()) {
+                /* wrbp */
                 i = 0;
             }
         }
-        else {
-            // navigate to the previous frame
+        flsf {
+            // nbvigbtf to tif prfvious frbmf
             if (--i == -1) {
-                /* wrap */
-                i = framesCache.size() - 1;
+                /* wrbp */
+                i = frbmfsCbdif.sizf() - 1;
             }
         }
-        return framesCache.get(i);
+        rfturn frbmfsCbdif.gft(i);
     }
 
-    JInternalFrame getNextFrame(JInternalFrame f) {
-        return getNextFrame(f, true);
+    JIntfrnblFrbmf gftNfxtFrbmf(JIntfrnblFrbmf f) {
+        rfturn gftNfxtFrbmf(f, truf);
     }
 
-    private JInternalFrame getTopInternalFrame() {
-        if (framesCache.size() == 0) {
-            return null;
+    privbtf JIntfrnblFrbmf gftTopIntfrnblFrbmf() {
+        if (frbmfsCbdif.sizf() == 0) {
+            rfturn null;
         }
-        return framesCache.get(0);
+        rfturn frbmfsCbdif.gft(0);
     }
 
-    private void updateFramesCache() {
-        framesCache = getFrames();
+    privbtf void updbtfFrbmfsCbdif() {
+        frbmfsCbdif = gftFrbmfs();
     }
 
-    private void verifyFramesCache() {
-        // If framesCache is dirty, then recreate it.
-        if (componentOrderChanged) {
-            componentOrderChanged = false;
-            updateFramesCache();
+    privbtf void vfrifyFrbmfsCbdif() {
+        // If frbmfsCbdif is dirty, tifn rfdrfbtf it.
+        if (domponfntOrdfrCibngfd) {
+            domponfntOrdfrCibngfd = fblsf;
+            updbtfFrbmfsCbdif();
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void remove(Component comp) {
-        super.remove(comp);
-        updateFramesCache();
+    @Ovfrridf
+    publid void rfmovf(Componfnt domp) {
+        supfr.rfmovf(domp);
+        updbtfFrbmfsCbdif();
     }
 
     /**
-     * Selects the next <code>JInternalFrame</code> in this desktop pane.
+     * Sflfdts tif nfxt <dodf>JIntfrnblFrbmf</dodf> in tiis dfsktop pbnf.
      *
-     * @param forward a boolean indicating which direction to select in;
-     *        <code>true</code> for forward, <code>false</code> for
-     *        backward
-     * @return the JInternalFrame that was selected or <code>null</code>
-     *         if nothing was selected
-     * @since 1.6
+     * @pbrbm forwbrd b boolfbn indidbting wiidi dirfdtion to sflfdt in;
+     *        <dodf>truf</dodf> for forwbrd, <dodf>fblsf</dodf> for
+     *        bbdkwbrd
+     * @rfturn tif JIntfrnblFrbmf tibt wbs sflfdtfd or <dodf>null</dodf>
+     *         if notiing wbs sflfdtfd
+     * @sindf 1.6
      */
-    public JInternalFrame selectFrame(boolean forward) {
-        JInternalFrame selectedFrame = getSelectedFrame();
-        JInternalFrame frameToSelect = getNextFrame(selectedFrame, forward);
-        if (frameToSelect == null) {
-            return null;
+    publid JIntfrnblFrbmf sflfdtFrbmf(boolfbn forwbrd) {
+        JIntfrnblFrbmf sflfdtfdFrbmf = gftSflfdtfdFrbmf();
+        JIntfrnblFrbmf frbmfToSflfdt = gftNfxtFrbmf(sflfdtfdFrbmf, forwbrd);
+        if (frbmfToSflfdt == null) {
+            rfturn null;
         }
-        // Maintain navigation traversal order until an
-        // external stack change, such as a click on a frame.
-        setComponentOrderCheckingEnabled(false);
-        if (forward && selectedFrame != null) {
-            selectedFrame.moveToBack();  // For Windows MDI fidelity.
+        // Mbintbin nbvigbtion trbvfrsbl ordfr until bn
+        // fxtfrnbl stbdk dibngf, sudi bs b dlidk on b frbmf.
+        sftComponfntOrdfrCifdkingEnbblfd(fblsf);
+        if (forwbrd && sflfdtfdFrbmf != null) {
+            sflfdtfdFrbmf.movfToBbdk();  // For Windows MDI fidflity.
         }
-        try { frameToSelect.setSelected(true);
-        } catch (PropertyVetoException pve) {}
-        setComponentOrderCheckingEnabled(true);
-        return frameToSelect;
+        try { frbmfToSflfdt.sftSflfdtfd(truf);
+        } dbtdi (PropfrtyVftoExdfption pvf) {}
+        sftComponfntOrdfrCifdkingEnbblfd(truf);
+        rfturn frbmfToSflfdt;
     }
 
     /*
-     * Sets whether component order checking is enabled.
-     * @param enable a boolean value, where <code>true</code> means
-     * a change in component order will cause a change in the keyboard
-     * navigation order.
-     * @since 1.6
+     * Sfts wiftifr domponfnt ordfr difdking is fnbblfd.
+     * @pbrbm fnbblf b boolfbn vbluf, wifrf <dodf>truf</dodf> mfbns
+     * b dibngf in domponfnt ordfr will dbusf b dibngf in tif kfybobrd
+     * nbvigbtion ordfr.
+     * @sindf 1.6
      */
-    void setComponentOrderCheckingEnabled(boolean enable) {
-        componentOrderCheckingEnabled = enable;
+    void sftComponfntOrdfrCifdkingEnbblfd(boolfbn fnbblf) {
+        domponfntOrdfrCifdkingEnbblfd = fnbblf;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        super.addImpl(comp, constraints, index);
-        if (componentOrderCheckingEnabled) {
-            if (comp instanceof JInternalFrame ||
-                comp instanceof JInternalFrame.JDesktopIcon) {
-                componentOrderChanged = true;
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx) {
+        supfr.bddImpl(domp, donstrbints, indfx);
+        if (domponfntOrdfrCifdkingEnbblfd) {
+            if (domp instbndfof JIntfrnblFrbmf ||
+                domp instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                domponfntOrdfrCibngfd = truf;
             }
         }
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public void remove(int index) {
-        if (componentOrderCheckingEnabled) {
-            Component comp = getComponent(index);
-            if (comp instanceof JInternalFrame ||
-                comp instanceof JInternalFrame.JDesktopIcon) {
-                componentOrderChanged = true;
+    publid void rfmovf(int indfx) {
+        if (domponfntOrdfrCifdkingEnbblfd) {
+            Componfnt domp = gftComponfnt(indfx);
+            if (domp instbndfof JIntfrnblFrbmf ||
+                domp instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                domponfntOrdfrCibngfd = truf;
             }
         }
-        super.remove(index);
+        supfr.rfmovf(indfx);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public void removeAll() {
-        if (componentOrderCheckingEnabled) {
-            int count = getComponentCount();
-            for (int i = 0; i < count; i++) {
-                Component comp = getComponent(i);
-                if (comp instanceof JInternalFrame ||
-                    comp instanceof JInternalFrame.JDesktopIcon) {
-                    componentOrderChanged = true;
-                    break;
+    publid void rfmovfAll() {
+        if (domponfntOrdfrCifdkingEnbblfd) {
+            int dount = gftComponfntCount();
+            for (int i = 0; i < dount; i++) {
+                Componfnt domp = gftComponfnt(i);
+                if (domp instbndfof JIntfrnblFrbmf ||
+                    domp instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                    domponfntOrdfrCibngfd = truf;
+                    brfbk;
                 }
             }
         }
-        super.removeAll();
+        supfr.rfmovfAll();
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public void setComponentZOrder(Component comp, int index) {
-        super.setComponentZOrder(comp, index);
-        if (componentOrderCheckingEnabled) {
-            if (comp instanceof JInternalFrame ||
-                comp instanceof JInternalFrame.JDesktopIcon) {
-                componentOrderChanged = true;
+    publid void sftComponfntZOrdfr(Componfnt domp, int indfx) {
+        supfr.sftComponfntZOrdfr(domp, indfx);
+        if (domponfntOrdfrCifdkingEnbblfd) {
+            if (domp instbndfof JIntfrnblFrbmf ||
+                domp instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                domponfntOrdfrCibngfd = truf;
             }
         }
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
-    void setUIProperty(String propertyName, Object value) {
-        if (propertyName == "dragMode") {
-            if (!dragModeSet) {
-                setDragMode(((Integer)value).intValue());
-                dragModeSet = false;
+    void sftUIPropfrty(String propfrtyNbmf, Objfdt vbluf) {
+        if (propfrtyNbmf == "drbgModf") {
+            if (!drbgModfSft) {
+                sftDrbgModf(((Intfgfr)vbluf).intVbluf());
+                drbgModfSft = fblsf;
             }
-        } else {
-            super.setUIProperty(propertyName, value);
+        } flsf {
+            supfr.sftUIPropfrty(propfrtyNbmf, vbluf);
         }
     }
 
     /**
-     * Returns a string representation of this <code>JDesktopPane</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JDfsktopPbnf</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JDesktopPane</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JDfsktopPbnf</dodf>
      */
-    protected String paramString() {
-        String desktopManagerString = (desktopManager != null ?
-                                       desktopManager.toString() : "");
+    protfdtfd String pbrbmString() {
+        String dfsktopMbnbgfrString = (dfsktopMbnbgfr != null ?
+                                       dfsktopMbnbgfr.toString() : "");
 
-        return super.paramString() +
-        ",desktopManager=" + desktopManagerString;
+        rfturn supfr.pbrbmString() +
+        ",dfsktopMbnbgfr=" + dfsktopMbnbgfrString;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>JDesktopPane</code>. For desktop panes, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleJDesktopPane</code>.
-     * A new <code>AccessibleJDesktopPane</code> instance is created if necessary.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tiis
+     * <dodf>JDfsktopPbnf</dodf>. For dfsktop pbnfs, tif
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfJDfsktopPbnf</dodf>.
+     * A nfw <dodf>AddfssiblfJDfsktopPbnf</dodf> instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an <code>AccessibleJDesktopPane</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>JDesktopPane</code>
+     * @rfturn bn <dodf>AddfssiblfJDfsktopPbnf</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>JDfsktopPbnf</dodf>
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJDesktopPane();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJDfsktopPbnf();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JDesktopPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to desktop pane user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JDfsktopPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to dfsktop pbnf usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJDesktopPane extends AccessibleJComponent {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJDfsktopPbnf fxtfnds AddfssiblfJComponfnt {
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.DESKTOP_PANE;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.DESKTOP_PANE;
         }
     }
 }

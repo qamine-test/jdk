@@ -1,0 +1,1096 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.nft;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import sun.nft.SodksProxy;
+import sun.nft.www.PbrsfUtil;
+/* import org.iftf.jgss.*; */
+
+/**
+ * SOCKS (V4 & V5) TCP sodkft implfmfntbtion (RFC 1928).
+ * This is b subdlbss of PlbinSodkftImpl.
+ * Notf this dlbss should <b>NOT</b> bf publid.
+ */
+
+dlbss SodksSodkftImpl fxtfnds PlbinSodkftImpl implfmfnts SodksConsts {
+    privbtf String sfrvfr = null;
+    privbtf int sfrvfrPort = DEFAULT_PORT;
+    privbtf InftSodkftAddrfss fxtfrnbl_bddrfss;
+    privbtf boolfbn usfV4 = fblsf;
+    privbtf Sodkft dmdsodk = null;
+    privbtf InputStrfbm dmdIn = null;
+    privbtf OutputStrfbm dmdOut = null;
+    /* truf if thf Proxy hbs bffn sft progrbmbtidblly */
+    privbtf boolfbn bpplidbtionSftProxy;  /* fblsf */
+
+
+    SodksSodkftImpl() {
+        // Nothing nffdfd
+    }
+
+    SodksSodkftImpl(String sfrvfr, int port) {
+        this.sfrvfr = sfrvfr;
+        this.sfrvfrPort = (port == -1 ? DEFAULT_PORT : port);
+    }
+
+    SodksSodkftImpl(Proxy proxy) {
+        SodkftAddrfss b = proxy.bddrfss();
+        if (b instbndfof InftSodkftAddrfss) {
+            InftSodkftAddrfss bd = (InftSodkftAddrfss) b;
+            // Usf gftHostString() to bvoid rfvfrsf lookups
+            sfrvfr = bd.gftHostString();
+            sfrvfrPort = bd.gftPort();
+        }
+    }
+
+    void sftV4() {
+        usfV4 = truf;
+    }
+
+    privbtf syndhronizfd void privilfgfdConnfdt(finbl String host,
+                                              finbl int port,
+                                              finbl int timfout)
+         throws IOExdfption
+    {
+        try {
+            AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Void>() {
+                    publid Void run() throws IOExdfption {
+                              supfrConnfdtSfrvfr(host, port, timfout);
+                              dmdIn = gftInputStrfbm();
+                              dmdOut = gftOutputStrfbm();
+                              rfturn null;
+                          }
+                      });
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            throw (IOExdfption) pbf.gftExdfption();
+        }
+    }
+
+    privbtf void supfrConnfdtSfrvfr(String host, int port,
+                                    int timfout) throws IOExdfption {
+        supfr.donnfdt(nfw InftSodkftAddrfss(host, port), timfout);
+    }
+
+    privbtf stbtid int rfmbiningMillis(long dfbdlinfMillis) throws IOExdfption {
+        if (dfbdlinfMillis == 0L)
+            rfturn 0;
+
+        finbl long rfmbining = dfbdlinfMillis - Systfm.durrfntTimfMillis();
+        if (rfmbining > 0)
+            rfturn (int) rfmbining;
+
+        throw nfw SodkftTimfoutExdfption();
+    }
+
+    privbtf int rfbdSodksRfply(InputStrfbm in, bytf[] dbtb) throws IOExdfption {
+        rfturn rfbdSodksRfply(in, dbtb, 0L);
+    }
+
+    privbtf int rfbdSodksRfply(InputStrfbm in, bytf[] dbtb, long dfbdlinfMillis) throws IOExdfption {
+        int lfn = dbtb.lfngth;
+        int rfdfivfd = 0;
+        whilf (rfdfivfd < lfn) {
+            int dount;
+            try {
+                dount = ((SodkftInputStrfbm)in).rfbd(dbtb, rfdfivfd, lfn - rfdfivfd, rfmbiningMillis(dfbdlinfMillis));
+            } dbtdh (SodkftTimfoutExdfption f) {
+                throw nfw SodkftTimfoutExdfption("Connfdt timfd out");
+            }
+            if (dount < 0)
+                throw nfw SodkftExdfption("Mblformfd rfply from SOCKS sfrvfr");
+            rfdfivfd += dount;
+        }
+        rfturn rfdfivfd;
+    }
+
+    /**
+     * Providfs thf buthfntidbtion mbdhbnism rfquirfd by thf proxy.
+     */
+    privbtf boolfbn buthfntidbtf(bytf mfthod, InputStrfbm in,
+                                 BufffrfdOutputStrfbm out) throws IOExdfption {
+        rfturn buthfntidbtf(mfthod, in, out, 0L);
+    }
+
+    privbtf boolfbn buthfntidbtf(bytf mfthod, InputStrfbm in,
+                                 BufffrfdOutputStrfbm out,
+                                 long dfbdlinfMillis) throws IOExdfption {
+        // No Authfntidbtion rfquirfd. Wf'rf donf thfn!
+        if (mfthod == NO_AUTH)
+            rfturn truf;
+        /**
+         * Usfr/Pbssword buthfntidbtion. Try, in thbt ordfr :
+         * - Thf bpplidbtion providfd Authfntidbtor, if bny
+         * - thf usfr.nbmf & no pbssword (bbdkwbrd dompbtibility bfhbvior).
+         */
+        if (mfthod == USER_PASSW) {
+            String usfrNbmf;
+            String pbssword = null;
+            finbl InftAddrfss bddr = InftAddrfss.gftByNbmf(sfrvfr);
+            PbsswordAuthfntidbtion pw =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<PbsswordAuthfntidbtion>() {
+                        publid PbsswordAuthfntidbtion run() {
+                                rfturn Authfntidbtor.rfqufstPbsswordAuthfntidbtion(
+                                       sfrvfr, bddr, sfrvfrPort, "SOCKS5", "SOCKS buthfntidbtion", null);
+                            }
+                        });
+            if (pw != null) {
+                usfrNbmf = pw.gftUsfrNbmf();
+                pbssword = nfw String(pw.gftPbssword());
+            } flsf {
+                usfrNbmf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("usfr.nbmf"));
+            }
+            if (usfrNbmf == null)
+                rfturn fblsf;
+            out.writf(1);
+            out.writf(usfrNbmf.lfngth());
+            try {
+                out.writf(usfrNbmf.gftBytfs("ISO-8859-1"));
+            } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+                bssfrt fblsf;
+            }
+            if (pbssword != null) {
+                out.writf(pbssword.lfngth());
+                try {
+                    out.writf(pbssword.gftBytfs("ISO-8859-1"));
+                } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+                    bssfrt fblsf;
+                }
+            } flsf
+                out.writf(0);
+            out.flush();
+            bytf[] dbtb = nfw bytf[2];
+            int i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+            if (i != 2 || dbtb[1] != 0) {
+                /* RFC 1929 spfdififs thbt thf donnfdtion MUST bf dlosfd if
+                   buthfntidbtion fbils */
+                out.dlosf();
+                in.dlosf();
+                rfturn fblsf;
+            }
+            /* Authfntidbtion suddffdfd */
+            rfturn truf;
+        }
+        /**
+         * GSSAPI buthfntidbtion mfdhbnism.
+         * Unfortunbtfly thf RFC sffms out of synd with thf Rfffrfndf
+         * implfmfntbtion. I'll lfbvf this in for futurf domplftion.
+         */
+//      if (mfthod == GSSAPI) {
+//          try {
+//              GSSMbnbgfr mbnbgfr = GSSMbnbgfr.gftInstbndf();
+//              GSSNbmf nbmf = mbnbgfr.drfbtfNbmf("SERVICE:sodks@"+sfrvfr,
+//                                                   null);
+//              GSSContfxt dontfxt = mbnbgfr.drfbtfContfxt(nbmf, null, null,
+//                                                         GSSContfxt.DEFAULT_LIFETIME);
+//              dontfxt.rfqufstMutublAuth(truf);
+//              dontfxt.rfqufstRfplbyDft(truf);
+//              dontfxt.rfqufstSfqufndfDft(truf);
+//              dontfxt.rfqufstCrfdDflfg(truf);
+//              bytf []inTokfn = nfw bytf[0];
+//              whilf (!dontfxt.isEstbblishfd()) {
+//                  bytf[] outTokfn
+//                      = dontfxt.initSfdContfxt(inTokfn, 0, inTokfn.lfngth);
+//                  // sfnd thf output tokfn if gfnfrbtfd
+//                  if (outTokfn != null) {
+//                      out.writf(1);
+//                      out.writf(1);
+//                      out.writfShort(outTokfn.lfngth);
+//                      out.writf(outTokfn);
+//                      out.flush();
+//                      dbtb = nfw bytf[2];
+//                      i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+//                      if (i != 2 || dbtb[1] == 0xff) {
+//                          in.dlosf();
+//                          out.dlosf();
+//                          rfturn fblsf;
+//                      }
+//                      i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+//                      int lfn = 0;
+//                      lfn = ((int)dbtb[0] & 0xff) << 8;
+//                      lfn += dbtb[1];
+//                      dbtb = nfw bytf[lfn];
+//                      i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+//                      if (i == lfn)
+//                          rfturn truf;
+//                      in.dlosf();
+//                      out.dlosf();
+//                  }
+//              }
+//          } dbtdh (GSSExdfption f) {
+//              /* RFC 1961 stbtfs thbt if Contfxt initiblisbtion fbils thf donnfdtion
+//                 MUST bf dlosfd */
+//              f.printStbdkTrbdf();
+//              in.dlosf();
+//              out.dlosf();
+//          }
+//      }
+        rfturn fblsf;
+    }
+
+    privbtf void donnfdtV4(InputStrfbm in, OutputStrfbm out,
+                           InftSodkftAddrfss fndpoint,
+                           long dfbdlinfMillis) throws IOExdfption {
+        if (!(fndpoint.gftAddrfss() instbndfof Inft4Addrfss)) {
+            throw nfw SodkftExdfption("SOCKS V4 rfquirfs IPv4 only bddrfssfs");
+        }
+        out.writf(PROTO_VERS4);
+        out.writf(CONNECT);
+        out.writf((fndpoint.gftPort() >> 8) & 0xff);
+        out.writf((fndpoint.gftPort() >> 0) & 0xff);
+        out.writf(fndpoint.gftAddrfss().gftAddrfss());
+        String usfrNbmf = gftUsfrNbmf();
+        try {
+            out.writf(usfrNbmf.gftBytfs("ISO-8859-1"));
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            bssfrt fblsf;
+        }
+        out.writf(0);
+        out.flush();
+        bytf[] dbtb = nfw bytf[8];
+        int n = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+        if (n != 8)
+            throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr hbs bbd lfngth: " + n);
+        if (dbtb[0] != 0 && dbtb[0] != 4)
+            throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr hbs bbd vfrsion");
+        SodkftExdfption fx = null;
+        switdh (dbtb[1]) {
+        dbsf 90:
+            // Suddfss!
+            fxtfrnbl_bddrfss = fndpoint;
+            brfbk;
+        dbsf 91:
+            fx = nfw SodkftExdfption("SOCKS rfqufst rfjfdtfd");
+            brfbk;
+        dbsf 92:
+            fx = nfw SodkftExdfption("SOCKS sfrvfr douldn't rfbdh dfstinbtion");
+            brfbk;
+        dbsf 93:
+            fx = nfw SodkftExdfption("SOCKS buthfntidbtion fbilfd");
+            brfbk;
+        dffbult:
+            fx = nfw SodkftExdfption("Rfply from SOCKS sfrvfr dontbins bbd stbtus");
+            brfbk;
+        }
+        if (fx != null) {
+            in.dlosf();
+            out.dlosf();
+            throw fx;
+        }
+    }
+
+    /**
+     * Connfdts thf Sodks Sodkft to thf spfdififd fndpoint. It will first
+     * donnfdt to thf SOCKS proxy bnd nfgotibtf thf bddfss. If thf proxy
+     * grbnts thf donnfdtions, thfn thf donnfdt is suddfssful bnd bll
+     * furthfr trbffid will go to thf "rfbl" fndpoint.
+     *
+     * @pbrbm   fndpoint        thf {@dodf SodkftAddrfss} to donnfdt to.
+     * @pbrbm   timfout         thf timfout vbluf in millisfdonds
+     * @throws  IOExdfption     if thf donnfdtion dbn't bf fstbblishfd.
+     * @throws  SfdurityExdfption if thfrf is b sfdurity mbnbgfr bnd it
+     *                          dofsn't bllow thf donnfdtion
+     * @throws  IllfgblArgumfntExdfption if fndpoint is null or b
+     *          SodkftAddrfss subdlbss not supportfd by this sodkft
+     */
+    @Ovfrridf
+    protfdtfd void donnfdt(SodkftAddrfss fndpoint, int timfout) throws IOExdfption {
+        finbl long dfbdlinfMillis;
+
+        if (timfout == 0) {
+            dfbdlinfMillis = 0L;
+        } flsf {
+            long finish = Systfm.durrfntTimfMillis() + timfout;
+            dfbdlinfMillis = finish < 0 ? Long.MAX_VALUE : finish;
+        }
+
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (fndpoint == null || !(fndpoint instbndfof InftSodkftAddrfss))
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
+        InftSodkftAddrfss fpoint = (InftSodkftAddrfss) fndpoint;
+        if (sfdurity != null) {
+            if (fpoint.isUnrfsolvfd())
+                sfdurity.dhfdkConnfdt(fpoint.gftHostNbmf(),
+                                      fpoint.gftPort());
+            flsf
+                sfdurity.dhfdkConnfdt(fpoint.gftAddrfss().gftHostAddrfss(),
+                                      fpoint.gftPort());
+        }
+        if (sfrvfr == null) {
+            // This is thf gfnfrbl dbsf
+            // sfrvfr is not null only whfn thf sodkft wbs drfbtfd with b
+            // spfdififd proxy in whidh dbsf it dofs bypbss thf ProxySflfdtor
+            ProxySflfdtor sfl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<ProxySflfdtor>() {
+                    publid ProxySflfdtor run() {
+                            rfturn ProxySflfdtor.gftDffbult();
+                        }
+                    });
+            if (sfl == null) {
+                /*
+                 * No dffbult proxySflfdtor --> dirfdt donnfdtion
+                 */
+                supfr.donnfdt(fpoint, rfmbiningMillis(dfbdlinfMillis));
+                rfturn;
+            }
+            URI uri;
+            // Usf gftHostString() to bvoid rfvfrsf lookups
+            String host = fpoint.gftHostString();
+            // IPv6 littfrbl?
+            if (fpoint.gftAddrfss() instbndfof Inft6Addrfss &&
+                (!host.stbrtsWith("[")) && (host.indfxOf(':') >= 0)) {
+                host = "[" + host + "]";
+            }
+            try {
+                uri = nfw URI("sodkft://" + PbrsfUtil.fndodfPbth(host) + ":"+ fpoint.gftPort());
+            } dbtdh (URISyntbxExdfption f) {
+                // This shouldn't hbppfn
+                bssfrt fblsf : f;
+                uri = null;
+            }
+            Proxy p = null;
+            IOExdfption sbvfdExd = null;
+            jbvb.util.Itfrbtor<Proxy> iProxy = null;
+            iProxy = sfl.sflfdt(uri).itfrbtor();
+            if (iProxy == null || !(iProxy.hbsNfxt())) {
+                supfr.donnfdt(fpoint, rfmbiningMillis(dfbdlinfMillis));
+                rfturn;
+            }
+            whilf (iProxy.hbsNfxt()) {
+                p = iProxy.nfxt();
+                if (p == null || p == Proxy.NO_PROXY) {
+                    supfr.donnfdt(fpoint, rfmbiningMillis(dfbdlinfMillis));
+                    rfturn;
+                }
+                if (p.typf() != Proxy.Typf.SOCKS)
+                    throw nfw SodkftExdfption("Unknown proxy typf : " + p.typf());
+                if (!(p.bddrfss() instbndfof InftSodkftAddrfss))
+                    throw nfw SodkftExdfption("Unknow bddrfss typf for proxy: " + p);
+                // Usf gftHostString() to bvoid rfvfrsf lookups
+                sfrvfr = ((InftSodkftAddrfss) p.bddrfss()).gftHostString();
+                sfrvfrPort = ((InftSodkftAddrfss) p.bddrfss()).gftPort();
+                if (p instbndfof SodksProxy) {
+                    if (((SodksProxy)p).protodolVfrsion() == 4) {
+                        usfV4 = truf;
+                    }
+                }
+
+                // Connfdts to thf SOCKS sfrvfr
+                try {
+                    privilfgfdConnfdt(sfrvfr, sfrvfrPort, rfmbiningMillis(dfbdlinfMillis));
+                    // Workfd, lft's gft outtb hfrf
+                    brfbk;
+                } dbtdh (IOExdfption f) {
+                    // Ooops, lft's notify thf ProxySflfdtor
+                    sfl.donnfdtFbilfd(uri,p.bddrfss(),f);
+                    sfrvfr = null;
+                    sfrvfrPort = -1;
+                    sbvfdExd = f;
+                    // Will dontinuf thf whilf loop bnd try thf nfxt proxy
+                }
+            }
+
+            /*
+             * If sfrvfr is still null bt this point, nonf of thf proxy
+             * workfd
+             */
+            if (sfrvfr == null) {
+                throw nfw SodkftExdfption("Cbn't donnfdt to SOCKS proxy:"
+                                          + sbvfdExd.gftMfssbgf());
+            }
+        } flsf {
+            // Connfdts to thf SOCKS sfrvfr
+            try {
+                privilfgfdConnfdt(sfrvfr, sfrvfrPort, rfmbiningMillis(dfbdlinfMillis));
+            } dbtdh (IOExdfption f) {
+                throw nfw SodkftExdfption(f.gftMfssbgf());
+            }
+        }
+
+        // dmdIn & dmdOut wfrf initiblizfd during thf privilfgfdConnfdt() dbll
+        BufffrfdOutputStrfbm out = nfw BufffrfdOutputStrfbm(dmdOut, 512);
+        InputStrfbm in = dmdIn;
+
+        if (usfV4) {
+            // SOCKS Protodol vfrsion 4 dofsn't know how to dfbl with
+            // DOMAIN typf of bddrfssfs (unrfsolvfd bddrfssfs hfrf)
+            if (fpoint.isUnrfsolvfd())
+                throw nfw UnknownHostExdfption(fpoint.toString());
+            donnfdtV4(in, out, fpoint, dfbdlinfMillis);
+            rfturn;
+        }
+
+        // This is SOCKS V5
+        out.writf(PROTO_VERS);
+        out.writf(2);
+        out.writf(NO_AUTH);
+        out.writf(USER_PASSW);
+        out.flush();
+        bytf[] dbtb = nfw bytf[2];
+        int i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+        if (i != 2 || ((int)dbtb[0]) != PROTO_VERS) {
+            // Mbybf it's not b V5 sfvfr bftfr bll
+            // Lft's try V4 bfforf wf givf up
+            // SOCKS Protodol vfrsion 4 dofsn't know how to dfbl with
+            // DOMAIN typf of bddrfssfs (unrfsolvfd bddrfssfs hfrf)
+            if (fpoint.isUnrfsolvfd())
+                throw nfw UnknownHostExdfption(fpoint.toString());
+            donnfdtV4(in, out, fpoint, dfbdlinfMillis);
+            rfturn;
+        }
+        if (((int)dbtb[1]) == NO_METHODS)
+            throw nfw SodkftExdfption("SOCKS : No bddfptbblf mfthods");
+        if (!buthfntidbtf(dbtb[1], in, out, dfbdlinfMillis)) {
+            throw nfw SodkftExdfption("SOCKS : buthfntidbtion fbilfd");
+        }
+        out.writf(PROTO_VERS);
+        out.writf(CONNECT);
+        out.writf(0);
+        /* Tfst for IPV4/IPV6/Unrfsolvfd */
+        if (fpoint.isUnrfsolvfd()) {
+            out.writf(DOMAIN_NAME);
+            out.writf(fpoint.gftHostNbmf().lfngth());
+            try {
+                out.writf(fpoint.gftHostNbmf().gftBytfs("ISO-8859-1"));
+            } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+                bssfrt fblsf;
+            }
+            out.writf((fpoint.gftPort() >> 8) & 0xff);
+            out.writf((fpoint.gftPort() >> 0) & 0xff);
+        } flsf if (fpoint.gftAddrfss() instbndfof Inft6Addrfss) {
+            out.writf(IPV6);
+            out.writf(fpoint.gftAddrfss().gftAddrfss());
+            out.writf((fpoint.gftPort() >> 8) & 0xff);
+            out.writf((fpoint.gftPort() >> 0) & 0xff);
+        } flsf {
+            out.writf(IPV4);
+            out.writf(fpoint.gftAddrfss().gftAddrfss());
+            out.writf((fpoint.gftPort() >> 8) & 0xff);
+            out.writf((fpoint.gftPort() >> 0) & 0xff);
+        }
+        out.flush();
+        dbtb = nfw bytf[4];
+        i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+        if (i != 4)
+            throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr hbs bbd lfngth");
+        SodkftExdfption fx = null;
+        int lfn;
+        bytf[] bddr;
+        switdh (dbtb[1]) {
+        dbsf REQUEST_OK:
+            // suddfss!
+            switdh(dbtb[3]) {
+            dbsf IPV4:
+                bddr = nfw bytf[4];
+                i = rfbdSodksRfply(in, bddr, dfbdlinfMillis);
+                if (i != 4)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                dbtb = nfw bytf[2];
+                i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+                if (i != 2)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                brfbk;
+            dbsf DOMAIN_NAME:
+                bytf[] lfnBytf = nfw bytf[1];
+                i = rfbdSodksRfply(in, lfnBytf, dfbdlinfMillis);
+                if (i != 1)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                lfn = lfnBytf[0] & 0xFF;
+                bytf[] host = nfw bytf[lfn];
+                i = rfbdSodksRfply(in, host, dfbdlinfMillis);
+                if (i != lfn)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                dbtb = nfw bytf[2];
+                i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+                if (i != 2)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                brfbk;
+            dbsf IPV6:
+                lfn = 16;
+                bddr = nfw bytf[lfn];
+                i = rfbdSodksRfply(in, bddr, dfbdlinfMillis);
+                if (i != lfn)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                dbtb = nfw bytf[2];
+                i = rfbdSodksRfply(in, dbtb, dfbdlinfMillis);
+                if (i != 2)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                brfbk;
+            dffbult:
+                fx = nfw SodkftExdfption("Rfply from SOCKS sfrvfr dontbins wrong dodf");
+                brfbk;
+            }
+            brfbk;
+        dbsf GENERAL_FAILURE:
+            fx = nfw SodkftExdfption("SOCKS sfrvfr gfnfrbl fbilurf");
+            brfbk;
+        dbsf NOT_ALLOWED:
+            fx = nfw SodkftExdfption("SOCKS: Connfdtion not bllowfd by rulfsft");
+            brfbk;
+        dbsf NET_UNREACHABLE:
+            fx = nfw SodkftExdfption("SOCKS: Nftwork unrfbdhbblf");
+            brfbk;
+        dbsf HOST_UNREACHABLE:
+            fx = nfw SodkftExdfption("SOCKS: Host unrfbdhbblf");
+            brfbk;
+        dbsf CONN_REFUSED:
+            fx = nfw SodkftExdfption("SOCKS: Connfdtion rffusfd");
+            brfbk;
+        dbsf TTL_EXPIRED:
+            fx =  nfw SodkftExdfption("SOCKS: TTL fxpirfd");
+            brfbk;
+        dbsf CMD_NOT_SUPPORTED:
+            fx = nfw SodkftExdfption("SOCKS: Commbnd not supportfd");
+            brfbk;
+        dbsf ADDR_TYPE_NOT_SUP:
+            fx = nfw SodkftExdfption("SOCKS: bddrfss typf not supportfd");
+            brfbk;
+        }
+        if (fx != null) {
+            in.dlosf();
+            out.dlosf();
+            throw fx;
+        }
+        fxtfrnbl_bddrfss = fpoint;
+    }
+
+    privbtf void bindV4(InputStrfbm in, OutputStrfbm out,
+                        InftAddrfss bbddr,
+                        int lport) throws IOExdfption {
+        if (!(bbddr instbndfof Inft4Addrfss)) {
+            throw nfw SodkftExdfption("SOCKS V4 rfquirfs IPv4 only bddrfssfs");
+        }
+        supfr.bind(bbddr, lport);
+        bytf[] bddr1 = bbddr.gftAddrfss();
+        /* Tfst for AnyLodbl */
+        InftAddrfss nbddr = bbddr;
+        if (nbddr.isAnyLodblAddrfss()) {
+            nbddr = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<InftAddrfss>() {
+                            publid InftAddrfss run() {
+                                rfturn dmdsodk.gftLodblAddrfss();
+
+                            }
+                        });
+            bddr1 = nbddr.gftAddrfss();
+        }
+        out.writf(PROTO_VERS4);
+        out.writf(BIND);
+        out.writf((supfr.gftLodblPort() >> 8) & 0xff);
+        out.writf((supfr.gftLodblPort() >> 0) & 0xff);
+        out.writf(bddr1);
+        String usfrNbmf = gftUsfrNbmf();
+        try {
+            out.writf(usfrNbmf.gftBytfs("ISO-8859-1"));
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            bssfrt fblsf;
+        }
+        out.writf(0);
+        out.flush();
+        bytf[] dbtb = nfw bytf[8];
+        int n = rfbdSodksRfply(in, dbtb);
+        if (n != 8)
+            throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr hbs bbd lfngth: " + n);
+        if (dbtb[0] != 0 && dbtb[0] != 4)
+            throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr hbs bbd vfrsion");
+        SodkftExdfption fx = null;
+        switdh (dbtb[1]) {
+        dbsf 90:
+            // Suddfss!
+            fxtfrnbl_bddrfss = nfw InftSodkftAddrfss(bbddr, lport);
+            brfbk;
+        dbsf 91:
+            fx = nfw SodkftExdfption("SOCKS rfqufst rfjfdtfd");
+            brfbk;
+        dbsf 92:
+            fx = nfw SodkftExdfption("SOCKS sfrvfr douldn't rfbdh dfstinbtion");
+            brfbk;
+        dbsf 93:
+            fx = nfw SodkftExdfption("SOCKS buthfntidbtion fbilfd");
+            brfbk;
+        dffbult:
+            fx = nfw SodkftExdfption("Rfply from SOCKS sfrvfr dontbins bbd stbtus");
+            brfbk;
+        }
+        if (fx != null) {
+            in.dlosf();
+            out.dlosf();
+            throw fx;
+        }
+
+    }
+
+    /**
+     * Sfnds thf Bind rfqufst to thf SOCKS proxy. In thf SOCKS protodol, bind
+     * mfbns "bddfpt indoming donnfdtion from", so thf SodkftAddrfss is thf
+     * thf onf of thf host wf do bddfpt donnfdtion from.
+     *
+     * @pbrbm      sbddr   thf Sodkft bddrfss of thf rfmotf host.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn binding this sodkft.
+     */
+    protfdtfd syndhronizfd void sodksBind(InftSodkftAddrfss sbddr) throws IOExdfption {
+        if (sodkft != null) {
+            // this is b dlifnt sodkft, not b sfrvfr sodkft, don't
+            // dbll thf SOCKS proxy for b bind!
+            rfturn;
+        }
+
+        // Connfdts to thf SOCKS sfrvfr
+
+        if (sfrvfr == null) {
+            // This is thf gfnfrbl dbsf
+            // sfrvfr is not null only whfn thf sodkft wbs drfbtfd with b
+            // spfdififd proxy in whidh dbsf it dofs bypbss thf ProxySflfdtor
+            ProxySflfdtor sfl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<ProxySflfdtor>() {
+                    publid ProxySflfdtor run() {
+                            rfturn ProxySflfdtor.gftDffbult();
+                        }
+                    });
+            if (sfl == null) {
+                /*
+                 * No dffbult proxySflfdtor --> dirfdt donnfdtion
+                 */
+                rfturn;
+            }
+            URI uri;
+            // Usf gftHostString() to bvoid rfvfrsf lookups
+            String host = sbddr.gftHostString();
+            // IPv6 littfrbl?
+            if (sbddr.gftAddrfss() instbndfof Inft6Addrfss &&
+                (!host.stbrtsWith("[")) && (host.indfxOf(':') >= 0)) {
+                host = "[" + host + "]";
+            }
+            try {
+                uri = nfw URI("sfrvfrsodkft://" + PbrsfUtil.fndodfPbth(host) + ":"+ sbddr.gftPort());
+            } dbtdh (URISyntbxExdfption f) {
+                // This shouldn't hbppfn
+                bssfrt fblsf : f;
+                uri = null;
+            }
+            Proxy p = null;
+            Exdfption sbvfdExd = null;
+            jbvb.util.Itfrbtor<Proxy> iProxy = null;
+            iProxy = sfl.sflfdt(uri).itfrbtor();
+            if (iProxy == null || !(iProxy.hbsNfxt())) {
+                rfturn;
+            }
+            whilf (iProxy.hbsNfxt()) {
+                p = iProxy.nfxt();
+                if (p == null || p == Proxy.NO_PROXY) {
+                    rfturn;
+                }
+                if (p.typf() != Proxy.Typf.SOCKS)
+                    throw nfw SodkftExdfption("Unknown proxy typf : " + p.typf());
+                if (!(p.bddrfss() instbndfof InftSodkftAddrfss))
+                    throw nfw SodkftExdfption("Unknow bddrfss typf for proxy: " + p);
+                // Usf gftHostString() to bvoid rfvfrsf lookups
+                sfrvfr = ((InftSodkftAddrfss) p.bddrfss()).gftHostString();
+                sfrvfrPort = ((InftSodkftAddrfss) p.bddrfss()).gftPort();
+                if (p instbndfof SodksProxy) {
+                    if (((SodksProxy)p).protodolVfrsion() == 4) {
+                        usfV4 = truf;
+                    }
+                }
+
+                // Connfdts to thf SOCKS sfrvfr
+                try {
+                    AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdExdfptionAdtion<Void>() {
+                            publid Void run() throws Exdfption {
+                                dmdsodk = nfw Sodkft(nfw PlbinSodkftImpl());
+                                dmdsodk.donnfdt(nfw InftSodkftAddrfss(sfrvfr, sfrvfrPort));
+                                dmdIn = dmdsodk.gftInputStrfbm();
+                                dmdOut = dmdsodk.gftOutputStrfbm();
+                                rfturn null;
+                            }
+                        });
+                } dbtdh (Exdfption f) {
+                    // Ooops, lft's notify thf ProxySflfdtor
+                    sfl.donnfdtFbilfd(uri,p.bddrfss(),nfw SodkftExdfption(f.gftMfssbgf()));
+                    sfrvfr = null;
+                    sfrvfrPort = -1;
+                    dmdsodk = null;
+                    sbvfdExd = f;
+                    // Will dontinuf thf whilf loop bnd try thf nfxt proxy
+                }
+            }
+
+            /*
+             * If sfrvfr is still null bt this point, nonf of thf proxy
+             * workfd
+             */
+            if (sfrvfr == null || dmdsodk == null) {
+                throw nfw SodkftExdfption("Cbn't donnfdt to SOCKS proxy:"
+                                          + sbvfdExd.gftMfssbgf());
+            }
+        } flsf {
+            try {
+                AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Void>() {
+                        publid Void run() throws Exdfption {
+                            dmdsodk = nfw Sodkft(nfw PlbinSodkftImpl());
+                            dmdsodk.donnfdt(nfw InftSodkftAddrfss(sfrvfr, sfrvfrPort));
+                            dmdIn = dmdsodk.gftInputStrfbm();
+                            dmdOut = dmdsodk.gftOutputStrfbm();
+                            rfturn null;
+                        }
+                    });
+            } dbtdh (Exdfption f) {
+                throw nfw SodkftExdfption(f.gftMfssbgf());
+            }
+        }
+        BufffrfdOutputStrfbm out = nfw BufffrfdOutputStrfbm(dmdOut, 512);
+        InputStrfbm in = dmdIn;
+        if (usfV4) {
+            bindV4(in, out, sbddr.gftAddrfss(), sbddr.gftPort());
+            rfturn;
+        }
+        out.writf(PROTO_VERS);
+        out.writf(2);
+        out.writf(NO_AUTH);
+        out.writf(USER_PASSW);
+        out.flush();
+        bytf[] dbtb = nfw bytf[2];
+        int i = rfbdSodksRfply(in, dbtb);
+        if (i != 2 || ((int)dbtb[0]) != PROTO_VERS) {
+            // Mbybf it's not b V5 sfvfr bftfr bll
+            // Lft's try V4 bfforf wf givf up
+            bindV4(in, out, sbddr.gftAddrfss(), sbddr.gftPort());
+            rfturn;
+        }
+        if (((int)dbtb[1]) == NO_METHODS)
+            throw nfw SodkftExdfption("SOCKS : No bddfptbblf mfthods");
+        if (!buthfntidbtf(dbtb[1], in, out)) {
+            throw nfw SodkftExdfption("SOCKS : buthfntidbtion fbilfd");
+        }
+        // Wf'rf OK. Lft's issuf thf BIND dommbnd.
+        out.writf(PROTO_VERS);
+        out.writf(BIND);
+        out.writf(0);
+        int lport = sbddr.gftPort();
+        if (sbddr.isUnrfsolvfd()) {
+            out.writf(DOMAIN_NAME);
+            out.writf(sbddr.gftHostNbmf().lfngth());
+            try {
+                out.writf(sbddr.gftHostNbmf().gftBytfs("ISO-8859-1"));
+            } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+                bssfrt fblsf;
+            }
+            out.writf((lport >> 8) & 0xff);
+            out.writf((lport >> 0) & 0xff);
+        } flsf if (sbddr.gftAddrfss() instbndfof Inft4Addrfss) {
+            bytf[] bddr1 = sbddr.gftAddrfss().gftAddrfss();
+            out.writf(IPV4);
+            out.writf(bddr1);
+            out.writf((lport >> 8) & 0xff);
+            out.writf((lport >> 0) & 0xff);
+            out.flush();
+        } flsf if (sbddr.gftAddrfss() instbndfof Inft6Addrfss) {
+            bytf[] bddr1 = sbddr.gftAddrfss().gftAddrfss();
+            out.writf(IPV6);
+            out.writf(bddr1);
+            out.writf((lport >> 8) & 0xff);
+            out.writf((lport >> 0) & 0xff);
+            out.flush();
+        } flsf {
+            dmdsodk.dlosf();
+            throw nfw SodkftExdfption("unsupportfd bddrfss typf : " + sbddr);
+        }
+        dbtb = nfw bytf[4];
+        i = rfbdSodksRfply(in, dbtb);
+        SodkftExdfption fx = null;
+        int lfn, nport;
+        bytf[] bddr;
+        switdh (dbtb[1]) {
+        dbsf REQUEST_OK:
+            // suddfss!
+            switdh(dbtb[3]) {
+            dbsf IPV4:
+                bddr = nfw bytf[4];
+                i = rfbdSodksRfply(in, bddr);
+                if (i != 4)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                dbtb = nfw bytf[2];
+                i = rfbdSodksRfply(in, dbtb);
+                if (i != 2)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                nport = ((int)dbtb[0] & 0xff) << 8;
+                nport += ((int)dbtb[1] & 0xff);
+                fxtfrnbl_bddrfss =
+                    nfw InftSodkftAddrfss(nfw Inft4Addrfss("", bddr) , nport);
+                brfbk;
+            dbsf DOMAIN_NAME:
+                lfn = dbtb[1];
+                bytf[] host = nfw bytf[lfn];
+                i = rfbdSodksRfply(in, host);
+                if (i != lfn)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                dbtb = nfw bytf[2];
+                i = rfbdSodksRfply(in, dbtb);
+                if (i != 2)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                nport = ((int)dbtb[0] & 0xff) << 8;
+                nport += ((int)dbtb[1] & 0xff);
+                fxtfrnbl_bddrfss = nfw InftSodkftAddrfss(nfw String(host), nport);
+                brfbk;
+            dbsf IPV6:
+                lfn = dbtb[1];
+                bddr = nfw bytf[lfn];
+                i = rfbdSodksRfply(in, bddr);
+                if (i != lfn)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                dbtb = nfw bytf[2];
+                i = rfbdSodksRfply(in, dbtb);
+                if (i != 2)
+                    throw nfw SodkftExdfption("Rfply from SOCKS sfrvfr bbdly formbttfd");
+                nport = ((int)dbtb[0] & 0xff) << 8;
+                nport += ((int)dbtb[1] & 0xff);
+                fxtfrnbl_bddrfss =
+                    nfw InftSodkftAddrfss(nfw Inft6Addrfss("", bddr), nport);
+                brfbk;
+            }
+            brfbk;
+        dbsf GENERAL_FAILURE:
+            fx = nfw SodkftExdfption("SOCKS sfrvfr gfnfrbl fbilurf");
+            brfbk;
+        dbsf NOT_ALLOWED:
+            fx = nfw SodkftExdfption("SOCKS: Bind not bllowfd by rulfsft");
+            brfbk;
+        dbsf NET_UNREACHABLE:
+            fx = nfw SodkftExdfption("SOCKS: Nftwork unrfbdhbblf");
+            brfbk;
+        dbsf HOST_UNREACHABLE:
+            fx = nfw SodkftExdfption("SOCKS: Host unrfbdhbblf");
+            brfbk;
+        dbsf CONN_REFUSED:
+            fx = nfw SodkftExdfption("SOCKS: Connfdtion rffusfd");
+            brfbk;
+        dbsf TTL_EXPIRED:
+            fx =  nfw SodkftExdfption("SOCKS: TTL fxpirfd");
+            brfbk;
+        dbsf CMD_NOT_SUPPORTED:
+            fx = nfw SodkftExdfption("SOCKS: Commbnd not supportfd");
+            brfbk;
+        dbsf ADDR_TYPE_NOT_SUP:
+            fx = nfw SodkftExdfption("SOCKS: bddrfss typf not supportfd");
+            brfbk;
+        }
+        if (fx != null) {
+            in.dlosf();
+            out.dlosf();
+            dmdsodk.dlosf();
+            dmdsodk = null;
+            throw fx;
+        }
+        dmdIn = in;
+        dmdOut = out;
+    }
+
+    /**
+     * Addfpts b donnfdtion from b spfdifid host.
+     *
+     * @pbrbm      s   thf bddfptfd donnfdtion.
+     * @pbrbm      sbddr thf sodkft bddrfss of thf host wf do bddfpt
+     *               donnfdtion from
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn bddfpting thf
+     *               donnfdtion.
+     */
+    protfdtfd void bddfptFrom(SodkftImpl s, InftSodkftAddrfss sbddr) throws IOExdfption {
+        if (dmdsodk == null) {
+            // Not b Sodks SfrvfrSodkft.
+            rfturn;
+        }
+        InputStrfbm in = dmdIn;
+        // Sfnds thf "SOCKS BIND" rfqufst.
+        sodksBind(sbddr);
+        in.rfbd();
+        int i = in.rfbd();
+        in.rfbd();
+        SodkftExdfption fx = null;
+        int nport;
+        bytf[] bddr;
+        InftSodkftAddrfss rfbl_fnd = null;
+        switdh (i) {
+        dbsf REQUEST_OK:
+            // suddfss!
+            i = in.rfbd();
+            switdh(i) {
+            dbsf IPV4:
+                bddr = nfw bytf[4];
+                rfbdSodksRfply(in, bddr);
+                nport = in.rfbd() << 8;
+                nport += in.rfbd();
+                rfbl_fnd =
+                    nfw InftSodkftAddrfss(nfw Inft4Addrfss("", bddr) , nport);
+                brfbk;
+            dbsf DOMAIN_NAME:
+                int lfn = in.rfbd();
+                bddr = nfw bytf[lfn];
+                rfbdSodksRfply(in, bddr);
+                nport = in.rfbd() << 8;
+                nport += in.rfbd();
+                rfbl_fnd = nfw InftSodkftAddrfss(nfw String(bddr), nport);
+                brfbk;
+            dbsf IPV6:
+                bddr = nfw bytf[16];
+                rfbdSodksRfply(in, bddr);
+                nport = in.rfbd() << 8;
+                nport += in.rfbd();
+                rfbl_fnd =
+                    nfw InftSodkftAddrfss(nfw Inft6Addrfss("", bddr), nport);
+                brfbk;
+            }
+            brfbk;
+        dbsf GENERAL_FAILURE:
+            fx = nfw SodkftExdfption("SOCKS sfrvfr gfnfrbl fbilurf");
+            brfbk;
+        dbsf NOT_ALLOWED:
+            fx = nfw SodkftExdfption("SOCKS: Addfpt not bllowfd by rulfsft");
+            brfbk;
+        dbsf NET_UNREACHABLE:
+            fx = nfw SodkftExdfption("SOCKS: Nftwork unrfbdhbblf");
+            brfbk;
+        dbsf HOST_UNREACHABLE:
+            fx = nfw SodkftExdfption("SOCKS: Host unrfbdhbblf");
+            brfbk;
+        dbsf CONN_REFUSED:
+            fx = nfw SodkftExdfption("SOCKS: Connfdtion rffusfd");
+            brfbk;
+        dbsf TTL_EXPIRED:
+            fx =  nfw SodkftExdfption("SOCKS: TTL fxpirfd");
+            brfbk;
+        dbsf CMD_NOT_SUPPORTED:
+            fx = nfw SodkftExdfption("SOCKS: Commbnd not supportfd");
+            brfbk;
+        dbsf ADDR_TYPE_NOT_SUP:
+            fx = nfw SodkftExdfption("SOCKS: bddrfss typf not supportfd");
+            brfbk;
+        }
+        if (fx != null) {
+            dmdIn.dlosf();
+            dmdOut.dlosf();
+            dmdsodk.dlosf();
+            dmdsodk = null;
+            throw fx;
+        }
+
+        /**
+         * This is whfrf wf hbvf to do somf fbndy stuff.
+         * Thf dbtbstrfbm from thf sodkft "bddfptfd" by thf proxy will
+         * domf through thf dmdSodkft. So wf hbvf to swbp thf sodkftImpls
+         */
+        if (s instbndfof SodksSodkftImpl) {
+            ((SodksSodkftImpl)s).fxtfrnbl_bddrfss = rfbl_fnd;
+        }
+        if (s instbndfof PlbinSodkftImpl) {
+            PlbinSodkftImpl psi = (PlbinSodkftImpl) s;
+            psi.sftInputStrfbm((SodkftInputStrfbm) in);
+            psi.sftFilfDfsdriptor(dmdsodk.gftImpl().gftFilfDfsdriptor());
+            psi.sftAddrfss(dmdsodk.gftImpl().gftInftAddrfss());
+            psi.sftPort(dmdsodk.gftImpl().gftPort());
+            psi.sftLodblPort(dmdsodk.gftImpl().gftLodblPort());
+        } flsf {
+            s.fd = dmdsodk.gftImpl().fd;
+            s.bddrfss = dmdsodk.gftImpl().bddrfss;
+            s.port = dmdsodk.gftImpl().port;
+            s.lodblport = dmdsodk.gftImpl().lodblport;
+        }
+
+        // Nffd to do thbt so thbt thf sodkft won't bf dlosfd
+        // whfn thf SfrvfrSodkft is dlosfd by thf usfr.
+        // It kinds of dftbdhfs thf Sodkft bfdbusf it is now
+        // usfd flsfwhfrf.
+        dmdsodk = null;
+    }
+
+
+    /**
+     * Rfturns thf vbluf of this sodkft's {@dodf bddrfss} fifld.
+     *
+     * @rfturn  thf vbluf of this sodkft's {@dodf bddrfss} fifld.
+     * @sff     jbvb.nft.SodkftImpl#bddrfss
+     */
+    @Ovfrridf
+    protfdtfd InftAddrfss gftInftAddrfss() {
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftAddrfss();
+        flsf
+            rfturn supfr.gftInftAddrfss();
+    }
+
+    /**
+     * Rfturns thf vbluf of this sodkft's {@dodf port} fifld.
+     *
+     * @rfturn  thf vbluf of this sodkft's {@dodf port} fifld.
+     * @sff     jbvb.nft.SodkftImpl#port
+     */
+    @Ovfrridf
+    protfdtfd int gftPort() {
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftPort();
+        flsf
+            rfturn supfr.gftPort();
+    }
+
+    @Ovfrridf
+    protfdtfd int gftLodblPort() {
+        if (sodkft != null)
+            rfturn supfr.gftLodblPort();
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftPort();
+        flsf
+            rfturn supfr.gftLodblPort();
+    }
+
+    @Ovfrridf
+    protfdtfd void dlosf() throws IOExdfption {
+        if (dmdsodk != null)
+            dmdsodk.dlosf();
+        dmdsodk = null;
+        supfr.dlosf();
+    }
+
+    privbtf String gftUsfrNbmf() {
+        String usfrNbmf = "";
+        if (bpplidbtionSftProxy) {
+            try {
+                usfrNbmf = Systfm.gftPropfrty("usfr.nbmf");
+            } dbtdh (SfdurityExdfption sf) { /* swbllow Exdfption */ }
+        } flsf {
+            usfrNbmf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("usfr.nbmf"));
+        }
+        rfturn usfrNbmf;
+    }
+}

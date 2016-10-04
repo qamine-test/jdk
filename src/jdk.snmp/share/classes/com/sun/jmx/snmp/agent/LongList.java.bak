@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
 
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.MBeanRegistrationException;
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpEngine;
-import com.sun.jmx.snmp.SnmpUnknownModelException;
-import com.sun.jmx.snmp.internal.SnmpAccessControlModel;
-import com.sun.jmx.snmp.internal.SnmpEngineImpl;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpEnginf;
+import dom.sun.jmx.snmp.SnmpUnknownModflExdfption;
+import dom.sun.jmx.snmp.intfrnbl.SnmpAddfssControlModfl;
+import dom.sun.jmx.snmp.intfrnbl.SnmpEnginfImpl;
 
 /**
- * This list is used in order to construct the OID during the getnext.
- * The constructed oid is checked by the checker AcmChecker.
+ * Tiis list is usfd in ordfr to donstrudt tif OID during tif gftnfxt.
+ * Tif donstrudtfd oid is difdkfd by tif difdkfr AdmCifdkfr.
  */
-final class LongList {
+finbl dlbss LongList {
 
-    public static int DEFAULT_CAPACITY = 10;
+    publid stbtid int DEFAULT_CAPACITY = 10;
 
-    public static int DEFAULT_INCREMENT = 10;
+    publid stbtid int DEFAULT_INCREMENT = 10;
 
 
-    private final int DELTA;
-    private int size;
+    privbtf finbl int DELTA;
+    privbtf int sizf;
 
     /**
-     * The list content. Any access to this variable must be protected
-     * by a synchronized block on the LongList object.
-     * Only read-only action should be performed on this object.
+     * Tif list dontfnt. Any bddfss to tiis vbribblf must bf protfdtfd
+     * by b syndironizfd blodk on tif LongList objfdt.
+     * Only rfbd-only bdtion siould bf pfrformfd on tiis objfdt.
      **/
-    public  long[] list;
+    publid  long[] list;
 
     LongList() {
-        this(DEFAULT_CAPACITY,DEFAULT_INCREMENT);
+        tiis(DEFAULT_CAPACITY,DEFAULT_INCREMENT);
     }
 
-    LongList(int initialCapacity) {
-        this(initialCapacity,DEFAULT_INCREMENT);
+    LongList(int initiblCbpbdity) {
+        tiis(initiblCbpbdity,DEFAULT_INCREMENT);
     }
 
-    LongList(int initialCapacity, int delta) {
-        size = 0;
-        DELTA = delta;
-        list = allocate(initialCapacity);
-    }
-
-    /**
-     * Same behaviour than size() in {@link java.util.List}.
-     **/
-    public final int size() { return size;}
-
-    /**
-     * Same behaviour than add(long o) in {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
-     * block on the LongList object.
-     **/
-    public final boolean add(final long o) {
-        if (size >= list.length)
-            resize();
-        list[size++]=o;
-        return true;
+    LongList(int initiblCbpbdity, int dfltb) {
+        sizf = 0;
+        DELTA = dfltb;
+        list = bllodbtf(initiblCbpbdity);
     }
 
     /**
-     * Same behaviour than add(int index, long o) in
-     * {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
-     * block on the LongList object.
+     * Sbmf bfibviour tibn sizf() in {@link jbvb.util.List}.
      **/
-    public final void add(final int index, final long o) {
-        if (index >  size) throw new IndexOutOfBoundsException();
-        if (index >= list.length) resize();
-        if (index == size) {
-            list[size++]=o;
-            return;
+    publid finbl int sizf() { rfturn sizf;}
+
+    /**
+     * Sbmf bfibviour tibn bdd(long o) in {@link jbvb.util.List}.
+     * Any bddfss to tiis mftiod siould bf protfdtfd in b syndironizfd
+     * blodk on tif LongList objfdt.
+     **/
+    publid finbl boolfbn bdd(finbl long o) {
+        if (sizf >= list.lfngti)
+            rfsizf();
+        list[sizf++]=o;
+        rfturn truf;
+    }
+
+    /**
+     * Sbmf bfibviour tibn bdd(int indfx, long o) in
+     * {@link jbvb.util.List}.
+     * Any bddfss to tiis mftiod siould bf protfdtfd in b syndironizfd
+     * blodk on tif LongList objfdt.
+     **/
+    publid finbl void bdd(finbl int indfx, finbl long o) {
+        if (indfx >  sizf) tirow nfw IndfxOutOfBoundsExdfption();
+        if (indfx >= list.lfngti) rfsizf();
+        if (indfx == sizf) {
+            list[sizf++]=o;
+            rfturn;
         }
 
-        java.lang.System.arraycopy(list,index,list,index+1,size-index);
-        list[index]=o;
-        size++;
+        jbvb.lbng.Systfm.brrbydopy(list,indfx,list,indfx+1,sizf-indfx);
+        list[indfx]=o;
+        sizf++;
     }
 
     /**
-     * Adds <var>count</var> elements to the list.
-     * @param at index at which the elements must be inserted. The
-     *        first element will be inserted at this index.
-     * @param src  An array containing the elements we want to insert.
-     * @param from Index of the first element from <var>src</var> that
-     *        must be inserted.
-     * @param count number of elements to insert.
-     * Any access to this method should be protected in a synchronized
-     * block on the LongList object.
+     * Adds <vbr>dount</vbr> flfmfnts to tif list.
+     * @pbrbm bt indfx bt wiidi tif flfmfnts must bf insfrtfd. Tif
+     *        first flfmfnt will bf insfrtfd bt tiis indfx.
+     * @pbrbm srd  An brrby dontbining tif flfmfnts wf wbnt to insfrt.
+     * @pbrbm from Indfx of tif first flfmfnt from <vbr>srd</vbr> tibt
+     *        must bf insfrtfd.
+     * @pbrbm dount numbfr of flfmfnts to insfrt.
+     * Any bddfss to tiis mftiod siould bf protfdtfd in b syndironizfd
+     * blodk on tif LongList objfdt.
      **/
-    public final void add(final int at,final long[] src, final int from,
-                          final int count) {
-        if (count <= 0) return;
-        if (at > size) throw new IndexOutOfBoundsException();
-        ensure(size+count);
-        if (at < size) {
-            java.lang.System.arraycopy(list,at,list,at+count,size-at);
+    publid finbl void bdd(finbl int bt,finbl long[] srd, finbl int from,
+                          finbl int dount) {
+        if (dount <= 0) rfturn;
+        if (bt > sizf) tirow nfw IndfxOutOfBoundsExdfption();
+        fnsurf(sizf+dount);
+        if (bt < sizf) {
+            jbvb.lbng.Systfm.brrbydopy(list,bt,list,bt+dount,sizf-bt);
         }
-        java.lang.System.arraycopy(src,from,list,at,count);
-        size+=count;
+        jbvb.lbng.Systfm.brrbydopy(srd,from,list,bt,dount);
+        sizf+=dount;
     }
 
     /**
-     * Any access to this method should be protected in a synchronized
-     * block on the LongList object.
+     * Any bddfss to tiis mftiod siould bf protfdtfd in b syndironizfd
+     * blodk on tif LongList objfdt.
      **/
-    public final long remove(final int from, final int count) {
-        if (count < 1 || from < 0) return -1;
-        if (from+count > size) return -1;
+    publid finbl long rfmovf(finbl int from, finbl int dount) {
+        if (dount < 1 || from < 0) rfturn -1;
+        if (from+dount > sizf) rfturn -1;
 
-        final long o = list[from];
-        final int oldsize = size;
-        size = size - count;
+        finbl long o = list[from];
+        finbl int oldsizf = sizf;
+        sizf = sizf - dount;
 
-        if (from == size) return o;
+        if (from == sizf) rfturn o;
 
-        java.lang.System.arraycopy(list,from+count,list,from,
-                                   size-from);
-        return o;
+        jbvb.lbng.Systfm.brrbydopy(list,from+dount,list,from,
+                                   sizf-from);
+        rfturn o;
     }
 
     /**
-     * Same behaviour than remove(int index) in {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
-     * block on the LongList object.
+     * Sbmf bfibviour tibn rfmovf(int indfx) in {@link jbvb.util.List}.
+     * Any bddfss to tiis mftiod siould bf protfdtfd in b syndironizfd
+     * blodk on tif LongList objfdt.
      **/
-    public final long remove(final int index) {
-        if (index >= size) return -1;
-        final long o = list[index];
-        list[index]=0;
-        if (index == --size) return o;
+    publid finbl long rfmovf(finbl int indfx) {
+        if (indfx >= sizf) rfturn -1;
+        finbl long o = list[indfx];
+        list[indfx]=0;
+        if (indfx == --sizf) rfturn o;
 
-        java.lang.System.arraycopy(list,index+1,list,index,
-                                   size-index);
-        return o;
+        jbvb.lbng.Systfm.brrbydopy(list,indfx+1,list,indfx,
+                                   sizf-indfx);
+        rfturn o;
     }
 
     /**
-     * Same behaviour than the toArray(long[] a) method in
-     * {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
-     * block on the LongList object.
+     * Sbmf bfibviour tibn tif toArrby(long[] b) mftiod in
+     * {@link jbvb.util.List}.
+     * Any bddfss to tiis mftiod siould bf protfdtfd in b syndironizfd
+     * blodk on tif LongList objfdt.
      **/
-    public final long[] toArray(long[] a) {
-        java.lang.System.arraycopy(list,0,a,0,size);
-        return a;
+    publid finbl long[] toArrby(long[] b) {
+        jbvb.lbng.Systfm.brrbydopy(list,0,b,0,sizf);
+        rfturn b;
     }
 
     /**
-     * Same behaviour than the toArray() method in
-     * {@link java.util.List}.
-     * Any access to this method should be protected in a synchronized
-     * block on the LongList object.
+     * Sbmf bfibviour tibn tif toArrby() mftiod in
+     * {@link jbvb.util.List}.
+     * Any bddfss to tiis mftiod siould bf protfdtfd in b syndironizfd
+     * blodk on tif LongList objfdt.
      **/
-    public final long[] toArray() {
-        return toArray(new long[size]);
+    publid finbl long[] toArrby() {
+        rfturn toArrby(nfw long[sizf]);
     }
 
     /**
-     * Resize the list. Increase its capacity by DELTA elements.
-     * Any call to this method must be protected by a synchronized
-     * block on this LongList.
+     * Rfsizf tif list. Indrfbsf its dbpbdity by DELTA flfmfnts.
+     * Any dbll to tiis mftiod must bf protfdtfd by b syndironizfd
+     * blodk on tiis LongList.
      **/
-    private final void resize() {
-        final long[] newlist = allocate(list.length + DELTA);
-        java.lang.System.arraycopy(list,0,newlist,0,size);
-        list = newlist;
+    privbtf finbl void rfsizf() {
+        finbl long[] nfwlist = bllodbtf(list.lfngti + DELTA);
+        jbvb.lbng.Systfm.brrbydopy(list,0,nfwlist,0,sizf);
+        list = nfwlist;
     }
 
     /**
-     * Resize the list. Insure that the new length will be at
-     * least equal to <var>length</var>.
-     * @param length new minimal length requested.
-     * Any call to this method must be protected by a synchronized
-     * block on this LongList.
+     * Rfsizf tif list. Insurf tibt tif nfw lfngti will bf bt
+     * lfbst fqubl to <vbr>lfngti</vbr>.
+     * @pbrbm lfngti nfw minimbl lfngti rfqufstfd.
+     * Any dbll to tiis mftiod must bf protfdtfd by b syndironizfd
+     * blodk on tiis LongList.
      **/
-    private final void ensure(int length) {
-        if (list.length < length) {
-            final int min = list.length+DELTA;
-            length=(length<min)?min:length;
-            final long[] newlist = allocate(length);
-            java.lang.System.arraycopy(list,0,newlist,0,size);
-            list = newlist;
+    privbtf finbl void fnsurf(int lfngti) {
+        if (list.lfngti < lfngti) {
+            finbl int min = list.lfngti+DELTA;
+            lfngti=(lfngti<min)?min:lfngti;
+            finbl long[] nfwlist = bllodbtf(lfngti);
+            jbvb.lbng.Systfm.brrbydopy(list,0,nfwlist,0,sizf);
+            list = nfwlist;
         }
     }
 
     /**
-     * Allocate a new array of object of specified length.
+     * Allodbtf b nfw brrby of objfdt of spfdififd lfngti.
      **/
-    private final long[] allocate(final int length) {
-        return new long[length];
+    privbtf finbl long[] bllodbtf(finbl int lfngti) {
+        rfturn nfw long[lfngti];
     }
 
 }

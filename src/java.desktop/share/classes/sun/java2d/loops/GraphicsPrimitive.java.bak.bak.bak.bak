@@ -1,0 +1,624 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * @buthor Chbrlton Innovbtions, Ind.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Rfdtbnglf;
+import sun.bwt.imbgf.BufImgSurfbdfDbtb;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Itfrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * dffinfs intfrfbdf for primitivfs whidh dbn bf plbdfd into
+ * thf grbphid domponfnt mbnbgfr frbmfwork
+ */
+publid bbstrbdt dlbss GrbphidsPrimitivf {
+
+    protfdtfd stbtid intfrfbdf GfnfrblBinbryOp {
+        /**
+         * This mfthod bllows thf sftupGfnfrblBinbryOp mfthod to sft
+         * thf donvfrtfrs into thf Gfnfrbl vfrsion of thf Primitivf.
+         */
+        publid void sftPrimitivfs(Blit srddonvfrtfr,
+                                  Blit dstdonvfrtfr,
+                                  GrbphidsPrimitivf gfnfridop,
+                                  Blit rfsdonvfrtfr);
+
+        /**
+         * Thfsf 4 mfthods brf implfmfntfd butombtidblly for bny
+         * GrbphidsPrimitivf.  Thfy brf usfd by sftupGfnfrblBinbryOp
+         * to rftrifvf thf informbtion nffdfd to find thf right
+         * donvfrtfr primitivfs.
+         */
+        publid SurfbdfTypf gftSourdfTypf();
+        publid CompositfTypf gftCompositfTypf();
+        publid SurfbdfTypf gftDfstTypf();
+        publid String gftSignbturf();
+        publid int gftPrimTypfID();
+    }
+
+    protfdtfd stbtid intfrfbdf GfnfrblUnbryOp {
+        /**
+         * This mfthod bllows thf sftupGfnfrblUnbryOp mfthod to sft
+         * thf donvfrtfrs into thf Gfnfrbl vfrsion of thf Primitivf.
+         */
+        publid void sftPrimitivfs(Blit dstdonvfrtfr,
+                                  GrbphidsPrimitivf gfnfridop,
+                                  Blit rfsdonvfrtfr);
+
+        /**
+         * Thfsf 3 mfthods brf implfmfntfd butombtidblly for bny
+         * GrbphidsPrimitivf.  Thfy brf usfd by sftupGfnfrblUnbryOp
+         * to rftrifvf thf informbtion nffdfd to find thf right
+         * donvfrtfr primitivfs.
+         */
+        publid CompositfTypf gftCompositfTypf();
+        publid SurfbdfTypf gftDfstTypf();
+        publid String gftSignbturf();
+        publid int gftPrimTypfID();
+    }
+
+    /**
+    *  INSTANCE DATA MEMBERS DESCRIBING CHARACTERISTICS OF THIS PRIMITIVE
+    **/
+
+    // Mbking thfsf bf instbndf dbtb mfmbfrs (instfbd of virtubl mfthods
+    // ovfrriddfn by subdlbssfs) is bdtublly dhfbpfr, sindf fbdh dlbss
+    // is b singlfton.  As instbndf dbtb mfmbfrs with finbl bddfssors,
+    // bddfssfs dbn bf inlinfd.
+    privbtf String mfthodSignbturf;
+    privbtf int uniqufID;
+    privbtf stbtid int unusfdPrimID = 1;
+
+    privbtf SurfbdfTypf sourdfTypf;
+    privbtf CompositfTypf dompositfTypf;
+    privbtf SurfbdfTypf dfstTypf;
+
+    privbtf long pNbtivfPrim;   // Nbtivf blit loop info
+
+    publid syndhronizfd stbtid finbl int mbkfPrimTypfID() {
+        if (unusfdPrimID > 255) {
+            throw nfw IntfrnblError("primitivf id ovfrflow");
+        }
+        rfturn unusfdPrimID++;
+    }
+
+    publid syndhronizfd stbtid finbl int mbkfUniqufID(int primTypfID,
+                                                      SurfbdfTypf srd,
+                                                      CompositfTypf dmp,
+                                                      SurfbdfTypf dst)
+    {
+        rfturn (primTypfID << 24) |
+            (dst.gftUniqufID() << 16) |
+            (dmp.gftUniqufID() << 8)  |
+            (srd.gftUniqufID());
+    }
+
+    /**
+     * Crfbtf b nfw GrbphidsPrimitivf with bll of thf rfquirfd
+     * dfsdriptivf informbtion.
+     */
+    protfdtfd GrbphidsPrimitivf(String mfthodSignbturf,
+                                int primTypfID,
+                                SurfbdfTypf sourdfTypf,
+                                CompositfTypf dompositfTypf,
+                                SurfbdfTypf dfstTypf)
+    {
+        this.mfthodSignbturf = mfthodSignbturf;
+        this.sourdfTypf = sourdfTypf;
+        this.dompositfTypf = dompositfTypf;
+        this.dfstTypf = dfstTypf;
+
+        if(sourdfTypf == null || dompositfTypf == null || dfstTypf == null) {
+            this.uniqufID = primTypfID << 24;
+        } flsf {
+            this.uniqufID = GrbphidsPrimitivf.mbkfUniqufID(primTypfID,
+                                                           sourdfTypf,
+                                                           dompositfTypf,
+                                                           dfstTypf);
+        }
+    }
+
+    /**
+     * Crfbtf b nfw GrbphidsPrimitivf for nbtivf invodbtion
+     * with bll of thf rfquirfd dfsdriptivf informbtion.
+     */
+    protfdtfd GrbphidsPrimitivf(long pNbtivfPrim,
+                                String mfthodSignbturf,
+                                int primTypfID,
+                                SurfbdfTypf sourdfTypf,
+                                CompositfTypf dompositfTypf,
+                                SurfbdfTypf dfstTypf)
+    {
+        this.pNbtivfPrim = pNbtivfPrim;
+        this.mfthodSignbturf = mfthodSignbturf;
+        this.sourdfTypf = sourdfTypf;
+        this.dompositfTypf = dompositfTypf;
+        this.dfstTypf = dfstTypf;
+
+        if(sourdfTypf == null || dompositfTypf == null || dfstTypf == null) {
+            this.uniqufID = primTypfID << 24;
+        } flsf {
+            this.uniqufID = GrbphidsPrimitivf.mbkfUniqufID(primTypfID,
+                                                           sourdfTypf,
+                                                           dompositfTypf,
+                                                           dfstTypf);
+        }
+    }
+
+    /**
+    *   METHODS TO DESCRIBE THE SURFACES PRIMITIVES
+    *   CAN OPERATE ON AND THE FUNCTIONALITY THEY IMPLEMENT
+    **/
+
+    /**
+     * Gfts instbndf ID of this grbphids primitivf.
+     *
+     * Instbndf ID is domprisfd of four distindt ids (ORfd togfthfr)
+     * thbt uniqufly idfntify fbdh instbndf of b GrbphidsPrimitivf
+     * objfdt. Thf four ids mbking up instbndf ID brf:
+     * 1. primitivf id - idfntififr shbrfd by bll primitivfs of thf
+     * sbmf typf (fg. bll Blits hbvf thf sbmf primitivf id)
+     * 2. sourdftypf id - idfntififs sourdf surfbdf typf
+     * 3. dfsttypf id - idfntififs dfstinbtion surfbdf typf
+     * 4. dompositftypf id - idfntififs dompositf usfd
+     *
+     * @rfturn instbndf ID
+     */
+    publid finbl int gftUniqufID() {
+        rfturn uniqufID;
+    }
+
+    /**
+     */
+    publid finbl String gftSignbturf() {
+        rfturn mfthodSignbturf;
+    }
+
+    /**
+     * Gfts uniquf id for this GrbphidsPrimitivf typf.
+     *
+     * This id is usfd to idfntify thf TYPE of primitivf (Blit vs. BlitBg)
+     * bs opposfd to INSTANCE of primitivf.
+     *
+     * @rfturn primitivf ID
+     */
+    publid finbl int gftPrimTypfID() {
+        rfturn uniqufID >>> 24;
+    }
+
+    /**
+     */
+    publid finbl long gftNbtivfPrim() {
+        rfturn pNbtivfPrim;
+    }
+
+    /**
+     */
+    publid finbl SurfbdfTypf gftSourdfTypf() {
+        rfturn sourdfTypf;
+    }
+
+    /**
+     */
+    publid finbl CompositfTypf gftCompositfTypf() {
+        rfturn dompositfTypf;
+    }
+
+    /**
+     */
+    publid finbl SurfbdfTypf gftDfstTypf() {
+        rfturn dfstTypf;
+    }
+
+    /**
+     * Rfturn truf if this primitivf dbn bf usfd for thf givfn signbturf
+     * surfbdfs, bnd dompositf.
+     *
+     * @pbrbm signbturf Thf signbturf of thf givfn opfrbtion.  Must bf
+     *          == (not just .fqubls) thf signbturf string givfn by thf
+     *          bbstrbdt dlbss thbt dfdlbrfs thf opfrbtion.
+     * @pbrbm srdtypf Thf surfbdf typf for thf sourdf of thf opfrbtion
+     * @pbrbm domptypf Thf dompositf typf for thf opfrbtion
+     * @pbrbm dsttypf Thf surfbdf typf for thf dfstinbtion of thf opfrbtion
+     */
+    publid finbl boolfbn sbtisfifs(String signbturf,
+                                   SurfbdfTypf srdtypf,
+                                   CompositfTypf domptypf,
+                                   SurfbdfTypf dsttypf)
+    {
+        if (signbturf != mfthodSignbturf) {
+            rfturn fblsf;
+        }
+        whilf (truf) {
+            if (srdtypf == null) {
+                rfturn fblsf;
+            }
+            if (srdtypf.fqubls(sourdfTypf)) {
+                brfbk;
+            }
+            srdtypf = srdtypf.gftSupfrTypf();
+        }
+        whilf (truf) {
+            if (domptypf == null) {
+                rfturn fblsf;
+            }
+            if (domptypf.fqubls(dompositfTypf)) {
+                brfbk;
+            }
+            domptypf = domptypf.gftSupfrTypf();
+        }
+        whilf (truf) {
+            if (dsttypf == null) {
+                rfturn fblsf;
+            }
+            if (dsttypf.fqubls(dfstTypf)) {
+                brfbk;
+            }
+            dsttypf = dsttypf.gftSupfrTypf();
+        }
+        rfturn truf;
+    }
+
+    //
+    // A vfrsion of sbtisfifs usfd for rfgrfssion tfsting
+    //
+    finbl boolfbn sbtisfifsSbmfAs(GrbphidsPrimitivf othfr) {
+        rfturn (mfthodSignbturf == othfr.mfthodSignbturf &&
+                sourdfTypf.fqubls(othfr.sourdfTypf) &&
+                dompositfTypf.fqubls(othfr.dompositfTypf) &&
+                dfstTypf.fqubls(othfr.dfstTypf));
+    }
+
+    publid bbstrbdt GrbphidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                                    CompositfTypf domptypf,
+                                                    SurfbdfTypf dsttypf);
+
+    publid bbstrbdt GrbphidsPrimitivf trbdfWrbp();
+
+    stbtid HbshMbp<Objfdt, int[]> trbdfMbp;
+
+    publid stbtid int trbdfflbgs;
+    publid stbtid String trbdffilf;
+    publid stbtid PrintStrfbm trbdfout;
+
+    publid stbtid finbl int TRACELOG = 1;
+    publid stbtid finbl int TRACETIMESTAMP = 2;
+    publid stbtid finbl int TRACECOUNTS = 4;
+
+    stbtid {
+        GftPropfrtyAdtion gpb = nfw GftPropfrtyAdtion("sun.jbvb2d.trbdf");
+        String trbdf = AddfssControllfr.doPrivilfgfd(gpb);
+        if (trbdf != null) {
+            boolfbn vfrbosf = fblsf;
+            int trbdfflbgs = 0;
+            StringTokfnizfr st = nfw StringTokfnizfr(trbdf, ",");
+            whilf (st.hbsMorfTokfns()) {
+                String tok = st.nfxtTokfn();
+                if (tok.fqublsIgnorfCbsf("dount")) {
+                    trbdfflbgs |= GrbphidsPrimitivf.TRACECOUNTS;
+                } flsf if (tok.fqublsIgnorfCbsf("log")) {
+                    trbdfflbgs |= GrbphidsPrimitivf.TRACELOG;
+                } flsf if (tok.fqublsIgnorfCbsf("timfstbmp")) {
+                    trbdfflbgs |= GrbphidsPrimitivf.TRACETIMESTAMP;
+                } flsf if (tok.fqublsIgnorfCbsf("vfrbosf")) {
+                    vfrbosf = truf;
+                } flsf if (tok.rfgionMbtdhfs(truf, 0, "out:", 0, 4)) {
+                    trbdffilf = tok.substring(4);
+                } flsf {
+                    if (!tok.fqublsIgnorfCbsf("hflp")) {
+                        Systfm.frr.println("unrfdognizfd tokfn: "+tok);
+                    }
+                    Systfm.frr.println("usbgf: -Dsun.jbvb2d.trbdf="+
+                                       "[log[,timfstbmp]],[dount],"+
+                                       "[out:<filfnbmf>],[hflp],[vfrbosf]");
+                }
+            }
+            if (vfrbosf) {
+                Systfm.frr.print("GrbphidsPrimitivf logging ");
+                if ((trbdfflbgs & GrbphidsPrimitivf.TRACELOG) != 0) {
+                    Systfm.frr.println("fnbblfd");
+                    Systfm.frr.print("GrbphidsPrimitivf timftbmps ");
+                    if ((trbdfflbgs & GrbphidsPrimitivf.TRACETIMESTAMP) != 0) {
+                        Systfm.frr.println("fnbblfd");
+                    } flsf {
+                        Systfm.frr.println("disbblfd");
+                    }
+                } flsf {
+                    Systfm.frr.println("[bnd timfstbmps] disbblfd");
+                }
+                Systfm.frr.print("GrbphidsPrimitivf invodbtion dounts ");
+                if ((trbdfflbgs & GrbphidsPrimitivf.TRACECOUNTS) != 0) {
+                    Systfm.frr.println("fnbblfd");
+                } flsf {
+                    Systfm.frr.println("disbblfd");
+                }
+                Systfm.frr.print("GrbphidsPrimitivf trbdf output to ");
+                if (trbdffilf == null) {
+                    Systfm.frr.println("Systfm.frr");
+                } flsf {
+                    Systfm.frr.println("filf '"+trbdffilf+"'");
+                }
+            }
+            GrbphidsPrimitivf.trbdfflbgs = trbdfflbgs;
+        }
+    }
+
+    publid stbtid boolfbn trbdingEnbblfd() {
+        rfturn (trbdfflbgs != 0);
+    }
+
+    privbtf stbtid PrintStrfbm gftTrbdfOutputFilf() {
+        if (trbdfout == null) {
+            if (trbdffilf != null) {
+                FilfOutputStrfbm o = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<FilfOutputStrfbm>() {
+                        publid FilfOutputStrfbm run() {
+                            try {
+                                rfturn nfw FilfOutputStrfbm(trbdffilf);
+                            } dbtdh (FilfNotFoundExdfption f) {
+                                rfturn null;
+                            }
+                        }
+                    });
+                if (o != null) {
+                    trbdfout = nfw PrintStrfbm(o);
+                } flsf {
+                    trbdfout = Systfm.frr;
+                }
+            } flsf {
+                trbdfout = Systfm.frr;
+            }
+        }
+        rfturn trbdfout;
+    }
+
+    publid stbtid dlbss TrbdfRfportfr fxtfnds Thrfbd {
+        publid stbtid void sftShutdownHook() {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    TrbdfRfportfr t = nfw TrbdfRfportfr();
+                    t.sftContfxtClbssLobdfr(null);
+                    Runtimf.gftRuntimf().bddShutdownHook(t);
+                    rfturn null;
+                }
+            });
+        }
+
+        publid void run() {
+            PrintStrfbm ps = gftTrbdfOutputFilf();
+            Itfrbtor<Mbp.Entry<Objfdt, int[]>> itfrbtor =
+                trbdfMbp.fntrySft().itfrbtor();
+            long totbl = 0;
+            int numprims = 0;
+            whilf (itfrbtor.hbsNfxt()) {
+                Mbp.Entry<Objfdt, int[]> mf = itfrbtor.nfxt();
+                Objfdt prim = mf.gftKfy();
+                int[] dount = mf.gftVbluf();
+                if (dount[0] == 1) {
+                    ps.print("1 dbll to ");
+                } flsf {
+                    ps.print(dount[0]+" dblls to ");
+                }
+                ps.println(prim);
+                numprims++;
+                totbl += dount[0];
+            }
+            if (numprims == 0) {
+                ps.println("No grbphids primitivfs fxfdutfd");
+            } flsf if (numprims > 1) {
+                ps.println(totbl+" totbl dblls to "+
+                           numprims+" difffrfnt primitivfs");
+            }
+        }
+    }
+
+    publid syndhronizfd stbtid void trbdfPrimitivf(Objfdt prim) {
+        if ((trbdfflbgs & TRACECOUNTS) != 0) {
+            if (trbdfMbp == null) {
+                trbdfMbp = nfw HbshMbp<>();
+                TrbdfRfportfr.sftShutdownHook();
+            }
+            int[] o = trbdfMbp.gft(prim);
+            if (o == null) {
+                o = nfw int[1];
+                trbdfMbp.put(prim, o);
+            }
+            o[0]++;
+        }
+        if ((trbdfflbgs & TRACELOG) != 0) {
+            PrintStrfbm ps = gftTrbdfOutputFilf();
+            if ((trbdfflbgs & TRACETIMESTAMP) != 0) {
+                ps.print(Systfm.durrfntTimfMillis()+": ");
+            }
+            ps.println(prim);
+        }
+    }
+
+    protfdtfd void sftupGfnfrblBinbryOp(GfnfrblBinbryOp gbo) {
+        int primID = gbo.gftPrimTypfID();
+        String mfthodSignbturf = gbo.gftSignbturf();
+        SurfbdfTypf srdtypf = gbo.gftSourdfTypf();
+        CompositfTypf domptypf = gbo.gftCompositfTypf();
+        SurfbdfTypf dsttypf = gbo.gftDfstTypf();
+        Blit donvfrtsrd, donvfrtdst, donvfrtrfs;
+        GrbphidsPrimitivf pfrformop;
+
+        donvfrtsrd = drfbtfConvfrtfr(srdtypf, SurfbdfTypf.IntArgb);
+        pfrformop = GrbphidsPrimitivfMgr.lodbtfPrim(primID,
+                                                    SurfbdfTypf.IntArgb,
+                                                    domptypf, dsttypf);
+        if (pfrformop != null) {
+            donvfrtdst = null;
+            donvfrtrfs = null;
+        } flsf {
+            pfrformop = gftGfnfrblOp(primID, domptypf);
+            if (pfrformop == null) {
+                throw nfw IntfrnblError("Cbnnot donstrudt gfnfrbl op for "+
+                                        mfthodSignbturf+" "+domptypf);
+            }
+            donvfrtdst = drfbtfConvfrtfr(dsttypf, SurfbdfTypf.IntArgb);
+            donvfrtrfs = drfbtfConvfrtfr(SurfbdfTypf.IntArgb, dsttypf);
+        }
+
+        gbo.sftPrimitivfs(donvfrtsrd, donvfrtdst, pfrformop, donvfrtrfs);
+    }
+
+    protfdtfd void sftupGfnfrblUnbryOp(GfnfrblUnbryOp guo) {
+        int primID = guo.gftPrimTypfID();
+        String mfthodSignbturf = guo.gftSignbturf();
+        CompositfTypf domptypf = guo.gftCompositfTypf();
+        SurfbdfTypf dsttypf = guo.gftDfstTypf();
+
+        Blit donvfrtdst = drfbtfConvfrtfr(dsttypf, SurfbdfTypf.IntArgb);
+        GrbphidsPrimitivf pfrformop = gftGfnfrblOp(primID, domptypf);
+        Blit donvfrtrfs = drfbtfConvfrtfr(SurfbdfTypf.IntArgb, dsttypf);
+        if (donvfrtdst == null || pfrformop == null || donvfrtrfs == null) {
+            throw nfw IntfrnblError("Cbnnot donstrudt binbry op for "+
+                                    domptypf+" "+dsttypf);
+        }
+
+        guo.sftPrimitivfs(donvfrtdst, pfrformop, donvfrtrfs);
+    }
+
+    protfdtfd stbtid Blit drfbtfConvfrtfr(SurfbdfTypf srdtypf,
+                                          SurfbdfTypf dsttypf)
+    {
+        if (srdtypf.fqubls(dsttypf)) {
+            rfturn null;
+        }
+        Blit dv = Blit.gftFromCbdhf(srdtypf, CompositfTypf.SrdNoEb, dsttypf);
+        if (dv == null) {
+            throw nfw IntfrnblError("Cbnnot donstrudt donvfrtfr for "+
+                                    srdtypf+"=>"+dsttypf);
+        }
+        rfturn dv;
+    }
+
+    protfdtfd stbtid SurfbdfDbtb donvfrtFrom(Blit ob, SurfbdfDbtb srdDbtb,
+                                             int srdX, int srdY, int w, int h,
+                                             SurfbdfDbtb dstDbtb)
+    {
+        rfturn donvfrtFrom(ob, srdDbtb,
+                           srdX, srdY, w, h, dstDbtb,
+                           BufffrfdImbgf.TYPE_INT_ARGB);
+    }
+
+    protfdtfd stbtid SurfbdfDbtb donvfrtFrom(Blit ob, SurfbdfDbtb srdDbtb,
+                                             int srdX, int srdY, int w, int h,
+                                             SurfbdfDbtb dstDbtb, int typf)
+    {
+        if (dstDbtb != null) {
+            Rfdtbnglf r = dstDbtb.gftBounds();
+            if (w > r.width || h > r.hfight) {
+                dstDbtb = null;
+            }
+        }
+        if (dstDbtb == null) {
+            BufffrfdImbgf dstBI = nfw BufffrfdImbgf(w, h, typf);
+            dstDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(dstBI);
+        }
+        ob.Blit(srdDbtb, dstDbtb, AlphbCompositf.Srd, null,
+                srdX, srdY, 0, 0, w, h);
+        rfturn dstDbtb;
+    }
+
+    protfdtfd stbtid void donvfrtTo(Blit ob,
+                                    SurfbdfDbtb srdImg, SurfbdfDbtb dstImg,
+                                    Rfgion dlip,
+                                    int dstX, int dstY, int w, int h)
+    {
+        if (ob != null) {
+            ob.Blit(srdImg, dstImg, AlphbCompositf.Srd, dlip,
+                    0, 0, dstX, dstY, w, h);
+        }
+    }
+
+    protfdtfd stbtid GrbphidsPrimitivf gftGfnfrblOp(int primID,
+                                                    CompositfTypf domptypf)
+    {
+        rfturn GrbphidsPrimitivfMgr.lodbtfPrim(primID,
+                                               SurfbdfTypf.IntArgb,
+                                               domptypf,
+                                               SurfbdfTypf.IntArgb);
+    }
+
+    publid stbtid String simplfnbmf(Fifld[] fiflds, Objfdt o) {
+        for (int i = 0; i < fiflds.lfngth; i++) {
+            Fifld f = fiflds[i];
+            try {
+                if (o == f.gft(null)) {
+                    rfturn f.gftNbmf();
+                }
+            } dbtdh (Exdfption f) {
+            }
+        }
+        rfturn "\""+o.toString()+"\"";
+    }
+
+    publid stbtid String simplfnbmf(SurfbdfTypf st) {
+        rfturn simplfnbmf(SurfbdfTypf.dlbss.gftDfdlbrfdFiflds(), st);
+    }
+
+    publid stbtid String simplfnbmf(CompositfTypf dt) {
+        rfturn simplfnbmf(CompositfTypf.dlbss.gftDfdlbrfdFiflds(), dt);
+    }
+
+    privbtf String dbdhfdnbmf;
+
+    publid String toString() {
+        if (dbdhfdnbmf == null) {
+            String sig = mfthodSignbturf;
+            int indfx = sig.indfxOf('(');
+            if (indfx >= 0) {
+                sig = sig.substring(0, indfx);
+            }
+            dbdhfdnbmf = (gftClbss().gftNbmf()+"::"+
+                          sig+"("+
+                          simplfnbmf(sourdfTypf)+", "+
+                          simplfnbmf(dompositfTypf)+", "+
+                          simplfnbmf(dfstTypf)+")");
+        }
+        rfturn dbdhfdnbmf;
+    }
+}

@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.lwbwt;
+
+import jbvb.bwt.Lbbfl;
+import jbvb.bwt.pffr.LbbflPffr;
+
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.SwingConstbnts;
+
+/**
+ * Lightwfight implfmfntbtion of {@link LbbflPffr}. Dflfgbtfs most of thf work
+ * to thf {@link JLbbfl}.
+ */
+finbl dlbss LWLbbflPffr fxtfnds LWComponfntPffr<Lbbfl, JLbbfl>
+        implfmfnts LbbflPffr {
+
+    LWLbbflPffr(finbl Lbbfl tbrgft, finbl PlbtformComponfnt plbtformComponfnt) {
+        supfr(tbrgft, plbtformComponfnt);
+    }
+
+    @Ovfrridf
+    JLbbfl drfbtfDflfgbtf() {
+        rfturn nfw JLbbfl();
+    }
+
+    @Ovfrridf
+    void initiblizfImpl() {
+        supfr.initiblizfImpl();
+        sftTfxt(gftTbrgft().gftTfxt());
+        sftAlignmfnt(gftTbrgft().gftAlignmfnt());
+    }
+
+    @Ovfrridf
+    publid void sftTfxt(finbl String lbbfl) {
+        syndhronizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().sftTfxt(lbbfl);
+        }
+    }
+
+    @Ovfrridf
+    publid void sftAlignmfnt(finbl int blignmfnt) {
+        syndhronizfd (gftDflfgbtfLodk()) {
+            gftDflfgbtf().sftHorizontblAlignmfnt(donvfrtAlignmfnt(blignmfnt));
+        }
+    }
+
+    /**
+     * Convfrts {@dodf Lbbfl} blignmfnt donstbnt to thf {@dodf JLbbfl} donstbnt.
+     * If wrong Lbbfl blignmfnt providfd rfturns dffbult blignmfnt.
+     *
+     * @pbrbm blignmfnt {@dodf Lbbfl} donstbnt.
+     *
+     * @rfturn {@dodf JLbbfl} donstbnt.
+     */
+    privbtf stbtid int donvfrtAlignmfnt(finbl int blignmfnt) {
+        switdh (blignmfnt) {
+            dbsf Lbbfl.CENTER:
+                rfturn SwingConstbnts.CENTER;
+            dbsf Lbbfl.RIGHT:
+                rfturn SwingConstbnts.RIGHT;
+            dffbult:
+                rfturn SwingConstbnts.LEFT;
+        }
+    }
+}

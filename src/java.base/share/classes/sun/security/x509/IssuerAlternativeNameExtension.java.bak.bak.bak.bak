@@ -1,0 +1,232 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This rfprfsfnts thf Issufr Altfrnbtivf Nbmf Extfnsion.
+ *
+ * This fxtfnsion, if prfsfnt, bllows thf issufr to spfdify multiplf
+ * bltfrnbtivf nbmfs.
+ *
+ * <p>Extfnsions brf rfprfsfntfd bs b sfqufndf of thf fxtfnsion idfntififr
+ * (Objfdt Idfntififr), b boolfbn flbg stbting whfthfr thf fxtfnsion is to
+ * bf trfbtfd bs bfing dritidbl bnd thf fxtfnsion vbluf itsflf (this is bgbin
+ * b DER fndoding of thf fxtfnsion vbluf).
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+publid dlbss IssufrAltfrnbtivfNbmfExtfnsion
+fxtfnds Extfnsion implfmfnts CfrtAttrSft<String> {
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT =
+                         "x509.info.fxtfnsions.IssufrAltfrnbtivfNbmf";
+    /**
+     * Attributf nbmfs.
+     */
+    publid stbtid finbl String NAME = "IssufrAltfrnbtivfNbmf";
+    publid stbtid finbl String ISSUER_NAME = "issufr_nbmf";
+
+    // privbtf dbtb mfmbfrs
+    GfnfrblNbmfs nbmfs = null;
+
+    // Endodf this fxtfnsion
+    privbtf void fndodfThis() throws IOExdfption {
+        if (nbmfs == null || nbmfs.isEmpty()) {
+            this.fxtfnsionVbluf = null;
+            rfturn;
+        }
+        DfrOutputStrfbm os = nfw DfrOutputStrfbm();
+        nbmfs.fndodf(os);
+        this.fxtfnsionVbluf = os.toBytfArrby();
+    }
+
+    /**
+     * Crfbtf b IssufrAltfrnbtivfNbmfExtfnsion with thf pbssfd GfnfrblNbmfs.
+     *
+     * @pbrbm nbmfs thf GfnfrblNbmfs for thf issufr.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid IssufrAltfrnbtivfNbmfExtfnsion(GfnfrblNbmfs nbmfs)
+    throws IOExdfption {
+        this.nbmfs = nbmfs;
+        this.fxtfnsionId = PKIXExtfnsions.IssufrAltfrnbtivfNbmf_Id;
+        this.dritidbl = fblsf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf b IssufrAltfrnbtivfNbmfExtfnsion with thf pbssfd dritidblity
+     * bnd GfnfrblNbmfs.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm nbmfs thf GfnfrblNbmfs for thf issufr.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid IssufrAltfrnbtivfNbmfExtfnsion(Boolfbn dritidbl, GfnfrblNbmfs nbmfs)
+    throws IOExdfption {
+        this.nbmfs = nbmfs;
+        this.fxtfnsionId = PKIXExtfnsions.IssufrAltfrnbtivfNbmf_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf b dffbult IssufrAltfrnbtivfNbmfExtfnsion.
+     */
+    publid IssufrAltfrnbtivfNbmfExtfnsion() {
+        fxtfnsionId = PKIXExtfnsions.IssufrAltfrnbtivfNbmf_Id;
+        dritidbl = fblsf;
+        nbmfs = nfw GfnfrblNbmfs();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of thf bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
+     */
+    publid IssufrAltfrnbtivfNbmfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.IssufrAltfrnbtivfNbmf_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+        this.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(this.fxtfnsionVbluf);
+        if (vbl.dbtb == null) {
+            nbmfs = nfw GfnfrblNbmfs();
+            rfturn;
+        }
+
+        nbmfs = nfw GfnfrblNbmfs(vbl);
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf IssufrAltfrnbtivfNbmf.
+     */
+    publid String toString() {
+
+        String rfsult = supfr.toString() + "IssufrAltfrnbtivfNbmf [\n";
+        if(nbmfs == null) {
+            rfsult += "  null\n";
+        } flsf {
+            for(GfnfrblNbmf nbmf: nbmfs.nbmfs()) {
+                rfsult += "  "+nbmf+"\n";
+            }
+        }
+        rfsult += "]\n";
+        rfturn rfsult;
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf OutputStrfbm.
+     *
+     * @pbrbm out thf OutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frror.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (fxtfnsionVbluf == null) {
+            fxtfnsionId = PKIXExtfnsions.IssufrAltfrnbtivfNbmf_Id;
+            dritidbl = fblsf;
+            fndodfThis();
+        }
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ISSUER_NAME)) {
+            if (!(obj instbndfof GfnfrblNbmfs)) {
+              throw nfw IOExdfption("Attributf vbluf should bf of" +
+                                    " typf GfnfrblNbmfs.");
+            }
+            nbmfs = (GfnfrblNbmfs)obj;
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:IssufrAltfrnbtivfNbmf.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid GfnfrblNbmfs gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ISSUER_NAME)) {
+            rfturn (nbmfs);
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:IssufrAltfrnbtivfNbmf.");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(ISSUER_NAME)) {
+            nbmfs = null;
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:IssufrAltfrnbtivfNbmf.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(ISSUER_NAME);
+
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (NAME);
+    }
+}

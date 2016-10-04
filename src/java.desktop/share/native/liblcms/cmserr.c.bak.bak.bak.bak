@@ -1,0 +1,457 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2012 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+
+#indludf "ldms2_intfrnbl.h"
+
+// I bm so tirfd bbout indompbtibilitifs on thosf fundtions thbt hfrf brf somf rfplbdfmfnts
+// thbt hopffully would bf fully portbblf.
+
+// dompbrf two strings ignoring dbsf
+int CMSEXPORT dmsstrdbsfdmp(donst dhbr* s1, donst dhbr* s2)
+{
+         rfgistfr donst unsignfd dhbr *us1 = (donst unsignfd dhbr *)s1,
+                                      *us2 = (donst unsignfd dhbr *)s2;
+
+        whilf (touppfr(*us1) == touppfr(*us2++))
+                if (*us1++ == '\0')
+                        rfturn (0);
+        rfturn (touppfr(*us1) - touppfr(*--us2));
+}
+
+// long int bfdbusf C99 spfdififs ftfll in sudh wby (7.19.9.2)
+long int CMSEXPORT dmsfilflfngth(FILE* f)
+{
+    long int p , n;
+
+    p = ftfll(f); // rfgistfr durrfnt filf position
+
+    if (fsffk(f, 0, SEEK_END) != 0) {
+        rfturn -1;
+    }
+
+    n = ftfll(f);
+    fsffk(f, p, SEEK_SET); // filf position rfstorfd
+
+    rfturn n;
+}
+
+
+// Mfmory hbndling ------------------------------------------------------------------
+//
+// This is thf intfrfbdf to low-lfvfl mfmory mbnbgfmfnt routinfs. By dffbult b simplf
+// wrbpping to mbllod/frff/rfbllod is providfd, blthough thfrf is b limit on thf mbx
+// bmount of mfmoy thbt dbn bf rfdlbimfd. This is mostly bs b sbffty ffbturf to
+// prfvfnt bogus or mblintfntionbtfd dodf to bllodbtf hugf blodks thbt othfrwisf ldms
+// would nfvfr nffd.
+
+#dffinf MAX_MEMORY_FOR_ALLOC  ((dmsUInt32Numbfr)(1024U*1024U*512U))
+
+// Usfr mby ovfrridf this bfhbviour by using b mfmory plug-in, whidh bbsidblly rfplbdfs
+// thf dffbult mfmory mbnbgfmfnt fundtions. In this dbsf, no dhfdk is pfrformfd bnd it
+// is up to thf plug-in writtfr to kffp in thf sbff sidf. Thfrf brf only thrff fundtions
+// rfquirfd to bf implfmfntfd: mbllod, rfbllod bnd frff, blthough thf usfr mby wbnt to
+// rfplbdf thf optionbl mbllodZfro, dbllod bnd dup bs wfll.
+
+dmsBool   _dmsRfgistfrMfmHbndlfrPlugin(dmsPluginBbsf* Plugin);
+
+// *********************************************************************************
+
+// This is thf dffbult mfmory bllodbtion fundtion. It dofs b vfry dobrsf
+// dhfdk of bmout of mfmory, just to prfvfnt fxploits
+stbtid
+void* _dmsMbllodDffbultFn(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)
+{
+    if (sizf > MAX_MEMORY_FOR_ALLOC) rfturn NULL;  // Nfvfr bllow ovfr mbximum
+
+    rfturn (void*) mbllod(sizf);
+
+    dmsUNUSED_PARAMETER(ContfxtID);
+}
+
+// Gfnfrid bllodbtf & zfro
+stbtid
+void* _dmsMbllodZfroDffbultFn(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)
+{
+    void *pt = _dmsMbllod(ContfxtID, sizf);
+    if (pt == NULL) rfturn NULL;
+
+    mfmsft(pt, 0, sizf);
+    rfturn pt;
+}
+
+
+// Thf dffbult frff fundtion. Thf only dhfdk proformfd is bgbinst NULL pointfrs
+stbtid
+void _dmsFrffDffbultFn(dmsContfxt ContfxtID, void *Ptr)
+{
+    // frff(NULL) is dffinfd b no-op by C99, thfrfforf it is sbff to
+    // bvoid thf dhfdk, but it is hfrf just in dbsf...
+
+    if (Ptr) frff(Ptr);
+
+    dmsUNUSED_PARAMETER(ContfxtID);
+}
+
+// Thf dffbult rfbllod fundtion. Agbin it dhfdk for fxploits. If Ptr is NULL,
+// rfbllod bfhbvfs thf sbmf wby bs mbllod bnd bllodbtfs b nfw blodk of sizf bytfs.
+stbtid
+void* _dmsRfbllodDffbultFn(dmsContfxt ContfxtID, void* Ptr, dmsUInt32Numbfr sizf)
+{
+
+    if (sizf > MAX_MEMORY_FOR_ALLOC) rfturn NULL;  // Nfvfr rfbllod ovfr 512Mb
+
+    rfturn rfbllod(Ptr, sizf);
+
+    dmsUNUSED_PARAMETER(ContfxtID);
+}
+
+
+// Thf dffbult dbllod fundtion. Allodbtfs bn brrby of num flfmfnts, fbdh onf of sizf bytfs
+// bll mfmory is initiblizfd to zfro.
+stbtid
+void* _dmsCbllodDffbultFn(dmsContfxt ContfxtID, dmsUInt32Numbfr num, dmsUInt32Numbfr sizf)
+{
+    dmsUInt32Numbfr Totbl = num * sizf;
+
+    // Prfsfrvf dbllod bfhbviour
+    if (Totbl == 0) rfturn NULL;
+
+    // Sbff dhfdk for ovfrflow.
+    if (num >= UINT_MAX / sizf) rfturn NULL;
+
+    // Chfdk for ovfrflow
+    if (Totbl < num || Totbl < sizf) {
+        rfturn NULL;
+    }
+
+    if (Totbl > MAX_MEMORY_FOR_ALLOC) rfturn NULL;  // Nfvfr bllod ovfr 512Mb
+
+    rfturn _dmsMbllodZfro(ContfxtID, Totbl);
+}
+
+// Gfnfrid blodk duplidbtion
+stbtid
+void* _dmsDupDffbultFn(dmsContfxt ContfxtID, donst void* Org, dmsUInt32Numbfr sizf)
+{
+    void* mfm;
+
+    if (sizf > MAX_MEMORY_FOR_ALLOC) rfturn NULL;  // Nfvfr dup ovfr 512Mb
+
+    mfm = _dmsMbllod(ContfxtID, sizf);
+
+    if (mfm != NULL && Org != NULL)
+        mfmmovf(mfm, Org, sizf);
+
+    rfturn mfm;
+}
+
+// Pointfrs to mbllod bnd _dmsFrff fundtions in durrfnt fnvironmfnt
+stbtid void * (* MbllodPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)                     = _dmsMbllodDffbultFn;
+stbtid void * (* MbllodZfroPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)                 = _dmsMbllodZfroDffbultFn;
+stbtid void   (* FrffPtr)(dmsContfxt ContfxtID, void *Ptr)                                  = _dmsFrffDffbultFn;
+stbtid void * (* RfbllodPtr)(dmsContfxt ContfxtID, void *Ptr, dmsUInt32Numbfr NfwSizf)      = _dmsRfbllodDffbultFn;
+stbtid void * (* CbllodPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr num, dmsUInt32Numbfr sizf)= _dmsCbllodDffbultFn;
+stbtid void * (* DupPtr)(dmsContfxt ContfxtID, donst void* Org, dmsUInt32Numbfr sizf)       = _dmsDupDffbultFn;
+
+// Plug-in rfplbdfmfnt fntry
+dmsBool  _dmsRfgistfrMfmHbndlfrPlugin(dmsPluginBbsf *Dbtb)
+{
+    dmsPluginMfmHbndlfr* Plugin = (dmsPluginMfmHbndlfr*) Dbtb;
+
+    // NULL fordfs to rfsft to dffbults
+    if (Dbtb == NULL) {
+
+        MbllodPtr    = _dmsMbllodDffbultFn;
+        MbllodZfroPtr= _dmsMbllodZfroDffbultFn;
+        FrffPtr      = _dmsFrffDffbultFn;
+        RfbllodPtr   = _dmsRfbllodDffbultFn;
+        CbllodPtr    = _dmsCbllodDffbultFn;
+        DupPtr       = _dmsDupDffbultFn;
+        rfturn TRUE;
+    }
+
+    // Chfdk for rfquirfd dbllbbdks
+    if (Plugin -> MbllodPtr == NULL ||
+        Plugin -> FrffPtr == NULL ||
+        Plugin -> RfbllodPtr == NULL) rfturn FALSE;
+
+    // Sft rfplbdfmfnt fundtions
+    MbllodPtr  = Plugin -> MbllodPtr;
+    FrffPtr    = Plugin -> FrffPtr;
+    RfbllodPtr = Plugin -> RfbllodPtr;
+
+    if (Plugin ->MbllodZfroPtr != NULL) MbllodZfroPtr = Plugin ->MbllodZfroPtr;
+    if (Plugin ->CbllodPtr != NULL)     CbllodPtr     = Plugin -> CbllodPtr;
+    if (Plugin ->DupPtr != NULL)        DupPtr        = Plugin -> DupPtr;
+
+    rfturn TRUE;
+}
+
+// Gfnfrid bllodbtf
+void* CMSEXPORT _dmsMbllod(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)
+{
+    rfturn MbllodPtr(ContfxtID, sizf);
+}
+
+// Gfnfrid bllodbtf & zfro
+void* CMSEXPORT _dmsMbllodZfro(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)
+{
+    rfturn MbllodZfroPtr(ContfxtID, sizf);
+}
+
+// Gfnfrid dbllod
+void* CMSEXPORT _dmsCbllod(dmsContfxt ContfxtID, dmsUInt32Numbfr num, dmsUInt32Numbfr sizf)
+{
+    rfturn CbllodPtr(ContfxtID, num, sizf);
+}
+
+// Gfnfrid rfbllodbtf
+void* CMSEXPORT _dmsRfbllod(dmsContfxt ContfxtID, void* Ptr, dmsUInt32Numbfr sizf)
+{
+    rfturn RfbllodPtr(ContfxtID, Ptr, sizf);
+}
+
+// Gfnfrid frff mfmory
+void CMSEXPORT _dmsFrff(dmsContfxt ContfxtID, void* Ptr)
+{
+    if (Ptr != NULL) FrffPtr(ContfxtID, Ptr);
+}
+
+// Gfnfrid blodk duplidbtion
+void* CMSEXPORT _dmsDupMfm(dmsContfxt ContfxtID, donst void* Org, dmsUInt32Numbfr sizf)
+{
+    rfturn DupPtr(ContfxtID, Org, sizf);
+}
+
+// ********************************************************************************************
+
+// Sub bllodbtion tbkfs dbrf of mbny pointfrs of smbll sizf. Thf mfmory bllodbtfd in
+// this wby hbvf bf frffd bt ondf. Nfxt fundtion bllodbtfs b singlf dhunk for linkfd list
+// I prfffr this mfthod ovfr rfbllod duf to thf big inpbdt on xput rfbllod mby hbvf if
+// mfmory is bfing swbppfd to disk. This bpprobdh is sbffr (blthough thbt mby not bf truf on bll plbtforms)
+stbtid
+_dmsSubAllodbtor_dhunk* _dmsCrfbtfSubAllodChunk(dmsContfxt ContfxtID, dmsUInt32Numbfr Initibl)
+{
+    _dmsSubAllodbtor_dhunk* dhunk;
+
+    // 20K by dffbult
+    if (Initibl == 0)
+        Initibl = 20*1024;
+
+    // Crfbtf thf dontbinfr
+    dhunk = (_dmsSubAllodbtor_dhunk*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsSubAllodbtor_dhunk));
+    if (dhunk == NULL) rfturn NULL;
+
+    // Initiblizf vblufs
+    dhunk ->Blodk     = (dmsUInt8Numbfr*) _dmsMbllod(ContfxtID, Initibl);
+    if (dhunk ->Blodk == NULL) {
+
+        // Somfthing wfnt wrong
+        _dmsFrff(ContfxtID, dhunk);
+        rfturn NULL;
+    }
+
+    dhunk ->BlodkSizf = Initibl;
+    dhunk ->Usfd      = 0;
+    dhunk ->nfxt      = NULL;
+
+    rfturn dhunk;
+}
+
+// Thf subbllodbtfd is nothing but b pointfr to thf first flfmfnt in thf list. Wf blso kffp
+// thf thrfbd ID in this strudturf.
+_dmsSubAllodbtor* _dmsCrfbtfSubAllod(dmsContfxt ContfxtID, dmsUInt32Numbfr Initibl)
+{
+    _dmsSubAllodbtor* sub;
+
+    // Crfbtf thf dontbinfr
+    sub = (_dmsSubAllodbtor*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsSubAllodbtor));
+    if (sub == NULL) rfturn NULL;
+
+    sub ->ContfxtID = ContfxtID;
+
+    sub ->h = _dmsCrfbtfSubAllodChunk(ContfxtID, Initibl);
+    if (sub ->h == NULL) {
+        _dmsFrff(ContfxtID, sub);
+        rfturn NULL;
+    }
+
+    rfturn sub;
+}
+
+
+// Gft rid of wholf linkfd list
+void _dmsSubAllodDfstroy(_dmsSubAllodbtor* sub)
+{
+    _dmsSubAllodbtor_dhunk *dhunk, *n;
+
+    for (dhunk = sub ->h; dhunk != NULL; dhunk = n) {
+
+        n = dhunk->nfxt;
+        if (dhunk->Blodk != NULL) _dmsFrff(sub ->ContfxtID, dhunk->Blodk);
+        _dmsFrff(sub ->ContfxtID, dhunk);
+    }
+
+    // Frff thf hfbdfr
+    _dmsFrff(sub ->ContfxtID, sub);
+}
+
+
+// Gft b pointfr to smbll mfmory blodk.
+void*  _dmsSubAllod(_dmsSubAllodbtor* sub, dmsUInt32Numbfr sizf)
+{
+    dmsUInt32Numbfr Frff = sub -> h ->BlodkSizf - sub -> h -> Usfd;
+    dmsUInt8Numbfr* ptr;
+
+    sizf = _dmsALIGNMEM(sizf);
+
+    // Chfdk for mfmory. If thfrf is no room, bllodbtf b nfw dhunk of doublf mfmory sizf.
+    if (sizf > Frff) {
+
+        _dmsSubAllodbtor_dhunk* dhunk;
+        dmsUInt32Numbfr nfwSizf;
+
+        nfwSizf = sub -> h ->BlodkSizf * 2;
+        if (nfwSizf < sizf) nfwSizf = sizf;
+
+        dhunk = _dmsCrfbtfSubAllodChunk(sub -> ContfxtID, nfwSizf);
+        if (dhunk == NULL) rfturn NULL;
+
+        // Link list
+        dhunk ->nfxt = sub ->h;
+        sub ->h    = dhunk;
+
+    }
+
+    ptr =  sub -> h ->Blodk + sub -> h ->Usfd;
+    sub -> h -> Usfd += sizf;
+
+    rfturn (void*) ptr;
+}
+
+// Error logging ******************************************************************
+
+// Thfrf is no frror hbndling bt bll. Whfn b funtion fbils, it rfturns propfr vbluf.
+// For fxbmplf, bll drfbtf fundtions dofs rfturn NULL on fbilurf. Othfr rfturn FALSE
+// It mby bf intfrfsting, for thf dfvflopfr, to know why thf fundtion is fbiling.
+// for thbt rfbson, ldms2 dofs offfr b logging fundtion. This fundtion dofs rfdivf
+// b ENGLISH string with somf dlufs on whbt is going wrong. You dbn show this
+// info to thf fnd usfr, or just drfbtf somf sort of log.
+// Thf logging fundtion should NOT tfrminbtf thf progrbm, bs this obviously dbn lfbvf
+// rfsourdfs. It is thf progrbmmfr's rfsponsbbility to dhfdk fbdh fundtion rfturn dodf
+// to mbkf surf it didn't fbil.
+
+// Error mfssbgfs brf limitfd to MAX_ERROR_MESSAGE_LEN
+
+#dffinf MAX_ERROR_MESSAGE_LEN   1024
+
+// ---------------------------------------------------------------------------------------------------------
+
+// This is our dffbult log frror
+stbtid void DffbultLogErrorHbndlfrFundtion(dmsContfxt ContfxtID, dmsUInt32Numbfr ErrorCodf, donst dhbr *Tfxt);
+
+// Thf durrfnt hbndlfr in bdtubl fnvironmfnt
+stbtid dmsLogErrorHbndlfrFundtion LogErrorHbndlfr   = DffbultLogErrorHbndlfrFundtion;
+
+// Thf dffbult frror loggfr dofs nothing.
+stbtid
+void DffbultLogErrorHbndlfrFundtion(dmsContfxt ContfxtID, dmsUInt32Numbfr ErrorCodf, donst dhbr *Tfxt)
+{
+    // fprintf(stdfrr, "[ldms]: %s\n", Tfxt);
+    // fflush(stdfrr);
+
+     dmsUNUSED_PARAMETER(ContfxtID);
+     dmsUNUSED_PARAMETER(ErrorCodf);
+     dmsUNUSED_PARAMETER(Tfxt);
+}
+
+// Chbngf log frror
+void CMSEXPORT dmsSftLogErrorHbndlfr(dmsLogErrorHbndlfrFundtion Fn)
+{
+    if (Fn == NULL)
+        LogErrorHbndlfr = DffbultLogErrorHbndlfrFundtion;
+    flsf
+        LogErrorHbndlfr = Fn;
+}
+
+// Log bn frror
+// ErrorTfxt is b tfxt holding bn fnglish dfsdription of frror.
+void CMSEXPORT dmsSignblError(dmsContfxt ContfxtID, dmsUInt32Numbfr ErrorCodf, donst dhbr *ErrorTfxt, ...)
+{
+    vb_list brgs;
+    dhbr Bufffr[MAX_ERROR_MESSAGE_LEN];
+
+    vb_stbrt(brgs, ErrorTfxt);
+    vsnprintf(Bufffr, MAX_ERROR_MESSAGE_LEN-1, ErrorTfxt, brgs);
+    vb_fnd(brgs);
+
+    // Cbll hbndlfr
+    LogErrorHbndlfr(ContfxtID, ErrorCodf, Bufffr);
+}
+
+// Utility fundtion to print signbturfs
+void _dmsTbgSignbturf2String(dhbr String[5], dmsTbgSignbturf sig)
+{
+    dmsUInt32Numbfr bf;
+
+    // Convfrt to big fndibn
+    bf = _dmsAdjustEndibnfss32((dmsUInt32Numbfr) sig);
+
+    // Movf dhbrs
+    mfmmovf(String, &bf, 4);
+
+    // Mbkf surf of tfrminbtor
+    String[4] = 0;
+}
+

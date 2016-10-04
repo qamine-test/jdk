@@ -1,623 +1,623 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
-import java.util.Enumeration;
-import java.util.Properties;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
 
 /**
- * This class represents a compound name -- a name from
- * a hierarchical name space.
- * Each component in a compound name is an atomic name.
+ * Tiis dlbss rfprfsfnts b dompound nbmf -- b nbmf from
+ * b iifrbrdiidbl nbmf spbdf.
+ * Ebdi domponfnt in b dompound nbmf is bn btomid nbmf.
  * <p>
- * The components of a compound name are numbered.  The indexes of a
- * compound name with N components range from 0 up to, but not including, N.
- * This range may be written as [0,N).
- * The most significant component is at index 0.
- * An empty compound name has no components.
+ * Tif domponfnts of b dompound nbmf brf numbfrfd.  Tif indfxfs of b
+ * dompound nbmf witi N domponfnts rbngf from 0 up to, but not indluding, N.
+ * Tiis rbngf mby bf writtfn bs [0,N).
+ * Tif most signifidbnt domponfnt is bt indfx 0.
+ * An fmpty dompound nbmf ibs no domponfnts.
  *
- * <h1>Compound Name Syntax</h1>
- * The syntax of a compound name is specified using a set of properties:
+ * <i1>Compound Nbmf Syntbx</i1>
+ * Tif syntbx of b dompound nbmf is spfdififd using b sft of propfrtifs:
  *<dl>
- *  <dt>jndi.syntax.direction
- *  <dd>Direction for parsing ("right_to_left", "left_to_right", "flat").
- *      If unspecified, defaults to "flat", which means the namespace is flat
- *      with no hierarchical structure.
+ *  <dt>jndi.syntbx.dirfdtion
+ *  <dd>Dirfdtion for pbrsing ("rigit_to_lfft", "lfft_to_rigit", "flbt").
+ *      If unspfdififd, dffbults to "flbt", wiidi mfbns tif nbmfspbdf is flbt
+ *      witi no iifrbrdiidbl strudturf.
  *
- *  <dt>jndi.syntax.separator
- *  <dd>Separator between atomic name components.
- *      Required unless direction is "flat".
+ *  <dt>jndi.syntbx.sfpbrbtor
+ *  <dd>Sfpbrbtor bftwffn btomid nbmf domponfnts.
+ *      Rfquirfd unlfss dirfdtion is "flbt".
  *
- *  <dt>jndi.syntax.ignorecase
- *  <dd>If present, "true" means ignore the case when comparing name
- *      components. If its value is not "true", or if the property is not
- *      present, case is considered when comparing name components.
+ *  <dt>jndi.syntbx.ignorfdbsf
+ *  <dd>If prfsfnt, "truf" mfbns ignorf tif dbsf wifn dompbring nbmf
+ *      domponfnts. If its vbluf is not "truf", or if tif propfrty is not
+ *      prfsfnt, dbsf is donsidfrfd wifn dompbring nbmf domponfnts.
  *
- *  <dt>jndi.syntax.escape
- *  <dd>If present, specifies the escape string for overriding separator,
- *      escapes and quotes.
+ *  <dt>jndi.syntbx.fsdbpf
+ *  <dd>If prfsfnt, spfdififs tif fsdbpf string for ovfrriding sfpbrbtor,
+ *      fsdbpfs bnd quotfs.
  *
- *  <dt>jndi.syntax.beginquote
- *  <dd>If present, specifies the string delimiting start of a quoted string.
+ *  <dt>jndi.syntbx.bfginquotf
+ *  <dd>If prfsfnt, spfdififs tif string dflimiting stbrt of b quotfd string.
  *
- *  <dt>jndi.syntax.endquote
- *  <dd>String delimiting end of quoted string.
- *      If present, specifies the string delimiting the end of a quoted string.
- *      If not present, use syntax.beginquote as end quote.
- *  <dt>jndi.syntax.beginquote2
- *  <dd>Alternative set of begin/end quotes.
+ *  <dt>jndi.syntbx.fndquotf
+ *  <dd>String dflimiting fnd of quotfd string.
+ *      If prfsfnt, spfdififs tif string dflimiting tif fnd of b quotfd string.
+ *      If not prfsfnt, usf syntbx.bfginquotf bs fnd quotf.
+ *  <dt>jndi.syntbx.bfginquotf2
+ *  <dd>Altfrnbtivf sft of bfgin/fnd quotfs.
  *
- *  <dt>jndi.syntax.endquote2
- *  <dd>Alternative set of begin/end quotes.
+ *  <dt>jndi.syntbx.fndquotf2
+ *  <dd>Altfrnbtivf sft of bfgin/fnd quotfs.
  *
- *  <dt>jndi.syntax.trimblanks
- *  <dd>If present, "true" means trim any leading and trailing whitespaces
- *      in a name component for comparison purposes. If its value is not
- *      "true", or if the property is not present, blanks are significant.
- *  <dt>jndi.syntax.separator.ava
- *  <dd>If present, specifies the string that separates
- *      attribute-value-assertions when specifying multiple attribute/value
- *      pairs. (e.g. ","  in age=65,gender=male).
- *  <dt>jndi.syntax.separator.typeval
- *  <dd>If present, specifies the string that separators attribute
- *              from value (e.g. "=" in "age=65")
+ *  <dt>jndi.syntbx.trimblbnks
+ *  <dd>If prfsfnt, "truf" mfbns trim bny lfbding bnd trbiling wiitfspbdfs
+ *      in b nbmf domponfnt for dompbrison purposfs. If its vbluf is not
+ *      "truf", or if tif propfrty is not prfsfnt, blbnks brf signifidbnt.
+ *  <dt>jndi.syntbx.sfpbrbtor.bvb
+ *  <dd>If prfsfnt, spfdififs tif string tibt sfpbrbtfs
+ *      bttributf-vbluf-bssfrtions wifn spfdifying multiplf bttributf/vbluf
+ *      pbirs. (f.g. ","  in bgf=65,gfndfr=mblf).
+ *  <dt>jndi.syntbx.sfpbrbtor.typfvbl
+ *  <dd>If prfsfnt, spfdififs tif string tibt sfpbrbtors bttributf
+ *              from vbluf (f.g. "=" in "bgf=65")
  *</dl>
- * These properties are interpreted according to the following rules:
+ * Tifsf propfrtifs brf intfrprftfd bddording to tif following rulfs:
  *<ol>
  *<li>
- * In a string without quotes or escapes, any instance of the
- * separator delimits two atomic names. Each atomic name is referred
- * to as a <em>component</em>.
+ * In b string witiout quotfs or fsdbpfs, bny instbndf of tif
+ * sfpbrbtor dflimits two btomid nbmfs. Ebdi btomid nbmf is rfffrrfd
+ * to bs b <fm>domponfnt</fm>.
  *<li>
- * A separator, quote or escape is escaped if preceded immediately
- * (on the left) by the escape.
+ * A sfpbrbtor, quotf or fsdbpf is fsdbpfd if prfdfdfd immfdibtfly
+ * (on tif lfft) by tif fsdbpf.
  *<li>
- * If there are two sets of quotes, a specific begin-quote must be matched
- * by its corresponding end-quote.
+ * If tifrf brf two sfts of quotfs, b spfdifid bfgin-quotf must bf mbtdifd
+ * by its dorrfsponding fnd-quotf.
  *<li>
- * A non-escaped begin-quote which precedes a component must be
- * matched by a non-escaped end-quote at the end of the component.
- * A component thus quoted is referred to as a
- * <em>quoted component</em>. It is parsed by
- * removing the being- and end- quotes, and by treating the intervening
- * characters as ordinary characters unless one of the rules involving
- * quoted components listed below applies.
+ * A non-fsdbpfd bfgin-quotf wiidi prfdfdfs b domponfnt must bf
+ * mbtdifd by b non-fsdbpfd fnd-quotf bt tif fnd of tif domponfnt.
+ * A domponfnt tius quotfd is rfffrrfd to bs b
+ * <fm>quotfd domponfnt</fm>. It is pbrsfd by
+ * rfmoving tif bfing- bnd fnd- quotfs, bnd by trfbting tif intfrvfning
+ * dibrbdtfrs bs ordinbry dibrbdtfrs unlfss onf of tif rulfs involving
+ * quotfd domponfnts listfd bflow bpplifs.
  *<li>
- * Quotes embedded in non-quoted components are treated as ordinary strings
- * and need not be matched.
+ * Quotfs fmbfddfd in non-quotfd domponfnts brf trfbtfd bs ordinbry strings
+ * bnd nffd not bf mbtdifd.
  *<li>
- * A separator that is escaped or appears between non-escaped
- * quotes is treated as an ordinary string and not a separator.
+ * A sfpbrbtor tibt is fsdbpfd or bppfbrs bftwffn non-fsdbpfd
+ * quotfs is trfbtfd bs bn ordinbry string bnd not b sfpbrbtor.
  *<li>
- * An escape string within a quoted component acts as an escape only when
- * followed by the corresponding end-quote string.
- * This can be used to embed an escaped quote within a quoted component.
+ * An fsdbpf string witiin b quotfd domponfnt bdts bs bn fsdbpf only wifn
+ * followfd by tif dorrfsponding fnd-quotf string.
+ * Tiis dbn bf usfd to fmbfd bn fsdbpfd quotf witiin b quotfd domponfnt.
  *<li>
- * An escaped escape string is not treated as an escape string.
+ * An fsdbpfd fsdbpf string is not trfbtfd bs bn fsdbpf string.
  *<li>
- * An escape string that does not precede a meta string (quotes or separator)
- * and is not at the end of a component is treated as an ordinary string.
+ * An fsdbpf string tibt dofs not prfdfdf b mftb string (quotfs or sfpbrbtor)
+ * bnd is not bt tif fnd of b domponfnt is trfbtfd bs bn ordinbry string.
  *<li>
- * A leading separator (the compound name string begins with
- * a separator) denotes a leading empty atomic component (consisting
- * of an empty string).
- * A trailing separator (the compound name string ends with
- * a separator) denotes a trailing empty atomic component.
- * Adjacent separators denote an empty atomic component.
+ * A lfbding sfpbrbtor (tif dompound nbmf string bfgins witi
+ * b sfpbrbtor) dfnotfs b lfbding fmpty btomid domponfnt (donsisting
+ * of bn fmpty string).
+ * A trbiling sfpbrbtor (tif dompound nbmf string fnds witi
+ * b sfpbrbtor) dfnotfs b trbiling fmpty btomid domponfnt.
+ * Adjbdfnt sfpbrbtors dfnotf bn fmpty btomid domponfnt.
  *</ol>
  * <p>
- * The string form of the compound name follows the syntax described above.
- * When the components of the compound name are turned into their
- * string representation, the reserved syntax rules described above are
- * applied (e.g. embedded separators are escaped or quoted)
- * so that when the same string is parsed, it will yield the same components
- * of the original compound name.
+ * Tif string form of tif dompound nbmf follows tif syntbx dfsdribfd bbovf.
+ * Wifn tif domponfnts of tif dompound nbmf brf turnfd into tifir
+ * string rfprfsfntbtion, tif rfsfrvfd syntbx rulfs dfsdribfd bbovf brf
+ * bpplifd (f.g. fmbfddfd sfpbrbtors brf fsdbpfd or quotfd)
+ * so tibt wifn tif sbmf string is pbrsfd, it will yifld tif sbmf domponfnts
+ * of tif originbl dompound nbmf.
  *
- *<h1>Multithreaded Access</h1>
- * A <tt>CompoundName</tt> instance is not synchronized against concurrent
- * multithreaded access. Multiple threads trying to access and modify a
- * <tt>CompoundName</tt> should lock the object.
+ *<i1>Multitirfbdfd Addfss</i1>
+ * A <tt>CompoundNbmf</tt> instbndf is not syndironizfd bgbinst dondurrfnt
+ * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify b
+ * <tt>CompoundNbmf</tt> siould lodk tif objfdt.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @since 1.3
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
+ * @sindf 1.3
  */
 
-public class CompoundName implements Name {
+publid dlbss CompoundNbmf implfmfnts Nbmf {
 
     /**
-      * Implementation of this compound name.
-      * This field is initialized by the constructors and cannot be null.
-      * It should be treated as a read-only variable by subclasses.
+      * Implfmfntbtion of tiis dompound nbmf.
+      * Tiis fifld is initiblizfd by tif donstrudtors bnd dbnnot bf null.
+      * It siould bf trfbtfd bs b rfbd-only vbribblf by subdlbssfs.
       */
-    protected transient NameImpl impl;
+    protfdtfd trbnsifnt NbmfImpl impl;
     /**
-      * Syntax properties for this compound name.
-      * This field is initialized by the constructors and cannot be null.
-      * It should be treated as a read-only variable by subclasses.
-      * Any necessary changes to mySyntax should be made within constructors
-      * and not after the compound name has been instantiated.
+      * Syntbx propfrtifs for tiis dompound nbmf.
+      * Tiis fifld is initiblizfd by tif donstrudtors bnd dbnnot bf null.
+      * It siould bf trfbtfd bs b rfbd-only vbribblf by subdlbssfs.
+      * Any nfdfssbry dibngfs to mySyntbx siould bf mbdf witiin donstrudtors
+      * bnd not bftfr tif dompound nbmf ibs bffn instbntibtfd.
       */
-    protected transient Properties mySyntax;
+    protfdtfd trbnsifnt Propfrtifs mySyntbx;
 
     /**
-      * Constructs a new compound name instance using the components
-      * specified in comps and syntax. This protected method is intended
-      * to be used by subclasses of CompoundName when they override
-      * methods such as clone(), getPrefix(), getSuffix().
+      * Construdts b nfw dompound nbmf instbndf using tif domponfnts
+      * spfdififd in domps bnd syntbx. Tiis protfdtfd mftiod is intfndfd
+      * to bf usfd by subdlbssfs of CompoundNbmf wifn tify ovfrridf
+      * mftiods sudi bs dlonf(), gftPrffix(), gftSuffix().
       *
-      * @param comps  A non-null enumeration of the components to add.
-      *   Each element of the enumeration is of class String.
-      *               The enumeration will be consumed to extract its
-      *               elements.
-      * @param syntax   A non-null properties that specify the syntax of
-      *                 this compound name. See class description for
-      *                 contents of properties.
+      * @pbrbm domps  A non-null fnumfrbtion of tif domponfnts to bdd.
+      *   Ebdi flfmfnt of tif fnumfrbtion is of dlbss String.
+      *               Tif fnumfrbtion will bf donsumfd to fxtrbdt its
+      *               flfmfnts.
+      * @pbrbm syntbx   A non-null propfrtifs tibt spfdify tif syntbx of
+      *                 tiis dompound nbmf. Sff dlbss dfsdription for
+      *                 dontfnts of propfrtifs.
       */
-    protected CompoundName(Enumeration<String> comps, Properties syntax) {
-        if (syntax == null) {
-            throw new NullPointerException();
+    protfdtfd CompoundNbmf(Enumfrbtion<String> domps, Propfrtifs syntbx) {
+        if (syntbx == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        mySyntax = syntax;
-        impl = new NameImpl(syntax, comps);
+        mySyntbx = syntbx;
+        impl = nfw NbmfImpl(syntbx, domps);
     }
 
     /**
-      * Constructs a new compound name instance by parsing the string n
-      * using the syntax specified by the syntax properties supplied.
+      * Construdts b nfw dompound nbmf instbndf by pbrsing tif string n
+      * using tif syntbx spfdififd by tif syntbx propfrtifs supplifd.
       *
-      * @param  n       The non-null string to parse.
-      * @param syntax   A non-null list of properties that specify the syntax of
-      *                 this compound name.  See class description for
-      *                 contents of properties.
-      * @exception      InvalidNameException If 'n' violates the syntax specified
-      *                 by <code>syntax</code>.
+      * @pbrbm  n       Tif non-null string to pbrsf.
+      * @pbrbm syntbx   A non-null list of propfrtifs tibt spfdify tif syntbx of
+      *                 tiis dompound nbmf.  Sff dlbss dfsdription for
+      *                 dontfnts of propfrtifs.
+      * @fxdfption      InvblidNbmfExdfption If 'n' violbtfs tif syntbx spfdififd
+      *                 by <dodf>syntbx</dodf>.
       */
-    public CompoundName(String n, Properties syntax) throws InvalidNameException {
-        if (syntax == null) {
-            throw new NullPointerException();
+    publid CompoundNbmf(String n, Propfrtifs syntbx) tirows InvblidNbmfExdfption {
+        if (syntbx == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        mySyntax = syntax;
-        impl = new NameImpl(syntax, n);
+        mySyntbx = syntbx;
+        impl = nfw NbmfImpl(syntbx, n);
     }
 
     /**
-      * Generates the string representation of this compound name, using
-      * the syntax rules of the compound name. The syntax rules
-      * are described in the class description.
-      * An empty component is represented by an empty string.
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis dompound nbmf, using
+      * tif syntbx rulfs of tif dompound nbmf. Tif syntbx rulfs
+      * brf dfsdribfd in tif dlbss dfsdription.
+      * An fmpty domponfnt is rfprfsfntfd by bn fmpty string.
       *
-      * The string representation thus generated can be passed to
-      * the CompoundName constructor with the same syntax properties
-      * to create a new equivalent compound name.
+      * Tif string rfprfsfntbtion tius gfnfrbtfd dbn bf pbssfd to
+      * tif CompoundNbmf donstrudtor witi tif sbmf syntbx propfrtifs
+      * to drfbtf b nfw fquivblfnt dompound nbmf.
       *
-      * @return A non-null string representation of this compound name.
+      * @rfturn A non-null string rfprfsfntbtion of tiis dompound nbmf.
       */
-    public String toString() {
-        return (impl.toString());
+    publid String toString() {
+        rfturn (impl.toString());
     }
 
     /**
-      * Determines whether obj is syntactically equal to this compound name.
-      * If obj is null or not a CompoundName, false is returned.
-      * Two compound names are equal if each component in one is "equal"
-      * to the corresponding component in the other.
+      * Dftfrminfs wiftifr obj is syntbdtidblly fqubl to tiis dompound nbmf.
+      * If obj is null or not b CompoundNbmf, fblsf is rfturnfd.
+      * Two dompound nbmfs brf fqubl if fbdi domponfnt in onf is "fqubl"
+      * to tif dorrfsponding domponfnt in tif otifr.
       *<p>
-      * Equality is also defined in terms of the syntax of this compound name.
-      * The default implementation of CompoundName uses the syntax properties
-      * jndi.syntax.ignorecase and jndi.syntax.trimblanks when comparing
-      * two components for equality.  If case is ignored, two strings
-      * with the same sequence of characters but with different cases
-      * are considered equal. If blanks are being trimmed, leading and trailing
-      * blanks are ignored for the purpose of the comparison.
+      * Equblity is blso dffinfd in tfrms of tif syntbx of tiis dompound nbmf.
+      * Tif dffbult implfmfntbtion of CompoundNbmf usfs tif syntbx propfrtifs
+      * jndi.syntbx.ignorfdbsf bnd jndi.syntbx.trimblbnks wifn dompbring
+      * two domponfnts for fqublity.  If dbsf is ignorfd, two strings
+      * witi tif sbmf sfqufndf of dibrbdtfrs but witi difffrfnt dbsfs
+      * brf donsidfrfd fqubl. If blbnks brf bfing trimmfd, lfbding bnd trbiling
+      * blbnks brf ignorfd for tif purposf of tif dompbrison.
       *<p>
-      * Both compound names must have the same number of components.
+      * Boti dompound nbmfs must ibvf tif sbmf numbfr of domponfnts.
       *<p>
-      * Implementation note: Currently the syntax properties of the two compound
-      * names are not compared for equality. They might be in the future.
+      * Implfmfntbtion notf: Currfntly tif syntbx propfrtifs of tif two dompound
+      * nbmfs brf not dompbrfd for fqublity. Tify migit bf in tif futurf.
       *
-      * @param  obj     The possibly null object to compare against.
-      * @return true if obj is equal to this compound name, false otherwise.
-      * @see #compareTo(java.lang.Object obj)
+      * @pbrbm  obj     Tif possibly null objfdt to dompbrf bgbinst.
+      * @rfturn truf if obj is fqubl to tiis dompound nbmf, fblsf otifrwisf.
+      * @sff #dompbrfTo(jbvb.lbng.Objfdt obj)
       */
-    public boolean equals(Object obj) {
-        // %%% check syntax too?
-        return (obj != null &&
-                obj instanceof CompoundName &&
-                impl.equals(((CompoundName)obj).impl));
+    publid boolfbn fqubls(Objfdt obj) {
+        // %%% difdk syntbx too?
+        rfturn (obj != null &&
+                obj instbndfof CompoundNbmf &&
+                impl.fqubls(((CompoundNbmf)obj).impl));
     }
 
     /**
-      * Computes the hash code of this compound name.
-      * The hash code is the sum of the hash codes of the "canonicalized"
-      * forms of individual components of this compound name.
-      * Each component is "canonicalized" according to the
-      * compound name's syntax before its hash code is computed.
-      * For a case-insensitive name, for example, the uppercased form of
-      * a name has the same hash code as its lowercased equivalent.
+      * Computfs tif ibsi dodf of tiis dompound nbmf.
+      * Tif ibsi dodf is tif sum of tif ibsi dodfs of tif "dbnonidblizfd"
+      * forms of individubl domponfnts of tiis dompound nbmf.
+      * Ebdi domponfnt is "dbnonidblizfd" bddording to tif
+      * dompound nbmf's syntbx bfforf its ibsi dodf is domputfd.
+      * For b dbsf-insfnsitivf nbmf, for fxbmplf, tif uppfrdbsfd form of
+      * b nbmf ibs tif sbmf ibsi dodf bs its lowfrdbsfd fquivblfnt.
       *
-      * @return An int representing the hash code of this name.
+      * @rfturn An int rfprfsfnting tif ibsi dodf of tiis nbmf.
       */
-    public int hashCode() {
-        return impl.hashCode();
+    publid int ibsiCodf() {
+        rfturn impl.ibsiCodf();
     }
 
     /**
-      * Creates a copy of this compound name.
-      * Changes to the components of this compound name won't
-      * affect the new copy and vice versa.
-      * The clone and this compound name share the same syntax.
+      * Crfbtfs b dopy of tiis dompound nbmf.
+      * Cibngfs to tif domponfnts of tiis dompound nbmf won't
+      * bfffdt tif nfw dopy bnd vidf vfrsb.
+      * Tif dlonf bnd tiis dompound nbmf sibrf tif sbmf syntbx.
       *
-      * @return A non-null copy of this compound name.
+      * @rfturn A non-null dopy of tiis dompound nbmf.
       */
-    public Object clone() {
-        return (new CompoundName(getAll(), mySyntax));
+    publid Objfdt dlonf() {
+        rfturn (nfw CompoundNbmf(gftAll(), mySyntbx));
     }
 
     /**
-     * Compares this CompoundName with the specified Object for order.
-     * Returns a
-     * negative integer, zero, or a positive integer as this Name is less
-     * than, equal to, or greater than the given Object.
+     * Compbrfs tiis CompoundNbmf witi tif spfdififd Objfdt for ordfr.
+     * Rfturns b
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis Nbmf is lfss
+     * tibn, fqubl to, or grfbtfr tibn tif givfn Objfdt.
      * <p>
-     * If obj is null or not an instance of CompoundName, ClassCastException
-     * is thrown.
+     * If obj is null or not bn instbndf of CompoundNbmf, ClbssCbstExdfption
+     * is tirown.
      * <p>
-     * See equals() for what it means for two compound names to be equal.
-     * If two compound names are equal, 0 is returned.
+     * Sff fqubls() for wibt it mfbns for two dompound nbmfs to bf fqubl.
+     * If two dompound nbmfs brf fqubl, 0 is rfturnfd.
      *<p>
-     * Ordering of compound names depend on the syntax of the compound name.
-     * By default, they follow lexicographical rules for string comparison
-     * with the extension that this applies to all the components in the
-     * compound name and that comparison of individual components is
-     * affected by the jndi.syntax.ignorecase and jndi.syntax.trimblanks
-     * properties, identical to how they affect equals().
-     * If this compound name is "lexicographically" lesser than obj,
-     * a negative number is returned.
-     * If this compound name is "lexicographically" greater than obj,
-     * a positive number is returned.
+     * Ordfring of dompound nbmfs dfpfnd on tif syntbx of tif dompound nbmf.
+     * By dffbult, tify follow lfxidogrbpiidbl rulfs for string dompbrison
+     * witi tif fxtfnsion tibt tiis bpplifs to bll tif domponfnts in tif
+     * dompound nbmf bnd tibt dompbrison of individubl domponfnts is
+     * bfffdtfd by tif jndi.syntbx.ignorfdbsf bnd jndi.syntbx.trimblbnks
+     * propfrtifs, idfntidbl to iow tify bfffdt fqubls().
+     * If tiis dompound nbmf is "lfxidogrbpiidblly" lfssfr tibn obj,
+     * b nfgbtivf numbfr is rfturnfd.
+     * If tiis dompound nbmf is "lfxidogrbpiidblly" grfbtfr tibn obj,
+     * b positivf numbfr is rfturnfd.
      *<p>
-     * Implementation note: Currently the syntax properties of the two compound
-     * names are not compared when checking order. They might be in the future.
-     * @param   obj     The non-null object to compare against.
-     * @return  a negative integer, zero, or a positive integer as this Name
-     *          is less than, equal to, or greater than the given Object.
-     * @exception ClassCastException if obj is not a CompoundName.
-     * @see #equals(java.lang.Object)
+     * Implfmfntbtion notf: Currfntly tif syntbx propfrtifs of tif two dompound
+     * nbmfs brf not dompbrfd wifn difdking ordfr. Tify migit bf in tif futurf.
+     * @pbrbm   obj     Tif non-null objfdt to dompbrf bgbinst.
+     * @rfturn  b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis Nbmf
+     *          is lfss tibn, fqubl to, or grfbtfr tibn tif givfn Objfdt.
+     * @fxdfption ClbssCbstExdfption if obj is not b CompoundNbmf.
+     * @sff #fqubls(jbvb.lbng.Objfdt)
      */
-    public int compareTo(Object obj) {
-        if (!(obj instanceof CompoundName)) {
-            throw new ClassCastException("Not a CompoundName");
+    publid int dompbrfTo(Objfdt obj) {
+        if (!(obj instbndfof CompoundNbmf)) {
+            tirow nfw ClbssCbstExdfption("Not b CompoundNbmf");
         }
-        return impl.compareTo(((CompoundName)obj).impl);
+        rfturn impl.dompbrfTo(((CompoundNbmf)obj).impl);
     }
 
     /**
-      * Retrieves the number of components in this compound name.
+      * Rftrifvfs tif numbfr of domponfnts in tiis dompound nbmf.
       *
-      * @return The nonnegative number of components in this compound name.
+      * @rfturn Tif nonnfgbtivf numbfr of domponfnts in tiis dompound nbmf.
       */
-    public int size() {
-        return (impl.size());
+    publid int sizf() {
+        rfturn (impl.sizf());
     }
 
     /**
-      * Determines whether this compound name is empty.
-      * A compound name is empty if it has zero components.
+      * Dftfrminfs wiftifr tiis dompound nbmf is fmpty.
+      * A dompound nbmf is fmpty if it ibs zfro domponfnts.
       *
-      * @return true if this compound name is empty, false otherwise.
+      * @rfturn truf if tiis dompound nbmf is fmpty, fblsf otifrwisf.
       */
-    public boolean isEmpty() {
-        return (impl.isEmpty());
+    publid boolfbn isEmpty() {
+        rfturn (impl.isEmpty());
     }
 
     /**
-      * Retrieves the components of this compound name as an enumeration
+      * Rftrifvfs tif domponfnts of tiis dompound nbmf bs bn fnumfrbtion
       * of strings.
-      * The effects of updates to this compound name on this enumeration
-      * is undefined.
+      * Tif ffffdts of updbtfs to tiis dompound nbmf on tiis fnumfrbtion
+      * is undffinfd.
       *
-      * @return A non-null enumeration of the components of this
-      * compound name. Each element of the enumeration is of class String.
+      * @rfturn A non-null fnumfrbtion of tif domponfnts of tiis
+      * dompound nbmf. Ebdi flfmfnt of tif fnumfrbtion is of dlbss String.
       */
-    public Enumeration<String> getAll() {
-        return (impl.getAll());
+    publid Enumfrbtion<String> gftAll() {
+        rfturn (impl.gftAll());
     }
 
     /**
-      * Retrieves a component of this compound name.
+      * Rftrifvfs b domponfnt of tiis dompound nbmf.
       *
-      * @param  posn    The 0-based index of the component to retrieve.
-      *                 Must be in the range [0,size()).
-      * @return The component at index posn.
-      * @exception ArrayIndexOutOfBoundsException if posn is outside the
-      *         specified range.
+      * @pbrbm  posn    Tif 0-bbsfd indfx of tif domponfnt to rftrifvf.
+      *                 Must bf in tif rbngf [0,sizf()).
+      * @rfturn Tif domponfnt bt indfx posn.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption if posn is outsidf tif
+      *         spfdififd rbngf.
       */
-    public String get(int posn) {
-        return (impl.get(posn));
+    publid String gft(int posn) {
+        rfturn (impl.gft(posn));
     }
 
     /**
-      * Creates a compound name whose components consist of a prefix of the
-      * components in this compound name.
-      * The result and this compound name share the same syntax.
-      * Subsequent changes to
-      * this compound name do not affect the name that is returned and
-      * vice versa.
+      * Crfbtfs b dompound nbmf wiosf domponfnts donsist of b prffix of tif
+      * domponfnts in tiis dompound nbmf.
+      * Tif rfsult bnd tiis dompound nbmf sibrf tif sbmf syntbx.
+      * Subsfqufnt dibngfs to
+      * tiis dompound nbmf do not bfffdt tif nbmf tibt is rfturnfd bnd
+      * vidf vfrsb.
       *
-      * @param  posn    The 0-based index of the component at which to stop.
-      *                 Must be in the range [0,size()].
-      * @return A compound name consisting of the components at indexes in
-      *         the range [0,posn).
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm  posn    Tif 0-bbsfd indfx of tif domponfnt bt wiidi to stop.
+      *                 Must bf in tif rbngf [0,sizf()].
+      * @rfturn A dompound nbmf donsisting of tif domponfnts bt indfxfs in
+      *         tif rbngf [0,posn).
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf.
       */
-    public Name getPrefix(int posn) {
-        Enumeration<String> comps = impl.getPrefix(posn);
-        return (new CompoundName(comps, mySyntax));
+    publid Nbmf gftPrffix(int posn) {
+        Enumfrbtion<String> domps = impl.gftPrffix(posn);
+        rfturn (nfw CompoundNbmf(domps, mySyntbx));
     }
 
     /**
-      * Creates a compound name whose components consist of a suffix of the
-      * components in this compound name.
-      * The result and this compound name share the same syntax.
-      * Subsequent changes to
-      * this compound name do not affect the name that is returned.
+      * Crfbtfs b dompound nbmf wiosf domponfnts donsist of b suffix of tif
+      * domponfnts in tiis dompound nbmf.
+      * Tif rfsult bnd tiis dompound nbmf sibrf tif sbmf syntbx.
+      * Subsfqufnt dibngfs to
+      * tiis dompound nbmf do not bfffdt tif nbmf tibt is rfturnfd.
       *
-      * @param  posn    The 0-based index of the component at which to start.
-      *                 Must be in the range [0,size()].
-      * @return A compound name consisting of the components at indexes in
-      *         the range [posn,size()).  If posn is equal to
-      *         size(), an empty compound name is returned.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm  posn    Tif 0-bbsfd indfx of tif domponfnt bt wiidi to stbrt.
+      *                 Must bf in tif rbngf [0,sizf()].
+      * @rfturn A dompound nbmf donsisting of tif domponfnts bt indfxfs in
+      *         tif rbngf [posn,sizf()).  If posn is fqubl to
+      *         sizf(), bn fmpty dompound nbmf is rfturnfd.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf.
       */
-    public Name getSuffix(int posn) {
-        Enumeration<String> comps = impl.getSuffix(posn);
-        return (new CompoundName(comps, mySyntax));
+    publid Nbmf gftSuffix(int posn) {
+        Enumfrbtion<String> domps = impl.gftSuffix(posn);
+        rfturn (nfw CompoundNbmf(domps, mySyntbx));
     }
 
     /**
-      * Determines whether a compound name is a prefix of this compound name.
-      * A compound name 'n' is a prefix if it is equal to
-      * getPrefix(n.size())--in other words, this compound name
-      * starts with 'n'.
-      * If n is null or not a compound name, false is returned.
+      * Dftfrminfs wiftifr b dompound nbmf is b prffix of tiis dompound nbmf.
+      * A dompound nbmf 'n' is b prffix if it is fqubl to
+      * gftPrffix(n.sizf())--in otifr words, tiis dompound nbmf
+      * stbrts witi 'n'.
+      * If n is null or not b dompound nbmf, fblsf is rfturnfd.
       *<p>
-      * Implementation note: Currently the syntax properties of n
-      *  are not used when doing the comparison. They might be in the future.
-      * @param  n       The possibly null compound name to check.
-      * @return true if n is a CompoundName and
-      *                 is a prefix of this compound name, false otherwise.
+      * Implfmfntbtion notf: Currfntly tif syntbx propfrtifs of n
+      *  brf not usfd wifn doing tif dompbrison. Tify migit bf in tif futurf.
+      * @pbrbm  n       Tif possibly null dompound nbmf to difdk.
+      * @rfturn truf if n is b CompoundNbmf bnd
+      *                 is b prffix of tiis dompound nbmf, fblsf otifrwisf.
       */
-    public boolean startsWith(Name n) {
-        if (n instanceof CompoundName) {
-            return (impl.startsWith(n.size(), n.getAll()));
-        } else {
-            return false;
+    publid boolfbn stbrtsWiti(Nbmf n) {
+        if (n instbndfof CompoundNbmf) {
+            rfturn (impl.stbrtsWiti(n.sizf(), n.gftAll()));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-      * Determines whether a compound name is a suffix of this compound name.
-      * A compound name 'n' is a suffix if it is equal to
-      * getSuffix(size()-n.size())--in other words, this
-      * compound name ends with 'n'.
-      * If n is null or not a compound name, false is returned.
+      * Dftfrminfs wiftifr b dompound nbmf is b suffix of tiis dompound nbmf.
+      * A dompound nbmf 'n' is b suffix if it is fqubl to
+      * gftSuffix(sizf()-n.sizf())--in otifr words, tiis
+      * dompound nbmf fnds witi 'n'.
+      * If n is null or not b dompound nbmf, fblsf is rfturnfd.
       *<p>
-      * Implementation note: Currently the syntax properties of n
-      *  are not used when doing the comparison. They might be in the future.
-      * @param  n       The possibly null compound name to check.
-      * @return true if n is a CompoundName and
-      *         is a suffix of this compound name, false otherwise.
+      * Implfmfntbtion notf: Currfntly tif syntbx propfrtifs of n
+      *  brf not usfd wifn doing tif dompbrison. Tify migit bf in tif futurf.
+      * @pbrbm  n       Tif possibly null dompound nbmf to difdk.
+      * @rfturn truf if n is b CompoundNbmf bnd
+      *         is b suffix of tiis dompound nbmf, fblsf otifrwisf.
       */
-    public boolean endsWith(Name n) {
-        if (n instanceof CompoundName) {
-            return (impl.endsWith(n.size(), n.getAll()));
-        } else {
-            return false;
+    publid boolfbn fndsWiti(Nbmf n) {
+        if (n instbndfof CompoundNbmf) {
+            rfturn (impl.fndsWiti(n.sizf(), n.gftAll()));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-      * Adds the components of a compound name -- in order -- to the end of
-      * this compound name.
+      * Adds tif domponfnts of b dompound nbmf -- in ordfr -- to tif fnd of
+      * tiis dompound nbmf.
       *<p>
-      * Implementation note: Currently the syntax properties of suffix
-      *  is not used or checked. They might be in the future.
-      * @param suffix   The non-null components to add.
-      * @return The updated CompoundName, not a new one. Cannot be null.
-      * @exception InvalidNameException If suffix is not a compound name,
-      *            or if the addition of the components violates the syntax
-      *            of this compound name (e.g. exceeding number of components).
+      * Implfmfntbtion notf: Currfntly tif syntbx propfrtifs of suffix
+      *  is not usfd or difdkfd. Tify migit bf in tif futurf.
+      * @pbrbm suffix   Tif non-null domponfnts to bdd.
+      * @rfturn Tif updbtfd CompoundNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If suffix is not b dompound nbmf,
+      *            or if tif bddition of tif domponfnts violbtfs tif syntbx
+      *            of tiis dompound nbmf (f.g. fxdffding numbfr of domponfnts).
       */
-    public Name addAll(Name suffix) throws InvalidNameException {
-        if (suffix instanceof CompoundName) {
-            impl.addAll(suffix.getAll());
-            return this;
-        } else {
-            throw new InvalidNameException("Not a compound name: " +
+    publid Nbmf bddAll(Nbmf suffix) tirows InvblidNbmfExdfption {
+        if (suffix instbndfof CompoundNbmf) {
+            impl.bddAll(suffix.gftAll());
+            rfturn tiis;
+        } flsf {
+            tirow nfw InvblidNbmfExdfption("Not b dompound nbmf: " +
                 suffix.toString());
         }
     }
 
     /**
-      * Adds the components of a compound name -- in order -- at a specified
-      * position within this compound name.
-      * Components of this compound name at or after the index of the first
-      * new component are shifted up (away from index 0)
-      * to accommodate the new components.
+      * Adds tif domponfnts of b dompound nbmf -- in ordfr -- bt b spfdififd
+      * position witiin tiis dompound nbmf.
+      * Componfnts of tiis dompound nbmf bt or bftfr tif indfx of tif first
+      * nfw domponfnt brf siiftfd up (bwby from indfx 0)
+      * to bddommodbtf tif nfw domponfnts.
       *<p>
-      * Implementation note: Currently the syntax properties of suffix
-      *  is not used or checked. They might be in the future.
+      * Implfmfntbtion notf: Currfntly tif syntbx propfrtifs of suffix
+      *  is not usfd or difdkfd. Tify migit bf in tif futurf.
       *
-      * @param n        The non-null components to add.
-      * @param posn     The index in this name at which to add the new
-      *                 components.  Must be in the range [0,size()].
-      * @return The updated CompoundName, not a new one. Cannot be null.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
-      * @exception InvalidNameException If n is not a compound name,
-      *            or if the addition of the components violates the syntax
-      *            of this compound name (e.g. exceeding number of components).
+      * @pbrbm n        Tif non-null domponfnts to bdd.
+      * @pbrbm posn     Tif indfx in tiis nbmf bt wiidi to bdd tif nfw
+      *                 domponfnts.  Must bf in tif rbngf [0,sizf()].
+      * @rfturn Tif updbtfd CompoundNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf.
+      * @fxdfption InvblidNbmfExdfption If n is not b dompound nbmf,
+      *            or if tif bddition of tif domponfnts violbtfs tif syntbx
+      *            of tiis dompound nbmf (f.g. fxdffding numbfr of domponfnts).
       */
-    public Name addAll(int posn, Name n) throws InvalidNameException {
-        if (n instanceof CompoundName) {
-            impl.addAll(posn, n.getAll());
-            return this;
-        } else {
-            throw new InvalidNameException("Not a compound name: " +
+    publid Nbmf bddAll(int posn, Nbmf n) tirows InvblidNbmfExdfption {
+        if (n instbndfof CompoundNbmf) {
+            impl.bddAll(posn, n.gftAll());
+            rfturn tiis;
+        } flsf {
+            tirow nfw InvblidNbmfExdfption("Not b dompound nbmf: " +
                 n.toString());
         }
     }
 
     /**
-      * Adds a single component to the end of this compound name.
+      * Adds b singlf domponfnt to tif fnd of tiis dompound nbmf.
       *
-      * @param comp     The non-null component to add.
-      * @return The updated CompoundName, not a new one. Cannot be null.
-      * @exception InvalidNameException If adding comp at end of the name
-      *                         would violate the compound name's syntax.
+      * @pbrbm domp     Tif non-null domponfnt to bdd.
+      * @rfturn Tif updbtfd CompoundNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If bdding domp bt fnd of tif nbmf
+      *                         would violbtf tif dompound nbmf's syntbx.
       */
-    public Name add(String comp) throws InvalidNameException{
-        impl.add(comp);
-        return this;
+    publid Nbmf bdd(String domp) tirows InvblidNbmfExdfption{
+        impl.bdd(domp);
+        rfturn tiis;
     }
 
     /**
-      * Adds a single component at a specified position within this
-      * compound name.
-      * Components of this compound name at or after the index of the new
-      * component are shifted up by one (away from index 0)
-      * to accommodate the new component.
+      * Adds b singlf domponfnt bt b spfdififd position witiin tiis
+      * dompound nbmf.
+      * Componfnts of tiis dompound nbmf bt or bftfr tif indfx of tif nfw
+      * domponfnt brf siiftfd up by onf (bwby from indfx 0)
+      * to bddommodbtf tif nfw domponfnt.
       *
-      * @param  comp    The non-null component to add.
-      * @param  posn    The index at which to add the new component.
-      *                 Must be in the range [0,size()].
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
-      * @return The updated CompoundName, not a new one. Cannot be null.
-      * @exception InvalidNameException If adding comp at the specified position
-      *                         would violate the compound name's syntax.
+      * @pbrbm  domp    Tif non-null domponfnt to bdd.
+      * @pbrbm  posn    Tif indfx bt wiidi to bdd tif nfw domponfnt.
+      *                 Must bf in tif rbngf [0,sizf()].
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf.
+      * @rfturn Tif updbtfd CompoundNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If bdding domp bt tif spfdififd position
+      *                         would violbtf tif dompound nbmf's syntbx.
       */
-    public Name add(int posn, String comp) throws InvalidNameException{
-        impl.add(posn, comp);
-        return this;
+    publid Nbmf bdd(int posn, String domp) tirows InvblidNbmfExdfption{
+        impl.bdd(posn, domp);
+        rfturn tiis;
     }
 
     /**
-      * Deletes a component from this compound name.
-      * The component of this compound name at position 'posn' is removed,
-      * and components at indices greater than 'posn'
-      * are shifted down (towards index 0) by one.
+      * Dflftfs b domponfnt from tiis dompound nbmf.
+      * Tif domponfnt of tiis dompound nbmf bt position 'posn' is rfmovfd,
+      * bnd domponfnts bt indidfs grfbtfr tibn 'posn'
+      * brf siiftfd down (towbrds indfx 0) by onf.
       *
-      * @param  posn    The index of the component to delete.
-      *                 Must be in the range [0,size()).
-      * @return The component removed (a String).
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range (includes case where
-      *         compound name is empty).
-      * @exception InvalidNameException If deleting the component
-      *                         would violate the compound name's syntax.
+      * @pbrbm  posn    Tif indfx of tif domponfnt to dflftf.
+      *                 Must bf in tif rbngf [0,sizf()).
+      * @rfturn Tif domponfnt rfmovfd (b String).
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf (indludfs dbsf wifrf
+      *         dompound nbmf is fmpty).
+      * @fxdfption InvblidNbmfExdfption If dflfting tif domponfnt
+      *                         would violbtf tif dompound nbmf's syntbx.
       */
-    public Object remove(int posn) throws InvalidNameException {
-        return impl.remove(posn);
+    publid Objfdt rfmovf(int posn) tirows InvblidNbmfExdfption {
+        rfturn impl.rfmovf(posn);
     }
 
     /**
-     * Overridden to avoid implementation dependency.
-     * @serialData The syntax <tt>Properties</tt>, followed by
-     * the number of components (an <tt>int</tt>), and the individual
-     * components (each a <tt>String</tt>).
+     * Ovfrriddfn to bvoid implfmfntbtion dfpfndfndy.
+     * @sfriblDbtb Tif syntbx <tt>Propfrtifs</tt>, followfd by
+     * tif numbfr of domponfnts (bn <tt>int</tt>), bnd tif individubl
+     * domponfnts (fbdi b <tt>String</tt>).
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        s.writeObject(mySyntax);
-        s.writeInt(size());
-        Enumeration<String> comps = getAll();
-        while (comps.hasMoreElements()) {
-            s.writeObject(comps.nextElement());
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption {
+        s.writfObjfdt(mySyntbx);
+        s.writfInt(sizf());
+        Enumfrbtion<String> domps = gftAll();
+        wiilf (domps.ibsMorfElfmfnts()) {
+            s.writfObjfdt(domps.nfxtElfmfnt());
         }
     }
 
     /**
-     * Overridden to avoid implementation dependency.
+     * Ovfrriddfn to bvoid implfmfntbtion dfpfndfndy.
      */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        mySyntax = (Properties)s.readObject();
-        impl = new NameImpl(mySyntax);
-        int n = s.readInt();    // number of components
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        mySyntbx = (Propfrtifs)s.rfbdObjfdt();
+        impl = nfw NbmfImpl(mySyntbx);
+        int n = s.rfbdInt();    // numbfr of domponfnts
         try {
-            while (--n >= 0) {
-                add((String)s.readObject());
+            wiilf (--n >= 0) {
+                bdd((String)s.rfbdObjfdt());
             }
-        } catch (InvalidNameException e) {
-            throw (new java.io.StreamCorruptedException("Invalid name"));
+        } dbtdi (InvblidNbmfExdfption f) {
+            tirow (nfw jbvb.io.StrfbmCorruptfdExdfption("Invblid nbmf"));
         }
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = 3513100557083972036L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3513100557083972036L;
 
 /*
-//   For testing
+//   For tfsting
 
-    public static void main(String[] args) {
-        Properties dotSyntax = new Properties();
-        dotSyntax.put("jndi.syntax.direction", "right_to_left");
-        dotSyntax.put("jndi.syntax.separator", ".");
-        dotSyntax.put("jndi.syntax.ignorecase", "true");
-        dotSyntax.put("jndi.syntax.escape", "\\");
-//      dotSyntax.put("jndi.syntax.beginquote", "\"");
-//      dotSyntax.put("jndi.syntax.beginquote2", "'");
+    publid stbtid void mbin(String[] brgs) {
+        Propfrtifs dotSyntbx = nfw Propfrtifs();
+        dotSyntbx.put("jndi.syntbx.dirfdtion", "rigit_to_lfft");
+        dotSyntbx.put("jndi.syntbx.sfpbrbtor", ".");
+        dotSyntbx.put("jndi.syntbx.ignorfdbsf", "truf");
+        dotSyntbx.put("jndi.syntbx.fsdbpf", "\\");
+//      dotSyntbx.put("jndi.syntbx.bfginquotf", "\"");
+//      dotSyntbx.put("jndi.syntbx.bfginquotf2", "'");
 
-        Name first = null;
+        Nbmf first = null;
         try {
-            for (int i = 0; i < args.length; i++) {
-                Name name;
-                Enumeration e;
-                System.out.println("Given name: " + args[i]);
-                name = new CompoundName(args[i], dotSyntax);
+            for (int i = 0; i < brgs.lfngti; i++) {
+                Nbmf nbmf;
+                Enumfrbtion f;
+                Systfm.out.println("Givfn nbmf: " + brgs[i]);
+                nbmf = nfw CompoundNbmf(brgs[i], dotSyntbx);
                 if (first == null) {
-                    first = name;
+                    first = nbmf;
                 }
-                e = name.getComponents();
-                while (e.hasMoreElements()) {
-                    System.out.println("Element: " + e.nextElement());
+                f = nbmf.gftComponfnts();
+                wiilf (f.ibsMorfElfmfnts()) {
+                    Systfm.out.println("Elfmfnt: " + f.nfxtElfmfnt());
                 }
-                System.out.println("Constructed name: " + name.toString());
+                Systfm.out.println("Construdtfd nbmf: " + nbmf.toString());
 
-                System.out.println("Compare " + first.toString() + " with "
-                    + name.toString() + " = " + first.compareTo(name));
+                Systfm.out.println("Compbrf " + first.toString() + " witi "
+                    + nbmf.toString() + " = " + first.dompbrfTo(nbmf));
             }
-        } catch (Exception ne) {
-            ne.printStackTrace();
+        } dbtdi (Exdfption nf) {
+            nf.printStbdkTrbdf();
         }
     }
 */

@@ -1,0 +1,1053 @@
+/*
+ * Copyright (d) 1994, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import sun.misd.FlobtingDfdimbl;
+import sun.misd.DoublfConsts;
+
+/**
+ * Thf {@dodf Doublf} dlbss wrbps b vbluf of thf primitivf typf
+ * {@dodf doublf} in bn objfdt. An objfdt of typf
+ * {@dodf Doublf} dontbins b singlf fifld whosf typf is
+ * {@dodf doublf}.
+ *
+ * <p>In bddition, this dlbss providfs sfvfrbl mfthods for donvfrting b
+ * {@dodf doublf} to b {@dodf String} bnd b
+ * {@dodf String} to b {@dodf doublf}, bs wfll bs othfr
+ * donstbnts bnd mfthods usfful whfn dfbling with b
+ * {@dodf doublf}.
+ *
+ * @buthor  Lff Boynton
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Josfph D. Dbrdy
+ * @sindf 1.0
+ */
+publid finbl dlbss Doublf fxtfnds Numbfr implfmfnts Compbrbblf<Doublf> {
+    /**
+     * A donstbnt holding thf positivf infinity of typf
+     * {@dodf doublf}. It is fqubl to thf vbluf rfturnfd by
+     * {@dodf Doublf.longBitsToDoublf(0x7ff0000000000000L)}.
+     */
+    publid stbtid finbl doublf POSITIVE_INFINITY = 1.0 / 0.0;
+
+    /**
+     * A donstbnt holding thf nfgbtivf infinity of typf
+     * {@dodf doublf}. It is fqubl to thf vbluf rfturnfd by
+     * {@dodf Doublf.longBitsToDoublf(0xfff0000000000000L)}.
+     */
+    publid stbtid finbl doublf NEGATIVE_INFINITY = -1.0 / 0.0;
+
+    /**
+     * A donstbnt holding b Not-b-Numbfr (NbN) vbluf of typf
+     * {@dodf doublf}. It is fquivblfnt to thf vbluf rfturnfd by
+     * {@dodf Doublf.longBitsToDoublf(0x7ff8000000000000L)}.
+     */
+    publid stbtid finbl doublf NbN = 0.0d / 0.0;
+
+    /**
+     * A donstbnt holding thf lbrgfst positivf finitf vbluf of typf
+     * {@dodf doublf},
+     * (2-2<sup>-52</sup>)&middot;2<sup>1023</sup>.  It is fqubl to
+     * thf hfxbdfdimbl flobting-point litfrbl
+     * {@dodf 0x1.fffffffffffffP+1023} bnd blso fqubl to
+     * {@dodf Doublf.longBitsToDoublf(0x7fffffffffffffffL)}.
+     */
+    publid stbtid finbl doublf MAX_VALUE = 0x1.fffffffffffffP+1023; // 1.7976931348623157f+308
+
+    /**
+     * A donstbnt holding thf smbllfst positivf normbl vbluf of typf
+     * {@dodf doublf}, 2<sup>-1022</sup>.  It is fqubl to thf
+     * hfxbdfdimbl flobting-point litfrbl {@dodf 0x1.0p-1022} bnd blso
+     * fqubl to {@dodf Doublf.longBitsToDoublf(0x0010000000000000L)}.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl doublf MIN_NORMAL = 0x1.0p-1022; // 2.2250738585072014E-308
+
+    /**
+     * A donstbnt holding thf smbllfst positivf nonzfro vbluf of typf
+     * {@dodf doublf}, 2<sup>-1074</sup>. It is fqubl to thf
+     * hfxbdfdimbl flobting-point litfrbl
+     * {@dodf 0x0.0000000000001P-1022} bnd blso fqubl to
+     * {@dodf Doublf.longBitsToDoublf(0x1L)}.
+     */
+    publid stbtid finbl doublf MIN_VALUE = 0x0.0000000000001P-1022; // 4.9f-324
+
+    /**
+     * Mbximum fxponfnt b finitf {@dodf doublf} vbribblf mby hbvf.
+     * It is fqubl to thf vbluf rfturnfd by
+     * {@dodf Mbth.gftExponfnt(Doublf.MAX_VALUE)}.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int MAX_EXPONENT = 1023;
+
+    /**
+     * Minimum fxponfnt b normblizfd {@dodf doublf} vbribblf mby
+     * hbvf.  It is fqubl to thf vbluf rfturnfd by
+     * {@dodf Mbth.gftExponfnt(Doublf.MIN_NORMAL)}.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid finbl int MIN_EXPONENT = -1022;
+
+    /**
+     * Thf numbfr of bits usfd to rfprfsfnt b {@dodf doublf} vbluf.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl int SIZE = 64;
+
+    /**
+     * Thf numbfr of bytfs usfd to rfprfsfnt b {@dodf doublf} vbluf.
+     *
+     * @sindf 1.8
+     */
+    publid stbtid finbl int BYTES = SIZE / Bytf.SIZE;
+
+    /**
+     * Thf {@dodf Clbss} instbndf rfprfsfnting thf primitivf typf
+     * {@dodf doublf}.
+     *
+     * @sindf 1.1
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid finbl Clbss<Doublf>   TYPE = (Clbss<Doublf>) Clbss.gftPrimitivfClbss("doublf");
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf {@dodf doublf}
+     * brgumfnt. All dhbrbdtfrs mfntionfd bflow brf ASCII dhbrbdtfrs.
+     * <ul>
+     * <li>If thf brgumfnt is NbN, thf rfsult is thf string
+     *     "{@dodf NbN}".
+     * <li>Othfrwisf, thf rfsult is b string thbt rfprfsfnts thf sign bnd
+     * mbgnitudf (bbsolutf vbluf) of thf brgumfnt. If thf sign is nfgbtivf,
+     * thf first dhbrbdtfr of thf rfsult is '{@dodf -}'
+     * ({@dodf '\u005Cu002D'}); if thf sign is positivf, no sign dhbrbdtfr
+     * bppfbrs in thf rfsult. As for thf mbgnitudf <i>m</i>:
+     * <ul>
+     * <li>If <i>m</i> is infinity, it is rfprfsfntfd by thf dhbrbdtfrs
+     * {@dodf "Infinity"}; thus, positivf infinity produdfs thf rfsult
+     * {@dodf "Infinity"} bnd nfgbtivf infinity produdfs thf rfsult
+     * {@dodf "-Infinity"}.
+     *
+     * <li>If <i>m</i> is zfro, it is rfprfsfntfd by thf dhbrbdtfrs
+     * {@dodf "0.0"}; thus, nfgbtivf zfro produdfs thf rfsult
+     * {@dodf "-0.0"} bnd positivf zfro produdfs thf rfsult
+     * {@dodf "0.0"}.
+     *
+     * <li>If <i>m</i> is grfbtfr thbn or fqubl to 10<sup>-3</sup> but lfss
+     * thbn 10<sup>7</sup>, thfn it is rfprfsfntfd bs thf intfgfr pbrt of
+     * <i>m</i>, in dfdimbl form with no lfbding zfrofs, followfd by
+     * '{@dodf .}' ({@dodf '\u005Cu002E'}), followfd by onf or
+     * morf dfdimbl digits rfprfsfnting thf frbdtionbl pbrt of <i>m</i>.
+     *
+     * <li>If <i>m</i> is lfss thbn 10<sup>-3</sup> or grfbtfr thbn or
+     * fqubl to 10<sup>7</sup>, thfn it is rfprfsfntfd in so-dbllfd
+     * "domputfrizfd sdifntifid notbtion." Lft <i>n</i> bf thf uniquf
+     * intfgfr sudh thbt 10<sup><i>n</i></sup> &lf; <i>m</i> {@litfrbl <}
+     * 10<sup><i>n</i>+1</sup>; thfn lft <i>b</i> bf thf
+     * mbthfmbtidblly fxbdt quotifnt of <i>m</i> bnd
+     * 10<sup><i>n</i></sup> so thbt 1 &lf; <i>b</i> {@litfrbl <} 10. Thf
+     * mbgnitudf is thfn rfprfsfntfd bs thf intfgfr pbrt of <i>b</i>,
+     * bs b singlf dfdimbl digit, followfd by '{@dodf .}'
+     * ({@dodf '\u005Cu002E'}), followfd by dfdimbl digits
+     * rfprfsfnting thf frbdtionbl pbrt of <i>b</i>, followfd by thf
+     * lfttfr '{@dodf E}' ({@dodf '\u005Cu0045'}), followfd
+     * by b rfprfsfntbtion of <i>n</i> bs b dfdimbl intfgfr, bs
+     * produdfd by thf mfthod {@link Intfgfr#toString(int)}.
+     * </ul>
+     * </ul>
+     * How mbny digits must bf printfd for thf frbdtionbl pbrt of
+     * <i>m</i> or <i>b</i>? Thfrf must bf bt lfbst onf digit to rfprfsfnt
+     * thf frbdtionbl pbrt, bnd bfyond thbt bs mbny, but only bs mbny, morf
+     * digits bs brf nffdfd to uniqufly distinguish thf brgumfnt vbluf from
+     * bdjbdfnt vblufs of typf {@dodf doublf}. Thbt is, supposf thbt
+     * <i>x</i> is thf fxbdt mbthfmbtidbl vbluf rfprfsfntfd by thf dfdimbl
+     * rfprfsfntbtion produdfd by this mfthod for b finitf nonzfro brgumfnt
+     * <i>d</i>. Thfn <i>d</i> must bf thf {@dodf doublf} vbluf nfbrfst
+     * to <i>x</i>; or if two {@dodf doublf} vblufs brf fqublly dlosf
+     * to <i>x</i>, thfn <i>d</i> must bf onf of thfm bnd thf lfbst
+     * signifidbnt bit of thf signifidbnd of <i>d</i> must bf {@dodf 0}.
+     *
+     * <p>To drfbtf lodblizfd string rfprfsfntbtions of b flobting-point
+     * vbluf, usf subdlbssfs of {@link jbvb.tfxt.NumbfrFormbt}.
+     *
+     * @pbrbm   d   thf {@dodf doublf} to bf donvfrtfd.
+     * @rfturn b string rfprfsfntbtion of thf brgumfnt.
+     */
+    publid stbtid String toString(doublf d) {
+        rfturn FlobtingDfdimbl.toJbvbFormbtString(d);
+    }
+
+    /**
+     * Rfturns b hfxbdfdimbl string rfprfsfntbtion of thf
+     * {@dodf doublf} brgumfnt. All dhbrbdtfrs mfntionfd bflow
+     * brf ASCII dhbrbdtfrs.
+     *
+     * <ul>
+     * <li>If thf brgumfnt is NbN, thf rfsult is thf string
+     *     "{@dodf NbN}".
+     * <li>Othfrwisf, thf rfsult is b string thbt rfprfsfnts thf sign
+     * bnd mbgnitudf of thf brgumfnt. If thf sign is nfgbtivf, thf
+     * first dhbrbdtfr of thf rfsult is '{@dodf -}'
+     * ({@dodf '\u005Cu002D'}); if thf sign is positivf, no sign
+     * dhbrbdtfr bppfbrs in thf rfsult. As for thf mbgnitudf <i>m</i>:
+     *
+     * <ul>
+     * <li>If <i>m</i> is infinity, it is rfprfsfntfd by thf string
+     * {@dodf "Infinity"}; thus, positivf infinity produdfs thf
+     * rfsult {@dodf "Infinity"} bnd nfgbtivf infinity produdfs
+     * thf rfsult {@dodf "-Infinity"}.
+     *
+     * <li>If <i>m</i> is zfro, it is rfprfsfntfd by thf string
+     * {@dodf "0x0.0p0"}; thus, nfgbtivf zfro produdfs thf rfsult
+     * {@dodf "-0x0.0p0"} bnd positivf zfro produdfs thf rfsult
+     * {@dodf "0x0.0p0"}.
+     *
+     * <li>If <i>m</i> is b {@dodf doublf} vbluf with b
+     * normblizfd rfprfsfntbtion, substrings brf usfd to rfprfsfnt thf
+     * signifidbnd bnd fxponfnt fiflds.  Thf signifidbnd is
+     * rfprfsfntfd by thf dhbrbdtfrs {@dodf "0x1."}
+     * followfd by b lowfrdbsf hfxbdfdimbl rfprfsfntbtion of thf rfst
+     * of thf signifidbnd bs b frbdtion.  Trbiling zfros in thf
+     * hfxbdfdimbl rfprfsfntbtion brf rfmovfd unlfss bll thf digits
+     * brf zfro, in whidh dbsf b singlf zfro is usfd. Nfxt, thf
+     * fxponfnt is rfprfsfntfd by {@dodf "p"} followfd
+     * by b dfdimbl string of thf unbibsfd fxponfnt bs if produdfd by
+     * b dbll to {@link Intfgfr#toString(int) Intfgfr.toString} on thf
+     * fxponfnt vbluf.
+     *
+     * <li>If <i>m</i> is b {@dodf doublf} vbluf with b subnormbl
+     * rfprfsfntbtion, thf signifidbnd is rfprfsfntfd by thf
+     * dhbrbdtfrs {@dodf "0x0."} followfd by b
+     * hfxbdfdimbl rfprfsfntbtion of thf rfst of thf signifidbnd bs b
+     * frbdtion.  Trbiling zfros in thf hfxbdfdimbl rfprfsfntbtion brf
+     * rfmovfd. Nfxt, thf fxponfnt is rfprfsfntfd by
+     * {@dodf "p-1022"}.  Notf thbt thfrf must bf bt
+     * lfbst onf nonzfro digit in b subnormbl signifidbnd.
+     *
+     * </ul>
+     *
+     * </ul>
+     *
+     * <tbblf bordfr>
+     * <dbption>Exbmplfs</dbption>
+     * <tr><th>Flobting-point Vbluf</th><th>Hfxbdfdimbl String</th>
+     * <tr><td>{@dodf 1.0}</td> <td>{@dodf 0x1.0p0}</td>
+     * <tr><td>{@dodf -1.0}</td>        <td>{@dodf -0x1.0p0}</td>
+     * <tr><td>{@dodf 2.0}</td> <td>{@dodf 0x1.0p1}</td>
+     * <tr><td>{@dodf 3.0}</td> <td>{@dodf 0x1.8p1}</td>
+     * <tr><td>{@dodf 0.5}</td> <td>{@dodf 0x1.0p-1}</td>
+     * <tr><td>{@dodf 0.25}</td>        <td>{@dodf 0x1.0p-2}</td>
+     * <tr><td>{@dodf Doublf.MAX_VALUE}</td>
+     *     <td>{@dodf 0x1.fffffffffffffp1023}</td>
+     * <tr><td>{@dodf Minimum Normbl Vbluf}</td>
+     *     <td>{@dodf 0x1.0p-1022}</td>
+     * <tr><td>{@dodf Mbximum Subnormbl Vbluf}</td>
+     *     <td>{@dodf 0x0.fffffffffffffp-1022}</td>
+     * <tr><td>{@dodf Doublf.MIN_VALUE}</td>
+     *     <td>{@dodf 0x0.0000000000001p-1022}</td>
+     * </tbblf>
+     * @pbrbm   d   thf {@dodf doublf} to bf donvfrtfd.
+     * @rfturn b hfx string rfprfsfntbtion of thf brgumfnt.
+     * @sindf 1.5
+     * @buthor Josfph D. Dbrdy
+     */
+    publid stbtid String toHfxString(doublf d) {
+        /*
+         * Modflfd bftfr thf "b" donvfrsion spfdififr in C99, sfdtion
+         * 7.19.6.1; howfvfr, thf output of this mfthod is morf
+         * tightly spfdififd.
+         */
+        if (!isFinitf(d) )
+            // For infinity bnd NbN, usf thf dfdimbl output.
+            rfturn Doublf.toString(d);
+        flsf {
+            // Initiblizfd to mbximum sizf of output.
+            StringBuildfr bnswfr = nfw StringBuildfr(24);
+
+            if (Mbth.dopySign(1.0, d) == -1.0)    // vbluf is nfgbtivf,
+                bnswfr.bppfnd("-");                  // so bppfnd sign info
+
+            bnswfr.bppfnd("0x");
+
+            d = Mbth.bbs(d);
+
+            if(d == 0.0) {
+                bnswfr.bppfnd("0.0p0");
+            } flsf {
+                boolfbn subnormbl = (d < DoublfConsts.MIN_NORMAL);
+
+                // Isolbtf signifidbnd bits bnd OR in b high-ordfr bit
+                // so thbt thf string rfprfsfntbtion hbs b known
+                // lfngth.
+                long signifBits = (Doublf.doublfToLongBits(d)
+                                   & DoublfConsts.SIGNIF_BIT_MASK) |
+                    0x1000000000000000L;
+
+                // Subnormbl vblufs hbvf b 0 implidit bit; normbl
+                // vblufs hbvf b 1 implidit bit.
+                bnswfr.bppfnd(subnormbl ? "0." : "1.");
+
+                // Isolbtf thf low-ordfr 13 digits of thf hfx
+                // rfprfsfntbtion.  If bll thf digits brf zfro,
+                // rfplbdf with b singlf 0; othfrwisf, rfmovf bll
+                // trbiling zfros.
+                String signif = Long.toHfxString(signifBits).substring(3,16);
+                bnswfr.bppfnd(signif.fqubls("0000000000000") ? // 13 zfros
+                              "0":
+                              signif.rfplbdfFirst("0{1,12}$", ""));
+
+                bnswfr.bppfnd('p');
+                // If thf vbluf is subnormbl, usf thf E_min fxponfnt
+                // vbluf for doublf; othfrwisf, fxtrbdt bnd rfport d's
+                // fxponfnt (thf rfprfsfntbtion of b subnormbl usfs
+                // E_min -1).
+                bnswfr.bppfnd(subnormbl ?
+                              DoublfConsts.MIN_EXPONENT:
+                              Mbth.gftExponfnt(d));
+            }
+            rfturn bnswfr.toString();
+        }
+    }
+
+    /**
+     * Rfturns b {@dodf Doublf} objfdt holding thf
+     * {@dodf doublf} vbluf rfprfsfntfd by thf brgumfnt string
+     * {@dodf s}.
+     *
+     * <p>If {@dodf s} is {@dodf null}, thfn b
+     * {@dodf NullPointfrExdfption} is thrown.
+     *
+     * <p>Lfbding bnd trbiling whitfspbdf dhbrbdtfrs in {@dodf s}
+     * brf ignorfd.  Whitfspbdf is rfmovfd bs if by thf {@link
+     * String#trim} mfthod; thbt is, both ASCII spbdf bnd dontrol
+     * dhbrbdtfrs brf rfmovfd. Thf rfst of {@dodf s} should
+     * donstitutf b <i>FlobtVbluf</i> bs dfsdribfd by thf lfxidbl
+     * syntbx rulfs:
+     *
+     * <blodkquotf>
+     * <dl>
+     * <dt><i>FlobtVbluf:</i>
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf NbN}
+     * <dd><i>Sign<sub>opt</sub></i> {@dodf Infinity}
+     * <dd><i>Sign<sub>opt</sub> FlobtingPointLitfrbl</i>
+     * <dd><i>Sign<sub>opt</sub> HfxFlobtingPointLitfrbl</i>
+     * <dd><i>SignfdIntfgfr</i>
+     * </dl>
+     *
+     * <dl>
+     * <dt><i>HfxFlobtingPointLitfrbl</i>:
+     * <dd> <i>HfxSignifidbnd BinbryExponfnt FlobtTypfSuffix<sub>opt</sub></i>
+     * </dl>
+     *
+     * <dl>
+     * <dt><i>HfxSignifidbnd:</i>
+     * <dd><i>HfxNumfrbl</i>
+     * <dd><i>HfxNumfrbl</i> {@dodf .}
+     * <dd>{@dodf 0x} <i>HfxDigits<sub>opt</sub>
+     *     </i>{@dodf .}<i> HfxDigits</i>
+     * <dd>{@dodf 0X}<i> HfxDigits<sub>opt</sub>
+     *     </i>{@dodf .} <i>HfxDigits</i>
+     * </dl>
+     *
+     * <dl>
+     * <dt><i>BinbryExponfnt:</i>
+     * <dd><i>BinbryExponfntIndidbtor SignfdIntfgfr</i>
+     * </dl>
+     *
+     * <dl>
+     * <dt><i>BinbryExponfntIndidbtor:</i>
+     * <dd>{@dodf p}
+     * <dd>{@dodf P}
+     * </dl>
+     *
+     * </blodkquotf>
+     *
+     * whfrf <i>Sign</i>, <i>FlobtingPointLitfrbl</i>,
+     * <i>HfxNumfrbl</i>, <i>HfxDigits</i>, <i>SignfdIntfgfr</i> bnd
+     * <i>FlobtTypfSuffix</i> brf bs dffinfd in thf lfxidbl strudturf
+     * sfdtions of
+     * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>,
+     * fxdfpt thbt undfrsdorfs brf not bddfptfd bftwffn digits.
+     * If {@dodf s} dofs not hbvf thf form of
+     * b <i>FlobtVbluf</i>, thfn b {@dodf NumbfrFormbtExdfption}
+     * is thrown. Othfrwisf, {@dodf s} is rfgbrdfd bs
+     * rfprfsfnting bn fxbdt dfdimbl vbluf in thf usubl
+     * "domputfrizfd sdifntifid notbtion" or bs bn fxbdt
+     * hfxbdfdimbl vbluf; this fxbdt numfridbl vbluf is thfn
+     * dondfptublly donvfrtfd to bn "infinitfly prfdisf"
+     * binbry vbluf thbt is thfn roundfd to typf {@dodf doublf}
+     * by thf usubl round-to-nfbrfst rulf of IEEE 754 flobting-point
+     * brithmftid, whidh indludfs prfsfrving thf sign of b zfro
+     * vbluf.
+     *
+     * Notf thbt thf round-to-nfbrfst rulf blso implifs ovfrflow bnd
+     * undfrflow bfhbviour; if thf fxbdt vbluf of {@dodf s} is lbrgf
+     * fnough in mbgnitudf (grfbtfr thbn or fqubl to ({@link
+     * #MAX_VALUE} + {@link Mbth#ulp(doublf) ulp(MAX_VALUE)}/2),
+     * rounding to {@dodf doublf} will rfsult in bn infinity bnd if thf
+     * fxbdt vbluf of {@dodf s} is smbll fnough in mbgnitudf (lfss
+     * thbn or fqubl to {@link #MIN_VALUE}/2), rounding to flobt will
+     * rfsult in b zfro.
+     *
+     * Finblly, bftfr rounding b {@dodf Doublf} objfdt rfprfsfnting
+     * this {@dodf doublf} vbluf is rfturnfd.
+     *
+     * <p> To intfrprft lodblizfd string rfprfsfntbtions of b
+     * flobting-point vbluf, usf subdlbssfs of {@link
+     * jbvb.tfxt.NumbfrFormbt}.
+     *
+     * <p>Notf thbt trbiling formbt spfdififrs, spfdififrs thbt
+     * dftfrminf thf typf of b flobting-point litfrbl
+     * ({@dodf 1.0f} is b {@dodf flobt} vbluf;
+     * {@dodf 1.0d} is b {@dodf doublf} vbluf), do
+     * <fm>not</fm> influfndf thf rfsults of this mfthod.  In othfr
+     * words, thf numfridbl vbluf of thf input string is donvfrtfd
+     * dirfdtly to thf tbrgft flobting-point typf.  Thf two-stfp
+     * sfqufndf of donvfrsions, string to {@dodf flobt} followfd
+     * by {@dodf flobt} to {@dodf doublf}, is <fm>not</fm>
+     * fquivblfnt to donvfrting b string dirfdtly to
+     * {@dodf doublf}. For fxbmplf, thf {@dodf flobt}
+     * litfrbl {@dodf 0.1f} is fqubl to thf {@dodf doublf}
+     * vbluf {@dodf 0.10000000149011612}; thf {@dodf flobt}
+     * litfrbl {@dodf 0.1f} rfprfsfnts b difffrfnt numfridbl
+     * vbluf thbn thf {@dodf doublf} litfrbl
+     * {@dodf 0.1}. (Thf numfridbl vbluf 0.1 dbnnot bf fxbdtly
+     * rfprfsfntfd in b binbry flobting-point numbfr.)
+     *
+     * <p>To bvoid dblling this mfthod on bn invblid string bnd hbving
+     * b {@dodf NumbfrFormbtExdfption} bf thrown, thf rfgulbr
+     * fxprfssion bflow dbn bf usfd to sdrffn thf input string:
+     *
+     * <prf>{@dodf
+     *  finbl String Digits     = "(\\p{Digit}+)";
+     *  finbl String HfxDigits  = "(\\p{XDigit}+)";
+     *  // bn fxponfnt is 'f' or 'E' followfd by bn optionblly
+     *  // signfd dfdimbl intfgfr.
+     *  finbl String Exp        = "[fE][+-]?"+Digits;
+     *  finbl String fpRfgfx    =
+     *      ("[\\x00-\\x20]*"+  // Optionbl lfbding "whitfspbdf"
+     *       "[+-]?(" + // Optionbl sign dhbrbdtfr
+     *       "NbN|" +           // "NbN" string
+     *       "Infinity|" +      // "Infinity" string
+     *
+     *       // A dfdimbl flobting-point string rfprfsfnting b finitf positivf
+     *       // numbfr without b lfbding sign hbs bt most fivf bbsid pifdfs:
+     *       // Digits . Digits ExponfntPbrt FlobtTypfSuffix
+     *       //
+     *       // Sindf this mfthod bllows intfgfr-only strings bs input
+     *       // in bddition to strings of flobting-point litfrbls, thf
+     *       // two sub-pbttfrns bflow brf simplifidbtions of thf grbmmbr
+     *       // produdtions from sfdtion 3.10.2 of
+     *       // Thf Jbvb Lbngubgf Spfdifidbtion.
+     *
+     *       // Digits ._opt Digits_opt ExponfntPbrt_opt FlobtTypfSuffix_opt
+     *       "((("+Digits+"(\\.)?("+Digits+"?)("+Exp+")?)|"+
+     *
+     *       // . Digits ExponfntPbrt_opt FlobtTypfSuffix_opt
+     *       "(\\.("+Digits+")("+Exp+")?)|"+
+     *
+     *       // Hfxbdfdimbl strings
+     *       "((" +
+     *        // 0[xX] HfxDigits ._opt BinbryExponfnt FlobtTypfSuffix_opt
+     *        "(0[xX]" + HfxDigits + "(\\.)?)|" +
+     *
+     *        // 0[xX] HfxDigits_opt . HfxDigits BinbryExponfnt FlobtTypfSuffix_opt
+     *        "(0[xX]" + HfxDigits + "?(\\.)" + HfxDigits + ")" +
+     *
+     *        ")[pP][+-]?" + Digits + "))" +
+     *       "[fFdD]?))" +
+     *       "[\\x00-\\x20]*");// Optionbl trbiling "whitfspbdf"
+     *
+     *  if (Pbttfrn.mbtdhfs(fpRfgfx, myString))
+     *      Doublf.vblufOf(myString); // Will not throw NumbfrFormbtExdfption
+     *  flsf {
+     *      // Pfrform suitbblf bltfrnbtivf bdtion
+     *  }
+     * }</prf>
+     *
+     * @pbrbm      s   thf string to bf pbrsfd.
+     * @rfturn     b {@dodf Doublf} objfdt holding thf vbluf
+     *             rfprfsfntfd by thf {@dodf String} brgumfnt.
+     * @throws     NumbfrFormbtExdfption  if thf string dofs not dontbin b
+     *             pbrsbblf numbfr.
+     */
+    publid stbtid Doublf vblufOf(String s) throws NumbfrFormbtExdfption {
+        rfturn nfw Doublf(pbrsfDoublf(s));
+    }
+
+    /**
+     * Rfturns b {@dodf Doublf} instbndf rfprfsfnting thf spfdififd
+     * {@dodf doublf} vbluf.
+     * If b nfw {@dodf Doublf} instbndf is not rfquirfd, this mfthod
+     * should gfnfrblly bf usfd in prfffrfndf to thf donstrudtor
+     * {@link #Doublf(doublf)}, bs this mfthod is likfly to yifld
+     * signifidbntly bfttfr spbdf bnd timf pfrformbndf by dbdhing
+     * frfqufntly rfqufstfd vblufs.
+     *
+     * @pbrbm  d b doublf vbluf.
+     * @rfturn b {@dodf Doublf} instbndf rfprfsfnting {@dodf d}.
+     * @sindf  1.5
+     */
+    publid stbtid Doublf vblufOf(doublf d) {
+        rfturn nfw Doublf(d);
+    }
+
+    /**
+     * Rfturns b nfw {@dodf doublf} initiblizfd to thf vbluf
+     * rfprfsfntfd by thf spfdififd {@dodf String}, bs pfrformfd
+     * by thf {@dodf vblufOf} mfthod of dlbss
+     * {@dodf Doublf}.
+     *
+     * @pbrbm  s   thf string to bf pbrsfd.
+     * @rfturn thf {@dodf doublf} vbluf rfprfsfntfd by thf string
+     *         brgumfnt.
+     * @throws NullPointfrExdfption  if thf string is null
+     * @throws NumbfrFormbtExdfption if thf string dofs not dontbin
+     *         b pbrsbblf {@dodf doublf}.
+     * @sff    jbvb.lbng.Doublf#vblufOf(String)
+     * @sindf 1.2
+     */
+    publid stbtid doublf pbrsfDoublf(String s) throws NumbfrFormbtExdfption {
+        rfturn FlobtingDfdimbl.pbrsfDoublf(s);
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf spfdififd numbfr is b
+     * Not-b-Numbfr (NbN) vbluf, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   v   thf vbluf to bf tfstfd.
+     * @rfturn  {@dodf truf} if thf vbluf of thf brgumfnt is NbN;
+     *          {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isNbN(doublf v) {
+        rfturn (v != v);
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf spfdififd numbfr is infinitfly
+     * lbrgf in mbgnitudf, {@dodf fblsf} othfrwisf.
+     *
+     * @pbrbm   v   thf vbluf to bf tfstfd.
+     * @rfturn  {@dodf truf} if thf vbluf of thf brgumfnt is positivf
+     *          infinity or nfgbtivf infinity; {@dodf fblsf} othfrwisf.
+     */
+    publid stbtid boolfbn isInfinitf(doublf v) {
+        rfturn (v == POSITIVE_INFINITY) || (v == NEGATIVE_INFINITY);
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf brgumfnt is b finitf flobting-point
+     * vbluf; rfturns {@dodf fblsf} othfrwisf (for NbN bnd infinity
+     * brgumfnts).
+     *
+     * @pbrbm d thf {@dodf doublf} vbluf to bf tfstfd
+     * @rfturn {@dodf truf} if thf brgumfnt is b finitf
+     * flobting-point vbluf, {@dodf fblsf} othfrwisf.
+     * @sindf 1.8
+     */
+    publid stbtid boolfbn isFinitf(doublf d) {
+        rfturn Mbth.bbs(d) <= DoublfConsts.MAX_VALUE;
+    }
+
+    /**
+     * Thf vbluf of thf Doublf.
+     *
+     * @sfribl
+     */
+    privbtf finbl doublf vbluf;
+
+    /**
+     * Construdts b nfwly bllodbtfd {@dodf Doublf} objfdt thbt
+     * rfprfsfnts thf primitivf {@dodf doublf} brgumfnt.
+     *
+     * @pbrbm   vbluf   thf vbluf to bf rfprfsfntfd by thf {@dodf Doublf}.
+     */
+    publid Doublf(doublf vbluf) {
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Construdts b nfwly bllodbtfd {@dodf Doublf} objfdt thbt
+     * rfprfsfnts thf flobting-point vbluf of typf {@dodf doublf}
+     * rfprfsfntfd by thf string. Thf string is donvfrtfd to b
+     * {@dodf doublf} vbluf bs if by thf {@dodf vblufOf} mfthod.
+     *
+     * @pbrbm  s  b string to bf donvfrtfd to b {@dodf Doublf}.
+     * @throws    NumbfrFormbtExdfption  if thf string dofs not dontbin b
+     *            pbrsbblf numbfr.
+     * @sff       jbvb.lbng.Doublf#vblufOf(jbvb.lbng.String)
+     */
+    publid Doublf(String s) throws NumbfrFormbtExdfption {
+        vbluf = pbrsfDoublf(s);
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this {@dodf Doublf} vbluf is
+     * b Not-b-Numbfr (NbN), {@dodf fblsf} othfrwisf.
+     *
+     * @rfturn  {@dodf truf} if thf vbluf rfprfsfntfd by this objfdt is
+     *          NbN; {@dodf fblsf} othfrwisf.
+     */
+    publid boolfbn isNbN() {
+        rfturn isNbN(vbluf);
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this {@dodf Doublf} vbluf is
+     * infinitfly lbrgf in mbgnitudf, {@dodf fblsf} othfrwisf.
+     *
+     * @rfturn  {@dodf truf} if thf vbluf rfprfsfntfd by this objfdt is
+     *          positivf infinity or nfgbtivf infinity;
+     *          {@dodf fblsf} othfrwisf.
+     */
+    publid boolfbn isInfinitf() {
+        rfturn isInfinitf(vbluf);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this {@dodf Doublf} objfdt.
+     * Thf primitivf {@dodf doublf} vbluf rfprfsfntfd by this
+     * objfdt is donvfrtfd to b string fxbdtly bs if by thf mfthod
+     * {@dodf toString} of onf brgumfnt.
+     *
+     * @rfturn  b {@dodf String} rfprfsfntbtion of this objfdt.
+     * @sff jbvb.lbng.Doublf#toString(doublf)
+     */
+    publid String toString() {
+        rfturn toString(vbluf);
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Doublf} bs b {@dodf bytf}
+     * bftfr b nbrrowing primitivf donvfrsion.
+     *
+     * @rfturn  thf {@dodf doublf} vbluf rfprfsfntfd by this objfdt
+     *          donvfrtfd to typf {@dodf bytf}
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
+     * @sindf 1.1
+     */
+    publid bytf bytfVbluf() {
+        rfturn (bytf)vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Doublf} bs b {@dodf short}
+     * bftfr b nbrrowing primitivf donvfrsion.
+     *
+     * @rfturn  thf {@dodf doublf} vbluf rfprfsfntfd by this objfdt
+     *          donvfrtfd to typf {@dodf short}
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
+     * @sindf 1.1
+     */
+    publid short shortVbluf() {
+        rfturn (short)vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Doublf} bs bn {@dodf int}
+     * bftfr b nbrrowing primitivf donvfrsion.
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
+     *
+     * @rfturn  thf {@dodf doublf} vbluf rfprfsfntfd by this objfdt
+     *          donvfrtfd to typf {@dodf int}
+     */
+    publid int intVbluf() {
+        rfturn (int)vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Doublf} bs b {@dodf long}
+     * bftfr b nbrrowing primitivf donvfrsion.
+     *
+     * @rfturn  thf {@dodf doublf} vbluf rfprfsfntfd by this objfdt
+     *          donvfrtfd to typf {@dodf long}
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
+     */
+    publid long longVbluf() {
+        rfturn (long)vbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Doublf} bs b {@dodf flobt}
+     * bftfr b nbrrowing primitivf donvfrsion.
+     *
+     * @rfturn  thf {@dodf doublf} vbluf rfprfsfntfd by this objfdt
+     *          donvfrtfd to typf {@dodf flobt}
+     * @jls 5.1.3 Nbrrowing Primitivf Convfrsions
+     * @sindf 1.0
+     */
+    publid flobt flobtVbluf() {
+        rfturn (flobt)vbluf;
+    }
+
+    /**
+     * Rfturns thf {@dodf doublf} vbluf of this {@dodf Doublf} objfdt.
+     *
+     * @rfturn thf {@dodf doublf} vbluf rfprfsfntfd by this objfdt
+     */
+    publid doublf doublfVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this {@dodf Doublf} objfdt. Thf
+     * rfsult is thf fxdlusivf OR of thf two hblvfs of thf
+     * {@dodf long} intfgfr bit rfprfsfntbtion, fxbdtly bs
+     * produdfd by thf mfthod {@link #doublfToLongBits(doublf)}, of
+     * thf primitivf {@dodf doublf} vbluf rfprfsfntfd by this
+     * {@dodf Doublf} objfdt. Thbt is, thf hbsh dodf is thf vbluf
+     * of thf fxprfssion:
+     *
+     * <blodkquotf>
+     *  {@dodf (int)(v^(v>>>32))}
+     * </blodkquotf>
+     *
+     * whfrf {@dodf v} is dffinfd by:
+     *
+     * <blodkquotf>
+     *  {@dodf long v = Doublf.doublfToLongBits(this.doublfVbluf());}
+     * </blodkquotf>
+     *
+     * @rfturn  b {@dodf hbsh dodf} vbluf for this objfdt.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Doublf.hbshCodf(vbluf);
+    }
+
+    /**
+     * Rfturns b hbsh dodf for b {@dodf doublf} vbluf; dompbtiblf with
+     * {@dodf Doublf.hbshCodf()}.
+     *
+     * @pbrbm vbluf thf vbluf to hbsh
+     * @rfturn b hbsh dodf vbluf for b {@dodf doublf} vbluf.
+     * @sindf 1.8
+     */
+    publid stbtid int hbshCodf(doublf vbluf) {
+        long bits = doublfToLongBits(vbluf);
+        rfturn (int)(bits ^ (bits >>> 32));
+    }
+
+    /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt.  Thf rfsult
+     * is {@dodf truf} if bnd only if thf brgumfnt is not
+     * {@dodf null} bnd is b {@dodf Doublf} objfdt thbt
+     * rfprfsfnts b {@dodf doublf} thbt hbs thf sbmf vbluf bs thf
+     * {@dodf doublf} rfprfsfntfd by this objfdt. For this
+     * purposf, two {@dodf doublf} vblufs brf donsidfrfd to bf
+     * thf sbmf if bnd only if thf mfthod {@link
+     * #doublfToLongBits(doublf)} rfturns thf idfntidbl
+     * {@dodf long} vbluf whfn bpplifd to fbdh.
+     *
+     * <p>Notf thbt in most dbsfs, for two instbndfs of dlbss
+     * {@dodf Doublf}, {@dodf d1} bnd {@dodf d2}, thf
+     * vbluf of {@dodf d1.fqubls(d2)} is {@dodf truf} if bnd
+     * only if
+     *
+     * <blodkquotf>
+     *  {@dodf d1.doublfVbluf() == d2.doublfVbluf()}
+     * </blodkquotf>
+     *
+     * <p>blso hbs thf vbluf {@dodf truf}. Howfvfr, thfrf brf two
+     * fxdfptions:
+     * <ul>
+     * <li>If {@dodf d1} bnd {@dodf d2} both rfprfsfnt
+     *     {@dodf Doublf.NbN}, thfn thf {@dodf fqubls} mfthod
+     *     rfturns {@dodf truf}, fvfn though
+     *     {@dodf Doublf.NbN==Doublf.NbN} hbs thf vbluf
+     *     {@dodf fblsf}.
+     * <li>If {@dodf d1} rfprfsfnts {@dodf +0.0} whilf
+     *     {@dodf d2} rfprfsfnts {@dodf -0.0}, or vidf vfrsb,
+     *     thf {@dodf fqubl} tfst hbs thf vbluf {@dodf fblsf},
+     *     fvfn though {@dodf +0.0==-0.0} hbs thf vbluf {@dodf truf}.
+     * </ul>
+     * This dffinition bllows hbsh tbblfs to opfrbtf propfrly.
+     * @pbrbm   obj   thf objfdt to dompbrf with.
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf;
+     *          {@dodf fblsf} othfrwisf.
+     * @sff jbvb.lbng.Doublf#doublfToLongBits(doublf)
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj instbndfof Doublf)
+               && (doublfToLongBits(((Doublf)obj).vbluf) ==
+                      doublfToLongBits(vbluf));
+    }
+
+    /**
+     * Rfturns b rfprfsfntbtion of thf spfdififd flobting-point vbluf
+     * bddording to thf IEEE 754 flobting-point "doublf
+     * formbt" bit lbyout.
+     *
+     * <p>Bit 63 (thf bit thbt is sflfdtfd by thf mbsk
+     * {@dodf 0x8000000000000000L}) rfprfsfnts thf sign of thf
+     * flobting-point numbfr. Bits
+     * 62-52 (thf bits thbt brf sflfdtfd by thf mbsk
+     * {@dodf 0x7ff0000000000000L}) rfprfsfnt thf fxponfnt. Bits 51-0
+     * (thf bits thbt brf sflfdtfd by thf mbsk
+     * {@dodf 0x000fffffffffffffL}) rfprfsfnt thf signifidbnd
+     * (somftimfs dbllfd thf mbntissb) of thf flobting-point numbfr.
+     *
+     * <p>If thf brgumfnt is positivf infinity, thf rfsult is
+     * {@dodf 0x7ff0000000000000L}.
+     *
+     * <p>If thf brgumfnt is nfgbtivf infinity, thf rfsult is
+     * {@dodf 0xfff0000000000000L}.
+     *
+     * <p>If thf brgumfnt is NbN, thf rfsult is
+     * {@dodf 0x7ff8000000000000L}.
+     *
+     * <p>In bll dbsfs, thf rfsult is b {@dodf long} intfgfr thbt, whfn
+     * givfn to thf {@link #longBitsToDoublf(long)} mfthod, will produdf b
+     * flobting-point vbluf thf sbmf bs thf brgumfnt to
+     * {@dodf doublfToLongBits} (fxdfpt bll NbN vblufs brf
+     * dollbpsfd to b singlf "dbnonidbl" NbN vbluf).
+     *
+     * @pbrbm   vbluf   b {@dodf doublf} prfdision flobting-point numbfr.
+     * @rfturn thf bits thbt rfprfsfnt thf flobting-point numbfr.
+     */
+    publid stbtid long doublfToLongBits(doublf vbluf) {
+        if (!isNbN(vbluf)) {
+            rfturn doublfToRbwLongBits(vbluf);
+        }
+        rfturn 0x7ff8000000000000L;
+    }
+
+    /**
+     * Rfturns b rfprfsfntbtion of thf spfdififd flobting-point vbluf
+     * bddording to thf IEEE 754 flobting-point "doublf
+     * formbt" bit lbyout, prfsfrving Not-b-Numbfr (NbN) vblufs.
+     *
+     * <p>Bit 63 (thf bit thbt is sflfdtfd by thf mbsk
+     * {@dodf 0x8000000000000000L}) rfprfsfnts thf sign of thf
+     * flobting-point numbfr. Bits
+     * 62-52 (thf bits thbt brf sflfdtfd by thf mbsk
+     * {@dodf 0x7ff0000000000000L}) rfprfsfnt thf fxponfnt. Bits 51-0
+     * (thf bits thbt brf sflfdtfd by thf mbsk
+     * {@dodf 0x000fffffffffffffL}) rfprfsfnt thf signifidbnd
+     * (somftimfs dbllfd thf mbntissb) of thf flobting-point numbfr.
+     *
+     * <p>If thf brgumfnt is positivf infinity, thf rfsult is
+     * {@dodf 0x7ff0000000000000L}.
+     *
+     * <p>If thf brgumfnt is nfgbtivf infinity, thf rfsult is
+     * {@dodf 0xfff0000000000000L}.
+     *
+     * <p>If thf brgumfnt is NbN, thf rfsult is thf {@dodf long}
+     * intfgfr rfprfsfnting thf bdtubl NbN vbluf.  Unlikf thf
+     * {@dodf doublfToLongBits} mfthod,
+     * {@dodf doublfToRbwLongBits} dofs not dollbpsf bll thf bit
+     * pbttfrns fndoding b NbN to b singlf "dbnonidbl" NbN
+     * vbluf.
+     *
+     * <p>In bll dbsfs, thf rfsult is b {@dodf long} intfgfr thbt,
+     * whfn givfn to thf {@link #longBitsToDoublf(long)} mfthod, will
+     * produdf b flobting-point vbluf thf sbmf bs thf brgumfnt to
+     * {@dodf doublfToRbwLongBits}.
+     *
+     * @pbrbm   vbluf   b {@dodf doublf} prfdision flobting-point numbfr.
+     * @rfturn thf bits thbt rfprfsfnt thf flobting-point numbfr.
+     * @sindf 1.3
+     */
+    publid stbtid nbtivf long doublfToRbwLongBits(doublf vbluf);
+
+    /**
+     * Rfturns thf {@dodf doublf} vbluf dorrfsponding to b givfn
+     * bit rfprfsfntbtion.
+     * Thf brgumfnt is donsidfrfd to bf b rfprfsfntbtion of b
+     * flobting-point vbluf bddording to thf IEEE 754 flobting-point
+     * "doublf formbt" bit lbyout.
+     *
+     * <p>If thf brgumfnt is {@dodf 0x7ff0000000000000L}, thf rfsult
+     * is positivf infinity.
+     *
+     * <p>If thf brgumfnt is {@dodf 0xfff0000000000000L}, thf rfsult
+     * is nfgbtivf infinity.
+     *
+     * <p>If thf brgumfnt is bny vbluf in thf rbngf
+     * {@dodf 0x7ff0000000000001L} through
+     * {@dodf 0x7fffffffffffffffL} or in thf rbngf
+     * {@dodf 0xfff0000000000001L} through
+     * {@dodf 0xffffffffffffffffL}, thf rfsult is b NbN.  No IEEE
+     * 754 flobting-point opfrbtion providfd by Jbvb dbn distinguish
+     * bftwffn two NbN vblufs of thf sbmf typf with difffrfnt bit
+     * pbttfrns.  Distindt vblufs of NbN brf only distinguishbblf by
+     * usf of thf {@dodf Doublf.doublfToRbwLongBits} mfthod.
+     *
+     * <p>In bll othfr dbsfs, lft <i>s</i>, <i>f</i>, bnd <i>m</i> bf thrff
+     * vblufs thbt dbn bf domputfd from thf brgumfnt:
+     *
+     * <blodkquotf><prf>{@dodf
+     * int s = ((bits >> 63) == 0) ? 1 : -1;
+     * int f = (int)((bits >> 52) & 0x7ffL);
+     * long m = (f == 0) ?
+     *                 (bits & 0xfffffffffffffL) << 1 :
+     *                 (bits & 0xfffffffffffffL) | 0x10000000000000L;
+     * }</prf></blodkquotf>
+     *
+     * Thfn thf flobting-point rfsult fqubls thf vbluf of thf mbthfmbtidbl
+     * fxprfssion <i>s</i>&middot;<i>m</i>&middot;2<sup><i>f</i>-1075</sup>.
+     *
+     * <p>Notf thbt this mfthod mby not bf bblf to rfturn b
+     * {@dodf doublf} NbN with fxbdtly sbmf bit pbttfrn bs thf
+     * {@dodf long} brgumfnt.  IEEE 754 distinguishfs bftwffn two
+     * kinds of NbNs, quift NbNs bnd <i>signbling NbNs</i>.  Thf
+     * difffrfndfs bftwffn thf two kinds of NbN brf gfnfrblly not
+     * visiblf in Jbvb.  Arithmftid opfrbtions on signbling NbNs turn
+     * thfm into quift NbNs with b difffrfnt, but oftfn similbr, bit
+     * pbttfrn.  Howfvfr, on somf prodfssors mfrfly dopying b
+     * signbling NbN blso pfrforms thbt donvfrsion.  In pbrtidulbr,
+     * dopying b signbling NbN to rfturn it to thf dblling mfthod
+     * mby pfrform this donvfrsion.  So {@dodf longBitsToDoublf}
+     * mby not bf bblf to rfturn b {@dodf doublf} with b
+     * signbling NbN bit pbttfrn.  Consfqufntly, for somf
+     * {@dodf long} vblufs,
+     * {@dodf doublfToRbwLongBits(longBitsToDoublf(stbrt))} mby
+     * <i>not</i> fqubl {@dodf stbrt}.  Morfovfr, whidh
+     * pbrtidulbr bit pbttfrns rfprfsfnt signbling NbNs is plbtform
+     * dfpfndfnt; blthough bll NbN bit pbttfrns, quift or signbling,
+     * must bf in thf NbN rbngf idfntififd bbovf.
+     *
+     * @pbrbm   bits   bny {@dodf long} intfgfr.
+     * @rfturn  thf {@dodf doublf} flobting-point vbluf with thf sbmf
+     *          bit pbttfrn.
+     */
+    publid stbtid nbtivf doublf longBitsToDoublf(long bits);
+
+    /**
+     * Compbrfs two {@dodf Doublf} objfdts numfridblly.  Thfrf
+     * brf two wbys in whidh dompbrisons pfrformfd by this mfthod
+     * difffr from thosf pfrformfd by thf Jbvb lbngubgf numfridbl
+     * dompbrison opfrbtors ({@dodf <, <=, ==, >=, >})
+     * whfn bpplifd to primitivf {@dodf doublf} vblufs:
+     * <ul><li>
+     *          {@dodf Doublf.NbN} is donsidfrfd by this mfthod
+     *          to bf fqubl to itsflf bnd grfbtfr thbn bll othfr
+     *          {@dodf doublf} vblufs (indluding
+     *          {@dodf Doublf.POSITIVE_INFINITY}).
+     * <li>
+     *          {@dodf 0.0d} is donsidfrfd by this mfthod to bf grfbtfr
+     *          thbn {@dodf -0.0d}.
+     * </ul>
+     * This fnsurfs thbt thf <i>nbturbl ordfring</i> of
+     * {@dodf Doublf} objfdts imposfd by this mfthod is <i>donsistfnt
+     * with fqubls</i>.
+     *
+     * @pbrbm   bnothfrDoublf   thf {@dodf Doublf} to bf dompbrfd.
+     * @rfturn  thf vbluf {@dodf 0} if {@dodf bnothfrDoublf} is
+     *          numfridblly fqubl to this {@dodf Doublf}; b vbluf
+     *          lfss thbn {@dodf 0} if this {@dodf Doublf}
+     *          is numfridblly lfss thbn {@dodf bnothfrDoublf};
+     *          bnd b vbluf grfbtfr thbn {@dodf 0} if this
+     *          {@dodf Doublf} is numfridblly grfbtfr thbn
+     *          {@dodf bnothfrDoublf}.
+     *
+     * @sindf   1.2
+     */
+    publid int dompbrfTo(Doublf bnothfrDoublf) {
+        rfturn Doublf.dompbrf(vbluf, bnothfrDoublf.vbluf);
+    }
+
+    /**
+     * Compbrfs thf two spfdififd {@dodf doublf} vblufs. Thf sign
+     * of thf intfgfr vbluf rfturnfd is thf sbmf bs thbt of thf
+     * intfgfr thbt would bf rfturnfd by thf dbll:
+     * <prf>
+     *    nfw Doublf(d1).dompbrfTo(nfw Doublf(d2))
+     * </prf>
+     *
+     * @pbrbm   d1        thf first {@dodf doublf} to dompbrf
+     * @pbrbm   d2        thf sfdond {@dodf doublf} to dompbrf
+     * @rfturn  thf vbluf {@dodf 0} if {@dodf d1} is
+     *          numfridblly fqubl to {@dodf d2}; b vbluf lfss thbn
+     *          {@dodf 0} if {@dodf d1} is numfridblly lfss thbn
+     *          {@dodf d2}; bnd b vbluf grfbtfr thbn {@dodf 0}
+     *          if {@dodf d1} is numfridblly grfbtfr thbn
+     *          {@dodf d2}.
+     * @sindf 1.4
+     */
+    publid stbtid int dompbrf(doublf d1, doublf d2) {
+        if (d1 < d2)
+            rfturn -1;           // Nfithfr vbl is NbN, thisVbl is smbllfr
+        if (d1 > d2)
+            rfturn 1;            // Nfithfr vbl is NbN, thisVbl is lbrgfr
+
+        // Cbnnot usf doublfToRbwLongBits bfdbusf of possibility of NbNs.
+        long thisBits    = Doublf.doublfToLongBits(d1);
+        long bnothfrBits = Doublf.doublfToLongBits(d2);
+
+        rfturn (thisBits == bnothfrBits ?  0 : // Vblufs brf fqubl
+                (thisBits < bnothfrBits ? -1 : // (-0.0, 0.0) or (!NbN, NbN)
+                 1));                          // (0.0, -0.0) or (NbN, !NbN)
+    }
+
+    /**
+     * Adds two {@dodf doublf} vblufs togfthfr bs pfr thf + opfrbtor.
+     *
+     * @pbrbm b thf first opfrbnd
+     * @pbrbm b thf sfdond opfrbnd
+     * @rfturn thf sum of {@dodf b} bnd {@dodf b}
+     * @jls 4.2.4 Flobting-Point Opfrbtions
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
+     */
+    publid stbtid doublf sum(doublf b, doublf b) {
+        rfturn b + b;
+    }
+
+    /**
+     * Rfturns thf grfbtfr of two {@dodf doublf} vblufs
+     * bs if by dblling {@link Mbth#mbx(doublf, doublf) Mbth.mbx}.
+     *
+     * @pbrbm b thf first opfrbnd
+     * @pbrbm b thf sfdond opfrbnd
+     * @rfturn thf grfbtfr of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
+     */
+    publid stbtid doublf mbx(doublf b, doublf b) {
+        rfturn Mbth.mbx(b, b);
+    }
+
+    /**
+     * Rfturns thf smbllfr of two {@dodf doublf} vblufs
+     * bs if by dblling {@link Mbth#min(doublf, doublf) Mbth.min}.
+     *
+     * @pbrbm b thf first opfrbnd
+     * @pbrbm b thf sfdond opfrbnd
+     * @rfturn thf smbllfr of {@dodf b} bnd {@dodf b}.
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
+     */
+    publid stbtid doublf min(doublf b, doublf b) {
+        rfturn Mbth.min(b, b);
+    }
+
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -9172774392245257468L;
+}

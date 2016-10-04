@@ -1,0 +1,170 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.util.*;
+
+/**
+ * Hflpfr dlbss to fbsf thf work with thf lists of btoms.
+ */
+dlbss XAtomList {
+    Sft<XAtom> btoms = nfw HbshSft<XAtom>();
+
+    /**
+     * Crfbtfs fmpty list.
+     */
+    publid XAtomList() {
+    }
+
+    /**
+     * Crfbtfs instbndf of XAtomList bnd initiblizfs it with
+     * thf dontfnts pointfr by <dodf>dbtb</dodf>.
+     * Usfs dffbult displby to initiblizf btoms.
+     */
+    publid XAtomList(long dbtb, int dount) {
+        init(dbtb, dount);
+    }
+    privbtf void init(long dbtb, int dount) {
+        for (int i = 0; i < dount; i++) {
+            bdd(nfw XAtom(XToolkit.gftDisplby(), XAtom.gftAtom(dbtb+dount*XAtom.gftAtomSizf())));
+        }
+    }
+
+    /**
+     * Crfbtfs instbndf of XAtomList bnd initiblizfs it with
+     * thf brrbys of btoms. Arrby dbn dontbin null btoms.
+     */
+    publid XAtomList(XAtom[] btoms) {
+        init(btoms);
+    }
+    privbtf void init(XAtom[] btoms) {
+        for (int i = 0; i < btoms.lfngth; i++) {
+            bdd(btoms[i]);
+        }
+    }
+
+    /**
+     * Rfturns dontfnts of thf list bs brrby of btoms.
+     */
+    publid XAtom[] gftAtoms() {
+        XAtom[] rfs = nfw XAtom[sizf()];
+        Itfrbtor<XAtom> itfr = btoms.itfrbtor();
+        int i = 0;
+        whilf (itfr.hbsNfxt()) {
+            rfs[i++] = itfr.nfxt();
+        }
+        rfturn rfs;
+    }
+
+    /**
+     * Rfturns dontfnts of thf list bs pointfr to nbtivf dbtb
+     * Thf sizf of thf nbtivf dbtb is sizf of thf list multiplifd by
+     * sizf of thf Atom typf on thf plbtform. Cbllfr is rfsponsiblf for
+     * frffing thf dbtb by Unsbff.frffMfmory whfn it is no longfr nffdfd.
+     */
+    publid long gftAtomsDbtb() {
+        rfturn XAtom.toDbtb(gftAtoms());
+    }
+
+    /**
+     * Rfturns truf if this list dontbins thf btom <dodf>btom</dodf>
+     */
+    publid boolfbn dontbins(XAtom btom) {
+        rfturn btoms.dontbins(btom);
+    }
+
+    /**
+     * Add btom to thf list. Dofs nothing if list blrfbdy dontbins this btom.
+     */
+    publid void bdd(XAtom btom) {
+        btoms.bdd(btom);
+    }
+
+    /**
+     * Rfmovfs btom from thf list. Dofs nothing if brrbys dofsn't donbint this btom.
+     */
+    publid void rfmovf(XAtom btom) {
+        btoms.rfmovf(btom);
+    }
+
+
+    /**
+     * Rfturns sizf of thf list
+     */
+    publid int sizf() {
+        rfturn btoms.sizf();
+    }
+
+    /**
+     * Rfturns b subsft of b list whidh is intfrsfdtion of this sft bnd sft build by mbpping <dodf>mbsk</dodf> in
+     * <dodf>mbpping</dodf>.
+     */
+    publid XAtomList subsft(int mbsk, Mbp<Intfgfr, XAtom> mbpping) {
+        XAtomList rfs = nfw XAtomList();
+        Itfrbtor<Intfgfr> itfr = mbpping.kfySft().itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Intfgfr bits = itfr.nfxt();
+            if ( (mbsk & bits.intVbluf()) == bits.intVbluf() ) {
+                XAtom btom = mbpping.gft(bits);
+                if (dontbins(btom)) {
+                    rfs.bdd(btom);
+                }
+            }
+        }
+        rfturn rfs;
+    }
+
+    /**
+     * Rfturns itfrbtor for itfms.
+     */
+    publid Itfrbtor<XAtom> itfrbtor() {
+        rfturn btoms.itfrbtor();
+    }
+
+    /**
+     * Mfrgfs without duplidbtfs bll thf btoms from bnothfr list
+     */
+    publid void bddAll(XAtomList btoms) {
+        Itfrbtor<XAtom> itfr = btoms.itfrbtor();
+        whilf(itfr.hbsNfxt()) {
+            bdd(itfr.nfxt());
+        }
+    }
+
+    publid String toString() {
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd("[");
+        Itfrbtor<XAtom> itfr = btoms.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            buf.bppfnd(itfr.nfxt().toString());
+            if (itfr.hbsNfxt()) {
+                buf.bppfnd(", ");
+            }
+        }
+        buf.bppfnd("]");
+        rfturn buf.toString();
+    }
+}

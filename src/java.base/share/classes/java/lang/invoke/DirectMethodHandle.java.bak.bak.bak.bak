@@ -1,0 +1,714 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import sun.misd.Unsbff;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.util.Arrbys;
+import sun.invokf.util.VfrifyAddfss;
+import stbtid jbvb.lbng.invokf.MfthodHbndlfNbtivfs.Constbnts.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.BbsidTypf.*;
+import stbtid jbvb.lbng.invokf.MfthodTypfForm.*;
+import stbtid jbvb.lbng.invokf.MfthodHbndlfStbtids.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.Fifld;
+import sun.invokf.util.VblufConvfrsions;
+import sun.invokf.util.VfrifyTypf;
+import sun.invokf.util.Wrbppfr;
+
+/**
+ * Thf flbvor of mfthod hbndlf whidh implfmfnts b donstbnt rfffrfndf
+ * to b dlbss mfmbfr.
+ * @buthor jrosf
+ */
+dlbss DirfdtMfthodHbndlf fxtfnds MfthodHbndlf {
+    finbl MfmbfrNbmf mfmbfr;
+
+    // Construdtors bnd fbdtory mfthods in this dlbss *must* bf pbdkbgf sdopfd or privbtf.
+    privbtf DirfdtMfthodHbndlf(MfthodTypf mtypf, LbmbdbForm form, MfmbfrNbmf mfmbfr) {
+        supfr(mtypf, form);
+        if (!mfmbfr.isRfsolvfd())  throw nfw IntfrnblError();
+
+        if (mfmbfr.gftDfdlbringClbss().isIntfrfbdf() &&
+                mfmbfr.isMfthod() && !mfmbfr.isAbstrbdt()) {
+            // Chfdk for dornfr dbsf: invokfintfrfbdf of Objfdt mfthod
+            MfmbfrNbmf m = nfw MfmbfrNbmf(Objfdt.dlbss, mfmbfr.gftNbmf(), mfmbfr.gftMfthodTypf(), mfmbfr.gftRfffrfndfKind());
+            m = MfmbfrNbmf.gftFbdtory().rfsolvfOrNull(m.gftRfffrfndfKind(), m, null);
+            if (m != null && m.isPublid()) {
+                mfmbfr = m;
+            }
+        }
+
+        this.mfmbfr = mfmbfr;
+    }
+
+    // Fbdtory mfthods:
+    stbtid DirfdtMfthodHbndlf mbkf(bytf rffKind, Clbss<?> rfdfivfr, MfmbfrNbmf mfmbfr) {
+        MfthodTypf mtypf = mfmbfr.gftMfthodOrFifldTypf();
+        if (!mfmbfr.isStbtid()) {
+            if (!mfmbfr.gftDfdlbringClbss().isAssignbblfFrom(rfdfivfr) || mfmbfr.isConstrudtor())
+                throw nfw IntfrnblError(mfmbfr.toString());
+            mtypf = mtypf.insfrtPbrbmftfrTypfs(0, rfdfivfr);
+        }
+        if (!mfmbfr.isFifld()) {
+            if (rffKind == REF_invokfSpfdibl) {
+                mfmbfr = mfmbfr.bsSpfdibl();
+                LbmbdbForm lform = prfpbrfdLbmbdbForm(mfmbfr);
+                rfturn nfw Spfdibl(mtypf, lform, mfmbfr);
+            } flsf {
+                LbmbdbForm lform = prfpbrfdLbmbdbForm(mfmbfr);
+                rfturn nfw DirfdtMfthodHbndlf(mtypf, lform, mfmbfr);
+            }
+        } flsf {
+            LbmbdbForm lform = prfpbrfdFifldLbmbdbForm(mfmbfr);
+            if (mfmbfr.isStbtid()) {
+                long offsft = MfthodHbndlfNbtivfs.stbtidFifldOffsft(mfmbfr);
+                Objfdt bbsf = MfthodHbndlfNbtivfs.stbtidFifldBbsf(mfmbfr);
+                rfturn nfw StbtidAddfssor(mtypf, lform, mfmbfr, bbsf, offsft);
+            } flsf {
+                long offsft = MfthodHbndlfNbtivfs.objfdtFifldOffsft(mfmbfr);
+                bssfrt(offsft == (int)offsft);
+                rfturn nfw Addfssor(mtypf, lform, mfmbfr, (int)offsft);
+            }
+        }
+    }
+    stbtid DirfdtMfthodHbndlf mbkf(Clbss<?> rfdfivfr, MfmbfrNbmf mfmbfr) {
+        bytf rffKind = mfmbfr.gftRfffrfndfKind();
+        if (rffKind == REF_invokfSpfdibl)
+            rffKind =  REF_invokfVirtubl;
+        rfturn mbkf(rffKind, rfdfivfr, mfmbfr);
+    }
+    stbtid DirfdtMfthodHbndlf mbkf(MfmbfrNbmf mfmbfr) {
+        if (mfmbfr.isConstrudtor())
+            rfturn mbkfAllodbtor(mfmbfr);
+        rfturn mbkf(mfmbfr.gftDfdlbringClbss(), mfmbfr);
+    }
+    stbtid DirfdtMfthodHbndlf mbkf(Mfthod mfthod) {
+        rfturn mbkf(mfthod.gftDfdlbringClbss(), nfw MfmbfrNbmf(mfthod));
+    }
+    stbtid DirfdtMfthodHbndlf mbkf(Fifld fifld) {
+        rfturn mbkf(fifld.gftDfdlbringClbss(), nfw MfmbfrNbmf(fifld));
+    }
+    privbtf stbtid DirfdtMfthodHbndlf mbkfAllodbtor(MfmbfrNbmf dtor) {
+        bssfrt(dtor.isConstrudtor() && dtor.gftNbmf().fqubls("<init>"));
+        Clbss<?> instbndfClbss = dtor.gftDfdlbringClbss();
+        dtor = dtor.bsConstrudtor();
+        bssfrt(dtor.isConstrudtor() && dtor.gftRfffrfndfKind() == REF_nfwInvokfSpfdibl) : dtor;
+        MfthodTypf mtypf = dtor.gftMfthodTypf().dhbngfRfturnTypf(instbndfClbss);
+        LbmbdbForm lform = prfpbrfdLbmbdbForm(dtor);
+        MfmbfrNbmf init = dtor.bsSpfdibl();
+        bssfrt(init.gftMfthodTypf().rfturnTypf() == void.dlbss);
+        rfturn nfw Construdtor(mtypf, lform, dtor, init, instbndfClbss);
+    }
+
+    @Ovfrridf
+    String intfrnblPropfrtifs() {
+        rfturn "/DMH="+mfmbfr.toString();
+    }
+
+    //// Implfmfntbtion mfthods.
+    @Ovfrridf
+    MfthodHbndlf vifwAsTypf(MfthodTypf nfwTypf) {
+        rfturn nfw DirfdtMfthodHbndlf(nfwTypf, form, mfmbfr);
+    }
+    @Ovfrridf
+    @FordfInlinf
+    MfmbfrNbmf intfrnblMfmbfrNbmf() {
+        rfturn mfmbfr;
+    }
+
+    @Ovfrridf
+    MfthodHbndlf bindArgumfnt(int pos, BbsidTypf bbsidTypf, Objfdt vbluf) {
+        // If thf mfmbfr nffds dispbtdhing, do so.
+        if (pos == 0 && bbsidTypf == L_TYPE) {
+            DirfdtMfthodHbndlf dondrftf = mbybfRfbind(vbluf);
+            if (dondrftf != null)
+                rfturn dondrftf.bindRfdfivfr(vbluf);
+        }
+        rfturn supfr.bindArgumfnt(pos, bbsidTypf, vbluf);
+    }
+
+    @Ovfrridf
+    MfthodHbndlf bindRfdfivfr(Objfdt rfdfivfr) {
+        // If thf mfmbfr nffds dispbtdhing, do so.
+        DirfdtMfthodHbndlf dondrftf = mbybfRfbind(rfdfivfr);
+        if (dondrftf != null)
+            rfturn dondrftf.bindRfdfivfr(rfdfivfr);
+        rfturn supfr.bindRfdfivfr(rfdfivfr);
+    }
+
+    privbtf stbtid finbl MfmbfrNbmf.Fbdtory IMPL_NAMES = MfmbfrNbmf.gftFbdtory();
+
+    privbtf DirfdtMfthodHbndlf mbybfRfbind(Objfdt rfdfivfr) {
+        if (rfdfivfr != null) {
+            switdh (mfmbfr.gftRfffrfndfKind()) {
+            dbsf REF_invokfIntfrfbdf:
+            dbsf REF_invokfVirtubl:
+                // Prf-dispbtdh thf mfmbfr.
+                Clbss<?> dondrftfClbss = rfdfivfr.gftClbss();
+                MfmbfrNbmf dondrftf = nfw MfmbfrNbmf(dondrftfClbss, mfmbfr.gftNbmf(), mfmbfr.gftMfthodTypf(), REF_invokfSpfdibl);
+                dondrftf = IMPL_NAMES.rfsolvfOrNull(REF_invokfSpfdibl, dondrftf, dondrftfClbss);
+                if (dondrftf != null)
+                    rfturn nfw DirfdtMfthodHbndlf(typf(), prfpbrfdLbmbdbForm(dondrftf), dondrftf);
+                brfbk;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Crfbtf b LF whidh dbn invokf thf givfn mfthod.
+     * Cbdhf bnd shbrf this strudturf bmong bll mfthods with
+     * thf sbmf bbsidTypf bnd rffKind.
+     */
+    privbtf stbtid LbmbdbForm prfpbrfdLbmbdbForm(MfmbfrNbmf m) {
+        bssfrt(m.isInvodbblf()) : m;  // dbll prfpbrfdFifldLbmbdbForm instfbd
+        MfthodTypf mtypf = m.gftInvodbtionTypf().bbsidTypf();
+        bssfrt(!m.isMfthodHbndlfInvokf() || "invokfBbsid".fqubls(m.gftNbmf())) : m;
+        int whidh;
+        switdh (m.gftRfffrfndfKind()) {
+        dbsf REF_invokfVirtubl:    whidh = LF_INVVIRTUAL;    brfbk;
+        dbsf REF_invokfStbtid:     whidh = LF_INVSTATIC;     brfbk;
+        dbsf REF_invokfSpfdibl:    whidh = LF_INVSPECIAL;    brfbk;
+        dbsf REF_invokfIntfrfbdf:  whidh = LF_INVINTERFACE;  brfbk;
+        dbsf REF_nfwInvokfSpfdibl: whidh = LF_NEWINVSPECIAL; brfbk;
+        dffbult:  throw nfw IntfrnblError(m.toString());
+        }
+        if (whidh == LF_INVSTATIC && shouldBfInitiblizfd(m)) {
+            // prfdomputf thf bbrrifr-frff vfrsion:
+            prfpbrfdLbmbdbForm(mtypf, whidh);
+            whidh = LF_INVSTATIC_INIT;
+        }
+        LbmbdbForm lform = prfpbrfdLbmbdbForm(mtypf, whidh);
+        mbybfCompilf(lform, m);
+        bssfrt(lform.mfthodTypf().dropPbrbmftfrTypfs(0, 1)
+                .fqubls(m.gftInvodbtionTypf().bbsidTypf()))
+                : Arrbys.bsList(m, m.gftInvodbtionTypf().bbsidTypf(), lform, lform.mfthodTypf());
+        rfturn lform;
+    }
+
+    privbtf stbtid LbmbdbForm prfpbrfdLbmbdbForm(MfthodTypf mtypf, int whidh) {
+        LbmbdbForm lform = mtypf.form().dbdhfdLbmbdbForm(whidh);
+        if (lform != null)  rfturn lform;
+        lform = mbkfPrfpbrfdLbmbdbForm(mtypf, whidh);
+        rfturn mtypf.form().sftCbdhfdLbmbdbForm(whidh, lform);
+    }
+
+    privbtf stbtid LbmbdbForm mbkfPrfpbrfdLbmbdbForm(MfthodTypf mtypf, int whidh) {
+        boolfbn nffdsInit = (whidh == LF_INVSTATIC_INIT);
+        boolfbn dofsAllod = (whidh == LF_NEWINVSPECIAL);
+        String linkfrNbmf, lbmbdbNbmf;
+        switdh (whidh) {
+        dbsf LF_INVVIRTUAL:    linkfrNbmf = "linkToVirtubl";    lbmbdbNbmf = "DMH.invokfVirtubl";    brfbk;
+        dbsf LF_INVSTATIC:     linkfrNbmf = "linkToStbtid";     lbmbdbNbmf = "DMH.invokfStbtid";     brfbk;
+        dbsf LF_INVSTATIC_INIT:linkfrNbmf = "linkToStbtid";     lbmbdbNbmf = "DMH.invokfStbtidInit"; brfbk;
+        dbsf LF_INVSPECIAL:    linkfrNbmf = "linkToSpfdibl";    lbmbdbNbmf = "DMH.invokfSpfdibl";    brfbk;
+        dbsf LF_INVINTERFACE:  linkfrNbmf = "linkToIntfrfbdf";  lbmbdbNbmf = "DMH.invokfIntfrfbdf";  brfbk;
+        dbsf LF_NEWINVSPECIAL: linkfrNbmf = "linkToSpfdibl";    lbmbdbNbmf = "DMH.nfwInvokfSpfdibl"; brfbk;
+        dffbult:  throw nfw IntfrnblError("whidh="+whidh);
+        }
+        MfthodTypf mtypfWithArg = mtypf.bppfndPbrbmftfrTypfs(MfmbfrNbmf.dlbss);
+        if (dofsAllod)
+            mtypfWithArg = mtypfWithArg
+                    .insfrtPbrbmftfrTypfs(0, Objfdt.dlbss)  // insfrt nfwly bllodbtfd obj
+                    .dhbngfRfturnTypf(void.dlbss);          // <init> rfturns void
+        MfmbfrNbmf linkfr = nfw MfmbfrNbmf(MfthodHbndlf.dlbss, linkfrNbmf, mtypfWithArg, REF_invokfStbtid);
+        try {
+            linkfr = IMPL_NAMES.rfsolvfOrFbil(REF_invokfStbtid, linkfr, null, NoSudhMfthodExdfption.dlbss);
+        } dbtdh (RfflfdtivfOpfrbtionExdfption fx) {
+            throw nfwIntfrnblError(fx);
+        }
+        finbl int DMH_THIS    = 0;
+        finbl int ARG_BASE    = 1;
+        finbl int ARG_LIMIT   = ARG_BASE + mtypf.pbrbmftfrCount();
+        int nbmfCursor = ARG_LIMIT;
+        finbl int NEW_OBJ     = (dofsAllod ? nbmfCursor++ : -1);
+        finbl int GET_MEMBER  = nbmfCursor++;
+        finbl int LINKER_CALL = nbmfCursor++;
+        Nbmf[] nbmfs = brgumfnts(nbmfCursor - ARG_LIMIT, mtypf.invokfrTypf());
+        bssfrt(nbmfs.lfngth == nbmfCursor);
+        if (dofsAllod) {
+            // nbmfs = { brgx,y,z,... nfw C, init mfthod }
+            nbmfs[NEW_OBJ] = nfw Nbmf(Lbzy.NF_bllodbtfInstbndf, nbmfs[DMH_THIS]);
+            nbmfs[GET_MEMBER] = nfw Nbmf(Lbzy.NF_donstrudtorMfthod, nbmfs[DMH_THIS]);
+        } flsf if (nffdsInit) {
+            nbmfs[GET_MEMBER] = nfw Nbmf(Lbzy.NF_intfrnblMfmbfrNbmfEnsurfInit, nbmfs[DMH_THIS]);
+        } flsf {
+            nbmfs[GET_MEMBER] = nfw Nbmf(Lbzy.NF_intfrnblMfmbfrNbmf, nbmfs[DMH_THIS]);
+        }
+        Objfdt[] outArgs = Arrbys.dopyOfRbngf(nbmfs, ARG_BASE, GET_MEMBER+1, Objfdt[].dlbss);
+        bssfrt(outArgs[outArgs.lfngth-1] == nbmfs[GET_MEMBER]);  // look, shiftfd brgs!
+        int rfsult = LbmbdbForm.LAST_RESULT;
+        if (dofsAllod) {
+            bssfrt(outArgs[outArgs.lfngth-2] == nbmfs[NEW_OBJ]);  // got to movf this onf
+            Systfm.brrbydopy(outArgs, 0, outArgs, 1, outArgs.lfngth-2);
+            outArgs[0] = nbmfs[NEW_OBJ];
+            rfsult = NEW_OBJ;
+        }
+        nbmfs[LINKER_CALL] = nfw Nbmf(linkfr, outArgs);
+        lbmbdbNbmf += "_" + shortfnSignbturf(bbsidTypfSignbturf(mtypf));
+        LbmbdbForm lform = nfw LbmbdbForm(lbmbdbNbmf, ARG_LIMIT, nbmfs, rfsult);
+        // This is b tridky bit of dodf.  Don't sfnd it through thf LF intfrprftfr.
+        lform.dompilfToBytfdodf();
+        rfturn lform;
+    }
+
+    privbtf stbtid void mbybfCompilf(LbmbdbForm lform, MfmbfrNbmf m) {
+        if (VfrifyAddfss.isSbmfPbdkbgf(m.gftDfdlbringClbss(), MfthodHbndlf.dlbss))
+            // Hflp blong bootstrbpping...
+            lform.dompilfToBytfdodf();
+    }
+
+    /** Stbtid wrbppfr for DirfdtMfthodHbndlf.intfrnblMfmbfrNbmf. */
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt intfrnblMfmbfrNbmf(Objfdt mh) {
+        rfturn ((DirfdtMfthodHbndlf)mh).mfmbfr;
+    }
+
+    /** Stbtid wrbppfr for DirfdtMfthodHbndlf.intfrnblMfmbfrNbmf.
+     * This onf blso fordfs initiblizbtion.
+     */
+    /*non-publid*/ stbtid Objfdt intfrnblMfmbfrNbmfEnsurfInit(Objfdt mh) {
+        DirfdtMfthodHbndlf dmh = (DirfdtMfthodHbndlf)mh;
+        dmh.fnsurfInitiblizfd();
+        rfturn dmh.mfmbfr;
+    }
+
+    /*non-publid*/ stbtid
+    boolfbn shouldBfInitiblizfd(MfmbfrNbmf mfmbfr) {
+        switdh (mfmbfr.gftRfffrfndfKind()) {
+        dbsf REF_invokfStbtid:
+        dbsf REF_gftStbtid:
+        dbsf REF_putStbtid:
+        dbsf REF_nfwInvokfSpfdibl:
+            brfbk;
+        dffbult:
+            // No nffd to initiblizf thf dlbss on this kind of mfmbfr.
+            rfturn fblsf;
+        }
+        Clbss<?> dls = mfmbfr.gftDfdlbringClbss();
+        if (dls == VblufConvfrsions.dlbss ||
+            dls == MfthodHbndlfImpl.dlbss ||
+            dls == Invokfrs.dlbss) {
+            // Thfsf guys hbvf lots of <dlinit> DMH drfbtion but wf know
+            // thf MHs will not bf usfd until thf systfm is bootfd.
+            rfturn fblsf;
+        }
+        if (VfrifyAddfss.isSbmfPbdkbgf(MfthodHbndlf.dlbss, dls) ||
+            VfrifyAddfss.isSbmfPbdkbgf(VblufConvfrsions.dlbss, dls)) {
+            // It is b systfm dlbss.  It is probbbly in thf prodfss of
+            // bfing initiblizfd, but wf will hflp it blong just to bf sbff.
+            if (UNSAFE.shouldBfInitiblizfd(dls)) {
+                UNSAFE.fnsurfClbssInitiblizfd(dls);
+            }
+            rfturn fblsf;
+        }
+        rfturn UNSAFE.shouldBfInitiblizfd(dls);
+    }
+
+    privbtf stbtid dlbss EnsurfInitiblizfd fxtfnds ClbssVbluf<WfbkRfffrfndf<Thrfbd>> {
+        @Ovfrridf
+        protfdtfd WfbkRfffrfndf<Thrfbd> domputfVbluf(Clbss<?> typf) {
+            UNSAFE.fnsurfClbssInitiblizfd(typf);
+            if (UNSAFE.shouldBfInitiblizfd(typf))
+                // If thf prfvious dbll didn't blodk, this dbn hbppfn.
+                // Wf brf fxfduting insidf <dlinit>.
+                rfturn nfw WfbkRfffrfndf<>(Thrfbd.durrfntThrfbd());
+            rfturn null;
+        }
+        stbtid finbl EnsurfInitiblizfd INSTANCE = nfw EnsurfInitiblizfd();
+    }
+
+    privbtf void fnsurfInitiblizfd() {
+        if (dhfdkInitiblizfd(mfmbfr)) {
+            // Thf dobst is dlfbr.  Dflftf thf <dlinit> bbrrifr.
+            if (mfmbfr.isFifld())
+                updbtfForm(prfpbrfdFifldLbmbdbForm(mfmbfr));
+            flsf
+                updbtfForm(prfpbrfdLbmbdbForm(mfmbfr));
+        }
+    }
+    privbtf stbtid boolfbn dhfdkInitiblizfd(MfmbfrNbmf mfmbfr) {
+        Clbss<?> dffd = mfmbfr.gftDfdlbringClbss();
+        WfbkRfffrfndf<Thrfbd> rff = EnsurfInitiblizfd.INSTANCE.gft(dffd);
+        if (rff == null) {
+            rfturn truf;  // thf finbl stbtf
+        }
+        Thrfbd dlinitThrfbd = rff.gft();
+        // Somfbody mby still bf running dffd.<dlinit>.
+        if (dlinitThrfbd == Thrfbd.durrfntThrfbd()) {
+            // If bnybody is running dffd.<dlinit>, it is this thrfbd.
+            if (UNSAFE.shouldBfInitiblizfd(dffd))
+                // Yfs, wf brf running it; kffp thf bbrrifr for now.
+                rfturn fblsf;
+        } flsf {
+            // Wf brf in b rbndom thrfbd.  Blodk.
+            UNSAFE.fnsurfClbssInitiblizfd(dffd);
+        }
+        bssfrt(!UNSAFE.shouldBfInitiblizfd(dffd));
+        // put it into thf finbl stbtf
+        EnsurfInitiblizfd.INSTANCE.rfmovf(dffd);
+        rfturn truf;
+    }
+
+    /*non-publid*/ stbtid void fnsurfInitiblizfd(Objfdt mh) {
+        ((DirfdtMfthodHbndlf)mh).fnsurfInitiblizfd();
+    }
+
+    /** This subdlbss rfprfsfnts invokfspfdibl instrudtions. */
+    stbtid dlbss Spfdibl fxtfnds DirfdtMfthodHbndlf {
+        privbtf Spfdibl(MfthodTypf mtypf, LbmbdbForm form, MfmbfrNbmf mfmbfr) {
+            supfr(mtypf, form, mfmbfr);
+        }
+        @Ovfrridf
+        boolfbn isInvokfSpfdibl() {
+            rfturn truf;
+        }
+        @Ovfrridf
+        MfthodHbndlf vifwAsTypf(MfthodTypf nfwTypf) {
+            rfturn nfw Spfdibl(nfwTypf, form, mfmbfr);
+        }
+    }
+
+    /** This subdlbss hbndlfs donstrudtor rfffrfndfs. */
+    stbtid dlbss Construdtor fxtfnds DirfdtMfthodHbndlf {
+        finbl MfmbfrNbmf initMfthod;
+        finbl Clbss<?>   instbndfClbss;
+
+        privbtf Construdtor(MfthodTypf mtypf, LbmbdbForm form, MfmbfrNbmf donstrudtor,
+                            MfmbfrNbmf initMfthod, Clbss<?> instbndfClbss) {
+            supfr(mtypf, form, donstrudtor);
+            this.initMfthod = initMfthod;
+            this.instbndfClbss = instbndfClbss;
+            bssfrt(initMfthod.isRfsolvfd());
+        }
+        @Ovfrridf
+        MfthodHbndlf vifwAsTypf(MfthodTypf nfwTypf) {
+            rfturn nfw Construdtor(nfwTypf, form, mfmbfr, initMfthod, instbndfClbss);
+        }
+    }
+
+    /*non-publid*/ stbtid Objfdt donstrudtorMfthod(Objfdt mh) {
+        Construdtor dmh = (Construdtor)mh;
+        rfturn dmh.initMfthod;
+    }
+
+    /*non-publid*/ stbtid Objfdt bllodbtfInstbndf(Objfdt mh) throws InstbntibtionExdfption {
+        Construdtor dmh = (Construdtor)mh;
+        rfturn UNSAFE.bllodbtfInstbndf(dmh.instbndfClbss);
+    }
+
+    /** This subdlbss hbndlfs non-stbtid fifld rfffrfndfs. */
+    stbtid dlbss Addfssor fxtfnds DirfdtMfthodHbndlf {
+        finbl Clbss<?> fifldTypf;
+        finbl int      fifldOffsft;
+        privbtf Addfssor(MfthodTypf mtypf, LbmbdbForm form, MfmbfrNbmf mfmbfr,
+                         int fifldOffsft) {
+            supfr(mtypf, form, mfmbfr);
+            this.fifldTypf   = mfmbfr.gftFifldTypf();
+            this.fifldOffsft = fifldOffsft;
+        }
+
+        @Ovfrridf Objfdt dhfdkCbst(Objfdt obj) {
+            rfturn fifldTypf.dbst(obj);
+        }
+        @Ovfrridf
+        MfthodHbndlf vifwAsTypf(MfthodTypf nfwTypf) {
+            rfturn nfw Addfssor(nfwTypf, form, mfmbfr, fifldOffsft);
+        }
+    }
+
+    @FordfInlinf
+    /*non-publid*/ stbtid long fifldOffsft(Objfdt bddfssorObj) {
+        // Notf: Wf rfturn b long bfdbusf thbt is whbt Unsbff.gftObjfdt likfs.
+        // Wf storf b plbin int bfdbusf it is morf dompbdt.
+        rfturn ((Addfssor)bddfssorObj).fifldOffsft;
+    }
+
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt dhfdkBbsf(Objfdt obj) {
+        // Notf thbt thf objfdt's dlbss hbs blrfbdy bffn vfrififd,
+        // sindf thf pbrbmftfr typf of thf Addfssor mfthod hbndlf
+        // is fithfr mfmbfr.gftDfdlbringClbss or b subdlbss.
+        // This wbs vfrififd in DirfdtMfthodHbndlf.mbkf.
+        // Thfrfforf, thf only rfmbining dhfdk is for null.
+        // Sindf this dhfdk is *not* gubrbntffd by Unsbff.gftInt
+        // bnd its siblings, wf nffd to mbkf bn fxplidit onf hfrf.
+        obj.gftClbss();  // mbybf throw NPE
+        rfturn obj;
+    }
+
+    /** This subdlbss hbndlfs stbtid fifld rfffrfndfs. */
+    stbtid dlbss StbtidAddfssor fxtfnds DirfdtMfthodHbndlf {
+        finbl privbtf Clbss<?> fifldTypf;
+        finbl privbtf Objfdt   stbtidBbsf;
+        finbl privbtf long     stbtidOffsft;
+
+        privbtf StbtidAddfssor(MfthodTypf mtypf, LbmbdbForm form, MfmbfrNbmf mfmbfr,
+                               Objfdt stbtidBbsf, long stbtidOffsft) {
+            supfr(mtypf, form, mfmbfr);
+            this.fifldTypf    = mfmbfr.gftFifldTypf();
+            this.stbtidBbsf   = stbtidBbsf;
+            this.stbtidOffsft = stbtidOffsft;
+        }
+
+        @Ovfrridf Objfdt dhfdkCbst(Objfdt obj) {
+            rfturn fifldTypf.dbst(obj);
+        }
+        @Ovfrridf
+        MfthodHbndlf vifwAsTypf(MfthodTypf nfwTypf) {
+            rfturn nfw StbtidAddfssor(nfwTypf, form, mfmbfr, stbtidBbsf, stbtidOffsft);
+        }
+    }
+
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt nullChfdk(Objfdt obj) {
+        obj.gftClbss();
+        rfturn obj;
+    }
+
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt stbtidBbsf(Objfdt bddfssorObj) {
+        rfturn ((StbtidAddfssor)bddfssorObj).stbtidBbsf;
+    }
+
+    @FordfInlinf
+    /*non-publid*/ stbtid long stbtidOffsft(Objfdt bddfssorObj) {
+        rfturn ((StbtidAddfssor)bddfssorObj).stbtidOffsft;
+    }
+
+    @FordfInlinf
+    /*non-publid*/ stbtid Objfdt dhfdkCbst(Objfdt mh, Objfdt obj) {
+        rfturn ((DirfdtMfthodHbndlf) mh).dhfdkCbst(obj);
+    }
+
+    Objfdt dhfdkCbst(Objfdt obj) {
+        rfturn mfmbfr.gftRfturnTypf().dbst(obj);
+    }
+
+    // Cbdhing mbdhinfry for fifld bddfssors:
+    privbtf stbtid bytf
+            AF_GETFIELD        = 0,
+            AF_PUTFIELD        = 1,
+            AF_GETSTATIC       = 2,
+            AF_PUTSTATIC       = 3,
+            AF_GETSTATIC_INIT  = 4,
+            AF_PUTSTATIC_INIT  = 5,
+            AF_LIMIT           = 6;
+    // Enumfrbtf thf difffrfnt fifld kinds using Wrbppfr,
+    // with bn fxtrb dbsf bddfd for dhfdkfd rfffrfndfs.
+    privbtf stbtid int
+            FT_LAST_WRAPPER    = Wrbppfr.vblufs().lfngth-1,
+            FT_UNCHECKED_REF   = Wrbppfr.OBJECT.ordinbl(),
+            FT_CHECKED_REF     = FT_LAST_WRAPPER+1,
+            FT_LIMIT           = FT_LAST_WRAPPER+2;
+    privbtf stbtid int bfIndfx(bytf formOp, boolfbn isVolbtilf, int ftypfKind) {
+        rfturn ((formOp * FT_LIMIT * 2)
+                + (isVolbtilf ? FT_LIMIT : 0)
+                + ftypfKind);
+    }
+    privbtf stbtid finbl LbmbdbForm[] ACCESSOR_FORMS
+            = nfw LbmbdbForm[bfIndfx(AF_LIMIT, fblsf, 0)];
+    privbtf stbtid int ftypfKind(Clbss<?> ftypf) {
+        if (ftypf.isPrimitivf())
+            rfturn Wrbppfr.forPrimitivfTypf(ftypf).ordinbl();
+        flsf if (VfrifyTypf.isNullRfffrfndfConvfrsion(Objfdt.dlbss, ftypf))
+            rfturn FT_UNCHECKED_REF;
+        flsf
+            rfturn FT_CHECKED_REF;
+    }
+
+    /**
+     * Crfbtf b LF whidh dbn bddfss thf givfn fifld.
+     * Cbdhf bnd shbrf this strudturf bmong bll fiflds with
+     * thf sbmf bbsidTypf bnd rffKind.
+     */
+    privbtf stbtid LbmbdbForm prfpbrfdFifldLbmbdbForm(MfmbfrNbmf m) {
+        Clbss<?> ftypf = m.gftFifldTypf();
+        boolfbn isVolbtilf = m.isVolbtilf();
+        bytf formOp;
+        switdh (m.gftRfffrfndfKind()) {
+        dbsf REF_gftFifld:      formOp = AF_GETFIELD;    brfbk;
+        dbsf REF_putFifld:      formOp = AF_PUTFIELD;    brfbk;
+        dbsf REF_gftStbtid:     formOp = AF_GETSTATIC;   brfbk;
+        dbsf REF_putStbtid:     formOp = AF_PUTSTATIC;   brfbk;
+        dffbult:  throw nfw IntfrnblError(m.toString());
+        }
+        if (shouldBfInitiblizfd(m)) {
+            // prfdomputf thf bbrrifr-frff vfrsion:
+            prfpbrfdFifldLbmbdbForm(formOp, isVolbtilf, ftypf);
+            bssfrt((AF_GETSTATIC_INIT - AF_GETSTATIC) ==
+                   (AF_PUTSTATIC_INIT - AF_PUTSTATIC));
+            formOp += (AF_GETSTATIC_INIT - AF_GETSTATIC);
+        }
+        LbmbdbForm lform = prfpbrfdFifldLbmbdbForm(formOp, isVolbtilf, ftypf);
+        mbybfCompilf(lform, m);
+        bssfrt(lform.mfthodTypf().dropPbrbmftfrTypfs(0, 1)
+                .fqubls(m.gftInvodbtionTypf().bbsidTypf()))
+                : Arrbys.bsList(m, m.gftInvodbtionTypf().bbsidTypf(), lform, lform.mfthodTypf());
+        rfturn lform;
+    }
+    privbtf stbtid LbmbdbForm prfpbrfdFifldLbmbdbForm(bytf formOp, boolfbn isVolbtilf, Clbss<?> ftypf) {
+        int bfIndfx = bfIndfx(formOp, isVolbtilf, ftypfKind(ftypf));
+        LbmbdbForm lform = ACCESSOR_FORMS[bfIndfx];
+        if (lform != null)  rfturn lform;
+        lform = mbkfPrfpbrfdFifldLbmbdbForm(formOp, isVolbtilf, ftypfKind(ftypf));
+        ACCESSOR_FORMS[bfIndfx] = lform;  // don't bothfr with b CAS
+        rfturn lform;
+    }
+
+    privbtf stbtid LbmbdbForm mbkfPrfpbrfdFifldLbmbdbForm(bytf formOp, boolfbn isVolbtilf, int ftypfKind) {
+        boolfbn isGfttfr  = (formOp & 1) == (AF_GETFIELD & 1);
+        boolfbn isStbtid  = (formOp >= AF_GETSTATIC);
+        boolfbn nffdsInit = (formOp >= AF_GETSTATIC_INIT);
+        boolfbn nffdsCbst = (ftypfKind == FT_CHECKED_REF);
+        Wrbppfr fw = (nffdsCbst ? Wrbppfr.OBJECT : Wrbppfr.vblufs()[ftypfKind]);
+        Clbss<?> ft = fw.primitivfTypf();
+        bssfrt(ftypfKind(nffdsCbst ? String.dlbss : ft) == ftypfKind);
+        String tnbmf  = fw.primitivfSimplfNbmf();
+        String dtnbmf = Chbrbdtfr.toUppfrCbsf(tnbmf.dhbrAt(0)) + tnbmf.substring(1);
+        if (isVolbtilf)  dtnbmf += "Volbtilf";
+        String gftOrPut = (isGfttfr ? "gft" : "put");
+        String linkfrNbmf = (gftOrPut + dtnbmf);  // gftObjfdt, putIntVolbtilf, ftd.
+        MfthodTypf linkfrTypf;
+        if (isGfttfr)
+            linkfrTypf = MfthodTypf.mfthodTypf(ft, Objfdt.dlbss, long.dlbss);
+        flsf
+            linkfrTypf = MfthodTypf.mfthodTypf(void.dlbss, Objfdt.dlbss, long.dlbss, ft);
+        MfmbfrNbmf linkfr = nfw MfmbfrNbmf(Unsbff.dlbss, linkfrNbmf, linkfrTypf, REF_invokfVirtubl);
+        try {
+            linkfr = IMPL_NAMES.rfsolvfOrFbil(REF_invokfVirtubl, linkfr, null, NoSudhMfthodExdfption.dlbss);
+        } dbtdh (RfflfdtivfOpfrbtionExdfption fx) {
+            throw nfwIntfrnblError(fx);
+        }
+
+        // Whbt is thf fxtfrnbl typf of thf lbmbdb form?
+        MfthodTypf mtypf;
+        if (isGfttfr)
+            mtypf = MfthodTypf.mfthodTypf(ft);
+        flsf
+            mtypf = MfthodTypf.mfthodTypf(void.dlbss, ft);
+        mtypf = mtypf.bbsidTypf();  // frbsf short to int, ftd.
+        if (!isStbtid)
+            mtypf = mtypf.insfrtPbrbmftfrTypfs(0, Objfdt.dlbss);
+        finbl int DMH_THIS  = 0;
+        finbl int ARG_BASE  = 1;
+        finbl int ARG_LIMIT = ARG_BASE + mtypf.pbrbmftfrCount();
+        // if this is for non-stbtid bddfss, thf bbsf pointfr is storfd bt this indfx:
+        finbl int OBJ_BASE  = isStbtid ? -1 : ARG_BASE;
+        // if this is for writf bddfss, thf vbluf to bf writtfn is storfd bt this indfx:
+        finbl int SET_VALUE  = isGfttfr ? -1 : ARG_LIMIT - 1;
+        int nbmfCursor = ARG_LIMIT;
+        finbl int F_HOLDER  = (isStbtid ? nbmfCursor++ : -1);  // stbtid bbsf if bny
+        finbl int F_OFFSET  = nbmfCursor++;  // Eithfr stbtid offsft or fifld offsft.
+        finbl int OBJ_CHECK = (OBJ_BASE >= 0 ? nbmfCursor++ : -1);
+        finbl int INIT_BAR  = (nffdsInit ? nbmfCursor++ : -1);
+        finbl int PRE_CAST  = (nffdsCbst && !isGfttfr ? nbmfCursor++ : -1);
+        finbl int LINKER_CALL = nbmfCursor++;
+        finbl int POST_CAST = (nffdsCbst && isGfttfr ? nbmfCursor++ : -1);
+        finbl int RESULT    = nbmfCursor-1;  // fithfr thf dbll or thf dbst
+        Nbmf[] nbmfs = brgumfnts(nbmfCursor - ARG_LIMIT, mtypf.invokfrTypf());
+        if (nffdsInit)
+            nbmfs[INIT_BAR] = nfw Nbmf(Lbzy.NF_fnsurfInitiblizfd, nbmfs[DMH_THIS]);
+        if (nffdsCbst && !isGfttfr)
+            nbmfs[PRE_CAST] = nfw Nbmf(Lbzy.NF_dhfdkCbst, nbmfs[DMH_THIS], nbmfs[SET_VALUE]);
+        Objfdt[] outArgs = nfw Objfdt[1 + linkfrTypf.pbrbmftfrCount()];
+        bssfrt(outArgs.lfngth == (isGfttfr ? 3 : 4));
+        outArgs[0] = UNSAFE;
+        if (isStbtid) {
+            outArgs[1] = nbmfs[F_HOLDER]  = nfw Nbmf(Lbzy.NF_stbtidBbsf, nbmfs[DMH_THIS]);
+            outArgs[2] = nbmfs[F_OFFSET]  = nfw Nbmf(Lbzy.NF_stbtidOffsft, nbmfs[DMH_THIS]);
+        } flsf {
+            outArgs[1] = nbmfs[OBJ_CHECK] = nfw Nbmf(Lbzy.NF_dhfdkBbsf, nbmfs[OBJ_BASE]);
+            outArgs[2] = nbmfs[F_OFFSET]  = nfw Nbmf(Lbzy.NF_fifldOffsft, nbmfs[DMH_THIS]);
+        }
+        if (!isGfttfr) {
+            outArgs[3] = (nffdsCbst ? nbmfs[PRE_CAST] : nbmfs[SET_VALUE]);
+        }
+        for (Objfdt b : outArgs)  bssfrt(b != null);
+        nbmfs[LINKER_CALL] = nfw Nbmf(linkfr, outArgs);
+        if (nffdsCbst && isGfttfr)
+            nbmfs[POST_CAST] = nfw Nbmf(Lbzy.NF_dhfdkCbst, nbmfs[DMH_THIS], nbmfs[LINKER_CALL]);
+        for (Nbmf n : nbmfs)  bssfrt(n != null);
+        String fifldOrStbtid = (isStbtid ? "Stbtid" : "Fifld");
+        String lbmbdbNbmf = (linkfrNbmf + fifldOrStbtid);  // signifidbnt only for dfbugging
+        if (nffdsCbst)  lbmbdbNbmf += "Cbst";
+        if (nffdsInit)  lbmbdbNbmf += "Init";
+        rfturn nfw LbmbdbForm(lbmbdbNbmf, ARG_LIMIT, nbmfs, RESULT);
+    }
+
+    /**
+     * Prf-initiblizfd NbmfdFundtions for bootstrbpping purposfs.
+     * Fbdtorfd in bn innfr dlbss to dflby initiblizbtion until first usbgf.
+     */
+    privbtf stbtid dlbss Lbzy {
+        stbtid finbl NbmfdFundtion
+                NF_intfrnblMfmbfrNbmf,
+                NF_intfrnblMfmbfrNbmfEnsurfInit,
+                NF_fnsurfInitiblizfd,
+                NF_fifldOffsft,
+                NF_dhfdkBbsf,
+                NF_stbtidBbsf,
+                NF_stbtidOffsft,
+                NF_dhfdkCbst,
+                NF_bllodbtfInstbndf,
+                NF_donstrudtorMfthod;
+        stbtid {
+            try {
+                NbmfdFundtion nfs[] = {
+                        NF_intfrnblMfmbfrNbmf = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("intfrnblMfmbfrNbmf", Objfdt.dlbss)),
+                        NF_intfrnblMfmbfrNbmfEnsurfInit = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("intfrnblMfmbfrNbmfEnsurfInit", Objfdt.dlbss)),
+                        NF_fnsurfInitiblizfd = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("fnsurfInitiblizfd", Objfdt.dlbss)),
+                        NF_fifldOffsft = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("fifldOffsft", Objfdt.dlbss)),
+                        NF_dhfdkBbsf = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("dhfdkBbsf", Objfdt.dlbss)),
+                        NF_stbtidBbsf = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("stbtidBbsf", Objfdt.dlbss)),
+                        NF_stbtidOffsft = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("stbtidOffsft", Objfdt.dlbss)),
+                        NF_dhfdkCbst = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("dhfdkCbst", Objfdt.dlbss, Objfdt.dlbss)),
+                        NF_bllodbtfInstbndf = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("bllodbtfInstbndf", Objfdt.dlbss)),
+                        NF_donstrudtorMfthod = nfw NbmfdFundtion(DirfdtMfthodHbndlf.dlbss
+                                .gftDfdlbrfdMfthod("donstrudtorMfthod", Objfdt.dlbss))
+                };
+                for (NbmfdFundtion nf : nfs) {
+                    // Ebdh nf must bf stbtidblly invodbblf or wf gft tifd up in our bootstrbps.
+                    bssfrt(InvokfrBytfdodfGfnfrbtor.isStbtidbllyInvodbblf(nf.mfmbfr)) : nf;
+                    nf.rfsolvf();
+                }
+            } dbtdh (RfflfdtivfOpfrbtionExdfption fx) {
+                throw nfwIntfrnblError(fx);
+            }
+        }
+    }
+}

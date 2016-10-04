@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * @author    IBM Corp.
+ * @butior    IBM Corp.
  *
- * Copyright IBM Corp. 1999-2000.  All rights reserved.
+ * Copyrigit IBM Corp. 1999-2000.  All rigits rfsfrvfd.
  */
 
-package javax.management.modelmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.sfdurity.AddfssControllfr;
 
 /**
- * Exception thrown when an invalid target object type is specified.
+ * Exdfption tirown wifn bn invblid tbrgft objfdt typf is spfdififd.
  *
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>1190536278266811217L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>1190536278266811217L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class InvalidTargetObjectTypeException  extends Exception
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss InvblidTbrgftObjfdtTypfExdfption  fxtfnds Exdfption
 {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 3711724570458346634L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 3711724570458346634L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 1190536278266811217L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 1190536278266811217L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("msgStr", String.class),
-      new ObjectStreamField("relatedExcept", Exception.class)
+      nfw ObjfdtStrfbmFifld("msgStr", String.dlbss),
+      nfw ObjfdtStrfbmFifld("rflbtfdExdfpt", Exdfption.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("exception", Exception.class)
+      nfw ObjfdtStrfbmFifld("fxdfption", Exdfption.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField exception Exception Encapsulated {@link Exception}
+     * @sfriblFifld fxdfption Exdfption Endbpsulbtfd {@link Exdfption}
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK: No dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     /**
-     * @serial Encapsulated {@link Exception}
+     * @sfribl Endbpsulbtfd {@link Exdfption}
      */
-    Exception exception;
+    Exdfption fxdfption;
 
 
     /**
-     * Default constructor.
+     * Dffbult donstrudtor.
      */
-    public InvalidTargetObjectTypeException ()
+    publid InvblidTbrgftObjfdtTypfExdfption ()
     {
-      super("InvalidTargetObjectTypeException: ");
-      exception = null;
+      supfr("InvblidTbrgftObjfdtTypfExdfption: ");
+      fxdfption = null;
     }
 
 
     /**
-     * Constructor from a string.
+     * Construdtor from b string.
      *
-     * @param s String value that will be incorporated in the message for
-     *    this exception.
+     * @pbrbm s String vbluf tibt will bf indorporbtfd in tif mfssbgf for
+     *    tiis fxdfption.
      */
 
-    public InvalidTargetObjectTypeException (String s)
+    publid InvblidTbrgftObjfdtTypfExdfption (String s)
     {
-      super("InvalidTargetObjectTypeException: " + s);
-      exception = null;
+      supfr("InvblidTbrgftObjfdtTypfExdfption: " + s);
+      fxdfption = null;
     }
 
 
     /**
-     * Constructor taking an exception and a string.
+     * Construdtor tbking bn fxdfption bnd b string.
      *
-     * @param e Exception that we may have caught to reissue as an
-     *    InvalidTargetObjectTypeException.  The message will be used, and we may want to
-     *    consider overriding the printStackTrace() methods to get data
-     *    pointing back to original throw stack.
-     * @param s String value that will be incorporated in message for
-     *    this exception.
+     * @pbrbm f Exdfption tibt wf mby ibvf dbugit to rfissuf bs bn
+     *    InvblidTbrgftObjfdtTypfExdfption.  Tif mfssbgf will bf usfd, bnd wf mby wbnt to
+     *    donsidfr ovfrriding tif printStbdkTrbdf() mftiods to gft dbtb
+     *    pointing bbdk to originbl tirow stbdk.
+     * @pbrbm s String vbluf tibt will bf indorporbtfd in mfssbgf for
+     *    tiis fxdfption.
      */
 
-    public InvalidTargetObjectTypeException (Exception e, String s)
+    publid InvblidTbrgftObjfdtTypfExdfption (Exdfption f, String s)
     {
-      super("InvalidTargetObjectTypeException: " +
+      supfr("InvblidTbrgftObjfdtTypfExdfption: " +
             s +
-            ((e != null)?("\n\t triggered by:" + e.toString()):""));
-      exception = e;
+            ((f != null)?("\n\t triggfrfd by:" + f.toString()):""));
+      fxdfption = f;
     }
 
     /**
-     * Deserializes an {@link InvalidTargetObjectTypeException} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs bn {@link InvblidTbrgftObjfdtTypfExdfption} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
       {
-        // Read an object serialized in the old serial form
+        // Rfbd bn objfdt sfriblizfd in tif old sfribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        exception = (Exception) fields.get("relatedExcept", null);
-        if (fields.defaulted("relatedExcept"))
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        fxdfption = (Exdfption) fiflds.gft("rflbtfdExdfpt", null);
+        if (fiflds.dffbultfd("rflbtfdExdfpt"))
         {
-          throw new NullPointerException("relatedExcept");
+          tirow nfw NullPointfrExdfption("rflbtfdExdfpt");
         }
       }
-      else
+      flsf
       {
-        // Read an object serialized in the new serial form
+        // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
         //
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
       }
     }
 
 
     /**
-     * Serializes an {@link InvalidTargetObjectTypeException} to an {@link ObjectOutputStream}.
+     * Sfriblizfs bn {@link InvblidTbrgftObjfdtTypfExdfption} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("relatedExcept", exception);
-        fields.put("msgStr", ((exception != null)?exception.getMessage():""));
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("rflbtfdExdfpt", fxdfption);
+        fiflds.put("msgStr", ((fxdfption != null)?fxdfption.gftMfssbgf():""));
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 }

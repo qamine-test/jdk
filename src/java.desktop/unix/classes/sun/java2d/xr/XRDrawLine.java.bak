@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * Bresenham line-drawing implementation decomposing line segments
- * into a series of rectangles.
- * This is required, because xrender doesn't support line primitives directly.
- * The code here is an almost 1:1 port of the existing C-source contained in
- * sun/java2d/loop/DrawLine.c and sun/java2d/loop/LoopMacros.h
+ * Brfsfnibm linf-drbwing implfmfntbtion dfdomposing linf sfgmfnts
+ * into b sfrifs of rfdtbnglfs.
+ * Tiis is rfquirfd, bfdbusf xrfndfr dofsn't support linf primitivfs dirfdtly.
+ * Tif dodf ifrf is bn blmost 1:1 port of tif fxisting C-sourdf dontbinfd in
+ * sun/jbvb2d/loop/DrbwLinf.d bnd sun/jbvb2d/loop/LoopMbdros.i
  */
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-public class XRDrawLine {
-    static final int BIG_MAX = ((1 << 29) - 1);
-    static final int BIG_MIN = (-(1 << 29));
+publid dlbss XRDrbwLinf {
+    stbtid finbl int BIG_MAX = ((1 << 29) - 1);
+    stbtid finbl int BIG_MIN = (-(1 << 29));
 
-    static final int OUTCODE_TOP = 1;
-    static final int OUTCODE_BOTTOM = 2;
-    static final int OUTCODE_LEFT = 4;
-    static final int OUTCODE_RIGHT = 8;
+    stbtid finbl int OUTCODE_TOP = 1;
+    stbtid finbl int OUTCODE_BOTTOM = 2;
+    stbtid finbl int OUTCODE_LEFT = 4;
+    stbtid finbl int OUTCODE_RIGHT = 8;
 
     int x1, y1, x2, y2;
-    int ucX1, ucY1, ucX2, ucY2;
+    int udX1, udY1, udX2, udY2;
 
-    DirtyRegion region = new DirtyRegion();
+    DirtyRfgion rfgion = nfw DirtyRfgion();
 
-    protected void rasterizeLine(GrowableRectArray rectBuffer, int _x1,
-            int _y1, int _x2, int _y2, int cxmin, int cymin, int cxmax,
-            int cymax, boolean clip, boolean overflowCheck) {
-        float diagF;
-        int error;
-        int steps;
-        int errminor, errmajor;
-        boolean xmajor;
-        int dx, dy, ax, ay;
+    protfdtfd void rbstfrizfLinf(GrowbblfRfdtArrby rfdtBufffr, int _x1,
+            int _y1, int _x2, int _y2, int dxmin, int dymin, int dxmbx,
+            int dymbx, boolfbn dlip, boolfbn ovfrflowCifdk) {
+        flobt dibgF;
+        int frror;
+        int stfps;
+        int frrminor, frrmbjor;
+        boolfbn xmbjor;
+        int dx, dy, bx, by;
 
-        initCoordinates(_x1, _y1, _x2, _y2, overflowCheck);
+        initCoordinbtfs(_x1, _y1, _x2, _y2, ovfrflowCifdk);
 
         dx = x2 - x1;
         dy = y2 - y1;
-        ax = Math.abs(dx);
-        ay = Math.abs(dy);
-        xmajor = (ax >= ay);
-        diagF = ((float) ax) / ay;
+        bx = Mbti.bbs(dx);
+        by = Mbti.bbs(dy);
+        xmbjor = (bx >= by);
+        dibgF = ((flobt) bx) / by;
 
-        if (clip
-                && !clipCoordinates(cxmin, cymin, cxmax, cymax, xmajor, dx, dy,
-                        ax, ay)) {
-            // whole line was clipped away
-            return;
+        if (dlip
+                && !dlipCoordinbtfs(dxmin, dymin, dxmbx, dymbx, xmbjor, dx, dy,
+                        bx, by)) {
+            // wiolf linf wbs dlippfd bwby
+            rfturn;
         }
 
-        region.setDirtyLineRegion(x1, y1, x2, y2);
-        int xDiff = region.x2 - region.x;
-        int yDiff = region.y2 - region.y;
+        rfgion.sftDirtyLinfRfgion(x1, y1, x2, y2);
+        int xDiff = rfgion.x2 - rfgion.x;
+        int yDiff = rfgion.y2 - rfgion.y;
 
         if (xDiff == 0 || yDiff == 0) {
-            // horizontal / diagonal lines can be represented by a single
-            // rectangle
-            rectBuffer.pushRectValues(region.x, region.y, region.x2 - region.x
-                    + 1, region.y2 - region.y + 1);
-            return;
+            // iorizontbl / dibgonbl linfs dbn bf rfprfsfntfd by b singlf
+            // rfdtbnglf
+            rfdtBufffr.pusiRfdtVblufs(rfgion.x, rfgion.y, rfgion.x2 - rfgion.x
+                    + 1, rfgion.y2 - rfgion.y + 1);
+            rfturn;
         }
 
-        // Setup bresenham
-        if (xmajor) {
-            errmajor = ay * 2;
-            errminor = ax * 2;
-            ax = -ax; /* For clipping adjustment below */
-            steps = x2 - x1;
-        } else {
-            errmajor = ax * 2;
-            errminor = ay * 2;
-            ay = -ay; /* For clipping adjustment below */
-            steps = y2 - y1;
+        // Sftup brfsfnibm
+        if (xmbjor) {
+            frrmbjor = by * 2;
+            frrminor = bx * 2;
+            bx = -bx; /* For dlipping bdjustmfnt bflow */
+            stfps = x2 - x1;
+        } flsf {
+            frrmbjor = bx * 2;
+            frrminor = by * 2;
+            by = -by; /* For dlipping bdjustmfnt bflow */
+            stfps = y2 - y1;
         }
 
-        if ((steps = (Math.abs(steps) + 1)) == 0) {
-            return;
+        if ((stfps = (Mbti.bbs(stfps) + 1)) == 0) {
+            rfturn;
         }
 
-        error = -(errminor / 2);
+        frror = -(frrminor / 2);
 
-        if (y1 != ucY1) {
-            int ysteps = y1 - ucY1;
-            if (ysteps < 0) {
-                ysteps = -ysteps;
+        if (y1 != udY1) {
+            int ystfps = y1 - udY1;
+            if (ystfps < 0) {
+                ystfps = -ystfps;
             }
-            error += ysteps * ax * 2;
+            frror += ystfps * bx * 2;
         }
 
-        if (x1 != ucX1) {
-            int xsteps = x1 - ucX1;
-            if (xsteps < 0) {
-                xsteps = -xsteps;
+        if (x1 != udX1) {
+            int xstfps = x1 - udX1;
+            if (xstfps < 0) {
+                xstfps = -xstfps;
             }
-            error += xsteps * ay * 2;
+            frror += xstfps * by * 2;
         }
-        error += errmajor;
-        errminor -= errmajor;
+        frror += frrmbjor;
+        frrminor -= frrmbjor;
 
-        int xStep = (dx > 0 ? 1 : -1);
-        int yStep = (dy > 0 ? 1 : -1);
-        int orthogonalXStep = xmajor ? xStep : 0;
-        int orthogonalYStep = !xmajor ? yStep : 0;
+        int xStfp = (dx > 0 ? 1 : -1);
+        int yStfp = (dy > 0 ? 1 : -1);
+        int ortiogonblXStfp = xmbjor ? xStfp : 0;
+        int ortiogonblYStfp = !xmbjor ? yStfp : 0;
 
         /*
-         * For lines which proceed in one direction faster, we try to generate
-         * rectangles instead of points. Otherwise we try to avoid the extra
+         * For linfs wiidi prodffd in onf dirfdtion fbstfr, wf try to gfnfrbtf
+         * rfdtbnglfs instfbd of points. Otifrwisf wf try to bvoid tif fxtrb
          * work...
          */
-        if (diagF <= 0.9 || diagF >= 1.1) {
-            lineToRects(rectBuffer, steps, error, errmajor, errminor, xStep,
-                    yStep, orthogonalXStep, orthogonalYStep);
-        } else {
-            lineToPoints(rectBuffer, steps, error, errmajor, errminor, xStep,
-                    yStep, orthogonalXStep, orthogonalYStep);
+        if (dibgF <= 0.9 || dibgF >= 1.1) {
+            linfToRfdts(rfdtBufffr, stfps, frror, frrmbjor, frrminor, xStfp,
+                    yStfp, ortiogonblXStfp, ortiogonblYStfp);
+        } flsf {
+            linfToPoints(rfdtBufffr, stfps, frror, frrmbjor, frrminor, xStfp,
+                    yStfp, ortiogonblXStfp, ortiogonblYStfp);
         }
     }
 
-    private void lineToPoints(GrowableRectArray rectBuffer, int steps,
-            int error, int errmajor, int errminor, int xStep, int yStep,
-            int orthogonalXStep, int orthogonalYStep) {
+    privbtf void linfToPoints(GrowbblfRfdtArrby rfdtBufffr, int stfps,
+            int frror, int frrmbjor, int frrminor, int xStfp, int yStfp,
+            int ortiogonblXStfp, int ortiogonblYStfp) {
         int x = x1, y = y1;
 
         do {
-            rectBuffer.pushRectValues(x, y, 1, 1);
+            rfdtBufffr.pusiRfdtVblufs(x, y, 1, 1);
 
-            // "Traditional" Bresenham line drawing
-            if (error < 0) {
-                error += errmajor;
-                x += orthogonalXStep;
-                y += orthogonalYStep;
-            } else {
-                error -= errminor;
-                x += xStep;
-                y += yStep;
+            // "Trbditionbl" Brfsfnibm linf drbwing
+            if (frror < 0) {
+                frror += frrmbjor;
+                x += ortiogonblXStfp;
+                y += ortiogonblYStfp;
+            } flsf {
+                frror -= frrminor;
+                x += xStfp;
+                y += yStfp;
             }
-        } while (--steps > 0);
+        } wiilf (--stfps > 0);
     }
 
-    private void lineToRects(GrowableRectArray rectBuffer, int steps,
-            int error, int errmajor, int errminor, int xStep, int yStep,
-            int orthogonalXStep, int orthogonalYStep) {
+    privbtf void linfToRfdts(GrowbblfRfdtArrby rfdtBufffr, int stfps,
+            int frror, int frrmbjor, int frrminor, int xStfp, int yStfp,
+            int ortiogonblXStfp, int ortiogonblYStfp) {
         int x = x1, y = y1;
-        int rectX = Integer.MIN_VALUE, rectY = 0;
-        int rectW = 0, rectH = 0;
+        int rfdtX = Intfgfr.MIN_VALUE, rfdtY = 0;
+        int rfdtW = 0, rfdtH = 0;
 
         do {
-            // Combine the resulting rectangles
-            // for steps performed in a single direction.
-            if (y == rectY) {
-                if (x == (rectX + rectW)) {
-                    rectW++;
-                } else if (x == (rectX - 1)) {
-                    rectX--;
-                    rectW++;
+            // Combinf tif rfsulting rfdtbnglfs
+            // for stfps pfrformfd in b singlf dirfdtion.
+            if (y == rfdtY) {
+                if (x == (rfdtX + rfdtW)) {
+                    rfdtW++;
+                } flsf if (x == (rfdtX - 1)) {
+                    rfdtX--;
+                    rfdtW++;
                 }
-            } else if (x == rectX) {
-                if (y == (rectY + rectH)) {
-                    rectH++;
-                } else if (y == (rectY - 1)) {
-                    rectY--;
-                    rectH++;
+            } flsf if (x == rfdtX) {
+                if (y == (rfdtY + rfdtH)) {
+                    rfdtH++;
+                } flsf if (y == (rfdtY - 1)) {
+                    rfdtY--;
+                    rfdtH++;
                 }
-            } else {
-                // Diagonal step: add the previous rectangle to the list,
-                // iff it was "real" (= not initialized before the first
-                // iteration)
-                if (rectX != Integer.MIN_VALUE) {
-                    rectBuffer.pushRectValues(rectX, rectY, rectW, rectH);
+            } flsf {
+                // Dibgonbl stfp: bdd tif prfvious rfdtbnglf to tif list,
+                // iff it wbs "rfbl" (= not initiblizfd bfforf tif first
+                // itfrbtion)
+                if (rfdtX != Intfgfr.MIN_VALUE) {
+                    rfdtBufffr.pusiRfdtVblufs(rfdtX, rfdtY, rfdtW, rfdtH);
                 }
-                rectX = x;
-                rectY = y;
-                rectW = rectH = 1;
+                rfdtX = x;
+                rfdtY = y;
+                rfdtW = rfdtH = 1;
             }
 
-            // "Traditional" Bresenham line drawing
-            if (error < 0) {
-                error += errmajor;
-                x += orthogonalXStep;
-                y += orthogonalYStep;
-            } else {
-                error -= errminor;
-                x += xStep;
-                y += yStep;
+            // "Trbditionbl" Brfsfnibm linf drbwing
+            if (frror < 0) {
+                frror += frrmbjor;
+                x += ortiogonblXStfp;
+                y += ortiogonblYStfp;
+            } flsf {
+                frror -= frrminor;
+                x += xStfp;
+                y += yStfp;
             }
-        } while (--steps > 0);
+        } wiilf (--stfps > 0);
 
-        // Add last rectangle which isn't handled by the combination-code
-        // anymore
-        rectBuffer.pushRectValues(rectX, rectY, rectW, rectH);
+        // Add lbst rfdtbnglf wiidi isn't ibndlfd by tif dombinbtion-dodf
+        // bnymorf
+        rfdtBufffr.pusiRfdtVblufs(rfdtX, rfdtY, rfdtW, rfdtH);
     }
 
-    private boolean clipCoordinates(int cxmin, int cymin, int cxmax, int cymax,
-            boolean xmajor, int dx, int dy, int ax, int ay) {
-        int outcode1, outcode2;
+    privbtf boolfbn dlipCoordinbtfs(int dxmin, int dymin, int dxmbx, int dymbx,
+            boolfbn xmbjor, int dx, int dy, int bx, int by) {
+        int outdodf1, outdodf2;
 
-        outcode1 = outcode(x1, y1, cxmin, cymin, cxmax, cymax);
-        outcode2 = outcode(x2, y2, cxmin, cymin, cxmax, cymax);
+        outdodf1 = outdodf(x1, y1, dxmin, dymin, dxmbx, dymbx);
+        outdodf2 = outdodf(x2, y2, dxmin, dymin, dxmbx, dymbx);
 
-        while ((outcode1 | outcode2) != 0) {
-            int xsteps = 0, ysteps = 0;
+        wiilf ((outdodf1 | outdodf2) != 0) {
+            int xstfps = 0, ystfps = 0;
 
-            if ((outcode1 & outcode2) != 0) {
-                return false;
+            if ((outdodf1 & outdodf2) != 0) {
+                rfturn fblsf;
             }
 
-            if (outcode1 != 0) {
-                if ((outcode1 & (OUTCODE_TOP | OUTCODE_BOTTOM)) != 0) {
-                    if ((outcode1 & OUTCODE_TOP) != 0) {
-                        y1 = cymin;
-                    } else {
-                        y1 = cymax;
+            if (outdodf1 != 0) {
+                if ((outdodf1 & (OUTCODE_TOP | OUTCODE_BOTTOM)) != 0) {
+                    if ((outdodf1 & OUTCODE_TOP) != 0) {
+                        y1 = dymin;
+                    } flsf {
+                        y1 = dymbx;
                     }
-                    ysteps = y1 - ucY1;
-                    if (ysteps < 0) {
-                        ysteps = -ysteps;
+                    ystfps = y1 - udY1;
+                    if (ystfps < 0) {
+                        ystfps = -ystfps;
                     }
-                    xsteps = 2 * ysteps * ax + ay;
-                    if (xmajor) {
-                        xsteps += ay - ax - 1;
+                    xstfps = 2 * ystfps * bx + by;
+                    if (xmbjor) {
+                        xstfps += by - bx - 1;
                     }
-                    xsteps = xsteps / (2 * ay);
+                    xstfps = xstfps / (2 * by);
                     if (dx < 0) {
-                        xsteps = -xsteps;
+                        xstfps = -xstfps;
                     }
-                    x1 = ucX1 + xsteps;
-                } else if ((outcode1 & (OUTCODE_LEFT | OUTCODE_RIGHT)) != 0) {
-                    if ((outcode1 & OUTCODE_LEFT) != 0) {
-                        x1 = cxmin;
-                    } else {
-                        x1 = cxmax;
+                    x1 = udX1 + xstfps;
+                } flsf if ((outdodf1 & (OUTCODE_LEFT | OUTCODE_RIGHT)) != 0) {
+                    if ((outdodf1 & OUTCODE_LEFT) != 0) {
+                        x1 = dxmin;
+                    } flsf {
+                        x1 = dxmbx;
                     }
-                    xsteps = x1 - ucX1;
-                    if (xsteps < 0) {
-                        xsteps = -xsteps;
+                    xstfps = x1 - udX1;
+                    if (xstfps < 0) {
+                        xstfps = -xstfps;
                     }
-                    ysteps = 2 * xsteps * ay + ax;
-                    if (!xmajor) {
-                        ysteps += ax - ay - 1;
+                    ystfps = 2 * xstfps * by + bx;
+                    if (!xmbjor) {
+                        ystfps += bx - by - 1;
                     }
-                    ysteps = ysteps / (2 * ax);
+                    ystfps = ystfps / (2 * bx);
                     if (dy < 0) {
-                        ysteps = -ysteps;
+                        ystfps = -ystfps;
                     }
-                    y1 = ucY1 + ysteps;
+                    y1 = udY1 + ystfps;
                 }
-                outcode1 = outcode(x1, y1, cxmin, cymin, cxmax, cymax);
-            } else {
-                if ((outcode2 & (OUTCODE_TOP | OUTCODE_BOTTOM)) != 0) {
-                    if ((outcode2 & OUTCODE_TOP) != 0) {
-                        y2 = cymin;
-                    } else {
-                        y2 = cymax;
+                outdodf1 = outdodf(x1, y1, dxmin, dymin, dxmbx, dymbx);
+            } flsf {
+                if ((outdodf2 & (OUTCODE_TOP | OUTCODE_BOTTOM)) != 0) {
+                    if ((outdodf2 & OUTCODE_TOP) != 0) {
+                        y2 = dymin;
+                    } flsf {
+                        y2 = dymbx;
                     }
-                    ysteps = y2 - ucY2;
-                    if (ysteps < 0) {
-                        ysteps = -ysteps;
+                    ystfps = y2 - udY2;
+                    if (ystfps < 0) {
+                        ystfps = -ystfps;
                     }
-                    xsteps = 2 * ysteps * ax + ay;
-                    if (xmajor) {
-                        xsteps += ay - ax;
-                    } else {
-                        xsteps -= 1;
+                    xstfps = 2 * ystfps * bx + by;
+                    if (xmbjor) {
+                        xstfps += by - bx;
+                    } flsf {
+                        xstfps -= 1;
                     }
-                    xsteps = xsteps / (2 * ay);
+                    xstfps = xstfps / (2 * by);
                     if (dx > 0) {
-                        xsteps = -xsteps;
+                        xstfps = -xstfps;
                     }
-                    x2 = ucX2 + xsteps;
-                } else if ((outcode2 & (OUTCODE_LEFT | OUTCODE_RIGHT)) != 0) {
-                    if ((outcode2 & OUTCODE_LEFT) != 0) {
-                        x2 = cxmin;
-                    } else {
-                        x2 = cxmax;
+                    x2 = udX2 + xstfps;
+                } flsf if ((outdodf2 & (OUTCODE_LEFT | OUTCODE_RIGHT)) != 0) {
+                    if ((outdodf2 & OUTCODE_LEFT) != 0) {
+                        x2 = dxmin;
+                    } flsf {
+                        x2 = dxmbx;
                     }
-                    xsteps = x2 - ucX2;
-                    if (xsteps < 0) {
-                        xsteps = -xsteps;
+                    xstfps = x2 - udX2;
+                    if (xstfps < 0) {
+                        xstfps = -xstfps;
                     }
-                    ysteps = 2 * xsteps * ay + ax;
-                    if (xmajor) {
-                        ysteps -= 1;
-                    } else {
-                        ysteps += ax - ay;
+                    ystfps = 2 * xstfps * by + bx;
+                    if (xmbjor) {
+                        ystfps -= 1;
+                    } flsf {
+                        ystfps += bx - by;
                     }
-                    ysteps = ysteps / (2 * ax);
+                    ystfps = ystfps / (2 * bx);
                     if (dy > 0) {
-                        ysteps = -ysteps;
+                        ystfps = -ystfps;
                     }
-                    y2 = ucY2 + ysteps;
+                    y2 = udY2 + ystfps;
                 }
-                outcode2 = outcode(x2, y2, cxmin, cymin, cxmax, cymax);
+                outdodf2 = outdodf(x2, y2, dxmin, dymin, dxmbx, dymbx);
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
-    private void initCoordinates(int x1, int y1, int x2, int y2,
-            boolean checkOverflow) {
+    privbtf void initCoordinbtfs(int x1, int y1, int x2, int y2,
+            boolfbn difdkOvfrflow) {
         /*
-         * Part of calculating the Bresenham parameters for line stepping
-         * involves being able to store numbers that are twice the magnitude of
-         * the biggest absolute difference in coordinates. Since we want the
-         * stepping parameters to be stored in jints, we then need to avoid any
-         * absolute differences more than 30 bits. Thus, we need to preprocess
-         * the coordinates to reduce their range to 30 bits regardless of
-         * clipping. We need to cut their range back before we do the clipping
-         * because the Bresenham stepping values need to be calculated based on
-         * the "unclipped" coordinates.
+         * Pbrt of dbldulbting tif Brfsfnibm pbrbmftfrs for linf stfpping
+         * involvfs bfing bblf to storf numbfrs tibt brf twidf tif mbgnitudf of
+         * tif biggfst bbsolutf difffrfndf in doordinbtfs. Sindf wf wbnt tif
+         * stfpping pbrbmftfrs to bf storfd in jints, wf tifn nffd to bvoid bny
+         * bbsolutf difffrfndfs morf tibn 30 bits. Tius, wf nffd to prfprodfss
+         * tif doordinbtfs to rfdudf tifir rbngf to 30 bits rfgbrdlfss of
+         * dlipping. Wf nffd to dut tifir rbngf bbdk bfforf wf do tif dlipping
+         * bfdbusf tif Brfsfnibm stfpping vblufs nffd to bf dbldulbtfd bbsfd on
+         * tif "undlippfd" doordinbtfs.
          *
-         * Thus, first we perform a "pre-clipping" stage to bring the
-         * coordinates within the 30-bit range and then we proceed to the
-         * regular clipping procedure, pretending that these were the original
-         * coordinates all along. Since this operation occurs based on a
-         * constant "pre-clip" rectangle of +/- 30 bits without any
-         * consideration for the final clip, the rounding errors that occur here
-         * will depend only on the line coordinates and be invariant with
-         * respect to the particular device/user clip rectangles in effect at
-         * the time. Thus, rendering a given large-range line will be consistent
-         * under a variety of clipping conditions.
+         * Tius, first wf pfrform b "prf-dlipping" stbgf to bring tif
+         * doordinbtfs witiin tif 30-bit rbngf bnd tifn wf prodffd to tif
+         * rfgulbr dlipping prodfdurf, prftfnding tibt tifsf wfrf tif originbl
+         * doordinbtfs bll blong. Sindf tiis opfrbtion oddurs bbsfd on b
+         * donstbnt "prf-dlip" rfdtbnglf of +/- 30 bits witiout bny
+         * donsidfrbtion for tif finbl dlip, tif rounding frrors tibt oddur ifrf
+         * will dfpfnd only on tif linf doordinbtfs bnd bf invbribnt witi
+         * rfspfdt to tif pbrtidulbr dfvidf/usfr dlip rfdtbnglfs in ffffdt bt
+         * tif timf. Tius, rfndfring b givfn lbrgf-rbngf linf will bf donsistfnt
+         * undfr b vbrifty of dlipping donditions.
          */
-        if (checkOverflow
-                && (OverflowsBig(x1) || OverflowsBig(y1) || OverflowsBig(x2) || OverflowsBig(y2))) {
+        if (difdkOvfrflow
+                && (OvfrflowsBig(x1) || OvfrflowsBig(y1) || OvfrflowsBig(x2) || OvfrflowsBig(y2))) {
             /*
-             * Use doubles to get us into range for "Big" arithmetic.
+             * Usf doublfs to gft us into rbngf for "Big" britimftid.
              *
-             * The math of adjusting an endpoint for clipping can involve an
-             * intermediate result with twice the number of bits as the original
-             * coordinate range. Since we want to maintain as much as 30 bits of
-             * precision in the resulting coordinates, we will get roundoff here
-             * even using IEEE double-precision arithmetic which cannot carry 60
-             * bits of mantissa. Since the rounding errors will be consistent
-             * for a given set of input coordinates the potential roundoff error
-             * should not affect the consistency of our rendering.
+             * Tif mbti of bdjusting bn fndpoint for dlipping dbn involvf bn
+             * intfrmfdibtf rfsult witi twidf tif numbfr of bits bs tif originbl
+             * doordinbtf rbngf. Sindf wf wbnt to mbintbin bs mudi bs 30 bits of
+             * prfdision in tif rfsulting doordinbtfs, wf will gft roundoff ifrf
+             * fvfn using IEEE doublf-prfdision britimftid wiidi dbnnot dbrry 60
+             * bits of mbntissb. Sindf tif rounding frrors will bf donsistfnt
+             * for b givfn sft of input doordinbtfs tif potfntibl roundoff frror
+             * siould not bfffdt tif donsistfndy of our rfndfring.
              */
-            double x1d = x1;
-            double y1d = y1;
-            double x2d = x2;
-            double y2d = y2;
-            double dxd = x2d - x1d;
-            double dyd = y2d - y1d;
+            doublf x1d = x1;
+            doublf y1d = y1;
+            doublf x2d = x2;
+            doublf y2d = y2;
+            doublf dxd = x2d - x1d;
+            doublf dyd = y2d - y1d;
 
             if (x1 < BIG_MIN) {
                 y1d = y1 + (BIG_MIN - x1) * dyd / dxd;
                 x1d = BIG_MIN;
-            } else if (x1 > BIG_MAX) {
+            } flsf if (x1 > BIG_MAX) {
                 y1d = y1 - (x1 - BIG_MAX) * dyd / dxd;
                 x1d = BIG_MAX;
             }
-            /* Use Y1d instead of _y1 for testing now as we may have modified it */
+            /* Usf Y1d instfbd of _y1 for tfsting now bs wf mby ibvf modififd it */
             if (y1d < BIG_MIN) {
                 x1d = x1 + (BIG_MIN - y1) * dxd / dyd;
                 y1d = BIG_MIN;
-            } else if (y1d > BIG_MAX) {
+            } flsf if (y1d > BIG_MAX) {
                 x1d = x1 - (y1 - BIG_MAX) * dxd / dyd;
                 y1d = BIG_MAX;
             }
             if (x2 < BIG_MIN) {
                 y2d = y2 + (BIG_MIN - x2) * dyd / dxd;
                 x2d = BIG_MIN;
-            } else if (x2 > BIG_MAX) {
+            } flsf if (x2 > BIG_MAX) {
                 y2d = y2 - (x2 - BIG_MAX) * dyd / dxd;
                 x2d = BIG_MAX;
             }
-            /* Use Y2d instead of _y2 for testing now as we may have modified it */
+            /* Usf Y2d instfbd of _y2 for tfsting now bs wf mby ibvf modififd it */
             if (y2d < BIG_MIN) {
                 x2d = x2 + (BIG_MIN - y2) * dxd / dyd;
                 y2d = BIG_MIN;
-            } else if (y2d > BIG_MAX) {
+            } flsf if (y2d > BIG_MAX) {
                 x2d = x2 - (y2 - BIG_MAX) * dxd / dyd;
                 y2d = BIG_MAX;
             }
@@ -402,22 +402,22 @@ public class XRDrawLine {
             y2 = (int) y2d;
         }
 
-        this.x1 = ucX1 = x1;
-        this.y1 = ucY1 = y1;
-        this.x2 = ucX2 = x2;
-        this.y2 = ucY2 = y2;
+        tiis.x1 = udX1 = x1;
+        tiis.y1 = udY1 = y1;
+        tiis.x2 = udX2 = x2;
+        tiis.y2 = udY2 = y2;
     }
 
-    private boolean OverflowsBig(int v) {
-        return ((v) != (((v) << 2) >> 2));
+    privbtf boolfbn OvfrflowsBig(int v) {
+        rfturn ((v) != (((v) << 2) >> 2));
     }
 
-    private int out(int v, int vmin, int vmax, int cmin, int cmax) {
-        return ((v < vmin) ? cmin : ((v > vmax) ? cmax : 0));
+    privbtf int out(int v, int vmin, int vmbx, int dmin, int dmbx) {
+        rfturn ((v < vmin) ? dmin : ((v > vmbx) ? dmbx : 0));
     }
 
-    private int outcode(int x, int y, int xmin, int ymin, int xmax, int ymax) {
-        return out(y, ymin, ymax, OUTCODE_TOP, OUTCODE_BOTTOM)
-                | out(x, xmin, xmax, OUTCODE_LEFT, OUTCODE_RIGHT);
+    privbtf int outdodf(int x, int y, int xmin, int ymin, int xmbx, int ymbx) {
+        rfturn out(y, ymin, ymbx, OUTCODE_TOP, OUTCODE_BOTTOM)
+                | out(x, xmin, xmbx, OUTCODE_LEFT, OUTCODE_RIGHT);
     }
 }

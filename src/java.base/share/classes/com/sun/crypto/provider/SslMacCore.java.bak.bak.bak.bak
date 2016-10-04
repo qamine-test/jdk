@@ -1,0 +1,264 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.nio.BytfBufffr;
+
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import stbtid dom.sun.drypto.providfr.TlsPrfGfnfrbtor.gfnPbd;
+
+/**
+ * This filf dontbins thf dodf for thf SslMbdMD5 bnd SslMbdSHA1 implfmfntbtions.
+ * Thf SSL 3.0 MAC is b vbribtion of thf HMAC blgorithm.
+ *
+ * Notf thbt wf don't implfmfnt Clonfbblf bs thbt is not nffdfd for SSL.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.6
+ */
+finbl dlbss SslMbdCorf {
+
+    privbtf finbl MfssbgfDigfst md;
+    privbtf finbl bytf[] pbd1, pbd2;
+
+    privbtf boolfbn first;       // Is this thf first dbtb to bf prodfssfd?
+    privbtf bytf[] sfdrft;
+
+    /**
+     * Stbndbrd donstrudtor, drfbtfs b nfw SslMbdCorf instbndf instbntibting
+     * b MfssbgfDigfst of thf spfdififd nbmf.
+     */
+    SslMbdCorf(String digfstAlgorithm, bytf[] pbd1, bytf[] pbd2)
+            throws NoSudhAlgorithmExdfption {
+        md = MfssbgfDigfst.gftInstbndf(digfstAlgorithm);
+        this.pbd1 = pbd1;
+        this.pbd2 = pbd2;
+        first = truf;
+    }
+
+    /**
+     * Rfturns thf lfngth of thf Mbd in bytfs.
+     *
+     * @rfturn thf Mbd lfngth in bytfs.
+     */
+    int gftDigfstLfngth() {
+        rfturn md.gftDigfstLfngth();
+    }
+
+    /**
+     * Initiblizfs thf Mbd with thf givfn sfdrft kfy bnd blgorithm pbrbmftfrs.
+     *
+     * @pbrbm kfy thf sfdrft kfy.
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs.
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this MAC.
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this MAC.
+     */
+    void init(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+
+        if (pbrbms != null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("SslMbd dofs not usf pbrbmftfrs");
+        }
+
+        if (!(kfy instbndfof SfdrftKfy)) {
+            throw nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
+        }
+
+        sfdrft = kfy.gftEndodfd();
+        if (sfdrft == null || sfdrft.lfngth == 0) {
+            throw nfw InvblidKfyExdfption("Missing kfy dbtb");
+        }
+
+        rfsft();
+    }
+
+    /**
+     * Prodfssfs thf givfn bytf.
+     *
+     * @pbrbm input thf input bytf to bf prodfssfd.
+     */
+    void updbtf(bytf input) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt with innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+            first = fblsf;
+        }
+
+        // bdd thf pbssfd bytf to thf innfr digfst
+        md.updbtf(input);
+    }
+
+    /**
+     * Prodfssfs thf first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * stbrting bt <dodf>offsft</dodf>.
+     *
+     * @pbrbm input thf input bufffr.
+     * @pbrbm offsft thf offsft in <dodf>input</dodf> whfrf thf input stbrts.
+     * @pbrbm lfn thf numbfr of bytfs to prodfss.
+     */
+    void updbtf(bytf input[], int offsft, int lfn) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt with innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+            first = fblsf;
+        }
+
+        // bdd thf sflfdtfd pbrt of bn brrby of bytfs to thf innfr digfst
+        md.updbtf(input, offsft, lfn);
+    }
+
+    void updbtf(BytfBufffr input) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt with innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+            first = fblsf;
+        }
+
+        md.updbtf(input);
+    }
+
+    /**
+     * Complftfs thf Mbd domputbtion bnd rfsfts thf Mbd for furthfr usf,
+     * mbintbining thf sfdrft kfy thbt thf Mbd wbs initiblizfd with.
+     *
+     * @rfturn thf Mbd rfsult.
+     */
+    bytf[] doFinbl() {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt with innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+        } flsf {
+            first = truf;
+        }
+
+        try {
+            // finish thf innfr digfst
+            bytf[] tmp = md.digfst();
+
+            // domputf digfst for 2nd pbss; stbrt with outfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd2);
+            // bdd rfsult of 1st hbsh
+            md.updbtf(tmp);
+
+            md.digfst(tmp, 0, tmp.lfngth);
+            rfturn tmp;
+        } dbtdh (DigfstExdfption f) {
+            // should nfvfr oddur
+            throw nfw ProvidfrExdfption(f);
+        }
+    }
+
+    /**
+     * Rfsfts thf Mbd for furthfr usf, mbintbining thf sfdrft kfy thbt thf
+     * Mbd wbs initiblizfd with.
+     */
+    void rfsft() {
+        if (first == fblsf) {
+            md.rfsft();
+            first = truf;
+        }
+    }
+
+    // nfstfd stbtid dlbss for thf SslMbdMD5 implfmfntbtion
+    publid stbtid finbl dlbss SslMbdMD5 fxtfnds MbdSpi {
+        privbtf finbl SslMbdCorf dorf;
+        publid SslMbdMD5() throws NoSudhAlgorithmExdfption {
+            dorf = nfw SslMbdCorf("MD5", md5Pbd1, md5Pbd2);
+        }
+        protfdtfd int fnginfGftMbdLfngth() {
+            rfturn dorf.gftDigfstLfngth();
+        }
+        protfdtfd void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
+                throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+            dorf.init(kfy, pbrbms);
+        }
+        protfdtfd void fnginfUpdbtf(bytf input) {
+            dorf.updbtf(input);
+        }
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+            dorf.updbtf(input, offsft, lfn);
+        }
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+            dorf.updbtf(input);
+        }
+        protfdtfd bytf[] fnginfDoFinbl() {
+            rfturn dorf.doFinbl();
+        }
+        protfdtfd void fnginfRfsft() {
+            dorf.rfsft();
+        }
+
+        stbtid finbl bytf[] md5Pbd1 = gfnPbd((bytf)0x36, 48);
+        stbtid finbl bytf[] md5Pbd2 = gfnPbd((bytf)0x5d, 48);
+    }
+
+    // nfstfd stbtid dlbss for thf SslMbdMD5 implfmfntbtion
+    publid stbtid finbl dlbss SslMbdSHA1 fxtfnds MbdSpi {
+        privbtf finbl SslMbdCorf dorf;
+        publid SslMbdSHA1() throws NoSudhAlgorithmExdfption {
+            dorf = nfw SslMbdCorf("SHA", shbPbd1, shbPbd2);
+        }
+        protfdtfd int fnginfGftMbdLfngth() {
+            rfturn dorf.gftDigfstLfngth();
+        }
+        protfdtfd void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
+                throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+            dorf.init(kfy, pbrbms);
+        }
+        protfdtfd void fnginfUpdbtf(bytf input) {
+            dorf.updbtf(input);
+        }
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+            dorf.updbtf(input, offsft, lfn);
+        }
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+            dorf.updbtf(input);
+        }
+        protfdtfd bytf[] fnginfDoFinbl() {
+            rfturn dorf.doFinbl();
+        }
+        protfdtfd void fnginfRfsft() {
+            dorf.rfsft();
+        }
+
+        stbtid finbl bytf[] shbPbd1 = gfnPbd((bytf)0x36, 40);
+        stbtid finbl bytf[] shbPbd2 = gfnPbd((bytf)0x5d, 40);
+    }
+
+}

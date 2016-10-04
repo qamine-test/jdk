@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,142 +30,142 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import javax.swing.*;
-import javax.swing.table.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tbblf.*;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.Dimension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.UIManager.LookAndFeelInfo;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.swing.UIMbnbgfr.LookAndFfflInfo;
 
 
 /**
- * An example showing the JTable with a dataModel that is not derived
- * from a database. We add the optional TableSorter object to give the
- * JTable the ability to sort.
+ * An fxbmplf siowing tif JTbblf witi b dbtbModfl tibt is not dfrivfd
+ * from b dbtbbbsf. Wf bdd tif optionbl TbblfSortfr objfdt to givf tif
+ * JTbblf tif bbility to sort.
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  */
-public class TableExample3 {
+publid dlbss TbblfExbmplf3 {
 
-    public TableExample3() {
-        JFrame frame = new JFrame("Table");
-        frame.addWindowListener(new WindowAdapter() {
+    publid TbblfExbmplf3() {
+        JFrbmf frbmf = nfw JFrbmf("Tbblf");
+        frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
+                Systfm.fxit(0);
             }
         });
 
-        // Take the dummy data from SwingSet.
-        final String[] names = { "First Name", "Last Name", "Favorite Color",
-            "Favorite Number", "Vegetarian" };
-        final Object[][] data = {
-            { "Mark", "Andrews", "Red", new Integer(2), Boolean.TRUE },
-            { "Tom", "Ball", "Blue", new Integer(99), Boolean.FALSE },
-            { "Alan", "Chung", "Green", new Integer(838), Boolean.FALSE },
-            { "Jeff", "Dinkins", "Turquois", new Integer(8), Boolean.TRUE },
-            { "Amy", "Fowler", "Yellow", new Integer(3), Boolean.FALSE },
-            { "Brian", "Gerhold", "Green", new Integer(0), Boolean.FALSE },
-            { "James", "Gosling", "Pink", new Integer(21), Boolean.FALSE },
-            { "David", "Karlton", "Red", new Integer(1), Boolean.FALSE },
-            { "Dave", "Kloba", "Yellow", new Integer(14), Boolean.FALSE },
-            { "Peter", "Korn", "Purple", new Integer(12), Boolean.FALSE },
-            { "Phil", "Milne", "Purple", new Integer(3), Boolean.FALSE },
-            { "Dave", "Moore", "Green", new Integer(88), Boolean.FALSE },
-            { "Hans", "Muller", "Maroon", new Integer(5), Boolean.FALSE },
-            { "Rick", "Levenson", "Blue", new Integer(2), Boolean.FALSE },
-            { "Tim", "Prinzing", "Blue", new Integer(22), Boolean.FALSE },
-            { "Chester", "Rose", "Black", new Integer(0), Boolean.FALSE },
-            { "Ray", "Ryan", "Gray", new Integer(77), Boolean.FALSE },
-            { "Georges", "Saab", "Red", new Integer(4), Boolean.FALSE },
-            { "Willie", "Walker", "Phthalo Blue", new Integer(4), Boolean.FALSE },
-            { "Kathy", "Walrath", "Blue", new Integer(8), Boolean.FALSE },
-            { "Arnaud", "Weber", "Green", new Integer(44), Boolean.FALSE }
+        // Tbkf tif dummy dbtb from SwingSft.
+        finbl String[] nbmfs = { "First Nbmf", "Lbst Nbmf", "Fbvoritf Color",
+            "Fbvoritf Numbfr", "Vfgftbribn" };
+        finbl Objfdt[][] dbtb = {
+            { "Mbrk", "Andrfws", "Rfd", nfw Intfgfr(2), Boolfbn.TRUE },
+            { "Tom", "Bbll", "Bluf", nfw Intfgfr(99), Boolfbn.FALSE },
+            { "Albn", "Ciung", "Grffn", nfw Intfgfr(838), Boolfbn.FALSE },
+            { "Jfff", "Dinkins", "Turquois", nfw Intfgfr(8), Boolfbn.TRUE },
+            { "Amy", "Fowlfr", "Yfllow", nfw Intfgfr(3), Boolfbn.FALSE },
+            { "Bribn", "Gfriold", "Grffn", nfw Intfgfr(0), Boolfbn.FALSE },
+            { "Jbmfs", "Gosling", "Pink", nfw Intfgfr(21), Boolfbn.FALSE },
+            { "Dbvid", "Kbrlton", "Rfd", nfw Intfgfr(1), Boolfbn.FALSE },
+            { "Dbvf", "Klobb", "Yfllow", nfw Intfgfr(14), Boolfbn.FALSE },
+            { "Pftfr", "Korn", "Purplf", nfw Intfgfr(12), Boolfbn.FALSE },
+            { "Piil", "Milnf", "Purplf", nfw Intfgfr(3), Boolfbn.FALSE },
+            { "Dbvf", "Moorf", "Grffn", nfw Intfgfr(88), Boolfbn.FALSE },
+            { "Hbns", "Mullfr", "Mbroon", nfw Intfgfr(5), Boolfbn.FALSE },
+            { "Ridk", "Lfvfnson", "Bluf", nfw Intfgfr(2), Boolfbn.FALSE },
+            { "Tim", "Prinzing", "Bluf", nfw Intfgfr(22), Boolfbn.FALSE },
+            { "Cifstfr", "Rosf", "Blbdk", nfw Intfgfr(0), Boolfbn.FALSE },
+            { "Rby", "Rybn", "Grby", nfw Intfgfr(77), Boolfbn.FALSE },
+            { "Gforgfs", "Sbbb", "Rfd", nfw Intfgfr(4), Boolfbn.FALSE },
+            { "Willif", "Wblkfr", "Pitiblo Bluf", nfw Intfgfr(4), Boolfbn.FALSE },
+            { "Kbtiy", "Wblrbti", "Bluf", nfw Intfgfr(8), Boolfbn.FALSE },
+            { "Arnbud", "Wfbfr", "Grffn", nfw Intfgfr(44), Boolfbn.FALSE }
         };
 
-        // Create a model of the data.
-        @SuppressWarnings("serial")
-        TableModel dataModel = new AbstractTableModel() {
-            // These methods always need to be implemented.
+        // Crfbtf b modfl of tif dbtb.
+        @SupprfssWbrnings("sfribl")
+        TbblfModfl dbtbModfl = nfw AbstrbdtTbblfModfl() {
+            // Tifsf mftiods blwbys nffd to bf implfmfntfd.
 
-            public int getColumnCount() {
-                return names.length;
+            publid int gftColumnCount() {
+                rfturn nbmfs.lfngti;
             }
 
-            public int getRowCount() {
-                return data.length;
+            publid int gftRowCount() {
+                rfturn dbtb.lfngti;
             }
 
-            public Object getValueAt(int row, int col) {
-                return data[row][col];
+            publid Objfdt gftVblufAt(int row, int dol) {
+                rfturn dbtb[row][dol];
             }
 
-            // The default implementations of these methods in
-            // AbstractTableModel would work, but we can refine them.
-            @Override
-            public String getColumnName(int column) {
-                return names[column];
+            // Tif dffbult implfmfntbtions of tifsf mftiods in
+            // AbstrbdtTbblfModfl would work, but wf dbn rffinf tifm.
+            @Ovfrridf
+            publid String gftColumnNbmf(int dolumn) {
+                rfturn nbmfs[dolumn];
             }
 
-            @Override
-            public Class getColumnClass(int col) {
-                return getValueAt(0, col).getClass();
+            @Ovfrridf
+            publid Clbss gftColumnClbss(int dol) {
+                rfturn gftVblufAt(0, dol).gftClbss();
             }
 
-            @Override
-            public boolean isCellEditable(int row, int col) {
-                return (col == 4);
+            @Ovfrridf
+            publid boolfbn isCfllEditbblf(int row, int dol) {
+                rfturn (dol == 4);
             }
 
-            @Override
-            public void setValueAt(Object aValue, int row, int column) {
-                data[row][column] = aValue;
+            @Ovfrridf
+            publid void sftVblufAt(Objfdt bVbluf, int row, int dolumn) {
+                dbtb[row][dolumn] = bVbluf;
             }
         };
 
-        // Instead of making the table display the data as it would normally
-        // with:
-        // JTable tableView = new JTable(dataModel);
-        // Add a sorter, by using the following three lines instead of the one
-        // above.
-        TableSorter sorter = new TableSorter(dataModel);
-        JTable tableView = new JTable(sorter);
-        sorter.addMouseListenerToHeaderInTable(tableView);
+        // Instfbd of mbking tif tbblf displby tif dbtb bs it would normblly
+        // witi:
+        // JTbblf tbblfVifw = nfw JTbblf(dbtbModfl);
+        // Add b sortfr, by using tif following tirff linfs instfbd of tif onf
+        // bbovf.
+        TbblfSortfr sortfr = nfw TbblfSortfr(dbtbModfl);
+        JTbblf tbblfVifw = nfw JTbblf(sortfr);
+        sortfr.bddMousfListfnfrToHfbdfrInTbblf(tbblfVifw);
 
-        JScrollPane scrollpane = new JScrollPane(tableView);
+        JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf(tbblfVifw);
 
-        scrollpane.setPreferredSize(new Dimension(700, 300));
-        frame.getContentPane().add(scrollpane);
-        frame.pack();
-        frame.setVisible(true);
+        sdrollpbnf.sftPrfffrrfdSizf(nfw Dimfnsion(700, 300));
+        frbmf.gftContfntPbnf().bdd(sdrollpbnf);
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
     }
 
-    public static void main(String[] args) {
-        // Trying to set Nimbus look and feel
+    publid stbtid void mbin(String[] brgs) {
+        // Trying to sft Nimbus look bnd fffl
         try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            for (LookAndFfflInfo info : UIMbnbgfr.gftInstbllfdLookAndFffls()) {
+                if ("Nimbus".fqubls(info.gftNbmf())) {
+                    UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+                    brfbk;
                 }
             }
-        } catch (Exception ex) {
-            Logger.getLogger(TableExample3.class.getName()).log(Level.SEVERE,
-                    "Failed to apply Nimbus look and feel", ex);
+        } dbtdi (Exdfption fx) {
+            Loggfr.gftLoggfr(TbblfExbmplf3.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                    "Fbilfd to bpply Nimbus look bnd fffl", fx);
         }
-        new TableExample3();
+        nfw TbblfExbmplf3();
     }
 }

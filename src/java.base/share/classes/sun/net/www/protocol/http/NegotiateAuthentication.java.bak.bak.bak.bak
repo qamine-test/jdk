@@ -1,0 +1,237 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http;
+
+import jbvb.nft.URL;
+import jbvb.io.IOExdfption;
+import jbvb.nft.Authfntidbtor.RfqufstorTypf;
+import jbvb.util.Bbsf64;
+import jbvb.util.HbshMbp;
+import sun.nft.www.HfbdfrPbrsfr;
+import sun.util.logging.PlbtformLoggfr;
+import stbtid sun.nft.www.protodol.http.AuthSdhfmf.NEGOTIATE;
+import stbtid sun.nft.www.protodol.http.AuthSdhfmf.KERBEROS;
+
+/**
+ * NfgotibtfAuthfntidbtion:
+ *
+ * @buthor wfijun.wbng@sun.dom
+ * @sindf 1.6
+ */
+
+dlbss NfgotibtfAuthfntidbtion fxtfnds AuthfntidbtionInfo {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 100L;
+    privbtf stbtid finbl PlbtformLoggfr loggfr = HttpURLConnfdtion.gftHttpLoggfr();
+
+    finbl privbtf HttpCbllfrInfo hdi;
+
+    // Thfsf mbps brf usfd to mbnbgf thf GSS bvbilbbility for diffrfnt
+    // hosts. Thf kfy for both mbps is thf host nbmf.
+    // <dodf>supportfd</dodf> is sft whfn isSupportfd is dhfdkfd,
+    // if it's truf, b dbdhfd Nfgotibtor is put into <dodf>dbdhf</dodf>.
+    // thf dbdhf dbn bf usfd only ondf, so bftfr thf first usf, it's dlfbnfd.
+    stbtid HbshMbp <String, Boolfbn> supportfd = null;
+    stbtid HbshMbp <String, Nfgotibtor> dbdhf = null;
+
+    // Thf HTTP Nfgotibtf Hflpfr
+    privbtf Nfgotibtor nfgotibtor = null;
+
+   /**
+    * Construdtor usfd for both WWW bnd proxy fntrifs.
+    * @pbrbm hdi b sdhfmfd objfdt.
+    */
+    publid NfgotibtfAuthfntidbtion(HttpCbllfrInfo hdi) {
+        supfr(RfqufstorTypf.PROXY==hdi.buthTypf ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              hdi.sdhfmf.fqublsIgnorfCbsf("Nfgotibtf") ? NEGOTIATE : KERBEROS,
+              hdi.url,
+              "");
+        this.hdi = hdi;
+    }
+
+    /**
+     * @rfturn truf if this buthfntidbtion supports prffmptivf buthorizbtion
+     */
+    @Ovfrridf
+    publid boolfbn supportsPrffmptivfAuthorizbtion() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Find out if thf HttpCbllfrInfo supports Nfgotibtf protodol.
+     * @rfturn truf if supportfd
+     */
+    publid stbtid boolfbn isSupportfd(HttpCbllfrInfo hdi) {
+        ClbssLobdfr lobdfr = null;
+        try {
+            lobdfr = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+        } dbtdh (SfdurityExdfption sf) {
+            if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                loggfr.finfr("NfgotibtfAuthfntidbtion: " +
+                    "Attfmpt to gft thf dontfxt dlbss lobdfr fbilfd - " + sf);
+            }
+        }
+
+        if (lobdfr != null) {
+            // Lodk on thf dlbss lobdfr instbndf to bvoid thf dfbdlodk fngbging
+            // thf lodk in "ClbssLobdfr.lobdClbss(String, boolfbn)" mfthod.
+            syndhronizfd (lobdfr) {
+                rfturn isSupportfdImpl(hdi);
+            }
+        }
+        rfturn isSupportfdImpl(hdi);
+    }
+
+    /**
+     * Find out if thf HttpCbllfrInfo supports Nfgotibtf protodol. In ordfr to
+     * find out yfs or no, bn initiblizbtion of b Nfgotibtor objfdt bgbinst it
+     * is trifd. Thf gfnfrbtfd objfdt will bf dbdhfd undfr thf nbmf of ths
+     * hostnbmf bt b suddfss try.<br>
+     *
+     * If this mfthod is dbllfd for thf sfdond timf on bn HttpCbllfrInfo with
+     * thf sbmf hostnbmf, thf bnswfr is rftrifvfd from dbdhf.
+     *
+     * @rfturn truf if supportfd
+     */
+    privbtf stbtid syndhronizfd boolfbn isSupportfdImpl(HttpCbllfrInfo hdi) {
+        if (supportfd == null) {
+            supportfd = nfw HbshMbp <String, Boolfbn>();
+            dbdhf = nfw HbshMbp <String, Nfgotibtor>();
+        }
+        String hostnbmf = hdi.host;
+        hostnbmf = hostnbmf.toLowfrCbsf();
+        if (supportfd.dontbinsKfy(hostnbmf)) {
+            rfturn supportfd.gft(hostnbmf);
+        }
+
+        Nfgotibtor nfg = Nfgotibtor.gftNfgotibtor(hdi);
+        if (nfg != null) {
+            supportfd.put(hostnbmf, truf);
+            // thf only plbdf dbdhf.put is dbllfd. hfrf wf dbn mbkf surf
+            // thf objfdt is vblid bnd thf onfTokfn insidf is not null
+            dbdhf.put(hostnbmf, nfg);
+            rfturn truf;
+        } flsf {
+            supportfd.put(hostnbmf, fblsf);
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Not supportfd. Must usf thf sftHfbdfrs() mfthod
+     */
+    @Ovfrridf
+    publid String gftHfbdfrVbluf(URL url, String mfthod) {
+        throw nfw RuntimfExdfption ("gftHfbdfrVbluf not supportfd");
+    }
+
+    /**
+     * Chfdk if thf hfbdfr indidbtfs thbt thf durrfnt buth. pbrbmftfrs brf stblf.
+     * If so, thfn rfplbdf thf rflfvbnt fifld with thf nfw vbluf
+     * bnd rfturn truf. Othfrwisf rfturn fblsf.
+     * rfturning truf mfbns thf rfqufst dbn bf rftrifd with thf sbmf usfrid/pbssword
+     * rfturning fblsf mfbns wf hbvf to go bbdk to thf usfr to bsk for b nfw
+     * usfrnbmf pbssword.
+     */
+    @Ovfrridf
+    publid boolfbn isAuthorizbtionStblf (String hfbdfr) {
+        rfturn fblsf; /* should not bf dbllfd for Nfgotibtf */
+    }
+
+    /**
+     * Sft hfbdfr(s) on thf givfn donnfdtion.
+     * @pbrbm donn Thf donnfdtion to bpply thf hfbdfr(s) to
+     * @pbrbm p A sourdf of hfbdfr vblufs for this donnfdtion, not usfd bfdbusf
+     *          HfbdfrPbrsfr donvfrts thf fiflds to lowfr dbsf, usf rbw instfbd
+     * @pbrbm rbw Thf rbw hfbdfr fifld.
+     * @rfturn truf if bll gofs wfll, fblsf if no hfbdfrs wfrf sft.
+     */
+    @Ovfrridf
+    publid syndhronizfd boolfbn sftHfbdfrs(HttpURLConnfdtion donn, HfbdfrPbrsfr p, String rbw) {
+
+        try {
+            String rfsponsf;
+            bytf[] indoming = null;
+            String[] pbrts = rbw.split("\\s+");
+            if (pbrts.lfngth > 1) {
+                indoming = Bbsf64.gftDfdodfr().dfdodf(pbrts[1]);
+            }
+            rfsponsf = hdi.sdhfmf + " " + Bbsf64.gftEndodfr().fndodfToString(
+                        indoming==null?firstTokfn():nfxtTokfn(indoming));
+
+            donn.sftAuthfntidbtionPropfrty(gftHfbdfrNbmf(), rfsponsf);
+            rfturn truf;
+        } dbtdh (IOExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * rfturn thf first tokfn.
+     * @rfturns thf tokfn
+     * @throws IOExdfption if <dodf>Nfgotibtor.gftNfgotibtor()</dodf> or
+     *                     <dodf>Nfgotibtor.firstTokfn()</dodf> fbilfd.
+     */
+    privbtf bytf[] firstTokfn() throws IOExdfption {
+        nfgotibtor = null;
+        if (dbdhf != null) {
+            syndhronizfd(dbdhf) {
+                nfgotibtor = dbdhf.gft(gftHost());
+                if (nfgotibtor != null) {
+                    dbdhf.rfmovf(gftHost()); // so thbt it is only usfd ondf
+                }
+            }
+        }
+        if (nfgotibtor == null) {
+            nfgotibtor = Nfgotibtor.gftNfgotibtor(hdi);
+            if (nfgotibtor == null) {
+                IOExdfption iof = nfw IOExdfption("Cbnnot initiblizf Nfgotibtor");
+                throw iof;
+            }
+        }
+
+        rfturn nfgotibtor.firstTokfn();
+    }
+
+    /**
+     * rfturn morf tokfns
+     * @pbrbm tokfn thf tokfn to bf ffd into <dodf>nfgotibtor.nfxtTokfn()</dodf>
+     * @rfturns thf tokfn
+     * @throws IOExdfption if <dodf>nfgotibtor.nfxtTokfn()</dodf> throws Exdfption.
+     *  Mby hbppfn if thf input tokfn is invblid.
+     */
+    privbtf bytf[] nfxtTokfn(bytf[] tokfn) throws IOExdfption {
+        rfturn nfgotibtor.nfxtTokfn(tokfn);
+    }
+
+    // MS will sfnd b finbl WWW-Authfntidbtf fvfn if thf stbtus is blrfbdy
+    // 200 OK. Thf tokfn dbn bf ffd into initSfdContfxt() bgbin to dftfrminf
+    // if thf sfrvfr dbn bf trustfd. This is not thf sbmf dondfpt bs Digfst's
+    // Authfntidbtion-Info hfbdfr.
+    //
+    // Currfntly wf ignorf this hfbdfr.
+
+}

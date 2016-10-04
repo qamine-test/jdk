@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-public final class RenderCache {
-    final class Entry {
-        private SurfaceType src;
-        private CompositeType comp;
-        private SurfaceType dst;
-        private Object value;
+publid finbl dlbss RfndfrCbdif {
+    finbl dlbss Entry {
+        privbtf SurfbdfTypf srd;
+        privbtf CompositfTypf domp;
+        privbtf SurfbdfTypf dst;
+        privbtf Objfdt vbluf;
 
-        public Entry(SurfaceType src,
-                     CompositeType comp,
-                     SurfaceType dst,
-                     Object value)
+        publid Entry(SurfbdfTypf srd,
+                     CompositfTypf domp,
+                     SurfbdfTypf dst,
+                     Objfdt vbluf)
         {
-            this.src = src;
-            this.comp = comp;
-            this.dst = dst;
-            this.value = value;
+            tiis.srd = srd;
+            tiis.domp = domp;
+            tiis.dst = dst;
+            tiis.vbluf = vbluf;
         }
 
-        public boolean matches(SurfaceType src,
-                               CompositeType comp,
-                               SurfaceType dst)
+        publid boolfbn mbtdifs(SurfbdfTypf srd,
+                               CompositfTypf domp,
+                               SurfbdfTypf dst)
         {
-            // bug 4725045: using equals() causes different SurfaceType
-            // objects with the same strings to match in the cache, which is
-            // not the behavior we want.  Constrain the match to succeed only
-            // on object matches instead.
-            return ((this.src == src) &&
-                    (this.comp == comp) &&
-                    (this.dst == dst));
+            // bug 4725045: using fqubls() dbusfs difffrfnt SurfbdfTypf
+            // objfdts witi tif sbmf strings to mbtdi in tif dbdif, wiidi is
+            // not tif bfibvior wf wbnt.  Constrbin tif mbtdi to suddffd only
+            // on objfdt mbtdifs instfbd.
+            rfturn ((tiis.srd == srd) &&
+                    (tiis.domp == domp) &&
+                    (tiis.dst == dst));
         }
 
-        public Object getValue() {
-            return value;
+        publid Objfdt gftVbluf() {
+            rfturn vbluf;
         }
     }
 
-    private Entry entries[];
+    privbtf Entry fntrifs[];
 
-    public RenderCache(int size) {
-        entries = new Entry[size];
+    publid RfndfrCbdif(int sizf) {
+        fntrifs = nfw Entry[sizf];
     }
 
-    public synchronized Object get(SurfaceType src,
-                      CompositeType comp,
-                      SurfaceType dst)
+    publid syndironizfd Objfdt gft(SurfbdfTypf srd,
+                      CompositfTypf domp,
+                      SurfbdfTypf dst)
     {
-        int max = entries.length - 1;
-        for (int i = max; i >= 0; i--) {
-            Entry e = entries[i];
-            if (e == null) {
-                break;
+        int mbx = fntrifs.lfngti - 1;
+        for (int i = mbx; i >= 0; i--) {
+            Entry f = fntrifs[i];
+            if (f == null) {
+                brfbk;
             }
-            if (e.matches(src, comp, dst)) {
-                if (i < max - 4) {
-                    System.arraycopy(entries, i+1, entries, i, max - i);
-                    entries[max] = e;
+            if (f.mbtdifs(srd, domp, dst)) {
+                if (i < mbx - 4) {
+                    Systfm.brrbydopy(fntrifs, i+1, fntrifs, i, mbx - i);
+                    fntrifs[mbx] = f;
                 }
-                return e.getValue();
+                rfturn f.gftVbluf();
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    public synchronized void put(SurfaceType src,
-                    CompositeType comp,
-                    SurfaceType dst,
-                    Object value)
+    publid syndironizfd void put(SurfbdfTypf srd,
+                    CompositfTypf domp,
+                    SurfbdfTypf dst,
+                    Objfdt vbluf)
     {
-        Entry e = new Entry(src, comp, dst, value);
+        Entry f = nfw Entry(srd, domp, dst, vbluf);
 
-        int num = entries.length;
-        System.arraycopy(entries, 1, entries, 0, num - 1);
-        entries[num - 1] = e;
+        int num = fntrifs.lfngti;
+        Systfm.brrbydopy(fntrifs, 1, fntrifs, 0, num - 1);
+        fntrifs[num - 1] = f;
     }
 }

@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.io.Serializable;
-import java.awt.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.plaf.basic.BasicComboBoxEditor;
+import jbvbx.swing.plbf.bbsid.BbsidComboBoxEditor;
 
 /**
- * The default editor for Metal editable combo boxes
+ * Tif dffbult fditor for Mftbl fditbblf dombo boxfs
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalComboBoxEditor extends BasicComboBoxEditor {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblComboBoxEditor fxtfnds BbsidComboBoxEditor {
 
     /**
-     * Constructs a new instance of {@code MetalComboBoxEditor}.
+     * Construdts b nfw instbndf of {@dodf MftblComboBoxEditor}.
      */
-    public MetalComboBoxEditor() {
-        super();
-        //editor.removeFocusListener(this);
-        editor = new JTextField("",9) {
-                // workaround for 4530952
-                public void setText(String s) {
-                    if (getText().equals(s)) {
-                        return;
+    publid MftblComboBoxEditor() {
+        supfr();
+        //fditor.rfmovfFodusListfnfr(tiis);
+        fditor = nfw JTfxtFifld("",9) {
+                // workbround for 4530952
+                publid void sftTfxt(String s) {
+                    if (gftTfxt().fqubls(s)) {
+                        rfturn;
                     }
-                    super.setText(s);
+                    supfr.sftTfxt(s);
                 }
-            // The preferred and minimum sizes are overriden and padded by
-            // 4 to keep the size as it previously was.  Refer to bugs
-            // 4775789 and 4517214 for details.
-            public Dimension getPreferredSize() {
-                Dimension pref = super.getPreferredSize();
-                pref.height += 4;
-                return pref;
+            // Tif prfffrrfd bnd minimum sizfs brf ovfrridfn bnd pbddfd by
+            // 4 to kffp tif sizf bs it prfviously wbs.  Rfffr to bugs
+            // 4775789 bnd 4517214 for dftbils.
+            publid Dimfnsion gftPrfffrrfdSizf() {
+                Dimfnsion prff = supfr.gftPrfffrrfdSizf();
+                prff.ifigit += 4;
+                rfturn prff;
             }
-            public Dimension getMinimumSize() {
-                Dimension min = super.getMinimumSize();
-                min.height += 4;
-                return min;
+            publid Dimfnsion gftMinimumSizf() {
+                Dimfnsion min = supfr.gftMinimumSizf();
+                min.ifigit += 4;
+                rfturn min;
             }
             };
 
-        editor.setBorder( new EditorBorder() );
-        //editor.addFocusListener(this);
+        fditor.sftBordfr( nfw EditorBordfr() );
+        //fditor.bddFodusListfnfr(tiis);
     }
 
    /**
-    * The default editor border <code>Insets</code>. This field
-    * might not be used.
+    * Tif dffbult fditor bordfr <dodf>Insfts</dodf>. Tiis fifld
+    * migit not bf usfd.
     */
-    protected static Insets editorBorderInsets = new Insets( 2, 2, 2, 0 );
+    protfdtfd stbtid Insfts fditorBordfrInsfts = nfw Insfts( 2, 2, 2, 0 );
 
-    class EditorBorder extends AbstractBorder {
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            g.translate( x, y );
+    dlbss EditorBordfr fxtfnds AbstrbdtBordfr {
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int w, int i) {
+            g.trbnslbtf( x, y );
 
-            if (MetalLookAndFeel.usingOcean()) {
-                g.setColor(MetalLookAndFeel.getControlDarkShadow());
-                g.drawRect(0, 0, w, h - 1);
-                g.setColor(MetalLookAndFeel.getControlShadow());
-                g.drawRect(1, 1, w - 2, h - 3);
+            if (MftblLookAndFffl.usingOdfbn()) {
+                g.sftColor(MftblLookAndFffl.gftControlDbrkSibdow());
+                g.drbwRfdt(0, 0, w, i - 1);
+                g.sftColor(MftblLookAndFffl.gftControlSibdow());
+                g.drbwRfdt(1, 1, w - 2, i - 3);
             }
-            else {
-                g.setColor( MetalLookAndFeel.getControlDarkShadow() );
-                g.drawLine( 0, 0, w-1, 0 );
-                g.drawLine( 0, 0, 0, h-2 );
-                g.drawLine( 0, h-2, w-1, h-2 );
-                g.setColor( MetalLookAndFeel.getControlHighlight() );
-                g.drawLine( 1, 1, w-1, 1 );
-                g.drawLine( 1, 1, 1, h-1 );
-                g.drawLine( 1, h-1, w-1, h-1 );
-                g.setColor( MetalLookAndFeel.getControl() );
-                g.drawLine( 1, h-2, 1, h-2 );
+            flsf {
+                g.sftColor( MftblLookAndFffl.gftControlDbrkSibdow() );
+                g.drbwLinf( 0, 0, w-1, 0 );
+                g.drbwLinf( 0, 0, 0, i-2 );
+                g.drbwLinf( 0, i-2, w-1, i-2 );
+                g.sftColor( MftblLookAndFffl.gftControlHigiligit() );
+                g.drbwLinf( 1, 1, w-1, 1 );
+                g.drbwLinf( 1, 1, 1, i-1 );
+                g.drbwLinf( 1, i-1, w-1, i-1 );
+                g.sftColor( MftblLookAndFffl.gftControl() );
+                g.drbwLinf( 1, i-2, 1, i-2 );
             }
 
-            g.translate( -x, -y );
+            g.trbnslbtf( -x, -y );
         }
 
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.set(2, 2, 2, 0);
-            return insets;
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(2, 2, 2, 0);
+            rfturn insfts;
         }
     }
 
 
     /**
-     * A subclass of BasicComboBoxEditor that implements UIResource.
-     * BasicComboBoxEditor doesn't implement UIResource
-     * directly so that applications can safely override the
-     * cellRenderer property with BasicListCellRenderer subclasses.
+     * A subdlbss of BbsidComboBoxEditor tibt implfmfnts UIRfsourdf.
+     * BbsidComboBoxEditor dofsn't implfmfnt UIRfsourdf
+     * dirfdtly so tibt bpplidbtions dbn sbffly ovfrridf tif
+     * dfllRfndfrfr propfrty witi BbsidListCfllRfndfrfr subdlbssfs.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UIResource extends MetalComboBoxEditor
-    implements javax.swing.plaf.UIResource {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UIRfsourdf fxtfnds MftblComboBoxEditor
+    implfmfnts jbvbx.swing.plbf.UIRfsourdf {
     }
 }

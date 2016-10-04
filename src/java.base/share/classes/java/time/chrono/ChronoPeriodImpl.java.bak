@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2013, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2013, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,348 +54,348 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.YEARS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
-import java.time.DateTimeException;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.tfmporbl.CironoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
 
 /**
- * A period expressed in terms of a standard year-month-day calendar system.
+ * A pfriod fxprfssfd in tfrms of b stbndbrd yfbr-monti-dby dblfndbr systfm.
  * <p>
- * This class is used by applications seeking to handle dates in non-ISO calendar systems.
- * For example, the Japanese, Minguo, Thai Buddhist and others.
+ * Tiis dlbss is usfd by bpplidbtions sffking to ibndlf dbtfs in non-ISO dblfndbr systfms.
+ * For fxbmplf, tif Jbpbnfsf, Minguo, Tibi Buddiist bnd otifrs.
  *
- * @implSpec
- * This class is immutable nad thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf nbd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class ChronoPeriodImpl
-        implements ChronoPeriod, Serializable {
-    // this class is only used by JDK chronology implementations and makes assumptions based on that fact
+finbl dlbss CironoPfriodImpl
+        implfmfnts CironoPfriod, Sfriblizbblf {
+    // tiis dlbss is only usfd by JDK dironology implfmfntbtions bnd mbkfs bssumptions bbsfd on tibt fbdt
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = 57387258289L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 57387258289L;
 
     /**
-     * The set of supported units.
+     * Tif sft of supportfd units.
      */
-    private static final List<TemporalUnit> SUPPORTED_UNITS =
-            Collections.unmodifiableList(Arrays.<TemporalUnit>asList(YEARS, MONTHS, DAYS));
+    privbtf stbtid finbl List<TfmporblUnit> SUPPORTED_UNITS =
+            Collfdtions.unmodifibblfList(Arrbys.<TfmporblUnit>bsList(YEARS, MONTHS, DAYS));
 
     /**
-     * The chronology.
+     * Tif dironology.
      */
-    private final Chronology chrono;
+    privbtf finbl Cironology dirono;
     /**
-     * The number of years.
+     * Tif numbfr of yfbrs.
      */
-    final int years;
+    finbl int yfbrs;
     /**
-     * The number of months.
+     * Tif numbfr of montis.
      */
-    final int months;
+    finbl int montis;
     /**
-     * The number of days.
+     * Tif numbfr of dbys.
      */
-    final int days;
+    finbl int dbys;
 
     /**
-     * Creates an instance.
+     * Crfbtfs bn instbndf.
      */
-    ChronoPeriodImpl(Chronology chrono, int years, int months, int days) {
-        Objects.requireNonNull(chrono, "chrono");
-        this.chrono = chrono;
-        this.years = years;
-        this.months = months;
-        this.days = days;
+    CironoPfriodImpl(Cironology dirono, int yfbrs, int montis, int dbys) {
+        Objfdts.rfquirfNonNull(dirono, "dirono");
+        tiis.dirono = dirono;
+        tiis.yfbrs = yfbrs;
+        tiis.montis = montis;
+        tiis.dbys = dbys;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public long get(TemporalUnit unit) {
-        if (unit == ChronoUnit.YEARS) {
-            return years;
-        } else if (unit == ChronoUnit.MONTHS) {
-            return months;
-        } else if (unit == ChronoUnit.DAYS) {
-            return days;
-        } else {
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+    @Ovfrridf
+    publid long gft(TfmporblUnit unit) {
+        if (unit == CironoUnit.YEARS) {
+            rfturn yfbrs;
+        } flsf if (unit == CironoUnit.MONTHS) {
+            rfturn montis;
+        } flsf if (unit == CironoUnit.DAYS) {
+            rfturn dbys;
+        } flsf {
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd unit: " + unit);
         }
     }
 
-    @Override
-    public List<TemporalUnit> getUnits() {
-        return ChronoPeriodImpl.SUPPORTED_UNITS;
+    @Ovfrridf
+    publid List<TfmporblUnit> gftUnits() {
+        rfturn CironoPfriodImpl.SUPPORTED_UNITS;
     }
 
-    @Override
-    public Chronology getChronology() {
-        return chrono;
-    }
-
-    //-----------------------------------------------------------------------
-    @Override
-    public boolean isZero() {
-        return years == 0 && months == 0 && days == 0;
-    }
-
-    @Override
-    public boolean isNegative() {
-        return years < 0 || months < 0 || days < 0;
+    @Ovfrridf
+    publid Cironology gftCironology() {
+        rfturn dirono;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ChronoPeriod plus(TemporalAmount amountToAdd) {
-        ChronoPeriodImpl amount = validateAmount(amountToAdd);
-        return new ChronoPeriodImpl(
-                chrono,
-                Math.addExact(years, amount.years),
-                Math.addExact(months, amount.months),
-                Math.addExact(days, amount.days));
+    @Ovfrridf
+    publid boolfbn isZfro() {
+        rfturn yfbrs == 0 && montis == 0 && dbys == 0;
     }
 
-    @Override
-    public ChronoPeriod minus(TemporalAmount amountToSubtract) {
-        ChronoPeriodImpl amount = validateAmount(amountToSubtract);
-        return new ChronoPeriodImpl(
-                chrono,
-                Math.subtractExact(years, amount.years),
-                Math.subtractExact(months, amount.months),
-                Math.subtractExact(days, amount.days));
+    @Ovfrridf
+    publid boolfbn isNfgbtivf() {
+        rfturn yfbrs < 0 || montis < 0 || dbys < 0;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid CironoPfriod plus(TfmporblAmount bmountToAdd) {
+        CironoPfriodImpl bmount = vblidbtfAmount(bmountToAdd);
+        rfturn nfw CironoPfriodImpl(
+                dirono,
+                Mbti.bddExbdt(yfbrs, bmount.yfbrs),
+                Mbti.bddExbdt(montis, bmount.montis),
+                Mbti.bddExbdt(dbys, bmount.dbys));
+    }
+
+    @Ovfrridf
+    publid CironoPfriod minus(TfmporblAmount bmountToSubtrbdt) {
+        CironoPfriodImpl bmount = vblidbtfAmount(bmountToSubtrbdt);
+        rfturn nfw CironoPfriodImpl(
+                dirono,
+                Mbti.subtrbdtExbdt(yfbrs, bmount.yfbrs),
+                Mbti.subtrbdtExbdt(montis, bmount.montis),
+                Mbti.subtrbdtExbdt(dbys, bmount.dbys));
     }
 
     /**
-     * Obtains an instance of {@code ChronoPeriodImpl} from a temporal amount.
+     * Obtbins bn instbndf of {@dodf CironoPfriodImpl} from b tfmporbl bmount.
      *
-     * @param amount  the temporal amount to convert, not null
-     * @return the period, not null
+     * @pbrbm bmount  tif tfmporbl bmount to donvfrt, not null
+     * @rfturn tif pfriod, not null
      */
-    private ChronoPeriodImpl validateAmount(TemporalAmount amount) {
-        Objects.requireNonNull(amount, "amount");
-        if (amount instanceof ChronoPeriodImpl == false) {
-            throw new DateTimeException("Unable to obtain ChronoPeriod from TemporalAmount: " + amount.getClass());
+    privbtf CironoPfriodImpl vblidbtfAmount(TfmporblAmount bmount) {
+        Objfdts.rfquirfNonNull(bmount, "bmount");
+        if (bmount instbndfof CironoPfriodImpl == fblsf) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin CironoPfriod from TfmporblAmount: " + bmount.gftClbss());
         }
-        ChronoPeriodImpl period = (ChronoPeriodImpl) amount;
-        if (chrono.equals(period.getChronology()) == false) {
-            throw new ClassCastException("Chronology mismatch, expected: " + chrono.getId() + ", actual: " + period.getChronology().getId());
+        CironoPfriodImpl pfriod = (CironoPfriodImpl) bmount;
+        if (dirono.fqubls(pfriod.gftCironology()) == fblsf) {
+            tirow nfw ClbssCbstExdfption("Cironology mismbtdi, fxpfdtfd: " + dirono.gftId() + ", bdtubl: " + pfriod.gftCironology().gftId());
         }
-        return period;
+        rfturn pfriod;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ChronoPeriod multipliedBy(int scalar) {
-        if (this.isZero() || scalar == 1) {
-            return this;
+    @Ovfrridf
+    publid CironoPfriod multiplifdBy(int sdblbr) {
+        if (tiis.isZfro() || sdblbr == 1) {
+            rfturn tiis;
         }
-        return new ChronoPeriodImpl(
-                chrono,
-                Math.multiplyExact(years, scalar),
-                Math.multiplyExact(months, scalar),
-                Math.multiplyExact(days, scalar));
+        rfturn nfw CironoPfriodImpl(
+                dirono,
+                Mbti.multiplyExbdt(yfbrs, sdblbr),
+                Mbti.multiplyExbdt(montis, sdblbr),
+                Mbti.multiplyExbdt(dbys, sdblbr));
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ChronoPeriod normalized() {
-        long monthRange = monthRange();
-        if (monthRange > 0) {
-            long totalMonths = years * monthRange + months;
-            long splitYears = totalMonths / monthRange;
-            int splitMonths = (int) (totalMonths % monthRange);  // no overflow
-            if (splitYears == years && splitMonths == months) {
-                return this;
+    @Ovfrridf
+    publid CironoPfriod normblizfd() {
+        long montiRbngf = montiRbngf();
+        if (montiRbngf > 0) {
+            long totblMontis = yfbrs * montiRbngf + montis;
+            long splitYfbrs = totblMontis / montiRbngf;
+            int splitMontis = (int) (totblMontis % montiRbngf);  // no ovfrflow
+            if (splitYfbrs == yfbrs && splitMontis == montis) {
+                rfturn tiis;
             }
-            return new ChronoPeriodImpl(chrono, Math.toIntExact(splitYears), splitMonths, days);
+            rfturn nfw CironoPfriodImpl(dirono, Mbti.toIntExbdt(splitYfbrs), splitMontis, dbys);
 
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Calculates the range of months.
+     * Cbldulbtfs tif rbngf of montis.
      *
-     * @return the month range, -1 if not fixed range
+     * @rfturn tif monti rbngf, -1 if not fixfd rbngf
      */
-    private long monthRange() {
-        ValueRange startRange = chrono.range(MONTH_OF_YEAR);
-        if (startRange.isFixed() && startRange.isIntValue()) {
-            return startRange.getMaximum() - startRange.getMinimum() + 1;
+    privbtf long montiRbngf() {
+        VblufRbngf stbrtRbngf = dirono.rbngf(MONTH_OF_YEAR);
+        if (stbrtRbngf.isFixfd() && stbrtRbngf.isIntVbluf()) {
+            rfturn stbrtRbngf.gftMbximum() - stbrtRbngf.gftMinimum() + 1;
         }
-        return -1;
+        rfturn -1;
     }
 
     //-------------------------------------------------------------------------
-    @Override
-    public Temporal addTo(Temporal temporal) {
-        validateChrono(temporal);
-        if (months == 0) {
-            if (years != 0) {
-                temporal = temporal.plus(years, YEARS);
+    @Ovfrridf
+    publid Tfmporbl bddTo(Tfmporbl tfmporbl) {
+        vblidbtfCirono(tfmporbl);
+        if (montis == 0) {
+            if (yfbrs != 0) {
+                tfmporbl = tfmporbl.plus(yfbrs, YEARS);
             }
-        } else {
-            long monthRange = monthRange();
-            if (monthRange > 0) {
-                temporal = temporal.plus(years * monthRange + months, MONTHS);
-            } else {
-                if (years != 0) {
-                    temporal = temporal.plus(years, YEARS);
+        } flsf {
+            long montiRbngf = montiRbngf();
+            if (montiRbngf > 0) {
+                tfmporbl = tfmporbl.plus(yfbrs * montiRbngf + montis, MONTHS);
+            } flsf {
+                if (yfbrs != 0) {
+                    tfmporbl = tfmporbl.plus(yfbrs, YEARS);
                 }
-                temporal = temporal.plus(months, MONTHS);
+                tfmporbl = tfmporbl.plus(montis, MONTHS);
             }
         }
-        if (days != 0) {
-            temporal = temporal.plus(days, DAYS);
+        if (dbys != 0) {
+            tfmporbl = tfmporbl.plus(dbys, DAYS);
         }
-        return temporal;
+        rfturn tfmporbl;
     }
 
 
 
-    @Override
-    public Temporal subtractFrom(Temporal temporal) {
-        validateChrono(temporal);
-        if (months == 0) {
-            if (years != 0) {
-                temporal = temporal.minus(years, YEARS);
+    @Ovfrridf
+    publid Tfmporbl subtrbdtFrom(Tfmporbl tfmporbl) {
+        vblidbtfCirono(tfmporbl);
+        if (montis == 0) {
+            if (yfbrs != 0) {
+                tfmporbl = tfmporbl.minus(yfbrs, YEARS);
             }
-        } else {
-            long monthRange = monthRange();
-            if (monthRange > 0) {
-                temporal = temporal.minus(years * monthRange + months, MONTHS);
-            } else {
-                if (years != 0) {
-                    temporal = temporal.minus(years, YEARS);
+        } flsf {
+            long montiRbngf = montiRbngf();
+            if (montiRbngf > 0) {
+                tfmporbl = tfmporbl.minus(yfbrs * montiRbngf + montis, MONTHS);
+            } flsf {
+                if (yfbrs != 0) {
+                    tfmporbl = tfmporbl.minus(yfbrs, YEARS);
                 }
-                temporal = temporal.minus(months, MONTHS);
+                tfmporbl = tfmporbl.minus(montis, MONTHS);
             }
         }
-        if (days != 0) {
-            temporal = temporal.minus(days, DAYS);
+        if (dbys != 0) {
+            tfmporbl = tfmporbl.minus(dbys, DAYS);
         }
-        return temporal;
+        rfturn tfmporbl;
     }
 
     /**
-     * Validates that the temporal has the correct chronology.
+     * Vblidbtfs tibt tif tfmporbl ibs tif dorrfdt dironology.
      */
-    private void validateChrono(TemporalAccessor temporal) {
-        Objects.requireNonNull(temporal, "temporal");
-        Chronology temporalChrono = temporal.query(TemporalQueries.chronology());
-        if (temporalChrono != null && chrono.equals(temporalChrono) == false) {
-            throw new DateTimeException("Chronology mismatch, expected: " + chrono.getId() + ", actual: " + temporalChrono.getId());
+    privbtf void vblidbtfCirono(TfmporblAddfssor tfmporbl) {
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
+        Cironology tfmporblCirono = tfmporbl.qufry(TfmporblQufrifs.dironology());
+        if (tfmporblCirono != null && dirono.fqubls(tfmporblCirono) == fblsf) {
+            tirow nfw DbtfTimfExdfption("Cironology mismbtdi, fxpfdtfd: " + dirono.gftId() + ", bdtubl: " + tfmporblCirono.gftId());
         }
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof ChronoPeriodImpl) {
-            ChronoPeriodImpl other = (ChronoPeriodImpl) obj;
-            return years == other.years && months == other.months &&
-                    days == other.days && chrono.equals(other.chrono);
+        if (obj instbndfof CironoPfriodImpl) {
+            CironoPfriodImpl otifr = (CironoPfriodImpl) obj;
+            rfturn yfbrs == otifr.yfbrs && montis == otifr.montis &&
+                    dbys == otifr.dbys && dirono.fqubls(otifr.dirono);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        return (years + Integer.rotateLeft(months, 8) + Integer.rotateLeft(days, 16)) ^ chrono.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn (yfbrs + Intfgfr.rotbtfLfft(montis, 8) + Intfgfr.rotbtfLfft(dbys, 16)) ^ dirono.ibsiCodf();
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public String toString() {
-        if (isZero()) {
-            return getChronology().toString() + " P0D";
-        } else {
-            StringBuilder buf = new StringBuilder();
-            buf.append(getChronology().toString()).append(' ').append('P');
-            if (years != 0) {
-                buf.append(years).append('Y');
+    @Ovfrridf
+    publid String toString() {
+        if (isZfro()) {
+            rfturn gftCironology().toString() + " P0D";
+        } flsf {
+            StringBuildfr buf = nfw StringBuildfr();
+            buf.bppfnd(gftCironology().toString()).bppfnd(' ').bppfnd('P');
+            if (yfbrs != 0) {
+                buf.bppfnd(yfbrs).bppfnd('Y');
             }
-            if (months != 0) {
-                buf.append(months).append('M');
+            if (montis != 0) {
+                buf.bppfnd(montis).bppfnd('M');
             }
-            if (days != 0) {
-                buf.append(days).append('D');
+            if (dbys != 0) {
+                buf.bppfnd(dbys).bppfnd('D');
             }
-            return buf.toString();
+            rfturn buf.toString();
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the Chronology using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * <pre>
-     *  out.writeByte(12);  // identifies this as a ChronoPeriodImpl
-     *  out.writeUTF(getId());  // the chronology
-     *  out.writeInt(years);
-     *  out.writeInt(months);
-     *  out.writeInt(days);
-     * </pre>
+     * Writfs tif Cironology using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * <prf>
+     *  out.writfBytf(12);  // idfntififs tiis bs b CironoPfriodImpl
+     *  out.writfUTF(gftId());  // tif dironology
+     *  out.writfInt(yfbrs);
+     *  out.writfInt(montis);
+     *  out.writfInt(dbys);
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    protected Object writeReplace() {
-        return new Ser(Ser.CHRONO_PERIOD_TYPE, this);
+    protfdtfd Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.CHRONO_PERIOD_TYPE, tiis);
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws ObjectStreamException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows ObjfdtStrfbmExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeUTF(chrono.getId());
-        out.writeInt(years);
-        out.writeInt(months);
-        out.writeInt(days);
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        out.writfUTF(dirono.gftId());
+        out.writfInt(yfbrs);
+        out.writfInt(montis);
+        out.writfInt(dbys);
     }
 
-    static ChronoPeriodImpl readExternal(DataInput in) throws IOException {
-        Chronology chrono = Chronology.of(in.readUTF());
-        int years = in.readInt();
-        int months = in.readInt();
-        int days = in.readInt();
-        return new ChronoPeriodImpl(chrono, years, months, days);
+    stbtid CironoPfriodImpl rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        Cironology dirono = Cironology.of(in.rfbdUTF());
+        int yfbrs = in.rfbdInt();
+        int montis = in.rfbdInt();
+        int dbys = in.rfbdInt();
+        rfturn nfw CironoPfriodImpl(dirono, yfbrs, montis, dbys);
     }
 
 }

@@ -1,293 +1,293 @@
 /*
- * Copyright (c) 1997, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.net;
+pbdkbgf jbvbx.nft;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvb.nft.UnknownHostExdfption;
 
 /**
- * This class creates sockets.  It may be subclassed by other factories,
- * which create particular subclasses of sockets and thus provide a general
- * framework for the addition of public socket-level functionality.
+ * Tiis dlbss drfbtfs sodkfts.  It mby bf subdlbssfd by otifr fbdtorifs,
+ * wiidi drfbtf pbrtidulbr subdlbssfs of sodkfts bnd tius providf b gfnfrbl
+ * frbmfwork for tif bddition of publid sodkft-lfvfl fundtionblity.
  *
- * <P> Socket factories are a simple way to capture a variety of policies
- * related to the sockets being constructed, producing such sockets in
- * a way which does not require special configuration of the code which
- * asks for the sockets:  <UL>
+ * <P> Sodkft fbdtorifs brf b simplf wby to dbpturf b vbrifty of polidifs
+ * rflbtfd to tif sodkfts bfing donstrudtfd, produding sudi sodkfts in
+ * b wby wiidi dofs not rfquirf spfdibl donfigurbtion of tif dodf wiidi
+ * bsks for tif sodkfts:  <UL>
  *
- *      <LI> Due to polymorphism of both factories and sockets, different
- *      kinds of sockets can be used by the same application code just
- *      by passing it different kinds of factories.
+ *      <LI> Duf to polymorpiism of boti fbdtorifs bnd sodkfts, difffrfnt
+ *      kinds of sodkfts dbn bf usfd by tif sbmf bpplidbtion dodf just
+ *      by pbssing it difffrfnt kinds of fbdtorifs.
  *
- *      <LI> Factories can themselves be customized with parameters used
- *      in socket construction.  So for example, factories could be
- *      customized to return sockets with different networking timeouts
- *      or security parameters already configured.
+ *      <LI> Fbdtorifs dbn tifmsflvfs bf dustomizfd witi pbrbmftfrs usfd
+ *      in sodkft donstrudtion.  So for fxbmplf, fbdtorifs dould bf
+ *      dustomizfd to rfturn sodkfts witi difffrfnt nftworking timfouts
+ *      or sfdurity pbrbmftfrs blrfbdy donfigurfd.
  *
- *      <LI> The sockets returned to the application can be subclasses
- *      of java.net.Socket, so that they can directly expose new APIs
- *      for features such as compression, security, record marking,
- *      statistics collection, or firewall tunneling.
+ *      <LI> Tif sodkfts rfturnfd to tif bpplidbtion dbn bf subdlbssfs
+ *      of jbvb.nft.Sodkft, so tibt tify dbn dirfdtly fxposf nfw APIs
+ *      for ffbturfs sudi bs domprfssion, sfdurity, rfdord mbrking,
+ *      stbtistids dollfdtion, or firfwbll tunnfling.
  *
  *      </UL>
  *
- * <P> Factory classes are specified by environment-specific configuration
- * mechanisms.  For example, the <em>getDefault</em> method could return
- * a factory that was appropriate for a particular user or applet, and a
- * framework could use a factory customized to its own purposes.
+ * <P> Fbdtory dlbssfs brf spfdififd by fnvironmfnt-spfdifid donfigurbtion
+ * mfdibnisms.  For fxbmplf, tif <fm>gftDffbult</fm> mftiod dould rfturn
+ * b fbdtory tibt wbs bppropribtf for b pbrtidulbr usfr or bpplft, bnd b
+ * frbmfwork dould usf b fbdtory dustomizfd to its own purposfs.
  *
- * @since 1.4
- * @see ServerSocketFactory
+ * @sindf 1.4
+ * @sff SfrvfrSodkftFbdtory
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-public abstract class SocketFactory
+publid bbstrbdt dlbss SodkftFbdtory
 {
     //
-    // NOTE:  JDK 1.1 bug in class GC, this can get collected
-    // even though it's always accessible via getDefault().
+    // NOTE:  JDK 1.1 bug in dlbss GC, tiis dbn gft dollfdtfd
+    // fvfn tiougi it's blwbys bddfssiblf vib gftDffbult().
     //
-    private static SocketFactory                theFactory;
+    privbtf stbtid SodkftFbdtory                tifFbdtory;
 
     /**
-     * Creates a <code>SocketFactory</code>.
+     * Crfbtfs b <dodf>SodkftFbdtory</dodf>.
      */
-    protected SocketFactory() { /* NOTHING */ }
+    protfdtfd SodkftFbdtory() { /* NOTHING */ }
 
 
     /**
-     * Returns a copy of the environment's default socket factory.
+     * Rfturns b dopy of tif fnvironmfnt's dffbult sodkft fbdtory.
      *
-     * @return the default <code>SocketFactory</code>
+     * @rfturn tif dffbult <dodf>SodkftFbdtory</dodf>
      */
-    public static SocketFactory getDefault()
+    publid stbtid SodkftFbdtory gftDffbult()
     {
-        synchronized (SocketFactory.class) {
-            if (theFactory == null) {
+        syndironizfd (SodkftFbdtory.dlbss) {
+            if (tifFbdtory == null) {
                 //
-                // Different implementations of this method SHOULD
-                // work rather differently.  For example, driving
-                // this from a system property, or using a different
-                // implementation than JavaSoft's.
+                // Difffrfnt implfmfntbtions of tiis mftiod SHOULD
+                // work rbtifr difffrfntly.  For fxbmplf, driving
+                // tiis from b systfm propfrty, or using b difffrfnt
+                // implfmfntbtion tibn JbvbSoft's.
                 //
-                theFactory = new DefaultSocketFactory();
+                tifFbdtory = nfw DffbultSodkftFbdtory();
             }
         }
 
-        return theFactory;
+        rfturn tifFbdtory;
     }
 
 
     /**
-     * Creates an unconnected socket.
+     * Crfbtfs bn undonnfdtfd sodkft.
      *
-     * @return the unconnected socket
-     * @throws IOException if the socket cannot be created
-     * @see java.net.Socket#connect(java.net.SocketAddress)
-     * @see java.net.Socket#connect(java.net.SocketAddress, int)
-     * @see java.net.Socket#Socket()
+     * @rfturn tif undonnfdtfd sodkft
+     * @tirows IOExdfption if tif sodkft dbnnot bf drfbtfd
+     * @sff jbvb.nft.Sodkft#donnfdt(jbvb.nft.SodkftAddrfss)
+     * @sff jbvb.nft.Sodkft#donnfdt(jbvb.nft.SodkftAddrfss, int)
+     * @sff jbvb.nft.Sodkft#Sodkft()
      */
-    public Socket createSocket() throws IOException {
+    publid Sodkft drfbtfSodkft() tirows IOExdfption {
         //
         // bug 6771432:
-        // The Exception is used by HttpsClient to signal that
-        // unconnected sockets have not been implemented.
+        // Tif Exdfption is usfd by HttpsClifnt to signbl tibt
+        // undonnfdtfd sodkfts ibvf not bffn implfmfntfd.
         //
-        UnsupportedOperationException uop = new
-                UnsupportedOperationException();
-        SocketException se =  new SocketException(
-                "Unconnected sockets not implemented");
-        se.initCause(uop);
-        throw se;
+        UnsupportfdOpfrbtionExdfption uop = nfw
+                UnsupportfdOpfrbtionExdfption();
+        SodkftExdfption sf =  nfw SodkftExdfption(
+                "Undonnfdtfd sodkfts not implfmfntfd");
+        sf.initCbusf(uop);
+        tirow sf;
     }
 
 
     /**
-     * Creates a socket and connects it to the specified remote host
-     * at the specified remote port.  This socket is configured using
-     * the socket options established for this factory.
+     * Crfbtfs b sodkft bnd donnfdts it to tif spfdififd rfmotf iost
+     * bt tif spfdififd rfmotf port.  Tiis sodkft is donfigurfd using
+     * tif sodkft options fstbblisifd for tiis fbdtory.
      * <p>
-     * If there is a security manager, its <code>checkConnect</code>
-     * method is called with the host address and <code>port</code>
-     * as its arguments. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkConnfdt</dodf>
+     * mftiod is dbllfd witi tif iost bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param host the server host name with which to connect, or
-     *        <code>null</code> for the loopback address.
-     * @param port the server port
-     * @return the <code>Socket</code>
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkConnect</code> method doesn't allow the operation.
-     * @throws UnknownHostException if the host is not known
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
-     *         65535, inclusive.
-     * @see SecurityManager#checkConnect
-     * @see java.net.Socket#Socket(String, int)
+     * @pbrbm iost tif sfrvfr iost nbmf witi wiidi to donnfdt, or
+     *        <dodf>null</dodf> for tif loopbbdk bddrfss.
+     * @pbrbm port tif sfrvfr port
+     * @rfturn tif <dodf>Sodkft</dodf>
+     * @tirows IOExdfption if bn I/O frror oddurs wifn drfbting tif sodkft
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkConnfdt</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows UnknownHostExdfption if tif iost is not known
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif
+     *         spfdififd rbngf of vblid port vblufs, wiidi is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff SfdurityMbnbgfr#difdkConnfdt
+     * @sff jbvb.nft.Sodkft#Sodkft(String, int)
      */
-    public abstract Socket createSocket(String host, int port)
-    throws IOException, UnknownHostException;
+    publid bbstrbdt Sodkft drfbtfSodkft(String iost, int port)
+    tirows IOExdfption, UnknownHostExdfption;
 
 
     /**
-     * Creates a socket and connects it to the specified remote host
-     * on the specified remote port.
-     * The socket will also be bound to the local address and port supplied.
-     * This socket is configured using
-     * the socket options established for this factory.
+     * Crfbtfs b sodkft bnd donnfdts it to tif spfdififd rfmotf iost
+     * on tif spfdififd rfmotf port.
+     * Tif sodkft will blso bf bound to tif lodbl bddrfss bnd port supplifd.
+     * Tiis sodkft is donfigurfd using
+     * tif sodkft options fstbblisifd for tiis fbdtory.
      * <p>
-     * If there is a security manager, its <code>checkConnect</code>
-     * method is called with the host address and <code>port</code>
-     * as its arguments. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkConnfdt</dodf>
+     * mftiod is dbllfd witi tif iost bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param host the server host name with which to connect, or
-     *        <code>null</code> for the loopback address.
-     * @param port the server port
-     * @param localHost the local address the socket is bound to
-     * @param localPort the local port the socket is bound to
-     * @return the <code>Socket</code>
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkConnect</code> method doesn't allow the operation.
-     * @throws UnknownHostException if the host is not known
-     * @throws IllegalArgumentException if the port parameter or localPort
-     *         parameter is outside the specified range of valid port values,
-     *         which is between 0 and 65535, inclusive.
-     * @see SecurityManager#checkConnect
-     * @see java.net.Socket#Socket(String, int, java.net.InetAddress, int)
+     * @pbrbm iost tif sfrvfr iost nbmf witi wiidi to donnfdt, or
+     *        <dodf>null</dodf> for tif loopbbdk bddrfss.
+     * @pbrbm port tif sfrvfr port
+     * @pbrbm lodblHost tif lodbl bddrfss tif sodkft is bound to
+     * @pbrbm lodblPort tif lodbl port tif sodkft is bound to
+     * @rfturn tif <dodf>Sodkft</dodf>
+     * @tirows IOExdfption if bn I/O frror oddurs wifn drfbting tif sodkft
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkConnfdt</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows UnknownHostExdfption if tif iost is not known
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr or lodblPort
+     *         pbrbmftfr is outsidf tif spfdififd rbngf of vblid port vblufs,
+     *         wiidi is bftwffn 0 bnd 65535, indlusivf.
+     * @sff SfdurityMbnbgfr#difdkConnfdt
+     * @sff jbvb.nft.Sodkft#Sodkft(String, int, jbvb.nft.InftAddrfss, int)
      */
-    public abstract Socket
-    createSocket(String host, int port, InetAddress localHost, int localPort)
-    throws IOException, UnknownHostException;
+    publid bbstrbdt Sodkft
+    drfbtfSodkft(String iost, int port, InftAddrfss lodblHost, int lodblPort)
+    tirows IOExdfption, UnknownHostExdfption;
 
 
     /**
-     * Creates a socket and connects it to the specified port number
-     * at the specified address.  This socket is configured using
-     * the socket options established for this factory.
+     * Crfbtfs b sodkft bnd donnfdts it to tif spfdififd port numbfr
+     * bt tif spfdififd bddrfss.  Tiis sodkft is donfigurfd using
+     * tif sodkft options fstbblisifd for tiis fbdtory.
      * <p>
-     * If there is a security manager, its <code>checkConnect</code>
-     * method is called with the host address and <code>port</code>
-     * as its arguments. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkConnfdt</dodf>
+     * mftiod is dbllfd witi tif iost bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param host the server host
-     * @param port the server port
-     * @return the <code>Socket</code>
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkConnect</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter is outside the
-     *         specified range of valid port values, which is between 0 and
-     *         65535, inclusive.
-     * @throws NullPointerException if <code>host</code> is null.
-     * @see SecurityManager#checkConnect
-     * @see java.net.Socket#Socket(java.net.InetAddress, int)
+     * @pbrbm iost tif sfrvfr iost
+     * @pbrbm port tif sfrvfr port
+     * @rfturn tif <dodf>Sodkft</dodf>
+     * @tirows IOExdfption if bn I/O frror oddurs wifn drfbting tif sodkft
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkConnfdt</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif
+     *         spfdififd rbngf of vblid port vblufs, wiidi is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @tirows NullPointfrExdfption if <dodf>iost</dodf> is null.
+     * @sff SfdurityMbnbgfr#difdkConnfdt
+     * @sff jbvb.nft.Sodkft#Sodkft(jbvb.nft.InftAddrfss, int)
      */
-    public abstract Socket createSocket(InetAddress host, int port)
-    throws IOException;
+    publid bbstrbdt Sodkft drfbtfSodkft(InftAddrfss iost, int port)
+    tirows IOExdfption;
 
 
     /**
-     * Creates a socket and connect it to the specified remote address
-     * on the specified remote port.  The socket will also be bound
-     * to the local address and port suplied.  The socket is configured using
-     * the socket options established for this factory.
+     * Crfbtfs b sodkft bnd donnfdt it to tif spfdififd rfmotf bddrfss
+     * on tif spfdififd rfmotf port.  Tif sodkft will blso bf bound
+     * to tif lodbl bddrfss bnd port suplifd.  Tif sodkft is donfigurfd using
+     * tif sodkft options fstbblisifd for tiis fbdtory.
      * <p>
-     * If there is a security manager, its <code>checkConnect</code>
-     * method is called with the host address and <code>port</code>
-     * as its arguments. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its <dodf>difdkConnfdt</dodf>
+     * mftiod is dbllfd witi tif iost bddrfss bnd <dodf>port</dodf>
+     * bs its brgumfnts. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param address the server network address
-     * @param port the server port
-     * @param localAddress the client network address
-     * @param localPort the client port
-     * @return the <code>Socket</code>
-     * @throws IOException if an I/O error occurs when creating the socket
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkConnect</code> method doesn't allow the operation.
-     * @throws IllegalArgumentException if the port parameter or localPort
-     *         parameter is outside the specified range of valid port values,
-     *         which is between 0 and 65535, inclusive.
-     * @throws NullPointerException if <code>address</code> is null.
-     * @see SecurityManager#checkConnect
-     * @see java.net.Socket#Socket(java.net.InetAddress, int,
-     *     java.net.InetAddress, int)
+     * @pbrbm bddrfss tif sfrvfr nftwork bddrfss
+     * @pbrbm port tif sfrvfr port
+     * @pbrbm lodblAddrfss tif dlifnt nftwork bddrfss
+     * @pbrbm lodblPort tif dlifnt port
+     * @rfturn tif <dodf>Sodkft</dodf>
+     * @tirows IOExdfption if bn I/O frror oddurs wifn drfbting tif sodkft
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkConnfdt</dodf> mftiod dofsn't bllow tif opfrbtion.
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr or lodblPort
+     *         pbrbmftfr is outsidf tif spfdififd rbngf of vblid port vblufs,
+     *         wiidi is bftwffn 0 bnd 65535, indlusivf.
+     * @tirows NullPointfrExdfption if <dodf>bddrfss</dodf> is null.
+     * @sff SfdurityMbnbgfr#difdkConnfdt
+     * @sff jbvb.nft.Sodkft#Sodkft(jbvb.nft.InftAddrfss, int,
+     *     jbvb.nft.InftAddrfss, int)
      */
-    public abstract Socket
-    createSocket(InetAddress address, int port,
-        InetAddress localAddress, int localPort)
-    throws IOException;
+    publid bbstrbdt Sodkft
+    drfbtfSodkft(InftAddrfss bddrfss, int port,
+        InftAddrfss lodblAddrfss, int lodblPort)
+    tirows IOExdfption;
 }
 
 
 //
-// The default factory has NO intelligence about policies like tunneling
-// out through firewalls (e.g. SOCKS V4 or V5) or in through them
-// (e.g. using SSL), or that some ports are reserved for use with SSL.
+// Tif dffbult fbdtory ibs NO intflligfndf bbout polidifs likf tunnfling
+// out tirougi firfwblls (f.g. SOCKS V4 or V5) or in tirougi tifm
+// (f.g. using SSL), or tibt somf ports brf rfsfrvfd for usf witi SSL.
 //
-// Note that at least JDK 1.1 has a low level "plainSocketImpl" that
-// knows about SOCKS V4 tunneling, so this isn't a totally bogus default.
+// Notf tibt bt lfbst JDK 1.1 ibs b low lfvfl "plbinSodkftImpl" tibt
+// knows bbout SOCKS V4 tunnfling, so tiis isn't b totblly bogus dffbult.
 //
-// ALSO:  we may want to expose this class somewhere so other folk
-// can reuse it, particularly if we start to add highly useful features
-// such as ability to set connect timeouts.
+// ALSO:  wf mby wbnt to fxposf tiis dlbss somfwifrf so otifr folk
+// dbn rfusf it, pbrtidulbrly if wf stbrt to bdd iigily usfful ffbturfs
+// sudi bs bbility to sft donnfdt timfouts.
 //
-class DefaultSocketFactory extends SocketFactory {
+dlbss DffbultSodkftFbdtory fxtfnds SodkftFbdtory {
 
-    public Socket createSocket() {
-        return new Socket();
+    publid Sodkft drfbtfSodkft() {
+        rfturn nfw Sodkft();
     }
 
-    public Socket createSocket(String host, int port)
-    throws IOException, UnknownHostException
+    publid Sodkft drfbtfSodkft(String iost, int port)
+    tirows IOExdfption, UnknownHostExdfption
     {
-        return new Socket(host, port);
+        rfturn nfw Sodkft(iost, port);
     }
 
-    public Socket createSocket(InetAddress address, int port)
-    throws IOException
+    publid Sodkft drfbtfSodkft(InftAddrfss bddrfss, int port)
+    tirows IOExdfption
     {
-        return new Socket(address, port);
+        rfturn nfw Sodkft(bddrfss, port);
     }
 
-    public Socket createSocket(String host, int port,
-        InetAddress clientAddress, int clientPort)
-    throws IOException, UnknownHostException
+    publid Sodkft drfbtfSodkft(String iost, int port,
+        InftAddrfss dlifntAddrfss, int dlifntPort)
+    tirows IOExdfption, UnknownHostExdfption
     {
-        return new Socket(host, port, clientAddress, clientPort);
+        rfturn nfw Sodkft(iost, port, dlifntAddrfss, dlifntPort);
     }
 
-    public Socket createSocket(InetAddress address, int port,
-        InetAddress clientAddress, int clientPort)
-    throws IOException
+    publid Sodkft drfbtfSodkft(InftAddrfss bddrfss, int port,
+        InftAddrfss dlifntAddrfss, int dlifntPort)
+    tirows IOExdfption
     {
-        return new Socket(address, port, clientAddress, clientPort);
+        rfturn nfw Sodkft(bddrfss, port, dlifntAddrfss, dlifntPort);
     }
 }

@@ -1,0 +1,58 @@
+/*
+ * Copyright (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+/**
+ * This fxdfption is thrown whfn b pbrtidulbr sfdurity providfr is
+ * rfqufstfd but is not bvbilbblf in thf fnvironmfnt.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ */
+
+publid dlbss NoSudhProvidfrExdfption fxtfnds GfnfrblSfdurityExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8488111756688534474L;
+
+    /**
+     * Construdts b NoSudhProvidfrExdfption with no dftbil mfssbgf. A
+     * dftbil mfssbgf is b String thbt dfsdribfs this pbrtidulbr
+     * fxdfption.
+     */
+    publid NoSudhProvidfrExdfption() {
+        supfr();
+    }
+
+    /**
+     * Construdts b NoSudhProvidfrExdfption with thf spfdififd dftbil
+     * mfssbgf. A dftbil mfssbgf is b String thbt dfsdribfs this
+     * pbrtidulbr fxdfption.
+     *
+     * @pbrbm msg thf dftbil mfssbgf.
+     */
+    publid NoSudhProvidfrExdfption(String msg) {
+        supfr(msg);
+    }
+}

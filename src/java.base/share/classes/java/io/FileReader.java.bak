@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1996, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * Convenience class for reading character files.  The constructors of this
- * class assume that the default character encoding and the default byte-buffer
- * size are appropriate.  To specify these values yourself, construct an
- * InputStreamReader on a FileInputStream.
+ * Convfnifndf dlbss for rfbding dibrbdtfr filfs.  Tif donstrudtors of tiis
+ * dlbss bssumf tibt tif dffbult dibrbdtfr fndoding bnd tif dffbult bytf-bufffr
+ * sizf brf bppropribtf.  To spfdify tifsf vblufs yoursflf, donstrudt bn
+ * InputStrfbmRfbdfr on b FilfInputStrfbm.
  *
- * <p><code>FileReader</code> is meant for reading streams of characters.
- * For reading streams of raw bytes, consider using a
- * <code>FileInputStream</code>.
+ * <p><dodf>FilfRfbdfr</dodf> is mfbnt for rfbding strfbms of dibrbdtfrs.
+ * For rfbding strfbms of rbw bytfs, donsidfr using b
+ * <dodf>FilfInputStrfbm</dodf>.
  *
- * @see InputStreamReader
- * @see FileInputStream
+ * @sff InputStrfbmRfbdfr
+ * @sff FilfInputStrfbm
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
-public class FileReader extends InputStreamReader {
+publid dlbss FilfRfbdfr fxtfnds InputStrfbmRfbdfr {
 
    /**
-    * Creates a new <tt>FileReader</tt>, given the name of the
-    * file to read from.
+    * Crfbtfs b nfw <tt>FilfRfbdfr</tt>, givfn tif nbmf of tif
+    * filf to rfbd from.
     *
-    * @param fileName the name of the file to read from
-    * @exception  FileNotFoundException  if the named file does not exist,
-    *                   is a directory rather than a regular file,
-    *                   or for some other reason cannot be opened for
-    *                   reading.
+    * @pbrbm filfNbmf tif nbmf of tif filf to rfbd from
+    * @fxdfption  FilfNotFoundExdfption  if tif nbmfd filf dofs not fxist,
+    *                   is b dirfdtory rbtifr tibn b rfgulbr filf,
+    *                   or for somf otifr rfbson dbnnot bf opfnfd for
+    *                   rfbding.
     */
-    public FileReader(String fileName) throws FileNotFoundException {
-        super(new FileInputStream(fileName));
+    publid FilfRfbdfr(String filfNbmf) tirows FilfNotFoundExdfption {
+        supfr(nfw FilfInputStrfbm(filfNbmf));
     }
 
    /**
-    * Creates a new <tt>FileReader</tt>, given the <tt>File</tt>
-    * to read from.
+    * Crfbtfs b nfw <tt>FilfRfbdfr</tt>, givfn tif <tt>Filf</tt>
+    * to rfbd from.
     *
-    * @param file the <tt>File</tt> to read from
-    * @exception  FileNotFoundException  if the file does not exist,
-    *                   is a directory rather than a regular file,
-    *                   or for some other reason cannot be opened for
-    *                   reading.
+    * @pbrbm filf tif <tt>Filf</tt> to rfbd from
+    * @fxdfption  FilfNotFoundExdfption  if tif filf dofs not fxist,
+    *                   is b dirfdtory rbtifr tibn b rfgulbr filf,
+    *                   or for somf otifr rfbson dbnnot bf opfnfd for
+    *                   rfbding.
     */
-    public FileReader(File file) throws FileNotFoundException {
-        super(new FileInputStream(file));
+    publid FilfRfbdfr(Filf filf) tirows FilfNotFoundExdfption {
+        supfr(nfw FilfInputStrfbm(filf));
     }
 
    /**
-    * Creates a new <tt>FileReader</tt>, given the
-    * <tt>FileDescriptor</tt> to read from.
+    * Crfbtfs b nfw <tt>FilfRfbdfr</tt>, givfn tif
+    * <tt>FilfDfsdriptor</tt> to rfbd from.
     *
-    * @param fd the FileDescriptor to read from
+    * @pbrbm fd tif FilfDfsdriptor to rfbd from
     */
-    public FileReader(FileDescriptor fd) {
-        super(new FileInputStream(fd));
+    publid FilfRfbdfr(FilfDfsdriptor fd) {
+        supfr(nfw FilfInputStrfbm(fd));
     }
 
 }

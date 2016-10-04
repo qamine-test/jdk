@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012-2013, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012-2013, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,419 +59,419 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbdkbgf jbvb.timf.tfmporbl;
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoField.DAY_OF_YEAR;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_WEEK;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.DAYS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.MONTHS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.YEARS;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.util.Objects;
-import java.util.function.UnaryOperator;
+import jbvb.timf.DbyOfWffk;
+import jbvb.timf.LodblDbtf;
+import jbvb.util.Objfdts;
+import jbvb.util.fundtion.UnbryOpfrbtor;
 
 /**
- * Common and useful TemporalAdjusters.
+ * Common bnd usfful TfmporblAdjustfrs.
  * <p>
- * Adjusters are a key tool for modifying temporal objects.
- * They exist to externalize the process of adjustment, permitting different
- * approaches, as per the strategy design pattern.
- * Examples might be an adjuster that sets the date avoiding weekends, or one that
- * sets the date to the last day of the month.
+ * Adjustfrs brf b kfy tool for modifying tfmporbl objfdts.
+ * Tify fxist to fxtfrnblizf tif prodfss of bdjustmfnt, pfrmitting difffrfnt
+ * bpprobdifs, bs pfr tif strbtfgy dfsign pbttfrn.
+ * Exbmplfs migit bf bn bdjustfr tibt sfts tif dbtf bvoiding wffkfnds, or onf tibt
+ * sfts tif dbtf to tif lbst dby of tif monti.
  * <p>
- * There are two equivalent ways of using a {@code TemporalAdjuster}.
- * The first is to invoke the method on the interface directly.
- * The second is to use {@link Temporal#with(TemporalAdjuster)}:
- * <pre>
- *   // these two lines are equivalent, but the second approach is recommended
- *   temporal = thisAdjuster.adjustInto(temporal);
- *   temporal = temporal.with(thisAdjuster);
- * </pre>
- * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
- * as it is a lot clearer to read in code.
+ * Tifrf brf two fquivblfnt wbys of using b {@dodf TfmporblAdjustfr}.
+ * Tif first is to invokf tif mftiod on tif intfrfbdf dirfdtly.
+ * Tif sfdond is to usf {@link Tfmporbl#witi(TfmporblAdjustfr)}:
+ * <prf>
+ *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+ *   tfmporbl = tiisAdjustfr.bdjustInto(tfmporbl);
+ *   tfmporbl = tfmporbl.witi(tiisAdjustfr);
+ * </prf>
+ * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf witi(TfmporblAdjustfr)},
+ * bs it is b lot dlfbrfr to rfbd in dodf.
  * <p>
- * This class contains a standard set of adjusters, available as static methods.
- * These include:
+ * Tiis dlbss dontbins b stbndbrd sft of bdjustfrs, bvbilbblf bs stbtid mftiods.
+ * Tifsf indludf:
  * <ul>
- * <li>finding the first or last day of the month
- * <li>finding the first day of next month
- * <li>finding the first or last day of the year
- * <li>finding the first day of next year
- * <li>finding the first or last day-of-week within a month, such as "first Wednesday in June"
- * <li>finding the next or previous day-of-week, such as "next Thursday"
+ * <li>finding tif first or lbst dby of tif monti
+ * <li>finding tif first dby of nfxt monti
+ * <li>finding tif first or lbst dby of tif yfbr
+ * <li>finding tif first dby of nfxt yfbr
+ * <li>finding tif first or lbst dby-of-wffk witiin b monti, sudi bs "first Wfdnfsdby in Junf"
+ * <li>finding tif nfxt or prfvious dby-of-wffk, sudi bs "nfxt Tiursdby"
  * </ul>
  *
- * @implSpec
- * All the implementations supplied by the static methods are immutable.
+ * @implSpfd
+ * All tif implfmfntbtions supplifd by tif stbtid mftiods brf immutbblf.
  *
- * @see TemporalAdjuster
- * @since 1.8
+ * @sff TfmporblAdjustfr
+ * @sindf 1.8
  */
-public final class TemporalAdjusters {
+publid finbl dlbss TfmporblAdjustfrs {
 
     /**
-     * Private constructor since this is a utility class.
+     * Privbtf donstrudtor sindf tiis is b utility dlbss.
      */
-    private TemporalAdjusters() {
+    privbtf TfmporblAdjustfrs() {
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code TemporalAdjuster} that wraps a date adjuster.
+     * Obtbins b {@dodf TfmporblAdjustfr} tibt wrbps b dbtf bdjustfr.
      * <p>
-     * The {@code TemporalAdjuster} is based on the low level {@code Temporal} interface.
-     * This method allows an adjustment from {@code LocalDate} to {@code LocalDate}
-     * to be wrapped to match the temporal-based interface.
-     * This is provided for convenience to make user-written adjusters simpler.
+     * Tif {@dodf TfmporblAdjustfr} is bbsfd on tif low lfvfl {@dodf Tfmporbl} intfrfbdf.
+     * Tiis mftiod bllows bn bdjustmfnt from {@dodf LodblDbtf} to {@dodf LodblDbtf}
+     * to bf wrbppfd to mbtdi tif tfmporbl-bbsfd intfrfbdf.
+     * Tiis is providfd for donvfnifndf to mbkf usfr-writtfn bdjustfrs simplfr.
      * <p>
-     * In general, user-written adjusters should be static constants:
-     * <pre>{@code
-     *  static TemporalAdjuster TWO_DAYS_LATER =
-     *       TemporalAdjusters.ofDateAdjuster(date -> date.plusDays(2));
-     * }</pre>
+     * In gfnfrbl, usfr-writtfn bdjustfrs siould bf stbtid donstbnts:
+     * <prf>{@dodf
+     *  stbtid TfmporblAdjustfr TWO_DAYS_LATER =
+     *       TfmporblAdjustfrs.ofDbtfAdjustfr(dbtf -> dbtf.plusDbys(2));
+     * }</prf>
      *
-     * @param dateBasedAdjuster  the date-based adjuster, not null
-     * @return the temporal adjuster wrapping on the date adjuster, not null
+     * @pbrbm dbtfBbsfdAdjustfr  tif dbtf-bbsfd bdjustfr, not null
+     * @rfturn tif tfmporbl bdjustfr wrbpping on tif dbtf bdjustfr, not null
      */
-    public static TemporalAdjuster ofDateAdjuster(UnaryOperator<LocalDate> dateBasedAdjuster) {
-        Objects.requireNonNull(dateBasedAdjuster, "dateBasedAdjuster");
-        return (temporal) -> {
-            LocalDate input = LocalDate.from(temporal);
-            LocalDate output = dateBasedAdjuster.apply(input);
-            return temporal.with(output);
+    publid stbtid TfmporblAdjustfr ofDbtfAdjustfr(UnbryOpfrbtor<LodblDbtf> dbtfBbsfdAdjustfr) {
+        Objfdts.rfquirfNonNull(dbtfBbsfdAdjustfr, "dbtfBbsfdAdjustfr");
+        rfturn (tfmporbl) -> {
+            LodblDbtf input = LodblDbtf.from(tfmporbl);
+            LodblDbtf output = dbtfBbsfdAdjustfr.bpply(input);
+            rfturn tfmporbl.witi(output);
         };
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the "first day of month" adjuster, which returns a new date set to
-     * the first day of the current month.
+     * Rfturns tif "first dby of monti" bdjustfr, wiidi rfturns b nfw dbtf sft to
+     * tif first dby of tif durrfnt monti.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 will return 2011-01-01.<br>
-     * The input 2011-02-15 will return 2011-02-01.
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 will rfturn 2011-01-01.<br>
+     * Tif input 2011-02-15 will rfturn 2011-02-01.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
-     * <pre>
-     *  temporal.with(DAY_OF_MONTH, 1);
-     * </pre>
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  tfmporbl.witi(DAY_OF_MONTH, 1);
+     * </prf>
      *
-     * @return the first day-of-month adjuster, not null
+     * @rfturn tif first dby-of-monti bdjustfr, not null
      */
-    public static TemporalAdjuster firstDayOfMonth() {
-        return (temporal) -> temporal.with(DAY_OF_MONTH, 1);
+    publid stbtid TfmporblAdjustfr firstDbyOfMonti() {
+        rfturn (tfmporbl) -> tfmporbl.witi(DAY_OF_MONTH, 1);
     }
 
     /**
-     * Returns the "last day of month" adjuster, which returns a new date set to
-     * the last day of the current month.
+     * Rfturns tif "lbst dby of monti" bdjustfr, wiidi rfturns b nfw dbtf sft to
+     * tif lbst dby of tif durrfnt monti.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 will return 2011-01-31.<br>
-     * The input 2011-02-15 will return 2011-02-28.<br>
-     * The input 2012-02-15 will return 2012-02-29 (leap year).<br>
-     * The input 2011-04-15 will return 2011-04-30.
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 will rfturn 2011-01-31.<br>
+     * Tif input 2011-02-15 will rfturn 2011-02-28.<br>
+     * Tif input 2012-02-15 will rfturn 2012-02-29 (lfbp yfbr).<br>
+     * Tif input 2011-04-15 will rfturn 2011-04-30.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
-     * <pre>
-     *  long lastDay = temporal.range(DAY_OF_MONTH).getMaximum();
-     *  temporal.with(DAY_OF_MONTH, lastDay);
-     * </pre>
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  long lbstDby = tfmporbl.rbngf(DAY_OF_MONTH).gftMbximum();
+     *  tfmporbl.witi(DAY_OF_MONTH, lbstDby);
+     * </prf>
      *
-     * @return the last day-of-month adjuster, not null
+     * @rfturn tif lbst dby-of-monti bdjustfr, not null
      */
-    public static TemporalAdjuster lastDayOfMonth() {
-        return (temporal) -> temporal.with(DAY_OF_MONTH, temporal.range(DAY_OF_MONTH).getMaximum());
+    publid stbtid TfmporblAdjustfr lbstDbyOfMonti() {
+        rfturn (tfmporbl) -> tfmporbl.witi(DAY_OF_MONTH, tfmporbl.rbngf(DAY_OF_MONTH).gftMbximum());
     }
 
     /**
-     * Returns the "first day of next month" adjuster, which returns a new date set to
-     * the first day of the next month.
+     * Rfturns tif "first dby of nfxt monti" bdjustfr, wiidi rfturns b nfw dbtf sft to
+     * tif first dby of tif nfxt monti.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 will return 2011-02-01.<br>
-     * The input 2011-02-15 will return 2011-03-01.
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 will rfturn 2011-02-01.<br>
+     * Tif input 2011-02-15 will rfturn 2011-03-01.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
-     * <pre>
-     *  temporal.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
-     * </pre>
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  tfmporbl.witi(DAY_OF_MONTH, 1).plus(1, MONTHS);
+     * </prf>
      *
-     * @return the first day of next month adjuster, not null
+     * @rfturn tif first dby of nfxt monti bdjustfr, not null
      */
-    public static TemporalAdjuster firstDayOfNextMonth() {
-        return (temporal) -> temporal.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Returns the "first day of year" adjuster, which returns a new date set to
-     * the first day of the current year.
-     * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 will return 2011-01-01.<br>
-     * The input 2011-02-15 will return 2011-01-01.<br>
-     * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
-     * <pre>
-     *  temporal.with(DAY_OF_YEAR, 1);
-     * </pre>
-     *
-     * @return the first day-of-year adjuster, not null
-     */
-    public static TemporalAdjuster firstDayOfYear() {
-        return (temporal) -> temporal.with(DAY_OF_YEAR, 1);
-    }
-
-    /**
-     * Returns the "last day of year" adjuster, which returns a new date set to
-     * the last day of the current year.
-     * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 will return 2011-12-31.<br>
-     * The input 2011-02-15 will return 2011-12-31.<br>
-     * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
-     * <pre>
-     *  long lastDay = temporal.range(DAY_OF_YEAR).getMaximum();
-     *  temporal.with(DAY_OF_YEAR, lastDay);
-     * </pre>
-     *
-     * @return the last day-of-year adjuster, not null
-     */
-    public static TemporalAdjuster lastDayOfYear() {
-        return (temporal) -> temporal.with(DAY_OF_YEAR, temporal.range(DAY_OF_YEAR).getMaximum());
-    }
-
-    /**
-     * Returns the "first day of next year" adjuster, which returns a new date set to
-     * the first day of the next year.
-     * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 will return 2012-01-01.
-     * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
-     * <pre>
-     *  temporal.with(DAY_OF_YEAR, 1).plus(1, YEARS);
-     * </pre>
-     *
-     * @return the first day of next month adjuster, not null
-     */
-    public static TemporalAdjuster firstDayOfNextYear() {
-        return (temporal) -> temporal.with(DAY_OF_YEAR, 1).plus(1, YEARS);
+    publid stbtid TfmporblAdjustfr firstDbyOfNfxtMonti() {
+        rfturn (tfmporbl) -> tfmporbl.witi(DAY_OF_MONTH, 1).plus(1, MONTHS);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the first in month adjuster, which returns a new date
-     * in the same month with the first matching day-of-week.
-     * This is used for expressions like 'first Tuesday in March'.
+     * Rfturns tif "first dby of yfbr" bdjustfr, wiidi rfturns b nfw dbtf sft to
+     * tif first dby of tif durrfnt yfbr.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-12-15 for (MONDAY) will return 2011-12-05.<br>
-     * The input 2011-12-15 for (FRIDAY) will return 2011-12-02.<br>
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 will rfturn 2011-01-01.<br>
+     * Tif input 2011-02-15 will rfturn 2011-01-01.<br>
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
-     * and the {@code DAYS} unit, and assumes a seven day week.
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  tfmporbl.witi(DAY_OF_YEAR, 1);
+     * </prf>
      *
-     * @param dayOfWeek  the day-of-week, not null
-     * @return the first in month adjuster, not null
+     * @rfturn tif first dby-of-yfbr bdjustfr, not null
      */
-    public static TemporalAdjuster firstInMonth(DayOfWeek dayOfWeek) {
-        return TemporalAdjusters.dayOfWeekInMonth(1, dayOfWeek);
+    publid stbtid TfmporblAdjustfr firstDbyOfYfbr() {
+        rfturn (tfmporbl) -> tfmporbl.witi(DAY_OF_YEAR, 1);
     }
 
     /**
-     * Returns the last in month adjuster, which returns a new date
-     * in the same month with the last matching day-of-week.
-     * This is used for expressions like 'last Tuesday in March'.
+     * Rfturns tif "lbst dby of yfbr" bdjustfr, wiidi rfturns b nfw dbtf sft to
+     * tif lbst dby of tif durrfnt yfbr.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-12-15 for (MONDAY) will return 2011-12-26.<br>
-     * The input 2011-12-15 for (FRIDAY) will return 2011-12-30.<br>
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 will rfturn 2011-12-31.<br>
+     * Tif input 2011-02-15 will rfturn 2011-12-31.<br>
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
-     * and the {@code DAYS} unit, and assumes a seven day week.
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  long lbstDby = tfmporbl.rbngf(DAY_OF_YEAR).gftMbximum();
+     *  tfmporbl.witi(DAY_OF_YEAR, lbstDby);
+     * </prf>
      *
-     * @param dayOfWeek  the day-of-week, not null
-     * @return the first in month adjuster, not null
+     * @rfturn tif lbst dby-of-yfbr bdjustfr, not null
      */
-    public static TemporalAdjuster lastInMonth(DayOfWeek dayOfWeek) {
-        return TemporalAdjusters.dayOfWeekInMonth(-1, dayOfWeek);
+    publid stbtid TfmporblAdjustfr lbstDbyOfYfbr() {
+        rfturn (tfmporbl) -> tfmporbl.witi(DAY_OF_YEAR, tfmporbl.rbngf(DAY_OF_YEAR).gftMbximum());
     }
 
     /**
-     * Returns the day-of-week in month adjuster, which returns a new date
-     * in the same month with the ordinal day-of-week.
-     * This is used for expressions like the 'second Tuesday in March'.
+     * Rfturns tif "first dby of nfxt yfbr" bdjustfr, wiidi rfturns b nfw dbtf sft to
+     * tif first dby of tif nfxt yfbr.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-12-15 for (1,TUESDAY) will return 2011-12-06.<br>
-     * The input 2011-12-15 for (2,TUESDAY) will return 2011-12-13.<br>
-     * The input 2011-12-15 for (3,TUESDAY) will return 2011-12-20.<br>
-     * The input 2011-12-15 for (4,TUESDAY) will return 2011-12-27.<br>
-     * The input 2011-12-15 for (5,TUESDAY) will return 2012-01-03.<br>
-     * The input 2011-12-15 for (-1,TUESDAY) will return 2011-12-27 (last in month).<br>
-     * The input 2011-12-15 for (-4,TUESDAY) will return 2011-12-06 (3 weeks before last in month).<br>
-     * The input 2011-12-15 for (-5,TUESDAY) will return 2011-11-29 (4 weeks before last in month).<br>
-     * The input 2011-12-15 for (0,TUESDAY) will return 2011-11-29 (last in previous month).<br>
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 will rfturn 2012-01-01.
      * <p>
-     * For a positive or zero ordinal, the algorithm is equivalent to finding the first
-     * day-of-week that matches within the month and then adding a number of weeks to it.
-     * For a negative ordinal, the algorithm is equivalent to finding the last
-     * day-of-week that matches within the month and then subtracting a number of weeks to it.
-     * The ordinal number of weeks is not validated and is interpreted leniently
-     * according to this algorithm. This definition means that an ordinal of zero finds
-     * the last matching day-of-week in the previous month.
-     * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
-     * and the {@code DAYS} unit, and assumes a seven day week.
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It is fquivblfnt to:
+     * <prf>
+     *  tfmporbl.witi(DAY_OF_YEAR, 1).plus(1, YEARS);
+     * </prf>
      *
-     * @param ordinal  the week within the month, unbounded but typically from -5 to 5
-     * @param dayOfWeek  the day-of-week, not null
-     * @return the day-of-week in month adjuster, not null
+     * @rfturn tif first dby of nfxt monti bdjustfr, not null
      */
-    public static TemporalAdjuster dayOfWeekInMonth(int ordinal, DayOfWeek dayOfWeek) {
-        Objects.requireNonNull(dayOfWeek, "dayOfWeek");
-        int dowValue = dayOfWeek.getValue();
-        if (ordinal >= 0) {
-            return (temporal) -> {
-                Temporal temp = temporal.with(DAY_OF_MONTH, 1);
-                int curDow = temp.get(DAY_OF_WEEK);
-                int dowDiff = (dowValue - curDow + 7) % 7;
-                dowDiff += (ordinal - 1L) * 7L;  // safe from overflow
-                return temp.plus(dowDiff, DAYS);
+    publid stbtid TfmporblAdjustfr firstDbyOfNfxtYfbr() {
+        rfturn (tfmporbl) -> tfmporbl.witi(DAY_OF_YEAR, 1).plus(1, YEARS);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns tif first in monti bdjustfr, wiidi rfturns b nfw dbtf
+     * in tif sbmf monti witi tif first mbtdiing dby-of-wffk.
+     * Tiis is usfd for fxprfssions likf 'first Tufsdby in Mbrdi'.
+     * <p>
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-12-15 for (MONDAY) will rfturn 2011-12-05.<br>
+     * Tif input 2011-12-15 for (FRIDAY) will rfturn 2011-12-02.<br>
+     * <p>
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It usfs tif {@dodf DAY_OF_WEEK} bnd {@dodf DAY_OF_MONTH} fiflds
+     * bnd tif {@dodf DAYS} unit, bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm dbyOfWffk  tif dby-of-wffk, not null
+     * @rfturn tif first in monti bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr firstInMonti(DbyOfWffk dbyOfWffk) {
+        rfturn TfmporblAdjustfrs.dbyOfWffkInMonti(1, dbyOfWffk);
+    }
+
+    /**
+     * Rfturns tif lbst in monti bdjustfr, wiidi rfturns b nfw dbtf
+     * in tif sbmf monti witi tif lbst mbtdiing dby-of-wffk.
+     * Tiis is usfd for fxprfssions likf 'lbst Tufsdby in Mbrdi'.
+     * <p>
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-12-15 for (MONDAY) will rfturn 2011-12-26.<br>
+     * Tif input 2011-12-15 for (FRIDAY) will rfturn 2011-12-30.<br>
+     * <p>
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It usfs tif {@dodf DAY_OF_WEEK} bnd {@dodf DAY_OF_MONTH} fiflds
+     * bnd tif {@dodf DAYS} unit, bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm dbyOfWffk  tif dby-of-wffk, not null
+     * @rfturn tif first in monti bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr lbstInMonti(DbyOfWffk dbyOfWffk) {
+        rfturn TfmporblAdjustfrs.dbyOfWffkInMonti(-1, dbyOfWffk);
+    }
+
+    /**
+     * Rfturns tif dby-of-wffk in monti bdjustfr, wiidi rfturns b nfw dbtf
+     * in tif sbmf monti witi tif ordinbl dby-of-wffk.
+     * Tiis is usfd for fxprfssions likf tif 'sfdond Tufsdby in Mbrdi'.
+     * <p>
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-12-15 for (1,TUESDAY) will rfturn 2011-12-06.<br>
+     * Tif input 2011-12-15 for (2,TUESDAY) will rfturn 2011-12-13.<br>
+     * Tif input 2011-12-15 for (3,TUESDAY) will rfturn 2011-12-20.<br>
+     * Tif input 2011-12-15 for (4,TUESDAY) will rfturn 2011-12-27.<br>
+     * Tif input 2011-12-15 for (5,TUESDAY) will rfturn 2012-01-03.<br>
+     * Tif input 2011-12-15 for (-1,TUESDAY) will rfturn 2011-12-27 (lbst in monti).<br>
+     * Tif input 2011-12-15 for (-4,TUESDAY) will rfturn 2011-12-06 (3 wffks bfforf lbst in monti).<br>
+     * Tif input 2011-12-15 for (-5,TUESDAY) will rfturn 2011-11-29 (4 wffks bfforf lbst in monti).<br>
+     * Tif input 2011-12-15 for (0,TUESDAY) will rfturn 2011-11-29 (lbst in prfvious monti).<br>
+     * <p>
+     * For b positivf or zfro ordinbl, tif blgoritim is fquivblfnt to finding tif first
+     * dby-of-wffk tibt mbtdifs witiin tif monti bnd tifn bdding b numbfr of wffks to it.
+     * For b nfgbtivf ordinbl, tif blgoritim is fquivblfnt to finding tif lbst
+     * dby-of-wffk tibt mbtdifs witiin tif monti bnd tifn subtrbdting b numbfr of wffks to it.
+     * Tif ordinbl numbfr of wffks is not vblidbtfd bnd is intfrprftfd lfnifntly
+     * bddording to tiis blgoritim. Tiis dffinition mfbns tibt bn ordinbl of zfro finds
+     * tif lbst mbtdiing dby-of-wffk in tif prfvious monti.
+     * <p>
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It usfs tif {@dodf DAY_OF_WEEK} bnd {@dodf DAY_OF_MONTH} fiflds
+     * bnd tif {@dodf DAYS} unit, bnd bssumfs b sfvfn dby wffk.
+     *
+     * @pbrbm ordinbl  tif wffk witiin tif monti, unboundfd but typidblly from -5 to 5
+     * @pbrbm dbyOfWffk  tif dby-of-wffk, not null
+     * @rfturn tif dby-of-wffk in monti bdjustfr, not null
+     */
+    publid stbtid TfmporblAdjustfr dbyOfWffkInMonti(int ordinbl, DbyOfWffk dbyOfWffk) {
+        Objfdts.rfquirfNonNull(dbyOfWffk, "dbyOfWffk");
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        if (ordinbl >= 0) {
+            rfturn (tfmporbl) -> {
+                Tfmporbl tfmp = tfmporbl.witi(DAY_OF_MONTH, 1);
+                int durDow = tfmp.gft(DAY_OF_WEEK);
+                int dowDiff = (dowVbluf - durDow + 7) % 7;
+                dowDiff += (ordinbl - 1L) * 7L;  // sbff from ovfrflow
+                rfturn tfmp.plus(dowDiff, DAYS);
             };
-        } else {
-            return (temporal) -> {
-                Temporal temp = temporal.with(DAY_OF_MONTH, temporal.range(DAY_OF_MONTH).getMaximum());
-                int curDow = temp.get(DAY_OF_WEEK);
-                int daysDiff = dowValue - curDow;
-                daysDiff = (daysDiff == 0 ? 0 : (daysDiff > 0 ? daysDiff - 7 : daysDiff));
-                daysDiff -= (-ordinal - 1L) * 7L;  // safe from overflow
-                return temp.plus(daysDiff, DAYS);
+        } flsf {
+            rfturn (tfmporbl) -> {
+                Tfmporbl tfmp = tfmporbl.witi(DAY_OF_MONTH, tfmporbl.rbngf(DAY_OF_MONTH).gftMbximum());
+                int durDow = tfmp.gft(DAY_OF_WEEK);
+                int dbysDiff = dowVbluf - durDow;
+                dbysDiff = (dbysDiff == 0 ? 0 : (dbysDiff > 0 ? dbysDiff - 7 : dbysDiff));
+                dbysDiff -= (-ordinbl - 1L) * 7L;  // sbff from ovfrflow
+                rfturn tfmp.plus(dbysDiff, DAYS);
             };
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the next day-of-week adjuster, which adjusts the date to the
-     * first occurrence of the specified day-of-week after the date being adjusted.
+     * Rfturns tif nfxt dby-of-wffk bdjustfr, wiidi bdjusts tif dbtf to tif
+     * first oddurrfndf of tif spfdififd dby-of-wffk bftfr tif dbtf bfing bdjustfd.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 (a Saturday) for parameter (MONDAY) will return 2011-01-17 (two days later).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (WEDNESDAY) will return 2011-01-19 (four days later).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (SATURDAY) will return 2011-01-22 (seven days later).
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (MONDAY) will rfturn 2011-01-17 (two dbys lbtfr).<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (WEDNESDAY) will rfturn 2011-01-19 (four dbys lbtfr).<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (SATURDAY) will rfturn 2011-01-22 (sfvfn dbys lbtfr).
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
-     * and assumes a seven day week.
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It usfs tif {@dodf DAY_OF_WEEK} fifld bnd tif {@dodf DAYS} unit,
+     * bnd bssumfs b sfvfn dby wffk.
      *
-     * @param dayOfWeek  the day-of-week to move the date to, not null
-     * @return the next day-of-week adjuster, not null
+     * @pbrbm dbyOfWffk  tif dby-of-wffk to movf tif dbtf to, not null
+     * @rfturn tif nfxt dby-of-wffk bdjustfr, not null
      */
-    public static TemporalAdjuster next(DayOfWeek dayOfWeek) {
-        int dowValue = dayOfWeek.getValue();
-        return (temporal) -> {
-            int calDow = temporal.get(DAY_OF_WEEK);
-            int daysDiff = calDow - dowValue;
-            return temporal.plus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, DAYS);
+    publid stbtid TfmporblAdjustfr nfxt(DbyOfWffk dbyOfWffk) {
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        rfturn (tfmporbl) -> {
+            int dblDow = tfmporbl.gft(DAY_OF_WEEK);
+            int dbysDiff = dblDow - dowVbluf;
+            rfturn tfmporbl.plus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
         };
     }
 
     /**
-     * Returns the next-or-same day-of-week adjuster, which adjusts the date to the
-     * first occurrence of the specified day-of-week after the date being adjusted
-     * unless it is already on that day in which case the same object is returned.
+     * Rfturns tif nfxt-or-sbmf dby-of-wffk bdjustfr, wiidi bdjusts tif dbtf to tif
+     * first oddurrfndf of tif spfdififd dby-of-wffk bftfr tif dbtf bfing bdjustfd
+     * unlfss it is blrfbdy on tibt dby in wiidi dbsf tif sbmf objfdt is rfturnfd.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 (a Saturday) for parameter (MONDAY) will return 2011-01-17 (two days later).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (WEDNESDAY) will return 2011-01-19 (four days later).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (SATURDAY) will return 2011-01-15 (same as input).
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (MONDAY) will rfturn 2011-01-17 (two dbys lbtfr).<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (WEDNESDAY) will rfturn 2011-01-19 (four dbys lbtfr).<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (SATURDAY) will rfturn 2011-01-15 (sbmf bs input).
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
-     * and assumes a seven day week.
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It usfs tif {@dodf DAY_OF_WEEK} fifld bnd tif {@dodf DAYS} unit,
+     * bnd bssumfs b sfvfn dby wffk.
      *
-     * @param dayOfWeek  the day-of-week to check for or move the date to, not null
-     * @return the next-or-same day-of-week adjuster, not null
+     * @pbrbm dbyOfWffk  tif dby-of-wffk to difdk for or movf tif dbtf to, not null
+     * @rfturn tif nfxt-or-sbmf dby-of-wffk bdjustfr, not null
      */
-    public static TemporalAdjuster nextOrSame(DayOfWeek dayOfWeek) {
-        int dowValue = dayOfWeek.getValue();
-        return (temporal) -> {
-            int calDow = temporal.get(DAY_OF_WEEK);
-            if (calDow == dowValue) {
-                return temporal;
+    publid stbtid TfmporblAdjustfr nfxtOrSbmf(DbyOfWffk dbyOfWffk) {
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        rfturn (tfmporbl) -> {
+            int dblDow = tfmporbl.gft(DAY_OF_WEEK);
+            if (dblDow == dowVbluf) {
+                rfturn tfmporbl;
             }
-            int daysDiff = calDow - dowValue;
-            return temporal.plus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, DAYS);
+            int dbysDiff = dblDow - dowVbluf;
+            rfturn tfmporbl.plus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
         };
     }
 
     /**
-     * Returns the previous day-of-week adjuster, which adjusts the date to the
-     * first occurrence of the specified day-of-week before the date being adjusted.
+     * Rfturns tif prfvious dby-of-wffk bdjustfr, wiidi bdjusts tif dbtf to tif
+     * first oddurrfndf of tif spfdififd dby-of-wffk bfforf tif dbtf bfing bdjustfd.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 (a Saturday) for parameter (MONDAY) will return 2011-01-10 (five days earlier).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (WEDNESDAY) will return 2011-01-12 (three days earlier).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (SATURDAY) will return 2011-01-08 (seven days earlier).
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (MONDAY) will rfturn 2011-01-10 (fivf dbys fbrlifr).<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (WEDNESDAY) will rfturn 2011-01-12 (tirff dbys fbrlifr).<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (SATURDAY) will rfturn 2011-01-08 (sfvfn dbys fbrlifr).
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
-     * and assumes a seven day week.
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It usfs tif {@dodf DAY_OF_WEEK} fifld bnd tif {@dodf DAYS} unit,
+     * bnd bssumfs b sfvfn dby wffk.
      *
-     * @param dayOfWeek  the day-of-week to move the date to, not null
-     * @return the previous day-of-week adjuster, not null
+     * @pbrbm dbyOfWffk  tif dby-of-wffk to movf tif dbtf to, not null
+     * @rfturn tif prfvious dby-of-wffk bdjustfr, not null
      */
-    public static TemporalAdjuster previous(DayOfWeek dayOfWeek) {
-        int dowValue = dayOfWeek.getValue();
-        return (temporal) -> {
-            int calDow = temporal.get(DAY_OF_WEEK);
-            int daysDiff = dowValue - calDow;
-            return temporal.minus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, DAYS);
+    publid stbtid TfmporblAdjustfr prfvious(DbyOfWffk dbyOfWffk) {
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        rfturn (tfmporbl) -> {
+            int dblDow = tfmporbl.gft(DAY_OF_WEEK);
+            int dbysDiff = dowVbluf - dblDow;
+            rfturn tfmporbl.minus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
         };
     }
 
     /**
-     * Returns the previous-or-same day-of-week adjuster, which adjusts the date to the
-     * first occurrence of the specified day-of-week before the date being adjusted
-     * unless it is already on that day in which case the same object is returned.
+     * Rfturns tif prfvious-or-sbmf dby-of-wffk bdjustfr, wiidi bdjusts tif dbtf to tif
+     * first oddurrfndf of tif spfdififd dby-of-wffk bfforf tif dbtf bfing bdjustfd
+     * unlfss it is blrfbdy on tibt dby in wiidi dbsf tif sbmf objfdt is rfturnfd.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 (a Saturday) for parameter (MONDAY) will return 2011-01-10 (five days earlier).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (WEDNESDAY) will return 2011-01-12 (three days earlier).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (SATURDAY) will return 2011-01-15 (same as input).
+     * Tif ISO dblfndbr systfm bfibvfs bs follows:<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (MONDAY) will rfturn 2011-01-10 (fivf dbys fbrlifr).<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (WEDNESDAY) will rfturn 2011-01-12 (tirff dbys fbrlifr).<br>
+     * Tif input 2011-01-15 (b Sbturdby) for pbrbmftfr (SATURDAY) will rfturn 2011-01-15 (sbmf bs input).
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
-     * and assumes a seven day week.
+     * Tif bfibvior is suitbblf for usf witi most dblfndbr systfms.
+     * It usfs tif {@dodf DAY_OF_WEEK} fifld bnd tif {@dodf DAYS} unit,
+     * bnd bssumfs b sfvfn dby wffk.
      *
-     * @param dayOfWeek  the day-of-week to check for or move the date to, not null
-     * @return the previous-or-same day-of-week adjuster, not null
+     * @pbrbm dbyOfWffk  tif dby-of-wffk to difdk for or movf tif dbtf to, not null
+     * @rfturn tif prfvious-or-sbmf dby-of-wffk bdjustfr, not null
      */
-    public static TemporalAdjuster previousOrSame(DayOfWeek dayOfWeek) {
-        int dowValue = dayOfWeek.getValue();
-        return (temporal) -> {
-            int calDow = temporal.get(DAY_OF_WEEK);
-            if (calDow == dowValue) {
-                return temporal;
+    publid stbtid TfmporblAdjustfr prfviousOrSbmf(DbyOfWffk dbyOfWffk) {
+        int dowVbluf = dbyOfWffk.gftVbluf();
+        rfturn (tfmporbl) -> {
+            int dblDow = tfmporbl.gft(DAY_OF_WEEK);
+            if (dblDow == dowVbluf) {
+                rfturn tfmporbl;
             }
-            int daysDiff = dowValue - calDow;
-            return temporal.minus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, DAYS);
+            int dbysDiff = dowVbluf - dblDow;
+            rfturn tfmporbl.minus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
         };
     }
 

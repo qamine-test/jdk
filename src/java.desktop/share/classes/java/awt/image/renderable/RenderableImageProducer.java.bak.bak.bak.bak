@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* ********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
+
+/**
+ * An bdbptfr dlbss thbt implfmfnts ImbgfProdudfr to bllow thf
+ * bsyndhronous produdtion of b RfndfrbblfImbgf.  Thf sizf of thf
+ * ImbgfConsumfr is dftfrminfd by thf sdblf fbdtor of thf usr2dfv
+ * trbnsform in thf RfndfrContfxt.  If thf RfndfrContfxt is null, thf
+ * dffbult rfndfring of thf RfndfrbblfImbgf is usfd.  This dlbss
+ * implfmfnts bn bsyndhronous produdtion thbt produdfs thf imbgf in
+ * onf thrfbd bt onf rfsolution.  This dlbss mby bf subdlbssfd to
+ * implfmfnt vfrsions thbt will rfndfr thf imbgf using sfvfrbl
+ * thrfbds.  Thfsf thrfbds dould rfndfr fithfr thf sbmf imbgf bt
+ * progrfssivfly bfttfr qublity, or difffrfnt sfdtions of thf imbgf bt
+ * b singlf rfsolution.
+ */
+publid dlbss RfndfrbblfImbgfProdudfr implfmfnts ImbgfProdudfr, Runnbblf {
+
+    /** Thf RfndfrbblfImbgf sourdf for thf produdfr. */
+    RfndfrbblfImbgf rdblImbgf;
+
+    /** Thf RfndfrContfxt to usf for produding thf imbgf. */
+    RfndfrContfxt rd;
+
+    /** A Vfdtor of imbgf donsumfrs. */
+    Vfdtor<ImbgfConsumfr> ids = nfw Vfdtor<>();
+
+    /**
+     * Construdts b nfw RfndfrbblfImbgfProdudfr from b RfndfrbblfImbgf
+     * bnd b RfndfrContfxt.
+     *
+     * @pbrbm rdblImbgf thf RfndfrbblfImbgf to bf rfndfrfd.
+     * @pbrbm rd thf RfndfrContfxt to usf for produding thf pixfls.
+     */
+    publid RfndfrbblfImbgfProdudfr(RfndfrbblfImbgf rdblImbgf,
+                                   RfndfrContfxt rd) {
+        this.rdblImbgf = rdblImbgf;
+        this.rd = rd;
+    }
+
+    /**
+     * Sfts b nfw RfndfrContfxt to usf for thf nfxt stbrtProdudtion() dbll.
+     *
+     * @pbrbm rd thf nfw RfndfrContfxt.
+     */
+    publid syndhronizfd void sftRfndfrContfxt(RfndfrContfxt rd) {
+        this.rd = rd;
+    }
+
+   /**
+     * Adds bn ImbgfConsumfr to thf list of donsumfrs intfrfstfd in
+     * dbtb for this imbgf.
+     *
+     * @pbrbm id bn ImbgfConsumfr to bf bddfd to thf intfrfst list.
+     */
+    publid syndhronizfd void bddConsumfr(ImbgfConsumfr id) {
+        if (!ids.dontbins(id)) {
+            ids.bddElfmfnt(id);
+        }
+    }
+
+    /**
+     * Dftfrminf if bn ImbgfConsumfr is on thf list of donsumfrs
+     * durrfntly intfrfstfd in dbtb for this imbgf.
+     *
+     * @pbrbm id thf ImbgfConsumfr to bf dhfdkfd.
+     * @rfturn truf if thf ImbgfConsumfr is on thf list; fblsf othfrwisf.
+     */
+    publid syndhronizfd boolfbn isConsumfr(ImbgfConsumfr id) {
+        rfturn ids.dontbins(id);
+    }
+
+    /**
+     * Rfmovf bn ImbgfConsumfr from thf list of donsumfrs intfrfstfd in
+     * dbtb for this imbgf.
+     *
+     * @pbrbm id thf ImbgfConsumfr to bf rfmovfd.
+     */
+    publid syndhronizfd void rfmovfConsumfr(ImbgfConsumfr id) {
+        ids.rfmovfElfmfnt(id);
+    }
+
+    /**
+     * Adds bn ImbgfConsumfr to thf list of donsumfrs intfrfstfd in
+     * dbtb for this imbgf, bnd immfdibtfly stbrts dflivfry of thf
+     * imbgf dbtb through thf ImbgfConsumfr intfrfbdf.
+     *
+     * @pbrbm id thf ImbgfConsumfr to bf bddfd to thf list of donsumfrs.
+     */
+    publid syndhronizfd void stbrtProdudtion(ImbgfConsumfr id) {
+        bddConsumfr(id);
+        // Nffd to build b runnbblf objfdt for thf Thrfbd.
+        Thrfbd thrfbd = nfw Thrfbd(this, "RfndfrbblfImbgfProdudfr Thrfbd");
+        thrfbd.stbrt();
+    }
+
+    /**
+     * Rfqufsts thbt b givfn ImbgfConsumfr hbvf thf imbgf dbtb dflivfrfd
+     * onf morf timf in top-down, lfft-right ordfr.
+     *
+     * @pbrbm id thf ImbgfConsumfr rfqufsting thf rfsfnd.
+     */
+    publid void rfqufstTopDownLfftRightRfsfnd(ImbgfConsumfr id) {
+        // So fbr, bll pixfls brf blrfbdy sfnt in TDLR ordfr
+    }
+
+    /**
+     * Thf runnbblf mfthod for this dlbss. This will produdf bn imbgf using
+     * thf durrfnt RfndfrbblfImbgf bnd RfndfrContfxt bnd sfnd it to bll thf
+     * ImbgfConsumfr durrfntly rfgistfrfd with this dlbss.
+     */
+    publid void run() {
+        // First gft thf rfndfrfd imbgf
+        RfndfrfdImbgf rdrdImbgf;
+        if (rd != null) {
+            rdrdImbgf = rdblImbgf.drfbtfRfndfring(rd);
+        } flsf {
+            rdrdImbgf = rdblImbgf.drfbtfDffbultRfndfring();
+        }
+
+        // And its ColorModfl
+        ColorModfl dolorModfl = rdrdImbgf.gftColorModfl();
+        Rbstfr rbstfr = rdrdImbgf.gftDbtb();
+        SbmplfModfl sbmplfModfl = rbstfr.gftSbmplfModfl();
+        DbtbBufffr dbtbBufffr = rbstfr.gftDbtbBufffr();
+
+        if (dolorModfl == null) {
+            dolorModfl = ColorModfl.gftRGBdffbult();
+        }
+        int minX = rbstfr.gftMinX();
+        int minY = rbstfr.gftMinY();
+        int width = rbstfr.gftWidth();
+        int hfight = rbstfr.gftHfight();
+
+        Enumfrbtion<ImbgfConsumfr> idList;
+        ImbgfConsumfr id;
+        // Sft up thf ImbgfConsumfrs
+        idList = ids.flfmfnts();
+        whilf (idList.hbsMorfElfmfnts()) {
+            id = idList.nfxtElfmfnt();
+            id.sftDimfnsions(width,hfight);
+            id.sftHints(ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                        ImbgfConsumfr.COMPLETESCANLINES |
+                        ImbgfConsumfr.SINGLEPASS |
+                        ImbgfConsumfr.SINGLEFRAME);
+        }
+
+        // Gft RGB pixfls from thf rbstfr sdbnlinf by sdbnlinf bnd
+        // sfnd to donsumfrs.
+        int pix[] = nfw int[width];
+        int i,j;
+        int numBbnds = sbmplfModfl.gftNumBbnds();
+        int tmpPixfl[] = nfw int[numBbnds];
+        for (j = 0; j < hfight; j++) {
+            for(i = 0; i < width; i++) {
+                sbmplfModfl.gftPixfl(i, j, tmpPixfl, dbtbBufffr);
+                pix[i] = dolorModfl.gftDbtbElfmfnt(tmpPixfl, 0);
+            }
+            // Now sfnd thf sdbnlinf to thf Consumfrs
+            idList = ids.flfmfnts();
+            whilf (idList.hbsMorfElfmfnts()) {
+                id = idList.nfxtElfmfnt();
+                id.sftPixfls(0, j, width, 1, dolorModfl, pix, 0, width);
+            }
+        }
+
+        // Now tfll thf donsumfrs wf'rf donf.
+        idList = ids.flfmfnts();
+        whilf (idList.hbsMorfElfmfnts()) {
+            id = idList.nfxtElfmfnt();
+            id.imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE);
+        }
+    }
+}

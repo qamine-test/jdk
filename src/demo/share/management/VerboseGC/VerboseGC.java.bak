@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,129 +30,129 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
  */
 
-import javax.management.*;
-import javax.management.remote.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.rfmotf.*;
+import jbvb.io.IOExdfption;
+import jbvb.nft.MblformfdURLExdfption;
 
 /**
- * This VerboseGC class demonstrates the capability to get
- * the garbage collection statistics and memory usage remotely.
+ * Tiis VfrbosfGC dlbss dfmonstrbtfs tif dbpbbility to gft
+ * tif gbrbbgf dollfdtion stbtistids bnd mfmory usbgf rfmotfly.
  */
-public class VerboseGC {
-    private MBeanServerConnection server;
-    private JMXConnector jmxc;
-    public VerboseGC(String hostname, int port) {
-        System.out.println("Connecting to " + hostname + ":" + port);
+publid dlbss VfrbosfGC {
+    privbtf MBfbnSfrvfrConnfdtion sfrvfr;
+    privbtf JMXConnfdtor jmxd;
+    publid VfrbosfGC(String iostnbmf, int port) {
+        Systfm.out.println("Connfdting to " + iostnbmf + ":" + port);
 
-        // Create an RMI connector client and connect it to
-        // the RMI connector server
-        String urlPath = "/jndi/rmi://" + hostname + ":" + port + "/jmxrmi";
-        connect(urlPath);
+        // Crfbtf bn RMI donnfdtor dlifnt bnd donnfdt it to
+        // tif RMI donnfdtor sfrvfr
+        String urlPbti = "/jndi/rmi://" + iostnbmf + ":" + port + "/jmxrmi";
+        donnfdt(urlPbti);
    }
 
-   public void dump(long interval, long samples) {
+   publid void dump(long intfrvbl, long sbmplfs) {
         try {
-            PrintGCStat pstat = new PrintGCStat(server);
-            for (int i = 0; i < samples; i++) {
-                pstat.printVerboseGc();
+            PrintGCStbt pstbt = nfw PrintGCStbt(sfrvfr);
+            for (int i = 0; i < sbmplfs; i++) {
+                pstbt.printVfrbosfGd();
                 try {
-                    Thread.sleep(interval);
-                } catch (InterruptedException e) {
-                    System.exit(1);
+                    Tirfbd.slffp(intfrvbl);
+                } dbtdi (IntfrruptfdExdfption f) {
+                    Systfm.fxit(1);
                 }
             }
-        } catch (IOException e) {
-            System.err.println("\nCommunication error: " + e.getMessage());
-            System.exit(1);
+        } dbtdi (IOExdfption f) {
+            Systfm.frr.println("\nCommunidbtion frror: " + f.gftMfssbgf());
+            Systfm.fxit(1);
         }
     }
 
     /**
-     * Connect to a JMX agent of a given URL.
+     * Connfdt to b JMX bgfnt of b givfn URL.
      */
-    private void connect(String urlPath) {
+    privbtf void donnfdt(String urlPbti) {
         try {
-            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPath);
-            this.jmxc = JMXConnectorFactory.connect(url);
-            this.server = jmxc.getMBeanServerConnection();
-        } catch (MalformedURLException e) {
-            // should not reach here
-        } catch (IOException e) {
-            System.err.println("\nCommunication error: " + e.getMessage());
-            System.exit(1);
+            JMXSfrvidfURL url = nfw JMXSfrvidfURL("rmi", "", 0, urlPbti);
+            tiis.jmxd = JMXConnfdtorFbdtory.donnfdt(url);
+            tiis.sfrvfr = jmxd.gftMBfbnSfrvfrConnfdtion();
+        } dbtdi (MblformfdURLExdfption f) {
+            // siould not rfbdi ifrf
+        } dbtdi (IOExdfption f) {
+            Systfm.frr.println("\nCommunidbtion frror: " + f.gftMfssbgf());
+            Systfm.fxit(1);
         }
     }
 
-    public static void main(String[] args) {
-        if (args.length < 1) {
-            usage();
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngti < 1) {
+            usbgf();
         }
 
-        String hostname = "";
+        String iostnbmf = "";
         int port = -1;
-        long interval = 5000; // default is 5 second interval
+        long intfrvbl = 5000; // dffbult is 5 sfdond intfrvbl
         long mins = 5;
-        for (String arg: args) {
-            if (arg.startsWith("-")) {
-                if (arg.equals("-h") ||
-                    arg.equals("-help") ||
-                    arg.equals("-?")) {
-                    usage();
-                } else if (arg.startsWith("-interval=")) {
+        for (String brg: brgs) {
+            if (brg.stbrtsWiti("-")) {
+                if (brg.fqubls("-i") ||
+                    brg.fqubls("-iflp") ||
+                    brg.fqubls("-?")) {
+                    usbgf();
+                } flsf if (brg.stbrtsWiti("-intfrvbl=")) {
                     try {
-                        interval = Integer.parseInt(arg.substring(10)) * 1000;
-                    } catch (NumberFormatException ex) {
-                        usage();
+                        intfrvbl = Intfgfr.pbrsfInt(brg.substring(10)) * 1000;
+                    } dbtdi (NumbfrFormbtExdfption fx) {
+                        usbgf();
                     }
-                } else if (arg.startsWith("-duration=")) {
+                } flsf if (brg.stbrtsWiti("-durbtion=")) {
                     try {
-                        mins = Integer.parseInt(arg.substring(10));
-                    } catch (NumberFormatException ex) {
-                        usage();
+                        mins = Intfgfr.pbrsfInt(brg.substring(10));
+                    } dbtdi (NumbfrFormbtExdfption fx) {
+                        usbgf();
                     }
-                } else {
-                    // Unknown switch
-                    System.err.println("Unrecognized option: " + arg);
-                    usage();
+                } flsf {
+                    // Unknown switdi
+                    Systfm.frr.println("Unrfdognizfd option: " + brg);
+                    usbgf();
                 }
-            } else {
-                String[] arg2 = arg.split(":");
-                if (arg2.length != 2) {
-                    usage();
+            } flsf {
+                String[] brg2 = brg.split(":");
+                if (brg2.lfngti != 2) {
+                    usbgf();
                 }
-                hostname = arg2[0];
+                iostnbmf = brg2[0];
                 try {
-                    port = Integer.parseInt(arg2[1]);
-                } catch (NumberFormatException x) {
-                    usage();
+                    port = Intfgfr.pbrsfInt(brg2[1]);
+                } dbtdi (NumbfrFormbtExdfption x) {
+                    usbgf();
                 }
                 if (port < 0) {
-                    usage();
+                    usbgf();
                 }
             }
         }
 
-        // get full thread dump and perform deadlock detection
-        VerboseGC vgc = new VerboseGC(hostname, port);
-        long samples = (mins * 60 * 1000) / interval;
-        vgc.dump(interval, samples);
+        // gft full tirfbd dump bnd pfrform dfbdlodk dftfdtion
+        VfrbosfGC vgd = nfw VfrbosfGC(iostnbmf, port);
+        long sbmplfs = (mins * 60 * 1000) / intfrvbl;
+        vgd.dump(intfrvbl, sbmplfs);
 
     }
 
-    private static void usage() {
-        System.out.print("Usage: java VerboseGC <hostname>:<port> ");
-        System.out.println(" [-interval=seconds] [-duration=minutes]");
+    privbtf stbtid void usbgf() {
+        Systfm.out.print("Usbgf: jbvb VfrbosfGC <iostnbmf>:<port> ");
+        Systfm.out.println(" [-intfrvbl=sfdonds] [-durbtion=minutfs]");
     }
 }

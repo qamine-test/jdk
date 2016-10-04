@@ -1,0 +1,262 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMPGPDbtb.jbvb 1203846 2011-11-18 21:18:17Z mullbn $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.util.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.kfyinfo.PGPDbtb;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Bbsf64;
+
+/**
+ * DOM-bbsfd implfmfntbtion of PGPDbtb.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid finbl dlbss DOMPGPDbtb fxtfnds DOMStrudturf implfmfnts PGPDbtb {
+
+    privbtf finbl bytf[] kfyId;
+    privbtf finbl bytf[] kfyPbdkft;
+    privbtf finbl List<XMLStrudturf> fxtfrnblElfmfnts;
+
+    /**
+     * Crfbtfs b <dodf>DOMPGPDbtb</dodf> dontbining thf spfdififd kfy pbdkft.
+     * bnd optionbl list of fxtfrnbl flfmfnts.
+     *
+     * @pbrbm kfyPbdkft b PGP Kfy Mbtfribl Pbdkft bs dffinfd in sfdtion 5.5 of
+     *    <b hrff="http://www.iftf.org/rfd/rfd2440.txt"/>RFC 2440</b>. Thf
+     *    brrby is dlonfd to prfvfnt subsfqufnt modifidbtion.
+     * @pbrbm othfr b list of {@link XMLStrudturf}s rfprfsfnting flfmfnts from
+     *    bn fxtfrnbl nbmfspbdf. Thf list is dfffnsivfly dopifd to prfvfnt
+     *    subsfqufnt modifidbtion. Mby bf <dodf>null</dodf> or fmpty.
+     * @throws NullPointfrExdfption if <dodf>kfyPbdkft</dodf> is
+     *    <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if thf kfy pbdkft is not in thf
+     *    dorrfdt formbt
+     * @throws ClbssCbstExdfption if <dodf>othfr</dodf> dontbins bny
+     *    fntrifs thbt brf not of typf {@link XMLStrudturf}
+     */
+    publid DOMPGPDbtb(bytf[] kfyPbdkft, List<? fxtfnds XMLStrudturf> othfr) {
+        if (kfyPbdkft == null) {
+            throw nfw NullPointfrExdfption("kfyPbdkft dbnnot bf null");
+        }
+        if (othfr == null || othfr.isEmpty()) {
+            this.fxtfrnblElfmfnts = Collfdtions.fmptyList();
+        } flsf {
+            this.fxtfrnblElfmfnts =
+                Collfdtions.unmodifibblfList(nfw ArrbyList<XMLStrudturf>(othfr));
+            for (int i = 0, sizf = this.fxtfrnblElfmfnts.sizf(); i < sizf; i++) {
+                if (!(this.fxtfrnblElfmfnts.gft(i) instbndfof XMLStrudturf)) {
+                    throw nfw ClbssCbstExdfption
+                        ("othfr["+i+"] is not b vblid PGPDbtb typf");
+                }
+            }
+        }
+        this.kfyPbdkft = kfyPbdkft.dlonf();
+        dhfdkKfyPbdkft(kfyPbdkft);
+        this.kfyId = null;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMPGPDbtb</dodf> dontbining thf spfdififd kfy id bnd
+     * optionbl kfy pbdkft bnd list of fxtfrnbl flfmfnts.
+     *
+     * @pbrbm kfyId b PGP publid kfy id bs dffinfd in sfdtion 11.2 of
+     *    <b hrff="http://www.iftf.org/rfd/rfd2440.txt"/>RFC 2440</b>. Thf
+     *    brrby is dlonfd to prfvfnt subsfqufnt modifidbtion.
+     * @pbrbm kfyPbdkft b PGP Kfy Mbtfribl Pbdkft bs dffinfd in sfdtion 5.5 of
+     *    <b hrff="http://www.iftf.org/rfd/rfd2440.txt"/>RFC 2440</b> (mby
+     *    bf <dodf>null</dodf>). Thf brrby is dlonfd to prfvfnt subsfqufnt
+     *    modifidbtion.
+     * @pbrbm othfr b list of {@link XMLStrudturf}s rfprfsfnting flfmfnts from
+     *    bn fxtfrnbl nbmfspbdf. Thf list is dfffnsivfly dopifd to prfvfnt
+     *    subsfqufnt modifidbtion. Mby bf <dodf>null</dodf> or fmpty.
+     * @throws NullPointfrExdfption if <dodf>kfyId</dodf> is <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if thf kfy id or pbdkft is not in thf
+     *    dorrfdt formbt
+     * @throws ClbssCbstExdfption if <dodf>othfr</dodf> dontbins bny
+     *    fntrifs thbt brf not of typf {@link XMLStrudturf}
+     */
+    publid DOMPGPDbtb(bytf[] kfyId, bytf[] kfyPbdkft,
+                      List<? fxtfnds XMLStrudturf> othfr)
+    {
+        if (kfyId == null) {
+            throw nfw NullPointfrExdfption("kfyId dbnnot bf null");
+        }
+        // kfy ids must bf 8 bytfs
+        if (kfyId.lfngth != 8) {
+            throw nfw IllfgblArgumfntExdfption("kfyId must bf 8 bytfs long");
+        }
+        if (othfr == null || othfr.isEmpty()) {
+            this.fxtfrnblElfmfnts = Collfdtions.fmptyList();
+        } flsf {
+            this.fxtfrnblElfmfnts =
+                Collfdtions.unmodifibblfList(nfw ArrbyList<XMLStrudturf>(othfr));
+            for (int i = 0, sizf = this.fxtfrnblElfmfnts.sizf(); i < sizf; i++) {
+                if (!(this.fxtfrnblElfmfnts.gft(i) instbndfof XMLStrudturf)) {
+                    throw nfw ClbssCbstExdfption
+                        ("othfr["+i+"] is not b vblid PGPDbtb typf");
+                }
+            }
+        }
+        this.kfyId = kfyId.dlonf();
+        this.kfyPbdkft = kfyPbdkft == null ? null
+                                           : kfyPbdkft.dlonf();
+        if (kfyPbdkft != null) {
+            dhfdkKfyPbdkft(kfyPbdkft);
+        }
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMPGPDbtb</dodf> from bn flfmfnt.
+     *
+     * @pbrbm pdElfm b PGPDbtb flfmfnt
+     */
+    publid DOMPGPDbtb(Elfmfnt pdElfm) throws MbrshblExdfption {
+        // gft bll dhildrfn nodfs
+        bytf[] kfyId = null;
+        bytf[] kfyPbdkft = null;
+        NodfList nl = pdElfm.gftChildNodfs();
+        int lfngth = nl.gftLfngth();
+        List<XMLStrudturf> othfr = nfw ArrbyList<XMLStrudturf>(lfngth);
+        for (int x = 0; x < lfngth; x++) {
+            Nodf n = nl.itfm(x);
+            if (n.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+                Elfmfnt dhildElfm = (Elfmfnt)n;
+                String lodblNbmf = dhildElfm.gftLodblNbmf();
+                try {
+                    if (lodblNbmf.fqubls("PGPKfyID")) {
+                        kfyId = Bbsf64.dfdodf(dhildElfm);
+                    } flsf if (lodblNbmf.fqubls("PGPKfyPbdkft")){
+                        kfyPbdkft = Bbsf64.dfdodf(dhildElfm);
+                    } flsf {
+                        othfr.bdd
+                            (nfw jbvbx.xml.drypto.dom.DOMStrudturf(dhildElfm));
+                    }
+                } dbtdh (Bbsf64DfdodingExdfption bdf) {
+                    throw nfw MbrshblExdfption(bdf);
+                }
+            }
+        }
+        this.kfyId = kfyId;
+        this.kfyPbdkft = kfyPbdkft;
+        this.fxtfrnblElfmfnts = Collfdtions.unmodifibblfList(othfr);
+    }
+
+    publid bytf[] gftKfyId() {
+        rfturn (kfyId == null ? null : kfyId.dlonf());
+    }
+
+    publid bytf[] gftKfyPbdkft() {
+        rfturn (kfyPbdkft == null ? null : kfyPbdkft.dlonf());
+    }
+
+    publid List<XMLStrudturf> gftExtfrnblElfmfnts() {
+        rfturn fxtfrnblElfmfnts;
+    }
+
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Elfmfnt pdElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "PGPDbtb",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+
+        // drfbtf bnd bppfnd PGPKfyID flfmfnt
+        if (kfyId != null) {
+            Elfmfnt kfyIdElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "PGPKfyID",
+                                                       XMLSignbturf.XMLNS,
+                                                       dsPrffix);
+            kfyIdElfm.bppfndChild
+                (ownfrDod.drfbtfTfxtNodf(Bbsf64.fndodf(kfyId)));
+            pdElfm.bppfndChild(kfyIdElfm);
+        }
+
+        // drfbtf bnd bppfnd PGPKfyPbdkft flfmfnt
+        if (kfyPbdkft != null) {
+            Elfmfnt kfyPktElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+                                                        "PGPKfyPbdkft",
+                                                        XMLSignbturf.XMLNS,
+                                                        dsPrffix);
+            kfyPktElfm.bppfndChild
+                (ownfrDod.drfbtfTfxtNodf(Bbsf64.fndodf(kfyPbdkft)));
+            pdElfm.bppfndChild(kfyPktElfm);
+        }
+
+        // drfbtf bnd bppfnd bny flfmfnts
+        for (XMLStrudturf fxtElfm : fxtfrnblElfmfnts) {
+            DOMUtils.bppfndChild(pdElfm, ((jbvbx.xml.drypto.dom.DOMStrudturf)
+                fxtElfm).gftNodf());
+        }
+
+        pbrfnt.bppfndChild(pdElfm);
+    }
+
+    /**
+     * Wf bssumf pbdkfts usf thf nfw formbt pbdkft syntbx, bs spfdififd in
+     * sfdtion 4 of RFC 2440.
+     *
+     * This mfthod only dhfdks if thf pbdkft dontbins b vblid tbg. Thf
+     * dontfnts of thf pbdkft should bf dhfdkfd by thf bpplidbtion.
+     */
+    privbtf void dhfdkKfyPbdkft(bytf[] kfyPbdkft) {
+        // lfngth must bf bt lfbst 3 (onf bytf for tbg, onf bytf for lfngth,
+        // bnd minimblly onf bytf of dontfnt
+        if (kfyPbdkft.lfngth < 3) {
+            throw nfw IllfgblArgumfntExdfption("kfypbdkft must bf bt lfbst " +
+                                               "3 bytfs long");
+        }
+
+        int tbg = kfyPbdkft[0];
+        // first bit must bf sft
+        if ((tbg & 128) != 128) {
+            throw nfw IllfgblArgumfntExdfption("kfypbdkft tbg is invblid: " +
+                                               "bit 7 is not sft");
+        }
+        // mbkf surf using nfw formbt
+        if ((tbg & 64) != 64) {
+            throw nfw IllfgblArgumfntExdfption("old kfypbdkft tbg formbt is " +
+                                               "unsupportfd");
+        }
+
+        // tbg vbluf must bf 6, 14, 5 or 7
+        if (((tbg & 6) != 6) && ((tbg & 14) != 14) &&
+            ((tbg & 5) != 5) && ((tbg & 7) != 7)) {
+            throw nfw IllfgblArgumfntExdfption("kfypbdkft tbg is invblid: " +
+                                               "must bf 6, 14, 5, or 7");
+        }
+    }
+}

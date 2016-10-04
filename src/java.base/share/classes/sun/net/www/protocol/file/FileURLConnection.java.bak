@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1995, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * Open an file input stream given a URL.
- * @author      James Gosling
- * @author      Steven B. Byrne
+ * Opfn bn filf input strfbm givfn b URL.
+ * @butior      Jbmfs Gosling
+ * @butior      Stfvfn B. Byrnf
  */
 
-package sun.net.www.protocol.file;
+pbdkbgf sun.nft.www.protodol.filf;
 
-import java.net.URL;
-import java.net.FileNameMap;
-import java.io.*;
-import java.text.Collator;
-import java.security.Permission;
-import sun.net.*;
-import sun.net.www.*;
-import java.util.*;
-import java.text.SimpleDateFormat;
+import jbvb.nft.URL;
+import jbvb.nft.FilfNbmfMbp;
+import jbvb.io.*;
+import jbvb.tfxt.Collbtor;
+import jbvb.sfdurity.Pfrmission;
+import sun.nft.*;
+import sun.nft.www.*;
+import jbvb.util.*;
+import jbvb.tfxt.SimplfDbtfFormbt;
 
-import sun.security.action.GetPropertyAction;
-import sun.security.action.GetIntegerAction;
-import sun.security.action.GetBooleanAction;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
 
-public class FileURLConnection extends URLConnection {
+publid dlbss FilfURLConnfdtion fxtfnds URLConnfdtion {
 
-    static String CONTENT_LENGTH = "content-length";
-    static String CONTENT_TYPE = "content-type";
-    static String TEXT_PLAIN = "text/plain";
-    static String LAST_MODIFIED = "last-modified";
+    stbtid String CONTENT_LENGTH = "dontfnt-lfngti";
+    stbtid String CONTENT_TYPE = "dontfnt-typf";
+    stbtid String TEXT_PLAIN = "tfxt/plbin";
+    stbtid String LAST_MODIFIED = "lbst-modififd";
 
-    String contentType;
-    InputStream is;
+    String dontfntTypf;
+    InputStrfbm is;
 
-    File file;
-    String filename;
-    boolean isDirectory = false;
-    boolean exists = false;
-    List<String> files;
+    Filf filf;
+    String filfnbmf;
+    boolfbn isDirfdtory = fblsf;
+    boolfbn fxists = fblsf;
+    List<String> filfs;
 
-    long length = -1;
-    long lastModified = 0;
+    long lfngti = -1;
+    long lbstModififd = 0;
 
-    protected FileURLConnection(URL u, File file) {
-        super(u);
-        this.file = file;
+    protfdtfd FilfURLConnfdtion(URL u, Filf filf) {
+        supfr(u);
+        tiis.filf = filf;
     }
 
     /*
-     * Note: the semantics of FileURLConnection object is that the
-     * results of the various URLConnection calls, such as
-     * getContentType, getInputStream or getContentLength reflect
-     * whatever was true when connect was called.
+     * Notf: tif sfmbntids of FilfURLConnfdtion objfdt is tibt tif
+     * rfsults of tif vbrious URLConnfdtion dblls, sudi bs
+     * gftContfntTypf, gftInputStrfbm or gftContfntLfngti rfflfdt
+     * wibtfvfr wbs truf wifn donnfdt wbs dbllfd.
      */
-    public void connect() throws IOException {
-        if (!connected) {
+    publid void donnfdt() tirows IOExdfption {
+        if (!donnfdtfd) {
             try {
-                filename = file.toString();
-                isDirectory = file.isDirectory();
-                if (isDirectory) {
-                    String[] fileList = file.list();
-                    if (fileList == null)
-                        throw new FileNotFoundException(filename + " exists, but is not accessible");
-                    files = Arrays.<String>asList(fileList);
-                } else {
+                filfnbmf = filf.toString();
+                isDirfdtory = filf.isDirfdtory();
+                if (isDirfdtory) {
+                    String[] filfList = filf.list();
+                    if (filfList == null)
+                        tirow nfw FilfNotFoundExdfption(filfnbmf + " fxists, but is not bddfssiblf");
+                    filfs = Arrbys.<String>bsList(filfList);
+                } flsf {
 
-                    is = new BufferedInputStream(new FileInputStream(filename));
+                    is = nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(filfnbmf));
 
-                    // Check if URL should be metered
-                    boolean meteredInput = ProgressMonitor.getDefault().shouldMeterInput(url, "GET");
-                    if (meteredInput)   {
-                        ProgressSource pi = new ProgressSource(url, "GET", file.length());
-                        is = new MeteredStream(is, pi, file.length());
+                    // Cifdk if URL siould bf mftfrfd
+                    boolfbn mftfrfdInput = ProgrfssMonitor.gftDffbult().siouldMftfrInput(url, "GET");
+                    if (mftfrfdInput)   {
+                        ProgrfssSourdf pi = nfw ProgrfssSourdf(url, "GET", filf.lfngti());
+                        is = nfw MftfrfdStrfbm(is, pi, filf.lfngti());
                     }
                 }
-            } catch (IOException e) {
-                throw e;
+            } dbtdi (IOExdfption f) {
+                tirow f;
             }
-            connected = true;
+            donnfdtfd = truf;
         }
     }
 
-    private boolean initializedHeaders = false;
+    privbtf boolfbn initiblizfdHfbdfrs = fblsf;
 
-    private void initializeHeaders() {
+    privbtf void initiblizfHfbdfrs() {
         try {
-            connect();
-            exists = file.exists();
-        } catch (IOException e) {
+            donnfdt();
+            fxists = filf.fxists();
+        } dbtdi (IOExdfption f) {
         }
-        if (!initializedHeaders || !exists) {
-            length = file.length();
-            lastModified = file.lastModified();
+        if (!initiblizfdHfbdfrs || !fxists) {
+            lfngti = filf.lfngti();
+            lbstModififd = filf.lbstModififd();
 
-            if (!isDirectory) {
-                FileNameMap map = java.net.URLConnection.getFileNameMap();
-                contentType = map.getContentTypeFor(filename);
-                if (contentType != null) {
-                    properties.add(CONTENT_TYPE, contentType);
+            if (!isDirfdtory) {
+                FilfNbmfMbp mbp = jbvb.nft.URLConnfdtion.gftFilfNbmfMbp();
+                dontfntTypf = mbp.gftContfntTypfFor(filfnbmf);
+                if (dontfntTypf != null) {
+                    propfrtifs.bdd(CONTENT_TYPE, dontfntTypf);
                 }
-                properties.add(CONTENT_LENGTH, String.valueOf(length));
+                propfrtifs.bdd(CONTENT_LENGTH, String.vblufOf(lfngti));
 
                 /*
-                 * Format the last-modified field into the preferred
-                 * Internet standard - ie: fixed-length subset of that
-                 * defined by RFC 1123
+                 * Formbt tif lbst-modififd fifld into tif prfffrrfd
+                 * Intfrnft stbndbrd - if: fixfd-lfngti subsft of tibt
+                 * dffinfd by RFC 1123
                  */
-                if (lastModified != 0) {
-                    Date date = new Date(lastModified);
-                    SimpleDateFormat fo =
-                        new SimpleDateFormat ("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US);
-                    fo.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    properties.add(LAST_MODIFIED, fo.format(date));
+                if (lbstModififd != 0) {
+                    Dbtf dbtf = nfw Dbtf(lbstModififd);
+                    SimplfDbtfFormbt fo =
+                        nfw SimplfDbtfFormbt ("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Lodblf.US);
+                    fo.sftTimfZonf(TimfZonf.gftTimfZonf("GMT"));
+                    propfrtifs.bdd(LAST_MODIFIED, fo.formbt(dbtf));
                 }
-            } else {
-                properties.add(CONTENT_TYPE, TEXT_PLAIN);
+            } flsf {
+                propfrtifs.bdd(CONTENT_TYPE, TEXT_PLAIN);
             }
-            initializedHeaders = true;
+            initiblizfdHfbdfrs = truf;
         }
     }
 
-    public String getHeaderField(String name) {
-        initializeHeaders();
-        return super.getHeaderField(name);
+    publid String gftHfbdfrFifld(String nbmf) {
+        initiblizfHfbdfrs();
+        rfturn supfr.gftHfbdfrFifld(nbmf);
     }
 
-    public String getHeaderField(int n) {
-        initializeHeaders();
-        return super.getHeaderField(n);
+    publid String gftHfbdfrFifld(int n) {
+        initiblizfHfbdfrs();
+        rfturn supfr.gftHfbdfrFifld(n);
     }
 
-    public int getContentLength() {
-        initializeHeaders();
-        if (length > Integer.MAX_VALUE)
-            return -1;
-        return (int) length;
+    publid int gftContfntLfngti() {
+        initiblizfHfbdfrs();
+        if (lfngti > Intfgfr.MAX_VALUE)
+            rfturn -1;
+        rfturn (int) lfngti;
     }
 
-    public long getContentLengthLong() {
-        initializeHeaders();
-        return length;
+    publid long gftContfntLfngtiLong() {
+        initiblizfHfbdfrs();
+        rfturn lfngti;
     }
 
-    public String getHeaderFieldKey(int n) {
-        initializeHeaders();
-        return super.getHeaderFieldKey(n);
+    publid String gftHfbdfrFifldKfy(int n) {
+        initiblizfHfbdfrs();
+        rfturn supfr.gftHfbdfrFifldKfy(n);
     }
 
-    public MessageHeader getProperties() {
-        initializeHeaders();
-        return super.getProperties();
+    publid MfssbgfHfbdfr gftPropfrtifs() {
+        initiblizfHfbdfrs();
+        rfturn supfr.gftPropfrtifs();
     }
 
-    public long getLastModified() {
-        initializeHeaders();
-        return lastModified;
+    publid long gftLbstModififd() {
+        initiblizfHfbdfrs();
+        rfturn lbstModififd;
     }
 
-    public synchronized InputStream getInputStream()
-        throws IOException {
+    publid syndironizfd InputStrfbm gftInputStrfbm()
+        tirows IOExdfption {
 
-        int iconHeight;
-        int iconWidth;
+        int idonHfigit;
+        int idonWidti;
 
-        connect();
+        donnfdt();
 
         if (is == null) {
-            if (isDirectory) {
-                FileNameMap map = java.net.URLConnection.getFileNameMap();
+            if (isDirfdtory) {
+                FilfNbmfMbp mbp = jbvb.nft.URLConnfdtion.gftFilfNbmfMbp();
 
-                StringBuilder sb = new StringBuilder();
+                StringBuildfr sb = nfw StringBuildfr();
 
-                if (files == null) {
-                    throw new FileNotFoundException(filename);
+                if (filfs == null) {
+                    tirow nfw FilfNotFoundExdfption(filfnbmf);
                 }
 
-                Collections.sort(files, Collator.getInstance());
+                Collfdtions.sort(filfs, Collbtor.gftInstbndf());
 
-                for (int i = 0 ; i < files.size() ; i++) {
-                    String fileName = files.get(i);
-                    sb.append(fileName);
-                    sb.append("\n");
+                for (int i = 0 ; i < filfs.sizf() ; i++) {
+                    String filfNbmf = filfs.gft(i);
+                    sb.bppfnd(filfNbmf);
+                    sb.bppfnd("\n");
                 }
-                // Put it into a (default) locale-specific byte-stream.
-                is = new ByteArrayInputStream(sb.toString().getBytes());
-            } else {
-                throw new FileNotFoundException(filename);
+                // Put it into b (dffbult) lodblf-spfdifid bytf-strfbm.
+                is = nfw BytfArrbyInputStrfbm(sb.toString().gftBytfs());
+            } flsf {
+                tirow nfw FilfNotFoundExdfption(filfnbmf);
             }
         }
-        return is;
+        rfturn is;
     }
 
-    Permission permission;
+    Pfrmission pfrmission;
 
-    /* since getOutputStream isn't supported, only read permission is
-     * relevant
+    /* sindf gftOutputStrfbm isn't supportfd, only rfbd pfrmission is
+     * rflfvbnt
      */
-    public Permission getPermission() throws IOException {
-        if (permission == null) {
-            String decodedPath = ParseUtil.decode(url.getPath());
-            if (File.separatorChar == '/') {
-                permission = new FilePermission(decodedPath, "read");
-            } else {
-                permission = new FilePermission(
-                        decodedPath.replace('/',File.separatorChar), "read");
+    publid Pfrmission gftPfrmission() tirows IOExdfption {
+        if (pfrmission == null) {
+            String dfdodfdPbti = PbrsfUtil.dfdodf(url.gftPbti());
+            if (Filf.sfpbrbtorCibr == '/') {
+                pfrmission = nfw FilfPfrmission(dfdodfdPbti, "rfbd");
+            } flsf {
+                pfrmission = nfw FilfPfrmission(
+                        dfdodfdPbti.rfplbdf('/',Filf.sfpbrbtorCibr), "rfbd");
             }
         }
-        return permission;
+        rfturn pfrmission;
     }
 }

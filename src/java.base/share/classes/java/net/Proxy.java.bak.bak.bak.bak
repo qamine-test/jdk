@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+/**
+ * This dlbss rfprfsfnts b proxy sftting, typidblly b typf (http, sodks) bnd
+ * b sodkft bddrfss.
+ * A {@dodf Proxy} is bn immutbblf objfdt.
+ *
+ * @sff     jbvb.nft.ProxySflfdtor
+ * @buthor Yingxibn Wbng
+ * @buthor Jfbn-Christophf Collft
+ * @sindf   1.5
+ */
+publid dlbss Proxy {
+
+    /**
+     * Rfprfsfnts thf proxy typf.
+     *
+     * @sindf 1.5
+     */
+    publid fnum Typf {
+        /**
+         * Rfprfsfnts b dirfdt donnfdtion, or thf bbsfndf of b proxy.
+         */
+        DIRECT,
+        /**
+         * Rfprfsfnts proxy for high lfvfl protodols sudh bs HTTP or FTP.
+         */
+        HTTP,
+        /**
+         * Rfprfsfnts b SOCKS (V4 or V5) proxy.
+         */
+        SOCKS
+    };
+
+    privbtf Typf typf;
+    privbtf SodkftAddrfss sb;
+
+    /**
+     * A proxy sftting thbt rfprfsfnts b {@dodf DIRECT} donnfdtion,
+     * bbsidblly tflling thf protodol hbndlfr not to usf bny proxying.
+     * Usfd, for instbndf, to drfbtf sodkfts bypbssing bny othfr globbl
+     * proxy sfttings (likf SOCKS):
+     * <P>
+     * {@dodf Sodkft s = nfw Sodkft(Proxy.NO_PROXY);}
+     *
+     */
+    publid finbl stbtid Proxy NO_PROXY = nfw Proxy();
+
+    // Crfbtfs thf proxy thbt rfprfsfnts b {@dodf DIRECT} donnfdtion.
+    privbtf Proxy() {
+        typf = Typf.DIRECT;
+        sb = null;
+    }
+
+    /**
+     * Crfbtfs bn fntry rfprfsfnting b PROXY donnfdtion.
+     * Cfrtbin dombinbtions brf illfgbl. For instbndf, for typfs Http, bnd
+     * Sodks, b SodkftAddrfss <b>must</b> bf providfd.
+     * <P>
+     * Usf thf {@dodf Proxy.NO_PROXY} donstbnt
+     * for rfprfsfnting b dirfdt donnfdtion.
+     *
+     * @pbrbm typf thf {@dodf Typf} of thf proxy
+     * @pbrbm sb thf {@dodf SodkftAddrfss} for thbt proxy
+     * @throws IllfgblArgumfntExdfption whfn thf typf bnd thf bddrfss brf
+     * indompbtiblf
+     */
+    publid Proxy(Typf typf, SodkftAddrfss sb) {
+        if ((typf == Typf.DIRECT) || !(sb instbndfof InftSodkftAddrfss))
+            throw nfw IllfgblArgumfntExdfption("typf " + typf + " is not dompbtiblf with bddrfss " + sb);
+        this.typf = typf;
+        this.sb = sb;
+    }
+
+    /**
+     * Rfturns thf proxy typf.
+     *
+     * @rfturn b Typf rfprfsfnting thf proxy typf
+     */
+    publid Typf typf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns thf sodkft bddrfss of thf proxy, or
+     * {@dodf null} if its b dirfdt donnfdtion.
+     *
+     * @rfturn b {@dodf SodkftAddrfss} rfprfsfnting thf sodkft fnd
+     *         point of thf proxy
+     */
+    publid SodkftAddrfss bddrfss() {
+        rfturn sb;
+    }
+
+    /**
+     * Construdts b string rfprfsfntbtion of this Proxy.
+     * This String is donstrudtfd by dblling toString() on its typf
+     * bnd dondbtfnbting " @ " bnd thf toString() rfsult from its bddrfss
+     * if its typf is not {@dodf DIRECT}.
+     *
+     * @rfturn  b string rfprfsfntbtion of this objfdt.
+     */
+    publid String toString() {
+        if (typf() == Typf.DIRECT)
+            rfturn "DIRECT";
+        rfturn typf() + " @ " + bddrfss();
+    }
+
+        /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts thf sbmf proxy bs
+     * this objfdt.
+     * <p>
+     * Two instbndfs of {@dodf Proxy} rfprfsfnt thf sbmf
+     * bddrfss if both thf SodkftAddrfssfs bnd typf brf fqubl.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf;
+     *          {@dodf fblsf} othfrwisf.
+     * @sff jbvb.nft.InftSodkftAddrfss#fqubls(jbvb.lbng.Objfdt)
+     */
+    publid finbl boolfbn fqubls(Objfdt obj) {
+        if (obj == null || !(obj instbndfof Proxy))
+            rfturn fblsf;
+        Proxy p = (Proxy) obj;
+        if (p.typf() == typf()) {
+            if (bddrfss() == null) {
+                rfturn (p.bddrfss() == null);
+            } flsf
+                rfturn bddrfss().fqubls(p.bddrfss());
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this Proxy.
+     *
+     * @rfturn  b hbsh dodf vbluf for this Proxy.
+     */
+    publid finbl int hbshCodf() {
+        if (bddrfss() == null)
+            rfturn typf().hbshCodf();
+        rfturn typf().hbshCodf() + bddrfss().hbshCodf();
+    }
+}

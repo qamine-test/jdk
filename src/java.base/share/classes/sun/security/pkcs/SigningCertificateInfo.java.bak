@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs;
+pbdkbgf sun.sfdurity.pkds;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
 
-import sun.misc.HexDumpEncoder;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerValue;
-import sun.security.x509.GeneralNames;
-import sun.security.x509.SerialNumber;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.x509.GfnfrblNbmfs;
+import sun.sfdurity.x509.SfriblNumbfr;
 
 /**
- * This class represents a signing certificate attribute.
- * Its attribute value is defined by the following ASN.1 definition.
- * <pre>
+ * Tiis dlbss rfprfsfnts b signing dfrtifidbtf bttributf.
+ * Its bttributf vbluf is dffinfd by tif following ASN.1 dffinition.
+ * <prf>
  *
- *   id-aa-signingCertificate OBJECT IDENTIFIER ::= { iso(1)
- *     member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs9(9)
- *     smime(16) id-aa(2) 12 }
+ *   id-bb-signingCfrtifidbtf OBJECT IDENTIFIER ::= { iso(1)
+ *     mfmbfr-body(2) us(840) rsbdsi(113549) pkds(1) pkds9(9)
+ *     smimf(16) id-bb(2) 12 }
  *
- *   SigningCertificate ::=  SEQUENCE {
- *       certs       SEQUENCE OF ESSCertID,
- *       policies    SEQUENCE OF PolicyInformation OPTIONAL
+ *   SigningCfrtifidbtf ::=  SEQUENCE {
+ *       dfrts       SEQUENCE OF ESSCfrtID,
+ *       polidifs    SEQUENCE OF PolidyInformbtion OPTIONAL
  *   }
  *
- *   ESSCertID ::=  SEQUENCE {
- *       certHash        Hash,
- *       issuerSerial    IssuerSerial OPTIONAL
+ *   ESSCfrtID ::=  SEQUENCE {
+ *       dfrtHbsi        Hbsi,
+ *       issufrSfribl    IssufrSfribl OPTIONAL
  *   }
  *
- *   Hash ::= OCTET STRING -- SHA1 hash of entire certificate
+ *   Hbsi ::= OCTET STRING -- SHA1 ibsi of fntirf dfrtifidbtf
  *
- *   IssuerSerial ::= SEQUENCE {
- *       issuer         GeneralNames,
- *       serialNumber   CertificateSerialNumber
+ *   IssufrSfribl ::= SEQUENCE {
+ *       issufr         GfnfrblNbmfs,
+ *       sfriblNumbfr   CfrtifidbtfSfriblNumbfr
  *   }
  *
- *   PolicyInformation ::= SEQUENCE {
- *       policyIdentifier   CertPolicyId,
- *       policyQualifiers   SEQUENCE SIZE (1..MAX) OF
- *               PolicyQualifierInfo OPTIONAL }
+ *   PolidyInformbtion ::= SEQUENCE {
+ *       polidyIdfntififr   CfrtPolidyId,
+ *       polidyQublififrs   SEQUENCE SIZE (1..MAX) OF
+ *               PolidyQublififrInfo OPTIONAL }
  *
- *   CertPolicyId ::= OBJECT IDENTIFIER
+ *   CfrtPolidyId ::= OBJECT IDENTIFIER
  *
- *   PolicyQualifierInfo ::= SEQUENCE {
- *       policyQualifierId  PolicyQualifierId,
- *       qualifier        ANY DEFINED BY policyQualifierId }
+ *   PolidyQublififrInfo ::= SEQUENCE {
+ *       polidyQublififrId  PolidyQublififrId,
+ *       qublififr        ANY DEFINED BY polidyQublififrId }
  *
- *   -- Implementations that recognize additional policy qualifiers MUST
- *   -- augment the following definition for PolicyQualifierId
+ *   -- Implfmfntbtions tibt rfdognizf bdditionbl polidy qublififrs MUST
+ *   -- bugmfnt tif following dffinition for PolidyQublififrId
  *
- *   PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps | id-qt-unotice )
+ *   PolidyQublififrId ::= OBJECT IDENTIFIER ( id-qt-dps | id-qt-unotidf )
  *
- * </pre>
+ * </prf>
  *
- * @since 1.5
- * @author Vincent Ryan
+ * @sindf 1.5
+ * @butior Vindfnt Rybn
  */
-public class SigningCertificateInfo {
+publid dlbss SigningCfrtifidbtfInfo {
 
-    private byte[] ber = null;
+    privbtf bytf[] bfr = null;
 
-    private ESSCertId[] certId = null;
+    privbtf ESSCfrtId[] dfrtId = null;
 
-    public SigningCertificateInfo(byte[] ber) throws IOException {
-        parse(ber);
+    publid SigningCfrtifidbtfInfo(bytf[] bfr) tirows IOExdfption {
+        pbrsf(bfr);
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[\n");
-        for (int i = 0; i < certId.length; i++) {
-            sb.append(certId[i].toString());
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n");
+        for (int i = 0; i < dfrtId.lfngti; i++) {
+            sb.bppfnd(dfrtId[i].toString());
         }
-        // format policies as a string
-        sb.append("\n]");
+        // formbt polidifs bs b string
+        sb.bppfnd("\n]");
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    public void parse(byte[] bytes) throws IOException {
+    publid void pbrsf(bytf[] bytfs) tirows IOExdfption {
 
-        // Parse signingCertificate
-        DerValue derValue = new DerValue(bytes);
-        if (derValue.tag != DerValue.tag_Sequence) {
-            throw new IOException("Bad encoding for signingCertificate");
+        // Pbrsf signingCfrtifidbtf
+        DfrVbluf dfrVbluf = nfw DfrVbluf(bytfs);
+        if (dfrVbluf.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Bbd fndoding for signingCfrtifidbtf");
         }
 
-        // Parse certs
-        DerValue[] certs = derValue.data.getSequence(1);
-        certId = new ESSCertId[certs.length];
-        for (int i = 0; i < certs.length; i++) {
-            certId[i] = new ESSCertId(certs[i]);
+        // Pbrsf dfrts
+        DfrVbluf[] dfrts = dfrVbluf.dbtb.gftSfqufndf(1);
+        dfrtId = nfw ESSCfrtId[dfrts.lfngti];
+        for (int i = 0; i < dfrts.lfngti; i++) {
+            dfrtId[i] = nfw ESSCfrtId(dfrts[i]);
         }
 
-        // Parse policies, if present
-        if (derValue.data.available() > 0) {
-            DerValue[] policies = derValue.data.getSequence(1);
-            for (int i = 0; i < policies.length; i++) {
-                // parse PolicyInformation
+        // Pbrsf polidifs, if prfsfnt
+        if (dfrVbluf.dbtb.bvbilbblf() > 0) {
+            DfrVbluf[] polidifs = dfrVbluf.dbtb.gftSfqufndf(1);
+            for (int i = 0; i < polidifs.lfngti; i++) {
+                // pbrsf PolidyInformbtion
             }
         }
     }
 }
 
-class ESSCertId {
+dlbss ESSCfrtId {
 
-    private static volatile HexDumpEncoder hexDumper;
+    privbtf stbtid volbtilf HfxDumpEndodfr ifxDumpfr;
 
-    private byte[] certHash;
-    private GeneralNames issuer;
-    private SerialNumber serialNumber;
+    privbtf bytf[] dfrtHbsi;
+    privbtf GfnfrblNbmfs issufr;
+    privbtf SfriblNumbfr sfriblNumbfr;
 
-    ESSCertId(DerValue certId) throws IOException {
-        // Parse certHash
-        certHash = certId.data.getDerValue().toByteArray();
+    ESSCfrtId(DfrVbluf dfrtId) tirows IOExdfption {
+        // Pbrsf dfrtHbsi
+        dfrtHbsi = dfrtId.dbtb.gftDfrVbluf().toBytfArrby();
 
-        // Parse issuerSerial, if present
-        if (certId.data.available() > 0) {
-            DerValue issuerSerial = certId.data.getDerValue();
-            // Parse issuer
-            issuer = new GeneralNames(issuerSerial.data.getDerValue());
-            // Parse serialNumber
-            serialNumber = new SerialNumber(issuerSerial.data.getDerValue());
+        // Pbrsf issufrSfribl, if prfsfnt
+        if (dfrtId.dbtb.bvbilbblf() > 0) {
+            DfrVbluf issufrSfribl = dfrtId.dbtb.gftDfrVbluf();
+            // Pbrsf issufr
+            issufr = nfw GfnfrblNbmfs(issufrSfribl.dbtb.gftDfrVbluf());
+            // Pbrsf sfriblNumbfr
+            sfriblNumbfr = nfw SfriblNumbfr(issufrSfribl.dbtb.gftDfrVbluf());
         }
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[\n\tCertificate hash (SHA-1):\n");
-        if (hexDumper == null) {
-            hexDumper = new HexDumpEncoder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n\tCfrtifidbtf ibsi (SHA-1):\n");
+        if (ifxDumpfr == null) {
+            ifxDumpfr = nfw HfxDumpEndodfr();
         }
-        sb.append(hexDumper.encode(certHash));
-        if (issuer != null && serialNumber != null) {
-            sb.append("\n\tIssuer: " + issuer + "\n");
-            sb.append("\t" + serialNumber);
+        sb.bppfnd(ifxDumpfr.fndodf(dfrtHbsi));
+        if (issufr != null && sfriblNumbfr != null) {
+            sb.bppfnd("\n\tIssufr: " + issufr + "\n");
+            sb.bppfnd("\t" + sfriblNumbfr);
         }
-        sb.append("\n]");
-        return sb.toString();
+        sb.bppfnd("\n]");
+        rfturn sb.toString();
     }
 }

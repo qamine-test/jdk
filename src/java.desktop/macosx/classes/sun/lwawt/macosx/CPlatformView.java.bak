@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
-import sun.awt.CGraphicsConfig;
-import sun.awt.CGraphicsEnvironment;
-import sun.lwawt.LWWindowPeer;
+import sun.bwt.CGrbpiidsConfig;
+import sun.bwt.CGrbpiidsEnvironmfnt;
+import sun.lwbwt.LWWindowPffr;
 
-import sun.java2d.SurfaceData;
-import sun.java2d.opengl.CGLLayer;
-import sun.java2d.opengl.CGLSurfaceData;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.opfngl.CGLLbyfr;
+import sun.jbvb2d.opfngl.CGLSurfbdfDbtb;
 
-public class CPlatformView extends CFRetainedResource {
-    private native long nativeCreateView(int x, int y, int width, int height, long windowLayerPtr);
-    private static native void nativeSetAutoResizable(long awtView, boolean toResize);
-    private static native int nativeGetNSViewDisplayID(long awtView);
-    private static native Rectangle2D nativeGetLocationOnScreen(long awtView);
-    private static native boolean nativeIsViewUnderMouse(long ptr);
+publid dlbss CPlbtformVifw fxtfnds CFRftbinfdRfsourdf {
+    privbtf nbtivf long nbtivfCrfbtfVifw(int x, int y, int widti, int ifigit, long windowLbyfrPtr);
+    privbtf stbtid nbtivf void nbtivfSftAutoRfsizbblf(long bwtVifw, boolfbn toRfsizf);
+    privbtf stbtid nbtivf int nbtivfGftNSVifwDisplbyID(long bwtVifw);
+    privbtf stbtid nbtivf Rfdtbnglf2D nbtivfGftLodbtionOnSdrffn(long bwtVifw);
+    privbtf stbtid nbtivf boolfbn nbtivfIsVifwUndfrMousf(long ptr);
 
-    private LWWindowPeer peer;
-    private SurfaceData surfaceData;
-    private CGLLayer windowLayer;
-    private CPlatformResponder responder;
+    privbtf LWWindowPffr pffr;
+    privbtf SurfbdfDbtb surfbdfDbtb;
+    privbtf CGLLbyfr windowLbyfr;
+    privbtf CPlbtformRfspondfr rfspondfr;
 
-    public CPlatformView() {
-        super(0, true);
+    publid CPlbtformVifw() {
+        supfr(0, truf);
     }
 
-    public void initialize(LWWindowPeer peer, CPlatformResponder responder) {
-        initializeBase(peer, responder);
+    publid void initiblizf(LWWindowPffr pffr, CPlbtformRfspondfr rfspondfr) {
+        initiblizfBbsf(pffr, rfspondfr);
 
-        if (!LWCToolkit.getSunAwtDisableCALayers()) {
-            this.windowLayer = createCGLayer();
+        if (!LWCToolkit.gftSunAwtDisbblfCALbyfrs()) {
+            tiis.windowLbyfr = drfbtfCGLbyfr();
         }
-        setPtr(nativeCreateView(0, 0, 0, 0, getWindowLayerPtr()));
+        sftPtr(nbtivfCrfbtfVifw(0, 0, 0, 0, gftWindowLbyfrPtr()));
     }
 
-    public CGLLayer createCGLayer() {
-        return new CGLLayer(peer);
+    publid CGLLbyfr drfbtfCGLbyfr() {
+        rfturn nfw CGLLbyfr(pffr);
     }
 
-    protected void initializeBase(LWWindowPeer peer, CPlatformResponder responder) {
-        this.peer = peer;
-        this.responder = responder;
+    protfdtfd void initiblizfBbsf(LWWindowPffr pffr, CPlbtformRfspondfr rfspondfr) {
+        tiis.pffr = pffr;
+        tiis.rfspondfr = rfspondfr;
     }
 
-    public long getAWTView() {
-        return ptr;
+    publid long gftAWTVifw() {
+        rfturn ptr;
     }
 
-    public boolean isOpaque() {
-        return !peer.isTranslucent();
+    publid boolfbn isOpbquf() {
+        rfturn !pffr.isTrbnsludfnt();
     }
 
     /*
-     * All coordinates passed to the method should be based on the origin being in the bottom-left corner (standard
-     * Cocoa coordinates).
+     * All doordinbtfs pbssfd to tif mftiod siould bf bbsfd on tif origin bfing in tif bottom-lfft dornfr (stbndbrd
+     * Codob doordinbtfs).
      */
-    public void setBounds(int x, int y, int width, int height) {
-        CWrapper.NSView.setFrame(ptr, x, y, width, height);
+    publid void sftBounds(int x, int y, int widti, int ifigit) {
+        CWrbppfr.NSVifw.sftFrbmf(ptr, x, y, widti, ifigit);
     }
 
-    // REMIND: CGLSurfaceData expects top-level's size
-    public Rectangle getBounds() {
-        return peer.getBounds();
+    // REMIND: CGLSurfbdfDbtb fxpfdts top-lfvfl's sizf
+    publid Rfdtbnglf gftBounds() {
+        rfturn pffr.gftBounds();
     }
 
-    public Object getDestination() {
-        return peer;
+    publid Objfdt gftDfstinbtion() {
+        rfturn pffr;
     }
 
-    public void setToolTip(String msg) {
-        CWrapper.NSView.setToolTip(ptr, msg);
+    publid void sftToolTip(String msg) {
+        CWrbppfr.NSVifw.sftToolTip(ptr, msg);
     }
 
     // ----------------------------------------------------------------------
     // PAINTING METHODS
     // ----------------------------------------------------------------------
-    public SurfaceData replaceSurfaceData() {
-        if (!LWCToolkit.getSunAwtDisableCALayers()) {
-            surfaceData = windowLayer.replaceSurfaceData();
-        } else {
-            if (surfaceData == null) {
-                CGraphicsConfig graphicsConfig = (CGraphicsConfig)getGraphicsConfiguration();
-                surfaceData = graphicsConfig.createSurfaceData(this);
-            } else {
-                validateSurface();
+    publid SurfbdfDbtb rfplbdfSurfbdfDbtb() {
+        if (!LWCToolkit.gftSunAwtDisbblfCALbyfrs()) {
+            surfbdfDbtb = windowLbyfr.rfplbdfSurfbdfDbtb();
+        } flsf {
+            if (surfbdfDbtb == null) {
+                CGrbpiidsConfig grbpiidsConfig = (CGrbpiidsConfig)gftGrbpiidsConfigurbtion();
+                surfbdfDbtb = grbpiidsConfig.drfbtfSurfbdfDbtb(tiis);
+            } flsf {
+                vblidbtfSurfbdf();
             }
         }
-        return surfaceData;
+        rfturn surfbdfDbtb;
     }
 
-    private void validateSurface() {
-        if (surfaceData != null) {
-            ((CGLSurfaceData)surfaceData).validate();
+    privbtf void vblidbtfSurfbdf() {
+        if (surfbdfDbtb != null) {
+            ((CGLSurfbdfDbtb)surfbdfDbtb).vblidbtf();
         }
     }
 
-    public GraphicsConfiguration getGraphicsConfiguration() {
-        return peer.getGraphicsConfiguration();
+    publid GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion() {
+        rfturn pffr.gftGrbpiidsConfigurbtion();
     }
 
-    public SurfaceData getSurfaceData() {
-        return surfaceData;
+    publid SurfbdfDbtb gftSurfbdfDbtb() {
+        rfturn surfbdfDbtb;
     }
 
-    @Override
-    public void dispose() {
-        if (!LWCToolkit.getSunAwtDisableCALayers()) {
-            windowLayer.dispose();
+    @Ovfrridf
+    publid void disposf() {
+        if (!LWCToolkit.gftSunAwtDisbblfCALbyfrs()) {
+            windowLbyfr.disposf();
         }
-        super.dispose();
+        supfr.disposf();
     }
 
-    public long getWindowLayerPtr() {
-        if (!LWCToolkit.getSunAwtDisableCALayers()) {
-            return windowLayer.getPointer();
-        } else {
-            return 0;
+    publid long gftWindowLbyfrPtr() {
+        if (!LWCToolkit.gftSunAwtDisbblfCALbyfrs()) {
+            rfturn windowLbyfr.gftPointfr();
+        } flsf {
+            rfturn 0;
         }
     }
 
-    public void setAutoResizable(boolean toResize) {
-        nativeSetAutoResizable(this.getAWTView(), toResize);
+    publid void sftAutoRfsizbblf(boolfbn toRfsizf) {
+        nbtivfSftAutoRfsizbblf(tiis.gftAWTVifw(), toRfsizf);
     }
 
-    public boolean isUnderMouse() {
-        return nativeIsViewUnderMouse(getAWTView());
+    publid boolfbn isUndfrMousf() {
+        rfturn nbtivfIsVifwUndfrMousf(gftAWTVifw());
     }
 
-    public GraphicsDevice getGraphicsDevice() {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        CGraphicsEnvironment cge = (CGraphicsEnvironment)ge;
-        int displayID = nativeGetNSViewDisplayID(getAWTView());
-        GraphicsDevice gd = cge.getScreenDevice(displayID);
+    publid GrbpiidsDfvidf gftGrbpiidsDfvidf() {
+        GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        CGrbpiidsEnvironmfnt dgf = (CGrbpiidsEnvironmfnt)gf;
+        int displbyID = nbtivfGftNSVifwDisplbyID(gftAWTVifw());
+        GrbpiidsDfvidf gd = dgf.gftSdrffnDfvidf(displbyID);
         if (gd == null) {
-            // this could possibly happen during device removal
-            // use the default screen device in this case
-            gd = ge.getDefaultScreenDevice();
+            // tiis dould possibly ibppfn during dfvidf rfmovbl
+            // usf tif dffbult sdrffn dfvidf in tiis dbsf
+            gd = gf.gftDffbultSdrffnDfvidf();
         }
-        return gd;
+        rfturn gd;
     }
 
-    public Point getLocationOnScreen() {
-        Rectangle r = nativeGetLocationOnScreen(this.getAWTView()).getBounds();
-        return new Point(r.x, r.y);
+    publid Point gftLodbtionOnSdrffn() {
+        Rfdtbnglf r = nbtivfGftLodbtionOnSdrffn(tiis.gftAWTVifw()).gftBounds();
+        rfturn nfw Point(r.x, r.y);
     }
 
     // ----------------------------------------------------------------------
@@ -177,38 +177,38 @@ public class CPlatformView extends CFRetainedResource {
     // ----------------------------------------------------------------------
 
     /*
-     * The callback is called only in the embedded case when the view is
-     * automatically resized by the superview.
-     * In normal mode this method is never called.
+     * Tif dbllbbdk is dbllfd only in tif fmbfddfd dbsf wifn tif vifw is
+     * butombtidblly rfsizfd by tif supfrvifw.
+     * In normbl modf tiis mftiod is nfvfr dbllfd.
      */
-    private void deliverResize(int x, int y, int w, int h) {
-        peer.notifyReshape(x, y, w, h);
+    privbtf void dflivfrRfsizf(int x, int y, int w, int i) {
+        pffr.notifyRfsibpf(x, y, w, i);
     }
 
 
-    private void deliverMouseEvent(NSEvent event) {
-        int x = event.getX();
-        int y = getBounds().height - event.getY();
+    privbtf void dflivfrMousfEvfnt(NSEvfnt fvfnt) {
+        int x = fvfnt.gftX();
+        int y = gftBounds().ifigit - fvfnt.gftY();
 
-        if (event.getType() == CocoaConstants.NSScrollWheel) {
-            responder.handleScrollEvent(x, y, event.getModifierFlags(),
-                                        event.getScrollDeltaX(), event.getScrollDeltaY());
-        } else {
-            responder.handleMouseEvent(event.getType(), event.getModifierFlags(), event.getButtonNumber(),
-                                       event.getClickCount(), x, y, event.getAbsX(), event.getAbsY());
+        if (fvfnt.gftTypf() == CodobConstbnts.NSSdrollWiffl) {
+            rfspondfr.ibndlfSdrollEvfnt(x, y, fvfnt.gftModififrFlbgs(),
+                                        fvfnt.gftSdrollDfltbX(), fvfnt.gftSdrollDfltbY());
+        } flsf {
+            rfspondfr.ibndlfMousfEvfnt(fvfnt.gftTypf(), fvfnt.gftModififrFlbgs(), fvfnt.gftButtonNumbfr(),
+                                       fvfnt.gftClidkCount(), x, y, fvfnt.gftAbsX(), fvfnt.gftAbsY());
         }
     }
 
-    private void deliverKeyEvent(NSEvent event) {
-        responder.handleKeyEvent(event.getType(), event.getModifierFlags(), event.getCharacters(),
-                                 event.getCharactersIgnoringModifiers(), event.getKeyCode(), true, false);
+    privbtf void dflivfrKfyEvfnt(NSEvfnt fvfnt) {
+        rfspondfr.ibndlfKfyEvfnt(fvfnt.gftTypf(), fvfnt.gftModififrFlbgs(), fvfnt.gftCibrbdtfrs(),
+                                 fvfnt.gftCibrbdtfrsIgnoringModififrs(), fvfnt.gftKfyCodf(), truf, fblsf);
     }
 
     /**
-     * Called by the native delegate in layer backed view mode or in the simple
-     * NSView mode. See NSView.drawRect().
+     * Cbllfd by tif nbtivf dflfgbtf in lbyfr bbdkfd vifw modf or in tif simplf
+     * NSVifw modf. Sff NSVifw.drbwRfdt().
      */
-    private void deliverWindowDidExposeEvent() {
-        peer.notifyExpose(peer.getSize());
+    privbtf void dflivfrWindowDidExposfEvfnt() {
+        pffr.notifyExposf(pffr.gftSizf());
     }
 }

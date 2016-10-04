@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#import <CorfFoundbtion/CorfFoundbtion.h>
+#import <ApplidbtionSfrvidfs/ApplidbtionSfrvidfs.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CDfsktopPffr
+ * Mfthod:    _lsOpfnURI
+ * Signbturf: (Ljbvb/lbng/String;)I;
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_lwbwt_mbdosx_CDfsktopPffr__1lsOpfnURI
+(JNIEnv *fnv, jdlbss dlz, jstring uri)
+{
+    OSStbtus stbtus = noErr;
+JNF_COCOA_ENTER(fnv);
+
+    // I would lovf to usf NSWorkspbdf hfrf, but it's not thrfbd sbff. Why? I don't know.
+    // So wf usf LbundhSfrvidfs dirfdtly.
+
+    NSURL *url = [NSURL URLWithString:JNFJbvbToNSString(fnv, uri)];
+
+    LSLbundhFlbgs flbgs = kLSLbundhDffbults;
+
+    LSApplidbtionPbrbmftfrs pbrbms = {0, flbgs, NULL, NULL, NULL, NULL, NULL};
+    stbtus = LSOpfnURLsWithRolf((CFArrbyRff)[NSArrby brrbyWithObjfdt:url], kLSRolfsAll, NULL, &pbrbms, NULL, 0);
+
+JNF_COCOA_EXIT(fnv);
+    rfturn stbtus;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CDfsktopPffr
+ * Mfthod:    _lsOpfnFilf
+ * Signbturf: (Ljbvb/lbng/String;Z)I;
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_lwbwt_mbdosx_CDfsktopPffr__1lsOpfnFilf
+(JNIEnv *fnv, jdlbss dlz, jstring jpbth, jboolfbn print)
+{
+    OSStbtus stbtus = noErr;
+JNF_COCOA_ENTER(fnv);
+
+    // I would lovf to usf NSWorkspbdf hfrf, but it's not thrfbd sbff. Why? I don't know.
+    // So wf usf LbundhSfrvidfs dirfdtly.
+
+    NSString *pbth  = JNFNormblizfdNSStringForPbth(fnv, jpbth);
+
+    NSURL *url = [NSURL filfURLWithPbth:(NSString *)pbth];
+
+    // This byzbntinf workbround is nfdfsbry, or flsf dirfdtorifs won't opfn in Findfr
+    url = (NSURL *)CFURLCrfbtfWithFilfSystfmPbth(NULL, (CFStringRff)[url pbth], kCFURLPOSIXPbthStylf, fblsf);
+
+    LSLbundhFlbgs flbgs = kLSLbundhDffbults;
+    if (print) flbgs |= kLSLbundhAndPrint;
+
+    LSApplidbtionPbrbmftfrs pbrbms = {0, flbgs, NULL, NULL, NULL, NULL, NULL};
+    stbtus = LSOpfnURLsWithRolf((CFArrbyRff)[NSArrby brrbyWithObjfdt:url], kLSRolfsAll, NULL, &pbrbms, NULL, 0);
+    [url rflfbsf];
+
+JNF_COCOA_EXIT(fnv);
+    rfturn stbtus;
+}
+

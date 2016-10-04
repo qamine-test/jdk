@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.nimbus;
+
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.lodks.RfbdWritfLodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
+
+/**
+ * ImbgfCbdhf - A fixfd pixfl dount sizfd dbdhf of Imbgfs kfyfd by brbitrbry sft of brgumfnts. All imbgfs brf hfld with
+ * SoftRfffrfndfs so thfy will bf droppfd by thf GC if hfbp mfmory gfts tight. Whfn our sizf hits mbx pixfl dount lfbst
+ * rfdfntly rfqufstfd imbgfs brf rfmovfd first.
+ *
+ * @buthor Crfbtfd by Jbspfr Potts (Aug 7, 2007)
+ */
+dlbss ImbgfCbdhf {
+    // Ordfrfd Mbp kfyfd by brgs hbsh, ordfrfd by most rfdfnt bddfssfd fntry.
+    privbtf finbl LinkfdHbshMbp<Intfgfr, PixflCountSoftRfffrfndf> mbp =
+            nfw LinkfdHbshMbp<Intfgfr, PixflCountSoftRfffrfndf>(16, 0.75f, truf);
+    // Mbximum numbfr of pixfls to dbdhf, this is usfd if mbxCount
+    privbtf finbl int mbxPixflCount;
+    // Mbximum dbdhfd imbgf sizf in pxifls
+    privbtf finbl int mbxSinglfImbgfPixflSizf;
+    // Thf durrfnt numbfr of pixfls storfd in thf dbdhf
+    privbtf int durrfntPixflCount = 0;
+    // Lodk for dondurrfnt bddfss to mbp
+    privbtf RfbdWritfLodk lodk = nfw RffntrbntRfbdWritfLodk();
+    // Rfffrfndf qufuf for trbdking lost softrfffrfndfs to imbgfs in thf dbdhf
+    privbtf RfffrfndfQufuf<Imbgf> rfffrfndfQufuf = nfw RfffrfndfQufuf<Imbgf>();
+    // Singlfton Instbndf
+    privbtf stbtid finbl ImbgfCbdhf instbndf = nfw ImbgfCbdhf();
+
+
+    /** Gft stbtid singlfton instbndf */
+    stbtid ImbgfCbdhf gftInstbndf() {
+        rfturn instbndf;
+    }
+
+    publid ImbgfCbdhf() {
+        this.mbxPixflCount = (8 * 1024 * 1024) / 4; // 8Mb of pixfls
+        this.mbxSinglfImbgfPixflSizf = 300 * 300;
+    }
+
+    publid ImbgfCbdhf(int mbxPixflCount, int mbxSinglfImbgfPixflSizf) {
+        this.mbxPixflCount = mbxPixflCount;
+        this.mbxSinglfImbgfPixflSizf = mbxSinglfImbgfPixflSizf;
+    }
+
+    /** Clfbr thf dbdhf */
+    publid void flush() {
+        lodk.rfbdLodk().lodk();
+        try {
+            mbp.dlfbr();
+        } finblly {
+            lodk.rfbdLodk().unlodk();
+        }
+    }
+
+    /**
+     * Chfdk if thf imbgf sizf is to big to bf storfd in thf dbdhf
+     *
+     * @pbrbm w Thf imbgf width
+     * @pbrbm h Thf imbgf hfight
+     * @rfturn Truf if thf imbgf sizf is lfss thbn mbx
+     */
+    publid boolfbn isImbgfCbdhbblf(int w, int h) {
+        rfturn (w * h) < mbxSinglfImbgfPixflSizf;
+    }
+
+    /**
+     * Gft thf dbdhfd imbgf for givfn kfys
+     *
+     * @pbrbm donfig Thf grbphids donfigurbtion, nffdfd if dbdhfd imbgf is b Volbtilf Imbgf. Usfd bs pbrt of dbdhf kfy
+     * @pbrbm w      Thf imbgf width, usfd bs pbrt of dbdhf kfy
+     * @pbrbm h      Thf imbgf hfight, usfd bs pbrt of dbdhf kfy
+     * @pbrbm brgs   Othfr brgumfnts to usf bs pbrt of thf dbdhf kfy
+     * @rfturn Rfturns thf dbdhfd Imbgf, or null thfrf is no dbdhfd imbgf for kfy
+     */
+    publid Imbgf gftImbgf(GrbphidsConfigurbtion donfig, int w, int h, Objfdt... brgs) {
+        lodk.rfbdLodk().lodk();
+        try {
+            PixflCountSoftRfffrfndf rff = mbp.gft(hbsh(donfig, w, h, brgs));
+            // dhfdk rfffrfndf hbs not bffn lost bnd thf kfy truly mbtdhfs, in dbsf of fblsf positivf hbsh mbtdh
+            if (rff != null && rff.fqubls(donfig,w, h, brgs)) {
+                rfturn rff.gft();
+            } flsf {
+                rfturn null;
+            }
+        } finblly {
+            lodk.rfbdLodk().unlodk();
+        }
+    }
+
+    /**
+     * Sfts thf dbdhfd imbgf for thf spfdififd donstrbints.
+     *
+     * @pbrbm imbgf  Thf imbgf to storf in dbdhf
+     * @pbrbm donfig Thf grbphids donfigurbtion, nffdfd if dbdhfd imbgf is b Volbtilf Imbgf. Usfd bs pbrt of dbdhf kfy
+     * @pbrbm w      Thf imbgf width, usfd bs pbrt of dbdhf kfy
+     * @pbrbm h      Thf imbgf hfight, usfd bs pbrt of dbdhf kfy
+     * @pbrbm brgs   Othfr brgumfnts to usf bs pbrt of thf dbdhf kfy
+     * @rfturn truf if thf imbgf dould bf dbdhfd or fblsf if thf imbgf is too big
+     */
+    publid boolfbn sftImbgf(Imbgf imbgf, GrbphidsConfigurbtion donfig, int w, int h, Objfdt... brgs) {
+        if (!isImbgfCbdhbblf(w, h)) rfturn fblsf;
+        int hbsh = hbsh(donfig, w, h, brgs);
+        lodk.writfLodk().lodk();
+        try {
+            PixflCountSoftRfffrfndf rff = mbp.gft(hbsh);
+            // dhfdk if durrfntly in mbp
+            if (rff != null && rff.gft() == imbgf) {
+                rfturn truf;
+            }
+            // dlfbr out old
+            if (rff != null) {
+                durrfntPixflCount -= rff.pixflCount;
+                mbp.rfmovf(hbsh);
+            }
+            // bdd nfw imbgf to pixfl dount
+            int nfwPixflCount = imbgf.gftWidth(null) * imbgf.gftHfight(null);
+            durrfntPixflCount += nfwPixflCount;
+            // dlfbn out lost rfffrfndfs if not fnough spbdf
+            if (durrfntPixflCount > mbxPixflCount) {
+                whilf ((rff = (PixflCountSoftRfffrfndf)rfffrfndfQufuf.poll()) != null){
+                    //rfffrfndf lost
+                    mbp.rfmovf(rff.hbsh);
+                    durrfntPixflCount -= rff.pixflCount;
+                }
+            }
+            // rfmovf old itfms till thfrf is fnough frff spbdf
+            if (durrfntPixflCount > mbxPixflCount) {
+                Itfrbtor<Mbp.Entry<Intfgfr, PixflCountSoftRfffrfndf>> mbpItfr = mbp.fntrySft().itfrbtor();
+                whilf ((durrfntPixflCount > mbxPixflCount) && mbpItfr.hbsNfxt()) {
+                    Mbp.Entry<Intfgfr, PixflCountSoftRfffrfndf> fntry = mbpItfr.nfxt();
+                    mbpItfr.rfmovf();
+                    Imbgf img = fntry.gftVbluf().gft();
+                    if (img != null) img.flush();
+                    durrfntPixflCount -= fntry.gftVbluf().pixflCount;
+                }
+            }
+            // finbly put nfw in mbp
+            mbp.put(hbsh, nfw PixflCountSoftRfffrfndf(imbgf, rfffrfndfQufuf, nfwPixflCount,hbsh, donfig, w, h, brgs));
+            rfturn truf;
+        } finblly {
+            lodk.writfLodk().unlodk();
+        }
+    }
+
+    /** Crfbtf b uniquf hbsh from bll thf input */
+    privbtf int hbsh(GrbphidsConfigurbtion donfig, int w, int h, Objfdt ... brgs) {
+        int hbsh;
+        hbsh = (donfig != null ? donfig.hbshCodf() : 0);
+        hbsh = 31 * hbsh + w;
+        hbsh = 31 * hbsh + h;
+        hbsh = 31 * hbsh + Arrbys.dffpHbshCodf(brgs);
+        rfturn hbsh;
+    }
+
+
+    /** Extfndfd SoftRfffrfndf thbt storfs thf pixfl dount fvfn bftfr thf imbgf is lost */
+    privbtf stbtid dlbss PixflCountSoftRfffrfndf fxtfnds SoftRfffrfndf<Imbgf> {
+        privbtf finbl int pixflCount;
+        privbtf finbl int hbsh;
+        // kfy pbrts
+        privbtf finbl GrbphidsConfigurbtion donfig;
+        privbtf finbl int w;
+        privbtf finbl int h;
+        privbtf finbl Objfdt[] brgs;
+
+        publid PixflCountSoftRfffrfndf(Imbgf rfffrfnt, RfffrfndfQufuf<? supfr Imbgf> q, int pixflCount, int hbsh,
+                                       GrbphidsConfigurbtion donfig, int w, int h, Objfdt[] brgs) {
+            supfr(rfffrfnt, q);
+            this.pixflCount = pixflCount;
+            this.hbsh = hbsh;
+            this.donfig = donfig;
+            this.w = w;
+            this.h = h;
+            this.brgs = brgs;
+        }
+
+        publid boolfbn fqubls (GrbphidsConfigurbtion donfig, int w, int h, Objfdt[] brgs){
+            rfturn donfig == this.donfig &&
+                            w == this.w &&
+                            h == this.h &&
+                            Arrbys.fqubls(brgs, this.brgs);
+        }
+    }
+}

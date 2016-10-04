@@ -1,315 +1,315 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.wbmp;
+pbdkbgf dom.sun.imbgfio.plugins.wbmp;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.MultiPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import javax.imageio.IIOImage;
-import javax.imageio.IIOException;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
+import jbvbx.imbgfio.IIOImbgf;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfPbrbm;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
 
-import com.sun.imageio.plugins.common.I18N;
+import dom.sun.imbgfio.plugins.dommon.I18N;
 
 /**
- * The Java Image IO plugin writer for encoding a binary RenderedImage into
- * a WBMP format.
+ * Tif Jbvb Imbgf IO plugin writfr for fndoding b binbry RfndfrfdImbgf into
+ * b WBMP formbt.
  *
- * The encoding process may clip, subsample using the parameters
- * specified in the <code>ImageWriteParam</code>.
+ * Tif fndoding prodfss mby dlip, subsbmplf using tif pbrbmftfrs
+ * spfdififd in tif <dodf>ImbgfWritfPbrbm</dodf>.
  *
- * @see com.sun.media.imageio.plugins.WBMPImageWriteParam
+ * @sff dom.sun.mfdib.imbgfio.plugins.WBMPImbgfWritfPbrbm
  */
-public class WBMPImageWriter extends ImageWriter {
-    /** The output stream to write into */
-    private ImageOutputStream stream = null;
+publid dlbss WBMPImbgfWritfr fxtfnds ImbgfWritfr {
+    /** Tif output strfbm to writf into */
+    privbtf ImbgfOutputStrfbm strfbm = null;
 
-    // Get the number of bits required to represent an int.
-    private static int getNumBits(int intValue) {
+    // Gft tif numbfr of bits rfquirfd to rfprfsfnt bn int.
+    privbtf stbtid int gftNumBits(int intVbluf) {
         int numBits = 32;
-        int mask = 0x80000000;
-        while(mask != 0 && (intValue & mask) == 0) {
+        int mbsk = 0x80000000;
+        wiilf(mbsk != 0 && (intVbluf & mbsk) == 0) {
             numBits--;
-            mask >>>= 1;
+            mbsk >>>= 1;
         }
-        return numBits;
+        rfturn numBits;
     }
 
-    // Convert an int value to WBMP multi-byte format.
-    private static byte[] intToMultiByte(int intValue) {
-        int numBitsLeft = getNumBits(intValue);
-        byte[] multiBytes = new byte[(numBitsLeft + 6)/7];
+    // Convfrt bn int vbluf to WBMP multi-bytf formbt.
+    privbtf stbtid bytf[] intToMultiBytf(int intVbluf) {
+        int numBitsLfft = gftNumBits(intVbluf);
+        bytf[] multiBytfs = nfw bytf[(numBitsLfft + 6)/7];
 
-        int maxIndex = multiBytes.length - 1;
-        for(int b = 0; b <= maxIndex; b++) {
-            multiBytes[b] = (byte)((intValue >>> ((maxIndex - b)*7))&0x7f);
-            if(b != maxIndex) {
-                multiBytes[b] |= (byte)0x80;
+        int mbxIndfx = multiBytfs.lfngti - 1;
+        for(int b = 0; b <= mbxIndfx; b++) {
+            multiBytfs[b] = (bytf)((intVbluf >>> ((mbxIndfx - b)*7))&0x7f);
+            if(b != mbxIndfx) {
+                multiBytfs[b] |= (bytf)0x80;
             }
         }
 
-        return multiBytes;
+        rfturn multiBytfs;
     }
 
-    /** Constructs <code>WBMPImageWriter</code> based on the provided
-     *  <code>ImageWriterSpi</code>.
+    /** Construdts <dodf>WBMPImbgfWritfr</dodf> bbsfd on tif providfd
+     *  <dodf>ImbgfWritfrSpi</dodf>.
      */
-    public WBMPImageWriter(ImageWriterSpi originator) {
-        super(originator);
+    publid WBMPImbgfWritfr(ImbgfWritfrSpi originbtor) {
+        supfr(originbtor);
     }
 
-    public void setOutput(Object output) {
-        super.setOutput(output); // validates output
+    publid void sftOutput(Objfdt output) {
+        supfr.sftOutput(output); // vblidbtfs output
         if (output != null) {
-            if (!(output instanceof ImageOutputStream))
-                throw new IllegalArgumentException(I18N.getString("WBMPImageWriter"));
-            this.stream = (ImageOutputStream)output;
-        } else
-            this.stream = null;
+            if (!(output instbndfof ImbgfOutputStrfbm))
+                tirow nfw IllfgblArgumfntExdfption(I18N.gftString("WBMPImbgfWritfr"));
+            tiis.strfbm = (ImbgfOutputStrfbm)output;
+        } flsf
+            tiis.strfbm = null;
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
-        return null;
+    publid IIOMftbdbtb gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
     }
 
-    public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
-        WBMPMetadata meta = new WBMPMetadata();
-        meta.wbmpType = 0; // default wbmp level
-        return meta;
+    publid IIOMftbdbtb gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                               ImbgfWritfPbrbm pbrbm) {
+        WBMPMftbdbtb mftb = nfw WBMPMftbdbtb();
+        mftb.wbmpTypf = 0; // dffbult wbmp lfvfl
+        rfturn mftb;
     }
 
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
-        return null;
+    publid IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                             ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
     }
 
-    public IIOMetadata convertImageMetadata(IIOMetadata metadata,
-                                            ImageTypeSpecifier type,
-                                            ImageWriteParam param) {
-        return null;
+    publid IIOMftbdbtb donvfrtImbgfMftbdbtb(IIOMftbdbtb mftbdbtb,
+                                            ImbgfTypfSpfdififr typf,
+                                            ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
     }
 
-    public boolean canWriteRasters() {
-        return true;
+    publid boolfbn dbnWritfRbstfrs() {
+        rfturn truf;
     }
 
-    public void write(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IOException {
+    publid void writf(IIOMftbdbtb strfbmMftbdbtb,
+                      IIOImbgf imbgf,
+                      ImbgfWritfPbrbm pbrbm) tirows IOExdfption {
 
-        if (stream == null) {
-            throw new IllegalStateException(I18N.getString("WBMPImageWriter3"));
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption(I18N.gftString("WBMPImbgfWritfr3"));
         }
 
-        if (image == null) {
-            throw new IllegalArgumentException(I18N.getString("WBMPImageWriter4"));
+        if (imbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption(I18N.gftString("WBMPImbgfWritfr4"));
         }
 
-        clearAbortRequest();
-        processImageStarted(0);
-        if (param == null)
-            param = getDefaultWriteParam();
+        dlfbrAbortRfqufst();
+        prodfssImbgfStbrtfd(0);
+        if (pbrbm == null)
+            pbrbm = gftDffbultWritfPbrbm();
 
-        RenderedImage input = null;
-        Raster inputRaster = null;
-        boolean writeRaster = image.hasRaster();
-        Rectangle sourceRegion = param.getSourceRegion();
-        SampleModel sampleModel = null;
+        RfndfrfdImbgf input = null;
+        Rbstfr inputRbstfr = null;
+        boolfbn writfRbstfr = imbgf.ibsRbstfr();
+        Rfdtbnglf sourdfRfgion = pbrbm.gftSourdfRfgion();
+        SbmplfModfl sbmplfModfl = null;
 
-        if (writeRaster) {
-            inputRaster = image.getRaster();
-            sampleModel = inputRaster.getSampleModel();
-        } else {
-            input = image.getRenderedImage();
-            sampleModel = input.getSampleModel();
+        if (writfRbstfr) {
+            inputRbstfr = imbgf.gftRbstfr();
+            sbmplfModfl = inputRbstfr.gftSbmplfModfl();
+        } flsf {
+            input = imbgf.gftRfndfrfdImbgf();
+            sbmplfModfl = input.gftSbmplfModfl();
 
-            inputRaster = input.getData();
+            inputRbstfr = input.gftDbtb();
         }
 
-        checkSampleModel(sampleModel);
-        if (sourceRegion == null)
-            sourceRegion = inputRaster.getBounds();
-        else
-            sourceRegion = sourceRegion.intersection(inputRaster.getBounds());
+        difdkSbmplfModfl(sbmplfModfl);
+        if (sourdfRfgion == null)
+            sourdfRfgion = inputRbstfr.gftBounds();
+        flsf
+            sourdfRfgion = sourdfRfgion.intfrsfdtion(inputRbstfr.gftBounds());
 
-        if (sourceRegion.isEmpty())
-            throw new RuntimeException(I18N.getString("WBMPImageWriter1"));
+        if (sourdfRfgion.isEmpty())
+            tirow nfw RuntimfExdfption(I18N.gftString("WBMPImbgfWritfr1"));
 
-        int scaleX = param.getSourceXSubsampling();
-        int scaleY = param.getSourceYSubsampling();
-        int xOffset = param.getSubsamplingXOffset();
-        int yOffset = param.getSubsamplingYOffset();
+        int sdblfX = pbrbm.gftSourdfXSubsbmpling();
+        int sdblfY = pbrbm.gftSourdfYSubsbmpling();
+        int xOffsft = pbrbm.gftSubsbmplingXOffsft();
+        int yOffsft = pbrbm.gftSubsbmplingYOffsft();
 
-        sourceRegion.translate(xOffset, yOffset);
-        sourceRegion.width -= xOffset;
-        sourceRegion.height -= yOffset;
+        sourdfRfgion.trbnslbtf(xOffsft, yOffsft);
+        sourdfRfgion.widti -= xOffsft;
+        sourdfRfgion.ifigit -= yOffsft;
 
-        int minX = sourceRegion.x / scaleX;
-        int minY = sourceRegion.y / scaleY;
-        int w = (sourceRegion.width + scaleX - 1) / scaleX;
-        int h = (sourceRegion.height + scaleY - 1) / scaleY;
+        int minX = sourdfRfgion.x / sdblfX;
+        int minY = sourdfRfgion.y / sdblfY;
+        int w = (sourdfRfgion.widti + sdblfX - 1) / sdblfX;
+        int i = (sourdfRfgion.ifigit + sdblfY - 1) / sdblfY;
 
-        Rectangle destinationRegion = new Rectangle(minX, minY, w, h);
-        sampleModel = sampleModel.createCompatibleSampleModel(w, h);
+        Rfdtbnglf dfstinbtionRfgion = nfw Rfdtbnglf(minX, minY, w, i);
+        sbmplfModfl = sbmplfModfl.drfbtfCompbtiblfSbmplfModfl(w, i);
 
-        SampleModel destSM= sampleModel;
+        SbmplfModfl dfstSM= sbmplfModfl;
 
-        // If the data are not formatted nominally then reformat.
-        if(sampleModel.getDataType() != DataBuffer.TYPE_BYTE ||
-           !(sampleModel instanceof MultiPixelPackedSampleModel) ||
-           ((MultiPixelPackedSampleModel)sampleModel).getDataBitOffset() != 0) {
-           destSM =
-                new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE,
-                                                w, h, 1,
+        // If tif dbtb brf not formbttfd nominblly tifn rfformbt.
+        if(sbmplfModfl.gftDbtbTypf() != DbtbBufffr.TYPE_BYTE ||
+           !(sbmplfModfl instbndfof MultiPixflPbdkfdSbmplfModfl) ||
+           ((MultiPixflPbdkfdSbmplfModfl)sbmplfModfl).gftDbtbBitOffsft() != 0) {
+           dfstSM =
+                nfw MultiPixflPbdkfdSbmplfModfl(DbtbBufffr.TYPE_BYTE,
+                                                w, i, 1,
                                                 w + 7 >> 3, 0);
         }
 
-        if (!destinationRegion.equals(sourceRegion)) {
-            if (scaleX == 1 && scaleY == 1)
-                inputRaster = inputRaster.createChild(inputRaster.getMinX(),
-                                                      inputRaster.getMinY(),
-                                                      w, h, minX, minY, null);
-            else {
-                WritableRaster ras = Raster.createWritableRaster(destSM,
-                                                                 new Point(minX, minY));
+        if (!dfstinbtionRfgion.fqubls(sourdfRfgion)) {
+            if (sdblfX == 1 && sdblfY == 1)
+                inputRbstfr = inputRbstfr.drfbtfCiild(inputRbstfr.gftMinX(),
+                                                      inputRbstfr.gftMinY(),
+                                                      w, i, minX, minY, null);
+            flsf {
+                WritbblfRbstfr rbs = Rbstfr.drfbtfWritbblfRbstfr(dfstSM,
+                                                                 nfw Point(minX, minY));
 
-                byte[] data = ((DataBufferByte)ras.getDataBuffer()).getData();
+                bytf[] dbtb = ((DbtbBufffrBytf)rbs.gftDbtbBufffr()).gftDbtb();
 
-                for(int j = minY, y = sourceRegion.y, k = 0;
-                    j < minY + h; j++, y += scaleY) {
+                for(int j = minY, y = sourdfRfgion.y, k = 0;
+                    j < minY + i; j++, y += sdblfY) {
 
-                    for (int i = 0, x = sourceRegion.x;
-                        i <w; i++, x +=scaleX) {
-                        int v = inputRaster.getSample(x, y, 0);
-                        data[k + (i >> 3)] |= v << (7 - (i & 7));
+                    for (int i = 0, x = sourdfRfgion.x;
+                        i <w; i++, x +=sdblfX) {
+                        int v = inputRbstfr.gftSbmplf(x, y, 0);
+                        dbtb[k + (i >> 3)] |= v << (7 - (i & 7));
                     }
                     k += w + 7 >> 3;
                 }
-                inputRaster = ras;
+                inputRbstfr = rbs;
             }
         }
 
-        // If the data are not formatted nominally then reformat.
-        if(!destSM.equals(inputRaster.getSampleModel())) {
-            WritableRaster raster =
-                Raster.createWritableRaster(destSM,
-                                            new Point(inputRaster.getMinX(),
-                                                      inputRaster.getMinY()));
-            raster.setRect(inputRaster);
-            inputRaster = raster;
+        // If tif dbtb brf not formbttfd nominblly tifn rfformbt.
+        if(!dfstSM.fqubls(inputRbstfr.gftSbmplfModfl())) {
+            WritbblfRbstfr rbstfr =
+                Rbstfr.drfbtfWritbblfRbstfr(dfstSM,
+                                            nfw Point(inputRbstfr.gftMinX(),
+                                                      inputRbstfr.gftMinY()));
+            rbstfr.sftRfdt(inputRbstfr);
+            inputRbstfr = rbstfr;
         }
 
-        // Check whether the image is white-is-zero.
-        boolean isWhiteZero = false;
-        if(!writeRaster && input.getColorModel() instanceof IndexColorModel) {
-            IndexColorModel icm = (IndexColorModel)input.getColorModel();
-            isWhiteZero = icm.getRed(0) > icm.getRed(1);
+        // Cifdk wiftifr tif imbgf is wiitf-is-zfro.
+        boolfbn isWiitfZfro = fblsf;
+        if(!writfRbstfr && input.gftColorModfl() instbndfof IndfxColorModfl) {
+            IndfxColorModfl idm = (IndfxColorModfl)input.gftColorModfl();
+            isWiitfZfro = idm.gftRfd(0) > idm.gftRfd(1);
         }
 
-        // Get the line stride, bytes per row, and data array.
-        int lineStride =
-            ((MultiPixelPackedSampleModel)destSM).getScanlineStride();
-        int bytesPerRow = (w + 7)/8;
-        byte[] bdata = ((DataBufferByte)inputRaster.getDataBuffer()).getData();
+        // Gft tif linf stridf, bytfs pfr row, bnd dbtb brrby.
+        int linfStridf =
+            ((MultiPixflPbdkfdSbmplfModfl)dfstSM).gftSdbnlinfStridf();
+        int bytfsPfrRow = (w + 7)/8;
+        bytf[] bdbtb = ((DbtbBufffrBytf)inputRbstfr.gftDbtbBufffr()).gftDbtb();
 
-        // Write WBMP header.
-        stream.write(0); // TypeField
-        stream.write(0); // FixHeaderField
-        stream.write(intToMultiByte(w)); // width
-        stream.write(intToMultiByte(h)); // height
+        // Writf WBMP ifbdfr.
+        strfbm.writf(0); // TypfFifld
+        strfbm.writf(0); // FixHfbdfrFifld
+        strfbm.writf(intToMultiBytf(w)); // widti
+        strfbm.writf(intToMultiBytf(i)); // ifigit
 
-        // Write the data.
-        if(!isWhiteZero && lineStride == bytesPerRow) {
-            // Write the entire image.
-            stream.write(bdata, 0, h * bytesPerRow);
-            processImageProgress(100.0F);
-        } else {
-            // Write the image row-by-row.
-            int offset = 0;
-            if(!isWhiteZero) {
-                // Black-is-zero
-                for(int row = 0; row < h; row++) {
-                    if (abortRequested())
-                        break;
-                    stream.write(bdata, offset, bytesPerRow);
-                    offset += lineStride;
-                    processImageProgress(100.0F * row / h);
+        // Writf tif dbtb.
+        if(!isWiitfZfro && linfStridf == bytfsPfrRow) {
+            // Writf tif fntirf imbgf.
+            strfbm.writf(bdbtb, 0, i * bytfsPfrRow);
+            prodfssImbgfProgrfss(100.0F);
+        } flsf {
+            // Writf tif imbgf row-by-row.
+            int offsft = 0;
+            if(!isWiitfZfro) {
+                // Blbdk-is-zfro
+                for(int row = 0; row < i; row++) {
+                    if (bbortRfqufstfd())
+                        brfbk;
+                    strfbm.writf(bdbtb, offsft, bytfsPfrRow);
+                    offsft += linfStridf;
+                    prodfssImbgfProgrfss(100.0F * row / i);
                 }
-            } else {
-                // White-is-zero: need to invert data.
-                byte[] inverted = new byte[bytesPerRow];
-                for(int row = 0; row < h; row++) {
-                    if (abortRequested())
-                        break;
-                    for(int col = 0; col < bytesPerRow; col++) {
-                        inverted[col] = (byte)(~(bdata[col+offset]));
+            } flsf {
+                // Wiitf-is-zfro: nffd to invfrt dbtb.
+                bytf[] invfrtfd = nfw bytf[bytfsPfrRow];
+                for(int row = 0; row < i; row++) {
+                    if (bbortRfqufstfd())
+                        brfbk;
+                    for(int dol = 0; dol < bytfsPfrRow; dol++) {
+                        invfrtfd[dol] = (bytf)(~(bdbtb[dol+offsft]));
                     }
-                    stream.write(inverted, 0, bytesPerRow);
-                    offset += lineStride;
-                    processImageProgress(100.0F * row / h);
+                    strfbm.writf(invfrtfd, 0, bytfsPfrRow);
+                    offsft += linfStridf;
+                    prodfssImbgfProgrfss(100.0F * row / i);
                 }
             }
         }
 
-        if (abortRequested())
-            processWriteAborted();
-        else {
-            processImageComplete();
-            stream.flushBefore(stream.getStreamPosition());
+        if (bbortRfqufstfd())
+            prodfssWritfAbortfd();
+        flsf {
+            prodfssImbgfComplftf();
+            strfbm.flusiBfforf(strfbm.gftStrfbmPosition());
         }
     }
 
-    public void reset() {
-        super.reset();
-        stream = null;
+    publid void rfsft() {
+        supfr.rfsft();
+        strfbm = null;
     }
 
-    private void checkSampleModel(SampleModel sm) {
-        int type = sm.getDataType();
-        if (type < DataBuffer.TYPE_BYTE || type > DataBuffer.TYPE_INT
-            || sm.getNumBands() != 1 || sm.getSampleSize(0) != 1)
-            throw new IllegalArgumentException(I18N.getString("WBMPImageWriter2"));
+    privbtf void difdkSbmplfModfl(SbmplfModfl sm) {
+        int typf = sm.gftDbtbTypf();
+        if (typf < DbtbBufffr.TYPE_BYTE || typf > DbtbBufffr.TYPE_INT
+            || sm.gftNumBbnds() != 1 || sm.gftSbmplfSizf(0) != 1)
+            tirow nfw IllfgblArgumfntExdfption(I18N.gftString("WBMPImbgfWritfr2"));
     }
 }

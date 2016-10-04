@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth;
+pbdkbgf jbvbx.sfdurity.buti;
 
 /**
- * Objects such as credentials may optionally implement this interface
- * to provide the capability to destroy its contents.
+ * Objfdts sudi bs drfdfntibls mby optionblly implfmfnt tiis intfrfbdf
+ * to providf tif dbpbbility to dfstroy its dontfnts.
  *
- * @see javax.security.auth.Subject
+ * @sff jbvbx.sfdurity.buti.Subjfdt
  */
-public interface Destroyable {
+publid intfrfbdf Dfstroybblf {
 
     /**
-     * Destroy this {@code Object}.
+     * Dfstroy tiis {@dodf Objfdt}.
      *
-     * <p> Sensitive information associated with this {@code Object}
-     * is destroyed or cleared.  Subsequent calls to certain methods
-     * on this {@code Object} will result in an
-     * {@code IllegalStateException} being thrown.
+     * <p> Sfnsitivf informbtion bssodibtfd witi tiis {@dodf Objfdt}
+     * is dfstroyfd or dlfbrfd.  Subsfqufnt dblls to dfrtbin mftiods
+     * on tiis {@dodf Objfdt} will rfsult in bn
+     * {@dodf IllfgblStbtfExdfption} bfing tirown.
      *
      * <p>
-     * The default implementation throws {@code DestroyFailedException}.
+     * Tif dffbult implfmfntbtion tirows {@dodf DfstroyFbilfdExdfption}.
      *
-     * @exception DestroyFailedException if the destroy operation fails. <p>
+     * @fxdfption DfstroyFbilfdExdfption if tif dfstroy opfrbtion fbils. <p>
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to destroy this {@code Object}.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to dfstroy tiis {@dodf Objfdt}.
      */
-    public default void destroy() throws DestroyFailedException {
-        throw new DestroyFailedException();
+    publid dffbult void dfstroy() tirows DfstroyFbilfdExdfption {
+        tirow nfw DfstroyFbilfdExdfption();
     }
 
     /**
-     * Determine if this {@code Object} has been destroyed.
+     * Dftfrminf if tiis {@dodf Objfdt} ibs bffn dfstroyfd.
      *
      * <p>
-     * The default implementation returns false.
+     * Tif dffbult implfmfntbtion rfturns fblsf.
      *
-     * @return true if this {@code Object} has been destroyed,
-     *          false otherwise.
+     * @rfturn truf if tiis {@dodf Objfdt} ibs bffn dfstroyfd,
+     *          fblsf otifrwisf.
      */
-    public default boolean isDestroyed() {
-        return false;
+    publid dffbult boolfbn isDfstroyfd() {
+        rfturn fblsf;
     }
 }

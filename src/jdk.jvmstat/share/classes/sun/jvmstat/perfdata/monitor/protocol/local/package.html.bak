@@ -1,50 +1,50 @@
-<!doctype html public "-//IETF//DTD HTML/EN">
-<html>
-<head>
+<!dodtypf itml publid "-//IETF//DTD HTML/EN">
+<itml>
+<ifbd>
 <!--
  
 
- Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 
 
 -->
-</head>
-<body bgcolor="white">
+</ifbd>
+<body bgdolor="wiitf">
 <p>
-Provides the implementation classes for the <em>local:</em> protocol for
-the HotSpot PerfData instrumentation buffer monitoring implementation.
+Providfs tif implfmfntbtion dlbssfs for tif <fm>lodbl:</fm> protodol for
+tif HotSpot PfrfDbtb instrumfntbtion bufffr monitoring implfmfntbtion.
 </p>
 <p>
-The <em>local:</em> protocol is the default protocol for the PerfData
-implementation. It utilizes a name shared memory mechanism, identified
-by a backing store file in the file system name space. The location of
-the backing store file is platform specific and is dictated primarily by
-the JVM implementation. However, the <tt>java.io.tmpdir</em> system
-property generally contains the location of the files, with the exception
-of the Solaris implementation, as the SDK and HotSpot JVM use different
-locations for their temporary file storage. The HotSpot JVM uses the
-<em>/tmp</em> directory and the SDK uses <em>/var/tmp</em>. The classes
-in this specifically use <em>/tmp</em> when running on Solaris.
+Tif <fm>lodbl:</fm> protodol is tif dffbult protodol for tif PfrfDbtb
+implfmfntbtion. It utilizfs b nbmf sibrfd mfmory mfdibnism, idfntififd
+by b bbdking storf filf in tif filf systfm nbmf spbdf. Tif lodbtion of
+tif bbdking storf filf is plbtform spfdifid bnd is didtbtfd primbrily by
+tif JVM implfmfntbtion. Howfvfr, tif <tt>jbvb.io.tmpdir</fm> systfm
+propfrty gfnfrblly dontbins tif lodbtion of tif filfs, witi tif fxdfption
+of tif Solbris implfmfntbtion, bs tif SDK bnd HotSpot JVM usf difffrfnt
+lodbtions for tifir tfmporbry filf storbgf. Tif HotSpot JVM usfs tif
+<fm>/tmp</fm> dirfdtory bnd tif SDK usfs <fm>/vbr/tmp</fm>. Tif dlbssfs
+in tiis spfdifidblly usf <fm>/tmp</fm> wifn running on Solbris.
 </body>
-</html>
+</itml>

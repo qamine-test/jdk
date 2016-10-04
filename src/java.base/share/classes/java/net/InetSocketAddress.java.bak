@@ -1,419 +1,419 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamException;
-import java.io.ObjectStreamField;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmExdfption;
+import jbvb.io.ObjfdtStrfbmFifld;
 
 /**
  *
- * This class implements an IP Socket Address (IP address + port number)
- * It can also be a pair (hostname + port number), in which case an attempt
- * will be made to resolve the hostname. If resolution fails then the address
- * is said to be <I>unresolved</I> but can still be used on some circumstances
- * like connecting through a proxy.
+ * Tiis dlbss implfmfnts bn IP Sodkft Addrfss (IP bddrfss + port numbfr)
+ * It dbn blso bf b pbir (iostnbmf + port numbfr), in wiidi dbsf bn bttfmpt
+ * will bf mbdf to rfsolvf tif iostnbmf. If rfsolution fbils tifn tif bddrfss
+ * is sbid to bf <I>unrfsolvfd</I> but dbn still bf usfd on somf dirdumstbndfs
+ * likf donnfdting tirougi b proxy.
  * <p>
- * It provides an immutable object used by sockets for binding, connecting, or
- * as returned values.
+ * It providfs bn immutbblf objfdt usfd by sodkfts for binding, donnfdting, or
+ * bs rfturnfd vblufs.
  * <p>
- * The <i>wildcard</i> is a special local IP address. It usually means "any"
- * and can only be used for {@code bind} operations.
+ * Tif <i>wilddbrd</i> is b spfdibl lodbl IP bddrfss. It usublly mfbns "bny"
+ * bnd dbn only bf usfd for {@dodf bind} opfrbtions.
  *
- * @see java.net.Socket
- * @see java.net.ServerSocket
- * @since 1.4
+ * @sff jbvb.nft.Sodkft
+ * @sff jbvb.nft.SfrvfrSodkft
+ * @sindf 1.4
  */
-public class InetSocketAddress
-    extends SocketAddress
+publid dlbss InftSodkftAddrfss
+    fxtfnds SodkftAddrfss
 {
-    // Private implementation class pointed to by all public methods.
-    private static class InetSocketAddressHolder {
-        // The hostname of the Socket Address
-        private String hostname;
-        // The IP address of the Socket Address
-        private InetAddress addr;
-        // The port number of the Socket Address
-        private int port;
+    // Privbtf implfmfntbtion dlbss pointfd to by bll publid mftiods.
+    privbtf stbtid dlbss InftSodkftAddrfssHoldfr {
+        // Tif iostnbmf of tif Sodkft Addrfss
+        privbtf String iostnbmf;
+        // Tif IP bddrfss of tif Sodkft Addrfss
+        privbtf InftAddrfss bddr;
+        // Tif port numbfr of tif Sodkft Addrfss
+        privbtf int port;
 
-        private InetSocketAddressHolder(String hostname, InetAddress addr, int port) {
-            this.hostname = hostname;
-            this.addr = addr;
-            this.port = port;
+        privbtf InftSodkftAddrfssHoldfr(String iostnbmf, InftAddrfss bddr, int port) {
+            tiis.iostnbmf = iostnbmf;
+            tiis.bddr = bddr;
+            tiis.port = port;
         }
 
-        private int getPort() {
-            return port;
+        privbtf int gftPort() {
+            rfturn port;
         }
 
-        private InetAddress getAddress() {
-            return addr;
+        privbtf InftAddrfss gftAddrfss() {
+            rfturn bddr;
         }
 
-        private String getHostName() {
-            if (hostname != null)
-                return hostname;
-            if (addr != null)
-                return addr.getHostName();
-            return null;
+        privbtf String gftHostNbmf() {
+            if (iostnbmf != null)
+                rfturn iostnbmf;
+            if (bddr != null)
+                rfturn bddr.gftHostNbmf();
+            rfturn null;
         }
 
-        private String getHostString() {
-            if (hostname != null)
-                return hostname;
-            if (addr != null) {
-                if (addr.holder().getHostName() != null)
-                    return addr.holder().getHostName();
-                else
-                    return addr.getHostAddress();
+        privbtf String gftHostString() {
+            if (iostnbmf != null)
+                rfturn iostnbmf;
+            if (bddr != null) {
+                if (bddr.ioldfr().gftHostNbmf() != null)
+                    rfturn bddr.ioldfr().gftHostNbmf();
+                flsf
+                    rfturn bddr.gftHostAddrfss();
             }
-            return null;
+            rfturn null;
         }
 
-        private boolean isUnresolved() {
-            return addr == null;
+        privbtf boolfbn isUnrfsolvfd() {
+            rfturn bddr == null;
         }
 
-        @Override
-        public String toString() {
-            if (isUnresolved()) {
-                return hostname + ":" + port;
-            } else {
-                return addr.toString() + ":" + port;
+        @Ovfrridf
+        publid String toString() {
+            if (isUnrfsolvfd()) {
+                rfturn iostnbmf + ":" + port;
+            } flsf {
+                rfturn bddr.toString() + ":" + port;
             }
         }
 
-        @Override
-        public final boolean equals(Object obj) {
-            if (obj == null || !(obj instanceof InetSocketAddressHolder))
-                return false;
-            InetSocketAddressHolder that = (InetSocketAddressHolder)obj;
-            boolean sameIP;
-            if (addr != null)
-                sameIP = addr.equals(that.addr);
-            else if (hostname != null)
-                sameIP = (that.addr == null) &&
-                    hostname.equalsIgnoreCase(that.hostname);
-            else
-                sameIP = (that.addr == null) && (that.hostname == null);
-            return sameIP && (port == that.port);
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            if (obj == null || !(obj instbndfof InftSodkftAddrfssHoldfr))
+                rfturn fblsf;
+            InftSodkftAddrfssHoldfr tibt = (InftSodkftAddrfssHoldfr)obj;
+            boolfbn sbmfIP;
+            if (bddr != null)
+                sbmfIP = bddr.fqubls(tibt.bddr);
+            flsf if (iostnbmf != null)
+                sbmfIP = (tibt.bddr == null) &&
+                    iostnbmf.fqublsIgnorfCbsf(tibt.iostnbmf);
+            flsf
+                sbmfIP = (tibt.bddr == null) && (tibt.iostnbmf == null);
+            rfturn sbmfIP && (port == tibt.port);
         }
 
-        @Override
-        public final int hashCode() {
-            if (addr != null)
-                return addr.hashCode() + port;
-            if (hostname != null)
-                return hostname.toLowerCase().hashCode() + port;
-            return port;
+        @Ovfrridf
+        publid finbl int ibsiCodf() {
+            if (bddr != null)
+                rfturn bddr.ibsiCodf() + port;
+            if (iostnbmf != null)
+                rfturn iostnbmf.toLowfrCbsf().ibsiCodf() + port;
+            rfturn port;
         }
     }
 
-    private final transient InetSocketAddressHolder holder;
+    privbtf finbl trbnsifnt InftSodkftAddrfssHoldfr ioldfr;
 
-    private static final long serialVersionUID = 5076001401234631237L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5076001401234631237L;
 
-    private static int checkPort(int port) {
+    privbtf stbtid int difdkPort(int port) {
         if (port < 0 || port > 0xFFFF)
-            throw new IllegalArgumentException("port out of range:" + port);
-        return port;
+            tirow nfw IllfgblArgumfntExdfption("port out of rbngf:" + port);
+        rfturn port;
     }
 
-    private static String checkHost(String hostname) {
-        if (hostname == null)
-            throw new IllegalArgumentException("hostname can't be null");
-        return hostname;
+    privbtf stbtid String difdkHost(String iostnbmf) {
+        if (iostnbmf == null)
+            tirow nfw IllfgblArgumfntExdfption("iostnbmf dbn't bf null");
+        rfturn iostnbmf;
     }
 
     /**
-     * Creates a socket address where the IP address is the wildcard address
-     * and the port number a specified value.
+     * Crfbtfs b sodkft bddrfss wifrf tif IP bddrfss is tif wilddbrd bddrfss
+     * bnd tif port numbfr b spfdififd vbluf.
      * <p>
-     * A valid port value is between 0 and 65535.
-     * A port number of {@code zero} will let the system pick up an
-     * ephemeral port in a {@code bind} operation.
+     * A vblid port vbluf is bftwffn 0 bnd 65535.
+     * A port numbfr of {@dodf zfro} will lft tif systfm pidk up bn
+     * fpifmfrbl port in b {@dodf bind} opfrbtion.
      *
-     * @param   port    The port number
-     * @throws IllegalArgumentException if the port parameter is outside the specified
-     * range of valid port values.
+     * @pbrbm   port    Tif port numbfr
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif spfdififd
+     * rbngf of vblid port vblufs.
      */
-    public InetSocketAddress(int port) {
-        this(InetAddress.anyLocalAddress(), port);
+    publid InftSodkftAddrfss(int port) {
+        tiis(InftAddrfss.bnyLodblAddrfss(), port);
     }
 
     /**
      *
-     * Creates a socket address from an IP address and a port number.
+     * Crfbtfs b sodkft bddrfss from bn IP bddrfss bnd b port numbfr.
      * <p>
-     * A valid port value is between 0 and 65535.
-     * A port number of {@code zero} will let the system pick up an
-     * ephemeral port in a {@code bind} operation.
+     * A vblid port vbluf is bftwffn 0 bnd 65535.
+     * A port numbfr of {@dodf zfro} will lft tif systfm pidk up bn
+     * fpifmfrbl port in b {@dodf bind} opfrbtion.
      * <P>
-     * A {@code null} address will assign the <i>wildcard</i> address.
+     * A {@dodf null} bddrfss will bssign tif <i>wilddbrd</i> bddrfss.
      *
-     * @param   addr    The IP address
-     * @param   port    The port number
-     * @throws IllegalArgumentException if the port parameter is outside the specified
-     * range of valid port values.
+     * @pbrbm   bddr    Tif IP bddrfss
+     * @pbrbm   port    Tif port numbfr
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif spfdififd
+     * rbngf of vblid port vblufs.
      */
-    public InetSocketAddress(InetAddress addr, int port) {
-        holder = new InetSocketAddressHolder(
+    publid InftSodkftAddrfss(InftAddrfss bddr, int port) {
+        ioldfr = nfw InftSodkftAddrfssHoldfr(
                         null,
-                        addr == null ? InetAddress.anyLocalAddress() : addr,
-                        checkPort(port));
+                        bddr == null ? InftAddrfss.bnyLodblAddrfss() : bddr,
+                        difdkPort(port));
     }
 
     /**
      *
-     * Creates a socket address from a hostname and a port number.
+     * Crfbtfs b sodkft bddrfss from b iostnbmf bnd b port numbfr.
      * <p>
-     * An attempt will be made to resolve the hostname into an InetAddress.
-     * If that attempt fails, the address will be flagged as <I>unresolved</I>.
+     * An bttfmpt will bf mbdf to rfsolvf tif iostnbmf into bn InftAddrfss.
+     * If tibt bttfmpt fbils, tif bddrfss will bf flbggfd bs <I>unrfsolvfd</I>.
      * <p>
-     * If there is a security manager, its {@code checkConnect} method
-     * is called with the host name as its argument to check the permission
-     * to resolve it. This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, its {@dodf difdkConnfdt} mftiod
+     * is dbllfd witi tif iost nbmf bs its brgumfnt to difdk tif pfrmission
+     * to rfsolvf it. Tiis dould rfsult in b SfdurityExdfption.
      * <P>
-     * A valid port value is between 0 and 65535.
-     * A port number of {@code zero} will let the system pick up an
-     * ephemeral port in a {@code bind} operation.
+     * A vblid port vbluf is bftwffn 0 bnd 65535.
+     * A port numbfr of {@dodf zfro} will lft tif systfm pidk up bn
+     * fpifmfrbl port in b {@dodf bind} opfrbtion.
      *
-     * @param   hostname the Host name
-     * @param   port    The port number
-     * @throws IllegalArgumentException if the port parameter is outside the range
-     * of valid port values, or if the hostname parameter is <TT>null</TT>.
-     * @throws SecurityException if a security manager is present and
-     *                           permission to resolve the host name is
-     *                           denied.
-     * @see     #isUnresolved()
+     * @pbrbm   iostnbmf tif Host nbmf
+     * @pbrbm   port    Tif port numbfr
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf tif rbngf
+     * of vblid port vblufs, or if tif iostnbmf pbrbmftfr is <TT>null</TT>.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt bnd
+     *                           pfrmission to rfsolvf tif iost nbmf is
+     *                           dfnifd.
+     * @sff     #isUnrfsolvfd()
      */
-    public InetSocketAddress(String hostname, int port) {
-        checkHost(hostname);
-        InetAddress addr = null;
-        String host = null;
+    publid InftSodkftAddrfss(String iostnbmf, int port) {
+        difdkHost(iostnbmf);
+        InftAddrfss bddr = null;
+        String iost = null;
         try {
-            addr = InetAddress.getByName(hostname);
-        } catch(UnknownHostException e) {
-            host = hostname;
+            bddr = InftAddrfss.gftByNbmf(iostnbmf);
+        } dbtdi(UnknownHostExdfption f) {
+            iost = iostnbmf;
         }
-        holder = new InetSocketAddressHolder(host, addr, checkPort(port));
+        ioldfr = nfw InftSodkftAddrfssHoldfr(iost, bddr, difdkPort(port));
     }
 
-    // private constructor for creating unresolved instances
-    private InetSocketAddress(int port, String hostname) {
-        holder = new InetSocketAddressHolder(hostname, null, port);
+    // privbtf donstrudtor for drfbting unrfsolvfd instbndfs
+    privbtf InftSodkftAddrfss(int port, String iostnbmf) {
+        ioldfr = nfw InftSodkftAddrfssHoldfr(iostnbmf, null, port);
     }
 
     /**
      *
-     * Creates an unresolved socket address from a hostname and a port number.
+     * Crfbtfs bn unrfsolvfd sodkft bddrfss from b iostnbmf bnd b port numbfr.
      * <p>
-     * No attempt will be made to resolve the hostname into an InetAddress.
-     * The address will be flagged as <I>unresolved</I>.
+     * No bttfmpt will bf mbdf to rfsolvf tif iostnbmf into bn InftAddrfss.
+     * Tif bddrfss will bf flbggfd bs <I>unrfsolvfd</I>.
      * <p>
-     * A valid port value is between 0 and 65535.
-     * A port number of {@code zero} will let the system pick up an
-     * ephemeral port in a {@code bind} operation.
+     * A vblid port vbluf is bftwffn 0 bnd 65535.
+     * A port numbfr of {@dodf zfro} will lft tif systfm pidk up bn
+     * fpifmfrbl port in b {@dodf bind} opfrbtion.
      *
-     * @param   host    the Host name
-     * @param   port    The port number
-     * @throws IllegalArgumentException if the port parameter is outside
-     *                  the range of valid port values, or if the hostname
-     *                  parameter is <TT>null</TT>.
-     * @see     #isUnresolved()
-     * @return  a {@code InetSocketAddress} representing the unresolved
-     *          socket address
-     * @since 1.5
+     * @pbrbm   iost    tif Host nbmf
+     * @pbrbm   port    Tif port numbfr
+     * @tirows IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf
+     *                  tif rbngf of vblid port vblufs, or if tif iostnbmf
+     *                  pbrbmftfr is <TT>null</TT>.
+     * @sff     #isUnrfsolvfd()
+     * @rfturn  b {@dodf InftSodkftAddrfss} rfprfsfnting tif unrfsolvfd
+     *          sodkft bddrfss
+     * @sindf 1.5
      */
-    public static InetSocketAddress createUnresolved(String host, int port) {
-        return new InetSocketAddress(checkPort(port), checkHost(host));
+    publid stbtid InftSodkftAddrfss drfbtfUnrfsolvfd(String iost, int port) {
+        rfturn nfw InftSodkftAddrfss(difdkPort(port), difdkHost(iost));
     }
 
     /**
-     * @serialField hostname String
-     * @serialField addr InetAddress
-     * @serialField port int
+     * @sfriblFifld iostnbmf String
+     * @sfriblFifld bddr InftAddrfss
+     * @sfriblFifld port int
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-         new ObjectStreamField("hostname", String.class),
-         new ObjectStreamField("addr", InetAddress.class),
-         new ObjectStreamField("port", int.class)};
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+         nfw ObjfdtStrfbmFifld("iostnbmf", String.dlbss),
+         nfw ObjfdtStrfbmFifld("bddr", InftAddrfss.dlbss),
+         nfw ObjfdtStrfbmFifld("port", int.dlbss)};
 
-    private void writeObject(ObjectOutputStream out)
-        throws IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+        tirows IOExdfption
     {
-        // Don't call defaultWriteObject()
-         ObjectOutputStream.PutField pfields = out.putFields();
-         pfields.put("hostname", holder.hostname);
-         pfields.put("addr", holder.addr);
-         pfields.put("port", holder.port);
-         out.writeFields();
+        // Don't dbll dffbultWritfObjfdt()
+         ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+         pfiflds.put("iostnbmf", ioldfr.iostnbmf);
+         pfiflds.put("bddr", ioldfr.bddr);
+         pfiflds.put("port", ioldfr.port);
+         out.writfFiflds();
      }
 
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        // Don't call defaultReadObject()
-        ObjectInputStream.GetField oisFields = in.readFields();
-        final String oisHostname = (String)oisFields.get("hostname", null);
-        final InetAddress oisAddr = (InetAddress)oisFields.get("addr", null);
-        final int oisPort = oisFields.get("port", -1);
+        // Don't dbll dffbultRfbdObjfdt()
+        ObjfdtInputStrfbm.GftFifld oisFiflds = in.rfbdFiflds();
+        finbl String oisHostnbmf = (String)oisFiflds.gft("iostnbmf", null);
+        finbl InftAddrfss oisAddr = (InftAddrfss)oisFiflds.gft("bddr", null);
+        finbl int oisPort = oisFiflds.gft("port", -1);
 
-        // Check that our invariants are satisfied
-        checkPort(oisPort);
-        if (oisHostname == null && oisAddr == null)
-            throw new InvalidObjectException("hostname and addr " +
-                                             "can't both be null");
+        // Cifdk tibt our invbribnts brf sbtisfifd
+        difdkPort(oisPort);
+        if (oisHostnbmf == null && oisAddr == null)
+            tirow nfw InvblidObjfdtExdfption("iostnbmf bnd bddr " +
+                                             "dbn't boti bf null");
 
-        InetSocketAddressHolder h = new InetSocketAddressHolder(oisHostname,
+        InftSodkftAddrfssHoldfr i = nfw InftSodkftAddrfssHoldfr(oisHostnbmf,
                                                                 oisAddr,
                                                                 oisPort);
-        UNSAFE.putObject(this, FIELDS_OFFSET, h);
+        UNSAFE.putObjfdt(tiis, FIELDS_OFFSET, i);
     }
 
-    private void readObjectNoData()
-        throws ObjectStreamException
+    privbtf void rfbdObjfdtNoDbtb()
+        tirows ObjfdtStrfbmExdfption
     {
-        throw new InvalidObjectException("Stream data required");
+        tirow nfw InvblidObjfdtExdfption("Strfbm dbtb rfquirfd");
     }
 
-    private static final long FIELDS_OFFSET;
-    private static final sun.misc.Unsafe UNSAFE;
-    static {
+    privbtf stbtid finbl long FIELDS_OFFSET;
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    stbtid {
         try {
-            sun.misc.Unsafe unsafe = sun.misc.Unsafe.getUnsafe();
-            FIELDS_OFFSET = unsafe.objectFieldOffset(
-                    InetSocketAddress.class.getDeclaredField("holder"));
-            UNSAFE = unsafe;
-        } catch (ReflectiveOperationException e) {
-            throw new Error(e);
+            sun.misd.Unsbff unsbff = sun.misd.Unsbff.gftUnsbff();
+            FIELDS_OFFSET = unsbff.objfdtFifldOffsft(
+                    InftSodkftAddrfss.dlbss.gftDfdlbrfdFifld("ioldfr"));
+            UNSAFE = unsbff;
+        } dbtdi (RfflfdtivfOpfrbtionExdfption f) {
+            tirow nfw Error(f);
         }
     }
 
     /**
-     * Gets the port number.
+     * Gfts tif port numbfr.
      *
-     * @return the port number.
+     * @rfturn tif port numbfr.
      */
-    public final int getPort() {
-        return holder.getPort();
+    publid finbl int gftPort() {
+        rfturn ioldfr.gftPort();
     }
 
     /**
      *
-     * Gets the {@code InetAddress}.
+     * Gfts tif {@dodf InftAddrfss}.
      *
-     * @return the InetAdress or {@code null} if it is unresolved.
+     * @rfturn tif InftAdrfss or {@dodf null} if it is unrfsolvfd.
      */
-    public final InetAddress getAddress() {
-        return holder.getAddress();
+    publid finbl InftAddrfss gftAddrfss() {
+        rfturn ioldfr.gftAddrfss();
     }
 
     /**
-     * Gets the {@code hostname}.
-     * Note: This method may trigger a name service reverse lookup if the
-     * address was created with a literal IP address.
+     * Gfts tif {@dodf iostnbmf}.
+     * Notf: Tiis mftiod mby triggfr b nbmf sfrvidf rfvfrsf lookup if tif
+     * bddrfss wbs drfbtfd witi b litfrbl IP bddrfss.
      *
-     * @return  the hostname part of the address.
+     * @rfturn  tif iostnbmf pbrt of tif bddrfss.
      */
-    public final String getHostName() {
-        return holder.getHostName();
+    publid finbl String gftHostNbmf() {
+        rfturn ioldfr.gftHostNbmf();
     }
 
     /**
-     * Returns the hostname, or the String form of the address if it
-     * doesn't have a hostname (it was created using a literal).
-     * This has the benefit of <b>not</b> attempting a reverse lookup.
+     * Rfturns tif iostnbmf, or tif String form of tif bddrfss if it
+     * dofsn't ibvf b iostnbmf (it wbs drfbtfd using b litfrbl).
+     * Tiis ibs tif bfnffit of <b>not</b> bttfmpting b rfvfrsf lookup.
      *
-     * @return the hostname, or String representation of the address.
-     * @since 1.7
+     * @rfturn tif iostnbmf, or String rfprfsfntbtion of tif bddrfss.
+     * @sindf 1.7
      */
-    public final String getHostString() {
-        return holder.getHostString();
+    publid finbl String gftHostString() {
+        rfturn ioldfr.gftHostString();
     }
 
     /**
-     * Checks whether the address has been resolved or not.
+     * Cifdks wiftifr tif bddrfss ibs bffn rfsolvfd or not.
      *
-     * @return {@code true} if the hostname couldn't be resolved into
-     *          an {@code InetAddress}.
+     * @rfturn {@dodf truf} if tif iostnbmf douldn't bf rfsolvfd into
+     *          bn {@dodf InftAddrfss}.
      */
-    public final boolean isUnresolved() {
-        return holder.isUnresolved();
+    publid finbl boolfbn isUnrfsolvfd() {
+        rfturn ioldfr.isUnrfsolvfd();
     }
 
     /**
-     * Constructs a string representation of this InetSocketAddress.
-     * This String is constructed by calling toString() on the InetAddress
-     * and concatenating the port number (with a colon). If the address
-     * is unresolved then the part before the colon will only contain the hostname.
+     * Construdts b string rfprfsfntbtion of tiis InftSodkftAddrfss.
+     * Tiis String is donstrudtfd by dblling toString() on tif InftAddrfss
+     * bnd dondbtfnbting tif port numbfr (witi b dolon). If tif bddrfss
+     * is unrfsolvfd tifn tif pbrt bfforf tif dolon will only dontbin tif iostnbmf.
      *
-     * @return  a string representation of this object.
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt.
      */
-    @Override
-    public String toString() {
-        return holder.toString();
+    @Ovfrridf
+    publid String toString() {
+        rfturn ioldfr.toString();
     }
 
     /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same address as
-     * this object.
+     * Compbrfs tiis objfdt bgbinst tif spfdififd objfdt.
+     * Tif rfsult is {@dodf truf} if bnd only if tif brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts tif sbmf bddrfss bs
+     * tiis objfdt.
      * <p>
-     * Two instances of {@code InetSocketAddress} represent the same
-     * address if both the InetAddresses (or hostnames if it is unresolved) and port
-     * numbers are equal.
-     * If both addresses are unresolved, then the hostname and the port number
-     * are compared.
+     * Two instbndfs of {@dodf InftSodkftAddrfss} rfprfsfnt tif sbmf
+     * bddrfss if boti tif InftAddrfssfs (or iostnbmfs if it is unrfsolvfd) bnd port
+     * numbfrs brf fqubl.
+     * If boti bddrfssfs brf unrfsolvfd, tifn tif iostnbmf bnd tif port numbfr
+     * brf dompbrfd.
      *
-     * Note: Hostnames are case insensitive. e.g. "FooBar" and "foobar" are
-     * considered equal.
+     * Notf: Hostnbmfs brf dbsf insfnsitivf. f.g. "FooBbr" bnd "foobbr" brf
+     * donsidfrfd fqubl.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see java.net.InetAddress#equals(java.lang.Object)
+     * @pbrbm   obj   tif objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if tif objfdts brf tif sbmf;
+     *          {@dodf fblsf} otifrwisf.
+     * @sff jbvb.nft.InftAddrfss#fqubls(jbvb.lbng.Objfdt)
      */
-    @Override
-    public final boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof InetSocketAddress))
-            return false;
-        return holder.equals(((InetSocketAddress) obj).holder);
+    @Ovfrridf
+    publid finbl boolfbn fqubls(Objfdt obj) {
+        if (obj == null || !(obj instbndfof InftSodkftAddrfss))
+            rfturn fblsf;
+        rfturn ioldfr.fqubls(((InftSodkftAddrfss) obj).ioldfr);
     }
 
     /**
-     * Returns a hashcode for this socket address.
+     * Rfturns b ibsidodf for tiis sodkft bddrfss.
      *
-     * @return  a hash code value for this socket address.
+     * @rfturn  b ibsi dodf vbluf for tiis sodkft bddrfss.
      */
-    @Override
-    public final int hashCode() {
-        return holder.hashCode();
+    @Ovfrridf
+    publid finbl int ibsiCodf() {
+        rfturn ioldfr.ibsiCodf();
     }
 }

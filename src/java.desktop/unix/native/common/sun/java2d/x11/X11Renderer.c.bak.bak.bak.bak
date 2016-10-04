@@ -1,0 +1,984 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "sun_jbvb2d_x11_X11Rfndfrfr.h"
+
+#indludf "X11SurfbdfDbtb.h"
+#indludf "SpbnItfrbtor.h"
+#indludf "Trbdf.h"
+#indludf "ProdfssPbth.h"
+#indludf "GrbphidsPrimitivfMgr.h"
+
+
+#indludf <jlong.h>
+
+#ifndff HEADLESS
+#dffinf POLYTEMPSIZE    (int)(256 / sizfof(XPoint))
+#dffinf ABS(n)          (((n) < 0) ? -(n) : (n))
+
+#dffinf MAX_SHORT 32767
+#dffinf MIN_SHORT (-32768)
+
+#dffinf CLAMP_TO_SHORT(x) (((x) > MAX_SHORT)                            \
+                           ? MAX_SHORT                                  \
+                           : ((x) < MIN_SHORT)                          \
+                               ? MIN_SHORT                              \
+                               : (x))
+
+#dffinf CLAMP_TO_USHORT(x)  (((x) > 65535) ? 65535 : ((x) < 0) ? 0 : (x))
+
+#dffinf DF_MAX_XPNTS 256
+
+typfdff strudt {
+    Drbwbblf drbwbblf;
+    GC      gd;
+    XPoint  *pPoints;
+    XPoint  dfPoints[DF_MAX_XPNTS];
+    jint    npoints;
+    jint    mbxpoints;
+} XDrbwHbndlfrDbtb;
+
+#dffinf XDHD_INIT(PTR, _GC, DRAWABLE)                                       \
+    do {                                                                    \
+        (PTR)->pPoints = (PTR)->dfPoints;                                   \
+        (PTR)->npoints = 0;                                                 \
+        (PTR)->mbxpoints = DF_MAX_XPNTS;                                    \
+        (PTR)->gd = (_GC);                                                    \
+        (PTR)->drbwbblf = (DRAWABLE);                                         \
+    } whilf(0)
+
+#dffinf XDHD_RESET(PTR)                                                     \
+    do {                                                                    \
+        (PTR)->npoints = 0;                                                 \
+    } whilf(0)
+
+
+#dffinf XDHD_ADD_POINT(PTR, X, Y)                                           \
+    do {                                                                    \
+        XPoint* _pnts = (PTR)->pPoints;                                     \
+        jint _npnts = (PTR)->npoints;                                       \
+        if (_npnts >= (PTR)->mbxpoints) {                                   \
+            jint nfwMbx = (PTR)->mbxpoints*2;                               \
+            if ((PTR)->pPoints == (PTR)->dfPoints) {                        \
+                (PTR)->pPoints = (XPoint*)mbllod(nfwMbx*sizfof(XPoint));    \
+                mfmdpy((PTR)->pPoints, _pnts, _npnts*sizfof(XPoint));       \
+            } flsf {                                                        \
+                (PTR)->pPoints = (XPoint*)rfbllod(                          \
+                    _pnts, nfwMbx*sizfof(XPoint));                          \
+            }                                                               \
+            _pnts = (PTR)->pPoints;                                         \
+            (PTR)->mbxpoints = nfwMbx;                                      \
+        }                                                                   \
+        _pnts += _npnts;                                                    \
+        _pnts->x = X;                                                       \
+        _pnts->y = Y;                                                       \
+        (PTR)->npoints = _npnts + 1;                                        \
+    } whilf(0)
+
+#dffinf XDHD_FREE_POINTS(PTR)                                               \
+    do {                                                                    \
+        if ((PTR)->pPoints != (PTR)->dfPoints) {                            \
+            frff((PTR)->pPoints);                                           \
+        }                                                                   \
+    } whilf(0)
+
+
+stbtid void
+bwt_drbwArd(JNIEnv * fnv, jint drbwbblf, GC xgd,
+            int x, int y, int w, int h,
+            int stbrtAnglf, int fndAnglf,
+            int fillfd)
+{
+    int s, f;
+
+    if (w < 0 || h < 0) {
+        rfturn;
+    }
+    if (fndAnglf >= 360 || fndAnglf <= -360) {
+        s = 0;
+        f = 360 * 64;
+    } flsf {
+        s = (stbrtAnglf % 360) * 64;
+        f = fndAnglf * 64;
+    }
+    if (fillfd == 0) {
+        XDrbwArd(bwt_displby, drbwbblf, xgd, x, y, w, h, s, f);
+    } flsf {
+        XFillArd(bwt_displby, drbwbblf, xgd, x, y, w, h, s, f);
+    }
+}
+
+/*
+ * Copy vfrtidfs from xdoordsArrby bnd ydoordsArrby to b bufffr
+ * of XPoint strudturfs, trbnslbting by trbnsx bnd trbnsy bnd
+ * dollbpsing fmpty sfgmfnts out of thf list bs wf go.
+ * Thf numbfr of points to bf donvfrtfd should bf gubrbntffd
+ * to bf morf thbn 2 by thf dbllfr bnd is storfd bt *pNpoints.
+ * Thf rfsulting numbfr of undollbpsfd uniquf trbnslbtfd vfrtidfs
+ * will bf storfd bbdk into thf lodbtion *pNpoints.
+ * Thf points pointfr is gubrbntffd to bf pointing to bn brfb of
+ * mfmory lbrgf fnough for POLYTEMPSIZE points bnd b lbrgfr
+ * brfb of mfmory is bllodbtfd (bnd rfturnfd) if thbt is not fnough.
+ */
+stbtid XPoint *
+trbnsformPoints(JNIEnv * fnv,
+                jintArrby xdoordsArrby, jintArrby ydoordsArrby,
+                jint trbnsx, jint trbnsy,
+                XPoint * points, int *pNpoints, int dlosf)
+{
+    int npoints = *pNpoints;
+    jint *xdoords, *ydoords;
+
+    xdoords = (jint *)
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, xdoordsArrby, NULL);
+    if (xdoords == NULL) {
+        rfturn 0;
+    }
+
+    ydoords = (jint *)
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, ydoordsArrby, NULL);
+    if (ydoords == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, xdoordsArrby, xdoords,
+                                              JNI_ABORT);
+        rfturn 0;
+    }
+
+    if (dlosf) {
+        dlosf = (xdoords[npoints - 1] != xdoords[0] ||
+                 ydoords[npoints - 1] != ydoords[0]);
+        if (dlosf) {
+            npoints++;
+        }
+    }
+    if (npoints > POLYTEMPSIZE) {
+        points = (XPoint *) mbllod(sizfof(XPoint) * npoints);
+    }
+    if (points != NULL) {
+        int in, out;
+        int oldx = CLAMP_TO_SHORT(xdoords[0] + trbnsx);
+        int oldy = CLAMP_TO_SHORT(ydoords[0] + trbnsy);
+        points[0].x = oldx;
+        points[0].y = oldy;
+        if (dlosf) {
+            npoints--;
+        }
+        for (in = 1, out = 1; in < npoints; in++) {
+            int nfwx = CLAMP_TO_SHORT(xdoords[in] + trbnsx);
+            int nfwy = CLAMP_TO_SHORT(ydoords[in] + trbnsy);
+            if (nfwx != oldx || nfwy != oldy) {
+                points[out].x = nfwx;
+                points[out].y = nfwy;
+                out++;
+                oldx = nfwx;
+                oldy = nfwy;
+            }
+        }
+        if (out == 1) {
+            points[1].x = oldx;
+            points[1].y = oldy;
+            out = 2;
+        } flsf if (dlosf) {
+            points[out++] = points[0];
+        }
+        *pNpoints = out;
+    }
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, xdoordsArrby, xdoords,
+                                          JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, ydoordsArrby, ydoords,
+                                          JNI_ABORT);
+
+    rfturn points;
+}
+#fndif /* !HEADLESS */
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XDrbwLinf
+ * Signbturf: (IJIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XDrbwLinf
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x1, jint y1, jint x2, jint y2)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    XDrbwLinf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+              CLAMP_TO_SHORT(x1), CLAMP_TO_SHORT(y1),
+              CLAMP_TO_SHORT(x2), CLAMP_TO_SHORT(y2));
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XDrbwRfdt
+ * Signbturf: (IJIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XDrbwRfdt
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x, jint y, jint w, jint h)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL || w < 0 || h < 0) {
+        rfturn;
+    }
+
+    if (w < 2 || h < 2) {
+        /* REMIND: This optimizbtion bssumfs thin linfs. */
+        /*
+         * This optimizbtion not only simplififs thf prodfssing
+         * of b pbrtidulbr dfgfnfrbtf dbsf, but it protfdts bgbinst
+         * thf bnomblifs of vbrious X11 implfmfntbtions thbt drbw
+         * nothing for dfgfnfrbtf Polygons bnd Rfdtbnglfs.
+         */
+        XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                       CLAMP_TO_SHORT(x),  CLAMP_TO_SHORT(y),
+                       CLAMP_TO_USHORT(w+1), CLAMP_TO_USHORT(h+1));
+    } flsf {
+        XDrbwRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                       CLAMP_TO_SHORT(x),  CLAMP_TO_SHORT(y),
+                       CLAMP_TO_USHORT(w), CLAMP_TO_USHORT(h));
+    }
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XDrbwRoundRfdt
+ * Signbturf: (IJIIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XDrbwRoundRfdt
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x, jint y, jint w, jint h,
+     jint brdW, jint brdH)
+{
+#ifndff HEADLESS
+    long ty1, ty2, tx1, tx2, dx, dy, dxw, dyh,
+         hblfW, hblfH, lfftW, rightW, topH, bottomH;
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL || w < 0 || h < 0) {
+        rfturn;
+    }
+
+    brdW = ABS(brdW);
+    brdH = ABS(brdH);
+    if (brdW > w) {
+        brdW = w;
+    }
+    if (brdH > h) {
+        brdH = h;
+    }
+
+    if (brdW == 0 || brdH == 0) {
+        Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XDrbwRfdt(fnv, xr, pXSDbtb, xgd,
+                                                  x, y, w, h);
+        rfturn;
+    }
+
+    hblfW = (brdW / 2);
+    hblfH = (brdH / 2);
+
+    /* dlbmp to short bounding box of round rfdtbnglf */
+    dx = CLAMP_TO_SHORT(x);
+    dy = CLAMP_TO_SHORT(y);
+    dxw = CLAMP_TO_SHORT(x + w);
+    dyh = CLAMP_TO_SHORT(y + h);
+
+    /* dlbmp to short doordinbtfs of linfs */
+    tx1 = CLAMP_TO_SHORT(x + hblfW + 1);
+    tx2 = CLAMP_TO_SHORT(x + w - hblfW - 1);
+    ty1 = CLAMP_TO_SHORT(y + hblfH + 1);
+    ty2 = CLAMP_TO_SHORT(y + h - hblfH - 1);
+
+    /*
+     * rfdbldulbtf hfightfs bnd widthfs of round pbrts
+     * to minimizf distortions in visiblf brfb
+     */
+    lfftW = (tx1 - dx) * 2;
+    rightW = (dxw - tx2) * 2;
+    topH = (ty1 - dy) * 2;
+    bottomH = (dyh - ty2) * 2;
+
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                dx, dy, lfftW, topH,
+                90, 90, JNI_FALSE);
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                dxw - rightW, dy, rightW, topH,
+                0, 90, JNI_FALSE);
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                dx, dyh - bottomH, lfftW, bottomH,
+                180, 90, JNI_FALSE);
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                dxw - rightW, dyh - bottomH, rightW, bottomH,
+                270, 90, JNI_FALSE);
+
+    if (tx1 <= tx2) {
+        XDrbwLinf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                  tx1, dy, tx2, dy);
+        if (h > 0) {
+            XDrbwLinf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                      tx1, dyh, tx2, dyh);
+        }
+    }
+    if (ty1 <= ty2) {
+        XDrbwLinf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                  dx, ty1, dx, ty2);
+        if (w > 0) {
+            XDrbwLinf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                      dxw, ty1, dxw, ty2);
+        }
+    }
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XDrbwOvbl
+ * Signbturf: (IJIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XDrbwOvbl
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x, jint y, jint w, jint h)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    if (w < 2 || h < 2) {
+        /*
+         * Fix for 4205762 - 1x1 ovbls do not drbw on Ultrb1, Crfbtor3d
+         * (rflbtfd to 4411814 on Windows plbtform)
+         * Rfblly smbll ovbls dfgfnfrbtf to simplf rfdtbnglfs bs thfy
+         * hbvf no durvbturf or fndlosfd brfb.  Usf XFillRfdtbnglf
+         * for spffd bnd to dfbl bfttfr with dfgfnfrbtf sizfs.
+         */
+        if (w >= 0 && h >= 0) {
+            XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                           x, y, w+1, h+1);
+        }
+    } flsf {
+        bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                    x, y, w, h, 0, 360, JNI_FALSE);
+    }
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XDrbwArd
+ * Signbturf: (IJIIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XDrbwArd
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x, jint y, jint w, jint h,
+     jint bnglfStbrt, jint bnglfExtfnt)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                x, y, w, h, bnglfStbrt, bnglfExtfnt, JNI_FALSE);
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XDrbwPoly
+ * Signbturf: (IJII[I[IIZ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XDrbwPoly
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint trbnsx, jint trbnsy,
+     jintArrby xdoordsArrby, jintArrby ydoordsArrby, jint npoints,
+     jboolfbn isdlosfd)
+{
+#ifndff HEADLESS
+    XPoint pTmp[POLYTEMPSIZE], *points;
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    if (JNU_IsNull(fnv, xdoordsArrby) || JNU_IsNull(fnv, ydoordsArrby)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "doordinbtf brrby");
+        rfturn;
+    }
+    if ((*fnv)->GftArrbyLfngth(fnv, ydoordsArrby) < npoints ||
+        (*fnv)->GftArrbyLfngth(fnv, xdoordsArrby) < npoints)
+    {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "doordinbtf brrby");
+        rfturn;
+    }
+
+    if (npoints < 2) {
+        rfturn;
+    }
+
+    points = trbnsformPoints(fnv, xdoordsArrby, ydoordsArrby, trbnsx, trbnsy,
+                             pTmp, (int *)&npoints, isdlosfd);
+    if (points != 0) {
+        if (npoints == 2) {
+            /*
+             * Somf X11 implfmfntbtions fbil to drbw bnything for
+             * simplf 2 point polygons whfrf thf vfrtidfs brf thf
+             * sbmf point fvfn though this violbtfs thf X11
+             * spfdifidbtion.  For simplidity wf will dispbtdh bll
+             * 2 point polygons through XDrbwLinf fvfn if thfy brf
+             * non-dfgfnfrbtf bs this mby invokf lfss prodfssing
+             * down thf linf thbn b Poly primitivf bnywby.
+             */
+            XDrbwLinf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                      points[0].x, points[0].y,
+                      points[1].x, points[1].y);
+        } flsf {
+            XDrbwLinfs(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                       points, npoints, CoordModfOrigin);
+        }
+        if (points != pTmp) {
+            frff(points);
+        }
+        X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+    }
+#fndif /* !HEADLESS */
+}
+
+stbtid void storfLinf(DrbwHbndlfr* hnd,
+                      jint x0, jint y0, jint x1, jint y1)
+{
+#ifndff HEADLESS
+    XDrbwHbndlfrDbtb* dhnd = (XDrbwHbndlfrDbtb*)(hnd->pDbtb);
+
+    XDHD_ADD_POINT(dhnd, x0, y0);
+    XDHD_ADD_POINT(dhnd, x1, y1);
+#fndif /* !HEADLESS */
+}
+
+stbtid void storfPoint(DrbwHbndlfr* hnd, jint x0, jint y0) {
+#ifndff HEADLESS
+    XDrbwHbndlfrDbtb* dhnd = (XDrbwHbndlfrDbtb*)(hnd->pDbtb);
+
+    XDHD_ADD_POINT(dhnd, x0, y0);
+#fndif /* !HEADLESS */
+}
+
+stbtid void drbwSubPbth(ProdfssHbndlfr* hnd) {
+#ifndff HEADLESS
+    XDrbwHbndlfrDbtb* dhnd = (XDrbwHbndlfrDbtb*)(hnd->dhnd->pDbtb);
+    XPoint *points = dhnd->pPoints;
+
+    switdh (dhnd->npoints) {
+    dbsf 0:
+        /* No-op */
+        brfbk;
+    dbsf 1:
+        /* Drbw thf singlf pixfl */
+        XFillRfdtbnglf(bwt_displby, dhnd->drbwbblf, dhnd->gd,
+                       points[0].x, points[0].y, 1, 1);
+        brfbk;
+    dbsf 2:
+        /*
+         * Thf XDrbwLinfs mfthod for somf X11 implfmfntbtions
+         * fbils to drbw bnything for simplf 2 point polygons
+         * whfrf thf vfrtidfs brf thf sbmf point fvfn though
+         * this violbtfs thf X11 spfdifidbtion.  For simplidity
+         * wf will dispbtdh bll 2 point polygons through XDrbwLinf
+         * fvfn if thfy brf non-dfgfnfrbtf bs this mby invokf
+         * lfss prodfssing down thf linf thbn b poly primitivf bnywby.
+         */
+        XDrbwLinf(bwt_displby, dhnd->drbwbblf, dhnd->gd,
+                  points[0].x, points[0].y,
+                  points[1].x, points[1].y);
+        brfbk;
+    dffbult:
+        /* Drbw thf fntirf polylinf */
+        XDrbwLinfs(bwt_displby, dhnd->drbwbblf, dhnd->gd, points,
+                   dhnd->npoints, CoordModfOrigin);
+        brfbk;
+    }
+
+    XDHD_RESET(dhnd);
+#fndif /* !HEADLESS */
+}
+
+stbtid void drbwSdbnlinf(DrbwHbndlfr* hnd, jint x0, jint x1, jint y0)
+{
+#ifndff HEADLESS
+    XDrbwHbndlfrDbtb* dhnd = (XDrbwHbndlfrDbtb*)(hnd->pDbtb);
+
+    XDrbwLinf(bwt_displby, dhnd->drbwbblf, dhnd->gd, x0, y0, x1, y0);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XDoPbth
+ * Signbturf: (Lsun/jbvb2d/SunGrbphids2D;JJIILjbvb/bwt/gfom/Pbth2D/Flobt;Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XDoPbth
+    (JNIEnv *fnv, jobjfdt sflf, jobjfdt sg2d, jlong pXSDbtb, jlong xgd,
+     jint trbnsX, jint trbnsY, jobjfdt p2df, jboolfbn isFill)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+    jbrrby typfsArrby;
+    jobjfdt pointArrby;
+    jbrrby doordsArrby;
+    jint numTypfs;
+    jint fillRulf;
+    jint mbxCoords;
+    jbytf *typfs;
+    jflobt *doords;
+    XDrbwHbndlfrDbtb dHDbtb;
+    DrbwHbndlfr drbwHbndlfr = {
+        NULL, NULL, NULL,
+        MIN_SHORT, MIN_SHORT, MAX_SHORT, MAX_SHORT,
+        0, 0, 0, 0,
+        NULL
+    };
+    PHStrokf strokf;
+    jboolfbn ok = JNI_TRUE;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    if (isFill) {
+        fillRulf = (*fnv)->GftIntFifld(fnv, p2df, pbth2DWindingRulfID);
+    }
+
+    typfsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df, pbth2DTypfsID);
+    doordsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df,
+                                                 pbth2DFlobtCoordsID);
+    if (doordsArrby == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+        rfturn;
+    }
+    numTypfs = (*fnv)->GftIntFifld(fnv, p2df, pbth2DNumTypfsID);
+    if ((*fnv)->GftArrbyLfngth(fnv, typfsArrby) < numTypfs) {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+        rfturn;
+    }
+
+    XDHD_INIT(&dHDbtb, (GC)xgd, xsdo->drbwbblf);
+    drbwHbndlfr.pDbtb = &dHDbtb;
+
+    strokf = (((*fnv)->GftIntFifld(fnv, sg2d, sg2dStrokfHintID) ==
+               sunHints_INTVAL_STROKE_PURE)
+              ? PH_STROKE_PURE
+              : PH_STROKE_DEFAULT);
+
+    mbxCoords = (*fnv)->GftArrbyLfngth(fnv, doordsArrby);
+    doords = (jflobt*)
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, doordsArrby, NULL);
+    if (doords != NULL) {
+        typfs = (jbytf*)
+            (*fnv)->GftPrimitivfArrbyCritidbl(fnv, typfsArrby, NULL);
+        if (typfs != NULL) {
+            if (isFill) {
+                drbwHbndlfr.pDrbwSdbnlinf = &drbwSdbnlinf;
+                ok = doFillPbth(&drbwHbndlfr,
+                                trbnsX, trbnsY,
+                                doords, mbxCoords,
+                                typfs, numTypfs,
+                                strokf, fillRulf);
+            } flsf {
+                drbwHbndlfr.pDrbwLinf = &storfLinf;
+                drbwHbndlfr.pDrbwPixfl = &storfPoint;
+                ok = doDrbwPbth(&drbwHbndlfr, &drbwSubPbth,
+                                trbnsX, trbnsY,
+                                doords, mbxCoords,
+                                typfs, numTypfs,
+                                strokf);
+            }
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, typfsArrby, typfs,
+                                                  JNI_ABORT);
+        }
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, doordsArrby, doords,
+                                              JNI_ABORT);
+        if (!ok) {
+            JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "doords brrby");
+        }
+    }
+
+    XDHD_FREE_POINTS(&dHDbtb);
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XFillRfdt
+ * Signbturf: (IJIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XFillRfdt
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x, jint y, jint w, jint h)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                   CLAMP_TO_SHORT(x),  CLAMP_TO_SHORT(y),
+                   CLAMP_TO_USHORT(w), CLAMP_TO_USHORT(h));
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XFillRoundRfdt
+ * Signbturf: (IJIIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XFillRoundRfdt
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x, jint y, jint w, jint h,
+     jint brdW, jint brdH)
+{
+#ifndff HEADLESS
+    long ty1, ty2, tx1, tx2, dx, dy, dxw, dyh,
+         hblfW, hblfH, lfftW, rightW, topH, bottomH;
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL || w <= 0 || h <= 0) {
+        rfturn;
+    }
+
+    brdW = ABS(brdW);
+    brdH = ABS(brdH);
+    if (brdW > w) {
+        brdW = w;
+    }
+    if (brdH > h) {
+        brdH = h;
+    }
+
+    if (brdW == 0 || brdH == 0) {
+        Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XFillRfdt(fnv, xr, pXSDbtb, xgd,
+                                                  x, y, w, h);
+        rfturn;
+    }
+
+    hblfW = (brdW / 2);
+    hblfH = (brdH / 2);
+
+    /* dlbmp to short bounding box of round rfdtbnglf */
+    dx = CLAMP_TO_SHORT(x);
+    dy = CLAMP_TO_SHORT(y);
+    dxw = CLAMP_TO_SHORT(x + w);
+    dyh = CLAMP_TO_SHORT(y + h);
+
+    /* dlbmp to short doordinbtfs of linfs */
+    tx1 = CLAMP_TO_SHORT(x + hblfW + 1);
+    tx2 = CLAMP_TO_SHORT(x + w - hblfW - 1);
+    ty1 = CLAMP_TO_SHORT(y + hblfH + 1);
+    ty2 = CLAMP_TO_SHORT(y + h - hblfH - 1);
+
+    /*
+     * rfdbldulbtf hfightfs bnd widthfs of round pbrts
+     * to minimizf distortions in visiblf brfb
+     */
+    lfftW = (tx1 - dx) * 2;
+    rightW = (dxw - tx2) * 2;
+    topH = (ty1 - dy) * 2;
+    bottomH = (dyh - ty2) * 2;
+
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                dx, dy, lfftW, topH,
+                90, 90, JNI_TRUE);
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                dxw - rightW, dy, rightW, topH,
+                0, 90, JNI_TRUE);
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                dx, dyh - bottomH, lfftW, bottomH,
+                180, 90, JNI_TRUE);
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                dxw - rightW, dyh - bottomH, rightW, bottomH,
+                270, 90, JNI_TRUE);
+
+    if (tx1 < tx2) {
+        if (dy < ty1) {
+            XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                           tx1, dy, tx2 - tx1, ty1 - dy);
+        }
+        if (ty2 < dyh) {
+            XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                           tx1, ty2, tx2 - tx1, dyh - ty2);
+        }
+    }
+    if (ty1 < ty2) {
+        XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                       dx, ty1, dxw - dx, ty2 - ty1);
+    }
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XFillOvbl
+ * Signbturf: (IJIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XFillOvbl
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x, jint y, jint w, jint h)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    if (w < 3 || h < 3) {
+        /*
+         * Fix for 4205762 - 1x1 ovbls do not drbw on Ultrb1, Crfbtor3d
+         * (rflbtfd to 4411814 on Windows plbtform)
+         * Most X11 sfrvfrs drivfrs hbvf poor rfndfring
+         * for thin fllipsfs bnd thf rfndfring is most strikingly
+         * difffrfnt from our thforftidbl brds.  Idfblly wf should
+         * trbp bll ovbls lfss thbn somf fbirly lbrgf sizf bnd
+         * try to drbw bfsthftidblly plfbsing fllipsfs, but thbt
+         * would rfquirf donsidfrbbly morf work to gft thf dorrfsponding
+         * drbwArd vbribnts to mbtdh pixfl for pixfl.
+         * Thin ovbls of girth 1 pixfl brf simplf rfdtbnglfs.
+         * Thin ovbls of girth 2 pixfls brf simplf rfdtbnglfs with
+         * potfntiblly smbllfr lfngths.  Dftfrminf thf dorrfdt lfngth
+         * by dbldulbting .5*.5 + sdblfdlfn*sdblfdlfn == 1.0 whidh
+         * mfbns thbt sdblfdlfn is thf sqrt(0.75).  Sdblfdlfn is
+         * rflbtivf to thf truf lfngth (w or h) bnd nffds to bf
+         * bdjustfd by hblf b pixfl in difffrfnt wbys for odd or
+         * fvfn lfngths.
+         */
+#dffinf SQRT_3_4 0.86602540378443864676
+        if (w > 2 && h > 1) {
+            int bdjw = (int) ((SQRT_3_4 * w - ((w&1)-1)) * 0.5);
+            bdjw = bdjw * 2 + (w&1);
+            x += (w-bdjw)/2;
+            w = bdjw;
+        } flsf if (h > 2 && w > 1) {
+            int bdjh = (int) ((SQRT_3_4 * h - ((h&1)-1)) * 0.5);
+            bdjh = bdjh * 2 + (h&1);
+            y += (h-bdjh)/2;
+            h = bdjh;
+        }
+#undff SQRT_3_4
+        if (w > 0 && h > 0) {
+            XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd, x, y, w, h);
+        }
+    } flsf {
+        bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                    x, y, w, h, 0, 360, JNI_TRUE);
+    }
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XFillArd
+ * Signbturf: (IJIIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XFillArd
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint x, jint y, jint w, jint h,
+     jint bnglfStbrt, jint bnglfExtfnt)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    bwt_drbwArd(fnv, xsdo->drbwbblf, (GC) xgd,
+                x, y, w, h, bnglfStbrt, bnglfExtfnt, JNI_TRUE);
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XFillPoly
+ * Signbturf: (IJII[I[II)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XFillPoly
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jint trbnsx, jint trbnsy,
+     jintArrby xdoordsArrby, jintArrby ydoordsArrby, jint npoints)
+{
+#ifndff HEADLESS
+    XPoint pTmp[POLYTEMPSIZE], *points;
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    if (JNU_IsNull(fnv, xdoordsArrby) || JNU_IsNull(fnv, ydoordsArrby)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "doordinbtf brrby");
+        rfturn;
+    }
+    if ((*fnv)->GftArrbyLfngth(fnv, ydoordsArrby) < npoints ||
+        (*fnv)->GftArrbyLfngth(fnv, xdoordsArrby) < npoints)
+    {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "doordinbtf brrby");
+        rfturn;
+    }
+
+    if (npoints < 3) {
+        rfturn;
+    }
+
+    points = trbnsformPoints(fnv, xdoordsArrby, ydoordsArrby, trbnsx, trbnsy,
+                             pTmp, (int *)&npoints, JNI_FALSE);
+    if (points != 0) {
+        if (npoints > 2) {
+            XFillPolygon(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                         points, npoints, Complfx, CoordModfOrigin);
+            X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+        }
+        if (points != pTmp) {
+            frff(points);
+        }
+    }
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    XFillSpbns
+ * Signbturf: (IJLsun/jbvb2d/pipf/SpbnItfrbtor;JII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_XFillSpbns
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong pXSDbtb, jlong xgd,
+     jobjfdt si, jlong pItfrbtor,
+     jint trbnsx, jint trbnsy)
+{
+#ifndff HEADLESS
+    SpbnItfrbtorFunds *pFunds = (SpbnItfrbtorFunds *) jlong_to_ptr(pItfrbtor);
+    void *srDbtb;
+    jint x, y, w, h;
+    jint spbnbox[4];
+    X11SDOps *xsdo = (X11SDOps *) pXSDbtb;
+
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    if (JNU_IsNull(fnv, si)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "spbn itfrbtor");
+        rfturn;
+    }
+    if (pFunds == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "nbtivf itfrbtor not supplifd");
+        rfturn;
+    }
+
+    srDbtb = (*pFunds->opfn)(fnv, si);
+    whilf ((*pFunds->nfxtSpbn)(srDbtb, spbnbox)) {
+        x = spbnbox[0] + trbnsx;
+        y = spbnbox[1] + trbnsy;
+        w = spbnbox[2] - spbnbox[0];
+        h = spbnbox[3] - spbnbox[1];
+        XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, (GC) xgd,
+                       CLAMP_TO_SHORT(x),  CLAMP_TO_SHORT(y),
+                       CLAMP_TO_USHORT(w), CLAMP_TO_USHORT(h));
+    }
+    (*pFunds->dlosf)(fnv, srDbtb);
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_jbvb2d_x11_X11Rfndfrfr
+ * Mfthod:    dfvCopyArfb
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;IIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_x11_X11Rfndfrfr_dfvCopyArfb
+    (JNIEnv *fnv, jobjfdt xr,
+     jlong xsd, jlong gd,
+     jint srdx, jint srdy,
+     jint dstx, jint dsty,
+     jint width, jint hfight)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo;
+    GC xgd;
+
+    xsdo = (X11SDOps *)jlong_to_ptr(xsd);
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    xgd = (GC)gd;
+    if (xgd == NULL) {
+        rfturn;
+    }
+
+    XCopyArfb(bwt_displby, xsdo->drbwbblf, xsdo->drbwbblf, xgd,
+              srdx, srdy, width, hfight, dstx, dsty);
+
+    X11SD_DirfdtRfndfrNotify(fnv, xsdo);
+#fndif /* !HEADLESS */
+}

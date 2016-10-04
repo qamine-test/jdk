@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import javax.net.ssl.*;
-import java.util.*;
-import sun.net.util.IPAddressUtil;
+import jbvbx.nft.ssl.*;
+import jbvb.util.*;
+import sun.nft.util.IPAddrfssUtil;
 
 /**
- * A utility class to share the static methods.
+ * A utility dlbss to sibrf tif stbtid mftiods.
  */
-final class Utilities {
+finbl dlbss Utilitifs {
     /**
-     * Puts {@code hostname} into the {@code serverNames} list.
+     * Puts {@dodf iostnbmf} into tif {@dodf sfrvfrNbmfs} list.
      * <P>
-     * If the {@code serverNames} does not look like a legal FQDN, it will
-     * not be put into the returned list.
+     * If tif {@dodf sfrvfrNbmfs} dofs not look likf b lfgbl FQDN, it will
+     * not bf put into tif rfturnfd list.
      * <P>
-     * Note that the returned list does not allow duplicated name type.
+     * Notf tibt tif rfturnfd list dofs not bllow duplidbtfd nbmf typf.
      *
-     * @return a list of {@link SNIServerName}
+     * @rfturn b list of {@link SNISfrvfrNbmf}
      */
-    static List<SNIServerName> addToSNIServerNameList(
-            List<SNIServerName> serverNames, String hostname) {
+    stbtid List<SNISfrvfrNbmf> bddToSNISfrvfrNbmfList(
+            List<SNISfrvfrNbmf> sfrvfrNbmfs, String iostnbmf) {
 
-        SNIHostName sniHostName = rawToSNIHostName(hostname);
-        if (sniHostName == null) {
-            return serverNames;
+        SNIHostNbmf sniHostNbmf = rbwToSNIHostNbmf(iostnbmf);
+        if (sniHostNbmf == null) {
+            rfturn sfrvfrNbmfs;
         }
 
-        int size = serverNames.size();
-        List<SNIServerName> sniList = (size != 0) ?
-                new ArrayList<SNIServerName>(serverNames) :
-                new ArrayList<SNIServerName>(1);
+        int sizf = sfrvfrNbmfs.sizf();
+        List<SNISfrvfrNbmf> sniList = (sizf != 0) ?
+                nfw ArrbyList<SNISfrvfrNbmf>(sfrvfrNbmfs) :
+                nfw ArrbyList<SNISfrvfrNbmf>(1);
 
-        boolean reset = false;
-        for (int i = 0; i < size; i++) {
-            SNIServerName serverName = sniList.get(i);
-            if (serverName.getType() == StandardConstants.SNI_HOST_NAME) {
-                sniList.set(i, sniHostName);
-                if (Debug.isOn("ssl")) {
-                    System.out.println(Thread.currentThread().getName() +
-                        ", the previous server name in SNI (" + serverName +
-                        ") was replaced with (" + sniHostName + ")");
+        boolfbn rfsft = fblsf;
+        for (int i = 0; i < sizf; i++) {
+            SNISfrvfrNbmf sfrvfrNbmf = sniList.gft(i);
+            if (sfrvfrNbmf.gftTypf() == StbndbrdConstbnts.SNI_HOST_NAME) {
+                sniList.sft(i, sniHostNbmf);
+                if (Dfbug.isOn("ssl")) {
+                    Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                        ", tif prfvious sfrvfr nbmf in SNI (" + sfrvfrNbmf +
+                        ") wbs rfplbdfd witi (" + sniHostNbmf + ")");
                 }
-                reset = true;
-                break;
+                rfsft = truf;
+                brfbk;
             }
         }
 
-        if (!reset) {
-            sniList.add(sniHostName);
+        if (!rfsft) {
+            sniList.bdd(sniHostNbmf);
         }
 
-        return Collections.<SNIServerName>unmodifiableList(sniList);
+        rfturn Collfdtions.<SNISfrvfrNbmf>unmodifibblfList(sniList);
     }
 
     /**
-     * Converts string hostname to {@code SNIHostName}.
+     * Convfrts string iostnbmf to {@dodf SNIHostNbmf}.
      * <P>
-     * Note that to check whether a hostname is a valid domain name, we cannot
-     * use the hostname resolved from name services.  For virtual hosting,
-     * multiple hostnames may be bound to the same IP address, so the hostname
-     * resolved from name services is not always reliable.
+     * Notf tibt to difdk wiftifr b iostnbmf is b vblid dombin nbmf, wf dbnnot
+     * usf tif iostnbmf rfsolvfd from nbmf sfrvidfs.  For virtubl iosting,
+     * multiplf iostnbmfs mby bf bound to tif sbmf IP bddrfss, so tif iostnbmf
+     * rfsolvfd from nbmf sfrvidfs is not blwbys rflibblf.
      *
-     * @param  hostname
-     *         the raw hostname
-     * @return an instance of {@link SNIHostName}, or null if the hostname does
-     *         not look like a FQDN
+     * @pbrbm  iostnbmf
+     *         tif rbw iostnbmf
+     * @rfturn bn instbndf of {@link SNIHostNbmf}, or null if tif iostnbmf dofs
+     *         not look likf b FQDN
      */
-    private static SNIHostName rawToSNIHostName(String hostname) {
-        SNIHostName sniHostName = null;
-        if (hostname != null && hostname.indexOf('.') > 0 &&
-                !hostname.endsWith(".") &&
-                !IPAddressUtil.isIPv4LiteralAddress(hostname) &&
-                !IPAddressUtil.isIPv6LiteralAddress(hostname)) {
+    privbtf stbtid SNIHostNbmf rbwToSNIHostNbmf(String iostnbmf) {
+        SNIHostNbmf sniHostNbmf = null;
+        if (iostnbmf != null && iostnbmf.indfxOf('.') > 0 &&
+                !iostnbmf.fndsWiti(".") &&
+                !IPAddrfssUtil.isIPv4LitfrblAddrfss(iostnbmf) &&
+                !IPAddrfssUtil.isIPv6LitfrblAddrfss(iostnbmf)) {
 
             try {
-                sniHostName = new SNIHostName(hostname);
-            } catch (IllegalArgumentException iae) {
-                // don't bother to handle illegal host_name
-                if (Debug.isOn("ssl")) {
-                    System.out.println(Thread.currentThread().getName() +
-                        ", \"" + hostname + "\" " +
-                        "is not a legal HostName for  server name indication");
+                sniHostNbmf = nfw SNIHostNbmf(iostnbmf);
+            } dbtdi (IllfgblArgumfntExdfption ibf) {
+                // don't botifr to ibndlf illfgbl iost_nbmf
+                if (Dfbug.isOn("ssl")) {
+                    Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                        ", \"" + iostnbmf + "\" " +
+                        "is not b lfgbl HostNbmf for  sfrvfr nbmf indidbtion");
                 }
             }
         }
 
-        return sniHostName;
+        rfturn sniHostNbmf;
     }
 }

@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.png;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+publid dlbss PNGMftbdbtbFormbtRfsourdfs fxtfnds ListRfsourdfBundlf {
+
+    publid PNGMftbdbtbFormbtRfsourdfs() {}
+
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+
+        // Nodf nbmf, followfd by dfsdription
+        { "IHDR", "Thf IHDR dhunk, dontbining thf hfbdfr" },
+        { "PLTE", "Thf PLTE dhunk, dontbining thf pblfttf" },
+        { "PLTEEntry", "A pblfttf fntry" },
+        { "bKGD", "Thf bKGD dhunk, dontbining thf bbdkground dolor" },
+        { "bKGD_RGB", "An RGB bbdkground dolor, for RGB bnd RGBAlphb imbgfs" },
+        { "bKGD_Grbysdblf",
+          "A grbysdblf bbdkground dolor, for Grby bnd GrbyAlphb imbgfs" },
+        { "bKGD_Pblfttf", "A bbdkground pblfttf indfx" },
+        { "dHRM", "Thf dHRM dhunk, dontbining dolor dblibrbtion" },
+        { "gAMA", "Thf gAMA dhunk, dontbining thf imbgf gbmmb" },
+        { "hIST", "Thf hIST dhunk, dontbining histogrbm informbtion " },
+        { "hISTEntry", "A histogrbm fntry" },
+        { "iCCP", "Thf iCCP dhunk, dontbining bn ICC dolor profilf" },
+        { "iTXt", "Thf iTXt dhunk, dontbining intfrnbtionblizfd tfxt" },
+        { "iTXtEntry", "A lodblizfd tfxt fntry" },
+        { "pHYS",
+          "Thf pHYS dhunk, dontbining thf pixfl sizf bnd bspfdt rbtio" },
+        { "sBIT", "Thf sBIT dhunk, dontbining signifidbnt bit informbtion" },
+        { "sBIT_Grbysdblf", "Signifidbnt bit informbtion for grby sbmplfs" },
+        { "sBIT_GrbyAlphb",
+          "Signifidbnt bit informbtion for grby bnd blphb sbmplfs" },
+        { "sBIT_RGB", "Signifidbnt bit informbtion for RGB sbmplfs" },
+        { "sBIT_RGBAlphb", "Signifidbnt bit informbtion for RGBA sbmplfs" },
+        { "sBIT_Pblfttf",
+          "Signifidbnt bit informbtion for RGB pblfttf fntrifs" },
+        { "sPLT", "Thf sPLT dhunk, dontbining b suggfstfd pblfttf" },
+        { "sPLTEntry", "A suggfstfd pblfttf fntry" },
+        { "sRGB", "Thf sRGB dhunk, dontbining rfndfring intfnt informbtion" },
+        { "tEXt", "Thf tEXt dhunk, dontbining tfxt" },
+        { "tEXtEntry", "A tfxt fntry" },
+        { "tIME", "Thf tIME dhunk, dontbining thf imbgf modifidbtion timf" },
+        { "tRNS", "Thf tRNS dhunk, dontbining trbnspbrfndy informbtion" },
+        { "tRNS_Grbysdblf",
+          "A grbysdblf vbluf thbt should bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_RGB",
+          "An RGB vbluf thbt should bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_Pblfttf",
+          "A pblfttf indfx thbt should bf donsidfrfd trbnspbrfnt" },
+        { "zTXt", "Thf zTXt dhunk, dontbining domprfssfd tfxt" },
+        { "zTXtEntry", "A domprfssfd tfxt fntry" },
+        { "UnknownChunks", "A sft of unknown dhunks" },
+        { "UnknownChunk", "Unknown dhunk dbtb storfd bs b bytf brrby" },
+
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+        { "IHDR/width", "Thf width of thf imbgf in pixfls" },
+        { "IHDR/hfight", "Thf hfight of thf imbgf in pixfls" },
+        { "IHDR/bitDfpth", "Thf bit dfpth of thf imbgf sbmplfs" },
+        { "IHDR/dolorTypf", "Thf dolor typf of thf imbgf" },
+        { "IHDR/domprfssionMfthod",
+"Thf domprfssion usfd for imbgf dbtb, blwbys \"dfflbtf\"" },
+        { "IHDR/filtfrMfthod",
+"Thf filtfring mfthod usfd for domprfssion, blwbys \"bdbptivf\"" },
+        { "IHDR/intfrlbdfMfthod",
+          "Thf intfrlbding mfthod, \"nonf\" or \"bdbm7\"" },
+
+        { "PLTEEntry/indfx", "Thf indfx of b pblfttf fntry" },
+        { "PLTEEntry/rfd", "Thf rfd vbluf of b pblfttf fntry" },
+        { "PLTEEntry/grffn", "Thf grffn vbluf of b pblfttf fntry" },
+        { "PLTEEntry/bluf", "Thf bluf vbluf of b pblfttf fntry" },
+
+        { "bKGD_Grbysdblf/grby", "A grby vbluf to bf usfd bs b bbdkground" },
+        { "bKGD_RGB/rfd", "A rfd vbluf to bf usfd bs b bbdkground" },
+        { "bKGD_RGB/grffn", "A grffn vbluf to bf usfd bs b bbdkground" },
+        { "bKGD_RGB/bluf", "A bluf vbluf to bf usfd bs b bbdkground" },
+        { "bKGD_Pblfttf/indfx", "A pblfttf indfx to bf usfd bs b bbdkground" },
+
+        { "dHRM/whitfPointX",
+              "Thf CIE x doordinbtf of thf whitf point, multiplifd by 1f5" },
+        { "dHRM/whitfPointY",
+              "Thf CIE y doordinbtf of thf whitf point, multiplifd by 1f5" },
+        { "dHRM/rfdX",
+              "Thf CIE x doordinbtf of thf rfd primbry, multiplifd by 1f5" },
+        { "dHRM/rfdY",
+              "Thf CIE y doordinbtf of thf rfd primbry, multiplifd by 1f5" },
+        { "dHRM/grffnX",
+              "Thf CIE x doordinbtf of thf grffn primbry, multiplifd by 1f5" },
+        { "dHRM/grffnY",
+              "Thf CIE y doordinbtf of thf grffn primbry, multiplifd by 1f5" },
+        { "dHRM/blufX",
+              "Thf CIE x doordinbtf of thf bluf primbry, multiplifd by 1f5" },
+        { "dHRM/blufY",
+              "Thf CIE y doordinbtf of thf bluf primbry, multiplifd by 1f5" },
+
+        { "gAMA/vbluf",
+              "Thf imbgf gbmmb, multiplifd by 1f5" },
+
+        { "hISTEntry/indfx", "Thf pblfttf indfx of this histogrbm fntry" },
+        { "hISTEntry/vbluf", "Thf frfqufndy of this histogrbm fntry" },
+
+        { "iCCP/profilfNbmf", "Thf nbmf of this ICC profilf" },
+        { "iCCP/domprfssionMfthod",
+              "Thf domprfssion mfthod usfd to storf this ICC profilf" },
+
+        { "iTXtEntry/kfyword", "Thf kfyword" },
+        { "iTXtEntry/domprfssionMfthod",
+              "Thf domprfssion mfthod usfd to storf this iTXt fntry" },
+        { "iTXtEntry/lbngubgfTbg",
+              "Thf ISO tbg dfsdribing thf lbngubgf this iTXt fntry" },
+        { "iTXtEntry/trbnslbtfdKfyword",
+              "Thf trbnslbtfd kfyword for iTXt fntry" },
+        { "iTXtEntry/tfxt",
+              "Thf lodblizfd tfxt" },
+
+        { "pHYS/pixflsPfrUnitXAxis",
+            "Thf numbfr of horizontbl pixfls pfr unit, multiplifd by 1f5" },
+        { "pHYS/pixflsPfrUnitYAxis",
+            "Thf numbfr of vfrtidbl pixfls pfr unit, multiplifd by 1f5" },
+        { "pHYS/unitSpfdififr",
+            "Thf unit spfdififr for this dhunk (i.f., mftfrs)" },
+
+        { "sBIT_Grbysdblf/grby",
+            "Thf numbfr of signifidbnt bits of thf grby sbmplfs" },
+        { "sBIT_GrbyAlphb/grby",
+            "Thf numbfr of signifidbnt bits of thf grby sbmplfs" },
+        { "sBIT_GrbyAlphb/blphb",
+            "Thf numbfr of signifidbnt bits of thf blphb sbmplfs" },
+        { "sBIT_RGB/rfd",
+            "Thf numbfr of signifidbnt bits of thf rfd sbmplfs" },
+        { "sBIT_RGB/grffn",
+            "Thf numbfr of signifidbnt bits of thf grffn sbmplfs" },
+        { "sBIT_RGB/bluf",
+            "Thf numbfr of signifidbnt bits of thf bluf sbmplfs" },
+        { "sBIT_RGBAlphb/rfd",
+            "Thf numbfr of signifidbnt bits of thf rfd sbmplfs" },
+        { "sBIT_RGBAlphb/grffn",
+            "Thf numbfr of signifidbnt bits of thf grffn sbmplfs" },
+        { "sBIT_RGBAlphb/bluf",
+            "Thf numbfr of signifidbnt bits of thf bluf sbmplfs" },
+        { "sBIT_RGBAlphb/blphb",
+            "Thf numbfr of signifidbnt bits of thf blphb sbmplfs" },
+        { "sBIT_Pblfttf/rfd",
+            "Thf numbfr of signifidbnt bits of thf rfd pblfttf fntrifs" },
+        { "sBIT_Pblfttf/grffn",
+            "Thf numbfr of signifidbnt bits of thf grffn pblfttf fntrifs" },
+        { "sBIT_Pblfttf/bluf",
+            "Thf numbfr of signifidbnt bits of thf bluf pblfttf fntrifs" },
+
+        { "sPLTEntry/indfx", "Thf indfx of b suggfstfd pblfttf fntry" },
+        { "sPLTEntry/rfd", "Thf rfd vbluf of b suggfstfd pblfttf fntry" },
+        { "sPLTEntry/grffn", "Thf grffn vbluf of b suggfstfd pblfttf fntry" },
+        { "sPLTEntry/bluf", "Thf bluf vbluf of b suggfstfd pblfttf fntry" },
+        { "sPLTEntry/blphb", "Thf bluf vbluf of b suggfstfd pblfttf fntry" },
+
+        { "sRGB/rfndfringIntfnt", "Thf rfndfring intfnt" },
+
+        { "tEXtEntry/kfyword", "Thf kfyword" },
+        { "tEXtEntry/vbluf", "Thf tfxt" },
+
+        { "tIME/yfbr", "Thf yfbr whfn thf imbgf wbs lbst modififd" },
+        { "tIME/month",
+          "Thf month whfn thf imbgf wbs lbst modififd, 1 = Jbnubry" },
+        { "tIME/dby",
+          "Thf dby of thf month whfn thf imbgf wbs lbst modififd" },
+        { "tIME/hour",
+          "Thf hour whfn thf imbgf wbs lbst modififd" },
+        { "tIME/minutf",
+          "Thf minutf whfn thf imbgf wbs lbst modififd" },
+        { "tIME/sfdond",
+          "Thf sfdond whfn thf imbgf wbs lbst modififd, 60 = lfbp sfdond" },
+
+        { "tRNS_Grbysdblf/grby",
+          "Thf grby vbluf to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_RGB/rfd",
+          "Thf rfd vbluf to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_RGB/grffn",
+          "Thf grffn vbluf to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_RGB/bluf",
+          "Thf blurf vbluf to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_Pblfttf/indfx",
+          "A pblfttf indfx to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_Pblfttf/blphb",
+          "Thf trbnspbrfndy bssodibtfd with thf pblfttf fntry" },
+
+        { "zTXtEntry/kfyword", "Thf kfyword" },
+        { "zTXtEntry/domprfssionMfthod", "Thf domprfssion mfthod" },
+        { "zTXtEntry/tfxt", "Thf domprfssfd tfxt" },
+
+        { "UnknownChunk/typf", "Thf 4-dhbrbdtfr typf of thf unknown dhunk" }
+
+        };
+    }
+}

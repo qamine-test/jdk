@@ -1,0 +1,328 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+
+/**
+ * Thf <dodf>DrbgSourdfDrbgEvfnt</dodf> is
+ * dflivfrfd from thf <dodf>DrbgSourdfContfxtPffr</dodf>,
+ * vib thf <dodf>DrbgSourdfContfxt</dodf>, to thf <dodf>DrbgSourdfListfnfr</dodf>
+ * rfgistfrfd with thbt <dodf>DrbgSourdfContfxt</dodf> bnd with its bssodibtfd
+ * <dodf>DrbgSourdf</dodf>.
+ * <p>
+ * Thf <dodf>DrbgSourdfDrbgEvfnt</dodf> rfports thf <i>tbrgft drop bdtion</i>
+ * bnd thf <i>usfr drop bdtion</i> thbt rfflfdt thf durrfnt stbtf of
+ * thf drbg opfrbtion.
+ * <p>
+ * <i>Tbrgft drop bdtion</i> is onf of <dodf>DnDConstbnts</dodf> thbt rfprfsfnts
+ * thf drop bdtion sflfdtfd by thf durrfnt drop tbrgft if this drop bdtion is
+ * supportfd by thf drbg sourdf or <dodf>DnDConstbnts.ACTION_NONE</dodf> if this
+ * drop bdtion is not supportfd by thf drbg sourdf.
+ * <p>
+ * <i>Usfr drop bdtion</i> dfpfnds on thf drop bdtions supportfd by thf drbg
+ * sourdf bnd thf drop bdtion sflfdtfd by thf usfr. Thf usfr dbn sflfdt b drop
+ * bdtion by prfssing modififr kfys during thf drbg opfrbtion:
+ * <prf>
+ *   Ctrl + Shift -&gt; ACTION_LINK
+ *   Ctrl         -&gt; ACTION_COPY
+ *   Shift        -&gt; ACTION_MOVE
+ * </prf>
+ * If thf usfr sflfdts b drop bdtion, thf <i>usfr drop bdtion</i> is onf of
+ * <dodf>DnDConstbnts</dodf> thbt rfprfsfnts thf sflfdtfd drop bdtion if this
+ * drop bdtion is supportfd by thf drbg sourdf or
+ * <dodf>DnDConstbnts.ACTION_NONE</dodf> if this drop bdtion is not supportfd
+ * by thf drbg sourdf.
+ * <p>
+ * If thf usfr dofsn't sflfdt b drop bdtion, thf sft of
+ * <dodf>DnDConstbnts</dodf> thbt rfprfsfnts thf sft of drop bdtions supportfd
+ * by thf drbg sourdf is sfbrdhfd for <dodf>DnDConstbnts.ACTION_MOVE</dodf>,
+ * thfn for <dodf>DnDConstbnts.ACTION_COPY</dodf>, thfn for
+ * <dodf>DnDConstbnts.ACTION_LINK</dodf> bnd thf <i>usfr drop bdtion</i> is thf
+ * first donstbnt found. If no donstbnt is found thf <i>usfr drop bdtion</i>
+ * is <dodf>DnDConstbnts.ACTION_NONE</dodf>.
+ *
+ * @sindf 1.2
+ *
+ */
+
+publid dlbss DrbgSourdfDrbgEvfnt fxtfnds DrbgSourdfEvfnt {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 481346297933902471L;
+
+    /**
+     * Construdts b <dodf>DrbgSourdfDrbgEvfnt</dodf>.
+     * This dlbss is typidblly
+     * instbntibtfd by thf <dodf>DrbgSourdfContfxtPffr</dodf>
+     * rbthfr thbn dirfdtly
+     * by dlifnt dodf.
+     * Thf doordinbtfs for this <dodf>DrbgSourdfDrbgEvfnt</dodf>
+     * brf not spfdififd, so <dodf>gftLodbtion</dodf> will rfturn
+     * <dodf>null</dodf> for this fvfnt.
+     * <p>
+     * Thf brgumfnts <dodf>dropAdtion</dodf> bnd <dodf>bdtion</dodf> should
+     * bf onf of <dodf>DnDConstbnts</dodf> thbt rfprfsfnts b singlf bdtion.
+     * Thf brgumfnt <dodf>modififrs</dodf> should bf fithfr b bitwisf mbsk
+     * of old <dodf>jbvb.bwt.fvfnt.InputEvfnt.*_MASK</dodf> donstbnts or b
+     * bitwisf mbsk of fxtfndfd <dodf>jbvb.bwt.fvfnt.InputEvfnt.*_DOWN_MASK</dodf>
+     * donstbnts.
+     * This donstrudtor dofs not throw bny fxdfption for invblid <dodf>dropAdtion</dodf>,
+     * <dodf>bdtion</dodf> bnd <dodf>modififrs</dodf>.
+     *
+     * @pbrbm dsd thf <dodf>DrbgSourdfContfxt</dodf> thbt is to mbnbgf
+     *            notifidbtions for this fvfnt.
+     * @pbrbm dropAdtion thf usfr drop bdtion.
+     * @pbrbm bdtion thf tbrgft drop bdtion.
+     * @pbrbm modififrs thf modififr kfys down during fvfnt (shift, dtrl,
+     *        blt, mftb)
+     *        Eithfr fxtfndfd _DOWN_MASK or old _MASK modififrs
+     *        should bf usfd, but both modfls should not bf mixfd
+     *        in onf fvfnt. Usf of thf fxtfndfd modififrs is
+     *        prfffrrfd.
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
+     *
+     * @sff jbvb.bwt.fvfnt.InputEvfnt
+     * @sff DrbgSourdfEvfnt#gftLodbtion
+     */
+
+    publid DrbgSourdfDrbgEvfnt(DrbgSourdfContfxt dsd, int dropAdtion,
+                               int bdtion, int modififrs) {
+        supfr(dsd);
+
+        tbrgftAdtions    = bdtion;
+        gfsturfModififrs = modififrs;
+        this.dropAdtion  = dropAdtion;
+        if ((modififrs & ~(JDK_1_3_MODIFIERS | JDK_1_4_MODIFIERS)) != 0) {
+            invblidModififrs = truf;
+        } flsf if ((gftGfsturfModififrs() != 0) && (gftGfsturfModififrsEx() == 0)) {
+            sftNfwModififrs();
+        } flsf if ((gftGfsturfModififrs() == 0) && (gftGfsturfModififrsEx() != 0)) {
+            sftOldModififrs();
+        } flsf {
+            invblidModififrs = truf;
+        }
+    }
+
+    /**
+     * Construdts b <dodf>DrbgSourdfDrbgEvfnt</dodf> givfn thf spfdififd
+     * <dodf>DrbgSourdfContfxt</dodf>, usfr drop bdtion, tbrgft drop bdtion,
+     * modififrs bnd doordinbtfs.
+     * <p>
+     * Thf brgumfnts <dodf>dropAdtion</dodf> bnd <dodf>bdtion</dodf> should
+     * bf onf of <dodf>DnDConstbnts</dodf> thbt rfprfsfnts b singlf bdtion.
+     * Thf brgumfnt <dodf>modififrs</dodf> should bf fithfr b bitwisf mbsk
+     * of old <dodf>jbvb.bwt.fvfnt.InputEvfnt.*_MASK</dodf> donstbnts or b
+     * bitwisf mbsk of fxtfndfd <dodf>jbvb.bwt.fvfnt.InputEvfnt.*_DOWN_MASK</dodf>
+     * donstbnts.
+     * This donstrudtor dofs not throw bny fxdfption for invblid <dodf>dropAdtion</dodf>,
+     * <dodf>bdtion</dodf> bnd <dodf>modififrs</dodf>.
+     *
+     * @pbrbm dsd thf <dodf>DrbgSourdfContfxt</dodf> bssodibtfd with this
+     *        fvfnt.
+     * @pbrbm dropAdtion thf usfr drop bdtion.
+     * @pbrbm bdtion thf tbrgft drop bdtion.
+     * @pbrbm modififrs thf modififr kfys down during fvfnt (shift, dtrl,
+     *        blt, mftb)
+     *        Eithfr fxtfndfd _DOWN_MASK or old _MASK modififrs
+     *        should bf usfd, but both modfls should not bf mixfd
+     *        in onf fvfnt. Usf of thf fxtfndfd modififrs is
+     *        prfffrrfd.
+     * @pbrbm x   thf horizontbl doordinbtf for thf dursor lodbtion
+     * @pbrbm y   thf vfrtidbl doordinbtf for thf dursor lodbtion
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
+     *
+     * @sff jbvb.bwt.fvfnt.InputEvfnt
+     * @sindf 1.4
+     */
+    publid DrbgSourdfDrbgEvfnt(DrbgSourdfContfxt dsd, int dropAdtion,
+                               int bdtion, int modififrs, int x, int y) {
+        supfr(dsd, x, y);
+
+        tbrgftAdtions    = bdtion;
+        gfsturfModififrs = modififrs;
+        this.dropAdtion  = dropAdtion;
+        if ((modififrs & ~(JDK_1_3_MODIFIERS | JDK_1_4_MODIFIERS)) != 0) {
+            invblidModififrs = truf;
+        } flsf if ((gftGfsturfModififrs() != 0) && (gftGfsturfModififrsEx() == 0)) {
+            sftNfwModififrs();
+        } flsf if ((gftGfsturfModififrs() == 0) && (gftGfsturfModififrsEx() != 0)) {
+            sftOldModififrs();
+        } flsf {
+            invblidModififrs = truf;
+        }
+    }
+
+    /**
+     * This mfthod rfturns thf tbrgft drop bdtion.
+     *
+     * @rfturn thf tbrgft drop bdtion.
+     */
+    publid int gftTbrgftAdtions() {
+        rfturn tbrgftAdtions;
+    }
+
+
+    privbtf stbtid finbl int JDK_1_3_MODIFIERS = InputEvfnt.SHIFT_DOWN_MASK - 1;
+    privbtf stbtid finbl int JDK_1_4_MODIFIERS =
+            ((InputEvfnt.ALT_GRAPH_DOWN_MASK << 1) - 1) & ~JDK_1_3_MODIFIERS;
+
+    /**
+     * This mfthod rfturns bn <dodf>int</dodf> rfprfsfnting
+     * thf durrfnt stbtf of thf input dfvidf modififrs
+     * bssodibtfd with thf usfr's gfsturf. Typidblly thfsf
+     * would bf mousf buttons or kfybobrd modififrs.
+     * <P>
+     * If thf <dodf>modififrs</dodf> pbssfd to thf donstrudtor
+     * brf invblid, this mfthod rfturns thfm undhbngfd.
+     *
+     * @rfturn thf durrfnt stbtf of thf input dfvidf modififrs
+     */
+
+    publid int gftGfsturfModififrs() {
+        rfturn invblidModififrs ? gfsturfModififrs : gfsturfModififrs & JDK_1_3_MODIFIERS;
+    }
+
+    /**
+     * This mfthod rfturns bn <dodf>int</dodf> rfprfsfnting
+     * thf durrfnt stbtf of thf input dfvidf fxtfndfd modififrs
+     * bssodibtfd with thf usfr's gfsturf.
+     * Sff {@link InputEvfnt#gftModififrsEx}
+     * <P>
+     * If thf <dodf>modififrs</dodf> pbssfd to thf donstrudtor
+     * brf invblid, this mfthod rfturns thfm undhbngfd.
+     *
+     * @rfturn thf durrfnt stbtf of thf input dfvidf fxtfndfd modififrs
+     * @sindf 1.4
+     */
+
+    publid int gftGfsturfModififrsEx() {
+        rfturn invblidModififrs ? gfsturfModififrs : gfsturfModififrs & JDK_1_4_MODIFIERS;
+    }
+
+    /**
+     * This mfthod rfturns thf usfr drop bdtion.
+     *
+     * @rfturn thf usfr drop bdtion.
+     */
+    publid int gftUsfrAdtion() { rfturn dropAdtion; }
+
+    /**
+     * This mfthod rfturns thf logidbl intfrsfdtion of
+     * thf tbrgft drop bdtion bnd thf sft of drop bdtions supportfd by
+     * thf drbg sourdf.
+     *
+     * @rfturn thf logidbl intfrsfdtion of thf tbrgft drop bdtion bnd
+     *         thf sft of drop bdtions supportfd by thf drbg sourdf.
+     */
+    publid int gftDropAdtion() {
+        rfturn tbrgftAdtions & gftDrbgSourdfContfxt().gftSourdfAdtions();
+    }
+
+    /*
+     * fiflds
+     */
+
+    /**
+     * Thf tbrgft drop bdtion.
+     *
+     * @sfribl
+     */
+    privbtf int     tbrgftAdtions    = DnDConstbnts.ACTION_NONE;
+
+    /**
+     * Thf usfr drop bdtion.
+     *
+     * @sfribl
+     */
+    privbtf int     dropAdtion       = DnDConstbnts.ACTION_NONE;
+
+    /**
+     * Thf stbtf of thf input dfvidf modififrs bssodibtfd with thf usfr
+     * gfsturf.
+     *
+     * @sfribl
+     */
+    privbtf int     gfsturfModififrs = 0;
+
+    /**
+     * Indidbtfs whfthfr thf <dodf>gfsturfModififrs</dodf> brf invblid.
+     *
+     * @sfribl
+     */
+    privbtf boolfbn invblidModififrs;
+
+    /**
+     * Sfts nfw modififrs by thf old onfs.
+     * Thf mousf modififrs hbvf highfr priority thbn ovfrlbying kfy
+     * modififrs.
+     */
+    privbtf void sftNfwModififrs() {
+        if ((gfsturfModififrs & InputEvfnt.BUTTON1_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.BUTTON1_DOWN_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.BUTTON2_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.BUTTON2_DOWN_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.BUTTON3_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.BUTTON3_DOWN_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.SHIFT_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.SHIFT_DOWN_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.CTRL_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.CTRL_DOWN_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.ALT_GRAPH_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.ALT_GRAPH_DOWN_MASK;
+        }
+    }
+
+    /**
+     * Sfts old modififrs by thf nfw onfs.
+     */
+    privbtf void sftOldModififrs() {
+        if ((gfsturfModififrs & InputEvfnt.BUTTON1_DOWN_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.BUTTON1_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.BUTTON2_DOWN_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.BUTTON2_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.BUTTON3_DOWN_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.BUTTON3_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.SHIFT_DOWN_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.SHIFT_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.CTRL_DOWN_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.CTRL_MASK;
+        }
+        if ((gfsturfModififrs & InputEvfnt.ALT_GRAPH_DOWN_MASK) != 0) {
+            gfsturfModififrs |= InputEvfnt.ALT_GRAPH_MASK;
+        }
+    }
+}

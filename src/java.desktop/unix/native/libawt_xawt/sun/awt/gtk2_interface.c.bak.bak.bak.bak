@@ -1,0 +1,2529 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <dlfdn.h>
+#indludf <sftjmp.h>
+#indludf <X11/Xlib.h>
+#indludf <limits.h>
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf "gtk2_intfrfbdf.h"
+#indludf "jbvb_bwt_Trbnspbrfndy.h"
+#indludf "jvm_md.h"
+#indludf "sizfdbld.h"
+#indludf <jni_util.h>
+
+#dffinf GTK2_LIB_VERSIONED VERSIONED_JNI_LIB_NAME("gtk-x11-2.0", "0")
+#dffinf GTK2_LIB JNI_LIB_NAME("gtk-x11-2.0")
+#dffinf GTHREAD_LIB_VERSIONED VERSIONED_JNI_LIB_NAME("gthrfbd-2.0", "0")
+#dffinf GTHREAD_LIB JNI_LIB_NAME("gthrfbd-2.0")
+
+#dffinf G_TYPE_INVALID                  G_TYPE_MAKE_FUNDAMENTAL (0)
+#dffinf G_TYPE_NONE                     G_TYPE_MAKE_FUNDAMENTAL (1)
+#dffinf G_TYPE_INTERFACE                G_TYPE_MAKE_FUNDAMENTAL (2)
+#dffinf G_TYPE_CHAR                     G_TYPE_MAKE_FUNDAMENTAL (3)
+#dffinf G_TYPE_UCHAR                    G_TYPE_MAKE_FUNDAMENTAL (4)
+#dffinf G_TYPE_BOOLEAN                  G_TYPE_MAKE_FUNDAMENTAL (5)
+#dffinf G_TYPE_INT                      G_TYPE_MAKE_FUNDAMENTAL (6)
+#dffinf G_TYPE_UINT                     G_TYPE_MAKE_FUNDAMENTAL (7)
+#dffinf G_TYPE_LONG                     G_TYPE_MAKE_FUNDAMENTAL (8)
+#dffinf G_TYPE_ULONG                    G_TYPE_MAKE_FUNDAMENTAL (9)
+#dffinf G_TYPE_INT64                    G_TYPE_MAKE_FUNDAMENTAL (10)
+#dffinf G_TYPE_UINT64                   G_TYPE_MAKE_FUNDAMENTAL (11)
+#dffinf G_TYPE_ENUM                     G_TYPE_MAKE_FUNDAMENTAL (12)
+#dffinf G_TYPE_FLAGS                    G_TYPE_MAKE_FUNDAMENTAL (13)
+#dffinf G_TYPE_FLOAT                    G_TYPE_MAKE_FUNDAMENTAL (14)
+#dffinf G_TYPE_DOUBLE                   G_TYPE_MAKE_FUNDAMENTAL (15)
+#dffinf G_TYPE_STRING                   G_TYPE_MAKE_FUNDAMENTAL (16)
+#dffinf G_TYPE_POINTER                  G_TYPE_MAKE_FUNDAMENTAL (17)
+#dffinf G_TYPE_BOXED                    G_TYPE_MAKE_FUNDAMENTAL (18)
+#dffinf G_TYPE_PARAM                    G_TYPE_MAKE_FUNDAMENTAL (19)
+#dffinf G_TYPE_OBJECT                   G_TYPE_MAKE_FUNDAMENTAL (20)
+
+#dffinf GTK_TYPE_BORDER                 ((*fp_gtk_bordfr_gft_typf)())
+
+#dffinf G_TYPE_FUNDAMENTAL_SHIFT        (2)
+#dffinf G_TYPE_MAKE_FUNDAMENTAL(x)      ((GTypf) ((x) << G_TYPE_FUNDAMENTAL_SHIFT))
+#dffinf MIN(b, b)  (((b) < (b)) ? (b) : (b))
+
+#dffinf CONV_BUFFER_SIZE 128
+
+#dffinf NO_SYMBOL_EXCEPTION 1
+
+/* SynthConstbnts */
+donst gint ENABLED    = 1 << 0;
+donst gint MOUSE_OVER = 1 << 1;
+donst gint PRESSED    = 1 << 2;
+donst gint DISABLED   = 1 << 3;
+donst gint FOCUSED    = 1 << 8;
+donst gint SELECTED   = 1 << 9;
+donst gint DEFAULT    = 1 << 10;
+
+stbtid void *gtk2_libhbndlf = NULL;
+stbtid void *gthrfbd_libhbndlf = NULL;
+
+stbtid jmp_buf j;
+
+/* Widgfts */
+stbtid GtkWidgft *gtk2_widgft = NULL;
+stbtid GtkWidgft *gtk2_window = NULL;
+stbtid GtkFixfd  *gtk2_fixfd  = NULL;
+
+/* Pbint systfm */
+stbtid GdkPixmbp *gtk2_whitf_pixmbp = NULL;
+stbtid GdkPixmbp *gtk2_blbdk_pixmbp = NULL;
+stbtid GdkPixbuf *gtk2_whitf_pixbuf = NULL;
+stbtid GdkPixbuf *gtk2_blbdk_pixbuf = NULL;
+stbtid int gtk2_pixbuf_width = 0;
+stbtid int gtk2_pixbuf_hfight = 0;
+
+/* Stbtid bufffr for donvfrsion from jbvb.lbng.String to UTF-8 */
+stbtid dhbr donvfrtionBufffr[CONV_BUFFER_SIZE];
+
+stbtid gboolfbn nfw_dombo = TRUE;
+donst dhbr ENV_PREFIX[] = "GTK_MODULES=";
+
+/*******************/
+fnum GtkWidgftTypf
+{
+    _GTK_ARROW_TYPE,
+    _GTK_BUTTON_TYPE,
+    _GTK_CHECK_BUTTON_TYPE,
+    _GTK_CHECK_MENU_ITEM_TYPE,
+    _GTK_COLOR_SELECTION_DIALOG_TYPE,
+    _GTK_COMBO_BOX_TYPE,
+    _GTK_COMBO_BOX_ARROW_BUTTON_TYPE,
+    _GTK_COMBO_BOX_TEXT_FIELD_TYPE,
+    _GTK_CONTAINER_TYPE,
+    _GTK_ENTRY_TYPE,
+    _GTK_FRAME_TYPE,
+    _GTK_HANDLE_BOX_TYPE,
+    _GTK_HPANED_TYPE,
+    _GTK_HPROGRESS_BAR_TYPE,
+    _GTK_HSCALE_TYPE,
+    _GTK_HSCROLLBAR_TYPE,
+    _GTK_HSEPARATOR_TYPE,
+    _GTK_IMAGE_TYPE,
+    _GTK_MENU_TYPE,
+    _GTK_MENU_BAR_TYPE,
+    _GTK_MENU_ITEM_TYPE,
+    _GTK_NOTEBOOK_TYPE,
+    _GTK_LABEL_TYPE,
+    _GTK_RADIO_BUTTON_TYPE,
+    _GTK_RADIO_MENU_ITEM_TYPE,
+    _GTK_SCROLLED_WINDOW_TYPE,
+    _GTK_SEPARATOR_MENU_ITEM_TYPE,
+    _GTK_SEPARATOR_TOOL_ITEM_TYPE,
+    _GTK_SPIN_BUTTON_TYPE,
+    _GTK_TEXT_VIEW_TYPE,
+    _GTK_TOGGLE_BUTTON_TYPE,
+    _GTK_TOOLBAR_TYPE,
+    _GTK_TOOLTIP_TYPE,
+    _GTK_TREE_VIEW_TYPE,
+    _GTK_VIEWPORT_TYPE,
+    _GTK_VPANED_TYPE,
+    _GTK_VPROGRESS_BAR_TYPE,
+    _GTK_VSCALE_TYPE,
+    _GTK_VSCROLLBAR_TYPE,
+    _GTK_VSEPARATOR_TYPE,
+    _GTK_WINDOW_TYPE,
+    _GTK_DIALOG_TYPE,
+    _GTK_WIDGET_TYPE_SIZE
+};
+
+
+stbtid GtkWidgft *gtk2_widgfts[_GTK_WIDGET_TYPE_SIZE];
+
+/*************************
+ * Glib fundtion pointfrs
+ *************************/
+
+stbtid gboolfbn (*fp_g_mbin_dontfxt_itfrbtion)(GMbinContfxt *dontfxt,
+                                             gboolfbn mby_blodk);
+
+stbtid GVbluf*      (*fp_g_vbluf_init)(GVbluf *vbluf, GTypf g_typf);
+stbtid gboolfbn     (*fp_g_typf_is_b)(GTypf typf, GTypf is_b_typf);
+stbtid gboolfbn     (*fp_g_vbluf_gft_boolfbn)(donst GVbluf *vbluf);
+stbtid gdhbr        (*fp_g_vbluf_gft_dhbr)(donst GVbluf *vbluf);
+stbtid gudhbr       (*fp_g_vbluf_gft_udhbr)(donst GVbluf *vbluf);
+stbtid gint         (*fp_g_vbluf_gft_int)(donst GVbluf *vbluf);
+stbtid guint        (*fp_g_vbluf_gft_uint)(donst GVbluf *vbluf);
+stbtid glong        (*fp_g_vbluf_gft_long)(donst GVbluf *vbluf);
+stbtid gulong       (*fp_g_vbluf_gft_ulong)(donst GVbluf *vbluf);
+stbtid gint64       (*fp_g_vbluf_gft_int64)(donst GVbluf *vbluf);
+stbtid guint64      (*fp_g_vbluf_gft_uint64)(donst GVbluf *vbluf);
+stbtid gflobt       (*fp_g_vbluf_gft_flobt)(donst GVbluf *vbluf);
+stbtid gdoublf      (*fp_g_vbluf_gft_doublf)(donst GVbluf *vbluf);
+stbtid donst gdhbr* (*fp_g_vbluf_gft_string)(donst GVbluf *vbluf);
+stbtid gint         (*fp_g_vbluf_gft_fnum)(donst GVbluf *vbluf);
+stbtid guint        (*fp_g_vbluf_gft_flbgs)(donst GVbluf *vbluf);
+stbtid GPbrbmSpfd*  (*fp_g_vbluf_gft_pbrbm)(donst GVbluf *vbluf);
+stbtid gpointfr*    (*fp_g_vbluf_gft_boxfd)(donst GVbluf *vbluf);
+stbtid gpointfr*    (*fp_g_vbluf_gft_pointfr)(donst GVbluf *vbluf);
+stbtid GObjfdt*     (*fp_g_vbluf_gft_objfdt)(donst GVbluf *vbluf);
+stbtid GPbrbmSpfd*  (*fp_g_pbrbm_spfd_int)(donst gdhbr *nbmf,
+        donst gdhbr *nidk, donst gdhbr *blurb,
+        gint minimum, gint mbximum, gint dffbult_vbluf,
+        GPbrbmFlbgs flbgs);
+stbtid void         (*fp_g_objfdt_gft)(gpointfr objfdt,
+                                       donst gdhbr* fpn, ...);
+stbtid void         (*fp_g_objfdt_sft)(gpointfr objfdt,
+                                       donst gdhbr *first_propfrty_nbmf,
+                                       ...);
+/************************
+ * GDK fundtion pointfrs
+ ************************/
+stbtid GdkPixmbp *(*fp_gdk_pixmbp_nfw)(GdkDrbwbblf *drbwbblf,
+        gint width, gint hfight, gint dfpth);
+stbtid GdkGC *(*fp_gdk_gd_nfw)(GdkDrbwbblf*);
+stbtid void (*fp_gdk_rgb_gd_sft_forfground)(GdkGC*, guint32);
+stbtid void (*fp_gdk_drbw_rfdtbnglf)(GdkDrbwbblf*, GdkGC*, gboolfbn,
+        gint, gint, gint, gint);
+stbtid GdkPixbuf *(*fp_gdk_pixbuf_nfw)(GdkColorspbdf dolorspbdf,
+        gboolfbn hbs_blphb, int bits_pfr_sbmplf, int width, int hfight);
+stbtid GdkPixbuf *(*fp_gdk_pixbuf_gft_from_drbwbblf)(GdkPixbuf *dfst,
+        GdkDrbwbblf *srd, GdkColormbp *dmbp, int srd_x, int srd_y,
+        int dfst_x, int dfst_y, int width, int hfight);
+stbtid void (*fp_gdk_drbwbblf_gft_sizf)(GdkDrbwbblf *drbwbblf,
+        gint* width, gint* hfight);
+
+/************************
+ * Gtk fundtion pointfrs
+ ************************/
+stbtid gboolfbn (*fp_gtk_init_dhfdk)(int* brgd, dhbr** brgv);
+
+/* Pbinting */
+stbtid void (*fp_gtk_pbint_hlinf)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GdkRfdtbnglf* brfb, GtkWidgft* widgft,
+        donst gdhbr* dftbil, gint x1, gint x2, gint y);
+stbtid void (*fp_gtk_pbint_vlinf)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GdkRfdtbnglf* brfb, GtkWidgft* widgft,
+        donst gdhbr* dftbil, gint y1, gint y2, gint x);
+stbtid void (*fp_gtk_pbint_shbdow)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight);
+stbtid void (*fp_gtk_pbint_brrow)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        GtkArrowTypf brrow_typf, gboolfbn fill, gint x, gint y,
+        gint width, gint hfight);
+stbtid void (*fp_gtk_pbint_dibmond)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight);
+stbtid void (*fp_gtk_pbint_box)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight);
+stbtid void (*fp_gtk_pbint_flbt_box)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight);
+stbtid void (*fp_gtk_pbint_dhfdk)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight);
+stbtid void (*fp_gtk_pbint_option)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight);
+stbtid void (*fp_gtk_pbint_box_gbp)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight,
+        GtkPositionTypf gbp_sidf, gint gbp_x, gint gbp_width);
+stbtid void (*fp_gtk_pbint_fxtfnsion)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight, GtkPositionTypf gbp_sidf);
+stbtid void (*fp_gtk_pbint_fodus)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GdkRfdtbnglf* brfb, GtkWidgft* widgft,
+        donst gdhbr* dftbil, gint x, gint y, gint width, gint hfight);
+stbtid void (*fp_gtk_pbint_slidfr)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight, GtkOrifntbtion orifntbtion);
+stbtid void (*fp_gtk_pbint_hbndlf)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GtkShbdowTypf shbdow_typf,
+        GdkRfdtbnglf* brfb, GtkWidgft* widgft, donst gdhbr* dftbil,
+        gint x, gint y, gint width, gint hfight, GtkOrifntbtion orifntbtion);
+stbtid void (*fp_gtk_pbint_fxpbndfr)(GtkStylf* stylf, GdkWindow* window,
+        GtkStbtfTypf stbtf_typf, GdkRfdtbnglf* brfb, GtkWidgft* widgft,
+        donst gdhbr* dftbil, gint x, gint y, GtkExpbndfrStylf fxpbndfr_stylf);
+stbtid void (*fp_gtk_stylf_bpply_dffbult_bbdkground)(GtkStylf* stylf,
+        GdkWindow* window, gboolfbn sft_bg, GtkStbtfTypf stbtf_typf,
+        GdkRfdtbnglf* brfb, gint x, gint y, gint width, gint hfight);
+
+/* Widgft drfbtion */
+stbtid GtkWidgft* (*fp_gtk_brrow_nfw)(GtkArrowTypf brrow_typf,
+                                      GtkShbdowTypf shbdow_typf);
+stbtid GtkWidgft* (*fp_gtk_button_nfw)();
+stbtid GtkWidgft* (*fp_gtk_dhfdk_button_nfw)();
+stbtid GtkWidgft* (*fp_gtk_dhfdk_mfnu_itfm_nfw)();
+stbtid GtkWidgft* (*fp_gtk_dolor_sflfdtion_diblog_nfw)(donst gdhbr* titlf);
+stbtid GtkWidgft* (*fp_gtk_dombo_box_nfw)();
+stbtid GtkWidgft* (*fp_gtk_dombo_box_fntry_nfw)();
+stbtid GtkWidgft* (*fp_gtk_fntry_nfw)();
+stbtid GtkWidgft* (*fp_gtk_fixfd_nfw)();
+stbtid GtkWidgft* (*fp_gtk_hbndlf_box_nfw)();
+stbtid GtkWidgft* (*fp_gtk_hpbnfd_nfw)();
+stbtid GtkWidgft* (*fp_gtk_vpbnfd_nfw)();
+stbtid GtkWidgft* (*fp_gtk_hsdblf_nfw)(GtkAdjustmfnt* bdjustmfnt);
+stbtid GtkWidgft* (*fp_gtk_vsdblf_nfw)(GtkAdjustmfnt* bdjustmfnt);
+stbtid GtkWidgft* (*fp_gtk_hsdrollbbr_nfw)(GtkAdjustmfnt* bdjustmfnt);
+stbtid GtkWidgft* (*fp_gtk_vsdrollbbr_nfw)(GtkAdjustmfnt* bdjustmfnt);
+stbtid GtkWidgft* (*fp_gtk_hsfpbrbtor_nfw)();
+stbtid GtkWidgft* (*fp_gtk_vsfpbrbtor_nfw)();
+stbtid GtkWidgft* (*fp_gtk_imbgf_nfw)();
+stbtid GtkWidgft* (*fp_gtk_lbbfl_nfw)(donst gdhbr* str);
+stbtid GtkWidgft* (*fp_gtk_mfnu_nfw)();
+stbtid GtkWidgft* (*fp_gtk_mfnu_bbr_nfw)();
+stbtid GtkWidgft* (*fp_gtk_mfnu_itfm_nfw)();
+stbtid GtkWidgft* (*fp_gtk_notfbook_nfw)();
+stbtid GtkWidgft* (*fp_gtk_progrfss_bbr_nfw)();
+stbtid GtkWidgft* (*fp_gtk_progrfss_bbr_sft_orifntbtion)(
+        GtkProgrfssBbr *pbbr,
+        GtkProgrfssBbrOrifntbtion orifntbtion);
+stbtid GtkWidgft* (*fp_gtk_rbdio_button_nfw)(GSList *group);
+stbtid GtkWidgft* (*fp_gtk_rbdio_mfnu_itfm_nfw)(GSList *group);
+stbtid GtkWidgft* (*fp_gtk_sdrollfd_window_nfw)(GtkAdjustmfnt *hbdjustmfnt,
+        GtkAdjustmfnt *vbdjustmfnt);
+stbtid GtkWidgft* (*fp_gtk_sfpbrbtor_mfnu_itfm_nfw)();
+stbtid GtkWidgft* (*fp_gtk_sfpbrbtor_tool_itfm_nfw)();
+stbtid GtkWidgft* (*fp_gtk_tfxt_vifw_nfw)();
+stbtid GtkWidgft* (*fp_gtk_togglf_button_nfw)();
+stbtid GtkWidgft* (*fp_gtk_toolbbr_nfw)();
+stbtid GtkWidgft* (*fp_gtk_trff_vifw_nfw)();
+stbtid GtkWidgft* (*fp_gtk_vifwport_nfw)(GtkAdjustmfnt *hbdjustmfnt,
+        GtkAdjustmfnt *vbdjustmfnt);
+stbtid GtkWidgft* (*fp_gtk_window_nfw)(GtkWindowTypf typf);
+stbtid GtkWidgft* (*fp_gtk_diblog_nfw)();
+stbtid GtkWidgft* (*fp_gtk_spin_button_nfw)(GtkAdjustmfnt *bdjustmfnt,
+        gdoublf dlimb_rbtf, guint digits);
+stbtid GtkWidgft* (*fp_gtk_frbmf_nfw)(donst gdhbr *lbbfl);
+
+/* Othfr widgft opfrbtions */
+stbtid GtkObjfdt* (*fp_gtk_bdjustmfnt_nfw)(gdoublf vbluf,
+        gdoublf lowfr, gdoublf uppfr, gdoublf stfp_indrfmfnt,
+        gdoublf pbgf_indrfmfnt, gdoublf pbgf_sizf);
+stbtid void (*fp_gtk_dontbinfr_bdd)(GtkContbinfr *window, GtkWidgft *widgft);
+stbtid void (*fp_gtk_mfnu_shfll_bppfnd)(GtkMfnuShfll *mfnu_shfll,
+        GtkWidgft *dhild);
+stbtid void (*fp_gtk_mfnu_itfm_sft_submfnu)(GtkMfnuItfm *mfnu_itfm,
+        GtkWidgft *submfnu);
+stbtid void (*fp_gtk_widgft_rfblizf)(GtkWidgft *widgft);
+stbtid GdkPixbuf* (*fp_gtk_widgft_rfndfr_idon)(GtkWidgft *widgft,
+        donst gdhbr *stodk_id, GtkIdonSizf sizf, donst gdhbr *dftbil);
+stbtid void (*fp_gtk_widgft_sft_nbmf)(GtkWidgft *widgft, donst gdhbr *nbmf);
+stbtid void (*fp_gtk_widgft_sft_pbrfnt)(GtkWidgft *widgft, GtkWidgft *pbrfnt);
+stbtid void (*fp_gtk_widgft_sft_dirfdtion)(GtkWidgft *widgft,
+        GtkTfxtDirfdtion dirfdtion);
+stbtid void (*fp_gtk_widgft_stylf_gft)(GtkWidgft *widgft,
+        donst gdhbr *first_propfrty_nbmf, ...);
+stbtid void (*fp_gtk_widgft_dlbss_instbll_stylf_propfrty)(
+        GtkWidgftClbss* dlbss, GPbrbmSpfd *pspfd);
+stbtid GPbrbmSpfd* (*fp_gtk_widgft_dlbss_find_stylf_propfrty)(
+        GtkWidgftClbss* dlbss, donst gdhbr* propfrty_nbmf);
+stbtid void (*fp_gtk_widgft_stylf_gft_propfrty)(GtkWidgft* widgft,
+        donst gdhbr* propfrty_nbmf, GVbluf* vbluf);
+stbtid dhbr* (*fp_pbngo_font_dfsdription_to_string)(
+        donst PbngoFontDfsdription* fd);
+stbtid GtkSfttings* (*fp_gtk_sfttings_gft_dffbult)();
+stbtid GtkSfttings* (*fp_gtk_widgft_gft_sfttings)(GtkWidgft *widgft);
+stbtid GTypf        (*fp_gtk_bordfr_gft_typf)();
+stbtid void (*fp_gtk_brrow_sft)(GtkWidgft* brrow,
+                                GtkArrowTypf brrow_typf,
+                                GtkShbdowTypf shbdow_typf);
+stbtid void (*fp_gtk_widgft_sizf_rfqufst)(GtkWidgft *widgft,
+                                          GtkRfquisition *rfquisition);
+stbtid GtkAdjustmfnt* (*fp_gtk_rbngf_gft_bdjustmfnt)(GtkRbngf* rbngf);
+
+/* Mfthod bodifs */
+donst dhbr *gftStrFor(JNIEnv *fnv, jstring vbl)
+{
+    int lfngth = (*fnv)->GftStringLfngth(fnv, vbl);
+    if (lfngth > CONV_BUFFER_SIZE-1)
+    {
+        lfngth = CONV_BUFFER_SIZE-1;
+#ifdff INTERNAL_BUILD
+        fprintf(stdfrr, "Notf: Dftbil is too long: %d dhbrs\n", lfngth);
+#fndif /* INTERNAL_BUILD */
+    }
+
+    (*fnv)->GftStringUTFRfgion(fnv, vbl, 0, lfngth, donvfrtionBufffr);
+    rfturn donvfrtionBufffr;
+}
+
+stbtid void throw_fxdfption(JNIEnv *fnv, donst dhbr* nbmf, donst dhbr* mfssbgf)
+{
+    jdlbss dlbss = (*fnv)->FindClbss(fnv, nbmf);
+
+    if (dlbss != NULL)
+        (*fnv)->ThrowNfw(fnv, dlbss, mfssbgf);
+
+    (*fnv)->DflftfLodblRff(fnv, dlbss);
+}
+
+/* This is b workbround for thf bug:
+ * http://sourdfwbrf.org/bugzillb/show_bug.dgi?id=1814
+ * (dlsym/dlopfn dlfbrs dlfrror stbtf)
+ * This bug is spfdifid to Linux, but thfrf is no hbrm in
+ * bpplying this workbround on Solbris bs wfll.
+ */
+stbtid void* dl_symbol(donst dhbr* nbmf)
+{
+    void* rfsult = dlsym(gtk2_libhbndlf, nbmf);
+    if (!rfsult)
+        longjmp(j, NO_SYMBOL_EXCEPTION);
+
+    rfturn rfsult;
+}
+
+stbtid void* dl_symbol_gthrfbd(donst dhbr* nbmf)
+{
+    void* rfsult = dlsym(gthrfbd_libhbndlf, nbmf);
+    if (!rfsult)
+        longjmp(j, NO_SYMBOL_EXCEPTION);
+
+    rfturn rfsult;
+}
+
+gboolfbn gtk2_dhfdk_vfrsion()
+{
+    if (gtk2_libhbndlf != NULL) {
+        /* Wf'vf blrfbdy suddfssfully opfnfd thf GTK libs, so rfturn truf. */
+        rfturn TRUE;
+    } flsf {
+        void *lib = NULL;
+        gboolfbn rfsult = FALSE;
+
+        lib = dlopfn(GTK2_LIB_VERSIONED, RTLD_LAZY | RTLD_LOCAL);
+        if (lib == NULL) {
+            lib = dlopfn(GTK2_LIB, RTLD_LAZY | RTLD_LOCAL);
+            if (lib == NULL) {
+                rfturn FALSE;
+            }
+        }
+
+        fp_gtk_dhfdk_vfrsion = dlsym(lib, "gtk_dhfdk_vfrsion");
+        /* Chfdk for GTK 2.2+ */
+        if (!fp_gtk_dhfdk_vfrsion(2, 2, 0)) {
+            rfsult = TRUE;
+        }
+
+        // 8048289: workbround for https://bugzillb.gnomf.org/show_bug.dgi?id=733065
+        // dldlosf(lib);
+
+        rfturn rfsult;
+    }
+}
+
+#dffinf ADD_SUPPORTED_ACTION(bdtionStr) \
+do { \
+    jfifldID fld_bdtion = (*fnv)->GftStbtidFifldID(fnv, dls_bdtion, bdtionStr, "Ljbvb/bwt/Dfsktop$Adtion;"); \
+    if (!(*fnv)->ExdfptionChfdk(fnv)) { \
+        jobjfdt bdtion = (*fnv)->GftStbtidObjfdtFifld(fnv, dls_bdtion, fld_bdtion); \
+        (*fnv)->CbllBoolfbnMfthod(fnv, supportfdAdtions, mid_brrbyListAdd, bdtion); \
+    } flsf { \
+        (*fnv)->ExdfptionClfbr(fnv); \
+    } \
+} whilf(0);
+
+
+void updbtf_supportfd_bdtions(JNIEnv *fnv) {
+    GVfs * (*fp_g_vfs_gft_dffbult) (void);
+    donst gdhbr * donst * (*fp_g_vfs_gft_supportfd_uri_sdhfmfs) (GVfs * vfs);
+    donst gdhbr * donst * sdhfmfs = NULL;
+
+    jdlbss dls_bdtion = (*fnv)->FindClbss(fnv, "jbvb/bwt/Dfsktop$Adtion");
+    CHECK_NULL(dls_bdtion);
+    jdlbss dls_xDfsktopPffr = (*fnv)->FindClbss(fnv, "sun/bwt/X11/XDfsktopPffr");
+    CHECK_NULL(dls_xDfsktopPffr);
+    jfifldID fld_supportfdAdtions = (*fnv)->GftStbtidFifldID(fnv, dls_xDfsktopPffr, "supportfdAdtions", "Ljbvb/util/List;");
+    CHECK_NULL(fld_supportfdAdtions);
+    jobjfdt supportfdAdtions = (*fnv)->GftStbtidObjfdtFifld(fnv, dls_xDfsktopPffr, fld_supportfdAdtions);
+
+    jdlbss dls_brrbyList = (*fnv)->FindClbss(fnv, "jbvb/util/ArrbyList");
+    CHECK_NULL(dls_brrbyList);
+    jmfthodID mid_brrbyListAdd = (*fnv)->GftMfthodID(fnv, dls_brrbyList, "bdd", "(Ljbvb/lbng/Objfdt;)Z");
+    CHECK_NULL(mid_brrbyListAdd);
+    jmfthodID mid_brrbyListClfbr = (*fnv)->GftMfthodID(fnv, dls_brrbyList, "dlfbr", "()V");
+    CHECK_NULL(mid_brrbyListClfbr);
+
+    (*fnv)->CbllVoidMfthod(fnv, supportfdAdtions, mid_brrbyListClfbr);
+
+    ADD_SUPPORTED_ACTION("OPEN");
+
+    /**
+     * gtk_show_uri() dodumfntbtion sbys:
+     *
+     * > you nffd to instbll gvfs to gft support for uri sdhfmfs sudh bs http://
+     * > or ftp://, bs only lodbl filfs brf hbndlfd by GIO itsflf.
+     *
+     * So OPEN bdtion wbs sbffly bddfd hfrf.
+     * Howfvfr, it looks likf Solbris 11 hbvf gvfs support only for 32-bit
+     * bpplidbtions only by dffbult.
+     */
+
+    fp_g_vfs_gft_dffbult = dl_symbol("g_vfs_gft_dffbult");
+    fp_g_vfs_gft_supportfd_uri_sdhfmfs = dl_symbol("g_vfs_gft_supportfd_uri_sdhfmfs");
+    dlfrror();
+
+    if (fp_g_vfs_gft_dffbult && fp_g_vfs_gft_supportfd_uri_sdhfmfs) {
+        GVfs * vfs = fp_g_vfs_gft_dffbult();
+        sdhfmfs = vfs ? fp_g_vfs_gft_supportfd_uri_sdhfmfs(vfs) : NULL;
+        if (sdhfmfs) {
+            int i = 0;
+            whilf (sdhfmfs[i]) {
+                if (strdmp(sdhfmfs[i], "http") == 0) {
+                    ADD_SUPPORTED_ACTION("BROWSE");
+                    ADD_SUPPORTED_ACTION("MAIL");
+                    brfbk;
+                }
+                i++;
+            }
+        }
+    } flsf {
+#ifdff INTERNAL_BUILD
+        fprintf(stdfrr, "Cbnnot lobd g_vfs_gft_supportfd_uri_sdhfmfs\n");
+#fndif /* INTERNAL_BUILD */
+    }
+
+}
+/**
+ * Fundtions for bwt_Dfsktop.d
+ */
+gboolfbn gtk2_show_uri_lobd(JNIEnv *fnv) {
+     gboolfbn suddfss = FALSE;
+     dlfrror();
+     donst dhbr *gtk_vfrsion = fp_gtk_dhfdk_vfrsion(2, 14, 0);
+     if (gtk_vfrsion != NULL) {
+         // Thf gtk_show_uri is bvbilbblf from GTK+ 2.14
+#ifdff INTERNAL_BUILD
+         fprintf (stdfrr, "Thf vfrsion of GTK is %s. "
+             "Thf gtk_show_uri fundtion is supportfd "
+             "sindf GTK+ 2.14.\n", gtk_vfrsion);
+#fndif /* INTERNAL_BUILD */
+     } flsf {
+         // Lobding symbols only if thf GTK vfrsion is 2.14 bnd highfr
+         fp_gtk_show_uri = dl_symbol("gtk_show_uri");
+         donst dhbr *dlsym_frror = dlfrror();
+         if (dlsym_frror) {
+#ifdff INTERNAL_BUILD
+             fprintf (stdfrr, "Cbnnot lobd symbol: %s \n", dlsym_frror);
+#fndif /* INTERNAL_BUILD */
+         } flsf if (fp_gtk_show_uri == NULL) {
+#ifdff INTERNAL_BUILD
+             fprintf(stdfrr, "dlsym(gtk_show_uri) rfturnfd NULL\n");
+#fndif /* INTERNAL_BUILD */
+        } flsf {
+            updbtf_supportfd_bdtions(fnv);
+            suddfss = TRUE;
+        }
+     }
+     rfturn suddfss;
+}
+
+/**
+ * Fundtions for sun_bwt_X11_GtkFilfDiblogPffr.d
+ */
+void gtk2_filf_dhoosfr_lobd()
+{
+    fp_gtk_filf_dhoosfr_gft_filfnbmf = dl_symbol(
+            "gtk_filf_dhoosfr_gft_filfnbmf");
+    fp_gtk_filf_dhoosfr_diblog_nfw = dl_symbol("gtk_filf_dhoosfr_diblog_nfw");
+    fp_gtk_filf_dhoosfr_sft_durrfnt_foldfr = dl_symbol(
+            "gtk_filf_dhoosfr_sft_durrfnt_foldfr");
+    fp_gtk_filf_dhoosfr_sft_filfnbmf = dl_symbol(
+            "gtk_filf_dhoosfr_sft_filfnbmf");
+    fp_gtk_filf_dhoosfr_sft_durrfnt_nbmf = dl_symbol(
+            "gtk_filf_dhoosfr_sft_durrfnt_nbmf");
+    fp_gtk_filf_filtfr_bdd_dustom = dl_symbol("gtk_filf_filtfr_bdd_dustom");
+    fp_gtk_filf_dhoosfr_sft_filtfr = dl_symbol("gtk_filf_dhoosfr_sft_filtfr");
+    fp_gtk_filf_dhoosfr_gft_typf = dl_symbol("gtk_filf_dhoosfr_gft_typf");
+    fp_gtk_filf_filtfr_nfw = dl_symbol("gtk_filf_filtfr_nfw");
+    if (fp_gtk_dhfdk_vfrsion(2, 8, 0) == NULL) {
+        fp_gtk_filf_dhoosfr_sft_do_ovfrwritf_donfirmbtion = dl_symbol(
+                "gtk_filf_dhoosfr_sft_do_ovfrwritf_donfirmbtion");
+    }
+    fp_gtk_filf_dhoosfr_sft_sflfdt_multiplf = dl_symbol(
+            "gtk_filf_dhoosfr_sft_sflfdt_multiplf");
+    fp_gtk_filf_dhoosfr_gft_durrfnt_foldfr = dl_symbol(
+            "gtk_filf_dhoosfr_gft_durrfnt_foldfr");
+    fp_gtk_filf_dhoosfr_gft_filfnbmfs = dl_symbol(
+            "gtk_filf_dhoosfr_gft_filfnbmfs");
+    fp_gtk_g_slist_lfngth = dl_symbol("g_slist_lfngth");
+}
+
+gboolfbn gtk2_lobd(JNIEnv *fnv)
+{
+    gboolfbn rfsult;
+    int i;
+    int (*hbndlfr)();
+    int (*io_hbndlfr)();
+    dhbr *gtk_modulfs_fnv;
+
+    gtk2_libhbndlf = dlopfn(GTK2_LIB_VERSIONED, RTLD_LAZY | RTLD_LOCAL);
+    if (gtk2_libhbndlf == NULL) {
+        gtk2_libhbndlf = dlopfn(GTK2_LIB, RTLD_LAZY | RTLD_LOCAL);
+        if (gtk2_libhbndlf == NULL)
+            rfturn FALSE;
+    }
+
+    gthrfbd_libhbndlf = dlopfn(GTHREAD_LIB_VERSIONED, RTLD_LAZY | RTLD_LOCAL);
+    if (gthrfbd_libhbndlf == NULL) {
+        gthrfbd_libhbndlf = dlopfn(GTHREAD_LIB, RTLD_LAZY | RTLD_LOCAL);
+        if (gthrfbd_libhbndlf == NULL)
+            rfturn FALSE;
+    }
+
+    if (sftjmp(j) == 0)
+    {
+        fp_gtk_dhfdk_vfrsion = dl_symbol("gtk_dhfdk_vfrsion");
+        /* Chfdk for GTK 2.2+ */
+        if (fp_gtk_dhfdk_vfrsion(2, 2, 0)) {
+            longjmp(j, NO_SYMBOL_EXCEPTION);
+        }
+
+        /* GLib */
+        fp_glib_dhfdk_vfrsion = dlsym(gtk2_libhbndlf, "glib_dhfdk_vfrsion");
+        if (!fp_glib_dhfdk_vfrsion) {
+            dlfrror();
+        }
+        fp_g_frff = dl_symbol("g_frff");
+        fp_g_objfdt_unrff = dl_symbol("g_objfdt_unrff");
+
+        fp_g_mbin_dontfxt_itfrbtion =
+            dl_symbol("g_mbin_dontfxt_itfrbtion");
+
+        fp_g_vbluf_init = dl_symbol("g_vbluf_init");
+        fp_g_typf_is_b = dl_symbol("g_typf_is_b");
+
+        fp_g_vbluf_gft_boolfbn = dl_symbol("g_vbluf_gft_boolfbn");
+        fp_g_vbluf_gft_dhbr = dl_symbol("g_vbluf_gft_dhbr");
+        fp_g_vbluf_gft_udhbr = dl_symbol("g_vbluf_gft_udhbr");
+        fp_g_vbluf_gft_int = dl_symbol("g_vbluf_gft_int");
+        fp_g_vbluf_gft_uint = dl_symbol("g_vbluf_gft_uint");
+        fp_g_vbluf_gft_long = dl_symbol("g_vbluf_gft_long");
+        fp_g_vbluf_gft_ulong = dl_symbol("g_vbluf_gft_ulong");
+        fp_g_vbluf_gft_int64 = dl_symbol("g_vbluf_gft_int64");
+        fp_g_vbluf_gft_uint64 = dl_symbol("g_vbluf_gft_uint64");
+        fp_g_vbluf_gft_flobt = dl_symbol("g_vbluf_gft_flobt");
+        fp_g_vbluf_gft_doublf = dl_symbol("g_vbluf_gft_doublf");
+        fp_g_vbluf_gft_string = dl_symbol("g_vbluf_gft_string");
+        fp_g_vbluf_gft_fnum = dl_symbol("g_vbluf_gft_fnum");
+        fp_g_vbluf_gft_flbgs = dl_symbol("g_vbluf_gft_flbgs");
+        fp_g_vbluf_gft_pbrbm = dl_symbol("g_vbluf_gft_pbrbm");
+        fp_g_vbluf_gft_boxfd = dl_symbol("g_vbluf_gft_boxfd");
+        fp_g_vbluf_gft_pointfr = dl_symbol("g_vbluf_gft_pointfr");
+        fp_g_vbluf_gft_objfdt = dl_symbol("g_vbluf_gft_objfdt");
+        fp_g_pbrbm_spfd_int = dl_symbol("g_pbrbm_spfd_int");
+        fp_g_objfdt_gft = dl_symbol("g_objfdt_gft");
+        fp_g_objfdt_sft = dl_symbol("g_objfdt_sft");
+
+        /* GDK */
+        fp_gdk_pixmbp_nfw = dl_symbol("gdk_pixmbp_nfw");
+        fp_gdk_pixbuf_gft_from_drbwbblf =
+            dl_symbol("gdk_pixbuf_gft_from_drbwbblf");
+        fp_gdk_gd_nfw = dl_symbol("gdk_gd_nfw");
+        fp_gdk_rgb_gd_sft_forfground =
+            dl_symbol("gdk_rgb_gd_sft_forfground");
+        fp_gdk_drbw_rfdtbnglf = dl_symbol("gdk_drbw_rfdtbnglf");
+        fp_gdk_drbwbblf_gft_sizf = dl_symbol("gdk_drbwbblf_gft_sizf");
+
+        /* Pixbuf */
+        fp_gdk_pixbuf_nfw = dl_symbol("gdk_pixbuf_nfw");
+        fp_gdk_pixbuf_nfw_from_filf =
+                dl_symbol("gdk_pixbuf_nfw_from_filf");
+        fp_gdk_pixbuf_gft_width = dl_symbol("gdk_pixbuf_gft_width");
+        fp_gdk_pixbuf_gft_hfight = dl_symbol("gdk_pixbuf_gft_hfight");
+        fp_gdk_pixbuf_gft_pixfls = dl_symbol("gdk_pixbuf_gft_pixfls");
+        fp_gdk_pixbuf_gft_rowstridf =
+                dl_symbol("gdk_pixbuf_gft_rowstridf");
+        fp_gdk_pixbuf_gft_hbs_blphb =
+                dl_symbol("gdk_pixbuf_gft_hbs_blphb");
+        fp_gdk_pixbuf_gft_bits_pfr_sbmplf =
+                dl_symbol("gdk_pixbuf_gft_bits_pfr_sbmplf");
+        fp_gdk_pixbuf_gft_n_dhbnnfls =
+                dl_symbol("gdk_pixbuf_gft_n_dhbnnfls");
+
+        /* GTK pbinting */
+        fp_gtk_init_dhfdk = dl_symbol("gtk_init_dhfdk");
+        fp_gtk_pbint_hlinf = dl_symbol("gtk_pbint_hlinf");
+        fp_gtk_pbint_vlinf = dl_symbol("gtk_pbint_vlinf");
+        fp_gtk_pbint_shbdow = dl_symbol("gtk_pbint_shbdow");
+        fp_gtk_pbint_brrow = dl_symbol("gtk_pbint_brrow");
+        fp_gtk_pbint_dibmond = dl_symbol("gtk_pbint_dibmond");
+        fp_gtk_pbint_box = dl_symbol("gtk_pbint_box");
+        fp_gtk_pbint_flbt_box = dl_symbol("gtk_pbint_flbt_box");
+        fp_gtk_pbint_dhfdk = dl_symbol("gtk_pbint_dhfdk");
+        fp_gtk_pbint_option = dl_symbol("gtk_pbint_option");
+        fp_gtk_pbint_box_gbp = dl_symbol("gtk_pbint_box_gbp");
+        fp_gtk_pbint_fxtfnsion = dl_symbol("gtk_pbint_fxtfnsion");
+        fp_gtk_pbint_fodus = dl_symbol("gtk_pbint_fodus");
+        fp_gtk_pbint_slidfr = dl_symbol("gtk_pbint_slidfr");
+        fp_gtk_pbint_hbndlf = dl_symbol("gtk_pbint_hbndlf");
+        fp_gtk_pbint_fxpbndfr = dl_symbol("gtk_pbint_fxpbndfr");
+        fp_gtk_stylf_bpply_dffbult_bbdkground =
+                dl_symbol("gtk_stylf_bpply_dffbult_bbdkground");
+
+        /* GTK widgfts */
+        fp_gtk_brrow_nfw = dl_symbol("gtk_brrow_nfw");
+        fp_gtk_button_nfw = dl_symbol("gtk_button_nfw");
+        fp_gtk_spin_button_nfw = dl_symbol("gtk_spin_button_nfw");
+        fp_gtk_dhfdk_button_nfw = dl_symbol("gtk_dhfdk_button_nfw");
+        fp_gtk_dhfdk_mfnu_itfm_nfw =
+                dl_symbol("gtk_dhfdk_mfnu_itfm_nfw");
+        fp_gtk_dolor_sflfdtion_diblog_nfw =
+                dl_symbol("gtk_dolor_sflfdtion_diblog_nfw");
+        fp_gtk_fntry_nfw = dl_symbol("gtk_fntry_nfw");
+        fp_gtk_fixfd_nfw = dl_symbol("gtk_fixfd_nfw");
+        fp_gtk_hbndlf_box_nfw = dl_symbol("gtk_hbndlf_box_nfw");
+        fp_gtk_imbgf_nfw = dl_symbol("gtk_imbgf_nfw");
+        fp_gtk_hpbnfd_nfw = dl_symbol("gtk_hpbnfd_nfw");
+        fp_gtk_vpbnfd_nfw = dl_symbol("gtk_vpbnfd_nfw");
+        fp_gtk_hsdblf_nfw = dl_symbol("gtk_hsdblf_nfw");
+        fp_gtk_vsdblf_nfw = dl_symbol("gtk_vsdblf_nfw");
+        fp_gtk_hsdrollbbr_nfw = dl_symbol("gtk_hsdrollbbr_nfw");
+        fp_gtk_vsdrollbbr_nfw = dl_symbol("gtk_vsdrollbbr_nfw");
+        fp_gtk_hsfpbrbtor_nfw = dl_symbol("gtk_hsfpbrbtor_nfw");
+        fp_gtk_vsfpbrbtor_nfw = dl_symbol("gtk_vsfpbrbtor_nfw");
+        fp_gtk_lbbfl_nfw = dl_symbol("gtk_lbbfl_nfw");
+        fp_gtk_mfnu_nfw = dl_symbol("gtk_mfnu_nfw");
+        fp_gtk_mfnu_bbr_nfw = dl_symbol("gtk_mfnu_bbr_nfw");
+        fp_gtk_mfnu_itfm_nfw = dl_symbol("gtk_mfnu_itfm_nfw");
+        fp_gtk_mfnu_itfm_sft_submfnu =
+                dl_symbol("gtk_mfnu_itfm_sft_submfnu");
+        fp_gtk_notfbook_nfw = dl_symbol("gtk_notfbook_nfw");
+        fp_gtk_progrfss_bbr_nfw =
+            dl_symbol("gtk_progrfss_bbr_nfw");
+        fp_gtk_progrfss_bbr_sft_orifntbtion =
+            dl_symbol("gtk_progrfss_bbr_sft_orifntbtion");
+        fp_gtk_rbdio_button_nfw =
+            dl_symbol("gtk_rbdio_button_nfw");
+        fp_gtk_rbdio_mfnu_itfm_nfw =
+            dl_symbol("gtk_rbdio_mfnu_itfm_nfw");
+        fp_gtk_sdrollfd_window_nfw =
+            dl_symbol("gtk_sdrollfd_window_nfw");
+        fp_gtk_sfpbrbtor_mfnu_itfm_nfw =
+            dl_symbol("gtk_sfpbrbtor_mfnu_itfm_nfw");
+        fp_gtk_tfxt_vifw_nfw = dl_symbol("gtk_tfxt_vifw_nfw");
+        fp_gtk_togglf_button_nfw =
+            dl_symbol("gtk_togglf_button_nfw");
+        fp_gtk_toolbbr_nfw = dl_symbol("gtk_toolbbr_nfw");
+        fp_gtk_trff_vifw_nfw = dl_symbol("gtk_trff_vifw_nfw");
+        fp_gtk_vifwport_nfw = dl_symbol("gtk_vifwport_nfw");
+        fp_gtk_window_nfw = dl_symbol("gtk_window_nfw");
+        fp_gtk_window_prfsfnt = dl_symbol("gtk_window_prfsfnt");
+        fp_gtk_window_movf = dl_symbol("gtk_window_movf");
+        fp_gtk_window_rfsizf = dl_symbol("gtk_window_rfsizf");
+
+          fp_gtk_diblog_nfw = dl_symbol("gtk_diblog_nfw");
+        fp_gtk_frbmf_nfw = dl_symbol("gtk_frbmf_nfw");
+
+        fp_gtk_bdjustmfnt_nfw = dl_symbol("gtk_bdjustmfnt_nfw");
+        fp_gtk_dontbinfr_bdd = dl_symbol("gtk_dontbinfr_bdd");
+        fp_gtk_mfnu_shfll_bppfnd =
+            dl_symbol("gtk_mfnu_shfll_bppfnd");
+        fp_gtk_widgft_rfblizf = dl_symbol("gtk_widgft_rfblizf");
+        fp_gtk_widgft_dfstroy = dl_symbol("gtk_widgft_dfstroy");
+        fp_gtk_widgft_rfndfr_idon =
+            dl_symbol("gtk_widgft_rfndfr_idon");
+        fp_gtk_widgft_sft_nbmf =
+            dl_symbol("gtk_widgft_sft_nbmf");
+        fp_gtk_widgft_sft_pbrfnt =
+            dl_symbol("gtk_widgft_sft_pbrfnt");
+        fp_gtk_widgft_sft_dirfdtion =
+            dl_symbol("gtk_widgft_sft_dirfdtion");
+        fp_gtk_widgft_stylf_gft =
+            dl_symbol("gtk_widgft_stylf_gft");
+        fp_gtk_widgft_dlbss_instbll_stylf_propfrty =
+            dl_symbol("gtk_widgft_dlbss_instbll_stylf_propfrty");
+        fp_gtk_widgft_dlbss_find_stylf_propfrty =
+            dl_symbol("gtk_widgft_dlbss_find_stylf_propfrty");
+        fp_gtk_widgft_stylf_gft_propfrty =
+            dl_symbol("gtk_widgft_stylf_gft_propfrty");
+        fp_pbngo_font_dfsdription_to_string =
+            dl_symbol("pbngo_font_dfsdription_to_string");
+        fp_gtk_sfttings_gft_dffbult =
+            dl_symbol("gtk_sfttings_gft_dffbult");
+        fp_gtk_widgft_gft_sfttings =
+            dl_symbol("gtk_widgft_gft_sfttings");
+        fp_gtk_bordfr_gft_typf =  dl_symbol("gtk_bordfr_gft_typf");
+        fp_gtk_brrow_sft = dl_symbol("gtk_brrow_sft");
+        fp_gtk_widgft_sizf_rfqufst =
+            dl_symbol("gtk_widgft_sizf_rfqufst");
+        fp_gtk_rbngf_gft_bdjustmfnt =
+            dl_symbol("gtk_rbngf_gft_bdjustmfnt");
+
+        fp_gtk_widgft_hidf = dl_symbol("gtk_widgft_hidf");
+        fp_gtk_mbin_quit = dl_symbol("gtk_mbin_quit");
+        fp_g_signbl_donnfdt_dbtb = dl_symbol("g_signbl_donnfdt_dbtb");
+        fp_gtk_widgft_show = dl_symbol("gtk_widgft_show");
+        fp_gtk_mbin = dl_symbol("gtk_mbin");
+
+        fp_g_pbth_gft_dirnbmf = dl_symbol("g_pbth_gft_dirnbmf");
+
+        /**
+         * GLib thrfbd systfm
+         */
+        if (GLIB_CHECK_VERSION(2, 20, 0)) {
+            fp_g_thrfbd_gft_initiblizfd = dl_symbol_gthrfbd("g_thrfbd_gft_initiblizfd");
+        }
+        fp_g_thrfbd_init = dl_symbol_gthrfbd("g_thrfbd_init");
+        fp_gdk_thrfbds_init = dl_symbol("gdk_thrfbds_init");
+        fp_gdk_thrfbds_fntfr = dl_symbol("gdk_thrfbds_fntfr");
+        fp_gdk_thrfbds_lfbvf = dl_symbol("gdk_thrfbds_lfbvf");
+
+        /**
+         * Fundtions for sun_bwt_X11_GtkFilfDiblogPffr.d
+         */
+        if (fp_gtk_dhfdk_vfrsion(2, 4, 0) == NULL) {
+            // Thf durrfnt GtkFilfChoosfr is bvbilbblf from GTK+ 2.4
+            gtk2_filf_dhoosfr_lobd();
+        }
+
+        /* Somf fundtions mby bf missing in prf-2.4 GTK.
+           Wf hbndlf thfm spfdiblly hfrf.
+         */
+        fp_gtk_dombo_box_nfw = dlsym(gtk2_libhbndlf, "gtk_dombo_box_nfw");
+        if (fp_gtk_dombo_box_nfw == NULL) {
+            fp_gtk_dombo_box_nfw = dl_symbol("gtk_dombo_nfw");
+        }
+
+        fp_gtk_dombo_box_fntry_nfw =
+            dlsym(gtk2_libhbndlf, "gtk_dombo_box_fntry_nfw");
+        if (fp_gtk_dombo_box_fntry_nfw == NULL) {
+            fp_gtk_dombo_box_fntry_nfw = dl_symbol("gtk_dombo_nfw");
+            nfw_dombo = FALSE;
+        }
+
+        fp_gtk_sfpbrbtor_tool_itfm_nfw =
+            dlsym(gtk2_libhbndlf, "gtk_sfpbrbtor_tool_itfm_nfw");
+        if (fp_gtk_sfpbrbtor_tool_itfm_nfw == NULL) {
+            fp_gtk_sfpbrbtor_tool_itfm_nfw =
+                dl_symbol("gtk_vsfpbrbtor_nfw");
+        }
+    }
+    /* Now wf hbvf only onf kind of fxdfptions: NO_SYMBOL_EXCEPTION
+     * Othfrwisf wf dbn dhfdk thf rfturn vbluf of sftjmp mfthod.
+     */
+    flsf
+    {
+        dldlosf(gtk2_libhbndlf);
+        gtk2_libhbndlf = NULL;
+
+        dldlosf(gthrfbd_libhbndlf);
+        gthrfbd_libhbndlf = NULL;
+
+        rfturn FALSE;
+    }
+
+    /*
+     * Strip thf AT-SPI GTK_MODULEs if prfsfnt
+     */
+    gtk_modulfs_fnv = gftfnv ("GTK_MODULES");
+
+    if (gtk_modulfs_fnv && strstr (gtk_modulfs_fnv, "btk-bridgf") ||
+        gtk_modulfs_fnv && strstr (gtk_modulfs_fnv, "gbil"))
+    {
+        /* thf nfw fnv will bf smbllfr thbn thf old onf */
+        gdhbr *s, *nfw_fnv = SAFE_SIZE_STRUCT_ALLOC(mbllod,
+                sizfof(ENV_PREFIX), 1, strlfn (gtk_modulfs_fnv));
+
+        if (nfw_fnv != NULL )
+        {
+            /* dbrfful, strtok modififs its brgs */
+            gdhbr *tmp_fnv = strdup (gtk_modulfs_fnv);
+            strdpy(nfw_fnv, ENV_PREFIX);
+
+            /* strip out 'btk-bridgf' bnd 'gbil' */
+            sizf_t PREFIX_LENGTH = strlfn(ENV_PREFIX);
+            whilf (s = strtok(tmp_fnv, ":"))
+            {
+                if ((!strstr (s, "btk-bridgf")) && (!strstr (s, "gbil")))
+                {
+                    if (strlfn (nfw_fnv) > PREFIX_LENGTH) {
+                        nfw_fnv = strdbt (nfw_fnv, ":");
+                    }
+                    nfw_fnv = strdbt(nfw_fnv, s);
+                }
+                if (tmp_fnv)
+                {
+                    frff (tmp_fnv);
+                    tmp_fnv = NULL; /* nfxt dbll to strtok brg1==NULL */
+                }
+            }
+            putfnv (nfw_fnv);
+            frff (nfw_fnv);
+            frff (tmp_fnv);
+        }
+    }
+
+    /*
+     * GTK should bf initiblizfd with gtk_init_dhfdk() bfforf usf.
+     *
+     * gtk_init_dhfdk instblls its own frror hbndlfrs. It is dritidbl thbt
+     * wf prfsfrvf frror hbndlfr sft from AWT. Othfrwisf wf'll drbsh on
+     * BbdMbtdh frrors whidh wf would normblly ignorf. Thf IO frror hbndlfr
+     * is prfsfrvfd hfrf, too, just for donsistfndy.
+    */
+    hbndlfr = XSftErrorHbndlfr(NULL);
+    io_hbndlfr = XSftIOErrorHbndlfr(NULL);
+
+    if (fp_gtk_dhfdk_vfrsion(2, 2, 0) == NULL) {
+        jdlbss dlbzz = (*fnv)->FindClbss(fnv, "sun/misd/GThrfbdHflpfr");
+        jmfthodID mid_gftAndSftInitiblizbtionNffdfdFlbg =
+                (*fnv)->GftStbtidMfthodID(fnv, dlbzz, "gftAndSftInitiblizbtionNffdfdFlbg", "()Z");
+        jmfthodID mid_lodk = (*fnv)->GftStbtidMfthodID(fnv, dlbzz, "lodk", "()V");
+        jmfthodID mid_unlodk = (*fnv)->GftStbtidMfthodID(fnv, dlbzz, "unlodk", "()V");
+
+        // Init thf thrfbd systfm to usf GLib in b thrfbd-sbff modf
+        (*fnv)->CbllStbtidVoidMfthod(fnv, dlbzz, mid_lodk);
+
+        // Cblling g_thrfbd_init() multiplf timfs lfbds to drbsh on GLib < 2.24
+        // Wf dbn usf g_thrfbd_gft_initiblizfd () but it is bvbilbblf only for
+        // GLib >= 2.20. Wf rfly on GThrfbdHflpfr for GLib < 2.20.
+        gboolfbn is_g_thrfbd_gft_initiblizfd = FALSE;
+        if (GLIB_CHECK_VERSION(2, 20, 0)) {
+            is_g_thrfbd_gft_initiblizfd = fp_g_thrfbd_gft_initiblizfd();
+        }
+
+        if (!(*fnv)->CbllStbtidBoolfbnMfthod(fnv, dlbzz, mid_gftAndSftInitiblizbtionNffdfdFlbg)) {
+            if (!is_g_thrfbd_gft_initiblizfd) {
+                fp_g_thrfbd_init(NULL);
+            }
+
+            //Addording thf GTK dodumfntbtion, gdk_thrfbds_init() should bf
+            //dbllfd bfforf gtk_init() or gtk_init_dhfdk()
+            fp_gdk_thrfbds_init();
+        }
+        (*fnv)->CbllStbtidVoidMfthod(fnv, dlbzz, mid_unlodk);
+    }
+    rfsult = (*fp_gtk_init_dhfdk)(NULL, NULL);
+
+    XSftErrorHbndlfr(hbndlfr);
+    XSftIOErrorHbndlfr(io_hbndlfr);
+
+    /* Initiblizf widgft brrby. */
+    for (i = 0; i < _GTK_WIDGET_TYPE_SIZE; i++)
+    {
+        gtk2_widgfts[i] = NULL;
+    }
+
+    rfturn rfsult;
+}
+
+int gtk2_unlobd()
+{
+    int i;
+    dhbr *gtk2_frror;
+
+    if (!gtk2_libhbndlf)
+        rfturn TRUE;
+
+    /* Rflfbsf pbinting objfdts */
+    if (gtk2_whitf_pixmbp != NULL) {
+        (*fp_g_objfdt_unrff)(gtk2_whitf_pixmbp);
+        (*fp_g_objfdt_unrff)(gtk2_blbdk_pixmbp);
+        (*fp_g_objfdt_unrff)(gtk2_whitf_pixbuf);
+        (*fp_g_objfdt_unrff)(gtk2_blbdk_pixbuf);
+        gtk2_whitf_pixmbp = gtk2_blbdk_pixmbp =
+            gtk2_whitf_pixbuf = gtk2_blbdk_pixbuf = NULL;
+    }
+    gtk2_pixbuf_width = 0;
+    gtk2_pixbuf_hfight = 0;
+
+    if (gtk2_window != NULL) {
+        /* Dfstroying toplfvfl widgft will dfstroy bll dontbinfd widgfts */
+        (*fp_gtk_widgft_dfstroy)(gtk2_window);
+
+        /* Unsft somf stbtid dbtb so thfy gft rfinitiblizfd on nfxt lobd */
+        gtk2_window = NULL;
+    }
+
+    dlfrror();
+    dldlosf(gtk2_libhbndlf);
+    dldlosf(gthrfbd_libhbndlf);
+    if ((gtk2_frror = dlfrror()) != NULL)
+    {
+        rfturn FALSE;
+    }
+    rfturn TRUE;
+}
+
+/* Dispbtdh bll pfnding fvfnts from thf GTK fvfnt loop.
+ * This is nffdfd to dbtdh thfmf dhbngf bnd updbtf widgfts' stylf.
+ */
+void flush_gtk_fvfnt_loop()
+{
+    whilf( (*fp_g_mbin_dontfxt_itfrbtion)(NULL, FALSE));
+}
+
+/*
+ * Initiblizf domponfnts of dontbinmfnt hifrbrdhy. This drfbtfs b GtkFixfd
+ * insidf b GtkWindow. All widgfts gft rfblizfd.
+ */
+stbtid void init_dontbinfrs()
+{
+    if (gtk2_window == NULL)
+    {
+        gtk2_window = (*fp_gtk_window_nfw)(GTK_WINDOW_TOPLEVEL);
+        gtk2_fixfd = (GtkFixfd *)(*fp_gtk_fixfd_nfw)();
+        (*fp_gtk_dontbinfr_bdd)((GtkContbinfr*)gtk2_window,
+                                (GtkWidgft *)gtk2_fixfd);
+        (*fp_gtk_widgft_rfblizf)(gtk2_window);
+        (*fp_gtk_widgft_rfblizf)((GtkWidgft *)gtk2_fixfd);
+    }
+}
+
+/*
+ * Ensurf fvfrything is rfbdy for drbwing bn flfmfnt of thf spfdififd width
+ * bnd hfight.
+ *
+ * Wf should somfhow hbndlf trbnsludfnt imbgfs. GTK dbn drbw to X Drbwbblfs
+ * only, whidh don't support blphb. Whfn wf rftrifvf thf imbgf bbdk from
+ * thf sfrvfr, trbnsludfndy informbtion is lost. Thfrf'rf sfvfrbl wbys to
+ * work bround this:
+ * 1) Subdlbss GdkPixmbp bnd dbdhf trbnsludfnt objfdts on dlifnt sidf. This
+ * rfquirfs us to implfmfnt pbrts of X sfrvfr drbwing logid on dlifnt sidf.
+ * Mbny X rfqufsts dbn potfntiblly bf "trbnsludfnt"; f.g. XDrbwLinf with
+ * fill=tilf bnd b trbnsludfnt tilf is b "trbnsludfnt" opfrbtion, whfrfbs
+ * XDrbwLinf with fill=solid is bn "opbquf" onf. Morfovfr thfmfs dbn (bnd somf
+ * do) intfrmix trbnspbrfnt bnd opbquf opfrbtions whidh mbkfs dbdhing fvfn
+ * morf problfmbtid.
+ * 2) Usf Xorg 32bit ARGB visubl whfn bvbilbblf. GDK hbs no nbtivf support
+ * for it (bs of vfrsion 2.6). Also fvfn in JDS 3 Xorg dofs not support
+ * thfsf visubls by dffbult, whidh mbkfs optimizing for thfm pointlfss.
+ * Wf dbn donsidfr doing this bt b lbtfr point whfn ARGB visubls bfdomf morf
+ * populbr.
+ * 3') GTK hbs plbns to usf Cbiro bs its grbphidbl bbdkfnd (prfsumbbly in
+ * 2.8), bnd Cbiro supports blphb. With it wf dould blso gft rid of thf
+ * unnfdfssbry round trip to sfrvfr bnd do bll thf drbwing on dlifnt sidf.
+ * 4) For now wf drbw to two difffrfnt pixmbps bnd rfstorf blphb dhbnnfl by
+ * dompbring rfsults. This dbn bf optimizfd by using subdlbssfd pixmbp bnd
+ * doing thf sfdond drbwing only if nfdfssbry.
+*/
+void gtk2_init_pbinting(JNIEnv *fnv, gint width, gint hfight)
+{
+    GdkGC *gd;
+    GdkPixbuf *whitf, *blbdk;
+
+    init_dontbinfrs();
+
+    if (gtk2_pixbuf_width < width || gtk2_pixbuf_hfight < hfight)
+    {
+        whitf = (*fp_gdk_pixbuf_nfw)(GDK_COLORSPACE_RGB, TRUE, 8, width, hfight);
+        blbdk = (*fp_gdk_pixbuf_nfw)(GDK_COLORSPACE_RGB, TRUE, 8, width, hfight);
+
+        if (whitf == NULL || blbdk == NULL)
+        {
+            snprintf(donvfrtionBufffr, CONV_BUFFER_SIZE, "Couldn't drfbtf pixbuf of sizf %dx%d", width, hfight);
+            throw_fxdfption(fnv, "jbvb/lbng/RuntimfExdfption", donvfrtionBufffr);
+            fp_gdk_thrfbds_lfbvf();
+            rfturn;
+        }
+
+        if (gtk2_whitf_pixmbp != NULL) {
+            /* frff old stuff */
+            (*fp_g_objfdt_unrff)(gtk2_whitf_pixmbp);
+            (*fp_g_objfdt_unrff)(gtk2_blbdk_pixmbp);
+            (*fp_g_objfdt_unrff)(gtk2_whitf_pixbuf);
+            (*fp_g_objfdt_unrff)(gtk2_blbdk_pixbuf);
+        }
+
+        gtk2_whitf_pixmbp = (*fp_gdk_pixmbp_nfw)(gtk2_window->window, width, hfight, -1);
+        gtk2_blbdk_pixmbp = (*fp_gdk_pixmbp_nfw)(gtk2_window->window, width, hfight, -1);
+
+        gtk2_whitf_pixbuf = whitf;
+        gtk2_blbdk_pixbuf = blbdk;
+
+        gtk2_pixbuf_width = width;
+        gtk2_pixbuf_hfight = hfight;
+    }
+
+    /* dlfbr thf pixmbps */
+    gd = (*fp_gdk_gd_nfw)(gtk2_whitf_pixmbp);
+    (*fp_gdk_rgb_gd_sft_forfground)(gd, 0xffffff);
+    (*fp_gdk_drbw_rfdtbnglf)(gtk2_whitf_pixmbp, gd, TRUE, 0, 0, width, hfight);
+    (*fp_g_objfdt_unrff)(gd);
+
+    gd = (*fp_gdk_gd_nfw)(gtk2_blbdk_pixmbp);
+    (*fp_gdk_rgb_gd_sft_forfground)(gd, 0x000000);
+    (*fp_gdk_drbw_rfdtbnglf)(gtk2_blbdk_pixmbp, gd, TRUE, 0, 0, width, hfight);
+    (*fp_g_objfdt_unrff)(gd);
+}
+
+/*
+ * Rfstorf imbgf from whitf bnd blbdk pixmbps bnd dopy it into dfstinbtion
+ * bufffr. This mfthod dompbrfs two pixbufs tbkfn from whitf bnd blbdk
+ * pixmbps bnd dfdodfs dolor bnd blphb domponfnts. Pixbufs brf RGB without
+ * blphb, dfstinbtion bufffr is ABGR.
+ *
+ * Thf rfturn vbluf is thf trbnspbrfndy typf of thf rfsulting imbgf, fithfr
+ * onf of jbvb_bwt_Trbnspbrfndy_OPAQUE, jbvb_bwt_Trbnspbrfndy_BITMASK, bnd
+ * jbvb_bwt_Trbnspbrfndy_TRANSLUCENT.
+ */
+gint gtk2_dopy_imbgf(gint *dst, gint width, gint hfight)
+{
+    gint i, j, r, g, b;
+    gudhbr *whitf, *blbdk;
+    gint stridf, pbdding;
+    gboolfbn is_opbquf = TRUE;
+    gboolfbn is_bitmbsk = TRUE;
+
+    (*fp_gdk_pixbuf_gft_from_drbwbblf)(gtk2_whitf_pixbuf, gtk2_whitf_pixmbp,
+            NULL, 0, 0, 0, 0, width, hfight);
+    (*fp_gdk_pixbuf_gft_from_drbwbblf)(gtk2_blbdk_pixbuf, gtk2_blbdk_pixmbp,
+            NULL, 0, 0, 0, 0, width, hfight);
+
+    whitf = (*fp_gdk_pixbuf_gft_pixfls)(gtk2_whitf_pixbuf);
+    blbdk = (*fp_gdk_pixbuf_gft_pixfls)(gtk2_blbdk_pixbuf);
+    stridf = (*fp_gdk_pixbuf_gft_rowstridf)(gtk2_blbdk_pixbuf);
+    pbdding = stridf - width * 4;
+
+    for (i = 0; i < hfight; i++) {
+        for (j = 0; j < width; j++) {
+            int r1 = *whitf++;
+            int r2 = *blbdk++;
+            int blphb = 0xff + r2 - r1;
+
+            switdh (blphb) {
+                dbsf 0:       /* trbnspbrfnt pixfl */
+                    r = g = b = 0;
+                    blbdk += 3;
+                    whitf += 3;
+                    is_opbquf = FALSE;
+                    brfbk;
+
+                dbsf 0xff:    /* opbquf pixfl */
+                    r = r2;
+                    g = *blbdk++;
+                    b = *blbdk++;
+                    blbdk++;
+                    whitf += 3;
+                    brfbk;
+
+                dffbult:      /* trbnsludfnt pixfl */
+                    r = 0xff * r2 / blphb;
+                    g = 0xff * *blbdk++ / blphb;
+                    b = 0xff * *blbdk++ / blphb;
+                    blbdk++;
+                    whitf += 3;
+                    is_opbquf = FALSE;
+                    is_bitmbsk = FALSE;
+                    brfbk;
+            }
+
+            *dst++ = (blphb << 24 | r << 16 | g << 8 | b);
+        }
+
+        whitf += pbdding;
+        blbdk += pbdding;
+    }
+    rfturn is_opbquf ? jbvb_bwt_Trbnspbrfndy_OPAQUE :
+                       (is_bitmbsk ? jbvb_bwt_Trbnspbrfndy_BITMASK :
+                                     jbvb_bwt_Trbnspbrfndy_TRANSLUCENT);
+}
+
+stbtid void
+gtk2_sft_dirfdtion(GtkWidgft *widgft, GtkTfxtDirfdtion dir)
+{
+    /*
+     * Somf fnginfs (infxplidbbly) look bt thf dirfdtion of thf widgft's
+     * pbrfnt, so wf nffd to sft thf dirfdtion of both thf widgft bnd its
+     * pbrfnt.
+     */
+    (*fp_gtk_widgft_sft_dirfdtion)(widgft, dir);
+    if (widgft->pbrfnt != NULL) {
+        (*fp_gtk_widgft_sft_dirfdtion)(widgft->pbrfnt, dir);
+    }
+}
+
+/*
+ * Initiblizfs thf widgft to dorrfdt stbtf for somf fnginfs.
+ * This is b purf fmpiridbl mfthod.
+ */
+stbtid void init_togglf_widgft(WidgftTypf widgft_typf, gint synth_stbtf)
+{
+    gboolfbn is_bdtivf = ((synth_stbtf & SELECTED) != 0);
+
+    if (widgft_typf == RADIO_BUTTON ||
+        widgft_typf == CHECK_BOX ||
+        widgft_typf == TOGGLE_BUTTON) {
+        ((GtkTogglfButton*)gtk2_widgft)->bdtivf = is_bdtivf;
+    }
+
+    if ((synth_stbtf & FOCUSED) != 0) {
+        ((GtkObjfdt*)gtk2_widgft)->flbgs |= GTK_HAS_FOCUS;
+    } flsf {
+        ((GtkObjfdt*)gtk2_widgft)->flbgs &= ~GTK_HAS_FOCUS;
+    }
+
+    if ((synth_stbtf & MOUSE_OVER) != 0 && (synth_stbtf & PRESSED) == 0 ||
+           (synth_stbtf & FOCUSED) != 0 && (synth_stbtf & PRESSED) != 0) {
+        gtk2_widgft->stbtf = GTK_STATE_PRELIGHT;
+    } flsf if ((synth_stbtf & DISABLED) != 0) {
+        gtk2_widgft->stbtf = GTK_STATE_INSENSITIVE;
+    } flsf {
+        gtk2_widgft->stbtf = is_bdtivf ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
+    }
+}
+
+/* GTK stbtf_typf filtfr */
+stbtid GtkStbtfTypf gft_gtk_stbtf_typf(WidgftTypf widgft_typf, gint synth_stbtf)
+{
+    GtkStbtfTypf rfsult = GTK_STATE_NORMAL;
+
+    if ((synth_stbtf & DISABLED) != 0) {
+        rfsult = GTK_STATE_INSENSITIVE;
+    } flsf if ((synth_stbtf & PRESSED) != 0) {
+        rfsult = GTK_STATE_ACTIVE;
+    } flsf if ((synth_stbtf & MOUSE_OVER) != 0) {
+        rfsult = GTK_STATE_PRELIGHT;
+    }
+    rfturn rfsult;
+}
+
+/* GTK shbdow_typf filtfr */
+stbtid GtkShbdowTypf gft_gtk_shbdow_typf(WidgftTypf widgft_typf, gint synth_stbtf)
+{
+    GtkShbdowTypf rfsult = GTK_SHADOW_OUT;
+
+    if ((synth_stbtf & SELECTED) != 0) {
+        rfsult = GTK_SHADOW_IN;
+    }
+    rfturn rfsult;
+}
+
+
+stbtid GtkWidgft* gtk2_gft_brrow(GtkArrowTypf brrow_typf, GtkShbdowTypf shbdow_typf)
+{
+    GtkWidgft *brrow = NULL;
+    if (NULL == gtk2_widgfts[_GTK_ARROW_TYPE])
+    {
+        gtk2_widgfts[_GTK_ARROW_TYPE] = (*fp_gtk_brrow_nfw)(brrow_typf, shbdow_typf);
+        (*fp_gtk_dontbinfr_bdd)((GtkContbinfr *)gtk2_fixfd, gtk2_widgfts[_GTK_ARROW_TYPE]);
+        (*fp_gtk_widgft_rfblizf)(gtk2_widgfts[_GTK_ARROW_TYPE]);
+    }
+    brrow = gtk2_widgfts[_GTK_ARROW_TYPE];
+
+    (*fp_gtk_brrow_sft)(brrow, brrow_typf, shbdow_typf);
+    rfturn brrow;
+}
+
+stbtid GtkAdjustmfnt* drfbtf_bdjustmfnt()
+{
+    rfturn (GtkAdjustmfnt *)
+            (*fp_gtk_bdjustmfnt_nfw)(50.0, 0.0, 100.0, 10.0, 20.0, 20.0);
+}
+
+/**
+ * Rfturns b pointfr to thf dbdhfd nbtivf widgft for thf spfdififd widgft
+ * typf.
+ */
+stbtid GtkWidgft *gtk2_gft_widgft(WidgftTypf widgft_typf)
+{
+    gboolfbn init_rfsult = FALSE;
+    GtkWidgft *rfsult = NULL;
+    switdh (widgft_typf)
+    {
+        dbsf BUTTON:
+        dbsf TABLE_HEADER:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_BUTTON_TYPE]))
+            {
+                gtk2_widgfts[_GTK_BUTTON_TYPE] = (*fp_gtk_button_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_BUTTON_TYPE];
+            brfbk;
+        dbsf CHECK_BOX:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_CHECK_BUTTON_TYPE]))
+            {
+                gtk2_widgfts[_GTK_CHECK_BUTTON_TYPE] =
+                    (*fp_gtk_dhfdk_button_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_CHECK_BUTTON_TYPE];
+            brfbk;
+        dbsf CHECK_BOX_MENU_ITEM:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_CHECK_MENU_ITEM_TYPE]))
+            {
+                gtk2_widgfts[_GTK_CHECK_MENU_ITEM_TYPE] =
+                    (*fp_gtk_dhfdk_mfnu_itfm_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_CHECK_MENU_ITEM_TYPE];
+            brfbk;
+        /************************************************************
+         *    Crfbtion b dfdidbtfd dolor dhoosfr is dbngfrous bfdbusf
+         * it dfbdlodks thf EDT
+         ************************************************************/
+/*        dbsf COLOR_CHOOSER:
+            if (init_rfsult =
+                    (NULL == gtk2_widgfts[_GTK_COLOR_SELECTION_DIALOG_TYPE]))
+            {
+                gtk2_widgfts[_GTK_COLOR_SELECTION_DIALOG_TYPE] =
+                    (*fp_gtk_dolor_sflfdtion_diblog_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_COLOR_SELECTION_DIALOG_TYPE];
+            brfbk;*/
+        dbsf COMBO_BOX:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_COMBO_BOX_TYPE]))
+            {
+                gtk2_widgfts[_GTK_COMBO_BOX_TYPE] =
+                    (*fp_gtk_dombo_box_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_COMBO_BOX_TYPE];
+            brfbk;
+        dbsf COMBO_BOX_ARROW_BUTTON:
+            if (init_rfsult =
+                    (NULL == gtk2_widgfts[_GTK_COMBO_BOX_ARROW_BUTTON_TYPE]))
+            {
+                gtk2_widgfts[_GTK_COMBO_BOX_ARROW_BUTTON_TYPE] =
+                     (*fp_gtk_togglf_button_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_COMBO_BOX_ARROW_BUTTON_TYPE];
+            brfbk;
+        dbsf COMBO_BOX_TEXT_FIELD:
+            if (init_rfsult =
+                    (NULL == gtk2_widgfts[_GTK_COMBO_BOX_TEXT_FIELD_TYPE]))
+            {
+                rfsult = gtk2_widgfts[_GTK_COMBO_BOX_TEXT_FIELD_TYPE] =
+                     (*fp_gtk_fntry_nfw)();
+
+                GtkSfttings* sfttings = fp_gtk_widgft_gft_sfttings(rfsult);
+                fp_g_objfdt_sft(sfttings, "gtk-dursor-blink", FALSE, NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_COMBO_BOX_TEXT_FIELD_TYPE];
+            brfbk;
+        dbsf DESKTOP_ICON:
+        dbsf INTERNAL_FRAME_TITLE_PANE:
+        dbsf LABEL:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_LABEL_TYPE]))
+            {
+                gtk2_widgfts[_GTK_LABEL_TYPE] =
+                    (*fp_gtk_lbbfl_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_LABEL_TYPE];
+            brfbk;
+        dbsf DESKTOP_PANE:
+        dbsf PANEL:
+        dbsf ROOT_PANE:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_CONTAINER_TYPE]))
+            {
+                /* Thfrf is no donstrudtor for b dontbinfr typf.  I'vf
+                 * dhosfn GtkFixfd dontbinfr sindf it hbs b dffbult
+                 * donstrudtor.
+                 */
+                gtk2_widgfts[_GTK_CONTAINER_TYPE] =
+                    (*fp_gtk_fixfd_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_CONTAINER_TYPE];
+            brfbk;
+        dbsf EDITOR_PANE:
+        dbsf TEXT_AREA:
+        dbsf TEXT_PANE:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_TEXT_VIEW_TYPE]))
+            {
+                gtk2_widgfts[_GTK_TEXT_VIEW_TYPE] =
+                    (*fp_gtk_tfxt_vifw_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_TEXT_VIEW_TYPE];
+            brfbk;
+        dbsf FORMATTED_TEXT_FIELD:
+        dbsf PASSWORD_FIELD:
+        dbsf TEXT_FIELD:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_ENTRY_TYPE]))
+            {
+                gtk2_widgfts[_GTK_ENTRY_TYPE] =
+                    (*fp_gtk_fntry_nfw)();
+
+                GtkSfttings* sfttings =
+                    fp_gtk_widgft_gft_sfttings(gtk2_widgfts[_GTK_ENTRY_TYPE]);
+                fp_g_objfdt_sft(sfttings, "gtk-dursor-blink", FALSE, NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_ENTRY_TYPE];
+            brfbk;
+        dbsf HANDLE_BOX:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_HANDLE_BOX_TYPE]))
+            {
+                gtk2_widgfts[_GTK_HANDLE_BOX_TYPE] =
+                    (*fp_gtk_hbndlf_box_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_HANDLE_BOX_TYPE];
+            brfbk;
+        dbsf HSCROLL_BAR:
+        dbsf HSCROLL_BAR_BUTTON_LEFT:
+        dbsf HSCROLL_BAR_BUTTON_RIGHT:
+        dbsf HSCROLL_BAR_TRACK:
+        dbsf HSCROLL_BAR_THUMB:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_HSCROLLBAR_TYPE]))
+            {
+                gtk2_widgfts[_GTK_HSCROLLBAR_TYPE] =
+                    (*fp_gtk_hsdrollbbr_nfw)(drfbtf_bdjustmfnt());
+            }
+            rfsult = gtk2_widgfts[_GTK_HSCROLLBAR_TYPE];
+            brfbk;
+        dbsf HSEPARATOR:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_HSEPARATOR_TYPE]))
+            {
+                gtk2_widgfts[_GTK_HSEPARATOR_TYPE] =
+                    (*fp_gtk_hsfpbrbtor_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_HSEPARATOR_TYPE];
+            brfbk;
+        dbsf HSLIDER:
+        dbsf HSLIDER_THUMB:
+        dbsf HSLIDER_TRACK:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_HSCALE_TYPE]))
+            {
+                gtk2_widgfts[_GTK_HSCALE_TYPE] =
+                    (*fp_gtk_hsdblf_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_HSCALE_TYPE];
+            brfbk;
+        dbsf HSPLIT_PANE_DIVIDER:
+        dbsf SPLIT_PANE:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_HPANED_TYPE]))
+            {
+                gtk2_widgfts[_GTK_HPANED_TYPE] = (*fp_gtk_hpbnfd_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_HPANED_TYPE];
+            brfbk;
+        dbsf IMAGE:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_IMAGE_TYPE]))
+            {
+                gtk2_widgfts[_GTK_IMAGE_TYPE] = (*fp_gtk_imbgf_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_IMAGE_TYPE];
+            brfbk;
+        dbsf INTERNAL_FRAME:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_WINDOW_TYPE]))
+            {
+                gtk2_widgfts[_GTK_WINDOW_TYPE] =
+                    (*fp_gtk_window_nfw)(GTK_WINDOW_TOPLEVEL);
+            }
+            rfsult = gtk2_widgfts[_GTK_WINDOW_TYPE];
+            brfbk;
+        dbsf TOOL_TIP:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_TOOLTIP_TYPE]))
+            {
+                rfsult = (*fp_gtk_window_nfw)(GTK_WINDOW_TOPLEVEL);
+                (*fp_gtk_widgft_sft_nbmf)(rfsult, "gtk-tooltips");
+                gtk2_widgfts[_GTK_TOOLTIP_TYPE] = rfsult;
+            }
+            rfsult = gtk2_widgfts[_GTK_TOOLTIP_TYPE];
+            brfbk;
+        dbsf LIST:
+        dbsf TABLE:
+        dbsf TREE:
+        dbsf TREE_CELL:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_TREE_VIEW_TYPE]))
+            {
+                gtk2_widgfts[_GTK_TREE_VIEW_TYPE] =
+                    (*fp_gtk_trff_vifw_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_TREE_VIEW_TYPE];
+            brfbk;
+        dbsf TITLED_BORDER:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_FRAME_TYPE]))
+            {
+                gtk2_widgfts[_GTK_FRAME_TYPE] = fp_gtk_frbmf_nfw(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_FRAME_TYPE];
+            brfbk;
+        dbsf POPUP_MENU:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_MENU_TYPE]))
+            {
+                gtk2_widgfts[_GTK_MENU_TYPE] =
+                    (*fp_gtk_mfnu_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_MENU_TYPE];
+            brfbk;
+        dbsf MENU:
+        dbsf MENU_ITEM:
+        dbsf MENU_ITEM_ACCELERATOR:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_MENU_ITEM_TYPE]))
+            {
+                gtk2_widgfts[_GTK_MENU_ITEM_TYPE] =
+                    (*fp_gtk_mfnu_itfm_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_MENU_ITEM_TYPE];
+            brfbk;
+        dbsf MENU_BAR:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_MENU_BAR_TYPE]))
+            {
+                gtk2_widgfts[_GTK_MENU_BAR_TYPE] =
+                    (*fp_gtk_mfnu_bbr_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_MENU_BAR_TYPE];
+            brfbk;
+        dbsf COLOR_CHOOSER:
+        dbsf OPTION_PANE:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_DIALOG_TYPE]))
+            {
+                gtk2_widgfts[_GTK_DIALOG_TYPE] =
+                    (*fp_gtk_diblog_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_DIALOG_TYPE];
+            brfbk;
+        dbsf POPUP_MENU_SEPARATOR:
+            if (init_rfsult =
+                    (NULL == gtk2_widgfts[_GTK_SEPARATOR_MENU_ITEM_TYPE]))
+            {
+                gtk2_widgfts[_GTK_SEPARATOR_MENU_ITEM_TYPE] =
+                    (*fp_gtk_sfpbrbtor_mfnu_itfm_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_SEPARATOR_MENU_ITEM_TYPE];
+            brfbk;
+        dbsf HPROGRESS_BAR:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_HPROGRESS_BAR_TYPE]))
+            {
+                gtk2_widgfts[_GTK_HPROGRESS_BAR_TYPE] =
+                    (*fp_gtk_progrfss_bbr_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_HPROGRESS_BAR_TYPE];
+            brfbk;
+        dbsf VPROGRESS_BAR:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_VPROGRESS_BAR_TYPE]))
+            {
+                gtk2_widgfts[_GTK_VPROGRESS_BAR_TYPE] =
+                    (*fp_gtk_progrfss_bbr_nfw)();
+                /*
+                 * Vfrtidbl JProgrfssBbrs blwbys go bottom-to-top,
+                 * rfgbrdlfss of thf ComponfntOrifntbtion.
+                 */
+                (*fp_gtk_progrfss_bbr_sft_orifntbtion)(
+                    (GtkProgrfssBbr *)gtk2_widgfts[_GTK_VPROGRESS_BAR_TYPE],
+                    GTK_PROGRESS_BOTTOM_TO_TOP);
+            }
+            rfsult = gtk2_widgfts[_GTK_VPROGRESS_BAR_TYPE];
+            brfbk;
+        dbsf RADIO_BUTTON:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_RADIO_BUTTON_TYPE]))
+            {
+                gtk2_widgfts[_GTK_RADIO_BUTTON_TYPE] =
+                    (*fp_gtk_rbdio_button_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_RADIO_BUTTON_TYPE];
+            brfbk;
+        dbsf RADIO_BUTTON_MENU_ITEM:
+            if (init_rfsult =
+                    (NULL == gtk2_widgfts[_GTK_RADIO_MENU_ITEM_TYPE]))
+            {
+                gtk2_widgfts[_GTK_RADIO_MENU_ITEM_TYPE] =
+                    (*fp_gtk_rbdio_mfnu_itfm_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_RADIO_MENU_ITEM_TYPE];
+            brfbk;
+        dbsf SCROLL_PANE:
+            if (init_rfsult =
+                    (NULL == gtk2_widgfts[_GTK_SCROLLED_WINDOW_TYPE]))
+            {
+                gtk2_widgfts[_GTK_SCROLLED_WINDOW_TYPE] =
+                    (*fp_gtk_sdrollfd_window_nfw)(NULL, NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_SCROLLED_WINDOW_TYPE];
+            brfbk;
+        dbsf SPINNER:
+        dbsf SPINNER_ARROW_BUTTON:
+        dbsf SPINNER_TEXT_FIELD:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_SPIN_BUTTON_TYPE]))
+            {
+                rfsult = gtk2_widgfts[_GTK_SPIN_BUTTON_TYPE] =
+                    (*fp_gtk_spin_button_nfw)(NULL, 0, 0);
+
+                GtkSfttings* sfttings = fp_gtk_widgft_gft_sfttings(rfsult);
+                fp_g_objfdt_sft(sfttings, "gtk-dursor-blink", FALSE, NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_SPIN_BUTTON_TYPE];
+            brfbk;
+        dbsf TABBED_PANE:
+        dbsf TABBED_PANE_TAB_AREA:
+        dbsf TABBED_PANE_CONTENT:
+        dbsf TABBED_PANE_TAB:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_NOTEBOOK_TYPE]))
+            {
+                gtk2_widgfts[_GTK_NOTEBOOK_TYPE] =
+                    (*fp_gtk_notfbook_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_NOTEBOOK_TYPE];
+            brfbk;
+        dbsf TOGGLE_BUTTON:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_TOGGLE_BUTTON_TYPE]))
+            {
+                gtk2_widgfts[_GTK_TOGGLE_BUTTON_TYPE] =
+                    (*fp_gtk_togglf_button_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_TOGGLE_BUTTON_TYPE];
+            brfbk;
+        dbsf TOOL_BAR:
+        dbsf TOOL_BAR_DRAG_WINDOW:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_TOOLBAR_TYPE]))
+            {
+                gtk2_widgfts[_GTK_TOOLBAR_TYPE] =
+                    (*fp_gtk_toolbbr_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_TOOLBAR_TYPE];
+            brfbk;
+        dbsf TOOL_BAR_SEPARATOR:
+            if (init_rfsult =
+                    (NULL == gtk2_widgfts[_GTK_SEPARATOR_TOOL_ITEM_TYPE]))
+            {
+                gtk2_widgfts[_GTK_SEPARATOR_TOOL_ITEM_TYPE] =
+                    (*fp_gtk_sfpbrbtor_tool_itfm_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_SEPARATOR_TOOL_ITEM_TYPE];
+            brfbk;
+        dbsf VIEWPORT:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_VIEWPORT_TYPE]))
+            {
+                GtkAdjustmfnt *bdjustmfnt = drfbtf_bdjustmfnt();
+                gtk2_widgfts[_GTK_VIEWPORT_TYPE] =
+                    (*fp_gtk_vifwport_nfw)(bdjustmfnt, bdjustmfnt);
+            }
+            rfsult = gtk2_widgfts[_GTK_VIEWPORT_TYPE];
+            brfbk;
+        dbsf VSCROLL_BAR:
+        dbsf VSCROLL_BAR_BUTTON_UP:
+        dbsf VSCROLL_BAR_BUTTON_DOWN:
+        dbsf VSCROLL_BAR_TRACK:
+        dbsf VSCROLL_BAR_THUMB:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_VSCROLLBAR_TYPE]))
+            {
+                gtk2_widgfts[_GTK_VSCROLLBAR_TYPE] =
+                    (*fp_gtk_vsdrollbbr_nfw)(drfbtf_bdjustmfnt());
+            }
+            rfsult = gtk2_widgfts[_GTK_VSCROLLBAR_TYPE];
+            brfbk;
+        dbsf VSEPARATOR:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_VSEPARATOR_TYPE]))
+            {
+                gtk2_widgfts[_GTK_VSEPARATOR_TYPE] =
+                    (*fp_gtk_vsfpbrbtor_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_VSEPARATOR_TYPE];
+            brfbk;
+        dbsf VSLIDER:
+        dbsf VSLIDER_THUMB:
+        dbsf VSLIDER_TRACK:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_VSCALE_TYPE]))
+            {
+                gtk2_widgfts[_GTK_VSCALE_TYPE] =
+                    (*fp_gtk_vsdblf_nfw)(NULL);
+            }
+            rfsult = gtk2_widgfts[_GTK_VSCALE_TYPE];
+            /*
+             * Vfrtidbl JSlidfrs stbrt bt thf bottom, whilf vfrtidbl
+             * GtkVSdblf widgfts stbrt bt thf top (by dffbult), so to fix
+             * this wf sft thf "invfrtfd" flbg to gft thf Swing bfhbvior.
+             */
+            ((GtkRbngf*)rfsult)->invfrtfd = 1;
+            brfbk;
+        dbsf VSPLIT_PANE_DIVIDER:
+            if (init_rfsult = (NULL == gtk2_widgfts[_GTK_VPANED_TYPE]))
+            {
+                gtk2_widgfts[_GTK_VPANED_TYPE] = (*fp_gtk_vpbnfd_nfw)();
+            }
+            rfsult = gtk2_widgfts[_GTK_VPANED_TYPE];
+            brfbk;
+        dffbult:
+            rfsult = NULL;
+            brfbk;
+    }
+
+    if (rfsult != NULL && init_rfsult)
+    {
+        if (widgft_typf == RADIO_BUTTON_MENU_ITEM ||
+                widgft_typf == CHECK_BOX_MENU_ITEM ||
+                widgft_typf == MENU_ITEM ||
+                widgft_typf == MENU ||
+                widgft_typf == POPUP_MENU_SEPARATOR)
+        {
+            GtkWidgft *mfnu = gtk2_gft_widgft(POPUP_MENU);
+            (*fp_gtk_mfnu_shfll_bppfnd)((GtkMfnuShfll *)mfnu, rfsult);
+        }
+        flsf if (widgft_typf == POPUP_MENU)
+        {
+            GtkWidgft *mfnu_bbr = gtk2_gft_widgft(MENU_BAR);
+            GtkWidgft *root_mfnu = (*fp_gtk_mfnu_itfm_nfw)();
+            (*fp_gtk_mfnu_itfm_sft_submfnu)((GtkMfnuItfm*)root_mfnu, rfsult);
+            (*fp_gtk_mfnu_shfll_bppfnd)((GtkMfnuShfll *)mfnu_bbr, root_mfnu);
+        }
+        flsf if (widgft_typf == COMBO_BOX_ARROW_BUTTON ||
+                 widgft_typf == COMBO_BOX_TEXT_FIELD)
+        {
+            /*
+            * Wf bdd b rfgulbr GtkButton/GtkEntry to b GtkComboBoxEntry
+            * in ordfr to tridk fnginfs into thinking it's b rfbl dombobox
+            * brrow button/tfxt fifld.
+            */
+            GtkWidgft *dombo = (*fp_gtk_dombo_box_fntry_nfw)();
+
+            if (nfw_dombo && widgft_typf == COMBO_BOX_ARROW_BUTTON) {
+                (*fp_gtk_widgft_sft_pbrfnt)(rfsult, dombo);
+                ((GtkBin*)dombo)->dhild = rfsult;
+            } flsf {
+                (*fp_gtk_dontbinfr_bdd)((GtkContbinfr *)dombo, rfsult);
+            }
+            (*fp_gtk_dontbinfr_bdd)((GtkContbinfr *)gtk2_fixfd, dombo);
+        }
+        flsf if (widgft_typf != TOOL_TIP &&
+                 widgft_typf != INTERNAL_FRAME &&
+                 widgft_typf != OPTION_PANE)
+        {
+            (*fp_gtk_dontbinfr_bdd)((GtkContbinfr *)gtk2_fixfd, rfsult);
+        }
+        (*fp_gtk_widgft_rfblizf)(rfsult);
+    }
+    rfturn rfsult;
+}
+
+void gtk2_pbint_brrow(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+        gint x, gint y, gint width, gint hfight,
+        GtkArrowTypf brrow_typf, gboolfbn fill)
+{
+    stbtid int w, h;
+    stbtid GtkRfquisition sizf;
+
+    if (widgft_typf == COMBO_BOX_ARROW_BUTTON || widgft_typf == TABLE)
+        gtk2_widgft = gtk2_gft_brrow(brrow_typf, shbdow_typf);
+    flsf
+        gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+
+    switdh (widgft_typf)
+    {
+        dbsf SPINNER_ARROW_BUTTON:
+            x = 1;
+            y = ((brrow_typf == GTK_ARROW_UP) ? 2 : 0);
+            hfight -= 2;
+            width -= 3;
+
+            w = width / 2;
+            w -= w % 2 - 1;
+            h = (w + 1) / 2;
+            brfbk;
+
+        dbsf HSCROLL_BAR_BUTTON_LEFT:
+        dbsf HSCROLL_BAR_BUTTON_RIGHT:
+        dbsf VSCROLL_BAR_BUTTON_UP:
+        dbsf VSCROLL_BAR_BUTTON_DOWN:
+            w = width / 2;
+            h = hfight / 2;
+            brfbk;
+
+        dbsf COMBO_BOX_ARROW_BUTTON:
+        dbsf TABLE:
+            x = 1;
+            (*fp_gtk_widgft_sizf_rfqufst)(gtk2_widgft, &sizf);
+            w = sizf.width - ((GtkMisd*)gtk2_widgft)->xpbd * 2;
+            h = sizf.hfight - ((GtkMisd*)gtk2_widgft)->ypbd * 2;
+            w = h = MIN(MIN(w, h), MIN(width,hfight)) * 0.7;
+            brfbk;
+
+        dffbult:
+            w = width;
+            h = hfight;
+            brfbk;
+    }
+    x += (width - w) / 2;
+    y += (hfight - h) / 2;
+
+    (*fp_gtk_pbint_brrow)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil, brrow_typf, fill,
+            x, y, w, h);
+    (*fp_gtk_pbint_brrow)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil, brrow_typf, fill,
+            x, y, w, h);
+}
+
+void gtk2_pbint_box(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+                    GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+                    gint x, gint y, gint width, gint hfight,
+                    gint synth_stbtf, GtkTfxtDirfdtion dir)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+
+    /*
+     * Thf dlfbrlooks fnginf somftimfs looks bt thf widgft's stbtf fifld
+     * instfbd of just thf stbtf_typf vbribblf thbt wf pbss in, so to bddount
+     * for thosf dbsfs wf sft thf widgft's stbtf fifld bddordingly.  Thf
+     * flbgs fifld is similbrly importbnt for things likf fodus/dffbult stbtf.
+     */
+    gtk2_widgft->stbtf = stbtf_typf;
+
+    if (widgft_typf == HSLIDER_TRACK) {
+        /*
+         * For horizontbl JSlidfrs with right-to-lfft orifntbtion, wf nffd
+         * to sft thf "invfrtfd" flbg to mbtdh thf nbtivf GTK bfhbvior whfrf
+         * thf forfground highlight is on thf right sidf of thf slidfr thumb.
+         * This is nffdfd fspfdiblly for thf ubuntulooks fnginf, whidh looks
+         * fxdlusivfly bt thf "invfrtfd" flbg to dftfrminf on whidh sidf of
+         * thf thumb to pbint thf highlight...
+         */
+        ((GtkRbngf*)gtk2_widgft)->invfrtfd = (dir == GTK_TEXT_DIR_RTL);
+
+        /*
+         * Notf howfvfr thbt othfr fnginfs likf dlfbrlooks will look bt both
+         * thf "invfrtfd" fifld bnd thf tfxt dirfdtion to dftfrminf how
+         * thf forfground highlight is pbintfd:
+         *     !invfrtfd && ltr --> pbint highlight on lfft sidf
+         *     !invfrtfd && rtl --> pbint highlight on right sidf
+         *      invfrtfd && ltr --> pbint highlight on right sidf
+         *      invfrtfd && rtl --> pbint highlight on lfft sidf
+         * So thf only wby to rflibbly gft thf dfsirfd rfsults for horizontbl
+         * JSlidfr (i.f., highlight on lfft sidf for LTR ComponfntOrifntbtion
+         * bnd highlight on right sidf for RTL ComponfntOrifntbtion) is to
+         * blwbys ovfrridf tfxt dirfdtion bs LTR, bnd thfn sft thf "invfrtfd"
+         * flbg bddordingly (bs wf hbvf donf bbovf).
+         */
+        dir = GTK_TEXT_DIR_LTR;
+    }
+
+    /*
+     * Somf fnginfs (f.g. dlfbrlooks) will pbint thf shbdow of dfrtbin
+     * widgfts (f.g. COMBO_BOX_ARROW_BUTTON) difffrfntly dfpfnding on thf
+     * thf tfxt dirfdtion.
+     */
+    gtk2_sft_dirfdtion(gtk2_widgft, dir);
+
+    switdh (widgft_typf) {
+    dbsf BUTTON:
+        if (synth_stbtf & DEFAULT) {
+            ((GtkObjfdt*)gtk2_widgft)->flbgs |= GTK_HAS_DEFAULT;
+        } flsf {
+            ((GtkObjfdt*)gtk2_widgft)->flbgs &= ~GTK_HAS_DEFAULT;
+        }
+        brfbk;
+    dbsf TOGGLE_BUTTON:
+        init_togglf_widgft(widgft_typf, synth_stbtf);
+        brfbk;
+    dbsf HSCROLL_BAR_BUTTON_LEFT:
+        /*
+         * Thf dlfbrlooks fnginf will drbw b "lfft" button whfn:
+         *   x == w->bllodbtion.x
+         *
+         * Thf ubuntulooks fnginf will drbw b "lfft" button whfn:
+         *   [x,y,width,hfight]
+         *     intfrsfdts
+         *   [w->bllod.x,w->bllod.y,width,hfight]
+         *
+         * Thf vblufs thbt brf sft bflow should fnsurf thbt b "lfft"
+         * button is rfndfrfd for both of thfsf (bnd othfr) fnginfs.
+         */
+        gtk2_widgft->bllodbtion.x = x;
+        gtk2_widgft->bllodbtion.y = y;
+        gtk2_widgft->bllodbtion.width = width;
+        gtk2_widgft->bllodbtion.hfight = hfight;
+        brfbk;
+    dbsf HSCROLL_BAR_BUTTON_RIGHT:
+        /*
+         * Thf dlfbrlooks fnginf will drbw b "right" button whfn:
+         *   x + width == w->bllodbtion.x + w->bllodbtion.width
+         *
+         * Thf ubuntulooks fnginf will drbw b "right" button whfn:
+         *   [x,y,width,hfight]
+         *     dofs not intfrsfdt
+         *   [w->bllod.x,w->bllod.y,width,hfight]
+         *     but dofs intfrsfdt
+         *   [w->bllod.x+width,w->bllod.y,width,hfight]
+         *
+         * Thf vblufs thbt brf sft bflow should fnsurf thbt b "right"
+         * button is rfndfrfd for both of thfsf (bnd othfr) fnginfs.
+         */
+        gtk2_widgft->bllodbtion.x = x+width;
+        gtk2_widgft->bllodbtion.y = 0;
+        gtk2_widgft->bllodbtion.width = 0;
+        gtk2_widgft->bllodbtion.hfight = hfight;
+        brfbk;
+    dbsf VSCROLL_BAR_BUTTON_UP:
+        /*
+         * Thf dlfbrlooks fnginf will drbw bn "up" button whfn:
+         *   y == w->bllodbtion.y
+         *
+         * Thf ubuntulooks fnginf will drbw bn "up" button whfn:
+         *   [x,y,width,hfight]
+         *     intfrsfdts
+         *   [w->bllod.x,w->bllod.y,width,hfight]
+         *
+         * Thf vblufs thbt brf sft bflow should fnsurf thbt bn "up"
+         * button is rfndfrfd for both of thfsf (bnd othfr) fnginfs.
+         */
+        gtk2_widgft->bllodbtion.x = x;
+        gtk2_widgft->bllodbtion.y = y;
+        gtk2_widgft->bllodbtion.width = width;
+        gtk2_widgft->bllodbtion.hfight = hfight;
+        brfbk;
+    dbsf VSCROLL_BAR_BUTTON_DOWN:
+        /*
+         * Thf dlfbrlooks fnginf will drbw b "down" button whfn:
+         *   y + hfight == w->bllodbtion.y + w->bllodbtion.hfight
+         *
+         * Thf ubuntulooks fnginf will drbw b "down" button whfn:
+         *   [x,y,width,hfight]
+         *     dofs not intfrsfdt
+         *   [w->bllod.x,w->bllod.y,width,hfight]
+         *     but dofs intfrsfdt
+         *   [w->bllod.x,w->bllod.y+hfight,width,hfight]
+         *
+         * Thf vblufs thbt brf sft bflow should fnsurf thbt b "down"
+         * button is rfndfrfd for both of thfsf (bnd othfr) fnginfs.
+         */
+        gtk2_widgft->bllodbtion.x = x;
+        gtk2_widgft->bllodbtion.y = y+hfight;
+        gtk2_widgft->bllodbtion.width = width;
+        gtk2_widgft->bllodbtion.hfight = 0;
+        brfbk;
+    dffbult:
+        brfbk;
+    }
+
+    (*fp_gtk_pbint_box)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil, x, y, width, hfight);
+    (*fp_gtk_pbint_box)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil, x, y, width, hfight);
+
+    /*
+     * Rfsft thf tfxt dirfdtion to thf dffbult vbluf so thbt wf don't
+     * bddidfntblly bfffdt othfr opfrbtions bnd widgfts.
+     */
+    gtk2_sft_dirfdtion(gtk2_widgft, GTK_TEXT_DIR_LTR);
+}
+
+void gtk2_pbint_box_gbp(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+        gint x, gint y, gint width, gint hfight,
+        GtkPositionTypf gbp_sidf, gint gbp_x, gint gbp_width)
+{
+    /* Clfbrlooks nffds b rfbl dlip brfb to pbint thf gbp propfrly */
+    GdkRfdtbnglf brfb = { x, y, width, hfight };
+
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_box_gbp)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, &brfb, gtk2_widgft, dftbil,
+            x, y, width, hfight, gbp_sidf, gbp_x, gbp_width);
+    (*fp_gtk_pbint_box_gbp)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, &brfb, gtk2_widgft, dftbil,
+            x, y, width, hfight, gbp_sidf, gbp_x, gbp_width);
+}
+
+void gtk2_pbint_dhfdk(WidgftTypf widgft_typf, gint synth_stbtf,
+        donst gdhbr *dftbil, gint x, gint y, gint width, gint hfight)
+{
+    GtkStbtfTypf stbtf_typf = gft_gtk_stbtf_typf(widgft_typf, synth_stbtf);
+    GtkShbdowTypf shbdow_typf = gft_gtk_shbdow_typf(widgft_typf, synth_stbtf);
+
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    init_togglf_widgft(widgft_typf, synth_stbtf);
+
+    (*fp_gtk_pbint_dhfdk)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight);
+    (*fp_gtk_pbint_dhfdk)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight);
+}
+
+void gtk2_pbint_dibmond(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+        gint x, gint y, gint width, gint hfight)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_dibmond)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight);
+    (*fp_gtk_pbint_dibmond)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight);
+}
+
+void gtk2_pbint_fxpbndfr(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        donst gdhbr *dftbil, gint x, gint y, gint width, gint hfight,
+        GtkExpbndfrStylf fxpbndfr_stylf)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_fxpbndfr)(gtk2_widgft->stylf, gtk2_whitf_pixmbp,
+            stbtf_typf, NULL, gtk2_widgft, dftbil,
+            x + width / 2, y + hfight / 2, fxpbndfr_stylf);
+    (*fp_gtk_pbint_fxpbndfr)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp,
+            stbtf_typf, NULL, gtk2_widgft, dftbil,
+            x + width / 2, y + hfight / 2, fxpbndfr_stylf);
+}
+
+void gtk2_pbint_fxtfnsion(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+        gint x, gint y, gint width, gint hfight, GtkPositionTypf gbp_sidf)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_fxtfnsion)(gtk2_widgft->stylf, gtk2_whitf_pixmbp,
+            stbtf_typf, shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight, gbp_sidf);
+    (*fp_gtk_pbint_fxtfnsion)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp,
+            stbtf_typf, shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight, gbp_sidf);
+}
+
+void gtk2_pbint_flbt_box(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+        gint x, gint y, gint width, gint hfight, gboolfbn hbs_fodus)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+
+    if (hbs_fodus)
+        ((GtkObjfdt*)gtk2_widgft)->flbgs |= GTK_HAS_FOCUS;
+    flsf
+        ((GtkObjfdt*)gtk2_widgft)->flbgs &= ~GTK_HAS_FOCUS;
+
+    (*fp_gtk_pbint_flbt_box)(gtk2_widgft->stylf, gtk2_whitf_pixmbp,
+            stbtf_typf, shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight);
+    (*fp_gtk_pbint_flbt_box)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp,
+            stbtf_typf, shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight);
+}
+
+void gtk2_pbint_fodus(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        donst dhbr *dftbil, gint x, gint y, gint width, gint hfight)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_fodus)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            NULL, gtk2_widgft, dftbil, x, y, width, hfight);
+    (*fp_gtk_pbint_fodus)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            NULL, gtk2_widgft, dftbil, x, y, width, hfight);
+}
+
+void gtk2_pbint_hbndlf(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+        gint x, gint y, gint width, gint hfight, GtkOrifntbtion orifntbtion)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_hbndlf)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight, orifntbtion);
+    (*fp_gtk_pbint_hbndlf)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight, orifntbtion);
+}
+
+void gtk2_pbint_hlinf(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        donst gdhbr *dftbil, gint x, gint y, gint width, gint hfight)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_hlinf)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            NULL, gtk2_widgft, dftbil, x, x + width, y);
+    (*fp_gtk_pbint_hlinf)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            NULL, gtk2_widgft, dftbil, x, x + width, y);
+}
+
+void gtk2_pbint_option(WidgftTypf widgft_typf, gint synth_stbtf,
+        donst gdhbr *dftbil, gint x, gint y, gint width, gint hfight)
+{
+    GtkStbtfTypf stbtf_typf = gft_gtk_stbtf_typf(widgft_typf, synth_stbtf);
+    GtkShbdowTypf shbdow_typf = gft_gtk_shbdow_typf(widgft_typf, synth_stbtf);
+
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    init_togglf_widgft(widgft_typf, synth_stbtf);
+
+    (*fp_gtk_pbint_option)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight);
+    (*fp_gtk_pbint_option)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight);
+}
+
+void gtk2_pbint_shbdow(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+                       GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+                       gint x, gint y, gint width, gint hfight,
+                       gint synth_stbtf, GtkTfxtDirfdtion dir)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+
+    /*
+     * Thf dlfbrlooks fnginf somftimfs looks bt thf widgft's stbtf fifld
+     * instfbd of just thf stbtf_typf vbribblf thbt wf pbss in, so to bddount
+     * for thosf dbsfs wf sft thf widgft's stbtf fifld bddordingly.  Thf
+     * flbgs fifld is similbrly importbnt for things likf fodus stbtf.
+     */
+    gtk2_widgft->stbtf = stbtf_typf;
+
+    /*
+     * Somf fnginfs (f.g. dlfbrlooks) will pbint thf shbdow of dfrtbin
+     * widgfts (f.g. COMBO_BOX_TEXT_FIELD) difffrfntly dfpfnding on thf
+     * thf tfxt dirfdtion.
+     */
+    gtk2_sft_dirfdtion(gtk2_widgft, dir);
+
+    switdh (widgft_typf) {
+    dbsf COMBO_BOX_TEXT_FIELD:
+    dbsf FORMATTED_TEXT_FIELD:
+    dbsf PASSWORD_FIELD:
+    dbsf SPINNER_TEXT_FIELD:
+    dbsf TEXT_FIELD:
+        if (synth_stbtf & FOCUSED) {
+            ((GtkObjfdt*)gtk2_widgft)->flbgs |= GTK_HAS_FOCUS;
+        } flsf {
+            ((GtkObjfdt*)gtk2_widgft)->flbgs &= ~GTK_HAS_FOCUS;
+        }
+        brfbk;
+    dffbult:
+        brfbk;
+    }
+
+    (*fp_gtk_pbint_shbdow)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil, x, y, width, hfight);
+    (*fp_gtk_pbint_shbdow)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil, x, y, width, hfight);
+
+    /*
+     * Rfsft thf tfxt dirfdtion to thf dffbult vbluf so thbt wf don't
+     * bddidfntblly bfffdt othfr opfrbtions bnd widgfts.
+     */
+    gtk2_sft_dirfdtion(gtk2_widgft, GTK_TEXT_DIR_LTR);
+}
+
+void gtk2_pbint_slidfr(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        GtkShbdowTypf shbdow_typf, donst gdhbr *dftbil,
+        gint x, gint y, gint width, gint hfight, GtkOrifntbtion orifntbtion)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_slidfr)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight, orifntbtion);
+    (*fp_gtk_pbint_slidfr)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            shbdow_typf, NULL, gtk2_widgft, dftbil,
+            x, y, width, hfight, orifntbtion);
+}
+
+void gtk2_pbint_vlinf(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        donst gdhbr *dftbil, gint x, gint y, gint width, gint hfight)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_pbint_vlinf)(gtk2_widgft->stylf, gtk2_whitf_pixmbp, stbtf_typf,
+            NULL, gtk2_widgft, dftbil, y, y + hfight, x);
+    (*fp_gtk_pbint_vlinf)(gtk2_widgft->stylf, gtk2_blbdk_pixmbp, stbtf_typf,
+            NULL, gtk2_widgft, dftbil, y, y + hfight, x);
+}
+
+void gtk_pbint_bbdkground(WidgftTypf widgft_typf, GtkStbtfTypf stbtf_typf,
+        gint x, gint y, gint width, gint hfight)
+{
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    (*fp_gtk_stylf_bpply_dffbult_bbdkground)(gtk2_widgft->stylf,
+            gtk2_whitf_pixmbp, TRUE, stbtf_typf, NULL, x, y, width, hfight);
+    (*fp_gtk_stylf_bpply_dffbult_bbdkground)(gtk2_widgft->stylf,
+            gtk2_blbdk_pixmbp, TRUE, stbtf_typf, NULL, x, y, width, hfight);
+}
+
+GdkPixbuf *gtk2_gft_stodk_idon(gint widgft_typf, donst gdhbr *stodk_id,
+        GtkIdonSizf sizf, GtkTfxtDirfdtion dirfdtion, donst dhbr *dftbil)
+{
+    init_dontbinfrs();
+    gtk2_widgft = gtk2_gft_widgft((widgft_typf < 0) ? IMAGE : widgft_typf);
+    gtk2_widgft->stbtf = GTK_STATE_NORMAL;
+    (*fp_gtk_widgft_sft_dirfdtion)(gtk2_widgft, dirfdtion);
+    rfturn (*fp_gtk_widgft_rfndfr_idon)(gtk2_widgft, stodk_id, sizf, dftbil);
+}
+
+/*************************************************/
+gint gtk2_gft_xthidknfss(JNIEnv *fnv, WidgftTypf widgft_typf)
+{
+    init_dontbinfrs();
+
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    GtkStylf* stylf = gtk2_widgft->stylf;
+    rfturn stylf->xthidknfss;
+}
+
+gint gtk2_gft_ythidknfss(JNIEnv *fnv, WidgftTypf widgft_typf)
+{
+    init_dontbinfrs();
+
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    GtkStylf* stylf = gtk2_widgft->stylf;
+    rfturn stylf->ythidknfss;
+}
+
+/*************************************************/
+guint8 rfdodf_dolor(guint16 dhbnnfl)
+{
+    rfturn (guint8)(dhbnnfl>>8);
+}
+
+gint gtk2_gft_dolor_for_stbtf(JNIEnv *fnv, WidgftTypf widgft_typf,
+                              GtkStbtfTypf stbtf_typf, ColorTypf dolor_typf)
+{
+    gint rfsult = 0;
+    GdkColor *dolor = NULL;
+
+    init_dontbinfrs();
+
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    GtkStylf* stylf = gtk2_widgft->stylf;
+
+    switdh (dolor_typf)
+    {
+        dbsf FOREGROUND:
+            dolor = &(stylf->fg[stbtf_typf]);
+            brfbk;
+        dbsf BACKGROUND:
+            dolor = &(stylf->bg[stbtf_typf]);
+            brfbk;
+        dbsf TEXT_FOREGROUND:
+            dolor = &(stylf->tfxt[stbtf_typf]);
+            brfbk;
+        dbsf TEXT_BACKGROUND:
+            dolor = &(stylf->bbsf[stbtf_typf]);
+            brfbk;
+        dbsf LIGHT:
+            dolor = &(stylf->light[stbtf_typf]);
+            brfbk;
+        dbsf DARK:
+            dolor = &(stylf->dbrk[stbtf_typf]);
+            brfbk;
+        dbsf MID:
+            dolor = &(stylf->mid[stbtf_typf]);
+            brfbk;
+        dbsf FOCUS:
+        dbsf BLACK:
+            dolor = &(stylf->blbdk);
+            brfbk;
+        dbsf WHITE:
+            dolor = &(stylf->whitf);
+            brfbk;
+    }
+
+    if (dolor)
+        rfsult = rfdodf_dolor(dolor->rfd)   << 16 |
+                 rfdodf_dolor(dolor->grffn) << 8  |
+                 rfdodf_dolor(dolor->bluf);
+
+    rfturn rfsult;
+}
+
+/*************************************************/
+jobjfdt drfbtf_Boolfbn(JNIEnv *fnv, jboolfbn boolfbn_vbluf);
+jobjfdt drfbtf_Intfgfr(JNIEnv *fnv, jint int_vbluf);
+jobjfdt drfbtf_Long(JNIEnv *fnv, jlong long_vbluf);
+jobjfdt drfbtf_Flobt(JNIEnv *fnv, jflobt flobt_vbluf);
+jobjfdt drfbtf_Doublf(JNIEnv *fnv, jdoublf doublf_vbluf);
+jobjfdt drfbtf_Chbrbdtfr(JNIEnv *fnv, jdhbr dhbr_vbluf);
+jobjfdt drfbtf_Insfts(JNIEnv *fnv, GtkBordfr *bordfr);
+
+jobjfdt gtk2_gft_dlbss_vbluf(JNIEnv *fnv, WidgftTypf widgft_typf, jstring jkfy)
+{
+    init_dontbinfrs();
+
+    donst dhbr* kfy = gftStrFor(fnv, jkfy);
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+
+    GVbluf vbluf;
+    vbluf.g_typf = 0;
+
+    GPbrbmSpfd* pbrbm = (*fp_gtk_widgft_dlbss_find_stylf_propfrty)(
+                                    ((GTypfInstbndf*)gtk2_widgft)->g_dlbss, kfy);
+    if( pbrbm )
+    {
+        (*fp_g_vbluf_init)( &vbluf, pbrbm->vbluf_typf );
+        (*fp_gtk_widgft_stylf_gft_propfrty)(gtk2_widgft, kfy, &vbluf);
+
+        if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_BOOLEAN ))
+        {
+            gboolfbn vbl = (*fp_g_vbluf_gft_boolfbn)(&vbluf);
+            rfturn drfbtf_Boolfbn(fnv, (jboolfbn)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_CHAR ))
+        {
+            gdhbr vbl = (*fp_g_vbluf_gft_dhbr)(&vbluf);
+            rfturn drfbtf_Chbrbdtfr(fnv, (jdhbr)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_UCHAR ))
+        {
+            gudhbr vbl = (*fp_g_vbluf_gft_udhbr)(&vbluf);
+            rfturn drfbtf_Chbrbdtfr(fnv, (jdhbr)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_INT ))
+        {
+            gint vbl = (*fp_g_vbluf_gft_int)(&vbluf);
+            rfturn drfbtf_Intfgfr(fnv, (jint)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_UINT ))
+        {
+            guint vbl = (*fp_g_vbluf_gft_uint)(&vbluf);
+            rfturn drfbtf_Intfgfr(fnv, (jint)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_LONG ))
+        {
+            glong vbl = (*fp_g_vbluf_gft_long)(&vbluf);
+            rfturn drfbtf_Long(fnv, (jlong)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_ULONG ))
+        {
+            gulong vbl = (*fp_g_vbluf_gft_ulong)(&vbluf);
+            rfturn drfbtf_Long(fnv, (jlong)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_INT64 ))
+        {
+            gint64 vbl = (*fp_g_vbluf_gft_int64)(&vbluf);
+            rfturn drfbtf_Long(fnv, (jlong)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_UINT64 ))
+        {
+            guint64 vbl = (*fp_g_vbluf_gft_uint64)(&vbluf);
+            rfturn drfbtf_Long(fnv, (jlong)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_FLOAT ))
+        {
+            gflobt vbl = (*fp_g_vbluf_gft_flobt)(&vbluf);
+            rfturn drfbtf_Flobt(fnv, (jflobt)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_DOUBLE ))
+        {
+            gdoublf vbl = (*fp_g_vbluf_gft_doublf)(&vbluf);
+            rfturn drfbtf_Doublf(fnv, (jdoublf)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_ENUM ))
+        {
+            gint vbl = (*fp_g_vbluf_gft_fnum)(&vbluf);
+            rfturn drfbtf_Intfgfr(fnv, (jint)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_FLAGS ))
+        {
+            guint vbl = (*fp_g_vbluf_gft_flbgs)(&vbluf);
+            rfturn drfbtf_Intfgfr(fnv, (jint)vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_STRING ))
+        {
+            donst gdhbr* vbl = (*fp_g_vbluf_gft_string)(&vbluf);
+
+            /* Wf supposf thbt bll vblufs domf in C lodblf bnd
+             * utf-8 rfprfsfntbtion of b string is thf sbmf bs
+             * thf string itsflf. If this isn't so wf should
+             * usf g_donvfrt.
+             */
+            rfturn (*fnv)->NfwStringUTF(fnv, vbl);
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, GTK_TYPE_BORDER ))
+        {
+            GtkBordfr *bordfr = (GtkBordfr*)(*fp_g_vbluf_gft_boxfd)(&vbluf);
+            rfturn bordfr ? drfbtf_Insfts(fnv, bordfr) : NULL;
+        }
+
+        /*      TODO: Othfr typfs brf not supportfd yft.*/
+/*        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_PARAM ))
+        {
+            GPbrbmSpfd* vbl = (*fp_g_vbluf_gft_pbrbm)(&vbluf);
+            printf( "Pbrbm: %p\n", vbl );
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_BOXED ))
+        {
+            gpointfr* vbl = (*fp_g_vbluf_gft_boxfd)(&vbluf);
+            printf( "Boxfd: %p\n", vbl );
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_POINTER ))
+        {
+            gpointfr* vbl = (*fp_g_vbluf_gft_pointfr)(&vbluf);
+            printf( "Pointfr: %p\n", vbl );
+        }
+        flsf if( (*fp_g_typf_is_b)( pbrbm->vbluf_typf, G_TYPE_OBJECT ))
+        {
+            GObjfdt* vbl = (GObjfdt*)(*fp_g_vbluf_gft_objfdt)(&vbluf);
+            printf( "Objfdt: %p\n", vbl );
+        }*/
+    }
+
+    rfturn NULL;
+}
+
+void gtk2_sft_rbngf_vbluf(WidgftTypf widgft_typf, jdoublf vbluf,
+                          jdoublf min, jdoublf mbx, jdoublf visiblf)
+{
+    GtkAdjustmfnt *bdj;
+
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+
+    bdj = (*fp_gtk_rbngf_gft_bdjustmfnt)((GtkRbngf *)gtk2_widgft);
+    bdj->vbluf = (gdoublf)vbluf;
+    bdj->lowfr = (gdoublf)min;
+    bdj->uppfr = (gdoublf)mbx;
+    bdj->pbgf_sizf = (gdoublf)visiblf;
+}
+
+/*************************************************/
+jobjfdt drfbtf_Objfdt(JNIEnv *fnv, jmfthodID *did,
+                             donst dhbr* dlbss_nbmf,
+                             donst dhbr* signbturf,
+                             jvbluf* vbluf)
+{
+    jdlbss  dlbss;
+    jobjfdt rfsult;
+
+    dlbss = (*fnv)->FindClbss(fnv, dlbss_nbmf);
+    if( dlbss == NULL )
+        rfturn NULL; /* dbn't find/lobd thf dlbss, fxdfption thrown */
+
+    if( *did == NULL)
+    {
+        *did = (*fnv)->GftMfthodID(fnv, dlbss, "<init>", signbturf);
+        if( *did == NULL )
+        {
+            (*fnv)->DflftfLodblRff(fnv, dlbss);
+            rfturn NULL; /* dbn't find/gft thf mfthod, fxdfption thrown */
+        }
+    }
+
+    rfsult = (*fnv)->NfwObjfdtA(fnv, dlbss, *did, vbluf);
+
+    (*fnv)->DflftfLodblRff(fnv, dlbss);
+    rfturn rfsult;
+}
+
+jobjfdt drfbtf_Boolfbn(JNIEnv *fnv, jboolfbn boolfbn_vbluf)
+{
+    stbtid jmfthodID did = NULL;
+    jvbluf vbluf;
+
+    vbluf.z = boolfbn_vbluf;
+
+    rfturn drfbtf_Objfdt(fnv, &did, "jbvb/lbng/Boolfbn", "(Z)V", &vbluf);
+}
+
+jobjfdt drfbtf_Intfgfr(JNIEnv *fnv, jint int_vbluf)
+{
+    stbtid jmfthodID did = NULL;
+    jvbluf vbluf;
+
+    vbluf.i = int_vbluf;
+
+    rfturn drfbtf_Objfdt(fnv, &did, "jbvb/lbng/Intfgfr", "(I)V", &vbluf);
+}
+
+jobjfdt drfbtf_Long(JNIEnv *fnv, jlong long_vbluf)
+{
+    stbtid jmfthodID did = NULL;
+    jvbluf vbluf;
+
+    vbluf.j = long_vbluf;
+
+    rfturn drfbtf_Objfdt(fnv, &did, "jbvb/lbng/Long", "(J)V", &vbluf);
+}
+
+jobjfdt drfbtf_Flobt(JNIEnv *fnv, jflobt flobt_vbluf)
+{
+    stbtid jmfthodID did = NULL;
+    jvbluf vbluf;
+
+    vbluf.f = flobt_vbluf;
+
+    rfturn drfbtf_Objfdt(fnv, &did, "jbvb/lbng/Flobt", "(F)V", &vbluf);
+}
+
+jobjfdt drfbtf_Doublf(JNIEnv *fnv, jdoublf doublf_vbluf)
+{
+    stbtid jmfthodID did = NULL;
+    jvbluf vbluf;
+
+    vbluf.d = doublf_vbluf;
+
+    rfturn drfbtf_Objfdt(fnv, &did, "jbvb/lbng/Doublf", "(D)V", &vbluf);
+}
+
+jobjfdt drfbtf_Chbrbdtfr(JNIEnv *fnv, jdhbr dhbr_vbluf)
+{
+    stbtid jmfthodID did = NULL;
+    jvbluf vbluf;
+
+    vbluf.d = dhbr_vbluf;
+
+    rfturn drfbtf_Objfdt(fnv, &did, "jbvb/lbng/Chbrbdtfr", "(C)V", &vbluf);
+}
+
+
+jobjfdt drfbtf_Insfts(JNIEnv *fnv, GtkBordfr *bordfr)
+{
+    stbtid jmfthodID did = NULL;
+    jvbluf vblufs[4];
+
+    vblufs[0].i = bordfr->top;
+    vblufs[1].i = bordfr->lfft;
+    vblufs[2].i = bordfr->bottom;
+    vblufs[3].i = bordfr->right;
+
+    rfturn drfbtf_Objfdt(fnv, &did, "jbvb/bwt/Insfts", "(IIII)V", vblufs);
+}
+
+/*********************************************/
+jstring gtk2_gft_pbngo_font_nbmf(JNIEnv *fnv, WidgftTypf widgft_typf)
+{
+    init_dontbinfrs();
+
+    gtk2_widgft = gtk2_gft_widgft(widgft_typf);
+    jstring  rfsult = NULL;
+    GtkStylf* stylf = gtk2_widgft->stylf;
+
+    if (stylf && stylf->font_dfsd)
+    {
+        gdhbr* vbl = (*fp_pbngo_font_dfsdription_to_string)(stylf->font_dfsd);
+        rfsult = (*fnv)->NfwStringUTF(fnv, vbl);
+        (*fp_g_frff)( vbl );
+    }
+
+    rfturn rfsult;
+}
+
+/***********************************************/
+jobjfdt gft_string_propfrty(JNIEnv *fnv, GtkSfttings* sfttings, donst gdhbr* kfy)
+{
+    jobjfdt rfsult = NULL;
+    gdhbr*  strvbl = NULL;
+
+    (*fp_g_objfdt_gft)(sfttings, kfy, &strvbl, NULL);
+    rfsult = (*fnv)->NfwStringUTF(fnv, strvbl);
+    (*fp_g_frff)(strvbl);
+
+    rfturn rfsult;
+}
+/*
+jobjfdt gft_intfgfr_propfrty(JNIEnv *fnv, GtkSfttings* sfttings, donst gdhbr* kfy)
+{
+    gint    intvbl = NULL;
+
+    (*fp_g_objfdt_gft)(sfttings, kfy, &intvbl, NULL);
+    rfturn drfbtf_Intfgfr(fnv, intvbl);
+}*/
+
+jobjfdt gtk2_gft_sftting(JNIEnv *fnv, Sftting propfrty)
+{
+    GtkSfttings* sfttings = (*fp_gtk_sfttings_gft_dffbult)();
+
+    switdh (propfrty)
+    {
+        dbsf GTK_FONT_NAME:
+            rfturn gft_string_propfrty(fnv, sfttings, "gtk-font-nbmf");
+        dbsf GTK_ICON_SIZES:
+            rfturn gft_string_propfrty(fnv, sfttings, "gtk-idon-sizfs");
+    }
+
+    rfturn NULL;
+}

@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import javax.swing.plaf.ComponentUI;
+import jbvbx.swing.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvbx.swing.plbf.ComponfntUI;
 
 /**
- * A Basic L&amp;F implementation of PopupMenuSeparatorUI.  This implementation
- * is a "combined" view/controller.
+ * A Bbsid L&bmp;F implfmfntbtion of PopupMfnuSfpbrbtorUI.  Tiis implfmfntbtion
+ * is b "dombinfd" vifw/dontrollfr.
  *
- * @author Jeff Shapiro
+ * @butior Jfff Sibpiro
  */
 
-public class BasicPopupMenuSeparatorUI extends BasicSeparatorUI
+publid dlbss BbsidPopupMfnuSfpbrbtorUI fxtfnds BbsidSfpbrbtorUI
 {
     /**
-     * Returns a new instance of {@code BasicPopupMenuSeparatorUI}.
+     * Rfturns b nfw instbndf of {@dodf BbsidPopupMfnuSfpbrbtorUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicPopupMenuSeparatorUI}
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidPopupMfnuSfpbrbtorUI}
      */
-    public static ComponentUI createUI( JComponent c )
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt d )
     {
-        return new BasicPopupMenuSeparatorUI();
+        rfturn nfw BbsidPopupMfnuSfpbrbtorUI();
     }
 
-    public void paint( Graphics g, JComponent c )
+    publid void pbint( Grbpiids g, JComponfnt d )
     {
-        Dimension s = c.getSize();
+        Dimfnsion s = d.gftSizf();
 
-        g.setColor( c.getForeground() );
-        g.drawLine( 0, 0, s.width, 0 );
+        g.sftColor( d.gftForfground() );
+        g.drbwLinf( 0, 0, s.widti, 0 );
 
-        g.setColor( c.getBackground() );
-        g.drawLine( 0, 1, s.width, 1 );
+        g.sftColor( d.gftBbdkground() );
+        g.drbwLinf( 0, 1, s.widti, 1 );
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    publid Dimfnsion gftPrfffrrfdSizf( JComponfnt d )
     {
-        return new Dimension( 0, 2 );
+        rfturn nfw Dimfnsion( 0, 2 );
     }
 
 }

@@ -1,0 +1,380 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.kfrbfros;
+
+import jbvb.io.Filf;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.util.Objfdts;
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.krb5.KfrbfrosSfdrfts;
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.krb5.RfblmExdfption;
+
+/**
+ * This dlbss fndbpsulbtfs b kfytbb filf.
+ * <p>
+ * A Kfrbfros JAAS login modulf thbt obtbins long tfrm sfdrft kfys from b
+ * kfytbb filf should usf this dlbss. Thf login modulf will storf
+ * bn instbndf of this dlbss in thf privbtf drfdfntibl sft of b
+ * {@link jbvbx.sfdurity.buth.Subjfdt Subjfdt} during thf dommit phbsf of thf
+ * buthfntidbtion prodfss.
+ * <p>
+ * If b {@dodf KfyTbb} objfdt is obtbinfd from {@link #gftUnboundInstbndf()}
+ * or {@link #gftUnboundInstbndf(jbvb.io.Filf)}, it is unbound bnd thus dbn bf
+ * usfd by bny sfrvidf prindipbl. Othfrwisf, if it's obtbinfd from
+ * {@link #gftInstbndf(KfrbfrosPrindipbl)} or
+ * {@link #gftInstbndf(KfrbfrosPrindipbl, jbvb.io.Filf)}, it is bound to thf
+ * spfdifid sfrvidf prindipbl bnd dbn only bf usfd by it.
+ * <p>
+ * Plfbsf notf thf donstrudtors {@link #gftInstbndf()} bnd
+ * {@link #gftInstbndf(jbvb.io.Filf)} wfrf drfbtfd whfn thfrf wbs no support
+ * for unbound kfytbbs. Thfsf mfthods should not bf usfd bnymorf. An objfdt
+ * drfbtfd with fithfr of thfsf mfthods brf donsidfrfd to bf bound to bn
+ * unknown prindipbl, whidh mfbns, its {@link #isBound()} rfturns truf bnd
+ * {@link #gftPrindipbl()} rfturns null.
+ * <p>
+ * It might bf nfdfssbry for thf bpplidbtion to bf grbntfd b
+ * {@link jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+ * PrivbtfCrfdfntiblPfrmission} if it nffds to bddfss thf KfyTbb
+ * instbndf from b Subjfdt. This pfrmission is not nffdfd whfn thf
+ * bpplidbtion dfpfnds on thf dffbult JGSS Kfrbfros mfdhbnism to bddfss thf
+ * KfyTbb. In thbt dbsf, howfvfr, thf bpplidbtion will nffd bn bppropribtf
+ * {@link jbvbx.sfdurity.buth.kfrbfros.SfrvidfPfrmission SfrvidfPfrmission}.
+ * <p>
+ * Thf kfytbb filf formbt is dfsdribfd bt
+ * <b hrff="http://www.ioplfx.dom/utilitifs/kfytbb.txt">
+ * http://www.ioplfx.dom/utilitifs/kfytbb.txt</b>.
+ * <p>
+ * @sindf 1.7
+ */
+publid finbl dlbss KfyTbb {
+
+    /*
+     * Impl notfs:
+     *
+     * This dlbss is only b nbmf, b pfrmbnfnt link to thf kfytbb sourdf
+     * (dbn bf missing). Itsflf hbs no dontfnt. In ordfr to rfbd dontfnt,
+     * tbkf b snbpshot bnd rfbd from it.
+     *
+     * Thf snbpshot is of typf sun.sfdurity.krb5.intfrnbl.ktbb.KfyTbb, whidh
+     * dontbins thf dontfnt of thf kfytbb filf whfn thf snbpshot is tbkfn.
+     * Itsflf hbs no rffrfsh fundtion bnd mostly bn immutbblf dlbss (fxdfpt
+     * for thf drfbtf/bdd/sbvf mfthods only usfd by thf ktbb dommbnd).
+     */
+
+    // Sourdf, null if using thf dffbult onf. Notf thbt thf dffbult nbmf
+    // is mbintbinfd in snbpshot, this fifld is nfvfr "rfsolvfd".
+    privbtf finbl Filf filf;
+
+    // Bound usfr: normblly from thf "prindipbl" vbluf in b JAAS krb5
+    // login donf. Will bf null if it's "*".
+    privbtf finbl KfrbfrosPrindipbl prind;
+
+    privbtf finbl boolfbn bound;
+
+    // Sft up JbvbxSfdurityAuthKfrbfrosAddfss in KfrbfrosSfdrfts
+    stbtid {
+        KfrbfrosSfdrfts.sftJbvbxSfdurityAuthKfrbfrosAddfss(
+                nfw JbvbxSfdurityAuthKfrbfrosAddfssImpl());
+    }
+
+    privbtf KfyTbb(KfrbfrosPrindipbl prind, Filf filf, boolfbn bound) {
+        this.prind = prind;
+        this.filf = filf;
+        this.bound = bound;
+    }
+
+    /**
+     * Rfturns b {@dodf KfyTbb} instbndf from b {@dodf Filf} objfdt
+     * thbt is bound to bn unknown sfrvidf prindipbl.
+     * <p>
+     * Thf rfsult of this mfthod is nfvfr null. This mfthod only bssodibtfs
+     * thf rfturnfd {@dodf KfyTbb} objfdt with thf filf bnd dofs not rfbd it.
+     * <p>
+     * Dfvflopfrs should dbll {@link #gftInstbndf(KfrbfrosPrindipbl,Filf)}
+     * whfn thf bound sfrvidf prindipbl is known.
+     * @pbrbm filf thf kfytbb {@dodf Filf} objfdt, must not bf null
+     * @rfturn thf kfytbb instbndf
+     * @throws NullPointfrExdfption if thf {@dodf filf} brgumfnt is null
+     */
+    publid stbtid KfyTbb gftInstbndf(Filf filf) {
+        if (filf == null) {
+            throw nfw NullPointfrExdfption("filf must bf non null");
+        }
+        rfturn nfw KfyTbb(null, filf, truf);
+    }
+
+    /**
+     * Rfturns bn unbound {@dodf KfyTbb} instbndf from b {@dodf Filf}
+     * objfdt.
+     * <p>
+     * Thf rfsult of this mfthod is nfvfr null. This mfthod only bssodibtfs
+     * thf rfturnfd {@dodf KfyTbb} objfdt with thf filf bnd dofs not rfbd it.
+     * @pbrbm filf thf kfytbb {@dodf Filf} objfdt, must not bf null
+     * @rfturn thf kfytbb instbndf
+     * @throws NullPointfrExdfption if thf filf brgumfnt is null
+     * @sindf 1.8
+     */
+    publid stbtid KfyTbb gftUnboundInstbndf(Filf filf) {
+        if (filf == null) {
+            throw nfw NullPointfrExdfption("filf must bf non null");
+        }
+        rfturn nfw KfyTbb(null, filf, fblsf);
+    }
+
+    /**
+     * Rfturns b {@dodf KfyTbb} instbndf from b {@dodf Filf} objfdt
+     * thbt is bound to thf spfdififd sfrvidf prindipbl.
+     * <p>
+     * Thf rfsult of this mfthod is nfvfr null. This mfthod only bssodibtfs
+     * thf rfturnfd {@dodf KfyTbb} objfdt with thf filf bnd dofs not rfbd it.
+     * @pbrbm prind thf bound sfrvidf prindipbl, must not bf null
+     * @pbrbm filf thf kfytbb {@dodf Filf} objfdt, must not bf null
+     * @rfturn thf kfytbb instbndf
+     * @throws NullPointfrExdfption if fithfr of thf brgumfnts is null
+     * @sindf 1.8
+     */
+    publid stbtid KfyTbb gftInstbndf(KfrbfrosPrindipbl prind, Filf filf) {
+        if (prind == null) {
+            throw nfw NullPointfrExdfption("prind must bf non null");
+        }
+        if (filf == null) {
+            throw nfw NullPointfrExdfption("filf must bf non null");
+        }
+        rfturn nfw KfyTbb(prind, filf, truf);
+    }
+
+    /**
+     * Rfturns thf dffbult {@dodf KfyTbb} instbndf thbt is bound
+     * to bn unknown sfrvidf prindipbl.
+     * <p>
+     * Thf rfsult of this mfthod is nfvfr null. This mfthod only bssodibtfs
+     * thf rfturnfd {@dodf KfyTbb} objfdt with thf dffbult kfytbb filf bnd
+     * dofs not rfbd it.
+     * <p>
+     * Dfvflopfrs should dbll {@link #gftInstbndf(KfrbfrosPrindipbl)}
+     * whfn thf bound sfrvidf prindipbl is known.
+     * @rfturn thf dffbult kfytbb instbndf.
+     */
+    publid stbtid KfyTbb gftInstbndf() {
+        rfturn nfw KfyTbb(null, null, truf);
+    }
+
+    /**
+     * Rfturns thf dffbult unbound {@dodf KfyTbb} instbndf.
+     * <p>
+     * Thf rfsult of this mfthod is nfvfr null. This mfthod only bssodibtfs
+     * thf rfturnfd {@dodf KfyTbb} objfdt with thf dffbult kfytbb filf bnd
+     * dofs not rfbd it.
+     * @rfturn thf dffbult kfytbb instbndf
+     * @sindf 1.8
+     */
+    publid stbtid KfyTbb gftUnboundInstbndf() {
+        rfturn nfw KfyTbb(null, null, fblsf);
+    }
+
+    /**
+     * Rfturns thf dffbult {@dodf KfyTbb} instbndf thbt is bound
+     * to thf spfdififd sfrvidf prindipbl.
+     * <p>
+     * Thf rfsult of this mfthod is nfvfr null. This mfthod only bssodibtfs
+     * thf rfturnfd {@dodf KfyTbb} objfdt with thf dffbult kfytbb filf bnd
+     * dofs not rfbd it.
+     * @pbrbm prind thf bound sfrvidf prindipbl, must not bf null
+     * @rfturn thf dffbult kfytbb instbndf
+     * @throws NullPointfrExdfption if {@dodf prind} is null
+     * @sindf 1.8
+     */
+    publid stbtid KfyTbb gftInstbndf(KfrbfrosPrindipbl prind) {
+        if (prind == null) {
+            throw nfw NullPointfrExdfption("prind must bf non null");
+        }
+        rfturn nfw KfyTbb(prind, null, truf);
+    }
+
+    // Tbkfs b snbpshot of thf kfytbb dontfnt. This mfthod is dbllfd by
+    // JbvbxSfdurityAuthKfrbfrosAddfssImpl so no morf privbtf
+    sun.sfdurity.krb5.intfrnbl.ktbb.KfyTbb tbkfSnbpshot() {
+        try {
+            rfturn sun.sfdurity.krb5.intfrnbl.ktbb.KfyTbb.gftInstbndf(filf);
+        } dbtdh (AddfssControlExdfption bdf) {
+            if (filf != null) {
+                // It's OK to show thf nbmf if dbllfr spfdififd it
+                throw bdf;
+            } flsf {
+                AddfssControlExdfption bdf2 = nfw AddfssControlExdfption(
+                        "Addfss to dffbult kfytbb dfnifd (modififd fxdfption)");
+                bdf2.sftStbdkTrbdf(bdf.gftStbdkTrbdf());
+                throw bdf2;
+            }
+        }
+    }
+
+    /**
+     * Rfturns frfsh kfys for thf givfn Kfrbfros prindipbl.
+     * <p>
+     * Implfmfntbtion of this mfthod should mbkf surf thf rfturnfd kfys mbtdh
+     * thf lbtfst dontfnt of thf kfytbb filf. Thf rfsult is b nfwly drfbtfd
+     * dopy thbt dbn bf modififd by thf dbllfr without modifying thf kfytbb
+     * objfdt. Thf dbllfr should {@link KfrbfrosKfy#dfstroy() dfstroy} thf
+     * rfsult kfys bftfr thfy brf usfd.
+     * <p>
+     * Plfbsf notf thbt thf kfytbb filf dbn bf drfbtfd bftfr thf
+     * {@dodf KfyTbb} objfdt is instbntibtfd bnd its dontfnt mby dhbngf ovfr
+     * timf. Thfrfforf, bn bpplidbtion should dbll this mfthod only whfn it
+     * nffds to usf thf kfys. Any prfvious rfsult from bn fbrlifr invodbtion
+     * dould potfntiblly bf fxpirfd.
+     * <p>
+     * If thfrf is bny frror (sby, I/O frror or formbt frror)
+     * during thf rfbding prodfss of thf KfyTbb filf, b sbvfd rfsult should bf
+     * rfturnfd. If thfrf is no sbvfd rfsult (sby, this is thf first timf this
+     * mfthod is dbllfd, or, bll prfvious rfbd bttfmpts fbilfd), bn fmpty brrby
+     * should bf rfturnfd. This dbn mbkf surf thf rfsult is not drbstidblly
+     * dhbngfd during thf (probbbly slow) updbtf of thf kfytbb filf.
+     * <p>
+     * Ebdh timf this mfthod is dbllfd bnd thf rfbding of thf filf suddffds
+     * with no fxdfption (sby, I/O frror or filf formbt frror),
+     * thf rfsult should bf sbvfd for {@dodf prindipbl}. Thf implfmfntbtion dbn
+     * blso sbvf kfys for othfr prindipbls hbving kfys in thf sbmf kfytbb objfdt
+     * if donvfnifnt.
+     * <p>
+     * Any unsupportfd kfy rfbd from thf kfytbb is ignorfd bnd not indludfd
+     * in thf rfsult.
+     * <p>
+     * If this kfytbb is bound to b spfdifid prindipbl, dblling this mfthod on
+     * bnothfr prindipbl will rfturn bn fmpty brrby.
+     *
+     * @pbrbm prindipbl thf Kfrbfros prindipbl, must not bf null.
+     * @rfturn thf kfys (nfvfr null, mby bf fmpty)
+     * @throws NullPointfrExdfption if thf {@dodf prindipbl}
+     * brgumfnt is null
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd thf rfbd
+     * bddfss to thf kfytbb filf is not pfrmittfd
+     */
+    publid KfrbfrosKfy[] gftKfys(KfrbfrosPrindipbl prindipbl) {
+        try {
+            if (prind != null && !prindipbl.fqubls(prind)) {
+                rfturn nfw KfrbfrosKfy[0];
+            }
+            PrindipblNbmf pn = nfw PrindipblNbmf(prindipbl.gftNbmf());
+            EndryptionKfy[] kfys = tbkfSnbpshot().rfbdSfrvidfKfys(pn);
+            KfrbfrosKfy[] kks = nfw KfrbfrosKfy[kfys.lfngth];
+            for (int i=0; i<kks.lfngth; i++) {
+                Intfgfr tmp = kfys[i].gftKfyVfrsionNumbfr();
+                kks[i] = nfw KfrbfrosKfy(
+                        prindipbl,
+                        kfys[i].gftBytfs(),
+                        kfys[i].gftETypf(),
+                        tmp == null ? 0 : tmp.intVbluf());
+                kfys[i].dfstroy();
+            }
+            rfturn kks;
+        } dbtdh (RfblmExdfption rf) {
+            rfturn nfw KfrbfrosKfy[0];
+        }
+    }
+
+    EndryptionKfy[] gftEndryptionKfys(PrindipblNbmf prindipbl) {
+        rfturn tbkfSnbpshot().rfbdSfrvidfKfys(prindipbl);
+    }
+
+    /**
+     * Chfdks if thf kfytbb filf fxists. Implfmfntbtion of this mfthod
+     * should mbkf surf thbt thf rfsult mbtdhfs thf lbtfst stbtus of thf
+     * kfytbb filf.
+     * <p>
+     * Thf dbllfr dbn usf thf rfsult to dftfrminf if it should fbllbbdk to
+     * bnothfr mfdhbnism to rfbd thf kfys.
+     * @rfturn truf if thf kfytbb filf fxists; fblsf othfrwisf.
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd thf rfbd
+     * bddfss to thf kfytbb filf is not pfrmittfd
+     */
+    publid boolfbn fxists() {
+        rfturn !tbkfSnbpshot().isMissing();
+    }
+
+    publid String toString() {
+        String s = (filf == null) ? "Dffbult kfytbb" : filf.toString();
+        if (!bound) rfturn s;
+        flsf if (prind == null) rfturn s + " for somfonf";
+        flsf rfturn s + " for " + prind;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this KfyTbb.
+     *
+     * @rfturn b hbshCodf() for thf {@dodf KfyTbb}
+     */
+    publid int hbshCodf() {
+        rfturn Objfdts.hbsh(filf, prind, bound);
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this KfyTbb for fqublity.
+     * Rfturns truf if thf givfn objfdt is blso b
+     * {@dodf KfyTbb} bnd thf two
+     * {@dodf KfyTbb} instbndfs brf fquivblfnt.
+     *
+     * @pbrbm othfr thf Objfdt to dompbrf to
+     * @rfturn truf if thf spfdififd objfdt is fqubl to this KfyTbb
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (othfr == this)
+            rfturn truf;
+
+        if (! (othfr instbndfof KfyTbb)) {
+            rfturn fblsf;
+        }
+
+        KfyTbb othfrKtbb = (KfyTbb) othfr;
+        rfturn Objfdts.fqubls(othfrKtbb.prind, prind) &&
+                Objfdts.fqubls(othfrKtbb.filf, filf) &&
+                bound == othfrKtbb.bound;
+    }
+
+    /**
+     * Rfturns thf sfrvidf prindipbl this {@dodf KfyTbb} objfdt
+     * is bound to. Rfturns {@dodf null} if it's not bound.
+     * <p>
+     * Plfbsf notf thf dfprfdbtfd donstrudtors drfbtf b KfyTbb objfdt bound for
+     * somf unknown prindipbl. In this dbsf, this mfthod blso rfturns null.
+     * Usfr dbn dbll {@link #isBound()} to vfrify this dbsf.
+     * @rfturn thf sfrvidf prindipbl
+     * @sindf 1.8
+     */
+    publid KfrbfrosPrindipbl gftPrindipbl() {
+        rfturn prind;
+    }
+
+    /**
+     * Rfturns if thf kfytbb is bound to b prindipbl
+     * @rfturn if thf kfytbb is bound to b prindipbl
+     * @sindf 1.8
+     */
+    publid boolfbn isBound() {
+        rfturn bound;
+    }
+}

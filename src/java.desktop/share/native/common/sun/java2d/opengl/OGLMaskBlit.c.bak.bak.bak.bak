@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff HEADLESS
+
+#indludf <stdlib.h>
+#indludf <jlong.h>
+
+#indludf "OGLMbskBlit.h"
+#indludf "OGLRfndfrQufuf.h"
+#indludf "OGLSurfbdfDbtb.h"
+
+/**
+ * REMIND: This mfthod bssumfs thbt thf dimfnsions of thf indoming pixfl
+ *         brrby brf lfss thbn or fqubl to thf dbdhfd blit tfxturf tilf;
+ *         thfsf brf rbthfr frbgilf bssumptions, bnd should bf dlfbnfd up...
+ */
+void
+OGLMbskBlit_MbskBlit(JNIEnv *fnv, OGLContfxt *ogld,
+                     jint dstx, jint dsty,
+                     jint width, jint hfight,
+                     void *pPixfls)
+{
+    GLflobt tx1, ty1, tx2, ty2;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLMbskBlit_MbskBlit");
+
+    if (width <= 0 || hfight <= 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "OGLMbskBlit_MbskBlit: invblid dimfnsions");
+        rfturn;
+    }
+
+    RETURN_IF_NULL(pPixfls);
+    RETURN_IF_NULL(ogld);
+    CHECK_PREVIOUS_OP(GL_TEXTURE_2D);
+
+    if (ogld->blitTfxturfID == 0) {
+        if (!OGLContfxt_InitBlitTilfTfxturf(ogld)) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "OGLMbskBlit_MbskBlit: dould not init blit tilf");
+            rfturn;
+        }
+    }
+
+    // sft up tfxturf pbrbmftfrs
+    j2d_glBindTfxturf(GL_TEXTURE_2D, ogld->blitTfxturfID);
+    OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    // dopy systfm mfmory IntArgbPrf surfbdf into dbdhfd tfxturf
+    j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                        0, 0, width, hfight,
+                        GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, pPixfls);
+
+    tx1 = 0.0f;
+    ty1 = 0.0f;
+    tx2 = ((GLflobt)width) / OGLC_BLIT_TILE_SIZE;
+    ty2 = ((GLflobt)hfight) / OGLC_BLIT_TILE_SIZE;
+
+    // rfndfr dbdhfd tfxturf to thf OpfnGL surfbdf
+    j2d_glBfgin(GL_QUADS);
+    j2d_glTfxCoord2f(tx1, ty1); j2d_glVfrtfx2i(dstx, dsty);
+    j2d_glTfxCoord2f(tx2, ty1); j2d_glVfrtfx2i(dstx + width, dsty);
+    j2d_glTfxCoord2f(tx2, ty2); j2d_glVfrtfx2i(dstx + width, dsty + hfight);
+    j2d_glTfxCoord2f(tx1, ty2); j2d_glVfrtfx2i(dstx, dsty + hfight);
+    j2d_glEnd();
+}
+
+#fndif /* !HEADLESS */

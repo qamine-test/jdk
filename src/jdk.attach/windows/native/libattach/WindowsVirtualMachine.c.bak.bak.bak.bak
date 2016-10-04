@@ -1,0 +1,606 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <windows.h>
+#indludf <string.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+#indludf "sun_tools_bttbdh_WindowsVirtublMbdhinf.h"
+
+
+/* kfrnfl32 */
+typfdff HINSTANCE (WINAPI* GftModulfHbndlfFund) (LPCTSTR);
+typfdff FARPROC (WINAPI* GftProdAddrfssFund)(HMODULE, LPCSTR);
+
+/* only on Windows 64-bit or 32-bit bpplidbtion running undfr WOW64 */
+typfdff BOOL (WINAPI *IsWow64ProdfssFund) (HANDLE, PBOOL);
+
+stbtid GftModulfHbndlfFund _GftModulfHbndlf;
+stbtid GftProdAddrfssFund _GftProdAddrfss;
+stbtid IsWow64ProdfssFund _IsWow64Prodfss;
+
+/* psbpi */
+typfdff BOOL  (WINAPI *EnumProdfssModulfsFund)  (HANDLE, HMODULE *, DWORD, LPDWORD );
+typfdff DWORD (WINAPI *GftModulfFilfNbmfExFund) ( HANDLE, HMODULE, LPTSTR, DWORD );
+
+/* fxportfd fundtion in tbrgft VM */
+typfdff jint (WINAPI* EnqufufOpfrbtionFund)
+    (donst dhbr* dmd, donst dhbr* brg1, donst dhbr* brg2, donst dhbr* brg3, donst dhbr* pipfnbmf);
+
+/* OpfnProdfss with SE_DEBUG_NAME privilfgf */
+stbtid HANDLE
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInhfritHbndlf, DWORD dwProdfssId);
+
+/* donvfrt jstring to C string */
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dhbr* dstr, int lfn);
+
+
+/*
+ * Dbtb dopifd to tbrgft prodfss
+ */
+
+#dffinf MAX_LIBNAME_LENGTH      16
+#dffinf MAX_FUNC_LENGTH         32
+#dffinf MAX_CMD_LENGTH          16
+#dffinf MAX_ARG_LENGTH          1024
+#dffinf MAX_ARGS                3
+#dffinf MAX_PIPE_NAME_LENGTH    256
+
+typfdff strudt {
+   GftModulfHbndlfFund _GftModulfHbndlf;
+   GftProdAddrfssFund _GftProdAddrfss;
+   dhbr jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
+   dhbr fund1[MAX_FUNC_LENGTH];
+   dhbr fund2[MAX_FUNC_LENGTH];
+   dhbr dmd[MAX_CMD_LENGTH];                /* "lobd", "dump", ...      */
+   dhbr brg[MAX_ARGS][MAX_ARG_LENGTH];      /* brgumfnts to dommbnd     */
+   dhbr pipfnbmf[MAX_PIPE_NAME_LENGTH];
+} DbtbBlodk;
+
+/*
+ * Rfturn dodfs from fnqufuf fundtion fxfdutfd in tbrgft VM
+ */
+#dffinf ERR_OPEN_JVM_FAIL           200
+#dffinf ERR_GET_ENQUEUE_FUNC_FAIL   201
+
+
+/*
+ * Codf dopifd to tbrgft prodfss
+ */
+#prbgmb dhfdk_stbdk (off)
+DWORD WINAPI jvm_bttbdh_thrfbd_fund(DbtbBlodk *pDbtb)
+{
+    HINSTANCE h;
+    EnqufufOpfrbtionFund bddr;
+
+    h = pDbtb->_GftModulfHbndlf(pDbtb->jvmLib);
+    if (h == NULL) {
+        rfturn ERR_OPEN_JVM_FAIL;
+    }
+
+    bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(h, pDbtb->fund1));
+    if (bddr == NULL) {
+        bddr = (EnqufufOpfrbtionFund)(pDbtb->_GftProdAddrfss(h, pDbtb->fund2));
+    }
+    if (bddr == NULL) {
+        rfturn ERR_GET_ENQUEUE_FUNC_FAIL;
+    }
+
+    /* "null" dommbnd - dofs nothing in thf tbrgft VM */
+    if (pDbtb->dmd[0] == '\0') {
+        rfturn 0;
+    } flsf {
+        rfturn (*bddr)(pDbtb->dmd, pDbtb->brg[0], pDbtb->brg[1], pDbtb->brg[2], pDbtb->pipfnbmf);
+    }
+}
+
+/* This fundtion mbrks thf fnd of jvm_bttbdh_thrfbd_fund. */
+void jvm_bttbdh_thrfbd_fund_fnd (void) {
+}
+#prbgmb dhfdk_stbdk
+
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_init
+  (JNIEnv *fnv, jdlbss dls)
+{
+    // All following APIs fxist on Windows XP with SP2/Windows Sfrvfr 2008
+    _GftModulfHbndlf = (GftModulfHbndlfFund)GftModulfHbndlf;
+    _GftProdAddrfss = (GftProdAddrfssFund)GftProdAddrfss;
+    _IsWow64Prodfss = (IsWow64ProdfssFund)IsWow64Prodfss;
+}
+
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    gfnfrbtfStub
+ * Signbturf: ()[B
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_gfnfrbtfStub
+  (JNIEnv *fnv, jdlbss dls)
+{
+    /*
+     * Wf should rfplbdf this with b rfbl stub gfnfrbtor bt somf point
+     */
+    DWORD lfn;
+    jbytfArrby brrby;
+
+    lfn = (DWORD)((LPBYTE) jvm_bttbdh_thrfbd_fund_fnd - (LPBYTE) jvm_bttbdh_thrfbd_fund);
+    brrby= (*fnv)->NfwBytfArrby(fnv, (jsizf)lfn);
+    if (brrby != NULL) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, brrby, 0, (jint)lfn, (jbytf*)&jvm_bttbdh_thrfbd_fund);
+    }
+    rfturn brrby;
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    opfnProdfss
+ * Signbturf: (I)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_opfnProdfss
+  (JNIEnv *fnv, jdlbss dls, jint pid)
+{
+    HANDLE hProdfss = NULL;
+
+    if (pid == (jint) GftCurrfntProdfssId()) {
+        /* prodfss is bttbdhing to itsflf; gft b psfudo hbndlf instfbd */
+        hProdfss = GftCurrfntProdfss();
+        /* duplidbtf thf psfudo hbndlf so it dbn bf usfd in morf dontfxts */
+        if (DuplidbtfHbndlf(hProdfss, hProdfss, hProdfss, &hProdfss,
+                PROCESS_ALL_ACCESS, FALSE, 0) == 0) {
+            /*
+             * Could not duplidbtf thf hbndlf whidh isn't b good sign,
+             * but wf'll try bgbin with OpfnProdfss() bflow.
+             */
+            hProdfss = NULL;
+        }
+    }
+
+    if (hProdfss == NULL) {
+        /*
+         * Attfmpt to opfn prodfss. If it fbils thfn wf try to fnbblf thf
+         * SE_DEBUG_NAME privilfgf bnd rftry.
+         */
+        hProdfss = OpfnProdfss(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
+        if (hProdfss == NULL && GftLbstError() == ERROR_ACCESS_DENIED) {
+            hProdfss = doPrivilfgfdOpfnProdfss(PROCESS_ALL_ACCESS, FALSE,
+                           (DWORD)pid);
+        }
+
+        if (hProdfss == NULL) {
+            if (GftLbstError() == ERROR_INVALID_PARAMETER) {
+                JNU_ThrowIOExdfption(fnv, "no sudh prodfss");
+            } flsf {
+                dhbr frr_mfsg[255];
+                /* indludf thf lbst frror in thf dffbult dftbil mfssbgf */
+                sprintf(frr_mfsg, "OpfnProdfss(pid=%d) fbilfd; LbstError=0x%x",
+                    (int)pid, (int)GftLbstError());
+                JNU_ThrowIOExdfptionWithLbstError(fnv, frr_mfsg);
+            }
+            rfturn (jlong)0;
+        }
+    }
+
+    /*
+     * On Windows 64-bit wf nffd to hbndlf 32-bit tools trying to bttbdh to 64-bit
+     * prodfssfs (bnd visb vfrsb). X-brdhitfdturf bttbdhing is durrfntly not supportfd
+     * by this implfmfntbtion.
+     */
+    if (_IsWow64Prodfss != NULL) {
+        BOOL isCurrfnt32bit, isTbrgft32bit;
+        (*_IsWow64Prodfss)(GftCurrfntProdfss(), &isCurrfnt32bit);
+        (*_IsWow64Prodfss)(hProdfss, &isTbrgft32bit);
+
+        if (isCurrfnt32bit != isTbrgft32bit) {
+            ClosfHbndlf(hProdfss);
+            #ifdff _WIN64
+              JNU_ThrowByNbmf(fnv, "dom/sun/tools/bttbdh/AttbdhNotSupportfdExdfption",
+                  "Unbblf to bttbdh to 32-bit prodfss running undfr WOW64");
+            #flsf
+              JNU_ThrowByNbmf(fnv, "dom/sun/tools/bttbdh/AttbdhNotSupportfdExdfption",
+                  "Unbblf to bttbdh to 64-bit prodfss");
+            #fndif
+        }
+    }
+
+    rfturn (jlong)hProdfss;
+}
+
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    dlosfProdfss
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_dlosfProdfss
+  (JNIEnv *fnv, jdlbss dls, jlong hProdfss)
+{
+    ClosfHbndlf((HANDLE)hProdfss);
+}
+
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    drfbtfPipf
+ * Signbturf: (Ljbvb/lbng/String;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_drfbtfPipf
+  (JNIEnv *fnv, jdlbss dls, jstring pipfnbmf)
+{
+    HANDLE hPipf;
+    dhbr nbmf[MAX_PIPE_NAME_LENGTH];
+
+    jstring_to_dstring(fnv, pipfnbmf, nbmf, MAX_PIPE_NAME_LENGTH);
+
+    hPipf = CrfbtfNbmfdPipf(
+          nbmf,                         // pipf nbmf
+          PIPE_ACCESS_INBOUND,          // rfbd bddfss
+          PIPE_TYPE_BYTE |              // bytf modf
+            PIPE_READMODE_BYTE |
+            PIPE_WAIT,                  // blodking modf
+          1,                            // mbx. instbndfs
+          128,                          // output bufffr sizf
+          8192,                         // input bufffr sizf
+          NMPWAIT_USE_DEFAULT_WAIT,     // dlifnt timf-out
+          NULL);                        // dffbult sfdurity bttributf
+
+    if (hPipf == INVALID_HANDLE_VALUE) {
+        dhbr msg[256];
+        _snprintf(msg, sizfof(msg), "CrfbtfNbmfdPipf fbilfd: %d", GftLbstError());
+        JNU_ThrowIOExdfptionWithLbstError(fnv, msg);
+    }
+    rfturn (jlong)hPipf;
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    dlosfPipf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_dlosfPipf
+  (JNIEnv *fnv, jdlbss dls, jlong hPipf)
+{
+    ClosfHbndlf( (HANDLE)hPipf );
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    donnfdtPipf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_donnfdtPipf
+  (JNIEnv *fnv, jdlbss dls, jlong hPipf)
+{
+    BOOL fConnfdtfd;
+
+    fConnfdtfd = ConnfdtNbmfdPipf((HANDLE)hPipf, NULL) ?
+        TRUE : (GftLbstError() == ERROR_PIPE_CONNECTED);
+    if (!fConnfdtfd) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "ConnfdtNbmfdPipf fbilfd");
+    }
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    rfbdPipf
+ * Signbturf: (J[BII)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_rfbdPipf
+  (JNIEnv *fnv, jdlbss dls, jlong hPipf, jbytfArrby bb, jint off, jint bbLfn)
+{
+    unsignfd dhbr buf[128];
+    DWORD lfn, nrfbd, rfmbining;
+    BOOL fSuddfss;
+
+    lfn = sizfof(buf);
+    rfmbining = (DWORD)(bbLfn - off);
+    if (lfn > rfmbining) {
+        lfn = rfmbining;
+    }
+
+    fSuddfss = RfbdFilf(
+         (HANDLE)hPipf,         // hbndlf to pipf
+         buf,                   // bufffr to rfdfivf dbtb
+         lfn,                   // sizf of bufffr
+         &nrfbd,                // numbfr of bytfs rfbd
+         NULL);                 // not ovfrlbppfd I/O
+
+    if (!fSuddfss) {
+        if (GftLbstError() == ERROR_BROKEN_PIPE) {
+            rfturn (jint)-1;
+        } flsf {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "RfbdFilf");
+        }
+    } flsf {
+        if (nrfbd == 0) {
+            rfturn (jint)-1;        // EOF
+        } flsf {
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)nrfbd, (jbytf *)(buf));
+        }
+    }
+
+    rfturn (jint)nrfbd;
+}
+
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsVirtublMbdhinf
+ * Mfthod:    fnqufuf
+ * Signbturf: (JZLjbvb/lbng/String;[Ljbvb/lbng/Objfdt;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdh_WindowsVirtublMbdhinf_fnqufuf
+  (JNIEnv *fnv, jdlbss dls, jlong hbndlf, jbytfArrby stub, jstring dmd,
+   jstring pipfnbmf, jobjfdtArrby brgs)
+{
+    DbtbBlodk dbtb;
+    DbtbBlodk* pDbtb;
+    DWORD* pCodf;
+    DWORD stubLfn;
+    HANDLE hProdfss, hThrfbd;
+    jint brgsLfn, i;
+    jbytf* stubCodf;
+    jboolfbn isCopy;
+
+    /*
+     * Sftup dbtb to dopy to tbrgft prodfss
+     */
+    dbtb._GftModulfHbndlf = _GftModulfHbndlf;
+    dbtb._GftProdAddrfss = _GftProdAddrfss;
+
+    strdpy(dbtb.jvmLib, "jvm");
+    strdpy(dbtb.fund1, "JVM_EnqufufOpfrbtion");
+    strdpy(dbtb.fund2, "_JVM_EnqufufOpfrbtion@20");
+
+    /*
+     * Commbnd bnd brgumfnts
+     */
+    jstring_to_dstring(fnv, dmd, dbtb.dmd, MAX_CMD_LENGTH);
+    brgsLfn = (*fnv)->GftArrbyLfngth(fnv, brgs);
+
+    if (brgsLfn > 0) {
+        if (brgsLfn > MAX_ARGS) {
+            JNU_ThrowIntfrnblError(fnv, "Too mbny brgumfnts");
+            rfturn;
+        }
+        for (i=0; i<brgsLfn; i++) {
+            jobjfdt obj = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, brgs, i);
+            if (obj == NULL) {
+                dbtb.brg[i][0] = '\0';
+            } flsf {
+                jstring_to_dstring(fnv, obj, dbtb.brg[i], MAX_ARG_LENGTH);
+            }
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+        }
+    }
+    for (i=brgsLfn; i<MAX_ARGS; i++) {
+        dbtb.brg[i][0] = '\0';
+    }
+
+    /* pipf nbmf */
+    jstring_to_dstring(fnv, pipfnbmf, dbtb.pipfnbmf, MAX_PIPE_NAME_LENGTH);
+
+    /*
+     * Allodbtf mfmory in tbrgft prodfss for dbtb bnd dodf stub
+     * (bssumfd blignfd bnd mbtdhfs brdhitfdturf of tbrgft prodfss)
+     */
+    hProdfss = (HANDLE)hbndlf;
+
+    pDbtb = (DbtbBlodk*) VirtublAllodEx( hProdfss, 0, sizfof(DbtbBlodk), MEM_COMMIT, PAGE_READWRITE );
+    if (pDbtb == NULL) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "VirtublAllodEx fbilfd");
+        rfturn;
+    }
+    WritfProdfssMfmory( hProdfss, (LPVOID)pDbtb, (LPCVOID)&dbtb, (SIZE_T)sizfof(DbtbBlodk), NULL );
+
+
+    stubLfn = (DWORD)(*fnv)->GftArrbyLfngth(fnv, stub);
+    stubCodf = (*fnv)->GftBytfArrbyElfmfnts(fnv, stub, &isCopy);
+
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+
+    pCodf = (PDWORD) VirtublAllodEx( hProdfss, 0, stubLfn, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+    if (pCodf == NULL) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "VirtublAllodEx fbilfd");
+        VirtublFrffEx(hProdfss, pDbtb, 0, MEM_RELEASE);
+        rfturn;
+    }
+    WritfProdfssMfmory( hProdfss, (LPVOID)pCodf, (LPCVOID)stubCodf, (SIZE_T)stubLfn, NULL );
+    if (isCopy) {
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, stub, stubCodf, JNI_ABORT);
+    }
+
+    /*
+     * Crfbtf thrfbd in tbrgft prodfss to fxfdutf dodf
+     */
+    hThrfbd = CrfbtfRfmotfThrfbd( hProdfss,
+                                  NULL,
+                                  0,
+                                  (LPTHREAD_START_ROUTINE) pCodf,
+                                  pDbtb,
+                                  0,
+                                  NULL );
+    if (hThrfbd != NULL) {
+        if (WbitForSinglfObjfdt(hThrfbd, INFINITE) != WAIT_OBJECT_0) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "WbitForSinglfObjfdt fbilfd");
+        } flsf {
+            DWORD fxitCodf;
+            GftExitCodfThrfbd(hThrfbd, &fxitCodf);
+            if (fxitCodf) {
+                switdh (fxitCodf) {
+                    dbsf ERR_OPEN_JVM_FAIL :
+                        JNU_ThrowIOExdfption(fnv,
+                            "jvm.dll not lobdfd by tbrgft prodfss");
+                        brfbk;
+                    dbsf ERR_GET_ENQUEUE_FUNC_FAIL :
+                        JNU_ThrowIOExdfption(fnv,
+                            "Unbblf to fnqufuf opfrbtion: thf tbrgft VM dofs not support bttbdh mfdhbnism");
+                        brfbk;
+                    dffbult :
+                        JNU_ThrowIntfrnblError(fnv,
+                            "Rfmotf thrfbd fbilfd for unknown rfbson");
+                }
+            }
+        }
+        ClosfHbndlf(hThrfbd);
+    } flsf {
+        if (GftLbstError() == ERROR_NOT_ENOUGH_MEMORY) {
+            //
+            // This frror will oddur whfn bttbdhing to b prodfss bflonging to
+            // bnothfr tfrminbl sfssion. Sff "Rfmbrks":
+            // http://msdn.midrosoft.dom/fn-us/librbry/ms682437%28VS.85%29.bspx
+            //
+            JNU_ThrowIOExdfption(fnv,
+                "Insuffidifnt mfmory or insuffidifnt privilfgfs to bttbdh");
+        } flsf {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "CrfbtfRfmotfThrfbd fbilfd");
+        }
+    }
+
+    VirtublFrffEx(hProdfss, pCodf, 0, MEM_RELEASE);
+    VirtublFrffEx(hProdfss, pDbtb, 0, MEM_RELEASE);
+}
+
+/*
+ * Attfmpts to fnbblf thf SE_DEBUG_NAME privilfgf bnd opfn thf givfn prodfss.
+ */
+stbtid HANDLE
+doPrivilfgfdOpfnProdfss(DWORD dwDfsirfdAddfss, BOOL bInhfritHbndlf, DWORD dwProdfssId) {
+    HANDLE hTokfn;
+    HANDLE hProdfss = NULL;
+    LUID luid;
+    TOKEN_PRIVILEGES tp, tpPrfvious;
+    DWORD rftLfngth, frror;
+
+    /*
+     * Gft thf bddfss tokfn
+     */
+    if (!OpfnThrfbdTokfn(GftCurrfntThrfbd(),
+                         TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
+                         FALSE,
+                         &hTokfn)) {
+        if (GftLbstError() != ERROR_NO_TOKEN) {
+            rfturn (HANDLE)NULL;
+        }
+
+        /*
+         * No bddfss tokfn for thf thrfbd so impfrsonbtf thf sfdurity dontfxt
+         * of thf prodfss.
+         */
+        if (!ImpfrsonbtfSflf(SfdurityImpfrsonbtion)) {
+            rfturn (HANDLE)NULL;
+        }
+        if (!OpfnThrfbdTokfn(GftCurrfntThrfbd(),
+                             TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
+                             FALSE,
+                             &hTokfn)) {
+            rfturn (HANDLE)NULL;
+        }
+    }
+
+    /*
+     * Gft LUID for thf privilfgf
+     */
+    if(!LookupPrivilfgfVbluf(NULL, SE_DEBUG_NAME, &luid)) {
+        frror = GftLbstError();
+        ClosfHbndlf(hTokfn);
+        SftLbstError(frror);
+        rfturn (HANDLE)NULL;
+    }
+
+    /*
+     * Enbblf thf privilfgf
+     */
+    ZfroMfmory(&tp, sizfof(tp));
+    tp.PrivilfgfCount = 1;
+    tp.Privilfgfs[0].Attributfs = SE_PRIVILEGE_ENABLED;
+    tp.Privilfgfs[0].Luid = luid;
+
+    frror = 0;
+    if (AdjustTokfnPrivilfgfs(hTokfn,
+                              FALSE,
+                              &tp,
+                              sizfof(TOKEN_PRIVILEGES),
+                              &tpPrfvious,
+                              &rftLfngth)) {
+        /*
+         * If wf fnbblfd thf privilfgf thfn bttfmpt to opfn thf
+         * prodfss.
+         */
+        if (GftLbstError() == ERROR_SUCCESS) {
+            hProdfss = OpfnProdfss(dwDfsirfdAddfss, bInhfritHbndlf, dwProdfssId);
+            if (hProdfss == NULL) {
+                frror = GftLbstError();
+            }
+        } flsf {
+            frror = ERROR_ACCESS_DENIED;
+        }
+
+        /*
+         * Rfvfrt to thf prfvious privilfgfs
+         */
+        AdjustTokfnPrivilfgfs(hTokfn,
+                              FALSE,
+                              &tpPrfvious,
+                              rftLfngth,
+                              NULL,
+                              NULL);
+    } flsf {
+        frror = GftLbstError();
+    }
+
+
+    /*
+     * Closf tokfn bnd rfstorf frror
+     */
+    ClosfHbndlf(hTokfn);
+    SftLbstError(frror);
+
+    rfturn hProdfss;
+}
+
+/* donvfrt jstring to C string */
+stbtid void jstring_to_dstring(JNIEnv* fnv, jstring jstr, dhbr* dstr, int lfn) {
+    jboolfbn isCopy;
+    donst dhbr* str;
+
+    if (jstr == NULL) {
+        dstr[0] = '\0';
+    } flsf {
+        str = JNU_GftStringPlbtformChbrs(fnv, jstr, &isCopy);
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn;
+
+        strndpy(dstr, str, lfn);
+        dstr[lfn-1] = '\0';
+        if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, jstr, str);
+        }
+    }
+}

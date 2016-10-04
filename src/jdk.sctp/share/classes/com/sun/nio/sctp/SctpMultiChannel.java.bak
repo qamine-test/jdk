@@ -1,744 +1,744 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.nio.sctp;
+pbdkbgf dom.sun.nio.sdtp;
 
-import java.net.SocketAddress;
-import java.net.InetAddress;
-import java.io.IOException;
-import java.util.Set;
-import java.nio.ByteBuffer;
-import java.nio.channels.spi.AbstractSelectableChannel;
-import java.nio.channels.spi.SelectorProvider;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.NotYetBoundException;
-import java.nio.channels.SelectionKey;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.spi.AbstrbdtSflfdtbblfCibnnfl;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import jbvb.nio.dibnnfls.ClosfdCibnnflExdfption;
+import jbvb.nio.dibnnfls.NotYftBoundExdfption;
+import jbvb.nio.dibnnfls.SflfdtionKfy;
 
 /**
- * A selectable channel for message-oriented SCTP sockets.
+ * A sflfdtbblf dibnnfl for mfssbgf-orifntfd SCTP sodkfts.
  *
- * <P> An SCTP multi channel supports many associations on a single socket.
- * An {@code SctpMultiChannel} is created by invoking the
- * {@link #open open} method of this class. A newly-created channel is open but
- * not yet bound. An attempt to invoke the {@link #receive receive} method of an
- * unbound channel will cause the {@link NotYetBoundException}
- * to be thrown. An attempt to invoke the {@link #send send} method of an
- * unbound channel will cause it to first invoke the {@link #bind bind} method.
- * The address(es) that the channel's socket is bound to can be retrieved by
- * calling {@link #getAllLocalAddresses getAllLocalAddresses}.
+ * <P> An SCTP multi dibnnfl supports mbny bssodibtions on b singlf sodkft.
+ * An {@dodf SdtpMultiCibnnfl} is drfbtfd by invoking tif
+ * {@link #opfn opfn} mftiod of tiis dlbss. A nfwly-drfbtfd dibnnfl is opfn but
+ * not yft bound. An bttfmpt to invokf tif {@link #rfdfivf rfdfivf} mftiod of bn
+ * unbound dibnnfl will dbusf tif {@link NotYftBoundExdfption}
+ * to bf tirown. An bttfmpt to invokf tif {@link #sfnd sfnd} mftiod of bn
+ * unbound dibnnfl will dbusf it to first invokf tif {@link #bind bind} mftiod.
+ * Tif bddrfss(fs) tibt tif dibnnfl's sodkft is bound to dbn bf rftrifvfd by
+ * dblling {@link #gftAllLodblAddrfssfs gftAllLodblAddrfssfs}.
  *
- * <P> Messages may be sent and received without explicitly setting up an
- * association with the remote peer. The channel will implicitly setup
- * a new association whenever it sends or receives a message from a remote
- * peer if there is not already an association with that peer. Upon successful
- * association setup, an {@link AssociationChangeNotification
- * association changed} notification will be put to the SCTP stack with its
- * {@code event} parameter set to {@link
- * AssociationChangeNotification.AssocChangeEvent#COMM_UP
- * COMM_UP}. This notification can be received by invoking {@link #receive
- * receive}.
+ * <P> Mfssbgfs mby bf sfnt bnd rfdfivfd witiout fxpliditly sftting up bn
+ * bssodibtion witi tif rfmotf pffr. Tif dibnnfl will impliditly sftup
+ * b nfw bssodibtion wifnfvfr it sfnds or rfdfivfs b mfssbgf from b rfmotf
+ * pffr if tifrf is not blrfbdy bn bssodibtion witi tibt pffr. Upon suddfssful
+ * bssodibtion sftup, bn {@link AssodibtionCibngfNotifidbtion
+ * bssodibtion dibngfd} notifidbtion will bf put to tif SCTP stbdk witi its
+ * {@dodf fvfnt} pbrbmftfr sft to {@link
+ * AssodibtionCibngfNotifidbtion.AssodCibngfEvfnt#COMM_UP
+ * COMM_UP}. Tiis notifidbtion dbn bf rfdfivfd by invoking {@link #rfdfivf
+ * rfdfivf}.
  *
- * <P> Socket options are configured using the
- * {@link #setOption(SctpSocketOption,Object,Association) setOption} method. An
- * {@code SctpMultiChannel} supports the following options:
- * <blockquote>
- * <table border summary="Socket options">
+ * <P> Sodkft options brf donfigurfd using tif
+ * {@link #sftOption(SdtpSodkftOption,Objfdt,Assodibtion) sftOption} mftiod. An
+ * {@dodf SdtpMultiCibnnfl} supports tif following options:
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Sodkft options">
  *   <tr>
- *     <th>Option Name</th>
- *     <th>Description</th>
+ *     <ti>Option Nbmf</ti>
+ *     <ti>Dfsdription</ti>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_DISABLE_FRAGMENTS
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_DISABLE_FRAGMENTS
  *                                          SCTP_DISABLE_FRAGMENTS} </td>
- *     <td> Enables or disables message fragmentation </td>
+ *     <td> Enbblfs or disbblfs mfssbgf frbgmfntbtion </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_EXPLICIT_COMPLETE
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE
  *                                          SCTP_EXPLICIT_COMPLETE} </td>
- *     <td> Enables or disables explicit message completion </td>
+ *     <td> Enbblfs or disbblfs fxplidit mfssbgf domplftion </td>
  *   </tr>
  *    <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_FRAGMENT_INTERLEAVE
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_FRAGMENT_INTERLEAVE
  *                                          SCTP_FRAGMENT_INTERLEAVE} </td>
- *     <td> Controls how the presentation of messages occur for the message
- *          receiver </td>
+ *     <td> Controls iow tif prfsfntbtion of mfssbgfs oddur for tif mfssbgf
+ *          rfdfivfr </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_INIT_MAXSTREAMS
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_INIT_MAXSTREAMS
  *                                          SCTP_INIT_MAXSTREAMS} </td>
- *     <td> The maximum number of streams requested by the local endpoint during
- *          association initialization </td>
+ *     <td> Tif mbximum numbfr of strfbms rfqufstfd by tif lodbl fndpoint during
+ *          bssodibtion initiblizbtion </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_NODELAY SCTP_NODELAY} </td>
- *     <td> Enables or disable a Nagle-like algorithm </td>
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_NODELAY SCTP_NODELAY} </td>
+ *     <td> Enbblfs or disbblf b Nbglf-likf blgoritim </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_PRIMARY_ADDR
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_PRIMARY_ADDR
  *                                          SCTP_PRIMARY_ADDR} </td>
- *     <td> Requests that the local SCTP stack use the given peer address as the
- *          association primary </td>
+ *     <td> Rfqufsts tibt tif lodbl SCTP stbdk usf tif givfn pffr bddrfss bs tif
+ *          bssodibtion primbry </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SCTP_SET_PEER_PRIMARY_ADDR
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SCTP_SET_PEER_PRIMARY_ADDR
  *                                          SCTP_SET_PEER_PRIMARY_ADDR} </td>
- *     <td> Requests that the peer mark the enclosed address as the association
- *          primary </td>
+ *     <td> Rfqufsts tibt tif pffr mbrk tif fndlosfd bddrfss bs tif bssodibtion
+ *          primbry </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SO_SNDBUF
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SO_SNDBUF
  *                                          SO_SNDBUF} </td>
- *     <td> The size of the socket send buffer </td>
+ *     <td> Tif sizf of tif sodkft sfnd bufffr </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SO_RCVBUF
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SO_RCVBUF
  *                                          SO_RCVBUF} </td>
- *     <td> The size of the socket receive buffer </td>
+ *     <td> Tif sizf of tif sodkft rfdfivf bufffr </td>
  *   </tr>
  *   <tr>
- *     <td> {@link SctpStandardSocketOptions#SO_LINGER
+ *     <td> {@link SdtpStbndbrdSodkftOptions#SO_LINGER
  *                                          SO_LINGER} </td>
- *     <td> Linger on close if data is present (when configured in blocking mode
+ *     <td> Lingfr on dlosf if dbtb is prfsfnt (wifn donfigurfd in blodking modf
  *          only) </td>
  *   </tr>
- * </table>
- * </blockquote>
- * Additional (implementation specific) options may also be supported. The list
- * of options supported is obtained by invoking the {@link #supportedOptions()
- * supportedOptions} method.
+ * </tbblf>
+ * </blodkquotf>
+ * Additionbl (implfmfntbtion spfdifid) options mby blso bf supportfd. Tif list
+ * of options supportfd is obtbinfd by invoking tif {@link #supportfdOptions()
+ * supportfdOptions} mftiod.
  *
- * <p> SCTP multi channels are safe for use by multiple concurrent threads.
- * They support concurrent sending and receiving, though at most one thread may be
- * sending and at most one thread may be receiving at any given time.
+ * <p> SCTP multi dibnnfls brf sbff for usf by multiplf dondurrfnt tirfbds.
+ * Tify support dondurrfnt sfnding bnd rfdfiving, tiougi bt most onf tirfbd mby bf
+ * sfnding bnd bt most onf tirfbd mby bf rfdfiving bt bny givfn timf.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-@jdk.Exported
-public abstract class SctpMultiChannel
-    extends AbstractSelectableChannel
+@jdk.Exportfd
+publid bbstrbdt dlbss SdtpMultiCibnnfl
+    fxtfnds AbstrbdtSflfdtbblfCibnnfl
 {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @param  provider
-     *         The selector provider for this channel
+     * @pbrbm  providfr
+     *         Tif sflfdtor providfr for tiis dibnnfl
      */
-    protected SctpMultiChannel(SelectorProvider provider) {
-        super(provider);
+    protfdtfd SdtpMultiCibnnfl(SflfdtorProvidfr providfr) {
+        supfr(providfr);
     }
 
     /**
-     * Opens an SCTP multi channel.
+     * Opfns bn SCTP multi dibnnfl.
      *
-     * <P> The new channel is unbound.
+     * <P> Tif nfw dibnnfl is unbound.
      *
-     * @return  A new SCTP multi channel
+     * @rfturn  A nfw SCTP multi dibnnfl
      *
-     * @throws UnsupportedOperationException
-     *         If the SCTP protocol is not supported
+     * @tirows UnsupportfdOpfrbtionExdfption
+     *         If tif SCTP protodol is not supportfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public static SctpMultiChannel open() throws
-        IOException {
-        return new sun.nio.ch.sctp.SctpMultiChannelImpl((SelectorProvider)null);
+    publid stbtid SdtpMultiCibnnfl opfn() tirows
+        IOExdfption {
+        rfturn nfw sun.nio.di.sdtp.SdtpMultiCibnnflImpl((SflfdtorProvidfr)null);
     }
 
     /**
-     * Returns the open associations on this channel's socket.
+     * Rfturns tif opfn bssodibtions on tiis dibnnfl's sodkft.
      *
-     * <P> Only associations whose {@link AssociationChangeNotification.AssocChangeEvent#COMM_UP
-     * COMM_UP} association change event has been received are included
-     * in the returned set of associations. Associations for which a
-     * {@link AssociationChangeNotification.AssocChangeEvent#COMM_LOST COMM_LOST} or {@link
-     * AssociationChangeNotification.AssocChangeEvent#SHUTDOWN SHUTDOWN} association change
-     * event have been receive are removed from the set of associations.
+     * <P> Only bssodibtions wiosf {@link AssodibtionCibngfNotifidbtion.AssodCibngfEvfnt#COMM_UP
+     * COMM_UP} bssodibtion dibngf fvfnt ibs bffn rfdfivfd brf indludfd
+     * in tif rfturnfd sft of bssodibtions. Assodibtions for wiidi b
+     * {@link AssodibtionCibngfNotifidbtion.AssodCibngfEvfnt#COMM_LOST COMM_LOST} or {@link
+     * AssodibtionCibngfNotifidbtion.AssodCibngfEvfnt#SHUTDOWN SHUTDOWN} bssodibtion dibngf
+     * fvfnt ibvf bffn rfdfivf brf rfmovfd from tif sft of bssodibtions.
      *
-     * <P> The returned set of associations is a snapshot of the open
-     * associations at the time that this method is invoked.
+     * <P> Tif rfturnfd sft of bssodibtions is b snbpsiot of tif opfn
+     * bssodibtions bt tif timf tibt tiis mftiod is invokfd.
      *
-     * @return  A {@code Set} containing the open associations, or an empty
-     *          {@code Set} if there are none.
+     * @rfturn  A {@dodf Sft} dontbining tif opfn bssodibtions, or bn fmpty
+     *          {@dodf Sft} if tifrf brf nonf.
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract Set<Association> associations()
-        throws IOException;
+    publid bbstrbdt Sft<Assodibtion> bssodibtions()
+        tirows IOExdfption;
 
     /**
-     * Binds the channel's socket to a local address and configures the socket
-     * to listen for connections.
+     * Binds tif dibnnfl's sodkft to b lodbl bddrfss bnd donfigurfs tif sodkft
+     * to listfn for donnfdtions.
      *
-     * <P> This method is used to establish a relationship between the socket
-     * and the local address. Once a relationship is established then
-     * the socket remains bound until the channel is closed. This relationship
-     * may not necesssarily be with the address {@code local} as it may be removed
-     * by {@link #unbindAddress unbindAddress}, but there will always be at least one local
-     * address bound to the channel's socket once an invocation of this method
-     * successfully completes.
+     * <P> Tiis mftiod is usfd to fstbblisi b rflbtionsiip bftwffn tif sodkft
+     * bnd tif lodbl bddrfss. Ondf b rflbtionsiip is fstbblisifd tifn
+     * tif sodkft rfmbins bound until tif dibnnfl is dlosfd. Tiis rflbtionsiip
+     * mby not nfdfsssbrily bf witi tif bddrfss {@dodf lodbl} bs it mby bf rfmovfd
+     * by {@link #unbindAddrfss unbindAddrfss}, but tifrf will blwbys bf bt lfbst onf lodbl
+     * bddrfss bound to tif dibnnfl's sodkft ondf bn invodbtion of tiis mftiod
+     * suddfssfully domplftfs.
      *
-     * <P> Once the channel's socket has been successfully bound to a specific
-     * address, that is not automatically assigned, more addresses
-     * may be bound to it using {@link #bindAddress bindAddress}, or removed
-     * using {@link #unbindAddress unbindAddress}.
+     * <P> Ondf tif dibnnfl's sodkft ibs bffn suddfssfully bound to b spfdifid
+     * bddrfss, tibt is not butombtidblly bssignfd, morf bddrfssfs
+     * mby bf bound to it using {@link #bindAddrfss bindAddrfss}, or rfmovfd
+     * using {@link #unbindAddrfss unbindAddrfss}.
      *
-     * <P> The backlog parameter is the maximum number of pending connections on
-     * the socket. Its exact semantics are implementation specific. An implementation
-     * may impose an implementation specific maximum length or may choose to ignore
-     * the parameter. If the backlog parameter has the value {@code 0}, or a negative
-     * value, then an implementation specific default is used.
+     * <P> Tif bbdklog pbrbmftfr is tif mbximum numbfr of pfnding donnfdtions on
+     * tif sodkft. Its fxbdt sfmbntids brf implfmfntbtion spfdifid. An implfmfntbtion
+     * mby imposf bn implfmfntbtion spfdifid mbximum lfngti or mby dioosf to ignorf
+     * tif pbrbmftfr. If tif bbdklog pbrbmftfr ibs tif vbluf {@dodf 0}, or b nfgbtivf
+     * vbluf, tifn bn implfmfntbtion spfdifid dffbult is usfd.
      *
-     * @param  local
-     *         The local address to bind the socket, or {@code null} to
-     *         bind the socket to an automatically assigned socket address
+     * @pbrbm  lodbl
+     *         Tif lodbl bddrfss to bind tif sodkft, or {@dodf null} to
+     *         bind tif sodkft to bn butombtidblly bssignfd sodkft bddrfss
      *
-     * @param  backlog
-     *         The maximum number number of pending connections
+     * @pbrbm  bbdklog
+     *         Tif mbximum numbfr numbfr of pfnding donnfdtions
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound
+     * @tirows  jbvb.nio.dibnnfls.AlrfbdyBoundExdfption
+     *          If tiis dibnnfl is blrfbdy bound
      *
-     * @throws  java.nio.channels.UnsupportedAddressTypeException
-     *          If the type of the given address is not supported
+     * @tirows  jbvb.nio.dibnnfls.UnsupportfdAddrfssTypfExdfption
+     *          If tif typf of tif givfn bddrfss is not supportfd
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and its {@link
-     *          java.lang.SecurityManager#checkListen(int) checkListen} method
-     *          denies the operation
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkListfn(int) difdkListfn} mftiod
+     *          dfnifs tif opfrbtion
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpMultiChannel bind(SocketAddress local,
-                                          int backlog)
-        throws IOException;
+    publid bbstrbdt SdtpMultiCibnnfl bind(SodkftAddrfss lodbl,
+                                          int bbdklog)
+        tirows IOExdfption;
 
     /**
-     * Binds the channel's socket to a local address and configures the socket
-     * to listen for connections.
+     * Binds tif dibnnfl's sodkft to b lodbl bddrfss bnd donfigurfs tif sodkft
+     * to listfn for donnfdtions.
      *
-     * <P> This method works as if invoking it were equivalent to evaluating the
-     * expression:
-     * <blockquote><pre>
-     * bind(local, 0);
-     * </pre></blockquote>
+     * <P> Tiis mftiod works bs if invoking it wfrf fquivblfnt to fvblubting tif
+     * fxprfssion:
+     * <blodkquotf><prf>
+     * bind(lodbl, 0);
+     * </prf></blodkquotf>
      *
-     * @param  local
-     *         The local address to bind the socket, or {@code null} to
-     *         bind the socket to an automatically assigned socket address
+     * @pbrbm  lodbl
+     *         Tif lodbl bddrfss to bind tif sodkft, or {@dodf null} to
+     *         bind tif sodkft to bn butombtidblly bssignfd sodkft bddrfss
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound
+     * @tirows  jbvb.nio.dibnnfls.AlrfbdyBoundExdfption
+     *          If tiis dibnnfl is blrfbdy bound
      *
-     * @throws  java.nio.channels.UnsupportedAddressTypeException
-     *          If the type of the given address is not supported
+     * @tirows  jbvb.nio.dibnnfls.UnsupportfdAddrfssTypfExdfption
+     *          If tif typf of tif givfn bddrfss is not supportfd
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and its {@link
-     *          java.lang.SecurityManager#checkListen(int) checkListen} method
-     *          denies the operation
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd its {@link
+     *          jbvb.lbng.SfdurityMbnbgfr#difdkListfn(int) difdkListfn} mftiod
+     *          dfnifs tif opfrbtion
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public final SctpMultiChannel bind(SocketAddress local)
-        throws IOException {
-        return bind(local, 0);
+    publid finbl SdtpMultiCibnnfl bind(SodkftAddrfss lodbl)
+        tirows IOExdfption {
+        rfturn bind(lodbl, 0);
     }
 
     /**
-     * Adds the given address to the bound addresses for the channel's
-     * socket.
+     * Adds tif givfn bddrfss to tif bound bddrfssfs for tif dibnnfl's
+     * sodkft.
      *
-     * <P> The given address must not be the {@link
-     * java.net.InetAddress#isAnyLocalAddress wildcard} address.
-     * The channel must be first bound using {@link #bind bind} before
-     * invoking this method, otherwise {@link NotYetBoundException} is thrown.
-     * The {@link #bind bind} method takes a {@code SocketAddress} as its
-     * argument which typically contains a port number as well as an address.
-     * Addresses subquently bound using this method are simply addresses as the
-     * SCTP port number remains the same for the lifetime of the channel.
+     * <P> Tif givfn bddrfss must not bf tif {@link
+     * jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss.
+     * Tif dibnnfl must bf first bound using {@link #bind bind} bfforf
+     * invoking tiis mftiod, otifrwisf {@link NotYftBoundExdfption} is tirown.
+     * Tif {@link #bind bind} mftiod tbkfs b {@dodf SodkftAddrfss} bs its
+     * brgumfnt wiidi typidblly dontbins b port numbfr bs wfll bs bn bddrfss.
+     * Addrfssfs subqufntly bound using tiis mftiod brf simply bddrfssfs bs tif
+     * SCTP port numbfr rfmbins tif sbmf for tif lifftimf of tif dibnnfl.
      *
-     * <P> New associations setup after this method successfully completes
-     * will be associated with the given address. Adding addresses to existing
-     * associations is optional functionality. If the endpoint supports
-     * dynamic address reconfiguration then it may send the appropriate message
-     * to the peer to change the peers address lists.
+     * <P> Nfw bssodibtions sftup bftfr tiis mftiod suddfssfully domplftfs
+     * will bf bssodibtfd witi tif givfn bddrfss. Adding bddrfssfs to fxisting
+     * bssodibtions is optionbl fundtionblity. If tif fndpoint supports
+     * dynbmid bddrfss rfdonfigurbtion tifn it mby sfnd tif bppropribtf mfssbgf
+     * to tif pffr to dibngf tif pffrs bddrfss lists.
      *
-     * @param  address
-     *         The address to add to the bound addresses for the socket
+     * @pbrbm  bddrfss
+     *         Tif bddrfss to bdd to tif bound bddrfssfs for tif sodkft
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  NotYetBoundException
-     *          If this channel is not yet bound
+     * @tirows  NotYftBoundExdfption
+     *          If tiis dibnnfl is not yft bound
      *
-     * @throws  java.nio.channels.AlreadyBoundException
-     *          If this channel is already bound to the given address
+     * @tirows  jbvb.nio.dibnnfls.AlrfbdyBoundExdfption
+     *          If tiis dibnnfl is blrfbdy bound to tif givfn bddrfss
      *
-     * @throws  IllegalArgumentException
-     *          If address is {@code null} or the {@link
-     *          java.net.InetAddress#isAnyLocalAddress wildcard} address
+     * @tirows  IllfgblArgumfntExdfption
+     *          If bddrfss is {@dodf null} or tif {@link
+     *          jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpMultiChannel bindAddress(InetAddress address)
-         throws IOException;
+    publid bbstrbdt SdtpMultiCibnnfl bindAddrfss(InftAddrfss bddrfss)
+         tirows IOExdfption;
 
     /**
-     * Removes the given address from the bound addresses for the channel's
-     * socket.
+     * Rfmovfs tif givfn bddrfss from tif bound bddrfssfs for tif dibnnfl's
+     * sodkft.
      *
-     * <P> The given address must not be the {@link
-     * java.net.InetAddress#isAnyLocalAddress wildcard} address.
-     * The channel must be first bound using {@link #bind bind} before
-     * invoking this method, otherwise {@link NotYetBoundException} is thrown.
+     * <P> Tif givfn bddrfss must not bf tif {@link
+     * jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss.
+     * Tif dibnnfl must bf first bound using {@link #bind bind} bfforf
+     * invoking tiis mftiod, otifrwisf {@link NotYftBoundExdfption} is tirown.
      *
-     * <P> If this method is invoked on a channel that does
-     * not have {@code address} as one of its bound addresses, or that has only
-     * one local address bound to it, then this method throws
-     * {@link IllegalUnbindException}.
+     * <P> If tiis mftiod is invokfd on b dibnnfl tibt dofs
+     * not ibvf {@dodf bddrfss} bs onf of its bound bddrfssfs, or tibt ibs only
+     * onf lodbl bddrfss bound to it, tifn tiis mftiod tirows
+     * {@link IllfgblUnbindExdfption}.
      *
-     * <P> The initial address that the channel's socket is bound to using
-     * {@link #bind bind} may be removed from the bound addresses for the
-     * channel's socket.
+     * <P> Tif initibl bddrfss tibt tif dibnnfl's sodkft is bound to using
+     * {@link #bind bind} mby bf rfmovfd from tif bound bddrfssfs for tif
+     * dibnnfl's sodkft.
      *
-     * <P> New associations setup after this method successfully completes
-     * will not be associated with the given address. Removing addresses from
-     * existing associations is optional functionality. If the endpoint supports
-     * dynamic address reconfiguration then it may send the appropriate message
-     * to the peer to change the peers address lists.
+     * <P> Nfw bssodibtions sftup bftfr tiis mftiod suddfssfully domplftfs
+     * will not bf bssodibtfd witi tif givfn bddrfss. Rfmoving bddrfssfs from
+     * fxisting bssodibtions is optionbl fundtionblity. If tif fndpoint supports
+     * dynbmid bddrfss rfdonfigurbtion tifn it mby sfnd tif bppropribtf mfssbgf
+     * to tif pffr to dibngf tif pffrs bddrfss lists.
      *
-     * @param  address
-     *         The address to remove from the bound addresses for the socket
+     * @pbrbm  bddrfss
+     *         Tif bddrfss to rfmovf from tif bound bddrfssfs for tif sodkft
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  NotYetBoundException
-     *          If this channel is not yet bound
+     * @tirows  NotYftBoundExdfption
+     *          If tiis dibnnfl is not yft bound
      *
-     * @throws  IllegalUnbindException
-     *          {@code address} is not bound to the channel's socket, or the
-     *          channel has only one address  bound to it
+     * @tirows  IllfgblUnbindExdfption
+     *          {@dodf bddrfss} is not bound to tif dibnnfl's sodkft, or tif
+     *          dibnnfl ibs only onf bddrfss  bound to it
      *
-     * @throws  IllegalArgumentException
-     *          If address is {@code null} or the {@link
-     *          java.net.InetAddress#isAnyLocalAddress wildcard} address
+     * @tirows  IllfgblArgumfntExdfption
+     *          If bddrfss is {@dodf null} or tif {@link
+     *          jbvb.nft.InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpMultiChannel unbindAddress(InetAddress address)
-         throws IOException;
+    publid bbstrbdt SdtpMultiCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+         tirows IOExdfption;
 
     /**
-     * Returns all of the socket addresses to which this channel's socket is
+     * Rfturns bll of tif sodkft bddrfssfs to wiidi tiis dibnnfl's sodkft is
      * bound.
      *
-     * @return  All the socket addresses that this channel's socket is
-     *          bound to, or an empty {@code Set} if the channel's socket is not
+     * @rfturn  All tif sodkft bddrfssfs tibt tiis dibnnfl's sodkft is
+     *          bound to, or bn fmpty {@dodf Sft} if tif dibnnfl's sodkft is not
      *          bound
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tif dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract Set<SocketAddress> getAllLocalAddresses()
-        throws IOException;
+    publid bbstrbdt Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+        tirows IOExdfption;
 
     /**
-     * Returns all of the remote addresses to which the given association on
-     * this channel's socket is connected.
+     * Rfturns bll of tif rfmotf bddrfssfs to wiidi tif givfn bssodibtion on
+     * tiis dibnnfl's sodkft is donnfdtfd.
      *
-     * @param  association
-     *         The association
+     * @pbrbm  bssodibtion
+     *         Tif bssodibtion
      *
-     * @return  All of the remote addresses for the given association, or
-     *          an empty {@code Set} if the association has been shutdown
+     * @rfturn  All of tif rfmotf bddrfssfs for tif givfn bssodibtion, or
+     *          bn fmpty {@dodf Sft} if tif bssodibtion ibs bffn siutdown
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tif dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract Set<SocketAddress> getRemoteAddresses(Association association)
-        throws IOException;
+    publid bbstrbdt Sft<SodkftAddrfss> gftRfmotfAddrfssfs(Assodibtion bssodibtion)
+        tirows IOExdfption;
 
     /**
-     * Shutdown an association without closing the channel.
+     * Siutdown bn bssodibtion witiout dlosing tif dibnnfl.
      *
-     * @param  association
-     *         The association to shutdown
+     * @pbrbm  bssodibtion
+     *         Tif bssodibtion to siutdown
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpMultiChannel shutdown(Association association)
-            throws IOException;
+    publid bbstrbdt SdtpMultiCibnnfl siutdown(Assodibtion bssodibtion)
+            tirows IOExdfption;
 
     /**
-     * Returns the value of a socket option.
+     * Rfturns tif vbluf of b sodkft option.
      *
-     * <P> Note that some options are retrieved on the channel's socket,
-     * therefore the {@code association} parameter is not applicable and will be
-     * ignored if given. However, if the option is association specific then the
-     * association must be given.
+     * <P> Notf tibt somf options brf rftrifvfd on tif dibnnfl's sodkft,
+     * tifrfforf tif {@dodf bssodibtion} pbrbmftfr is not bpplidbblf bnd will bf
+     * ignorfd if givfn. Howfvfr, if tif option is bssodibtion spfdifid tifn tif
+     * bssodibtion must bf givfn.
      *
-     * @param  <T>
-     *         The type of the socket option value
+     * @pbrbm  <T>
+     *         Tif typf of tif sodkft option vbluf
      *
-     * @param  name
-     *         The socket option
+     * @pbrbm  nbmf
+     *         Tif sodkft option
      *
-     * @param  association
-     *         The association whose option should be retrieved, or {@code null}
-     *         if this option should be retrieved at the channel's socket level.
+     * @pbrbm  bssodibtion
+     *         Tif bssodibtion wiosf option siould bf rftrifvfd, or {@dodf null}
+     *         if tiis option siould bf rftrifvfd bt tif dibnnfl's sodkft lfvfl.
      *
-     * @return  The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @rfturn  Tif vbluf of tif sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif sodkft option is not supportfd by tiis dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see SctpStandardSocketOptions
+     * @sff SdtpStbndbrdSodkftOptions
      */
-    public abstract <T> T getOption(SctpSocketOption<T> name,
-                                    Association association)
-        throws IOException;
+    publid bbstrbdt <T> T gftOption(SdtpSodkftOption<T> nbmf,
+                                    Assodibtion bssodibtion)
+        tirows IOExdfption;
 
     /**
-     * Sets the value of a socket option.
+     * Sfts tif vbluf of b sodkft option.
      *
-     * <P> Note that some options are retrieved on the channel's socket,
-     * therefore the {@code association} parameter is not applicable and will be
-     * ignored if given. However, if the option is association specific then the
-     * association must be given.
+     * <P> Notf tibt somf options brf rftrifvfd on tif dibnnfl's sodkft,
+     * tifrfforf tif {@dodf bssodibtion} pbrbmftfr is not bpplidbblf bnd will bf
+     * ignorfd if givfn. Howfvfr, if tif option is bssodibtion spfdifid tifn tif
+     * bssodibtion must bf givfn.
      *
-     * @param   <T>
-     *          The type of the socket option value
+     * @pbrbm   <T>
+     *          Tif typf of tif sodkft option vbluf
      *
-     * @param   name
-     *          The socket option
+     * @pbrbm   nbmf
+     *          Tif sodkft option
      *
-     * @param  association
-     *         The association whose option should be set, or {@code null}
-     *         if this option should be set at the channel's socket level.
+     * @pbrbm  bssodibtion
+     *         Tif bssodibtion wiosf option siould bf sft, or {@dodf null}
+     *         if tiis option siould bf sft bt tif dibnnfl's sodkft lfvfl.
      *
-     * @param   value
-     *          The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @pbrbm   vbluf
+     *          Tif vbluf of tif sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif sodkft option is not supportfd by tiis dibnnfl
      *
-     * @throws  IllegalArgumentException
-     *          If the value is not a valid value for this socket option
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif vbluf is not b vblid vbluf for tiis sodkft option
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see SctpStandardSocketOptions
+     * @sff SdtpStbndbrdSodkftOptions
      */
-    public abstract <T> SctpMultiChannel setOption(SctpSocketOption<T> name,
-                                                   T value,
-                                                   Association association)
-         throws IOException;
+    publid bbstrbdt <T> SdtpMultiCibnnfl sftOption(SdtpSodkftOption<T> nbmf,
+                                                   T vbluf,
+                                                   Assodibtion bssodibtion)
+         tirows IOExdfption;
 
      /**
-     * Returns a set of the socket options supported by this channel.
+     * Rfturns b sft of tif sodkft options supportfd by tiis dibnnfl.
      *
-     * <P> This method will continue to return the set of options even after the
-     * channel has been closed.
+     * <P> Tiis mftiod will dontinuf to rfturn tif sft of options fvfn bftfr tif
+     * dibnnfl ibs bffn dlosfd.
      *
-     * @return  A set of the socket options supported by this channel
+     * @rfturn  A sft of tif sodkft options supportfd by tiis dibnnfl
      */
-    public abstract Set<SctpSocketOption<?>> supportedOptions();
+    publid bbstrbdt Sft<SdtpSodkftOption<?>> supportfdOptions();
 
     /**
-     * Returns an operation set identifying this channel's supported operations.
+     * Rfturns bn opfrbtion sft idfntifying tiis dibnnfl's supportfd opfrbtions.
      *
-     * <P> SCTP multi channels support reading, and writing, so this
-     * method returns
-     * {@code (}{@link SelectionKey#OP_READ} {@code |}&nbsp;{@link
-     * SelectionKey#OP_WRITE}{@code )}.  </p>
+     * <P> SCTP multi dibnnfls support rfbding, bnd writing, so tiis
+     * mftiod rfturns
+     * {@dodf (}{@link SflfdtionKfy#OP_READ} {@dodf |}&nbsp;{@link
+     * SflfdtionKfy#OP_WRITE}{@dodf )}.  </p>
      *
-     * @return  The valid-operation set
+     * @rfturn  Tif vblid-opfrbtion sft
      */
-    @Override
-    public final int validOps() {
-        return (SelectionKey.OP_READ |
-                SelectionKey.OP_WRITE );
+    @Ovfrridf
+    publid finbl int vblidOps() {
+        rfturn (SflfdtionKfy.OP_READ |
+                SflfdtionKfy.OP_WRITE );
     }
 
     /**
-     * Receives a message and/or handles a notification via this channel.
+     * Rfdfivfs b mfssbgf bnd/or ibndlfs b notifidbtion vib tiis dibnnfl.
      *
-     * <P> If a message or notification is immediately available, or if this
-     * channel is in blocking mode and one eventually becomes available, then
-     * the message or notification is returned or handled, respectively. If this
-     * channel is in non-blocking mode and a message or notification is not
-     * immediately available then this method immediately returns {@code null}.
+     * <P> If b mfssbgf or notifidbtion is immfdibtfly bvbilbblf, or if tiis
+     * dibnnfl is in blodking modf bnd onf fvfntublly bfdomfs bvbilbblf, tifn
+     * tif mfssbgf or notifidbtion is rfturnfd or ibndlfd, rfspfdtivfly. If tiis
+     * dibnnfl is in non-blodking modf bnd b mfssbgf or notifidbtion is not
+     * immfdibtfly bvbilbblf tifn tiis mftiod immfdibtfly rfturns {@dodf null}.
      *
-     * <P> If this method receives a message it is copied into the given byte
-     * buffer and an {@link MessageInfo} is returned.
-     * The message is transferred into the given byte buffer starting at its
-     * current position and the buffers position is incremented by the number of
-     * bytes read. If there are fewer bytes remaining in the buffer than are
-     * required to hold the message, or the underlying input buffer does not
-     * contain the complete message, then an invocation of {@link
-     * MessageInfo#isComplete isComplete} on the returned {@code
-     * MessageInfo} will return {@code false}, and more invocations of this
-     * method will be necessary to completely consume the messgae. Only
-     * one message at a time will be partially delivered in any stream. The
-     * socket option {@link SctpStandardSocketOptions#SCTP_FRAGMENT_INTERLEAVE
-     * SCTP_FRAGMENT_INTERLEAVE} controls various aspects of what interlacing of
-     * messages occurs.
+     * <P> If tiis mftiod rfdfivfs b mfssbgf it is dopifd into tif givfn bytf
+     * bufffr bnd bn {@link MfssbgfInfo} is rfturnfd.
+     * Tif mfssbgf is trbnsffrrfd into tif givfn bytf bufffr stbrting bt its
+     * durrfnt position bnd tif bufffrs position is indrfmfntfd by tif numbfr of
+     * bytfs rfbd. If tifrf brf ffwfr bytfs rfmbining in tif bufffr tibn brf
+     * rfquirfd to iold tif mfssbgf, or tif undfrlying input bufffr dofs not
+     * dontbin tif domplftf mfssbgf, tifn bn invodbtion of {@link
+     * MfssbgfInfo#isComplftf isComplftf} on tif rfturnfd {@dodf
+     * MfssbgfInfo} will rfturn {@dodf fblsf}, bnd morf invodbtions of tiis
+     * mftiod will bf nfdfssbry to domplftfly donsumf tif mfssgbf. Only
+     * onf mfssbgf bt b timf will bf pbrtiblly dflivfrfd in bny strfbm. Tif
+     * sodkft option {@link SdtpStbndbrdSodkftOptions#SCTP_FRAGMENT_INTERLEAVE
+     * SCTP_FRAGMENT_INTERLEAVE} dontrols vbrious bspfdts of wibt intfrlbding of
+     * mfssbgfs oddurs.
      *
-     * <P> If this method receives a notification then the appropriate method of
-     * the given handler, if there is one, is invoked. If the handler returns {@link
-     * HandlerResult#CONTINUE CONTINUE} then this method will try to receive another
-     * message/notification, otherwise, if {@link HandlerResult#RETURN RETURN} is returned
-     * this method will return {@code null}. If an uncaught exception is thrown by the
-     * handler it will be propagated up the stack through this method.
+     * <P> If tiis mftiod rfdfivfs b notifidbtion tifn tif bppropribtf mftiod of
+     * tif givfn ibndlfr, if tifrf is onf, is invokfd. If tif ibndlfr rfturns {@link
+     * HbndlfrRfsult#CONTINUE CONTINUE} tifn tiis mftiod will try to rfdfivf bnotifr
+     * mfssbgf/notifidbtion, otifrwisf, if {@link HbndlfrRfsult#RETURN RETURN} is rfturnfd
+     * tiis mftiod will rfturn {@dodf null}. If bn undbugit fxdfption is tirown by tif
+     * ibndlfr it will bf propbgbtfd up tif stbdk tirougi tiis mftiod.
      *
-     * <P> If a security manager has been installed then for each new association
-     * setup this method verifies that the associations source address and port
-     * number are permitted by the security manager's {@link
-     * java.lang.SecurityManager#checkAccept(String,int) checkAccept} method.
+     * <P> If b sfdurity mbnbgfr ibs bffn instbllfd tifn for fbdi nfw bssodibtion
+     * sftup tiis mftiod vfrififs tibt tif bssodibtions sourdf bddrfss bnd port
+     * numbfr brf pfrmittfd by tif sfdurity mbnbgfr's {@link
+     * jbvb.lbng.SfdurityMbnbgfr#difdkAddfpt(String,int) difdkAddfpt} mftiod.
      *
-     * <P> This method may be invoked at any time. If another thread has
-     * already initiated a receive operation upon this channel, then an
-     * invocation of this method will block until the first operation is
-     * complete. The given handler is invoked without holding any locks used
-     * to enforce the above synchronization policy, that way handlers
-     * will not stall other threads from receiving. A handler should not invoke
-     * the {@code receive} method of this channel, if it does an
-     * {@link IllegalReceiveException} will be thrown.
+     * <P> Tiis mftiod mby bf invokfd bt bny timf. If bnotifr tirfbd ibs
+     * blrfbdy initibtfd b rfdfivf opfrbtion upon tiis dibnnfl, tifn bn
+     * invodbtion of tiis mftiod will blodk until tif first opfrbtion is
+     * domplftf. Tif givfn ibndlfr is invokfd witiout iolding bny lodks usfd
+     * to fnfordf tif bbovf syndironizbtion polidy, tibt wby ibndlfrs
+     * will not stbll otifr tirfbds from rfdfiving. A ibndlfr siould not invokf
+     * tif {@dodf rfdfivf} mftiod of tiis dibnnfl, if it dofs bn
+     * {@link IllfgblRfdfivfExdfption} will bf tirown.
      *
-     * @param  <T>
-     *         The type of the attachment
+     * @pbrbm  <T>
+     *         Tif typf of tif bttbdimfnt
      *
-     * @param  buffer
-     *         The buffer into which bytes are to be transferred
+     * @pbrbm  bufffr
+     *         Tif bufffr into wiidi bytfs brf to bf trbnsffrrfd
      *
-     * @param  attachment
-     *         The object to attach to the receive operation; can be
-     *         {@code null}
+     * @pbrbm  bttbdimfnt
+     *         Tif objfdt to bttbdi to tif rfdfivf opfrbtion; dbn bf
+     *         {@dodf null}
      *
-     * @param  handler
-     *         A handler to handle notifications from the SCTP stack, or
-     *         {@code null} to ignore any notifications.
+     * @pbrbm  ibndlfr
+     *         A ibndlfr to ibndlf notifidbtions from tif SCTP stbdk, or
+     *         {@dodf null} to ignorf bny notifidbtions.
      *
-     * @return  The {@code MessageInfo}, {@code null} if this channel is in
-     *          non-blocking mode and no messages are immediately available or
-     *          the notification handler returns {@code RETURN} after handling
-     *          a notification
+     * @rfturn  Tif {@dodf MfssbgfInfo}, {@dodf null} if tiis dibnnfl is in
+     *          non-blodking modf bnd no mfssbgfs brf immfdibtfly bvbilbblf or
+     *          tif notifidbtion ibndlfr rfturns {@dodf RETURN} bftfr ibndling
+     *          b notifidbtion
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     * @tirows  jbvb.nio.dibnnfls.AsyndironousClosfExdfption
+     *          If bnotifr tirfbd dlosfs tiis dibnnfl
+     *          wiilf tif rfbd opfrbtion is in progrfss
      *
-     * @throws  java.nio.channels.ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @tirows  jbvb.nio.dibnnfls.ClosfdByIntfrruptExdfption
+     *          If bnotifr tirfbd intfrrupts tif durrfnt tirfbd
+     *          wiilf tif rfbd opfrbtion is in progrfss, tifrfby
+     *          dlosing tif dibnnfl bnd sftting tif durrfnt tirfbd's
+     *          intfrrupt stbtus
      *
-     * @throws  NotYetBoundException
-     *          If this channel is not yet bound
+     * @tirows  NotYftBoundExdfption
+     *          If tiis dibnnfl is not yft bound
      *
-     * @throws  IllegalReceiveException
-     *          If the given handler invokes the {@code receive} method of this
-     *          channel
+     * @tirows  IllfgblRfdfivfExdfption
+     *          If tif givfn ibndlfr invokfs tif {@dodf rfdfivf} mftiod of tiis
+     *          dibnnfl
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it does not permit
-     *          new associations to be accepted from the message's sender
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dofs not pfrmit
+     *          nfw bssodibtions to bf bddfptfd from tif mfssbgf's sfndfr
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract <T> MessageInfo receive(ByteBuffer buffer,
-                                            T attachment,
-                                            NotificationHandler<T> handler)
-        throws IOException;
+    publid bbstrbdt <T> MfssbgfInfo rfdfivf(BytfBufffr bufffr,
+                                            T bttbdimfnt,
+                                            NotifidbtionHbndlfr<T> ibndlfr)
+        tirows IOExdfption;
 
     /**
-     * Sends a message via this channel.
+     * Sfnds b mfssbgf vib tiis dibnnfl.
      *
-     * <P> If this channel is unbound then this method will invoke {@link
-     * #bind(SocketAddress, int) bind(null, 0)} before sending any data.
+     * <P> If tiis dibnnfl is unbound tifn tiis mftiod will invokf {@link
+     * #bind(SodkftAddrfss, int) bind(null, 0)} bfforf sfnding bny dbtb.
      *
-     * <P> If there is no association existing between this channel's socket
-     * and the intended receiver, identified by the address in the given messageInfo, then one
-     * will be automatically setup to the intended receiver. This is considered
-     * to be Implicit Association Setup. Upon successful association setup, an
-     * {@link AssociationChangeNotification association changed}
-     * notification will be put to the SCTP stack with its {@code event} parameter set
-     * to {@link AssociationChangeNotification.AssocChangeEvent#COMM_UP COMM_UP}
-     * . This notification can be received by invoking {@link #receive
-     * receive}.
+     * <P> If tifrf is no bssodibtion fxisting bftwffn tiis dibnnfl's sodkft
+     * bnd tif intfndfd rfdfivfr, idfntififd by tif bddrfss in tif givfn mfssbgfInfo, tifn onf
+     * will bf butombtidblly sftup to tif intfndfd rfdfivfr. Tiis is donsidfrfd
+     * to bf Implidit Assodibtion Sftup. Upon suddfssful bssodibtion sftup, bn
+     * {@link AssodibtionCibngfNotifidbtion bssodibtion dibngfd}
+     * notifidbtion will bf put to tif SCTP stbdk witi its {@dodf fvfnt} pbrbmftfr sft
+     * to {@link AssodibtionCibngfNotifidbtion.AssodCibngfEvfnt#COMM_UP COMM_UP}
+     * . Tiis notifidbtion dbn bf rfdfivfd by invoking {@link #rfdfivf
+     * rfdfivf}.
      *
-     * <P> If this channel is in blocking mode, there is sufficient room in the
-     * underlying output buffer, then the remaining bytes in the given byte
-     * buffer are transmitted as a single message. Sending a message
-     * is atomic unless explicit message completion {@link
-     * SctpStandardSocketOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}
-     * socket option is enabled on this channel's socket.
+     * <P> If tiis dibnnfl is in blodking modf, tifrf is suffidifnt room in tif
+     * undfrlying output bufffr, tifn tif rfmbining bytfs in tif givfn bytf
+     * bufffr brf trbnsmittfd bs b singlf mfssbgf. Sfnding b mfssbgf
+     * is btomid unlfss fxplidit mfssbgf domplftion {@link
+     * SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}
+     * sodkft option is fnbblfd on tiis dibnnfl's sodkft.
      *
-     * <P> If this channel is in non-blocking mode, there is sufficient room
-     * in the underlying output buffer, and an implicit association setup is
-     * required, then the remaining bytes in the given byte buffer are
-     * transmitted as a single message, subject to {@link
-     * SctpStandardSocketOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}.
-     * If for any reason the message cannot
-     * be delivered an {@link AssociationChangeNotification association
-     * changed} notification is put on the SCTP stack with its {@code event} parameter set
-     * to {@link AssociationChangeNotification.AssocChangeEvent#CANT_START CANT_START}.
+     * <P> If tiis dibnnfl is in non-blodking modf, tifrf is suffidifnt room
+     * in tif undfrlying output bufffr, bnd bn implidit bssodibtion sftup is
+     * rfquirfd, tifn tif rfmbining bytfs in tif givfn bytf bufffr brf
+     * trbnsmittfd bs b singlf mfssbgf, subjfdt to {@link
+     * SdtpStbndbrdSodkftOptions#SCTP_EXPLICIT_COMPLETE SCTP_EXPLICIT_COMPLETE}.
+     * If for bny rfbson tif mfssbgf dbnnot
+     * bf dflivfrfd bn {@link AssodibtionCibngfNotifidbtion bssodibtion
+     * dibngfd} notifidbtion is put on tif SCTP stbdk witi its {@dodf fvfnt} pbrbmftfr sft
+     * to {@link AssodibtionCibngfNotifidbtion.AssodCibngfEvfnt#CANT_START CANT_START}.
      *
-     * <P> The message is transferred from the byte buffer as if by a regular
-     * {@link java.nio.channels.WritableByteChannel#write(java.nio.ByteBuffer)
-     * write} operation.
+     * <P> Tif mfssbgf is trbnsffrrfd from tif bytf bufffr bs if by b rfgulbr
+     * {@link jbvb.nio.dibnnfls.WritbblfBytfCibnnfl#writf(jbvb.nio.BytfBufffr)
+     * writf} opfrbtion.
      *
-     * <P> If a security manager has been installed then for each new association
-     * setup this method verifies that the given remote peers address and port
-     * number are permitted by the security manager's {@link
-     * java.lang.SecurityManager#checkConnect(String,int) checkConnect} method.
+     * <P> If b sfdurity mbnbgfr ibs bffn instbllfd tifn for fbdi nfw bssodibtion
+     * sftup tiis mftiod vfrififs tibt tif givfn rfmotf pffrs bddrfss bnd port
+     * numbfr brf pfrmittfd by tif sfdurity mbnbgfr's {@link
+     * jbvb.lbng.SfdurityMbnbgfr#difdkConnfdt(String,int) difdkConnfdt} mftiod.
      *
-     * <P> This method may be invoked at any time. If another thread has already
-     * initiated a send operation upon this channel, then an invocation of
-     * this method will block until the first operation is complete.
+     * <P> Tiis mftiod mby bf invokfd bt bny timf. If bnotifr tirfbd ibs blrfbdy
+     * initibtfd b sfnd opfrbtion upon tiis dibnnfl, tifn bn invodbtion of
+     * tiis mftiod will blodk until tif first opfrbtion is domplftf.
      *
-     * @param  buffer
-     *         The buffer containing the message to be sent
+     * @pbrbm  bufffr
+     *         Tif bufffr dontbining tif mfssbgf to bf sfnt
      *
-     * @param  messageInfo
-     *         Ancillary data about the message to be sent
+     * @pbrbm  mfssbgfInfo
+     *         Andillbry dbtb bbout tif mfssbgf to bf sfnt
      *
-     * @return  The number of bytes sent, which will be either the number of
-     *          bytes that were remaining in the messages buffer when this method
-     *          was invoked or, if this channel is non-blocking, may be zero if
-     *          there was insufficient room for the message in the underlying
-     *          output buffer
+     * @rfturn  Tif numbfr of bytfs sfnt, wiidi will bf fitifr tif numbfr of
+     *          bytfs tibt wfrf rfmbining in tif mfssbgfs bufffr wifn tiis mftiod
+     *          wbs invokfd or, if tiis dibnnfl is non-blodking, mby bf zfro if
+     *          tifrf wbs insuffidifnt room for tif mfssbgf in tif undfrlying
+     *          output bufffr
      *
-     * @throws  InvalidStreamException
-     *          If {@code streamNumber} is negative, or if an association already
-     *          exists and {@code streamNumber} is greater than the maximum number
-     *          of outgoing streams
+     * @tirows  InvblidStrfbmExdfption
+     *          If {@dodf strfbmNumbfr} is nfgbtivf, or if bn bssodibtion blrfbdy
+     *          fxists bnd {@dodf strfbmNumbfr} is grfbtfr tibn tif mbximum numbfr
+     *          of outgoing strfbms
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  java.nio.channels.AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     * @tirows  jbvb.nio.dibnnfls.AsyndironousClosfExdfption
+     *          If bnotifr tirfbd dlosfs tiis dibnnfl
+     *          wiilf tif rfbd opfrbtion is in progrfss
      *
-     * @throws  java.nio.channels.ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @tirows  jbvb.nio.dibnnfls.ClosfdByIntfrruptExdfption
+     *          If bnotifr tirfbd intfrrupts tif durrfnt tirfbd
+     *          wiilf tif rfbd opfrbtion is in progrfss, tifrfby
+     *          dlosing tif dibnnfl bnd sftting tif durrfnt tirfbd's
+     *          intfrrupt stbtus
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it does not permit
-     *          new associations to be setup with the the messages's address
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dofs not pfrmit
+     *          nfw bssodibtions to bf sftup witi tif tif mfssbgfs's bddrfss
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract int send(ByteBuffer buffer, MessageInfo messageInfo)
-        throws IOException;
+    publid bbstrbdt int sfnd(BytfBufffr bufffr, MfssbgfInfo mfssbgfInfo)
+        tirows IOExdfption;
 
     /**
-     * Branches off an association.
+     * Brbndifs off bn bssodibtion.
      *
-     * <P> An application can invoke this method to branch off an association
-     * into a separate channel. The new bound and connected {@link SctpChannel}
-     * will be created for the association. The branched off association will no
-     * longer be part of this channel.
+     * <P> An bpplidbtion dbn invokf tiis mftiod to brbndi off bn bssodibtion
+     * into b sfpbrbtf dibnnfl. Tif nfw bound bnd donnfdtfd {@link SdtpCibnnfl}
+     * will bf drfbtfd for tif bssodibtion. Tif brbndifd off bssodibtion will no
+     * longfr bf pbrt of tiis dibnnfl.
      *
-     * <P> This is particularly useful when, for instance, the application
-     * wishes to have a number of sporadic message senders/receivers remain
-     * under the original SCTP multi channel but branch off those
-     * associations carrying high volume data traffic into their own
-     * separate SCTP channels.
+     * <P> Tiis is pbrtidulbrly usfful wifn, for instbndf, tif bpplidbtion
+     * wisifs to ibvf b numbfr of sporbdid mfssbgf sfndfrs/rfdfivfrs rfmbin
+     * undfr tif originbl SCTP multi dibnnfl but brbndi off tiosf
+     * bssodibtions dbrrying iigi volumf dbtb trbffid into tifir own
+     * sfpbrbtf SCTP dibnnfls.
      *
-     * @param  association
-     *         The association to branch off
+     * @pbrbm  bssodibtion
+     *         Tif bssodibtion to brbndi off
      *
-     * @return  The {@code SctpChannel}
+     * @rfturn  Tif {@dodf SdtpCibnnfl}
      *
-     * @throws  java.nio.channels.ClosedChannelException
-     *          If this channel is closed
+     * @tirows  jbvb.nio.dibnnfls.ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract SctpChannel branch(Association association)
-        throws IOException;
+    publid bbstrbdt SdtpCibnnfl brbndi(Assodibtion bssodibtion)
+        tirows IOExdfption;
 }

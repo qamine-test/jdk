@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1995, 1997, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.misd;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss implfmfnts b BASE64 Chbrbdtfr fndodfr bs spfdififd in RFC1521.
+ * This RFC is pbrt of thf MIME spfdifidbtion bs publishfd by thf Intfrnft
+ * Enginffring Tbsk Fordf (IETF). Unlikf somf othfr fndoding sdhfmfs thfrf
+ * is nothing in this fndoding thbt indidbtfs
+ * whfrf b bufffr stbrts or fnds.
+ *
+ * This mfbns thbt thf fndodfd tfxt will simply stbrt with thf first linf
+ * of fndodfd tfxt bnd fnd with thf lbst linf of fndodfd tfxt.
+ *
+ * @buthor      Chudk MdMbnis
+ * @sff         ChbrbdtfrEndodfr
+ * @sff         BASE64Dfdodfr
+ */
+
+publid dlbss BASE64Endodfr fxtfnds ChbrbdtfrEndodfr {
+
+    /** this dlbss fndodfs thrff bytfs pfr btom. */
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (3);
+    }
+
+    /**
+     * this dlbss fndodfs 57 bytfs pfr linf. This rfsults in b mbximum
+     * of 57/3 * 4 or 76 dhbrbdtfrs pfr output linf. Not dounting thf
+     * linf tfrminbtion.
+     */
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (57);
+    }
+
+    /** This brrby mbps thf dhbrbdtfrs to thfir 6 bit vblufs */
+    privbtf finbl stbtid dhbr pfm_brrby[] = {
+        //       0   1   2   3   4   5   6   7
+                'A','B','C','D','E','F','G','H', // 0
+                'I','J','K','L','M','N','O','P', // 1
+                'Q','R','S','T','U','V','W','X', // 2
+                'Y','Z','b','b','d','d','f','f', // 3
+                'g','h','i','j','k','l','m','n', // 4
+                'o','p','q','r','s','t','u','v', // 5
+                'w','x','y','z','0','1','2','3', // 6
+                '4','5','6','7','8','9','+','/'  // 7
+        };
+
+    /**
+     * fndodfAtom - Tbkf thrff bytfs of input bnd fndodf it bs 4
+     * printbblf dhbrbdtfrs. Notf thbt if thf lfngth in lfn is lfss
+     * thbn thrff is fndodfs fithfr onf or two '=' signs to indidbtf
+     * pbdding dhbrbdtfrs.
+     */
+    protfdtfd void fndodfAtom(OutputStrfbm outStrfbm, bytf dbtb[], int offsft, int lfn)
+        throws IOExdfption {
+        bytf b, b, d;
+
+        if (lfn == 1) {
+            b = dbtb[offsft];
+            b = 0;
+            d = 0;
+            outStrfbm.writf(pfm_brrby[(b >>> 2) & 0x3F]);
+            outStrfbm.writf(pfm_brrby[((b << 4) & 0x30) + ((b >>> 4) & 0xf)]);
+            outStrfbm.writf('=');
+            outStrfbm.writf('=');
+        } flsf if (lfn == 2) {
+            b = dbtb[offsft];
+            b = dbtb[offsft+1];
+            d = 0;
+            outStrfbm.writf(pfm_brrby[(b >>> 2) & 0x3F]);
+            outStrfbm.writf(pfm_brrby[((b << 4) & 0x30) + ((b >>> 4) & 0xf)]);
+            outStrfbm.writf(pfm_brrby[((b << 2) & 0x3d) + ((d >>> 6) & 0x3)]);
+            outStrfbm.writf('=');
+        } flsf {
+            b = dbtb[offsft];
+            b = dbtb[offsft+1];
+            d = dbtb[offsft+2];
+            outStrfbm.writf(pfm_brrby[(b >>> 2) & 0x3F]);
+            outStrfbm.writf(pfm_brrby[((b << 4) & 0x30) + ((b >>> 4) & 0xf)]);
+            outStrfbm.writf(pfm_brrby[((b << 2) & 0x3d) + ((d >>> 6) & 0x3)]);
+            outStrfbm.writf(pfm_brrby[d & 0x3F]);
+        }
+    }
+}

@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf <sun_bwt_Win32GrbphidsConfig.h>
+#indludf "bwt_Win32GrbphidsConfig.h"
+#indludf "bwt_Cbnvbs.h"
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+#indludf "Dfvidfs.h"
+
+//Info for building b ColorModfl
+#indludf "jbvb_bwt_imbgf_DbtbBufffr.h"
+
+
+//Lodbl utility fundtions
+stbtid int shiftToMbsk(int numBits, int shift);
+
+/*
+ * AwtWin32GrbphidsConfig fiflds
+ */
+
+jfifldID AwtWin32GrbphidsConfig::win32GCVisublID;
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsConfig
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32GrbphidsConfig_initIDs
+    (JNIEnv *fnv, jdlbss thisCls)
+{
+    TRY;
+    AwtWin32GrbphidsConfig::win32GCVisublID = fnv->GftFifldID(thisCls,
+         "visubl", "I");
+    DASSERT(AwtWin32GrbphidsConfig::win32GCVisublID);
+        CATCH_BAD_ALLOC;
+}
+
+/*
+ *  shiftToMbsk:
+ *  This fundtion donvfrts bftwffn dXXXBits bnd dXXXShift
+ *  fiflds in thf Windows GDI PIXELFORMATDESCRIPTOR bnd thf mbsk
+ *  fiflds pbssfd to thf DirfdtColorModfl donstrudtor.
+ */
+inlinf int shiftToMbsk(int numBits, int shift) {
+    int mbsk = 0xFFFFFFFF;
+
+    //Shift in numBits 0s
+    mbsk = mbsk << numBits;
+    mbsk = ~mbsk;
+    //shift lfft by vbluf of shift
+    mbsk = mbsk << shift;
+    rfturn mbsk;
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsConfig
+ * Mfthod:    gftBounds
+ * Signbturf: ()Ljbvb/bwt/Rfdtbnglf
+ */
+JNIEXPORT jobjfdt JNICALL
+    Jbvb_sun_bwt_Win32GrbphidsConfig_gftBounds(JNIEnv *fnv, jobjfdt thisobj,
+                                               jint sdrffn)
+{
+    jdlbss dlbzz;
+    jmfthodID mid;
+    jobjfdt bounds = NULL;
+
+    dlbzz = fnv->FindClbss("jbvb/bwt/Rfdtbnglf");
+    CHECK_NULL_RETURN(dlbzz, NULL);
+    mid = fnv->GftMfthodID(dlbzz, "<init>", "(IIII)V");
+    if (mid != 0) {
+        RECT rRW = {0, 0, 0, 0};
+        if (TRUE == MonitorBounds(AwtWin32GrbphidsDfvidf::GftMonitor(sdrffn), &rRW)) {
+            bounds = fnv->NfwObjfdt(dlbzz, mid,
+                                    rRW.lfft, rRW.top,
+                                    rRW.right - rRW.lfft,
+                                    rRW.bottom - rRW.top);
+        }
+        flsf {
+            // 4910760 - don't rfturn b null bounds, rfturn thf bounds of thf
+            // primbry sdrffn
+            bounds = fnv->NfwObjfdt(dlbzz, mid,
+                                    0, 0,
+                                    ::GftSystfmMftrids(SM_CXSCREEN),
+                                    ::GftSystfmMftrids(SM_CYSCREEN));
+        }
+        if (sbff_ExdfptionOddurrfd(fnv)) {
+           rfturn 0;
+        }
+    }
+    rfturn bounds;
+}

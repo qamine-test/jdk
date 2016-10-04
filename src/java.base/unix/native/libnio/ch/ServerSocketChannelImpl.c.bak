@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <netdb.h>
-#include <sys/types.h>
-#include <sys/socket.h>
+#indludf <stdlib.i>
+#indludf <nftdb.i>
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
 
 #if __linux__
-#include <netinet/in.h>
-#endif
+#indludf <nftinft/in.i>
+#fndif
 
-#if defined(__solaris__) && !defined(_SOCKLEN_T)
-typedef size_t socklen_t;       /* New in SunOS 5.7, so need this for 5.6 */
-#endif
+#if dffinfd(__solbris__) && !dffinfd(_SOCKLEN_T)
+typfdff sizf_t sodklfn_t;       /* Nfw in SunOS 5.7, so nffd tiis for 5.6 */
+#fndif
 
-#include "jni.h"
-#include "jni_util.h"
-#include "net_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "sun_nio_ch_ServerSocketChannelImpl.h"
-#include "nio.h"
-#include "nio_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "nft_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "sun_nio_di_SfrvfrSodkftCibnnflImpl.i"
+#indludf "nio.i"
+#indludf "nio_util.i"
 
 
-static jfieldID fd_fdID;        /* java.io.FileDescriptor.fd */
-static jclass isa_class;        /* java.net.InetSocketAddress */
-static jmethodID isa_ctorID;    /*   .InetSocketAddress(InetAddress, int) */
+stbtid jfifldID fd_fdID;        /* jbvb.io.FilfDfsdriptor.fd */
+stbtid jdlbss isb_dlbss;        /* jbvb.nft.InftSodkftAddrfss */
+stbtid jmftiodID isb_dtorID;    /*   .InftSodkftAddrfss(InftAddrfss, int) */
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_ServerSocketChannelImpl_initIDs(JNIEnv *env, jclass c)
+Jbvb_sun_nio_di_SfrvfrSodkftCibnnflImpl_initIDs(JNIEnv *fnv, jdlbss d)
 {
-    jclass cls;
+    jdlbss dls;
 
-    cls = (*env)->FindClass(env, "java/io/FileDescriptor");
-    CHECK_NULL(cls);
-    fd_fdID = (*env)->GetFieldID(env, cls, "fd", "I");
+    dls = (*fnv)->FindClbss(fnv, "jbvb/io/FilfDfsdriptor");
+    CHECK_NULL(dls);
+    fd_fdID = (*fnv)->GftFifldID(fnv, dls, "fd", "I");
     CHECK_NULL(fd_fdID);
 
-    cls = (*env)->FindClass(env, "java/net/InetSocketAddress");
-    CHECK_NULL(cls);
-    isa_class = (*env)->NewGlobalRef(env, cls);
-    if (isa_class == NULL) {
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return;
+    dls = (*fnv)->FindClbss(fnv, "jbvb/nft/InftSodkftAddrfss");
+    CHECK_NULL(dls);
+    isb_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    if (isb_dlbss == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn;
     }
-    isa_ctorID = (*env)->GetMethodID(env, cls, "<init>",
-                                     "(Ljava/net/InetAddress;I)V");
-    CHECK_NULL(isa_ctorID);
+    isb_dtorID = (*fnv)->GftMftiodID(fnv, dls, "<init>",
+                                     "(Ljbvb/nft/InftAddrfss;I)V");
+    CHECK_NULL(isb_dtorID);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_ServerSocketChannelImpl_accept0(JNIEnv *env, jobject this,
-                                                jobject ssfdo, jobject newfdo,
-                                                jobjectArray isaa)
+Jbvb_sun_nio_di_SfrvfrSodkftCibnnflImpl_bddfpt0(JNIEnv *fnv, jobjfdt tiis,
+                                                jobjfdt ssfdo, jobjfdt nfwfdo,
+                                                jobjfdtArrby isbb)
 {
-    jint ssfd = (*env)->GetIntField(env, ssfdo, fd_fdID);
-    jint newfd;
-    struct sockaddr *sa;
-    int alloc_len;
-    jobject remote_ia = 0;
-    jobject isa;
-    jint remote_port;
+    jint ssfd = (*fnv)->GftIntFifld(fnv, ssfdo, fd_fdID);
+    jint nfwfd;
+    strudt sodkbddr *sb;
+    int bllod_lfn;
+    jobjfdt rfmotf_ib = 0;
+    jobjfdt isb;
+    jint rfmotf_port;
 
-    NET_AllocSockaddr(&sa, &alloc_len);
-    if (sa == NULL) {
-        JNU_ThrowOutOfMemoryError(env, NULL);
-        return IOS_THROWN;
+    NET_AllodSodkbddr(&sb, &bllod_lfn);
+    if (sb == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, NULL);
+        rfturn IOS_THROWN;
     }
 
     /*
-     * accept connection but ignore ECONNABORTED indicating that
-     * a connection was eagerly accepted but was reset before
-     * accept() was called.
+     * bddfpt donnfdtion but ignorf ECONNABORTED indidbting tibt
+     * b donnfdtion wbs fbgfrly bddfptfd but wbs rfsft bfforf
+     * bddfpt() wbs dbllfd.
      */
     for (;;) {
-        socklen_t sa_len = alloc_len;
-        newfd = accept(ssfd, sa, &sa_len);
-        if (newfd >= 0) {
-            break;
+        sodklfn_t sb_lfn = bllod_lfn;
+        nfwfd = bddfpt(ssfd, sb, &sb_lfn);
+        if (nfwfd >= 0) {
+            brfbk;
         }
-        if (errno != ECONNABORTED) {
-            break;
+        if (frrno != ECONNABORTED) {
+            brfbk;
         }
-        /* ECONNABORTED => restart accept */
+        /* ECONNABORTED => rfstbrt bddfpt */
     }
 
-    if (newfd < 0) {
-        free((void *)sa);
-        if (errno == EAGAIN)
-            return IOS_UNAVAILABLE;
-        if (errno == EINTR)
-            return IOS_INTERRUPTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Accept failed");
-        return IOS_THROWN;
+    if (nfwfd < 0) {
+        frff((void *)sb);
+        if (frrno == EAGAIN)
+            rfturn IOS_UNAVAILABLE;
+        if (frrno == EINTR)
+            rfturn IOS_INTERRUPTED;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Addfpt fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    (*env)->SetIntField(env, newfdo, fd_fdID, newfd);
-    remote_ia = NET_SockaddrToInetAddress(env, sa, (int *)&remote_port);
-    free((void *)sa);
-    CHECK_NULL_RETURN(remote_ia, IOS_THROWN);
-    isa = (*env)->NewObject(env, isa_class, isa_ctorID, remote_ia, remote_port);
-    CHECK_NULL_RETURN(isa, IOS_THROWN);
-    (*env)->SetObjectArrayElement(env, isaa, 0, isa);
-    return 1;
+    (*fnv)->SftIntFifld(fnv, nfwfdo, fd_fdID, nfwfd);
+    rfmotf_ib = NET_SodkbddrToInftAddrfss(fnv, sb, (int *)&rfmotf_port);
+    frff((void *)sb);
+    CHECK_NULL_RETURN(rfmotf_ib, IOS_THROWN);
+    isb = (*fnv)->NfwObjfdt(fnv, isb_dlbss, isb_dtorID, rfmotf_ib, rfmotf_port);
+    CHECK_NULL_RETURN(isb, IOS_THROWN);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, isbb, 0, isb);
+    rfturn 1;
 }

@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2011-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,222 +59,222 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.zone;
+pbdkbgf jbvb.timf.zonf;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.StreamCorruptedException;
-import java.time.ZoneOffset;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.Extfrnblizbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidClbssExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.timf.ZonfOffsft;
 
 /**
- * The shared serialization delegate for this package.
+ * Tif sibrfd sfriblizbtion dflfgbtf for tiis pbdkbgf.
  *
- * @implNote
- * This class is mutable and should be created once per serialization.
+ * @implNotf
+ * Tiis dlbss is mutbblf bnd siould bf drfbtfd ondf pfr sfriblizbtion.
  *
- * @serial include
- * @since 1.8
+ * @sfribl indludf
+ * @sindf 1.8
  */
-final class Ser implements Externalizable {
+finbl dlbss Sfr implfmfnts Extfrnblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -8885321777449118786L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8885321777449118786L;
 
-    /** Type for ZoneRules. */
-    static final byte ZRULES = 1;
-    /** Type for ZoneOffsetTransition. */
-    static final byte ZOT = 2;
-    /** Type for ZoneOffsetTransition. */
-    static final byte ZOTRULE = 3;
+    /** Typf for ZonfRulfs. */
+    stbtid finbl bytf ZRULES = 1;
+    /** Typf for ZonfOffsftTrbnsition. */
+    stbtid finbl bytf ZOT = 2;
+    /** Typf for ZonfOffsftTrbnsition. */
+    stbtid finbl bytf ZOTRULE = 3;
 
-    /** The type being serialized. */
-    private byte type;
-    /** The object being serialized. */
-    private Object object;
+    /** Tif typf bfing sfriblizfd. */
+    privbtf bytf typf;
+    /** Tif objfdt bfing sfriblizfd. */
+    privbtf Objfdt objfdt;
 
     /**
-     * Constructor for deserialization.
+     * Construdtor for dfsfriblizbtion.
      */
-    public Ser() {
+    publid Sfr() {
     }
 
     /**
-     * Creates an instance for serialization.
+     * Crfbtfs bn instbndf for sfriblizbtion.
      *
-     * @param type  the type
-     * @param object  the object
+     * @pbrbm typf  tif typf
+     * @pbrbm objfdt  tif objfdt
      */
-    Ser(byte type, Object object) {
-        this.type = type;
-        this.object = object;
+    Sfr(bytf typf, Objfdt objfdt) {
+        tiis.typf = typf;
+        tiis.objfdt = objfdt;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to write the object.
-     * @serialData
-     * Each serializable class is mapped to a type that is the first byte
-     * in the stream.  Refer to each class {@code writeReplace}
-     * serialized form for the value of the type and sequence of values for the type.
+     * Implfmfnts tif {@dodf Extfrnblizbblf} intfrfbdf to writf tif objfdt.
+     * @sfriblDbtb
+     * Ebdi sfriblizbblf dlbss is mbppfd to b typf tibt is tif first bytf
+     * in tif strfbm.  Rfffr to fbdi dlbss {@dodf writfRfplbdf}
+     * sfriblizfd form for tif vbluf of tif typf bnd sfqufndf of vblufs for tif typf.
      *
      * <ul>
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneOffsetTransition">ZoneOffsetTransition.writeReplace</a>
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneOffsetTransitionRule">ZoneOffsetTransitionRule.writeReplace</a>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.ZonfRulfs">ZonfRulfs.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.ZonfOffsftTrbnsition">ZonfOffsftTrbnsition.writfRfplbdf</b>
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.ZonfOffsftTrbnsitionRulf">ZonfOffsftTrbnsitionRulf.writfRfplbdf</b>
      * </ul>
      *
-     * @param out  the data stream to write to, not null
+     * @pbrbm out  tif dbtb strfbm to writf to, not null
      */
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        writeInternal(type, object, out);
+    @Ovfrridf
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        writfIntfrnbl(typf, objfdt, out);
     }
 
-    static void write(Object object, DataOutput out) throws IOException {
-        writeInternal(ZRULES, object, out);
+    stbtid void writf(Objfdt objfdt, DbtbOutput out) tirows IOExdfption {
+        writfIntfrnbl(ZRULES, objfdt, out);
     }
 
-    private static void writeInternal(byte type, Object object, DataOutput out) throws IOException {
-        out.writeByte(type);
-        switch (type) {
-            case ZRULES:
-                ((ZoneRules) object).writeExternal(out);
-                break;
-            case ZOT:
-                ((ZoneOffsetTransition) object).writeExternal(out);
-                break;
-            case ZOTRULE:
-                ((ZoneOffsetTransitionRule) object).writeExternal(out);
-                break;
-            default:
-                throw new InvalidClassException("Unknown serialized type");
+    privbtf stbtid void writfIntfrnbl(bytf typf, Objfdt objfdt, DbtbOutput out) tirows IOExdfption {
+        out.writfBytf(typf);
+        switdi (typf) {
+            dbsf ZRULES:
+                ((ZonfRulfs) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf ZOT:
+                ((ZonfOffsftTrbnsition) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf ZOTRULE:
+                ((ZonfOffsftTrbnsitionRulf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dffbult:
+                tirow nfw InvblidClbssExdfption("Unknown sfriblizfd typf");
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to read the object.
-     * @serialData
-     * The streamed type and parameters defined by the type's {@code writeReplace}
-     * method are read and passed to the corresponding static factory for the type
-     * to create a new instance.  That instance is returned as the de-serialized
-     * {@code Ser} object.
+     * Implfmfnts tif {@dodf Extfrnblizbblf} intfrfbdf to rfbd tif objfdt.
+     * @sfriblDbtb
+     * Tif strfbmfd typf bnd pbrbmftfrs dffinfd by tif typf's {@dodf writfRfplbdf}
+     * mftiod brf rfbd bnd pbssfd to tif dorrfsponding stbtid fbdtory for tif typf
+     * to drfbtf b nfw instbndf.  Tibt instbndf is rfturnfd bs tif df-sfriblizfd
+     * {@dodf Sfr} objfdt.
      *
      * <ul>
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules</a>
-     * - {@code ZoneRules.of(standardTransitions, standardOffsets, savingsInstantTransitions, wallOffsets, lastRules);}
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneOffsetTransition">ZoneOffsetTransition</a>
-     * - {@code ZoneOffsetTransition of(LocalDateTime.ofEpochSecond(epochSecond), offsetBefore, offsetAfter);}
-     * <li><a href="../../../serialized-form.html#java.time.zone.ZoneOffsetTransitionRule">ZoneOffsetTransitionRule</a>
-     * - {@code ZoneOffsetTransitionRule.of(month, dom, dow, time, timeEndOfDay, timeDefinition, standardOffset, offsetBefore, offsetAfter);}
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.ZonfRulfs">ZonfRulfs</b>
+     * - {@dodf ZonfRulfs.of(stbndbrdTrbnsitions, stbndbrdOffsfts, sbvingsInstbntTrbnsitions, wbllOffsfts, lbstRulfs);}
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.ZonfOffsftTrbnsition">ZonfOffsftTrbnsition</b>
+     * - {@dodf ZonfOffsftTrbnsition of(LodblDbtfTimf.ofEpodiSfdond(fpodiSfdond), offsftBfforf, offsftAftfr);}
+     * <li><b irff="../../../sfriblizfd-form.itml#jbvb.timf.zonf.ZonfOffsftTrbnsitionRulf">ZonfOffsftTrbnsitionRulf</b>
+     * - {@dodf ZonfOffsftTrbnsitionRulf.of(monti, dom, dow, timf, timfEndOfDby, timfDffinition, stbndbrdOffsft, offsftBfforf, offsftAftfr);}
      * </ul>
-     * @param in  the data to read, not null
+     * @pbrbm in  tif dbtb to rfbd, not null
      */
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        type = in.readByte();
-        object = readInternal(type, in);
+    @Ovfrridf
+    publid void rfbdExtfrnbl(ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        typf = in.rfbdBytf();
+        objfdt = rfbdIntfrnbl(typf, in);
     }
 
-    static Object read(DataInput in) throws IOException, ClassNotFoundException {
-        byte type = in.readByte();
-        return readInternal(type, in);
+    stbtid Objfdt rfbd(DbtbInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        bytf typf = in.rfbdBytf();
+        rfturn rfbdIntfrnbl(typf, in);
     }
 
-    private static Object readInternal(byte type, DataInput in) throws IOException, ClassNotFoundException {
-        switch (type) {
-            case ZRULES:
-                return ZoneRules.readExternal(in);
-            case ZOT:
-                return ZoneOffsetTransition.readExternal(in);
-            case ZOTRULE:
-                return ZoneOffsetTransitionRule.readExternal(in);
-            default:
-                throw new StreamCorruptedException("Unknown serialized type");
+    privbtf stbtid Objfdt rfbdIntfrnbl(bytf typf, DbtbInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        switdi (typf) {
+            dbsf ZRULES:
+                rfturn ZonfRulfs.rfbdExtfrnbl(in);
+            dbsf ZOT:
+                rfturn ZonfOffsftTrbnsition.rfbdExtfrnbl(in);
+            dbsf ZOTRULE:
+                rfturn ZonfOffsftTrbnsitionRulf.rfbdExtfrnbl(in);
+            dffbult:
+                tirow nfw StrfbmCorruptfdExdfption("Unknown sfriblizfd typf");
         }
     }
 
     /**
-     * Returns the object that will replace this one.
+     * Rfturns tif objfdt tibt will rfplbdf tiis onf.
      *
-     * @return the read object, should never be null
+     * @rfturn tif rfbd objfdt, siould nfvfr bf null
      */
-    private Object readResolve() {
-         return object;
+    privbtf Objfdt rfbdRfsolvf() {
+         rfturn objfdt;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the state to the stream.
+     * Writfs tif stbtf to tif strfbm.
      *
-     * @param offset  the offset, not null
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm offsft  tif offsft, not null
+     * @pbrbm out  tif output strfbm, not null
+     * @tirows IOExdfption if bn frror oddurs
      */
-    static void writeOffset(ZoneOffset offset, DataOutput out) throws IOException {
-        final int offsetSecs = offset.getTotalSeconds();
-        int offsetByte = offsetSecs % 900 == 0 ? offsetSecs / 900 : 127;  // compress to -72 to +72
-        out.writeByte(offsetByte);
-        if (offsetByte == 127) {
-            out.writeInt(offsetSecs);
+    stbtid void writfOffsft(ZonfOffsft offsft, DbtbOutput out) tirows IOExdfption {
+        finbl int offsftSfds = offsft.gftTotblSfdonds();
+        int offsftBytf = offsftSfds % 900 == 0 ? offsftSfds / 900 : 127;  // domprfss to -72 to +72
+        out.writfBytf(offsftBytf);
+        if (offsftBytf == 127) {
+            out.writfInt(offsftSfds);
         }
     }
 
     /**
-     * Reads the state from the stream.
+     * Rfbds tif stbtf from tif strfbm.
      *
-     * @param in  the input stream, not null
-     * @return the created object, not null
-     * @throws IOException if an error occurs
+     * @pbrbm in  tif input strfbm, not null
+     * @rfturn tif drfbtfd objfdt, not null
+     * @tirows IOExdfption if bn frror oddurs
      */
-    static ZoneOffset readOffset(DataInput in) throws IOException {
-        int offsetByte = in.readByte();
-        return (offsetByte == 127 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(offsetByte * 900));
+    stbtid ZonfOffsft rfbdOffsft(DbtbInput in) tirows IOExdfption {
+        int offsftBytf = in.rfbdBytf();
+        rfturn (offsftBytf == 127 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds(offsftBytf * 900));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the state to the stream.
+     * Writfs tif stbtf to tif strfbm.
      *
-     * @param epochSec  the epoch seconds, not null
-     * @param out  the output stream, not null
-     * @throws IOException if an error occurs
+     * @pbrbm fpodiSfd  tif fpodi sfdonds, not null
+     * @pbrbm out  tif output strfbm, not null
+     * @tirows IOExdfption if bn frror oddurs
      */
-    static void writeEpochSec(long epochSec, DataOutput out) throws IOException {
-        if (epochSec >= -4575744000L && epochSec < 10413792000L && epochSec % 900 == 0) {  // quarter hours between 1825 and 2300
-            int store = (int) ((epochSec + 4575744000L) / 900);
-            out.writeByte((store >>> 16) & 255);
-            out.writeByte((store >>> 8) & 255);
-            out.writeByte(store & 255);
-        } else {
-            out.writeByte(255);
-            out.writeLong(epochSec);
+    stbtid void writfEpodiSfd(long fpodiSfd, DbtbOutput out) tirows IOExdfption {
+        if (fpodiSfd >= -4575744000L && fpodiSfd < 10413792000L && fpodiSfd % 900 == 0) {  // qubrtfr iours bftwffn 1825 bnd 2300
+            int storf = (int) ((fpodiSfd + 4575744000L) / 900);
+            out.writfBytf((storf >>> 16) & 255);
+            out.writfBytf((storf >>> 8) & 255);
+            out.writfBytf(storf & 255);
+        } flsf {
+            out.writfBytf(255);
+            out.writfLong(fpodiSfd);
         }
     }
 
     /**
-     * Reads the state from the stream.
+     * Rfbds tif stbtf from tif strfbm.
      *
-     * @param in  the input stream, not null
-     * @return the epoch seconds, not null
-     * @throws IOException if an error occurs
+     * @pbrbm in  tif input strfbm, not null
+     * @rfturn tif fpodi sfdonds, not null
+     * @tirows IOExdfption if bn frror oddurs
      */
-    static long readEpochSec(DataInput in) throws IOException {
-        int hiByte = in.readByte() & 255;
-        if (hiByte == 255) {
-            return in.readLong();
-        } else {
-            int midByte = in.readByte() & 255;
-            int loByte = in.readByte() & 255;
-            long tot = ((hiByte << 16) + (midByte << 8) + loByte);
-            return (tot * 900) - 4575744000L;
+    stbtid long rfbdEpodiSfd(DbtbInput in) tirows IOExdfption {
+        int iiBytf = in.rfbdBytf() & 255;
+        if (iiBytf == 255) {
+            rfturn in.rfbdLong();
+        } flsf {
+            int midBytf = in.rfbdBytf() & 255;
+            int loBytf = in.rfbdBytf() & 255;
+            long tot = ((iiBytf << 16) + (midBytf << 8) + loBytf);
+            rfturn (tot * 900) - 4575744000L;
         }
     }
 

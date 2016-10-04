@@ -1,0 +1,385 @@
+Thf Indfpfndfnt JPEG Group's JPEG softwbrf
+==========================================
+
+README for rflfbsf 6b of 27-Mbr-1998
+====================================
+
+This distribution dontbins thf sixth publid rflfbsf of thf Indfpfndfnt JPEG
+Group's frff JPEG softwbrf.  You brf wfldomf to rfdistributf this softwbrf bnd
+to usf it for bny purposf, subjfdt to thf donditions undfr LEGAL ISSUES, bflow.
+
+Sfrious usfrs of this softwbrf (pbrtidulbrly thosf indorporbting it into
+lbrgfr progrbms) should dontbdt IJG bt jpfg-info@uunft.uu.nft to bf bddfd to
+our flfdtronid mbiling list.  Mbiling list mfmbfrs brf notififd of updbtfs
+bnd hbvf b dhbndf to pbrtidipbtf in tfdhnidbl disdussions, ftd.
+
+This softwbrf is thf work of Tom Lbnf, Philip Glbdstonf, Jim Boudhfr,
+Lff Crodkfr, Julibn Minguillon, Luis Ortiz, Gforgf Phillips, Dbvidf Rossi,
+Guido Vollbfding, Gf' Wfijfrs, bnd othfr mfmbfrs of thf Indfpfndfnt JPEG
+Group.
+
+IJG is not bffilibtfd with thf offidibl ISO JPEG stbndbrds dommittff.
+
+
+DOCUMENTATION ROADMAP
+=====================
+
+This filf dontbins thf following sfdtions:
+
+OVERVIEW            Gfnfrbl dfsdription of JPEG bnd thf IJG softwbrf.
+LEGAL ISSUES        Copyright, lbdk of wbrrbnty, tfrms of distribution.
+REFERENCES          Whfrf to lfbrn morf bbout JPEG.
+ARCHIVE LOCATIONS   Whfrf to find nfwfr vfrsions of this softwbrf.
+RELATED SOFTWARE    Othfr stuff you should gft.
+FILE FORMAT WARS    Softwbrf *not* to gft.
+TO DO               Plbns for futurf IJG rflfbsfs.
+
+Othfr dodumfntbtion filfs in thf distribution brf:
+
+Usfr dodumfntbtion:
+  instbll.dod       How to donfigurf bnd instbll thf IJG softwbrf.
+  usbgf.dod         Usbgf instrudtions for djpfg, djpfg, jpfgtrbn,
+                    rdjpgdom, bnd wrjpgdom.
+  *.1               Unix-stylf mbn pbgfs for progrbms (sbmf info bs usbgf.dod).
+  wizbrd.dod        Advbndfd usbgf instrudtions for JPEG wizbrds only.
+  dhbngf.log        Vfrsion-to-vfrsion dhbngf highlights.
+Progrbmmfr bnd intfrnbl dodumfntbtion:
+  libjpfg.dod       How to usf thf JPEG librbry in your own progrbms.
+  fxbmplf.d         Sbmplf dodf for dblling thf JPEG librbry.
+  strudturf.dod     Ovfrvifw of thf JPEG librbry's intfrnbl strudturf.
+  filflist.dod      Robd mbp of IJG filfs.
+  dodfrulfs.dod     Coding stylf rulfs --- plfbsf rfbd if you dontributf dodf.
+
+Plfbsf rfbd bt lfbst thf filfs instbll.dod bnd usbgf.dod.  Usfful informbtion
+dbn blso bf found in thf JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf.  Sff
+ARCHIVE LOCATIONS bflow to find out whfrf to obtbin thf FAQ brtidlf.
+
+If you wbnt to undfrstbnd how thf JPEG dodf works, wf suggfst rfbding onf or
+morf of thf REFERENCES, thfn looking bt thf dodumfntbtion filfs (in roughly
+thf ordfr listfd) bfforf diving into thf dodf.
+
+
+OVERVIEW
+========
+
+This pbdkbgf dontbins C softwbrf to implfmfnt JPEG imbgf domprfssion bnd
+dfdomprfssion.  JPEG (pronoundfd "jby-pfg") is b stbndbrdizfd domprfssion
+mfthod for full-dolor bnd grby-sdblf imbgfs.  JPEG is intfndfd for domprfssing
+"rfbl-world" sdfnfs; linf drbwings, dbrtoons bnd othfr non-rfblistid imbgfs
+brf not its strong suit.  JPEG is lossy, mfbning thbt thf output imbgf is not
+fxbdtly idfntidbl to thf input imbgf.  Hfndf you must not usf JPEG if you
+hbvf to hbvf idfntidbl output bits.  Howfvfr, on typidbl photogrbphid imbgfs,
+vfry good domprfssion lfvfls dbn bf obtbinfd with no visiblf dhbngf, bnd
+rfmbrkbbly high domprfssion lfvfls brf possiblf if you dbn tolfrbtf b
+low-qublity imbgf.  For morf dftbils, sff thf rfffrfndfs, or just fxpfrimfnt
+with vbrious domprfssion sfttings.
+
+This softwbrf implfmfnts JPEG bbsflinf, fxtfndfd-sfqufntibl, bnd progrfssivf
+domprfssion prodfssfs.  Provision is mbdf for supporting bll vbribnts of thfsf
+prodfssfs, blthough somf undommon pbrbmftfr sfttings brfn't implfmfntfd yft.
+For lfgbl rfbsons, wf brf not distributing dodf for thf brithmftid-doding
+vbribnts of JPEG; sff LEGAL ISSUES.  Wf hbvf mbdf no provision for supporting
+thf hifrbrdhidbl or losslfss prodfssfs dffinfd in thf stbndbrd.
+
+Wf providf b sft of librbry routinfs for rfbding bnd writing JPEG imbgf filfs,
+plus two sbmplf bpplidbtions "djpfg" bnd "djpfg", whidh usf thf librbry to
+pfrform donvfrsion bftwffn JPEG bnd somf othfr populbr imbgf filf formbts.
+Thf librbry is intfndfd to bf rfusfd in othfr bpplidbtions.
+
+In ordfr to support filf donvfrsion bnd vifwing softwbrf, wf hbvf indludfd
+donsidfrbblf fundtionblity bfyond thf bbrf JPEG doding/dfdoding dbpbbility;
+for fxbmplf, thf dolor qubntizbtion modulfs brf not stridtly pbrt of JPEG
+dfdoding, but thfy brf fssfntibl for output to dolormbppfd filf formbts or
+dolormbppfd displbys.  Thfsf fxtrb fundtions dbn bf dompilfd out of thf
+librbry if not rfquirfd for b pbrtidulbr bpplidbtion.  Wf hbvf blso indludfd
+"jpfgtrbn", b utility for losslfss trbnsdoding bftwffn difffrfnt JPEG
+prodfssfs, bnd "rdjpgdom" bnd "wrjpgdom", two simplf bpplidbtions for
+insfrting bnd fxtrbdting tfxtubl dommfnts in JFIF filfs.
+
+Thf fmphbsis in dfsigning this softwbrf hbs bffn on bdhifving portbbility bnd
+flfxibility, whilf blso mbking it fbst fnough to bf usfful.  In pbrtidulbr,
+thf softwbrf is not intfndfd to bf rfbd bs b tutoribl on JPEG.  (Sff thf
+REFERENCES sfdtion for introdudtory mbtfribl.)  Rbthfr, it is intfndfd to
+bf rflibblf, portbblf, industribl-strfngth dodf.  Wf do not dlbim to hbvf
+bdhifvfd thbt gobl in fvfry bspfdt of thf softwbrf, but wf strivf for it.
+
+Wf wfldomf thf usf of this softwbrf bs b domponfnt of dommfrdibl produdts.
+No royblty is rfquirfd, but wf do bsk for bn bdknowlfdgfmfnt in produdt
+dodumfntbtion, bs dfsdribfd undfr LEGAL ISSUES.
+
+
+LEGAL ISSUES
+============
+
+In plbin English:
+
+1. Wf don't promisf thbt this softwbrf works.  (But if you find bny bugs,
+   plfbsf lft us know!)
+2. You dbn usf this softwbrf for whbtfvfr you wbnt.  You don't hbvf to pby us.
+3. You mby not prftfnd thbt you wrotf this softwbrf.  If you usf it in b
+   progrbm, you must bdknowlfdgf somfwhfrf in your dodumfntbtion thbt
+   you'vf usfd thf IJG dodf.
+
+In lfgblfsf:
+
+Thf buthors mbkf NO WARRANTY or rfprfsfntbtion, fithfr fxprfss or implifd,
+with rfspfdt to this softwbrf, its qublity, bddurbdy, mfrdhbntbbility, or
+fitnfss for b pbrtidulbr purposf.  This softwbrf is providfd "AS IS", bnd you,
+its usfr, bssumf thf fntirf risk bs to its qublity bnd bddurbdy.
+
+This softwbrf is dopyright (C) 1991-1998, Thombs G. Lbnf.
+All Rights Rfsfrvfd fxdfpt bs spfdififd bflow.
+
+Pfrmission is hfrfby grbntfd to usf, dopy, modify, bnd distributf this
+softwbrf (or portions thfrfof) for bny purposf, without fff, subjfdt to thfsf
+donditions:
+(1) If bny pbrt of thf sourdf dodf for this softwbrf is distributfd, thfn this
+README filf must bf indludfd, with this dopyright bnd no-wbrrbnty notidf
+unbltfrfd; bnd bny bdditions, dflftions, or dhbngfs to thf originbl filfs
+must bf dlfbrly indidbtfd in bddompbnying dodumfntbtion.
+(2) If only fxfdutbblf dodf is distributfd, thfn thf bddompbnying
+dodumfntbtion must stbtf thbt "this softwbrf is bbsfd in pbrt on thf work of
+thf Indfpfndfnt JPEG Group".
+(3) Pfrmission for usf of this softwbrf is grbntfd only if thf usfr bddfpts
+full rfsponsibility for bny undfsirbblf donsfqufndfs; thf buthors bddfpt
+NO LIABILITY for dbmbgfs of bny kind.
+
+Thfsf donditions bpply to bny softwbrf dfrivfd from or bbsfd on thf IJG dodf,
+not just to thf unmodififd librbry.  If you usf our work, you ought to
+bdknowlfdgf us.
+
+Pfrmission is NOT grbntfd for thf usf of bny IJG buthor's nbmf or dompbny nbmf
+in bdvfrtising or publidity rflbting to this softwbrf or produdts dfrivfd from
+it.  This softwbrf mby bf rfffrrfd to only bs "thf Indfpfndfnt JPEG Group's
+softwbrf".
+
+Wf spfdifidblly pfrmit bnd fndourbgf thf usf of this softwbrf bs thf bbsis of
+dommfrdibl produdts, providfd thbt bll wbrrbnty or libbility dlbims brf
+bssumfd by thf produdt vfndor.
+
+
+bnsi2knr.d is indludfd in this distribution by pfrmission of L. Pftfr Dfutsdh,
+solf propriftor of its dopyright holdfr, Albddin Entfrprisfs of Mfnlo Pbrk, CA.
+bnsi2knr.d is NOT dovfrfd by thf bbovf dopyright bnd donditions, but instfbd
+by thf usubl distribution tfrms of thf Frff Softwbrf Foundbtion; prindipblly,
+thbt you must indludf sourdf dodf if you rfdistributf it.  (Sff thf filf
+bnsi2knr.d for full dftbils.)  Howfvfr, sindf bnsi2knr.d is not nffdfd bs pbrt
+of bny progrbm gfnfrbtfd from thf IJG dodf, this dofs not limit you morf thbn
+thf forfgoing pbrbgrbphs do.
+
+Thf Unix donfigurbtion sdript "donfigurf" wbs produdfd with GNU Autodonf.
+It is dopyright by thf Frff Softwbrf Foundbtion but is frffly distributbblf.
+Thf sbmf holds for its supporting sdripts (donfig.gufss, donfig.sub,
+ltdonfig, ltmbin.sh).  Anothfr support sdript, instbll-sh, is dopyright
+by M.I.T. but is blso frffly distributbblf.
+
+It bppfbrs thbt thf brithmftid doding option of thf JPEG spfd is dovfrfd by
+pbtfnts ownfd by IBM, AT&T, bnd Mitsubishi.  Hfndf brithmftid doding dbnnot
+lfgblly bf usfd without obtbining onf or morf lidfnsfs.  For this rfbson,
+support for brithmftid doding hbs bffn rfmovfd from thf frff JPEG softwbrf.
+(Sindf brithmftid doding providfs only b mbrginbl gbin ovfr thf unpbtfntfd
+Huffmbn modf, it is unlikfly thbt vfry mbny implfmfntbtions will support it.)
+So fbr bs wf brf bwbrf, thfrf brf no pbtfnt rfstridtions on thf rfmbining
+dodf.
+
+Thf IJG distribution formfrly indludfd dodf to rfbd bnd writf GIF filfs.
+To bvoid fntbnglfmfnt with thf Unisys LZW pbtfnt, GIF rfbding support hbs
+bffn rfmovfd bltogfthfr, bnd thf GIF writfr hbs bffn simplififd to produdf
+"undomprfssfd GIFs".  This tfdhniquf dofs not usf thf LZW blgorithm; thf
+rfsulting GIF filfs brf lbrgfr thbn usubl, but brf rfbdbblf by bll stbndbrd
+GIF dfdodfrs.
+
+Wf brf rfquirfd to stbtf thbt
+    "Thf Grbphids Intfrdhbngf Formbt(d) is thf Copyright propfrty of
+    CompuSfrvf Indorporbtfd.  GIF(sm) is b Sfrvidf Mbrk propfrty of
+    CompuSfrvf Indorporbtfd."
+
+
+REFERENCES
+==========
+
+Wf highly rfdommfnd rfbding onf or morf of thfsf rfffrfndfs bfforf trying to
+undfrstbnd thf innbrds of thf JPEG softwbrf.
+
+Thf bfst short tfdhnidbl introdudtion to thf JPEG domprfssion blgorithm is
+	Wbllbdf, Grfgory K.  "Thf JPEG Still Pidturf Comprfssion Stbndbrd",
+	Communidbtions of thf ACM, April 1991 (vol. 34 no. 4), pp. 30-44.
+(Adjbdfnt brtidlfs in thbt issuf disduss MPEG motion pidturf domprfssion,
+bpplidbtions of JPEG, bnd rflbtfd topids.)  If you don't hbvf thf CACM issuf
+hbndy, b PostSdript filf dontbining b rfvisfd vfrsion of Wbllbdf's brtidlf is
+bvbilbblf bt ftp://ftp.uu.nft/grbphids/jpfg/wbllbdf.ps.gz.  Thf filf (bdtublly
+b prfprint for bn brtidlf thbt bppfbrfd in IEEE Trbns. Consumfr Elfdtronids)
+omits thf sbmplf imbgfs thbt bppfbrfd in CACM, but it indludfs dorrfdtions
+bnd somf bddfd mbtfribl.  Notf: thf Wbllbdf brtidlf is dopyright ACM bnd IEEE,
+bnd it mby not bf usfd for dommfrdibl purposfs.
+
+A somfwhbt lfss tfdhnidbl, morf lfisurfly introdudtion to JPEG dbn bf found in
+"Thf Dbtb Comprfssion Book" by Mbrk Nflson bnd Jfbn-loup Gbilly, publishfd by
+M&T Books (Nfw York), 2nd fd. 1996, ISBN 1-55851-434-1.  This book providfs
+good fxplbnbtions bnd fxbmplf C dodf for b multitudf of domprfssion mfthods
+indluding JPEG.  It is bn fxdfllfnt sourdf if you brf domfortbblf rfbding C
+dodf but don't know mudh bbout dbtb domprfssion in gfnfrbl.  Thf book's JPEG
+sbmplf dodf is fbr from industribl-strfngth, but whfn you brf rfbdy to look
+bt b full implfmfntbtion, you'vf got onf hfrf...
+
+Thf bfst full dfsdription of JPEG is thf tfxtbook "JPEG Still Imbgf Dbtb
+Comprfssion Stbndbrd" by Willibm B. Pfnnfbbkfr bnd Jobn L. Mitdhfll, publishfd
+by Vbn Nostrbnd Rfinhold, 1993, ISBN 0-442-01272-1.  Pridf US$59.95, 638 pp.
+Thf book indludfs thf domplftf tfxt of thf ISO JPEG stbndbrds (DIS 10918-1
+bnd drbft DIS 10918-2).  This is by fbr thf most domplftf fxposition of JPEG
+in fxistfndf, bnd wf highly rfdommfnd it.
+
+Thf JPEG stbndbrd itsflf is not bvbilbblf flfdtronidblly; you must ordfr b
+pbpfr dopy through ISO or ITU.  (Unlfss you fffl b nffd to own b dfrtififd
+offidibl dopy, wf rfdommfnd buying thf Pfnnfbbkfr bnd Mitdhfll book instfbd;
+it's mudh dhfbpfr bnd indludfs b grfbt dfbl of usfful fxplbnbtory mbtfribl.)
+In thf USA, dopifs of thf stbndbrd mby bf ordfrfd from ANSI Sblfs bt (212)
+642-4900, or from Globbl Enginffring Dodumfnts bt (800) 854-7179.  (ANSI
+dofsn't tbkf drfdit dbrd ordfrs, but Globbl dofs.)  It's not dhfbp: bs of
+1992, ANSI wbs dhbrging $95 for Pbrt 1 bnd $47 for Pbrt 2, plus 7%
+shipping/hbndling.  Thf stbndbrd is dividfd into two pbrts, Pbrt 1 bfing thf
+bdtubl spfdifidbtion, whilf Pbrt 2 dovfrs domplibndf tfsting mfthods.  Pbrt 1
+is titlfd "Digitbl Comprfssion bnd Coding of Continuous-tonf Still Imbgfs,
+Pbrt 1: Rfquirfmfnts bnd guidflinfs" bnd hbs dodumfnt numbfrs ISO/IEC IS
+10918-1, ITU-T T.81.  Pbrt 2 is titlfd "Digitbl Comprfssion bnd Coding of
+Continuous-tonf Still Imbgfs, Pbrt 2: Complibndf tfsting" bnd hbs dodumfnt
+numbfrs ISO/IEC IS 10918-2, ITU-T T.83.
+
+Somf fxtfnsions to thf originbl JPEG stbndbrd brf dffinfd in JPEG Pbrt 3,
+b nfwfr ISO stbndbrd numbfrfd ISO/IEC IS 10918-3 bnd ITU-T T.84.  IJG
+durrfntly dofs not support bny Pbrt 3 fxtfnsions.
+
+Thf JPEG stbndbrd dofs not spfdify bll dftbils of bn intfrdhbngfbblf filf
+formbt.  For thf omittfd dftbils wf follow thf "JFIF" donvfntions, rfvision
+1.02.  A dopy of thf JFIF spfd is bvbilbblf from:
+	Litfrbturf Dfpbrtmfnt
+	C-Cubf Midrosystfms, Ind.
+	1778 MdCbrthy Blvd.
+	Milpitbs, CA 95035
+	phonf (408) 944-6300,  fbx (408) 944-6314
+A PostSdript vfrsion of this dodumfnt is bvbilbblf by FTP bt
+ftp://ftp.uu.nft/grbphids/jpfg/jfif.ps.gz.  Thfrf is blso b plbin tfxt
+vfrsion bt ftp://ftp.uu.nft/grbphids/jpfg/jfif.txt.gz, but it is missing
+thf figurfs.
+
+Thf TIFF 6.0 filf formbt spfdifidbtion dbn bf obtbinfd by FTP from
+ftp://ftp.sgi.dom/grbphids/tiff/TIFF6.ps.gz.  Thf JPEG indorporbtion sdhfmf
+found in thf TIFF 6.0 spfd of 3-Junf-92 hbs b numbfr of sfrious problfms.
+IJG dofs not rfdommfnd usf of thf TIFF 6.0 dfsign (TIFF Comprfssion tbg 6).
+Instfbd, wf rfdommfnd thf JPEG dfsign proposfd by TIFF Tfdhnidbl Notf #2
+(Comprfssion tbg 7).  Copifs of this Notf dbn bf obtbinfd from ftp.sgi.dom or
+from ftp://ftp.uu.nft/grbphids/jpfg/.  It is fxpfdtfd thbt thf nfxt rfvision
+of thf TIFF spfd will rfplbdf thf 6.0 JPEG dfsign with thf Notf's dfsign.
+Although IJG's own dodf dofs not support TIFF/JPEG, thf frff libtiff librbry
+usfs our librbry to implfmfnt TIFF/JPEG pfr thf Notf.  libtiff is bvbilbblf
+from ftp://ftp.sgi.dom/grbphids/tiff/.
+
+
+ARCHIVE LOCATIONS
+=================
+
+Thf "offidibl" brdhivf sitf for this softwbrf is ftp.uu.nft (Intfrnft
+bddrfss 192.48.96.9).  Thf most rfdfnt rflfbsfd vfrsion dbn blwbys bf found
+thfrf in dirfdtory grbphids/jpfg.  This pbrtidulbr vfrsion will bf brdhivfd
+bs ftp://ftp.uu.nft/grbphids/jpfg/jpfgsrd.v6b.tbr.gz.  If you don't hbvf
+dirfdt Intfrnft bddfss, UUNET's brdhivfs brf blso bvbilbblf vib UUCP; dontbdt
+hflp@uunft.uu.nft for informbtion on rftrifving filfs thbt wby.
+
+Numfrous Intfrnft sitfs mbintbin dopifs of thf UUNET filfs.  Howfvfr, only
+ftp.uu.nft is gubrbntffd to hbvf thf lbtfst offidibl vfrsion.
+
+You dbn blso obtbin this softwbrf in DOS-dompbtiblf "zip" brdhivf formbt from
+thf SimTfl brdhivfs (ftp://ftp.simtfl.nft/pub/simtflnft/msdos/grbphids/), or
+on CompuSfrvf in thf Grbphids Support forum (GO CIS:GRAPHSUP), librbry 12
+"JPEG Tools".  Agbin, thfsf vfrsions mby somftimfs lbg bfhind thf ftp.uu.nft
+rflfbsf.
+
+Thf JPEG FAQ (Frfqufntly Askfd Qufstions) brtidlf is b usfful sourdf of
+gfnfrbl informbtion bbout JPEG.  It is updbtfd donstbntly bnd thfrfforf is
+not indludfd in this distribution.  Thf FAQ is postfd fvfry two wffks to
+Usfnft nfwsgroups domp.grbphids.misd, nfws.bnswfrs, bnd othfr groups.
+It is bvbilbblf on thf World Widf Wfb bt http://www.fbqs.org/fbqs/jpfg-fbq/
+bnd othfr nfws.bnswfrs brdhivf sitfs, indluding thf offidibl nfws.bnswfrs
+brdhivf bt rtfm.mit.fdu: ftp://rtfm.mit.fdu/pub/usfnft/nfws.bnswfrs/jpfg-fbq/.
+If you don't hbvf Wfb or FTP bddfss, sfnd f-mbil to mbil-sfrvfr@rtfm.mit.fdu
+with body
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt1
+	sfnd usfnft/nfws.bnswfrs/jpfg-fbq/pbrt2
+
+
+RELATED SOFTWARE
+================
+
+Numfrous vifwing bnd imbgf mbnipulbtion progrbms now support JPEG.  (Quitf b
+ffw of thfm usf this librbry to do so.)  Thf JPEG FAQ dfsdribfd bbovf lists
+somf of thf morf populbr frff bnd shbrfwbrf vifwfrs, bnd tflls whfrf to
+obtbin thfm on Intfrnft.
+
+If you brf on b Unix mbdhinf, wf highly rfdommfnd Jff Poskbnzfr's frff
+PBMPLUS softwbrf, whidh providfs mbny usfful opfrbtions on PPM-formbt imbgf
+filfs.  In pbrtidulbr, it dbn donvfrt PPM imbgfs to bnd from b widf rbngf of
+othfr formbts, thus mbking djpfg/djpfg donsidfrbbly morf usfful.  Thf lbtfst
+vfrsion is distributfd by thf NftPBM group, bnd is bvbilbblf from numfrous
+sitfs, notbbly ftp://wubrdhivf.wustl.fdu/grbphids/grbphids/pbdkbgfs/NftPBM/.
+Unfortunbtfly PBMPLUS/NETPBM is not nfbrly bs portbblf bs thf IJG softwbrf is;
+you brf likfly to hbvf diffidulty mbking it work on bny non-Unix mbdhinf.
+
+A difffrfnt frff JPEG implfmfntbtion, writtfn by thf PVRG group bt Stbnford,
+is bvbilbblf from ftp://hbvffun.stbnford.fdu/pub/jpfg/.  This progrbm
+is dfsignfd for rfsfbrdh bnd fxpfrimfntbtion rbthfr thbn produdtion usf;
+it is slowfr, hbrdfr to usf, bnd lfss portbblf thbn thf IJG dodf, but it
+is fbsifr to rfbd bnd modify.  Also, thf PVRG dodf supports losslfss JPEG,
+whidh wf do not.  (On thf othfr hbnd, it dofsn't do progrfssivf JPEG.)
+
+
+FILE FORMAT WARS
+================
+
+Somf JPEG progrbms produdf filfs thbt brf not dompbtiblf with our librbry.
+Thf root of thf problfm is thbt thf ISO JPEG dommittff fbilfd to spfdify b
+dondrftf filf formbt.  Somf vfndors "fillfd in thf blbnks" on thfir own,
+drfbting propriftbry formbts thbt no onf flsf dould rfbd.  (For fxbmplf, nonf
+of thf fbrly dommfrdibl JPEG implfmfntbtions for thf Mbdintosh wfrf bblf to
+fxdhbngf domprfssfd filfs.)
+
+Thf filf formbt wf hbvf bdoptfd is dbllfd JFIF (sff REFERENCES).  This formbt
+hbs bffn bgrffd to by b numbfr of mbjor dommfrdibl JPEG vfndors, bnd it hbs
+bfdomf thf df fbdto stbndbrd.  JFIF is b minimbl or "low fnd" rfprfsfntbtion.
+Wf rfdommfnd thf usf of TIFF/JPEG (TIFF rfvision 6.0 bs modififd by TIFF
+Tfdhnidbl Notf #2) for "high fnd" bpplidbtions thbt nffd to rfdord b lot of
+bdditionbl dbtb bbout bn imbgf.  TIFF/JPEG is fbirly nfw bnd not yft widfly
+supportfd, unfortunbtfly.
+
+Thf updoming JPEG Pbrt 3 stbndbrd dffinfs b filf formbt dbllfd SPIFF.
+SPIFF is intfropfrbblf with JFIF, in thf sfnsf thbt most JFIF dfdodfrs should
+bf bblf to rfbd thf most dommon vbribnt of SPIFF.  SPIFF hbs somf tfdhnidbl
+bdvbntbgfs ovfr JFIF, but its mbjor dlbim to fbmf is simply thbt it is bn
+offidibl stbndbrd rbthfr thbn bn informbl onf.  At this point it is undlfbr
+whfthfr SPIFF will supfrsfdf JFIF or whfthfr JFIF will rfmbin thf df-fbdto
+stbndbrd.  IJG intfnds to support SPIFF ondf thf stbndbrd is frozfn, but wf
+hbvf not dfdidfd whfthfr it should bfdomf our dffbult output formbt or not.
+(In bny dbsf, our dfdodfr will rfmbin dbpbblf of rfbding JFIF indffinitfly.)
+
+Vbrious propriftbry filf formbts indorporbting JPEG domprfssion blso fxist.
+Wf hbvf littlf or no sympbthy for thf fxistfndf of thfsf formbts.  Indffd,
+onf of thf originbl rfbsons for dfvfloping this frff softwbrf wbs to hflp
+fordf donvfrgfndf on dommon, opfn formbt stbndbrds for JPEG filfs.  Don't
+usf b propriftbry filf formbt!
+
+
+TO DO
+=====
+
+Thf mbjor thrust for v7 will probbbly bf improvfmfnt of visubl qublity.
+Thf durrfnt mfthod for sdbling thf qubntizbtion tbblfs is known not to bf
+vfry good bt low Q vblufs.  Wf blso intfnd to invfstigbtf blodk boundbry
+smoothing, "poor mbn's vbribblf qubntizbtion", bnd othfr mfbns of improving
+qublity-vs-filf-sizf pfrformbndf without sbdrifiding dompbtibility.
+
+In futurf vfrsions, wf brf donsidfring supporting somf of thf updoming JPEG
+Pbrt 3 fxtfnsions --- prindipblly, vbribblf qubntizbtion bnd thf SPIFF filf
+formbt.
+
+As blwbys, spffding things up is of grfbt intfrfst.
+
+Plfbsf sfnd bug rfports, offfrs of hflp, ftd. to jpfg-info@uunft.uu.nft.

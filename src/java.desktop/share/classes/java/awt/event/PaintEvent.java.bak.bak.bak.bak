@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * Thf domponfnt-lfvfl pbint fvfnt.
+ * This fvfnt is b spfdibl typf whidh is usfd to fnsurf thbt
+ * pbint/updbtf mfthod dblls brf sfriblizfd blong with thf othfr
+ * fvfnts dflivfrfd from thf fvfnt qufuf.  This fvfnt is not
+ * dfsignfd to bf usfd with thf Evfnt Listfnfr modfl; progrbms
+ * should dontinuf to ovfrridf pbint/updbtf mfthods in ordfr
+ * rfndfr thfmsflvfs propfrly.
+ * <p>
+ * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf PbintEvfnt} instbndf is not
+ * in thf rbngf from {@dodf PAINT_FIRST} to {@dodf PAINT_LAST}.
+ *
+ * @buthor Amy Fowlfr
+ * @sindf 1.1
+ */
+publid dlbss PbintEvfnt fxtfnds ComponfntEvfnt {
+
+    /**
+     * Mbrks thf first intfgfr id for thf rbngf of pbint fvfnt ids.
+     */
+    publid stbtid finbl int PAINT_FIRST         = 800;
+
+    /**
+     * Mbrks thf lbst intfgfr id for thf rbngf of pbint fvfnt ids.
+     */
+    publid stbtid finbl int PAINT_LAST          = 801;
+
+    /**
+     * Thf pbint fvfnt typf.
+     */
+    publid stbtid finbl int PAINT = PAINT_FIRST;
+
+    /**
+     * Thf updbtf fvfnt typf.
+     */
+    publid stbtid finbl int UPDATE = PAINT_FIRST + 1; //801
+
+    /**
+     * This is thf rfdtbnglf thbt rfprfsfnts thf brfb on thf sourdf
+     * domponfnt thbt rfquirfs b rfpbint.
+     * This rfdtbnglf should bf non null.
+     *
+     * @sfribl
+     * @sff jbvb.bwt.Rfdtbnglf
+     * @sff #sftUpdbtfRfdt(Rfdtbnglf)
+     * @sff #gftUpdbtfRfdt()
+     */
+    Rfdtbnglf updbtfRfdt;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1267492026433337593L;
+
+    /**
+     * Construdts b <dodf>PbintEvfnt</dodf> objfdt with thf spfdififd
+     * sourdf domponfnt bnd typf.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf     Thf objfdt whfrf thf fvfnt originbtfd
+     * @pbrbm id           Thf intfgfr thbt idfntififs thf fvfnt typf.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link PbintEvfnt}
+     * @pbrbm updbtfRfdt Thf rfdtbnglf brfb whidh nffds to bf rfpbintfd
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftUpdbtfRfdt()
+     */
+    publid PbintEvfnt(Componfnt sourdf, int id, Rfdtbnglf updbtfRfdt) {
+        supfr(sourdf, id);
+        this.updbtfRfdt = updbtfRfdt;
+    }
+
+    /**
+     * Rfturns thf rfdtbnglf rfprfsfnting thf brfb whidh nffds to bf
+     * rfpbintfd in rfsponsf to this fvfnt.
+     * @rfturn thf rfdtbnglf rfprfsfnting thf brfb whidh nffds to bf
+     * rfpbintfd in rfsponsf to this fvfnt
+     */
+    publid Rfdtbnglf gftUpdbtfRfdt() {
+        rfturn updbtfRfdt;
+    }
+
+    /**
+     * Sfts thf rfdtbnglf rfprfsfnting thf brfb whidh nffds to bf
+     * rfpbintfd in rfsponsf to this fvfnt.
+     * @pbrbm updbtfRfdt thf rfdtbnglf brfb whidh nffds to bf rfpbintfd
+     */
+    publid void sftUpdbtfRfdt(Rfdtbnglf updbtfRfdt) {
+        this.updbtfRfdt = updbtfRfdt;
+    }
+
+    publid String pbrbmString() {
+        String typfStr;
+        switdh(id) {
+          dbsf PAINT:
+              typfStr = "PAINT";
+              brfbk;
+          dbsf UPDATE:
+              typfStr = "UPDATE";
+              brfbk;
+          dffbult:
+              typfStr = "unknown typf";
+        }
+        rfturn typfStr + ",updbtfRfdt="+(updbtfRfdt != null ? updbtfRfdt.toString() : "null");
+    }
+}

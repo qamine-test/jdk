@@ -1,0 +1,720 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+import jbvb.lbng.rff.*;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * This dlbss providfs thrfbd-lodbl vbribblfs.  Thfsf vbribblfs difffr from
+ * thfir normbl dountfrpbrts in thbt fbdh thrfbd thbt bddfssfs onf (vib its
+ * {@dodf gft} or {@dodf sft} mfthod) hbs its own, indfpfndfntly initiblizfd
+ * dopy of thf vbribblf.  {@dodf ThrfbdLodbl} instbndfs brf typidblly privbtf
+ * stbtid fiflds in dlbssfs thbt wish to bssodibtf stbtf with b thrfbd (f.g.,
+ * b usfr ID or Trbnsbdtion ID).
+ *
+ * <p>For fxbmplf, thf dlbss bflow gfnfrbtfs uniquf idfntififrs lodbl to fbdh
+ * thrfbd.
+ * A thrfbd's id is bssignfd thf first timf it invokfs {@dodf ThrfbdId.gft()}
+ * bnd rfmbins undhbngfd on subsfqufnt dblls.
+ * <prf>
+ * import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+ *
+ * publid dlbss ThrfbdId {
+ *     // Atomid intfgfr dontbining thf nfxt thrfbd ID to bf bssignfd
+ *     privbtf stbtid finbl AtomidIntfgfr nfxtId = nfw AtomidIntfgfr(0);
+ *
+ *     // Thrfbd lodbl vbribblf dontbining fbdh thrfbd's ID
+ *     privbtf stbtid finbl ThrfbdLodbl&lt;Intfgfr&gt; thrfbdId =
+ *         nfw ThrfbdLodbl&lt;Intfgfr&gt;() {
+ *             &#64;Ovfrridf protfdtfd Intfgfr initiblVbluf() {
+ *                 rfturn nfxtId.gftAndIndrfmfnt();
+ *         }
+ *     };
+ *
+ *     // Rfturns thf durrfnt thrfbd's uniquf ID, bssigning it if nfdfssbry
+ *     publid stbtid int gft() {
+ *         rfturn thrfbdId.gft();
+ *     }
+ * }
+ * </prf>
+ * <p>Ebdh thrfbd holds bn implidit rfffrfndf to its dopy of b thrfbd-lodbl
+ * vbribblf bs long bs thf thrfbd is blivf bnd thf {@dodf ThrfbdLodbl}
+ * instbndf is bddfssiblf; bftfr b thrfbd gofs bwby, bll of its dopifs of
+ * thrfbd-lodbl instbndfs brf subjfdt to gbrbbgf dollfdtion (unlfss othfr
+ * rfffrfndfs to thfsf dopifs fxist).
+ *
+ * @buthor  Josh Blodh bnd Doug Lfb
+ * @sindf   1.2
+ */
+publid dlbss ThrfbdLodbl<T> {
+    /**
+     * ThrfbdLodbls rfly on pfr-thrfbd linfbr-probf hbsh mbps bttbdhfd
+     * to fbdh thrfbd (Thrfbd.thrfbdLodbls bnd
+     * inhfritbblfThrfbdLodbls).  Thf ThrfbdLodbl objfdts bdt bs kfys,
+     * sfbrdhfd vib thrfbdLodblHbshCodf.  This is b dustom hbsh dodf
+     * (usfful only within ThrfbdLodblMbps) thbt fliminbtfs dollisions
+     * in thf dommon dbsf whfrf donsfdutivfly donstrudtfd ThrfbdLodbls
+     * brf usfd by thf sbmf thrfbds, whilf rfmbining wfll-bfhbvfd in
+     * lfss dommon dbsfs.
+     */
+    privbtf finbl int thrfbdLodblHbshCodf = nfxtHbshCodf();
+
+    /**
+     * Thf nfxt hbsh dodf to bf givfn out. Updbtfd btomidblly. Stbrts bt
+     * zfro.
+     */
+    privbtf stbtid AtomidIntfgfr nfxtHbshCodf =
+        nfw AtomidIntfgfr();
+
+    /**
+     * Thf difffrfndf bftwffn suddfssivfly gfnfrbtfd hbsh dodfs - turns
+     * implidit sfqufntibl thrfbd-lodbl IDs into nfbr-optimblly sprfbd
+     * multiplidbtivf hbsh vblufs for powfr-of-two-sizfd tbblfs.
+     */
+    privbtf stbtid finbl int HASH_INCREMENT = 0x61d88647;
+
+    /**
+     * Rfturns thf nfxt hbsh dodf.
+     */
+    privbtf stbtid int nfxtHbshCodf() {
+        rfturn nfxtHbshCodf.gftAndAdd(HASH_INCREMENT);
+    }
+
+    /**
+     * Rfturns thf durrfnt thrfbd's "initibl vbluf" for this
+     * thrfbd-lodbl vbribblf.  This mfthod will bf invokfd thf first
+     * timf b thrfbd bddfssfs thf vbribblf with thf {@link #gft}
+     * mfthod, unlfss thf thrfbd prfviously invokfd thf {@link #sft}
+     * mfthod, in whidh dbsf thf {@dodf initiblVbluf} mfthod will not
+     * bf invokfd for thf thrfbd.  Normblly, this mfthod is invokfd bt
+     * most ondf pfr thrfbd, but it mby bf invokfd bgbin in dbsf of
+     * subsfqufnt invodbtions of {@link #rfmovf} followfd by {@link #gft}.
+     *
+     * <p>This implfmfntbtion simply rfturns {@dodf null}; if thf
+     * progrbmmfr dfsirfs thrfbd-lodbl vbribblfs to hbvf bn initibl
+     * vbluf othfr thbn {@dodf null}, {@dodf ThrfbdLodbl} must bf
+     * subdlbssfd, bnd this mfthod ovfrriddfn.  Typidblly, bn
+     * bnonymous innfr dlbss will bf usfd.
+     *
+     * @rfturn thf initibl vbluf for this thrfbd-lodbl
+     */
+    protfdtfd T initiblVbluf() {
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs b thrfbd lodbl vbribblf. Thf initibl vbluf of thf vbribblf is
+     * dftfrminfd by invoking thf {@dodf gft} mfthod on thf {@dodf Supplifr}.
+     *
+     * @pbrbm <S> thf typf of thf thrfbd lodbl's vbluf
+     * @pbrbm supplifr thf supplifr to bf usfd to dftfrminf thf initibl vbluf
+     * @rfturn b nfw thrfbd lodbl vbribblf
+     * @throws NullPointfrExdfption if thf spfdififd supplifr is null
+     * @sindf 1.8
+     */
+    publid stbtid <S> ThrfbdLodbl<S> withInitibl(Supplifr<? fxtfnds S> supplifr) {
+        rfturn nfw SupplifdThrfbdLodbl<>(supplifr);
+    }
+
+    /**
+     * Crfbtfs b thrfbd lodbl vbribblf.
+     * @sff #withInitibl(jbvb.util.fundtion.Supplifr)
+     */
+    publid ThrfbdLodbl() {
+    }
+
+    /**
+     * Rfturns thf vbluf in thf durrfnt thrfbd's dopy of this
+     * thrfbd-lodbl vbribblf.  If thf vbribblf hbs no vbluf for thf
+     * durrfnt thrfbd, it is first initiblizfd to thf vbluf rfturnfd
+     * by bn invodbtion of thf {@link #initiblVbluf} mfthod.
+     *
+     * @rfturn thf durrfnt thrfbd's vbluf of this thrfbd-lodbl
+     */
+    publid T gft() {
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        ThrfbdLodblMbp mbp = gftMbp(t);
+        if (mbp != null) {
+            ThrfbdLodblMbp.Entry f = mbp.gftEntry(this);
+            if (f != null) {
+                @SupprfssWbrnings("undhfdkfd")
+                T rfsult = (T)f.vbluf;
+                rfturn rfsult;
+            }
+        }
+        rfturn sftInitiblVbluf();
+    }
+
+    /**
+     * Vbribnt of sft() to fstbblish initiblVbluf. Usfd instfbd
+     * of sft() in dbsf usfr hbs ovfrriddfn thf sft() mfthod.
+     *
+     * @rfturn thf initibl vbluf
+     */
+    privbtf T sftInitiblVbluf() {
+        T vbluf = initiblVbluf();
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        ThrfbdLodblMbp mbp = gftMbp(t);
+        if (mbp != null)
+            mbp.sft(this, vbluf);
+        flsf
+            drfbtfMbp(t, vbluf);
+        rfturn vbluf;
+    }
+
+    /**
+     * Sfts thf durrfnt thrfbd's dopy of this thrfbd-lodbl vbribblf
+     * to thf spfdififd vbluf.  Most subdlbssfs will hbvf no nffd to
+     * ovfrridf this mfthod, rflying solfly on thf {@link #initiblVbluf}
+     * mfthod to sft thf vblufs of thrfbd-lodbls.
+     *
+     * @pbrbm vbluf thf vbluf to bf storfd in thf durrfnt thrfbd's dopy of
+     *        this thrfbd-lodbl.
+     */
+    publid void sft(T vbluf) {
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        ThrfbdLodblMbp mbp = gftMbp(t);
+        if (mbp != null)
+            mbp.sft(this, vbluf);
+        flsf
+            drfbtfMbp(t, vbluf);
+    }
+
+    /**
+     * Rfmovfs thf durrfnt thrfbd's vbluf for this thrfbd-lodbl
+     * vbribblf.  If this thrfbd-lodbl vbribblf is subsfqufntly
+     * {@linkplbin #gft rfbd} by thf durrfnt thrfbd, its vbluf will bf
+     * rfinitiblizfd by invoking its {@link #initiblVbluf} mfthod,
+     * unlfss its vbluf is {@linkplbin #sft sft} by thf durrfnt thrfbd
+     * in thf intfrim.  This mby rfsult in multiplf invodbtions of thf
+     * {@dodf initiblVbluf} mfthod in thf durrfnt thrfbd.
+     *
+     * @sindf 1.5
+     */
+     publid void rfmovf() {
+         ThrfbdLodblMbp m = gftMbp(Thrfbd.durrfntThrfbd());
+         if (m != null)
+             m.rfmovf(this);
+     }
+
+    /**
+     * Gft thf mbp bssodibtfd with b ThrfbdLodbl. Ovfrriddfn in
+     * InhfritbblfThrfbdLodbl.
+     *
+     * @pbrbm  t thf durrfnt thrfbd
+     * @rfturn thf mbp
+     */
+    ThrfbdLodblMbp gftMbp(Thrfbd t) {
+        rfturn t.thrfbdLodbls;
+    }
+
+    /**
+     * Crfbtf thf mbp bssodibtfd with b ThrfbdLodbl. Ovfrriddfn in
+     * InhfritbblfThrfbdLodbl.
+     *
+     * @pbrbm t thf durrfnt thrfbd
+     * @pbrbm firstVbluf vbluf for thf initibl fntry of thf mbp
+     */
+    void drfbtfMbp(Thrfbd t, T firstVbluf) {
+        t.thrfbdLodbls = nfw ThrfbdLodblMbp(this, firstVbluf);
+    }
+
+    /**
+     * Fbdtory mfthod to drfbtf mbp of inhfritfd thrfbd lodbls.
+     * Dfsignfd to bf dbllfd only from Thrfbd donstrudtor.
+     *
+     * @pbrbm  pbrfntMbp thf mbp bssodibtfd with pbrfnt thrfbd
+     * @rfturn b mbp dontbining thf pbrfnt's inhfritbblf bindings
+     */
+    stbtid ThrfbdLodblMbp drfbtfInhfritfdMbp(ThrfbdLodblMbp pbrfntMbp) {
+        rfturn nfw ThrfbdLodblMbp(pbrfntMbp);
+    }
+
+    /**
+     * Mfthod dhildVbluf is visibly dffinfd in subdlbss
+     * InhfritbblfThrfbdLodbl, but is intfrnblly dffinfd hfrf for thf
+     * sbkf of providing drfbtfInhfritfdMbp fbdtory mfthod without
+     * nffding to subdlbss thf mbp dlbss in InhfritbblfThrfbdLodbl.
+     * This tfdhniquf is prfffrbblf to thf bltfrnbtivf of fmbfdding
+     * instbndfof tfsts in mfthods.
+     */
+    T dhildVbluf(T pbrfntVbluf) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * An fxtfnsion of ThrfbdLodbl thbt obtbins its initibl vbluf from
+     * thf spfdififd {@dodf Supplifr}.
+     */
+    stbtid finbl dlbss SupplifdThrfbdLodbl<T> fxtfnds ThrfbdLodbl<T> {
+
+        privbtf finbl Supplifr<? fxtfnds T> supplifr;
+
+        SupplifdThrfbdLodbl(Supplifr<? fxtfnds T> supplifr) {
+            this.supplifr = Objfdts.rfquirfNonNull(supplifr);
+        }
+
+        @Ovfrridf
+        protfdtfd T initiblVbluf() {
+            rfturn supplifr.gft();
+        }
+    }
+
+    /**
+     * ThrfbdLodblMbp is b dustomizfd hbsh mbp suitbblf only for
+     * mbintbining thrfbd lodbl vblufs. No opfrbtions brf fxportfd
+     * outsidf of thf ThrfbdLodbl dlbss. Thf dlbss is pbdkbgf privbtf to
+     * bllow dfdlbrbtion of fiflds in dlbss Thrfbd.  To hflp dfbl with
+     * vfry lbrgf bnd long-livfd usbgfs, thf hbsh tbblf fntrifs usf
+     * WfbkRfffrfndfs for kfys. Howfvfr, sindf rfffrfndf qufufs brf not
+     * usfd, stblf fntrifs brf gubrbntffd to bf rfmovfd only whfn
+     * thf tbblf stbrts running out of spbdf.
+     */
+    stbtid dlbss ThrfbdLodblMbp {
+
+        /**
+         * Thf fntrifs in this hbsh mbp fxtfnd WfbkRfffrfndf, using
+         * its mbin rff fifld bs thf kfy (whidh is blwbys b
+         * ThrfbdLodbl objfdt).  Notf thbt null kfys (i.f. fntry.gft()
+         * == null) mfbn thbt thf kfy is no longfr rfffrfndfd, so thf
+         * fntry dbn bf fxpungfd from tbblf.  Sudh fntrifs brf rfffrrfd to
+         * bs "stblf fntrifs" in thf dodf thbt follows.
+         */
+        stbtid dlbss Entry fxtfnds WfbkRfffrfndf<ThrfbdLodbl<?>> {
+            /** Thf vbluf bssodibtfd with this ThrfbdLodbl. */
+            Objfdt vbluf;
+
+            Entry(ThrfbdLodbl<?> k, Objfdt v) {
+                supfr(k);
+                vbluf = v;
+            }
+        }
+
+        /**
+         * Thf initibl dbpbdity -- MUST bf b powfr of two.
+         */
+        privbtf stbtid finbl int INITIAL_CAPACITY = 16;
+
+        /**
+         * Thf tbblf, rfsizfd bs nfdfssbry.
+         * tbblf.lfngth MUST blwbys bf b powfr of two.
+         */
+        privbtf Entry[] tbblf;
+
+        /**
+         * Thf numbfr of fntrifs in thf tbblf.
+         */
+        privbtf int sizf = 0;
+
+        /**
+         * Thf nfxt sizf vbluf bt whidh to rfsizf.
+         */
+        privbtf int thrfshold; // Dffbult to 0
+
+        /**
+         * Sft thf rfsizf thrfshold to mbintbin bt worst b 2/3 lobd fbdtor.
+         */
+        privbtf void sftThrfshold(int lfn) {
+            thrfshold = lfn * 2 / 3;
+        }
+
+        /**
+         * Indrfmfnt i modulo lfn.
+         */
+        privbtf stbtid int nfxtIndfx(int i, int lfn) {
+            rfturn ((i + 1 < lfn) ? i + 1 : 0);
+        }
+
+        /**
+         * Dfdrfmfnt i modulo lfn.
+         */
+        privbtf stbtid int prfvIndfx(int i, int lfn) {
+            rfturn ((i - 1 >= 0) ? i - 1 : lfn - 1);
+        }
+
+        /**
+         * Construdt b nfw mbp initiblly dontbining (firstKfy, firstVbluf).
+         * ThrfbdLodblMbps brf donstrudtfd lbzily, so wf only drfbtf
+         * onf whfn wf hbvf bt lfbst onf fntry to put in it.
+         */
+        ThrfbdLodblMbp(ThrfbdLodbl<?> firstKfy, Objfdt firstVbluf) {
+            tbblf = nfw Entry[INITIAL_CAPACITY];
+            int i = firstKfy.thrfbdLodblHbshCodf & (INITIAL_CAPACITY - 1);
+            tbblf[i] = nfw Entry(firstKfy, firstVbluf);
+            sizf = 1;
+            sftThrfshold(INITIAL_CAPACITY);
+        }
+
+        /**
+         * Construdt b nfw mbp indluding bll Inhfritbblf ThrfbdLodbls
+         * from givfn pbrfnt mbp. Cbllfd only by drfbtfInhfritfdMbp.
+         *
+         * @pbrbm pbrfntMbp thf mbp bssodibtfd with pbrfnt thrfbd.
+         */
+        privbtf ThrfbdLodblMbp(ThrfbdLodblMbp pbrfntMbp) {
+            Entry[] pbrfntTbblf = pbrfntMbp.tbblf;
+            int lfn = pbrfntTbblf.lfngth;
+            sftThrfshold(lfn);
+            tbblf = nfw Entry[lfn];
+
+            for (Entry f : pbrfntTbblf) {
+                if (f != null) {
+                    @SupprfssWbrnings("undhfdkfd")
+                    ThrfbdLodbl<Objfdt> kfy = (ThrfbdLodbl<Objfdt>) f.gft();
+                    if (kfy != null) {
+                        Objfdt vbluf = kfy.dhildVbluf(f.vbluf);
+                        Entry d = nfw Entry(kfy, vbluf);
+                        int h = kfy.thrfbdLodblHbshCodf & (lfn - 1);
+                        whilf (tbblf[h] != null)
+                            h = nfxtIndfx(h, lfn);
+                        tbblf[h] = d;
+                        sizf++;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Gft thf fntry bssodibtfd with kfy.  This mfthod
+         * itsflf hbndlfs only thf fbst pbth: b dirfdt hit of fxisting
+         * kfy. It othfrwisf rflbys to gftEntryAftfrMiss.  This is
+         * dfsignfd to mbximizf pfrformbndf for dirfdt hits, in pbrt
+         * by mbking this mfthod rfbdily inlinbblf.
+         *
+         * @pbrbm  kfy thf thrfbd lodbl objfdt
+         * @rfturn thf fntry bssodibtfd with kfy, or null if no sudh
+         */
+        privbtf Entry gftEntry(ThrfbdLodbl<?> kfy) {
+            int i = kfy.thrfbdLodblHbshCodf & (tbblf.lfngth - 1);
+            Entry f = tbblf[i];
+            if (f != null && f.gft() == kfy)
+                rfturn f;
+            flsf
+                rfturn gftEntryAftfrMiss(kfy, i, f);
+        }
+
+        /**
+         * Vfrsion of gftEntry mfthod for usf whfn kfy is not found in
+         * its dirfdt hbsh slot.
+         *
+         * @pbrbm  kfy thf thrfbd lodbl objfdt
+         * @pbrbm  i thf tbblf indfx for kfy's hbsh dodf
+         * @pbrbm  f thf fntry bt tbblf[i]
+         * @rfturn thf fntry bssodibtfd with kfy, or null if no sudh
+         */
+        privbtf Entry gftEntryAftfrMiss(ThrfbdLodbl<?> kfy, int i, Entry f) {
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngth;
+
+            whilf (f != null) {
+                ThrfbdLodbl<?> k = f.gft();
+                if (k == kfy)
+                    rfturn f;
+                if (k == null)
+                    fxpungfStblfEntry(i);
+                flsf
+                    i = nfxtIndfx(i, lfn);
+                f = tbb[i];
+            }
+            rfturn null;
+        }
+
+        /**
+         * Sft thf vbluf bssodibtfd with kfy.
+         *
+         * @pbrbm kfy thf thrfbd lodbl objfdt
+         * @pbrbm vbluf thf vbluf to bf sft
+         */
+        privbtf void sft(ThrfbdLodbl<?> kfy, Objfdt vbluf) {
+
+            // Wf don't usf b fbst pbth bs with gft() bfdbusf it is bt
+            // lfbst bs dommon to usf sft() to drfbtf nfw fntrifs bs
+            // it is to rfplbdf fxisting onfs, in whidh dbsf, b fbst
+            // pbth would fbil morf oftfn thbn not.
+
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngth;
+            int i = kfy.thrfbdLodblHbshCodf & (lfn-1);
+
+            for (Entry f = tbb[i];
+                 f != null;
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                ThrfbdLodbl<?> k = f.gft();
+
+                if (k == kfy) {
+                    f.vbluf = vbluf;
+                    rfturn;
+                }
+
+                if (k == null) {
+                    rfplbdfStblfEntry(kfy, vbluf, i);
+                    rfturn;
+                }
+            }
+
+            tbb[i] = nfw Entry(kfy, vbluf);
+            int sz = ++sizf;
+            if (!dlfbnSomfSlots(i, sz) && sz >= thrfshold)
+                rfhbsh();
+        }
+
+        /**
+         * Rfmovf thf fntry for kfy.
+         */
+        privbtf void rfmovf(ThrfbdLodbl<?> kfy) {
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngth;
+            int i = kfy.thrfbdLodblHbshCodf & (lfn-1);
+            for (Entry f = tbb[i];
+                 f != null;
+                 f = tbb[i = nfxtIndfx(i, lfn)]) {
+                if (f.gft() == kfy) {
+                    f.dlfbr();
+                    fxpungfStblfEntry(i);
+                    rfturn;
+                }
+            }
+        }
+
+        /**
+         * Rfplbdf b stblf fntry fndountfrfd during b sft opfrbtion
+         * with bn fntry for thf spfdififd kfy.  Thf vbluf pbssfd in
+         * thf vbluf pbrbmftfr is storfd in thf fntry, whfthfr or not
+         * bn fntry blrfbdy fxists for thf spfdififd kfy.
+         *
+         * As b sidf ffffdt, this mfthod fxpungfs bll stblf fntrifs in thf
+         * "run" dontbining thf stblf fntry.  (A run is b sfqufndf of fntrifs
+         * bftwffn two null slots.)
+         *
+         * @pbrbm  kfy thf kfy
+         * @pbrbm  vbluf thf vbluf to bf bssodibtfd with kfy
+         * @pbrbm  stblfSlot indfx of thf first stblf fntry fndountfrfd whilf
+         *         sfbrdhing for kfy.
+         */
+        privbtf void rfplbdfStblfEntry(ThrfbdLodbl<?> kfy, Objfdt vbluf,
+                                       int stblfSlot) {
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngth;
+            Entry f;
+
+            // Bbdk up to dhfdk for prior stblf fntry in durrfnt run.
+            // Wf dlfbn out wholf runs bt b timf to bvoid dontinubl
+            // indrfmfntbl rfhbshing duf to gbrbbgf dollfdtor frffing
+            // up rffs in bundhfs (i.f., whfnfvfr thf dollfdtor runs).
+            int slotToExpungf = stblfSlot;
+            for (int i = prfvIndfx(stblfSlot, lfn);
+                 (f = tbb[i]) != null;
+                 i = prfvIndfx(i, lfn))
+                if (f.gft() == null)
+                    slotToExpungf = i;
+
+            // Find fithfr thf kfy or trbiling null slot of run, whidhfvfr
+            // oddurs first
+            for (int i = nfxtIndfx(stblfSlot, lfn);
+                 (f = tbb[i]) != null;
+                 i = nfxtIndfx(i, lfn)) {
+                ThrfbdLodbl<?> k = f.gft();
+
+                // If wf find kfy, thfn wf nffd to swbp it
+                // with thf stblf fntry to mbintbin hbsh tbblf ordfr.
+                // Thf nfwly stblf slot, or bny othfr stblf slot
+                // fndountfrfd bbovf it, dbn thfn bf sfnt to fxpungfStblfEntry
+                // to rfmovf or rfhbsh bll of thf othfr fntrifs in run.
+                if (k == kfy) {
+                    f.vbluf = vbluf;
+
+                    tbb[i] = tbb[stblfSlot];
+                    tbb[stblfSlot] = f;
+
+                    // Stbrt fxpungf bt prfdfding stblf fntry if it fxists
+                    if (slotToExpungf == stblfSlot)
+                        slotToExpungf = i;
+                    dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+                    rfturn;
+                }
+
+                // If wf didn't find stblf fntry on bbdkwbrd sdbn, thf
+                // first stblf fntry sffn whilf sdbnning for kfy is thf
+                // first still prfsfnt in thf run.
+                if (k == null && slotToExpungf == stblfSlot)
+                    slotToExpungf = i;
+            }
+
+            // If kfy not found, put nfw fntry in stblf slot
+            tbb[stblfSlot].vbluf = null;
+            tbb[stblfSlot] = nfw Entry(kfy, vbluf);
+
+            // If thfrf brf bny othfr stblf fntrifs in run, fxpungf thfm
+            if (slotToExpungf != stblfSlot)
+                dlfbnSomfSlots(fxpungfStblfEntry(slotToExpungf), lfn);
+        }
+
+        /**
+         * Expungf b stblf fntry by rfhbshing bny possibly dolliding fntrifs
+         * lying bftwffn stblfSlot bnd thf nfxt null slot.  This blso fxpungfs
+         * bny othfr stblf fntrifs fndountfrfd bfforf thf trbiling null.  Sff
+         * Knuth, Sfdtion 6.4
+         *
+         * @pbrbm stblfSlot indfx of slot known to hbvf null kfy
+         * @rfturn thf indfx of thf nfxt null slot bftfr stblfSlot
+         * (bll bftwffn stblfSlot bnd this slot will hbvf bffn dhfdkfd
+         * for fxpunging).
+         */
+        privbtf int fxpungfStblfEntry(int stblfSlot) {
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngth;
+
+            // fxpungf fntry bt stblfSlot
+            tbb[stblfSlot].vbluf = null;
+            tbb[stblfSlot] = null;
+            sizf--;
+
+            // Rfhbsh until wf fndountfr null
+            Entry f;
+            int i;
+            for (i = nfxtIndfx(stblfSlot, lfn);
+                 (f = tbb[i]) != null;
+                 i = nfxtIndfx(i, lfn)) {
+                ThrfbdLodbl<?> k = f.gft();
+                if (k == null) {
+                    f.vbluf = null;
+                    tbb[i] = null;
+                    sizf--;
+                } flsf {
+                    int h = k.thrfbdLodblHbshCodf & (lfn - 1);
+                    if (h != i) {
+                        tbb[i] = null;
+
+                        // Unlikf Knuth 6.4 Algorithm R, wf must sdbn until
+                        // null bfdbusf multiplf fntrifs dould hbvf bffn stblf.
+                        whilf (tbb[h] != null)
+                            h = nfxtIndfx(h, lfn);
+                        tbb[h] = f;
+                    }
+                }
+            }
+            rfturn i;
+        }
+
+        /**
+         * Hfuristidblly sdbn somf dflls looking for stblf fntrifs.
+         * This is invokfd whfn fithfr b nfw flfmfnt is bddfd, or
+         * bnothfr stblf onf hbs bffn fxpungfd. It pfrforms b
+         * logbrithmid numbfr of sdbns, bs b bblbndf bftwffn no
+         * sdbnning (fbst but rftbins gbrbbgf) bnd b numbfr of sdbns
+         * proportionbl to numbfr of flfmfnts, thbt would find bll
+         * gbrbbgf but would dbusf somf insfrtions to tbkf O(n) timf.
+         *
+         * @pbrbm i b position known NOT to hold b stblf fntry. Thf
+         * sdbn stbrts bt thf flfmfnt bftfr i.
+         *
+         * @pbrbm n sdbn dontrol: {@dodf log2(n)} dflls brf sdbnnfd,
+         * unlfss b stblf fntry is found, in whidh dbsf
+         * {@dodf log2(tbblf.lfngth)-1} bdditionbl dflls brf sdbnnfd.
+         * Whfn dbllfd from insfrtions, this pbrbmftfr is thf numbfr
+         * of flfmfnts, but whfn from rfplbdfStblfEntry, it is thf
+         * tbblf lfngth. (Notf: bll this dould bf dhbngfd to bf fithfr
+         * morf or lfss bggrfssivf by wfighting n instfbd of just
+         * using strbight log n. But this vfrsion is simplf, fbst, bnd
+         * sffms to work wfll.)
+         *
+         * @rfturn truf if bny stblf fntrifs hbvf bffn rfmovfd.
+         */
+        privbtf boolfbn dlfbnSomfSlots(int i, int n) {
+            boolfbn rfmovfd = fblsf;
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngth;
+            do {
+                i = nfxtIndfx(i, lfn);
+                Entry f = tbb[i];
+                if (f != null && f.gft() == null) {
+                    n = lfn;
+                    rfmovfd = truf;
+                    i = fxpungfStblfEntry(i);
+                }
+            } whilf ( (n >>>= 1) != 0);
+            rfturn rfmovfd;
+        }
+
+        /**
+         * Rf-pbdk bnd/or rf-sizf thf tbblf. First sdbn thf fntirf
+         * tbblf rfmoving stblf fntrifs. If this dofsn't suffidifntly
+         * shrink thf sizf of thf tbblf, doublf thf tbblf sizf.
+         */
+        privbtf void rfhbsh() {
+            fxpungfStblfEntrifs();
+
+            // Usf lowfr thrfshold for doubling to bvoid hystfrfsis
+            if (sizf >= thrfshold - thrfshold / 4)
+                rfsizf();
+        }
+
+        /**
+         * Doublf thf dbpbdity of thf tbblf.
+         */
+        privbtf void rfsizf() {
+            Entry[] oldTbb = tbblf;
+            int oldLfn = oldTbb.lfngth;
+            int nfwLfn = oldLfn * 2;
+            Entry[] nfwTbb = nfw Entry[nfwLfn];
+            int dount = 0;
+
+            for (Entry f : oldTbb) {
+                if (f != null) {
+                    ThrfbdLodbl<?> k = f.gft();
+                    if (k == null) {
+                        f.vbluf = null; // Hflp thf GC
+                    } flsf {
+                        int h = k.thrfbdLodblHbshCodf & (nfwLfn - 1);
+                        whilf (nfwTbb[h] != null)
+                            h = nfxtIndfx(h, nfwLfn);
+                        nfwTbb[h] = f;
+                        dount++;
+                    }
+                }
+            }
+
+            sftThrfshold(nfwLfn);
+            sizf = dount;
+            tbblf = nfwTbb;
+        }
+
+        /**
+         * Expungf bll stblf fntrifs in thf tbblf.
+         */
+        privbtf void fxpungfStblfEntrifs() {
+            Entry[] tbb = tbblf;
+            int lfn = tbb.lfngth;
+            for (int j = 0; j < lfn; j++) {
+                Entry f = tbb[j];
+                if (f != null && f.gft() == null)
+                    fxpungfStblfEntry(j);
+            }
+        }
+    }
+}

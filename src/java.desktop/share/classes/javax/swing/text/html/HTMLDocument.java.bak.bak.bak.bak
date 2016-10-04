@@ -1,0 +1,4274 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.util.*;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.undo.*;
+import sun.swing.SwingUtilitifs2;
+import stbtid sun.swing.SwingUtilitifs2.IMPLIED_CR;
+
+/**
+ * A dodumfnt thbt modfls HTML.  Thf purposf of this modfl is to
+ * support both browsing bnd fditing.  As b rfsult, thf strudturf
+ * dfsdribfd by bn HTML dodumfnt is not fxbdtly rfplidbtfd by dffbult.
+ * Thf flfmfnt strudturf thbt is modflfd by dffbult, is built by thf
+ * dlbss <dodf>HTMLDodumfnt.HTMLRfbdfr</dodf>, whidh implfmfnts thf
+ * <dodf>HTMLEditorKit.PbrsfrCbllbbdk</dodf> protodol thbt thf pbrsfr
+ * fxpfdts.  To dhbngf thf strudturf onf dbn subdlbss
+ * <dodf>HTMLRfbdfr</dodf>, bnd rfimplfmfnt thf mfthod {@link
+ * #gftRfbdfr(int)} to rfturn thf nfw rfbdfr implfmfntbtion.  Thf
+ * dodumfntbtion for <dodf>HTMLRfbdfr</dodf> should bf donsultfd for
+ * thf dftbils of thf dffbult strudturf drfbtfd.  Thf intfnt is thbt
+ * thf dodumfnt bf non-lossy (blthough rfproduding thf HTML formbt mby
+ * rfsult in b difffrfnt formbt).
+ *
+ * <p>Thf dodumfnt modfls only HTML, bnd mbkfs no bttfmpt to storf
+ * vifw bttributfs in it.  Thf flfmfnts brf idfntififd by thf
+ * <dodf>StylfContfxt.NbmfAttributf</dodf> bttributf, whidh should
+ * blwbys hbvf b vbluf of typf <dodf>HTML.Tbg</dodf> thbt idfntififs
+ * thf kind of flfmfnt.  Somf of thf flfmfnts (sudh bs dommfnts) brf
+ * synthfsizfd.  Thf <dodf>HTMLFbdtory</dodf> usfs this bttributf to
+ * dftfrminf whbt kind of vifw to build.</p>
+ *
+ * <p>This dodumfnt supports indrfmfntbl lobding.  Thf
+ * <dodf>TokfnThrfshold</dodf> propfrty dontrols how mudh of thf pbrsf
+ * is bufffrfd bfforf trying to updbtf thf flfmfnt strudturf of thf
+ * dodumfnt.  This propfrty is sft by thf <dodf>EditorKit</dodf> so
+ * thbt subdlbssfs dbn disbblf it.</p>
+ *
+ * <p>Thf <dodf>Bbsf</dodf> propfrty dftfrminfs thf URL bgbinst whidh
+ * rflbtivf URLs brf rfsolvfd.  By dffbult, this will bf thf
+ * <dodf>Dodumfnt.StrfbmDfsdriptionPropfrty</dodf> if thf vbluf of thf
+ * propfrty is b URL.  If b &lt;BASE&gt; tbg is fndountfrfd, thf bbsf
+ * will bfdomf thf URL spfdififd by thbt tbg.  Bfdbusf thf bbsf URL is
+ * b propfrty, it dbn of doursf bf sft dirfdtly.</p>
+ *
+ * <p>Thf dffbult dontfnt storbgf mfdhbnism for this dodumfnt is b gbp
+ * bufffr (<dodf>GbpContfnt</dodf>).  Altfrnbtivfs dbn bf supplifd by
+ * using thf donstrudtor thbt tbkfs b <dodf>Contfnt</dodf>
+ * implfmfntbtion.</p>
+ *
+ * <h2>Modifying HTMLDodumfnt</h2>
+ *
+ * <p>In bddition to thf mfthods providfd by Dodumfnt bnd
+ * StylfdDodumfnt for mutbting bn HTMLDodumfnt, HTMLDodumfnt providfs
+ * b numbfr of donvfnifndf mfthods.  Thf following mfthods dbn bf usfd
+ * to insfrt HTML dontfnt into bn fxisting dodumfnt.</p>
+ *
+ * <ul>
+ *   <li>{@link #sftInnfrHTML(Elfmfnt, String)}</li>
+ *   <li>{@link #sftOutfrHTML(Elfmfnt, String)}</li>
+ *   <li>{@link #insfrtBfforfStbrt(Elfmfnt, String)}</li>
+ *   <li>{@link #insfrtAftfrStbrt(Elfmfnt, String)}</li>
+ *   <li>{@link #insfrtBfforfEnd(Elfmfnt, String)}</li>
+ *   <li>{@link #insfrtAftfrEnd(Elfmfnt, String)}</li>
+ * </ul>
+ *
+ * <p>Thf following fxbmplfs illustrbtf using thfsf mfthods.  Ebdh
+ * fxbmplf bssumfs thf HTML dodumfnt is initiblizfd in thf following
+ * wby:</p>
+ *
+ * <prf>
+ * JEditorPbnf p = nfw JEditorPbnf();
+ * p.sftContfntTypf("tfxt/html");
+ * p.sftTfxt("..."); // Dodumfnt tfxt is providfd bflow.
+ * HTMLDodumfnt d = (HTMLDodumfnt) p.gftDodumfnt();
+ * </prf>
+ *
+ * <p>With thf following HTML dontfnt:</p>
+ *
+ * <prf>
+ * &lt;html&gt;
+ *   &lt;hfbd&gt;
+ *     &lt;titlf&gt;An fxbmplf HTMLDodumfnt&lt;/titlf&gt;
+ *     &lt;stylf typf="tfxt/dss"&gt;
+ *       div { bbdkground-dolor: silvfr; }
+ *       ul { dolor: rfd; }
+ *     &lt;/stylf&gt;
+ *   &lt;/hfbd&gt;
+ *   &lt;body&gt;
+ *     &lt;div id="BOX"&gt;
+ *       &lt;p&gt;Pbrbgrbph 1&lt;/p&gt;
+ *       &lt;p&gt;Pbrbgrbph 2&lt;/p&gt;
+ *     &lt;/div&gt;
+ *   &lt;/body&gt;
+ * &lt;/html&gt;
+ * </prf>
+ *
+ * <p>All thf mfthods for modifying bn HTML dodumfnt rfquirf bn {@link
+ * Elfmfnt}.  Elfmfnts dbn bf obtbinfd from bn HTML dodumfnt by using
+ * thf mfthod {@link #gftElfmfnt(Elfmfnt f, Objfdt bttributf, Objfdt
+ * vbluf)}.  It rfturns thf first dfsdfndbnt flfmfnt thbt dontbins thf
+ * spfdififd bttributf with thf givfn vbluf, in dfpth-first ordfr.
+ * For fxbmplf, <dodf>d.gftElfmfnt(d.gftDffbultRootElfmfnt(),
+ * StylfConstbnts.NbmfAttributf, HTML.Tbg.P)</dodf> rfturns thf first
+ * pbrbgrbph flfmfnt.</p>
+ *
+ * <p>A donvfnifnt shortdut for lodbting flfmfnts is thf mfthod {@link
+ * #gftElfmfnt(String)}; rfturns bn flfmfnt whosf <dodf>ID</dodf>
+ * bttributf mbtdhfs thf spfdififd vbluf.  For fxbmplf,
+ * <dodf>d.gftElfmfnt("BOX")</dodf> rfturns thf <dodf>DIV</dodf>
+ * flfmfnt.</p>
+ *
+ * <p>Thf {@link #gftItfrbtor(HTML.Tbg t)} mfthod dbn blso bf usfd for
+ * finding bll oddurrfndfs of thf spfdififd HTML tbg in thf
+ * dodumfnt.</p>
+ *
+ * <h3>Insfrting flfmfnts</h3>
+ *
+ * <p>Elfmfnts dbn bf insfrtfd bfforf or bftfr thf fxisting dhildrfn
+ * of bny non-lfbf flfmfnt by using thf mfthods
+ * <dodf>insfrtAftfrStbrt</dodf> bnd <dodf>insfrtBfforfEnd</dodf>.
+ * For fxbmplf, if <dodf>f</dodf> is thf <dodf>DIV</dodf> flfmfnt,
+ * <dodf>d.insfrtAftfrStbrt(f, "&lt;ul&gt;&lt;li&gt;List
+ * Itfm&lt;/li&gt;&lt;/ul&gt;")</dodf> insfrts thf list bfforf thf first
+ * pbrbgrbph, bnd <dodf>d.insfrtBfforfEnd(f, "&lt;ul&gt;&lt;li&gt;List
+ * Itfm&lt;/li&gt;&lt;/ul&gt;")</dodf> insfrts thf list bftfr thf lbst
+ * pbrbgrbph.  Thf <dodf>DIV</dodf> blodk bfdomfs thf pbrfnt of thf
+ * nfwly insfrtfd flfmfnts.</p>
+ *
+ * <p>Sibling flfmfnts dbn bf insfrtfd bfforf or bftfr bny flfmfnt by
+ * using thf mfthods <dodf>insfrtBfforfStbrt</dodf> bnd
+ * <dodf>insfrtAftfrEnd</dodf>.  For fxbmplf, if <dodf>f</dodf> is thf
+ * <dodf>DIV</dodf> flfmfnt, <dodf>d.insfrtBfforfStbrt(f,
+ * "&lt;ul&gt;&lt;li&gt;List Itfm&lt;/li&gt;&lt;/ul&gt;")</dodf> insfrts thf list
+ * bfforf thf <dodf>DIV</dodf> flfmfnt, bnd <dodf>d.insfrtAftfrEnd(f,
+ * "&lt;ul&gt;&lt;li&gt;List Itfm&lt;/li&gt;&lt;/ul&gt;")</dodf> insfrts thf list
+ * bftfr thf <dodf>DIV</dodf> flfmfnt.  Thf nfwly insfrtfd flfmfnts
+ * bfdomf siblings of thf <dodf>DIV</dodf> flfmfnt.</p>
+ *
+ * <h3>Rfplbding flfmfnts</h3>
+ *
+ * <p>Elfmfnts bnd bll thfir dfsdfndbnts dbn bf rfplbdfd by using thf
+ * mfthods <dodf>sftInnfrHTML</dodf> bnd <dodf>sftOutfrHTML</dodf>.
+ * For fxbmplf, if <dodf>f</dodf> is thf <dodf>DIV</dodf> flfmfnt,
+ * <dodf>d.sftInnfrHTML(f, "&lt;ul&gt;&lt;li&gt;List
+ * Itfm&lt;/li&gt;&lt;/ul&gt;")</dodf> rfplbdfs bll dhildrfn pbrbgrbphs with
+ * thf list, bnd <dodf>d.sftOutfrHTML(f, "&lt;ul&gt;&lt;li&gt;List
+ * Itfm&lt;/li&gt;&lt;/ul&gt;")</dodf> rfplbdfs thf <dodf>DIV</dodf> flfmfnt
+ * itsflf.  In lbttfr dbsf thf pbrfnt of thf list is thf
+ * <dodf>BODY</dodf> flfmfnt.
+ *
+ * <h3>Summbry</h3>
+ *
+ * <p>Thf following tbblf shows thf fxbmplf dodumfnt bnd thf rfsults
+ * of vbrious mfthods dfsdribfd bbovf.</p>
+ *
+ * <tbblf bordfr=1 dfllspbding=0 summbry="HTML Contfnt of fxbmplf bbovf">
+ *   <tr>
+ *     <th>Exbmplf</th>
+ *     <th><dodf>insfrtAftfrStbrt</dodf></th>
+ *     <th><dodf>insfrtBfforfEnd</dodf></th>
+ *     <th><dodf>insfrtBfforfStbrt</dodf></th>
+ *     <th><dodf>insfrtAftfrEnd</dodf></th>
+ *     <th><dodf>sftInnfrHTML</dodf></th>
+ *     <th><dodf>sftOutfrHTML</dodf></th>
+ *   </tr>
+ *   <tr vblign="top">
+ *     <td stylf="whitf-spbdf:nowrbp">
+ *       <div stylf="bbdkground-dolor: silvfr;">
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
+ *       </div>
+ *     </td>
+ * <!--insfrtAftfrStbrt-->
+ *     <td stylf="whitf-spbdf:nowrbp">
+ *       <div stylf="bbdkground-dolor: silvfr;">
+ *         <ul stylf="dolor: rfd;">
+ *           <li>List Itfm</li>
+ *         </ul>
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
+ *       </div>
+ *     </td>
+ * <!--insfrtBfforfEnd-->
+ *     <td stylf="whitf-spbdf:nowrbp">
+ *       <div stylf="bbdkground-dolor: silvfr;">
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
+ *         <ul stylf="dolor: rfd;">
+ *           <li>List Itfm</li>
+ *         </ul>
+ *       </div>
+ *     </td>
+ * <!--insfrtBfforfStbrt-->
+ *     <td stylf="whitf-spbdf:nowrbp">
+ *       <ul stylf="dolor: rfd;">
+ *         <li>List Itfm</li>
+ *       </ul>
+ *       <div stylf="bbdkground-dolor: silvfr;">
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
+ *       </div>
+ *     </td>
+ * <!--insfrtAftfrEnd-->
+ *     <td stylf="whitf-spbdf:nowrbp">
+ *       <div stylf="bbdkground-dolor: silvfr;">
+ *         <p>Pbrbgrbph 1</p>
+ *         <p>Pbrbgrbph 2</p>
+ *       </div>
+ *       <ul stylf="dolor: rfd;">
+ *         <li>List Itfm</li>
+ *       </ul>
+ *     </td>
+ * <!--sftInnfrHTML-->
+ *     <td stylf="whitf-spbdf:nowrbp">
+ *       <div stylf="bbdkground-dolor: silvfr;">
+ *         <ul stylf="dolor: rfd;">
+ *           <li>List Itfm</li>
+ *         </ul>
+ *       </div>
+ *     </td>
+ * <!--sftOutfrHTML-->
+ *     <td stylf="whitf-spbdf:nowrbp">
+ *       <ul stylf="dolor: rfd;">
+ *         <li>List Itfm</li>
+ *       </ul>
+ *     </td>
+ *   </tr>
+ * </tbblf>
+ *
+ * <p><strong>Wbrning:</strong> Sfriblizfd objfdts of this dlbss will
+ * not bf dompbtiblf with futurf Swing rflfbsfs. Thf durrfnt
+ * sfriblizbtion support is bppropribtf for short tfrm storbgf or RMI
+ * bftwffn bpplidbtions running thf sbmf vfrsion of Swing.  As of 1.4,
+ * support for long tfrm storbgf of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf
+ * <dodf>jbvb.bfbns</dodf> pbdkbgf.  Plfbsf sff {@link
+ * jbvb.bfbns.XMLEndodfr}.</p>
+ *
+ * @buthor  Timothy Prinzing
+ * @buthor  Sdott Violft
+ * @buthor  Sunitb Mbni
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss HTMLDodumfnt fxtfnds DffbultStylfdDodumfnt {
+    /**
+     * Construdts bn HTML dodumfnt using thf dffbult bufffr sizf
+     * bnd b dffbult <dodf>StylfShfft</dodf>.  This is b donvfnifndf
+     * mfthod for thf donstrudtor
+     * <dodf>HTMLDodumfnt(Contfnt, StylfShfft)</dodf>.
+     */
+    publid HTMLDodumfnt() {
+        this(nfw GbpContfnt(BUFFER_SIZE_DEFAULT), nfw StylfShfft());
+    }
+
+    /**
+     * Construdts bn HTML dodumfnt with thf dffbult dontfnt
+     * storbgf implfmfntbtion bnd thf spfdififd stylf/bttributf
+     * storbgf mfdhbnism.  This is b donvfnifndf mfthod for thf
+     * donstrudtor
+     * <dodf>HTMLDodumfnt(Contfnt, StylfShfft)</dodf>.
+     *
+     * @pbrbm stylfs  thf stylfs
+     */
+    publid HTMLDodumfnt(StylfShfft stylfs) {
+        this(nfw GbpContfnt(BUFFER_SIZE_DEFAULT), stylfs);
+    }
+
+    /**
+     * Construdts bn HTML dodumfnt with thf givfn dontfnt
+     * storbgf implfmfntbtion bnd thf givfn stylf/bttributf
+     * storbgf mfdhbnism.
+     *
+     * @pbrbm d  thf dontbinfr for thf dontfnt
+     * @pbrbm stylfs thf stylfs
+     */
+    publid HTMLDodumfnt(Contfnt d, StylfShfft stylfs) {
+        supfr(d, stylfs);
+    }
+
+    /**
+     * Fftdhfs thf rfbdfr for thf pbrsfr to usf whfn lobding thf dodumfnt
+     * with HTML.  This is implfmfntfd to rfturn bn instbndf of
+     * <dodf>HTMLDodumfnt.HTMLRfbdfr</dodf>.
+     * Subdlbssfs dbn rfimplfmfnt this
+     * mfthod to dhbngf how thf dodumfnt gfts strudturfd if dfsirfd.
+     * (For fxbmplf, to hbndlf dustom tbgs, or strudturblly rfprfsfnt dhbrbdtfr
+     * stylf flfmfnts.)
+     *
+     * @pbrbm pos thf stbrting position
+     * @rfturn thf rfbdfr usfd by thf pbrsfr to lobd thf dodumfnt
+     */
+    publid HTMLEditorKit.PbrsfrCbllbbdk gftRfbdfr(int pos) {
+        Objfdt dfsd = gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty);
+        if (dfsd instbndfof URL) {
+            sftBbsf((URL)dfsd);
+        }
+        HTMLRfbdfr rfbdfr = nfw HTMLRfbdfr(pos);
+        rfturn rfbdfr;
+    }
+
+    /**
+     * Rfturns thf rfbdfr for thf pbrsfr to usf to lobd thf dodumfnt
+     * with HTML.  This is implfmfntfd to rfturn bn instbndf of
+     * <dodf>HTMLDodumfnt.HTMLRfbdfr</dodf>.
+     * Subdlbssfs dbn rfimplfmfnt this
+     * mfthod to dhbngf how thf dodumfnt gfts strudturfd if dfsirfd.
+     * (For fxbmplf, to hbndlf dustom tbgs, or strudturblly rfprfsfnt dhbrbdtfr
+     * stylf flfmfnts.)
+     * <p>This is b donvfnifndf mfthod for
+     * <dodf>gftRfbdfr(int, int, int, HTML.Tbg, TRUE)</dodf>.
+     *
+     * @pbrbm pos thf stbrting position
+     * @pbrbm popDfpth   thf numbfr of <dodf>ElfmfntSpfd.EndTbgTypfs</dodf>
+     *          to gfnfrbtf bfforf insfrting
+     * @pbrbm pushDfpth  thf numbfr of <dodf>ElfmfntSpfd.StbrtTbgTypfs</dodf>
+     *          with b dirfdtion of <dodf>ElfmfntSpfd.JoinNfxtDirfdtion</dodf>
+     *          thbt should bf gfnfrbtfd bfforf insfrting,
+     *          but bftfr thf fnd tbgs hbvf bffn gfnfrbtfd
+     * @pbrbm insfrtTbg  thf first tbg to stbrt insfrting into dodumfnt
+     * @rfturn thf rfbdfr usfd by thf pbrsfr to lobd thf dodumfnt
+     */
+    publid HTMLEditorKit.PbrsfrCbllbbdk gftRfbdfr(int pos, int popDfpth,
+                                                  int pushDfpth,
+                                                  HTML.Tbg insfrtTbg) {
+        rfturn gftRfbdfr(pos, popDfpth, pushDfpth, insfrtTbg, truf);
+    }
+
+    /**
+     * Fftdhfs thf rfbdfr for thf pbrsfr to usf to lobd thf dodumfnt
+     * with HTML.  This is implfmfntfd to rfturn bn instbndf of
+     * HTMLDodumfnt.HTMLRfbdfr.  Subdlbssfs dbn rfimplfmfnt this
+     * mfthod to dhbngf how thf dodumfnt gft strudturfd if dfsirfd
+     * (f.g. to hbndlf dustom tbgs, strudturblly rfprfsfnt dhbrbdtfr
+     * stylf flfmfnts, ftd.).
+     *
+     * @pbrbm popDfpth   thf numbfr of <dodf>ElfmfntSpfd.EndTbgTypfs</dodf>
+     *          to gfnfrbtf bfforf insfrting
+     * @pbrbm pushDfpth  thf numbfr of <dodf>ElfmfntSpfd.StbrtTbgTypfs</dodf>
+     *          with b dirfdtion of <dodf>ElfmfntSpfd.JoinNfxtDirfdtion</dodf>
+     *          thbt should bf gfnfrbtfd bfforf insfrting,
+     *          but bftfr thf fnd tbgs hbvf bffn gfnfrbtfd
+     * @pbrbm insfrtTbg  thf first tbg to stbrt insfrting into dodumfnt
+     * @pbrbm insfrtInsfrtTbg  fblsf if bll thf Elfmfnts bftfr insfrtTbg should
+     *        bf insfrtfd; othfrwisf insfrtTbg will bf insfrtfd
+     * @rfturn thf rfbdfr usfd by thf pbrsfr to lobd thf dodumfnt
+     */
+    HTMLEditorKit.PbrsfrCbllbbdk gftRfbdfr(int pos, int popDfpth,
+                                           int pushDfpth,
+                                           HTML.Tbg insfrtTbg,
+                                           boolfbn insfrtInsfrtTbg) {
+        Objfdt dfsd = gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty);
+        if (dfsd instbndfof URL) {
+            sftBbsf((URL)dfsd);
+        }
+        HTMLRfbdfr rfbdfr = nfw HTMLRfbdfr(pos, popDfpth, pushDfpth,
+                                           insfrtTbg, insfrtInsfrtTbg, fblsf,
+                                           truf);
+        rfturn rfbdfr;
+    }
+
+    /**
+     * Rfturns thf lodbtion to rfsolvf rflbtivf URLs bgbinst.  By
+     * dffbult this will bf thf dodumfnt's URL if thf dodumfnt
+     * wbs lobdfd from b URL.  If b bbsf tbg is found bnd
+     * dbn bf pbrsfd, it will bf usfd bs thf bbsf lodbtion.
+     *
+     * @rfturn thf bbsf lodbtion
+     */
+    publid URL gftBbsf() {
+        rfturn bbsf;
+    }
+
+    /**
+     * Sfts thf lodbtion to rfsolvf rflbtivf URLs bgbinst.  By
+     * dffbult this will bf thf dodumfnt's URL if thf dodumfnt
+     * wbs lobdfd from b URL.  If b bbsf tbg is found bnd
+     * dbn bf pbrsfd, it will bf usfd bs thf bbsf lodbtion.
+     * <p>This blso sfts thf bbsf of thf <dodf>StylfShfft</dodf>
+     * to bf <dodf>u</dodf> bs wfll bs thf bbsf of thf dodumfnt.
+     *
+     * @pbrbm u  thf dfsirfd bbsf URL
+     */
+    publid void sftBbsf(URL u) {
+        bbsf = u;
+        gftStylfShfft().sftBbsf(u);
+    }
+
+    /**
+     * Insfrts nfw flfmfnts in bulk.  This is how flfmfnts gft drfbtfd
+     * in thf dodumfnt.  Thf pbrsing dftfrminfs whbt strudturf is nffdfd
+     * bnd drfbtfs thf spfdifidbtion bs b sft of tokfns thbt dfsdribf thf
+     * fdit whilf lfbving thf dodumfnt frff of b writf-lodk.  This mfthod
+     * dbn thfn bf dbllfd in bursts by thf rfbdfr to bdquirf b writf-lodk
+     * for b shortfr durbtion (i.f. whilf thf dodumfnt is bdtublly bfing
+     * bltfrfd).
+     *
+     * @pbrbm offsft thf stbrting offsft
+     * @pbrbm dbtb thf flfmfnt dbtb
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt.
+     */
+    protfdtfd void insfrt(int offsft, ElfmfntSpfd[] dbtb) throws BbdLodbtionExdfption {
+        supfr.insfrt(offsft, dbtb);
+    }
+
+    /**
+     * Updbtfs dodumfnt strudturf bs b rfsult of tfxt insfrtion.  This
+     * will hbppfn within b writf lodk.  This implfmfntbtion simply
+     * pbrsfs thf insfrtfd dontfnt for linf brfbks bnd builds up b sft
+     * of instrudtions for thf flfmfnt bufffr.
+     *
+     * @pbrbm dhng b dfsdription of thf dodumfnt dhbngf
+     * @pbrbm bttr thf bttributfs
+     */
+    protfdtfd void insfrtUpdbtf(DffbultDodumfntEvfnt dhng, AttributfSft bttr) {
+        if(bttr == null) {
+            bttr = dontfntAttributfSft;
+        }
+
+        // If this is thf domposfd tfxt flfmfnt, mfrgf thf dontfnt bttributf to it
+        flsf if (bttr.isDffinfd(StylfConstbnts.ComposfdTfxtAttributf)) {
+            ((MutbblfAttributfSft)bttr).bddAttributfs(dontfntAttributfSft);
+        }
+
+        if (bttr.isDffinfd(IMPLIED_CR)) {
+            ((MutbblfAttributfSft)bttr).rfmovfAttributf(IMPLIED_CR);
+        }
+
+        supfr.insfrtUpdbtf(dhng, bttr);
+    }
+
+    /**
+     * Rfplbdfs thf dontfnts of thf dodumfnt with thf givfn
+     * flfmfnt spfdifidbtions.  This is dbllfd bfforf insfrt if
+     * thf lobding is donf in bursts.  This is thf only mfthod dbllfd
+     * if lobding thf dodumfnt fntirfly in onf burst.
+     *
+     * @pbrbm dbtb  thf nfw dontfnts of thf dodumfnt
+     */
+    protfdtfd void drfbtf(ElfmfntSpfd[] dbtb) {
+        supfr.drfbtf(dbtb);
+    }
+
+    /**
+     * Sfts bttributfs for b pbrbgrbph.
+     * <p>
+     * This mfthod is thrfbd sbff, blthough most Swing mfthods
+     * brf not. Plfbsf sff
+     * <A HREF="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy
+     * in Swing</A> for morf informbtion.
+     *
+     * @pbrbm offsft thf offsft into thf pbrbgrbph (must bf bt lfbst 0)
+     * @pbrbm lfngth thf numbfr of dhbrbdtfrs bfffdtfd (must bf bt lfbst 0)
+     * @pbrbm s thf bttributfs
+     * @pbrbm rfplbdf whfthfr to rfplbdf fxisting bttributfs, or mfrgf thfm
+     */
+    publid void sftPbrbgrbphAttributfs(int offsft, int lfngth, AttributfSft s,
+                                       boolfbn rfplbdf) {
+        try {
+            writfLodk();
+            // Mbkf surf wf sfnd out b dhbngf for thf lfngth of thf pbrbgrbph.
+            int fnd = Mbth.min(offsft + lfngth, gftLfngth());
+            Elfmfnt f = gftPbrbgrbphElfmfnt(offsft);
+            offsft = f.gftStbrtOffsft();
+            f = gftPbrbgrbphElfmfnt(fnd);
+            lfngth = Mbth.mbx(0, f.gftEndOffsft() - offsft);
+            DffbultDodumfntEvfnt dhbngfs =
+                nfw DffbultDodumfntEvfnt(offsft, lfngth,
+                                         DodumfntEvfnt.EvfntTypf.CHANGE);
+            AttributfSft sCopy = s.dopyAttributfs();
+            int lbstEnd = Intfgfr.MAX_VALUE;
+            for (int pos = offsft; pos <= fnd; pos = lbstEnd) {
+                Elfmfnt pbrbgrbph = gftPbrbgrbphElfmfnt(pos);
+                if (lbstEnd == pbrbgrbph.gftEndOffsft()) {
+                    lbstEnd++;
+                }
+                flsf {
+                    lbstEnd = pbrbgrbph.gftEndOffsft();
+                }
+                MutbblfAttributfSft bttr =
+                    (MutbblfAttributfSft) pbrbgrbph.gftAttributfs();
+                dhbngfs.bddEdit(nfw AttributfUndobblfEdit(pbrbgrbph, sCopy, rfplbdf));
+                if (rfplbdf) {
+                    bttr.rfmovfAttributfs(bttr);
+                }
+                bttr.bddAttributfs(s);
+            }
+            dhbngfs.fnd();
+            firfChbngfdUpdbtf(dhbngfs);
+            firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, dhbngfs));
+        } finblly {
+            writfUnlodk();
+        }
+    }
+
+    /**
+     * Fftdhfs thf <dodf>StylfShfft</dodf> with thf dodumfnt-spfdifid displby
+     * rulfs (CSS) thbt wfrf spfdififd in thf HTML dodumfnt itsflf.
+     *
+     * @rfturn thf <dodf>StylfShfft</dodf>
+     */
+    publid StylfShfft gftStylfShfft() {
+        rfturn (StylfShfft) gftAttributfContfxt();
+    }
+
+    /**
+     * Fftdhfs bn itfrbtor for thf spfdififd HTML tbg.
+     * This dbn bf usfd for things likf itfrbting ovfr thf
+     * sft of bndhors dontbinfd, or itfrbting ovfr thf input
+     * flfmfnts.
+     *
+     * @pbrbm t thf rfqufstfd <dodf>HTML.Tbg</dodf>
+     * @rfturn thf <dodf>Itfrbtor</dodf> for thf givfn HTML tbg
+     * @sff jbvbx.swing.tfxt.html.HTML.Tbg
+     */
+    publid Itfrbtor gftItfrbtor(HTML.Tbg t) {
+        if (t.isBlodk()) {
+            // TBD
+            rfturn null;
+        }
+        rfturn nfw LfbfItfrbtor(t, this);
+    }
+
+    /**
+     * Crfbtfs b dodumfnt lfbf flfmfnt thbt dirfdtly rfprfsfnts
+     * tfxt (dofsn't hbvf bny dhildrfn).  This is implfmfntfd
+     * to rfturn bn flfmfnt of typf
+     * <dodf>HTMLDodumfnt.RunElfmfnt</dodf>.
+     *
+     * @pbrbm pbrfnt thf pbrfnt flfmfnt
+     * @pbrbm b thf bttributfs for thf flfmfnt
+     * @pbrbm p0 thf bfginning of thf rbngf (must bf bt lfbst 0)
+     * @pbrbm p1 thf fnd of thf rbngf (must bf bt lfbst p0)
+     * @rfturn thf nfw flfmfnt
+     */
+    protfdtfd Elfmfnt drfbtfLfbfElfmfnt(Elfmfnt pbrfnt, AttributfSft b, int p0, int p1) {
+        rfturn nfw RunElfmfnt(pbrfnt, b, p0, p1);
+    }
+
+    /**
+     * Crfbtfs b dodumfnt brbndh flfmfnt, thbt dbn dontbin othfr flfmfnts.
+     * This is implfmfntfd to rfturn bn flfmfnt of typf
+     * <dodf>HTMLDodumfnt.BlodkElfmfnt</dodf>.
+     *
+     * @pbrbm pbrfnt thf pbrfnt flfmfnt
+     * @pbrbm b thf bttributfs
+     * @rfturn thf flfmfnt
+     */
+    protfdtfd Elfmfnt drfbtfBrbndhElfmfnt(Elfmfnt pbrfnt, AttributfSft b) {
+        rfturn nfw BlodkElfmfnt(pbrfnt, b);
+    }
+
+    /**
+     * Crfbtfs thf root flfmfnt to bf usfd to rfprfsfnt thf
+     * dffbult dodumfnt strudturf.
+     *
+     * @rfturn thf flfmfnt bbsf
+     */
+    protfdtfd AbstrbdtElfmfnt drfbtfDffbultRoot() {
+        // grbbs b writf-lodk for this initiblizbtion bnd
+        // bbbndon it during initiblizbtion so in normbl
+        // opfrbtion wf dbn dftfdt bn illfgitimbtf bttfmpt
+        // to mutbtf bttributfs.
+        writfLodk();
+        MutbblfAttributfSft b = nfw SimplfAttributfSft();
+        b.bddAttributf(StylfConstbnts.NbmfAttributf, HTML.Tbg.HTML);
+        BlodkElfmfnt html = nfw BlodkElfmfnt(null, b.dopyAttributfs());
+        b.rfmovfAttributfs(b);
+        b.bddAttributf(StylfConstbnts.NbmfAttributf, HTML.Tbg.BODY);
+        BlodkElfmfnt body = nfw BlodkElfmfnt(html, b.dopyAttributfs());
+        b.rfmovfAttributfs(b);
+        b.bddAttributf(StylfConstbnts.NbmfAttributf, HTML.Tbg.P);
+        gftStylfShfft().bddCSSAttributfFromHTML(b, CSS.Attributf.MARGIN_TOP, "0");
+        BlodkElfmfnt pbrbgrbph = nfw BlodkElfmfnt(body, b.dopyAttributfs());
+        b.rfmovfAttributfs(b);
+        b.bddAttributf(StylfConstbnts.NbmfAttributf, HTML.Tbg.CONTENT);
+        RunElfmfnt brk = nfw RunElfmfnt(pbrbgrbph, b, 0, 1);
+        Elfmfnt[] buff = nfw Elfmfnt[1];
+        buff[0] = brk;
+        pbrbgrbph.rfplbdf(0, 0, buff);
+        buff[0] = pbrbgrbph;
+        body.rfplbdf(0, 0, buff);
+        buff[0] = body;
+        html.rfplbdf(0, 0, buff);
+        writfUnlodk();
+        rfturn html;
+    }
+
+    /**
+     * Sfts thf numbfr of tokfns to bufffr bfforf trying to updbtf
+     * thf dodumfnts flfmfnt strudturf.
+     *
+     * @pbrbm n  thf numbfr of tokfns to bufffr
+     */
+    publid void sftTokfnThrfshold(int n) {
+        putPropfrty(TokfnThrfshold, n);
+    }
+
+    /**
+     * Gfts thf numbfr of tokfns to bufffr bfforf trying to updbtf
+     * thf dodumfnts flfmfnt strudturf.  Thf dffbult vbluf is
+     * <dodf>Intfgfr.MAX_VALUE</dodf>.
+     *
+     * @rfturn thf numbfr of tokfns to bufffr
+     */
+    publid int gftTokfnThrfshold() {
+        Intfgfr i = (Intfgfr) gftPropfrty(TokfnThrfshold);
+        if (i != null) {
+            rfturn i.intVbluf();
+        }
+        rfturn Intfgfr.MAX_VALUE;
+    }
+
+    /**
+     * Dftfrminfs how unknown tbgs brf hbndlfd by thf pbrsfr.
+     * If sft to truf, unknown
+     * tbgs brf put in thf modfl, othfrwisf thfy brf droppfd.
+     *
+     * @pbrbm prfsfrvfsTbgs  truf if unknown tbgs should bf
+     *          sbvfd in thf modfl, othfrwisf tbgs brf droppfd
+     * @sff jbvbx.swing.tfxt.html.HTML.Tbg
+     */
+    publid void sftPrfsfrvfsUnknownTbgs(boolfbn prfsfrvfsTbgs) {
+        prfsfrvfsUnknownTbgs = prfsfrvfsTbgs;
+    }
+
+    /**
+     * Rfturns thf bfhbvior thf pbrsfr obsfrvfs whfn fndountfring
+     * unknown tbgs.
+     *
+     * @sff jbvbx.swing.tfxt.html.HTML.Tbg
+     * @rfturn truf if unknown tbgs brf to bf prfsfrvfd whfn pbrsing
+     */
+    publid boolfbn gftPrfsfrvfsUnknownTbgs() {
+        rfturn prfsfrvfsUnknownTbgs;
+    }
+
+    /**
+     * Prodfssfs <dodf>HypfrlinkEvfnts</dodf> thbt
+     * brf gfnfrbtfd by dodumfnts in bn HTML frbmf.
+     * Thf <dodf>HypfrlinkEvfnt</dodf> typf, bs thf pbrbmftfr suggfsts,
+     * is <dodf>HTMLFrbmfHypfrlinkEvfnt</dodf>.
+     * In bddition to thf typidbl informbtion dontbinfd in b
+     * <dodf>HypfrlinkEvfnt</dodf>,
+     * this fvfnt dontbins thf flfmfnt thbt dorrfsponds to thf frbmf in
+     * whidh thf dlidk hbppfnfd (thf sourdf flfmfnt) bnd thf
+     * tbrgft nbmf.  Thf tbrgft nbmf hbs 4 possiblf vblufs:
+     * <ul>
+     * <li>  _sflf
+     * <li>  _pbrfnt
+     * <li>  _top
+     * <li>  b nbmfd frbmf
+     * </ul>
+     *
+     * If tbrgft is _sflf, thf bdtion is to dhbngf thf vbluf of thf
+     * <dodf>HTML.Attributf.SRC</dodf> bttributf bnd firfs b
+     * <dodf>ChbngfdUpdbtf</dodf> fvfnt.
+     *<p>
+     * If thf tbrgft is _pbrfnt, thfn it dflftfs thf pbrfnt flfmfnt,
+     * whidh is b &lt;FRAMESET&gt; flfmfnt, bnd insfrts b nfw &lt;FRAME&gt;
+     * flfmfnt, bnd sfts its <dodf>HTML.Attributf.SRC</dodf> bttributf
+     * to hbvf b vbluf fqubl to thf dfstinbtion URL bnd firf b
+     * <dodf>RfmovfdUpdbtf</dodf> bnd <dodf>InsfrtUpdbtf</dodf>.
+     *<p>
+     * If thf tbrgft is _top, this mfthod dofs nothing. In thf implfmfntbtion
+     * of thf vifw for b frbmf, nbmfly thf <dodf>FrbmfVifw</dodf>,
+     * thf prodfssing of _top is hbndlfd.  Givfn thbt _top implifs
+     * rfplbding thf fntirf dodumfnt, it mbdf sfnsf to hbndlf this outsidf
+     * of thf dodumfnt thbt it will rfplbdf.
+     *<p>
+     * If thf tbrgft is b nbmfd frbmf, thfn thf flfmfnt hifrbrdhy is sfbrdhfd
+     * for bn flfmfnt with b nbmf fqubl to thf tbrgft, its
+     * <dodf>HTML.Attributf.SRC</dodf> bttributf is updbtfd bnd b
+     * <dodf>ChbngfdUpdbtf</dodf> fvfnt is firfd.
+     *
+     * @pbrbm f thf fvfnt
+     */
+    publid void prodfssHTMLFrbmfHypfrlinkEvfnt(HTMLFrbmfHypfrlinkEvfnt f) {
+        String frbmfNbmf = f.gftTbrgft();
+        Elfmfnt flfmfnt = f.gftSourdfElfmfnt();
+        String urlStr = f.gftURL().toString();
+
+        if (frbmfNbmf.fqubls("_sflf")) {
+            /*
+              Thf sourdf bnd dfstinbtion flfmfnts
+              brf thf sbmf.
+            */
+            updbtfFrbmf(flfmfnt, urlStr);
+        } flsf if (frbmfNbmf.fqubls("_pbrfnt")) {
+            /*
+              Thf dfstinbtion is thf pbrfnt of thf frbmf.
+            */
+            updbtfFrbmfSft(flfmfnt.gftPbrfntElfmfnt(), urlStr);
+        } flsf {
+            /*
+              lodbtf b nbmfd frbmf
+            */
+            Elfmfnt tbrgftElfmfnt = findFrbmf(frbmfNbmf);
+            if (tbrgftElfmfnt != null) {
+                updbtfFrbmf(tbrgftElfmfnt, urlStr);
+            }
+        }
+    }
+
+
+    /**
+     * Sfbrdhfs thf flfmfnt hifrbrdhy for bn FRAME flfmfnt
+     * thbt hbs its nbmf bttributf fqubl to thf <dodf>frbmfNbmf</dodf>.
+     *
+     * @pbrbm frbmfNbmf
+     * @rfturn thf flfmfnt whosf NAME bttributf hbs b vbluf of
+     *          <dodf>frbmfNbmf</dodf>; rfturns <dodf>null</dodf>
+     *          if not found
+     */
+    privbtf Elfmfnt findFrbmf(String frbmfNbmf) {
+        ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(this);
+        Elfmfnt nfxt;
+
+        whilf ((nfxt = it.nfxt()) != null) {
+            AttributfSft bttr = nfxt.gftAttributfs();
+            if (mbtdhNbmfAttributf(bttr, HTML.Tbg.FRAME)) {
+                String frbmfTbrgft = (String)bttr.gftAttributf(HTML.Attributf.NAME);
+                if (frbmfTbrgft != null && frbmfTbrgft.fqubls(frbmfNbmf)) {
+                    brfbk;
+                }
+            }
+        }
+        rfturn nfxt;
+    }
+
+    /**
+     * Rfturns truf if <dodf>StylfConstbnts.NbmfAttributf</dodf> is
+     * fqubl to thf tbg thbt is pbssfd in bs b pbrbmftfr.
+     *
+     * @pbrbm bttr thf bttributfs to bf mbtdhfd
+     * @pbrbm tbg thf vbluf to bf mbtdhfd
+     * @rfturn truf if thfrf is b mbtdh, fblsf othfrwisf
+     * @sff jbvbx.swing.tfxt.html.HTML.Attributf
+     */
+    stbtid boolfbn mbtdhNbmfAttributf(AttributfSft bttr, HTML.Tbg tbg) {
+        Objfdt o = bttr.gftAttributf(StylfConstbnts.NbmfAttributf);
+        if (o instbndfof HTML.Tbg) {
+            HTML.Tbg nbmf = (HTML.Tbg) o;
+            if (nbmf == tbg) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfplbdfs b frbmfsft brbndh Elfmfnt with b frbmf lfbf flfmfnt.
+     *
+     * @pbrbm flfmfnt thf frbmfsft flfmfnt to rfmovf
+     * @pbrbm url     thf vbluf for thf SRC bttributf for thf
+     *                nfw frbmf thbt will rfplbdf thf frbmfsft
+     */
+    privbtf void updbtfFrbmfSft(Elfmfnt flfmfnt, String url) {
+        try {
+            int stbrtOffsft = flfmfnt.gftStbrtOffsft();
+            int fndOffsft = Mbth.min(gftLfngth(), flfmfnt.gftEndOffsft());
+            String html = "<frbmf";
+            if (url != null) {
+                html += " srd=\"" + url + "\"";
+            }
+            html += ">";
+            instbllPbrsfrIfNfdfssbry();
+            sftOutfrHTML(flfmfnt, html);
+        } dbtdh (BbdLodbtionExdfption f1) {
+            // Should hbndlf this bfttfr
+        } dbtdh (IOExdfption iof) {
+            // Should hbndlf this bfttfr
+        }
+    }
+
+
+    /**
+     * Updbtfs thf Frbmf flfmfnts <dodf>HTML.Attributf.SRC bttributf</dodf>
+     * bnd firfs b <dodf>ChbngfdUpdbtf</dodf> fvfnt.
+     *
+     * @pbrbm flfmfnt b FRAME flfmfnt whosf SRC bttributf will bf updbtfd
+     * @pbrbm url     b string spfdifying thf nfw vbluf for thf SRC bttributf
+     */
+    privbtf void updbtfFrbmf(Elfmfnt flfmfnt, String url) {
+
+        try {
+            writfLodk();
+            DffbultDodumfntEvfnt dhbngfs = nfw DffbultDodumfntEvfnt(flfmfnt.gftStbrtOffsft(),
+                                                                    1,
+                                                                    DodumfntEvfnt.EvfntTypf.CHANGE);
+            AttributfSft sCopy = flfmfnt.gftAttributfs().dopyAttributfs();
+            MutbblfAttributfSft bttr = (MutbblfAttributfSft) flfmfnt.gftAttributfs();
+            dhbngfs.bddEdit(nfw AttributfUndobblfEdit(flfmfnt, sCopy, fblsf));
+            bttr.rfmovfAttributf(HTML.Attributf.SRC);
+            bttr.bddAttributf(HTML.Attributf.SRC, url);
+            dhbngfs.fnd();
+            firfChbngfdUpdbtf(dhbngfs);
+            firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, dhbngfs));
+        } finblly {
+            writfUnlodk();
+        }
+    }
+
+
+    /**
+     * Rfturns truf if thf dodumfnt will bf vifwfd in b frbmf.
+     * @rfturn truf if dodumfnt will bf vifwfd in b frbmf, othfrwisf fblsf
+     */
+    boolfbn isFrbmfDodumfnt() {
+        rfturn frbmfDodumfnt;
+    }
+
+    /**
+     * Sfts b boolfbn stbtf bbout whfthfr thf dodumfnt will bf
+     * vifwfd in b frbmf.
+     * @pbrbm frbmfDod  truf if thf dodumfnt will bf vifwfd in b frbmf,
+     *          othfrwisf fblsf
+     */
+    void sftFrbmfDodumfntStbtf(boolfbn frbmfDod) {
+        this.frbmfDodumfnt = frbmfDod;
+    }
+
+    /**
+     * Adds thf spfdififd mbp, this will rfmovf b Mbp thbt hbs bffn
+     * prfviously rfgistfrfd with thf sbmf nbmf.
+     *
+     * @pbrbm mbp  thf <dodf>Mbp</dodf> to bf rfgistfrfd
+     */
+    void bddMbp(Mbp mbp) {
+        String     nbmf = mbp.gftNbmf();
+
+        if (nbmf != null) {
+            Objfdt     mbps = gftPropfrty(MAP_PROPERTY);
+
+            if (mbps == null) {
+                mbps = nfw Hbshtbblf<>(11);
+                putPropfrty(MAP_PROPERTY, mbps);
+            }
+            if (mbps instbndfof Hbshtbblf) {
+                @SupprfssWbrnings("undhfdkfd")
+                Hbshtbblf<Objfdt, Objfdt> tmp = (Hbshtbblf)mbps;
+                tmp.put("#" + nbmf, mbp);
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs b prfviously rfgistfrfd mbp.
+     * @pbrbm mbp thf <dodf>Mbp</dodf> to bf rfmovfd
+     */
+    void rfmovfMbp(Mbp mbp) {
+        String     nbmf = mbp.gftNbmf();
+
+        if (nbmf != null) {
+            Objfdt     mbps = gftPropfrty(MAP_PROPERTY);
+
+            if (mbps instbndfof Hbshtbblf) {
+                ((Hbshtbblf)mbps).rfmovf("#" + nbmf);
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf Mbp bssodibtfd with thf givfn nbmf.
+     * @pbrbm nbmf thf nbmf of thf dfsirfd <dodf>Mbp</dodf>
+     * @rfturn thf <dodf>Mbp</dodf> or <dodf>null</dodf> if it dbn't
+     *          bf found, or if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     */
+    Mbp gftMbp(String nbmf) {
+        if (nbmf != null) {
+            Objfdt     mbps = gftPropfrty(MAP_PROPERTY);
+
+            if (mbps != null && (mbps instbndfof Hbshtbblf)) {
+                rfturn (Mbp)((Hbshtbblf)mbps).gft(nbmf);
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>Enumfrbtion</dodf> of thf possiblf Mbps.
+     * @rfturn thf fnumfrbtfd list of mbps, or <dodf>null</dodf>
+     *          if thf mbps brf not bn instbndf of <dodf>Hbshtbblf</dodf>
+     */
+    Enumfrbtion<Objfdt> gftMbps() {
+        Objfdt     mbps = gftPropfrty(MAP_PROPERTY);
+
+        if (mbps instbndfof Hbshtbblf) {
+            @SupprfssWbrnings("undhfdkfd")
+            Hbshtbblf<Objfdt, Objfdt> tmp = (Hbshtbblf) mbps;
+            rfturn tmp.flfmfnts();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Sfts thf dontfnt typf lbngubgf usfd for stylf shffts thbt do not
+     * fxpliditly spfdify thf typf. Thf dffbult is tfxt/dss.
+     * @pbrbm dontfntTypf  thf dontfnt typf lbngubgf for thf stylf shffts
+     */
+    /* publid */
+    void sftDffbultStylfShfftTypf(String dontfntTypf) {
+        putPropfrty(StylfTypf, dontfntTypf);
+    }
+
+    /**
+     * Rfturns thf dontfnt typf lbngubgf usfd for stylf shffts. Thf dffbult
+     * is tfxt/dss.
+     * @rfturn thf dontfnt typf lbngubgf usfd for thf stylf shffts
+     */
+    /* publid */
+    String gftDffbultStylfShfftTypf() {
+        String rftVbluf = (String)gftPropfrty(StylfTypf);
+        if (rftVbluf == null) {
+            rfturn "tfxt/dss";
+        }
+        rfturn rftVbluf;
+    }
+
+    /**
+     * Sfts thf pbrsfr thbt is usfd by thf mfthods thbt insfrt html
+     * into thf fxisting dodumfnt, sudh bs <dodf>sftInnfrHTML</dodf>,
+     * bnd <dodf>sftOutfrHTML</dodf>.
+     * <p>
+     * <dodf>HTMLEditorKit.drfbtfDffbultDodumfnt</dodf> will sft thf pbrsfr
+     * for you. If you drfbtf bn <dodf>HTMLDodumfnt</dodf> by hbnd,
+     * bf surf bnd sft thf pbrsfr bddordingly.
+     * @pbrbm pbrsfr thf pbrsfr to bf usfd for tfxt insfrtion
+     *
+     * @sindf 1.3
+     */
+    publid void sftPbrsfr(HTMLEditorKit.Pbrsfr pbrsfr) {
+        this.pbrsfr = pbrsfr;
+        putPropfrty("__PARSER__", null);
+    }
+
+    /**
+     * Rfturns thf pbrsfr thbt is usfd whfn insfrting HTML into thf fxisting
+     * dodumfnt.
+     * @rfturn thf pbrsfr usfd for tfxt insfrtion
+     *
+     * @sindf 1.3
+     */
+    publid HTMLEditorKit.Pbrsfr gftPbrsfr() {
+        Objfdt p = gftPropfrty("__PARSER__");
+
+        if (p instbndfof HTMLEditorKit.Pbrsfr) {
+            rfturn (HTMLEditorKit.Pbrsfr)p;
+        }
+        rfturn pbrsfr;
+    }
+
+    /**
+     * Rfplbdfs thf dhildrfn of thf givfn flfmfnt with thf dontfnts
+     * spfdififd bs bn HTML string.
+     *
+     * <p>This will bf sffn bs bt lfbst two fvfnts, n insfrts followfd by
+     * b rfmovf.</p>
+     *
+     * <p>Considfr thf following strudturf (thf <dodf>flfm</dodf>
+     * pbrbmftfr is <b>in bold</b>).</p>
+     *
+     * <prf>
+     *     &lt;body&gt;
+     *       |
+     *     <b>&lt;div&gt;</b>
+     *      /  \
+     *    &lt;p&gt;   &lt;p&gt;
+     * </prf>
+     *
+     * <p>Invoking <dodf>sftInnfrHTML(flfm, "&lt;ul&gt;&lt;li&gt;")</dodf>
+     * rfsults in thf following strudturf (nfw flfmfnts brf <font
+     * stylf="dolor: rfd;">in rfd</font>).</p>
+     *
+     * <prf>
+     *     &lt;body&gt;
+     *       |
+     *     <b>&lt;div&gt;</b>
+     *         \
+     *         <font stylf="dolor: rfd;">&lt;ul&gt;</font>
+     *           \
+     *           <font stylf="dolor: rfd;">&lt;li&gt;</font>
+     * </prf>
+     *
+     * <p>Pbrbmftfr <dodf>flfm</dodf> must not bf b lfbf flfmfnt,
+     * othfrwisf bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * If fithfr <dodf>flfm</dodf> or <dodf>htmlTfxt</dodf> pbrbmftfr
+     * is <dodf>null</dodf>, no dhbngfs brf mbdf to thf dodumfnt.</p>
+     *
+     * <p>For this to work dorrfdtly, thf dodumfnt must hbvf bn
+     * <dodf>HTMLEditorKit.Pbrsfr</dodf> sft. This will bf thf dbsf
+     * if thf dodumfnt wbs drfbtfd from bn HTMLEditorKit vib thf
+     * <dodf>drfbtfDffbultDodumfnt</dodf> mfthod.</p>
+     *
+     * @pbrbm flfm thf brbndh flfmfnt whosf dhildrfn will bf rfplbdfd
+     * @pbrbm htmlTfxt thf string to bf pbrsfd bnd bssignfd to <dodf>flfm</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>flfm</dodf> is b lfbf
+     * @throws IllfgblStbtfExdfption if bn <dodf>HTMLEditorKit.Pbrsfr</dodf>
+     *         hbs not bffn dffinfd
+     * @throws BbdLodbtionExdfption if rfplbdfmfnt is impossiblf bfdbusf of
+     *         b strudturbl issuf
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sindf 1.3
+     */
+    publid void sftInnfrHTML(Elfmfnt flfm, String htmlTfxt) throws
+                             BbdLodbtionExdfption, IOExdfption {
+        vfrifyPbrsfr();
+        if (flfm != null && flfm.isLfbf()) {
+            throw nfw IllfgblArgumfntExdfption
+                ("Cbn not sft innfr HTML of b lfbf");
+        }
+        if (flfm != null && htmlTfxt != null) {
+            int oldCount = flfm.gftElfmfntCount();
+            int insfrtPosition = flfm.gftStbrtOffsft();
+            insfrtHTML(flfm, flfm.gftStbrtOffsft(), htmlTfxt, truf);
+            if (flfm.gftElfmfntCount() > oldCount) {
+                // Elfmfnts wfrf insfrtfd, do thf dlfbnup.
+                rfmovfElfmfnts(flfm, flfm.gftElfmfntCount() - oldCount,
+                               oldCount);
+            }
+        }
+    }
+
+    /**
+     * Rfplbdfs thf givfn flfmfnt in thf pbrfnt with thf dontfnts
+     * spfdififd bs bn HTML string.
+     *
+     * <p>This will bf sffn bs bt lfbst two fvfnts, n insfrts followfd by
+     * b rfmovf.</p>
+     *
+     * <p>Whfn rfplbding b lfbf this will bttfmpt to mbkf surf thfrf is
+     * b nfwlinf prfsfnt if onf is nffdfd. This mby rfsult in bn bdditionbl
+     * flfmfnt bfing insfrtfd. Considfr, if you wfrf to rfplbdf b dhbrbdtfr
+     * flfmfnt thbt dontbinfd b nfwlinf with &lt;img&gt; this would drfbtf
+     * two flfmfnts, onf for thf imbgf, bnd onf for thf nfwlinf.</p>
+     *
+     * <p>If you try to rfplbdf thf flfmfnt bt lfngth you will most
+     * likfly fnd up with two flfmfnts, fg
+     * <dodf>sftOutfrHTML(gftChbrbdtfrElfmfnt (gftLfngth()),
+     * "blbh")</dodf> will rfsult in two lfbf flfmfnts bt thf fnd, onf
+     * rfprfsfnting 'blbh', bnd thf othfr rfprfsfnting thf fnd
+     * flfmfnt.</p>
+     *
+     * <p>Considfr thf following strudturf (thf <dodf>flfm</dodf>
+     * pbrbmftfr is <b>in bold</b>).</p>
+     *
+     * <prf>
+     *     &lt;body&gt;
+     *       |
+     *     <b>&lt;div&gt;</b>
+     *      /  \
+     *    &lt;p&gt;   &lt;p&gt;
+     * </prf>
+     *
+     * <p>Invoking <dodf>sftOutfrHTML(flfm, "&lt;ul&gt;&lt;li&gt;")</dodf>
+     * rfsults in thf following strudturf (nfw flfmfnts brf <font
+     * stylf="dolor: rfd;">in rfd</font>).</p>
+     *
+     * <prf>
+     *    &lt;body&gt;
+     *      |
+     *     <font stylf="dolor: rfd;">&lt;ul&gt;</font>
+     *       \
+     *       <font stylf="dolor: rfd;">&lt;li&gt;</font>
+     * </prf>
+     *
+     * <p>If fithfr <dodf>flfm</dodf> or <dodf>htmlTfxt</dodf>
+     * pbrbmftfr is <dodf>null</dodf>, no dhbngfs brf mbdf to thf
+     * dodumfnt.</p>
+     *
+     * <p>For this to work dorrfdtly, thf dodumfnt must hbvf bn
+     * HTMLEditorKit.Pbrsfr sft. This will bf thf dbsf if thf dodumfnt
+     * wbs drfbtfd from bn HTMLEditorKit vib thf
+     * <dodf>drfbtfDffbultDodumfnt</dodf> mfthod.</p>
+     *
+     * @pbrbm flfm thf flfmfnt to rfplbdf
+     * @pbrbm htmlTfxt thf string to bf pbrsfd bnd insfrtfd in plbdf of <dodf>flfm</dodf>
+     * @throws IllfgblStbtfExdfption if bn HTMLEditorKit.Pbrsfr hbs not
+     *         bffn sft
+     * @throws BbdLodbtionExdfption if rfplbdfmfnt is impossiblf bfdbusf of
+     *         b strudturbl issuf
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sindf 1.3
+     */
+    publid void sftOutfrHTML(Elfmfnt flfm, String htmlTfxt) throws
+                            BbdLodbtionExdfption, IOExdfption {
+        vfrifyPbrsfr();
+        if (flfm != null && flfm.gftPbrfntElfmfnt() != null &&
+            htmlTfxt != null) {
+            int stbrt = flfm.gftStbrtOffsft();
+            int fnd = flfm.gftEndOffsft();
+            int stbrtLfngth = gftLfngth();
+            // Wf don't wbnt b nfwlinf if flfm is b lfbf, bnd dofsn't dontbin
+            // b nfwlinf.
+            boolfbn wbntsNfwlinf = !flfm.isLfbf();
+            if (!wbntsNfwlinf && (fnd > stbrtLfngth ||
+                                 gftTfxt(fnd - 1, 1).dhbrAt(0) == NEWLINE[0])){
+                wbntsNfwlinf = truf;
+            }
+            Elfmfnt pbrfnt = flfm.gftPbrfntElfmfnt();
+            int oldCount = pbrfnt.gftElfmfntCount();
+            insfrtHTML(pbrfnt, stbrt, htmlTfxt, wbntsNfwlinf);
+            // Rfmovf old.
+            int nfwLfngth = gftLfngth();
+            if (oldCount != pbrfnt.gftElfmfntCount()) {
+                int rfmovfIndfx = pbrfnt.gftElfmfntIndfx(stbrt + nfwLfngth -
+                                                         stbrtLfngth);
+                rfmovfElfmfnts(pbrfnt, rfmovfIndfx, 1);
+            }
+        }
+    }
+
+    /**
+     * Insfrts thf HTML spfdififd bs b string bt thf stbrt
+     * of thf flfmfnt.
+     *
+     * <p>Considfr thf following strudturf (thf <dodf>flfm</dodf>
+     * pbrbmftfr is <b>in bold</b>).</p>
+     *
+     * <prf>
+     *     &lt;body&gt;
+     *       |
+     *     <b>&lt;div&gt;</b>
+     *      /  \
+     *    &lt;p&gt;   &lt;p&gt;
+     * </prf>
+     *
+     * <p>Invoking <dodf>insfrtAftfrStbrt(flfm,
+     * "&lt;ul&gt;&lt;li&gt;")</dodf> rfsults in thf following strudturf
+     * (nfw flfmfnts brf <font stylf="dolor: rfd;">in rfd</font>).</p>
+     *
+     * <prf>
+     *        &lt;body&gt;
+     *          |
+     *        <b>&lt;div&gt;</b>
+     *       /  |  \
+     *    <font stylf="dolor: rfd;">&lt;ul&gt;</font> &lt;p&gt; &lt;p&gt;
+     *     /
+     *  <font stylf="dolor: rfd;">&lt;li&gt;</font>
+     * </prf>
+     *
+     * <p>Unlikf thf <dodf>insfrtBfforfStbrt</dodf> mfthod, nfw
+     *  flfmfnts bfdomf <fm>dhildrfn</fm> of thf spfdififd flfmfnt,
+     *  not siblings.</p>
+     *
+     * <p>Pbrbmftfr <dodf>flfm</dodf> must not bf b lfbf flfmfnt,
+     * othfrwisf bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * If fithfr <dodf>flfm</dodf> or <dodf>htmlTfxt</dodf> pbrbmftfr
+     * is <dodf>null</dodf>, no dhbngfs brf mbdf to thf dodumfnt.</p>
+     *
+     * <p>For this to work dorrfdtly, thf dodumfnt must hbvf bn
+     * <dodf>HTMLEditorKit.Pbrsfr</dodf> sft. This will bf thf dbsf
+     * if thf dodumfnt wbs drfbtfd from bn HTMLEditorKit vib thf
+     * <dodf>drfbtfDffbultDodumfnt</dodf> mfthod.</p>
+     *
+     * @pbrbm flfm thf brbndh flfmfnt to bf thf root for thf nfw tfxt
+     * @pbrbm htmlTfxt thf string to bf pbrsfd bnd bssignfd to <dodf>flfm</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>flfm</dodf> is b lfbf
+     * @throws IllfgblStbtfExdfption if bn HTMLEditorKit.Pbrsfr hbs not
+     *         bffn sft on thf dodumfnt
+     * @throws BbdLodbtionExdfption if insfrtion is impossiblf bfdbusf of
+     *         b strudturbl issuf
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sindf 1.3
+     */
+    publid void insfrtAftfrStbrt(Elfmfnt flfm, String htmlTfxt) throws
+                                 BbdLodbtionExdfption, IOExdfption {
+        vfrifyPbrsfr();
+
+        if (flfm == null || htmlTfxt == null) {
+            rfturn;
+        }
+
+        if (flfm.isLfbf()) {
+            throw nfw IllfgblArgumfntExdfption
+                ("Cbn not insfrt HTML bftfr stbrt of b lfbf");
+        }
+        insfrtHTML(flfm, flfm.gftStbrtOffsft(), htmlTfxt, fblsf);
+    }
+
+    /**
+     * Insfrts thf HTML spfdififd bs b string bt thf fnd of
+     * thf flfmfnt.
+     *
+     * <p> If <dodf>flfm</dodf>'s dhildrfn brf lfbvfs, bnd thf
+     * dhbrbdtfr bt b <dodf>flfm.gftEndOffsft() - 1</dodf> is b nfwlinf,
+     * this will insfrt bfforf thf nfwlinf so thbt thfrf isn't tfxt bftfr
+     * thf nfwlinf.</p>
+     *
+     * <p>Considfr thf following strudturf (thf <dodf>flfm</dodf>
+     * pbrbmftfr is <b>in bold</b>).</p>
+     *
+     * <prf>
+     *     &lt;body&gt;
+     *       |
+     *     <b>&lt;div&gt;</b>
+     *      /  \
+     *    &lt;p&gt;   &lt;p&gt;
+     * </prf>
+     *
+     * <p>Invoking <dodf>insfrtBfforfEnd(flfm, "&lt;ul&gt;&lt;li&gt;")</dodf>
+     * rfsults in thf following strudturf (nfw flfmfnts brf <font
+     * stylf="dolor: rfd;">in rfd</font>).</p>
+     *
+     * <prf>
+     *        &lt;body&gt;
+     *          |
+     *        <b>&lt;div&gt;</b>
+     *       /  |  \
+     *     &lt;p&gt; &lt;p&gt; <font stylf="dolor: rfd;">&lt;ul&gt;</font>
+     *               \
+     *               <font stylf="dolor: rfd;">&lt;li&gt;</font>
+     * </prf>
+     *
+     * <p>Unlikf thf <dodf>insfrtAftfrEnd</dodf> mfthod, nfw flfmfnts
+     * bfdomf <fm>dhildrfn</fm> of thf spfdififd flfmfnt, not
+     * siblings.</p>
+     *
+     * <p>Pbrbmftfr <dodf>flfm</dodf> must not bf b lfbf flfmfnt,
+     * othfrwisf bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * If fithfr <dodf>flfm</dodf> or <dodf>htmlTfxt</dodf> pbrbmftfr
+     * is <dodf>null</dodf>, no dhbngfs brf mbdf to thf dodumfnt.</p>
+     *
+     * <p>For this to work dorrfdtly, thf dodumfnt must hbvf bn
+     * <dodf>HTMLEditorKit.Pbrsfr</dodf> sft. This will bf thf dbsf
+     * if thf dodumfnt wbs drfbtfd from bn HTMLEditorKit vib thf
+     * <dodf>drfbtfDffbultDodumfnt</dodf> mfthod.</p>
+     *
+     * @pbrbm flfm thf flfmfnt to bf thf root for thf nfw tfxt
+     * @pbrbm htmlTfxt thf string to bf pbrsfd bnd bssignfd to <dodf>flfm</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>flfm</dodf> is b lfbf
+     * @throws IllfgblStbtfExdfption if bn HTMLEditorKit.Pbrsfr hbs not
+     *         bffn sft on thf dodumfnt
+     * @throws BbdLodbtionExdfption if insfrtion is impossiblf bfdbusf of
+     *         b strudturbl issuf
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sindf 1.3
+     */
+    publid void insfrtBfforfEnd(Elfmfnt flfm, String htmlTfxt) throws
+                                BbdLodbtionExdfption, IOExdfption {
+        vfrifyPbrsfr();
+        if (flfm != null && flfm.isLfbf()) {
+            throw nfw IllfgblArgumfntExdfption
+                ("Cbn not sft innfr HTML bfforf fnd of lfbf");
+        }
+        if (flfm != null) {
+            int offsft = flfm.gftEndOffsft();
+            if (flfm.gftElfmfnt(flfm.gftElfmfntIndfx(offsft - 1)).isLfbf() &&
+                gftTfxt(offsft - 1, 1).dhbrAt(0) == NEWLINE[0]) {
+                offsft--;
+            }
+            insfrtHTML(flfm, offsft, htmlTfxt, fblsf);
+        }
+    }
+
+    /**
+     * Insfrts thf HTML spfdififd bs b string bfforf thf stbrt of
+     * thf givfn flfmfnt.
+     *
+     * <p>Considfr thf following strudturf (thf <dodf>flfm</dodf>
+     * pbrbmftfr is <b>in bold</b>).</p>
+     *
+     * <prf>
+     *     &lt;body&gt;
+     *       |
+     *     <b>&lt;div&gt;</b>
+     *      /  \
+     *    &lt;p&gt;   &lt;p&gt;
+     * </prf>
+     *
+     * <p>Invoking <dodf>insfrtBfforfStbrt(flfm,
+     * "&lt;ul&gt;&lt;li&gt;")</dodf> rfsults in thf following strudturf
+     * (nfw flfmfnts brf <font stylf="dolor: rfd;">in rfd</font>).</p>
+     *
+     * <prf>
+     *        &lt;body&gt;
+     *         /  \
+     *      <font stylf="dolor: rfd;">&lt;ul&gt;</font> <b>&lt;div&gt;</b>
+     *       /    /  \
+     *     <font stylf="dolor: rfd;">&lt;li&gt;</font> &lt;p&gt;  &lt;p&gt;
+     * </prf>
+     *
+     * <p>Unlikf thf <dodf>insfrtAftfrStbrt</dodf> mfthod, nfw
+     * flfmfnts bfdomf <fm>siblings</fm> of thf spfdififd flfmfnt, not
+     * dhildrfn.</p>
+     *
+     * <p>If fithfr <dodf>flfm</dodf> or <dodf>htmlTfxt</dodf>
+     * pbrbmftfr is <dodf>null</dodf>, no dhbngfs brf mbdf to thf
+     * dodumfnt.</p>
+     *
+     * <p>For this to work dorrfdtly, thf dodumfnt must hbvf bn
+     * <dodf>HTMLEditorKit.Pbrsfr</dodf> sft. This will bf thf dbsf
+     * if thf dodumfnt wbs drfbtfd from bn HTMLEditorKit vib thf
+     * <dodf>drfbtfDffbultDodumfnt</dodf> mfthod.</p>
+     *
+     * @pbrbm flfm thf flfmfnt thf dontfnt is insfrtfd bfforf
+     * @pbrbm htmlTfxt thf string to bf pbrsfd bnd insfrtfd bfforf <dodf>flfm</dodf>
+     * @throws IllfgblStbtfExdfption if bn HTMLEditorKit.Pbrsfr hbs not
+     *         bffn sft on thf dodumfnt
+     * @throws BbdLodbtionExdfption if insfrtion is impossiblf bfdbusf of
+     *         b strudturbl issuf
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sindf 1.3
+     */
+    publid void insfrtBfforfStbrt(Elfmfnt flfm, String htmlTfxt) throws
+                                  BbdLodbtionExdfption, IOExdfption {
+        vfrifyPbrsfr();
+        if (flfm != null) {
+            Elfmfnt pbrfnt = flfm.gftPbrfntElfmfnt();
+
+            if (pbrfnt != null) {
+                insfrtHTML(pbrfnt, flfm.gftStbrtOffsft(), htmlTfxt, fblsf);
+            }
+        }
+    }
+
+    /**
+     * Insfrts thf HTML spfdififd bs b string bftfr thf thf fnd of thf
+     * givfn flfmfnt.
+     *
+     * <p>Considfr thf following strudturf (thf <dodf>flfm</dodf>
+     * pbrbmftfr is <b>in bold</b>).</p>
+     *
+     * <prf>
+     *     &lt;body&gt;
+     *       |
+     *     <b>&lt;div&gt;</b>
+     *      /  \
+     *    &lt;p&gt;   &lt;p&gt;
+     * </prf>
+     *
+     * <p>Invoking <dodf>insfrtAftfrEnd(flfm, "&lt;ul&gt;&lt;li&gt;")</dodf>
+     * rfsults in thf following strudturf (nfw flfmfnts brf <font
+     * stylf="dolor: rfd;">in rfd</font>).</p>
+     *
+     * <prf>
+     *        &lt;body&gt;
+     *         /  \
+     *      <b>&lt;div&gt;</b> <font stylf="dolor: rfd;">&lt;ul&gt;</font>
+     *       / \    \
+     *     &lt;p&gt; &lt;p&gt;  <font stylf="dolor: rfd;">&lt;li&gt;</font>
+     * </prf>
+     *
+     * <p>Unlikf thf <dodf>insfrtBfforfEnd</dodf> mfthod, nfw flfmfnts
+     * bfdomf <fm>siblings</fm> of thf spfdififd flfmfnt, not
+     * dhildrfn.</p>
+     *
+     * <p>If fithfr <dodf>flfm</dodf> or <dodf>htmlTfxt</dodf>
+     * pbrbmftfr is <dodf>null</dodf>, no dhbngfs brf mbdf to thf
+     * dodumfnt.</p>
+     *
+     * <p>For this to work dorrfdtly, thf dodumfnt must hbvf bn
+     * <dodf>HTMLEditorKit.Pbrsfr</dodf> sft. This will bf thf dbsf
+     * if thf dodumfnt wbs drfbtfd from bn HTMLEditorKit vib thf
+     * <dodf>drfbtfDffbultDodumfnt</dodf> mfthod.</p>
+     *
+     * @pbrbm flfm thf flfmfnt thf dontfnt is insfrtfd bftfr
+     * @pbrbm htmlTfxt thf string to bf pbrsfd bnd insfrtfd bftfr <dodf>flfm</dodf>
+     * @throws IllfgblStbtfExdfption if bn HTMLEditorKit.Pbrsfr hbs not
+     *         bffn sft on thf dodumfnt
+     * @throws BbdLodbtionExdfption if insfrtion is impossiblf bfdbusf of
+     *         b strudturbl issuf
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sindf 1.3
+     */
+    publid void insfrtAftfrEnd(Elfmfnt flfm, String htmlTfxt) throws
+                               BbdLodbtionExdfption, IOExdfption {
+        vfrifyPbrsfr();
+        if (flfm != null) {
+            Elfmfnt pbrfnt = flfm.gftPbrfntElfmfnt();
+
+            if (pbrfnt != null) {
+                int offsft = flfm.gftEndOffsft();
+                if (offsft > gftLfngth()) {
+                    offsft--;
+                }
+                flsf if (flfm.isLfbf() && gftTfxt(offsft - 1, 1).
+                    dhbrAt(0) == NEWLINE[0]) {
+                    offsft--;
+                }
+                insfrtHTML(pbrfnt, offsft, htmlTfxt, fblsf);
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf flfmfnt thbt hbs thf givfn id <dodf>Attributf</dodf>.
+     * If thf flfmfnt dbn't bf found, <dodf>null</dodf> is rfturnfd.
+     * Notf thbt this mfthod works on bn <dodf>Attributf</dodf>,
+     * <i>not</i> b dhbrbdtfr tbg.  In thf following HTML snippft:
+     * <dodf>&lt;b id="HflloThfrf"&gt;</dodf> thf bttributf is
+     * 'id' bnd thf dhbrbdtfr tbg is 'b'.
+     * This is b donvfnifndf mfthod for
+     * <dodf>gftElfmfnt(RootElfmfnt, HTML.Attributf.id, id)</dodf>.
+     * This is not thrfbd-sbff.
+     *
+     * @pbrbm id  thf string rfprfsfnting thf dfsirfd <dodf>Attributf</dodf>
+     * @rfturn thf flfmfnt with thf spfdififd <dodf>Attributf</dodf>
+     *          or <dodf>null</dodf> if it dbn't bf found,
+     *          or <dodf>null</dodf> if <dodf>id</dodf> is <dodf>null</dodf>
+     * @sff jbvbx.swing.tfxt.html.HTML.Attributf
+     * @sindf 1.3
+     */
+    publid Elfmfnt gftElfmfnt(String id) {
+        if (id == null) {
+            rfturn null;
+        }
+        rfturn gftElfmfnt(gftDffbultRootElfmfnt(), HTML.Attributf.ID, id,
+                          truf);
+    }
+
+    /**
+     * Rfturns thf dhild flfmfnt of <dodf>f</dodf> thbt dontbins thf
+     * bttributf, <dodf>bttributf</dodf> with vbluf <dodf>vbluf</dodf>, or
+     * <dodf>null</dodf> if onf isn't found. This is not thrfbd-sbff.
+     *
+     * @pbrbm f thf root flfmfnt whfrf thf sfbrdh bfgins
+     * @pbrbm bttributf thf dfsirfd <dodf>Attributf</dodf>
+     * @pbrbm vbluf thf vblufs for thf spfdififd <dodf>Attributf</dodf>
+     * @rfturn thf flfmfnt with thf spfdififd <dodf>Attributf</dodf>
+     *          bnd thf spfdififd <dodf>vbluf</dodf>, or <dodf>null</dodf>
+     *          if it dbn't bf found
+     * @sff jbvbx.swing.tfxt.html.HTML.Attributf
+     * @sindf 1.3
+     */
+    publid Elfmfnt gftElfmfnt(Elfmfnt f, Objfdt bttributf, Objfdt vbluf) {
+        rfturn gftElfmfnt(f, bttributf, vbluf, truf);
+    }
+
+    /**
+     * Rfturns thf dhild flfmfnt of <dodf>f</dodf> thbt dontbins thf
+     * bttributf, <dodf>bttributf</dodf> with vbluf <dodf>vbluf</dodf>, or
+     * <dodf>null</dodf> if onf isn't found. This is not thrfbd-sbff.
+     * <p>
+     * If <dodf>sfbrdhLfbfAttributfs</dodf> is truf, bnd <dodf>f</dodf> is
+     * b lfbf, bny bttributfs thbt brf instbndfs of <dodf>HTML.Tbg</dodf>
+     * with b vbluf thbt is bn <dodf>AttributfSft</dodf> will blso bf dhfdkfd.
+     *
+     * @pbrbm f thf root flfmfnt whfrf thf sfbrdh bfgins
+     * @pbrbm bttributf thf dfsirfd <dodf>Attributf</dodf>
+     * @pbrbm vbluf thf vblufs for thf spfdififd <dodf>Attributf</dodf>
+     * @rfturn thf flfmfnt with thf spfdififd <dodf>Attributf</dodf>
+     *          bnd thf spfdififd <dodf>vbluf</dodf>, or <dodf>null</dodf>
+     *          if it dbn't bf found
+     * @sff jbvbx.swing.tfxt.html.HTML.Attributf
+     */
+    privbtf Elfmfnt gftElfmfnt(Elfmfnt f, Objfdt bttributf, Objfdt vbluf,
+                               boolfbn sfbrdhLfbfAttributfs) {
+        AttributfSft bttr = f.gftAttributfs();
+
+        if (bttr != null && bttr.isDffinfd(bttributf)) {
+            if (vbluf.fqubls(bttr.gftAttributf(bttributf))) {
+                rfturn f;
+            }
+        }
+        if (!f.isLfbf()) {
+            for (int dountfr = 0, mbxCountfr = f.gftElfmfntCount();
+                 dountfr < mbxCountfr; dountfr++) {
+                Elfmfnt rftVbluf = gftElfmfnt(f.gftElfmfnt(dountfr), bttributf,
+                                              vbluf, sfbrdhLfbfAttributfs);
+
+                if (rftVbluf != null) {
+                    rfturn rftVbluf;
+                }
+            }
+        }
+        flsf if (sfbrdhLfbfAttributfs && bttr != null) {
+            // For somf lfbf flfmfnts wf storf thf bdtubl bttributfs insidf
+            // thf AttributfSft of thf Elfmfnt (sudh bs bndhors).
+            Enumfrbtion<?> nbmfs = bttr.gftAttributfNbmfs();
+            if (nbmfs != null) {
+                whilf (nbmfs.hbsMorfElfmfnts()) {
+                    Objfdt nbmf = nbmfs.nfxtElfmfnt();
+                    if ((nbmf instbndfof HTML.Tbg) &&
+                        (bttr.gftAttributf(nbmf) instbndfof AttributfSft)) {
+
+                        AttributfSft dhfdk = (AttributfSft)bttr.
+                                             gftAttributf(nbmf);
+                        if (dhfdk.isDffinfd(bttributf) &&
+                            vbluf.fqubls(dhfdk.gftAttributf(bttributf))) {
+                            rfturn f;
+                        }
+                    }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Vfrififs thf dodumfnt hbs bn <dodf>HTMLEditorKit.Pbrsfr</dodf> sft.
+     * If <dodf>gftPbrsfr</dodf> rfturns <dodf>null</dodf>, this will throw bn
+     * IllfgblStbtfExdfption.
+     *
+     * @throws IllfgblStbtfExdfption if thf dodumfnt dofs not hbvf b Pbrsfr
+     */
+    privbtf void vfrifyPbrsfr() {
+        if (gftPbrsfr() == null) {
+            throw nfw IllfgblStbtfExdfption("No HTMLEditorKit.Pbrsfr");
+        }
+    }
+
+    /**
+     * Instblls b dffbult Pbrsfr if onf hbs not bffn instbllfd yft.
+     */
+    privbtf void instbllPbrsfrIfNfdfssbry() {
+        if (gftPbrsfr() == null) {
+            sftPbrsfr(nfw HTMLEditorKit().gftPbrsfr());
+        }
+    }
+
+    /**
+     * Insfrts b string of HTML into thf dodumfnt bt thf givfn position.
+     * <dodf>pbrfnt</dodf> is usfd to idfntify thf lodbtion to insfrt thf
+     * <dodf>html</dodf>. If <dodf>pbrfnt</dodf> is b lfbf this dbn hbvf
+     * unfxpfdtfd rfsults.
+     */
+    privbtf void insfrtHTML(Elfmfnt pbrfnt, int offsft, String html,
+                            boolfbn wbntsTrbilingNfwlinf)
+                 throws BbdLodbtionExdfption, IOExdfption {
+        if (pbrfnt != null && html != null) {
+            HTMLEditorKit.Pbrsfr pbrsfr = gftPbrsfr();
+            if (pbrsfr != null) {
+                int lbstOffsft = Mbth.mbx(0, offsft - 1);
+                Elfmfnt dhbrElfmfnt = gftChbrbdtfrElfmfnt(lbstOffsft);
+                Elfmfnt dommonPbrfnt = pbrfnt;
+                int pop = 0;
+                int push = 0;
+
+                if (pbrfnt.gftStbrtOffsft() > lbstOffsft) {
+                    whilf (dommonPbrfnt != null &&
+                           dommonPbrfnt.gftStbrtOffsft() > lbstOffsft) {
+                        dommonPbrfnt = dommonPbrfnt.gftPbrfntElfmfnt();
+                        push++;
+                    }
+                    if (dommonPbrfnt == null) {
+                        throw nfw BbdLodbtionExdfption("No dommon pbrfnt",
+                                                       offsft);
+                    }
+                }
+                whilf (dhbrElfmfnt != null && dhbrElfmfnt != dommonPbrfnt) {
+                    pop++;
+                    dhbrElfmfnt = dhbrElfmfnt.gftPbrfntElfmfnt();
+                }
+                if (dhbrElfmfnt != null) {
+                    // Found it, do thf insfrt.
+                    HTMLRfbdfr rfbdfr = nfw HTMLRfbdfr(offsft, pop - 1, push,
+                                                       null, fblsf, truf,
+                                                       wbntsTrbilingNfwlinf);
+
+                    pbrsfr.pbrsf(nfw StringRfbdfr(html), rfbdfr, truf);
+                    rfbdfr.flush();
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs dhild Elfmfnts of thf pbssfd in Elfmfnt <dodf>f</dodf>. This
+     * will do thf nfdfssbry dlfbnup to fnsurf thf flfmfnt rfprfsfnting thf
+     * fnd dhbrbdtfr is dorrfdtly drfbtfd.
+     * <p>This is not b gfnfrbl purposf mfthod, it bssumfs thbt <dodf>f</dodf>
+     * will still hbvf bt lfbst onf dhild bftfr thf rfmovf, bnd it bssumfs
+     * thf dhbrbdtfr bt <dodf>f.gftStbrtOffsft() - 1</dodf> is b nfwlinf bnd
+     * is of lfngth 1.
+     */
+    privbtf void rfmovfElfmfnts(Elfmfnt f, int indfx, int dount) throws BbdLodbtionExdfption {
+        writfLodk();
+        try {
+            int stbrt = f.gftElfmfnt(indfx).gftStbrtOffsft();
+            int fnd = f.gftElfmfnt(indfx + dount - 1).gftEndOffsft();
+            if (fnd > gftLfngth()) {
+                rfmovfElfmfntsAtEnd(f, indfx, dount, stbrt, fnd);
+            }
+            flsf {
+                rfmovfElfmfnts(f, indfx, dount, stbrt, fnd);
+            }
+        } finblly {
+            writfUnlodk();
+        }
+    }
+
+    /**
+     * Cbllfd to rfmovf dhild flfmfnts of <dodf>f</dodf> whfn onf of thf
+     * flfmfnts to rfmovf is rfprfsfnting thf fnd dhbrbdtfr.
+     * <p>Sindf thf Contfnt will not bllow b rfmovbl to thf fnd dhbrbdtfr
+     * this will do b rfmovf from <dodf>stbrt - 1</dodf> to <dodf>fnd</dodf>.
+     * Thf fnd Elfmfnt(s) will bf rfmovfd, bnd thf flfmfnt rfprfsfnting
+     * <dodf>stbrt - 1</dodf> to <dodf>stbrt</dodf> will bf rfdrfbtfd. This
+     * Elfmfnt hbs to bf rfdrfbtfd bs bftfr thf dontfnt rfmovbl its offsfts
+     * bfdomf <dodf>stbrt - 1</dodf> to <dodf>stbrt - 1</dodf>.
+     */
+    privbtf void rfmovfElfmfntsAtEnd(Elfmfnt f, int indfx, int dount,
+                         int stbrt, int fnd) throws BbdLodbtionExdfption {
+        // indfx must bf > 0 othfrwisf no insfrt would hbvf hbppfnfd.
+        boolfbn isLfbf = (f.gftElfmfnt(indfx - 1).isLfbf());
+        DffbultDodumfntEvfnt ddf = nfw DffbultDodumfntEvfnt(
+                       stbrt - 1, fnd - stbrt + 1, DodumfntEvfnt.
+                       EvfntTypf.REMOVE);
+
+        if (isLfbf) {
+            Elfmfnt fndE = gftChbrbdtfrElfmfnt(gftLfngth());
+            // f.gftElfmfnt(indfx - 1) should rfprfsfnt thf nfwlinf.
+            indfx--;
+            if (fndE.gftPbrfntElfmfnt() != f) {
+                // Thf hifbrdhifs don't mbtdh, wf'll hbvf to mbnublly
+                // rfdrfbtf thf lfbf bt f.gftElfmfnt(indfx - 1)
+                rfplbdf(ddf, f, indfx, ++dount, stbrt, fnd, truf, truf);
+            }
+            flsf {
+                // Thf hifrbrdhifs for thf fnd Elfmfnt bnd
+                // f.gftElfmfnt(indfx - 1), mbtdh, wf dbn sbffly rfmovf
+                // thf Elfmfnts bnd thf fnd dontfnt will bf blignfd
+                // bppropribtfly.
+                rfplbdf(ddf, f, indfx, dount, stbrt, fnd, truf, fblsf);
+            }
+        }
+        flsf {
+            // Not b lfbf, dfsdfnd until wf find thf lfbf rfprfsfnting
+            // stbrt - 1 bnd rfmovf it.
+            Elfmfnt nfwLinfE = f.gftElfmfnt(indfx - 1);
+            whilf (!nfwLinfE.isLfbf()) {
+                nfwLinfE = nfwLinfE.gftElfmfnt(nfwLinfE.gftElfmfntCount() - 1);
+            }
+            nfwLinfE = nfwLinfE.gftPbrfntElfmfnt();
+            rfplbdf(ddf, f, indfx, dount, stbrt, fnd, fblsf, fblsf);
+            rfplbdf(ddf, nfwLinfE, nfwLinfE.gftElfmfntCount() - 1, 1, stbrt,
+                    fnd, truf, truf);
+        }
+        postRfmovfUpdbtf(ddf);
+        ddf.fnd();
+        firfRfmovfUpdbtf(ddf);
+        firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, ddf));
+    }
+
+    /**
+     * This is usfd by <dodf>rfmovfElfmfntsAtEnd</dodf>, it rfmovfs
+     * <dodf>dount</dodf> flfmfnts stbrting bt <dodf>stbrt</dodf> from
+     * <dodf>f</dodf>.  If <dodf>rfmovf</dodf> is truf tfxt of lfngth
+     * <dodf>stbrt - 1</dodf> to <dodf>fnd - 1</dodf> is rfmovfd.  If
+     * <dodf>drfbtf</dodf> is truf b nfw lfbf is drfbtfd of lfngth 1.
+     */
+    privbtf void rfplbdf(DffbultDodumfntEvfnt ddf, Elfmfnt f, int indfx,
+                         int dount, int stbrt, int fnd, boolfbn rfmovf,
+                         boolfbn drfbtf) throws BbdLodbtionExdfption {
+        Elfmfnt[] bddfd;
+        AttributfSft bttrs = f.gftElfmfnt(indfx).gftAttributfs();
+        Elfmfnt[] rfmovfd = nfw Elfmfnt[dount];
+
+        for (int dountfr = 0; dountfr < dount; dountfr++) {
+            rfmovfd[dountfr] = f.gftElfmfnt(dountfr + indfx);
+        }
+        if (rfmovf) {
+            UndobblfEdit u = gftContfnt().rfmovf(stbrt - 1, fnd - stbrt);
+            if (u != null) {
+                ddf.bddEdit(u);
+            }
+        }
+        if (drfbtf) {
+            bddfd = nfw Elfmfnt[1];
+            bddfd[0] = drfbtfLfbfElfmfnt(f, bttrs, stbrt - 1, stbrt);
+        }
+        flsf {
+            bddfd = nfw Elfmfnt[0];
+        }
+        ddf.bddEdit(nfw ElfmfntEdit(f, indfx, rfmovfd, bddfd));
+        ((AbstrbdtDodumfnt.BrbndhElfmfnt)f).rfplbdf(
+                                             indfx, rfmovfd.lfngth, bddfd);
+    }
+
+    /**
+     * Cbllfd to rfmovf dhild Elfmfnts whfn thf fnd is not toudhfd.
+     */
+    privbtf void rfmovfElfmfnts(Elfmfnt f, int indfx, int dount,
+                             int stbrt, int fnd) throws BbdLodbtionExdfption {
+        Elfmfnt[] rfmovfd = nfw Elfmfnt[dount];
+        Elfmfnt[] bddfd = nfw Elfmfnt[0];
+        for (int dountfr = 0; dountfr < dount; dountfr++) {
+            rfmovfd[dountfr] = f.gftElfmfnt(dountfr + indfx);
+        }
+        DffbultDodumfntEvfnt ddf = nfw DffbultDodumfntEvfnt
+                (stbrt, fnd - stbrt, DodumfntEvfnt.EvfntTypf.REMOVE);
+        ((AbstrbdtDodumfnt.BrbndhElfmfnt)f).rfplbdf(indfx, rfmovfd.lfngth,
+                                                    bddfd);
+        ddf.bddEdit(nfw ElfmfntEdit(f, indfx, rfmovfd, bddfd));
+        UndobblfEdit u = gftContfnt().rfmovf(stbrt, fnd - stbrt);
+        if (u != null) {
+            ddf.bddEdit(u);
+        }
+        postRfmovfUpdbtf(ddf);
+        ddf.fnd();
+        firfRfmovfUpdbtf(ddf);
+        if (u != null) {
+            firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, ddf));
+        }
+    }
+
+
+    // Thfsf two brf providfd for innfr dlbss bddfss. Thf brf nbmfd difffrfnt
+    // thbn thf supfr dlbss bs thf supfr dlbss implfmfntbtions brf finbl.
+    void obtbinLodk() {
+        writfLodk();
+    }
+
+    void rflfbsfLodk() {
+        writfUnlodk();
+    }
+
+    //
+    // Providfd for innfr dlbss bddfss.
+    //
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf pbrbmftfrs pbssfd into
+     * thf firf mfthod.
+     *
+     * @pbrbm f thf fvfnt
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfChbngfdUpdbtf(DodumfntEvfnt f) {
+        supfr.firfChbngfdUpdbtf(f);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf pbrbmftfrs pbssfd into
+     * thf firf mfthod.
+     *
+     * @pbrbm f thf fvfnt
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfUndobblfEditUpdbtf(UndobblfEditEvfnt f) {
+        supfr.firfUndobblfEditUpdbtf(f);
+    }
+
+    boolfbn hbsBbsfTbg() {
+        rfturn hbsBbsfTbg;
+    }
+
+    String gftBbsfTbrgft() {
+        rfturn bbsfTbrgft;
+    }
+
+    /*
+     * stbtf dffinfs whfthfr thf dodumfnt is b frbmf dodumfnt
+     * or not.
+     */
+    privbtf boolfbn frbmfDodumfnt = fblsf;
+    privbtf boolfbn prfsfrvfsUnknownTbgs = truf;
+
+    /*
+     * Usfd to storf button groups for rbdio buttons in
+     * b form.
+     */
+    privbtf HbshMbp<String, ButtonGroup> rbdioButtonGroupsMbp;
+
+    /**
+     * Dodumfnt propfrty for thf numbfr of tokfns to bufffr
+     * bfforf building bn flfmfnt subtrff to rfprfsfnt thfm.
+     */
+    stbtid finbl String TokfnThrfshold = "tokfn thrfshold";
+
+    privbtf stbtid finbl int MbxThrfshold = 10000;
+
+    privbtf stbtid finbl int StfpThrfshold = 5;
+
+
+    /**
+     * Dodumfnt propfrty kfy vbluf. Thf vbluf for thf kfy will bf b Vfdtor
+     * of Strings thbt brf dommfnts not found in thf body.
+     */
+    publid stbtid finbl String AdditionblCommfnts = "AdditionblCommfnts";
+
+    /**
+     * Dodumfnt propfrty kfy vbluf. Thf vbluf for thf kfy will bf b
+     * String indidbting thf dffbult typf of stylfshfft links.
+     */
+    /* publid */ stbtid finbl String StylfTypf = "StylfTypf";
+
+    /**
+     * Thf lodbtion to rfsolvf rflbtivf URLs bgbinst.  By
+     * dffbult this will bf thf dodumfnt's URL if thf dodumfnt
+     * wbs lobdfd from b URL.  If b bbsf tbg is found bnd
+     * dbn bf pbrsfd, it will bf usfd bs thf bbsf lodbtion.
+     */
+    URL bbsf;
+
+    /**
+     * dofs thf dodumfnt hbvf bbsf tbg
+     */
+    boolfbn hbsBbsfTbg = fblsf;
+
+    /**
+     * BASE tbg's TARGET bttributf vbluf
+     */
+    privbtf String bbsfTbrgft = null;
+
+    /**
+     * Thf pbrsfr thbt is usfd whfn insfrting html into thf fxisting
+     * dodumfnt.
+     */
+    privbtf HTMLEditorKit.Pbrsfr pbrsfr;
+
+    /**
+     * Usfd for insfrts whfn b null AttributfSft is supplifd.
+     */
+    privbtf stbtid AttributfSft dontfntAttributfSft;
+
+    /**
+     * Propfrty Mbps brf rfgistfrfd undfr, will bf b Hbshtbblf.
+     */
+    stbtid String MAP_PROPERTY = "__MAP__";
+
+    privbtf stbtid dhbr[] NEWLINE;
+
+    /**
+     * I18N propfrty kfy.
+     *
+     * @sff AbstrbdtDodumfnt#I18NPropfrty
+     */
+    privbtf stbtid finbl String I18NPropfrty = "i18n";
+
+    stbtid {
+        dontfntAttributfSft = nfw SimplfAttributfSft();
+        ((MutbblfAttributfSft)dontfntAttributfSft).
+                        bddAttributf(StylfConstbnts.NbmfAttributf,
+                                     HTML.Tbg.CONTENT);
+        NEWLINE = nfw dhbr[1];
+        NEWLINE[0] = '\n';
+    }
+
+
+    /**
+     * An itfrbtor to itfrbtf ovfr b pbrtidulbr typf of
+     * tbg.  Thf itfrbtor is not thrfbd sbff.  If rflibblf
+     * bddfss to thf dodumfnt is not blrfbdy fnsurfd by
+     * thf dontfxt undfr whidh thf itfrbtor is bfing usfd,
+     * its usf should bf pfrformfd undfr thf protfdtion of
+     * Dodumfnt.rfndfr.
+     */
+    publid stbtid bbstrbdt dlbss Itfrbtor {
+
+        /**
+         * Rfturn thf bttributfs for this tbg.
+         * @rfturn thf <dodf>AttributfSft</dodf> for this tbg, or
+         *      <dodf>null</dodf> if nonf dbn bf found
+         */
+        publid bbstrbdt AttributfSft gftAttributfs();
+
+        /**
+         * Rfturns thf stbrt of thf rbngf for whidh thf durrfnt oddurrfndf of
+         * thf tbg is dffinfd bnd hbs thf sbmf bttributfs.
+         *
+         * @rfturn thf stbrt of thf rbngf, or -1 if it dbn't bf found
+         */
+        publid bbstrbdt int gftStbrtOffsft();
+
+        /**
+         * Rfturns thf fnd of thf rbngf for whidh thf durrfnt oddurrfndf of
+         * thf tbg is dffinfd bnd hbs thf sbmf bttributfs.
+         *
+         * @rfturn thf fnd of thf rbngf
+         */
+        publid bbstrbdt int gftEndOffsft();
+
+        /**
+         * Movf thf itfrbtor forwbrd to thf nfxt oddurrfndf
+         * of thf tbg it rfprfsfnts.
+         */
+        publid bbstrbdt void nfxt();
+
+        /**
+         * Indidbtfs if thf itfrbtor is durrfntly
+         * rfprfsfnting bn oddurrfndf of b tbg.  If
+         * fblsf thfrf brf no morf tbgs for this itfrbtor.
+         * @rfturn truf if thf itfrbtor is durrfntly rfprfsfnting bn
+         *              oddurrfndf of b tbg, othfrwisf rfturns fblsf
+         */
+        publid bbstrbdt boolfbn isVblid();
+
+        /**
+         * Typf of tbg this itfrbtor rfprfsfnts.
+         * @rfturn thf tbg
+         */
+        publid bbstrbdt HTML.Tbg gftTbg();
+    }
+
+    /**
+     * An itfrbtor to itfrbtf ovfr b pbrtidulbr typf of tbg.
+     */
+    stbtid dlbss LfbfItfrbtor fxtfnds Itfrbtor {
+
+        LfbfItfrbtor(HTML.Tbg t, Dodumfnt dod) {
+            tbg = t;
+            pos = nfw ElfmfntItfrbtor(dod);
+            fndOffsft = 0;
+            nfxt();
+        }
+
+        /**
+         * Rfturns thf bttributfs for this tbg.
+         * @rfturn thf <dodf>AttributfSft</dodf> for this tbg,
+         *              or <dodf>null</dodf> if nonf dbn bf found
+         */
+        publid AttributfSft gftAttributfs() {
+            Elfmfnt flfm = pos.durrfnt();
+            if (flfm != null) {
+                AttributfSft b = (AttributfSft)
+                    flfm.gftAttributfs().gftAttributf(tbg);
+                if (b == null) {
+                    b = flfm.gftAttributfs();
+                }
+                rfturn b;
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf stbrt of thf rbngf for whidh thf durrfnt oddurrfndf of
+         * thf tbg is dffinfd bnd hbs thf sbmf bttributfs.
+         *
+         * @rfturn thf stbrt of thf rbngf, or -1 if it dbn't bf found
+         */
+        publid int gftStbrtOffsft() {
+            Elfmfnt flfm = pos.durrfnt();
+            if (flfm != null) {
+                rfturn flfm.gftStbrtOffsft();
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns thf fnd of thf rbngf for whidh thf durrfnt oddurrfndf of
+         * thf tbg is dffinfd bnd hbs thf sbmf bttributfs.
+         *
+         * @rfturn thf fnd of thf rbngf
+         */
+        publid int gftEndOffsft() {
+            rfturn fndOffsft;
+        }
+
+        /**
+         * Movfs thf itfrbtor forwbrd to thf nfxt oddurrfndf
+         * of thf tbg it rfprfsfnts.
+         */
+        publid void nfxt() {
+            for (nfxtLfbf(pos); isVblid(); nfxtLfbf(pos)) {
+                Elfmfnt flfm = pos.durrfnt();
+                if (flfm.gftStbrtOffsft() >= fndOffsft) {
+                    AttributfSft b = pos.durrfnt().gftAttributfs();
+
+                    if (b.isDffinfd(tbg) ||
+                        b.gftAttributf(StylfConstbnts.NbmfAttributf) == tbg) {
+
+                        // wf found thf nfxt onf
+                        sftEndOffsft();
+                        brfbk;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Rfturns thf typf of tbg this itfrbtor rfprfsfnts.
+         *
+         * @rfturn thf <dodf>HTML.Tbg</dodf> thbt this itfrbtor rfprfsfnts.
+         * @sff jbvbx.swing.tfxt.html.HTML.Tbg
+         */
+        publid HTML.Tbg gftTbg() {
+            rfturn tbg;
+        }
+
+        /**
+         * Rfturns truf if thf durrfnt position is not <dodf>null</dodf>.
+         * @rfturn truf if durrfnt position is not <dodf>null</dodf>,
+         *              othfrwisf rfturns fblsf
+         */
+        publid boolfbn isVblid() {
+            rfturn (pos.durrfnt() != null);
+        }
+
+        /**
+         * Movfs thf givfn itfrbtor to thf nfxt lfbf flfmfnt.
+         * @pbrbm itfr  thf itfrbtor to bf sdbnnfd
+         */
+        void nfxtLfbf(ElfmfntItfrbtor itfr) {
+            for (itfr.nfxt(); itfr.durrfnt() != null; itfr.nfxt()) {
+                Elfmfnt f = itfr.durrfnt();
+                if (f.isLfbf()) {
+                    brfbk;
+                }
+            }
+        }
+
+        /**
+         * Mbrdhfs b dlonfd itfrbtor forwbrd to lodbtf thf fnd
+         * of thf run.  This sfts thf vbluf of <dodf>fndOffsft</dodf>.
+         */
+        void sftEndOffsft() {
+            AttributfSft b0 = gftAttributfs();
+            fndOffsft = pos.durrfnt().gftEndOffsft();
+            ElfmfntItfrbtor fwd = (ElfmfntItfrbtor) pos.dlonf();
+            for (nfxtLfbf(fwd); fwd.durrfnt() != null; nfxtLfbf(fwd)) {
+                Elfmfnt f = fwd.durrfnt();
+                AttributfSft b1 = (AttributfSft) f.gftAttributfs().gftAttributf(tbg);
+                if ((b1 == null) || (! b1.fqubls(b0))) {
+                    brfbk;
+                }
+                fndOffsft = f.gftEndOffsft();
+            }
+        }
+
+        privbtf int fndOffsft;
+        privbtf HTML.Tbg tbg;
+        privbtf ElfmfntItfrbtor pos;
+
+    }
+
+    /**
+     * An HTML rfbdfr to lobd bn HTML dodumfnt with bn HTML
+     * flfmfnt strudturf.  This is b sft of dbllbbdks from
+     * thf pbrsfr, implfmfntfd to drfbtf b sft of flfmfnts
+     * tbggfd with bttributfs.  Thf pbrsf builds up tokfns
+     * (ElfmfntSpfd) thbt dfsdribf thf flfmfnt subtrff dfsirfd,
+     * bnd burst it into thf dodumfnt undfr thf protfdtion of
+     * b writf lodk using thf insfrt mfthod on thf dodumfnt
+     * outfr dlbss.
+     * <p>
+     * Thf rfbdfr dbn bf donfigurfd by rfgistfring bdtions
+     * (of typf <dodf>HTMLDodumfnt.HTMLRfbdfr.TbgAdtion</dodf>)
+     * thbt dfsdribf how to hbndlf thf bdtion.  Thf idfb bfhind
+     * thf bdtions providfd is thbt thf most nbturbl tfxt fditing
+     * opfrbtions dbn bf providfd if thf flfmfnt strudturf boils
+     * down to pbrbgrbphs with runs of somf kind of stylf
+     * in thfm.  Somf things brf morf nbturblly spfdififd
+     * strudturblly, so brbitrbry strudturf should bf bllowfd
+     * bbovf thf pbrbgrbphs, but will nffd to bf fditfd with strudturbl
+     * bdtions.  Thf implidbtion of this is thbt somf of thf
+     * HTML flfmfnts spfdififd in thf strfbm bfing pbrsfd will
+     * bf dollbpsfd into bttributfs, bnd in somf dbsfs pbrbgrbphs
+     * will bf synthfsizfd.  Whfn HTML flfmfnts hbvf bffn
+     * donvfrtfd to bttributfs, thf bttributf kfy will bf of
+     * typf HTML.Tbg, bnd thf vbluf will bf of typf AttributfSft
+     * so thbt no informbtion is lost.  This fnbblfs mbny of thf
+     * fxisting bdtions to work so thbt thf usfr dbn typf input,
+     * hit thf rfturn kfy, bbdkspbdf, dflftf, ftd bnd hbvf b
+     * rfbsonbblf rfsult.  Sflfdtions dbn bf drfbtfd, bnd bttributfs
+     * bpplifd or rfmovfd, ftd.  With this in mind, thf work donf
+     * by thf rfbdfr dbn bf dbtfgorizfd into thf following kinds
+     * of tbsks:
+     * <dl>
+     * <dt>Blodk
+     * <dd>Build thf strudturf likf it's spfdififd in thf strfbm.
+     * This produdfs flfmfnts thbt dontbin othfr flfmfnts.
+     * <dt>Pbrbgrbph
+     * <dd>Likf blodk fxdfpt thbt it's fxpfdtfd thbt thf flfmfnt
+     * will bf usfd with b pbrbgrbph vifw so b pbrbgrbph flfmfnt
+     * won't nffd to bf synthfsizfd.
+     * <dt>Chbrbdtfr
+     * <dd>Contributf thf flfmfnt bs bn bttributf thbt will stbrt
+     * bnd stop bt brbitrbry tfxt lodbtions.  This will ultimbtfly
+     * bf mixfd into b run of tfxt, with bll of thf durrfntly
+     * flbttfnfd HTML dhbrbdtfr flfmfnts.
+     * <dt>Spfdibl
+     * <dd>Produdf bn fmbfddfd grbphidbl flfmfnt.
+     * <dt>Form
+     * <dd>Produdf bn flfmfnt thbt is likf thf fmbfddfd grbphidbl
+     * flfmfnt, fxdfpt thbt it blso hbs b domponfnt modfl bssodibtfd
+     * with it.
+     * <dt>Hiddfn
+     * <dd>Crfbtf bn flfmfnt thbt is hiddfn from vifw whfn thf
+     * dodumfnt is bfing vifwfd rfbd-only, bnd visiblf whfn thf
+     * dodumfnt is bfing fditfd.  This is usfful to kffp thf
+     * modfl from losing informbtion, bnd usfd to storf things
+     * likf dommfnts bnd unrfdognizfd tbgs.
+     *
+     * </dl>
+     * <p>
+     * Currfntly, &lt;APPLET&gt;, &lt;PARAM&gt;, &lt;MAP&gt;, &lt;AREA&gt;, &lt;LINK&gt;,
+     * &lt;SCRIPT&gt; bnd &lt;STYLE&gt; brf unsupportfd.
+     *
+     * <p>
+     * Thf bssignmfnt of thf bdtions dfsdribfd is shown in thf
+     * following tbblf for thf tbgs dffinfd in <dodf>HTML.Tbg</dodf>.
+     * <tbblf bordfr=1 summbry="HTML tbgs bnd bssignfd bdtions">
+     * <tr><th>Tbg</th><th>Adtion</th></tr>
+     * <tr><td><dodf>HTML.Tbg.A</dodf>         <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.ADDRESS</dodf>   <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.APPLET</dodf>    <td>HiddfnAdtion
+     * <tr><td><dodf>HTML.Tbg.AREA</dodf>      <td>ArfbAdtion
+     * <tr><td><dodf>HTML.Tbg.B</dodf>         <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.BASE</dodf>      <td>BbsfAdtion
+     * <tr><td><dodf>HTML.Tbg.BASEFONT</dodf>  <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.BIG</dodf>       <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.BLOCKQUOTE</dodf><td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.BODY</dodf>      <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.BR</dodf>        <td>SpfdiblAdtion
+     * <tr><td><dodf>HTML.Tbg.CAPTION</dodf>   <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.CENTER</dodf>    <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.CITE</dodf>      <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.CODE</dodf>      <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.DD</dodf>        <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.DFN</dodf>       <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.DIR</dodf>       <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.DIV</dodf>       <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.DL</dodf>        <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.DT</dodf>        <td>PbrbgrbphAdtion
+     * <tr><td><dodf>HTML.Tbg.EM</dodf>        <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.FONT</dodf>      <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.FORM</dodf>      <td>As of 1.4 b BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.FRAME</dodf>     <td>SpfdiblAdtion
+     * <tr><td><dodf>HTML.Tbg.FRAMESET</dodf>  <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.H1</dodf>        <td>PbrbgrbphAdtion
+     * <tr><td><dodf>HTML.Tbg.H2</dodf>        <td>PbrbgrbphAdtion
+     * <tr><td><dodf>HTML.Tbg.H3</dodf>        <td>PbrbgrbphAdtion
+     * <tr><td><dodf>HTML.Tbg.H4</dodf>        <td>PbrbgrbphAdtion
+     * <tr><td><dodf>HTML.Tbg.H5</dodf>        <td>PbrbgrbphAdtion
+     * <tr><td><dodf>HTML.Tbg.H6</dodf>        <td>PbrbgrbphAdtion
+     * <tr><td><dodf>HTML.Tbg.HEAD</dodf>      <td>HfbdAdtion
+     * <tr><td><dodf>HTML.Tbg.HR</dodf>        <td>SpfdiblAdtion
+     * <tr><td><dodf>HTML.Tbg.HTML</dodf>      <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.I</dodf>         <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.IMG</dodf>       <td>SpfdiblAdtion
+     * <tr><td><dodf>HTML.Tbg.INPUT</dodf>     <td>FormAdtion
+     * <tr><td><dodf>HTML.Tbg.ISINDEX</dodf>   <td>IsndfxAdtion
+     * <tr><td><dodf>HTML.Tbg.KBD</dodf>       <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.LI</dodf>        <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.LINK</dodf>      <td>LinkAdtion
+     * <tr><td><dodf>HTML.Tbg.MAP</dodf>       <td>MbpAdtion
+     * <tr><td><dodf>HTML.Tbg.MENU</dodf>      <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.META</dodf>      <td>MftbAdtion
+     * <tr><td><dodf>HTML.Tbg.NOFRAMES</dodf>  <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.OBJECT</dodf>    <td>SpfdiblAdtion
+     * <tr><td><dodf>HTML.Tbg.OL</dodf>        <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.OPTION</dodf>    <td>FormAdtion
+     * <tr><td><dodf>HTML.Tbg.P</dodf>         <td>PbrbgrbphAdtion
+     * <tr><td><dodf>HTML.Tbg.PARAM</dodf>     <td>HiddfnAdtion
+     * <tr><td><dodf>HTML.Tbg.PRE</dodf>       <td>PrfAdtion
+     * <tr><td><dodf>HTML.Tbg.SAMP</dodf>      <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.SCRIPT</dodf>    <td>HiddfnAdtion
+     * <tr><td><dodf>HTML.Tbg.SELECT</dodf>    <td>FormAdtion
+     * <tr><td><dodf>HTML.Tbg.SMALL</dodf>     <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.STRIKE</dodf>    <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.S</dodf>         <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.STRONG</dodf>    <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.STYLE</dodf>     <td>StylfAdtion
+     * <tr><td><dodf>HTML.Tbg.SUB</dodf>       <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.SUP</dodf>       <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.TABLE</dodf>     <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.TD</dodf>        <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.TEXTAREA</dodf>  <td>FormAdtion
+     * <tr><td><dodf>HTML.Tbg.TH</dodf>        <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.TITLE</dodf>     <td>TitlfAdtion
+     * <tr><td><dodf>HTML.Tbg.TR</dodf>        <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.TT</dodf>        <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.U</dodf>         <td>ChbrbdtfrAdtion
+     * <tr><td><dodf>HTML.Tbg.UL</dodf>        <td>BlodkAdtion
+     * <tr><td><dodf>HTML.Tbg.VAR</dodf>       <td>ChbrbdtfrAdtion
+     * </tbblf>
+     * <p>
+     * Ondf &lt;/html&gt; is fndountfrfd, thf Adtions brf no longfr notififd.
+     */
+    publid dlbss HTMLRfbdfr fxtfnds HTMLEditorKit.PbrsfrCbllbbdk {
+
+        /**
+         * Construdts bn HTMLRfbdfr using dffbult pop bnd push dfpth bnd no tbg to insfrt.
+         *
+         * @pbrbm offsft thf stbrting offsft
+         */
+        publid HTMLRfbdfr(int offsft) {
+            this(offsft, 0, 0, null);
+        }
+
+        /**
+         * Construdts bn HTMLRfbdfr.
+         *
+         * @pbrbm offsft thf stbrting offsft
+         * @pbrbm popDfpth how mbny pbrfnts to bsdfnd bfforf insfrt nfw flfmfnt
+         * @pbrbm pushDfpth how mbny pbrfnts to dfsdfnd (rflbtivf to popDfpth) bfforf
+         *                  insfrting
+         * @pbrbm insfrtTbg b tbg to insfrt (mby bf null)
+         */
+        publid HTMLRfbdfr(int offsft, int popDfpth, int pushDfpth,
+                          HTML.Tbg insfrtTbg) {
+            this(offsft, popDfpth, pushDfpth, insfrtTbg, truf, fblsf, truf);
+        }
+
+        /**
+         * Gfnfrbtfs b RuntimfExdfption (will fvfntublly gfnfrbtf
+         * b BbdLodbtionExdfption whfn API dhbngfs brf bllodfd) if insfrting
+         * into non fmpty dodumfnt, <dodf>insfrtTbg</dodf> is
+         * non-<dodf>null</dodf>, bnd <dodf>offsft</dodf> is not in thf body.
+         */
+        // PENDING(sky): Add throws BbdLodbtionExdfption bnd rfmovf
+        // RuntimfExdfption
+        HTMLRfbdfr(int offsft, int popDfpth, int pushDfpth,
+                   HTML.Tbg insfrtTbg, boolfbn insfrtInsfrtTbg,
+                   boolfbn insfrtAftfrImplifd, boolfbn wbntsTrbilingNfwlinf) {
+            fmptyDodumfnt = (gftLfngth() == 0);
+            isStylfCSS = "tfxt/dss".fqubls(gftDffbultStylfShfftTypf());
+            this.offsft = offsft;
+            thrfshold = HTMLDodumfnt.this.gftTokfnThrfshold();
+            tbgMbp = nfw Hbshtbblf<HTML.Tbg, TbgAdtion>(57);
+            TbgAdtion nb = nfw TbgAdtion();
+            TbgAdtion bb = nfw BlodkAdtion();
+            TbgAdtion pb = nfw PbrbgrbphAdtion();
+            TbgAdtion db = nfw ChbrbdtfrAdtion();
+            TbgAdtion sb = nfw SpfdiblAdtion();
+            TbgAdtion fb = nfw FormAdtion();
+            TbgAdtion hb = nfw HiddfnAdtion();
+            TbgAdtion donv = nfw ConvfrtAdtion();
+
+            // rfgistfr hbndlfrs for thf wfll known tbgs
+            tbgMbp.put(HTML.Tbg.A, nfw AndhorAdtion());
+            tbgMbp.put(HTML.Tbg.ADDRESS, db);
+            tbgMbp.put(HTML.Tbg.APPLET, hb);
+            tbgMbp.put(HTML.Tbg.AREA, nfw ArfbAdtion());
+            tbgMbp.put(HTML.Tbg.B, donv);
+            tbgMbp.put(HTML.Tbg.BASE, nfw BbsfAdtion());
+            tbgMbp.put(HTML.Tbg.BASEFONT, db);
+            tbgMbp.put(HTML.Tbg.BIG, db);
+            tbgMbp.put(HTML.Tbg.BLOCKQUOTE, bb);
+            tbgMbp.put(HTML.Tbg.BODY, bb);
+            tbgMbp.put(HTML.Tbg.BR, sb);
+            tbgMbp.put(HTML.Tbg.CAPTION, bb);
+            tbgMbp.put(HTML.Tbg.CENTER, bb);
+            tbgMbp.put(HTML.Tbg.CITE, db);
+            tbgMbp.put(HTML.Tbg.CODE, db);
+            tbgMbp.put(HTML.Tbg.DD, bb);
+            tbgMbp.put(HTML.Tbg.DFN, db);
+            tbgMbp.put(HTML.Tbg.DIR, bb);
+            tbgMbp.put(HTML.Tbg.DIV, bb);
+            tbgMbp.put(HTML.Tbg.DL, bb);
+            tbgMbp.put(HTML.Tbg.DT, pb);
+            tbgMbp.put(HTML.Tbg.EM, db);
+            tbgMbp.put(HTML.Tbg.FONT, donv);
+            tbgMbp.put(HTML.Tbg.FORM, nfw FormTbgAdtion());
+            tbgMbp.put(HTML.Tbg.FRAME, sb);
+            tbgMbp.put(HTML.Tbg.FRAMESET, bb);
+            tbgMbp.put(HTML.Tbg.H1, pb);
+            tbgMbp.put(HTML.Tbg.H2, pb);
+            tbgMbp.put(HTML.Tbg.H3, pb);
+            tbgMbp.put(HTML.Tbg.H4, pb);
+            tbgMbp.put(HTML.Tbg.H5, pb);
+            tbgMbp.put(HTML.Tbg.H6, pb);
+            tbgMbp.put(HTML.Tbg.HEAD, nfw HfbdAdtion());
+            tbgMbp.put(HTML.Tbg.HR, sb);
+            tbgMbp.put(HTML.Tbg.HTML, bb);
+            tbgMbp.put(HTML.Tbg.I, donv);
+            tbgMbp.put(HTML.Tbg.IMG, sb);
+            tbgMbp.put(HTML.Tbg.INPUT, fb);
+            tbgMbp.put(HTML.Tbg.ISINDEX, nfw IsindfxAdtion());
+            tbgMbp.put(HTML.Tbg.KBD, db);
+            tbgMbp.put(HTML.Tbg.LI, bb);
+            tbgMbp.put(HTML.Tbg.LINK, nfw LinkAdtion());
+            tbgMbp.put(HTML.Tbg.MAP, nfw MbpAdtion());
+            tbgMbp.put(HTML.Tbg.MENU, bb);
+            tbgMbp.put(HTML.Tbg.META, nfw MftbAdtion());
+            tbgMbp.put(HTML.Tbg.NOBR, db);
+            tbgMbp.put(HTML.Tbg.NOFRAMES, bb);
+            tbgMbp.put(HTML.Tbg.OBJECT, sb);
+            tbgMbp.put(HTML.Tbg.OL, bb);
+            tbgMbp.put(HTML.Tbg.OPTION, fb);
+            tbgMbp.put(HTML.Tbg.P, pb);
+            tbgMbp.put(HTML.Tbg.PARAM, nfw ObjfdtAdtion());
+            tbgMbp.put(HTML.Tbg.PRE, nfw PrfAdtion());
+            tbgMbp.put(HTML.Tbg.SAMP, db);
+            tbgMbp.put(HTML.Tbg.SCRIPT, hb);
+            tbgMbp.put(HTML.Tbg.SELECT, fb);
+            tbgMbp.put(HTML.Tbg.SMALL, db);
+            tbgMbp.put(HTML.Tbg.SPAN, db);
+            tbgMbp.put(HTML.Tbg.STRIKE, donv);
+            tbgMbp.put(HTML.Tbg.S, db);
+            tbgMbp.put(HTML.Tbg.STRONG, db);
+            tbgMbp.put(HTML.Tbg.STYLE, nfw StylfAdtion());
+            tbgMbp.put(HTML.Tbg.SUB, donv);
+            tbgMbp.put(HTML.Tbg.SUP, donv);
+            tbgMbp.put(HTML.Tbg.TABLE, bb);
+            tbgMbp.put(HTML.Tbg.TD, bb);
+            tbgMbp.put(HTML.Tbg.TEXTAREA, fb);
+            tbgMbp.put(HTML.Tbg.TH, bb);
+            tbgMbp.put(HTML.Tbg.TITLE, nfw TitlfAdtion());
+            tbgMbp.put(HTML.Tbg.TR, bb);
+            tbgMbp.put(HTML.Tbg.TT, db);
+            tbgMbp.put(HTML.Tbg.U, donv);
+            tbgMbp.put(HTML.Tbg.UL, bb);
+            tbgMbp.put(HTML.Tbg.VAR, db);
+
+            if (insfrtTbg != null) {
+                this.insfrtTbg = insfrtTbg;
+                this.popDfpth = popDfpth;
+                this.pushDfpth = pushDfpth;
+                this.insfrtInsfrtTbg = insfrtInsfrtTbg;
+                foundInsfrtTbg = fblsf;
+            }
+            flsf {
+                foundInsfrtTbg = truf;
+            }
+            if (insfrtAftfrImplifd) {
+                this.popDfpth = popDfpth;
+                this.pushDfpth = pushDfpth;
+                this.insfrtAftfrImplifd = truf;
+                foundInsfrtTbg = fblsf;
+                midInsfrt = fblsf;
+                this.insfrtInsfrtTbg = truf;
+                this.wbntsTrbilingNfwlinf = wbntsTrbilingNfwlinf;
+            }
+            flsf {
+                midInsfrt = (!fmptyDodumfnt && insfrtTbg == null);
+                if (midInsfrt) {
+                    gfnfrbtfEndsSpfdsForMidInsfrt();
+                }
+            }
+
+            /**
+             * This blodk initiblizfs thf <dodf>inPbrbgrbph</dodf> flbg.
+             * It is lfft in <dodf>fblsf</dodf> vbluf butombtidblly
+             * if thf tbrgft dodumfnt is fmpty or futurf insfrts
+             * wfrf positionfd into thf 'body' tbg.
+             */
+            if (!fmptyDodumfnt && !midInsfrt) {
+                int tbrgftOffsft = Mbth.mbx(this.offsft - 1, 0);
+                Elfmfnt flfm =
+                        HTMLDodumfnt.this.gftChbrbdtfrElfmfnt(tbrgftOffsft);
+                /* Going up by thf lfft dodumfnt strudturf pbth */
+                for (int i = 0; i <= this.popDfpth; i++) {
+                    flfm = flfm.gftPbrfntElfmfnt();
+                }
+                /* Going down by thf right dodumfnt strudturf pbth */
+                for (int i = 0; i < this.pushDfpth; i++) {
+                    int indfx = flfm.gftElfmfntIndfx(this.offsft);
+                    flfm = flfm.gftElfmfnt(indfx);
+                }
+                AttributfSft bttrs = flfm.gftAttributfs();
+                if (bttrs != null) {
+                    HTML.Tbg tbgToInsfrtInto =
+                            (HTML.Tbg) bttrs.gftAttributf(StylfConstbnts.NbmfAttributf);
+                    if (tbgToInsfrtInto != null) {
+                        this.inPbrbgrbph = tbgToInsfrtInto.isPbrbgrbph();
+                    }
+                }
+            }
+        }
+
+        /**
+         * Gfnfrbtfs bn initibl bbtdh of fnd <dodf>ElfmfntSpfds</dodf>
+         * in pbrsfBufffr to position futurf insfrts into thf body.
+         */
+        privbtf void gfnfrbtfEndsSpfdsForMidInsfrt() {
+            int           dount = hfightToElfmfntWithNbmf(HTML.Tbg.BODY,
+                                                   Mbth.mbx(0, offsft - 1));
+            boolfbn       joinNfxt = fblsf;
+
+            if (dount == -1 && offsft > 0) {
+                dount = hfightToElfmfntWithNbmf(HTML.Tbg.BODY, offsft);
+                if (dount != -1) {
+                    // Prfvious isn't in body, but durrfnt is. Hbvf to
+                    // do somf fnd spfds, followfd by join nfxt.
+                    dount = dfpthTo(offsft - 1) - 1;
+                    joinNfxt = truf;
+                }
+            }
+            if (dount == -1) {
+                throw nfw RuntimfExdfption("Must insfrt nfw dontfnt into body flfmfnt-");
+            }
+            if (dount != -1) {
+                // Insfrt b nfwlinf, if nfdfssbry.
+                try {
+                    if (!joinNfxt && offsft > 0 &&
+                        !gftTfxt(offsft - 1, 1).fqubls("\n")) {
+                        SimplfAttributfSft nfwAttrs = nfw SimplfAttributfSft();
+                        nfwAttrs.bddAttributf(StylfConstbnts.NbmfAttributf,
+                                              HTML.Tbg.CONTENT);
+                        ElfmfntSpfd spfd = nfw ElfmfntSpfd(nfwAttrs,
+                                    ElfmfntSpfd.ContfntTypf, NEWLINE, 0, 1);
+                        pbrsfBufffr.bddElfmfnt(spfd);
+                    }
+                    // Should nfvfr throw, but will dbtdh bnywby.
+                } dbtdh (BbdLodbtionExdfption blf) {}
+                whilf (dount-- > 0) {
+                    pbrsfBufffr.bddElfmfnt(nfw ElfmfntSpfd
+                                           (null, ElfmfntSpfd.EndTbgTypf));
+                }
+                if (joinNfxt) {
+                    ElfmfntSpfd spfd = nfw ElfmfntSpfd(null, ElfmfntSpfd.
+                                                       StbrtTbgTypf);
+
+                    spfd.sftDirfdtion(ElfmfntSpfd.JoinNfxtDirfdtion);
+                    pbrsfBufffr.bddElfmfnt(spfd);
+                }
+            }
+            // Wf should probbbly throw bn fxdfption if (dount == -1)
+            // Or look for thf body bnd rfsft thf offsft.
+        }
+
+        /**
+         * @rfturn numbfr of pbrfnts to rfbdh thf dhild bt offsft.
+         */
+        privbtf int dfpthTo(int offsft) {
+            Elfmfnt       f = gftDffbultRootElfmfnt();
+            int           dount = 0;
+
+            whilf (!f.isLfbf()) {
+                dount++;
+                f = f.gftElfmfnt(f.gftElfmfntIndfx(offsft));
+            }
+            rfturn dount;
+        }
+
+        /**
+         * @rfturn numbfr of pbrfnts of thf lfbf bt <dodf>offsft</dodf>
+         *         until b pbrfnt with nbmf, <dodf>nbmf</dodf> hbs bffn
+         *         found. -1 indidbtfs no mbtdhing pbrfnt with
+         *         <dodf>nbmf</dodf>.
+         */
+        privbtf int hfightToElfmfntWithNbmf(Objfdt nbmf, int offsft) {
+            Elfmfnt       f = gftChbrbdtfrElfmfnt(offsft).gftPbrfntElfmfnt();
+            int           dount = 0;
+
+            whilf (f != null && f.gftAttributfs().gftAttributf
+                   (StylfConstbnts.NbmfAttributf) != nbmf) {
+                dount++;
+                f = f.gftPbrfntElfmfnt();
+            }
+            rfturn (f == null) ? -1 : dount;
+        }
+
+        /**
+         * This will mbkf surf thfrf brfn't two BODYs (thf sfdond is
+         * typidblly drfbtfd whfn you do b rfmovf bll, bnd thfn bn insfrt).
+         */
+        privbtf void bdjustEndElfmfnt() {
+            int lfngth = gftLfngth();
+            if (lfngth == 0) {
+                rfturn;
+            }
+            obtbinLodk();
+            try {
+                Elfmfnt[] pPbth = gftPbthTo(lfngth - 1);
+                int pLfngth = pPbth.lfngth;
+                if (pLfngth > 1 && pPbth[1].gftAttributfs().gftAttributf
+                         (StylfConstbnts.NbmfAttributf) == HTML.Tbg.BODY &&
+                         pPbth[1].gftEndOffsft() == lfngth) {
+                    String lbstTfxt = gftTfxt(lfngth - 1, 1);
+                    DffbultDodumfntEvfnt fvfnt;
+                    Elfmfnt[] bddfd;
+                    Elfmfnt[] rfmovfd;
+                    int indfx;
+                    // Rfmovf thf fbkf sfdond body.
+                    bddfd = nfw Elfmfnt[0];
+                    rfmovfd = nfw Elfmfnt[1];
+                    indfx = pPbth[0].gftElfmfntIndfx(lfngth);
+                    rfmovfd[0] = pPbth[0].gftElfmfnt(indfx);
+                    ((BrbndhElfmfnt)pPbth[0]).rfplbdf(indfx, 1, bddfd);
+                    ElfmfntEdit firstEdit = nfw ElfmfntEdit(pPbth[0], indfx,
+                                                            rfmovfd, bddfd);
+
+                    // Insfrt b nfw flfmfnt to rfprfsfnt thf fnd thbt thf
+                    // sfdond body wbs rfprfsfnting.
+                    SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+                    sbs.bddAttributf(StylfConstbnts.NbmfAttributf,
+                                         HTML.Tbg.CONTENT);
+                    sbs.bddAttributf(IMPLIED_CR, Boolfbn.TRUE);
+                    bddfd = nfw Elfmfnt[1];
+                    bddfd[0] = drfbtfLfbfElfmfnt(pPbth[pLfngth - 1],
+                                                     sbs, lfngth, lfngth + 1);
+                    indfx = pPbth[pLfngth - 1].gftElfmfntCount();
+                    ((BrbndhElfmfnt)pPbth[pLfngth - 1]).rfplbdf(indfx, 0,
+                                                                bddfd);
+                    fvfnt = nfw DffbultDodumfntEvfnt(lfngth, 1,
+                                            DodumfntEvfnt.EvfntTypf.CHANGE);
+                    fvfnt.bddEdit(nfw ElfmfntEdit(pPbth[pLfngth - 1],
+                                         indfx, nfw Elfmfnt[0], bddfd));
+                    fvfnt.bddEdit(firstEdit);
+                    fvfnt.fnd();
+                    firfChbngfdUpdbtf(fvfnt);
+                    firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(this, fvfnt));
+
+                    if (lbstTfxt.fqubls("\n")) {
+                        // Wf now hbvf two \n's, onf pbrt of thf Dodumfnt.
+                        // Wf nffd to rfmovf onf
+                        fvfnt = nfw DffbultDodumfntEvfnt(lfngth - 1, 1,
+                                           DodumfntEvfnt.EvfntTypf.REMOVE);
+                        rfmovfUpdbtf(fvfnt);
+                        UndobblfEdit u = gftContfnt().rfmovf(lfngth - 1, 1);
+                        if (u != null) {
+                            fvfnt.bddEdit(u);
+                        }
+                        postRfmovfUpdbtf(fvfnt);
+                        // Mbrk thf fdit bs donf.
+                        fvfnt.fnd();
+                        firfRfmovfUpdbtf(fvfnt);
+                        firfUndobblfEditUpdbtf(nfw UndobblfEditEvfnt(
+                                               this, fvfnt));
+                    }
+                }
+            }
+            dbtdh (BbdLodbtionExdfption blf) {
+            }
+            finblly {
+                rflfbsfLodk();
+            }
+        }
+
+        privbtf Elfmfnt[] gftPbthTo(int offsft) {
+            Stbdk<Elfmfnt> flfmfnts = nfw Stbdk<Elfmfnt>();
+            Elfmfnt f = gftDffbultRootElfmfnt();
+            int indfx;
+            whilf (!f.isLfbf()) {
+                flfmfnts.push(f);
+                f = f.gftElfmfnt(f.gftElfmfntIndfx(offsft));
+            }
+            Elfmfnt[] rftVbluf = nfw Elfmfnt[flfmfnts.sizf()];
+            flfmfnts.dopyInto(rftVbluf);
+            rfturn rftVbluf;
+        }
+
+        // -- HTMLEditorKit.PbrsfrCbllbbdk mfthods --------------------
+
+        /**
+         * Thf lbst mfthod dbllfd on thf rfbdfr.  It bllows
+         * bny pfnding dhbngfs to bf flushfd into thf dodumfnt.
+         * Sindf this is durrfntly lobding syndhronously, thf fntirf
+         * sft of dhbngfs brf pushfd in bt this point.
+         */
+        publid void flush() throws BbdLodbtionExdfption {
+            if (fmptyDodumfnt && !insfrtAftfrImplifd) {
+                if (HTMLDodumfnt.this.gftLfngth() > 0 ||
+                                      pbrsfBufffr.sizf() > 0) {
+                    flushBufffr(truf);
+                    bdjustEndElfmfnt();
+                }
+                // Wf won't insfrt whfn
+            }
+            flsf {
+                flushBufffr(truf);
+            }
+        }
+
+        /**
+         * Cbllfd by thf pbrsfr to indidbtf b blodk of tfxt wbs
+         * fndountfrfd.
+         */
+        publid void hbndlfTfxt(dhbr[] dbtb, int pos) {
+            if (rfdfivfdEndHTML || (midInsfrt && !inBody)) {
+                rfturn;
+            }
+
+            // sff if domplfx glyph lbyout support is nffdfd
+            if(HTMLDodumfnt.this.gftPropfrty(I18NPropfrty).fqubls( Boolfbn.FALSE ) ) {
+                // if b dffbult dirfdtion of right-to-lfft hbs bffn spfdififd,
+                // wf wbnt domplfx lbyout fvfn if thf tfxt is bll lfft to right.
+                Objfdt d = gftPropfrty(TfxtAttributf.RUN_DIRECTION);
+                if ((d != null) && (d.fqubls(TfxtAttributf.RUN_DIRECTION_RTL))) {
+                    HTMLDodumfnt.this.putPropfrty( I18NPropfrty, Boolfbn.TRUE);
+                } flsf {
+                    if (SwingUtilitifs2.isComplfxLbyout(dbtb, 0, dbtb.lfngth)) {
+                        HTMLDodumfnt.this.putPropfrty( I18NPropfrty, Boolfbn.TRUE);
+                    }
+                }
+            }
+
+            if (inTfxtArfb) {
+                tfxtArfbContfnt(dbtb);
+            } flsf if (inPrf) {
+                prfContfnt(dbtb);
+            } flsf if (inTitlf) {
+                putPropfrty(Dodumfnt.TitlfPropfrty, nfw String(dbtb));
+            } flsf if (option != null) {
+                option.sftLbbfl(nfw String(dbtb));
+            } flsf if (inStylf) {
+                if (stylfs != null) {
+                    stylfs.bddElfmfnt(nfw String(dbtb));
+                }
+            } flsf if (inBlodk > 0) {
+                if (!foundInsfrtTbg && insfrtAftfrImplifd) {
+                    // Assumf dontfnt should bf bddfd.
+                    foundInsfrtTbg(fblsf);
+                    foundInsfrtTbg = truf;
+                    inPbrbgrbph = implifdP = truf;
+                }
+                if (dbtb.lfngth >= 1) {
+                    bddContfnt(dbtb, 0, dbtb.lfngth);
+                }
+            }
+        }
+
+        /**
+         * Cbllbbdk from thf pbrsfr.  Routf to thf bppropribtf
+         * hbndlfr for thf tbg.
+         */
+        publid void hbndlfStbrtTbg(HTML.Tbg t, MutbblfAttributfSft b, int pos) {
+            if (rfdfivfdEndHTML) {
+                rfturn;
+            }
+            if (midInsfrt && !inBody) {
+                if (t == HTML.Tbg.BODY) {
+                    inBody = truf;
+                    // Indrfmfnt inBlodk sindf wf know wf brf in thf body,
+                    // this is nffdfd indbsf bn implifd-p is nffdfd. If
+                    // inBlodk isn't indrfmfntfd, bnd bn implifd-p is
+                    // fndountfrfd, bddContfnt won't bf dbllfd!
+                    inBlodk++;
+                }
+                rfturn;
+            }
+            if (!inBody && t == HTML.Tbg.BODY) {
+                inBody = truf;
+            }
+            if (isStylfCSS && b.isDffinfd(HTML.Attributf.STYLE)) {
+                // Mbp thf stylf bttributfs.
+                String dfdl = (String)b.gftAttributf(HTML.Attributf.STYLE);
+                b.rfmovfAttributf(HTML.Attributf.STYLE);
+                stylfAttributfs = gftStylfShfft().gftDfdlbrbtion(dfdl);
+                b.bddAttributfs(stylfAttributfs);
+            }
+            flsf {
+                stylfAttributfs = null;
+            }
+            TbgAdtion bdtion = tbgMbp.gft(t);
+
+            if (bdtion != null) {
+                bdtion.stbrt(t, b);
+            }
+        }
+
+        publid void hbndlfCommfnt(dhbr[] dbtb, int pos) {
+            if (rfdfivfdEndHTML) {
+                bddExtfrnblCommfnt(nfw String(dbtb));
+                rfturn;
+            }
+            if (inStylf) {
+                if (stylfs != null) {
+                    stylfs.bddElfmfnt(nfw String(dbtb));
+                }
+            }
+            flsf if (gftPrfsfrvfsUnknownTbgs()) {
+                if (inBlodk == 0 && (foundInsfrtTbg ||
+                                     insfrtTbg != HTML.Tbg.COMMENT)) {
+                    // Commfnt outsidf of body, will not bf bblf to show it,
+                    // but dbn bdd it bs b propfrty on thf Dodumfnt.
+                    bddExtfrnblCommfnt(nfw String(dbtb));
+                    rfturn;
+                }
+                SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+                sbs.bddAttributf(HTML.Attributf.COMMENT, nfw String(dbtb));
+                bddSpfdiblElfmfnt(HTML.Tbg.COMMENT, sbs);
+            }
+
+            TbgAdtion bdtion = tbgMbp.gft(HTML.Tbg.COMMENT);
+            if (bdtion != null) {
+                bdtion.stbrt(HTML.Tbg.COMMENT, nfw SimplfAttributfSft());
+                bdtion.fnd(HTML.Tbg.COMMENT);
+            }
+        }
+
+        /**
+         * Adds thf dommfnt <dodf>dommfnt</dodf> to thf sft of dommfnts
+         * mbintbinfd outsidf of thf sdopf of flfmfnts.
+         */
+        privbtf void bddExtfrnblCommfnt(String dommfnt) {
+            Objfdt dommfnts = gftPropfrty(AdditionblCommfnts);
+            if (dommfnts != null && !(dommfnts instbndfof Vfdtor)) {
+                // No plbdf to put dommfnt.
+                rfturn;
+            }
+            if (dommfnts == null) {
+                dommfnts = nfw Vfdtor<>();
+                putPropfrty(AdditionblCommfnts, dommfnts);
+            }
+            @SupprfssWbrnings("undhfdkfd")
+            Vfdtor<Objfdt> v = (Vfdtor<Objfdt>)dommfnts;
+            v.bddElfmfnt(dommfnt);
+        }
+
+        /**
+         * Cbllbbdk from thf pbrsfr.  Routf to thf bppropribtf
+         * hbndlfr for thf tbg.
+         */
+        publid void hbndlfEndTbg(HTML.Tbg t, int pos) {
+            if (rfdfivfdEndHTML || (midInsfrt && !inBody)) {
+                rfturn;
+            }
+            if (t == HTML.Tbg.HTML) {
+                rfdfivfdEndHTML = truf;
+            }
+            if (t == HTML.Tbg.BODY) {
+                inBody = fblsf;
+                if (midInsfrt) {
+                    inBlodk--;
+                }
+            }
+            TbgAdtion bdtion = tbgMbp.gft(t);
+            if (bdtion != null) {
+                bdtion.fnd(t);
+            }
+        }
+
+        /**
+         * Cbllbbdk from thf pbrsfr.  Routf to thf bppropribtf
+         * hbndlfr for thf tbg.
+         */
+        publid void hbndlfSimplfTbg(HTML.Tbg t, MutbblfAttributfSft b, int pos) {
+            if (rfdfivfdEndHTML || (midInsfrt && !inBody)) {
+                rfturn;
+            }
+
+            if (isStylfCSS && b.isDffinfd(HTML.Attributf.STYLE)) {
+                // Mbp thf stylf bttributfs.
+                String dfdl = (String)b.gftAttributf(HTML.Attributf.STYLE);
+                b.rfmovfAttributf(HTML.Attributf.STYLE);
+                stylfAttributfs = gftStylfShfft().gftDfdlbrbtion(dfdl);
+                b.bddAttributfs(stylfAttributfs);
+            }
+            flsf {
+                stylfAttributfs = null;
+            }
+
+            TbgAdtion bdtion = tbgMbp.gft(t);
+            if (bdtion != null) {
+                bdtion.stbrt(t, b);
+                bdtion.fnd(t);
+            }
+            flsf if (gftPrfsfrvfsUnknownTbgs()) {
+                // unknown tbg, only bdd if should prfsfrvf it.
+                bddSpfdiblElfmfnt(t, b);
+            }
+        }
+
+        /**
+         * This is invokfd bftfr thf strfbm hbs bffn pbrsfd, but bfforf
+         * <dodf>flush</dodf>. <dodf>fol</dodf> will bf onf of \n, \r
+         * or \r\n, whidh fvfr is fndountfrfd thf most in pbrsing thf
+         * strfbm.
+         *
+         * @sindf 1.3
+         */
+        publid void hbndlfEndOfLinfString(String fol) {
+            if (fmptyDodumfnt && fol != null) {
+                putPropfrty(DffbultEditorKit.EndOfLinfStringPropfrty,
+                            fol);
+            }
+        }
+
+        // ---- tbg hbndling support ------------------------------
+
+        /**
+         * Rfgistfrs b hbndlfr for thf givfn tbg.  By dffbult
+         * bll of thf wfll-known tbgs will hbvf bffn rfgistfrfd.
+         * This dbn bf usfd to dhbngf thf hbndling of b pbrtidulbr
+         * tbg or to bdd support for dustom tbgs.
+         *
+         * @pbrbm t bn HTML tbg
+         * @pbrbm b tbg bdtion hbndlfr
+         */
+        protfdtfd void rfgistfrTbg(HTML.Tbg t, TbgAdtion b) {
+            tbgMbp.put(t, b);
+        }
+
+        /**
+         * An bdtion to bf pfrformfd in rfsponsf
+         * to pbrsing b tbg.  This bllows dustomizbtion
+         * of how fbdh tbg is hbndlfd bnd bvoids b lbrgf
+         * switdh stbtfmfnt.
+         */
+        publid dlbss TbgAdtion {
+
+            /**
+             * Cbllfd whfn b stbrt tbg is sffn for thf
+             * typf of tbg this bdtion wbs rfgistfrfd
+             * to.  Thf tbg brgumfnt indidbtfs thf bdtubl
+             * tbg for thosf bdtions thbt brf shbrfd bdross
+             * mbny tbgs.  By dffbult this dofs nothing bnd
+             * domplftfly ignorfs thf tbg.
+             *
+             * @pbrbm t thf HTML tbg
+             * @pbrbm b thf bttributfs
+             */
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+            }
+
+            /**
+             * Cbllfd whfn bn fnd tbg is sffn for thf
+             * typf of tbg this bdtion wbs rfgistfrfd
+             * to.  Thf tbg brgumfnt indidbtfs thf bdtubl
+             * tbg for thosf bdtions thbt brf shbrfd bdross
+             * mbny tbgs.  By dffbult this dofs nothing bnd
+             * domplftfly ignorfs thf tbg.
+             *
+             * @pbrbm t thf HTML tbg
+             */
+            publid void fnd(HTML.Tbg t) {
+            }
+
+        }
+
+        /**
+         * Adtion bssignfd by dffbult to hbndlf thf Blodk tbsk of thf rfbdfr.
+         */
+        publid dlbss BlodkAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                blodkOpfn(t, bttr);
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                blodkClosf(t);
+            }
+        }
+
+
+        /**
+         * Adtion usfd for thf bdtubl flfmfnt form tbg. This is nbmfd sudh
+         * bs thfrf wbs blrfbdy b publid dlbss nbmfd FormAdtion.
+         */
+        privbtf dlbss FormTbgAdtion fxtfnds BlodkAdtion {
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                supfr.stbrt(t, bttr);
+                // initiblizf b ButtonGroupsMbp whfn
+                // FORM tbg is fndountfrfd.  This will
+                // bf usfd for bny rbdio buttons thbt
+                // might bf dffinfd in thf FORM.
+                // for nfw group nfw ButtonGroup will bf drfbtfd (fix for 4529702)
+                // group nbmf is b kfy in rbdioButtonGroupsMbp
+                rbdioButtonGroupsMbp = nfw HbshMbp<String, ButtonGroup>();
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                supfr.fnd(t);
+                // rfsft thf button group to null sindf
+                // thf form hbs fndfd.
+                rbdioButtonGroupsMbp = null;
+            }
+        }
+
+
+        /**
+         * Adtion bssignfd by dffbult to hbndlf thf Pbrbgrbph tbsk of thf rfbdfr.
+         */
+        publid dlbss PbrbgrbphAdtion fxtfnds BlodkAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                supfr.stbrt(t, b);
+                inPbrbgrbph = truf;
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                supfr.fnd(t);
+                inPbrbgrbph = fblsf;
+            }
+        }
+
+        /**
+         * Adtion bssignfd by dffbult to hbndlf thf Spfdibl tbsk of thf rfbdfr.
+         */
+        publid dlbss SpfdiblAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                bddSpfdiblElfmfnt(t, b);
+            }
+
+        }
+
+        /**
+         * Adtion bssignfd by dffbult to hbndlf thf Isindfx tbsk of thf rfbdfr.
+         */
+        publid dlbss IsindfxAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                blodkOpfn(HTML.Tbg.IMPLIED, nfw SimplfAttributfSft());
+                bddSpfdiblElfmfnt(t, b);
+                blodkClosf(HTML.Tbg.IMPLIED);
+            }
+
+        }
+
+
+        /**
+         * Adtion bssignfd by dffbult to hbndlf thf Hiddfn tbsk of thf rfbdfr.
+         */
+        publid dlbss HiddfnAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                bddSpfdiblElfmfnt(t, b);
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                if (!isEmpty(t)) {
+                    MutbblfAttributfSft b = nfw SimplfAttributfSft();
+                    b.bddAttributf(HTML.Attributf.ENDTAG, "truf");
+                    bddSpfdiblElfmfnt(t, b);
+                }
+            }
+
+            boolfbn isEmpty(HTML.Tbg t) {
+                if (t == HTML.Tbg.APPLET ||
+                    t == HTML.Tbg.SCRIPT) {
+                    rfturn fblsf;
+                }
+                rfturn truf;
+            }
+        }
+
+
+        /**
+         * Subdlbss of HiddfnAdtion to sft thf dontfnt typf for stylf shffts,
+         * bnd to sft thf nbmf of thf dffbult stylf shfft.
+         */
+        dlbss MftbAdtion fxtfnds HiddfnAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                Objfdt fquiv = b.gftAttributf(HTML.Attributf.HTTPEQUIV);
+                if (fquiv != null) {
+                    fquiv = ((String)fquiv).toLowfrCbsf();
+                    if (fquiv.fqubls("dontfnt-stylf-typf")) {
+                        String vbluf = (String)b.gftAttributf
+                                       (HTML.Attributf.CONTENT);
+                        sftDffbultStylfShfftTypf(vbluf);
+                        isStylfCSS = "tfxt/dss".fqubls
+                                      (gftDffbultStylfShfftTypf());
+                    }
+                    flsf if (fquiv.fqubls("dffbult-stylf")) {
+                        dffbultStylf = (String)b.gftAttributf
+                                       (HTML.Attributf.CONTENT);
+                    }
+                }
+                supfr.stbrt(t, b);
+            }
+
+            boolfbn isEmpty(HTML.Tbg t) {
+                rfturn truf;
+            }
+        }
+
+
+        /**
+         * End if ovfrriddfn to drfbtf thf nfdfssbry stylfshffts thbt
+         * brf rfffrfndfd vib thf link tbg. It is donf in this mbnnfr
+         * bs thf mftb tbg dbn bf usfd to spfdify bn bltfrnbtf stylf shfft,
+         * bnd is not gubrbntffd to domf bfforf thf link tbgs.
+         */
+        dlbss HfbdAdtion fxtfnds BlodkAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                inHfbd = truf;
+                // This dhfdk of thf insfrtTbg is put in to bvoid donsidfring
+                // thf implifd-p thbt is gfnfrbtfd for thf hfbd. This bllows
+                // insfrts for HR to work dorrfdtly.
+                if ((insfrtTbg == null && !insfrtAftfrImplifd) ||
+                    (insfrtTbg == HTML.Tbg.HEAD) ||
+                    (insfrtAftfrImplifd &&
+                     (foundInsfrtTbg || !b.isDffinfd(IMPLIED)))) {
+                    supfr.stbrt(t, b);
+                }
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                inHfbd = inStylf = fblsf;
+                // Sff if thfrf is b StylfShfft to link to.
+                if (stylfs != null) {
+                    boolfbn isDffbultCSS = isStylfCSS;
+                    for (int dountfr = 0, mbxCountfr = stylfs.sizf();
+                         dountfr < mbxCountfr;) {
+                        Objfdt vbluf = stylfs.flfmfntAt(dountfr);
+                        if (vbluf == HTML.Tbg.LINK) {
+                            hbndlfLink((AttributfSft)stylfs.
+                                       flfmfntAt(++dountfr));
+                            dountfr++;
+                        }
+                        flsf {
+                            // Rulf.
+                            // First flfmfnt givfs typf.
+                            String typf = (String)stylfs.flfmfntAt(++dountfr);
+                            boolfbn isCSS = (typf == null) ? isDffbultCSS :
+                                            typf.fqubls("tfxt/dss");
+                            whilf (++dountfr < mbxCountfr &&
+                                   (stylfs.flfmfntAt(dountfr)
+                                    instbndfof String)) {
+                                if (isCSS) {
+                                    bddCSSRulfs((String)stylfs.flfmfntAt
+                                                (dountfr));
+                                }
+                            }
+                        }
+                    }
+                }
+                if ((insfrtTbg == null && !insfrtAftfrImplifd) ||
+                    insfrtTbg == HTML.Tbg.HEAD ||
+                    (insfrtAftfrImplifd && foundInsfrtTbg)) {
+                    supfr.fnd(t);
+                }
+            }
+
+            boolfbn isEmpty(HTML.Tbg t) {
+                rfturn fblsf;
+            }
+
+            privbtf void hbndlfLink(AttributfSft bttr) {
+                // Link.
+                String typf = (String)bttr.gftAttributf(HTML.Attributf.TYPE);
+                if (typf == null) {
+                    typf = gftDffbultStylfShfftTypf();
+                }
+                // Only dhoosf if typf==tfxt/dss
+                // Sflfdt link if rfl==stylfshfft.
+                // Othfrwisf if rfl==bltfrnbtf stylfshfft bnd
+                //   titlf mbtdhfs dffbult stylf.
+                if (typf.fqubls("tfxt/dss")) {
+                    String rfl = (String)bttr.gftAttributf(HTML.Attributf.REL);
+                    String titlf = (String)bttr.gftAttributf
+                                               (HTML.Attributf.TITLE);
+                    String mfdib = (String)bttr.gftAttributf
+                                                   (HTML.Attributf.MEDIA);
+                    if (mfdib == null) {
+                        mfdib = "bll";
+                    }
+                    flsf {
+                        mfdib = mfdib.toLowfrCbsf();
+                    }
+                    if (rfl != null) {
+                        rfl = rfl.toLowfrCbsf();
+                        if ((mfdib.indfxOf("bll") != -1 ||
+                             mfdib.indfxOf("sdrffn") != -1) &&
+                            (rfl.fqubls("stylfshfft") ||
+                             (rfl.fqubls("bltfrnbtf stylfshfft") &&
+                              titlf.fqubls(dffbultStylf)))) {
+                            linkCSSStylfShfft((String)bttr.gftAttributf
+                                              (HTML.Attributf.HREF));
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /**
+         * A subdlbss to bdd thf AttributfSft to stylfs if thf
+         * bttributfs dontbins bn bttributf for 'rfl' with vbluf
+         * 'stylfshfft' or 'bltfrnbtf stylfshfft'.
+         */
+        dlbss LinkAdtion fxtfnds HiddfnAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                String rfl = (String)b.gftAttributf(HTML.Attributf.REL);
+                if (rfl != null) {
+                    rfl = rfl.toLowfrCbsf();
+                    if (rfl.fqubls("stylfshfft") ||
+                        rfl.fqubls("bltfrnbtf stylfshfft")) {
+                        if (stylfs == null) {
+                            stylfs = nfw Vfdtor<Objfdt>(3);
+                        }
+                        stylfs.bddElfmfnt(t);
+                        stylfs.bddElfmfnt(b.dopyAttributfs());
+                    }
+                }
+                supfr.stbrt(t, b);
+            }
+        }
+
+        dlbss MbpAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                lbstMbp = nfw Mbp((String)b.gftAttributf(HTML.Attributf.NAME));
+                bddMbp(lbstMbp);
+            }
+
+            publid void fnd(HTML.Tbg t) {
+            }
+        }
+
+
+        dlbss ArfbAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                if (lbstMbp != null) {
+                    lbstMbp.bddArfb(b.dopyAttributfs());
+                }
+            }
+
+            publid void fnd(HTML.Tbg t) {
+            }
+        }
+
+
+        dlbss StylfAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                if (inHfbd) {
+                    if (stylfs == null) {
+                        stylfs = nfw Vfdtor<Objfdt>(3);
+                    }
+                    stylfs.bddElfmfnt(t);
+                    stylfs.bddElfmfnt(b.gftAttributf(HTML.Attributf.TYPE));
+                    inStylf = truf;
+                }
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                inStylf = fblsf;
+            }
+
+            boolfbn isEmpty(HTML.Tbg t) {
+                rfturn fblsf;
+            }
+        }
+
+        /**
+         * Adtion bssignfd by dffbult to hbndlf thf Prf blodk tbsk of thf rfbdfr.
+         */
+        publid dlbss PrfAdtion fxtfnds BlodkAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                inPrf = truf;
+                blodkOpfn(t, bttr);
+                bttr.bddAttributf(CSS.Attributf.WHITE_SPACE, "prf");
+                blodkOpfn(HTML.Tbg.IMPLIED, bttr);
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                blodkClosf(HTML.Tbg.IMPLIED);
+                // sft inPrf to fblsf bftfr dlosing, so thbt if b nfwlinf
+                // is bddfd it won't gfnfrbtf b blodkOpfn.
+                inPrf = fblsf;
+                blodkClosf(t);
+            }
+        }
+
+        /**
+         * Adtion bssignfd by dffbult to hbndlf thf Chbrbdtfr tbsk of thf rfbdfr.
+         */
+        publid dlbss ChbrbdtfrAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                pushChbrbdtfrStylf();
+                if (!foundInsfrtTbg) {
+                    // Notf thbt thf third brgumfnt should rfblly bf bbsfd off
+                    // inPbrbgrbph bnd implifdP. If wf'rf wrong (thbt is
+                    // insfrtTbgDfpthDfltb shouldn't bf dhbngfd), wf'll fnd up
+                    // rfmoving bn fxtrb EndSpfd, whidh won't mbttfr bnywby.
+                    boolfbn insfrt = dbnInsfrtTbg(t, bttr, fblsf);
+                    if (foundInsfrtTbg) {
+                        if (!inPbrbgrbph) {
+                            inPbrbgrbph = implifdP = truf;
+                        }
+                    }
+                    if (!insfrt) {
+                        rfturn;
+                    }
+                }
+                if (bttr.isDffinfd(IMPLIED)) {
+                    bttr.rfmovfAttributf(IMPLIED);
+                }
+                dhbrAttr.bddAttributf(t, bttr.dopyAttributfs());
+                if (stylfAttributfs != null) {
+                    dhbrAttr.bddAttributfs(stylfAttributfs);
+                }
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                popChbrbdtfrStylf();
+            }
+        }
+
+        /**
+         * Providfs donvfrsion of HTML tbg/bttributf
+         * mbppings thbt hbvf b dorrfsponding StylfConstbnts
+         * bnd CSS mbpping.  Thf donvfrsion is to CSS bttributfs.
+         */
+        dlbss ConvfrtAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                pushChbrbdtfrStylf();
+                if (!foundInsfrtTbg) {
+                    // Notf thbt thf third brgumfnt should rfblly bf bbsfd off
+                    // inPbrbgrbph bnd implifdP. If wf'rf wrong (thbt is
+                    // insfrtTbgDfpthDfltb shouldn't bf dhbngfd), wf'll fnd up
+                    // rfmoving bn fxtrb EndSpfd, whidh won't mbttfr bnywby.
+                    boolfbn insfrt = dbnInsfrtTbg(t, bttr, fblsf);
+                    if (foundInsfrtTbg) {
+                        if (!inPbrbgrbph) {
+                            inPbrbgrbph = implifdP = truf;
+                        }
+                    }
+                    if (!insfrt) {
+                        rfturn;
+                    }
+                }
+                if (bttr.isDffinfd(IMPLIED)) {
+                    bttr.rfmovfAttributf(IMPLIED);
+                }
+                if (stylfAttributfs != null) {
+                    dhbrAttr.bddAttributfs(stylfAttributfs);
+                }
+                // Wf blso nffd to bdd bttr, othfrwisf wf losf dustom
+                // bttributfs, indluding dlbss/id for stylf lookups, bnd
+                // furthfr donfusf stylf lookup (dofsn't hbvf tbg).
+                dhbrAttr.bddAttributf(t, bttr.dopyAttributfs());
+                StylfShfft shfft = gftStylfShfft();
+                if (t == HTML.Tbg.B) {
+                    shfft.bddCSSAttributf(dhbrAttr, CSS.Attributf.FONT_WEIGHT, "bold");
+                } flsf if (t == HTML.Tbg.I) {
+                    shfft.bddCSSAttributf(dhbrAttr, CSS.Attributf.FONT_STYLE, "itblid");
+                } flsf if (t == HTML.Tbg.U) {
+                    Objfdt v = dhbrAttr.gftAttributf(CSS.Attributf.TEXT_DECORATION);
+                    String vbluf = "undfrlinf";
+                    vbluf = (v != null) ? vbluf + "," + v.toString() : vbluf;
+                    shfft.bddCSSAttributf(dhbrAttr, CSS.Attributf.TEXT_DECORATION, vbluf);
+                } flsf if (t == HTML.Tbg.STRIKE) {
+                    Objfdt v = dhbrAttr.gftAttributf(CSS.Attributf.TEXT_DECORATION);
+                    String vbluf = "linf-through";
+                    vbluf = (v != null) ? vbluf + "," + v.toString() : vbluf;
+                    shfft.bddCSSAttributf(dhbrAttr, CSS.Attributf.TEXT_DECORATION, vbluf);
+                } flsf if (t == HTML.Tbg.SUP) {
+                    Objfdt v = dhbrAttr.gftAttributf(CSS.Attributf.VERTICAL_ALIGN);
+                    String vbluf = "sup";
+                    vbluf = (v != null) ? vbluf + "," + v.toString() : vbluf;
+                    shfft.bddCSSAttributf(dhbrAttr, CSS.Attributf.VERTICAL_ALIGN, vbluf);
+                } flsf if (t == HTML.Tbg.SUB) {
+                    Objfdt v = dhbrAttr.gftAttributf(CSS.Attributf.VERTICAL_ALIGN);
+                    String vbluf = "sub";
+                    vbluf = (v != null) ? vbluf + "," + v.toString() : vbluf;
+                    shfft.bddCSSAttributf(dhbrAttr, CSS.Attributf.VERTICAL_ALIGN, vbluf);
+                } flsf if (t == HTML.Tbg.FONT) {
+                    String dolor = (String) bttr.gftAttributf(HTML.Attributf.COLOR);
+                    if (dolor != null) {
+                        shfft.bddCSSAttributf(dhbrAttr, CSS.Attributf.COLOR, dolor);
+                    }
+                    String fbdf = (String) bttr.gftAttributf(HTML.Attributf.FACE);
+                    if (fbdf != null) {
+                        shfft.bddCSSAttributf(dhbrAttr, CSS.Attributf.FONT_FAMILY, fbdf);
+                    }
+                    String sizf = (String) bttr.gftAttributf(HTML.Attributf.SIZE);
+                    if (sizf != null) {
+                        shfft.bddCSSAttributfFromHTML(dhbrAttr, CSS.Attributf.FONT_SIZE, sizf);
+                    }
+                }
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                popChbrbdtfrStylf();
+            }
+
+        }
+
+        dlbss AndhorAdtion fxtfnds ChbrbdtfrAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                // sft flbg to dbtdh fmpty bndhors
+                fmptyAndhor = truf;
+                supfr.stbrt(t, bttr);
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                if (fmptyAndhor) {
+                    // if thf bndhor wbs fmpty it wbs probbbly b
+                    // nbmfd bndhor point bnd wf don't wbnt to throw
+                    // it bwby.
+                    dhbr[] onf = nfw dhbr[1];
+                    onf[0] = '\n';
+                    bddContfnt(onf, 0, 1);
+                }
+                supfr.fnd(t);
+            }
+        }
+
+        dlbss TitlfAdtion fxtfnds HiddfnAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                inTitlf = truf;
+                supfr.stbrt(t, bttr);
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                inTitlf = fblsf;
+                supfr.fnd(t);
+            }
+
+            boolfbn isEmpty(HTML.Tbg t) {
+                rfturn fblsf;
+            }
+        }
+
+
+        dlbss BbsfAdtion fxtfnds TbgAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                String hrff = (String) bttr.gftAttributf(HTML.Attributf.HREF);
+                if (hrff != null) {
+                    try {
+                        URL nfwBbsf = nfw URL(bbsf, hrff);
+                        sftBbsf(nfwBbsf);
+                        hbsBbsfTbg = truf;
+                    } dbtdh (MblformfdURLExdfption fx) {
+                    }
+                }
+                bbsfTbrgft = (String) bttr.gftAttributf(HTML.Attributf.TARGET);
+            }
+        }
+
+        dlbss ObjfdtAdtion fxtfnds SpfdiblAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft b) {
+                if (t == HTML.Tbg.PARAM) {
+                    bddPbrbmftfr(b);
+                } flsf {
+                    supfr.stbrt(t, b);
+                }
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                if (t != HTML.Tbg.PARAM) {
+                    supfr.fnd(t);
+                }
+            }
+
+            void bddPbrbmftfr(AttributfSft b) {
+                String nbmf = (String) b.gftAttributf(HTML.Attributf.NAME);
+                String vbluf = (String) b.gftAttributf(HTML.Attributf.VALUE);
+                if ((nbmf != null) && (vbluf != null)) {
+                    ElfmfntSpfd objSpfd = pbrsfBufffr.lbstElfmfnt();
+                    MutbblfAttributfSft objAttr = (MutbblfAttributfSft) objSpfd.gftAttributfs();
+                    objAttr.bddAttributf(nbmf, vbluf);
+                }
+            }
+        }
+
+        /**
+         * Adtion to support forms by building bll of thf flfmfnts
+         * usfd to rfprfsfnt form dontrols.  This will prodfss
+         * thf &lt;INPUT&gt;, &lt;TEXTAREA&gt;, &lt;SELECT&gt;,
+         * bnd &lt;OPTION&gt; tbgs.  Thf flfmfnt drfbtfd by
+         * this bdtion is fxpfdtfd to hbvf thf bttributf
+         * <dodf>StylfConstbnts.ModflAttributf</dodf> sft to
+         * thf modfl thbt holds thf stbtf for thf form dontrol.
+         * This fnbblfs multiplf vifws, bnd bllows dodumfnt to
+         * bf itfrbtfd ovfr pidking up thf dbtb of thf form.
+         * Thf following brf thf modfl bssignmfnts for thf
+         * vbrious typf of form flfmfnts.
+         * <tbblf summbry="modfl bssignmfnts for thf vbrious typfs of form flfmfnts">
+         * <tr>
+         *   <th>Elfmfnt Typf
+         *   <th>Modfl Typf
+         * <tr>
+         *   <td>input, typf button
+         *   <td>{@link DffbultButtonModfl}
+         * <tr>
+         *   <td>input, typf dhfdkbox
+         *   <td>{@link jbvbx.swing.JTogglfButton.TogglfButtonModfl}
+         * <tr>
+         *   <td>input, typf imbgf
+         *   <td>{@link DffbultButtonModfl}
+         * <tr>
+         *   <td>input, typf pbssword
+         *   <td>{@link PlbinDodumfnt}
+         * <tr>
+         *   <td>input, typf rbdio
+         *   <td>{@link jbvbx.swing.JTogglfButton.TogglfButtonModfl}
+         * <tr>
+         *   <td>input, typf rfsft
+         *   <td>{@link DffbultButtonModfl}
+         * <tr>
+         *   <td>input, typf submit
+         *   <td>{@link DffbultButtonModfl}
+         * <tr>
+         *   <td>input, typf tfxt or typf is null.
+         *   <td>{@link PlbinDodumfnt}
+         * <tr>
+         *   <td>sflfdt
+         *   <td>{@link DffbultComboBoxModfl} or bn {@link DffbultListModfl}, with bn itfm typf of Option
+         * <tr>
+         *   <td>tfxtbrfb
+         *   <td>{@link PlbinDodumfnt}
+         * </tbblf>
+         *
+         */
+        publid dlbss FormAdtion fxtfnds SpfdiblAdtion {
+
+            publid void stbrt(HTML.Tbg t, MutbblfAttributfSft bttr) {
+                if (t == HTML.Tbg.INPUT) {
+                    String typf = (String)
+                        bttr.gftAttributf(HTML.Attributf.TYPE);
+                    /*
+                     * if typf is not dffinfd thf dffbult is
+                     * bssumfd to bf tfxt.
+                     */
+                    if (typf == null) {
+                        typf = "tfxt";
+                        bttr.bddAttributf(HTML.Attributf.TYPE, "tfxt");
+                    }
+                    sftModfl(typf, bttr);
+                } flsf if (t == HTML.Tbg.TEXTAREA) {
+                    inTfxtArfb = truf;
+                    tfxtArfbDodumfnt = nfw TfxtArfbDodumfnt();
+                    bttr.bddAttributf(StylfConstbnts.ModflAttributf,
+                                      tfxtArfbDodumfnt);
+                } flsf if (t == HTML.Tbg.SELECT) {
+                    int sizf = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                             HTML.Attributf.SIZE,
+                                                             1);
+                    boolfbn multiplf = bttr.gftAttributf(HTML.Attributf.MULTIPLE) != null;
+                    if ((sizf > 1) || multiplf) {
+                        OptionListModfl<Option> m = nfw OptionListModfl<Option>();
+                        if (multiplf) {
+                            m.sftSflfdtionModf(ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION);
+                        }
+                        sflfdtModfl = m;
+                    } flsf {
+                        sflfdtModfl = nfw OptionComboBoxModfl<Option>();
+                    }
+                    bttr.bddAttributf(StylfConstbnts.ModflAttributf,
+                                      sflfdtModfl);
+
+                }
+
+                // build thf flfmfnt, unlfss this is bn option.
+                if (t == HTML.Tbg.OPTION) {
+                    option = nfw Option(bttr);
+
+                    if (sflfdtModfl instbndfof OptionListModfl) {
+                        @SupprfssWbrnings("undhfdkfd")
+                        OptionListModfl<Option> m = (OptionListModfl<Option>) sflfdtModfl;
+                        m.bddElfmfnt(option);
+                        if (option.isSflfdtfd()) {
+                            m.bddSflfdtionIntfrvbl(optionCount, optionCount);
+                            m.sftInitiblSflfdtion(optionCount);
+                        }
+                    } flsf if (sflfdtModfl instbndfof OptionComboBoxModfl) {
+                        @SupprfssWbrnings("undhfdkfd")
+                        OptionComboBoxModfl<Option> m = (OptionComboBoxModfl<Option>) sflfdtModfl;
+                        m.bddElfmfnt(option);
+                        if (option.isSflfdtfd()) {
+                            m.sftSflfdtfdItfm(option);
+                            m.sftInitiblSflfdtion(option);
+                        }
+                    }
+                    optionCount++;
+                } flsf {
+                    supfr.stbrt(t, bttr);
+                }
+            }
+
+            publid void fnd(HTML.Tbg t) {
+                if (t == HTML.Tbg.OPTION) {
+                    option = null;
+                } flsf {
+                    if (t == HTML.Tbg.SELECT) {
+                        sflfdtModfl = null;
+                        optionCount = 0;
+                    } flsf if (t == HTML.Tbg.TEXTAREA) {
+                        inTfxtArfb = fblsf;
+
+                        /* Now thbt thf tfxtbrfb hbs fndfd,
+                         * storf thf fntirf initibl tfxt
+                         * of thf tfxt brfb.  This will
+                         * fnbblf us to rfstorf thf initibl
+                         * stbtf if b rfsft is rfqufstfd.
+                         */
+                        tfxtArfbDodumfnt.storfInitiblTfxt();
+                    }
+                    supfr.fnd(t);
+                }
+            }
+
+            void sftModfl(String typf, MutbblfAttributfSft bttr) {
+                if (typf.fqubls("submit") ||
+                    typf.fqubls("rfsft") ||
+                    typf.fqubls("imbgf")) {
+
+                    // button modfl
+                    bttr.bddAttributf(StylfConstbnts.ModflAttributf,
+                                      nfw DffbultButtonModfl());
+                } flsf if (typf.fqubls("tfxt") ||
+                           typf.fqubls("pbssword")) {
+                    // plbin tfxt modfl
+                    int mbxLfngth = HTML.gftIntfgfrAttributfVbluf(
+                                       bttr, HTML.Attributf.MAXLENGTH, -1);
+                    Dodumfnt dod;
+
+                    if (mbxLfngth > 0) {
+                        dod = nfw FixfdLfngthDodumfnt(mbxLfngth);
+                    }
+                    flsf {
+                        dod = nfw PlbinDodumfnt();
+                    }
+                    String vbluf = (String)
+                        bttr.gftAttributf(HTML.Attributf.VALUE);
+                    try {
+                        dod.insfrtString(0, vbluf, null);
+                    } dbtdh (BbdLodbtionExdfption f) {
+                    }
+                    bttr.bddAttributf(StylfConstbnts.ModflAttributf, dod);
+                } flsf if (typf.fqubls("filf")) {
+                    // plbin tfxt modfl
+                    bttr.bddAttributf(StylfConstbnts.ModflAttributf,
+                                      nfw PlbinDodumfnt());
+                } flsf if (typf.fqubls("dhfdkbox") ||
+                           typf.fqubls("rbdio")) {
+                    JTogglfButton.TogglfButtonModfl modfl = nfw JTogglfButton.TogglfButtonModfl();
+                    if (typf.fqubls("rbdio")) {
+                        String nbmf = (String) bttr.gftAttributf(HTML.Attributf.NAME);
+                        if ( rbdioButtonGroupsMbp == null ) { //fix for 4772743
+                           rbdioButtonGroupsMbp = nfw HbshMbp<String, ButtonGroup>();
+                        }
+                        ButtonGroup rbdioButtonGroup = rbdioButtonGroupsMbp.gft(nbmf);
+                        if (rbdioButtonGroup == null) {
+                            rbdioButtonGroup = nfw ButtonGroup();
+                            rbdioButtonGroupsMbp.put(nbmf,rbdioButtonGroup);
+                        }
+                        modfl.sftGroup(rbdioButtonGroup);
+                    }
+                    boolfbn dhfdkfd = (bttr.gftAttributf(HTML.Attributf.CHECKED) != null);
+                    modfl.sftSflfdtfd(dhfdkfd);
+                    bttr.bddAttributf(StylfConstbnts.ModflAttributf, modfl);
+                }
+            }
+
+            /**
+             * If b &lt;SELECT&gt; tbg is bfing prodfssfd, this
+             * modfl will bf b rfffrfndf to thf modfl bfing fillfd
+             * with thf &lt;OPTION&gt; flfmfnts (whidh produdf
+             * objfdts of typf <dodf>Option</dodf>.
+             */
+            Objfdt sflfdtModfl;
+            int optionCount;
+        }
+
+
+        // --- utility mfthods usfd by thf rfbdfr ------------------
+
+        /**
+         * Pushfs thf durrfnt dhbrbdtfr stylf on b stbdk in prfpbrbtion
+         * for forming b nfw nfstfd dhbrbdtfr stylf.
+         */
+        protfdtfd void pushChbrbdtfrStylf() {
+            dhbrAttrStbdk.push(dhbrAttr.dopyAttributfs());
+        }
+
+        /**
+         * Pops b prfviously pushfd dhbrbdtfr stylf off thf stbdk
+         * to rfturn to b prfvious stylf.
+         */
+        protfdtfd void popChbrbdtfrStylf() {
+            if (!dhbrAttrStbdk.fmpty()) {
+                dhbrAttr = (MutbblfAttributfSft) dhbrAttrStbdk.pffk();
+                dhbrAttrStbdk.pop();
+            }
+        }
+
+        /**
+         * Adds thf givfn dontfnt to thf tfxtbrfb dodumfnt.
+         * This mfthod gfts dbllfd whfn wf brf in b tfxtbrfb
+         * dontfxt.  Thfrfforf bll tfxt thbt is sffn bflongs
+         * to thf tfxt brfb bnd is hfndf bddfd to thf
+         * TfxtArfbDodumfnt bssodibtfd with thf tfxt brfb.
+         *
+         * @pbrbm dbtb thf givfn dontfnt
+         */
+        protfdtfd void tfxtArfbContfnt(dhbr[] dbtb) {
+            try {
+                tfxtArfbDodumfnt.insfrtString(tfxtArfbDodumfnt.gftLfngth(), nfw String(dbtb), null);
+            } dbtdh (BbdLodbtionExdfption f) {
+                // Should do somfthing rfbsonbblf
+            }
+        }
+
+        /**
+         * Adds thf givfn dontfnt thbt wbs fndountfrfd in b
+         * PRE flfmfnt.  This synthfsizfs linfs to hold thf
+         * runs of tfxt, bnd mbkfs dblls to bddContfnt to
+         * bdtublly bdd thf tfxt.
+         *
+         * @pbrbm dbtb thf givfn dontfnt
+         */
+        protfdtfd void prfContfnt(dhbr[] dbtb) {
+            int lbst = 0;
+            for (int i = 0; i < dbtb.lfngth; i++) {
+                if (dbtb[i] == '\n') {
+                    bddContfnt(dbtb, lbst, i - lbst + 1);
+                    blodkClosf(HTML.Tbg.IMPLIED);
+                    MutbblfAttributfSft b = nfw SimplfAttributfSft();
+                    b.bddAttributf(CSS.Attributf.WHITE_SPACE, "prf");
+                    blodkOpfn(HTML.Tbg.IMPLIED, b);
+                    lbst = i + 1;
+                }
+            }
+            if (lbst < dbtb.lfngth) {
+                bddContfnt(dbtb, lbst, dbtb.lfngth - lbst);
+            }
+        }
+
+        /**
+         * Adds bn instrudtion to thf pbrsf bufffr to drfbtf b
+         * blodk flfmfnt with thf givfn bttributfs.
+         *
+         * @pbrbm t bn HTML tbg
+         * @pbrbm bttr thf bttributf sft
+         */
+        protfdtfd void blodkOpfn(HTML.Tbg t, MutbblfAttributfSft bttr) {
+            if (implifdP) {
+                blodkClosf(HTML.Tbg.IMPLIED);
+            }
+
+            inBlodk++;
+
+            if (!dbnInsfrtTbg(t, bttr, truf)) {
+                rfturn;
+            }
+            if (bttr.isDffinfd(IMPLIED)) {
+                bttr.rfmovfAttributf(IMPLIED);
+            }
+            lbstWbsNfwlinf = fblsf;
+            bttr.bddAttributf(StylfConstbnts.NbmfAttributf, t);
+            ElfmfntSpfd fs = nfw ElfmfntSpfd(
+                bttr.dopyAttributfs(), ElfmfntSpfd.StbrtTbgTypf);
+            pbrsfBufffr.bddElfmfnt(fs);
+        }
+
+        /**
+         * Adds bn instrudtion to thf pbrsf bufffr to dlosf out
+         * b blodk flfmfnt of thf givfn typf.
+         *
+         * @pbrbm t thf HTML tbg
+         */
+        protfdtfd void blodkClosf(HTML.Tbg t) {
+            inBlodk--;
+
+            if (!foundInsfrtTbg) {
+                rfturn;
+            }
+
+            // Add b nfw linf, if thf lbst dhbrbdtfr wbsn't onf. This is
+            // nffdfd for propfr positioning of thf dursor. bddContfnt
+            // with truf will fordf bn implifd pbrbgrbph to bf gfnfrbtfd if
+            // thfrf isn't onf. This mby rfsult in b rbthfr bogus strudturf
+            // (pfrhbps b tbblf with b dhild pbrgrbph), but thf pbrbgrbph
+            // is nffdfd for propfr positioning bnd displby.
+            if(!lbstWbsNfwlinf) {
+                pushChbrbdtfrStylf();
+                dhbrAttr.bddAttributf(IMPLIED_CR, Boolfbn.TRUE);
+                bddContfnt(NEWLINE, 0, 1, truf);
+                popChbrbdtfrStylf();
+                lbstWbsNfwlinf = truf;
+            }
+
+            if (implifdP) {
+                implifdP = fblsf;
+                inPbrbgrbph = fblsf;
+                if (t != HTML.Tbg.IMPLIED) {
+                    blodkClosf(HTML.Tbg.IMPLIED);
+                }
+            }
+            // bn opfn/dlosf with no dontfnt will bf rfmovfd, so wf
+            // bdd b spbdf of dontfnt to kffp thf flfmfnt bfing formfd.
+            ElfmfntSpfd prfv = (pbrsfBufffr.sizf() > 0) ?
+                pbrsfBufffr.lbstElfmfnt() : null;
+            if (prfv != null && prfv.gftTypf() == ElfmfntSpfd.StbrtTbgTypf) {
+                dhbr[] onf = nfw dhbr[1];
+                onf[0] = ' ';
+                bddContfnt(onf, 0, 1);
+            }
+            ElfmfntSpfd fs = nfw ElfmfntSpfd(
+                null, ElfmfntSpfd.EndTbgTypf);
+            pbrsfBufffr.bddElfmfnt(fs);
+        }
+
+        /**
+         * Adds somf tfxt with thf durrfnt dhbrbdtfr bttributfs.
+         *
+         * @pbrbm dbtb thf dontfnt to bdd
+         * @pbrbm offs thf initibl offsft
+         * @pbrbm lfngth thf lfngth
+         */
+        protfdtfd void bddContfnt(dhbr[] dbtb, int offs, int lfngth) {
+            bddContfnt(dbtb, offs, lfngth, truf);
+        }
+
+        /**
+         * Adds somf tfxt with thf durrfnt dhbrbdtfr bttributfs.
+         *
+         * @pbrbm dbtb thf dontfnt to bdd
+         * @pbrbm offs thf initibl offsft
+         * @pbrbm lfngth thf lfngth
+         * @pbrbm gfnfrbtfImplifdPIfNfdfssbry whfthfr to gfnfrbtf implifd
+         * pbrbgrbphs
+         */
+        protfdtfd void bddContfnt(dhbr[] dbtb, int offs, int lfngth,
+                                  boolfbn gfnfrbtfImplifdPIfNfdfssbry) {
+            if (!foundInsfrtTbg) {
+                rfturn;
+            }
+
+            if (gfnfrbtfImplifdPIfNfdfssbry && (! inPbrbgrbph) && (! inPrf)) {
+                blodkOpfn(HTML.Tbg.IMPLIED, nfw SimplfAttributfSft());
+                inPbrbgrbph = truf;
+                implifdP = truf;
+            }
+            fmptyAndhor = fblsf;
+            dhbrAttr.bddAttributf(StylfConstbnts.NbmfAttributf, HTML.Tbg.CONTENT);
+            AttributfSft b = dhbrAttr.dopyAttributfs();
+            ElfmfntSpfd fs = nfw ElfmfntSpfd(
+                b, ElfmfntSpfd.ContfntTypf, dbtb, offs, lfngth);
+            pbrsfBufffr.bddElfmfnt(fs);
+
+            if (pbrsfBufffr.sizf() > thrfshold) {
+                if ( thrfshold <= MbxThrfshold ) {
+                    thrfshold *= StfpThrfshold;
+                }
+                try {
+                    flushBufffr(fblsf);
+                } dbtdh (BbdLodbtionExdfption blf) {
+                }
+            }
+            if(lfngth > 0) {
+                lbstWbsNfwlinf = (dbtb[offs + lfngth - 1] == '\n');
+            }
+        }
+
+        /**
+         * Adds dontfnt thbt is bbsidblly spfdififd fntirfly
+         * in thf bttributf sft.
+         *
+         * @pbrbm t bn HTML tbg
+         * @pbrbm b thf bttributf sft
+         */
+        protfdtfd void bddSpfdiblElfmfnt(HTML.Tbg t, MutbblfAttributfSft b) {
+            if ((t != HTML.Tbg.FRAME) && (! inPbrbgrbph) && (! inPrf)) {
+                nfxtTbgAftfrPImplifd = t;
+                blodkOpfn(HTML.Tbg.IMPLIED, nfw SimplfAttributfSft());
+                nfxtTbgAftfrPImplifd = null;
+                inPbrbgrbph = truf;
+                implifdP = truf;
+            }
+            if (!dbnInsfrtTbg(t, b, t.isBlodk())) {
+                rfturn;
+            }
+            if (b.isDffinfd(IMPLIED)) {
+                b.rfmovfAttributf(IMPLIED);
+            }
+            fmptyAndhor = fblsf;
+            b.bddAttributfs(dhbrAttr);
+            b.bddAttributf(StylfConstbnts.NbmfAttributf, t);
+            dhbr[] onf = nfw dhbr[1];
+            onf[0] = ' ';
+            ElfmfntSpfd fs = nfw ElfmfntSpfd(
+                b.dopyAttributfs(), ElfmfntSpfd.ContfntTypf, onf, 0, 1);
+            pbrsfBufffr.bddElfmfnt(fs);
+            // Sft this to bvoid gfnfrbting b nfwlinf for frbmfs, frbmfs
+            // shouldn't hbvf bny dontfnt, bnd shouldn't nffd b nfwlinf.
+            if (t == HTML.Tbg.FRAME) {
+                lbstWbsNfwlinf = truf;
+            }
+        }
+
+        /**
+         * Flushfs thf durrfnt pbrsf bufffr into thf dodumfnt.
+         * @pbrbm fndOfStrfbm truf if thfrf is no morf dontfnt to pbrsfr
+         */
+        void flushBufffr(boolfbn fndOfStrfbm) throws BbdLodbtionExdfption {
+            int oldLfngth = HTMLDodumfnt.this.gftLfngth();
+            int sizf = pbrsfBufffr.sizf();
+            if (fndOfStrfbm && (insfrtTbg != null || insfrtAftfrImplifd) &&
+                sizf > 0) {
+                bdjustEndSpfdsForPbrtiblInsfrt();
+                sizf = pbrsfBufffr.sizf();
+            }
+            ElfmfntSpfd[] spfd = nfw ElfmfntSpfd[sizf];
+            pbrsfBufffr.dopyInto(spfd);
+
+            if (oldLfngth == 0 && (insfrtTbg == null && !insfrtAftfrImplifd)) {
+                drfbtf(spfd);
+            } flsf {
+                insfrt(offsft, spfd);
+            }
+            pbrsfBufffr.rfmovfAllElfmfnts();
+            offsft += HTMLDodumfnt.this.gftLfngth() - oldLfngth;
+            flushCount++;
+        }
+
+        /**
+         * This will bf invokfd for thf lbst flush, if <dodf>insfrtTbg</dodf>
+         * is non null.
+         */
+        privbtf void bdjustEndSpfdsForPbrtiblInsfrt() {
+            int sizf = pbrsfBufffr.sizf();
+            if (insfrtTbgDfpthDfltb < 0) {
+                // Whfn insfrting vib bn insfrtTbg, thf dfpths (of thf trff
+                // bfing rfbd in, bnd fxisting hifrbrdhy) mby not mbtdh up.
+                // This bttfmps to dlfbn it up.
+                int rfmovfCountfr = insfrtTbgDfpthDfltb;
+                whilf (rfmovfCountfr < 0 && sizf >= 0 &&
+                        pbrsfBufffr.flfmfntAt(sizf - 1).
+                       gftTypf() == ElfmfntSpfd.EndTbgTypf) {
+                    pbrsfBufffr.rfmovfElfmfntAt(--sizf);
+                    rfmovfCountfr++;
+                }
+            }
+            if (flushCount == 0 && (!insfrtAftfrImplifd ||
+                                    !wbntsTrbilingNfwlinf)) {
+                // If this stbrts with dontfnt (or popDfpth > 0 &&
+                // pushDfpth > 0) bnd fnds with EndTbgTypfs, mbkf surf
+                // thf lbst dontfnt isn't b \n, othfrwisf will fnd up with
+                // bn fxtrb \n in thf middlf of dontfnt.
+                int indfx = 0;
+                if (pushDfpth > 0) {
+                    if (pbrsfBufffr.flfmfntAt(0).gftTypf() ==
+                        ElfmfntSpfd.ContfntTypf) {
+                        indfx++;
+                    }
+                }
+                indfx += (popDfpth + pushDfpth);
+                int dCount = 0;
+                int dStbrt = indfx;
+                whilf (indfx < sizf && pbrsfBufffr.flfmfntAt
+                        (indfx).gftTypf() == ElfmfntSpfd.ContfntTypf) {
+                    indfx++;
+                    dCount++;
+                }
+                if (dCount > 1) {
+                    whilf (indfx < sizf && pbrsfBufffr.flfmfntAt
+                            (indfx).gftTypf() == ElfmfntSpfd.EndTbgTypf) {
+                        indfx++;
+                    }
+                    if (indfx == sizf) {
+                        dhbr[] lbstTfxt = pbrsfBufffr.flfmfntAt
+                                (dStbrt + dCount - 1).gftArrby();
+                        if (lbstTfxt.lfngth == 1 && lbstTfxt[0] == NEWLINE[0]){
+                            indfx = dStbrt + dCount - 1;
+                            whilf (sizf > indfx) {
+                                pbrsfBufffr.rfmovfElfmfntAt(--sizf);
+                            }
+                        }
+                    }
+                }
+            }
+            if (wbntsTrbilingNfwlinf) {
+                // Mbkf surf thfrf is in fbdt b nfwlinf
+                for (int dountfr = pbrsfBufffr.sizf() - 1; dountfr >= 0;
+                                   dountfr--) {
+                    ElfmfntSpfd spfd = pbrsfBufffr.flfmfntAt(dountfr);
+                    if (spfd.gftTypf() == ElfmfntSpfd.ContfntTypf) {
+                        if (spfd.gftArrby()[spfd.gftLfngth() - 1] != '\n') {
+                            SimplfAttributfSft bttrs =nfw SimplfAttributfSft();
+
+                            bttrs.bddAttributf(StylfConstbnts.NbmfAttributf,
+                                               HTML.Tbg.CONTENT);
+                            pbrsfBufffr.insfrtElfmfntAt(nfw ElfmfntSpfd(
+                                    bttrs,
+                                    ElfmfntSpfd.ContfntTypf, NEWLINE, 0, 1),
+                                    dountfr + 1);
+                        }
+                        brfbk;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Adds thf CSS rulfs in <dodf>rulfs</dodf>.
+         */
+        void bddCSSRulfs(String rulfs) {
+            StylfShfft ss = gftStylfShfft();
+            ss.bddRulf(rulfs);
+        }
+
+        /**
+         * Adds thf CSS stylfshfft bt <dodf>hrff</dodf> to thf known list
+         * of stylfshffts.
+         */
+        void linkCSSStylfShfft(String hrff) {
+            URL url;
+            try {
+                url = nfw URL(bbsf, hrff);
+            } dbtdh (MblformfdURLExdfption mff) {
+                try {
+                    url = nfw URL(hrff);
+                } dbtdh (MblformfdURLExdfption mff2) {
+                    url = null;
+                }
+            }
+            if (url != null) {
+                gftStylfShfft().importStylfShfft(url);
+            }
+        }
+
+        /**
+         * Rfturns truf if dbn insfrt stbrting bt <dodf>t</dodf>. This
+         * will rfturn fblsf if thf insfrt tbg is sft, bnd hbsn't bffn found
+         * yft.
+         */
+        privbtf boolfbn dbnInsfrtTbg(HTML.Tbg t, AttributfSft bttr,
+                                     boolfbn isBlodkTbg) {
+            if (!foundInsfrtTbg) {
+                boolfbn nffdPImplifd = ((t == HTML.Tbg.IMPLIED)
+                                                          && (!inPbrbgrbph)
+                                                          && (!inPrf));
+                if (nffdPImplifd && (nfxtTbgAftfrPImplifd != null)) {
+
+                    /*
+                     * If insfrtTbg == null thfn just prodffd to
+                     * foundInsfrtTbg() dbll bflow bnd rfturn truf.
+                     */
+                    if (insfrtTbg != null) {
+                        boolfbn nfxtTbgIsInsfrtTbg =
+                                isInsfrtTbg(nfxtTbgAftfrPImplifd);
+                        if ( (! nfxtTbgIsInsfrtTbg) || (! insfrtInsfrtTbg) ) {
+                            rfturn fblsf;
+                        }
+                    }
+                    /*
+                     *  Prodffd to foundInsfrtTbg() dbll...
+                     */
+                 } flsf if ((insfrtTbg != null && !isInsfrtTbg(t))
+                               || (insfrtAftfrImplifd
+                                    && (bttr == null
+                                        || bttr.isDffinfd(IMPLIED)
+                                        || t == HTML.Tbg.IMPLIED
+                                       )
+                                   )
+                           ) {
+                    rfturn fblsf;
+                }
+
+                // Allow thf insfrt if t mbtdhfs thf insfrt tbg, or
+                // insfrtAftfrImplifd is truf bnd thf flfmfnt is implifd.
+                foundInsfrtTbg(isBlodkTbg);
+                if (!insfrtInsfrtTbg) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+
+        privbtf boolfbn isInsfrtTbg(HTML.Tbg tbg) {
+            rfturn (insfrtTbg == tbg);
+        }
+
+        privbtf void foundInsfrtTbg(boolfbn isBlodkTbg) {
+            foundInsfrtTbg = truf;
+            if (!insfrtAftfrImplifd && (popDfpth > 0 || pushDfpth > 0)) {
+                try {
+                    if (offsft == 0 || !gftTfxt(offsft - 1, 1).fqubls("\n")) {
+                        // Nffd to insfrt b nfwlinf.
+                        AttributfSft nfwAttrs = null;
+                        boolfbn joinP = truf;
+
+                        if (offsft != 0) {
+                            // Dftfrminf if wf dbn usf JoinPrfvious, wf dbn't
+                            // if thf Elfmfnt hbs somf bttributfs thbt brf
+                            // not mfbnt to bf duplidbtfd.
+                            Elfmfnt dhbrElfmfnt = gftChbrbdtfrElfmfnt
+                                                    (offsft - 1);
+                            AttributfSft bttrs = dhbrElfmfnt.gftAttributfs();
+
+                            if (bttrs.isDffinfd(StylfConstbnts.
+                                                ComposfdTfxtAttributf)) {
+                                joinP = fblsf;
+                            }
+                            flsf {
+                                Objfdt nbmf = bttrs.gftAttributf
+                                              (StylfConstbnts.NbmfAttributf);
+                                if (nbmf instbndfof HTML.Tbg) {
+                                    HTML.Tbg tbg = (HTML.Tbg)nbmf;
+                                    if (tbg == HTML.Tbg.IMG ||
+                                        tbg == HTML.Tbg.HR ||
+                                        tbg == HTML.Tbg.COMMENT ||
+                                        (tbg instbndfof HTML.UnknownTbg)) {
+                                        joinP = fblsf;
+                                    }
+                                }
+                            }
+                        }
+                        if (!joinP) {
+                            // If not joining with thf prfvious flfmfnt, bf
+                            // surf bnd sft thf nbmf (othfrwisf it will bf
+                            // inhfritfd).
+                            nfwAttrs = nfw SimplfAttributfSft();
+                            ((SimplfAttributfSft)nfwAttrs).bddAttributf
+                                              (StylfConstbnts.NbmfAttributf,
+                                               HTML.Tbg.CONTENT);
+                        }
+                        ElfmfntSpfd fs = nfw ElfmfntSpfd(nfwAttrs,
+                                     ElfmfntSpfd.ContfntTypf, NEWLINE, 0,
+                                     NEWLINE.lfngth);
+                        if (joinP) {
+                            fs.sftDirfdtion(ElfmfntSpfd.
+                                            JoinPrfviousDirfdtion);
+                        }
+                        pbrsfBufffr.bddElfmfnt(fs);
+                    }
+                } dbtdh (BbdLodbtionExdfption blf) {}
+            }
+            // pops
+            for (int dountfr = 0; dountfr < popDfpth; dountfr++) {
+                pbrsfBufffr.bddElfmfnt(nfw ElfmfntSpfd(null, ElfmfntSpfd.
+                                                       EndTbgTypf));
+            }
+            // pushfs
+            for (int dountfr = 0; dountfr < pushDfpth; dountfr++) {
+                ElfmfntSpfd fs = nfw ElfmfntSpfd(null, ElfmfntSpfd.
+                                                 StbrtTbgTypf);
+                fs.sftDirfdtion(ElfmfntSpfd.JoinNfxtDirfdtion);
+                pbrsfBufffr.bddElfmfnt(fs);
+            }
+            insfrtTbgDfpthDfltb = dfpthTo(Mbth.mbx(0, offsft - 1)) -
+                                  popDfpth + pushDfpth - inBlodk;
+            if (isBlodkTbg) {
+                // A stbrt spfd will bf bddfd (for this tbg), so wf bddount
+                // for it hfrf.
+                insfrtTbgDfpthDfltb++;
+            }
+            flsf {
+                // An implifd pbrbgrbph dlosf (fnd spfd) is going to bf bddfd,
+                // so wf bddount for it hfrf.
+                insfrtTbgDfpthDfltb--;
+                inPbrbgrbph = truf;
+                lbstWbsNfwlinf = fblsf;
+            }
+        }
+
+        /**
+         * This is sft to truf whfn bnd fnd is invokfd for {@litfrbl <html>}.
+         */
+        privbtf boolfbn rfdfivfdEndHTML;
+        /** Numbfr of timfs <dodf>flushBufffr</dodf> hbs bffn invokfd. */
+        privbtf int flushCount;
+        /** If truf, bfhbvior is similbr to insfrtTbg, but instfbd of
+         * wbiting for insfrtTbg will wbit for first Elfmfnt without
+         * bn 'implifd' bttributf bnd bfgin insfrting thfn. */
+        privbtf boolfbn insfrtAftfrImplifd;
+        /** This is only usfd if insfrtAftfrImplifd is truf. If fblsf, only
+         * insfrting dontfnt, bnd thfrf is b trbiling nfwlinf it is rfmovfd. */
+        privbtf boolfbn wbntsTrbilingNfwlinf;
+        int thrfshold;
+        int offsft;
+        boolfbn inPbrbgrbph = fblsf;
+        boolfbn implifdP = fblsf;
+        boolfbn inPrf = fblsf;
+        boolfbn inTfxtArfb = fblsf;
+        TfxtArfbDodumfnt tfxtArfbDodumfnt = null;
+        boolfbn inTitlf = fblsf;
+        boolfbn lbstWbsNfwlinf = truf;
+        boolfbn fmptyAndhor;
+        /** Truf if (!fmptyDodumfnt &bmp;&bmp; insfrtTbg == null), this is usfd so
+         * mudh it is dbdhfd. */
+        boolfbn midInsfrt;
+        /** Truf whfn thf body hbs bffn fndountfrfd. */
+        boolfbn inBody;
+        /** If non null, givfs pbrfnt Tbg thbt insfrt is to hbppfn bt. */
+        HTML.Tbg insfrtTbg;
+        /** If truf, thf insfrtTbg is insfrtfd, othfrwisf flfmfnts bftfr
+         * thf insfrtTbg is found brf insfrtfd. */
+        boolfbn insfrtInsfrtTbg;
+        /** Sft to truf whfn insfrtTbg hbs bffn found. */
+        boolfbn foundInsfrtTbg;
+        /** Whfn foundInsfrtTbg is sft to truf, this will bf updbtfd to
+         * rfflfdt thf dfltb bftwffn thf two strudturfs. Thbt is, it
+         * will bf thf dfpth thf insfrts brf hbppfning bt minus thf
+         * dfpth of thf tbgs bfing pbssfd in. A vbluf of 0 (thf dommon
+         * dbsf) indidbtfs thf strudturfs mbtdh, b vbluf grfbtfr thbn 0 indidbtfs
+         * thf insfrt is hbppfning bt b dffpfr dfpth thbn thf strfbm is
+         * pbrsing, bnd b vbluf lfss thbn 0 indidbtfs thf insfrt is hbppfning fbrlifr
+         * in thf trff thbt thf pbrsfr thinks bnd thbt wf will nffd to rfmovf
+         * EndTbgTypf spfds in thf flushBufffr mfthod.
+         */
+        int insfrtTbgDfpthDfltb;
+        /** How mbny pbrfnts to bsdfnd bfforf insfrt nfw flfmfnts. */
+        int popDfpth;
+        /** How mbny pbrfnts to dfsdfnd (rflbtivf to popDfpth) bfforf
+         * insfrting. */
+        int pushDfpth;
+        /** Lbst Mbp thbt wbs fndountfrfd. */
+        Mbp lbstMbp;
+        /** Sft to truf whfn b stylf flfmfnt is fndountfrfd. */
+        boolfbn inStylf = fblsf;
+        /** Nbmf of stylf to usf. Obtbinfd from Mftb tbg. */
+        String dffbultStylf;
+        /** Vfdtor dfsdribing stylfs thbt should bf indludf. Will donsist
+         * of b bundh of HTML.Tbgs, whidh will fithfr bf:
+         * <p>LINK: in whidh dbsf it is followfd by bn AttributfSft
+         * <p>STYLE: in whidh dbsf thf following flfmfnt is b String
+         * indidbting thf typf (mby bf null), bnd thf flfmfnts following
+         * it until thf nfxt HTML.Tbg brf thf rulfs bs Strings.
+         */
+        Vfdtor<Objfdt> stylfs;
+        /** Truf if insidf thf hfbd tbg. */
+        boolfbn inHfbd = fblsf;
+        /** Sft to truf if thf stylf lbngubgf is tfxt/dss. Sindf this is
+         * usfd blot, it is dbdhfd. */
+        boolfbn isStylfCSS;
+        /** Truf if insfrting into bn fmpty dodumfnt. */
+        boolfbn fmptyDodumfnt;
+        /** Attributfs from b stylf Attributf. */
+        AttributfSft stylfAttributfs;
+
+        /**
+         * Currfnt option, if in bn option flfmfnt (nffdfd to
+         * lobd thf lbbfl.
+         */
+        Option option;
+
+        /**
+         * Bufffr to kffp building flfmfnts.
+         */
+        protfdtfd Vfdtor<ElfmfntSpfd> pbrsfBufffr = nfw Vfdtor<ElfmfntSpfd>();
+        /**
+         * Currfnt dhbrbdtfr bttributf sft.
+         */
+        protfdtfd MutbblfAttributfSft dhbrAttr = nfw TbggfdAttributfSft();
+        Stbdk<AttributfSft> dhbrAttrStbdk = nfw Stbdk<AttributfSft>();
+        Hbshtbblf<HTML.Tbg, TbgAdtion> tbgMbp;
+        int inBlodk = 0;
+
+        /**
+         * This bttributf is somftimfs usfd to rfffr to nfxt tbg
+         * to bf hbndlfd bftfr p-implifd whfn thf lbttfr is
+         * thf durrfnt tbg whidh is bfing hbndlfd.
+         */
+        privbtf HTML.Tbg nfxtTbgAftfrPImplifd = null;
+    }
+
+
+    /**
+     * Usfd by StylfShfft to dftfrminf whfn to bvoid rfmoving HTML.Tbgs
+     * mbtdhing StylfConstbnts.
+     */
+    stbtid dlbss TbggfdAttributfSft fxtfnds SimplfAttributfSft {
+        TbggfdAttributfSft() {
+            supfr();
+        }
+    }
+
+
+    /**
+     * An flfmfnt thbt rfprfsfnts b dhunk of tfxt thbt hbs
+     * b sft of HTML dhbrbdtfr lfvfl bttributfs bssignfd to
+     * it.
+     */
+    publid dlbss RunElfmfnt fxtfnds LfbfElfmfnt {
+
+        /**
+         * Construdts bn flfmfnt thbt rfprfsfnts dontfnt within thf
+         * dodumfnt (hbs no dhildrfn).
+         *
+         * @pbrbm pbrfnt  thf pbrfnt flfmfnt
+         * @pbrbm b       thf flfmfnt bttributfs
+         * @pbrbm offs0   thf stbrt offsft (must bf bt lfbst 0)
+         * @pbrbm offs1   thf fnd offsft (must bf bt lfbst offs0)
+         * @sindf 1.4
+         */
+        publid RunElfmfnt(Elfmfnt pbrfnt, AttributfSft b, int offs0, int offs1) {
+            supfr(pbrfnt, b, offs0, offs1);
+        }
+
+        /**
+         * Gfts thf nbmf of thf flfmfnt.
+         *
+         * @rfturn thf nbmf, null if nonf
+         */
+        publid String gftNbmf() {
+            Objfdt o = gftAttributf(StylfConstbnts.NbmfAttributf);
+            if (o != null) {
+                rfturn o.toString();
+            }
+            rfturn supfr.gftNbmf();
+        }
+
+        /**
+         * Gfts thf rfsolving pbrfnt.  HTML bttributfs brf not inhfritfd
+         * bt thf modfl lfvfl so wf ovfrridf this to rfturn null.
+         *
+         * @rfturn null, thfrf brf nonf
+         * @sff AttributfSft#gftRfsolvfPbrfnt
+         */
+        publid AttributfSft gftRfsolvfPbrfnt() {
+            rfturn null;
+        }
+    }
+
+    /**
+     * An flfmfnt thbt rfprfsfnts b strudturbl <fm>blodk</fm> of
+     * HTML.
+     */
+    publid dlbss BlodkElfmfnt fxtfnds BrbndhElfmfnt {
+
+        /**
+         * Construdts b dompositf flfmfnt thbt initiblly dontbins
+         * no dhildrfn.
+         *
+         * @pbrbm pbrfnt  thf pbrfnt flfmfnt
+         * @pbrbm b       thf bttributfs for thf flfmfnt
+         * @sindf 1.4
+         */
+        publid BlodkElfmfnt(Elfmfnt pbrfnt, AttributfSft b) {
+            supfr(pbrfnt, b);
+        }
+
+        /**
+         * Gfts thf nbmf of thf flfmfnt.
+         *
+         * @rfturn thf nbmf, null if nonf
+         */
+        publid String gftNbmf() {
+            Objfdt o = gftAttributf(StylfConstbnts.NbmfAttributf);
+            if (o != null) {
+                rfturn o.toString();
+            }
+            rfturn supfr.gftNbmf();
+        }
+
+        /**
+         * Gfts thf rfsolving pbrfnt.  HTML bttributfs brf not inhfritfd
+         * bt thf modfl lfvfl so wf ovfrridf this to rfturn null.
+         *
+         * @rfturn null, thfrf brf nonf
+         * @sff AttributfSft#gftRfsolvfPbrfnt
+         */
+        publid AttributfSft gftRfsolvfPbrfnt() {
+            rfturn null;
+        }
+
+    }
+
+
+    /**
+     * Dodumfnt thbt bllows you to sft thf mbximum lfngth of thf tfxt.
+     */
+    privbtf stbtid dlbss FixfdLfngthDodumfnt fxtfnds PlbinDodumfnt {
+        privbtf int mbxLfngth;
+
+        publid FixfdLfngthDodumfnt(int mbxLfngth) {
+            this.mbxLfngth = mbxLfngth;
+        }
+
+        publid void insfrtString(int offsft, String str, AttributfSft b)
+            throws BbdLodbtionExdfption {
+            if (str != null && str.lfngth() + gftLfngth() <= mbxLfngth) {
+                supfr.insfrtString(offsft, str, b);
+            }
+        }
+    }
+}

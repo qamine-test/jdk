@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.acl;
+pbdkbgf jbvb.sfdurity.bdl;
 
-import java.util.Enumeration;
-import java.security.Principal;
+import jbvb.util.Enumfrbtion;
+import jbvb.sfdurity.Prindipbl;
 
 /**
- * This is the interface used for representing one entry in an Access
+ * Tiis is tif intfrfbdf usfd for rfprfsfnting onf fntry in bn Addfss
  * Control List (ACL).<p>
  *
- * An ACL can be thought of as a data structure with multiple ACL entry
- * objects. Each ACL entry object contains a set of permissions associated
- * with a particular principal. (A principal represents an entity such as
- * an individual user or a group). Additionally, each ACL entry is specified
- * as being either positive or negative. If positive, the permissions are
- * to be granted to the associated principal. If negative, the permissions
- * are to be denied. Each principal can have at most one positive ACL entry
- * and one negative entry; that is, multiple positive or negative ACL
- * entries are not allowed for any principal.
+ * An ACL dbn bf tiougit of bs b dbtb strudturf witi multiplf ACL fntry
+ * objfdts. Ebdi ACL fntry objfdt dontbins b sft of pfrmissions bssodibtfd
+ * witi b pbrtidulbr prindipbl. (A prindipbl rfprfsfnts bn fntity sudi bs
+ * bn individubl usfr or b group). Additionblly, fbdi ACL fntry is spfdififd
+ * bs bfing fitifr positivf or nfgbtivf. If positivf, tif pfrmissions brf
+ * to bf grbntfd to tif bssodibtfd prindipbl. If nfgbtivf, tif pfrmissions
+ * brf to bf dfnifd. Ebdi prindipbl dbn ibvf bt most onf positivf ACL fntry
+ * bnd onf nfgbtivf fntry; tibt is, multiplf positivf or nfgbtivf ACL
+ * fntrifs brf not bllowfd for bny prindipbl.
  *
- * Note: ACL entries are by default positive. An entry becomes a
- * negative entry only if the
- * {@link #setNegativePermissions() setNegativePermissions}
- * method is called on it.
+ * Notf: ACL fntrifs brf by dffbult positivf. An fntry bfdomfs b
+ * nfgbtivf fntry only if tif
+ * {@link #sftNfgbtivfPfrmissions() sftNfgbtivfPfrmissions}
+ * mftiod is dbllfd on it.
  *
- * @see java.security.acl.Acl
+ * @sff jbvb.sfdurity.bdl.Adl
  *
- * @author      Satish Dharmaraj
+ * @butior      Sbtisi Dibrmbrbj
  */
-public interface AclEntry extends Cloneable {
+publid intfrfbdf AdlEntry fxtfnds Clonfbblf {
 
     /**
-     * Specifies the principal for which permissions are granted or denied
-     * by this ACL entry. If a principal was already set for this ACL entry,
-     * false is returned, otherwise true is returned.
+     * Spfdififs tif prindipbl for wiidi pfrmissions brf grbntfd or dfnifd
+     * by tiis ACL fntry. If b prindipbl wbs blrfbdy sft for tiis ACL fntry,
+     * fblsf is rfturnfd, otifrwisf truf is rfturnfd.
      *
-     * @param user the principal to be set for this entry.
+     * @pbrbm usfr tif prindipbl to bf sft for tiis fntry.
      *
-     * @return true if the principal is set, false if there was
-     * already a principal set for this entry.
+     * @rfturn truf if tif prindipbl is sft, fblsf if tifrf wbs
+     * blrfbdy b prindipbl sft for tiis fntry.
      *
-     * @see #getPrincipal
+     * @sff #gftPrindipbl
      */
-    public boolean setPrincipal(Principal user);
+    publid boolfbn sftPrindipbl(Prindipbl usfr);
 
     /**
-     * Returns the principal for which permissions are granted or denied by
-     * this ACL entry. Returns null if there is no principal set for this
-     * entry yet.
+     * Rfturns tif prindipbl for wiidi pfrmissions brf grbntfd or dfnifd by
+     * tiis ACL fntry. Rfturns null if tifrf is no prindipbl sft for tiis
+     * fntry yft.
      *
-     * @return the principal associated with this entry.
+     * @rfturn tif prindipbl bssodibtfd witi tiis fntry.
      *
-     * @see #setPrincipal
+     * @sff #sftPrindipbl
      */
-    public Principal getPrincipal();
+    publid Prindipbl gftPrindipbl();
 
     /**
-     * Sets this ACL entry to be a negative one. That is, the associated
-     * principal (e.g., a user or a group) will be denied the permission set
-     * specified in the entry.
+     * Sfts tiis ACL fntry to bf b nfgbtivf onf. Tibt is, tif bssodibtfd
+     * prindipbl (f.g., b usfr or b group) will bf dfnifd tif pfrmission sft
+     * spfdififd in tif fntry.
      *
-     * Note: ACL entries are by default positive. An entry becomes a
-     * negative entry only if this {@code setNegativePermissions}
-     * method is called on it.
+     * Notf: ACL fntrifs brf by dffbult positivf. An fntry bfdomfs b
+     * nfgbtivf fntry only if tiis {@dodf sftNfgbtivfPfrmissions}
+     * mftiod is dbllfd on it.
      */
-    public void setNegativePermissions();
+    publid void sftNfgbtivfPfrmissions();
 
     /**
-     * Returns true if this is a negative ACL entry (one denying the
-     * associated principal the set of permissions in the entry), false
-     * otherwise.
+     * Rfturns truf if tiis is b nfgbtivf ACL fntry (onf dfnying tif
+     * bssodibtfd prindipbl tif sft of pfrmissions in tif fntry), fblsf
+     * otifrwisf.
      *
-     * @return true if this is a negative ACL entry, false if it's not.
+     * @rfturn truf if tiis is b nfgbtivf ACL fntry, fblsf if it's not.
      */
-    public boolean isNegative();
+    publid boolfbn isNfgbtivf();
 
     /**
-     * Adds the specified permission to this ACL entry. Note: An entry can
-     * have multiple permissions.
+     * Adds tif spfdififd pfrmission to tiis ACL fntry. Notf: An fntry dbn
+     * ibvf multiplf pfrmissions.
      *
-     * @param permission the permission to be associated with
-     * the principal in this entry.
+     * @pbrbm pfrmission tif pfrmission to bf bssodibtfd witi
+     * tif prindipbl in tiis fntry.
      *
-     * @return true if the permission was added, false if the
-     * permission was already part of this entry's permission set.
+     * @rfturn truf if tif pfrmission wbs bddfd, fblsf if tif
+     * pfrmission wbs blrfbdy pbrt of tiis fntry's pfrmission sft.
      */
-    public boolean addPermission(Permission permission);
+    publid boolfbn bddPfrmission(Pfrmission pfrmission);
 
     /**
-     * Removes the specified permission from this ACL entry.
+     * Rfmovfs tif spfdififd pfrmission from tiis ACL fntry.
      *
-     * @param permission the permission to be removed from this entry.
+     * @pbrbm pfrmission tif pfrmission to bf rfmovfd from tiis fntry.
      *
-     * @return true if the permission is removed, false if the
-     * permission was not part of this entry's permission set.
+     * @rfturn truf if tif pfrmission is rfmovfd, fblsf if tif
+     * pfrmission wbs not pbrt of tiis fntry's pfrmission sft.
      */
-    public boolean removePermission(Permission permission);
+    publid boolfbn rfmovfPfrmission(Pfrmission pfrmission);
 
     /**
-     * Checks if the specified permission is part of the
-     * permission set in this entry.
+     * Cifdks if tif spfdififd pfrmission is pbrt of tif
+     * pfrmission sft in tiis fntry.
      *
-     * @param permission the permission to be checked for.
+     * @pbrbm pfrmission tif pfrmission to bf difdkfd for.
      *
-     * @return true if the permission is part of the
-     * permission set in this entry, false otherwise.
+     * @rfturn truf if tif pfrmission is pbrt of tif
+     * pfrmission sft in tiis fntry, fblsf otifrwisf.
      */
-    public boolean checkPermission(Permission permission);
+    publid boolfbn difdkPfrmission(Pfrmission pfrmission);
 
     /**
-     * Returns an enumeration of the permissions in this ACL entry.
+     * Rfturns bn fnumfrbtion of tif pfrmissions in tiis ACL fntry.
      *
-     * @return an enumeration of the permissions in this ACL entry.
+     * @rfturn bn fnumfrbtion of tif pfrmissions in tiis ACL fntry.
      */
-    public Enumeration<Permission> permissions();
+    publid Enumfrbtion<Pfrmission> pfrmissions();
 
     /**
-     * Returns a string representation of the contents of this ACL entry.
+     * Rfturns b string rfprfsfntbtion of tif dontfnts of tiis ACL fntry.
      *
-     * @return a string representation of the contents.
+     * @rfturn b string rfprfsfntbtion of tif dontfnts.
      */
-    public String toString();
+    publid String toString();
 
     /**
-     * Clones this ACL entry.
+     * Clonfs tiis ACL fntry.
      *
-     * @return a clone of this ACL entry.
+     * @rfturn b dlonf of tiis ACL fntry.
      */
-    public Object clone();
+    publid Objfdt dlonf();
 }

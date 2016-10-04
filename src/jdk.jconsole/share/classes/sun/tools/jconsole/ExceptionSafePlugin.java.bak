@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
+import jbvbx.swing.JOptionPbnf;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.SwingWorkfr;
 
-import com.sun.tools.jconsole.JConsolePlugin;
+import dom.sun.tools.jdonsolf.JConsolfPlugin;
 
 /**
- * Proxy that shields GUI from plug-in exceptions.
+ * Proxy tibt siiflds GUI from plug-in fxdfptions.
  *
  */
-final class ExceptionSafePlugin extends JConsolePlugin {
+finbl dlbss ExdfptionSbffPlugin fxtfnds JConsolfPlugin {
 
-    private static boolean ignoreExceptions;
-    private final JConsolePlugin plugin;
+    privbtf stbtid boolfbn ignorfExdfptions;
+    privbtf finbl JConsolfPlugin plugin;
 
-    public ExceptionSafePlugin(JConsolePlugin plugin) {
-        this.plugin = plugin;
+    publid ExdfptionSbffPlugin(JConsolfPlugin plugin) {
+        tiis.plugin = plugin;
     }
 
-    @Override
-    public Map<String, JPanel> getTabs() {
+    @Ovfrridf
+    publid Mbp<String, JPbnfl> gftTbbs() {
         try {
-            return plugin.getTabs();
-        } catch (RuntimeException e) {
-            handleException(e);
+            rfturn plugin.gftTbbs();
+        } dbtdi (RuntimfExdfption f) {
+            ibndlfExdfption(f);
         }
-        return new HashMap<>();
+        rfturn nfw HbsiMbp<>();
     }
 
-    @Override
-    public SwingWorker<?, ?> newSwingWorker() {
+    @Ovfrridf
+    publid SwingWorkfr<?, ?> nfwSwingWorkfr() {
         try {
-            return plugin.newSwingWorker();
-        } catch (RuntimeException e) {
-            handleException(e);
+            rfturn plugin.nfwSwingWorkfr();
+        } dbtdi (RuntimfExdfption f) {
+            ibndlfExdfption(f);
         }
-        return null;
+        rfturn null;
     }
 
-    @Override
-    public void dispose() {
+    @Ovfrridf
+    publid void disposf() {
         try {
-            plugin.dispose();
-        } catch (RuntimeException e) {
-            handleException(e);
-        }
-    }
-
-    public void executeSwingWorker(SwingWorker<?, ?> sw) {
-        try {
-            sw.execute();
-        } catch (RuntimeException e) {
-            handleException(e);
+            plugin.disposf();
+        } dbtdi (RuntimfExdfption f) {
+            ibndlfExdfption(f);
         }
     }
 
-    private void handleException(Exception e) {
-        if (JConsole.isDebug()) {
-            System.err.println("Plug-in exception:");
-            e.printStackTrace();
-        } else {
-            if (!ignoreExceptions) {
-                showExceptionDialog(e);
+    publid void fxfdutfSwingWorkfr(SwingWorkfr<?, ?> sw) {
+        try {
+            sw.fxfdutf();
+        } dbtdi (RuntimfExdfption f) {
+            ibndlfExdfption(f);
+        }
+    }
+
+    privbtf void ibndlfExdfption(Exdfption f) {
+        if (JConsolf.isDfbug()) {
+            Systfm.frr.println("Plug-in fxdfption:");
+            f.printStbdkTrbdf();
+        } flsf {
+            if (!ignorfExdfptions) {
+                siowExdfptionDiblog(f);
             }
         }
     }
 
-    private void showExceptionDialog(Exception e) {
-        Object[] buttonTexts = {
-            Messages.PLUGIN_EXCEPTION_DIALOG_BUTTON_OK,
-            Messages.PLUGIN_EXCEPTION_DIALOG_BUTTON_EXIT,
-            Messages.PLUGIN_EXCEPTION_DIALOG_BUTTON_IGNORE
+    privbtf void siowExdfptionDiblog(Exdfption f) {
+        Objfdt[] buttonTfxts = {
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_BUTTON_OK,
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_BUTTON_EXIT,
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_BUTTON_IGNORE
         };
 
-        String message = String.format(
-            Messages.PLUGIN_EXCEPTION_DIALOG_MESSAGE,
-            plugin.getClass().getSimpleName(),
-            String.valueOf(e.getMessage())
+        String mfssbgf = String.formbt(
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_MESSAGE,
+            plugin.gftClbss().gftSimplfNbmf(),
+            String.vblufOf(f.gftMfssbgf())
         );
 
-        int buttonIndex = JOptionPane.showOptionDialog(
+        int buttonIndfx = JOptionPbnf.siowOptionDiblog(
             null,
-            message,
-            Messages.PLUGIN_EXCEPTION_DIALOG_TITLE,
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.ERROR_MESSAGE,
+            mfssbgf,
+            Mfssbgfs.PLUGIN_EXCEPTION_DIALOG_TITLE,
+            JOptionPbnf.YES_NO_CANCEL_OPTION,
+            JOptionPbnf.ERROR_MESSAGE,
             null,
-            buttonTexts,
-            buttonTexts[0]
+            buttonTfxts,
+            buttonTfxts[0]
         );
 
-        if (buttonIndex == 1) {
-            System.exit(0);
+        if (buttonIndfx == 1) {
+            Systfm.fxit(0);
         }
-        ignoreExceptions = buttonIndex == 2;
+        ignorfExdfptions = buttonIndfx == 2;
     }
 }

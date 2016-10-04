@@ -1,694 +1,694 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.util.Hashtable;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.lang.ref.WeakReference;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationListener;
-import javax.management.Notification;
-import javax.management.ListenerNotFoundException;
-import javax.management.openmbean.CompositeData;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.daemon.SnmpAdaptorServer;
-import com.sun.jmx.snmp.SnmpPeer;
-import com.sun.jmx.snmp.SnmpParameters;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.dbfmon.SnmpAdbptorSfrvfr;
+import dom.sun.jmx.snmp.SnmpPffr;
+import dom.sun.jmx.snmp.SnmpPbrbmftfrs;
 
-import com.sun.jmx.snmp.SnmpOidTable;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpVarBindList;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpCounter;
-import com.sun.jmx.snmp.SnmpCounter64;
-import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpInt;
-import com.sun.jmx.snmp.Enumerated;
-import com.sun.jmx.snmp.agent.SnmpMibTable;
+import dom.sun.jmx.snmp.SnmpOidTbblf;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbrBindList;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpCountfr;
+import dom.sun.jmx.snmp.SnmpCountfr64;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpInt;
+import dom.sun.jmx.snmp.Enumfrbtfd;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf;
 
-import sun.management.snmp.jvmmib.JVM_MANAGEMENT_MIBOidTable;
-import sun.management.snmp.jvmmib.JVM_MANAGEMENT_MIB;
-import sun.management.snmp.jvmmib.JvmMemoryMeta;
-import sun.management.snmp.jvmmib.JvmThreadingMeta;
-import sun.management.snmp.jvmmib.JvmRuntimeMeta;
-import sun.management.snmp.jvmmib.JvmClassLoadingMeta;
-import sun.management.snmp.jvmmib.JvmCompilationMeta;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.SnmpCachedData;
-import sun.management.snmp.util.SnmpTableHandler;
+import sun.mbnbgfmfnt.snmp.jvmmib.JVM_MANAGEMENT_MIBOidTbblf;
+import sun.mbnbgfmfnt.snmp.jvmmib.JVM_MANAGEMENT_MIB;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmoryMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmTirfbdingMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmRuntimfMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmClbssLobdingMftb;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmCompilbtionMftb;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.SnmpCbdifdDbtb;
+import sun.mbnbgfmfnt.snmp.util.SnmpTbblfHbndlfr;
 
-//java management imports
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryNotificationInfo;
-import java.lang.management.MemoryType;
+//jbvb mbnbgfmfnt imports
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryNotifidbtionInfo;
+import jbvb.lbng.mbnbgfmfnt.MfmoryTypf;
 
-public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
-    private static final long serialVersionUID = -8104825586888859831L;
+publid dlbss JVM_MANAGEMENT_MIB_IMPL fxtfnds JVM_MANAGEMENT_MIB {
+    privbtf stbtid finbl long sfriblVfrsionUID = -8104825586888859831L;
 
-    private static final MibLogger log =
-        new MibLogger(JVM_MANAGEMENT_MIB_IMPL.class);
+    privbtf stbtid finbl MibLoggfr log =
+        nfw MibLoggfr(JVM_MANAGEMENT_MIB_IMPL.dlbss);
 
-    private static WeakReference<SnmpOidTable> tableRef;
+    privbtf stbtid WfbkRfffrfndf<SnmpOidTbblf> tbblfRff;
 
-    public static SnmpOidTable getOidTable() {
-        SnmpOidTable table = null;
-        if(tableRef == null) {
-            table =  new JVM_MANAGEMENT_MIBOidTable();
-            tableRef = new WeakReference<>(table);
-            return table;
+    publid stbtid SnmpOidTbblf gftOidTbblf() {
+        SnmpOidTbblf tbblf = null;
+        if(tbblfRff == null) {
+            tbblf =  nfw JVM_MANAGEMENT_MIBOidTbblf();
+            tbblfRff = nfw WfbkRfffrfndf<>(tbblf);
+            rfturn tbblf;
         }
 
-        table = tableRef.get();
-        if(table == null) {
-            table = new JVM_MANAGEMENT_MIBOidTable();
-            tableRef = new WeakReference<>(table);
+        tbblf = tbblfRff.gft();
+        if(tbblf == null) {
+            tbblf = nfw JVM_MANAGEMENT_MIBOidTbblf();
+            tbblfRff = nfw WfbkRfffrfndf<>(tbblf);
         }
 
-        return table;
+        rfturn tbblf;
     }
 
     /**
-     * Handler waiting for memory <CODE>Notification</CODE>.
-     * Translate each JMX notification in SNMP trap.
+     * Hbndlfr wbiting for mfmory <CODE>Notifidbtion</CODE>.
+     * Trbnslbtf fbdi JMX notifidbtion in SNMP trbp.
      */
-    private class NotificationHandler implements NotificationListener {
-        public void handleNotification(Notification notification,
-                                       Object handback) {
-            log.debug("handleNotification", "Received notification [ " +
-                      notification.getType() + "]");
+    privbtf dlbss NotifidbtionHbndlfr implfmfnts NotifidbtionListfnfr {
+        publid void ibndlfNotifidbtion(Notifidbtion notifidbtion,
+                                       Objfdt ibndbbdk) {
+            log.dfbug("ibndlfNotifidbtion", "Rfdfivfd notifidbtion [ " +
+                      notifidbtion.gftTypf() + "]");
 
-            String type = notification.getType();
-            if (type.equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED) ||
-                type.equals(MemoryNotificationInfo.
+            String typf = notifidbtion.gftTypf();
+            if (typf.fqubls(MfmoryNotifidbtionInfo.MEMORY_THRESHOLD_EXCEEDED) ||
+                typf.fqubls(MfmoryNotifidbtionInfo.
                     MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
-                MemoryNotificationInfo minfo = MemoryNotificationInfo.
-                    from((CompositeData) notification.getUserData());
-                SnmpCounter64 count = new SnmpCounter64(minfo.getCount());
-                SnmpCounter64 used =
-                    new SnmpCounter64(minfo.getUsage().getUsed());
-                SnmpString poolName = new SnmpString(minfo.getPoolName());
-                SnmpOid entryIndex =
-                    getJvmMemPoolEntryIndex(minfo.getPoolName());
+                MfmoryNotifidbtionInfo minfo = MfmoryNotifidbtionInfo.
+                    from((CompositfDbtb) notifidbtion.gftUsfrDbtb());
+                SnmpCountfr64 dount = nfw SnmpCountfr64(minfo.gftCount());
+                SnmpCountfr64 usfd =
+                    nfw SnmpCountfr64(minfo.gftUsbgf().gftUsfd());
+                SnmpString poolNbmf = nfw SnmpString(minfo.gftPoolNbmf());
+                SnmpOid fntryIndfx =
+                    gftJvmMfmPoolEntryIndfx(minfo.gftPoolNbmf());
 
-                if (entryIndex == null) {
-                    log.error("handleNotification",
-                              "Error: Can't find entry index for Memory Pool: "
-                              + minfo.getPoolName() +": " +
-                              "No trap emitted for " + type);
-                    return;
+                if (fntryIndfx == null) {
+                    log.frror("ibndlfNotifidbtion",
+                              "Error: Cbn't find fntry indfx for Mfmory Pool: "
+                              + minfo.gftPoolNbmf() +": " +
+                              "No trbp fmittfd for " + typf);
+                    rfturn;
                 }
 
-                SnmpOid trap = null;
+                SnmpOid trbp = null;
 
-                final SnmpOidTable mibTable = getOidTable();
+                finbl SnmpOidTbblf mibTbblf = gftOidTbblf();
                 try {
-                    SnmpOid usedOid  = null;
-                    SnmpOid countOid = null;
+                    SnmpOid usfdOid  = null;
+                    SnmpOid dountOid = null;
 
-                    if (type.equals(MemoryNotificationInfo.
+                    if (typf.fqubls(MfmoryNotifidbtionInfo.
                                    MEMORY_THRESHOLD_EXCEEDED)) {
-                        trap = new SnmpOid(mibTable.
-                        resolveVarName("jvmLowMemoryPoolUsageNotif").getOid());
-                        usedOid =
-                            new SnmpOid(mibTable.
-                            resolveVarName("jvmMemPoolUsed").getOid() +
-                                    "." + entryIndex);
-                        countOid =
-                            new SnmpOid(mibTable.
-                            resolveVarName("jvmMemPoolThreshdCount").getOid()
-                                    + "." + entryIndex);
-                    } else if  (type.equals(MemoryNotificationInfo.
+                        trbp = nfw SnmpOid(mibTbblf.
+                        rfsolvfVbrNbmf("jvmLowMfmoryPoolUsbgfNotif").gftOid());
+                        usfdOid =
+                            nfw SnmpOid(mibTbblf.
+                            rfsolvfVbrNbmf("jvmMfmPoolUsfd").gftOid() +
+                                    "." + fntryIndfx);
+                        dountOid =
+                            nfw SnmpOid(mibTbblf.
+                            rfsolvfVbrNbmf("jvmMfmPoolTirfsidCount").gftOid()
+                                    + "." + fntryIndfx);
+                    } flsf if  (typf.fqubls(MfmoryNotifidbtionInfo.
                                    MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
-                        trap = new SnmpOid(mibTable.
-                        resolveVarName("jvmLowMemoryPoolCollectNotif").
-                                           getOid());
-                        usedOid =
-                            new SnmpOid(mibTable.
-                            resolveVarName("jvmMemPoolCollectUsed").getOid() +
-                                        "." + entryIndex);
-                        countOid =
-                            new SnmpOid(mibTable.
-                            resolveVarName("jvmMemPoolCollectThreshdCount").
-                                        getOid() +
-                                        "." + entryIndex);
+                        trbp = nfw SnmpOid(mibTbblf.
+                        rfsolvfVbrNbmf("jvmLowMfmoryPoolCollfdtNotif").
+                                           gftOid());
+                        usfdOid =
+                            nfw SnmpOid(mibTbblf.
+                            rfsolvfVbrNbmf("jvmMfmPoolCollfdtUsfd").gftOid() +
+                                        "." + fntryIndfx);
+                        dountOid =
+                            nfw SnmpOid(mibTbblf.
+                            rfsolvfVbrNbmf("jvmMfmPoolCollfdtTirfsidCount").
+                                        gftOid() +
+                                        "." + fntryIndfx);
                     }
 
-                    //Datas
-                    SnmpVarBindList list = new SnmpVarBindList();
-                    SnmpOid poolNameOid =
-                        new SnmpOid(mibTable.
-                                    resolveVarName("jvmMemPoolName").getOid() +
-                                    "." + entryIndex);
+                    //Dbtbs
+                    SnmpVbrBindList list = nfw SnmpVbrBindList();
+                    SnmpOid poolNbmfOid =
+                        nfw SnmpOid(mibTbblf.
+                                    rfsolvfVbrNbmf("jvmMfmPoolNbmf").gftOid() +
+                                    "." + fntryIndfx);
 
-                    SnmpVarBind varCount = new SnmpVarBind(countOid, count);
-                    SnmpVarBind varUsed = new SnmpVarBind(usedOid, used);
-                    SnmpVarBind varPoolName = new SnmpVarBind(poolNameOid,
-                                              poolName);
+                    SnmpVbrBind vbrCount = nfw SnmpVbrBind(dountOid, dount);
+                    SnmpVbrBind vbrUsfd = nfw SnmpVbrBind(usfdOid, usfd);
+                    SnmpVbrBind vbrPoolNbmf = nfw SnmpVbrBind(poolNbmfOid,
+                                              poolNbmf);
 
-                    list.add(varPoolName);
-                    list.add(varCount);
-                    list.add(varUsed);
+                    list.bdd(vbrPoolNbmf);
+                    list.bdd(vbrCount);
+                    list.bdd(vbrUsfd);
 
-                    sendTrap(trap, list);
-                }catch(Exception e) {
-                    log.error("handleNotification",
-                              "Exception occurred : " + e);
+                    sfndTrbp(trbp, list);
+                }dbtdi(Exdfption f) {
+                    log.frror("ibndlfNotifidbtion",
+                              "Exdfption oddurrfd : " + f);
                 }
             }
         }
     }
 
     /**
-     * List of notification targets.
+     * List of notifidbtion tbrgfts.
      */
-    private ArrayList<NotificationTarget> notificationTargets =
-            new ArrayList<>();
-    private final NotificationEmitter emitter;
-    private final NotificationHandler handler;
+    privbtf ArrbyList<NotifidbtionTbrgft> notifidbtionTbrgfts =
+            nfw ArrbyList<>();
+    privbtf finbl NotifidbtionEmittfr fmittfr;
+    privbtf finbl NotifidbtionHbndlfr ibndlfr;
 
 
     /**
-     * Instantiate a JVM MIB intrusmentation.
-     * A <CODE>NotificationListener</CODE> is added to the <CODE>MemoryMXBean</CODE>
-     * <CODE>NotificationEmitter</CODE>
+     * Instbntibtf b JVM MIB intrusmfntbtion.
+     * A <CODE>NotifidbtionListfnfr</CODE> is bddfd to tif <CODE>MfmoryMXBfbn</CODE>
+     * <CODE>NotifidbtionEmittfr</CODE>
      */
-    public JVM_MANAGEMENT_MIB_IMPL() {
-        handler = new NotificationHandler();
-        emitter = (NotificationEmitter) ManagementFactory.getMemoryMXBean();
-        emitter.addNotificationListener(handler, null, null);
+    publid JVM_MANAGEMENT_MIB_IMPL() {
+        ibndlfr = nfw NotifidbtionHbndlfr();
+        fmittfr = (NotifidbtionEmittfr) MbnbgfmfntFbdtory.gftMfmoryMXBfbn();
+        fmittfr.bddNotifidbtionListfnfr(ibndlfr, null, null);
     }
 
-    private synchronized void sendTrap(SnmpOid trap, SnmpVarBindList list) {
-        final Iterator<NotificationTarget> iterator = notificationTargets.iterator();
-        final SnmpAdaptorServer adaptor =
-            (SnmpAdaptorServer) getSnmpAdaptor();
+    privbtf syndironizfd void sfndTrbp(SnmpOid trbp, SnmpVbrBindList list) {
+        finbl Itfrbtor<NotifidbtionTbrgft> itfrbtor = notifidbtionTbrgfts.itfrbtor();
+        finbl SnmpAdbptorSfrvfr bdbptor =
+            (SnmpAdbptorSfrvfr) gftSnmpAdbptor();
 
-        if (adaptor == null) {
-            log.error("sendTrap", "Cannot send trap: adaptor is null.");
-            return;
+        if (bdbptor == null) {
+            log.frror("sfndTrbp", "Cbnnot sfnd trbp: bdbptor is null.");
+            rfturn;
         }
 
-        if (!adaptor.isActive()) {
-            log.config("sendTrap", "Adaptor is not active: trap not sent.");
-            return;
+        if (!bdbptor.isAdtivf()) {
+            log.donfig("sfndTrbp", "Adbptor is not bdtivf: trbp not sfnt.");
+            rfturn;
         }
 
-        while(iterator.hasNext()) {
-            NotificationTarget target = null;
+        wiilf(itfrbtor.ibsNfxt()) {
+            NotifidbtionTbrgft tbrgft = null;
             try {
-                target = iterator.next();
-                SnmpPeer peer =
-                    new SnmpPeer(target.getAddress(), target.getPort());
-                SnmpParameters p = new SnmpParameters();
-                p.setRdCommunity(target.getCommunity());
-                peer.setParams(p);
-                log.debug("handleNotification", "Sending trap to " +
-                          target.getAddress() + ":" + target.getPort());
-                adaptor.snmpV2Trap(peer, trap, list, null);
-            }catch(Exception e) {
-                log.error("sendTrap",
-                          "Exception occurred while sending trap to [" +
-                          target + "]. Exception : " + e);
-                log.debug("sendTrap",e);
+                tbrgft = itfrbtor.nfxt();
+                SnmpPffr pffr =
+                    nfw SnmpPffr(tbrgft.gftAddrfss(), tbrgft.gftPort());
+                SnmpPbrbmftfrs p = nfw SnmpPbrbmftfrs();
+                p.sftRdCommunity(tbrgft.gftCommunity());
+                pffr.sftPbrbms(p);
+                log.dfbug("ibndlfNotifidbtion", "Sfnding trbp to " +
+                          tbrgft.gftAddrfss() + ":" + tbrgft.gftPort());
+                bdbptor.snmpV2Trbp(pffr, trbp, list, null);
+            }dbtdi(Exdfption f) {
+                log.frror("sfndTrbp",
+                          "Exdfption oddurrfd wiilf sfnding trbp to [" +
+                          tbrgft + "]. Exdfption : " + f);
+                log.dfbug("sfndTrbp",f);
             }
         }
     }
 
     /**
-     * Add a notification target.
-     * @param target The target to add
-     * @throws IllegalArgumentException If target parameter is null.
+     * Add b notifidbtion tbrgft.
+     * @pbrbm tbrgft Tif tbrgft to bdd
+     * @tirows IllfgblArgumfntExdfption If tbrgft pbrbmftfr is null.
      */
-    public synchronized void addTarget(NotificationTarget target)
-        throws IllegalArgumentException {
-        if(target == null)
-            throw new IllegalArgumentException("Target is null");
+    publid syndironizfd void bddTbrgft(NotifidbtionTbrgft tbrgft)
+        tirows IllfgblArgumfntExdfption {
+        if(tbrgft == null)
+            tirow nfw IllfgblArgumfntExdfption("Tbrgft is null");
 
-        notificationTargets.add(target);
+        notifidbtionTbrgfts.bdd(tbrgft);
     }
 
     /**
-     * Remove notification listener.
+     * Rfmovf notifidbtion listfnfr.
      */
-    public void terminate() {
+    publid void tfrminbtf() {
         try {
-            emitter.removeNotificationListener(handler);
-        }catch(ListenerNotFoundException e) {
-            log.error("terminate", "Listener Not found : " + e);
+            fmittfr.rfmovfNotifidbtionListfnfr(ibndlfr);
+        }dbtdi(ListfnfrNotFoundExdfption f) {
+            log.frror("tfrminbtf", "Listfnfr Not found : " + f);
         }
     }
 
     /**
-     * Add notification targets.
-     * @param targets A list of
-     * <CODE>sun.management.snmp.jvminstr.NotificationTarget</CODE>
-     * @throws IllegalArgumentException If targets parameter is null.
+     * Add notifidbtion tbrgfts.
+     * @pbrbm tbrgfts A list of
+     * <CODE>sun.mbnbgfmfnt.snmp.jvminstr.NotifidbtionTbrgft</CODE>
+     * @tirows IllfgblArgumfntExdfption If tbrgfts pbrbmftfr is null.
      */
-    public synchronized void addTargets(List<NotificationTarget> targets)
-        throws IllegalArgumentException {
-        if(targets == null)
-            throw new IllegalArgumentException("Target list is null");
+    publid syndironizfd void bddTbrgfts(List<NotifidbtionTbrgft> tbrgfts)
+        tirows IllfgblArgumfntExdfption {
+        if(tbrgfts == null)
+            tirow nfw IllfgblArgumfntExdfption("Tbrgft list is null");
 
-        notificationTargets.addAll(targets);
+        notifidbtionTbrgfts.bddAll(tbrgfts);
     }
 
     /**
-     * Factory method for "JvmMemory" group MBean.
+     * Fbdtory mftiod for "JvmMfmory" group MBfbn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmMemory")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmMfmory")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the MBean class generated for the
-     *         "JvmMemory" group (JvmMemory)
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmMfmory" group (JvmMfmory)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmMemoryMBean"
-     * interface.
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmMfmoryMBfbn"
+     * intfrfbdf.
      **/
-    protected Object createJvmMemoryMBean(String groupName,
-                String groupOid,  ObjectName groupObjname,
-                                          MBeanServer server)  {
+    protfdtfd Objfdt drfbtfJvmMfmoryMBfbn(String groupNbmf,
+                String groupOid,  ObjfdtNbmf groupObjnbmf,
+                                          MBfbnSfrvfr sfrvfr)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmMemoryMBean"
-        // interface.
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmMfmoryMBfbn"
+        // intfrfbdf.
         //
-        if (server != null)
-            return new JvmMemoryImpl(this,server);
-        else
-            return new JvmMemoryImpl(this);
+        if (sfrvfr != null)
+            rfturn nfw JvmMfmoryImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmMfmoryImpl(tiis);
     }
 
     /**
-     * Factory method for "JvmMemory" group metadata class.
+     * Fbdtory mftiod for "JvmMfmory" group mftbdbtb dlbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmMemory")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmMfmory")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemory" group (JvmMemoryMeta)
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmMfmory" group (JvmMfmoryMftb)
      *
      **/
-    protected JvmMemoryMeta createJvmMemoryMetaNode(String groupName,
+    protfdtfd JvmMfmoryMftb drfbtfJvmMfmoryMftbNodf(String groupNbmf,
                                                     String groupOid,
-                                                    ObjectName groupObjname,
-                                                    MBeanServer server) {
-        return new JvmMemoryMetaImpl(this, objectserver);
+                                                    ObjfdtNbmf groupObjnbmf,
+                                                    MBfbnSfrvfr sfrvfr) {
+        rfturn nfw JvmMfmoryMftbImpl(tiis, objfdtsfrvfr);
     }
 
     /**
-     * Factory method for "JvmThreading" group metadata class.
+     * Fbdtory mftiod for "JvmTirfbding" group mftbdbtb dlbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmThreading")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmTirfbding")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmThreading" group (JvmThreadingMeta)
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmTirfbding" group (JvmTirfbdingMftb)
      *
      **/
-    protected JvmThreadingMeta createJvmThreadingMetaNode(String groupName,
+    protfdtfd JvmTirfbdingMftb drfbtfJvmTirfbdingMftbNodf(String groupNbmf,
                                                           String groupOid,
-                                                          ObjectName groupObjname,
-                                                          MBeanServer server)  {
-        return new JvmThreadingMetaImpl(this, objectserver);
+                                                          ObjfdtNbmf groupObjnbmf,
+                                                          MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmTirfbdingMftbImpl(tiis, objfdtsfrvfr);
     }
 
     /**
-     * Factory method for "JvmThreading" group MBean.
+     * Fbdtory mftiod for "JvmTirfbding" group MBfbn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmThreading")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmTirfbding")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the MBean class generated for the
-     *         "JvmThreading" group (JvmThreading)
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmTirfbding" group (JvmTirfbding)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmThreadingMBean"
-     * interface.
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmTirfbdingMBfbn"
+     * intfrfbdf.
      **/
-    protected Object createJvmThreadingMBean(String groupName,
+    protfdtfd Objfdt drfbtfJvmTirfbdingMBfbn(String groupNbmf,
                                              String groupOid,
-                                             ObjectName groupObjname,
-                                             MBeanServer server)  {
+                                             ObjfdtNbmf groupObjnbmf,
+                                             MBfbnSfrvfr sfrvfr)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmThreadingMBean"
-        // interface.
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmTirfbdingMBfbn"
+        // intfrfbdf.
         //
-        if (server != null)
-            return new JvmThreadingImpl(this,server);
-        else
-            return new JvmThreadingImpl(this);
+        if (sfrvfr != null)
+            rfturn nfw JvmTirfbdingImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmTirfbdingImpl(tiis);
     }
 
     /**
-     * Factory method for "JvmRuntime" group metadata class.
+     * Fbdtory mftiod for "JvmRuntimf" group mftbdbtb dlbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmRuntime")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmRuntimf")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmRuntime" group (JvmRuntimeMeta)
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmRuntimf" group (JvmRuntimfMftb)
      *
      **/
-    protected JvmRuntimeMeta createJvmRuntimeMetaNode(String groupName,
+    protfdtfd JvmRuntimfMftb drfbtfJvmRuntimfMftbNodf(String groupNbmf,
                                                       String groupOid,
-                                                      ObjectName groupObjname,
-                                                      MBeanServer server)  {
-        return new JvmRuntimeMetaImpl(this, objectserver);
+                                                      ObjfdtNbmf groupObjnbmf,
+                                                      MBfbnSfrvfr sfrvfr)  {
+        rfturn nfw JvmRuntimfMftbImpl(tiis, objfdtsfrvfr);
     }
 
     /**
-     * Factory method for "JvmRuntime" group MBean.
+     * Fbdtory mftiod for "JvmRuntimf" group MBfbn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmRuntime")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmRuntimf")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the MBean class generated for the
-     *         "JvmRuntime" group (JvmRuntime)
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmRuntimf" group (JvmRuntimf)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmRuntimeMBean"
-     * interface.
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmRuntimfMBfbn"
+     * intfrfbdf.
      **/
-    protected Object createJvmRuntimeMBean(String groupName,
+    protfdtfd Objfdt drfbtfJvmRuntimfMBfbn(String groupNbmf,
                                            String groupOid,
-                                           ObjectName groupObjname,
-                                           MBeanServer server)  {
+                                           ObjfdtNbmf groupObjnbmf,
+                                           MBfbnSfrvfr sfrvfr)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmRuntimeMBean"
-        // interface.
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmRuntimfMBfbn"
+        // intfrfbdf.
         //
-        if (server != null)
-            return new JvmRuntimeImpl(this,server);
-        else
-            return new JvmRuntimeImpl(this);
+        if (sfrvfr != null)
+            rfturn nfw JvmRuntimfImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmRuntimfImpl(tiis);
     }
 
     /**
-     * Factory method for "JvmCompilation" group metadata class.
+     * Fbdtory mftiod for "JvmCompilbtion" group mftbdbtb dlbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd mftbdbtb dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmCompilation")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmCompilbtion")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmCompilation" group (JvmCompilationMeta)
+     * @rfturn An instbndf of tif mftbdbtb dlbss gfnfrbtfd for tif
+     *         "JvmCompilbtion" group (JvmCompilbtionMftb)
      *
      **/
-    protected JvmCompilationMeta
-        createJvmCompilationMetaNode(String groupName,
+    protfdtfd JvmCompilbtionMftb
+        drfbtfJvmCompilbtionMftbNodf(String groupNbmf,
                                      String groupOid,
-                                     ObjectName groupObjname,
-                                     MBeanServer server)  {
-        // If there is no compilation system, the jvmCompilation  will not
-        // be instantiated.
+                                     ObjfdtNbmf groupObjnbmf,
+                                     MBfbnSfrvfr sfrvfr)  {
+        // If tifrf is no dompilbtion systfm, tif jvmCompilbtion  will not
+        // bf instbntibtfd.
         //
-        if (ManagementFactory.getCompilationMXBean() == null) return null;
-        return super.createJvmCompilationMetaNode(groupName,groupOid,
-                                                  groupObjname,server);
+        if (MbnbgfmfntFbdtory.gftCompilbtionMXBfbn() == null) rfturn null;
+        rfturn supfr.drfbtfJvmCompilbtionMftbNodf(groupNbmf,groupOid,
+                                                  groupObjnbmf,sfrvfr);
     }
 
     /**
-     * Factory method for "JvmCompilation" group MBean.
+     * Fbdtory mftiod for "JvmCompilbtion" group MBfbn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmCompilation")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmCompilbtion")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the MBean class generated for the
-     *         "JvmCompilation" group (JvmCompilation)
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmCompilbtion" group (JvmCompilbtion)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmCompilationMBean"
-     * interface.
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmCompilbtionMBfbn"
+     * intfrfbdf.
      **/
-    protected Object createJvmCompilationMBean(String groupName,
-                String groupOid,  ObjectName groupObjname, MBeanServer server)  {
+    protfdtfd Objfdt drfbtfJvmCompilbtionMBfbn(String groupNbmf,
+                String groupOid,  ObjfdtNbmf groupObjnbmf, MBfbnSfrvfr sfrvfr)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmCompilationMBean"
-        // interface.
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmCompilbtionMBfbn"
+        // intfrfbdf.
         //
-        if (server != null)
-            return new JvmCompilationImpl(this,server);
-        else
-            return new JvmCompilationImpl(this);
+        if (sfrvfr != null)
+            rfturn nfw JvmCompilbtionImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmCompilbtionImpl(tiis);
     }
 
     /**
-     * Factory method for "JvmOS" group MBean.
+     * Fbdtory mftiod for "JvmOS" group MBfbn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmOS")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmOS")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the MBean class generated for the
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
      *         "JvmOS" group (JvmOS)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmOSMBean"
-     * interface.
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmOSMBfbn"
+     * intfrfbdf.
      **/
-    protected Object createJvmOSMBean(String groupName,
-                String groupOid,  ObjectName groupObjname, MBeanServer server)  {
+    protfdtfd Objfdt drfbtfJvmOSMBfbn(String groupNbmf,
+                String groupOid,  ObjfdtNbmf groupObjnbmf, MBfbnSfrvfr sfrvfr)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmOSMBean"
-        // interface.
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmOSMBfbn"
+        // intfrfbdf.
         //
-        if (server != null)
-            return new JvmOSImpl(this,server);
-        else
-            return new JvmOSImpl(this);
+        if (sfrvfr != null)
+            rfturn nfw JvmOSImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmOSImpl(tiis);
     }
 
 
     /**
-     * Factory method for "JvmClassLoading" group MBean.
+     * Fbdtory mftiod for "JvmClbssLobding" group MBfbn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You dbn rfdffinf tiis mftiod if you nffd to rfplbdf tif dffbult
+     * gfnfrbtfd MBfbn dlbss witi your own dustomizfd dlbss.
      *
-     * @param groupName Name of the group ("JvmClassLoading")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbmf Nbmf of tif group ("JvmClbssLobding")
+     * @pbrbm groupOid  OID of tiis group
+     * @pbrbm groupObjnbmf ObjfdtNbmf for tiis group (mby bf null)
+     * @pbrbm sfrvfr    MBfbnSfrvfr for tiis group (mby bf null)
      *
-     * @return An instance of the MBean class generated for the
-     *         "JvmClassLoading" group (JvmClassLoading)
+     * @rfturn An instbndf of tif MBfbn dlbss gfnfrbtfd for tif
+     *         "JvmClbssLobding" group (JvmClbssLobding)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmClassLoadingMBean"
-     * interface.
+     * Notf tibt wifn using stbndbrd mftbdbtb,
+     * tif rfturnfd objfdt must implfmfnt tif "JvmClbssLobdingMBfbn"
+     * intfrfbdf.
      **/
-    protected Object createJvmClassLoadingMBean(String groupName,
+    protfdtfd Objfdt drfbtfJvmClbssLobdingMBfbn(String groupNbmf,
                                                 String groupOid,
-                                                ObjectName groupObjname,
-                                                MBeanServer server)  {
+                                                ObjfdtNbmf groupObjnbmf,
+                                                MBfbnSfrvfr sfrvfr)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmClassLoadingMBean"
-        // interface.
+        // Notf tibt wifn using stbndbrd mftbdbtb,
+        // tif rfturnfd objfdt must implfmfnt tif "JvmClbssLobdingMBfbn"
+        // intfrfbdf.
         //
-        if (server != null)
-            return new JvmClassLoadingImpl(this,server);
-        else
-            return new JvmClassLoadingImpl(this);
+        if (sfrvfr != null)
+            rfturn nfw JvmClbssLobdingImpl(tiis,sfrvfr);
+        flsf
+            rfturn nfw JvmClbssLobdingImpl(tiis);
     }
 
-    static String validDisplayStringTC(String str) {
+    stbtid String vblidDisplbyStringTC(String str) {
 
-        if(str == null) return "";
+        if(str == null) rfturn "";
 
-        if(str.length() > DISPLAY_STRING_MAX_LENGTH) {
-            return str.substring(0, DISPLAY_STRING_MAX_LENGTH);
+        if(str.lfngti() > DISPLAY_STRING_MAX_LENGTH) {
+            rfturn str.substring(0, DISPLAY_STRING_MAX_LENGTH);
         }
-        else
-            return str;
+        flsf
+            rfturn str;
     }
 
-    static String validJavaObjectNameTC(String str) {
+    stbtid String vblidJbvbObjfdtNbmfTC(String str) {
 
-        if(str == null) return "";
+        if(str == null) rfturn "";
 
-        if(str.length() > JAVA_OBJECT_NAME_MAX_LENGTH) {
-            return str.substring(0, JAVA_OBJECT_NAME_MAX_LENGTH);
+        if(str.lfngti() > JAVA_OBJECT_NAME_MAX_LENGTH) {
+            rfturn str.substring(0, JAVA_OBJECT_NAME_MAX_LENGTH);
         }
-        else
-            return str;
+        flsf
+            rfturn str;
     }
 
-    static String validPathElementTC(String str) {
+    stbtid String vblidPbtiElfmfntTC(String str) {
 
-        if(str == null) return "";
+        if(str == null) rfturn "";
 
-        if(str.length() > PATH_ELEMENT_MAX_LENGTH) {
-            return str.substring(0, PATH_ELEMENT_MAX_LENGTH);
+        if(str.lfngti() > PATH_ELEMENT_MAX_LENGTH) {
+            rfturn str.substring(0, PATH_ELEMENT_MAX_LENGTH);
         }
-        else
-            return str;
+        flsf
+            rfturn str;
     }
-    static String validArgValueTC(String str) {
+    stbtid String vblidArgVblufTC(String str) {
 
-        if(str == null) return "";
+        if(str == null) rfturn "";
 
-        if(str.length() > ARG_VALUE_MAX_LENGTH) {
-            return str.substring(0, ARG_VALUE_MAX_LENGTH);
+        if(str.lfngti() > ARG_VALUE_MAX_LENGTH) {
+            rfturn str.substring(0, ARG_VALUE_MAX_LENGTH);
         }
-        else
-            return str;
+        flsf
+            rfturn str;
     }
 
     /**
-     * WARNING: This should probably be moved to JvmMemPoolTableMetaImpl
+     * WARNING: Tiis siould probbbly bf movfd to JvmMfmPoolTbblfMftbImpl
      **/
-    private SnmpTableHandler getJvmMemPoolTableHandler(Object userData) {
-        final SnmpMibTable meta =
-            getRegisteredTableMeta("JvmMemPoolTable");
-        if (! (meta instanceof JvmMemPoolTableMetaImpl)) {
-            final String err = ((meta==null)?"No metadata for JvmMemPoolTable":
-                                "Bad metadata class for JvmMemPoolTable: " +
-                                meta.getClass().getName());
-            log.error("getJvmMemPoolTableHandler", err);
-            return null;
+    privbtf SnmpTbblfHbndlfr gftJvmMfmPoolTbblfHbndlfr(Objfdt usfrDbtb) {
+        finbl SnmpMibTbblf mftb =
+            gftRfgistfrfdTbblfMftb("JvmMfmPoolTbblf");
+        if (! (mftb instbndfof JvmMfmPoolTbblfMftbImpl)) {
+            finbl String frr = ((mftb==null)?"No mftbdbtb for JvmMfmPoolTbblf":
+                                "Bbd mftbdbtb dlbss for JvmMfmPoolTbblf: " +
+                                mftb.gftClbss().gftNbmf());
+            log.frror("gftJvmMfmPoolTbblfHbndlfr", frr);
+            rfturn null;
         }
-        final JvmMemPoolTableMetaImpl memPoolTable =
-            (JvmMemPoolTableMetaImpl) meta;
-        return memPoolTable.getHandler(userData);
+        finbl JvmMfmPoolTbblfMftbImpl mfmPoolTbblf =
+            (JvmMfmPoolTbblfMftbImpl) mftb;
+        rfturn mfmPoolTbblf.gftHbndlfr(usfrDbtb);
     }
 
     /**
-     * WARNING: This should probably be moved to JvmMemPoolTableMetaImpl
+     * WARNING: Tiis siould probbbly bf movfd to JvmMfmPoolTbblfMftbImpl
      **/
-    private int findInCache(SnmpTableHandler handler,
-                            String poolName) {
+    privbtf int findInCbdif(SnmpTbblfHbndlfr ibndlfr,
+                            String poolNbmf) {
 
-        if (!(handler instanceof SnmpCachedData)) {
-            if (handler != null) {
-                final String err = "Bad class for JvmMemPoolTable datas: " +
-                    handler.getClass().getName();
-                log.error("getJvmMemPoolEntry", err);
+        if (!(ibndlfr instbndfof SnmpCbdifdDbtb)) {
+            if (ibndlfr != null) {
+                finbl String frr = "Bbd dlbss for JvmMfmPoolTbblf dbtbs: " +
+                    ibndlfr.gftClbss().gftNbmf();
+                log.frror("gftJvmMfmPoolEntry", frr);
             }
-            return -1;
+            rfturn -1;
         }
 
-        final SnmpCachedData data = (SnmpCachedData)handler;
-        final int len = data.datas.length;
-        for (int i=0; i < data.datas.length ; i++) {
-            final MemoryPoolMXBean pool = (MemoryPoolMXBean) data.datas[i];
-            if (poolName.equals(pool.getName())) return i;
+        finbl SnmpCbdifdDbtb dbtb = (SnmpCbdifdDbtb)ibndlfr;
+        finbl int lfn = dbtb.dbtbs.lfngti;
+        for (int i=0; i < dbtb.dbtbs.lfngti ; i++) {
+            finbl MfmoryPoolMXBfbn pool = (MfmoryPoolMXBfbn) dbtb.dbtbs[i];
+            if (poolNbmf.fqubls(pool.gftNbmf())) rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * WARNING: This should probably be moved to JvmMemPoolTableMetaImpl
+     * WARNING: Tiis siould probbbly bf movfd to JvmMfmPoolTbblfMftbImpl
      **/
-    private SnmpOid getJvmMemPoolEntryIndex(SnmpTableHandler handler,
-                                            String poolName) {
-        final int index = findInCache(handler,poolName);
-        if (index < 0) return null;
-        return ((SnmpCachedData)handler).indexes[index];
+    privbtf SnmpOid gftJvmMfmPoolEntryIndfx(SnmpTbblfHbndlfr ibndlfr,
+                                            String poolNbmf) {
+        finbl int indfx = findInCbdif(ibndlfr,poolNbmf);
+        if (indfx < 0) rfturn null;
+        rfturn ((SnmpCbdifdDbtb)ibndlfr).indfxfs[indfx];
     }
 
-    private SnmpOid getJvmMemPoolEntryIndex(String poolName) {
-        return getJvmMemPoolEntryIndex(getJvmMemPoolTableHandler(null),
-                                       poolName);
+    privbtf SnmpOid gftJvmMfmPoolEntryIndfx(String poolNbmf) {
+        rfturn gftJvmMfmPoolEntryIndfx(gftJvmMfmPoolTbblfHbndlfr(null),
+                                       poolNbmf);
     }
 
-    // cache validity
+    // dbdif vblidity
     //
-    // Should we define a property for this? Should we have different
-    // cache validity periods depending on which table we cache?
+    // Siould wf dffinf b propfrty for tiis? Siould wf ibvf difffrfnt
+    // dbdif vblidity pfriods dfpfnding on wiidi tbblf wf dbdif?
     //
-    public long validity() {
-        return DEFAULT_CACHE_VALIDITY_PERIOD;
+    publid long vblidity() {
+        rfturn DEFAULT_CACHE_VALIDITY_PERIOD;
     }
 
-    // Defined in RFC 2579
-    private final static int DISPLAY_STRING_MAX_LENGTH=255;
-    private final static int JAVA_OBJECT_NAME_MAX_LENGTH=1023;
-    private final static int PATH_ELEMENT_MAX_LENGTH=1023;
-    private final static int ARG_VALUE_MAX_LENGTH=1023;
-    private final static int DEFAULT_CACHE_VALIDITY_PERIOD=1000;
+    // Dffinfd in RFC 2579
+    privbtf finbl stbtid int DISPLAY_STRING_MAX_LENGTH=255;
+    privbtf finbl stbtid int JAVA_OBJECT_NAME_MAX_LENGTH=1023;
+    privbtf finbl stbtid int PATH_ELEMENT_MAX_LENGTH=1023;
+    privbtf finbl stbtid int ARG_VALUE_MAX_LENGTH=1023;
+    privbtf finbl stbtid int DEFAULT_CACHE_VALIDITY_PERIOD=1000;
 }

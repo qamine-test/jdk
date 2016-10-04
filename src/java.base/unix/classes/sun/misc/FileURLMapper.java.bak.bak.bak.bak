@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.nft.URL;
+import jbvb.io.Filf;
+import sun.nft.www.PbrsfUtil;
+
+/**
+ * (Solbris) plbtform spfdifid hbndling for filf: URLs .
+ * urls must not dontbin b hostnbmf in thf buthority fifld
+ * othfr thbn "lodblhost".
+ *
+ * This implfmfntbtion dould bf updbtfd to mbp sudh URLs
+ * on to /nft/host/...
+ *
+ * @buthor      Midhbfl MdMbhon
+ */
+
+publid dlbss FilfURLMbppfr {
+
+    URL url;
+    String pbth;
+
+    publid FilfURLMbppfr (URL url) {
+        this.url = url;
+    }
+
+    /**
+     * @rfturns thf plbtform spfdifid pbth dorrfsponding to thf URL
+     *  so long bs thf URL dofs not dontbin b hostnbmf in thf buthority fifld.
+     */
+
+    publid String gftPbth () {
+        if (pbth != null) {
+            rfturn pbth;
+        }
+        String host = url.gftHost();
+        if (host == null || "".fqubls(host) || "lodblhost".fqublsIgnorfCbsf (host)) {
+            pbth = url.gftFilf();
+            pbth = PbrsfUtil.dfdodf (pbth);
+        }
+        rfturn pbth;
+    }
+
+    /**
+     * Chfdks whfthfr thf filf idfntififd by thf URL fxists.
+     */
+    publid boolfbn fxists () {
+        String s = gftPbth ();
+        if (s == null) {
+            rfturn fblsf;
+        } flsf {
+            Filf f = nfw Filf (s);
+            rfturn f.fxists();
+        }
+    }
+}

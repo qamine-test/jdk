@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff BytfIndfxfd_h_Indludfd
+#dffinf BytfIndfxfd_h_Indludfd
+
+#indludf "IntDdm.h"
+
+/*
+ * This filf dontbins mbdro bnd typf dffinitions usfd by thf mbdros in
+ * LoopMbdros.h to mbnipulbtf b surfbdf of typf "BytfIndfxfd".
+ */
+
+typfdff jubytf  BytfIndfxfdPixflTypf;
+typfdff jubytf  BytfIndfxfdDbtbTypf;
+
+#dffinf BytfIndfxfdPixflStridf          1
+#dffinf BytfIndfxfdBitsPfrPixfl         8
+
+#dffinf DfdlbrfBytfIndfxfdLobdVbrs(PREFIX) \
+    jint *PREFIX ## Lut;
+
+#dffinf DfdlbrfBytfIndfxfdStorfVbrs(PREFIX) \
+    int PREFIX ## XDithfr, PREFIX ## YDithfr; \
+    dhbr *PREFIX ## rfrr, *PREFIX ## gfrr, *PREFIX ## bfrr; \
+    unsignfd dhbr *PREFIX ## InvLut;
+
+#dffinf SftBytfIndfxfdStorfVbrsYPos(PREFIX, pRbsInfo, LOC) \
+    do { \
+         PREFIX ## YDithfr = ((LOC & 7) << 3); \
+    } whilf (0)
+
+#dffinf SftBytfIndfxfdStorfVbrsXPos(PREFIX, pRbsInfo, LOC) \
+    do { \
+        PREFIX ## rfrr = (pRbsInfo)->rfdErrTbblf + PREFIX ## YDithfr; \
+        PREFIX ## gfrr = (pRbsInfo)->grnErrTbblf + PREFIX ## YDithfr; \
+        PREFIX ## bfrr = (pRbsInfo)->bluErrTbblf + PREFIX ## YDithfr; \
+        PREFIX ## XDithfr = (LOC & 7); \
+    } whilf (0)
+
+#dffinf InitBytfIndfxfdLobdVbrs(PREFIX, pRbsInfo) \
+    PREFIX ## Lut = (pRbsInfo)->lutBbsf
+
+/* REMIND Could dollbpsf Init..Storf..X bnd Init..Storf..Y into onf Init
+ * bnd fbdtor out thf Sft.. mbdros.
+ */
+#dffinf InitBytfIndfxfdStorfVbrsY(PREFIX, pRbsInfo) \
+    do { \
+        SftBytfIndfxfdStorfVbrsYPos(PREFIX, pRbsInfo, (pRbsInfo)->bounds.y1); \
+        PREFIX ## InvLut = (pRbsInfo)->invColorTbblf; \
+    } whilf (0)
+
+#dffinf InitBytfIndfxfdStorfVbrsX(PREFIX, pRbsInfo) \
+    SftBytfIndfxfdStorfVbrsXPos(PREFIX, pRbsInfo, (pRbsInfo)->bounds.x1);
+
+
+#dffinf NfxtBytfIndfxfdStorfVbrsX(PREFIX) \
+    PREFIX ## XDithfr = (PREFIX ## XDithfr + 1) & 7
+
+#dffinf NfxtBytfIndfxfdStorfVbrsY(PREFIX) \
+    PREFIX ## YDithfr = (PREFIX ## YDithfr + (1 << 3)) & (7 << 3)
+
+typfdff jubytf  BytfIndfxfdBmPixflTypf;
+typfdff jubytf  BytfIndfxfdBmDbtbTypf;
+
+#dffinf BytfIndfxfdBmPixflStridf        1
+#dffinf BytfIndfxfdBmBitsPfrPixfl       8
+
+#dffinf DfdlbrfBytfIndfxfdBmLobdVbrs    DfdlbrfBytfIndfxfdLobdVbrs
+#dffinf DfdlbrfBytfIndfxfdBmStorfVbrs   DfdlbrfBytfIndfxfdStorfVbrs
+#dffinf InitBytfIndfxfdBmLobdVbrs       InitBytfIndfxfdLobdVbrs
+#dffinf InitBytfIndfxfdBmStorfVbrsY     InitBytfIndfxfdStorfVbrsY
+#dffinf InitBytfIndfxfdBmStorfVbrsX     InitBytfIndfxfdStorfVbrsX
+#dffinf NfxtBytfIndfxfdBmStorfVbrsX     NfxtBytfIndfxfdStorfVbrsX
+#dffinf NfxtBytfIndfxfdBmStorfVbrsY     NfxtBytfIndfxfdStorfVbrsY
+
+#dffinf LobdBytfIndfxfdBmTo1IntArgb     LobdBytfIndfxfdTo1IntArgb
+
+#dffinf CopyBytfIndfxfdBmToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+    do { \
+        jint brgb = PREFIX ## Lut[pRow[x]]; \
+        (pRGB)[i] = brgb & (brgb >> 24); \
+    } whilf (0)
+
+
+#dffinf BytfIndfxfdXpbrLutEntry                 -1
+#dffinf BytfIndfxfdIsXpbrLutEntry(pix)          (pix < 0)
+#dffinf StorfBytfIndfxfdNonXpbrFromArgb         StorfBytfIndfxfdFrom1IntArgb
+
+#dffinf StorfBytfIndfxfdPixfl(pRbs, x, pixfl) \
+    ((pRbs)[x] = (jubytf) (pixfl))
+
+#dffinf DfdlbrfBytfIndfxfdPixflDbtb(PREFIX)
+#dffinf ExtrbdtBytfIndfxfdPixflDbtb(PIXEL, PREFIX)
+
+#dffinf StorfBytfIndfxfdPixflDbtb(pPix, x, pixfl, PREFIX) \
+    (pPix)[x] = (jubytf) (pixfl)
+
+#dffinf BytfIndfxfdPixflFromArgb(pixfl, rgb, pRbsInfo) \
+    do { \
+        jint r, g, b; \
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        (pixfl) = SurfbdfDbtb_InvColorMbp((pRbsInfo)->invColorTbblf, \
+                                          r, g, b); \
+    } whilf (0)
+
+#dffinf LobdBytfIndfxfdTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    (rgb) = PREFIX ## Lut[pRbs[x]]
+
+#dffinf LobdBytfIndfxfdTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    (brgb) = PREFIX ## Lut[pRbs[x]]
+
+#dffinf LobdBytfIndfxfdTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    do { \
+        jint rgb = PREFIX ## Lut[pRbs[x]]; \
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+    } whilf (0)
+
+#dffinf LobdBytfIndfxfdTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    do { \
+        jint brgb = PREFIX ## Lut[pRbs[x]]; \
+        ExtrbdtIntDdmComponfnts1234(brgb, b, r, g, b); \
+    } whilf (0)
+
+#dffinf BytfClbmp1Componfnt(X)  \
+    do { if (((X) >> 8) != 0) {X = (~(X >> 31)) & 255; } } whilf (0)
+
+#dffinf BytfClbmp3Componfnts(R, G, B) \
+    do { \
+        if (((R|G|B) >> 8) != 0) { \
+            BytfClbmp1Componfnt(R); \
+            BytfClbmp1Componfnt(G); \
+            BytfClbmp1Componfnt(B); \
+        } \
+    } whilf (0)
+
+#dffinf StorfBytfIndfxfdFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    do { \
+        int r, g, b; \
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        StorfBytfIndfxfdFrom3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+    } whilf (0)
+
+#dffinf StorfBytfIndfxfdFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StorfBytfIndfxfdFrom1IntRgb(pRbs, PREFIX, x, brgb)
+
+#dffinf StorfBytfIndfxfdFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    do { \
+        r += PREFIX ## rfrr[PREFIX ## XDithfr]; \
+        g += PREFIX ## gfrr[PREFIX ## XDithfr]; \
+        b += PREFIX ## bfrr[PREFIX ## XDithfr]; \
+        BytfClbmp3Componfnts(r, g, b); \
+        (pRbs)[x] = SurfbdfDbtb_InvColorMbp(PREFIX ## InvLut, r, g, b); \
+    } whilf (0)
+
+#dffinf StorfBytfIndfxfdFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StorfBytfIndfxfdFrom3BytfRgb(pRbs, PREFIX, x, r, g, b)
+
+#dffinf CopyBytfIndfxfdToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+    do { \
+        jint brgb = PREFIX ## Lut[pRow[x]]; \
+        jint b = URShift(brgb, 24); \
+        if (b == 0) { \
+            brgb = 0; \
+        } flsf if (b < 0xff) { \
+            jint r = (brgb >> 16) & 0xff; \
+            jint g = (brgb >>  8) & 0xff; \
+            jint b = (brgb      ) & 0xff; \
+            r = MUL8(b, r); \
+            g = MUL8(b, g); \
+            b = MUL8(b, b); \
+            brgb = ComposfIntDdmComponfnts1234(b, r, g, b); \
+        } \
+        (pRGB)[i] = brgb; \
+    } whilf (0)
+
+
+#dffinf DfdlbrfBytfIndfxfdAlphbLobdDbtb(PREFIX) \
+    jint *PREFIX ## Lut; \
+    jint PREFIX ## rgb;
+
+#dffinf InitBytfIndfxfdAlphbLobdDbtb(PREFIX, pRbsInfo) \
+    do { \
+        PREFIX ## Lut = (pRbsInfo)->lutBbsf; \
+        PREFIX ## rgb = 0; \
+    } whilf (0)
+
+#dffinf LobdAlphbFromBytfIndfxfdFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+    do { \
+        PREFIX ## rgb = PREFIX ## Lut[(pRbs)[0]]; \
+        COMP_PREFIX ## A = ((juint) PREFIX ## rgb) >> 24; \
+    } whilf (0)
+
+#dffinf Postlobd4BytfArgbFromBytfIndfxfd(pRbs, PREFIX, COMP_PREFIX) \
+    do { \
+        COMP_PREFIX ## R = (PREFIX ## rgb >> 16) & 0xff; \
+        COMP_PREFIX ## G = (PREFIX ## rgb >>  8) & 0xff; \
+        COMP_PREFIX ## B = (PREFIX ## rgb >>  0) & 0xff; \
+    } whilf (0)
+
+
+#dffinf BytfIndfxfdIsPrfmultiplifd      0
+
+#dffinf StorfBytfIndfxfdFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfBytfIndfxfdFrom4BytfArgb(pRbs, PREFIX, x, \
+                                  COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                                  COMP_PREFIX ## G, COMP_PREFIX ## B)
+
+#fndif /* BytfIndfxfd_h_Indludfd */

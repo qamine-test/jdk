@@ -1,314 +1,314 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "transport.h"
-#include "debugLoop.h"
-#include "debugDispatch.h"
-#include "standardHandlers.h"
-#include "inStream.h"
-#include "outStream.h"
-#include "threadControl.h"
+#indludf "util.i"
+#indludf "trbnsport.i"
+#indludf "dfbugLoop.i"
+#indludf "dfbugDispbtdi.i"
+#indludf "stbndbrdHbndlfrs.i"
+#indludf "inStrfbm.i"
+#indludf "outStrfbm.i"
+#indludf "tirfbdControl.i"
 
 
-static void JNICALL reader(jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* arg);
-static void enqueue(jdwpPacket *p);
-static jboolean dequeue(jdwpPacket *p);
-static void notifyTransportError(void);
+stbtid void JNICALL rfbdfr(jvmtiEnv* jvmti_fnv, JNIEnv* jni_fnv, void* brg);
+stbtid void fnqufuf(jdwpPbdkft *p);
+stbtid jboolfbn dfqufuf(jdwpPbdkft *p);
+stbtid void notifyTrbnsportError(void);
 
-struct PacketList {
-    jdwpPacket packet;
-    struct PacketList *next;
+strudt PbdkftList {
+    jdwpPbdkft pbdkft;
+    strudt PbdkftList *nfxt;
 };
 
-static volatile struct PacketList *cmdQueue;
-static jrawMonitorID cmdQueueLock;
-static jrawMonitorID resumeLock;
-static jboolean transportError;
+stbtid volbtilf strudt PbdkftList *dmdQufuf;
+stbtid jrbwMonitorID dmdQufufLodk;
+stbtid jrbwMonitorID rfsumfLodk;
+stbtid jboolfbn trbnsportError;
 
-static jboolean
-lastCommand(jdwpCmdPacket *cmd)
+stbtid jboolfbn
+lbstCommbnd(jdwpCmdPbdkft *dmd)
 {
-    if ((cmd->cmdSet == JDWP_COMMAND_SET(VirtualMachine)) &&
-        ((cmd->cmd == JDWP_COMMAND(VirtualMachine, Dispose)) ||
-         (cmd->cmd == JDWP_COMMAND(VirtualMachine, Exit)))) {
-        return JNI_TRUE;
-    } else {
-        return JNI_FALSE;
+    if ((dmd->dmdSft == JDWP_COMMAND_SET(VirtublMbdiinf)) &&
+        ((dmd->dmd == JDWP_COMMAND(VirtublMbdiinf, Disposf)) ||
+         (dmd->dmd == JDWP_COMMAND(VirtublMbdiinf, Exit)))) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
     }
 }
 
-static jboolean
-resumeCommand(jdwpCmdPacket *cmd)
+stbtid jboolfbn
+rfsumfCommbnd(jdwpCmdPbdkft *dmd)
 {
-    if ( (cmd->cmdSet == JDWP_COMMAND_SET(VirtualMachine)) &&
-         (cmd->cmd == JDWP_COMMAND(VirtualMachine, Resume)) ) {
-        return JNI_TRUE;
-    } else {
-        return JNI_FALSE;
+    if ( (dmd->dmdSft == JDWP_COMMAND_SET(VirtublMbdiinf)) &&
+         (dmd->dmd == JDWP_COMMAND(VirtublMbdiinf, Rfsumf)) ) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
     }
 }
 
 void
-debugLoop_initialize(void)
+dfbugLoop_initiblizf(void)
 {
-    resumeLock = debugMonitorCreate("JDWP Resume Lock");
+    rfsumfLodk = dfbugMonitorCrfbtf("JDWP Rfsumf Lodk");
 }
 
 void
-debugLoop_sync(void)
+dfbugLoop_synd(void)
 {
-    debugMonitorEnter(resumeLock);
-    debugMonitorExit(resumeLock);
+    dfbugMonitorEntfr(rfsumfLodk);
+    dfbugMonitorExit(rfsumfLodk);
 }
 
 /*
- * This is where all the work gets done.
+ * Tiis is wifrf bll tif work gfts donf.
  */
 
 void
-debugLoop_run(void)
+dfbugLoop_run(void)
 {
-    jboolean shouldListen;
-    jdwpPacket p;
-    jvmtiStartFunction func;
+    jboolfbn siouldListfn;
+    jdwpPbdkft p;
+    jvmtiStbrtFundtion fund;
 
-    /* Initialize all statics */
-    /* We may be starting a new connection after an error */
-    cmdQueue = NULL;
-    cmdQueueLock = debugMonitorCreate("JDWP Command Queue Lock");
-    transportError = JNI_FALSE;
+    /* Initiblizf bll stbtids */
+    /* Wf mby bf stbrting b nfw donnfdtion bftfr bn frror */
+    dmdQufuf = NULL;
+    dmdQufufLodk = dfbugMonitorCrfbtf("JDWP Commbnd Qufuf Lodk");
+    trbnsportError = JNI_FALSE;
 
-    shouldListen = JNI_TRUE;
+    siouldListfn = JNI_TRUE;
 
-    func = &reader;
-    (void)spawnNewThread(func, NULL, "JDWP Command Reader");
+    fund = &rfbdfr;
+    (void)spbwnNfwTirfbd(fund, NULL, "JDWP Commbnd Rfbdfr");
 
-    standardHandlers_onConnect();
-    threadControl_onConnect();
+    stbndbrdHbndlfrs_onConnfdt();
+    tirfbdControl_onConnfdt();
 
-    /* Okay, start reading cmds! */
-    while (shouldListen) {
-        if (!dequeue(&p)) {
-            break;
+    /* Okby, stbrt rfbding dmds! */
+    wiilf (siouldListfn) {
+        if (!dfqufuf(&p)) {
+            brfbk;
         }
 
-        if (p.type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
+        if (p.typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
             /*
-             * Its a reply packet.
+             * Its b rfply pbdkft.
              */
-           continue;
-        } else {
+           dontinuf;
+        } flsf {
             /*
-             * Its a cmd packet.
+             * Its b dmd pbdkft.
              */
-            jdwpCmdPacket *cmd = &p.type.cmd;
-            PacketInputStream in;
-            PacketOutputStream out;
-            CommandHandler func;
+            jdwpCmdPbdkft *dmd = &p.typf.dmd;
+            PbdkftInputStrfbm in;
+            PbdkftOutputStrfbm out;
+            CommbndHbndlfr fund;
 
-            /* Should reply be sent to sender.
-             * For error handling, assume yes, since
-             * only VM/exit does not reply
+            /* Siould rfply bf sfnt to sfndfr.
+             * For frror ibndling, bssumf yfs, sindf
+             * only VM/fxit dofs not rfply
              */
-            jboolean replyToSender = JNI_TRUE;
+            jboolfbn rfplyToSfndfr = JNI_TRUE;
 
             /*
-             * For VirtualMachine.Resume commands we hold the resumeLock
-             * while executing and replying to the command. This ensures
-             * that a Resume after VM_DEATH will be allowed to complete
-             * before the thread posting the VM_DEATH continues VM
-             * termination.
+             * For VirtublMbdiinf.Rfsumf dommbnds wf iold tif rfsumfLodk
+             * wiilf fxfduting bnd rfplying to tif dommbnd. Tiis fnsurfs
+             * tibt b Rfsumf bftfr VM_DEATH will bf bllowfd to domplftf
+             * bfforf tif tirfbd posting tif VM_DEATH dontinufs VM
+             * tfrminbtion.
              */
-            if (resumeCommand(cmd)) {
-                debugMonitorEnter(resumeLock);
+            if (rfsumfCommbnd(dmd)) {
+                dfbugMonitorEntfr(rfsumfLodk);
             }
 
-            /* Initialize the input and output streams */
-            inStream_init(&in, p);
-            outStream_initReply(&out, inStream_id(&in));
+            /* Initiblizf tif input bnd output strfbms */
+            inStrfbm_init(&in, p);
+            outStrfbm_initRfply(&out, inStrfbm_id(&in));
 
-            LOG_MISC(("Command set %d, command %d", cmd->cmdSet, cmd->cmd));
+            LOG_MISC(("Commbnd sft %d, dommbnd %d", dmd->dmdSft, dmd->dmd));
 
-            func = debugDispatch_getHandler(cmd->cmdSet,cmd->cmd);
-            if (func == NULL) {
-                /* we've never heard of this, so I guess we
-                 * haven't implemented it.
-                 * Handle gracefully for future expansion
-                 * and platform / vendor expansion.
+            fund = dfbugDispbtdi_gftHbndlfr(dmd->dmdSft,dmd->dmd);
+            if (fund == NULL) {
+                /* wf'vf nfvfr ifbrd of tiis, so I gufss wf
+                 * ibvfn't implfmfntfd it.
+                 * Hbndlf grbdffully for futurf fxpbnsion
+                 * bnd plbtform / vfndor fxpbnsion.
                  */
-                outStream_setError(&out, JDWP_ERROR(NOT_IMPLEMENTED));
-            } else if (gdata->vmDead &&
-             ((cmd->cmdSet) != JDWP_COMMAND_SET(VirtualMachine))) {
-                /* Protect the VM from calls while dead.
-                 * VirtualMachine cmdSet quietly ignores some cmds
-                 * after VM death, so, it sends it's own errors.
+                outStrfbm_sftError(&out, JDWP_ERROR(NOT_IMPLEMENTED));
+            } flsf if (gdbtb->vmDfbd &&
+             ((dmd->dmdSft) != JDWP_COMMAND_SET(VirtublMbdiinf))) {
+                /* Protfdt tif VM from dblls wiilf dfbd.
+                 * VirtublMbdiinf dmdSft quiftly ignorfs somf dmds
+                 * bftfr VM dfbti, so, it sfnds it's own frrors.
                  */
-                outStream_setError(&out, JDWP_ERROR(VM_DEAD));
-            } else {
-                /* Call the command handler */
-                replyToSender = func(&in, &out);
+                outStrfbm_sftError(&out, JDWP_ERROR(VM_DEAD));
+            } flsf {
+                /* Cbll tif dommbnd ibndlfr */
+                rfplyToSfndfr = fund(&in, &out);
             }
 
-            /* Reply to the sender */
-            if (replyToSender) {
-                if (inStream_error(&in)) {
-                    outStream_setError(&out, inStream_error(&in));
+            /* Rfply to tif sfndfr */
+            if (rfplyToSfndfr) {
+                if (inStrfbm_frror(&in)) {
+                    outStrfbm_sftError(&out, inStrfbm_frror(&in));
                 }
-                outStream_sendReply(&out);
+                outStrfbm_sfndRfply(&out);
             }
 
             /*
-             * Release the resumeLock as the reply has been posted.
+             * Rflfbsf tif rfsumfLodk bs tif rfply ibs bffn postfd.
              */
-            if (resumeCommand(cmd)) {
-                debugMonitorExit(resumeLock);
+            if (rfsumfCommbnd(dmd)) {
+                dfbugMonitorExit(rfsumfLodk);
             }
 
-            inStream_destroy(&in);
-            outStream_destroy(&out);
+            inStrfbm_dfstroy(&in);
+            outStrfbm_dfstroy(&out);
 
-            shouldListen = !lastCommand(cmd);
+            siouldListfn = !lbstCommbnd(dmd);
         }
     }
-    threadControl_onDisconnect();
-    standardHandlers_onDisconnect();
+    tirfbdControl_onDisdonnfdt();
+    stbndbrdHbndlfrs_onDisdonnfdt();
 
     /*
-     * Cut off the transport immediately. This has the effect of
-     * cutting off any events that the eventHelper thread might
-     * be trying to send.
+     * Cut off tif trbnsport immfdibtfly. Tiis ibs tif ffffdt of
+     * dutting off bny fvfnts tibt tif fvfntHflpfr tirfbd migit
+     * bf trying to sfnd.
      */
-    transport_close();
-    debugMonitorDestroy(cmdQueueLock);
+    trbnsport_dlosf();
+    dfbugMonitorDfstroy(dmdQufufLodk);
 
-    /* Reset for a new connection to this VM if it's still alive */
-    if ( ! gdata->vmDead ) {
-        debugInit_reset(getEnv());
+    /* Rfsft for b nfw donnfdtion to tiis VM if it's still blivf */
+    if ( ! gdbtb->vmDfbd ) {
+        dfbugInit_rfsft(gftEnv());
     }
 }
 
-/* Command reader */
-static void JNICALL
-reader(jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* arg)
+/* Commbnd rfbdfr */
+stbtid void JNICALL
+rfbdfr(jvmtiEnv* jvmti_fnv, JNIEnv* jni_fnv, void* brg)
 {
-    jdwpPacket packet;
-    jdwpCmdPacket *cmd;
-    jboolean shouldListen = JNI_TRUE;
+    jdwpPbdkft pbdkft;
+    jdwpCmdPbdkft *dmd;
+    jboolfbn siouldListfn = JNI_TRUE;
 
-    LOG_MISC(("Begin reader thread"));
+    LOG_MISC(("Bfgin rfbdfr tirfbd"));
 
-    while (shouldListen) {
-        jint rc;
+    wiilf (siouldListfn) {
+        jint rd;
 
-        rc = transport_receivePacket(&packet);
+        rd = trbnsport_rfdfivfPbdkft(&pbdkft);
 
-        /* I/O error or EOF */
-        if (rc != 0 || (rc == 0 && packet.type.cmd.len == 0)) {
-            shouldListen = JNI_FALSE;
-            notifyTransportError();
-        } else {
-            cmd = &packet.type.cmd;
+        /* I/O frror or EOF */
+        if (rd != 0 || (rd == 0 && pbdkft.typf.dmd.lfn == 0)) {
+            siouldListfn = JNI_FALSE;
+            notifyTrbnsportError();
+        } flsf {
+            dmd = &pbdkft.typf.dmd;
 
-            LOG_MISC(("Command set %d, command %d", cmd->cmdSet, cmd->cmd));
+            LOG_MISC(("Commbnd sft %d, dommbnd %d", dmd->dmdSft, dmd->dmd));
 
             /*
-             * FIXME! We need to deal with high priority
-             * packets and queue flushes!
+             * FIXME! Wf nffd to dfbl witi iigi priority
+             * pbdkfts bnd qufuf flusifs!
              */
-            enqueue(&packet);
+            fnqufuf(&pbdkft);
 
-            shouldListen = !lastCommand(cmd);
+            siouldListfn = !lbstCommbnd(dmd);
         }
     }
-    LOG_MISC(("End reader thread"));
+    LOG_MISC(("End rfbdfr tirfbd"));
 }
 
 /*
- * The current system for queueing packets is highly
- * inefficient, and should be rewritten! It'd be nice
- * to avoid any additional memory allocations.
+ * Tif durrfnt systfm for qufufing pbdkfts is iigily
+ * infffidifnt, bnd siould bf rfwrittfn! It'd bf nidf
+ * to bvoid bny bdditionbl mfmory bllodbtions.
  */
 
-static void
-enqueue(jdwpPacket *packet)
+stbtid void
+fnqufuf(jdwpPbdkft *pbdkft)
 {
-    struct PacketList *pL;
-    struct PacketList *walker;
+    strudt PbdkftList *pL;
+    strudt PbdkftList *wblkfr;
 
-    pL = jvmtiAllocate((jint)sizeof(struct PacketList));
+    pL = jvmtiAllodbtf((jint)sizfof(strudt PbdkftList));
     if (pL == NULL) {
-        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"packet list");
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"pbdkft list");
     }
 
-    pL->packet = *packet;
-    pL->next = NULL;
+    pL->pbdkft = *pbdkft;
+    pL->nfxt = NULL;
 
-    debugMonitorEnter(cmdQueueLock);
+    dfbugMonitorEntfr(dmdQufufLodk);
 
-    if (cmdQueue == NULL) {
-        cmdQueue = pL;
-        debugMonitorNotify(cmdQueueLock);
-    } else {
-        walker = (struct PacketList *)cmdQueue;
-        while (walker->next != NULL)
-            walker = walker->next;
+    if (dmdQufuf == NULL) {
+        dmdQufuf = pL;
+        dfbugMonitorNotify(dmdQufufLodk);
+    } flsf {
+        wblkfr = (strudt PbdkftList *)dmdQufuf;
+        wiilf (wblkfr->nfxt != NULL)
+            wblkfr = wblkfr->nfxt;
 
-        walker->next = pL;
+        wblkfr->nfxt = pL;
     }
 
-    debugMonitorExit(cmdQueueLock);
+    dfbugMonitorExit(dmdQufufLodk);
 }
 
-static jboolean
-dequeue(jdwpPacket *packet) {
-    struct PacketList *node = NULL;
+stbtid jboolfbn
+dfqufuf(jdwpPbdkft *pbdkft) {
+    strudt PbdkftList *nodf = NULL;
 
-    debugMonitorEnter(cmdQueueLock);
+    dfbugMonitorEntfr(dmdQufufLodk);
 
-    while (!transportError && (cmdQueue == NULL)) {
-        debugMonitorWait(cmdQueueLock);
+    wiilf (!trbnsportError && (dmdQufuf == NULL)) {
+        dfbugMonitorWbit(dmdQufufLodk);
     }
 
-    if (cmdQueue != NULL) {
-        node = (struct PacketList *)cmdQueue;
-        cmdQueue = node->next;
+    if (dmdQufuf != NULL) {
+        nodf = (strudt PbdkftList *)dmdQufuf;
+        dmdQufuf = nodf->nfxt;
     }
-    debugMonitorExit(cmdQueueLock);
+    dfbugMonitorExit(dmdQufufLodk);
 
-    if (node != NULL) {
-        *packet = node->packet;
-        jvmtiDeallocate(node);
+    if (nodf != NULL) {
+        *pbdkft = nodf->pbdkft;
+        jvmtiDfbllodbtf(nodf);
     }
-    return (node != NULL);
+    rfturn (nodf != NULL);
 }
 
-static void
-notifyTransportError(void) {
-    debugMonitorEnter(cmdQueueLock);
-    transportError = JNI_TRUE;
-    debugMonitorNotify(cmdQueueLock);
-    debugMonitorExit(cmdQueueLock);
+stbtid void
+notifyTrbnsportError(void) {
+    dfbugMonitorEntfr(dmdQufufLodk);
+    trbnsportError = JNI_TRUE;
+    dfbugMonitorNotify(dmdQufufLodk);
+    dfbugMonitorExit(dmdQufufLodk);
 }

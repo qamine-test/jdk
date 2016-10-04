@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.bwt.AWTEvfnt;
+import jbvbx.swing.JIntfrnblFrbmf;
+
+/**
+ * An <dodf>AWTEvfnt</dodf> thbt bdds support for
+ * <dodf>JIntfrnblFrbmf</dodf> objfdts bs thf fvfnt sourdf.  This dlbss hbs thf
+ * sbmf fvfnt typfs bs <dodf>WindowEvfnt</dodf>,
+ * blthough difffrfnt IDs brf usfd.
+ * Hflp on hbndling intfrnbl frbmf fvfnts
+ * is in
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/intfrnblfrbmflistfnfr.html" tbrgft="_top">How to Writf bn Intfrnbl Frbmf Listfnfr</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvb.bwt.fvfnt.WindowEvfnt
+ * @sff jbvb.bwt.fvfnt.WindowListfnfr
+ * @sff JIntfrnblFrbmf
+ * @sff IntfrnblFrbmfListfnfr
+ *
+ * @buthor Thombs Bbll
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss IntfrnblFrbmfEvfnt fxtfnds AWTEvfnt {
+
+    /**
+     * Thf first numbfr in thf rbngf of IDs usfd for intfrnbl frbmf fvfnts.
+     */
+    publid stbtid finbl int INTERNAL_FRAME_FIRST        = 25549;
+
+    /**
+     * Thf lbst numbfr in thf rbngf of IDs usfd for intfrnbl frbmf fvfnts.
+     */
+    publid stbtid finbl int INTERNAL_FRAME_LAST         = 25555;
+
+    /**
+     * Thf "window opfnfd" fvfnt.  This fvfnt is dflivfrfd only
+     * thf first timf thf intfrnbl frbmf is mbdf visiblf.
+     *
+     * @sff JIntfrnblFrbmf#show
+     */
+    publid stbtid finbl int INTERNAL_FRAME_OPENED       = INTERNAL_FRAME_FIRST;
+
+    /**
+     * Thf "window is dlosing" fvfnt. This fvfnt is dflivfrfd whfn
+     * thf usfr bttfmpts to dlosf thf intfrnbl frbmf, sudh bs by
+     * dlidking thf intfrnbl frbmf's dlosf button,
+     * or whfn b progrbm bttfmpts to dlosf thf intfrnbl frbmf
+     * by invoking thf <dodf>sftClosfd</dodf> mfthod.
+     *
+     * @sff JIntfrnblFrbmf#sftDffbultClosfOpfrbtion
+     * @sff JIntfrnblFrbmf#doDffbultClosfAdtion
+     * @sff JIntfrnblFrbmf#sftClosfd
+     */
+    publid stbtid finbl int INTERNAL_FRAME_CLOSING      = 1 + INTERNAL_FRAME_FIRST;
+
+    /**
+     * Thf "window dlosfd" fvfnt. This fvfnt is dflivfrfd bftfr
+     * thf intfrnbl frbmf hbs bffn dlosfd bs thf rfsult of b dbll to
+     * thf <dodf>sftClosfd</dodf> or
+     * <dodf>disposf</dodf> mfthod.
+     *
+     * @sff JIntfrnblFrbmf#sftClosfd
+     * @sff JIntfrnblFrbmf#disposf
+     */
+    publid stbtid finbl int INTERNAL_FRAME_CLOSED       = 2 + INTERNAL_FRAME_FIRST;
+
+    /**
+     * Thf "window idonififd" fvfnt.
+     * This fvfnt indidbtfs thbt thf intfrnbl frbmf
+     * wbs shrunk down to b smbll idon.
+     *
+     * @sff JIntfrnblFrbmf#sftIdon
+     */
+    publid stbtid finbl int INTERNAL_FRAME_ICONIFIED    = 3 + INTERNAL_FRAME_FIRST;
+
+    /**
+     * Thf "window dfidonififd" fvfnt typf. This fvfnt indidbtfs thbt thf
+     * intfrnbl frbmf hbs bffn rfstorfd to its normbl sizf.
+     *
+     * @sff JIntfrnblFrbmf#sftIdon
+     */
+    publid stbtid finbl int INTERNAL_FRAME_DEICONIFIED  = 4 + INTERNAL_FRAME_FIRST;
+
+    /**
+     * Thf "window bdtivbtfd" fvfnt typf. This fvfnt indidbtfs thbt kfystrokfs
+     * bnd mousf dlidks brf dirfdtfd towbrds this intfrnbl frbmf.
+     *
+     * @sff JIntfrnblFrbmf#show
+     * @sff JIntfrnblFrbmf#sftSflfdtfd
+     */
+    publid stbtid finbl int INTERNAL_FRAME_ACTIVATED    = 5 + INTERNAL_FRAME_FIRST;
+
+    /**
+     * Thf "window dfbdtivbtfd" fvfnt typf. This fvfnt indidbtfs thbt kfystrokfs
+     * bnd mousf dlidks brf no longfr dirfdtfd to thf intfrnbl frbmf.
+     *
+     * @sff JIntfrnblFrbmf#sftSflfdtfd
+     */
+    publid stbtid finbl int INTERNAL_FRAME_DEACTIVATED  = 6 + INTERNAL_FRAME_FIRST;
+
+    /**
+     * Construdts bn <dodf>IntfrnblFrbmfEvfnt</dodf> objfdt.
+     * @pbrbm sourdf thf <dodf>JIntfrnblFrbmf</dodf> objfdt thbt originbtfd thf fvfnt
+     * @pbrbm id     bn intfgfr indidbting thf typf of fvfnt
+     */
+    publid IntfrnblFrbmfEvfnt(JIntfrnblFrbmf sourdf, int id) {
+        supfr(sourdf, id);
+    }
+
+    /**
+     * Rfturns b pbrbmftfr string idfntifying this fvfnt.
+     * This mfthod is usfful for fvfnt logging bnd for dfbugging.
+     *
+     * @rfturn b string idfntifying thf fvfnt bnd its bttributfs
+     */
+    publid String pbrbmString() {
+        String typfStr;
+        switdh(id) {
+          dbsf INTERNAL_FRAME_OPENED:
+              typfStr = "INTERNAL_FRAME_OPENED";
+              brfbk;
+          dbsf INTERNAL_FRAME_CLOSING:
+              typfStr = "INTERNAL_FRAME_CLOSING";
+              brfbk;
+          dbsf INTERNAL_FRAME_CLOSED:
+              typfStr = "INTERNAL_FRAME_CLOSED";
+              brfbk;
+          dbsf INTERNAL_FRAME_ICONIFIED:
+              typfStr = "INTERNAL_FRAME_ICONIFIED";
+              brfbk;
+          dbsf INTERNAL_FRAME_DEICONIFIED:
+              typfStr = "INTERNAL_FRAME_DEICONIFIED";
+              brfbk;
+          dbsf INTERNAL_FRAME_ACTIVATED:
+              typfStr = "INTERNAL_FRAME_ACTIVATED";
+              brfbk;
+          dbsf INTERNAL_FRAME_DEACTIVATED:
+              typfStr = "INTERNAL_FRAME_DEACTIVATED";
+              brfbk;
+          dffbult:
+              typfStr = "unknown typf";
+        }
+        rfturn typfStr;
+    }
+
+
+    /**
+     * Rfturns thf originbtor of thf fvfnt.
+     *
+     * @rfturn thf <dodf>JIntfrnblFrbmf</dodf> objfdt thbt originbtfd thf fvfnt
+     * @sindf 1.3
+     */
+
+    publid JIntfrnblFrbmf gftIntfrnblFrbmf () {
+      rfturn (sourdf instbndfof JIntfrnblFrbmf)? (JIntfrnblFrbmf)sourdf : null;
+    }
+
+
+}

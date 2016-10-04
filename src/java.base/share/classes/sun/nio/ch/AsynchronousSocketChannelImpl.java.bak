@@ -1,605 +1,605 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.net.SocketOption;
-import java.net.StandardSocketOptions;
-import java.net.SocketAddress;
-import java.net.InetSocketAddress;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.*;
-import sun.net.NetHooks;
-import sun.net.ExtendedOptionsImpl;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nft.SodkftOption;
+import jbvb.nft.StbndbrdSodkftOptions;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.Collfdtions;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.dondurrfnt.lodks.*;
+import sun.nft.NftHooks;
+import sun.nft.ExtfndfdOptionsImpl;
 
 /**
- * Base implementation of AsynchronousSocketChannel
+ * Bbsf implfmfntbtion of AsyndironousSodkftCibnnfl
  */
 
-abstract class AsynchronousSocketChannelImpl
-    extends AsynchronousSocketChannel
-    implements Cancellable, Groupable
+bbstrbdt dlbss AsyndironousSodkftCibnnflImpl
+    fxtfnds AsyndironousSodkftCibnnfl
+    implfmfnts Cbndfllbblf, Groupbblf
 {
-    protected final FileDescriptor fd;
+    protfdtfd finbl FilfDfsdriptor fd;
 
-    // protects state, localAddress, and remoteAddress
-    protected final Object stateLock = new Object();
+    // protfdts stbtf, lodblAddrfss, bnd rfmotfAddrfss
+    protfdtfd finbl Objfdt stbtfLodk = nfw Objfdt();
 
-    protected volatile InetSocketAddress localAddress = null;
-    protected volatile InetSocketAddress remoteAddress = null;
+    protfdtfd volbtilf InftSodkftAddrfss lodblAddrfss = null;
+    protfdtfd volbtilf InftSodkftAddrfss rfmotfAddrfss = null;
 
-    // State, increases monotonically
-    static final int ST_UNINITIALIZED = -1;
-    static final int ST_UNCONNECTED = 0;
-    static final int ST_PENDING = 1;
-    static final int ST_CONNECTED = 2;
-    protected volatile int state = ST_UNINITIALIZED;
+    // Stbtf, indrfbsfs monotonidblly
+    stbtid finbl int ST_UNINITIALIZED = -1;
+    stbtid finbl int ST_UNCONNECTED = 0;
+    stbtid finbl int ST_PENDING = 1;
+    stbtid finbl int ST_CONNECTED = 2;
+    protfdtfd volbtilf int stbtf = ST_UNINITIALIZED;
 
-    // reading state
-    private final Object readLock = new Object();
-    private boolean reading;
-    private boolean readShutdown;
-    private boolean readKilled;     // further reading disallowed due to timeout
+    // rfbding stbtf
+    privbtf finbl Objfdt rfbdLodk = nfw Objfdt();
+    privbtf boolfbn rfbding;
+    privbtf boolfbn rfbdSiutdown;
+    privbtf boolfbn rfbdKillfd;     // furtifr rfbding disbllowfd duf to timfout
 
-    // writing state
-    private final Object writeLock = new Object();
-    private boolean writing;
-    private boolean writeShutdown;
-    private boolean writeKilled;    // further writing disallowed due to timeout
+    // writing stbtf
+    privbtf finbl Objfdt writfLodk = nfw Objfdt();
+    privbtf boolfbn writing;
+    privbtf boolfbn writfSiutdown;
+    privbtf boolfbn writfKillfd;    // furtifr writing disbllowfd duf to timfout
 
-    // close support
-    private final ReadWriteLock closeLock = new ReentrantReadWriteLock();
-    private volatile boolean open = true;
+    // dlosf support
+    privbtf finbl RfbdWritfLodk dlosfLodk = nfw RffntrbntRfbdWritfLodk();
+    privbtf volbtilf boolfbn opfn = truf;
 
-    // set true when exclusive binding is on and SO_REUSEADDR is emulated
-    private boolean isReuseAddress;
+    // sft truf wifn fxdlusivf binding is on bnd SO_REUSEADDR is fmulbtfd
+    privbtf boolfbn isRfusfAddrfss;
 
-    AsynchronousSocketChannelImpl(AsynchronousChannelGroupImpl group)
-        throws IOException
+    AsyndironousSodkftCibnnflImpl(AsyndironousCibnnflGroupImpl group)
+        tirows IOExdfption
     {
-        super(group.provider());
-        this.fd = Net.socket(true);
-        this.state = ST_UNCONNECTED;
+        supfr(group.providfr());
+        tiis.fd = Nft.sodkft(truf);
+        tiis.stbtf = ST_UNCONNECTED;
     }
 
-    // Constructor for sockets obtained from AsynchronousServerSocketChannelImpl
-    AsynchronousSocketChannelImpl(AsynchronousChannelGroupImpl group,
-                                  FileDescriptor fd,
-                                  InetSocketAddress remote)
-        throws IOException
+    // Construdtor for sodkfts obtbinfd from AsyndironousSfrvfrSodkftCibnnflImpl
+    AsyndironousSodkftCibnnflImpl(AsyndironousCibnnflGroupImpl group,
+                                  FilfDfsdriptor fd,
+                                  InftSodkftAddrfss rfmotf)
+        tirows IOExdfption
     {
-        super(group.provider());
-        this.fd = fd;
-        this.state = ST_CONNECTED;
-        this.localAddress = Net.localAddress(fd);
-        this.remoteAddress = remote;
+        supfr(group.providfr());
+        tiis.fd = fd;
+        tiis.stbtf = ST_CONNECTED;
+        tiis.lodblAddrfss = Nft.lodblAddrfss(fd);
+        tiis.rfmotfAddrfss = rfmotf;
     }
 
-    @Override
-    public final boolean isOpen() {
-        return open;
-    }
-
-    /**
-     * Marks beginning of access to file descriptor/handle
-     */
-    final void begin() throws IOException {
-        closeLock.readLock().lock();
-        if (!isOpen())
-            throw new ClosedChannelException();
+    @Ovfrridf
+    publid finbl boolfbn isOpfn() {
+        rfturn opfn;
     }
 
     /**
-     * Marks end of access to file descriptor/handle
+     * Mbrks bfginning of bddfss to filf dfsdriptor/ibndlf
      */
-    final void end() {
-        closeLock.readLock().unlock();
+    finbl void bfgin() tirows IOExdfption {
+        dlosfLodk.rfbdLodk().lodk();
+        if (!isOpfn())
+            tirow nfw ClosfdCibnnflExdfption();
     }
 
     /**
-     * Invoked to close socket and release other resources.
+     * Mbrks fnd of bddfss to filf dfsdriptor/ibndlf
      */
-    abstract void implClose() throws IOException;
+    finbl void fnd() {
+        dlosfLodk.rfbdLodk().unlodk();
+    }
 
-    @Override
-    public final void close() throws IOException {
-        // synchronize with any threads initiating asynchronous operations
-        closeLock.writeLock().lock();
+    /**
+     * Invokfd to dlosf sodkft bnd rflfbsf otifr rfsourdfs.
+     */
+    bbstrbdt void implClosf() tirows IOExdfption;
+
+    @Ovfrridf
+    publid finbl void dlosf() tirows IOExdfption {
+        // syndironizf witi bny tirfbds initibting bsyndironous opfrbtions
+        dlosfLodk.writfLodk().lodk();
         try {
-            if (!open)
-                return;     // already closed
-            open = false;
-        } finally {
-            closeLock.writeLock().unlock();
+            if (!opfn)
+                rfturn;     // blrfbdy dlosfd
+            opfn = fblsf;
+        } finblly {
+            dlosfLodk.writfLodk().unlodk();
         }
-        implClose();
+        implClosf();
     }
 
-    final void enableReading(boolean killed) {
-        synchronized (readLock) {
-            reading = false;
-            if (killed)
-                readKilled = true;
-        }
-    }
-
-    final void enableReading() {
-        enableReading(false);
-    }
-
-    final void enableWriting(boolean killed) {
-        synchronized (writeLock) {
-            writing = false;
-            if (killed)
-                writeKilled = true;
+    finbl void fnbblfRfbding(boolfbn killfd) {
+        syndironizfd (rfbdLodk) {
+            rfbding = fblsf;
+            if (killfd)
+                rfbdKillfd = truf;
         }
     }
 
-    final void enableWriting() {
-        enableWriting(false);
+    finbl void fnbblfRfbding() {
+        fnbblfRfbding(fblsf);
     }
 
-    final void killReading() {
-        synchronized (readLock) {
-            readKilled = true;
+    finbl void fnbblfWriting(boolfbn killfd) {
+        syndironizfd (writfLodk) {
+            writing = fblsf;
+            if (killfd)
+                writfKillfd = truf;
         }
     }
 
-    final void killWriting() {
-        synchronized (writeLock) {
-            writeKilled = true;
+    finbl void fnbblfWriting() {
+        fnbblfWriting(fblsf);
+    }
+
+    finbl void killRfbding() {
+        syndironizfd (rfbdLodk) {
+            rfbdKillfd = truf;
         }
     }
 
-    final void killConnect() {
-        // when a connect is cancelled then the connection may have been
-        // established so prevent reading or writing.
-        killReading();
+    finbl void killWriting() {
+        syndironizfd (writfLodk) {
+            writfKillfd = truf;
+        }
+    }
+
+    finbl void killConnfdt() {
+        // wifn b donnfdt is dbndfllfd tifn tif donnfdtion mby ibvf bffn
+        // fstbblisifd so prfvfnt rfbding or writing.
+        killRfbding();
         killWriting();
     }
 
     /**
-     * Invoked by connect to initiate the connect operation.
+     * Invokfd by donnfdt to initibtf tif donnfdt opfrbtion.
      */
-    abstract <A> Future<Void> implConnect(SocketAddress remote,
-                                          A attachment,
-                                          CompletionHandler<Void,? super A> handler);
+    bbstrbdt <A> Futurf<Void> implConnfdt(SodkftAddrfss rfmotf,
+                                          A bttbdimfnt,
+                                          ComplftionHbndlfr<Void,? supfr A> ibndlfr);
 
-    @Override
-    public final Future<Void> connect(SocketAddress remote) {
-        return implConnect(remote, null, null);
+    @Ovfrridf
+    publid finbl Futurf<Void> donnfdt(SodkftAddrfss rfmotf) {
+        rfturn implConnfdt(rfmotf, null, null);
     }
 
-    @Override
-    public final <A> void connect(SocketAddress remote,
-                                  A attachment,
-                                  CompletionHandler<Void,? super A> handler)
+    @Ovfrridf
+    publid finbl <A> void donnfdt(SodkftAddrfss rfmotf,
+                                  A bttbdimfnt,
+                                  ComplftionHbndlfr<Void,? supfr A> ibndlfr)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implConnect(remote, attachment, handler);
+        if (ibndlfr == null)
+            tirow nfw NullPointfrExdfption("'ibndlfr' is null");
+        implConnfdt(rfmotf, bttbdimfnt, ibndlfr);
     }
 
     /**
-     * Invoked by read to initiate the I/O operation.
+     * Invokfd by rfbd to initibtf tif I/O opfrbtion.
      */
-    abstract <V extends Number,A> Future<V> implRead(boolean isScatteringRead,
-                                                     ByteBuffer dst,
-                                                     ByteBuffer[] dsts,
-                                                     long timeout,
-                                                     TimeUnit unit,
-                                                     A attachment,
-                                                     CompletionHandler<V,? super A> handler);
+    bbstrbdt <V fxtfnds Numbfr,A> Futurf<V> implRfbd(boolfbn isSdbttfringRfbd,
+                                                     BytfBufffr dst,
+                                                     BytfBufffr[] dsts,
+                                                     long timfout,
+                                                     TimfUnit unit,
+                                                     A bttbdimfnt,
+                                                     ComplftionHbndlfr<V,? supfr A> ibndlfr);
 
-    @SuppressWarnings("unchecked")
-    private <V extends Number,A> Future<V> read(boolean isScatteringRead,
-                                                ByteBuffer dst,
-                                                ByteBuffer[] dsts,
-                                                long timeout,
-                                                TimeUnit unit,
-                                                A att,
-                                                CompletionHandler<V,? super A> handler)
+    @SupprfssWbrnings("undifdkfd")
+    privbtf <V fxtfnds Numbfr,A> Futurf<V> rfbd(boolfbn isSdbttfringRfbd,
+                                                BytfBufffr dst,
+                                                BytfBufffr[] dsts,
+                                                long timfout,
+                                                TimfUnit unit,
+                                                A btt,
+                                                ComplftionHbndlfr<V,? supfr A> ibndlfr)
     {
-        if (!isOpen()) {
-            Throwable e = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(e);
-            Invoker.invoke(this, handler, att, null, e);
-            return null;
+        if (!isOpfn()) {
+            Tirowbblf f = nfw ClosfdCibnnflExdfption();
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiFbilurf(f);
+            Invokfr.invokf(tiis, ibndlfr, btt, null, f);
+            rfturn null;
         }
 
-        if (remoteAddress == null)
-            throw new NotYetConnectedException();
+        if (rfmotfAddrfss == null)
+            tirow nfw NotYftConnfdtfdExdfption();
 
-        boolean hasSpaceToRead = isScatteringRead || dst.hasRemaining();
-        boolean shutdown = false;
+        boolfbn ibsSpbdfToRfbd = isSdbttfringRfbd || dst.ibsRfmbining();
+        boolfbn siutdown = fblsf;
 
-        // check and update state
-        synchronized (readLock) {
-            if (readKilled)
-                throw new IllegalStateException("Reading not allowed due to timeout or cancellation");
-            if (reading)
-                throw new ReadPendingException();
-            if (readShutdown) {
-                shutdown = true;
-            } else {
-                if (hasSpaceToRead) {
-                    reading = true;
+        // difdk bnd updbtf stbtf
+        syndironizfd (rfbdLodk) {
+            if (rfbdKillfd)
+                tirow nfw IllfgblStbtfExdfption("Rfbding not bllowfd duf to timfout or dbndfllbtion");
+            if (rfbding)
+                tirow nfw RfbdPfndingExdfption();
+            if (rfbdSiutdown) {
+                siutdown = truf;
+            } flsf {
+                if (ibsSpbdfToRfbd) {
+                    rfbding = truf;
                 }
             }
         }
 
-        // immediately complete with -1 if shutdown for read
-        // immediately complete with 0 if no space remaining
-        if (shutdown || !hasSpaceToRead) {
-            Number result;
-            if (isScatteringRead) {
-                result = (shutdown) ? Long.valueOf(-1L) : Long.valueOf(0L);
-            } else {
-                result = (shutdown) ? -1 : 0;
+        // immfdibtfly domplftf witi -1 if siutdown for rfbd
+        // immfdibtfly domplftf witi 0 if no spbdf rfmbining
+        if (siutdown || !ibsSpbdfToRfbd) {
+            Numbfr rfsult;
+            if (isSdbttfringRfbd) {
+                rfsult = (siutdown) ? Long.vblufOf(-1L) : Long.vblufOf(0L);
+            } flsf {
+                rfsult = (siutdown) ? -1 : 0;
             }
-            if (handler == null)
-                return CompletedFuture.withResult((V)result);
-            Invoker.invoke(this, handler, att, (V)result, null);
-            return null;
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiRfsult((V)rfsult);
+            Invokfr.invokf(tiis, ibndlfr, btt, (V)rfsult, null);
+            rfturn null;
         }
 
-        return implRead(isScatteringRead, dst, dsts, timeout, unit, att, handler);
+        rfturn implRfbd(isSdbttfringRfbd, dst, dsts, timfout, unit, btt, ibndlfr);
     }
 
-    @Override
-    public final Future<Integer> read(ByteBuffer dst) {
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
-        return read(false, dst, null, 0L, TimeUnit.MILLISECONDS, null, null);
+    @Ovfrridf
+    publid finbl Futurf<Intfgfr> rfbd(BytfBufffr dst) {
+        if (dst.isRfbdOnly())
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
+        rfturn rfbd(fblsf, dst, null, 0L, TimfUnit.MILLISECONDS, null, null);
     }
 
-    @Override
-    public final <A> void read(ByteBuffer dst,
-                               long timeout,
-                               TimeUnit unit,
-                               A attachment,
-                               CompletionHandler<Integer,? super A> handler)
+    @Ovfrridf
+    publid finbl <A> void rfbd(BytfBufffr dst,
+                               long timfout,
+                               TimfUnit unit,
+                               A bttbdimfnt,
+                               ComplftionHbndlfr<Intfgfr,? supfr A> ibndlfr)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
-        read(false, dst, null, timeout, unit, attachment, handler);
+        if (ibndlfr == null)
+            tirow nfw NullPointfrExdfption("'ibndlfr' is null");
+        if (dst.isRfbdOnly())
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
+        rfbd(fblsf, dst, null, timfout, unit, bttbdimfnt, ibndlfr);
     }
 
-    @Override
-    public final <A> void read(ByteBuffer[] dsts,
-                               int offset,
-                               int length,
-                               long timeout,
-                               TimeUnit unit,
-                               A attachment,
-                               CompletionHandler<Long,? super A> handler)
+    @Ovfrridf
+    publid finbl <A> void rfbd(BytfBufffr[] dsts,
+                               int offsft,
+                               int lfngti,
+                               long timfout,
+                               TimfUnit unit,
+                               A bttbdimfnt,
+                               ComplftionHbndlfr<Long,? supfr A> ibndlfr)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        if ((offset < 0) || (length < 0) || (offset > dsts.length - length))
-            throw new IndexOutOfBoundsException();
-        ByteBuffer[] bufs = Util.subsequence(dsts, offset, length);
-        for (int i=0; i<bufs.length; i++) {
-            if (bufs[i].isReadOnly())
-                throw new IllegalArgumentException("Read-only buffer");
+        if (ibndlfr == null)
+            tirow nfw NullPointfrExdfption("'ibndlfr' is null");
+        if ((offsft < 0) || (lfngti < 0) || (offsft > dsts.lfngti - lfngti))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        BytfBufffr[] bufs = Util.subsfqufndf(dsts, offsft, lfngti);
+        for (int i=0; i<bufs.lfngti; i++) {
+            if (bufs[i].isRfbdOnly())
+                tirow nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
         }
-        read(true, null, bufs, timeout, unit, attachment, handler);
+        rfbd(truf, null, bufs, timfout, unit, bttbdimfnt, ibndlfr);
     }
 
     /**
-     * Invoked by write to initiate the I/O operation.
+     * Invokfd by writf to initibtf tif I/O opfrbtion.
      */
-    abstract <V extends Number,A> Future<V> implWrite(boolean isGatheringWrite,
-                                                      ByteBuffer src,
-                                                      ByteBuffer[] srcs,
-                                                      long timeout,
-                                                      TimeUnit unit,
-                                                      A attachment,
-                                                      CompletionHandler<V,? super A> handler);
+    bbstrbdt <V fxtfnds Numbfr,A> Futurf<V> implWritf(boolfbn isGbtifringWritf,
+                                                      BytfBufffr srd,
+                                                      BytfBufffr[] srds,
+                                                      long timfout,
+                                                      TimfUnit unit,
+                                                      A bttbdimfnt,
+                                                      ComplftionHbndlfr<V,? supfr A> ibndlfr);
 
-    @SuppressWarnings("unchecked")
-    private <V extends Number,A> Future<V> write(boolean isGatheringWrite,
-                                                 ByteBuffer src,
-                                                 ByteBuffer[] srcs,
-                                                 long timeout,
-                                                 TimeUnit unit,
-                                                 A att,
-                                                 CompletionHandler<V,? super A> handler)
+    @SupprfssWbrnings("undifdkfd")
+    privbtf <V fxtfnds Numbfr,A> Futurf<V> writf(boolfbn isGbtifringWritf,
+                                                 BytfBufffr srd,
+                                                 BytfBufffr[] srds,
+                                                 long timfout,
+                                                 TimfUnit unit,
+                                                 A btt,
+                                                 ComplftionHbndlfr<V,? supfr A> ibndlfr)
     {
-        boolean hasDataToWrite = isGatheringWrite || src.hasRemaining();
+        boolfbn ibsDbtbToWritf = isGbtifringWritf || srd.ibsRfmbining();
 
-        boolean closed = false;
-        if (isOpen()) {
-            if (remoteAddress == null)
-                throw new NotYetConnectedException();
-            // check and update state
-            synchronized (writeLock) {
-                if (writeKilled)
-                    throw new IllegalStateException("Writing not allowed due to timeout or cancellation");
+        boolfbn dlosfd = fblsf;
+        if (isOpfn()) {
+            if (rfmotfAddrfss == null)
+                tirow nfw NotYftConnfdtfdExdfption();
+            // difdk bnd updbtf stbtf
+            syndironizfd (writfLodk) {
+                if (writfKillfd)
+                    tirow nfw IllfgblStbtfExdfption("Writing not bllowfd duf to timfout or dbndfllbtion");
                 if (writing)
-                    throw new WritePendingException();
-                if (writeShutdown) {
-                    closed = true;
-                } else {
-                    if (hasDataToWrite)
-                        writing = true;
+                    tirow nfw WritfPfndingExdfption();
+                if (writfSiutdown) {
+                    dlosfd = truf;
+                } flsf {
+                    if (ibsDbtbToWritf)
+                        writing = truf;
                 }
             }
-        } else {
-            closed = true;
+        } flsf {
+            dlosfd = truf;
         }
 
-        // channel is closed or shutdown for write
-        if (closed) {
-            Throwable e = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(e);
-            Invoker.invoke(this, handler, att, null, e);
-            return null;
+        // dibnnfl is dlosfd or siutdown for writf
+        if (dlosfd) {
+            Tirowbblf f = nfw ClosfdCibnnflExdfption();
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiFbilurf(f);
+            Invokfr.invokf(tiis, ibndlfr, btt, null, f);
+            rfturn null;
         }
 
-        // nothing to write so complete immediately
-        if (!hasDataToWrite) {
-            Number result = (isGatheringWrite) ? (Number)0L : (Number)0;
-            if (handler == null)
-                return CompletedFuture.withResult((V)result);
-            Invoker.invoke(this, handler, att, (V)result, null);
-            return null;
+        // notiing to writf so domplftf immfdibtfly
+        if (!ibsDbtbToWritf) {
+            Numbfr rfsult = (isGbtifringWritf) ? (Numbfr)0L : (Numbfr)0;
+            if (ibndlfr == null)
+                rfturn ComplftfdFuturf.witiRfsult((V)rfsult);
+            Invokfr.invokf(tiis, ibndlfr, btt, (V)rfsult, null);
+            rfturn null;
         }
 
-        return implWrite(isGatheringWrite, src, srcs, timeout, unit, att, handler);
+        rfturn implWritf(isGbtifringWritf, srd, srds, timfout, unit, btt, ibndlfr);
     }
 
-    @Override
-    public final Future<Integer> write(ByteBuffer src) {
-        return write(false, src, null, 0L, TimeUnit.MILLISECONDS, null, null);
+    @Ovfrridf
+    publid finbl Futurf<Intfgfr> writf(BytfBufffr srd) {
+        rfturn writf(fblsf, srd, null, 0L, TimfUnit.MILLISECONDS, null, null);
     }
 
-    @Override
-    public final <A> void write(ByteBuffer src,
-                                long timeout,
-                                TimeUnit unit,
-                                A attachment,
-                                CompletionHandler<Integer,? super A> handler)
+    @Ovfrridf
+    publid finbl <A> void writf(BytfBufffr srd,
+                                long timfout,
+                                TimfUnit unit,
+                                A bttbdimfnt,
+                                ComplftionHbndlfr<Intfgfr,? supfr A> ibndlfr)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        write(false, src, null, timeout, unit, attachment, handler);
+        if (ibndlfr == null)
+            tirow nfw NullPointfrExdfption("'ibndlfr' is null");
+        writf(fblsf, srd, null, timfout, unit, bttbdimfnt, ibndlfr);
     }
 
-    @Override
-    public final <A> void  write(ByteBuffer[] srcs,
-                                 int offset,
-                                 int length,
-                                 long timeout,
-                                 TimeUnit unit,
-                                 A attachment,
-                                 CompletionHandler<Long,? super A> handler)
+    @Ovfrridf
+    publid finbl <A> void  writf(BytfBufffr[] srds,
+                                 int offsft,
+                                 int lfngti,
+                                 long timfout,
+                                 TimfUnit unit,
+                                 A bttbdimfnt,
+                                 ComplftionHbndlfr<Long,? supfr A> ibndlfr)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        if ((offset < 0) || (length < 0) || (offset > srcs.length - length))
-            throw new IndexOutOfBoundsException();
-        srcs = Util.subsequence(srcs, offset, length);
-        write(true, null, srcs, timeout, unit, attachment, handler);
+        if (ibndlfr == null)
+            tirow nfw NullPointfrExdfption("'ibndlfr' is null");
+        if ((offsft < 0) || (lfngti < 0) || (offsft > srds.lfngti - lfngti))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        srds = Util.subsfqufndf(srds, offsft, lfngti);
+        writf(truf, null, srds, timfout, unit, bttbdimfnt, ibndlfr);
     }
 
-    @Override
-    public final AsynchronousSocketChannel bind(SocketAddress local)
-        throws IOException
+    @Ovfrridf
+    publid finbl AsyndironousSodkftCibnnfl bind(SodkftAddrfss lodbl)
+        tirows IOExdfption
     {
         try {
-            begin();
-            synchronized (stateLock) {
-                if (state == ST_PENDING)
-                    throw new ConnectionPendingException();
-                if (localAddress != null)
-                    throw new AlreadyBoundException();
-                InetSocketAddress isa = (local == null) ?
-                    new InetSocketAddress(0) : Net.checkAddress(local);
-                SecurityManager sm = System.getSecurityManager();
+            bfgin();
+            syndironizfd (stbtfLodk) {
+                if (stbtf == ST_PENDING)
+                    tirow nfw ConnfdtionPfndingExdfption();
+                if (lodblAddrfss != null)
+                    tirow nfw AlrfbdyBoundExdfption();
+                InftSodkftAddrfss isb = (lodbl == null) ?
+                    nfw InftSodkftAddrfss(0) : Nft.difdkAddrfss(lodbl);
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null) {
-                    sm.checkListen(isa.getPort());
+                    sm.difdkListfn(isb.gftPort());
                 }
-                NetHooks.beforeTcpBind(fd, isa.getAddress(), isa.getPort());
-                Net.bind(fd, isa.getAddress(), isa.getPort());
-                localAddress = Net.localAddress(fd);
+                NftHooks.bfforfTdpBind(fd, isb.gftAddrfss(), isb.gftPort());
+                Nft.bind(fd, isb.gftAddrfss(), isb.gftPort());
+                lodblAddrfss = Nft.lodblAddrfss(fd);
             }
-        } finally {
-            end();
+        } finblly {
+            fnd();
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public final SocketAddress getLocalAddress() throws IOException {
-        if (!isOpen())
-            throw new ClosedChannelException();
-         return Net.getRevealedLocalAddress(localAddress);
+    @Ovfrridf
+    publid finbl SodkftAddrfss gftLodblAddrfss() tirows IOExdfption {
+        if (!isOpfn())
+            tirow nfw ClosfdCibnnflExdfption();
+         rfturn Nft.gftRfvfblfdLodblAddrfss(lodblAddrfss);
     }
 
-    @Override
-    public final <T> AsynchronousSocketChannel setOption(SocketOption<T> name, T value)
-        throws IOException
+    @Ovfrridf
+    publid finbl <T> AsyndironousSodkftCibnnfl sftOption(SodkftOption<T> nbmf, T vbluf)
+        tirows IOExdfption
     {
-        if (name == null)
-            throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            tirow nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
 
         try {
-            begin();
-            if (writeShutdown)
-                throw new IOException("Connection has been shutdown for writing");
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
-                    Net.useExclusiveBind())
+            bfgin();
+            if (writfSiutdown)
+                tirow nfw IOExdfption("Connfdtion ibs bffn siutdown for writing");
+            if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR &&
+                    Nft.usfExdlusivfBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                isReuseAddress = (Boolean)value;
-            } else {
-                Net.setSocketOption(fd, Net.UNSPEC, name, value);
+                // SO_REUSEADDR fmulbtfd wifn using fxdlusivf bind
+                isRfusfAddrfss = (Boolfbn)vbluf;
+            } flsf {
+                Nft.sftSodkftOption(fd, Nft.UNSPEC, nbmf, vbluf);
             }
-            return this;
-        } finally {
-            end();
+            rfturn tiis;
+        } finblly {
+            fnd();
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public final <T> T getOption(SocketOption<T> name) throws IOException {
-        if (name == null)
-            throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl <T> T gftOption(SodkftOption<T> nbmf) tirows IOExdfption {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            tirow nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
 
         try {
-            begin();
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
-                    Net.useExclusiveBind())
+            bfgin();
+            if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR &&
+                    Nft.usfExdlusivfBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                return (T)Boolean.valueOf(isReuseAddress);
+                // SO_REUSEADDR fmulbtfd wifn using fxdlusivf bind
+                rfturn (T)Boolfbn.vblufOf(isRfusfAddrfss);
             }
-            return (T) Net.getSocketOption(fd, Net.UNSPEC, name);
-        } finally {
-            end();
+            rfturn (T) Nft.gftSodkftOption(fd, Nft.UNSPEC, nbmf);
+        } finblly {
+            fnd();
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SocketOption<?>> defaultOptions = defaultOptions();
+    privbtf stbtid dlbss DffbultOptionsHoldfr {
+        stbtid finbl Sft<SodkftOption<?>> dffbultOptions = dffbultOptions();
 
-        private static Set<SocketOption<?>> defaultOptions() {
-            HashSet<SocketOption<?>> set = new HashSet<SocketOption<?>>(5);
-            set.add(StandardSocketOptions.SO_SNDBUF);
-            set.add(StandardSocketOptions.SO_RCVBUF);
-            set.add(StandardSocketOptions.SO_KEEPALIVE);
-            set.add(StandardSocketOptions.SO_REUSEADDR);
-            set.add(StandardSocketOptions.TCP_NODELAY);
-            if (ExtendedOptionsImpl.flowSupported()) {
-                set.add(jdk.net.ExtendedSocketOptions.SO_FLOW_SLA);
+        privbtf stbtid Sft<SodkftOption<?>> dffbultOptions() {
+            HbsiSft<SodkftOption<?>> sft = nfw HbsiSft<SodkftOption<?>>(5);
+            sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+            sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+            sft.bdd(StbndbrdSodkftOptions.SO_KEEPALIVE);
+            sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+            sft.bdd(StbndbrdSodkftOptions.TCP_NODELAY);
+            if (ExtfndfdOptionsImpl.flowSupportfd()) {
+                sft.bdd(jdk.nft.ExtfndfdSodkftOptions.SO_FLOW_SLA);
             }
-            return Collections.unmodifiableSet(set);
+            rfturn Collfdtions.unmodifibblfSft(sft);
         }
     }
 
-    @Override
-    public final Set<SocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    @Ovfrridf
+    publid finbl Sft<SodkftOption<?>> supportfdOptions() {
+        rfturn DffbultOptionsHoldfr.dffbultOptions;
     }
 
-    @Override
-    public final SocketAddress getRemoteAddress() throws IOException {
-        if (!isOpen())
-            throw new ClosedChannelException();
-        return remoteAddress;
+    @Ovfrridf
+    publid finbl SodkftAddrfss gftRfmotfAddrfss() tirows IOExdfption {
+        if (!isOpfn())
+            tirow nfw ClosfdCibnnflExdfption();
+        rfturn rfmotfAddrfss;
     }
 
-    @Override
-    public final AsynchronousSocketChannel shutdownInput() throws IOException {
+    @Ovfrridf
+    publid finbl AsyndironousSodkftCibnnfl siutdownInput() tirows IOExdfption {
         try {
-            begin();
-            if (remoteAddress == null)
-                throw new NotYetConnectedException();
-            synchronized (readLock) {
-                if (!readShutdown) {
-                    Net.shutdown(fd, Net.SHUT_RD);
-                    readShutdown = true;
+            bfgin();
+            if (rfmotfAddrfss == null)
+                tirow nfw NotYftConnfdtfdExdfption();
+            syndironizfd (rfbdLodk) {
+                if (!rfbdSiutdown) {
+                    Nft.siutdown(fd, Nft.SHUT_RD);
+                    rfbdSiutdown = truf;
                 }
             }
-        } finally {
-            end();
+        } finblly {
+            fnd();
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public final AsynchronousSocketChannel shutdownOutput() throws IOException {
+    @Ovfrridf
+    publid finbl AsyndironousSodkftCibnnfl siutdownOutput() tirows IOExdfption {
         try {
-            begin();
-            if (remoteAddress == null)
-                throw new NotYetConnectedException();
-            synchronized (writeLock) {
-                if (!writeShutdown) {
-                    Net.shutdown(fd, Net.SHUT_WR);
-                    writeShutdown = true;
+            bfgin();
+            if (rfmotfAddrfss == null)
+                tirow nfw NotYftConnfdtfdExdfption();
+            syndironizfd (writfLodk) {
+                if (!writfSiutdown) {
+                    Nft.siutdown(fd, Nft.SHUT_WR);
+                    writfSiutdown = truf;
                 }
             }
-        } finally {
-            end();
+        } finblly {
+            fnd();
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public final String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getName());
-        sb.append('[');
-        synchronized (stateLock) {
-            if (!isOpen()) {
-                sb.append("closed");
-            } else {
-                switch (state) {
-                case ST_UNCONNECTED:
-                    sb.append("unconnected");
-                    break;
-                case ST_PENDING:
-                    sb.append("connection-pending");
-                    break;
-                case ST_CONNECTED:
-                    sb.append("connected");
-                    if (readShutdown)
-                        sb.append(" ishut");
-                    if (writeShutdown)
-                        sb.append(" oshut");
-                    break;
+    @Ovfrridf
+    publid finbl String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(tiis.gftClbss().gftNbmf());
+        sb.bppfnd('[');
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn()) {
+                sb.bppfnd("dlosfd");
+            } flsf {
+                switdi (stbtf) {
+                dbsf ST_UNCONNECTED:
+                    sb.bppfnd("undonnfdtfd");
+                    brfbk;
+                dbsf ST_PENDING:
+                    sb.bppfnd("donnfdtion-pfnding");
+                    brfbk;
+                dbsf ST_CONNECTED:
+                    sb.bppfnd("donnfdtfd");
+                    if (rfbdSiutdown)
+                        sb.bppfnd(" isiut");
+                    if (writfSiutdown)
+                        sb.bppfnd(" osiut");
+                    brfbk;
                 }
-                if (localAddress != null) {
-                    sb.append(" local=");
-                    sb.append(
-                            Net.getRevealedLocalAddressAsString(localAddress));
+                if (lodblAddrfss != null) {
+                    sb.bppfnd(" lodbl=");
+                    sb.bppfnd(
+                            Nft.gftRfvfblfdLodblAddrfssAsString(lodblAddrfss));
                 }
-                if (remoteAddress != null) {
-                    sb.append(" remote=");
-                    sb.append(remoteAddress.toString());
+                if (rfmotfAddrfss != null) {
+                    sb.bppfnd(" rfmotf=");
+                    sb.bppfnd(rfmotfAddrfss.toString());
                 }
             }
         }
-        sb.append(']');
-        return sb.toString();
+        sb.bppfnd(']');
+        rfturn sb.toString();
     }
 }

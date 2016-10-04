@@ -1,562 +1,562 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eawt;
+pbdkbgf dom.bpplf.fbwt;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.beans.Beans;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bfbns.Bfbns;
 
-import javax.swing.JMenuBar;
+import jbvbx.swing.JMfnuBbr;
 
-import sun.lwawt.*;
-import sun.lwawt.macosx.*;
+import sun.lwbwt.*;
+import sun.lwbwt.mbdosx.*;
 
 /**
- * The <code>Application</code> class allows you to integrate your Java application with the native Mac OS X environment.
- * You can provide your Mac OS X users a greatly enhanced experience by implementing a few basic handlers for standard system events.
+ * Tif <dodf>Applidbtion</dodf> dlbss bllows you to intfgrbtf your Jbvb bpplidbtion witi tif nbtivf Mbd OS X fnvironmfnt.
+ * You dbn providf your Mbd OS X usfrs b grfbtly fnibndfd fxpfrifndf by implfmfnting b ffw bbsid ibndlfrs for stbndbrd systfm fvfnts.
  *
- * For example:
+ * For fxbmplf:
  * <ul>
- * <li>Open an about dialog when a user chooses About from the application menu.</li>
- * <li>Open a preferences window when the users chooses Preferences from the application menu.</li>
- * <li>Create a new document when the user clicks on your Dock icon, and no windows are open.</li>
- * <li>Open a document that the user double-clicked on in the Finder.</li>
- * <li>Open a custom URL scheme when a user clicks on link in a web browser.</li>
- * <li>Reconnect to network services after the system has awoke from sleep.</li>
- * <li>Cleanly shutdown your application when the user chooses Quit from the application menu, Dock icon, or types Command-Q.</li>
- * <li>Cancel shutdown/logout if the user has unsaved changes in your application.</li>
+ * <li>Opfn bn bbout diblog wifn b usfr dioosfs About from tif bpplidbtion mfnu.</li>
+ * <li>Opfn b prfffrfndfs window wifn tif usfrs dioosfs Prfffrfndfs from tif bpplidbtion mfnu.</li>
+ * <li>Crfbtf b nfw dodumfnt wifn tif usfr dlidks on your Dodk idon, bnd no windows brf opfn.</li>
+ * <li>Opfn b dodumfnt tibt tif usfr doublf-dlidkfd on in tif Findfr.</li>
+ * <li>Opfn b dustom URL sdifmf wifn b usfr dlidks on link in b wfb browsfr.</li>
+ * <li>Rfdonnfdt to nftwork sfrvidfs bftfr tif systfm ibs bwokf from slffp.</li>
+ * <li>Clfbnly siutdown your bpplidbtion wifn tif usfr dioosfs Quit from tif bpplidbtion mfnu, Dodk idon, or typfs Commbnd-Q.</li>
+ * <li>Cbndfl siutdown/logout if tif usfr ibs unsbvfd dibngfs in your bpplidbtion.</li>
  * </ul>
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public class Application {
-    private static native void nativeInitializeApplicationDelegate();
+publid dlbss Applidbtion {
+    privbtf stbtid nbtivf void nbtivfInitiblizfApplidbtionDflfgbtf();
 
-    static Application sApplication = null;
+    stbtid Applidbtion sApplidbtion = null;
 
-    static {
-        checkSecurity();
-        Toolkit.getDefaultToolkit(); // Start AppKit
-        if (!Beans.isDesignTime()) {
-            nativeInitializeApplicationDelegate();
+    stbtid {
+        difdkSfdurity();
+        Toolkit.gftDffbultToolkit(); // Stbrt AppKit
+        if (!Bfbns.isDfsignTimf()) {
+            nbtivfInitiblizfApplidbtionDflfgbtf();
         }
 
-        sApplication = new Application();
+        sApplidbtion = nfw Applidbtion();
     }
 
-    private static void checkSecurity() {
-        final SecurityManager security = System.getSecurityManager();
-        if (security == null) return;
-        security.checkPermission(new RuntimePermission("canProcessApplicationEvents"));
-    }
-
-    /**
-     * @return the singleton representing this Mac OS X Application
-     *
-     * @since 1.4
-     */
-    public static Application getApplication() {
-        checkSecurity();
-        return sApplication;
-    }
-
-    // some singletons, since they get called back into from native
-    final _AppEventHandler eventHandler = _AppEventHandler.getInstance();
-    final _AppMenuBarHandler menuBarHandler = _AppMenuBarHandler.getInstance();
-    final _AppDockIconHandler iconHandler = new _AppDockIconHandler();
-
-    /**
-     * Creates an Application instance. Should only be used in JavaBean environments.
-     * @deprecated use {@link #getApplication()}
-     *
-     * @since 1.4
-     */
-    @Deprecated
-    public Application() {
-        checkSecurity();
+    privbtf stbtid void difdkSfdurity() {
+        finbl SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity == null) rfturn;
+        sfdurity.difdkPfrmission(nfw RuntimfPfrmission("dbnProdfssApplidbtionEvfnts"));
     }
 
     /**
-     * Adds sub-types of {@link AppEventListener} to listen for notifications from the native Mac OS X system.
+     * @rfturn tif singlfton rfprfsfnting tiis Mbd OS X Applidbtion
      *
-     * @see AppForegroundListener
-     * @see AppHiddenListener
-     * @see AppReOpenedListener
-     * @see ScreenSleepListener
-     * @see SystemSleepListener
-     * @see UserSessionListener
-     *
-     * @param listener
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @sindf 1.4
      */
-    public void addAppEventListener(final AppEventListener listener) {
-        eventHandler.addListener(listener);
+    publid stbtid Applidbtion gftApplidbtion() {
+        difdkSfdurity();
+        rfturn sApplidbtion;
+    }
+
+    // somf singlftons, sindf tify gft dbllfd bbdk into from nbtivf
+    finbl _AppEvfntHbndlfr fvfntHbndlfr = _AppEvfntHbndlfr.gftInstbndf();
+    finbl _AppMfnuBbrHbndlfr mfnuBbrHbndlfr = _AppMfnuBbrHbndlfr.gftInstbndf();
+    finbl _AppDodkIdonHbndlfr idonHbndlfr = nfw _AppDodkIdonHbndlfr();
+
+    /**
+     * Crfbtfs bn Applidbtion instbndf. Siould only bf usfd in JbvbBfbn fnvironmfnts.
+     * @dfprfdbtfd usf {@link #gftApplidbtion()}
+     *
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid Applidbtion() {
+        difdkSfdurity();
     }
 
     /**
-     * Removes sub-types of {@link AppEventListener} from listening for notifications from the native Mac OS X system.
+     * Adds sub-typfs of {@link AppEvfntListfnfr} to listfn for notifidbtions from tif nbtivf Mbd OS X systfm.
      *
-     * @see AppForegroundListener
-     * @see AppHiddenListener
-     * @see AppReOpenedListener
-     * @see ScreenSleepListener
-     * @see SystemSleepListener
-     * @see UserSessionListener
+     * @sff AppForfgroundListfnfr
+     * @sff AppHiddfnListfnfr
+     * @sff AppRfOpfnfdListfnfr
+     * @sff SdrffnSlffpListfnfr
+     * @sff SystfmSlffpListfnfr
+     * @sff UsfrSfssionListfnfr
      *
-     * @param listener
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm listfnfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void removeAppEventListener(final AppEventListener listener) {
-        eventHandler.removeListener(listener);
+    publid void bddAppEvfntListfnfr(finbl AppEvfntListfnfr listfnfr) {
+        fvfntHbndlfr.bddListfnfr(listfnfr);
     }
 
     /**
-     * Installs a handler to show a custom About window for your application.
+     * Rfmovfs sub-typfs of {@link AppEvfntListfnfr} from listfning for notifidbtions from tif nbtivf Mbd OS X systfm.
      *
-     * Setting the {@link AboutHandler} to <code>null</code> reverts it to the default Cocoa About window.
+     * @sff AppForfgroundListfnfr
+     * @sff AppHiddfnListfnfr
+     * @sff AppRfOpfnfdListfnfr
+     * @sff SdrffnSlffpListfnfr
+     * @sff SystfmSlffpListfnfr
+     * @sff UsfrSfssionListfnfr
      *
-     * @param aboutHandler the handler to respond to the {@link AboutHandler#handleAbout()} message
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm listfnfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void setAboutHandler(final AboutHandler aboutHandler) {
-        eventHandler.aboutDispatcher.setHandler(aboutHandler);
+    publid void rfmovfAppEvfntListfnfr(finbl AppEvfntListfnfr listfnfr) {
+        fvfntHbndlfr.rfmovfListfnfr(listfnfr);
     }
 
     /**
-     * Installs a handler to create the Preferences menu item in your application's app menu.
+     * Instblls b ibndlfr to siow b dustom About window for your bpplidbtion.
      *
-     * Setting the {@link PreferencesHandler} to <code>null</code> will remove the Preferences item from the app menu.
+     * Sftting tif {@link AboutHbndlfr} to <dodf>null</dodf> rfvfrts it to tif dffbult Codob About window.
      *
-     * @param preferencesHandler
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm bboutHbndlfr tif ibndlfr to rfspond to tif {@link AboutHbndlfr#ibndlfAbout()} mfssbgf
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void setPreferencesHandler(final PreferencesHandler preferencesHandler) {
-        eventHandler.preferencesDispatcher.setHandler(preferencesHandler);
+    publid void sftAboutHbndlfr(finbl AboutHbndlfr bboutHbndlfr) {
+        fvfntHbndlfr.bboutDispbtdifr.sftHbndlfr(bboutHbndlfr);
     }
 
     /**
-     * Installs the handler which is notified when the application is asked to open a list of files.
-     * The {@link OpenFilesHandler#openFiles(AppEvent.OpenFilesEvent)} notifications are only sent if the Java app is a bundled application, with a <code>CFBundleDocumentTypes</code> array present in it's Info.plist.
-     * See the <a href="http://developer.apple.com/mac/library/documentation/General/Reference/InfoPlistKeyReference">Info.plist Key Reference</a> for more information about adding a <code>CFBundleDocumentTypes</code> key to your app's Info.plist.
+     * Instblls b ibndlfr to drfbtf tif Prfffrfndfs mfnu itfm in your bpplidbtion's bpp mfnu.
      *
-     * @param openFileHandler
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * Sftting tif {@link PrfffrfndfsHbndlfr} to <dodf>null</dodf> will rfmovf tif Prfffrfndfs itfm from tif bpp mfnu.
+     *
+     * @pbrbm prfffrfndfsHbndlfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void setOpenFileHandler(final OpenFilesHandler openFileHandler) {
-        eventHandler.openFilesDispatcher.setHandler(openFileHandler);
+    publid void sftPrfffrfndfsHbndlfr(finbl PrfffrfndfsHbndlfr prfffrfndfsHbndlfr) {
+        fvfntHbndlfr.prfffrfndfsDispbtdifr.sftHbndlfr(prfffrfndfsHbndlfr);
     }
 
     /**
-     * Installs the handler which is notified when the application is asked to print a list of files.
-     * The {@link PrintFilesHandler#printFiles(AppEvent.PrintFilesEvent)} notifications are only sent if the Java app is a bundled application, with a <code>CFBundleDocumentTypes</code> array present in it's Info.plist.
-     * See the <a href="http://developer.apple.com/mac/library/documentation/General/Reference/InfoPlistKeyReference">Info.plist Key Reference</a> for more information about adding a <code>CFBundleDocumentTypes</code> key to your app's Info.plist.
+     * Instblls tif ibndlfr wiidi is notififd wifn tif bpplidbtion is bskfd to opfn b list of filfs.
+     * Tif {@link OpfnFilfsHbndlfr#opfnFilfs(AppEvfnt.OpfnFilfsEvfnt)} notifidbtions brf only sfnt if tif Jbvb bpp is b bundlfd bpplidbtion, witi b <dodf>CFBundlfDodumfntTypfs</dodf> brrby prfsfnt in it's Info.plist.
+     * Sff tif <b irff="ittp://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/Gfnfrbl/Rfffrfndf/InfoPlistKfyRfffrfndf">Info.plist Kfy Rfffrfndf</b> for morf informbtion bbout bdding b <dodf>CFBundlfDodumfntTypfs</dodf> kfy to your bpp's Info.plist.
      *
-     * @param printFileHandler
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm opfnFilfHbndlfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void setPrintFileHandler(final PrintFilesHandler printFileHandler) {
-        eventHandler.printFilesDispatcher.setHandler(printFileHandler);
+    publid void sftOpfnFilfHbndlfr(finbl OpfnFilfsHbndlfr opfnFilfHbndlfr) {
+        fvfntHbndlfr.opfnFilfsDispbtdifr.sftHbndlfr(opfnFilfHbndlfr);
     }
 
     /**
-     * Installs the handler which is notified when the application is asked to open a URL.
-     * The {@link OpenURIHandler#openURI(AppEvent.OpenURIEvent)} notifications are only sent if the Java app is a bundled application, with a <code>CFBundleURLTypes</code> array present in it's Info.plist.
-     * See the <a href="http://developer.apple.com/mac/library/documentation/General/Reference/InfoPlistKeyReference">Info.plist Key Reference</a> for more information about adding a <code>CFBundleURLTypes</code> key to your app's Info.plist.
+     * Instblls tif ibndlfr wiidi is notififd wifn tif bpplidbtion is bskfd to print b list of filfs.
+     * Tif {@link PrintFilfsHbndlfr#printFilfs(AppEvfnt.PrintFilfsEvfnt)} notifidbtions brf only sfnt if tif Jbvb bpp is b bundlfd bpplidbtion, witi b <dodf>CFBundlfDodumfntTypfs</dodf> brrby prfsfnt in it's Info.plist.
+     * Sff tif <b irff="ittp://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/Gfnfrbl/Rfffrfndf/InfoPlistKfyRfffrfndf">Info.plist Kfy Rfffrfndf</b> for morf informbtion bbout bdding b <dodf>CFBundlfDodumfntTypfs</dodf> kfy to your bpp's Info.plist.
      *
-     * Setting the handler to <code>null</code> causes all {@link OpenURIHandler#openURI(AppEvent.OpenURIEvent)} requests to be enqueued until another handler is set.
-     *
-     * @param openURIHandler
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm printFilfHbndlfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void setOpenURIHandler(final OpenURIHandler openURIHandler) {
-        eventHandler.openURIDispatcher.setHandler(openURIHandler);
+    publid void sftPrintFilfHbndlfr(finbl PrintFilfsHbndlfr printFilfHbndlfr) {
+        fvfntHbndlfr.printFilfsDispbtdifr.sftHbndlfr(printFilfHbndlfr);
     }
 
     /**
-     * Installs the handler which determines if the application should quit.
-     * The handler is passed a one-shot {@link QuitResponse} which can cancel or proceed with the quit.
-     * Setting the handler to <code>null</code> causes all quit requests to directly perform the default {@link QuitStrategy}.
+     * Instblls tif ibndlfr wiidi is notififd wifn tif bpplidbtion is bskfd to opfn b URL.
+     * Tif {@link OpfnURIHbndlfr#opfnURI(AppEvfnt.OpfnURIEvfnt)} notifidbtions brf only sfnt if tif Jbvb bpp is b bundlfd bpplidbtion, witi b <dodf>CFBundlfURLTypfs</dodf> brrby prfsfnt in it's Info.plist.
+     * Sff tif <b irff="ittp://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/Gfnfrbl/Rfffrfndf/InfoPlistKfyRfffrfndf">Info.plist Kfy Rfffrfndf</b> for morf informbtion bbout bdding b <dodf>CFBundlfURLTypfs</dodf> kfy to your bpp's Info.plist.
      *
-     * @param quitHandler the handler that is called when the application is asked to quit
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * Sftting tif ibndlfr to <dodf>null</dodf> dbusfs bll {@link OpfnURIHbndlfr#opfnURI(AppEvfnt.OpfnURIEvfnt)} rfqufsts to bf fnqufufd until bnotifr ibndlfr is sft.
+     *
+     * @pbrbm opfnURIHbndlfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void setQuitHandler(final QuitHandler quitHandler) {
-        eventHandler.quitDispatcher.setHandler(quitHandler);
+    publid void sftOpfnURIHbndlfr(finbl OpfnURIHbndlfr opfnURIHbndlfr) {
+        fvfntHbndlfr.opfnURIDispbtdifr.sftHbndlfr(opfnURIHbndlfr);
     }
 
     /**
-     * Sets the default strategy used to quit this application. The default is calling SYSTEM_EXIT_0.
+     * Instblls tif ibndlfr wiidi dftfrminfs if tif bpplidbtion siould quit.
+     * Tif ibndlfr is pbssfd b onf-siot {@link QuitRfsponsf} wiidi dbn dbndfl or prodffd witi tif quit.
+     * Sftting tif ibndlfr to <dodf>null</dodf> dbusfs bll quit rfqufsts to dirfdtly pfrform tif dffbult {@link QuitStrbtfgy}.
      *
-     * The quit strategy can also be set with the "apple.eawt.quitStrategy" system property.
-     *
-     * @param strategy the way this application should be shutdown
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm quitHbndlfr tif ibndlfr tibt is dbllfd wifn tif bpplidbtion is bskfd to quit
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void setQuitStrategy(final QuitStrategy strategy) {
-        eventHandler.setDefaultQuitStrategy(strategy);
+    publid void sftQuitHbndlfr(finbl QuitHbndlfr quitHbndlfr) {
+        fvfntHbndlfr.quitDispbtdifr.sftHbndlfr(quitHbndlfr);
     }
 
     /**
-     * Enables this application to be suddenly terminated.
+     * Sfts tif dffbult strbtfgy usfd to quit tiis bpplidbtion. Tif dffbult is dblling SYSTEM_EXIT_0.
      *
-     * Call this method to indicate your application's state is saved, and requires no notification to be terminated.
-     * Letting your application remain terminatable improves the user experience by avoiding re-paging in your application when it's asked to quit.
+     * Tif quit strbtfgy dbn blso bf sft witi tif "bpplf.fbwt.quitStrbtfgy" systfm propfrty.
      *
-     * <b>Note: enabling sudden termination will allow your application to be quit without notifying your QuitHandler, or running any shutdown hooks.</b>
-     * User initiated Cmd-Q, logout, restart, or shutdown requests will effectively "kill -KILL" your application.
-     *
-     * This call has no effect on Mac OS X versions prior to 10.6.
-     *
-     * @see <a href="http://developer.apple.com/mac/library/documentation/cocoa/reference/foundation/Classes/NSProcessInfo_Class">NSProcessInfo class references</a> for more information about Sudden Termination.
-     * @see Application#disableSuddenTermination()
-     *
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm strbtfgy tif wby tiis bpplidbtion siould bf siutdown
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void enableSuddenTermination() {
-        _AppMiscHandlers.enableSuddenTermination();
+    publid void sftQuitStrbtfgy(finbl QuitStrbtfgy strbtfgy) {
+        fvfntHbndlfr.sftDffbultQuitStrbtfgy(strbtfgy);
     }
 
     /**
-     * Prevents this application from being suddenly terminated.
+     * Enbblfs tiis bpplidbtion to bf suddfnly tfrminbtfd.
      *
-     * Call this method to indicate that your application has unsaved state, and may not be terminated without notification.
+     * Cbll tiis mftiod to indidbtf your bpplidbtion's stbtf is sbvfd, bnd rfquirfs no notifidbtion to bf tfrminbtfd.
+     * Lftting your bpplidbtion rfmbin tfrminbtbblf improvfs tif usfr fxpfrifndf by bvoiding rf-pbging in your bpplidbtion wifn it's bskfd to quit.
      *
-     * This call has no effect on Mac OS X versions prior to 10.6.
+     * <b>Notf: fnbbling suddfn tfrminbtion will bllow your bpplidbtion to bf quit witiout notifying your QuitHbndlfr, or running bny siutdown iooks.</b>
+     * Usfr initibtfd Cmd-Q, logout, rfstbrt, or siutdown rfqufsts will ffffdtivfly "kill -KILL" your bpplidbtion.
      *
-     * @see <a href="http://developer.apple.com/mac/library/documentation/cocoa/reference/foundation/Classes/NSProcessInfo_Class">NSProcessInfo class references</a> for more information about Sudden Termination.
-     * @see Application#enableSuddenTermination()
+     * Tiis dbll ibs no ffffdt on Mbd OS X vfrsions prior to 10.6.
      *
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @sff <b irff="ittp://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/dodob/rfffrfndf/foundbtion/Clbssfs/NSProdfssInfo_Clbss">NSProdfssInfo dlbss rfffrfndfs</b> for morf informbtion bbout Suddfn Tfrminbtion.
+     * @sff Applidbtion#disbblfSuddfnTfrminbtion()
+     *
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void disableSuddenTermination() {
-        _AppMiscHandlers.disableSuddenTermination();
+    publid void fnbblfSuddfnTfrminbtion() {
+        _AppMisdHbndlfrs.fnbblfSuddfnTfrminbtion();
     }
 
     /**
-     * Requests this application to move to the foreground.
+     * Prfvfnts tiis bpplidbtion from bfing suddfnly tfrminbtfd.
      *
-     * @param allWindows if all windows of this application should be moved to the foreground, or only the foremost one
+     * Cbll tiis mftiod to indidbtf tibt your bpplidbtion ibs unsbvfd stbtf, bnd mby not bf tfrminbtfd witiout notifidbtion.
      *
-     * @since Java for Mac OS X 10.6 Update 1
-     * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+     * Tiis dbll ibs no ffffdt on Mbd OS X vfrsions prior to 10.6.
+     *
+     * @sff <b irff="ittp://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/dodob/rfffrfndf/foundbtion/Clbssfs/NSProdfssInfo_Clbss">NSProdfssInfo dlbss rfffrfndfs</b> for morf informbtion bbout Suddfn Tfrminbtion.
+     * @sff Applidbtion#fnbblfSuddfnTfrminbtion()
+     *
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
      */
-    public void requestForeground(final boolean allWindows) {
-        _AppMiscHandlers.requestActivation(allWindows);
+    publid void disbblfSuddfnTfrminbtion() {
+        _AppMisdHbndlfrs.disbblfSuddfnTfrminbtion();
     }
 
     /**
-     * Requests user attention to this application (usually through bouncing the Dock icon). Critical
-     * requests will continue to bounce the Dock icon until the app is activated. An already active
-     * application requesting attention does nothing.
+     * Rfqufsts tiis bpplidbtion to movf to tif forfground.
      *
-     * @param critical if this is an important request
+     * @pbrbm bllWindows if bll windows of tiis bpplidbtion siould bf movfd to tif forfground, or only tif forfmost onf
      *
-     * @since Java for Mac OS X 10.6 Update 1
-     * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 1
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 6 - 1.6, 1.5
      */
-    public void requestUserAttention(final boolean critical) {
-        _AppMiscHandlers.requestUserAttention(critical);
+    publid void rfqufstForfground(finbl boolfbn bllWindows) {
+        _AppMisdHbndlfrs.rfqufstAdtivbtion(bllWindows);
     }
 
     /**
-     * Opens the native help viewer application if a Help Book has been added to the
-     * application bundler and registered in the Info.plist with CFBundleHelpBookFolder.
+     * Rfqufsts usfr bttfntion to tiis bpplidbtion (usublly tirougi bounding tif Dodk idon). Critidbl
+     * rfqufsts will dontinuf to boundf tif Dodk idon until tif bpp is bdtivbtfd. An blrfbdy bdtivf
+     * bpplidbtion rfqufsting bttfntion dofs notiing.
      *
-     * See http://developer.apple.com/qa/qa2001/qa1022.html for more information.
+     * @pbrbm dritidbl if tiis is bn importbnt rfqufst
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 1
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 6 - 1.6, 1.5
      */
-    public void openHelpViewer() {
-        _AppMiscHandlers.openHelpViewer();
+    publid void rfqufstUsfrAttfntion(finbl boolfbn dritidbl) {
+        _AppMisdHbndlfrs.rfqufstUsfrAttfntion(dritidbl);
     }
 
     /**
-     * Attaches the contents of the provided PopupMenu to the application's Dock icon.
+     * Opfns tif nbtivf iflp vifwfr bpplidbtion if b Hflp Book ibs bffn bddfd to tif
+     * bpplidbtion bundlfr bnd rfgistfrfd in tif Info.plist witi CFBundlfHflpBookFoldfr.
      *
-     * @param menu the PopupMenu to attach to this application's Dock icon
+     * Sff ittp://dfvflopfr.bpplf.dom/qb/qb2001/qb1022.itml for morf informbtion.
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public void setDockMenu(final PopupMenu menu) {
-        iconHandler.setDockMenu(menu);
+    publid void opfnHflpVifwfr() {
+        _AppMisdHbndlfrs.opfnHflpVifwfr();
     }
 
     /**
-     * @return the PopupMenu used to add items to this application's Dock icon
+     * Attbdifs tif dontfnts of tif providfd PopupMfnu to tif bpplidbtion's Dodk idon.
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @pbrbm mfnu tif PopupMfnu to bttbdi to tiis bpplidbtion's Dodk idon
+     *
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public PopupMenu getDockMenu() {
-        return iconHandler.getDockMenu();
+    publid void sftDodkMfnu(finbl PopupMfnu mfnu) {
+        idonHbndlfr.sftDodkMfnu(mfnu);
     }
 
     /**
-     * Changes this application's Dock icon to the provided image.
+     * @rfturn tif PopupMfnu usfd to bdd itfms to tiis bpplidbtion's Dodk idon
      *
-     * @param image
-     *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public void setDockIconImage(final Image image) {
-        iconHandler.setDockIconImage(image);
+    publid PopupMfnu gftDodkMfnu() {
+        rfturn idonHbndlfr.gftDodkMfnu();
     }
 
     /**
-     * Obtains an image of this application's Dock icon.
+     * Cibngfs tiis bpplidbtion's Dodk idon to tif providfd imbgf.
      *
-     * @return an image of this application's Dock icon
+     * @pbrbm imbgf
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public Image getDockIconImage() {
-        return iconHandler.getDockIconImage();
+    publid void sftDodkIdonImbgf(finbl Imbgf imbgf) {
+        idonHbndlfr.sftDodkIdonImbgf(imbgf);
     }
 
     /**
-     * Affixes a small system provided badge to this application's Dock icon. Usually a number.
+     * Obtbins bn imbgf of tiis bpplidbtion's Dodk idon.
      *
-     * @param badge textual label to affix to the Dock icon
+     * @rfturn bn imbgf of tiis bpplidbtion's Dodk idon
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public void setDockIconBadge(final String badge) {
-        iconHandler.setDockIconBadge(badge);
+    publid Imbgf gftDodkIdonImbgf() {
+        rfturn idonHbndlfr.gftDodkIdonImbgf();
     }
 
     /**
-     * Sets the default menu bar to use when there are no active frames.
-     * Only used when the system property "apple.laf.useScreenMenuBar" is "true", and
-     * the Aqua Look and Feel is active.
+     * Affixfs b smbll systfm providfd bbdgf to tiis bpplidbtion's Dodk idon. Usublly b numbfr.
      *
-     * @param menuBar to use when no other frames are active
+     * @pbrbm bbdgf tfxtubl lbbfl to bffix to tif Dodk idon
      *
-     * @since Java for Mac OS X 10.6 Update 1
-     * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
      */
-    public void setDefaultMenuBar(final JMenuBar menuBar) {
-        menuBarHandler.setDefaultMenuBar(menuBar);
+    publid void sftDodkIdonBbdgf(finbl String bbdgf) {
+        idonHbndlfr.sftDodkIdonBbdgf(bbdgf);
     }
 
     /**
-     * Requests that a {@link Window} should animate into or out of full screen mode.
-     * Only {@link Window}s marked as full screenable by {@link FullScreenUtilities#setWindowCanFullScreen(Window, boolean)} can be toggled.
+     * Sfts tif dffbult mfnu bbr to usf wifn tifrf brf no bdtivf frbmfs.
+     * Only usfd wifn tif systfm propfrty "bpplf.lbf.usfSdrffnMfnuBbr" is "truf", bnd
+     * tif Aqub Look bnd Fffl is bdtivf.
      *
-     * @param window to animate into or out of full screen mode
+     * @pbrbm mfnuBbr to usf wifn no otifr frbmfs brf bdtivf
      *
-     * @since Java for Mac OS X 10.7 Update 1
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 1
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 6 - 1.6, 1.5
      */
-    @SuppressWarnings("deprecation")
-    public void requestToggleFullScreen(final Window window) {
-        final ComponentPeer peer = window.getPeer();
+    publid void sftDffbultMfnuBbr(finbl JMfnuBbr mfnuBbr) {
+        mfnuBbrHbndlfr.sftDffbultMfnuBbr(mfnuBbr);
+    }
 
-        if (!(peer instanceof LWWindowPeer)) return;
-        Object platformWindow = ((LWWindowPeer) peer).getPlatformWindow();
-        if (!(platformWindow instanceof CPlatformWindow)) return;
-        ((CPlatformWindow)platformWindow).toggleFullScreen();
+    /**
+     * Rfqufsts tibt b {@link Window} siould bnimbtf into or out of full sdrffn modf.
+     * Only {@link Window}s mbrkfd bs full sdrffnbblf by {@link FullSdrffnUtilitifs#sftWindowCbnFullSdrffn(Window, boolfbn)} dbn bf togglfd.
+     *
+     * @pbrbm window to bnimbtf into or out of full sdrffn modf
+     *
+     * @sindf Jbvb for Mbd OS X 10.7 Updbtf 1
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void rfqufstTogglfFullSdrffn(finbl Window window) {
+        finbl ComponfntPffr pffr = window.gftPffr();
+
+        if (!(pffr instbndfof LWWindowPffr)) rfturn;
+        Objfdt plbtformWindow = ((LWWindowPffr) pffr).gftPlbtformWindow();
+        if (!(plbtformWindow instbndfof CPlbtformWindow)) rfturn;
+        ((CPlbtformWindow)plbtformWindow).togglfFullSdrffn();
     }
 
 
     // -- DEPRECATED API --
 
     /**
-     * Adds the specified ApplicationListener as a receiver of callbacks from this class.
-     * This method throws a RuntimeException if the newer About, Preferences, Quit, etc handlers are installed.
+     * Adds tif spfdififd ApplidbtionListfnfr bs b rfdfivfr of dbllbbdks from tiis dlbss.
+     * Tiis mftiod tirows b RuntimfExdfption if tif nfwfr About, Prfffrfndfs, Quit, ftd ibndlfrs brf instbllfd.
      *
-     * @param listener an implementation of ApplicationListener that handles ApplicationEvents
+     * @pbrbm listfnfr bn implfmfntbtion of ApplidbtionListfnfr tibt ibndlfs ApplidbtionEvfnts
      *
-     * @deprecated register individual handlers for each task (About, Preferences, Open, Print, Quit, etc)
-     * @since 1.4
+     * @dfprfdbtfd rfgistfr individubl ibndlfrs for fbdi tbsk (About, Prfffrfndfs, Opfn, Print, Quit, ftd)
+     * @sindf 1.4
      */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void addApplicationListener(final ApplicationListener listener) {
-        eventHandler.legacyHandler.addLegacyAppListener(listener);
+    @SupprfssWbrnings("dfprfdbtion")
+    @Dfprfdbtfd
+    publid void bddApplidbtionListfnfr(finbl ApplidbtionListfnfr listfnfr) {
+        fvfntHbndlfr.lfgbdyHbndlfr.bddLfgbdyAppListfnfr(listfnfr);
     }
 
     /**
-     * Removes the specified ApplicationListener from being a receiver of callbacks from this class.
-     * This method throws a RuntimeException if the newer About, Preferences, Quit, etc handlers are installed.
+     * Rfmovfs tif spfdififd ApplidbtionListfnfr from bfing b rfdfivfr of dbllbbdks from tiis dlbss.
+     * Tiis mftiod tirows b RuntimfExdfption if tif nfwfr About, Prfffrfndfs, Quit, ftd ibndlfrs brf instbllfd.
      *
-     * @param listener an implementation of ApplicationListener that had previously been registered to handle ApplicationEvents
+     * @pbrbm listfnfr bn implfmfntbtion of ApplidbtionListfnfr tibt ibd prfviously bffn rfgistfrfd to ibndlf ApplidbtionEvfnts
      *
-     * @deprecated unregister individual handlers for each task (About, Preferences, Open, Print, Quit, etc)
-     * @since 1.4
+     * @dfprfdbtfd unrfgistfr individubl ibndlfrs for fbdi tbsk (About, Prfffrfndfs, Opfn, Print, Quit, ftd)
+     * @sindf 1.4
      */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void removeApplicationListener(final ApplicationListener listener) {
-        eventHandler.legacyHandler.removeLegacyAppListener(listener);
+    @SupprfssWbrnings("dfprfdbtion")
+    @Dfprfdbtfd
+    publid void rfmovfApplidbtionListfnfr(finbl ApplidbtionListfnfr listfnfr) {
+        fvfntHbndlfr.lfgbdyHbndlfr.rfmovfLfgbdyAppListfnfr(listfnfr);
     }
 
     /**
-     * Enables the Preferences item in the application menu. The ApplicationListener receives a callback for
-     * selection of the Preferences item in the application menu only if this is set to <code>true</code>.
+     * Enbblfs tif Prfffrfndfs itfm in tif bpplidbtion mfnu. Tif ApplidbtionListfnfr rfdfivfs b dbllbbdk for
+     * sflfdtion of tif Prfffrfndfs itfm in tif bpplidbtion mfnu only if tiis is sft to <dodf>truf</dodf>.
      *
-     * If a Preferences item isn't present, this method adds and enables it.
+     * If b Prfffrfndfs itfm isn't prfsfnt, tiis mftiod bdds bnd fnbblfs it.
      *
-     * @param enable specifies whether the Preferences item in the application menu should be enabled (<code>true</code>) or not (<code>false</code>)
+     * @pbrbm fnbblf spfdififs wiftifr tif Prfffrfndfs itfm in tif bpplidbtion mfnu siould bf fnbblfd (<dodf>truf</dodf>) or not (<dodf>fblsf</dodf>)
      *
-     * @deprecated no replacement
-     * @since 1.4
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
      */
-    @Deprecated
-    public void setEnabledPreferencesMenu(final boolean enable) {
-        menuBarHandler.setPreferencesMenuItemVisible(true);
-        menuBarHandler.setPreferencesMenuItemEnabled(enable);
+    @Dfprfdbtfd
+    publid void sftEnbblfdPrfffrfndfsMfnu(finbl boolfbn fnbblf) {
+        mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmVisiblf(truf);
+        mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmEnbblfd(fnbblf);
     }
 
     /**
-     * Enables the About item in the application menu. The ApplicationListener receives a callback for
-     * selection of the About item in the application menu only if this is set to <code>true</code>. Because AWT supplies
-     * a standard About window when an application may not, by default this is set to <code>true</code>.
+     * Enbblfs tif About itfm in tif bpplidbtion mfnu. Tif ApplidbtionListfnfr rfdfivfs b dbllbbdk for
+     * sflfdtion of tif About itfm in tif bpplidbtion mfnu only if tiis is sft to <dodf>truf</dodf>. Bfdbusf AWT supplifs
+     * b stbndbrd About window wifn bn bpplidbtion mby not, by dffbult tiis is sft to <dodf>truf</dodf>.
      *
-     * If the About item isn't present, this method adds and enables it.
+     * If tif About itfm isn't prfsfnt, tiis mftiod bdds bnd fnbblfs it.
      *
-     * @param enable specifies whether the About item in the application menu should be enabled (<code>true</code>) or not (<code>false</code>)
+     * @pbrbm fnbblf spfdififs wiftifr tif About itfm in tif bpplidbtion mfnu siould bf fnbblfd (<dodf>truf</dodf>) or not (<dodf>fblsf</dodf>)
      *
-     * @deprecated no replacement
-     * @since 1.4
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
      */
-    @Deprecated
-    public void setEnabledAboutMenu(final boolean enable) {
-        menuBarHandler.setAboutMenuItemEnabled(enable);
+    @Dfprfdbtfd
+    publid void sftEnbblfdAboutMfnu(finbl boolfbn fnbblf) {
+        mfnuBbrHbndlfr.sftAboutMfnuItfmEnbblfd(fnbblf);
     }
 
     /**
-     * Determines if the Preferences item of the application menu is enabled.
+     * Dftfrminfs if tif Prfffrfndfs itfm of tif bpplidbtion mfnu is fnbblfd.
      *
-     * @deprecated no replacement
-     * @since 1.4
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
      */
-    @Deprecated
-    public boolean getEnabledPreferencesMenu() {
-        return menuBarHandler.isPreferencesMenuItemEnabled();
+    @Dfprfdbtfd
+    publid boolfbn gftEnbblfdPrfffrfndfsMfnu() {
+        rfturn mfnuBbrHbndlfr.isPrfffrfndfsMfnuItfmEnbblfd();
     }
 
     /**
-     * Determines if the About item of the application menu is enabled.
+     * Dftfrminfs if tif About itfm of tif bpplidbtion mfnu is fnbblfd.
      *
-     * @deprecated no replacement
-     * @since 1.4
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
      */
-    @Deprecated
-    public boolean getEnabledAboutMenu() {
-        return menuBarHandler.isAboutMenuItemEnabled();
+    @Dfprfdbtfd
+    publid boolfbn gftEnbblfdAboutMfnu() {
+        rfturn mfnuBbrHbndlfr.isAboutMfnuItfmEnbblfd();
     }
 
     /**
-     * Determines if the About item of the application menu is present.
+     * Dftfrminfs if tif About itfm of tif bpplidbtion mfnu is prfsfnt.
      *
-     * @deprecated no replacement
-     * @since 1.4
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
      */
-    @Deprecated
-    public boolean isAboutMenuItemPresent() {
-        return menuBarHandler.isAboutMenuItemVisible();
+    @Dfprfdbtfd
+    publid boolfbn isAboutMfnuItfmPrfsfnt() {
+        rfturn mfnuBbrHbndlfr.isAboutMfnuItfmVisiblf();
     }
 
     /**
-     * Adds the About item to the application menu if the item is not already present.
+     * Adds tif About itfm to tif bpplidbtion mfnu if tif itfm is not blrfbdy prfsfnt.
      *
-     * @deprecated use {@link #setAboutHandler(AboutHandler)} with a non-null {@link AboutHandler} parameter
-     * @since 1.4
+     * @dfprfdbtfd usf {@link #sftAboutHbndlfr(AboutHbndlfr)} witi b non-null {@link AboutHbndlfr} pbrbmftfr
+     * @sindf 1.4
      */
-    @Deprecated
-    public void addAboutMenuItem() {
-        menuBarHandler.setAboutMenuItemVisible(true);
+    @Dfprfdbtfd
+    publid void bddAboutMfnuItfm() {
+        mfnuBbrHbndlfr.sftAboutMfnuItfmVisiblf(truf);
     }
 
     /**
-     * Removes the About item from the application menu if  the item is present.
+     * Rfmovfs tif About itfm from tif bpplidbtion mfnu if  tif itfm is prfsfnt.
      *
-     * @deprecated use {@link #setAboutHandler(AboutHandler)} with a null parameter
-     * @since 1.4
+     * @dfprfdbtfd usf {@link #sftAboutHbndlfr(AboutHbndlfr)} witi b null pbrbmftfr
+     * @sindf 1.4
      */
-    @Deprecated
-    public void removeAboutMenuItem() {
-        menuBarHandler.setAboutMenuItemVisible(false);
+    @Dfprfdbtfd
+    publid void rfmovfAboutMfnuItfm() {
+        mfnuBbrHbndlfr.sftAboutMfnuItfmVisiblf(fblsf);
     }
 
     /**
-     * Determines if the About Preferences of the application menu is present. By default there is no Preferences menu item.
+     * Dftfrminfs if tif About Prfffrfndfs of tif bpplidbtion mfnu is prfsfnt. By dffbult tifrf is no Prfffrfndfs mfnu itfm.
      *
-     * @deprecated no replacement
-     * @since 1.4
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
      */
-    @Deprecated
-    public boolean isPreferencesMenuItemPresent() {
-        return menuBarHandler.isPreferencesMenuItemVisible();
+    @Dfprfdbtfd
+    publid boolfbn isPrfffrfndfsMfnuItfmPrfsfnt() {
+        rfturn mfnuBbrHbndlfr.isPrfffrfndfsMfnuItfmVisiblf();
     }
 
     /**
-     * Adds the Preferences item to the application menu if the item is not already present.
+     * Adds tif Prfffrfndfs itfm to tif bpplidbtion mfnu if tif itfm is not blrfbdy prfsfnt.
      *
-     * @deprecated use {@link #setPreferencesHandler(PreferencesHandler)} with a non-null {@link PreferencesHandler} parameter
-     * @since 1.4
+     * @dfprfdbtfd usf {@link #sftPrfffrfndfsHbndlfr(PrfffrfndfsHbndlfr)} witi b non-null {@link PrfffrfndfsHbndlfr} pbrbmftfr
+     * @sindf 1.4
      */
-    @Deprecated
-    public void addPreferencesMenuItem() {
-        menuBarHandler.setPreferencesMenuItemVisible(true);
+    @Dfprfdbtfd
+    publid void bddPrfffrfndfsMfnuItfm() {
+        mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmVisiblf(truf);
     }
 
     /**
-     * Removes the Preferences item from the application menu if that item is present.
+     * Rfmovfs tif Prfffrfndfs itfm from tif bpplidbtion mfnu if tibt itfm is prfsfnt.
      *
-     * @deprecated use {@link #setPreferencesHandler(PreferencesHandler)} with a null parameter
-     * @since 1.4
+     * @dfprfdbtfd usf {@link #sftPrfffrfndfsHbndlfr(PrfffrfndfsHbndlfr)} witi b null pbrbmftfr
+     * @sindf 1.4
      */
-    @Deprecated
-    public void removePreferencesMenuItem() {
-        menuBarHandler.setPreferencesMenuItemVisible(false);
+    @Dfprfdbtfd
+    publid void rfmovfPrfffrfndfsMfnuItfm() {
+        mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmVisiblf(fblsf);
     }
 
     /**
-     * @deprecated Use <code>java.awt.MouseInfo.getPointerInfo().getLocation()</code>.
+     * @dfprfdbtfd Usf <dodf>jbvb.bwt.MousfInfo.gftPointfrInfo().gftLodbtion()</dodf>.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    @Deprecated
-    public static Point getMouseLocationOnScreen() {
-        return java.awt.MouseInfo.getPointerInfo().getLocation();
+    @Dfprfdbtfd
+    publid stbtid Point gftMousfLodbtionOnSdrffn() {
+        rfturn jbvb.bwt.MousfInfo.gftPointfrInfo().gftLodbtion();
     }
 }

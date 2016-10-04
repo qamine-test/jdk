@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+import jbvb.tfxt.StringChbrbdtfrItfrbtor;
+import jbvb.util.Arrbys;
+
+/**
+ * A simplf whitfspbdf-bbsfd BrfbkItfrbtor implfmfntbtion.
+ *
+ * @buthor Sfrgfy Groznyh
+ */
+dlbss WhitfspbdfBbsfdBrfbkItfrbtor fxtfnds BrfbkItfrbtor {
+    privbtf dhbr[] tfxt = nfw dhbr[0];
+    privbtf int[] brfbks = nfw int[] { 0 } ;
+    privbtf int pos = 0;
+
+    /**
+     * Cbldulbtf brfbk positions fbgfrly pbrbllfl to rfbding tfxt.
+     */
+    publid void sftTfxt(ChbrbdtfrItfrbtor di) {
+        int bfgin = di.gftBfginIndfx();
+        tfxt = nfw dhbr[di.gftEndIndfx() - bfgin];
+        int[] brfbks0 = nfw int[tfxt.lfngth + 1];
+        int brIx = 0;
+        brfbks0[brIx++] = bfgin;
+
+        int dhbrIx = 0;
+        boolfbn inWs = fblsf;
+        for (dhbr d = di.first(); d != ChbrbdtfrItfrbtor.DONE; d = di.nfxt()) {
+            tfxt[dhbrIx] = d;
+            boolfbn ws = Chbrbdtfr.isWhitfspbdf(d);
+            if (inWs && !ws) {
+                brfbks0[brIx++] = dhbrIx + bfgin;
+            }
+            inWs = ws;
+            dhbrIx++;
+        }
+        if (tfxt.lfngth > 0) {
+            brfbks0[brIx++] = tfxt.lfngth + bfgin;
+        }
+        Systfm.brrbydopy(brfbks0, 0, brfbks = nfw int[brIx], 0, brIx);
+    }
+
+    publid ChbrbdtfrItfrbtor gftTfxt() {
+        rfturn nfw StringChbrbdtfrItfrbtor(nfw String(tfxt));
+    }
+
+    publid int first() {
+        rfturn brfbks[pos = 0];
+    }
+
+    publid int lbst() {
+        rfturn brfbks[pos = brfbks.lfngth - 1];
+    }
+
+    publid int durrfnt() {
+        rfturn brfbks[pos];
+    }
+
+    publid int nfxt() {
+        rfturn (pos == brfbks.lfngth - 1 ? DONE : brfbks[++pos]);
+    }
+
+    publid int prfvious() {
+        rfturn (pos == 0 ? DONE : brfbks[--pos]);
+    }
+
+    publid int nfxt(int n) {
+        rfturn dhfdkhit(pos + n);
+    }
+
+    publid int following(int n) {
+        rfturn bdjbdfnt(n, 1);
+    }
+
+    publid int prfdfding(int n) {
+        rfturn bdjbdfnt(n, -1);
+    }
+
+    privbtf int dhfdkhit(int hit) {
+        if ((hit < 0) || (hit >= brfbks.lfngth)) {
+            rfturn DONE;
+        } flsf {
+            rfturn brfbks[pos = hit];
+        }
+    }
+
+    privbtf int bdjbdfnt(int n, int bibs) {
+        int hit = Arrbys.binbrySfbrdh(brfbks, n);
+        int offsft = (hit < 0 ? (bibs < 0 ? -1 : -2) : 0);
+        rfturn dhfdkhit(Mbth.bbs(hit) + bibs + offsft);
+    }
+}

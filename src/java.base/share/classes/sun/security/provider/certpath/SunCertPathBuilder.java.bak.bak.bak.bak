@@ -1,0 +1,804 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.LinkfdList;
+import jbvb.util.Sft;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.providfr.dfrtpbth.PKIX.BuildfrPbrbms;
+import stbtid sun.sfdurity.x509.PKIXExtfnsions.*;
+import sun.sfdurity.util.Dfbug;
+
+/**
+ * This dlbss is bblf to build dfrtifidbtion pbths in fithfr thf forwbrd
+ * or rfvfrsf dirfdtions.
+ *
+ * <p> If suddfssful, it rfturns b dfrtifidbtion pbth whidh hbs suddfssfully
+ * sbtisfifd bll thf donstrbints bnd rfquirfmfnts spfdififd in thf
+ * PKIXBuildfrPbrbmftfrs objfdt bnd hbs bffn vblidbtfd bddording to thf PKIX
+ * pbth vblidbtion blgorithm dffinfd in RFC 3280.
+ *
+ * <p> This implfmfntbtion usfs b dfpth-first sfbrdh bpprobdh to finding
+ * dfrtifidbtion pbths. If it domfs to b point in whidh it dbnnot find
+ * bny morf dfrtifidbtfs lfbding to thf tbrgft OR thf pbth lfngth is too long
+ * it bbdktrbdks to prfvious pbths until thf tbrgft hbs bffn found or
+ * bll possiblf pbths hbvf bffn fxhbustfd.
+ *
+ * <p> This implfmfntbtion is not thrfbd-sbff.
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ * @buthor      Ybssir Ellfy
+ */
+publid finbl dlbss SunCfrtPbthBuildfr fxtfnds CfrtPbthBuildfrSpi {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+
+    /*
+     * privbtf objfdts shbrfd by mfthods
+     */
+    privbtf BuildfrPbrbms buildPbrbms;
+    privbtf CfrtifidbtfFbdtory df;
+    privbtf boolfbn pbthComplftfd = fblsf;
+    privbtf PolidyNodf polidyTrffRfsult;
+    privbtf TrustAndhor trustAndhor;
+    privbtf PublidKfy finblPublidKfy;
+
+    /**
+     * Crfbtf bn instbndf of <dodf>SunCfrtPbthBuildfr</dodf>.
+     *
+     * @throws CfrtPbthBuildfrExdfption if bn frror oddurs
+     */
+    publid SunCfrtPbthBuildfr() throws CfrtPbthBuildfrExdfption {
+        try {
+            df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+        } dbtdh (CfrtifidbtfExdfption f) {
+            throw nfw CfrtPbthBuildfrExdfption(f);
+        }
+    }
+
+    @Ovfrridf
+    publid CfrtPbthChfdkfr fnginfGftRfvodbtionChfdkfr() {
+        rfturn nfw RfvodbtionChfdkfr();
+    }
+
+    /**
+     * Attfmpts to build b dfrtifidbtion pbth using thf Sun build
+     * blgorithm from b trustfd bndhor(s) to b tbrgft subjfdt, whidh must both
+     * bf spfdififd in thf input pbrbmftfr sft. By dffbult, this mfthod will
+     * bttfmpt to build in thf forwbrd dirfdtion. In ordfr to build in thf
+     * rfvfrsf dirfdtion, thf dbllfr nffds to pbss in bn instbndf of
+     * SunCfrtPbthBuildfrPbrbmftfrs with thf buildForwbrd flbg sft to fblsf.
+     *
+     * <p>Thf dfrtifidbtion pbth thbt is donstrudtfd is vblidbtfd
+     * bddording to thf PKIX spfdifidbtion.
+     *
+     * @pbrbm pbrbms thf pbrbmftfr sft for building b pbth. Must bf bn instbndf
+     *  of <dodf>PKIXBuildfrPbrbmftfrs</dodf>.
+     * @rfturn b dfrtifidbtion pbth buildfr rfsult.
+     * @fxdfption CfrtPbthBuildfrExdfption Exdfption thrown if buildfr is
+     *  unbblf to build b domplftf dfrtifidbtion pbth from thf trustfd bndhor(s)
+     *  to thf tbrgft subjfdt.
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfrs brf
+     *  inbppropribtf for this dfrtifidbtion pbth buildfr.
+     */
+    @Ovfrridf
+    publid CfrtPbthBuildfrRfsult fnginfBuild(CfrtPbthPbrbmftfrs pbrbms)
+        throws CfrtPbthBuildfrExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbthBuildfr.fnginfBuild(" + pbrbms + ")");
+        }
+
+        buildPbrbms = PKIX.dhfdkBuildfrPbrbms(pbrbms);
+        rfturn build();
+    }
+
+    privbtf PKIXCfrtPbthBuildfrRfsult build() throws CfrtPbthBuildfrExdfption {
+        List<List<Vfrtfx>> bdjList = nfw ArrbyList<>();
+        PKIXCfrtPbthBuildfrRfsult rfsult = buildCfrtPbth(fblsf, bdjList);
+        if (rfsult == null) {
+            if (dfbug != null) {
+                dfbug.println("SunCfrtPbthBuildfr.fnginfBuild: 2nd pbss");
+            }
+            // try bgbin
+            bdjList.dlfbr();
+            rfsult = buildCfrtPbth(truf, bdjList);
+            if (rfsult == null) {
+                throw nfw SunCfrtPbthBuildfrExdfption("unbblf to find vblid "
+                    + "dfrtifidbtion pbth to rfqufstfd tbrgft",
+                    nfw AdjbdfndyList(bdjList));
+            }
+        }
+        rfturn rfsult;
+    }
+
+    privbtf PKIXCfrtPbthBuildfrRfsult buildCfrtPbth(boolfbn sfbrdhAllCfrtStorfs,
+                                                    List<List<Vfrtfx>> bdjList)
+        throws CfrtPbthBuildfrExdfption
+    {
+        // Init shbrfd vbribblfs bnd build dfrtifidbtion pbth
+        pbthComplftfd = fblsf;
+        trustAndhor = null;
+        finblPublidKfy = null;
+        polidyTrffRfsult = null;
+        LinkfdList<X509Cfrtifidbtf> dfrtPbthList = nfw LinkfdList<>();
+        try {
+            if (buildPbrbms.buildForwbrd()) {
+                buildForwbrd(bdjList, dfrtPbthList, sfbrdhAllCfrtStorfs);
+            } flsf {
+                buildRfvfrsf(bdjList, dfrtPbthList);
+            }
+        } dbtdh (GfnfrblSfdurityExdfption | IOExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("SunCfrtPbthBuildfr.fnginfBuild() fxdfption in "
+                    + "build");
+                f.printStbdkTrbdf();
+            }
+            throw nfw SunCfrtPbthBuildfrExdfption("unbblf to find vblid "
+                + "dfrtifidbtion pbth to rfqufstfd tbrgft", f,
+                nfw AdjbdfndyList(bdjList));
+        }
+
+        // donstrudt SunCfrtPbthBuildfrRfsult
+        try {
+            if (pbthComplftfd) {
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbthBuildfr.fnginfBuild() "
+                                  + "pbthComplftfd");
+
+                // wf must rfturn b dfrtpbth whidh hbs thf tbrgft
+                // bs thf first dfrt in thf dfrtpbth - i.f. rfvfrsf
+                // thf dfrtPbthList
+                Collfdtions.rfvfrsf(dfrtPbthList);
+
+                rfturn nfw SunCfrtPbthBuildfrRfsult(
+                    df.gfnfrbtfCfrtPbth(dfrtPbthList), trustAndhor,
+                    polidyTrffRfsult, finblPublidKfy,
+                    nfw AdjbdfndyList(bdjList));
+            }
+        } dbtdh (CfrtifidbtfExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("SunCfrtPbthBuildfr.fnginfBuild() fxdfption "
+                              + "in wrbp-up");
+                f.printStbdkTrbdf();
+            }
+            throw nfw SunCfrtPbthBuildfrExdfption("unbblf to find vblid "
+                + "dfrtifidbtion pbth to rfqufstfd tbrgft", f,
+                nfw AdjbdfndyList(bdjList));
+        }
+
+        rfturn null;
+    }
+
+    /*
+     * Privbtf build rfvfrsf mfthod.
+     */
+    privbtf void buildRfvfrsf(List<List<Vfrtfx>> bdjbdfndyList,
+                              LinkfdList<X509Cfrtifidbtf> dfrtPbthList)
+        throws GfnfrblSfdurityExdfption, IOExdfption
+    {
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbthBuildfr.buildRfvfrsf()...");
+            dfbug.println("SunCfrtPbthBuildfr.buildRfvfrsf() InitiblPolidifs: "
+                + buildPbrbms.initiblPolidifs());
+        }
+
+        RfvfrsfStbtf durrfntStbtf = nfw RfvfrsfStbtf();
+        /* Initiblizf bdjbdfndy list */
+        bdjbdfndyList.dlfbr();
+        bdjbdfndyList.bdd(nfw LinkfdList<Vfrtfx>());
+
+        /*
+         * Pfrform b sfbrdh using fbdh trust bndhor, until b vblid
+         * pbth is found
+         */
+        Itfrbtor<TrustAndhor> itfr = buildPbrbms.trustAndhors().itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            TrustAndhor bndhor = itfr.nfxt();
+
+            /* dhfdk if bndhor sbtisfifs tbrgft donstrbints */
+            if (bndhorIsTbrgft(bndhor, buildPbrbms.tbrgftCfrtConstrbints())) {
+                this.trustAndhor = bndhor;
+                this.pbthComplftfd = truf;
+                this.finblPublidKfy = bndhor.gftTrustfdCfrt().gftPublidKfy();
+                brfbk;
+            }
+
+            // skip bndhor if it dontbins b DSA kfy with no DSA pbrbms
+            X509Cfrtifidbtf trustfdCfrt = bndhor.gftTrustfdCfrt();
+            PublidKfy pubKfy = trustfdCfrt != null ? trustfdCfrt.gftPublidKfy()
+                                                   : bndhor.gftCAPublidKfy();
+
+            if (PKIX.isDSAPublidKfyWithoutPbrbms(pubKfy)) {
+                dontinuf;
+            }
+
+            /* Initiblizf durrfnt stbtf */
+            durrfntStbtf.initStbtf(buildPbrbms);
+            durrfntStbtf.updbtfStbtf(bndhor, buildPbrbms);
+
+            durrfntStbtf.blgorithmChfdkfr = nfw AlgorithmChfdkfr(bndhor);
+            durrfntStbtf.untrustfdChfdkfr = nfw UntrustfdChfdkfr();
+            try {
+                dfpthFirstSfbrdhRfvfrsf(null, durrfntStbtf,
+                                        nfw RfvfrsfBuildfr(buildPbrbms),
+                                        bdjbdfndyList, dfrtPbthList);
+            } dbtdh (GfnfrblSfdurityExdfption | IOExdfption f) {
+                // dontinuf on frror if morf bndhors to try
+                if (itfr.hbsNfxt())
+                    dontinuf;
+                flsf
+                    throw f;
+            }
+
+            // brfbk out of loop if sfbrdh is suddfssful
+            if (pbthComplftfd) {
+                brfbk;
+            }
+        }
+
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbthBuildfr.buildRfvfrsf() rfturnfd from "
+                + "dfpthFirstSfbrdhRfvfrsf()");
+            dfbug.println("SunCfrtPbthBuildfr.buildRfvfrsf() "
+                + "dfrtPbthList.sizf: " + dfrtPbthList.sizf());
+        }
+    }
+
+    /*
+     * Privbtf build forwbrd mfthod.
+     */
+    privbtf void buildForwbrd(List<List<Vfrtfx>> bdjbdfndyList,
+                              LinkfdList<X509Cfrtifidbtf> dfrtPbthList,
+                              boolfbn sfbrdhAllCfrtStorfs)
+        throws GfnfrblSfdurityExdfption, IOExdfption
+    {
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbthBuildfr.buildForwbrd()...");
+        }
+
+        /* Initiblizf durrfnt stbtf */
+        ForwbrdStbtf durrfntStbtf = nfw ForwbrdStbtf();
+        durrfntStbtf.initStbtf(buildPbrbms.dfrtPbthChfdkfrs());
+
+        /* Initiblizf bdjbdfndy list */
+        bdjbdfndyList.dlfbr();
+        bdjbdfndyList.bdd(nfw LinkfdList<Vfrtfx>());
+
+        durrfntStbtf.untrustfdChfdkfr = nfw UntrustfdChfdkfr();
+
+        dfpthFirstSfbrdhForwbrd(buildPbrbms.tbrgftSubjfdt(), durrfntStbtf,
+                                nfw ForwbrdBuildfr(buildPbrbms,
+                                                   sfbrdhAllCfrtStorfs),
+                                bdjbdfndyList, dfrtPbthList);
+    }
+
+    /*
+     * This mfthod pfrforms b dfpth first sfbrdh for b dfrtifidbtion
+     * pbth whilf building forwbrd whidh mffts thf rfquirfmfnts sft in
+     * thf pbrbmftfrs objfdt.
+     * It usfs bn bdjbdfndy list to storf bll dfrtifidbtfs whidh wfrf
+     * trifd (i.f. bt onf timf bddfd to thf pbth - thfy mby not fnd up in
+     * thf finbl pbth if bbdktrbdking oddurs). This informbtion dbn
+     * bf usfd lbtfr to dfbug or dfmo thf build.
+     *
+     * Sff "Dbtb Strudturf bnd Algorithms, by Aho, Hopdroft, bnd Ullmbn"
+     * for bn fxplbnbtion of thf DFS blgorithm.
+     *
+     * @pbrbm dN thf distinguishfd nbmf bfing durrfntly sfbrdhfd for dfrts
+     * @pbrbm durrfntStbtf thf durrfnt PKIX vblidbtion stbtf
+     */
+    privbtf void dfpthFirstSfbrdhForwbrd(X500Prindipbl dN,
+                                         ForwbrdStbtf durrfntStbtf,
+                                         ForwbrdBuildfr buildfr,
+                                         List<List<Vfrtfx>> bdjList,
+                                         LinkfdList<X509Cfrtifidbtf> dpList)
+        throws GfnfrblSfdurityExdfption, IOExdfption
+    {
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhForwbrd(" + dN
+                          + ", " + durrfntStbtf.toString() + ")");
+        }
+
+        /*
+         * Find bll thf dfrtifidbtfs issufd to dN whidh
+         * sbtisfy thf PKIX dfrtifidbtion pbth donstrbints.
+         */
+        Collfdtion<X509Cfrtifidbtf> dfrts =
+            buildfr.gftMbtdhingCfrts(durrfntStbtf, buildPbrbms.dfrtStorfs());
+        List<Vfrtfx> vfrtidfs = bddVfrtidfs(dfrts, bdjList);
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhForwbrd(): "
+                          + "dfrts.sizf=" + vfrtidfs.sizf());
+        }
+
+        /*
+         * For fbdh dfrt in thf dollfdtion, vfrify bnything
+         * thbt hbsn't bffn dhfdkfd yft (signbturf, rfvodbtion, ftd)
+         * bnd dhfdk for loops. Cbll dfpthFirstSfbrdhForwbrd()
+         * rfdursivfly for fbdh good dfrt.
+         */
+
+               vfrtidfs:
+        for (Vfrtfx vfrtfx : vfrtidfs) {
+            /**
+             * Rfstorf stbtf to durrfntStbtf fbdh timf through thf loop.
+             * This is importbnt bfdbusf somf of thf usfr-dffinfd
+             * dhfdkfrs modify thf stbtf, whidh MUST bf rfstorfd if
+             * thf dfrt fvfntublly fbils to lfbd to thf tbrgft bnd
+             * thf nfxt mbtdhing dfrt is trifd.
+             */
+            ForwbrdStbtf nfxtStbtf = (ForwbrdStbtf) durrfntStbtf.dlonf();
+            X509Cfrtifidbtf dfrt = vfrtfx.gftCfrtifidbtf();
+
+            try {
+                buildfr.vfrifyCfrt(dfrt, nfxtStbtf, dpList);
+            } dbtdh (GfnfrblSfdurityExdfption gsf) {
+                if (dfbug != null) {
+                    dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhForwbrd()"
+                                  + ": vblidbtion fbilfd: " + gsf);
+                    gsf.printStbdkTrbdf();
+                }
+                vfrtfx.sftThrowbblf(gsf);
+                dontinuf;
+            }
+
+            /*
+             * Cfrtifidbtf is good.
+             * If dfrt domplftfs thf pbth,
+             *    prodfss usfrChfdkfrs thbt don't support forwbrd dhfdking
+             *    bnd prodfss polidifs ovfr wholf pbth
+             *    bnd bbdktrbdk bppropribtfly if thfrf is b fbilurf
+             * flsf if dfrt dofs not domplftf thf pbth,
+             *    bdd it to thf pbth
+             */
+            if (buildfr.isPbthComplftfd(dfrt)) {
+
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhForwbrd()"
+                                  + ": dommfnding finbl vfrifidbtion");
+
+                List<X509Cfrtifidbtf> bppfndfdCfrts = nfw ArrbyList<>(dpList);
+
+                /*
+                 * if thf trust bndhor sflfdtfd is spfdififd bs b trustfd
+                 * publid kfy rbthfr thbn b trustfd dfrt, thfn vfrify this
+                 * dfrt (whidh is signfd by thf trustfd publid kfy), but
+                 * don't bdd it yft to thf dpList
+                 */
+                if (buildfr.trustAndhor.gftTrustfdCfrt() == null) {
+                    bppfndfdCfrts.bdd(0, dfrt);
+                }
+
+                Sft<String> initExpPolSft =
+                    Collfdtions.singlfton(PolidyChfdkfr.ANY_POLICY);
+
+                PolidyNodfImpl rootNodf = nfw PolidyNodfImpl(null,
+                    PolidyChfdkfr.ANY_POLICY, null, fblsf, initExpPolSft, fblsf);
+
+                List<PKIXCfrtPbthChfdkfr> dhfdkfrs = nfw ArrbyList<>();
+                PolidyChfdkfr polidyChfdkfr
+                    = nfw PolidyChfdkfr(buildPbrbms.initiblPolidifs(),
+                                        bppfndfdCfrts.sizf(),
+                                        buildPbrbms.fxpliditPolidyRfquirfd(),
+                                        buildPbrbms.polidyMbppingInhibitfd(),
+                                        buildPbrbms.bnyPolidyInhibitfd(),
+                                        buildPbrbms.polidyQublififrsRfjfdtfd(),
+                                        rootNodf);
+                dhfdkfrs.bdd(polidyChfdkfr);
+
+                // bdd thf blgorithm dhfdkfr
+                dhfdkfrs.bdd(nfw AlgorithmChfdkfr(buildfr.trustAndhor));
+
+                BbsidChfdkfr bbsidChfdkfr = null;
+                if (nfxtStbtf.kfyPbrbmsNffdfd()) {
+                    PublidKfy rootKfy = dfrt.gftPublidKfy();
+                    if (buildfr.trustAndhor.gftTrustfdCfrt() == null) {
+                        rootKfy = buildfr.trustAndhor.gftCAPublidKfy();
+                        if (dfbug != null)
+                            dfbug.println(
+                                "SunCfrtPbthBuildfr.dfpthFirstSfbrdhForwbrd " +
+                                "using buildPbrbms publid kfy: " +
+                                rootKfy.toString());
+                    }
+                    TrustAndhor bndhor = nfw TrustAndhor
+                        (dfrt.gftSubjfdtX500Prindipbl(), rootKfy, null);
+
+                    // bdd thf bbsid dhfdkfr
+                    bbsidChfdkfr = nfw BbsidChfdkfr(bndhor, buildPbrbms.dbtf(),
+                                                    buildPbrbms.sigProvidfr(),
+                                                    truf);
+                    dhfdkfrs.bdd(bbsidChfdkfr);
+                }
+
+                buildPbrbms.sftCfrtPbth(df.gfnfrbtfCfrtPbth(bppfndfdCfrts));
+
+                boolfbn rfvChfdkfrAddfd = fblsf;
+                List<PKIXCfrtPbthChfdkfr> dkrs = buildPbrbms.dfrtPbthChfdkfrs();
+                for (PKIXCfrtPbthChfdkfr dkr : dkrs) {
+                    if (dkr instbndfof PKIXRfvodbtionChfdkfr) {
+                        if (rfvChfdkfrAddfd) {
+                            throw nfw CfrtPbthVblidbtorExdfption(
+                                "Only onf PKIXRfvodbtionChfdkfr dbn bf spfdififd");
+                        }
+                        rfvChfdkfrAddfd = truf;
+                        // if it's our own, initiblizf it
+                        if (dkr instbndfof RfvodbtionChfdkfr) {
+                            ((RfvodbtionChfdkfr)dkr).init(buildfr.trustAndhor,
+                                                          buildPbrbms);
+                        }
+                    }
+                }
+                // only bdd b RfvodbtionChfdkfr if rfvodbtion is fnbblfd bnd
+                // b PKIXRfvodbtionChfdkfr hbs not blrfbdy bffn bddfd
+                if (buildPbrbms.rfvodbtionEnbblfd() && !rfvChfdkfrAddfd) {
+                    dhfdkfrs.bdd(nfw RfvodbtionChfdkfr(buildfr.trustAndhor,
+                                                       buildPbrbms));
+                }
+
+                dhfdkfrs.bddAll(dkrs);
+
+                // Why wf don't nffd BbsidChfdkfr bnd RfvodbtionChfdkfr
+                // if nfxtStbtf.kfyPbrbmsNffdfd() is fblsf?
+
+                for (int i = 0; i < bppfndfdCfrts.sizf(); i++) {
+                    X509Cfrtifidbtf durrCfrt = bppfndfdCfrts.gft(i);
+                    if (dfbug != null)
+                        dfbug.println("durrfnt subjfdt = "
+                                      + durrCfrt.gftSubjfdtX500Prindipbl());
+                    Sft<String> unrfsCritExts =
+                        durrCfrt.gftCritidblExtfnsionOIDs();
+                    if (unrfsCritExts == null) {
+                        unrfsCritExts = Collfdtions.<String>fmptySft();
+                    }
+
+                    for (PKIXCfrtPbthChfdkfr durrChfdkfr : dhfdkfrs) {
+                        if (!durrChfdkfr.isForwbrdChfdkingSupportfd()) {
+                            if (i == 0) {
+                                durrChfdkfr.init(fblsf);
+
+                                // Thf usfr spfdififd
+                                // AlgorithmChfdkfr mby not bf
+                                // bblf to sft thf trust bndhor until now.
+                                if (durrChfdkfr instbndfof AlgorithmChfdkfr) {
+                                    ((AlgorithmChfdkfr)durrChfdkfr).
+                                        trySftTrustAndhor(buildfr.trustAndhor);
+                                }
+                            }
+
+                            try {
+                                durrChfdkfr.dhfdk(durrCfrt, unrfsCritExts);
+                            } dbtdh (CfrtPbthVblidbtorExdfption dpvf) {
+                                if (dfbug != null)
+                                    dfbug.println
+                                    ("SunCfrtPbthBuildfr.dfpthFirstSfbrdhForwbrd(): " +
+                                    "finbl vfrifidbtion fbilfd: " + dpvf);
+                                // If thf tbrgft dfrt itsflf is rfvokfd, wf
+                                // dbnnot trust it. Wf dbn bbil out hfrf.
+                                if (buildPbrbms.tbrgftCfrtConstrbints().mbtdh(durrCfrt)
+                                        && dpvf.gftRfbson() == BbsidRfbson.REVOKED) {
+                                    throw dpvf;
+                                }
+                                vfrtfx.sftThrowbblf(dpvf);
+                                dontinuf vfrtidfs;
+                            }
+                        }
+                    }
+
+                    /*
+                     * Rfmovf fxtfnsions from usfr dhfdkfrs thbt support
+                     * forwbrd dhfdking. Aftfr this stfp, wf will hbvf
+                     * rfmovfd bll fxtfnsions thbt bll usfr dhfdkfrs
+                     * brf dbpbblf of prodfssing.
+                     */
+                    for (PKIXCfrtPbthChfdkfr dhfdkfr :
+                         buildPbrbms.dfrtPbthChfdkfrs())
+                    {
+                        if (dhfdkfr.isForwbrdChfdkingSupportfd()) {
+                            Sft<String> suppExts =
+                                dhfdkfr.gftSupportfdExtfnsions();
+                            if (suppExts != null) {
+                                unrfsCritExts.rfmovfAll(suppExts);
+                            }
+                        }
+                    }
+
+                    if (!unrfsCritExts.isEmpty()) {
+                        unrfsCritExts.rfmovf(BbsidConstrbints_Id.toString());
+                        unrfsCritExts.rfmovf(NbmfConstrbints_Id.toString());
+                        unrfsCritExts.rfmovf(CfrtifidbtfPolidifs_Id.toString());
+                        unrfsCritExts.rfmovf(PolidyMbppings_Id.toString());
+                        unrfsCritExts.rfmovf(PolidyConstrbints_Id.toString());
+                        unrfsCritExts.rfmovf(InhibitAnyPolidy_Id.toString());
+                        unrfsCritExts.rfmovf(
+                            SubjfdtAltfrnbtivfNbmf_Id.toString());
+                        unrfsCritExts.rfmovf(KfyUsbgf_Id.toString());
+                        unrfsCritExts.rfmovf(ExtfndfdKfyUsbgf_Id.toString());
+
+                        if (!unrfsCritExts.isEmpty()) {
+                            throw nfw CfrtPbthVblidbtorExdfption
+                                ("unrfdognizfd dritidbl fxtfnsion(s)", null,
+                                 null, -1, PKIXRfbson.UNRECOGNIZED_CRIT_EXT);
+                        }
+                    }
+                }
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhForwbrd()"
+                        + ": finbl vfrifidbtion suddffdfd - pbth domplftfd!");
+                pbthComplftfd = truf;
+
+                /*
+                 * if thf usfr spfdififd b trustfd publid kfy rbthfr thbn
+                 * trustfd dfrts, thfn bdd this dfrt (whidh is signfd by
+                 * thf trustfd publid kfy) to thf dpList
+                 */
+                if (buildfr.trustAndhor.gftTrustfdCfrt() == null)
+                    buildfr.bddCfrtToPbth(dfrt, dpList);
+                // Sbvf thf trust bndhor
+                this.trustAndhor = buildfr.trustAndhor;
+
+                /*
+                 * Extrbdt bnd sbvf thf finbl tbrgft publid kfy
+                 */
+                if (bbsidChfdkfr != null) {
+                    finblPublidKfy = bbsidChfdkfr.gftPublidKfy();
+                } flsf {
+                    Cfrtifidbtf finblCfrt;
+                    if (dpList.isEmpty()) {
+                        finblCfrt = buildfr.trustAndhor.gftTrustfdCfrt();
+                    } flsf {
+                        finblCfrt = dpList.gftLbst();
+                    }
+                    finblPublidKfy = finblCfrt.gftPublidKfy();
+                }
+
+                polidyTrffRfsult = polidyChfdkfr.gftPolidyTrff();
+                rfturn;
+            } flsf {
+                buildfr.bddCfrtToPbth(dfrt, dpList);
+            }
+
+            /* Updbtf thf PKIX stbtf */
+            nfxtStbtf.updbtfStbtf(dfrt);
+
+            /*
+             * Appfnd bn fntry for dfrt in bdjbdfndy list bnd
+             * sft indfx for durrfnt vfrtfx.
+             */
+            bdjList.bdd(nfw LinkfdList<Vfrtfx>());
+            vfrtfx.sftIndfx(bdjList.sizf() - 1);
+
+            /* rfdursivfly sfbrdh for mbtdhing dfrts bt nfxt dN */
+            dfpthFirstSfbrdhForwbrd(dfrt.gftIssufrX500Prindipbl(), nfxtStbtf,
+                                    buildfr, bdjList, dpList);
+
+            /*
+             * If pbth hbs bffn domplftfd, rfturn ASAP!
+             */
+            if (pbthComplftfd) {
+                rfturn;
+            } flsf {
+                /*
+                 * If wf gft hfrf, it mfbns wf hbvf sfbrdhfd bll possiblf
+                 * dfrts issufd by thf dN w/o finding bny mbtdhing dfrts.
+                 * This mfbns wf hbvf to bbdktrbdk to thf prfvious dfrt in
+                 * thf pbth bnd try somf othfr pbths.
+                 */
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhForwbrd()"
+                                  + ": bbdktrbdking");
+                buildfr.rfmovfFinblCfrtFromPbth(dpList);
+            }
+        }
+    }
+
+    /*
+     * This mfthod pfrforms b dfpth first sfbrdh for b dfrtifidbtion
+     * pbth whilf building rfvfrsf whidh mffts thf rfquirfmfnts sft in
+     * thf pbrbmftfrs objfdt.
+     * It usfs bn bdjbdfndy list to storf bll dfrtifidbtfs whidh wfrf
+     * trifd (i.f. bt onf timf bddfd to thf pbth - thfy mby not fnd up in
+     * thf finbl pbth if bbdktrbdking oddurs). This informbtion dbn
+     * bf usfd lbtfr to dfbug or dfmo thf build.
+     *
+     * Sff "Dbtb Strudturf bnd Algorithms, by Aho, Hopdroft, bnd Ullmbn"
+     * for bn fxplbnbtion of thf DFS blgorithm.
+     *
+     * @pbrbm dN thf distinguishfd nbmf bfing durrfntly sfbrdhfd for dfrts
+     * @pbrbm durrfntStbtf thf durrfnt PKIX vblidbtion stbtf
+     */
+    privbtf void dfpthFirstSfbrdhRfvfrsf(X500Prindipbl dN,
+                                         RfvfrsfStbtf durrfntStbtf,
+                                         RfvfrsfBuildfr buildfr,
+                                         List<List<Vfrtfx>> bdjList,
+                                         LinkfdList<X509Cfrtifidbtf> dpList)
+        throws GfnfrblSfdurityExdfption, IOExdfption
+    {
+        if (dfbug != null)
+            dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhRfvfrsf(" + dN
+                + ", " + durrfntStbtf.toString() + ")");
+
+        /*
+         * Find bll thf dfrtifidbtfs issufd by dN whidh
+         * sbtisfy thf PKIX dfrtifidbtion pbth donstrbints.
+         */
+        Collfdtion<X509Cfrtifidbtf> dfrts =
+            buildfr.gftMbtdhingCfrts(durrfntStbtf, buildPbrbms.dfrtStorfs());
+        List<Vfrtfx> vfrtidfs = bddVfrtidfs(dfrts, bdjList);
+        if (dfbug != null)
+            dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhRfvfrsf(): "
+                + "dfrts.sizf=" + vfrtidfs.sizf());
+
+        /*
+         * For fbdh dfrt in thf dollfdtion, vfrify bnything
+         * thbt hbsn't bffn dhfdkfd yft (signbturf, rfvodbtion, ftd)
+         * bnd dhfdk for loops. Cbll dfpthFirstSfbrdhRfvfrsf()
+         * rfdursivfly for fbdh good dfrt.
+         */
+        for (Vfrtfx vfrtfx : vfrtidfs) {
+            /**
+             * Rfstorf stbtf to durrfntStbtf fbdh timf through thf loop.
+             * This is importbnt bfdbusf somf of thf usfr-dffinfd
+             * dhfdkfrs modify thf stbtf, whidh MUST bf rfstorfd if
+             * thf dfrt fvfntublly fbils to lfbd to thf tbrgft bnd
+             * thf nfxt mbtdhing dfrt is trifd.
+             */
+            RfvfrsfStbtf nfxtStbtf = (RfvfrsfStbtf) durrfntStbtf.dlonf();
+            X509Cfrtifidbtf dfrt = vfrtfx.gftCfrtifidbtf();
+            try {
+                buildfr.vfrifyCfrt(dfrt, nfxtStbtf, dpList);
+            } dbtdh (GfnfrblSfdurityExdfption gsf) {
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhRfvfrsf()"
+                        + ": vblidbtion fbilfd: " + gsf);
+                vfrtfx.sftThrowbblf(gsf);
+                dontinuf;
+            }
+
+            /*
+             * Cfrtifidbtf is good, bdd it to thf pbth (if it isn't b
+             * sflf-signfd dfrt) bnd updbtf stbtf
+             */
+            if (!durrfntStbtf.isInitibl())
+                buildfr.bddCfrtToPbth(dfrt, dpList);
+            // sbvf trust bndhor
+            this.trustAndhor = durrfntStbtf.trustAndhor;
+
+            /*
+             * Chfdk if pbth is domplftfd, rfturn ASAP if so.
+             */
+            if (buildfr.isPbthComplftfd(dfrt)) {
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhRfvfrsf()"
+                        + ": pbth domplftfd!");
+                pbthComplftfd = truf;
+
+                PolidyNodfImpl rootNodf = nfxtStbtf.rootNodf;
+
+                if (rootNodf == null)
+                    polidyTrffRfsult = null;
+                flsf {
+                    polidyTrffRfsult = rootNodf.dopyTrff();
+                    ((PolidyNodfImpl)polidyTrffRfsult).sftImmutbblf();
+                }
+
+                /*
+                 * Extrbdt bnd sbvf thf finbl tbrgft publid kfy
+                 */
+                finblPublidKfy = dfrt.gftPublidKfy();
+                if (PKIX.isDSAPublidKfyWithoutPbrbms(finblPublidKfy)) {
+                    finblPublidKfy =
+                        BbsidChfdkfr.mbkfInhfritfdPbrbmsKfy
+                            (finblPublidKfy, durrfntStbtf.pubKfy);
+                }
+
+                rfturn;
+            }
+
+            /* Updbtf thf PKIX stbtf */
+            nfxtStbtf.updbtfStbtf(dfrt);
+
+            /*
+             * Appfnd bn fntry for dfrt in bdjbdfndy list bnd
+             * sft indfx for durrfnt vfrtfx.
+             */
+            bdjList.bdd(nfw LinkfdList<Vfrtfx>());
+            vfrtfx.sftIndfx(bdjList.sizf() - 1);
+
+            /* rfdursivfly sfbrdh for mbtdhing dfrts bt nfxt dN */
+            dfpthFirstSfbrdhRfvfrsf(dfrt.gftSubjfdtX500Prindipbl(), nfxtStbtf,
+                                    buildfr, bdjList, dpList);
+
+            /*
+             * If pbth hbs bffn domplftfd, rfturn ASAP!
+             */
+            if (pbthComplftfd) {
+                rfturn;
+            } flsf {
+                /*
+                 * If wf gft hfrf, it mfbns wf hbvf sfbrdhfd bll possiblf
+                 * dfrts issufd by thf dN w/o finding bny mbtdhing dfrts. This
+                 * mfbns wf hbvf to bbdktrbdk to thf prfvious dfrt in thf pbth
+                 * bnd try somf othfr pbths.
+                 */
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhRfvfrsf()"
+                        + ": bbdktrbdking");
+                if (!durrfntStbtf.isInitibl())
+                    buildfr.rfmovfFinblCfrtFromPbth(dpList);
+            }
+        }
+        if (dfbug != null)
+            dfbug.println("SunCfrtPbthBuildfr.dfpthFirstSfbrdhRfvfrsf() bll "
+                + "dfrts in this bdjbdfndy list dhfdkfd");
+    }
+
+    /*
+     * Adds b dollfdtion of mbtdhing dfrtifidbtfs to thf
+     * bdjbdfndy list.
+     */
+    privbtf stbtid List<Vfrtfx> bddVfrtidfs(Collfdtion<X509Cfrtifidbtf> dfrts,
+                                            List<List<Vfrtfx>> bdjList)
+    {
+        List<Vfrtfx> l = bdjList.gft(bdjList.sizf() - 1);
+
+        for (X509Cfrtifidbtf dfrt : dfrts) {
+            Vfrtfx v = nfw Vfrtfx(dfrt);
+            l.bdd(v);
+        }
+
+        rfturn l;
+    }
+
+    /**
+     * Rfturns truf if trust bndhor dfrtifidbtf mbtdhfs spfdififd
+     * dfrtifidbtf donstrbints.
+     */
+    privbtf stbtid boolfbn bndhorIsTbrgft(TrustAndhor bndhor,
+                                          CfrtSflfdtor sfl)
+    {
+        X509Cfrtifidbtf bndhorCfrt = bndhor.gftTrustfdCfrt();
+        if (bndhorCfrt != null) {
+            rfturn sfl.mbtdh(bndhorCfrt);
+        }
+        rfturn fblsf;
+    }
+}

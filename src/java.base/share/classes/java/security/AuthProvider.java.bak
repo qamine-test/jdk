@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginException;
-import javax.security.auth.callback.CallbackHandler;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.login.LoginExdfption;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
 
 /**
- * This class defines login and logout methods for a provider.
+ * Tiis dlbss dffinfs login bnd logout mftiods for b providfr.
  *
- * <p> While callers may invoke {@code login} directly,
- * the provider may also invoke {@code login} on behalf of callers
- * if it determines that a login must be performed
- * prior to certain operations.
+ * <p> Wiilf dbllfrs mby invokf {@dodf login} dirfdtly,
+ * tif providfr mby blso invokf {@dodf login} on bfiblf of dbllfrs
+ * if it dftfrminfs tibt b login must bf pfrformfd
+ * prior to dfrtbin opfrbtions.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public abstract class AuthProvider extends Provider {
+publid bbstrbdt dlbss AutiProvidfr fxtfnds Providfr {
 
-    private static final long serialVersionUID = 4197859053084546461L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4197859053084546461L;
 
     /**
-     * Constructs a provider with the specified name, version number,
-     * and information.
+     * Construdts b providfr witi tif spfdififd nbmf, vfrsion numbfr,
+     * bnd informbtion.
      *
-     * @param name the provider name.
-     * @param version the provider version number.
-     * @param info a description of the provider and its services.
+     * @pbrbm nbmf tif providfr nbmf.
+     * @pbrbm vfrsion tif providfr vfrsion numbfr.
+     * @pbrbm info b dfsdription of tif providfr bnd its sfrvidfs.
      */
-    protected AuthProvider(String name, double version, String info) {
-        super(name, version, info);
+    protfdtfd AutiProvidfr(String nbmf, doublf vfrsion, String info) {
+        supfr(nbmf, vfrsion, info);
     }
 
     /**
-     * Log in to this provider.
+     * Log in to tiis providfr.
      *
-     * <p> The provider relies on a {@code CallbackHandler}
-     * to obtain authentication information from the caller
-     * (a PIN, for example).  If the caller passes a {@code null}
-     * handler to this method, the provider uses the handler set in the
-     * {@code setCallbackHandler} method.
-     * If no handler was set in that method, the provider queries the
-     * <i>auth.login.defaultCallbackHandler</i> security property
-     * for the fully qualified class name of a default handler implementation.
-     * If the security property is not set,
-     * the provider is assumed to have alternative means
-     * for obtaining authentication information.
+     * <p> Tif providfr rflifs on b {@dodf CbllbbdkHbndlfr}
+     * to obtbin butifntidbtion informbtion from tif dbllfr
+     * (b PIN, for fxbmplf).  If tif dbllfr pbssfs b {@dodf null}
+     * ibndlfr to tiis mftiod, tif providfr usfs tif ibndlfr sft in tif
+     * {@dodf sftCbllbbdkHbndlfr} mftiod.
+     * If no ibndlfr wbs sft in tibt mftiod, tif providfr qufrifs tif
+     * <i>buti.login.dffbultCbllbbdkHbndlfr</i> sfdurity propfrty
+     * for tif fully qublififd dlbss nbmf of b dffbult ibndlfr implfmfntbtion.
+     * If tif sfdurity propfrty is not sft,
+     * tif providfr is bssumfd to ibvf bltfrnbtivf mfbns
+     * for obtbining butifntidbtion informbtion.
      *
-     * @param subject the {@code Subject} which may contain
-     *          principals/credentials used for authentication,
-     *          or may be populated with additional principals/credentials
-     *          after successful authentication has completed.
-     *          This parameter may be {@code null}.
-     * @param handler the {@code CallbackHandler} used by
-     *          this provider to obtain authentication information
-     *          from the caller, which may be {@code null}
+     * @pbrbm subjfdt tif {@dodf Subjfdt} wiidi mby dontbin
+     *          prindipbls/drfdfntibls usfd for butifntidbtion,
+     *          or mby bf populbtfd witi bdditionbl prindipbls/drfdfntibls
+     *          bftfr suddfssful butifntidbtion ibs domplftfd.
+     *          Tiis pbrbmftfr mby bf {@dodf null}.
+     * @pbrbm ibndlfr tif {@dodf CbllbbdkHbndlfr} usfd by
+     *          tiis providfr to obtbin butifntidbtion informbtion
+     *          from tif dbllfr, wiidi mby bf {@dodf null}
      *
-     * @exception LoginException if the login operation fails
-     * @exception SecurityException if the caller does not pass a
-     *  security check for
-     *  {@code SecurityPermission("authProvider.name")},
-     *  where {@code name} is the value returned by
-     *  this provider's {@code getName} method
+     * @fxdfption LoginExdfption if tif login opfrbtion fbils
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not pbss b
+     *  sfdurity difdk for
+     *  {@dodf SfdurityPfrmission("butiProvidfr.nbmf")},
+     *  wifrf {@dodf nbmf} is tif vbluf rfturnfd by
+     *  tiis providfr's {@dodf gftNbmf} mftiod
      */
-    public abstract void login(Subject subject, CallbackHandler handler)
-        throws LoginException;
+    publid bbstrbdt void login(Subjfdt subjfdt, CbllbbdkHbndlfr ibndlfr)
+        tirows LoginExdfption;
 
     /**
-     * Log out from this provider.
+     * Log out from tiis providfr.
      *
-     * @exception LoginException if the logout operation fails
-     * @exception SecurityException if the caller does not pass a
-     *  security check for
-     *  {@code SecurityPermission("authProvider.name")},
-     *  where {@code name} is the value returned by
-     *  this provider's {@code getName} method
+     * @fxdfption LoginExdfption if tif logout opfrbtion fbils
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not pbss b
+     *  sfdurity difdk for
+     *  {@dodf SfdurityPfrmission("butiProvidfr.nbmf")},
+     *  wifrf {@dodf nbmf} is tif vbluf rfturnfd by
+     *  tiis providfr's {@dodf gftNbmf} mftiod
      */
-    public abstract void logout() throws LoginException;
+    publid bbstrbdt void logout() tirows LoginExdfption;
 
     /**
-     * Set a {@code CallbackHandler}.
+     * Sft b {@dodf CbllbbdkHbndlfr}.
      *
-     * <p> The provider uses this handler if one is not passed to the
-     * {@code login} method.  The provider also uses this handler
-     * if it invokes {@code login} on behalf of callers.
-     * In either case if a handler is not set via this method,
-     * the provider queries the
-     * <i>auth.login.defaultCallbackHandler</i> security property
-     * for the fully qualified class name of a default handler implementation.
-     * If the security property is not set,
-     * the provider is assumed to have alternative means
-     * for obtaining authentication information.
+     * <p> Tif providfr usfs tiis ibndlfr if onf is not pbssfd to tif
+     * {@dodf login} mftiod.  Tif providfr blso usfs tiis ibndlfr
+     * if it invokfs {@dodf login} on bfiblf of dbllfrs.
+     * In fitifr dbsf if b ibndlfr is not sft vib tiis mftiod,
+     * tif providfr qufrifs tif
+     * <i>buti.login.dffbultCbllbbdkHbndlfr</i> sfdurity propfrty
+     * for tif fully qublififd dlbss nbmf of b dffbult ibndlfr implfmfntbtion.
+     * If tif sfdurity propfrty is not sft,
+     * tif providfr is bssumfd to ibvf bltfrnbtivf mfbns
+     * for obtbining butifntidbtion informbtion.
      *
-     * @param handler a {@code CallbackHandler} for obtaining
-     *          authentication information, which may be {@code null}
+     * @pbrbm ibndlfr b {@dodf CbllbbdkHbndlfr} for obtbining
+     *          butifntidbtion informbtion, wiidi mby bf {@dodf null}
      *
-     * @exception SecurityException if the caller does not pass a
-     *  security check for
-     *  {@code SecurityPermission("authProvider.name")},
-     *  where {@code name} is the value returned by
-     *  this provider's {@code getName} method
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not pbss b
+     *  sfdurity difdk for
+     *  {@dodf SfdurityPfrmission("butiProvidfr.nbmf")},
+     *  wifrf {@dodf nbmf} is tif vbluf rfturnfd by
+     *  tiis providfr's {@dodf gftNbmf} mftiod
      */
-    public abstract void setCallbackHandler(CallbackHandler handler);
+    publid bbstrbdt void sftCbllbbdkHbndlfr(CbllbbdkHbndlfr ibndlfr);
 }

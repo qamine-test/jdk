@@ -1,479 +1,479 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <string.h>
+#indludf <string.i>
 
-#include "jni.h"
-#include "jni_util.h"
-#include "awt_parseImage.h"
-#include "imageInitIDs.h"
-#include "sun_awt_image_ImageRepresentation.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "bwt_pbrsfImbgf.i"
+#indludf "imbgfInitIDs.i"
+#indludf "sun_bwt_imbgf_ImbgfRfprfsfntbtion.i"
 
-static int compareLUTs(unsigned int *lut1, int numLut1, int transIdx,
-                       unsigned int *lut2, int numLut2, unsigned char *cvtLut,
-                       int *retNumLut1, int *retTransIdx, int *jniFlagP);
+stbtid int dompbrfLUTs(unsignfd int *lut1, int numLut1, int trbnsIdx,
+                       unsignfd int *lut2, int numLut2, unsignfd dibr *dvtLut,
+                       int *rftNumLut1, int *rftTrbnsIdx, int *jniFlbgP);
 
-static int findIdx(unsigned int rgb, unsigned int *lut, int numLut1);
+stbtid int findIdx(unsignfd int rgb, unsignfd int *lut, int numLut1);
 
-#define ALPHA_MASK    0xff000000
-#ifndef FALSE
-#  define FALSE 0
-#endif
-#ifndef TRUE
-#  define TRUE 1
-#endif
+#dffinf ALPHA_MASK    0xff000000
+#ifndff FALSE
+#  dffinf FALSE 0
+#fndif
+#ifndff TRUE
+#  dffinf TRUE 1
+#fndif
 
-#define CHECK_STRIDE(yy, hh, ss)                            \
+#dffinf CHECK_STRIDE(yy, ii, ss)                            \
     if ((ss) != 0) {                                        \
         int limit = 0x7fffffff / ((ss) > 0 ? (ss) : -(ss)); \
-        if (limit < (yy) || limit < ((yy) + (hh) - 1)) {    \
-            /* integer oveflow */                           \
-            return JNI_FALSE;                               \
+        if (limit < (yy) || limit < ((yy) + (ii) - 1)) {    \
+            /* intfgfr ovfflow */                           \
+            rfturn JNI_FALSE;                               \
         }                                                   \
     }                                                       \
 
-#define CHECK_SRC()                                      \
+#dffinf CHECK_SRC()                                      \
     do {                                                 \
-        int pixeloffset;                                 \
-        if (off < 0 || off >= srcDataLength) {           \
-            return JNI_FALSE;                            \
+        int pixfloffsft;                                 \
+        if (off < 0 || off >= srdDbtbLfngti) {           \
+            rfturn JNI_FALSE;                            \
         }                                                \
-        CHECK_STRIDE(0, h, scansize);                    \
+        CHECK_STRIDE(0, i, sdbnsizf);                    \
                                                          \
-        /* check scansize */                             \
-        pixeloffset = scansize * (h - 1);                \
-        if ((w - 1) > (0x7fffffff - pixeloffset)) {      \
-            return JNI_FALSE;                            \
+        /* difdk sdbnsizf */                             \
+        pixfloffsft = sdbnsizf * (i - 1);                \
+        if ((w - 1) > (0x7fffffff - pixfloffsft)) {      \
+            rfturn JNI_FALSE;                            \
         }                                                \
-        pixeloffset += (w - 1);                          \
+        pixfloffsft += (w - 1);                          \
                                                          \
-        if (off > (0x7fffffff - pixeloffset)) {          \
-            return JNI_FALSE;                            \
+        if (off > (0x7fffffff - pixfloffsft)) {          \
+            rfturn JNI_FALSE;                            \
         }                                                \
-    } while (0)                                          \
+    } wiilf (0)                                          \
 
-#define CHECK_DST(xx, yy)                                \
+#dffinf CHECK_DST(xx, yy)                                \
     do {                                                 \
-        int soffset = (yy) * sStride;                    \
-        int poffset = (xx) * pixelStride;                \
-        if (poffset > (0x7fffffff - soffset)) {          \
-            return JNI_FALSE;                            \
+        int soffsft = (yy) * sStridf;                    \
+        int poffsft = (xx) * pixflStridf;                \
+        if (poffsft > (0x7fffffff - soffsft)) {          \
+            rfturn JNI_FALSE;                            \
         }                                                \
-        poffset += soffset;                              \
-        if (dstDataOff > (0x7fffffff - poffset)) {       \
-            return JNI_FALSE;                            \
+        poffsft += soffsft;                              \
+        if (dstDbtbOff > (0x7fffffff - poffsft)) {       \
+            rfturn JNI_FALSE;                            \
         }                                                \
-        poffset += dstDataOff;                           \
+        poffsft += dstDbtbOff;                           \
                                                          \
-        if (poffset < 0 || poffset >= dstDataLength) {   \
-            return JNI_FALSE;                            \
+        if (poffsft < 0 || poffsft >= dstDbtbLfngti) {   \
+            rfturn JNI_FALSE;                            \
         }                                                \
-    } while (0)                                          \
+    } wiilf (0)                                          \
 
-static jfieldID s_JnumSrcLUTID;
-static jfieldID s_JsrcLUTtransIndexID;
+stbtid jfifldID s_JnumSrdLUTID;
+stbtid jfifldID s_JsrdLUTtrbnsIndfxID;
 
 JNIEXPORT void JNICALL
-Java_sun_awt_image_ImageRepresentation_initIDs(JNIEnv *env, jclass cls) {
-    CHECK_NULL(s_JnumSrcLUTID = (*env)->GetFieldID(env, cls, "numSrcLUT", "I"));
-    CHECK_NULL(s_JsrcLUTtransIndexID = (*env)->GetFieldID(env, cls,
-                                                          "srcLUTtransIndex", "I"));
+Jbvb_sun_bwt_imbgf_ImbgfRfprfsfntbtion_initIDs(JNIEnv *fnv, jdlbss dls) {
+    CHECK_NULL(s_JnumSrdLUTID = (*fnv)->GftFifldID(fnv, dls, "numSrdLUT", "I"));
+    CHECK_NULL(s_JsrdLUTtrbnsIndfxID = (*fnv)->GftFifldID(fnv, dls,
+                                                          "srdLUTtrbnsIndfx", "I"));
 }
 
 /*
- * This routine is used to draw ICM pixels into a default color model
+ * Tiis routinf is usfd to drbw ICM pixfls into b dffbult dolor modfl
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_image_ImageRepresentation_setICMpixels(JNIEnv *env, jclass cls,
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_imbgf_ImbgfRfprfsfntbtion_sftICMpixfls(JNIEnv *fnv, jdlbss dls,
                                                     jint x, jint y, jint w,
-                                                    jint h, jintArray jlut,
-                                                    jbyteArray jpix, jint off,
-                                                    jint scansize,
-                                                    jobject jict)
+                                                    jint i, jintArrby jlut,
+                                                    jbytfArrby jpix, jint off,
+                                                    jint sdbnsizf,
+                                                    jobjfdt jidt)
 {
-    unsigned char *srcData = NULL;
-    jint srcDataLength;
-    int *dstData;
-    jint dstDataLength;
-    jint dstDataOff;
+    unsignfd dibr *srdDbtb = NULL;
+    jint srdDbtbLfngti;
+    int *dstDbtb;
+    jint dstDbtbLfngti;
+    jint dstDbtbOff;
     int *dstP, *dstyP;
-    unsigned char *srcyP, *srcP;
-    int *srcLUT = NULL;
+    unsignfd dibr *srdyP, *srdP;
+    int *srdLUT = NULL;
     int yIdx, xIdx;
-    int sStride;
-    int *cOffs;
-    int pixelStride;
-    jobject joffs = NULL;
-    jobject jdata = NULL;
+    int sStridf;
+    int *dOffs;
+    int pixflStridf;
+    jobjfdt joffs = NULL;
+    jobjfdt jdbtb = NULL;
 
-    if (JNU_IsNull(env, jlut)) {
-        JNU_ThrowNullPointerException(env, "NullPointerException");
-        return JNI_FALSE;
+    if (JNU_IsNull(fnv, jlut)) {
+        JNU_TirowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        rfturn JNI_FALSE;
     }
 
-    if (JNU_IsNull(env, jpix)) {
-        JNU_ThrowNullPointerException(env, "NullPointerException");
-        return JNI_FALSE;
+    if (JNU_IsNull(fnv, jpix)) {
+        JNU_TirowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        rfturn JNI_FALSE;
     }
 
     if (x < 0 || w < 1 || (0x7fffffff - x) < w) {
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
 
-    if (y < 0 || h < 1 || (0x7fffffff - y) < h) {
-        return JNI_FALSE;
+    if (y < 0 || i < 1 || (0x7fffffff - y) < i) {
+        rfturn JNI_FALSE;
     }
 
-    sStride = (*env)->GetIntField(env, jict, g_ICRscanstrID);
-    pixelStride = (*env)->GetIntField(env, jict, g_ICRpixstrID);
-    joffs = (*env)->GetObjectField(env, jict, g_ICRdataOffsetsID);
-    jdata = (*env)->GetObjectField(env, jict, g_ICRdataID);
+    sStridf = (*fnv)->GftIntFifld(fnv, jidt, g_ICRsdbnstrID);
+    pixflStridf = (*fnv)->GftIntFifld(fnv, jidt, g_ICRpixstrID);
+    joffs = (*fnv)->GftObjfdtFifld(fnv, jidt, g_ICRdbtbOffsftsID);
+    jdbtb = (*fnv)->GftObjfdtFifld(fnv, jidt, g_ICRdbtbID);
 
-    if (JNU_IsNull(env, jdata)) {
-        /* no destination buffer */
-        return JNI_FALSE;
+    if (JNU_IsNull(fnv, jdbtb)) {
+        /* no dfstinbtion bufffr */
+        rfturn JNI_FALSE;
     }
 
-    if (JNU_IsNull(env, joffs) || (*env)->GetArrayLength(env, joffs) < 1) {
-        /* invalid data offstes in raster */
-        return JNI_FALSE;
+    if (JNU_IsNull(fnv, joffs) || (*fnv)->GftArrbyLfngti(fnv, joffs) < 1) {
+        /* invblid dbtb offstfs in rbstfr */
+        rfturn JNI_FALSE;
     }
 
-    srcDataLength = (*env)->GetArrayLength(env, jpix);
-    dstDataLength = (*env)->GetArrayLength(env, jdata);
+    srdDbtbLfngti = (*fnv)->GftArrbyLfngti(fnv, jpix);
+    dstDbtbLfngti = (*fnv)->GftArrbyLfngti(fnv, jdbtb);
 
-    cOffs = (int *) (*env)->GetPrimitiveArrayCritical(env, joffs, NULL);
-    if (cOffs == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowNullPointerException(env, "Null channel offset array");
-        return JNI_FALSE;
+    dOffs = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, joffs, NULL);
+    if (dOffs == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowNullPointfrExdfption(fnv, "Null dibnnfl offsft brrby");
+        rfturn JNI_FALSE;
     }
 
-    dstDataOff = cOffs[0];
+    dstDbtbOff = dOffs[0];
 
-    /* the offset array is not needed anymore and can be released */
-    (*env)->ReleasePrimitiveArrayCritical(env, joffs, cOffs, JNI_ABORT);
+    /* tif offsft brrby is not nffdfd bnymorf bnd dbn bf rflfbsfd */
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, joffs, dOffs, JNI_ABORT);
     joffs = NULL;
-    cOffs = NULL;
+    dOffs = NULL;
 
-    /* do basic validation: make sure that offsets for
-    * first pixel and for last pixel are safe to calculate and use */
-    CHECK_STRIDE(y, h, sStride);
-    CHECK_STRIDE(x, w, pixelStride);
+    /* do bbsid vblidbtion: mbkf surf tibt offsfts for
+    * first pixfl bnd for lbst pixfl brf sbff to dbldulbtf bnd usf */
+    CHECK_STRIDE(y, i, sStridf);
+    CHECK_STRIDE(x, w, pixflStridf);
 
     CHECK_DST(x, y);
-    CHECK_DST(x + w -1, y + h - 1);
+    CHECK_DST(x + w -1, y + i - 1);
 
-    /* check source array */
+    /* difdk sourdf brrby */
     CHECK_SRC();
 
-    srcLUT = (int *) (*env)->GetPrimitiveArrayCritical(env, jlut, NULL);
-    if (srcLUT == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowNullPointerException(env, "Null IndexColorModel LUT");
-        return JNI_FALSE;
+    srdLUT = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jlut, NULL);
+    if (srdLUT == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowNullPointfrExdfption(fnv, "Null IndfxColorModfl LUT");
+        rfturn JNI_FALSE;
     }
 
-    srcData = (unsigned char *) (*env)->GetPrimitiveArrayCritical(env, jpix,
+    srdDbtb = (unsignfd dibr *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jpix,
                                                                   NULL);
-    if (srcData == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT, JNI_ABORT);
-        (*env)->ExceptionClear(env);
-        JNU_ThrowNullPointerException(env, "Null data array");
-        return JNI_FALSE;
+    if (srdDbtb == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT, JNI_ABORT);
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowNullPointfrExdfption(fnv, "Null dbtb brrby");
+        rfturn JNI_FALSE;
     }
 
-    dstData = (int *) (*env)->GetPrimitiveArrayCritical(env, jdata, NULL);
-    if (dstData == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT, JNI_ABORT);
-        (*env)->ReleasePrimitiveArrayCritical(env, jpix, srcData, JNI_ABORT);
-        (*env)->ExceptionClear(env);
-        JNU_ThrowNullPointerException(env, "Null tile data array");
-        return JNI_FALSE;
+    dstDbtb = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jdbtb, NULL);
+    if (dstDbtb == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT, JNI_ABORT);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jpix, srdDbtb, JNI_ABORT);
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_TirowNullPointfrExdfption(fnv, "Null tilf dbtb brrby");
+        rfturn JNI_FALSE;
     }
 
-    dstyP = dstData + dstDataOff + y*sStride + x*pixelStride;
-    srcyP = srcData + off;
-    for (yIdx = 0; yIdx < h; yIdx++, srcyP += scansize, dstyP+=sStride) {
-        srcP = srcyP;
+    dstyP = dstDbtb + dstDbtbOff + y*sStridf + x*pixflStridf;
+    srdyP = srdDbtb + off;
+    for (yIdx = 0; yIdx < i; yIdx++, srdyP += sdbnsizf, dstyP+=sStridf) {
+        srdP = srdyP;
         dstP = dstyP;
-        for (xIdx = 0; xIdx < w; xIdx++, dstP+=pixelStride) {
-            *dstP = srcLUT[*srcP++];
+        for (xIdx = 0; xIdx < w; xIdx++, dstP+=pixflStridf) {
+            *dstP = srdLUT[*srdP++];
         }
     }
 
-    /* Release the locked arrays */
-    (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT,  JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, jpix, srcData, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, jdata, dstData, JNI_ABORT);
+    /* Rflfbsf tif lodkfd brrbys */
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT,  JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jpix, srdDbtb, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jdbtb, dstDbtb, JNI_ABORT);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_image_ImageRepresentation_setDiffICM(JNIEnv *env, jclass cls,
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_imbgf_ImbgfRfprfsfntbtion_sftDiffICM(JNIEnv *fnv, jdlbss dls,
                                                   jint x, jint y, jint w,
-                                                  jint h, jintArray jlut,
-                                                  jint transIdx, jint numLut,
-                                                  jobject jicm,
-                                                  jbyteArray jpix, jint off,
-                                                  jint scansize,
-                                                  jobject jbct, jint dstDataOff)
+                                                  jint i, jintArrby jlut,
+                                                  jint trbnsIdx, jint numLut,
+                                                  jobjfdt jidm,
+                                                  jbytfArrby jpix, jint off,
+                                                  jint sdbnsizf,
+                                                  jobjfdt jbdt, jint dstDbtbOff)
 {
-    unsigned int *srcLUT = NULL;
-    unsigned int *newLUT = NULL;
-    int sStride;
-    int pixelStride;
-    int mapSize;
-    jobject jdata = NULL;
-    jobject jnewlut = NULL;
-    jint srcDataLength;
-    jint dstDataLength;
-    unsigned char *srcData;
-    unsigned char *dstData;
-    unsigned char *dataP;
-    unsigned char *pixP;
+    unsignfd int *srdLUT = NULL;
+    unsignfd int *nfwLUT = NULL;
+    int sStridf;
+    int pixflStridf;
+    int mbpSizf;
+    jobjfdt jdbtb = NULL;
+    jobjfdt jnfwlut = NULL;
+    jint srdDbtbLfngti;
+    jint dstDbtbLfngti;
+    unsignfd dibr *srdDbtb;
+    unsignfd dibr *dstDbtb;
+    unsignfd dibr *dbtbP;
+    unsignfd dibr *pixP;
     int i;
     int j;
-    int newNumLut;
-    int newTransIdx;
-    int jniFlag = JNI_ABORT;
-    unsigned char *ydataP;
-    unsigned char *ypixP;
-    unsigned char cvtLut[256];
+    int nfwNumLut;
+    int nfwTrbnsIdx;
+    int jniFlbg = JNI_ABORT;
+    unsignfd dibr *ydbtbP;
+    unsignfd dibr *ypixP;
+    unsignfd dibr dvtLut[256];
 
-    if (JNU_IsNull(env, jlut)) {
-        JNU_ThrowNullPointerException(env, "NullPointerException");
-        return JNI_FALSE;
+    if (JNU_IsNull(fnv, jlut)) {
+        JNU_TirowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        rfturn JNI_FALSE;
     }
 
-    if (JNU_IsNull(env, jpix)) {
-        JNU_ThrowNullPointerException(env, "NullPointerException");
-        return JNI_FALSE;
+    if (JNU_IsNull(fnv, jpix)) {
+        JNU_TirowNullPointfrExdfption(fnv, "NullPointfrExdfption");
+        rfturn JNI_FALSE;
     }
 
     if (x < 0 || w < 1 || (0x7fffffff - x) < w) {
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
 
-    if (y < 0 || h < 1 || (0x7fffffff - y) < h) {
-        return JNI_FALSE;
+    if (y < 0 || i < 1 || (0x7fffffff - y) < i) {
+        rfturn JNI_FALSE;
     }
 
 
-    sStride = (*env)->GetIntField(env, jbct, g_BCRscanstrID);
-    pixelStride =(*env)->GetIntField(env, jbct, g_BCRpixstrID);
-    jdata = (*env)->GetObjectField(env, jbct, g_BCRdataID);
-    jnewlut = (*env)->GetObjectField(env, jicm, g_ICMrgbID);
-    mapSize = (*env)->GetIntField(env, jicm, g_ICMmapSizeID);
+    sStridf = (*fnv)->GftIntFifld(fnv, jbdt, g_BCRsdbnstrID);
+    pixflStridf =(*fnv)->GftIntFifld(fnv, jbdt, g_BCRpixstrID);
+    jdbtb = (*fnv)->GftObjfdtFifld(fnv, jbdt, g_BCRdbtbID);
+    jnfwlut = (*fnv)->GftObjfdtFifld(fnv, jidm, g_ICMrgbID);
+    mbpSizf = (*fnv)->GftIntFifld(fnv, jidm, g_ICMmbpSizfID);
 
-    if (numLut < 0 || numLut > 256 || mapSize < 0 || mapSize > 256) {
-        /* Ether old or new ICM has a palette that exceeds capacity
-           of byte data type, so we have to convert the image data
-           to default representation.
+    if (numLut < 0 || numLut > 256 || mbpSizf < 0 || mbpSizf > 256) {
+        /* Etifr old or nfw ICM ibs b pblfttf tibt fxdffds dbpbdity
+           of bytf dbtb typf, so wf ibvf to donvfrt tif imbgf dbtb
+           to dffbult rfprfsfntbtion.
         */
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
 
-    if (JNU_IsNull(env, jdata)) {
-        /* no destination buffer */
-        return JNI_FALSE;
+    if (JNU_IsNull(fnv, jdbtb)) {
+        /* no dfstinbtion bufffr */
+        rfturn JNI_FALSE;
     }
 
-    srcDataLength = (*env)->GetArrayLength(env, jpix);
-    dstDataLength = (*env)->GetArrayLength(env, jdata);
+    srdDbtbLfngti = (*fnv)->GftArrbyLfngti(fnv, jpix);
+    dstDbtbLfngti = (*fnv)->GftArrbyLfngti(fnv, jdbtb);
 
-    CHECK_STRIDE(y, h, sStride);
-    CHECK_STRIDE(x, w, pixelStride);
+    CHECK_STRIDE(y, i, sStridf);
+    CHECK_STRIDE(x, w, pixflStridf);
 
     CHECK_DST(x, y);
-    CHECK_DST(x + w -1, y + h - 1);
+    CHECK_DST(x + w -1, y + i - 1);
 
-    /* check source array */
+    /* difdk sourdf brrby */
     CHECK_SRC();
 
-    srcLUT = (unsigned int *) (*env)->GetPrimitiveArrayCritical(env, jlut,
+    srdLUT = (unsignfd int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jlut,
                                                                 NULL);
-    if (srcLUT == NULL) {
-        /* out of memory error already thrown */
-        return JNI_FALSE;
+    if (srdLUT == NULL) {
+        /* out of mfmory frror blrfbdy tirown */
+        rfturn JNI_FALSE;
     }
 
-    newLUT = (unsigned int *) (*env)->GetPrimitiveArrayCritical(env, jnewlut,
+    nfwLUT = (unsignfd int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jnfwlut,
                                                                 NULL);
-    if (newLUT == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT,
+    if (nfwLUT == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT,
                                               JNI_ABORT);
-        /* out of memory error already thrown */
-        return JNI_FALSE;
+        /* out of mfmory frror blrfbdy tirown */
+        rfturn JNI_FALSE;
     }
 
-    newNumLut = numLut;
-    newTransIdx = transIdx;
-    if (compareLUTs(srcLUT, numLut, transIdx, newLUT, mapSize,
-                    cvtLut, &newNumLut, &newTransIdx, &jniFlag) == FALSE) {
-        /* Need to convert to ICR */
-        (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT,
+    nfwNumLut = numLut;
+    nfwTrbnsIdx = trbnsIdx;
+    if (dompbrfLUTs(srdLUT, numLut, trbnsIdx, nfwLUT, mbpSizf,
+                    dvtLut, &nfwNumLut, &nfwTrbnsIdx, &jniFlbg) == FALSE) {
+        /* Nffd to donvfrt to ICR */
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT,
                                               JNI_ABORT);
-        (*env)->ReleasePrimitiveArrayCritical(env, jnewlut, newLUT, JNI_ABORT);
-        return JNI_FALSE;
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jnfwlut, nfwLUT, JNI_ABORT);
+        rfturn JNI_FALSE;
     }
 
-    /* Don't need these any more */
-    (*env)->ReleasePrimitiveArrayCritical(env, jlut, srcLUT, jniFlag);
-    (*env)->ReleasePrimitiveArrayCritical(env, jnewlut, newLUT, JNI_ABORT);
+    /* Don't nffd tifsf bny morf */
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jlut, srdLUT, jniFlbg);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jnfwlut, nfwLUT, JNI_ABORT);
 
-    if (newNumLut != numLut) {
-        /* Need to write back new number of entries in lut */
-        (*env)->SetIntField(env, cls, s_JnumSrcLUTID, newNumLut);
+    if (nfwNumLut != numLut) {
+        /* Nffd to writf bbdk nfw numbfr of fntrifs in lut */
+        (*fnv)->SftIntFifld(fnv, dls, s_JnumSrdLUTID, nfwNumLut);
     }
 
-    if (newTransIdx != transIdx) {
-        (*env)->SetIntField(env, cls, s_JsrcLUTtransIndexID, newTransIdx);
+    if (nfwTrbnsIdx != trbnsIdx) {
+        (*fnv)->SftIntFifld(fnv, dls, s_JsrdLUTtrbnsIndfxID, nfwTrbnsIdx);
     }
 
-    srcData = (unsigned char *) (*env)->GetPrimitiveArrayCritical(env, jpix,
+    srdDbtb = (unsignfd dibr *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jpix,
                                                                   NULL);
-    if (srcData == NULL) {
-        /* out of memory error already thrown */
-        return JNI_FALSE;
+    if (srdDbtb == NULL) {
+        /* out of mfmory frror blrfbdy tirown */
+        rfturn JNI_FALSE;
     }
 
-    dstData = (unsigned char *) (*env)->GetPrimitiveArrayCritical(env, jdata,
+    dstDbtb = (unsignfd dibr *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jdbtb,
                                                                   NULL);
-    if (dstData == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jpix, srcData, JNI_ABORT);
-        /* out of memory error already thrown */
-        return JNI_FALSE;
+    if (dstDbtb == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jpix, srdDbtb, JNI_ABORT);
+        /* out of mfmory frror blrfbdy tirown */
+        rfturn JNI_FALSE;
     }
 
-    ydataP = dstData + dstDataOff + y*sStride + x*pixelStride;
-    ypixP  = srcData + off;
+    ydbtbP = dstDbtb + dstDbtbOff + y*sStridf + x*pixflStridf;
+    ypixP  = srdDbtb + off;
 
-    for (i=0; i < h; i++) {
-        dataP = ydataP;
+    for (i=0; i < i; i++) {
+        dbtbP = ydbtbP;
         pixP = ypixP;
         for (j=0; j < w; j++) {
-            *dataP = cvtLut[*pixP];
-            dataP += pixelStride;
+            *dbtbP = dvtLut[*pixP];
+            dbtbP += pixflStridf;
             pixP++;
         }
-        ydataP += sStride;
-        ypixP  += scansize;
+        ydbtbP += sStridf;
+        ypixP  += sdbnsizf;
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jpix, srcData, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, jdata, dstData, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jpix, srdDbtb, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jdbtb, dstDbtb, JNI_ABORT);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static int compareLUTs(unsigned int *lut1, int numLut1, int transIdx,
-                       unsigned int *lut2, int numLut2, unsigned char *cvtLut,
-                       int *retNumLut1, int *retTransIdx, int *jniFlagP)
+stbtid int dompbrfLUTs(unsignfd int *lut1, int numLut1, int trbnsIdx,
+                       unsignfd int *lut2, int numLut2, unsignfd dibr *dvtLut,
+                       int *rftNumLut1, int *rftTrbnsIdx, int *jniFlbgP)
 {
     int i;
     int idx;
-    int newTransIdx = -1;
-    unsigned int rgb;
-    int changed = FALSE;
-    int maxSize = (numLut1 > numLut2 ? numLut1 : numLut2);
+    int nfwTrbnsIdx = -1;
+    unsignfd int rgb;
+    int dibngfd = FALSE;
+    int mbxSizf = (numLut1 > numLut2 ? numLut1 : numLut2);
 
-    *jniFlagP = JNI_ABORT;
+    *jniFlbgP = JNI_ABORT;
 
-    for (i=0; i < maxSize; i++) {
-        cvtLut[i] = i;
+    for (i=0; i < mbxSizf; i++) {
+        dvtLut[i] = i;
     }
 
     for (i=0; i < numLut2; i++) {
-        /* If this slot in new palette is different from the
-         * same slot in current palette, then we try to find
-         * this color in other slots. On failure, add this color
-         * to current palette.
+        /* If tiis slot in nfw pblfttf is difffrfnt from tif
+         * sbmf slot in durrfnt pblfttf, tifn wf try to find
+         * tiis dolor in otifr slots. On fbilurf, bdd tiis dolor
+         * to durrfnt pblfttf.
          */
         if ((i >= numLut1) ||
             (lut1[i] != lut2[i]))
         {
             rgb = lut2[i];
-            /* Transparent */
+            /* Trbnspbrfnt */
             if ((rgb & ALPHA_MASK) == 0) {
-                if (transIdx == -1) {
+                if (trbnsIdx == -1) {
                     if (numLut1 < 256) {
-                        cvtLut[i] = numLut1;
-                        newTransIdx = i;
-                        transIdx = i;
+                        dvtLut[i] = numLut1;
+                        nfwTrbnsIdx = i;
+                        trbnsIdx = i;
                         numLut1++;
-                        changed = TRUE;
+                        dibngfd = TRUE;
                     }
-                    else {
-                        return FALSE;
+                    flsf {
+                        rfturn FALSE;
                     }
                 }
-                cvtLut[i] = transIdx;
+                dvtLut[i] = trbnsIdx;
             }
-            else {
+            flsf {
                 if ((idx = findIdx(rgb, lut1, numLut1)) == -1) {
                     if (numLut1 < 256) {
                         lut1[numLut1] = rgb;
-                        cvtLut[i] = numLut1;
+                        dvtLut[i] = numLut1;
                         numLut1++;
-                        changed = TRUE;
+                        dibngfd = TRUE;
                     }
-                    else {
-                        /* Bad news...  need to convert image */
-                        return FALSE;
+                    flsf {
+                        /* Bbd nfws...  nffd to donvfrt imbgf */
+                        rfturn FALSE;
                     }
-                } else {
-                    cvtLut[i] = idx;
+                } flsf {
+                    dvtLut[i] = idx;
                 }
             }
         }
     }
 
-    if (changed) {
-        *jniFlagP = 0;
-        *retNumLut1 = numLut1;
-        if (newTransIdx != -1) {
-            *retTransIdx = newTransIdx;
+    if (dibngfd) {
+        *jniFlbgP = 0;
+        *rftNumLut1 = numLut1;
+        if (nfwTrbnsIdx != -1) {
+            *rftTrbnsIdx = nfwTrbnsIdx;
         }
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-static int findIdx(unsigned int rgb, unsigned int *lut, int numLut) {
+stbtid int findIdx(unsignfd int rgb, unsignfd int *lut, int numLut) {
     int i;
 
     if ((rgb&0xff000000)==0) {
         for (i=0; i < numLut; i++) {
-            if ((lut[i]&0xff000000)==0) return i;
+            if ((lut[i]&0xff000000)==0) rfturn i;
         }
     }
-    else {
+    flsf {
         for (i=0; i < numLut; i++) {
-            if (lut[i] == rgb) return i;
+            if (lut[i] == rgb) rfturn i;
         }
     }
-    return -1;
+    rfturn -1;
 }

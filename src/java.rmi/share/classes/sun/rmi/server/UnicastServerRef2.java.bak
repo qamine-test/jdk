@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.rmi.*;
-import java.rmi.server.*;
-import sun.rmi.transport.*;
-import sun.rmi.transport.tcp.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutput;
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.*;
+import sun.rmi.trbnsport.*;
+import sun.rmi.trbnsport.tdp.*;
 
 /**
- * Server-side ref for a remote impl that uses a custom socket factory.
+ * Sfrvfr-sidf rff for b rfmotf impl tibt usfs b dustom sodkft fbdtory.
  *
- * @author Ann Wollrath
- * @author Roger Riggs
+ * @butior Ann Wollrbti
+ * @butior Rogfr Riggs
  */
-public class UnicastServerRef2 extends UnicastServerRef
+publid dlbss UnidbstSfrvfrRff2 fxtfnds UnidbstSfrvfrRff
 {
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = -2289703812660767614L;
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = -2289703812660767614L;
 
     /**
-     * Create a new (empty) Unicast server remote reference.
+     * Crfbtf b nfw (fmpty) Unidbst sfrvfr rfmotf rfffrfndf.
      */
-    public UnicastServerRef2()
+    publid UnidbstSfrvfrRff2()
     {}
 
     /**
-     * Construct a Unicast server remote reference for a specified
-     * liveRef.
+     * Construdt b Unidbst sfrvfr rfmotf rfffrfndf for b spfdififd
+     * livfRff.
      */
-    public UnicastServerRef2(LiveRef ref)
+    publid UnidbstSfrvfrRff2(LivfRff rff)
     {
-        super(ref);
+        supfr(rff);
     }
 
     /**
-     * Construct a Unicast server remote reference to be exported
-     * on the specified port.
+     * Construdt b Unidbst sfrvfr rfmotf rfffrfndf to bf fxportfd
+     * on tif spfdififd port.
      */
-    public UnicastServerRef2(int port,
-                             RMIClientSocketFactory csf,
-                             RMIServerSocketFactory ssf)
+    publid UnidbstSfrvfrRff2(int port,
+                             RMIClifntSodkftFbdtory dsf,
+                             RMISfrvfrSodkftFbdtory ssf)
     {
-        super(new LiveRef(port, csf, ssf));
+        supfr(nfw LivfRff(port, dsf, ssf));
     }
 
     /**
-     * Returns the class of the ref type to be serialized
+     * Rfturns tif dlbss of tif rff typf to bf sfriblizfd
      */
-    public String getRefClass(ObjectOutput out)
+    publid String gftRffClbss(ObjfdtOutput out)
     {
-        return "UnicastServerRef2";
+        rfturn "UnidbstSfrvfrRff2";
     }
 
     /**
-     * Return the client remote reference for this remoteRef.
-     * In the case of a client RemoteRef "this" is the answer.
-     * For  a server remote reference, a client side one will have to
-     * found or created.
+     * Rfturn tif dlifnt rfmotf rfffrfndf for tiis rfmotfRff.
+     * In tif dbsf of b dlifnt RfmotfRff "tiis" is tif bnswfr.
+     * For  b sfrvfr rfmotf rfffrfndf, b dlifnt sidf onf will ibvf to
+     * found or drfbtfd.
      */
-    protected RemoteRef getClientRef() {
-        return new UnicastRef2(ref);
+    protfdtfd RfmotfRff gftClifntRff() {
+        rfturn nfw UnidbstRff2(rff);
     }
 }

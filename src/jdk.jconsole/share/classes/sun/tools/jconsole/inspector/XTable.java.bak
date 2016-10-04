@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Font;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.tbblf.DffbultTbblfCfllRfndfrfr;
+import jbvbx.swing.tbblf.DffbultTbblfModfl;
+import jbvbx.swing.tbblf.TbblfCfllRfndfrfr;
 
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class XTable extends JTable {
-    static final int NAME_COLUMN = 0;
-    static final int VALUE_COLUMN = 1;
-    private Color defaultColor, editableColor, errorColor;
-    private Font normalFont, boldFont;
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss XTbblf fxtfnds JTbblf {
+    stbtid finbl int NAME_COLUMN = 0;
+    stbtid finbl int VALUE_COLUMN = 1;
+    privbtf Color dffbultColor, fditbblfColor, frrorColor;
+    privbtf Font normblFont, boldFont;
 
-    public XTable () {
-        super();
-        @SuppressWarnings("serial")
-        final TableSorter sorter = new TableSorter();
-        setModel(sorter);
-        sorter.addMouseListenerToHeaderInTable(this);
-        setRowSelectionAllowed(false);
-        setColumnSelectionAllowed(false);
-        setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+    publid XTbblf () {
+        supfr();
+        @SupprfssWbrnings("sfribl")
+        finbl TbblfSortfr sortfr = nfw TbblfSortfr();
+        sftModfl(sortfr);
+        sortfr.bddMousfListfnfrToHfbdfrInTbblf(tiis);
+        sftRowSflfdtionAllowfd(fblsf);
+        sftColumnSflfdtionAllowfd(fblsf);
+        sftAutoRfsizfModf(JTbblf.AUTO_RESIZE_LAST_COLUMN);
     }
 
-    Color getDefaultColor() {
-        return defaultColor;
+    Color gftDffbultColor() {
+        rfturn dffbultColor;
     }
 
-    Color getEditableColor() {
-        return editableColor;
-    }
-
-    /**
-     * Called by TableSorter if a mouse event requests to sort the rows.
-     * @param column the column against which the rows are sorted
-     */
-    void sortRequested(int column) {
-        // This is a hook for subclasses
+    Color gftEditbblfColor() {
+        rfturn fditbblfColor;
     }
 
     /**
-     * This returns the select index as the table was at initialization
+     * Cbllfd by TbblfSortfr if b mousf fvfnt rfqufsts to sort tif rows.
+     * @pbrbm dolumn tif dolumn bgbinst wiidi tif rows brf sortfd
      */
-    public int getSelectedIndex() {
-        return convertRowToIndex(getSelectedRow());
+    void sortRfqufstfd(int dolumn) {
+        // Tiis is b iook for subdlbssfs
+    }
+
+    /**
+     * Tiis rfturns tif sflfdt indfx bs tif tbblf wbs bt initiblizbtion
+     */
+    publid int gftSflfdtfdIndfx() {
+        rfturn donvfrtRowToIndfx(gftSflfdtfdRow());
     }
 
     /*
-     * Converts the row into index (before sorting)
+     * Convfrts tif row into indfx (bfforf sorting)
      */
-    public int convertRowToIndex(int row) {
-        if (row == -1) return row;
-        if (getModel() instanceof TableSorter) {
-            return ((TableSorter) getModel()).getIndexOfRow(row);
-        } else {
-            return row;
+    publid int donvfrtRowToIndfx(int row) {
+        if (row == -1) rfturn row;
+        if (gftModfl() instbndfof TbblfSortfr) {
+            rfturn ((TbblfSortfr) gftModfl()).gftIndfxOfRow(row);
+        } flsf {
+            rfturn row;
         }
     }
 
-    public void emptyTable() {
-        DefaultTableModel model = (DefaultTableModel)getModel();
-        while (model.getRowCount()>0)
-            model.removeRow(0);
+    publid void fmptyTbblf() {
+        DffbultTbblfModfl modfl = (DffbultTbblfModfl)gftModfl();
+        wiilf (modfl.gftRowCount()>0)
+            modfl.rfmovfRow(0);
     }
 
-    public abstract boolean isTableEditable();
-    public abstract boolean isColumnEditable(int column);
-    public abstract boolean isReadable(int row);
-    public abstract boolean isWritable(int row);
-    public abstract boolean isCellError(int row, int col);
-    public abstract boolean isAttributeViewable(int row, int col);
-    public abstract void setTableValue(Object value,int row);
-    public abstract Object getValue(int row);
-    public abstract String getClassName(int row);
-    public abstract String getValueName(int row);
+    publid bbstrbdt boolfbn isTbblfEditbblf();
+    publid bbstrbdt boolfbn isColumnEditbblf(int dolumn);
+    publid bbstrbdt boolfbn isRfbdbblf(int row);
+    publid bbstrbdt boolfbn isWritbblf(int row);
+    publid bbstrbdt boolfbn isCfllError(int row, int dol);
+    publid bbstrbdt boolfbn isAttributfVifwbblf(int row, int dol);
+    publid bbstrbdt void sftTbblfVbluf(Objfdt vbluf,int row);
+    publid bbstrbdt Objfdt gftVbluf(int row);
+    publid bbstrbdt String gftClbssNbmf(int row);
+    publid bbstrbdt String gftVblufNbmf(int row);
 
-    public boolean isReadWrite(int row) {
-        return (isReadable(row) && isWritable(row));
+    publid boolfbn isRfbdWritf(int row) {
+        rfturn (isRfbdbblf(row) && isWritbblf(row));
     }
 
-    //JTable re-implementation
+    //JTbblf rf-implfmfntbtion
 
-    //attribute can be editable even if unavailable
-    @Override
-    public boolean isCellEditable(int row, int col) {
-        return ((isTableEditable() && isColumnEditable(col)
-                 &&  isWritable(row)
-                 && Utils.isEditableType(getClassName(row))));
+    //bttributf dbn bf fditbblf fvfn if unbvbilbblf
+    @Ovfrridf
+    publid boolfbn isCfllEditbblf(int row, int dol) {
+        rfturn ((isTbblfEditbblf() && isColumnEditbblf(dol)
+                 &&  isWritbblf(row)
+                 && Utils.isEditbblfTypf(gftClbssNbmf(row))));
     }
 
-    //attribute can be droppable even if unavailable
-    public boolean isCellDroppable(int row, int col) {
-        return (isTableEditable() && isColumnEditable(col)
-                && isWritable(row));
+    //bttributf dbn bf droppbblf fvfn if unbvbilbblf
+    publid boolfbn isCfllDroppbblf(int row, int dol) {
+        rfturn (isTbblfEditbblf() && isColumnEditbblf(dol)
+                && isWritbblf(row));
     }
 
-    //returns null, means no tool tip
-    public String getToolTip(int row, int column) {
-        return null;
+    //rfturns null, mfbns no tool tip
+    publid String gftToolTip(int row, int dolumn) {
+        rfturn null;
     }
 
     /**
-     * This method sets read write rows to be blue, and other rows to be their
-     * default rendered colour.
+     * Tiis mftiod sfts rfbd writf rows to bf bluf, bnd otifr rows to bf tifir
+     * dffbult rfndfrfd dolour.
      */
-    @Override
-    public TableCellRenderer getCellRenderer(int row, int column) {
-        DefaultTableCellRenderer tcr =
-            (DefaultTableCellRenderer) super.getCellRenderer(row,column);
-        tcr.setToolTipText(getToolTip(row,column));
-        if (defaultColor == null) {
-            defaultColor = tcr.getForeground();
-            editableColor = Color.blue;
-            errorColor = Color.red;
-            // this sometimes happens for some reason
-            if (defaultColor == null) {
-                return tcr;
+    @Ovfrridf
+    publid TbblfCfllRfndfrfr gftCfllRfndfrfr(int row, int dolumn) {
+        DffbultTbblfCfllRfndfrfr tdr =
+            (DffbultTbblfCfllRfndfrfr) supfr.gftCfllRfndfrfr(row,dolumn);
+        tdr.sftToolTipTfxt(gftToolTip(row,dolumn));
+        if (dffbultColor == null) {
+            dffbultColor = tdr.gftForfground();
+            fditbblfColor = Color.bluf;
+            frrorColor = Color.rfd;
+            // tiis somftimfs ibppfns for somf rfbson
+            if (dffbultColor == null) {
+                rfturn tdr;
             }
         }
-        if (column != VALUE_COLUMN) {
-            tcr.setForeground(defaultColor);
-            return tcr;
+        if (dolumn != VALUE_COLUMN) {
+            tdr.sftForfground(dffbultColor);
+            rfturn tdr;
         }
-        if (isCellError(row,column)) {
-            tcr.setForeground(errorColor);
-        } else if (isCellEditable(row, column)) {
-            tcr.setForeground(editableColor);
-        } else {
-            tcr.setForeground(defaultColor);
+        if (isCfllError(row,dolumn)) {
+            tdr.sftForfground(frrorColor);
+        } flsf if (isCfllEditbblf(row, dolumn)) {
+            tdr.sftForfground(fditbblfColor);
+        } flsf {
+            tdr.sftForfground(dffbultColor);
         }
-        return tcr;
+        rfturn tdr;
     }
 
-    @Override
-    public Component prepareRenderer(TableCellRenderer renderer,
-                                     int row, int column) {
-        Component comp = super.prepareRenderer(renderer, row, column);
+    @Ovfrridf
+    publid Componfnt prfpbrfRfndfrfr(TbblfCfllRfndfrfr rfndfrfr,
+                                     int row, int dolumn) {
+        Componfnt domp = supfr.prfpbrfRfndfrfr(rfndfrfr, row, dolumn);
 
-        if (normalFont == null) {
-            normalFont = comp.getFont();
-            boldFont = normalFont.deriveFont(Font.BOLD);
+        if (normblFont == null) {
+            normblFont = domp.gftFont();
+            boldFont = normblFont.dfrivfFont(Font.BOLD);
         }
 
-        if (column == VALUE_COLUMN && isAttributeViewable(row, VALUE_COLUMN)) {
-            comp.setFont(boldFont);
-        } else {
-            comp.setFont(normalFont);
+        if (dolumn == VALUE_COLUMN && isAttributfVifwbblf(row, VALUE_COLUMN)) {
+            domp.sftFont(boldFont);
+        } flsf {
+            domp.sftFont(normblFont);
         }
 
-        return comp;
+        rfturn domp;
     }
 }

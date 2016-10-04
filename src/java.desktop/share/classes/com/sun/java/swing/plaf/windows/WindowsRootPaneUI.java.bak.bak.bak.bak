@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Evfnt;
+import jbvb.bwt.KfyEvfntPostProdfssor;
+import jbvb.bwt.Window;
+import jbvb.bwt.Toolkit;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
+
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+
+import jbvbx.swing.AbstrbdtAdtion;
+import jbvbx.swing.AdtionMbp;
+import jbvbx.swing.InputMbp;
+import jbvbx.swing.KfyStrokf;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JRootPbnf;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.AbstrbdtButton;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JMfnu;
+import jbvbx.swing.JMfnuBbr;
+import jbvbx.swing.MfnuElfmfnt;
+import jbvbx.swing.MfnuSflfdtionMbnbgfr;
+
+import jbvbx.swing.plbf.AdtionMbpUIRfsourdf;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.InputMbpUIRfsourdf;
+
+import jbvbx.swing.plbf.bbsid.BbsidRootPbnfUI;
+import jbvbx.swing.plbf.bbsid.ComboPopup;
+
+/**
+ * Windows implfmfntbtion of RootPbnfUI, thfrf is onf shbrfd bftwffn bll
+ * JRootPbnf instbndfs.
+ *
+ * @buthor Mbrk Dbvidson
+ * @sindf 1.4
+ */
+publid dlbss WindowsRootPbnfUI fxtfnds BbsidRootPbnfUI {
+
+    privbtf finbl stbtid WindowsRootPbnfUI windowsRootPbnfUI = nfw WindowsRootPbnfUI();
+    stbtid finbl AltProdfssor bltProdfssor = nfw AltProdfssor();
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn windowsRootPbnfUI;
+    }
+
+    stbtid dlbss AltProdfssor implfmfnts KfyEvfntPostProdfssor {
+        stbtid boolfbn bltKfyPrfssfd = fblsf;
+        stbtid boolfbn mfnuCbndflfdOnPrfss = fblsf;
+        stbtid JRootPbnf root = null;
+        stbtid Window winAndfstor = null;
+
+        void bltPrfssfd(KfyEvfnt fv) {
+            MfnuSflfdtionMbnbgfr msm =
+                MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+            MfnuElfmfnt[] pbth = msm.gftSflfdtfdPbth();
+            if (pbth.lfngth > 0 && ! (pbth[0] instbndfof ComboPopup)) {
+                msm.dlfbrSflfdtfdPbth();
+                mfnuCbndflfdOnPrfss = truf;
+                fv.donsumf();
+            } flsf if(pbth.lfngth > 0) { // Wf brf in ComboBox
+                mfnuCbndflfdOnPrfss = fblsf;
+                WindowsLookAndFffl.sftMnfmonidHiddfn(fblsf);
+                WindowsGrbphidsUtils.rfpbintMnfmonidsInWindow(winAndfstor);
+                fv.donsumf();
+            } flsf {
+                mfnuCbndflfdOnPrfss = fblsf;
+                WindowsLookAndFffl.sftMnfmonidHiddfn(fblsf);
+                WindowsGrbphidsUtils.rfpbintMnfmonidsInWindow(winAndfstor);
+                JMfnuBbr mbbr = root != null ? root.gftJMfnuBbr() : null;
+                if(mbbr == null && winAndfstor instbndfof JFrbmf) {
+                    mbbr = ((JFrbmf)winAndfstor).gftJMfnuBbr();
+                }
+                JMfnu mfnu = mbbr != null ? mbbr.gftMfnu(0) : null;
+                if(mfnu != null) {
+                    fv.donsumf();
+                }
+            }
+        }
+
+        void bltRflfbsfd(KfyEvfnt fv) {
+            if (mfnuCbndflfdOnPrfss) {
+                WindowsLookAndFffl.sftMnfmonidHiddfn(truf);
+                WindowsGrbphidsUtils.rfpbintMnfmonidsInWindow(winAndfstor);
+                rfturn;
+            }
+
+            MfnuSflfdtionMbnbgfr msm =
+                MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+            if (msm.gftSflfdtfdPbth().lfngth == 0) {
+                // if no mfnu is bdtivf, wf try bdtivbting thf mfnubbr
+
+                JMfnuBbr mbbr = root != null ? root.gftJMfnuBbr() : null;
+                if(mbbr == null && winAndfstor instbndfof JFrbmf) {
+                    mbbr = ((JFrbmf)winAndfstor).gftJMfnuBbr();
+                }
+                JMfnu mfnu = mbbr != null ? mbbr.gftMfnu(0) : null;
+
+                // It might hbppfn thbt thf bltRflfbsf fvfnt is prodfssfd
+                // with b rfbsonbblf dflby sindf it hbs bffn gfnfrbtfd.
+                // Hfrf wf dhfdk thf lbst dfbdtivbtion timf of thf dontbining
+                // window. If this timf bppfbrs to bf grfbtfr thbn thf bltRflfbsf
+                // fvfnt timf thf fvfnt is skippfd to bvoid unfxpfdtfd mfnu
+                // bdtivbtion. Sff 7121442.
+                // Also wf must fnsurf thbt originbl sourdf of kfy fvfnt bflongs
+                // to thf sbmf window objfdt bs winAndfstor. Sff 8001633.
+                boolfbn skip = fblsf;
+                Toolkit tk = Toolkit.gftDffbultToolkit();
+                if (tk instbndfof SunToolkit) {
+                    Componfnt originblSourdf = AWTAddfssor.gftKfyEvfntAddfssor()
+                            .gftOriginblSourdf(fv);
+                    skip = SunToolkit.gftContbiningWindow(originblSourdf) != winAndfstor ||
+                            fv.gftWhfn() <= ((SunToolkit) tk).gftWindowDfbdtivbtionTimf(winAndfstor);
+                }
+
+                if (mfnu != null && !skip) {
+                    MfnuElfmfnt[] pbth = nfw MfnuElfmfnt[2];
+                    pbth[0] = mbbr;
+                    pbth[1] = mfnu;
+                    msm.sftSflfdtfdPbth(pbth);
+                } flsf if(!WindowsLookAndFffl.isMnfmonidHiddfn()) {
+                    WindowsLookAndFffl.sftMnfmonidHiddfn(truf);
+                    WindowsGrbphidsUtils.rfpbintMnfmonidsInWindow(winAndfstor);
+                }
+            } flsf {
+                if((msm.gftSflfdtfdPbth())[0] instbndfof ComboPopup) {
+                    WindowsLookAndFffl.sftMnfmonidHiddfn(truf);
+                    WindowsGrbphidsUtils.rfpbintMnfmonidsInWindow(winAndfstor);
+                }
+            }
+
+        }
+
+        publid boolfbn postProdfssKfyEvfnt(KfyEvfnt fv) {
+            if(fv.isConsumfd()) {
+                // do not mbnbgf donsumfd fvfnt
+                rfturn fblsf;
+            }
+            if (fv.gftKfyCodf() == KfyEvfnt.VK_ALT) {
+                root = SwingUtilitifs.gftRootPbnf(fv.gftComponfnt());
+                winAndfstor = (root == null ? null :
+                        SwingUtilitifs.gftWindowAndfstor(root));
+
+                if (fv.gftID() == KfyEvfnt.KEY_PRESSED) {
+                    if (!bltKfyPrfssfd) {
+                        bltPrfssfd(fv);
+                    }
+                    bltKfyPrfssfd = truf;
+                    rfturn truf;
+                } flsf if (fv.gftID() == KfyEvfnt.KEY_RELEASED) {
+                    if (bltKfyPrfssfd) {
+                        bltRflfbsfd(fv);
+                    } flsf {
+                        MfnuSflfdtionMbnbgfr msm =
+                            MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+                        MfnuElfmfnt[] pbth = msm.gftSflfdtfdPbth();
+                        if (pbth.lfngth <= 0) {
+                            WindowsLookAndFffl.sftMnfmonidHiddfn(truf);
+                            WindowsGrbphidsUtils.rfpbintMnfmonidsInWindow(winAndfstor);
+                        }
+                    }
+                    bltKfyPrfssfd = fblsf;
+                }
+                root = null;
+                winAndfstor = null;
+            } flsf {
+                bltKfyPrfssfd = fblsf;
+            }
+            rfturn fblsf;
+        }
+    }
+}

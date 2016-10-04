@@ -1,0 +1,530 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * @buthor    IBM Corp.
+ *
+ * Copyright IBM Corp. 1999-2000.  All rights rfsfrvfd.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MODELMBEAN_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.logging.Lfvfl;
+
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.DfsdriptorKfy;
+import jbvbx.mbnbgfmfnt.DfsdriptorAddfss;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+
+/**
+ * <p>Thf ModflMBfbnAttributfInfo objfdt dfsdribfs bn bttributf of thf ModflMBfbn.
+ * It is b subdlbss of MBfbnAttributfInfo with thf bddition of bn bssodibtfd Dfsdriptor
+ * bnd bn implfmfntbtion of thf DfsdriptorAddfss intfrfbdf.</p>
+ *
+ * <P id="dfsdriptor">
+ * Thf fiflds in thf dfsdriptor brf dffinfd, but not limitfd to, thf following.
+ * Notf thbt whfn thf Typf in this tbblf is Numbfr, b String thbt is thf dfdimbl
+ * rfprfsfntbtion of b Long dbn blso bf usfd.</P>
+ *
+ * <tbblf bordfr="1" dfllpbdding="5" summbry="ModflMBfbnAttributfInfo Fiflds">
+ * <tr><th>Nbmf</th><th>Typf</th><th>Mfbning</th></tr>
+ * <tr><td>nbmf</td><td>String</td>
+ *     <td>Attributf nbmf.</td></tr>
+ * <tr><td>dfsdriptorTypf</td><td>String</td>
+ *     <td>Must bf "bttributf".</td></tr>
+ * <tr id="vbluf-fifld"><td>vbluf</td><td>Objfdt</td>
+ *     <td>Currfnt (dbdhfd) vbluf for bttributf.</td></tr>
+ * <tr><td>dffbult</td><td>Objfdt</td>
+ *     <td>Dffbult vbluf for bttributf.</td></tr>
+ * <tr><td>displbyNbmf</td><td>String</td>
+ *     <td>Nbmf of bttributf to bf usfd in displbys.</td></tr>
+ * <tr><td>gftMfthod</td><td>String</td>
+ *     <td>Nbmf of opfrbtion dfsdriptor for gft mfthod.</td></tr>
+ * <tr><td>sftMfthod</td><td>String</td>
+ *     <td>Nbmf of opfrbtion dfsdriptor for sft mfthod.</td></tr>
+ * <tr><td>protodolMbp</td><td>Dfsdriptor</td>
+ *     <td>Sff thf sfdtion "Protodol Mbp Support" in thf JMX spfdifidbtion
+ *         dodumfnt.  Mbppings must bf bppropribtf for thf bttributf bnd fntrifs
+ *         dbn bf updbtfd or bugmfntfd bt runtimf.</td></tr>
+ * <tr><td>pfrsistPolidy</td><td>String</td>
+ *     <td>Onf of: OnUpdbtf|OnTimfr|NoMorfOftfnThbn|OnUnrfgistfr|Alwbys|Nfvfr.
+ *         Sff thf sfdtion "MBfbn Dfsdriptor Fiflds" in thf JMX spfdifidbtion
+ *         dodumfnt.</td></tr>
+ * <tr><td>pfrsistPfriod</td><td>Numbfr</td>
+ *     <td>Frfqufndy of pfrsist dydlf in sfdonds. Usfd whfn pfrsistPolidy is
+ *         "OnTimfr" or "NoMorfOftfnThbn".</td></tr>
+ * <tr><td>durrfndyTimfLimit</td><td>Numbfr</td>
+ *     <td>How long <b hrff="#vbluf=fifld">vbluf</b> is vblid: &lt;0 nfvfr,
+ *         =0 blwbys, &gt;0 sfdonds.</td></tr>
+ * <tr><td>lbstUpdbtfdTimfStbmp</td><td>Numbfr</td>
+ *     <td>Whfn <b hrff="#vbluf-fifld">vbluf</b> wbs sft.</td></tr>
+ * <tr><td>visibility</td><td>Numbfr</td>
+ *     <td>1-4 whfrf 1: blwbys visiblf, 4: rbrfly visiblf.</td></tr>
+ * <tr><td>prfsfntbtionString</td><td>String</td>
+ *     <td>XML formbttfd string to bllow prfsfntbtion of dbtb.</td></tr>
+ * </tbblf>
+ *
+ * <p>Thf dffbult dfsdriptor dontbins thf nbmf, dfsdriptorTypf bnd displbyNbmf
+ * fiflds.  Thf dffbult vbluf of thf nbmf bnd displbyNbmf fiflds is thf nbmf of
+ * thf bttributf.</p>
+ *
+ * <p><b>Notf:</b> bfdbusf of indonsistfndifs in prfvious vfrsions of
+ * this spfdifidbtion, it is rfdommfndfd not to usf nfgbtivf or zfro
+ * vblufs for <dodf>durrfndyTimfLimit</dodf>.  To indidbtf thbt b
+ * dbdhfd vbluf is nfvfr vblid, omit thf
+ * <dodf>durrfndyTimfLimit</dodf> fifld.  To indidbtf thbt it is
+ * blwbys vblid, usf b vfry lbrgf numbfr for this fifld.</p>
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>6181543027787327345L</dodf>.
+ *
+ * @sindf 1.5
+ */
+
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID is not donstbnt
+publid dlbss ModflMBfbnAttributfInfo
+    fxtfnds MBfbnAttributfInfo
+    implfmfnts DfsdriptorAddfss {
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 7098036920755973145L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 6181543027787327345L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("bttrDfsdriptor", Dfsdriptor.dlbss),
+      nfw ObjfdtStrfbmFifld("durrClbss", String.dlbss)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("bttrDfsdriptor", Dfsdriptor.dlbss)
+    };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    /**
+     * @sfriblFifld bttrDfsdriptor Dfsdriptor Thf {@link Dfsdriptor}
+     * dontbining thf mftbdbtb dorrfsponding to this bttributf
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK: No dompbt with 1.0
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+    //
+    // END Sfriblizbtion dompbtibility stuff
+
+        /**
+         * @sfribl Thf {@link Dfsdriptor} dontbining thf mftbdbtb dorrfsponding to
+         * this bttributf
+         */
+        privbtf Dfsdriptor bttrDfsdriptor = vblidDfsdriptor(null);
+
+        privbtf finbl stbtid String durrClbss = "ModflMBfbnAttributfInfo";
+
+        /**
+         * Construdts b ModflMBfbnAttributfInfo objfdt with b dffbult
+         * dfsdriptor. Thf {@link Dfsdriptor} of thf donstrudtfd
+         * objfdt will indludf fiflds dontributfd by bny bnnotbtions
+         * on thf {@dodf Mfthod} objfdts thbt dontbin thf {@link
+         * DfsdriptorKfy} mftb-bnnotbtion.
+         *
+         * @pbrbm nbmf Thf nbmf of thf bttributf.
+         * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf bttributf. Optionbl.
+         * @pbrbm gfttfr Thf mfthod usfd for rfbding thf bttributf vbluf.
+         *          Mby bf null if thf propfrty is writf-only.
+         * @pbrbm sfttfr Thf mfthod usfd for writing thf bttributf vbluf.
+         *          Mby bf null if thf bttributf is rfbd-only.
+         * @fxdfption jbvbx.mbnbgfmfnt.IntrospfdtionExdfption Thfrf is b donsistfndy
+         * problfm in thf dffinition of this bttributf.
+         *
+         */
+
+        publid ModflMBfbnAttributfInfo(String nbmf,
+                                       String dfsdription,
+                                       Mfthod gfttfr,
+                                       Mfthod sfttfr)
+        throws jbvbx.mbnbgfmfnt.IntrospfdtionExdfption {
+                supfr(nbmf, dfsdription, gfttfr, sfttfr);
+
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnAttributfInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnAttributfInfo(" +
+                            "String,String,Mfthod,Mfthod)",
+                            "Entry", nbmf);
+                }
+
+                bttrDfsdriptor = vblidDfsdriptor(null);
+                // put gfttfr bnd sfttfr mfthods in opfrbtions list
+                // drfbtf dffbult dfsdriptor
+
+        }
+
+        /**
+         * Construdts b ModflMBfbnAttributfInfo objfdt.  Thf {@link
+         * Dfsdriptor} of thf donstrudtfd objfdt will indludf fiflds
+         * dontributfd by bny bnnotbtions on thf {@dodf Mfthod}
+         * objfdts thbt dontbin thf {@link DfsdriptorKfy}
+         * mftb-bnnotbtion.
+         *
+         * @pbrbm nbmf Thf nbmf of thf bttributf.
+         * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf bttributf. Optionbl.
+         * @pbrbm gfttfr Thf mfthod usfd for rfbding thf bttributf vbluf.
+         *          Mby bf null if thf propfrty is writf-only.
+         * @pbrbm sfttfr Thf mfthod usfd for writing thf bttributf vbluf.
+         *          Mby bf null if thf bttributf is rfbd-only.
+         * @pbrbm dfsdriptor An instbndf of Dfsdriptor dontbining thf
+         * bppropribtf mftbdbtb for this instbndf of thf Attributf. If
+         * it is null, thfn b dffbult dfsdriptor will bf drfbtfd.  If
+         * thf dfsdriptor dofs not dontbin thf fifld "displbyNbmf" this fifld is bddfd
+         * in thf dfsdriptor with its dffbult vbluf.
+         * @fxdfption jbvbx.mbnbgfmfnt.IntrospfdtionExdfption Thfrf is b donsistfndy
+         * problfm in thf dffinition of this bttributf.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+         * IllfgblArgumfntExdfption. Thf dfsdriptor is invblid, or dfsdriptor
+         * fifld "nbmf" is not fqubl to nbmf pbrbmftfr, or dfsdriptor fifld
+         * "dfsdriptorTypf" is not fqubl to "bttributf".
+         *
+         */
+
+        publid ModflMBfbnAttributfInfo(String nbmf,
+                                       String dfsdription,
+                                       Mfthod gfttfr,
+                                       Mfthod sfttfr,
+                                       Dfsdriptor dfsdriptor)
+        throws jbvbx.mbnbgfmfnt.IntrospfdtionExdfption {
+
+                supfr(nbmf, dfsdription, gfttfr, sfttfr);
+                // put gfttfr bnd sfttfr mfthods in opfrbtions list
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnAttributfInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnAttributfInfo(" +
+                            "String,String,Mfthod,Mfthod,Dfsdriptor)",
+                            "Entry", nbmf);
+                }
+                bttrDfsdriptor = vblidDfsdriptor(dfsdriptor);
+        }
+
+        /**
+         * Construdts b ModflMBfbnAttributfInfo objfdt with b dffbult dfsdriptor.
+         *
+         * @pbrbm nbmf Thf nbmf of thf bttributf
+         * @pbrbm typf Thf typf or dlbss nbmf of thf bttributf
+         * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf bttributf.
+         * @pbrbm isRfbdbblf Truf if thf bttributf hbs b gfttfr mfthod, fblsf othfrwisf.
+         * @pbrbm isWritbblf Truf if thf bttributf hbs b sfttfr mfthod, fblsf othfrwisf.
+         * @pbrbm isIs Truf if thf bttributf hbs bn "is" gfttfr, fblsf othfrwisf.
+         *
+         */
+        publid ModflMBfbnAttributfInfo(String nbmf,
+                                       String typf,
+                                       String dfsdription,
+                                       boolfbn isRfbdbblf,
+                                       boolfbn isWritbblf,
+                                       boolfbn isIs)
+    {
+
+                supfr(nbmf, typf, dfsdription, isRfbdbblf, isWritbblf, isIs);
+                // drfbtf dffbult dfsdriptor
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnAttributfInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnAttributfInfo(" +
+                            "String,String,String,boolfbn,boolfbn,boolfbn)",
+                            "Entry", nbmf);
+                }
+                bttrDfsdriptor = vblidDfsdriptor(null);
+        }
+
+        /**
+         * Construdts b ModflMBfbnAttributfInfo objfdt.
+         *
+         * @pbrbm nbmf Thf nbmf of thf bttributf
+         * @pbrbm typf Thf typf or dlbss nbmf of thf bttributf
+         * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf bttributf.
+         * @pbrbm isRfbdbblf Truf if thf bttributf hbs b gfttfr mfthod, fblsf othfrwisf.
+         * @pbrbm isWritbblf Truf if thf bttributf hbs b sfttfr mfthod, fblsf othfrwisf.
+         * @pbrbm isIs Truf if thf bttributf hbs bn "is" gfttfr, fblsf othfrwisf.
+         * @pbrbm dfsdriptor An instbndf of Dfsdriptor dontbining thf
+         * bppropribtf mftbdbtb for this instbndf of thf Attributf. If
+         * it is null thfn b dffbult dfsdriptor will bf drfbtfd.  If
+         * thf dfsdriptor dofs not dontbin thf fifld "displbyNbmf" this fifld
+         * is bddfd in thf dfsdriptor with its dffbult vbluf.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+         * IllfgblArgumfntExdfption. Thf dfsdriptor is invblid, or dfsdriptor
+         * fifld "nbmf" is not fqubl to nbmf pbrbmftfr, or dfsdriptor fifld
+         * "dfsdriptorTypf" is not fqubl to "bttributf".
+         *
+         */
+        publid ModflMBfbnAttributfInfo(String nbmf,
+                                       String typf,
+                                       String dfsdription,
+                                       boolfbn isRfbdbblf,
+                                       boolfbn isWritbblf,
+                                       boolfbn isIs,
+                                       Dfsdriptor dfsdriptor)
+        {
+                supfr(nbmf, typf, dfsdription, isRfbdbblf, isWritbblf, isIs);
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnAttributfInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnAttributfInfo(String,String,String," +
+                            "boolfbn,boolfbn,boolfbn,Dfsdriptor)",
+                            "Entry", nbmf);
+                }
+                bttrDfsdriptor = vblidDfsdriptor(dfsdriptor);
+        }
+
+        /**
+         * Construdts b nfw ModflMBfbnAttributfInfo objfdt from this
+         * ModflMBfbnAttributfInfo Objfdt.  A dffbult dfsdriptor will
+         * bf drfbtfd.
+         *
+         * @pbrbm inInfo thf ModflMBfbnAttributfInfo to bf duplidbtfd
+         */
+
+        publid ModflMBfbnAttributfInfo(ModflMBfbnAttributfInfo inInfo)
+        {
+                supfr(inInfo.gftNbmf(),
+                          inInfo.gftTypf(),
+                          inInfo.gftDfsdription(),
+                          inInfo.isRfbdbblf(),
+                          inInfo.isWritbblf(),
+                          inInfo.isIs());
+                if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                            ModflMBfbnAttributfInfo.dlbss.gftNbmf(),
+                            "ModflMBfbnAttributfInfo(ModflMBfbnAttributfInfo)",
+                            "Entry");
+                }
+                Dfsdriptor nfwDfsd = inInfo.gftDfsdriptor();
+                bttrDfsdriptor = vblidDfsdriptor(nfwDfsd);
+        }
+
+        /**
+         * Gfts b dopy of thf bssodibtfd Dfsdriptor for thf
+         * ModflMBfbnAttributfInfo.
+         *
+         * @rfturn Dfsdriptor bssodibtfd with thf
+         * ModflMBfbnAttributfInfo objfdt.
+         *
+         * @sff #sftDfsdriptor
+         */
+
+        publid Dfsdriptor gftDfsdriptor() {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnAttributfInfo.dlbss.gftNbmf(),
+                        "gftDfsdriptor()", "Entry");
+            }
+                if (bttrDfsdriptor == null) {
+                    bttrDfsdriptor = vblidDfsdriptor(null);
+                }
+                rfturn((Dfsdriptor)bttrDfsdriptor.dlonf());
+        }
+
+
+        /**
+        * Sfts bssodibtfd Dfsdriptor (full rfplbdf) for thf
+        * ModflMBfbnAttributfDfsdriptor.  If thf nfw Dfsdriptor is
+        * null, thfn thf bssodibtfd Dfsdriptor rfvfrts to b dffbult
+        * dfsdriptor.  Thf Dfsdriptor is vblidbtfd bfforf it is
+        * bssignfd.  If thf nfw Dfsdriptor is invblid, thfn b
+        * RuntimfOpfrbtionsExdfption wrbpping bn
+        * IllfgblArgumfntExdfption is thrown.
+        * @pbrbm inDfsdriptor rfplbdfs thf Dfsdriptor bssodibtfd with thf
+        * ModflMBfbnAttributfInfo
+        *
+        * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+        * IllfgblArgumfntExdfption for bn invblid Dfsdriptor
+        *
+        * @sff #gftDfsdriptor
+        */
+        publid void sftDfsdriptor(Dfsdriptor inDfsdriptor) {
+            bttrDfsdriptor =  vblidDfsdriptor(inDfsdriptor);
+        }
+
+        /**
+        * Crfbtfs bnd rfturns b nfw ModflMBfbnAttributfInfo whidh is b duplidbtf of this ModflMBfbnAttributfInfo.
+        *
+        * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for
+        * fifld Nbmfs or fifld Vblufs.  If thf dfsdriptor donstrudtion
+        * fbils for bny rfbson, this fxdfption will bf thrown.
+        */
+
+        @Ovfrridf
+        publid Objfdt dlonf()
+        {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnAttributfInfo.dlbss.gftNbmf(),
+                        "dlonf()", "Entry");
+            }
+                rfturn(nfw ModflMBfbnAttributfInfo(this));
+        }
+
+        /**
+        * Rfturns b humbn-rfbdbblf vfrsion of thf
+        * ModflMBfbnAttributfInfo instbndf.
+        */
+        @Ovfrridf
+        publid String toString()
+        {
+            rfturn
+                "ModflMBfbnAttributfInfo: " + this.gftNbmf() +
+                " ; Dfsdription: " + this.gftDfsdription() +
+                " ; Typfs: " + this.gftTypf() +
+                " ; isRfbdbblf: " + this.isRfbdbblf() +
+                " ; isWritbblf: " + this.isWritbblf() +
+                " ; Dfsdriptor: " + this.gftDfsdriptor();
+        }
+
+
+        /**
+         * Clonfs thf pbssfd in Dfsdriptor, sfts dffbult vblufs, bnd dhfdks for vblidity.
+         * If thf Dfsdriptor is invblid (for instbndf by hbving thf wrong "nbmf"),
+         * this indidbtfs progrbmming frror bnd b RuntimfOpfrbtionsExdfption will bf thrown.
+         *
+         * Thf following fiflds will bf dffbultfd if thfy brf not blrfbdy sft:
+         * displbyNbmf=this.gftNbmf(),nbmf=this.gftNbmf(),dfsdriptorTypf = "bttributf"
+         *
+         * @pbrbm in Dfsdriptor to bf dhfdkfd, or null whidh is fquivblfnt to
+         * bn fmpty Dfsdriptor.
+         * @fxdfption RuntimfOpfrbtionsExdfption if Dfsdriptor is invblid
+         */
+        privbtf Dfsdriptor vblidDfsdriptor(finbl Dfsdriptor in) throws RuntimfOpfrbtionsExdfption {
+
+            Dfsdriptor dlonf;
+            boolfbn dffbultfd = (in == null);
+            if (dffbultfd) {
+                dlonf = nfw DfsdriptorSupport();
+                MODELMBEAN_LOGGER.finfr("Null Dfsdriptor, drfbting nfw.");
+            } flsf {
+                dlonf = (Dfsdriptor) in.dlonf();
+            }
+
+            //Sftting dffbults.
+            if (dffbultfd && dlonf.gftFifldVbluf("nbmf")==null) {
+                dlonf.sftFifld("nbmf", this.gftNbmf());
+                MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor nbmf to " + this.gftNbmf());
+            }
+            if (dffbultfd && dlonf.gftFifldVbluf("dfsdriptorTypf")==null) {
+                dlonf.sftFifld("dfsdriptorTypf", "bttributf");
+                MODELMBEAN_LOGGER.finfr("Dffbulting dfsdriptorTypf to \"bttributf\"");
+            }
+            if (dlonf.gftFifldVbluf("displbyNbmf") == null) {
+                dlonf.sftFifld("displbyNbmf",this.gftNbmf());
+                MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor displbyNbmf to " + this.gftNbmf());
+            }
+
+            //Chfdking vblidity
+            if (!dlonf.isVblid()) {
+                 throw nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                    "Thf isVblid() mfthod of thf Dfsdriptor objfdt itsflf rfturnfd fblsf,"+
+                    "onf or morf rfquirfd fiflds brf invblid. Dfsdriptor:" + dlonf.toString());
+            }
+            if (!gftNbmf().fqublsIgnorfCbsf((String)dlonf.gftFifldVbluf("nbmf"))) {
+                    throw nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                    "Thf Dfsdriptor \"nbmf\" fifld dofs not mbtdh thf objfdt dfsdribfd. " +
+                     " Expfdtfd: "+ this.gftNbmf() + " , wbs: " + dlonf.gftFifldVbluf("nbmf"));
+            }
+
+            if (!"bttributf".fqublsIgnorfCbsf((String)dlonf.gftFifldVbluf("dfsdriptorTypf"))) {
+                     throw nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                    "Thf Dfsdriptor \"dfsdriptorTypf\" fifld dofs not mbtdh thf objfdt dfsdribfd. " +
+                     " Expfdtfd: \"bttributf\" ," + " wbs: " + dlonf.gftFifldVbluf("dfsdriptorTypf"));
+            }
+
+            rfturn dlonf;
+        }
+
+
+    /**
+     * Dfsfriblizfs b {@link ModflMBfbnAttributfInfo} from bn {@link ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+      // Nfw sfribl form ignorfs fxtrb fifld "durrClbss"
+      in.dffbultRfbdObjfdt();
+    }
+
+
+    /**
+     * Sfriblizfs b {@link ModflMBfbnAttributfInfo} to bn {@link ObjfdtOutputStrfbm}.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            throws IOExdfption {
+      if (dompbt)
+      {
+        // Sfriblizfs this instbndf in thf old sfribl form
+        //
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("bttrDfsdriptor", bttrDfsdriptor);
+        fiflds.put("durrClbss", durrClbss);
+        out.writfFiflds();
+      }
+      flsf
+      {
+        // Sfriblizfs this instbndf in thf nfw sfribl form
+        //
+        out.dffbultWritfObjfdt();
+      }
+    }
+
+}

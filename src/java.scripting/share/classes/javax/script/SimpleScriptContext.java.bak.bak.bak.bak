@@ -1,0 +1,324 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sdript;
+
+import jbvb.util.*;
+import jbvb.io.*;
+
+/**
+ * Simplf implfmfntbtion of SdriptContfxt.
+ *
+ * @buthor Mikf Grogbn
+ * @sindf 1.6
+ */
+publid dlbss SimplfSdriptContfxt  implfmfnts SdriptContfxt {
+
+    /**
+     * This is thf writfr to bf usfd to output from sdripts.
+     * By dffbult, b <dodf>PrintWritfr</dodf> bbsfd on <dodf>Systfm.out</dodf>
+     * is usfd. Addfssor mfthods gftWritfr, sftWritfr brf usfd to mbnbgf
+     * this fifld.
+     * @sff jbvb.lbng.Systfm#out
+     * @sff jbvb.io.PrintWritfr
+     */
+    protfdtfd Writfr writfr;
+
+    /**
+     * This is thf writfr to bf usfd to output frrors from sdripts.
+     * By dffbult, b <dodf>PrintWritfr</dodf> bbsfd on <dodf>Systfm.frr</dodf> is
+     * usfd. Addfssor mfthods gftErrorWritfr, sftErrorWritfr brf usfd to mbnbgf
+     * this fifld.
+     * @sff jbvb.lbng.Systfm#frr
+     * @sff jbvb.io.PrintWritfr
+     */
+    protfdtfd Writfr frrorWritfr;
+
+    /**
+     * This is thf rfbdfr to bf usfd for input from sdripts.
+     * By dffbult, b <dodf>InputStrfbmRfbdfr</dodf> bbsfd on <dodf>Systfm.in</dodf>
+     * is usfd bnd dffbult dhbrsft is usfd by this rfbdfr. Addfssor mfthods
+     * gftRfbdfr, sftRfbdfr brf usfd to mbnbgf this fifld.
+     * @sff jbvb.lbng.Systfm#in
+     * @sff jbvb.io.InputStrfbmRfbdfr
+     */
+    protfdtfd Rfbdfr rfbdfr;
+
+
+    /**
+     * This is thf fnginf sdopf bindings.
+     * By dffbult, b <dodf>SimplfBindings</dodf> is usfd. Addfssor
+     * mfthods sftBindings, gftBindings brf usfd to mbnbgf this fifld.
+     * @sff SimplfBindings
+     */
+    protfdtfd Bindings fnginfSdopf;
+
+    /**
+     * This is thf globbl sdopf bindings.
+     * By dffbult, b null vbluf (whidh mfbns no globbl sdopf) is usfd. Addfssor
+     * mfthods sftBindings, gftBindings brf usfd to mbnbgf this fifld.
+     */
+    protfdtfd Bindings globblSdopf;
+
+    /**
+     * Crfbtf b {@dodf SimplfSdriptContfxt}.
+     */
+    publid SimplfSdriptContfxt() {
+        fnginfSdopf = nfw SimplfBindings();
+        globblSdopf = null;
+        rfbdfr = nfw InputStrfbmRfbdfr(Systfm.in);
+        writfr = nfw PrintWritfr(Systfm.out , truf);
+        frrorWritfr = nfw PrintWritfr(Systfm.frr, truf);
+    }
+
+    /**
+     * Sfts b <dodf>Bindings</dodf> of bttributfs for thf givfn sdopf.  If thf vbluf
+     * of sdopf is <dodf>ENGINE_SCOPE</dodf> thf givfn <dodf>Bindings</dodf> rfplbdfs thf
+     * <dodf>fnginfSdopf</dodf> fifld.  If thf vbluf
+     * of sdopf is <dodf>GLOBAL_SCOPE</dodf> thf givfn <dodf>Bindings</dodf> rfplbdfs thf
+     * <dodf>globblSdopf</dodf> fifld.
+     *
+     * @pbrbm bindings Thf <dodf>Bindings</dodf> of bttributfs to sft.
+     * @pbrbm sdopf Thf vbluf of thf sdopf in whidh thf bttributfs brf sft.
+     *
+     * @throws IllfgblArgumfntExdfption if sdopf is invblid.
+     * @throws NullPointfrExdfption if thf vbluf of sdopf is <dodf>ENGINE_SCOPE</dodf> bnd
+     * thf spfdififd <dodf>Bindings</dodf> is null.
+     */
+    publid void sftBindings(Bindings bindings, int sdopf) {
+
+        switdh (sdopf) {
+
+            dbsf ENGINE_SCOPE:
+                if (bindings == null) {
+                    throw nfw NullPointfrExdfption("Enginf sdopf dbnnot bf null.");
+                }
+                fnginfSdopf = bindings;
+                brfbk;
+            dbsf GLOBAL_SCOPE:
+                globblSdopf = bindings;
+                brfbk;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Invblid sdopf vbluf.");
+        }
+    }
+
+
+    /**
+     * Rftrifvfs thf vbluf of thf bttributf with thf givfn nbmf in
+     * thf sdopf oddurring fbrlifst in thf sfbrdh ordfr.  Thf ordfr
+     * is dftfrminfd by thf numfrid vbluf of thf sdopf pbrbmftfr (lowfst
+     * sdopf vblufs first.)
+     *
+     * @pbrbm nbmf Thf nbmf of thf thf bttributf to rftrifvf.
+     * @rfturn Thf vbluf of thf bttributf in thf lowfst sdopf for
+     * whidh bn bttributf with thf givfn nbmf is dffinfd.  Rfturns
+     * null if no bttributf with thf nbmf fxists in bny sdopf.
+     * @throws NullPointfrExdfption if thf nbmf is null.
+     * @throws IllfgblArgumfntExdfption if thf nbmf is fmpty.
+     */
+    publid Objfdt gftAttributf(String nbmf) {
+        if (fnginfSdopf.dontbinsKfy(nbmf)) {
+            rfturn gftAttributf(nbmf, ENGINE_SCOPE);
+        } flsf if (globblSdopf != null && globblSdopf.dontbinsKfy(nbmf)) {
+            rfturn gftAttributf(nbmf, GLOBAL_SCOPE);
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf vbluf of bn bttributf in b givfn sdopf.
+     *
+     * @pbrbm nbmf Thf nbmf of thf bttributf to rftrifvf.
+     * @pbrbm sdopf Thf sdopf in whidh to rftrifvf thf bttributf.
+     * @rfturn Thf vbluf of thf bttributf. Rfturns <dodf>null</dodf> is thf nbmf
+     * dofs not fxist in thf givfn sdopf.
+     *
+     * @throws IllfgblArgumfntExdfption
+     *         if thf nbmf is fmpty or if thf vbluf of sdopf is invblid.
+     * @throws NullPointfrExdfption if thf nbmf is null.
+     */
+    publid Objfdt gftAttributf(String nbmf, int sdopf) {
+
+        switdh (sdopf) {
+
+            dbsf ENGINE_SCOPE:
+                rfturn fnginfSdopf.gft(nbmf);
+
+            dbsf GLOBAL_SCOPE:
+                if (globblSdopf != null) {
+                    rfturn globblSdopf.gft(nbmf);
+                }
+                rfturn null;
+
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Illfgbl sdopf vbluf.");
+        }
+    }
+
+    /**
+     * Rfmovf bn bttributf in b givfn sdopf.
+     *
+     * @pbrbm nbmf Thf nbmf of thf bttributf to rfmovf
+     * @pbrbm sdopf Thf sdopf in whidh to rfmovf thf bttributf
+     *
+     * @rfturn Thf rfmovfd vbluf.
+     * @throws IllfgblArgumfntExdfption
+     *         if thf nbmf is fmpty or if thf sdopf is invblid.
+     * @throws NullPointfrExdfption if thf nbmf is null.
+     */
+    publid Objfdt rfmovfAttributf(String nbmf, int sdopf) {
+
+        switdh (sdopf) {
+
+            dbsf ENGINE_SCOPE:
+                if (gftBindings(ENGINE_SCOPE) != null) {
+                    rfturn gftBindings(ENGINE_SCOPE).rfmovf(nbmf);
+                }
+                rfturn null;
+
+            dbsf GLOBAL_SCOPE:
+                if (gftBindings(GLOBAL_SCOPE) != null) {
+                    rfturn gftBindings(GLOBAL_SCOPE).rfmovf(nbmf);
+                }
+                rfturn null;
+
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Illfgbl sdopf vbluf.");
+        }
+    }
+
+    /**
+     * Sfts thf vbluf of bn bttributf in b givfn sdopf.
+     *
+     * @pbrbm nbmf Thf nbmf of thf bttributf to sft
+     * @pbrbm vbluf Thf vbluf of thf bttributf
+     * @pbrbm sdopf Thf sdopf in whidh to sft thf bttributf
+     *
+     * @throws IllfgblArgumfntExdfption
+     *         if thf nbmf is fmpty or if thf sdopf is invblid.
+     * @throws NullPointfrExdfption if thf nbmf is null.
+     */
+    publid void sftAttributf(String nbmf, Objfdt vbluf, int sdopf) {
+
+        switdh (sdopf) {
+
+            dbsf ENGINE_SCOPE:
+                fnginfSdopf.put(nbmf, vbluf);
+                rfturn;
+
+            dbsf GLOBAL_SCOPE:
+                if (globblSdopf != null) {
+                    globblSdopf.put(nbmf, vbluf);
+                }
+                rfturn;
+
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Illfgbl sdopf vbluf.");
+        }
+    }
+
+    /** {@inhfritDod} */
+    publid Writfr gftWritfr() {
+        rfturn writfr;
+    }
+
+    /** {@inhfritDod} */
+    publid Rfbdfr gftRfbdfr() {
+        rfturn rfbdfr;
+    }
+
+    /** {@inhfritDod} */
+    publid void sftRfbdfr(Rfbdfr rfbdfr) {
+        this.rfbdfr = rfbdfr;
+    }
+
+    /** {@inhfritDod} */
+    publid void sftWritfr(Writfr writfr) {
+        this.writfr = writfr;
+    }
+
+    /** {@inhfritDod} */
+    publid Writfr gftErrorWritfr() {
+        rfturn frrorWritfr;
+    }
+
+    /** {@inhfritDod} */
+    publid void sftErrorWritfr(Writfr writfr) {
+        this.frrorWritfr = writfr;
+    }
+
+    /**
+     * Gft thf lowfst sdopf in whidh bn bttributf is dffinfd.
+     * @pbrbm nbmf Nbmf of thf bttributf
+     * .
+     * @rfturn Thf lowfst sdopf.  Rfturns -1 if no bttributf with thf givfn
+     * nbmf is dffinfd in bny sdopf.
+     * @throws NullPointfrExdfption if nbmf is null.
+     * @throws IllfgblArgumfntExdfption if nbmf is fmpty.
+     */
+    publid int gftAttributfsSdopf(String nbmf) {
+        if (fnginfSdopf.dontbinsKfy(nbmf)) {
+            rfturn ENGINE_SCOPE;
+        } flsf if (globblSdopf != null && globblSdopf.dontbinsKfy(nbmf)) {
+            rfturn GLOBAL_SCOPE;
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    /**
+     * Rfturns thf vbluf of thf <dodf>fnginfSdopf</dodf> fifld if spfdififd sdopf is
+     * <dodf>ENGINE_SCOPE</dodf>.  Rfturns thf vbluf of thf <dodf>globblSdopf</dodf> fifld if thf spfdififd sdopf is
+     * <dodf>GLOBAL_SCOPE</dodf>.
+     *
+     * @pbrbm sdopf Thf spfdififd sdopf
+     * @rfturn Thf vbluf of fithfr thf  <dodf>fnginfSdopf</dodf> or <dodf>globblSdopf</dodf> fifld.
+     * @throws IllfgblArgumfntExdfption if thf vbluf of sdopf is invblid.
+     */
+    publid Bindings gftBindings(int sdopf) {
+        if (sdopf == ENGINE_SCOPE) {
+            rfturn fnginfSdopf;
+        } flsf if (sdopf == GLOBAL_SCOPE) {
+            rfturn globblSdopf;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Illfgbl sdopf vbluf.");
+        }
+    }
+
+    /** {@inhfritDod} */
+    publid List<Intfgfr> gftSdopfs() {
+        rfturn sdopfs;
+    }
+
+    privbtf stbtid List<Intfgfr> sdopfs;
+    stbtid {
+        sdopfs = nfw ArrbyList<Intfgfr>(2);
+        sdopfs.bdd(ENGINE_SCOPE);
+        sdopfs.bdd(GLOBAL_SCOPE);
+        sdopfs = Collfdtions.unmodifibblfList(sdopfs);
+    }
+}

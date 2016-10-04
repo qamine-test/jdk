@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+/**
+ * Thf <dodf>JDIPfrmission</dodf> dlbss rfprfsfnts bddfss rights to
+ * thf <dodf>VirtublMbdhinfMbnbgfr</dodf>.  This is thf pfrmission
+ * whidh thf SfdurityMbnbgfr will dhfdk whfn dodf thbt is running with
+ * b SfdurityMbnbgfr rfqufsts bddfss to thf VirtublMbdhinfMbnbgfr, bs
+ * dffinfd in thf Jbvb Dfbug Intfrfbdf (JDI) for thf Jbvb plbtform.
+ * <P>
+ * A <dodf>JDIPfrmission</dodf> objfdt dontbins b nbmf (blso rfffrrfd
+ * to bs b "tbrgft nbmf") but no bdtions list; you fithfr hbvf thf
+ * nbmfd pfrmission or you don't.
+ * <P>
+ * Thf following tbblf providfs b summbry dfsdription of whbt thf
+ * pfrmission bllows, bnd disdussfs thf risks of grbnting dodf thf
+ * pfrmission.
+ * <P>
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Tbblf shows pfrmission
+ * tbrgft nbmf, whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>virtublMbdhinfMbnbgfr</td>
+ *   <td>Ability to inspfdt bnd modify thf JDI objfdts in thf
+ *   <dodf>VirtublMbdhinfMbnbgfr</dodf>
+ *   </td>
+ *   <td>This bllows bn bttbdkfr to dontrol thf
+ *   <dodf>VirtublMbdhinfMbnbgfr</dodf> bnd dbusf thf systfm to
+ *   misbfhbvf.
+ *   </td>
+ * </tr>
+ *
+ * </tbblf>
+ *
+ * <p>
+ * Progrbmmfrs do not normblly drfbtf JDIPfrmission objfdts dirfdtly.
+ * Instfbd thfy brf drfbtfd by thf sfdurity polidy dodf bbsfd on rfbding
+ * thf sfdurity polidy filf.
+ *
+ * @buthor  Tim Bfll
+ * @sindf   1.5
+ *
+ * @sff dom.sun.jdi.Bootstrbp
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ */
+
+@jdk.Exportfd
+publid finbl dlbss JDIPfrmission fxtfnds jbvb.sfdurity.BbsidPfrmission {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6988461416938786271L;
+    /**
+     * Thf <dodf>JDIPfrmission</dodf> dlbss rfprfsfnts bddfss rights to thf
+     * <dodf>VirtublMbdhinfMbnbgfr</dodf>
+     * @pbrbm nbmf Pfrmission nbmf. Must bf "virtublMbdhinfMbnbgfr".
+     * @throws IllfgblArgumfntExdfption if thf nbmf brgumfnt is invblid.
+     */
+    publid JDIPfrmission(String nbmf) {
+        supfr(nbmf);
+        if (!nbmf.fqubls("virtublMbdhinfMbnbgfr")) {
+            throw nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
+        }
+    }
+
+    /**
+     * Construdts b nfw JDIPfrmission objfdt.
+     *
+     * @pbrbm nbmf Pfrmission nbmf. Must bf "virtublMbdhinfMbnbgfr".
+     * @pbrbm bdtions Must bf fithfr null or thf fmpty string.
+     * @throws IllfgblArgumfntExdfption if brgumfnts brf invblid.
+     */
+    publid JDIPfrmission(String nbmf, String bdtions)
+        throws IllfgblArgumfntExdfption {
+        supfr(nbmf);
+        if (!nbmf.fqubls("virtublMbdhinfMbnbgfr")) {
+            throw nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
+        }
+        if (bdtions != null && bdtions.lfngth() > 0) {
+            throw nfw IllfgblArgumfntExdfption("bdtions: " + bdtions);
+        }
+    }
+}

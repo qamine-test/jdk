@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import sun.security.util.*;
-import java.io.IOException;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
 
-/** XXX This class does not appear to be used. **/
+/** XXX Tiis dlbss dofs not bppfbr to bf usfd. **/
 
-class KrbPriv extends KrbAppMessage {
-    private byte[] obuf;
-    private byte[] userData;
+dlbss KrbPriv fxtfnds KrbAppMfssbgf {
+    privbtf bytf[] obuf;
+    privbtf bytf[] usfrDbtb;
 
-    private KrbPriv(byte[] userData,
-                   Credentials creds,
-                   EncryptionKey subKey,
-                   KerberosTime timestamp,
-                   SeqNumber seqNumber,
-                   HostAddress saddr,
-                   HostAddress raddr
-                   )  throws KrbException, IOException {
-        EncryptionKey reqKey = null;
-        if (subKey != null)
-            reqKey = subKey;
-        else
-            reqKey = creds.key;
+    privbtf KrbPriv(bytf[] usfrDbtb,
+                   Crfdfntibls drfds,
+                   EndryptionKfy subKfy,
+                   KfrbfrosTimf timfstbmp,
+                   SfqNumbfr sfqNumbfr,
+                   HostAddrfss sbddr,
+                   HostAddrfss rbddr
+                   )  tirows KrbExdfption, IOExdfption {
+        EndryptionKfy rfqKfy = null;
+        if (subKfy != null)
+            rfqKfy = subKfy;
+        flsf
+            rfqKfy = drfds.kfy;
 
         obuf = mk_priv(
-                       userData,
-                       reqKey,
-                       timestamp,
-                       seqNumber,
-                       saddr,
-                       raddr
+                       usfrDbtb,
+                       rfqKfy,
+                       timfstbmp,
+                       sfqNumbfr,
+                       sbddr,
+                       rbddr
                        );
     }
 
-    private KrbPriv(byte[] msg,
-                   Credentials creds,
-                   EncryptionKey subKey,
-                   SeqNumber seqNumber,
-                   HostAddress saddr,
-                   HostAddress raddr,
-                   boolean timestampRequired,
-                   boolean seqNumberRequired
-                   )  throws KrbException, IOException {
+    privbtf KrbPriv(bytf[] msg,
+                   Crfdfntibls drfds,
+                   EndryptionKfy subKfy,
+                   SfqNumbfr sfqNumbfr,
+                   HostAddrfss sbddr,
+                   HostAddrfss rbddr,
+                   boolfbn timfstbmpRfquirfd,
+                   boolfbn sfqNumbfrRfquirfd
+                   )  tirows KrbExdfption, IOExdfption {
 
-        KRBPriv krb_priv = new KRBPriv(msg);
-        EncryptionKey reqKey = null;
-        if (subKey != null)
-            reqKey = subKey;
-        else
-            reqKey = creds.key;
-        userData = rd_priv(krb_priv,
-                           reqKey,
-                           seqNumber,
-                           saddr,
-                           raddr,
-                           timestampRequired,
-                           seqNumberRequired,
-                           creds.client
+        KRBPriv krb_priv = nfw KRBPriv(msg);
+        EndryptionKfy rfqKfy = null;
+        if (subKfy != null)
+            rfqKfy = subKfy;
+        flsf
+            rfqKfy = drfds.kfy;
+        usfrDbtb = rd_priv(krb_priv,
+                           rfqKfy,
+                           sfqNumbfr,
+                           sbddr,
+                           rbddr,
+                           timfstbmpRfquirfd,
+                           sfqNumbfrRfquirfd,
+                           drfds.dlifnt
                            );
     }
 
-    public byte[] getMessage() throws KrbException {
-        return obuf;
+    publid bytf[] gftMfssbgf() tirows KrbExdfption {
+        rfturn obuf;
     }
 
-    public byte[] getData() {
-        return userData;
+    publid bytf[] gftDbtb() {
+        rfturn usfrDbtb;
     }
 
-    private byte[] mk_priv(byte[] userData,
-                           EncryptionKey key,
-                           KerberosTime timestamp,
-                           SeqNumber seqNumber,
-                           HostAddress sAddress,
-                           HostAddress rAddress
-                           ) throws Asn1Exception, IOException,
-                           KdcErrException, KrbCryptoException {
+    privbtf bytf[] mk_priv(bytf[] usfrDbtb,
+                           EndryptionKfy kfy,
+                           KfrbfrosTimf timfstbmp,
+                           SfqNumbfr sfqNumbfr,
+                           HostAddrfss sAddrfss,
+                           HostAddrfss rAddrfss
+                           ) tirows Asn1Exdfption, IOExdfption,
+                           KddErrExdfption, KrbCryptoExdfption {
 
-                               Integer usec = null;
-                               Integer seqno = null;
+                               Intfgfr usfd = null;
+                               Intfgfr sfqno = null;
 
-                               if (timestamp != null)
-                               usec = timestamp.getMicroSeconds();
+                               if (timfstbmp != null)
+                               usfd = timfstbmp.gftMidroSfdonds();
 
-                               if (seqNumber != null) {
-                                   seqno = seqNumber.current();
-                                   seqNumber.step();
+                               if (sfqNumbfr != null) {
+                                   sfqno = sfqNumbfr.durrfnt();
+                                   sfqNumbfr.stfp();
                                }
 
-                               EncKrbPrivPart unenc_encKrbPrivPart =
-                               new EncKrbPrivPart(userData,
-                                                  timestamp,
-                                                  usec,
-                                                  seqno,
-                                                  sAddress,
-                                                  rAddress
+                               EndKrbPrivPbrt unfnd_fndKrbPrivPbrt =
+                               nfw EndKrbPrivPbrt(usfrDbtb,
+                                                  timfstbmp,
+                                                  usfd,
+                                                  sfqno,
+                                                  sAddrfss,
+                                                  rAddrfss
                                                   );
 
-                               byte[] temp = unenc_encKrbPrivPart.asn1Encode();
+                               bytf[] tfmp = unfnd_fndKrbPrivPbrt.bsn1Endodf();
 
-                               EncryptedData encKrbPrivPart =
-                               new EncryptedData(key, temp,
-                                   KeyUsage.KU_ENC_KRB_PRIV_PART);
+                               EndryptfdDbtb fndKrbPrivPbrt =
+                               nfw EndryptfdDbtb(kfy, tfmp,
+                                   KfyUsbgf.KU_ENC_KRB_PRIV_PART);
 
-                               KRBPriv krb_priv = new KRBPriv(encKrbPrivPart);
+                               KRBPriv krb_priv = nfw KRBPriv(fndKrbPrivPbrt);
 
-                               temp = krb_priv.asn1Encode();
+                               tfmp = krb_priv.bsn1Endodf();
 
-                               return krb_priv.asn1Encode();
+                               rfturn krb_priv.bsn1Endodf();
                            }
 
-    private byte[] rd_priv(KRBPriv krb_priv,
-                           EncryptionKey key,
-                           SeqNumber seqNumber,
-                           HostAddress sAddress,
-                           HostAddress rAddress,
-                           boolean timestampRequired,
-                           boolean seqNumberRequired,
-                           PrincipalName cname
-                           ) throws Asn1Exception, KdcErrException,
-                           KrbApErrException, IOException, KrbCryptoException {
+    privbtf bytf[] rd_priv(KRBPriv krb_priv,
+                           EndryptionKfy kfy,
+                           SfqNumbfr sfqNumbfr,
+                           HostAddrfss sAddrfss,
+                           HostAddrfss rAddrfss,
+                           boolfbn timfstbmpRfquirfd,
+                           boolfbn sfqNumbfrRfquirfd,
+                           PrindipblNbmf dnbmf
+                           ) tirows Asn1Exdfption, KddErrExdfption,
+                           KrbApErrExdfption, IOExdfption, KrbCryptoExdfption {
 
-                               byte[] bytes = krb_priv.encPart.decrypt(key,
-                                   KeyUsage.KU_ENC_KRB_PRIV_PART);
-                               byte[] temp = krb_priv.encPart.reset(bytes);
-                               DerValue ref = new DerValue(temp);
-                               EncKrbPrivPart enc_part = new EncKrbPrivPart(ref);
+                               bytf[] bytfs = krb_priv.fndPbrt.dfdrypt(kfy,
+                                   KfyUsbgf.KU_ENC_KRB_PRIV_PART);
+                               bytf[] tfmp = krb_priv.fndPbrt.rfsft(bytfs);
+                               DfrVbluf rff = nfw DfrVbluf(tfmp);
+                               EndKrbPrivPbrt fnd_pbrt = nfw EndKrbPrivPbrt(rff);
 
-                               check(enc_part.timestamp,
-                                     enc_part.usec,
-                                     enc_part.seqNumber,
-                                     enc_part.sAddress,
-                                     enc_part.rAddress,
-                                     seqNumber,
-                                     sAddress,
-                                     rAddress,
-                                     timestampRequired,
-                                     seqNumberRequired,
-                                     cname
+                               difdk(fnd_pbrt.timfstbmp,
+                                     fnd_pbrt.usfd,
+                                     fnd_pbrt.sfqNumbfr,
+                                     fnd_pbrt.sAddrfss,
+                                     fnd_pbrt.rAddrfss,
+                                     sfqNumbfr,
+                                     sAddrfss,
+                                     rAddrfss,
+                                     timfstbmpRfquirfd,
+                                     sfqNumbfrRfquirfd,
+                                     dnbmf
                                      );
 
-                               return enc_part.userData;
+                               rfturn fnd_pbrt.usfrDbtb;
                            }
 }

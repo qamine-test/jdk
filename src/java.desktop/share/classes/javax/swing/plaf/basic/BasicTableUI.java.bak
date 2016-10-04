@@ -1,933 +1,933 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
-import java.awt.event.*;
-import java.util.Enumeration;
-import java.util.EventObject;
-import java.util.Hashtable;
-import java.util.TooManyListenersException;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.text.*;
-import javax.swing.table.*;
-import javax.swing.plaf.basic.DragRecognitionSupport.BeforeDrag;
-import sun.swing.SwingUtilities2;
+import jbvb.bwt.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.EvfntObjfdt;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.TooMbnyListfnfrsExdfption;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tbblf.*;
+import jbvbx.swing.plbf.bbsid.DrbgRfdognitionSupport.BfforfDrbg;
+import sun.swing.SwingUtilitifs2;
 
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
-import sun.swing.DefaultLookup;
-import sun.swing.UIAction;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
 
 /**
- * BasicTableUI implementation
+ * BbsidTbblfUI implfmfntbtion
  *
- * @author Philip Milne
- * @author Shannon Hickey (drag and drop)
+ * @butior Piilip Milnf
+ * @butior Sibnnon Hidkfy (drbg bnd drop)
  */
-public class BasicTableUI extends TableUI
+publid dlbss BbsidTbblfUI fxtfnds TbblfUI
 {
-    private static final StringBuilder BASELINE_COMPONENT_KEY =
-        new StringBuilder("Table.baselineComponent");
+    privbtf stbtid finbl StringBuildfr BASELINE_COMPONENT_KEY =
+        nfw StringBuildfr("Tbblf.bbsflinfComponfnt");
 
 //
-// Instance Variables
+// Instbndf Vbribblfs
 //
 
-    // The JTable that is delegating the painting to this UI.
+    // Tif JTbblf tibt is dflfgbting tif pbinting to tiis UI.
     /**
-     * The instance of {@code JTable}.
+     * Tif instbndf of {@dodf JTbblf}.
      */
-    protected JTable table;
+    protfdtfd JTbblf tbblf;
 
     /**
-     * The instance of {@code CellRendererPane}.
+     * Tif instbndf of {@dodf CfllRfndfrfrPbnf}.
      */
-    protected CellRendererPane rendererPane;
+    protfdtfd CfllRfndfrfrPbnf rfndfrfrPbnf;
 
     /**
-     * {@code KeyListener} that are attached to the {@code JTable}.
+     * {@dodf KfyListfnfr} tibt brf bttbdifd to tif {@dodf JTbblf}.
      */
-    protected KeyListener keyListener;
+    protfdtfd KfyListfnfr kfyListfnfr;
 
     /**
-     * {@code FocusListener} that are attached to the {@code JTable}.
+     * {@dodf FodusListfnfr} tibt brf bttbdifd to tif {@dodf JTbblf}.
      */
-    protected FocusListener focusListener;
+    protfdtfd FodusListfnfr fodusListfnfr;
 
     /**
-     * {@code MouseInputListener} that are attached to the {@code JTable}.
+     * {@dodf MousfInputListfnfr} tibt brf bttbdifd to tif {@dodf JTbblf}.
      */
-    protected MouseInputListener mouseInputListener;
+    protfdtfd MousfInputListfnfr mousfInputListfnfr;
 
-    private Handler handler;
+    privbtf Hbndlfr ibndlfr;
 
     /**
-     * Local cache of Table's client property "Table.isFileList"
+     * Lodbl dbdif of Tbblf's dlifnt propfrty "Tbblf.isFilfList"
      */
-    private boolean isFileList = false;
+    privbtf boolfbn isFilfList = fblsf;
 
 //
-//  Helper class for keyboard actions
+//  Hflpfr dlbss for kfybobrd bdtions
 //
 
-    private static class Actions extends UIAction {
-        private static final String CANCEL_EDITING = "cancel";
-        private static final String SELECT_ALL = "selectAll";
-        private static final String CLEAR_SELECTION = "clearSelection";
-        private static final String START_EDITING = "startEditing";
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String CANCEL_EDITING = "dbndfl";
+        privbtf stbtid finbl String SELECT_ALL = "sflfdtAll";
+        privbtf stbtid finbl String CLEAR_SELECTION = "dlfbrSflfdtion";
+        privbtf stbtid finbl String START_EDITING = "stbrtEditing";
 
-        private static final String NEXT_ROW = "selectNextRow";
-        private static final String NEXT_ROW_CELL = "selectNextRowCell";
-        private static final String NEXT_ROW_EXTEND_SELECTION =
-                "selectNextRowExtendSelection";
-        private static final String NEXT_ROW_CHANGE_LEAD =
-                "selectNextRowChangeLead";
-        private static final String PREVIOUS_ROW = "selectPreviousRow";
-        private static final String PREVIOUS_ROW_CELL = "selectPreviousRowCell";
-        private static final String PREVIOUS_ROW_EXTEND_SELECTION =
-                "selectPreviousRowExtendSelection";
-        private static final String PREVIOUS_ROW_CHANGE_LEAD =
-                "selectPreviousRowChangeLead";
+        privbtf stbtid finbl String NEXT_ROW = "sflfdtNfxtRow";
+        privbtf stbtid finbl String NEXT_ROW_CELL = "sflfdtNfxtRowCfll";
+        privbtf stbtid finbl String NEXT_ROW_EXTEND_SELECTION =
+                "sflfdtNfxtRowExtfndSflfdtion";
+        privbtf stbtid finbl String NEXT_ROW_CHANGE_LEAD =
+                "sflfdtNfxtRowCibngfLfbd";
+        privbtf stbtid finbl String PREVIOUS_ROW = "sflfdtPrfviousRow";
+        privbtf stbtid finbl String PREVIOUS_ROW_CELL = "sflfdtPrfviousRowCfll";
+        privbtf stbtid finbl String PREVIOUS_ROW_EXTEND_SELECTION =
+                "sflfdtPrfviousRowExtfndSflfdtion";
+        privbtf stbtid finbl String PREVIOUS_ROW_CHANGE_LEAD =
+                "sflfdtPrfviousRowCibngfLfbd";
 
-        private static final String NEXT_COLUMN = "selectNextColumn";
-        private static final String NEXT_COLUMN_CELL = "selectNextColumnCell";
-        private static final String NEXT_COLUMN_EXTEND_SELECTION =
-                "selectNextColumnExtendSelection";
-        private static final String NEXT_COLUMN_CHANGE_LEAD =
-                "selectNextColumnChangeLead";
-        private static final String PREVIOUS_COLUMN = "selectPreviousColumn";
-        private static final String PREVIOUS_COLUMN_CELL =
-                "selectPreviousColumnCell";
-        private static final String PREVIOUS_COLUMN_EXTEND_SELECTION =
-                "selectPreviousColumnExtendSelection";
-        private static final String PREVIOUS_COLUMN_CHANGE_LEAD =
-                "selectPreviousColumnChangeLead";
+        privbtf stbtid finbl String NEXT_COLUMN = "sflfdtNfxtColumn";
+        privbtf stbtid finbl String NEXT_COLUMN_CELL = "sflfdtNfxtColumnCfll";
+        privbtf stbtid finbl String NEXT_COLUMN_EXTEND_SELECTION =
+                "sflfdtNfxtColumnExtfndSflfdtion";
+        privbtf stbtid finbl String NEXT_COLUMN_CHANGE_LEAD =
+                "sflfdtNfxtColumnCibngfLfbd";
+        privbtf stbtid finbl String PREVIOUS_COLUMN = "sflfdtPrfviousColumn";
+        privbtf stbtid finbl String PREVIOUS_COLUMN_CELL =
+                "sflfdtPrfviousColumnCfll";
+        privbtf stbtid finbl String PREVIOUS_COLUMN_EXTEND_SELECTION =
+                "sflfdtPrfviousColumnExtfndSflfdtion";
+        privbtf stbtid finbl String PREVIOUS_COLUMN_CHANGE_LEAD =
+                "sflfdtPrfviousColumnCibngfLfbd";
 
-        private static final String SCROLL_LEFT_CHANGE_SELECTION =
-                "scrollLeftChangeSelection";
-        private static final String SCROLL_LEFT_EXTEND_SELECTION =
-                "scrollLeftExtendSelection";
-        private static final String SCROLL_RIGHT_CHANGE_SELECTION =
-                "scrollRightChangeSelection";
-        private static final String SCROLL_RIGHT_EXTEND_SELECTION =
-                "scrollRightExtendSelection";
+        privbtf stbtid finbl String SCROLL_LEFT_CHANGE_SELECTION =
+                "sdrollLfftCibngfSflfdtion";
+        privbtf stbtid finbl String SCROLL_LEFT_EXTEND_SELECTION =
+                "sdrollLfftExtfndSflfdtion";
+        privbtf stbtid finbl String SCROLL_RIGHT_CHANGE_SELECTION =
+                "sdrollRigitCibngfSflfdtion";
+        privbtf stbtid finbl String SCROLL_RIGHT_EXTEND_SELECTION =
+                "sdrollRigitExtfndSflfdtion";
 
-        private static final String SCROLL_UP_CHANGE_SELECTION =
-                "scrollUpChangeSelection";
-        private static final String SCROLL_UP_EXTEND_SELECTION =
-                "scrollUpExtendSelection";
-        private static final String SCROLL_DOWN_CHANGE_SELECTION =
-                "scrollDownChangeSelection";
-        private static final String SCROLL_DOWN_EXTEND_SELECTION =
-                "scrollDownExtendSelection";
+        privbtf stbtid finbl String SCROLL_UP_CHANGE_SELECTION =
+                "sdrollUpCibngfSflfdtion";
+        privbtf stbtid finbl String SCROLL_UP_EXTEND_SELECTION =
+                "sdrollUpExtfndSflfdtion";
+        privbtf stbtid finbl String SCROLL_DOWN_CHANGE_SELECTION =
+                "sdrollDownCibngfSflfdtion";
+        privbtf stbtid finbl String SCROLL_DOWN_EXTEND_SELECTION =
+                "sdrollDownExtfndSflfdtion";
 
-        private static final String FIRST_COLUMN =
-                "selectFirstColumn";
-        private static final String FIRST_COLUMN_EXTEND_SELECTION =
-                "selectFirstColumnExtendSelection";
-        private static final String LAST_COLUMN =
-                "selectLastColumn";
-        private static final String LAST_COLUMN_EXTEND_SELECTION =
-                "selectLastColumnExtendSelection";
+        privbtf stbtid finbl String FIRST_COLUMN =
+                "sflfdtFirstColumn";
+        privbtf stbtid finbl String FIRST_COLUMN_EXTEND_SELECTION =
+                "sflfdtFirstColumnExtfndSflfdtion";
+        privbtf stbtid finbl String LAST_COLUMN =
+                "sflfdtLbstColumn";
+        privbtf stbtid finbl String LAST_COLUMN_EXTEND_SELECTION =
+                "sflfdtLbstColumnExtfndSflfdtion";
 
-        private static final String FIRST_ROW =
-                "selectFirstRow";
-        private static final String FIRST_ROW_EXTEND_SELECTION =
-                "selectFirstRowExtendSelection";
-        private static final String LAST_ROW =
-                "selectLastRow";
-        private static final String LAST_ROW_EXTEND_SELECTION =
-                "selectLastRowExtendSelection";
+        privbtf stbtid finbl String FIRST_ROW =
+                "sflfdtFirstRow";
+        privbtf stbtid finbl String FIRST_ROW_EXTEND_SELECTION =
+                "sflfdtFirstRowExtfndSflfdtion";
+        privbtf stbtid finbl String LAST_ROW =
+                "sflfdtLbstRow";
+        privbtf stbtid finbl String LAST_ROW_EXTEND_SELECTION =
+                "sflfdtLbstRowExtfndSflfdtion";
 
-        // add the lead item to the selection without changing lead or anchor
-        private static final String ADD_TO_SELECTION = "addToSelection";
+        // bdd tif lfbd itfm to tif sflfdtion witiout dibnging lfbd or bndior
+        privbtf stbtid finbl String ADD_TO_SELECTION = "bddToSflfdtion";
 
-        // toggle the selected state of the lead item and move the anchor to it
-        private static final String TOGGLE_AND_ANCHOR = "toggleAndAnchor";
+        // togglf tif sflfdtfd stbtf of tif lfbd itfm bnd movf tif bndior to it
+        privbtf stbtid finbl String TOGGLE_AND_ANCHOR = "togglfAndAndior";
 
-        // extend the selection to the lead item
-        private static final String EXTEND_TO = "extendTo";
+        // fxtfnd tif sflfdtion to tif lfbd itfm
+        privbtf stbtid finbl String EXTEND_TO = "fxtfndTo";
 
-        // move the anchor to the lead and ensure only that item is selected
-        private static final String MOVE_SELECTION_TO = "moveSelectionTo";
+        // movf tif bndior to tif lfbd bnd fnsurf only tibt itfm is sflfdtfd
+        privbtf stbtid finbl String MOVE_SELECTION_TO = "movfSflfdtionTo";
 
-        // give focus to the JTableHeader, if one exists
-        private static final String FOCUS_HEADER = "focusHeader";
+        // givf fodus to tif JTbblfHfbdfr, if onf fxists
+        privbtf stbtid finbl String FOCUS_HEADER = "fodusHfbdfr";
 
-        protected int dx;
-        protected int dy;
-        protected boolean extend;
-        protected boolean inSelection;
+        protfdtfd int dx;
+        protfdtfd int dy;
+        protfdtfd boolfbn fxtfnd;
+        protfdtfd boolfbn inSflfdtion;
 
-        // horizontally, forwards always means right,
-        // regardless of component orientation
-        protected boolean forwards;
-        protected boolean vertically;
-        protected boolean toLimit;
+        // iorizontblly, forwbrds blwbys mfbns rigit,
+        // rfgbrdlfss of domponfnt orifntbtion
+        protfdtfd boolfbn forwbrds;
+        protfdtfd boolfbn vfrtidblly;
+        protfdtfd boolfbn toLimit;
 
-        protected int leadRow;
-        protected int leadColumn;
+        protfdtfd int lfbdRow;
+        protfdtfd int lfbdColumn;
 
-        Actions(String name) {
-            super(name);
+        Adtions(String nbmf) {
+            supfr(nbmf);
         }
 
-        Actions(String name, int dx, int dy, boolean extend,
-                boolean inSelection) {
-            super(name);
+        Adtions(String nbmf, int dx, int dy, boolfbn fxtfnd,
+                boolfbn inSflfdtion) {
+            supfr(nbmf);
 
-            // Actions spcifying true for "inSelection" are
-            // fairly sensitive to bad parameter values. They require
-            // that one of dx and dy be 0 and the other be -1 or 1.
-            // Bogus parameter values could cause an infinite loop.
-            // To prevent any problems we massage the params here
-            // and complain if we get something we can't deal with.
-            if (inSelection) {
-                this.inSelection = true;
+            // Adtions spdifying truf for "inSflfdtion" brf
+            // fbirly sfnsitivf to bbd pbrbmftfr vblufs. Tify rfquirf
+            // tibt onf of dx bnd dy bf 0 bnd tif otifr bf -1 or 1.
+            // Bogus pbrbmftfr vblufs dould dbusf bn infinitf loop.
+            // To prfvfnt bny problfms wf mbssbgf tif pbrbms ifrf
+            // bnd domplbin if wf gft somftiing wf dbn't dfbl witi.
+            if (inSflfdtion) {
+                tiis.inSflfdtion = truf;
 
-                // look at the sign of dx and dy only
+                // look bt tif sign of dx bnd dy only
                 dx = sign(dx);
                 dy = sign(dy);
 
-                // make sure one is zero, but not both
-                assert (dx == 0 || dy == 0) && !(dx == 0 && dy == 0);
+                // mbkf surf onf is zfro, but not boti
+                bssfrt (dx == 0 || dy == 0) && !(dx == 0 && dy == 0);
             }
 
-            this.dx = dx;
-            this.dy = dy;
-            this.extend = extend;
+            tiis.dx = dx;
+            tiis.dy = dy;
+            tiis.fxtfnd = fxtfnd;
         }
 
-        Actions(String name, boolean extend, boolean forwards,
-                boolean vertically, boolean toLimit) {
-            this(name, 0, 0, extend, false);
-            this.forwards = forwards;
-            this.vertically = vertically;
-            this.toLimit = toLimit;
+        Adtions(String nbmf, boolfbn fxtfnd, boolfbn forwbrds,
+                boolfbn vfrtidblly, boolfbn toLimit) {
+            tiis(nbmf, 0, 0, fxtfnd, fblsf);
+            tiis.forwbrds = forwbrds;
+            tiis.vfrtidblly = vfrtidblly;
+            tiis.toLimit = toLimit;
         }
 
-        private static int clipToRange(int i, int a, int b) {
-            return Math.min(Math.max(i, a), b-1);
+        privbtf stbtid int dlipToRbngf(int i, int b, int b) {
+            rfturn Mbti.min(Mbti.mbx(i, b), b-1);
         }
 
-        private void moveWithinTableRange(JTable table, int dx, int dy) {
-            leadRow = clipToRange(leadRow+dy, 0, table.getRowCount());
-            leadColumn = clipToRange(leadColumn+dx, 0, table.getColumnCount());
+        privbtf void movfWitiinTbblfRbngf(JTbblf tbblf, int dx, int dy) {
+            lfbdRow = dlipToRbngf(lfbdRow+dy, 0, tbblf.gftRowCount());
+            lfbdColumn = dlipToRbngf(lfbdColumn+dx, 0, tbblf.gftColumnCount());
         }
 
-        private static int sign(int num) {
-            return (num < 0) ? -1 : ((num == 0) ? 0 : 1);
+        privbtf stbtid int sign(int num) {
+            rfturn (num < 0) ? -1 : ((num == 0) ? 0 : 1);
         }
 
         /**
-         * Called to move within the selected range of the given JTable.
-         * This method uses the table's notion of selection, which is
-         * important to allow the user to navigate between items visually
-         * selected on screen. This notion may or may not be the same as
-         * what could be determined by directly querying the selection models.
-         * It depends on certain table properties (such as whether or not
-         * row or column selection is allowed). When performing modifications,
-         * it is recommended that caution be taken in order to preserve
-         * the intent of this method, especially when deciding whether to
-         * query the selection models or interact with JTable directly.
+         * Cbllfd to movf witiin tif sflfdtfd rbngf of tif givfn JTbblf.
+         * Tiis mftiod usfs tif tbblf's notion of sflfdtion, wiidi is
+         * importbnt to bllow tif usfr to nbvigbtf bftwffn itfms visublly
+         * sflfdtfd on sdrffn. Tiis notion mby or mby not bf tif sbmf bs
+         * wibt dould bf dftfrminfd by dirfdtly qufrying tif sflfdtion modfls.
+         * It dfpfnds on dfrtbin tbblf propfrtifs (sudi bs wiftifr or not
+         * row or dolumn sflfdtion is bllowfd). Wifn pfrforming modifidbtions,
+         * it is rfdommfndfd tibt dbution bf tbkfn in ordfr to prfsfrvf
+         * tif intfnt of tiis mftiod, fspfdiblly wifn dfdiding wiftifr to
+         * qufry tif sflfdtion modfls or intfrbdt witi JTbblf dirfdtly.
          */
-        private boolean moveWithinSelectedRange(JTable table, int dx, int dy,
-                ListSelectionModel rsm, ListSelectionModel csm) {
+        privbtf boolfbn movfWitiinSflfdtfdRbngf(JTbblf tbblf, int dx, int dy,
+                ListSflfdtionModfl rsm, ListSflfdtionModfl dsm) {
 
-            // Note: The Actions constructor ensures that only one of
-            // dx and dy is 0, and the other is either -1 or 1
+            // Notf: Tif Adtions donstrudtor fnsurfs tibt only onf of
+            // dx bnd dy is 0, bnd tif otifr is fitifr -1 or 1
 
-            // find out how many items the table is showing as selected
-            // and the range of items to navigate through
-            int totalCount;
-            int minX, maxX, minY, maxY;
+            // find out iow mbny itfms tif tbblf is siowing bs sflfdtfd
+            // bnd tif rbngf of itfms to nbvigbtf tirougi
+            int totblCount;
+            int minX, mbxX, minY, mbxY;
 
-            boolean rs = table.getRowSelectionAllowed();
-            boolean cs = table.getColumnSelectionAllowed();
+            boolfbn rs = tbblf.gftRowSflfdtionAllowfd();
+            boolfbn ds = tbblf.gftColumnSflfdtionAllowfd();
 
-            // both column and row selection
-            if (rs && cs) {
-                totalCount = table.getSelectedRowCount() * table.getSelectedColumnCount();
-                minX = csm.getMinSelectionIndex();
-                maxX = csm.getMaxSelectionIndex();
-                minY = rsm.getMinSelectionIndex();
-                maxY = rsm.getMaxSelectionIndex();
-            // row selection only
-            } else if (rs) {
-                totalCount = table.getSelectedRowCount();
+            // boti dolumn bnd row sflfdtion
+            if (rs && ds) {
+                totblCount = tbblf.gftSflfdtfdRowCount() * tbblf.gftSflfdtfdColumnCount();
+                minX = dsm.gftMinSflfdtionIndfx();
+                mbxX = dsm.gftMbxSflfdtionIndfx();
+                minY = rsm.gftMinSflfdtionIndfx();
+                mbxY = rsm.gftMbxSflfdtionIndfx();
+            // row sflfdtion only
+            } flsf if (rs) {
+                totblCount = tbblf.gftSflfdtfdRowCount();
                 minX = 0;
-                maxX = table.getColumnCount() - 1;
-                minY = rsm.getMinSelectionIndex();
-                maxY = rsm.getMaxSelectionIndex();
-            // column selection only
-            } else if (cs) {
-                totalCount = table.getSelectedColumnCount();
-                minX = csm.getMinSelectionIndex();
-                maxX = csm.getMaxSelectionIndex();
+                mbxX = tbblf.gftColumnCount() - 1;
+                minY = rsm.gftMinSflfdtionIndfx();
+                mbxY = rsm.gftMbxSflfdtionIndfx();
+            // dolumn sflfdtion only
+            } flsf if (ds) {
+                totblCount = tbblf.gftSflfdtfdColumnCount();
+                minX = dsm.gftMinSflfdtionIndfx();
+                mbxX = dsm.gftMbxSflfdtionIndfx();
                 minY = 0;
-                maxY = table.getRowCount() - 1;
-            // no selection allowed
-            } else {
-                totalCount = 0;
-                // A bogus assignment to stop javac from complaining
-                // about unitialized values. In this case, these
-                // won't even be used.
-                minX = maxX = minY = maxY = 0;
+                mbxY = tbblf.gftRowCount() - 1;
+            // no sflfdtion bllowfd
+            } flsf {
+                totblCount = 0;
+                // A bogus bssignmfnt to stop jbvbd from domplbining
+                // bbout unitiblizfd vblufs. In tiis dbsf, tifsf
+                // won't fvfn bf usfd.
+                minX = mbxX = minY = mbxY = 0;
             }
 
-            // For some cases, there is no point in trying to stay within the
-            // selected area. Instead, move outside the selection, wrapping at
-            // the table boundaries. The cases are:
-            boolean stayInSelection;
+            // For somf dbsfs, tifrf is no point in trying to stby witiin tif
+            // sflfdtfd brfb. Instfbd, movf outsidf tif sflfdtion, wrbpping bt
+            // tif tbblf boundbrifs. Tif dbsfs brf:
+            boolfbn stbyInSflfdtion;
 
-            // - nothing selected
-            if (totalCount == 0 ||
-                    // - one item selected, and the lead is already selected
-                    (totalCount == 1 && table.isCellSelected(leadRow, leadColumn))) {
+            // - notiing sflfdtfd
+            if (totblCount == 0 ||
+                    // - onf itfm sflfdtfd, bnd tif lfbd is blrfbdy sflfdtfd
+                    (totblCount == 1 && tbblf.isCfllSflfdtfd(lfbdRow, lfbdColumn))) {
 
-                stayInSelection = false;
+                stbyInSflfdtion = fblsf;
 
-                maxX = table.getColumnCount() - 1;
-                maxY = table.getRowCount() - 1;
+                mbxX = tbblf.gftColumnCount() - 1;
+                mbxY = tbblf.gftRowCount() - 1;
 
-                // the mins are calculated like this in case the max is -1
-                minX = Math.min(0, maxX);
-                minY = Math.min(0, maxY);
-            } else {
-                stayInSelection = true;
+                // tif mins brf dbldulbtfd likf tiis in dbsf tif mbx is -1
+                minX = Mbti.min(0, mbxX);
+                minY = Mbti.min(0, mbxY);
+            } flsf {
+                stbyInSflfdtion = truf;
             }
 
-            // the algorithm below isn't prepared to deal with -1 lead/anchor
-            // so massage appropriately here first
-            if (dy == 1 && leadColumn == -1) {
-                leadColumn = minX;
-                leadRow = -1;
-            } else if (dx == 1 && leadRow == -1) {
-                leadRow = minY;
-                leadColumn = -1;
-            } else if (dy == -1 && leadColumn == -1) {
-                leadColumn = maxX;
-                leadRow = maxY + 1;
-            } else if (dx == -1 && leadRow == -1) {
-                leadRow = maxY;
-                leadColumn = maxX + 1;
+            // tif blgoritim bflow isn't prfpbrfd to dfbl witi -1 lfbd/bndior
+            // so mbssbgf bppropribtfly ifrf first
+            if (dy == 1 && lfbdColumn == -1) {
+                lfbdColumn = minX;
+                lfbdRow = -1;
+            } flsf if (dx == 1 && lfbdRow == -1) {
+                lfbdRow = minY;
+                lfbdColumn = -1;
+            } flsf if (dy == -1 && lfbdColumn == -1) {
+                lfbdColumn = mbxX;
+                lfbdRow = mbxY + 1;
+            } flsf if (dx == -1 && lfbdRow == -1) {
+                lfbdRow = mbxY;
+                lfbdColumn = mbxX + 1;
             }
 
-            // In cases where the lead is not within the search range,
-            // we need to bring it within one cell for the the search
-            // to work properly. Check these here.
-            leadRow = Math.min(Math.max(leadRow, minY - 1), maxY + 1);
-            leadColumn = Math.min(Math.max(leadColumn, minX - 1), maxX + 1);
+            // In dbsfs wifrf tif lfbd is not witiin tif sfbrdi rbngf,
+            // wf nffd to bring it witiin onf dfll for tif tif sfbrdi
+            // to work propfrly. Cifdk tifsf ifrf.
+            lfbdRow = Mbti.min(Mbti.mbx(lfbdRow, minY - 1), mbxY + 1);
+            lfbdColumn = Mbti.min(Mbti.mbx(lfbdColumn, minX - 1), mbxX + 1);
 
-            // find the next position, possibly looping until it is selected
+            // find tif nfxt position, possibly looping until it is sflfdtfd
             do {
-                calcNextPos(dx, minX, maxX, dy, minY, maxY);
-            } while (stayInSelection && !table.isCellSelected(leadRow, leadColumn));
+                dbldNfxtPos(dx, minX, mbxX, dy, minY, mbxY);
+            } wiilf (stbyInSflfdtion && !tbblf.isCfllSflfdtfd(lfbdRow, lfbdColumn));
 
-            return stayInSelection;
+            rfturn stbyInSflfdtion;
         }
 
         /**
-         * Find the next lead row and column based on the given
-         * dx/dy and max/min values.
+         * Find tif nfxt lfbd row bnd dolumn bbsfd on tif givfn
+         * dx/dy bnd mbx/min vblufs.
          */
-        private void calcNextPos(int dx, int minX, int maxX,
-                                 int dy, int minY, int maxY) {
+        privbtf void dbldNfxtPos(int dx, int minX, int mbxX,
+                                 int dy, int minY, int mbxY) {
 
             if (dx != 0) {
-                leadColumn += dx;
-                if (leadColumn > maxX) {
-                    leadColumn = minX;
-                    leadRow++;
-                    if (leadRow > maxY) {
-                        leadRow = minY;
+                lfbdColumn += dx;
+                if (lfbdColumn > mbxX) {
+                    lfbdColumn = minX;
+                    lfbdRow++;
+                    if (lfbdRow > mbxY) {
+                        lfbdRow = minY;
                     }
-                } else if (leadColumn < minX) {
-                    leadColumn = maxX;
-                    leadRow--;
-                    if (leadRow < minY) {
-                        leadRow = maxY;
+                } flsf if (lfbdColumn < minX) {
+                    lfbdColumn = mbxX;
+                    lfbdRow--;
+                    if (lfbdRow < minY) {
+                        lfbdRow = mbxY;
                     }
                 }
-            } else {
-                leadRow += dy;
-                if (leadRow > maxY) {
-                    leadRow = minY;
-                    leadColumn++;
-                    if (leadColumn > maxX) {
-                        leadColumn = minX;
+            } flsf {
+                lfbdRow += dy;
+                if (lfbdRow > mbxY) {
+                    lfbdRow = minY;
+                    lfbdColumn++;
+                    if (lfbdColumn > mbxX) {
+                        lfbdColumn = minX;
                     }
-                } else if (leadRow < minY) {
-                    leadRow = maxY;
-                    leadColumn--;
-                    if (leadColumn < minX) {
-                        leadColumn = maxX;
+                } flsf if (lfbdRow < minY) {
+                    lfbdRow = mbxY;
+                    lfbdColumn--;
+                    if (lfbdColumn < minX) {
+                        lfbdColumn = mbxX;
                     }
                 }
             }
         }
 
-        public void actionPerformed(ActionEvent e) {
-            String key = getName();
-            JTable table = (JTable)e.getSource();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            String kfy = gftNbmf();
+            JTbblf tbblf = (JTbblf)f.gftSourdf();
 
-            ListSelectionModel rsm = table.getSelectionModel();
-            leadRow = getAdjustedLead(table, true, rsm);
+            ListSflfdtionModfl rsm = tbblf.gftSflfdtionModfl();
+            lfbdRow = gftAdjustfdLfbd(tbblf, truf, rsm);
 
-            ListSelectionModel csm = table.getColumnModel().getSelectionModel();
-            leadColumn = getAdjustedLead(table, false, csm);
+            ListSflfdtionModfl dsm = tbblf.gftColumnModfl().gftSflfdtionModfl();
+            lfbdColumn = gftAdjustfdLfbd(tbblf, fblsf, dsm);
 
-            if (key == SCROLL_LEFT_CHANGE_SELECTION ||        // Paging Actions
-                    key == SCROLL_LEFT_EXTEND_SELECTION ||
-                    key == SCROLL_RIGHT_CHANGE_SELECTION ||
-                    key == SCROLL_RIGHT_EXTEND_SELECTION ||
-                    key == SCROLL_UP_CHANGE_SELECTION ||
-                    key == SCROLL_UP_EXTEND_SELECTION ||
-                    key == SCROLL_DOWN_CHANGE_SELECTION ||
-                    key == SCROLL_DOWN_EXTEND_SELECTION ||
-                    key == FIRST_COLUMN ||
-                    key == FIRST_COLUMN_EXTEND_SELECTION ||
-                    key == FIRST_ROW ||
-                    key == FIRST_ROW_EXTEND_SELECTION ||
-                    key == LAST_COLUMN ||
-                    key == LAST_COLUMN_EXTEND_SELECTION ||
-                    key == LAST_ROW ||
-                    key == LAST_ROW_EXTEND_SELECTION) {
+            if (kfy == SCROLL_LEFT_CHANGE_SELECTION ||        // Pbging Adtions
+                    kfy == SCROLL_LEFT_EXTEND_SELECTION ||
+                    kfy == SCROLL_RIGHT_CHANGE_SELECTION ||
+                    kfy == SCROLL_RIGHT_EXTEND_SELECTION ||
+                    kfy == SCROLL_UP_CHANGE_SELECTION ||
+                    kfy == SCROLL_UP_EXTEND_SELECTION ||
+                    kfy == SCROLL_DOWN_CHANGE_SELECTION ||
+                    kfy == SCROLL_DOWN_EXTEND_SELECTION ||
+                    kfy == FIRST_COLUMN ||
+                    kfy == FIRST_COLUMN_EXTEND_SELECTION ||
+                    kfy == FIRST_ROW ||
+                    kfy == FIRST_ROW_EXTEND_SELECTION ||
+                    kfy == LAST_COLUMN ||
+                    kfy == LAST_COLUMN_EXTEND_SELECTION ||
+                    kfy == LAST_ROW ||
+                    kfy == LAST_ROW_EXTEND_SELECTION) {
                 if (toLimit) {
-                    if (vertically) {
-                        int rowCount = table.getRowCount();
-                        this.dx = 0;
-                        this.dy = forwards ? rowCount : -rowCount;
+                    if (vfrtidblly) {
+                        int rowCount = tbblf.gftRowCount();
+                        tiis.dx = 0;
+                        tiis.dy = forwbrds ? rowCount : -rowCount;
                     }
-                    else {
-                        int colCount = table.getColumnCount();
-                        this.dx = forwards ? colCount : -colCount;
-                        this.dy = 0;
+                    flsf {
+                        int dolCount = tbblf.gftColumnCount();
+                        tiis.dx = forwbrds ? dolCount : -dolCount;
+                        tiis.dy = 0;
                     }
                 }
-                else {
-                    if (!(SwingUtilities.getUnwrappedParent(table).getParent() instanceof
-                            JScrollPane)) {
-                        return;
+                flsf {
+                    if (!(SwingUtilitifs.gftUnwrbppfdPbrfnt(tbblf).gftPbrfnt() instbndfof
+                            JSdrollPbnf)) {
+                        rfturn;
                     }
 
-                    Dimension delta = table.getParent().getSize();
+                    Dimfnsion dfltb = tbblf.gftPbrfnt().gftSizf();
 
-                    if (vertically) {
-                        Rectangle r = table.getCellRect(leadRow, 0, true);
-                        if (forwards) {
-                            // scroll by at least one cell
-                            r.y += Math.max(delta.height, r.height);
-                        } else {
-                            r.y -= delta.height;
+                    if (vfrtidblly) {
+                        Rfdtbnglf r = tbblf.gftCfllRfdt(lfbdRow, 0, truf);
+                        if (forwbrds) {
+                            // sdroll by bt lfbst onf dfll
+                            r.y += Mbti.mbx(dfltb.ifigit, r.ifigit);
+                        } flsf {
+                            r.y -= dfltb.ifigit;
                         }
 
-                        this.dx = 0;
-                        int newRow = table.rowAtPoint(r.getLocation());
-                        if (newRow == -1 && forwards) {
-                            newRow = table.getRowCount();
+                        tiis.dx = 0;
+                        int nfwRow = tbblf.rowAtPoint(r.gftLodbtion());
+                        if (nfwRow == -1 && forwbrds) {
+                            nfwRow = tbblf.gftRowCount();
                         }
-                        this.dy = newRow - leadRow;
+                        tiis.dy = nfwRow - lfbdRow;
                     }
-                    else {
-                        Rectangle r = table.getCellRect(0, leadColumn, true);
+                    flsf {
+                        Rfdtbnglf r = tbblf.gftCfllRfdt(0, lfbdColumn, truf);
 
-                        if (forwards) {
-                            // scroll by at least one cell
-                            r.x += Math.max(delta.width, r.width);
-                        } else {
-                            r.x -= delta.width;
+                        if (forwbrds) {
+                            // sdroll by bt lfbst onf dfll
+                            r.x += Mbti.mbx(dfltb.widti, r.widti);
+                        } flsf {
+                            r.x -= dfltb.widti;
                         }
 
-                        int newColumn = table.columnAtPoint(r.getLocation());
-                        if (newColumn == -1) {
-                            boolean ltr = table.getComponentOrientation().isLeftToRight();
+                        int nfwColumn = tbblf.dolumnAtPoint(r.gftLodbtion());
+                        if (nfwColumn == -1) {
+                            boolfbn ltr = tbblf.gftComponfntOrifntbtion().isLfftToRigit();
 
-                            newColumn = forwards ? (ltr ? table.getColumnCount() : 0)
-                                                 : (ltr ? 0 : table.getColumnCount());
+                            nfwColumn = forwbrds ? (ltr ? tbblf.gftColumnCount() : 0)
+                                                 : (ltr ? 0 : tbblf.gftColumnCount());
 
                         }
-                        this.dx = newColumn - leadColumn;
-                        this.dy = 0;
+                        tiis.dx = nfwColumn - lfbdColumn;
+                        tiis.dy = 0;
                     }
                 }
             }
-            if (key == NEXT_ROW ||  // Navigate Actions
-                    key == NEXT_ROW_CELL ||
-                    key == NEXT_ROW_EXTEND_SELECTION ||
-                    key == NEXT_ROW_CHANGE_LEAD ||
-                    key == NEXT_COLUMN ||
-                    key == NEXT_COLUMN_CELL ||
-                    key == NEXT_COLUMN_EXTEND_SELECTION ||
-                    key == NEXT_COLUMN_CHANGE_LEAD ||
-                    key == PREVIOUS_ROW ||
-                    key == PREVIOUS_ROW_CELL ||
-                    key == PREVIOUS_ROW_EXTEND_SELECTION ||
-                    key == PREVIOUS_ROW_CHANGE_LEAD ||
-                    key == PREVIOUS_COLUMN ||
-                    key == PREVIOUS_COLUMN_CELL ||
-                    key == PREVIOUS_COLUMN_EXTEND_SELECTION ||
-                    key == PREVIOUS_COLUMN_CHANGE_LEAD ||
-                    // Paging Actions.
-                    key == SCROLL_LEFT_CHANGE_SELECTION ||
-                    key == SCROLL_LEFT_EXTEND_SELECTION ||
-                    key == SCROLL_RIGHT_CHANGE_SELECTION ||
-                    key == SCROLL_RIGHT_EXTEND_SELECTION ||
-                    key == SCROLL_UP_CHANGE_SELECTION ||
-                    key == SCROLL_UP_EXTEND_SELECTION ||
-                    key == SCROLL_DOWN_CHANGE_SELECTION ||
-                    key == SCROLL_DOWN_EXTEND_SELECTION ||
-                    key == FIRST_COLUMN ||
-                    key == FIRST_COLUMN_EXTEND_SELECTION ||
-                    key == FIRST_ROW ||
-                    key == FIRST_ROW_EXTEND_SELECTION ||
-                    key == LAST_COLUMN ||
-                    key == LAST_COLUMN_EXTEND_SELECTION ||
-                    key == LAST_ROW ||
-                    key == LAST_ROW_EXTEND_SELECTION) {
+            if (kfy == NEXT_ROW ||  // Nbvigbtf Adtions
+                    kfy == NEXT_ROW_CELL ||
+                    kfy == NEXT_ROW_EXTEND_SELECTION ||
+                    kfy == NEXT_ROW_CHANGE_LEAD ||
+                    kfy == NEXT_COLUMN ||
+                    kfy == NEXT_COLUMN_CELL ||
+                    kfy == NEXT_COLUMN_EXTEND_SELECTION ||
+                    kfy == NEXT_COLUMN_CHANGE_LEAD ||
+                    kfy == PREVIOUS_ROW ||
+                    kfy == PREVIOUS_ROW_CELL ||
+                    kfy == PREVIOUS_ROW_EXTEND_SELECTION ||
+                    kfy == PREVIOUS_ROW_CHANGE_LEAD ||
+                    kfy == PREVIOUS_COLUMN ||
+                    kfy == PREVIOUS_COLUMN_CELL ||
+                    kfy == PREVIOUS_COLUMN_EXTEND_SELECTION ||
+                    kfy == PREVIOUS_COLUMN_CHANGE_LEAD ||
+                    // Pbging Adtions.
+                    kfy == SCROLL_LEFT_CHANGE_SELECTION ||
+                    kfy == SCROLL_LEFT_EXTEND_SELECTION ||
+                    kfy == SCROLL_RIGHT_CHANGE_SELECTION ||
+                    kfy == SCROLL_RIGHT_EXTEND_SELECTION ||
+                    kfy == SCROLL_UP_CHANGE_SELECTION ||
+                    kfy == SCROLL_UP_EXTEND_SELECTION ||
+                    kfy == SCROLL_DOWN_CHANGE_SELECTION ||
+                    kfy == SCROLL_DOWN_EXTEND_SELECTION ||
+                    kfy == FIRST_COLUMN ||
+                    kfy == FIRST_COLUMN_EXTEND_SELECTION ||
+                    kfy == FIRST_ROW ||
+                    kfy == FIRST_ROW_EXTEND_SELECTION ||
+                    kfy == LAST_COLUMN ||
+                    kfy == LAST_COLUMN_EXTEND_SELECTION ||
+                    kfy == LAST_ROW ||
+                    kfy == LAST_ROW_EXTEND_SELECTION) {
 
-                if (table.isEditing() &&
-                        !table.getCellEditor().stopCellEditing()) {
-                    return;
+                if (tbblf.isEditing() &&
+                        !tbblf.gftCfllEditor().stopCfllEditing()) {
+                    rfturn;
                 }
 
-                // Unfortunately, this strategy introduces bugs because
-                // of the asynchronous nature of requestFocus() call below.
-                // Introducing a delay with invokeLater() makes this work
-                // in the typical case though race conditions then allow
-                // focus to disappear altogether. The right solution appears
-                // to be to fix requestFocus() so that it queues a request
-                // for the focus regardless of who owns the focus at the
-                // time the call to requestFocus() is made. The optimisation
-                // to ignore the call to requestFocus() when the component
-                // already has focus may ligitimately be made as the
-                // request focus event is dequeued, not before.
+                // Unfortunbtfly, tiis strbtfgy introdudfs bugs bfdbusf
+                // of tif bsyndironous nbturf of rfqufstFodus() dbll bflow.
+                // Introduding b dflby witi invokfLbtfr() mbkfs tiis work
+                // in tif typidbl dbsf tiougi rbdf donditions tifn bllow
+                // fodus to disbppfbr bltogftifr. Tif rigit solution bppfbrs
+                // to bf to fix rfqufstFodus() so tibt it qufufs b rfqufst
+                // for tif fodus rfgbrdlfss of wio owns tif fodus bt tif
+                // timf tif dbll to rfqufstFodus() is mbdf. Tif optimisbtion
+                // to ignorf tif dbll to rfqufstFodus() wifn tif domponfnt
+                // blrfbdy ibs fodus mby ligitimbtfly bf mbdf bs tif
+                // rfqufst fodus fvfnt is dfqufufd, not bfforf.
 
-                // boolean wasEditingWithFocus = table.isEditing() &&
-                // table.getEditorComponent().isFocusOwner();
+                // boolfbn wbsEditingWitiFodus = tbblf.isEditing() &&
+                // tbblf.gftEditorComponfnt().isFodusOwnfr();
 
-                boolean changeLead = false;
-                if (key == NEXT_ROW_CHANGE_LEAD || key == PREVIOUS_ROW_CHANGE_LEAD) {
-                    changeLead = (rsm.getSelectionMode()
-                                     == ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                } else if (key == NEXT_COLUMN_CHANGE_LEAD || key == PREVIOUS_COLUMN_CHANGE_LEAD) {
-                    changeLead = (csm.getSelectionMode()
-                                     == ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                boolfbn dibngfLfbd = fblsf;
+                if (kfy == NEXT_ROW_CHANGE_LEAD || kfy == PREVIOUS_ROW_CHANGE_LEAD) {
+                    dibngfLfbd = (rsm.gftSflfdtionModf()
+                                     == ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION);
+                } flsf if (kfy == NEXT_COLUMN_CHANGE_LEAD || kfy == PREVIOUS_COLUMN_CHANGE_LEAD) {
+                    dibngfLfbd = (dsm.gftSflfdtionModf()
+                                     == ListSflfdtionModfl.MULTIPLE_INTERVAL_SELECTION);
                 }
 
-                if (changeLead) {
-                    moveWithinTableRange(table, dx, dy);
+                if (dibngfLfbd) {
+                    movfWitiinTbblfRbngf(tbblf, dx, dy);
                     if (dy != 0) {
-                        // casting should be safe since the action is only enabled
-                        // for DefaultListSelectionModel
-                        ((DefaultListSelectionModel)rsm).moveLeadSelectionIndex(leadRow);
-                        if (getAdjustedLead(table, false, csm) == -1
-                                && table.getColumnCount() > 0) {
+                        // dbsting siould bf sbff sindf tif bdtion is only fnbblfd
+                        // for DffbultListSflfdtionModfl
+                        ((DffbultListSflfdtionModfl)rsm).movfLfbdSflfdtionIndfx(lfbdRow);
+                        if (gftAdjustfdLfbd(tbblf, fblsf, dsm) == -1
+                                && tbblf.gftColumnCount() > 0) {
 
-                            ((DefaultListSelectionModel)csm).moveLeadSelectionIndex(0);
+                            ((DffbultListSflfdtionModfl)dsm).movfLfbdSflfdtionIndfx(0);
                         }
-                    } else {
-                        // casting should be safe since the action is only enabled
-                        // for DefaultListSelectionModel
-                        ((DefaultListSelectionModel)csm).moveLeadSelectionIndex(leadColumn);
-                        if (getAdjustedLead(table, true, rsm) == -1
-                                && table.getRowCount() > 0) {
+                    } flsf {
+                        // dbsting siould bf sbff sindf tif bdtion is only fnbblfd
+                        // for DffbultListSflfdtionModfl
+                        ((DffbultListSflfdtionModfl)dsm).movfLfbdSflfdtionIndfx(lfbdColumn);
+                        if (gftAdjustfdLfbd(tbblf, truf, rsm) == -1
+                                && tbblf.gftRowCount() > 0) {
 
-                            ((DefaultListSelectionModel)rsm).moveLeadSelectionIndex(0);
+                            ((DffbultListSflfdtionModfl)rsm).movfLfbdSflfdtionIndfx(0);
                         }
                     }
 
-                    Rectangle cellRect = table.getCellRect(leadRow, leadColumn, false);
-                    if (cellRect != null) {
-                        table.scrollRectToVisible(cellRect);
+                    Rfdtbnglf dfllRfdt = tbblf.gftCfllRfdt(lfbdRow, lfbdColumn, fblsf);
+                    if (dfllRfdt != null) {
+                        tbblf.sdrollRfdtToVisiblf(dfllRfdt);
                     }
-                } else if (!inSelection) {
-                    moveWithinTableRange(table, dx, dy);
-                    table.changeSelection(leadRow, leadColumn, false, extend);
+                } flsf if (!inSflfdtion) {
+                    movfWitiinTbblfRbngf(tbblf, dx, dy);
+                    tbblf.dibngfSflfdtion(lfbdRow, lfbdColumn, fblsf, fxtfnd);
                 }
-                else {
-                    if (table.getRowCount() <= 0 || table.getColumnCount() <= 0) {
-                        // bail - don't try to move selection on an empty table
-                        return;
+                flsf {
+                    if (tbblf.gftRowCount() <= 0 || tbblf.gftColumnCount() <= 0) {
+                        // bbil - don't try to movf sflfdtion on bn fmpty tbblf
+                        rfturn;
                     }
 
-                    if (moveWithinSelectedRange(table, dx, dy, rsm, csm)) {
-                        // this is the only way we have to set both the lead
-                        // and the anchor without changing the selection
-                        if (rsm.isSelectedIndex(leadRow)) {
-                            rsm.addSelectionInterval(leadRow, leadRow);
-                        } else {
-                            rsm.removeSelectionInterval(leadRow, leadRow);
+                    if (movfWitiinSflfdtfdRbngf(tbblf, dx, dy, rsm, dsm)) {
+                        // tiis is tif only wby wf ibvf to sft boti tif lfbd
+                        // bnd tif bndior witiout dibnging tif sflfdtion
+                        if (rsm.isSflfdtfdIndfx(lfbdRow)) {
+                            rsm.bddSflfdtionIntfrvbl(lfbdRow, lfbdRow);
+                        } flsf {
+                            rsm.rfmovfSflfdtionIntfrvbl(lfbdRow, lfbdRow);
                         }
 
-                        if (csm.isSelectedIndex(leadColumn)) {
-                            csm.addSelectionInterval(leadColumn, leadColumn);
-                        } else {
-                            csm.removeSelectionInterval(leadColumn, leadColumn);
+                        if (dsm.isSflfdtfdIndfx(lfbdColumn)) {
+                            dsm.bddSflfdtionIntfrvbl(lfbdColumn, lfbdColumn);
+                        } flsf {
+                            dsm.rfmovfSflfdtionIntfrvbl(lfbdColumn, lfbdColumn);
                         }
 
-                        Rectangle cellRect = table.getCellRect(leadRow, leadColumn, false);
-                        if (cellRect != null) {
-                            table.scrollRectToVisible(cellRect);
+                        Rfdtbnglf dfllRfdt = tbblf.gftCfllRfdt(lfbdRow, lfbdColumn, fblsf);
+                        if (dfllRfdt != null) {
+                            tbblf.sdrollRfdtToVisiblf(dfllRfdt);
                         }
                     }
-                    else {
-                        table.changeSelection(leadRow, leadColumn,
-                                false, false);
+                    flsf {
+                        tbblf.dibngfSflfdtion(lfbdRow, lfbdColumn,
+                                fblsf, fblsf);
                     }
                 }
 
                 /*
-                if (wasEditingWithFocus) {
-                    table.editCellAt(leadRow, leadColumn);
-                    final Component editorComp = table.getEditorComponent();
-                    if (editorComp != null) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                editorComp.requestFocus();
+                if (wbsEditingWitiFodus) {
+                    tbblf.fditCfllAt(lfbdRow, lfbdColumn);
+                    finbl Componfnt fditorComp = tbblf.gftEditorComponfnt();
+                    if (fditorComp != null) {
+                        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                            publid void run() {
+                                fditorComp.rfqufstFodus();
                             }
                         });
                     }
                 }
                 */
-            } else if (key == CANCEL_EDITING) {
-                table.removeEditor();
-            } else if (key == SELECT_ALL) {
-                table.selectAll();
-            } else if (key == CLEAR_SELECTION) {
-                table.clearSelection();
-            } else if (key == START_EDITING) {
-                if (!table.hasFocus()) {
-                    CellEditor cellEditor = table.getCellEditor();
-                    if (cellEditor != null && !cellEditor.stopCellEditing()) {
-                        return;
+            } flsf if (kfy == CANCEL_EDITING) {
+                tbblf.rfmovfEditor();
+            } flsf if (kfy == SELECT_ALL) {
+                tbblf.sflfdtAll();
+            } flsf if (kfy == CLEAR_SELECTION) {
+                tbblf.dlfbrSflfdtion();
+            } flsf if (kfy == START_EDITING) {
+                if (!tbblf.ibsFodus()) {
+                    CfllEditor dfllEditor = tbblf.gftCfllEditor();
+                    if (dfllEditor != null && !dfllEditor.stopCfllEditing()) {
+                        rfturn;
                     }
-                    table.requestFocus();
-                    return;
+                    tbblf.rfqufstFodus();
+                    rfturn;
                 }
-                table.editCellAt(leadRow, leadColumn, e);
-                Component editorComp = table.getEditorComponent();
-                if (editorComp != null) {
-                    editorComp.requestFocus();
+                tbblf.fditCfllAt(lfbdRow, lfbdColumn, f);
+                Componfnt fditorComp = tbblf.gftEditorComponfnt();
+                if (fditorComp != null) {
+                    fditorComp.rfqufstFodus();
                 }
-            } else if (key == ADD_TO_SELECTION) {
-                if (!table.isCellSelected(leadRow, leadColumn)) {
-                    int oldAnchorRow = rsm.getAnchorSelectionIndex();
-                    int oldAnchorColumn = csm.getAnchorSelectionIndex();
-                    rsm.setValueIsAdjusting(true);
-                    csm.setValueIsAdjusting(true);
-                    table.changeSelection(leadRow, leadColumn, true, false);
-                    rsm.setAnchorSelectionIndex(oldAnchorRow);
-                    csm.setAnchorSelectionIndex(oldAnchorColumn);
-                    rsm.setValueIsAdjusting(false);
-                    csm.setValueIsAdjusting(false);
+            } flsf if (kfy == ADD_TO_SELECTION) {
+                if (!tbblf.isCfllSflfdtfd(lfbdRow, lfbdColumn)) {
+                    int oldAndiorRow = rsm.gftAndiorSflfdtionIndfx();
+                    int oldAndiorColumn = dsm.gftAndiorSflfdtionIndfx();
+                    rsm.sftVblufIsAdjusting(truf);
+                    dsm.sftVblufIsAdjusting(truf);
+                    tbblf.dibngfSflfdtion(lfbdRow, lfbdColumn, truf, fblsf);
+                    rsm.sftAndiorSflfdtionIndfx(oldAndiorRow);
+                    dsm.sftAndiorSflfdtionIndfx(oldAndiorColumn);
+                    rsm.sftVblufIsAdjusting(fblsf);
+                    dsm.sftVblufIsAdjusting(fblsf);
                 }
-            } else if (key == TOGGLE_AND_ANCHOR) {
-                table.changeSelection(leadRow, leadColumn, true, false);
-            } else if (key == EXTEND_TO) {
-                table.changeSelection(leadRow, leadColumn, false, true);
-            } else if (key == MOVE_SELECTION_TO) {
-                table.changeSelection(leadRow, leadColumn, false, false);
-            } else if (key == FOCUS_HEADER) {
-                JTableHeader th = table.getTableHeader();
-                if (th != null) {
-                    //Set the header's selected column to match the table.
-                    int col = table.getSelectedColumn();
-                    if (col >= 0) {
-                        TableHeaderUI thUI = th.getUI();
-                        if (thUI instanceof BasicTableHeaderUI) {
-                            ((BasicTableHeaderUI)thUI).selectColumn(col);
+            } flsf if (kfy == TOGGLE_AND_ANCHOR) {
+                tbblf.dibngfSflfdtion(lfbdRow, lfbdColumn, truf, fblsf);
+            } flsf if (kfy == EXTEND_TO) {
+                tbblf.dibngfSflfdtion(lfbdRow, lfbdColumn, fblsf, truf);
+            } flsf if (kfy == MOVE_SELECTION_TO) {
+                tbblf.dibngfSflfdtion(lfbdRow, lfbdColumn, fblsf, fblsf);
+            } flsf if (kfy == FOCUS_HEADER) {
+                JTbblfHfbdfr ti = tbblf.gftTbblfHfbdfr();
+                if (ti != null) {
+                    //Sft tif ifbdfr's sflfdtfd dolumn to mbtdi tif tbblf.
+                    int dol = tbblf.gftSflfdtfdColumn();
+                    if (dol >= 0) {
+                        TbblfHfbdfrUI tiUI = ti.gftUI();
+                        if (tiUI instbndfof BbsidTbblfHfbdfrUI) {
+                            ((BbsidTbblfHfbdfrUI)tiUI).sflfdtColumn(dol);
                         }
                     }
 
-                    //Then give the header the focus.
-                    th.requestFocusInWindow();
+                    //Tifn givf tif ifbdfr tif fodus.
+                    ti.rfqufstFodusInWindow();
                 }
             }
         }
 
-        public boolean isEnabled(Object sender) {
-            String key = getName();
+        publid boolfbn isEnbblfd(Objfdt sfndfr) {
+            String kfy = gftNbmf();
 
-            if (sender instanceof JTable &&
-                Boolean.TRUE.equals(((JTable)sender).getClientProperty("Table.isFileList"))) {
-                if (key == NEXT_COLUMN ||
-                        key == NEXT_COLUMN_CELL ||
-                        key == NEXT_COLUMN_EXTEND_SELECTION ||
-                        key == NEXT_COLUMN_CHANGE_LEAD ||
-                        key == PREVIOUS_COLUMN ||
-                        key == PREVIOUS_COLUMN_CELL ||
-                        key == PREVIOUS_COLUMN_EXTEND_SELECTION ||
-                        key == PREVIOUS_COLUMN_CHANGE_LEAD ||
-                        key == SCROLL_LEFT_CHANGE_SELECTION ||
-                        key == SCROLL_LEFT_EXTEND_SELECTION ||
-                        key == SCROLL_RIGHT_CHANGE_SELECTION ||
-                        key == SCROLL_RIGHT_EXTEND_SELECTION ||
-                        key == FIRST_COLUMN ||
-                        key == FIRST_COLUMN_EXTEND_SELECTION ||
-                        key == LAST_COLUMN ||
-                        key == LAST_COLUMN_EXTEND_SELECTION ||
-                        key == NEXT_ROW_CELL ||
-                        key == PREVIOUS_ROW_CELL) {
+            if (sfndfr instbndfof JTbblf &&
+                Boolfbn.TRUE.fqubls(((JTbblf)sfndfr).gftClifntPropfrty("Tbblf.isFilfList"))) {
+                if (kfy == NEXT_COLUMN ||
+                        kfy == NEXT_COLUMN_CELL ||
+                        kfy == NEXT_COLUMN_EXTEND_SELECTION ||
+                        kfy == NEXT_COLUMN_CHANGE_LEAD ||
+                        kfy == PREVIOUS_COLUMN ||
+                        kfy == PREVIOUS_COLUMN_CELL ||
+                        kfy == PREVIOUS_COLUMN_EXTEND_SELECTION ||
+                        kfy == PREVIOUS_COLUMN_CHANGE_LEAD ||
+                        kfy == SCROLL_LEFT_CHANGE_SELECTION ||
+                        kfy == SCROLL_LEFT_EXTEND_SELECTION ||
+                        kfy == SCROLL_RIGHT_CHANGE_SELECTION ||
+                        kfy == SCROLL_RIGHT_EXTEND_SELECTION ||
+                        kfy == FIRST_COLUMN ||
+                        kfy == FIRST_COLUMN_EXTEND_SELECTION ||
+                        kfy == LAST_COLUMN ||
+                        kfy == LAST_COLUMN_EXTEND_SELECTION ||
+                        kfy == NEXT_ROW_CELL ||
+                        kfy == PREVIOUS_ROW_CELL) {
 
-                    return false;
+                    rfturn fblsf;
                 }
             }
 
-            if (key == CANCEL_EDITING && sender instanceof JTable) {
-                return ((JTable)sender).isEditing();
-            } else if (key == NEXT_ROW_CHANGE_LEAD ||
-                       key == PREVIOUS_ROW_CHANGE_LEAD) {
-                // discontinuous selection actions are only enabled for
-                // DefaultListSelectionModel
-                return sender != null &&
-                       ((JTable)sender).getSelectionModel()
-                           instanceof DefaultListSelectionModel;
-            } else if (key == NEXT_COLUMN_CHANGE_LEAD ||
-                       key == PREVIOUS_COLUMN_CHANGE_LEAD) {
-                // discontinuous selection actions are only enabled for
-                // DefaultListSelectionModel
-                return sender != null &&
-                       ((JTable)sender).getColumnModel().getSelectionModel()
-                           instanceof DefaultListSelectionModel;
-            } else if (key == ADD_TO_SELECTION && sender instanceof JTable) {
-                // This action is typically bound to SPACE.
-                // If the table is already in an editing mode, SPACE should
-                // simply enter a space character into the table, and not
-                // select a cell. Likewise, if the lead cell is already selected
-                // then hitting SPACE should just enter a space character
-                // into the cell and begin editing. In both of these cases
-                // this action will be disabled.
-                JTable table = (JTable)sender;
-                int leadRow = getAdjustedLead(table, true);
-                int leadCol = getAdjustedLead(table, false);
-                return !(table.isEditing() || table.isCellSelected(leadRow, leadCol));
-            } else if (key == FOCUS_HEADER && sender instanceof JTable) {
-                JTable table = (JTable)sender;
-                return table.getTableHeader() != null;
+            if (kfy == CANCEL_EDITING && sfndfr instbndfof JTbblf) {
+                rfturn ((JTbblf)sfndfr).isEditing();
+            } flsf if (kfy == NEXT_ROW_CHANGE_LEAD ||
+                       kfy == PREVIOUS_ROW_CHANGE_LEAD) {
+                // disdontinuous sflfdtion bdtions brf only fnbblfd for
+                // DffbultListSflfdtionModfl
+                rfturn sfndfr != null &&
+                       ((JTbblf)sfndfr).gftSflfdtionModfl()
+                           instbndfof DffbultListSflfdtionModfl;
+            } flsf if (kfy == NEXT_COLUMN_CHANGE_LEAD ||
+                       kfy == PREVIOUS_COLUMN_CHANGE_LEAD) {
+                // disdontinuous sflfdtion bdtions brf only fnbblfd for
+                // DffbultListSflfdtionModfl
+                rfturn sfndfr != null &&
+                       ((JTbblf)sfndfr).gftColumnModfl().gftSflfdtionModfl()
+                           instbndfof DffbultListSflfdtionModfl;
+            } flsf if (kfy == ADD_TO_SELECTION && sfndfr instbndfof JTbblf) {
+                // Tiis bdtion is typidblly bound to SPACE.
+                // If tif tbblf is blrfbdy in bn fditing modf, SPACE siould
+                // simply fntfr b spbdf dibrbdtfr into tif tbblf, bnd not
+                // sflfdt b dfll. Likfwisf, if tif lfbd dfll is blrfbdy sflfdtfd
+                // tifn iitting SPACE siould just fntfr b spbdf dibrbdtfr
+                // into tif dfll bnd bfgin fditing. In boti of tifsf dbsfs
+                // tiis bdtion will bf disbblfd.
+                JTbblf tbblf = (JTbblf)sfndfr;
+                int lfbdRow = gftAdjustfdLfbd(tbblf, truf);
+                int lfbdCol = gftAdjustfdLfbd(tbblf, fblsf);
+                rfturn !(tbblf.isEditing() || tbblf.isCfllSflfdtfd(lfbdRow, lfbdCol));
+            } flsf if (kfy == FOCUS_HEADER && sfndfr instbndfof JTbblf) {
+                JTbblf tbblf = (JTbblf)sfndfr;
+                rfturn tbblf.gftTbblfHfbdfr() != null;
             }
 
-            return true;
+            rfturn truf;
         }
     }
 
 
 //
-//  The Table's Key listener
+//  Tif Tbblf's Kfy listfnfr
 //
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicTableUI}.
-     * <p>As of Java 2 platform v1.3 this class is no longer used.
-     * Instead <code>JTable</code>
-     * overrides <code>processKeyBinding</code> to dispatch the event to
-     * the current <code>TableCellEditor</code>.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidTbblfUI}.
+     * <p>As of Jbvb 2 plbtform v1.3 tiis dlbss is no longfr usfd.
+     * Instfbd <dodf>JTbblf</dodf>
+     * ovfrridfs <dodf>prodfssKfyBinding</dodf> to dispbtdi tif fvfnt to
+     * tif durrfnt <dodf>TbblfCfllEditor</dodf>.
      */
-     public class KeyHandler implements KeyListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void keyPressed(KeyEvent e) {
-            getHandler().keyPressed(e);
+     publid dlbss KfyHbndlfr implfmfnts KfyListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        publid void kfyPrfssfd(KfyEvfnt f) {
+            gftHbndlfr().kfyPrfssfd(f);
         }
 
-        public void keyReleased(KeyEvent e) {
-            getHandler().keyReleased(e);
+        publid void kfyRflfbsfd(KfyEvfnt f) {
+            gftHbndlfr().kfyRflfbsfd(f);
         }
 
-        public void keyTyped(KeyEvent e) {
-            getHandler().keyTyped(e);
+        publid void kfyTypfd(KfyEvfnt f) {
+            gftHbndlfr().kfyTypfd(f);
         }
     }
 
 //
-//  The Table's focus listener
+//  Tif Tbblf's fodus listfnfr
 //
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicTableUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidTbblfUI}.
      */
-    public class FocusHandler implements FocusListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void focusGained(FocusEvent e) {
-            getHandler().focusGained(e);
+    publid dlbss FodusHbndlfr implfmfnts FodusListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        publid void fodusGbinfd(FodusEvfnt f) {
+            gftHbndlfr().fodusGbinfd(f);
         }
 
-        public void focusLost(FocusEvent e) {
-            getHandler().focusLost(e);
+        publid void fodusLost(FodusEvfnt f) {
+            gftHbndlfr().fodusLost(f);
         }
     }
 
 //
-//  The Table's mouse and mouse motion listeners
+//  Tif Tbblf's mousf bnd mousf motion listfnfrs
 //
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicTableUI.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidTbblfUI.
      */
-    public class MouseInputHandler implements MouseInputListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void mouseClicked(MouseEvent e) {
-            getHandler().mouseClicked(e);
+    publid dlbss MousfInputHbndlfr implfmfnts MousfInputListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        publid void mousfClidkfd(MousfEvfnt f) {
+            gftHbndlfr().mousfClidkfd(f);
         }
 
-        public void mousePressed(MouseEvent e) {
-            getHandler().mousePressed(e);
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            gftHbndlfr().mousfPrfssfd(f);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            getHandler().mouseReleased(e);
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            gftHbndlfr().mousfRflfbsfd(f);
         }
 
-        public void mouseEntered(MouseEvent e) {
-            getHandler().mouseEntered(e);
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            gftHbndlfr().mousfEntfrfd(f);
         }
 
-        public void mouseExited(MouseEvent e) {
-            getHandler().mouseExited(e);
+        publid void mousfExitfd(MousfEvfnt f) {
+            gftHbndlfr().mousfExitfd(f);
         }
 
-        public void mouseMoved(MouseEvent e) {
-            getHandler().mouseMoved(e);
+        publid void mousfMovfd(MousfEvfnt f) {
+            gftHbndlfr().mousfMovfd(f);
         }
 
-        public void mouseDragged(MouseEvent e) {
-            getHandler().mouseDragged(e);
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            gftHbndlfr().mousfDrbggfd(f);
         }
     }
 
-    private class Handler implements FocusListener, MouseInputListener,
-            PropertyChangeListener, ListSelectionListener, ActionListener,
-            BeforeDrag {
+    privbtf dlbss Hbndlfr implfmfnts FodusListfnfr, MousfInputListfnfr,
+            PropfrtyCibngfListfnfr, ListSflfdtionListfnfr, AdtionListfnfr,
+            BfforfDrbg {
 
-        // FocusListener
-        private void repaintLeadCell( ) {
-            int lr = getAdjustedLead(table, true);
-            int lc = getAdjustedLead(table, false);
+        // FodusListfnfr
+        privbtf void rfpbintLfbdCfll( ) {
+            int lr = gftAdjustfdLfbd(tbblf, truf);
+            int ld = gftAdjustfdLfbd(tbblf, fblsf);
 
-            if (lr < 0 || lc < 0) {
-                return;
+            if (lr < 0 || ld < 0) {
+                rfturn;
             }
 
-            Rectangle dirtyRect = table.getCellRect(lr, lc, false);
-            table.repaint(dirtyRect);
+            Rfdtbnglf dirtyRfdt = tbblf.gftCfllRfdt(lr, ld, fblsf);
+            tbblf.rfpbint(dirtyRfdt);
         }
 
-        public void focusGained(FocusEvent e) {
-            repaintLeadCell();
+        publid void fodusGbinfd(FodusEvfnt f) {
+            rfpbintLfbdCfll();
         }
 
-        public void focusLost(FocusEvent e) {
-            repaintLeadCell();
+        publid void fodusLost(FodusEvfnt f) {
+            rfpbintLfbdCfll();
         }
 
 
-        // KeyListener
-        public void keyPressed(KeyEvent e) { }
+        // KfyListfnfr
+        publid void kfyPrfssfd(KfyEvfnt f) { }
 
-        public void keyReleased(KeyEvent e) { }
+        publid void kfyRflfbsfd(KfyEvfnt f) { }
 
-        public void keyTyped(KeyEvent e) {
-            KeyStroke keyStroke = KeyStroke.getKeyStroke(e.getKeyChar(),
-                    e.getModifiers());
+        publid void kfyTypfd(KfyEvfnt f) {
+            KfyStrokf kfyStrokf = KfyStrokf.gftKfyStrokf(f.gftKfyCibr(),
+                    f.gftModififrs());
 
-            // We register all actions using ANCESTOR_OF_FOCUSED_COMPONENT
-            // which means that we might perform the appropriate action
-            // in the table and then forward it to the editor if the editor
-            // had focus. Make sure this doesn't happen by checking our
-            // InputMaps.
-            InputMap map = table.getInputMap(JComponent.WHEN_FOCUSED);
-            if (map != null && map.get(keyStroke) != null) {
-                return;
+            // Wf rfgistfr bll bdtions using ANCESTOR_OF_FOCUSED_COMPONENT
+            // wiidi mfbns tibt wf migit pfrform tif bppropribtf bdtion
+            // in tif tbblf bnd tifn forwbrd it to tif fditor if tif fditor
+            // ibd fodus. Mbkf surf tiis dofsn't ibppfn by difdking our
+            // InputMbps.
+            InputMbp mbp = tbblf.gftInputMbp(JComponfnt.WHEN_FOCUSED);
+            if (mbp != null && mbp.gft(kfyStrokf) != null) {
+                rfturn;
             }
-            map = table.getInputMap(JComponent.
+            mbp = tbblf.gftInputMbp(JComponfnt.
                                   WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-            if (map != null && map.get(keyStroke) != null) {
-                return;
+            if (mbp != null && mbp.gft(kfyStrokf) != null) {
+                rfturn;
             }
 
-            keyStroke = KeyStroke.getKeyStrokeForEvent(e);
+            kfyStrokf = KfyStrokf.gftKfyStrokfForEvfnt(f);
 
-            // The AWT seems to generate an unconsumed \r event when
-            // ENTER (\n) is pressed.
-            if (e.getKeyChar() == '\r') {
-                return;
+            // Tif AWT sffms to gfnfrbtf bn undonsumfd \r fvfnt wifn
+            // ENTER (\n) is prfssfd.
+            if (f.gftKfyCibr() == '\r') {
+                rfturn;
             }
 
-            int leadRow = getAdjustedLead(table, true);
-            int leadColumn = getAdjustedLead(table, false);
-            if (leadRow != -1 && leadColumn != -1 && !table.isEditing()) {
-                if (!table.editCellAt(leadRow, leadColumn)) {
-                    return;
+            int lfbdRow = gftAdjustfdLfbd(tbblf, truf);
+            int lfbdColumn = gftAdjustfdLfbd(tbblf, fblsf);
+            if (lfbdRow != -1 && lfbdColumn != -1 && !tbblf.isEditing()) {
+                if (!tbblf.fditCfllAt(lfbdRow, lfbdColumn)) {
+                    rfturn;
                 }
             }
 
-            // Forwarding events this way seems to put the component
-            // in a state where it believes it has focus. In reality
-            // the table retains focus - though it is difficult for
-            // a user to tell, since the caret is visible and flashing.
+            // Forwbrding fvfnts tiis wby sffms to put tif domponfnt
+            // in b stbtf wifrf it bflifvfs it ibs fodus. In rfblity
+            // tif tbblf rftbins fodus - tiougi it is diffidult for
+            // b usfr to tfll, sindf tif dbrft is visiblf bnd flbsiing.
 
-            // Calling table.requestFocus() here, to get the focus back to
-            // the table, seems to have no effect.
+            // Cblling tbblf.rfqufstFodus() ifrf, to gft tif fodus bbdk to
+            // tif tbblf, sffms to ibvf no ffffdt.
 
-            Component editorComp = table.getEditorComponent();
-            if (table.isEditing() && editorComp != null) {
-                if (editorComp instanceof JComponent) {
-                    JComponent component = (JComponent)editorComp;
-                    map = component.getInputMap(JComponent.WHEN_FOCUSED);
-                    Object binding = (map != null) ? map.get(keyStroke) : null;
+            Componfnt fditorComp = tbblf.gftEditorComponfnt();
+            if (tbblf.isEditing() && fditorComp != null) {
+                if (fditorComp instbndfof JComponfnt) {
+                    JComponfnt domponfnt = (JComponfnt)fditorComp;
+                    mbp = domponfnt.gftInputMbp(JComponfnt.WHEN_FOCUSED);
+                    Objfdt binding = (mbp != null) ? mbp.gft(kfyStrokf) : null;
                     if (binding == null) {
-                        map = component.getInputMap(JComponent.
+                        mbp = domponfnt.gftInputMbp(JComponfnt.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-                        binding = (map != null) ? map.get(keyStroke) : null;
+                        binding = (mbp != null) ? mbp.gft(kfyStrokf) : null;
                     }
                     if (binding != null) {
-                        ActionMap am = component.getActionMap();
-                        Action action = (am != null) ? am.get(binding) : null;
-                        if (action != null && SwingUtilities.
-                            notifyAction(action, keyStroke, e, component,
-                                         e.getModifiers())) {
-                            e.consume();
+                        AdtionMbp bm = domponfnt.gftAdtionMbp();
+                        Adtion bdtion = (bm != null) ? bm.gft(binding) : null;
+                        if (bdtion != null && SwingUtilitifs.
+                            notifyAdtion(bdtion, kfyStrokf, f, domponfnt,
+                                         f.gftModififrs())) {
+                            f.donsumf();
                         }
                     }
                 }
@@ -935,407 +935,407 @@ public class BasicTableUI extends TableUI
         }
 
 
-        // MouseInputListener
+        // MousfInputListfnfr
 
-        // Component receiving mouse events during editing.
-        // May not be editorComponent.
-        private Component dispatchComponent;
+        // Componfnt rfdfiving mousf fvfnts during fditing.
+        // Mby not bf fditorComponfnt.
+        privbtf Componfnt dispbtdiComponfnt;
 
-        public void mouseClicked(MouseEvent e) {}
+        publid void mousfClidkfd(MousfEvfnt f) {}
 
-        private void setDispatchComponent(MouseEvent e) {
-            Component editorComponent = table.getEditorComponent();
-            Point p = e.getPoint();
-            Point p2 = SwingUtilities.convertPoint(table, p, editorComponent);
-            dispatchComponent =
-                    SwingUtilities.getDeepestComponentAt(editorComponent,
+        privbtf void sftDispbtdiComponfnt(MousfEvfnt f) {
+            Componfnt fditorComponfnt = tbblf.gftEditorComponfnt();
+            Point p = f.gftPoint();
+            Point p2 = SwingUtilitifs.donvfrtPoint(tbblf, p, fditorComponfnt);
+            dispbtdiComponfnt =
+                    SwingUtilitifs.gftDffpfstComponfntAt(fditorComponfnt,
                             p2.x, p2.y);
-            SwingUtilities2.setSkipClickCount(dispatchComponent,
-                                              e.getClickCount() - 1);
+            SwingUtilitifs2.sftSkipClidkCount(dispbtdiComponfnt,
+                                              f.gftClidkCount() - 1);
         }
 
-        private boolean repostEvent(MouseEvent e) {
-            // Check for isEditing() in case another event has
-            // caused the editor to be removed. See bug #4306499.
-            if (dispatchComponent == null || !table.isEditing()) {
-                return false;
+        privbtf boolfbn rfpostEvfnt(MousfEvfnt f) {
+            // Cifdk for isEditing() in dbsf bnotifr fvfnt ibs
+            // dbusfd tif fditor to bf rfmovfd. Sff bug #4306499.
+            if (dispbtdiComponfnt == null || !tbblf.isEditing()) {
+                rfturn fblsf;
             }
-            MouseEvent e2 = SwingUtilities.convertMouseEvent(table, e,
-                    dispatchComponent);
-            dispatchComponent.dispatchEvent(e2);
-            return true;
+            MousfEvfnt f2 = SwingUtilitifs.donvfrtMousfEvfnt(tbblf, f,
+                    dispbtdiComponfnt);
+            dispbtdiComponfnt.dispbtdiEvfnt(f2);
+            rfturn truf;
         }
 
-        private void setValueIsAdjusting(boolean flag) {
-            table.getSelectionModel().setValueIsAdjusting(flag);
-            table.getColumnModel().getSelectionModel().
-                    setValueIsAdjusting(flag);
+        privbtf void sftVblufIsAdjusting(boolfbn flbg) {
+            tbblf.gftSflfdtionModfl().sftVblufIsAdjusting(flbg);
+            tbblf.gftColumnModfl().gftSflfdtionModfl().
+                    sftVblufIsAdjusting(flbg);
         }
 
-        // The row and column where the press occurred and the
-        // press event itself
-        private int pressedRow;
-        private int pressedCol;
-        private MouseEvent pressedEvent;
+        // Tif row bnd dolumn wifrf tif prfss oddurrfd bnd tif
+        // prfss fvfnt itsflf
+        privbtf int prfssfdRow;
+        privbtf int prfssfdCol;
+        privbtf MousfEvfnt prfssfdEvfnt;
 
-        // Whether or not the mouse press (which is being considered as part
-        // of a drag sequence) also caused the selection change to be fully
-        // processed.
-        private boolean dragPressDidSelection;
+        // Wiftifr or not tif mousf prfss (wiidi is bfing donsidfrfd bs pbrt
+        // of b drbg sfqufndf) blso dbusfd tif sflfdtion dibngf to bf fully
+        // prodfssfd.
+        privbtf boolfbn drbgPrfssDidSflfdtion;
 
-        // Set to true when a drag gesture has been fully recognized and DnD
-        // begins. Use this to ignore further mouse events which could be
-        // delivered if DnD is cancelled (via ESCAPE for example)
-        private boolean dragStarted;
+        // Sft to truf wifn b drbg gfsturf ibs bffn fully rfdognizfd bnd DnD
+        // bfgins. Usf tiis to ignorf furtifr mousf fvfnts wiidi dould bf
+        // dflivfrfd if DnD is dbndfllfd (vib ESCAPE for fxbmplf)
+        privbtf boolfbn drbgStbrtfd;
 
-        // Whether or not we should start the editing timer on release
-        private boolean shouldStartTimer;
+        // Wiftifr or not wf siould stbrt tif fditing timfr on rflfbsf
+        privbtf boolfbn siouldStbrtTimfr;
 
-        // To cache the return value of pointOutsidePrefSize since we use
-        // it multiple times.
-        private boolean outsidePrefSize;
+        // To dbdif tif rfturn vbluf of pointOutsidfPrffSizf sindf wf usf
+        // it multiplf timfs.
+        privbtf boolfbn outsidfPrffSizf;
 
-        // Used to delay the start of editing.
-        private Timer timer = null;
+        // Usfd to dflby tif stbrt of fditing.
+        privbtf Timfr timfr = null;
 
-        private boolean canStartDrag() {
-            if (pressedRow == -1 || pressedCol == -1) {
-                return false;
+        privbtf boolfbn dbnStbrtDrbg() {
+            if (prfssfdRow == -1 || prfssfdCol == -1) {
+                rfturn fblsf;
             }
 
-            if (isFileList) {
-                return !outsidePrefSize;
+            if (isFilfList) {
+                rfturn !outsidfPrffSizf;
             }
 
-            // if this is a single selection table
-            if ((table.getSelectionModel().getSelectionMode() ==
-                     ListSelectionModel.SINGLE_SELECTION) &&
-                (table.getColumnModel().getSelectionModel().getSelectionMode() ==
-                     ListSelectionModel.SINGLE_SELECTION)) {
+            // if tiis is b singlf sflfdtion tbblf
+            if ((tbblf.gftSflfdtionModfl().gftSflfdtionModf() ==
+                     ListSflfdtionModfl.SINGLE_SELECTION) &&
+                (tbblf.gftColumnModfl().gftSflfdtionModfl().gftSflfdtionModf() ==
+                     ListSflfdtionModfl.SINGLE_SELECTION)) {
 
-                return true;
+                rfturn truf;
             }
 
-            return table.isCellSelected(pressedRow, pressedCol);
+            rfturn tbblf.isCfllSflfdtfd(prfssfdRow, prfssfdCol);
         }
 
-        public void mousePressed(MouseEvent e) {
-            if (SwingUtilities2.shouldIgnore(e, table)) {
-                return;
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (SwingUtilitifs2.siouldIgnorf(f, tbblf)) {
+                rfturn;
             }
 
-            if (table.isEditing() && !table.getCellEditor().stopCellEditing()) {
-                Component editorComponent = table.getEditorComponent();
-                if (editorComponent != null && !editorComponent.hasFocus()) {
-                    SwingUtilities2.compositeRequestFocus(editorComponent);
+            if (tbblf.isEditing() && !tbblf.gftCfllEditor().stopCfllEditing()) {
+                Componfnt fditorComponfnt = tbblf.gftEditorComponfnt();
+                if (fditorComponfnt != null && !fditorComponfnt.ibsFodus()) {
+                    SwingUtilitifs2.dompositfRfqufstFodus(fditorComponfnt);
                 }
-                return;
+                rfturn;
             }
 
-            Point p = e.getPoint();
-            pressedRow = table.rowAtPoint(p);
-            pressedCol = table.columnAtPoint(p);
-            outsidePrefSize = pointOutsidePrefSize(pressedRow, pressedCol, p);
+            Point p = f.gftPoint();
+            prfssfdRow = tbblf.rowAtPoint(p);
+            prfssfdCol = tbblf.dolumnAtPoint(p);
+            outsidfPrffSizf = pointOutsidfPrffSizf(prfssfdRow, prfssfdCol, p);
 
-            if (isFileList) {
-                shouldStartTimer =
-                    table.isCellSelected(pressedRow, pressedCol) &&
-                    !e.isShiftDown() &&
-                    !BasicGraphicsUtils.isMenuShortcutKeyDown(e) &&
-                    !outsidePrefSize;
+            if (isFilfList) {
+                siouldStbrtTimfr =
+                    tbblf.isCfllSflfdtfd(prfssfdRow, prfssfdCol) &&
+                    !f.isSiiftDown() &&
+                    !BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f) &&
+                    !outsidfPrffSizf;
             }
 
-            if (table.getDragEnabled()) {
-                mousePressedDND(e);
-            } else {
-                SwingUtilities2.adjustFocus(table);
-                if (!isFileList) {
-                    setValueIsAdjusting(true);
+            if (tbblf.gftDrbgEnbblfd()) {
+                mousfPrfssfdDND(f);
+            } flsf {
+                SwingUtilitifs2.bdjustFodus(tbblf);
+                if (!isFilfList) {
+                    sftVblufIsAdjusting(truf);
                 }
-                adjustSelection(e);
+                bdjustSflfdtion(f);
             }
         }
 
-        private void mousePressedDND(MouseEvent e) {
-            pressedEvent = e;
-            boolean grabFocus = true;
-            dragStarted = false;
+        privbtf void mousfPrfssfdDND(MousfEvfnt f) {
+            prfssfdEvfnt = f;
+            boolfbn grbbFodus = truf;
+            drbgStbrtfd = fblsf;
 
-            if (canStartDrag() && DragRecognitionSupport.mousePressed(e)) {
+            if (dbnStbrtDrbg() && DrbgRfdognitionSupport.mousfPrfssfd(f)) {
 
-                dragPressDidSelection = false;
+                drbgPrfssDidSflfdtion = fblsf;
 
-                if (BasicGraphicsUtils.isMenuShortcutKeyDown(e) && isFileList) {
-                    // do nothing for control - will be handled on release
-                    // or when drag starts
-                    return;
-                } else if (!e.isShiftDown() && table.isCellSelected(pressedRow, pressedCol)) {
-                    // clicking on something that's already selected
-                    // and need to make it the lead now
-                    table.getSelectionModel().addSelectionInterval(pressedRow,
-                                                                   pressedRow);
-                    table.getColumnModel().getSelectionModel().
-                        addSelectionInterval(pressedCol, pressedCol);
+                if (BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f) && isFilfList) {
+                    // do notiing for dontrol - will bf ibndlfd on rflfbsf
+                    // or wifn drbg stbrts
+                    rfturn;
+                } flsf if (!f.isSiiftDown() && tbblf.isCfllSflfdtfd(prfssfdRow, prfssfdCol)) {
+                    // dlidking on somftiing tibt's blrfbdy sflfdtfd
+                    // bnd nffd to mbkf it tif lfbd now
+                    tbblf.gftSflfdtionModfl().bddSflfdtionIntfrvbl(prfssfdRow,
+                                                                   prfssfdRow);
+                    tbblf.gftColumnModfl().gftSflfdtionModfl().
+                        bddSflfdtionIntfrvbl(prfssfdCol, prfssfdCol);
 
-                    return;
+                    rfturn;
                 }
 
-                dragPressDidSelection = true;
+                drbgPrfssDidSflfdtion = truf;
 
-                // could be a drag initiating event - don't grab focus
-                grabFocus = false;
-            } else if (!isFileList) {
-                // When drag can't happen, mouse drags might change the selection in the table
-                // so we want the isAdjusting flag to be set
-                setValueIsAdjusting(true);
+                // dould bf b drbg initibting fvfnt - don't grbb fodus
+                grbbFodus = fblsf;
+            } flsf if (!isFilfList) {
+                // Wifn drbg dbn't ibppfn, mousf drbgs migit dibngf tif sflfdtion in tif tbblf
+                // so wf wbnt tif isAdjusting flbg to bf sft
+                sftVblufIsAdjusting(truf);
             }
 
-            if (grabFocus) {
-                SwingUtilities2.adjustFocus(table);
+            if (grbbFodus) {
+                SwingUtilitifs2.bdjustFodus(tbblf);
             }
 
-            adjustSelection(e);
+            bdjustSflfdtion(f);
         }
 
-        private void adjustSelection(MouseEvent e) {
+        privbtf void bdjustSflfdtion(MousfEvfnt f) {
             // Fix for 4835633
-            if (outsidePrefSize) {
-                // If shift is down in multi-select, we should just return.
-                // For single select or non-shift-click, clear the selection
-                if (e.getID() ==  MouseEvent.MOUSE_PRESSED &&
-                    (!e.isShiftDown() ||
-                     table.getSelectionModel().getSelectionMode() ==
-                     ListSelectionModel.SINGLE_SELECTION)) {
-                    table.clearSelection();
-                    TableCellEditor tce = table.getCellEditor();
-                    if (tce != null) {
-                        tce.stopCellEditing();
+            if (outsidfPrffSizf) {
+                // If siift is down in multi-sflfdt, wf siould just rfturn.
+                // For singlf sflfdt or non-siift-dlidk, dlfbr tif sflfdtion
+                if (f.gftID() ==  MousfEvfnt.MOUSE_PRESSED &&
+                    (!f.isSiiftDown() ||
+                     tbblf.gftSflfdtionModfl().gftSflfdtionModf() ==
+                     ListSflfdtionModfl.SINGLE_SELECTION)) {
+                    tbblf.dlfbrSflfdtion();
+                    TbblfCfllEditor tdf = tbblf.gftCfllEditor();
+                    if (tdf != null) {
+                        tdf.stopCfllEditing();
                     }
                 }
-                return;
+                rfturn;
             }
-            // The autoscroller can generate drag events outside the
-            // table's range.
-            if ((pressedCol == -1) || (pressedRow == -1)) {
-                return;
-            }
-
-            boolean dragEnabled = table.getDragEnabled();
-
-            if (!dragEnabled && !isFileList && table.editCellAt(pressedRow, pressedCol, e)) {
-                setDispatchComponent(e);
-                repostEvent(e);
+            // Tif butosdrollfr dbn gfnfrbtf drbg fvfnts outsidf tif
+            // tbblf's rbngf.
+            if ((prfssfdCol == -1) || (prfssfdRow == -1)) {
+                rfturn;
             }
 
-            CellEditor editor = table.getCellEditor();
-            if (dragEnabled || editor == null || editor.shouldSelectCell(e)) {
-                table.changeSelection(pressedRow, pressedCol,
-                        BasicGraphicsUtils.isMenuShortcutKeyDown(e),
-                        e.isShiftDown());
-            }
-        }
+            boolfbn drbgEnbblfd = tbblf.gftDrbgEnbblfd();
 
-        public void valueChanged(ListSelectionEvent e) {
-            if (timer != null) {
-                timer.stop();
-                timer = null;
+            if (!drbgEnbblfd && !isFilfList && tbblf.fditCfllAt(prfssfdRow, prfssfdCol, f)) {
+                sftDispbtdiComponfnt(f);
+                rfpostEvfnt(f);
+            }
+
+            CfllEditor fditor = tbblf.gftCfllEditor();
+            if (drbgEnbblfd || fditor == null || fditor.siouldSflfdtCfll(f)) {
+                tbblf.dibngfSflfdtion(prfssfdRow, prfssfdCol,
+                        BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f),
+                        f.isSiiftDown());
             }
         }
 
-        public void actionPerformed(ActionEvent ae) {
-            table.editCellAt(pressedRow, pressedCol, null);
-            Component editorComponent = table.getEditorComponent();
-            if (editorComponent != null && !editorComponent.hasFocus()) {
-                SwingUtilities2.compositeRequestFocus(editorComponent);
+        publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+            if (timfr != null) {
+                timfr.stop();
+                timfr = null;
             }
-            return;
         }
 
-        private void maybeStartTimer() {
-            if (!shouldStartTimer) {
-                return;
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+            tbblf.fditCfllAt(prfssfdRow, prfssfdCol, null);
+            Componfnt fditorComponfnt = tbblf.gftEditorComponfnt();
+            if (fditorComponfnt != null && !fditorComponfnt.ibsFodus()) {
+                SwingUtilitifs2.dompositfRfqufstFodus(fditorComponfnt);
             }
-
-            if (timer == null) {
-                timer = new Timer(1200, this);
-                timer.setRepeats(false);
-            }
-
-            timer.start();
+            rfturn;
         }
 
-        public void mouseReleased(MouseEvent e) {
-            if (SwingUtilities2.shouldIgnore(e, table)) {
-                return;
+        privbtf void mbybfStbrtTimfr() {
+            if (!siouldStbrtTimfr) {
+                rfturn;
             }
 
-            if (table.getDragEnabled()) {
-                mouseReleasedDND(e);
-            } else {
-                if (isFileList) {
-                    maybeStartTimer();
+            if (timfr == null) {
+                timfr = nfw Timfr(1200, tiis);
+                timfr.sftRfpfbts(fblsf);
+            }
+
+            timfr.stbrt();
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (SwingUtilitifs2.siouldIgnorf(f, tbblf)) {
+                rfturn;
+            }
+
+            if (tbblf.gftDrbgEnbblfd()) {
+                mousfRflfbsfdDND(f);
+            } flsf {
+                if (isFilfList) {
+                    mbybfStbrtTimfr();
                 }
             }
 
-            pressedEvent = null;
-            repostEvent(e);
-            dispatchComponent = null;
-            setValueIsAdjusting(false);
+            prfssfdEvfnt = null;
+            rfpostEvfnt(f);
+            dispbtdiComponfnt = null;
+            sftVblufIsAdjusting(fblsf);
         }
 
-        private void mouseReleasedDND(MouseEvent e) {
-            MouseEvent me = DragRecognitionSupport.mouseReleased(e);
-            if (me != null) {
-                SwingUtilities2.adjustFocus(table);
-                if (!dragPressDidSelection) {
-                    adjustSelection(me);
+        privbtf void mousfRflfbsfdDND(MousfEvfnt f) {
+            MousfEvfnt mf = DrbgRfdognitionSupport.mousfRflfbsfd(f);
+            if (mf != null) {
+                SwingUtilitifs2.bdjustFodus(tbblf);
+                if (!drbgPrfssDidSflfdtion) {
+                    bdjustSflfdtion(mf);
                 }
             }
 
-            if (!dragStarted) {
-                if (isFileList) {
-                    maybeStartTimer();
-                    return;
+            if (!drbgStbrtfd) {
+                if (isFilfList) {
+                    mbybfStbrtTimfr();
+                    rfturn;
                 }
 
-                Point p = e.getPoint();
+                Point p = f.gftPoint();
 
-                if (pressedEvent != null &&
-                        table.rowAtPoint(p) == pressedRow &&
-                        table.columnAtPoint(p) == pressedCol &&
-                        table.editCellAt(pressedRow, pressedCol, pressedEvent)) {
+                if (prfssfdEvfnt != null &&
+                        tbblf.rowAtPoint(p) == prfssfdRow &&
+                        tbblf.dolumnAtPoint(p) == prfssfdCol &&
+                        tbblf.fditCfllAt(prfssfdRow, prfssfdCol, prfssfdEvfnt)) {
 
-                    setDispatchComponent(pressedEvent);
-                    repostEvent(pressedEvent);
+                    sftDispbtdiComponfnt(prfssfdEvfnt);
+                    rfpostEvfnt(prfssfdEvfnt);
 
-                    // This may appear completely odd, but must be done for backward
-                    // compatibility reasons. Developers have been known to rely on
-                    // a call to shouldSelectCell after editing has begun.
-                    CellEditor ce = table.getCellEditor();
-                    if (ce != null) {
-                        ce.shouldSelectCell(pressedEvent);
+                    // Tiis mby bppfbr domplftfly odd, but must bf donf for bbdkwbrd
+                    // dompbtibility rfbsons. Dfvflopfrs ibvf bffn known to rfly on
+                    // b dbll to siouldSflfdtCfll bftfr fditing ibs bfgun.
+                    CfllEditor df = tbblf.gftCfllEditor();
+                    if (df != null) {
+                        df.siouldSflfdtCfll(prfssfdEvfnt);
                     }
                 }
             }
         }
 
-        public void mouseEntered(MouseEvent e) {}
+        publid void mousfEntfrfd(MousfEvfnt f) {}
 
-        public void mouseExited(MouseEvent e) {}
+        publid void mousfExitfd(MousfEvfnt f) {}
 
-        public void mouseMoved(MouseEvent e) {}
+        publid void mousfMovfd(MousfEvfnt f) {}
 
-        public void dragStarting(MouseEvent me) {
-            dragStarted = true;
+        publid void drbgStbrting(MousfEvfnt mf) {
+            drbgStbrtfd = truf;
 
-            if (BasicGraphicsUtils.isMenuShortcutKeyDown(me) && isFileList) {
-                table.getSelectionModel().addSelectionInterval(pressedRow,
-                                                               pressedRow);
-                table.getColumnModel().getSelectionModel().
-                    addSelectionInterval(pressedCol, pressedCol);
+            if (BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(mf) && isFilfList) {
+                tbblf.gftSflfdtionModfl().bddSflfdtionIntfrvbl(prfssfdRow,
+                                                               prfssfdRow);
+                tbblf.gftColumnModfl().gftSflfdtionModfl().
+                    bddSflfdtionIntfrvbl(prfssfdCol, prfssfdCol);
             }
 
-            pressedEvent = null;
+            prfssfdEvfnt = null;
         }
 
-        public void mouseDragged(MouseEvent e) {
-            if (SwingUtilities2.shouldIgnore(e, table)) {
-                return;
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if (SwingUtilitifs2.siouldIgnorf(f, tbblf)) {
+                rfturn;
             }
 
-            if (table.getDragEnabled() &&
-                    (DragRecognitionSupport.mouseDragged(e, this) || dragStarted)) {
+            if (tbblf.gftDrbgEnbblfd() &&
+                    (DrbgRfdognitionSupport.mousfDrbggfd(f, tiis) || drbgStbrtfd)) {
 
-                return;
+                rfturn;
             }
 
-            repostEvent(e);
+            rfpostEvfnt(f);
 
-            // Check isFileList:
-            // Until we support drag-selection, dragging should not change
-            // the selection (act like single-select).
-            if (isFileList || table.isEditing()) {
-                return;
+            // Cifdk isFilfList:
+            // Until wf support drbg-sflfdtion, drbgging siould not dibngf
+            // tif sflfdtion (bdt likf singlf-sflfdt).
+            if (isFilfList || tbblf.isEditing()) {
+                rfturn;
             }
 
-            Point p = e.getPoint();
-            int row = table.rowAtPoint(p);
-            int column = table.columnAtPoint(p);
-            // The autoscroller can generate drag events outside the
-            // table's range.
-            if ((column == -1) || (row == -1)) {
-                return;
+            Point p = f.gftPoint();
+            int row = tbblf.rowAtPoint(p);
+            int dolumn = tbblf.dolumnAtPoint(p);
+            // Tif butosdrollfr dbn gfnfrbtf drbg fvfnts outsidf tif
+            // tbblf's rbngf.
+            if ((dolumn == -1) || (row == -1)) {
+                rfturn;
             }
 
-            table.changeSelection(row, column,
-                    BasicGraphicsUtils.isMenuShortcutKeyDown(e), true);
+            tbblf.dibngfSflfdtion(row, dolumn,
+                    BbsidGrbpiidsUtils.isMfnuSiortdutKfyDown(f), truf);
         }
 
 
-        // PropertyChangeListener
-        public void propertyChange(PropertyChangeEvent event) {
-            String changeName = event.getPropertyName();
+        // PropfrtyCibngfListfnfr
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+            String dibngfNbmf = fvfnt.gftPropfrtyNbmf();
 
-            if ("componentOrientation" == changeName) {
-                InputMap inputMap = getInputMap(
-                    JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            if ("domponfntOrifntbtion" == dibngfNbmf) {
+                InputMbp inputMbp = gftInputMbp(
+                    JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-                SwingUtilities.replaceUIInputMap(table,
-                    JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
-                    inputMap);
+                SwingUtilitifs.rfplbdfUIInputMbp(tbblf,
+                    JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
+                    inputMbp);
 
-                JTableHeader header = table.getTableHeader();
-                if (header != null) {
-                    header.setComponentOrientation(
-                            (ComponentOrientation)event.getNewValue());
+                JTbblfHfbdfr ifbdfr = tbblf.gftTbblfHfbdfr();
+                if (ifbdfr != null) {
+                    ifbdfr.sftComponfntOrifntbtion(
+                            (ComponfntOrifntbtion)fvfnt.gftNfwVbluf());
                 }
-            } else if ("dropLocation" == changeName) {
-                JTable.DropLocation oldValue = (JTable.DropLocation)event.getOldValue();
-                repaintDropLocation(oldValue);
-                repaintDropLocation(table.getDropLocation());
-            } else if ("Table.isFileList" == changeName) {
-                isFileList = Boolean.TRUE.equals(table.getClientProperty("Table.isFileList"));
-                table.revalidate();
-                table.repaint();
-                if (isFileList) {
-                    table.getSelectionModel().addListSelectionListener(getHandler());
-                } else {
-                    table.getSelectionModel().removeListSelectionListener(getHandler());
-                    timer = null;
+            } flsf if ("dropLodbtion" == dibngfNbmf) {
+                JTbblf.DropLodbtion oldVbluf = (JTbblf.DropLodbtion)fvfnt.gftOldVbluf();
+                rfpbintDropLodbtion(oldVbluf);
+                rfpbintDropLodbtion(tbblf.gftDropLodbtion());
+            } flsf if ("Tbblf.isFilfList" == dibngfNbmf) {
+                isFilfList = Boolfbn.TRUE.fqubls(tbblf.gftClifntPropfrty("Tbblf.isFilfList"));
+                tbblf.rfvblidbtf();
+                tbblf.rfpbint();
+                if (isFilfList) {
+                    tbblf.gftSflfdtionModfl().bddListSflfdtionListfnfr(gftHbndlfr());
+                } flsf {
+                    tbblf.gftSflfdtionModfl().rfmovfListSflfdtionListfnfr(gftHbndlfr());
+                    timfr = null;
                 }
-            } else if ("selectionModel" == changeName) {
-                if (isFileList) {
-                    ListSelectionModel old = (ListSelectionModel)event.getOldValue();
-                    old.removeListSelectionListener(getHandler());
-                    table.getSelectionModel().addListSelectionListener(getHandler());
+            } flsf if ("sflfdtionModfl" == dibngfNbmf) {
+                if (isFilfList) {
+                    ListSflfdtionModfl old = (ListSflfdtionModfl)fvfnt.gftOldVbluf();
+                    old.rfmovfListSflfdtionListfnfr(gftHbndlfr());
+                    tbblf.gftSflfdtionModfl().bddListSflfdtionListfnfr(gftHbndlfr());
                 }
             }
         }
 
-        private void repaintDropLocation(JTable.DropLocation loc) {
-            if (loc == null) {
-                return;
+        privbtf void rfpbintDropLodbtion(JTbblf.DropLodbtion lod) {
+            if (lod == null) {
+                rfturn;
             }
 
-            if (!loc.isInsertRow() && !loc.isInsertColumn()) {
-                Rectangle rect = table.getCellRect(loc.getRow(), loc.getColumn(), false);
-                if (rect != null) {
-                    table.repaint(rect);
+            if (!lod.isInsfrtRow() && !lod.isInsfrtColumn()) {
+                Rfdtbnglf rfdt = tbblf.gftCfllRfdt(lod.gftRow(), lod.gftColumn(), fblsf);
+                if (rfdt != null) {
+                    tbblf.rfpbint(rfdt);
                 }
-                return;
+                rfturn;
             }
 
-            if (loc.isInsertRow()) {
-                Rectangle rect = extendRect(getHDropLineRect(loc), true);
-                if (rect != null) {
-                    table.repaint(rect);
+            if (lod.isInsfrtRow()) {
+                Rfdtbnglf rfdt = fxtfndRfdt(gftHDropLinfRfdt(lod), truf);
+                if (rfdt != null) {
+                    tbblf.rfpbint(rfdt);
                 }
             }
 
-            if (loc.isInsertColumn()) {
-                Rectangle rect = extendRect(getVDropLineRect(loc), false);
-                if (rect != null) {
-                    table.repaint(rect);
+            if (lod.isInsfrtColumn()) {
+                Rfdtbnglf rfdt = fxtfndRfdt(gftVDropLinfRfdt(lod), fblsf);
+                if (rfdt != null) {
+                    tbblf.rfpbint(rfdt);
                 }
             }
         }
@@ -1343,914 +1343,914 @@ public class BasicTableUI extends TableUI
 
 
     /*
-     * Returns true if the given point is outside the preferredSize of the
-     * item at the given row of the table.  (Column must be 0).
-     * Returns false if the "Table.isFileList" client property is not set.
+     * Rfturns truf if tif givfn point is outsidf tif prfffrrfdSizf of tif
+     * itfm bt tif givfn row of tif tbblf.  (Column must bf 0).
+     * Rfturns fblsf if tif "Tbblf.isFilfList" dlifnt propfrty is not sft.
      */
-    private boolean pointOutsidePrefSize(int row, int column, Point p) {
-        if (!isFileList) {
-            return false;
+    privbtf boolfbn pointOutsidfPrffSizf(int row, int dolumn, Point p) {
+        if (!isFilfList) {
+            rfturn fblsf;
         }
 
-        return SwingUtilities2.pointOutsidePrefSize(table, row, column, p);
+        rfturn SwingUtilitifs2.pointOutsidfPrffSizf(tbblf, row, dolumn, p);
     }
 
 //
-//  Factory methods for the Listeners
+//  Fbdtory mftiods for tif Listfnfrs
 //
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
     /**
-     * Creates the key listener for handling keyboard navigation in the {@code JTable}.
+     * Crfbtfs tif kfy listfnfr for ibndling kfybobrd nbvigbtion in tif {@dodf JTbblf}.
      *
-     * @return the key listener for handling keyboard navigation in the {@code JTable}
+     * @rfturn tif kfy listfnfr for ibndling kfybobrd nbvigbtion in tif {@dodf JTbblf}
      */
-    protected KeyListener createKeyListener() {
-        return null;
+    protfdtfd KfyListfnfr drfbtfKfyListfnfr() {
+        rfturn null;
     }
 
     /**
-     * Creates the focus listener for handling keyboard navigation in the {@code JTable}.
+     * Crfbtfs tif fodus listfnfr for ibndling kfybobrd nbvigbtion in tif {@dodf JTbblf}.
      *
-     * @return the focus listener for handling keyboard navigation in the {@code JTable}
+     * @rfturn tif fodus listfnfr for ibndling kfybobrd nbvigbtion in tif {@dodf JTbblf}
      */
-    protected FocusListener createFocusListener() {
-        return getHandler();
+    protfdtfd FodusListfnfr drfbtfFodusListfnfr() {
+        rfturn gftHbndlfr();
     }
 
     /**
-     * Creates the mouse listener for the {@code JTable}.
+     * Crfbtfs tif mousf listfnfr for tif {@dodf JTbblf}.
      *
-     * @return the mouse listener for the {@code JTable}
+     * @rfturn tif mousf listfnfr for tif {@dodf JTbblf}
      */
-    protected MouseInputListener createMouseInputListener() {
-        return getHandler();
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr() {
+        rfturn gftHbndlfr();
     }
 
 //
-//  The installation/uninstall procedures and support
+//  Tif instbllbtion/uninstbll prodfdurfs bnd support
 //
 
     /**
-     * Returns a new instance of {@code BasicTableUI}.
+     * Rfturns b nfw instbndf of {@dodf BbsidTbblfUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicTableUI}
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidTbblfUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicTableUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw BbsidTbblfUI();
     }
 
-//  Installation
+//  Instbllbtion
 
-    public void installUI(JComponent c) {
-        table = (JTable)c;
+    publid void instbllUI(JComponfnt d) {
+        tbblf = (JTbblf)d;
 
-        rendererPane = new CellRendererPane();
-        table.add(rendererPane);
-        installDefaults();
-        installDefaults2();
-        installListeners();
-        installKeyboardActions();
+        rfndfrfrPbnf = nfw CfllRfndfrfrPbnf();
+        tbblf.bdd(rfndfrfrPbnf);
+        instbllDffbults();
+        instbllDffbults2();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
     }
 
     /**
-     * Initialize JTable properties, e.g. font, foreground, and background.
-     * The font, foreground, and background properties are only set if their
-     * current value is either null or a UIResource, other properties are set
-     * if the current value is null.
+     * Initiblizf JTbblf propfrtifs, f.g. font, forfground, bnd bbdkground.
+     * Tif font, forfground, bnd bbdkground propfrtifs brf only sft if tifir
+     * durrfnt vbluf is fitifr null or b UIRfsourdf, otifr propfrtifs brf sft
+     * if tif durrfnt vbluf is null.
      *
-     * @see #installUI
+     * @sff #instbllUI
      */
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(table, "Table.background",
-                                         "Table.foreground", "Table.font");
-        // JTable's original row height is 16.  To correctly display the
-        // contents on Linux we should have set it to 18, Windows 19 and
-        // Solaris 20.  As these values vary so much it's too hard to
-        // be backward compatable and try to update the row height, we're
-        // therefor NOT going to adjust the row height based on font.  If the
-        // developer changes the font, it's there responsability to update
-        // the row height.
+    protfdtfd void instbllDffbults() {
+        LookAndFffl.instbllColorsAndFont(tbblf, "Tbblf.bbdkground",
+                                         "Tbblf.forfground", "Tbblf.font");
+        // JTbblf's originbl row ifigit is 16.  To dorrfdtly displby tif
+        // dontfnts on Linux wf siould ibvf sft it to 18, Windows 19 bnd
+        // Solbris 20.  As tifsf vblufs vbry so mudi it's too ibrd to
+        // bf bbdkwbrd dompbtbblf bnd try to updbtf tif row ifigit, wf'rf
+        // tifrffor NOT going to bdjust tif row ifigit bbsfd on font.  If tif
+        // dfvflopfr dibngfs tif font, it's tifrf rfsponsbbility to updbtf
+        // tif row ifigit.
 
-        LookAndFeel.installProperty(table, "opaque", Boolean.TRUE);
+        LookAndFffl.instbllPropfrty(tbblf, "opbquf", Boolfbn.TRUE);
 
-        Color sbg = table.getSelectionBackground();
-        if (sbg == null || sbg instanceof UIResource) {
-            sbg = UIManager.getColor("Table.selectionBackground");
-            table.setSelectionBackground(sbg != null ? sbg : UIManager.getColor("textHighlight"));
+        Color sbg = tbblf.gftSflfdtionBbdkground();
+        if (sbg == null || sbg instbndfof UIRfsourdf) {
+            sbg = UIMbnbgfr.gftColor("Tbblf.sflfdtionBbdkground");
+            tbblf.sftSflfdtionBbdkground(sbg != null ? sbg : UIMbnbgfr.gftColor("tfxtHigiligit"));
         }
 
-        Color sfg = table.getSelectionForeground();
-        if (sfg == null || sfg instanceof UIResource) {
-            sfg = UIManager.getColor("Table.selectionForeground");
-            table.setSelectionForeground(sfg != null ? sfg : UIManager.getColor("textHighlightText"));
+        Color sfg = tbblf.gftSflfdtionForfground();
+        if (sfg == null || sfg instbndfof UIRfsourdf) {
+            sfg = UIMbnbgfr.gftColor("Tbblf.sflfdtionForfground");
+            tbblf.sftSflfdtionForfground(sfg != null ? sfg : UIMbnbgfr.gftColor("tfxtHigiligitTfxt"));
         }
 
-        Color gridColor = table.getGridColor();
-        if (gridColor == null || gridColor instanceof UIResource) {
-            gridColor = UIManager.getColor("Table.gridColor");
-            table.setGridColor(gridColor != null ? gridColor : Color.GRAY);
+        Color gridColor = tbblf.gftGridColor();
+        if (gridColor == null || gridColor instbndfof UIRfsourdf) {
+            gridColor = UIMbnbgfr.gftColor("Tbblf.gridColor");
+            tbblf.sftGridColor(gridColor != null ? gridColor : Color.GRAY);
         }
 
-        // install the scrollpane border
-        Container parent = SwingUtilities.getUnwrappedParent(table);  // should be viewport
-        if (parent != null) {
-            parent = parent.getParent();  // should be the scrollpane
-            if (parent != null && parent instanceof JScrollPane) {
-                LookAndFeel.installBorder((JScrollPane)parent, "Table.scrollPaneBorder");
+        // instbll tif sdrollpbnf bordfr
+        Contbinfr pbrfnt = SwingUtilitifs.gftUnwrbppfdPbrfnt(tbblf);  // siould bf vifwport
+        if (pbrfnt != null) {
+            pbrfnt = pbrfnt.gftPbrfnt();  // siould bf tif sdrollpbnf
+            if (pbrfnt != null && pbrfnt instbndfof JSdrollPbnf) {
+                LookAndFffl.instbllBordfr((JSdrollPbnf)pbrfnt, "Tbblf.sdrollPbnfBordfr");
             }
         }
 
-        isFileList = Boolean.TRUE.equals(table.getClientProperty("Table.isFileList"));
+        isFilfList = Boolfbn.TRUE.fqubls(tbblf.gftClifntPropfrty("Tbblf.isFilfList"));
     }
 
-    private void installDefaults2() {
-        TransferHandler th = table.getTransferHandler();
-        if (th == null || th instanceof UIResource) {
-            table.setTransferHandler(defaultTransferHandler);
-            // default TransferHandler doesn't support drop
-            // so we don't want drop handling
-            if (table.getDropTarget() instanceof UIResource) {
-                table.setDropTarget(null);
+    privbtf void instbllDffbults2() {
+        TrbnsffrHbndlfr ti = tbblf.gftTrbnsffrHbndlfr();
+        if (ti == null || ti instbndfof UIRfsourdf) {
+            tbblf.sftTrbnsffrHbndlfr(dffbultTrbnsffrHbndlfr);
+            // dffbult TrbnsffrHbndlfr dofsn't support drop
+            // so wf don't wbnt drop ibndling
+            if (tbblf.gftDropTbrgft() instbndfof UIRfsourdf) {
+                tbblf.sftDropTbrgft(null);
             }
         }
     }
 
     /**
-     * Attaches listeners to the JTable.
+     * Attbdifs listfnfrs to tif JTbblf.
      */
-    protected void installListeners() {
-        focusListener = createFocusListener();
-        keyListener = createKeyListener();
-        mouseInputListener = createMouseInputListener();
+    protfdtfd void instbllListfnfrs() {
+        fodusListfnfr = drfbtfFodusListfnfr();
+        kfyListfnfr = drfbtfKfyListfnfr();
+        mousfInputListfnfr = drfbtfMousfInputListfnfr();
 
-        table.addFocusListener(focusListener);
-        table.addKeyListener(keyListener);
-        table.addMouseListener(mouseInputListener);
-        table.addMouseMotionListener(mouseInputListener);
-        table.addPropertyChangeListener(getHandler());
-        if (isFileList) {
-            table.getSelectionModel().addListSelectionListener(getHandler());
+        tbblf.bddFodusListfnfr(fodusListfnfr);
+        tbblf.bddKfyListfnfr(kfyListfnfr);
+        tbblf.bddMousfListfnfr(mousfInputListfnfr);
+        tbblf.bddMousfMotionListfnfr(mousfInputListfnfr);
+        tbblf.bddPropfrtyCibngfListfnfr(gftHbndlfr());
+        if (isFilfList) {
+            tbblf.gftSflfdtionModfl().bddListSflfdtionListfnfr(gftHbndlfr());
         }
     }
 
     /**
-     * Register all keyboard actions on the JTable.
+     * Rfgistfr bll kfybobrd bdtions on tif JTbblf.
      */
-    protected void installKeyboardActions() {
-        LazyActionMap.installLazyActionMap(table, BasicTableUI.class,
-                "Table.actionMap");
+    protfdtfd void instbllKfybobrdAdtions() {
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(tbblf, BbsidTbblfUI.dlbss,
+                "Tbblf.bdtionMbp");
 
-        InputMap inputMap = getInputMap(JComponent.
+        InputMbp inputMbp = gftInputMbp(JComponfnt.
                                         WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        SwingUtilities.replaceUIInputMap(table,
-                                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
-                                inputMap);
+        SwingUtilitifs.rfplbdfUIInputMbp(tbblf,
+                                JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
+                                inputMbp);
     }
 
-    InputMap getInputMap(int condition) {
-        if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            InputMap keyMap =
-                (InputMap)DefaultLookup.get(table, this,
-                                            "Table.ancestorInputMap");
-            InputMap rtlKeyMap;
+    InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
+            InputMbp kfyMbp =
+                (InputMbp)DffbultLookup.gft(tbblf, tiis,
+                                            "Tbblf.bndfstorInputMbp");
+            InputMbp rtlKfyMbp;
 
-            if (table.getComponentOrientation().isLeftToRight() ||
-                ((rtlKeyMap = (InputMap)DefaultLookup.get(table, this,
-                                            "Table.ancestorInputMap.RightToLeft")) == null)) {
-                return keyMap;
-            } else {
-                rtlKeyMap.setParent(keyMap);
-                return rtlKeyMap;
+            if (tbblf.gftComponfntOrifntbtion().isLfftToRigit() ||
+                ((rtlKfyMbp = (InputMbp)DffbultLookup.gft(tbblf, tiis,
+                                            "Tbblf.bndfstorInputMbp.RigitToLfft")) == null)) {
+                rfturn kfyMbp;
+            } flsf {
+                rtlKfyMbp.sftPbrfnt(kfyMbp);
+                rfturn rtlKfyMbp;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        // IMPORTANT: There is a very close coupling between the parameters
-        // passed to the Actions constructor. Only certain parameter
-        // combinations are supported. For example, the following Action would
-        // not work as expected:
-        //     new Actions(Actions.NEXT_ROW_CELL, 1, 4, false, true)
-        // Actions which move within the selection only (having a true
-        // inSelection parameter) require that one of dx or dy be
-        // zero and the other be -1 or 1. The point of this warning is
-        // that you should be very careful about making sure a particular
-        // combination of parameters is supported before changing or
-        // adding anything here.
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        // IMPORTANT: Tifrf is b vfry dlosf doupling bftwffn tif pbrbmftfrs
+        // pbssfd to tif Adtions donstrudtor. Only dfrtbin pbrbmftfr
+        // dombinbtions brf supportfd. For fxbmplf, tif following Adtion would
+        // not work bs fxpfdtfd:
+        //     nfw Adtions(Adtions.NEXT_ROW_CELL, 1, 4, fblsf, truf)
+        // Adtions wiidi movf witiin tif sflfdtion only (ibving b truf
+        // inSflfdtion pbrbmftfr) rfquirf tibt onf of dx or dy bf
+        // zfro bnd tif otifr bf -1 or 1. Tif point of tiis wbrning is
+        // tibt you siould bf vfry dbrfful bbout mbking surf b pbrtidulbr
+        // dombinbtion of pbrbmftfrs is supportfd bfforf dibnging or
+        // bdding bnytiing ifrf.
 
-        map.put(new Actions(Actions.NEXT_COLUMN, 1, 0,
-                false, false));
-        map.put(new Actions(Actions.NEXT_COLUMN_CHANGE_LEAD, 1, 0,
-                false, false));
-        map.put(new Actions(Actions.PREVIOUS_COLUMN, -1, 0,
-                false, false));
-        map.put(new Actions(Actions.PREVIOUS_COLUMN_CHANGE_LEAD, -1, 0,
-                false, false));
-        map.put(new Actions(Actions.NEXT_ROW, 0, 1,
-                false, false));
-        map.put(new Actions(Actions.NEXT_ROW_CHANGE_LEAD, 0, 1,
-                false, false));
-        map.put(new Actions(Actions.PREVIOUS_ROW, 0, -1,
-                false, false));
-        map.put(new Actions(Actions.PREVIOUS_ROW_CHANGE_LEAD, 0, -1,
-                false, false));
-        map.put(new Actions(Actions.NEXT_COLUMN_EXTEND_SELECTION,
-                1, 0, true, false));
-        map.put(new Actions(Actions.PREVIOUS_COLUMN_EXTEND_SELECTION,
-                -1, 0, true, false));
-        map.put(new Actions(Actions.NEXT_ROW_EXTEND_SELECTION,
-                0, 1, true, false));
-        map.put(new Actions(Actions.PREVIOUS_ROW_EXTEND_SELECTION,
-                0, -1, true, false));
-        map.put(new Actions(Actions.SCROLL_UP_CHANGE_SELECTION,
-                false, false, true, false));
-        map.put(new Actions(Actions.SCROLL_DOWN_CHANGE_SELECTION,
-                false, true, true, false));
-        map.put(new Actions(Actions.FIRST_COLUMN,
-                false, false, false, true));
-        map.put(new Actions(Actions.LAST_COLUMN,
-                false, true, false, true));
+        mbp.put(nfw Adtions(Adtions.NEXT_COLUMN, 1, 0,
+                fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.NEXT_COLUMN_CHANGE_LEAD, 1, 0,
+                fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.PREVIOUS_COLUMN, -1, 0,
+                fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.PREVIOUS_COLUMN_CHANGE_LEAD, -1, 0,
+                fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.NEXT_ROW, 0, 1,
+                fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.NEXT_ROW_CHANGE_LEAD, 0, 1,
+                fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.PREVIOUS_ROW, 0, -1,
+                fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.PREVIOUS_ROW_CHANGE_LEAD, 0, -1,
+                fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.NEXT_COLUMN_EXTEND_SELECTION,
+                1, 0, truf, fblsf));
+        mbp.put(nfw Adtions(Adtions.PREVIOUS_COLUMN_EXTEND_SELECTION,
+                -1, 0, truf, fblsf));
+        mbp.put(nfw Adtions(Adtions.NEXT_ROW_EXTEND_SELECTION,
+                0, 1, truf, fblsf));
+        mbp.put(nfw Adtions(Adtions.PREVIOUS_ROW_EXTEND_SELECTION,
+                0, -1, truf, fblsf));
+        mbp.put(nfw Adtions(Adtions.SCROLL_UP_CHANGE_SELECTION,
+                fblsf, fblsf, truf, fblsf));
+        mbp.put(nfw Adtions(Adtions.SCROLL_DOWN_CHANGE_SELECTION,
+                fblsf, truf, truf, fblsf));
+        mbp.put(nfw Adtions(Adtions.FIRST_COLUMN,
+                fblsf, fblsf, fblsf, truf));
+        mbp.put(nfw Adtions(Adtions.LAST_COLUMN,
+                fblsf, truf, fblsf, truf));
 
-        map.put(new Actions(Actions.SCROLL_UP_EXTEND_SELECTION,
-                true, false, true, false));
-        map.put(new Actions(Actions.SCROLL_DOWN_EXTEND_SELECTION,
-                true, true, true, false));
-        map.put(new Actions(Actions.FIRST_COLUMN_EXTEND_SELECTION,
-                true, false, false, true));
-        map.put(new Actions(Actions.LAST_COLUMN_EXTEND_SELECTION,
-                true, true, false, true));
+        mbp.put(nfw Adtions(Adtions.SCROLL_UP_EXTEND_SELECTION,
+                truf, fblsf, truf, fblsf));
+        mbp.put(nfw Adtions(Adtions.SCROLL_DOWN_EXTEND_SELECTION,
+                truf, truf, truf, fblsf));
+        mbp.put(nfw Adtions(Adtions.FIRST_COLUMN_EXTEND_SELECTION,
+                truf, fblsf, fblsf, truf));
+        mbp.put(nfw Adtions(Adtions.LAST_COLUMN_EXTEND_SELECTION,
+                truf, truf, fblsf, truf));
 
-        map.put(new Actions(Actions.FIRST_ROW, false, false, true, true));
-        map.put(new Actions(Actions.LAST_ROW, false, true, true, true));
+        mbp.put(nfw Adtions(Adtions.FIRST_ROW, fblsf, fblsf, truf, truf));
+        mbp.put(nfw Adtions(Adtions.LAST_ROW, fblsf, truf, truf, truf));
 
-        map.put(new Actions(Actions.FIRST_ROW_EXTEND_SELECTION,
-                true, false, true, true));
-        map.put(new Actions(Actions.LAST_ROW_EXTEND_SELECTION,
-                true, true, true, true));
+        mbp.put(nfw Adtions(Adtions.FIRST_ROW_EXTEND_SELECTION,
+                truf, fblsf, truf, truf));
+        mbp.put(nfw Adtions(Adtions.LAST_ROW_EXTEND_SELECTION,
+                truf, truf, truf, truf));
 
-        map.put(new Actions(Actions.NEXT_COLUMN_CELL,
-                1, 0, false, true));
-        map.put(new Actions(Actions.PREVIOUS_COLUMN_CELL,
-                -1, 0, false, true));
-        map.put(new Actions(Actions.NEXT_ROW_CELL, 0, 1, false, true));
-        map.put(new Actions(Actions.PREVIOUS_ROW_CELL,
-                0, -1, false, true));
+        mbp.put(nfw Adtions(Adtions.NEXT_COLUMN_CELL,
+                1, 0, fblsf, truf));
+        mbp.put(nfw Adtions(Adtions.PREVIOUS_COLUMN_CELL,
+                -1, 0, fblsf, truf));
+        mbp.put(nfw Adtions(Adtions.NEXT_ROW_CELL, 0, 1, fblsf, truf));
+        mbp.put(nfw Adtions(Adtions.PREVIOUS_ROW_CELL,
+                0, -1, fblsf, truf));
 
-        map.put(new Actions(Actions.SELECT_ALL));
-        map.put(new Actions(Actions.CLEAR_SELECTION));
-        map.put(new Actions(Actions.CANCEL_EDITING));
-        map.put(new Actions(Actions.START_EDITING));
+        mbp.put(nfw Adtions(Adtions.SELECT_ALL));
+        mbp.put(nfw Adtions(Adtions.CLEAR_SELECTION));
+        mbp.put(nfw Adtions(Adtions.CANCEL_EDITING));
+        mbp.put(nfw Adtions(Adtions.START_EDITING));
 
-        map.put(TransferHandler.getCutAction().getValue(Action.NAME),
-                TransferHandler.getCutAction());
-        map.put(TransferHandler.getCopyAction().getValue(Action.NAME),
-                TransferHandler.getCopyAction());
-        map.put(TransferHandler.getPasteAction().getValue(Action.NAME),
-                TransferHandler.getPasteAction());
+        mbp.put(TrbnsffrHbndlfr.gftCutAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftCutAdtion());
+        mbp.put(TrbnsffrHbndlfr.gftCopyAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftCopyAdtion());
+        mbp.put(TrbnsffrHbndlfr.gftPbstfAdtion().gftVbluf(Adtion.NAME),
+                TrbnsffrHbndlfr.gftPbstfAdtion());
 
-        map.put(new Actions(Actions.SCROLL_LEFT_CHANGE_SELECTION,
-                false, false, false, false));
-        map.put(new Actions(Actions.SCROLL_RIGHT_CHANGE_SELECTION,
-                false, true, false, false));
-        map.put(new Actions(Actions.SCROLL_LEFT_EXTEND_SELECTION,
-                true, false, false, false));
-        map.put(new Actions(Actions.SCROLL_RIGHT_EXTEND_SELECTION,
-                true, true, false, false));
+        mbp.put(nfw Adtions(Adtions.SCROLL_LEFT_CHANGE_SELECTION,
+                fblsf, fblsf, fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.SCROLL_RIGHT_CHANGE_SELECTION,
+                fblsf, truf, fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.SCROLL_LEFT_EXTEND_SELECTION,
+                truf, fblsf, fblsf, fblsf));
+        mbp.put(nfw Adtions(Adtions.SCROLL_RIGHT_EXTEND_SELECTION,
+                truf, truf, fblsf, fblsf));
 
-        map.put(new Actions(Actions.ADD_TO_SELECTION));
-        map.put(new Actions(Actions.TOGGLE_AND_ANCHOR));
-        map.put(new Actions(Actions.EXTEND_TO));
-        map.put(new Actions(Actions.MOVE_SELECTION_TO));
-        map.put(new Actions(Actions.FOCUS_HEADER));
+        mbp.put(nfw Adtions(Adtions.ADD_TO_SELECTION));
+        mbp.put(nfw Adtions(Adtions.TOGGLE_AND_ANCHOR));
+        mbp.put(nfw Adtions(Adtions.EXTEND_TO));
+        mbp.put(nfw Adtions(Adtions.MOVE_SELECTION_TO));
+        mbp.put(nfw Adtions(Adtions.FOCUS_HEADER));
     }
 
-//  Uninstallation
+//  Uninstbllbtion
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        uninstallKeyboardActions();
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllListfnfrs();
+        uninstbllKfybobrdAdtions();
 
-        table.remove(rendererPane);
-        rendererPane = null;
-        table = null;
+        tbblf.rfmovf(rfndfrfrPbnf);
+        rfndfrfrPbnf = null;
+        tbblf = null;
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls dffbult propfrtifs.
      */
-    protected void uninstallDefaults() {
-        if (table.getTransferHandler() instanceof UIResource) {
-            table.setTransferHandler(null);
+    protfdtfd void uninstbllDffbults() {
+        if (tbblf.gftTrbnsffrHbndlfr() instbndfof UIRfsourdf) {
+            tbblf.sftTrbnsffrHbndlfr(null);
         }
     }
 
     /**
-     * Unregisters listeners.
+     * Unrfgistfrs listfnfrs.
      */
-    protected void uninstallListeners() {
-        table.removeFocusListener(focusListener);
-        table.removeKeyListener(keyListener);
-        table.removeMouseListener(mouseInputListener);
-        table.removeMouseMotionListener(mouseInputListener);
-        table.removePropertyChangeListener(getHandler());
-        if (isFileList) {
-            table.getSelectionModel().removeListSelectionListener(getHandler());
+    protfdtfd void uninstbllListfnfrs() {
+        tbblf.rfmovfFodusListfnfr(fodusListfnfr);
+        tbblf.rfmovfKfyListfnfr(kfyListfnfr);
+        tbblf.rfmovfMousfListfnfr(mousfInputListfnfr);
+        tbblf.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
+        tbblf.rfmovfPropfrtyCibngfListfnfr(gftHbndlfr());
+        if (isFilfList) {
+            tbblf.gftSflfdtionModfl().rfmovfListSflfdtionListfnfr(gftHbndlfr());
         }
 
-        focusListener = null;
-        keyListener = null;
-        mouseInputListener = null;
-        handler = null;
+        fodusListfnfr = null;
+        kfyListfnfr = null;
+        mousfInputListfnfr = null;
+        ibndlfr = null;
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unrfgistfrs kfybobrd bdtions.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIInputMap(table, JComponent.
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        SwingUtilitifs.rfplbdfUIInputMbp(tbblf, JComponfnt.
                                    WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, null);
-        SwingUtilities.replaceUIActionMap(table, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(tbblf, null);
     }
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        UIDefaults lafDefaults = UIManager.getLookAndFeelDefaults();
-        Component renderer = (Component)lafDefaults.get(
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        UIDffbults lbfDffbults = UIMbnbgfr.gftLookAndFfflDffbults();
+        Componfnt rfndfrfr = (Componfnt)lbfDffbults.gft(
                 BASELINE_COMPONENT_KEY);
-        if (renderer == null) {
-            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-            renderer = tcr.getTableCellRendererComponent(
-                    table, "a", false, false, -1, -1);
-            lafDefaults.put(BASELINE_COMPONENT_KEY, renderer);
+        if (rfndfrfr == null) {
+            DffbultTbblfCfllRfndfrfr tdr = nfw DffbultTbblfCfllRfndfrfr();
+            rfndfrfr = tdr.gftTbblfCfllRfndfrfrComponfnt(
+                    tbblf, "b", fblsf, fblsf, -1, -1);
+            lbfDffbults.put(BASELINE_COMPONENT_KEY, rfndfrfr);
         }
-        renderer.setFont(table.getFont());
-        int rowMargin = table.getRowMargin();
-        return renderer.getBaseline(Integer.MAX_VALUE, table.getRowHeight() -
-                                    rowMargin) + rowMargin / 2;
+        rfndfrfr.sftFont(tbblf.gftFont());
+        int rowMbrgin = tbblf.gftRowMbrgin();
+        rfturn rfndfrfr.gftBbsflinf(Intfgfr.MAX_VALUE, tbblf.gftRowHfigit() -
+                                    rowMbrgin) + rowMbrgin / 2;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Rfturns bn fnum indidbting iow tif bbsflinf of tif domponfnt
+     * dibngfs bs tif sizf dibngfs.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
-            JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            JComponfnt d) {
+        supfr.gftBbsflinfRfsizfBfibvior(d);
+        rfturn Componfnt.BbsflinfRfsizfBfibvior.CONSTANT_ASCENT;
     }
 
 //
-// Size Methods
+// Sizf Mftiods
 //
 
-    private Dimension createTableSize(long width) {
-        int height = 0;
-        int rowCount = table.getRowCount();
-        if (rowCount > 0 && table.getColumnCount() > 0) {
-            Rectangle r = table.getCellRect(rowCount-1, 0, true);
-            height = r.y + r.height;
+    privbtf Dimfnsion drfbtfTbblfSizf(long widti) {
+        int ifigit = 0;
+        int rowCount = tbblf.gftRowCount();
+        if (rowCount > 0 && tbblf.gftColumnCount() > 0) {
+            Rfdtbnglf r = tbblf.gftCfllRfdt(rowCount-1, 0, truf);
+            ifigit = r.y + r.ifigit;
         }
-        // Width is always positive. The call to abs() is a workaround for
-        // a bug in the 1.1.6 JIT on Windows.
-        long tmp = Math.abs(width);
-        if (tmp > Integer.MAX_VALUE) {
-            tmp = Integer.MAX_VALUE;
+        // Widti is blwbys positivf. Tif dbll to bbs() is b workbround for
+        // b bug in tif 1.1.6 JIT on Windows.
+        long tmp = Mbti.bbs(widti);
+        if (tmp > Intfgfr.MAX_VALUE) {
+            tmp = Intfgfr.MAX_VALUE;
         }
-        return new Dimension((int)tmp, height);
+        rfturn nfw Dimfnsion((int)tmp, ifigit);
     }
 
     /**
-     * Return the minimum size of the table. The minimum height is the
-     * row height times the number of rows.
-     * The minimum width is the sum of the minimum widths of each column.
+     * Rfturn tif minimum sizf of tif tbblf. Tif minimum ifigit is tif
+     * row ifigit timfs tif numbfr of rows.
+     * Tif minimum widti is tif sum of tif minimum widtis of fbdi dolumn.
      */
-    public Dimension getMinimumSize(JComponent c) {
-        long width = 0;
-        Enumeration<TableColumn> enumeration = table.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMinWidth();
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        long widti = 0;
+        Enumfrbtion<TbblfColumn> fnumfrbtion = tbblf.gftColumnModfl().gftColumns();
+        wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+            TbblfColumn bColumn = fnumfrbtion.nfxtElfmfnt();
+            widti = widti + bColumn.gftMinWidti();
         }
-        return createTableSize(width);
+        rfturn drfbtfTbblfSizf(widti);
     }
 
     /**
-     * Return the preferred size of the table. The preferred height is the
-     * row height times the number of rows.
-     * The preferred width is the sum of the preferred widths of each column.
+     * Rfturn tif prfffrrfd sizf of tif tbblf. Tif prfffrrfd ifigit is tif
+     * row ifigit timfs tif numbfr of rows.
+     * Tif prfffrrfd widti is tif sum of tif prfffrrfd widtis of fbdi dolumn.
      */
-    public Dimension getPreferredSize(JComponent c) {
-        long width = 0;
-        Enumeration<TableColumn> enumeration = table.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getPreferredWidth();
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        long widti = 0;
+        Enumfrbtion<TbblfColumn> fnumfrbtion = tbblf.gftColumnModfl().gftColumns();
+        wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+            TbblfColumn bColumn = fnumfrbtion.nfxtElfmfnt();
+            widti = widti + bColumn.gftPrfffrrfdWidti();
         }
-        return createTableSize(width);
+        rfturn drfbtfTbblfSizf(widti);
     }
 
     /**
-     * Return the maximum size of the table. The maximum height is the
-     * row heighttimes the number of rows.
-     * The maximum width is the sum of the maximum widths of each column.
+     * Rfturn tif mbximum sizf of tif tbblf. Tif mbximum ifigit is tif
+     * row ifigittimfs tif numbfr of rows.
+     * Tif mbximum widti is tif sum of tif mbximum widtis of fbdi dolumn.
      */
-    public Dimension getMaximumSize(JComponent c) {
-        long width = 0;
-        Enumeration<TableColumn> enumeration = table.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMaxWidth();
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        long widti = 0;
+        Enumfrbtion<TbblfColumn> fnumfrbtion = tbblf.gftColumnModfl().gftColumns();
+        wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+            TbblfColumn bColumn = fnumfrbtion.nfxtElfmfnt();
+            widti = widti + bColumn.gftMbxWidti();
         }
-        return createTableSize(width);
+        rfturn drfbtfTbblfSizf(widti);
     }
 
 //
-//  Paint methods and support
+//  Pbint mftiods bnd support
 //
 
-    /** Paint a representation of the <code>table</code> instance
-     * that was set in installUI().
+    /** Pbint b rfprfsfntbtion of tif <dodf>tbblf</dodf> instbndf
+     * tibt wbs sft in instbllUI().
      */
-    public void paint(Graphics g, JComponent c) {
-        Rectangle clip = g.getClipBounds();
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        Rfdtbnglf dlip = g.gftClipBounds();
 
-        Rectangle bounds = table.getBounds();
-        // account for the fact that the graphics has already been translated
-        // into the table's bounds
+        Rfdtbnglf bounds = tbblf.gftBounds();
+        // bddount for tif fbdt tibt tif grbpiids ibs blrfbdy bffn trbnslbtfd
+        // into tif tbblf's bounds
         bounds.x = bounds.y = 0;
 
-        if (table.getRowCount() <= 0 || table.getColumnCount() <= 0 ||
-                // this check prevents us from painting the entire table
-                // when the clip doesn't intersect our bounds at all
-                !bounds.intersects(clip)) {
+        if (tbblf.gftRowCount() <= 0 || tbblf.gftColumnCount() <= 0 ||
+                // tiis difdk prfvfnts us from pbinting tif fntirf tbblf
+                // wifn tif dlip dofsn't intfrsfdt our bounds bt bll
+                !bounds.intfrsfdts(dlip)) {
 
-            paintDropLines(g);
-            return;
+            pbintDropLinfs(g);
+            rfturn;
         }
 
-        boolean ltr = table.getComponentOrientation().isLeftToRight();
+        boolfbn ltr = tbblf.gftComponfntOrifntbtion().isLfftToRigit();
 
-        Point upperLeft = clip.getLocation();
-        Point lowerRight = new Point(clip.x + clip.width - 1,
-                                     clip.y + clip.height - 1);
+        Point uppfrLfft = dlip.gftLodbtion();
+        Point lowfrRigit = nfw Point(dlip.x + dlip.widti - 1,
+                                     dlip.y + dlip.ifigit - 1);
 
-        int rMin = table.rowAtPoint(upperLeft);
-        int rMax = table.rowAtPoint(lowerRight);
-        // This should never happen (as long as our bounds intersect the clip,
-        // which is why we bail above if that is the case).
+        int rMin = tbblf.rowAtPoint(uppfrLfft);
+        int rMbx = tbblf.rowAtPoint(lowfrRigit);
+        // Tiis siould nfvfr ibppfn (bs long bs our bounds intfrsfdt tif dlip,
+        // wiidi is wiy wf bbil bbovf if tibt is tif dbsf).
         if (rMin == -1) {
             rMin = 0;
         }
-        // If the table does not have enough rows to fill the view we'll get -1.
-        // (We could also get -1 if our bounds don't intersect the clip,
-        // which is why we bail above if that is the case).
-        // Replace this with the index of the last row.
-        if (rMax == -1) {
-            rMax = table.getRowCount()-1;
+        // If tif tbblf dofs not ibvf fnougi rows to fill tif vifw wf'll gft -1.
+        // (Wf dould blso gft -1 if our bounds don't intfrsfdt tif dlip,
+        // wiidi is wiy wf bbil bbovf if tibt is tif dbsf).
+        // Rfplbdf tiis witi tif indfx of tif lbst row.
+        if (rMbx == -1) {
+            rMbx = tbblf.gftRowCount()-1;
         }
 
-        int cMin = table.columnAtPoint(ltr ? upperLeft : lowerRight);
-        int cMax = table.columnAtPoint(ltr ? lowerRight : upperLeft);
-        // This should never happen.
-        if (cMin == -1) {
-            cMin = 0;
+        int dMin = tbblf.dolumnAtPoint(ltr ? uppfrLfft : lowfrRigit);
+        int dMbx = tbblf.dolumnAtPoint(ltr ? lowfrRigit : uppfrLfft);
+        // Tiis siould nfvfr ibppfn.
+        if (dMin == -1) {
+            dMin = 0;
         }
-        // If the table does not have enough columns to fill the view we'll get -1.
-        // Replace this with the index of the last column.
-        if (cMax == -1) {
-            cMax = table.getColumnCount()-1;
+        // If tif tbblf dofs not ibvf fnougi dolumns to fill tif vifw wf'll gft -1.
+        // Rfplbdf tiis witi tif indfx of tif lbst dolumn.
+        if (dMbx == -1) {
+            dMbx = tbblf.gftColumnCount()-1;
         }
 
-        // Paint the grid.
-        paintGrid(g, rMin, rMax, cMin, cMax);
+        // Pbint tif grid.
+        pbintGrid(g, rMin, rMbx, dMin, dMbx);
 
-        // Paint the cells.
-        paintCells(g, rMin, rMax, cMin, cMax);
+        // Pbint tif dflls.
+        pbintCflls(g, rMin, rMbx, dMin, dMbx);
 
-        paintDropLines(g);
+        pbintDropLinfs(g);
     }
 
-    private void paintDropLines(Graphics g) {
-        JTable.DropLocation loc = table.getDropLocation();
-        if (loc == null) {
-            return;
+    privbtf void pbintDropLinfs(Grbpiids g) {
+        JTbblf.DropLodbtion lod = tbblf.gftDropLodbtion();
+        if (lod == null) {
+            rfturn;
         }
 
-        Color color = UIManager.getColor("Table.dropLineColor");
-        Color shortColor = UIManager.getColor("Table.dropLineShortColor");
-        if (color == null && shortColor == null) {
-            return;
+        Color dolor = UIMbnbgfr.gftColor("Tbblf.dropLinfColor");
+        Color siortColor = UIMbnbgfr.gftColor("Tbblf.dropLinfSiortColor");
+        if (dolor == null && siortColor == null) {
+            rfturn;
         }
 
-        Rectangle rect;
+        Rfdtbnglf rfdt;
 
-        rect = getHDropLineRect(loc);
-        if (rect != null) {
-            int x = rect.x;
-            int w = rect.width;
-            if (color != null) {
-                extendRect(rect, true);
-                g.setColor(color);
-                g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        rfdt = gftHDropLinfRfdt(lod);
+        if (rfdt != null) {
+            int x = rfdt.x;
+            int w = rfdt.widti;
+            if (dolor != null) {
+                fxtfndRfdt(rfdt, truf);
+                g.sftColor(dolor);
+                g.fillRfdt(rfdt.x, rfdt.y, rfdt.widti, rfdt.ifigit);
             }
-            if (!loc.isInsertColumn() && shortColor != null) {
-                g.setColor(shortColor);
-                g.fillRect(x, rect.y, w, rect.height);
+            if (!lod.isInsfrtColumn() && siortColor != null) {
+                g.sftColor(siortColor);
+                g.fillRfdt(x, rfdt.y, w, rfdt.ifigit);
             }
         }
 
-        rect = getVDropLineRect(loc);
-        if (rect != null) {
-            int y = rect.y;
-            int h = rect.height;
-            if (color != null) {
-                extendRect(rect, false);
-                g.setColor(color);
-                g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        rfdt = gftVDropLinfRfdt(lod);
+        if (rfdt != null) {
+            int y = rfdt.y;
+            int i = rfdt.ifigit;
+            if (dolor != null) {
+                fxtfndRfdt(rfdt, fblsf);
+                g.sftColor(dolor);
+                g.fillRfdt(rfdt.x, rfdt.y, rfdt.widti, rfdt.ifigit);
             }
-            if (!loc.isInsertRow() && shortColor != null) {
-                g.setColor(shortColor);
-                g.fillRect(rect.x, y, rect.width, h);
+            if (!lod.isInsfrtRow() && siortColor != null) {
+                g.sftColor(siortColor);
+                g.fillRfdt(rfdt.x, y, rfdt.widti, i);
             }
         }
     }
 
-    private Rectangle getHDropLineRect(JTable.DropLocation loc) {
-        if (!loc.isInsertRow()) {
-            return null;
+    privbtf Rfdtbnglf gftHDropLinfRfdt(JTbblf.DropLodbtion lod) {
+        if (!lod.isInsfrtRow()) {
+            rfturn null;
         }
 
-        int row = loc.getRow();
-        int col = loc.getColumn();
-        if (col >= table.getColumnCount()) {
-            col--;
+        int row = lod.gftRow();
+        int dol = lod.gftColumn();
+        if (dol >= tbblf.gftColumnCount()) {
+            dol--;
         }
 
-        Rectangle rect = table.getCellRect(row, col, true);
+        Rfdtbnglf rfdt = tbblf.gftCfllRfdt(row, dol, truf);
 
-        if (row >= table.getRowCount()) {
+        if (row >= tbblf.gftRowCount()) {
             row--;
-            Rectangle prevRect = table.getCellRect(row, col, true);
-            rect.y = prevRect.y + prevRect.height;
+            Rfdtbnglf prfvRfdt = tbblf.gftCfllRfdt(row, dol, truf);
+            rfdt.y = prfvRfdt.y + prfvRfdt.ifigit;
         }
 
-        if (rect.y == 0) {
-            rect.y = -1;
-        } else {
-            rect.y -= 2;
+        if (rfdt.y == 0) {
+            rfdt.y = -1;
+        } flsf {
+            rfdt.y -= 2;
         }
 
-        rect.height = 3;
+        rfdt.ifigit = 3;
 
-        return rect;
+        rfturn rfdt;
     }
 
-    private Rectangle getVDropLineRect(JTable.DropLocation loc) {
-        if (!loc.isInsertColumn()) {
-            return null;
+    privbtf Rfdtbnglf gftVDropLinfRfdt(JTbblf.DropLodbtion lod) {
+        if (!lod.isInsfrtColumn()) {
+            rfturn null;
         }
 
-        boolean ltr = table.getComponentOrientation().isLeftToRight();
-        int col = loc.getColumn();
-        Rectangle rect = table.getCellRect(loc.getRow(), col, true);
+        boolfbn ltr = tbblf.gftComponfntOrifntbtion().isLfftToRigit();
+        int dol = lod.gftColumn();
+        Rfdtbnglf rfdt = tbblf.gftCfllRfdt(lod.gftRow(), dol, truf);
 
-        if (col >= table.getColumnCount()) {
-            col--;
-            rect = table.getCellRect(loc.getRow(), col, true);
+        if (dol >= tbblf.gftColumnCount()) {
+            dol--;
+            rfdt = tbblf.gftCfllRfdt(lod.gftRow(), dol, truf);
             if (ltr) {
-                rect.x = rect.x + rect.width;
+                rfdt.x = rfdt.x + rfdt.widti;
             }
-        } else if (!ltr) {
-            rect.x = rect.x + rect.width;
+        } flsf if (!ltr) {
+            rfdt.x = rfdt.x + rfdt.widti;
         }
 
-        if (rect.x == 0) {
-            rect.x = -1;
-        } else {
-            rect.x -= 2;
+        if (rfdt.x == 0) {
+            rfdt.x = -1;
+        } flsf {
+            rfdt.x -= 2;
         }
 
-        rect.width = 3;
+        rfdt.widti = 3;
 
-        return rect;
+        rfturn rfdt;
     }
 
-    private Rectangle extendRect(Rectangle rect, boolean horizontal) {
-        if (rect == null) {
-            return rect;
+    privbtf Rfdtbnglf fxtfndRfdt(Rfdtbnglf rfdt, boolfbn iorizontbl) {
+        if (rfdt == null) {
+            rfturn rfdt;
         }
 
-        if (horizontal) {
-            rect.x = 0;
-            rect.width = table.getWidth();
-        } else {
-            rect.y = 0;
+        if (iorizontbl) {
+            rfdt.x = 0;
+            rfdt.widti = tbblf.gftWidti();
+        } flsf {
+            rfdt.y = 0;
 
-            if (table.getRowCount() != 0) {
-                Rectangle lastRect = table.getCellRect(table.getRowCount() - 1, 0, true);
-                rect.height = lastRect.y + lastRect.height;
-            } else {
-                rect.height = table.getHeight();
+            if (tbblf.gftRowCount() != 0) {
+                Rfdtbnglf lbstRfdt = tbblf.gftCfllRfdt(tbblf.gftRowCount() - 1, 0, truf);
+                rfdt.ifigit = lbstRfdt.y + lbstRfdt.ifigit;
+            } flsf {
+                rfdt.ifigit = tbblf.gftHfigit();
             }
         }
 
-        return rect;
+        rfturn rfdt;
     }
 
     /*
-     * Paints the grid lines within <I>aRect</I>, using the grid
-     * color set with <I>setGridColor</I>. Paints vertical lines
-     * if <code>getShowVerticalLines()</code> returns true and paints
-     * horizontal lines if <code>getShowHorizontalLines()</code>
-     * returns true.
+     * Pbints tif grid linfs witiin <I>bRfdt</I>, using tif grid
+     * dolor sft witi <I>sftGridColor</I>. Pbints vfrtidbl linfs
+     * if <dodf>gftSiowVfrtidblLinfs()</dodf> rfturns truf bnd pbints
+     * iorizontbl linfs if <dodf>gftSiowHorizontblLinfs()</dodf>
+     * rfturns truf.
      */
-    private void paintGrid(Graphics g, int rMin, int rMax, int cMin, int cMax) {
-        g.setColor(table.getGridColor());
+    privbtf void pbintGrid(Grbpiids g, int rMin, int rMbx, int dMin, int dMbx) {
+        g.sftColor(tbblf.gftGridColor());
 
-        Rectangle minCell = table.getCellRect(rMin, cMin, true);
-        Rectangle maxCell = table.getCellRect(rMax, cMax, true);
-        Rectangle damagedArea = minCell.union( maxCell );
+        Rfdtbnglf minCfll = tbblf.gftCfllRfdt(rMin, dMin, truf);
+        Rfdtbnglf mbxCfll = tbblf.gftCfllRfdt(rMbx, dMbx, truf);
+        Rfdtbnglf dbmbgfdArfb = minCfll.union( mbxCfll );
 
-        if (table.getShowHorizontalLines()) {
-            int tableWidth = damagedArea.x + damagedArea.width;
-            int y = damagedArea.y;
-            for (int row = rMin; row <= rMax; row++) {
-                y += table.getRowHeight(row);
-                g.drawLine(damagedArea.x, y - 1, tableWidth - 1, y - 1);
+        if (tbblf.gftSiowHorizontblLinfs()) {
+            int tbblfWidti = dbmbgfdArfb.x + dbmbgfdArfb.widti;
+            int y = dbmbgfdArfb.y;
+            for (int row = rMin; row <= rMbx; row++) {
+                y += tbblf.gftRowHfigit(row);
+                g.drbwLinf(dbmbgfdArfb.x, y - 1, tbblfWidti - 1, y - 1);
             }
         }
-        if (table.getShowVerticalLines()) {
-            TableColumnModel cm = table.getColumnModel();
-            int tableHeight = damagedArea.y + damagedArea.height;
+        if (tbblf.gftSiowVfrtidblLinfs()) {
+            TbblfColumnModfl dm = tbblf.gftColumnModfl();
+            int tbblfHfigit = dbmbgfdArfb.y + dbmbgfdArfb.ifigit;
             int x;
-            if (table.getComponentOrientation().isLeftToRight()) {
-                x = damagedArea.x;
-                for (int column = cMin; column <= cMax; column++) {
-                    int w = cm.getColumn(column).getWidth();
+            if (tbblf.gftComponfntOrifntbtion().isLfftToRigit()) {
+                x = dbmbgfdArfb.x;
+                for (int dolumn = dMin; dolumn <= dMbx; dolumn++) {
+                    int w = dm.gftColumn(dolumn).gftWidti();
                     x += w;
-                    g.drawLine(x - 1, 0, x - 1, tableHeight - 1);
+                    g.drbwLinf(x - 1, 0, x - 1, tbblfHfigit - 1);
                 }
-            } else {
-                x = damagedArea.x;
-                for (int column = cMax; column >= cMin; column--) {
-                    int w = cm.getColumn(column).getWidth();
+            } flsf {
+                x = dbmbgfdArfb.x;
+                for (int dolumn = dMbx; dolumn >= dMin; dolumn--) {
+                    int w = dm.gftColumn(dolumn).gftWidti();
                     x += w;
-                    g.drawLine(x - 1, 0, x - 1, tableHeight - 1);
+                    g.drbwLinf(x - 1, 0, x - 1, tbblfHfigit - 1);
                 }
             }
         }
     }
 
-    private int viewIndexForColumn(TableColumn aColumn) {
-        TableColumnModel cm = table.getColumnModel();
-        for (int column = 0; column < cm.getColumnCount(); column++) {
-            if (cm.getColumn(column) == aColumn) {
-                return column;
+    privbtf int vifwIndfxForColumn(TbblfColumn bColumn) {
+        TbblfColumnModfl dm = tbblf.gftColumnModfl();
+        for (int dolumn = 0; dolumn < dm.gftColumnCount(); dolumn++) {
+            if (dm.gftColumn(dolumn) == bColumn) {
+                rfturn dolumn;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
-    private void paintCells(Graphics g, int rMin, int rMax, int cMin, int cMax) {
-        JTableHeader header = table.getTableHeader();
-        TableColumn draggedColumn = (header == null) ? null : header.getDraggedColumn();
+    privbtf void pbintCflls(Grbpiids g, int rMin, int rMbx, int dMin, int dMbx) {
+        JTbblfHfbdfr ifbdfr = tbblf.gftTbblfHfbdfr();
+        TbblfColumn drbggfdColumn = (ifbdfr == null) ? null : ifbdfr.gftDrbggfdColumn();
 
-        TableColumnModel cm = table.getColumnModel();
-        int columnMargin = cm.getColumnMargin();
+        TbblfColumnModfl dm = tbblf.gftColumnModfl();
+        int dolumnMbrgin = dm.gftColumnMbrgin();
 
-        Rectangle cellRect;
-        TableColumn aColumn;
-        int columnWidth;
-        if (table.getComponentOrientation().isLeftToRight()) {
-            for(int row = rMin; row <= rMax; row++) {
-                cellRect = table.getCellRect(row, cMin, false);
-                for(int column = cMin; column <= cMax; column++) {
-                    aColumn = cm.getColumn(column);
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
-                    if (aColumn != draggedColumn) {
-                        paintCell(g, cellRect, row, column);
+        Rfdtbnglf dfllRfdt;
+        TbblfColumn bColumn;
+        int dolumnWidti;
+        if (tbblf.gftComponfntOrifntbtion().isLfftToRigit()) {
+            for(int row = rMin; row <= rMbx; row++) {
+                dfllRfdt = tbblf.gftCfllRfdt(row, dMin, fblsf);
+                for(int dolumn = dMin; dolumn <= dMbx; dolumn++) {
+                    bColumn = dm.gftColumn(dolumn);
+                    dolumnWidti = bColumn.gftWidti();
+                    dfllRfdt.widti = dolumnWidti - dolumnMbrgin;
+                    if (bColumn != drbggfdColumn) {
+                        pbintCfll(g, dfllRfdt, row, dolumn);
                     }
-                    cellRect.x += columnWidth;
+                    dfllRfdt.x += dolumnWidti;
                 }
             }
-        } else {
-            for(int row = rMin; row <= rMax; row++) {
-                cellRect = table.getCellRect(row, cMin, false);
-                aColumn = cm.getColumn(cMin);
-                if (aColumn != draggedColumn) {
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
-                    paintCell(g, cellRect, row, cMin);
+        } flsf {
+            for(int row = rMin; row <= rMbx; row++) {
+                dfllRfdt = tbblf.gftCfllRfdt(row, dMin, fblsf);
+                bColumn = dm.gftColumn(dMin);
+                if (bColumn != drbggfdColumn) {
+                    dolumnWidti = bColumn.gftWidti();
+                    dfllRfdt.widti = dolumnWidti - dolumnMbrgin;
+                    pbintCfll(g, dfllRfdt, row, dMin);
                 }
-                for(int column = cMin+1; column <= cMax; column++) {
-                    aColumn = cm.getColumn(column);
-                    columnWidth = aColumn.getWidth();
-                    cellRect.width = columnWidth - columnMargin;
-                    cellRect.x -= columnWidth;
-                    if (aColumn != draggedColumn) {
-                        paintCell(g, cellRect, row, column);
+                for(int dolumn = dMin+1; dolumn <= dMbx; dolumn++) {
+                    bColumn = dm.gftColumn(dolumn);
+                    dolumnWidti = bColumn.gftWidti();
+                    dfllRfdt.widti = dolumnWidti - dolumnMbrgin;
+                    dfllRfdt.x -= dolumnWidti;
+                    if (bColumn != drbggfdColumn) {
+                        pbintCfll(g, dfllRfdt, row, dolumn);
                     }
                 }
             }
         }
 
-        // Paint the dragged column if we are dragging.
-        if (draggedColumn != null) {
-            paintDraggedArea(g, rMin, rMax, draggedColumn, header.getDraggedDistance());
+        // Pbint tif drbggfd dolumn if wf brf drbgging.
+        if (drbggfdColumn != null) {
+            pbintDrbggfdArfb(g, rMin, rMbx, drbggfdColumn, ifbdfr.gftDrbggfdDistbndf());
         }
 
-        // Remove any renderers that may be left in the rendererPane.
-        rendererPane.removeAll();
+        // Rfmovf bny rfndfrfrs tibt mby bf lfft in tif rfndfrfrPbnf.
+        rfndfrfrPbnf.rfmovfAll();
     }
 
-    private void paintDraggedArea(Graphics g, int rMin, int rMax, TableColumn draggedColumn, int distance) {
-        int draggedColumnIndex = viewIndexForColumn(draggedColumn);
+    privbtf void pbintDrbggfdArfb(Grbpiids g, int rMin, int rMbx, TbblfColumn drbggfdColumn, int distbndf) {
+        int drbggfdColumnIndfx = vifwIndfxForColumn(drbggfdColumn);
 
-        Rectangle minCell = table.getCellRect(rMin, draggedColumnIndex, true);
-        Rectangle maxCell = table.getCellRect(rMax, draggedColumnIndex, true);
+        Rfdtbnglf minCfll = tbblf.gftCfllRfdt(rMin, drbggfdColumnIndfx, truf);
+        Rfdtbnglf mbxCfll = tbblf.gftCfllRfdt(rMbx, drbggfdColumnIndfx, truf);
 
-        Rectangle vacatedColumnRect = minCell.union(maxCell);
+        Rfdtbnglf vbdbtfdColumnRfdt = minCfll.union(mbxCfll);
 
-        // Paint a gray well in place of the moving column.
-        g.setColor(table.getParent().getBackground());
-        g.fillRect(vacatedColumnRect.x, vacatedColumnRect.y,
-                   vacatedColumnRect.width, vacatedColumnRect.height);
+        // Pbint b grby wfll in plbdf of tif moving dolumn.
+        g.sftColor(tbblf.gftPbrfnt().gftBbdkground());
+        g.fillRfdt(vbdbtfdColumnRfdt.x, vbdbtfdColumnRfdt.y,
+                   vbdbtfdColumnRfdt.widti, vbdbtfdColumnRfdt.ifigit);
 
-        // Move to the where the cell has been dragged.
-        vacatedColumnRect.x += distance;
+        // Movf to tif wifrf tif dfll ibs bffn drbggfd.
+        vbdbtfdColumnRfdt.x += distbndf;
 
-        // Fill the background.
-        g.setColor(table.getBackground());
-        g.fillRect(vacatedColumnRect.x, vacatedColumnRect.y,
-                   vacatedColumnRect.width, vacatedColumnRect.height);
+        // Fill tif bbdkground.
+        g.sftColor(tbblf.gftBbdkground());
+        g.fillRfdt(vbdbtfdColumnRfdt.x, vbdbtfdColumnRfdt.y,
+                   vbdbtfdColumnRfdt.widti, vbdbtfdColumnRfdt.ifigit);
 
-        // Paint the vertical grid lines if necessary.
-        if (table.getShowVerticalLines()) {
-            g.setColor(table.getGridColor());
-            int x1 = vacatedColumnRect.x;
-            int y1 = vacatedColumnRect.y;
-            int x2 = x1 + vacatedColumnRect.width - 1;
-            int y2 = y1 + vacatedColumnRect.height - 1;
-            // Left
-            g.drawLine(x1-1, y1, x1-1, y2);
-            // Right
-            g.drawLine(x2, y1, x2, y2);
+        // Pbint tif vfrtidbl grid linfs if nfdfssbry.
+        if (tbblf.gftSiowVfrtidblLinfs()) {
+            g.sftColor(tbblf.gftGridColor());
+            int x1 = vbdbtfdColumnRfdt.x;
+            int y1 = vbdbtfdColumnRfdt.y;
+            int x2 = x1 + vbdbtfdColumnRfdt.widti - 1;
+            int y2 = y1 + vbdbtfdColumnRfdt.ifigit - 1;
+            // Lfft
+            g.drbwLinf(x1-1, y1, x1-1, y2);
+            // Rigit
+            g.drbwLinf(x2, y1, x2, y2);
         }
 
-        for(int row = rMin; row <= rMax; row++) {
-            // Render the cell value
-            Rectangle r = table.getCellRect(row, draggedColumnIndex, false);
-            r.x += distance;
-            paintCell(g, r, row, draggedColumnIndex);
+        for(int row = rMin; row <= rMbx; row++) {
+            // Rfndfr tif dfll vbluf
+            Rfdtbnglf r = tbblf.gftCfllRfdt(row, drbggfdColumnIndfx, fblsf);
+            r.x += distbndf;
+            pbintCfll(g, r, row, drbggfdColumnIndfx);
 
-            // Paint the (lower) horizontal grid line if necessary.
-            if (table.getShowHorizontalLines()) {
-                g.setColor(table.getGridColor());
-                Rectangle rcr = table.getCellRect(row, draggedColumnIndex, true);
-                rcr.x += distance;
-                int x1 = rcr.x;
-                int y1 = rcr.y;
-                int x2 = x1 + rcr.width - 1;
-                int y2 = y1 + rcr.height - 1;
-                g.drawLine(x1, y2, x2, y2);
+            // Pbint tif (lowfr) iorizontbl grid linf if nfdfssbry.
+            if (tbblf.gftSiowHorizontblLinfs()) {
+                g.sftColor(tbblf.gftGridColor());
+                Rfdtbnglf rdr = tbblf.gftCfllRfdt(row, drbggfdColumnIndfx, truf);
+                rdr.x += distbndf;
+                int x1 = rdr.x;
+                int y1 = rdr.y;
+                int x2 = x1 + rdr.widti - 1;
+                int y2 = y1 + rdr.ifigit - 1;
+                g.drbwLinf(x1, y2, x2, y2);
             }
         }
     }
 
-    private void paintCell(Graphics g, Rectangle cellRect, int row, int column) {
-        if (table.isEditing() && table.getEditingRow()==row &&
-                                 table.getEditingColumn()==column) {
-            Component component = table.getEditorComponent();
-            component.setBounds(cellRect);
-            component.validate();
+    privbtf void pbintCfll(Grbpiids g, Rfdtbnglf dfllRfdt, int row, int dolumn) {
+        if (tbblf.isEditing() && tbblf.gftEditingRow()==row &&
+                                 tbblf.gftEditingColumn()==dolumn) {
+            Componfnt domponfnt = tbblf.gftEditorComponfnt();
+            domponfnt.sftBounds(dfllRfdt);
+            domponfnt.vblidbtf();
         }
-        else {
-            TableCellRenderer renderer = table.getCellRenderer(row, column);
-            Component component = table.prepareRenderer(renderer, row, column);
-            rendererPane.paintComponent(g, component, table, cellRect.x, cellRect.y,
-                                        cellRect.width, cellRect.height, true);
+        flsf {
+            TbblfCfllRfndfrfr rfndfrfr = tbblf.gftCfllRfndfrfr(row, dolumn);
+            Componfnt domponfnt = tbblf.prfpbrfRfndfrfr(rfndfrfr, row, dolumn);
+            rfndfrfrPbnf.pbintComponfnt(g, domponfnt, tbblf, dfllRfdt.x, dfllRfdt.y,
+                                        dfllRfdt.widti, dfllRfdt.ifigit, truf);
         }
     }
 
-    private static int getAdjustedLead(JTable table,
-                                       boolean row,
-                                       ListSelectionModel model) {
+    privbtf stbtid int gftAdjustfdLfbd(JTbblf tbblf,
+                                       boolfbn row,
+                                       ListSflfdtionModfl modfl) {
 
-        int index = model.getLeadSelectionIndex();
-        int compare = row ? table.getRowCount() : table.getColumnCount();
-        return index < compare ? index : -1;
+        int indfx = modfl.gftLfbdSflfdtionIndfx();
+        int dompbrf = row ? tbblf.gftRowCount() : tbblf.gftColumnCount();
+        rfturn indfx < dompbrf ? indfx : -1;
     }
 
-    private static int getAdjustedLead(JTable table, boolean row) {
-        return row ? getAdjustedLead(table, row, table.getSelectionModel())
-                   : getAdjustedLead(table, row, table.getColumnModel().getSelectionModel());
+    privbtf stbtid int gftAdjustfdLfbd(JTbblf tbblf, boolfbn row) {
+        rfturn row ? gftAdjustfdLfbd(tbblf, row, tbblf.gftSflfdtionModfl())
+                   : gftAdjustfdLfbd(tbblf, row, tbblf.gftColumnModfl().gftSflfdtionModfl());
     }
 
 
-    private static final TransferHandler defaultTransferHandler = new TableTransferHandler();
+    privbtf stbtid finbl TrbnsffrHbndlfr dffbultTrbnsffrHbndlfr = nfw TbblfTrbnsffrHbndlfr();
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class TableTransferHandler extends TransferHandler implements UIResource {
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss TbblfTrbnsffrHbndlfr fxtfnds TrbnsffrHbndlfr implfmfnts UIRfsourdf {
 
         /**
-         * Create a Transferable to use as the source for a data transfer.
+         * Crfbtf b Trbnsffrbblf to usf bs tif sourdf for b dbtb trbnsffr.
          *
-         * @param c  The component holding the data to be transfered.  This
-         *  argument is provided to enable sharing of TransferHandlers by
-         *  multiple components.
-         * @return  The representation of the data to be transfered.
+         * @pbrbm d  Tif domponfnt iolding tif dbtb to bf trbnsffrfd.  Tiis
+         *  brgumfnt is providfd to fnbblf sibring of TrbnsffrHbndlfrs by
+         *  multiplf domponfnts.
+         * @rfturn  Tif rfprfsfntbtion of tif dbtb to bf trbnsffrfd.
          *
          */
-        protected Transferable createTransferable(JComponent c) {
-            if (c instanceof JTable) {
-                JTable table = (JTable) c;
+        protfdtfd Trbnsffrbblf drfbtfTrbnsffrbblf(JComponfnt d) {
+            if (d instbndfof JTbblf) {
+                JTbblf tbblf = (JTbblf) d;
                 int[] rows;
-                int[] cols;
+                int[] dols;
 
-                if (!table.getRowSelectionAllowed() && !table.getColumnSelectionAllowed()) {
-                    return null;
+                if (!tbblf.gftRowSflfdtionAllowfd() && !tbblf.gftColumnSflfdtionAllowfd()) {
+                    rfturn null;
                 }
 
-                if (!table.getRowSelectionAllowed()) {
-                    int rowCount = table.getRowCount();
+                if (!tbblf.gftRowSflfdtionAllowfd()) {
+                    int rowCount = tbblf.gftRowCount();
 
-                    rows = new int[rowCount];
-                    for (int counter = 0; counter < rowCount; counter++) {
-                        rows[counter] = counter;
+                    rows = nfw int[rowCount];
+                    for (int dountfr = 0; dountfr < rowCount; dountfr++) {
+                        rows[dountfr] = dountfr;
                     }
-                } else {
-                    rows = table.getSelectedRows();
+                } flsf {
+                    rows = tbblf.gftSflfdtfdRows();
                 }
 
-                if (!table.getColumnSelectionAllowed()) {
-                    int colCount = table.getColumnCount();
+                if (!tbblf.gftColumnSflfdtionAllowfd()) {
+                    int dolCount = tbblf.gftColumnCount();
 
-                    cols = new int[colCount];
-                    for (int counter = 0; counter < colCount; counter++) {
-                        cols[counter] = counter;
+                    dols = nfw int[dolCount];
+                    for (int dountfr = 0; dountfr < dolCount; dountfr++) {
+                        dols[dountfr] = dountfr;
                     }
-                } else {
-                    cols = table.getSelectedColumns();
+                } flsf {
+                    dols = tbblf.gftSflfdtfdColumns();
                 }
 
-                if (rows == null || cols == null || rows.length == 0 || cols.length == 0) {
-                    return null;
+                if (rows == null || dols == null || rows.lfngti == 0 || dols.lfngti == 0) {
+                    rfturn null;
                 }
 
-                StringBuilder plainStr = new StringBuilder();
-                StringBuilder htmlStr = new StringBuilder();
+                StringBuildfr plbinStr = nfw StringBuildfr();
+                StringBuildfr itmlStr = nfw StringBuildfr();
 
-                htmlStr.append("<html>\n<body>\n<table>\n");
+                itmlStr.bppfnd("<itml>\n<body>\n<tbblf>\n");
 
-                for (int row = 0; row < rows.length; row++) {
-                    htmlStr.append("<tr>\n");
-                    for (int col = 0; col < cols.length; col++) {
-                        Object obj = table.getValueAt(rows[row], cols[col]);
-                        String val = ((obj == null) ? "" : obj.toString());
-                        plainStr.append(val + "\t");
-                        htmlStr.append("  <td>" + val + "</td>\n");
+                for (int row = 0; row < rows.lfngti; row++) {
+                    itmlStr.bppfnd("<tr>\n");
+                    for (int dol = 0; dol < dols.lfngti; dol++) {
+                        Objfdt obj = tbblf.gftVblufAt(rows[row], dols[dol]);
+                        String vbl = ((obj == null) ? "" : obj.toString());
+                        plbinStr.bppfnd(vbl + "\t");
+                        itmlStr.bppfnd("  <td>" + vbl + "</td>\n");
                     }
-                    // we want a newline at the end of each line and not a tab
-                    plainStr.deleteCharAt(plainStr.length() - 1).append("\n");
-                    htmlStr.append("</tr>\n");
+                    // wf wbnt b nfwlinf bt tif fnd of fbdi linf bnd not b tbb
+                    plbinStr.dflftfCibrAt(plbinStr.lfngti() - 1).bppfnd("\n");
+                    itmlStr.bppfnd("</tr>\n");
                 }
 
-                // remove the last newline
-                plainStr.deleteCharAt(plainStr.length() - 1);
-                htmlStr.append("</table>\n</body>\n</html>");
+                // rfmovf tif lbst nfwlinf
+                plbinStr.dflftfCibrAt(plbinStr.lfngti() - 1);
+                itmlStr.bppfnd("</tbblf>\n</body>\n</itml>");
 
-                return new BasicTransferable(plainStr.toString(), htmlStr.toString());
+                rfturn nfw BbsidTrbnsffrbblf(plbinStr.toString(), itmlStr.toString());
             }
 
-            return null;
+            rfturn null;
         }
 
-        public int getSourceActions(JComponent c) {
-            return COPY;
+        publid int gftSourdfAdtions(JComponfnt d) {
+            rfturn COPY;
         }
 
     }
-}  // End of Class BasicTableUI
+}  // End of Clbss BbsidTbblfUI

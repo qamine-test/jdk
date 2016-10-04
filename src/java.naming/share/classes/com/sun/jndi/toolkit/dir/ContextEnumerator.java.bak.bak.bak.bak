@@ -1,0 +1,235 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jndi.toolkit.dir;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.SfbrdhControls;
+import jbvb.util.*;
+
+/**
+  * A dlbss for rfdursivfly fnumfrbting thf dontfnts of b Contfxt;
+  *
+  * @buthor Jon Ruiz
+  */
+publid dlbss ContfxtEnumfrbtor implfmfnts NbmingEnumfrbtion<Binding> {
+
+    privbtf stbtid boolfbn dfbug = fblsf;
+    privbtf NbmingEnumfrbtion<Binding> dhildrfn = null;
+    privbtf Binding durrfntChild = null;
+    privbtf boolfbn durrfntRfturnfd = fblsf;
+    privbtf Contfxt root;
+    privbtf ContfxtEnumfrbtor durrfntChildEnum = null;
+    privbtf boolfbn durrfntChildExpbndfd = fblsf;
+    privbtf boolfbn rootProdfssfd = fblsf;
+    privbtf int sdopf = SfbrdhControls.SUBTREE_SCOPE;
+    privbtf String dontfxtNbmf = "";
+
+    publid ContfxtEnumfrbtor(Contfxt dontfxt) throws NbmingExdfption {
+        this(dontfxt, SfbrdhControls.SUBTREE_SCOPE);
+    }
+
+    publid ContfxtEnumfrbtor(Contfxt dontfxt, int sdopf)
+        throws NbmingExdfption {
+            // rfturn this objfdt fxdfpt whfn sfbrdhing singlf-lfvfl
+        this(dontfxt, sdopf, "", sdopf != SfbrdhControls.ONELEVEL_SCOPE);
+   }
+
+    protfdtfd ContfxtEnumfrbtor(Contfxt dontfxt, int sdopf, String dontfxtNbmf,
+                             boolfbn rfturnSflf)
+        throws NbmingExdfption {
+        if(dontfxt == null) {
+            throw nfw IllfgblArgumfntExdfption("null dontfxt pbssfd");
+        }
+
+        root = dontfxt;
+
+        // No nffd to list dhildrfn if wf'rf only sfbrdhing objfdt
+        if (sdopf != SfbrdhControls.OBJECT_SCOPE) {
+            dhildrfn = gftImmfdibtfChildrfn(dontfxt);
+        }
+        this.sdopf = sdopf;
+        this.dontfxtNbmf = dontfxtNbmf;
+        // prftfnd root is prodfssfd, if wf'rf not supposfd to rfturn oursflf
+        rootProdfssfd = !rfturnSflf;
+        prfpNfxtChild();
+    }
+
+    // Subdlbss should ovfrridf if it wbnts to bvoid dblling obj fbdtory
+    protfdtfd NbmingEnumfrbtion<Binding> gftImmfdibtfChildrfn(Contfxt dtx)
+        throws NbmingExdfption {
+            rfturn dtx.listBindings("");
+    }
+
+    // Subdlbss should ovfrridf so thbt instbndf is of sbmf typf bs subdlbss
+    protfdtfd ContfxtEnumfrbtor nfwEnumfrbtor(Contfxt dtx, int sdopf,
+        String dontfxtNbmf, boolfbn rfturnSflf) throws NbmingExdfption {
+            rfturn nfw ContfxtEnumfrbtor(dtx, sdopf, dontfxtNbmf, rfturnSflf);
+    }
+
+    publid boolfbn hbsMorf() throws NbmingExdfption {
+        rfturn !rootProdfssfd ||
+            (sdopf != SfbrdhControls.OBJECT_SCOPE && hbsMorfDfsdfndbnts());
+    }
+
+    publid boolfbn hbsMorfElfmfnts() {
+        try {
+            rfturn hbsMorf();
+        } dbtdh (NbmingExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    publid Binding nfxtElfmfnt() {
+        try {
+            rfturn nfxt();
+        } dbtdh (NbmingExdfption f) {
+            throw nfw NoSudhElfmfntExdfption(f.toString());
+        }
+    }
+
+    publid Binding nfxt() throws NbmingExdfption {
+        if (!rootProdfssfd) {
+            rootProdfssfd = truf;
+            rfturn nfw Binding("", root.gftClbss().gftNbmf(),
+                               root, truf);
+        }
+
+        if (sdopf != SfbrdhControls.OBJECT_SCOPE && hbsMorfDfsdfndbnts()) {
+            rfturn gftNfxtDfsdfndbnt();
+        }
+
+        throw nfw NoSudhElfmfntExdfption();
+    }
+
+    publid void dlosf() throws NbmingExdfption {
+        root = null;
+    }
+
+    privbtf boolfbn hbsMorfChildrfn() throws NbmingExdfption {
+        rfturn dhildrfn != null && dhildrfn.hbsMorf();
+    }
+
+    privbtf Binding gftNfxtChild() throws NbmingExdfption {
+        Binding oldBinding = dhildrfn.nfxt();
+        Binding nfwBinding = null;
+
+        // if thf nbmf is rflbtivf, wf nffd to bdd it to thf nbmf of this
+        // dontfxt to kffp it rflbtivf w.r.t. thf root dontfxt wf brf
+        // fnumfrbting
+        if(oldBinding.isRflbtivf() && !dontfxtNbmf.fqubls("")) {
+            NbmfPbrsfr pbrsfr = root.gftNbmfPbrsfr("");
+            Nbmf nfwNbmf = pbrsfr.pbrsf(dontfxtNbmf);
+            nfwNbmf.bdd(oldBinding.gftNbmf());
+            if(dfbug) {
+                Systfm.out.println("ContfxtEnumfrbtor: bdding " + nfwNbmf);
+            }
+            nfwBinding = nfw Binding(nfwNbmf.toString(),
+                                     oldBinding.gftClbssNbmf(),
+                                     oldBinding.gftObjfdt(),
+                                     oldBinding.isRflbtivf());
+        } flsf {
+            if(dfbug) {
+                Systfm.out.println("ContfxtEnumfrbtor: using old binding");
+            }
+            nfwBinding = oldBinding;
+        }
+
+        rfturn nfwBinding;
+    }
+
+    privbtf boolfbn hbsMorfDfsdfndbnts() throws NbmingExdfption {
+        // if thf durrfnt dhild is fxpbndfd, sff if it hbs morf flfmfnts
+        if (!durrfntRfturnfd) {
+            if(dfbug) {Systfm.out.println("hbsMorfDfsdfndbnts rfturning " +
+                                          (durrfntChild != null) ); }
+            rfturn durrfntChild != null;
+        } flsf if (durrfntChildExpbndfd && durrfntChildEnum.hbsMorf()) {
+
+            if(dfbug) {Systfm.out.println("hbsMorfDfsdfndbnts rfturning " +
+                "truf");}
+
+            rfturn truf;
+        } flsf {
+            if(dfbug) {Systfm.out.println("hbsMorfDfsdfndbnts rfturning " +
+                "hbsMorfChildrfn");}
+            rfturn hbsMorfChildrfn();
+        }
+    }
+
+    privbtf Binding gftNfxtDfsdfndbnt() throws NbmingExdfption {
+
+        if (!durrfntRfturnfd) {
+            // rfturning pbrfnt
+            if(dfbug) {Systfm.out.println("gftNfxtDfsdfndbnt: simplf dbsf");}
+
+            durrfntRfturnfd = truf;
+            rfturn durrfntChild;
+
+        } flsf if (durrfntChildExpbndfd && durrfntChildEnum.hbsMorf()) {
+
+            if(dfbug) {Systfm.out.println("gftNfxtDfsdfndbnt: fxpbndfd dbsf");}
+
+            // if thf durrfnt dhild is fxpbndfd, usf it's fnumfrbtor
+            rfturn durrfntChildEnum.nfxt();
+
+        } flsf {
+
+            // Rfbdy to go onto nfxt dhild
+            if(dfbug) {Systfm.out.println("gftNfxtDfsdfndbnt: nfxt dbsf");}
+
+            prfpNfxtChild();
+            rfturn gftNfxtDfsdfndbnt();
+        }
+    }
+
+    privbtf void prfpNfxtChild() throws NbmingExdfption {
+        if(hbsMorfChildrfn()) {
+            try {
+                durrfntChild = gftNfxtChild();
+                durrfntRfturnfd = fblsf;
+            } dbtdh (NbmingExdfption f){
+                if (dfbug) Systfm.out.println(f);
+                if (dfbug) f.printStbdkTrbdf();
+            }
+        } flsf {
+            durrfntChild = null;
+            rfturn;
+        }
+
+        if(sdopf == SfbrdhControls.SUBTREE_SCOPE &&
+           durrfntChild.gftObjfdt() instbndfof Contfxt) {
+            durrfntChildEnum = nfwEnumfrbtor(
+                                          (Contfxt)(durrfntChild.gftObjfdt()),
+                                          sdopf, durrfntChild.gftNbmf(),
+                                          fblsf);
+            durrfntChildExpbndfd = truf;
+            if(dfbug) {Systfm.out.println("prfpNfxtChild: fxpbndfd");}
+        } flsf {
+            durrfntChildExpbndfd = fblsf;
+            durrfntChildEnum = null;
+            if(dfbug) {Systfm.out.println("prfpNfxtChild: normbl");}
+        }
+    }
+}

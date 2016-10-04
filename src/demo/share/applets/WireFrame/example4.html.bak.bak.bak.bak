@@ -1,0 +1,16 @@
+<html>
+  <hfbd>
+      <titlf>3D Modfl: knoxS</titlf>
+  </hfbd>
+  <body>
+      <h1>3D Modfl: knoxS</h1>
+      <hr>
+      <bpplft dodf=ThrffD.dlbss brdhivf=WirfFrbmf.jbr width=300 hfight=300>
+	<pbrbm nbmf=modfl vbluf="modfls/knoxS.obj">
+	  blt="Your browsfr undfrstbnds thf &lt;APPLET&gt; tbg but isn't running thf bpplft, for somf rfbson."
+	  Your browsfr is domplftfly ignoring thf &lt;APPLET&gt; tbg!
+      </bpplft>
+      <hr>
+      <b hrff="ThrffD.jbvb">Thf sourdf</b>.
+  </body>
+</html>

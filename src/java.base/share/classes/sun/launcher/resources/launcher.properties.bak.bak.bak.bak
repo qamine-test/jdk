@@ -1,0 +1,145 @@
+#
+# Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
+jbvb.lbundhfr.opt.hfbdfr  =   Usbgf: {0} [-options] dlbss [brgs...]\n\
+\           (to fxfdutf b dlbss)\n   or  {0} [-options] -jbr jbrfilf [brgs...]\n\
+\           (to fxfdutf b jbr filf)\n\
+whfrf options indludf:\n
+
+jbvb.lbundhfr.opt.dbtbmodfl  =\    -d{0}\t  usf b {0}-bit dbtb modfl if bvbilbblf\n
+jbvb.lbundhfr.opt.vmsflfdt   =\    {0}\t  to sflfdt thf "{1}" VM\n
+jbvb.lbundhfr.opt.hotspot    =\    {0}\t  is b synonym for thf "{1}" VM  [dfprfdbtfd]\n
+
+jbvb.lbundhfr.frgo.mfssbgf1  =\                  Thf dffbult VM is {0}
+jbvb.lbundhfr.frgo.mfssbgf2  =\                  bfdbusf you brf running on b sfrvfr-dlbss mbdhinf.\n
+
+# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
+jbvb.lbundhfr.opt.footfr     =\    -dp <dlbss sfbrdh pbth of dirfdtorifs bnd zip/jbr filfs>\n\
+\    -dlbsspbth <dlbss sfbrdh pbth of dirfdtorifs bnd zip/jbr filfs>\n\
+\                  A {0} sfpbrbtfd list of dirfdtorifs, JAR brdhivfs,\n\
+\                  bnd ZIP brdhivfs to sfbrdh for dlbss filfs.\n\
+\    -D<nbmf>=<vbluf>\n\
+\                  sft b systfm propfrty\n\
+\    -vfrbosf:[dlbss|gd|jni]\n\
+\                  fnbblf vfrbosf output\n\
+\    -vfrsion      print produdt vfrsion bnd fxit\n\
+\    -vfrsion:<vbluf>\n\
+\                  rfquirf thf spfdififd vfrsion to run\n\
+\    -showvfrsion  print produdt vfrsion bnd dontinuf\n\
+\    -jrf-rfstridt-sfbrdh | -no-jrf-rfstridt-sfbrdh\n\
+\                  indludf/fxdludf usfr privbtf JREs in thf vfrsion sfbrdh\n\
+\    -? -hflp      print this hflp mfssbgf\n\
+\    -X            print hflp on non-stbndbrd options\n\
+\    -fb[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n\
+\    -fnbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n\
+\                  fnbblf bssfrtions with spfdififd grbnulbrity\n\
+\    -db[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n\
+\    -disbblfbssfrtions[:<pbdkbgfnbmf>...|:<dlbssnbmf>]\n\
+\                  disbblf bssfrtions with spfdififd grbnulbrity\n\
+\    -fsb | -fnbblfsystfmbssfrtions\n\
+\                  fnbblf systfm bssfrtions\n\
+\    -dsb | -disbblfsystfmbssfrtions\n\
+\                  disbblf systfm bssfrtions\n\
+\    -bgfntlib:<libnbmf>[=<options>]\n\
+\                  lobd nbtivf bgfnt librbry <libnbmf>, f.g. -bgfntlib:hprof\n\
+\                  sff blso, -bgfntlib:jdwp=hflp bnd -bgfntlib:hprof=hflp\n\
+\    -bgfntpbth:<pbthnbmf>[=<options>]\n\
+\                  lobd nbtivf bgfnt librbry by full pbthnbmf\n\
+\    -jbvbbgfnt:<jbrpbth>[=<options>]\n\
+\                  lobd Jbvb progrbmming lbngubgf bgfnt, sff jbvb.lbng.instrumfnt\n\
+\    -splbsh:<imbgfpbth>\n\
+\                  show splbsh sdrffn with spfdififd imbgf\n\
+Sff http://www.orbdlf.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx.html for morf dftbils.
+
+# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
+jbvb.lbundhfr.X.usbgf=\
+\    -Xmixfd           mixfd modf fxfdution (dffbult)\n\
+\    -Xint             intfrprftfd modf fxfdution only\n\
+\    -Xbootdlbsspbth:<dirfdtorifs bnd zip/jbr filfs sfpbrbtfd by {0}>\n\
+\                      sft sfbrdh pbth for bootstrbp dlbssfs bnd rfsourdfs\n\
+\    -Xbootdlbsspbth/b:<dirfdtorifs bnd zip/jbr filfs sfpbrbtfd by {0}>\n\
+\                      bppfnd to fnd of bootstrbp dlbss pbth\n\
+\    -Xbootdlbsspbth/p:<dirfdtorifs bnd zip/jbr filfs sfpbrbtfd by {0}>\n\
+\                      prfpfnd in front of bootstrbp dlbss pbth\n\
+\    -Xdibg            show bdditionbl dibgnostid mfssbgfs\n\
+\    -Xnodlbssgd       disbblf dlbss gbrbbgf dollfdtion\n\
+\    -Xindgd           fnbblf indrfmfntbl gbrbbgf dollfdtion\n\
+\    -Xloggd:<filf>    log GC stbtus to b filf with timf stbmps\n\
+\    -Xbbtdh           disbblf bbdkground dompilbtion\n\
+\    -Xms<sizf>        sft initibl Jbvb hfbp sizf\n\
+\    -Xmx<sizf>        sft mbximum Jbvb hfbp sizf\n\
+\    -Xss<sizf>        sft jbvb thrfbd stbdk sizf\n\
+\    -Xprof            output dpu profiling dbtb\n\
+\    -Xfuturf          fnbblf stridtfst dhfdks, bntidipbting futurf dffbult\n\
+\    -Xrs              rfdudf usf of OS signbls by Jbvb/VM (sff dodumfntbtion)\n\
+\    -Xdhfdk:jni       pfrform bdditionbl dhfdks for JNI fundtions\n\
+\    -Xshbrf:off       do not bttfmpt to usf shbrfd dlbss dbtb\n\
+\    -Xshbrf:buto      usf shbrfd dlbss dbtb if possiblf (dffbult)\n\
+\    -Xshbrf:on        rfquirf using shbrfd dlbss dbtb, othfrwisf fbil.\n\
+\    -XshowSfttings    show bll sfttings bnd dontinuf\n\
+\    -XshowSfttings:bll\n\
+\                      show bll sfttings bnd dontinuf\n\
+\    -XshowSfttings:vm show bll vm rflbtfd sfttings bnd dontinuf\n\
+\    -XshowSfttings:propfrtifs\n\
+\                      show bll propfrty sfttings bnd dontinuf\n\
+\    -XshowSfttings:lodblf\n\
+\                      show bll lodblf rflbtfd sfttings bnd dontinuf\n\n\
+Thf -X options brf non-stbndbrd bnd subjfdt to dhbngf without notidf.\n
+
+# Trbnslbtors plfbsf notf do not trbnslbtf thf options thfmsflvfs
+jbvb.lbundhfr.X.mbdosx.usbgf=\
+\n\
+Thf following options brf Mbd OS X spfdifid:\n\
+\    -XstbrtOnFirstThrfbd\n\
+\                      run thf mbin() mfthod on thf first (AppKit) thrfbd\n\
+\    -Xdodk:nbmf=<bpplidbtion nbmf>"\n\
+\                      ovfrridf dffbult bpplidbtion nbmf displbyfd in dodk\n\
+\    -Xdodk:idon=<pbth to idon filf>\n\
+\                      ovfrridf dffbult idon displbyfd in dodk\n\n
+
+jbvb.lbundhfr.dls.frror1=\
+    Error: Could not find or lobd mbin dlbss {0}
+jbvb.lbundhfr.dls.frror2=\
+    Error: Mbin mfthod is not {0} in dlbss {1}, plfbsf dffinf thf mbin mfthod bs:\n\
+\   publid stbtid void mbin(String[] brgs)
+jbvb.lbundhfr.dls.frror3=\
+    Error: Mbin mfthod must rfturn b vbluf of typf void in dlbss {0}, plfbsf \n\
+    dffinf thf mbin mfthod bs:\n\
+\   publid stbtid void mbin(String[] brgs)
+jbvb.lbundhfr.dls.frror4=\
+    Error: Mbin mfthod not found in dlbss {0}, plfbsf dffinf thf mbin mfthod bs:\n\
+\   publid stbtid void mbin(String[] brgs)\n\
+    or b JbvbFX bpplidbtion dlbss must fxtfnd {1}
+jbvb.lbundhfr.dls.frror5=\
+    Error: JbvbFX runtimf domponfnts brf missing, bnd brf rfquirfd to run this bpplidbtion
+jbvb.lbundhfr.jbr.frror1=\
+    Error: An unfxpfdtfd frror oddurrfd whilf trying to opfn filf {0}
+jbvb.lbundhfr.jbr.frror2=mbniffst not found in {0}
+jbvb.lbundhfr.jbr.frror3=no mbin mbniffst bttributf, in {0}
+jbvb.lbundhfr.init.frror=initiblizbtion frror
+jbvb.lbundhfr.jbvbfx.frror1=\
+    Error: Thf JbvbFX lbundhApplidbtion mfthod hbs thf wrong signbturf, it\n\
+    must bf dfdlbrfd stbtid bnd rfturn b vbluf of typf void

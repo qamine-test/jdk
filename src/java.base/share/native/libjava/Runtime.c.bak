@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1994, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *      Link foreign methods.  This first half of this file contains the
- *      machine independent dynamic linking routines.
- *      See "BUILD_PLATFORM"/java/lang/linker_md.c to see
- *      the implementation of this shared dynamic linking
- *      interface.
+ *      Link forfign mftiods.  Tiis first iblf of tiis filf dontbins tif
+ *      mbdiinf indfpfndfnt dynbmid linking routinfs.
+ *      Sff "BUILD_PLATFORM"/jbvb/lbng/linkfr_md.d to sff
+ *      tif implfmfntbtion of tiis sibrfd dynbmid linking
+ *      intfrfbdf.
  *
- *      NOTE - source in this file is POSIX.1 compliant, host
- *             specific code lives in the platform specific
- *             code tree.
+ *      NOTE - sourdf in tiis filf is POSIX.1 domplibnt, iost
+ *             spfdifid dodf livfs in tif plbtform spfdifid
+ *             dodf trff.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
 
-#include "java_lang_Runtime.h"
+#indludf "jbvb_lbng_Runtimf.i"
 
 JNIEXPORT jlong JNICALL
-Java_java_lang_Runtime_freeMemory(JNIEnv *env, jobject this)
+Jbvb_jbvb_lbng_Runtimf_frffMfmory(JNIEnv *fnv, jobjfdt tiis)
 {
-    return JVM_FreeMemory();
+    rfturn JVM_FrffMfmory();
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_lang_Runtime_totalMemory(JNIEnv *env, jobject this)
+Jbvb_jbvb_lbng_Runtimf_totblMfmory(JNIEnv *fnv, jobjfdt tiis)
 {
-    return JVM_TotalMemory();
+    rfturn JVM_TotblMfmory();
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_lang_Runtime_maxMemory(JNIEnv *env, jobject this)
+Jbvb_jbvb_lbng_Runtimf_mbxMfmory(JNIEnv *fnv, jobjfdt tiis)
 {
-    return JVM_MaxMemory();
+    rfturn JVM_MbxMfmory();
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_Runtime_gc(JNIEnv *env, jobject this)
+Jbvb_jbvb_lbng_Runtimf_gd(JNIEnv *fnv, jobjfdt tiis)
 {
     JVM_GC();
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_Runtime_traceInstructions(JNIEnv *env, jobject this, jboolean on)
+Jbvb_jbvb_lbng_Runtimf_trbdfInstrudtions(JNIEnv *fnv, jobjfdt tiis, jboolfbn on)
 {
-    JVM_TraceInstructions(on);
+    JVM_TrbdfInstrudtions(on);
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_Runtime_traceMethodCalls(JNIEnv *env, jobject this, jboolean on)
+Jbvb_jbvb_lbng_Runtimf_trbdfMftiodCblls(JNIEnv *fnv, jobjfdt tiis, jboolfbn on)
 {
-    JVM_TraceMethodCalls(on);
+    JVM_TrbdfMftiodCblls(on);
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_Runtime_runFinalization0(JNIEnv *env, jobject this)
+Jbvb_jbvb_lbng_Runtimf_runFinblizbtion0(JNIEnv *fnv, jobjfdt tiis)
 {
-    jclass cl;
-    jmethodID mid;
+    jdlbss dl;
+    jmftiodID mid;
 
-    if ((cl = (*env)->FindClass(env, "java/lang/ref/Finalizer"))
-        && (mid = (*env)->GetStaticMethodID(env, cl,
-                                            "runFinalization", "()V"))) {
-        (*env)->CallStaticVoidMethod(env, cl, mid);
+    if ((dl = (*fnv)->FindClbss(fnv, "jbvb/lbng/rff/Finblizfr"))
+        && (mid = (*fnv)->GftStbtidMftiodID(fnv, dl,
+                                            "runFinblizbtion", "()V"))) {
+        (*fnv)->CbllStbtidVoidMftiod(fnv, dl, mid);
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_Runtime_availableProcessors(JNIEnv *env, jobject this)
+Jbvb_jbvb_lbng_Runtimf_bvbilbblfProdfssors(JNIEnv *fnv, jobjfdt tiis)
 {
-    return JVM_ActiveProcessorCount();
+    rfturn JVM_AdtivfProdfssorCount();
 }

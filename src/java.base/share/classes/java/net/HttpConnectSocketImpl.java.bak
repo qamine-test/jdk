@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
 /**
- * Basic SocketImpl that relies on the internal HTTP protocol handler
- * implementation to perform the HTTP tunneling and authentication. The
- * sockets impl is swapped out and replaced with the socket from the HTTP
- * handler after the tunnel is successfully setup.
+ * Bbsid SodkftImpl tibt rflifs on tif intfrnbl HTTP protodol ibndlfr
+ * implfmfntbtion to pfrform tif HTTP tunnfling bnd butifntidbtion. Tif
+ * sodkfts impl is swbppfd out bnd rfplbdfd witi tif sodkft from tif HTTP
+ * ibndlfr bftfr tif tunnfl is suddfssfully sftup.
  *
- * @since 1.8
+ * @sindf 1.8
  */
 
-/*package*/ class HttpConnectSocketImpl extends PlainSocketImpl {
+/*pbdkbgf*/ dlbss HttpConnfdtSodkftImpl fxtfnds PlbinSodkftImpl {
 
-    private static final String httpURLClazzStr =
-                                  "sun.net.www.protocol.http.HttpURLConnection";
-    private static final String netClientClazzStr = "sun.net.NetworkClient";
-    private static final String doTunnelingStr = "doTunneling";
-    private static final Field httpField;
-    private static final Field serverSocketField;
-    private static final Method doTunneling;
+    privbtf stbtid finbl String ittpURLClbzzStr =
+                                  "sun.nft.www.protodol.ittp.HttpURLConnfdtion";
+    privbtf stbtid finbl String nftClifntClbzzStr = "sun.nft.NftworkClifnt";
+    privbtf stbtid finbl String doTunnflingStr = "doTunnfling";
+    privbtf stbtid finbl Fifld ittpFifld;
+    privbtf stbtid finbl Fifld sfrvfrSodkftFifld;
+    privbtf stbtid finbl Mftiod doTunnfling;
 
-    private final String server;
-    private InetSocketAddress external_address;
-    private HashMap<Integer, Object> optionsMap = new HashMap<>();
+    privbtf finbl String sfrvfr;
+    privbtf InftSodkftAddrfss fxtfrnbl_bddrfss;
+    privbtf HbsiMbp<Intfgfr, Objfdt> optionsMbp = nfw HbsiMbp<>();
 
-    static  {
+    stbtid  {
         try {
-            Class<?> httpClazz = Class.forName(httpURLClazzStr, true, null);
-            httpField = httpClazz.getDeclaredField("http");
-            doTunneling = httpClazz.getDeclaredMethod(doTunnelingStr);
-            Class<?> netClientClazz = Class.forName(netClientClazzStr, true, null);
-            serverSocketField = netClientClazz.getDeclaredField("serverSocket");
+            Clbss<?> ittpClbzz = Clbss.forNbmf(ittpURLClbzzStr, truf, null);
+            ittpFifld = ittpClbzz.gftDfdlbrfdFifld("ittp");
+            doTunnfling = ittpClbzz.gftDfdlbrfdMftiod(doTunnflingStr);
+            Clbss<?> nftClifntClbzz = Clbss.forNbmf(nftClifntClbzzStr, truf, null);
+            sfrvfrSodkftFifld = nftClifntClbzz.gftDfdlbrfdFifld("sfrvfrSodkft");
 
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
-                    public Void run() {
-                        httpField.setAccessible(true);
-                        serverSocketField.setAccessible(true);
-                        return null;
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        ittpFifld.sftAddfssiblf(truf);
+                        sfrvfrSodkftFifld.sftAddfssiblf(truf);
+                        rfturn null;
                 }
             });
-        } catch (ReflectiveOperationException x) {
-            throw new InternalError("Should not reach here", x);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption x) {
+            tirow nfw IntfrnblError("Siould not rfbdi ifrf", x);
         }
     }
 
-    HttpConnectSocketImpl(String server, int port) {
-        this.server = server;
-        this.port = port;
+    HttpConnfdtSodkftImpl(String sfrvfr, int port) {
+        tiis.sfrvfr = sfrvfr;
+        tiis.port = port;
     }
 
-    HttpConnectSocketImpl(Proxy proxy) {
-        SocketAddress a = proxy.address();
-        if ( !(a instanceof InetSocketAddress) )
-            throw new IllegalArgumentException("Unsupported address type");
+    HttpConnfdtSodkftImpl(Proxy proxy) {
+        SodkftAddrfss b = proxy.bddrfss();
+        if ( !(b instbndfof InftSodkftAddrfss) )
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
 
-        InetSocketAddress ad = (InetSocketAddress) a;
-        server = ad.getHostString();
-        port = ad.getPort();
+        InftSodkftAddrfss bd = (InftSodkftAddrfss) b;
+        sfrvfr = bd.gftHostString();
+        port = bd.gftPort();
     }
 
-    @Override
-    protected void connect(SocketAddress endpoint, int timeout)
-        throws IOException
+    @Ovfrridf
+    protfdtfd void donnfdt(SodkftAddrfss fndpoint, int timfout)
+        tirows IOExdfption
     {
-        if (endpoint == null || !(endpoint instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
-        final InetSocketAddress epoint = (InetSocketAddress)endpoint;
-        final String destHost = epoint.isUnresolved() ? epoint.getHostName()
-                                                      : epoint.getAddress().getHostAddress();
-        final int destPort = epoint.getPort();
+        if (fndpoint == null || !(fndpoint instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
+        finbl InftSodkftAddrfss fpoint = (InftSodkftAddrfss)fndpoint;
+        finbl String dfstHost = fpoint.isUnrfsolvfd() ? fpoint.gftHostNbmf()
+                                                      : fpoint.gftAddrfss().gftHostAddrfss();
+        finbl int dfstPort = fpoint.gftPort();
 
-        SecurityManager security = System.getSecurityManager();
-        if (security != null)
-            security.checkConnect(destHost, destPort);
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.difdkConnfdt(dfstHost, dfstPort);
 
-        // Connect to the HTTP proxy server
-        String urlString = "http://" + destHost + ":" + destPort;
-        Socket httpSocket = privilegedDoTunnel(urlString, timeout);
+        // Connfdt to tif HTTP proxy sfrvfr
+        String urlString = "ittp://" + dfstHost + ":" + dfstPort;
+        Sodkft ittpSodkft = privilfgfdDoTunnfl(urlString, timfout);
 
-        // Success!
-        external_address = epoint;
+        // Suddfss!
+        fxtfrnbl_bddrfss = fpoint;
 
-        // close the original socket impl and release its descriptor
-        close();
+        // dlosf tif originbl sodkft impl bnd rflfbsf its dfsdriptor
+        dlosf();
 
-        // update the Sockets impl to the impl from the http Socket
-        AbstractPlainSocketImpl psi = (AbstractPlainSocketImpl) httpSocket.impl;
-        this.getSocket().impl = psi;
+        // updbtf tif Sodkfts impl to tif impl from tif ittp Sodkft
+        AbstrbdtPlbinSodkftImpl psi = (AbstrbdtPlbinSodkftImpl) ittpSodkft.impl;
+        tiis.gftSodkft().impl = psi;
 
-        // best effort is made to try and reset options previously set
-        Set<Map.Entry<Integer,Object>> options = optionsMap.entrySet();
+        // bfst fffort is mbdf to try bnd rfsft options prfviously sft
+        Sft<Mbp.Entry<Intfgfr,Objfdt>> options = optionsMbp.fntrySft();
         try {
-            for(Map.Entry<Integer,Object> entry : options) {
-                psi.setOption(entry.getKey(), entry.getValue());
+            for(Mbp.Entry<Intfgfr,Objfdt> fntry : options) {
+                psi.sftOption(fntry.gftKfy(), fntry.gftVbluf());
             }
-        } catch (IOException x) {  /* gulp! */  }
+        } dbtdi (IOExdfption x) {  /* gulp! */  }
     }
 
-    @Override
-    public void setOption(int opt, Object val) throws SocketException {
-        super.setOption(opt, val);
+    @Ovfrridf
+    publid void sftOption(int opt, Objfdt vbl) tirows SodkftExdfption {
+        supfr.sftOption(opt, vbl);
 
-        if (external_address != null)
-            return;  // we're connected, just return
+        if (fxtfrnbl_bddrfss != null)
+            rfturn;  // wf'rf donnfdtfd, just rfturn
 
-        // store options so that they can be re-applied to the impl after connect
-        optionsMap.put(opt, val);
+        // storf options so tibt tify dbn bf rf-bpplifd to tif impl bftfr donnfdt
+        optionsMbp.put(opt, vbl);
     }
 
-    private Socket privilegedDoTunnel(final String urlString,
-                                      final int timeout)
-        throws IOException
+    privbtf Sodkft privilfgfdDoTunnfl(finbl String urlString,
+                                      finbl int timfout)
+        tirows IOExdfption
     {
         try {
-            return java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedExceptionAction<Socket>() {
-                    public Socket run() throws IOException {
-                        return doTunnel(urlString, timeout);
+            rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Sodkft>() {
+                    publid Sodkft run() tirows IOExdfption {
+                        rfturn doTunnfl(urlString, timfout);
                 }
             });
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (IOException) pae.getException();
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            tirow (IOExdfption) pbf.gftExdfption();
         }
     }
 
-    private Socket doTunnel(String urlString, int connectTimeout)
-        throws IOException
+    privbtf Sodkft doTunnfl(String urlString, int donnfdtTimfout)
+        tirows IOExdfption
     {
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(server, port));
-        URL destURL = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) destURL.openConnection(proxy);
-        conn.setConnectTimeout(connectTimeout);
-        conn.setReadTimeout(this.timeout);
-        conn.connect();
-        doTunneling(conn);
+        Proxy proxy = nfw Proxy(Proxy.Typf.HTTP, nfw InftSodkftAddrfss(sfrvfr, port));
+        URL dfstURL = nfw URL(urlString);
+        HttpURLConnfdtion donn = (HttpURLConnfdtion) dfstURL.opfnConnfdtion(proxy);
+        donn.sftConnfdtTimfout(donnfdtTimfout);
+        donn.sftRfbdTimfout(tiis.timfout);
+        donn.donnfdt();
+        doTunnfling(donn);
         try {
-            Object httpClient = httpField.get(conn);
-            return (Socket) serverSocketField.get(httpClient);
-        } catch (IllegalAccessException x) {
-            throw new InternalError("Should not reach here", x);
+            Objfdt ittpClifnt = ittpFifld.gft(donn);
+            rfturn (Sodkft) sfrvfrSodkftFifld.gft(ittpClifnt);
+        } dbtdi (IllfgblAddfssExdfption x) {
+            tirow nfw IntfrnblError("Siould not rfbdi ifrf", x);
         }
     }
 
-    private void doTunneling(HttpURLConnection conn) {
+    privbtf void doTunnfling(HttpURLConnfdtion donn) {
         try {
-            doTunneling.invoke(conn);
-        } catch (ReflectiveOperationException x) {
-            throw new InternalError("Should not reach here", x);
+            doTunnfling.invokf(donn);
+        } dbtdi (RfflfdtivfOpfrbtionExdfption x) {
+            tirow nfw IntfrnblError("Siould not rfbdi ifrf", x);
         }
     }
 
-    @Override
-    protected InetAddress getInetAddress() {
-        if (external_address != null)
-            return external_address.getAddress();
-        else
-            return super.getInetAddress();
+    @Ovfrridf
+    protfdtfd InftAddrfss gftInftAddrfss() {
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftAddrfss();
+        flsf
+            rfturn supfr.gftInftAddrfss();
     }
 
-    @Override
-    protected int getPort() {
-        if (external_address != null)
-            return external_address.getPort();
-        else
-            return super.getPort();
+    @Ovfrridf
+    protfdtfd int gftPort() {
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftPort();
+        flsf
+            rfturn supfr.gftPort();
     }
 
-    @Override
-    protected int getLocalPort() {
-        if (socket != null)
-            return super.getLocalPort();
-        if (external_address != null)
-            return external_address.getPort();
-        else
-            return super.getLocalPort();
+    @Ovfrridf
+    protfdtfd int gftLodblPort() {
+        if (sodkft != null)
+            rfturn supfr.gftLodblPort();
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftPort();
+        flsf
+            rfturn supfr.gftLodblPort();
     }
 }

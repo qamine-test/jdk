@@ -1,352 +1,352 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.io.*;
-import java.util.*;
-import java.util.jar.*;
-import java.util.zip.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+import jbvb.util.zip.*;
 
 /**
- * This class is used to maintain mappings from packages, classes
- * and resources to their enclosing JAR files. Mappings are kept
- * at the package level except for class or resource files that
- * are located at the root directory. URLClassLoader uses the mapping
- * information to determine where to fetch an extension class or
- * resource from.
+ * Tiis dlbss is usfd to mbintbin mbppings from pbdkbgfs, dlbssfs
+ * bnd rfsourdfs to tifir fndlosing JAR filfs. Mbppings brf kfpt
+ * bt tif pbdkbgf lfvfl fxdfpt for dlbss or rfsourdf filfs tibt
+ * brf lodbtfd bt tif root dirfdtory. URLClbssLobdfr usfs tif mbpping
+ * informbtion to dftfrminf wifrf to fftdi bn fxtfnsion dlbss or
+ * rfsourdf from.
  *
- * @author  Zhenghua Li
- * @since   1.3
+ * @butior  Zifngiub Li
+ * @sindf   1.3
  */
 
-public class JarIndex {
+publid dlbss JbrIndfx {
 
     /**
-     * The hash map that maintains mappings from
-     * package/classe/resource to jar file list(s)
+     * Tif ibsi mbp tibt mbintbins mbppings from
+     * pbdkbgf/dlbssf/rfsourdf to jbr filf list(s)
      */
-    private HashMap<String,LinkedList<String>> indexMap;
+    privbtf HbsiMbp<String,LinkfdList<String>> indfxMbp;
 
     /**
-     * The hash map that maintains mappings from
-     * jar file to package/class/resource lists
+     * Tif ibsi mbp tibt mbintbins mbppings from
+     * jbr filf to pbdkbgf/dlbss/rfsourdf lists
      */
-    private HashMap<String,LinkedList<String>> jarMap;
+    privbtf HbsiMbp<String,LinkfdList<String>> jbrMbp;
 
     /*
-     * An ordered list of jar file names.
+     * An ordfrfd list of jbr filf nbmfs.
      */
-    private String[] jarFiles;
+    privbtf String[] jbrFilfs;
 
     /**
-     * The index file name.
+     * Tif indfx filf nbmf.
      */
-    public static final String INDEX_NAME = "META-INF/INDEX.LIST";
+    publid stbtid finbl String INDEX_NAME = "META-INF/INDEX.LIST";
 
     /**
-     * true if, and only if, sun.misc.JarIndex.metaInfFilenames is set to true.
-     * If true, the names of the files in META-INF, and its subdirectories, will
-     * be added to the index. Otherwise, just the directory names are added.
+     * truf if, bnd only if, sun.misd.JbrIndfx.mftbInfFilfnbmfs is sft to truf.
+     * If truf, tif nbmfs of tif filfs in META-INF, bnd its subdirfdtorifs, will
+     * bf bddfd to tif indfx. Otifrwisf, just tif dirfdtory nbmfs brf bddfd.
      */
-    private static final boolean metaInfFilenames =
-        "true".equals(System.getProperty("sun.misc.JarIndex.metaInfFilenames"));
+    privbtf stbtid finbl boolfbn mftbInfFilfnbmfs =
+        "truf".fqubls(Systfm.gftPropfrty("sun.misd.JbrIndfx.mftbInfFilfnbmfs"));
 
     /**
-     * Constructs a new, empty jar index.
+     * Construdts b nfw, fmpty jbr indfx.
      */
-    public JarIndex() {
-        indexMap = new HashMap<>();
-        jarMap = new HashMap<>();
+    publid JbrIndfx() {
+        indfxMbp = nfw HbsiMbp<>();
+        jbrMbp = nfw HbsiMbp<>();
     }
 
     /**
-     * Constructs a new index from the specified input stream.
+     * Construdts b nfw indfx from tif spfdififd input strfbm.
      *
-     * @param is the input stream containing the index data
+     * @pbrbm is tif input strfbm dontbining tif indfx dbtb
      */
-    public JarIndex(InputStream is) throws IOException {
-        this();
-        read(is);
+    publid JbrIndfx(InputStrfbm is) tirows IOExdfption {
+        tiis();
+        rfbd(is);
     }
 
     /**
-     * Constructs a new index for the specified list of jar files.
+     * Construdts b nfw indfx for tif spfdififd list of jbr filfs.
      *
-     * @param files the list of jar files to construct the index from.
+     * @pbrbm filfs tif list of jbr filfs to donstrudt tif indfx from.
      */
-    public JarIndex(String[] files) throws IOException {
-        this();
-        this.jarFiles = files;
-        parseJars(files);
+    publid JbrIndfx(String[] filfs) tirows IOExdfption {
+        tiis();
+        tiis.jbrFilfs = filfs;
+        pbrsfJbrs(filfs);
     }
 
     /**
-     * Returns the jar index, or <code>null</code> if none.
+     * Rfturns tif jbr indfx, or <dodf>null</dodf> if nonf.
      *
-     * This single parameter version of the method is retained
-     * for binary compatibility with earlier releases.
+     * Tiis singlf pbrbmftfr vfrsion of tif mftiod is rftbinfd
+     * for binbry dompbtibility witi fbrlifr rflfbsfs.
      *
-     * @param jar the JAR file to get the index from.
-     * @exception IOException if an I/O error has occurred.
+     * @pbrbm jbr tif JAR filf to gft tif indfx from.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd.
      */
-    public static JarIndex getJarIndex(JarFile jar) throws IOException {
-        return getJarIndex(jar, null);
+    publid stbtid JbrIndfx gftJbrIndfx(JbrFilf jbr) tirows IOExdfption {
+        rfturn gftJbrIndfx(jbr, null);
     }
 
     /**
-     * Returns the jar index, or <code>null</code> if none.
+     * Rfturns tif jbr indfx, or <dodf>null</dodf> if nonf.
      *
-     * @param jar the JAR file to get the index from.
-     * @exception IOException if an I/O error has occurred.
+     * @pbrbm jbr tif JAR filf to gft tif indfx from.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd.
      */
-    public static JarIndex getJarIndex(JarFile jar, MetaIndex metaIndex) throws IOException {
-        JarIndex index = null;
-        /* If metaIndex is not null, check the meta index to see
-           if META-INF/INDEX.LIST is contained in jar file or not.
+    publid stbtid JbrIndfx gftJbrIndfx(JbrFilf jbr, MftbIndfx mftbIndfx) tirows IOExdfption {
+        JbrIndfx indfx = null;
+        /* If mftbIndfx is not null, difdk tif mftb indfx to sff
+           if META-INF/INDEX.LIST is dontbinfd in jbr filf or not.
         */
-        if (metaIndex != null &&
-            !metaIndex.mayContain(INDEX_NAME)) {
-            return null;
+        if (mftbIndfx != null &&
+            !mftbIndfx.mbyContbin(INDEX_NAME)) {
+            rfturn null;
         }
-        JarEntry e = jar.getJarEntry(INDEX_NAME);
-        // if found, then load the index
-        if (e != null) {
-            index = new JarIndex(jar.getInputStream(e));
+        JbrEntry f = jbr.gftJbrEntry(INDEX_NAME);
+        // if found, tifn lobd tif indfx
+        if (f != null) {
+            indfx = nfw JbrIndfx(jbr.gftInputStrfbm(f));
         }
-        return index;
+        rfturn indfx;
     }
 
     /**
-     * Returns the jar files that are defined in this index.
+     * Rfturns tif jbr filfs tibt brf dffinfd in tiis indfx.
      */
-    public String[] getJarFiles() {
-        return jarFiles;
+    publid String[] gftJbrFilfs() {
+        rfturn jbrFilfs;
     }
 
     /*
-     * Add the key, value pair to the hashmap, the value will
-     * be put in a linked list which is created if necessary.
+     * Add tif kfy, vbluf pbir to tif ibsimbp, tif vbluf will
+     * bf put in b linkfd list wiidi is drfbtfd if nfdfssbry.
      */
-    private void addToList(String key, String value,
-                           HashMap<String,LinkedList<String>> t) {
-        LinkedList<String> list = t.get(key);
+    privbtf void bddToList(String kfy, String vbluf,
+                           HbsiMbp<String,LinkfdList<String>> t) {
+        LinkfdList<String> list = t.gft(kfy);
         if (list == null) {
-            list = new LinkedList<>();
-            list.add(value);
-            t.put(key, list);
-        } else if (!list.contains(value)) {
-            list.add(value);
+            list = nfw LinkfdList<>();
+            list.bdd(vbluf);
+            t.put(kfy, list);
+        } flsf if (!list.dontbins(vbluf)) {
+            list.bdd(vbluf);
         }
     }
 
     /**
-     * Returns the list of jar files that are mapped to the file.
+     * Rfturns tif list of jbr filfs tibt brf mbppfd to tif filf.
      *
-     * @param fileName the key of the mapping
+     * @pbrbm filfNbmf tif kfy of tif mbpping
      */
-    public LinkedList<String> get(String fileName) {
-        LinkedList<String> jarFiles = null;
-        if ((jarFiles = indexMap.get(fileName)) == null) {
-            /* try the package name again */
+    publid LinkfdList<String> gft(String filfNbmf) {
+        LinkfdList<String> jbrFilfs = null;
+        if ((jbrFilfs = indfxMbp.gft(filfNbmf)) == null) {
+            /* try tif pbdkbgf nbmf bgbin */
             int pos;
-            if((pos = fileName.lastIndexOf('/')) != -1) {
-                jarFiles = indexMap.get(fileName.substring(0, pos));
+            if((pos = filfNbmf.lbstIndfxOf('/')) != -1) {
+                jbrFilfs = indfxMbp.gft(filfNbmf.substring(0, pos));
             }
         }
-        return jarFiles;
+        rfturn jbrFilfs;
     }
 
     /**
-     * Add the mapping from the specified file to the specified
-     * jar file. If there were no mapping for the package of the
-     * specified file before, a new linked list will be created,
-     * the jar file is added to the list and a new mapping from
-     * the package to the jar file list is added to the hashmap.
-     * Otherwise, the jar file will be added to the end of the
-     * existing list.
+     * Add tif mbpping from tif spfdififd filf to tif spfdififd
+     * jbr filf. If tifrf wfrf no mbpping for tif pbdkbgf of tif
+     * spfdififd filf bfforf, b nfw linkfd list will bf drfbtfd,
+     * tif jbr filf is bddfd to tif list bnd b nfw mbpping from
+     * tif pbdkbgf to tif jbr filf list is bddfd to tif ibsimbp.
+     * Otifrwisf, tif jbr filf will bf bddfd to tif fnd of tif
+     * fxisting list.
      *
-     * @param fileName the file name
-     * @param jarName the jar file that the file is mapped to
+     * @pbrbm filfNbmf tif filf nbmf
+     * @pbrbm jbrNbmf tif jbr filf tibt tif filf is mbppfd to
      *
      */
-    public void add(String fileName, String jarName) {
-        String packageName;
+    publid void bdd(String filfNbmf, String jbrNbmf) {
+        String pbdkbgfNbmf;
         int pos;
-        if((pos = fileName.lastIndexOf('/')) != -1) {
-            packageName = fileName.substring(0, pos);
-        } else {
-            packageName = fileName;
+        if((pos = filfNbmf.lbstIndfxOf('/')) != -1) {
+            pbdkbgfNbmf = filfNbmf.substring(0, pos);
+        } flsf {
+            pbdkbgfNbmf = filfNbmf;
         }
 
-        addMapping(packageName, jarName);
+        bddMbpping(pbdkbgfNbmf, jbrNbmf);
     }
 
     /**
-     * Same as add(String,String) except that it doesn't strip off from the
-     * last index of '/'. It just adds the jarItem (filename or package)
-     * as it is received.
+     * Sbmf bs bdd(String,String) fxdfpt tibt it dofsn't strip off from tif
+     * lbst indfx of '/'. It just bdds tif jbrItfm (filfnbmf or pbdkbgf)
+     * bs it is rfdfivfd.
      */
-    private void addMapping(String jarItem, String jarName) {
-        // add the mapping to indexMap
-        addToList(jarItem, jarName, indexMap);
+    privbtf void bddMbpping(String jbrItfm, String jbrNbmf) {
+        // bdd tif mbpping to indfxMbp
+        bddToList(jbrItfm, jbrNbmf, indfxMbp);
 
-        // add the mapping to jarMap
-        addToList(jarName, jarItem, jarMap);
+        // bdd tif mbpping to jbrMbp
+        bddToList(jbrNbmf, jbrItfm, jbrMbp);
      }
 
     /**
-     * Go through all the jar files and construct the
-     * index table.
+     * Go tirougi bll tif jbr filfs bnd donstrudt tif
+     * indfx tbblf.
      */
-    private void parseJars(String[] files) throws IOException {
-        if (files == null) {
-            return;
+    privbtf void pbrsfJbrs(String[] filfs) tirows IOExdfption {
+        if (filfs == null) {
+            rfturn;
         }
 
-        String currentJar = null;
+        String durrfntJbr = null;
 
-        for (int i = 0; i < files.length; i++) {
-            currentJar = files[i];
-            ZipFile zrf = new ZipFile(currentJar.replace
-                                      ('/', File.separatorChar));
+        for (int i = 0; i < filfs.lfngti; i++) {
+            durrfntJbr = filfs[i];
+            ZipFilf zrf = nfw ZipFilf(durrfntJbr.rfplbdf
+                                      ('/', Filf.sfpbrbtorCibr));
 
-            Enumeration<? extends ZipEntry> entries = zrf.entries();
-            while(entries.hasMoreElements()) {
-                ZipEntry entry = entries.nextElement();
-                String fileName = entry.getName();
+            Enumfrbtion<? fxtfnds ZipEntry> fntrifs = zrf.fntrifs();
+            wiilf(fntrifs.ibsMorfElfmfnts()) {
+                ZipEntry fntry = fntrifs.nfxtElfmfnt();
+                String filfNbmf = fntry.gftNbmf();
 
-                // Skip the META-INF directory, the index, and manifest.
-                // Any files in META-INF/ will be indexed explicitly
-                if (fileName.equals("META-INF/") ||
-                    fileName.equals(INDEX_NAME) ||
-                    fileName.equals(JarFile.MANIFEST_NAME))
-                    continue;
+                // Skip tif META-INF dirfdtory, tif indfx, bnd mbniffst.
+                // Any filfs in META-INF/ will bf indfxfd fxpliditly
+                if (filfNbmf.fqubls("META-INF/") ||
+                    filfNbmf.fqubls(INDEX_NAME) ||
+                    filfNbmf.fqubls(JbrFilf.MANIFEST_NAME))
+                    dontinuf;
 
-                if (!metaInfFilenames || !fileName.startsWith("META-INF/")) {
-                    add(fileName, currentJar);
-                } else if (!entry.isDirectory()) {
-                        // Add files under META-INF explicitly so that certain
-                        // services, like ServiceLoader, etc, can be located
-                        // with greater accuracy. Directories can be skipped
-                        // since each file will be added explicitly.
-                        addMapping(fileName, currentJar);
+                if (!mftbInfFilfnbmfs || !filfNbmf.stbrtsWiti("META-INF/")) {
+                    bdd(filfNbmf, durrfntJbr);
+                } flsf if (!fntry.isDirfdtory()) {
+                        // Add filfs undfr META-INF fxpliditly so tibt dfrtbin
+                        // sfrvidfs, likf SfrvidfLobdfr, ftd, dbn bf lodbtfd
+                        // witi grfbtfr bddurbdy. Dirfdtorifs dbn bf skippfd
+                        // sindf fbdi filf will bf bddfd fxpliditly.
+                        bddMbpping(filfNbmf, durrfntJbr);
                 }
             }
 
-            zrf.close();
+            zrf.dlosf();
         }
     }
 
     /**
-     * Writes the index to the specified OutputStream
+     * Writfs tif indfx to tif spfdififd OutputStrfbm
      *
-     * @param out the output stream
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm out tif output strfbm
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void write(OutputStream out) throws IOException {
-        BufferedWriter bw = new BufferedWriter
-            (new OutputStreamWriter(out, "UTF8"));
-        bw.write("JarIndex-Version: 1.0\n\n");
+    publid void writf(OutputStrfbm out) tirows IOExdfption {
+        BufffrfdWritfr bw = nfw BufffrfdWritfr
+            (nfw OutputStrfbmWritfr(out, "UTF8"));
+        bw.writf("JbrIndfx-Vfrsion: 1.0\n\n");
 
-        if (jarFiles != null) {
-            for (int i = 0; i < jarFiles.length; i++) {
-                /* print out the jar file name */
-                String jar = jarFiles[i];
-                bw.write(jar + "\n");
-                LinkedList<String> jarlist = jarMap.get(jar);
-                if (jarlist != null) {
-                    Iterator<String> listitr = jarlist.iterator();
-                    while(listitr.hasNext()) {
-                        bw.write(listitr.next() + "\n");
+        if (jbrFilfs != null) {
+            for (int i = 0; i < jbrFilfs.lfngti; i++) {
+                /* print out tif jbr filf nbmf */
+                String jbr = jbrFilfs[i];
+                bw.writf(jbr + "\n");
+                LinkfdList<String> jbrlist = jbrMbp.gft(jbr);
+                if (jbrlist != null) {
+                    Itfrbtor<String> listitr = jbrlist.itfrbtor();
+                    wiilf(listitr.ibsNfxt()) {
+                        bw.writf(listitr.nfxt() + "\n");
                     }
                 }
-                bw.write("\n");
+                bw.writf("\n");
             }
-            bw.flush();
+            bw.flusi();
         }
     }
 
 
     /**
-     * Reads the index from the specified InputStream.
+     * Rfbds tif indfx from tif spfdififd InputStrfbm.
      *
-     * @param is the input stream
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm is tif input strfbm
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void read(InputStream is) throws IOException {
-        BufferedReader br = new BufferedReader
-            (new InputStreamReader(is, "UTF8"));
-        String line = null;
-        String currentJar = null;
+    publid void rfbd(InputStrfbm is) tirows IOExdfption {
+        BufffrfdRfbdfr br = nfw BufffrfdRfbdfr
+            (nfw InputStrfbmRfbdfr(is, "UTF8"));
+        String linf = null;
+        String durrfntJbr = null;
 
-        /* an ordered list of jar file names */
-        Vector<String> jars = new Vector<>();
+        /* bn ordfrfd list of jbr filf nbmfs */
+        Vfdtor<String> jbrs = nfw Vfdtor<>();
 
-        /* read until we see a .jar line */
-        while((line = br.readLine()) != null && !line.endsWith(".jar"));
+        /* rfbd until wf sff b .jbr linf */
+        wiilf((linf = br.rfbdLinf()) != null && !linf.fndsWiti(".jbr"));
 
-        for(;line != null; line = br.readLine()) {
-            if (line.length() == 0)
-                continue;
+        for(;linf != null; linf = br.rfbdLinf()) {
+            if (linf.lfngti() == 0)
+                dontinuf;
 
-            if (line.endsWith(".jar")) {
-                currentJar = line;
-                jars.add(currentJar);
-            } else {
-                String name = line;
-                addMapping(name, currentJar);
+            if (linf.fndsWiti(".jbr")) {
+                durrfntJbr = linf;
+                jbrs.bdd(durrfntJbr);
+            } flsf {
+                String nbmf = linf;
+                bddMbpping(nbmf, durrfntJbr);
             }
         }
 
-        jarFiles = jars.toArray(new String[jars.size()]);
+        jbrFilfs = jbrs.toArrby(nfw String[jbrs.sizf()]);
     }
 
     /**
-     * Merges the current index into another index, taking into account
-     * the relative path of the current index.
+     * Mfrgfs tif durrfnt indfx into bnotifr indfx, tbking into bddount
+     * tif rflbtivf pbti of tif durrfnt indfx.
      *
-     * @param toIndex The destination index which the current index will
-     *                merge into.
-     * @param path    The relative path of the this index to the destination
-     *                index.
+     * @pbrbm toIndfx Tif dfstinbtion indfx wiidi tif durrfnt indfx will
+     *                mfrgf into.
+     * @pbrbm pbti    Tif rflbtivf pbti of tif tiis indfx to tif dfstinbtion
+     *                indfx.
      *
      */
-    public void merge(JarIndex toIndex, String path) {
-        Iterator<Map.Entry<String,LinkedList<String>>> itr = indexMap.entrySet().iterator();
-        while(itr.hasNext()) {
-            Map.Entry<String,LinkedList<String>> e = itr.next();
-            String packageName = e.getKey();
-            LinkedList<String> from_list = e.getValue();
-            Iterator<String> listItr = from_list.iterator();
-            while(listItr.hasNext()) {
-                String jarName = listItr.next();
-                if (path != null) {
-                    jarName = path.concat(jarName);
+    publid void mfrgf(JbrIndfx toIndfx, String pbti) {
+        Itfrbtor<Mbp.Entry<String,LinkfdList<String>>> itr = indfxMbp.fntrySft().itfrbtor();
+        wiilf(itr.ibsNfxt()) {
+            Mbp.Entry<String,LinkfdList<String>> f = itr.nfxt();
+            String pbdkbgfNbmf = f.gftKfy();
+            LinkfdList<String> from_list = f.gftVbluf();
+            Itfrbtor<String> listItr = from_list.itfrbtor();
+            wiilf(listItr.ibsNfxt()) {
+                String jbrNbmf = listItr.nfxt();
+                if (pbti != null) {
+                    jbrNbmf = pbti.dondbt(jbrNbmf);
                 }
-                toIndex.addMapping(packageName, jarName);
+                toIndfx.bddMbpping(pbdkbgfNbmf, jbrNbmf);
             }
         }
     }

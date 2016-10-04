@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.SSLSecurity,
- * but was heavily modified to allow com.sun.* users to
- * access providers written using the javax.sun.* APIs.
+ * NOTE:  tiis filf wbs dopifd from jbvbx.nft.ssl.SSLSfdurity,
+ * but wbs ifbvily modififd to bllow dom.sun.* usfrs to
+ * bddfss providfrs writtfn using tif jbvbx.sun.* APIs.
  */
 
-package com.sun.net.ssl;
+pbdkbgf dom.sun.nft.ssl;
 
-import java.util.*;
-import java.io.*;
-import java.security.*;
-import java.security.Provider.Service;
-import java.net.Socket;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.nft.Sodkft;
 
-import sun.security.jca.*;
+import sun.sfdurity.jdb.*;
 
 /**
- * This class instantiates implementations of JSSE engine classes from
- * providers registered with the java.security.Security object.
+ * Tiis dlbss instbntibtfs implfmfntbtions of JSSE fnginf dlbssfs from
+ * providfrs rfgistfrfd witi tif jbvb.sfdurity.Sfdurity objfdt.
  *
- * @author Jan Luehe
- * @author Jeff Nisewanger
- * @author Brad Wetmore
+ * @butior Jbn Lufif
+ * @butior Jfff Nisfwbngfr
+ * @butior Brbd Wftmorf
  */
 
-final class SSLSecurity {
+finbl dlbss SSLSfdurity {
 
     /*
-     * Don't let anyone instantiate this.
+     * Don't lft bnyonf instbntibtf tiis.
      */
-    private SSLSecurity() {
+    privbtf SSLSfdurity() {
     }
 
 
-    // ProviderList.getService() is not accessible now, implement our own loop
-    private static Service getService(String type, String alg) {
-        ProviderList list = Providers.getProviderList();
-        for (Provider p : list.providers()) {
-            Service s = p.getService(type, alg);
+    // ProvidfrList.gftSfrvidf() is not bddfssiblf now, implfmfnt our own loop
+    privbtf stbtid Sfrvidf gftSfrvidf(String typf, String blg) {
+        ProvidfrList list = Providfrs.gftProvidfrList();
+        for (Providfr p : list.providfrs()) {
+            Sfrvidf s = p.gftSfrvidf(typf, blg);
             if (s != null) {
-                return s;
+                rfturn s;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * The body of the driver for the getImpl method.
+     * Tif body of tif drivfr for tif gftImpl mftiod.
      */
-    private static Object[] getImpl1(String algName, String engineType,
-            Service service) throws NoSuchAlgorithmException
+    privbtf stbtid Objfdt[] gftImpl1(String blgNbmf, String fnginfTypf,
+            Sfrvidf sfrvidf) tirows NoSudiAlgoritimExdfption
     {
-        Provider provider = service.getProvider();
-        String className = service.getClassName();
-        Class<?> implClass;
+        Providfr providfr = sfrvidf.gftProvidfr();
+        String dlbssNbmf = sfrvidf.gftClbssNbmf();
+        Clbss<?> implClbss;
         try {
-            ClassLoader cl = provider.getClass().getClassLoader();
-            if (cl == null) {
-                // system class
-                implClass = Class.forName(className);
-            } else {
-                implClass = cl.loadClass(className);
+            ClbssLobdfr dl = providfr.gftClbss().gftClbssLobdfr();
+            if (dl == null) {
+                // systfm dlbss
+                implClbss = Clbss.forNbmf(dlbssNbmf);
+            } flsf {
+                implClbss = dl.lobdClbss(dlbssNbmf);
             }
-        } catch (ClassNotFoundException e) {
-            throw new NoSuchAlgorithmException("Class " + className +
-                                                " configured for " +
-                                                engineType +
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw NoSudiAlgoritimExdfption("Clbss " + dlbssNbmf +
+                                                " donfigurfd for " +
+                                                fnginfTypf +
                                                 " not found: " +
-                                                e.getMessage());
-        } catch (SecurityException e) {
-            throw new NoSuchAlgorithmException("Class " + className +
-                                                " configured for " +
-                                                engineType +
-                                                " cannot be accessed: " +
-                                                e.getMessage());
+                                                f.gftMfssbgf());
+        } dbtdi (SfdurityExdfption f) {
+            tirow nfw NoSudiAlgoritimExdfption("Clbss " + dlbssNbmf +
+                                                " donfigurfd for " +
+                                                fnginfTypf +
+                                                " dbnnot bf bddfssfd: " +
+                                                f.gftMfssbgf());
         }
 
         /*
-         * JSSE 1.0, 1.0.1, and 1.0.2 used the com.sun.net.ssl API as the
-         * API was being developed.  As JSSE was folded into the main
-         * release, it was decided to promote the com.sun.net.ssl API to
-         * be javax.net.ssl.  It is desired to keep binary compatibility
-         * with vendors of JSSE implementation written using the
-         * com.sun.net.sll API, so we do this magic to handle everything.
+         * JSSE 1.0, 1.0.1, bnd 1.0.2 usfd tif dom.sun.nft.ssl API bs tif
+         * API wbs bfing dfvflopfd.  As JSSE wbs foldfd into tif mbin
+         * rflfbsf, it wbs dfdidfd to promotf tif dom.sun.nft.ssl API to
+         * bf jbvbx.nft.ssl.  It is dfsirfd to kffp binbry dompbtibility
+         * witi vfndors of JSSE implfmfntbtion writtfn using tif
+         * dom.sun.nft.sll API, so wf do tiis mbgid to ibndlf fvfrytiing.
          *
-         * API used     Implementation used     Supported?
+         * API usfd     Implfmfntbtion usfd     Supportfd?
          * ========     ===================     ==========
-         * com.sun      javax                   Yes
-         * com.sun      com.sun                 Yes
-         * javax        javax                   Yes
-         * javax        com.sun                 Not Currently
+         * dom.sun      jbvbx                   Yfs
+         * dom.sun      dom.sun                 Yfs
+         * jbvbx        jbvbx                   Yfs
+         * jbvbx        dom.sun                 Not Currfntly
          *
-         * Make sure the implementation class is a subclass of the
-         * corresponding engine class.
+         * Mbkf surf tif implfmfntbtion dlbss is b subdlbss of tif
+         * dorrfsponding fnginf dlbss.
          *
-         * In wrapping these classes, there's no way to know how to
-         * wrap all possible classes that extend the TrustManager/KeyManager.
-         * We only wrap the x509 variants.
+         * In wrbpping tifsf dlbssfs, tifrf's no wby to know iow to
+         * wrbp bll possiblf dlbssfs tibt fxtfnd tif TrustMbnbgfr/KfyMbnbgfr.
+         * Wf only wrbp tif x509 vbribnts.
          */
 
-        try {   // catch instantiation errors
+        try {   // dbtdi instbntibtion frrors
 
             /*
-             * (The following Class.forName()s should alway work, because
-             * this class and all the SPI classes in javax.crypto are
-             * loaded by the same class loader.)  That is, unless they
-             * give us a SPI class that doesn't exist, say SSLFoo,
-             * or someone has removed classes from the jsse.jar file.
+             * (Tif following Clbss.forNbmf()s siould blwby work, bfdbusf
+             * tiis dlbss bnd bll tif SPI dlbssfs in jbvbx.drypto brf
+             * lobdfd by tif sbmf dlbss lobdfr.)  Tibt is, unlfss tify
+             * givf us b SPI dlbss tibt dofsn't fxist, sby SSLFoo,
+             * or somfonf ibs rfmovfd dlbssfs from tif jssf.jbr filf.
              */
 
-            Class<?> typeClassJavax;
-            Class<?> typeClassCom;
-            Object obj = null;
+            Clbss<?> typfClbssJbvbx;
+            Clbss<?> typfClbssCom;
+            Objfdt obj = null;
 
             /*
-             * Odds are more likely that we have a javax variant, try this
+             * Odds brf morf likfly tibt wf ibvf b jbvbx vbribnt, try tiis
              * first.
              */
-            if (((typeClassJavax = Class.forName("javax.net.ssl." +
-                    engineType + "Spi")) != null) &&
-                    (checkSuperclass(implClass, typeClassJavax))) {
+            if (((typfClbssJbvbx = Clbss.forNbmf("jbvbx.nft.ssl." +
+                    fnginfTypf + "Spi")) != null) &&
+                    (difdkSupfrdlbss(implClbss, typfClbssJbvbx))) {
 
-                if (engineType.equals("SSLContext")) {
-                    obj = new SSLContextSpiWrapper(algName, provider);
-                } else if (engineType.equals("TrustManagerFactory")) {
-                    obj = new TrustManagerFactorySpiWrapper(algName, provider);
-                } else if (engineType.equals("KeyManagerFactory")) {
-                    obj = new KeyManagerFactorySpiWrapper(algName, provider);
-                } else {
+                if (fnginfTypf.fqubls("SSLContfxt")) {
+                    obj = nfw SSLContfxtSpiWrbppfr(blgNbmf, providfr);
+                } flsf if (fnginfTypf.fqubls("TrustMbnbgfrFbdtory")) {
+                    obj = nfw TrustMbnbgfrFbdtorySpiWrbppfr(blgNbmf, providfr);
+                } flsf if (fnginfTypf.fqubls("KfyMbnbgfrFbdtory")) {
+                    obj = nfw KfyMbnbgfrFbdtorySpiWrbppfr(blgNbmf, providfr);
+                } flsf {
                     /*
-                     * We should throw an error if we get
-                     * something totally unexpected.  Don't ever
-                     * expect to see this one...
+                     * Wf siould tirow bn frror if wf gft
+                     * somftiing totblly unfxpfdtfd.  Don't fvfr
+                     * fxpfdt to sff tiis onf...
                      */
-                    throw new IllegalStateException(
-                        "Class " + implClass.getName() +
-                        " unknown engineType wrapper:" + engineType);
+                    tirow nfw IllfgblStbtfExdfption(
+                        "Clbss " + implClbss.gftNbmf() +
+                        " unknown fnginfTypf wrbppfr:" + fnginfTypf);
                 }
 
-            } else if (((typeClassCom = Class.forName("com.sun.net.ssl." +
-                        engineType + "Spi")) != null) &&
-                        (checkSuperclass(implClass, typeClassCom))) {
-                obj = service.newInstance(null);
+            } flsf if (((typfClbssCom = Clbss.forNbmf("dom.sun.nft.ssl." +
+                        fnginfTypf + "Spi")) != null) &&
+                        (difdkSupfrdlbss(implClbss, typfClbssCom))) {
+                obj = sfrvidf.nfwInstbndf(null);
             }
 
             if (obj != null) {
-                return new Object[] { obj, provider };
-            } else {
-                throw new NoSuchAlgorithmException(
-                    "Couldn't locate correct object or wrapper: " +
-                    engineType + " " + algName);
+                rfturn nfw Objfdt[] { obj, providfr };
+            } flsf {
+                tirow nfw NoSudiAlgoritimExdfption(
+                    "Couldn't lodbtf dorrfdt objfdt or wrbppfr: " +
+                    fnginfTypf + " " + blgNbmf);
             }
 
-        } catch (ClassNotFoundException e) {
-            IllegalStateException exc = new IllegalStateException(
-                "Engine Class Not Found for " + engineType);
-            exc.initCause(e);
-            throw exc;
+        } dbtdi (ClbssNotFoundExdfption f) {
+            IllfgblStbtfExdfption fxd = nfw IllfgblStbtfExdfption(
+                "Enginf Clbss Not Found for " + fnginfTypf);
+            fxd.initCbusf(f);
+            tirow fxd;
         }
     }
 
     /**
-     * Returns an array of objects: the first object in the array is
-     * an instance of an implementation of the requested algorithm
-     * and type, and the second object in the array identifies the provider
-     * of that implementation.
-     * The <code>provName</code> argument can be null, in which case all
-     * configured providers will be searched in order of preference.
+     * Rfturns bn brrby of objfdts: tif first objfdt in tif brrby is
+     * bn instbndf of bn implfmfntbtion of tif rfqufstfd blgoritim
+     * bnd typf, bnd tif sfdond objfdt in tif brrby idfntififs tif providfr
+     * of tibt implfmfntbtion.
+     * Tif <dodf>provNbmf</dodf> brgumfnt dbn bf null, in wiidi dbsf bll
+     * donfigurfd providfrs will bf sfbrdifd in ordfr of prfffrfndf.
      */
-    static Object[] getImpl(String algName, String engineType, String provName)
-        throws NoSuchAlgorithmException, NoSuchProviderException
+    stbtid Objfdt[] gftImpl(String blgNbmf, String fnginfTypf, String provNbmf)
+        tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption
     {
-        Service service;
-        if (provName != null) {
-            ProviderList list = Providers.getProviderList();
-            Provider prov = list.getProvider(provName);
+        Sfrvidf sfrvidf;
+        if (provNbmf != null) {
+            ProvidfrList list = Providfrs.gftProvidfrList();
+            Providfr prov = list.gftProvidfr(provNbmf);
             if (prov == null) {
-                throw new NoSuchProviderException("No such provider: " +
-                                                  provName);
+                tirow nfw NoSudiProvidfrExdfption("No sudi providfr: " +
+                                                  provNbmf);
             }
-            service = prov.getService(engineType, algName);
-        } else {
-            service = getService(engineType, algName);
+            sfrvidf = prov.gftSfrvidf(fnginfTypf, blgNbmf);
+        } flsf {
+            sfrvidf = gftSfrvidf(fnginfTypf, blgNbmf);
         }
-        if (service == null) {
-            throw new NoSuchAlgorithmException("Algorithm " + algName
-                                               + " not available");
+        if (sfrvidf == null) {
+            tirow nfw NoSudiAlgoritimExdfption("Algoritim " + blgNbmf
+                                               + " not bvbilbblf");
         }
-        return getImpl1(algName, engineType, service);
+        rfturn gftImpl1(blgNbmf, fnginfTypf, sfrvidf);
     }
 
 
     /**
-     * Returns an array of objects: the first object in the array is
-     * an instance of an implementation of the requested algorithm
-     * and type, and the second object in the array identifies the provider
-     * of that implementation.
-     * The <code>prov</code> argument can be null, in which case all
-     * configured providers will be searched in order of preference.
+     * Rfturns bn brrby of objfdts: tif first objfdt in tif brrby is
+     * bn instbndf of bn implfmfntbtion of tif rfqufstfd blgoritim
+     * bnd typf, bnd tif sfdond objfdt in tif brrby idfntififs tif providfr
+     * of tibt implfmfntbtion.
+     * Tif <dodf>prov</dodf> brgumfnt dbn bf null, in wiidi dbsf bll
+     * donfigurfd providfrs will bf sfbrdifd in ordfr of prfffrfndf.
      */
-    static Object[] getImpl(String algName, String engineType, Provider prov)
-        throws NoSuchAlgorithmException
+    stbtid Objfdt[] gftImpl(String blgNbmf, String fnginfTypf, Providfr prov)
+        tirows NoSudiAlgoritimExdfption
     {
-        Service service = prov.getService(engineType, algName);
-        if (service == null) {
-            throw new NoSuchAlgorithmException("No such algorithm: " +
-                                               algName);
+        Sfrvidf sfrvidf = prov.gftSfrvidf(fnginfTypf, blgNbmf);
+        if (sfrvidf == null) {
+            tirow nfw NoSudiAlgoritimExdfption("No sudi blgoritim: " +
+                                               blgNbmf);
         }
-        return getImpl1(algName, engineType, service);
+        rfturn gftImpl1(blgNbmf, fnginfTypf, sfrvidf);
     }
 
     /*
-     * Checks whether one class is the superclass of another
+     * Cifdks wiftifr onf dlbss is tif supfrdlbss of bnotifr
      */
-    private static boolean checkSuperclass(Class<?> subclass, Class<?> superclass) {
-        if ((subclass == null) || (superclass == null))
-                return false;
+    privbtf stbtid boolfbn difdkSupfrdlbss(Clbss<?> subdlbss, Clbss<?> supfrdlbss) {
+        if ((subdlbss == null) || (supfrdlbss == null))
+                rfturn fblsf;
 
-        while (!subclass.equals(superclass)) {
-            subclass = subclass.getSuperclass();
-            if (subclass == null) {
-                return false;
+        wiilf (!subdlbss.fqubls(supfrdlbss)) {
+            subdlbss = subdlbss.gftSupfrdlbss();
+            if (subdlbss == null) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /*
-     * Return at most the first "resize" elements of an array.
+     * Rfturn bt most tif first "rfsizf" flfmfnts of bn brrby.
      *
-     * Didn't want to use java.util.Arrays, as PJava may not have it.
+     * Didn't wbnt to usf jbvb.util.Arrbys, bs PJbvb mby not ibvf it.
      */
-    static Object[] truncateArray(Object[] oldArray, Object[] newArray) {
+    stbtid Objfdt[] trundbtfArrby(Objfdt[] oldArrby, Objfdt[] nfwArrby) {
 
-        for (int i = 0; i < newArray.length; i++) {
-            newArray[i] = oldArray[i];
+        for (int i = 0; i < nfwArrby.lfngti; i++) {
+            nfwArrby[i] = oldArrby[i];
         }
 
-        return newArray;
+        rfturn nfwArrby;
     }
 
 }
@@ -269,423 +269,423 @@ final class SSLSecurity {
 
 /*
  * =================================================================
- * The remainder of this file is for the wrapper and wrapper-support
- * classes.  When SSLSecurity finds something which extends the
- * javax.net.ssl.*Spi, we need to go grab a real instance of the
- * thing that the Spi supports, and wrap into a com.sun.net.ssl.*Spi
- * object.  This also mean that anything going down into the SPI
- * needs to be wrapped, as well as anything coming back up.
+ * Tif rfmbindfr of tiis filf is for tif wrbppfr bnd wrbppfr-support
+ * dlbssfs.  Wifn SSLSfdurity finds somftiing wiidi fxtfnds tif
+ * jbvbx.nft.ssl.*Spi, wf nffd to go grbb b rfbl instbndf of tif
+ * tiing tibt tif Spi supports, bnd wrbp into b dom.sun.nft.ssl.*Spi
+ * objfdt.  Tiis blso mfbn tibt bnytiing going down into tif SPI
+ * nffds to bf wrbppfd, bs wfll bs bnytiing doming bbdk up.
  */
-final class SSLContextSpiWrapper extends SSLContextSpi {
+finbl dlbss SSLContfxtSpiWrbppfr fxtfnds SSLContfxtSpi {
 
-    private javax.net.ssl.SSLContext theSSLContext;
+    privbtf jbvbx.nft.ssl.SSLContfxt tifSSLContfxt;
 
-    SSLContextSpiWrapper(String algName, Provider prov) throws
-            NoSuchAlgorithmException {
-        theSSLContext = javax.net.ssl.SSLContext.getInstance(algName, prov);
+    SSLContfxtSpiWrbppfr(String blgNbmf, Providfr prov) tirows
+            NoSudiAlgoritimExdfption {
+        tifSSLContfxt = jbvbx.nft.ssl.SSLContfxt.gftInstbndf(blgNbmf, prov);
     }
 
-    protected void engineInit(KeyManager[] kma, TrustManager[] tma,
-            SecureRandom sr) throws KeyManagementException {
+    protfdtfd void fnginfInit(KfyMbnbgfr[] kmb, TrustMbnbgfr[] tmb,
+            SfdurfRbndom sr) tirows KfyMbnbgfmfntExdfption {
 
-        // Keep track of the actual number of array elements copied
+        // Kffp trbdk of tif bdtubl numbfr of brrby flfmfnts dopifd
         int dst;
-        int src;
-        javax.net.ssl.KeyManager[] kmaw;
-        javax.net.ssl.TrustManager[] tmaw;
+        int srd;
+        jbvbx.nft.ssl.KfyMbnbgfr[] kmbw;
+        jbvbx.nft.ssl.TrustMbnbgfr[] tmbw;
 
-        // Convert com.sun.net.ssl.kma to a javax.net.ssl.kma
-        // wrapper if need be.
-        if (kma != null) {
-            kmaw = new javax.net.ssl.KeyManager[kma.length];
-            for (src = 0, dst = 0; src < kma.length; ) {
+        // Convfrt dom.sun.nft.ssl.kmb to b jbvbx.nft.ssl.kmb
+        // wrbppfr if nffd bf.
+        if (kmb != null) {
+            kmbw = nfw jbvbx.nft.ssl.KfyMbnbgfr[kmb.lfngti];
+            for (srd = 0, dst = 0; srd < kmb.lfngti; ) {
                 /*
-                 * These key managers may implement both javax
-                 * and com.sun interfaces, so if they do
-                 * javax, there's no need to wrap them.
+                 * Tifsf kfy mbnbgfrs mby implfmfnt boti jbvbx
+                 * bnd dom.sun intfrfbdfs, so if tify do
+                 * jbvbx, tifrf's no nffd to wrbp tifm.
                  */
-                if (!(kma[src] instanceof javax.net.ssl.KeyManager)) {
+                if (!(kmb[srd] instbndfof jbvbx.nft.ssl.KfyMbnbgfr)) {
                     /*
-                     * Do we know how to convert them?  If not, oh well...
-                     * We'll have to drop them on the floor in this
-                     * case, cause we don't know how to handle them.
-                     * This will be pretty rare, but put here for
-                     * completeness.
+                     * Do wf know iow to donvfrt tifm?  If not, oi wfll...
+                     * Wf'll ibvf to drop tifm on tif floor in tiis
+                     * dbsf, dbusf wf don't know iow to ibndlf tifm.
+                     * Tiis will bf prftty rbrf, but put ifrf for
+                     * domplftfnfss.
                      */
-                    if (kma[src] instanceof X509KeyManager) {
-                        kmaw[dst] = (javax.net.ssl.KeyManager)
-                            new X509KeyManagerJavaxWrapper(
-                            (X509KeyManager)kma[src]);
+                    if (kmb[srd] instbndfof X509KfyMbnbgfr) {
+                        kmbw[dst] = (jbvbx.nft.ssl.KfyMbnbgfr)
+                            nfw X509KfyMbnbgfrJbvbxWrbppfr(
+                            (X509KfyMbnbgfr)kmb[srd]);
                         dst++;
                     }
-                } else {
-                    // We can convert directly, since they implement.
-                    kmaw[dst] = (javax.net.ssl.KeyManager)kma[src];
+                } flsf {
+                    // Wf dbn donvfrt dirfdtly, sindf tify implfmfnt.
+                    kmbw[dst] = (jbvbx.nft.ssl.KfyMbnbgfr)kmb[srd];
                     dst++;
                 }
-                src++;
+                srd++;
             }
 
             /*
-             * If dst != src, there were more items in the original array
-             * than in the new array.  Compress the new elements to avoid
-             * any problems down the road.
+             * If dst != srd, tifrf wfrf morf itfms in tif originbl brrby
+             * tibn in tif nfw brrby.  Comprfss tif nfw flfmfnts to bvoid
+             * bny problfms down tif robd.
              */
-            if (dst != src) {
-                    kmaw = (javax.net.ssl.KeyManager [])
-                        SSLSecurity.truncateArray(kmaw,
-                            new javax.net.ssl.KeyManager [dst]);
+            if (dst != srd) {
+                    kmbw = (jbvbx.nft.ssl.KfyMbnbgfr [])
+                        SSLSfdurity.trundbtfArrby(kmbw,
+                            nfw jbvbx.nft.ssl.KfyMbnbgfr [dst]);
             }
-        } else {
-            kmaw = null;
+        } flsf {
+            kmbw = null;
         }
 
-        // Now do the same thing with the TrustManagers.
-        if (tma != null) {
-            tmaw = new javax.net.ssl.TrustManager[tma.length];
+        // Now do tif sbmf tiing witi tif TrustMbnbgfrs.
+        if (tmb != null) {
+            tmbw = nfw jbvbx.nft.ssl.TrustMbnbgfr[tmb.lfngti];
 
-            for (src = 0, dst = 0; src < tma.length; ) {
+            for (srd = 0, dst = 0; srd < tmb.lfngti; ) {
                 /*
-                 * These key managers may implement both...see above...
+                 * Tifsf kfy mbnbgfrs mby implfmfnt boti...sff bbovf...
                  */
-                if (!(tma[src] instanceof javax.net.ssl.TrustManager)) {
-                    // Do we know how to convert them?
-                    if (tma[src] instanceof X509TrustManager) {
-                        tmaw[dst] = (javax.net.ssl.TrustManager)
-                            new X509TrustManagerJavaxWrapper(
-                            (X509TrustManager)tma[src]);
+                if (!(tmb[srd] instbndfof jbvbx.nft.ssl.TrustMbnbgfr)) {
+                    // Do wf know iow to donvfrt tifm?
+                    if (tmb[srd] instbndfof X509TrustMbnbgfr) {
+                        tmbw[dst] = (jbvbx.nft.ssl.TrustMbnbgfr)
+                            nfw X509TrustMbnbgfrJbvbxWrbppfr(
+                            (X509TrustMbnbgfr)tmb[srd]);
                         dst++;
                     }
-                } else {
-                    tmaw[dst] = (javax.net.ssl.TrustManager)tma[src];
+                } flsf {
+                    tmbw[dst] = (jbvbx.nft.ssl.TrustMbnbgfr)tmb[srd];
                     dst++;
                 }
-                src++;
+                srd++;
             }
 
-            if (dst != src) {
-                tmaw = (javax.net.ssl.TrustManager [])
-                    SSLSecurity.truncateArray(tmaw,
-                        new javax.net.ssl.TrustManager [dst]);
+            if (dst != srd) {
+                tmbw = (jbvbx.nft.ssl.TrustMbnbgfr [])
+                    SSLSfdurity.trundbtfArrby(tmbw,
+                        nfw jbvbx.nft.ssl.TrustMbnbgfr [dst]);
             }
-        } else {
-            tmaw = null;
+        } flsf {
+            tmbw = null;
         }
 
-        theSSLContext.init(kmaw, tmaw, sr);
+        tifSSLContfxt.init(kmbw, tmbw, sr);
     }
 
-    protected javax.net.ssl.SSLSocketFactory
-            engineGetSocketFactory() {
-        return theSSLContext.getSocketFactory();
+    protfdtfd jbvbx.nft.ssl.SSLSodkftFbdtory
+            fnginfGftSodkftFbdtory() {
+        rfturn tifSSLContfxt.gftSodkftFbdtory();
     }
 
-    protected javax.net.ssl.SSLServerSocketFactory
-            engineGetServerSocketFactory() {
-        return theSSLContext.getServerSocketFactory();
+    protfdtfd jbvbx.nft.ssl.SSLSfrvfrSodkftFbdtory
+            fnginfGftSfrvfrSodkftFbdtory() {
+        rfturn tifSSLContfxt.gftSfrvfrSodkftFbdtory();
     }
 
 }
 
-final class TrustManagerFactorySpiWrapper extends TrustManagerFactorySpi {
+finbl dlbss TrustMbnbgfrFbdtorySpiWrbppfr fxtfnds TrustMbnbgfrFbdtorySpi {
 
-    private javax.net.ssl.TrustManagerFactory theTrustManagerFactory;
+    privbtf jbvbx.nft.ssl.TrustMbnbgfrFbdtory tifTrustMbnbgfrFbdtory;
 
-    TrustManagerFactorySpiWrapper(String algName, Provider prov) throws
-            NoSuchAlgorithmException {
-        theTrustManagerFactory =
-            javax.net.ssl.TrustManagerFactory.getInstance(algName, prov);
+    TrustMbnbgfrFbdtorySpiWrbppfr(String blgNbmf, Providfr prov) tirows
+            NoSudiAlgoritimExdfption {
+        tifTrustMbnbgfrFbdtory =
+            jbvbx.nft.ssl.TrustMbnbgfrFbdtory.gftInstbndf(blgNbmf, prov);
     }
 
-    protected void engineInit(KeyStore ks) throws KeyStoreException {
-        theTrustManagerFactory.init(ks);
+    protfdtfd void fnginfInit(KfyStorf ks) tirows KfyStorfExdfption {
+        tifTrustMbnbgfrFbdtory.init(ks);
     }
 
-    protected TrustManager[] engineGetTrustManagers() {
+    protfdtfd TrustMbnbgfr[] fnginfGftTrustMbnbgfrs() {
 
         int dst;
-        int src;
+        int srd;
 
-        javax.net.ssl.TrustManager[] tma =
-            theTrustManagerFactory.getTrustManagers();
+        jbvbx.nft.ssl.TrustMbnbgfr[] tmb =
+            tifTrustMbnbgfrFbdtory.gftTrustMbnbgfrs();
 
-        TrustManager[] tmaw = new TrustManager[tma.length];
+        TrustMbnbgfr[] tmbw = nfw TrustMbnbgfr[tmb.lfngti];
 
-        for (src = 0, dst = 0; src < tma.length; ) {
-            if (!(tma[src] instanceof com.sun.net.ssl.TrustManager)) {
-                // We only know how to wrap X509TrustManagers, as
-                // TrustManagers don't have any methods to wrap.
-                if (tma[src] instanceof javax.net.ssl.X509TrustManager) {
-                    tmaw[dst] = (TrustManager)
-                        new X509TrustManagerComSunWrapper(
-                        (javax.net.ssl.X509TrustManager)tma[src]);
+        for (srd = 0, dst = 0; srd < tmb.lfngti; ) {
+            if (!(tmb[srd] instbndfof dom.sun.nft.ssl.TrustMbnbgfr)) {
+                // Wf only know iow to wrbp X509TrustMbnbgfrs, bs
+                // TrustMbnbgfrs don't ibvf bny mftiods to wrbp.
+                if (tmb[srd] instbndfof jbvbx.nft.ssl.X509TrustMbnbgfr) {
+                    tmbw[dst] = (TrustMbnbgfr)
+                        nfw X509TrustMbnbgfrComSunWrbppfr(
+                        (jbvbx.nft.ssl.X509TrustMbnbgfr)tmb[srd]);
                     dst++;
                 }
-            } else {
-                tmaw[dst] = (TrustManager)tma[src];
+            } flsf {
+                tmbw[dst] = (TrustMbnbgfr)tmb[srd];
                 dst++;
             }
-            src++;
+            srd++;
         }
 
-        if (dst != src) {
-            tmaw = (TrustManager [])
-                SSLSecurity.truncateArray(tmaw, new TrustManager [dst]);
+        if (dst != srd) {
+            tmbw = (TrustMbnbgfr [])
+                SSLSfdurity.trundbtfArrby(tmbw, nfw TrustMbnbgfr [dst]);
         }
 
-        return tmaw;
+        rfturn tmbw;
     }
 
 }
 
-final class KeyManagerFactorySpiWrapper extends KeyManagerFactorySpi {
+finbl dlbss KfyMbnbgfrFbdtorySpiWrbppfr fxtfnds KfyMbnbgfrFbdtorySpi {
 
-    private javax.net.ssl.KeyManagerFactory theKeyManagerFactory;
+    privbtf jbvbx.nft.ssl.KfyMbnbgfrFbdtory tifKfyMbnbgfrFbdtory;
 
-    KeyManagerFactorySpiWrapper(String algName, Provider prov) throws
-            NoSuchAlgorithmException {
-        theKeyManagerFactory =
-            javax.net.ssl.KeyManagerFactory.getInstance(algName, prov);
+    KfyMbnbgfrFbdtorySpiWrbppfr(String blgNbmf, Providfr prov) tirows
+            NoSudiAlgoritimExdfption {
+        tifKfyMbnbgfrFbdtory =
+            jbvbx.nft.ssl.KfyMbnbgfrFbdtory.gftInstbndf(blgNbmf, prov);
     }
 
-    protected void engineInit(KeyStore ks, char[] password)
-            throws KeyStoreException, NoSuchAlgorithmException,
-            UnrecoverableKeyException {
-        theKeyManagerFactory.init(ks, password);
+    protfdtfd void fnginfInit(KfyStorf ks, dibr[] pbssword)
+            tirows KfyStorfExdfption, NoSudiAlgoritimExdfption,
+            UnrfdovfrbblfKfyExdfption {
+        tifKfyMbnbgfrFbdtory.init(ks, pbssword);
     }
 
-    protected KeyManager[] engineGetKeyManagers() {
+    protfdtfd KfyMbnbgfr[] fnginfGftKfyMbnbgfrs() {
 
         int dst;
-        int src;
+        int srd;
 
-        javax.net.ssl.KeyManager[] kma =
-            theKeyManagerFactory.getKeyManagers();
+        jbvbx.nft.ssl.KfyMbnbgfr[] kmb =
+            tifKfyMbnbgfrFbdtory.gftKfyMbnbgfrs();
 
-        KeyManager[] kmaw = new KeyManager[kma.length];
+        KfyMbnbgfr[] kmbw = nfw KfyMbnbgfr[kmb.lfngti];
 
-        for (src = 0, dst = 0; src < kma.length; ) {
-            if (!(kma[src] instanceof com.sun.net.ssl.KeyManager)) {
-                // We only know how to wrap X509KeyManagers, as
-                // KeyManagers don't have any methods to wrap.
-                if (kma[src] instanceof javax.net.ssl.X509KeyManager) {
-                    kmaw[dst] = (KeyManager)
-                        new X509KeyManagerComSunWrapper(
-                        (javax.net.ssl.X509KeyManager)kma[src]);
+        for (srd = 0, dst = 0; srd < kmb.lfngti; ) {
+            if (!(kmb[srd] instbndfof dom.sun.nft.ssl.KfyMbnbgfr)) {
+                // Wf only know iow to wrbp X509KfyMbnbgfrs, bs
+                // KfyMbnbgfrs don't ibvf bny mftiods to wrbp.
+                if (kmb[srd] instbndfof jbvbx.nft.ssl.X509KfyMbnbgfr) {
+                    kmbw[dst] = (KfyMbnbgfr)
+                        nfw X509KfyMbnbgfrComSunWrbppfr(
+                        (jbvbx.nft.ssl.X509KfyMbnbgfr)kmb[srd]);
                     dst++;
                 }
-            } else {
-                kmaw[dst] = (KeyManager)kma[src];
+            } flsf {
+                kmbw[dst] = (KfyMbnbgfr)kmb[srd];
                 dst++;
             }
-            src++;
+            srd++;
         }
 
-        if (dst != src) {
-            kmaw = (KeyManager [])
-                SSLSecurity.truncateArray(kmaw, new KeyManager [dst]);
+        if (dst != srd) {
+            kmbw = (KfyMbnbgfr [])
+                SSLSfdurity.trundbtfArrby(kmbw, nfw KfyMbnbgfr [dst]);
         }
 
-        return kmaw;
+        rfturn kmbw;
     }
 
 }
 
 // =================================
 
-final class X509KeyManagerJavaxWrapper implements
-        javax.net.ssl.X509KeyManager {
+finbl dlbss X509KfyMbnbgfrJbvbxWrbppfr implfmfnts
+        jbvbx.nft.ssl.X509KfyMbnbgfr {
 
-    private X509KeyManager theX509KeyManager;
+    privbtf X509KfyMbnbgfr tifX509KfyMbnbgfr;
 
-    X509KeyManagerJavaxWrapper(X509KeyManager obj) {
-        theX509KeyManager = obj;
+    X509KfyMbnbgfrJbvbxWrbppfr(X509KfyMbnbgfr obj) {
+        tifX509KfyMbnbgfr = obj;
     }
 
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return theX509KeyManager.getClientAliases(keyType, issuers);
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn tifX509KfyMbnbgfr.gftClifntAlibsfs(kfyTypf, issufrs);
     }
 
-    public String chooseClientAlias(String[] keyTypes, Principal[] issuers,
-            Socket socket) {
-        String retval;
+    publid String dioosfClifntAlibs(String[] kfyTypfs, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        String rftvbl;
 
-        if (keyTypes == null) {
-            return null;
+        if (kfyTypfs == null) {
+            rfturn null;
         }
 
         /*
-         * Scan the list, look for something we can pass back.
+         * Sdbn tif list, look for somftiing wf dbn pbss bbdk.
          */
-        for (int i = 0; i < keyTypes.length; i++) {
-            if ((retval = theX509KeyManager.chooseClientAlias(keyTypes[i],
-                    issuers)) != null)
-                return retval;
+        for (int i = 0; i < kfyTypfs.lfngti; i++) {
+            if ((rftvbl = tifX509KfyMbnbgfr.dioosfClifntAlibs(kfyTypfs[i],
+                    issufrs)) != null)
+                rfturn rftvbl;
         }
-        return null;
+        rfturn null;
 
     }
 
     /*
-     * JSSE 1.0.x was only socket based, but it's possible someone might
-     * want to install a really old provider.  We should at least
-     * try to be nice.
+     * JSSE 1.0.x wbs only sodkft bbsfd, but it's possiblf somfonf migit
+     * wbnt to instbll b rfblly old providfr.  Wf siould bt lfbst
+     * try to bf nidf.
      */
-    public String chooseEngineClientAlias(
-            String[] keyTypes, Principal[] issuers,
-            javax.net.ssl.SSLEngine engine) {
-        String retval;
+    publid String dioosfEnginfClifntAlibs(
+            String[] kfyTypfs, Prindipbl[] issufrs,
+            jbvbx.nft.ssl.SSLEnginf fnginf) {
+        String rftvbl;
 
-        if (keyTypes == null) {
-            return null;
+        if (kfyTypfs == null) {
+            rfturn null;
         }
 
         /*
-         * Scan the list, look for something we can pass back.
+         * Sdbn tif list, look for somftiing wf dbn pbss bbdk.
          */
-        for (int i = 0; i < keyTypes.length; i++) {
-            if ((retval = theX509KeyManager.chooseClientAlias(keyTypes[i],
-                    issuers)) != null)
-                return retval;
+        for (int i = 0; i < kfyTypfs.lfngti; i++) {
+            if ((rftvbl = tifX509KfyMbnbgfr.dioosfClifntAlibs(kfyTypfs[i],
+                    issufrs)) != null)
+                rfturn rftvbl;
         }
 
-        return null;
+        rfturn null;
     }
 
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return theX509KeyManager.getServerAliases(keyType, issuers);
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn tifX509KfyMbnbgfr.gftSfrvfrAlibsfs(kfyTypf, issufrs);
     }
 
-    public String chooseServerAlias(String keyType, Principal[] issuers,
-            Socket socket) {
+    publid String dioosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs,
+            Sodkft sodkft) {
 
-        if (keyType == null) {
-            return null;
+        if (kfyTypf == null) {
+            rfturn null;
         }
-        return theX509KeyManager.chooseServerAlias(keyType, issuers);
+        rfturn tifX509KfyMbnbgfr.dioosfSfrvfrAlibs(kfyTypf, issufrs);
     }
 
     /*
-     * JSSE 1.0.x was only socket based, but it's possible someone might
-     * want to install a really old provider.  We should at least
-     * try to be nice.
+     * JSSE 1.0.x wbs only sodkft bbsfd, but it's possiblf somfonf migit
+     * wbnt to instbll b rfblly old providfr.  Wf siould bt lfbst
+     * try to bf nidf.
      */
-    public String chooseEngineServerAlias(
-            String keyType, Principal[] issuers,
-            javax.net.ssl.SSLEngine engine) {
+    publid String dioosfEnginfSfrvfrAlibs(
+            String kfyTypf, Prindipbl[] issufrs,
+            jbvbx.nft.ssl.SSLEnginf fnginf) {
 
-        if (keyType == null) {
-            return null;
+        if (kfyTypf == null) {
+            rfturn null;
         }
-        return theX509KeyManager.chooseServerAlias(keyType, issuers);
+        rfturn tifX509KfyMbnbgfr.dioosfSfrvfrAlibs(kfyTypf, issufrs);
     }
 
-    public java.security.cert.X509Certificate[]
-            getCertificateChain(String alias) {
-        return theX509KeyManager.getCertificateChain(alias);
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf[]
+            gftCfrtifidbtfCibin(String blibs) {
+        rfturn tifX509KfyMbnbgfr.gftCfrtifidbtfCibin(blibs);
     }
 
-    public PrivateKey getPrivateKey(String alias) {
-        return theX509KeyManager.getPrivateKey(alias);
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        rfturn tifX509KfyMbnbgfr.gftPrivbtfKfy(blibs);
     }
 }
 
-final class X509TrustManagerJavaxWrapper implements
-        javax.net.ssl.X509TrustManager {
+finbl dlbss X509TrustMbnbgfrJbvbxWrbppfr implfmfnts
+        jbvbx.nft.ssl.X509TrustMbnbgfr {
 
-    private X509TrustManager theX509TrustManager;
+    privbtf X509TrustMbnbgfr tifX509TrustMbnbgfr;
 
-    X509TrustManagerJavaxWrapper(X509TrustManager obj) {
-        theX509TrustManager = obj;
+    X509TrustMbnbgfrJbvbxWrbppfr(X509TrustMbnbgfr obj) {
+        tifX509TrustMbnbgfr = obj;
     }
 
-    public void checkClientTrusted(
-            java.security.cert.X509Certificate[] chain, String authType)
-        throws java.security.cert.CertificateException {
-        if (!theX509TrustManager.isClientTrusted(chain)) {
-            throw new java.security.cert.CertificateException(
-                "Untrusted Client Certificate Chain");
+    publid void difdkClifntTrustfd(
+            jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] dibin, String butiTypf)
+        tirows jbvb.sfdurity.dfrt.CfrtifidbtfExdfption {
+        if (!tifX509TrustMbnbgfr.isClifntTrustfd(dibin)) {
+            tirow nfw jbvb.sfdurity.dfrt.CfrtifidbtfExdfption(
+                "Untrustfd Clifnt Cfrtifidbtf Cibin");
         }
     }
 
-    public void checkServerTrusted(
-            java.security.cert.X509Certificate[] chain, String authType)
-        throws java.security.cert.CertificateException {
-        if (!theX509TrustManager.isServerTrusted(chain)) {
-            throw new java.security.cert.CertificateException(
-                "Untrusted Server Certificate Chain");
+    publid void difdkSfrvfrTrustfd(
+            jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] dibin, String butiTypf)
+        tirows jbvb.sfdurity.dfrt.CfrtifidbtfExdfption {
+        if (!tifX509TrustMbnbgfr.isSfrvfrTrustfd(dibin)) {
+            tirow nfw jbvb.sfdurity.dfrt.CfrtifidbtfExdfption(
+                "Untrustfd Sfrvfr Cfrtifidbtf Cibin");
         }
     }
 
-    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-        return theX509TrustManager.getAcceptedIssuers();
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        rfturn tifX509TrustMbnbgfr.gftAddfptfdIssufrs();
     }
 }
 
-final class X509KeyManagerComSunWrapper implements X509KeyManager {
+finbl dlbss X509KfyMbnbgfrComSunWrbppfr implfmfnts X509KfyMbnbgfr {
 
-    private javax.net.ssl.X509KeyManager theX509KeyManager;
+    privbtf jbvbx.nft.ssl.X509KfyMbnbgfr tifX509KfyMbnbgfr;
 
-    X509KeyManagerComSunWrapper(javax.net.ssl.X509KeyManager obj) {
-        theX509KeyManager = obj;
+    X509KfyMbnbgfrComSunWrbppfr(jbvbx.nft.ssl.X509KfyMbnbgfr obj) {
+        tifX509KfyMbnbgfr = obj;
     }
 
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return theX509KeyManager.getClientAliases(keyType, issuers);
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn tifX509KfyMbnbgfr.gftClifntAlibsfs(kfyTypf, issufrs);
     }
 
-    public String chooseClientAlias(String keyType, Principal[] issuers) {
-        String [] keyTypes = new String [] { keyType };
-        return theX509KeyManager.chooseClientAlias(keyTypes, issuers, null);
+    publid String dioosfClifntAlibs(String kfyTypf, Prindipbl[] issufrs) {
+        String [] kfyTypfs = nfw String [] { kfyTypf };
+        rfturn tifX509KfyMbnbgfr.dioosfClifntAlibs(kfyTypfs, issufrs, null);
     }
 
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return theX509KeyManager.getServerAliases(keyType, issuers);
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn tifX509KfyMbnbgfr.gftSfrvfrAlibsfs(kfyTypf, issufrs);
     }
 
-    public String chooseServerAlias(String keyType, Principal[] issuers) {
-        return theX509KeyManager.chooseServerAlias(keyType, issuers, null);
+    publid String dioosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn tifX509KfyMbnbgfr.dioosfSfrvfrAlibs(kfyTypf, issufrs, null);
     }
 
-    public java.security.cert.X509Certificate[]
-            getCertificateChain(String alias) {
-        return theX509KeyManager.getCertificateChain(alias);
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf[]
+            gftCfrtifidbtfCibin(String blibs) {
+        rfturn tifX509KfyMbnbgfr.gftCfrtifidbtfCibin(blibs);
     }
 
-    public PrivateKey getPrivateKey(String alias) {
-        return theX509KeyManager.getPrivateKey(alias);
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        rfturn tifX509KfyMbnbgfr.gftPrivbtfKfy(blibs);
     }
 }
 
-final class X509TrustManagerComSunWrapper implements X509TrustManager {
+finbl dlbss X509TrustMbnbgfrComSunWrbppfr implfmfnts X509TrustMbnbgfr {
 
-    private javax.net.ssl.X509TrustManager theX509TrustManager;
+    privbtf jbvbx.nft.ssl.X509TrustMbnbgfr tifX509TrustMbnbgfr;
 
-    X509TrustManagerComSunWrapper(javax.net.ssl.X509TrustManager obj) {
-        theX509TrustManager = obj;
+    X509TrustMbnbgfrComSunWrbppfr(jbvbx.nft.ssl.X509TrustMbnbgfr obj) {
+        tifX509TrustMbnbgfr = obj;
     }
 
-    public boolean isClientTrusted(
-            java.security.cert.X509Certificate[] chain) {
+    publid boolfbn isClifntTrustfd(
+            jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] dibin) {
         try {
-            theX509TrustManager.checkClientTrusted(chain, "UNKNOWN");
-            return true;
-        } catch (java.security.cert.CertificateException e) {
-            return false;
+            tifX509TrustMbnbgfr.difdkClifntTrustfd(dibin, "UNKNOWN");
+            rfturn truf;
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            rfturn fblsf;
         }
     }
 
-    public boolean isServerTrusted(
-            java.security.cert.X509Certificate[] chain) {
+    publid boolfbn isSfrvfrTrustfd(
+            jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] dibin) {
         try {
-            theX509TrustManager.checkServerTrusted(chain, "UNKNOWN");
-            return true;
-        } catch (java.security.cert.CertificateException e) {
-            return false;
+            tifX509TrustMbnbgfr.difdkSfrvfrTrustfd(dibin, "UNKNOWN");
+            rfturn truf;
+        } dbtdi (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            rfturn fblsf;
         }
     }
 
-    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-        return theX509TrustManager.getAcceptedIssuers();
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        rfturn tifX509TrustMbnbgfr.gftAddfptfdIssufrs();
     }
 }

@@ -1,0 +1,611 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * @buthor Chbrlton Innovbtions, Ind.
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.Polygon;        // rfmind - nffd b flobting point vfrsion
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.font.GlyphMftrids;
+import jbvb.bwt.font.GlyphJustifidbtionInfo;
+
+/**
+ * A <dodf>GlyphVfdtor</dodf> objfdt is b dollfdtion of glyphs
+ * dontbining gfomftrid informbtion for thf plbdfmfnt of fbdh glyph
+ * in b trbnsformfd doordinbtf spbdf whidh dorrfsponds to thf
+ * dfvidf on whidh thf <dodf>GlyphVfdtor</dodf> is ultimbtfly
+ * displbyfd.
+ * <p>
+ * Thf <dodf>GlyphVfdtor</dodf> dofs not bttfmpt bny intfrprftbtion of
+ * thf sfqufndf of glyphs it dontbins.  Rflbtionships bftwffn bdjbdfnt
+ * glyphs in sfqufndf brf solfly usfd to dftfrminf thf plbdfmfnt of
+ * thf glyphs in thf visubl doordinbtf spbdf.
+ * <p>
+ * Instbndfs of <dodf>GlyphVfdtor</dodf> brf drfbtfd by b {@link Font}.
+ * <p>
+ * In b tfxt prodfssing bpplidbtion thbt dbn dbdhf intfrmfdibtf
+ * rfprfsfntbtions of tfxt, drfbtion bnd subsfqufnt dbdhing of b
+ * <dodf>GlyphVfdtor</dodf> for usf during rfndfring is thf fbstfst
+ * mfthod to prfsfnt thf visubl rfprfsfntbtion of dhbrbdtfrs to b usfr.
+ * <p>
+ * A <dodf>GlyphVfdtor</dodf> is bssodibtfd with fxbdtly onf
+ * <dodf>Font</dodf>, bnd dbn providf dbtb usfful only in rflbtion to
+ * this <dodf>Font</dodf>.  In bddition, mftrids obtbinfd from b
+ * <dodf>GlyphVfdtor</dodf> brf not gfnfrblly gfomftridblly sdblfbblf
+ * sindf thf pixflizbtion bnd spbding brf dfpfndfnt on grid-fitting
+ * blgorithms within b <dodf>Font</dodf>.  To fbdilitbtf bddurbtf
+ * mfbsurfmfnt of b <dodf>GlyphVfdtor</dodf> bnd its domponfnt
+ * glyphs, you must spfdify b sdbling trbnsform, bnti-blibs modf, bnd
+ * frbdtionbl mftrids modf whfn drfbting thf <dodf>GlyphVfdtor</dodf>.
+ * Thfsf dhbrbdtfristids dbn bf dfrivfd from thf dfstinbtion dfvidf.
+ * <p>
+ * For fbdh glyph in thf <dodf>GlyphVfdtor</dodf>, you dbn obtbin:
+ * <ul>
+ * <li>thf position of thf glyph
+ * <li>thf trbnsform bssodibtfd with thf glyph
+ * <li>thf mftrids of thf glyph in thf dontfxt of thf
+ *   <dodf>GlyphVfdtor</dodf>.  Thf mftrids of thf glyph mby bf
+ *   difffrfnt undfr difffrfnt trbnsforms, bpplidbtion spfdififd
+ *   rfndfring hints, bnd thf spfdifid instbndf of thf glyph within
+ *   thf <dodf>GlyphVfdtor</dodf>.
+ * </ul>
+ * <p>
+ * Altfring thf dbtb usfd to drfbtf thf <dodf>GlyphVfdtor</dodf> dofs not
+ * bltfr thf stbtf of thf <dodf>GlyphVfdtor</dodf>.
+ * <p>
+ * Mfthods brf providfd to bdjust thf positions of thf glyphs
+ * within thf <dodf>GlyphVfdtor</dodf>.  Thfsf mfthods brf most
+ * bppropribtf for bpplidbtions thbt brf pfrforming justifidbtion
+ * opfrbtions for thf prfsfntbtion of thf glyphs.
+ * <p>
+ * Mfthods brf providfd to trbnsform individubl glyphs within thf
+ * <dodf>GlyphVfdtor</dodf>.  Thfsf mfthods brf primbrily usfful for
+ * spfdibl ffffdts.
+ * <p>
+ * Mfthods brf providfd to rfturn both thf visubl, logidbl, bnd pixfl bounds
+ * of thf fntirf <dodf>GlyphVfdtor</dodf> or of individubl glyphs within
+ * thf <dodf>GlyphVfdtor</dodf>.
+ * <p>
+ * Mfthods brf providfd to rfturn b {@link Shbpf} for thf
+ * <dodf>GlyphVfdtor</dodf>, bnd for individubl glyphs within thf
+ * <dodf>GlyphVfdtor</dodf>.
+ * @sff Font
+ * @sff GlyphMftrids
+ * @sff TfxtLbyout
+ * @buthor Chbrlton Innovbtions, Ind.
+ */
+
+publid bbstrbdt dlbss GlyphVfdtor implfmfnts Clonfbblf {
+
+    //
+    // mfthods bssodibtfd with drfbtion-timf stbtf
+    //
+
+    /**
+     * Rfturns thf <dodf>Font</dodf> bssodibtfd with this
+     * <dodf>GlyphVfdtor</dodf>.
+     * @rfturn <dodf>Font</dodf> usfd to drfbtf this
+     * <dodf>GlyphVfdtor</dodf>.
+     * @sff Font
+     */
+    publid bbstrbdt Font gftFont();
+
+    /**
+     * Rfturns thf {@link FontRfndfrContfxt} bssodibtfd with this
+     * <dodf>GlyphVfdtor</dodf>.
+     * @rfturn <dodf>FontRfndfrContfxt</dodf> usfd to drfbtf this
+     * <dodf>GlyphVfdtor</dodf>.
+     * @sff FontRfndfrContfxt
+     * @sff Font
+     */
+    publid bbstrbdt FontRfndfrContfxt gftFontRfndfrContfxt();
+
+    //
+    // mfthods bssodibtfd with thf GlyphVfdtor bs b wholf
+    //
+
+    /**
+     * Assigns dffbult positions to fbdh glyph in this
+     * <dodf>GlyphVfdtor</dodf>. This dbn dfstroy informbtion
+     * gfnfrbtfd during initibl lbyout of this <dodf>GlyphVfdtor</dodf>.
+     */
+    publid bbstrbdt void pfrformDffbultLbyout();
+
+    /**
+     * Rfturns thf numbfr of glyphs in this <dodf>GlyphVfdtor</dodf>.
+     * @rfturn numbfr of glyphs in this <dodf>GlyphVfdtor</dodf>.
+     */
+    publid bbstrbdt int gftNumGlyphs();
+
+    /**
+     * Rfturns thf glyphdodf of thf spfdififd glyph.
+     * This rfturn vbluf is mfbninglfss to bnything othfr
+     * thbn thf <dodf>Font</dodf> objfdt thbt drfbtfd this
+     * <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     * thbt dorrfsponds to thf glyph from whidh to rftrifvf thf
+     * glyphdodf.
+     * @rfturn thf glyphdodf of thf glyph bt thf spfdififd
+     * <dodf>glyphIndfx</dodf>.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     * is lfss thbn 0 or grfbtfr thbn or fqubl to thf
+     * numbfr of glyphs in this <dodf>GlyphVfdtor</dodf>
+     */
+    publid bbstrbdt int gftGlyphCodf(int glyphIndfx);
+
+    /**
+     * Rfturns bn brrby of glyphdodfs for thf spfdififd glyphs.
+     * Thf dontfnts of this rfturn vbluf brf mfbninglfss to bnything othfr
+     * thbn thf <dodf>Font</dodf> usfd to drfbtf this
+     * <dodf>GlyphVfdtor</dodf>.  This mfthod is usfd
+     * for donvfnifndf bnd pfrformbndf whfn prodfssing glyphdodfs.
+     * If no brrby is pbssfd in, b nfw brrby is drfbtfd.
+     * @pbrbm bfginGlyphIndfx thf indfx into this
+     *   <dodf>GlyphVfdtor</dodf> bt whidh to stbrt rftrifving glyphdodfs
+     * @pbrbm numEntrifs thf numbfr of glyphdodfs to rftrifvf
+     * @pbrbm dodfRfturn thf brrby thbt rfdfivfs thf glyphdodfs bnd is
+     *   thfn rfturnfd
+     * @rfturn bn brrby of glyphdodfs for thf spfdififd glyphs.
+     * @throws IllfgblArgumfntExdfption if <dodf>numEntrifs</dodf> is
+     *   lfss thbn 0
+     * @throws IndfxOutOfBoundsExdfption if <dodf>bfginGlyphIndfx</dodf>
+     *   is lfss thbn 0
+     * @throws IndfxOutOfBoundsExdfption if thf sum of
+     *   <dodf>bfginGlyphIndfx</dodf> bnd <dodf>numEntrifs</dodf> is
+     *   grfbtfr thbn thf numbfr of glyphs in this
+     *   <dodf>GlyphVfdtor</dodf>
+     */
+    publid bbstrbdt int[] gftGlyphCodfs(int bfginGlyphIndfx, int numEntrifs,
+                                        int[] dodfRfturn);
+
+    /**
+     * Rfturns thf dhbrbdtfr indfx of thf spfdififd glyph.
+     * Thf dhbrbdtfr indfx is thf indfx of thf first logidbl
+     * dhbrbdtfr rfprfsfntfd by thf glyph.  Thf dffbult
+     * implfmfntbtion bssumfs b onf-to-onf, lfft-to-right mbpping
+     * of glyphs to dhbrbdtfrs.
+     * @pbrbm glyphIndfx thf indfx of thf glyph
+     * @rfturn thf indfx of thf first dhbrbdtfr rfprfsfntfd by thf glyph
+     * @sindf 1.4
+     */
+    publid int gftGlyphChbrIndfx(int glyphIndfx) {
+        rfturn glyphIndfx;
+    }
+
+    /**
+     * Rfturns thf dhbrbdtfr indidfs of thf spfdififd glyphs.
+     * Thf dhbrbdtfr indfx is thf indfx of thf first logidbl
+     * dhbrbdtfr rfprfsfntfd by thf glyph.  Indidfs brf rfturnfd
+     * in glyph ordfr.  Thf dffbult implfmfntbtion invokfs
+     * gftGlyphChbrIndfx for fbdh glyph, bnd subdlbssfrs will probbbly
+     * wbnt to ovfrridf this implfmfntbtion for pfrformbndf rfbsons.
+     * Usf this mfthod for donvfnifndf bnd pfrformbndf
+     * in prodfssing of glyphdodfs. If no brrby is pbssfd in,
+     * b nfw brrby is drfbtfd.
+     * @pbrbm bfginGlyphIndfx thf indfx of thf first glyph
+     * @pbrbm numEntrifs thf numbfr of glyph indidfs
+     * @pbrbm dodfRfturn thf brrby into whidh to rfturn thf dhbrbdtfr indidfs
+     * @rfturn bn brrby of dhbrbdtfr indidfs, onf pfr glyph.
+     * @sindf 1.4
+     */
+    publid int[] gftGlyphChbrIndidfs(int bfginGlyphIndfx, int numEntrifs,
+                                     int[] dodfRfturn) {
+        if (dodfRfturn == null) {
+            dodfRfturn = nfw int[numEntrifs];
+        }
+        for (int i = 0, j = bfginGlyphIndfx; i < numEntrifs; ++i, ++j) {
+            dodfRfturn[i] = gftGlyphChbrIndfx(j);
+        }
+        rfturn dodfRfturn;
+     }
+
+    /**
+     * Rfturns thf logidbl bounds of this <dodf>GlyphVfdtor</dodf>.
+     * This mfthod is usfd whfn positioning this <dodf>GlyphVfdtor</dodf>
+     * in rflbtion to visublly bdjbdfnt <dodf>GlyphVfdtor</dodf> objfdts.
+     * @rfturn b {@link Rfdtbnglf2D} thbt is thf logidbl bounds of this
+     * <dodf>GlyphVfdtor</dodf>.
+     */
+    publid bbstrbdt Rfdtbnglf2D gftLogidblBounds();
+
+    /**
+     * Rfturns thf visubl bounds of this <dodf>GlyphVfdtor</dodf>
+     * Thf visubl bounds is thf bounding box of thf outlinf of this
+     * <dodf>GlyphVfdtor</dodf>.  Bfdbusf of rbstfrizbtion bnd
+     * blignmfnt of pixfls, it is possiblf thbt this box dofs not
+     * fndlosf bll pixfls bfffdtfd by rfndfring this <dodf>GlyphVfdtor</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> thbt is thf bounding box
+     * of this <dodf>GlyphVfdtor</dodf>.
+     */
+    publid bbstrbdt Rfdtbnglf2D gftVisublBounds();
+
+    /**
+     * Rfturns thf pixfl bounds of this <dodf>GlyphVfdtor</dodf> whfn
+     * rfndfrfd in b grbphids with thf givfn
+     * <dodf>FontRfndfrContfxt</dodf> bt thf givfn lodbtion.  Thf
+     * rfndfrFRC nffd not bf thf sbmf bs thf
+     * <dodf>FontRfndfrContfxt</dodf> of this
+     * <dodf>GlyphVfdtor</dodf>, bnd dbn bf null.  If it is null, thf
+     * <dodf>FontRfndfrContfxt</dodf> of this <dodf>GlyphVfdtor</dodf>
+     * is usfd.  Thf dffbult implfmfntbtion rfturns thf visubl bounds,
+     * offsft to x, y bnd roundfd out to thf nfxt intfgfr vbluf (i.f. rfturns bn
+     * intfgfr rfdtbnglf whidh fndlosfs thf visubl bounds) bnd
+     * ignorfs thf FRC.  Subdlbssfrs should ovfrridf this mfthod.
+     * @pbrbm rfndfrFRC thf <dodf>FontRfndfrContfxt</dodf> of thf <dodf>Grbphids</dodf>.
+     * @pbrbm x thf x-doordinbtf bt whidh to rfndfr this <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm y thf y-doordinbtf bt whidh to rfndfr this <dodf>GlyphVfdtor</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf</dodf> bounding thf pixfls thbt would bf bfffdtfd.
+     * @sindf 1.4
+     */
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt rfndfrFRC, flobt x, flobt y) {
+                Rfdtbnglf2D rfdt = gftVisublBounds();
+                int l = (int)Mbth.floor(rfdt.gftX() + x);
+                int t = (int)Mbth.floor(rfdt.gftY() + y);
+                int r = (int)Mbth.dfil(rfdt.gftMbxX() + x);
+                int b = (int)Mbth.dfil(rfdt.gftMbxY() + y);
+                rfturn nfw Rfdtbnglf(l, t, r - l, b - t);
+        }
+
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> whosf intfrior dorrfsponds to thf
+     * visubl rfprfsfntbtion of this <dodf>GlyphVfdtor</dodf>.
+     * @rfturn b <dodf>Shbpf</dodf> thbt is thf outlinf of this
+     * <dodf>GlyphVfdtor</dodf>.
+     */
+    publid bbstrbdt Shbpf gftOutlinf();
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> whosf intfrior dorrfsponds to thf
+     * visubl rfprfsfntbtion of this <dodf>GlyphVfdtor</dodf> whfn
+     * rfndfrfd bt x,&nbsp;y.
+     * @pbrbm x thf X doordinbtf of this <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm y thf Y doordinbtf of this <dodf>GlyphVfdtor</dodf>.
+     * @rfturn b <dodf>Shbpf</dodf> thbt is thf outlinf of this
+     *   <dodf>GlyphVfdtor</dodf> whfn rfndfrfd bt thf spfdififd
+     *   doordinbtfs.
+     */
+    publid bbstrbdt Shbpf gftOutlinf(flobt x, flobt y);
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> whosf intfrior dorrfsponds to thf
+     * visubl rfprfsfntbtion of thf spfdififd glyph
+     * within this <dodf>GlyphVfdtor</dodf>.
+     * Thf outlinf rfturnfd by this mfthod is positionfd bround thf
+     * origin of fbdh individubl glyph.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     * @rfturn b <dodf>Shbpf</dodf> thbt is thf outlinf of thf glyph
+     *   bt thf spfdififd <dodf>glyphIndfx</dodf> of this
+     *   <dodf>GlyphVfdtor</dodf>.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn or fqubl to thf numbfr
+     *   of glyphs in this <dodf>GlyphVfdtor</dodf>
+     */
+    publid bbstrbdt Shbpf gftGlyphOutlinf(int glyphIndfx);
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> whosf intfrior dorrfsponds to thf
+     * visubl rfprfsfntbtion of thf spfdififd glyph
+     * within this <dodf>GlyphVfdtor</dodf>, offsft to x,&nbsp;y.
+     * Thf outlinf rfturnfd by this mfthod is positionfd bround thf
+     * origin of fbdh individubl glyph.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     * @pbrbm x thf X doordinbtf of thf lodbtion of this {@dodf GlyphVfdtor}
+     * @pbrbm y thf Y doordinbtf of thf lodbtion of this {@dodf GlyphVfdtor}
+     * @rfturn b <dodf>Shbpf</dodf> thbt is thf outlinf of thf glyph
+     *   bt thf spfdififd <dodf>glyphIndfx</dodf> of this
+     *   <dodf>GlyphVfdtor</dodf> whfn rfndfrfd bt thf spfdififd
+     *   doordinbtfs.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn or fqubl to thf numbfr
+     *   of glyphs in this <dodf>GlyphVfdtor</dodf>
+     * @sindf 1.4
+     */
+    publid Shbpf gftGlyphOutlinf(int glyphIndfx, flobt x, flobt y) {
+        Shbpf s = gftGlyphOutlinf(glyphIndfx);
+        AffinfTrbnsform bt = AffinfTrbnsform.gftTrbnslbtfInstbndf(x,y);
+        rfturn bt.drfbtfTrbnsformfdShbpf(s);
+        }
+
+    /**
+     * Rfturns thf position of thf spfdififd glyph rflbtivf to thf
+     * origin of this <dodf>GlyphVfdtor</dodf>.
+     * If <dodf>glyphIndfx</dodf> fqubls thf numbfr of of glyphs in
+     * this <dodf>GlyphVfdtor</dodf>, this mfthod rfturns thf position bftfr
+     * thf lbst glyph. This position is usfd to dffinf thf bdvbndf of
+     * thf fntirf <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     * @rfturn b {@link Point2D} objfdt thbt is thf position of thf glyph
+     *   bt thf spfdififd <dodf>glyphIndfx</dodf>.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn thf numbfr of glyphs
+     *   in this <dodf>GlyphVfdtor</dodf>
+     * @sff #sftGlyphPosition
+     */
+    publid bbstrbdt Point2D gftGlyphPosition(int glyphIndfx);
+
+    /**
+     * Sfts thf position of thf spfdififd glyph within this
+     * <dodf>GlyphVfdtor</dodf>.
+     * If <dodf>glyphIndfx</dodf> fqubls thf numbfr of of glyphs in
+     * this <dodf>GlyphVfdtor</dodf>, this mfthod sfts thf position bftfr
+     * thf lbst glyph. This position is usfd to dffinf thf bdvbndf of
+     * thf fntirf <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     * @pbrbm nfwPos thf <dodf>Point2D</dodf> bt whidh to position thf
+     *   glyph bt thf spfdififd <dodf>glyphIndfx</dodf>
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn thf numbfr of glyphs
+     *   in this <dodf>GlyphVfdtor</dodf>
+     * @sff #gftGlyphPosition
+     */
+    publid bbstrbdt void sftGlyphPosition(int glyphIndfx, Point2D nfwPos);
+
+    /**
+     * Rfturns thf trbnsform of thf spfdififd glyph within this
+     * <dodf>GlyphVfdtor</dodf>.  Thf trbnsform is rflbtivf to thf
+     * glyph position.  If no spfdibl trbnsform hbs bffn bpplifd,
+     * <dodf>null</dodf> dbn bf rfturnfd.  A null rfturn indidbtfs
+     * bn idfntity trbnsform.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     * @rfturn bn {@link AffinfTrbnsform} thbt is thf trbnsform of
+     *   thf glyph bt thf spfdififd <dodf>glyphIndfx</dodf>.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn or fqubl to thf numbfr
+     *   of glyphs in this <dodf>GlyphVfdtor</dodf>
+     * @sff #sftGlyphTrbnsform
+     */
+    publid bbstrbdt AffinfTrbnsform gftGlyphTrbnsform(int glyphIndfx);
+
+    /**
+     * Sfts thf trbnsform of thf spfdififd glyph within this
+     * <dodf>GlyphVfdtor</dodf>.  Thf trbnsform is rflbtivf to thf glyph
+     * position.  A <dodf>null</dodf> brgumfnt for <dodf>nfwTX</dodf>
+     * indidbtfs thbt no spfdibl trbnsform is bpplifd for thf spfdififd
+     * glyph.
+     * This mfthod dbn bf usfd to rotbtf, mirror, trbnslbtf bnd sdblf thf
+     * glyph.  Adding b trbnsform dbn rfsult in signifidbnt pfrformbndf dhbngfs.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     * @pbrbm nfwTX thf nfw trbnsform of thf glyph bt <dodf>glyphIndfx</dodf>
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn or fqubl to thf numbfr
+     *   of glyphs in this <dodf>GlyphVfdtor</dodf>
+     * @sff #gftGlyphTrbnsform
+     */
+    publid bbstrbdt void sftGlyphTrbnsform(int glyphIndfx, AffinfTrbnsform nfwTX);
+
+    /**
+     * Rfturns flbgs dfsdribing thf globbl stbtf of thf GlyphVfdtor.
+     * Flbgs not dfsdribfd bflow brf rfsfrvfd.  Thf dffbult
+     * implfmfntbtion rfturns 0 (mfbning fblsf) for thf position bdjustmfnts,
+     * trbnsforms, rtl, bnd domplfx flbgs.
+     * Subdlbssfrs should ovfrridf this mfthod, bnd mbkf surf
+     * it dorrfdtly dfsdribfs thf GlyphVfdtor bnd dorrfsponds
+     * to thf rfsults of rflbtfd dblls.
+     * @rfturn bn int dontbining thf flbgs dfsdribing thf stbtf
+     * @sff #FLAG_HAS_POSITION_ADJUSTMENTS
+     * @sff #FLAG_HAS_TRANSFORMS
+     * @sff #FLAG_RUN_RTL
+     * @sff #FLAG_COMPLEX_GLYPHS
+     * @sff #FLAG_MASK
+     * @sindf 1.4
+     */
+    publid int gftLbyoutFlbgs() {
+                rfturn 0;
+        }
+
+    /**
+     * A flbg usfd with gftLbyoutFlbgs thbt indidbtfs thbt this <dodf>GlyphVfdtor</dodf> hbs
+     * pfr-glyph trbnsforms.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int FLAG_HAS_TRANSFORMS = 1;
+
+    /**
+     * A flbg usfd with gftLbyoutFlbgs thbt indidbtfs thbt this <dodf>GlyphVfdtor</dodf> hbs
+     * position bdjustmfnts.  Whfn this is truf, thf glyph positions don't mbtdh thf
+     * bddumulbtfd dffbult bdvbndfs of thf glyphs (for fxbmplf, if kfrning hbs bffn donf).
+     * @sindf 1.4
+     */
+    publid stbtid finbl int FLAG_HAS_POSITION_ADJUSTMENTS = 2;
+
+    /**
+     * A flbg usfd with gftLbyoutFlbgs thbt indidbtfs thbt this <dodf>GlyphVfdtor</dodf> hbs
+     * b right-to-lfft run dirfdtion.  This rfffrs to thf glyph-to-dhbr mbpping bnd dofs
+     * not imply thbt thf visubl lodbtions of thf glyphs brf nfdfssbrily in this ordfr,
+     * blthough gfnfrblly thfy will bf.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int FLAG_RUN_RTL = 4;
+
+    /**
+     * A flbg usfd with gftLbyoutFlbgs thbt indidbtfs thbt this <dodf>GlyphVfdtor</dodf> hbs
+     * b domplfx glyph-to-dhbr mbpping (onf thbt dofs not mbp glyphs to dhbrs onf-to-onf in
+     * stridtly bsdfnding or dfsdfnding ordfr mbtdhing thf run dirfdtion).
+     * @sindf 1.4
+     */
+    publid stbtid finbl int FLAG_COMPLEX_GLYPHS = 8;
+
+    /**
+     * A mbsk for supportfd flbgs from gftLbyoutFlbgs.  Only bits dovfrfd by thf mbsk
+     * should bf tfstfd.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int FLAG_MASK =
+        FLAG_HAS_TRANSFORMS |
+        FLAG_HAS_POSITION_ADJUSTMENTS |
+        FLAG_RUN_RTL |
+        FLAG_COMPLEX_GLYPHS;
+
+    /**
+     * Rfturns bn brrby of glyph positions for thf spfdififd glyphs.
+     * This mfthod is usfd for donvfnifndf bnd pfrformbndf whfn
+     * prodfssing glyph positions.
+     * If no brrby is pbssfd in, b nfw brrby is drfbtfd.
+     * Evfn numbfrfd brrby fntrifs bfginning with position zfro brf thf X
+     * doordinbtfs of thf glyph numbfrfd <dodf>bfginGlyphIndfx + position/2</dodf>.
+     * Odd numbfrfd brrby fntrifs bfginning with position onf brf thf Y
+     * doordinbtfs of thf glyph numbfrfd <dodf>bfginGlyphIndfx + (position-1)/2</dodf>.
+     * If <dodf>bfginGlyphIndfx</dodf> fqubls thf numbfr of of glyphs in
+     * this <dodf>GlyphVfdtor</dodf>, this mfthod gfts thf position bftfr
+     * thf lbst glyph bnd this position is usfd to dffinf thf bdvbndf of
+     * thf fntirf <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm bfginGlyphIndfx thf indfx bt whidh to bfgin rftrifving
+     *   glyph positions
+     * @pbrbm numEntrifs thf numbfr of glyphs to rftrifvf
+     * @pbrbm positionRfturn thf brrby thbt rfdfivfs thf glyph positions
+     *   bnd is thfn rfturnfd.
+     * @rfturn bn brrby of glyph positions spfdififd by
+     *  <dodf>bfginGlyphIndfx</dodf> bnd <dodf>numEntrifs</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>numEntrifs</dodf> is
+     *   lfss thbn 0
+     * @throws IndfxOutOfBoundsExdfption if <dodf>bfginGlyphIndfx</dodf>
+     *   is lfss thbn 0
+     * @throws IndfxOutOfBoundsExdfption if thf sum of
+     *   <dodf>bfginGlyphIndfx</dodf> bnd <dodf>numEntrifs</dodf>
+     *   is grfbtfr thbn thf numbfr of glyphs in this
+     *   <dodf>GlyphVfdtor</dodf> plus onf
+     */
+    publid bbstrbdt flobt[] gftGlyphPositions(int bfginGlyphIndfx, int numEntrifs,
+                                              flobt[] positionRfturn);
+
+    /**
+     * Rfturns thf logidbl bounds of thf spfdififd glyph within this
+     * <dodf>GlyphVfdtor</dodf>.
+     * Thfsf logidbl bounds hbvf b totbl of four fdgfs, with two fdgfs
+     * pbrbllfl to thf bbsflinf undfr thf glyph's trbnsform bnd thf othfr two
+     * fdgfs brf shbrfd with bdjbdfnt glyphs if thfy brf prfsfnt.  This
+     * mfthod is usfful for hit-tfsting of thf spfdififd glyph,
+     * positioning of b dbrft bt thf lfbding or trbiling fdgf of b glyph,
+     * bnd for drbwing b highlight rfgion bround thf spfdififd glyph.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     *   thbt dorrfsponds to thf glyph from whidh to rftrifvf its logidbl
+     *   bounds
+     * @rfturn  b <dodf>Shbpf</dodf> thbt is thf logidbl bounds of thf
+     *   glyph bt thf spfdififd <dodf>glyphIndfx</dodf>.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn or fqubl to thf numbfr
+     *   of glyphs in this <dodf>GlyphVfdtor</dodf>
+     * @sff #gftGlyphVisublBounds
+     */
+    publid bbstrbdt Shbpf gftGlyphLogidblBounds(int glyphIndfx);
+
+    /**
+     * Rfturns thf visubl bounds of thf spfdififd glyph within thf
+     * <dodf>GlyphVfdtor</dodf>.
+     * Thf bounds rfturnfd by this mfthod is positionfd bround thf
+     * origin of fbdh individubl glyph.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     *   thbt dorrfsponds to thf glyph from whidh to rftrifvf its visubl
+     *   bounds
+     * @rfturn b <dodf>Shbpf</dodf> thbt is thf visubl bounds of thf
+     *   glyph bt thf spfdififd <dodf>glyphIndfx</dodf>.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn or fqubl to thf numbfr
+     *   of glyphs in this <dodf>GlyphVfdtor</dodf>
+     * @sff #gftGlyphLogidblBounds
+     */
+    publid bbstrbdt Shbpf gftGlyphVisublBounds(int glyphIndfx);
+
+    /**
+     * Rfturns thf pixfl bounds of thf glyph bt indfx whfn this
+     * <dodf>GlyphVfdtor</dodf> is rfndfrfd in b <dodf>Grbphids</dodf> with thf
+     * givfn <dodf>FontRfndfrContfxt</dodf> bt thf givfn lodbtion. Thf
+     * rfndfrFRC nffd not bf thf sbmf bs thf
+     * <dodf>FontRfndfrContfxt</dodf> of this
+     * <dodf>GlyphVfdtor</dodf>, bnd dbn bf null.  If it is null, thf
+     * <dodf>FontRfndfrContfxt</dodf> of this <dodf>GlyphVfdtor</dodf>
+     * is usfd.  Thf dffbult implfmfntbtion rfturns thf visubl bounds of thf glyph,
+     * offsft to x, y bnd roundfd out to thf nfxt intfgfr vbluf, bnd
+     * ignorfs thf FRC.  Subdlbssfrs should ovfrridf this mfthod.
+     * @pbrbm indfx thf indfx of thf glyph.
+     * @pbrbm rfndfrFRC thf <dodf>FontRfndfrContfxt</dodf> of thf <dodf>Grbphids</dodf>.
+     * @pbrbm x thf X position bt whidh to rfndfr this <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm y thf Y position bt whidh to rfndfr this <dodf>GlyphVfdtor</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf</dodf> bounding thf pixfls thbt would bf bfffdtfd.
+     * @sindf 1.4
+     */
+    publid Rfdtbnglf gftGlyphPixflBounds(int indfx, FontRfndfrContfxt rfndfrFRC, flobt x, flobt y) {
+                Rfdtbnglf2D rfdt = gftGlyphVisublBounds(indfx).gftBounds2D();
+                int l = (int)Mbth.floor(rfdt.gftX() + x);
+                int t = (int)Mbth.floor(rfdt.gftY() + y);
+                int r = (int)Mbth.dfil(rfdt.gftMbxX() + x);
+                int b = (int)Mbth.dfil(rfdt.gftMbxY() + y);
+                rfturn nfw Rfdtbnglf(l, t, r - l, b - t);
+        }
+
+    /**
+     * Rfturns thf mftrids of thf glyph bt thf spfdififd indfx into
+     * this <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     *   thbt dorrfsponds to thf glyph from whidh to rftrifvf its mftrids
+     * @rfturn b {@link GlyphMftrids} objfdt thbt rfprfsfnts thf
+     *   mftrids of thf glyph bt thf spfdififd <dodf>glyphIndfx</dodf>
+     *   into this <dodf>GlyphVfdtor</dodf>.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn or fqubl to thf numbfr
+     *   of glyphs in this <dodf>GlyphVfdtor</dodf>
+     */
+    publid bbstrbdt GlyphMftrids gftGlyphMftrids(int glyphIndfx);
+
+    /**
+     * Rfturns thf justifidbtion informbtion for thf glyph bt
+     * thf spfdififd indfx into this <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm glyphIndfx thf indfx into this <dodf>GlyphVfdtor</dodf>
+     *   thbt dorrfsponds to thf glyph from whidh to rftrifvf its
+     *   justifidbtion propfrtifs
+     * @rfturn b {@link GlyphJustifidbtionInfo} objfdt thbt
+     *   rfprfsfnts thf justifidbtion propfrtifs of thf glyph bt thf
+     *   spfdififd <dodf>glyphIndfx</dodf> into this
+     *   <dodf>GlyphVfdtor</dodf>.
+     * @throws IndfxOutOfBoundsExdfption if <dodf>glyphIndfx</dodf>
+     *   is lfss thbn 0 or grfbtfr thbn or fqubl to thf numbfr
+     *   of glyphs in this <dodf>GlyphVfdtor</dodf>
+     */
+    publid bbstrbdt GlyphJustifidbtionInfo gftGlyphJustifidbtionInfo(int glyphIndfx);
+
+    //
+    // gfnfrbl utility mfthods
+    //
+
+    /**
+     * Tfsts if thf spfdififd <dodf>GlyphVfdtor</dodf> fxbdtly
+     * fqubls this <dodf>GlyphVfdtor</dodf>.
+     * @pbrbm sft thf spfdififd <dodf>GlyphVfdtor</dodf> to tfst
+     * @rfturn <dodf>truf</dodf> if thf spfdififd
+     *   <dodf>GlyphVfdtor</dodf> fqubls this <dodf>GlyphVfdtor</dodf>;
+     *   <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid bbstrbdt boolfbn fqubls(GlyphVfdtor sft);
+}

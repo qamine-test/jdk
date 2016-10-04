@@ -1,0 +1,1171 @@
+/*
+ * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.png;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.zip.Dfflbtfr;
+import jbvb.util.zip.DfflbtfrOutputStrfbm;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.IIOImbgf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfPbrbm;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbmImpl;
+
+dlbss CRC {
+
+    privbtf stbtid int[] drdTbblf = nfw int[256];
+    privbtf int drd = 0xffffffff;
+
+    stbtid {
+        // Initiblizf CRC tbblf
+        for (int n = 0; n < 256; n++) {
+            int d = n;
+            for (int k = 0; k < 8; k++) {
+                if ((d & 1) == 1) {
+                    d = 0xfdb88320 ^ (d >>> 1);
+                } flsf {
+                    d >>>= 1;
+                }
+
+                drdTbblf[n] = d;
+            }
+        }
+    }
+
+    publid CRC() {}
+
+    publid void rfsft() {
+        drd = 0xffffffff;
+    }
+
+    publid void updbtf(bytf[] dbtb, int off, int lfn) {
+        for (int n = 0; n < lfn; n++) {
+            drd = drdTbblf[(drd ^ dbtb[off + n]) & 0xff] ^ (drd >>> 8);
+        }
+    }
+
+    publid void updbtf(int dbtb) {
+        drd = drdTbblf[(drd ^ dbtb) & 0xff] ^ (drd >>> 8);
+    }
+
+    publid int gftVbluf() {
+        rfturn drd ^ 0xffffffff;
+    }
+}
+
+
+finbl dlbss ChunkStrfbm fxtfnds ImbgfOutputStrfbmImpl {
+
+    privbtf ImbgfOutputStrfbm strfbm;
+    privbtf long stbrtPos;
+    privbtf CRC drd = nfw CRC();
+
+    publid ChunkStrfbm(int typf, ImbgfOutputStrfbm strfbm) throws IOExdfption {
+        this.strfbm = strfbm;
+        this.stbrtPos = strfbm.gftStrfbmPosition();
+
+        strfbm.writfInt(-1); // lfngth, will bbdkpbtdh
+        writfInt(typf);
+    }
+
+    publid int rfbd() throws IOExdfption {
+        throw nfw RuntimfExdfption("Mfthod not bvbilbblf");
+    }
+
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+        throw nfw RuntimfExdfption("Mfthod not bvbilbblf");
+    }
+
+    publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+        drd.updbtf(b, off, lfn);
+        strfbm.writf(b, off, lfn);
+    }
+
+    publid void writf(int b) throws IOExdfption {
+        drd.updbtf(b);
+        strfbm.writf(b);
+    }
+
+    publid void finish() throws IOExdfption {
+        // Writf CRC
+        strfbm.writfInt(drd.gftVbluf());
+
+        // Writf lfngth
+        long pos = strfbm.gftStrfbmPosition();
+        strfbm.sffk(stbrtPos);
+        strfbm.writfInt((int)(pos - stbrtPos) - 12);
+
+        // Rfturn to fnd of dhunk bnd flush to minimizf bufffring
+        strfbm.sffk(pos);
+        strfbm.flushBfforf(pos);
+    }
+
+    protfdtfd void finblizf() throws Throwbblf {
+        // Empty finblizfr (for improvfd pfrformbndf; no nffd to dbll
+        // supfr.finblizf() in this dbsf)
+    }
+}
+
+// Comprfss output bnd writf bs b sfrifs of 'IDAT' dhunks of
+// fixfd lfngth.
+finbl dlbss IDATOutputStrfbm fxtfnds ImbgfOutputStrfbmImpl {
+
+    privbtf stbtid bytf[] dhunkTypf = {
+        (bytf)'I', (bytf)'D', (bytf)'A', (bytf)'T'
+    };
+
+    privbtf ImbgfOutputStrfbm strfbm;
+    privbtf int dhunkLfngth;
+    privbtf long stbrtPos;
+    privbtf CRC drd = nfw CRC();
+
+    Dfflbtfr dff = nfw Dfflbtfr(Dfflbtfr.BEST_COMPRESSION);
+    bytf[] buf = nfw bytf[512];
+
+    privbtf int bytfsRfmbining;
+
+    publid IDATOutputStrfbm(ImbgfOutputStrfbm strfbm, int dhunkLfngth)
+        throws IOExdfption {
+        this.strfbm = strfbm;
+        this.dhunkLfngth = dhunkLfngth;
+        stbrtChunk();
+    }
+
+    privbtf void stbrtChunk() throws IOExdfption {
+        drd.rfsft();
+        this.stbrtPos = strfbm.gftStrfbmPosition();
+        strfbm.writfInt(-1); // lfngth, will bbdkpbtdh
+
+        drd.updbtf(dhunkTypf, 0, 4);
+        strfbm.writf(dhunkTypf, 0, 4);
+
+        this.bytfsRfmbining = dhunkLfngth;
+    }
+
+    privbtf void finishChunk() throws IOExdfption {
+        // Writf CRC
+        strfbm.writfInt(drd.gftVbluf());
+
+        // Writf lfngth
+        long pos = strfbm.gftStrfbmPosition();
+        strfbm.sffk(stbrtPos);
+        strfbm.writfInt((int)(pos - stbrtPos) - 12);
+
+        // Rfturn to fnd of dhunk bnd flush to minimizf bufffring
+        strfbm.sffk(pos);
+        strfbm.flushBfforf(pos);
+    }
+
+    publid int rfbd() throws IOExdfption {
+        throw nfw RuntimfExdfption("Mfthod not bvbilbblf");
+    }
+
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+        throw nfw RuntimfExdfption("Mfthod not bvbilbblf");
+    }
+
+    publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+        if (lfn == 0) {
+            rfturn;
+        }
+
+        if (!dff.finishfd()) {
+            dff.sftInput(b, off, lfn);
+            whilf (!dff.nffdsInput()) {
+                dfflbtf();
+            }
+        }
+    }
+
+    publid void dfflbtf() throws IOExdfption {
+        int lfn = dff.dfflbtf(buf, 0, buf.lfngth);
+        int off = 0;
+
+        whilf (lfn > 0) {
+            if (bytfsRfmbining == 0) {
+                finishChunk();
+                stbrtChunk();
+            }
+
+            int nbytfs = Mbth.min(lfn, bytfsRfmbining);
+            drd.updbtf(buf, off, nbytfs);
+            strfbm.writf(buf, off, nbytfs);
+
+            off += nbytfs;
+            lfn -= nbytfs;
+            bytfsRfmbining -= nbytfs;
+        }
+    }
+
+    publid void writf(int b) throws IOExdfption {
+        bytf[] wbuf = nfw bytf[1];
+        wbuf[0] = (bytf)b;
+        writf(wbuf, 0, 1);
+    }
+
+    publid void finish() throws IOExdfption {
+        try {
+            if (!dff.finishfd()) {
+                dff.finish();
+                whilf (!dff.finishfd()) {
+                    dfflbtf();
+                }
+            }
+            finishChunk();
+        } finblly {
+            dff.fnd();
+        }
+    }
+
+    protfdtfd void finblizf() throws Throwbblf {
+        // Empty finblizfr (for improvfd pfrformbndf; no nffd to dbll
+        // supfr.finblizf() in this dbsf)
+    }
+}
+
+
+dlbss PNGImbgfWritfPbrbm fxtfnds ImbgfWritfPbrbm {
+
+    publid PNGImbgfWritfPbrbm(Lodblf lodblf) {
+        supfr();
+        this.dbnWritfProgrfssivf = truf;
+        this.lodblf = lodblf;
+    }
+}
+
+/**
+ */
+publid dlbss PNGImbgfWritfr fxtfnds ImbgfWritfr {
+
+    ImbgfOutputStrfbm strfbm = null;
+
+    PNGMftbdbtb mftbdbtb = null;
+
+    // Fbdtors from thf ImbgfWritfPbrbm
+    int sourdfXOffsft = 0;
+    int sourdfYOffsft = 0;
+    int sourdfWidth = 0;
+    int sourdfHfight = 0;
+    int[] sourdfBbnds = null;
+    int pfriodX = 1;
+    int pfriodY = 1;
+
+    int numBbnds;
+    int bpp;
+
+    RowFiltfr rowFiltfr = nfw RowFiltfr();
+    bytf[] prfvRow = null;
+    bytf[] durrRow = null;
+    bytf[][] filtfrfdRows = null;
+
+    // Pfr-bbnd sdbling tbblfs
+    //
+    // Aftfr thf first dbll to initiblizfSdblfTbblfs, fithfr sdblf bnd sdblf0
+    // will bf vblid, or sdblfh bnd sdblfl will bf vblid, but not both.
+    //
+    // Thf tbblfs will bf dfsignfd for usf with b sft of input but dfpths
+    // givfn by sbmplfSizf, bnd bn output bit dfpth givfn by sdblingBitDfpth.
+    //
+    int[] sbmplfSizf = null; // Sbmplf sizf pfr bbnd, in bits
+    int sdblingBitDfpth = -1; // Output bit dfpth of thf sdbling tbblfs
+
+    // Tbblfs for 1, 2, 4, or 8 bit output
+    bytf[][] sdblf = null; // 8 bit tbblf
+    bytf[] sdblf0 = null; // fquivblfnt to sdblf[0]
+
+    // Tbblfs for 16 bit output
+    bytf[][] sdblfh = null; // High bytfs of output
+    bytf[][] sdblfl = null; // Low bytfs of output
+
+    int totblPixfls; // Totbl numbfr of pixfls to bf writtfn by writf_IDAT
+    int pixflsDonf; // Running dount of pixfls writtfn by writf_IDAT
+
+    publid PNGImbgfWritfr(ImbgfWritfrSpi originbtingProvidfr) {
+        supfr(originbtingProvidfr);
+    }
+
+    publid void sftOutput(Objfdt output) {
+        supfr.sftOutput(output);
+        if (output != null) {
+            if (!(output instbndfof ImbgfOutputStrfbm)) {
+                throw nfw IllfgblArgumfntExdfption("output not bn ImbgfOutputStrfbm!");
+            }
+            this.strfbm = (ImbgfOutputStrfbm)output;
+        } flsf {
+            this.strfbm = null;
+        }
+    }
+
+    privbtf stbtid int[] bllowfdProgrfssivfPbssfs = { 1, 7 };
+
+    publid ImbgfWritfPbrbm gftDffbultWritfPbrbm() {
+        rfturn nfw PNGImbgfWritfPbrbm(gftLodblf());
+    }
+
+    publid IIOMftbdbtb gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
+    }
+
+    publid IIOMftbdbtb gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                               ImbgfWritfPbrbm pbrbm) {
+        PNGMftbdbtb m = nfw PNGMftbdbtb();
+        m.initiblizf(imbgfTypf, imbgfTypf.gftSbmplfModfl().gftNumBbnds());
+        rfturn m;
+    }
+
+    publid IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                             ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
+    }
+
+    publid IIOMftbdbtb donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                                            ImbgfTypfSpfdififr imbgfTypf,
+                                            ImbgfWritfPbrbm pbrbm) {
+        // TODO - dfbl with imbgfTypf
+        if (inDbtb instbndfof PNGMftbdbtb) {
+            rfturn (PNGMftbdbtb)((PNGMftbdbtb)inDbtb).dlonf();
+        } flsf {
+            rfturn nfw PNGMftbdbtb(inDbtb);
+        }
+    }
+
+    privbtf void writf_mbgid() throws IOExdfption {
+        // Writf signbturf
+        bytf[] mbgid = { (bytf)137, 80, 78, 71, 13, 10, 26, 10 };
+        strfbm.writf(mbgid);
+    }
+
+    privbtf void writf_IHDR() throws IOExdfption {
+        // Writf IHDR dhunk
+        ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.IHDR_TYPE, strfbm);
+        ds.writfInt(mftbdbtb.IHDR_width);
+        ds.writfInt(mftbdbtb.IHDR_hfight);
+        ds.writfBytf(mftbdbtb.IHDR_bitDfpth);
+        ds.writfBytf(mftbdbtb.IHDR_dolorTypf);
+        if (mftbdbtb.IHDR_domprfssionMfthod != 0) {
+            throw nfw IIOExdfption(
+"Only domprfssion mfthod 0 is dffinfd in PNG 1.1");
+        }
+        ds.writfBytf(mftbdbtb.IHDR_domprfssionMfthod);
+        if (mftbdbtb.IHDR_filtfrMfthod != 0) {
+            throw nfw IIOExdfption(
+"Only filtfr mfthod 0 is dffinfd in PNG 1.1");
+        }
+        ds.writfBytf(mftbdbtb.IHDR_filtfrMfthod);
+        if (mftbdbtb.IHDR_intfrlbdfMfthod < 0 ||
+            mftbdbtb.IHDR_intfrlbdfMfthod > 1) {
+            throw nfw IIOExdfption(
+"Only intfrlbdf mfthods 0 (nodf) bnd 1 (bdbm7) brf dffinfd in PNG 1.1");
+        }
+        ds.writfBytf(mftbdbtb.IHDR_intfrlbdfMfthod);
+        ds.finish();
+    }
+
+    privbtf void writf_dHRM() throws IOExdfption {
+        if (mftbdbtb.dHRM_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.dHRM_TYPE, strfbm);
+            ds.writfInt(mftbdbtb.dHRM_whitfPointX);
+            ds.writfInt(mftbdbtb.dHRM_whitfPointY);
+            ds.writfInt(mftbdbtb.dHRM_rfdX);
+            ds.writfInt(mftbdbtb.dHRM_rfdY);
+            ds.writfInt(mftbdbtb.dHRM_grffnX);
+            ds.writfInt(mftbdbtb.dHRM_grffnY);
+            ds.writfInt(mftbdbtb.dHRM_blufX);
+            ds.writfInt(mftbdbtb.dHRM_blufY);
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_gAMA() throws IOExdfption {
+        if (mftbdbtb.gAMA_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.gAMA_TYPE, strfbm);
+            ds.writfInt(mftbdbtb.gAMA_gbmmb);
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_iCCP() throws IOExdfption {
+        if (mftbdbtb.iCCP_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.iCCP_TYPE, strfbm);
+            ds.writfBytfs(mftbdbtb.iCCP_profilfNbmf);
+            ds.writfBytf(0); // null tfrminbtor
+
+            ds.writfBytf(mftbdbtb.iCCP_domprfssionMfthod);
+            ds.writf(mftbdbtb.iCCP_domprfssfdProfilf);
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_sBIT() throws IOExdfption {
+        if (mftbdbtb.sBIT_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.sBIT_TYPE, strfbm);
+            int dolorTypf = mftbdbtb.IHDR_dolorTypf;
+            if (mftbdbtb.sBIT_dolorTypf != dolorTypf) {
+                prodfssWbrningOddurrfd(0,
+"sBIT mftbdbtb hbs wrong dolor typf.\n" +
+"Thf dhunk will not bf writtfn.");
+                rfturn;
+            }
+
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY ||
+                dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA) {
+                ds.writfBytf(mftbdbtb.sBIT_grbyBits);
+            } flsf if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB ||
+                       dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_PALETTE ||
+                       dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB_ALPHA) {
+                ds.writfBytf(mftbdbtb.sBIT_rfdBits);
+                ds.writfBytf(mftbdbtb.sBIT_grffnBits);
+                ds.writfBytf(mftbdbtb.sBIT_blufBits);
+            }
+
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA ||
+                dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB_ALPHA) {
+                ds.writfBytf(mftbdbtb.sBIT_blphbBits);
+            }
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_sRGB() throws IOExdfption {
+        if (mftbdbtb.sRGB_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.sRGB_TYPE, strfbm);
+            ds.writfBytf(mftbdbtb.sRGB_rfndfringIntfnt);
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_PLTE() throws IOExdfption {
+        if (mftbdbtb.PLTE_prfsfnt) {
+            if (mftbdbtb.IHDR_dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY ||
+              mftbdbtb.IHDR_dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA) {
+                // PLTE dbnnot oddur in b grby imbgf
+
+                prodfssWbrningOddurrfd(0,
+"A PLTE dhunk mby not bppfbr in b grby or grby blphb imbgf.\n" +
+"Thf dhunk will not bf writtfn");
+                rfturn;
+            }
+
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.PLTE_TYPE, strfbm);
+
+            int numEntrifs = mftbdbtb.PLTE_rfd.lfngth;
+            bytf[] pblfttf = nfw bytf[numEntrifs*3];
+            int indfx = 0;
+            for (int i = 0; i < numEntrifs; i++) {
+                pblfttf[indfx++] = mftbdbtb.PLTE_rfd[i];
+                pblfttf[indfx++] = mftbdbtb.PLTE_grffn[i];
+                pblfttf[indfx++] = mftbdbtb.PLTE_bluf[i];
+            }
+
+            ds.writf(pblfttf);
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_hIST() throws IOExdfption, IIOExdfption {
+        if (mftbdbtb.hIST_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.hIST_TYPE, strfbm);
+
+            if (!mftbdbtb.PLTE_prfsfnt) {
+                throw nfw IIOExdfption("hIST dhunk without PLTE dhunk!");
+            }
+
+            ds.writfChbrs(mftbdbtb.hIST_histogrbm,
+                          0, mftbdbtb.hIST_histogrbm.lfngth);
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_tRNS() throws IOExdfption, IIOExdfption {
+        if (mftbdbtb.tRNS_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.tRNS_TYPE, strfbm);
+            int dolorTypf = mftbdbtb.IHDR_dolorTypf;
+            int dhunkTypf = mftbdbtb.tRNS_dolorTypf;
+
+            // Spfdibl dbsf: imbgf is RGB bnd dhunk is Grby
+            // Promotf dhunk dontfnts to RGB
+            int dhunkRfd = mftbdbtb.tRNS_rfd;
+            int dhunkGrffn = mftbdbtb.tRNS_grffn;
+            int dhunkBluf = mftbdbtb.tRNS_bluf;
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB &&
+                dhunkTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY) {
+                dhunkTypf = dolorTypf;
+                dhunkRfd = dhunkGrffn = dhunkBluf =
+                    mftbdbtb.tRNS_grby;
+            }
+
+            if (dhunkTypf != dolorTypf) {
+                prodfssWbrningOddurrfd(0,
+"tRNS mftbdbtb hbs indompbtiblf dolor typf.\n" +
+"Thf dhunk will not bf writtfn.");
+                rfturn;
+            }
+
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_PALETTE) {
+                if (!mftbdbtb.PLTE_prfsfnt) {
+                    throw nfw IIOExdfption("tRNS dhunk without PLTE dhunk!");
+                }
+                ds.writf(mftbdbtb.tRNS_blphb);
+            } flsf if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY) {
+                ds.writfShort(mftbdbtb.tRNS_grby);
+            } flsf if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB) {
+                ds.writfShort(dhunkRfd);
+                ds.writfShort(dhunkGrffn);
+                ds.writfShort(dhunkBluf);
+            } flsf {
+                throw nfw IIOExdfption("tRNS dhunk for dolor typf 4 or 6!");
+            }
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_bKGD() throws IOExdfption {
+        if (mftbdbtb.bKGD_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.bKGD_TYPE, strfbm);
+            int dolorTypf = mftbdbtb.IHDR_dolorTypf & 0x3;
+            int dhunkTypf = mftbdbtb.bKGD_dolorTypf;
+
+            // Spfdibl dbsf: imbgf is RGB(A) bnd dhunk is Grby
+            // Promotf dhunk dontfnts to RGB
+            int dhunkRfd = mftbdbtb.bKGD_rfd;
+            int dhunkGrffn = mftbdbtb.bKGD_rfd;
+            int dhunkBluf = mftbdbtb.bKGD_rfd;
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB &&
+                dhunkTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY) {
+                // Mbkf b grby bKGD dhunk look likf RGB
+                dhunkTypf = dolorTypf;
+                dhunkRfd = dhunkGrffn = dhunkBluf =
+                    mftbdbtb.bKGD_grby;
+            }
+
+            // Ignorf stbtus of blphb in dolorTypf
+            if (dhunkTypf != dolorTypf) {
+                prodfssWbrningOddurrfd(0,
+"bKGD mftbdbtb hbs indompbtiblf dolor typf.\n" +
+"Thf dhunk will not bf writtfn.");
+                rfturn;
+            }
+
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_PALETTE) {
+                ds.writfBytf(mftbdbtb.bKGD_indfx);
+            } flsf if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY ||
+                       dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA) {
+                ds.writfShort(mftbdbtb.bKGD_grby);
+            } flsf { // dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB ||
+                     // dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB_ALPHA
+                ds.writfShort(dhunkRfd);
+                ds.writfShort(dhunkGrffn);
+                ds.writfShort(dhunkBluf);
+            }
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_pHYs() throws IOExdfption {
+        if (mftbdbtb.pHYs_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.pHYs_TYPE, strfbm);
+            ds.writfInt(mftbdbtb.pHYs_pixflsPfrUnitXAxis);
+            ds.writfInt(mftbdbtb.pHYs_pixflsPfrUnitYAxis);
+            ds.writfBytf(mftbdbtb.pHYs_unitSpfdififr);
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_sPLT() throws IOExdfption {
+        if (mftbdbtb.sPLT_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.sPLT_TYPE, strfbm);
+
+            ds.writfBytfs(mftbdbtb.sPLT_pblfttfNbmf);
+            ds.writfBytf(0); // null tfrminbtor
+
+            ds.writfBytf(mftbdbtb.sPLT_sbmplfDfpth);
+            int numEntrifs = mftbdbtb.sPLT_rfd.lfngth;
+
+            if (mftbdbtb.sPLT_sbmplfDfpth == 8) {
+                for (int i = 0; i < numEntrifs; i++) {
+                    ds.writfBytf(mftbdbtb.sPLT_rfd[i]);
+                    ds.writfBytf(mftbdbtb.sPLT_grffn[i]);
+                    ds.writfBytf(mftbdbtb.sPLT_bluf[i]);
+                    ds.writfBytf(mftbdbtb.sPLT_blphb[i]);
+                    ds.writfShort(mftbdbtb.sPLT_frfqufndy[i]);
+                }
+            } flsf { // sbmplfDfpth == 16
+                for (int i = 0; i < numEntrifs; i++) {
+                    ds.writfShort(mftbdbtb.sPLT_rfd[i]);
+                    ds.writfShort(mftbdbtb.sPLT_grffn[i]);
+                    ds.writfShort(mftbdbtb.sPLT_bluf[i]);
+                    ds.writfShort(mftbdbtb.sPLT_blphb[i]);
+                    ds.writfShort(mftbdbtb.sPLT_frfqufndy[i]);
+                }
+            }
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_tIME() throws IOExdfption {
+        if (mftbdbtb.tIME_prfsfnt) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.tIME_TYPE, strfbm);
+            ds.writfShort(mftbdbtb.tIME_yfbr);
+            ds.writfBytf(mftbdbtb.tIME_month);
+            ds.writfBytf(mftbdbtb.tIME_dby);
+            ds.writfBytf(mftbdbtb.tIME_hour);
+            ds.writfBytf(mftbdbtb.tIME_minutf);
+            ds.writfBytf(mftbdbtb.tIME_sfdond);
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_tEXt() throws IOExdfption {
+        Itfrbtor<String> kfywordItfr = mftbdbtb.tEXt_kfyword.itfrbtor();
+        Itfrbtor<String> tfxtItfr = mftbdbtb.tEXt_tfxt.itfrbtor();
+
+        whilf (kfywordItfr.hbsNfxt()) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.tEXt_TYPE, strfbm);
+            String kfyword = kfywordItfr.nfxt();
+            ds.writfBytfs(kfyword);
+            ds.writfBytf(0);
+
+            String tfxt = tfxtItfr.nfxt();
+            ds.writfBytfs(tfxt);
+            ds.finish();
+        }
+    }
+
+    privbtf bytf[] dfflbtf(bytf[] b) throws IOExdfption {
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        DfflbtfrOutputStrfbm dos = nfw DfflbtfrOutputStrfbm(bbos);
+        dos.writf(b);
+        dos.dlosf();
+        rfturn bbos.toBytfArrby();
+    }
+
+    privbtf void writf_iTXt() throws IOExdfption {
+        Itfrbtor<String> kfywordItfr = mftbdbtb.iTXt_kfyword.itfrbtor();
+        Itfrbtor<Boolfbn> flbgItfr = mftbdbtb.iTXt_domprfssionFlbg.itfrbtor();
+        Itfrbtor<Intfgfr> mfthodItfr = mftbdbtb.iTXt_domprfssionMfthod.itfrbtor();
+        Itfrbtor<String> lbngubgfItfr = mftbdbtb.iTXt_lbngubgfTbg.itfrbtor();
+        Itfrbtor<String> trbnslbtfdKfywordItfr =
+            mftbdbtb.iTXt_trbnslbtfdKfyword.itfrbtor();
+        Itfrbtor<String> tfxtItfr = mftbdbtb.iTXt_tfxt.itfrbtor();
+
+        whilf (kfywordItfr.hbsNfxt()) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.iTXt_TYPE, strfbm);
+
+            ds.writfBytfs(kfywordItfr.nfxt());
+            ds.writfBytf(0);
+
+            Boolfbn domprfssfd = flbgItfr.nfxt();
+            ds.writfBytf(domprfssfd ? 1 : 0);
+
+            ds.writfBytf(mfthodItfr.nfxt().intVbluf());
+
+            ds.writfBytfs(lbngubgfItfr.nfxt());
+            ds.writfBytf(0);
+
+
+            ds.writf(trbnslbtfdKfywordItfr.nfxt().gftBytfs("UTF8"));
+            ds.writfBytf(0);
+
+            String tfxt = tfxtItfr.nfxt();
+            if (domprfssfd) {
+                ds.writf(dfflbtf(tfxt.gftBytfs("UTF8")));
+            } flsf {
+                ds.writf(tfxt.gftBytfs("UTF8"));
+            }
+            ds.finish();
+        }
+    }
+
+    privbtf void writf_zTXt() throws IOExdfption {
+        Itfrbtor<String> kfywordItfr = mftbdbtb.zTXt_kfyword.itfrbtor();
+        Itfrbtor<Intfgfr> mfthodItfr = mftbdbtb.zTXt_domprfssionMfthod.itfrbtor();
+        Itfrbtor<String> tfxtItfr = mftbdbtb.zTXt_tfxt.itfrbtor();
+
+        whilf (kfywordItfr.hbsNfxt()) {
+            ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.zTXt_TYPE, strfbm);
+            String kfyword = kfywordItfr.nfxt();
+            ds.writfBytfs(kfyword);
+            ds.writfBytf(0);
+
+            int domprfssionMfthod = (mfthodItfr.nfxt()).intVbluf();
+            ds.writfBytf(domprfssionMfthod);
+
+            String tfxt = tfxtItfr.nfxt();
+            ds.writf(dfflbtf(tfxt.gftBytfs("ISO-8859-1")));
+            ds.finish();
+        }
+    }
+
+    privbtf void writfUnknownChunks() throws IOExdfption {
+        Itfrbtor<String> typfItfr = mftbdbtb.unknownChunkTypf.itfrbtor();
+        Itfrbtor<bytf[]> dbtbItfr = mftbdbtb.unknownChunkDbtb.itfrbtor();
+
+        whilf (typfItfr.hbsNfxt() && dbtbItfr.hbsNfxt()) {
+            String typf = typfItfr.nfxt();
+            ChunkStrfbm ds = nfw ChunkStrfbm(dhunkTypf(typf), strfbm);
+            bytf[] dbtb = dbtbItfr.nfxt();
+            ds.writf(dbtb);
+            ds.finish();
+        }
+    }
+
+    privbtf stbtid int dhunkTypf(String typfString) {
+        dhbr d0 = typfString.dhbrAt(0);
+        dhbr d1 = typfString.dhbrAt(1);
+        dhbr d2 = typfString.dhbrAt(2);
+        dhbr d3 = typfString.dhbrAt(3);
+
+        int typf = (d0 << 24) | (d1 << 16) | (d2 << 8) | d3;
+        rfturn typf;
+    }
+
+    privbtf void fndodfPbss(ImbgfOutputStrfbm os,
+                            RfndfrfdImbgf imbgf,
+                            int xOffsft, int yOffsft,
+                            int xSkip, int ySkip) throws IOExdfption {
+        int minX = sourdfXOffsft;
+        int minY = sourdfYOffsft;
+        int width = sourdfWidth;
+        int hfight = sourdfHfight;
+
+        // Adjust offsfts bnd skips bbsfd on sourdf subsbmpling fbdtors
+        xOffsft *= pfriodX;
+        xSkip *= pfriodX;
+        yOffsft *= pfriodY;
+        ySkip *= pfriodY;
+
+        // Ebrly fxit if no dbtb for this pbss
+        int hpixfls = (width - xOffsft + xSkip - 1)/xSkip;
+        int vpixfls = (hfight - yOffsft + ySkip - 1)/ySkip;
+        if (hpixfls == 0 || vpixfls == 0) {
+            rfturn;
+        }
+
+        // Convfrt X offsft bnd skip from pixfls to sbmplfs
+        xOffsft *= numBbnds;
+        xSkip *= numBbnds;
+
+        // Crfbtf row bufffrs
+        int sbmplfsPfrBytf = 8/mftbdbtb.IHDR_bitDfpth;
+        int numSbmplfs = width*numBbnds;
+        int[] sbmplfs = nfw int[numSbmplfs];
+
+        int bytfsPfrRow = hpixfls*numBbnds;
+        if (mftbdbtb.IHDR_bitDfpth < 8) {
+            bytfsPfrRow = (bytfsPfrRow + sbmplfsPfrBytf - 1)/sbmplfsPfrBytf;
+        } flsf if (mftbdbtb.IHDR_bitDfpth == 16) {
+            bytfsPfrRow *= 2;
+        }
+
+        IndfxColorModfl idm_grby_blphb = null;
+        if (mftbdbtb.IHDR_dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA &&
+            imbgf.gftColorModfl() instbndfof IndfxColorModfl)
+        {
+            // rfsfrvf spbdf for blphb sbmplfs
+            bytfsPfrRow *= 2;
+
+            // will bf usfd to dbldulbtf blphb vbluf for thf pixfl
+            idm_grby_blphb = (IndfxColorModfl)imbgf.gftColorModfl();
+        }
+
+        durrRow = nfw bytf[bytfsPfrRow + bpp];
+        prfvRow = nfw bytf[bytfsPfrRow + bpp];
+        filtfrfdRows = nfw bytf[5][bytfsPfrRow + bpp];
+
+        int bitDfpth = mftbdbtb.IHDR_bitDfpth;
+        for (int row = minY + yOffsft; row < minY + hfight; row += ySkip) {
+            Rfdtbnglf rfdt = nfw Rfdtbnglf(minX, row, width, 1);
+            Rbstfr rbs = imbgf.gftDbtb(rfdt);
+            if (sourdfBbnds != null) {
+                rbs = rbs.drfbtfChild(minX, row, width, 1, minX, row,
+                                      sourdfBbnds);
+            }
+
+            rbs.gftPixfls(minX, row, width, 1, sbmplfs);
+
+            if (imbgf.gftColorModfl().isAlphbPrfmultiplifd()) {
+                WritbblfRbstfr wr = rbs.drfbtfCompbtiblfWritbblfRbstfr();
+                wr.sftPixfls(wr.gftMinX(), wr.gftMinY(),
+                             wr.gftWidth(), wr.gftHfight(),
+                             sbmplfs);
+
+                imbgf.gftColorModfl().dofrdfDbtb(wr, fblsf);
+                wr.gftPixfls(wr.gftMinX(), wr.gftMinY(),
+                             wr.gftWidth(), wr.gftHfight(),
+                             sbmplfs);
+            }
+
+            // Rfordfr pblfttf dbtb if nfdfssbry
+            int[] pblfttfOrdfr = mftbdbtb.PLTE_ordfr;
+            if (pblfttfOrdfr != null) {
+                for (int i = 0; i < numSbmplfs; i++) {
+                    sbmplfs[i] = pblfttfOrdfr[sbmplfs[i]];
+                }
+            }
+
+            int dount = bpp; // lfbvf first 'bpp' bytfs zfro
+            int pos = 0;
+            int tmp = 0;
+
+            switdh (bitDfpth) {
+            dbsf 1: dbsf 2: dbsf 4:
+                // Imbgf dbn only hbvf b singlf bbnd
+
+                int mbsk = sbmplfsPfrBytf - 1;
+                for (int s = xOffsft; s < numSbmplfs; s += xSkip) {
+                    bytf vbl = sdblf0[sbmplfs[s]];
+                    tmp = (tmp << bitDfpth) | vbl;
+
+                    if ((pos++ & mbsk) == mbsk) {
+                        durrRow[dount++] = (bytf)tmp;
+                        tmp = 0;
+                        pos = 0;
+                    }
+                }
+
+                // Lfft shift thf lbst bytf
+                if ((pos & mbsk) != 0) {
+                    tmp <<= ((8/bitDfpth) - pos)*bitDfpth;
+                    durrRow[dount++] = (bytf)tmp;
+                }
+                brfbk;
+
+            dbsf 8:
+                if (numBbnds == 1) {
+                    for (int s = xOffsft; s < numSbmplfs; s += xSkip) {
+                        durrRow[dount++] = sdblf0[sbmplfs[s]];
+                        if (idm_grby_blphb != null) {
+                            durrRow[dount++] =
+                                sdblf0[idm_grby_blphb.gftAlphb(0xff & sbmplfs[s])];
+                        }
+                    }
+                } flsf {
+                    for (int s = xOffsft; s < numSbmplfs; s += xSkip) {
+                        for (int b = 0; b < numBbnds; b++) {
+                            durrRow[dount++] = sdblf[b][sbmplfs[s + b]];
+                        }
+                    }
+                }
+                brfbk;
+
+            dbsf 16:
+                for (int s = xOffsft; s < numSbmplfs; s += xSkip) {
+                    for (int b = 0; b < numBbnds; b++) {
+                        durrRow[dount++] = sdblfh[b][sbmplfs[s + b]];
+                        durrRow[dount++] = sdblfl[b][sbmplfs[s + b]];
+                    }
+                }
+                brfbk;
+            }
+
+            // Pfrform filtfring
+            int filtfrTypf = rowFiltfr.filtfrRow(mftbdbtb.IHDR_dolorTypf,
+                                                 durrRow, prfvRow,
+                                                 filtfrfdRows,
+                                                 bytfsPfrRow, bpp);
+
+            os.writf(filtfrTypf);
+            os.writf(filtfrfdRows[filtfrTypf], bpp, bytfsPfrRow);
+
+            // Swbp durrfnt bnd prfvious rows
+            bytf[] swbp = durrRow;
+            durrRow = prfvRow;
+            prfvRow = swbp;
+
+            pixflsDonf += hpixfls;
+            prodfssImbgfProgrfss(100.0F*pixflsDonf/totblPixfls);
+
+            // If writf hbs bffn bbortfd, just rfturn;
+            // prodfssWritfAbortfd will bf dbllfd lbtfr
+            if (bbortRfqufstfd()) {
+                rfturn;
+            }
+        }
+    }
+
+    // Usf sourdfXOffsft, ftd.
+    privbtf void writf_IDAT(RfndfrfdImbgf imbgf) throws IOExdfption {
+        IDATOutputStrfbm ios = nfw IDATOutputStrfbm(strfbm, 32768);
+        try {
+            if (mftbdbtb.IHDR_intfrlbdfMfthod == 1) {
+                for (int i = 0; i < 7; i++) {
+                    fndodfPbss(ios, imbgf,
+                               PNGImbgfRfbdfr.bdbm7XOffsft[i],
+                               PNGImbgfRfbdfr.bdbm7YOffsft[i],
+                               PNGImbgfRfbdfr.bdbm7XSubsbmpling[i],
+                               PNGImbgfRfbdfr.bdbm7YSubsbmpling[i]);
+                    if (bbortRfqufstfd()) {
+                        brfbk;
+                    }
+                }
+            } flsf {
+                fndodfPbss(ios, imbgf, 0, 0, 1, 1);
+            }
+        } finblly {
+            ios.finish();
+        }
+    }
+
+    privbtf void writfIEND() throws IOExdfption {
+        ChunkStrfbm ds = nfw ChunkStrfbm(PNGImbgfRfbdfr.IEND_TYPE, strfbm);
+        ds.finish();
+    }
+
+    // Chfdk two int brrbys for vbluf fqublity, blwbys rfturns fblsf
+    // if fithfr brrby is null
+    privbtf boolfbn fqubls(int[] s0, int[] s1) {
+        if (s0 == null || s1 == null) {
+            rfturn fblsf;
+        }
+        if (s0.lfngth != s1.lfngth) {
+            rfturn fblsf;
+        }
+        for (int i = 0; i < s0.lfngth; i++) {
+            if (s0[i] != s1[i]) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    // Initiblizf thf sdblf/sdblf0 or sdblfh/sdblfl brrbys to
+    // hold thf rfsults of sdbling bn input vbluf to thf dfsirfd
+    // output bit dfpth
+    privbtf void initiblizfSdblfTbblfs(int[] sbmplfSizf) {
+        int bitDfpth = mftbdbtb.IHDR_bitDfpth;
+
+        // If thf fxisting tbblfs brf still vblid, just rfturn
+        if (bitDfpth == sdblingBitDfpth &&
+            fqubls(sbmplfSizf, this.sbmplfSizf)) {
+            rfturn;
+        }
+
+        // Computf nfw tbblfs
+        this.sbmplfSizf = sbmplfSizf;
+        this.sdblingBitDfpth = bitDfpth;
+        int mbxOutSbmplf = (1 << bitDfpth) - 1;
+        if (bitDfpth <= 8) {
+            sdblf = nfw bytf[numBbnds][];
+            for (int b = 0; b < numBbnds; b++) {
+                int mbxInSbmplf = (1 << sbmplfSizf[b]) - 1;
+                int hblfMbxInSbmplf = mbxInSbmplf/2;
+                sdblf[b] = nfw bytf[mbxInSbmplf + 1];
+                for (int s = 0; s <= mbxInSbmplf; s++) {
+                    sdblf[b][s] =
+                        (bytf)((s*mbxOutSbmplf + hblfMbxInSbmplf)/mbxInSbmplf);
+                }
+            }
+            sdblf0 = sdblf[0];
+            sdblfh = sdblfl = null;
+        } flsf { // bitDfpth == 16
+            // Dividf sdbling tbblf into high bnd low bytfs
+            sdblfh = nfw bytf[numBbnds][];
+            sdblfl = nfw bytf[numBbnds][];
+
+            for (int b = 0; b < numBbnds; b++) {
+                int mbxInSbmplf = (1 << sbmplfSizf[b]) - 1;
+                int hblfMbxInSbmplf = mbxInSbmplf/2;
+                sdblfh[b] = nfw bytf[mbxInSbmplf + 1];
+                sdblfl[b] = nfw bytf[mbxInSbmplf + 1];
+                for (int s = 0; s <= mbxInSbmplf; s++) {
+                    int vbl = (s*mbxOutSbmplf + hblfMbxInSbmplf)/mbxInSbmplf;
+                    sdblfh[b][s] = (bytf)(vbl >> 8);
+                    sdblfl[b][s] = (bytf)(vbl & 0xff);
+                }
+            }
+            sdblf = null;
+            sdblf0 = null;
+        }
+    }
+
+    publid void writf(IIOMftbdbtb strfbmMftbdbtb,
+                      IIOImbgf imbgf,
+                      ImbgfWritfPbrbm pbrbm) throws IIOExdfption {
+        if (strfbm == null) {
+            throw nfw IllfgblStbtfExdfption("output == null!");
+        }
+        if (imbgf == null) {
+            throw nfw IllfgblArgumfntExdfption("imbgf == null!");
+        }
+        if (imbgf.hbsRbstfr()) {
+            throw nfw UnsupportfdOpfrbtionExdfption("imbgf hbs b Rbstfr!");
+        }
+
+        RfndfrfdImbgf im = imbgf.gftRfndfrfdImbgf();
+        SbmplfModfl sbmplfModfl = im.gftSbmplfModfl();
+        this.numBbnds = sbmplfModfl.gftNumBbnds();
+
+        // Sft sourdf rfgion bnd subsbmpling to dffbult vblufs
+        this.sourdfXOffsft = im.gftMinX();
+        this.sourdfYOffsft = im.gftMinY();
+        this.sourdfWidth = im.gftWidth();
+        this.sourdfHfight = im.gftHfight();
+        this.sourdfBbnds = null;
+        this.pfriodX = 1;
+        this.pfriodY = 1;
+
+        if (pbrbm != null) {
+            // Gft sourdf rfgion bnd subsbmpling fbdtors
+            Rfdtbnglf sourdfRfgion = pbrbm.gftSourdfRfgion();
+            if (sourdfRfgion != null) {
+                Rfdtbnglf imbgfBounds = nfw Rfdtbnglf(im.gftMinX(),
+                                                      im.gftMinY(),
+                                                      im.gftWidth(),
+                                                      im.gftHfight());
+                // Clip to bdtubl imbgf bounds
+                sourdfRfgion = sourdfRfgion.intfrsfdtion(imbgfBounds);
+                sourdfXOffsft = sourdfRfgion.x;
+                sourdfYOffsft = sourdfRfgion.y;
+                sourdfWidth = sourdfRfgion.width;
+                sourdfHfight = sourdfRfgion.hfight;
+            }
+
+            // Adjust for subsbmpling offsfts
+            int gridX = pbrbm.gftSubsbmplingXOffsft();
+            int gridY = pbrbm.gftSubsbmplingYOffsft();
+            sourdfXOffsft += gridX;
+            sourdfYOffsft += gridY;
+            sourdfWidth -= gridX;
+            sourdfHfight -= gridY;
+
+            // Gft subsbmpling fbdtors
+            pfriodX = pbrbm.gftSourdfXSubsbmpling();
+            pfriodY = pbrbm.gftSourdfYSubsbmpling();
+
+            int[] sBbnds = pbrbm.gftSourdfBbnds();
+            if (sBbnds != null) {
+                sourdfBbnds = sBbnds;
+                numBbnds = sourdfBbnds.lfngth;
+            }
+        }
+
+        // Computf output dimfnsions
+        int dfstWidth = (sourdfWidth + pfriodX - 1)/pfriodX;
+        int dfstHfight = (sourdfHfight + pfriodY - 1)/pfriodY;
+        if (dfstWidth <= 0 || dfstHfight <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Empty sourdf rfgion!");
+        }
+
+        // Computf totbl numbfr of pixfls for progrfss notifidbtion
+        this.totblPixfls = dfstWidth*dfstHfight;
+        this.pixflsDonf = 0;
+
+        // Crfbtf mftbdbtb
+        IIOMftbdbtb imd = imbgf.gftMftbdbtb();
+        if (imd != null) {
+            mftbdbtb = (PNGMftbdbtb)donvfrtImbgfMftbdbtb(imd,
+                               ImbgfTypfSpfdififr.drfbtfFromRfndfrfdImbgf(im),
+                                                         null);
+        } flsf {
+            mftbdbtb = nfw PNGMftbdbtb();
+        }
+
+        if (pbrbm != null) {
+            // Usf Adbm7 intfrlbding if sft in writf pbrbm
+            switdh (pbrbm.gftProgrfssivfModf()) {
+            dbsf ImbgfWritfPbrbm.MODE_DEFAULT:
+                mftbdbtb.IHDR_intfrlbdfMfthod = 1;
+                brfbk;
+            dbsf ImbgfWritfPbrbm.MODE_DISABLED:
+                mftbdbtb.IHDR_intfrlbdfMfthod = 0;
+                brfbk;
+                // MODE_COPY_FROM_METADATA should blrfby bf tbkfn dbrf of
+                // MODE_EXPLICIT is not bllowfd
+            }
+        }
+
+        // Initiblizf bitDfpth bnd dolorTypf
+        mftbdbtb.initiblizf(nfw ImbgfTypfSpfdififr(im), numBbnds);
+
+        // Ovfrwritf IHDR width bnd hfight vblufs with vblufs from imbgf
+        mftbdbtb.IHDR_width = dfstWidth;
+        mftbdbtb.IHDR_hfight = dfstHfight;
+
+        this.bpp = numBbnds*((mftbdbtb.IHDR_bitDfpth == 16) ? 2 : 1);
+
+        // Initiblizf sdbling tbblfs for this imbgf
+        initiblizfSdblfTbblfs(sbmplfModfl.gftSbmplfSizf());
+
+        dlfbrAbortRfqufst();
+
+        prodfssImbgfStbrtfd(0);
+
+        try {
+            writf_mbgid();
+            writf_IHDR();
+
+            writf_dHRM();
+            writf_gAMA();
+            writf_iCCP();
+            writf_sBIT();
+            writf_sRGB();
+
+            writf_PLTE();
+
+            writf_hIST();
+            writf_tRNS();
+            writf_bKGD();
+
+            writf_pHYs();
+            writf_sPLT();
+            writf_tIME();
+            writf_tEXt();
+            writf_iTXt();
+            writf_zTXt();
+
+            writfUnknownChunks();
+
+            writf_IDAT(im);
+
+            if (bbortRfqufstfd()) {
+                prodfssWritfAbortfd();
+            } flsf {
+                // Finish up bnd inform thf listfnfrs wf brf donf
+                writfIEND();
+                prodfssImbgfComplftf();
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw IIOExdfption("I/O frror writing PNG filf!", f);
+        }
+    }
+}

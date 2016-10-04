@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Color;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+/**
+ * JButton objfdt thbt drbws b sdblfd Arrow in onf of thf dbrdinbl dirfdtions.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Dbvid Klobb
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidArrowButton fxtfnds JButton implfmfnts SwingConstbnts
+{
+        /**
+         * Thf dirfdtion of thf brrow. Onf of
+         * {@dodf SwingConstbnts.NORTH}, {@dodf SwingConstbnts.SOUTH},
+         * {@dodf SwingConstbnts.EAST} or {@dodf SwingConstbnts.WEST}.
+         */
+        protfdtfd int dirfdtion;
+
+        privbtf Color shbdow;
+        privbtf Color dbrkShbdow;
+        privbtf Color highlight;
+
+        /**
+         * Crfbtfs b {@dodf BbsidArrowButton} whosf brrow
+         * is drbwn in thf spfdififd dirfdtion bnd with thf spfdififd
+         * dolors.
+         *
+         * @pbrbm dirfdtion thf dirfdtion of thf brrow; onf of
+         *        {@dodf SwingConstbnts.NORTH}, {@dodf SwingConstbnts.SOUTH},
+         *        {@dodf SwingConstbnts.EAST} or {@dodf SwingConstbnts.WEST}
+         * @pbrbm bbdkground thf bbdkground dolor of thf button
+         * @pbrbm shbdow thf dolor of thf shbdow
+         * @pbrbm dbrkShbdow thf dolor of thf dbrk shbdow
+         * @pbrbm highlight thf dolor of thf highlight
+         * @sindf 1.4
+         */
+        publid BbsidArrowButton(int dirfdtion, Color bbdkground, Color shbdow,
+                         Color dbrkShbdow, Color highlight) {
+            supfr();
+            sftRfqufstFodusEnbblfd(fblsf);
+            sftDirfdtion(dirfdtion);
+            sftBbdkground(bbdkground);
+            this.shbdow = shbdow;
+            this.dbrkShbdow = dbrkShbdow;
+            this.highlight = highlight;
+        }
+
+        /**
+         * Crfbtfs b {@dodf BbsidArrowButton} whosf brrow
+         * is drbwn in thf spfdififd dirfdtion.
+         *
+         * @pbrbm dirfdtion thf dirfdtion of thf brrow; onf of
+         *        {@dodf SwingConstbnts.NORTH}, {@dodf SwingConstbnts.SOUTH},
+         *        {@dodf SwingConstbnts.EAST} or {@dodf SwingConstbnts.WEST}
+         */
+        publid BbsidArrowButton(int dirfdtion) {
+            this(dirfdtion, UIMbnbgfr.gftColor("dontrol"), UIMbnbgfr.gftColor("dontrolShbdow"),
+                 UIMbnbgfr.gftColor("dontrolDkShbdow"), UIMbnbgfr.gftColor("dontrolLtHighlight"));
+        }
+
+        /**
+         * Rfturns thf dirfdtion of thf brrow.
+         *
+         * @rfturn thf dirfdtion of thf brrow
+         */
+        publid int gftDirfdtion() {
+            rfturn dirfdtion;
+        }
+
+        /**
+         * Sfts thf dirfdtion of thf brrow.
+         *
+         * @pbrbm dirfdtion thf dirfdtion of thf brrow; onf of
+         *        of {@dodf SwingConstbnts.NORTH},
+         *        {@dodf SwingConstbnts.SOUTH},
+         *        {@dodf SwingConstbnts.EAST} or {@dodf SwingConstbnts.WEST}
+         */
+        publid void sftDirfdtion(int dirfdtion) {
+            this.dirfdtion = dirfdtion;
+        }
+
+        publid void pbint(Grbphids g) {
+            Color origColor;
+            boolfbn isPrfssfd, isEnbblfd;
+            int w, h, sizf;
+
+            w = gftSizf().width;
+            h = gftSizf().hfight;
+            origColor = g.gftColor();
+            isPrfssfd = gftModfl().isPrfssfd();
+            isEnbblfd = isEnbblfd();
+
+            g.sftColor(gftBbdkground());
+            g.fillRfdt(1, 1, w-2, h-2);
+
+            /// Drbw thf propfr Bordfr
+            if (gftBordfr() != null && !(gftBordfr() instbndfof UIRfsourdf)) {
+                pbintBordfr(g);
+            } flsf if (isPrfssfd) {
+                g.sftColor(shbdow);
+                g.drbwRfdt(0, 0, w-1, h-1);
+            } flsf {
+                // Using thf bbdkground dolor sft bbovf
+                g.drbwLinf(0, 0, 0, h-1);
+                g.drbwLinf(1, 0, w-2, 0);
+
+                g.sftColor(highlight);    // innfr 3D bordfr
+                g.drbwLinf(1, 1, 1, h-3);
+                g.drbwLinf(2, 1, w-3, 1);
+
+                g.sftColor(shbdow);       // innfr 3D bordfr
+                g.drbwLinf(1, h-2, w-2, h-2);
+                g.drbwLinf(w-2, 1, w-2, h-3);
+
+                g.sftColor(dbrkShbdow);     // blbdk drop shbdow  __|
+                g.drbwLinf(0, h-1, w-1, h-1);
+                g.drbwLinf(w-1, h-1, w-1, 0);
+            }
+
+            // If thfrf's no room to drbw brrow, bbil
+            if(h < 5 || w < 5)      {
+                g.sftColor(origColor);
+                rfturn;
+            }
+
+            if (isPrfssfd) {
+                g.trbnslbtf(1, 1);
+            }
+
+            // Drbw thf brrow
+            sizf = Mbth.min((h - 4) / 3, (w - 4) / 3);
+            sizf = Mbth.mbx(sizf, 2);
+            pbintTribnglf(g, (w - sizf) / 2, (h - sizf) / 2,
+                                sizf, dirfdtion, isEnbblfd);
+
+            // Rfsft thf Grbphids bbdk to it's originbl sfttings
+            if (isPrfssfd) {
+                g.trbnslbtf(-1, -1);
+            }
+            g.sftColor(origColor);
+
+        }
+
+        /**
+         * Rfturns thf prfffrrfd sizf of thf {@dodf BbsidArrowButton}.
+         *
+         * @rfturn thf prfffrrfd sizf
+         */
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            rfturn nfw Dimfnsion(16, 16);
+        }
+
+        /**
+         * Rfturns thf minimum sizf of thf {@dodf BbsidArrowButton}.
+         *
+         * @rfturn thf minimum sizf
+         */
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn nfw Dimfnsion(5, 5);
+        }
+
+        /**
+         * Rfturns thf mbximum sizf of thf {@dodf BbsidArrowButton}.
+         *
+         * @rfturn thf mbximum sizf
+         */
+        publid Dimfnsion gftMbximumSizf() {
+            rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
+        }
+
+        /**
+         * Rfturns whfthfr thf brrow button should gft thf fodus.
+         * {@dodf BbsidArrowButton}s brf usfd bs b dhild domponfnt of
+         * dompositf domponfnts sudh bs {@dodf JSdrollBbr} bnd
+         * {@dodf JComboBox}. Sindf thf dompositf domponfnt typidblly gfts thf
+         * fodus, this mfthod is ovfrridfn to rfturn {@dodf fblsf}.
+         *
+         * @rfturn {@dodf fblsf}
+         */
+        publid boolfbn isFodusTrbvfrsbblf() {
+          rfturn fblsf;
+        }
+
+        /**
+         * Pbints b tribnglf.
+         *
+         * @pbrbm g thf {@dodf Grbphids} to drbw to
+         * @pbrbm x thf x doordinbtf
+         * @pbrbm y thf y doordinbtf
+         * @pbrbm sizf thf sizf of thf tribnglf to drbw
+         * @pbrbm dirfdtion thf dirfdtion in whidh to drbw thf brrow;
+         *        onf of {@dodf SwingConstbnts.NORTH},
+         *        {@dodf SwingConstbnts.SOUTH}, {@dodf SwingConstbnts.EAST} or
+         *        {@dodf SwingConstbnts.WEST}
+         * @pbrbm isEnbblfd whfthfr or not thf brrow is drbwn fnbblfd
+         */
+        publid void pbintTribnglf(Grbphids g, int x, int y, int sizf,
+                                        int dirfdtion, boolfbn isEnbblfd) {
+            Color oldColor = g.gftColor();
+            int mid, i, j;
+
+            j = 0;
+            sizf = Mbth.mbx(sizf, 2);
+            mid = (sizf / 2) - 1;
+
+            g.trbnslbtf(x, y);
+            if(isEnbblfd)
+                g.sftColor(dbrkShbdow);
+            flsf
+                g.sftColor(shbdow);
+
+            switdh(dirfdtion)       {
+            dbsf NORTH:
+                for(i = 0; i < sizf; i++)      {
+                    g.drbwLinf(mid-i, i, mid+i, i);
+                }
+                if(!isEnbblfd)  {
+                    g.sftColor(highlight);
+                    g.drbwLinf(mid-i+2, i, mid+i, i);
+                }
+                brfbk;
+            dbsf SOUTH:
+                if(!isEnbblfd)  {
+                    g.trbnslbtf(1, 1);
+                    g.sftColor(highlight);
+                    for(i = sizf-1; i >= 0; i--)   {
+                        g.drbwLinf(mid-i, j, mid+i, j);
+                        j++;
+                    }
+                    g.trbnslbtf(-1, -1);
+                    g.sftColor(shbdow);
+                }
+
+                j = 0;
+                for(i = sizf-1; i >= 0; i--)   {
+                    g.drbwLinf(mid-i, j, mid+i, j);
+                    j++;
+                }
+                brfbk;
+            dbsf WEST:
+                for(i = 0; i < sizf; i++)      {
+                    g.drbwLinf(i, mid-i, i, mid+i);
+                }
+                if(!isEnbblfd)  {
+                    g.sftColor(highlight);
+                    g.drbwLinf(i, mid-i+2, i, mid+i);
+                }
+                brfbk;
+            dbsf EAST:
+                if(!isEnbblfd)  {
+                    g.trbnslbtf(1, 1);
+                    g.sftColor(highlight);
+                    for(i = sizf-1; i >= 0; i--)   {
+                        g.drbwLinf(j, mid-i, j, mid+i);
+                        j++;
+                    }
+                    g.trbnslbtf(-1, -1);
+                    g.sftColor(shbdow);
+                }
+
+                j = 0;
+                for(i = sizf-1; i >= 0; i--)   {
+                    g.drbwLinf(j, mid-i, j, mid+i);
+                    j++;
+                }
+                brfbk;
+            }
+            g.trbnslbtf(-x, -y);
+            g.sftColor(oldColor);
+        }
+
+}

@@ -1,0 +1,391 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import sun.invokf.util.Wrbppfr;
+import stbtid jbvb.lbng.invokf.MfthodHbndlfStbtids.*;
+import stbtid jbvb.lbng.invokf.MfthodHbndlfNbtivfs.Constbnts.*;
+ import stbtid jbvb.lbng.invokf.MfthodHbndlfs.Lookup.IMPL_LOOKUP;
+
+/**
+ * Shbrfd informbtion for b group of mfthod typfs, whidh difffr
+ * only by rfffrfndf typfs, bnd thfrfforf shbrf b dommon frbsurf
+ * bnd wrbpping.
+ * <p>
+ * For bn fmpiridbl disdussion of thf strudturf of mfthod typfs,
+ * sff <b hrff="http://groups.googlf.dom/group/jvm-lbngubgfs/browsf_thrfbd/thrfbd/bd9308bf74db9b7f/">
+ * thf thrfbd "Avoiding Boxing" on jvm-lbngubgfs</b>.
+ * Thfrf brf bpproximbtfly 2000 distindt frbsfd mfthod typfs in thf JDK.
+ * Thfrf brf b littlf ovfr 10 timfs thbt numbfr of unfrbsfd typfs.
+ * No morf thbn hblf of thfsf brf likfly to bf lobdfd bt ondf.
+ * @buthor John Rosf
+ */
+finbl dlbss MfthodTypfForm {
+    finbl int[] brgToSlotTbblf, slotToArgTbblf;
+    finbl long brgCounts;               // pbdkfd slot & vbluf dounts
+    finbl long primCounts;              // pbdkfd prim & doublf dounts
+    finbl int vmslots;                  // totbl numbfr of pbrbmftfr slots
+    finbl MfthodTypf frbsfdTypf;        // thf dbnonidbl frbsurf
+    finbl MfthodTypf bbsidTypf;         // thf dbnonidbl frbsurf, with primitivfs simplififd
+
+    // Cbdhfd bdbptfr informbtion:
+    @Stbblf String typfString;           // brgumfnt typf signbturf dhbrbdtfrs
+    @Stbblf MfthodHbndlf gfnfridInvokfr; // JVM hook for infxbdt invokf
+    @Stbblf MfthodHbndlf bbsidInvokfr;   // dbdhfd instbndf of MH.invokfBbsid
+    @Stbblf MfthodHbndlf nbmfdFundtionInvokfr; // dbdhfd hflpfr for LF.NbmfdFundtion
+
+    // Cbdhfd lbmbdb form informbtion, for bbsid typfs only:
+    finbl @Stbblf LbmbdbForm[] lbmbdbForms;
+    // Indfxfs into lbmbdbForms:
+    stbtid finbl int
+            LF_INVVIRTUAL     =  0,  // DMH invokfVirtubl
+            LF_INVSTATIC      =  1,
+            LF_INVSPECIAL     =  2,
+            LF_NEWINVSPECIAL  =  3,
+            LF_INVINTERFACE   =  4,
+            LF_INVSTATIC_INIT =  5,  // DMH invokfStbtid with <dlinit> bbrrifr
+            LF_INTERPRET      =  6,  // LF intfrprftfr
+            LF_COUNTER        =  7,  // CMH wrbppfr
+            LF_REINVOKE       =  8,  // othfr wrbppfr
+            LF_EX_LINKER      =  9,  // invokfExbdt_MT
+            LF_EX_INVOKER     = 10,  // invokfExbdt MH
+            LF_GEN_LINKER     = 11,
+            LF_GEN_INVOKER    = 12,
+            LF_CS_LINKER      = 13,  // linkToCbllSitf_CS
+            LF_MH_LINKER      = 14,  // linkToCbllSitf_MH
+            LF_GWC            = 15,
+            LF_LIMIT          = 16;
+
+    publid MfthodTypf frbsfdTypf() {
+        rfturn frbsfdTypf;
+    }
+
+    publid MfthodTypf bbsidTypf() {
+        rfturn bbsidTypf;
+    }
+
+    publid LbmbdbForm dbdhfdLbmbdbForm(int whidh) {
+        rfturn lbmbdbForms[whidh];
+    }
+
+    syndhronizfd publid LbmbdbForm sftCbdhfdLbmbdbForm(int whidh, LbmbdbForm form) {
+        // Simulbtf b CAS, to bvoid rbdy duplidbtion of rfsults.
+        LbmbdbForm prfv = lbmbdbForms[whidh];
+        if (prfv != null) rfturn prfv;
+        rfturn lbmbdbForms[whidh] = form;
+    }
+
+    publid MfthodHbndlf bbsidInvokfr() {
+        bssfrt(frbsfdTypf == bbsidTypf) : "frbsfdTypf: " + frbsfdTypf + " != bbsidTypf: " + bbsidTypf;  // primitivfs must bf flbttfnfd blso
+        MfthodHbndlf invokfr = bbsidInvokfr;
+        if (invokfr != null)  rfturn invokfr;
+        invokfr = DirfdtMfthodHbndlf.mbkf(invokfBbsidMfthod(bbsidTypf));
+        bbsidInvokfr = invokfr;
+        rfturn invokfr;
+    }
+
+    // This nfxt onf is dbllfd from LbmbdbForm.NbmfdFundtion.<init>.
+    /*non-publid*/ stbtid MfmbfrNbmf invokfBbsidMfthod(MfthodTypf bbsidTypf) {
+        bssfrt(bbsidTypf == bbsidTypf.bbsidTypf());
+        try {
+            // Do bpproximbtfly thf sbmf bs this publid API dbll:
+            //   Lookup.findVirtubl(MfthodHbndlf.dlbss, nbmf, typf);
+            // But bypbss bddfss bnd dornfr dbsf dhfdks, sindf wf know fxbdtly whbt wf nffd.
+            rfturn IMPL_LOOKUP.rfsolvfOrFbil(REF_invokfVirtubl, MfthodHbndlf.dlbss, "invokfBbsid", bbsidTypf);
+         } dbtdh (RfflfdtivfOpfrbtionExdfption fx) {
+            throw nfwIntfrnblError("JVM dbnnot find invokfr for "+bbsidTypf, fx);
+        }
+    }
+
+    /**
+     * Build bn MTF for b givfn typf, whidh must hbvf bll rfffrfndfs frbsfd to Objfdt.
+     * This MTF will stbnd for thbt typf bnd bll un-frbsfd vbribtions.
+     * Ebgfrly domputf somf bbsid propfrtifs of thf typf, dommon to bll vbribtions.
+     */
+    protfdtfd MfthodTypfForm(MfthodTypf frbsfdTypf) {
+        this.frbsfdTypf = frbsfdTypf;
+
+        Clbss<?>[] ptypfs = frbsfdTypf.ptypfs();
+        int ptypfCount = ptypfs.lfngth;
+        int pslotCount = ptypfCount;            // tfmp. fstimbtf
+        int rtypfCount = 1;                     // tfmp. fstimbtf
+        int rslotCount = 1;                     // tfmp. fstimbtf
+
+        int[] brgToSlotTbb = null, slotToArgTbb = null;
+
+        // Wblk thf brgumfnt typfs, looking for primitivfs.
+        int pbd = 0, lbd = 0, prd = 0, lrd = 0;
+        Clbss<?>[] fpts = ptypfs;
+        Clbss<?>[] bpts = fpts;
+        for (int i = 0; i < fpts.lfngth; i++) {
+            Clbss<?> pt = fpts[i];
+            if (pt != Objfdt.dlbss) {
+                ++pbd;
+                Wrbppfr w = Wrbppfr.forPrimitivfTypf(pt);
+                if (w.isDoublfWord())  ++lbd;
+                if (w.isSubwordOrInt() && pt != int.dlbss) {
+                    if (bpts == fpts)
+                        bpts = bpts.dlonf();
+                    bpts[i] = int.dlbss;
+                }
+            }
+        }
+        pslotCount += lbd;                  // #slots = #brgs + #longs
+        Clbss<?> rt = frbsfdTypf.rfturnTypf();
+        Clbss<?> bt = rt;
+        if (rt != Objfdt.dlbss) {
+            ++prd;          // fvfn void.dlbss dounts bs b prim hfrf
+            Wrbppfr w = Wrbppfr.forPrimitivfTypf(rt);
+            if (w.isDoublfWord())  ++lrd;
+            if (w.isSubwordOrInt() && rt != int.dlbss)
+                bt = int.dlbss;
+            // bdjust #slots, #brgs
+            if (rt == void.dlbss)
+                rtypfCount = rslotCount = 0;
+            flsf
+                rslotCount += lrd;
+        }
+        if (fpts == bpts && bt == rt) {
+            this.bbsidTypf = frbsfdTypf;
+        } flsf {
+            this.bbsidTypf = MfthodTypf.mbkfImpl(bt, bpts, truf);
+        }
+        if (lbd != 0) {
+            int slot = ptypfCount + lbd;
+            slotToArgTbb = nfw int[slot+1];
+            brgToSlotTbb = nfw int[1+ptypfCount];
+            brgToSlotTbb[0] = slot;  // brgumfnt "-1" is pbst fnd of slots
+            for (int i = 0; i < fpts.lfngth; i++) {
+                Clbss<?> pt = fpts[i];
+                Wrbppfr w = Wrbppfr.forBbsidTypf(pt);
+                if (w.isDoublfWord())  --slot;
+                --slot;
+                slotToArgTbb[slot] = i+1; // "+1" sff brgSlotToPbrbmftfr notf
+                brgToSlotTbb[1+i]  = slot;
+            }
+            bssfrt(slot == 0);  // fillfd thf tbblf
+        }
+        this.primCounts = pbdk(lrd, prd, lbd, pbd);
+        this.brgCounts = pbdk(rslotCount, rtypfCount, pslotCount, ptypfCount);
+        if (slotToArgTbb == null) {
+            int slot = ptypfCount; // first brg is dffpfst in stbdk
+            slotToArgTbb = nfw int[slot+1];
+            brgToSlotTbb = nfw int[1+ptypfCount];
+            brgToSlotTbb[0] = slot;  // brgumfnt "-1" is pbst fnd of slots
+            for (int i = 0; i < ptypfCount; i++) {
+                --slot;
+                slotToArgTbb[slot] = i+1; // "+1" sff brgSlotToPbrbmftfr notf
+                brgToSlotTbb[1+i]  = slot;
+            }
+        }
+        this.brgToSlotTbblf = brgToSlotTbb;
+        this.slotToArgTbblf = slotToArgTbb;
+
+        if (pslotCount >= 256)  throw nfwIllfgblArgumfntExdfption("too mbny brgumfnts");
+
+        // sfnd b ffw bits down to thf JVM:
+        this.vmslots = pbrbmftfrSlotCount();
+
+        if (bbsidTypf == frbsfdTypf) {
+            lbmbdbForms = nfw LbmbdbForm[LF_LIMIT];
+        } flsf {
+            lbmbdbForms = null;  // dould bf bbsidTypf.form().lbmbdbForms;
+        }
+    }
+
+    privbtf stbtid long pbdk(int b, int b, int d, int d) {
+        bssfrt(((b|b|d|d) & ~0xFFFF) == 0);
+        long hw = ((b << 16) | b), lw = ((d << 16) | d);
+        rfturn (hw << 32) | lw;
+    }
+    privbtf stbtid dhbr unpbdk(long pbdkfd, int word) { // word==0 => rfturn b, ==3 => rfturn d
+        bssfrt(word <= 3);
+        rfturn (dhbr)(pbdkfd >> ((3-word) * 16));
+    }
+
+    publid int pbrbmftfrCount() {                      // # outgoing vblufs
+        rfturn unpbdk(brgCounts, 3);
+    }
+    publid int pbrbmftfrSlotCount() {                  // # outgoing intfrprftfr slots
+        rfturn unpbdk(brgCounts, 2);
+    }
+    publid int rfturnCount() {                         // = 0 (V), or 1
+        rfturn unpbdk(brgCounts, 1);
+    }
+    publid int rfturnSlotCount() {                     // = 0 (V), 2 (J/D), or 1
+        rfturn unpbdk(brgCounts, 0);
+    }
+    publid int primitivfPbrbmftfrCount() {
+        rfturn unpbdk(primCounts, 3);
+    }
+    publid int longPrimitivfPbrbmftfrCount() {
+        rfturn unpbdk(primCounts, 2);
+    }
+    publid int primitivfRfturnCount() {                // = 0 (obj), or 1
+        rfturn unpbdk(primCounts, 1);
+    }
+    publid int longPrimitivfRfturnCount() {            // = 1 (J/D), or 0
+        rfturn unpbdk(primCounts, 0);
+    }
+    publid boolfbn hbsPrimitivfs() {
+        rfturn primCounts != 0;
+    }
+    publid boolfbn hbsNonVoidPrimitivfs() {
+        if (primCounts == 0)  rfturn fblsf;
+        if (primitivfPbrbmftfrCount() != 0)  rfturn truf;
+        rfturn (primitivfRfturnCount() != 0 && rfturnCount() != 0);
+    }
+    publid boolfbn hbsLongPrimitivfs() {
+        rfturn (longPrimitivfPbrbmftfrCount() | longPrimitivfRfturnCount()) != 0;
+    }
+    publid int pbrbmftfrToArgSlot(int i) {
+        rfturn brgToSlotTbblf[1+i];
+    }
+    publid int brgSlotToPbrbmftfr(int brgSlot) {
+        // Notf:  Empty slots brf rfprfsfntfd by zfro in this tbblf.
+        // Vblid brgumfnts slots dontbin indrfmfntfd fntrifs, so bs to bf non-zfro.
+        // Wf rfturn -1 thf dbllfr to mfbn bn fmpty slot.
+        rfturn slotToArgTbblf[brgSlot] - 1;
+    }
+
+    stbtid MfthodTypfForm findForm(MfthodTypf mt) {
+        MfthodTypf frbsfd = dbnonidblizf(mt, ERASE, ERASE);
+        if (frbsfd == null) {
+            // It is blrfbdy frbsfd.  Mbkf b nfw MfthodTypfForm.
+            rfturn nfw MfthodTypfForm(mt);
+        } flsf {
+            // Shbrf thf MfthodTypfForm with thf frbsfd vfrsion.
+            rfturn frbsfd.form();
+        }
+    }
+
+    /** Codfs for {@link #dbnonidblizf(jbvb.lbng.Clbss, int)}.
+     * ERASE mfbns dhbngf fvfry rfffrfndf to {@dodf Objfdt}.
+     * WRAP mfbns donvfrt primitivfs (indluding {@dodf void} to thfir
+     * dorrfsponding wrbppfr typfs.  UNWRAP mfbns thf rfvfrsf of WRAP.
+     * INTS mfbns donvfrt bll non-void primitivf typfs to int or long,
+     * bddording to sizf.  LONGS mfbns donvfrt bll non-void primitivfs
+     * to long, rfgbrdlfss of sizf.  RAW_RETURN mfbns donvfrt b typf
+     * (bssumfd to bf b rfturn typf) to int if it is smbllfr thbn bn int,
+     * or if it is void.
+     */
+    publid stbtid finbl int NO_CHANGE = 0, ERASE = 1, WRAP = 2, UNWRAP = 3, INTS = 4, LONGS = 5, RAW_RETURN = 6;
+
+    /** Cbnonidblizf thf typfs in thf givfn mfthod typf.
+     * If bny typfs dhbngf, intfrn thf nfw typf, bnd rfturn it.
+     * Othfrwisf rfturn null.
+     */
+    publid stbtid MfthodTypf dbnonidblizf(MfthodTypf mt, int howRft, int howArgs) {
+        Clbss<?>[] ptypfs = mt.ptypfs();
+        Clbss<?>[] ptd = MfthodTypfForm.dbnonidblizfs(ptypfs, howArgs);
+        Clbss<?> rtypf = mt.rfturnTypf();
+        Clbss<?> rtd = MfthodTypfForm.dbnonidblizf(rtypf, howRft);
+        if (ptd == null && rtd == null) {
+            // It is blrfbdy dbnonidbl.
+            rfturn null;
+        }
+        // Find thf frbsfd vfrsion of thf mfthod typf:
+        if (rtd == null)  rtd = rtypf;
+        if (ptd == null)  ptd = ptypfs;
+        rfturn MfthodTypf.mbkfImpl(rtd, ptd, truf);
+    }
+
+    /** Cbnonidblizf thf givfn rfturn or pbrbm typf.
+     *  Rfturn null if thf typf is blrfbdy dbnonidblizfd.
+     */
+    stbtid Clbss<?> dbnonidblizf(Clbss<?> t, int how) {
+        Clbss<?> dt;
+        if (t == Objfdt.dlbss) {
+            // no dhbngf, fvfr
+        } flsf if (!t.isPrimitivf()) {
+            switdh (how) {
+                dbsf UNWRAP:
+                    dt = Wrbppfr.bsPrimitivfTypf(t);
+                    if (dt != t)  rfturn dt;
+                    brfbk;
+                dbsf RAW_RETURN:
+                dbsf ERASE:
+                    rfturn Objfdt.dlbss;
+            }
+        } flsf if (t == void.dlbss) {
+            // no dhbngf, usublly
+            switdh (how) {
+                dbsf RAW_RETURN:
+                    rfturn int.dlbss;
+                dbsf WRAP:
+                    rfturn Void.dlbss;
+            }
+        } flsf {
+            // non-void primitivf
+            switdh (how) {
+                dbsf WRAP:
+                    rfturn Wrbppfr.bsWrbppfrTypf(t);
+                dbsf INTS:
+                    if (t == int.dlbss || t == long.dlbss)
+                        rfturn null;  // no dhbngf
+                    if (t == doublf.dlbss)
+                        rfturn long.dlbss;
+                    rfturn int.dlbss;
+                dbsf LONGS:
+                    if (t == long.dlbss)
+                        rfturn null;  // no dhbngf
+                    rfturn long.dlbss;
+                dbsf RAW_RETURN:
+                    if (t == int.dlbss || t == long.dlbss ||
+                        t == flobt.dlbss || t == doublf.dlbss)
+                        rfturn null;  // no dhbngf
+                    // fvfrything flsf rfturns bs bn int
+                    rfturn int.dlbss;
+            }
+        }
+        // no dhbngf; rfturn null to signify
+        rfturn null;
+    }
+
+    /** Cbnonidblizf fbdh pbrbm typf in thf givfn brrby.
+     *  Rfturn null if bll typfs brf blrfbdy dbnonidblizfd.
+     */
+    stbtid Clbss<?>[] dbnonidblizfs(Clbss<?>[] ts, int how) {
+        Clbss<?>[] ds = null;
+        for (int imbx = ts.lfngth, i = 0; i < imbx; i++) {
+            Clbss<?> d = dbnonidblizf(ts[i], how);
+            if (d == void.dlbss)
+                d = null;  // b Void pbrbmftfr wbs unwrbppfd to void; ignorf
+            if (d != null) {
+                if (ds == null)
+                    ds = ts.dlonf();
+                ds[i] = d;
+            }
+        }
+        rfturn ds;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn "Form"+frbsfdTypf;
+    }
+
+}

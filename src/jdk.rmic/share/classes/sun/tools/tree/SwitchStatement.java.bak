@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import sun.tools.asm.SwitchData;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.SwitdiDbtb;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class SwitchStatement extends Statement {
-    Expression expr;
-    Statement args[];
+publid
+dlbss SwitdiStbtfmfnt fxtfnds Stbtfmfnt {
+    Exprfssion fxpr;
+    Stbtfmfnt brgs[];
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public SwitchStatement(long where, Expression expr, Statement args[]) {
-        super(SWITCH, where);
-        this.expr = expr;
-        this.args = args;
+    publid SwitdiStbtfmfnt(long wifrf, Exprfssion fxpr, Stbtfmfnt brgs[]) {
+        supfr(SWITCH, wifrf);
+        tiis.fxpr = fxpr;
+        tiis.brgs = brgs;
     }
 
     /**
-     * Check statement
+     * Cifdk stbtfmfnt
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
-        CheckContext newctx = new CheckContext(ctx, this);
-        vset = expr.checkValue(env, newctx, reach(env, vset), exp);
-        Type switchType = expr.type;
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        difdkLbbfl(fnv, dtx);
+        CifdkContfxt nfwdtx = nfw CifdkContfxt(dtx, tiis);
+        vsft = fxpr.difdkVbluf(fnv, nfwdtx, rfbdi(fnv, vsft), fxp);
+        Typf switdiTypf = fxpr.typf;
 
-        expr = convert(env, newctx, Type.tInt, expr);
+        fxpr = donvfrt(fnv, nfwdtx, Typf.tInt, fxpr);
 
-        Hashtable<Expression, Statement> tab = new Hashtable<>();
-        boolean hasDefault = false;
-        // Note that vs is reset to vset.copy() on every case label.
-        // If the first substatement is not a case label, it is unreached.
-        Vset vs = DEAD_END;
+        Hbsitbblf<Exprfssion, Stbtfmfnt> tbb = nfw Hbsitbblf<>();
+        boolfbn ibsDffbult = fblsf;
+        // Notf tibt vs is rfsft to vsft.dopy() on fvfry dbsf lbbfl.
+        // If tif first substbtfmfnt is not b dbsf lbbfl, it is unrfbdifd.
+        Vsft vs = DEAD_END;
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            Stbtfmfnt s = brgs[i];
 
             if (s.op == CASE) {
 
-                vs = s.check(env, newctx, vs.join(vset.copy()), exp);
+                vs = s.difdk(fnv, nfwdtx, vs.join(vsft.dopy()), fxp);
 
-                Expression lbl = ((CaseStatement)s).expr;
+                Exprfssion lbl = ((CbsfStbtfmfnt)s).fxpr;
                 if (lbl != null) {
-                    if (lbl instanceof IntegerExpression) {
-                        Integer Ivalue =
-                            (Integer)(((IntegerExpression)lbl).getValue());
-                        int ivalue = Ivalue.intValue();
-                        if (tab.get(lbl) != null) {
-                            env.error(s.where, "duplicate.label", Ivalue);
-                        } else {
-                            tab.put(lbl, s);
-                            boolean overflow;
-                            switch (switchType.getTypeCode()) {
-                                case TC_BYTE:
-                                    overflow = (ivalue != (byte)ivalue); break;
-                                case TC_SHORT:
-                                    overflow = (ivalue != (short)ivalue); break;
-                                case TC_CHAR:
-                                    overflow = (ivalue != (char)ivalue); break;
-                                default:
-                                    overflow = false;
+                    if (lbl instbndfof IntfgfrExprfssion) {
+                        Intfgfr Ivbluf =
+                            (Intfgfr)(((IntfgfrExprfssion)lbl).gftVbluf());
+                        int ivbluf = Ivbluf.intVbluf();
+                        if (tbb.gft(lbl) != null) {
+                            fnv.frror(s.wifrf, "duplidbtf.lbbfl", Ivbluf);
+                        } flsf {
+                            tbb.put(lbl, s);
+                            boolfbn ovfrflow;
+                            switdi (switdiTypf.gftTypfCodf()) {
+                                dbsf TC_BYTE:
+                                    ovfrflow = (ivbluf != (bytf)ivbluf); brfbk;
+                                dbsf TC_SHORT:
+                                    ovfrflow = (ivbluf != (siort)ivbluf); brfbk;
+                                dbsf TC_CHAR:
+                                    ovfrflow = (ivbluf != (dibr)ivbluf); brfbk;
+                                dffbult:
+                                    ovfrflow = fblsf;
                             }
-                            if (overflow) {
-                                env.error(s.where, "switch.overflow",
-                                          Ivalue, switchType);
+                            if (ovfrflow) {
+                                fnv.frror(s.wifrf, "switdi.ovfrflow",
+                                          Ivbluf, switdiTypf);
                             }
                         }
-                    } else {
-                        // Suppose a class got an error early on during
-                        // checking.  It will set all of its members to
-                        // have the status "ERROR".  Now suppose that a
-                        // case label refers to one of this class's
-                        // fields.  When we check the case label, the
-                        // compiler will try to inline the FieldExpression.
-                        // Since the expression has ERROR status, it doesn't
-                        // inline.  This means that instead of the case
-                        // label being an IntegerExpression, it will still
-                        // be a FieldExpression, and we will end up in this
-                        // else block.  So, before we just assume that
-                        // the expression isn't constant, do a check to
-                        // see if it was constant but unable to inline.
-                        // This eliminates some spurious error messages.
+                    } flsf {
+                        // Supposf b dlbss got bn frror fbrly on during
+                        // difdking.  It will sft bll of its mfmbfrs to
+                        // ibvf tif stbtus "ERROR".  Now supposf tibt b
+                        // dbsf lbbfl rfffrs to onf of tiis dlbss's
+                        // fiflds.  Wifn wf difdk tif dbsf lbbfl, tif
+                        // dompilfr will try to inlinf tif FifldExprfssion.
+                        // Sindf tif fxprfssion ibs ERROR stbtus, it dofsn't
+                        // inlinf.  Tiis mfbns tibt instfbd of tif dbsf
+                        // lbbfl bfing bn IntfgfrExprfssion, it will still
+                        // bf b FifldExprfssion, bnd wf will fnd up in tiis
+                        // flsf blodk.  So, bfforf wf just bssumf tibt
+                        // tif fxprfssion isn't donstbnt, do b difdk to
+                        // sff if it wbs donstbnt but unbblf to inlinf.
+                        // Tiis fliminbtfs somf spurious frror mfssbgfs.
                         // (Bug id 4067498).
-                        if (!lbl.isConstant() ||
-                            lbl.getType() != Type.tInt) {
-                            env.error(s.where, "const.expr.required");
+                        if (!lbl.isConstbnt() ||
+                            lbl.gftTypf() != Typf.tInt) {
+                            fnv.frror(s.wifrf, "donst.fxpr.rfquirfd");
                         }
                     }
-                } else {
-                    if (hasDefault) {
-                        env.error(s.where, "duplicate.default");
+                } flsf {
+                    if (ibsDffbult) {
+                        fnv.frror(s.wifrf, "duplidbtf.dffbult");
                     }
-                    hasDefault = true;
+                    ibsDffbult = truf;
                 }
-            } else {
-                vs = s.checkBlockStatement(env, newctx, vs, exp);
+            } flsf {
+                vs = s.difdkBlodkStbtfmfnt(fnv, nfwdtx, vs, fxp);
             }
         }
-        if (!vs.isDeadEnd()) {
-            newctx.vsBreak = newctx.vsBreak.join(vs);
+        if (!vs.isDfbdEnd()) {
+            nfwdtx.vsBrfbk = nfwdtx.vsBrfbk.join(vs);
         }
-        if (hasDefault)
-            vset = newctx.vsBreak;
-        return ctx.removeAdditionalVars(vset);
+        if (ibsDffbult)
+            vsft = nfwdtx.vsBrfbk;
+        rfturn dtx.rfmovfAdditionblVbrs(vsft);
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
-        ctx = new Context(ctx, this);
-        expr = expr.inlineValue(env, ctx);
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i] = args[i].inline(env, ctx);
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        dtx = nfw Contfxt(dtx, tiis);
+        fxpr = fxpr.inlinfVbluf(fnv, dtx);
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            if (brgs[i] != null) {
+                brgs[i] = brgs[i].inlinf(fnv, dtx);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        SwitchStatement s = (SwitchStatement)clone();
-        s.expr = expr.copyInline(ctx);
-        s.args = new Statement[args.length];
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                s.args[i] = args[i].copyInline(ctx, valNeeded);
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        SwitdiStbtfmfnt s = (SwitdiStbtfmfnt)dlonf();
+        s.fxpr = fxpr.dopyInlinf(dtx);
+        s.brgs = nfw Stbtfmfnt[brgs.lfngti];
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            if (brgs[i] != null) {
+                s.brgs[i] = brgs[i].dopyInlinf(dtx, vblNffdfd);
             }
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * The cost of inlining this statement
+     * Tif dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        int cost = expr.costInline(thresh, env, ctx);
-        for (int i = 0 ; (i < args.length) && (cost < thresh) ; i++) {
-            if (args[i] != null) {
-                cost += args[i].costInline(thresh, env, ctx);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        int dost = fxpr.dostInlinf(tirfsi, fnv, dtx);
+        for (int i = 0 ; (i < brgs.lfngti) && (dost < tirfsi) ; i++) {
+            if (brgs[i] != null) {
+                dost += brgs[i].dostInlinf(tirfsi, fnv, dtx);
             }
         }
-        return cost;
+        rfturn dost;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        CodeContext newctx = new CodeContext(ctx, this);
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        CodfContfxt nfwdtx = nfw CodfContfxt(dtx, tiis);
 
-        expr.codeValue(env, newctx, asm);
+        fxpr.dodfVbluf(fnv, nfwdtx, bsm);
 
-        SwitchData sw = new SwitchData();
-        boolean hasDefault = false;
+        SwitdiDbtb sw = nfw SwitdiDbtb();
+        boolfbn ibsDffbult = fblsf;
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            Stbtfmfnt s = brgs[i];
             if ((s != null) && (s.op == CASE)) {
-                Expression e = ((CaseStatement)s).expr;
-                if (e != null) {
-                    sw.add(((IntegerExpression)e).value, new Label());
+                Exprfssion f = ((CbsfStbtfmfnt)s).fxpr;
+                if (f != null) {
+                    sw.bdd(((IntfgfrExprfssion)f).vbluf, nfw Lbbfl());
                 }
 // JCOV
-                else {
-                    hasDefault = true;
+                flsf {
+                    ibsDffbult = truf;
                 }
-// end JCOV
+// fnd JCOV
             }
         }
 
 // JCOV
-        if (env.coverage())
-            sw.initTableCase();
-// end JCOV
-        asm.add(where, opc_tableswitch, sw);
+        if (fnv.dovfrbgf())
+            sw.initTbblfCbsf();
+// fnd JCOV
+        bsm.bdd(wifrf, opd_tbblfswitdi, sw);
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            Stbtfmfnt s = brgs[i];
             if (s != null) {
                 if (s.op == CASE) {
-                    Expression e = ((CaseStatement)s).expr;
-                    if (e != null) {
-                        asm.add(sw.get(((IntegerExpression)e).value));
+                    Exprfssion f = ((CbsfStbtfmfnt)s).fxpr;
+                    if (f != null) {
+                        bsm.bdd(sw.gft(((IntfgfrExprfssion)f).vbluf));
 // JCOV
-                        sw.addTableCase(((IntegerExpression)e).value, s.where);
-// end JCOV
-                    } else {
-                        asm.add(sw.getDefaultLabel());
+                        sw.bddTbblfCbsf(((IntfgfrExprfssion)f).vbluf, s.wifrf);
+// fnd JCOV
+                    } flsf {
+                        bsm.bdd(sw.gftDffbultLbbfl());
 // JCOV
-                        sw.addTableDefault(s.where);
-// end JCOV
-/* JCOV                 hasDefault = true;   end JCOV */
+                        sw.bddTbblfDffbult(s.wifrf);
+// fnd JCOV
+/* JCOV                 ibsDffbult = truf;   fnd JCOV */
                     }
-                } else {
-                    s.code(env, newctx, asm);
+                } flsf {
+                    s.dodf(fnv, nfwdtx, bsm);
                 }
             }
         }
 
-        if (!hasDefault) {
-            asm.add(sw.getDefaultLabel());
+        if (!ibsDffbult) {
+            bsm.bdd(sw.gftDffbultLbbfl());
         }
-        asm.add(newctx.breakLabel);
+        bsm.bdd(nfwdtx.brfbkLbbfl);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        super.print(out, indent);
-        out.print("switch (");
-        expr.print(out);
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("switdi (");
+        fxpr.print(out);
         out.print(") {\n");
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                printIndent(out, indent + 1);
-                args[i].print(out, indent + 1);
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            if (brgs[i] != null) {
+                printIndfnt(out, indfnt + 1);
+                brgs[i].print(out, indfnt + 1);
                 out.print("\n");
             }
         }
-        printIndent(out, indent);
+        printIndfnt(out, indfnt);
         out.print("}");
     }
 }

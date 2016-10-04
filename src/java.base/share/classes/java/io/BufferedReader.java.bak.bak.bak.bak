@@ -1,0 +1,593 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.strfbm.Strfbm;
+import jbvb.util.strfbm.StrfbmSupport;
+
+/**
+ * Rfbds tfxt from b dhbrbdtfr-input strfbm, bufffring dhbrbdtfrs so bs to
+ * providf for thf fffidifnt rfbding of dhbrbdtfrs, brrbys, bnd linfs.
+ *
+ * <p> Thf bufffr sizf mby bf spfdififd, or thf dffbult sizf mby bf usfd.  Thf
+ * dffbult is lbrgf fnough for most purposfs.
+ *
+ * <p> In gfnfrbl, fbdh rfbd rfqufst mbdf of b Rfbdfr dbusfs b dorrfsponding
+ * rfbd rfqufst to bf mbdf of thf undfrlying dhbrbdtfr or bytf strfbm.  It is
+ * thfrfforf bdvisbblf to wrbp b BufffrfdRfbdfr bround bny Rfbdfr whosf rfbd()
+ * opfrbtions mby bf dostly, sudh bs FilfRfbdfrs bnd InputStrfbmRfbdfrs.  For
+ * fxbmplf,
+ *
+ * <prf>
+ * BufffrfdRfbdfr in
+ *   = nfw BufffrfdRfbdfr(nfw FilfRfbdfr("foo.in"));
+ * </prf>
+ *
+ * will bufffr thf input from thf spfdififd filf.  Without bufffring, fbdh
+ * invodbtion of rfbd() or rfbdLinf() dould dbusf bytfs to bf rfbd from thf
+ * filf, donvfrtfd into dhbrbdtfrs, bnd thfn rfturnfd, whidh dbn bf vfry
+ * infffidifnt.
+ *
+ * <p> Progrbms thbt usf DbtbInputStrfbms for tfxtubl input dbn bf lodblizfd by
+ * rfplbding fbdh DbtbInputStrfbm with bn bppropribtf BufffrfdRfbdfr.
+ *
+ * @sff FilfRfbdfr
+ * @sff InputStrfbmRfbdfr
+ * @sff jbvb.nio.filf.Filfs#nfwBufffrfdRfbdfr
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.1
+ */
+
+publid dlbss BufffrfdRfbdfr fxtfnds Rfbdfr {
+
+    privbtf Rfbdfr in;
+
+    privbtf dhbr db[];
+    privbtf int nChbrs, nfxtChbr;
+
+    privbtf stbtid finbl int INVALIDATED = -2;
+    privbtf stbtid finbl int UNMARKED = -1;
+    privbtf int mbrkfdChbr = UNMARKED;
+    privbtf int rfbdAhfbdLimit = 0; /* Vblid only whfn mbrkfdChbr > 0 */
+
+    /** If thf nfxt dhbrbdtfr is b linf fffd, skip it */
+    privbtf boolfbn skipLF = fblsf;
+
+    /** Thf skipLF flbg whfn thf mbrk wbs sft */
+    privbtf boolfbn mbrkfdSkipLF = fblsf;
+
+    privbtf stbtid int dffbultChbrBufffrSizf = 8192;
+    privbtf stbtid int dffbultExpfdtfdLinfLfngth = 80;
+
+    /**
+     * Crfbtfs b bufffring dhbrbdtfr-input strfbm thbt usfs bn input bufffr of
+     * thf spfdififd sizf.
+     *
+     * @pbrbm  in   A Rfbdfr
+     * @pbrbm  sz   Input-bufffr sizf
+     *
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf sz <= 0}
+     */
+    publid BufffrfdRfbdfr(Rfbdfr in, int sz) {
+        supfr(in);
+        if (sz <= 0)
+            throw nfw IllfgblArgumfntExdfption("Bufffr sizf <= 0");
+        this.in = in;
+        db = nfw dhbr[sz];
+        nfxtChbr = nChbrs = 0;
+    }
+
+    /**
+     * Crfbtfs b bufffring dhbrbdtfr-input strfbm thbt usfs b dffbult-sizfd
+     * input bufffr.
+     *
+     * @pbrbm  in   A Rfbdfr
+     */
+    publid BufffrfdRfbdfr(Rfbdfr in) {
+        this(in, dffbultChbrBufffrSizf);
+    }
+
+    /** Chfdks to mbkf surf thbt thf strfbm hbs not bffn dlosfd */
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (in == null)
+            throw nfw IOExdfption("Strfbm dlosfd");
+    }
+
+    /**
+     * Fills thf input bufffr, tbking thf mbrk into bddount if it is vblid.
+     */
+    privbtf void fill() throws IOExdfption {
+        int dst;
+        if (mbrkfdChbr <= UNMARKED) {
+            /* No mbrk */
+            dst = 0;
+        } flsf {
+            /* Mbrkfd */
+            int dfltb = nfxtChbr - mbrkfdChbr;
+            if (dfltb >= rfbdAhfbdLimit) {
+                /* Gonf pbst rfbd-bhfbd limit: Invblidbtf mbrk */
+                mbrkfdChbr = INVALIDATED;
+                rfbdAhfbdLimit = 0;
+                dst = 0;
+            } flsf {
+                if (rfbdAhfbdLimit <= db.lfngth) {
+                    /* Shufflf in thf durrfnt bufffr */
+                    Systfm.brrbydopy(db, mbrkfdChbr, db, 0, dfltb);
+                    mbrkfdChbr = 0;
+                    dst = dfltb;
+                } flsf {
+                    /* Rfbllodbtf bufffr to bddommodbtf rfbd-bhfbd limit */
+                    dhbr ndb[] = nfw dhbr[rfbdAhfbdLimit];
+                    Systfm.brrbydopy(db, mbrkfdChbr, ndb, 0, dfltb);
+                    db = ndb;
+                    mbrkfdChbr = 0;
+                    dst = dfltb;
+                }
+                nfxtChbr = nChbrs = dfltb;
+            }
+        }
+
+        int n;
+        do {
+            n = in.rfbd(db, dst, db.lfngth - dst);
+        } whilf (n == 0);
+        if (n > 0) {
+            nChbrs = dst + n;
+            nfxtChbr = dst;
+        }
+    }
+
+    /**
+     * Rfbds b singlf dhbrbdtfr.
+     *
+     * @rfturn Thf dhbrbdtfr rfbd, bs bn intfgfr in thf rbngf
+     *         0 to 65535 (<tt>0x00-0xffff</tt>), or -1 if thf
+     *         fnd of thf strfbm hbs bffn rfbdhfd
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd() throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            for (;;) {
+                if (nfxtChbr >= nChbrs) {
+                    fill();
+                    if (nfxtChbr >= nChbrs)
+                        rfturn -1;
+                }
+                if (skipLF) {
+                    skipLF = fblsf;
+                    if (db[nfxtChbr] == '\n') {
+                        nfxtChbr++;
+                        dontinuf;
+                    }
+                }
+                rfturn db[nfxtChbr++];
+            }
+        }
+    }
+
+    /**
+     * Rfbds dhbrbdtfrs into b portion of bn brrby, rfbding from thf undfrlying
+     * strfbm if nfdfssbry.
+     */
+    privbtf int rfbd1(dhbr[] dbuf, int off, int lfn) throws IOExdfption {
+        if (nfxtChbr >= nChbrs) {
+            /* If thf rfqufstfd lfngth is bt lfbst bs lbrgf bs thf bufffr, bnd
+               if thfrf is no mbrk/rfsft bdtivity, bnd if linf fffds brf not
+               bfing skippfd, do not bothfr to dopy thf dhbrbdtfrs into thf
+               lodbl bufffr.  In this wby bufffrfd strfbms will dbsdbdf
+               hbrmlfssly. */
+            if (lfn >= db.lfngth && mbrkfdChbr <= UNMARKED && !skipLF) {
+                rfturn in.rfbd(dbuf, off, lfn);
+            }
+            fill();
+        }
+        if (nfxtChbr >= nChbrs) rfturn -1;
+        if (skipLF) {
+            skipLF = fblsf;
+            if (db[nfxtChbr] == '\n') {
+                nfxtChbr++;
+                if (nfxtChbr >= nChbrs)
+                    fill();
+                if (nfxtChbr >= nChbrs)
+                    rfturn -1;
+            }
+        }
+        int n = Mbth.min(lfn, nChbrs - nfxtChbr);
+        Systfm.brrbydopy(db, nfxtChbr, dbuf, off, n);
+        nfxtChbr += n;
+        rfturn n;
+    }
+
+    /**
+     * Rfbds dhbrbdtfrs into b portion of bn brrby.
+     *
+     * <p> This mfthod implfmfnts thf gfnfrbl dontrbdt of thf dorrfsponding
+     * <dodf>{@link Rfbdfr#rfbd(dhbr[], int, int) rfbd}</dodf> mfthod of thf
+     * <dodf>{@link Rfbdfr}</dodf> dlbss.  As bn bdditionbl donvfnifndf, it
+     * bttfmpts to rfbd bs mbny dhbrbdtfrs bs possiblf by rfpfbtfdly invoking
+     * thf <dodf>rfbd</dodf> mfthod of thf undfrlying strfbm.  This itfrbtfd
+     * <dodf>rfbd</dodf> dontinufs until onf of thf following donditions bfdomfs
+     * truf: <ul>
+     *
+     *   <li> Thf spfdififd numbfr of dhbrbdtfrs hbvf bffn rfbd,
+     *
+     *   <li> Thf <dodf>rfbd</dodf> mfthod of thf undfrlying strfbm rfturns
+     *   <dodf>-1</dodf>, indidbting fnd-of-filf, or
+     *
+     *   <li> Thf <dodf>rfbdy</dodf> mfthod of thf undfrlying strfbm
+     *   rfturns <dodf>fblsf</dodf>, indidbting thbt furthfr input rfqufsts
+     *   would blodk.
+     *
+     * </ul> If thf first <dodf>rfbd</dodf> on thf undfrlying strfbm rfturns
+     * <dodf>-1</dodf> to indidbtf fnd-of-filf thfn this mfthod rfturns
+     * <dodf>-1</dodf>.  Othfrwisf this mfthod rfturns thf numbfr of dhbrbdtfrs
+     * bdtublly rfbd.
+     *
+     * <p> Subdlbssfs of this dlbss brf fndourbgfd, but not rfquirfd, to
+     * bttfmpt to rfbd bs mbny dhbrbdtfrs bs possiblf in thf sbmf fbshion.
+     *
+     * <p> Ordinbrily this mfthod tbkfs dhbrbdtfrs from this strfbm's dhbrbdtfr
+     * bufffr, filling it from thf undfrlying strfbm bs nfdfssbry.  If,
+     * howfvfr, thf bufffr is fmpty, thf mbrk is not vblid, bnd thf rfqufstfd
+     * lfngth is bt lfbst bs lbrgf bs thf bufffr, thfn this mfthod will rfbd
+     * dhbrbdtfrs dirfdtly from thf undfrlying strfbm into thf givfn brrby.
+     * Thus rfdundbnt <dodf>BufffrfdRfbdfr</dodf>s will not dopy dbtb
+     * unnfdfssbrily.
+     *
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      off   Offsft bt whidh to stbrt storing dhbrbdtfrs
+     * @pbrbm      lfn   Mbximum numbfr of dhbrbdtfrs to rfbd
+     *
+     * @rfturn     Thf numbfr of dhbrbdtfrs rfbd, or -1 if thf fnd of thf
+     *             strfbm hbs bffn rfbdhfd
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd(dhbr dbuf[], int off, int lfn) throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngth) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngth) || ((off + lfn) < 0)) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn 0;
+            }
+
+            int n = rfbd1(dbuf, off, lfn);
+            if (n <= 0) rfturn n;
+            whilf ((n < lfn) && in.rfbdy()) {
+                int n1 = rfbd1(dbuf, off + n, lfn - n);
+                if (n1 <= 0) brfbk;
+                n += n1;
+            }
+            rfturn n;
+        }
+    }
+
+    /**
+     * Rfbds b linf of tfxt.  A linf is donsidfrfd to bf tfrminbtfd by bny onf
+     * of b linf fffd ('\n'), b dbrribgf rfturn ('\r'), or b dbrribgf rfturn
+     * followfd immfdibtfly by b linffffd.
+     *
+     * @pbrbm      ignorfLF  If truf, thf nfxt '\n' will bf skippfd
+     *
+     * @rfturn     A String dontbining thf dontfnts of thf linf, not indluding
+     *             bny linf-tfrminbtion dhbrbdtfrs, or null if thf fnd of thf
+     *             strfbm hbs bffn rfbdhfd
+     *
+     * @sff        jbvb.io.LinfNumbfrRfbdfr#rfbdLinf()
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    String rfbdLinf(boolfbn ignorfLF) throws IOExdfption {
+        StringBufffr s = null;
+        int stbrtChbr;
+
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            boolfbn omitLF = ignorfLF || skipLF;
+
+        bufffrLoop:
+            for (;;) {
+
+                if (nfxtChbr >= nChbrs)
+                    fill();
+                if (nfxtChbr >= nChbrs) { /* EOF */
+                    if (s != null && s.lfngth() > 0)
+                        rfturn s.toString();
+                    flsf
+                        rfturn null;
+                }
+                boolfbn fol = fblsf;
+                dhbr d = 0;
+                int i;
+
+                /* Skip b lfftovfr '\n', if nfdfssbry */
+                if (omitLF && (db[nfxtChbr] == '\n'))
+                    nfxtChbr++;
+                skipLF = fblsf;
+                omitLF = fblsf;
+
+            dhbrLoop:
+                for (i = nfxtChbr; i < nChbrs; i++) {
+                    d = db[i];
+                    if ((d == '\n') || (d == '\r')) {
+                        fol = truf;
+                        brfbk dhbrLoop;
+                    }
+                }
+
+                stbrtChbr = nfxtChbr;
+                nfxtChbr = i;
+
+                if (fol) {
+                    String str;
+                    if (s == null) {
+                        str = nfw String(db, stbrtChbr, i - stbrtChbr);
+                    } flsf {
+                        s.bppfnd(db, stbrtChbr, i - stbrtChbr);
+                        str = s.toString();
+                    }
+                    nfxtChbr++;
+                    if (d == '\r') {
+                        skipLF = truf;
+                    }
+                    rfturn str;
+                }
+
+                if (s == null)
+                    s = nfw StringBufffr(dffbultExpfdtfdLinfLfngth);
+                s.bppfnd(db, stbrtChbr, i - stbrtChbr);
+            }
+        }
+    }
+
+    /**
+     * Rfbds b linf of tfxt.  A linf is donsidfrfd to bf tfrminbtfd by bny onf
+     * of b linf fffd ('\n'), b dbrribgf rfturn ('\r'), or b dbrribgf rfturn
+     * followfd immfdibtfly by b linffffd.
+     *
+     * @rfturn     A String dontbining thf dontfnts of thf linf, not indluding
+     *             bny linf-tfrminbtion dhbrbdtfrs, or null if thf fnd of thf
+     *             strfbm hbs bffn rfbdhfd
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     *
+     * @sff jbvb.nio.filf.Filfs#rfbdAllLinfs
+     */
+    publid String rfbdLinf() throws IOExdfption {
+        rfturn rfbdLinf(fblsf);
+    }
+
+    /**
+     * Skips dhbrbdtfrs.
+     *
+     * @pbrbm  n  Thf numbfr of dhbrbdtfrs to skip
+     *
+     * @rfturn    Thf numbfr of dhbrbdtfrs bdtublly skippfd
+     *
+     * @fxdfption  IllfgblArgumfntExdfption  If <dodf>n</dodf> is nfgbtivf.
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid long skip(long n) throws IOExdfption {
+        if (n < 0L) {
+            throw nfw IllfgblArgumfntExdfption("skip vbluf is nfgbtivf");
+        }
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            long r = n;
+            whilf (r > 0) {
+                if (nfxtChbr >= nChbrs)
+                    fill();
+                if (nfxtChbr >= nChbrs) /* EOF */
+                    brfbk;
+                if (skipLF) {
+                    skipLF = fblsf;
+                    if (db[nfxtChbr] == '\n') {
+                        nfxtChbr++;
+                    }
+                }
+                long d = nChbrs - nfxtChbr;
+                if (r <= d) {
+                    nfxtChbr += r;
+                    r = 0;
+                    brfbk;
+                }
+                flsf {
+                    r -= d;
+                    nfxtChbr = nChbrs;
+                }
+            }
+            rfturn n - r;
+        }
+    }
+
+    /**
+     * Tflls whfthfr this strfbm is rfbdy to bf rfbd.  A bufffrfd dhbrbdtfr
+     * strfbm is rfbdy if thf bufffr is not fmpty, or if thf undfrlying
+     * dhbrbdtfr strfbm is rfbdy.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid boolfbn rfbdy() throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+
+            /*
+             * If nfwlinf nffds to bf skippfd bnd thf nfxt dhbr to bf rfbd
+             * is b nfwlinf dhbrbdtfr, thfn just skip it right bwby.
+             */
+            if (skipLF) {
+                /* Notf thbt in.rfbdy() will rfturn truf if bnd only if thf nfxt
+                 * rfbd on thf strfbm will not blodk.
+                 */
+                if (nfxtChbr >= nChbrs && in.rfbdy()) {
+                    fill();
+                }
+                if (nfxtChbr < nChbrs) {
+                    if (db[nfxtChbr] == '\n')
+                        nfxtChbr++;
+                    skipLF = fblsf;
+                }
+            }
+            rfturn (nfxtChbr < nChbrs) || in.rfbdy();
+        }
+    }
+
+    /**
+     * Tflls whfthfr this strfbm supports thf mbrk() opfrbtion, whidh it dofs.
+     */
+    publid boolfbn mbrkSupportfd() {
+        rfturn truf;
+    }
+
+    /**
+     * Mbrks thf prfsfnt position in thf strfbm.  Subsfqufnt dblls to rfsft()
+     * will bttfmpt to rfposition thf strfbm to this point.
+     *
+     * @pbrbm rfbdAhfbdLimit   Limit on thf numbfr of dhbrbdtfrs thbt mby bf
+     *                         rfbd whilf still prfsfrving thf mbrk. An bttfmpt
+     *                         to rfsft thf strfbm bftfr rfbding dhbrbdtfrs
+     *                         up to this limit or bfyond mby fbil.
+     *                         A limit vbluf lbrgfr thbn thf sizf of thf input
+     *                         bufffr will dbusf b nfw bufffr to bf bllodbtfd
+     *                         whosf sizf is no smbllfr thbn limit.
+     *                         Thfrfforf lbrgf vblufs should bf usfd with dbrf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAhfbdLimit < 0}
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void mbrk(int rfbdAhfbdLimit) throws IOExdfption {
+        if (rfbdAhfbdLimit < 0) {
+            throw nfw IllfgblArgumfntExdfption("Rfbd-bhfbd limit < 0");
+        }
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            this.rfbdAhfbdLimit = rfbdAhfbdLimit;
+            mbrkfdChbr = nfxtChbr;
+            mbrkfdSkipLF = skipLF;
+        }
+    }
+
+    /**
+     * Rfsfts thf strfbm to thf most rfdfnt mbrk.
+     *
+     * @fxdfption  IOExdfption  If thf strfbm hbs nfvfr bffn mbrkfd,
+     *                          or if thf mbrk hbs bffn invblidbtfd
+     */
+    publid void rfsft() throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if (mbrkfdChbr < 0)
+                throw nfw IOExdfption((mbrkfdChbr == INVALIDATED)
+                                      ? "Mbrk invblid"
+                                      : "Strfbm not mbrkfd");
+            nfxtChbr = mbrkfdChbr;
+            skipLF = mbrkfdSkipLF;
+        }
+    }
+
+    publid void dlosf() throws IOExdfption {
+        syndhronizfd (lodk) {
+            if (in == null)
+                rfturn;
+            try {
+                in.dlosf();
+            } finblly {
+                in = null;
+                db = null;
+            }
+        }
+    }
+
+    /**
+     * Rfturns b {@dodf Strfbm}, thf flfmfnts of whidh brf linfs rfbd from
+     * this {@dodf BufffrfdRfbdfr}.  Thf {@link Strfbm} is lbzily populbtfd,
+     * i.f., rfbd only oddurs during thf
+     * <b hrff="../util/strfbm/pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * strfbm opfrbtion</b>.
+     *
+     * <p> Thf rfbdfr must not bf opfrbtfd on during thf fxfdution of thf
+     * tfrminbl strfbm opfrbtion. Othfrwisf, thf rfsult of thf tfrminbl strfbm
+     * opfrbtion is undffinfd.
+     *
+     * <p> Aftfr fxfdution of thf tfrminbl strfbm opfrbtion thfrf brf no
+     * gubrbntffs thbt thf rfbdfr will bf bt b spfdifid position from whidh to
+     * rfbd thf nfxt dhbrbdtfr or linf.
+     *
+     * <p> If bn {@link IOExdfption} is thrown whfn bddfssing thf undfrlying
+     * {@dodf BufffrfdRfbdfr}, it is wrbppfd in bn {@link
+     * UndhfdkfdIOExdfption} whidh will bf thrown from thf {@dodf Strfbm}
+     * mfthod thbt dbusfd thf rfbd to tbkf plbdf. This mfthod will rfturn b
+     * Strfbm if invokfd on b BufffrfdRfbdfr thbt is dlosfd. Any opfrbtion on
+     * thbt strfbm thbt rfquirfs rfbding from thf BufffrfdRfbdfr bftfr it is
+     * dlosfd, will dbusf bn UndhfdkfdIOExdfption to bf thrown.
+     *
+     * @rfturn b {@dodf Strfbm<String>} providing thf linfs of tfxt
+     *         dfsdribfd by this {@dodf BufffrfdRfbdfr}
+     *
+     * @sindf 1.8
+     */
+    publid Strfbm<String> linfs() {
+        Itfrbtor<String> itfr = nfw Itfrbtor<String>() {
+            String nfxtLinf = null;
+
+            @Ovfrridf
+            publid boolfbn hbsNfxt() {
+                if (nfxtLinf != null) {
+                    rfturn truf;
+                } flsf {
+                    try {
+                        nfxtLinf = rfbdLinf();
+                        rfturn (nfxtLinf != null);
+                    } dbtdh (IOExdfption f) {
+                        throw nfw UndhfdkfdIOExdfption(f);
+                    }
+                }
+            }
+
+            @Ovfrridf
+            publid String nfxt() {
+                if (nfxtLinf != null || hbsNfxt()) {
+                    String linf = nfxtLinf;
+                    nfxtLinf = null;
+                    rfturn linf;
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+        };
+        rfturn StrfbmSupport.strfbm(Splitfrbtors.splitfrbtorUnknownSizf(
+                itfr, Splitfrbtor.ORDERED | Splitfrbtor.NONNULL), fblsf);
+    }
+}

@@ -1,455 +1,455 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
-import sun.misc.Unsafe;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.dondurrfnt.lodks.RfbdWritfLodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.misd.Unsbff;
 
 /**
- * Windows implementation of AsynchronousChannelGroup encapsulating an I/O
- * completion port.
+ * Windows implfmfntbtion of AsyndironousCibnnflGroup fndbpsulbting bn I/O
+ * domplftion port.
  */
 
-class Iocp extends AsynchronousChannelGroupImpl {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long INVALID_HANDLE_VALUE  = -1L;
-    private static final boolean supportsThreadAgnosticIo;
+dlbss Iodp fxtfnds AsyndironousCibnnflGroupImpl {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid finbl long INVALID_HANDLE_VALUE  = -1L;
+    privbtf stbtid finbl boolfbn supportsTirfbdAgnostidIo;
 
-    // maps completion key to channel
-    private final ReadWriteLock keyToChannelLock = new ReentrantReadWriteLock();
-    private final Map<Integer,OverlappedChannel> keyToChannel =
-        new HashMap<Integer,OverlappedChannel>();
-    private int nextCompletionKey;
+    // mbps domplftion kfy to dibnnfl
+    privbtf finbl RfbdWritfLodk kfyToCibnnflLodk = nfw RffntrbntRfbdWritfLodk();
+    privbtf finbl Mbp<Intfgfr,OvfrlbppfdCibnnfl> kfyToCibnnfl =
+        nfw HbsiMbp<Intfgfr,OvfrlbppfdCibnnfl>();
+    privbtf int nfxtComplftionKfy;
 
-    // handle to completion port
-    private final long port;
+    // ibndlf to domplftion port
+    privbtf finbl long port;
 
-    // true if port has been closed
-    private boolean closed;
+    // truf if port ibs bffn dlosfd
+    privbtf boolfbn dlosfd;
 
-    // the set of "stale" OVERLAPPED structures. These OVERLAPPED structures
-    // relate to I/O operations where the completion notification was not
-    // received in a timely manner after the channel is closed.
-    private final Set<Long> staleIoSet = new HashSet<Long>();
+    // tif sft of "stblf" OVERLAPPED strudturfs. Tifsf OVERLAPPED strudturfs
+    // rflbtf to I/O opfrbtions wifrf tif domplftion notifidbtion wbs not
+    // rfdfivfd in b timfly mbnnfr bftfr tif dibnnfl is dlosfd.
+    privbtf finbl Sft<Long> stblfIoSft = nfw HbsiSft<Long>();
 
-    Iocp(AsynchronousChannelProvider provider, ThreadPool pool)
-        throws IOException
+    Iodp(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool)
+        tirows IOExdfption
     {
-        super(provider, pool);
-        this.port =
-          createIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, fixedThreadCount());
-        this.nextCompletionKey = 1;
+        supfr(providfr, pool);
+        tiis.port =
+          drfbtfIoComplftionPort(INVALID_HANDLE_VALUE, 0, 0, fixfdTirfbdCount());
+        tiis.nfxtComplftionKfy = 1;
     }
 
-    Iocp start() {
-        startThreads(new EventHandlerTask());
-        return this;
+    Iodp stbrt() {
+        stbrtTirfbds(nfw EvfntHbndlfrTbsk());
+        rfturn tiis;
     }
 
     /*
-     * Channels implements this interface support overlapped I/O and can be
-     * associated with a completion port.
+     * Cibnnfls implfmfnts tiis intfrfbdf support ovfrlbppfd I/O bnd dbn bf
+     * bssodibtfd witi b domplftion port.
      */
-    static interface OverlappedChannel extends Closeable {
+    stbtid intfrfbdf OvfrlbppfdCibnnfl fxtfnds Closfbblf {
         /**
-         * Returns a reference to the pending I/O result.
+         * Rfturns b rfffrfndf to tif pfnding I/O rfsult.
          */
-        <V,A> PendingFuture<V,A> getByOverlapped(long overlapped);
+        <V,A> PfndingFuturf<V,A> gftByOvfrlbppfd(long ovfrlbppfd);
     }
 
     /**
-     * Indicates if this operating system supports thread agnostic I/O.
+     * Indidbtfs if tiis opfrbting systfm supports tirfbd bgnostid I/O.
      */
-    static boolean supportsThreadAgnosticIo() {
-        return supportsThreadAgnosticIo;
+    stbtid boolfbn supportsTirfbdAgnostidIo() {
+        rfturn supportsTirfbdAgnostidIo;
     }
 
-    // release all resources
-    void implClose() {
-        synchronized (this) {
-            if (closed)
-                return;
-            closed = true;
+    // rflfbsf bll rfsourdfs
+    void implClosf() {
+        syndironizfd (tiis) {
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
         }
-        close0(port);
-        synchronized (staleIoSet) {
-            for (Long ov: staleIoSet) {
-                unsafe.freeMemory(ov);
+        dlosf0(port);
+        syndironizfd (stblfIoSft) {
+            for (Long ov: stblfIoSft) {
+                unsbff.frffMfmory(ov);
             }
-            staleIoSet.clear();
+            stblfIoSft.dlfbr();
         }
     }
 
-    @Override
-    boolean isEmpty() {
-        keyToChannelLock.writeLock().lock();
+    @Ovfrridf
+    boolfbn isEmpty() {
+        kfyToCibnnflLodk.writfLodk().lodk();
         try {
-            return keyToChannel.isEmpty();
-        } finally {
-            keyToChannelLock.writeLock().unlock();
+            rfturn kfyToCibnnfl.isEmpty();
+        } finblly {
+            kfyToCibnnflLodk.writfLodk().unlodk();
         }
     }
 
-    @Override
-    final Object attachForeignChannel(final Channel channel, FileDescriptor fdObj)
-        throws IOException
+    @Ovfrridf
+    finbl Objfdt bttbdiForfignCibnnfl(finbl Cibnnfl dibnnfl, FilfDfsdriptor fdObj)
+        tirows IOExdfption
     {
-        int key = associate(new OverlappedChannel() {
-            public <V,A> PendingFuture<V,A> getByOverlapped(long overlapped) {
-                return null;
+        int kfy = bssodibtf(nfw OvfrlbppfdCibnnfl() {
+            publid <V,A> PfndingFuturf<V,A> gftByOvfrlbppfd(long ovfrlbppfd) {
+                rfturn null;
             }
-            public void close() throws IOException {
-                channel.close();
+            publid void dlosf() tirows IOExdfption {
+                dibnnfl.dlosf();
             }
         }, 0L);
-        return Integer.valueOf(key);
+        rfturn Intfgfr.vblufOf(kfy);
     }
 
-    @Override
-    final void detachForeignChannel(Object key) {
-        disassociate((Integer)key);
+    @Ovfrridf
+    finbl void dftbdiForfignCibnnfl(Objfdt kfy) {
+        disbssodibtf((Intfgfr)kfy);
     }
 
-    @Override
-    void closeAllChannels() {
+    @Ovfrridf
+    void dlosfAllCibnnfls() {
         /**
-         * On Windows the close operation will close the socket/file handle
-         * and then wait until all outstanding I/O operations have aborted.
-         * This is necessary as each channel's cache of OVERLAPPED structures
-         * can only be freed once all I/O operations have completed. As I/O
-         * completion requires a lookup of the keyToChannel then we must close
-         * the channels when not holding the write lock.
+         * On Windows tif dlosf opfrbtion will dlosf tif sodkft/filf ibndlf
+         * bnd tifn wbit until bll outstbnding I/O opfrbtions ibvf bbortfd.
+         * Tiis is nfdfssbry bs fbdi dibnnfl's dbdif of OVERLAPPED strudturfs
+         * dbn only bf frffd ondf bll I/O opfrbtions ibvf domplftfd. As I/O
+         * domplftion rfquirfs b lookup of tif kfyToCibnnfl tifn wf must dlosf
+         * tif dibnnfls wifn not iolding tif writf lodk.
          */
-        final int MAX_BATCH_SIZE = 32;
-        OverlappedChannel channels[] = new OverlappedChannel[MAX_BATCH_SIZE];
-        int count;
+        finbl int MAX_BATCH_SIZE = 32;
+        OvfrlbppfdCibnnfl dibnnfls[] = nfw OvfrlbppfdCibnnfl[MAX_BATCH_SIZE];
+        int dount;
         do {
-            // grab a batch of up to 32 channels
-            keyToChannelLock.writeLock().lock();
-            count = 0;
+            // grbb b bbtdi of up to 32 dibnnfls
+            kfyToCibnnflLodk.writfLodk().lodk();
+            dount = 0;
             try {
-                for (Integer key: keyToChannel.keySet()) {
-                    channels[count++] = keyToChannel.get(key);
-                    if (count >= MAX_BATCH_SIZE)
-                        break;
+                for (Intfgfr kfy: kfyToCibnnfl.kfySft()) {
+                    dibnnfls[dount++] = kfyToCibnnfl.gft(kfy);
+                    if (dount >= MAX_BATCH_SIZE)
+                        brfbk;
                 }
-            } finally {
-                keyToChannelLock.writeLock().unlock();
+            } finblly {
+                kfyToCibnnflLodk.writfLodk().unlodk();
             }
 
-            // close them
-            for (int i=0; i<count; i++) {
+            // dlosf tifm
+            for (int i=0; i<dount; i++) {
                 try {
-                    channels[i].close();
-                } catch (IOException ignore) { }
+                    dibnnfls[i].dlosf();
+                } dbtdi (IOExdfption ignorf) { }
             }
-        } while (count > 0);
+        } wiilf (dount > 0);
     }
 
-    private void wakeup() {
+    privbtf void wbkfup() {
         try {
-            postQueuedCompletionStatus(port, 0);
-        } catch (IOException e) {
-            // should not happen
-            throw new AssertionError(e);
+            postQufufdComplftionStbtus(port, 0);
+        } dbtdi (IOExdfption f) {
+            // siould not ibppfn
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    @Override
-    void executeOnHandlerTask(Runnable task) {
-        synchronized (this) {
-            if (closed)
-                throw new RejectedExecutionException();
-            offerTask(task);
-            wakeup();
+    @Ovfrridf
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+        syndironizfd (tiis) {
+            if (dlosfd)
+                tirow nfw RfjfdtfdExfdutionExdfption();
+            offfrTbsk(tbsk);
+            wbkfup();
         }
 
     }
 
-    @Override
-    void shutdownHandlerTasks() {
-        // shutdown all handler threads
-        int nThreads = threadCount();
-        while (nThreads-- > 0) {
-            wakeup();
+    @Ovfrridf
+    void siutdownHbndlfrTbsks() {
+        // siutdown bll ibndlfr tirfbds
+        int nTirfbds = tirfbdCount();
+        wiilf (nTirfbds-- > 0) {
+            wbkfup();
         }
     }
 
     /**
-     * Associate the given handle with this group
+     * Assodibtf tif givfn ibndlf witi tiis group
      */
-    int associate(OverlappedChannel ch, long handle) throws IOException {
-        keyToChannelLock.writeLock().lock();
+    int bssodibtf(OvfrlbppfdCibnnfl di, long ibndlf) tirows IOExdfption {
+        kfyToCibnnflLodk.writfLodk().lodk();
 
-        // generate a completion key (if not shutdown)
-        int key;
+        // gfnfrbtf b domplftion kfy (if not siutdown)
+        int kfy;
         try {
-            if (isShutdown())
-                throw new ShutdownChannelGroupException();
+            if (isSiutdown())
+                tirow nfw SiutdownCibnnflGroupExdfption();
 
-            // generate unique key
+            // gfnfrbtf uniquf kfy
             do {
-                key = nextCompletionKey++;
-            } while ((key == 0) || keyToChannel.containsKey(key));
+                kfy = nfxtComplftionKfy++;
+            } wiilf ((kfy == 0) || kfyToCibnnfl.dontbinsKfy(kfy));
 
-            // associate with I/O completion port
-            if (handle != 0L) {
-                createIoCompletionPort(handle, port, key, 0);
+            // bssodibtf witi I/O domplftion port
+            if (ibndlf != 0L) {
+                drfbtfIoComplftionPort(ibndlf, port, kfy, 0);
             }
 
-            // setup mapping
-            keyToChannel.put(key, ch);
-        } finally {
-            keyToChannelLock.writeLock().unlock();
+            // sftup mbpping
+            kfyToCibnnfl.put(kfy, di);
+        } finblly {
+            kfyToCibnnflLodk.writfLodk().unlodk();
         }
-        return key;
+        rfturn kfy;
     }
 
     /**
-     * Disassociate channel from the group.
+     * Disbssodibtf dibnnfl from tif group.
      */
-    void disassociate(int key) {
-        boolean checkForShutdown = false;
+    void disbssodibtf(int kfy) {
+        boolfbn difdkForSiutdown = fblsf;
 
-        keyToChannelLock.writeLock().lock();
+        kfyToCibnnflLodk.writfLodk().lodk();
         try {
-            keyToChannel.remove(key);
+            kfyToCibnnfl.rfmovf(kfy);
 
-            // last key to be removed so check if group is shutdown
-            if (keyToChannel.isEmpty())
-                checkForShutdown = true;
+            // lbst kfy to bf rfmovfd so difdk if group is siutdown
+            if (kfyToCibnnfl.isEmpty())
+                difdkForSiutdown = truf;
 
-        } finally {
-            keyToChannelLock.writeLock().unlock();
+        } finblly {
+            kfyToCibnnflLodk.writfLodk().unlodk();
         }
 
-        // continue shutdown
-        if (checkForShutdown && isShutdown()) {
+        // dontinuf siutdown
+        if (difdkForSiutdown && isSiutdown()) {
             try {
-                shutdownNow();
-            } catch (IOException ignore) { }
+                siutdownNow();
+            } dbtdi (IOExdfption ignorf) { }
         }
     }
 
     /**
-     * Invoked when a channel associated with this port is closed before
-     * notifications for all outstanding I/O operations have been received.
+     * Invokfd wifn b dibnnfl bssodibtfd witi tiis port is dlosfd bfforf
+     * notifidbtions for bll outstbnding I/O opfrbtions ibvf bffn rfdfivfd.
      */
-    void makeStale(Long overlapped) {
-        synchronized (staleIoSet) {
-            staleIoSet.add(overlapped);
+    void mbkfStblf(Long ovfrlbppfd) {
+        syndironizfd (stblfIoSft) {
+            stblfIoSft.bdd(ovfrlbppfd);
         }
     }
 
     /**
-     * Checks if the given OVERLAPPED is stale and if so, releases it.
+     * Cifdks if tif givfn OVERLAPPED is stblf bnd if so, rflfbsfs it.
      */
-    private void checkIfStale(long ov) {
-        synchronized (staleIoSet) {
-            boolean removed = staleIoSet.remove(ov);
-            if (removed) {
-                unsafe.freeMemory(ov);
+    privbtf void difdkIfStblf(long ov) {
+        syndironizfd (stblfIoSft) {
+            boolfbn rfmovfd = stblfIoSft.rfmovf(ov);
+            if (rfmovfd) {
+                unsbff.frffMfmory(ov);
             }
         }
     }
 
     /**
-     * The handler for consuming the result of an asynchronous I/O operation.
+     * Tif ibndlfr for donsuming tif rfsult of bn bsyndironous I/O opfrbtion.
      */
-    static interface ResultHandler {
+    stbtid intfrfbdf RfsultHbndlfr {
         /**
-         * Invoked if the I/O operation completes successfully.
+         * Invokfd if tif I/O opfrbtion domplftfs suddfssfully.
          */
-        public void completed(int bytesTransferred, boolean canInvokeDirect);
+        publid void domplftfd(int bytfsTrbnsffrrfd, boolfbn dbnInvokfDirfdt);
 
         /**
-         * Invoked if the I/O operation fails.
+         * Invokfd if tif I/O opfrbtion fbils.
          */
-        public void failed(int error, IOException ioe);
+        publid void fbilfd(int frror, IOExdfption iof);
     }
 
-    // Creates IOException for the given I/O error.
-    private static IOException translateErrorToIOException(int error) {
-        String msg = getErrorMessage(error);
+    // Crfbtfs IOExdfption for tif givfn I/O frror.
+    privbtf stbtid IOExdfption trbnslbtfErrorToIOExdfption(int frror) {
+        String msg = gftErrorMfssbgf(frror);
         if (msg == null)
-            msg = "Unknown error: 0x0" + Integer.toHexString(error);
-        return new IOException(msg);
+            msg = "Unknown frror: 0x0" + Intfgfr.toHfxString(frror);
+        rfturn nfw IOExdfption(msg);
     }
 
     /**
-     * Long-running task servicing system-wide or per-file completion port
+     * Long-running tbsk sfrviding systfm-widf or pfr-filf domplftion port
      */
-    private class EventHandlerTask implements Runnable {
-        public void run() {
-            Invoker.GroupAndInvokeCount myGroupAndInvokeCount =
-                Invoker.getGroupAndInvokeCount();
-            boolean canInvokeDirect = (myGroupAndInvokeCount != null);
-            CompletionStatus ioResult = new CompletionStatus();
-            boolean replaceMe = false;
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+        publid void run() {
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+                Invokfr.gftGroupAndInvokfCount();
+            boolfbn dbnInvokfDirfdt = (myGroupAndInvokfCount != null);
+            ComplftionStbtus ioRfsult = nfw ComplftionStbtus();
+            boolfbn rfplbdfMf = fblsf;
 
             try {
                 for (;;) {
-                    // reset invoke count
-                    if (myGroupAndInvokeCount != null)
-                        myGroupAndInvokeCount.resetInvokeCount();
+                    // rfsft invokf dount
+                    if (myGroupAndInvokfCount != null)
+                        myGroupAndInvokfCount.rfsftInvokfCount();
 
-                    // wait for I/O completion event
-                    // A error here is fatal (thread will not be replaced)
-                    replaceMe = false;
+                    // wbit for I/O domplftion fvfnt
+                    // A frror ifrf is fbtbl (tirfbd will not bf rfplbdfd)
+                    rfplbdfMf = fblsf;
                     try {
-                        getQueuedCompletionStatus(port, ioResult);
-                    } catch (IOException x) {
-                        // should not happen
-                        x.printStackTrace();
-                        return;
+                        gftQufufdComplftionStbtus(port, ioRfsult);
+                    } dbtdi (IOExdfption x) {
+                        // siould not ibppfn
+                        x.printStbdkTrbdf();
+                        rfturn;
                     }
 
-                    // handle wakeup to execute task or shutdown
-                    if (ioResult.completionKey() == 0 &&
-                        ioResult.overlapped() == 0L)
+                    // ibndlf wbkfup to fxfdutf tbsk or siutdown
+                    if (ioRfsult.domplftionKfy() == 0 &&
+                        ioRfsult.ovfrlbppfd() == 0L)
                     {
-                        Runnable task = pollTask();
-                        if (task == null) {
-                            // shutdown request
-                            return;
+                        Runnbblf tbsk = pollTbsk();
+                        if (tbsk == null) {
+                            // siutdown rfqufst
+                            rfturn;
                         }
 
-                        // run task
-                        // (if error/exception then replace thread)
-                        replaceMe = true;
-                        task.run();
-                        continue;
+                        // run tbsk
+                        // (if frror/fxdfption tifn rfplbdf tirfbd)
+                        rfplbdfMf = truf;
+                        tbsk.run();
+                        dontinuf;
                     }
 
-                    // map key to channel
-                    OverlappedChannel ch = null;
-                    keyToChannelLock.readLock().lock();
+                    // mbp kfy to dibnnfl
+                    OvfrlbppfdCibnnfl di = null;
+                    kfyToCibnnflLodk.rfbdLodk().lodk();
                     try {
-                        ch = keyToChannel.get(ioResult.completionKey());
-                        if (ch == null) {
-                            checkIfStale(ioResult.overlapped());
-                            continue;
+                        di = kfyToCibnnfl.gft(ioRfsult.domplftionKfy());
+                        if (di == null) {
+                            difdkIfStblf(ioRfsult.ovfrlbppfd());
+                            dontinuf;
                         }
-                    } finally {
-                        keyToChannelLock.readLock().unlock();
+                    } finblly {
+                        kfyToCibnnflLodk.rfbdLodk().unlodk();
                     }
 
-                    // lookup I/O request
-                    PendingFuture<?,?> result = ch.getByOverlapped(ioResult.overlapped());
-                    if (result == null) {
-                        // we get here if the OVERLAPPED structure is associated
-                        // with an I/O operation on a channel that was closed
-                        // but the I/O operation event wasn't read in a timely
-                        // manner. Alternatively, it may be related to a
-                        // tryLock operation as the OVERLAPPED structures for
-                        // these operations are not in the I/O cache.
-                        checkIfStale(ioResult.overlapped());
-                        continue;
+                    // lookup I/O rfqufst
+                    PfndingFuturf<?,?> rfsult = di.gftByOvfrlbppfd(ioRfsult.ovfrlbppfd());
+                    if (rfsult == null) {
+                        // wf gft ifrf if tif OVERLAPPED strudturf is bssodibtfd
+                        // witi bn I/O opfrbtion on b dibnnfl tibt wbs dlosfd
+                        // but tif I/O opfrbtion fvfnt wbsn't rfbd in b timfly
+                        // mbnnfr. Altfrnbtivfly, it mby bf rflbtfd to b
+                        // tryLodk opfrbtion bs tif OVERLAPPED strudturfs for
+                        // tifsf opfrbtions brf not in tif I/O dbdif.
+                        difdkIfStblf(ioRfsult.ovfrlbppfd());
+                        dontinuf;
                     }
 
-                    // synchronize on result in case I/O completed immediately
-                    // and was handled by initiator
-                    synchronized (result) {
-                        if (result.isDone()) {
-                            continue;
+                    // syndironizf on rfsult in dbsf I/O domplftfd immfdibtfly
+                    // bnd wbs ibndlfd by initibtor
+                    syndironizfd (rfsult) {
+                        if (rfsult.isDonf()) {
+                            dontinuf;
                         }
-                        // not handled by initiator
+                        // not ibndlfd by initibtor
                     }
 
-                    // invoke I/O result handler
-                    int error = ioResult.error();
-                    ResultHandler rh = (ResultHandler)result.getContext();
-                    replaceMe = true; // (if error/exception then replace thread)
-                    if (error == 0) {
-                        rh.completed(ioResult.bytesTransferred(), canInvokeDirect);
-                    } else {
-                        rh.failed(error, translateErrorToIOException(error));
+                    // invokf I/O rfsult ibndlfr
+                    int frror = ioRfsult.frror();
+                    RfsultHbndlfr ri = (RfsultHbndlfr)rfsult.gftContfxt();
+                    rfplbdfMf = truf; // (if frror/fxdfption tifn rfplbdf tirfbd)
+                    if (frror == 0) {
+                        ri.domplftfd(ioRfsult.bytfsTrbnsffrrfd(), dbnInvokfDirfdt);
+                    } flsf {
+                        ri.fbilfd(frror, trbnslbtfErrorToIOExdfption(frror));
                     }
                 }
-            } finally {
-                // last thread to exit when shutdown releases resources
-                int remaining = threadExit(this, replaceMe);
-                if (remaining == 0 && isShutdown()) {
-                    implClose();
+            } finblly {
+                // lbst tirfbd to fxit wifn siutdown rflfbsfs rfsourdfs
+                int rfmbining = tirfbdExit(tiis, rfplbdfMf);
+                if (rfmbining == 0 && isSiutdown()) {
+                    implClosf();
                 }
             }
         }
     }
 
     /**
-     * Container for data returned by GetQueuedCompletionStatus
+     * Contbinfr for dbtb rfturnfd by GftQufufdComplftionStbtus
      */
-    private static class CompletionStatus {
-        private int error;
-        private int bytesTransferred;
-        private int completionKey;
-        private long overlapped;
+    privbtf stbtid dlbss ComplftionStbtus {
+        privbtf int frror;
+        privbtf int bytfsTrbnsffrrfd;
+        privbtf int domplftionKfy;
+        privbtf long ovfrlbppfd;
 
-        private CompletionStatus() { }
-        int error() { return error; }
-        int bytesTransferred() { return bytesTransferred; }
-        int completionKey() { return completionKey; }
-        long overlapped() { return overlapped; }
+        privbtf ComplftionStbtus() { }
+        int frror() { rfturn frror; }
+        int bytfsTrbnsffrrfd() { rfturn bytfsTrbnsffrrfd; }
+        int domplftionKfy() { rfturn domplftionKfy; }
+        long ovfrlbppfd() { rfturn ovfrlbppfd; }
     }
 
-    // -- native methods --
+    // -- nbtivf mftiods --
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    private static native long createIoCompletionPort(long handle,
-        long existingPort, int completionKey, int concurrency) throws IOException;
+    privbtf stbtid nbtivf long drfbtfIoComplftionPort(long ibndlf,
+        long fxistingPort, int domplftionKfy, int dondurrfndy) tirows IOExdfption;
 
-    private static native void close0(long handle);
+    privbtf stbtid nbtivf void dlosf0(long ibndlf);
 
-    private static native void getQueuedCompletionStatus(long completionPort,
-        CompletionStatus status) throws IOException;
+    privbtf stbtid nbtivf void gftQufufdComplftionStbtus(long domplftionPort,
+        ComplftionStbtus stbtus) tirows IOExdfption;
 
-    private static native void postQueuedCompletionStatus(long completionPort,
-        int completionKey) throws IOException;
+    privbtf stbtid nbtivf void postQufufdComplftionStbtus(long domplftionPort,
+        int domplftionKfy) tirows IOExdfption;
 
-    private static native String getErrorMessage(int error);
+    privbtf stbtid nbtivf String gftErrorMfssbgf(int frror);
 
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
         initIDs();
 
-        // thread agnostic I/O on Vista/2008 or newer
-        String osversion = AccessController.doPrivileged(
-            new GetPropertyAction("os.version"));
-        String vers[] = osversion.split("\\.");
-        supportsThreadAgnosticIo = Integer.parseInt(vers[0]) >= 6;
+        // tirfbd bgnostid I/O on Vistb/2008 or nfwfr
+        String osvfrsion = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("os.vfrsion"));
+        String vfrs[] = osvfrsion.split("\\.");
+        supportsTirfbdAgnostidIo = Intfgfr.pbrsfInt(vfrs[0]) >= 6;
     }
 }

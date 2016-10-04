@@ -1,645 +1,645 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.lang.ref.SoftReference;
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.text.spi.NumberFormatProvider;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Currency;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle.Control;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicReferenceArray;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CurrencyNameProvider;
-import java.util.spi.LocaleNameProvider;
-import sun.util.spi.CalendarProvider;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.tfxt.DbtfFormbt;
+import jbvb.tfxt.DbtfFormbtSymbols;
+import jbvb.tfxt.DfdimblFormbt;
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.tfxt.NumbfrFormbt;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Collfdtions;
+import jbvb.util.Currfndy;
+import jbvb.util.HbsiSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.RfsourdfBundlf.Control;
+import jbvb.util.Sft;
+import jbvb.util.TimfZonf;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndfArrby;
+import jbvb.util.spi.CblfndbrDbtbProvidfr;
+import jbvb.util.spi.CurrfndyNbmfProvidfr;
+import jbvb.util.spi.LodblfNbmfProvidfr;
+import sun.util.spi.CblfndbrProvidfr;
 
 /**
- * LocaleProviderdapter implementation for the Windows locale data.
+ * LodblfProvidfrdbptfr implfmfntbtion for tif Windows lodblf dbtb.
  *
- * @author Naoto Sato
+ * @butior Nboto Sbto
  */
-public class HostLocaleProviderAdapterImpl {
+publid dlbss HostLodblfProvidfrAdbptfrImpl {
 
-    // locale categories
-    private static final int CAT_DISPLAY = 0;
-    private static final int CAT_FORMAT  = 1;
+    // lodblf dbtfgorifs
+    privbtf stbtid finbl int CAT_DISPLAY = 0;
+    privbtf stbtid finbl int CAT_FORMAT  = 1;
 
-    // NumberFormat styles
-    private static final int NF_NUMBER   = 0;
-    private static final int NF_CURRENCY = 1;
-    private static final int NF_PERCENT  = 2;
-    private static final int NF_INTEGER  = 3;
-    private static final int NF_MAX = NF_INTEGER;
+    // NumbfrFormbt stylfs
+    privbtf stbtid finbl int NF_NUMBER   = 0;
+    privbtf stbtid finbl int NF_CURRENCY = 1;
+    privbtf stbtid finbl int NF_PERCENT  = 2;
+    privbtf stbtid finbl int NF_INTEGER  = 3;
+    privbtf stbtid finbl int NF_MAX = NF_INTEGER;
 
-    // CalendarData value types
-    private static final int CD_FIRSTDAYOFWEEK = 0;
-    private static final int CD_MINIMALDAYSINFIRSTWEEK = 1;
+    // CblfndbrDbtb vbluf typfs
+    privbtf stbtid finbl int CD_FIRSTDAYOFWEEK = 0;
+    privbtf stbtid finbl int CD_MINIMALDAYSINFIRSTWEEK = 1;
 
-    // Currency/Locale display name types
-    private static final int DN_CURRENCY_NAME   = 0;
-    private static final int DN_CURRENCY_SYMBOL = 1;
-    private static final int DN_LOCALE_LANGUAGE = 2;
-    private static final int DN_LOCALE_SCRIPT   = 3;
-    private static final int DN_LOCALE_REGION   = 4;
-    private static final int DN_LOCALE_VARIANT  = 5;
+    // Currfndy/Lodblf displby nbmf typfs
+    privbtf stbtid finbl int DN_CURRENCY_NAME   = 0;
+    privbtf stbtid finbl int DN_CURRENCY_SYMBOL = 1;
+    privbtf stbtid finbl int DN_LOCALE_LANGUAGE = 2;
+    privbtf stbtid finbl int DN_LOCALE_SCRIPT   = 3;
+    privbtf stbtid finbl int DN_LOCALE_REGION   = 4;
+    privbtf stbtid finbl int DN_LOCALE_VARIANT  = 5;
 
-    // Native Calendar ID to LDML calendar type map
-    private static final String[] calIDToLDML = {
+    // Nbtivf Cblfndbr ID to LDML dblfndbr typf mbp
+    privbtf stbtid finbl String[] dblIDToLDML = {
         "",
-        "gregory",
-        "gregory_en-US",
-        "japanese",
-        "roc",
-        "",          // No appropriate type for CAL_KOREA
-        "islamic",
-        "buddhist",
-        "hebrew",
-        "gregory_fr",
-        "gregory_ar",
-        "gregory_en",
-        "gregory_fr",
+        "grfgory",
+        "grfgory_fn-US",
+        "jbpbnfsf",
+        "rod",
+        "",          // No bppropribtf typf for CAL_KOREA
+        "islbmid",
+        "buddiist",
+        "ifbrfw",
+        "grfgory_fr",
+        "grfgory_br",
+        "grfgory_fn",
+        "grfgory_fr",
     };
 
-    // Caches
-    private static ConcurrentMap<Locale, SoftReference<AtomicReferenceArray<String>>> dateFormatCache = new ConcurrentHashMap<>();
-    private static ConcurrentMap<Locale, SoftReference<DateFormatSymbols>> dateFormatSymbolsCache = new ConcurrentHashMap<>();
-    private static ConcurrentMap<Locale, SoftReference<AtomicReferenceArray<String>>> numberFormatCache = new ConcurrentHashMap<>();
-    private static ConcurrentMap<Locale, SoftReference<DecimalFormatSymbols>> decimalFormatSymbolsCache = new ConcurrentHashMap<>();
+    // Cbdifs
+    privbtf stbtid CondurrfntMbp<Lodblf, SoftRfffrfndf<AtomidRfffrfndfArrby<String>>> dbtfFormbtCbdif = nfw CondurrfntHbsiMbp<>();
+    privbtf stbtid CondurrfntMbp<Lodblf, SoftRfffrfndf<DbtfFormbtSymbols>> dbtfFormbtSymbolsCbdif = nfw CondurrfntHbsiMbp<>();
+    privbtf stbtid CondurrfntMbp<Lodblf, SoftRfffrfndf<AtomidRfffrfndfArrby<String>>> numbfrFormbtCbdif = nfw CondurrfntHbsiMbp<>();
+    privbtf stbtid CondurrfntMbp<Lodblf, SoftRfffrfndf<DfdimblFormbtSymbols>> dfdimblFormbtSymbolsCbdif = nfw CondurrfntHbsiMbp<>();
 
-    private static final Set<Locale> supportedLocaleSet;
-    private static final String nativeDisplayLanguage;
-    static {
-        Set<Locale> tmpSet = new HashSet<>();
-        if (initialize()) {
-            // Assuming the default locales do not include any extensions, so
-            // no stripping is needed here.
-            Control c = Control.getNoFallbackControl(Control.FORMAT_DEFAULT);
-            String displayLocale = getDefaultLocale(CAT_DISPLAY);
-            Locale l = Locale.forLanguageTag(displayLocale.replace('_', '-'));
-            tmpSet.addAll(c.getCandidateLocales("", l));
-            nativeDisplayLanguage = l.getLanguage();
+    privbtf stbtid finbl Sft<Lodblf> supportfdLodblfSft;
+    privbtf stbtid finbl String nbtivfDisplbyLbngubgf;
+    stbtid {
+        Sft<Lodblf> tmpSft = nfw HbsiSft<>();
+        if (initiblizf()) {
+            // Assuming tif dffbult lodblfs do not indludf bny fxtfnsions, so
+            // no stripping is nffdfd ifrf.
+            Control d = Control.gftNoFbllbbdkControl(Control.FORMAT_DEFAULT);
+            String displbyLodblf = gftDffbultLodblf(CAT_DISPLAY);
+            Lodblf l = Lodblf.forLbngubgfTbg(displbyLodblf.rfplbdf('_', '-'));
+            tmpSft.bddAll(d.gftCbndidbtfLodblfs("", l));
+            nbtivfDisplbyLbngubgf = l.gftLbngubgf();
 
-            String formatLocale = getDefaultLocale(CAT_FORMAT);
-            if (!formatLocale.equals(displayLocale)) {
-                l = Locale.forLanguageTag(formatLocale.replace('_', '-'));
-                tmpSet.addAll(c.getCandidateLocales("", l));
+            String formbtLodblf = gftDffbultLodblf(CAT_FORMAT);
+            if (!formbtLodblf.fqubls(displbyLodblf)) {
+                l = Lodblf.forLbngubgfTbg(formbtLodblf.rfplbdf('_', '-'));
+                tmpSft.bddAll(d.gftCbndidbtfLodblfs("", l));
             }
-        } else {
-            nativeDisplayLanguage = "";
+        } flsf {
+            nbtivfDisplbyLbngubgf = "";
         }
-        supportedLocaleSet = Collections.unmodifiableSet(tmpSet);
+        supportfdLodblfSft = Collfdtions.unmodifibblfSft(tmpSft);
     }
-    private final static Locale[] supportedLocale = supportedLocaleSet.toArray(new Locale[0]);
+    privbtf finbl stbtid Lodblf[] supportfdLodblf = supportfdLodblfSft.toArrby(nfw Lodblf[0]);
 
-    public static DateFormatProvider getDateFormatProvider() {
-        return new DateFormatProvider() {
-            @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedCalendarLocales();
+    publid stbtid DbtfFormbtProvidfr gftDbtfFormbtProvidfr() {
+        rfturn nfw DbtfFormbtProvidfr() {
+            @Ovfrridf
+            publid Lodblf[] gftAvbilbblfLodblfs() {
+                rfturn gftSupportfdCblfndbrLodblfs();
             }
 
-            @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedCalendarLocale(locale);
+            @Ovfrridf
+            publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+                rfturn isSupportfdCblfndbrLodblf(lodblf);
             }
 
-            @Override
-            public DateFormat getDateInstance(int style, Locale locale) {
-                AtomicReferenceArray<String> patterns = getDateTimePatterns(locale);
-                return new SimpleDateFormat(patterns.get(style/2),
-                                            getCalendarLocale(locale));
+            @Ovfrridf
+            publid DbtfFormbt gftDbtfInstbndf(int stylf, Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns = gftDbtfTimfPbttfrns(lodblf);
+                rfturn nfw SimplfDbtfFormbt(pbttfrns.gft(stylf/2),
+                                            gftCblfndbrLodblf(lodblf));
             }
 
-            @Override
-            public DateFormat getTimeInstance(int style, Locale locale) {
-                AtomicReferenceArray<String> patterns = getDateTimePatterns(locale);
-                return new SimpleDateFormat(patterns.get(style/2+2),
-                                            getCalendarLocale(locale));
+            @Ovfrridf
+            publid DbtfFormbt gftTimfInstbndf(int stylf, Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns = gftDbtfTimfPbttfrns(lodblf);
+                rfturn nfw SimplfDbtfFormbt(pbttfrns.gft(stylf/2+2),
+                                            gftCblfndbrLodblf(lodblf));
             }
 
-            @Override
-            public DateFormat getDateTimeInstance(int dateStyle,
-                    int timeStyle, Locale locale) {
-                AtomicReferenceArray<String> patterns = getDateTimePatterns(locale);
-                String pattern = new StringBuilder(patterns.get(dateStyle/2))
-                                       .append(" ")
-                                       .append(patterns.get(timeStyle/2+2))
+            @Ovfrridf
+            publid DbtfFormbt gftDbtfTimfInstbndf(int dbtfStylf,
+                    int timfStylf, Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns = gftDbtfTimfPbttfrns(lodblf);
+                String pbttfrn = nfw StringBuildfr(pbttfrns.gft(dbtfStylf/2))
+                                       .bppfnd(" ")
+                                       .bppfnd(pbttfrns.gft(timfStylf/2+2))
                                        .toString();
-                return new SimpleDateFormat(pattern, getCalendarLocale(locale));
+                rfturn nfw SimplfDbtfFormbt(pbttfrn, gftCblfndbrLodblf(lodblf));
             }
 
-            private AtomicReferenceArray<String> getDateTimePatterns(Locale locale) {
-                AtomicReferenceArray<String> patterns;
-                SoftReference<AtomicReferenceArray<String>> ref = dateFormatCache.get(locale);
+            privbtf AtomidRfffrfndfArrby<String> gftDbtfTimfPbttfrns(Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns;
+                SoftRfffrfndf<AtomidRfffrfndfArrby<String>> rff = dbtfFormbtCbdif.gft(lodblf);
 
-                if (ref == null || (patterns = ref.get()) == null) {
-                    String langtag = removeExtensions(locale).toLanguageTag();
-                    patterns = new AtomicReferenceArray<>(4);
-                    patterns.compareAndSet(0, null, convertDateTimePattern(
-                        getDateTimePattern(DateFormat.LONG, -1, langtag)));
-                    patterns.compareAndSet(1, null, convertDateTimePattern(
-                        getDateTimePattern(DateFormat.SHORT, -1, langtag)));
-                    patterns.compareAndSet(2, null, convertDateTimePattern(
-                        getDateTimePattern(-1, DateFormat.LONG, langtag)));
-                    patterns.compareAndSet(3, null, convertDateTimePattern(
-                        getDateTimePattern(-1, DateFormat.SHORT, langtag)));
-                    ref = new SoftReference<>(patterns);
-                    dateFormatCache.put(locale, ref);
+                if (rff == null || (pbttfrns = rff.gft()) == null) {
+                    String lbngtbg = rfmovfExtfnsions(lodblf).toLbngubgfTbg();
+                    pbttfrns = nfw AtomidRfffrfndfArrby<>(4);
+                    pbttfrns.dompbrfAndSft(0, null, donvfrtDbtfTimfPbttfrn(
+                        gftDbtfTimfPbttfrn(DbtfFormbt.LONG, -1, lbngtbg)));
+                    pbttfrns.dompbrfAndSft(1, null, donvfrtDbtfTimfPbttfrn(
+                        gftDbtfTimfPbttfrn(DbtfFormbt.SHORT, -1, lbngtbg)));
+                    pbttfrns.dompbrfAndSft(2, null, donvfrtDbtfTimfPbttfrn(
+                        gftDbtfTimfPbttfrn(-1, DbtfFormbt.LONG, lbngtbg)));
+                    pbttfrns.dompbrfAndSft(3, null, donvfrtDbtfTimfPbttfrn(
+                        gftDbtfTimfPbttfrn(-1, DbtfFormbt.SHORT, lbngtbg)));
+                    rff = nfw SoftRfffrfndf<>(pbttfrns);
+                    dbtfFormbtCbdif.put(lodblf, rff);
                 }
 
-                return patterns;
+                rfturn pbttfrns;
             }
         };
     }
 
-    public static DateFormatSymbolsProvider getDateFormatSymbolsProvider() {
-        return new DateFormatSymbolsProvider() {
+    publid stbtid DbtfFormbtSymbolsProvidfr gftDbtfFormbtSymbolsProvidfr() {
+        rfturn nfw DbtfFormbtSymbolsProvidfr() {
 
-            @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedCalendarLocales();
+            @Ovfrridf
+            publid Lodblf[] gftAvbilbblfLodblfs() {
+                rfturn gftSupportfdCblfndbrLodblfs();
             }
 
-            @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedCalendarLocale(locale);
+            @Ovfrridf
+            publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+                rfturn isSupportfdCblfndbrLodblf(lodblf);
             }
 
-            @Override
-            public DateFormatSymbols getInstance(Locale locale) {
-                DateFormatSymbols dfs;
-                SoftReference<DateFormatSymbols> ref =
-                    dateFormatSymbolsCache.get(locale);
+            @Ovfrridf
+            publid DbtfFormbtSymbols gftInstbndf(Lodblf lodblf) {
+                DbtfFormbtSymbols dfs;
+                SoftRfffrfndf<DbtfFormbtSymbols> rff =
+                    dbtfFormbtSymbolsCbdif.gft(lodblf);
 
-                if (ref == null || (dfs = ref.get()) == null) {
-                    dfs = new DateFormatSymbols(locale);
-                    String langTag = removeExtensions(locale).toLanguageTag();
+                if (rff == null || (dfs = rff.gft()) == null) {
+                    dfs = nfw DbtfFormbtSymbols(lodblf);
+                    String lbngTbg = rfmovfExtfnsions(lodblf).toLbngubgfTbg();
 
-                    dfs.setAmPmStrings(getAmPmStrings(langTag, dfs.getAmPmStrings()));
-                    dfs.setEras(getEras(langTag, dfs.getEras()));
-                    dfs.setMonths(getMonths(langTag, dfs.getMonths()));
-                    dfs.setShortMonths(getShortMonths(langTag, dfs.getShortMonths()));
-                    dfs.setWeekdays(getWeekdays(langTag, dfs.getWeekdays()));
-                    dfs.setShortWeekdays(getShortWeekdays(langTag, dfs.getShortWeekdays()));
-                    ref = new SoftReference<>(dfs);
-                    dateFormatSymbolsCache.put(locale, ref);
+                    dfs.sftAmPmStrings(gftAmPmStrings(lbngTbg, dfs.gftAmPmStrings()));
+                    dfs.sftErbs(gftErbs(lbngTbg, dfs.gftErbs()));
+                    dfs.sftMontis(gftMontis(lbngTbg, dfs.gftMontis()));
+                    dfs.sftSiortMontis(gftSiortMontis(lbngTbg, dfs.gftSiortMontis()));
+                    dfs.sftWffkdbys(gftWffkdbys(lbngTbg, dfs.gftWffkdbys()));
+                    dfs.sftSiortWffkdbys(gftSiortWffkdbys(lbngTbg, dfs.gftSiortWffkdbys()));
+                    rff = nfw SoftRfffrfndf<>(dfs);
+                    dbtfFormbtSymbolsCbdif.put(lodblf, rff);
                 }
-                return (DateFormatSymbols)dfs.clone();
+                rfturn (DbtfFormbtSymbols)dfs.dlonf();
             }
         };
     }
 
-    public static NumberFormatProvider getNumberFormatProvider() {
-        return new NumberFormatProvider() {
+    publid stbtid NumbfrFormbtProvidfr gftNumbfrFormbtProvidfr() {
+        rfturn nfw NumbfrFormbtProvidfr() {
 
-            @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedNativeDigitLocales();
+            @Ovfrridf
+            publid Lodblf[] gftAvbilbblfLodblfs() {
+                rfturn gftSupportfdNbtivfDigitLodblfs();
             }
 
-            @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedNativeDigitLocale(locale);
+            @Ovfrridf
+            publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+                rfturn isSupportfdNbtivfDigitLodblf(lodblf);
             }
 
-            @Override
-            public NumberFormat getCurrencyInstance(Locale locale) {
-                AtomicReferenceArray<String> patterns = getNumberPatterns(locale);
-                return new DecimalFormat(patterns.get(NF_CURRENCY),
-                    DecimalFormatSymbols.getInstance(locale));
+            @Ovfrridf
+            publid NumbfrFormbt gftCurrfndyInstbndf(Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns = gftNumbfrPbttfrns(lodblf);
+                rfturn nfw DfdimblFormbt(pbttfrns.gft(NF_CURRENCY),
+                    DfdimblFormbtSymbols.gftInstbndf(lodblf));
             }
 
-            @Override
-            public NumberFormat getIntegerInstance(Locale locale) {
-                AtomicReferenceArray<String> patterns = getNumberPatterns(locale);
-                return new DecimalFormat(patterns.get(NF_INTEGER),
-                    DecimalFormatSymbols.getInstance(locale));
+            @Ovfrridf
+            publid NumbfrFormbt gftIntfgfrInstbndf(Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns = gftNumbfrPbttfrns(lodblf);
+                rfturn nfw DfdimblFormbt(pbttfrns.gft(NF_INTEGER),
+                    DfdimblFormbtSymbols.gftInstbndf(lodblf));
             }
 
-            @Override
-            public NumberFormat getNumberInstance(Locale locale) {
-                AtomicReferenceArray<String> patterns = getNumberPatterns(locale);
-                return new DecimalFormat(patterns.get(NF_NUMBER),
-                    DecimalFormatSymbols.getInstance(locale));
+            @Ovfrridf
+            publid NumbfrFormbt gftNumbfrInstbndf(Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns = gftNumbfrPbttfrns(lodblf);
+                rfturn nfw DfdimblFormbt(pbttfrns.gft(NF_NUMBER),
+                    DfdimblFormbtSymbols.gftInstbndf(lodblf));
             }
 
-            @Override
-            public NumberFormat getPercentInstance(Locale locale) {
-                AtomicReferenceArray<String> patterns = getNumberPatterns(locale);
-                return new DecimalFormat(patterns.get(NF_PERCENT),
-                    DecimalFormatSymbols.getInstance(locale));
+            @Ovfrridf
+            publid NumbfrFormbt gftPfrdfntInstbndf(Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns = gftNumbfrPbttfrns(lodblf);
+                rfturn nfw DfdimblFormbt(pbttfrns.gft(NF_PERCENT),
+                    DfdimblFormbtSymbols.gftInstbndf(lodblf));
             }
 
-            private AtomicReferenceArray<String> getNumberPatterns(Locale locale) {
-                AtomicReferenceArray<String> patterns;
-                SoftReference<AtomicReferenceArray<String>> ref = numberFormatCache.get(locale);
+            privbtf AtomidRfffrfndfArrby<String> gftNumbfrPbttfrns(Lodblf lodblf) {
+                AtomidRfffrfndfArrby<String> pbttfrns;
+                SoftRfffrfndf<AtomidRfffrfndfArrby<String>> rff = numbfrFormbtCbdif.gft(lodblf);
 
-                if (ref == null || (patterns = ref.get()) == null) {
-                    String langtag = locale.toLanguageTag();
-                    patterns = new AtomicReferenceArray<>(NF_MAX+1);
+                if (rff == null || (pbttfrns = rff.gft()) == null) {
+                    String lbngtbg = lodblf.toLbngubgfTbg();
+                    pbttfrns = nfw AtomidRfffrfndfArrby<>(NF_MAX+1);
                     for (int i = 0; i <= NF_MAX; i++) {
-                        patterns.compareAndSet(i, null, getNumberPattern(i, langtag));
+                        pbttfrns.dompbrfAndSft(i, null, gftNumbfrPbttfrn(i, lbngtbg));
                     }
-                    ref = new SoftReference<>(patterns);
-                    numberFormatCache.put(locale, ref);
+                    rff = nfw SoftRfffrfndf<>(pbttfrns);
+                    numbfrFormbtCbdif.put(lodblf, rff);
                 }
-                return patterns;
+                rfturn pbttfrns;
             }
         };
     }
 
-    public static DecimalFormatSymbolsProvider getDecimalFormatSymbolsProvider() {
-        return new DecimalFormatSymbolsProvider() {
+    publid stbtid DfdimblFormbtSymbolsProvidfr gftDfdimblFormbtSymbolsProvidfr() {
+        rfturn nfw DfdimblFormbtSymbolsProvidfr() {
 
-            @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedNativeDigitLocales();
+            @Ovfrridf
+            publid Lodblf[] gftAvbilbblfLodblfs() {
+                rfturn gftSupportfdNbtivfDigitLodblfs();
             }
 
-            @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedNativeDigitLocale(locale);
+            @Ovfrridf
+            publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+                rfturn isSupportfdNbtivfDigitLodblf(lodblf);
             }
 
-            @Override
-            public DecimalFormatSymbols getInstance(Locale locale) {
-                DecimalFormatSymbols dfs;
-                SoftReference<DecimalFormatSymbols> ref =
-                    decimalFormatSymbolsCache.get(locale);
+            @Ovfrridf
+            publid DfdimblFormbtSymbols gftInstbndf(Lodblf lodblf) {
+                DfdimblFormbtSymbols dfs;
+                SoftRfffrfndf<DfdimblFormbtSymbols> rff =
+                    dfdimblFormbtSymbolsCbdif.gft(lodblf);
 
-                if (ref == null || (dfs = ref.get()) == null) {
-                    dfs = new DecimalFormatSymbols(getNumberLocale(locale));
-                    String langTag = removeExtensions(locale).toLanguageTag();
+                if (rff == null || (dfs = rff.gft()) == null) {
+                    dfs = nfw DfdimblFormbtSymbols(gftNumbfrLodblf(lodblf));
+                    String lbngTbg = rfmovfExtfnsions(lodblf).toLbngubgfTbg();
 
-                    // DecimalFormatSymbols.setInternationalCurrencySymbol() has
-                    // a side effect of setting the currency symbol as well. So
-                    // the calling order is relevant here.
-                    dfs.setInternationalCurrencySymbol(getInternationalCurrencySymbol(langTag, dfs.getInternationalCurrencySymbol()));
-                    dfs.setCurrencySymbol(getCurrencySymbol(langTag, dfs.getCurrencySymbol()));
-                    dfs.setDecimalSeparator(getDecimalSeparator(langTag, dfs.getDecimalSeparator()));
-                    dfs.setGroupingSeparator(getGroupingSeparator(langTag, dfs.getGroupingSeparator()));
-                    dfs.setInfinity(getInfinity(langTag, dfs.getInfinity()));
-                    dfs.setMinusSign(getMinusSign(langTag, dfs.getMinusSign()));
-                    dfs.setMonetaryDecimalSeparator(getMonetaryDecimalSeparator(langTag, dfs.getMonetaryDecimalSeparator()));
-                    dfs.setNaN(getNaN(langTag, dfs.getNaN()));
-                    dfs.setPercent(getPercent(langTag, dfs.getPercent()));
-                    dfs.setPerMill(getPerMill(langTag, dfs.getPerMill()));
-                    dfs.setZeroDigit(getZeroDigit(langTag, dfs.getZeroDigit()));
-                    ref = new SoftReference<>(dfs);
-                    decimalFormatSymbolsCache.put(locale, ref);
+                    // DfdimblFormbtSymbols.sftIntfrnbtionblCurrfndySymbol() ibs
+                    // b sidf ffffdt of sftting tif durrfndy symbol bs wfll. So
+                    // tif dblling ordfr is rflfvbnt ifrf.
+                    dfs.sftIntfrnbtionblCurrfndySymbol(gftIntfrnbtionblCurrfndySymbol(lbngTbg, dfs.gftIntfrnbtionblCurrfndySymbol()));
+                    dfs.sftCurrfndySymbol(gftCurrfndySymbol(lbngTbg, dfs.gftCurrfndySymbol()));
+                    dfs.sftDfdimblSfpbrbtor(gftDfdimblSfpbrbtor(lbngTbg, dfs.gftDfdimblSfpbrbtor()));
+                    dfs.sftGroupingSfpbrbtor(gftGroupingSfpbrbtor(lbngTbg, dfs.gftGroupingSfpbrbtor()));
+                    dfs.sftInfinity(gftInfinity(lbngTbg, dfs.gftInfinity()));
+                    dfs.sftMinusSign(gftMinusSign(lbngTbg, dfs.gftMinusSign()));
+                    dfs.sftMonftbryDfdimblSfpbrbtor(gftMonftbryDfdimblSfpbrbtor(lbngTbg, dfs.gftMonftbryDfdimblSfpbrbtor()));
+                    dfs.sftNbN(gftNbN(lbngTbg, dfs.gftNbN()));
+                    dfs.sftPfrdfnt(gftPfrdfnt(lbngTbg, dfs.gftPfrdfnt()));
+                    dfs.sftPfrMill(gftPfrMill(lbngTbg, dfs.gftPfrMill()));
+                    dfs.sftZfroDigit(gftZfroDigit(lbngTbg, dfs.gftZfroDigit()));
+                    rff = nfw SoftRfffrfndf<>(dfs);
+                    dfdimblFormbtSymbolsCbdif.put(lodblf, rff);
                 }
-                return (DecimalFormatSymbols)dfs.clone();
+                rfturn (DfdimblFormbtSymbols)dfs.dlonf();
             }
         };
     }
 
-    public static CalendarDataProvider getCalendarDataProvider() {
-        return new CalendarDataProvider() {
-            @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedCalendarLocales();
+    publid stbtid CblfndbrDbtbProvidfr gftCblfndbrDbtbProvidfr() {
+        rfturn nfw CblfndbrDbtbProvidfr() {
+            @Ovfrridf
+            publid Lodblf[] gftAvbilbblfLodblfs() {
+                rfturn gftSupportfdCblfndbrLodblfs();
             }
 
-            @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedCalendarLocale(locale);
+            @Ovfrridf
+            publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+                rfturn isSupportfdCblfndbrLodblf(lodblf);
             }
 
-            @Override
-            public int getFirstDayOfWeek(Locale locale) {
-                int first = getCalendarDataValue(
-                                 removeExtensions(locale).toLanguageTag(),
+            @Ovfrridf
+            publid int gftFirstDbyOfWffk(Lodblf lodblf) {
+                int first = gftCblfndbrDbtbVbluf(
+                                 rfmovfExtfnsions(lodblf).toLbngubgfTbg(),
                                  CD_FIRSTDAYOFWEEK);
                 if (first != -1) {
-                    return (first + 1) % 7 + 1;
-                } else {
-                    return 0;
+                    rfturn (first + 1) % 7 + 1;
+                } flsf {
+                    rfturn 0;
                 }
             }
 
-            @Override
-            public int getMinimalDaysInFirstWeek(Locale locale) {
-                return 0;
+            @Ovfrridf
+            publid int gftMinimblDbysInFirstWffk(Lodblf lodblf) {
+                rfturn 0;
             }
         };
     }
 
-    public static CalendarProvider getCalendarProvider() {
-        return new CalendarProvider() {
-            @Override
-            public Locale[] getAvailableLocales() {
-                return getSupportedCalendarLocales();
+    publid stbtid CblfndbrProvidfr gftCblfndbrProvidfr() {
+        rfturn nfw CblfndbrProvidfr() {
+            @Ovfrridf
+            publid Lodblf[] gftAvbilbblfLodblfs() {
+                rfturn gftSupportfdCblfndbrLodblfs();
             }
 
-            @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return isSupportedCalendarLocale(locale);
+            @Ovfrridf
+            publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+                rfturn isSupportfdCblfndbrLodblf(lodblf);
             }
 
-            @Override
-            public Calendar getInstance(TimeZone zone, Locale locale) {
-                return new Calendar.Builder()
-                             .setLocale(getCalendarLocale(locale))
-                             .setTimeZone(zone)
-                             .setInstant(System.currentTimeMillis())
+            @Ovfrridf
+            publid Cblfndbr gftInstbndf(TimfZonf zonf, Lodblf lodblf) {
+                rfturn nfw Cblfndbr.Buildfr()
+                             .sftLodblf(gftCblfndbrLodblf(lodblf))
+                             .sftTimfZonf(zonf)
+                             .sftInstbnt(Systfm.durrfntTimfMillis())
                              .build();
             }
         };
     }
 
-    public static CurrencyNameProvider getCurrencyNameProvider() {
-        return new CurrencyNameProvider() {
-            @Override
-            public Locale[] getAvailableLocales() {
-                return supportedLocale;
+    publid stbtid CurrfndyNbmfProvidfr gftCurrfndyNbmfProvidfr() {
+        rfturn nfw CurrfndyNbmfProvidfr() {
+            @Ovfrridf
+            publid Lodblf[] gftAvbilbblfLodblfs() {
+                rfturn supportfdLodblf;
             }
 
-            @Override
-            public boolean isSupportedLocale(Locale locale) {
-                // Ignore the extensions for now
-                return supportedLocaleSet.contains(locale.stripExtensions()) &&
-                       locale.getLanguage().equals(nativeDisplayLanguage);
+            @Ovfrridf
+            publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+                // Ignorf tif fxtfnsions for now
+                rfturn supportfdLodblfSft.dontbins(lodblf.stripExtfnsions()) &&
+                       lodblf.gftLbngubgf().fqubls(nbtivfDisplbyLbngubgf);
             }
 
-            @Override
-            public String getSymbol(String currencyCode, Locale locale) {
-                // Retrieves the currency symbol by calling
-                // GetLocaleInfoEx(LOCALE_SCURRENCY).
-                // It only works with the "locale"'s currency in its native
-                // language.
+            @Ovfrridf
+            publid String gftSymbol(String durrfndyCodf, Lodblf lodblf) {
+                // Rftrifvfs tif durrfndy symbol by dblling
+                // GftLodblfInfoEx(LOCALE_SCURRENCY).
+                // It only works witi tif "lodblf"'s durrfndy in its nbtivf
+                // lbngubgf.
                 try {
-                    if (Currency.getInstance(locale).getCurrencyCode()
-                        .equals(currencyCode)) {
-                        return getDisplayString(locale.toLanguageTag(),
-                                DN_CURRENCY_SYMBOL, currencyCode);
+                    if (Currfndy.gftInstbndf(lodblf).gftCurrfndyCodf()
+                        .fqubls(durrfndyCodf)) {
+                        rfturn gftDisplbyString(lodblf.toLbngubgfTbg(),
+                                DN_CURRENCY_SYMBOL, durrfndyCodf);
                     }
-                } catch (IllegalArgumentException iae) {}
-                return null;
+                } dbtdi (IllfgblArgumfntExdfption ibf) {}
+                rfturn null;
             }
 
-            @Override
-            public String getDisplayName(String currencyCode, Locale locale) {
-                // Retrieves the display name by calling
-                // GetLocaleInfoEx(LOCALE_SNATIVECURRNAME).
-                // It only works with the "locale"'s currency in its native
-                // language.
+            @Ovfrridf
+            publid String gftDisplbyNbmf(String durrfndyCodf, Lodblf lodblf) {
+                // Rftrifvfs tif displby nbmf by dblling
+                // GftLodblfInfoEx(LOCALE_SNATIVECURRNAME).
+                // It only works witi tif "lodblf"'s durrfndy in its nbtivf
+                // lbngubgf.
                 try {
-                    if (Currency.getInstance(locale).getCurrencyCode()
-                        .equals(currencyCode)) {
-                        return getDisplayString(locale.toLanguageTag(),
-                                DN_CURRENCY_NAME, currencyCode);
+                    if (Currfndy.gftInstbndf(lodblf).gftCurrfndyCodf()
+                        .fqubls(durrfndyCodf)) {
+                        rfturn gftDisplbyString(lodblf.toLbngubgfTbg(),
+                                DN_CURRENCY_NAME, durrfndyCodf);
                     }
-                } catch (IllegalArgumentException iae) {}
-                return null;
+                } dbtdi (IllfgblArgumfntExdfption ibf) {}
+                rfturn null;
             }
         };
     }
 
-    public static LocaleNameProvider getLocaleNameProvider() {
-        return new LocaleNameProvider() {
-            @Override
-            public Locale[] getAvailableLocales() {
-                return supportedLocale;
+    publid stbtid LodblfNbmfProvidfr gftLodblfNbmfProvidfr() {
+        rfturn nfw LodblfNbmfProvidfr() {
+            @Ovfrridf
+            publid Lodblf[] gftAvbilbblfLodblfs() {
+                rfturn supportfdLodblf;
             }
 
-            @Override
-            public boolean isSupportedLocale(Locale locale) {
-                return supportedLocaleSet.contains(locale.stripExtensions()) &&
-                       locale.getLanguage().equals(nativeDisplayLanguage);
+            @Ovfrridf
+            publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+                rfturn supportfdLodblfSft.dontbins(lodblf.stripExtfnsions()) &&
+                       lodblf.gftLbngubgf().fqubls(nbtivfDisplbyLbngubgf);
             }
 
-            @Override
-            public String getDisplayLanguage(String languageCode, Locale locale) {
-                // Retrieves the display language name by calling
-                // GetLocaleInfoEx(LOCALE_SLOCALIZEDLANGUAGENAME).
-                return getDisplayString(locale.toLanguageTag(),
-                            DN_LOCALE_LANGUAGE, languageCode);
+            @Ovfrridf
+            publid String gftDisplbyLbngubgf(String lbngubgfCodf, Lodblf lodblf) {
+                // Rftrifvfs tif displby lbngubgf nbmf by dblling
+                // GftLodblfInfoEx(LOCALE_SLOCALIZEDLANGUAGENAME).
+                rfturn gftDisplbyString(lodblf.toLbngubgfTbg(),
+                            DN_LOCALE_LANGUAGE, lbngubgfCodf);
             }
 
-            @Override
-            public String getDisplayCountry(String countryCode, Locale locale) {
-                // Retrieves the display country name by calling
-                // GetLocaleInfoEx(LOCALE_SLOCALIZEDCOUNTRYNAME).
-                return getDisplayString(locale.toLanguageTag(),
-                            DN_LOCALE_REGION, nativeDisplayLanguage+"-"+countryCode);
+            @Ovfrridf
+            publid String gftDisplbyCountry(String dountryCodf, Lodblf lodblf) {
+                // Rftrifvfs tif displby dountry nbmf by dblling
+                // GftLodblfInfoEx(LOCALE_SLOCALIZEDCOUNTRYNAME).
+                rfturn gftDisplbyString(lodblf.toLbngubgfTbg(),
+                            DN_LOCALE_REGION, nbtivfDisplbyLbngubgf+"-"+dountryCodf);
             }
 
-            @Override
-            public String getDisplayScript(String scriptCode, Locale locale) {
-                return null;
+            @Ovfrridf
+            publid String gftDisplbySdript(String sdriptCodf, Lodblf lodblf) {
+                rfturn null;
             }
 
-            @Override
-            public String getDisplayVariant(String variantCode, Locale locale) {
-                return null;
+            @Ovfrridf
+            publid String gftDisplbyVbribnt(String vbribntCodf, Lodblf lodblf) {
+                rfturn null;
             }
         };
     }
 
 
-    private static String convertDateTimePattern(String winPattern) {
-        String ret = winPattern.replaceAll("dddd", "EEEE");
-        ret = ret.replaceAll("ddd", "EEE");
-        ret = ret.replaceAll("tt", "aa");
-        ret = ret.replaceAll("g", "GG");
-        return ret;
+    privbtf stbtid String donvfrtDbtfTimfPbttfrn(String winPbttfrn) {
+        String rft = winPbttfrn.rfplbdfAll("dddd", "EEEE");
+        rft = rft.rfplbdfAll("ddd", "EEE");
+        rft = rft.rfplbdfAll("tt", "bb");
+        rft = rft.rfplbdfAll("g", "GG");
+        rfturn rft;
     }
 
-    private static Locale[] getSupportedCalendarLocales() {
-        if (supportedLocale.length != 0 &&
-            supportedLocaleSet.contains(Locale.JAPAN) &&
-            isJapaneseCalendar()) {
-            Locale[] sup = new Locale[supportedLocale.length+1];
-            sup[0] = JRELocaleConstants.JA_JP_JP;
-            System.arraycopy(supportedLocale, 0, sup, 1, supportedLocale.length);
-            return sup;
+    privbtf stbtid Lodblf[] gftSupportfdCblfndbrLodblfs() {
+        if (supportfdLodblf.lfngti != 0 &&
+            supportfdLodblfSft.dontbins(Lodblf.JAPAN) &&
+            isJbpbnfsfCblfndbr()) {
+            Lodblf[] sup = nfw Lodblf[supportfdLodblf.lfngti+1];
+            sup[0] = JRELodblfConstbnts.JA_JP_JP;
+            Systfm.brrbydopy(supportfdLodblf, 0, sup, 1, supportfdLodblf.lfngti);
+            rfturn sup;
         }
-        return supportedLocale;
+        rfturn supportfdLodblf;
     }
 
-    private static boolean isSupportedCalendarLocale(Locale locale) {
-        Locale base = locale;
+    privbtf stbtid boolfbn isSupportfdCblfndbrLodblf(Lodblf lodblf) {
+        Lodblf bbsf = lodblf;
 
-        if (base.hasExtensions() || base.getVariant() != "") {
-            // strip off extensions and variant.
-            base = new Locale.Builder()
-                            .setLocale(locale)
-                            .clearExtensions()
+        if (bbsf.ibsExtfnsions() || bbsf.gftVbribnt() != "") {
+            // strip off fxtfnsions bnd vbribnt.
+            bbsf = nfw Lodblf.Buildfr()
+                            .sftLodblf(lodblf)
+                            .dlfbrExtfnsions()
                             .build();
         }
 
-        if (!supportedLocaleSet.contains(base)) {
-            return false;
+        if (!supportfdLodblfSft.dontbins(bbsf)) {
+            rfturn fblsf;
         }
 
-        int calid = getCalendarID(base.toLanguageTag());
-        if (calid <= 0 || calid >= calIDToLDML.length) {
-            return false;
+        int dblid = gftCblfndbrID(bbsf.toLbngubgfTbg());
+        if (dblid <= 0 || dblid >= dblIDToLDML.lfngti) {
+            rfturn fblsf;
         }
 
-        String requestedCalType = locale.getUnicodeLocaleType("ca");
-        String nativeCalType = calIDToLDML[calid]
-                .replaceFirst("_.*", ""); // remove locale part.
+        String rfqufstfdCblTypf = lodblf.gftUnidodfLodblfTypf("db");
+        String nbtivfCblTypf = dblIDToLDML[dblid]
+                .rfplbdfFirst("_.*", ""); // rfmovf lodblf pbrt.
 
-        if (requestedCalType == null) {
-            return Calendar.getAvailableCalendarTypes().contains(nativeCalType);
-        } else {
-            return requestedCalType.equals(nativeCalType);
+        if (rfqufstfdCblTypf == null) {
+            rfturn Cblfndbr.gftAvbilbblfCblfndbrTypfs().dontbins(nbtivfCblTypf);
+        } flsf {
+            rfturn rfqufstfdCblTypf.fqubls(nbtivfCblTypf);
         }
     }
 
-    private static Locale[] getSupportedNativeDigitLocales() {
-        if (supportedLocale.length != 0 &&
-            supportedLocaleSet.contains(JRELocaleConstants.TH_TH) &&
-            isNativeDigit("th-TH")) {
-            Locale[] sup = new Locale[supportedLocale.length+1];
-            sup[0] = JRELocaleConstants.TH_TH_TH;
-            System.arraycopy(supportedLocale, 0, sup, 1, supportedLocale.length);
-            return sup;
+    privbtf stbtid Lodblf[] gftSupportfdNbtivfDigitLodblfs() {
+        if (supportfdLodblf.lfngti != 0 &&
+            supportfdLodblfSft.dontbins(JRELodblfConstbnts.TH_TH) &&
+            isNbtivfDigit("ti-TH")) {
+            Lodblf[] sup = nfw Lodblf[supportfdLodblf.lfngti+1];
+            sup[0] = JRELodblfConstbnts.TH_TH_TH;
+            Systfm.brrbydopy(supportfdLodblf, 0, sup, 1, supportfdLodblf.lfngti);
+            rfturn sup;
         }
-        return supportedLocale;
+        rfturn supportfdLodblf;
     }
 
-    private static boolean isSupportedNativeDigitLocale(Locale locale) {
-        // special case for th_TH_TH
-        if (JRELocaleConstants.TH_TH_TH.equals(locale)) {
-            return isNativeDigit("th-TH");
+    privbtf stbtid boolfbn isSupportfdNbtivfDigitLodblf(Lodblf lodblf) {
+        // spfdibl dbsf for ti_TH_TH
+        if (JRELodblfConstbnts.TH_TH_TH.fqubls(lodblf)) {
+            rfturn isNbtivfDigit("ti-TH");
         }
 
-        String numtype = null;
-        Locale base = locale;
-        if (locale.hasExtensions()) {
-            numtype = locale.getUnicodeLocaleType("nu");
-            base = locale.stripExtensions();
+        String numtypf = null;
+        Lodblf bbsf = lodblf;
+        if (lodblf.ibsExtfnsions()) {
+            numtypf = lodblf.gftUnidodfLodblfTypf("nu");
+            bbsf = lodblf.stripExtfnsions();
         }
 
-        if (supportedLocaleSet.contains(base)) {
-            // Only supports Latin or Thai (in thai locales) digits.
-            if (numtype == null || numtype.equals("latn")) {
-                return true;
-            } else if (locale.getLanguage().equals("th")) {
-                return "thai".equals(numtype) &&
-                       isNativeDigit(locale.toLanguageTag());
+        if (supportfdLodblfSft.dontbins(bbsf)) {
+            // Only supports Lbtin or Tibi (in tibi lodblfs) digits.
+            if (numtypf == null || numtypf.fqubls("lbtn")) {
+                rfturn truf;
+            } flsf if (lodblf.gftLbngubgf().fqubls("ti")) {
+                rfturn "tibi".fqubls(numtypf) &&
+                       isNbtivfDigit(lodblf.toLbngubgfTbg());
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    private static Locale removeExtensions(Locale src) {
-        return new Locale.Builder().setLocale(src).clearExtensions().build();
+    privbtf stbtid Lodblf rfmovfExtfnsions(Lodblf srd) {
+        rfturn nfw Lodblf.Buildfr().sftLodblf(srd).dlfbrExtfnsions().build();
     }
 
-    private static boolean isJapaneseCalendar() {
-        return getCalendarID("ja-JP") == 3; // 3: CAL_JAPAN
+    privbtf stbtid boolfbn isJbpbnfsfCblfndbr() {
+        rfturn gftCblfndbrID("jb-JP") == 3; // 3: CAL_JAPAN
     }
 
-    private static Locale getCalendarLocale(Locale locale) {
-        int calid = getCalendarID(locale.toLanguageTag());
-        if (calid > 0 && calid < calIDToLDML.length) {
-            Locale.Builder lb = new Locale.Builder();
-            String[] caltype = calIDToLDML[calid].split("_");
-            if (caltype.length > 1) {
-                lb.setLocale(Locale.forLanguageTag(caltype[1]));
-            } else {
-                lb.setLocale(locale);
+    privbtf stbtid Lodblf gftCblfndbrLodblf(Lodblf lodblf) {
+        int dblid = gftCblfndbrID(lodblf.toLbngubgfTbg());
+        if (dblid > 0 && dblid < dblIDToLDML.lfngti) {
+            Lodblf.Buildfr lb = nfw Lodblf.Buildfr();
+            String[] dbltypf = dblIDToLDML[dblid].split("_");
+            if (dbltypf.lfngti > 1) {
+                lb.sftLodblf(Lodblf.forLbngubgfTbg(dbltypf[1]));
+            } flsf {
+                lb.sftLodblf(lodblf);
             }
-            lb.setUnicodeLocaleKeyword("ca", caltype[0]);
-            return lb.build();
+            lb.sftUnidodfLodblfKfyword("db", dbltypf[0]);
+            rfturn lb.build();
         }
 
-        return locale;
+        rfturn lodblf;
     }
 
-    private static Locale getNumberLocale(Locale src) {
-        if (JRELocaleConstants.TH_TH.equals(src)) {
-            if (isNativeDigit("th-TH")) {
-                Locale.Builder lb = new Locale.Builder().setLocale(src);
-                lb.setUnicodeLocaleKeyword("nu", "thai");
-                return lb.build();
+    privbtf stbtid Lodblf gftNumbfrLodblf(Lodblf srd) {
+        if (JRELodblfConstbnts.TH_TH.fqubls(srd)) {
+            if (isNbtivfDigit("ti-TH")) {
+                Lodblf.Buildfr lb = nfw Lodblf.Buildfr().sftLodblf(srd);
+                lb.sftUnidodfLodblfKfyword("nu", "tibi");
+                rfturn lb.build();
             }
         }
 
-        return src;
+        rfturn srd;
     }
 
-    // native methods
+    // nbtivf mftiods
 
-    // initialize
-    private static native boolean initialize();
-    private static native String getDefaultLocale(int cat);
+    // initiblizf
+    privbtf stbtid nbtivf boolfbn initiblizf();
+    privbtf stbtid nbtivf String gftDffbultLodblf(int dbt);
 
-    // For DateFormatProvider
-    private static native String getDateTimePattern(int dateStyle, int timeStyle, String langTag);
-    private static native int getCalendarID(String langTag);
+    // For DbtfFormbtProvidfr
+    privbtf stbtid nbtivf String gftDbtfTimfPbttfrn(int dbtfStylf, int timfStylf, String lbngTbg);
+    privbtf stbtid nbtivf int gftCblfndbrID(String lbngTbg);
 
-    // For DateFormatSymbolsProvider
-    private static native String[] getAmPmStrings(String langTag, String[] ampm);
-    private static native String[] getEras(String langTag, String[] eras);
-    private static native String[] getMonths(String langTag, String[] months);
-    private static native String[] getShortMonths(String langTag, String[] smonths);
-    private static native String[] getWeekdays(String langTag, String[] wdays);
-    private static native String[] getShortWeekdays(String langTag, String[] swdays);
+    // For DbtfFormbtSymbolsProvidfr
+    privbtf stbtid nbtivf String[] gftAmPmStrings(String lbngTbg, String[] bmpm);
+    privbtf stbtid nbtivf String[] gftErbs(String lbngTbg, String[] frbs);
+    privbtf stbtid nbtivf String[] gftMontis(String lbngTbg, String[] montis);
+    privbtf stbtid nbtivf String[] gftSiortMontis(String lbngTbg, String[] smontis);
+    privbtf stbtid nbtivf String[] gftWffkdbys(String lbngTbg, String[] wdbys);
+    privbtf stbtid nbtivf String[] gftSiortWffkdbys(String lbngTbg, String[] swdbys);
 
-    // For NumberFormatProvider
-    private static native String getNumberPattern(int numberStyle, String langTag);
-    private static native boolean isNativeDigit(String langTag);
+    // For NumbfrFormbtProvidfr
+    privbtf stbtid nbtivf String gftNumbfrPbttfrn(int numbfrStylf, String lbngTbg);
+    privbtf stbtid nbtivf boolfbn isNbtivfDigit(String lbngTbg);
 
-    // For DecimalFormatSymbolsProvider
-    private static native String getCurrencySymbol(String langTag, String currencySymbol);
-    private static native char getDecimalSeparator(String langTag, char decimalSeparator);
-    private static native char getGroupingSeparator(String langTag, char groupingSeparator);
-    private static native String getInfinity(String langTag, String infinity);
-    private static native String getInternationalCurrencySymbol(String langTag, String internationalCurrencySymbol);
-    private static native char getMinusSign(String langTag, char minusSign);
-    private static native char getMonetaryDecimalSeparator(String langTag, char monetaryDecimalSeparator);
-    private static native String getNaN(String langTag, String nan);
-    private static native char getPercent(String langTag, char percent);
-    private static native char getPerMill(String langTag, char perMill);
-    private static native char getZeroDigit(String langTag, char zeroDigit);
+    // For DfdimblFormbtSymbolsProvidfr
+    privbtf stbtid nbtivf String gftCurrfndySymbol(String lbngTbg, String durrfndySymbol);
+    privbtf stbtid nbtivf dibr gftDfdimblSfpbrbtor(String lbngTbg, dibr dfdimblSfpbrbtor);
+    privbtf stbtid nbtivf dibr gftGroupingSfpbrbtor(String lbngTbg, dibr groupingSfpbrbtor);
+    privbtf stbtid nbtivf String gftInfinity(String lbngTbg, String infinity);
+    privbtf stbtid nbtivf String gftIntfrnbtionblCurrfndySymbol(String lbngTbg, String intfrnbtionblCurrfndySymbol);
+    privbtf stbtid nbtivf dibr gftMinusSign(String lbngTbg, dibr minusSign);
+    privbtf stbtid nbtivf dibr gftMonftbryDfdimblSfpbrbtor(String lbngTbg, dibr monftbryDfdimblSfpbrbtor);
+    privbtf stbtid nbtivf String gftNbN(String lbngTbg, String nbn);
+    privbtf stbtid nbtivf dibr gftPfrdfnt(String lbngTbg, dibr pfrdfnt);
+    privbtf stbtid nbtivf dibr gftPfrMill(String lbngTbg, dibr pfrMill);
+    privbtf stbtid nbtivf dibr gftZfroDigit(String lbngTbg, dibr zfroDigit);
 
-    // For CalendarDataProvider
-    private static native int getCalendarDataValue(String langTag, int type);
+    // For CblfndbrDbtbProvidfr
+    privbtf stbtid nbtivf int gftCblfndbrDbtbVbluf(String lbngTbg, int typf);
 
-    // For Locale/CurrencyNameProvider
-    private static native String getDisplayString(String langTag, int key, String value);
+    // For Lodblf/CurrfndyNbmfProvidfr
+    privbtf stbtid nbtivf String gftDisplbyString(String lbngTbg, int kfy, String vbluf);
 }

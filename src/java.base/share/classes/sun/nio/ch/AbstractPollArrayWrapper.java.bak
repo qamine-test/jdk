@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2001, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import sun.misc.*;
+import sun.misd.*;
 
 
 /**
- * Manipulates a native array of pollfd structs.
+ * Mbnipulbtfs b nbtivf brrby of pollfd strudts.
  *
- * @author Mike McCloskey
- * @since 1.4
+ * @butior Mikf MdCloskfy
+ * @sindf 1.4
  */
 
-public abstract class AbstractPollArrayWrapper {
+publid bbstrbdt dlbss AbstrbdtPollArrbyWrbppfr {
 
-    // Miscellaneous constants
-    static final short SIZE_POLLFD   = 8;
-    static final short FD_OFFSET     = 0;
-    static final short EVENT_OFFSET  = 4;
-    static final short REVENT_OFFSET = 6;
+    // Misdfllbnfous donstbnts
+    stbtid finbl siort SIZE_POLLFD   = 8;
+    stbtid finbl siort FD_OFFSET     = 0;
+    stbtid finbl siort EVENT_OFFSET  = 4;
+    stbtid finbl siort REVENT_OFFSET = 6;
 
-    // The poll fd array
-    protected AllocatedNativeObject pollArray;
+    // Tif poll fd brrby
+    protfdtfd AllodbtfdNbtivfObjfdt pollArrby;
 
-    // Number of valid entries in the pollArray
-    protected int totalChannels = 0;
+    // Numbfr of vblid fntrifs in tif pollArrby
+    protfdtfd int totblCibnnfls = 0;
 
-    // Base address of the native pollArray
-    protected long pollArrayAddress;
+    // Bbsf bddrfss of tif nbtivf pollArrby
+    protfdtfd long pollArrbyAddrfss;
 
-    // Access methods for fd structures
-    int getEventOps(int i) {
-        int offset = SIZE_POLLFD * i + EVENT_OFFSET;
-        return pollArray.getShort(offset);
+    // Addfss mftiods for fd strudturfs
+    int gftEvfntOps(int i) {
+        int offsft = SIZE_POLLFD * i + EVENT_OFFSET;
+        rfturn pollArrby.gftSiort(offsft);
     }
 
-    int getReventOps(int i) {
-        int offset = SIZE_POLLFD * i + REVENT_OFFSET;
-        return pollArray.getShort(offset);
+    int gftRfvfntOps(int i) {
+        int offsft = SIZE_POLLFD * i + REVENT_OFFSET;
+        rfturn pollArrby.gftSiort(offsft);
     }
 
-    int getDescriptor(int i) {
-        int offset = SIZE_POLLFD * i + FD_OFFSET;
-        return pollArray.getInt(offset);
+    int gftDfsdriptor(int i) {
+        int offsft = SIZE_POLLFD * i + FD_OFFSET;
+        rfturn pollArrby.gftInt(offsft);
     }
 
-    void putEventOps(int i, int event) {
-        int offset = SIZE_POLLFD * i + EVENT_OFFSET;
-        pollArray.putShort(offset, (short)event);
+    void putEvfntOps(int i, int fvfnt) {
+        int offsft = SIZE_POLLFD * i + EVENT_OFFSET;
+        pollArrby.putSiort(offsft, (siort)fvfnt);
     }
 
-    void putReventOps(int i, int revent) {
-        int offset = SIZE_POLLFD * i + REVENT_OFFSET;
-        pollArray.putShort(offset, (short)revent);
+    void putRfvfntOps(int i, int rfvfnt) {
+        int offsft = SIZE_POLLFD * i + REVENT_OFFSET;
+        pollArrby.putSiort(offsft, (siort)rfvfnt);
     }
 
-    void putDescriptor(int i, int fd) {
-        int offset = SIZE_POLLFD * i + FD_OFFSET;
-        pollArray.putInt(offset, fd);
+    void putDfsdriptor(int i, int fd) {
+        int offsft = SIZE_POLLFD * i + FD_OFFSET;
+        pollArrby.putInt(offsft, fd);
     }
 
 }

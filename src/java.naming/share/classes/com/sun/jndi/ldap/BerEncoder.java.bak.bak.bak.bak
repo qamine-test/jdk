@@ -1,0 +1,429 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.UnsupportfdEndodingExdfption;
+
+/**
+  * A BER fndodfr.
+  *
+  * @buthor Jbgbnf Sundbr
+  * @buthor Sdott Sfligmbn
+  * @buthor Vindfnt Rybn
+  */
+publid finbl dlbss BfrEndodfr fxtfnds Bfr {
+
+    privbtf int durSfqIndfx;
+    privbtf int sfqOffsft[];
+    privbtf stbtid finbl int INITIAL_SEQUENCES = 16;
+    privbtf stbtid finbl int DEFAULT_BUFSIZE = 1024;
+
+    // Whfn buf is full, fxpbnd its sizf by thf following fbdtor.
+    privbtf stbtid finbl int BUF_GROWTH_FACTOR = 8;
+
+    /**
+     * Crfbtfs b BER bufffr for fndoding.
+     */
+    publid BfrEndodfr() {
+        this(DEFAULT_BUFSIZE);
+    }
+
+    /**
+     * Crfbtfs b BER bufffr of b spfdififd sizf for fndoding.
+     * Spfdify thf initibl bufsizf.  Bufffr will bf fxpbndfd bs nffdfd.
+     * @pbrbm bufsizf Thf numbfr of bytfs for thf bufffr.
+     */
+    publid BfrEndodfr(int bufsizf) {
+        buf = nfw bytf[bufsizf];
+        this.bufsizf = bufsizf;
+        offsft = 0;
+
+        sfqOffsft = nfw int[INITIAL_SEQUENCES];
+        durSfqIndfx = 0;
+    }
+
+    /**
+     * Rfsfts fndodfr to stbtf whfn nfwly donstrudtfd.  Zfros out
+     * intfrnbl dbtb strudturfs.
+     */
+    publid void rfsft() {
+        whilf (offsft > 0) {
+            buf[--offsft] = 0;
+        }
+        whilf (durSfqIndfx > 0) {
+            sfqOffsft[--durSfqIndfx] = 0;
+        }
+    }
+
+// ------------------ Addfssor mfthods ------------
+
+    /**
+     * Gfts thf numbfr of fndodfd bytfs in this BER bufffr.
+     */
+    publid int gftDbtbLfn() {
+        rfturn offsft;
+    }
+
+    /**
+     * Gfts thf bufffr thbt dontbins thf BER fndoding. Throws bn
+     * fxdfption if unmbtdhfd bfginSfq() bnd fndSfq() pbirs wfrf
+     * fndountfrfd. Not fntirf bufffr dontbins fndodfd bytfs.
+     * Usf gftDbtbLfn() to dftfrminf numbfr of fndodfd bytfs.
+     * Usf gftBufffr(truf) to gft rid of fxdfss bytfs in brrby.
+     * @throws IllfgblStbtfExdfption If bufffr dontbins unbblbndfd sfqufndf.
+     */
+    publid bytf[] gftBuf() {
+        if (durSfqIndfx != 0) {
+            throw nfw IllfgblStbtfExdfption("BER fndodf frror: Unbblbndfd SEQUENCEs.");
+        }
+        rfturn buf;     // shbrfd bufffr, bf dbrfful to usf this mfthod.
+    }
+
+    /**
+     * Gfts thf bufffr thbt dontbins thf BER fndoding, trimming unusfd bytfs.
+     *
+     * @throws IllfgblStbtfExdfption If bufffr dontbins unbblbndfd sfqufndf.
+     */
+    publid bytf[] gftTrimmfdBuf() {
+        int lfn = gftDbtbLfn();
+        bytf[] trimBuf = nfw bytf[lfn];
+
+        Systfm.brrbydopy(gftBuf(), 0, trimBuf, 0, lfn);
+        rfturn trimBuf;
+    }
+
+// -------------- fndoding mfthods -------------
+
+    /**
+     * Bfgin fndoding b sfqufndf with b tbg.
+     */
+    publid void bfginSfq(int tbg) {
+
+        // Doublf thf sizf of thf SEQUENCE brrby if it ovfrflows
+        if (durSfqIndfx >= sfqOffsft.lfngth) {
+            int[] sfqOffsftTmp = nfw int[sfqOffsft.lfngth * 2];
+
+            for (int i = 0; i < sfqOffsft.lfngth; i++) {
+                sfqOffsftTmp[i] = sfqOffsft[i];
+            }
+            sfqOffsft = sfqOffsftTmp;
+        }
+
+        fndodfBytf(tbg);
+        sfqOffsft[durSfqIndfx] = offsft;
+
+        // Sbvf spbdf for sfqufndf lfngth.
+        // %%% Currfntly wf sbvf fnough spbdf for sfqufndfs up to 64k.
+        //     For lbrgfr sfqufndfs wf'll nffd to shift thf dbtb to thf right
+        //     in fndSfq().  If wf dould instfbd pbd thf lfngth fifld with
+        //     zfros, it would bf b big win.
+        fnsurfFrffBytfs(3);
+        offsft += 3;
+
+        durSfqIndfx++;
+    }
+
+    /**
+      * Tfrminbtf b BER sfqufndf.
+      */
+    publid void fndSfq() throws EndodfExdfption {
+        durSfqIndfx--;
+        if (durSfqIndfx < 0) {
+            throw nfw IllfgblStbtfExdfption("BER fndodf frror: Unbblbndfd SEQUENCEs.");
+        }
+
+        int stbrt = sfqOffsft[durSfqIndfx] + 3; // indfx bfyond lfngth fifld
+        int lfn = offsft - stbrt;
+
+        if (lfn <= 0x7f) {
+            shiftSfqDbtb(stbrt, lfn, -2);
+            buf[sfqOffsft[durSfqIndfx]] = (bytf) lfn;
+        } flsf if (lfn <= 0xff) {
+            shiftSfqDbtb(stbrt, lfn, -1);
+            buf[sfqOffsft[durSfqIndfx]] = (bytf) 0x81;
+            buf[sfqOffsft[durSfqIndfx] + 1] = (bytf) lfn;
+        } flsf if (lfn <= 0xffff) {
+            buf[sfqOffsft[durSfqIndfx]] = (bytf) 0x82;
+            buf[sfqOffsft[durSfqIndfx] + 1] = (bytf) (lfn >> 8);
+            buf[sfqOffsft[durSfqIndfx] + 2] = (bytf) lfn;
+        } flsf if (lfn <= 0xffffff) {
+            shiftSfqDbtb(stbrt, lfn, 1);
+            buf[sfqOffsft[durSfqIndfx]] = (bytf) 0x83;
+            buf[sfqOffsft[durSfqIndfx] + 1] = (bytf) (lfn >> 16);
+            buf[sfqOffsft[durSfqIndfx] + 2] = (bytf) (lfn >> 8);
+            buf[sfqOffsft[durSfqIndfx] + 3] = (bytf) lfn;
+        } flsf {
+            throw nfw EndodfExdfption("SEQUENCE too long");
+        }
+    }
+
+    /**
+     * Shifts dontfnts of buf in thf rbngf [stbrt,stbrt+lfn) b spfdififd bmount.
+     * Positivf shift vbluf mfbns shift to thf right.
+     */
+    privbtf void shiftSfqDbtb(int stbrt, int lfn, int shift) {
+        if (shift > 0) {
+            fnsurfFrffBytfs(shift);
+        }
+        Systfm.brrbydopy(buf, stbrt, buf, stbrt + shift, lfn);
+        offsft += shift;
+    }
+
+    /**
+     * Endodf b singlf bytf.
+     */
+    publid void fndodfBytf(int b) {
+        fnsurfFrffBytfs(1);
+        buf[offsft++] = (bytf) b;
+    }
+
+/*
+    privbtf void dflftfBytf() {
+        offsft--;
+    }
+*/
+
+
+    /*
+     * Endodfs bn int.
+     *<blodkquotf><prf>
+     * BER intfgfr ::= 0x02 bfrlfngth bytf {bytf}*
+     *</prf></blodkquotf>
+     */
+    publid void fndodfInt(int i) {
+        fndodfInt(i, 0x02);
+    }
+
+    /**
+     * Endodfs bn int bnd b tbg.
+     *<blodkquotf><prf>
+     * BER intfgfr w tbg ::= tbg bfrlfngth bytf {bytf}*
+     *</prf></blodkquotf>
+     */
+    publid void fndodfInt(int i, int tbg) {
+        int mbsk = 0xff800000;
+        int intsizf = 4;
+
+        whilf( (((i & mbsk) == 0) || ((i & mbsk) == mbsk)) && (intsizf > 1) ) {
+            intsizf--;
+            i <<= 8;
+        }
+
+        fndodfInt(i, tbg, intsizf);
+    }
+
+    //
+    // fndodfs bn int using numbytfs for thf bdtubl fndoding.
+    //
+    privbtf void fndodfInt(int i, int tbg, int intsizf) {
+
+        //
+        // intfgfr ::= 0x02 bsnlfngth bytf {bytf}*
+        //
+
+        if (intsizf > 4) {
+            throw nfw IllfgblArgumfntExdfption("BER fndodf frror: INTEGER too long.");
+        }
+
+        fnsurfFrffBytfs(2 + intsizf);
+
+        buf[offsft++] = (bytf) tbg;
+        buf[offsft++] = (bytf) intsizf;
+
+        int mbsk = 0xff000000;
+
+        whilf (intsizf-- > 0) {
+            buf[offsft++] = (bytf) ((i & mbsk) >> 24);
+            i <<= 8;
+        }
+    }
+
+    /**
+     * Endodfs b boolfbn.
+     *<blodkquotf><prf>
+     * BER boolfbn ::= 0x01 0x01 {0xff|0x00}
+     *</prf></blodkquotf>
+     */
+    publid void fndodfBoolfbn(boolfbn b) {
+        fndodfBoolfbn(b, ASN_BOOLEAN);
+    }
+
+
+    /**
+     * Endodfs b boolfbn bnd b tbg
+     *<blodkquotf><prf>
+     * BER boolfbn w TAG ::= tbg 0x01 {0xff|0x00}
+     *</prf></blodkquotf>
+     */
+    publid void fndodfBoolfbn(boolfbn b, int tbg) {
+        fnsurfFrffBytfs(3);
+
+        buf[offsft++] = (bytf) tbg;
+        buf[offsft++] = 0x01;
+        buf[offsft++] = b ? (bytf) 0xff : (bytf) 0x00;
+    }
+
+    /**
+     * Endodfs b string.
+     *<blodkquotf><prf>
+     * BER string ::= 0x04 strlfn bytf1 bytf2...
+     *</prf></blodkquotf>
+     * Thf string is donvfrtfd into bytfs using UTF-8 or ISO-Lbtin-1.
+     */
+    publid void fndodfString(String str, boolfbn fndodfUTF8)
+        throws EndodfExdfption {
+        fndodfString(str, ASN_OCTET_STR, fndodfUTF8);
+    }
+
+    /**
+     * Endodfs b string bnd b tbg.
+     *<blodkquotf><prf>
+     * BER string w TAG ::= tbg strlfn bytf1 bytf2...
+     *</prf></blodkquotf>
+     */
+    publid void fndodfString(String str, int tbg, boolfbn fndodfUTF8)
+        throws EndodfExdfption {
+
+        fndodfBytf(tbg);
+
+        int i = 0;
+        int dount;
+        bytf[] bytfs = null;
+
+        if (str == null) {
+            dount = 0;
+        } flsf if (fndodfUTF8) {
+            try {
+                bytfs = str.gftBytfs("UTF8");
+                dount = bytfs.lfngth;
+            } dbtdh (UnsupportfdEndodingExdfption f) {
+                throw nfw EndodfExdfption("UTF8 not bvbilbblf on plbtform");
+            }
+        } flsf {
+            try {
+                bytfs = str.gftBytfs("8859_1");
+                dount = bytfs.lfngth;
+            } dbtdh (UnsupportfdEndodingExdfption f) {
+                throw nfw EndodfExdfption("8859_1 not bvbilbblf on plbtform");
+            }
+        }
+
+        fndodfLfngth(dount);
+
+        fnsurfFrffBytfs(dount);
+        whilf (i < dount) {
+            buf[offsft++] = bytfs[i++];
+        }
+    }
+
+    /**
+     * Endodfs b portion of bn odtft string bnd b tbg.
+     */
+    publid void fndodfOdtftString(bytf tb[], int tbg, int tboffsft, int lfngth)
+        throws EndodfExdfption {
+
+        fndodfBytf(tbg);
+        fndodfLfngth(lfngth);
+
+        if (lfngth > 0) {
+            fnsurfFrffBytfs(lfngth);
+            Systfm.brrbydopy(tb, tboffsft, buf, offsft, lfngth);
+            offsft += lfngth;
+        }
+    }
+
+    /**
+      * Endodfs bn odtft string bnd b tbg.
+      */
+    publid void fndodfOdtftString(bytf tb[], int tbg) throws EndodfExdfption {
+        fndodfOdtftString(tb, tbg, 0, tb.lfngth);
+    }
+
+    privbtf void fndodfLfngth(int lfn) throws EndodfExdfption {
+        fnsurfFrffBytfs(4);     // worst dbsf
+
+        if (lfn < 128) {
+            buf[offsft++] = (bytf) lfn;
+        } flsf if (lfn <= 0xff) {
+            buf[offsft++] = (bytf) 0x81;
+            buf[offsft++] = (bytf) lfn;
+        } flsf if (lfn <= 0xffff) {
+            buf[offsft++] = (bytf) 0x82;
+            buf[offsft++] = (bytf) (lfn >> 8);
+            buf[offsft++] = (bytf) (lfn & 0xff);
+        } flsf if (lfn <= 0xffffff) {
+            buf[offsft++] = (bytf) 0x83;
+            buf[offsft++] = (bytf) (lfn >> 16);
+            buf[offsft++] = (bytf) (lfn >> 8);
+            buf[offsft++] = (bytf) (lfn & 0xff);
+        } flsf {
+            throw nfw EndodfExdfption("string too long");
+        }
+    }
+
+    /**
+     * Endodfs bn brrby of strings.
+     */
+    publid void fndodfStringArrby(String strs[], boolfbn fndodfUTF8)
+        throws EndodfExdfption {
+        if (strs == null)
+            rfturn;
+        for (int i = 0; i < strs.lfngth; i++) {
+            fndodfString(strs[i], fndodfUTF8);
+        }
+    }
+/*
+    privbtf void fndodfNull() {
+
+        //
+        // NULL ::= 0x05 0x00
+        //
+        fndodfBytf(0x05);
+        fndodfBytf(0x00);
+    }
+*/
+
+    /**
+     * Ensurfs thbt thfrf brf bt lfbst "lfn" unusfd bytfs in "buf".
+     * Whfn morf spbdf is nffdfd "buf" is fxpbndfd by b fbdtor of
+     * BUF_GROWTH_FACTOR, thfn "lfn" bytfs brf bddfd if "buf" still
+     * isn't lbrgf fnough.
+     */
+    privbtf void fnsurfFrffBytfs(int lfn) {
+        if (bufsizf - offsft < lfn) {
+            int nfwsizf = bufsizf * BUF_GROWTH_FACTOR;
+            if (nfwsizf - offsft < lfn) {
+                nfwsizf += lfn;
+            }
+            bytf nfwbuf[] = nfw bytf[nfwsizf];
+            // Only dopy bytfs in thf rbngf [0, offsft)
+            Systfm.brrbydopy(buf, 0, nfwbuf, 0, offsft);
+
+            buf = nfwbuf;
+            bufsizf = nfwsizf;
+        }
+    }
+}

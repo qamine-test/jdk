@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import sun.misd.SoftCbdhf;
+
+publid dlbss MultiRfsolutionToolkitImbgf fxtfnds ToolkitImbgf implfmfnts MultiRfsolutionImbgf {
+
+    Imbgf rfsolutionVbribnt;
+
+    publid MultiRfsolutionToolkitImbgf(Imbgf lowRfsolutionImbgf, Imbgf rfsolutionVbribnt) {
+        supfr(lowRfsolutionImbgf.gftSourdf());
+        this.rfsolutionVbribnt = rfsolutionVbribnt;
+    }
+
+    @Ovfrridf
+    publid Imbgf gftRfsolutionVbribnt(int width, int hfight) {
+        rfturn ((width <= gftWidth() && hfight <= gftHfight()))
+                ? this : rfsolutionVbribnt;
+    }
+
+    publid Imbgf gftRfsolutionVbribnt() {
+        rfturn rfsolutionVbribnt;
+    }
+
+    @Ovfrridf
+    publid List<Imbgf> gftRfsolutionVbribnts() {
+        rfturn Arrbys.<Imbgf>bsList(this, rfsolutionVbribnt);
+    }
+
+    privbtf stbtid finbl int BITS_INFO = ImbgfObsfrvfr.SOMEBITS
+            | ImbgfObsfrvfr.FRAMEBITS | ImbgfObsfrvfr.ALLBITS;
+
+    privbtf stbtid dlbss ObsfrvfrCbdhf {
+
+        stbtid finbl SoftCbdhf INSTANCE = nfw SoftCbdhf();
+    }
+
+    publid stbtid ImbgfObsfrvfr gftRfsolutionVbribntObsfrvfr(
+            finbl Imbgf imbgf, finbl ImbgfObsfrvfr obsfrvfr,
+            finbl int imgWidth, finbl int imgHfight,
+            finbl int rvWidth, finbl int rvHfight) {
+        rfturn gftRfsolutionVbribntObsfrvfr(imbgf, obsfrvfr,
+                imgWidth, imgHfight, rvWidth, rvHfight, fblsf);
+    }
+
+    publid stbtid ImbgfObsfrvfr gftRfsolutionVbribntObsfrvfr(
+            finbl Imbgf imbgf, finbl ImbgfObsfrvfr obsfrvfr,
+            finbl int imgWidth, finbl int imgHfight,
+            finbl int rvWidth, finbl int rvHfight, boolfbn dondbtfnbtfInfo) {
+
+        if (obsfrvfr == null) {
+            rfturn null;
+        }
+
+        syndhronizfd (ObsfrvfrCbdhf.INSTANCE) {
+            ImbgfObsfrvfr o = (ImbgfObsfrvfr) ObsfrvfrCbdhf.INSTANCE.gft(imbgf);
+
+            if (o == null) {
+
+                o = (Imbgf rfsolutionVbribnt, int flbgs,
+                        int x, int y, int width, int hfight) -> {
+
+                            if ((flbgs & (ImbgfObsfrvfr.WIDTH | BITS_INFO)) != 0) {
+                                width = (width + 1) / 2;
+                            }
+
+                            if ((flbgs & (ImbgfObsfrvfr.HEIGHT | BITS_INFO)) != 0) {
+                                hfight = (hfight + 1) / 2;
+                            }
+
+                            if ((flbgs & BITS_INFO) != 0) {
+                                x /= 2;
+                                y /= 2;
+                            }
+
+                            if(dondbtfnbtfInfo){
+                                flbgs &= ((ToolkitImbgf) imbgf).
+                                        gftImbgfRfp().dhfdk(null);
+                            }
+
+                            rfturn obsfrvfr.imbgfUpdbtf(
+                                    imbgf, flbgs, x, y, width, hfight);
+                        };
+
+                ObsfrvfrCbdhf.INSTANCE.put(imbgf, o);
+            }
+            rfturn o;
+        }
+    }
+}

@@ -1,0 +1,1188 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.lbng.bnnotbtion.Dodumfntfd;
+import jbvb.lbng.bnnotbtion.ElfmfntTypf;
+import jbvb.lbng.bnnotbtion.Rftfntion;
+import jbvb.lbng.bnnotbtion.RftfntionPolidy;
+import jbvb.lbng.bnnotbtion.Tbrgft;
+
+// rfmbining imports brf for Jbvbdod
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.lbng.rfflfdt.UndfdlbrfdThrowbblfExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.ArrbyTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbInvodbtionHbndlfr;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbVifw;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.SimplfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrTypf;
+
+/**
+    <p>Annotbtion to mbrk bn intfrfbdf fxpliditly bs bfing bn MXBfbn
+    intfrfbdf, or bs not bfing bn MXBfbn intfrfbdf.  By dffbult, bn
+    intfrfbdf is bn MXBfbn intfrfbdf if it is publid bnd its nbmf fnds
+    with {@dodf MXBfbn}, bs in {@dodf SomfthingMXBfbn}.  Thf following
+    intfrfbdfs brf MXBfbn intfrfbdfs:</p>
+
+    <prf>
+    publid intfrfbdf WhbtsitMXBfbn {}
+
+    &#64;MXBfbn
+    publid intfrfbdf Whbtsit1Intfrfbdf {}
+
+    &#64;MXBfbn(truf)
+    publid intfrfbdf Whbtsit2Intfrfbdf {}
+    </prf>
+
+    <p>Thf following intfrfbdfs brf not MXBfbn intfrfbdfs:</p>
+
+    <prf>
+    intfrfbdf NonPublidIntfrfbdfNotMXBfbn{}
+
+    publid intfrfbdf Whbtsit3Intfrfbdf{}
+
+    &#64;MXBfbn(fblsf)
+    publid intfrfbdf MislfbdingMXBfbn {}
+    </prf>
+
+    <h3 id="MXBfbn-spfd">MXBfbn spfdifidbtion</h3>
+
+    <p>Thf MXBfbn dondfpt providfs b simplf wby to dodf bn MBfbn
+      thbt only rfffrfndfs b prfdffinfd sft of typfs, thf onfs dffinfd
+      by {@link jbvbx.mbnbgfmfnt.opfnmbfbn}.  In this wby, you dbn bf
+      surf thbt your MBfbn will bf usbblf by bny dlifnt, indluding
+      rfmotf dlifnts, without bny rfquirfmfnt thbt thf dlifnt hbvf
+      bddfss to <fm>modfl-spfdifid dlbssfs</fm> rfprfsfnting thf typfs
+      of your MBfbns.</p>
+
+    <p>Thf dondfpts brf fbsifr to undfrstbnd by dompbrison with thf
+      Stbndbrd MBfbn dondfpt.  Hfrf is how b mbnbgfd objfdt might bf
+      rfprfsfntfd bs b Stbndbrd MBfbn, bnd bs bn MXBfbn:</p>
+
+    <tbblf bordfr="1" dfllpbdding="5" summbry="Stbndbrd Bfbn vs. MXBfbn">
+      <tr>
+        <th>Stbndbrd MBfbn</th><th>MXBfbn</th>
+      </tr>
+      <tr>
+        <td><prf>
+publid intfrfbdf MfmoryPool<b>MBfbn</b> {
+    String gftNbmf();
+    MfmoryUsbgf gftUsbgf();
+    // ...
+}
+          </prf></td>
+        <td><prf>
+publid intfrfbdf MfmoryPool<b>MXBfbn</b> {
+    String gftNbmf();
+    MfmoryUsbgf gftUsbgf();
+    // ...
+}
+          </prf></td>
+      </tr>
+    </tbblf>
+
+    <p>As you dbn sff, thf dffinitions brf vfry similbr.  Thf only
+      difffrfndf is thbt thf donvfntion for nbming thf intfrfbdf is to usf
+      <dodf><fm>Somfthing</fm>MXBfbn</dodf> for MXBfbns, rbthfr thbn
+      <dodf><fm>Somfthing</fm>MBfbn</dodf> for Stbndbrd MBfbns.</p>
+
+    <p>In this mbnbgfd objfdt, thfrf is bn bttributf dbllfd
+      <dodf>Usbgf</dodf> of typf {@link MfmoryUsbgf}.  Thf point of bn
+      bttributf likf this is thbt it givfs b dohfrfnt snbpshot of b sft
+      of dbtb itfms.  For fxbmplf, it might indludf thf durrfnt bmount
+      of usfd mfmory in thf mfmory pool, bnd thf durrfnt mbximum of thf
+      mfmory pool.  If thfsf wfrf sfpbrbtf itfms, obtbinfd with sfpbrbtf
+      {@link MBfbnSfrvfr#gftAttributf gftAttributf} dblls, thfn wf dould
+      gft vblufs sffn bt difffrfnt timfs thbt wfrf not donsistfnt.  Wf
+      might gft b <dodf>usfd</dodf> vbluf thbt wbs grfbtfr thbn thf
+      <dodf>mbx</dodf> vbluf.</p>
+
+    <p>So, wf might dffinf <dodf>MfmoryUsbgf</dodf> likf this:</p>
+
+    <tbblf bordfr="1" dfllpbdding="5" summbry="Stbndbrd Bfbn vs. MXBfbn">
+      <tr>
+        <th>Stbndbrd MBfbn</th><th>MXBfbn</th>
+      </tr>
+      <tr>
+        <td><prf>
+publid dlbss MfmoryUsbgf <b>implfmfnts Sfriblizbblf</b> {
+    // stbndbrd JbvbBfbn donvfntions with gfttfrs
+
+    publid MfmoryUsbgf(long init, long usfd,
+                       long dommittfd, long mbx) {...}
+    long gftInit() {...}
+    long gftUsfd() {...}
+    long gftCommittfd() {...}
+    long gftMbx() {...}
+}
+          </prf></td>
+        <td><prf>
+publid dlbss MfmoryUsbgf {
+    // stbndbrd JbvbBfbn donvfntions with gfttfrs
+    <b>&#64;ConstrudtorPropfrtifs({"init", "usfd", "dommittfd", "mbx"})</b>
+    publid MfmoryUsbgf(long init, long usfd,
+                       long dommittfd, long mbx) {...}
+    long gftInit() {...}
+    long gftUsfd() {...}
+    long gftCommittfd() {...}
+    long gftMbx() {...}
+}
+          </prf></td>
+      </tr>
+    </tbblf>
+
+    <p>Thf dffinitions brf thf sbmf in thf two dbsfs, fxdfpt
+      thbt with thf MXBfbn, <dodf>MfmoryUsbgf</dodf> no longfr nffds to
+      bf mbrkfd <dodf>Sfriblizbblf</dodf> (though it dbn bf).  On
+      thf othfr hbnd, wf hbvf bddfd b {@dodf @ConstrudtorPropfrtifs} bnnotbtion
+      to link thf donstrudtor pbrbmftfrs to thf dorrfsponding gfttfrs.
+      Wf will sff morf bbout this bflow.</p>
+
+    <p><dodf>MfmoryUsbgf</dodf> is b <fm>modfl-spfdifid dlbss</fm>.
+      With Stbndbrd MBfbns, b dlifnt of thf MBfbn Sfrvfr dbnnot bddfss thf
+      <dodf>Usbgf</dodf> bttributf if it dofs not know thf dlbss
+      <dodf>MfmoryUsbgf</dodf>.  Supposf thf dlifnt is b gfnfrid donsolf
+      bbsfd on JMX tfdhnology.  Thfn thf donsolf would hbvf to bf
+      donfigurfd with thf modfl-spfdifid dlbssfs of fvfry bpplidbtion it
+      might donnfdt to.  Thf problfm is fvfn worsf for dlifnts thbt brf
+      not writtfn in thf Jbvb lbngubgf.  Thfn thfrf mby not bf bny wby
+      to tfll thf dlifnt whbt b <dodf>MfmoryUsbgf</dodf> looks likf.</p>
+
+    <p>This is whfrf MXBfbns difffr from Stbndbrd MBfbns.  Although wf
+      dffinf thf mbnbgfmfnt intfrfbdf in blmost fxbdtly thf sbmf wby,
+      thf MXBfbn frbmfwork <fm>donvfrts</fm> modfl-spfdifid dlbssfs into
+      stbndbrd dlbssfs from thf Jbvb plbtform.  Using brrbys bnd thf
+      {@link jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb CompositfDbtb} bnd
+      {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb} dlbssfs
+      from thf stbndbrd {@link jbvbx.mbnbgfmfnt.opfnmbfbn} pbdkbgf, it
+      is possiblf to build dbtb strudturfs of brbitrbry domplfxity
+      using only stbndbrd dlbssfs.</p>
+
+    <p>This bfdomfs dlfbrfr if wf dompbrf whbt thf dlifnts of thf two
+      modfls might look likf:</p>
+
+    <tbblf bordfr="1" dfllpbdding="5" summbry="Stbndbrd Bfbn vs. MXBfbn">
+      <tr>
+        <th>Stbndbrd MBfbn</th><th>MXBfbn</th>
+      </tr>
+      <tr>
+        <td><prf>
+String nbmf = (String)
+    mbfbnSfrvfr.{@link MBfbnSfrvfr#gftAttributf
+    gftAttributf}(objfdtNbmf, "Nbmf");
+<b>MfmoryUsbgf</b> usbgf = (<b>MfmoryUsbgf</b>)
+    mbfbnSfrvfr.gftAttributf(objfdtNbmf, "Usbgf");
+<b>long usfd = usbgf.gftUsfd();</b>
+          </prf></td>
+        <td><prf>
+String nbmf = (String)
+    mbfbnSfrvfr.{@link MBfbnSfrvfr#gftAttributf
+    gftAttributf}(objfdtNbmf, "Nbmf");
+<b>{@link CompositfDbtb}</b> usbgf = (<b>CompositfDbtb</b>)
+    mbfbnSfrvfr.gftAttributf(objfdtNbmf, "Usbgf");
+<b>long usfd = (Long) usbgf.{@link CompositfDbtb#gft gft}("usfd");</b>
+          </prf></td>
+    </tbblf>
+
+    <p>For bttributfs with simplf typfs likf <dodf>String</dodf>, thf
+      dodf is thf sbmf.  But for bttributfs with domplfx typfs, thf
+      Stbndbrd MBfbn dodf rfquirfs thf dlifnt to know thf modfl-spfdifid
+      dlbss <dodf>MfmoryUsbgf</dodf>, whilf thf MXBfbn dodf rfquirfs no
+      non-stbndbrd dlbssfs.</p>
+
+    <p>Thf dlifnt dodf shown hfrf is slightly morf domplidbtfd for thf
+      MXBfbn dlifnt.  But, if thf dlifnt dofs in fbdt know thf modfl,
+      hfrf thf intfrfbdf <dodf>MfmoryPoolMXBfbn</dodf> bnd thf
+      dlbss <dodf>MfmoryUsbgf</dodf>, thfn it dbn donstrudt b
+      <fm>proxy</fm>.  This is thf rfdommfndfd wby to intfrbdt with
+      mbnbgfd objfdts whfn you know thf modfl bfforfhbnd, rfgbrdlfss
+      of whfthfr you brf using Stbndbrd MBfbns or MXBfbns:</p>
+
+    <tbblf bordfr="1" dfllpbdding="5" summbry="Stbndbrd Bfbn vs. MXBfbn">
+      <tr>
+        <th>Stbndbrd MBfbn</th><th>MXBfbn</th>
+      </tr>
+      <tr>
+        <td><prf>
+MfmoryPool<b>MBfbn</b> proxy =
+    JMX.<b>{@link JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf,
+              Clbss) nfwMBfbnProxy}</b>(
+        mbfbnSfrvfr,
+        objfdtNbmf,
+        MfmoryPool<b>MBfbn</b>.dlbss);
+String nbmf = proxy.gftNbmf();
+MfmoryUsbgf usbgf = proxy.gftUsbgf();
+long usfd = usbgf.gftUsfd();
+          </prf></td>
+        <td><prf>
+MfmoryPool<b>MXBfbn</b> proxy =
+    JMX.<b>{@link JMX#nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf,
+              Clbss) nfwMXBfbnProxy}</b>(
+        mbfbnSfrvfr,
+        objfdtNbmf,
+        MfmoryPool<b>MXBfbn</b>.dlbss);
+String nbmf = proxy.gftNbmf();
+MfmoryUsbgf usbgf = proxy.gftUsbgf();
+long usfd = usbgf.gftUsfd();
+          </prf></td>
+      </tr>
+    </tbblf>
+
+    <p>Implfmfnting thf MfmoryPool objfdt works similbrly for both
+      Stbndbrd MBfbns bnd MXBfbns.</p>
+
+    <tbblf bordfr="1" dfllpbdding="5" summbry="Stbndbrd Bfbn vs. MXBfbn">
+      <tr>
+        <th>Stbndbrd MBfbn</th><th>MXBfbn</th>
+      </tr>
+      <tr>
+        <td><prf>
+publid dlbss MfmoryPool
+        implfmfnts MfmoryPool<b>MBfbn</b> {
+    publid String gftNbmf() {...}
+    publid MfmoryUsbgf gftUsbgf() {...}
+    // ...
+}
+          </prf></td>
+        <td><prf>
+publid dlbss MfmoryPool
+        implfmfnts MfmoryPool<b>MXBfbn</b> {
+    publid String gftNbmf() {...}
+    publid MfmoryUsbgf gftUsbgf() {...}
+    // ...
+}
+          </prf></td>
+      </tr>
+    </tbblf>
+
+    <p>Rfgistfring thf MBfbn in thf MBfbn Sfrvfr works in thf sbmf wby
+      in both dbsfs:</p>
+
+    <tbblf bordfr="1" dfllpbdding="5" summbry="Stbndbrd Bfbn vs. MXBfbn">
+      <tr>
+        <th>Stbndbrd MBfbn</th><th>MXBfbn</th>
+      </tr>
+      <tr>
+        <td><prf>
+{
+    MfmoryPool<b>MBfbn</b> pool = nfw MfmoryPool();
+    mbfbnSfrvfr.{@link MBfbnSfrvfr#rfgistfrMBfbn
+    rfgistfrMBfbn}(pool, objfdtNbmf);
+}
+          </prf></td>
+        <td><prf>
+{
+    MfmoryPool<b>MXBfbn</b> pool = nfw MfmoryPool();
+    mbfbnSfrvfr.{@link MBfbnSfrvfr#rfgistfrMBfbn
+    rfgistfrMBfbn}(pool, objfdtNbmf);
+}
+          </prf></td>
+      </tr>
+    </tbblf>
+
+
+    <h2 id="mxbfbn-dff">Dffinition of bn MXBfbn</h2>
+
+    <p>An MXBfbn is b kind of MBfbn.  An MXBfbn objfdt dbn bf
+      rfgistfrfd dirfdtly in thf MBfbn Sfrvfr, or it dbn bf usfd bs bn
+      brgumfnt to {@link StbndbrdMBfbn} bnd thf rfsultbnt MBfbn
+      rfgistfrfd in thf MBfbn Sfrvfr.</p>
+
+    <p>Whfn bn objfdt is rfgistfrfd in thf MBfbn Sfrvfr using thf
+      {@dodf rfgistfrMBfbn} or {@dodf drfbtfMBfbn} mfthods of thf
+      {@link MBfbnSfrvfr} intfrfbdf, thf objfdt's dlbss is fxbminfd
+      to dftfrminf whbt typf of MBfbn it is:</p>
+
+    <ul>
+      <li>If thf dlbss implfmfnts thf intfrfbdf {@link DynbmidMBfbn}
+        thfn thf MBfbn is b Dynbmid MBfbn.  Notf thbt thf dlbss
+        {@dodf StbndbrdMBfbn} implfmfnts this intfrfbdf, so this
+        dbsf bpplifs to b Stbndbrd MBfbn or MXBfbn drfbtfd using
+        thf dlbss {@dodf StbndbrdMBfbn}.</li>
+
+      <li>Othfrwisf, if thf dlbss mbtdhfs thf Stbndbrd MBfbn nbming
+        donvfntions, thfn thf MBfbn is b Stbndbrd MBfbn.</li>
+
+      <li>Othfrwisf, it mby bf bn MXBfbn.  Thf sft of intfrfbdfs
+        implfmfntfd by thf objfdt is fxbminfd for intfrfbdfs thbt:
+
+        <ul>
+          <li>hbvf b dlbss nbmf <dodf><fm>S</fm>MXBfbn</dodf> whfrf
+            <dodf><fm>S</fm></dodf> is bny non-fmpty string, bnd
+            do not hbvf bn bnnotbtion {@dodf @MXBfbn(fblsf)}; bnd/or</li>
+          <li>hbvf bn bnnotbtion {@dodf @MXBfbn(truf)}
+            or just {@dodf @MXBfbn}.</li>
+        </ul>
+
+        If thfrf is fxbdtly onf sudh intfrfbdf, or if thfrf is onf
+        sudh intfrfbdf thbt is b subintfrfbdf of bll thf othfrs, thfn
+        thf objfdt is bn MXBfbn.  Thf intfrfbdf in qufstion is thf
+        <fm>MXBfbn intfrfbdf</fm>.  In thf fxbmplf bbovf, thf MXBfbn
+        intfrfbdf is {@dodf MfmoryPoolMXBfbn}.
+
+      <li>If nonf of thfsf donditions is mft, thf MBfbn is invblid bnd
+        thf bttfmpt to rfgistfr it will gfnfrbtf {@link
+        NotComplibntMBfbnExdfption}.
+    </ul>
+
+    <p>Evfry Jbvb typf thbt bppfbrs bs thf pbrbmftfr or rfturn typf of b
+      mfthod in bn MXBfbn intfrfbdf must bf <fm>donvfrtiblf</fm> using
+      thf rulfs bflow.  Additionblly, pbrbmftfrs must bf
+      <fm>rfdonstrudtiblf</fm> bs dffinfd bflow.</p>
+
+    <p>An bttfmpt to donstrudt bn MXBfbn thbt dofs not donform to thf
+      bbovf rulfs will produdf bn fxdfption.</p>
+
+
+    <h2 id="nbming-donv">Nbming donvfntions</h2>
+
+    <p>Thf sbmf nbming donvfntions brf bpplifd to thf mfthods in bn
+      MXBfbn bs in b Stbndbrd MBfbn:</p>
+
+    <ol>
+      <li>A mfthod <dodf><fm>T</fm> gft<fm>N</fm>()</dodf>, whfrf
+        <dodf><fm>T</fm></dodf> is b Jbvb typf (not <dodf>void</dodf>)
+        bnd <dodf><fm>N</fm></dodf> is b non-fmpty string, spfdififs
+        thbt thfrf is b rfbdbblf bttributf dbllfd
+        <dodf><fm>N</fm></dodf>.  Thf Jbvb typf bnd Opfn typf of thf
+        bttributf brf dftfrminfd by thf mbpping rulfs bflow.
+        Thf mfthod {@dodf finbl Clbss gftClbss()} inhfritfd from {@dodf
+        Objfdt} is ignorfd whfn looking for gfttfrs.</li>
+
+      <li>A mfthod <dodf>boolfbn is<fm>N</fm>()</dodf> spfdififs thbt
+        thfrf is b rfbdbblf bttributf dbllfd <dodf><fm>N</fm></dodf>
+        with Jbvb typf <dodf>boolfbn</dodf> bnd Opfn typf
+        <dodf>SimplfTypf.Boolfbn</dodf>.</li>
+
+      <li>A mfthod <dodf>void sft<fm>N</fm>(<fm>T</fm> x)</dodf>
+        spfdififs thbt thfrf is b writfbblf bttributf dbllfd
+        <dodf><fm>N</fm></dodf>.  Thf Jbvb typf bnd Opfn typf of thf
+        bttributf brf dftfrminfd by thf mbpping rulfs bflow.  (Of
+        doursf, thf nbmf <dodf>x</dodf> of thf pbrbmftfr is
+        irrflfvbnt.)</li>
+
+      <li>Evfry othfr mfthod spfdififs thbt thfrf is bn opfrbtion with
+        thf sbmf nbmf bs thf mfthod.  Thf Jbvb typf bnd Opfn typf of thf
+        rfturn vbluf bnd of fbdh pbrbmftfr brf dftfrminfd by thf mbpping
+        rulfs bflow.</li>
+    </ol>
+
+    <p>Thf rulfs for <dodf>gft<fm>N</fm></dodf> bnd
+      <dodf>is<fm>N</fm></dodf> dollfdtivfly dffinf thf notion of b
+      <fm>gfttfr</fm>.  Thf rulf for <dodf>sft<fm>N</fm></dodf> dffinfs
+      thf notion of b <fm>sfttfr</fm>.</p>
+
+    <p>It is bn frror for thfrf to bf two gfttfrs with thf sbmf nbmf, or
+      two sfttfrs with thf sbmf nbmf.  If thfrf is b gfttfr bnd b sfttfr
+      for thf sbmf nbmf, thfn thf typf <dodf><fm>T</fm></dodf> in both
+      must bf thf sbmf.  In this dbsf thf bttributf is rfbd/writf.  If
+      thfrf is only b gfttfr or only b sfttfr, thf bttributf is
+      rfbd-only or writf-only rfspfdtivfly.</p>
+
+
+    <h2 id="mbpping-rulfs">Typf mbpping rulfs</h2>
+
+    <p>An MXBfbn is b kind of Opfn MBfbn, bs dffinfd by thf {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn} pbdkbgf.  This mfbns thbt thf typfs of
+      bttributfs, opfrbtion pbrbmftfrs, bnd opfrbtion rfturn vblufs must
+      bll bf dfsdribbblf using <fm>Opfn Typfs</fm>, thbt is thf four
+      stbndbrd subdlbssfs of {@link jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf}.
+      MXBfbns bdhifvf this by mbpping Jbvb typfs into Opfn Typfs.</p>
+
+    <p>For fvfry Jbvb typf <fm>J</fm>, thf MXBfbn mbpping is dfsdribfd
+      by thf following informbtion:</p>
+
+    <ul>
+      <li>Thf dorrfsponding Opfn Typf, <fm>opfntypf(J)</fm>.  This is
+        bn instbndf of b subdlbss of {@link
+        jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf}.</li>
+      <li>Thf <fm>mbppfd</fm> Jbvb typf, <fm>opfndbtb(J)</fm>, whidh is
+        blwbys thf sbmf for bny givfn <fm>opfntypf(J)</fm>.  This is b Jbvb
+        dlbss.</li>
+      <li>How b vbluf is donvfrtfd from typf <fm>J</fm> to typf
+        <fm>opfndbtb(J)</fm>.</li>
+      <li>How b vbluf is donvfrtfd from typf <fm>opfndbtb(J)</fm> to
+        typf <fm>J</fm>, if it dbn bf.</li>
+    </ul>
+
+    <p>For fxbmplf, for thf Jbvb typf {@dodf List<String>}:</p>
+
+    <ul>
+      <li>Thf Opfn Typf, <fm>opfntypf(</fm>{@dodf
+        List<String>}<fm>)</fm>, is {@link ArrbyTypf}<dodf>(1, </dodf>{@link
+          SimplfTypf#STRING}<dodf>)</dodf>, rfprfsfnting b 1-dimfnsionbl
+          brrby of <dodf>String</dodf>s.</li>
+      <li>Thf mbppfd Jbvb typf, <fm>opfndbtb(</fm>{@dodf
+        List<String>}<fm>)</fm>, is {@dodf String[]}.</li>
+      <li>A {@dodf List<String>} dbn bf donvfrtfd to b {@dodf String[]}
+          using {@link List#toArrby(Objfdt[]) List.toArrby(nfw
+          String[0])}.</li>
+      <li>A {@dodf String[]} dbn bf donvfrtfd to b {@dodf List<String>}
+          using {@link Arrbys#bsList Arrbys.bsList}.</li>
+    </ul>
+
+    <p>If no mbpping rulfs fxist to dfrivf <fm>opfntypf(J)</fm> from
+      <fm>J</fm>, thfn <fm>J</fm> dbnnot bf thf typf of b mfthod
+      pbrbmftfr or rfturn vbluf in bn MXBfbn intfrfbdf.</p>
+
+    <p id="rfdonstrudtiblf-dff">If thfrf is b wby to donvfrt
+      <fm>opfndbtb(J)</fm> bbdk to <fm>J</fm> thfn wf sby thbt <fm>J</fm> is
+      <fm>rfdonstrudtiblf</fm>.  All mfthod pbrbmftfrs in bn MXBfbn
+      intfrfbdf must bf rfdonstrudtiblf, bfdbusf whfn thf MXBfbn
+      frbmfwork is invoking b mfthod it will nffd to donvfrt thosf
+      pbrbmftfrs from <fm>opfndbtb(J)</fm> to <fm>J</fm>.  In b proxy
+      gfnfrbtfd by {@link JMX#nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion,
+      ObjfdtNbmf, Clbss) JMX.nfwMXBfbnProxy}, it is thf rfturn vblufs
+      of thf mfthods in thf MXBfbn intfrfbdf thbt must bf
+      rfdonstrudtiblf.</p>
+
+    <p>Null vblufs brf bllowfd for bll Jbvb typfs bnd Opfn Typfs,
+      fxdfpt primitivf Jbvb typfs whfrf thfy brf not possiblf.  Whfn
+      donvfrting from typf <fm>J</fm> to typf <fm>opfndbtb(J)</fm> or
+      from typf <fm>opfndbtb(J)</fm> to typf <fm>J</fm>, b null vbluf is
+      mbppfd to b null vbluf.</p>
+
+    <p>Thf following tbblf summbrizfs thf typf mbpping rulfs.</p>
+
+    <tbblf bordfr="1" dfllpbdding="5" summbry="Typf Mbpping Rulfs">
+      <tr>
+        <th>Jbvb typf <fm>J</fm></th>
+        <th><fm>opfntypf(J)</fm></th>
+        <th><fm>opfndbtb(J)</fm></th>
+      </tr>
+      <tbody vblign="top">
+        <tr>
+          <td>{@dodf int}, {@dodf boolfbn}, ftd<br>
+            (thf 8 primitivf Jbvb typfs)</td>
+          <td>{@dodf SimplfTypf.INTEGER},<br>
+            {@dodf SimplfTypf.BOOLEAN}, ftd</td>
+          <td>{@dodf Intfgfr}, {@dodf Boolfbn}, ftd<br>
+            (thf dorrfsponding boxfd typfs)</td>
+        </tr>
+        <tr>
+          <td>{@dodf Intfgfr}, {@dodf ObjfdtNbmf}, ftd<br>
+            (thf typfs dovfrfd by {@link SimplfTypf})</td>
+          <td>thf dorrfsponding {@dodf SimplfTypf}</td>
+          <td><fm>J</fm>, thf sbmf typf</td>
+        </tr>
+        <tr>
+          <td>{@dodf int[]} ftd<br>
+            (b onf-dimfnsionbl brrby with<br>
+            primitivf flfmfnt typf)</td>
+          <td>{@dodf ArrbyTypf.gftPrimitivfArrbyTypf(int[].dlbss)} ftd</td>
+          <td><fm>J</fm>, thf sbmf typf</td>
+        <tr>
+          <td><fm>E</fm>{@dodf []}<br>
+            (bn brrby with non-primitivf flfmfnt typf <fm>E</fm>;
+              this indludfs {@dodf int[][]}, whfrf <fm>E</fm> is {@dodf int[]})</td>
+          <td>{@dodf ArrbyTypf.gftArrbyTypf(}<fm>opfntypf(E)</fm>{@dodf )}</td>
+          <td><fm>opfndbtb(E)</fm>{@dodf []}</td>
+        </tr>
+        <tr>
+          <td>{@dodf List<}<fm>E</fm>{@dodf >}<br>
+            {@dodf Sft<}<fm>E</fm>{@dodf >}<br>
+            {@dodf SortfdSft<}<fm>E</fm>{@dodf >} (sff bflow)</td>
+          <td>sbmf bs for <fm>E</fm>{@dodf []}</td>
+          <td>sbmf bs for <fm>E</fm>{@dodf []}</td>
+        </tr>
+        <tr>
+          <td>An fnumfrbtion <fm>E</fm><br>
+            (dfdlbrfd in Jbvb bs {@dodf fnum }<fm>E</fm>
+            {@dodf {...}})</td>
+          <td>{@dodf SimplfTypf.STRING}</td>
+          <td>{@dodf String}</td>
+        </tr>
+        <tr>
+          <td>{@dodf Mbp<}<fm>K</fm>,<fm>V</fm>{@dodf >}<br>
+            {@dodf SortfdMbp<}<fm>K</fm>,<fm>V</fm>{@dodf >}</td>
+          <td>{@link TbbulbrTypf}<br>
+            (sff bflow)</td>
+          <td>{@link TbbulbrDbtb}<br>
+            (sff bflow)</td>
+        </tr>
+        <tr>
+          <td>An MXBfbn intfrfbdf</td>
+          <td>{@dodf SimplfTypf.OBJECTNAME}<br>
+            (sff bflow)</td>
+          <td>{@link ObjfdtNbmf}<br>
+            (sff bflow)</td>
+        </tr>
+        <tr>
+          <td>Any othfr typf</td>
+          <td>{@link CompositfTypf},
+            if possiblf<br>
+            (sff bflow)</td>
+          <td>{@link CompositfDbtb}</td>
+      </tbody>
+    </tbblf>
+
+    <p>Thf following sfdtions givf furthfr dftbils of thfsf rulfs.</p>
+
+
+    <h3>Mbppings for primitivf typfs</h3>
+
+    <p>Thf 8 primitivf Jbvb typfs
+      ({@dodf boolfbn}, {@dodf bytf}, {@dodf short}, {@dodf int}, {@dodf
+      long}, {@dodf flobt}, {@dodf doublf}, {@dodf dhbr}) brf mbppfd to thf
+      dorrfsponding boxfd typfs from {@dodf jbvb.lbng}, nbmfly {@dodf
+      Boolfbn}, {@dodf Bytf}, ftd.  Thf Opfn Typf is thf dorrfsponding
+      {@dodf SimplfTypf}.  Thus, <fm>opfntypf(</fm>{@dodf
+      long}<fm>)</fm> is {@dodf SimplfTypf.LONG}, bnd
+      <fm>opfndbtb(</fm>{@dodf long}<fm>)</fm> is {@dodf
+      jbvb.lbng.Long}.</p>
+
+    <p>An brrby of primitivf typf sudh bs {@dodf long[]} dbn bf rfprfsfntfd
+      dirfdtly bs bn Opfn Typf.  Thus, <fm>opfnTypf(</fm>{@dodf
+      long[]}<fm>)</fm> is {@dodf
+      ArrbyTypf.gftPrimitivfArrbyTypf(long[].dlbss)}, bnd
+      <fm>opfndbtb(</fm>{@dodf long[]}<fm>)</fm> is {@dodf
+      long[]}.</p>
+
+    <p>In prbdtidf, thf difffrfndf bftwffn b plbin {@dodf int} bnd {@dodf
+      Intfgfr}, ftd, dofs not show up bfdbusf opfrbtions in thf JMX API
+      brf blwbys on Jbvb objfdts, not primitivfs.  Howfvfr, thf
+      difffrfndf <fm>dofs</fm> show up with brrbys.</p>
+
+
+    <h3>Mbppings for dollfdtions ({@dodf List<}<fm>E</fm>{@dodf >} ftd)</h3>
+
+    <p>A {@dodf List<}<fm>E</fm>{@dodf >} or {@dodf
+      Sft<}<fm>E</fm>{@dodf >}, sudh bs {@dodf List<String>} or {@dodf
+        Sft<ObjfdtNbmf>}, is mbppfd in thf sbmf wby bs bn brrby of thf
+          sbmf flfmfnt typf, sudh bs {@dodf String[]} or {@dodf
+          ObjfdtNbmf[]}.</p>
+
+    <p>A {@dodf SortfdSft<}<fm>E</fm>{@dodf >} is blso mbppfd in thf
+      sbmf wby bs bn <fm>E</fm>{@dodf []}, but it is only donvfrtiblf if
+      <fm>E</fm> is b dlbss or intfrfbdf thbt implfmfnts {@link
+      jbvb.lbng.Compbrbblf}.  Thus, b {@dodf SortfdSft<String>} or
+        {@dodf SortfdSft<Intfgfr>} is donvfrtiblf, but b {@dodf
+          SortfdSft<int[]>} or {@dodf SortfdSft<List<String>>} is not.  Thf
+                donvfrsion of b {@dodf SortfdSft} instbndf will fbil with bn
+                {@dodf IllfgblArgumfntExdfption} if it hbs b
+                non-null {@link jbvb.util.SortfdSft#dompbrbtor()
+                dompbrbtor()}.</p>
+
+    <p>A {@dodf List<}<fm>E</fm>{@dodf >} is rfdonstrudtfd bs b
+      {@dodf jbvb.util.ArrbyList<}<fm>E</fm>{@dodf >};
+      b {@dodf Sft<}<fm>E</fm>{@dodf >} bs b
+      {@dodf jbvb.util.HbshSft<}<fm>E</fm>{@dodf >};
+      b {@dodf SortfdSft<}<fm>E</fm>{@dodf >} bs b
+      {@dodf jbvb.util.TrffSft<}<fm>E</fm>{@dodf >}.</p>
+
+
+    <h3>Mbppings for mbps ({@dodf Mbp<}<fm>K</fm>,<fm>V</fm>{@dodf >} ftd)</h3>
+
+    <p>A {@dodf Mbp<}<fm>K</fm>,<fm>V</fm>{@dodf >} or {@dodf
+      SortfdMbp<}<fm>K</fm>,<fm>V</fm>{@dodf >}, for fxbmplf {@dodf
+      Mbp<String,ObjfdtNbmf>}, hbs Opfn Typf {@link TbbulbrTypf} bnd is mbppfd
+        to b {@link TbbulbrDbtb}.
+        Thf {@dodf TbbulbrTypf} hbs two itfms dbllfd {@dodf kfy} bnd
+        {@dodf vbluf}.  Thf Opfn Typf of {@dodf kfy} is
+        <fm>opfntypf(K)</fm>, bnd thf Opfn Typf of {@dodf vbluf} is
+        <fm>opfntypf(V)</fm>.  Thf indfx of thf {@dodf TbbulbrTypf} is thf
+        singlf itfm {@dodf kfy}.</p>
+
+    <p>For fxbmplf, thf {@dodf TbbulbrTypf} for b {@dodf
+      Mbp<String,ObjfdtNbmf>} might bf donstrudtfd with dodf likf
+        this:</p>
+
+    <prf>
+String typfNbmf =
+    "jbvb.util.Mbp&lt;jbvb.lbng.String, jbvbx.mbnbgfmfnt.ObjfdtNbmf&gt;";
+String[] kfyVbluf =
+    nfw String[] {"kfy", "vbluf"};
+OpfnTypf[] opfnTypfs =
+    nfw OpfnTypf[] {SimplfTypf.STRING, SimplfTypf.OBJECTNAME};
+CompositfTypf rowTypf =
+    nfw CompositfTypf(typfNbmf, typfNbmf, kfyVbluf, kfyVbluf, opfnTypfs);
+TbbulbrTypf tbbulbrTypf =
+    nfw TbbulbrTypf(typfNbmf, typfNbmf, rowTypf, nfw String[] {"kfy"});
+    </prf>
+
+    <p>Thf {@dodf typfNbmf} hfrf is dftfrminfd by thf <b hrff="#typf-nbmfs">
+      typf nbmf rulfs</b> dftbilfd bflow.
+
+    <p>A {@dodf SortfdMbp<}<fm>K</fm>,<fm>V</fm>{@dodf >} is mbppfd in thf
+      sbmf wby, but it is only donvfrtiblf if
+      <fm>K</fm> is b dlbss or intfrfbdf thbt implfmfnts {@link
+      jbvb.lbng.Compbrbblf}.  Thus, b {@dodf SortfdMbp<String,int[]>}
+        is donvfrtiblf, but b
+        {@dodf SortfdMbp<int[],String>} is not.  Thf donvfrsion of b
+          {@dodf SortfdMbp} instbndf will fbil with bn {@dodf
+          IllfgblArgumfntExdfption} if it hbs b non-null {@link
+          jbvb.util.SortfdMbp#dompbrbtor() dompbrbtor()}.</p>
+
+    <p>A {@dodf Mbp<}<fm>K</fm>,<fm>V</fm>{@dodf >} is rfdonstrudtfd bs
+      b {@dodf jbvb.util.HbshMbp<}<fm>K</fm>,<fm>V</fm>{@dodf >};
+      b {@dodf SortfdMbp<}<fm>K</fm>,<fm>V</fm>{@dodf >} bs
+      b {@dodf jbvb.util.TrffMbp<}<fm>K</fm>,<fm>V</fm>{@dodf >}.</p>
+
+    <p>{@dodf TbbulbrDbtb} is bn intfrfbdf.  Thf dondrftf dlbss thbt is
+      usfd to rfprfsfnt b {@dodf Mbp<}<fm>K</fm>,<fm>V</fm>{@dodf >} bs
+      Opfn Dbtb is {@link TbbulbrDbtbSupport},
+      or bnothfr dlbss implfmfnting {@dodf
+      TbbulbrDbtb} thbt sfriblizfs bs {@dodf TbbulbrDbtbSupport}.</p>
+
+
+    <h3 id="mxbfbn-mbp">Mbppings for MXBfbn intfrfbdfs</h3>
+
+    <p>An MXBfbn intfrfbdf, or b typf rfffrfndfd within bn MXBfbn
+      intfrfbdf, dbn rfffrfndf bnothfr MXBfbn intfrfbdf, <fm>J</fm>.
+      Thfn <fm>opfntypf(J)</fm> is {@dodf SimplfTypf.OBJECTNAME} bnd
+      <fm>opfndbtb(J)</fm> is {@dodf ObjfdtNbmf}.</p>
+
+    <p>For fxbmplf, supposf you hbvf two MXBfbn intfrfbdfs likf this:</p>
+
+    <prf>
+publid intfrfbdf ProdudtMXBfbn {
+    publid ModulfMXBfbn[] gftModulfs();
+}
+
+publid intfrfbdf ModulfMXBfbn {
+    publid ProdudtMXBfbn gftProdudt();
+}
+    </prf>
+
+    <p>Thf objfdt implfmfnting thf {@dodf ModulfMXBfbn} intfrfbdf
+      rfturns from its {@dodf gftProdudt} mfthod bn objfdt
+      implfmfnting thf {@dodf ProdudtMXBfbn} intfrfbdf.  Thf
+      {@dodf ModulfMXBfbn} objfdt bnd thf rfturnfd {@dodf
+      ProdudtMXBfbn} objfdts must both bf rfgistfrfd bs MXBfbns in thf
+      sbmf MBfbn Sfrvfr.</p>
+
+    <p>Thf mfthod {@dodf ModulfMXBfbn.gftProdudt()} dffinfs bn
+      bttributf dbllfd {@dodf Produdt}.  Thf Opfn Typf for this
+      bttributf is {@dodf SimplfTypf.OBJECTNAME}, bnd thf dorrfsponding
+      {@dodf ObjfdtNbmf} vbluf will bf thf nbmf undfr whidh thf
+      rfffrfndfd {@dodf ProdudtMXBfbn} is rfgistfrfd in thf MBfbn
+      Sfrvfr.</p>
+
+    <p>If you mbkf bn MXBfbn proxy for b {@dodf ModulfMXBfbn} bnd
+      dbll its {@dodf gftProdudt()} mfthod, thf proxy will mbp thf
+      {@dodf ObjfdtNbmf} bbdk into b {@dodf ProdudtMXBfbn} by mbking
+      bnothfr MXBfbn proxy.  Morf formblly, whfn b proxy mbdf with
+      {@link JMX#nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf,
+       Clbss)
+      JMX.nfwMXBfbnProxy(mbfbnSfrvfrConnfdtion, objfdtNbmfX,
+      intfrfbdfX)} nffds to mbp {@dodf objfdtNbmfY} bbdk into {@dodf
+      intfrfbdfY}, bnothfr MXBfbn intfrfbdf, it dofs so with {@dodf
+      JMX.nfwMXBfbnProxy(mbfbnSfrvfrConnfdtion, objfdtNbmfY,
+      intfrfbdfY)}.  Thf implfmfntbtion mby rfturn b proxy thbt wbs
+      prfviously drfbtfd by b dbll to {@dodf JMX.nfwMXBfbnProxy}
+      with thf sbmf pbrbmftfrs, or it mby drfbtf b nfw proxy.</p>
+
+    <p>Thf rfvfrsf mbpping is illustrbtfd by thf following dhbngf to thf
+      {@dodf ModulfMXBfbn} intfrfbdf:</p>
+
+    <prf>
+publid intfrfbdf ModulfMXBfbn {
+    publid ProdudtMXBfbn gftProdudt();
+    publid void sftProdudt(ProdudtMXBfbn d);
+}
+    </prf>
+
+    <p>Thf prfsfndf of thf {@dodf sftProdudt} mfthod now mfbns thbt thf
+      {@dodf Produdt} bttributf is rfbd/writf.  As bfforf, thf vbluf
+      of this bttributf is bn {@dodf ObjfdtNbmf}.  Whfn thf bttributf is
+      sft, thf {@dodf ObjfdtNbmf} must bf donvfrtfd into thf
+      {@dodf ProdudtMXBfbn} objfdt thbt thf {@dodf sftProdudt} mfthod
+      fxpfdts.  This objfdt will bf bn MXBfbn proxy for thf givfn
+      {@dodf ObjfdtNbmf} in thf sbmf MBfbn Sfrvfr.</p>
+
+    <p>If you mbkf bn MXBfbn proxy for b {@dodf ModulfMXBfbn} bnd
+      dbll its {@dodf sftProdudt} mfthod, thf proxy will mbp its
+      {@dodf ProdudtMXBfbn} brgumfnt bbdk into bn {@dodf ObjfdtNbmf}.
+      This will only work if thf brgumfnt is in fbdt bnothfr proxy,
+      for b {@dodf ProdudtMXBfbn} in thf sbmf {@dodf
+      MBfbnSfrvfrConnfdtion}.  Thf proxy dbn hbvf bffn rfturnfd from
+      bnothfr proxy (likf {@dodf ModulfMXBfbn.gftProdudt()} whidh
+      rfturns b proxy for b {@dodf ProdudtMXBfbn}); or it dbn hbvf
+      bffn drfbtfd by {@link
+      JMX#nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+      JMX.nfwMXBfbnProxy}; or it dbn hbvf bffn drfbtfd using {@link
+      jbvb.lbng.rfflfdt.Proxy Proxy} with bn invodbtion hbndlfr thbt
+      is {@link MBfbnSfrvfrInvodbtionHbndlfr} or b subdlbss.</p>
+
+    <p>If thf sbmf MXBfbn wfrf rfgistfrfd undfr two difffrfnt
+      {@dodf ObjfdtNbmf}s, b rfffrfndf to thbt MXBfbn from bnothfr
+      MXBfbn would bf bmbiguous.  Thfrfforf, if bn MXBfbn objfdt is
+      blrfbdy rfgistfrfd in bn MBfbn Sfrvfr bnd bn bttfmpt is mbdf to
+      rfgistfr it in thf sbmf MBfbn Sfrvfr undfr bnothfr nbmf, thf
+      rfsult is bn {@link InstbndfAlrfbdyExistsExdfption}.  Rfgistfring
+      thf sbmf MBfbn objfdt undfr morf thbn onf nbmf is disdourbgfd in
+      gfnfrbl, notbbly bfdbusf it dofs not work wfll for MBfbns thbt brf
+      {@link NotifidbtionBrobddbstfr}s.</p>
+
+    <h3 id="dompositf-mbp">Mbppings for othfr typfs</h3>
+
+    <p>Givfn b Jbvb dlbss or intfrfbdf <fm>J</fm> thbt dofs not mbtdh thf othfr
+      rulfs in thf tbblf bbovf, thf MXBfbn frbmfwork will bttfmpt to mbp
+      it to b {@link CompositfTypf} bs follows.  Thf typf nbmf of this
+      {@dodf CompositfTypf} is dftfrminfd by thf <b hrff="#typf-nbmfs">
+      typf nbmf rulfs</b> bflow.</p>
+
+    <p>Thf dlbss is fxbminfd for gfttfrs using thf donvfntions
+      <b hrff="#nbming-donv">bbovf</b>.  (Gfttfrs must bf publid
+      instbndf mfthods.)  If thfrf brf no gfttfrs, or if
+      bny gfttfr hbs b typf thbt is not donvfrtiblf, thfn <fm>J</fm> is
+      not donvfrtiblf.</p>
+
+    <p>If thfrf is bt lfbst onf gfttfr bnd fvfry gfttfr hbs b
+      donvfrtiblf typf, thfn <fm>opfntypf(J)</fm> is b {@dodf
+      CompositfTypf} with onf itfm for fvfry gfttfr.  If thf gfttfr is
+
+    <blodkquotf>
+      <dodf><fm>T</fm> gft<fm>Nbmf</fm>()</dodf>
+    </blodkquotf>
+
+    thfn thf itfm in thf {@dodf CompositfTypf} is dbllfd {@dodf nbmf}
+    bnd hbs typf <fm>opfntypf(T)</fm>.  For fxbmplf, if thf itfm is
+
+    <blodkquotf>
+      <dodf>String gftOwnfr()</dodf>
+    </blodkquotf>
+
+    thfn thf itfm is dbllfd {@dodf ownfr} bnd hbs Opfn Typf {@dodf
+    SimplfTypf.STRING}.  If thf gfttfr is
+
+    <blodkquotf>
+      <dodf>boolfbn is<fm>Nbmf</fm>()</dodf>
+    </blodkquotf>
+
+    thfn thf itfm in thf {@dodf CompositfTypf} is dbllfd {@dodf nbmf}
+    bnd hbs typf {@dodf SimplfTypf.BOOLEAN}.
+
+    <p>Notidf thbt thf first dhbrbdtfr (or dodf point) is donvfrtfd to
+      lowfr dbsf.  This follows thf Jbvb Bfbns donvfntion, whidh for
+      historidbl rfbsons is difffrfnt from thf Stbndbrd MBfbn
+      donvfntion.  In b Stbndbrd MBfbn or MXBfbn intfrfbdf, b mfthod
+      {@dodf gftOwnfr} dffinfs bn bttributf dbllfd {@dodf Ownfr}, whilf
+      in b Jbvb Bfbn or mbppfd {@dodf CompositfTypf}, b mfthod {@dodf
+      gftOwnfr} dffinfs b propfrty or itfm dbllfd {@dodf ownfr}.</p>
+
+    <p>If two mfthods produdf thf sbmf itfm nbmf (for fxbmplf, {@dodf
+      gftOwnfr} bnd {@dodf isOwnfr}, or {@dodf gftOwnfr} bnd {@dodf
+      gftownfr}) thfn thf typf is not donvfrtiblf.</p>
+
+    <p>Whfn thf Opfn Typf is {@dodf CompositfTypf}, thf dorrfsponding
+      mbppfd Jbvb typf (<fm>opfndbtb(J)</fm>) is {@link
+      CompositfDbtb}.  Thf mbpping from bn instbndf of <fm>J</fm> to b
+      {@dodf CompositfDbtb} dorrfsponding to thf {@dodf CompositfTypf}
+      just dfsdribfd is donf bs follows.  First, if <fm>J</fm>
+      implfmfnts thf intfrfbdf {@link CompositfDbtbVifw}, thfn thbt
+      intfrfbdf's {@link CompositfDbtbVifw#toCompositfDbtb
+      toCompositfDbtb} mfthod is dbllfd to do thf donvfrsion.
+      Othfrwisf, thf {@dodf CompositfDbtb} is donstrudtfd by dblling
+      thf gfttfr for fbdh itfm bnd donvfrting it to thf dorrfsponding
+      Opfn Dbtb typf.  Thus, b gfttfr sudh bs</p>
+
+    <blodkquotf>
+      {@dodf List<String> gftNbmfs()}
+    </blodkquotf>
+
+    <p>will hbvf bffn mbppfd to bn itfm with nbmf "{@dodf nbmfs}" bnd
+      Opfn Typf {@dodf ArrbyTypf(1, SimplfTypf.STRING)}.  Thf donvfrsion
+      to {@dodf CompositfDbtb} will dbll {@dodf gftNbmfs()} bnd donvfrt
+      thf rfsultbnt {@dodf List<String>} into b {@dodf String[]} for thf
+        itfm "{@dodf nbmfs}".</p>
+
+    <p>{@dodf CompositfDbtb} is bn intfrfbdf.  Thf dondrftf dlbss thbt is
+      usfd to rfprfsfnt b typf bs Opfn Dbtb is {@link
+      CompositfDbtbSupport}, or bnothfr dlbss implfmfnting {@dodf
+      CompositfDbtb} thbt sfriblizfs bs {@dodf
+      CompositfDbtbSupport}.</p>
+
+
+    <h4>Rfdonstrudting bn instbndf of Jbvb typf <fm>J</fm> from
+      b {@dodf CompositfDbtb}</h4>
+
+    <p>If <fm>opfndbtb(J)</fm> is {@dodf CompositfDbtb} for b Jbvb typf
+      <fm>J</fm>, thfn fithfr bn instbndf of <fm>J</fm> dbn bf
+      rfdonstrudtfd from b {@dodf CompositfDbtb}, or <fm>J</fm> is not
+      rfdonstrudtiblf.  If bny itfm in thf {@dodf CompositfDbtb} is not
+      rfdonstrudtiblf, thfn <fm>J</fm> is not rfdonstrudtiblf fithfr.</p>
+
+    <p>For bny givfn <fm>J</fm>, thf following rulfs brf donsultfd to
+      dftfrminf how to rfdonstrudt instbndfs of <fm>J</fm> from
+      {@dodf CompositfDbtb}.  Thf first bpplidbblf rulf in thf list is
+      thf onf thbt will bf usfd.</p>
+
+    <ol>
+
+      <li><p>If <fm>J</fm> hbs b mfthod<br>
+        {@dodf publid stbtid }<fm>J </fm>{@dodf from(CompositfDbtb dd)}<br>
+        thfn thbt mfthod is dbllfd to rfdonstrudt bn instbndf of
+        <fm>J</fm>.</p></li>
+
+      <li><p>Othfrwisf, if <fm>J</fm> hbs bt lfbst onf publid
+        donstrudtor with b {@link jbvb.bfbns.ConstrudtorPropfrtifs
+        ConstrudtorPropfrtifs} bnnotbtion, thfn onf
+        of thosf donstrudtors (not nfdfssbrily blwbys thf sbmf onf)
+        will bf dbllfd to rfdonstrudt bn instbndf of <fm>J</fm>.
+        Evfry sudh bnnotbtion must list bs mbny strings bs thf
+        donstrudtor hbs pbrbmftfrs; fbdh string must nbmf b propfrty
+        dorrfsponding to b gfttfr of <fm>J</fm>; bnd thf typf of this
+        gfttfr must bf thf sbmf bs thf dorrfsponding donstrudtor
+        pbrbmftfr.  It is not bn frror for thfrf to bf gfttfrs thbt
+        brf not mfntionfd in thf {@dodf ConstrudtorPropfrtifs} bnnotbtion
+        (thfsf mby dorrfspond to informbtion thbt is not nffdfd to
+        rfdonstrudt thf objfdt).</p>
+
+        <p>An instbndf of <fm>J</fm> is rfdonstrudtfd by dblling b
+        donstrudtor with thf bppropribtf rfdonstrudtfd itfms from thf
+        {@dodf CompositfDbtb}.  Thf donstrudtor to bf dbllfd will bf
+        dftfrminfd bt runtimf bbsfd on thf itfms bdtublly prfsfnt in
+        thf {@dodf CompositfDbtb}, givfn thbt this {@dodf
+        CompositfDbtb} might domf from bn fbrlifr vfrsion of
+        <fm>J</fm> whfrf not bll thf itfms wfrf prfsfnt.  A
+        donstrudtor is <fm>bpplidbblf</fm> if bll thf propfrtifs nbmfd
+        in its {@dodf ConstrudtorPropfrtifs} bnnotbtion brf prfsfnt bs itfms
+        in thf {@dodf CompositfDbtb}.  If no donstrudtor is
+        bpplidbblf, thfn thf bttfmpt to rfdonstrudt <fm>J</fm> fbils.</p>
+
+        <p>For bny possiblf dombinbtion of propfrtifs, it must bf thf
+        dbsf thbt fithfr (b) thfrf brf no bpplidbblf donstrudtors, or
+        (b) thfrf is fxbdtly onf bpplidbblf donstrudtor, or (d) onf of
+        thf bpplidbblf donstrudtors nbmfs b propfr supfrsft of thf
+        propfrtifs nbmfd by fbdh othfr bpplidbblf donstrudtor.  (In
+        othfr words, thfrf should nfvfr bf bmbiguity ovfr whidh
+        donstrudtor to dhoosf.)  If this dondition is not truf, thfn
+        <fm>J</fm> is not rfdonstrudtiblf.</p></li>
+
+      <li><p>Othfrwisf, if <fm>J</fm> hbs b publid no-brg donstrudtor, bnd
+        for fvfry gfttfr in <fm>J</fm> with typf
+        <fm>T</fm> bnd nbmf <fm>N</fm> thfrf is b dorrfsponding sfttfr
+        with thf sbmf nbmf bnd typf, thfn bn instbndf of <fm>J</fm> is
+        donstrudtfd with thf no-brg donstrudtor bnd thf sfttfrs brf
+        dbllfd with thf rfdonstrudtfd itfms from thf {@dodf CompositfDbtb}
+        to rfstorf thf vblufs.  For fxbmplf, if thfrf is b mfthod<br>
+        {@dodf publid List<String> gftNbmfs()}<br>
+          thfn thfrf must blso bf b mfthod<br>
+          {@dodf publid void sftNbmfs(List<String> nbmfs)}<br>
+            for this rulf to bpply.</p>
+
+        <p>If thf {@dodf CompositfDbtb} dbmf from bn fbrlifr vfrsion of
+        <fm>J</fm>, somf itfms might not bf prfsfnt.  In this dbsf,
+        thf dorrfsponding sfttfrs will not bf dbllfd.</p></li>
+
+      <li><p>Othfrwisf, if <fm>J</fm> is bn intfrfbdf thbt hbs no mfthods
+        othfr thbn gfttfrs, bn instbndf of <fm>J</fm> is donstrudtfd
+        using b {@link jbvb.lbng.rfflfdt.Proxy} with b {@link
+        CompositfDbtbInvodbtionHbndlfr} bbdkfd by thf {@dodf
+        CompositfDbtb} bfing donvfrtfd.</p></li>
+
+      <li><p>Othfrwisf, <fm>J</fm> is not rfdonstrudtiblf.</p></li>
+    </ol>
+
+    <p>Rulf 2 is not bpplidbblf to subsft Profilfs of Jbvb SE thbt do not
+    indludf thf {@dodf jbvb.bfbns} pbdkbgf. Whfn tbrgfting b runtimf thbt dofs
+    not indludf thf {@dodf jbvb.bfbns} pbdkbgf, bnd whfrf thfrf is b mismbtdh
+    bftwffn thf dompilf-timf bnd runtimf fnvironmfnt whfrfby <fm>J</fm> is
+    dompilfd with b publid donstrudtor bnd thf {@dodf ConstrudtorPropfrtifs}
+    bnnotbtion, thfn <fm>J</fm> is not rfdonstrudtiblf unlfss bnothfr rulf
+    bpplifs.</p>
+
+    <p>Hfrf brf fxbmplfs showing difffrfnt wbys to dodf b typf {@dodf
+      NbmfdNumbfr} thbt donsists of bn {@dodf int} bnd b {@dodf
+      String}.  In fbdh dbsf, thf {@dodf CompositfTypf} looks likf this:</p>
+
+    <blodkquotf>
+      <prf>
+{@link CompositfTypf}(
+    "NbmfdNumbfr",                      // typfNbmf
+    "NbmfdNumbfr",                      // dfsdription
+    nfw String[] {"numbfr", "nbmf"},    // itfmNbmfs
+    nfw String[] {"numbfr", "nbmf"},    // itfmDfsdriptions
+    nfw OpfnTypf[] {SimplfTypf.INTEGER,
+                    SimplfTypf.STRING}  // itfmTypfs
+);
+      </prf>
+    </blodkquotf>
+
+    <ol>
+      <li>Stbtid {@dodf from} mfthod:
+
+        <blodkquotf>
+          <prf>
+publid dlbss NbmfdNumbfr {
+    publid int gftNumbfr() {rfturn numbfr;}
+    publid String gftNbmf() {rfturn nbmf;}
+    privbtf NbmfdNumbfr(int numbfr, String nbmf) {
+        this.numbfr = numbfr;
+        this.nbmf = nbmf;
+    }
+    <b>publid stbtid NbmfdNumbfr from(CompositfDbtb dd)</b> {
+        rfturn nfw NbmfdNumbfr((Intfgfr) dd.gft("numbfr"),
+                               (String) dd.gft("nbmf"));
+    }
+    privbtf finbl int numbfr;
+    privbtf finbl String nbmf;
+}
+          </prf>
+        </blodkquotf>
+      </li>
+
+      <li>Publid donstrudtor with <dodf>&#64;ConstrudtorPropfrtifs</dodf> bnnotbtion:
+
+        <blodkquotf>
+          <prf>
+publid dlbss NbmfdNumbfr {
+    publid int gftNumbfr() {rfturn numbfr;}
+    publid String gftNbmf() {rfturn nbmf;}
+    <b>&#64;ConstrudtorPropfrtifs({"numbfr", "nbmf"})
+    publid NbmfdNumbfr(int numbfr, String nbmf)</b> {
+        this.numbfr = numbfr;
+        this.nbmf = nbmf;
+    }
+    privbtf finbl int numbfr;
+    privbtf finbl String nbmf;
+}
+          </prf>
+        </blodkquotf>
+      </li>
+
+      <li>Sfttfr for fvfry gfttfr:
+
+        <blodkquotf>
+          <prf>
+publid dlbss NbmfdNumbfr {
+    publid int gftNumbfr() {rfturn numbfr;}
+    publid void <b>sftNumbfr</b>(int numbfr) {this.numbfr = numbfr;}
+    publid String gftNbmf() {rfturn nbmf;}
+    publid void <b>sftNbmf</b>(String nbmf) {this.nbmf = nbmf;}
+    <b>publid NbmfdNumbfr()</b> {}
+    privbtf int numbfr;
+    privbtf String nbmf;
+}
+          </prf>
+        </blodkquotf>
+      </li>
+
+      <li>Intfrfbdf with only gfttfrs:
+
+        <blodkquotf>
+          <prf>
+publid intfrfbdf NbmfdNumbfr {
+    publid int gftNumbfr();
+    publid String gftNbmf();
+}
+          </prf>
+        </blodkquotf>
+      </li>
+    </ol>
+
+    <p>It is usublly bfttfr for dlbssfs thbt simply rfprfsfnt b
+      dollfdtion of dbtb to bf <fm>immutbblf</fm>.  An instbndf of bn
+      immutbblf dlbss dbnnot bf dhbngfd bftfr it hbs bffn donstrudtfd.
+      Notidf thbt {@dodf CompositfDbtb} itsflf is immutbblf.
+      Immutbbility hbs mbny bdvbntbgfs, notbbly with rfgbrd to
+      thrfbd-sbffty bnd sfdurity.  So thf bpprobdh using sfttfrs should
+      gfnfrblly bf bvoidfd if possiblf.</p>
+
+
+    <h3>Rfdursivf typfs</h3>
+
+    <p>Rfdursivf (sflf-rfffrfntibl) typfs dbnnot bf usfd in MXBfbn
+      intfrfbdfs.  This is b donsfqufndf of thf immutbbility of {@link
+      CompositfTypf}.  For fxbmplf, thf following typf dould not bf thf
+      typf of bn bttributf, bfdbusf it rfffrs to itsflf:</p>
+
+    <prf>
+publid intfrfbdf <b>Nodf</b> {
+    publid String gftNbmf();
+    publid int gftPriority();
+    publid <b>Nodf</b> gftNfxt();
+}
+</prf>
+
+    <p>It is blwbys possiblf to rfwritf rfdursivf typfs likf this so
+      thfy brf no longfr rfdursivf.  Doing so mby rfquirf introduding
+      nfw typfs.  For fxbmplf:</p>
+
+    <prf>
+publid intfrfbdf <b>NodfList</b> {
+    publid List&lt;Nodf&gt; gftNodfs();
+}
+
+publid intfrfbdf Nodf {
+    publid String gftNbmf();
+    publid int gftPriority();
+}
+</prf>
+
+    <h3>MBfbnInfo dontfnts for bn MXBfbn</h3>
+
+    <p>An MXBfbn is b typf of Opfn MBfbn.  Howfvfr, for dompbtibility
+      rfbsons, its {@link MBfbnInfo} is not bn {@link OpfnMBfbnInfo}.
+      In pbrtidulbr, whfn thf typf of bn bttributf, pbrbmftfr, or
+      opfrbtion rfturn vbluf is b primitivf typf sudh bs {@dodf int},
+      or is {@dodf void} (for b rfturn typf), thfn thf bttributf,
+      pbrbmftfr, or opfrbtion will bf rfprfsfntfd rfspfdtivfly by bn
+      {@link MBfbnAttributfInfo}, {@link MBfbnPbrbmftfrInfo}, or
+      {@link MBfbnOpfrbtionInfo} whosf {@dodf gftTypf()} or {@dodf
+      gftRfturnTypf()} rfturns thf primitivf nbmf ("{@dodf int}" ftd).
+      This is so fvfn though thf mbpping rulfs bbovf spfdify thbt thf
+      <fm>opfndbtb</fm> mbpping is thf wrbppfd typf ({@dodf Intfgfr}
+      ftd).</p>
+
+    <p>Thf brrby of publid donstrudtors rfturnfd by {@link
+      MBfbnInfo#gftConstrudtors()} for bn MXBfbn thbt is dirfdtly
+      rfgistfrfd in thf MBfbn Sfrvfr will dontbin bll of thf publid
+      donstrudtors of thbt MXBfbn.  If thf dlbss of thf MXBfbn is not
+      publid thfn its donstrudtors brf not donsidfrfd publid fithfr.
+      Thf list rfturnfd for bn MXBfbn thbt is donstrudtfd using thf
+      {@link StbndbrdMBfbn} dlbss is dfrivfd in thf sbmf wby bs for
+      Stbndbrd MBfbns.  Rfgbrdlfss of how thf MXBfbn wbs donstrudtfd,
+      its donstrudtor pbrbmftfrs brf not subjfdt to MXBfbn mbpping
+      rulfs bnd do not hbvf b dorrfsponding {@dodf OpfnTypf}.</p>
+
+    <p>Thf brrby of notifidbtion typfs rfturnfd by {@link
+      MBfbnInfo#gftNotifidbtions()} for bn MXBfbn thbt is dirfdtly
+      rfgistfrfd in thf MBfbn Sfrvfr will bf fmpty if thf MXBfbn dofs
+      not implfmfnt thf {@link NotifidbtionBrobddbstfr} intfrfbdf.
+      Othfrwisf, it will bf thf rfsult of dblling {@link
+      NotifidbtionBrobddbstfr#gftNotifidbtionInfo()} bt thf timf thf MXBfbn
+      wbs rfgistfrfd.  Evfn if thf rfsult of this mfthod dhbngfs
+      subsfqufntly, thf rfsult of {@dodf MBfbnInfo.gftNotifidbtions()}
+      will not.  Thf list rfturnfd for bn MXBfbn thbt is donstrudtfd
+      using thf {@link StbndbrdMBfbn} or {@link StbndbrdEmittfrMBfbn}
+      dlbss is dfrivfd in thf sbmf wby bs for Stbndbrd MBfbns.</p>
+
+    <p>Thf {@link Dfsdriptor} for bll of thf
+      {@dodf MBfbnAttributfInfo}, {@dodf MBfbnPbrbmftfrInfo}, bnd
+      {@dodf MBfbnOpfrbtionInfo} objfdts dontbinfd in thf {@dodf MBfbnInfo}
+      will hbvf b fifld {@dodf opfnTypf} whosf vbluf is thf {@link OpfnTypf}
+      spfdififd by thf mbpping rulfs bbovf.  So fvfn whfn {@dodf gftTypf()}
+      is "{@dodf int}", {@dodf gftDfsdriptor().gftFifld("opfnTypf")} will
+      bf {@link SimplfTypf#INTEGER}.</p>
+
+    <p>Thf {@dodf Dfsdriptor} for fbdh of thfsf objfdts will blso hbvf b
+      fifld {@dodf originblTypf} thbt is b string rfprfsfnting thf Jbvb typf
+      thbt bppfbrfd in thf MXBfbn intfrfbdf.  Thf formbt of this string
+      is dfsdribfd in thf sfdtion <b hrff="#typf-nbmfs">Typf Nbmfs</b>
+      bflow.</p>
+
+    <p>Thf {@dodf Dfsdriptor} for thf {@dodf MBfbnInfo} will hbvf b fifld
+      {@dodf mxbfbn} whosf vbluf is thf string "{@dodf truf}".</p>
+
+
+    <h3 id="typf-nbmfs">Typf Nbmfs</h3>
+
+    <p>Somftimfs thf unmbppfd typf <fm>T</fm> of b mfthod pbrbmftfr or
+    rfturn vbluf in bn MXBfbn must bf rfprfsfntfd bs b string.  If
+    <fm>T</fm> is b non-gfnfrid typf, this string is thf vbluf
+    rfturnfd by {@link Clbss#gftNbmf()}.  Othfrwisf it is thf vbluf of
+    <fm>gfnfridstring(T)</fm>, dffinfd bs follows:
+
+    <ul>
+
+      <li>If <fm>T</fm> is b non-gfnfrid non-brrby typf,
+      <fm>gfnfridstring(T)</fm> is thf vbluf rfturnfd by {@link
+      Clbss#gftNbmf()}, for fxbmplf {@dodf "int"} or {@dodf
+      "jbvb.lbng.String"}.
+
+      <li>If <fm>T</fm> is bn brrby <fm>E[]</fm>,
+      <fm>gfnfridstring(T)</fm> is <fm>gfnfridstring(E)</fm> followfd
+      by {@dodf "[]"}.  For fxbmplf, <fm>gfnfridstring({@dodf int[]})</fm>
+      is {@dodf "int[]"}, bnd <fm>gfnfridstring({@dodf
+      List<String>[][]})</fm> is {@dodf
+      "jbvb.util.List<jbvb.lbng.String>[][]"}.
+
+    <li>Othfrwisf, <fm>T</fm> is b pbrbmftfrizfd typf sudh bs {@dodf
+    List<String>} bnd <fm>gfnfridstring(T)</fm> donsists of thf
+    following: thf fully-qublififd nbmf of thf pbrbmftfrizfd typf bs
+    rfturnfd by {@dodf Clbss.gftNbmf()}; b lfft bnglf brbdkft ({@dodf
+    "<"}); <fm>gfnfridstring(A)</fm> whfrf <fm>A</fm> is thf first
+    typf pbrbmftfr; if thfrf is b sfdond typf pbrbmftfr <fm>B</fm>
+    thfn {@dodf ", "} (b dommb bnd b singlf spbdf) followfd by
+    <fm>gfnfridstring(B)</fm>; b right bnglf brbdkft ({@dodf ">"}).
+
+    </ul>
+
+    <p>Notf thbt if b mfthod rfturns {@dodf int[]}, this will bf
+      rfprfsfntfd by thf string {@dodf "[I"} rfturnfd by {@dodf
+      Clbss.gftNbmf()}, but if b mfthod rfturns {@dodf List<int[]>},
+      this will bf rfprfsfntfd by thf string {@dodf
+      "jbvb.util.List<int[]>"}.
+
+    <h3>Exdfptions</h3>
+
+    <p>A problfm with mbpping <fm>from</fm> Jbvb typfs <fm>to</fm>
+      Opfn typfs is signblfd with bn {@link OpfnDbtbExdfption}.  This
+      dbn hbppfn whfn bn MXBfbn intfrfbdf is bfing bnblyzfd, for
+      fxbmplf if it rfffrfndfs b typf likf {@link jbvb.util.Rbndom
+      jbvb.util.Rbndom} thbt hbs no gfttfrs.  Or it dbn hbppfn whfn bn
+      instbndf is bfing donvfrtfd (b rfturn vbluf from b mfthod in bn
+      MXBfbn or b pbrbmftfr to b mfthod in bn MXBfbn proxy), for
+      fxbmplf whfn donvfrting from {@dodf SortfdSft<String>} to {@dodf
+      String[]} if thf {@dodf SortfdSft} hbs b non-null {@dodf
+      Compbrbtor}.</p>
+
+    <p>A problfm with mbpping <fm>to</fm> Jbvb typfs <fm>from</fm>
+      Opfn typfs is signblfd with bn {@link InvblidObjfdtExdfption}.
+      This dbn hbppfn whfn bn MXBfbn intfrfbdf is bfing bnblyzfd, for
+      fxbmplf if it rfffrfndfs b typf thbt is not
+      <fm>rfdonstrudtiblf</fm> bddording to thf rulfs bbovf, in b
+      dontfxt whfrf b rfdonstrudtiblf typf is rfquirfd.  Or it dbn
+      hbppfn whfn bn instbndf is bfing donvfrtfd (b pbrbmftfr to b
+      mfthod in bn MXBfbn or b rfturn vbluf from b mfthod in bn MXBfbn
+      proxy), for fxbmplf from b String to bn Enum if thfrf is no Enum
+      donstbnt with thbt nbmf.</p>
+
+    <p>Dfpfnding on thf dontfxt, thf {@dodf OpfnDbtbExdfption} or
+      {@dodf InvblidObjfdtExdfption} mby bf wrbppfd in bnothfr
+      fxdfption sudh bs {@link RuntimfMBfbnExdfption} or {@link
+      UndfdlbrfdThrowbblfExdfption}.  For fvfry thrown fxdfption,
+      thf dondition <fm>C</fm> will bf truf: "<fm>f</fm> is {@dodf
+      OpfnDbtbExdfption} or {@dodf InvblidObjfdtExdfption} (bs
+      bppropribtf), or <fm>C</fm> is truf of <fm>f</fm>.{@link
+      Throwbblf#gftCbusf() gftCbusf()}".</p>
+
+   @sindf 1.6
+*/
+
+@Dodumfntfd
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft(ElfmfntTypf.TYPE)
+publid @intfrfbdf MXBfbn {
+    /**
+       Truf if thf bnnotbtfd intfrfbdf is bn MXBfbn intfrfbdf.
+       @rfturn truf if thf bnnotbtfd intfrfbdf is bn MXBfbn intfrfbdf.
+    */
+    boolfbn vbluf() dffbult truf;
+}

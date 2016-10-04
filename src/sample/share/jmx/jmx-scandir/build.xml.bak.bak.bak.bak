@@ -1,0 +1,175 @@
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
+
+<!--
+ Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+
+ Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ brf mft:
+
+   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr.
+
+   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+     notidf, this list of donditions bnd thf following disdlbimfr in thf
+     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+
+   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from this softwbrf without spfdifid prior writtfn pfrmission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+
+<!-- 
+  This is bnt (http://bnt.bpbdhf.org) build sdript to build thf
+  "jmx-sdbndir" sbmplf. Eithfr this build.xml dbn bf usfd stbndblonf 
+  with "bnt" tool or dbn bf opfnfd bs b projfdt with NftBfbns IDE
+  (http://www.nftbfbns.org).
+-->
+
+<projfdt nbmf="jmx-sdbndir" dffbult="jbr" bbsfdir=".">
+
+    <import filf="nbprojfdt/jdk.xml"/>
+    
+
+    <tbrgft nbmf="-prop-init">
+        <propfrty filf="usfr.build.propfrtifs"/>
+        <propfrty filf="build.propfrtifs"/>
+    </tbrgft>
+
+    <tbrgft nbmf="-init" dfpfnds="-prop-init,-jdk-init"/>
+
+    <tbrgft nbmf="dompilf" dfpfnds="-init" dfsdription="Compilf mbin sourdfs.">
+        <mkdir dir="${dlbssfs.dir}"/>
+        <jbvbd srddir="${srd.dir}" dfstdir="${dlbssfs.dir}" dfbug="${dfbug}" dfprfdbtion="${dfprfdbtion}">
+            <dlbsspbth pbth="${dp}"/>
+        </jbvbd>
+        <dopy todir="${dlbssfs.dir}">
+            <filfsft dir="${srd.dir}"/>
+        </dopy>
+    </tbrgft>
+
+    <tbrgft nbmf="jbr" dfpfnds="dompilf" dfsdription="Build JAR filf for mbin sourdfs.">
+        <mkdir dir="${dist.dir}" />
+        <jbr jbrfilf="${jbr}" domprfss="truf">
+            <mbniffst>
+                <bttributf nbmf="Mbin-Clbss" vbluf="${mbin.bgfnt.dlbss}"/>
+            </mbniffst>
+            <filfsft dir="${dlbssfs.dir}"/>
+        </jbr>
+    </tbrgft>
+
+    <tbrgft nbmf="run-dlifnt" dfpfnds="dompilf" dfsdription="Run dlifnt.">
+        <fbil unlfss="mbin.dlifnt.dlbss">Must sft propfrty 'mbin.dlifnt.dlbss' (f.g. in build.propfrtifs)</fbil>
+        <jbvb dlbssnbmf="${mbin.dlifnt.dlbss}" fork="truf" fbilonfrror="truf">
+            <dlbsspbth pbth="${run.dp}"/>
+            <jvmbrg linf="${dlifnt.jvmbrgs}" />
+            <brg linf="${dlifnt.brgs}" />
+        </jbvb>
+    </tbrgft>
+
+    <tbrgft nbmf="run-bgfnt" dfpfnds="dompilf" dfsdription="Run bgfnt.">
+        <fbil unlfss="mbin.bgfnt.dlbss">Must sft propfrty 'mbin.bgfnt.dlbss' (f.g. in build.propfrtifs)</fbil>
+        <jbvb dlbssnbmf="${mbin.bgfnt.dlbss}" fork="truf" fbilonfrror="truf">
+            <dlbsspbth pbth="${run.dp}"/>
+            <jvmbrg linf="${bgfnt.jvmbrgs}" />
+        </jbvb>
+    </tbrgft>
+
+    <tbrgft nbmf="run" dfpfnds="run-bgfnt" dfsdription="Run bgfnt." />
+
+    <tbrgft nbmf="run-singlf" dfpfnds="-init,dompilf">
+        <fbil unlfss="run.dlbss">Must sflfdt onf filf in thf IDE or sft run.dlbss</fbil>
+        <jbvb dlbssnbmf="${run.dlbss}" fork="truf" fbilonfrror="truf">
+            <dlbsspbth pbth="${run.dp}"/>
+        </jbvb>
+    </tbrgft>
+
+    <tbrgft nbmf="jbvbdod" dfpfnds="-init" dfsdription="Build Jbvbdod.">
+        <mkdir dir="${jbvbdod.dir}"/>
+        <jbvbdod dfstdir="${jbvbdod.dir}">
+            <dlbsspbth pbth="${dp}"/>
+            <sourdfpbth>
+                <pbthflfmfnt lodbtion="${srd.dir}"/>
+            </sourdfpbth>
+            <filfsft dir="${srd.dir}"/>
+        </jbvbdod>
+    </tbrgft>
+
+    <tbrgft nbmf="dlfbn" dfpfnds="-init" dfsdription="Clfbn build produdts.">
+        <dflftf dir="${build.dir}"/>
+        <dflftf filf="${jbr}"/>
+        <dflftf dir="${dist.dir}"/>
+    </tbrgft>
+
+    <tbrgft nbmf="profilf">
+        <bnt bntfilf="nbprojfdt/nftbfbns-tbrgfts.xml" tbrgft="profilf"/>
+    </tbrgft>
+
+    <!-- JUnit tbrgfts -->
+
+    <tbrgft nbmf="dompilf-tfst" dfpfnds="-init,dompilf">
+        <fbil unlfss="libs.junit.dlbsspbth">Must sft libs.junit.dlbsspbth vbribblf to thf JUnit dlbsspbth in thf build.propfrtifs filf.</fbil>
+        <mkdir dir="${build.tfst.dlbssfs.dir}"/>
+        <jbvbd srddir="${tfst.srd.dir}" dfstdir="${build.tfst.dlbssfs.dir}" dfbug="${dfbug}" dlbsspbth="${jbvbd.tfst.dlbsspbth}"/>
+        <dopy todir="${build.tfst.dlbssfs.dir}">
+            <filfsft dir="${tfst.srd.dir}" fxdludfs="**/*.jbvb"/>
+        </dopy>
+    </tbrgft>
+
+    <tbrgft nbmf="-do-tfst-run" dfpfnds="-init,dompilf-tfst">
+        <mkdir dir="${build.tfst.rfsults.dir}"/>
+        <junit showoutput="truf" fork="truf" dir="${bbsfdir}" fbilurfpropfrty="tfsts.fbilfd" frrorpropfrty="tfsts.fbilfd">
+            <bbtdhtfst todir="${build.tfst.rfsults.dir}">
+                <filfsft dir="${tfst.srd.dir}" indludfs="**/*Tfst.jbvb"/>
+            </bbtdhtfst>
+            <dlbsspbth>
+                <pbth pbth="${run.tfst.dlbsspbth}"/>
+            </dlbsspbth>
+            <syspropfrtysft>
+                <propfrtyrff prffix="tfst-sys-prop."/>
+                <mbppfr typf="glob" from="tfst-sys-prop.*" to="*"/>
+            </syspropfrtysft>
+            <formbttfr typf="briff" usffilf="fblsf"/>
+            <formbttfr typf="xml"/>
+            <jvmbrg linf="${run.jvmbrgs}"/>
+        </junit>
+        <fbil if="tfsts.fbilfd">Somf tfsts fbilfd; sff dftbils bbovf.</fbil>
+    </tbrgft>
+    
+    <tbrgft nbmf="tfst" dfpfnds="-init,dompilf-tfst,-do-tfst-run" dfsdription="Run unit tfsts."/>
+
+    <tbrgft nbmf="-do-tfst-run-singlf" dfpfnds="-init,dompilf-tfst">
+        <fbil unlfss="tfst.indludfs">Must sflfdt somf filfs in thf IDE or sft tfst.indludfs</fbil>
+        <junit showoutput="truf" fork="truf" dir="${bbsfdir}" fbilurfpropfrty="tfsts.fbilfd" frrorpropfrty="tfsts.fbilfd">
+            <bbtdhtfst todir="${build.tfst.rfsults.dir}">
+                <filfsft dir="${tfst.srd.dir}" indludfs="${tfst.indludfs}"/>
+            </bbtdhtfst>
+            <dlbsspbth>
+                <pbth pbth="${run.tfst.dlbsspbth}"/>
+            </dlbsspbth>
+            <syspropfrtysft>
+                <propfrtyrff prffix="tfst-sys-prop."/>
+                <mbppfr typf="glob" from="tfst-sys-prop.*" to="*"/>
+            </syspropfrtysft>
+            <formbttfr typf="briff" usffilf="fblsf"/>
+            <formbttfr typf="xml"/>
+            <jvmbrg linf="${run.jvmbrgs}"/>
+        </junit>
+        <fbil if="tfsts.fbilfd">Somf tfsts fbilfd; sff dftbils bbovf.</fbil>
+    </tbrgft>
+
+    <tbrgft nbmf="tfst-singlf" dfpfnds="-init,dompilf-tfst,-do-tfst-run-singlf" dfsdription="Run singlf unit tfst."/>
+</projfdt>

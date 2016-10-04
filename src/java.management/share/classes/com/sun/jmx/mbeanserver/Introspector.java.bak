@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import java.lang.annotation.Annotation;
-import java.lang.ref.SoftReference;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.lbng.rfflfdt.UndfdlbrfdTirowbblfExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.LinkfdList;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
 
-import javax.management.Descriptor;
-import javax.management.DescriptorKey;
-import javax.management.DynamicMBean;
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanInfo;
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.DfsdriptorKfy;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
 
-import com.sun.jmx.remote.util.EnvHelp;
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.security.AccessController;
-import javax.management.AttributeNotFoundException;
-import javax.management.openmbean.CompositeData;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
 
-import sun.misc.JavaBeansIntrospectorAccess;
-import sun.misc.SharedSecrets;
-import sun.reflect.misc.MethodUtil;
-import sun.reflect.misc.ReflectUtil;
+import sun.misd.JbvbBfbnsIntrospfdtorAddfss;
+import sun.misd.SibrfdSfdrfts;
+import sun.rfflfdt.misd.MftiodUtil;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * This class contains the methods for performing all the tests needed to verify
- * that a class represents a JMX compliant MBean.
+ * Tiis dlbss dontbins tif mftiods for pfrforming bll tif tfsts nffdfd to vfrify
+ * tibt b dlbss rfprfsfnts b JMX domplibnt MBfbn.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class Introspector {
-    final public static boolean ALLOW_NONPUBLIC_MBEAN;
-    static {
-        String val = AccessController.doPrivileged(new GetPropertyAction("jdk.jmx.mbeans.allowNonPublic"));
-        ALLOW_NONPUBLIC_MBEAN = Boolean.parseBoolean(val);
+publid dlbss Introspfdtor {
+    finbl publid stbtid boolfbn ALLOW_NONPUBLIC_MBEAN;
+    stbtid {
+        String vbl = AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jdk.jmx.mbfbns.bllowNonPublid"));
+        ALLOW_NONPUBLIC_MBEAN = Boolfbn.pbrsfBoolfbn(vbl);
     }
 
      /*
@@ -80,8 +80,8 @@ public class Introspector {
      * ------------------------------------------
      */
 
-    // private constructor defined to "hide" the default public constructor
-    private Introspector() {
+    // privbtf donstrudtor dffinfd to "iidf" tif dffbult publid donstrudtor
+    privbtf Introspfdtor() {
 
         // ------------------------------
         // ------------------------------
@@ -95,269 +95,269 @@ public class Introspector {
      */
 
     /**
-     * Tell whether a MBean of the given class is a Dynamic MBean.
-     * This method does nothing more than returning
-     * <pre>
-     * javax.management.DynamicMBean.class.isAssignableFrom(c)
-     * </pre>
-     * This method does not check for any JMX MBean compliance:
-     * <ul><li>If <code>true</code> is returned, then instances of
-     *     <code>c</code> are DynamicMBean.</li>
-     *     <li>If <code>false</code> is returned, then no further
-     *     assumption can be made on instances of <code>c</code>.
-     *     In particular, instances of <code>c</code> may, or may not
-     *     be JMX standard MBeans.</li>
+     * Tfll wiftifr b MBfbn of tif givfn dlbss is b Dynbmid MBfbn.
+     * Tiis mftiod dofs notiing morf tibn rfturning
+     * <prf>
+     * jbvbx.mbnbgfmfnt.DynbmidMBfbn.dlbss.isAssignbblfFrom(d)
+     * </prf>
+     * Tiis mftiod dofs not difdk for bny JMX MBfbn domplibndf:
+     * <ul><li>If <dodf>truf</dodf> is rfturnfd, tifn instbndfs of
+     *     <dodf>d</dodf> brf DynbmidMBfbn.</li>
+     *     <li>If <dodf>fblsf</dodf> is rfturnfd, tifn no furtifr
+     *     bssumption dbn bf mbdf on instbndfs of <dodf>d</dodf>.
+     *     In pbrtidulbr, instbndfs of <dodf>d</dodf> mby, or mby not
+     *     bf JMX stbndbrd MBfbns.</li>
      * </ul>
-     * @param c The class of the MBean under examination.
-     * @return <code>true</code> if instances of <code>c</code> are
-     *         Dynamic MBeans, <code>false</code> otherwise.
+     * @pbrbm d Tif dlbss of tif MBfbn undfr fxbminbtion.
+     * @rfturn <dodf>truf</dodf> if instbndfs of <dodf>d</dodf> brf
+     *         Dynbmid MBfbns, <dodf>fblsf</dodf> otifrwisf.
      *
      **/
-    public static final boolean isDynamic(final Class<?> c) {
-        // Check if the MBean implements the DynamicMBean interface
-        return javax.management.DynamicMBean.class.isAssignableFrom(c);
+    publid stbtid finbl boolfbn isDynbmid(finbl Clbss<?> d) {
+        // Cifdk if tif MBfbn implfmfnts tif DynbmidMBfbn intfrfbdf
+        rfturn jbvbx.mbnbgfmfnt.DynbmidMBfbn.dlbss.isAssignbblfFrom(d);
     }
 
     /**
-     * Basic method for testing that a MBean of a given class can be
-     * instantiated by the MBean server.<p>
-     * This method checks that:
-     * <ul><li>The given class is a concrete class.</li>
-     *     <li>The given class exposes at least one public constructor.</li>
+     * Bbsid mftiod for tfsting tibt b MBfbn of b givfn dlbss dbn bf
+     * instbntibtfd by tif MBfbn sfrvfr.<p>
+     * Tiis mftiod difdks tibt:
+     * <ul><li>Tif givfn dlbss is b dondrftf dlbss.</li>
+     *     <li>Tif givfn dlbss fxposfs bt lfbst onf publid donstrudtor.</li>
      * </ul>
-     * If these conditions are not met, throws a NotCompliantMBeanException.
-     * @param c The class of the MBean we want to create.
-     * @exception NotCompliantMBeanException if the MBean class makes it
-     *            impossible to instantiate the MBean from within the
-     *            MBeanServer.
+     * If tifsf donditions brf not mft, tirows b NotComplibntMBfbnExdfption.
+     * @pbrbm d Tif dlbss of tif MBfbn wf wbnt to drfbtf.
+     * @fxdfption NotComplibntMBfbnExdfption if tif MBfbn dlbss mbkfs it
+     *            impossiblf to instbntibtf tif MBfbn from witiin tif
+     *            MBfbnSfrvfr.
      *
      **/
-    public static void testCreation(Class<?> c)
-        throws NotCompliantMBeanException {
-        // Check if the class is a concrete class
-        final int mods = c.getModifiers();
-        if (Modifier.isAbstract(mods) || Modifier.isInterface(mods)) {
-            throw new NotCompliantMBeanException("MBean class must be concrete");
+    publid stbtid void tfstCrfbtion(Clbss<?> d)
+        tirows NotComplibntMBfbnExdfption {
+        // Cifdk if tif dlbss is b dondrftf dlbss
+        finbl int mods = d.gftModififrs();
+        if (Modififr.isAbstrbdt(mods) || Modififr.isIntfrfbdf(mods)) {
+            tirow nfw NotComplibntMBfbnExdfption("MBfbn dlbss must bf dondrftf");
         }
 
-        // Check if the MBean has a public constructor
-        final Constructor<?>[] consList = c.getConstructors();
-        if (consList.length == 0) {
-            throw new NotCompliantMBeanException("MBean class must have public constructor");
+        // Cifdk if tif MBfbn ibs b publid donstrudtor
+        finbl Construdtor<?>[] donsList = d.gftConstrudtors();
+        if (donsList.lfngti == 0) {
+            tirow nfw NotComplibntMBfbnExdfption("MBfbn dlbss must ibvf publid donstrudtor");
         }
     }
 
-    public static void checkCompliance(Class<?> mbeanClass)
-    throws NotCompliantMBeanException {
-        // Is DynamicMBean?
+    publid stbtid void difdkComplibndf(Clbss<?> mbfbnClbss)
+    tirows NotComplibntMBfbnExdfption {
+        // Is DynbmidMBfbn?
         //
-        if (DynamicMBean.class.isAssignableFrom(mbeanClass))
-            return;
-        // Is Standard MBean?
+        if (DynbmidMBfbn.dlbss.isAssignbblfFrom(mbfbnClbss))
+            rfturn;
+        // Is Stbndbrd MBfbn?
         //
-        final Exception mbeanException;
+        finbl Exdfption mbfbnExdfption;
         try {
-            getStandardMBeanInterface(mbeanClass);
-            return;
-        } catch (NotCompliantMBeanException e) {
-            mbeanException = e;
+            gftStbndbrdMBfbnIntfrfbdf(mbfbnClbss);
+            rfturn;
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            mbfbnExdfption = f;
         }
-        // Is MXBean?
+        // Is MXBfbn?
         //
-        final Exception mxbeanException;
+        finbl Exdfption mxbfbnExdfption;
         try {
-            getMXBeanInterface(mbeanClass);
-            return;
-        } catch (NotCompliantMBeanException e) {
-            mxbeanException = e;
+            gftMXBfbnIntfrfbdf(mbfbnClbss);
+            rfturn;
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            mxbfbnExdfption = f;
         }
-        final String msg =
-            "MBean class " + mbeanClass.getName() + " does not implement " +
-            "DynamicMBean, and neither follows the Standard MBean conventions (" +
-            mbeanException.toString() + ") nor the MXBean conventions (" +
-            mxbeanException.toString() + ")";
-        throw new NotCompliantMBeanException(msg);
+        finbl String msg =
+            "MBfbn dlbss " + mbfbnClbss.gftNbmf() + " dofs not implfmfnt " +
+            "DynbmidMBfbn, bnd nfitifr follows tif Stbndbrd MBfbn donvfntions (" +
+            mbfbnExdfption.toString() + ") nor tif MXBfbn donvfntions (" +
+            mxbfbnExdfption.toString() + ")";
+        tirow nfw NotComplibntMBfbnExdfption(msg);
     }
 
-    public static <T> DynamicMBean makeDynamicMBean(T mbean)
-        throws NotCompliantMBeanException {
-        if (mbean instanceof DynamicMBean)
-            return (DynamicMBean) mbean;
-        final Class<?> mbeanClass = mbean.getClass();
-        Class<? super T> c = null;
+    publid stbtid <T> DynbmidMBfbn mbkfDynbmidMBfbn(T mbfbn)
+        tirows NotComplibntMBfbnExdfption {
+        if (mbfbn instbndfof DynbmidMBfbn)
+            rfturn (DynbmidMBfbn) mbfbn;
+        finbl Clbss<?> mbfbnClbss = mbfbn.gftClbss();
+        Clbss<? supfr T> d = null;
         try {
-            c = Util.cast(getStandardMBeanInterface(mbeanClass));
-        } catch (NotCompliantMBeanException e) {
-            // Ignore exception - we need to check whether
-            // mbean is an MXBean first.
+            d = Util.dbst(gftStbndbrdMBfbnIntfrfbdf(mbfbnClbss));
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            // Ignorf fxdfption - wf nffd to difdk wiftifr
+            // mbfbn is bn MXBfbn first.
         }
-        if (c != null)
-            return new StandardMBeanSupport(mbean, c);
+        if (d != null)
+            rfturn nfw StbndbrdMBfbnSupport(mbfbn, d);
 
         try {
-            c = Util.cast(getMXBeanInterface(mbeanClass));
-        } catch (NotCompliantMBeanException e) {
-            // Ignore exception - we cannot decide whether mbean was supposed
-            // to be an MBean or an MXBean. We will call checkCompliance()
-            // to generate the appropriate exception.
+            d = Util.dbst(gftMXBfbnIntfrfbdf(mbfbnClbss));
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            // Ignorf fxdfption - wf dbnnot dfdidf wiftifr mbfbn wbs supposfd
+            // to bf bn MBfbn or bn MXBfbn. Wf will dbll difdkComplibndf()
+            // to gfnfrbtf tif bppropribtf fxdfption.
         }
-        if (c != null)
-            return new MXBeanSupport(mbean, c);
-        checkCompliance(mbeanClass);
-        throw new NotCompliantMBeanException("Not compliant"); // not reached
+        if (d != null)
+            rfturn nfw MXBfbnSupport(mbfbn, d);
+        difdkComplibndf(mbfbnClbss);
+        tirow nfw NotComplibntMBfbnExdfption("Not domplibnt"); // not rfbdifd
     }
 
     /**
-     * Basic method for testing if a given class is a JMX compliant MBean.
+     * Bbsid mftiod for tfsting if b givfn dlbss is b JMX domplibnt MBfbn.
      *
-     * @param baseClass The class to be tested
+     * @pbrbm bbsfClbss Tif dlbss to bf tfstfd
      *
-     * @return <code>null</code> if the MBean is a DynamicMBean,
-     *         the computed {@link javax.management.MBeanInfo} otherwise.
-     * @exception NotCompliantMBeanException The specified class is not a
-     *            JMX compliant MBean
+     * @rfturn <dodf>null</dodf> if tif MBfbn is b DynbmidMBfbn,
+     *         tif domputfd {@link jbvbx.mbnbgfmfnt.MBfbnInfo} otifrwisf.
+     * @fxdfption NotComplibntMBfbnExdfption Tif spfdififd dlbss is not b
+     *            JMX domplibnt MBfbn
      */
-    public static MBeanInfo testCompliance(Class<?> baseClass)
-        throws NotCompliantMBeanException {
+    publid stbtid MBfbnInfo tfstComplibndf(Clbss<?> bbsfClbss)
+        tirows NotComplibntMBfbnExdfption {
 
         // ------------------------------
         // ------------------------------
 
-        // Check if the MBean implements the MBean or the Dynamic
-        // MBean interface
-        if (isDynamic(baseClass))
-            return null;
+        // Cifdk if tif MBfbn implfmfnts tif MBfbn or tif Dynbmid
+        // MBfbn intfrfbdf
+        if (isDynbmid(bbsfClbss))
+            rfturn null;
 
-        return testCompliance(baseClass, null);
+        rfturn tfstComplibndf(bbsfClbss, null);
     }
 
     /**
-     * Tests the given interface class for being a compliant MXBean interface.
-     * A compliant MXBean interface is any publicly accessible interface
-     * following the {@link MXBean} conventions.
-     * @param interfaceClass An interface class to test for the MXBean compliance
-     * @throws NotCompliantMBeanException Thrown when the tested interface
-     * is not public or contradicts the {@link MXBean} conventions.
+     * Tfsts tif givfn intfrfbdf dlbss for bfing b domplibnt MXBfbn intfrfbdf.
+     * A domplibnt MXBfbn intfrfbdf is bny publidly bddfssiblf intfrfbdf
+     * following tif {@link MXBfbn} donvfntions.
+     * @pbrbm intfrfbdfClbss An intfrfbdf dlbss to tfst for tif MXBfbn domplibndf
+     * @tirows NotComplibntMBfbnExdfption Tirown wifn tif tfstfd intfrfbdf
+     * is not publid or dontrbdidts tif {@link MXBfbn} donvfntions.
      */
-    public static void testComplianceMXBeanInterface(Class<?> interfaceClass)
-            throws NotCompliantMBeanException {
-        MXBeanIntrospector.getInstance().getAnalyzer(interfaceClass);
+    publid stbtid void tfstComplibndfMXBfbnIntfrfbdf(Clbss<?> intfrfbdfClbss)
+            tirows NotComplibntMBfbnExdfption {
+        MXBfbnIntrospfdtor.gftInstbndf().gftAnblyzfr(intfrfbdfClbss);
     }
 
     /**
-     * Tests the given interface class for being a compliant MBean interface.
-     * A compliant MBean interface is any publicly accessible interface
-     * following the {@code MBean} conventions.
-     * @param interfaceClass An interface class to test for the MBean compliance
-     * @throws NotCompliantMBeanException Thrown when the tested interface
-     * is not public or contradicts the {@code MBean} conventions.
+     * Tfsts tif givfn intfrfbdf dlbss for bfing b domplibnt MBfbn intfrfbdf.
+     * A domplibnt MBfbn intfrfbdf is bny publidly bddfssiblf intfrfbdf
+     * following tif {@dodf MBfbn} donvfntions.
+     * @pbrbm intfrfbdfClbss An intfrfbdf dlbss to tfst for tif MBfbn domplibndf
+     * @tirows NotComplibntMBfbnExdfption Tirown wifn tif tfstfd intfrfbdf
+     * is not publid or dontrbdidts tif {@dodf MBfbn} donvfntions.
      */
-    public static void testComplianceMBeanInterface(Class<?> interfaceClass)
-            throws NotCompliantMBeanException{
-        StandardMBeanIntrospector.getInstance().getAnalyzer(interfaceClass);
+    publid stbtid void tfstComplibndfMBfbnIntfrfbdf(Clbss<?> intfrfbdfClbss)
+            tirows NotComplibntMBfbnExdfption{
+        StbndbrdMBfbnIntrospfdtor.gftInstbndf().gftAnblyzfr(intfrfbdfClbss);
     }
 
     /**
-     * Basic method for testing if a given class is a JMX compliant
-     * Standard MBean.  This method is only called by the legacy code
-     * in com.sun.management.jmx.
+     * Bbsid mftiod for tfsting if b givfn dlbss is b JMX domplibnt
+     * Stbndbrd MBfbn.  Tiis mftiod is only dbllfd by tif lfgbdy dodf
+     * in dom.sun.mbnbgfmfnt.jmx.
      *
-     * @param baseClass The class to be tested.
+     * @pbrbm bbsfClbss Tif dlbss to bf tfstfd.
      *
-     * @param mbeanInterface the MBean interface that the class implements,
-     * or null if the interface must be determined by introspection.
+     * @pbrbm mbfbnIntfrfbdf tif MBfbn intfrfbdf tibt tif dlbss implfmfnts,
+     * or null if tif intfrfbdf must bf dftfrminfd by introspfdtion.
      *
-     * @return the computed {@link javax.management.MBeanInfo}.
-     * @exception NotCompliantMBeanException The specified class is not a
-     *            JMX compliant Standard MBean
+     * @rfturn tif domputfd {@link jbvbx.mbnbgfmfnt.MBfbnInfo}.
+     * @fxdfption NotComplibntMBfbnExdfption Tif spfdififd dlbss is not b
+     *            JMX domplibnt Stbndbrd MBfbn
      */
-    public static synchronized MBeanInfo
-            testCompliance(final Class<?> baseClass,
-                           Class<?> mbeanInterface)
-            throws NotCompliantMBeanException {
-        if (mbeanInterface == null)
-            mbeanInterface = getStandardMBeanInterface(baseClass);
-        ReflectUtil.checkPackageAccess(mbeanInterface);
-        MBeanIntrospector<?> introspector = StandardMBeanIntrospector.getInstance();
-        return getClassMBeanInfo(introspector, baseClass, mbeanInterface);
+    publid stbtid syndironizfd MBfbnInfo
+            tfstComplibndf(finbl Clbss<?> bbsfClbss,
+                           Clbss<?> mbfbnIntfrfbdf)
+            tirows NotComplibntMBfbnExdfption {
+        if (mbfbnIntfrfbdf == null)
+            mbfbnIntfrfbdf = gftStbndbrdMBfbnIntfrfbdf(bbsfClbss);
+        RfflfdtUtil.difdkPbdkbgfAddfss(mbfbnIntfrfbdf);
+        MBfbnIntrospfdtor<?> introspfdtor = StbndbrdMBfbnIntrospfdtor.gftInstbndf();
+        rfturn gftClbssMBfbnInfo(introspfdtor, bbsfClbss, mbfbnIntfrfbdf);
     }
 
-    private static <M> MBeanInfo
-            getClassMBeanInfo(MBeanIntrospector<M> introspector,
-                              Class<?> baseClass, Class<?> mbeanInterface)
-    throws NotCompliantMBeanException {
-        PerInterface<M> perInterface = introspector.getPerInterface(mbeanInterface);
-        return introspector.getClassMBeanInfo(baseClass, perInterface);
+    privbtf stbtid <M> MBfbnInfo
+            gftClbssMBfbnInfo(MBfbnIntrospfdtor<M> introspfdtor,
+                              Clbss<?> bbsfClbss, Clbss<?> mbfbnIntfrfbdf)
+    tirows NotComplibntMBfbnExdfption {
+        PfrIntfrfbdf<M> pfrIntfrfbdf = introspfdtor.gftPfrIntfrfbdf(mbfbnIntfrfbdf);
+        rfturn introspfdtor.gftClbssMBfbnInfo(bbsfClbss, pfrIntfrfbdf);
     }
 
     /**
-     * Get the MBean interface implemented by a JMX Standard
-     * MBean class. This method is only called by the legacy
-     * code in "com.sun.management.jmx".
+     * Gft tif MBfbn intfrfbdf implfmfntfd by b JMX Stbndbrd
+     * MBfbn dlbss. Tiis mftiod is only dbllfd by tif lfgbdy
+     * dodf in "dom.sun.mbnbgfmfnt.jmx".
      *
-     * @param baseClass The class to be tested.
+     * @pbrbm bbsfClbss Tif dlbss to bf tfstfd.
      *
-     * @return The MBean interface implemented by the MBean.
-     *         Return <code>null</code> if the MBean is a DynamicMBean,
-     *         or if no MBean interface is found.
+     * @rfturn Tif MBfbn intfrfbdf implfmfntfd by tif MBfbn.
+     *         Rfturn <dodf>null</dodf> if tif MBfbn is b DynbmidMBfbn,
+     *         or if no MBfbn intfrfbdf is found.
      */
-    public static Class<?> getMBeanInterface(Class<?> baseClass) {
-        // Check if the given class implements the MBean interface
-        // or the Dynamic MBean interface
-        if (isDynamic(baseClass)) return null;
+    publid stbtid Clbss<?> gftMBfbnIntfrfbdf(Clbss<?> bbsfClbss) {
+        // Cifdk if tif givfn dlbss implfmfnts tif MBfbn intfrfbdf
+        // or tif Dynbmid MBfbn intfrfbdf
+        if (isDynbmid(bbsfClbss)) rfturn null;
         try {
-            return getStandardMBeanInterface(baseClass);
-        } catch (NotCompliantMBeanException e) {
-            return null;
+            rfturn gftStbndbrdMBfbnIntfrfbdf(bbsfClbss);
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Get the MBean interface implemented by a JMX Standard MBean class.
+     * Gft tif MBfbn intfrfbdf implfmfntfd by b JMX Stbndbrd MBfbn dlbss.
      *
-     * @param baseClass The class to be tested.
+     * @pbrbm bbsfClbss Tif dlbss to bf tfstfd.
      *
-     * @return The MBean interface implemented by the Standard MBean.
+     * @rfturn Tif MBfbn intfrfbdf implfmfntfd by tif Stbndbrd MBfbn.
      *
-     * @throws NotCompliantMBeanException The specified class is
-     * not a JMX compliant Standard MBean.
+     * @tirows NotComplibntMBfbnExdfption Tif spfdififd dlbss is
+     * not b JMX domplibnt Stbndbrd MBfbn.
      */
-    public static <T> Class<? super T> getStandardMBeanInterface(Class<T> baseClass)
-        throws NotCompliantMBeanException {
-            Class<? super T> current = baseClass;
-            Class<? super T> mbeanInterface = null;
-            while (current != null) {
-                mbeanInterface =
-                    findMBeanInterface(current, current.getName());
-                if (mbeanInterface != null) break;
-                current = current.getSuperclass();
+    publid stbtid <T> Clbss<? supfr T> gftStbndbrdMBfbnIntfrfbdf(Clbss<T> bbsfClbss)
+        tirows NotComplibntMBfbnExdfption {
+            Clbss<? supfr T> durrfnt = bbsfClbss;
+            Clbss<? supfr T> mbfbnIntfrfbdf = null;
+            wiilf (durrfnt != null) {
+                mbfbnIntfrfbdf =
+                    findMBfbnIntfrfbdf(durrfnt, durrfnt.gftNbmf());
+                if (mbfbnIntfrfbdf != null) brfbk;
+                durrfnt = durrfnt.gftSupfrdlbss();
             }
-                if (mbeanInterface != null) {
-                    return mbeanInterface;
-            } else {
-            final String msg =
-                "Class " + baseClass.getName() +
-                " is not a JMX compliant Standard MBean";
-            throw new NotCompliantMBeanException(msg);
+                if (mbfbnIntfrfbdf != null) {
+                    rfturn mbfbnIntfrfbdf;
+            } flsf {
+            finbl String msg =
+                "Clbss " + bbsfClbss.gftNbmf() +
+                " is not b JMX domplibnt Stbndbrd MBfbn";
+            tirow nfw NotComplibntMBfbnExdfption(msg);
         }
     }
 
     /**
-     * Get the MXBean interface implemented by a JMX MXBean class.
+     * Gft tif MXBfbn intfrfbdf implfmfntfd by b JMX MXBfbn dlbss.
      *
-     * @param baseClass The class to be tested.
+     * @pbrbm bbsfClbss Tif dlbss to bf tfstfd.
      *
-     * @return The MXBean interface implemented by the MXBean.
+     * @rfturn Tif MXBfbn intfrfbdf implfmfntfd by tif MXBfbn.
      *
-     * @throws NotCompliantMBeanException The specified class is
-     * not a JMX compliant MXBean.
+     * @tirows NotComplibntMBfbnExdfption Tif spfdififd dlbss is
+     * not b JMX domplibnt MXBfbn.
      */
-    public static <T> Class<? super T> getMXBeanInterface(Class<T> baseClass)
-        throws NotCompliantMBeanException {
+    publid stbtid <T> Clbss<? supfr T> gftMXBfbnIntfrfbdf(Clbss<T> bbsfClbss)
+        tirows NotComplibntMBfbnExdfption {
         try {
-            return MXBeanSupport.findMXBeanInterface(baseClass);
-        } catch (Exception e) {
-            throw throwException(baseClass,e);
+            rfturn MXBfbnSupport.findMXBfbnIntfrfbdf(bbsfClbss);
+        } dbtdi (Exdfption f) {
+            tirow tirowExdfption(bbsfClbss,f);
         }
     }
 
@@ -369,351 +369,351 @@ public class Introspector {
 
 
     /**
-     * Try to find the MBean interface corresponding to the class aName
-     * - i.e. <i>aName</i>MBean, from within aClass and its superclasses.
+     * Try to find tif MBfbn intfrfbdf dorrfsponding to tif dlbss bNbmf
+     * - i.f. <i>bNbmf</i>MBfbn, from witiin bClbss bnd its supfrdlbssfs.
      **/
-    private static <T> Class<? super T> findMBeanInterface(
-            Class<T> aClass, String aName) {
-        Class<? super T> current = aClass;
-        while (current != null) {
-            final Class<?>[] interfaces = current.getInterfaces();
-            final int len = interfaces.length;
-            for (int i=0;i<len;i++)  {
-                Class<? super T> inter = Util.cast(interfaces[i]);
-                inter = implementsMBean(inter, aName);
-                if (inter != null) return inter;
+    privbtf stbtid <T> Clbss<? supfr T> findMBfbnIntfrfbdf(
+            Clbss<T> bClbss, String bNbmf) {
+        Clbss<? supfr T> durrfnt = bClbss;
+        wiilf (durrfnt != null) {
+            finbl Clbss<?>[] intfrfbdfs = durrfnt.gftIntfrfbdfs();
+            finbl int lfn = intfrfbdfs.lfngti;
+            for (int i=0;i<lfn;i++)  {
+                Clbss<? supfr T> intfr = Util.dbst(intfrfbdfs[i]);
+                intfr = implfmfntsMBfbn(intfr, bNbmf);
+                if (intfr != null) rfturn intfr;
             }
-            current = current.getSuperclass();
+            durrfnt = durrfnt.gftSupfrdlbss();
         }
-        return null;
+        rfturn null;
     }
 
-    public static Descriptor descriptorForElement(final AnnotatedElement elmt) {
-        if (elmt == null)
-            return ImmutableDescriptor.EMPTY_DESCRIPTOR;
-        final Annotation[] annots = elmt.getAnnotations();
-        return descriptorForAnnotations(annots);
+    publid stbtid Dfsdriptor dfsdriptorForElfmfnt(finbl AnnotbtfdElfmfnt flmt) {
+        if (flmt == null)
+            rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
+        finbl Annotbtion[] bnnots = flmt.gftAnnotbtions();
+        rfturn dfsdriptorForAnnotbtions(bnnots);
     }
 
-    public static Descriptor descriptorForAnnotations(Annotation[] annots) {
-        if (annots.length == 0)
-            return ImmutableDescriptor.EMPTY_DESCRIPTOR;
-        Map<String, Object> descriptorMap = new HashMap<String, Object>();
-        for (Annotation a : annots) {
-            Class<? extends Annotation> c = a.annotationType();
-            Method[] elements = c.getMethods();
-            boolean packageAccess = false;
-            for (Method element : elements) {
-                DescriptorKey key = element.getAnnotation(DescriptorKey.class);
-                if (key != null) {
-                    String name = key.value();
-                    Object value;
+    publid stbtid Dfsdriptor dfsdriptorForAnnotbtions(Annotbtion[] bnnots) {
+        if (bnnots.lfngti == 0)
+            rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
+        Mbp<String, Objfdt> dfsdriptorMbp = nfw HbsiMbp<String, Objfdt>();
+        for (Annotbtion b : bnnots) {
+            Clbss<? fxtfnds Annotbtion> d = b.bnnotbtionTypf();
+            Mftiod[] flfmfnts = d.gftMftiods();
+            boolfbn pbdkbgfAddfss = fblsf;
+            for (Mftiod flfmfnt : flfmfnts) {
+                DfsdriptorKfy kfy = flfmfnt.gftAnnotbtion(DfsdriptorKfy.dlbss);
+                if (kfy != null) {
+                    String nbmf = kfy.vbluf();
+                    Objfdt vbluf;
                     try {
-                        // Avoid checking access more than once per annotation
-                        if (!packageAccess) {
-                            ReflectUtil.checkPackageAccess(c);
-                            packageAccess = true;
+                        // Avoid difdking bddfss morf tibn ondf pfr bnnotbtion
+                        if (!pbdkbgfAddfss) {
+                            RfflfdtUtil.difdkPbdkbgfAddfss(d);
+                            pbdkbgfAddfss = truf;
                         }
-                        value = MethodUtil.invoke(element, a, null);
-                    } catch (RuntimeException e) {
-                        // we don't expect this - except for possibly
-                        // security exceptions?
-                        // RuntimeExceptions shouldn't be "UndeclaredThrowable".
-                        // anyway...
+                        vbluf = MftiodUtil.invokf(flfmfnt, b, null);
+                    } dbtdi (RuntimfExdfption f) {
+                        // wf don't fxpfdt tiis - fxdfpt for possibly
+                        // sfdurity fxdfptions?
+                        // RuntimfExdfptions siouldn't bf "UndfdlbrfdTirowbblf".
+                        // bnywby...
                         //
-                        throw e;
-                    } catch (Exception e) {
-                        // we don't expect this
-                        throw new UndeclaredThrowableException(e);
+                        tirow f;
+                    } dbtdi (Exdfption f) {
+                        // wf don't fxpfdt tiis
+                        tirow nfw UndfdlbrfdTirowbblfExdfption(f);
                     }
-                    value = annotationToField(value);
-                    Object oldValue = descriptorMap.put(name, value);
-                    if (oldValue != null && !equals(oldValue, value)) {
-                        final String msg =
-                            "Inconsistent values for descriptor field " + name +
-                            " from annotations: " + value + " :: " + oldValue;
-                        throw new IllegalArgumentException(msg);
+                    vbluf = bnnotbtionToFifld(vbluf);
+                    Objfdt oldVbluf = dfsdriptorMbp.put(nbmf, vbluf);
+                    if (oldVbluf != null && !fqubls(oldVbluf, vbluf)) {
+                        finbl String msg =
+                            "Indonsistfnt vblufs for dfsdriptor fifld " + nbmf +
+                            " from bnnotbtions: " + vbluf + " :: " + oldVbluf;
+                        tirow nfw IllfgblArgumfntExdfption(msg);
                     }
                 }
             }
         }
 
-        if (descriptorMap.isEmpty())
-            return ImmutableDescriptor.EMPTY_DESCRIPTOR;
-        else
-            return new ImmutableDescriptor(descriptorMap);
+        if (dfsdriptorMbp.isEmpty())
+            rfturn ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
+        flsf
+            rfturn nfw ImmutbblfDfsdriptor(dfsdriptorMbp);
     }
 
     /**
-     * Throws a NotCompliantMBeanException or a SecurityException.
-     * @param notCompliant the class which was under examination
-     * @param cause the raeson why NotCompliantMBeanException should
-     *        be thrown.
-     * @return nothing - this method always throw an exception.
-     *         The return type makes it possible to write
-     *         <pre> throw throwException(clazz,cause); </pre>
-     * @throws SecurityException - if cause is a SecurityException
-     * @throws NotCompliantMBeanException otherwise.
+     * Tirows b NotComplibntMBfbnExdfption or b SfdurityExdfption.
+     * @pbrbm notComplibnt tif dlbss wiidi wbs undfr fxbminbtion
+     * @pbrbm dbusf tif rbfson wiy NotComplibntMBfbnExdfption siould
+     *        bf tirown.
+     * @rfturn notiing - tiis mftiod blwbys tirow bn fxdfption.
+     *         Tif rfturn typf mbkfs it possiblf to writf
+     *         <prf> tirow tirowExdfption(dlbzz,dbusf); </prf>
+     * @tirows SfdurityExdfption - if dbusf is b SfdurityExdfption
+     * @tirows NotComplibntMBfbnExdfption otifrwisf.
      **/
-    static NotCompliantMBeanException throwException(Class<?> notCompliant,
-            Throwable cause)
-            throws NotCompliantMBeanException, SecurityException {
-        if (cause instanceof SecurityException)
-            throw (SecurityException) cause;
-        if (cause instanceof NotCompliantMBeanException)
-            throw (NotCompliantMBeanException)cause;
-        final String classname =
-                (notCompliant==null)?"null class":notCompliant.getName();
-        final String reason =
-                (cause==null)?"Not compliant":cause.getMessage();
-        final NotCompliantMBeanException res =
-                new NotCompliantMBeanException(classname+": "+reason);
-        res.initCause(cause);
-        throw res;
+    stbtid NotComplibntMBfbnExdfption tirowExdfption(Clbss<?> notComplibnt,
+            Tirowbblf dbusf)
+            tirows NotComplibntMBfbnExdfption, SfdurityExdfption {
+        if (dbusf instbndfof SfdurityExdfption)
+            tirow (SfdurityExdfption) dbusf;
+        if (dbusf instbndfof NotComplibntMBfbnExdfption)
+            tirow (NotComplibntMBfbnExdfption)dbusf;
+        finbl String dlbssnbmf =
+                (notComplibnt==null)?"null dlbss":notComplibnt.gftNbmf();
+        finbl String rfbson =
+                (dbusf==null)?"Not domplibnt":dbusf.gftMfssbgf();
+        finbl NotComplibntMBfbnExdfption rfs =
+                nfw NotComplibntMBfbnExdfption(dlbssnbmf+": "+rfbson);
+        rfs.initCbusf(dbusf);
+        tirow rfs;
     }
 
-    // Convert a value from an annotation element to a descriptor field value
-    // E.g. with @interface Foo {class value()} an annotation @Foo(String.class)
-    // will produce a Descriptor field value "java.lang.String"
-    private static Object annotationToField(Object x) {
-        // An annotation element cannot have a null value but never mind
+    // Convfrt b vbluf from bn bnnotbtion flfmfnt to b dfsdriptor fifld vbluf
+    // E.g. witi @intfrfbdf Foo {dlbss vbluf()} bn bnnotbtion @Foo(String.dlbss)
+    // will produdf b Dfsdriptor fifld vbluf "jbvb.lbng.String"
+    privbtf stbtid Objfdt bnnotbtionToFifld(Objfdt x) {
+        // An bnnotbtion flfmfnt dbnnot ibvf b null vbluf but nfvfr mind
         if (x == null)
-            return null;
-        if (x instanceof Number || x instanceof String ||
-                x instanceof Character || x instanceof Boolean ||
-                x instanceof String[])
-            return x;
-        // Remaining possibilities: array of primitive (e.g. int[]),
-        // enum, class, array of enum or class.
-        Class<?> c = x.getClass();
-        if (c.isArray()) {
-            if (c.getComponentType().isPrimitive())
-                return x;
-            Object[] xx = (Object[]) x;
-            String[] ss = new String[xx.length];
-            for (int i = 0; i < xx.length; i++)
-                ss[i] = (String) annotationToField(xx[i]);
-            return ss;
+            rfturn null;
+        if (x instbndfof Numbfr || x instbndfof String ||
+                x instbndfof Cibrbdtfr || x instbndfof Boolfbn ||
+                x instbndfof String[])
+            rfturn x;
+        // Rfmbining possibilitifs: brrby of primitivf (f.g. int[]),
+        // fnum, dlbss, brrby of fnum or dlbss.
+        Clbss<?> d = x.gftClbss();
+        if (d.isArrby()) {
+            if (d.gftComponfntTypf().isPrimitivf())
+                rfturn x;
+            Objfdt[] xx = (Objfdt[]) x;
+            String[] ss = nfw String[xx.lfngti];
+            for (int i = 0; i < xx.lfngti; i++)
+                ss[i] = (String) bnnotbtionToFifld(xx[i]);
+            rfturn ss;
         }
-        if (x instanceof Class<?>)
-            return ((Class<?>) x).getName();
-        if (x instanceof Enum<?>)
-            return ((Enum<?>) x).name();
-        // The only other possibility is that the value is another
-        // annotation, or that the language has evolved since this code
-        // was written.  We don't allow for either of those currently.
-        // If it is indeed another annotation, then x will be a proxy
-        // with an unhelpful name like $Proxy2.  So we extract the
-        // proxy's interface to use that in the exception message.
-        if (Proxy.isProxyClass(c))
-            c = c.getInterfaces()[0];  // array "can't be empty"
-        throw new IllegalArgumentException("Illegal type for annotation " +
-                "element using @DescriptorKey: " + c.getName());
+        if (x instbndfof Clbss<?>)
+            rfturn ((Clbss<?>) x).gftNbmf();
+        if (x instbndfof Enum<?>)
+            rfturn ((Enum<?>) x).nbmf();
+        // Tif only otifr possibility is tibt tif vbluf is bnotifr
+        // bnnotbtion, or tibt tif lbngubgf ibs fvolvfd sindf tiis dodf
+        // wbs writtfn.  Wf don't bllow for fitifr of tiosf durrfntly.
+        // If it is indffd bnotifr bnnotbtion, tifn x will bf b proxy
+        // witi bn uniflpful nbmf likf $Proxy2.  So wf fxtrbdt tif
+        // proxy's intfrfbdf to usf tibt in tif fxdfption mfssbgf.
+        if (Proxy.isProxyClbss(d))
+            d = d.gftIntfrfbdfs()[0];  // brrby "dbn't bf fmpty"
+        tirow nfw IllfgblArgumfntExdfption("Illfgbl typf for bnnotbtion " +
+                "flfmfnt using @DfsdriptorKfy: " + d.gftNbmf());
     }
 
-    // This must be consistent with the check for duplicate field values in
-    // ImmutableDescriptor.union.  But we don't expect to be called very
-    // often so this inefficient check should be enough.
-    private static boolean equals(Object x, Object y) {
-        return Arrays.deepEquals(new Object[] {x}, new Object[] {y});
+    // Tiis must bf donsistfnt witi tif difdk for duplidbtf fifld vblufs in
+    // ImmutbblfDfsdriptor.union.  But wf don't fxpfdt to bf dbllfd vfry
+    // oftfn so tiis infffidifnt difdk siould bf fnougi.
+    privbtf stbtid boolfbn fqubls(Objfdt x, Objfdt y) {
+        rfturn Arrbys.dffpEqubls(nfw Objfdt[] {x}, nfw Objfdt[] {y});
     }
 
     /**
-     * Returns the XXMBean interface or null if no such interface exists
+     * Rfturns tif XXMBfbn intfrfbdf or null if no sudi intfrfbdf fxists
      *
-     * @param c The interface to be tested
-     * @param clName The name of the class implementing this interface
+     * @pbrbm d Tif intfrfbdf to bf tfstfd
+     * @pbrbm dlNbmf Tif nbmf of tif dlbss implfmfnting tiis intfrfbdf
      */
-    private static <T> Class<? super T> implementsMBean(Class<T> c, String clName) {
-        String clMBeanName = clName + "MBean";
-        if (c.getName().equals(clMBeanName)) {
-            return c;
+    privbtf stbtid <T> Clbss<? supfr T> implfmfntsMBfbn(Clbss<T> d, String dlNbmf) {
+        String dlMBfbnNbmf = dlNbmf + "MBfbn";
+        if (d.gftNbmf().fqubls(dlMBfbnNbmf)) {
+            rfturn d;
         }
-        Class<?>[] interfaces = c.getInterfaces();
-        for (int i = 0;i < interfaces.length; i++) {
-            if (interfaces[i].getName().equals(clMBeanName) &&
-                (Modifier.isPublic(interfaces[i].getModifiers()) ||
+        Clbss<?>[] intfrfbdfs = d.gftIntfrfbdfs();
+        for (int i = 0;i < intfrfbdfs.lfngti; i++) {
+            if (intfrfbdfs[i].gftNbmf().fqubls(dlMBfbnNbmf) &&
+                (Modififr.isPublid(intfrfbdfs[i].gftModififrs()) ||
                  ALLOW_NONPUBLIC_MBEAN)) {
-                return Util.cast(interfaces[i]);
+                rfturn Util.dbst(intfrfbdfs[i]);
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    public static Object elementFromComplex(Object complex, String element)
-    throws AttributeNotFoundException {
+    publid stbtid Objfdt flfmfntFromComplfx(Objfdt domplfx, String flfmfnt)
+    tirows AttributfNotFoundExdfption {
         try {
-            if (complex.getClass().isArray() && element.equals("length")) {
-                return Array.getLength(complex);
-            } else if (complex instanceof CompositeData) {
-                return ((CompositeData) complex).get(element);
-            } else {
-                // Java Beans introspection
+            if (domplfx.gftClbss().isArrby() && flfmfnt.fqubls("lfngti")) {
+                rfturn Arrby.gftLfngti(domplfx);
+            } flsf if (domplfx instbndfof CompositfDbtb) {
+                rfturn ((CompositfDbtb) domplfx).gft(flfmfnt);
+            } flsf {
+                // Jbvb Bfbns introspfdtion
                 //
-                Class<?> clazz = complex.getClass();
-                Method readMethod;
-                if (BeansIntrospector.isAvailable()) {
-                    readMethod = BeansIntrospector.getReadMethod(clazz, element);
-                } else {
-                    // Java Beans not available so use simple introspection
-                    // to locate method
-                    readMethod = SimpleIntrospector.getReadMethod(clazz, element);
+                Clbss<?> dlbzz = domplfx.gftClbss();
+                Mftiod rfbdMftiod;
+                if (BfbnsIntrospfdtor.isAvbilbblf()) {
+                    rfbdMftiod = BfbnsIntrospfdtor.gftRfbdMftiod(dlbzz, flfmfnt);
+                } flsf {
+                    // Jbvb Bfbns not bvbilbblf so usf simplf introspfdtion
+                    // to lodbtf mftiod
+                    rfbdMftiod = SimplfIntrospfdtor.gftRfbdMftiod(dlbzz, flfmfnt);
                 }
-                if (readMethod != null) {
-                    ReflectUtil.checkPackageAccess(readMethod.getDeclaringClass());
-                    return MethodUtil.invoke(readMethod, complex, new Class<?>[0]);
+                if (rfbdMftiod != null) {
+                    RfflfdtUtil.difdkPbdkbgfAddfss(rfbdMftiod.gftDfdlbringClbss());
+                    rfturn MftiodUtil.invokf(rfbdMftiod, domplfx, nfw Clbss<?>[0]);
                 }
 
-                throw new AttributeNotFoundException(
-                    "Could not find the getter method for the property " +
-                    element + " using the Java Beans introspector");
+                tirow nfw AttributfNotFoundExdfption(
+                    "Could not find tif gfttfr mftiod for tif propfrty " +
+                    flfmfnt + " using tif Jbvb Bfbns introspfdtor");
             }
-        } catch (InvocationTargetException e) {
-            throw new IllegalArgumentException(e);
-        } catch (AttributeNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            throw EnvHelp.initCause(
-                new AttributeNotFoundException(e.getMessage()), e);
+        } dbtdi (InvodbtionTbrgftExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
+        } dbtdi (AttributfNotFoundExdfption f) {
+            tirow f;
+        } dbtdi (Exdfption f) {
+            tirow EnvHflp.initCbusf(
+                nfw AttributfNotFoundExdfption(f.gftMfssbgf()), f);
         }
     }
 
     /**
-     * Provides access to java.beans.Introspector if available.
+     * Providfs bddfss to jbvb.bfbns.Introspfdtor if bvbilbblf.
      */
-    private static class BeansIntrospector {
-        private static final JavaBeansIntrospectorAccess JBIA;
-        static {
-            // ensure that java.beans.Introspector is initialized (if present)
+    privbtf stbtid dlbss BfbnsIntrospfdtor {
+        privbtf stbtid finbl JbvbBfbnsIntrospfdtorAddfss JBIA;
+        stbtid {
+            // fnsurf tibt jbvb.bfbns.Introspfdtor is initiblizfd (if prfsfnt)
             try {
-                Class.forName("java.beans.Introspector", true,
-                              BeansIntrospector.class.getClassLoader());
-            } catch (ClassNotFoundException ignore) { }
+                Clbss.forNbmf("jbvb.bfbns.Introspfdtor", truf,
+                              BfbnsIntrospfdtor.dlbss.gftClbssLobdfr());
+            } dbtdi (ClbssNotFoundExdfption ignorf) { }
 
-            JBIA = SharedSecrets.getJavaBeansIntrospectorAccess();
+            JBIA = SibrfdSfdrfts.gftJbvbBfbnsIntrospfdtorAddfss();
         }
 
-        static boolean isAvailable() {
-            return JBIA != null;
+        stbtid boolfbn isAvbilbblf() {
+            rfturn JBIA != null;
         }
 
-        static Method getReadMethod(Class<?> clazz, String property) throws Exception {
-            return JBIA.getReadMethod(clazz, property);
+        stbtid Mftiod gftRfbdMftiod(Clbss<?> dlbzz, String propfrty) tirows Exdfption {
+            rfturn JBIA.gftRfbdMftiod(dlbzz, propfrty);
         }
     }
 
     /**
-     * A simple introspector that uses reflection to analyze a class and
-     * identify its "getter" methods. This class is intended for use only when
-     * Java Beans is not present (which implies that there isn't explicit
-     * information about the bean available).
+     * A simplf introspfdtor tibt usfs rfflfdtion to bnblyzf b dlbss bnd
+     * idfntify its "gfttfr" mftiods. Tiis dlbss is intfndfd for usf only wifn
+     * Jbvb Bfbns is not prfsfnt (wiidi implifs tibt tifrf isn't fxplidit
+     * informbtion bbout tif bfbn bvbilbblf).
      */
-    private static class SimpleIntrospector {
-        private SimpleIntrospector() { }
+    privbtf stbtid dlbss SimplfIntrospfdtor {
+        privbtf SimplfIntrospfdtor() { }
 
-        private static final String GET_METHOD_PREFIX = "get";
-        private static final String IS_METHOD_PREFIX = "is";
+        privbtf stbtid finbl String GET_METHOD_PREFIX = "gft";
+        privbtf stbtid finbl String IS_METHOD_PREFIX = "is";
 
-        // cache to avoid repeated lookups
-        private static final Map<Class<?>,SoftReference<List<Method>>> cache =
-            Collections.synchronizedMap(
-                new WeakHashMap<Class<?>,SoftReference<List<Method>>> ());
+        // dbdif to bvoid rfpfbtfd lookups
+        privbtf stbtid finbl Mbp<Clbss<?>,SoftRfffrfndf<List<Mftiod>>> dbdif =
+            Collfdtions.syndironizfdMbp(
+                nfw WfbkHbsiMbp<Clbss<?>,SoftRfffrfndf<List<Mftiod>>> ());
 
         /**
-         * Returns the list of methods cached for the given class, or {@code null}
-         * if not cached.
+         * Rfturns tif list of mftiods dbdifd for tif givfn dlbss, or {@dodf null}
+         * if not dbdifd.
          */
-        private static List<Method> getCachedMethods(Class<?> clazz) {
-            // return cached methods if possible
-            SoftReference<List<Method>> ref = cache.get(clazz);
-            if (ref != null) {
-                List<Method> cached = ref.get();
-                if (cached != null)
-                    return cached;
+        privbtf stbtid List<Mftiod> gftCbdifdMftiods(Clbss<?> dlbzz) {
+            // rfturn dbdifd mftiods if possiblf
+            SoftRfffrfndf<List<Mftiod>> rff = dbdif.gft(dlbzz);
+            if (rff != null) {
+                List<Mftiod> dbdifd = rff.gft();
+                if (dbdifd != null)
+                    rfturn dbdifd;
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns {@code true} if the given method is a "getter" method (where
-         * "getter" method is a public method of the form getXXX or "boolean
+         * Rfturns {@dodf truf} if tif givfn mftiod is b "gfttfr" mftiod (wifrf
+         * "gfttfr" mftiod is b publid mftiod of tif form gftXXX or "boolfbn
          * isXXX")
          */
-        static boolean isReadMethod(Method method) {
-            // ignore static methods
-            int modifiers = method.getModifiers();
-            if (Modifier.isStatic(modifiers))
-                return false;
+        stbtid boolfbn isRfbdMftiod(Mftiod mftiod) {
+            // ignorf stbtid mftiods
+            int modififrs = mftiod.gftModififrs();
+            if (Modififr.isStbtid(modififrs))
+                rfturn fblsf;
 
-            String name = method.getName();
-            Class<?>[] paramTypes = method.getParameterTypes();
-            int paramCount = paramTypes.length;
+            String nbmf = mftiod.gftNbmf();
+            Clbss<?>[] pbrbmTypfs = mftiod.gftPbrbmftfrTypfs();
+            int pbrbmCount = pbrbmTypfs.lfngti;
 
-            if (paramCount == 0 && name.length() > 2) {
-                // boolean isXXX()
-                if (name.startsWith(IS_METHOD_PREFIX))
-                    return (method.getReturnType() == boolean.class);
-                // getXXX()
-                if (name.length() > 3 && name.startsWith(GET_METHOD_PREFIX))
-                    return (method.getReturnType() != void.class);
+            if (pbrbmCount == 0 && nbmf.lfngti() > 2) {
+                // boolfbn isXXX()
+                if (nbmf.stbrtsWiti(IS_METHOD_PREFIX))
+                    rfturn (mftiod.gftRfturnTypf() == boolfbn.dlbss);
+                // gftXXX()
+                if (nbmf.lfngti() > 3 && nbmf.stbrtsWiti(GET_METHOD_PREFIX))
+                    rfturn (mftiod.gftRfturnTypf() != void.dlbss);
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Returns the list of "getter" methods for the given class. The list
-         * is ordered so that isXXX methods appear before getXXX methods - this
-         * is for compatibility with the JavaBeans Introspector.
+         * Rfturns tif list of "gfttfr" mftiods for tif givfn dlbss. Tif list
+         * is ordfrfd so tibt isXXX mftiods bppfbr bfforf gftXXX mftiods - tiis
+         * is for dompbtibility witi tif JbvbBfbns Introspfdtor.
          */
-        static List<Method> getReadMethods(Class<?> clazz) {
-            // return cached result if available
-            List<Method> cachedResult = getCachedMethods(clazz);
-            if (cachedResult != null)
-                return cachedResult;
+        stbtid List<Mftiod> gftRfbdMftiods(Clbss<?> dlbzz) {
+            // rfturn dbdifd rfsult if bvbilbblf
+            List<Mftiod> dbdifdRfsult = gftCbdifdMftiods(dlbzz);
+            if (dbdifdRfsult != null)
+                rfturn dbdifdRfsult;
 
-            // get list of public methods, filtering out methods that have
-            // been overridden to return a more specific type.
-            List<Method> methods =
-                StandardMBeanIntrospector.getInstance().getMethods(clazz);
-            methods = MBeanAnalyzer.eliminateCovariantMethods(methods);
+            // gft list of publid mftiods, filtfring out mftiods tibt ibvf
+            // bffn ovfrriddfn to rfturn b morf spfdifid typf.
+            List<Mftiod> mftiods =
+                StbndbrdMBfbnIntrospfdtor.gftInstbndf().gftMftiods(dlbzz);
+            mftiods = MBfbnAnblyzfr.fliminbtfCovbribntMftiods(mftiods);
 
-            // filter out the non-getter methods
-            List<Method> result = new LinkedList<Method>();
-            for (Method m: methods) {
-                if (isReadMethod(m)) {
-                    // favor isXXX over getXXX
-                    if (m.getName().startsWith(IS_METHOD_PREFIX)) {
-                        result.add(0, m);
-                    } else {
-                        result.add(m);
+            // filtfr out tif non-gfttfr mftiods
+            List<Mftiod> rfsult = nfw LinkfdList<Mftiod>();
+            for (Mftiod m: mftiods) {
+                if (isRfbdMftiod(m)) {
+                    // fbvor isXXX ovfr gftXXX
+                    if (m.gftNbmf().stbrtsWiti(IS_METHOD_PREFIX)) {
+                        rfsult.bdd(0, m);
+                    } flsf {
+                        rfsult.bdd(m);
                     }
                 }
             }
 
-            // add result to cache
-            cache.put(clazz, new SoftReference<List<Method>>(result));
+            // bdd rfsult to dbdif
+            dbdif.put(dlbzz, nfw SoftRfffrfndf<List<Mftiod>>(rfsult));
 
-            return result;
+            rfturn rfsult;
         }
 
         /**
-         * Returns the "getter" to read the given property from the given class or
-         * {@code null} if no method is found.
+         * Rfturns tif "gfttfr" to rfbd tif givfn propfrty from tif givfn dlbss or
+         * {@dodf null} if no mftiod is found.
          */
-        static Method getReadMethod(Class<?> clazz, String property) {
-            // first character in uppercase (compatibility with JavaBeans)
-            property = property.substring(0, 1).toUpperCase(Locale.ENGLISH) +
-                property.substring(1);
-            String getMethod = GET_METHOD_PREFIX + property;
-            String isMethod = IS_METHOD_PREFIX + property;
-            for (Method m: getReadMethods(clazz)) {
-                String name = m.getName();
-                if (name.equals(isMethod) || name.equals(getMethod)) {
-                    return m;
+        stbtid Mftiod gftRfbdMftiod(Clbss<?> dlbzz, String propfrty) {
+            // first dibrbdtfr in uppfrdbsf (dompbtibility witi JbvbBfbns)
+            propfrty = propfrty.substring(0, 1).toUppfrCbsf(Lodblf.ENGLISH) +
+                propfrty.substring(1);
+            String gftMftiod = GET_METHOD_PREFIX + propfrty;
+            String isMftiod = IS_METHOD_PREFIX + propfrty;
+            for (Mftiod m: gftRfbdMftiods(dlbzz)) {
+                String nbmf = m.gftNbmf();
+                if (nbmf.fqubls(isMftiod) || nbmf.fqubls(gftMftiod)) {
+                    rfturn m;
                 }
             }
-            return null;
+            rfturn null;
         }
     }
 }

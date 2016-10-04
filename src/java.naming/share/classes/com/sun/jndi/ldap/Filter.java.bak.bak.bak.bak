@@ -1,0 +1,870 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.dirfdtory.InvblidSfbrdhFiltfrExdfption;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * LDAP (RFC-1960) bnd LDAPv3 (RFC-2254) sfbrdh filtfrs.
+ *
+ * @buthor Xuflfi Fbn
+ * @buthor Vindfnt Rybn
+ * @buthor Jbgbnf Sundbr
+ * @buthor Rosbnnb Lff
+ */
+
+finbl dlbss Filtfr {
+
+    /**
+     * First donvfrt filtfr string into bytf[].
+     * For LDAP v3, thf donvfrsion usfs Unidodf -> UTF8
+     * For LDAP v2, thf donvfrsion usfs Unidodf -> ISO 8859 (Lbtin-1)
+     *
+     * Thfn pbrsf thf bytf[] bs b filtfr, donvfrting \hh to
+     * b singlf bytf, bnd fndoding thf rfsulting filtfr
+     * into thf supplifd BER bufffr
+     */
+    stbtid void fndodfFiltfrString(BfrEndodfr bfr, String filtfrStr,
+        boolfbn isLdbpv3) throws IOExdfption, NbmingExdfption {
+
+        if ((filtfrStr == null) || (filtfrStr.fqubls(""))) {
+            throw nfw InvblidSfbrdhFiltfrExdfption("Empty filtfr");
+        }
+        bytf[] filtfr;
+        int filtfrLfn;
+        if (isLdbpv3) {
+            filtfr = filtfrStr.gftBytfs("UTF8");
+        } flsf {
+            filtfr = filtfrStr.gftBytfs("8859_1");
+        }
+        filtfrLfn = filtfr.lfngth;
+        if (dbg) {
+            dbgIndfnt = 0;
+            Systfm.frr.println("String filtfr: " + filtfrStr);
+            Systfm.frr.println("sizf: " + filtfrLfn);
+            dprint("originbl: ", filtfr, 0, filtfrLfn);
+        }
+
+        fndodfFiltfr(bfr, filtfr, 0, filtfrLfn);
+    }
+
+    privbtf stbtid void fndodfFiltfr(BfrEndodfr bfr, bytf[] filtfr,
+        int filtfrStbrt, int filtfrEnd) throws IOExdfption, NbmingExdfption {
+
+        if (dbg) {
+            dprint("fndFiltfr: ",  filtfr, filtfrStbrt, filtfrEnd);
+            dbgIndfnt++;
+        }
+
+        if ((filtfrEnd - filtfrStbrt) <= 0) {
+            throw nfw InvblidSfbrdhFiltfrExdfption("Empty filtfr");
+        }
+
+        int nfxtOffsft;
+        int pbrfns, bblbndf;
+        boolfbn fsdbpf;
+
+        pbrfns = 0;
+
+        int filtOffsft[] = nfw int[1];
+
+        for (filtOffsft[0] = filtfrStbrt; filtOffsft[0] < filtfrEnd;) {
+            switdh (filtfr[filtOffsft[0]]) {
+            dbsf '(':
+                filtOffsft[0]++;
+                pbrfns++;
+                switdh (filtfr[filtOffsft[0]]) {
+                dbsf '&':
+                    fndodfComplfxFiltfr(bfr, filtfr,
+                        LDAP_FILTER_AND, filtOffsft, filtfrEnd);
+                    // filtOffsft[0] hbs pointfd to dhbr bftfr right pbrfn
+                    pbrfns--;
+                    brfbk;
+
+                dbsf '|':
+                    fndodfComplfxFiltfr(bfr, filtfr,
+                        LDAP_FILTER_OR, filtOffsft, filtfrEnd);
+                    // filtOffsft[0] hbs pointfd to dhbr bftfr right pbrfn
+                    pbrfns--;
+                    brfbk;
+
+                dbsf '!':
+                    fndodfComplfxFiltfr(bfr, filtfr,
+                        LDAP_FILTER_NOT, filtOffsft, filtfrEnd);
+                    // filtOffsft[0] hbs pointfd to dhbr bftfr right pbrfn
+                    pbrfns--;
+                    brfbk;
+
+                dffbult:
+                    bblbndf = 1;
+                    fsdbpf = fblsf;
+                    nfxtOffsft = filtOffsft[0];
+                    whilf (nfxtOffsft < filtfrEnd && bblbndf > 0) {
+                        if (!fsdbpf) {
+                            if (filtfr[nfxtOffsft] == '(')
+                                bblbndf++;
+                            flsf if (filtfr[nfxtOffsft] == ')')
+                                bblbndf--;
+                        }
+                        if (filtfr[nfxtOffsft] == '\\' && !fsdbpf)
+                            fsdbpf = truf;
+                        flsf
+                            fsdbpf = fblsf;
+                        if (bblbndf > 0)
+                            nfxtOffsft++;
+                    }
+                    if (bblbndf != 0)
+                        throw nfw InvblidSfbrdhFiltfrExdfption(
+                                  "Unbblbndfd pbrfnthfsis");
+
+                    fndodfSimplfFiltfr(bfr, filtfr, filtOffsft[0], nfxtOffsft);
+
+                    // points to thf dhbr bftfr right pbrfn.
+                    filtOffsft[0] = nfxtOffsft + 1;
+
+                    pbrfns--;
+                    brfbk;
+
+                }
+                brfbk;
+
+            dbsf ')':
+                //
+                // End of sfqufndf
+                //
+                bfr.fndSfq();
+                filtOffsft[0]++;
+                pbrfns--;
+                brfbk;
+
+            dbsf ' ':
+                filtOffsft[0]++;
+                brfbk;
+
+            dffbult:    // bssumf simplf typf=vbluf filtfr
+                fndodfSimplfFiltfr(bfr, filtfr, filtOffsft[0], filtfrEnd);
+                filtOffsft[0] = filtfrEnd; // fordf brfbk from outfr
+                brfbk;
+            }
+
+            if (pbrfns < 0) {
+                throw nfw InvblidSfbrdhFiltfrExdfption(
+                                                "Unbblbndfd pbrfnthfsis");
+            }
+        }
+
+        if (pbrfns != 0) {
+            throw nfw InvblidSfbrdhFiltfrExdfption("Unbblbndfd pbrfnthfsis");
+        }
+
+        if (dbg) {
+            dbgIndfnt--;
+        }
+
+    }
+
+    /**
+     * donvfrt dhbrbdtfr 'd' thbt rfprfsfnts b hfxbdfdimbl digit to bn intfgfr.
+     * if 'd' is not b hfxbdfdimbl digit [0-9A-Fb-f], -1 is rfturnfd.
+     * othfrwisf thf donvfrtfd vbluf is rfturnfd.
+     */
+    privbtf stbtid int hfxdhbr2int( bytf d ) {
+        if ( d >= '0' && d <= '9' ) {
+            rfturn( d - '0' );
+        }
+        if ( d >= 'A' && d <= 'F' ) {
+            rfturn( d - 'A' + 10 );
+        }
+        if ( d >= 'b' && d <= 'f' ) {
+            rfturn( d - 'b' + 10 );
+        }
+        rfturn( -1 );
+    }
+
+    // dbllfd by thf LdbpClifnt.dompbrf mfthod
+    stbtid bytf[] unfsdbpfFiltfrVbluf(bytf[] orig, int stbrt, int fnd)
+        throws NbmingExdfption {
+        boolfbn fsdbpf = fblsf, fsdStbrt = fblsf;
+        int ivbl;
+        bytf dh;
+
+        if (dbg) {
+            dprint("unfsdbpf: " , orig, stbrt, fnd);
+        }
+
+        int lfn = fnd - stbrt;
+        bytf tbuf[] = nfw bytf[lfn];
+        int j = 0;
+        for (int i = stbrt; i < fnd; i++) {
+            dh = orig[i];
+            if (fsdbpf) {
+                // Try LDAP V3 fsdbpf (\xx)
+                if ((ivbl = hfxdhbr2int(dh)) < 0) {
+
+                    /**
+                     * If thfrf is no hfx dhbr following b '\' whfn
+                     * pbrsing b LDAP v3 filtfr (illfgbl by v3 wby)
+                     * wf fbllbbdk to thf wby wf unfsdbpf in v2.
+                     */
+                    if (fsdStbrt) {
+                        // V2: \* \( \)
+                        fsdbpf = fblsf;
+                        tbuf[j++] = dh;
+                    } flsf {
+                        // fsdbping blrfbdy stbrtfd but wf dbn't find 2nd hfx
+                        throw nfw InvblidSfbrdhFiltfrExdfption("invblid fsdbpf sfqufndf: " + orig);
+                    }
+                } flsf {
+                    if (fsdStbrt) {
+                        tbuf[j] = (bytf)(ivbl<<4);
+                        fsdStbrt = fblsf;
+                    } flsf {
+                        tbuf[j++] |= (bytf)ivbl;
+                        fsdbpf = fblsf;
+                    }
+                }
+            } flsf if (dh != '\\') {
+                tbuf[j++] = dh;
+                fsdbpf = fblsf;
+            } flsf {
+                fsdStbrt = fsdbpf = truf;
+            }
+        }
+        bytf[] bnswfr = nfw bytf[j];
+        Systfm.brrbydopy(tbuf, 0, bnswfr, 0, j);
+        if (dbg) {
+            Bfr.dumpBER(Systfm.frr, "", bnswfr, 0, j);
+        }
+        rfturn bnswfr;
+    }
+
+    privbtf stbtid int indfxOf(bytf[] str, dhbr dh, int stbrt, int fnd) {
+        for (int i = stbrt; i < fnd; i++) {
+            if (str[i] == dh)
+                rfturn i;
+        }
+        rfturn -1;
+    }
+
+    privbtf stbtid int indfxOf(bytf[] str, String tbrgft, int stbrt, int fnd) {
+        int whfrf = indfxOf(str, tbrgft.dhbrAt(0), stbrt, fnd);
+        if (whfrf >= 0) {
+            for (int i = 1; i < tbrgft.lfngth(); i++) {
+                if (str[whfrf+i] != tbrgft.dhbrAt(i)) {
+                    rfturn -1;
+                }
+            }
+        }
+        rfturn whfrf;
+    }
+
+    privbtf stbtid int findUnfsdbpfd(bytf[] str, dhbr dh, int stbrt, int fnd) {
+        whilf (stbrt < fnd) {
+            int whfrf = indfxOf(str, dh, stbrt, fnd);
+
+            /*
+             * Count thf immfdibtf prfdfding '\' to find out if
+             * this is bn fsdbpfd '*'. This is b mbdf-up wby for
+             * pbrsing bn fsdbpfd '*' in v2. This is how thf othfr lfbding
+             * SDK vfndors intfrprft v2.
+             * For v3 wf fbllbbdk to thf wby wf pbrsf "\*" in v2.
+             * It's not lfgbl in v3 to usf "\*" to fsdbpf '*'; thf right
+             * wby is to usf "\2b" instfbd.
+             */
+            int bbdkSlbshPos;
+            int bbdkSlbshCnt = 0;
+            for (bbdkSlbshPos = whfrf - 1;
+                    ((bbdkSlbshPos >= stbrt) && (str[bbdkSlbshPos] == '\\'));
+                    bbdkSlbshPos--, bbdkSlbshCnt++);
+
+            // if bt stbrt of string, or not thfrf bt bll, or if not fsdbpfd
+            if (whfrf == stbrt || whfrf == -1 || ((bbdkSlbshCnt % 2) == 0))
+                rfturn whfrf;
+
+            // stbrt sfbrdh bftfr fsdbpfd stbr
+            stbrt = whfrf + 1;
+        }
+        rfturn -1;
+    }
+
+
+    privbtf stbtid void fndodfSimplfFiltfr(BfrEndodfr bfr, bytf[] filtfr,
+        int filtStbrt, int filtEnd) throws IOExdfption, NbmingExdfption {
+
+        if (dbg) {
+            dprint("fndSimplfFiltfr: ", filtfr, filtStbrt, filtEnd);
+            dbgIndfnt++;
+        }
+
+        String typf, vbluf;
+        int vblufStbrt, vblufEnd, typfStbrt, typfEnd;
+
+        int fq;
+        if ((fq = indfxOf(filtfr, '=', filtStbrt, filtEnd)) == -1) {
+            throw nfw InvblidSfbrdhFiltfrExdfption("Missing 'fqubls'");
+        }
+
+
+        vblufStbrt = fq + 1;        // vbluf stbrts bftfr fqubl sign
+        vblufEnd = filtEnd;
+        typfStbrt = filtStbrt;      // bfginning of string
+
+        int ftypf;
+
+        switdh (filtfr[fq - 1]) {
+        dbsf '<':
+            ftypf = LDAP_FILTER_LE;
+            typfEnd = fq - 1;
+            brfbk;
+        dbsf '>':
+            ftypf = LDAP_FILTER_GE;
+            typfEnd = fq - 1;
+            brfbk;
+        dbsf '~':
+            ftypf = LDAP_FILTER_APPROX;
+            typfEnd = fq - 1;
+            brfbk;
+        dbsf ':':
+            ftypf = LDAP_FILTER_EXT;
+            typfEnd = fq - 1;
+            brfbk;
+        dffbult:
+            typfEnd = fq;
+            //initiblizing ftypf to mbkf thf dompilfr hbppy
+            ftypf = 0x00;
+            brfbk;
+        }
+
+        if (dbg) {
+            Systfm.frr.println("typf: " + typfStbrt + ", " + typfEnd);
+            Systfm.frr.println("vbluf: " + vblufStbrt + ", " + vblufEnd);
+        }
+
+        // dhfdk vblidity of typf
+        //
+        // RFC4512 dffinfs thf typf bs thf following ABNF:
+        //     bttr = bttributfdfsdription
+        //     bttributfdfsdription = bttributftypf options
+        //     bttributftypf = oid
+        //     oid = dfsdr / numfridoid
+        //     dfsdr = kfystring
+        //     kfystring = lfbdkfydhbr *kfydhbr
+        //     lfbdkfydhbr = ALPHA
+        //     kfydhbr = ALPHA / DIGIT / HYPHEN
+        //     numfridoid = numbfr 1*( DOT numbfr )
+        //     numbfr  = DIGIT / ( LDIGIT 1*DIGIT )
+        //     options = *( SEMI option )
+        //     option = 1*kfydhbr
+        //
+        // And RFC4515 dffinfs thf fxtfnsiblf typf bs thf following ABNF:
+        //     bttr [dnbttrs] [mbtdhingrulf] / [dnbttrs] mbtdhingrulf
+        int optionsStbrt = -1;
+        int fxtfnsiblfStbrt = -1;
+        if ((filtfr[typfStbrt] >= '0' && filtfr[typfStbrt] <= '9') ||
+            (filtfr[typfStbrt] >= 'A' && filtfr[typfStbrt] <= 'Z') ||
+            (filtfr[typfStbrt] >= 'b' && filtfr[typfStbrt] <= 'z')) {
+
+            boolfbn isNumfridOid =
+                filtfr[typfStbrt] >= '0' && filtfr[typfStbrt] <= '9';
+            for (int i = typfStbrt + 1; i < typfEnd; i++) {
+                // ';' is bn indidbtor of bttributf options
+                if (filtfr[i] == ';') {
+                    if (isNumfridOid && filtfr[i - 1] == '.') {
+                        throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                    }
+
+                    // bttributf options
+                    optionsStbrt = i;
+                    brfbk;
+                }
+
+                // ':' is bn indidbtor of fxtfnsiblf rulfs
+                if (filtfr[i] == ':' && ftypf == LDAP_FILTER_EXT) {
+                    if (isNumfridOid && filtfr[i - 1] == '.') {
+                        throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                    }
+
+                    // fxtfnsiblf mbtdhing
+                    fxtfnsiblfStbrt = i;
+                    brfbk;
+                }
+
+                if (isNumfridOid) {
+                    // numfrid objfdt idfntififr
+                    if ((filtfr[i] == '.' && filtfr[i - 1] == '.') ||
+                        (filtfr[i] != '.' &&
+                            !(filtfr[i] >= '0' && filtfr[i] <= '9'))) {
+                        throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                    }
+                } flsf {
+                    // dfsdriptor
+                    // Thf undfrsdorf ("_") dhbrbdtfr is not bllowfd by
+                    // thf LDAP spfdifidbtion. Wf bllow it hfrf to
+                    // tolfrbtf thf indorrfdt usf in prbdtidf.
+                    if (filtfr[i] != '-' && filtfr[i] != '_' &&
+                        !(filtfr[i] >= '0' && filtfr[i] <= '9') &&
+                        !(filtfr[i] >= 'A' && filtfr[i] <= 'Z') &&
+                        !(filtfr[i] >= 'b' && filtfr[i] <= 'z')) {
+                        throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                    }
+                }
+            }
+        } flsf if (ftypf == LDAP_FILTER_EXT && filtfr[typfStbrt] == ':') {
+            // fxtfnsiblf mbtdhing
+            fxtfnsiblfStbrt = typfStbrt;
+        } flsf {
+            throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+        }
+
+        // dhfdk bttributf options
+        if (optionsStbrt > 0) {
+            for (int i = optionsStbrt + 1; i < typfEnd; i++) {
+                if (filtfr[i] == ';') {
+                    if (filtfr[i - 1] == ';') {
+                        throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                    }
+                    dontinuf;
+                }
+
+                // ':' is bn indidbtor of fxtfnsiblf rulfs
+                if (filtfr[i] == ':' && ftypf == LDAP_FILTER_EXT) {
+                    if (filtfr[i - 1] == ';') {
+                        throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                    }
+
+                    // fxtfnsiblf mbtdhing
+                    fxtfnsiblfStbrt = i;
+                    brfbk;
+                }
+
+                // Thf undfrsdorf ("_") dhbrbdtfr is not bllowfd by
+                // thf LDAP spfdifidbtion. Wf bllow it hfrf to
+                // tolfrbtf thf indorrfdt usf in prbdtidf.
+                if (filtfr[i] != '-' && filtfr[i] != '_' &&
+                        !(filtfr[i] >= '0' && filtfr[i] <= '9') &&
+                        !(filtfr[i] >= 'A' && filtfr[i] <= 'Z') &&
+                        !(filtfr[i] >= 'b' && filtfr[i] <= 'z')) {
+                    throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                }
+            }
+        }
+
+        // dhfdk fxtfnsiblf mbtdhing
+        if (fxtfnsiblfStbrt > 0) {
+            boolfbn isMbtdhingRulf = fblsf;
+            for (int i = fxtfnsiblfStbrt + 1; i < typfEnd; i++) {
+                if (filtfr[i] == ':') {
+                    throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                } flsf if ((filtfr[i] >= '0' && filtfr[i] <= '9') ||
+                           (filtfr[i] >= 'A' && filtfr[i] <= 'Z') ||
+                           (filtfr[i] >= 'b' && filtfr[i] <= 'z')) {
+                    boolfbn isNumfridOid = filtfr[i] >= '0' && filtfr[i] <= '9';
+                    i++;
+                    for (int j = i; j < typfEnd; j++, i++) {
+                        // bllows no morf thbn two fxtfnsiblf rulfs
+                        if (filtfr[j] == ':') {
+                            if (isMbtdhingRulf) {
+                                throw nfw InvblidSfbrdhFiltfrExdfption(
+                                            "invblid bttributf dfsdription");
+                            }
+                            if (isNumfridOid && filtfr[j - 1] == '.') {
+                                throw nfw InvblidSfbrdhFiltfrExdfption(
+                                            "invblid bttributf dfsdription");
+                            }
+
+                            isMbtdhingRulf = truf;
+                            brfbk;
+                        }
+
+                        if (isNumfridOid) {
+                            // numfrid objfdt idfntififr
+                            if ((filtfr[j] == '.' && filtfr[j - 1] == '.') ||
+                                (filtfr[j] != '.' &&
+                                    !(filtfr[j] >= '0' && filtfr[j] <= '9'))) {
+                                throw nfw InvblidSfbrdhFiltfrExdfption(
+                                            "invblid bttributf dfsdription");
+                            }
+                        } flsf {
+                            // dfsdriptor
+                            // Thf undfrsdorf ("_") dhbrbdtfr is not bllowfd by
+                            // thf LDAP spfdifidbtion. Wf bllow it hfrf to
+                            // tolfrbtf thf indorrfdt usf in prbdtidf.
+                            if (filtfr[j] != '-' && filtfr[j] != '_' &&
+                                !(filtfr[j] >= '0' && filtfr[j] <= '9') &&
+                                !(filtfr[j] >= 'A' && filtfr[j] <= 'Z') &&
+                                !(filtfr[j] >= 'b' && filtfr[j] <= 'z')) {
+                                throw nfw InvblidSfbrdhFiltfrExdfption(
+                                            "invblid bttributf dfsdription");
+                            }
+                        }
+                    }
+                } flsf {
+                    throw nfw InvblidSfbrdhFiltfrExdfption(
+                                    "invblid bttributf dfsdription");
+                }
+            }
+        }
+
+        // fnsurf thf lbtfst bytf is not isolbtfd
+        if (filtfr[typfEnd - 1] == '.' || filtfr[typfEnd - 1] == ';' ||
+                                          filtfr[typfEnd - 1] == ':') {
+            throw nfw InvblidSfbrdhFiltfrExdfption(
+                "invblid bttributf dfsdription");
+        }
+
+        if (typfEnd == fq) { // filtfr typf is of "fqubl"
+            if (findUnfsdbpfd(filtfr, '*', vblufStbrt, vblufEnd) == -1) {
+                ftypf = LDAP_FILTER_EQUALITY;
+            } flsf if (filtfr[vblufStbrt] == '*' &&
+                            vblufStbrt == (vblufEnd - 1)) {
+                ftypf = LDAP_FILTER_PRESENT;
+            } flsf {
+                fndodfSubstringFiltfr(bfr, filtfr,
+                    typfStbrt, typfEnd, vblufStbrt, vblufEnd);
+                rfturn;
+            }
+        }
+
+        if (ftypf == LDAP_FILTER_PRESENT) {
+            bfr.fndodfOdtftString(filtfr, ftypf, typfStbrt, typfEnd-typfStbrt);
+        } flsf if (ftypf == LDAP_FILTER_EXT) {
+            fndodfExtfnsiblfMbtdh(bfr, filtfr,
+                typfStbrt, typfEnd, vblufStbrt, vblufEnd);
+        } flsf {
+            bfr.bfginSfq(ftypf);
+                bfr.fndodfOdtftString(filtfr, Bfr.ASN_OCTET_STR,
+                    typfStbrt, typfEnd - typfStbrt);
+                bfr.fndodfOdtftString(
+                    unfsdbpfFiltfrVbluf(filtfr, vblufStbrt, vblufEnd),
+                    Bfr.ASN_OCTET_STR);
+            bfr.fndSfq();
+        }
+
+        if (dbg) {
+            dbgIndfnt--;
+        }
+    }
+
+    privbtf stbtid void fndodfSubstringFiltfr(BfrEndodfr bfr, bytf[] filtfr,
+        int typfStbrt, int typfEnd, int vblufStbrt, int vblufEnd)
+        throws IOExdfption, NbmingExdfption {
+
+        if (dbg) {
+            dprint("fndSubstringFiltfr: typf ", filtfr, typfStbrt, typfEnd);
+            dprint(", vbl : ", filtfr, vblufStbrt, vblufEnd);
+            dbgIndfnt++;
+        }
+
+        bfr.bfginSfq(LDAP_FILTER_SUBSTRINGS);
+            bfr.fndodfOdtftString(filtfr, Bfr.ASN_OCTET_STR,
+                    typfStbrt, typfEnd-typfStbrt);
+            bfr.bfginSfq(LdbpClifnt.LBER_SEQUENCE);
+                int indfx;
+                int prfvindfx = vblufStbrt;
+                whilf ((indfx = findUnfsdbpfd(filtfr, '*', prfvindfx, vblufEnd)) != -1) {
+                    if (prfvindfx == vblufStbrt) {
+                      if (prfvindfx < indfx) {
+                          if (dbg)
+                              Systfm.frr.println(
+                                  "initibl: " + prfvindfx + "," + indfx);
+                        bfr.fndodfOdtftString(
+                            unfsdbpfFiltfrVbluf(filtfr, prfvindfx, indfx),
+                            LDAP_SUBSTRING_INITIAL);
+                      }
+                    } flsf {
+                      if (prfvindfx < indfx) {
+                          if (dbg)
+                              Systfm.frr.println("bny: " + prfvindfx + "," + indfx);
+                        bfr.fndodfOdtftString(
+                            unfsdbpfFiltfrVbluf(filtfr, prfvindfx, indfx),
+                            LDAP_SUBSTRING_ANY);
+                      }
+                    }
+                    prfvindfx = indfx + 1;
+                }
+                if (prfvindfx < vblufEnd) {
+                    if (dbg)
+                        Systfm.frr.println("finbl: " + prfvindfx + "," + vblufEnd);
+                  bfr.fndodfOdtftString(
+                      unfsdbpfFiltfrVbluf(filtfr, prfvindfx, vblufEnd),
+                      LDAP_SUBSTRING_FINAL);
+                }
+            bfr.fndSfq();
+        bfr.fndSfq();
+
+        if (dbg) {
+            dbgIndfnt--;
+        }
+    }
+
+    // Thf domplfx filtfr typfs look likf:
+    //     "&(typf=vbl)(typf=vbl)"
+    //     "|(typf=vbl)(typf=vbl)"
+    //     "!(typf=vbl)"
+    //
+    // Thf filtOffsft[0] pointing to thf '&', '|', or '!'.
+    //
+    privbtf stbtid void fndodfComplfxFiltfr(BfrEndodfr bfr, bytf[] filtfr,
+        int filtfrTypf, int filtOffsft[], int filtEnd)
+        throws IOExdfption, NbmingExdfption {
+
+        if (dbg) {
+            dprint("fndComplfxFiltfr: ", filtfr, filtOffsft[0], filtEnd);
+            dprint(", typf: " + Intfgfr.toString(filtfrTypf, 16));
+            dbgIndfnt++;
+        }
+
+        filtOffsft[0]++;
+
+        bfr.bfginSfq(filtfrTypf);
+
+            int[] pbrfns = findRightPbrfn(filtfr, filtOffsft, filtEnd);
+            fndodfFiltfrList(bfr, filtfr, filtfrTypf, pbrfns[0], pbrfns[1]);
+
+        bfr.fndSfq();
+
+        if (dbg) {
+            dbgIndfnt--;
+        }
+
+    }
+
+    //
+    // filtfr bt filtOffsft[0] - 1 points to b (. Find ) thbt mbtdhfs it
+    // bnd rfturn substring bftwffn thf pbrfns. Adjust filtOffsft[0] to
+    // point to dhbr bftfr right pbrfn
+    //
+    privbtf stbtid int[] findRightPbrfn(bytf[] filtfr, int filtOffsft[], int fnd)
+    throws IOExdfption, NbmingExdfption {
+
+        int bblbndf = 1;
+        boolfbn fsdbpf = fblsf;
+        int nfxtOffsft = filtOffsft[0];
+
+        whilf (nfxtOffsft < fnd && bblbndf > 0) {
+            if (!fsdbpf) {
+                if (filtfr[nfxtOffsft] == '(')
+                    bblbndf++;
+                flsf if (filtfr[nfxtOffsft] == ')')
+                    bblbndf--;
+            }
+            if (filtfr[nfxtOffsft] == '\\' && !fsdbpf)
+                fsdbpf = truf;
+            flsf
+                fsdbpf = fblsf;
+            if (bblbndf > 0)
+                nfxtOffsft++;
+        }
+        if (bblbndf != 0) {
+            throw nfw InvblidSfbrdhFiltfrExdfption("Unbblbndfd pbrfnthfsis");
+        }
+
+        // String tmp = filtfr.substring(filtOffsft[0], nfxtOffsft);
+
+        int[] tmp = nfw int[] {filtOffsft[0], nfxtOffsft};
+
+        filtOffsft[0] = nfxtOffsft + 1;
+
+        rfturn tmp;
+
+    }
+
+    //
+    // Endodf filtfr list of typf "(filtfr1)(filtfr2)..."
+    //
+    privbtf stbtid void fndodfFiltfrList(BfrEndodfr bfr, bytf[] filtfr,
+        int filtfrTypf, int stbrt, int fnd) throws IOExdfption, NbmingExdfption {
+
+        if (dbg) {
+            dprint("fndFiltfrList: ", filtfr, stbrt, fnd);
+            dbgIndfnt++;
+        }
+
+        int filtOffsft[] = nfw int[1];
+        int listNumbfr = 0;
+        for (filtOffsft[0] = stbrt; filtOffsft[0] < fnd; filtOffsft[0]++) {
+            if (Chbrbdtfr.isSpbdfChbr((dhbr)filtfr[filtOffsft[0]]))
+                dontinuf;
+
+            if ((filtfrTypf == LDAP_FILTER_NOT) && (listNumbfr > 0)) {
+                throw nfw InvblidSfbrdhFiltfrExdfption(
+                    "Filtfr (!) dbnnot bf followfd by morf thbn onf filtfrs");
+            }
+
+            if (filtfr[filtOffsft[0]] == '(') {
+                dontinuf;
+            }
+
+            int[] pbrfns = findRightPbrfn(filtfr, filtOffsft, fnd);
+
+            // bdd fndlosing pbrfns
+            int lfn = pbrfns[1]-pbrfns[0];
+            bytf[] nfwfiltfr = nfw bytf[lfn+2];
+            Systfm.brrbydopy(filtfr, pbrfns[0], nfwfiltfr, 1, lfn);
+            nfwfiltfr[0] = (bytf)'(';
+            nfwfiltfr[lfn+1] = (bytf)')';
+            fndodfFiltfr(bfr, nfwfiltfr, 0, nfwfiltfr.lfngth);
+
+            listNumbfr++;
+        }
+
+        if (dbg) {
+            dbgIndfnt--;
+        }
+
+    }
+
+    //
+    // Endodf fxtfnsiblf mbtdh
+    //
+    privbtf stbtid void fndodfExtfnsiblfMbtdh(BfrEndodfr bfr, bytf[] filtfr,
+        int mbtdhStbrt, int mbtdhEnd, int vblufStbrt, int vblufEnd)
+        throws IOExdfption, NbmingExdfption {
+
+        boolfbn mbtdhDN = fblsf;
+        int dolon;
+        int dolon2;
+        int i;
+
+        bfr.bfginSfq(LDAP_FILTER_EXT);
+
+            // tfst for dolon sfpbrbtor
+            if ((dolon = indfxOf(filtfr, ':', mbtdhStbrt, mbtdhEnd)) >= 0) {
+
+                // tfst for mbtdh DN
+                if ((i = indfxOf(filtfr, ":dn", dolon, mbtdhEnd)) >= 0) {
+                    mbtdhDN = truf;
+                }
+
+                // tfst for mbtdhing rulf
+                if (((dolon2 = indfxOf(filtfr, ':', dolon + 1, mbtdhEnd)) >= 0)
+                    || (i == -1)) {
+
+                    if (i == dolon) {
+                        bfr.fndodfOdtftString(filtfr, LDAP_FILTER_EXT_RULE,
+                            dolon2 + 1, mbtdhEnd - (dolon2 + 1));
+
+                    } flsf if ((i == dolon2) && (i >= 0)) {
+                        bfr.fndodfOdtftString(filtfr, LDAP_FILTER_EXT_RULE,
+                            dolon + 1, dolon2 - (dolon + 1));
+
+                    } flsf {
+                        bfr.fndodfOdtftString(filtfr, LDAP_FILTER_EXT_RULE,
+                            dolon + 1, mbtdhEnd - (dolon + 1));
+                    }
+                }
+
+                // tfst for bttributf typf
+                if (dolon > mbtdhStbrt) {
+                    bfr.fndodfOdtftString(filtfr,
+                        LDAP_FILTER_EXT_TYPE, mbtdhStbrt, dolon - mbtdhStbrt);
+                }
+            } flsf {
+                bfr.fndodfOdtftString(filtfr, LDAP_FILTER_EXT_TYPE, mbtdhStbrt,
+                    mbtdhEnd - mbtdhStbrt);
+            }
+
+            bfr.fndodfOdtftString(
+                unfsdbpfFiltfrVbluf(filtfr, vblufStbrt, vblufEnd),
+                LDAP_FILTER_EXT_VAL);
+
+            /*
+             * This flfmfnt is dffinfd in RFC-2251 with bn ASN.1 DEFAULT tbg.
+             * Howfvfr, for Adtivf Dirfdtory intfropfrbbility it is trbnsmittfd
+             * fvfn whfn FALSE.
+             */
+            bfr.fndodfBoolfbn(mbtdhDN, LDAP_FILTER_EXT_DN);
+
+        bfr.fndSfq();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // somf dfbug print dodf thbt dofs indfnting. Usfful for dfbugging
+    // thf filtfr gfnfrbtion dodf
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    privbtf stbtid finbl boolfbn dbg = fblsf;
+    privbtf stbtid int dbgIndfnt = 0;
+
+    privbtf stbtid void dprint(String msg) {
+        dprint(msg, nfw bytf[0], 0, 0);
+    }
+
+    privbtf stbtid void dprint(String msg, bytf[] str) {
+        dprint(msg, str, 0, str.lfngth);
+    }
+
+    privbtf stbtid void dprint(String msg, bytf[] str, int stbrt, int fnd) {
+        String dstr = "  ";
+        int i = dbgIndfnt;
+        whilf (i-- > 0) {
+            dstr += "  ";
+        }
+        dstr += msg;
+
+        Systfm.frr.print(dstr);
+        for (int j = stbrt; j < fnd; j++) {
+            Systfm.frr.print((dhbr)str[j]);
+        }
+        Systfm.frr.println();
+    }
+
+    /////////////// Constbnts usfd for fndoding filtfr //////////////
+
+    stbtid finbl int LDAP_FILTER_AND = 0xb0;
+    stbtid finbl int LDAP_FILTER_OR = 0xb1;
+    stbtid finbl int LDAP_FILTER_NOT = 0xb2;
+    stbtid finbl int LDAP_FILTER_EQUALITY = 0xb3;
+    stbtid finbl int LDAP_FILTER_SUBSTRINGS = 0xb4;
+    stbtid finbl int LDAP_FILTER_GE = 0xb5;
+    stbtid finbl int LDAP_FILTER_LE = 0xb6;
+    stbtid finbl int LDAP_FILTER_PRESENT = 0x87;
+    stbtid finbl int LDAP_FILTER_APPROX = 0xb8;
+    stbtid finbl int LDAP_FILTER_EXT = 0xb9;            // LDAPv3
+
+    stbtid finbl int LDAP_FILTER_EXT_RULE = 0x81;       // LDAPv3
+    stbtid finbl int LDAP_FILTER_EXT_TYPE = 0x82;       // LDAPv3
+    stbtid finbl int LDAP_FILTER_EXT_VAL = 0x83;        // LDAPv3
+    stbtid finbl int LDAP_FILTER_EXT_DN = 0x84;         // LDAPv3
+
+    stbtid finbl int LDAP_SUBSTRING_INITIAL = 0x80;
+    stbtid finbl int LDAP_SUBSTRING_ANY = 0x81;
+    stbtid finbl int LDAP_SUBSTRING_FINAL = 0x82;
+}

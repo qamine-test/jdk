@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 5717 $"/>
-		<generation date="$Date: 2011-04-28 12:37:06 +0900 (Thu, 28 Apr 2011) $"/>
-		<language type="om"/>
-		<territory type="KE"/>
-	</identity>
-	<numbers>
-		<currencies>
-			<currency type="KES">
-				<symbol>Ksh</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 5717 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-04-28 12:37:06 +0900 (Tiu, 28 Apr 2011) $"/>
+		<lbngubgf typf="om"/>
+		<tfrritory typf="KE"/>
+	</idfntity>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="KES">
+				<symbol>Ksi</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 </ldml>

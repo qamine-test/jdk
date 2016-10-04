@@ -1,0 +1,228 @@
+#
+#
+# Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+ 
+
+#*****************************************************************************
+#*                    Copyright (d) IBM Corporbtion 1998                     *
+#*                                                                           *
+#* (C) Copyright IBM Corp. 1998                                              *
+#*                                                                           *
+#*****************************************************************************
+
+# To bdd b gfnfrbtor sun.rmi.rmid.Foo whidh is invokfd vib thf -foo option:
+#
+#   1. Add "foo" to gfnfrbtor.brgs list.
+#   2. Add linf: gfnfrbtor.dlbss.foo=sun.rmi.rmid.Foo
+#   3. Updbtf rmid.usbgf string to indludf nfw brgumfnts.
+
+# For fbdh bvbilbblf gfnfrbtor, list thf dommbnd linf brgumfnt usfd
+# to invokf it.  Thf vbluf dbn bf b singlf itfm or b dommb sfpbrbtfd
+# list.
+
+gfnfrbtor.brgs=v1.1,vdompbt,v1.2,iiop,idl,xprint
+
+# For fbdh gfnfrbtor, spfdify thf dlbss to invokf, using thf following
+# syntbx:
+#
+#     gfnfrbtor.dlbss.{brg}=fullClbssNbmf
+#
+# Thf 'dffbult' fntry is rfquirfd bnd will bf usfd if nonf of thf brgs
+# spfdififd in gfnfrbtor.brgs is pbssfd. Notf thbt {brg} is dompbrfd
+# using String.fqublsIgnorfCbsf().
+
+gfnfrbtor.dlbss.dffbult=sun.rmi.rmid.RMIGfnfrbtor
+
+gfnfrbtor.dlbss.v1.1=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.vdompbt=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.v1.2=sun.rmi.rmid.RMIGfnfrbtor
+gfnfrbtor.dlbss.iiop=sun.rmi.rmid.iiop.StubGfnfrbtor
+gfnfrbtor.dlbss.idl=sun.rmi.rmid.iiop.IDLGfnfrbtor
+gfnfrbtor.dlbss.xprint=sun.rmi.rmid.iiop.PrintGfnfrbtor
+
+# If b gfnfrbtor nffds b BbtdhEnvironmfnt othfr thbn
+# sun.rmi.rmid.BbtdhEnvironmfnt, spfdify it bs follows:
+#
+#     gfnfrbtor.fnv.{brg}=fullClbssNbmf
+
+gfnfrbtor.fnv.iiop=sun.rmi.rmid.iiop.BbtdhEnvironmfnt
+gfnfrbtor.fnv.idl=sun.rmi.rmid.iiop.BbtdhEnvironmfnt
+gfnfrbtor.fnv.xprint=sun.rmi.rmid.iiop.BbtdhEnvironmfnt
+
+rmid.usbgf=Usbgf: {0} <options> <dlbss nbmfs>\
+\n\
+\nwhfrf <options> indludfs:\
+\n  -kffp          Do not dflftf intfrmfdibtf gfnfrbtfd sourdf filfs\
+\n  -kffpgfnfrbtfd (sbmf bs "-kffp")\
+\n  -v1.1          Crfbtf stubs/skflftons for 1.1 stub protodol vfrsion (dfprfdbtfd)\
+\n  -vdompbt       Crfbtf stubs/skflftons dompbtiblf with both\
+\n                           1.1 bnd 1.2 stub protodol vfrsions (dfprfdbtfd)\
+\n  -v1.2          (dffbult) Crfbtf stubs for 1.2 stub protodol vfrsion only (dfprfdbtfd)\
+\n  -iiop          Crfbtf stubs for IIOP. Whfn prfsfnt, <options> blso indludfs:\
+\n\
+\n                   -blwbys           Crfbtf stubs fvfn whfn thfy bppfbr durrfnt\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n                   -nolodblstubs     Do not drfbtf stubs optimizfd for sbmf prodfss\
+\n\
+\n  -idl           Crfbtf IDL. Whfn prfsfnt, <options> blso indludfs:\
+\n\
+\n                   -noVblufMfthods   Do not gfnfrbtf mfthods for vbluftypfs \
+\n                   -blwbys           Crfbtf IDL fvfn whfn it bppfbrs durrfnt\
+\n                   -blwbysgfnfrbtf   (sbmf bs "-blwbys")\
+\n\
+\n  -g             Gfnfrbtf dfbugging info\
+\n  -nowbrn        Gfnfrbtf no wbrnings\
+\n  -nowritf       Do not writf dompilfd dlbssfs to thf filf systfm\
+\n  -vfrbosf       Output mfssbgfs bbout whbt thf dompilfr is doing\
+\n  -dlbsspbth <pbth>      Spfdify whfrf to find input dlbss filfs\
+\n  -bootdlbsspbth <pbth>  Ovfrridf lodbtion of bootstrbp dlbss filfs\
+\n  -fxtdirs <pbth>        Ovfrridf lodbtion of instbllfd fxtfnsions\
+\n  -d <dirfdtory>         Spfdify whfrf to plbdf gfnfrbtfd dlbss filfs\
+\n  -J<runtimf flbg>       Pbss brgumfnt to thf jbvb intfrprftfr\
+\n
+
+#
+# Gfnfrid Mfssbgfs
+#
+
+rmid.dbnt.rfbd=Cbn''t rfbd: {0}
+rmid.dbnt.writf=Cbn''t writf: {0}
+rmid.option.unsupportfd=Thf {0} option is no longfr supportfd.
+rmid.option.unimplfmfntfd=Thf {0} option is not yft implfmfntfd.
+rmid.option.blrfbdy.sffn=Thf {0} option mby bf spfdififd no morf thbn ondf.
+rmid.option.rfquirfs.brgumfnt=Thf {0} option rfquirfs bn brgumfnt.
+rmid.no.sudh.dirfdtory=Thf {0} dirfdtory dofs not fxist.
+rmid.no.sudh.option={0} is bn invblid option or brgumfnt.
+rmid.wrotf=[wrotf {0}]
+rmid.frrors={0} frrors
+rmid.1frror=1 frror
+rmid.wbrnings={0} wbrnings
+rmid.1wbrning=1 wbrning
+rmid.donf_in=[donf in {0} ms]
+rmid.no.mfmory=\
+	Thf dompilfr hbs run out of mfmory.  Considfr using thf "-J-Xmx<sizf>" dommbnd linf option to indrfbsf thf mbximum hfbp sizf.
+rmid.stbdk.ovfrflow=\
+	Thf dompilfr hbs run out of stbdk spbdf.  Considfr using thf "-J-Xss<sizf>" dommbnd linf option to indrfbsf thf mfmory bllodbtfd for thf Jbvb stbdk.
+rmid.dlbss.not.found=\
+	Clbss {0} not found.
+rmid.missing.propfrty=Missing propfrty gfnfrbtor.dlbss.{0}
+rmid.dbnnot.instbntibtf=Cbnnot instbntibtf dlbss {0}
+rmid.dbnnot.usf.both=Cbnnot usf both {0} bnd {1}
+rmid.rfsourdf.not.found={0} not found.
+rmid.no.output.dir=\
+	Cbnnot find suitbblf output dirfdtory for {0}. Usf thf -d option to spfdify b root dirfdtory.
+rmid.dbnnot.drfbtf.dir=\
+	Cbnnot drfbtf output dirfdtory {0}.
+
+#
+# JRMP Mfssbgfs
+#
+
+rmid.dbnt.mbkf.stubs.for.intfrfbdf=\
+	{0} is bn intfrfbdf; stubs brf nffdfd only for rfmotf objfdt dlbssfs.
+rmid.must.implfmfnt.rfmotf=\
+	Clbss {0} dofs not implfmfnt bn intfrfbdf thbt fxtfnds jbvb.rmi.Rfmotf; only rfmotf objfdts nffd stubs bnd skflftons.
+rmid.must.implfmfnt.rfmotf.dirfdtly=\
+	Stubs brf only nffdfd for dlbssfs thbt dirfdtly implfmfnt bn intfrfbdf thbt fxtfnds jbvb.rmi.Rfmotf; dlbss {0} dofs not dirfdtly implfmfnt b rfmotf intfrfbdf.
+rmid.must.throw.rfmotffxdfption=\
+	{0} is not b vblid rfmotf intfrfbdf: mfthod {1} must throw jbvb.rmi.RfmotfExdfption.
+rmid.must.only.throw.fxdfption=\
+	Mfthod {0} is not b vblid rfmotf mfthod implfmfntbtion bfdbusf it throws {1}; implfmfntbtions of rfmotf mfthods mby only throw jbvb.lbng.Exdfption or its subdlbssfs.
+wbrn.rmid.tif.found=\
+	An IIOP "tif" fxists for dlbss {0}:\
+	\n  {1}\
+	\nIf you usf PortbblfRfmotfObjfdt.fxportObjfdt, you should rfmovf this filf; othfrwisf, your sfrvfr objfdt will bf fxportfd to IIOP rbthfr thbn to JRMP.
+rmid.jrmp.stubs.dfprfdbtfd=\
+	Wbrning: gfnfrbtion bnd usf of skflftons bnd stbtid stubs for JRMP\
+	\nis dfprfdbtfd. Skflftons brf unnfdfssbry, bnd stbtid stubs hbvf\
+	\nbffn supfrsfdfd by dynbmidblly gfnfrbtfd stubs. Usfrs brf\
+	\nfndourbgfd to migrbtf bwby from using {0} to gfnfrbtf skflftons bnd stbtid\
+	\nstubs. Sff thf dodumfntbtion for jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt.
+
+#
+# RMI-IIOP Mfssbgfs
+#
+
+rmid.gfnfrbtfd=[gfnfrbtfd {0} in {1} ms]
+rmid.prfviously.gfnfrbtfd=[prfviously gfnfrbtfd filf {0} is durrfnt]
+wbrn.rmid.mfmbfr.not.mbppfd=\
+    Dbtb mfmbfr {0} of dlbss {1} wbs not mbppfd to IDL.
+
+rmid.iiop.donstrbint.1=\
+    {0} is not b vblid intfrfbdf: dofs not inhfrit from jbvb.rmi.Rfmotf.
+rmid.iiop.donstrbint.2=\
+    sfriblPfrsistfntFiflds brrby of dlbss {0} is invblid: rfffrfndfs non-fxistfnt mfmbfrs.
+rmid.iiop.donstrbint.3=\
+    {0} is not b vblid rfmotf intfrfbdf: {1} is not b vblid primitivf or String donstbnt.
+rmid.iiop.donstrbint.4=\
+    {0} is not b vblid vbluf: sfriblPfrsistfntFiflds must bf privbtf stbtid finbl.
+rmid.iiop.donstrbint.5=\
+    {0} is not b vblid rfmotf intfrfbdf: mfthod {1} must throw RfmotfExdfption or b supfrdlbss of RfmotfExdfption.
+rmid.iiop.donstrbint.6=\
+    {0} is not b vblid rfmotf intfrfbdf: inhfritfd intfrfbdfs {1} both dfdlbrf mfthod {2}.
+rmid.iiop.donstrbint.7=\
+    {0} is not b vblid typf: {1} difffr only in dbsf.
+rmid.iiop.donstrbint.8=\
+    {0} is not b vblid rfmotf implfmfntbtion: hbs no rfmotf intfrfbdfs.
+rmid.iiop.donstrbint.9=\
+    sfriblPfrsistfntFiflds brrby mfmbfr {0} of dlbss {1} is invblid: typf dofs not mbtdh dfdlbrfd mfmbfr.
+rmid.iiop.donstrbint.10=\
+    {0} is not b vblid vbluf: implfmfnts jbvb.rmi.Rfmotf.
+rmid.iiop.donstrbint.11=\
+    {0} is not b vblid vbluf: dofs not implfmfnt jbvb.io.Sfriblizbblf.
+rmid.iiop.donstrbint.12=\
+    {0} is not b vblid vbluf: invblid pbrfnt.
+rmid.iiop.donstrbint.13=\
+    {0} is not b vblid intfrfbdf: thf idl nbmf for mfthod {1} donflidts with bnothfr mfthod.
+rmid.iiop.donstrbint.14=\
+    {0} is not b vblid bbstrbdt intfrfbdf: not bn intfrfbdf.
+rmid.iiop.donstrbint.15=\
+    {0} is not b vblid bbstrbdt intfrfbdf: implfmfnts jbvb.rmi.Rfmotf.
+rmid.iiop.donstrbint.16=\
+    {0} is not b vblid rfmotf intfrfbdf: not bn intfrfbdf.
+rmid.iiop.donstrbint.17=\
+    {0} is not b vblid rfmotf implfmfntbtion: not b dlbss.
+rmid.iiop.donstrbint.18=\
+    {0} is not b vblid intfrfbdf: mfthod {1} mby not pbss bn fxdfption whidh implfmfnts org.omg.CORBA.portbblf.IDLEntity.
+rmid.iiop.donstrbint.19=\
+    {0} is not b vblid intfrfbdf: thf idl nbmf for donstbnt {1} donflidts with bnothfr donstbnt.
+rmid.iiop.donstrbint.20=\
+    {0} is not b vblid dlbss: thf idl nbmf for mfmbfr {1} donflidts with bnothfr mfmbfr.
+rmid.iiop.donstrbint.21=\
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b mfthod brgumfnt or rfturn typf in {1}.
+rmid.iiop.donstrbint.22=\
+    Intfrnbl fbilurf: (Mfthod) fxdfption {0} not b dlbss typf.
+rmid.iiop.donstrbint.23=\
+    Intfrnbl fbilurf: (Mfthod) dbught null pointfr fxdfption for {0}.
+rmid.iiop.donstrbint.24=\
+    Clbss {0} dontbins bn invblid rfturn typf.
+rmid.iiop.donstrbint.25=\
+    Clbss {0} dontbins bn invblid brgumfnt typf in mfthod {1}.
+rmid.iiop.donstrbint.26=\
+    Could not dompilf {0}.
+rmid.iiop.donstrbint.27=\
+    Could not lobd dlbss {0}.
+rmid.iiop.donstrbint.28=\
+    {0} is b rfmotf implfmfntbtion dlbss bnd dbnnot bf usfd bs b dbtb mfmbfr in {1}.

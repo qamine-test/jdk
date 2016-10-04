@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import com.sun.beans.decoder.DocumentHandler;
+import dom.sun.bfbns.dfdodfr.DodumfntHbndlfr;
 
-import java.io.Closeable;
-import java.io.InputStream;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.Closfbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sbx.InputSourdf;
+import org.xml.sbx.iflpfrs.DffbultHbndlfr;
 
 /**
- * The <code>XMLDecoder</code> class is used to read XML documents
- * created using the <code>XMLEncoder</code> and is used just like
- * the <code>ObjectInputStream</code>. For example, one can use
- * the following fragment to read the first object defined
- * in an XML document written by the <code>XMLEncoder</code>
- * class:
- * <pre>
- *       XMLDecoder d = new XMLDecoder(
- *                          new BufferedInputStream(
- *                              new FileInputStream("Test.xml")));
- *       Object result = d.readObject();
- *       d.close();
- * </pre>
+ * Tif <dodf>XMLDfdodfr</dodf> dlbss is usfd to rfbd XML dodumfnts
+ * drfbtfd using tif <dodf>XMLEndodfr</dodf> bnd is usfd just likf
+ * tif <dodf>ObjfdtInputStrfbm</dodf>. For fxbmplf, onf dbn usf
+ * tif following frbgmfnt to rfbd tif first objfdt dffinfd
+ * in bn XML dodumfnt writtfn by tif <dodf>XMLEndodfr</dodf>
+ * dlbss:
+ * <prf>
+ *       XMLDfdodfr d = nfw XMLDfdodfr(
+ *                          nfw BufffrfdInputStrfbm(
+ *                              nfw FilfInputStrfbm("Tfst.xml")));
+ *       Objfdt rfsult = d.rfbdObjfdt();
+ *       d.dlosf();
+ * </prf>
  *
  *<p>
- * For more information you might also want to check out
- * <a
- href="http://java.sun.com/products/jfc/tsc/articles/persistence3">Long Term Persistence of JavaBeans Components: XML Schema</a>,
- * an article in <em>The Swing Connection.</em>
- * @see XMLEncoder
- * @see java.io.ObjectInputStream
+ * For morf informbtion you migit blso wbnt to difdk out
+ * <b
+ irff="ittp://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf3">Long Tfrm Pfrsistfndf of JbvbBfbns Componfnts: XML Sdifmb</b>,
+ * bn brtidlf in <fm>Tif Swing Connfdtion.</fm>
+ * @sff XMLEndodfr
+ * @sff jbvb.io.ObjfdtInputStrfbm
  *
- * @since 1.4
+ * @sindf 1.4
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  */
-public class XMLDecoder implements AutoCloseable {
-    private final AccessControlContext acc = AccessController.getContext();
-    private final DocumentHandler handler = new DocumentHandler();
-    private final InputSource input;
-    private Object owner;
-    private Object[] array;
-    private int index;
+publid dlbss XMLDfdodfr implfmfnts AutoClosfbblf {
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+    privbtf finbl DodumfntHbndlfr ibndlfr = nfw DodumfntHbndlfr();
+    privbtf finbl InputSourdf input;
+    privbtf Objfdt ownfr;
+    privbtf Objfdt[] brrby;
+    privbtf int indfx;
 
     /**
-     * Creates a new input stream for reading archives
-     * created by the <code>XMLEncoder</code> class.
+     * Crfbtfs b nfw input strfbm for rfbding brdiivfs
+     * drfbtfd by tif <dodf>XMLEndodfr</dodf> dlbss.
      *
-     * @param in The underlying stream.
+     * @pbrbm in Tif undfrlying strfbm.
      *
-     * @see XMLEncoder#XMLEncoder(java.io.OutputStream)
+     * @sff XMLEndodfr#XMLEndodfr(jbvb.io.OutputStrfbm)
      */
-    public XMLDecoder(InputStream in) {
-        this(in, null);
+    publid XMLDfdodfr(InputStrfbm in) {
+        tiis(in, null);
     }
 
     /**
-     * Creates a new input stream for reading archives
-     * created by the <code>XMLEncoder</code> class.
+     * Crfbtfs b nfw input strfbm for rfbding brdiivfs
+     * drfbtfd by tif <dodf>XMLEndodfr</dodf> dlbss.
      *
-     * @param in The underlying stream.
-     * @param owner The owner of this stream.
+     * @pbrbm in Tif undfrlying strfbm.
+     * @pbrbm ownfr Tif ownfr of tiis strfbm.
      *
      */
-    public XMLDecoder(InputStream in, Object owner) {
-        this(in, owner, null);
+    publid XMLDfdodfr(InputStrfbm in, Objfdt ownfr) {
+        tiis(in, ownfr, null);
     }
 
     /**
-     * Creates a new input stream for reading archives
-     * created by the <code>XMLEncoder</code> class.
+     * Crfbtfs b nfw input strfbm for rfbding brdiivfs
+     * drfbtfd by tif <dodf>XMLEndodfr</dodf> dlbss.
      *
-     * @param in the underlying stream.
-     * @param owner the owner of this stream.
-     * @param exceptionListener the exception handler for the stream;
-     *        if <code>null</code> the default exception listener will be used.
+     * @pbrbm in tif undfrlying strfbm.
+     * @pbrbm ownfr tif ownfr of tiis strfbm.
+     * @pbrbm fxdfptionListfnfr tif fxdfption ibndlfr for tif strfbm;
+     *        if <dodf>null</dodf> tif dffbult fxdfption listfnfr will bf usfd.
      */
-    public XMLDecoder(InputStream in, Object owner, ExceptionListener exceptionListener) {
-        this(in, owner, exceptionListener, null);
+    publid XMLDfdodfr(InputStrfbm in, Objfdt ownfr, ExdfptionListfnfr fxdfptionListfnfr) {
+        tiis(in, ownfr, fxdfptionListfnfr, null);
     }
 
     /**
-     * Creates a new input stream for reading archives
-     * created by the <code>XMLEncoder</code> class.
+     * Crfbtfs b nfw input strfbm for rfbding brdiivfs
+     * drfbtfd by tif <dodf>XMLEndodfr</dodf> dlbss.
      *
-     * @param in the underlying stream.  <code>null</code> may be passed without
-     *        error, though the resulting XMLDecoder will be useless
-     * @param owner the owner of this stream.  <code>null</code> is a legal
-     *        value
-     * @param exceptionListener the exception handler for the stream, or
-     *        <code>null</code> to use the default
-     * @param cl the class loader used for instantiating objects.
-     *        <code>null</code> indicates that the default class loader should
-     *        be used
-     * @since 1.5
+     * @pbrbm in tif undfrlying strfbm.  <dodf>null</dodf> mby bf pbssfd witiout
+     *        frror, tiougi tif rfsulting XMLDfdodfr will bf usflfss
+     * @pbrbm ownfr tif ownfr of tiis strfbm.  <dodf>null</dodf> is b lfgbl
+     *        vbluf
+     * @pbrbm fxdfptionListfnfr tif fxdfption ibndlfr for tif strfbm, or
+     *        <dodf>null</dodf> to usf tif dffbult
+     * @pbrbm dl tif dlbss lobdfr usfd for instbntibting objfdts.
+     *        <dodf>null</dodf> indidbtfs tibt tif dffbult dlbss lobdfr siould
+     *        bf usfd
+     * @sindf 1.5
      */
-    public XMLDecoder(InputStream in, Object owner,
-                      ExceptionListener exceptionListener, ClassLoader cl) {
-        this(new InputSource(in), owner, exceptionListener, cl);
+    publid XMLDfdodfr(InputStrfbm in, Objfdt ownfr,
+                      ExdfptionListfnfr fxdfptionListfnfr, ClbssLobdfr dl) {
+        tiis(nfw InputSourdf(in), ownfr, fxdfptionListfnfr, dl);
     }
 
 
     /**
-     * Creates a new decoder to parse XML archives
-     * created by the {@code XMLEncoder} class.
-     * If the input source {@code is} is {@code null},
-     * no exception is thrown and no parsing is performed.
-     * This behavior is similar to behavior of other constructors
-     * that use {@code InputStream} as a parameter.
+     * Crfbtfs b nfw dfdodfr to pbrsf XML brdiivfs
+     * drfbtfd by tif {@dodf XMLEndodfr} dlbss.
+     * If tif input sourdf {@dodf is} is {@dodf null},
+     * no fxdfption is tirown bnd no pbrsing is pfrformfd.
+     * Tiis bfibvior is similbr to bfibvior of otifr donstrudtors
+     * tibt usf {@dodf InputStrfbm} bs b pbrbmftfr.
      *
-     * @param is  the input source to parse
+     * @pbrbm is  tif input sourdf to pbrsf
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public XMLDecoder(InputSource is) {
-        this(is, null, null, null);
+    publid XMLDfdodfr(InputSourdf is) {
+        tiis(is, null, null, null);
     }
 
     /**
-     * Creates a new decoder to parse XML archives
-     * created by the {@code XMLEncoder} class.
+     * Crfbtfs b nfw dfdodfr to pbrsf XML brdiivfs
+     * drfbtfd by tif {@dodf XMLEndodfr} dlbss.
      *
-     * @param is     the input source to parse
-     * @param owner  the owner of this decoder
-     * @param el     the exception handler for the parser,
-     *               or {@code null} to use the default exception handler
-     * @param cl     the class loader used for instantiating objects,
-     *               or {@code null} to use the default class loader
+     * @pbrbm is     tif input sourdf to pbrsf
+     * @pbrbm ownfr  tif ownfr of tiis dfdodfr
+     * @pbrbm fl     tif fxdfption ibndlfr for tif pbrsfr,
+     *               or {@dodf null} to usf tif dffbult fxdfption ibndlfr
+     * @pbrbm dl     tif dlbss lobdfr usfd for instbntibting objfdts,
+     *               or {@dodf null} to usf tif dffbult dlbss lobdfr
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    private XMLDecoder(InputSource is, Object owner, ExceptionListener el, ClassLoader cl) {
-        this.input = is;
-        this.owner = owner;
-        setExceptionListener(el);
-        this.handler.setClassLoader(cl);
-        this.handler.setOwner(this);
+    privbtf XMLDfdodfr(InputSourdf is, Objfdt ownfr, ExdfptionListfnfr fl, ClbssLobdfr dl) {
+        tiis.input = is;
+        tiis.ownfr = ownfr;
+        sftExdfptionListfnfr(fl);
+        tiis.ibndlfr.sftClbssLobdfr(dl);
+        tiis.ibndlfr.sftOwnfr(tiis);
     }
 
     /**
-     * This method closes the input stream associated
-     * with this stream.
+     * Tiis mftiod dlosfs tif input strfbm bssodibtfd
+     * witi tiis strfbm.
      */
-    public void close() {
-        if (parsingComplete()) {
-            close(this.input.getCharacterStream());
-            close(this.input.getByteStream());
+    publid void dlosf() {
+        if (pbrsingComplftf()) {
+            dlosf(tiis.input.gftCibrbdtfrStrfbm());
+            dlosf(tiis.input.gftBytfStrfbm());
         }
     }
 
-    private void close(Closeable in) {
+    privbtf void dlosf(Closfbblf in) {
         if (in != null) {
             try {
-                in.close();
+                in.dlosf();
             }
-            catch (IOException e) {
-                getExceptionListener().exceptionThrown(e);
+            dbtdi (IOExdfption f) {
+                gftExdfptionListfnfr().fxdfptionTirown(f);
             }
         }
     }
 
-    private boolean parsingComplete() {
-        if (this.input == null) {
-            return false;
+    privbtf boolfbn pbrsingComplftf() {
+        if (tiis.input == null) {
+            rfturn fblsf;
         }
-        if (this.array == null) {
-            if ((this.acc == null) && (null != System.getSecurityManager())) {
-                throw new SecurityException("AccessControlContext is not set");
+        if (tiis.brrby == null) {
+            if ((tiis.bdd == null) && (null != Systfm.gftSfdurityMbnbgfr())) {
+                tirow nfw SfdurityExdfption("AddfssControlContfxt is not sft");
             }
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
-                    XMLDecoder.this.handler.parse(XMLDecoder.this.input);
-                    return null;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    XMLDfdodfr.tiis.ibndlfr.pbrsf(XMLDfdodfr.tiis.input);
+                    rfturn null;
                 }
-            }, this.acc);
-            this.array = this.handler.getObjects();
+            }, tiis.bdd);
+            tiis.brrby = tiis.ibndlfr.gftObjfdts();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Sets the exception handler for this stream to <code>exceptionListener</code>.
-     * The exception handler is notified when this stream catches recoverable
-     * exceptions.
+     * Sfts tif fxdfption ibndlfr for tiis strfbm to <dodf>fxdfptionListfnfr</dodf>.
+     * Tif fxdfption ibndlfr is notififd wifn tiis strfbm dbtdifs rfdovfrbblf
+     * fxdfptions.
      *
-     * @param exceptionListener The exception handler for this stream;
-     * if <code>null</code> the default exception listener will be used.
+     * @pbrbm fxdfptionListfnfr Tif fxdfption ibndlfr for tiis strfbm;
+     * if <dodf>null</dodf> tif dffbult fxdfption listfnfr will bf usfd.
      *
-     * @see #getExceptionListener
+     * @sff #gftExdfptionListfnfr
      */
-    public void setExceptionListener(ExceptionListener exceptionListener) {
-        if (exceptionListener == null) {
-            exceptionListener = Statement.defaultExceptionListener;
+    publid void sftExdfptionListfnfr(ExdfptionListfnfr fxdfptionListfnfr) {
+        if (fxdfptionListfnfr == null) {
+            fxdfptionListfnfr = Stbtfmfnt.dffbultExdfptionListfnfr;
         }
-        this.handler.setExceptionListener(exceptionListener);
+        tiis.ibndlfr.sftExdfptionListfnfr(fxdfptionListfnfr);
     }
 
     /**
-     * Gets the exception handler for this stream.
+     * Gfts tif fxdfption ibndlfr for tiis strfbm.
      *
-     * @return The exception handler for this stream.
-     *     Will return the default exception listener if this has not explicitly been set.
+     * @rfturn Tif fxdfption ibndlfr for tiis strfbm.
+     *     Will rfturn tif dffbult fxdfption listfnfr if tiis ibs not fxpliditly bffn sft.
      *
-     * @see #setExceptionListener
+     * @sff #sftExdfptionListfnfr
      */
-    public ExceptionListener getExceptionListener() {
-        return this.handler.getExceptionListener();
+    publid ExdfptionListfnfr gftExdfptionListfnfr() {
+        rfturn tiis.ibndlfr.gftExdfptionListfnfr();
     }
 
     /**
-     * Reads the next object from the underlying input stream.
+     * Rfbds tif nfxt objfdt from tif undfrlying input strfbm.
      *
-     * @return the next object read
+     * @rfturn tif nfxt objfdt rfbd
      *
-     * @throws ArrayIndexOutOfBoundsException if the stream contains no objects
-     *         (or no more objects)
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif strfbm dontbins no objfdts
+     *         (or no morf objfdts)
      *
-     * @see XMLEncoder#writeObject
+     * @sff XMLEndodfr#writfObjfdt
      */
-    public Object readObject() {
-        return (parsingComplete())
-                ? this.array[this.index++]
+    publid Objfdt rfbdObjfdt() {
+        rfturn (pbrsingComplftf())
+                ? tiis.brrby[tiis.indfx++]
                 : null;
     }
 
     /**
-     * Sets the owner of this decoder to <code>owner</code>.
+     * Sfts tif ownfr of tiis dfdodfr to <dodf>ownfr</dodf>.
      *
-     * @param owner The owner of this decoder.
+     * @pbrbm ownfr Tif ownfr of tiis dfdodfr.
      *
-     * @see #getOwner
+     * @sff #gftOwnfr
      */
-    public void setOwner(Object owner) {
-        this.owner = owner;
+    publid void sftOwnfr(Objfdt ownfr) {
+        tiis.ownfr = ownfr;
     }
 
     /**
-     * Gets the owner of this decoder.
+     * Gfts tif ownfr of tiis dfdodfr.
      *
-     * @return The owner of this decoder.
+     * @rfturn Tif ownfr of tiis dfdodfr.
      *
-     * @see #setOwner
+     * @sff #sftOwnfr
      */
-    public Object getOwner() {
-        return owner;
+    publid Objfdt gftOwnfr() {
+        rfturn ownfr;
     }
 
     /**
-     * Creates a new handler for SAX parser
-     * that can be used to parse embedded XML archives
-     * created by the {@code XMLEncoder} class.
+     * Crfbtfs b nfw ibndlfr for SAX pbrsfr
+     * tibt dbn bf usfd to pbrsf fmbfddfd XML brdiivfs
+     * drfbtfd by tif {@dodf XMLEndodfr} dlbss.
      *
-     * The {@code owner} should be used if parsed XML document contains
-     * the method call within context of the &lt;java&gt; element.
-     * The {@code null} value may cause illegal parsing in such case.
-     * The same problem may occur, if the {@code owner} class
-     * does not contain expected method to call. See details <a
-     * href="http://java.sun.com/products/jfc/tsc/articles/persistence3/">here</a>.
+     * Tif {@dodf ownfr} siould bf usfd if pbrsfd XML dodumfnt dontbins
+     * tif mftiod dbll witiin dontfxt of tif &lt;jbvb&gt; flfmfnt.
+     * Tif {@dodf null} vbluf mby dbusf illfgbl pbrsing in sudi dbsf.
+     * Tif sbmf problfm mby oddur, if tif {@dodf ownfr} dlbss
+     * dofs not dontbin fxpfdtfd mftiod to dbll. Sff dftbils <b
+     * irff="ittp://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/pfrsistfndf3/">ifrf</b>.
      *
-     * @param owner  the owner of the default handler
-     *               that can be used as a value of &lt;java&gt; element
-     * @param el     the exception handler for the parser,
-     *               or {@code null} to use the default exception handler
-     * @param cl     the class loader used for instantiating objects,
-     *               or {@code null} to use the default class loader
-     * @return an instance of {@code DefaultHandler} for SAX parser
+     * @pbrbm ownfr  tif ownfr of tif dffbult ibndlfr
+     *               tibt dbn bf usfd bs b vbluf of &lt;jbvb&gt; flfmfnt
+     * @pbrbm fl     tif fxdfption ibndlfr for tif pbrsfr,
+     *               or {@dodf null} to usf tif dffbult fxdfption ibndlfr
+     * @pbrbm dl     tif dlbss lobdfr usfd for instbntibting objfdts,
+     *               or {@dodf null} to usf tif dffbult dlbss lobdfr
+     * @rfturn bn instbndf of {@dodf DffbultHbndlfr} for SAX pbrsfr
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static DefaultHandler createHandler(Object owner, ExceptionListener el, ClassLoader cl) {
-        DocumentHandler handler = new DocumentHandler();
-        handler.setOwner(owner);
-        handler.setExceptionListener(el);
-        handler.setClassLoader(cl);
-        return handler;
+    publid stbtid DffbultHbndlfr drfbtfHbndlfr(Objfdt ownfr, ExdfptionListfnfr fl, ClbssLobdfr dl) {
+        DodumfntHbndlfr ibndlfr = nfw DodumfntHbndlfr();
+        ibndlfr.sftOwnfr(ownfr);
+        ibndlfr.sftExdfptionListfnfr(fl);
+        ibndlfr.sftClbssLobdfr(dl);
+        rfturn ibndlfr;
     }
 }

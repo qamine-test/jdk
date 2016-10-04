@@ -1,261 +1,261 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util;
+pbdkbgf sun.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-import sun.util.locale.provider.CalendarDataUtility;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.util.GrfgoribnCblfndbr;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.TimfZonf;
+import sun.util.lodblf.providfr.CblfndbrDbtbUtility;
 
-public class BuddhistCalendar extends GregorianCalendar {
+publid dlbss BuddiistCblfndbr fxtfnds GrfgoribnCblfndbr {
 
 //////////////////
-// Class Variables
+// Clbss Vbribblfs
 //////////////////
 
-    private static final long serialVersionUID = -8527488697350388578L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8527488697350388578L;
 
-    private static final int BUDDHIST_YEAR_OFFSET = 543;
+    privbtf stbtid finbl int BUDDHIST_YEAR_OFFSET = 543;
 
 ///////////////
-// Constructors
+// Construdtors
 ///////////////
 
     /**
-     * Constructs a default BuddhistCalendar using the current time
-     * in the default time zone with the default locale.
+     * Construdts b dffbult BuddiistCblfndbr using tif durrfnt timf
+     * in tif dffbult timf zonf witi tif dffbult lodblf.
      */
-    public BuddhistCalendar() {
-        super();
+    publid BuddiistCblfndbr() {
+        supfr();
     }
 
     /**
-     * Constructs a BuddhistCalendar based on the current time
-     * in the given time zone with the default locale.
-     * @param zone the given time zone.
+     * Construdts b BuddiistCblfndbr bbsfd on tif durrfnt timf
+     * in tif givfn timf zonf witi tif dffbult lodblf.
+     * @pbrbm zonf tif givfn timf zonf.
      */
-    public BuddhistCalendar(TimeZone zone) {
-        super(zone);
+    publid BuddiistCblfndbr(TimfZonf zonf) {
+        supfr(zonf);
     }
 
     /**
-     * Constructs a BuddhistCalendar based on the current time
-     * in the default time zone with the given locale.
-     * @param aLocale the given locale.
+     * Construdts b BuddiistCblfndbr bbsfd on tif durrfnt timf
+     * in tif dffbult timf zonf witi tif givfn lodblf.
+     * @pbrbm bLodblf tif givfn lodblf.
      */
-    public BuddhistCalendar(Locale aLocale) {
-        super(aLocale);
+    publid BuddiistCblfndbr(Lodblf bLodblf) {
+        supfr(bLodblf);
     }
 
     /**
-     * Constructs a BuddhistCalendar based on the current time
-     * in the given time zone with the given locale.
-     * @param zone the given time zone.
-     * @param aLocale the given locale.
+     * Construdts b BuddiistCblfndbr bbsfd on tif durrfnt timf
+     * in tif givfn timf zonf witi tif givfn lodblf.
+     * @pbrbm zonf tif givfn timf zonf.
+     * @pbrbm bLodblf tif givfn lodblf.
      */
-    public BuddhistCalendar(TimeZone zone, Locale aLocale) {
-        super(zone, aLocale);
+    publid BuddiistCblfndbr(TimfZonf zonf, Lodblf bLodblf) {
+        supfr(zonf, bLodblf);
     }
 
 /////////////////
-// Public methods
+// Publid mftiods
 /////////////////
 
     /**
-     * Returns {@code "buddhist"} as the calendar type of this Calendar.
+     * Rfturns {@dodf "buddiist"} bs tif dblfndbr typf of tiis Cblfndbr.
      */
-    @Override
-    public String getCalendarType() {
-        return "buddhist";
+    @Ovfrridf
+    publid String gftCblfndbrTypf() {
+        rfturn "buddiist";
     }
 
     /**
-     * Compares this BuddhistCalendar to an object reference.
-     * @param obj the object reference with which to compare
-     * @return true if this object is equal to <code>obj</code>; false otherwise
+     * Compbrfs tiis BuddiistCblfndbr to bn objfdt rfffrfndf.
+     * @pbrbm obj tif objfdt rfffrfndf witi wiidi to dompbrf
+     * @rfturn truf if tiis objfdt is fqubl to <dodf>obj</dodf>; fblsf otifrwisf
      */
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof BuddhistCalendar
-            && super.equals(obj);
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj instbndfof BuddiistCblfndbr
+            && supfr.fqubls(obj);
     }
 
     /**
-     * Override hashCode.
-     * Generates the hash code for the BuddhistCalendar object
+     * Ovfrridf ibsiCodf.
+     * Gfnfrbtfs tif ibsi dodf for tif BuddiistCblfndbr objfdt
      */
-    @Override
-    public int hashCode() {
-        return super.hashCode() ^ BUDDHIST_YEAR_OFFSET;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn supfr.ibsiCodf() ^ BUDDHIST_YEAR_OFFSET;
     }
 
     /**
-     * Gets the value for a given time field.
-     * @param field the given time field.
-     * @return the value for the given time field.
+     * Gfts tif vbluf for b givfn timf fifld.
+     * @pbrbm fifld tif givfn timf fifld.
+     * @rfturn tif vbluf for tif givfn timf fifld.
      */
-    @Override
-    public int get(int field)
+    @Ovfrridf
+    publid int gft(int fifld)
     {
-        if (field == YEAR) {
-            return super.get(field) + yearOffset;
+        if (fifld == YEAR) {
+            rfturn supfr.gft(fifld) + yfbrOffsft;
         }
-        return super.get(field);
+        rfturn supfr.gft(fifld);
     }
 
     /**
-     * Sets the time field with the given value.
-     * @param field the given time field.
-     * @param value the value to be set for the given time field.
+     * Sfts tif timf fifld witi tif givfn vbluf.
+     * @pbrbm fifld tif givfn timf fifld.
+     * @pbrbm vbluf tif vbluf to bf sft for tif givfn timf fifld.
      */
-    @Override
-    public void set(int field, int value)
+    @Ovfrridf
+    publid void sft(int fifld, int vbluf)
     {
-        if (field == YEAR) {
-            super.set(field, value - yearOffset);
-        } else {
-            super.set(field, value);
+        if (fifld == YEAR) {
+            supfr.sft(fifld, vbluf - yfbrOffsft);
+        } flsf {
+            supfr.sft(fifld, vbluf);
         }
     }
 
     /**
-     * Adds the specified (signed) amount of time to the given time field.
-     * @param field the time field.
-     * @param amount the amount of date or time to be added to the field.
+     * Adds tif spfdififd (signfd) bmount of timf to tif givfn timf fifld.
+     * @pbrbm fifld tif timf fifld.
+     * @pbrbm bmount tif bmount of dbtf or timf to bf bddfd to tif fifld.
      */
-    @Override
-    public void add(int field, int amount)
+    @Ovfrridf
+    publid void bdd(int fifld, int bmount)
     {
-        int savedYearOffset = yearOffset;
-        // To let the superclass calculate date-time values correctly,
-        // temporarily make this GregorianCalendar.
-        yearOffset = 0;
+        int sbvfdYfbrOffsft = yfbrOffsft;
+        // To lft tif supfrdlbss dbldulbtf dbtf-timf vblufs dorrfdtly,
+        // tfmporbrily mbkf tiis GrfgoribnCblfndbr.
+        yfbrOffsft = 0;
         try {
-            super.add(field, amount);
-        } finally {
-            yearOffset = savedYearOffset;
+            supfr.bdd(fifld, bmount);
+        } finblly {
+            yfbrOffsft = sbvfdYfbrOffsft;
         }
     }
 
     /**
-     * Add to field a signed amount without changing larger fields.
-     * A negative roll amount means to subtract from field without changing
-     * larger fields.
-     * @param field the time field.
-     * @param amount the signed amount to add to <code>field</code>.
+     * Add to fifld b signfd bmount witiout dibnging lbrgfr fiflds.
+     * A nfgbtivf roll bmount mfbns to subtrbdt from fifld witiout dibnging
+     * lbrgfr fiflds.
+     * @pbrbm fifld tif timf fifld.
+     * @pbrbm bmount tif signfd bmount to bdd to <dodf>fifld</dodf>.
      */
-    @Override
-    public void roll(int field, int amount)
+    @Ovfrridf
+    publid void roll(int fifld, int bmount)
     {
-        int savedYearOffset = yearOffset;
-        // To let the superclass calculate date-time values correctly,
-        // temporarily make this GregorianCalendar.
-        yearOffset = 0;
+        int sbvfdYfbrOffsft = yfbrOffsft;
+        // To lft tif supfrdlbss dbldulbtf dbtf-timf vblufs dorrfdtly,
+        // tfmporbrily mbkf tiis GrfgoribnCblfndbr.
+        yfbrOffsft = 0;
         try {
-            super.roll(field, amount);
-        } finally {
-            yearOffset = savedYearOffset;
+            supfr.roll(fifld, bmount);
+        } finblly {
+            yfbrOffsft = sbvfdYfbrOffsft;
         }
     }
 
-    @Override
-    public String getDisplayName(int field, int style, Locale locale) {
-        if (field != ERA) {
-            return super.getDisplayName(field, style, locale);
+    @Ovfrridf
+    publid String gftDisplbyNbmf(int fifld, int stylf, Lodblf lodblf) {
+        if (fifld != ERA) {
+            rfturn supfr.gftDisplbyNbmf(fifld, stylf, lodblf);
         }
 
-        return CalendarDataUtility.retrieveFieldValueName("buddhist", field, get(field), style, locale);
+        rfturn CblfndbrDbtbUtility.rftrifvfFifldVblufNbmf("buddiist", fifld, gft(fifld), stylf, lodblf);
     }
 
-    @Override
-    public Map<String,Integer> getDisplayNames(int field, int style, Locale locale) {
-        if (field != ERA) {
-            return super.getDisplayNames(field, style, locale);
+    @Ovfrridf
+    publid Mbp<String,Intfgfr> gftDisplbyNbmfs(int fifld, int stylf, Lodblf lodblf) {
+        if (fifld != ERA) {
+            rfturn supfr.gftDisplbyNbmfs(fifld, stylf, lodblf);
         }
-        return CalendarDataUtility.retrieveFieldValueNames("buddhist", field, style, locale);
+        rfturn CblfndbrDbtbUtility.rftrifvfFifldVblufNbmfs("buddiist", fifld, stylf, lodblf);
     }
 
     /**
-     * Returns the maximum value that this field could have, given the
-     * current date.  For example, with the date "Feb 3, 2540" and the
-     * <code>DAY_OF_MONTH</code> field, the actual maximum is 28; for
-     * "Feb 3, 2539" it is 29.
+     * Rfturns tif mbximum vbluf tibt tiis fifld dould ibvf, givfn tif
+     * durrfnt dbtf.  For fxbmplf, witi tif dbtf "Ffb 3, 2540" bnd tif
+     * <dodf>DAY_OF_MONTH</dodf> fifld, tif bdtubl mbximum is 28; for
+     * "Ffb 3, 2539" it is 29.
      *
-     * @param field the field to determine the maximum of
-     * @return the maximum of the given field for the current date of this Calendar
+     * @pbrbm fifld tif fifld to dftfrminf tif mbximum of
+     * @rfturn tif mbximum of tif givfn fifld for tif durrfnt dbtf of tiis Cblfndbr
      */
-    @Override
-    public int getActualMaximum(int field) {
-        int savedYearOffset = yearOffset;
-        // To let the superclass calculate date-time values correctly,
-        // temporarily make this GregorianCalendar.
-        yearOffset = 0;
+    @Ovfrridf
+    publid int gftAdtublMbximum(int fifld) {
+        int sbvfdYfbrOffsft = yfbrOffsft;
+        // To lft tif supfrdlbss dbldulbtf dbtf-timf vblufs dorrfdtly,
+        // tfmporbrily mbkf tiis GrfgoribnCblfndbr.
+        yfbrOffsft = 0;
         try {
-            return super.getActualMaximum(field);
-        } finally {
-            yearOffset = savedYearOffset;
+            rfturn supfr.gftAdtublMbximum(fifld);
+        } finblly {
+            yfbrOffsft = sbvfdYfbrOffsft;
         }
     }
 
-    @Override
-    @SuppressWarnings("empty-statement")
-    public String toString() {
-        // The super class produces a String with the Gregorian year
-        // value (or '?')
-        String s = super.toString();
-        // If the YEAR field is UNSET, then return the Gregorian string.
-        if (!isSet(YEAR)) {
-            return s;
+    @Ovfrridf
+    @SupprfssWbrnings("fmpty-stbtfmfnt")
+    publid String toString() {
+        // Tif supfr dlbss produdfs b String witi tif Grfgoribn yfbr
+        // vbluf (or '?')
+        String s = supfr.toString();
+        // If tif YEAR fifld is UNSET, tifn rfturn tif Grfgoribn string.
+        if (!isSft(YEAR)) {
+            rfturn s;
         }
 
-        final String yearField = "YEAR=";
-        int p = s.indexOf(yearField);
-        // If the string doesn't include the year value for some
-        // reason, then return the Gregorian string.
+        finbl String yfbrFifld = "YEAR=";
+        int p = s.indfxOf(yfbrFifld);
+        // If tif string dofsn't indludf tif yfbr vbluf for somf
+        // rfbson, tifn rfturn tif Grfgoribn string.
         if (p == -1) {
-            return s;
+            rfturn s;
         }
-        p += yearField.length();
-        StringBuilder sb = new StringBuilder(s.substring(0, p));
-        // Skip the year number
-        while (Character.isDigit(s.charAt(p++)))
+        p += yfbrFifld.lfngti();
+        StringBuildfr sb = nfw StringBuildfr(s.substring(0, p));
+        // Skip tif yfbr numbfr
+        wiilf (Cibrbdtfr.isDigit(s.dibrAt(p++)))
             ;
-        int year = internalGet(YEAR) + BUDDHIST_YEAR_OFFSET;
-        sb.append(year).append(s.substring(p - 1));
-        return sb.toString();
+        int yfbr = intfrnblGft(YEAR) + BUDDHIST_YEAR_OFFSET;
+        sb.bppfnd(yfbr).bppfnd(s.substring(p - 1));
+        rfturn sb.toString();
     }
 
-    private transient int yearOffset = BUDDHIST_YEAR_OFFSET;
+    privbtf trbnsifnt int yfbrOffsft = BUDDHIST_YEAR_OFFSET;
 
-    private void readObject(ObjectInputStream stream)
-        throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        yearOffset = BUDDHIST_YEAR_OFFSET;
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        strfbm.dffbultRfbdObjfdt();
+        yfbrOffsft = BUDDHIST_YEAR_OFFSET;
     }
 }

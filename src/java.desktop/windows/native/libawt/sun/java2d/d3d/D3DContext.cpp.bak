@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "D3DPipeline.h"
-#include "jlong.h"
+#indludf "D3DPipflinf.i"
+#indludf "jlong.i"
 
-#include "GraphicsPrimitiveMgr.h"
-#include "D3DContext.h"
-#include "D3DSurfaceData.h"
-#include "D3DBufImgOps.h"
-#include "D3DPaints.h"
-#include "D3DRenderQueue.h"
-#include "D3DShaders.h"
-#include "D3DTextRenderer.h"
-#include "D3DPipelineManager.h"
-#include "D3DGlyphCache.h"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "D3DContfxt.i"
+#indludf "D3DSurfbdfDbtb.i"
+#indludf "D3DBufImgOps.i"
+#indludf "D3DPbints.i"
+#indludf "D3DRfndfrQufuf.i"
+#indludf "D3DSibdfrs.i"
+#indludf "D3DTfxtRfndfrfr.i"
+#indludf "D3DPipflinfMbnbgfr.i"
+#indludf "D3DGlypiCbdif.i"
 
-typedef struct {
-    D3DBLEND src;
+typfdff strudt {
+    D3DBLEND srd;
     D3DBLEND dst;
-} D3DBlendRule;
+} D3DBlfndRulf;
 
 /**
- * This table contains the standard blending rules (or Porter-Duff compositing
- * factors) used in SetRenderState(), indexed by the rule constants from the
- * AlphaComposite class.
+ * Tiis tbblf dontbins tif stbndbrd blfnding rulfs (or Portfr-Duff dompositing
+ * fbdtors) usfd in SftRfndfrStbtf(), indfxfd by tif rulf donstbnts from tif
+ * AlpibCompositf dlbss.
  */
-D3DBlendRule StdBlendRules[] = {
-    { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 0 - Nothing      */
-    { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 1 - RULE_Clear   */
-    { D3DBLEND_ONE,          D3DBLEND_ZERO        }, /* 2 - RULE_Src     */
-    { D3DBLEND_ONE,          D3DBLEND_INVSRCALPHA }, /* 3 - RULE_SrcOver */
-    { D3DBLEND_INVDESTALPHA, D3DBLEND_ONE         }, /* 4 - RULE_DstOver */
-    { D3DBLEND_DESTALPHA,    D3DBLEND_ZERO        }, /* 5 - RULE_SrcIn   */
+D3DBlfndRulf StdBlfndRulfs[] = {
+    { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 0 - Notiing      */
+    { D3DBLEND_ZERO,         D3DBLEND_ZERO        }, /* 1 - RULE_Clfbr   */
+    { D3DBLEND_ONE,          D3DBLEND_ZERO        }, /* 2 - RULE_Srd     */
+    { D3DBLEND_ONE,          D3DBLEND_INVSRCALPHA }, /* 3 - RULE_SrdOvfr */
+    { D3DBLEND_INVDESTALPHA, D3DBLEND_ONE         }, /* 4 - RULE_DstOvfr */
+    { D3DBLEND_DESTALPHA,    D3DBLEND_ZERO        }, /* 5 - RULE_SrdIn   */
     { D3DBLEND_ZERO,         D3DBLEND_SRCALPHA    }, /* 6 - RULE_DstIn   */
-    { D3DBLEND_INVDESTALPHA, D3DBLEND_ZERO        }, /* 7 - RULE_SrcOut  */
+    { D3DBLEND_INVDESTALPHA, D3DBLEND_ZERO        }, /* 7 - RULE_SrdOut  */
     { D3DBLEND_ZERO,         D3DBLEND_INVSRCALPHA }, /* 8 - RULE_DstOut  */
     { D3DBLEND_ZERO,         D3DBLEND_ONE         }, /* 9 - RULE_Dst     */
-    { D3DBLEND_DESTALPHA,    D3DBLEND_INVSRCALPHA }, /*10 - RULE_SrcAtop */
+    { D3DBLEND_DESTALPHA,    D3DBLEND_INVSRCALPHA }, /*10 - RULE_SrdAtop */
     { D3DBLEND_INVDESTALPHA, D3DBLEND_SRCALPHA    }, /*11 - RULE_DstAtop */
-    { D3DBLEND_INVDESTALPHA, D3DBLEND_INVSRCALPHA }, /*12 - RULE_AlphaXor*/
+    { D3DBLEND_INVDESTALPHA, D3DBLEND_INVSRCALPHA }, /*12 - RULE_AlpibXor*/
 };
 
 void
-D3DUtils_SetOrthoMatrixOffCenterLH(D3DMATRIX *m,
-                                   float width, float height)
+D3DUtils_SftOrtioMbtrixOffCfntfrLH(D3DMATRIX *m,
+                                   flobt widti, flobt ifigit)
 {
-    ZeroMemory(m, sizeof(D3DMATRIX));
-    m->_11 =  2.0f/width;
-    m->_22 = -2.0f/height;
+    ZfroMfmory(m, sizfof(D3DMATRIX));
+    m->_11 =  2.0f/widti;
+    m->_22 = -2.0f/ifigit;
     m->_33 =  0.5f;
     m->_44 =  1.0f;
 
@@ -79,15 +79,15 @@ D3DUtils_SetOrthoMatrixOffCenterLH(D3DMATRIX *m,
 }
 
 void
-D3DUtils_SetIdentityMatrix(D3DMATRIX *m)
+D3DUtils_SftIdfntityMbtrix(D3DMATRIX *m)
 {
     m->_12 = m->_13 = m->_14 = m->_21 = m->_23 = m->_24 = 0.0f;
     m->_31 = m->_32 = m->_34 = m->_41 = m->_42 = m->_43 = 0.0f;
     m->_11 = m->_22 = m->_33 = m->_44 = 1.0f;
 }
 
-// the following methods are copies of the AffineTransform's class
-// corresponding methods, with these changes to the indexes:
+// tif following mftiods brf dopifs of tif AffinfTrbnsform's dlbss
+// dorrfsponding mftiods, witi tifsf dibngfs to tif indfxfs:
 // 00 -> 11
 // 11 -> 22
 // 01 -> 21
@@ -96,11 +96,11 @@ D3DUtils_SetIdentityMatrix(D3DMATRIX *m)
 // 12 -> 42
 
 void
-D3DUtils_2DConcatenateM(D3DMATRIX *m, D3DMATRIX *m1)
+D3DUtils_2DCondbtfnbtfM(D3DMATRIX *m, D3DMATRIX *m1)
 {
-    float M0, M1;
-    float T00, T10, T01, T11;
-    float T02, T12;
+    flobt M0, M1;
+    flobt T00, T10, T01, T11;
+    flobt T02, T12;
 
     T00 = m1->_11; T01 = m1->_21; T02 = m1->_41;
     T10 = m1->_12; T11 = m1->_22; T12 = m1->_42;
@@ -118,1336 +118,1336 @@ D3DUtils_2DConcatenateM(D3DMATRIX *m, D3DMATRIX *m1)
     m->_42 += T02 * M0 + T12 * M1;
 }
 
-#ifdef UPDATE_TX
+#ifdff UPDATE_TX
 
 void
-D3DUtils_2DScaleM(D3DMATRIX *m, float sx, float sy)
+D3DUtils_2DSdblfM(D3DMATRIX *m, flobt sx, flobt sy)
 {
     m->_11 *= sx;
     m->_22 *= sy;
 }
 
 void
-D3DUtils_2DInvertM(D3DMATRIX *m)
+D3DUtils_2DInvfrtM(D3DMATRIX *m)
 {
-    float M11, M21, M41;
-    float M12, M22, M42;
-    float det;
+    flobt M11, M21, M41;
+    flobt M12, M22, M42;
+    flobt dft;
 
     M11 = m->_11; M21 = m->_21; M41 = m->_41;
     M12 = m->_12; M22 = m->_22; M42 = m->_42;
-    det = M11 * M22 - M21 * M12;
-    if (fabs(det) <= 0.0000000001f) {
-        memset(m, 0, sizeof(D3DMATRIX));
-        return;
+    dft = M11 * M22 - M21 * M12;
+    if (fbbs(dft) <= 0.0000000001f) {
+        mfmsft(m, 0, sizfof(D3DMATRIX));
+        rfturn;
     }
-    m->_11 =  M22 / det;
-    m->_12 = -M12 / det;
-    m->_21 = -M21 / det;
-    m->_22 =  M11 / det;
-    m->_41 = (M21 * M42 - M22 * M41) / det;
-    m->_42 = (M12 * M41 - M11 * M42) / det;
+    m->_11 =  M22 / dft;
+    m->_12 = -M12 / dft;
+    m->_21 = -M21 / dft;
+    m->_22 =  M11 / dft;
+    m->_41 = (M21 * M42 - M22 * M41) / dft;
+    m->_42 = (M12 * M41 - M11 * M42) / dft;
 }
 
 void
-D3DUtils_2DTranslateM(D3DMATRIX *m, float tx, float ty)
+D3DUtils_2DTrbnslbtfM(D3DMATRIX *m, flobt tx, flobt ty)
 {
     m->_41 = tx * m->_11 + ty * m->_21 + m->_41;
     m->_42 = tx * m->_12 + ty * m->_22 + m->_42;
 }
 
 void
-D3DUtils_2DTransformXY(D3DMATRIX *m, float *px, float *py)
+D3DUtils_2DTrbnsformXY(D3DMATRIX *m, flobt *px, flobt *py)
 {
-    float x = *px;
-    float y = *py;
+    flobt x = *px;
+    flobt y = *py;
 
     *px = x * m->_11 + y * m->_21 + m->_41;
     *py = x * m->_12 + y * m->_22 + m->_42;
 }
 
 void
-D3DUtils_2DInverseTransformXY(D3DMATRIX *m, float *px, float *py)
+D3DUtils_2DInvfrsfTrbnsformXY(D3DMATRIX *m, flobt *px, flobt *py)
 {
-    float x = *px, y = *py;
+    flobt x = *px, y = *py;
 
     x -= m->_41;
     y -= m->_42;
 
-    float det = m->_11 * m->_22 - m->_21 * m->_12;
-    if (fabs(det) < 0.0000000001f) {
+    flobt dft = m->_11 * m->_22 - m->_21 * m->_12;
+    if (fbbs(dft) < 0.0000000001f) {
         *px = 0.0f;
         *py = 0.0f;
-    } else {
-        *px = (x * m->_22 - y * m->_21) / det;
-        *py = (y * m->_11 - x * m->_12) / det;
+    } flsf {
+        *px = (x * m->_22 - y * m->_21) / dft;
+        *py = (y * m->_11 - x * m->_12) / dft;
     }
 }
 
-#endif // UPDATE_TX
+#fndif // UPDATE_TX
 
-static void
-D3DContext_DisposeShader(jlong programID)
+stbtid void
+D3DContfxt_DisposfSibdfr(jlong progrbmID)
 {
-    IDirect3DPixelShader9 *shader =
-        (IDirect3DPixelShader9 *)jlong_to_ptr(programID);
+    IDirfdt3DPixflSibdfr9 *sibdfr =
+        (IDirfdt3DPixflSibdfr9 *)jlong_to_ptr(progrbmID);
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext_DisposeShader");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt_DisposfSibdfr");
 
-    SAFE_RELEASE(shader);
+    SAFE_RELEASE(sibdfr);
 }
 
-// static
+// stbtid
 HRESULT
-D3DContext::CreateInstance(IDirect3D9 *pd3d9, UINT adapter, D3DContext **ppCtx)
+D3DContfxt::CrfbtfInstbndf(IDirfdt3D9 *pd3d9, UINT bdbptfr, D3DContfxt **ppCtx)
 {
-    HRESULT res;
-    *ppCtx = new D3DContext(pd3d9, adapter);
-    if (FAILED(res = (*ppCtx)->InitContext())) {
-        delete *ppCtx;
+    HRESULT rfs;
+    *ppCtx = nfw D3DContfxt(pd3d9, bdbptfr);
+    if (FAILED(rfs = (*ppCtx)->InitContfxt())) {
+        dflftf *ppCtx;
         *ppCtx = NULL;
     }
-    return res;
+    rfturn rfs;
 }
 
-D3DContext::D3DContext(IDirect3D9 *pd3d, UINT adapter)
+D3DContfxt::D3DContfxt(IDirfdt3D9 *pd3d, UINT bdbptfr)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::D3DContext");
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  pd3d=0x%x", pd3d);
-    pd3dObject = pd3d;
-    pd3dDevice = NULL;
-    adapterOrdinal = adapter;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::D3DContfxt");
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  pd3d=0x%x", pd3d);
+    pd3dObjfdt = pd3d;
+    pd3dDfvidf = NULL;
+    bdbptfrOrdinbl = bdbptfr;
 
-    pResourceMgr = NULL;
-    pMaskCache = NULL;
-    pVCacher = NULL;
+    pRfsourdfMgr = NULL;
+    pMbskCbdif = NULL;
+    pVCbdifr = NULL;
 
-    pSyncQuery = NULL;
-    pSyncRTRes = NULL;
-    pStateBlock = NULL;
+    pSyndQufry = NULL;
+    pSyndRTRfs = NULL;
+    pStbtfBlodk = NULL;
 
-    D3DC_INIT_SHADER_LIST(convolvePrograms,   MAX_CONVOLVE);
-    D3DC_INIT_SHADER_LIST(rescalePrograms,    MAX_RESCALE);
-    D3DC_INIT_SHADER_LIST(lookupPrograms,     MAX_LOOKUP);
-    D3DC_INIT_SHADER_LIST(basicGradPrograms,  4);
-    D3DC_INIT_SHADER_LIST(linearGradPrograms, 8);
-    D3DC_INIT_SHADER_LIST(radialGradPrograms, 8);
+    D3DC_INIT_SHADER_LIST(donvolvfProgrbms,   MAX_CONVOLVE);
+    D3DC_INIT_SHADER_LIST(rfsdblfProgrbms,    MAX_RESCALE);
+    D3DC_INIT_SHADER_LIST(lookupProgrbms,     MAX_LOOKUP);
+    D3DC_INIT_SHADER_LIST(bbsidGrbdProgrbms,  4);
+    D3DC_INIT_SHADER_LIST(linfbrGrbdProgrbms, 8);
+    D3DC_INIT_SHADER_LIST(rbdiblGrbdProgrbms, 8);
 
-    pLCDGlyphCache= NULL;
-    pGrayscaleGlyphCache= NULL;
-    lcdTextProgram = NULL;
-    aaPgramProgram = NULL;
+    pLCDGlypiCbdif= NULL;
+    pGrbysdblfGlypiCbdif= NULL;
+    lddTfxtProgrbm = NULL;
+    bbPgrbmProgrbm = NULL;
 
-    contextCaps = CAPS_EMPTY;
-    bBeginScenePending = FALSE;
+    dontfxtCbps = CAPS_EMPTY;
+    bBfginSdfnfPfnding = FALSE;
 
-    ZeroMemory(&devCaps, sizeof(D3DCAPS9));
-    ZeroMemory(&curParams, sizeof(curParams));
+    ZfroMfmory(&dfvCbps, sizfof(D3DCAPS9));
+    ZfroMfmory(&durPbrbms, sizfof(durPbrbms));
 
-    extraAlpha = 1.0f;
+    fxtrbAlpib = 1.0f;
 }
 
-void D3DContext::ReleaseDefPoolResources()
+void D3DContfxt::RflfbsfDffPoolRfsourdfs()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::ReleaseDefPoolResources");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RflfbsfDffPoolRfsourdfs");
 
-    EndScene();
+    EndSdfnf();
 
-    D3DPipelineManager::NotifyAdapterEventListeners(devCaps.AdapterOrdinal,
+    D3DPipflinfMbnbgfr::NotifyAdbptfrEvfntListfnfrs(dfvCbps.AdbptfrOrdinbl,
                                                     DEVICE_RESET);
 
-    contextCaps = CAPS_EMPTY;
+    dontfxtCbps = CAPS_EMPTY;
 
-    SAFE_RELEASE(pSyncQuery);
-    SAFE_RELEASE(pStateBlock);
+    SAFE_RELEASE(pSyndQufry);
+    SAFE_RELEASE(pStbtfBlodk);
 
-    if (pVCacher != NULL) {
-        pVCacher->ReleaseDefPoolResources();
+    if (pVCbdifr != NULL) {
+        pVCbdifr->RflfbsfDffPoolRfsourdfs();
     }
-    if (pMaskCache != NULL) {
-        pMaskCache->ReleaseDefPoolResources();
+    if (pMbskCbdif != NULL) {
+        pMbskCbdif->RflfbsfDffPoolRfsourdfs();
     }
-    if (pLCDGlyphCache != NULL) {
-        pLCDGlyphCache->ReleaseDefPoolResources();
+    if (pLCDGlypiCbdif != NULL) {
+        pLCDGlypiCbdif->RflfbsfDffPoolRfsourdfs();
     }
-    if (pGrayscaleGlyphCache != NULL) {
-        pGrayscaleGlyphCache->ReleaseDefPoolResources();
+    if (pGrbysdblfGlypiCbdif != NULL) {
+        pGrbysdblfGlypiCbdif->RflfbsfDffPoolRfsourdfs();
     }
-    if (pResourceMgr != NULL) {
-        if (pSyncRTRes != NULL) {
-            pResourceMgr->ReleaseResource(pSyncRTRes);
-            pSyncRTRes = NULL;
+    if (pRfsourdfMgr != NULL) {
+        if (pSyndRTRfs != NULL) {
+            pRfsourdfMgr->RflfbsfRfsourdf(pSyndRTRfs);
+            pSyndRTRfs = NULL;
         }
-        pResourceMgr->ReleaseDefPoolResources();
+        pRfsourdfMgr->RflfbsfDffPoolRfsourdfs();
     }
-    ZeroMemory(lastTexture, sizeof(lastTexture));
-    ZeroMemory(lastTextureColorState, sizeof(lastTextureColorState));
+    ZfroMfmory(lbstTfxturf, sizfof(lbstTfxturf));
+    ZfroMfmory(lbstTfxturfColorStbtf, sizfof(lbstTfxturfColorStbtf));
 }
 
-void D3DContext::ReleaseContextResources()
+void D3DContfxt::RflfbsfContfxtRfsourdfs()
 {
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "D3DContext::ReleaseContextResources: pd3dDevice = 0x%x",
-                pd3dDevice);
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DContfxt::RflfbsfContfxtRfsourdfs: pd3dDfvidf = 0x%x",
+                pd3dDfvidf);
 
-    ReleaseDefPoolResources();
+    RflfbsfDffPoolRfsourdfs();
 
-    D3DPipelineManager::NotifyAdapterEventListeners(devCaps.AdapterOrdinal,
+    D3DPipflinfMbnbgfr::NotifyAdbptfrEvfntListfnfrs(dfvCbps.AdbptfrOrdinbl,
                                                     DEVICE_DISPOSED);
 
-    // dispose shader lists
-    ShaderList_Dispose(&convolvePrograms);
-    ShaderList_Dispose(&rescalePrograms);
-    ShaderList_Dispose(&lookupPrograms);
-    ShaderList_Dispose(&basicGradPrograms);
-    ShaderList_Dispose(&linearGradPrograms);
-    ShaderList_Dispose(&radialGradPrograms);
+    // disposf sibdfr lists
+    SibdfrList_Disposf(&donvolvfProgrbms);
+    SibdfrList_Disposf(&rfsdblfProgrbms);
+    SibdfrList_Disposf(&lookupProgrbms);
+    SibdfrList_Disposf(&bbsidGrbdProgrbms);
+    SibdfrList_Disposf(&linfbrGrbdProgrbms);
+    SibdfrList_Disposf(&rbdiblGrbdProgrbms);
 
-    SAFE_DELETE(pLCDGlyphCache);
-    SAFE_DELETE(pGrayscaleGlyphCache);
+    SAFE_DELETE(pLCDGlypiCbdif);
+    SAFE_DELETE(pGrbysdblfGlypiCbdif);
 
-    SAFE_RELEASE(lcdTextProgram);
-    SAFE_RELEASE(aaPgramProgram);
+    SAFE_RELEASE(lddTfxtProgrbm);
+    SAFE_RELEASE(bbPgrbmProgrbm);
 
-    SAFE_DELETE(pVCacher);
-    SAFE_DELETE(pMaskCache);
-    SAFE_DELETE(pResourceMgr);
+    SAFE_DELETE(pVCbdifr);
+    SAFE_DELETE(pMbskCbdif);
+    SAFE_DELETE(pRfsourdfMgr);
 }
 
-D3DContext::~D3DContext() {
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "~D3DContext: pd3dDevice=0x%x, pd3dObject =0x%x",
-                pd3dDevice, pd3dObject);
-    ReleaseContextResources();
-    SAFE_RELEASE(pd3dDevice);
+D3DContfxt::~D3DContfxt() {
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "~D3DContfxt: pd3dDfvidf=0x%x, pd3dObjfdt =0x%x",
+                pd3dDfvidf, pd3dObjfdt);
+    RflfbsfContfxtRfsourdfs();
+    SAFE_RELEASE(pd3dDfvidf);
 }
 
 HRESULT
-D3DContext::InitDevice(IDirect3DDevice9 *pd3dDevice)
+D3DContfxt::InitDfvidf(IDirfdt3DDfvidf9 *pd3dDfvidf)
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
 
-    pd3dDevice->GetDeviceCaps(&devCaps);
+    pd3dDfvidf->GftDfvidfCbps(&dfvCbps);
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-                   "D3DContext::InitDevice: device %d", adapterOrdinal);
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+                   "D3DContfxt::InitDfvidf: dfvidf %d", bdbptfrOrdinbl);
 
-    // disable some of the unneeded and costly d3d functionality
-    pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    pd3dDevice->SetRenderState(D3DRS_SPECULARENABLE, FALSE);
-    pd3dDevice->SetRenderState(D3DRS_LIGHTING,  FALSE);
-    pd3dDevice->SetRenderState(D3DRS_CLIPPING,  FALSE);
-    pd3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-    pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, D3DZB_FALSE);
-    pd3dDevice->SetRenderState(D3DRS_COLORVERTEX, FALSE);
-    pd3dDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+    // disbblf somf of tif unnffdfd bnd dostly d3d fundtionblity
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_CULLMODE, D3DCULL_NONE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SPECULARENABLE, FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_LIGHTING,  FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_CLIPPING,  FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZENABLE, D3DZB_FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZWRITEENABLE, D3DZB_FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_COLORVERTEX, FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_STENCILENABLE, FALSE);
 
-    // set the default texture addressing mode
-    pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    // sft tif dffbult tfxturf bddrfssing modf
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-    // REMIND: check supported filters with
-    // IDirect3D9::CheckDeviceFormat with D3DUSAGE_QUERY_FILTER
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-    pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+    // REMIND: difdk supportfd filtfrs witi
+    // IDirfdt3D9::CifdkDfvidfFormbt witi D3DUSAGE_QUERY_FILTER
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 
-    // these states never change
-    pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-    pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-    pd3dDevice->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-    pd3dDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-    pd3dDevice->SetTextureStageState(1, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-    pd3dDevice->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+    // tifsf stbtfs nfvfr dibngf
+    pd3dDfvidf->SftTfxturfStbgfStbtf(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(1, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(1, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+    pd3dDfvidf->SftTfxturfStbgfStbtf(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-    // init the array of latest textures
-    ZeroMemory(lastTexture, sizeof(lastTexture));
-    ZeroMemory(lastTextureColorState, sizeof(lastTextureColorState));
+    // init tif brrby of lbtfst tfxturfs
+    ZfroMfmory(lbstTfxturf, sizfof(lbstTfxturf));
+    ZfroMfmory(lbstTfxturfColorStbtf, sizfof(lbstTfxturfColorStbtf));
 
-    opState = STATE_CHANGE;
+    opStbtf = STATE_CHANGE;
 
-    if (pResourceMgr == NULL) {
-        res = D3DResourceManager::CreateInstance(this, &pResourceMgr);
-    } else {
-        res = pResourceMgr->Init(this);
+    if (pRfsourdfMgr == NULL) {
+        rfs = D3DRfsourdfMbnbgfr::CrfbtfInstbndf(tiis, &pRfsourdfMgr);
+    } flsf {
+        rfs = pRfsourdfMgr->Init(tiis);
     }
-    RETURN_STATUS_IF_FAILED(res);
+    RETURN_STATUS_IF_FAILED(rfs);
 
-    if (pVCacher == NULL) {
-        res = D3DVertexCacher::CreateInstance(this, &pVCacher);
-    } else {
-        res = pVCacher->Init(this);
+    if (pVCbdifr == NULL) {
+        rfs = D3DVfrtfxCbdifr::CrfbtfInstbndf(tiis, &pVCbdifr);
+    } flsf {
+        rfs = pVCbdifr->Init(tiis);
     }
-    RETURN_STATUS_IF_FAILED(res);
+    RETURN_STATUS_IF_FAILED(rfs);
 
-    if (pMaskCache == NULL) {
-        res = D3DMaskCache::CreateInstance(this, &pMaskCache);
-    } else{
-        res = pMaskCache->Init(this);
+    if (pMbskCbdif == NULL) {
+        rfs = D3DMbskCbdif::CrfbtfInstbndf(tiis, &pMbskCbdif);
+    } flsf{
+        rfs = pMbskCbdif->Init(tiis);
     }
-    RETURN_STATUS_IF_FAILED(res);
+    RETURN_STATUS_IF_FAILED(rfs);
 
-    if (pLCDGlyphCache != NULL) {
-        if (FAILED(res = pLCDGlyphCache->Init(this))) {
-            // we can live without the cache
-            SAFE_DELETE(pLCDGlyphCache);
-            res = S_OK;
+    if (pLCDGlypiCbdif != NULL) {
+        if (FAILED(rfs = pLCDGlypiCbdif->Init(tiis))) {
+            // wf dbn livf witiout tif dbdif
+            SAFE_DELETE(pLCDGlypiCbdif);
+            rfs = S_OK;
         }
     }
 
-    if (pGrayscaleGlyphCache != NULL) {
-        if (FAILED(res = pGrayscaleGlyphCache->Init(this))) {
-            // we can live without the cache
-            SAFE_DELETE(pGrayscaleGlyphCache);
-            res = S_OK;
+    if (pGrbysdblfGlypiCbdif != NULL) {
+        if (FAILED(rfs = pGrbysdblfGlypiCbdif->Init(tiis))) {
+            // wf dbn livf witiout tif dbdif
+            SAFE_DELETE(pGrbysdblfGlypiCbdif);
+            rfs = S_OK;
         }
     }
 
     D3DMATRIX tx;
-    D3DUtils_SetIdentityMatrix(&tx);
-    pd3dDevice->SetTransform(D3DTS_WORLD, &tx);
-    bIsIdentityTx = TRUE;
+    D3DUtils_SftIdfntityMbtrix(&tx);
+    pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &tx);
+    bIsIdfntityTx = TRUE;
 
-    if (pSyncQuery == NULL) {
-        // this is allowed to fail, do not propagate the error
-        if (FAILED(pd3dDevice->CreateQuery(D3DQUERYTYPE_EVENT, &pSyncQuery))) {
-            J2dRlsTraceLn(J2D_TRACE_WARNING,
-                          "D3DContext::InitDevice: sync query not available");
-            pSyncQuery = NULL;
+    if (pSyndQufry == NULL) {
+        // tiis is bllowfd to fbil, do not propbgbtf tif frror
+        if (FAILED(pd3dDfvidf->CrfbtfQufry(D3DQUERYTYPE_EVENT, &pSyndQufry))) {
+            J2dRlsTrbdfLn(J2D_TRACE_WARNING,
+                          "D3DContfxt::InitDfvidf: synd qufry not bvbilbblf");
+            pSyndQufry = NULL;
         }
     }
-    if (pSyncRTRes == NULL) {
-        D3DFORMAT format;
-        if (FAILED(GetResourceManager()->
-                   CreateRTSurface(32, 32, TRUE, TRUE, &format, &pSyncRTRes))) {
-            J2dRlsTraceLn(J2D_TRACE_WARNING,
-                          "D3DContext::InitDevice: "
-                          "error creating sync surface");
+    if (pSyndRTRfs == NULL) {
+        D3DFORMAT formbt;
+        if (FAILED(GftRfsourdfMbnbgfr()->
+                   CrfbtfRTSurfbdf(32, 32, TRUE, TRUE, &formbt, &pSyndRTRfs))) {
+            J2dRlsTrbdfLn(J2D_TRACE_WARNING,
+                          "D3DContfxt::InitDfvidf: "
+                          "frror drfbting synd surfbdf");
         }
     }
 
-    bBeginScenePending = FALSE;
+    bBfginSdfnfPfnding = FALSE;
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-                   "D3DContext::InitDefice: successfully initialized device %d",
-                   adapterOrdinal);
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+                   "D3DContfxt::InitDffidf: suddfssfully initiblizfd dfvidf %d",
+                   bdbptfrOrdinbl);
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::CheckAndResetDevice()
+D3DContfxt::CifdkAndRfsftDfvidf()
 {
-    HRESULT res = E_FAIL;
+    HRESULT rfs = E_FAIL;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::CheckAndResetDevice");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::CifdkAndRfsftDfvidf");
 
-    if (pd3dDevice != NULL) {
-        if (FAILED(res = pd3dDevice->TestCooperativeLevel())) {
-            if (res == D3DERR_DEVICELOST) {
-                J2dTraceLn1(J2D_TRACE_VERBOSE, "  device %d is still lost",
-                            adapterOrdinal);
-                // nothing to be done here, wait for D3DERR_DEVICENOTRESET
-                return res;
-            } else if (res == D3DERR_DEVICENOTRESET) {
-                J2dTraceLn1(J2D_TRACE_VERBOSE, "  device %d needs to be reset",
-                            adapterOrdinal);
-                res = ResetContext();
-            } else {
-                // some unexpected error
-                DebugPrintD3DError(res, "D3DContext::CheckAndResetDevice: "\
-                                   "unknown error %x from TestCooperativeLevel");
+    if (pd3dDfvidf != NULL) {
+        if (FAILED(rfs = pd3dDfvidf->TfstCoopfrbtivfLfvfl())) {
+            if (rfs == D3DERR_DEVICELOST) {
+                J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  dfvidf %d is still lost",
+                            bdbptfrOrdinbl);
+                // notiing to bf donf ifrf, wbit for D3DERR_DEVICENOTRESET
+                rfturn rfs;
+            } flsf if (rfs == D3DERR_DEVICENOTRESET) {
+                J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  dfvidf %d nffds to bf rfsft",
+                            bdbptfrOrdinbl);
+                rfs = RfsftContfxt();
+            } flsf {
+                // somf unfxpfdtfd frror
+                DfbugPrintD3DError(rfs, "D3DContfxt::CifdkAndRfsftDfvidf: "\
+                                   "unknown frror %x from TfstCoopfrbtivfLfvfl");
             }
-        } else {
-            J2dTraceLn1(J2D_TRACE_VERBOSE, "  device %d is not lost",
-                        adapterOrdinal);
+        } flsf {
+            J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  dfvidf %d is not lost",
+                        bdbptfrOrdinbl);
         }
-    } else {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  null device");
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  null dfvidf");
     }
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::ResetContext()
+D3DContfxt::RfsftContfxt()
 {
-    HRESULT res = E_FAIL;
+    HRESULT rfs = E_FAIL;
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "D3DContext::ResetContext");
-    if (pd3dDevice != NULL) {
-        D3DPRESENT_PARAMETERS newParams;
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfsftContfxt");
+    if (pd3dDfvidf != NULL) {
+        D3DPRESENT_PARAMETERS nfwPbrbms;
 
-        newParams = curParams;
+        nfwPbrbms = durPbrbms;
 
-        if (newParams.Windowed) {
-            // reset to the current display mode if we're windowed,
-            // otherwise to the display mode we were in when the device
-            // was lost
-            newParams.BackBufferFormat = D3DFMT_UNKNOWN;
-            newParams.FullScreen_RefreshRateInHz = 0;
-            newParams.BackBufferWidth = 0;
-            newParams.BackBufferHeight = 0;
+        if (nfwPbrbms.Windowfd) {
+            // rfsft to tif durrfnt displby modf if wf'rf windowfd,
+            // otifrwisf to tif displby modf wf wfrf in wifn tif dfvidf
+            // wbs lost
+            nfwPbrbms.BbdkBufffrFormbt = D3DFMT_UNKNOWN;
+            nfwPbrbms.FullSdrffn_RffrfsiRbtfInHz = 0;
+            nfwPbrbms.BbdkBufffrWidti = 0;
+            nfwPbrbms.BbdkBufffrHfigit = 0;
         }
-        res = ConfigureContext(&newParams);
+        rfs = ConfigurfContfxt(&nfwPbrbms);
     }
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::ConfigureContext(D3DPRESENT_PARAMETERS *pNewParams)
+D3DContfxt::ConfigurfContfxt(D3DPRESENT_PARAMETERS *pNfwPbrbms)
 {
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "D3DContext::ConfigureContext device %d",
-                   adapterOrdinal);
-    HRESULT res = S_OK;
-    D3DFORMAT stencilFormat;
-    HWND focusHWND = D3DPipelineManager::GetInstance()->GetCurrentFocusWindow();
-    D3DDEVTYPE devType = D3DPipelineManager::GetInstance()->GetDeviceType();
-    // this is needed so that we can find the stencil buffer format
-    if (pNewParams->BackBufferFormat == D3DFMT_UNKNOWN) {
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "D3DContfxt::ConfigurfContfxt dfvidf %d",
+                   bdbptfrOrdinbl);
+    HRESULT rfs = S_OK;
+    D3DFORMAT stfndilFormbt;
+    HWND fodusHWND = D3DPipflinfMbnbgfr::GftInstbndf()->GftCurrfntFodusWindow();
+    D3DDEVTYPE dfvTypf = D3DPipflinfMbnbgfr::GftInstbndf()->GftDfvidfTypf();
+    // tiis is nffdfd so tibt wf dbn find tif stfndil bufffr formbt
+    if (pNfwPbrbms->BbdkBufffrFormbt == D3DFMT_UNKNOWN) {
         D3DDISPLAYMODE dm;
 
-        pd3dObject->GetAdapterDisplayMode(adapterOrdinal, &dm);
-        pNewParams->BackBufferFormat = dm.Format;
+        pd3dObjfdt->GftAdbptfrDisplbyModf(bdbptfrOrdinbl, &dm);
+        pNfwPbrbms->BbdkBufffrFormbt = dm.Formbt;
     }
 
-    stencilFormat =
-        D3DPipelineManager::GetInstance()->GetMatchingDepthStencilFormat(
-            adapterOrdinal,
-            pNewParams->BackBufferFormat, pNewParams->BackBufferFormat);
+    stfndilFormbt =
+        D3DPipflinfMbnbgfr::GftInstbndf()->GftMbtdiingDfptiStfndilFormbt(
+            bdbptfrOrdinbl,
+            pNfwPbrbms->BbdkBufffrFormbt, pNfwPbrbms->BbdkBufffrFormbt);
 
-    pNewParams->EnableAutoDepthStencil = TRUE;
-    pNewParams->AutoDepthStencilFormat = stencilFormat;
+    pNfwPbrbms->EnbblfAutoDfptiStfndil = TRUE;
+    pNfwPbrbms->AutoDfptiStfndilFormbt = stfndilFormbt;
 
-    // do not set device window in the windowed mode, we use additional
-    // swap chains for rendering, the default chain is not used. otherwise
-    // our scratch focus window will be made visible
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  windowed=%d",pNewParams->Windowed);
-    if (pNewParams->Windowed) {
-        pNewParams->hDeviceWindow = (HWND)0;
+    // do not sft dfvidf window in tif windowfd modf, wf usf bdditionbl
+    // swbp dibins for rfndfring, tif dffbult dibin is not usfd. otifrwisf
+    // our sdrbtdi fodus window will bf mbdf visiblf
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  windowfd=%d",pNfwPbrbms->Windowfd);
+    if (pNfwPbrbms->Windowfd) {
+        pNfwPbrbms->iDfvidfWindow = (HWND)0;
     }
 
-    // The focus window may change when we're entering/exiting the full-screen
-    // mode. It may either be set to the default focus window (when there are
-    // no more devices in fs mode), or to fs window for another device
-    // in fs mode. See D3DPipelineManager::GetCurrentFocusWindow.
-    if (pd3dDevice != NULL) {
-        D3DDEVICE_CREATION_PARAMETERS cParams;
-        pd3dDevice->GetCreationParameters(&cParams);
-        if (cParams.hFocusWindow != focusHWND) {
-            J2dTraceLn(J2D_TRACE_VERBOSE,
-                       "  focus window changed, need to recreate the device");
+    // Tif fodus window mby dibngf wifn wf'rf fntfring/fxiting tif full-sdrffn
+    // modf. It mby fitifr bf sft to tif dffbult fodus window (wifn tifrf brf
+    // no morf dfvidfs in fs modf), or to fs window for bnotifr dfvidf
+    // in fs modf. Sff D3DPipflinfMbnbgfr::GftCurrfntFodusWindow.
+    if (pd3dDfvidf != NULL) {
+        D3DDEVICE_CREATION_PARAMETERS dPbrbms;
+        pd3dDfvidf->GftCrfbtionPbrbmftfrs(&dPbrbms);
+        if (dPbrbms.iFodusWindow != fodusHWND) {
+            J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                       "  fodus window dibngfd, nffd to rfdrfbtf tif dfvidf");
 
-            // if fs -> windowed, first exit fs, then recreate, otherwise
-            // the screen might be left in a different display mode
-            if (pNewParams->Windowed && !curParams.Windowed) {
-                J2dTraceLn(J2D_TRACE_VERBOSE,
-                            "  exiting full-screen mode, reset the device");
-                curParams.Windowed = FALSE;
-                ReleaseDefPoolResources();
-                res = pd3dDevice->Reset(&curParams);
+            // if fs -> windowfd, first fxit fs, tifn rfdrfbtf, otifrwisf
+            // tif sdrffn migit bf lfft in b difffrfnt displby modf
+            if (pNfwPbrbms->Windowfd && !durPbrbms.Windowfd) {
+                J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                            "  fxiting full-sdrffn modf, rfsft tif dfvidf");
+                durPbrbms.Windowfd = FALSE;
+                RflfbsfDffPoolRfsourdfs();
+                rfs = pd3dDfvidf->Rfsft(&durPbrbms);
 
-                if (FAILED(res)) {
-                    DebugPrintD3DError(res, "D3DContext::ConfigureContext: "\
-                                       "cound not reset the device");
+                if (FAILED(rfs)) {
+                    DfbugPrintD3DError(rfs, "D3DContfxt::ConfigurfContfxt: "\
+                                       "dound not rfsft tif dfvidf");
                 }
             }
 
-            // note that here we should release all device resources, not only
-            // thos in the default pool since the device is released
-            ReleaseContextResources();
-            SAFE_RELEASE(pd3dDevice);
+            // notf tibt ifrf wf siould rflfbsf bll dfvidf rfsourdfs, not only
+            // tios in tif dffbult pool sindf tif dfvidf is rflfbsfd
+            RflfbsfContfxtRfsourdfs();
+            SAFE_RELEASE(pd3dDfvidf);
         }
     }
 
-    if (pd3dDevice != NULL) {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  resetting the device");
+    if (pd3dDfvidf != NULL) {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  rfsftting tif dfvidf");
 
-        ReleaseDefPoolResources();
+        RflfbsfDffPoolRfsourdfs();
 
-        if (pNewParams->PresentationInterval == D3DPRESENT_INTERVAL_IMMEDIATE &&
-            !IsImmediateIntervalSupported())
+        if (pNfwPbrbms->PrfsfntbtionIntfrvbl == D3DPRESENT_INTERVAL_IMMEDIATE &&
+            !IsImmfdibtfIntfrvblSupportfd())
         {
-            pNewParams->PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+            pNfwPbrbms->PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_DEFAULT;
         }
 
-        res = pd3dDevice->Reset(pNewParams);
-        if (FAILED(res)) {
-            DebugPrintD3DError(res,
-                "D3DContext::ConfigureContext: cound not reset the device");
-            return res;
+        rfs = pd3dDfvidf->Rfsft(pNfwPbrbms);
+        if (FAILED(rfs)) {
+            DfbugPrintD3DError(rfs,
+                "D3DContfxt::ConfigurfContfxt: dound not rfsft tif dfvidf");
+            rfturn rfs;
         }
-        J2dRlsTraceLn1(J2D_TRACE_INFO,
-            "D3DContext::ConfigureContext: successfully reset device: %d",
-            adapterOrdinal);
-    } else {
-        D3DCAPS9 d3dCaps;
-        DWORD dwBehaviorFlags;
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+            "D3DContfxt::ConfigurfContfxt: suddfssfully rfsft dfvidf: %d",
+            bdbptfrOrdinbl);
+    } flsf {
+        D3DCAPS9 d3dCbps;
+        DWORD dwBfibviorFlbgs;
 
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  creating a new device");
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  drfbting b nfw dfvidf");
 
-        if (FAILED(res = pd3dObject->GetDeviceCaps(adapterOrdinal,
-                                                   devType, &d3dCaps)))
+        if (FAILED(rfs = pd3dObjfdt->GftDfvidfCbps(bdbptfrOrdinbl,
+                                                   dfvTypf, &d3dCbps)))
         {
-            DebugPrintD3DError(res,
-                "D3DContext::ConfigureContext: failed to get caps");
-            return res;
+            DfbugPrintD3DError(rfs,
+                "D3DContfxt::ConfigurfContfxt: fbilfd to gft dbps");
+            rfturn rfs;
         }
 
-        if (pNewParams->PresentationInterval == D3DPRESENT_INTERVAL_IMMEDIATE &&
-            !(d3dCaps.PresentationIntervals & D3DPRESENT_INTERVAL_IMMEDIATE))
+        if (pNfwPbrbms->PrfsfntbtionIntfrvbl == D3DPRESENT_INTERVAL_IMMEDIATE &&
+            !(d3dCbps.PrfsfntbtionIntfrvbls & D3DPRESENT_INTERVAL_IMMEDIATE))
         {
-            pNewParams->PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+            pNfwPbrbms->PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_DEFAULT;
         }
 
-        // not preserving fpu control word could cause issues (4860749)
-        dwBehaviorFlags = D3DCREATE_FPU_PRESERVE;
+        // not prfsfrving fpu dontrol word dould dbusf issufs (4860749)
+        dwBfibviorFlbgs = D3DCREATE_FPU_PRESERVE;
 
-        J2dRlsTrace(J2D_TRACE_VERBOSE,
-                    "[V] dwBehaviorFlags=D3DCREATE_FPU_PRESERVE|");
-        if (d3dCaps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) {
-            J2dRlsTrace(J2D_TRACE_VERBOSE,
+        J2dRlsTrbdf(J2D_TRACE_VERBOSE,
+                    "[V] dwBfibviorFlbgs=D3DCREATE_FPU_PRESERVE|");
+        if (d3dCbps.DfvCbps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) {
+            J2dRlsTrbdf(J2D_TRACE_VERBOSE,
                         "D3DCREATE_HARDWARE_VERTEXPROCESSING");
-            dwBehaviorFlags |= D3DCREATE_HARDWARE_VERTEXPROCESSING;
-        } else {
-            J2dRlsTrace(J2D_TRACE_VERBOSE,
+            dwBfibviorFlbgs |= D3DCREATE_HARDWARE_VERTEXPROCESSING;
+        } flsf {
+            J2dRlsTrbdf(J2D_TRACE_VERBOSE,
                         "D3DCREATE_SOFTWARE_VERTEXPROCESSING");
-            dwBehaviorFlags |= D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+            dwBfibviorFlbgs |= D3DCREATE_SOFTWARE_VERTEXPROCESSING;
         }
-        // Handling focus changes by ourselves proved to be problematic,
-        // so we're reverting back to D3D handling
-        // dwBehaviorFlags |= D3DCREATE_NOWINDOWCHANGES;
-        J2dRlsTrace(J2D_TRACE_VERBOSE,"\n");
+        // Hbndling fodus dibngfs by oursflvfs provfd to bf problfmbtid,
+        // so wf'rf rfvfrting bbdk to D3D ibndling
+        // dwBfibviorFlbgs |= D3DCREATE_NOWINDOWCHANGES;
+        J2dRlsTrbdf(J2D_TRACE_VERBOSE,"\n");
 
-        if (FAILED(res = pd3dObject->CreateDevice(adapterOrdinal, devType,
-                                                  focusHWND,
-                                                  dwBehaviorFlags,
-                                                  pNewParams, &pd3dDevice)))
+        if (FAILED(rfs = pd3dObjfdt->CrfbtfDfvidf(bdbptfrOrdinbl, dfvTypf,
+                                                  fodusHWND,
+                                                  dwBfibviorFlbgs,
+                                                  pNfwPbrbms, &pd3dDfvidf)))
         {
-            DebugPrintD3DError(res,
-                "D3DContext::ConfigureContext: error creating d3d device");
-            return res;
+            DfbugPrintD3DError(rfs,
+                "D3DContfxt::ConfigurfContfxt: frror drfbting d3d dfvidf");
+            rfturn rfs;
         }
-        J2dRlsTraceLn1(J2D_TRACE_INFO,
-            "D3DContext::ConfigureContext: successfully created device: %d",
-            adapterOrdinal);
-        bIsHWRasterizer = (devType == D3DDEVTYPE_HAL);
+        J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+            "D3DContfxt::ConfigurfContfxt: suddfssfully drfbtfd dfvidf: %d",
+            bdbptfrOrdinbl);
+        bIsHWRbstfrizfr = (dfvTypf == D3DDEVTYPE_HAL);
     }
 
-    curParams = *pNewParams;
-    // during the creation of the device d3d modifies this field, we reset
-    // it back to 0
-    curParams.Flags = 0;
+    durPbrbms = *pNfwPbrbms;
+    // during tif drfbtion of tif dfvidf d3d modififs tiis fifld, wf rfsft
+    // it bbdk to 0
+    durPbrbms.Flbgs = 0;
 
-    if (FAILED(res = InitDevice(pd3dDevice))) {
-        ReleaseContextResources();
-        return res;
+    if (FAILED(rfs = InitDfvidf(pd3dDfvidf))) {
+        RflfbsfContfxtRfsourdfs();
+        rfturn rfs;
     }
 
-    res = InitContextCaps();
+    rfs = InitContfxtCbps();
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::InitContext()
+D3DContfxt::InitContfxt()
 {
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "D3DContext::InitContext device %d",
-                   adapterOrdinal);
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "D3DContfxt::InitContfxt dfvidf %d",
+                   bdbptfrOrdinbl);
 
-    D3DPRESENT_PARAMETERS params;
-    ZeroMemory(&params, sizeof(D3DPRESENT_PARAMETERS));
+    D3DPRESENT_PARAMETERS pbrbms;
+    ZfroMfmory(&pbrbms, sizfof(D3DPRESENT_PARAMETERS));
 
-    params.hDeviceWindow = 0;
-    params.Windowed = TRUE;
-    params.BackBufferCount = 1;
-    params.BackBufferFormat = D3DFMT_UNKNOWN;
-    params.SwapEffect = D3DSWAPEFFECT_DISCARD;
-    params.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+    pbrbms.iDfvidfWindow = 0;
+    pbrbms.Windowfd = TRUE;
+    pbrbms.BbdkBufffrCount = 1;
+    pbrbms.BbdkBufffrFormbt = D3DFMT_UNKNOWN;
+    pbrbms.SwbpEfffdt = D3DSWAPEFFECT_DISCARD;
+    pbrbms.PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_DEFAULT;
 
-    return ConfigureContext(&params);
+    rfturn ConfigurfContfxt(&pbrbms);
 }
 
 HRESULT
-D3DContext::Sync()
+D3DContfxt::Synd()
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::Sync");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::Synd");
 
-    if (pSyncQuery != NULL) {
-        J2dTrace(J2D_TRACE_VERBOSE, "  flushing the device queue..");
-        while (S_FALSE ==
-               (res = pSyncQuery->GetData(NULL, 0, D3DGETDATA_FLUSH))) ;
-        J2dTrace(J2D_TRACE_VERBOSE, ".. done\n");
+    if (pSyndQufry != NULL) {
+        J2dTrbdf(J2D_TRACE_VERBOSE, "  flusiing tif dfvidf qufuf..");
+        wiilf (S_FALSE ==
+               (rfs = pSyndQufry->GftDbtb(NULL, 0, D3DGETDATA_FLUSH))) ;
+        J2dTrbdf(J2D_TRACE_VERBOSE, ".. donf\n");
     }
-    if (pSyncRTRes != NULL) {
+    if (pSyndRTRfs != NULL) {
         D3DLOCKED_RECT lr;
-        IDirect3DSurface9 *pSurface = pSyncRTRes->GetSurface();
-        if (SUCCEEDED(pSurface->LockRect(&lr, NULL, D3DLOCK_NOSYSLOCK))) {
-            pSurface->UnlockRect();
+        IDirfdt3DSurfbdf9 *pSurfbdf = pSyndRTRfs->GftSurfbdf();
+        if (SUCCEEDED(pSurfbdf->LodkRfdt(&lr, NULL, D3DLOCK_NOSYSLOCK))) {
+            pSurfbdf->UnlodkRfdt();
         }
     }
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::SaveState()
+D3DContfxt::SbvfStbtf()
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    RETURN_STATUS_IF_NULL(pd3dDevice, S_OK);
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, S_OK);
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::SaveState");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::SbvfStbtf");
 
-    FlushVertexQueue();
-    UpdateState(STATE_CHANGE);
+    FlusiVfrtfxQufuf();
+    UpdbtfStbtf(STATE_CHANGE);
 
-    if (pStateBlock != NULL) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DContext::SaveState: existing state block!");
-        SAFE_RELEASE(pStateBlock);
+    if (pStbtfBlodk != NULL) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DContfxt::SbvfStbtf: fxisting stbtf blodk!");
+        SAFE_RELEASE(pStbtfBlodk);
     }
 
-    if (SUCCEEDED(res =
-            pd3dDevice->CreateStateBlock(D3DSBT_ALL, &pStateBlock)))
+    if (SUCCEEDED(rfs =
+            pd3dDfvidf->CrfbtfStbtfBlodk(D3DSBT_ALL, &pStbtfBlodk)))
     {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  created state block");
-    } else {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DContext::SaveState: failed to create state block");
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  drfbtfd stbtf blodk");
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DContfxt::SbvfStbtf: fbilfd to drfbtf stbtf blodk");
     }
-    ZeroMemory(lastTexture, sizeof(lastTexture));
+    ZfroMfmory(lbstTfxturf, sizfof(lbstTfxturf));
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::RestoreState()
+D3DContfxt::RfstorfStbtf()
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::RestoreState");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfstorfStbtf");
 
-    FlushVertexQueue();
-    UpdateState(STATE_CHANGE);
+    FlusiVfrtfxQufuf();
+    UpdbtfStbtf(STATE_CHANGE);
 
-    if (pStateBlock != NULL) {
-        if (SUCCEEDED(res = pStateBlock->Apply())) {
-            J2dTraceLn(J2D_TRACE_VERBOSE, "  restored device state");
-        } else {
-            J2dTraceLn(J2D_TRACE_WARNING,
-                       "D3DContext::RestoreState: failed to restore state");
+    if (pStbtfBlodk != NULL) {
+        if (SUCCEEDED(rfs = pStbtfBlodk->Apply())) {
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, "  rfstorfd dfvidf stbtf");
+        } flsf {
+            J2dTrbdfLn(J2D_TRACE_WARNING,
+                       "D3DContfxt::RfstorfStbtf: fbilfd to rfstorf stbtf");
         }
-        SAFE_RELEASE(pStateBlock);
-    } else {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DContext::RestoreState: empty state block!");
+        SAFE_RELEASE(pStbtfBlodk);
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DContfxt::RfstorfStbtf: fmpty stbtf blodk!");
     }
-    ZeroMemory(lastTexture, sizeof(lastTexture));
+    ZfroMfmory(lbstTfxturf, sizfof(lbstTfxturf));
 
-    return res;
+    rfturn rfs;
 }
 
-#define POINT_FILTER_CAP (D3DPTFILTERCAPS_MAGFPOINT|D3DPTFILTERCAPS_MINFPOINT)
-#define LINEAR_FILTER_CAP (D3DPTFILTERCAPS_MAGFLINEAR|D3DPTFILTERCAPS_MINFLINEAR)
+#dffinf POINT_FILTER_CAP (D3DPTFILTERCAPS_MAGFPOINT|D3DPTFILTERCAPS_MINFPOINT)
+#dffinf LINEAR_FILTER_CAP (D3DPTFILTERCAPS_MAGFLINEAR|D3DPTFILTERCAPS_MINFLINEAR)
 
 BOOL
-D3DContext::IsStretchRectFilteringSupported(D3DTEXTUREFILTERTYPE fType)
+D3DContfxt::IsStrftdiRfdtFiltfringSupportfd(D3DTEXTUREFILTERTYPE fTypf)
 {
-    if (fType == D3DTEXF_POINT) {
-        return ((devCaps.StretchRectFilterCaps & POINT_FILTER_CAP) != 0);
+    if (fTypf == D3DTEXF_POINT) {
+        rfturn ((dfvCbps.StrftdiRfdtFiltfrCbps & POINT_FILTER_CAP) != 0);
     }
-    if (fType == D3DTEXF_LINEAR) {
-        return ((devCaps.StretchRectFilterCaps & LINEAR_FILTER_CAP) != 0);
+    if (fTypf == D3DTEXF_LINEAR) {
+        rfturn ((dfvCbps.StrftdiRfdtFiltfrCbps & LINEAR_FILTER_CAP) != 0);
     }
-    return FALSE;
-}
-
-BOOL
-D3DContext::IsTextureFilteringSupported(D3DTEXTUREFILTERTYPE fType)
-{
-    if (fType == D3DTEXF_POINT) {
-        return ((devCaps.TextureFilterCaps & POINT_FILTER_CAP) != 0);
-    }
-    if (fType == D3DTEXF_LINEAR) {
-        return ((devCaps.TextureFilterCaps & LINEAR_FILTER_CAP) != 0);
-    }
-    return FALSE;
+    rfturn FALSE;
 }
 
 BOOL
-D3DContext::IsTextureFormatSupported(D3DFORMAT format, DWORD usage)
+D3DContfxt::IsTfxturfFiltfringSupportfd(D3DTEXTUREFILTERTYPE fTypf)
 {
-    HRESULT hr = pd3dObject->CheckDeviceFormat(adapterOrdinal,
-                                               devCaps.DeviceType,
-                                               curParams.BackBufferFormat,
-                                               usage,
+    if (fTypf == D3DTEXF_POINT) {
+        rfturn ((dfvCbps.TfxturfFiltfrCbps & POINT_FILTER_CAP) != 0);
+    }
+    if (fTypf == D3DTEXF_LINEAR) {
+        rfturn ((dfvCbps.TfxturfFiltfrCbps & LINEAR_FILTER_CAP) != 0);
+    }
+    rfturn FALSE;
+}
+
+BOOL
+D3DContfxt::IsTfxturfFormbtSupportfd(D3DFORMAT formbt, DWORD usbgf)
+{
+    HRESULT ir = pd3dObjfdt->CifdkDfvidfFormbt(bdbptfrOrdinbl,
+                                               dfvCbps.DfvidfTypf,
+                                               durPbrbms.BbdkBufffrFormbt,
+                                               usbgf,
                                                D3DRTYPE_TEXTURE,
-                                               format);
-    return SUCCEEDED( hr );
+                                               formbt);
+    rfturn SUCCEEDED( ir );
 }
 
 BOOL
-D3DContext::IsDepthStencilBufferOk(D3DSURFACE_DESC *pTargetDesc)
+D3DContfxt::IsDfptiStfndilBufffrOk(D3DSURFACE_DESC *pTbrgftDfsd)
 {
-    IDirect3DSurface9 *pStencil;
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::IsDepthStencilBufferOk");
+    IDirfdt3DSurfbdf9 *pStfndil;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::IsDfptiStfndilBufffrOk");
 
-    if (SUCCEEDED(pd3dDevice->GetDepthStencilSurface(&pStencil))) {
-        D3DSURFACE_DESC descStencil;
-        pStencil->GetDesc(&descStencil);
-        pStencil->Release();
+    if (SUCCEEDED(pd3dDfvidf->GftDfptiStfndilSurfbdf(&pStfndil))) {
+        D3DSURFACE_DESC dfsdStfndil;
+        pStfndil->GftDfsd(&dfsdStfndil);
+        pStfndil->Rflfbsf();
 
         D3DDISPLAYMODE dm;
-        return
-            (SUCCEEDED(pd3dDevice->GetDisplayMode(0, &dm)) &&
-             pTargetDesc->Width <= descStencil.Width &&
-             pTargetDesc->Height <= descStencil.Height &&
-             SUCCEEDED(pd3dObject->CheckDepthStencilMatch(
-                   adapterOrdinal,
-                   devCaps.DeviceType,
-                   dm.Format, pTargetDesc->Format,
-                   descStencil.Format)));
+        rfturn
+            (SUCCEEDED(pd3dDfvidf->GftDisplbyModf(0, &dm)) &&
+             pTbrgftDfsd->Widti <= dfsdStfndil.Widti &&
+             pTbrgftDfsd->Hfigit <= dfsdStfndil.Hfigit &&
+             SUCCEEDED(pd3dObjfdt->CifdkDfptiStfndilMbtdi(
+                   bdbptfrOrdinbl,
+                   dfvCbps.DfvidfTypf,
+                   dm.Formbt, pTbrgftDfsd->Formbt,
+                   dfsdStfndil.Formbt)));
     }
-    J2dTraceLn(J2D_TRACE_VERBOSE,
-        "  current stencil buffer is not compatible with new Render Target");
+    J2dTrbdfLn(J2D_TRACE_VERBOSE,
+        "  durrfnt stfndil bufffr is not dompbtiblf witi nfw Rfndfr Tbrgft");
 
-    return false;
+    rfturn fblsf;
 }
 
 
 
 HRESULT
-D3DContext::InitDepthStencilBuffer(D3DSURFACE_DESC *pTargetDesc)
+D3DContfxt::InitDfptiStfndilBufffr(D3DSURFACE_DESC *pTbrgftDfsd)
 {
-    HRESULT res;
-    IDirect3DSurface9 *pBB;
+    HRESULT rfs;
+    IDirfdt3DSurfbdf9 *pBB;
     D3DDISPLAYMODE dm;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::InitDepthStencilBuffer");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::InitDfptiStfndilBufffr");
 
-    if (FAILED(res = pd3dDevice->GetDisplayMode(0, &dm))) {
-        return res;
+    if (FAILED(rfs = pd3dDfvidf->GftDisplbyModf(0, &dm))) {
+        rfturn rfs;
     }
 
-    D3DFORMAT newFormat =
-        D3DPipelineManager::GetInstance()->GetMatchingDepthStencilFormat(
-            adapterOrdinal, dm.Format, pTargetDesc->Format);
+    D3DFORMAT nfwFormbt =
+        D3DPipflinfMbnbgfr::GftInstbndf()->GftMbtdiingDfptiStfndilFormbt(
+            bdbptfrOrdinbl, dm.Formbt, pTbrgftDfsd->Formbt);
 
-    res = pd3dDevice->CreateDepthStencilSurface(
-        pTargetDesc->Width, pTargetDesc->Height,
-        newFormat, D3DMULTISAMPLE_NONE, 0, false, &pBB, 0);
-    if (SUCCEEDED(res)) {
-        res = pd3dDevice->SetDepthStencilSurface(pBB);
-        pBB->Release();
+    rfs = pd3dDfvidf->CrfbtfDfptiStfndilSurfbdf(
+        pTbrgftDfsd->Widti, pTbrgftDfsd->Hfigit,
+        nfwFormbt, D3DMULTISAMPLE_NONE, 0, fblsf, &pBB, 0);
+    if (SUCCEEDED(rfs)) {
+        rfs = pd3dDfvidf->SftDfptiStfndilSurfbdf(pBB);
+        pBB->Rflfbsf();
     }
 
-    return res;
+    rfturn rfs;
 }
 
 
 HRESULT
-D3DContext::SetRenderTarget(IDirect3DSurface9 *pSurface)
+D3DContfxt::SftRfndfrTbrgft(IDirfdt3DSurfbdf9 *pSurfbdf)
 {
-    static D3DMATRIX tx;
-    HRESULT res;
-    D3DSURFACE_DESC descNew;
-    IDirect3DSurface9 *pCurrentTarget;
+    stbtid D3DMATRIX tx;
+    HRESULT rfs;
+    D3DSURFACE_DESC dfsdNfw;
+    IDirfdt3DSurfbdf9 *pCurrfntTbrgft;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "D3DContext::SetRenderTarget: pSurface=0x%x",
-                pSurface);
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DContfxt::SftRfndfrTbrgft: pSurfbdf=0x%x",
+                pSurfbdf);
 
-    RETURN_STATUS_IF_NULL(pd3dDevice, E_FAIL);
-    RETURN_STATUS_IF_NULL(pSurface, E_FAIL);
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
+    RETURN_STATUS_IF_NULL(pSurfbdf, E_FAIL);
 
-    pSurface->GetDesc(&descNew);
+    pSurfbdf->GftDfsd(&dfsdNfw);
 
-    if (SUCCEEDED(res = pd3dDevice->GetRenderTarget(0, &pCurrentTarget))) {
-        if (pCurrentTarget != pSurface) {
-            FlushVertexQueue();
-            if (FAILED(res = pd3dDevice->SetRenderTarget(0, pSurface))) {
-                DebugPrintD3DError(res, "D3DContext::SetRenderTarget: "\
-                                        "error setting render target");
-                SAFE_RELEASE(pCurrentTarget);
-                return res;
+    if (SUCCEEDED(rfs = pd3dDfvidf->GftRfndfrTbrgft(0, &pCurrfntTbrgft))) {
+        if (pCurrfntTbrgft != pSurfbdf) {
+            FlusiVfrtfxQufuf();
+            if (FAILED(rfs = pd3dDfvidf->SftRfndfrTbrgft(0, pSurfbdf))) {
+                DfbugPrintD3DError(rfs, "D3DContfxt::SftRfndfrTbrgft: "\
+                                        "frror sftting rfndfr tbrgft");
+                SAFE_RELEASE(pCurrfntTbrgft);
+                rfturn rfs;
             }
 
-            if (!IsDepthStencilBufferOk(&descNew)) {
-                if (FAILED(res = InitDepthStencilBuffer(&descNew))) {
-                    SAFE_RELEASE(pCurrentTarget);
-                    return res;
+            if (!IsDfptiStfndilBufffrOk(&dfsdNfw)) {
+                if (FAILED(rfs = InitDfptiStfndilBufffr(&dfsdNfw))) {
+                    SAFE_RELEASE(pCurrfntTbrgft);
+                    rfturn rfs;
                 }
             }
         }
-        SAFE_RELEASE(pCurrentTarget);
+        SAFE_RELEASE(pCurrfntTbrgft);
     }
-    // we set the transform even if the render target didn't change;
-    // this is because in some cases (fs mode) we use the default SwapChain of
-    // the device, and its render target will be the same as the device's, and
-    // we have to set the matrix correctly. This shouldn't be a performance
-    // issue as render target changes are relatively rare
-    D3DUtils_SetOrthoMatrixOffCenterLH(&tx,
-                       (float)descNew.Width,
-                       (float)descNew.Height);
-    pd3dDevice->SetTransform(D3DTS_PROJECTION, &tx);
+    // wf sft tif trbnsform fvfn if tif rfndfr tbrgft didn't dibngf;
+    // tiis is bfdbusf in somf dbsfs (fs modf) wf usf tif dffbult SwbpCibin of
+    // tif dfvidf, bnd its rfndfr tbrgft will bf tif sbmf bs tif dfvidf's, bnd
+    // wf ibvf to sft tif mbtrix dorrfdtly. Tiis siouldn't bf b pfrformbndf
+    // issuf bs rfndfr tbrgft dibngfs brf rflbtivfly rbrf
+    D3DUtils_SftOrtioMbtrixOffCfntfrLH(&tx,
+                       (flobt)dfsdNfw.Widti,
+                       (flobt)dfsdNfw.Hfigit);
+    pd3dDfvidf->SftTrbnsform(D3DTS_PROJECTION, &tx);
 
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  current render target=0x%x", pSurface);
-    return res;
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  durrfnt rfndfr tbrgft=0x%x", pSurfbdf);
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::ResetTransform()
+D3DContfxt::RfsftTrbnsform()
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
     D3DMATRIX tx;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::ResetTransform");
-    if (pd3dDevice == NULL) {
-        return E_FAIL;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfsftTrbnsform");
+    if (pd3dDfvidf == NULL) {
+        rfturn E_FAIL;
     }
 
-    // no need for state change, just flush the queue
-    FlushVertexQueue();
+    // no nffd for stbtf dibngf, just flusi tif qufuf
+    FlusiVfrtfxQufuf();
 
-    D3DUtils_SetIdentityMatrix(&tx);
-    if (FAILED(res = pd3dDevice->SetTransform(D3DTS_WORLD, &tx))) {
-        DebugPrintD3DError(res, "D3DContext::SetTransform failed");
+    D3DUtils_SftIdfntityMbtrix(&tx);
+    if (FAILED(rfs = pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &tx))) {
+        DfbugPrintD3DError(rfs, "D3DContfxt::SftTrbnsform fbilfd");
     }
-    bIsIdentityTx = TRUE;
-    return res;
+    bIsIdfntityTx = TRUE;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::SetTransform(jdouble m00, jdouble m10,
-                         jdouble m01, jdouble m11,
-                         jdouble m02, jdouble m12)
+D3DContfxt::SftTrbnsform(jdoublf m00, jdoublf m10,
+                         jdoublf m01, jdoublf m11,
+                         jdoublf m02, jdoublf m12)
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
     D3DMATRIX tx, tx1;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::SetTransform");
-    if (pd3dDevice == NULL) {
-        return E_FAIL;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::SftTrbnsform");
+    if (pd3dDfvidf == NULL) {
+        rfturn E_FAIL;
     }
 
-    // no need for state change, just flush the queue
-    FlushVertexQueue();
+    // no nffd for stbtf dibngf, just flusi tif qufuf
+    FlusiVfrtfxQufuf();
 
-    // In order to correctly map texels to pixels we need to
-    // adjust geometry by -0.5f in the transformed space.
-    // In order to do that we first create a translated matrix
-    // and then concatenate it with the world transform.
+    // In ordfr to dorrfdtly mbp tfxfls to pixfls wf nffd to
+    // bdjust gfomftry by -0.5f in tif trbnsformfd spbdf.
+    // In ordfr to do tibt wf first drfbtf b trbnslbtfd mbtrix
+    // bnd tifn dondbtfnbtf it witi tif world trbnsform.
     //
-    // Note that we only use non-id transform with DrawTexture,
-    // the rest is rendered pre-transformed.
+    // Notf tibt wf only usf non-id trbnsform witi DrbwTfxturf,
+    // tif rfst is rfndfrfd prf-trbnsformfd.
     //
-    // The identity transform for textures is handled in
-    // D3DVertexCacher::DrawTexture() because shifting by -0.5 for id
-    // transform breaks lines rendering.
+    // Tif idfntity trbnsform for tfxturfs is ibndlfd in
+    // D3DVfrtfxCbdifr::DrbwTfxturf() bfdbusf siifting by -0.5 for id
+    // trbnsform brfbks linfs rfndfring.
 
-    ZeroMemory(&tx1, sizeof(D3DMATRIX));
+    ZfroMfmory(&tx1, sizfof(D3DMATRIX));
 
-    tx1._11 = (float)m00;
-    tx1._12 = (float)m10;
-    tx1._21 = (float)m01;
-    tx1._22 = (float)m11;
-    tx1._41 = (float)m02;
-    tx1._42 = (float)m12;
+    tx1._11 = (flobt)m00;
+    tx1._12 = (flobt)m10;
+    tx1._21 = (flobt)m01;
+    tx1._22 = (flobt)m11;
+    tx1._41 = (flobt)m02;
+    tx1._42 = (flobt)m12;
 
     tx1._33 = 1.0f;
     tx1._44 = 1.0f;
 
-    D3DUtils_SetIdentityMatrix(&tx);
+    D3DUtils_SftIdfntityMbtrix(&tx);
     tx._41 = -0.5f;
     tx._42 = -0.5f;
-    D3DUtils_2DConcatenateM(&tx, &tx1);
+    D3DUtils_2DCondbtfnbtfM(&tx, &tx1);
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
                 "  %5f %5f %5f %5f", tx._11, tx._12, tx._13, tx._14);
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
                 "  %5f %5f %5f %5f", tx._21, tx._22, tx._23, tx._24);
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
                 "  %5f %5f %5f %5f", tx._31, tx._32, tx._33, tx._34);
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
                 "  %5f %5f %5f %5f", tx._41, tx._42, tx._43, tx._44);
-    if (FAILED(res = pd3dDevice->SetTransform(D3DTS_WORLD, &tx))) {
-        DebugPrintD3DError(res, "D3DContext::SetTransform failed");
+    if (FAILED(rfs = pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &tx))) {
+        DfbugPrintD3DError(rfs, "D3DContfxt::SftTrbnsform fbilfd");
     }
-    bIsIdentityTx = FALSE;
+    bIsIdfntityTx = FALSE;
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::SetRectClip(int x1, int y1, int x2, int y2)
+D3DContfxt::SftRfdtClip(int x1, int y1, int x2, int y2)
 {
-    HRESULT res = S_OK;
-    D3DSURFACE_DESC desc;
-    IDirect3DSurface9 *pCurrentTarget;
+    HRESULT rfs = S_OK;
+    D3DSURFACE_DESC dfsd;
+    IDirfdt3DSurfbdf9 *pCurrfntTbrgft;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::SetRectClip");
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::SftRfdtClip");
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
                 "  x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
                 x1, y1, x2, y2);
 
-    RETURN_STATUS_IF_NULL(pd3dDevice, E_FAIL);
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
 
-    // no need for state change, just flush the queue
-    FlushVertexQueue();
+    // no nffd for stbtf dibngf, just flusi tif qufuf
+    FlusiVfrtfxQufuf();
 
-    pd3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZENABLE, D3DZB_FALSE);
 
-    res = pd3dDevice->GetRenderTarget(0, &pCurrentTarget);
-    RETURN_STATUS_IF_FAILED(res);
+    rfs = pd3dDfvidf->GftRfndfrTbrgft(0, &pCurrfntTbrgft);
+    RETURN_STATUS_IF_FAILED(rfs);
 
-    pCurrentTarget->GetDesc(&desc);
-    SAFE_RELEASE(pCurrentTarget);
+    pCurrfntTbrgft->GftDfsd(&dfsd);
+    SAFE_RELEASE(pCurrfntTbrgft);
 
     if (x1 <= 0 && y1 <= 0 &&
-        (UINT)x2 >= desc.Width && (UINT)y2 >= desc.Height)
+        (UINT)x2 >= dfsd.Widti && (UINT)y2 >= dfsd.Hfigit)
     {
-        J2dTraceLn(J2D_TRACE_VERBOSE,
-                   "  disabling clip (== render target dimensions)");
-        return pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+        J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                   "  disbbling dlip (== rfndfr tbrgft dimfnsions)");
+        rfturn pd3dDfvidf->SftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, FALSE);
     }
 
-    // clip to the dimensions of the target surface, otherwise
-    // SetScissorRect will fail
+    // dlip to tif dimfnsions of tif tbrgft surfbdf, otifrwisf
+    // SftSdissorRfdt will fbil
     if (x1 < 0)                 x1 = 0;
     if (y1 < 0)                 y1 = 0;
-    if ((UINT)x2 > desc.Width)  x2 = desc.Width;
-    if ((UINT)y2 > desc.Height) y2 = desc.Height;
+    if ((UINT)x2 > dfsd.Widti)  x2 = dfsd.Widti;
+    if ((UINT)y2 > dfsd.Hfigit) y2 = dfsd.Hfigit;
     if (x1 > x2)                x2 = x1 = 0;
     if (y1 > y2)                y2 = y1 = 0;
-    RECT newRect = { x1, y1, x2, y2 };
-    if (SUCCEEDED(res = pd3dDevice->SetScissorRect(&newRect))) {
-        res = pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
-    } else {
-        DebugPrintD3DError(res, "Error setting scissor rect");
-        J2dRlsTraceLn4(J2D_TRACE_ERROR,
+    RECT nfwRfdt = { x1, y1, x2, y2 };
+    if (SUCCEEDED(rfs = pd3dDfvidf->SftSdissorRfdt(&nfwRfdt))) {
+        rfs = pd3dDfvidf->SftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, TRUE);
+    } flsf {
+        DfbugPrintD3DError(rfs, "Error sftting sdissor rfdt");
+        J2dRlsTrbdfLn4(J2D_TRACE_ERROR,
                        "  x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
                        x1, y1, x2, y2);
     }
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::ResetClip()
+D3DContfxt::RfsftClip()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::ResetClip");
-    // no need for state change, just flush the queue
-    FlushVertexQueue();
-    pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-    return pd3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfsftClip");
+    // no nffd for stbtf dibngf, just flusi tif qufuf
+    FlusiVfrtfxQufuf();
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, FALSE);
+    rfturn pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZENABLE, D3DZB_FALSE);
 }
 
-ClipType
-D3DContext::GetClipType()
+ClipTypf
+D3DContfxt::GftClipTypf()
 {
-    // REMIND: this method could be optimized: we could keep the
-    // clip state around when re/setting the clip instead of asking
-    // every time.
-    DWORD zEnabled = 0;
-    DWORD stEnabled = 0;
+    // REMIND: tiis mftiod dould bf optimizfd: wf dould kffp tif
+    // dlip stbtf bround wifn rf/sftting tif dlip instfbd of bsking
+    // fvfry timf.
+    DWORD zEnbblfd = 0;
+    DWORD stEnbblfd = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::GetClipType");
-    pd3dDevice->GetRenderState(D3DRS_SCISSORTESTENABLE, &stEnabled);
-    if (stEnabled) {
-        return CLIP_RECT;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::GftClipTypf");
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, &stEnbblfd);
+    if (stEnbblfd) {
+        rfturn CLIP_RECT;
     }
-    pd3dDevice->GetRenderState(D3DRS_ZENABLE, &zEnabled);
-    if (zEnabled) {
-        return CLIP_SHAPE;
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_ZENABLE, &zEnbblfd);
+    if (zEnbblfd) {
+        rfturn CLIP_SHAPE;
     }
-    return CLIP_NONE;
+    rfturn CLIP_NONE;
 }
 
 
 /**
- * This method assumes that ::SetRenderTarget has already
- * been called. SetRenderTarget creates and attaches a
- * depth buffer to the target surface prior to setting it
- * as target surface to the device.
+ * Tiis mftiod bssumfs tibt ::SftRfndfrTbrgft ibs blrfbdy
+ * bffn dbllfd. SftRfndfrTbrgft drfbtfs bnd bttbdifs b
+ * dfpti bufffr to tif tbrgft surfbdf prior to sftting it
+ * bs tbrgft surfbdf to tif dfvidf.
  */
-DWORD dwAlphaSt, dwSrcBlendSt, dwDestBlendSt;
+DWORD dwAlpibSt, dwSrdBlfndSt, dwDfstBlfndSt;
 D3DMATRIX tx, idTx;
 
 HRESULT
-D3DContext::BeginShapeClip()
+D3DContfxt::BfginSibpfClip()
 {
-    HRESULT res = S_OK;
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::BeginShapeClip");
+    HRESULT rfs = S_OK;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::BfginSibpfClip");
 
-    UpdateState(STATE_CHANGE);
+    UpdbtfStbtf(STATE_CHANGE);
 
-    pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SCISSORTESTENABLE, FALSE);
 
-    // save alpha blending state
-    pd3dDevice->GetRenderState(D3DRS_ALPHABLENDENABLE, &dwAlphaSt);
-    pd3dDevice->GetRenderState(D3DRS_SRCBLEND, &dwSrcBlendSt);
-    pd3dDevice->GetRenderState(D3DRS_DESTBLEND, &dwDestBlendSt);
+    // sbvf blpib blfnding stbtf
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, &dwAlpibSt);
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_SRCBLEND, &dwSrdBlfndSt);
+    pd3dDfvidf->GftRfndfrStbtf(D3DRS_DESTBLEND, &dwDfstBlfndSt);
 
-    pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
-    pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, TRUE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SRCBLEND, D3DBLEND_ZERO);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-    pd3dDevice->GetTransform(D3DTS_WORLD, &tx);
-    D3DUtils_SetIdentityMatrix(&idTx);
-    // translate the clip spans by 1.0f in z direction so that the
-    // clip spans are rendered to the z buffer
+    pd3dDfvidf->GftTrbnsform(D3DTS_WORLD, &tx);
+    D3DUtils_SftIdfntityMbtrix(&idTx);
+    // trbnslbtf tif dlip spbns by 1.0f in z dirfdtion so tibt tif
+    // dlip spbns brf rfndfrfd to tif z bufffr
     idTx._43 = 1.0f;
-    pd3dDevice->SetTransform(D3DTS_WORLD, &idTx);
+    pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &idTx);
 
-    // The depth buffer is first cleared with zeroes, which is the farthest
-    // plane from the viewer (our projection matrix is an inversed orthogonal
-    // transform).
-    // To set the clip we'll render the clip spans with Z coordinates of 1.0f
-    // (the closest to the viewer). Since all rendering primitives
-    // have their vertices' Z coordinate set to 0.0, they will effectively be
-    // clipped because the Z depth test for them will fail (vertex with 1.0
-    // depth is closer than the one with 0.0f)
-    pd3dDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
-    pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-    pd3dDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-    pd3dDevice->Clear(0, NULL, D3DCLEAR_ZBUFFER, 0L, 0.0f, 0x0L);
+    // Tif dfpti bufffr is first dlfbrfd witi zfrofs, wiidi is tif fbrtifst
+    // plbnf from tif vifwfr (our projfdtion mbtrix is bn invfrsfd ortiogonbl
+    // trbnsform).
+    // To sft tif dlip wf'll rfndfr tif dlip spbns witi Z doordinbtfs of 1.0f
+    // (tif dlosfst to tif vifwfr). Sindf bll rfndfring primitivfs
+    // ibvf tifir vfrtidfs' Z doordinbtf sft to 0.0, tify will ffffdtivfly bf
+    // dlippfd bfdbusf tif Z dfpti tfst for tifm will fbil (vfrtfx witi 1.0
+    // dfpti is dlosfr tibn tif onf witi 0.0f)
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZENABLE, D3DZB_TRUE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZWRITEENABLE, TRUE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+    pd3dDfvidf->Clfbr(0, NULL, D3DCLEAR_ZBUFFER, 0L, 0.0f, 0x0L);
 
-    //res = BeginScene(STATE_SHAPE_CLIPOP);
+    //rfs = BfginSdfnf(STATE_SHAPE_CLIPOP);
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::EndShapeClip()
+D3DContfxt::EndSibpfClip()
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    // no need for state change, just flush the queue
-    res = FlushVertexQueue();
+    // no nffd for stbtf dibngf, just flusi tif qufuf
+    rfs = FlusiVfrtfxQufuf();
 
-    // restore alpha blending state
-    pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, dwAlphaSt);
-    pd3dDevice->SetRenderState(D3DRS_SRCBLEND, dwSrcBlendSt);
-    pd3dDevice->SetRenderState(D3DRS_DESTBLEND, dwDestBlendSt);
+    // rfstorf blpib blfnding stbtf
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, dwAlpibSt);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_SRCBLEND, dwSrdBlfndSt);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_DESTBLEND, dwDfstBlfndSt);
 
-    // resore the transform
-    pd3dDevice->SetTransform(D3DTS_WORLD, &tx);
+    // rfsorf tif trbnsform
+    pd3dDfvidf->SftTrbnsform(D3DTS_WORLD, &tx);
 
-    // Enable the depth buffer.
-    // We disable further updates to the depth buffer: it should only
-    // be updated in SetClip method.
-    pd3dDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    pd3dDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+    // Enbblf tif dfpti bufffr.
+    // Wf disbblf furtifr updbtfs to tif dfpti bufffr: it siould only
+    // bf updbtfd in SftClip mftiod.
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZWRITEENABLE, FALSE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ZFUNC, D3DCMP_LESS);
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::UploadTileToTexture(D3DResource *pTextureRes, void *pixels,
+D3DContfxt::UplobdTilfToTfxturf(D3DRfsourdf *pTfxturfRfs, void *pixfls,
                                 jint dstx, jint dsty,
-                                jint srcx, jint srcy,
-                                jint srcWidth, jint srcHeight,
-                                jint srcStride,
-                                TileFormat srcFormat,
-                                jint *pPixelsTouchedL,
-                                jint* pPixelsTouchedR)
+                                jint srdx, jint srdy,
+                                jint srdWidti, jint srdHfigit,
+                                jint srdStridf,
+                                TilfFormbt srdFormbt,
+                                jint *pPixflsToudifdL,
+                                jint* pPixflsToudifdR)
 {
-#ifndef PtrAddBytes
-#define PtrAddBytes(p, b)               ((void *) (((intptr_t) (p)) + (b)))
-#define PtrCoord(p, x, xinc, y, yinc)   PtrAddBytes(p, (y)*(yinc) + (x)*(xinc))
-#endif // PtrAddBytes
+#ifndff PtrAddBytfs
+#dffinf PtrAddBytfs(p, b)               ((void *) (((intptr_t) (p)) + (b)))
+#dffinf PtrCoord(p, x, xind, y, yind)   PtrAddBytfs(p, (y)*(yind) + (x)*(xind))
+#fndif // PtrAddBytfs
 
-    HRESULT res = S_OK;
-    IDirect3DTexture9 *pTexture = pTextureRes->GetTexture();
-    D3DSURFACE_DESC *pDesc = pTextureRes->GetDesc();
-    RECT r = { dstx, dsty, dstx+srcWidth, dsty+srcHeight };
+    HRESULT rfs = S_OK;
+    IDirfdt3DTfxturf9 *pTfxturf = pTfxturfRfs->GftTfxturf();
+    D3DSURFACE_DESC *pDfsd = pTfxturfRfs->GftDfsd();
+    RECT r = { dstx, dsty, dstx+srdWidti, dsty+srdHfigit };
     RECT *pR = &r;
-    D3DLOCKED_RECT lockedRect;
-    DWORD dwLockFlags = D3DLOCK_NOSYSLOCK;
-    // these are only counted for LCD glyph uploads
-    jint pixelsTouchedL = 0, pixelsTouchedR = 0;
+    D3DLOCKED_RECT lodkfdRfdt;
+    DWORD dwLodkFlbgs = D3DLOCK_NOSYSLOCK;
+    // tifsf brf only dountfd for LCD glypi uplobds
+    jint pixflsToudifdL = 0, pixflsToudifdR = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::UploadTileToTexture");
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
-        " rect={%-4d, %-4d, %-4d, %-4d}",
-        r.left, r.top, r.right, r.bottom);
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::UplobdTilfToTfxturf");
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+        " rfdt={%-4d, %-4d, %-4d, %-4d}",
+        r.lfft, r.top, r.rigit, r.bottom);
 
-    if (pDesc->Usage == D3DUSAGE_DYNAMIC) {
-        // it is safe to lock with discard because we don't care about the
-        // contents of dynamic textures and dstx,dsty for this case is
-        // always 0,0 because we are uploading into a tile texture
-        dwLockFlags |= D3DLOCK_DISCARD;
+    if (pDfsd->Usbgf == D3DUSAGE_DYNAMIC) {
+        // it is sbff to lodk witi disdbrd bfdbusf wf don't dbrf bbout tif
+        // dontfnts of dynbmid tfxturfs bnd dstx,dsty for tiis dbsf is
+        // blwbys 0,0 bfdbusf wf brf uplobding into b tilf tfxturf
+        dwLodkFlbgs |= D3DLOCK_DISCARD;
         pR = NULL;
     }
 
-    if (FAILED(res = pTexture->LockRect(0, &lockedRect, pR, dwLockFlags))) {
-        DebugPrintD3DError(res,
-            "D3DContext::UploadImageToTexture: could "\
-            "not lock texture");
-        return res;
+    if (FAILED(rfs = pTfxturf->LodkRfdt(0, &lodkfdRfdt, pR, dwLodkFlbgs))) {
+        DfbugPrintD3DError(rfs,
+            "D3DContfxt::UplobdImbgfToTfxturf: dould "\
+            "not lodk tfxturf");
+        rfturn rfs;
     }
 
-    if (srcFormat == TILEFMT_1BYTE_ALPHA) {
-        // either a MaskFill tile, or a grayscale glyph
-        if (pDesc->Format == D3DFMT_A8) {
-            void *pSrcPixels = PtrCoord(pixels, srcx, 1, srcy, srcStride);
-            void *pDstPixels = lockedRect.pBits;
+    if (srdFormbt == TILEFMT_1BYTE_ALPHA) {
+        // fitifr b MbskFill tilf, or b grbysdblf glypi
+        if (pDfsd->Formbt == D3DFMT_A8) {
+            void *pSrdPixfls = PtrCoord(pixfls, srdx, 1, srdy, srdStridf);
+            void *pDstPixfls = lodkfdRfdt.pBits;
             do {
-                memcpy(pDstPixels, pSrcPixels, srcWidth);
-                pSrcPixels = PtrAddBytes(pSrcPixels, srcStride);
-                pDstPixels = PtrAddBytes(pDstPixels, lockedRect.Pitch);
-            } while (--srcHeight > 0);
+                mfmdpy(pDstPixfls, pSrdPixfls, srdWidti);
+                pSrdPixfls = PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdi);
+            } wiilf (--srdHfigit > 0);
         }
-        else if (pDesc->Format == D3DFMT_A8R8G8B8) {
-            jubyte *pSrcPixels = (jubyte*)
-                PtrCoord(pixels, srcx, 1, srcy, srcStride);
-            jint *pDstPixels = (jint*)lockedRect.pBits;
-            for (int yy = 0; yy < srcHeight; yy++) {
-                for (int xx = 0; xx < srcWidth; xx++) {
-                    // only need to set the alpha channel (the D3D texture
-                    // state will be setup in this case to replicate the
-                    // alpha channel as needed)
-                    pDstPixels[xx] = pSrcPixels[xx] << 24;
+        flsf if (pDfsd->Formbt == D3DFMT_A8R8G8B8) {
+            jubytf *pSrdPixfls = (jubytf*)
+                PtrCoord(pixfls, srdx, 1, srdy, srdStridf);
+            jint *pDstPixfls = (jint*)lodkfdRfdt.pBits;
+            for (int yy = 0; yy < srdHfigit; yy++) {
+                for (int xx = 0; xx < srdWidti; xx++) {
+                    // only nffd to sft tif blpib dibnnfl (tif D3D tfxturf
+                    // stbtf will bf sftup in tiis dbsf to rfplidbtf tif
+                    // blpib dibnnfl bs nffdfd)
+                    pDstPixfls[xx] = pSrdPixfls[xx] << 24;
                 }
-                pSrcPixels = (jubyte*)PtrAddBytes(pSrcPixels, srcStride);
-                pDstPixels = (jint*)PtrAddBytes(pDstPixels, lockedRect.Pitch);
+                pSrdPixfls = (jubytf*)PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = (jint*)PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdi);
             }
         }
-    } else if (srcFormat == TILEFMT_3BYTE_RGB) {
-        // LCD glyph with RGB order
-        if (pDesc->Format == D3DFMT_R8G8B8) {
-            jubyte *pSrcPixels = (jubyte*)
-                PtrCoord(pixels, srcx, 3, srcy, srcStride);
-            jubyte *pDstPixels = (jubyte*)lockedRect.pBits;
-            for (int yy = 0; yy < srcHeight; yy++) {
-                for (int xx = 0; xx < srcWidth*3; xx+=3) {
-                    // alpha channel is ignored in this case
-                    // (note that this is backwards from what one might
-                    // expect; it appears that D3DFMT_R8G8B8 is actually
-                    // laid out in BGR order in memory)
-                    pDstPixels[xx+0] = pSrcPixels[xx+2];
-                    pDstPixels[xx+1] = pSrcPixels[xx+1];
-                    pDstPixels[xx+2] = pSrcPixels[xx+0];
+    } flsf if (srdFormbt == TILEFMT_3BYTE_RGB) {
+        // LCD glypi witi RGB ordfr
+        if (pDfsd->Formbt == D3DFMT_R8G8B8) {
+            jubytf *pSrdPixfls = (jubytf*)
+                PtrCoord(pixfls, srdx, 3, srdy, srdStridf);
+            jubytf *pDstPixfls = (jubytf*)lodkfdRfdt.pBits;
+            for (int yy = 0; yy < srdHfigit; yy++) {
+                for (int xx = 0; xx < srdWidti*3; xx+=3) {
+                    // blpib dibnnfl is ignorfd in tiis dbsf
+                    // (notf tibt tiis is bbdkwbrds from wibt onf migit
+                    // fxpfdt; it bppfbrs tibt D3DFMT_R8G8B8 is bdtublly
+                    // lbid out in BGR ordfr in mfmory)
+                    pDstPixfls[xx+0] = pSrdPixfls[xx+2];
+                    pDstPixfls[xx+1] = pSrdPixfls[xx+1];
+                    pDstPixfls[xx+2] = pSrdPixfls[xx+0];
                 }
-                pixelsTouchedL +=
-                    (pDstPixels[0+0]|pDstPixels[0+1]|pDstPixels[0+2]) ? 1 : 0;
-                jint i = 3*(srcWidth-1);
-                pixelsTouchedR +=
-                    (pDstPixels[i+0]|pDstPixels[i+1]|pDstPixels[i+2]) ? 1 : 0;
+                pixflsToudifdL +=
+                    (pDstPixfls[0+0]|pDstPixfls[0+1]|pDstPixfls[0+2]) ? 1 : 0;
+                jint i = 3*(srdWidti-1);
+                pixflsToudifdR +=
+                    (pDstPixfls[i+0]|pDstPixfls[i+1]|pDstPixfls[i+2]) ? 1 : 0;
 
-                pSrcPixels = (jubyte*)PtrAddBytes(pSrcPixels, srcStride);
-                pDstPixels = (jubyte*)PtrAddBytes(pDstPixels, lockedRect.Pitch);
+                pSrdPixfls = (jubytf*)PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = (jubytf*)PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdi);
             }
         }
-        else if (pDesc->Format == D3DFMT_A8R8G8B8) {
-            jubyte *pSrcPixels = (jubyte*)
-                PtrCoord(pixels, srcx, 3, srcy, srcStride);
-            jint *pDstPixels = (jint*)lockedRect.pBits;
-            for (int yy = 0; yy < srcHeight; yy++) {
-                for (int dx = 0, sx = 0; dx < srcWidth; dx++, sx+=3) {
-                    // alpha channel is ignored in this case
-                    jubyte r = pSrcPixels[sx+0];
-                    jubyte g = pSrcPixels[sx+1];
-                    jubyte b = pSrcPixels[sx+2];
-                    pDstPixels[dx] = (r << 16) | (g << 8) | (b);
+        flsf if (pDfsd->Formbt == D3DFMT_A8R8G8B8) {
+            jubytf *pSrdPixfls = (jubytf*)
+                PtrCoord(pixfls, srdx, 3, srdy, srdStridf);
+            jint *pDstPixfls = (jint*)lodkfdRfdt.pBits;
+            for (int yy = 0; yy < srdHfigit; yy++) {
+                for (int dx = 0, sx = 0; dx < srdWidti; dx++, sx+=3) {
+                    // blpib dibnnfl is ignorfd in tiis dbsf
+                    jubytf r = pSrdPixfls[sx+0];
+                    jubytf g = pSrdPixfls[sx+1];
+                    jubytf b = pSrdPixfls[sx+2];
+                    pDstPixfls[dx] = (r << 16) | (g << 8) | (b);
                 }
-                pixelsTouchedL += (pDstPixels[0]          ? 1 : 0);
-                pixelsTouchedR += (pDstPixels[srcWidth-1] ? 1 : 0);
+                pixflsToudifdL += (pDstPixfls[0]          ? 1 : 0);
+                pixflsToudifdR += (pDstPixfls[srdWidti-1] ? 1 : 0);
 
-                pSrcPixels = (jubyte*)PtrAddBytes(pSrcPixels, srcStride);
-                pDstPixels = (jint*)PtrAddBytes(pDstPixels, lockedRect.Pitch);
+                pSrdPixfls = (jubytf*)PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = (jint*)PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdi);
             }
         }
-    } else if (srcFormat == TILEFMT_3BYTE_BGR) {
-        // LCD glyph with BGR order
-        if (pDesc->Format == D3DFMT_R8G8B8) {
-            void *pSrcPixels = PtrCoord(pixels, srcx, 3, srcy, srcStride);
-            void *pDstPixels = lockedRect.pBits;
-            jubyte *pbDst;
+    } flsf if (srdFormbt == TILEFMT_3BYTE_BGR) {
+        // LCD glypi witi BGR ordfr
+        if (pDfsd->Formbt == D3DFMT_R8G8B8) {
+            void *pSrdPixfls = PtrCoord(pixfls, srdx, 3, srdy, srdStridf);
+            void *pDstPixfls = lodkfdRfdt.pBits;
+            jubytf *pbDst;
             do {
-                // alpha channel is ignored in this case
-                // (note that this is backwards from what one might
-                // expect; it appears that D3DFMT_R8G8B8 is actually
-                // laid out in BGR order in memory)
-                memcpy(pDstPixels, pSrcPixels, srcWidth * 3);
+                // blpib dibnnfl is ignorfd in tiis dbsf
+                // (notf tibt tiis is bbdkwbrds from wibt onf migit
+                // fxpfdt; it bppfbrs tibt D3DFMT_R8G8B8 is bdtublly
+                // lbid out in BGR ordfr in mfmory)
+                mfmdpy(pDstPixfls, pSrdPixfls, srdWidti * 3);
 
-                pbDst = (jubyte*)pDstPixels;
-                pixelsTouchedL +=(pbDst[0+0]|pbDst[0+1]|pbDst[0+2]) ? 1 : 0;
-                jint i = 3*(srcWidth-1);
-                pixelsTouchedR +=(pbDst[i+0]|pbDst[i+1]|pbDst[i+2]) ? 1 : 0;
+                pbDst = (jubytf*)pDstPixfls;
+                pixflsToudifdL +=(pbDst[0+0]|pbDst[0+1]|pbDst[0+2]) ? 1 : 0;
+                jint i = 3*(srdWidti-1);
+                pixflsToudifdR +=(pbDst[i+0]|pbDst[i+1]|pbDst[i+2]) ? 1 : 0;
 
-                pSrcPixels = PtrAddBytes(pSrcPixels, srcStride);
-                pDstPixels = PtrAddBytes(pDstPixels, lockedRect.Pitch);
-            } while (--srcHeight > 0);
+                pSrdPixfls = PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdi);
+            } wiilf (--srdHfigit > 0);
         }
-        else if (pDesc->Format == D3DFMT_A8R8G8B8) {
-            jubyte *pSrcPixels = (jubyte*)
-                PtrCoord(pixels, srcx, 3, srcy, srcStride);
-            jint *pDstPixels = (jint*)lockedRect.pBits;
-            for (int yy = 0; yy < srcHeight; yy++) {
-                for (int dx = 0, sx = 0; dx < srcWidth; dx++, sx+=3) {
-                    // alpha channel is ignored in this case
-                    jubyte b = pSrcPixels[sx+0];
-                    jubyte g = pSrcPixels[sx+1];
-                    jubyte r = pSrcPixels[sx+2];
-                    pDstPixels[dx] = (r << 16) | (g << 8) | (b);
+        flsf if (pDfsd->Formbt == D3DFMT_A8R8G8B8) {
+            jubytf *pSrdPixfls = (jubytf*)
+                PtrCoord(pixfls, srdx, 3, srdy, srdStridf);
+            jint *pDstPixfls = (jint*)lodkfdRfdt.pBits;
+            for (int yy = 0; yy < srdHfigit; yy++) {
+                for (int dx = 0, sx = 0; dx < srdWidti; dx++, sx+=3) {
+                    // blpib dibnnfl is ignorfd in tiis dbsf
+                    jubytf b = pSrdPixfls[sx+0];
+                    jubytf g = pSrdPixfls[sx+1];
+                    jubytf r = pSrdPixfls[sx+2];
+                    pDstPixfls[dx] = (r << 16) | (g << 8) | (b);
                 }
-                pixelsTouchedL += (pDstPixels[0]          ? 1 : 0);
-                pixelsTouchedR += (pDstPixels[srcWidth-1] ? 1 : 0);
+                pixflsToudifdL += (pDstPixfls[0]          ? 1 : 0);
+                pixflsToudifdR += (pDstPixfls[srdWidti-1] ? 1 : 0);
 
-                pSrcPixels = (jubyte*)PtrAddBytes(pSrcPixels, srcStride);
-                pDstPixels = (jint*)PtrAddBytes(pDstPixels, lockedRect.Pitch);
+                pSrdPixfls = (jubytf*)PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = (jint*)PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdi);
             }
         }
-    } else if (srcFormat == TILEFMT_4BYTE_ARGB_PRE) {
-        // MaskBlit tile
-        if (pDesc->Format == D3DFMT_A8R8G8B8) {
-            void *pSrcPixels = PtrCoord(pixels, srcx, 4, srcy, srcStride);
-            void *pDstPixels = lockedRect.pBits;
+    } flsf if (srdFormbt == TILEFMT_4BYTE_ARGB_PRE) {
+        // MbskBlit tilf
+        if (pDfsd->Formbt == D3DFMT_A8R8G8B8) {
+            void *pSrdPixfls = PtrCoord(pixfls, srdx, 4, srdy, srdStridf);
+            void *pDstPixfls = lodkfdRfdt.pBits;
             do {
-                memcpy(pDstPixels, pSrcPixels, srcWidth * 4);
-                pSrcPixels = PtrAddBytes(pSrcPixels, srcStride);
-                pDstPixels = PtrAddBytes(pDstPixels, lockedRect.Pitch);
-            } while (--srcHeight > 0);
+                mfmdpy(pDstPixfls, pSrdPixfls, srdWidti * 4);
+                pSrdPixfls = PtrAddBytfs(pSrdPixfls, srdStridf);
+                pDstPixfls = PtrAddBytfs(pDstPixfls, lodkfdRfdt.Pitdi);
+            } wiilf (--srdHfigit > 0);
         }
-    } else {
-        // should not happen, no-op just in case...
+    } flsf {
+        // siould not ibppfn, no-op just in dbsf...
     }
 
-    if (pPixelsTouchedL) {
-        *pPixelsTouchedL  = pixelsTouchedL;
+    if (pPixflsToudifdL) {
+        *pPixflsToudifdL  = pixflsToudifdL;
     }
-    if (pPixelsTouchedR) {
-        *pPixelsTouchedR = pixelsTouchedR;
+    if (pPixflsToudifdR) {
+        *pPixflsToudifdR = pixflsToudifdR;
     }
 
-    return pTexture->UnlockRect(0);
+    rfturn pTfxturf->UnlodkRfdt(0);
 }
 
 HRESULT
-D3DContext::InitLCDGlyphCache()
+D3DContfxt::InitLCDGlypiCbdif()
 {
-    if (pLCDGlyphCache == NULL) {
-        return D3DGlyphCache::CreateInstance(this, CACHE_LCD, &pLCDGlyphCache);
+    if (pLCDGlypiCbdif == NULL) {
+        rfturn D3DGlypiCbdif::CrfbtfInstbndf(tiis, CACHE_LCD, &pLCDGlypiCbdif);
     }
-    return S_OK;
+    rfturn S_OK;
 }
 
 HRESULT
-D3DContext::InitGrayscaleGlyphCache()
+D3DContfxt::InitGrbysdblfGlypiCbdif()
 {
-    if (pGrayscaleGlyphCache == NULL) {
-        return D3DGlyphCache::CreateInstance(this, CACHE_GRAY,
-                                             &pGrayscaleGlyphCache);
+    if (pGrbysdblfGlypiCbdif == NULL) {
+        rfturn D3DGlypiCbdif::CrfbtfInstbndf(tiis, CACHE_GRAY,
+                                             &pGrbysdblfGlypiCbdif);
     }
-    return S_OK;
+    rfturn S_OK;
 }
 
 HRESULT
-D3DContext::ResetComposite()
+D3DContfxt::RfsftCompositf()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::ResetComposite");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::RfsftCompositf");
 
-    RETURN_STATUS_IF_NULL(pd3dDevice, E_FAIL);
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
 
-    HRESULT res = UpdateState(STATE_CHANGE);
-    pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    extraAlpha = 1.0f;
-    return res;
+    HRESULT rfs = UpdbtfStbtf(STATE_CHANGE);
+    pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, FALSE);
+    fxtrbAlpib = 1.0f;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::SetAlphaComposite(jint rule, jfloat ea, jint flags)
+D3DContfxt::SftAlpibCompositf(jint rulf, jflobt fb, jint flbgs)
 {
-    HRESULT res;
-    J2dTraceLn3(J2D_TRACE_INFO,
-                "D3DContext::SetAlphaComposite: rule=%-1d ea=%f flags=%d",
-                rule, ea, flags);
+    HRESULT rfs;
+    J2dTrbdfLn3(J2D_TRACE_INFO,
+                "D3DContfxt::SftAlpibCompositf: rulf=%-1d fb=%f flbgs=%d",
+                rulf, fb, flbgs);
 
-    RETURN_STATUS_IF_NULL(pd3dDevice, E_FAIL);
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
 
-    res = UpdateState(STATE_CHANGE);
+    rfs = UpdbtfStbtf(STATE_CHANGE);
 
-    // we can safely disable blending when:
-    //   - comp is SrcNoEa or SrcOverNoEa, and
-    //   - the source is opaque
-    // (turning off blending can have a large positive impact on performance)
-    if ((rule == RULE_Src || rule == RULE_SrcOver) &&
-        (ea == 1.0f) &&
-        (flags & D3DC_SRC_IS_OPAQUE))
+    // wf dbn sbffly disbblf blfnding wifn:
+    //   - domp is SrdNoEb or SrdOvfrNoEb, bnd
+    //   - tif sourdf is opbquf
+    // (turning off blfnding dbn ibvf b lbrgf positivf impbdt on pfrformbndf)
+    if ((rulf == RULE_Srd || rulf == RULE_SrdOvfr) &&
+        (fb == 1.0f) &&
+        (flbgs & D3DC_SRC_IS_OPAQUE))
     {
-        J2dTraceLn1(J2D_TRACE_VERBOSE,
-                    "  disabling alpha comp rule=%-1d ea=1.0 src=opq)", rule);
-        pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    } else {
-        J2dTraceLn2(J2D_TRACE_VERBOSE,
-                    "  enabling alpha comp (rule=%-1d ea=%f)", rule, ea);
-        pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        J2dTrbdfLn1(J2D_TRACE_VERBOSE,
+                    "  disbbling blpib domp rulf=%-1d fb=1.0 srd=opq)", rulf);
+        pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, FALSE);
+    } flsf {
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                    "  fnbbling blpib domp (rulf=%-1d fb=%f)", rulf, fb);
+        pd3dDfvidf->SftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, TRUE);
 
-        pd3dDevice->SetRenderState(D3DRS_SRCBLEND,
-                                   StdBlendRules[rule].src);
-        pd3dDevice->SetRenderState(D3DRS_DESTBLEND,
-                                   StdBlendRules[rule].dst);
+        pd3dDfvidf->SftRfndfrStbtf(D3DRS_SRCBLEND,
+                                   StdBlfndRulfs[rulf].srd);
+        pd3dDfvidf->SftRfndfrStbtf(D3DRS_DESTBLEND,
+                                   StdBlfndRulfs[rulf].dst);
     }
 
-    extraAlpha = ea;
-    return res;
+    fxtrbAlpib = fb;
+    rfturn rfs;
 }
 
-#ifdef UPDATE_TX
+#ifdff UPDATE_TX
 
-// Note: this method of adjusting pixel to texel mapping proved to be
-// difficult to perfect. The current variation works great for id,
-// scale (including all kinds of flips) transforms, but not still not
-// for generic transforms.
+// Notf: tiis mftiod of bdjusting pixfl to tfxfl mbpping provfd to bf
+// diffidult to pfrffdt. Tif durrfnt vbribtion works grfbt for id,
+// sdblf (indluding bll kinds of flips) trbnsforms, but not still not
+// for gfnfrid trbnsforms.
 //
-// Since we currently only do DrawTexture with non-id transform we instead
-// adjust the geometry (see D3DVertexCacher::DrawTexture(), SetTransform())
+// Sindf wf durrfntly only do DrbwTfxturf witi non-id trbnsform wf instfbd
+// bdjust tif gfomftry (sff D3DVfrtfxCbdifr::DrbwTfxturf(), SftTrbnsform())
 //
-// In order to enable this code path UpdateTextureTransforms needs to
-// be called in SetTexture(), SetTransform() and ResetTranform().
+// In ordfr to fnbblf tiis dodf pbti UpdbtfTfxturfTrbnsforms nffds to
+// bf dbllfd in SftTfxturf(), SftTrbnsform() bnd RfsftTrbnform().
 HRESULT
-D3DContext::UpdateTextureTransforms(DWORD dwSamplerToUpdate)
+D3DContfxt::UpdbtfTfxturfTrbnsforms(DWORD dwSbmplfrToUpdbtf)
 {
-    HRESULT res = S_OK;
-    DWORD dwSampler, dwMaxSampler;
+    HRESULT rfs = S_OK;
+    DWORD dwSbmplfr, dwMbxSbmplfr;
 
-    if (dwSamplerToUpdate == -1) {
-        // update all used samplers, dwMaxSampler will be set to max
-        dwSampler = 0;
-        dwSampler = MAX_USED_TEXTURE_SAMPLER;
-        J2dTraceLn(J2D_TRACE_INFO, "D3DContext::UpdateTextureTransforms: "\
-                                   "updating all samplers");
-    } else {
-        // update only given sampler, dwMaxSampler will be set to it as well
-        dwSampler = dwSamplerToUpdate;
-        dwMaxSampler = dwSamplerToUpdate;
-        J2dTraceLn1(J2D_TRACE_INFO, "D3DContext::UpdateTextureTransforms: "\
-                                    "updating sampler %d", dwSampler);
+    if (dwSbmplfrToUpdbtf == -1) {
+        // updbtf bll usfd sbmplfrs, dwMbxSbmplfr will bf sft to mbx
+        dwSbmplfr = 0;
+        dwSbmplfr = MAX_USED_TEXTURE_SAMPLER;
+        J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::UpdbtfTfxturfTrbnsforms: "\
+                                   "updbting bll sbmplfrs");
+    } flsf {
+        // updbtf only givfn sbmplfr, dwMbxSbmplfr will bf sft to it bs wfll
+        dwSbmplfr = dwSbmplfrToUpdbtf;
+        dwMbxSbmplfr = dwSbmplfrToUpdbtf;
+        J2dTrbdfLn1(J2D_TRACE_INFO, "D3DContfxt::UpdbtfTfxturfTrbnsforms: "\
+                                    "updbting sbmplfr %d", dwSbmplfr);
     }
 
     do {
-        D3DTRANSFORMSTATETYPE state =
-            (D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + dwSampler);
-        IDirect3DTexture9 *pTexture = lastTexture[dwSampler];
+        D3DTRANSFORMSTATETYPE stbtf =
+            (D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + dwSbmplfr);
+        IDirfdt3DTfxturf9 *pTfxturf = lbstTfxturf[dwSbmplfr];
 
-        if (pTexture != NULL) {
+        if (pTfxturf != NULL) {
             D3DMATRIX mt, tx;
-            D3DSURFACE_DESC texDesc;
+            D3DSURFACE_DESC tfxDfsd;
 
-            pd3dDevice->GetTransform(D3DTS_WORLD, &tx);
-            J2dTraceLn4(10,
+            pd3dDfvidf->GftTrbnsform(D3DTS_WORLD, &tx);
+            J2dTrbdfLn4(10,
                         "  %5f %5f %5f %5f", tx._11, tx._12, tx._13, tx._14);
-            J2dTraceLn4(10,
+            J2dTrbdfLn4(10,
                         "  %5f %5f %5f %5f", tx._21, tx._22, tx._23, tx._24);
-            J2dTraceLn4(10,
+            J2dTrbdfLn4(10,
                         "  %5f %5f %5f %5f", tx._31, tx._32, tx._33, tx._34);
-            J2dTraceLn4(10,
+            J2dTrbdfLn4(10,
                         "  %5f %5f %5f %5f", tx._41, tx._42, tx._43, tx._44);
 
-            // this formula works for scales and flips
+            // tiis formulb works for sdblfs bnd flips
             if (tx._11 == 0.0f) {
                 tx._11 = tx._12;
             }
@@ -1455,448 +1455,448 @@ D3DContext::UpdateTextureTransforms(DWORD dwSamplerToUpdate)
                 tx._22 = tx._21;
             }
 
-            pTexture->GetLevelDesc(0, &texDesc);
+            pTfxturf->GftLfvflDfsd(0, &tfxDfsd);
 
-            // shift by .5 texel, but take into account
-            // the scale factor of the device transform
+            // siift by .5 tfxfl, but tbkf into bddount
+            // tif sdblf fbdtor of tif dfvidf trbnsform
 
-            // REMIND: this approach is not entirely correct,
-            // as it only takes into account the scale of the device
-            // transform.
-            mt._31 = (1.0f / (2.0f * texDesc.Width  * tx._11));
-            mt._32 = (1.0f / (2.0f * texDesc.Height * tx._22));
-            J2dTraceLn2(J2D_TRACE_VERBOSE, "  offsets: tx=%f ty=%f",
+            // REMIND: tiis bpprobdi is not fntirfly dorrfdt,
+            // bs it only tbkfs into bddount tif sdblf of tif dfvidf
+            // trbnsform.
+            mt._31 = (1.0f / (2.0f * tfxDfsd.Widti  * tx._11));
+            mt._32 = (1.0f / (2.0f * tfxDfsd.Hfigit * tx._22));
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  offsfts: tx=%f ty=%f",
                         mt._31, mt._32);
 
-            pd3dDevice->SetTextureStageState(dwSampler,
+            pd3dDfvidf->SftTfxturfStbgfStbtf(dwSbmplfr,
                                              D3DTSS_TEXTURETRANSFORMFLAGS,
                                              D3DTTFF_COUNT2);
-            res = pd3dDevice->SetTransform(state, &mt);
-        } else {
-            res = pd3dDevice->SetTextureStageState(dwSampler,
+            rfs = pd3dDfvidf->SftTrbnsform(stbtf, &mt);
+        } flsf {
+            rfs = pd3dDfvidf->SftTfxturfStbgfStbtf(dwSbmplfr,
                                                    D3DTSS_TEXTURETRANSFORMFLAGS,
                                                    D3DTTFF_DISABLE);
         }
-        dwSampler++;
-    } while (dwSampler <= dwMaxSampler);
+        dwSbmplfr++;
+    } wiilf (dwSbmplfr <= dwMbxSbmplfr);
 
-    return res;
+    rfturn rfs;
 }
-#endif // UPDATE_TX
+#fndif // UPDATE_TX
 
 /**
- * We go into the pains of maintaining the list of set textures
- * instead of just calling GetTexture() and comparing the old one
- * with the new one because it's actually noticeably slower to call
- * GetTexture() (note that we'd have to then call Release() on the
- * texture since GetTexture() increases texture's ref. count).
+ * Wf go into tif pbins of mbintbining tif list of sft tfxturfs
+ * instfbd of just dblling GftTfxturf() bnd dompbring tif old onf
+ * witi tif nfw onf bfdbusf it's bdtublly notidfbbly slowfr to dbll
+ * GftTfxturf() (notf tibt wf'd ibvf to tifn dbll Rflfbsf() on tif
+ * tfxturf sindf GftTfxturf() indrfbsfs tfxturf's rff. dount).
  */
 HRESULT
-D3DContext::SetTexture(IDirect3DTexture9 *pTexture, DWORD dwSampler)
+D3DContfxt::SftTfxturf(IDirfdt3DTfxturf9 *pTfxturf, DWORD dwSbmplfr)
 {
-    HRESULT res = S_OK;
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::SetTexture");
+    HRESULT rfs = S_OK;
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::SftTfxturf");
 
-    if (dwSampler < 0 || dwSampler > MAX_USED_TEXTURE_SAMPLER) {
-        J2dTraceLn1(J2D_TRACE_ERROR,
-                    "D3DContext::SetTexture: incorrect sampler: %d", dwSampler);
-        return E_FAIL;
+    if (dwSbmplfr < 0 || dwSbmplfr > MAX_USED_TEXTURE_SAMPLER) {
+        J2dTrbdfLn1(J2D_TRACE_ERROR,
+                    "D3DContfxt::SftTfxturf: indorrfdt sbmplfr: %d", dwSbmplfr);
+        rfturn E_FAIL;
     }
-    if (lastTexture[dwSampler] != pTexture) {
-        if (FAILED(res = FlushVertexQueue())) {
-            return res;
+    if (lbstTfxturf[dwSbmplfr] != pTfxturf) {
+        if (FAILED(rfs = FlusiVfrtfxQufuf())) {
+            rfturn rfs;
         }
-        J2dTraceLn2(J2D_TRACE_VERBOSE,
-                    "  new texture=0x%x on sampler %d", pTexture, dwSampler);
-        res = pd3dDevice->SetTexture(dwSampler, pTexture);
-        if (SUCCEEDED(res)) {
-            lastTexture[dwSampler] = pTexture;
-            // REMIND: see comment at UpdateTextureTransforms
-#ifdef UPDATE_TX
-            res = UpdateTextureTransforms(dwSampler);
-#endif
-        }  else {
-            lastTexture[dwSampler] = NULL;
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                    "  nfw tfxturf=0x%x on sbmplfr %d", pTfxturf, dwSbmplfr);
+        rfs = pd3dDfvidf->SftTfxturf(dwSbmplfr, pTfxturf);
+        if (SUCCEEDED(rfs)) {
+            lbstTfxturf[dwSbmplfr] = pTfxturf;
+            // REMIND: sff dommfnt bt UpdbtfTfxturfTrbnsforms
+#ifdff UPDATE_TX
+            rfs = UpdbtfTfxturfTrbnsforms(dwSbmplfr);
+#fndif
+        }  flsf {
+            lbstTfxturf[dwSbmplfr] = NULL;
         }
     }
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DContext::UpdateTextureColorState(DWORD dwState, DWORD dwSampler)
+D3DContfxt::UpdbtfTfxturfColorStbtf(DWORD dwStbtf, DWORD dwSbmplfr)
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
 
-    if (dwState != lastTextureColorState[dwSampler]) {
-        res = pd3dDevice->SetTextureStageState(dwSampler,
-                                               D3DTSS_ALPHAARG1, dwState);
-        res = pd3dDevice->SetTextureStageState(dwSampler,
-                                               D3DTSS_COLORARG1, dwState);
-        lastTextureColorState[dwSampler] = dwState;
+    if (dwStbtf != lbstTfxturfColorStbtf[dwSbmplfr]) {
+        rfs = pd3dDfvidf->SftTfxturfStbgfStbtf(dwSbmplfr,
+                                               D3DTSS_ALPHAARG1, dwStbtf);
+        rfs = pd3dDfvidf->SftTfxturfStbgfStbtf(dwSbmplfr,
+                                               D3DTSS_COLORARG1, dwStbtf);
+        lbstTfxturfColorStbtf[dwSbmplfr] = dwStbtf;
     }
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT /*NOLOCK*/
-D3DContext::UpdateState(jbyte newState)
+D3DContfxt::UpdbtfStbtf(jbytf nfwStbtf)
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
 
-    if (opState == newState) {
-        // The op is the same as last time, so we can return immediately.
-        return res;
-    } else if (opState != STATE_CHANGE) {
-        res = FlushVertexQueue();
+    if (opStbtf == nfwStbtf) {
+        // Tif op is tif sbmf bs lbst timf, so wf dbn rfturn immfdibtfly.
+        rfturn rfs;
+    } flsf if (opStbtf != STATE_CHANGE) {
+        rfs = FlusiVfrtfxQufuf();
     }
 
-    switch (opState) {
-    case STATE_MASKOP:
-        pMaskCache->Disable();
-        break;
-    case STATE_GLYPHOP:
-        D3DTR_DisableGlyphVertexCache(this);
-        break;
-    case STATE_TEXTUREOP:
-        // optimization: certain state changes (those marked STATE_CHANGE)
-        // are allowed while texturing is enabled.
-        // In this case, we can allow previousOp to remain as it is and
-        // then return early.
-        if (newState == STATE_CHANGE) {
-            return res;
+    switdi (opStbtf) {
+    dbsf STATE_MASKOP:
+        pMbskCbdif->Disbblf();
+        brfbk;
+    dbsf STATE_GLYPHOP:
+        D3DTR_DisbblfGlypiVfrtfxCbdif(tiis);
+        brfbk;
+    dbsf STATE_TEXTUREOP:
+        // optimizbtion: dfrtbin stbtf dibngfs (tiosf mbrkfd STATE_CHANGE)
+        // brf bllowfd wiilf tfxturing is fnbblfd.
+        // In tiis dbsf, wf dbn bllow prfviousOp to rfmbin bs it is bnd
+        // tifn rfturn fbrly.
+        if (nfwStbtf == STATE_CHANGE) {
+            rfturn rfs;
         }
-        // REMIND: not necessary if we are switching to MASKOP or GLYPHOP
-        // (or a complex paint, for that matter), but would that be a
-        // worthwhile optimization?
-        SetTexture(NULL);
-        break;
-    case STATE_AAPGRAMOP:
-        res = DisableAAParallelogramProgram();
-        break;
-    default:
-        break;
+        // REMIND: not nfdfssbry if wf brf switdiing to MASKOP or GLYPHOP
+        // (or b domplfx pbint, for tibt mbttfr), but would tibt bf b
+        // wortiwiilf optimizbtion?
+        SftTfxturf(NULL);
+        brfbk;
+    dbsf STATE_AAPGRAMOP:
+        rfs = DisbblfAAPbrbllflogrbmProgrbm();
+        brfbk;
+    dffbult:
+        brfbk;
     }
 
-    switch (newState) {
-    case STATE_MASKOP:
-        pMaskCache->Enable();
-        UpdateTextureColorState(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
-        break;
-    case STATE_GLYPHOP:
-        D3DTR_EnableGlyphVertexCache(this);
-        UpdateTextureColorState(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
-        break;
-    case STATE_TEXTUREOP:
-        UpdateTextureColorState(D3DTA_TEXTURE);
-        break;
-    case STATE_AAPGRAMOP:
-        res = EnableAAParallelogramProgram();
-        break;
-    default:
-        break;
+    switdi (nfwStbtf) {
+    dbsf STATE_MASKOP:
+        pMbskCbdif->Enbblf();
+        UpdbtfTfxturfColorStbtf(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+        brfbk;
+    dbsf STATE_GLYPHOP:
+        D3DTR_EnbblfGlypiVfrtfxCbdif(tiis);
+        UpdbtfTfxturfColorStbtf(D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE);
+        brfbk;
+    dbsf STATE_TEXTUREOP:
+        UpdbtfTfxturfColorStbtf(D3DTA_TEXTURE);
+        brfbk;
+    dbsf STATE_AAPGRAMOP:
+        rfs = EnbblfAAPbrbllflogrbmProgrbm();
+        brfbk;
+    dffbult:
+        brfbk;
     }
 
-    opState = newState;
+    opStbtf = nfwStbtf;
 
-    return res;
+    rfturn rfs;
 }
 
-HRESULT D3DContext::FlushVertexQueue()
+HRESULT D3DContfxt::FlusiVfrtfxQufuf()
 {
-    if (pVCacher != NULL) {
-        return pVCacher->Render();
+    if (pVCbdifr != NULL) {
+        rfturn pVCbdifr->Rfndfr();
     }
-    return E_FAIL;
+    rfturn E_FAIL;
 }
 
-HRESULT D3DContext::BeginScene(jbyte newState)
+HRESULT D3DContfxt::BfginSdfnf(jbytf nfwStbtf)
 {
-    if (!pd3dDevice) {
-        return E_FAIL;
-    } else {
-        UpdateState(newState);
-        if (!bBeginScenePending) {
-            bBeginScenePending = TRUE;
-            HRESULT res = pd3dDevice->BeginScene();
-            J2dTraceLn(J2D_TRACE_INFO, "D3DContext::BeginScene");
-            if (FAILED(res)) {
-                // this will cause context reinitialization
-                opState = STATE_CHANGE;
+    if (!pd3dDfvidf) {
+        rfturn E_FAIL;
+    } flsf {
+        UpdbtfStbtf(nfwStbtf);
+        if (!bBfginSdfnfPfnding) {
+            bBfginSdfnfPfnding = TRUE;
+            HRESULT rfs = pd3dDfvidf->BfginSdfnf();
+            J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::BfginSdfnf");
+            if (FAILED(rfs)) {
+                // tiis will dbusf dontfxt rfinitiblizbtion
+                opStbtf = STATE_CHANGE;
             }
-            return res;
+            rfturn rfs;
         }
-        return S_OK;
+        rfturn S_OK;
     }
 }
 
-HRESULT D3DContext::EndScene() {
-    if (bBeginScenePending) {
-        FlushVertexQueue();
-        bBeginScenePending = FALSE;
-        J2dTraceLn(J2D_TRACE_INFO, "D3DContext::EndScene");
-        return pd3dDevice->EndScene();
+HRESULT D3DContfxt::EndSdfnf() {
+    if (bBfginSdfnfPfnding) {
+        FlusiVfrtfxQufuf();
+        bBfginSdfnfPfnding = FALSE;
+        J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::EndSdfnf");
+        rfturn pd3dDfvidf->EndSdfnf();
     }
-    return S_OK;
+    rfturn S_OK;
 }
 
 /**
- * Compiles and links the given fragment shader program.  If
- * successful, this function returns a handle to the newly created shader
- * program; otherwise returns 0.
+ * Compilfs bnd links tif givfn frbgmfnt sibdfr progrbm.  If
+ * suddfssful, tiis fundtion rfturns b ibndlf to tif nfwly drfbtfd sibdfr
+ * progrbm; otifrwisf rfturns 0.
  */
-IDirect3DPixelShader9 *D3DContext::CreateFragmentProgram(DWORD **shaders,
-                                                       ShaderList *programs,
-                                                       jint flags)
+IDirfdt3DPixflSibdfr9 *D3DContfxt::CrfbtfFrbgmfntProgrbm(DWORD **sibdfrs,
+                                                       SibdfrList *progrbms,
+                                                       jint flbgs)
 {
-    DWORD *sourceCode;
-    IDirect3DPixelShader9 *pProgram;
+    DWORD *sourdfCodf;
+    IDirfdt3DPixflSibdfr9 *pProgrbm;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "D3DContext::CreateFragmentProgram: flags=%d",
-                flags);
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "D3DContfxt::CrfbtfFrbgmfntProgrbm: flbgs=%d",
+                flbgs);
 
-    sourceCode = shaders[flags];
-    if (FAILED(pd3dDevice->CreatePixelShader(sourceCode, &pProgram))) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DContext::CreateFragmentProgram: error creating program");
-        return NULL;
+    sourdfCodf = sibdfrs[flbgs];
+    if (FAILED(pd3dDfvidf->CrfbtfPixflSibdfr(sourdfCodf, &pProgrbm))) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DContfxt::CrfbtfFrbgmfntProgrbm: frror drfbting progrbm");
+        rfturn NULL;
     }
 
-    // add it to the cache
-    ShaderList_AddProgram(programs, ptr_to_jlong(pProgram),
-                          0 /*unused*/, 0 /*unused*/, flags);
+    // bdd it to tif dbdif
+    SibdfrList_AddProgrbm(progrbms, ptr_to_jlong(pProgrbm),
+                          0 /*unusfd*/, 0 /*unusfd*/, flbgs);
 
-    return pProgram;
+    rfturn pProgrbm;
 }
 
 /**
- * Locates and enables a fragment program given a list of shader programs
- * (ShaderInfos), using this context's state and flags as search
- * parameters.  The "flags" parameter is a bitwise-or'd value that helps
- * differentiate one program for another; the interpretation of this value
- * varies depending on the type of shader (BufImgOp, Paint, etc) but here
- * it is only used to find another ShaderInfo with that same "flags" value.
+ * Lodbtfs bnd fnbblfs b frbgmfnt progrbm givfn b list of sibdfr progrbms
+ * (SibdfrInfos), using tiis dontfxt's stbtf bnd flbgs bs sfbrdi
+ * pbrbmftfrs.  Tif "flbgs" pbrbmftfr is b bitwisf-or'd vbluf tibt iflps
+ * difffrfntibtf onf progrbm for bnotifr; tif intfrprftbtion of tiis vbluf
+ * vbrifs dfpfnding on tif typf of sibdfr (BufImgOp, Pbint, ftd) but ifrf
+ * it is only usfd to find bnotifr SibdfrInfo witi tibt sbmf "flbgs" vbluf.
  */
-HRESULT D3DContext::EnableFragmentProgram(DWORD **shaders,
-                                          ShaderList *programList,
-                                          jint flags)
+HRESULT D3DContfxt::EnbblfFrbgmfntProgrbm(DWORD **sibdfrs,
+                                          SibdfrList *progrbmList,
+                                          jint flbgs)
 {
-    HRESULT res;
-    jlong programID;
-    IDirect3DPixelShader9 *pProgram;
+    HRESULT rfs;
+    jlong progrbmID;
+    IDirfdt3DPixflSibdfr9 *pProgrbm;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::EnableFragmentProgram");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::EnbblfFrbgmfntProgrbm");
 
-    programID =
-        ShaderList_FindProgram(programList,
-                               0 /*unused*/, 0 /*unused*/, flags);
+    progrbmID =
+        SibdfrList_FindProgrbm(progrbmList,
+                               0 /*unusfd*/, 0 /*unusfd*/, flbgs);
 
-    pProgram = (IDirect3DPixelShader9 *)jlong_to_ptr(programID);
-    if (pProgram == NULL) {
-        pProgram = CreateFragmentProgram(shaders, programList, flags);
-        if (pProgram == NULL) {
-            return E_FAIL;
+    pProgrbm = (IDirfdt3DPixflSibdfr9 *)jlong_to_ptr(progrbmID);
+    if (pProgrbm == NULL) {
+        pProgrbm = CrfbtfFrbgmfntProgrbm(sibdfrs, progrbmList, flbgs);
+        if (pProgrbm == NULL) {
+            rfturn E_FAIL;
         }
     }
 
-    if (FAILED(res = pd3dDevice->SetPixelShader(pProgram))) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DContext::EnableFragmentProgram: error setting pixel shader");
-        return res;
+    if (FAILED(rfs = pd3dDfvidf->SftPixflSibdfr(pProgrbm))) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DContfxt::EnbblfFrbgmfntProgrbm: frror sftting pixfl sibdfr");
+        rfturn rfs;
     }
 
-    return S_OK;
+    rfturn S_OK;
 }
 
-HRESULT D3DContext::EnableBasicGradientProgram(jint flags)
+HRESULT D3DContfxt::EnbblfBbsidGrbdifntProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)gradShaders,
-                                 &basicGradPrograms, flags);
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)grbdSibdfrs,
+                                 &bbsidGrbdProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableLinearGradientProgram(jint flags)
+HRESULT D3DContfxt::EnbblfLinfbrGrbdifntProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)linearShaders,
-                                 &linearGradPrograms, flags);
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)linfbrSibdfrs,
+                                 &linfbrGrbdProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableRadialGradientProgram(jint flags)
+HRESULT D3DContfxt::EnbblfRbdiblGrbdifntProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)radialShaders,
-                                 &radialGradPrograms, flags);
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)rbdiblSibdfrs,
+                                 &rbdiblGrbdProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableConvolveProgram(jint flags)
+HRESULT D3DContfxt::EnbblfConvolvfProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)convolveShaders,
-                                 &convolvePrograms, flags);
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)donvolvfSibdfrs,
+                                 &donvolvfProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableRescaleProgram(jint flags)
+HRESULT D3DContfxt::EnbblfRfsdblfProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)rescaleShaders,
-                                 &rescalePrograms, flags);
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)rfsdblfSibdfrs,
+                                 &rfsdblfProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableLookupProgram(jint flags)
+HRESULT D3DContfxt::EnbblfLookupProgrbm(jint flbgs)
 {
-    return EnableFragmentProgram((DWORD **)lookupShaders,
-                                 &lookupPrograms, flags);
+    rfturn EnbblfFrbgmfntProgrbm((DWORD **)lookupSibdfrs,
+                                 &lookupProgrbms, flbgs);
 }
 
-HRESULT D3DContext::EnableLCDTextProgram()
+HRESULT D3DContfxt::EnbblfLCDTfxtProgrbm()
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::EnableLCDTextProgram");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::EnbblfLCDTfxtProgrbm");
 
-    if (lcdTextProgram == NULL) {
-        if (FAILED(res = pd3dDevice->CreatePixelShader(lcdtext0,
-                                                       &lcdTextProgram)))
+    if (lddTfxtProgrbm == NULL) {
+        if (FAILED(rfs = pd3dDfvidf->CrfbtfPixflSibdfr(lddtfxt0,
+                                                       &lddTfxtProgrbm)))
         {
-            return res;
+            rfturn rfs;
         }
     }
 
-    if (FAILED(res = pd3dDevice->SetPixelShader(lcdTextProgram))) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DContext::EnableLCDTextProgram: error setting pixel shader");
-        return res;
+    if (FAILED(rfs = pd3dDfvidf->SftPixflSibdfr(lddTfxtProgrbm))) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DContfxt::EnbblfLCDTfxtProgrbm: frror sftting pixfl sibdfr");
+        rfturn rfs;
     }
 
-    return S_OK;
+    rfturn S_OK;
 }
 
-HRESULT D3DContext::EnableAAParallelogramProgram()
+HRESULT D3DContfxt::EnbblfAAPbrbllflogrbmProgrbm()
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::EnableAAParallelogramProgram");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::EnbblfAAPbrbllflogrbmProgrbm");
 
-    if (aaPgramProgram == NULL) {
-        if (FAILED(res = pd3dDevice->CreatePixelShader(aapgram0,
-                                                       &aaPgramProgram))) {
-            DebugPrintD3DError(res, "D3DContext::EnableAAParallelogramProgram: "
-                               "error creating pixel shader");
-            return res;
+    if (bbPgrbmProgrbm == NULL) {
+        if (FAILED(rfs = pd3dDfvidf->CrfbtfPixflSibdfr(bbpgrbm0,
+                                                       &bbPgrbmProgrbm))) {
+            DfbugPrintD3DError(rfs, "D3DContfxt::EnbblfAAPbrbllflogrbmProgrbm: "
+                               "frror drfbting pixfl sibdfr");
+            rfturn rfs;
         }
     }
 
-    if (FAILED(res = pd3dDevice->SetPixelShader(aaPgramProgram))) {
-        DebugPrintD3DError(res, "D3DContext::EnableAAParallelogramProgram: "
-                           "error setting pixel shader");
-        return res;
+    if (FAILED(rfs = pd3dDfvidf->SftPixflSibdfr(bbPgrbmProgrbm))) {
+        DfbugPrintD3DError(rfs, "D3DContfxt::EnbblfAAPbrbllflogrbmProgrbm: "
+                           "frror sftting pixfl sibdfr");
+        rfturn rfs;
     }
 
-    return S_OK;
+    rfturn S_OK;
 }
 
-HRESULT D3DContext::DisableAAParallelogramProgram()
+HRESULT D3DContfxt::DisbblfAAPbrbllflogrbmProgrbm()
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::DisableAAParallelogramProgram");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::DisbblfAAPbrbllflogrbmProgrbm");
 
-    if (aaPgramProgram != NULL) {
-        if (FAILED(res = pd3dDevice->SetPixelShader(NULL))) {
-            DebugPrintD3DError(res,
-                               "D3DContext::DisableAAParallelogramProgram: "
-                               "error clearing pixel shader");
-            return res;
+    if (bbPgrbmProgrbm != NULL) {
+        if (FAILED(rfs = pd3dDfvidf->SftPixflSibdfr(NULL))) {
+            DfbugPrintD3DError(rfs,
+                               "D3DContfxt::DisbblfAAPbrbllflogrbmProgrbm: "
+                               "frror dlfbring pixfl sibdfr");
+            rfturn rfs;
         }
     }
 
-    return S_OK;
+    rfturn S_OK;
 }
 
-BOOL D3DContext::IsAlphaRTSurfaceSupported()
+BOOL D3DContfxt::IsAlpibRTSurfbdfSupportfd()
 {
-    HRESULT res = pd3dObject->CheckDeviceFormat(adapterOrdinal,
-            devCaps.DeviceType,
-            curParams.BackBufferFormat,
+    HRESULT rfs = pd3dObjfdt->CifdkDfvidfFormbt(bdbptfrOrdinbl,
+            dfvCbps.DfvidfTypf,
+            durPbrbms.BbdkBufffrFormbt,
             D3DUSAGE_RENDERTARGET,
             D3DRTYPE_SURFACE,
             D3DFMT_A8R8G8B8);
-    return SUCCEEDED(res);
+    rfturn SUCCEEDED(rfs);
 }
 
-BOOL D3DContext::IsAlphaRTTSupported()
+BOOL D3DContfxt::IsAlpibRTTSupportfd()
 {
-    HRESULT res = pd3dObject->CheckDeviceFormat(adapterOrdinal,
-            devCaps.DeviceType,
-            curParams.BackBufferFormat,
+    HRESULT rfs = pd3dObjfdt->CifdkDfvidfFormbt(bdbptfrOrdinbl,
+            dfvCbps.DfvidfTypf,
+            durPbrbms.BbdkBufffrFormbt,
             D3DUSAGE_RENDERTARGET,
             D3DRTYPE_TEXTURE,
             D3DFMT_A8R8G8B8);
-    return SUCCEEDED(res);
+    rfturn SUCCEEDED(rfs);
 }
 
-BOOL D3DContext::IsOpaqueRTTSupported()
+BOOL D3DContfxt::IsOpbqufRTTSupportfd()
 {
-    HRESULT res = pd3dObject->CheckDeviceFormat(adapterOrdinal,
-            devCaps.DeviceType,
-            curParams.BackBufferFormat,
+    HRESULT rfs = pd3dObjfdt->CifdkDfvidfFormbt(bdbptfrOrdinbl,
+            dfvCbps.DfvidfTypf,
+            durPbrbms.BbdkBufffrFormbt,
             D3DUSAGE_RENDERTARGET,
             D3DRTYPE_TEXTURE,
-            curParams.BackBufferFormat);
-    return SUCCEEDED(res);
+            durPbrbms.BbdkBufffrFormbt);
+    rfturn SUCCEEDED(rfs);
 }
 
-HRESULT D3DContext::InitContextCaps() {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DContext::InitContextCaps");
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  caps for adapter %d :", adapterOrdinal);
+HRESULT D3DContfxt::InitContfxtCbps() {
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DContfxt::InitContfxtCbps");
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  dbps for bdbptfr %d :", bdbptfrOrdinbl);
 
-    if (pd3dDevice == NULL || pd3dObject == NULL) {
-        contextCaps = CAPS_EMPTY;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_EMPTY");
-        return E_FAIL;
+    if (pd3dDfvidf == NULL || pd3dObjfdt == NULL) {
+        dontfxtCbps = CAPS_EMPTY;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_EMPTY");
+        rfturn E_FAIL;
     }
 
-    contextCaps = CAPS_DEVICE_OK;
-    J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_DEVICE_OK");
+    dontfxtCbps = CAPS_DEVICE_OK;
+    J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_DEVICE_OK");
 
-    if (IsAlphaRTSurfaceSupported()) {
-        contextCaps |= CAPS_RT_PLAIN_ALPHA;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_PLAIN_ALPHA");
+    if (IsAlpibRTSurfbdfSupportfd()) {
+        dontfxtCbps |= CAPS_RT_PLAIN_ALPHA;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_PLAIN_ALPHA");
     }
-    if (IsAlphaRTTSupported()) {
-        contextCaps |= CAPS_RT_TEXTURE_ALPHA;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_ALPHA");
+    if (IsAlpibRTTSupportfd()) {
+        dontfxtCbps |= CAPS_RT_TEXTURE_ALPHA;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_ALPHA");
     }
-    if (IsOpaqueRTTSupported()) {
-        contextCaps |= CAPS_RT_TEXTURE_OPAQUE;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_OPAQUE");
+    if (IsOpbqufRTTSupportfd()) {
+        dontfxtCbps |= CAPS_RT_TEXTURE_OPAQUE;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_RT_TEXTURE_OPAQUE");
     }
-    if (IsPixelShader20Supported()) {
-        contextCaps |= CAPS_LCD_SHADER | CAPS_BIOP_SHADER | CAPS_PS20;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE,
+    if (IsPixflSibdfr20Supportfd()) {
+        dontfxtCbps |= CAPS_LCD_SHADER | CAPS_BIOP_SHADER | CAPS_PS20;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE,
                       "  | CAPS_LCD_SHADER | CAPS_BIOP_SHADER | CAPS_PS20");
-        // Pre-PS3.0 video boards are very slow with the AA shader, so
-        // we will require PS30 hw even though the shader is compiled for 2.0a
-//        if (IsGradientInstructionExtensionSupported()) {
-//            contextCaps |= CAPS_AA_SHADER;
-//            J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
+        // Prf-PS3.0 vidfo bobrds brf vfry slow witi tif AA sibdfr, so
+        // wf will rfquirf PS30 iw fvfn tiougi tif sibdfr is dompilfd for 2.0b
+//        if (IsGrbdifntInstrudtionExtfnsionSupportfd()) {
+//            dontfxtCbps |= CAPS_AA_SHADER;
+//            J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
 //        }
     }
-    if (IsPixelShader30Supported()) {
-        if ((contextCaps & CAPS_AA_SHADER) == 0) {
-            // This flag was not already mentioned above...
-            J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
+    if (IsPixflSibdfr30Supportfd()) {
+        if ((dontfxtCbps & CAPS_AA_SHADER) == 0) {
+            // Tiis flbg wbs not blrfbdy mfntionfd bbovf...
+            J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_AA_SHADER");
         }
-        contextCaps |= CAPS_PS30 | CAPS_AA_SHADER;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_PS30");
+        dontfxtCbps |= CAPS_PS30 | CAPS_AA_SHADER;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_PS30");
     }
-    if (IsMultiTexturingSupported()) {
-        contextCaps |= CAPS_MULTITEXTURE;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_MULTITEXTURE");
+    if (IsMultiTfxturingSupportfd()) {
+        dontfxtCbps |= CAPS_MULTITEXTURE;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_MULTITEXTURE");
     }
-    if (!IsPow2TexturesOnly()) {
-        contextCaps |= CAPS_TEXNONPOW2;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONPOW2");
+    if (!IsPow2TfxturfsOnly()) {
+        dontfxtCbps |= CAPS_TEXNONPOW2;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONPOW2");
     }
-    if (!IsSquareTexturesOnly()) {
-        contextCaps |= CAPS_TEXNONSQUARE;
-        J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONSQUARE");
+    if (!IsSqubrfTfxturfsOnly()) {
+        dontfxtCbps |= CAPS_TEXNONSQUARE;
+        J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  | CAPS_TEXNONSQUARE");
     }
-    return S_OK;
+    rfturn S_OK;
 }

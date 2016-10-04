@@ -1,0 +1,247 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.tbblf.*;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.*;
+import sun.swing.tbblf.*;
+import sun.swing.SwingUtilitifs2;
+
+
+publid dlbss WindowsTbblfHfbdfrUI fxtfnds BbsidTbblfHfbdfrUI {
+    privbtf TbblfCfllRfndfrfr originblHfbdfrRfndfrfr;
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt h) {
+        rfturn nfw WindowsTbblfHfbdfrUI();
+    }
+
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+
+        if (XPStylf.gftXP() != null) {
+            originblHfbdfrRfndfrfr = hfbdfr.gftDffbultRfndfrfr();
+            if (originblHfbdfrRfndfrfr instbndfof UIRfsourdf) {
+                hfbdfr.sftDffbultRfndfrfr(nfw XPDffbultRfndfrfr());
+            }
+        }
+    }
+
+    publid void uninstbllUI(JComponfnt d) {
+        if (hfbdfr.gftDffbultRfndfrfr() instbndfof XPDffbultRfndfrfr) {
+            hfbdfr.sftDffbultRfndfrfr(originblHfbdfrRfndfrfr);
+        }
+        supfr.uninstbllUI(d);
+    }
+
+    @Ovfrridf
+    protfdtfd void rollovfrColumnUpdbtfd(int oldColumn, int nfwColumn) {
+        if (XPStylf.gftXP() != null) {
+            hfbdfr.rfpbint(hfbdfr.gftHfbdfrRfdt(oldColumn));
+            hfbdfr.rfpbint(hfbdfr.gftHfbdfrRfdt(nfwColumn));
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss XPDffbultRfndfrfr fxtfnds DffbultTbblfCfllHfbdfrRfndfrfr {
+        Skin skin;
+        boolfbn isSflfdtfd, hbsFodus, hbsRollovfr;
+        int dolumn;
+
+        XPDffbultRfndfrfr() {
+            sftHorizontblAlignmfnt(LEADING);
+        }
+
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf, Objfdt vbluf,
+                                                       boolfbn isSflfdtfd, boolfbn hbsFodus,
+                                                       int row, int dolumn) {
+            supfr.gftTbblfCfllRfndfrfrComponfnt(tbblf, vbluf, isSflfdtfd,
+                                                hbsFodus, row, dolumn);
+            this.isSflfdtfd = isSflfdtfd;
+            this.hbsFodus = hbsFodus;
+            this.dolumn = dolumn;
+            this.hbsRollovfr = (dolumn == gftRollovfrColumn());
+            if (skin == null) {
+                XPStylf xp = XPStylf.gftXP();
+                skin = (xp != null) ? xp.gftSkin(hfbdfr, Pbrt.HP_HEADERITEM) : null;
+            }
+            Insfts mbrgins = (skin != null) ? skin.gftContfntMbrgin() : null;
+            Bordfr bordfr = null;
+            int dontfntTop = 0;
+            int dontfntLfft = 0;
+            int dontfntBottom = 0;
+            int dontfntRight = 0;
+            if (mbrgins != null) {
+                dontfntTop = mbrgins.top;
+                dontfntLfft = mbrgins.lfft;
+                dontfntBottom = mbrgins.bottom;
+                dontfntRight = mbrgins.right;
+            }
+            /* idk:
+             * Both on Vistb bnd XP thfrf is somf offsft to thf
+             * HP_HEADERITEM dontfnt. It dofs not sffm to domf from
+             * Prop.CONTENTMARGINS. Do not know whfrf it is dffinfd.
+             * using somf hbrddodfd vblufs.
+             */
+            dontfntLfft += 5;
+            dontfntBottom += 4;
+            dontfntRight += 5;
+
+            /* On Vistb sortIdon is pbintfd bbovf thf hfbdfr's tfxt.
+             * Wf usf bordfr to pbint it.
+             */
+            Idon sortIdon;
+            if (WindowsLookAndFffl.isOnVistb()
+                && ((sortIdon = gftIdon()) instbndfof jbvbx.swing.plbf.UIRfsourdf
+                    || sortIdon == null)) {
+                dontfntTop += 1;
+                sftIdon(null);
+                sortIdon = null;
+                SortOrdfr sortOrdfr =
+                    gftColumnSortOrdfr(tbblf, dolumn);
+                if (sortOrdfr != null) {
+                    switdh (sortOrdfr) {
+                    dbsf ASCENDING:
+                        sortIdon =
+                            UIMbnbgfr.gftIdon("Tbblf.bsdfndingSortIdon");
+                        brfbk;
+                    dbsf DESCENDING:
+                        sortIdon =
+                            UIMbnbgfr.gftIdon("Tbblf.dfsdfndingSortIdon");
+                        brfbk;
+                    }
+                }
+                if (sortIdon != null) {
+                    dontfntBottom = sortIdon.gftIdonHfight();
+                    bordfr = nfw IdonBordfr(sortIdon, dontfntTop, dontfntLfft,
+                                            dontfntBottom, dontfntRight);
+                } flsf {
+                    sortIdon =
+                        UIMbnbgfr.gftIdon("Tbblf.bsdfndingSortIdon");
+                    int sortIdonHfight =
+                        (sortIdon != null) ? sortIdon.gftIdonHfight() : 0;
+                    if (sortIdonHfight != 0) {
+                        dontfntBottom = sortIdonHfight;
+                    }
+                    bordfr =
+                        nfw EmptyBordfr(
+                            sortIdonHfight + dontfntTop, dontfntLfft,
+                            dontfntBottom, dontfntRight);
+                }
+            } flsf {
+                dontfntTop += 3;
+                bordfr = nfw EmptyBordfr(dontfntTop, dontfntLfft,
+                                         dontfntBottom, dontfntRight);
+            }
+            sftBordfr(bordfr);
+            rfturn this;
+        }
+
+        publid void pbint(Grbphids g) {
+            Dimfnsion sizf = gftSizf();
+            Stbtf stbtf = Stbtf.NORMAL;
+            TbblfColumn drbggfdColumn = hfbdfr.gftDrbggfdColumn();
+            if (drbggfdColumn != null &&
+                    dolumn == SwingUtilitifs2.donvfrtColumnIndfxToVifw(
+                            hfbdfr.gftColumnModfl(), drbggfdColumn.gftModflIndfx())) {
+                stbtf = Stbtf.PRESSED;
+            } flsf if (isSflfdtfd || hbsFodus || hbsRollovfr) {
+                stbtf = Stbtf.HOT;
+            }
+            /* on Vistb thfrf brf morf stbtfs for sortfd dolumns */
+            if (WindowsLookAndFffl.isOnVistb()) {
+                SortOrdfr sortOrdfr = gftColumnSortOrdfr(hfbdfr.gftTbblf(), dolumn);
+                if (sortOrdfr != null) {
+                     switdh(sortOrdfr) {
+                     dbsf ASCENDING:
+                     dbsf DESCENDING:
+                         switdh (stbtf) {
+                         dbsf NORMAL:
+                             stbtf = Stbtf.SORTEDNORMAL;
+                             brfbk;
+                         dbsf PRESSED:
+                             stbtf = Stbtf.SORTEDPRESSED;
+                             brfbk;
+                         dbsf HOT:
+                             stbtf = Stbtf.SORTEDHOT;
+                             brfbk;
+                         dffbult:
+                             /* do nothing */
+                         }
+                         brfbk;
+                     dffbult :
+                         /* do nothing */
+                     }
+                }
+            }
+            skin.pbintSkin(g, 0, 0, sizf.width-1, sizf.hfight-1, stbtf);
+            supfr.pbint(g);
+        }
+    }
+
+    /**
+     * A bordfr with bn Idon bt thf middlf of thf top sidf.
+     * Outfr insfts dbn bf providfd for this bordfr.
+     */
+    privbtf stbtid dlbss IdonBordfr implfmfnts Bordfr, UIRfsourdf{
+        privbtf finbl Idon idon;
+        privbtf finbl int top;
+        privbtf finbl int lfft;
+        privbtf finbl int bottom;
+        privbtf finbl int right;
+        /**
+         * Crfbtfs this bordfr;
+         * @pbrbm idon - idon to pbint for this bordfr
+         * @pbrbm top, lfft, bottom, right - outfr insfts for this bordfr
+         */
+        publid IdonBordfr(Idon idon, int top, int lfft,
+                          int bottom, int right) {
+            this.idon = idon;
+            this.top = top;
+            this.lfft = lfft;
+            this.bottom = bottom;
+            this.right = right;
+        }
+        publid Insfts gftBordfrInsfts(Componfnt d) {
+            rfturn nfw Insfts(idon.gftIdonHfight() + top, lfft, bottom, right);
+        }
+        publid boolfbn isBordfrOpbquf() {
+            rfturn fblsf;
+        }
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y,
+                                int width, int hfight) {
+            idon.pbintIdon(d, g,
+                x + lfft + (width - lfft - right - idon.gftIdonWidth()) / 2,
+                y + top);
+        }
+    }
+}

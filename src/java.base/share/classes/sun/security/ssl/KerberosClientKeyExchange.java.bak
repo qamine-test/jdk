@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.security.SecureRandom;
-import javax.crypto.SecretKey;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvbx.drypto.SfdrftKfy;
 
 /**
- * A helper class that calls the KerberosClientKeyExchange implementation.
+ * A iflpfr dlbss tibt dblls tif KfrbfrosClifntKfyExdibngf implfmfntbtion.
  */
-public class KerberosClientKeyExchange extends HandshakeMessage {
+publid dlbss KfrbfrosClifntKfyExdibngf fxtfnds HbndsibkfMfssbgf {
 
-    private static final String IMPL_CLASS =
-        "sun.security.ssl.krb5.KerberosClientKeyExchangeImpl";
+    privbtf stbtid finbl String IMPL_CLASS =
+        "sun.sfdurity.ssl.krb5.KfrbfrosClifntKfyExdibngfImpl";
 
-    private static final Class<?> implClass = AccessController.doPrivileged(
-            new PrivilegedAction<Class<?>>() {
-                @Override
-                public Class<?> run() {
+    privbtf stbtid finbl Clbss<?> implClbss = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Clbss<?>>() {
+                @Ovfrridf
+                publid Clbss<?> run() {
                     try {
-                        return Class.forName(IMPL_CLASS, true, null);
-                    } catch (ClassNotFoundException cnf) {
-                        return null;
+                        rfturn Clbss.forNbmf(IMPL_CLASS, truf, null);
+                    } dbtdi (ClbssNotFoundExdfption dnf) {
+                        rfturn null;
                     }
                 }
             }
         );
-    private final KerberosClientKeyExchange impl = createImpl();
+    privbtf finbl KfrbfrosClifntKfyExdibngf impl = drfbtfImpl();
 
-    private KerberosClientKeyExchange createImpl() {
-        if (implClass != null &&
-                getClass() == KerberosClientKeyExchange.class) {
+    privbtf KfrbfrosClifntKfyExdibngf drfbtfImpl() {
+        if (implClbss != null &&
+                gftClbss() == KfrbfrosClifntKfyExdibngf.dlbss) {
             try {
-                return (KerberosClientKeyExchange)implClass.newInstance();
-            } catch (InstantiationException e) {
-                throw new AssertionError(e);
-            } catch (IllegalAccessException e) {
-                throw new AssertionError(e);
+                rfturn (KfrbfrosClifntKfyExdibngf)implClbss.nfwInstbndf();
+            } dbtdi (InstbntibtionExdfption f) {
+                tirow nfw AssfrtionError(f);
+            } dbtdi (IllfgblAddfssExdfption f) {
+                tirow nfw AssfrtionError(f);
             }
         }
-        return null;
+        rfturn null;
     }
 
-    // This constructor will be called when constructing an instance of its
-    // subclass -- KerberosClientKeyExchangeImpl.  Please won't check the
-    // value of impl variable in this constructor.
-    protected KerberosClientKeyExchange() {
-        // please won't check the value of impl variable
+    // Tiis donstrudtor will bf dbllfd wifn donstrudting bn instbndf of its
+    // subdlbss -- KfrbfrosClifntKfyExdibngfImpl.  Plfbsf won't difdk tif
+    // vbluf of impl vbribblf in tiis donstrudtor.
+    protfdtfd KfrbfrosClifntKfyExdibngf() {
+        // plfbsf won't difdk tif vbluf of impl vbribblf
     }
 
-    public KerberosClientKeyExchange(String serverName,
-        AccessControlContext acc, ProtocolVersion protocolVersion,
-        SecureRandom rand) throws IOException {
+    publid KfrbfrosClifntKfyExdibngf(String sfrvfrNbmf,
+        AddfssControlContfxt bdd, ProtodolVfrsion protodolVfrsion,
+        SfdurfRbndom rbnd) tirows IOExdfption {
 
         if (impl != null) {
-            init(serverName, acc, protocolVersion, rand);
-        } else {
-            throw new IllegalStateException("Kerberos is unavailable");
+            init(sfrvfrNbmf, bdd, protodolVfrsion, rbnd);
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("Kfrbfros is unbvbilbblf");
         }
     }
 
-    public KerberosClientKeyExchange(ProtocolVersion protocolVersion,
-            ProtocolVersion clientVersion, SecureRandom rand,
-            HandshakeInStream input, AccessControlContext acc,
-            Object serverKeys) throws IOException {
+    publid KfrbfrosClifntKfyExdibngf(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion dlifntVfrsion, SfdurfRbndom rbnd,
+            HbndsibkfInStrfbm input, AddfssControlContfxt bdd,
+            Objfdt sfrvfrKfys) tirows IOExdfption {
 
         if (impl != null) {
-            init(protocolVersion, clientVersion, rand, input, acc, serverKeys);
-        } else {
-            throw new IllegalStateException("Kerberos is unavailable");
+            init(protodolVfrsion, dlifntVfrsion, rbnd, input, bdd, sfrvfrKfys);
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("Kfrbfros is unbvbilbblf");
         }
     }
 
-    @Override
-    int messageType() {
-        return ht_client_key_exchange;
+    @Ovfrridf
+    int mfssbgfTypf() {
+        rfturn it_dlifnt_kfy_fxdibngf;
     }
 
-    @Override
-    public int messageLength() {
-        return impl.messageLength();
+    @Ovfrridf
+    publid int mfssbgfLfngti() {
+        rfturn impl.mfssbgfLfngti();
     }
 
-    @Override
-    public void send(HandshakeOutStream s) throws IOException {
-        impl.send(s);
+    @Ovfrridf
+    publid void sfnd(HbndsibkfOutStrfbm s) tirows IOExdfption {
+        impl.sfnd(s);
     }
 
-    @Override
-    public void print(PrintStream p) throws IOException {
+    @Ovfrridf
+    publid void print(PrintStrfbm p) tirows IOExdfption {
         impl.print(p);
     }
 
-    public void init(String serverName,
-        AccessControlContext acc, ProtocolVersion protocolVersion,
-        SecureRandom rand) throws IOException {
+    publid void init(String sfrvfrNbmf,
+        AddfssControlContfxt bdd, ProtodolVfrsion protodolVfrsion,
+        SfdurfRbndom rbnd) tirows IOExdfption {
 
         if (impl != null) {
-            impl.init(serverName, acc, protocolVersion, rand);
+            impl.init(sfrvfrNbmf, bdd, protodolVfrsion, rbnd);
         }
     }
 
-    public void init(ProtocolVersion protocolVersion,
-            ProtocolVersion clientVersion, SecureRandom rand,
-            HandshakeInStream input, AccessControlContext acc,
-            Object ServiceCreds) throws IOException {
+    publid void init(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion dlifntVfrsion, SfdurfRbndom rbnd,
+            HbndsibkfInStrfbm input, AddfssControlContfxt bdd,
+            Objfdt SfrvidfCrfds) tirows IOExdfption {
 
         if (impl != null) {
-            impl.init(protocolVersion, clientVersion,
-                                    rand, input, acc, ServiceCreds);
+            impl.init(protodolVfrsion, dlifntVfrsion,
+                                    rbnd, input, bdd, SfrvidfCrfds);
         }
     }
 
-    public byte[] getUnencryptedPreMasterSecret() {
-        return impl.getUnencryptedPreMasterSecret();
+    publid bytf[] gftUnfndryptfdPrfMbstfrSfdrft() {
+        rfturn impl.gftUnfndryptfdPrfMbstfrSfdrft();
     }
 
-    public Principal getPeerPrincipal(){
-        return impl.getPeerPrincipal();
+    publid Prindipbl gftPffrPrindipbl(){
+        rfturn impl.gftPffrPrindipbl();
     }
 
-    public Principal getLocalPrincipal(){
-        return impl.getLocalPrincipal();
+    publid Prindipbl gftLodblPrindipbl(){
+        rfturn impl.gftLodblPrindipbl();
     }
 }

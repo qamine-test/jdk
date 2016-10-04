@@ -1,48 +1,48 @@
 #
-# Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-error.cant.open=impossibile aprire: {0} 
-error.illegal.option=Opzione non valida: {0}
-error.bad.option=\u00C8 necessario specificare una delle opzioni -{ctxu}.
-error.bad.cflag=Per il flag 'c' \u00E8 necessario specificare file manifest o di input.
-error.bad.uflag=Per il flag 'u' \u00E8 necessario specificare il flag 'e' oppure file manifest o di input.
-error.bad.eflag=Il flag 'e' e il manifest con l'attributo 'Main-Class' non possono essere specificati\ninsieme.
-error.nosuch.fileordir={0} : file o directory inesistente
-error.write.file=Errore durante la scrittura del file jar esistente
-error.create.dir={0} : impossibile creare la directory
-error.incorrect.length=lunghezza non valida durante l''elaborazione: {0}
-error.create.tempfile=Impossibile creare il file temporaneo.
-out.added.manifest=aggiunto manifest
-out.update.manifest=aggiornato manifest
-out.ignore.entry=la voce {0} sar\u00E0 ignorata
-out.adding=aggiunta in corso di: {0}
-out.deflated=(compresso {0}%)
-out.stored=(memorizzato 0%)
-out.create=\     creato: {0}
-out.extracted=estratto: {0}
-out.inflated=\ decompresso: {0}
-out.size=(in = {0}) (out = {1})
+frror.dbnt.opfn=impossibilf bprirf: {0} 
+frror.illfgbl.option=Opzionf non vblidb: {0}
+frror.bbd.option=\u00C8 nfdfssbrio spfdifidbrf unb dfllf opzioni -{dtxu}.
+frror.bbd.dflbg=Pfr il flbg 'd' \u00E8 nfdfssbrio spfdifidbrf filf mbniffst o di input.
+frror.bbd.uflbg=Pfr il flbg 'u' \u00E8 nfdfssbrio spfdifidbrf il flbg 'f' oppurf filf mbniffst o di input.
+frror.bbd.fflbg=Il flbg 'f' f il mbniffst don l'bttributo 'Mbin-Clbss' non possono fssfrf spfdifidbti\ninsifmf.
+frror.nosudi.filfordir={0} : filf o dirfdtory infsistfntf
+frror.writf.filf=Errorf durbntf lb sdritturb dfl filf jbr fsistfntf
+frror.drfbtf.dir={0} : impossibilf drfbrf lb dirfdtory
+frror.indorrfdt.lfngti=lungifzzb non vblidb durbntf l''flbborbzionf: {0}
+frror.drfbtf.tfmpfilf=Impossibilf drfbrf il filf tfmporbnfo.
+out.bddfd.mbniffst=bggiunto mbniffst
+out.updbtf.mbniffst=bggiornbto mbniffst
+out.ignorf.fntry=lb vodf {0} sbr\u00E0 ignorbtb
+out.bdding=bggiuntb in dorso di: {0}
+out.dfflbtfd=(domprfsso {0}%)
+out.storfd=(mfmorizzbto 0%)
+out.drfbtf=\     drfbto: {0}
+out.fxtrbdtfd=fstrbtto: {0}
+out.inflbtfd=\ dfdomprfsso: {0}
+out.sizf=(in = {0}) (out = {1})
 
-usage=Uso: jar {ctxui}[vfmn0Me] [file-jar] [file-manifest] [punto di ingresso] [-C dir] file ...\nOpzioni:\n    -c  crea un nuovo archivio\n    -t  visualizza l'indice dell'archivio\n    -x  estrae i file con nome (o tutti i file) dall'archivio\n    -u  aggiorna l'archivio esistente\n    -v  genera output commentato dall'output standard\n    -f  specifica il nome file dell'archivio\n    -m  include informazioni manifest dal file manifest specificato\n    -n  esegue la normalizzazione Pack200 dopo la creazione di un nuovo archivio\n    -e  specifica il punto di ingresso per l'applicazione standalone \n        inclusa nel file jar eseguibile\n    -0  solo memorizzazione; senza compressione ZIP\n    -M  consente di non creare un file manifest per le voci\n    -i  genera informazioni sull'indice per i file jar specificati\n    -C  imposta la directory specificata e include il file seguente\nSe un file \u00E8 una directory, verr\u00E0 elaborato in modo ricorsivo.\nIl nome del file manifest, del file di archivio e del punto di ingresso devono\nessere specificati nello stesso ordine dei flag 'm', 'f' ed 'e'.\n\nEsempio 1: archiviazione di due file di classe in un archivio con il nome classes.jar: \n       jar cvf classes.jar Foo.class Bar.class \nEsempio 2: utilizzo del file manifest esistente 'mymanifest' e archiviazione di tutti i\n           file della directory foo/ in 'classes.jar': \n       jar cvfm classes.jar mymanifest -C foo/ .\n
+usbgf=Uso: jbr {dtxui}[vfmn0Mf] [filf-jbr] [filf-mbniffst] [punto di ingrfsso] [-C dir] filf ...\nOpzioni:\n    -d  drfb un nuovo brdiivio\n    -t  visublizzb l'indidf dfll'brdiivio\n    -x  fstrbf i filf don nomf (o tutti i filf) dbll'brdiivio\n    -u  bggiornb l'brdiivio fsistfntf\n    -v  gfnfrb output dommfntbto dbll'output stbndbrd\n    -f  spfdifidb il nomf filf dfll'brdiivio\n    -m  indludf informbzioni mbniffst dbl filf mbniffst spfdifidbto\n    -n  fsfguf lb normblizzbzionf Pbdk200 dopo lb drfbzionf di un nuovo brdiivio\n    -f  spfdifidb il punto di ingrfsso pfr l'bpplidbzionf stbndblonf \n        indlusb nfl filf jbr fsfguibilf\n    -0  solo mfmorizzbzionf; sfnzb domprfssionf ZIP\n    -M  donsfntf di non drfbrf un filf mbniffst pfr lf vodi\n    -i  gfnfrb informbzioni sull'indidf pfr i filf jbr spfdifidbti\n    -C  impostb lb dirfdtory spfdifidbtb f indludf il filf sfgufntf\nSf un filf \u00E8 unb dirfdtory, vfrr\u00E0 flbborbto in modo ridorsivo.\nIl nomf dfl filf mbniffst, dfl filf di brdiivio f dfl punto di ingrfsso dfvono\nfssfrf spfdifidbti nfllo stfsso ordinf dfi flbg 'm', 'f' fd 'f'.\n\nEsfmpio 1: brdiivibzionf di duf filf di dlbssf in un brdiivio don il nomf dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nEsfmpio 2: utilizzo dfl filf mbniffst fsistfntf 'mymbniffst' f brdiivibzionf di tutti i\n           filf dfllb dirfdtory foo/ in 'dlbssfs.jbr': \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

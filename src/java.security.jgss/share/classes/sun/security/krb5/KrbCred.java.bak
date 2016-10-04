@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.KeyUsage;
-import java.io.IOException;
-import sun.security.util.DerValue;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.DfrVbluf;
 
 /**
- * This class encapsulates the KRB-CRED message that a client uses to
- * send its delegated credentials to a server.
+ * Tiis dlbss fndbpsulbtfs tif KRB-CRED mfssbgf tibt b dlifnt usfs to
+ * sfnd its dflfgbtfd drfdfntibls to b sfrvfr.
  *
- * Supports delegation of one ticket only.
- * @author Mayank Upadhyay
+ * Supports dflfgbtion of onf tidkft only.
+ * @butior Mbybnk Upbdiyby
  */
-public class KrbCred {
+publid dlbss KrbCrfd {
 
-    private static boolean DEBUG = Krb5.DEBUG;
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
 
-    private byte[] obuf = null;
-    private KRBCred credMessg = null;
-    private Ticket ticket = null;
-    private EncKrbCredPart encPart = null;
-    private Credentials creds = null;
-    private KerberosTime timeStamp = null;
+    privbtf bytf[] obuf = null;
+    privbtf KRBCrfd drfdMfssg = null;
+    privbtf Tidkft tidkft = null;
+    privbtf EndKrbCrfdPbrt fndPbrt = null;
+    privbtf Crfdfntibls drfds = null;
+    privbtf KfrbfrosTimf timfStbmp = null;
 
-         // Used in InitialToken with null key
-    public KrbCred(Credentials tgt,
-                   Credentials serviceTicket,
-                   EncryptionKey key)
-        throws KrbException, IOException {
+         // Usfd in InitiblTokfn witi null kfy
+    publid KrbCrfd(Crfdfntibls tgt,
+                   Crfdfntibls sfrvidfTidkft,
+                   EndryptionKfy kfy)
+        tirows KrbExdfption, IOExdfption {
 
-        PrincipalName client = tgt.getClient();
-        PrincipalName tgService = tgt.getServer();
-        PrincipalName server = serviceTicket.getServer();
-        if (!serviceTicket.getClient().equals(client))
-            throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                                "Client principal does not match");
+        PrindipblNbmf dlifnt = tgt.gftClifnt();
+        PrindipblNbmf tgSfrvidf = tgt.gftSfrvfr();
+        PrindipblNbmf sfrvfr = sfrvidfTidkft.gftSfrvfr();
+        if (!sfrvidfTidkft.gftClifnt().fqubls(dlifnt))
+            tirow nfw KrbExdfption(Krb5.KRB_ERR_GENERIC,
+                                "Clifnt prindipbl dofs not mbtdi");
 
-        // XXX Check Windows flag OK-TO-FORWARD-TO
+        // XXX Cifdk Windows flbg OK-TO-FORWARD-TO
 
-        // Invoke TGS-REQ to get a forwarded TGT for the peer
+        // Invokf TGS-REQ to gft b forwbrdfd TGT for tif pffr
 
-        KDCOptions options = new KDCOptions();
-        options.set(KDCOptions.FORWARDED, true);
-        options.set(KDCOptions.FORWARDABLE, true);
+        KDCOptions options = nfw KDCOptions();
+        options.sft(KDCOptions.FORWARDED, truf);
+        options.sft(KDCOptions.FORWARDABLE, truf);
 
-        HostAddresses sAddrs = null;
-        // XXX Also NT_GSS_KRB5_PRINCIPAL can be a host based principal
-        // GSSName.NT_HOSTBASED_SERVICE should display with KRB_NT_SRV_HST
-        if (server.getNameType() == PrincipalName.KRB_NT_SRV_HST)
-            sAddrs=  new HostAddresses(server);
+        HostAddrfssfs sAddrs = null;
+        // XXX Also NT_GSS_KRB5_PRINCIPAL dbn bf b iost bbsfd prindipbl
+        // GSSNbmf.NT_HOSTBASED_SERVICE siould displby witi KRB_NT_SRV_HST
+        if (sfrvfr.gftNbmfTypf() == PrindipblNbmf.KRB_NT_SRV_HST)
+            sAddrs=  nfw HostAddrfssfs(sfrvfr);
 
-        KrbTgsReq tgsReq = new KrbTgsReq(options, tgt, tgService,
+        KrbTgsRfq tgsRfq = nfw KrbTgsRfq(options, tgt, tgSfrvidf,
                                          null, null, null, null, sAddrs, null, null, null);
-        credMessg = createMessage(tgsReq.sendAndGetCreds(), key);
+        drfdMfssg = drfbtfMfssbgf(tgsRfq.sfndAndGftCrfds(), kfy);
 
-        obuf = credMessg.asn1Encode();
+        obuf = drfdMfssg.bsn1Endodf();
     }
 
-    KRBCred createMessage(Credentials delegatedCreds, EncryptionKey key)
-        throws KrbException, IOException {
+    KRBCrfd drfbtfMfssbgf(Crfdfntibls dflfgbtfdCrfds, EndryptionKfy kfy)
+        tirows KrbExdfption, IOExdfption {
 
-        EncryptionKey sessionKey
-            = delegatedCreds.getSessionKey();
-        PrincipalName princ = delegatedCreds.getClient();
-        Realm realm = princ.getRealm();
-        PrincipalName tgService = delegatedCreds.getServer();
+        EndryptionKfy sfssionKfy
+            = dflfgbtfdCrfds.gftSfssionKfy();
+        PrindipblNbmf prind = dflfgbtfdCrfds.gftClifnt();
+        Rfblm rfblm = prind.gftRfblm();
+        PrindipblNbmf tgSfrvidf = dflfgbtfdCrfds.gftSfrvfr();
 
-        KrbCredInfo credInfo = new KrbCredInfo(sessionKey,
-                                               princ, delegatedCreds.flags, delegatedCreds.authTime,
-                                               delegatedCreds.startTime, delegatedCreds.endTime,
-                                               delegatedCreds.renewTill, tgService,
-                                               delegatedCreds.cAddr);
+        KrbCrfdInfo drfdInfo = nfw KrbCrfdInfo(sfssionKfy,
+                                               prind, dflfgbtfdCrfds.flbgs, dflfgbtfdCrfds.butiTimf,
+                                               dflfgbtfdCrfds.stbrtTimf, dflfgbtfdCrfds.fndTimf,
+                                               dflfgbtfdCrfds.rfnfwTill, tgSfrvidf,
+                                               dflfgbtfdCrfds.dAddr);
 
-        timeStamp = KerberosTime.now();
-        KrbCredInfo[] credInfos = {credInfo};
-        EncKrbCredPart encPart =
-            new EncKrbCredPart(credInfos,
-                               timeStamp, null, null, null, null);
+        timfStbmp = KfrbfrosTimf.now();
+        KrbCrfdInfo[] drfdInfos = {drfdInfo};
+        EndKrbCrfdPbrt fndPbrt =
+            nfw EndKrbCrfdPbrt(drfdInfos,
+                               timfStbmp, null, null, null, null);
 
-        EncryptedData encEncPart = new EncryptedData(key,
-            encPart.asn1Encode(), KeyUsage.KU_ENC_KRB_CRED_PART);
+        EndryptfdDbtb fndEndPbrt = nfw EndryptfdDbtb(kfy,
+            fndPbrt.bsn1Endodf(), KfyUsbgf.KU_ENC_KRB_CRED_PART);
 
-        Ticket[] tickets = {delegatedCreds.ticket};
+        Tidkft[] tidkfts = {dflfgbtfdCrfds.tidkft};
 
-        credMessg = new KRBCred(tickets, encEncPart);
+        drfdMfssg = nfw KRBCrfd(tidkfts, fndEndPbrt);
 
-        return credMessg;
+        rfturn drfdMfssg;
     }
 
-    // Used in InitialToken, NULL_KEY might be used
-    public KrbCred(byte[] asn1Message, EncryptionKey key)
-        throws KrbException, IOException {
+    // Usfd in InitiblTokfn, NULL_KEY migit bf usfd
+    publid KrbCrfd(bytf[] bsn1Mfssbgf, EndryptionKfy kfy)
+        tirows KrbExdfption, IOExdfption {
 
-        credMessg = new KRBCred(asn1Message);
+        drfdMfssg = nfw KRBCrfd(bsn1Mfssbgf);
 
-        ticket = credMessg.tickets[0];
+        tidkft = drfdMfssg.tidkfts[0];
 
-        if (credMessg.encPart.getEType() == 0) {
-            key = EncryptionKey.NULL_KEY;
+        if (drfdMfssg.fndPbrt.gftETypf() == 0) {
+            kfy = EndryptionKfy.NULL_KEY;
         }
-        byte[] temp = credMessg.encPart.decrypt(key,
-            KeyUsage.KU_ENC_KRB_CRED_PART);
-        byte[] plainText = credMessg.encPart.reset(temp);
-        DerValue encoding = new DerValue(plainText);
-        EncKrbCredPart encPart = new EncKrbCredPart(encoding);
+        bytf[] tfmp = drfdMfssg.fndPbrt.dfdrypt(kfy,
+            KfyUsbgf.KU_ENC_KRB_CRED_PART);
+        bytf[] plbinTfxt = drfdMfssg.fndPbrt.rfsft(tfmp);
+        DfrVbluf fndoding = nfw DfrVbluf(plbinTfxt);
+        EndKrbCrfdPbrt fndPbrt = nfw EndKrbCrfdPbrt(fndoding);
 
-        timeStamp = encPart.timeStamp;
+        timfStbmp = fndPbrt.timfStbmp;
 
-        KrbCredInfo credInfo = encPart.ticketInfo[0];
-        EncryptionKey credInfoKey = credInfo.key;
-        PrincipalName pname = credInfo.pname;
-        TicketFlags flags = credInfo.flags;
-        KerberosTime authtime = credInfo.authtime;
-        KerberosTime starttime = credInfo.starttime;
-        KerberosTime endtime = credInfo.endtime;
-        KerberosTime renewTill = credInfo.renewTill;
-        PrincipalName sname = credInfo.sname;
-        HostAddresses caddr = credInfo.caddr;
+        KrbCrfdInfo drfdInfo = fndPbrt.tidkftInfo[0];
+        EndryptionKfy drfdInfoKfy = drfdInfo.kfy;
+        PrindipblNbmf pnbmf = drfdInfo.pnbmf;
+        TidkftFlbgs flbgs = drfdInfo.flbgs;
+        KfrbfrosTimf butitimf = drfdInfo.butitimf;
+        KfrbfrosTimf stbrttimf = drfdInfo.stbrttimf;
+        KfrbfrosTimf fndtimf = drfdInfo.fndtimf;
+        KfrbfrosTimf rfnfwTill = drfdInfo.rfnfwTill;
+        PrindipblNbmf snbmf = drfdInfo.snbmf;
+        HostAddrfssfs dbddr = drfdInfo.dbddr;
 
         if (DEBUG) {
-            System.out.println(">>>Delegated Creds have pname=" + pname
-                               + " sname=" + sname
-                               + " authtime=" + authtime
-                               + " starttime=" + starttime
-                               + " endtime=" + endtime
-                               + "renewTill=" + renewTill);
+            Systfm.out.println(">>>Dflfgbtfd Crfds ibvf pnbmf=" + pnbmf
+                               + " snbmf=" + snbmf
+                               + " butitimf=" + butitimf
+                               + " stbrttimf=" + stbrttimf
+                               + " fndtimf=" + fndtimf
+                               + "rfnfwTill=" + rfnfwTill);
         }
-        creds = new Credentials(ticket, pname, sname, credInfoKey,
-                                flags, authtime, starttime, endtime, renewTill, caddr);
+        drfds = nfw Crfdfntibls(tidkft, pnbmf, snbmf, drfdInfoKfy,
+                                flbgs, butitimf, stbrttimf, fndtimf, rfnfwTill, dbddr);
     }
 
     /**
-     * Returns the delegated credentials from the peer.
+     * Rfturns tif dflfgbtfd drfdfntibls from tif pffr.
      */
-    public Credentials[] getDelegatedCreds() {
+    publid Crfdfntibls[] gftDflfgbtfdCrfds() {
 
-        Credentials[] allCreds = {creds};
-        return allCreds;
+        Crfdfntibls[] bllCrfds = {drfds};
+        rfturn bllCrfds;
     }
 
     /**
-     * Returns the ASN.1 encoding that should be sent to the peer.
+     * Rfturns tif ASN.1 fndoding tibt siould bf sfnt to tif pffr.
      */
-    public byte[] getMessage() {
-        return obuf;
+    publid bytf[] gftMfssbgf() {
+        rfturn obuf;
     }
 }

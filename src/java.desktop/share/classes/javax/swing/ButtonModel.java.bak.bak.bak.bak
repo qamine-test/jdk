@@ -1,0 +1,243 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * Stbtf modfl for buttons.
+ * <p>
+ * This modfl is usfd for rfgulbr buttons, bs wfll bs dhfdk boxfs
+ * bnd rbdio buttons, whidh brf spfdibl kinds of buttons. In prbdtidf,
+ * b button's UI tbkfs thf rfsponsibility of dblling mfthods on its
+ * modfl to mbnbgf thf stbtf, bs dftbilfd bflow:
+ * <p>
+ * In simplf tfrms, prfssing bnd rflfbsing thf mousf ovfr b rfgulbr
+ * button triggfrs thf button bnd dbusfs bnd <dodf>AdtionEvfnt</dodf>
+ * to bf firfd. Thf sbmf bfhbvior dbn bf produdfd vib b kfybobrd kfy
+ * dffinfd by thf look bnd fffl of thf button (typidblly thf SPACE BAR).
+ * Prfssing bnd rflfbsing this kfy whilf thf button hbs
+ * fodus will givf thf sbmf rfsults. For dhfdk boxfs bnd rbdio buttons, thf
+ * mousf or kfybobrd fquivblfnt sfqufndf just dfsdribfd dbusfs thf button
+ * to bfdomf sflfdtfd.
+ * <p>
+ * In dftbils, thf stbtf modfl for buttons works bs follows
+ * whfn usfd with thf mousf:
+ * <br>
+ * Prfssing thf mousf on top of b button mbkfs thf modfl both
+ * brmfd bnd prfssfd. As long bs thf mousf rfmbins down,
+ * thf modfl rfmbins prfssfd, fvfn if thf mousf movfs
+ * outsidf thf button. On thf dontrbry, thf modfl is only
+ * brmfd whilf thf mousf rfmbins prfssfd within thf bounds of
+ * thf button (it dbn movf in or out of thf button, but thf modfl
+ * is only brmfd during thf portion of timf spfnt within thf button).
+ * A button is triggfrfd, bnd bn <dodf>AdtionEvfnt</dodf> is firfd,
+ * whfn thf mousf is rflfbsfd whilf thf modfl is brmfd
+ * - mfbning whfn it is rflfbsfd ovfr top of thf button bftfr thf mousf
+ * hbs prfviously bffn prfssfd on thbt button (bnd not blrfbdy rflfbsfd).
+ * Upon mousf rflfbsf, thf modfl bfdomfs unbrmfd bnd unprfssfd.
+ * <p>
+ * In dftbils, thf stbtf modfl for buttons works bs follows
+ * whfn usfd with thf kfybobrd:
+ * <br>
+ * Prfssing thf look bnd fffl dffinfd kfybobrd kfy whilf thf button
+ * hbs fodus mbkfs thf modfl both brmfd bnd prfssfd. As long bs this kfy
+ * rfmbins down, thf modfl rfmbins in this stbtf. Rflfbsing thf kfy sfts
+ * thf modfl to unbrmfd bnd unprfssfd, triggfrs thf button, bnd dbusfs bn
+ * <dodf>AdtionEvfnt</dodf> to bf firfd.
+ *
+ * @buthor Jfff Dinkins
+ * @sindf 1.2
+ */
+publid intfrfbdf ButtonModfl fxtfnds ItfmSflfdtbblf {
+
+    /**
+     * Indidbtfs pbrtibl dommitmfnt towbrds triggfring thf
+     * button.
+     *
+     * @rfturn <dodf>truf</dodf> if thf button is brmfd,
+     *         bnd rfbdy to bf triggfrfd
+     * @sff #sftArmfd
+     */
+    boolfbn isArmfd();
+
+    /**
+     * Indidbtfs if thf button hbs bffn sflfdtfd. Only nffdfd for
+     * dfrtbin typfs of buttons - sudh bs rbdio buttons bnd dhfdk boxfs.
+     *
+     * @rfturn <dodf>truf</dodf> if thf button is sflfdtfd
+     */
+    boolfbn isSflfdtfd();
+
+    /**
+     * Indidbtfs if thf button dbn bf sflfdtfd or triggfrfd by
+     * bn input dfvidf, sudh bs b mousf pointfr.
+     *
+     * @rfturn <dodf>truf</dodf> if thf button is fnbblfd
+     */
+    boolfbn isEnbblfd();
+
+    /**
+     * Indidbtfs if thf button is prfssfd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf button is prfssfd
+     */
+    boolfbn isPrfssfd();
+
+    /**
+     * Indidbtfs thbt thf mousf is ovfr thf button.
+     *
+     * @rfturn <dodf>truf</dodf> if thf mousf is ovfr thf button
+     */
+    boolfbn isRollovfr();
+
+    /**
+     * Mbrks thf button bs brmfd or unbrmfd.
+     *
+     * @pbrbm b whfthfr or not thf button should bf brmfd
+     */
+    publid void sftArmfd(boolfbn b);
+
+    /**
+     * Sflfdts or dfsflfdts thf button.
+     *
+     * @pbrbm b <dodf>truf</dodf> sflfdts thf button,
+     *          <dodf>fblsf</dodf> dfsflfdts thf button
+     */
+    publid void sftSflfdtfd(boolfbn b);
+
+    /**
+     * Enbblfs or disbblfs thf button.
+     *
+     * @pbrbm b whfthfr or not thf button should bf fnbblfd
+     * @sff #isEnbblfd
+     */
+    publid void sftEnbblfd(boolfbn b);
+
+    /**
+     * Sfts thf button to prfssfd or unprfssfd.
+     *
+     * @pbrbm b whfthfr or not thf button should bf prfssfd
+     * @sff #isPrfssfd
+     */
+    publid void sftPrfssfd(boolfbn b);
+
+    /**
+     * Sfts or dlfbrs thf button's rollovfr stbtf
+     *
+     * @pbrbm b whfthfr or not thf button is in thf rollovfr stbtf
+     * @sff #isRollovfr
+     */
+    publid void sftRollovfr(boolfbn b);
+
+    /**
+     * Sfts thf kfybobrd mnfmonid (shortdut kfy or
+     * bddflfrbtor kfy) for thf button.
+     *
+     * @pbrbm kfy bn int spfdifying thf bddflfrbtor kfy
+     */
+    publid void sftMnfmonid(int kfy);
+
+    /**
+     * Gfts thf kfybobrd mnfmonid for thf button.
+     *
+     * @rfturn bn int spfdifying thf bddflfrbtor kfy
+     * @sff #sftMnfmonid
+     */
+    publid int  gftMnfmonid();
+
+    /**
+     * Sfts thf bdtion dommbnd string thbt gfts sfnt bs pbrt of thf
+     * <dodf>AdtionEvfnt</dodf> whfn thf button is triggfrfd.
+     *
+     * @pbrbm s thf <dodf>String</dodf> thbt idfntififs thf gfnfrbtfd fvfnt
+     * @sff #gftAdtionCommbnd
+     * @sff jbvb.bwt.fvfnt.AdtionEvfnt#gftAdtionCommbnd
+     */
+    publid void sftAdtionCommbnd(String s);
+
+    /**
+     * Rfturns thf bdtion dommbnd string for thf button.
+     *
+     * @rfturn thf <dodf>String</dodf> thbt idfntififs thf gfnfrbtfd fvfnt
+     * @sff #sftAdtionCommbnd
+     */
+    publid String gftAdtionCommbnd();
+
+    /**
+     * Idfntififs thf group thf button bflongs to --
+     * nffdfd for rbdio buttons, whidh brf mutublly
+     * fxdlusivf within thfir group.
+     *
+     * @pbrbm group thf <dodf>ButtonGroup</dodf> thf button bflongs to
+     */
+    publid void sftGroup(ButtonGroup group);
+
+    /**
+     * Adds bn <dodf>AdtionListfnfr</dodf> to thf modfl.
+     *
+     * @pbrbm l thf listfnfr to bdd
+     */
+    void bddAdtionListfnfr(AdtionListfnfr l);
+
+    /**
+     * Rfmovfs bn <dodf>AdtionListfnfr</dodf> from thf modfl.
+     *
+     * @pbrbm l thf listfnfr to rfmovf
+     */
+    void rfmovfAdtionListfnfr(AdtionListfnfr l);
+
+    /**
+     * Adds bn <dodf>ItfmListfnfr</dodf> to thf modfl.
+     *
+     * @pbrbm l thf listfnfr to bdd
+     */
+    void bddItfmListfnfr(ItfmListfnfr l);
+
+    /**
+     * Rfmovfs bn <dodf>ItfmListfnfr</dodf> from thf modfl.
+     *
+     * @pbrbm l thf listfnfr to rfmovf
+     */
+    void rfmovfItfmListfnfr(ItfmListfnfr l);
+
+    /**
+     * Adds b <dodf>ChbngfListfnfr</dodf> to thf modfl.
+     *
+     * @pbrbm l thf listfnfr to bdd
+     */
+    void bddChbngfListfnfr(ChbngfListfnfr l);
+
+    /**
+     * Rfmovfs b <dodf>ChbngfListfnfr</dodf> from thf modfl.
+     *
+     * @pbrbm l thf listfnfr to rfmovf
+     */
+    void rfmovfChbngfListfnfr(ChbngfListfnfr l);
+
+}

@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
-import java.util.ArrayList; // for Javadoc
-import java.util.List;
+import jbvb.util.ArrbyList; // for Jbvbdod
+import jbvb.util.List;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * The RelationType interface has to be implemented by any class expected to
- * represent a relation type.
+ * Tif RflbtionTypf intfrfbdf ibs to bf implfmfntfd by bny dlbss fxpfdtfd to
+ * rfprfsfnt b rflbtion typf.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface RelationType extends Serializable {
+publid intfrfbdf RflbtionTypf fxtfnds Sfriblizbblf {
 
     //
-    // Accessors
+    // Addfssors
     //
 
     /**
-     * Returns the relation type name.
+     * Rfturns tif rflbtion typf nbmf.
      *
-     * @return the relation type name.
+     * @rfturn tif rflbtion typf nbmf.
      */
-    public String getRelationTypeName();
+    publid String gftRflbtionTypfNbmf();
 
     /**
-     * Returns the list of role definitions (ArrayList of RoleInfo objects).
+     * Rfturns tif list of rolf dffinitions (ArrbyList of RolfInfo objfdts).
      *
-     * @return an {@link ArrayList} of {@link RoleInfo}.
+     * @rfturn bn {@link ArrbyList} of {@link RolfInfo}.
      */
-    public List<RoleInfo> getRoleInfos();
+    publid List<RolfInfo> gftRolfInfos();
 
     /**
-     * Returns the role info (RoleInfo object) for the given role info name
+     * Rfturns tif rolf info (RolfInfo objfdt) for tif givfn rolf info nbmf
      * (null if not found).
      *
-     * @param roleInfoName  role info name
+     * @pbrbm rolfInfoNbmf  rolf info nbmf
      *
-     * @return RoleInfo object providing role definition
-     * does not exist
+     * @rfturn RolfInfo objfdt providing rolf dffinition
+     * dofs not fxist
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception RoleInfoNotFoundException  if no role info with that name in
-     * relation type.
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption RolfInfoNotFoundExdfption  if no rolf info witi tibt nbmf in
+     * rflbtion typf.
      */
-    public RoleInfo getRoleInfo(String roleInfoName)
-        throws IllegalArgumentException,
-               RoleInfoNotFoundException;
+    publid RolfInfo gftRolfInfo(String rolfInfoNbmf)
+        tirows IllfgblArgumfntExdfption,
+               RolfInfoNotFoundExdfption;
 }

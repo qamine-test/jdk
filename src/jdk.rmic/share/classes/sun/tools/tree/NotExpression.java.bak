@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class NotExpression extends UnaryExpression {
+publid
+dlbss NotExprfssion fxtfnds UnbryExprfssion {
     /**
-     * Constructor
+     * Construdtor
      */
-    public NotExpression(long where, Expression right) {
-        super(NOT, where, Type.tBoolean, right);
+    publid NotExprfssion(long wifrf, Exprfssion rigit) {
+        supfr(NOT, wifrf, Typf.tBoolfbn, rigit);
     }
 
     /**
-     * Select the type of the expression
+     * Sflfdt tif typf of tif fxprfssion
      */
-    void selectType(Environment env, Context ctx, int tm) {
-        right = convert(env, ctx, Type.tBoolean, right);
+    void sflfdtTypf(Environmfnt fnv, Contfxt dtx, int tm) {
+        rigit = donvfrt(fnv, dtx, Typf.tBoolfbn, rigit);
     }
 
     /*
-     * Check a "not" expression.
+     * Cifdk b "not" fxprfssion.
      *
-     * cvars is modified so that
-     *    cvar.vsTrue indicates variables with a known value if
-     *         the expression is true.
-     *    cvars.vsFalse indicates variables with a known value if
-     *         the expression is false
+     * dvbrs is modififd so tibt
+     *    dvbr.vsTruf indidbtfs vbribblfs witi b known vbluf if
+     *         tif fxprfssion is truf.
+     *    dvbrs.vsFblsf indidbtfs vbribblfs witi b known vbluf if
+     *         tif fxprfssion is fblsf
      *
-     * For "not" expressions, we look at the inside expression, and then
-     * swap true and false.
+     * For "not" fxprfssions, wf look bt tif insidf fxprfssion, bnd tifn
+     * swbp truf bnd fblsf.
      */
 
-    public void checkCondition(Environment env, Context ctx, Vset vset,
-                               Hashtable<Object, Object> exp, ConditionVars cvars) {
-        right.checkCondition(env, ctx, vset, exp, cvars);
-        right = convert(env, ctx, Type.tBoolean, right);
-        // swap true and false
-        Vset temp = cvars.vsFalse;
-        cvars.vsFalse = cvars.vsTrue;
-        cvars.vsTrue = temp;
+    publid void difdkCondition(Environmfnt fnv, Contfxt dtx, Vsft vsft,
+                               Hbsitbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+        rigit.difdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        rigit = donvfrt(fnv, dtx, Typf.tBoolfbn, rigit);
+        // swbp truf bnd fblsf
+        Vsft tfmp = dvbrs.vsFblsf;
+        dvbrs.vsFblsf = dvbrs.vsTruf;
+        dvbrs.vsTruf = tfmp;
     }
 
     /**
-     * Evaluate
+     * Evblubtf
      */
-    Expression eval(boolean a) {
-        return new BooleanExpression(where, !a);
+    Exprfssion fvbl(boolfbn b) {
+        rfturn nfw BoolfbnExprfssion(wifrf, !b);
     }
 
     /**
      * Simplify
      */
-    Expression simplify() {
-        // Check if the expression can be optimized
-        switch (right.op) {
-          case NOT:
-            return ((NotExpression)right).right;
+    Exprfssion simplify() {
+        // Cifdk if tif fxprfssion dbn bf optimizfd
+        switdi (rigit.op) {
+          dbsf NOT:
+            rfturn ((NotExprfssion)rigit).rigit;
 
-          case EQ:
-          case NE:
-          case LT:
-          case LE:
-          case GT:
-          case GE:
-            break;
+          dbsf EQ:
+          dbsf NE:
+          dbsf LT:
+          dbsf LE:
+          dbsf GT:
+          dbsf GE:
+            brfbk;
 
-          default:
-            return this;
+          dffbult:
+            rfturn tiis;
         }
 
-        // Can't negate real comparisons
-        BinaryExpression bin = (BinaryExpression)right;
-        if (bin.left.type.inMask(TM_REAL)) {
-            return this;
+        // Cbn't nfgbtf rfbl dompbrisons
+        BinbryExprfssion bin = (BinbryExprfssion)rigit;
+        if (bin.lfft.typf.inMbsk(TM_REAL)) {
+            rfturn tiis;
         }
 
-        // Negate comparison
-        switch (right.op) {
-          case EQ:
-            return new NotEqualExpression(where, bin.left, bin.right);
-          case NE:
-            return new EqualExpression(where, bin.left, bin.right);
-          case LT:
-            return new GreaterOrEqualExpression(where, bin.left, bin.right);
-          case LE:
-            return new GreaterExpression(where, bin.left, bin.right);
-          case GT:
-            return new LessOrEqualExpression(where, bin.left, bin.right);
-          case GE:
-            return new LessExpression(where, bin.left, bin.right);
+        // Nfgbtf dompbrison
+        switdi (rigit.op) {
+          dbsf EQ:
+            rfturn nfw NotEqublExprfssion(wifrf, bin.lfft, bin.rigit);
+          dbsf NE:
+            rfturn nfw EqublExprfssion(wifrf, bin.lfft, bin.rigit);
+          dbsf LT:
+            rfturn nfw GrfbtfrOrEqublExprfssion(wifrf, bin.lfft, bin.rigit);
+          dbsf LE:
+            rfturn nfw GrfbtfrExprfssion(wifrf, bin.lfft, bin.rigit);
+          dbsf GT:
+            rfturn nfw LfssOrEqublExprfssion(wifrf, bin.lfft, bin.rigit);
+          dbsf GE:
+            rfturn nfw LfssExprfssion(wifrf, bin.lfft, bin.rigit);
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Code
+     * Codf
      */
-    void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
-        right.codeBranch(env, ctx, asm, lbl, !whenTrue);
+    void dodfBrbndi(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn wifnTruf) {
+        rigit.dodfBrbndi(fnv, dtx, bsm, lbl, !wifnTruf);
     }
 
     /**
-     * Instead of relying on the default code generation which uses
-     * conditional branching, generate a simpler stream using XOR.
+     * Instfbd of rflying on tif dffbult dodf gfnfrbtion wiidi usfs
+     * donditionbl brbndiing, gfnfrbtf b simplfr strfbm using XOR.
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        right.codeValue(env, ctx, asm);
-        asm.add(where, opc_ldc, 1);
-        asm.add(where, opc_ixor);
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        rigit.dodfVbluf(fnv, dtx, bsm);
+        bsm.bdd(wifrf, opd_ldd, 1);
+        bsm.bdd(wifrf, opd_ixor);
     }
 
 }

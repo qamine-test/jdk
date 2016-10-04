@@ -1,292 +1,292 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.ByteArrayOutputStream;
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.io.CharArrayWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException ;
-import java.util.BitSet;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetBooleanAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.CibrArrbyWritfr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.IllfgblCibrsftNbmfExdfption;
+import jbvb.nio.dibrsft.UnsupportfdCibrsftExdfption ;
+import jbvb.util.BitSft;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * Utility class for HTML form encoding. This class contains static methods
- * for converting a String to the <CODE>application/x-www-form-urlencoded</CODE> MIME
- * format. For more information about HTML form encoding, consult the HTML
- * <A HREF="http://www.w3.org/TR/html4/">specification</A>.
+ * Utility dlbss for HTML form fndoding. Tiis dlbss dontbins stbtid mftiods
+ * for donvfrting b String to tif <CODE>bpplidbtion/x-www-form-urlfndodfd</CODE> MIME
+ * formbt. For morf informbtion bbout HTML form fndoding, donsult tif HTML
+ * <A HREF="ittp://www.w3.org/TR/itml4/">spfdifidbtion</A>.
  *
  * <p>
- * When encoding a String, the following rules apply:
+ * Wifn fndoding b String, tif following rulfs bpply:
  *
  * <ul>
- * <li>The alphanumeric characters &quot;{@code a}&quot; through
- *     &quot;{@code z}&quot;, &quot;{@code A}&quot; through
- *     &quot;{@code Z}&quot; and &quot;{@code 0}&quot;
- *     through &quot;{@code 9}&quot; remain the same.
- * <li>The special characters &quot;{@code .}&quot;,
- *     &quot;{@code -}&quot;, &quot;{@code *}&quot;, and
- *     &quot;{@code _}&quot; remain the same.
- * <li>The space character &quot; &nbsp; &quot; is
- *     converted into a plus sign &quot;{@code +}&quot;.
- * <li>All other characters are unsafe and are first converted into
- *     one or more bytes using some encoding scheme. Then each byte is
- *     represented by the 3-character string
- *     &quot;<i>{@code %xy}</i>&quot;, where <i>xy</i> is the
- *     two-digit hexadecimal representation of the byte.
- *     The recommended encoding scheme to use is UTF-8. However,
- *     for compatibility reasons, if an encoding is not specified,
- *     then the default encoding of the platform is used.
+ * <li>Tif blpibnumfrid dibrbdtfrs &quot;{@dodf b}&quot; tirougi
+ *     &quot;{@dodf z}&quot;, &quot;{@dodf A}&quot; tirougi
+ *     &quot;{@dodf Z}&quot; bnd &quot;{@dodf 0}&quot;
+ *     tirougi &quot;{@dodf 9}&quot; rfmbin tif sbmf.
+ * <li>Tif spfdibl dibrbdtfrs &quot;{@dodf .}&quot;,
+ *     &quot;{@dodf -}&quot;, &quot;{@dodf *}&quot;, bnd
+ *     &quot;{@dodf _}&quot; rfmbin tif sbmf.
+ * <li>Tif spbdf dibrbdtfr &quot; &nbsp; &quot; is
+ *     donvfrtfd into b plus sign &quot;{@dodf +}&quot;.
+ * <li>All otifr dibrbdtfrs brf unsbff bnd brf first donvfrtfd into
+ *     onf or morf bytfs using somf fndoding sdifmf. Tifn fbdi bytf is
+ *     rfprfsfntfd by tif 3-dibrbdtfr string
+ *     &quot;<i>{@dodf %xy}</i>&quot;, wifrf <i>xy</i> is tif
+ *     two-digit ifxbdfdimbl rfprfsfntbtion of tif bytf.
+ *     Tif rfdommfndfd fndoding sdifmf to usf is UTF-8. Howfvfr,
+ *     for dompbtibility rfbsons, if bn fndoding is not spfdififd,
+ *     tifn tif dffbult fndoding of tif plbtform is usfd.
  * </ul>
  *
  * <p>
- * For example using UTF-8 as the encoding scheme the string &quot;The
- * string &#252;@foo-bar&quot; would get converted to
- * &quot;The+string+%C3%BC%40foo-bar&quot; because in UTF-8 the character
- * &#252; is encoded as two bytes C3 (hex) and BC (hex), and the
- * character @ is encoded as one byte 40 (hex).
+ * For fxbmplf using UTF-8 bs tif fndoding sdifmf tif string &quot;Tif
+ * string &#252;@foo-bbr&quot; would gft donvfrtfd to
+ * &quot;Tif+string+%C3%BC%40foo-bbr&quot; bfdbusf in UTF-8 tif dibrbdtfr
+ * &#252; is fndodfd bs two bytfs C3 (ifx) bnd BC (ifx), bnd tif
+ * dibrbdtfr @ is fndodfd bs onf bytf 40 (ifx).
  *
- * @author  Herb Jellinek
- * @since   1.0
+ * @butior  Hfrb Jfllinfk
+ * @sindf   1.0
  */
-public class URLEncoder {
-    static BitSet dontNeedEncoding;
-    static final int caseDiff = ('a' - 'A');
-    static String dfltEncName = null;
+publid dlbss URLEndodfr {
+    stbtid BitSft dontNffdEndoding;
+    stbtid finbl int dbsfDiff = ('b' - 'A');
+    stbtid String dfltEndNbmf = null;
 
-    static {
+    stbtid {
 
-        /* The list of characters that are not encoded has been
-         * determined as follows:
+        /* Tif list of dibrbdtfrs tibt brf not fndodfd ibs bffn
+         * dftfrminfd bs follows:
          *
-         * RFC 2396 states:
+         * RFC 2396 stbtfs:
          * -----
-         * Data characters that are allowed in a URI but do not have a
-         * reserved purpose are called unreserved.  These include upper
-         * and lower case letters, decimal digits, and a limited set of
-         * punctuation marks and symbols.
+         * Dbtb dibrbdtfrs tibt brf bllowfd in b URI but do not ibvf b
+         * rfsfrvfd purposf brf dbllfd unrfsfrvfd.  Tifsf indludf uppfr
+         * bnd lowfr dbsf lfttfrs, dfdimbl digits, bnd b limitfd sft of
+         * pundtubtion mbrks bnd symbols.
          *
-         * unreserved  = alphanum | mark
+         * unrfsfrvfd  = blpibnum | mbrk
          *
-         * mark        = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+         * mbrk        = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
          *
-         * Unreserved characters can be escaped without changing the
-         * semantics of the URI, but this should not be done unless the
-         * URI is being used in a context that does not allow the
-         * unescaped character to appear.
+         * Unrfsfrvfd dibrbdtfrs dbn bf fsdbpfd witiout dibnging tif
+         * sfmbntids of tif URI, but tiis siould not bf donf unlfss tif
+         * URI is bfing usfd in b dontfxt tibt dofs not bllow tif
+         * unfsdbpfd dibrbdtfr to bppfbr.
          * -----
          *
-         * It appears that both Netscape and Internet Explorer escape
-         * all special characters from this list with the exception
-         * of "-", "_", ".", "*". While it is not clear why they are
-         * escaping the other characters, perhaps it is safest to
-         * assume that there might be contexts in which the others
-         * are unsafe if not escaped. Therefore, we will use the same
-         * list. It is also noteworthy that this is consistent with
-         * O'Reilly's "HTML: The Definitive Guide" (page 164).
+         * It bppfbrs tibt boti Nftsdbpf bnd Intfrnft Explorfr fsdbpf
+         * bll spfdibl dibrbdtfrs from tiis list witi tif fxdfption
+         * of "-", "_", ".", "*". Wiilf it is not dlfbr wiy tify brf
+         * fsdbping tif otifr dibrbdtfrs, pfribps it is sbffst to
+         * bssumf tibt tifrf migit bf dontfxts in wiidi tif otifrs
+         * brf unsbff if not fsdbpfd. Tifrfforf, wf will usf tif sbmf
+         * list. It is blso notfwortiy tibt tiis is donsistfnt witi
+         * O'Rfilly's "HTML: Tif Dffinitivf Guidf" (pbgf 164).
          *
-         * As a last note, Intenet Explorer does not encode the "@"
-         * character which is clearly not unreserved according to the
-         * RFC. We are being consistent with the RFC in this matter,
-         * as is Netscape.
+         * As b lbst notf, Intfnft Explorfr dofs not fndodf tif "@"
+         * dibrbdtfr wiidi is dlfbrly not unrfsfrvfd bddording to tif
+         * RFC. Wf brf bfing donsistfnt witi tif RFC in tiis mbttfr,
+         * bs is Nftsdbpf.
          *
          */
 
-        dontNeedEncoding = new BitSet(256);
+        dontNffdEndoding = nfw BitSft(256);
         int i;
-        for (i = 'a'; i <= 'z'; i++) {
-            dontNeedEncoding.set(i);
+        for (i = 'b'; i <= 'z'; i++) {
+            dontNffdEndoding.sft(i);
         }
         for (i = 'A'; i <= 'Z'; i++) {
-            dontNeedEncoding.set(i);
+            dontNffdEndoding.sft(i);
         }
         for (i = '0'; i <= '9'; i++) {
-            dontNeedEncoding.set(i);
+            dontNffdEndoding.sft(i);
         }
-        dontNeedEncoding.set(' '); /* encoding a space to a + is done
-                                    * in the encode() method */
-        dontNeedEncoding.set('-');
-        dontNeedEncoding.set('_');
-        dontNeedEncoding.set('.');
-        dontNeedEncoding.set('*');
+        dontNffdEndoding.sft(' '); /* fndoding b spbdf to b + is donf
+                                    * in tif fndodf() mftiod */
+        dontNffdEndoding.sft('-');
+        dontNffdEndoding.sft('_');
+        dontNffdEndoding.sft('.');
+        dontNffdEndoding.sft('*');
 
-        dfltEncName = AccessController.doPrivileged(
-            new GetPropertyAction("file.encoding")
+        dfltEndNbmf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("filf.fndoding")
         );
     }
 
     /**
-     * You can't call the constructor.
+     * You dbn't dbll tif donstrudtor.
      */
-    private URLEncoder() { }
+    privbtf URLEndodfr() { }
 
     /**
-     * Translates a string into {@code x-www-form-urlencoded}
-     * format. This method uses the platform's default encoding
-     * as the encoding scheme to obtain the bytes for unsafe characters.
+     * Trbnslbtfs b string into {@dodf x-www-form-urlfndodfd}
+     * formbt. Tiis mftiod usfs tif plbtform's dffbult fndoding
+     * bs tif fndoding sdifmf to obtbin tif bytfs for unsbff dibrbdtfrs.
      *
-     * @param   s   {@code String} to be translated.
-     * @deprecated The resulting string may vary depending on the platform's
-     *             default encoding. Instead, use the encode(String,String)
-     *             method to specify the encoding.
-     * @return  the translated {@code String}.
+     * @pbrbm   s   {@dodf String} to bf trbnslbtfd.
+     * @dfprfdbtfd Tif rfsulting string mby vbry dfpfnding on tif plbtform's
+     *             dffbult fndoding. Instfbd, usf tif fndodf(String,String)
+     *             mftiod to spfdify tif fndoding.
+     * @rfturn  tif trbnslbtfd {@dodf String}.
      */
-    @Deprecated
-    public static String encode(String s) {
+    @Dfprfdbtfd
+    publid stbtid String fndodf(String s) {
 
         String str = null;
 
         try {
-            str = encode(s, dfltEncName);
-        } catch (UnsupportedEncodingException e) {
-            // The system should always have the platform default
+            str = fndodf(s, dfltEndNbmf);
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            // Tif systfm siould blwbys ibvf tif plbtform dffbult
         }
 
-        return str;
+        rfturn str;
     }
 
     /**
-     * Translates a string into {@code application/x-www-form-urlencoded}
-     * format using a specific encoding scheme. This method uses the
-     * supplied encoding scheme to obtain the bytes for unsafe
-     * characters.
+     * Trbnslbtfs b string into {@dodf bpplidbtion/x-www-form-urlfndodfd}
+     * formbt using b spfdifid fndoding sdifmf. Tiis mftiod usfs tif
+     * supplifd fndoding sdifmf to obtbin tif bytfs for unsbff
+     * dibrbdtfrs.
      * <p>
-     * <em><strong>Note:</strong> The <a href=
-     * "http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
-     * World Wide Web Consortium Recommendation</a> states that
-     * UTF-8 should be used. Not doing so may introduce
-     * incompatibilities.</em>
+     * <fm><strong>Notf:</strong> Tif <b irff=
+     * "ittp://www.w3.org/TR/itml40/bppfndix/notfs.itml#non-bsdii-dibrs">
+     * World Widf Wfb Consortium Rfdommfndbtion</b> stbtfs tibt
+     * UTF-8 siould bf usfd. Not doing so mby introdudf
+     * indompbtibilitifs.</fm>
      *
-     * @param   s   {@code String} to be translated.
-     * @param   enc   The name of a supported
-     *    <a href="../lang/package-summary.html#charenc">character
-     *    encoding</a>.
-     * @return  the translated {@code String}.
-     * @exception  UnsupportedEncodingException
-     *             If the named encoding is not supported
-     * @see URLDecoder#decode(java.lang.String, java.lang.String)
-     * @since 1.4
+     * @pbrbm   s   {@dodf String} to bf trbnslbtfd.
+     * @pbrbm   fnd   Tif nbmf of b supportfd
+     *    <b irff="../lbng/pbdkbgf-summbry.itml#dibrfnd">dibrbdtfr
+     *    fndoding</b>.
+     * @rfturn  tif trbnslbtfd {@dodf String}.
+     * @fxdfption  UnsupportfdEndodingExdfption
+     *             If tif nbmfd fndoding is not supportfd
+     * @sff URLDfdodfr#dfdodf(jbvb.lbng.String, jbvb.lbng.String)
+     * @sindf 1.4
      */
-    public static String encode(String s, String enc)
-        throws UnsupportedEncodingException {
+    publid stbtid String fndodf(String s, String fnd)
+        tirows UnsupportfdEndodingExdfption {
 
-        boolean needToChange = false;
-        StringBuilder out = new StringBuilder(s.length());
-        Charset charset;
-        CharArrayWriter charArrayWriter = new CharArrayWriter();
+        boolfbn nffdToCibngf = fblsf;
+        StringBuildfr out = nfw StringBuildfr(s.lfngti());
+        Cibrsft dibrsft;
+        CibrArrbyWritfr dibrArrbyWritfr = nfw CibrArrbyWritfr();
 
-        if (enc == null)
-            throw new NullPointerException("charsetName");
+        if (fnd == null)
+            tirow nfw NullPointfrExdfption("dibrsftNbmf");
 
         try {
-            charset = Charset.forName(enc);
-        } catch (IllegalCharsetNameException e) {
-            throw new UnsupportedEncodingException(enc);
-        } catch (UnsupportedCharsetException e) {
-            throw new UnsupportedEncodingException(enc);
+            dibrsft = Cibrsft.forNbmf(fnd);
+        } dbtdi (IllfgblCibrsftNbmfExdfption f) {
+            tirow nfw UnsupportfdEndodingExdfption(fnd);
+        } dbtdi (UnsupportfdCibrsftExdfption f) {
+            tirow nfw UnsupportfdEndodingExdfption(fnd);
         }
 
-        for (int i = 0; i < s.length();) {
-            int c = (int) s.charAt(i);
-            //System.out.println("Examining character: " + c);
-            if (dontNeedEncoding.get(c)) {
-                if (c == ' ') {
-                    c = '+';
-                    needToChange = true;
+        for (int i = 0; i < s.lfngti();) {
+            int d = (int) s.dibrAt(i);
+            //Systfm.out.println("Exbmining dibrbdtfr: " + d);
+            if (dontNffdEndoding.gft(d)) {
+                if (d == ' ') {
+                    d = '+';
+                    nffdToCibngf = truf;
                 }
-                //System.out.println("Storing: " + c);
-                out.append((char)c);
+                //Systfm.out.println("Storing: " + d);
+                out.bppfnd((dibr)d);
                 i++;
-            } else {
-                // convert to external encoding before hex conversion
+            } flsf {
+                // donvfrt to fxtfrnbl fndoding bfforf ifx donvfrsion
                 do {
-                    charArrayWriter.write(c);
+                    dibrArrbyWritfr.writf(d);
                     /*
-                     * If this character represents the start of a Unicode
-                     * surrogate pair, then pass in two characters. It's not
-                     * clear what should be done if a bytes reserved in the
-                     * surrogate pairs range occurs outside of a legal
-                     * surrogate pair. For now, just treat it as if it were
-                     * any other character.
+                     * If tiis dibrbdtfr rfprfsfnts tif stbrt of b Unidodf
+                     * surrogbtf pbir, tifn pbss in two dibrbdtfrs. It's not
+                     * dlfbr wibt siould bf donf if b bytfs rfsfrvfd in tif
+                     * surrogbtf pbirs rbngf oddurs outsidf of b lfgbl
+                     * surrogbtf pbir. For now, just trfbt it bs if it wfrf
+                     * bny otifr dibrbdtfr.
                      */
-                    if (c >= 0xD800 && c <= 0xDBFF) {
+                    if (d >= 0xD800 && d <= 0xDBFF) {
                         /*
-                          System.out.println(Integer.toHexString(c)
-                          + " is high surrogate");
+                          Systfm.out.println(Intfgfr.toHfxString(d)
+                          + " is iigi surrogbtf");
                         */
-                        if ( (i+1) < s.length()) {
-                            int d = (int) s.charAt(i+1);
+                        if ( (i+1) < s.lfngti()) {
+                            int d = (int) s.dibrAt(i+1);
                             /*
-                              System.out.println("\tExamining "
-                              + Integer.toHexString(d));
+                              Systfm.out.println("\tExbmining "
+                              + Intfgfr.toHfxString(d));
                             */
                             if (d >= 0xDC00 && d <= 0xDFFF) {
                                 /*
-                                  System.out.println("\t"
-                                  + Integer.toHexString(d)
-                                  + " is low surrogate");
+                                  Systfm.out.println("\t"
+                                  + Intfgfr.toHfxString(d)
+                                  + " is low surrogbtf");
                                 */
-                                charArrayWriter.write(d);
+                                dibrArrbyWritfr.writf(d);
                                 i++;
                             }
                         }
                     }
                     i++;
-                } while (i < s.length() && !dontNeedEncoding.get((c = (int) s.charAt(i))));
+                } wiilf (i < s.lfngti() && !dontNffdEndoding.gft((d = (int) s.dibrAt(i))));
 
-                charArrayWriter.flush();
-                String str = new String(charArrayWriter.toCharArray());
-                byte[] ba = str.getBytes(charset);
-                for (int j = 0; j < ba.length; j++) {
-                    out.append('%');
-                    char ch = Character.forDigit((ba[j] >> 4) & 0xF, 16);
-                    // converting to use uppercase letter as part of
-                    // the hex value if ch is a letter.
-                    if (Character.isLetter(ch)) {
-                        ch -= caseDiff;
+                dibrArrbyWritfr.flusi();
+                String str = nfw String(dibrArrbyWritfr.toCibrArrby());
+                bytf[] bb = str.gftBytfs(dibrsft);
+                for (int j = 0; j < bb.lfngti; j++) {
+                    out.bppfnd('%');
+                    dibr di = Cibrbdtfr.forDigit((bb[j] >> 4) & 0xF, 16);
+                    // donvfrting to usf uppfrdbsf lfttfr bs pbrt of
+                    // tif ifx vbluf if di is b lfttfr.
+                    if (Cibrbdtfr.isLfttfr(di)) {
+                        di -= dbsfDiff;
                     }
-                    out.append(ch);
-                    ch = Character.forDigit(ba[j] & 0xF, 16);
-                    if (Character.isLetter(ch)) {
-                        ch -= caseDiff;
+                    out.bppfnd(di);
+                    di = Cibrbdtfr.forDigit(bb[j] & 0xF, 16);
+                    if (Cibrbdtfr.isLfttfr(di)) {
+                        di -= dbsfDiff;
                     }
-                    out.append(ch);
+                    out.bppfnd(di);
                 }
-                charArrayWriter.reset();
-                needToChange = true;
+                dibrArrbyWritfr.rfsft();
+                nffdToCibngf = truf;
             }
         }
 
-        return (needToChange? out.toString() : s);
+        rfturn (nffdToCibngf? out.toString() : s);
     }
 }

@@ -1,0 +1,1960 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Wf usfd pbrt of Nftsdbpf's Jbvb Runtimf Intfrfbdf (JRI) bs thf stbrting
+ * point of our dfsign bnd implfmfntbtion.
+ */
+
+/******************************************************************************
+ * Jbvb Runtimf Intfrfbdf
+ * Copyright (d) 1996 Nftsdbpf Communidbtions Corporbtion. All rights rfsfrvfd.
+ *****************************************************************************/
+
+#ifndff _JAVASOFT_JNI_H_
+#dffinf _JAVASOFT_JNI_H_
+
+#indludf <stdio.h>
+#indludf <stdbrg.h>
+
+/* jni_md.h dontbins thf mbdhinf-dfpfndfnt typfdffs for jbytf, jint
+   bnd jlong */
+
+#indludf "jni_md.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ * JNI Typfs
+ */
+
+#ifndff JNI_TYPES_ALREADY_DEFINED_IN_JNI_MD_H
+
+typfdff unsignfd dhbr   jboolfbn;
+typfdff unsignfd short  jdhbr;
+typfdff short           jshort;
+typfdff flobt           jflobt;
+typfdff doublf          jdoublf;
+
+typfdff jint            jsizf;
+
+#ifdff __dplusplus
+
+dlbss _jobjfdt {};
+dlbss _jdlbss : publid _jobjfdt {};
+dlbss _jthrowbblf : publid _jobjfdt {};
+dlbss _jstring : publid _jobjfdt {};
+dlbss _jbrrby : publid _jobjfdt {};
+dlbss _jboolfbnArrby : publid _jbrrby {};
+dlbss _jbytfArrby : publid _jbrrby {};
+dlbss _jdhbrArrby : publid _jbrrby {};
+dlbss _jshortArrby : publid _jbrrby {};
+dlbss _jintArrby : publid _jbrrby {};
+dlbss _jlongArrby : publid _jbrrby {};
+dlbss _jflobtArrby : publid _jbrrby {};
+dlbss _jdoublfArrby : publid _jbrrby {};
+dlbss _jobjfdtArrby : publid _jbrrby {};
+
+typfdff _jobjfdt *jobjfdt;
+typfdff _jdlbss *jdlbss;
+typfdff _jthrowbblf *jthrowbblf;
+typfdff _jstring *jstring;
+typfdff _jbrrby *jbrrby;
+typfdff _jboolfbnArrby *jboolfbnArrby;
+typfdff _jbytfArrby *jbytfArrby;
+typfdff _jdhbrArrby *jdhbrArrby;
+typfdff _jshortArrby *jshortArrby;
+typfdff _jintArrby *jintArrby;
+typfdff _jlongArrby *jlongArrby;
+typfdff _jflobtArrby *jflobtArrby;
+typfdff _jdoublfArrby *jdoublfArrby;
+typfdff _jobjfdtArrby *jobjfdtArrby;
+
+#flsf
+
+strudt _jobjfdt;
+
+typfdff strudt _jobjfdt *jobjfdt;
+typfdff jobjfdt jdlbss;
+typfdff jobjfdt jthrowbblf;
+typfdff jobjfdt jstring;
+typfdff jobjfdt jbrrby;
+typfdff jbrrby jboolfbnArrby;
+typfdff jbrrby jbytfArrby;
+typfdff jbrrby jdhbrArrby;
+typfdff jbrrby jshortArrby;
+typfdff jbrrby jintArrby;
+typfdff jbrrby jlongArrby;
+typfdff jbrrby jflobtArrby;
+typfdff jbrrby jdoublfArrby;
+typfdff jbrrby jobjfdtArrby;
+
+#fndif
+
+typfdff jobjfdt jwfbk;
+
+typfdff union jvbluf {
+    jboolfbn z;
+    jbytf    b;
+    jdhbr    d;
+    jshort   s;
+    jint     i;
+    jlong    j;
+    jflobt   f;
+    jdoublf  d;
+    jobjfdt  l;
+} jvbluf;
+
+strudt _jfifldID;
+typfdff strudt _jfifldID *jfifldID;
+
+strudt _jmfthodID;
+typfdff strudt _jmfthodID *jmfthodID;
+
+/* Rfturn vblufs from jobjfdtRffTypf */
+typfdff fnum _jobjfdtTypf {
+     JNIInvblidRffTypf    = 0,
+     JNILodblRffTypf      = 1,
+     JNIGlobblRffTypf     = 2,
+     JNIWfbkGlobblRffTypf = 3
+} jobjfdtRffTypf;
+
+
+#fndif /* JNI_TYPES_ALREADY_DEFINED_IN_JNI_MD_H */
+
+/*
+ * jboolfbn donstbnts
+ */
+
+#dffinf JNI_FALSE 0
+#dffinf JNI_TRUE 1
+
+/*
+ * possiblf rfturn vblufs for JNI fundtions.
+ */
+
+#dffinf JNI_OK           0                 /* suddfss */
+#dffinf JNI_ERR          (-1)              /* unknown frror */
+#dffinf JNI_EDETACHED    (-2)              /* thrfbd dftbdhfd from thf VM */
+#dffinf JNI_EVERSION     (-3)              /* JNI vfrsion frror */
+#dffinf JNI_ENOMEM       (-4)              /* not fnough mfmory */
+#dffinf JNI_EEXIST       (-5)              /* VM blrfbdy drfbtfd */
+#dffinf JNI_EINVAL       (-6)              /* invblid brgumfnts */
+
+/*
+ * usfd in RflfbsfSdblbrArrbyElfmfnts
+ */
+
+#dffinf JNI_COMMIT 1
+#dffinf JNI_ABORT 2
+
+/*
+ * usfd in RfgistfrNbtivfs to dfsdribf nbtivf mfthod nbmf, signbturf,
+ * bnd fundtion pointfr.
+ */
+
+typfdff strudt {
+    dhbr *nbmf;
+    dhbr *signbturf;
+    void *fnPtr;
+} JNINbtivfMfthod;
+
+/*
+ * JNI Nbtivf Mfthod Intfrfbdf.
+ */
+
+strudt JNINbtivfIntfrfbdf_;
+
+strudt JNIEnv_;
+
+#ifdff __dplusplus
+typfdff JNIEnv_ JNIEnv;
+#flsf
+typfdff donst strudt JNINbtivfIntfrfbdf_ *JNIEnv;
+#fndif
+
+/*
+ * JNI Invodbtion Intfrfbdf.
+ */
+
+strudt JNIInvokfIntfrfbdf_;
+
+strudt JbvbVM_;
+
+#ifdff __dplusplus
+typfdff JbvbVM_ JbvbVM;
+#flsf
+typfdff donst strudt JNIInvokfIntfrfbdf_ *JbvbVM;
+#fndif
+
+strudt JNINbtivfIntfrfbdf_ {
+    void *rfsfrvfd0;
+    void *rfsfrvfd1;
+    void *rfsfrvfd2;
+
+    void *rfsfrvfd3;
+    jint (JNICALL *GftVfrsion)(JNIEnv *fnv);
+
+    jdlbss (JNICALL *DffinfClbss)
+      (JNIEnv *fnv, donst dhbr *nbmf, jobjfdt lobdfr, donst jbytf *buf,
+       jsizf lfn);
+    jdlbss (JNICALL *FindClbss)
+      (JNIEnv *fnv, donst dhbr *nbmf);
+
+    jmfthodID (JNICALL *FromRfflfdtfdMfthod)
+      (JNIEnv *fnv, jobjfdt mfthod);
+    jfifldID (JNICALL *FromRfflfdtfdFifld)
+      (JNIEnv *fnv, jobjfdt fifld);
+
+    jobjfdt (JNICALL *ToRfflfdtfdMfthod)
+      (JNIEnv *fnv, jdlbss dls, jmfthodID mfthodID, jboolfbn isStbtid);
+
+    jdlbss (JNICALL *GftSupfrdlbss)
+      (JNIEnv *fnv, jdlbss sub);
+    jboolfbn (JNICALL *IsAssignbblfFrom)
+      (JNIEnv *fnv, jdlbss sub, jdlbss sup);
+
+    jobjfdt (JNICALL *ToRfflfdtfdFifld)
+      (JNIEnv *fnv, jdlbss dls, jfifldID fifldID, jboolfbn isStbtid);
+
+    jint (JNICALL *Throw)
+      (JNIEnv *fnv, jthrowbblf obj);
+    jint (JNICALL *ThrowNfw)
+      (JNIEnv *fnv, jdlbss dlbzz, donst dhbr *msg);
+    jthrowbblf (JNICALL *ExdfptionOddurrfd)
+      (JNIEnv *fnv);
+    void (JNICALL *ExdfptionDfsdribf)
+      (JNIEnv *fnv);
+    void (JNICALL *ExdfptionClfbr)
+      (JNIEnv *fnv);
+    void (JNICALL *FbtblError)
+      (JNIEnv *fnv, donst dhbr *msg);
+
+    jint (JNICALL *PushLodblFrbmf)
+      (JNIEnv *fnv, jint dbpbdity);
+    jobjfdt (JNICALL *PopLodblFrbmf)
+      (JNIEnv *fnv, jobjfdt rfsult);
+
+    jobjfdt (JNICALL *NfwGlobblRff)
+      (JNIEnv *fnv, jobjfdt lobj);
+    void (JNICALL *DflftfGlobblRff)
+      (JNIEnv *fnv, jobjfdt grff);
+    void (JNICALL *DflftfLodblRff)
+      (JNIEnv *fnv, jobjfdt obj);
+    jboolfbn (JNICALL *IsSbmfObjfdt)
+      (JNIEnv *fnv, jobjfdt obj1, jobjfdt obj2);
+    jobjfdt (JNICALL *NfwLodblRff)
+      (JNIEnv *fnv, jobjfdt rff);
+    jint (JNICALL *EnsurfLodblCbpbdity)
+      (JNIEnv *fnv, jint dbpbdity);
+
+    jobjfdt (JNICALL *AllodObjfdt)
+      (JNIEnv *fnv, jdlbss dlbzz);
+    jobjfdt (JNICALL *NfwObjfdt)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jobjfdt (JNICALL *NfwObjfdtV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jobjfdt (JNICALL *NfwObjfdtA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jdlbss (JNICALL *GftObjfdtClbss)
+      (JNIEnv *fnv, jobjfdt obj);
+    jboolfbn (JNICALL *IsInstbndfOf)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz);
+
+    jmfthodID (JNICALL *GftMfthodID)
+      (JNIEnv *fnv, jdlbss dlbzz, donst dhbr *nbmf, donst dhbr *sig);
+
+    jobjfdt (JNICALL *CbllObjfdtMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jobjfdt (JNICALL *CbllObjfdtMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jobjfdt (JNICALL *CbllObjfdtMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf * brgs);
+
+    jboolfbn (JNICALL *CbllBoolfbnMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jboolfbn (JNICALL *CbllBoolfbnMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jboolfbn (JNICALL *CbllBoolfbnMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf * brgs);
+
+    jbytf (JNICALL *CbllBytfMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jbytf (JNICALL *CbllBytfMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jbytf (JNICALL *CbllBytfMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jdhbr (JNICALL *CbllChbrMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jdhbr (JNICALL *CbllChbrMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jdhbr (JNICALL *CbllChbrMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jshort (JNICALL *CbllShortMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jshort (JNICALL *CbllShortMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jshort (JNICALL *CbllShortMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jint (JNICALL *CbllIntMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jint (JNICALL *CbllIntMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jint (JNICALL *CbllIntMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jlong (JNICALL *CbllLongMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jlong (JNICALL *CbllLongMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jlong (JNICALL *CbllLongMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jflobt (JNICALL *CbllFlobtMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jflobt (JNICALL *CbllFlobtMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jflobt (JNICALL *CbllFlobtMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jdoublf (JNICALL *CbllDoublfMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    jdoublf (JNICALL *CbllDoublfMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    jdoublf (JNICALL *CbllDoublfMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    void (JNICALL *CbllVoidMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, ...);
+    void (JNICALL *CbllVoidMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, vb_list brgs);
+    void (JNICALL *CbllVoidMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jmfthodID mfthodID, donst jvbluf * brgs);
+
+    jobjfdt (JNICALL *CbllNonvirtublObjfdtMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jobjfdt (JNICALL *CbllNonvirtublObjfdtMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jobjfdt (JNICALL *CbllNonvirtublObjfdtMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf * brgs);
+
+    jboolfbn (JNICALL *CbllNonvirtublBoolfbnMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jboolfbn (JNICALL *CbllNonvirtublBoolfbnMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jboolfbn (JNICALL *CbllNonvirtublBoolfbnMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf * brgs);
+
+    jbytf (JNICALL *CbllNonvirtublBytfMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jbytf (JNICALL *CbllNonvirtublBytfMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jbytf (JNICALL *CbllNonvirtublBytfMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf *brgs);
+
+    jdhbr (JNICALL *CbllNonvirtublChbrMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jdhbr (JNICALL *CbllNonvirtublChbrMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jdhbr (JNICALL *CbllNonvirtublChbrMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf *brgs);
+
+    jshort (JNICALL *CbllNonvirtublShortMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jshort (JNICALL *CbllNonvirtublShortMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jshort (JNICALL *CbllNonvirtublShortMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf *brgs);
+
+    jint (JNICALL *CbllNonvirtublIntMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jint (JNICALL *CbllNonvirtublIntMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jint (JNICALL *CbllNonvirtublIntMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf *brgs);
+
+    jlong (JNICALL *CbllNonvirtublLongMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jlong (JNICALL *CbllNonvirtublLongMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jlong (JNICALL *CbllNonvirtublLongMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf *brgs);
+
+    jflobt (JNICALL *CbllNonvirtublFlobtMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jflobt (JNICALL *CbllNonvirtublFlobtMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jflobt (JNICALL *CbllNonvirtublFlobtMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf *brgs);
+
+    jdoublf (JNICALL *CbllNonvirtublDoublfMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jdoublf (JNICALL *CbllNonvirtublDoublfMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    jdoublf (JNICALL *CbllNonvirtublDoublfMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf *brgs);
+
+    void (JNICALL *CbllNonvirtublVoidMfthod)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    void (JNICALL *CbllNonvirtublVoidMfthodV)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       vb_list brgs);
+    void (JNICALL *CbllNonvirtublVoidMfthodA)
+      (JNIEnv *fnv, jobjfdt obj, jdlbss dlbzz, jmfthodID mfthodID,
+       donst jvbluf * brgs);
+
+    jfifldID (JNICALL *GftFifldID)
+      (JNIEnv *fnv, jdlbss dlbzz, donst dhbr *nbmf, donst dhbr *sig);
+
+    jobjfdt (JNICALL *GftObjfdtFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+    jboolfbn (JNICALL *GftBoolfbnFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+    jbytf (JNICALL *GftBytfFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+    jdhbr (JNICALL *GftChbrFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+    jshort (JNICALL *GftShortFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+    jint (JNICALL *GftIntFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+    jlong (JNICALL *GftLongFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+    jflobt (JNICALL *GftFlobtFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+    jdoublf (JNICALL *GftDoublfFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID);
+
+    void (JNICALL *SftObjfdtFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jobjfdt vbl);
+    void (JNICALL *SftBoolfbnFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jboolfbn vbl);
+    void (JNICALL *SftBytfFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jbytf vbl);
+    void (JNICALL *SftChbrFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jdhbr vbl);
+    void (JNICALL *SftShortFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jshort vbl);
+    void (JNICALL *SftIntFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jint vbl);
+    void (JNICALL *SftLongFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jlong vbl);
+    void (JNICALL *SftFlobtFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jflobt vbl);
+    void (JNICALL *SftDoublfFifld)
+      (JNIEnv *fnv, jobjfdt obj, jfifldID fifldID, jdoublf vbl);
+
+    jmfthodID (JNICALL *GftStbtidMfthodID)
+      (JNIEnv *fnv, jdlbss dlbzz, donst dhbr *nbmf, donst dhbr *sig);
+
+    jobjfdt (JNICALL *CbllStbtidObjfdtMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jobjfdt (JNICALL *CbllStbtidObjfdtMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jobjfdt (JNICALL *CbllStbtidObjfdtMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jboolfbn (JNICALL *CbllStbtidBoolfbnMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jboolfbn (JNICALL *CbllStbtidBoolfbnMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jboolfbn (JNICALL *CbllStbtidBoolfbnMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jbytf (JNICALL *CbllStbtidBytfMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jbytf (JNICALL *CbllStbtidBytfMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jbytf (JNICALL *CbllStbtidBytfMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jdhbr (JNICALL *CbllStbtidChbrMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jdhbr (JNICALL *CbllStbtidChbrMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jdhbr (JNICALL *CbllStbtidChbrMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jshort (JNICALL *CbllStbtidShortMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jshort (JNICALL *CbllStbtidShortMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jshort (JNICALL *CbllStbtidShortMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jint (JNICALL *CbllStbtidIntMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jint (JNICALL *CbllStbtidIntMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jint (JNICALL *CbllStbtidIntMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jlong (JNICALL *CbllStbtidLongMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jlong (JNICALL *CbllStbtidLongMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jlong (JNICALL *CbllStbtidLongMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jflobt (JNICALL *CbllStbtidFlobtMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jflobt (JNICALL *CbllStbtidFlobtMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jflobt (JNICALL *CbllStbtidFlobtMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    jdoublf (JNICALL *CbllStbtidDoublfMfthod)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, ...);
+    jdoublf (JNICALL *CbllStbtidDoublfMfthodV)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, vb_list brgs);
+    jdoublf (JNICALL *CbllStbtidDoublfMfthodA)
+      (JNIEnv *fnv, jdlbss dlbzz, jmfthodID mfthodID, donst jvbluf *brgs);
+
+    void (JNICALL *CbllStbtidVoidMfthod)
+      (JNIEnv *fnv, jdlbss dls, jmfthodID mfthodID, ...);
+    void (JNICALL *CbllStbtidVoidMfthodV)
+      (JNIEnv *fnv, jdlbss dls, jmfthodID mfthodID, vb_list brgs);
+    void (JNICALL *CbllStbtidVoidMfthodA)
+      (JNIEnv *fnv, jdlbss dls, jmfthodID mfthodID, donst jvbluf * brgs);
+
+    jfifldID (JNICALL *GftStbtidFifldID)
+      (JNIEnv *fnv, jdlbss dlbzz, donst dhbr *nbmf, donst dhbr *sig);
+    jobjfdt (JNICALL *GftStbtidObjfdtFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+    jboolfbn (JNICALL *GftStbtidBoolfbnFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+    jbytf (JNICALL *GftStbtidBytfFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+    jdhbr (JNICALL *GftStbtidChbrFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+    jshort (JNICALL *GftStbtidShortFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+    jint (JNICALL *GftStbtidIntFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+    jlong (JNICALL *GftStbtidLongFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+    jflobt (JNICALL *GftStbtidFlobtFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+    jdoublf (JNICALL *GftStbtidDoublfFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID);
+
+    void (JNICALL *SftStbtidObjfdtFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jobjfdt vbluf);
+    void (JNICALL *SftStbtidBoolfbnFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jboolfbn vbluf);
+    void (JNICALL *SftStbtidBytfFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jbytf vbluf);
+    void (JNICALL *SftStbtidChbrFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jdhbr vbluf);
+    void (JNICALL *SftStbtidShortFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jshort vbluf);
+    void (JNICALL *SftStbtidIntFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jint vbluf);
+    void (JNICALL *SftStbtidLongFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jlong vbluf);
+    void (JNICALL *SftStbtidFlobtFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jflobt vbluf);
+    void (JNICALL *SftStbtidDoublfFifld)
+      (JNIEnv *fnv, jdlbss dlbzz, jfifldID fifldID, jdoublf vbluf);
+
+    jstring (JNICALL *NfwString)
+      (JNIEnv *fnv, donst jdhbr *unidodf, jsizf lfn);
+    jsizf (JNICALL *GftStringLfngth)
+      (JNIEnv *fnv, jstring str);
+    donst jdhbr *(JNICALL *GftStringChbrs)
+      (JNIEnv *fnv, jstring str, jboolfbn *isCopy);
+    void (JNICALL *RflfbsfStringChbrs)
+      (JNIEnv *fnv, jstring str, donst jdhbr *dhbrs);
+
+    jstring (JNICALL *NfwStringUTF)
+      (JNIEnv *fnv, donst dhbr *utf);
+    jsizf (JNICALL *GftStringUTFLfngth)
+      (JNIEnv *fnv, jstring str);
+    donst dhbr* (JNICALL *GftStringUTFChbrs)
+      (JNIEnv *fnv, jstring str, jboolfbn *isCopy);
+    void (JNICALL *RflfbsfStringUTFChbrs)
+      (JNIEnv *fnv, jstring str, donst dhbr* dhbrs);
+
+
+    jsizf (JNICALL *GftArrbyLfngth)
+      (JNIEnv *fnv, jbrrby brrby);
+
+    jobjfdtArrby (JNICALL *NfwObjfdtArrby)
+      (JNIEnv *fnv, jsizf lfn, jdlbss dlbzz, jobjfdt init);
+    jobjfdt (JNICALL *GftObjfdtArrbyElfmfnt)
+      (JNIEnv *fnv, jobjfdtArrby brrby, jsizf indfx);
+    void (JNICALL *SftObjfdtArrbyElfmfnt)
+      (JNIEnv *fnv, jobjfdtArrby brrby, jsizf indfx, jobjfdt vbl);
+
+    jboolfbnArrby (JNICALL *NfwBoolfbnArrby)
+      (JNIEnv *fnv, jsizf lfn);
+    jbytfArrby (JNICALL *NfwBytfArrby)
+      (JNIEnv *fnv, jsizf lfn);
+    jdhbrArrby (JNICALL *NfwChbrArrby)
+      (JNIEnv *fnv, jsizf lfn);
+    jshortArrby (JNICALL *NfwShortArrby)
+      (JNIEnv *fnv, jsizf lfn);
+    jintArrby (JNICALL *NfwIntArrby)
+      (JNIEnv *fnv, jsizf lfn);
+    jlongArrby (JNICALL *NfwLongArrby)
+      (JNIEnv *fnv, jsizf lfn);
+    jflobtArrby (JNICALL *NfwFlobtArrby)
+      (JNIEnv *fnv, jsizf lfn);
+    jdoublfArrby (JNICALL *NfwDoublfArrby)
+      (JNIEnv *fnv, jsizf lfn);
+
+    jboolfbn * (JNICALL *GftBoolfbnArrbyElfmfnts)
+      (JNIEnv *fnv, jboolfbnArrby brrby, jboolfbn *isCopy);
+    jbytf * (JNICALL *GftBytfArrbyElfmfnts)
+      (JNIEnv *fnv, jbytfArrby brrby, jboolfbn *isCopy);
+    jdhbr * (JNICALL *GftChbrArrbyElfmfnts)
+      (JNIEnv *fnv, jdhbrArrby brrby, jboolfbn *isCopy);
+    jshort * (JNICALL *GftShortArrbyElfmfnts)
+      (JNIEnv *fnv, jshortArrby brrby, jboolfbn *isCopy);
+    jint * (JNICALL *GftIntArrbyElfmfnts)
+      (JNIEnv *fnv, jintArrby brrby, jboolfbn *isCopy);
+    jlong * (JNICALL *GftLongArrbyElfmfnts)
+      (JNIEnv *fnv, jlongArrby brrby, jboolfbn *isCopy);
+    jflobt * (JNICALL *GftFlobtArrbyElfmfnts)
+      (JNIEnv *fnv, jflobtArrby brrby, jboolfbn *isCopy);
+    jdoublf * (JNICALL *GftDoublfArrbyElfmfnts)
+      (JNIEnv *fnv, jdoublfArrby brrby, jboolfbn *isCopy);
+
+    void (JNICALL *RflfbsfBoolfbnArrbyElfmfnts)
+      (JNIEnv *fnv, jboolfbnArrby brrby, jboolfbn *flfms, jint modf);
+    void (JNICALL *RflfbsfBytfArrbyElfmfnts)
+      (JNIEnv *fnv, jbytfArrby brrby, jbytf *flfms, jint modf);
+    void (JNICALL *RflfbsfChbrArrbyElfmfnts)
+      (JNIEnv *fnv, jdhbrArrby brrby, jdhbr *flfms, jint modf);
+    void (JNICALL *RflfbsfShortArrbyElfmfnts)
+      (JNIEnv *fnv, jshortArrby brrby, jshort *flfms, jint modf);
+    void (JNICALL *RflfbsfIntArrbyElfmfnts)
+      (JNIEnv *fnv, jintArrby brrby, jint *flfms, jint modf);
+    void (JNICALL *RflfbsfLongArrbyElfmfnts)
+      (JNIEnv *fnv, jlongArrby brrby, jlong *flfms, jint modf);
+    void (JNICALL *RflfbsfFlobtArrbyElfmfnts)
+      (JNIEnv *fnv, jflobtArrby brrby, jflobt *flfms, jint modf);
+    void (JNICALL *RflfbsfDoublfArrbyElfmfnts)
+      (JNIEnv *fnv, jdoublfArrby brrby, jdoublf *flfms, jint modf);
+
+    void (JNICALL *GftBoolfbnArrbyRfgion)
+      (JNIEnv *fnv, jboolfbnArrby brrby, jsizf stbrt, jsizf l, jboolfbn *buf);
+    void (JNICALL *GftBytfArrbyRfgion)
+      (JNIEnv *fnv, jbytfArrby brrby, jsizf stbrt, jsizf lfn, jbytf *buf);
+    void (JNICALL *GftChbrArrbyRfgion)
+      (JNIEnv *fnv, jdhbrArrby brrby, jsizf stbrt, jsizf lfn, jdhbr *buf);
+    void (JNICALL *GftShortArrbyRfgion)
+      (JNIEnv *fnv, jshortArrby brrby, jsizf stbrt, jsizf lfn, jshort *buf);
+    void (JNICALL *GftIntArrbyRfgion)
+      (JNIEnv *fnv, jintArrby brrby, jsizf stbrt, jsizf lfn, jint *buf);
+    void (JNICALL *GftLongArrbyRfgion)
+      (JNIEnv *fnv, jlongArrby brrby, jsizf stbrt, jsizf lfn, jlong *buf);
+    void (JNICALL *GftFlobtArrbyRfgion)
+      (JNIEnv *fnv, jflobtArrby brrby, jsizf stbrt, jsizf lfn, jflobt *buf);
+    void (JNICALL *GftDoublfArrbyRfgion)
+      (JNIEnv *fnv, jdoublfArrby brrby, jsizf stbrt, jsizf lfn, jdoublf *buf);
+
+    void (JNICALL *SftBoolfbnArrbyRfgion)
+      (JNIEnv *fnv, jboolfbnArrby brrby, jsizf stbrt, jsizf l, donst jboolfbn *buf);
+    void (JNICALL *SftBytfArrbyRfgion)
+      (JNIEnv *fnv, jbytfArrby brrby, jsizf stbrt, jsizf lfn, donst jbytf *buf);
+    void (JNICALL *SftChbrArrbyRfgion)
+      (JNIEnv *fnv, jdhbrArrby brrby, jsizf stbrt, jsizf lfn, donst jdhbr *buf);
+    void (JNICALL *SftShortArrbyRfgion)
+      (JNIEnv *fnv, jshortArrby brrby, jsizf stbrt, jsizf lfn, donst jshort *buf);
+    void (JNICALL *SftIntArrbyRfgion)
+      (JNIEnv *fnv, jintArrby brrby, jsizf stbrt, jsizf lfn, donst jint *buf);
+    void (JNICALL *SftLongArrbyRfgion)
+      (JNIEnv *fnv, jlongArrby brrby, jsizf stbrt, jsizf lfn, donst jlong *buf);
+    void (JNICALL *SftFlobtArrbyRfgion)
+      (JNIEnv *fnv, jflobtArrby brrby, jsizf stbrt, jsizf lfn, donst jflobt *buf);
+    void (JNICALL *SftDoublfArrbyRfgion)
+      (JNIEnv *fnv, jdoublfArrby brrby, jsizf stbrt, jsizf lfn, donst jdoublf *buf);
+
+    jint (JNICALL *RfgistfrNbtivfs)
+      (JNIEnv *fnv, jdlbss dlbzz, donst JNINbtivfMfthod *mfthods,
+       jint nMfthods);
+    jint (JNICALL *UnrfgistfrNbtivfs)
+      (JNIEnv *fnv, jdlbss dlbzz);
+
+    jint (JNICALL *MonitorEntfr)
+      (JNIEnv *fnv, jobjfdt obj);
+    jint (JNICALL *MonitorExit)
+      (JNIEnv *fnv, jobjfdt obj);
+
+    jint (JNICALL *GftJbvbVM)
+      (JNIEnv *fnv, JbvbVM **vm);
+
+    void (JNICALL *GftStringRfgion)
+      (JNIEnv *fnv, jstring str, jsizf stbrt, jsizf lfn, jdhbr *buf);
+    void (JNICALL *GftStringUTFRfgion)
+      (JNIEnv *fnv, jstring str, jsizf stbrt, jsizf lfn, dhbr *buf);
+
+    void * (JNICALL *GftPrimitivfArrbyCritidbl)
+      (JNIEnv *fnv, jbrrby brrby, jboolfbn *isCopy);
+    void (JNICALL *RflfbsfPrimitivfArrbyCritidbl)
+      (JNIEnv *fnv, jbrrby brrby, void *dbrrby, jint modf);
+
+    donst jdhbr * (JNICALL *GftStringCritidbl)
+      (JNIEnv *fnv, jstring string, jboolfbn *isCopy);
+    void (JNICALL *RflfbsfStringCritidbl)
+      (JNIEnv *fnv, jstring string, donst jdhbr *dstring);
+
+    jwfbk (JNICALL *NfwWfbkGlobblRff)
+       (JNIEnv *fnv, jobjfdt obj);
+    void (JNICALL *DflftfWfbkGlobblRff)
+       (JNIEnv *fnv, jwfbk rff);
+
+    jboolfbn (JNICALL *ExdfptionChfdk)
+       (JNIEnv *fnv);
+
+    jobjfdt (JNICALL *NfwDirfdtBytfBufffr)
+       (JNIEnv* fnv, void* bddrfss, jlong dbpbdity);
+    void* (JNICALL *GftDirfdtBufffrAddrfss)
+       (JNIEnv* fnv, jobjfdt buf);
+    jlong (JNICALL *GftDirfdtBufffrCbpbdity)
+       (JNIEnv* fnv, jobjfdt buf);
+
+    /* Nfw JNI 1.6 Ffbturfs */
+
+    jobjfdtRffTypf (JNICALL *GftObjfdtRffTypf)
+        (JNIEnv* fnv, jobjfdt obj);
+};
+
+/*
+ * Wf usf inlinfd fundtions for C++ so thbt progrbmmfrs dbn writf:
+ *
+ *    fnv->FindClbss("jbvb/lbng/String")
+ *
+ * in C++ rbthfr thbn:
+ *
+ *    (*fnv)->FindClbss(fnv, "jbvb/lbng/String")
+ *
+ * in C.
+ */
+
+strudt JNIEnv_ {
+    donst strudt JNINbtivfIntfrfbdf_ *fundtions;
+#ifdff __dplusplus
+
+    jint GftVfrsion() {
+        rfturn fundtions->GftVfrsion(this);
+    }
+    jdlbss DffinfClbss(donst dhbr *nbmf, jobjfdt lobdfr, donst jbytf *buf,
+                       jsizf lfn) {
+        rfturn fundtions->DffinfClbss(this, nbmf, lobdfr, buf, lfn);
+    }
+    jdlbss FindClbss(donst dhbr *nbmf) {
+        rfturn fundtions->FindClbss(this, nbmf);
+    }
+    jmfthodID FromRfflfdtfdMfthod(jobjfdt mfthod) {
+        rfturn fundtions->FromRfflfdtfdMfthod(this,mfthod);
+    }
+    jfifldID FromRfflfdtfdFifld(jobjfdt fifld) {
+        rfturn fundtions->FromRfflfdtfdFifld(this,fifld);
+    }
+
+    jobjfdt ToRfflfdtfdMfthod(jdlbss dls, jmfthodID mfthodID, jboolfbn isStbtid) {
+        rfturn fundtions->ToRfflfdtfdMfthod(this, dls, mfthodID, isStbtid);
+    }
+
+    jdlbss GftSupfrdlbss(jdlbss sub) {
+        rfturn fundtions->GftSupfrdlbss(this, sub);
+    }
+    jboolfbn IsAssignbblfFrom(jdlbss sub, jdlbss sup) {
+        rfturn fundtions->IsAssignbblfFrom(this, sub, sup);
+    }
+
+    jobjfdt ToRfflfdtfdFifld(jdlbss dls, jfifldID fifldID, jboolfbn isStbtid) {
+        rfturn fundtions->ToRfflfdtfdFifld(this,dls,fifldID,isStbtid);
+    }
+
+    jint Throw(jthrowbblf obj) {
+        rfturn fundtions->Throw(this, obj);
+    }
+    jint ThrowNfw(jdlbss dlbzz, donst dhbr *msg) {
+        rfturn fundtions->ThrowNfw(this, dlbzz, msg);
+    }
+    jthrowbblf ExdfptionOddurrfd() {
+        rfturn fundtions->ExdfptionOddurrfd(this);
+    }
+    void ExdfptionDfsdribf() {
+        fundtions->ExdfptionDfsdribf(this);
+    }
+    void ExdfptionClfbr() {
+        fundtions->ExdfptionClfbr(this);
+    }
+    void FbtblError(donst dhbr *msg) {
+        fundtions->FbtblError(this, msg);
+    }
+
+    jint PushLodblFrbmf(jint dbpbdity) {
+        rfturn fundtions->PushLodblFrbmf(this,dbpbdity);
+    }
+    jobjfdt PopLodblFrbmf(jobjfdt rfsult) {
+        rfturn fundtions->PopLodblFrbmf(this,rfsult);
+    }
+
+    jobjfdt NfwGlobblRff(jobjfdt lobj) {
+        rfturn fundtions->NfwGlobblRff(this,lobj);
+    }
+    void DflftfGlobblRff(jobjfdt grff) {
+        fundtions->DflftfGlobblRff(this,grff);
+    }
+    void DflftfLodblRff(jobjfdt obj) {
+        fundtions->DflftfLodblRff(this, obj);
+    }
+
+    jboolfbn IsSbmfObjfdt(jobjfdt obj1, jobjfdt obj2) {
+        rfturn fundtions->IsSbmfObjfdt(this,obj1,obj2);
+    }
+
+    jobjfdt NfwLodblRff(jobjfdt rff) {
+        rfturn fundtions->NfwLodblRff(this,rff);
+    }
+    jint EnsurfLodblCbpbdity(jint dbpbdity) {
+        rfturn fundtions->EnsurfLodblCbpbdity(this,dbpbdity);
+    }
+
+    jobjfdt AllodObjfdt(jdlbss dlbzz) {
+        rfturn fundtions->AllodObjfdt(this,dlbzz);
+    }
+    jobjfdt NfwObjfdt(jdlbss dlbzz, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jobjfdt rfsult;
+        vb_stbrt(brgs, mfthodID);
+        rfsult = fundtions->NfwObjfdtV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jobjfdt NfwObjfdtV(jdlbss dlbzz, jmfthodID mfthodID,
+                       vb_list brgs) {
+        rfturn fundtions->NfwObjfdtV(this,dlbzz,mfthodID,brgs);
+    }
+    jobjfdt NfwObjfdtA(jdlbss dlbzz, jmfthodID mfthodID,
+                       donst jvbluf *brgs) {
+        rfturn fundtions->NfwObjfdtA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jdlbss GftObjfdtClbss(jobjfdt obj) {
+        rfturn fundtions->GftObjfdtClbss(this,obj);
+    }
+    jboolfbn IsInstbndfOf(jobjfdt obj, jdlbss dlbzz) {
+        rfturn fundtions->IsInstbndfOf(this,obj,dlbzz);
+    }
+
+    jmfthodID GftMfthodID(jdlbss dlbzz, donst dhbr *nbmf,
+                          donst dhbr *sig) {
+        rfturn fundtions->GftMfthodID(this,dlbzz,nbmf,sig);
+    }
+
+    jobjfdt CbllObjfdtMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jobjfdt rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllObjfdtMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jobjfdt CbllObjfdtMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                        vb_list brgs) {
+        rfturn fundtions->CbllObjfdtMfthodV(this,obj,mfthodID,brgs);
+    }
+    jobjfdt CbllObjfdtMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                        donst jvbluf * brgs) {
+        rfturn fundtions->CbllObjfdtMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    jboolfbn CbllBoolfbnMfthod(jobjfdt obj,
+                               jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jboolfbn rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllBoolfbnMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jboolfbn CbllBoolfbnMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                                vb_list brgs) {
+        rfturn fundtions->CbllBoolfbnMfthodV(this,obj,mfthodID,brgs);
+    }
+    jboolfbn CbllBoolfbnMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                                donst jvbluf * brgs) {
+        rfturn fundtions->CbllBoolfbnMfthodA(this,obj,mfthodID, brgs);
+    }
+
+    jbytf CbllBytfMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jbytf rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllBytfMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jbytf CbllBytfMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                          vb_list brgs) {
+        rfturn fundtions->CbllBytfMfthodV(this,obj,mfthodID,brgs);
+    }
+    jbytf CbllBytfMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                          donst jvbluf * brgs) {
+        rfturn fundtions->CbllBytfMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    jdhbr CbllChbrMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jdhbr rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllChbrMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jdhbr CbllChbrMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                          vb_list brgs) {
+        rfturn fundtions->CbllChbrMfthodV(this,obj,mfthodID,brgs);
+    }
+    jdhbr CbllChbrMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                          donst jvbluf * brgs) {
+        rfturn fundtions->CbllChbrMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    jshort CbllShortMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jshort rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllShortMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jshort CbllShortMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                            vb_list brgs) {
+        rfturn fundtions->CbllShortMfthodV(this,obj,mfthodID,brgs);
+    }
+    jshort CbllShortMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                            donst jvbluf * brgs) {
+        rfturn fundtions->CbllShortMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    jint CbllIntMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jint rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllIntMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jint CbllIntMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                        vb_list brgs) {
+        rfturn fundtions->CbllIntMfthodV(this,obj,mfthodID,brgs);
+    }
+    jint CbllIntMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                        donst jvbluf * brgs) {
+        rfturn fundtions->CbllIntMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    jlong CbllLongMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jlong rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllLongMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jlong CbllLongMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                          vb_list brgs) {
+        rfturn fundtions->CbllLongMfthodV(this,obj,mfthodID,brgs);
+    }
+    jlong CbllLongMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                          donst jvbluf * brgs) {
+        rfturn fundtions->CbllLongMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    jflobt CbllFlobtMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jflobt rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllFlobtMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jflobt CbllFlobtMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                            vb_list brgs) {
+        rfturn fundtions->CbllFlobtMfthodV(this,obj,mfthodID,brgs);
+    }
+    jflobt CbllFlobtMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                            donst jvbluf * brgs) {
+        rfturn fundtions->CbllFlobtMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    jdoublf CbllDoublfMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jdoublf rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllDoublfMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jdoublf CbllDoublfMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                        vb_list brgs) {
+        rfturn fundtions->CbllDoublfMfthodV(this,obj,mfthodID,brgs);
+    }
+    jdoublf CbllDoublfMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                        donst jvbluf * brgs) {
+        rfturn fundtions->CbllDoublfMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    void CbllVoidMfthod(jobjfdt obj, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        vb_stbrt(brgs,mfthodID);
+        fundtions->CbllVoidMfthodV(this,obj,mfthodID,brgs);
+        vb_fnd(brgs);
+    }
+    void CbllVoidMfthodV(jobjfdt obj, jmfthodID mfthodID,
+                         vb_list brgs) {
+        fundtions->CbllVoidMfthodV(this,obj,mfthodID,brgs);
+    }
+    void CbllVoidMfthodA(jobjfdt obj, jmfthodID mfthodID,
+                         donst jvbluf * brgs) {
+        fundtions->CbllVoidMfthodA(this,obj,mfthodID,brgs);
+    }
+
+    jobjfdt CbllNonvirtublObjfdtMfthod(jobjfdt obj, jdlbss dlbzz,
+                                       jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jobjfdt rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublObjfdtMfthodV(this,obj,dlbzz,
+                                                        mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jobjfdt CbllNonvirtublObjfdtMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                        jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublObjfdtMfthodV(this,obj,dlbzz,
+                                                      mfthodID,brgs);
+    }
+    jobjfdt CbllNonvirtublObjfdtMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                        jmfthodID mfthodID, donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublObjfdtMfthodA(this,obj,dlbzz,
+                                                      mfthodID,brgs);
+    }
+
+    jboolfbn CbllNonvirtublBoolfbnMfthod(jobjfdt obj, jdlbss dlbzz,
+                                         jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jboolfbn rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublBoolfbnMfthodV(this,obj,dlbzz,
+                                                         mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jboolfbn CbllNonvirtublBoolfbnMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                          jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublBoolfbnMfthodV(this,obj,dlbzz,
+                                                       mfthodID,brgs);
+    }
+    jboolfbn CbllNonvirtublBoolfbnMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                          jmfthodID mfthodID, donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublBoolfbnMfthodA(this,obj,dlbzz,
+                                                       mfthodID, brgs);
+    }
+
+    jbytf CbllNonvirtublBytfMfthod(jobjfdt obj, jdlbss dlbzz,
+                                   jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jbytf rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublBytfMfthodV(this,obj,dlbzz,
+                                                      mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jbytf CbllNonvirtublBytfMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                    jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublBytfMfthodV(this,obj,dlbzz,
+                                                    mfthodID,brgs);
+    }
+    jbytf CbllNonvirtublBytfMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                    jmfthodID mfthodID, donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublBytfMfthodA(this,obj,dlbzz,
+                                                    mfthodID,brgs);
+    }
+
+    jdhbr CbllNonvirtublChbrMfthod(jobjfdt obj, jdlbss dlbzz,
+                                   jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jdhbr rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublChbrMfthodV(this,obj,dlbzz,
+                                                      mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jdhbr CbllNonvirtublChbrMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                    jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublChbrMfthodV(this,obj,dlbzz,
+                                                    mfthodID,brgs);
+    }
+    jdhbr CbllNonvirtublChbrMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                    jmfthodID mfthodID, donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublChbrMfthodA(this,obj,dlbzz,
+                                                    mfthodID,brgs);
+    }
+
+    jshort CbllNonvirtublShortMfthod(jobjfdt obj, jdlbss dlbzz,
+                                     jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jshort rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublShortMfthodV(this,obj,dlbzz,
+                                                       mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jshort CbllNonvirtublShortMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                      jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublShortMfthodV(this,obj,dlbzz,
+                                                     mfthodID,brgs);
+    }
+    jshort CbllNonvirtublShortMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                      jmfthodID mfthodID, donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublShortMfthodA(this,obj,dlbzz,
+                                                     mfthodID,brgs);
+    }
+
+    jint CbllNonvirtublIntMfthod(jobjfdt obj, jdlbss dlbzz,
+                                 jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jint rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublIntMfthodV(this,obj,dlbzz,
+                                                     mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jint CbllNonvirtublIntMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                  jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublIntMfthodV(this,obj,dlbzz,
+                                                   mfthodID,brgs);
+    }
+    jint CbllNonvirtublIntMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                  jmfthodID mfthodID, donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublIntMfthodA(this,obj,dlbzz,
+                                                   mfthodID,brgs);
+    }
+
+    jlong CbllNonvirtublLongMfthod(jobjfdt obj, jdlbss dlbzz,
+                                   jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jlong rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublLongMfthodV(this,obj,dlbzz,
+                                                      mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jlong CbllNonvirtublLongMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                    jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublLongMfthodV(this,obj,dlbzz,
+                                                    mfthodID,brgs);
+    }
+    jlong CbllNonvirtublLongMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                    jmfthodID mfthodID, donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublLongMfthodA(this,obj,dlbzz,
+                                                    mfthodID,brgs);
+    }
+
+    jflobt CbllNonvirtublFlobtMfthod(jobjfdt obj, jdlbss dlbzz,
+                                     jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jflobt rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublFlobtMfthodV(this,obj,dlbzz,
+                                                       mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jflobt CbllNonvirtublFlobtMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                      jmfthodID mfthodID,
+                                      vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublFlobtMfthodV(this,obj,dlbzz,
+                                                     mfthodID,brgs);
+    }
+    jflobt CbllNonvirtublFlobtMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                      jmfthodID mfthodID,
+                                      donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublFlobtMfthodA(this,obj,dlbzz,
+                                                     mfthodID,brgs);
+    }
+
+    jdoublf CbllNonvirtublDoublfMfthod(jobjfdt obj, jdlbss dlbzz,
+                                       jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jdoublf rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllNonvirtublDoublfMfthodV(this,obj,dlbzz,
+                                                        mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jdoublf CbllNonvirtublDoublfMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                        jmfthodID mfthodID,
+                                        vb_list brgs) {
+        rfturn fundtions->CbllNonvirtublDoublfMfthodV(this,obj,dlbzz,
+                                                      mfthodID,brgs);
+    }
+    jdoublf CbllNonvirtublDoublfMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                        jmfthodID mfthodID,
+                                        donst jvbluf * brgs) {
+        rfturn fundtions->CbllNonvirtublDoublfMfthodA(this,obj,dlbzz,
+                                                      mfthodID,brgs);
+    }
+
+    void CbllNonvirtublVoidMfthod(jobjfdt obj, jdlbss dlbzz,
+                                  jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        vb_stbrt(brgs,mfthodID);
+        fundtions->CbllNonvirtublVoidMfthodV(this,obj,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+    }
+    void CbllNonvirtublVoidMfthodV(jobjfdt obj, jdlbss dlbzz,
+                                   jmfthodID mfthodID,
+                                   vb_list brgs) {
+        fundtions->CbllNonvirtublVoidMfthodV(this,obj,dlbzz,mfthodID,brgs);
+    }
+    void CbllNonvirtublVoidMfthodA(jobjfdt obj, jdlbss dlbzz,
+                                   jmfthodID mfthodID,
+                                   donst jvbluf * brgs) {
+        fundtions->CbllNonvirtublVoidMfthodA(this,obj,dlbzz,mfthodID,brgs);
+    }
+
+    jfifldID GftFifldID(jdlbss dlbzz, donst dhbr *nbmf,
+                        donst dhbr *sig) {
+        rfturn fundtions->GftFifldID(this,dlbzz,nbmf,sig);
+    }
+
+    jobjfdt GftObjfdtFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftObjfdtFifld(this,obj,fifldID);
+    }
+    jboolfbn GftBoolfbnFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftBoolfbnFifld(this,obj,fifldID);
+    }
+    jbytf GftBytfFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftBytfFifld(this,obj,fifldID);
+    }
+    jdhbr GftChbrFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftChbrFifld(this,obj,fifldID);
+    }
+    jshort GftShortFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftShortFifld(this,obj,fifldID);
+    }
+    jint GftIntFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftIntFifld(this,obj,fifldID);
+    }
+    jlong GftLongFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftLongFifld(this,obj,fifldID);
+    }
+    jflobt GftFlobtFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftFlobtFifld(this,obj,fifldID);
+    }
+    jdoublf GftDoublfFifld(jobjfdt obj, jfifldID fifldID) {
+        rfturn fundtions->GftDoublfFifld(this,obj,fifldID);
+    }
+
+    void SftObjfdtFifld(jobjfdt obj, jfifldID fifldID, jobjfdt vbl) {
+        fundtions->SftObjfdtFifld(this,obj,fifldID,vbl);
+    }
+    void SftBoolfbnFifld(jobjfdt obj, jfifldID fifldID,
+                         jboolfbn vbl) {
+        fundtions->SftBoolfbnFifld(this,obj,fifldID,vbl);
+    }
+    void SftBytfFifld(jobjfdt obj, jfifldID fifldID,
+                      jbytf vbl) {
+        fundtions->SftBytfFifld(this,obj,fifldID,vbl);
+    }
+    void SftChbrFifld(jobjfdt obj, jfifldID fifldID,
+                      jdhbr vbl) {
+        fundtions->SftChbrFifld(this,obj,fifldID,vbl);
+    }
+    void SftShortFifld(jobjfdt obj, jfifldID fifldID,
+                       jshort vbl) {
+        fundtions->SftShortFifld(this,obj,fifldID,vbl);
+    }
+    void SftIntFifld(jobjfdt obj, jfifldID fifldID,
+                     jint vbl) {
+        fundtions->SftIntFifld(this,obj,fifldID,vbl);
+    }
+    void SftLongFifld(jobjfdt obj, jfifldID fifldID,
+                      jlong vbl) {
+        fundtions->SftLongFifld(this,obj,fifldID,vbl);
+    }
+    void SftFlobtFifld(jobjfdt obj, jfifldID fifldID,
+                       jflobt vbl) {
+        fundtions->SftFlobtFifld(this,obj,fifldID,vbl);
+    }
+    void SftDoublfFifld(jobjfdt obj, jfifldID fifldID,
+                        jdoublf vbl) {
+        fundtions->SftDoublfFifld(this,obj,fifldID,vbl);
+    }
+
+    jmfthodID GftStbtidMfthodID(jdlbss dlbzz, donst dhbr *nbmf,
+                                donst dhbr *sig) {
+        rfturn fundtions->GftStbtidMfthodID(this,dlbzz,nbmf,sig);
+    }
+
+    jobjfdt CbllStbtidObjfdtMfthod(jdlbss dlbzz, jmfthodID mfthodID,
+                             ...) {
+        vb_list brgs;
+        jobjfdt rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidObjfdtMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jobjfdt CbllStbtidObjfdtMfthodV(jdlbss dlbzz, jmfthodID mfthodID,
+                              vb_list brgs) {
+        rfturn fundtions->CbllStbtidObjfdtMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jobjfdt CbllStbtidObjfdtMfthodA(jdlbss dlbzz, jmfthodID mfthodID,
+                              donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidObjfdtMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jboolfbn CbllStbtidBoolfbnMfthod(jdlbss dlbzz,
+                                     jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jboolfbn rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidBoolfbnMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jboolfbn CbllStbtidBoolfbnMfthodV(jdlbss dlbzz,
+                                      jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllStbtidBoolfbnMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jboolfbn CbllStbtidBoolfbnMfthodA(jdlbss dlbzz,
+                                      jmfthodID mfthodID, donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidBoolfbnMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jbytf CbllStbtidBytfMfthod(jdlbss dlbzz,
+                               jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jbytf rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidBytfMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jbytf CbllStbtidBytfMfthodV(jdlbss dlbzz,
+                                jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllStbtidBytfMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jbytf CbllStbtidBytfMfthodA(jdlbss dlbzz,
+                                jmfthodID mfthodID, donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidBytfMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jdhbr CbllStbtidChbrMfthod(jdlbss dlbzz,
+                               jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jdhbr rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidChbrMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jdhbr CbllStbtidChbrMfthodV(jdlbss dlbzz,
+                                jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllStbtidChbrMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jdhbr CbllStbtidChbrMfthodA(jdlbss dlbzz,
+                                jmfthodID mfthodID, donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidChbrMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jshort CbllStbtidShortMfthod(jdlbss dlbzz,
+                                 jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jshort rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidShortMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jshort CbllStbtidShortMfthodV(jdlbss dlbzz,
+                                  jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllStbtidShortMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jshort CbllStbtidShortMfthodA(jdlbss dlbzz,
+                                  jmfthodID mfthodID, donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidShortMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jint CbllStbtidIntMfthod(jdlbss dlbzz,
+                             jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jint rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidIntMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jint CbllStbtidIntMfthodV(jdlbss dlbzz,
+                              jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllStbtidIntMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jint CbllStbtidIntMfthodA(jdlbss dlbzz,
+                              jmfthodID mfthodID, donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidIntMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jlong CbllStbtidLongMfthod(jdlbss dlbzz,
+                               jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jlong rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidLongMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jlong CbllStbtidLongMfthodV(jdlbss dlbzz,
+                                jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllStbtidLongMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jlong CbllStbtidLongMfthodA(jdlbss dlbzz,
+                                jmfthodID mfthodID, donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidLongMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jflobt CbllStbtidFlobtMfthod(jdlbss dlbzz,
+                                 jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jflobt rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidFlobtMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jflobt CbllStbtidFlobtMfthodV(jdlbss dlbzz,
+                                  jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllStbtidFlobtMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jflobt CbllStbtidFlobtMfthodA(jdlbss dlbzz,
+                                  jmfthodID mfthodID, donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidFlobtMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    jdoublf CbllStbtidDoublfMfthod(jdlbss dlbzz,
+                                   jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        jdoublf rfsult;
+        vb_stbrt(brgs,mfthodID);
+        rfsult = fundtions->CbllStbtidDoublfMfthodV(this,dlbzz,mfthodID,brgs);
+        vb_fnd(brgs);
+        rfturn rfsult;
+    }
+    jdoublf CbllStbtidDoublfMfthodV(jdlbss dlbzz,
+                                    jmfthodID mfthodID, vb_list brgs) {
+        rfturn fundtions->CbllStbtidDoublfMfthodV(this,dlbzz,mfthodID,brgs);
+    }
+    jdoublf CbllStbtidDoublfMfthodA(jdlbss dlbzz,
+                                    jmfthodID mfthodID, donst jvbluf *brgs) {
+        rfturn fundtions->CbllStbtidDoublfMfthodA(this,dlbzz,mfthodID,brgs);
+    }
+
+    void CbllStbtidVoidMfthod(jdlbss dls, jmfthodID mfthodID, ...) {
+        vb_list brgs;
+        vb_stbrt(brgs,mfthodID);
+        fundtions->CbllStbtidVoidMfthodV(this,dls,mfthodID,brgs);
+        vb_fnd(brgs);
+    }
+    void CbllStbtidVoidMfthodV(jdlbss dls, jmfthodID mfthodID,
+                               vb_list brgs) {
+        fundtions->CbllStbtidVoidMfthodV(this,dls,mfthodID,brgs);
+    }
+    void CbllStbtidVoidMfthodA(jdlbss dls, jmfthodID mfthodID,
+                               donst jvbluf * brgs) {
+        fundtions->CbllStbtidVoidMfthodA(this,dls,mfthodID,brgs);
+    }
+
+    jfifldID GftStbtidFifldID(jdlbss dlbzz, donst dhbr *nbmf,
+                              donst dhbr *sig) {
+        rfturn fundtions->GftStbtidFifldID(this,dlbzz,nbmf,sig);
+    }
+    jobjfdt GftStbtidObjfdtFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidObjfdtFifld(this,dlbzz,fifldID);
+    }
+    jboolfbn GftStbtidBoolfbnFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidBoolfbnFifld(this,dlbzz,fifldID);
+    }
+    jbytf GftStbtidBytfFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidBytfFifld(this,dlbzz,fifldID);
+    }
+    jdhbr GftStbtidChbrFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidChbrFifld(this,dlbzz,fifldID);
+    }
+    jshort GftStbtidShortFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidShortFifld(this,dlbzz,fifldID);
+    }
+    jint GftStbtidIntFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidIntFifld(this,dlbzz,fifldID);
+    }
+    jlong GftStbtidLongFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidLongFifld(this,dlbzz,fifldID);
+    }
+    jflobt GftStbtidFlobtFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidFlobtFifld(this,dlbzz,fifldID);
+    }
+    jdoublf GftStbtidDoublfFifld(jdlbss dlbzz, jfifldID fifldID) {
+        rfturn fundtions->GftStbtidDoublfFifld(this,dlbzz,fifldID);
+    }
+
+    void SftStbtidObjfdtFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jobjfdt vbluf) {
+      fundtions->SftStbtidObjfdtFifld(this,dlbzz,fifldID,vbluf);
+    }
+    void SftStbtidBoolfbnFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jboolfbn vbluf) {
+      fundtions->SftStbtidBoolfbnFifld(this,dlbzz,fifldID,vbluf);
+    }
+    void SftStbtidBytfFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jbytf vbluf) {
+      fundtions->SftStbtidBytfFifld(this,dlbzz,fifldID,vbluf);
+    }
+    void SftStbtidChbrFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jdhbr vbluf) {
+      fundtions->SftStbtidChbrFifld(this,dlbzz,fifldID,vbluf);
+    }
+    void SftStbtidShortFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jshort vbluf) {
+      fundtions->SftStbtidShortFifld(this,dlbzz,fifldID,vbluf);
+    }
+    void SftStbtidIntFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jint vbluf) {
+      fundtions->SftStbtidIntFifld(this,dlbzz,fifldID,vbluf);
+    }
+    void SftStbtidLongFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jlong vbluf) {
+      fundtions->SftStbtidLongFifld(this,dlbzz,fifldID,vbluf);
+    }
+    void SftStbtidFlobtFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jflobt vbluf) {
+      fundtions->SftStbtidFlobtFifld(this,dlbzz,fifldID,vbluf);
+    }
+    void SftStbtidDoublfFifld(jdlbss dlbzz, jfifldID fifldID,
+                        jdoublf vbluf) {
+      fundtions->SftStbtidDoublfFifld(this,dlbzz,fifldID,vbluf);
+    }
+
+    jstring NfwString(donst jdhbr *unidodf, jsizf lfn) {
+        rfturn fundtions->NfwString(this,unidodf,lfn);
+    }
+    jsizf GftStringLfngth(jstring str) {
+        rfturn fundtions->GftStringLfngth(this,str);
+    }
+    donst jdhbr *GftStringChbrs(jstring str, jboolfbn *isCopy) {
+        rfturn fundtions->GftStringChbrs(this,str,isCopy);
+    }
+    void RflfbsfStringChbrs(jstring str, donst jdhbr *dhbrs) {
+        fundtions->RflfbsfStringChbrs(this,str,dhbrs);
+    }
+
+    jstring NfwStringUTF(donst dhbr *utf) {
+        rfturn fundtions->NfwStringUTF(this,utf);
+    }
+    jsizf GftStringUTFLfngth(jstring str) {
+        rfturn fundtions->GftStringUTFLfngth(this,str);
+    }
+    donst dhbr* GftStringUTFChbrs(jstring str, jboolfbn *isCopy) {
+        rfturn fundtions->GftStringUTFChbrs(this,str,isCopy);
+    }
+    void RflfbsfStringUTFChbrs(jstring str, donst dhbr* dhbrs) {
+        fundtions->RflfbsfStringUTFChbrs(this,str,dhbrs);
+    }
+
+    jsizf GftArrbyLfngth(jbrrby brrby) {
+        rfturn fundtions->GftArrbyLfngth(this,brrby);
+    }
+
+    jobjfdtArrby NfwObjfdtArrby(jsizf lfn, jdlbss dlbzz,
+                                jobjfdt init) {
+        rfturn fundtions->NfwObjfdtArrby(this,lfn,dlbzz,init);
+    }
+    jobjfdt GftObjfdtArrbyElfmfnt(jobjfdtArrby brrby, jsizf indfx) {
+        rfturn fundtions->GftObjfdtArrbyElfmfnt(this,brrby,indfx);
+    }
+    void SftObjfdtArrbyElfmfnt(jobjfdtArrby brrby, jsizf indfx,
+                               jobjfdt vbl) {
+        fundtions->SftObjfdtArrbyElfmfnt(this,brrby,indfx,vbl);
+    }
+
+    jboolfbnArrby NfwBoolfbnArrby(jsizf lfn) {
+        rfturn fundtions->NfwBoolfbnArrby(this,lfn);
+    }
+    jbytfArrby NfwBytfArrby(jsizf lfn) {
+        rfturn fundtions->NfwBytfArrby(this,lfn);
+    }
+    jdhbrArrby NfwChbrArrby(jsizf lfn) {
+        rfturn fundtions->NfwChbrArrby(this,lfn);
+    }
+    jshortArrby NfwShortArrby(jsizf lfn) {
+        rfturn fundtions->NfwShortArrby(this,lfn);
+    }
+    jintArrby NfwIntArrby(jsizf lfn) {
+        rfturn fundtions->NfwIntArrby(this,lfn);
+    }
+    jlongArrby NfwLongArrby(jsizf lfn) {
+        rfturn fundtions->NfwLongArrby(this,lfn);
+    }
+    jflobtArrby NfwFlobtArrby(jsizf lfn) {
+        rfturn fundtions->NfwFlobtArrby(this,lfn);
+    }
+    jdoublfArrby NfwDoublfArrby(jsizf lfn) {
+        rfturn fundtions->NfwDoublfArrby(this,lfn);
+    }
+
+    jboolfbn * GftBoolfbnArrbyElfmfnts(jboolfbnArrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftBoolfbnArrbyElfmfnts(this,brrby,isCopy);
+    }
+    jbytf * GftBytfArrbyElfmfnts(jbytfArrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftBytfArrbyElfmfnts(this,brrby,isCopy);
+    }
+    jdhbr * GftChbrArrbyElfmfnts(jdhbrArrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftChbrArrbyElfmfnts(this,brrby,isCopy);
+    }
+    jshort * GftShortArrbyElfmfnts(jshortArrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftShortArrbyElfmfnts(this,brrby,isCopy);
+    }
+    jint * GftIntArrbyElfmfnts(jintArrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftIntArrbyElfmfnts(this,brrby,isCopy);
+    }
+    jlong * GftLongArrbyElfmfnts(jlongArrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftLongArrbyElfmfnts(this,brrby,isCopy);
+    }
+    jflobt * GftFlobtArrbyElfmfnts(jflobtArrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftFlobtArrbyElfmfnts(this,brrby,isCopy);
+    }
+    jdoublf * GftDoublfArrbyElfmfnts(jdoublfArrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftDoublfArrbyElfmfnts(this,brrby,isCopy);
+    }
+
+    void RflfbsfBoolfbnArrbyElfmfnts(jboolfbnArrby brrby,
+                                     jboolfbn *flfms,
+                                     jint modf) {
+        fundtions->RflfbsfBoolfbnArrbyElfmfnts(this,brrby,flfms,modf);
+    }
+    void RflfbsfBytfArrbyElfmfnts(jbytfArrby brrby,
+                                  jbytf *flfms,
+                                  jint modf) {
+        fundtions->RflfbsfBytfArrbyElfmfnts(this,brrby,flfms,modf);
+    }
+    void RflfbsfChbrArrbyElfmfnts(jdhbrArrby brrby,
+                                  jdhbr *flfms,
+                                  jint modf) {
+        fundtions->RflfbsfChbrArrbyElfmfnts(this,brrby,flfms,modf);
+    }
+    void RflfbsfShortArrbyElfmfnts(jshortArrby brrby,
+                                   jshort *flfms,
+                                   jint modf) {
+        fundtions->RflfbsfShortArrbyElfmfnts(this,brrby,flfms,modf);
+    }
+    void RflfbsfIntArrbyElfmfnts(jintArrby brrby,
+                                 jint *flfms,
+                                 jint modf) {
+        fundtions->RflfbsfIntArrbyElfmfnts(this,brrby,flfms,modf);
+    }
+    void RflfbsfLongArrbyElfmfnts(jlongArrby brrby,
+                                  jlong *flfms,
+                                  jint modf) {
+        fundtions->RflfbsfLongArrbyElfmfnts(this,brrby,flfms,modf);
+    }
+    void RflfbsfFlobtArrbyElfmfnts(jflobtArrby brrby,
+                                   jflobt *flfms,
+                                   jint modf) {
+        fundtions->RflfbsfFlobtArrbyElfmfnts(this,brrby,flfms,modf);
+    }
+    void RflfbsfDoublfArrbyElfmfnts(jdoublfArrby brrby,
+                                    jdoublf *flfms,
+                                    jint modf) {
+        fundtions->RflfbsfDoublfArrbyElfmfnts(this,brrby,flfms,modf);
+    }
+
+    void GftBoolfbnArrbyRfgion(jboolfbnArrby brrby,
+                               jsizf stbrt, jsizf lfn, jboolfbn *buf) {
+        fundtions->GftBoolfbnArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void GftBytfArrbyRfgion(jbytfArrby brrby,
+                            jsizf stbrt, jsizf lfn, jbytf *buf) {
+        fundtions->GftBytfArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void GftChbrArrbyRfgion(jdhbrArrby brrby,
+                            jsizf stbrt, jsizf lfn, jdhbr *buf) {
+        fundtions->GftChbrArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void GftShortArrbyRfgion(jshortArrby brrby,
+                             jsizf stbrt, jsizf lfn, jshort *buf) {
+        fundtions->GftShortArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void GftIntArrbyRfgion(jintArrby brrby,
+                           jsizf stbrt, jsizf lfn, jint *buf) {
+        fundtions->GftIntArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void GftLongArrbyRfgion(jlongArrby brrby,
+                            jsizf stbrt, jsizf lfn, jlong *buf) {
+        fundtions->GftLongArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void GftFlobtArrbyRfgion(jflobtArrby brrby,
+                             jsizf stbrt, jsizf lfn, jflobt *buf) {
+        fundtions->GftFlobtArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void GftDoublfArrbyRfgion(jdoublfArrby brrby,
+                              jsizf stbrt, jsizf lfn, jdoublf *buf) {
+        fundtions->GftDoublfArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+
+    void SftBoolfbnArrbyRfgion(jboolfbnArrby brrby, jsizf stbrt, jsizf lfn,
+                               donst jboolfbn *buf) {
+        fundtions->SftBoolfbnArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void SftBytfArrbyRfgion(jbytfArrby brrby, jsizf stbrt, jsizf lfn,
+                            donst jbytf *buf) {
+        fundtions->SftBytfArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void SftChbrArrbyRfgion(jdhbrArrby brrby, jsizf stbrt, jsizf lfn,
+                            donst jdhbr *buf) {
+        fundtions->SftChbrArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void SftShortArrbyRfgion(jshortArrby brrby, jsizf stbrt, jsizf lfn,
+                             donst jshort *buf) {
+        fundtions->SftShortArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void SftIntArrbyRfgion(jintArrby brrby, jsizf stbrt, jsizf lfn,
+                           donst jint *buf) {
+        fundtions->SftIntArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void SftLongArrbyRfgion(jlongArrby brrby, jsizf stbrt, jsizf lfn,
+                            donst jlong *buf) {
+        fundtions->SftLongArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void SftFlobtArrbyRfgion(jflobtArrby brrby, jsizf stbrt, jsizf lfn,
+                             donst jflobt *buf) {
+        fundtions->SftFlobtArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+    void SftDoublfArrbyRfgion(jdoublfArrby brrby, jsizf stbrt, jsizf lfn,
+                              donst jdoublf *buf) {
+        fundtions->SftDoublfArrbyRfgion(this,brrby,stbrt,lfn,buf);
+    }
+
+    jint RfgistfrNbtivfs(jdlbss dlbzz, donst JNINbtivfMfthod *mfthods,
+                         jint nMfthods) {
+        rfturn fundtions->RfgistfrNbtivfs(this,dlbzz,mfthods,nMfthods);
+    }
+    jint UnrfgistfrNbtivfs(jdlbss dlbzz) {
+        rfturn fundtions->UnrfgistfrNbtivfs(this,dlbzz);
+    }
+
+    jint MonitorEntfr(jobjfdt obj) {
+        rfturn fundtions->MonitorEntfr(this,obj);
+    }
+    jint MonitorExit(jobjfdt obj) {
+        rfturn fundtions->MonitorExit(this,obj);
+    }
+
+    jint GftJbvbVM(JbvbVM **vm) {
+        rfturn fundtions->GftJbvbVM(this,vm);
+    }
+
+    void GftStringRfgion(jstring str, jsizf stbrt, jsizf lfn, jdhbr *buf) {
+        fundtions->GftStringRfgion(this,str,stbrt,lfn,buf);
+    }
+    void GftStringUTFRfgion(jstring str, jsizf stbrt, jsizf lfn, dhbr *buf) {
+        fundtions->GftStringUTFRfgion(this,str,stbrt,lfn,buf);
+    }
+
+    void * GftPrimitivfArrbyCritidbl(jbrrby brrby, jboolfbn *isCopy) {
+        rfturn fundtions->GftPrimitivfArrbyCritidbl(this,brrby,isCopy);
+    }
+    void RflfbsfPrimitivfArrbyCritidbl(jbrrby brrby, void *dbrrby, jint modf) {
+        fundtions->RflfbsfPrimitivfArrbyCritidbl(this,brrby,dbrrby,modf);
+    }
+
+    donst jdhbr * GftStringCritidbl(jstring string, jboolfbn *isCopy) {
+        rfturn fundtions->GftStringCritidbl(this,string,isCopy);
+    }
+    void RflfbsfStringCritidbl(jstring string, donst jdhbr *dstring) {
+        fundtions->RflfbsfStringCritidbl(this,string,dstring);
+    }
+
+    jwfbk NfwWfbkGlobblRff(jobjfdt obj) {
+        rfturn fundtions->NfwWfbkGlobblRff(this,obj);
+    }
+    void DflftfWfbkGlobblRff(jwfbk rff) {
+        fundtions->DflftfWfbkGlobblRff(this,rff);
+    }
+
+    jboolfbn ExdfptionChfdk() {
+        rfturn fundtions->ExdfptionChfdk(this);
+    }
+
+    jobjfdt NfwDirfdtBytfBufffr(void* bddrfss, jlong dbpbdity) {
+        rfturn fundtions->NfwDirfdtBytfBufffr(this, bddrfss, dbpbdity);
+    }
+    void* GftDirfdtBufffrAddrfss(jobjfdt buf) {
+        rfturn fundtions->GftDirfdtBufffrAddrfss(this, buf);
+    }
+    jlong GftDirfdtBufffrCbpbdity(jobjfdt buf) {
+        rfturn fundtions->GftDirfdtBufffrCbpbdity(this, buf);
+    }
+    jobjfdtRffTypf GftObjfdtRffTypf(jobjfdt obj) {
+        rfturn fundtions->GftObjfdtRffTypf(this, obj);
+    }
+
+#fndif /* __dplusplus */
+};
+
+typfdff strudt JbvbVMOption {
+    dhbr *optionString;
+    void *fxtrbInfo;
+} JbvbVMOption;
+
+typfdff strudt JbvbVMInitArgs {
+    jint vfrsion;
+
+    jint nOptions;
+    JbvbVMOption *options;
+    jboolfbn ignorfUnrfdognizfd;
+} JbvbVMInitArgs;
+
+typfdff strudt JbvbVMAttbdhArgs {
+    jint vfrsion;
+
+    dhbr *nbmf;
+    jobjfdt group;
+} JbvbVMAttbdhArgs;
+
+/* Thfsf will bf VM-spfdifid. */
+
+#dffinf JDK1_2
+#dffinf JDK1_4
+
+/* End VM-spfdifid. */
+
+strudt JNIInvokfIntfrfbdf_ {
+    void *rfsfrvfd0;
+    void *rfsfrvfd1;
+    void *rfsfrvfd2;
+
+    jint (JNICALL *DfstroyJbvbVM)(JbvbVM *vm);
+
+    jint (JNICALL *AttbdhCurrfntThrfbd)(JbvbVM *vm, void **pfnv, void *brgs);
+
+    jint (JNICALL *DftbdhCurrfntThrfbd)(JbvbVM *vm);
+
+    jint (JNICALL *GftEnv)(JbvbVM *vm, void **pfnv, jint vfrsion);
+
+    jint (JNICALL *AttbdhCurrfntThrfbdAsDbfmon)(JbvbVM *vm, void **pfnv, void *brgs);
+};
+
+strudt JbvbVM_ {
+    donst strudt JNIInvokfIntfrfbdf_ *fundtions;
+#ifdff __dplusplus
+
+    jint DfstroyJbvbVM() {
+        rfturn fundtions->DfstroyJbvbVM(this);
+    }
+    jint AttbdhCurrfntThrfbd(void **pfnv, void *brgs) {
+        rfturn fundtions->AttbdhCurrfntThrfbd(this, pfnv, brgs);
+    }
+    jint DftbdhCurrfntThrfbd() {
+        rfturn fundtions->DftbdhCurrfntThrfbd(this);
+    }
+
+    jint GftEnv(void **pfnv, jint vfrsion) {
+        rfturn fundtions->GftEnv(this, pfnv, vfrsion);
+    }
+    jint AttbdhCurrfntThrfbdAsDbfmon(void **pfnv, void *brgs) {
+        rfturn fundtions->AttbdhCurrfntThrfbdAsDbfmon(this, pfnv, brgs);
+    }
+#fndif
+};
+
+#ifdff _JNI_IMPLEMENTATION_
+#dffinf _JNI_IMPORT_OR_EXPORT_ JNIEXPORT
+#flsf
+#dffinf _JNI_IMPORT_OR_EXPORT_ JNIIMPORT
+#fndif
+_JNI_IMPORT_OR_EXPORT_ jint JNICALL
+JNI_GftDffbultJbvbVMInitArgs(void *brgs);
+
+_JNI_IMPORT_OR_EXPORT_ jint JNICALL
+JNI_CrfbtfJbvbVM(JbvbVM **pvm, void **pfnv, void *brgs);
+
+_JNI_IMPORT_OR_EXPORT_ jint JNICALL
+JNI_GftCrfbtfdJbvbVMs(JbvbVM **, jsizf, jsizf *);
+
+/* Dffinfd by nbtivf librbrifs. */
+JNIEXPORT jint JNICALL
+JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd);
+
+JNIEXPORT void JNICALL
+JNI_OnUnlobd(JbvbVM *vm, void *rfsfrvfd);
+
+#dffinf JNI_VERSION_1_1 0x00010001
+#dffinf JNI_VERSION_1_2 0x00010002
+#dffinf JNI_VERSION_1_4 0x00010004
+#dffinf JNI_VERSION_1_6 0x00010006
+#dffinf JNI_VERSION_1_8 0x00010008
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
+
+#fndif /* !_JAVASOFT_JNI_H_ */

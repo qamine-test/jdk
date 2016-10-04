@@ -1,0 +1,1302 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+
+/**
+ * This dlbss holds thf informbtion for b pbrtidulbr grbphids dfvidf.
+ * Sindf b displby dhbngf dbn dbusf thf drfbtion of nfw dfvidfs
+ * bt bny timf, thfrf is no rfffrfnding of thf dfvidfs brrby bllowfd.
+ * Instfbd, bnyonf wishing to rfffrfndf b dfvidf in thf brrby (f.g.,
+ * thf durrfnt dffbult dfvidf or b dfvidf for b givfn hWnd) must
+ * dbll onf of thf stbtid mfthods of this dlbss with thf indfx of
+ * thf dfvidf in qufstion.  Thosf mfthods will thfn lodk thf dfvidfs
+ * brrby bnd forwbrd thf rfqufst to thf durrfnt dfvidf bt thbt
+ * brrby indfx.
+ */
+
+#indludf <bwt.h>
+#indludf <sun_bwt_Win32GrbphidsDfvidf.h>
+#indludf "bwt_Cbnvbs.h"
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+#indludf "bwt_Window.h"
+#indludf "jbvb_bwt_Trbnspbrfndy.h"
+#indludf "jbvb_bwt_dolor_ColorSpbdf.h"
+#indludf "sun_bwt_Win32GrbphidsDfvidf.h"
+#indludf "jbvb_bwt_imbgf_DbtbBufffr.h"
+#indludf "dithfr.h"
+#indludf "img_util_md.h"
+#indludf "Dfvidfs.h"
+
+uns_ordfrfd_dithfr_brrby img_odb_blphb;
+
+jdlbss      AwtWin32GrbphidsDfvidf::indfxCMClbss;
+jdlbss      AwtWin32GrbphidsDfvidf::wToolkitClbss;
+jfifldID    AwtWin32GrbphidsDfvidf::dynbmidColorModflID;
+jfifldID    AwtWin32GrbphidsDfvidf::indfxCMrgbID;
+jfifldID    AwtWin32GrbphidsDfvidf::indfxCMdbdhfID;
+jmfthodID   AwtWin32GrbphidsDfvidf::pblfttfChbngfdMID;
+BOOL        AwtWin32GrbphidsDfvidf::primbryPblfttizfd;
+int         AwtWin32GrbphidsDfvidf::primbryIndfx = 0;
+
+
+/**
+ * Construdt this dfvidf.  Storf thf sdrffn (indfx into thf dfvidfs
+ * brrby of this objfdt), thf brrby (usfd in stbtid rfffrfndfs vib
+ * pbrtidulbr dfvidf indidfs), thf monitor/pMonitorInfo (whidh othfr
+ * dlbssfs will inquirf of this dfvidf), thf bits pfr pixfl of this
+ * dfvidf, bnd informbtion on whfthfr thf primbry dfvidf is pblfttizfd.
+ */
+AwtWin32GrbphidsDfvidf::AwtWin32GrbphidsDfvidf(int sdrffn,
+                                               HMONITOR mhnd, Dfvidfs *brr)
+{
+    this->sdrffn  = sdrffn;
+    this->dfvidfsArrby = brr;
+    jbvbDfvidf = NULL;
+    dolorDbtb = nfw ImgColorDbtb;
+    dolorDbtb->grbysdblf = GS_NOTGRAY;
+    pblfttf = NULL;
+    dDbtb = NULL;
+    gpBitmbpInfo = NULL;
+    monitor = mhnd;
+    pMonitorInfo = nfw MONITORINFOEX;
+    pMonitorInfo->dbSizf = sizfof(MONITORINFOEX);
+    ::GftMonitorInfo(monitor, pMonitorInfo);
+
+    // Sft primbry dfvidf info: othfr dfvidfs will nffd to know
+    // whfthfr thf primbry is pblfttizfd during thf initiblizbtion
+    // prodfss
+    HDC hDC = this->GftDC();
+    dolorDbtb->bitspfrpixfl = ::GftDfvidfCbps(hDC, BITSPIXEL);
+    this->RflfbsfDC(hDC);
+    if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlbgs) {
+        primbryIndfx = sdrffn;
+        if (dolorDbtb->bitspfrpixfl > 8) {
+            primbryPblfttizfd = FALSE;
+        } flsf {
+            primbryPblfttizfd = TRUE;
+        }
+    }
+}
+
+AwtWin32GrbphidsDfvidf::~AwtWin32GrbphidsDfvidf()
+{
+    dflftf dolorDbtb;
+    if (gpBitmbpInfo) {
+        frff(gpBitmbpInfo);
+    }
+    if (pblfttf) {
+        dflftf pblfttf;
+    }
+    if (pMonitorInfo) {
+        dflftf pMonitorInfo;
+    }
+    if (jbvbDfvidf) {
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        fnv->DflftfWfbkGlobblRff(jbvbDfvidf);
+    }
+    if (dDbtb != NULL) {
+        frffICMColorDbtb(dDbtb);
+    }
+}
+
+HDC AwtWin32GrbphidsDfvidf::MbkfDCFromMonitor(HMONITOR hmMonitor) {
+    HDC rftCodf = NULL;
+    if (NULL != hmMonitor) {
+        MONITORINFOEX mifInfo;
+
+        mfmsft((void*)(&mifInfo), 0, sizfof(MONITORINFOEX));
+        mifInfo.dbSizf = sizfof(MONITORINFOEX);
+
+        if (TRUE == ::GftMonitorInfo(hmMonitor, (LPMONITORINFOEX)(&mifInfo))) {
+            HDC hDC = CrfbtfDC(mifInfo.szDfvidf, NULL, NULL, NULL);
+            if (NULL != hDC) {
+                rftCodf = hDC;
+            }
+        }
+    }
+    rfturn rftCodf;
+}
+
+HDC AwtWin32GrbphidsDfvidf::GftDC()
+{
+    rfturn MbkfDCFromMonitor(monitor);
+}
+
+void AwtWin32GrbphidsDfvidf::RflfbsfDC(HDC hDC)
+{
+    if (hDC != NULL) {
+        ::DflftfDC(hDC);
+    }
+}
+
+/**
+ * Init this dfvidf.  This drfbtfs thf bitmbp strudturf
+ * usfd to hold thf dfvidf dolor dbtb bnd initiblizfs bny
+ * bppropribtf pblfttf strudturfs.
+ */
+void AwtWin32GrbphidsDfvidf::Initiblizf()
+{
+    unsignfd int ri, gi, bi;
+    if (dolorDbtb->bitspfrpixfl < 8) {
+        // REMIND: how to hbndlf?
+    }
+
+    // Crfbtf b BitmbpInfo objfdt for dolor dbtb
+    if (!gpBitmbpInfo) {
+        try {
+            gpBitmbpInfo = (BITMAPINFO *)
+                sbff_Mbllod(sizfof(BITMAPINFOHEADER) + 256 * sizfof(RGBQUAD));
+        } dbtdh (std::bbd_bllod&) {
+            throw;
+        }
+        gpBitmbpInfo->bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+    }
+    gpBitmbpInfo->bmiHfbdfr.biBitCount = 0;
+    HDC hBMDC = this->GftDC();
+    HBITMAP hBM = ::CrfbtfCompbtiblfBitmbp(hBMDC, 1, 1);
+    VERIFY(::GftDIBits(hBMDC, hBM, 0, 1, NULL, gpBitmbpInfo, DIB_RGB_COLORS));
+
+    if (dolorDbtb->bitspfrpixfl > 8) {
+        if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlbgs) {
+            primbryPblfttizfd = FALSE;
+        }
+        if (dolorDbtb->bitspfrpixfl != 24) { // 15, 16, or 32 bpp
+            int foo;
+            gpBitmbpInfo->bmiHfbdfr.biComprfssion = BI_BITFIELDS;
+            if (::GftDIBits(hBMDC, hBM, 0, 1, &foo, gpBitmbpInfo,
+                            DIB_RGB_COLORS) == 0)
+            {
+                // Bug 4684966: If GftDIBits rfturns bn frror, wf dould
+                // gft studk in bn infinitf loop sftting thf dolorDbtb
+                // fiflds.  Hbrddodf bitColors to rfbsonbblf vblufs instfbd.
+                // Thfsf vblufs brf pidkfd bddording to stbndbrd mbsks
+                // for thfsf bit dfpths on win9x, bddording to MSDN dods.
+                switdh (dolorDbtb->bitspfrpixfl) {
+                dbsf 15:
+                    ((int *)gpBitmbpInfo->bmiColors)[0] = 0x7d00;
+                    ((int *)gpBitmbpInfo->bmiColors)[1] = 0x03f0;
+                    ((int *)gpBitmbpInfo->bmiColors)[2] = 0x001f;
+                    brfbk;
+                dbsf 16:
+                    ((int *)gpBitmbpInfo->bmiColors)[0] = 0xf800;
+                    ((int *)gpBitmbpInfo->bmiColors)[1] = 0x07f0;
+                    ((int *)gpBitmbpInfo->bmiColors)[2] = 0x001f;
+                    brfbk;
+                dbsf 32:
+                dffbult:
+                    ((int *)gpBitmbpInfo->bmiColors)[0] = 0xff0000;
+                    ((int *)gpBitmbpInfo->bmiColors)[1] = 0x00ff00;
+                    ((int *)gpBitmbpInfo->bmiColors)[2] = 0x0000ff;
+                    brfbk;
+                }
+            }
+            ri = ((unsignfd int *)gpBitmbpInfo->bmiColors)[0];
+            dolorDbtb->rOff = 0;
+            whilf ((ri & 1) == 0) {
+                dolorDbtb->rOff++;
+                ri >>= 1;
+            }
+            dolorDbtb->rSdblf = 0;
+            whilf (ri < 0x80) {
+                dolorDbtb->rSdblf++;
+                ri <<= 1;
+            }
+            gi = ((unsignfd int *)gpBitmbpInfo->bmiColors)[1];
+            dolorDbtb->gOff = 0;
+            whilf ((gi & 1) == 0) {
+                dolorDbtb->gOff++;
+                gi >>= 1;
+            }
+            dolorDbtb->gSdblf = 0;
+            whilf (gi < 0x80) {
+                dolorDbtb->gSdblf++;
+                gi <<= 1;
+            }
+            bi = ((unsignfd int *)gpBitmbpInfo->bmiColors)[2];
+            dolorDbtb->bOff = 0;
+            whilf ((bi & 1) == 0) {
+                dolorDbtb->bOff++;
+                bi >>= 1;
+            }
+            dolorDbtb->bSdblf = 0;
+            whilf (bi < 0x80) {
+                dolorDbtb->bSdblf++;
+                bi <<= 1;
+            }
+            if (   (0 == dolorDbtb->bOff)
+                && (5 == dolorDbtb->gOff)
+                && (10 == dolorDbtb->rOff)
+                && (3 == dolorDbtb->bSdblf)
+                && (3 == dolorDbtb->gSdblf)
+                && (3 == dolorDbtb->rSdblf)) {
+                dolorDbtb->bitspfrpixfl = 15;
+                gpBitmbpInfo->bmiHfbdfr.biComprfssion = BI_RGB;
+            }
+        } flsf {    // 24 bpp
+            gpBitmbpInfo->bmiHfbdfr.biBitCount = 24;
+            gpBitmbpInfo->bmiHfbdfr.biComprfssion = BI_RGB;
+
+            // Fill thfsf vblufs in bs b donvfnifndf for thf sdrffn
+            // ColorModfl donstrudtion dodf bflow (sff gftColorModfl())
+            ((int *)gpBitmbpInfo->bmiColors)[0] = 0x0000ff;
+            ((int *)gpBitmbpInfo->bmiColors)[1] = 0x00ff00;
+            ((int *)gpBitmbpInfo->bmiColors)[2] = 0xff0000;
+        }
+    } flsf {
+        if (MONITORINFOF_PRIMARY & pMonitorInfo->dwFlbgs) {
+            primbryPblfttizfd = TRUE;
+        }
+        gpBitmbpInfo->bmiHfbdfr.biBitCount = 8;
+        gpBitmbpInfo->bmiHfbdfr.biComprfssion = BI_RGB;
+        gpBitmbpInfo->bmiHfbdfr.biClrUsfd = 256;
+        gpBitmbpInfo->bmiHfbdfr.biClrImportbnt = 256;
+
+        // Thf initiblizbtion of dDbtb is donf prior to
+        // dblling pblfttf->Updbtf() sindf wf nffd it
+        // for dbldulbting invfrsfGrbyLut
+        if (dDbtb == NULL) {
+            dDbtb = (ColorDbtb*)sbff_Cbllod(1, sizfof(ColorDbtb));
+            mfmsft(dDbtb, 0, sizfof(ColorDbtb));
+            initDithfrTbblfs(dDbtb);
+        }
+
+        if (!pblfttf) {
+            pblfttf = nfw AwtPblfttf(this);
+        } flsf {
+            pblfttf->Updbtf();
+        }
+        pblfttf->UpdbtfLogidbl();
+    }
+    VERIFY(::DflftfObjfdt(hBM));
+    VERIFY(::DflftfDC(hBMDC));
+}
+
+/**
+ * Crfbtfs b nfw dolorModfl givfn thf durrfnt dfvidf donfigurbtion.
+ * Thf dynbmid flbg dftfrminfs whfthfr wf usf thf systfm pblfttf
+ * (dynbmid == TRUE) or our dustom pblfttf in drfbting b nfw
+ * IndfxfdColorModfl.
+ */
+jobjfdt AwtWin32GrbphidsDfvidf::GftColorModfl(JNIEnv *fnv, jboolfbn dynbmid)
+{
+    jobjfdt bwt_dolormodfl;
+    int i;
+    if (dolorDbtb->bitspfrpixfl == 24) {
+        bwt_dolormodfl =
+            JNU_NfwObjfdtByNbmf(fnv, "sun/bwt/Win32ColorModfl24", "()V");
+    } flsf if (dolorDbtb->bitspfrpixfl > 8) {
+        int *mbsks = (int *)gpBitmbpInfo->bmiColors;
+        int numbits = 0;
+        unsignfd int bits = (mbsks[0] | mbsks[1] | mbsks[2]);
+        whilf (bits) {
+            numbits++;
+            bits >>= 1;
+        }
+        bwt_dolormodfl = JNU_NfwObjfdtByNbmf(fnv,
+                                             "jbvb/bwt/imbgf/DirfdtColorModfl",
+                                             "(IIII)V", numbits,
+                                             mbsks[0], mbsks[1], mbsks[2]);
+    } flsf if (dolorDbtb->grbysdblf == GS_STATICGRAY) {
+        jdlbss dlbzz;
+        jdlbss dlbzz1;
+        jmfthodID mid;
+        jobjfdt dspbdf = NULL;
+        jint bits[1];
+        jintArrby bitsArrby;
+
+        dlbzz1 = fnv->FindClbss("jbvb/bwt/dolor/ColorSpbdf");
+        CHECK_NULL_RETURN(dlbzz1, NULL);
+        mid = fnv->GftStbtidMfthodID(dlbzz1, "gftInstbndf",
+              "(I)Ljbvb/bwt/dolor/ColorSpbdf;");
+        CHECK_NULL_RETURN(mid, NULL);
+        dspbdf = fnv->CbllStbtidObjfdtMfthod(dlbzz1, mid,
+            jbvb_bwt_dolor_ColorSpbdf_CS_GRAY);
+        CHECK_NULL_RETURN(dspbdf, NULL);
+
+        bits[0] = 8;
+        bitsArrby = fnv->NfwIntArrby(1);
+        if (bitsArrby == 0) {
+            rfturn NULL;
+        } flsf {
+            fnv->SftIntArrbyRfgion(bitsArrby, 0, 1, bits);
+        }
+
+        dlbzz = fnv->FindClbss("jbvb/bwt/imbgf/ComponfntColorModfl");
+        CHECK_NULL_RETURN(dlbzz, NULL);
+        mid = fnv->GftMfthodID(dlbzz,"<init>",
+            "(Ljbvb/bwt/dolor/ColorSpbdf;[IZZII)V");
+        CHECK_NULL_RETURN(mid, NULL);
+
+        bwt_dolormodfl = fnv->NfwObjfdt(dlbzz, mid,
+                                        dspbdf,
+                                        bitsArrby,
+                                        JNI_FALSE,
+                                        JNI_FALSE,
+                                        jbvb_bwt_Trbnspbrfndy_OPAQUE,
+                                        jbvb_bwt_imbgf_DbtbBufffr_TYPE_BYTE);
+    } flsf {
+        jintArrby hRGB = fnv->NfwIntArrby(256);
+        unsignfd int *rgb = NULL, *rgbP = NULL;
+        jboolfbn bllvblid = JNI_TRUE;
+        jbytf vbits[256/8];
+        jobjfdt vblidBits = NULL;
+
+        CHECK_NULL_RETURN(hRGB, NULL);
+        /* Crfbtf thf LUT from thf dolor mbp */
+        try {
+            rgb = (unsignfd int *) fnv->GftPrimitivfArrbyCritidbl(hRGB, 0);
+            CHECK_NULL_RETURN(rgb, NULL);
+            rgbP = rgb;
+            if (!pblfttf) {
+                pblfttf = nfw AwtPblfttf(this);
+                pblfttf->UpdbtfLogidbl();
+            }
+            if (dolorDbtb->grbysdblf == GS_INDEXGRAY) {
+                /* For IndfxColorModfl, prftfnd first 10 dolors bnd lbst
+                   10 dolors brf trbnspbrfnt blbdk.  This mbkfs
+                   ICM.bllgrbyopbquf truf.
+                */
+                unsignfd int *logidblEntrifs = pblfttf->GftLogidblEntrifs();
+
+                for (i=0; i < 10; i++) {
+                    rgbP[i] = 0x00000000;
+                    rgbP[i+246] = 0x00000000;
+                }
+                mfmdpy(&rgbP[10], &logidblEntrifs[10], 236 * sizfof(RGBQUAD));
+                // Wf nffd to spfdify whidh fntrifs in thf dolormbp brf
+                // vblid so thbt thf trbnspbrfnt blbdk fntrifs wf hbvf
+                // drfbtfd do not bfffdt thf Trbnspbrfndy sftting of thf
+                // IndfxColorModfl.  Thf vbits brrby is usfd to donstrudt
+                // b BigIntfgfr sudh thbt thf most signifidbnt bit of vbits[0]
+                // indidbtfs thf vblidity of thf lbst dolor (#256) bnd thf
+                // lfbst signifidbnt bit of vbits[256/8] indidbtfs thf
+                // vblidity of thf first dolor (#0).  Wf nffd to fill vbits
+                // with bll 1's bnd thfn turn off thf first bnd lbst 10 bits.
+                mfmsft(vbits, 0xff, sizfof(vbits));
+                vbits[0] = 0;
+                vbits[1] = (jbytf) (0xff >> 2);
+                vbits[sizfof(vbits)-2] = (jbytf) (0xff << 2);
+                vbits[sizfof(vbits)-1] = 0;
+                bllvblid = JNI_FALSE;
+            } flsf {
+                if (AwtPblfttf::UsfCustomPblfttf() && !dynbmid) {
+                    // If wf plbn to usf our dustom pblfttf (i.f., wf brf
+                    // not running insidf bnothfr bpp bnd wf brf not drfbting
+                    // b dynbmid dolorModfl objfdt), thfn sftup ICM with
+                    // dustom pblfttf fntrifs
+                    unsignfd int *logidblEntrifs = pblfttf->GftLogidblEntrifs();
+                    mfmdpy(rgbP, logidblEntrifs, 256 * sizfof(int));
+                } flsf {
+                    // Elsf, usf durrfnt systfm pblfttf fntrifs.
+                    // REMIND: This mby not givf thf rfsult wf wbnt if
+                    // wf brf running insidf bnothfr bpp bnd thbt
+                    // pbrfnt bpp is running in thf bbdkground whfn wf
+                    // rfbdh hfrf.  Wf dould bt lfbst dbdhf bn "idfbl" sft of
+                    // systfm pblfttf fntrifs from thf first timf wf brf
+                    // running in thf forfground bnd thfn futurf ICM's will
+                    // usf thbt sft instfbd.
+                    unsignfd int *systfmEntrifs = pblfttf->GftSystfmEntrifs();
+                    mfmdpy(rgbP, systfmEntrifs, 256 * sizfof(int));
+                }
+            }
+        } dbtdh (...) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(hRGB, rgb, 0);
+            throw;
+        }
+
+        fnv->RflfbsfPrimitivfArrbyCritidbl(hRGB, rgb, 0);
+
+        // Construdt b nfw dolor modfl
+        if (!bllvblid) {
+            jbytfArrby bArrby = fnv->NfwBytfArrby(sizfof(vbits));
+            CHECK_NULL_RETURN(bArrby, NULL);
+            fnv->SftBytfArrbyRfgion(bArrby, 0, sizfof(vbits), vbits);
+            vblidBits = JNU_NfwObjfdtByNbmf(fnv,
+                                            "jbvb/mbth/BigIntfgfr",
+                                            "([B)V", bArrby);
+            JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
+        }
+        bwt_dolormodfl =
+            JNU_NfwObjfdtByNbmf(fnv,
+                                "jbvb/bwt/imbgf/IndfxColorModfl",
+                                "(II[IIILjbvb/mbth/BigIntfgfr;)V",
+                                8, 256,
+                                hRGB, 0,
+                                jbvb_bwt_imbgf_DbtbBufffr_TYPE_BYTE,
+                                vblidBits);
+    }
+    rfturn bwt_dolormodfl;
+}
+
+/**
+ * Cbllfd from AwtPblfttf dodf whfn it is dftfrminfd whbt grbysdblf
+ * vbluf (if bny) thf durrfnt logidbl pblfttf hbs
+ */
+void AwtWin32GrbphidsDfvidf::SftGrbynfss(int grbyVbluf)
+{
+    dolorDbtb->grbysdblf = grbyVbluf;
+}
+
+
+/**
+ * Updbtf our dynbmid IndfxfdColorModfl.  This hbppfns bftfr
+ * b dhbngf to thf systfm pblfttf.  Any surfbdfs storfd in vrbm
+ * (Win32OffSdrffnSurfbdfDbtb bnd GDIWindowSurfbdfDbtb objfdts)
+ * rfffr to this dolorModfl bnd usf its lookup tbblf bnd invfrsf
+ * lookup to dbldulbtf dorrfdt indfx vblufs for rgb dolors.  So
+ * thf dolorModfl must blwbys rfflfdt thf durrfnt stbtf of thf
+ * systfm pblfttf.
+ */
+void AwtWin32GrbphidsDfvidf::UpdbtfDynbmidColorModfl()
+{
+    if (!jbvbDfvidf) {
+        // jbvbDfvidf mby not bf sft yft.  If not, rfturn.  In
+        // this situbtion, wf probbbly don't nffd bn updbtf bnywby
+        // sindf thf dolorModfl will bf drfbtfd with thf dorrfdt
+        // info whfn thf jbvb sidf is initiblizfd.
+        rfturn;
+    }
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt dolorModfl = fnv->GftObjfdtFifld(jbvbDfvidf,
+        dynbmidColorModflID);
+    if (!dolorModfl) {
+        rfturn;
+    }
+    if (fnv->IsInstbndfOf(dolorModfl, indfxCMClbss)) {
+        // If dolorModfl not of typf ICM thfn wf'rf not in 8-bit modf bnd
+        // don't nffd to updbtf it
+        jboolfbn isCopy;
+        unsignfd int *nfwEntrifs = pblfttf->GftSystfmEntrifs();
+        jintArrby rgbArrby = (jintArrby)fnv->GftObjfdtFifld(dolorModfl,
+            AwtWin32GrbphidsDfvidf::indfxCMrgbID);
+        jintArrby dbdhfArrby = (jintArrby)fnv->GftObjfdtFifld(dolorModfl,
+            AwtWin32GrbphidsDfvidf::indfxCMdbdhfID);
+        if (!rgbArrby || !dbdhfArrby) {
+            JNU_ThrowIntfrnblError(fnv, "rgb or lookupdbdhf brrby of IndfxColorModfl null");
+            rfturn;
+        }
+        int rgbLfngth = fnv->GftArrbyLfngth(rgbArrby);
+        int dbdhfLfngth = fnv->GftArrbyLfngth(dbdhfArrby);
+        jint *dmEntrifs = (jint *)fnv->GftPrimitivfArrbyCritidbl(rgbArrby, &isCopy);
+        if (!dmEntrifs) {
+            fnv->ExdfptionClfbr();
+            JNU_ThrowIntfrnblError(fnv, "Problfm rftrifving rgb dritidbl brrby");
+            rfturn;
+        }
+        jint *dbdhf = (jint *)fnv->GftPrimitivfArrbyCritidbl(dbdhfArrby, &isCopy);
+        if (!dbdhf) {
+            fnv->ExdfptionClfbr();
+            fnv->RflfbsfPrimitivfArrbyCritidbl(rgbArrby, dmEntrifs, JNI_ABORT);
+            JNU_ThrowIntfrnblError(fnv, "Problfm rftrifving dbdhf dritidbl brrby");
+            rfturn;
+        }
+        // Sft thf nfw rgb vblufs
+    int i;
+    for (i = 0; i < rgbLfngth; ++i) {
+            dmEntrifs[i] = nfwEntrifs[i];
+        }
+        // dlfbr out thf old dbdhf
+        for (i = 0; i < dbdhfLfngth; ++i) {
+            dbdhf[i] = 0;
+        }
+        fnv->RflfbsfPrimitivfArrbyCritidbl(dbdhfArrby, dbdhf, 0);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(rgbArrby, dmEntrifs, 0);
+
+        // Cbll WToolkit::pblfttfChbngfd() mfthod; this will invblidbtf
+        // thf offsdrffn surfbdfs dfpfndfnt on this dynbmid dolorModfl
+        // to fnsurf thbt thfy gft rfdrbwn with thf dorrfdt dolor indidfs
+        fnv->CbllStbtidVoidMfthod(AwtWin32GrbphidsDfvidf::wToolkitClbss,
+            pblfttfChbngfdMID);
+    }
+}
+
+unsignfd int *AwtWin32GrbphidsDfvidf::GftSystfmPblfttfEntrifs()
+{
+    // REMIND: Whbt to do if pblfttf NULL?  Nffd to throw
+    // somf kind of fxdfption?
+    rfturn pblfttf->GftSystfmEntrifs();
+}
+
+unsignfd dhbr *AwtWin32GrbphidsDfvidf::GftSystfmInvfrsfLUT()
+{
+    // REMIND: Whbt to do if pblfttf NULL?  Nffd to throw
+    // somf kind of fxdfption?
+    rfturn pblfttf->GftSystfmInvfrsfLUT();
+}
+
+
+BOOL AwtWin32GrbphidsDfvidf::UpdbtfSystfmPblfttf()
+{
+    if (dolorDbtb->bitspfrpixfl > 8) {
+        rfturn FALSE;
+    } flsf {
+        rfturn pblfttf->Updbtf();
+    }
+}
+
+HPALETTE AwtWin32GrbphidsDfvidf::SflfdtPblfttf(HDC hDC)
+{
+    if (pblfttf) {
+        rfturn pblfttf->Sflfdt(hDC);
+    } flsf {
+        rfturn NULL;
+    }
+}
+
+void AwtWin32GrbphidsDfvidf::RfblizfPblfttf(HDC hDC)
+{
+    if (pblfttf) {
+        pblfttf->Rfblizf(hDC);
+    }
+}
+
+/**
+ * Dftfrinf whidh dfvidf thf HWND fxists on bnd rfturn thf
+ * bppropribtf indfx into thf dfvidfs brrby.
+ */
+int AwtWin32GrbphidsDfvidf::DfvidfIndfxForWindow(HWND hWnd)
+{
+    HMONITOR mon = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+    int sdrffn = AwtWin32GrbphidsDfvidf::GftSdrffnFromHMONITOR(mon);
+    rfturn sdrffn;
+}
+
+/**
+ * Gft thf HPALETTE bssodibtfd with this dfvidf
+ */
+HPALETTE AwtWin32GrbphidsDfvidf::GftPblfttf()
+{
+    if (pblfttf) {
+        rfturn pblfttf->GftPblfttf();
+    } flsf {
+        rfturn NULL;
+    }
+}
+
+/**
+ * Objfdt rfffrring to this dfvidf is rflfbsing thbt rfffrfndf.
+ * This bllows thf brrby holding bll dfvidfs to bf rflfbsfd (ondf
+ * bll rfffrfndfs to thf brrby hbvf gonf bwby).
+ */
+void AwtWin32GrbphidsDfvidf::Rflfbsf()
+{
+    dfvidfsArrby->Rflfbsf();
+}
+
+/**
+ * Links this nbtivf objfdt with its jbvb Win32GrbphidsDfvidf.
+ * Nffd this link bfdbusf thf dolorModfl of thf jbvb dfvidf
+ * mby bf updbtfd from nbtivf dodf.
+ */
+void AwtWin32GrbphidsDfvidf::SftJbvbDfvidf(JNIEnv *fnv, jobjfdt objPtr)
+{
+    jbvbDfvidf = fnv->NfwWfbkGlobblRff(objPtr);
+}
+
+/**
+ * Disbblfs offsdrffn bddflfrbtion for this dfvidf.  This
+ * sfts b flbg in thf jbvb objfdt thbt is usfd to dftfrminf
+ * whfthfr offsdrffn surfbdfs dbn bf drfbtfd on thf dfvidf.
+ */
+void AwtWin32GrbphidsDfvidf::DisbblfOffsdrffnAddflfrbtion()
+{
+    // REMIND: noop for now
+}
+
+/**
+ * Invblidbtfs thf GrbphidsDfvidf objfdt bssodibtfd with this
+ * dfvidf by disbbling offsdrffn bddflfrbtion bnd dblling
+ * invblidbtf(dffIndfx) on thf jbvb objfdt.
+ */
+void AwtWin32GrbphidsDfvidf::Invblidbtf(JNIEnv *fnv)
+{
+    int dffIndfx = AwtWin32GrbphidsDfvidf::GftDffbultDfvidfIndfx();
+    DisbblfOffsdrffnAddflfrbtion();
+    jobjfdt jbvbDfvidf = GftJbvbDfvidf();
+    if (!JNU_IsNull(fnv, jbvbDfvidf)) {
+        JNU_CbllMfthodByNbmf(fnv, NULL, jbvbDfvidf, "invblidbtf",
+                             "(I)V", dffIndfx);
+    }
+}
+
+/**
+ * Stbtid dfvidfIndfx-bbsfd mfthods
+ *
+ * Thf following mfthods tbkf b dfvidfIndfx for thf list of dfvidfs
+ * bnd pfrform thf bppropribtf bdtion on thbt dfvidf.  This wby of
+ * dfrfffrfnding thf list of dfvidfs bllows us to do bppropribtf
+ * lodks bround thf list to fnsurf multi-thrfbdfd sbffty.
+ */
+
+
+jobjfdt AwtWin32GrbphidsDfvidf::GftColorModfl(JNIEnv *fnv, jboolfbn dynbmid,
+                                              int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftColorModfl(fnv, dynbmid);
+}
+
+LPMONITORINFO AwtWin32GrbphidsDfvidf::GftMonitorInfo(int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftMonitorInfo();
+}
+
+/**
+ * This fundtion updbtfs thf dbtb in thf MONITORINFOEX strudturf pointfd to by
+ * pMonitorInfo for bll monitors on thf systfm.  Addfd for 4654713.
+ */
+void AwtWin32GrbphidsDfvidf::RfsftAllMonitorInfo()
+{
+    //IE in somf dirdumstbndfs gfnfrbtfs WM_SETTINGCHANGE mfssbgf on bppfbrbndf
+    //bnd thus triggfrs this mfthod
+    //but wf mby not hbvf thf dfvidfs list initiblizfd yft.
+    if (!Dfvidfs::GftInstbndf()){
+        rfturn;
+    }
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    int dfvidfsNum = dfvidfs->GftNumDfvidfs();
+    for (int dfvidfIndfx = 0; dfvidfIndfx < dfvidfsNum; dfvidfIndfx++) {
+        HMONITOR monitor = dfvidfs->GftDfvidf(dfvidfIndfx)->GftMonitor();
+        ::GftMonitorInfo(monitor,
+                         dfvidfs->GftDfvidf(dfvidfIndfx)->pMonitorInfo);
+    }
+}
+
+void AwtWin32GrbphidsDfvidf::DisbblfOffsdrffnAddflfrbtionForDfvidf(
+    HMONITOR hMonitor)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    if (hMonitor == NULL) {
+        dfvidfs->GftDfvidf(0)->DisbblfOffsdrffnAddflfrbtion();
+    } flsf {
+        int dfvidfsNum = dfvidfs->GftNumDfvidfs();
+        for (int i = 0; i < dfvidfsNum; ++i) {
+            if (dfvidfs->GftDfvidf(i)->GftMonitor() == hMonitor) {
+                dfvidfs->GftDfvidf(i)->DisbblfOffsdrffnAddflfrbtion();
+            }
+        }
+    }
+}
+
+HMONITOR AwtWin32GrbphidsDfvidf::GftMonitor(int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftMonitor();
+}
+
+HPALETTE AwtWin32GrbphidsDfvidf::GftPblfttf(int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftPblfttf();
+}
+
+void AwtWin32GrbphidsDfvidf::UpdbtfDynbmidColorModfl(int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    dfvidfs->GftDfvidf(dfvidfIndfx)->UpdbtfDynbmidColorModfl();
+}
+
+BOOL AwtWin32GrbphidsDfvidf::UpdbtfSystfmPblfttf(int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->UpdbtfSystfmPblfttf();
+}
+
+HPALETTE AwtWin32GrbphidsDfvidf::SflfdtPblfttf(HDC hDC, int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->SflfdtPblfttf(hDC);
+}
+
+void AwtWin32GrbphidsDfvidf::RfblizfPblfttf(HDC hDC, int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    dfvidfs->GftDfvidf(dfvidfIndfx)->RfblizfPblfttf(hDC);
+}
+
+ColorDbtb *AwtWin32GrbphidsDfvidf::GftColorDbtb(int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftColorDbtb();
+}
+
+/**
+ * Rfturn thf grbysdblf vbluf for thf indidbtfd dfvidf.
+ */
+int AwtWin32GrbphidsDfvidf::GftGrbynfss(int dfvidfIndfx)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(dfvidfIndfx)->GftGrbynfss();
+}
+
+HDC AwtWin32GrbphidsDfvidf::GftDCFromSdrffn(int sdrffn) {
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "AwtWin32GrbphidsDfvidf::GftDCFromSdrffn sdrffn=%d", sdrffn);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    AwtWin32GrbphidsDfvidf *dfv = dfvidfs->GftDfvidf(sdrffn);
+    rfturn MbkfDCFromMonitor(dfv->GftMonitor());
+}
+
+/** Compbrf flfmfnts of MONITORINFOEX strudturfs for thf givfn HMONITORs.
+ * If fqubl, rfturn TRUE
+ */
+BOOL AwtWin32GrbphidsDfvidf::ArfSbmfMonitors(HMONITOR mon1, HMONITOR mon2) {
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "AwtWin32GrbphidsDfvidf::ArfSbmfMonitors mhnd1=%x mhnd2=%x",
+                mon1, mon2);
+    DASSERT(mon1 != NULL);
+    DASSERT(mon2 != NULL);
+
+    MONITORINFOEX mi1;
+    MONITORINFOEX mi2;
+
+    mfmsft((void*)(&mi1), 0, sizfof(MONITORINFOEX));
+    mi1.dbSizf = sizfof(MONITORINFOEX);
+    mfmsft((void*)(&mi2), 0, sizfof(MONITORINFOEX));
+    mi2.dbSizf = sizfof(MONITORINFOEX);
+
+    if (::GftMonitorInfo(mon1, &mi1) != 0 &&
+        ::GftMonitorInfo(mon2, &mi2) != 0 )
+    {
+        if (::EqublRfdt(&mi1.rdMonitor, &mi2.rdMonitor) &&
+            ::EqublRfdt(&mi1.rdWork, &mi2.rdWork) &&
+            (mi1.dwFlbgs  == mi1.dwFlbgs))
+        {
+
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, "  thf monitors brf thf sbmf");
+            rfturn TRUE;
+        }
+    }
+    J2dTrbdfLn(J2D_TRACE_VERBOSE, "  thf monitors brf not thf sbmf");
+    rfturn FALSE;
+}
+
+int AwtWin32GrbphidsDfvidf::GftSdrffnFromHMONITOR(HMONITOR mon) {
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "AwtWin32GrbphidsDfvidf::GftSdrffnFromHMONITOR mhnd=%x", mon);
+
+    DASSERT(mon != NULL);
+    Dfvidfs::InstbndfAddfss dfvidfs;
+
+    for (int i = 0; i < dfvidfs->GftNumDfvidfs(); i++) {
+        HMONITOR mhnd = dfvidfs->GftDfvidf(i)->GftMonitor();
+        if (ArfSbmfMonitors(mon, mhnd)) {
+            J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  Found dfvidf: %d", i);
+            rfturn i;
+        }
+    }
+
+    J2dTrbdfLn1(J2D_TRACE_WARNING,
+                "AwtWin32GrbphidsDfvidf::GftSdrffnFromHMONITOR(): "\
+                "douldn't find sdrffn for HMONITOR %x, rfturning dffbult", mon);
+    rfturn AwtWin32GrbphidsDfvidf::GftDffbultDfvidfIndfx();
+}
+
+
+/**
+ * End of stbtid dfvidfIndfx-bbsfd mfthods
+ */
+
+
+    donst DWORD REQUIRED_FLAGS = (   //Flbgs whidh must bf sft in
+     PFD_SUPPORT_GDI |               //in thf PixflFormbtDfsdriptor.
+     PFD_DRAW_TO_WINDOW);            //Usfd to dhoosf thf dffbult donfig
+                                     //bnd to dhfdk formbts in
+                                     //isPixFmtSupportfd()
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32GrbphidsDfvidf_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    /* dlbss ids */
+    AwtWin32GrbphidsDfvidf::indfxCMClbss =
+        (jdlbss)fnv->NfwGlobblRff(fnv->FindClbss("jbvb/bwt/imbgf/IndfxColorModfl"));
+    DASSERT(AwtWin32GrbphidsDfvidf::indfxCMClbss);
+    CHECK_NULL(AwtWin32GrbphidsDfvidf::indfxCMClbss);
+
+    AwtWin32GrbphidsDfvidf::wToolkitClbss =
+        (jdlbss)fnv->NfwGlobblRff(fnv->FindClbss("sun/bwt/windows/WToolkit"));
+    DASSERT(AwtWin32GrbphidsDfvidf::wToolkitClbss);
+    CHECK_NULL(AwtWin32GrbphidsDfvidf::wToolkitClbss);
+
+    /* fifld ids */
+    AwtWin32GrbphidsDfvidf::dynbmidColorModflID = fnv->GftFifldID(dls,
+        "dynbmidColorModfl", "Ljbvb/bwt/imbgf/ColorModfl;");
+    DASSERT(AwtWin32GrbphidsDfvidf::dynbmidColorModflID);
+    CHECK_NULL(AwtWin32GrbphidsDfvidf::dynbmidColorModflID);
+
+    AwtWin32GrbphidsDfvidf::indfxCMrgbID =
+        fnv->GftFifldID(AwtWin32GrbphidsDfvidf::indfxCMClbss, "rgb", "[I");
+    DASSERT(AwtWin32GrbphidsDfvidf::indfxCMrgbID);
+    CHECK_NULL(AwtWin32GrbphidsDfvidf::indfxCMrgbID);
+
+    AwtWin32GrbphidsDfvidf::indfxCMdbdhfID =
+        fnv->GftFifldID(AwtWin32GrbphidsDfvidf::indfxCMClbss,
+        "lookupdbdhf", "[I");
+    DASSERT(AwtWin32GrbphidsDfvidf::indfxCMdbdhfID);
+    CHECK_NULL(AwtWin32GrbphidsDfvidf::indfxCMdbdhfID);
+
+    /* mfthod ids */
+    AwtWin32GrbphidsDfvidf::pblfttfChbngfdMID = fnv->GftStbtidMfthodID(
+        AwtWin32GrbphidsDfvidf::wToolkitClbss, "pblfttfChbngfd", "()V");
+    DASSERT(AwtWin32GrbphidsDfvidf::pblfttfChbngfdMID);
+    CHECK_NULL(AwtWin32GrbphidsDfvidf::pblfttfChbngfdMID);
+
+    // Only wbnt to dbll this ondf pfr sfssion
+    mbkf_uns_ordfrfd_dithfr_brrby(img_odb_blphb, 256);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */
+
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    gftMbxConfigsImpl
+ * Signbturf: ()I
+ */
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_Win32GrbphidsDfvidf_gftMbxConfigsImpl
+    (JNIEnv* jniEnv, jobjfdt thfThis, jint sdrffn) {
+        TRY;
+    HDC hDC = AwtWin32GrbphidsDfvidf::GftDCFromSdrffn(sdrffn);
+
+    PIXELFORMATDESCRIPTOR pfd;
+    int mbx = ::DfsdribfPixflFormbt(hDC, 1, sizfof(PIXELFORMATDESCRIPTOR),
+        &pfd);
+    if (hDC != NULL) {
+        VERIFY(::DflftfDC(hDC));
+        hDC = NULL;
+    }
+    //If ::DfsdribfPixflFormbt() fbils, mbx = 0
+    //In this dbsf, wf rfturn 1 donfig with visubl numbfr 0
+    if (mbx == 0) {
+        mbx = 1;
+    }
+    rfturn (jint)mbx;
+        CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    isPixFmtSupportfd
+ * Signbturf: (I)Z
+ */
+
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_Win32GrbphidsDfvidf_isPixFmtSupportfd
+    (JNIEnv* fnv, jobjfdt thfThis, jint pixFmtID, jint sdrffn) {
+        TRY;
+    jboolfbn suppColor = JNI_TRUE;
+    HDC hDC = AwtWin32GrbphidsDfvidf::GftDCFromSdrffn(sdrffn);
+
+    if (pixFmtID == 0) {
+        rfturn truf;
+    }
+
+    PIXELFORMATDESCRIPTOR pfd;
+    int mbx = ::DfsdribfPixflFormbt(hDC, (int)pixFmtID,
+        sizfof(PIXELFORMATDESCRIPTOR), &pfd);
+    DASSERT(mbx);
+
+    //Chfdk for supportfd ColorModfl
+    if ((pfd.dColorBits < 8) ||
+       ((pfd.dColorBits == 8) && (pfd.iPixflTypf != PFD_TYPE_COLORINDEX))) {
+        //Notf: this still bllows for PixflFormbts with > 8 dolor bits
+        //whidh usf COLORINDEX instfbd of RGB.  This sffms to work finf,
+        //blthough issufs mby drop up involving PFD_NEED_PALETTE, whidh
+        //is not durrfntly tbkfn into bddount.
+        //If dhbngfs brf mbdf, thfy should blso bf rfflfdtfd in
+        //gftDffbultPixID.
+        suppColor = JNI_FALSE;
+    }
+
+    if (hDC != NULL) {
+        VERIFY(::DflftfDC(hDC));
+        hDC = NULL;
+    }
+    rfturn (((pfd.dwFlbgs & REQUIRED_FLAGS) == REQUIRED_FLAGS) && suppColor) ?
+     JNI_TRUE : JNI_FALSE;
+        CATCH_BAD_ALLOC_RET(FALSE);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    gftDffbultPixIDImpl
+ * Signbturf: (I)I
+ */
+
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_Win32GrbphidsDfvidf_gftDffbultPixIDImpl
+    (JNIEnv* fnv, jobjfdt thfThis, jint sdrffn) {
+        TRY;
+    int pixFmtID = 0;
+    HDC hDC = AwtWin32GrbphidsDfvidf::GftDCFromSdrffn(sdrffn);
+
+    PIXELFORMATDESCRIPTOR pfd = {
+        sizfof(PIXELFORMATDESCRIPTOR),
+        1,               //vfrsion
+        REQUIRED_FLAGS,  //flbgs
+        0,               //iPixflTypf
+        0,               //dColorBits
+        0,0,0,0,0,0,0,0, //dRfdBits, dRfdShift, grffn, bluf, blphb
+        0,0,0,0,0,       //dAddumBits, dAddumRfdBits, grffn, bluf, blphb
+        0,0,0,0,0,0,0,0  //ftd.
+    };
+
+    //If 8-bit modf, must usf Indfxfd modf
+    if (8 == ::GftDfvidfCbps(hDC, BITSPIXEL)) {
+        pfd.iPixflTypf = PFD_TYPE_COLORINDEX;
+    }
+
+    pixFmtID = ::ChoosfPixflFormbt(hDC, &pfd);
+    if (pixFmtID == 0) {
+        //Rfturn 0 if GDI dbll fbils.
+        if (hDC != NULL) {
+            VERIFY(::DflftfDC(hDC));
+            hDC = NULL;
+        }
+        rfturn pixFmtID;
+    }
+
+    if (JNI_FALSE == Jbvb_sun_bwt_Win32GrbphidsDfvidf_isPixFmtSupportfd(
+     fnv, thfThis, pixFmtID, sdrffn)) {
+        /* Cbn't find b suitbblf pixfl formbt ID.  Fbll bbdk on 0. */
+        pixFmtID = 0;
+    }
+
+    VERIFY(::DflftfDC(hDC));
+    hDC = NULL;
+    rfturn (jint)pixFmtID;
+        CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    fntfrFullSdrffnExdlusivf
+ * Signbturf: (Ljbvb/bwt/pffr/WindowPffr;)V
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32GrbphidsDfvidf_fntfrFullSdrffnExdlusivf(
+        JNIEnv* fnv, jobjfdt grbphidsDfvidf,
+        jint sdrffn, jobjfdt windowPffr) {
+
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(windowPffr);
+
+    AwtWindow *window = (AwtWindow *)pDbtb;  // sbff dbst sindf wf brf dbllfd
+                                             // with thf WWindowPffr objfdt
+    HWND hWnd = window->GftHWnd();
+
+    if (!::SftWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0,
+                        SWP_NOMOVE|SWP_NOOWNERZORDER|SWP_NOSIZE))
+    {
+        J2dTrbdfLn1(J2D_TRACE_ERROR,
+                    "Error %d sftting topmost bttributf to fs window",
+                    ::GftLbstError());
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    fxitFullSdrffnExdlusivf
+ * Signbturf: (Ljbvb/bwt/pffr/WindowPffr;)V
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32GrbphidsDfvidf_fxitFullSdrffnExdlusivf(
+        JNIEnv* fnv, jobjfdt grbphidsDfvidf,
+        jint sdrffn, jobjfdt windowPffr) {
+
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(windowPffr);
+
+    AwtWindow *window = (AwtWindow *)pDbtb;  // sbff dbst sindf wf brf dbllfd
+                                             // with thf WWindowPffr objfdt
+    HWND hWnd = window->GftHWnd();
+
+    jobjfdt tbrgft = fnv->GftObjfdtFifld(windowPffr, AwtObjfdt::tbrgftID);
+    jboolfbn blwbysOnTop = JNU_GftFifldByNbmf(fnv, NULL, tbrgft, "blwbysOnTop", "Z").z;
+    fnv->DflftfLodblRff(tbrgft);
+
+    if (!::SftWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0,
+                        SWP_NOMOVE|SWP_NOOWNERZORDER|SWP_NOSIZE))
+    {
+        J2dTrbdfLn1(J2D_TRACE_ERROR,
+                    "Error %d unsftting topmost bttributf to fs window",
+                    ::GftLbstError());
+    }
+
+    // Wf should rfstorf blwbysOnTop stbtf bs it's bnywby droppfd hfrf
+    Jbvb_sun_bwt_windows_WWindowPffr_sftAlwbysOnTopNbtivf(fnv, windowPffr, blwbysOnTop);
+
+    CATCH_BAD_ALLOC;
+}
+
+jobjfdt CrfbtfDisplbyModf(JNIEnv* fnv, jint width, jint hfight,
+    jint bitDfpth, jint rffrfshRbtf) {
+
+    TRY;
+
+    jdlbss displbyModfClbss = fnv->FindClbss("jbvb/bwt/DisplbyModf");
+    if (JNU_IsNull(fnv, displbyModfClbss)) {
+        fnv->ExdfptionClfbr();
+        JNU_ThrowIntfrnblError(fnv, "Could not gft displby modf dlbss");
+        rfturn NULL;
+    }
+
+    jmfthodID did = fnv->GftMfthodID(displbyModfClbss, "<init>", "(IIII)V");
+    if (did == NULL) {
+        fnv->ExdfptionClfbr();
+        JNU_ThrowIntfrnblError(fnv, "Could not gft displby modf donstrudtor");
+        rfturn NULL;
+    }
+
+    jobjfdt displbyModf = fnv->NfwObjfdt(displbyModfClbss, did, width,
+        hfight, bitDfpth, rffrfshRbtf);
+    rfturn displbyModf;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/**
+ * A utility fundtion whidh rftrifvfs b DISPLAY_DEVICE informbtion
+ * givfn b sdrffn numbfr.
+ *
+ * If thf fundtion wbs bblf to find bn bttbdhfd dfvidf for thf givfn sdrffn
+ * numbfr, thf lpDisplbyDfvidf will bf initiblizfd with thf dbtb bnd
+ * thf fundtion will rfturn TRUE, othfrwisf it rfturns FALSE bnd dontfnts
+ * of thf strudturf pointfd to by lpDisplbyDfvidf is undffinfd.
+ */
+stbtid BOOL
+GftAttbdhfdDisplbyDfvidf(int sdrffn, DISPLAY_DEVICE *lpDisplbyDfvidf)
+{
+    DWORD dwDfvidfNum = 0;
+    lpDisplbyDfvidf->db = sizfof(DISPLAY_DEVICE);
+    whilf (EnumDisplbyDfvidfs(NULL, dwDfvidfNum, lpDisplbyDfvidf, 0) &&
+           dwDfvidfNum < 20) // bvoid infinitf loop with buggy drivfrs
+    {
+        if (lpDisplbyDfvidf->StbtfFlbgs & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
+            Dfvidfs::InstbndfAddfss dfvidfs;
+            MONITORINFOEX *pMonInfo =
+                (LPMONITORINFOEX)dfvidfs->GftDfvidf(sdrffn)->GftMonitorInfo();
+            // mbkf surf thf dfvidf nbmfs mbtdh
+            if (wdsdmp(pMonInfo->szDfvidf, lpDisplbyDfvidf->DfvidfNbmf) == 0) {
+                rfturn TRUE;
+            }
+        }
+        dwDfvidfNum++;
+    }
+    rfturn FALSE;
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    gftCurrfntDisplbyModf
+ * Signbturf: (IZ)Ljbvb/bwt/DisplbyModf;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_Win32GrbphidsDfvidf_gftCurrfntDisplbyModf
+    (JNIEnv* fnv, jobjfdt grbphidsDfvidf, jint sdrffn)
+{
+    TRY;
+
+    DEVMODE dm;
+    LPTSTR pNbmf = NULL;
+
+    dm.dmSizf = sizfof(dm);
+    dm.dmDrivfrExtrb = 0;
+
+    DISPLAY_DEVICE displbyDfvidf;
+    if (GftAttbdhfdDisplbyDfvidf(sdrffn, &displbyDfvidf)) {
+        pNbmf = displbyDfvidf.DfvidfNbmf;
+    }
+    if (!EnumDisplbySfttings(pNbmf, ENUM_CURRENT_SETTINGS, &dm))
+    {
+        rfturn NULL;
+    }
+
+    rfturn CrfbtfDisplbyModf(fnv, dm.dmPflsWidth,
+        dm.dmPflsHfight, dm.dmBitsPfrPfl, dm.dmDisplbyFrfqufndy);
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    donfigDisplbyModf
+ * Signbturf: (IIIIZ)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32GrbphidsDfvidf_donfigDisplbyModf
+    (JNIEnv* fnv, jobjfdt grbphidsDfvidf, jint sdrffn, jobjfdt windowPffr,
+     jint width, jint hfight, jint bitDfpth, jint rffrfshRbtf)
+{
+    TRY;
+
+        DEVMODE dm;
+
+    dm.dmSizf = sizfof(dm);
+    dm.dmDrivfrExtrb = 0;
+    dm.dmPflsWidth = width;
+    dm.dmPflsHfight = hfight;
+    dm.dmBitsPfrPfl = bitDfpth;
+    dm.dmDisplbyFrfqufndy = rffrfshRbtf;
+    dm.dmFiflds = DM_PELSWIDTH | DM_PELSHEIGHT |
+        DM_BITSPERPEL | DM_DISPLAYFREQUENCY;
+
+    // ChbngfDisplbySfttings works only on thf primbry sdrffn.
+    // ChbngfDisplbySfttingsEx is not bvbilbblf on NT,
+    // so it'd bf nidf not to brfbk it if wf dbn hflp it.
+    if (sdrffn == AwtWin32GrbphidsDfvidf::GftDffbultDfvidfIndfx()) {
+        if (::ChbngfDisplbySfttings(&dm, CDS_FULLSCREEN) !=
+            DISP_CHANGE_SUCCESSFUL)
+        {
+            JNU_ThrowIntfrnblError(fnv,
+                                   "Could not sft displby modf");
+        }
+        rfturn;
+    }
+
+    DISPLAY_DEVICE displbyDfvidf;
+    if (!GftAttbdhfdDisplbyDfvidf(sdrffn, &displbyDfvidf) ||
+        (::ChbngfDisplbySfttingsEx(displbyDfvidf.DfvidfNbmf, &dm, NULL, CDS_FULLSCREEN, NULL) !=
+          DISP_CHANGE_SUCCESSFUL))
+    {
+        JNU_ThrowIntfrnblError(fnv,
+                               "Could not sft displby modf");
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+dlbss EnumDisplbyModfPbrbm {
+publid:
+    EnumDisplbyModfPbrbm(JNIEnv* f, jobjfdt b) : fnv(f), brrbyList(b) {}
+    JNIEnv* fnv;
+    jobjfdt brrbyList;
+};
+
+void bddDisplbyModf(JNIEnv* fnv, jobjfdt brrbyList, jint width,
+    jint hfight, jint bitDfpth, jint rffrfshRbtf) {
+
+    TRY;
+
+    jobjfdt displbyModf = CrfbtfDisplbyModf(fnv, width, hfight,
+        bitDfpth, rffrfshRbtf);
+    if (!JNU_IsNull(fnv, displbyModf)) {
+        jdlbss brrbyListClbss = fnv->GftObjfdtClbss(brrbyList);
+        if (JNU_IsNull(fnv, brrbyListClbss)) {
+            JNU_ThrowIntfrnblError(fnv,
+                "Could not gft dlbss jbvb.util.ArrbyList");
+            rfturn;
+        }
+        jmfthodID mid = fnv->GftMfthodID(brrbyListClbss, "bdd",
+        "(Ljbvb/lbng/Objfdt;)Z");
+        if (mid == NULL) {
+            fnv->ExdfptionClfbr();
+            JNU_ThrowIntfrnblError(fnv,
+                "Could not gft mfthod jbvb.util.ArrbyList.bdd()");
+            rfturn;
+        }
+        fnv->CbllObjfdtMfthod(brrbyList, mid, displbyModf);
+        fnv->DflftfLodblRff(displbyModf);
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    fnumDisplbyModfs
+ * Signbturf: (Ljbvb/util/ArrbyList;Z)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_Win32GrbphidsDfvidf_fnumDisplbyModfs
+    (JNIEnv* fnv, jobjfdt grbphidsDfvidf, jint sdrffn, jobjfdt brrbyList)
+{
+
+    TRY;
+
+    DEVMODE dm;
+    LPTSTR pNbmf = NULL;
+    DISPLAY_DEVICE displbyDfvidf;
+
+
+    if (GftAttbdhfdDisplbyDfvidf(sdrffn, &displbyDfvidf)) {
+        pNbmf = displbyDfvidf.DfvidfNbmf;
+    }
+
+    dm.dmSizf = sizfof(dm);
+    dm.dmDrivfrExtrb = 0;
+
+    BOOL bContinuf = TRUE;
+    for (int i = 0; bContinuf; i++) {
+        bContinuf = EnumDisplbySfttings(pNbmf, i, &dm);
+        if (dm.dmBitsPfrPfl >= 8) {
+            bddDisplbyModf(fnv, brrbyList, dm.dmPflsWidth, dm.dmPflsHfight,
+                           dm.dmBitsPfrPfl, dm.dmDisplbyFrfqufndy);
+            JNU_CHECK_EXCEPTION(fnv);
+        }
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    mbkfColorModfl
+ * Signbturf: ()Ljbvb/bwt/imbgf/ColorModfl
+ */
+
+JNIEXPORT jobjfdt JNICALL
+    Jbvb_sun_bwt_Win32GrbphidsDfvidf_mbkfColorModfl
+    (JNIEnv *fnv, jobjfdt thisPtr, jint sdrffn, jboolfbn dynbmid)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftDfvidf(sdrffn)->GftColorModfl(fnv, dynbmid);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsDfvidf
+ * Mfthod:    initDfvidf
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+    Jbvb_sun_bwt_Win32GrbphidsDfvidf_initDfvidf
+    (JNIEnv *fnv, jobjfdt thisPtr, jint sdrffn)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    dfvidfs->GftDfvidf(sdrffn)->SftJbvbDfvidf(fnv, thisPtr);
+}

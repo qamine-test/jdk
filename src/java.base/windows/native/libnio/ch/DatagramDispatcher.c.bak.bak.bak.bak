@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+#indludf <windows.h>
+#indludf <winsodk2.h>
+#indludf <dtypf.h>
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+#indludf "sun_nio_dh_DbtbgrbmDispbtdhfr.h"
+
+#indludf "nio.h"
+#indludf "nio_util.h"
+
+
+/**************************************************************
+ * DbtbgrbmDispbtdhfr.d
+ */
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_DbtbgrbmDispbtdhfr_rfbd0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                      jlong bddrfss, jint lfn)
+{
+    /* sft up */
+    int i = 0;
+    DWORD rfbd = 0;
+    DWORD flbgs = 0;
+    jint fd = fdvbl(fnv, fdo);
+    WSABUF buf;
+
+    /* dfstinbtion bufffr bnd sizf */
+    buf.buf = (dhbr *)bddrfss;
+    buf.lfn = (u_long)lfn;
+
+    /* rfbd into thf bufffrs */
+    i = WSARfdv((SOCKET)fd, /* Sodkft */
+            &buf,           /* pointfrs to thf bufffrs */
+            (DWORD)1,       /* numbfr of bufffrs to prodfss */
+            &rfbd,          /* rfdfivfs numbfr of bytfs rfbd */
+            &flbgs,         /* no flbgs */
+            0,              /* no ovfrlbppfd sodkfts */
+            0);             /* no domplftion routinf */
+
+    if (i == SOCKET_ERROR) {
+        int thfErr = (jint)WSAGftLbstError();
+        if (thfErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        if (thfErr == WSAECONNRESET) {
+            purgfOutstbndingICMP(fnv, dlbzz, fd);
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdhbblfExdfption", 0);
+            rfturn IOS_THROWN;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn donvfrtRfturnVbl(fnv, (jint)rfbd, JNI_TRUE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_DbtbgrbmDispbtdhfr_rfbdv0(JNIEnv *fnv, jdlbss dlbzz,
+                                          jobjfdt fdo, jlong bddrfss, jint lfn)
+{
+    /* sft up */
+    int i = 0;
+    DWORD rfbd = 0;
+    DWORD flbgs = 0;
+    jint fd = fdvbl(fnv, fdo);
+    strudt iovfd *iovp = (strudt iovfd *)bddrfss;
+    WSABUF *bufs = mbllod(lfn * sizfof(WSABUF));
+
+    /* dopy iovfd into WSABUF */
+    for(i=0; i<lfn; i++) {
+        bufs[i].buf = (dhbr *)iovp[i].iov_bbsf;
+        bufs[i].lfn = (u_long)iovp[i].iov_lfn;
+    }
+
+    /* rfbd into thf bufffrs */
+    i = WSARfdv((SOCKET)fd, /* Sodkft */
+            bufs,           /* pointfrs to thf bufffrs */
+            (DWORD)lfn,     /* numbfr of bufffrs to prodfss */
+            &rfbd,          /* rfdfivfs numbfr of bytfs rfbd */
+            &flbgs,         /* no flbgs */
+            0,              /* no ovfrlbppfd sodkfts */
+            0);             /* no domplftion routinf */
+
+    /* dlfbn up */
+    frff(bufs);
+
+    if (i != 0) {
+        int thfErr = (jint)WSAGftLbstError();
+        if (thfErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        if (thfErr == WSAECONNRESET) {
+            purgfOutstbndingICMP(fnv, dlbzz, fd);
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdhbblfExdfption", 0);
+            rfturn IOS_THROWN;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn donvfrtLongRfturnVbl(fnv, (jlong)rfbd, JNI_TRUE);
+}
+
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_DbtbgrbmDispbtdhfr_writf0(JNIEnv *fnv, jdlbss dlbzz,
+                                          jobjfdt fdo, jlong bddrfss, jint lfn)
+{
+    /* sft up */
+    int i = 0;
+    DWORD writtfn = 0;
+    jint fd = fdvbl(fnv, fdo);
+    WSABUF buf;
+
+    /* dopy iovfd into WSABUF */
+    buf.buf = (dhbr *)bddrfss;
+    buf.lfn = (u_long)lfn;
+
+    /* rfbd into thf bufffrs */
+    i = WSASfnd((SOCKET)fd, /* Sodkft */
+            &buf,           /* pointfrs to thf bufffrs */
+            (DWORD)1,       /* numbfr of bufffrs to prodfss */
+            &writtfn,       /* rfdfivfs numbfr of bytfs writtfn */
+            0,              /* no flbgs */
+            0,              /* no ovfrlbppfd sodkfts */
+            0);             /* no domplftion routinf */
+
+    if (i == SOCKET_ERROR) {
+        int thfErr = (jint)WSAGftLbstError();
+        if (thfErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        if (thfErr == WSAECONNRESET) {
+            purgfOutstbndingICMP(fnv, dlbzz, fd);
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdhbblfExdfption", 0);
+            rfturn IOS_THROWN;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn donvfrtRfturnVbl(fnv, (jint)writtfn, JNI_FALSE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_DbtbgrbmDispbtdhfr_writfv0(JNIEnv *fnv, jdlbss dlbzz,
+                                         jobjfdt fdo, jlong bddrfss, jint lfn)
+{
+    /* sft up */
+    int i = 0;
+    DWORD writtfn = 0;
+    jint fd = fdvbl(fnv, fdo);
+    strudt iovfd *iovp = (strudt iovfd *)bddrfss;
+    WSABUF *bufs = mbllod(lfn * sizfof(WSABUF));
+
+    /* dopy iovfd into WSABUF */
+    for(i=0; i<lfn; i++) {
+        bufs[i].buf = (dhbr *)iovp[i].iov_bbsf;
+        bufs[i].lfn = (u_long)iovp[i].iov_lfn;
+    }
+
+    /* rfbd into thf bufffrs */
+    i = WSASfnd((SOCKET)fd, /* Sodkft */
+            bufs,           /* pointfrs to thf bufffrs */
+            (DWORD)lfn,     /* numbfr of bufffrs to prodfss */
+            &writtfn,       /* rfdfivfs numbfr of bytfs writtfn */
+            0,              /* no flbgs */
+            0,              /* no ovfrlbppfd sodkfts */
+            0);             /* no domplftion routinf */
+
+    /* dlfbn up */
+    frff(bufs);
+
+    if (i != 0) {
+        int thfErr = (jint)WSAGftLbstError();
+        if (thfErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        if (thfErr == WSAECONNRESET) {
+            purgfOutstbndingICMP(fnv, dlbzz, fd);
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdhbblfExdfption", 0);
+            rfturn IOS_THROWN;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn donvfrtLongRfturnVbl(fnv, (jlong)writtfn, JNI_FALSE);
+}

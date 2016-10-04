@@ -1,0 +1,315 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+
+/* Copyright  (d) 2002 Grbz Univfrsity of Tfdhnology. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd  providfd thbt thf following donditions brf mft:
+ *
+ * 1. Rfdistributions of  sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ * 2. Rfdistributions in  binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ * 3. Thf fnd-usfr dodumfntbtion indludfd with thf rfdistribution, if bny, must
+ *    indludf thf following bdknowlfdgmfnt:
+ *
+ *    "This produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdhnology."
+ *
+ *    Altfrnbtfly, this bdknowlfdgmfnt mby bppfbr in thf softwbrf itsflf, if
+ *    bnd whfrfvfr sudh third-pbrty bdknowlfdgmfnts normblly bppfbr.
+ *
+ * 4. Thf nbmfs "Grbz Univfrsity of Tfdhnology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdhnology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without prior writtfn pfrmission.
+ *
+ * 5. Produdts dfrivfd from this softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in thfir nbmf, without prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdhnology.
+ *
+ *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
+ *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ *  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LICENSOR BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ *  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ *  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ *  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *  POSSIBILITY  OF SUCH DAMAGE.
+ * ===========================================================================
+ */
+
+#indludf "pkds11wrbppfr.h"
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <bssfrt.h>
+
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.h"
+
+#ifdff P11_ENABLE_C_DIGESTENCRYPTUPDATE
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_DigfstEndryptUpdbtf
+ * Signbturf: (J[B)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG ulPbrtLfn
+ * @rfturn  jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG_PTR pulEndryptfdPbrtLfn
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstEndryptUpdbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jPbrt)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpPbrt = NULL_PTR, dkpEndryptfdPbrt;
+    CK_ULONG dkPbrtLfngth, dkEndryptfdPbrtLfngth = 0;
+    jbytfArrby jEndryptfdPbrt = NULL;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jPbrt, &dkpPbrt, &dkPbrtLfngth);
+    if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn NULL; }
+
+    rv = (*dkpFundtions->C_DigfstEndryptUpdbtf)(dkSfssionHbndlf, dkpPbrt, dkPbrtLfngth, NULL_PTR, &dkEndryptfdPbrtLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpPbrt);
+        rfturn NULL;
+    }
+
+    dkpEndryptfdPbrt = (CK_BYTE_PTR) mbllod(dkEndryptfdPbrtLfngth * sizfof(CK_BYTE));
+    if (dkpEndryptfdPbrt == NULL) {
+        frff(dkpPbrt);
+        throwOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
+    }
+
+    rv = (*dkpFundtions->C_DigfstEndryptUpdbtf)(dkSfssionHbndlf, dkpPbrt, dkPbrtLfngth, dkpEndryptfdPbrt, &dkEndryptfdPbrtLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jEndryptfdPbrt = dkBytfArrbyToJBytfArrby(fnv, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngth);
+    }
+    frff(dkpPbrt);
+    frff(dkpEndryptfdPbrt);
+
+    rfturn jEndryptfdPbrt ;
+}
+#fndif
+
+#ifdff P11_ENABLE_C_DECRYPTDIGESTUPDATE
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_DfdryptDigfstUpdbtf
+ * Signbturf: (J[B)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG ulEndryptfdPbrtLfn
+ * @rfturn  jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG_PTR pulPbrtLfn
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfdryptDigfstUpdbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jEndryptfdPbrt)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpPbrt, dkpEndryptfdPbrt = NULL_PTR;
+    CK_ULONG dkPbrtLfngth = 0, dkEndryptfdPbrtLfngth;
+    jbytfArrby jPbrt = NULL;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jEndryptfdPbrt, &dkpEndryptfdPbrt, &dkEndryptfdPbrtLfngth);
+    if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn NULL; }
+
+    rv = (*dkpFundtions->C_DfdryptDigfstUpdbtf)(dkSfssionHbndlf, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngth, NULL_PTR, &dkPbrtLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpEndryptfdPbrt);
+        rfturn NULL;
+    }
+
+    dkpPbrt = (CK_BYTE_PTR) mbllod(dkPbrtLfngth * sizfof(CK_BYTE));
+    if (dkpPbrt == NULL) {
+        frff(dkpEndryptfdPbrt);
+        throwOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
+    }
+
+    rv = (*dkpFundtions->C_DfdryptDigfstUpdbtf)(dkSfssionHbndlf, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngth, dkpPbrt, &dkPbrtLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jPbrt = dkBytfArrbyToJBytfArrby(fnv, dkpPbrt, dkPbrtLfngth);
+    }
+    frff(dkpEndryptfdPbrt);
+    frff(dkpPbrt);
+
+    rfturn jPbrt ;
+}
+#fndif
+
+#ifdff P11_ENABLE_C_SIGNENCRYPTUPDATE
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_SignEndryptUpdbtf
+ * Signbturf: (J[B)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG ulPbrtLfn
+ * @rfturn  jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG_PTR pulEndryptfdPbrtLfn
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1SignEndryptUpdbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jPbrt)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpPbrt = NULL_PTR, dkpEndryptfdPbrt;
+    CK_ULONG dkPbrtLfngth, dkEndryptfdPbrtLfngth = 0;
+    jbytfArrby jEndryptfdPbrt = NULL;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jPbrt, &dkpPbrt, &dkPbrtLfngth);
+    if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn NULL; }
+
+    rv = (*dkpFundtions->C_SignEndryptUpdbtf)(dkSfssionHbndlf, dkpPbrt, dkPbrtLfngth, NULL_PTR, &dkEndryptfdPbrtLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpPbrt);
+        rfturn NULL;
+    }
+
+    dkpEndryptfdPbrt = (CK_BYTE_PTR) mbllod(dkEndryptfdPbrtLfngth * sizfof(CK_BYTE));
+    if (dkpEndryptfdPbrt == NULL) {
+        frff(dkpPbrt);
+        throwOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
+    }
+
+    rv = (*dkpFundtions->C_SignEndryptUpdbtf)(dkSfssionHbndlf, dkpPbrt, dkPbrtLfngth, dkpEndryptfdPbrt, &dkEndryptfdPbrtLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jEndryptfdPbrt = dkBytfArrbyToJBytfArrby(fnv, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngth);
+    }
+    frff(dkpPbrt);
+    frff(dkpEndryptfdPbrt);
+
+    rfturn jEndryptfdPbrt ;
+}
+#fndif
+
+#ifdff P11_ENABLE_C_DECRYPTVERIFYUPDATE
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_DfdryptVfrifyUpdbtf
+ * Signbturf: (J[B)[B
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ * @pbrbm   jbytfArrby jEndryptfdPbrt   CK_BYTE_PTR pEndryptfdPbrt
+ *                                      CK_ULONG ulEndryptfdPbrtLfn
+ * @rfturn  jbytfArrby jPbrt            CK_BYTE_PTR pPbrt
+ *                                      CK_ULONG_PTR pulPbrtLfn
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfdryptVfrifyUpdbtf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jEndryptfdPbrt)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpPbrt, dkpEndryptfdPbrt = NULL_PTR;
+    CK_ULONG dkPbrtLfngth = 0, dkEndryptfdPbrtLfngth;
+    jbytfArrby jPbrt = NULL;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jEndryptfdPbrt, &dkpEndryptfdPbrt, &dkEndryptfdPbrtLfngth);
+    if ((*fnv)->ExdfptionChfdk(fnv)) { rfturn NULL; }
+
+    rv = (*dkpFundtions->C_DfdryptVfrifyUpdbtf)(dkSfssionHbndlf, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngth, NULL_PTR, &dkPbrtLfngth);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpEndryptfdPbrt);
+        rfturn NULL;
+    }
+
+    dkpPbrt = (CK_BYTE_PTR) mbllod(dkPbrtLfngth * sizfof(CK_BYTE));
+    if (dkpPbrt == NULL) {
+        frff(dkpEndryptfdPbrt);
+        throwOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
+    }
+
+    rv = (*dkpFundtions->C_DfdryptVfrifyUpdbtf)(dkSfssionHbndlf, dkpEndryptfdPbrt, dkEndryptfdPbrtLfngth, dkpPbrt, &dkPbrtLfngth);
+
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jPbrt = dkBytfArrbyToJBytfArrby(fnv, dkpPbrt, dkPbrtLfngth);
+    }
+    frff(dkpEndryptfdPbrt);
+    frff(dkpPbrt);
+
+    rfturn jPbrt ;
+}
+#fndif
+
+#ifdff P11_ENABLE_C_GETFUNCTIONSTATUS
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_GftFundtionStbtus
+ * Signbturf: (J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftFundtionStbtus
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+
+    /* C_GftFundtionStbtus should blwbys rfturn CKR_FUNCTION_NOT_PARALLEL */
+    rv = (*dkpFundtions->C_GftFundtionStbtus)(dkSfssionHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
+}
+#fndif
+
+#ifdff P11_ENABLE_C_CANCELFUNCTION
+/*
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mfthod:    C_CbndflFundtion
+ * Signbturf: (J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE hSfssion
+ */
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1CbndflFundtion
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
+{
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_RV rv;
+
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
+
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+
+    /* C_GftFundtionStbtus should blwbys rfturn CKR_FUNCTION_NOT_PARALLEL */
+    rv = (*dkpFundtions->C_CbndflFundtion)(dkSfssionHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
+}
+#fndif

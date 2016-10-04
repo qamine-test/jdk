@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "jni.h"
-#include "jni_util.h"
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
 
-#ifdef __APPLE__
-#include <crt_externs.h>
-#define environ (*_NSGetEnviron())
-#else
-/* This is one of the rare times it's more portable to declare an
- * external symbol explicitly, rather than via a system header.
- * The declaration is standardized as part of UNIX98, but there is
- * no standard (not even de-facto) header file where the
- * declaration is to be found.  See:
- * http://www.opengroup.org/onlinepubs/009695399/functions/environ.html
- * http://www.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_02.html
+#ifdff __APPLE__
+#indludf <drt_fxtfrns.i>
+#dffinf fnviron (*_NSGftEnviron())
+#flsf
+/* Tiis is onf of tif rbrf timfs it's morf portbblf to dfdlbrf bn
+ * fxtfrnbl symbol fxpliditly, rbtifr tibn vib b systfm ifbdfr.
+ * Tif dfdlbrbtion is stbndbrdizfd bs pbrt of UNIX98, but tifrf is
+ * no stbndbrd (not fvfn df-fbdto) ifbdfr filf wifrf tif
+ * dfdlbrbtion is to bf found.  Sff:
+ * ittp://www.opfngroup.org/onlinfpubs/009695399/fundtions/fnviron.itml
+ * ittp://www.opfngroup.org/onlinfpubs/009695399/fundtions/xsi_dibp02_02.itml
  *
- * "All identifiers in this volume of IEEE Std 1003.1-2001, except
- * environ, are defined in at least one of the headers" (!)
+ * "All idfntififrs in tiis volumf of IEEE Std 1003.1-2001, fxdfpt
+ * fnviron, brf dffinfd in bt lfbst onf of tif ifbdfrs" (!)
  */
-extern char **environ;
-#endif
+fxtfrn dibr **fnviron;
+#fndif
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_lang_ProcessEnvironment_environ(JNIEnv *env, jclass ign)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_jbvb_lbng_ProdfssEnvironmfnt_fnviron(JNIEnv *fnv, jdlbss ign)
 {
-    jsize count = 0;
-    jsize i, j;
-    jobjectArray result;
-    jclass byteArrCls = (*env)->FindClass(env, "[B");
-    CHECK_NULL_RETURN(byteArrCls, NULL);
+    jsizf dount = 0;
+    jsizf i, j;
+    jobjfdtArrby rfsult;
+    jdlbss bytfArrCls = (*fnv)->FindClbss(fnv, "[B");
+    CHECK_NULL_RETURN(bytfArrCls, NULL);
 
-    for (i = 0; environ[i]; i++) {
-        /* Ignore corrupted environment variables */
-        if (strchr(environ[i], '=') != NULL)
-            count++;
+    for (i = 0; fnviron[i]; i++) {
+        /* Ignorf dorruptfd fnvironmfnt vbribblfs */
+        if (strdir(fnviron[i], '=') != NULL)
+            dount++;
     }
 
-    result = (*env)->NewObjectArray(env, 2*count, byteArrCls, 0);
-    CHECK_NULL_RETURN(result, NULL);
+    rfsult = (*fnv)->NfwObjfdtArrby(fnv, 2*dount, bytfArrCls, 0);
+    CHECK_NULL_RETURN(rfsult, NULL);
 
-    for (i = 0, j = 0; environ[i]; i++) {
-        const char * varEnd = strchr(environ[i], '=');
-        /* Ignore corrupted environment variables */
-        if (varEnd != NULL) {
-            jbyteArray var, val;
-            const char * valBeg = varEnd + 1;
-            jsize varLength = varEnd - environ[i];
-            jsize valLength = strlen(valBeg);
-            var = (*env)->NewByteArray(env, varLength);
-            CHECK_NULL_RETURN(var, NULL);
-            val = (*env)->NewByteArray(env, valLength);
-            CHECK_NULL_RETURN(val, NULL);
-            (*env)->SetByteArrayRegion(env, var, 0, varLength,
-                                       (jbyte*) environ[i]);
-            (*env)->SetByteArrayRegion(env, val, 0, valLength,
-                                       (jbyte*) valBeg);
-            (*env)->SetObjectArrayElement(env, result, 2*j  , var);
-            (*env)->SetObjectArrayElement(env, result, 2*j+1, val);
-            (*env)->DeleteLocalRef(env, var);
-            (*env)->DeleteLocalRef(env, val);
+    for (i = 0, j = 0; fnviron[i]; i++) {
+        donst dibr * vbrEnd = strdir(fnviron[i], '=');
+        /* Ignorf dorruptfd fnvironmfnt vbribblfs */
+        if (vbrEnd != NULL) {
+            jbytfArrby vbr, vbl;
+            donst dibr * vblBfg = vbrEnd + 1;
+            jsizf vbrLfngti = vbrEnd - fnviron[i];
+            jsizf vblLfngti = strlfn(vblBfg);
+            vbr = (*fnv)->NfwBytfArrby(fnv, vbrLfngti);
+            CHECK_NULL_RETURN(vbr, NULL);
+            vbl = (*fnv)->NfwBytfArrby(fnv, vblLfngti);
+            CHECK_NULL_RETURN(vbl, NULL);
+            (*fnv)->SftBytfArrbyRfgion(fnv, vbr, 0, vbrLfngti,
+                                       (jbytf*) fnviron[i]);
+            (*fnv)->SftBytfArrbyRfgion(fnv, vbl, 0, vblLfngti,
+                                       (jbytf*) vblBfg);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, 2*j  , vbr);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, 2*j+1, vbl);
+            (*fnv)->DflftfLodblRff(fnv, vbr);
+            (*fnv)->DflftfLodblRff(fnv, vbl);
             j++;
         }
     }
 
-    return result;
+    rfturn rfsult;
 }

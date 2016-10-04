@@ -1,680 +1,680 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import sun.util.logging.PlbtformLoggfr;
 
-import java.awt.Point;
+import jbvb.bwt.Point;
 
 
 /**
- * The class responsible for registration/deregistration of drop sites.
+ * Tif dlbss rfsponsiblf for rfgistrbtion/dfrfgistrbtion of drop sitfs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-final class XDropTargetRegistry {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDropTargetRegistry");
+finbl dlbss XDropTbrgftRfgistry {
+    privbtf stbtid finbl PlbtformLoggfr loggfr =
+        PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.xdnd.XDropTbrgftRfgistry");
 
-    private static final long DELAYED_REGISTRATION_PERIOD = 200;
+    privbtf stbtid finbl long DELAYED_REGISTRATION_PERIOD = 200;
 
-    private static final XDropTargetRegistry theInstance =
-        new XDropTargetRegistry();
+    privbtf stbtid finbl XDropTbrgftRfgistry tifInstbndf =
+        nfw XDropTbrgftRfgistry();
 
-    private final HashMap<Long, Runnable> delayedRegistrationMap =
-        new HashMap<Long, Runnable>();
+    privbtf finbl HbsiMbp<Long, Runnbblf> dflbyfdRfgistrbtionMbp =
+        nfw HbsiMbp<Long, Runnbblf>();
 
-    private XDropTargetRegistry() {}
+    privbtf XDropTbrgftRfgistry() {}
 
-    static XDropTargetRegistry getRegistry() {
-        return theInstance;
+    stbtid XDropTbrgftRfgistry gftRfgistry() {
+        rfturn tifInstbndf;
     }
 
     /**
-     * Returns the XID of the topmost window with WM_STATE set in the ancestor
-     * hierarchy of the specified window or 0 if none found.
+     * Rfturns tif XID of tif topmost window witi WM_STATE sft in tif bndfstor
+     * iifrbrdiy of tif spfdififd window or 0 if nonf found.
      */
-    private long getToplevelWindow(long window) {
-        XBaseWindow candWindow = XToolkit.windowToXWindow(window);
-        if (candWindow != null) {
-            XWindowPeer toplevel = candWindow.getToplevelXWindow();
-            if (toplevel != null && !(toplevel instanceof XEmbeddedFramePeer)) {
-                return toplevel.getWindow();
+    privbtf long gftToplfvflWindow(long window) {
+        XBbsfWindow dbndWindow = XToolkit.windowToXWindow(window);
+        if (dbndWindow != null) {
+            XWindowPffr toplfvfl = dbndWindow.gftToplfvflXWindow();
+            if (toplfvfl != null && !(toplfvfl instbndfof XEmbfddfdFrbmfPffr)) {
+                rfturn toplfvfl.gftWindow();
             }
         }
 
-        /* Traverse the ancestor tree from window up to the root and find
-           the top-level client window nearest to the root. */
+        /* Trbvfrsf tif bndfstor trff from window up to tif root bnd find
+           tif top-lfvfl dlifnt window nfbrfst to tif root. */
         do {
-            if (XlibUtil.isTrueToplevelWindow(window)) {
-                return window;
+            if (XlibUtil.isTrufToplfvflWindow(window)) {
+                rfturn window;
             }
 
-            window = XlibUtil.getParentWindow(window);
+            window = XlibUtil.gftPbrfntWindow(window);
 
-        } while (window != 0);
+        } wiilf (window != 0);
 
-        return window;
+        rfturn window;
     }
 
-    static final long getDnDProxyWindow() {
-        return XWindow.getXAWTRootWindow().getWindow();
+    stbtid finbl long gftDnDProxyWindow() {
+        rfturn XWindow.gftXAWTRootWindow().gftWindow();
     }
 
-    private static final class EmbeddedDropSiteEntry {
-        private final long root;
-        private final long event_mask;
-        private List<XDropTargetProtocol> supportedProtocols;
-        private final HashSet<Long> nonXEmbedClientSites = new HashSet<Long>();
-        private final List<Long> sites = new ArrayList<Long>();
+    privbtf stbtid finbl dlbss EmbfddfdDropSitfEntry {
+        privbtf finbl long root;
+        privbtf finbl long fvfnt_mbsk;
+        privbtf List<XDropTbrgftProtodol> supportfdProtodols;
+        privbtf finbl HbsiSft<Long> nonXEmbfdClifntSitfs = nfw HbsiSft<Long>();
+        privbtf finbl List<Long> sitfs = nfw ArrbyList<Long>();
 
-        public EmbeddedDropSiteEntry(long root, long event_mask,
-                                     List<XDropTargetProtocol> supportedProtocols) {
-            if (supportedProtocols == null) {
-                throw new NullPointerException("Null supportedProtocols");
+        publid EmbfddfdDropSitfEntry(long root, long fvfnt_mbsk,
+                                     List<XDropTbrgftProtodol> supportfdProtodols) {
+            if (supportfdProtodols == null) {
+                tirow nfw NullPointfrExdfption("Null supportfdProtodols");
             }
-            this.root = root;
-            this.event_mask = event_mask;
-            this.supportedProtocols = supportedProtocols;
+            tiis.root = root;
+            tiis.fvfnt_mbsk = fvfnt_mbsk;
+            tiis.supportfdProtodols = supportfdProtodols;
         }
 
-        public long getRoot() {
-            return root;
+        publid long gftRoot() {
+            rfturn root;
         }
-        public long getEventMask() {
-            return event_mask;
+        publid long gftEvfntMbsk() {
+            rfturn fvfnt_mbsk;
         }
-        public boolean hasNonXEmbedClientSites() {
-            return !nonXEmbedClientSites.isEmpty();
+        publid boolfbn ibsNonXEmbfdClifntSitfs() {
+            rfturn !nonXEmbfdClifntSitfs.isEmpty();
         }
-        public synchronized void addSite(long window, boolean isXEmbedClient) {
-            Long lWindow = Long.valueOf(window);
-            if (!sites.contains(lWindow)) {
-                sites.add(lWindow);
+        publid syndironizfd void bddSitf(long window, boolfbn isXEmbfdClifnt) {
+            Long lWindow = Long.vblufOf(window);
+            if (!sitfs.dontbins(lWindow)) {
+                sitfs.bdd(lWindow);
             }
-            if (!isXEmbedClient) {
-                nonXEmbedClientSites.add(lWindow);
+            if (!isXEmbfdClifnt) {
+                nonXEmbfdClifntSitfs.bdd(lWindow);
             }
         }
-        public synchronized void removeSite(long window) {
-            Long lWindow = Long.valueOf(window);
-            sites.remove(lWindow);
-            nonXEmbedClientSites.remove(lWindow);
+        publid syndironizfd void rfmovfSitf(long window) {
+            Long lWindow = Long.vblufOf(window);
+            sitfs.rfmovf(lWindow);
+            nonXEmbfdClifntSitfs.rfmovf(lWindow);
         }
-        public void setSupportedProtocols(List<XDropTargetProtocol> list) {
-            supportedProtocols = list;
+        publid void sftSupportfdProtodols(List<XDropTbrgftProtodol> list) {
+            supportfdProtodols = list;
         }
-        public List<XDropTargetProtocol> getSupportedProtocols() {
-            return supportedProtocols;
+        publid List<XDropTbrgftProtodol> gftSupportfdProtodols() {
+            rfturn supportfdProtodols;
         }
-        public boolean hasSites() {
-            return !sites.isEmpty();
+        publid boolfbn ibsSitfs() {
+            rfturn !sitfs.isEmpty();
         }
-        public long[] getSites() {
-            long[] ret = new long[sites.size()];
-            Iterator<Long> iter = sites.iterator();
-            int index = 0;
-            while (iter.hasNext()) {
-                Long l = iter.next();
-                ret[index++] = l.longValue();
+        publid long[] gftSitfs() {
+            long[] rft = nfw long[sitfs.sizf()];
+            Itfrbtor<Long> itfr = sitfs.itfrbtor();
+            int indfx = 0;
+            wiilf (itfr.ibsNfxt()) {
+                Long l = itfr.nfxt();
+                rft[indfx++] = l.longVbluf();
             }
-            return ret;
+            rfturn rft;
         }
-        public long getSite(int x, int y) {
-            assert XToolkit.isAWTLockHeldByCurrentThread();
+        publid long gftSitf(int x, int y) {
+            bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-            Iterator<Long> iter = sites.iterator();
-            while (iter.hasNext()) {
-                Long l = iter.next();
-                long window = l.longValue();
+            Itfrbtor<Long> itfr = sitfs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                Long l = itfr.nfxt();
+                long window = l.longVbluf();
 
-                Point p = XBaseWindow.toOtherWindow(getRoot(), window, x, y);
+                Point p = XBbsfWindow.toOtifrWindow(gftRoot(), window, x, y);
 
                 if (p == null) {
-                    continue;
+                    dontinuf;
                 }
 
-                int dest_x = p.x;
-                int dest_y = p.y;
-                if (dest_x >= 0 && dest_y >= 0) {
-                    XWindowAttributes wattr = new XWindowAttributes();
+                int dfst_x = p.x;
+                int dfst_y = p.y;
+                if (dfst_x >= 0 && dfst_y >= 0) {
+                    XWindowAttributfs wbttr = nfw XWindowAttributfs();
                     try {
-                        XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                        int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                                      window, wattr.pData);
-                        XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                        XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                        int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                                      window, wbttr.pDbtb);
+                        XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-                        if ((status == 0) ||
-                            ((XErrorHandlerUtil.saved_error != null) &&
-                            (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success))) {
-                            continue;
+                        if ((stbtus == 0) ||
+                            ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                            (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss))) {
+                            dontinuf;
                         }
 
-                        if (wattr.get_map_state() != XConstants.IsUnmapped
-                            && dest_x < wattr.get_width()
-                            && dest_y < wattr.get_height()) {
-                            return window;
+                        if (wbttr.gft_mbp_stbtf() != XConstbnts.IsUnmbppfd
+                            && dfst_x < wbttr.gft_widti()
+                            && dfst_y < wbttr.gft_ifigit()) {
+                            rfturn window;
                         }
-                    } finally {
-                        wattr.dispose();
+                    } finblly {
+                        wbttr.disposf();
                     }
                 }
             }
-            return 0;
+            rfturn 0;
         }
     }
 
-    private final HashMap<Long, EmbeddedDropSiteEntry> embeddedDropSiteRegistry =
-        new HashMap<Long, EmbeddedDropSiteEntry>();
+    privbtf finbl HbsiMbp<Long, EmbfddfdDropSitfEntry> fmbfddfdDropSitfRfgistry =
+        nfw HbsiMbp<Long, EmbfddfdDropSitfEntry>();
 
-    private EmbeddedDropSiteEntry registerEmbedderDropSite(long embedder) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf EmbfddfdDropSitfEntry rfgistfrEmbfddfrDropSitf(long fmbfddfr) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
-        // The list of protocols supported by the embedder.
-        List<XDropTargetProtocol> embedderProtocols = new ArrayList<>();
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+        // Tif list of protodols supportfd by tif fmbfddfr.
+        List<XDropTbrgftProtodol> fmbfddfrProtodols = nfw ArrbyList<>();
 
-        while (dropTargetProtocols.hasNext()) {
-            XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-            if (dropTargetProtocol.isProtocolSupported(embedder)) {
-                embedderProtocols.add(dropTargetProtocol);
+        wiilf (dropTbrgftProtodols.ibsNfxt()) {
+            XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+            if (dropTbrgftProtodol.isProtodolSupportfd(fmbfddfr)) {
+                fmbfddfrProtodols.bdd(dropTbrgftProtodol);
             }
         }
 
-        embedderProtocols = Collections.unmodifiableList(embedderProtocols);
+        fmbfddfrProtodols = Collfdtions.unmodifibblfList(fmbfddfrProtodols);
 
-        /* Grab server, since we are working with the window that belongs to
-           another client. */
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        /* Grbb sfrvfr, sindf wf brf working witi tif window tibt bflongs to
+           bnotifr dlifnt. */
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
         try {
             long root = 0;
-            long event_mask = 0;
-            XWindowAttributes wattr = new XWindowAttributes();
+            long fvfnt_mbsk = 0;
+            XWindowAttributfs wbttr = nfw XWindowAttributfs();
             try {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                              embedder, wattr.pData);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                              fmbfddfr, wbttr.pDbtb);
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-                if ((status == 0) ||
-                    ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success))) {
-                    throw new XException("XGetWindowAttributes failed");
+                if ((stbtus == 0) ||
+                    ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss))) {
+                    tirow nfw XExdfption("XGftWindowAttributfs fbilfd");
                 }
 
-                event_mask = wattr.get_your_event_mask();
-                root = wattr.get_root();
-            } finally {
-                wattr.dispose();
+                fvfnt_mbsk = wbttr.gft_your_fvfnt_mbsk();
+                root = wbttr.gft_root();
+            } finblly {
+                wbttr.disposf();
             }
 
-            if ((event_mask & XConstants.PropertyChangeMask) == 0) {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                XlibWrapper.XSelectInput(XToolkit.getDisplay(), embedder,
-                                         event_mask | XConstants.PropertyChangeMask);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            if ((fvfnt_mbsk & XConstbnts.PropfrtyCibngfMbsk) == 0) {
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), fmbfddfr,
+                                         fvfnt_mbsk | XConstbnts.PropfrtyCibngfMbsk);
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-                if ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                    throw new XException("XSelectInput failed");
+                if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                    tirow nfw XExdfption("XSflfdtInput fbilfd");
                 }
             }
 
-            return new EmbeddedDropSiteEntry(root, event_mask, embedderProtocols);
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+            rfturn nfw EmbfddfdDropSitfEntry(root, fvfnt_mbsk, fmbfddfrProtodols);
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
         }
     }
 
-    private static final boolean XEMBED_PROTOCOLS = true;
-    private static final boolean NON_XEMBED_PROTOCOLS = false;
+    privbtf stbtid finbl boolfbn XEMBED_PROTOCOLS = truf;
+    privbtf stbtid finbl boolfbn NON_XEMBED_PROTOCOLS = fblsf;
 
-    private void registerProtocols(long embedder, boolean protocols,
-                                   List<XDropTargetProtocol> supportedProtocols) {
-        Iterator<XDropTargetProtocol> dropTargetProtocols = null;
+    privbtf void rfgistfrProtodols(long fmbfddfr, boolfbn protodols,
+                                   List<XDropTbrgftProtodol> supportfdProtodols) {
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols = null;
 
         /*
-         * By default, we register a drop site that supports all dnd
-         * protocols. This approach is not appropriate in plugin
-         * scenario if the browser supports Motif DnD and doesn't support
-         * XDnD. If we forcibly set XdndAware on the browser toplevel, any drag
-         * source that supports both protocols and prefers XDnD will be unable
-         * to drop anything on the browser.
-         * The solution for this problem is not to register XDnD drop site
-         * if the browser supports only Motif DnD.
-         * In general, if the browser already supports some protocols, we
-         * register the embedded drop site only for those protocols. Otherwise
-         * we register the embedded drop site for all protocols.
+         * By dffbult, wf rfgistfr b drop sitf tibt supports bll dnd
+         * protodols. Tiis bpprobdi is not bppropribtf in plugin
+         * sdfnbrio if tif browsfr supports Motif DnD bnd dofsn't support
+         * XDnD. If wf fordibly sft XdndAwbrf on tif browsfr toplfvfl, bny drbg
+         * sourdf tibt supports boti protodols bnd prfffrs XDnD will bf unbblf
+         * to drop bnytiing on tif browsfr.
+         * Tif solution for tiis problfm is not to rfgistfr XDnD drop sitf
+         * if tif browsfr supports only Motif DnD.
+         * In gfnfrbl, if tif browsfr blrfbdy supports somf protodols, wf
+         * rfgistfr tif fmbfddfd drop sitf only for tiosf protodols. Otifrwisf
+         * wf rfgistfr tif fmbfddfd drop sitf for bll protodols.
          */
-        if (!supportedProtocols.isEmpty()) {
-            dropTargetProtocols = supportedProtocols.iterator();
-        } else {
-            dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+        if (!supportfdProtodols.isEmpty()) {
+            dropTbrgftProtodols = supportfdProtodols.itfrbtor();
+        } flsf {
+            dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
         }
 
-        /* Grab server, since we are working with the window that belongs to
-           another client. */
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        /* Grbb sfrvfr, sindf wf brf working witi tif window tibt bflongs to
+           bnotifr dlifnt. */
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
         try {
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-                if ((protocols == XEMBED_PROTOCOLS) ==
-                    dropTargetProtocol.isXEmbedSupported()) {
-                    dropTargetProtocol.registerEmbedderDropSite(embedder);
+            wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                if ((protodols == XEMBED_PROTOCOLS) ==
+                    dropTbrgftProtodol.isXEmbfdSupportfd()) {
+                    dropTbrgftProtodol.rfgistfrEmbfddfrDropSitf(fmbfddfr);
                 }
             }
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
         }
     }
 
-    public void updateEmbedderDropSite(long embedder) {
-        XBaseWindow xbaseWindow = XToolkit.windowToXWindow(embedder);
-        // No need to update our own drop sites.
-        if (xbaseWindow != null) {
-            return;
+    publid void updbtfEmbfddfrDropSitf(long fmbfddfr) {
+        XBbsfWindow xbbsfWindow = XToolkit.windowToXWindow(fmbfddfr);
+        // No nffd to updbtf our own drop sitfs.
+        if (xbbsfWindow != null) {
+            rfturn;
         }
 
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
-        // The list of protocols supported by the embedder.
-        List<XDropTargetProtocol> embedderProtocols = new ArrayList<>();
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+        // Tif list of protodols supportfd by tif fmbfddfr.
+        List<XDropTbrgftProtodol> fmbfddfrProtodols = nfw ArrbyList<>();
 
-        while (dropTargetProtocols.hasNext()) {
-            XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-            if (dropTargetProtocol.isProtocolSupported(embedder)) {
-                embedderProtocols.add(dropTargetProtocol);
+        wiilf (dropTbrgftProtodols.ibsNfxt()) {
+            XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+            if (dropTbrgftProtodol.isProtodolSupportfd(fmbfddfr)) {
+                fmbfddfrProtodols.bdd(dropTbrgftProtodol);
             }
         }
 
-        embedderProtocols = Collections.unmodifiableList(embedderProtocols);
+        fmbfddfrProtodols = Collfdtions.unmodifibblfList(fmbfddfrProtodols);
 
-        Long lToplevel = Long.valueOf(embedder);
-        boolean isXEmbedServer = false;
-        synchronized (this) {
-            EmbeddedDropSiteEntry entry = embeddedDropSiteRegistry.get(lToplevel);
-            if (entry == null) {
-                return;
+        Long lToplfvfl = Long.vblufOf(fmbfddfr);
+        boolfbn isXEmbfdSfrvfr = fblsf;
+        syndironizfd (tiis) {
+            EmbfddfdDropSitfEntry fntry = fmbfddfdDropSitfRfgistry.gft(lToplfvfl);
+            if (fntry == null) {
+                rfturn;
             }
-            entry.setSupportedProtocols(embedderProtocols);
-            isXEmbedServer = !entry.hasNonXEmbedClientSites();
+            fntry.sftSupportfdProtodols(fmbfddfrProtodols);
+            isXEmbfdSfrvfr = !fntry.ibsNonXEmbfdClifntSitfs();
         }
 
         /*
-         * By default, we register a drop site that supports all dnd
-         * protocols. This approach is not appropriate in plugin
-         * scenario if the browser supports Motif DnD and doesn't support
-         * XDnD. If we forcibly set XdndAware on the browser toplevel, any drag
-         * source that supports both protocols and prefers XDnD will be unable
-         * to drop anything on the browser.
-         * The solution for this problem is not to register XDnD drop site
-         * if the browser supports only Motif DnD.
-         * In general, if the browser already supports some protocols, we
-         * register the embedded drop site only for those protocols. Otherwise
-         * we register the embedded drop site for all protocols.
+         * By dffbult, wf rfgistfr b drop sitf tibt supports bll dnd
+         * protodols. Tiis bpprobdi is not bppropribtf in plugin
+         * sdfnbrio if tif browsfr supports Motif DnD bnd dofsn't support
+         * XDnD. If wf fordibly sft XdndAwbrf on tif browsfr toplfvfl, bny drbg
+         * sourdf tibt supports boti protodols bnd prfffrs XDnD will bf unbblf
+         * to drop bnytiing on tif browsfr.
+         * Tif solution for tiis problfm is not to rfgistfr XDnD drop sitf
+         * if tif browsfr supports only Motif DnD.
+         * In gfnfrbl, if tif browsfr blrfbdy supports somf protodols, wf
+         * rfgistfr tif fmbfddfd drop sitf only for tiosf protodols. Otifrwisf
+         * wf rfgistfr tif fmbfddfd drop sitf for bll protodols.
          */
-        if (!embedderProtocols.isEmpty()) {
-            dropTargetProtocols = embedderProtocols.iterator();
-        } else {
-            dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+        if (!fmbfddfrProtodols.isEmpty()) {
+            dropTbrgftProtodols = fmbfddfrProtodols.itfrbtor();
+        } flsf {
+            dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
         }
 
-        /* Grab server, since we are working with the window that belongs to
-           another client. */
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        /* Grbb sfrvfr, sindf wf brf working witi tif window tibt bflongs to
+           bnotifr dlifnt. */
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
         try {
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-                if (!isXEmbedServer || !dropTargetProtocol.isXEmbedSupported()) {
-                    dropTargetProtocol.registerEmbedderDropSite(embedder);
+            wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                if (!isXEmbfdSfrvfr || !dropTbrgftProtodol.isXEmbfdSupportfd()) {
+                    dropTbrgftProtodol.rfgistfrEmbfddfrDropSitf(fmbfddfr);
                 }
             }
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
         }
     }
 
-    private void unregisterEmbedderDropSite(long embedder,
-                                            EmbeddedDropSiteEntry entry) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbtf void unrfgistfrEmbfddfrDropSitf(long fmbfddfr,
+                                            EmbfddfdDropSitfEntry fntry) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-        /* Grab server, since we are working with the window that belongs to
-           another client. */
-        XlibWrapper.XGrabServer(XToolkit.getDisplay());
+        /* Grbb sfrvfr, sindf wf brf working witi tif window tibt bflongs to
+           bnotifr dlifnt. */
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
         try {
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-                dropTargetProtocol.unregisterEmbedderDropSite(embedder);
+            wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                dropTbrgftProtodol.unrfgistfrEmbfddfrDropSitf(fmbfddfr);
             }
 
-            long event_mask = entry.getEventMask();
+            long fvfnt_mbsk = fntry.gftEvfntMbsk();
 
-            /* Restore the original event mask for the embedder. */
-            if ((event_mask & XConstants.PropertyChangeMask) == 0) {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                XlibWrapper.XSelectInput(XToolkit.getDisplay(), embedder,
-                                         event_mask);
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+            /* Rfstorf tif originbl fvfnt mbsk for tif fmbfddfr. */
+            if ((fvfnt_mbsk & XConstbnts.PropfrtyCibngfMbsk) == 0) {
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), fmbfddfr,
+                                         fvfnt_mbsk);
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-                if ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success)) {
-                    throw new XException("XSelectInput failed");
+                if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                    tirow nfw XExdfption("XSflfdtInput fbilfd");
                 }
             }
-        } finally {
-            XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
         }
     }
 
-    private void registerEmbeddedDropSite(long toplevel, long window) {
-        XBaseWindow xBaseWindow = XToolkit.windowToXWindow(window);
-        boolean isXEmbedClient =
-            (xBaseWindow instanceof XEmbeddedFramePeer) &&
-            ((XEmbeddedFramePeer)xBaseWindow).isXEmbedActive();
+    privbtf void rfgistfrEmbfddfdDropSitf(long toplfvfl, long window) {
+        XBbsfWindow xBbsfWindow = XToolkit.windowToXWindow(window);
+        boolfbn isXEmbfdClifnt =
+            (xBbsfWindow instbndfof XEmbfddfdFrbmfPffr) &&
+            ((XEmbfddfdFrbmfPffr)xBbsfWindow).isXEmbfdAdtivf();
 
-        XEmbedCanvasPeer peer = null;
+        XEmbfdCbnvbsPffr pffr = null;
         {
-            XBaseWindow xbaseWindow = XToolkit.windowToXWindow(toplevel);
-            if (xbaseWindow != null) {
-                if (xbaseWindow instanceof XEmbedCanvasPeer) {
-                    peer = (XEmbedCanvasPeer)xbaseWindow;
-                } else {
-                    throw new UnsupportedOperationException();
+            XBbsfWindow xbbsfWindow = XToolkit.windowToXWindow(toplfvfl);
+            if (xbbsfWindow != null) {
+                if (xbbsfWindow instbndfof XEmbfdCbnvbsPffr) {
+                    pffr = (XEmbfdCbnvbsPffr)xbbsfWindow;
+                } flsf {
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
             }
         }
 
-        Long lToplevel = Long.valueOf(toplevel);
-        EmbeddedDropSiteEntry entry = null;
-        synchronized (this) {
-            entry = embeddedDropSiteRegistry.get(lToplevel);
-            if (entry == null) {
-                if (peer != null) {
-                    // Toplevel is an XEmbed server within this VM.
-                    // Register an XEmbed drop site.
-                    peer.setXEmbedDropTarget();
-                    // Create a dummy entry to register the embedded site.
-                    entry = new EmbeddedDropSiteEntry(0, 0,
-                                                      Collections.<XDropTargetProtocol>emptyList());
-                } else {
-                    // Foreign toplevel.
-                    // Select for PropertyNotify events on the toplevel, so that
-                    // we can track changes of the properties relevant to DnD
-                    // protocols.
-                    entry = registerEmbedderDropSite(toplevel);
-                    // Register the toplevel with all DnD protocols that are not
-                    // supported by XEmbed - actually setup a proxy, so that
-                    // all DnD notifications sent to the toplevel are first
-                    // routed to us.
-                    registerProtocols(toplevel, NON_XEMBED_PROTOCOLS,
-                                      entry.getSupportedProtocols());
+        Long lToplfvfl = Long.vblufOf(toplfvfl);
+        EmbfddfdDropSitfEntry fntry = null;
+        syndironizfd (tiis) {
+            fntry = fmbfddfdDropSitfRfgistry.gft(lToplfvfl);
+            if (fntry == null) {
+                if (pffr != null) {
+                    // Toplfvfl is bn XEmbfd sfrvfr witiin tiis VM.
+                    // Rfgistfr bn XEmbfd drop sitf.
+                    pffr.sftXEmbfdDropTbrgft();
+                    // Crfbtf b dummy fntry to rfgistfr tif fmbfddfd sitf.
+                    fntry = nfw EmbfddfdDropSitfEntry(0, 0,
+                                                      Collfdtions.<XDropTbrgftProtodol>fmptyList());
+                } flsf {
+                    // Forfign toplfvfl.
+                    // Sflfdt for PropfrtyNotify fvfnts on tif toplfvfl, so tibt
+                    // wf dbn trbdk dibngfs of tif propfrtifs rflfvbnt to DnD
+                    // protodols.
+                    fntry = rfgistfrEmbfddfrDropSitf(toplfvfl);
+                    // Rfgistfr tif toplfvfl witi bll DnD protodols tibt brf not
+                    // supportfd by XEmbfd - bdtublly sftup b proxy, so tibt
+                    // bll DnD notifidbtions sfnt to tif toplfvfl brf first
+                    // routfd to us.
+                    rfgistfrProtodols(toplfvfl, NON_XEMBED_PROTOCOLS,
+                                      fntry.gftSupportfdProtodols());
                 }
-                embeddedDropSiteRegistry.put(lToplevel, entry);
+                fmbfddfdDropSitfRfgistry.put(lToplfvfl, fntry);
             }
         }
 
-        assert entry != null;
+        bssfrt fntry != null;
 
-        synchronized (entry) {
-            // For a foreign toplevel.
-            if (peer == null) {
-                if (!isXEmbedClient) {
-                    // Since this is not an XEmbed client we can no longer rely
-                    // on XEmbed to route DnD notifications even for DnD
-                    // protocols that are supported by XEmbed.
-                    // We rollback to the XEmbed-unfriendly solution - setup
-                    // a proxy, so that all DnD notifications sent to the
-                    // toplevel are first routed to us.
-                    registerProtocols(toplevel, XEMBED_PROTOCOLS,
-                                      entry.getSupportedProtocols());
-                } else {
-                    Iterator<XDropTargetProtocol> dropTargetProtocols =
-                        XDragAndDropProtocols.getDropTargetProtocols();
+        syndironizfd (fntry) {
+            // For b forfign toplfvfl.
+            if (pffr == null) {
+                if (!isXEmbfdClifnt) {
+                    // Sindf tiis is not bn XEmbfd dlifnt wf dbn no longfr rfly
+                    // on XEmbfd to routf DnD notifidbtions fvfn for DnD
+                    // protodols tibt brf supportfd by XEmbfd.
+                    // Wf rollbbdk to tif XEmbfd-unfrifndly solution - sftup
+                    // b proxy, so tibt bll DnD notifidbtions sfnt to tif
+                    // toplfvfl brf first routfd to us.
+                    rfgistfrProtodols(toplfvfl, XEMBED_PROTOCOLS,
+                                      fntry.gftSupportfdProtodols());
+                } flsf {
+                    Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                        XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-                    // Register the embedded window as a plain drop site with
-                    // all DnD protocols that are supported by XEmbed.
-                    while (dropTargetProtocols.hasNext()) {
-                        XDropTargetProtocol dropTargetProtocol =
-                            dropTargetProtocols.next();
-                        if (dropTargetProtocol.isXEmbedSupported()) {
-                            dropTargetProtocol.registerEmbedderDropSite(window);
+                    // Rfgistfr tif fmbfddfd window bs b plbin drop sitf witi
+                    // bll DnD protodols tibt brf supportfd by XEmbfd.
+                    wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                        XDropTbrgftProtodol dropTbrgftProtodol =
+                            dropTbrgftProtodols.nfxt();
+                        if (dropTbrgftProtodol.isXEmbfdSupportfd()) {
+                            dropTbrgftProtodol.rfgistfrEmbfddfrDropSitf(window);
                         }
                     }
                 }
             }
 
-            entry.addSite(window, isXEmbedClient);
+            fntry.bddSitf(window, isXEmbfdClifnt);
         }
     }
 
-    private void unregisterEmbeddedDropSite(long toplevel, long window) {
-        Long lToplevel = Long.valueOf(toplevel);
-        EmbeddedDropSiteEntry entry = null;
-        synchronized (this) {
-            entry = embeddedDropSiteRegistry.get(lToplevel);
-            if (entry == null) {
-                return;
+    privbtf void unrfgistfrEmbfddfdDropSitf(long toplfvfl, long window) {
+        Long lToplfvfl = Long.vblufOf(toplfvfl);
+        EmbfddfdDropSitfEntry fntry = null;
+        syndironizfd (tiis) {
+            fntry = fmbfddfdDropSitfRfgistry.gft(lToplfvfl);
+            if (fntry == null) {
+                rfturn;
             }
-            entry.removeSite(window);
-            if (!entry.hasSites()) {
-                embeddedDropSiteRegistry.remove(lToplevel);
+            fntry.rfmovfSitf(window);
+            if (!fntry.ibsSitfs()) {
+                fmbfddfdDropSitfRfgistry.rfmovf(lToplfvfl);
 
-                XBaseWindow xbaseWindow = XToolkit.windowToXWindow(toplevel);
-                if (xbaseWindow != null) {
-                    if (xbaseWindow instanceof XEmbedCanvasPeer) {
-                        XEmbedCanvasPeer peer = (XEmbedCanvasPeer)xbaseWindow;
-                        // Unregister an XEmbed drop site.
-                        peer.removeXEmbedDropTarget();
-                    } else {
-                        throw new UnsupportedOperationException();
+                XBbsfWindow xbbsfWindow = XToolkit.windowToXWindow(toplfvfl);
+                if (xbbsfWindow != null) {
+                    if (xbbsfWindow instbndfof XEmbfdCbnvbsPffr) {
+                        XEmbfdCbnvbsPffr pffr = (XEmbfdCbnvbsPffr)xbbsfWindow;
+                        // Unrfgistfr bn XEmbfd drop sitf.
+                        pffr.rfmovfXEmbfdDropTbrgft();
+                    } flsf {
+                        tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
-                } else {
-                    unregisterEmbedderDropSite(toplevel, entry);
+                } flsf {
+                    unrfgistfrEmbfddfrDropSitf(toplfvfl, fntry);
                 }
             }
         }
     }
 
     /*
-     * Returns a drop site that is embedded in the specified embedder window and
-     * contains the point with the specified root coordinates.
+     * Rfturns b drop sitf tibt is fmbfddfd in tif spfdififd fmbfddfr window bnd
+     * dontbins tif point witi tif spfdififd root doordinbtfs.
      */
-    public long getEmbeddedDropSite(long embedder, int x, int y) {
-        Long lToplevel = Long.valueOf(embedder);
-        EmbeddedDropSiteEntry entry = embeddedDropSiteRegistry.get(lToplevel);
-        if (entry == null) {
-            return 0;
+    publid long gftEmbfddfdDropSitf(long fmbfddfr, int x, int y) {
+        Long lToplfvfl = Long.vblufOf(fmbfddfr);
+        EmbfddfdDropSitfEntry fntry = fmbfddfdDropSitfRfgistry.gft(lToplfvfl);
+        if (fntry == null) {
+            rfturn 0;
         }
-        return entry.getSite(x, y);
+        rfturn fntry.gftSitf(x, y);
     }
 
     /*
-     * Note: this method should be called under AWT lock.
+     * Notf: tiis mftiod siould bf dbllfd undfr AWT lodk.
      */
-    public void registerDropSite(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    publid void rfgistfrDropSitf(long window) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
         if (window == 0) {
-            throw new IllegalArgumentException();
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        XDropTargetEventProcessor.activate();
+        XDropTbrgftEvfntProdfssor.bdtivbtf();
 
-        long toplevel = getToplevelWindow(window);
+        long toplfvfl = gftToplfvflWindow(window);
 
         /*
-         * No window with WM_STATE property is found.
-         * Since the window can be a plugin window reparented to the browser
-         * toplevel, we cannot determine which window will eventually have
-         * WM_STATE property set. So we schedule a timer callback that will
-         * periodically attempt to find an ancestor with WM_STATE and
-         * register the drop site appropriately.
+         * No window witi WM_STATE propfrty is found.
+         * Sindf tif window dbn bf b plugin window rfpbrfntfd to tif browsfr
+         * toplfvfl, wf dbnnot dftfrminf wiidi window will fvfntublly ibvf
+         * WM_STATE propfrty sft. So wf sdifdulf b timfr dbllbbdk tibt will
+         * pfriodidblly bttfmpt to find bn bndfstor witi WM_STATE bnd
+         * rfgistfr tif drop sitf bppropribtfly.
          */
-        if (toplevel == 0) {
-            addDelayedRegistrationEntry(window);
-            return;
+        if (toplfvfl == 0) {
+            bddDflbyfdRfgistrbtionEntry(window);
+            rfturn;
         }
 
-        if (toplevel == window) {
-            Iterator<XDropTargetProtocol> dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+        if (toplfvfl == window) {
+            Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol =
-                    dropTargetProtocols.next();
-                dropTargetProtocol.registerDropTarget(toplevel);
+            wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol =
+                    dropTbrgftProtodols.nfxt();
+                dropTbrgftProtodol.rfgistfrDropTbrgft(toplfvfl);
             }
-        } else {
-            registerEmbeddedDropSite(toplevel, window);
+        } flsf {
+            rfgistfrEmbfddfdDropSitf(toplfvfl, window);
         }
     }
 
     /*
-     * Note: this method should be called under AWT lock.
+     * Notf: tiis mftiod siould bf dbllfd undfr AWT lodk.
      */
-    public void unregisterDropSite(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    publid void unrfgistfrDropSitf(long window) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntTirfbd();
 
         if (window == 0) {
-            throw new IllegalArgumentException();
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        long toplevel = getToplevelWindow(window);
+        long toplfvfl = gftToplfvflWindow(window);
 
-        if (toplevel == window) {
-            Iterator<XDropTargetProtocol> dropProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+        if (toplfvfl == window) {
+            Itfrbtor<XDropTbrgftProtodol> dropProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-            removeDelayedRegistrationEntry(window);
+            rfmovfDflbyfdRfgistrbtionEntry(window);
 
-            while (dropProtocols.hasNext()) {
-                XDropTargetProtocol dropProtocol = dropProtocols.next();
-                dropProtocol.unregisterDropTarget(window);
+            wiilf (dropProtodols.ibsNfxt()) {
+                XDropTbrgftProtodol dropProtodol = dropProtodols.nfxt();
+                dropProtodol.unrfgistfrDropTbrgft(window);
             }
-        } else {
-            unregisterEmbeddedDropSite(toplevel, window);
+        } flsf {
+            unrfgistfrEmbfddfdDropSitf(toplfvfl, window);
         }
     }
 
-    public void registerXEmbedClient(long canvasWindow, long clientWindow) {
-        // If the client has an associated XDnD drop site, add a drop target
-        // to the XEmbedCanvasPeer's target to route drag notifications to the
-        // client.
+    publid void rfgistfrXEmbfdClifnt(long dbnvbsWindow, long dlifntWindow) {
+        // If tif dlifnt ibs bn bssodibtfd XDnD drop sitf, bdd b drop tbrgft
+        // to tif XEmbfdCbnvbsPffr's tbrgft to routf drbg notifidbtions to tif
+        // dlifnt.
 
-        XDragSourceProtocol xdndDragProtocol =
-            XDragAndDropProtocols.getDragSourceProtocol(XDragAndDropProtocols.XDnD);
-        XDragSourceProtocol.TargetWindowInfo info =
-            xdndDragProtocol.getTargetWindowInfo(clientWindow);
+        XDrbgSourdfProtodol xdndDrbgProtodol =
+            XDrbgAndDropProtodols.gftDrbgSourdfProtodol(XDrbgAndDropProtodols.XDnD);
+        XDrbgSourdfProtodol.TbrgftWindowInfo info =
+            xdndDrbgProtodol.gftTbrgftWindowInfo(dlifntWindow);
         if (info != null &&
-            info.getProtocolVersion() >= XDnDConstants.XDND_MIN_PROTOCOL_VERSION) {
+            info.gftProtodolVfrsion() >= XDnDConstbnts.XDND_MIN_PROTOCOL_VERSION) {
 
-            if (logger.isLoggable(PlatformLogger.Level.FINE)) {
-                logger.fine("        XEmbed drop site will be registered for " + Long.toHexString(clientWindow));
+            if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                loggfr.finf("        XEmbfd drop sitf will bf rfgistfrfd for " + Long.toHfxString(dlifntWindow));
             }
-            registerEmbeddedDropSite(canvasWindow, clientWindow);
+            rfgistfrEmbfddfdDropSitf(dbnvbsWindow, dlifntWindow);
 
-            Iterator<XDropTargetProtocol> dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+            Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-                dropTargetProtocol.registerEmbeddedDropSite(clientWindow);
+            wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                dropTbrgftProtodol.rfgistfrEmbfddfdDropSitf(dlifntWindow);
             }
 
-            if (logger.isLoggable(PlatformLogger.Level.FINE)) {
-                logger.fine("        XEmbed drop site has been registered for " + Long.toHexString(clientWindow));
+            if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                loggfr.finf("        XEmbfd drop sitf ibs bffn rfgistfrfd for " + Long.toHfxString(dlifntWindow));
             }
         }
     }
 
-    public void unregisterXEmbedClient(long canvasWindow, long clientWindow) {
-        if (logger.isLoggable(PlatformLogger.Level.FINE)) {
-            logger.fine("        XEmbed drop site will be unregistered for " + Long.toHexString(clientWindow));
+    publid void unrfgistfrXEmbfdClifnt(long dbnvbsWindow, long dlifntWindow) {
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            loggfr.finf("        XEmbfd drop sitf will bf unrfgistfrfd for " + Long.toHfxString(dlifntWindow));
         }
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-        while (dropTargetProtocols.hasNext()) {
-            XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-            dropTargetProtocol.unregisterEmbeddedDropSite(clientWindow);
+        wiilf (dropTbrgftProtodols.ibsNfxt()) {
+            XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+            dropTbrgftProtodol.unrfgistfrEmbfddfdDropSitf(dlifntWindow);
         }
 
-        unregisterEmbeddedDropSite(canvasWindow, clientWindow);
+        unrfgistfrEmbfddfdDropSitf(dbnvbsWindow, dlifntWindow);
 
-        if (logger.isLoggable(PlatformLogger.Level.FINE)) {
-            logger.fine("        XEmbed drop site has beed unregistered for " + Long.toHexString(clientWindow));
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            loggfr.finf("        XEmbfd drop sitf ibs bffd unrfgistfrfd for " + Long.toHfxString(dlifntWindow));
         }
     }
 
-    /**************** Delayed drop site registration *******************************/
+    /**************** Dflbyfd drop sitf rfgistrbtion *******************************/
 
-    private void addDelayedRegistrationEntry(final long window) {
-        Long lWindow = Long.valueOf(window);
-        Runnable runnable = new Runnable() {
-                public void run() {
-                    removeDelayedRegistrationEntry(window);
-                    registerDropSite(window);
+    privbtf void bddDflbyfdRfgistrbtionEntry(finbl long window) {
+        Long lWindow = Long.vblufOf(window);
+        Runnbblf runnbblf = nfw Runnbblf() {
+                publid void run() {
+                    rfmovfDflbyfdRfgistrbtionEntry(window);
+                    rfgistfrDropSitf(window);
                 }
             };
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            removeDelayedRegistrationEntry(window);
-            delayedRegistrationMap.put(lWindow, runnable);
-            XToolkit.schedule(runnable, DELAYED_REGISTRATION_PERIOD);
-        } finally {
-            XToolkit.awtUnlock();
+            rfmovfDflbyfdRfgistrbtionEntry(window);
+            dflbyfdRfgistrbtionMbp.put(lWindow, runnbblf);
+            XToolkit.sdifdulf(runnbblf, DELAYED_REGISTRATION_PERIOD);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    private void removeDelayedRegistrationEntry(long window) {
-        Long lWindow = Long.valueOf(window);
+    privbtf void rfmovfDflbyfdRfgistrbtionEntry(long window) {
+        Long lWindow = Long.vblufOf(window);
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            Runnable runnable = delayedRegistrationMap.remove(lWindow);
-            if (runnable != null) {
-                XToolkit.remove(runnable);
+            Runnbblf runnbblf = dflbyfdRfgistrbtionMbp.rfmovf(lWindow);
+            if (runnbblf != null) {
+                XToolkit.rfmovf(runnbblf);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
     /*******************************************************************************/

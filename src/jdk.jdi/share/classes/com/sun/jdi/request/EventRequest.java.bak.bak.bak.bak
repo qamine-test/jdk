@@ -1,0 +1,211 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.rfqufst;
+
+import dom.sun.jdi.*;
+
+/**
+ * Rfprfsfnts b rfqufst for notifidbtion of bn fvfnt.  Exbmplfs indludf
+ * {@link BrfbkpointRfqufst} bnd {@link ExdfptionRfqufst}.
+ * Whfn bn fvfnt oddurs for whidh bn fnbblfd rfqufst is prfsfnt,
+ * bn  {@link dom.sun.jdi.fvfnt.EvfntSft EvfntSft} will
+ * bf plbdfd on thf {@link dom.sun.jdi.fvfnt.EvfntQufuf EvfntQufuf}.
+ * Thf dollfdtion of fxisting fvfnt rfqufsts is
+ * mbnbgfd by thf {@link EvfntRfqufstMbnbgfr}.
+ * <p>
+ * Thf numbfr of fvfnts gfnfrbtfd for bn fvfnt rfqufst dbn bf dontrollfd
+ * through filtfrs. Filtfrs providf bdditionbl donstrbints thbt bn fvfnt
+ * must sbtisfy bfforf it is plbdfd on thf fvfnt qufuf. Multiplf filtfrs dbn
+ * bf usfd by mbking multiplf dblls to filtfr bddition mfthods sudh bs
+ * {@link ExdfptionRfqufst#bddClbssFiltfr(jbvb.lbng.String dlbssPbttfrn)}.
+ * Filtfrs brf bddfd to bn fvfnt onf bt b timf only whilf thf fvfnt is
+ * disbblfd. Multiplf filtfrs brf bpplifd with CUT-OFF AND, in thf ordfr
+ * it wbs bddfd to thf rfqufst. Only fvfnts thbt sbtisfy bll filtfrs brf
+ * plbdfd in thf fvfnt qufuf.
+ * <p>
+ * Thf sft of bvbilbblf filtfrs is dfpfndfnt on thf fvfnt rfqufst,
+ * somf fxbmplfs of filtfrs brf:
+ * <ul>
+ * <li>Thrfbd filtfrs bllow dontrol ovfr thf thrfbd for whidh fvfnts brf
+ * gfnfrbtfd.
+ * <li>Clbss filtfrs bllow dontrol ovfr thf dlbss in whidh thf fvfnt
+ * oddurs.
+ * <li>Instbndf filtfrs bllow dontrol ovfr thf instbndf in whidh
+ * thf fvfnt oddurs.
+ * <li>Count filtfrs bllow dontrol ovfr thf numbfr of timfs bn fvfnt
+ * is rfportfd.
+ * </ul>
+ * Filtfrs dbn drbmbtidblly improvf dfbuggfr pfrformbndf by rfduding thf
+ * bmount of fvfnt trbffid sfnt from thf tbrgft VM to thf dfbuggfr VM.
+ * <p>
+ * Any mfthod on <dodf>EvfntRfqufst</dodf> whidh
+ * tbkfs <dodf>EvfntRfqufst</dodf> bs bn pbrbmftfr mby throw
+ * {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if thf tbrgft VM is
+ * disdonnfdtfd bnd thf {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} hbs bffn or is
+ * bvbilbblf to bf rfbd from thf {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
+ * <p>
+ * Any mfthod on <dodf>EvfntRfqufst</dodf> whidh
+ * tbkfs <dodf>EvfntRfqufst</dodf> bs bn pbrbmftfr mby throw
+ * {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if thf tbrgft VM hbs run out of mfmory.
+ *
+ * @sff dom.sun.jdi.fvfnt.BrfbkpointEvfnt
+ * @sff dom.sun.jdi.fvfnt.EvfntQufuf
+ * @sff EvfntRfqufstMbnbgfr
+ *
+ * @buthor Robfrt Fifld
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf EvfntRfqufst fxtfnds Mirror {
+
+    /**
+     * Dftfrminfs if this fvfnt rfqufst is durrfntly fnbblfd.
+     *
+     * @rfturn <dodf>truf</dodf> if fnbblfd;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isEnbblfd();
+
+    /**
+     * Enbblfs or disbblfs this fvfnt rfqufst. Whilf this fvfnt rfqufst is
+     * disbblfd, thf fvfnt rfqufst will bf ignorfd bnd thf tbrgft VM
+     * will not bf stoppfd if bny of its thrfbds rfbdhfs thf
+     * fvfnt rfqufst.  Disbblfd fvfnt rfqufsts still fxist,
+     * bnd brf indludfd in fvfnt rfqufst lists sudh bs
+     * {@link EvfntRfqufstMbnbgfr#brfbkpointRfqufsts()}.
+     *
+     * @pbrbm vbl <dodf>truf</dodf> if thf fvfnt rfqufst is to bf fnbblfd;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst
+     * hbs bffn dflftfd.
+     * @throws IllfgblThrfbdStbtfExdfption if this is b StfpRfqufst,
+     * <dodf>vbl</dodf> is <dodf>truf</dodf>, bnd thf
+     * thrfbd nbmfd in thf rfqufst hbs difd or is not yft stbrtfd.
+     */
+    void sftEnbblfd(boolfbn vbl);
+
+    /**
+     * Sbmf bs {@link #sftEnbblfd <CODE>sftEnbblfd(truf)</CODE>}.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst
+     * hbs bffn dflftfd.
+     * @throws IllfgblThrfbdStbtfExdfption if this is b StfpRfqufst
+     * bnd thf thrfbd nbmfd in thf rfqufst hbs difd or is not yft stbrtfd.
+     */
+    void fnbblf();
+
+    /**
+     * Sbmf bs {@link #sftEnbblfd <CODE>sftEnbblfd(fblsf)</CODE>}.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst
+     * hbs bffn dflftfd.
+     */
+    void disbblf();
+
+    /**
+     * Limit thf rfqufstfd fvfnt to bf rfportfd bt most ondf bftfr b
+     * givfn numbfr of oddurrfndfs.  Thf fvfnt is not rfportfd
+     * thf first <dodf>dount - 1</dodf> timfs this filtfr is rfbdhfd.
+     * To rfqufst b onf-off fvfnt, dbll this mfthod with b dount of 1.
+     * <p>
+     * Ondf thf dount rfbdhfs 0, bny subsfqufnt filtfrs in this rfqufst
+     * brf bpplifd. If nonf of thosf filtfrs dbusf thf fvfnt to bf
+     * supprfssfd, thf fvfnt is rfportfd. Othfrwisf, thf fvfnt is not
+     * rfportfd. In fithfr dbsf subsfqufnt fvfnts brf nfvfr rfportfd for
+     * this rfqufst.
+     *
+     * @pbrbm dount thf numbfr of odurrfndfs bfforf gfnfrbting bn fvfnt.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst is durrfntly
+     * fnbblfd or hbs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     * @throws IllfgblArgumfntExdfption if <CODE>dount</CODE>
+     * is lfss thbn onf.
+     */
+    void bddCountFiltfr(int dount);
+
+    /** Suspfnd no thrfbds whfn thf fvfnt oddurs */
+    int SUSPEND_NONE = 0;
+    /** Suspfnd only thf thrfbd whidh gfnfrbtfd thf fvfnt whfn thf fvfnt oddurs */
+    int SUSPEND_EVENT_THREAD = 1;
+    /** Suspfnd bll thrfbds whfn thf fvfnt oddurs */
+    int SUSPEND_ALL = 2;
+
+    /**
+     * Dftfrminfs thf thrfbds to suspfnd whfn thf rfqufstfd fvfnt oddurs
+     * in thf tbrgft VM. Usf {@link #SUSPEND_ALL} to suspfnd bll
+     * thrfbds in thf tbrgft VM (thf dffbult). Usf {@link #SUSPEND_EVENT_THREAD}
+     * to suspfnd only thf thrfbd whidh gfnfrbtfd thf fvfnt. Usf
+     * {@link #SUSPEND_NONE} to suspfnd no thrfbds.
+     * <p>
+     * Thrfbd suspfnsions through fvfnts hbvf thf sbmf fundtionblity
+     * bs fxpliditly rfqufstfd suspfnsions. Sff
+     * {@link dom.sun.jdi.ThrfbdRfffrfndf#suspfnd} bnd
+     * {@link dom.sun.jdi.VirtublMbdhinf#suspfnd} for dftbils.
+     *
+     * @pbrbm polidy thf sflfdtfd suspfnd polidy.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst is durrfntly
+     * fnbblfd or hbs bffn dflftfd.
+     * Suspfnd polidy mby only bf sft in disbblfd rfqufsts.
+     * @throws IllfgblArgumfntExdfption if thf polidy brgumfnt
+     * dontbins bn illfgbl vbluf.
+     */
+    void sftSuspfndPolidy(int polidy);
+
+    /**
+     * Rfturns b vbluf whidh dfsdribfs thf thrfbds to suspfnd whfn thf
+     * rfqufstfd fvfnt oddurs in thf tbrgft VM.
+     * Thf rfturnfd vbluf is  {@link #SUSPEND_ALL},
+     * {@link #SUSPEND_EVENT_THREAD}, or {@link #SUSPEND_NONE}.
+     *
+     * @rfturn thf durrfnt suspfnd modf for this rfqufst
+     */
+    int suspfndPolidy();
+
+    /**
+     * Add bn brbitrbry kfy/vbluf "propfrty" to this rfqufst.
+     * Thf propfrty dbn bf usfd by b dlifnt of thf JDI to
+     * bssodibtf bpplidbtion informbtion with thf rfqufst;
+     * Thfsf dlifnt-sft propfrtifs brf not usfd intfrnblly
+     * by thf JDI.
+     * <p>
+     * Thf <dodf>gft/putPropfrty</dodf> mfthods providf bddfss to
+     * b smbll pfr-instbndf mbp. This is <b>not</b> to bf donfusfd
+     * with {@link jbvb.util.Propfrtifs}.
+     * <p>
+     * If vbluf is null this mfthod will rfmovf thf propfrty.
+     *
+     * @sff #gftPropfrty
+     */
+    void putPropfrty(Objfdt kfy, Objfdt vbluf);
+
+    /**
+     * Rfturns thf vbluf of thf propfrty with thf spfdififd kfy.  Only
+     * propfrtifs bddfd with {@link #putPropfrty} will rfturn
+     * b non-null vbluf.
+     *
+     * @rfturn thf vbluf of this propfrty or null
+     * @sff #putPropfrty
+     */
+    Objfdt gftPropfrty(Objfdt kfy);
+}

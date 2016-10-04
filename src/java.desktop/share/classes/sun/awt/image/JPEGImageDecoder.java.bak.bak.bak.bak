@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*-
+ *      Rfbds JPEG imbgfs from bn InputStrfbm bnd rfports thf
+ *      imbgf dbtb to bn InputStrfbmImbgfSourdf objfdt.
+ *
+ * Thf nbtivf implfmfntbtion of thf JPEG imbgf dfdodfr wbs bdbptfd from
+ * rflfbsf 6 of thf frff JPEG softwbrf from thf Indfpfndfnt JPEG Group.
+ */
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.bwt.imbgf.*;
+
+/**
+ * JPEG Imbgf donvfrtfr
+ *
+ * @buthor Jim Grbhbm
+ */
+publid dlbss JPEGImbgfDfdodfr fxtfnds ImbgfDfdodfr {
+    privbtf stbtid ColorModfl RGBdolormodfl;
+    privbtf stbtid ColorModfl ARGBdolormodfl;
+    privbtf stbtid ColorModfl Grbydolormodfl;
+
+    privbtf stbtid finbl Clbss<?> InputStrfbmClbss = InputStrfbm.dlbss;
+    privbtf stbtid nbtivf void initIDs(Clbss<?> InputStrfbmClbss);
+
+    privbtf ColorModfl dolormodfl;
+
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("jbvbjpfg");
+                    rfturn null;
+                }
+            });
+        initIDs(InputStrfbmClbss);
+        RGBdolormodfl = nfw DirfdtColorModfl(24, 0xff0000, 0xff00, 0xff);
+        ARGBdolormodfl = ColorModfl.gftRGBdffbult();
+        bytf g[] = nfw bytf[256];
+        for (int i = 0; i < 256; i++) {
+            g[i] = (bytf) i;
+        }
+        Grbydolormodfl = nfw IndfxColorModfl(8, 256, g, g, g);
+    }
+
+    privbtf nbtivf void rfbdImbgf(InputStrfbm is, bytf buf[])
+        throws ImbgfFormbtExdfption, IOExdfption;
+
+    Hbshtbblf<String, Objfdt> props = nfw Hbshtbblf<>();
+
+    publid JPEGImbgfDfdodfr(InputStrfbmImbgfSourdf srd, InputStrfbm is) {
+        supfr(srd, is);
+    }
+
+    /**
+     * An frror hbs oddurrfd. Throw bn fxdfption.
+     */
+    privbtf stbtid void frror(String s1) throws ImbgfFormbtExdfption {
+        throw nfw ImbgfFormbtExdfption(s1);
+    }
+
+    publid boolfbn sfndHfbdfrInfo(int width, int hfight,
+                                  boolfbn grby, boolfbn hbsblphb,
+                                  boolfbn multipbss)
+    {
+        sftDimfnsions(width, hfight);
+
+        sftPropfrtifs(props);
+        if (grby) {
+            dolormodfl = Grbydolormodfl;
+        } flsf {
+            if (hbsblphb) {
+                dolormodfl = ARGBdolormodfl;
+            } flsf {
+                dolormodfl = RGBdolormodfl;
+            }
+        }
+
+        sftColorModfl(dolormodfl);
+
+        int flbgs = hintflbgs;
+        if (!multipbss) {
+            flbgs |= ImbgfConsumfr.SINGLEPASS;
+        }
+        sftHints(hintflbgs);
+        hfbdfrComplftf();
+
+        rfturn truf;
+    }
+
+    publid boolfbn sfndPixfls(int pixfls[], int y) {
+        int dount = sftPixfls(0, y, pixfls.lfngth, 1, dolormodfl,
+                              pixfls, 0, pixfls.lfngth);
+        if (dount <= 0) {
+            bbortfd = truf;
+        }
+        rfturn !bbortfd;
+    }
+
+    publid boolfbn sfndPixfls(bytf pixfls[], int y) {
+        int dount = sftPixfls(0, y, pixfls.lfngth, 1, dolormodfl,
+                              pixfls, 0, pixfls.lfngth);
+        if (dount <= 0) {
+            bbortfd = truf;
+        }
+        rfturn !bbortfd;
+    }
+
+    /**
+     * produdf bn imbgf from thf strfbm.
+     */
+    publid void produdfImbgf() throws IOExdfption, ImbgfFormbtExdfption {
+        try {
+            rfbdImbgf(input, nfw bytf[1024]);
+            if (!bbortfd) {
+                imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE, truf);
+            }
+        } dbtdh (IOExdfption f) {
+            if (!bbortfd) {
+                throw f;
+            }
+        } finblly {
+            dlosf();
+        }
+    }
+
+    /**
+     * Thf ImbgfConsumfr hints flbg for b JPEG imbgf.
+     */
+    privbtf stbtid finbl int hintflbgs =
+        ImbgfConsumfr.TOPDOWNLEFTRIGHT | ImbgfConsumfr.COMPLETESCANLINES |
+        ImbgfConsumfr.SINGLEFRAME;
+}

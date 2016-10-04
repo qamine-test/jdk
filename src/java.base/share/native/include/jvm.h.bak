@@ -1,1049 +1,1049 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _JAVASOFT_JVM_H_
-#define _JAVASOFT_JVM_H_
+#ifndff _JAVASOFT_JVM_H_
+#dffinf _JAVASOFT_JVM_H_
 
-#include <sys/stat.h>
+#indludf <sys/stbt.i>
 
-#include "jni.h"
-#include "jvm_md.h"
+#indludf "jni.i"
+#indludf "jvm_md.i"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
 /*
- * This file contains additional functions exported from the VM.
- * These functions are complementary to the standard JNI support.
- * There are three parts to this file:
+ * Tiis filf dontbins bdditionbl fundtions fxportfd from tif VM.
+ * Tifsf fundtions brf domplfmfntbry to tif stbndbrd JNI support.
+ * Tifrf brf tirff pbrts to tiis filf:
  *
- * First, this file contains the VM-related functions needed by native
- * libraries in the standard Java API. For example, the java.lang.Object
- * class needs VM-level functions that wait for and notify monitors.
+ * First, tiis filf dontbins tif VM-rflbtfd fundtions nffdfd by nbtivf
+ * librbrifs in tif stbndbrd Jbvb API. For fxbmplf, tif jbvb.lbng.Objfdt
+ * dlbss nffds VM-lfvfl fundtions tibt wbit for bnd notify monitors.
  *
- * Second, this file contains the functions and constant definitions
- * needed by the byte code verifier and class file format checker.
- * These functions allow the verifier and format checker to be written
- * in a VM-independent way.
+ * Sfdond, tiis filf dontbins tif fundtions bnd donstbnt dffinitions
+ * nffdfd by tif bytf dodf vfrififr bnd dlbss filf formbt difdkfr.
+ * Tifsf fundtions bllow tif vfrififr bnd formbt difdkfr to bf writtfn
+ * in b VM-indfpfndfnt wby.
  *
- * Third, this file contains various I/O and nerwork operations needed
- * by the standard Java I/O and network APIs.
+ * Tiird, tiis filf dontbins vbrious I/O bnd nfrwork opfrbtions nffdfd
+ * by tif stbndbrd Jbvb I/O bnd nftwork APIs.
  */
 
 /*
- * Bump the version number when either of the following happens:
+ * Bump tif vfrsion numbfr wifn fitifr of tif following ibppfns:
  *
- * 1. There is a change in JVM_* functions.
+ * 1. Tifrf is b dibngf in JVM_* fundtions.
  *
- * 2. There is a change in the contract between VM and Java classes.
- *    For example, if the VM relies on a new private field in Thread
- *    class.
+ * 2. Tifrf is b dibngf in tif dontrbdt bftwffn VM bnd Jbvb dlbssfs.
+ *    For fxbmplf, if tif VM rflifs on b nfw privbtf fifld in Tirfbd
+ *    dlbss.
  */
 
-#define JVM_INTERFACE_VERSION 4
+#dffinf JVM_INTERFACE_VERSION 4
 
 JNIEXPORT jint JNICALL
-JVM_GetInterfaceVersion(void);
+JVM_GftIntfrfbdfVfrsion(void);
 
 /*************************************************************************
- PART 1: Functions for Native Libraries
+ PART 1: Fundtions for Nbtivf Librbrifs
  ************************************************************************/
 /*
- * java.lang.Object
+ * jbvb.lbng.Objfdt
  */
 JNIEXPORT jint JNICALL
-JVM_IHashCode(JNIEnv *env, jobject obj);
+JVM_IHbsiCodf(JNIEnv *fnv, jobjfdt obj);
 
 JNIEXPORT void JNICALL
-JVM_MonitorWait(JNIEnv *env, jobject obj, jlong ms);
+JVM_MonitorWbit(JNIEnv *fnv, jobjfdt obj, jlong ms);
 
 JNIEXPORT void JNICALL
-JVM_MonitorNotify(JNIEnv *env, jobject obj);
+JVM_MonitorNotify(JNIEnv *fnv, jobjfdt obj);
 
 JNIEXPORT void JNICALL
-JVM_MonitorNotifyAll(JNIEnv *env, jobject obj);
+JVM_MonitorNotifyAll(JNIEnv *fnv, jobjfdt obj);
 
-JNIEXPORT jobject JNICALL
-JVM_Clone(JNIEnv *env, jobject obj);
+JNIEXPORT jobjfdt JNICALL
+JVM_Clonf(JNIEnv *fnv, jobjfdt obj);
 
 /*
- * java.lang.String
+ * jbvb.lbng.String
  */
 JNIEXPORT jstring JNICALL
-JVM_InternString(JNIEnv *env, jstring str);
+JVM_IntfrnString(JNIEnv *fnv, jstring str);
 
 /*
- * java.lang.System
+ * jbvb.lbng.Systfm
  */
 JNIEXPORT jlong JNICALL
-JVM_CurrentTimeMillis(JNIEnv *env, jclass ignored);
+JVM_CurrfntTimfMillis(JNIEnv *fnv, jdlbss ignorfd);
 
 JNIEXPORT jlong JNICALL
-JVM_NanoTime(JNIEnv *env, jclass ignored);
+JVM_NbnoTimf(JNIEnv *fnv, jdlbss ignorfd);
 
 JNIEXPORT void JNICALL
-JVM_ArrayCopy(JNIEnv *env, jclass ignored, jobject src, jint src_pos,
-              jobject dst, jint dst_pos, jint length);
+JVM_ArrbyCopy(JNIEnv *fnv, jdlbss ignorfd, jobjfdt srd, jint srd_pos,
+              jobjfdt dst, jint dst_pos, jint lfngti);
 
-JNIEXPORT jobject JNICALL
-JVM_InitProperties(JNIEnv *env, jobject p);
+JNIEXPORT jobjfdt JNICALL
+JVM_InitPropfrtifs(JNIEnv *fnv, jobjfdt p);
 
 /*
- * java.io.File
+ * jbvb.io.Filf
  */
 JNIEXPORT void JNICALL
-JVM_OnExit(void (*func)(void));
+JVM_OnExit(void (*fund)(void));
 
 /*
- * java.lang.Runtime
+ * jbvb.lbng.Runtimf
  */
 JNIEXPORT void JNICALL
-JVM_Exit(jint code);
+JVM_Exit(jint dodf);
 
 JNIEXPORT void JNICALL
-JVM_Halt(jint code);
+JVM_Hblt(jint dodf);
 
 JNIEXPORT void JNICALL
 JVM_GC(void);
 
-/* Returns the number of real-time milliseconds that have elapsed since the
- * least-recently-inspected heap object was last inspected by the garbage
- * collector.
+/* Rfturns tif numbfr of rfbl-timf millisfdonds tibt ibvf flbpsfd sindf tif
+ * lfbst-rfdfntly-inspfdtfd ifbp objfdt wbs lbst inspfdtfd by tif gbrbbgf
+ * dollfdtor.
  *
- * For simple stop-the-world collectors this value is just the time
- * since the most recent collection.  For generational collectors it is the
- * time since the oldest generation was most recently collected.  Other
- * collectors are free to return a pessimistic estimate of the elapsed time, or
- * simply the time since the last full collection was performed.
+ * For simplf stop-tif-world dollfdtors tiis vbluf is just tif timf
+ * sindf tif most rfdfnt dollfdtion.  For gfnfrbtionbl dollfdtors it is tif
+ * timf sindf tif oldfst gfnfrbtion wbs most rfdfntly dollfdtfd.  Otifr
+ * dollfdtors brf frff to rfturn b pfssimistid fstimbtf of tif flbpsfd timf, or
+ * simply tif timf sindf tif lbst full dollfdtion wbs pfrformfd.
  *
- * Note that in the presence of reference objects, a given object that is no
- * longer strongly reachable may have to be inspected multiple times before it
- * can be reclaimed.
+ * Notf tibt in tif prfsfndf of rfffrfndf objfdts, b givfn objfdt tibt is no
+ * longfr strongly rfbdibblf mby ibvf to bf inspfdtfd multiplf timfs bfforf it
+ * dbn bf rfdlbimfd.
  */
 JNIEXPORT jlong JNICALL
-JVM_MaxObjectInspectionAge(void);
+JVM_MbxObjfdtInspfdtionAgf(void);
 
 JNIEXPORT void JNICALL
-JVM_TraceInstructions(jboolean on);
+JVM_TrbdfInstrudtions(jboolfbn on);
 
 JNIEXPORT void JNICALL
-JVM_TraceMethodCalls(jboolean on);
+JVM_TrbdfMftiodCblls(jboolfbn on);
 
 JNIEXPORT jlong JNICALL
-JVM_TotalMemory(void);
+JVM_TotblMfmory(void);
 
 JNIEXPORT jlong JNICALL
-JVM_FreeMemory(void);
+JVM_FrffMfmory(void);
 
 JNIEXPORT jlong JNICALL
-JVM_MaxMemory(void);
+JVM_MbxMfmory(void);
 
 JNIEXPORT jint JNICALL
-JVM_ActiveProcessorCount(void);
+JVM_AdtivfProdfssorCount(void);
 
 JNIEXPORT void * JNICALL
-JVM_LoadLibrary(const char *name);
+JVM_LobdLibrbry(donst dibr *nbmf);
 
 JNIEXPORT void JNICALL
-JVM_UnloadLibrary(void * handle);
+JVM_UnlobdLibrbry(void * ibndlf);
 
 JNIEXPORT void * JNICALL
-JVM_FindLibraryEntry(void *handle, const char *name);
+JVM_FindLibrbryEntry(void *ibndlf, donst dibr *nbmf);
 
-JNIEXPORT jboolean JNICALL
-JVM_IsSupportedJNIVersion(jint version);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsSupportfdJNIVfrsion(jint vfrsion);
 
 /*
- * java.lang.Float and java.lang.Double
+ * jbvb.lbng.Flobt bnd jbvb.lbng.Doublf
  */
-JNIEXPORT jboolean JNICALL
-JVM_IsNaN(jdouble d);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsNbN(jdoublf d);
 
 /*
- * java.lang.Throwable
+ * jbvb.lbng.Tirowbblf
  */
 JNIEXPORT void JNICALL
-JVM_FillInStackTrace(JNIEnv *env, jobject throwable);
+JVM_FillInStbdkTrbdf(JNIEnv *fnv, jobjfdt tirowbblf);
 
 JNIEXPORT jint JNICALL
-JVM_GetStackTraceDepth(JNIEnv *env, jobject throwable);
+JVM_GftStbdkTrbdfDfpti(JNIEnv *fnv, jobjfdt tirowbblf);
 
-JNIEXPORT jobject JNICALL
-JVM_GetStackTraceElement(JNIEnv *env, jobject throwable, jint index);
+JNIEXPORT jobjfdt JNICALL
+JVM_GftStbdkTrbdfElfmfnt(JNIEnv *fnv, jobjfdt tirowbblf, jint indfx);
 
 /*
- * java.lang.Compiler
+ * jbvb.lbng.Compilfr
  */
 JNIEXPORT void JNICALL
-JVM_InitializeCompiler (JNIEnv *env, jclass compCls);
+JVM_InitiblizfCompilfr (JNIEnv *fnv, jdlbss dompCls);
 
-JNIEXPORT jboolean JNICALL
-JVM_IsSilentCompiler(JNIEnv *env, jclass compCls);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsSilfntCompilfr(JNIEnv *fnv, jdlbss dompCls);
 
-JNIEXPORT jboolean JNICALL
-JVM_CompileClass(JNIEnv *env, jclass compCls, jclass cls);
+JNIEXPORT jboolfbn JNICALL
+JVM_CompilfClbss(JNIEnv *fnv, jdlbss dompCls, jdlbss dls);
 
-JNIEXPORT jboolean JNICALL
-JVM_CompileClasses(JNIEnv *env, jclass cls, jstring jname);
+JNIEXPORT jboolfbn JNICALL
+JVM_CompilfClbssfs(JNIEnv *fnv, jdlbss dls, jstring jnbmf);
 
-JNIEXPORT jobject JNICALL
-JVM_CompilerCommand(JNIEnv *env, jclass compCls, jobject arg);
-
-JNIEXPORT void JNICALL
-JVM_EnableCompiler(JNIEnv *env, jclass compCls);
+JNIEXPORT jobjfdt JNICALL
+JVM_CompilfrCommbnd(JNIEnv *fnv, jdlbss dompCls, jobjfdt brg);
 
 JNIEXPORT void JNICALL
-JVM_DisableCompiler(JNIEnv *env, jclass compCls);
+JVM_EnbblfCompilfr(JNIEnv *fnv, jdlbss dompCls);
+
+JNIEXPORT void JNICALL
+JVM_DisbblfCompilfr(JNIEnv *fnv, jdlbss dompCls);
 
 /*
- * java.lang.Thread
+ * jbvb.lbng.Tirfbd
  */
 JNIEXPORT void JNICALL
-JVM_StartThread(JNIEnv *env, jobject thread);
+JVM_StbrtTirfbd(JNIEnv *fnv, jobjfdt tirfbd);
 
 JNIEXPORT void JNICALL
-JVM_StopThread(JNIEnv *env, jobject thread, jobject exception);
+JVM_StopTirfbd(JNIEnv *fnv, jobjfdt tirfbd, jobjfdt fxdfption);
 
-JNIEXPORT jboolean JNICALL
-JVM_IsThreadAlive(JNIEnv *env, jobject thread);
-
-JNIEXPORT void JNICALL
-JVM_SuspendThread(JNIEnv *env, jobject thread);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsTirfbdAlivf(JNIEnv *fnv, jobjfdt tirfbd);
 
 JNIEXPORT void JNICALL
-JVM_ResumeThread(JNIEnv *env, jobject thread);
+JVM_SuspfndTirfbd(JNIEnv *fnv, jobjfdt tirfbd);
 
 JNIEXPORT void JNICALL
-JVM_SetThreadPriority(JNIEnv *env, jobject thread, jint prio);
+JVM_RfsumfTirfbd(JNIEnv *fnv, jobjfdt tirfbd);
 
 JNIEXPORT void JNICALL
-JVM_Yield(JNIEnv *env, jclass threadClass);
+JVM_SftTirfbdPriority(JNIEnv *fnv, jobjfdt tirfbd, jint prio);
 
 JNIEXPORT void JNICALL
-JVM_Sleep(JNIEnv *env, jclass threadClass, jlong millis);
+JVM_Yifld(JNIEnv *fnv, jdlbss tirfbdClbss);
 
-JNIEXPORT jobject JNICALL
-JVM_CurrentThread(JNIEnv *env, jclass threadClass);
+JNIEXPORT void JNICALL
+JVM_Slffp(JNIEnv *fnv, jdlbss tirfbdClbss, jlong millis);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_CurrfntTirfbd(JNIEnv *fnv, jdlbss tirfbdClbss);
 
 JNIEXPORT jint JNICALL
-JVM_CountStackFrames(JNIEnv *env, jobject thread);
+JVM_CountStbdkFrbmfs(JNIEnv *fnv, jobjfdt tirfbd);
 
 JNIEXPORT void JNICALL
-JVM_Interrupt(JNIEnv *env, jobject thread);
+JVM_Intfrrupt(JNIEnv *fnv, jobjfdt tirfbd);
 
-JNIEXPORT jboolean JNICALL
-JVM_IsInterrupted(JNIEnv *env, jobject thread, jboolean clearInterrupted);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsIntfrruptfd(JNIEnv *fnv, jobjfdt tirfbd, jboolfbn dlfbrIntfrruptfd);
 
-JNIEXPORT jboolean JNICALL
-JVM_HoldsLock(JNIEnv *env, jclass threadClass, jobject obj);
-
-JNIEXPORT void JNICALL
-JVM_DumpAllStacks(JNIEnv *env, jclass unused);
-
-JNIEXPORT jobjectArray JNICALL
-JVM_GetAllThreads(JNIEnv *env, jclass dummy);
+JNIEXPORT jboolfbn JNICALL
+JVM_HoldsLodk(JNIEnv *fnv, jdlbss tirfbdClbss, jobjfdt obj);
 
 JNIEXPORT void JNICALL
-JVM_SetNativeThreadName(JNIEnv *env, jobject jthread, jstring name);
+JVM_DumpAllStbdks(JNIEnv *fnv, jdlbss unusfd);
 
-/* getStackTrace() and getAllStackTraces() method */
-JNIEXPORT jobjectArray JNICALL
-JVM_DumpThreads(JNIEnv *env, jclass threadClass, jobjectArray threads);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftAllTirfbds(JNIEnv *fnv, jdlbss dummy);
+
+JNIEXPORT void JNICALL
+JVM_SftNbtivfTirfbdNbmf(JNIEnv *fnv, jobjfdt jtirfbd, jstring nbmf);
+
+/* gftStbdkTrbdf() bnd gftAllStbdkTrbdfs() mftiod */
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_DumpTirfbds(JNIEnv *fnv, jdlbss tirfbdClbss, jobjfdtArrby tirfbds);
 
 /*
- * java.lang.SecurityManager
+ * jbvb.lbng.SfdurityMbnbgfr
  */
-JNIEXPORT jclass JNICALL
-JVM_CurrentLoadedClass(JNIEnv *env);
+JNIEXPORT jdlbss JNICALL
+JVM_CurrfntLobdfdClbss(JNIEnv *fnv);
 
-JNIEXPORT jobject JNICALL
-JVM_CurrentClassLoader(JNIEnv *env);
+JNIEXPORT jobjfdt JNICALL
+JVM_CurrfntClbssLobdfr(JNIEnv *fnv);
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetClassContext(JNIEnv *env);
-
-JNIEXPORT jint JNICALL
-JVM_ClassDepth(JNIEnv *env, jstring name);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssContfxt(JNIEnv *fnv);
 
 JNIEXPORT jint JNICALL
-JVM_ClassLoaderDepth(JNIEnv *env);
+JVM_ClbssDfpti(JNIEnv *fnv, jstring nbmf);
+
+JNIEXPORT jint JNICALL
+JVM_ClbssLobdfrDfpti(JNIEnv *fnv);
 
 /*
- * java.lang.Package
+ * jbvb.lbng.Pbdkbgf
  */
 JNIEXPORT jstring JNICALL
-JVM_GetSystemPackage(JNIEnv *env, jstring name);
+JVM_GftSystfmPbdkbgf(JNIEnv *fnv, jstring nbmf);
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetSystemPackages(JNIEnv *env);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftSystfmPbdkbgfs(JNIEnv *fnv);
 
 /*
- * java.io.ObjectInputStream
+ * jbvb.io.ObjfdtInputStrfbm
  */
-JNIEXPORT jobject JNICALL
-JVM_AllocateNewObject(JNIEnv *env, jobject obj, jclass currClass,
-                      jclass initClass);
+JNIEXPORT jobjfdt JNICALL
+JVM_AllodbtfNfwObjfdt(JNIEnv *fnv, jobjfdt obj, jdlbss durrClbss,
+                      jdlbss initClbss);
 
-JNIEXPORT jobject JNICALL
-JVM_AllocateNewArray(JNIEnv *env, jobject obj, jclass currClass,
-                     jint length);
+JNIEXPORT jobjfdt JNICALL
+JVM_AllodbtfNfwArrby(JNIEnv *fnv, jobjfdt obj, jdlbss durrClbss,
+                     jint lfngti);
 
-JNIEXPORT jobject JNICALL
-JVM_LatestUserDefinedLoader(JNIEnv *env);
+JNIEXPORT jobjfdt JNICALL
+JVM_LbtfstUsfrDffinfdLobdfr(JNIEnv *fnv);
 
 /*
- * This function has been deprecated and should not be considered
- * part of the specified JVM interface.
+ * Tiis fundtion ibs bffn dfprfdbtfd bnd siould not bf donsidfrfd
+ * pbrt of tif spfdififd JVM intfrfbdf.
  */
-JNIEXPORT jclass JNICALL
-JVM_LoadClass0(JNIEnv *env, jobject obj, jclass currClass,
-               jstring currClassName);
+JNIEXPORT jdlbss JNICALL
+JVM_LobdClbss0(JNIEnv *fnv, jobjfdt obj, jdlbss durrClbss,
+               jstring durrClbssNbmf);
 
 /*
- * java.lang.reflect.Array
+ * jbvb.lbng.rfflfdt.Arrby
  */
 JNIEXPORT jint JNICALL
-JVM_GetArrayLength(JNIEnv *env, jobject arr);
+JVM_GftArrbyLfngti(JNIEnv *fnv, jobjfdt brr);
 
-JNIEXPORT jobject JNICALL
-JVM_GetArrayElement(JNIEnv *env, jobject arr, jint index);
+JNIEXPORT jobjfdt JNICALL
+JVM_GftArrbyElfmfnt(JNIEnv *fnv, jobjfdt brr, jint indfx);
 
-JNIEXPORT jvalue JNICALL
-JVM_GetPrimitiveArrayElement(JNIEnv *env, jobject arr, jint index, jint wCode);
-
-JNIEXPORT void JNICALL
-JVM_SetArrayElement(JNIEnv *env, jobject arr, jint index, jobject val);
+JNIEXPORT jvbluf JNICALL
+JVM_GftPrimitivfArrbyElfmfnt(JNIEnv *fnv, jobjfdt brr, jint indfx, jint wCodf);
 
 JNIEXPORT void JNICALL
-JVM_SetPrimitiveArrayElement(JNIEnv *env, jobject arr, jint index, jvalue v,
-                             unsigned char vCode);
+JVM_SftArrbyElfmfnt(JNIEnv *fnv, jobjfdt brr, jint indfx, jobjfdt vbl);
 
-JNIEXPORT jobject JNICALL
-JVM_NewArray(JNIEnv *env, jclass eltClass, jint length);
+JNIEXPORT void JNICALL
+JVM_SftPrimitivfArrbyElfmfnt(JNIEnv *fnv, jobjfdt brr, jint indfx, jvbluf v,
+                             unsignfd dibr vCodf);
 
-JNIEXPORT jobject JNICALL
-JVM_NewMultiArray(JNIEnv *env, jclass eltClass, jintArray dim);
+JNIEXPORT jobjfdt JNICALL
+JVM_NfwArrby(JNIEnv *fnv, jdlbss fltClbss, jint lfngti);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_NfwMultiArrby(JNIEnv *fnv, jdlbss fltClbss, jintArrby dim);
 
 /*
- * java.lang.Class and java.lang.ClassLoader
+ * jbvb.lbng.Clbss bnd jbvb.lbng.ClbssLobdfr
  */
 
-#define JVM_CALLER_DEPTH -1
+#dffinf JVM_CALLER_DEPTH -1
 
 /*
- * Returns the immediate caller class of the native method invoking
- * JVM_GetCallerClass.  The Method.invoke and other frames due to
- * reflection machinery are skipped.
+ * Rfturns tif immfdibtf dbllfr dlbss of tif nbtivf mftiod invoking
+ * JVM_GftCbllfrClbss.  Tif Mftiod.invokf bnd otifr frbmfs duf to
+ * rfflfdtion mbdiinfry brf skippfd.
  *
- * The depth parameter must be -1 (JVM_DEPTH). The caller is expected
- * to be marked with sun.reflect.CallerSensitive.  The JVM will throw
- * an error if it is not marked propertly.
+ * Tif dfpti pbrbmftfr must bf -1 (JVM_DEPTH). Tif dbllfr is fxpfdtfd
+ * to bf mbrkfd witi sun.rfflfdt.CbllfrSfnsitivf.  Tif JVM will tirow
+ * bn frror if it is not mbrkfd propfrtly.
  */
-JNIEXPORT jclass JNICALL
-JVM_GetCallerClass(JNIEnv *env, int depth);
+JNIEXPORT jdlbss JNICALL
+JVM_GftCbllfrClbss(JNIEnv *fnv, int dfpti);
 
 
 /*
- * Find primitive classes
- * utf: class name
+ * Find primitivf dlbssfs
+ * utf: dlbss nbmf
  */
-JNIEXPORT jclass JNICALL
-JVM_FindPrimitiveClass(JNIEnv *env, const char *utf);
+JNIEXPORT jdlbss JNICALL
+JVM_FindPrimitivfClbss(JNIEnv *fnv, donst dibr *utf);
 
 /*
- * Link the class
+ * Link tif dlbss
  */
 JNIEXPORT void JNICALL
-JVM_ResolveClass(JNIEnv *env, jclass cls);
+JVM_RfsolvfClbss(JNIEnv *fnv, jdlbss dls);
 
 /*
- * Find a class from a boot class loader. Returns NULL if class not found.
+ * Find b dlbss from b boot dlbss lobdfr. Rfturns NULL if dlbss not found.
  */
-JNIEXPORT jclass JNICALL
-JVM_FindClassFromBootLoader(JNIEnv *env, const char *name);
+JNIEXPORT jdlbss JNICALL
+JVM_FindClbssFromBootLobdfr(JNIEnv *fnv, donst dibr *nbmf);
 
 /*
- * Find a class from a given class loader. Throw ClassNotFoundException
- * or NoClassDefFoundError depending on the value of the last
- * argument.
+ * Find b dlbss from b givfn dlbss lobdfr. Tirow ClbssNotFoundExdfption
+ * or NoClbssDffFoundError dfpfnding on tif vbluf of tif lbst
+ * brgumfnt.
  */
-JNIEXPORT jclass JNICALL
-JVM_FindClassFromClassLoader(JNIEnv *env, const char *name, jboolean init,
-                             jobject loader, jboolean throwError);
+JNIEXPORT jdlbss JNICALL
+JVM_FindClbssFromClbssLobdfr(JNIEnv *fnv, donst dibr *nbmf, jboolfbn init,
+                             jobjfdt lobdfr, jboolfbn tirowError);
 
 /*
- * Find a class from a given class.
+ * Find b dlbss from b givfn dlbss.
  */
-JNIEXPORT jclass JNICALL
-JVM_FindClassFromClass(JNIEnv *env, const char *name, jboolean init,
-                             jclass from);
+JNIEXPORT jdlbss JNICALL
+JVM_FindClbssFromClbss(JNIEnv *fnv, donst dibr *nbmf, jboolfbn init,
+                             jdlbss from);
 
-/* Find a loaded class cached by the VM */
-JNIEXPORT jclass JNICALL
-JVM_FindLoadedClass(JNIEnv *env, jobject loader, jstring name);
+/* Find b lobdfd dlbss dbdifd by tif VM */
+JNIEXPORT jdlbss JNICALL
+JVM_FindLobdfdClbss(JNIEnv *fnv, jobjfdt lobdfr, jstring nbmf);
 
-/* Define a class */
-JNIEXPORT jclass JNICALL
-JVM_DefineClass(JNIEnv *env, const char *name, jobject loader, const jbyte *buf,
-                jsize len, jobject pd);
+/* Dffinf b dlbss */
+JNIEXPORT jdlbss JNICALL
+JVM_DffinfClbss(JNIEnv *fnv, donst dibr *nbmf, jobjfdt lobdfr, donst jbytf *buf,
+                jsizf lfn, jobjfdt pd);
 
-/* Define a class with a source (added in JDK1.5) */
-JNIEXPORT jclass JNICALL
-JVM_DefineClassWithSource(JNIEnv *env, const char *name, jobject loader,
-                          const jbyte *buf, jsize len, jobject pd,
-                          const char *source);
+/* Dffinf b dlbss witi b sourdf (bddfd in JDK1.5) */
+JNIEXPORT jdlbss JNICALL
+JVM_DffinfClbssWitiSourdf(JNIEnv *fnv, donst dibr *nbmf, jobjfdt lobdfr,
+                          donst jbytf *buf, jsizf lfn, jobjfdt pd,
+                          donst dibr *sourdf);
 
 /*
- * Reflection support functions
+ * Rfflfdtion support fundtions
  */
 
 JNIEXPORT jstring JNICALL
-JVM_GetClassName(JNIEnv *env, jclass cls);
+JVM_GftClbssNbmf(JNIEnv *fnv, jdlbss dls);
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetClassInterfaces(JNIEnv *env, jclass cls);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssIntfrfbdfs(JNIEnv *fnv, jdlbss dls);
 
-JNIEXPORT jboolean JNICALL
-JVM_IsInterface(JNIEnv *env, jclass cls);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsIntfrfbdf(JNIEnv *fnv, jdlbss dls);
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetClassSigners(JNIEnv *env, jclass cls);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssSignfrs(JNIEnv *fnv, jdlbss dls);
 
 JNIEXPORT void JNICALL
-JVM_SetClassSigners(JNIEnv *env, jclass cls, jobjectArray signers);
+JVM_SftClbssSignfrs(JNIEnv *fnv, jdlbss dls, jobjfdtArrby signfrs);
 
-JNIEXPORT jobject JNICALL
-JVM_GetProtectionDomain(JNIEnv *env, jclass cls);
+JNIEXPORT jobjfdt JNICALL
+JVM_GftProtfdtionDombin(JNIEnv *fnv, jdlbss dls);
 
-JNIEXPORT jboolean JNICALL
-JVM_IsArrayClass(JNIEnv *env, jclass cls);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsArrbyClbss(JNIEnv *fnv, jdlbss dls);
 
-JNIEXPORT jboolean JNICALL
-JVM_IsPrimitiveClass(JNIEnv *env, jclass cls);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsPrimitivfClbss(JNIEnv *fnv, jdlbss dls);
 
 JNIEXPORT jint JNICALL
-JVM_GetClassModifiers(JNIEnv *env, jclass cls);
+JVM_GftClbssModififrs(JNIEnv *fnv, jdlbss dls);
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetDeclaredClasses(JNIEnv *env, jclass ofClass);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftDfdlbrfdClbssfs(JNIEnv *fnv, jdlbss ofClbss);
 
-JNIEXPORT jclass JNICALL
-JVM_GetDeclaringClass(JNIEnv *env, jclass ofClass);
+JNIEXPORT jdlbss JNICALL
+JVM_GftDfdlbringClbss(JNIEnv *fnv, jdlbss ofClbss);
 
-/* Generics support (JDK 1.5) */
+/* Gfnfrids support (JDK 1.5) */
 JNIEXPORT jstring JNICALL
-JVM_GetClassSignature(JNIEnv *env, jclass cls);
+JVM_GftClbssSignbturf(JNIEnv *fnv, jdlbss dls);
 
-/* Annotations support (JDK 1.5) */
-JNIEXPORT jbyteArray JNICALL
-JVM_GetClassAnnotations(JNIEnv *env, jclass cls);
+/* Annotbtions support (JDK 1.5) */
+JNIEXPORT jbytfArrby JNICALL
+JVM_GftClbssAnnotbtions(JNIEnv *fnv, jdlbss dls);
 
-/* Type use annotations support (JDK 1.8) */
+/* Typf usf bnnotbtions support (JDK 1.8) */
 
-JNIEXPORT jbyteArray JNICALL
-JVM_GetClassTypeAnnotations(JNIEnv *env, jclass cls);
+JNIEXPORT jbytfArrby JNICALL
+JVM_GftClbssTypfAnnotbtions(JNIEnv *fnv, jdlbss dls);
 
-JNIEXPORT jbyteArray JNICALL
-JVM_GetFieldTypeAnnotations(JNIEnv *env, jobject field);
+JNIEXPORT jbytfArrby JNICALL
+JVM_GftFifldTypfAnnotbtions(JNIEnv *fnv, jobjfdt fifld);
 
-JNIEXPORT jbyteArray JNICALL
-JVM_GetMethodTypeAnnotations(JNIEnv *env, jobject method);
+JNIEXPORT jbytfArrby JNICALL
+JVM_GftMftiodTypfAnnotbtions(JNIEnv *fnv, jobjfdt mftiod);
 
 /*
- * New (JDK 1.4) reflection implementation
+ * Nfw (JDK 1.4) rfflfdtion implfmfntbtion
  */
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetClassDeclaredMethods(JNIEnv *env, jclass ofClass, jboolean publicOnly);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssDfdlbrfdMftiods(JNIEnv *fnv, jdlbss ofClbss, jboolfbn publidOnly);
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetClassDeclaredFields(JNIEnv *env, jclass ofClass, jboolean publicOnly);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssDfdlbrfdFiflds(JNIEnv *fnv, jdlbss ofClbss, jboolfbn publidOnly);
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetClassDeclaredConstructors(JNIEnv *env, jclass ofClass, jboolean publicOnly);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftClbssDfdlbrfdConstrudtors(JNIEnv *fnv, jdlbss ofClbss, jboolfbn publidOnly);
 
-/* Differs from JVM_GetClassModifiers in treatment of inner classes.
-   This returns the access flags for the class as specified in the
-   class file rather than searching the InnerClasses attribute (if
-   present) to find the source-level access flags. Only the values of
-   the low 13 bits (i.e., a mask of 0x1FFF) are guaranteed to be
-   valid. */
+/* Difffrs from JVM_GftClbssModififrs in trfbtmfnt of innfr dlbssfs.
+   Tiis rfturns tif bddfss flbgs for tif dlbss bs spfdififd in tif
+   dlbss filf rbtifr tibn sfbrdiing tif InnfrClbssfs bttributf (if
+   prfsfnt) to find tif sourdf-lfvfl bddfss flbgs. Only tif vblufs of
+   tif low 13 bits (i.f., b mbsk of 0x1FFF) brf gubrbntffd to bf
+   vblid. */
 JNIEXPORT jint JNICALL
-JVM_GetClassAccessFlags(JNIEnv *env, jclass cls);
+JVM_GftClbssAddfssFlbgs(JNIEnv *fnv, jdlbss dls);
 
-/* The following two reflection routines are still needed due to startup time issues */
+/* Tif following two rfflfdtion routinfs brf still nffdfd duf to stbrtup timf issufs */
 /*
- * java.lang.reflect.Method
+ * jbvb.lbng.rfflfdt.Mftiod
  */
-JNIEXPORT jobject JNICALL
-JVM_InvokeMethod(JNIEnv *env, jobject method, jobject obj, jobjectArray args0);
+JNIEXPORT jobjfdt JNICALL
+JVM_InvokfMftiod(JNIEnv *fnv, jobjfdt mftiod, jobjfdt obj, jobjfdtArrby brgs0);
 
 /*
- * java.lang.reflect.Constructor
+ * jbvb.lbng.rfflfdt.Construdtor
  */
-JNIEXPORT jobject JNICALL
-JVM_NewInstanceFromConstructor(JNIEnv *env, jobject c, jobjectArray args0);
+JNIEXPORT jobjfdt JNICALL
+JVM_NfwInstbndfFromConstrudtor(JNIEnv *fnv, jobjfdt d, jobjfdtArrby brgs0);
 
 /*
- * Constant pool access; currently used to implement reflective access to annotations (JDK 1.5)
- */
-
-JNIEXPORT jobject JNICALL
-JVM_GetClassConstantPool(JNIEnv *env, jclass cls);
-
-JNIEXPORT jint JNICALL JVM_ConstantPoolGetSize
-(JNIEnv *env, jobject unused, jobject jcpool);
-
-JNIEXPORT jclass JNICALL JVM_ConstantPoolGetClassAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jclass JNICALL JVM_ConstantPoolGetClassAtIfLoaded
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jobject JNICALL JVM_ConstantPoolGetMethodAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jobject JNICALL JVM_ConstantPoolGetMethodAtIfLoaded
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jobject JNICALL JVM_ConstantPoolGetFieldAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jobject JNICALL JVM_ConstantPoolGetFieldAtIfLoaded
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jobjectArray JNICALL JVM_ConstantPoolGetMemberRefInfoAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jint JNICALL JVM_ConstantPoolGetIntAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jlong JNICALL JVM_ConstantPoolGetLongAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jfloat JNICALL JVM_ConstantPoolGetFloatAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jdouble JNICALL JVM_ConstantPoolGetDoubleAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jstring JNICALL JVM_ConstantPoolGetStringAt
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-JNIEXPORT jstring JNICALL JVM_ConstantPoolGetUTF8At
-(JNIEnv *env, jobject unused, jobject jcpool, jint index);
-
-/*
- * Parameter reflection
+ * Constbnt pool bddfss; durrfntly usfd to implfmfnt rfflfdtivf bddfss to bnnotbtions (JDK 1.5)
  */
 
-JNIEXPORT jobjectArray JNICALL
-JVM_GetMethodParameters(JNIEnv *env, jobject method);
+JNIEXPORT jobjfdt JNICALL
+JVM_GftClbssConstbntPool(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jint JNICALL JVM_ConstbntPoolGftSizf
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool);
+
+JNIEXPORT jdlbss JNICALL JVM_ConstbntPoolGftClbssAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jdlbss JNICALL JVM_ConstbntPoolGftClbssAtIfLobdfd
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL JVM_ConstbntPoolGftMftiodAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL JVM_ConstbntPoolGftMftiodAtIfLobdfd
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL JVM_ConstbntPoolGftFifldAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdt JNICALL JVM_ConstbntPoolGftFifldAtIfLobdfd
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jobjfdtArrby JNICALL JVM_ConstbntPoolGftMfmbfrRffInfoAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jint JNICALL JVM_ConstbntPoolGftIntAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jlong JNICALL JVM_ConstbntPoolGftLongAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jflobt JNICALL JVM_ConstbntPoolGftFlobtAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jdoublf JNICALL JVM_ConstbntPoolGftDoublfAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jstring JNICALL JVM_ConstbntPoolGftStringAt
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
+
+JNIEXPORT jstring JNICALL JVM_ConstbntPoolGftUTF8At
+(JNIEnv *fnv, jobjfdt unusfd, jobjfdt jdpool, jint indfx);
 
 /*
- * java.security.*
+ * Pbrbmftfr rfflfdtion
  */
 
-JNIEXPORT jobject JNICALL
-JVM_DoPrivileged(JNIEnv *env, jclass cls,
-                 jobject action, jobject context, jboolean wrapException);
-
-JNIEXPORT jobject JNICALL
-JVM_GetInheritedAccessControlContext(JNIEnv *env, jclass cls);
-
-JNIEXPORT jobject JNICALL
-JVM_GetStackAccessControlContext(JNIEnv *env, jclass cls);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftMftiodPbrbmftfrs(JNIEnv *fnv, jobjfdt mftiod);
 
 /*
- * Signal support, used to implement the shutdown sequence.  Every VM must
- * support JVM_SIGINT and JVM_SIGTERM, raising the former for user interrupts
- * (^C) and the latter for external termination (kill, system shutdown, etc.).
- * Other platform-dependent signal values may also be supported.
+ * jbvb.sfdurity.*
+ */
+
+JNIEXPORT jobjfdt JNICALL
+JVM_DoPrivilfgfd(JNIEnv *fnv, jdlbss dls,
+                 jobjfdt bdtion, jobjfdt dontfxt, jboolfbn wrbpExdfption);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_GftInifritfdAddfssControlContfxt(JNIEnv *fnv, jdlbss dls);
+
+JNIEXPORT jobjfdt JNICALL
+JVM_GftStbdkAddfssControlContfxt(JNIEnv *fnv, jdlbss dls);
+
+/*
+ * Signbl support, usfd to implfmfnt tif siutdown sfqufndf.  Evfry VM must
+ * support JVM_SIGINT bnd JVM_SIGTERM, rbising tif formfr for usfr intfrrupts
+ * (^C) bnd tif lbttfr for fxtfrnbl tfrminbtion (kill, systfm siutdown, ftd.).
+ * Otifr plbtform-dfpfndfnt signbl vblufs mby blso bf supportfd.
  */
 
 JNIEXPORT void * JNICALL
-JVM_RegisterSignal(jint sig, void *handler);
+JVM_RfgistfrSignbl(jint sig, void *ibndlfr);
 
-JNIEXPORT jboolean JNICALL
-JVM_RaiseSignal(jint sig);
+JNIEXPORT jboolfbn JNICALL
+JVM_RbisfSignbl(jint sig);
 
 JNIEXPORT jint JNICALL
-JVM_FindSignal(const char *name);
+JVM_FindSignbl(donst dibr *nbmf);
 
 /*
- * Retrieve the assertion directives for the specified class.
+ * Rftrifvf tif bssfrtion dirfdtivfs for tif spfdififd dlbss.
  */
-JNIEXPORT jboolean JNICALL
-JVM_DesiredAssertionStatus(JNIEnv *env, jclass unused, jclass cls);
+JNIEXPORT jboolfbn JNICALL
+JVM_DfsirfdAssfrtionStbtus(JNIEnv *fnv, jdlbss unusfd, jdlbss dls);
 
 /*
- * Retrieve the assertion directives from the VM.
+ * Rftrifvf tif bssfrtion dirfdtivfs from tif VM.
  */
-JNIEXPORT jobject JNICALL
-JVM_AssertionStatusDirectives(JNIEnv *env, jclass unused);
+JNIEXPORT jobjfdt JNICALL
+JVM_AssfrtionStbtusDirfdtivfs(JNIEnv *fnv, jdlbss unusfd);
 
 /*
- * java.util.concurrent.atomic.AtomicLong
+ * jbvb.util.dondurrfnt.btomid.AtomidLong
  */
-JNIEXPORT jboolean JNICALL
+JNIEXPORT jboolfbn JNICALL
 JVM_SupportsCX8(void);
 
 /*
- * com.sun.dtrace.jsdt support
+ * dom.sun.dtrbdf.jsdt support
  */
 
-#define JVM_TRACING_DTRACE_VERSION 1
+#dffinf JVM_TRACING_DTRACE_VERSION 1
 
 /*
- * Structure to pass one probe description to JVM
+ * Strudturf to pbss onf probf dfsdription to JVM
  */
-typedef struct {
-    jmethodID method;
-    jstring   function;
-    jstring   name;
-    void*            reserved[4];     // for future use
-} JVM_DTraceProbe;
+typfdff strudt {
+    jmftiodID mftiod;
+    jstring   fundtion;
+    jstring   nbmf;
+    void*            rfsfrvfd[4];     // for futurf usf
+} JVM_DTrbdfProbf;
 
 /**
- * Encapsulates the stability ratings for a DTrace provider field
+ * Endbpsulbtfs tif stbbility rbtings for b DTrbdf providfr fifld
  */
-typedef struct {
-    jint nameStability;
-    jint dataStability;
-    jint dependencyClass;
-} JVM_DTraceInterfaceAttributes;
+typfdff strudt {
+    jint nbmfStbbility;
+    jint dbtbStbbility;
+    jint dfpfndfndyClbss;
+} JVM_DTrbdfIntfrfbdfAttributfs;
 
 /*
- * Structure to pass one provider description to JVM
+ * Strudturf to pbss onf providfr dfsdription to JVM
  */
-typedef struct {
-    jstring                       name;
-    JVM_DTraceProbe*              probes;
-    jint                          probe_count;
-    JVM_DTraceInterfaceAttributes providerAttributes;
-    JVM_DTraceInterfaceAttributes moduleAttributes;
-    JVM_DTraceInterfaceAttributes functionAttributes;
-    JVM_DTraceInterfaceAttributes nameAttributes;
-    JVM_DTraceInterfaceAttributes argsAttributes;
-    void*                         reserved[4]; // for future use
-} JVM_DTraceProvider;
+typfdff strudt {
+    jstring                       nbmf;
+    JVM_DTrbdfProbf*              probfs;
+    jint                          probf_dount;
+    JVM_DTrbdfIntfrfbdfAttributfs providfrAttributfs;
+    JVM_DTrbdfIntfrfbdfAttributfs modulfAttributfs;
+    JVM_DTrbdfIntfrfbdfAttributfs fundtionAttributfs;
+    JVM_DTrbdfIntfrfbdfAttributfs nbmfAttributfs;
+    JVM_DTrbdfIntfrfbdfAttributfs brgsAttributfs;
+    void*                         rfsfrvfd[4]; // for futurf usf
+} JVM_DTrbdfProvidfr;
 
 /*
- * Get the version number the JVM was built with
+ * Gft tif vfrsion numbfr tif JVM wbs built witi
  */
 JNIEXPORT jint JNICALL
-JVM_DTraceGetVersion(JNIEnv* env);
+JVM_DTrbdfGftVfrsion(JNIEnv* fnv);
 
 /*
- * Register new probe with given signature, return global handle
+ * Rfgistfr nfw probf witi givfn signbturf, rfturn globbl ibndlf
  *
- * The version passed in is the version that the library code was
- * built with.
+ * Tif vfrsion pbssfd in is tif vfrsion tibt tif librbry dodf wbs
+ * built witi.
  */
 JNIEXPORT jlong JNICALL
-JVM_DTraceActivate(JNIEnv* env, jint version, jstring module_name,
-  jint providers_count, JVM_DTraceProvider* providers);
+JVM_DTrbdfAdtivbtf(JNIEnv* fnv, jint vfrsion, jstring modulf_nbmf,
+  jint providfrs_dount, JVM_DTrbdfProvidfr* providfrs);
 
 /*
- * Check JSDT probe
+ * Cifdk JSDT probf
  */
-JNIEXPORT jboolean JNICALL
-JVM_DTraceIsProbeEnabled(JNIEnv* env, jmethodID method);
+JNIEXPORT jboolfbn JNICALL
+JVM_DTrbdfIsProbfEnbblfd(JNIEnv* fnv, jmftiodID mftiod);
 
 /*
- * Destroy custom DOF
+ * Dfstroy dustom DOF
  */
 JNIEXPORT void JNICALL
-JVM_DTraceDispose(JNIEnv* env, jlong activation_handle);
+JVM_DTrbdfDisposf(JNIEnv* fnv, jlong bdtivbtion_ibndlf);
 
 /*
- * Check to see if DTrace is supported by OS
+ * Cifdk to sff if DTrbdf is supportfd by OS
  */
-JNIEXPORT jboolean JNICALL
-JVM_DTraceIsSupported(JNIEnv* env);
+JNIEXPORT jboolfbn JNICALL
+JVM_DTrbdfIsSupportfd(JNIEnv* fnv);
 
 /*************************************************************************
- PART 2: Support for the Verifier and Class File Format Checker
+ PART 2: Support for tif Vfrififr bnd Clbss Filf Formbt Cifdkfr
  ************************************************************************/
 /*
- * Return the class name in UTF format. The result is valid
- * until JVM_ReleaseUTf is called.
+ * Rfturn tif dlbss nbmf in UTF formbt. Tif rfsult is vblid
+ * until JVM_RflfbsfUTf is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetClassNameUTF(JNIEnv *env, jclass cb);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftClbssNbmfUTF(JNIEnv *fnv, jdlbss db);
 
 /*
- * Returns the constant pool types in the buffer provided by "types."
+ * Rfturns tif donstbnt pool typfs in tif bufffr providfd by "typfs."
  */
 JNIEXPORT void JNICALL
-JVM_GetClassCPTypes(JNIEnv *env, jclass cb, unsigned char *types);
+JVM_GftClbssCPTypfs(JNIEnv *fnv, jdlbss db, unsignfd dibr *typfs);
 
 /*
- * Returns the number of Constant Pool entries.
+ * Rfturns tif numbfr of Constbnt Pool fntrifs.
  */
 JNIEXPORT jint JNICALL
-JVM_GetClassCPEntriesCount(JNIEnv *env, jclass cb);
+JVM_GftClbssCPEntrifsCount(JNIEnv *fnv, jdlbss db);
 
 /*
- * Returns the number of *declared* fields or methods.
+ * Rfturns tif numbfr of *dfdlbrfd* fiflds or mftiods.
  */
 JNIEXPORT jint JNICALL
-JVM_GetClassFieldsCount(JNIEnv *env, jclass cb);
+JVM_GftClbssFifldsCount(JNIEnv *fnv, jdlbss db);
 
 JNIEXPORT jint JNICALL
-JVM_GetClassMethodsCount(JNIEnv *env, jclass cb);
+JVM_GftClbssMftiodsCount(JNIEnv *fnv, jdlbss db);
 
 /*
- * Returns the CP indexes of exceptions raised by a given method.
- * Places the result in the given buffer.
+ * Rfturns tif CP indfxfs of fxdfptions rbisfd by b givfn mftiod.
+ * Plbdfs tif rfsult in tif givfn bufffr.
  *
- * The method is identified by method_index.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT void JNICALL
-JVM_GetMethodIxExceptionIndexes(JNIEnv *env, jclass cb, jint method_index,
-                                unsigned short *exceptions);
+JVM_GftMftiodIxExdfptionIndfxfs(JNIEnv *fnv, jdlbss db, jint mftiod_indfx,
+                                unsignfd siort *fxdfptions);
 /*
- * Returns the number of exceptions raised by a given method.
- * The method is identified by method_index.
+ * Rfturns tif numbfr of fxdfptions rbisfd by b givfn mftiod.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT jint JNICALL
-JVM_GetMethodIxExceptionsCount(JNIEnv *env, jclass cb, jint method_index);
+JVM_GftMftiodIxExdfptionsCount(JNIEnv *fnv, jdlbss db, jint mftiod_indfx);
 
 /*
- * Returns the byte code sequence of a given method.
- * Places the result in the given buffer.
+ * Rfturns tif bytf dodf sfqufndf of b givfn mftiod.
+ * Plbdfs tif rfsult in tif givfn bufffr.
  *
- * The method is identified by method_index.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT void JNICALL
-JVM_GetMethodIxByteCode(JNIEnv *env, jclass cb, jint method_index,
-                        unsigned char *code);
+JVM_GftMftiodIxBytfCodf(JNIEnv *fnv, jdlbss db, jint mftiod_indfx,
+                        unsignfd dibr *dodf);
 
 /*
- * Returns the length of the byte code sequence of a given method.
- * The method is identified by method_index.
+ * Rfturns tif lfngti of tif bytf dodf sfqufndf of b givfn mftiod.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT jint JNICALL
-JVM_GetMethodIxByteCodeLength(JNIEnv *env, jclass cb, jint method_index);
+JVM_GftMftiodIxBytfCodfLfngti(JNIEnv *fnv, jdlbss db, jint mftiod_indfx);
 
 /*
- * A structure used to a capture exception table entry in a Java method.
+ * A strudturf usfd to b dbpturf fxdfption tbblf fntry in b Jbvb mftiod.
  */
-typedef struct {
-    jint start_pc;
-    jint end_pc;
-    jint handler_pc;
-    jint catchType;
-} JVM_ExceptionTableEntryType;
+typfdff strudt {
+    jint stbrt_pd;
+    jint fnd_pd;
+    jint ibndlfr_pd;
+    jint dbtdiTypf;
+} JVM_ExdfptionTbblfEntryTypf;
 
 /*
- * Returns the exception table entry at entry_index of a given method.
- * Places the result in the given buffer.
+ * Rfturns tif fxdfption tbblf fntry bt fntry_indfx of b givfn mftiod.
+ * Plbdfs tif rfsult in tif givfn bufffr.
  *
- * The method is identified by method_index.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT void JNICALL
-JVM_GetMethodIxExceptionTableEntry(JNIEnv *env, jclass cb, jint method_index,
-                                   jint entry_index,
-                                   JVM_ExceptionTableEntryType *entry);
+JVM_GftMftiodIxExdfptionTbblfEntry(JNIEnv *fnv, jdlbss db, jint mftiod_indfx,
+                                   jint fntry_indfx,
+                                   JVM_ExdfptionTbblfEntryTypf *fntry);
 
 /*
- * Returns the length of the exception table of a given method.
- * The method is identified by method_index.
+ * Rfturns tif lfngti of tif fxdfption tbblf of b givfn mftiod.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT jint JNICALL
-JVM_GetMethodIxExceptionTableLength(JNIEnv *env, jclass cb, int index);
+JVM_GftMftiodIxExdfptionTbblfLfngti(JNIEnv *fnv, jdlbss db, int indfx);
 
 /*
- * Returns the modifiers of a given field.
- * The field is identified by field_index.
+ * Rfturns tif modififrs of b givfn fifld.
+ * Tif fifld is idfntififd by fifld_indfx.
  */
 JNIEXPORT jint JNICALL
-JVM_GetFieldIxModifiers(JNIEnv *env, jclass cb, int index);
+JVM_GftFifldIxModififrs(JNIEnv *fnv, jdlbss db, int indfx);
 
 /*
- * Returns the modifiers of a given method.
- * The method is identified by method_index.
+ * Rfturns tif modififrs of b givfn mftiod.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT jint JNICALL
-JVM_GetMethodIxModifiers(JNIEnv *env, jclass cb, int index);
+JVM_GftMftiodIxModififrs(JNIEnv *fnv, jdlbss db, int indfx);
 
 /*
- * Returns the number of local variables of a given method.
- * The method is identified by method_index.
+ * Rfturns tif numbfr of lodbl vbribblfs of b givfn mftiod.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT jint JNICALL
-JVM_GetMethodIxLocalsCount(JNIEnv *env, jclass cb, int index);
+JVM_GftMftiodIxLodblsCount(JNIEnv *fnv, jdlbss db, int indfx);
 
 /*
- * Returns the number of arguments (including this pointer) of a given method.
- * The method is identified by method_index.
+ * Rfturns tif numbfr of brgumfnts (indluding tiis pointfr) of b givfn mftiod.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT jint JNICALL
-JVM_GetMethodIxArgsSize(JNIEnv *env, jclass cb, int index);
+JVM_GftMftiodIxArgsSizf(JNIEnv *fnv, jdlbss db, int indfx);
 
 /*
- * Returns the maximum amount of stack (in words) used by a given method.
- * The method is identified by method_index.
+ * Rfturns tif mbximum bmount of stbdk (in words) usfd by b givfn mftiod.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
 JNIEXPORT jint JNICALL
-JVM_GetMethodIxMaxStack(JNIEnv *env, jclass cb, int index);
+JVM_GftMftiodIxMbxStbdk(JNIEnv *fnv, jdlbss db, int indfx);
 
 /*
- * Is a given method a constructor.
- * The method is identified by method_index.
+ * Is b givfn mftiod b donstrudtor.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
-JNIEXPORT jboolean JNICALL
-JVM_IsConstructorIx(JNIEnv *env, jclass cb, int index);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsConstrudtorIx(JNIEnv *fnv, jdlbss db, int indfx);
 
 /*
- * Is the given method generated by the VM.
- * The method is identified by method_index.
+ * Is tif givfn mftiod gfnfrbtfd by tif VM.
+ * Tif mftiod is idfntififd by mftiod_indfx.
  */
-JNIEXPORT jboolean JNICALL
-JVM_IsVMGeneratedMethodIx(JNIEnv *env, jclass cb, int index);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsVMGfnfrbtfdMftiodIx(JNIEnv *fnv, jdlbss db, int indfx);
 
 /*
- * Returns the name of a given method in UTF format.
- * The result remains valid until JVM_ReleaseUTF is called.
+ * Rfturns tif nbmf of b givfn mftiod in UTF formbt.
+ * Tif rfsult rfmbins vblid until JVM_RflfbsfUTF is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetMethodIxNameUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftMftiodIxNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the signature of a given method in UTF format.
- * The result remains valid until JVM_ReleaseUTF is called.
+ * Rfturns tif signbturf of b givfn mftiod in UTF formbt.
+ * Tif rfsult rfmbins vblid until JVM_RflfbsfUTF is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetMethodIxSignatureUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftMftiodIxSignbturfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the name of the field referred to at a given constant pool
- * index.
+ * Rfturns tif nbmf of tif fifld rfffrrfd to bt b givfn donstbnt pool
+ * indfx.
  *
- * The result is in UTF format and remains valid until JVM_ReleaseUTF
- * is called.
+ * Tif rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetCPFieldNameUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftCPFifldNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the name of the method referred to at a given constant pool
- * index.
+ * Rfturns tif nbmf of tif mftiod rfffrrfd to bt b givfn donstbnt pool
+ * indfx.
  *
- * The result is in UTF format and remains valid until JVM_ReleaseUTF
- * is called.
+ * Tif rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetCPMethodNameUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftCPMftiodNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the signature of the method referred to at a given constant pool
- * index.
+ * Rfturns tif signbturf of tif mftiod rfffrrfd to bt b givfn donstbnt pool
+ * indfx.
  *
- * The result is in UTF format and remains valid until JVM_ReleaseUTF
- * is called.
+ * Tif rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetCPMethodSignatureUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftCPMftiodSignbturfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the signature of the field referred to at a given constant pool
- * index.
+ * Rfturns tif signbturf of tif fifld rfffrrfd to bt b givfn donstbnt pool
+ * indfx.
  *
- * The result is in UTF format and remains valid until JVM_ReleaseUTF
- * is called.
+ * Tif rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetCPFieldSignatureUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftCPFifldSignbturfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the class name referred to at a given constant pool index.
+ * Rfturns tif dlbss nbmf rfffrrfd to bt b givfn donstbnt pool indfx.
  *
- * The result is in UTF format and remains valid until JVM_ReleaseUTF
- * is called.
+ * Tif rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetCPClassNameUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftCPClbssNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the class name referred to at a given constant pool index.
+ * Rfturns tif dlbss nbmf rfffrrfd to bt b givfn donstbnt pool indfx.
  *
- * The constant pool entry must refer to a CONSTANT_Fieldref.
+ * Tif donstbnt pool fntry must rfffr to b CONSTANT_Fifldrff.
  *
- * The result is in UTF format and remains valid until JVM_ReleaseUTF
- * is called.
+ * Tif rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetCPFieldClassNameUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftCPFifldClbssNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the class name referred to at a given constant pool index.
+ * Rfturns tif dlbss nbmf rfffrrfd to bt b givfn donstbnt pool indfx.
  *
- * The constant pool entry must refer to CONSTANT_Methodref or
- * CONSTANT_InterfaceMethodref.
+ * Tif donstbnt pool fntry must rfffr to CONSTANT_Mftiodrff or
+ * CONSTANT_IntfrfbdfMftiodrff.
  *
- * The result is in UTF format and remains valid until JVM_ReleaseUTF
- * is called.
+ * Tif rfsult is in UTF formbt bnd rfmbins vblid until JVM_RflfbsfUTF
+ * is dbllfd.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  */
-JNIEXPORT const char * JNICALL
-JVM_GetCPMethodClassNameUTF(JNIEnv *env, jclass cb, jint index);
+JNIEXPORT donst dibr * JNICALL
+JVM_GftCPMftiodClbssNbmfUTF(JNIEnv *fnv, jdlbss db, jint indfx);
 
 /*
- * Returns the modifiers of a field in calledClass. The field is
- * referred to in class cb at constant pool entry index.
+ * Rfturns tif modififrs of b fifld in dbllfdClbss. Tif fifld is
+ * rfffrrfd to in dlbss db bt donstbnt pool fntry indfx.
  *
- * The caller must treat the string as a constant and not modify it
- * in any way.
+ * Tif dbllfr must trfbt tif string bs b donstbnt bnd not modify it
+ * in bny wby.
  *
- * Returns -1 if the field does not exist in calledClass.
- */
-JNIEXPORT jint JNICALL
-JVM_GetCPFieldModifiers(JNIEnv *env, jclass cb, int index, jclass calledClass);
-
-/*
- * Returns the modifiers of a method in calledClass. The method is
- * referred to in class cb at constant pool entry index.
- *
- * Returns -1 if the method does not exist in calledClass.
+ * Rfturns -1 if tif fifld dofs not fxist in dbllfdClbss.
  */
 JNIEXPORT jint JNICALL
-JVM_GetCPMethodModifiers(JNIEnv *env, jclass cb, int index, jclass calledClass);
+JVM_GftCPFifldModififrs(JNIEnv *fnv, jdlbss db, int indfx, jdlbss dbllfdClbss);
 
 /*
- * Releases the UTF string obtained from the VM.
+ * Rfturns tif modififrs of b mftiod in dbllfdClbss. Tif mftiod is
+ * rfffrrfd to in dlbss db bt donstbnt pool fntry indfx.
+ *
+ * Rfturns -1 if tif mftiod dofs not fxist in dbllfdClbss.
+ */
+JNIEXPORT jint JNICALL
+JVM_GftCPMftiodModififrs(JNIEnv *fnv, jdlbss db, int indfx, jdlbss dbllfdClbss);
+
+/*
+ * Rflfbsfs tif UTF string obtbinfd from tif VM.
  */
 JNIEXPORT void JNICALL
-JVM_ReleaseUTF(const char *utf);
+JVM_RflfbsfUTF(donst dibr *utf);
 
 /*
- * Compare if two classes are in the same package.
+ * Compbrf if two dlbssfs brf in tif sbmf pbdkbgf.
  */
-JNIEXPORT jboolean JNICALL
-JVM_IsSameClassPackage(JNIEnv *env, jclass class1, jclass class2);
+JNIEXPORT jboolfbn JNICALL
+JVM_IsSbmfClbssPbdkbgf(JNIEnv *fnv, jdlbss dlbss1, jdlbss dlbss2);
 
-/* Get classfile constants */
-#include "classfile_constants.h"
+/* Gft dlbssfilf donstbnts */
+#indludf "dlbssfilf_donstbnts.i"
 
 /*
- * A function defined by the byte-code verifier and called by the VM.
- * This is not a function implemented in the VM.
+ * A fundtion dffinfd by tif bytf-dodf vfrififr bnd dbllfd by tif VM.
+ * Tiis is not b fundtion implfmfntfd in tif VM.
  *
- * Returns JNI_FALSE if verification fails. A detailed error message
- * will be places in msg_buf, whose length is specified by buf_len.
+ * Rfturns JNI_FALSE if vfrifidbtion fbils. A dftbilfd frror mfssbgf
+ * will bf plbdfs in msg_buf, wiosf lfngti is spfdififd by buf_lfn.
  */
-typedef jboolean (*verifier_fn_t)(JNIEnv *env,
-                                  jclass cb,
-                                  char * msg_buf,
-                                  jint buf_len);
+typfdff jboolfbn (*vfrififr_fn_t)(JNIEnv *fnv,
+                                  jdlbss db,
+                                  dibr * msg_buf,
+                                  jint buf_lfn);
 
 
 /*
- * Support for a VM-independent class format checker.
+ * Support for b VM-indfpfndfnt dlbss formbt difdkfr.
  */
-typedef struct {
-    unsigned long code;    /* byte code */
-    unsigned long excs;    /* exceptions */
-    unsigned long etab;    /* catch table */
-    unsigned long lnum;    /* line number */
-    unsigned long lvar;    /* local vars */
-} method_size_info;
+typfdff strudt {
+    unsignfd long dodf;    /* bytf dodf */
+    unsignfd long fxds;    /* fxdfptions */
+    unsignfd long ftbb;    /* dbtdi tbblf */
+    unsignfd long lnum;    /* linf numbfr */
+    unsignfd long lvbr;    /* lodbl vbrs */
+} mftiod_sizf_info;
 
-typedef struct {
-    unsigned int constants;    /* constant pool */
-    unsigned int fields;
-    unsigned int methods;
-    unsigned int interfaces;
-    unsigned int fields2;      /* number of static 2-word fields */
-    unsigned int innerclasses; /* # of records in InnerClasses attr */
+typfdff strudt {
+    unsignfd int donstbnts;    /* donstbnt pool */
+    unsignfd int fiflds;
+    unsignfd int mftiods;
+    unsignfd int intfrfbdfs;
+    unsignfd int fiflds2;      /* numbfr of stbtid 2-word fiflds */
+    unsignfd int innfrdlbssfs; /* # of rfdords in InnfrClbssfs bttr */
 
-    method_size_info clinit;   /* memory used in clinit */
-    method_size_info main;     /* used everywhere else */
-} class_size_info;
+    mftiod_sizf_info dlinit;   /* mfmory usfd in dlinit */
+    mftiod_sizf_info mbin;     /* usfd fvfrywifrf flsf */
+} dlbss_sizf_info;
 
 /*
- * Functions defined in libjava.so to perform string conversions.
+ * Fundtions dffinfd in libjbvb.so to pfrform string donvfrsions.
  *
  */
 
-typedef jstring (*to_java_string_fn_t)(JNIEnv *env, char *str);
+typfdff jstring (*to_jbvb_string_fn_t)(JNIEnv *fnv, dibr *str);
 
-typedef char *(*to_c_string_fn_t)(JNIEnv *env, jstring s, jboolean *b);
+typfdff dibr *(*to_d_string_fn_t)(JNIEnv *fnv, jstring s, jboolfbn *b);
 
-/* This is the function defined in libjava.so that performs class
- * format checks. This functions fills in size information about
- * the class file and returns:
+/* Tiis is tif fundtion dffinfd in libjbvb.so tibt pfrforms dlbss
+ * formbt difdks. Tiis fundtions fills in sizf informbtion bbout
+ * tif dlbss filf bnd rfturns:
  *
  *   0: good
- *  -1: out of memory
- *  -2: bad format
- *  -3: unsupported version
- *  -4: bad class name
+ *  -1: out of mfmory
+ *  -2: bbd formbt
+ *  -3: unsupportfd vfrsion
+ *  -4: bbd dlbss nbmf
  */
 
-typedef jint (*check_format_fn_t)(char *class_name,
-                                  unsigned char *data,
-                                  unsigned int data_size,
-                                  class_size_info *class_size,
-                                  char *message_buffer,
-                                  jint buffer_length,
-                                  jboolean measure_only,
-                                  jboolean check_relaxed);
+typfdff jint (*difdk_formbt_fn_t)(dibr *dlbss_nbmf,
+                                  unsignfd dibr *dbtb,
+                                  unsignfd int dbtb_sizf,
+                                  dlbss_sizf_info *dlbss_sizf,
+                                  dibr *mfssbgf_bufffr,
+                                  jint bufffr_lfngti,
+                                  jboolfbn mfbsurf_only,
+                                  jboolfbn difdk_rflbxfd);
 
-#define JVM_RECOGNIZED_CLASS_MODIFIERS (JVM_ACC_PUBLIC | \
+#dffinf JVM_RECOGNIZED_CLASS_MODIFIERS (JVM_ACC_PUBLIC | \
                                         JVM_ACC_FINAL | \
                                         JVM_ACC_SUPER | \
                                         JVM_ACC_INTERFACE | \
@@ -1052,7 +1052,7 @@ typedef jint (*check_format_fn_t)(char *class_name,
                                         JVM_ACC_ENUM | \
                                         JVM_ACC_SYNTHETIC)
 
-#define JVM_RECOGNIZED_FIELD_MODIFIERS (JVM_ACC_PUBLIC | \
+#dffinf JVM_RECOGNIZED_FIELD_MODIFIERS (JVM_ACC_PUBLIC | \
                                         JVM_ACC_PRIVATE | \
                                         JVM_ACC_PROTECTED | \
                                         JVM_ACC_STATIC | \
@@ -1062,7 +1062,7 @@ typedef jint (*check_format_fn_t)(char *class_name,
                                         JVM_ACC_ENUM | \
                                         JVM_ACC_SYNTHETIC)
 
-#define JVM_RECOGNIZED_METHOD_MODIFIERS (JVM_ACC_PUBLIC | \
+#dffinf JVM_RECOGNIZED_METHOD_MODIFIERS (JVM_ACC_PUBLIC | \
                                          JVM_ACC_PRIVATE | \
                                          JVM_ACC_PROTECTED | \
                                          JVM_ACC_STATIC | \
@@ -1076,276 +1076,276 @@ typedef jint (*check_format_fn_t)(char *class_name,
                                          JVM_ACC_SYNTHETIC)
 
 /*
- * This is the function defined in libjava.so to perform path
- * canonicalization. VM call this function before opening jar files
- * to load system classes.
+ * Tiis is tif fundtion dffinfd in libjbvb.so to pfrform pbti
+ * dbnonidblizbtion. VM dbll tiis fundtion bfforf opfning jbr filfs
+ * to lobd systfm dlbssfs.
  *
  */
 
-typedef int (*canonicalize_fn_t)(JNIEnv *env, char *orig, char *out, int len);
+typfdff int (*dbnonidblizf_fn_t)(JNIEnv *fnv, dibr *orig, dibr *out, int lfn);
 
 /*************************************************************************
- PART 3: I/O and Network Support
+ PART 3: I/O bnd Nftwork Support
  ************************************************************************/
 
-/* Note that the JVM IO functions are expected to return JVM_IO_ERR
- * when there is any kind of error. The caller can then use the
- * platform specific support (e.g., errno) to get the detailed
- * error info.  The JVM_GetLastErrorString procedure may also be used
- * to obtain a descriptive error string.
+/* Notf tibt tif JVM IO fundtions brf fxpfdtfd to rfturn JVM_IO_ERR
+ * wifn tifrf is bny kind of frror. Tif dbllfr dbn tifn usf tif
+ * plbtform spfdifid support (f.g., frrno) to gft tif dftbilfd
+ * frror info.  Tif JVM_GftLbstErrorString prodfdurf mby blso bf usfd
+ * to obtbin b dfsdriptivf frror string.
  */
-#define JVM_IO_ERR  (-1)
+#dffinf JVM_IO_ERR  (-1)
 
-/* For interruptible IO. Returning JVM_IO_INTR indicates that an IO
- * operation has been disrupted by Thread.interrupt. There are a
- * number of technical difficulties related to interruptible IO that
- * need to be solved. For example, most existing programs do not handle
- * InterruptedIOExceptions specially, they simply treat those as any
- * IOExceptions, which typically indicate fatal errors.
+/* For intfrruptiblf IO. Rfturning JVM_IO_INTR indidbtfs tibt bn IO
+ * opfrbtion ibs bffn disruptfd by Tirfbd.intfrrupt. Tifrf brf b
+ * numbfr of tfdinidbl diffidultifs rflbtfd to intfrruptiblf IO tibt
+ * nffd to bf solvfd. For fxbmplf, most fxisting progrbms do not ibndlf
+ * IntfrruptfdIOExdfptions spfdiblly, tify simply trfbt tiosf bs bny
+ * IOExdfptions, wiidi typidblly indidbtf fbtbl frrors.
  *
- * There are also two modes of operation for interruptible IO. In the
- * resumption mode, an interrupted IO operation is guaranteed not to
- * have any side-effects, and can be restarted. In the termination mode,
- * an interrupted IO operation corrupts the underlying IO stream, so
- * that the only reasonable operation on an interrupted stream is to
- * close that stream. The resumption mode seems to be impossible to
- * implement on Win32 and Solaris. Implementing the termination mode is
- * easier, but it's not clear that's the right semantics.
+ * Tifrf brf blso two modfs of opfrbtion for intfrruptiblf IO. In tif
+ * rfsumption modf, bn intfrruptfd IO opfrbtion is gubrbntffd not to
+ * ibvf bny sidf-ffffdts, bnd dbn bf rfstbrtfd. In tif tfrminbtion modf,
+ * bn intfrruptfd IO opfrbtion dorrupts tif undfrlying IO strfbm, so
+ * tibt tif only rfbsonbblf opfrbtion on bn intfrruptfd strfbm is to
+ * dlosf tibt strfbm. Tif rfsumption modf sffms to bf impossiblf to
+ * implfmfnt on Win32 bnd Solbris. Implfmfnting tif tfrminbtion modf is
+ * fbsifr, but it's not dlfbr tibt's tif rigit sfmbntids.
  *
- * Interruptible IO is not supported on Win32.It can be enabled/disabled
- * using a compile-time flag on Solaris. Third-party JVM ports do not
- * need to implement interruptible IO.
+ * Intfrruptiblf IO is not supportfd on Win32.It dbn bf fnbblfd/disbblfd
+ * using b dompilf-timf flbg on Solbris. Tiird-pbrty JVM ports do not
+ * nffd to implfmfnt intfrruptiblf IO.
  */
-#define JVM_IO_INTR (-2)
+#dffinf JVM_IO_INTR (-2)
 
-/* Write a string into the given buffer, in the platform's local encoding,
- * that describes the most recent system-level error to occur in this thread.
- * Return the length of the string or zero if no error occurred.
+/* Writf b string into tif givfn bufffr, in tif plbtform's lodbl fndoding,
+ * tibt dfsdribfs tif most rfdfnt systfm-lfvfl frror to oddur in tiis tirfbd.
+ * Rfturn tif lfngti of tif string or zfro if no frror oddurrfd.
  */
 JNIEXPORT jint JNICALL
-JVM_GetLastErrorString(char *buf, int len);
+JVM_GftLbstErrorString(dibr *buf, int lfn);
 
 /*
- * Convert a pathname into native format.  This function does syntactic
- * cleanup, such as removing redundant separator characters.  It modifies
- * the given pathname string in place.
+ * Convfrt b pbtinbmf into nbtivf formbt.  Tiis fundtion dofs syntbdtid
+ * dlfbnup, sudi bs rfmoving rfdundbnt sfpbrbtor dibrbdtfrs.  It modififs
+ * tif givfn pbtinbmf string in plbdf.
  */
-JNIEXPORT char * JNICALL
-JVM_NativePath(char *);
+JNIEXPORT dibr * JNICALL
+JVM_NbtivfPbti(dibr *);
 
 /*
- * JVM I/O error codes
+ * JVM I/O frror dodfs
  */
-#define JVM_EEXIST       -100
+#dffinf JVM_EEXIST       -100
 
 /*
- * Open a file descriptor. This function returns a negative error code
- * on error, and a non-negative integer that is the file descriptor on
- * success.
- */
-JNIEXPORT jint JNICALL
-JVM_Open(const char *fname, jint flags, jint mode);
-
-/*
- * Close a file descriptor. This function returns -1 on error, and 0
- * on success.
- *
- * fd        the file descriptor to close.
+ * Opfn b filf dfsdriptor. Tiis fundtion rfturns b nfgbtivf frror dodf
+ * on frror, bnd b non-nfgbtivf intfgfr tibt is tif filf dfsdriptor on
+ * suddfss.
  */
 JNIEXPORT jint JNICALL
-JVM_Close(jint fd);
+JVM_Opfn(donst dibr *fnbmf, jint flbgs, jint modf);
 
 /*
- * Read data from a file decriptor into a char array.
+ * Closf b filf dfsdriptor. Tiis fundtion rfturns -1 on frror, bnd 0
+ * on suddfss.
  *
- * fd        the file descriptor to read from.
- * buf       the buffer where to put the read data.
- * nbytes    the number of bytes to read.
- *
- * This function returns -1 on error, and 0 on success.
+ * fd        tif filf dfsdriptor to dlosf.
  */
 JNIEXPORT jint JNICALL
-JVM_Read(jint fd, char *buf, jint nbytes);
+JVM_Closf(jint fd);
 
 /*
- * Write data from a char array to a file decriptor.
+ * Rfbd dbtb from b filf dfdriptor into b dibr brrby.
  *
- * fd        the file descriptor to read from.
- * buf       the buffer from which to fetch the data.
- * nbytes    the number of bytes to write.
+ * fd        tif filf dfsdriptor to rfbd from.
+ * buf       tif bufffr wifrf to put tif rfbd dbtb.
+ * nbytfs    tif numbfr of bytfs to rfbd.
  *
- * This function returns -1 on error, and 0 on success.
+ * Tiis fundtion rfturns -1 on frror, bnd 0 on suddfss.
  */
 JNIEXPORT jint JNICALL
-JVM_Write(jint fd, char *buf, jint nbytes);
+JVM_Rfbd(jint fd, dibr *buf, jint nbytfs);
 
 /*
- * Returns the number of bytes available for reading from a given file
- * descriptor
+ * Writf dbtb from b dibr brrby to b filf dfdriptor.
+ *
+ * fd        tif filf dfsdriptor to rfbd from.
+ * buf       tif bufffr from wiidi to fftdi tif dbtb.
+ * nbytfs    tif numbfr of bytfs to writf.
+ *
+ * Tiis fundtion rfturns -1 on frror, bnd 0 on suddfss.
  */
 JNIEXPORT jint JNICALL
-JVM_Available(jint fd, jlong *pbytes);
+JVM_Writf(jint fd, dibr *buf, jint nbytfs);
 
 /*
- * Move the file descriptor pointer from whence by offset.
+ * Rfturns tif numbfr of bytfs bvbilbblf for rfbding from b givfn filf
+ * dfsdriptor
+ */
+JNIEXPORT jint JNICALL
+JVM_Avbilbblf(jint fd, jlong *pbytfs);
+
+/*
+ * Movf tif filf dfsdriptor pointfr from wifndf by offsft.
  *
- * fd        the file descriptor to move.
- * offset    the number of bytes to move it by.
- * whence    the start from where to move it.
+ * fd        tif filf dfsdriptor to movf.
+ * offsft    tif numbfr of bytfs to movf it by.
+ * wifndf    tif stbrt from wifrf to movf it.
  *
- * This function returns the resulting pointer location.
+ * Tiis fundtion rfturns tif rfsulting pointfr lodbtion.
  */
 JNIEXPORT jlong JNICALL
-JVM_Lseek(jint fd, jlong offset, jint whence);
+JVM_Lsffk(jint fd, jlong offsft, jint wifndf);
 
 /*
- * Set the length of the file associated with the given descriptor to the given
- * length.  If the new length is longer than the current length then the file
- * is extended; the contents of the extended portion are not defined.  The
- * value of the file pointer is undefined after this procedure returns.
+ * Sft tif lfngti of tif filf bssodibtfd witi tif givfn dfsdriptor to tif givfn
+ * lfngti.  If tif nfw lfngti is longfr tibn tif durrfnt lfngti tifn tif filf
+ * is fxtfndfd; tif dontfnts of tif fxtfndfd portion brf not dffinfd.  Tif
+ * vbluf of tif filf pointfr is undffinfd bftfr tiis prodfdurf rfturns.
  */
 JNIEXPORT jint JNICALL
-JVM_SetLength(jint fd, jlong length);
+JVM_SftLfngti(jint fd, jlong lfngti);
 
 /*
- * Synchronize the file descriptor's in memory state with that of the
- * physical device.  Return of -1 is an error, 0 is OK.
+ * Syndironizf tif filf dfsdriptor's in mfmory stbtf witi tibt of tif
+ * piysidbl dfvidf.  Rfturn of -1 is bn frror, 0 is OK.
  */
 JNIEXPORT jint JNICALL
-JVM_Sync(jint fd);
+JVM_Synd(jint fd);
 
 /*
- * Networking library support
+ * Nftworking librbry support
  */
 
 JNIEXPORT jint JNICALL
-JVM_InitializeSocketLibrary(void);
+JVM_InitiblizfSodkftLibrbry(void);
 
-struct sockaddr;
-
-JNIEXPORT jint JNICALL
-JVM_Socket(jint domain, jint type, jint protocol);
+strudt sodkbddr;
 
 JNIEXPORT jint JNICALL
-JVM_SocketClose(jint fd);
+JVM_Sodkft(jint dombin, jint typf, jint protodol);
 
 JNIEXPORT jint JNICALL
-JVM_SocketShutdown(jint fd, jint howto);
+JVM_SodkftClosf(jint fd);
 
 JNIEXPORT jint JNICALL
-JVM_Recv(jint fd, char *buf, jint nBytes, jint flags);
+JVM_SodkftSiutdown(jint fd, jint iowto);
 
 JNIEXPORT jint JNICALL
-JVM_Send(jint fd, char *buf, jint nBytes, jint flags);
+JVM_Rfdv(jint fd, dibr *buf, jint nBytfs, jint flbgs);
 
 JNIEXPORT jint JNICALL
-JVM_Timeout(int fd, long timeout);
+JVM_Sfnd(jint fd, dibr *buf, jint nBytfs, jint flbgs);
 
 JNIEXPORT jint JNICALL
-JVM_Listen(jint fd, jint count);
+JVM_Timfout(int fd, long timfout);
 
 JNIEXPORT jint JNICALL
-JVM_Connect(jint fd, struct sockaddr *him, jint len);
+JVM_Listfn(jint fd, jint dount);
 
 JNIEXPORT jint JNICALL
-JVM_Bind(jint fd, struct sockaddr *him, jint len);
+JVM_Connfdt(jint fd, strudt sodkbddr *iim, jint lfn);
 
 JNIEXPORT jint JNICALL
-JVM_Accept(jint fd, struct sockaddr *him, jint *len);
+JVM_Bind(jint fd, strudt sodkbddr *iim, jint lfn);
 
 JNIEXPORT jint JNICALL
-JVM_RecvFrom(jint fd, char *buf, int nBytes,
-                  int flags, struct sockaddr *from, int *fromlen);
+JVM_Addfpt(jint fd, strudt sodkbddr *iim, jint *lfn);
 
 JNIEXPORT jint JNICALL
-JVM_SendTo(jint fd, char *buf, int len,
-                int flags, struct sockaddr *to, int tolen);
+JVM_RfdvFrom(jint fd, dibr *buf, int nBytfs,
+                  int flbgs, strudt sodkbddr *from, int *fromlfn);
 
 JNIEXPORT jint JNICALL
-JVM_SocketAvailable(jint fd, jint *result);
+JVM_SfndTo(jint fd, dibr *buf, int lfn,
+                int flbgs, strudt sodkbddr *to, int tolfn);
+
+JNIEXPORT jint JNICALL
+JVM_SodkftAvbilbblf(jint fd, jint *rfsult);
 
 
 JNIEXPORT jint JNICALL
-JVM_GetSockName(jint fd, struct sockaddr *him, int *len);
+JVM_GftSodkNbmf(jint fd, strudt sodkbddr *iim, int *lfn);
 
 JNIEXPORT jint JNICALL
-JVM_GetSockOpt(jint fd, int level, int optname, char *optval, int *optlen);
+JVM_GftSodkOpt(jint fd, int lfvfl, int optnbmf, dibr *optvbl, int *optlfn);
 
 JNIEXPORT jint JNICALL
-JVM_SetSockOpt(jint fd, int level, int optname, const char *optval, int optlen);
+JVM_SftSodkOpt(jint fd, int lfvfl, int optnbmf, donst dibr *optvbl, int optlfn);
 
 JNIEXPORT int JNICALL
-JVM_GetHostName(char* name, int namelen);
+JVM_GftHostNbmf(dibr* nbmf, int nbmflfn);
 
 /*
- * The standard printing functions supported by the Java VM. (Should they
- * be renamed to JVM_* in the future?
+ * Tif stbndbrd printing fundtions supportfd by tif Jbvb VM. (Siould tify
+ * bf rfnbmfd to JVM_* in tif futurf?
  */
 
 /*
- * BE CAREFUL! The following functions do not implement the
- * full feature set of standard C printf formats.
+ * BE CAREFUL! Tif following fundtions do not implfmfnt tif
+ * full ffbturf sft of stbndbrd C printf formbts.
  */
 int
-jio_vsnprintf(char *str, size_t count, const char *fmt, va_list args);
+jio_vsnprintf(dibr *str, sizf_t dount, donst dibr *fmt, vb_list brgs);
 
 int
-jio_snprintf(char *str, size_t count, const char *fmt, ...);
+jio_snprintf(dibr *str, sizf_t dount, donst dibr *fmt, ...);
 
 int
-jio_fprintf(FILE *, const char *fmt, ...);
+jio_fprintf(FILE *, donst dibr *fmt, ...);
 
 int
-jio_vfprintf(FILE *, const char *fmt, va_list args);
+jio_vfprintf(FILE *, donst dibr *fmt, vb_list brgs);
 
 
 JNIEXPORT void * JNICALL
-JVM_RawMonitorCreate(void);
+JVM_RbwMonitorCrfbtf(void);
 
 JNIEXPORT void JNICALL
-JVM_RawMonitorDestroy(void *mon);
+JVM_RbwMonitorDfstroy(void *mon);
 
 JNIEXPORT jint JNICALL
-JVM_RawMonitorEnter(void *mon);
+JVM_RbwMonitorEntfr(void *mon);
 
 JNIEXPORT void JNICALL
-JVM_RawMonitorExit(void *mon);
+JVM_RbwMonitorExit(void *mon);
 
 /*
- * java.lang.management support
+ * jbvb.lbng.mbnbgfmfnt support
  */
 JNIEXPORT void* JNICALL
-JVM_GetManagement(jint version);
+JVM_GftMbnbgfmfnt(jint vfrsion);
 
 /*
- * com.sun.tools.attach.VirtualMachine support
+ * dom.sun.tools.bttbdi.VirtublMbdiinf support
  *
- * Initialize the agent properties with the properties maintained in the VM.
+ * Initiblizf tif bgfnt propfrtifs witi tif propfrtifs mbintbinfd in tif VM.
  */
-JNIEXPORT jobject JNICALL
-JVM_InitAgentProperties(JNIEnv *env, jobject agent_props);
+JNIEXPORT jobjfdt JNICALL
+JVM_InitAgfntPropfrtifs(JNIEnv *fnv, jobjfdt bgfnt_props);
 
 JNIEXPORT jstring JNICALL
-JVM_GetTemporaryDirectory(JNIEnv *env);
+JVM_GftTfmporbryDirfdtory(JNIEnv *fnv);
 
-/* Generics reflection support.
+/* Gfnfrids rfflfdtion support.
  *
- * Returns information about the given class's EnclosingMethod
- * attribute, if present, or null if the class had no enclosing
- * method.
+ * Rfturns informbtion bbout tif givfn dlbss's EndlosingMftiod
+ * bttributf, if prfsfnt, or null if tif dlbss ibd no fndlosing
+ * mftiod.
  *
- * If non-null, the returned array contains three elements. Element 0
- * is the java.lang.Class of which the enclosing method is a member,
- * and elements 1 and 2 are the java.lang.Strings for the enclosing
- * method's name and descriptor, respectively.
+ * If non-null, tif rfturnfd brrby dontbins tirff flfmfnts. Elfmfnt 0
+ * is tif jbvb.lbng.Clbss of wiidi tif fndlosing mftiod is b mfmbfr,
+ * bnd flfmfnts 1 bnd 2 brf tif jbvb.lbng.Strings for tif fndlosing
+ * mftiod's nbmf bnd dfsdriptor, rfspfdtivfly.
  */
-JNIEXPORT jobjectArray JNICALL
-JVM_GetEnclosingMethodInfo(JNIEnv* env, jclass ofClass);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftEndlosingMftiodInfo(JNIEnv* fnv, jdlbss ofClbss);
 
 /*
- * Java thread state support
+ * Jbvb tirfbd stbtf support
  */
-enum {
+fnum {
     JAVA_THREAD_STATE_NEW           = 0,
     JAVA_THREAD_STATE_RUNNABLE      = 1,
     JAVA_THREAD_STATE_BLOCKED       = 2,
@@ -1356,152 +1356,152 @@ enum {
 };
 
 /*
- * Returns an array of the threadStatus values representing the
- * given Java thread state.  Returns NULL if the VM version is
- * incompatible with the JDK or doesn't support the given
- * Java thread state.
+ * Rfturns bn brrby of tif tirfbdStbtus vblufs rfprfsfnting tif
+ * givfn Jbvb tirfbd stbtf.  Rfturns NULL if tif VM vfrsion is
+ * indompbtiblf witi tif JDK or dofsn't support tif givfn
+ * Jbvb tirfbd stbtf.
  */
-JNIEXPORT jintArray JNICALL
-JVM_GetThreadStateValues(JNIEnv* env, jint javaThreadState);
+JNIEXPORT jintArrby JNICALL
+JVM_GftTirfbdStbtfVblufs(JNIEnv* fnv, jint jbvbTirfbdStbtf);
 
 /*
- * Returns an array of the substate names representing the
- * given Java thread state.  Returns NULL if the VM version is
- * incompatible with the JDK or the VM doesn't support
- * the given Java thread state.
- * values must be the jintArray returned from JVM_GetThreadStateValues
- * and javaThreadState.
+ * Rfturns bn brrby of tif substbtf nbmfs rfprfsfnting tif
+ * givfn Jbvb tirfbd stbtf.  Rfturns NULL if tif VM vfrsion is
+ * indompbtiblf witi tif JDK or tif VM dofsn't support
+ * tif givfn Jbvb tirfbd stbtf.
+ * vblufs must bf tif jintArrby rfturnfd from JVM_GftTirfbdStbtfVblufs
+ * bnd jbvbTirfbdStbtf.
  */
-JNIEXPORT jobjectArray JNICALL
-JVM_GetThreadStateNames(JNIEnv* env, jint javaThreadState, jintArray values);
+JNIEXPORT jobjfdtArrby JNICALL
+JVM_GftTirfbdStbtfNbmfs(JNIEnv* fnv, jint jbvbTirfbdStbtf, jintArrby vblufs);
 
 /* =========================================================================
- * The following defines a private JVM interface that the JDK can query
- * for the JVM version and capabilities.  sun.misc.Version defines
- * the methods for getting the VM version and its capabilities.
+ * Tif following dffinfs b privbtf JVM intfrfbdf tibt tif JDK dbn qufry
+ * for tif JVM vfrsion bnd dbpbbilitifs.  sun.misd.Vfrsion dffinfs
+ * tif mftiods for gftting tif VM vfrsion bnd its dbpbbilitifs.
  *
- * When a new bit is added, the following should be updated to provide
- * access to the new capability:
- *    HS:   JVM_GetVersionInfo and Abstract_VM_Version class
- *    SDK:  Version class
+ * Wifn b nfw bit is bddfd, tif following siould bf updbtfd to providf
+ * bddfss to tif nfw dbpbbility:
+ *    HS:   JVM_GftVfrsionInfo bnd Abstrbdt_VM_Vfrsion dlbss
+ *    SDK:  Vfrsion dlbss
  *
- * Similary, a private JDK interface JDK_GetVersionInfo0 is defined for
- * JVM to query for the JDK version and capabilities.
+ * Similbry, b privbtf JDK intfrfbdf JDK_GftVfrsionInfo0 is dffinfd for
+ * JVM to qufry for tif JDK vfrsion bnd dbpbbilitifs.
  *
- * When a new bit is added, the following should be updated to provide
- * access to the new capability:
- *    HS:   JDK_Version class
- *    SDK:  JDK_GetVersionInfo0
+ * Wifn b nfw bit is bddfd, tif following siould bf updbtfd to providf
+ * bddfss to tif nfw dbpbbility:
+ *    HS:   JDK_Vfrsion dlbss
+ *    SDK:  JDK_GftVfrsionInfo0
  *
  * ==========================================================================
  */
-typedef struct {
-    /* Naming convention of RE build version string: n.n.n[_uu[c]][-<identifier>]-bxx */
-    unsigned int jvm_version;   /* Consists of major, minor, micro (n.n.n) */
-                                /* and build number (xx) */
-    unsigned int update_version : 8;         /* Update release version (uu) */
-    unsigned int special_update_version : 8; /* Special update release version (c)*/
-    unsigned int reserved1 : 16;
-    unsigned int reserved2;
+typfdff strudt {
+    /* Nbming donvfntion of RE build vfrsion string: n.n.n[_uu[d]][-<idfntififr>]-bxx */
+    unsignfd int jvm_vfrsion;   /* Consists of mbjor, minor, midro (n.n.n) */
+                                /* bnd build numbfr (xx) */
+    unsignfd int updbtf_vfrsion : 8;         /* Updbtf rflfbsf vfrsion (uu) */
+    unsignfd int spfdibl_updbtf_vfrsion : 8; /* Spfdibl updbtf rflfbsf vfrsion (d)*/
+    unsignfd int rfsfrvfd1 : 16;
+    unsignfd int rfsfrvfd2;
 
-    /* The following bits represents JVM supports that JDK has dependency on.
-     * JDK can use these bits to determine which JVM version
-     * and support it has to maintain runtime compatibility.
+    /* Tif following bits rfprfsfnts JVM supports tibt JDK ibs dfpfndfndy on.
+     * JDK dbn usf tifsf bits to dftfrminf wiidi JVM vfrsion
+     * bnd support it ibs to mbintbin runtimf dompbtibility.
      *
-     * When a new bit is added in a minor or update release, make sure
-     * the new bit is also added in the main/baseline.
+     * Wifn b nfw bit is bddfd in b minor or updbtf rflfbsf, mbkf surf
+     * tif nfw bit is blso bddfd in tif mbin/bbsflinf.
      */
-    unsigned int is_attach_supported : 1;
-    unsigned int : 31;
-    unsigned int : 32;
-    unsigned int : 32;
-} jvm_version_info;
+    unsignfd int is_bttbdi_supportfd : 1;
+    unsignfd int : 31;
+    unsignfd int : 32;
+    unsignfd int : 32;
+} jvm_vfrsion_info;
 
-#define JVM_VERSION_MAJOR(version) ((version & 0xFF000000) >> 24)
-#define JVM_VERSION_MINOR(version) ((version & 0x00FF0000) >> 16)
-#define JVM_VERSION_MICRO(version) ((version & 0x0000FF00) >> 8)
+#dffinf JVM_VERSION_MAJOR(vfrsion) ((vfrsion & 0xFF000000) >> 24)
+#dffinf JVM_VERSION_MINOR(vfrsion) ((vfrsion & 0x00FF0000) >> 16)
+#dffinf JVM_VERSION_MICRO(vfrsion) ((vfrsion & 0x0000FF00) >> 8)
 
-/* Build number is available only for RE builds.
- * It will be zero for internal builds.
+/* Build numbfr is bvbilbblf only for RE builds.
+ * It will bf zfro for intfrnbl builds.
  */
-#define JVM_VERSION_BUILD(version) ((version & 0x000000FF))
+#dffinf JVM_VERSION_BUILD(vfrsion) ((vfrsion & 0x000000FF))
 
 JNIEXPORT void JNICALL
-JVM_GetVersionInfo(JNIEnv* env, jvm_version_info* info, size_t info_size);
+JVM_GftVfrsionInfo(JNIEnv* fnv, jvm_vfrsion_info* info, sizf_t info_sizf);
 
-typedef struct {
-    // Naming convention of RE build version string: n.n.n[_uu[c]][-<identifier>]-bxx
-    unsigned int jdk_version;   /* Consists of major, minor, micro (n.n.n) */
-                                /* and build number (xx) */
-    unsigned int update_version : 8;         /* Update release version (uu) */
-    unsigned int special_update_version : 8; /* Special update release version (c)*/
-    unsigned int reserved1 : 16;
-    unsigned int reserved2;
+typfdff strudt {
+    // Nbming donvfntion of RE build vfrsion string: n.n.n[_uu[d]][-<idfntififr>]-bxx
+    unsignfd int jdk_vfrsion;   /* Consists of mbjor, minor, midro (n.n.n) */
+                                /* bnd build numbfr (xx) */
+    unsignfd int updbtf_vfrsion : 8;         /* Updbtf rflfbsf vfrsion (uu) */
+    unsignfd int spfdibl_updbtf_vfrsion : 8; /* Spfdibl updbtf rflfbsf vfrsion (d)*/
+    unsignfd int rfsfrvfd1 : 16;
+    unsignfd int rfsfrvfd2;
 
-    /* The following bits represents new JDK supports that VM has dependency on.
-     * VM implementation can use these bits to determine which JDK version
-     * and support it has to maintain runtime compatibility.
+    /* Tif following bits rfprfsfnts nfw JDK supports tibt VM ibs dfpfndfndy on.
+     * VM implfmfntbtion dbn usf tifsf bits to dftfrminf wiidi JDK vfrsion
+     * bnd support it ibs to mbintbin runtimf dompbtibility.
      *
-     * When a new bit is added in a minor or update release, make sure
-     * the new bit is also added in the main/baseline.
+     * Wifn b nfw bit is bddfd in b minor or updbtf rflfbsf, mbkf surf
+     * tif nfw bit is blso bddfd in tif mbin/bbsflinf.
      */
-    unsigned int thread_park_blocker : 1;
-    unsigned int post_vm_init_hook_enabled : 1;
-    unsigned int pending_list_uses_discovered_field : 1;
-    unsigned int : 29;
-    unsigned int : 32;
-    unsigned int : 32;
-} jdk_version_info;
+    unsignfd int tirfbd_pbrk_blodkfr : 1;
+    unsignfd int post_vm_init_iook_fnbblfd : 1;
+    unsignfd int pfnding_list_usfs_disdovfrfd_fifld : 1;
+    unsignfd int : 29;
+    unsignfd int : 32;
+    unsignfd int : 32;
+} jdk_vfrsion_info;
 
-#define JDK_VERSION_MAJOR(version) ((version & 0xFF000000) >> 24)
-#define JDK_VERSION_MINOR(version) ((version & 0x00FF0000) >> 16)
-#define JDK_VERSION_MICRO(version) ((version & 0x0000FF00) >> 8)
+#dffinf JDK_VERSION_MAJOR(vfrsion) ((vfrsion & 0xFF000000) >> 24)
+#dffinf JDK_VERSION_MINOR(vfrsion) ((vfrsion & 0x00FF0000) >> 16)
+#dffinf JDK_VERSION_MICRO(vfrsion) ((vfrsion & 0x0000FF00) >> 8)
 
-/* Build number is available only for RE build (i.e. JDK_BUILD_NUMBER is set to bNN)
- * It will be zero for internal builds.
+/* Build numbfr is bvbilbblf only for RE build (i.f. JDK_BUILD_NUMBER is sft to bNN)
+ * It will bf zfro for intfrnbl builds.
  */
-#define JDK_VERSION_BUILD(version) ((version & 0x000000FF))
+#dffinf JDK_VERSION_BUILD(vfrsion) ((vfrsion & 0x000000FF))
 
 /*
- * This is the function JDK_GetVersionInfo0 defined in libjava.so
- * that is dynamically looked up by JVM.
+ * Tiis is tif fundtion JDK_GftVfrsionInfo0 dffinfd in libjbvb.so
+ * tibt is dynbmidblly lookfd up by JVM.
  */
-typedef void (*jdk_version_info_fn_t)(jdk_version_info* info, size_t info_size);
+typfdff void (*jdk_vfrsion_info_fn_t)(jdk_vfrsion_info* info, sizf_t info_sizf);
 
 /*
- * This structure is used by the launcher to get the default thread
- * stack size from the VM using JNI_GetDefaultJavaVMInitArgs() with a
- * version of 1.1.  As it is not supported otherwise, it has been removed
- * from jni.h
+ * Tiis strudturf is usfd by tif lbundifr to gft tif dffbult tirfbd
+ * stbdk sizf from tif VM using JNI_GftDffbultJbvbVMInitArgs() witi b
+ * vfrsion of 1.1.  As it is not supportfd otifrwisf, it ibs bffn rfmovfd
+ * from jni.i
  */
-typedef struct JDK1_1InitArgs {
-    jint version;
+typfdff strudt JDK1_1InitArgs {
+    jint vfrsion;
 
-    char **properties;
-    jint checkSource;
-    jint nativeStackSize;
-    jint javaStackSize;
-    jint minHeapSize;
-    jint maxHeapSize;
-    jint verifyMode;
-    char *classpath;
+    dibr **propfrtifs;
+    jint difdkSourdf;
+    jint nbtivfStbdkSizf;
+    jint jbvbStbdkSizf;
+    jint minHfbpSizf;
+    jint mbxHfbpSizf;
+    jint vfrifyModf;
+    dibr *dlbsspbti;
 
-    jint (JNICALL *vfprintf)(FILE *fp, const char *format, va_list args);
-    void (JNICALL *exit)(jint code);
-    void (JNICALL *abort)(void);
+    jint (JNICALL *vfprintf)(FILE *fp, donst dibr *formbt, vb_list brgs);
+    void (JNICALL *fxit)(jint dodf);
+    void (JNICALL *bbort)(void);
 
-    jint enableClassGC;
-    jint enableVerboseGC;
-    jint disableAsyncGC;
-    jint verbose;
-    jboolean debugging;
-    jint debugPort;
+    jint fnbblfClbssGC;
+    jint fnbblfVfrbosfGC;
+    jint disbblfAsyndGC;
+    jint vfrbosf;
+    jboolfbn dfbugging;
+    jint dfbugPort;
 } JDK1_1InitArgs;
 
 
-#ifdef __cplusplus
-} /* extern "C" */
+#ifdff __dplusplus
+} /* fxtfrn "C" */
 
-#endif /* __cplusplus */
+#fndif /* __dplusplus */
 
-#endif /* !_JAVASOFT_JVM_H_ */
+#fndif /* !_JAVASOFT_JVM_H_ */

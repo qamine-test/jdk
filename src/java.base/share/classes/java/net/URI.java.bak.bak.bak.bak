@@ -1,0 +1,3551 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.nio.dhbrsft.CodingErrorAdtion;
+import jbvb.nio.dhbrsft.ChbrbdtfrCodingExdfption;
+import jbvb.tfxt.Normblizfr;
+import sun.nio.ds.ThrfbdLodblCodfrs;
+
+import jbvb.lbng.Chbrbdtfr;             // for jbvbdod
+import jbvb.lbng.NullPointfrExdfption;  // for jbvbdod
+
+
+/**
+ * Rfprfsfnts b Uniform Rfsourdf Idfntififr (URI) rfffrfndf.
+ *
+ * <p> Asidf from somf minor dfvibtions notfd bflow, bn instbndf of this
+ * dlbss rfprfsfnts b URI rfffrfndf bs dffinfd by
+ * <b hrff="http://www.iftf.org/rfd/rfd2396.txt"><i>RFC&nbsp;2396: Uniform
+ * Rfsourdf Idfntififrs (URI): Gfnfrid Syntbx</i></b>, bmfndfd by <b
+ * hrff="http://www.iftf.org/rfd/rfd2732.txt"><i>RFC&nbsp;2732: Formbt for
+ * Litfrbl IPv6 Addrfssfs in URLs</i></b>. Thf Litfrbl IPv6 bddrfss formbt
+ * blso supports sdopf_ids. Thf syntbx bnd usbgf of sdopf_ids is dfsdribfd
+ * <b hrff="Inft6Addrfss.html#sdopfd">hfrf</b>.
+ * This dlbss providfs donstrudtors for drfbting URI instbndfs from
+ * thfir domponfnts or by pbrsing thfir string forms, mfthods for bddfssing thf
+ * vbrious domponfnts of bn instbndf, bnd mfthods for normblizing, rfsolving,
+ * bnd rflbtivizing URI instbndfs.  Instbndfs of this dlbss brf immutbblf.
+ *
+ *
+ * <h3> URI syntbx bnd domponfnts </h3>
+ *
+ * At thf highfst lfvfl b URI rfffrfndf (hfrfinbftfr simply "URI") in string
+ * form hbs thf syntbx
+ *
+ * <blodkquotf>
+ * [<i>sdhfmf</i><b>{@dodf :}</b>]<i>sdhfmf-spfdifid-pbrt</i>[<b>{@dodf #}</b><i>frbgmfnt</i>]
+ * </blodkquotf>
+ *
+ * whfrf squbrf brbdkfts [...] dflinfbtf optionbl domponfnts bnd thf dhbrbdtfrs
+ * <b>{@dodf :}</b> bnd <b>{@dodf #}</b> stbnd for thfmsflvfs.
+ *
+ * <p> An <i>bbsolutf</i> URI spfdififs b sdhfmf; b URI thbt is not bbsolutf is
+ * sbid to bf <i>rflbtivf</i>.  URIs brf blso dlbssififd bddording to whfthfr
+ * thfy brf <i>opbquf</i> or <i>hifrbrdhidbl</i>.
+ *
+ * <p> An <i>opbquf</i> URI is bn bbsolutf URI whosf sdhfmf-spfdifid pbrt dofs
+ * not bfgin with b slbsh dhbrbdtfr ({@dodf '/'}).  Opbquf URIs brf not
+ * subjfdt to furthfr pbrsing.  Somf fxbmplfs of opbquf URIs brf:
+ *
+ * <blodkquotf><tbblf dfllpbdding=0 dfllspbding=0 summbry="lbyout">
+ * <tr><td>{@dodf mbilto:jbvb-nft@jbvb.sun.dom}<td></tr>
+ * <tr><td>{@dodf nfws:domp.lbng.jbvb}<td></tr>
+ * <tr><td>{@dodf urn:isbn:096139210x}</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <p> A <i>hifrbrdhidbl</i> URI is fithfr bn bbsolutf URI whosf
+ * sdhfmf-spfdifid pbrt bfgins with b slbsh dhbrbdtfr, or b rflbtivf URI, thbt
+ * is, b URI thbt dofs not spfdify b sdhfmf.  Somf fxbmplfs of hifrbrdhidbl
+ * URIs brf:
+ *
+ * <blodkquotf>
+ * {@dodf http://jbvb.sun.dom/j2sf/1.3/}<br>
+ * {@dodf dods/guidf/dollfdtions/dfsignfbq.html#28}<br>
+ * {@dodf ../../../dfmo/jfd/SwingSft2/srd/SwingSft2.jbvb}<br>
+ * {@dodf filf:///~/dblfndbr}
+ * </blodkquotf>
+ *
+ * <p> A hifrbrdhidbl URI is subjfdt to furthfr pbrsing bddording to thf syntbx
+ *
+ * <blodkquotf>
+ * [<i>sdhfmf</i><b>{@dodf :}</b>][<b>{@dodf //}</b><i>buthority</i>][<i>pbth</i>][<b>{@dodf ?}</b><i>qufry</i>][<b>{@dodf #}</b><i>frbgmfnt</i>]
+ * </blodkquotf>
+ *
+ * whfrf thf dhbrbdtfrs <b>{@dodf :}</b>, <b>{@dodf /}</b>,
+ * <b>{@dodf ?}</b>, bnd <b>{@dodf #}</b> stbnd for thfmsflvfs.  Thf
+ * sdhfmf-spfdifid pbrt of b hifrbrdhidbl URI donsists of thf dhbrbdtfrs
+ * bftwffn thf sdhfmf bnd frbgmfnt domponfnts.
+ *
+ * <p> Thf buthority domponfnt of b hifrbrdhidbl URI is, if spfdififd, fithfr
+ * <i>sfrvfr-bbsfd</i> or <i>rfgistry-bbsfd</i>.  A sfrvfr-bbsfd buthority
+ * pbrsfs bddording to thf fbmilibr syntbx
+ *
+ * <blodkquotf>
+ * [<i>usfr-info</i><b>{@dodf @}</b>]<i>host</i>[<b>{@dodf :}</b><i>port</i>]
+ * </blodkquotf>
+ *
+ * whfrf thf dhbrbdtfrs <b>{@dodf @}</b> bnd <b>{@dodf :}</b> stbnd for
+ * thfmsflvfs.  Nfbrly bll URI sdhfmfs durrfntly in usf brf sfrvfr-bbsfd.  An
+ * buthority domponfnt thbt dofs not pbrsf in this wby is donsidfrfd to bf
+ * rfgistry-bbsfd.
+ *
+ * <p> Thf pbth domponfnt of b hifrbrdhidbl URI is itsflf sbid to bf bbsolutf
+ * if it bfgins with b slbsh dhbrbdtfr ({@dodf '/'}); othfrwisf it is
+ * rflbtivf.  Thf pbth of b hifrbrdhidbl URI thbt is fithfr bbsolutf or
+ * spfdififs bn buthority is blwbys bbsolutf.
+ *
+ * <p> All told, thfn, b URI instbndf hbs thf following ninf domponfnts:
+ *
+ * <blodkquotf><tbblf summbry="Dfsdribfs thf domponfnts of b URI:sdhfmf,sdhfmf-spfdifid-pbrt,buthority,usfr-info,host,port,pbth,qufry,frbgmfnt">
+ * <tr><th><i>Componfnt</i></th><th><i>Typf</i></th></tr>
+ * <tr><td>sdhfmf</td><td>{@dodf String}</td></tr>
+ * <tr><td>sdhfmf-spfdifid-pbrt&nbsp;&nbsp;&nbsp;&nbsp;</td><td>{@dodf String}</td></tr>
+ * <tr><td>buthority</td><td>{@dodf String}</td></tr>
+ * <tr><td>usfr-info</td><td>{@dodf String}</td></tr>
+ * <tr><td>host</td><td>{@dodf String}</td></tr>
+ * <tr><td>port</td><td>{@dodf int}</td></tr>
+ * <tr><td>pbth</td><td>{@dodf String}</td></tr>
+ * <tr><td>qufry</td><td>{@dodf String}</td></tr>
+ * <tr><td>frbgmfnt</td><td>{@dodf String}</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * In b givfn instbndf bny pbrtidulbr domponfnt is fithfr <i>undffinfd</i> or
+ * <i>dffinfd</i> with b distindt vbluf.  Undffinfd string domponfnts brf
+ * rfprfsfntfd by {@dodf null}, whilf undffinfd intfgfr domponfnts brf
+ * rfprfsfntfd by {@dodf -1}.  A string domponfnt mby bf dffinfd to hbvf thf
+ * fmpty string bs its vbluf; this is not fquivblfnt to thbt domponfnt bfing
+ * undffinfd.
+ *
+ * <p> Whfthfr b pbrtidulbr domponfnt is or is not dffinfd in bn instbndf
+ * dfpfnds upon thf typf of thf URI bfing rfprfsfntfd.  An bbsolutf URI hbs b
+ * sdhfmf domponfnt.  An opbquf URI hbs b sdhfmf, b sdhfmf-spfdifid pbrt, bnd
+ * possibly b frbgmfnt, but hbs no othfr domponfnts.  A hifrbrdhidbl URI blwbys
+ * hbs b pbth (though it mby bf fmpty) bnd b sdhfmf-spfdifid-pbrt (whidh bt
+ * lfbst dontbins thf pbth), bnd mby hbvf bny of thf othfr domponfnts.  If thf
+ * buthority domponfnt is prfsfnt bnd is sfrvfr-bbsfd thfn thf host domponfnt
+ * will bf dffinfd bnd thf usfr-informbtion bnd port domponfnts mby bf dffinfd.
+ *
+ *
+ * <h4> Opfrbtions on URI instbndfs </h4>
+ *
+ * Thf kfy opfrbtions supportfd by this dlbss brf thosf of
+ * <i>normblizbtion</i>, <i>rfsolution</i>, bnd <i>rflbtivizbtion</i>.
+ *
+ * <p> <i>Normblizbtion</i> is thf prodfss of rfmoving unnfdfssbry {@dodf "."}
+ * bnd {@dodf ".."} sfgmfnts from thf pbth domponfnt of b hifrbrdhidbl URI.
+ * Ebdh {@dodf "."} sfgmfnt is simply rfmovfd.  A {@dodf ".."} sfgmfnt is
+ * rfmovfd only if it is prfdfdfd by b non-{@dodf ".."} sfgmfnt.
+ * Normblizbtion hbs no ffffdt upon opbquf URIs.
+ *
+ * <p> <i>Rfsolution</i> is thf prodfss of rfsolving onf URI bgbinst bnothfr,
+ * <i>bbsf</i> URI.  Thf rfsulting URI is donstrudtfd from domponfnts of both
+ * URIs in thf mbnnfr spfdififd by RFC&nbsp;2396, tbking domponfnts from thf
+ * bbsf URI for thosf not spfdififd in thf originbl.  For hifrbrdhidbl URIs,
+ * thf pbth of thf originbl is rfsolvfd bgbinst thf pbth of thf bbsf bnd thfn
+ * normblizfd.  Thf rfsult, for fxbmplf, of rfsolving
+ *
+ * <blodkquotf>
+ * {@dodf dods/guidf/dollfdtions/dfsignfbq.html#28}
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ * &nbsp;&nbsp;&nbsp;&nbsp;(1)
+ * </blodkquotf>
+ *
+ * bgbinst thf bbsf URI {@dodf http://jbvb.sun.dom/j2sf/1.3/} is thf rfsult
+ * URI
+ *
+ * <blodkquotf>
+ * {@dodf http://dods.orbdlf.dom/jbvbsf/1.3/dods/guidf/dollfdtions/dfsignfbq.html#28}
+ * </blodkquotf>
+ *
+ * Rfsolving thf rflbtivf URI
+ *
+ * <blodkquotf>
+ * {@dodf ../../../dfmo/jfd/SwingSft2/srd/SwingSft2.jbvb}&nbsp;&nbsp;&nbsp;&nbsp;(2)
+ * </blodkquotf>
+ *
+ * bgbinst this rfsult yiflds, in turn,
+ *
+ * <blodkquotf>
+ * {@dodf http://jbvb.sun.dom/j2sf/1.3/dfmo/jfd/SwingSft2/srd/SwingSft2.jbvb}
+ * </blodkquotf>
+ *
+ * Rfsolution of both bbsolutf bnd rflbtivf URIs, bnd of both bbsolutf bnd
+ * rflbtivf pbths in thf dbsf of hifrbrdhidbl URIs, is supportfd.  Rfsolving
+ * thf URI {@dodf filf:///~dblfndbr} bgbinst bny othfr URI simply yiflds thf
+ * originbl URI, sindf it is bbsolutf.  Rfsolving thf rflbtivf URI (2) bbovf
+ * bgbinst thf rflbtivf bbsf URI (1) yiflds thf normblizfd, but still rflbtivf,
+ * URI
+ *
+ * <blodkquotf>
+ * {@dodf dfmo/jfd/SwingSft2/srd/SwingSft2.jbvb}
+ * </blodkquotf>
+ *
+ * <p> <i>Rflbtivizbtion</i>, finblly, is thf invfrsf of rfsolution: For bny
+ * two normblizfd URIs <i>u</i> bnd&nbsp;<i>v</i>,
+ *
+ * <blodkquotf>
+ *   <i>u</i>{@dodf .rflbtivizf(}<i>u</i>{@dodf .rfsolvf(}<i>v</i>{@dodf )).fqubls(}<i>v</i>{@dodf )}&nbsp;&nbsp;bnd<br>
+ *   <i>u</i>{@dodf .rfsolvf(}<i>u</i>{@dodf .rflbtivizf(}<i>v</i>{@dodf )).fqubls(}<i>v</i>{@dodf )}&nbsp;&nbsp;.<br>
+ * </blodkquotf>
+ *
+ * This opfrbtion is oftfn usfful whfn donstrudting b dodumfnt dontbining URIs
+ * thbt must bf mbdf rflbtivf to thf bbsf URI of thf dodumfnt whfrfvfr
+ * possiblf.  For fxbmplf, rflbtivizing thf URI
+ *
+ * <blodkquotf>
+ * {@dodf http://dods.orbdlf.dom/jbvbsf/1.3/dods/guidf/indfx.html}
+ * </blodkquotf>
+ *
+ * bgbinst thf bbsf URI
+ *
+ * <blodkquotf>
+ * {@dodf http://jbvb.sun.dom/j2sf/1.3}
+ * </blodkquotf>
+ *
+ * yiflds thf rflbtivf URI {@dodf dods/guidf/indfx.html}.
+ *
+ *
+ * <h4> Chbrbdtfr dbtfgorifs </h4>
+ *
+ * RFC&nbsp;2396 spfdififs prfdisfly whidh dhbrbdtfrs brf pfrmittfd in thf
+ * vbrious domponfnts of b URI rfffrfndf.  Thf following dbtfgorifs, most of
+ * whidh brf tbkfn from thbt spfdifidbtion, brf usfd bflow to dfsdribf thfsf
+ * donstrbints:
+ *
+ * <blodkquotf><tbblf dfllspbding=2 summbry="Dfsdribfs dbtfgorifs blphb,digit,blphbnum,unrfsfrvfd,pundt,rfsfrvfd,fsdbpfd,bnd othfr">
+ *   <tr><th vblign=top><i>blphb</i></th>
+ *       <td>Thf US-ASCII blphbbftid dhbrbdtfrs,
+ *        {@dodf 'A'}&nbsp;through&nbsp;{@dodf 'Z'}
+ *        bnd {@dodf 'b'}&nbsp;through&nbsp;{@dodf 'z'}</td></tr>
+ *   <tr><th vblign=top><i>digit</i></th>
+ *       <td>Thf US-ASCII dfdimbl digit dhbrbdtfrs,
+ *       {@dodf '0'}&nbsp;through&nbsp;{@dodf '9'}</td></tr>
+ *   <tr><th vblign=top><i>blphbnum</i></th>
+ *       <td>All <i>blphb</i> bnd <i>digit</i> dhbrbdtfrs</td></tr>
+ *   <tr><th vblign=top><i>unrfsfrvfd</i>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+ *       <td>All <i>blphbnum</i> dhbrbdtfrs togfthfr with thosf in thf string
+ *        {@dodf "_-!.~'()*"}</td></tr>
+ *   <tr><th vblign=top><i>pundt</i></th>
+ *       <td>Thf dhbrbdtfrs in thf string {@dodf ",;:$&+="}</td></tr>
+ *   <tr><th vblign=top><i>rfsfrvfd</i></th>
+ *       <td>All <i>pundt</i> dhbrbdtfrs togfthfr with thosf in thf string
+ *        {@dodf "?/[]@"}</td></tr>
+ *   <tr><th vblign=top><i>fsdbpfd</i></th>
+ *       <td>Esdbpfd odtfts, thbt is, triplfts donsisting of thf pfrdfnt
+ *           dhbrbdtfr ({@dodf '%'}) followfd by two hfxbdfdimbl digits
+ *           ({@dodf '0'}-{@dodf '9'}, {@dodf 'A'}-{@dodf 'F'}, bnd
+ *           {@dodf 'b'}-{@dodf 'f'})</td></tr>
+ *   <tr><th vblign=top><i>othfr</i></th>
+ *       <td>Thf Unidodf dhbrbdtfrs thbt brf not in thf US-ASCII dhbrbdtfr sft,
+ *           brf not dontrol dhbrbdtfrs (bddording to thf {@link
+ *           jbvb.lbng.Chbrbdtfr#isISOControl(dhbr) Chbrbdtfr.isISOControl}
+ *           mfthod), bnd brf not spbdf dhbrbdtfrs (bddording to thf {@link
+ *           jbvb.lbng.Chbrbdtfr#isSpbdfChbr(dhbr) Chbrbdtfr.isSpbdfChbr}
+ *           mfthod)&nbsp;&nbsp;<i>(<b>Dfvibtion from RFC 2396</b>, whidh is
+ *           limitfd to US-ASCII)</i></td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <p><b nbmf="lfgbl-dhbrs"></b> Thf sft of bll lfgbl URI dhbrbdtfrs donsists of
+ * thf <i>unrfsfrvfd</i>, <i>rfsfrvfd</i>, <i>fsdbpfd</i>, bnd <i>othfr</i>
+ * dhbrbdtfrs.
+ *
+ *
+ * <h4> Esdbpfd odtfts, quotbtion, fndoding, bnd dfdoding </h4>
+ *
+ * RFC 2396 bllows fsdbpfd odtfts to bppfbr in thf usfr-info, pbth, qufry, bnd
+ * frbgmfnt domponfnts.  Esdbping sfrvfs two purposfs in URIs:
+ *
+ * <ul>
+ *
+ *   <li><p> To <i>fndodf</i> non-US-ASCII dhbrbdtfrs whfn b URI is rfquirfd to
+ *   donform stridtly to RFC&nbsp;2396 by not dontbining bny <i>othfr</i>
+ *   dhbrbdtfrs.  </p></li>
+ *
+ *   <li><p> To <i>quotf</i> dhbrbdtfrs thbt brf othfrwisf illfgbl in b
+ *   domponfnt.  Thf usfr-info, pbth, qufry, bnd frbgmfnt domponfnts difffr
+ *   slightly in tfrms of whidh dhbrbdtfrs brf donsidfrfd lfgbl bnd illfgbl.
+ *   </p></li>
+ *
+ * </ul>
+ *
+ * Thfsf purposfs brf sfrvfd in this dlbss by thrff rflbtfd opfrbtions:
+ *
+ * <ul>
+ *
+ *   <li><p><b nbmf="fndodf"></b> A dhbrbdtfr is <i>fndodfd</i> by rfplbding it
+ *   with thf sfqufndf of fsdbpfd odtfts thbt rfprfsfnt thbt dhbrbdtfr in thf
+ *   UTF-8 dhbrbdtfr sft.  Thf Euro durrfndy symbol ({@dodf '\u005Cu20AC'}),
+ *   for fxbmplf, is fndodfd bs {@dodf "%E2%82%AC"}.  <i>(<b>Dfvibtion from
+ *   RFC&nbsp;2396</b>, whidh dofs not spfdify bny pbrtidulbr dhbrbdtfr
+ *   sft.)</i> </p></li>
+ *
+ *   <li><p><b nbmf="quotf"></b> An illfgbl dhbrbdtfr is <i>quotfd</i> simply by
+ *   fndoding it.  Thf spbdf dhbrbdtfr, for fxbmplf, is quotfd by rfplbding it
+ *   with {@dodf "%20"}.  UTF-8 dontbins US-ASCII, hfndf for US-ASCII
+ *   dhbrbdtfrs this trbnsformbtion hbs fxbdtly thf ffffdt rfquirfd by
+ *   RFC&nbsp;2396. </p></li>
+ *
+ *   <li><p><b nbmf="dfdodf"></b>
+ *   A sfqufndf of fsdbpfd odtfts is <i>dfdodfd</i> by
+ *   rfplbding it with thf sfqufndf of dhbrbdtfrs thbt it rfprfsfnts in thf
+ *   UTF-8 dhbrbdtfr sft.  UTF-8 dontbins US-ASCII, hfndf dfdoding hbs thf
+ *   ffffdt of df-quoting bny quotfd US-ASCII dhbrbdtfrs bs wfll bs thbt of
+ *   dfdoding bny fndodfd non-US-ASCII dhbrbdtfrs.  If b <b
+ *   hrff="../nio/dhbrsft/ChbrsftDfdodfr.html#df">dfdoding frror</b> oddurs
+ *   whfn dfdoding thf fsdbpfd odtfts thfn thf frronfous odtfts brf rfplbdfd by
+ *   {@dodf '\u005CuFFFD'}, thf Unidodf rfplbdfmfnt dhbrbdtfr.  </p></li>
+ *
+ * </ul>
+ *
+ * Thfsf opfrbtions brf fxposfd in thf donstrudtors bnd mfthods of this dlbss
+ * bs follows:
+ *
+ * <ul>
+ *
+ *   <li><p> Thf {@linkplbin #URI(jbvb.lbng.String) singlf-brgumfnt
+ *   donstrudtor} rfquirfs bny illfgbl dhbrbdtfrs in its brgumfnt to bf
+ *   quotfd bnd prfsfrvfs bny fsdbpfd odtfts bnd <i>othfr</i> dhbrbdtfrs thbt
+ *   brf prfsfnt.  </p></li>
+ *
+ *   <li><p> Thf {@linkplbin
+ *   #URI(jbvb.lbng.String,jbvb.lbng.String,jbvb.lbng.String,int,jbvb.lbng.String,jbvb.lbng.String,jbvb.lbng.String)
+ *   multi-brgumfnt donstrudtors} quotf illfgbl dhbrbdtfrs bs
+ *   rfquirfd by thf domponfnts in whidh thfy bppfbr.  Thf pfrdfnt dhbrbdtfr
+ *   ({@dodf '%'}) is blwbys quotfd by thfsf donstrudtors.  Any <i>othfr</i>
+ *   dhbrbdtfrs brf prfsfrvfd.  </p></li>
+ *
+ *   <li><p> Thf {@link #gftRbwUsfrInfo() gftRbwUsfrInfo}, {@link #gftRbwPbth()
+ *   gftRbwPbth}, {@link #gftRbwQufry() gftRbwQufry}, {@link #gftRbwFrbgmfnt()
+ *   gftRbwFrbgmfnt}, {@link #gftRbwAuthority() gftRbwAuthority}, bnd {@link
+ *   #gftRbwSdhfmfSpfdifidPbrt() gftRbwSdhfmfSpfdifidPbrt} mfthods rfturn thf
+ *   vblufs of thfir dorrfsponding domponfnts in rbw form, without intfrprfting
+ *   bny fsdbpfd odtfts.  Thf strings rfturnfd by thfsf mfthods mby dontbin
+ *   both fsdbpfd odtfts bnd <i>othfr</i> dhbrbdtfrs, bnd will not dontbin bny
+ *   illfgbl dhbrbdtfrs.  </p></li>
+ *
+ *   <li><p> Thf {@link #gftUsfrInfo() gftUsfrInfo}, {@link #gftPbth()
+ *   gftPbth}, {@link #gftQufry() gftQufry}, {@link #gftFrbgmfnt()
+ *   gftFrbgmfnt}, {@link #gftAuthority() gftAuthority}, bnd {@link
+ *   #gftSdhfmfSpfdifidPbrt() gftSdhfmfSpfdifidPbrt} mfthods dfdodf bny fsdbpfd
+ *   odtfts in thfir dorrfsponding domponfnts.  Thf strings rfturnfd by thfsf
+ *   mfthods mby dontbin both <i>othfr</i> dhbrbdtfrs bnd illfgbl dhbrbdtfrs,
+ *   bnd will not dontbin bny fsdbpfd odtfts.  </p></li>
+ *
+ *   <li><p> Thf {@link #toString() toString} mfthod rfturns b URI string with
+ *   bll nfdfssbry quotbtion but whidh mby dontbin <i>othfr</i> dhbrbdtfrs.
+ *   </p></li>
+ *
+ *   <li><p> Thf {@link #toASCIIString() toASCIIString} mfthod rfturns b fully
+ *   quotfd bnd fndodfd URI string thbt dofs not dontbin bny <i>othfr</i>
+ *   dhbrbdtfrs.  </p></li>
+ *
+ * </ul>
+ *
+ *
+ * <h4> Idfntitifs </h4>
+ *
+ * For bny URI <i>u</i>, it is blwbys thf dbsf thbt
+ *
+ * <blodkquotf>
+ * {@dodf nfw URI(}<i>u</i>{@dodf .toString()).fqubls(}<i>u</i>{@dodf )}&nbsp;.
+ * </blodkquotf>
+ *
+ * For bny URI <i>u</i> thbt dofs not dontbin rfdundbnt syntbx sudh bs two
+ * slbshfs bfforf bn fmpty buthority (bs in {@dodf filf:///tmp/}&nbsp;) or b
+ * dolon following b host nbmf but no port (bs in
+ * {@dodf http://jbvb.sun.dom:}&nbsp;), bnd thbt dofs not fndodf dhbrbdtfrs
+ * fxdfpt thosf thbt must bf quotfd, thf following idfntitifs blso hold:
+ * <prf>
+ *     nfw URI(<i>u</i>.gftSdhfmf(),
+ *             <i>u</i>.gftSdhfmfSpfdifidPbrt(),
+ *             <i>u</i>.gftFrbgmfnt())
+ *     .fqubls(<i>u</i>)</prf>
+ * in bll dbsfs,
+ * <prf>
+ *     nfw URI(<i>u</i>.gftSdhfmf(),
+ *             <i>u</i>.gftUsfrInfo(), <i>u</i>.gftAuthority(),
+ *             <i>u</i>.gftPbth(), <i>u</i>.gftQufry(),
+ *             <i>u</i>.gftFrbgmfnt())
+ *     .fqubls(<i>u</i>)</prf>
+ * if <i>u</i> is hifrbrdhidbl, bnd
+ * <prf>
+ *     nfw URI(<i>u</i>.gftSdhfmf(),
+ *             <i>u</i>.gftUsfrInfo(), <i>u</i>.gftHost(), <i>u</i>.gftPort(),
+ *             <i>u</i>.gftPbth(), <i>u</i>.gftQufry(),
+ *             <i>u</i>.gftFrbgmfnt())
+ *     .fqubls(<i>u</i>)</prf>
+ * if <i>u</i> is hifrbrdhidbl bnd hbs fithfr no buthority or b sfrvfr-bbsfd
+ * buthority.
+ *
+ *
+ * <h4> URIs, URLs, bnd URNs </h4>
+ *
+ * A URI is b uniform rfsourdf <i>idfntififr</i> whilf b URL is b uniform
+ * rfsourdf <i>lodbtor</i>.  Hfndf fvfry URL is b URI, bbstrbdtly spfbking, but
+ * not fvfry URI is b URL.  This is bfdbusf thfrf is bnothfr subdbtfgory of
+ * URIs, uniform rfsourdf <i>nbmfs</i> (URNs), whidh nbmf rfsourdfs but do not
+ * spfdify how to lodbtf thfm.  Thf {@dodf mbilto}, {@dodf nfws}, bnd
+ * {@dodf isbn} URIs shown bbovf brf fxbmplfs of URNs.
+ *
+ * <p> Thf dondfptubl distindtion bftwffn URIs bnd URLs is rfflfdtfd in thf
+ * difffrfndfs bftwffn this dlbss bnd thf {@link URL} dlbss.
+ *
+ * <p> An instbndf of this dlbss rfprfsfnts b URI rfffrfndf in thf syntbdtid
+ * sfnsf dffinfd by RFC&nbsp;2396.  A URI mby bf fithfr bbsolutf or rflbtivf.
+ * A URI string is pbrsfd bddording to thf gfnfrid syntbx without rfgbrd to thf
+ * sdhfmf, if bny, thbt it spfdififs.  No lookup of thf host, if bny, is
+ * pfrformfd, bnd no sdhfmf-dfpfndfnt strfbm hbndlfr is donstrudtfd.  Equblity,
+ * hbshing, bnd dompbrison brf dffinfd stridtly in tfrms of thf dhbrbdtfr
+ * dontfnt of thf instbndf.  In othfr words, b URI instbndf is littlf morf thbn
+ * b strudturfd string thbt supports thf syntbdtid, sdhfmf-indfpfndfnt
+ * opfrbtions of dompbrison, normblizbtion, rfsolution, bnd rflbtivizbtion.
+ *
+ * <p> An instbndf of thf {@link URL} dlbss, by dontrbst, rfprfsfnts thf
+ * syntbdtid domponfnts of b URL togfthfr with somf of thf informbtion rfquirfd
+ * to bddfss thf rfsourdf thbt it dfsdribfs.  A URL must bf bbsolutf, thbt is,
+ * it must blwbys spfdify b sdhfmf.  A URL string is pbrsfd bddording to its
+ * sdhfmf.  A strfbm hbndlfr is blwbys fstbblishfd for b URL, bnd in fbdt it is
+ * impossiblf to drfbtf b URL instbndf for b sdhfmf for whidh no hbndlfr is
+ * bvbilbblf.  Equblity bnd hbshing dfpfnd upon both thf sdhfmf bnd thf
+ * Intfrnft bddrfss of thf host, if bny; dompbrison is not dffinfd.  In othfr
+ * words, b URL is b strudturfd string thbt supports thf syntbdtid opfrbtion of
+ * rfsolution bs wfll bs thf nftwork I/O opfrbtions of looking up thf host bnd
+ * opfning b donnfdtion to thf spfdififd rfsourdf.
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @sindf 1.4
+ *
+ * @sff <b hrff="http://www.iftf.org/rfd/rfd2279.txt"><i>RFC&nbsp;2279: UTF-8, b
+ * trbnsformbtion formbt of ISO 10646</i></b>, <br><b
+ * hrff="http://www.iftf.org/rfd/rfd2373.txt"><i>RFC&nbsp;2373: IPv6 Addrfssing
+ * Ardhitfdturf</i></b>, <br><b
+ * hrff="http://www.iftf.org/rfd/rfd2396.txt"><i>RFC&nbsp;2396: Uniform
+ * Rfsourdf Idfntififrs (URI): Gfnfrid Syntbx</i></b>, <br><b
+ * hrff="http://www.iftf.org/rfd/rfd2732.txt"><i>RFC&nbsp;2732: Formbt for
+ * Litfrbl IPv6 Addrfssfs in URLs</i></b>, <br><b
+ * hrff="URISyntbxExdfption.html">URISyntbxExdfption</b>
+ */
+
+publid finbl dlbss URI
+    implfmfnts Compbrbblf<URI>, Sfriblizbblf
+{
+
+    // Notf: Commfnts dontbining thf word "ASSERT" indidbtf plbdfs whfrf b
+    // throw of bn IntfrnblError should bf rfplbdfd by bn bppropribtf bssfrtion
+    // stbtfmfnt ondf bssfrts brf fnbblfd in thf build.
+
+    stbtid finbl long sfriblVfrsionUID = -6052424284110960213L;
+
+
+    // -- Propfrtifs bnd domponfnts of this instbndf --
+
+    // Componfnts of bll URIs: [<sdhfmf>:]<sdhfmf-spfdifid-pbrt>[#<frbgmfnt>]
+    privbtf trbnsifnt String sdhfmf;            // null ==> rflbtivf URI
+    privbtf trbnsifnt String frbgmfnt;
+
+    // Hifrbrdhidbl URI domponfnts: [//<buthority>]<pbth>[?<qufry>]
+    privbtf trbnsifnt String buthority;         // Rfgistry or sfrvfr
+
+    // Sfrvfr-bbsfd buthority: [<usfrInfo>@]<host>[:<port>]
+    privbtf trbnsifnt String usfrInfo;
+    privbtf trbnsifnt String host;              // null ==> rfgistry-bbsfd
+    privbtf trbnsifnt int port = -1;            // -1 ==> undffinfd
+
+    // Rfmbining domponfnts of hifrbrdhidbl URIs
+    privbtf trbnsifnt String pbth;              // null ==> opbquf
+    privbtf trbnsifnt String qufry;
+
+    // Thf rfmbining fiflds mby bf domputfd on dfmbnd
+
+    privbtf volbtilf trbnsifnt String sdhfmfSpfdifidPbrt;
+    privbtf volbtilf trbnsifnt int hbsh;        // Zfro ==> undffinfd
+
+    privbtf volbtilf trbnsifnt String dfdodfdUsfrInfo = null;
+    privbtf volbtilf trbnsifnt String dfdodfdAuthority = null;
+    privbtf volbtilf trbnsifnt String dfdodfdPbth = null;
+    privbtf volbtilf trbnsifnt String dfdodfdQufry = null;
+    privbtf volbtilf trbnsifnt String dfdodfdFrbgmfnt = null;
+    privbtf volbtilf trbnsifnt String dfdodfdSdhfmfSpfdifidPbrt = null;
+
+    /**
+     * Thf string form of this URI.
+     *
+     * @sfribl
+     */
+    privbtf volbtilf String string;             // Thf only sfriblizbblf fifld
+
+
+
+    // -- Construdtors bnd fbdtorifs --
+
+    privbtf URI() { }                           // Usfd intfrnblly
+
+    /**
+     * Construdts b URI by pbrsing thf givfn string.
+     *
+     * <p> This donstrudtor pbrsfs thf givfn string fxbdtly bs spfdififd by thf
+     * grbmmbr in <b
+     * hrff="http://www.iftf.org/rfd/rfd2396.txt">RFC&nbsp;2396</b>,
+     * Appfndix&nbsp;A, <b><i>fxdfpt for thf following dfvibtions:</i></b> </p>
+     *
+     * <ul>
+     *
+     *   <li><p> An fmpty buthority domponfnt is pfrmittfd bs long bs it is
+     *   followfd by b non-fmpty pbth, b qufry domponfnt, or b frbgmfnt
+     *   domponfnt.  This bllows thf pbrsing of URIs sudh bs
+     *   {@dodf "filf:///foo/bbr"}, whidh sffms to bf thf intfnt of
+     *   RFC&nbsp;2396 blthough thf grbmmbr dofs not pfrmit it.  If thf
+     *   buthority domponfnt is fmpty thfn thf usfr-informbtion, host, bnd port
+     *   domponfnts brf undffinfd. </p></li>
+     *
+     *   <li><p> Empty rflbtivf pbths brf pfrmittfd; this sffms to bf thf
+     *   intfnt of RFC&nbsp;2396 blthough thf grbmmbr dofs not pfrmit it.  Thf
+     *   primbry donsfqufndf of this dfvibtion is thbt b stbndblonf frbgmfnt
+     *   sudh bs {@dodf "#foo"} pbrsfs bs b rflbtivf URI with bn fmpty pbth
+     *   bnd thf givfn frbgmfnt, bnd dbn bf usffully <b
+     *   hrff="#rfsolvf-frbg">rfsolvfd</b> bgbinst b bbsf URI.
+     *
+     *   <li><p> IPv4 bddrfssfs in host domponfnts brf pbrsfd rigorously, bs
+     *   spfdififd by <b
+     *   hrff="http://www.iftf.org/rfd/rfd2732.txt">RFC&nbsp;2732</b>: Ebdh
+     *   flfmfnt of b dottfd-qubd bddrfss must dontbin no morf thbn thrff
+     *   dfdimbl digits.  Ebdh flfmfnt is furthfr donstrbinfd to hbvf b vbluf
+     *   no grfbtfr thbn 255. </p></li>
+     *
+     *   <li> <p> Hostnbmfs in host domponfnts thbt domprisf only b singlf
+     *   dombin lbbfl brf pfrmittfd to stbrt with bn <i>blphbnum</i>
+     *   dhbrbdtfr. This sffms to bf thf intfnt of <b
+     *   hrff="http://www.iftf.org/rfd/rfd2396.txt">RFC&nbsp;2396</b>
+     *   sfdtion&nbsp;3.2.2 blthough thf grbmmbr dofs not pfrmit it. Thf
+     *   donsfqufndf of this dfvibtion is thbt thf buthority domponfnt of b
+     *   hifrbrdhidbl URI sudh bs {@dodf s://123}, will pbrsf bs b sfrvfr-bbsfd
+     *   buthority. </p></li>
+     *
+     *   <li><p> IPv6 bddrfssfs brf pfrmittfd for thf host domponfnt.  An IPv6
+     *   bddrfss must bf fndlosfd in squbrf brbdkfts ({@dodf '['} bnd
+     *   {@dodf ']'}) bs spfdififd by <b
+     *   hrff="http://www.iftf.org/rfd/rfd2732.txt">RFC&nbsp;2732</b>.  Thf
+     *   IPv6 bddrfss itsflf must pbrsf bddording to <b
+     *   hrff="http://www.iftf.org/rfd/rfd2373.txt">RFC&nbsp;2373</b>.  IPv6
+     *   bddrfssfs brf furthfr donstrbinfd to dfsdribf no morf thbn sixtffn
+     *   bytfs of bddrfss informbtion, b donstrbint implidit in RFC&nbsp;2373
+     *   but not fxprfssiblf in thf grbmmbr. </p></li>
+     *
+     *   <li><p> Chbrbdtfrs in thf <i>othfr</i> dbtfgory brf pfrmittfd whfrfvfr
+     *   RFC&nbsp;2396 pfrmits <i>fsdbpfd</i> odtfts, thbt is, in thf
+     *   usfr-informbtion, pbth, qufry, bnd frbgmfnt domponfnts, bs wfll bs in
+     *   thf buthority domponfnt if thf buthority is rfgistry-bbsfd.  This
+     *   bllows URIs to dontbin Unidodf dhbrbdtfrs bfyond thosf in thf US-ASCII
+     *   dhbrbdtfr sft. </p></li>
+     *
+     * </ul>
+     *
+     * @pbrbm  str   Thf string to bf pbrsfd into b URI
+     *
+     * @throws  NullPointfrExdfption
+     *          If {@dodf str} is {@dodf null}
+     *
+     * @throws  URISyntbxExdfption
+     *          If thf givfn string violbtfs RFC&nbsp;2396, bs bugmfntfd
+     *          by thf bbovf dfvibtions
+     */
+    publid URI(String str) throws URISyntbxExdfption {
+        nfw Pbrsfr(str).pbrsf(fblsf);
+    }
+
+    /**
+     * Construdts b hifrbrdhidbl URI from thf givfn domponfnts.
+     *
+     * <p> If b sdhfmf is givfn thfn thf pbth, if blso givfn, must fithfr bf
+     * fmpty or bfgin with b slbsh dhbrbdtfr ({@dodf '/'}).  Othfrwisf b
+     * domponfnt of thf nfw URI mby bf lfft undffinfd by pbssing {@dodf null}
+     * for thf dorrfsponding pbrbmftfr or, in thf dbsf of thf {@dodf port}
+     * pbrbmftfr, by pbssing {@dodf -1}.
+     *
+     * <p> This donstrudtor first builds b URI string from thf givfn domponfnts
+     * bddording to thf rulfs spfdififd in <b
+     * hrff="http://www.iftf.org/rfd/rfd2396.txt">RFC&nbsp;2396</b>,
+     * sfdtion&nbsp;5.2, stfp&nbsp;7: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> Initiblly, thf rfsult string is fmpty. </p></li>
+     *
+     *   <li><p> If b sdhfmf is givfn thfn it is bppfndfd to thf rfsult,
+     *   followfd by b dolon dhbrbdtfr ({@dodf ':'}).  </p></li>
+     *
+     *   <li><p> If usfr informbtion, b host, or b port brf givfn thfn thf
+     *   string {@dodf "//"} is bppfndfd.  </p></li>
+     *
+     *   <li><p> If usfr informbtion is givfn thfn it is bppfndfd, followfd by
+     *   b dommfrdibl-bt dhbrbdtfr ({@dodf '@'}).  Any dhbrbdtfr not in thf
+     *   <i>unrfsfrvfd</i>, <i>pundt</i>, <i>fsdbpfd</i>, or <i>othfr</i>
+     *   dbtfgorifs is <b hrff="#quotf">quotfd</b>.  </p></li>
+     *
+     *   <li><p> If b host is givfn thfn it is bppfndfd.  If thf host is b
+     *   litfrbl IPv6 bddrfss but is not fndlosfd in squbrf brbdkfts
+     *   ({@dodf '['} bnd {@dodf ']'}) thfn thf squbrf brbdkfts brf bddfd.
+     *   </p></li>
+     *
+     *   <li><p> If b port numbfr is givfn thfn b dolon dhbrbdtfr
+     *   ({@dodf ':'}) is bppfndfd, followfd by thf port numbfr in dfdimbl.
+     *   </p></li>
+     *
+     *   <li><p> If b pbth is givfn thfn it is bppfndfd.  Any dhbrbdtfr not in
+     *   thf <i>unrfsfrvfd</i>, <i>pundt</i>, <i>fsdbpfd</i>, or <i>othfr</i>
+     *   dbtfgorifs, bnd not fqubl to thf slbsh dhbrbdtfr ({@dodf '/'}) or thf
+     *   dommfrdibl-bt dhbrbdtfr ({@dodf '@'}), is quotfd.  </p></li>
+     *
+     *   <li><p> If b qufry is givfn thfn b qufstion-mbrk dhbrbdtfr
+     *   ({@dodf '?'}) is bppfndfd, followfd by thf qufry.  Any dhbrbdtfr thbt
+     *   is not b <b hrff="#lfgbl-dhbrs">lfgbl URI dhbrbdtfr</b> is quotfd.
+     *   </p></li>
+     *
+     *   <li><p> Finblly, if b frbgmfnt is givfn thfn b hbsh dhbrbdtfr
+     *   ({@dodf '#'}) is bppfndfd, followfd by thf frbgmfnt.  Any dhbrbdtfr
+     *   thbt is not b lfgbl URI dhbrbdtfr is quotfd.  </p></li>
+     *
+     * </ol>
+     *
+     * <p> Thf rfsulting URI string is thfn pbrsfd bs if by invoking thf {@link
+     * #URI(String)} donstrudtor bnd thfn invoking thf {@link
+     * #pbrsfSfrvfrAuthority()} mfthod upon thf rfsult; this mby dbusf b {@link
+     * URISyntbxExdfption} to bf thrown.  </p>
+     *
+     * @pbrbm   sdhfmf    Sdhfmf nbmf
+     * @pbrbm   usfrInfo  Usfr nbmf bnd buthorizbtion informbtion
+     * @pbrbm   host      Host nbmf
+     * @pbrbm   port      Port numbfr
+     * @pbrbm   pbth      Pbth
+     * @pbrbm   qufry     Qufry
+     * @pbrbm   frbgmfnt  Frbgmfnt
+     *
+     * @throws URISyntbxExdfption
+     *         If both b sdhfmf bnd b pbth brf givfn but thf pbth is rflbtivf,
+     *         if thf URI string donstrudtfd from thf givfn domponfnts violbtfs
+     *         RFC&nbsp;2396, or if thf buthority domponfnt of thf string is
+     *         prfsfnt but dbnnot bf pbrsfd bs b sfrvfr-bbsfd buthority
+     */
+    publid URI(String sdhfmf,
+               String usfrInfo, String host, int port,
+               String pbth, String qufry, String frbgmfnt)
+        throws URISyntbxExdfption
+    {
+        String s = toString(sdhfmf, null,
+                            null, usfrInfo, host, port,
+                            pbth, qufry, frbgmfnt);
+        dhfdkPbth(s, sdhfmf, pbth);
+        nfw Pbrsfr(s).pbrsf(truf);
+    }
+
+    /**
+     * Construdts b hifrbrdhidbl URI from thf givfn domponfnts.
+     *
+     * <p> If b sdhfmf is givfn thfn thf pbth, if blso givfn, must fithfr bf
+     * fmpty or bfgin with b slbsh dhbrbdtfr ({@dodf '/'}).  Othfrwisf b
+     * domponfnt of thf nfw URI mby bf lfft undffinfd by pbssing {@dodf null}
+     * for thf dorrfsponding pbrbmftfr.
+     *
+     * <p> This donstrudtor first builds b URI string from thf givfn domponfnts
+     * bddording to thf rulfs spfdififd in <b
+     * hrff="http://www.iftf.org/rfd/rfd2396.txt">RFC&nbsp;2396</b>,
+     * sfdtion&nbsp;5.2, stfp&nbsp;7: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> Initiblly, thf rfsult string is fmpty.  </p></li>
+     *
+     *   <li><p> If b sdhfmf is givfn thfn it is bppfndfd to thf rfsult,
+     *   followfd by b dolon dhbrbdtfr ({@dodf ':'}).  </p></li>
+     *
+     *   <li><p> If bn buthority is givfn thfn thf string {@dodf "//"} is
+     *   bppfndfd, followfd by thf buthority.  If thf buthority dontbins b
+     *   litfrbl IPv6 bddrfss thfn thf bddrfss must bf fndlosfd in squbrf
+     *   brbdkfts ({@dodf '['} bnd {@dodf ']'}).  Any dhbrbdtfr not in thf
+     *   <i>unrfsfrvfd</i>, <i>pundt</i>, <i>fsdbpfd</i>, or <i>othfr</i>
+     *   dbtfgorifs, bnd not fqubl to thf dommfrdibl-bt dhbrbdtfr
+     *   ({@dodf '@'}), is <b hrff="#quotf">quotfd</b>.  </p></li>
+     *
+     *   <li><p> If b pbth is givfn thfn it is bppfndfd.  Any dhbrbdtfr not in
+     *   thf <i>unrfsfrvfd</i>, <i>pundt</i>, <i>fsdbpfd</i>, or <i>othfr</i>
+     *   dbtfgorifs, bnd not fqubl to thf slbsh dhbrbdtfr ({@dodf '/'}) or thf
+     *   dommfrdibl-bt dhbrbdtfr ({@dodf '@'}), is quotfd.  </p></li>
+     *
+     *   <li><p> If b qufry is givfn thfn b qufstion-mbrk dhbrbdtfr
+     *   ({@dodf '?'}) is bppfndfd, followfd by thf qufry.  Any dhbrbdtfr thbt
+     *   is not b <b hrff="#lfgbl-dhbrs">lfgbl URI dhbrbdtfr</b> is quotfd.
+     *   </p></li>
+     *
+     *   <li><p> Finblly, if b frbgmfnt is givfn thfn b hbsh dhbrbdtfr
+     *   ({@dodf '#'}) is bppfndfd, followfd by thf frbgmfnt.  Any dhbrbdtfr
+     *   thbt is not b lfgbl URI dhbrbdtfr is quotfd.  </p></li>
+     *
+     * </ol>
+     *
+     * <p> Thf rfsulting URI string is thfn pbrsfd bs if by invoking thf {@link
+     * #URI(String)} donstrudtor bnd thfn invoking thf {@link
+     * #pbrsfSfrvfrAuthority()} mfthod upon thf rfsult; this mby dbusf b {@link
+     * URISyntbxExdfption} to bf thrown.  </p>
+     *
+     * @pbrbm   sdhfmf     Sdhfmf nbmf
+     * @pbrbm   buthority  Authority
+     * @pbrbm   pbth       Pbth
+     * @pbrbm   qufry      Qufry
+     * @pbrbm   frbgmfnt   Frbgmfnt
+     *
+     * @throws URISyntbxExdfption
+     *         If both b sdhfmf bnd b pbth brf givfn but thf pbth is rflbtivf,
+     *         if thf URI string donstrudtfd from thf givfn domponfnts violbtfs
+     *         RFC&nbsp;2396, or if thf buthority domponfnt of thf string is
+     *         prfsfnt but dbnnot bf pbrsfd bs b sfrvfr-bbsfd buthority
+     */
+    publid URI(String sdhfmf,
+               String buthority,
+               String pbth, String qufry, String frbgmfnt)
+        throws URISyntbxExdfption
+    {
+        String s = toString(sdhfmf, null,
+                            buthority, null, null, -1,
+                            pbth, qufry, frbgmfnt);
+        dhfdkPbth(s, sdhfmf, pbth);
+        nfw Pbrsfr(s).pbrsf(fblsf);
+    }
+
+    /**
+     * Construdts b hifrbrdhidbl URI from thf givfn domponfnts.
+     *
+     * <p> A domponfnt mby bf lfft undffinfd by pbssing {@dodf null}.
+     *
+     * <p> This donvfnifndf donstrudtor works bs if by invoking thf
+     * sfvfn-brgumfnt donstrudtor bs follows:
+     *
+     * <blodkquotf>
+     * {@dodf nfw} {@link #URI(String, String, String, int, String, String, String)
+     * URI}{@dodf (sdhfmf, null, host, -1, pbth, null, frbgmfnt);}
+     * </blodkquotf>
+     *
+     * @pbrbm   sdhfmf    Sdhfmf nbmf
+     * @pbrbm   host      Host nbmf
+     * @pbrbm   pbth      Pbth
+     * @pbrbm   frbgmfnt  Frbgmfnt
+     *
+     * @throws  URISyntbxExdfption
+     *          If thf URI string donstrudtfd from thf givfn domponfnts
+     *          violbtfs RFC&nbsp;2396
+     */
+    publid URI(String sdhfmf, String host, String pbth, String frbgmfnt)
+        throws URISyntbxExdfption
+    {
+        this(sdhfmf, null, host, -1, pbth, null, frbgmfnt);
+    }
+
+    /**
+     * Construdts b URI from thf givfn domponfnts.
+     *
+     * <p> A domponfnt mby bf lfft undffinfd by pbssing {@dodf null}.
+     *
+     * <p> This donstrudtor first builds b URI in string form using thf givfn
+     * domponfnts bs follows:  </p>
+     *
+     * <ol>
+     *
+     *   <li><p> Initiblly, thf rfsult string is fmpty.  </p></li>
+     *
+     *   <li><p> If b sdhfmf is givfn thfn it is bppfndfd to thf rfsult,
+     *   followfd by b dolon dhbrbdtfr ({@dodf ':'}).  </p></li>
+     *
+     *   <li><p> If b sdhfmf-spfdifid pbrt is givfn thfn it is bppfndfd.  Any
+     *   dhbrbdtfr thbt is not b <b hrff="#lfgbl-dhbrs">lfgbl URI dhbrbdtfr</b>
+     *   is <b hrff="#quotf">quotfd</b>.  </p></li>
+     *
+     *   <li><p> Finblly, if b frbgmfnt is givfn thfn b hbsh dhbrbdtfr
+     *   ({@dodf '#'}) is bppfndfd to thf string, followfd by thf frbgmfnt.
+     *   Any dhbrbdtfr thbt is not b lfgbl URI dhbrbdtfr is quotfd.  </p></li>
+     *
+     * </ol>
+     *
+     * <p> Thf rfsulting URI string is thfn pbrsfd in ordfr to drfbtf thf nfw
+     * URI instbndf bs if by invoking thf {@link #URI(String)} donstrudtor;
+     * this mby dbusf b {@link URISyntbxExdfption} to bf thrown.  </p>
+     *
+     * @pbrbm   sdhfmf    Sdhfmf nbmf
+     * @pbrbm   ssp       Sdhfmf-spfdifid pbrt
+     * @pbrbm   frbgmfnt  Frbgmfnt
+     *
+     * @throws  URISyntbxExdfption
+     *          If thf URI string donstrudtfd from thf givfn domponfnts
+     *          violbtfs RFC&nbsp;2396
+     */
+    publid URI(String sdhfmf, String ssp, String frbgmfnt)
+        throws URISyntbxExdfption
+    {
+        nfw Pbrsfr(toString(sdhfmf, ssp,
+                            null, null, null, -1,
+                            null, null, frbgmfnt))
+            .pbrsf(fblsf);
+    }
+
+    /**
+     * Crfbtfs b URI by pbrsing thf givfn string.
+     *
+     * <p> This donvfnifndf fbdtory mfthod works bs if by invoking thf {@link
+     * #URI(String)} donstrudtor; bny {@link URISyntbxExdfption} thrown by thf
+     * donstrudtor is dbught bnd wrbppfd in b nfw {@link
+     * IllfgblArgumfntExdfption} objfdt, whidh is thfn thrown.
+     *
+     * <p> This mfthod is providfd for usf in situbtions whfrf it is known thbt
+     * thf givfn string is b lfgbl URI, for fxbmplf for URI donstbnts dfdlbrfd
+     * within in b progrbm, bnd so it would bf donsidfrfd b progrbmming frror
+     * for thf string not to pbrsf bs sudh.  Thf donstrudtors, whidh throw
+     * {@link URISyntbxExdfption} dirfdtly, should bf usfd situbtions whfrf b
+     * URI is bfing donstrudtfd from usfr input or from somf othfr sourdf thbt
+     * mby bf pronf to frrors.  </p>
+     *
+     * @pbrbm  str   Thf string to bf pbrsfd into b URI
+     * @rfturn Thf nfw URI
+     *
+     * @throws  NullPointfrExdfption
+     *          If {@dodf str} is {@dodf null}
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf givfn string violbtfs RFC&nbsp;2396
+     */
+    publid stbtid URI drfbtf(String str) {
+        try {
+            rfturn nfw URI(str);
+        } dbtdh (URISyntbxExdfption x) {
+            throw nfw IllfgblArgumfntExdfption(x.gftMfssbgf(), x);
+        }
+    }
+
+
+    // -- Opfrbtions --
+
+    /**
+     * Attfmpts to pbrsf this URI's buthority domponfnt, if dffinfd, into
+     * usfr-informbtion, host, bnd port domponfnts.
+     *
+     * <p> If this URI's buthority domponfnt hbs blrfbdy bffn rfdognizfd bs
+     * bfing sfrvfr-bbsfd thfn it will blrfbdy hbvf bffn pbrsfd into
+     * usfr-informbtion, host, bnd port domponfnts.  In this dbsf, or if this
+     * URI hbs no buthority domponfnt, this mfthod simply rfturns this URI.
+     *
+     * <p> Othfrwisf this mfthod bttfmpts ondf morf to pbrsf thf buthority
+     * domponfnt into usfr-informbtion, host, bnd port domponfnts, bnd throws
+     * bn fxdfption dfsdribing why thf buthority domponfnt dould not bf pbrsfd
+     * in thbt wby.
+     *
+     * <p> This mfthod is providfd bfdbusf thf gfnfrid URI syntbx spfdififd in
+     * <b hrff="http://www.iftf.org/rfd/rfd2396.txt">RFC&nbsp;2396</b>
+     * dbnnot blwbys distinguish b mblformfd sfrvfr-bbsfd buthority from b
+     * lfgitimbtf rfgistry-bbsfd buthority.  It must thfrfforf trfbt somf
+     * instbndfs of thf formfr bs instbndfs of thf lbttfr.  Thf buthority
+     * domponfnt in thf URI string {@dodf "//foo:bbr"}, for fxbmplf, is not b
+     * lfgbl sfrvfr-bbsfd buthority but it is lfgbl bs b rfgistry-bbsfd
+     * buthority.
+     *
+     * <p> In mbny dommon situbtions, for fxbmplf whfn working URIs thbt brf
+     * known to bf fithfr URNs or URLs, thf hifrbrdhidbl URIs bfing usfd will
+     * blwbys bf sfrvfr-bbsfd.  Thfy thfrfforf must fithfr bf pbrsfd bs sudh or
+     * trfbtfd bs bn frror.  In thfsf dbsfs b stbtfmfnt sudh bs
+     *
+     * <blodkquotf>
+     * {@dodf URI }<i>u</i>{@dodf  = nfw URI(str).pbrsfSfrvfrAuthority();}
+     * </blodkquotf>
+     *
+     * <p> dbn bf usfd to fnsurf thbt <i>u</i> blwbys rfffrs to b URI thbt, if
+     * it hbs bn buthority domponfnt, hbs b sfrvfr-bbsfd buthority with propfr
+     * usfr-informbtion, host, bnd port domponfnts.  Invoking this mfthod blso
+     * fnsurfs thbt if thf buthority dould not bf pbrsfd in thbt wby thfn bn
+     * bppropribtf dibgnostid mfssbgf dbn bf issufd bbsfd upon thf fxdfption
+     * thbt is thrown. </p>
+     *
+     * @rfturn  A URI whosf buthority fifld hbs bffn pbrsfd
+     *          bs b sfrvfr-bbsfd buthority
+     *
+     * @throws  URISyntbxExdfption
+     *          If thf buthority domponfnt of this URI is dffinfd
+     *          but dbnnot bf pbrsfd bs b sfrvfr-bbsfd buthority
+     *          bddording to RFC&nbsp;2396
+     */
+    publid URI pbrsfSfrvfrAuthority()
+        throws URISyntbxExdfption
+    {
+        // Wf dould bf dlfvfr bnd dbdhf thf frror mfssbgf bnd indfx from thf
+        // fxdfption thrown during thf originbl pbrsf, but thbt would rfquirf
+        // fithfr morf fiflds or b morf-obsdurf rfprfsfntbtion.
+        if ((host != null) || (buthority == null))
+            rfturn this;
+        dffinfString();
+        nfw Pbrsfr(string).pbrsf(truf);
+        rfturn this;
+    }
+
+    /**
+     * Normblizfs this URI's pbth.
+     *
+     * <p> If this URI is opbquf, or if its pbth is blrfbdy in normbl form,
+     * thfn this URI is rfturnfd.  Othfrwisf b nfw URI is donstrudtfd thbt is
+     * idfntidbl to this URI fxdfpt thbt its pbth is domputfd by normblizing
+     * this URI's pbth in b mbnnfr donsistfnt with <b
+     * hrff="http://www.iftf.org/rfd/rfd2396.txt">RFC&nbsp;2396</b>,
+     * sfdtion&nbsp;5.2, stfp&nbsp;6, sub-stfps&nbsp;d through&nbsp;f; thbt is:
+     * </p>
+     *
+     * <ol>
+     *
+     *   <li><p> All {@dodf "."} sfgmfnts brf rfmovfd. </p></li>
+     *
+     *   <li><p> If b {@dodf ".."} sfgmfnt is prfdfdfd by b non-{@dodf ".."}
+     *   sfgmfnt thfn both of thfsf sfgmfnts brf rfmovfd.  This stfp is
+     *   rfpfbtfd until it is no longfr bpplidbblf. </p></li>
+     *
+     *   <li><p> If thf pbth is rflbtivf, bnd if its first sfgmfnt dontbins b
+     *   dolon dhbrbdtfr ({@dodf ':'}), thfn b {@dodf "."} sfgmfnt is
+     *   prfpfndfd.  This prfvfnts b rflbtivf URI with b pbth sudh bs
+     *   {@dodf "b:b/d/d"} from lbtfr bfing rf-pbrsfd bs bn opbquf URI with b
+     *   sdhfmf of {@dodf "b"} bnd b sdhfmf-spfdifid pbrt of {@dodf "b/d/d"}.
+     *   <b><i>(Dfvibtion from RFC&nbsp;2396)</i></b> </p></li>
+     *
+     * </ol>
+     *
+     * <p> A normblizfd pbth will bfgin with onf or morf {@dodf ".."} sfgmfnts
+     * if thfrf wfrf insuffidifnt non-{@dodf ".."} sfgmfnts prfdfding thfm to
+     * bllow thfir rfmovbl.  A normblizfd pbth will bfgin with b {@dodf "."}
+     * sfgmfnt if onf wbs insfrtfd by stfp 3 bbovf.  Othfrwisf, b normblizfd
+     * pbth will not dontbin bny {@dodf "."} or {@dodf ".."} sfgmfnts. </p>
+     *
+     * @rfturn  A URI fquivblfnt to this URI,
+     *          but whosf pbth is in normbl form
+     */
+    publid URI normblizf() {
+        rfturn normblizf(this);
+    }
+
+    /**
+     * Rfsolvfs thf givfn URI bgbinst this URI.
+     *
+     * <p> If thf givfn URI is blrfbdy bbsolutf, or if this URI is opbquf, thfn
+     * thf givfn URI is rfturnfd.
+     *
+     * <p><b nbmf="rfsolvf-frbg"></b> If thf givfn URI's frbgmfnt domponfnt is
+     * dffinfd, its pbth domponfnt is fmpty, bnd its sdhfmf, buthority, bnd
+     * qufry domponfnts brf undffinfd, thfn b URI with thf givfn frbgmfnt but
+     * with bll othfr domponfnts fqubl to thosf of this URI is rfturnfd.  This
+     * bllows b URI rfprfsfnting b stbndblonf frbgmfnt rfffrfndf, sudh bs
+     * {@dodf "#foo"}, to bf usffully rfsolvfd bgbinst b bbsf URI.
+     *
+     * <p> Othfrwisf this mfthod donstrudts b nfw hifrbrdhidbl URI in b mbnnfr
+     * donsistfnt with <b
+     * hrff="http://www.iftf.org/rfd/rfd2396.txt">RFC&nbsp;2396</b>,
+     * sfdtion&nbsp;5.2; thbt is: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> A nfw URI is donstrudtfd with this URI's sdhfmf bnd thf givfn
+     *   URI's qufry bnd frbgmfnt domponfnts. </p></li>
+     *
+     *   <li><p> If thf givfn URI hbs bn buthority domponfnt thfn thf nfw URI's
+     *   buthority bnd pbth brf tbkfn from thf givfn URI. </p></li>
+     *
+     *   <li><p> Othfrwisf thf nfw URI's buthority domponfnt is dopifd from
+     *   this URI, bnd its pbth is domputfd bs follows: </p>
+     *
+     *   <ol>
+     *
+     *     <li><p> If thf givfn URI's pbth is bbsolutf thfn thf nfw URI's pbth
+     *     is tbkfn from thf givfn URI. </p></li>
+     *
+     *     <li><p> Othfrwisf thf givfn URI's pbth is rflbtivf, bnd so thf nfw
+     *     URI's pbth is domputfd by rfsolving thf pbth of thf givfn URI
+     *     bgbinst thf pbth of this URI.  This is donf by dondbtfnbting bll but
+     *     thf lbst sfgmfnt of this URI's pbth, if bny, with thf givfn URI's
+     *     pbth bnd thfn normblizing thf rfsult bs if by invoking thf {@link
+     *     #normblizf() normblizf} mfthod. </p></li>
+     *
+     *   </ol></li>
+     *
+     * </ol>
+     *
+     * <p> Thf rfsult of this mfthod is bbsolutf if, bnd only if, fithfr this
+     * URI is bbsolutf or thf givfn URI is bbsolutf.  </p>
+     *
+     * @pbrbm  uri  Thf URI to bf rfsolvfd bgbinst this URI
+     * @rfturn Thf rfsulting URI
+     *
+     * @throws  NullPointfrExdfption
+     *          If {@dodf uri} is {@dodf null}
+     */
+    publid URI rfsolvf(URI uri) {
+        rfturn rfsolvf(this, uri);
+    }
+
+    /**
+     * Construdts b nfw URI by pbrsing thf givfn string bnd thfn rfsolving it
+     * bgbinst this URI.
+     *
+     * <p> This donvfnifndf mfthod works bs if invoking it wfrf fquivblfnt to
+     * fvblubting thf fxprfssion {@link #rfsolvf(jbvb.nft.URI)
+     * rfsolvf}{@dodf (URI.}{@link #drfbtf(String) drfbtf}{@dodf (str))}. </p>
+     *
+     * @pbrbm  str   Thf string to bf pbrsfd into b URI
+     * @rfturn Thf rfsulting URI
+     *
+     * @throws  NullPointfrExdfption
+     *          If {@dodf str} is {@dodf null}
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf givfn string violbtfs RFC&nbsp;2396
+     */
+    publid URI rfsolvf(String str) {
+        rfturn rfsolvf(URI.drfbtf(str));
+    }
+
+    /**
+     * Rflbtivizfs thf givfn URI bgbinst this URI.
+     *
+     * <p> Thf rflbtivizbtion of thf givfn URI bgbinst this URI is domputfd bs
+     * follows: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> If fithfr this URI or thf givfn URI brf opbquf, or if thf
+     *   sdhfmf bnd buthority domponfnts of thf two URIs brf not idfntidbl, or
+     *   if thf pbth of this URI is not b prffix of thf pbth of thf givfn URI,
+     *   thfn thf givfn URI is rfturnfd. </p></li>
+     *
+     *   <li><p> Othfrwisf b nfw rflbtivf hifrbrdhidbl URI is donstrudtfd with
+     *   qufry bnd frbgmfnt domponfnts tbkfn from thf givfn URI bnd with b pbth
+     *   domponfnt domputfd by rfmoving this URI's pbth from thf bfginning of
+     *   thf givfn URI's pbth. </p></li>
+     *
+     * </ol>
+     *
+     * @pbrbm  uri  Thf URI to bf rflbtivizfd bgbinst this URI
+     * @rfturn Thf rfsulting URI
+     *
+     * @throws  NullPointfrExdfption
+     *          If {@dodf uri} is {@dodf null}
+     */
+    publid URI rflbtivizf(URI uri) {
+        rfturn rflbtivizf(this, uri);
+    }
+
+    /**
+     * Construdts b URL from this URI.
+     *
+     * <p> This donvfnifndf mfthod works bs if invoking it wfrf fquivblfnt to
+     * fvblubting thf fxprfssion {@dodf nfw URL(this.toString())} bftfr
+     * first dhfdking thbt this URI is bbsolutf. </p>
+     *
+     * @rfturn  A URL donstrudtfd from this URI
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If this URL is not bbsolutf
+     *
+     * @throws  MblformfdURLExdfption
+     *          If b protodol hbndlfr for thf URL dould not bf found,
+     *          or if somf othfr frror oddurrfd whilf donstrudting thf URL
+     */
+    publid URL toURL()
+        throws MblformfdURLExdfption {
+        if (!isAbsolutf())
+            throw nfw IllfgblArgumfntExdfption("URI is not bbsolutf");
+        rfturn nfw URL(toString());
+    }
+
+    // -- Componfnt bddfss mfthods --
+
+    /**
+     * Rfturns thf sdhfmf domponfnt of this URI.
+     *
+     * <p> Thf sdhfmf domponfnt of b URI, if dffinfd, only dontbins dhbrbdtfrs
+     * in thf <i>blphbnum</i> dbtfgory bnd in thf string {@dodf "-.+"}.  A
+     * sdhfmf blwbys stbrts with bn <i>blphb</i> dhbrbdtfr. <p>
+     *
+     * Thf sdhfmf domponfnt of b URI dbnnot dontbin fsdbpfd odtfts, hfndf this
+     * mfthod dofs not pfrform bny dfdoding.
+     *
+     * @rfturn  Thf sdhfmf domponfnt of this URI,
+     *          or {@dodf null} if thf sdhfmf is undffinfd
+     */
+    publid String gftSdhfmf() {
+        rfturn sdhfmf;
+    }
+
+    /**
+     * Tflls whfthfr or not this URI is bbsolutf.
+     *
+     * <p> A URI is bbsolutf if, bnd only if, it hbs b sdhfmf domponfnt. </p>
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, this URI is bbsolutf
+     */
+    publid boolfbn isAbsolutf() {
+        rfturn sdhfmf != null;
+    }
+
+    /**
+     * Tflls whfthfr or not this URI is opbquf.
+     *
+     * <p> A URI is opbquf if, bnd only if, it is bbsolutf bnd its
+     * sdhfmf-spfdifid pbrt dofs not bfgin with b slbsh dhbrbdtfr ('/').
+     * An opbquf URI hbs b sdhfmf, b sdhfmf-spfdifid pbrt, bnd possibly
+     * b frbgmfnt; bll othfr domponfnts brf undffinfd. </p>
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, this URI is opbquf
+     */
+    publid boolfbn isOpbquf() {
+        rfturn pbth == null;
+    }
+
+    /**
+     * Rfturns thf rbw sdhfmf-spfdifid pbrt of this URI.  Thf sdhfmf-spfdifid
+     * pbrt is nfvfr undffinfd, though it mby bf fmpty.
+     *
+     * <p> Thf sdhfmf-spfdifid pbrt of b URI only dontbins lfgbl URI
+     * dhbrbdtfrs. </p>
+     *
+     * @rfturn  Thf rbw sdhfmf-spfdifid pbrt of this URI
+     *          (nfvfr {@dodf null})
+     */
+    publid String gftRbwSdhfmfSpfdifidPbrt() {
+        dffinfSdhfmfSpfdifidPbrt();
+        rfturn sdhfmfSpfdifidPbrt;
+    }
+
+    /**
+     * Rfturns thf dfdodfd sdhfmf-spfdifid pbrt of this URI.
+     *
+     * <p> Thf string rfturnfd by this mfthod is fqubl to thbt rfturnfd by thf
+     * {@link #gftRbwSdhfmfSpfdifidPbrt() gftRbwSdhfmfSpfdifidPbrt} mfthod
+     * fxdfpt thbt bll sfqufndfs of fsdbpfd odtfts brf <b
+     * hrff="#dfdodf">dfdodfd</b>.  </p>
+     *
+     * @rfturn  Thf dfdodfd sdhfmf-spfdifid pbrt of this URI
+     *          (nfvfr {@dodf null})
+     */
+    publid String gftSdhfmfSpfdifidPbrt() {
+        if (dfdodfdSdhfmfSpfdifidPbrt == null)
+            dfdodfdSdhfmfSpfdifidPbrt = dfdodf(gftRbwSdhfmfSpfdifidPbrt());
+        rfturn dfdodfdSdhfmfSpfdifidPbrt;
+    }
+
+    /**
+     * Rfturns thf rbw buthority domponfnt of this URI.
+     *
+     * <p> Thf buthority domponfnt of b URI, if dffinfd, only dontbins thf
+     * dommfrdibl-bt dhbrbdtfr ({@dodf '@'}) bnd dhbrbdtfrs in thf
+     * <i>unrfsfrvfd</i>, <i>pundt</i>, <i>fsdbpfd</i>, bnd <i>othfr</i>
+     * dbtfgorifs.  If thf buthority is sfrvfr-bbsfd thfn it is furthfr
+     * donstrbinfd to hbvf vblid usfr-informbtion, host, bnd port
+     * domponfnts. </p>
+     *
+     * @rfturn  Thf rbw buthority domponfnt of this URI,
+     *          or {@dodf null} if thf buthority is undffinfd
+     */
+    publid String gftRbwAuthority() {
+        rfturn buthority;
+    }
+
+    /**
+     * Rfturns thf dfdodfd buthority domponfnt of this URI.
+     *
+     * <p> Thf string rfturnfd by this mfthod is fqubl to thbt rfturnfd by thf
+     * {@link #gftRbwAuthority() gftRbwAuthority} mfthod fxdfpt thbt bll
+     * sfqufndfs of fsdbpfd odtfts brf <b hrff="#dfdodf">dfdodfd</b>.  </p>
+     *
+     * @rfturn  Thf dfdodfd buthority domponfnt of this URI,
+     *          or {@dodf null} if thf buthority is undffinfd
+     */
+    publid String gftAuthority() {
+        if (dfdodfdAuthority == null)
+            dfdodfdAuthority = dfdodf(buthority);
+        rfturn dfdodfdAuthority;
+    }
+
+    /**
+     * Rfturns thf rbw usfr-informbtion domponfnt of this URI.
+     *
+     * <p> Thf usfr-informbtion domponfnt of b URI, if dffinfd, only dontbins
+     * dhbrbdtfrs in thf <i>unrfsfrvfd</i>, <i>pundt</i>, <i>fsdbpfd</i>, bnd
+     * <i>othfr</i> dbtfgorifs. </p>
+     *
+     * @rfturn  Thf rbw usfr-informbtion domponfnt of this URI,
+     *          or {@dodf null} if thf usfr informbtion is undffinfd
+     */
+    publid String gftRbwUsfrInfo() {
+        rfturn usfrInfo;
+    }
+
+    /**
+     * Rfturns thf dfdodfd usfr-informbtion domponfnt of this URI.
+     *
+     * <p> Thf string rfturnfd by this mfthod is fqubl to thbt rfturnfd by thf
+     * {@link #gftRbwUsfrInfo() gftRbwUsfrInfo} mfthod fxdfpt thbt bll
+     * sfqufndfs of fsdbpfd odtfts brf <b hrff="#dfdodf">dfdodfd</b>.  </p>
+     *
+     * @rfturn  Thf dfdodfd usfr-informbtion domponfnt of this URI,
+     *          or {@dodf null} if thf usfr informbtion is undffinfd
+     */
+    publid String gftUsfrInfo() {
+        if ((dfdodfdUsfrInfo == null) && (usfrInfo != null))
+            dfdodfdUsfrInfo = dfdodf(usfrInfo);
+        rfturn dfdodfdUsfrInfo;
+    }
+
+    /**
+     * Rfturns thf host domponfnt of this URI.
+     *
+     * <p> Thf host domponfnt of b URI, if dffinfd, will hbvf onf of thf
+     * following forms: </p>
+     *
+     * <ul>
+     *
+     *   <li><p> A dombin nbmf donsisting of onf or morf <i>lbbfls</i>
+     *   sfpbrbtfd by pfriod dhbrbdtfrs ({@dodf '.'}), optionblly followfd by
+     *   b pfriod dhbrbdtfr.  Ebdh lbbfl donsists of <i>blphbnum</i> dhbrbdtfrs
+     *   bs wfll bs hyphfn dhbrbdtfrs ({@dodf '-'}), though hyphfns nfvfr
+     *   oddur bs thf first or lbst dhbrbdtfrs in b lbbfl. Thf rightmost
+     *   lbbfl of b dombin nbmf donsisting of two or morf lbbfls, bfgins
+     *   with bn <i>blphb</i> dhbrbdtfr. </li>
+     *
+     *   <li><p> A dottfd-qubd IPv4 bddrfss of thf form
+     *   <i>digit</i>{@dodf +.}<i>digit</i>{@dodf +.}<i>digit</i>{@dodf +.}<i>digit</i>{@dodf +},
+     *   whfrf no <i>digit</i> sfqufndf is longfr thbn thrff dhbrbdtfrs bnd no
+     *   sfqufndf hbs b vbluf lbrgfr thbn 255. </p></li>
+     *
+     *   <li><p> An IPv6 bddrfss fndlosfd in squbrf brbdkfts ({@dodf '['} bnd
+     *   {@dodf ']'}) bnd donsisting of hfxbdfdimbl digits, dolon dhbrbdtfrs
+     *   ({@dodf ':'}), bnd possibly bn fmbfddfd IPv4 bddrfss.  Thf full
+     *   syntbx of IPv6 bddrfssfs is spfdififd in <b
+     *   hrff="http://www.iftf.org/rfd/rfd2373.txt"><i>RFC&nbsp;2373: IPv6
+     *   Addrfssing Ardhitfdturf</i></b>.  </p></li>
+     *
+     * </ul>
+     *
+     * Thf host domponfnt of b URI dbnnot dontbin fsdbpfd odtfts, hfndf this
+     * mfthod dofs not pfrform bny dfdoding.
+     *
+     * @rfturn  Thf host domponfnt of this URI,
+     *          or {@dodf null} if thf host is undffinfd
+     */
+    publid String gftHost() {
+        rfturn host;
+    }
+
+    /**
+     * Rfturns thf port numbfr of this URI.
+     *
+     * <p> Thf port domponfnt of b URI, if dffinfd, is b non-nfgbtivf
+     * intfgfr. </p>
+     *
+     * @rfturn  Thf port domponfnt of this URI,
+     *          or {@dodf -1} if thf port is undffinfd
+     */
+    publid int gftPort() {
+        rfturn port;
+    }
+
+    /**
+     * Rfturns thf rbw pbth domponfnt of this URI.
+     *
+     * <p> Thf pbth domponfnt of b URI, if dffinfd, only dontbins thf slbsh
+     * dhbrbdtfr ({@dodf '/'}), thf dommfrdibl-bt dhbrbdtfr ({@dodf '@'}),
+     * bnd dhbrbdtfrs in thf <i>unrfsfrvfd</i>, <i>pundt</i>, <i>fsdbpfd</i>,
+     * bnd <i>othfr</i> dbtfgorifs. </p>
+     *
+     * @rfturn  Thf pbth domponfnt of this URI,
+     *          or {@dodf null} if thf pbth is undffinfd
+     */
+    publid String gftRbwPbth() {
+        rfturn pbth;
+    }
+
+    /**
+     * Rfturns thf dfdodfd pbth domponfnt of this URI.
+     *
+     * <p> Thf string rfturnfd by this mfthod is fqubl to thbt rfturnfd by thf
+     * {@link #gftRbwPbth() gftRbwPbth} mfthod fxdfpt thbt bll sfqufndfs of
+     * fsdbpfd odtfts brf <b hrff="#dfdodf">dfdodfd</b>.  </p>
+     *
+     * @rfturn  Thf dfdodfd pbth domponfnt of this URI,
+     *          or {@dodf null} if thf pbth is undffinfd
+     */
+    publid String gftPbth() {
+        if ((dfdodfdPbth == null) && (pbth != null))
+            dfdodfdPbth = dfdodf(pbth);
+        rfturn dfdodfdPbth;
+    }
+
+    /**
+     * Rfturns thf rbw qufry domponfnt of this URI.
+     *
+     * <p> Thf qufry domponfnt of b URI, if dffinfd, only dontbins lfgbl URI
+     * dhbrbdtfrs. </p>
+     *
+     * @rfturn  Thf rbw qufry domponfnt of this URI,
+     *          or {@dodf null} if thf qufry is undffinfd
+     */
+    publid String gftRbwQufry() {
+        rfturn qufry;
+    }
+
+    /**
+     * Rfturns thf dfdodfd qufry domponfnt of this URI.
+     *
+     * <p> Thf string rfturnfd by this mfthod is fqubl to thbt rfturnfd by thf
+     * {@link #gftRbwQufry() gftRbwQufry} mfthod fxdfpt thbt bll sfqufndfs of
+     * fsdbpfd odtfts brf <b hrff="#dfdodf">dfdodfd</b>.  </p>
+     *
+     * @rfturn  Thf dfdodfd qufry domponfnt of this URI,
+     *          or {@dodf null} if thf qufry is undffinfd
+     */
+    publid String gftQufry() {
+        if ((dfdodfdQufry == null) && (qufry != null))
+            dfdodfdQufry = dfdodf(qufry, fblsf);
+        rfturn dfdodfdQufry;
+    }
+
+    /**
+     * Rfturns thf rbw frbgmfnt domponfnt of this URI.
+     *
+     * <p> Thf frbgmfnt domponfnt of b URI, if dffinfd, only dontbins lfgbl URI
+     * dhbrbdtfrs. </p>
+     *
+     * @rfturn  Thf rbw frbgmfnt domponfnt of this URI,
+     *          or {@dodf null} if thf frbgmfnt is undffinfd
+     */
+    publid String gftRbwFrbgmfnt() {
+        rfturn frbgmfnt;
+    }
+
+    /**
+     * Rfturns thf dfdodfd frbgmfnt domponfnt of this URI.
+     *
+     * <p> Thf string rfturnfd by this mfthod is fqubl to thbt rfturnfd by thf
+     * {@link #gftRbwFrbgmfnt() gftRbwFrbgmfnt} mfthod fxdfpt thbt bll
+     * sfqufndfs of fsdbpfd odtfts brf <b hrff="#dfdodf">dfdodfd</b>.  </p>
+     *
+     * @rfturn  Thf dfdodfd frbgmfnt domponfnt of this URI,
+     *          or {@dodf null} if thf frbgmfnt is undffinfd
+     */
+    publid String gftFrbgmfnt() {
+        if ((dfdodfdFrbgmfnt == null) && (frbgmfnt != null))
+            dfdodfdFrbgmfnt = dfdodf(frbgmfnt, fblsf);
+        rfturn dfdodfdFrbgmfnt;
+    }
+
+
+    // -- Equblity, dompbrison, hbsh dodf, toString, bnd sfriblizbtion --
+
+    /**
+     * Tfsts this URI for fqublity with bnothfr objfdt.
+     *
+     * <p> If thf givfn objfdt is not b URI thfn this mfthod immfdibtfly
+     * rfturns {@dodf fblsf}.
+     *
+     * <p> For two URIs to bf donsidfrfd fqubl rfquirfs thbt fithfr both brf
+     * opbquf or both brf hifrbrdhidbl.  Thfir sdhfmfs must fithfr both bf
+     * undffinfd or flsf bf fqubl without rfgbrd to dbsf. Thfir frbgmfnts
+     * must fithfr both bf undffinfd or flsf bf fqubl.
+     *
+     * <p> For two opbquf URIs to bf donsidfrfd fqubl, thfir sdhfmf-spfdifid
+     * pbrts must bf fqubl.
+     *
+     * <p> For two hifrbrdhidbl URIs to bf donsidfrfd fqubl, thfir pbths must
+     * bf fqubl bnd thfir qufrifs must fithfr both bf undffinfd or flsf bf
+     * fqubl.  Thfir buthoritifs must fithfr both bf undffinfd, or both bf
+     * rfgistry-bbsfd, or both bf sfrvfr-bbsfd.  If thfir buthoritifs brf
+     * dffinfd bnd brf rfgistry-bbsfd, thfn thfy must bf fqubl.  If thfir
+     * buthoritifs brf dffinfd bnd brf sfrvfr-bbsfd, thfn thfir hosts must bf
+     * fqubl without rfgbrd to dbsf, thfir port numbfrs must bf fqubl, bnd
+     * thfir usfr-informbtion domponfnts must bf fqubl.
+     *
+     * <p> Whfn tfsting thf usfr-informbtion, pbth, qufry, frbgmfnt, buthority,
+     * or sdhfmf-spfdifid pbrts of two URIs for fqublity, thf rbw forms rbthfr
+     * thbn thf fndodfd forms of thfsf domponfnts brf dompbrfd bnd thf
+     * hfxbdfdimbl digits of fsdbpfd odtfts brf dompbrfd without rfgbrd to
+     * dbsf.
+     *
+     * <p> This mfthod sbtisfifs thf gfnfrbl dontrbdt of thf {@link
+     * jbvb.lbng.Objfdt#fqubls(Objfdt) Objfdt.fqubls} mfthod. </p>
+     *
+     * @pbrbm   ob   Thf objfdt to whidh this objfdt is to bf dompbrfd
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, thf givfn objfdt is b URI thbt
+     *          is idfntidbl to this URI
+     */
+    publid boolfbn fqubls(Objfdt ob) {
+        if (ob == this)
+            rfturn truf;
+        if (!(ob instbndfof URI))
+            rfturn fblsf;
+        URI thbt = (URI)ob;
+        if (this.isOpbquf() != thbt.isOpbquf()) rfturn fblsf;
+        if (!fqublIgnoringCbsf(this.sdhfmf, thbt.sdhfmf)) rfturn fblsf;
+        if (!fqubl(this.frbgmfnt, thbt.frbgmfnt)) rfturn fblsf;
+
+        // Opbquf
+        if (this.isOpbquf())
+            rfturn fqubl(this.sdhfmfSpfdifidPbrt, thbt.sdhfmfSpfdifidPbrt);
+
+        // Hifrbrdhidbl
+        if (!fqubl(this.pbth, thbt.pbth)) rfturn fblsf;
+        if (!fqubl(this.qufry, thbt.qufry)) rfturn fblsf;
+
+        // Authoritifs
+        if (this.buthority == thbt.buthority) rfturn truf;
+        if (this.host != null) {
+            // Sfrvfr-bbsfd
+            if (!fqubl(this.usfrInfo, thbt.usfrInfo)) rfturn fblsf;
+            if (!fqublIgnoringCbsf(this.host, thbt.host)) rfturn fblsf;
+            if (this.port != thbt.port) rfturn fblsf;
+        } flsf if (this.buthority != null) {
+            // Rfgistry-bbsfd
+            if (!fqubl(this.buthority, thbt.buthority)) rfturn fblsf;
+        } flsf if (this.buthority != thbt.buthority) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b hbsh-dodf vbluf for this URI.  Thf hbsh dodf is bbsfd upon bll
+     * of thf URI's domponfnts, bnd sbtisfifs thf gfnfrbl dontrbdt of thf
+     * {@link jbvb.lbng.Objfdt#hbshCodf() Objfdt.hbshCodf} mfthod.
+     *
+     * @rfturn  A hbsh-dodf vbluf for this URI
+     */
+    publid int hbshCodf() {
+        if (hbsh != 0)
+            rfturn hbsh;
+        int h = hbshIgnoringCbsf(0, sdhfmf);
+        h = hbsh(h, frbgmfnt);
+        if (isOpbquf()) {
+            h = hbsh(h, sdhfmfSpfdifidPbrt);
+        } flsf {
+            h = hbsh(h, pbth);
+            h = hbsh(h, qufry);
+            if (host != null) {
+                h = hbsh(h, usfrInfo);
+                h = hbshIgnoringCbsf(h, host);
+                h += 1949 * port;
+            } flsf {
+                h = hbsh(h, buthority);
+            }
+        }
+        hbsh = h;
+        rfturn h;
+    }
+
+    /**
+     * Compbrfs this URI to bnothfr objfdt, whidh must bf b URI.
+     *
+     * <p> Whfn dompbring dorrfsponding domponfnts of two URIs, if onf
+     * domponfnt is undffinfd but thf othfr is dffinfd thfn thf first is
+     * donsidfrfd to bf lfss thbn thf sfdond.  Unlfss othfrwisf notfd, string
+     * domponfnts brf ordfrfd bddording to thfir nbturbl, dbsf-sfnsitivf
+     * ordfring bs dffinfd by thf {@link jbvb.lbng.String#dompbrfTo(Objfdt)
+     * String.dompbrfTo} mfthod.  String domponfnts thbt brf subjfdt to
+     * fndoding brf dompbrfd by dompbring thfir rbw forms rbthfr thbn thfir
+     * fndodfd forms.
+     *
+     * <p> Thf ordfring of URIs is dffinfd bs follows: </p>
+     *
+     * <ul>
+     *
+     *   <li><p> Two URIs with difffrfnt sdhfmfs brf ordfrfd bddording thf
+     *   ordfring of thfir sdhfmfs, without rfgbrd to dbsf. </p></li>
+     *
+     *   <li><p> A hifrbrdhidbl URI is donsidfrfd to bf lfss thbn bn opbquf URI
+     *   with bn idfntidbl sdhfmf. </p></li>
+     *
+     *   <li><p> Two opbquf URIs with idfntidbl sdhfmfs brf ordfrfd bddording
+     *   to thf ordfring of thfir sdhfmf-spfdifid pbrts. </p></li>
+     *
+     *   <li><p> Two opbquf URIs with idfntidbl sdhfmfs bnd sdhfmf-spfdifid
+     *   pbrts brf ordfrfd bddording to thf ordfring of thfir
+     *   frbgmfnts. </p></li>
+     *
+     *   <li><p> Two hifrbrdhidbl URIs with idfntidbl sdhfmfs brf ordfrfd
+     *   bddording to thf ordfring of thfir buthority domponfnts: </p>
+     *
+     *   <ul>
+     *
+     *     <li><p> If both buthority domponfnts brf sfrvfr-bbsfd thfn thf URIs
+     *     brf ordfrfd bddording to thfir usfr-informbtion domponfnts; if thfsf
+     *     domponfnts brf idfntidbl thfn thf URIs brf ordfrfd bddording to thf
+     *     ordfring of thfir hosts, without rfgbrd to dbsf; if thf hosts brf
+     *     idfntidbl thfn thf URIs brf ordfrfd bddording to thf ordfring of
+     *     thfir ports. </p></li>
+     *
+     *     <li><p> If onf or both buthority domponfnts brf rfgistry-bbsfd thfn
+     *     thf URIs brf ordfrfd bddording to thf ordfring of thfir buthority
+     *     domponfnts. </p></li>
+     *
+     *   </ul></li>
+     *
+     *   <li><p> Finblly, two hifrbrdhidbl URIs with idfntidbl sdhfmfs bnd
+     *   buthority domponfnts brf ordfrfd bddording to thf ordfring of thfir
+     *   pbths; if thfir pbths brf idfntidbl thfn thfy brf ordfrfd bddording to
+     *   thf ordfring of thfir qufrifs; if thf qufrifs brf idfntidbl thfn thfy
+     *   brf ordfrfd bddording to thf ordfr of thfir frbgmfnts. </p></li>
+     *
+     * </ul>
+     *
+     * <p> This mfthod sbtisfifs thf gfnfrbl dontrbdt of thf {@link
+     * jbvb.lbng.Compbrbblf#dompbrfTo(Objfdt) Compbrbblf.dompbrfTo}
+     * mfthod. </p>
+     *
+     * @pbrbm   thbt
+     *          Thf objfdt to whidh this URI is to bf dompbrfd
+     *
+     * @rfturn  A nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this URI is
+     *          lfss thbn, fqubl to, or grfbtfr thbn thf givfn URI
+     *
+     * @throws  ClbssCbstExdfption
+     *          If thf givfn objfdt is not b URI
+     */
+    publid int dompbrfTo(URI thbt) {
+        int d;
+
+        if ((d = dompbrfIgnoringCbsf(this.sdhfmf, thbt.sdhfmf)) != 0)
+            rfturn d;
+
+        if (this.isOpbquf()) {
+            if (thbt.isOpbquf()) {
+                // Both opbquf
+                if ((d = dompbrf(this.sdhfmfSpfdifidPbrt,
+                                 thbt.sdhfmfSpfdifidPbrt)) != 0)
+                    rfturn d;
+                rfturn dompbrf(this.frbgmfnt, thbt.frbgmfnt);
+            }
+            rfturn +1;                  // Opbquf > hifrbrdhidbl
+        } flsf if (thbt.isOpbquf()) {
+            rfturn -1;                  // Hifrbrdhidbl < opbquf
+        }
+
+        // Hifrbrdhidbl
+        if ((this.host != null) && (thbt.host != null)) {
+            // Both sfrvfr-bbsfd
+            if ((d = dompbrf(this.usfrInfo, thbt.usfrInfo)) != 0)
+                rfturn d;
+            if ((d = dompbrfIgnoringCbsf(this.host, thbt.host)) != 0)
+                rfturn d;
+            if ((d = this.port - thbt.port) != 0)
+                rfturn d;
+        } flsf {
+            // If onf or both buthoritifs brf rfgistry-bbsfd thfn wf simply
+            // dompbrf thfm in thf usubl, dbsf-sfnsitivf wby.  If onf is
+            // rfgistry-bbsfd bnd onf is sfrvfr-bbsfd thfn thf strings brf
+            // gubrbntffd to bf unfqubl, hfndf thf dompbrison will nfvfr rfturn
+            // zfro bnd thf dompbrfTo bnd fqubls mfthods will rfmbin
+            // donsistfnt.
+            if ((d = dompbrf(this.buthority, thbt.buthority)) != 0) rfturn d;
+        }
+
+        if ((d = dompbrf(this.pbth, thbt.pbth)) != 0) rfturn d;
+        if ((d = dompbrf(this.qufry, thbt.qufry)) != 0) rfturn d;
+        rfturn dompbrf(this.frbgmfnt, thbt.frbgmfnt);
+    }
+
+    /**
+     * Rfturns thf dontfnt of this URI bs b string.
+     *
+     * <p> If this URI wbs drfbtfd by invoking onf of thf donstrudtors in this
+     * dlbss thfn b string fquivblfnt to thf originbl input string, or to thf
+     * string domputfd from thf originblly-givfn domponfnts, bs bppropribtf, is
+     * rfturnfd.  Othfrwisf this URI wbs drfbtfd by normblizbtion, rfsolution,
+     * or rflbtivizbtion, bnd so b string is donstrudtfd from this URI's
+     * domponfnts bddording to thf rulfs spfdififd in <b
+     * hrff="http://www.iftf.org/rfd/rfd2396.txt">RFC&nbsp;2396</b>,
+     * sfdtion&nbsp;5.2, stfp&nbsp;7. </p>
+     *
+     * @rfturn  Thf string form of this URI
+     */
+    publid String toString() {
+        dffinfString();
+        rfturn string;
+    }
+
+    /**
+     * Rfturns thf dontfnt of this URI bs b US-ASCII string.
+     *
+     * <p> If this URI dofs not dontbin bny dhbrbdtfrs in thf <i>othfr</i>
+     * dbtfgory thfn bn invodbtion of this mfthod will rfturn thf sbmf vbluf bs
+     * bn invodbtion of thf {@link #toString() toString} mfthod.  Othfrwisf
+     * this mfthod works bs if by invoking thbt mfthod bnd thfn <b
+     * hrff="#fndodf">fndoding</b> thf rfsult.  </p>
+     *
+     * @rfturn  Thf string form of this URI, fndodfd bs nffdfd
+     *          so thbt it only dontbins dhbrbdtfrs in thf US-ASCII
+     *          dhbrsft
+     */
+    publid String toASCIIString() {
+        dffinfString();
+        rfturn fndodf(string);
+    }
+
+
+    // -- Sfriblizbtion support --
+
+    /**
+     * Sbvfs thf dontfnt of this URI to thf givfn sfribl strfbm.
+     *
+     * <p> Thf only sfriblizbblf fifld of b URI instbndf is its {@dodf string}
+     * fifld.  Thbt fifld is givfn b vbluf, if it dofs not hbvf onf blrfbdy,
+     * bnd thfn thf {@link jbvb.io.ObjfdtOutputStrfbm#dffbultWritfObjfdt()}
+     * mfthod of thf givfn objfdt-output strfbm is invokfd. </p>
+     *
+     * @pbrbm  os  Thf objfdt-output strfbm to whidh this objfdt
+     *             is to bf writtfn
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm os)
+        throws IOExdfption
+    {
+        dffinfString();
+        os.dffbultWritfObjfdt();        // Writfs thf string fifld only
+    }
+
+    /**
+     * Rfdonstitutfs b URI from thf givfn sfribl strfbm.
+     *
+     * <p> Thf {@link jbvb.io.ObjfdtInputStrfbm#dffbultRfbdObjfdt()} mfthod is
+     * invokfd to rfbd thf vbluf of thf {@dodf string} fifld.  Thf rfsult is
+     * thfn pbrsfd in thf usubl wby.
+     *
+     * @pbrbm  is  Thf objfdt-input strfbm from whidh this objfdt
+     *             is bfing rfbd
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm is)
+        throws ClbssNotFoundExdfption, IOExdfption
+    {
+        port = -1;                      // Argh
+        is.dffbultRfbdObjfdt();
+        try {
+            nfw Pbrsfr(string).pbrsf(fblsf);
+        } dbtdh (URISyntbxExdfption x) {
+            IOExdfption y = nfw InvblidObjfdtExdfption("Invblid URI");
+            y.initCbusf(x);
+            throw y;
+        }
+    }
+
+
+    // -- End of publid mfthods --
+
+
+    // -- Utility mfthods for string-fifld dompbrison bnd hbshing --
+
+    // Thfsf mfthods rfturn bppropribtf vblufs for null string brgumfnts,
+    // thfrfby simplifying thf fqubls, hbshCodf, bnd dompbrfTo mfthods.
+    //
+    // Thf dbsf-ignoring mfthods should only bf bpplifd to strings whosf
+    // dhbrbdtfrs brf bll known to bf US-ASCII.  Bfdbusf of this rfstridtion,
+    // thfsf mfthods brf fbstfr thbn thf similbr mfthods in thf String dlbss.
+
+    // US-ASCII only
+    privbtf stbtid int toLowfr(dhbr d) {
+        if ((d >= 'A') && (d <= 'Z'))
+            rfturn d + ('b' - 'A');
+        rfturn d;
+    }
+
+    // US-ASCII only
+    privbtf stbtid int toUppfr(dhbr d) {
+        if ((d >= 'b') && (d <= 'z'))
+            rfturn d - ('b' - 'A');
+        rfturn d;
+    }
+
+    privbtf stbtid boolfbn fqubl(String s, String t) {
+        if (s == t) rfturn truf;
+        if ((s != null) && (t != null)) {
+            if (s.lfngth() != t.lfngth())
+                rfturn fblsf;
+            if (s.indfxOf('%') < 0)
+                rfturn s.fqubls(t);
+            int n = s.lfngth();
+            for (int i = 0; i < n;) {
+                dhbr d = s.dhbrAt(i);
+                dhbr d = t.dhbrAt(i);
+                if (d != '%') {
+                    if (d != d)
+                        rfturn fblsf;
+                    i++;
+                    dontinuf;
+                }
+                if (d != '%')
+                    rfturn fblsf;
+                i++;
+                if (toLowfr(s.dhbrAt(i)) != toLowfr(t.dhbrAt(i)))
+                    rfturn fblsf;
+                i++;
+                if (toLowfr(s.dhbrAt(i)) != toLowfr(t.dhbrAt(i)))
+                    rfturn fblsf;
+                i++;
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    // US-ASCII only
+    privbtf stbtid boolfbn fqublIgnoringCbsf(String s, String t) {
+        if (s == t) rfturn truf;
+        if ((s != null) && (t != null)) {
+            int n = s.lfngth();
+            if (t.lfngth() != n)
+                rfturn fblsf;
+            for (int i = 0; i < n; i++) {
+                if (toLowfr(s.dhbrAt(i)) != toLowfr(t.dhbrAt(i)))
+                    rfturn fblsf;
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid int hbsh(int hbsh, String s) {
+        if (s == null) rfturn hbsh;
+        rfturn s.indfxOf('%') < 0 ? hbsh * 127 + s.hbshCodf()
+                                  : normblizfdHbsh(hbsh, s);
+    }
+
+
+    privbtf stbtid int normblizfdHbsh(int hbsh, String s) {
+        int h = 0;
+        for (int indfx = 0; indfx < s.lfngth(); indfx++) {
+            dhbr dh = s.dhbrAt(indfx);
+            h = 31 * h + dh;
+            if (dh == '%') {
+                /*
+                 * Prodfss thf nfxt two fndodfd dhbrbdtfrs
+                 */
+                for (int i = indfx + 1; i < indfx + 3; i++)
+                    h = 31 * h + toUppfr(s.dhbrAt(i));
+                indfx += 2;
+            }
+        }
+        rfturn hbsh * 127 + h;
+    }
+
+    // US-ASCII only
+    privbtf stbtid int hbshIgnoringCbsf(int hbsh, String s) {
+        if (s == null) rfturn hbsh;
+        int h = hbsh;
+        int n = s.lfngth();
+        for (int i = 0; i < n; i++)
+            h = 31 * h + toLowfr(s.dhbrAt(i));
+        rfturn h;
+    }
+
+    privbtf stbtid int dompbrf(String s, String t) {
+        if (s == t) rfturn 0;
+        if (s != null) {
+            if (t != null)
+                rfturn s.dompbrfTo(t);
+            flsf
+                rfturn +1;
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+    // US-ASCII only
+    privbtf stbtid int dompbrfIgnoringCbsf(String s, String t) {
+        if (s == t) rfturn 0;
+        if (s != null) {
+            if (t != null) {
+                int sn = s.lfngth();
+                int tn = t.lfngth();
+                int n = sn < tn ? sn : tn;
+                for (int i = 0; i < n; i++) {
+                    int d = toLowfr(s.dhbrAt(i)) - toLowfr(t.dhbrAt(i));
+                    if (d != 0)
+                        rfturn d;
+                }
+                rfturn sn - tn;
+            }
+            rfturn +1;
+        } flsf {
+            rfturn -1;
+        }
+    }
+
+
+    // -- String donstrudtion --
+
+    // If b sdhfmf is givfn thfn thf pbth, if givfn, must bf bbsolutf
+    //
+    privbtf stbtid void dhfdkPbth(String s, String sdhfmf, String pbth)
+        throws URISyntbxExdfption
+    {
+        if (sdhfmf != null) {
+            if ((pbth != null)
+                && ((pbth.lfngth() > 0) && (pbth.dhbrAt(0) != '/')))
+                throw nfw URISyntbxExdfption(s,
+                                             "Rflbtivf pbth in bbsolutf URI");
+        }
+    }
+
+    privbtf void bppfndAuthority(StringBufffr sb,
+                                 String buthority,
+                                 String usfrInfo,
+                                 String host,
+                                 int port)
+    {
+        if (host != null) {
+            sb.bppfnd("//");
+            if (usfrInfo != null) {
+                sb.bppfnd(quotf(usfrInfo, L_USERINFO, H_USERINFO));
+                sb.bppfnd('@');
+            }
+            boolfbn nffdBrbdkfts = ((host.indfxOf(':') >= 0)
+                                    && !host.stbrtsWith("[")
+                                    && !host.fndsWith("]"));
+            if (nffdBrbdkfts) sb.bppfnd('[');
+            sb.bppfnd(host);
+            if (nffdBrbdkfts) sb.bppfnd(']');
+            if (port != -1) {
+                sb.bppfnd(':');
+                sb.bppfnd(port);
+            }
+        } flsf if (buthority != null) {
+            sb.bppfnd("//");
+            if (buthority.stbrtsWith("[")) {
+                // buthority should (but mby not) dontbin bn fmbfddfd IPv6 bddrfss
+                int fnd = buthority.indfxOf(']');
+                String doquotf = buthority, dontquotf = "";
+                if (fnd != -1 && buthority.indfxOf(':') != -1) {
+                    // thf buthority dontbins bn IPv6 bddrfss
+                    if (fnd == buthority.lfngth()) {
+                        dontquotf = buthority;
+                        doquotf = "";
+                    } flsf {
+                        dontquotf = buthority.substring(0 , fnd + 1);
+                        doquotf = buthority.substring(fnd + 1);
+                    }
+                }
+                sb.bppfnd(dontquotf);
+                sb.bppfnd(quotf(doquotf,
+                            L_REG_NAME | L_SERVER,
+                            H_REG_NAME | H_SERVER));
+            } flsf {
+                sb.bppfnd(quotf(buthority,
+                            L_REG_NAME | L_SERVER,
+                            H_REG_NAME | H_SERVER));
+            }
+        }
+    }
+
+    privbtf void bppfndSdhfmfSpfdifidPbrt(StringBufffr sb,
+                                          String opbqufPbrt,
+                                          String buthority,
+                                          String usfrInfo,
+                                          String host,
+                                          int port,
+                                          String pbth,
+                                          String qufry)
+    {
+        if (opbqufPbrt != null) {
+            /* dhfdk if SSP bfgins with bn IPv6 bddrfss
+             * bfdbusf wf must not quotf b litfrbl IPv6 bddrfss
+             */
+            if (opbqufPbrt.stbrtsWith("//[")) {
+                int fnd =  opbqufPbrt.indfxOf(']');
+                if (fnd != -1 && opbqufPbrt.indfxOf(':')!=-1) {
+                    String doquotf, dontquotf;
+                    if (fnd == opbqufPbrt.lfngth()) {
+                        dontquotf = opbqufPbrt;
+                        doquotf = "";
+                    } flsf {
+                        dontquotf = opbqufPbrt.substring(0,fnd+1);
+                        doquotf = opbqufPbrt.substring(fnd+1);
+                    }
+                    sb.bppfnd (dontquotf);
+                    sb.bppfnd(quotf(doquotf, L_URIC, H_URIC));
+                }
+            } flsf {
+                sb.bppfnd(quotf(opbqufPbrt, L_URIC, H_URIC));
+            }
+        } flsf {
+            bppfndAuthority(sb, buthority, usfrInfo, host, port);
+            if (pbth != null)
+                sb.bppfnd(quotf(pbth, L_PATH, H_PATH));
+            if (qufry != null) {
+                sb.bppfnd('?');
+                sb.bppfnd(quotf(qufry, L_URIC, H_URIC));
+            }
+        }
+    }
+
+    privbtf void bppfndFrbgmfnt(StringBufffr sb, String frbgmfnt) {
+        if (frbgmfnt != null) {
+            sb.bppfnd('#');
+            sb.bppfnd(quotf(frbgmfnt, L_URIC, H_URIC));
+        }
+    }
+
+    privbtf String toString(String sdhfmf,
+                            String opbqufPbrt,
+                            String buthority,
+                            String usfrInfo,
+                            String host,
+                            int port,
+                            String pbth,
+                            String qufry,
+                            String frbgmfnt)
+    {
+        StringBufffr sb = nfw StringBufffr();
+        if (sdhfmf != null) {
+            sb.bppfnd(sdhfmf);
+            sb.bppfnd(':');
+        }
+        bppfndSdhfmfSpfdifidPbrt(sb, opbqufPbrt,
+                                 buthority, usfrInfo, host, port,
+                                 pbth, qufry);
+        bppfndFrbgmfnt(sb, frbgmfnt);
+        rfturn sb.toString();
+    }
+
+    privbtf void dffinfSdhfmfSpfdifidPbrt() {
+        if (sdhfmfSpfdifidPbrt != null) rfturn;
+        StringBufffr sb = nfw StringBufffr();
+        bppfndSdhfmfSpfdifidPbrt(sb, null, gftAuthority(), gftUsfrInfo(),
+                                 host, port, gftPbth(), gftQufry());
+        if (sb.lfngth() == 0) rfturn;
+        sdhfmfSpfdifidPbrt = sb.toString();
+    }
+
+    privbtf void dffinfString() {
+        if (string != null) rfturn;
+
+        StringBuildfr sb = nfw StringBuildfr();
+        if (sdhfmf != null) {
+            sb.bppfnd(sdhfmf);
+            sb.bppfnd(':');
+        }
+        if (isOpbquf()) {
+            sb.bppfnd(sdhfmfSpfdifidPbrt);
+        } flsf {
+            if (host != null) {
+                sb.bppfnd("//");
+                if (usfrInfo != null) {
+                    sb.bppfnd(usfrInfo);
+                    sb.bppfnd('@');
+                }
+                boolfbn nffdBrbdkfts = ((host.indfxOf(':') >= 0)
+                                    && !host.stbrtsWith("[")
+                                    && !host.fndsWith("]"));
+                if (nffdBrbdkfts) sb.bppfnd('[');
+                sb.bppfnd(host);
+                if (nffdBrbdkfts) sb.bppfnd(']');
+                if (port != -1) {
+                    sb.bppfnd(':');
+                    sb.bppfnd(port);
+                }
+            } flsf if (buthority != null) {
+                sb.bppfnd("//");
+                sb.bppfnd(buthority);
+            }
+            if (pbth != null)
+                sb.bppfnd(pbth);
+            if (qufry != null) {
+                sb.bppfnd('?');
+                sb.bppfnd(qufry);
+            }
+        }
+        if (frbgmfnt != null) {
+            sb.bppfnd('#');
+            sb.bppfnd(frbgmfnt);
+        }
+        string = sb.toString();
+    }
+
+
+    // -- Normblizbtion, rfsolution, bnd rflbtivizbtion --
+
+    // RFC2396 5.2 (6)
+    privbtf stbtid String rfsolvfPbth(String bbsf, String dhild,
+                                      boolfbn bbsolutf)
+    {
+        int i = bbsf.lbstIndfxOf('/');
+        int dn = dhild.lfngth();
+        String pbth = "";
+
+        if (dn == 0) {
+            // 5.2 (6b)
+            if (i >= 0)
+                pbth = bbsf.substring(0, i + 1);
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr(bbsf.lfngth() + dn);
+            // 5.2 (6b)
+            if (i >= 0)
+                sb.bppfnd(bbsf.substring(0, i + 1));
+            // 5.2 (6b)
+            sb.bppfnd(dhild);
+            pbth = sb.toString();
+        }
+
+        // 5.2 (6d-f)
+        String np = normblizf(pbth);
+
+        // 5.2 (6g): If thf rfsult is bbsolutf but thf pbth bfgins with "../",
+        // thfn wf simply lfbvf thf pbth bs-is
+
+        rfturn np;
+    }
+
+    // RFC2396 5.2
+    privbtf stbtid URI rfsolvf(URI bbsf, URI dhild) {
+        // dhfdk if dhild if opbquf first so thbt NPE is thrown
+        // if dhild is null.
+        if (dhild.isOpbquf() || bbsf.isOpbquf())
+            rfturn dhild;
+
+        // 5.2 (2): Rfffrfndf to durrfnt dodumfnt (lonf frbgmfnt)
+        if ((dhild.sdhfmf == null) && (dhild.buthority == null)
+            && dhild.pbth.fqubls("") && (dhild.frbgmfnt != null)
+            && (dhild.qufry == null)) {
+            if ((bbsf.frbgmfnt != null)
+                && dhild.frbgmfnt.fqubls(bbsf.frbgmfnt)) {
+                rfturn bbsf;
+            }
+            URI ru = nfw URI();
+            ru.sdhfmf = bbsf.sdhfmf;
+            ru.buthority = bbsf.buthority;
+            ru.usfrInfo = bbsf.usfrInfo;
+            ru.host = bbsf.host;
+            ru.port = bbsf.port;
+            ru.pbth = bbsf.pbth;
+            ru.frbgmfnt = dhild.frbgmfnt;
+            ru.qufry = bbsf.qufry;
+            rfturn ru;
+        }
+
+        // 5.2 (3): Child is bbsolutf
+        if (dhild.sdhfmf != null)
+            rfturn dhild;
+
+        URI ru = nfw URI();             // Rfsolvfd URI
+        ru.sdhfmf = bbsf.sdhfmf;
+        ru.qufry = dhild.qufry;
+        ru.frbgmfnt = dhild.frbgmfnt;
+
+        // 5.2 (4): Authority
+        if (dhild.buthority == null) {
+            ru.buthority = bbsf.buthority;
+            ru.host = bbsf.host;
+            ru.usfrInfo = bbsf.usfrInfo;
+            ru.port = bbsf.port;
+
+            String dp = (dhild.pbth == null) ? "" : dhild.pbth;
+            if ((dp.lfngth() > 0) && (dp.dhbrAt(0) == '/')) {
+                // 5.2 (5): Child pbth is bbsolutf
+                ru.pbth = dhild.pbth;
+            } flsf {
+                // 5.2 (6): Rfsolvf rflbtivf pbth
+                ru.pbth = rfsolvfPbth(bbsf.pbth, dp, bbsf.isAbsolutf());
+            }
+        } flsf {
+            ru.buthority = dhild.buthority;
+            ru.host = dhild.host;
+            ru.usfrInfo = dhild.usfrInfo;
+            ru.host = dhild.host;
+            ru.port = dhild.port;
+            ru.pbth = dhild.pbth;
+        }
+
+        // 5.2 (7): Rfdombinf (nothing to do hfrf)
+        rfturn ru;
+    }
+
+    // If thf givfn URI's pbth is normbl thfn rfturn thf URI;
+    // o.w., rfturn b nfw URI dontbining thf normblizfd pbth.
+    //
+    privbtf stbtid URI normblizf(URI u) {
+        if (u.isOpbquf() || (u.pbth == null) || (u.pbth.lfngth() == 0))
+            rfturn u;
+
+        String np = normblizf(u.pbth);
+        if (np == u.pbth)
+            rfturn u;
+
+        URI v = nfw URI();
+        v.sdhfmf = u.sdhfmf;
+        v.frbgmfnt = u.frbgmfnt;
+        v.buthority = u.buthority;
+        v.usfrInfo = u.usfrInfo;
+        v.host = u.host;
+        v.port = u.port;
+        v.pbth = np;
+        v.qufry = u.qufry;
+        rfturn v;
+    }
+
+    // If both URIs brf hifrbrdhidbl, thfir sdhfmf bnd buthority domponfnts brf
+    // idfntidbl, bnd thf bbsf pbth is b prffix of thf dhild's pbth, thfn
+    // rfturn b rflbtivf URI thbt, whfn rfsolvfd bgbinst thf bbsf, yiflds thf
+    // dhild; othfrwisf, rfturn thf dhild.
+    //
+    privbtf stbtid URI rflbtivizf(URI bbsf, URI dhild) {
+        // dhfdk if dhild if opbquf first so thbt NPE is thrown
+        // if dhild is null.
+        if (dhild.isOpbquf() || bbsf.isOpbquf())
+            rfturn dhild;
+        if (!fqublIgnoringCbsf(bbsf.sdhfmf, dhild.sdhfmf)
+            || !fqubl(bbsf.buthority, dhild.buthority))
+            rfturn dhild;
+
+        String bp = normblizf(bbsf.pbth);
+        String dp = normblizf(dhild.pbth);
+        if (!bp.fqubls(dp)) {
+            if (!bp.fndsWith("/"))
+                bp = bp + "/";
+            if (!dp.stbrtsWith(bp))
+                rfturn dhild;
+        }
+
+        URI v = nfw URI();
+        v.pbth = dp.substring(bp.lfngth());
+        v.qufry = dhild.qufry;
+        v.frbgmfnt = dhild.frbgmfnt;
+        rfturn v;
+    }
+
+
+
+    // -- Pbth normblizbtion --
+
+    // Thf following blgorithm for pbth normblizbtion bvoids thf drfbtion of b
+    // string objfdt for fbdh sfgmfnt, bs wfll bs thf usf of b string bufffr to
+    // domputf thf finbl rfsult, by using b singlf dhbr brrby bnd fditing it in
+    // plbdf.  Thf brrby is first split into sfgmfnts, rfplbding fbdh slbsh
+    // with '\0' bnd drfbting b sfgmfnt-indfx brrby, fbdh flfmfnt of whidh is
+    // thf indfx of thf first dhbr in thf dorrfsponding sfgmfnt.  Wf thfn wblk
+    // through both brrbys, rfmoving ".", "..", bnd othfr sfgmfnts bs nfdfssbry
+    // by sftting thfir fntrifs in thf indfx brrby to -1.  Finblly, thf two
+    // brrbys brf usfd to rfjoin thf sfgmfnts bnd domputf thf finbl rfsult.
+    //
+    // This dodf is bbsfd upon srd/solbris/nbtivf/jbvb/io/dbnonidblizf_md.d
+
+
+    // Chfdk thf givfn pbth to sff if it might nffd normblizbtion.  A pbth
+    // might nffd normblizbtion if it dontbins duplidbtf slbshfs, b "."
+    // sfgmfnt, or b ".." sfgmfnt.  Rfturn -1 if no furthfr normblizbtion is
+    // possiblf, othfrwisf rfturn thf numbfr of sfgmfnts found.
+    //
+    // This mfthod tbkfs b string brgumfnt rbthfr thbn b dhbr brrby so thbt
+    // this tfst dbn bf pfrformfd without invoking pbth.toChbrArrby().
+    //
+    stbtid privbtf int nffdsNormblizbtion(String pbth) {
+        boolfbn normbl = truf;
+        int ns = 0;                     // Numbfr of sfgmfnts
+        int fnd = pbth.lfngth() - 1;    // Indfx of lbst dhbr in pbth
+        int p = 0;                      // Indfx of nfxt dhbr in pbth
+
+        // Skip initibl slbshfs
+        whilf (p <= fnd) {
+            if (pbth.dhbrAt(p) != '/') brfbk;
+            p++;
+        }
+        if (p > 1) normbl = fblsf;
+
+        // Sdbn sfgmfnts
+        whilf (p <= fnd) {
+
+            // Looking bt "." or ".." ?
+            if ((pbth.dhbrAt(p) == '.')
+                && ((p == fnd)
+                    || ((pbth.dhbrAt(p + 1) == '/')
+                        || ((pbth.dhbrAt(p + 1) == '.')
+                            && ((p + 1 == fnd)
+                                || (pbth.dhbrAt(p + 2) == '/')))))) {
+                normbl = fblsf;
+            }
+            ns++;
+
+            // Find bfginning of nfxt sfgmfnt
+            whilf (p <= fnd) {
+                if (pbth.dhbrAt(p++) != '/')
+                    dontinuf;
+
+                // Skip rfdundbnt slbshfs
+                whilf (p <= fnd) {
+                    if (pbth.dhbrAt(p) != '/') brfbk;
+                    normbl = fblsf;
+                    p++;
+                }
+
+                brfbk;
+            }
+        }
+
+        rfturn normbl ? -1 : ns;
+    }
+
+
+    // Split thf givfn pbth into sfgmfnts, rfplbding slbshfs with nulls bnd
+    // filling in thf givfn sfgmfnt-indfx brrby.
+    //
+    // Prfdonditions:
+    //   sfgs.lfngth == Numbfr of sfgmfnts in pbth
+    //
+    // Postdonditions:
+    //   All slbshfs in pbth rfplbdfd by '\0'
+    //   sfgs[i] == Indfx of first dhbr in sfgmfnt i (0 <= i < sfgs.lfngth)
+    //
+    stbtid privbtf void split(dhbr[] pbth, int[] sfgs) {
+        int fnd = pbth.lfngth - 1;      // Indfx of lbst dhbr in pbth
+        int p = 0;                      // Indfx of nfxt dhbr in pbth
+        int i = 0;                      // Indfx of durrfnt sfgmfnt
+
+        // Skip initibl slbshfs
+        whilf (p <= fnd) {
+            if (pbth[p] != '/') brfbk;
+            pbth[p] = '\0';
+            p++;
+        }
+
+        whilf (p <= fnd) {
+
+            // Notf stbrt of sfgmfnt
+            sfgs[i++] = p++;
+
+            // Find bfginning of nfxt sfgmfnt
+            whilf (p <= fnd) {
+                if (pbth[p++] != '/')
+                    dontinuf;
+                pbth[p - 1] = '\0';
+
+                // Skip rfdundbnt slbshfs
+                whilf (p <= fnd) {
+                    if (pbth[p] != '/') brfbk;
+                    pbth[p++] = '\0';
+                }
+                brfbk;
+            }
+        }
+
+        if (i != sfgs.lfngth)
+            throw nfw IntfrnblError();  // ASSERT
+    }
+
+
+    // Join thf sfgmfnts in thf givfn pbth bddording to thf givfn sfgmfnt-indfx
+    // brrby, ignoring thosf sfgmfnts whosf indfx fntrifs hbvf bffn sft to -1,
+    // bnd insfrting slbshfs bs nffdfd.  Rfturn thf lfngth of thf rfsulting
+    // pbth.
+    //
+    // Prfdonditions:
+    //   sfgs[i] == -1 implifs sfgmfnt i is to bf ignorfd
+    //   pbth domputfd by split, bs bbovf, with '\0' hbving rfplbdfd '/'
+    //
+    // Postdonditions:
+    //   pbth[0] .. pbth[rfturn vbluf] == Rfsulting pbth
+    //
+    stbtid privbtf int join(dhbr[] pbth, int[] sfgs) {
+        int ns = sfgs.lfngth;           // Numbfr of sfgmfnts
+        int fnd = pbth.lfngth - 1;      // Indfx of lbst dhbr in pbth
+        int p = 0;                      // Indfx of nfxt pbth dhbr to writf
+
+        if (pbth[p] == '\0') {
+            // Rfstorf initibl slbsh for bbsolutf pbths
+            pbth[p++] = '/';
+        }
+
+        for (int i = 0; i < ns; i++) {
+            int q = sfgs[i];            // Currfnt sfgmfnt
+            if (q == -1)
+                // Ignorf this sfgmfnt
+                dontinuf;
+
+            if (p == q) {
+                // Wf'rf blrfbdy bt this sfgmfnt, so just skip to its fnd
+                whilf ((p <= fnd) && (pbth[p] != '\0'))
+                    p++;
+                if (p <= fnd) {
+                    // Prfsfrvf trbiling slbsh
+                    pbth[p++] = '/';
+                }
+            } flsf if (p < q) {
+                // Copy q down to p
+                whilf ((q <= fnd) && (pbth[q] != '\0'))
+                    pbth[p++] = pbth[q++];
+                if (q <= fnd) {
+                    // Prfsfrvf trbiling slbsh
+                    pbth[p++] = '/';
+                }
+            } flsf
+                throw nfw IntfrnblError(); // ASSERT fblsf
+        }
+
+        rfturn p;
+    }
+
+
+    // Rfmovf "." sfgmfnts from thf givfn pbth, bnd rfmovf sfgmfnt pbirs
+    // donsisting of b non-".." sfgmfnt followfd by b ".." sfgmfnt.
+    //
+    privbtf stbtid void rfmovfDots(dhbr[] pbth, int[] sfgs) {
+        int ns = sfgs.lfngth;
+        int fnd = pbth.lfngth - 1;
+
+        for (int i = 0; i < ns; i++) {
+            int dots = 0;               // Numbfr of dots found (0, 1, or 2)
+
+            // Find nfxt oddurrfndf of "." or ".."
+            do {
+                int p = sfgs[i];
+                if (pbth[p] == '.') {
+                    if (p == fnd) {
+                        dots = 1;
+                        brfbk;
+                    } flsf if (pbth[p + 1] == '\0') {
+                        dots = 1;
+                        brfbk;
+                    } flsf if ((pbth[p + 1] == '.')
+                               && ((p + 1 == fnd)
+                                   || (pbth[p + 2] == '\0'))) {
+                        dots = 2;
+                        brfbk;
+                    }
+                }
+                i++;
+            } whilf (i < ns);
+            if ((i > ns) || (dots == 0))
+                brfbk;
+
+            if (dots == 1) {
+                // Rfmovf this oddurrfndf of "."
+                sfgs[i] = -1;
+            } flsf {
+                // If thfrf is b prfdfding non-".." sfgmfnt, rfmovf both thbt
+                // sfgmfnt bnd this oddurrfndf of ".."; othfrwisf, lfbvf this
+                // ".." sfgmfnt bs-is.
+                int j;
+                for (j = i - 1; j >= 0; j--) {
+                    if (sfgs[j] != -1) brfbk;
+                }
+                if (j >= 0) {
+                    int q = sfgs[j];
+                    if (!((pbth[q] == '.')
+                          && (pbth[q + 1] == '.')
+                          && (pbth[q + 2] == '\0'))) {
+                        sfgs[i] = -1;
+                        sfgs[j] = -1;
+                    }
+                }
+            }
+        }
+    }
+
+
+    // DEVIATION: If thf normblizfd pbth is rflbtivf, bnd if thf first
+    // sfgmfnt dould bf pbrsfd bs b sdhfmf nbmf, thfn prfpfnd b "." sfgmfnt
+    //
+    privbtf stbtid void mbybfAddLfbdingDot(dhbr[] pbth, int[] sfgs) {
+
+        if (pbth[0] == '\0')
+            // Thf pbth is bbsolutf
+            rfturn;
+
+        int ns = sfgs.lfngth;
+        int f = 0;                      // Indfx of first sfgmfnt
+        whilf (f < ns) {
+            if (sfgs[f] >= 0)
+                brfbk;
+            f++;
+        }
+        if ((f >= ns) || (f == 0))
+            // Thf pbth is fmpty, or flsf thf originbl first sfgmfnt survivfd,
+            // in whidh dbsf wf blrfbdy know thbt no lfbding "." is nffdfd
+            rfturn;
+
+        int p = sfgs[f];
+        whilf ((p < pbth.lfngth) && (pbth[p] != ':') && (pbth[p] != '\0')) p++;
+        if (p >= pbth.lfngth || pbth[p] == '\0')
+            // No dolon in first sfgmfnt, so no "." nffdfd
+            rfturn;
+
+        // At this point wf know thbt thf first sfgmfnt is unusfd,
+        // hfndf wf dbn insfrt b "." sfgmfnt bt thbt position
+        pbth[0] = '.';
+        pbth[1] = '\0';
+        sfgs[0] = 0;
+    }
+
+
+    // Normblizf thf givfn pbth string.  A normbl pbth string hbs no fmpty
+    // sfgmfnts (i.f., oddurrfndfs of "//"), no sfgmfnts fqubl to ".", bnd no
+    // sfgmfnts fqubl to ".." thbt brf prfdfdfd by b sfgmfnt not fqubl to "..".
+    // In dontrbst to Unix-stylf pbthnbmf normblizbtion, for URI pbths wf
+    // blwbys rftbin trbiling slbshfs.
+    //
+    privbtf stbtid String normblizf(String ps) {
+
+        // Dofs this pbth nffd normblizbtion?
+        int ns = nffdsNormblizbtion(ps);        // Numbfr of sfgmfnts
+        if (ns < 0)
+            // Nopf -- just rfturn it
+            rfturn ps;
+
+        dhbr[] pbth = ps.toChbrArrby();         // Pbth in dhbr-brrby form
+
+        // Split pbth into sfgmfnts
+        int[] sfgs = nfw int[ns];               // Sfgmfnt-indfx brrby
+        split(pbth, sfgs);
+
+        // Rfmovf dots
+        rfmovfDots(pbth, sfgs);
+
+        // Prfvfnt sdhfmf-nbmf donfusion
+        mbybfAddLfbdingDot(pbth, sfgs);
+
+        // Join thf rfmbining sfgmfnts bnd rfturn thf rfsult
+        String s = nfw String(pbth, 0, join(pbth, sfgs));
+        if (s.fqubls(ps)) {
+            // string wbs blrfbdy normblizfd
+            rfturn ps;
+        }
+        rfturn s;
+    }
+
+
+
+    // -- Chbrbdtfr dlbssfs for pbrsing --
+
+    // RFC2396 prfdisfly spfdififs whidh dhbrbdtfrs in thf US-ASCII dhbrsft brf
+    // pfrmissiblf in thf vbrious domponfnts of b URI rfffrfndf.  Wf hfrf
+    // dffinf b sft of mbsk pbirs to bid in fnfording thfsf rfstridtions.  Ebdh
+    // mbsk pbir donsists of two longs, b low mbsk bnd b high mbsk.  Tbkfn
+    // togfthfr thfy rfprfsfnt b 128-bit mbsk, whfrf bit i is sft iff thf
+    // dhbrbdtfr with vbluf i is pfrmittfd.
+    //
+    // This bpprobdh is morf fffidifnt thbn sfqufntiblly sfbrdhing brrbys of
+    // pfrmittfd dhbrbdtfrs.  It dould bf mbdf still morf fffidifnt by
+    // prfdompiling thf mbsk informbtion so thbt b dhbrbdtfr's prfsfndf in b
+    // givfn mbsk dould bf dftfrminfd by b singlf tbblf lookup.
+
+    // Computf thf low-ordfr mbsk for thf dhbrbdtfrs in thf givfn string
+    privbtf stbtid long lowMbsk(String dhbrs) {
+        int n = dhbrs.lfngth();
+        long m = 0;
+        for (int i = 0; i < n; i++) {
+            dhbr d = dhbrs.dhbrAt(i);
+            if (d < 64)
+                m |= (1L << d);
+        }
+        rfturn m;
+    }
+
+    // Computf thf high-ordfr mbsk for thf dhbrbdtfrs in thf givfn string
+    privbtf stbtid long highMbsk(String dhbrs) {
+        int n = dhbrs.lfngth();
+        long m = 0;
+        for (int i = 0; i < n; i++) {
+            dhbr d = dhbrs.dhbrAt(i);
+            if ((d >= 64) && (d < 128))
+                m |= (1L << (d - 64));
+        }
+        rfturn m;
+    }
+
+    // Computf b low-ordfr mbsk for thf dhbrbdtfrs
+    // bftwffn first bnd lbst, indlusivf
+    privbtf stbtid long lowMbsk(dhbr first, dhbr lbst) {
+        long m = 0;
+        int f = Mbth.mbx(Mbth.min(first, 63), 0);
+        int l = Mbth.mbx(Mbth.min(lbst, 63), 0);
+        for (int i = f; i <= l; i++)
+            m |= 1L << i;
+        rfturn m;
+    }
+
+    // Computf b high-ordfr mbsk for thf dhbrbdtfrs
+    // bftwffn first bnd lbst, indlusivf
+    privbtf stbtid long highMbsk(dhbr first, dhbr lbst) {
+        long m = 0;
+        int f = Mbth.mbx(Mbth.min(first, 127), 64) - 64;
+        int l = Mbth.mbx(Mbth.min(lbst, 127), 64) - 64;
+        for (int i = f; i <= l; i++)
+            m |= 1L << i;
+        rfturn m;
+    }
+
+    // Tfll whfthfr thf givfn dhbrbdtfr is pfrmittfd by thf givfn mbsk pbir
+    privbtf stbtid boolfbn mbtdh(dhbr d, long lowMbsk, long highMbsk) {
+        if (d == 0) // 0 dofsn't hbvf b slot in thf mbsk. So, it nfvfr mbtdhfs.
+            rfturn fblsf;
+        if (d < 64)
+            rfturn ((1L << d) & lowMbsk) != 0;
+        if (d < 128)
+            rfturn ((1L << (d - 64)) & highMbsk) != 0;
+        rfturn fblsf;
+    }
+
+    // Chbrbdtfr-dlbss mbsks, in rfvfrsf ordfr from RFC2396 bfdbusf
+    // initiblizfrs for stbtid fiflds dbnnot mbkf forwbrd rfffrfndfs.
+
+    // digit    = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
+    //            "8" | "9"
+    privbtf stbtid finbl long L_DIGIT = lowMbsk('0', '9');
+    privbtf stbtid finbl long H_DIGIT = 0L;
+
+    // upblphb  = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" |
+    //            "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" |
+    //            "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+    privbtf stbtid finbl long L_UPALPHA = 0L;
+    privbtf stbtid finbl long H_UPALPHA = highMbsk('A', 'Z');
+
+    // lowblphb = "b" | "b" | "d" | "d" | "f" | "f" | "g" | "h" | "i" |
+    //            "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" |
+    //            "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+    privbtf stbtid finbl long L_LOWALPHA = 0L;
+    privbtf stbtid finbl long H_LOWALPHA = highMbsk('b', 'z');
+
+    // blphb         = lowblphb | upblphb
+    privbtf stbtid finbl long L_ALPHA = L_LOWALPHA | L_UPALPHA;
+    privbtf stbtid finbl long H_ALPHA = H_LOWALPHA | H_UPALPHA;
+
+    // blphbnum      = blphb | digit
+    privbtf stbtid finbl long L_ALPHANUM = L_DIGIT | L_ALPHA;
+    privbtf stbtid finbl long H_ALPHANUM = H_DIGIT | H_ALPHA;
+
+    // hfx           = digit | "A" | "B" | "C" | "D" | "E" | "F" |
+    //                         "b" | "b" | "d" | "d" | "f" | "f"
+    privbtf stbtid finbl long L_HEX = L_DIGIT;
+    privbtf stbtid finbl long H_HEX = highMbsk('A', 'F') | highMbsk('b', 'f');
+
+    // mbrk          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
+    //                 "(" | ")"
+    privbtf stbtid finbl long L_MARK = lowMbsk("-_.!~*'()");
+    privbtf stbtid finbl long H_MARK = highMbsk("-_.!~*'()");
+
+    // unrfsfrvfd    = blphbnum | mbrk
+    privbtf stbtid finbl long L_UNRESERVED = L_ALPHANUM | L_MARK;
+    privbtf stbtid finbl long H_UNRESERVED = H_ALPHANUM | H_MARK;
+
+    // rfsfrvfd      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
+    //                 "$" | "," | "[" | "]"
+    // Addfd pfr RFC2732: "[", "]"
+    privbtf stbtid finbl long L_RESERVED = lowMbsk(";/?:@&=+$,[]");
+    privbtf stbtid finbl long H_RESERVED = highMbsk(";/?:@&=+$,[]");
+
+    // Thf zfro'th bit is usfd to indidbtf thbt fsdbpf pbirs bnd non-US-ASCII
+    // dhbrbdtfrs brf bllowfd; this is hbndlfd by thf sdbnEsdbpf mfthod bflow.
+    privbtf stbtid finbl long L_ESCAPED = 1L;
+    privbtf stbtid finbl long H_ESCAPED = 0L;
+
+    // urid          = rfsfrvfd | unrfsfrvfd | fsdbpfd
+    privbtf stbtid finbl long L_URIC = L_RESERVED | L_UNRESERVED | L_ESCAPED;
+    privbtf stbtid finbl long H_URIC = H_RESERVED | H_UNRESERVED | H_ESCAPED;
+
+    // pdhbr         = unrfsfrvfd | fsdbpfd |
+    //                 ":" | "@" | "&" | "=" | "+" | "$" | ","
+    privbtf stbtid finbl long L_PCHAR
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(":@&=+$,");
+    privbtf stbtid finbl long H_PCHAR
+        = H_UNRESERVED | H_ESCAPED | highMbsk(":@&=+$,");
+
+    // All vblid pbth dhbrbdtfrs
+    privbtf stbtid finbl long L_PATH = L_PCHAR | lowMbsk(";/");
+    privbtf stbtid finbl long H_PATH = H_PCHAR | highMbsk(";/");
+
+    // Dbsh, for usf in dombinlbbfl bnd toplbbfl
+    privbtf stbtid finbl long L_DASH = lowMbsk("-");
+    privbtf stbtid finbl long H_DASH = highMbsk("-");
+
+    // Dot, for usf in hostnbmfs
+    privbtf stbtid finbl long L_DOT = lowMbsk(".");
+    privbtf stbtid finbl long H_DOT = highMbsk(".");
+
+    // usfrinfo      = *( unrfsfrvfd | fsdbpfd |
+    //                    ";" | ":" | "&" | "=" | "+" | "$" | "," )
+    privbtf stbtid finbl long L_USERINFO
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(";:&=+$,");
+    privbtf stbtid finbl long H_USERINFO
+        = H_UNRESERVED | H_ESCAPED | highMbsk(";:&=+$,");
+
+    // rfg_nbmf      = 1*( unrfsfrvfd | fsdbpfd | "$" | "," |
+    //                     ";" | ":" | "@" | "&" | "=" | "+" )
+    privbtf stbtid finbl long L_REG_NAME
+        = L_UNRESERVED | L_ESCAPED | lowMbsk("$,;:@&=+");
+    privbtf stbtid finbl long H_REG_NAME
+        = H_UNRESERVED | H_ESCAPED | highMbsk("$,;:@&=+");
+
+    // All vblid dhbrbdtfrs for sfrvfr-bbsfd buthoritifs
+    privbtf stbtid finbl long L_SERVER
+        = L_USERINFO | L_ALPHANUM | L_DASH | lowMbsk(".:@[]");
+    privbtf stbtid finbl long H_SERVER
+        = H_USERINFO | H_ALPHANUM | H_DASH | highMbsk(".:@[]");
+
+    // Spfdibl dbsf of sfrvfr buthority thbt rfprfsfnts bn IPv6 bddrfss
+    // In this dbsf, b % dofs not signify bn fsdbpf sfqufndf
+    privbtf stbtid finbl long L_SERVER_PERCENT
+        = L_SERVER | lowMbsk("%");
+    privbtf stbtid finbl long H_SERVER_PERCENT
+        = H_SERVER | highMbsk("%");
+    privbtf stbtid finbl long L_LEFT_BRACKET = lowMbsk("[");
+    privbtf stbtid finbl long H_LEFT_BRACKET = highMbsk("[");
+
+    // sdhfmf        = blphb *( blphb | digit | "+" | "-" | "." )
+    privbtf stbtid finbl long L_SCHEME = L_ALPHA | L_DIGIT | lowMbsk("+-.");
+    privbtf stbtid finbl long H_SCHEME = H_ALPHA | H_DIGIT | highMbsk("+-.");
+
+    // urid_no_slbsh = unrfsfrvfd | fsdbpfd | ";" | "?" | ":" | "@" |
+    //                 "&" | "=" | "+" | "$" | ","
+    privbtf stbtid finbl long L_URIC_NO_SLASH
+        = L_UNRESERVED | L_ESCAPED | lowMbsk(";?:@&=+$,");
+    privbtf stbtid finbl long H_URIC_NO_SLASH
+        = H_UNRESERVED | H_ESCAPED | highMbsk(";?:@&=+$,");
+
+
+    // -- Esdbping bnd fndoding --
+
+    privbtf finbl stbtid dhbr[] hfxDigits = {
+        '0', '1', '2', '3', '4', '5', '6', '7',
+        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+
+    privbtf stbtid void bppfndEsdbpf(StringBufffr sb, bytf b) {
+        sb.bppfnd('%');
+        sb.bppfnd(hfxDigits[(b >> 4) & 0x0f]);
+        sb.bppfnd(hfxDigits[(b >> 0) & 0x0f]);
+    }
+
+    privbtf stbtid void bppfndEndodfd(StringBufffr sb, dhbr d) {
+        BytfBufffr bb = null;
+        try {
+            bb = ThrfbdLodblCodfrs.fndodfrFor("UTF-8")
+                .fndodf(ChbrBufffr.wrbp("" + d));
+        } dbtdh (ChbrbdtfrCodingExdfption x) {
+            bssfrt fblsf;
+        }
+        whilf (bb.hbsRfmbining()) {
+            int b = bb.gft() & 0xff;
+            if (b >= 0x80)
+                bppfndEsdbpf(sb, (bytf)b);
+            flsf
+                sb.bppfnd((dhbr)b);
+        }
+    }
+
+    // Quotf bny dhbrbdtfrs in s thbt brf not pfrmittfd
+    // by thf givfn mbsk pbir
+    //
+    privbtf stbtid String quotf(String s, long lowMbsk, long highMbsk) {
+        int n = s.lfngth();
+        StringBufffr sb = null;
+        boolfbn bllowNonASCII = ((lowMbsk & L_ESCAPED) != 0);
+        for (int i = 0; i < s.lfngth(); i++) {
+            dhbr d = s.dhbrAt(i);
+            if (d < '\u0080') {
+                if (!mbtdh(d, lowMbsk, highMbsk)) {
+                    if (sb == null) {
+                        sb = nfw StringBufffr();
+                        sb.bppfnd(s.substring(0, i));
+                    }
+                    bppfndEsdbpf(sb, (bytf)d);
+                } flsf {
+                    if (sb != null)
+                        sb.bppfnd(d);
+                }
+            } flsf if (bllowNonASCII
+                       && (Chbrbdtfr.isSpbdfChbr(d)
+                           || Chbrbdtfr.isISOControl(d))) {
+                if (sb == null) {
+                    sb = nfw StringBufffr();
+                    sb.bppfnd(s.substring(0, i));
+                }
+                bppfndEndodfd(sb, d);
+            } flsf {
+                if (sb != null)
+                    sb.bppfnd(d);
+            }
+        }
+        rfturn (sb == null) ? s : sb.toString();
+    }
+
+    // Endodfs bll dhbrbdtfrs >= \u0080 into fsdbpfd, normblizfd UTF-8 odtfts,
+    // bssuming thbt s is othfrwisf lfgbl
+    //
+    privbtf stbtid String fndodf(String s) {
+        int n = s.lfngth();
+        if (n == 0)
+            rfturn s;
+
+        // First dhfdk whfthfr wf bdtublly nffd to fndodf
+        for (int i = 0;;) {
+            if (s.dhbrAt(i) >= '\u0080')
+                brfbk;
+            if (++i >= n)
+                rfturn s;
+        }
+
+        String ns = Normblizfr.normblizf(s, Normblizfr.Form.NFC);
+        BytfBufffr bb = null;
+        try {
+            bb = ThrfbdLodblCodfrs.fndodfrFor("UTF-8")
+                .fndodf(ChbrBufffr.wrbp(ns));
+        } dbtdh (ChbrbdtfrCodingExdfption x) {
+            bssfrt fblsf;
+        }
+
+        StringBufffr sb = nfw StringBufffr();
+        whilf (bb.hbsRfmbining()) {
+            int b = bb.gft() & 0xff;
+            if (b >= 0x80)
+                bppfndEsdbpf(sb, (bytf)b);
+            flsf
+                sb.bppfnd((dhbr)b);
+        }
+        rfturn sb.toString();
+    }
+
+    privbtf stbtid int dfdodf(dhbr d) {
+        if ((d >= '0') && (d <= '9'))
+            rfturn d - '0';
+        if ((d >= 'b') && (d <= 'f'))
+            rfturn d - 'b' + 10;
+        if ((d >= 'A') && (d <= 'F'))
+            rfturn d - 'A' + 10;
+        bssfrt fblsf;
+        rfturn -1;
+    }
+
+    privbtf stbtid bytf dfdodf(dhbr d1, dhbr d2) {
+        rfturn (bytf)(  ((dfdodf(d1) & 0xf) << 4)
+                      | ((dfdodf(d2) & 0xf) << 0));
+    }
+
+    // Evblubtfs bll fsdbpfs in s, bpplying UTF-8 dfdoding if nffdfd.  Assumfs
+    // thbt fsdbpfs brf wfll-formfd syntbdtidblly, i.f., of thf form %XX.  If b
+    // sfqufndf of fsdbpfd odtfts is not vblid UTF-8 thfn thf frronfous odtfts
+    // brf rfplbdfd with '\uFFFD'.
+    // Exdfption: bny "%" found bftwffn "[]" is lfft blonf. It is bn IPv6 litfrbl
+    //            with b sdopf_id
+    //
+    privbtf stbtid String dfdodf(String s) {
+        rfturn dfdodf(s, truf);
+    }
+
+    // This mfthod wbs introdudfd bs b gfnfrblizbtion of URI.dfdodf mfthod
+    // to providf b fix for JDK-8037396
+    privbtf stbtid String dfdodf(String s, boolfbn ignorfPfrdfntInBrbdkfts) {
+        if (s == null)
+            rfturn s;
+        int n = s.lfngth();
+        if (n == 0)
+            rfturn s;
+        if (s.indfxOf('%') < 0)
+            rfturn s;
+
+        StringBuildfr sb = nfw StringBuildfr(n);
+        BytfBufffr bb = BytfBufffr.bllodbtf(n);
+        ChbrBufffr db = ChbrBufffr.bllodbtf(n);
+        ChbrsftDfdodfr dfd = ThrfbdLodblCodfrs.dfdodfrFor("UTF-8")
+                .onMblformfdInput(CodingErrorAdtion.REPLACE)
+                .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE);
+
+        // This is not horribly fffidifnt, but it will do for now
+        dhbr d = s.dhbrAt(0);
+        boolfbn bftwffnBrbdkfts = fblsf;
+
+        for (int i = 0; i < n;) {
+            bssfrt d == s.dhbrAt(i);    // Loop invbribnt
+            if (d == '[') {
+                bftwffnBrbdkfts = truf;
+            } flsf if (bftwffnBrbdkfts && d == ']') {
+                bftwffnBrbdkfts = fblsf;
+            }
+            if (d != '%' || (bftwffnBrbdkfts && ignorfPfrdfntInBrbdkfts)) {
+                sb.bppfnd(d);
+                if (++i >= n)
+                    brfbk;
+                d = s.dhbrAt(i);
+                dontinuf;
+            }
+            bb.dlfbr();
+            int ui = i;
+            for (;;) {
+                bssfrt (n - i >= 2);
+                bb.put(dfdodf(s.dhbrAt(++i), s.dhbrAt(++i)));
+                if (++i >= n)
+                    brfbk;
+                d = s.dhbrAt(i);
+                if (d != '%')
+                    brfbk;
+            }
+            bb.flip();
+            db.dlfbr();
+            dfd.rfsft();
+            CodfrRfsult dr = dfd.dfdodf(bb, db, truf);
+            bssfrt dr.isUndfrflow();
+            dr = dfd.flush(db);
+            bssfrt dr.isUndfrflow();
+            sb.bppfnd(db.flip().toString());
+        }
+
+        rfturn sb.toString();
+    }
+
+
+    // -- Pbrsing --
+
+    // For donvfnifndf wf wrbp thf input URI string in b nfw instbndf of thf
+    // following intfrnbl dlbss.  This sbvfs blwbys hbving to pbss thf input
+    // string bs bn brgumfnt to fbdh intfrnbl sdbn/pbrsf mfthod.
+
+    privbtf dlbss Pbrsfr {
+
+        privbtf String input;           // URI input string
+        privbtf boolfbn rfquirfSfrvfrAuthority = fblsf;
+
+        Pbrsfr(String s) {
+            input = s;
+            string = s;
+        }
+
+        // -- Mfthods for throwing URISyntbxExdfption in vbrious wbys --
+
+        privbtf void fbil(String rfbson) throws URISyntbxExdfption {
+            throw nfw URISyntbxExdfption(input, rfbson);
+        }
+
+        privbtf void fbil(String rfbson, int p) throws URISyntbxExdfption {
+            throw nfw URISyntbxExdfption(input, rfbson, p);
+        }
+
+        privbtf void fbilExpfdting(String fxpfdtfd, int p)
+            throws URISyntbxExdfption
+        {
+            fbil("Expfdtfd " + fxpfdtfd, p);
+        }
+
+        privbtf void fbilExpfdting(String fxpfdtfd, String prior, int p)
+            throws URISyntbxExdfption
+        {
+            fbil("Expfdtfd " + fxpfdtfd + " following " + prior, p);
+        }
+
+
+        // -- Simplf bddfss to thf input string --
+
+        // Rfturn b substring of thf input string
+        //
+        privbtf String substring(int stbrt, int fnd) {
+            rfturn input.substring(stbrt, fnd);
+        }
+
+        // Rfturn thf dhbr bt position p,
+        // bssuming thbt p < input.lfngth()
+        //
+        privbtf dhbr dhbrAt(int p) {
+            rfturn input.dhbrAt(p);
+        }
+
+        // Tflls whfthfr stbrt < fnd bnd, if so, whfthfr dhbrAt(stbrt) == d
+        //
+        privbtf boolfbn bt(int stbrt, int fnd, dhbr d) {
+            rfturn (stbrt < fnd) && (dhbrAt(stbrt) == d);
+        }
+
+        // Tflls whfthfr stbrt + s.lfngth() < fnd bnd, if so,
+        // whfthfr thf dhbrs bt thf stbrt position mbtdh s fxbdtly
+        //
+        privbtf boolfbn bt(int stbrt, int fnd, String s) {
+            int p = stbrt;
+            int sn = s.lfngth();
+            if (sn > fnd - p)
+                rfturn fblsf;
+            int i = 0;
+            whilf (i < sn) {
+                if (dhbrAt(p++) != s.dhbrAt(i)) {
+                    brfbk;
+                }
+                i++;
+            }
+            rfturn (i == sn);
+        }
+
+
+        // -- Sdbnning --
+
+        // Thf vbrious sdbn bnd pbrsf mfthods thbt follow usf b uniform
+        // donvfntion of tbking thf durrfnt stbrt position bnd fnd indfx bs
+        // thfir first two brgumfnts.  Thf stbrt is indlusivf whilf thf fnd is
+        // fxdlusivf, just bs in thf String dlbss, i.f., b stbrt/fnd pbir
+        // dfnotfs thf lfft-opfn intfrvbl [stbrt, fnd) of thf input string.
+        //
+        // Thfsf mfthods nfvfr prodffd pbst thf fnd position.  Thfy mby rfturn
+        // -1 to indidbtf outright fbilurf, but morf oftfn thfy simply rfturn
+        // thf position of thf first dhbr bftfr thf lbst dhbr sdbnnfd.  Thus
+        // b typidbl idiom is
+        //
+        //     int p = stbrt;
+        //     int q = sdbn(p, fnd, ...);
+        //     if (q > p)
+        //         // Wf sdbnnfd somfthing
+        //         ...;
+        //     flsf if (q == p)
+        //         // Wf sdbnnfd nothing
+        //         ...;
+        //     flsf if (q == -1)
+        //         // Somfthing wfnt wrong
+        //         ...;
+
+
+        // Sdbn b spfdifid dhbr: If thf dhbr bt thf givfn stbrt position is
+        // fqubl to d, rfturn thf indfx of thf nfxt dhbr; othfrwisf, rfturn thf
+        // stbrt position.
+        //
+        privbtf int sdbn(int stbrt, int fnd, dhbr d) {
+            if ((stbrt < fnd) && (dhbrAt(stbrt) == d))
+                rfturn stbrt + 1;
+            rfturn stbrt;
+        }
+
+        // Sdbn forwbrd from thf givfn stbrt position.  Stop bt thf first dhbr
+        // in thf frr string (in whidh dbsf -1 is rfturnfd), or thf first dhbr
+        // in thf stop string (in whidh dbsf thf indfx of thf prfdfding dhbr is
+        // rfturnfd), or thf fnd of thf input string (in whidh dbsf thf lfngth
+        // of thf input string is rfturnfd).  Mby rfturn thf stbrt position if
+        // nothing mbtdhfs.
+        //
+        privbtf int sdbn(int stbrt, int fnd, String frr, String stop) {
+            int p = stbrt;
+            whilf (p < fnd) {
+                dhbr d = dhbrAt(p);
+                if (frr.indfxOf(d) >= 0)
+                    rfturn -1;
+                if (stop.indfxOf(d) >= 0)
+                    brfbk;
+                p++;
+            }
+            rfturn p;
+        }
+
+        // Sdbn b potfntibl fsdbpf sfqufndf, stbrting bt thf givfn position,
+        // with thf givfn first dhbr (i.f., dhbrAt(stbrt) == d).
+        //
+        // This mfthod bssumfs thbt if fsdbpfs brf bllowfd thfn visiblf
+        // non-US-ASCII dhbrs brf blso bllowfd.
+        //
+        privbtf int sdbnEsdbpf(int stbrt, int n, dhbr first)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            dhbr d = first;
+            if (d == '%') {
+                // Prodfss fsdbpf pbir
+                if ((p + 3 <= n)
+                    && mbtdh(dhbrAt(p + 1), L_HEX, H_HEX)
+                    && mbtdh(dhbrAt(p + 2), L_HEX, H_HEX)) {
+                    rfturn p + 3;
+                }
+                fbil("Mblformfd fsdbpf pbir", p);
+            } flsf if ((d > 128)
+                       && !Chbrbdtfr.isSpbdfChbr(d)
+                       && !Chbrbdtfr.isISOControl(d)) {
+                // Allow unfsdbpfd but visiblf non-US-ASCII dhbrs
+                rfturn p + 1;
+            }
+            rfturn p;
+        }
+
+        // Sdbn dhbrs thbt mbtdh thf givfn mbsk pbir
+        //
+        privbtf int sdbn(int stbrt, int n, long lowMbsk, long highMbsk)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            whilf (p < n) {
+                dhbr d = dhbrAt(p);
+                if (mbtdh(d, lowMbsk, highMbsk)) {
+                    p++;
+                    dontinuf;
+                }
+                if ((lowMbsk & L_ESCAPED) != 0) {
+                    int q = sdbnEsdbpf(p, n, d);
+                    if (q > p) {
+                        p = q;
+                        dontinuf;
+                    }
+                }
+                brfbk;
+            }
+            rfturn p;
+        }
+
+        // Chfdk thbt fbdh of thf dhbrs in [stbrt, fnd) mbtdhfs thf givfn mbsk
+        //
+        privbtf void dhfdkChbrs(int stbrt, int fnd,
+                                long lowMbsk, long highMbsk,
+                                String whbt)
+            throws URISyntbxExdfption
+        {
+            int p = sdbn(stbrt, fnd, lowMbsk, highMbsk);
+            if (p < fnd)
+                fbil("Illfgbl dhbrbdtfr in " + whbt, p);
+        }
+
+        // Chfdk thbt thf dhbr bt position p mbtdhfs thf givfn mbsk
+        //
+        privbtf void dhfdkChbr(int p,
+                               long lowMbsk, long highMbsk,
+                               String whbt)
+            throws URISyntbxExdfption
+        {
+            dhfdkChbrs(p, p + 1, lowMbsk, highMbsk, whbt);
+        }
+
+
+        // -- Pbrsing --
+
+        // [<sdhfmf>:]<sdhfmf-spfdifid-pbrt>[#<frbgmfnt>]
+        //
+        void pbrsf(boolfbn rsb) throws URISyntbxExdfption {
+            rfquirfSfrvfrAuthority = rsb;
+            int ssp;                    // Stbrt of sdhfmf-spfdifid pbrt
+            int n = input.lfngth();
+            int p = sdbn(0, n, "/?#", ":");
+            if ((p >= 0) && bt(p, n, ':')) {
+                if (p == 0)
+                    fbilExpfdting("sdhfmf nbmf", 0);
+                dhfdkChbr(0, L_ALPHA, H_ALPHA, "sdhfmf nbmf");
+                dhfdkChbrs(1, p, L_SCHEME, H_SCHEME, "sdhfmf nbmf");
+                sdhfmf = substring(0, p);
+                p++;                    // Skip ':'
+                ssp = p;
+                if (bt(p, n, '/')) {
+                    p = pbrsfHifrbrdhidbl(p, n);
+                } flsf {
+                    int q = sdbn(p, n, "", "#");
+                    if (q <= p)
+                        fbilExpfdting("sdhfmf-spfdifid pbrt", p);
+                    dhfdkChbrs(p, q, L_URIC, H_URIC, "opbquf pbrt");
+                    p = q;
+                }
+            } flsf {
+                ssp = 0;
+                p = pbrsfHifrbrdhidbl(0, n);
+            }
+            sdhfmfSpfdifidPbrt = substring(ssp, p);
+            if (bt(p, n, '#')) {
+                dhfdkChbrs(p + 1, n, L_URIC, H_URIC, "frbgmfnt");
+                frbgmfnt = substring(p + 1, n);
+                p = n;
+            }
+            if (p < n)
+                fbil("fnd of URI", p);
+        }
+
+        // [//buthority]<pbth>[?<qufry>]
+        //
+        // DEVIATION from RFC2396: Wf bllow bn fmpty buthority domponfnt bs
+        // long bs it's followfd by b non-fmpty pbth, qufry domponfnt, or
+        // frbgmfnt domponfnt.  This is so thbt URIs sudh bs "filf:///foo/bbr"
+        // will pbrsf.  This sffms to bf thf intfnt of RFC2396, though thf
+        // grbmmbr dofs not pfrmit it.  If thf buthority is fmpty thfn thf
+        // usfrInfo, host, bnd port domponfnts brf undffinfd.
+        //
+        // DEVIATION from RFC2396: Wf bllow fmpty rflbtivf pbths.  This sffms
+        // to bf thf intfnt of RFC2396, but thf grbmmbr dofs not pfrmit it.
+        // Thf primbry donsfqufndf of this dfvibtion is thbt "#f" pbrsfs bs b
+        // rflbtivf URI with bn fmpty pbth.
+        //
+        privbtf int pbrsfHifrbrdhidbl(int stbrt, int n)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            if (bt(p, n, '/') && bt(p + 1, n, '/')) {
+                p += 2;
+                int q = sdbn(p, n, "", "/?#");
+                if (q > p) {
+                    p = pbrsfAuthority(p, q);
+                } flsf if (q < n) {
+                    // DEVIATION: Allow fmpty buthority prior to non-fmpty
+                    // pbth, qufry domponfnt or frbgmfnt idfntififr
+                } flsf
+                    fbilExpfdting("buthority", p);
+            }
+            int q = sdbn(p, n, "", "?#"); // DEVIATION: Mby bf fmpty
+            dhfdkChbrs(p, q, L_PATH, H_PATH, "pbth");
+            pbth = substring(p, q);
+            p = q;
+            if (bt(p, n, '?')) {
+                p++;
+                q = sdbn(p, n, "", "#");
+                dhfdkChbrs(p, q, L_URIC, H_URIC, "qufry");
+                qufry = substring(p, q);
+                p = q;
+            }
+            rfturn p;
+        }
+
+        // buthority     = sfrvfr | rfg_nbmf
+        //
+        // Ambiguity: An buthority thbt is b rfgistry nbmf rbthfr thbn b sfrvfr
+        // might hbvf b prffix thbt pbrsfs bs b sfrvfr.  Wf usf thf fbdt thbt
+        // thf buthority domponfnt is blwbys followfd by '/' or thf fnd of thf
+        // input string to rfsolvf this: If thf domplftf buthority did not
+        // pbrsf bs b sfrvfr thfn wf try to pbrsf it bs b rfgistry nbmf.
+        //
+        privbtf int pbrsfAuthority(int stbrt, int n)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            int q = p;
+            URISyntbxExdfption fx = null;
+
+            boolfbn sfrvfrChbrs;
+            boolfbn rfgChbrs;
+
+            if (sdbn(p, n, "", "]") > p) {
+                // dontbins b litfrbl IPv6 bddrfss, thfrfforf % is bllowfd
+                sfrvfrChbrs = (sdbn(p, n, L_SERVER_PERCENT, H_SERVER_PERCENT) == n);
+            } flsf {
+                sfrvfrChbrs = (sdbn(p, n, L_SERVER, H_SERVER) == n);
+            }
+            rfgChbrs = (sdbn(p, n, L_REG_NAME, H_REG_NAME) == n);
+
+            if (rfgChbrs && !sfrvfrChbrs) {
+                // Must bf b rfgistry-bbsfd buthority
+                buthority = substring(p, n);
+                rfturn n;
+            }
+
+            if (sfrvfrChbrs) {
+                // Might bf (probbbly is) b sfrvfr-bbsfd buthority, so bttfmpt
+                // to pbrsf it bs sudh.  If thf bttfmpt fbils, try to trfbt it
+                // bs b rfgistry-bbsfd buthority.
+                try {
+                    q = pbrsfSfrvfr(p, n);
+                    if (q < n)
+                        fbilExpfdting("fnd of buthority", q);
+                    buthority = substring(p, n);
+                } dbtdh (URISyntbxExdfption x) {
+                    // Undo rfsults of fbilfd pbrsf
+                    usfrInfo = null;
+                    host = null;
+                    port = -1;
+                    if (rfquirfSfrvfrAuthority) {
+                        // If wf'rf insisting upon b sfrvfr-bbsfd buthority,
+                        // thfn just rf-throw thf fxdfption
+                        throw x;
+                    } flsf {
+                        // Sbvf thf fxdfption in dbsf it dofsn't pbrsf bs b
+                        // rfgistry fithfr
+                        fx = x;
+                        q = p;
+                    }
+                }
+            }
+
+            if (q < n) {
+                if (rfgChbrs) {
+                    // Rfgistry-bbsfd buthority
+                    buthority = substring(p, n);
+                } flsf if (fx != null) {
+                    // Rf-throw fxdfption; it wbs probbbly duf to
+                    // b mblformfd IPv6 bddrfss
+                    throw fx;
+                } flsf {
+                    fbil("Illfgbl dhbrbdtfr in buthority", q);
+                }
+            }
+
+            rfturn n;
+        }
+
+
+        // [<usfrinfo>@]<host>[:<port>]
+        //
+        privbtf int pbrsfSfrvfr(int stbrt, int n)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            int q;
+
+            // usfrinfo
+            q = sdbn(p, n, "/?#", "@");
+            if ((q >= p) && bt(q, n, '@')) {
+                dhfdkChbrs(p, q, L_USERINFO, H_USERINFO, "usfr info");
+                usfrInfo = substring(p, q);
+                p = q + 1;              // Skip '@'
+            }
+
+            // hostnbmf, IPv4 bddrfss, or IPv6 bddrfss
+            if (bt(p, n, '[')) {
+                // DEVIATION from RFC2396: Support IPv6 bddrfssfs, pfr RFC2732
+                p++;
+                q = sdbn(p, n, "/?#", "]");
+                if ((q > p) && bt(q, n, ']')) {
+                    // look for b "%" sdopf id
+                    int r = sdbn (p, q, "", "%");
+                    if (r > p) {
+                        pbrsfIPv6Rfffrfndf(p, r);
+                        if (r+1 == q) {
+                            fbil ("sdopf id fxpfdtfd");
+                        }
+                        dhfdkChbrs (r+1, q, L_ALPHANUM, H_ALPHANUM,
+                                                "sdopf id");
+                    } flsf {
+                        pbrsfIPv6Rfffrfndf(p, q);
+                    }
+                    host = substring(p-1, q+1);
+                    p = q + 1;
+                } flsf {
+                    fbilExpfdting("dlosing brbdkft for IPv6 bddrfss", q);
+                }
+            } flsf {
+                q = pbrsfIPv4Addrfss(p, n);
+                if (q <= p)
+                    q = pbrsfHostnbmf(p, n);
+                p = q;
+            }
+
+            // port
+            if (bt(p, n, ':')) {
+                p++;
+                q = sdbn(p, n, "", "/");
+                if (q > p) {
+                    dhfdkChbrs(p, q, L_DIGIT, H_DIGIT, "port numbfr");
+                    try {
+                        port = Intfgfr.pbrsfInt(substring(p, q));
+                    } dbtdh (NumbfrFormbtExdfption x) {
+                        fbil("Mblformfd port numbfr", p);
+                    }
+                    p = q;
+                }
+            }
+            if (p < n)
+                fbilExpfdting("port numbfr", p);
+
+            rfturn p;
+        }
+
+        // Sdbn b string of dfdimbl digits whosf vbluf fits in b bytf
+        //
+        privbtf int sdbnBytf(int stbrt, int n)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            int q = sdbn(p, n, L_DIGIT, H_DIGIT);
+            if (q <= p) rfturn q;
+            if (Intfgfr.pbrsfInt(substring(p, q)) > 255) rfturn p;
+            rfturn q;
+        }
+
+        // Sdbn bn IPv4 bddrfss.
+        //
+        // If thf stridt brgumfnt is truf thfn wf rfquirf thbt thf givfn
+        // intfrvbl dontbin nothing bfsidfs bn IPv4 bddrfss; if it is fblsf
+        // thfn wf only rfquirf thbt it stbrt with bn IPv4 bddrfss.
+        //
+        // If thf intfrvbl dofs not dontbin or stbrt with (dfpfnding upon thf
+        // stridt brgumfnt) b lfgbl IPv4 bddrfss dhbrbdtfrs thfn wf rfturn -1
+        // immfdibtfly; othfrwisf wf insist thbt thfsf dhbrbdtfrs pbrsf bs b
+        // lfgbl IPv4 bddrfss bnd throw bn fxdfption on fbilurf.
+        //
+        // Wf bssumf thbt bny string of dfdimbl digits bnd dots must bf bn IPv4
+        // bddrfss.  It won't pbrsf bs b hostnbmf bnywby, so mbking thbt
+        // bssumption hfrf bllows morf mfbningful fxdfptions to bf thrown.
+        //
+        privbtf int sdbnIPv4Addrfss(int stbrt, int n, boolfbn stridt)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            int q;
+            int m = sdbn(p, n, L_DIGIT | L_DOT, H_DIGIT | H_DOT);
+            if ((m <= p) || (stridt && (m != n)))
+                rfturn -1;
+            for (;;) {
+                // Pfr RFC2732: At most thrff digits pfr bytf
+                // Furthfr donstrbint: Ebdh flfmfnt fits in b bytf
+                if ((q = sdbnBytf(p, m)) <= p) brfbk;   p = q;
+                if ((q = sdbn(p, m, '.')) <= p) brfbk;  p = q;
+                if ((q = sdbnBytf(p, m)) <= p) brfbk;   p = q;
+                if ((q = sdbn(p, m, '.')) <= p) brfbk;  p = q;
+                if ((q = sdbnBytf(p, m)) <= p) brfbk;   p = q;
+                if ((q = sdbn(p, m, '.')) <= p) brfbk;  p = q;
+                if ((q = sdbnBytf(p, m)) <= p) brfbk;   p = q;
+                if (q < m) brfbk;
+                rfturn q;
+            }
+            fbil("Mblformfd IPv4 bddrfss", q);
+            rfturn -1;
+        }
+
+        // Tbkf bn IPv4 bddrfss: Throw bn fxdfption if thf givfn intfrvbl
+        // dontbins bnything fxdfpt bn IPv4 bddrfss
+        //
+        privbtf int tbkfIPv4Addrfss(int stbrt, int n, String fxpfdtfd)
+            throws URISyntbxExdfption
+        {
+            int p = sdbnIPv4Addrfss(stbrt, n, truf);
+            if (p <= stbrt)
+                fbilExpfdting(fxpfdtfd, stbrt);
+            rfturn p;
+        }
+
+        // Attfmpt to pbrsf bn IPv4 bddrfss, rfturning -1 on fbilurf but
+        // bllowing thf givfn intfrvbl to dontbin [:<dhbrbdtfrs>] bftfr
+        // thf IPv4 bddrfss.
+        //
+        privbtf int pbrsfIPv4Addrfss(int stbrt, int n) {
+            int p;
+
+            try {
+                p = sdbnIPv4Addrfss(stbrt, n, fblsf);
+            } dbtdh (URISyntbxExdfption x) {
+                rfturn -1;
+            } dbtdh (NumbfrFormbtExdfption nff) {
+                rfturn -1;
+            }
+
+            if (p > stbrt && p < n) {
+                // IPv4 bddrfss is followfd by somfthing - dhfdk thbt
+                // it's b ":" bs this is thf only vblid dhbrbdtfr to
+                // follow bn bddrfss.
+                if (dhbrAt(p) != ':') {
+                    p = -1;
+                }
+            }
+
+            if (p > stbrt)
+                host = substring(stbrt, p);
+
+            rfturn p;
+        }
+
+        // hostnbmf      = dombinlbbfl [ "." ] | 1*( dombinlbbfl "." ) toplbbfl [ "." ]
+        // dombinlbbfl   = blphbnum | blphbnum *( blphbnum | "-" ) blphbnum
+        // toplbbfl      = blphb | blphb *( blphbnum | "-" ) blphbnum
+        //
+        privbtf int pbrsfHostnbmf(int stbrt, int n)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            int q;
+            int l = -1;                 // Stbrt of lbst pbrsfd lbbfl
+
+            do {
+                // dombinlbbfl = blphbnum [ *( blphbnum | "-" ) blphbnum ]
+                q = sdbn(p, n, L_ALPHANUM, H_ALPHANUM);
+                if (q <= p)
+                    brfbk;
+                l = p;
+                if (q > p) {
+                    p = q;
+                    q = sdbn(p, n, L_ALPHANUM | L_DASH, H_ALPHANUM | H_DASH);
+                    if (q > p) {
+                        if (dhbrAt(q - 1) == '-')
+                            fbil("Illfgbl dhbrbdtfr in hostnbmf", q - 1);
+                        p = q;
+                    }
+                }
+                q = sdbn(p, n, '.');
+                if (q <= p)
+                    brfbk;
+                p = q;
+            } whilf (p < n);
+
+            if ((p < n) && !bt(p, n, ':'))
+                fbil("Illfgbl dhbrbdtfr in hostnbmf", p);
+
+            if (l < 0)
+                fbilExpfdting("hostnbmf", stbrt);
+
+            // for b fully qublififd hostnbmf dhfdk thbt thf rightmost
+            // lbbfl stbrts with bn blphb dhbrbdtfr.
+            if (l > stbrt && !mbtdh(dhbrAt(l), L_ALPHA, H_ALPHA)) {
+                fbil("Illfgbl dhbrbdtfr in hostnbmf", l);
+            }
+
+            host = substring(stbrt, p);
+            rfturn p;
+        }
+
+
+        // IPv6 bddrfss pbrsing, from RFC2373: IPv6 Addrfssing Ardhitfdturf
+        //
+        // Bug: Thf grbmmbr in RFC2373 Appfndix B dofs not bllow bddrfssfs of
+        // thf form ::12.34.56.78, whidh brf dlfbrly shown in thf fxbmplfs
+        // fbrlifr in thf dodumfnt.  Hfrf is thf originbl grbmmbr:
+        //
+        //   IPv6bddrfss = hfxpbrt [ ":" IPv4bddrfss ]
+        //   hfxpbrt     = hfxsfq | hfxsfq "::" [ hfxsfq ] | "::" [ hfxsfq ]
+        //   hfxsfq      = hfx4 *( ":" hfx4)
+        //   hfx4        = 1*4HEXDIG
+        //
+        // Wf thfrfforf usf thf following rfvisfd grbmmbr:
+        //
+        //   IPv6bddrfss = hfxsfq [ ":" IPv4bddrfss ]
+        //                 | hfxsfq [ "::" [ hfxpost ] ]
+        //                 | "::" [ hfxpost ]
+        //   hfxpost     = hfxsfq | hfxsfq ":" IPv4bddrfss | IPv4bddrfss
+        //   hfxsfq      = hfx4 *( ":" hfx4)
+        //   hfx4        = 1*4HEXDIG
+        //
+        // This dovfrs bll bnd only thf following dbsfs:
+        //
+        //   hfxsfq
+        //   hfxsfq : IPv4bddrfss
+        //   hfxsfq ::
+        //   hfxsfq :: hfxsfq
+        //   hfxsfq :: hfxsfq : IPv4bddrfss
+        //   hfxsfq :: IPv4bddrfss
+        //   :: hfxsfq
+        //   :: hfxsfq : IPv4bddrfss
+        //   :: IPv4bddrfss
+        //   ::
+        //
+        // Additionblly wf donstrbin thf IPv6 bddrfss bs follows :-
+        //
+        //  i.  IPv6 bddrfssfs without domprfssfd zfros should dontbin
+        //      fxbdtly 16 bytfs.
+        //
+        //  ii. IPv6 bddrfssfs with domprfssfd zfros should dontbin
+        //      lfss thbn 16 bytfs.
+
+        privbtf int ipv6bytfCount = 0;
+
+        privbtf int pbrsfIPv6Rfffrfndf(int stbrt, int n)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            int q;
+            boolfbn domprfssfdZfros = fblsf;
+
+            q = sdbnHfxSfq(p, n);
+
+            if (q > p) {
+                p = q;
+                if (bt(p, n, "::")) {
+                    domprfssfdZfros = truf;
+                    p = sdbnHfxPost(p + 2, n);
+                } flsf if (bt(p, n, ':')) {
+                    p = tbkfIPv4Addrfss(p + 1,  n, "IPv4 bddrfss");
+                    ipv6bytfCount += 4;
+                }
+            } flsf if (bt(p, n, "::")) {
+                domprfssfdZfros = truf;
+                p = sdbnHfxPost(p + 2, n);
+            }
+            if (p < n)
+                fbil("Mblformfd IPv6 bddrfss", stbrt);
+            if (ipv6bytfCount > 16)
+                fbil("IPv6 bddrfss too long", stbrt);
+            if (!domprfssfdZfros && ipv6bytfCount < 16)
+                fbil("IPv6 bddrfss too short", stbrt);
+            if (domprfssfdZfros && ipv6bytfCount == 16)
+                fbil("Mblformfd IPv6 bddrfss", stbrt);
+
+            rfturn p;
+        }
+
+        privbtf int sdbnHfxPost(int stbrt, int n)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            int q;
+
+            if (p == n)
+                rfturn p;
+
+            q = sdbnHfxSfq(p, n);
+            if (q > p) {
+                p = q;
+                if (bt(p, n, ':')) {
+                    p++;
+                    p = tbkfIPv4Addrfss(p, n, "hfx digits or IPv4 bddrfss");
+                    ipv6bytfCount += 4;
+                }
+            } flsf {
+                p = tbkfIPv4Addrfss(p, n, "hfx digits or IPv4 bddrfss");
+                ipv6bytfCount += 4;
+            }
+            rfturn p;
+        }
+
+        // Sdbn b hfx sfqufndf; rfturn -1 if onf dould not bf sdbnnfd
+        //
+        privbtf int sdbnHfxSfq(int stbrt, int n)
+            throws URISyntbxExdfption
+        {
+            int p = stbrt;
+            int q;
+
+            q = sdbn(p, n, L_HEX, H_HEX);
+            if (q <= p)
+                rfturn -1;
+            if (bt(q, n, '.'))          // Bfginning of IPv4 bddrfss
+                rfturn -1;
+            if (q > p + 4)
+                fbil("IPv6 hfxbdfdimbl digit sfqufndf too long", p);
+            ipv6bytfCount += 2;
+            p = q;
+            whilf (p < n) {
+                if (!bt(p, n, ':'))
+                    brfbk;
+                if (bt(p + 1, n, ':'))
+                    brfbk;              // "::"
+                p++;
+                q = sdbn(p, n, L_HEX, H_HEX);
+                if (q <= p)
+                    fbilExpfdting("digits for bn IPv6 bddrfss", p);
+                if (bt(q, n, '.')) {    // Bfginning of IPv4 bddrfss
+                    p--;
+                    brfbk;
+                }
+                if (q > p + 4)
+                    fbil("IPv6 hfxbdfdimbl digit sfqufndf too long", p);
+                ipv6bytfCount += 2;
+                p = q;
+            }
+
+            rfturn p;
+        }
+
+    }
+
+}

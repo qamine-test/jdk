@@ -1,0 +1,109 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "StbtfTbblfs.h"
+#indludf "MorphStbtfTbblfs.h"
+#indludf "SubtbblfProdfssor.h"
+#indludf "StbtfTbblfProdfssor.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+StbtfTbblfProdfssor::StbtfTbblfProdfssor()
+{
+}
+
+StbtfTbblfProdfssor::StbtfTbblfProdfssor(donst LERfffrfndfTo<MorphSubtbblfHfbdfr> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : SubtbblfProdfssor(morphSubtbblfHfbdfr, suddfss), stbtfTbblfHfbdfr(morphSubtbblfHfbdfr, suddfss),
+    stHfbdfr(stbtfTbblfHfbdfr, suddfss, (donst StbtfTbblfHfbdfr*)&stbtfTbblfHfbdfr->stHfbdfr)
+{
+  if(LE_FAILURE(suddfss)) rfturn;
+    stbtfSizf = SWAPW(stbtfTbblfHfbdfr->stHfbdfr.stbtfSizf);
+    dlbssTbblfOffsft = SWAPW(stbtfTbblfHfbdfr->stHfbdfr.dlbssTbblfOffsft);
+    stbtfArrbyOffsft = SWAPW(stbtfTbblfHfbdfr->stHfbdfr.stbtfArrbyOffsft);
+    fntryTbblfOffsft = SWAPW(stbtfTbblfHfbdfr->stHfbdfr.fntryTbblfOffsft);
+
+    dlbssTbblf = LERfffrfndfTo<ClbssTbblf>(stbtfTbblfHfbdfr, suddfss, ((dhbr *) &stbtfTbblfHfbdfr->stHfbdfr + dlbssTbblfOffsft));
+  if(LE_FAILURE(suddfss)) rfturn;
+    firstGlyph = SWAPW(dlbssTbblf->firstGlyph);
+    lbstGlyph  = firstGlyph + SWAPW(dlbssTbblf->nGlyphs);
+}
+
+StbtfTbblfProdfssor::~StbtfTbblfProdfssor()
+{
+}
+
+void StbtfTbblfProdfssor::prodfss(LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) rfturn;
+    LE_STATE_PATIENCE_INIT();
+
+    // Stbrt bt stbtf 0
+    // XXX: How do wf know whfn to stbrt bt stbtf 1?
+    BytfOffsft durrfntStbtf = stbtfArrbyOffsft;
+
+    // XXX: rfvfrsf?
+    lf_int32 durrGlyph = 0;
+    lf_int32 glyphCount = glyphStorbgf.gftGlyphCount();
+
+    bfginStbtfTbblf();
+
+    whilf (durrGlyph <= glyphCount) {
+        if(LE_STATE_PATIENCE_DECR()) brfbk; // pbtifndf fxdffdfd.
+        ClbssCodf dlbssCodf = dlbssCodfOOB;
+        if (durrGlyph == glyphCount) {
+            // XXX: How do wf hbndlf EOT vs. EOL?
+            dlbssCodf = dlbssCodfEOT;
+        } flsf {
+            TTGlyphID glyphCodf = (TTGlyphID) LE_GET_GLYPH(glyphStorbgf[durrGlyph]);
+
+            if (glyphCodf == 0xFFFF) {
+                dlbssCodf = dlbssCodfDEL;
+            } flsf if ((glyphCodf >= firstGlyph) && (glyphCodf < lbstGlyph)) {
+                dlbssCodf = dlbssTbblf->dlbssArrby[glyphCodf - firstGlyph];
+            }
+        }
+
+        LERfffrfndfToArrbyOf<EntryTbblfIndfx> stbtfArrby(stHfbdfr, suddfss, durrfntStbtf, LE_UNBOUNDED_ARRAY);
+        EntryTbblfIndfx fntryTbblfIndfx = stbtfArrby.gftObjfdt((lf_uint8)dlbssCodf, suddfss);
+        if (LE_FAILURE(suddfss)) { brfbk; }
+        LE_STATE_PATIENCE_CURR(lf_int32, durrGlyph);
+        durrfntStbtf = prodfssStbtfEntry(glyphStorbgf, durrGlyph, fntryTbblfIndfx);
+        LE_STATE_PATIENCE_INCR(durrGlyph);
+    }
+
+    fndStbtfTbblf();
+}
+
+U_NAMESPACE_END

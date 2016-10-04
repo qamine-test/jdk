@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import sun.swing.SwingUtilities2;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicPopupMenuUI;
+import sun.swing.SwingUtilitifs2;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidPopupMfnuUI;
 
 
 /**
- * A Motif L&F implementation of PopupMenuUI.
+ * A Motif L&F implfmfntbtion of PopupMfnuUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Georges Saab
- * @author Rich Schiavi
+ * @butior Gforgfs Sbbb
+ * @butior Ridi Sdiibvi
  */
-public class MotifPopupMenuUI extends BasicPopupMenuUI {
-    private static Border border = null;
-    private Font titleFont = null;
+publid dlbss MotifPopupMfnuUI fxtfnds BbsidPopupMfnuUI {
+    privbtf stbtid Bordfr bordfr = null;
+    privbtf Font titlfFont = null;
 
-    public static ComponentUI createUI(JComponent x) {
-        return new MotifPopupMenuUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw MotifPopupMfnuUI();
     }
 
-    /* This has to deal with the fact that the title may be wider than
-       the widest child component.
+    /* Tiis ibs to dfbl witi tif fbdt tibt tif titlf mby bf widfr tibn
+       tif widfst diild domponfnt.
        */
-    public Dimension getPreferredSize(JComponent c) {
-        LayoutManager layout = c.getLayout();
-        Dimension d = layout.preferredLayoutSize(c);
-        String title = ((JPopupMenu)c).getLabel();
-        if (titleFont == null) {
-            UIDefaults table = UIManager.getLookAndFeelDefaults();
-            titleFont = table.getFont("PopupMenu.font");
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        LbyoutMbnbgfr lbyout = d.gftLbyout();
+        Dimfnsion d = lbyout.prfffrrfdLbyoutSizf(d);
+        String titlf = ((JPopupMfnu)d).gftLbbfl();
+        if (titlfFont == null) {
+            UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+            titlfFont = tbblf.gftFont("PopupMfnu.font");
         }
-        FontMetrics fm = c.getFontMetrics(titleFont);
-        int         stringWidth = 0;
+        FontMftrids fm = d.gftFontMftrids(titlfFont);
+        int         stringWidti = 0;
 
-        if (title!=null) {
-            stringWidth += SwingUtilities2.stringWidth(c, fm, title);
+        if (titlf!=null) {
+            stringWidti += SwingUtilitifs2.stringWidti(d, fm, titlf);
         }
 
-        if (d.width < stringWidth) {
-            d.width = stringWidth + 8;
-            Insets i = c.getInsets();
+        if (d.widti < stringWidti) {
+            d.widti = stringWidti + 8;
+            Insfts i = d.gftInsfts();
             if (i!=null) {
-                d.width += i.left + i.right;
+                d.widti += i.lfft + i.rigit;
             }
-            if (border != null) {
-                i = border.getBorderInsets(c);
-                d.width += i.left + i.right;
+            if (bordfr != null) {
+                i = bordfr.gftBordfrInsfts(d);
+                d.widti += i.lfft + i.rigit;
             }
 
-            return d;
+            rfturn d;
         }
-        return null;
+        rfturn null;
     }
 
-    protected ChangeListener createChangeListener(JPopupMenu m) {
-        return new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {}
+    protfdtfd CibngfListfnfr drfbtfCibngfListfnfr(JPopupMfnu m) {
+        rfturn nfw CibngfListfnfr() {
+            publid void stbtfCibngfd(CibngfEvfnt f) {}
         };
     }
 
-    public boolean isPopupTrigger(MouseEvent e) {
-        return ((e.getID()==MouseEvent.MOUSE_PRESSED)
-                && ((e.getModifiers() & MouseEvent.BUTTON3_MASK)!=0));
+    publid boolfbn isPopupTriggfr(MousfEvfnt f) {
+        rfturn ((f.gftID()==MousfEvfnt.MOUSE_PRESSED)
+                && ((f.gftModififrs() & MousfEvfnt.BUTTON3_MASK)!=0));
     }
 }

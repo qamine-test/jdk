@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.awt.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.text.*;
-import java.util.Enumeration;
-import java.lang.Integer;
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.tfxt.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.lbng.Intfgfr;
 
 /**
- * A view implementation to display an html horizontal
- * rule.
+ * A vifw implfmfntbtion to displby bn itml iorizontbl
+ * rulf.
  *
- * @author  Timothy Prinzing
- * @author  Sara Swanson
+ * @butior  Timotiy Prinzing
+ * @butior  Sbrb Swbnson
  */
-class HRuleView extends View  {
+dlbss HRulfVifw fxtfnds Vifw  {
 
     /**
-     * Creates a new view that represents an &lt;hr&gt; element.
+     * Crfbtfs b nfw vifw tibt rfprfsfnts bn &lt;ir&gt; flfmfnt.
      *
-     * @param elem the element to create a view for
+     * @pbrbm flfm tif flfmfnt to drfbtf b vifw for
      */
-    public HRuleView(Element elem) {
-        super(elem);
-        setPropertiesFromAttributes();
+    publid HRulfVifw(Elfmfnt flfm) {
+        supfr(flfm);
+        sftPropfrtifsFromAttributfs();
     }
 
     /**
-     * Update any cached values that come from attributes.
+     * Updbtf bny dbdifd vblufs tibt domf from bttributfs.
      */
-    protected void setPropertiesFromAttributes() {
-        StyleSheet sheet = ((HTMLDocument)getDocument()).getStyleSheet();
-        AttributeSet eAttr = getElement().getAttributes();
-        attr = sheet.getViewAttributes(this);
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        StylfSifft sifft = ((HTMLDodumfnt)gftDodumfnt()).gftStylfSifft();
+        AttributfSft fAttr = gftElfmfnt().gftAttributfs();
+        bttr = sifft.gftVifwAttributfs(tiis);
 
-        alignment = StyleConstants.ALIGN_CENTER;
-        size = 0;
-        noshade = null;
-        widthValue = null;
+        blignmfnt = StylfConstbnts.ALIGN_CENTER;
+        sizf = 0;
+        nosibdf = null;
+        widtiVbluf = null;
 
-        if (attr != null) {
-            // getAlignment() returns ALIGN_LEFT by default, and HR should
-            // use ALIGN_CENTER by default, so we check if the alignment
-            // attribute is actually defined
-            if (attr.getAttribute(StyleConstants.Alignment) != null) {
-                alignment = StyleConstants.getAlignment(attr);
+        if (bttr != null) {
+            // gftAlignmfnt() rfturns ALIGN_LEFT by dffbult, bnd HR siould
+            // usf ALIGN_CENTER by dffbult, so wf difdk if tif blignmfnt
+            // bttributf is bdtublly dffinfd
+            if (bttr.gftAttributf(StylfConstbnts.Alignmfnt) != null) {
+                blignmfnt = StylfConstbnts.gftAlignmfnt(bttr);
             }
 
-            noshade = (String)eAttr.getAttribute(HTML.Attribute.NOSHADE);
-            Object value = eAttr.getAttribute(HTML.Attribute.SIZE);
-            if (value != null && (value instanceof String)) {
+            nosibdf = (String)fAttr.gftAttributf(HTML.Attributf.NOSHADE);
+            Objfdt vbluf = fAttr.gftAttributf(HTML.Attributf.SIZE);
+            if (vbluf != null && (vbluf instbndfof String)) {
                 try {
-                    size = Integer.parseInt((String)value);
-                } catch (NumberFormatException e) {
-                    size = 1;
+                    sizf = Intfgfr.pbrsfInt((String)vbluf);
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    sizf = 1;
                 }
             }
-            value = attr.getAttribute(CSS.Attribute.WIDTH);
-            if (value != null && (value instanceof CSS.LengthValue)) {
-                widthValue = (CSS.LengthValue)value;
+            vbluf = bttr.gftAttributf(CSS.Attributf.WIDTH);
+            if (vbluf != null && (vbluf instbndfof CSS.LfngtiVbluf)) {
+                widtiVbluf = (CSS.LfngtiVbluf)vbluf;
             }
-            topMargin = getLength(CSS.Attribute.MARGIN_TOP, attr);
-            bottomMargin = getLength(CSS.Attribute.MARGIN_BOTTOM, attr);
-            leftMargin = getLength(CSS.Attribute.MARGIN_LEFT, attr);
-            rightMargin = getLength(CSS.Attribute.MARGIN_RIGHT, attr);
+            topMbrgin = gftLfngti(CSS.Attributf.MARGIN_TOP, bttr);
+            bottomMbrgin = gftLfngti(CSS.Attributf.MARGIN_BOTTOM, bttr);
+            lfftMbrgin = gftLfngti(CSS.Attributf.MARGIN_LEFT, bttr);
+            rigitMbrgin = gftLfngti(CSS.Attributf.MARGIN_RIGHT, bttr);
         }
-        else {
-            topMargin = bottomMargin = leftMargin = rightMargin = 0;
+        flsf {
+            topMbrgin = bottomMbrgin = lfftMbrgin = rigitMbrgin = 0;
         }
-        size = Math.max(2, size);
+        sizf = Mbti.mbx(2, sizf);
     }
 
-    // This will be removed and centralized at some point, need to unify this
-    // and avoid private classes.
-    private float getLength(CSS.Attribute key, AttributeSet a) {
-        CSS.LengthValue lv = (CSS.LengthValue) a.getAttribute(key);
-        float len = (lv != null) ? lv.getValue() : 0;
-        return len;
+    // Tiis will bf rfmovfd bnd dfntrblizfd bt somf point, nffd to unify tiis
+    // bnd bvoid privbtf dlbssfs.
+    privbtf flobt gftLfngti(CSS.Attributf kfy, AttributfSft b) {
+        CSS.LfngtiVbluf lv = (CSS.LfngtiVbluf) b.gftAttributf(kfy);
+        flobt lfn = (lv != null) ? lv.gftVbluf() : 0;
+        rfturn lfn;
     }
 
-    // --- View methods ---------------------------------------------
+    // --- Vifw mftiods ---------------------------------------------
 
     /**
-     * Paints the view.
+     * Pbints tif vifw.
      *
-     * @param g the graphics context
-     * @param a the allocation region for the view
-     * @see View#paint
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm b tif bllodbtion rfgion for tif vifw
+     * @sff Vifw#pbint
      */
-    public void paint(Graphics g, Shape a) {
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-                          a.getBounds();
+    publid void pbint(Grbpiids g, Sibpf b) {
+        Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b :
+                          b.gftBounds();
         int x = 0;
-        int y = alloc.y + SPACE_ABOVE + (int)topMargin;
-        int width = alloc.width - (int)(leftMargin + rightMargin);
-        if (widthValue != null) {
-            width = (int)widthValue.getValue((float)width);
+        int y = bllod.y + SPACE_ABOVE + (int)topMbrgin;
+        int widti = bllod.widti - (int)(lfftMbrgin + rigitMbrgin);
+        if (widtiVbluf != null) {
+            widti = (int)widtiVbluf.gftVbluf((flobt)widti);
         }
-        int height = alloc.height - (SPACE_ABOVE + SPACE_BELOW +
-                                     (int)topMargin + (int)bottomMargin);
-        if (size > 0)
-                height = size;
+        int ifigit = bllod.ifigit - (SPACE_ABOVE + SPACE_BELOW +
+                                     (int)topMbrgin + (int)bottomMbrgin);
+        if (sizf > 0)
+                ifigit = sizf;
 
-        // Align the rule horizontally.
-        switch (alignment) {
-        case StyleConstants.ALIGN_CENTER:
-            x = alloc.x + (alloc.width / 2) - (width / 2);
-            break;
-        case StyleConstants.ALIGN_RIGHT:
-            x = alloc.x + alloc.width - width - (int)rightMargin;
-            break;
-        case StyleConstants.ALIGN_LEFT:
-        default:
-            x = alloc.x + (int)leftMargin;
-            break;
+        // Align tif rulf iorizontblly.
+        switdi (blignmfnt) {
+        dbsf StylfConstbnts.ALIGN_CENTER:
+            x = bllod.x + (bllod.widti / 2) - (widti / 2);
+            brfbk;
+        dbsf StylfConstbnts.ALIGN_RIGHT:
+            x = bllod.x + bllod.widti - widti - (int)rigitMbrgin;
+            brfbk;
+        dbsf StylfConstbnts.ALIGN_LEFT:
+        dffbult:
+            x = bllod.x + (int)lfftMbrgin;
+            brfbk;
         }
 
-        // Paint either a shaded rule or a solid line.
-        if (noshade != null) {
-            g.setColor(Color.black);
-            g.fillRect(x, y, width, height);
+        // Pbint fitifr b sibdfd rulf or b solid linf.
+        if (nosibdf != null) {
+            g.sftColor(Color.blbdk);
+            g.fillRfdt(x, y, widti, ifigit);
         }
-        else {
-            Color bg = getContainer().getBackground();
+        flsf {
+            Color bg = gftContbinfr().gftBbdkground();
             Color bottom, top;
-            if (bg == null || bg.equals(Color.white)) {
-                top = Color.darkGray;
-                bottom = Color.lightGray;
+            if (bg == null || bg.fqubls(Color.wiitf)) {
+                top = Color.dbrkGrby;
+                bottom = Color.ligitGrby;
             }
-            else {
-                top = Color.darkGray;
-                bottom = Color.white;
+            flsf {
+                top = Color.dbrkGrby;
+                bottom = Color.wiitf;
             }
-            g.setColor(bottom);
-            g.drawLine(x + width - 1, y, x + width - 1, y + height - 1);
-            g.drawLine(x, y + height - 1, x + width - 1, y + height - 1);
-            g.setColor(top);
-            g.drawLine(x, y, x + width - 1, y);
-            g.drawLine(x, y, x, y + height - 1);
+            g.sftColor(bottom);
+            g.drbwLinf(x + widti - 1, y, x + widti - 1, y + ifigit - 1);
+            g.drbwLinf(x, y + ifigit - 1, x + widti - 1, y + ifigit - 1);
+            g.sftColor(top);
+            g.drbwLinf(x, y, x + widti - 1, y);
+            g.drbwLinf(x, y, x, y + ifigit - 1);
         }
 
     }
 
 
     /**
-     * Calculates the desired shape of the rule... this is
-     * basically the preferred size of the border.
+     * Cbldulbtfs tif dfsirfd sibpf of tif rulf... tiis is
+     * bbsidblly tif prfffrrfd sizf of tif bordfr.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
-     * @return the desired span
-     * @see View#getPreferredSpan
+     * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+     * @rfturn tif dfsirfd spbn
+     * @sff Vifw#gftPrfffrrfdSpbn
      */
-    public float getPreferredSpan(int axis) {
-        switch (axis) {
-        case View.X_AXIS:
-            return 1;
-        case View.Y_AXIS:
-            if (size > 0) {
-                return size + SPACE_ABOVE + SPACE_BELOW + topMargin +
-                    bottomMargin;
-            } else {
-                if (noshade != null) {
-                    return 2 + SPACE_ABOVE + SPACE_BELOW + topMargin +
-                        bottomMargin;
-                } else {
-                    return SPACE_ABOVE + SPACE_BELOW + topMargin +bottomMargin;
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        switdi (bxis) {
+        dbsf Vifw.X_AXIS:
+            rfturn 1;
+        dbsf Vifw.Y_AXIS:
+            if (sizf > 0) {
+                rfturn sizf + SPACE_ABOVE + SPACE_BELOW + topMbrgin +
+                    bottomMbrgin;
+            } flsf {
+                if (nosibdf != null) {
+                    rfturn 2 + SPACE_ABOVE + SPACE_BELOW + topMbrgin +
+                        bottomMbrgin;
+                } flsf {
+                    rfturn SPACE_ABOVE + SPACE_BELOW + topMbrgin +bottomMbrgin;
                 }
             }
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Gets the resize weight for the axis.
-     * The rule is: rigid vertically and flexible horizontally.
+     * Gfts tif rfsizf wfigit for tif bxis.
+     * Tif rulf is: rigid vfrtidblly bnd flfxiblf iorizontblly.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
-     * @return the weight
+     * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+     * @rfturn tif wfigit
      */
-    public int getResizeWeight(int axis) {
-        if (axis == View.X_AXIS) {
-                return 1;
-        } else if (axis == View.Y_AXIS) {
-                return 0;
-        } else {
-            return 0;
+    publid int gftRfsizfWfigit(int bxis) {
+        if (bxis == Vifw.X_AXIS) {
+                rfturn 1;
+        } flsf if (bxis == Vifw.Y_AXIS) {
+                rfturn 0;
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Determines how attractive a break opportunity in
-     * this view is.  This is implemented to request a forced break.
+     * Dftfrminfs iow bttrbdtivf b brfbk opportunity in
+     * tiis vifw is.  Tiis is implfmfntfd to rfqufst b fordfd brfbk.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @param pos the potential location of the start of the
-     *   broken view (greater than or equal to zero).
-     *   This may be useful for calculating tab
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @pbrbm pos tif potfntibl lodbtion of tif stbrt of tif
+     *   brokfn vifw (grfbtfr tibn or fqubl to zfro).
+     *   Tiis mby bf usfful for dbldulbting tbb
      *   positions.
-     * @param len specifies the relative length from <em>pos</em>
-     *   where a potential break is desired. The value must be greater
-     *   than or equal to zero.
-     * @return the weight, which should be a value between
-     *   ForcedBreakWeight and BadBreakWeight.
+     * @pbrbm lfn spfdififs tif rflbtivf lfngti from <fm>pos</fm>
+     *   wifrf b potfntibl brfbk is dfsirfd. Tif vbluf must bf grfbtfr
+     *   tibn or fqubl to zfro.
+     * @rfturn tif wfigit, wiidi siould bf b vbluf bftwffn
+     *   FordfdBrfbkWfigit bnd BbdBrfbkWfigit.
      */
-    public int getBreakWeight(int axis, float pos, float len) {
-        if (axis == X_AXIS) {
-            return ForcedBreakWeight;
+    publid int gftBrfbkWfigit(int bxis, flobt pos, flobt lfn) {
+        if (bxis == X_AXIS) {
+            rfturn FordfdBrfbkWfigit;
         }
-        return BadBreakWeight;
+        rfturn BbdBrfbkWfigit;
     }
 
-    public View breakView(int axis, int offset, float pos, float len) {
-        return null;
+    publid Vifw brfbkVifw(int bxis, int offsft, flobt pos, flobt lfn) {
+        rfturn null;
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
      *
-     * @param pos the position to convert
-     * @param a the allocated region to render into
-     * @return the bounding box of the given position
-     * @exception BadLocationException  if the given position does not
-     * represent a valid location in the associated document
-     * @see View#modelToView
+     * @pbrbm pos tif position to donvfrt
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif bounding box of tif givfn position
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+     * rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        int p0 = getStartOffset();
-        int p1 = getEndOffset();
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+        int p0 = gftStbrtOffsft();
+        int p1 = gftEndOffsft();
         if ((pos >= p0) && (pos <= p1)) {
-            Rectangle r = a.getBounds();
+            Rfdtbnglf r = b.gftBounds();
             if (pos == p1) {
-                r.x += r.width;
+                r.x += r.widti;
             }
-            r.width = 0;
-            return r;
+            r.widti = 0;
+            rfturn r;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
      *
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     * @param a the allocated region to render into
-     * @return the location within the model that best represents the
-     *  given point of view
-     * @see View#viewToModel
+     * @pbrbm x tif X doordinbtf
+     * @pbrbm y tif Y doordinbtf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point of vifw
+     * @sff Vifw#vifwToModfl
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-        Rectangle alloc = (Rectangle) a;
-        if (x < alloc.x + (alloc.width / 2)) {
-            bias[0] = Position.Bias.Forward;
-            return getStartOffset();
+    publid int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibs) {
+        Rfdtbnglf bllod = (Rfdtbnglf) b;
+        if (x < bllod.x + (bllod.widti / 2)) {
+            bibs[0] = Position.Bibs.Forwbrd;
+            rfturn gftStbrtOffsft();
         }
-        bias[0] = Position.Bias.Backward;
-        return getEndOffset();
+        bibs[0] = Position.Bibs.Bbdkwbrd;
+        rfturn gftEndOffsft();
     }
 
     /**
-     * Fetches the attributes to use when rendering.  This is
-     * implemented to multiplex the attributes specified in the
-     * model with a StyleSheet.
+     * Fftdifs tif bttributfs to usf wifn rfndfring.  Tiis is
+     * implfmfntfd to multiplfx tif bttributfs spfdififd in tif
+     * modfl witi b StylfSifft.
      */
-    public AttributeSet getAttributes() {
-        return attr;
+    publid AttributfSft gftAttributfs() {
+        rfturn bttr;
     }
 
-    public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        super.changedUpdate(changes, a, f);
-        int pos = changes.getOffset();
-        if (pos <= getStartOffset() && (pos + changes.getLength()) >=
-            getEndOffset()) {
-            setPropertiesFromAttributes();
+    publid void dibngfdUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        supfr.dibngfdUpdbtf(dibngfs, b, f);
+        int pos = dibngfs.gftOffsft();
+        if (pos <= gftStbrtOffsft() && (pos + dibngfs.gftLfngti()) >=
+            gftEndOffsft()) {
+            sftPropfrtifsFromAttributfs();
         }
     }
 
-    // --- variables ------------------------------------------------
+    // --- vbribblfs ------------------------------------------------
 
-    private float topMargin;
-    private float bottomMargin;
-    private float leftMargin;
-    private float rightMargin;
-    private int alignment = StyleConstants.ALIGN_CENTER;
-    private String noshade = null;
-    private int size = 0;
-    private CSS.LengthValue widthValue;
+    privbtf flobt topMbrgin;
+    privbtf flobt bottomMbrgin;
+    privbtf flobt lfftMbrgin;
+    privbtf flobt rigitMbrgin;
+    privbtf int blignmfnt = StylfConstbnts.ALIGN_CENTER;
+    privbtf String nosibdf = null;
+    privbtf int sizf = 0;
+    privbtf CSS.LfngtiVbluf widtiVbluf;
 
-    private static final int SPACE_ABOVE = 3;
-    private static final int SPACE_BELOW = 3;
+    privbtf stbtid finbl int SPACE_ABOVE = 3;
+    privbtf stbtid finbl int SPACE_BELOW = 3;
 
-    /** View Attributes. */
-    private AttributeSet attr;
+    /** Vifw Attributfs. */
+    privbtf AttributfSft bttr;
 }

@@ -1,330 +1,330 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import java.awt.geom.*;
-import java.util.*;
+import jbvb.bwt.gfom.*;
+import jbvb.util.*;
 
 import sun.font.*;
-import sun.java2d.jules.*;
-import sun.java2d.pipe.*;
+import sun.jbvb2d.julfs.*;
+import sun.jbvb2d.pipf.*;
 
-import static sun.java2d.xr.XRUtils.XDoubleToFixed;
+import stbtid sun.jbvb2d.xr.XRUtils.XDoublfToFixfd;
 
 /**
- * Native implementation of XRBackend.
- * Almost direct 1:1 binding to libX11.
+ * Nbtivf implfmfntbtion of XRBbdkfnd.
+ * Almost dirfdt 1:1 binding to libX11.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
 
-public class XRBackendNative implements XRBackend {
+publid dlbss XRBbdkfndNbtivf implfmfnts XRBbdkfnd {
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    private static long FMTPTR_A8;
-    private static long FMTPTR_ARGB32;
-    private static long MASK_XIMG;
+    privbtf stbtid long FMTPTR_A8;
+    privbtf stbtid long FMTPTR_ARGB32;
+    privbtf stbtid long MASK_XIMG;
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    public native long createGC(int drawable);
+    publid nbtivf long drfbtfGC(int drbwbblf);
 
-    public native void freeGC(long gc);
+    publid nbtivf void frffGC(long gd);
 
-    public native int createPixmap(int drawable, int depth,
-                                   int width, int height);
+    publid nbtivf int drfbtfPixmbp(int drbwbblf, int dfpti,
+                                   int widti, int ifigit);
 
-    private native int createPictureNative(int drawable, long formatID);
+    privbtf nbtivf int drfbtfPidturfNbtivf(int drbwbblf, long formbtID);
 
-    public native void freePicture(int picture);
+    publid nbtivf void frffPidturf(int pidturf);
 
-    public native void freePixmap(int pixmap);
+    publid nbtivf void frffPixmbp(int pixmbp);
 
-    public native void setGCExposures(long gc, boolean exposure);
+    publid nbtivf void sftGCExposurfs(long gd, boolfbn fxposurf);
 
-    public native void setGCForeground(long gc, int pixel);
+    publid nbtivf void sftGCForfground(long gd, int pixfl);
 
-    public native void setPictureRepeat(int picture, int repeat);
+    publid nbtivf void sftPidturfRfpfbt(int pidturf, int rfpfbt);
 
-    public native void copyArea(int src, int dst, long gc,
-                                int srcx, int srcy, int width, int height,
+    publid nbtivf void dopyArfb(int srd, int dst, long gd,
+                                int srdx, int srdy, int widti, int ifigit,
                                  int dstx, int dsty);
 
-    public native void setGCMode(long gc, boolean copy);
+    publid nbtivf void sftGCModf(long gd, boolfbn dopy);
 
-    private static native void GCRectanglesNative(int drawable, long gc,
-                                                  int[] rectArray, int rectCnt);
+    privbtf stbtid nbtivf void GCRfdtbnglfsNbtivf(int drbwbblf, long gd,
+                                                  int[] rfdtArrby, int rfdtCnt);
 
-    public native void renderComposite(byte op, int src, int mask,
-                                       int dst, int srcX, int srcY,
-                                       int maskX, int maskY, int dstX, int dstY,
-                                       int width, int height);
+    publid nbtivf void rfndfrCompositf(bytf op, int srd, int mbsk,
+                                       int dst, int srdX, int srdY,
+                                       int mbskX, int mbskY, int dstX, int dstY,
+                                       int widti, int ifigit);
 
-    private native void renderRectangle(int dst, byte op,
-                                        short red, short green,
-                                        short blue, short alpha,
-                                        int x, int y, int width, int height);
+    privbtf nbtivf void rfndfrRfdtbnglf(int dst, bytf op,
+                                        siort rfd, siort grffn,
+                                        siort bluf, siort blpib,
+                                        int x, int y, int widti, int ifigit);
 
-    private static native void
-         XRenderRectanglesNative(int dst, byte op,
-                                 short red, short green,
-                                 short blue, short alpha,
-                                 int[] rects, int rectCnt);
+    privbtf stbtid nbtivf void
+         XRfndfrRfdtbnglfsNbtivf(int dst, bytf op,
+                                 siort rfd, siort grffn,
+                                 siort bluf, siort blpib,
+                                 int[] rfdts, int rfdtCnt);
 
-    private native void XRSetTransformNative(int pic,
+    privbtf nbtivf void XRSftTrbnsformNbtivf(int pid,
                                              int m00, int m01, int m02,
                                              int m10, int m11, int m12);
 
-    private static native int
-        XRCreateLinearGradientPaintNative(float[] fractionsArray,
-                                          short[] pixelsArray,
+    privbtf stbtid nbtivf int
+        XRCrfbtfLinfbrGrbdifntPbintNbtivf(flobt[] frbdtionsArrby,
+                                          siort[] pixflsArrby,
                                           int x1, int y1, int x2, int y2,
-                                          int numStops, int repeat);
+                                          int numStops, int rfpfbt);
 
-    private native static int
-        XRCreateRadialGradientPaintNative(float[] fractionsArray,
-                                          short[] pixelsArray, int numStops,
-                                          int centerX, int centerY,
-                                          int innerRadius, int outerRadius,
-                                          int repeat);
+    privbtf nbtivf stbtid int
+        XRCrfbtfRbdiblGrbdifntPbintNbtivf(flobt[] frbdtionsArrby,
+                                          siort[] pixflsArrby, int numStops,
+                                          int dfntfrX, int dfntfrY,
+                                          int innfrRbdius, int outfrRbdius,
+                                          int rfpfbt);
 
-    public native void setFilter(int picture, int filter);
+    publid nbtivf void sftFiltfr(int pidturf, int filtfr);
 
-    private static native void XRSetClipNative(long dst,
+    privbtf stbtid nbtivf void XRSftClipNbtivf(long dst,
                                                int x1, int y1, int x2, int y2,
-                                               Region clip, boolean isGC);
+                                               Rfgion dlip, boolfbn isGC);
 
-    public void GCRectangles(int drawable, long gc, GrowableRectArray rects) {
-        GCRectanglesNative(drawable, gc, rects.getArray(), rects.getSize());
+    publid void GCRfdtbnglfs(int drbwbblf, long gd, GrowbblfRfdtArrby rfdts) {
+        GCRfdtbnglfsNbtivf(drbwbblf, gd, rfdts.gftArrby(), rfdts.gftSizf());
     }
 
-    public int createPicture(int drawable, int formatID) {
-        return createPictureNative(drawable, getFormatPtr(formatID));
+    publid int drfbtfPidturf(int drbwbblf, int formbtID) {
+        rfturn drfbtfPidturfNbtivf(drbwbblf, gftFormbtPtr(formbtID));
     }
 
-    public void setPictureTransform(int picture, AffineTransform transform) {
-        XRSetTransformNative(picture,
-                             XDoubleToFixed(transform.getScaleX()),
-                             XDoubleToFixed(transform.getShearX()),
-                             XDoubleToFixed(transform.getTranslateX()),
-                             XDoubleToFixed(transform.getShearY()),
-                             XDoubleToFixed(transform.getScaleY()),
-                             XDoubleToFixed(transform.getTranslateY()));
+    publid void sftPidturfTrbnsform(int pidturf, AffinfTrbnsform trbnsform) {
+        XRSftTrbnsformNbtivf(pidturf,
+                             XDoublfToFixfd(trbnsform.gftSdblfX()),
+                             XDoublfToFixfd(trbnsform.gftSifbrX()),
+                             XDoublfToFixfd(trbnsform.gftTrbnslbtfX()),
+                             XDoublfToFixfd(trbnsform.gftSifbrY()),
+                             XDoublfToFixfd(trbnsform.gftSdblfY()),
+                             XDoublfToFixfd(trbnsform.gftTrbnslbtfY()));
     }
 
-    public void renderRectangle(int dst, byte op, XRColor color,
-                                int x, int y, int width, int height) {
-        renderRectangle(dst, op, (short)color.red, (short)color.green,
-                       (short)color.blue, (short)color.alpha,
-                        x, y, width, height);
+    publid void rfndfrRfdtbnglf(int dst, bytf op, XRColor dolor,
+                                int x, int y, int widti, int ifigit) {
+        rfndfrRfdtbnglf(dst, op, (siort)dolor.rfd, (siort)dolor.grffn,
+                       (siort)dolor.bluf, (siort)dolor.blpib,
+                        x, y, widti, ifigit);
     }
 
-    private short[] getRenderColors(int[] pixels) {
-        short[] renderColors = new short[pixels.length * 4];
+    privbtf siort[] gftRfndfrColors(int[] pixfls) {
+        siort[] rfndfrColors = nfw siort[pixfls.lfngti * 4];
 
-        XRColor c = new XRColor();
-        for (int i = 0; i < pixels.length; i++) {
-            c.setColorValues(pixels[i], true);
-            renderColors[i * 4 + 0] = (short) c.alpha;
-            renderColors[i * 4 + 1] = (short) c.red;
-            renderColors[i * 4 + 2] = (short) c.green;
-            renderColors[i * 4 + 3] = (short) c.blue;
+        XRColor d = nfw XRColor();
+        for (int i = 0; i < pixfls.lfngti; i++) {
+            d.sftColorVblufs(pixfls[i], truf);
+            rfndfrColors[i * 4 + 0] = (siort) d.blpib;
+            rfndfrColors[i * 4 + 1] = (siort) d.rfd;
+            rfndfrColors[i * 4 + 2] = (siort) d.grffn;
+            rfndfrColors[i * 4 + 3] = (siort) d.bluf;
         }
 
-        return renderColors;
+        rfturn rfndfrColors;
     }
 
-    private static long getFormatPtr(int formatID) {
-        switch (formatID) {
-        case XRUtils.PictStandardA8:
-            return FMTPTR_A8;
-        case XRUtils.PictStandardARGB32:
-            return FMTPTR_ARGB32;
+    privbtf stbtid long gftFormbtPtr(int formbtID) {
+        switdi (formbtID) {
+        dbsf XRUtils.PidtStbndbrdA8:
+            rfturn FMTPTR_A8;
+        dbsf XRUtils.PidtStbndbrdARGB32:
+            rfturn FMTPTR_ARGB32;
         }
 
-        return 0L;
+        rfturn 0L;
     }
 
-    public int createLinearGradient(Point2D p1, Point2D p2, float[] fractions,
-                              int[] pixels,  int repeat) {
+    publid int drfbtfLinfbrGrbdifnt(Point2D p1, Point2D p2, flobt[] frbdtions,
+                              int[] pixfls,  int rfpfbt) {
 
-        short[] colorValues = getRenderColors(pixels);
-        int gradient =
-           XRCreateLinearGradientPaintNative(fractions, colorValues,
-                XDoubleToFixed(p1.getX()), XDoubleToFixed(p1.getY()),
-                XDoubleToFixed(p2.getX()), XDoubleToFixed(p2.getY()),
-                fractions.length, repeat);
-        return gradient;
+        siort[] dolorVblufs = gftRfndfrColors(pixfls);
+        int grbdifnt =
+           XRCrfbtfLinfbrGrbdifntPbintNbtivf(frbdtions, dolorVblufs,
+                XDoublfToFixfd(p1.gftX()), XDoublfToFixfd(p1.gftY()),
+                XDoublfToFixfd(p2.gftX()), XDoublfToFixfd(p2.gftY()),
+                frbdtions.lfngti, rfpfbt);
+        rfturn grbdifnt;
     }
 
-    public int createRadialGradient(float centerX, float centerY,
-                                   float innerRadius, float outerRadius,
-                                   float[] fractions, int[] pixels, int repeat) {
+    publid int drfbtfRbdiblGrbdifnt(flobt dfntfrX, flobt dfntfrY,
+                                   flobt innfrRbdius, flobt outfrRbdius,
+                                   flobt[] frbdtions, int[] pixfls, int rfpfbt) {
 
-        short[] colorValues = getRenderColors(pixels);
-        return XRCreateRadialGradientPaintNative
-             (fractions, colorValues, fractions.length,
-              XDoubleToFixed(centerX),
-              XDoubleToFixed(centerY),
-              XDoubleToFixed(innerRadius),
-              XDoubleToFixed(outerRadius),
-              repeat);
+        siort[] dolorVblufs = gftRfndfrColors(pixfls);
+        rfturn XRCrfbtfRbdiblGrbdifntPbintNbtivf
+             (frbdtions, dolorVblufs, frbdtions.lfngti,
+              XDoublfToFixfd(dfntfrX),
+              XDoublfToFixfd(dfntfrY),
+              XDoublfToFixfd(innfrRbdius),
+              XDoublfToFixfd(outfrRbdius),
+              rfpfbt);
     }
 
-    public void setGCClipRectangles(long gc, Region clip) {
-        XRSetClipNative(gc, clip.getLoX(), clip.getLoY(),
-                        clip.getHiX(), clip.getHiY(),
-                        clip.isRectangular() ? null : clip, true);
+    publid void sftGCClipRfdtbnglfs(long gd, Rfgion dlip) {
+        XRSftClipNbtivf(gd, dlip.gftLoX(), dlip.gftLoY(),
+                        dlip.gftHiX(), dlip.gftHiY(),
+                        dlip.isRfdtbngulbr() ? null : dlip, truf);
     }
 
-    public void setClipRectangles(int picture, Region clip) {
-        if (clip != null) {
-            XRSetClipNative(picture, clip.getLoX(), clip.getLoY(),
-                            clip.getHiX(), clip.getHiY(),
-                            clip.isRectangular() ? null : clip, false);
-        } else {
-            XRSetClipNative(picture, 0, 0, 32767, 32767, null, false);
+    publid void sftClipRfdtbnglfs(int pidturf, Rfgion dlip) {
+        if (dlip != null) {
+            XRSftClipNbtivf(pidturf, dlip.gftLoX(), dlip.gftLoY(),
+                            dlip.gftHiX(), dlip.gftHiY(),
+                            dlip.isRfdtbngulbr() ? null : dlip, fblsf);
+        } flsf {
+            XRSftClipNbtivf(pidturf, 0, 0, 32767, 32767, null, fblsf);
         }
     }
 
-    public void renderRectangles(int dst, byte op, XRColor color,
-                                 GrowableRectArray rects) {
-        XRenderRectanglesNative(dst, op,
-                                (short) color.red, (short) color.green,
-                                (short) color.blue, (short) color.alpha,
-                                rects.getArray(), rects
-                .getSize());
+    publid void rfndfrRfdtbnglfs(int dst, bytf op, XRColor dolor,
+                                 GrowbblfRfdtArrby rfdts) {
+        XRfndfrRfdtbnglfsNbtivf(dst, op,
+                                (siort) dolor.rfd, (siort) dolor.grffn,
+                                (siort) dolor.bluf, (siort) dolor.blpib,
+                                rfdts.gftArrby(), rfdts
+                .gftSizf());
     }
 
-    private static long[] getGlyphInfoPtrs(List<XRGlyphCacheEntry> cacheEntries) {
-        long[] glyphInfoPtrs = new long[cacheEntries.size()];
-        for (int i = 0; i < cacheEntries.size(); i++) {
-            glyphInfoPtrs[i] = cacheEntries.get(i).getGlyphInfoPtr();
+    privbtf stbtid long[] gftGlypiInfoPtrs(List<XRGlypiCbdifEntry> dbdifEntrifs) {
+        long[] glypiInfoPtrs = nfw long[dbdifEntrifs.sizf()];
+        for (int i = 0; i < dbdifEntrifs.sizf(); i++) {
+            glypiInfoPtrs[i] = dbdifEntrifs.gft(i).gftGlypiInfoPtr();
         }
-        return glyphInfoPtrs;
+        rfturn glypiInfoPtrs;
     }
 
-    public void XRenderAddGlyphs(int glyphSet, GlyphList gl,
-                                 List<XRGlyphCacheEntry> cacheEntries,
-                                 byte[] pixelData) {
-        long[] glyphInfoPtrs = getGlyphInfoPtrs(cacheEntries);
-        XRAddGlyphsNative(glyphSet, glyphInfoPtrs,
-                          glyphInfoPtrs.length, pixelData, pixelData.length);
+    publid void XRfndfrAddGlypis(int glypiSft, GlypiList gl,
+                                 List<XRGlypiCbdifEntry> dbdifEntrifs,
+                                 bytf[] pixflDbtb) {
+        long[] glypiInfoPtrs = gftGlypiInfoPtrs(dbdifEntrifs);
+        XRAddGlypisNbtivf(glypiSft, glypiInfoPtrs,
+                          glypiInfoPtrs.lfngti, pixflDbtb, pixflDbtb.lfngti);
     }
 
-    public void XRenderFreeGlyphs(int glyphSet, int[] gids) {
-        XRFreeGlyphsNative(glyphSet, gids, gids.length);
+    publid void XRfndfrFrffGlypis(int glypiSft, int[] gids) {
+        XRFrffGlypisNbtivf(glypiSft, gids, gids.lfngti);
     }
 
-    private static native void XRAddGlyphsNative(int glyphSet,
-                                                 long[] glyphInfoPtrs,
-                                                 int glyphCnt,
-                                                 byte[] pixelData,
-                                                 int pixelDataLength);
+    privbtf stbtid nbtivf void XRAddGlypisNbtivf(int glypiSft,
+                                                 long[] glypiInfoPtrs,
+                                                 int glypiCnt,
+                                                 bytf[] pixflDbtb,
+                                                 int pixflDbtbLfngti);
 
-    private static native void XRFreeGlyphsNative(int glyphSet,
+    privbtf stbtid nbtivf void XRFrffGlypisNbtivf(int glypiSft,
                                                   int[] gids, int idCnt);
 
-    private static native void
-        XRenderCompositeTextNative(int op, int src, int dst,
-                                   int srcX, int srcY, long maskFormat,
-                                   int[] eltArray, int[] glyphIDs, int eltCnt,
-                                   int glyphCnt);
+    privbtf stbtid nbtivf void
+        XRfndfrCompositfTfxtNbtivf(int op, int srd, int dst,
+                                   int srdX, int srdY, long mbskFormbt,
+                                   int[] fltArrby, int[] glypiIDs, int fltCnt,
+                                   int glypiCnt);
 
-    public int XRenderCreateGlyphSet(int formatID) {
-        return XRenderCreateGlyphSetNative(getFormatPtr(formatID));
+    publid int XRfndfrCrfbtfGlypiSft(int formbtID) {
+        rfturn XRfndfrCrfbtfGlypiSftNbtivf(gftFormbtPtr(formbtID));
     }
 
-    private static native int XRenderCreateGlyphSetNative(long format);
+    privbtf stbtid nbtivf int XRfndfrCrfbtfGlypiSftNbtivf(long formbt);
 
-    public void XRenderCompositeText(byte op, int src, int dst,
-                                     int maskFormatID,
+    publid void XRfndfrCompositfTfxt(bytf op, int srd, int dst,
+                                     int mbskFormbtID,
                                      int sx, int sy, int dx, int dy,
-                                     int glyphset, GrowableEltArray elts) {
+                                     int glypisft, GrowbblfEltArrby flts) {
 
-        GrowableIntArray glyphs = elts.getGlyphs();
-        XRenderCompositeTextNative(op, src, dst, sx, sy, 0, elts.getArray(),
-                                   glyphs.getArray(), elts.getSize(),
-                                   glyphs.getSize());
+        GrowbblfIntArrby glypis = flts.gftGlypis();
+        XRfndfrCompositfTfxtNbtivf(op, srd, dst, sx, sy, 0, flts.gftArrby(),
+                                   glypis.gftArrby(), flts.gftSizf(),
+                                   glypis.gftSizf());
     }
 
-    public void putMaskImage(int drawable, long gc, byte[] imageData,
+    publid void putMbskImbgf(int drbwbblf, long gd, bytf[] imbgfDbtb,
                              int sx, int sy, int dx, int dy,
-                             int width, int height, int maskOff,
-                             int maskScan, float ea) {
-        putMaskNative(drawable, gc, imageData, sx, sy, dx, dy,
-                      width, height, maskOff, maskScan, ea, MASK_XIMG);
+                             int widti, int ifigit, int mbskOff,
+                             int mbskSdbn, flobt fb) {
+        putMbskNbtivf(drbwbblf, gd, imbgfDbtb, sx, sy, dx, dy,
+                      widti, ifigit, mbskOff, mbskSdbn, fb, MASK_XIMG);
     }
 
-    private static native void putMaskNative(int drawable, long gc,
-                                             byte[] imageData,
+    privbtf stbtid nbtivf void putMbskNbtivf(int drbwbblf, long gd,
+                                             bytf[] imbgfDbtb,
                                              int sx, int sy, int dx, int dy,
-                                             int width, int height,
-                                             int maskOff, int maskScan,
-                                             float ea, long xImg);
+                                             int widti, int ifigit,
+                                             int mbskOff, int mbskSdbn,
+                                             flobt fb, long xImg);
 
-    public void padBlit(byte op, int srcPict, int maskPict, int dstPict,
-                        AffineTransform maskTrx, int maskWidth, int maskHeight,
-                        int lastMaskWidth, int lastMaskHeight,
-                        int sx, int sy, int dx, int dy, int w, int h) {
+    publid void pbdBlit(bytf op, int srdPidt, int mbskPidt, int dstPidt,
+                        AffinfTrbnsform mbskTrx, int mbskWidti, int mbskHfigit,
+                        int lbstMbskWidti, int lbstMbskHfigit,
+                        int sx, int sy, int dx, int dy, int w, int i) {
 
-        padBlitNative(op, srcPict, maskPict, dstPict,
-                      XDoubleToFixed(maskTrx.getScaleX()),
-                      XDoubleToFixed(maskTrx.getShearX()),
-                      XDoubleToFixed(maskTrx.getTranslateX()),
-                      XDoubleToFixed(maskTrx.getShearY()),
-                      XDoubleToFixed(maskTrx.getScaleY()),
-                      XDoubleToFixed(maskTrx.getTranslateY()),
-                      maskWidth, maskHeight, lastMaskWidth, lastMaskHeight,
-                      sx, sy, dx, dy, w, h);
+        pbdBlitNbtivf(op, srdPidt, mbskPidt, dstPidt,
+                      XDoublfToFixfd(mbskTrx.gftSdblfX()),
+                      XDoublfToFixfd(mbskTrx.gftSifbrX()),
+                      XDoublfToFixfd(mbskTrx.gftTrbnslbtfX()),
+                      XDoublfToFixfd(mbskTrx.gftSifbrY()),
+                      XDoublfToFixfd(mbskTrx.gftSdblfY()),
+                      XDoublfToFixfd(mbskTrx.gftTrbnslbtfY()),
+                      mbskWidti, mbskHfigit, lbstMbskWidti, lbstMbskHfigit,
+                      sx, sy, dx, dy, w, i);
     }
 
-    private static native void padBlitNative(byte op, int srcPict,
-                                             int maskPict, int dstPict,
+    privbtf stbtid nbtivf void pbdBlitNbtivf(bytf op, int srdPidt,
+                                             int mbskPidt, int dstPidt,
                                              int m00, int m01, int m02,
                                              int m10, int m11, int m12,
-                                             int maskWidth, int maskHeight,
-                                             int lastMaskWidth,
-                                             int lastMaskHeight,
+                                             int mbskWidti, int mbskHfigit,
+                                             int lbstMbskWidti,
+                                             int lbstMbskHfigit,
                                              int sx, int sy, int dx, int dy,
-                                             int w, int h);
+                                             int w, int i);
 
-    public void renderCompositeTrapezoids(byte op, int src, int maskFormat,
-                                          int dst, int srcX, int srcY,
-                                          TrapezoidList trapList) {
-        renderCompositeTrapezoidsNative(op, src, getFormatPtr(maskFormat),
-                                        dst, srcX, srcY,
-                                        trapList.getTrapArray());
+    publid void rfndfrCompositfTrbpfzoids(bytf op, int srd, int mbskFormbt,
+                                          int dst, int srdX, int srdY,
+                                          TrbpfzoidList trbpList) {
+        rfndfrCompositfTrbpfzoidsNbtivf(op, srd, gftFormbtPtr(mbskFormbt),
+                                        dst, srdX, srdY,
+                                        trbpList.gftTrbpArrby());
     }
 
-    private static native void
-        renderCompositeTrapezoidsNative(byte op, int src, long maskFormat,
-                                        int dst, int srcX, int srcY,
-                                        int[] trapezoids);
+    privbtf stbtid nbtivf void
+        rfndfrCompositfTrbpfzoidsNbtivf(bytf op, int srd, long mbskFormbt,
+                                        int dst, int srdX, int srdY,
+                                        int[] trbpfzoids);
 }

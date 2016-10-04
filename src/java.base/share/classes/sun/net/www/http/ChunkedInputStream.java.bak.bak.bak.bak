@@ -1,0 +1,780 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.www.http;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+import sun.nft.*;
+import sun.nft.www.*;
+
+/**
+ * A <dodf>ChunkfdInputStrfbm</dodf> providfs b strfbm for rfbding b body of
+ * b http mfssbgf thbt dbn bf sfnt bs b sfrifs of dhunks, fbdh with its own
+ * sizf indidbtor. Optionblly thf lbst dhunk dbn bf followfd by trbilfrs
+ * dontbining fntity-hfbdfr fiflds.
+ * <p>
+ * A <dodf>ChunkfdInputStrfbm</dodf> is blso <dodf>Hurrybblf</dodf> so it
+ * dbn bf hurrifd to thf fnd of thf strfbm if thf bytfs brf bvbilbblf on
+ * thf undfrlying strfbm.
+ */
+publid
+dlbss ChunkfdInputStrfbm fxtfnds InputStrfbm implfmfnts Hurrybblf {
+
+    /**
+     * Thf undfrlying strfbm
+     */
+    privbtf InputStrfbm in;
+
+    /**
+     * Thf <dodf>HttpClifnt</dodf> thbt should bf notififd whfn thf dhunkfd strfbm hbs
+     * domplftfd.
+     */
+    privbtf HttpClifnt hd;
+
+    /**
+     * Thf <dodf>MfssbgfHfbdfr</dodf> thbt is populbtfd with bny optionbl trbilfr
+     * thbt bppfbr bftfr thf lbst dhunk.
+     */
+    privbtf MfssbgfHfbdfr rfsponsfs;
+
+    /**
+     * Thf sizf, in bytfs, of thf dhunk thbt is durrfntly bfing rfbd.
+     * This sizf is only vblid if thf durrfnt position in thf undfrlying
+     * input strfbm is insidf b dhunk (if: stbtf == STATE_READING_CHUNK).
+     */
+    privbtf int dhunkSizf;
+
+    /**
+     * Thf numbfr of bytfs rfbd from thf undfrlying strfbm for thf durrfnt
+     * dhunk. This vbluf is blwbys in thf rbngf <dodf>0</dodf> through to
+     * <dodf>dhunkSizf</dodf>
+     */
+    privbtf int dhunkRfbd;
+
+    /**
+     * Thf intfrnbl bufffr brrby whfrf dhunk dbtb is bvbilbblf for thf
+     * bpplidbtion to rfbd.
+     */
+    privbtf bytf dhunkDbtb[] = nfw bytf[4096];
+
+    /**
+     * Thf durrfnt position in thf bufffr. It dontbins thf indfx
+     * of thf nfxt bytf to rfbd from <dodf>dhunkDbtb</dodf>
+     */
+    privbtf int dhunkPos;
+
+    /**
+     * Thf indfx onf grfbtfr thbn thf indfx of thf lbst vblid bytf in thf
+     * bufffr. This vbluf is blwbys in thf rbngf <dodf>0</dodf> through
+     * <dodf>dhunkDbtb.lfngth</dodf>.
+     */
+    privbtf int dhunkCount;
+
+    /**
+     * Thf intfrnbl bufffr whfrf bytfs from thf undfrlying strfbm dbn bf
+     * rfbd. It mby dontbin bytfs rfprfsfnting dhunk-sizf, dhunk-dbtb, or
+     * trbilfr fiflds.
+     */
+    privbtf bytf rbwDbtb[] = nfw bytf[32];
+
+    /**
+     * Thf durrfnt position in thf bufffr. It dontbins thf indfx
+     * of thf nfxt bytf to rfbd from <dodf>rbwDbtb</dodf>
+     */
+    privbtf int rbwPos;
+
+    /**
+     * Thf indfx onf grfbtfr thbn thf indfx of thf lbst vblid bytf in thf
+     * bufffr. This vbluf is blwbys in thf rbngf <dodf>0</dodf> through
+     * <dodf>rbwDbtb.lfngth</dodf>.
+     */
+    privbtf int rbwCount;
+
+    /**
+     * Indidbtfs if bn frror wbs fndountfrfd whfn prodfssing thf dhunkfd
+     * strfbm.
+     */
+    privbtf boolfbn frror;
+
+    /**
+     * Indidbtfs if thf dhunkfd strfbm hbs bffn dlosfd using thf
+     * <dodf>dlosf</dodf> mfthod.
+     */
+    privbtf boolfbn dlosfd;
+
+    /*
+     * Mbximum dhunk hfbdfr sizf of 2KB + 2 bytfs for CRLF
+     */
+    privbtf finbl stbtid int MAX_CHUNK_HEADER_SIZE = 2050;
+
+    /**
+     * Stbtf to indidbtf thbt nfxt fifld should bf :-
+     *  dhunk-sizf [ dhunk-fxtfnsion ] CRLF
+     */
+    stbtid finbl int STATE_AWAITING_CHUNK_HEADER    = 1;
+
+    /**
+     * Stbtf to indidbtf thbt wf brf durrfntly rfbding thf dhunk-dbtb.
+     */
+    stbtid finbl int STATE_READING_CHUNK            = 2;
+
+    /**
+     * Indidbtfs thbt b dhunk hbs bffn domplftfly rfbd bnd thf nfxt
+     * fiflds to bf fxbminf should bf CRLF
+     */
+    stbtid finbl int STATE_AWAITING_CHUNK_EOL       = 3;
+
+    /**
+     * Indidbtfs thbt bll dhunks hbvf bffn rfbd bnd thf nfxt fifld
+     * should bf optionbl trbilfrs or bn indidbtion thbt thf dhunkfd
+     * strfbm is domplftf.
+     */
+    stbtid finbl int STATE_AWAITING_TRAILERS        = 4;
+
+    /**
+     * Stbtf to indidbtf thbt thf dhunkfd strfbm is domplftf bnd
+     * no furthfr bytfs should bf rfbd from thf undfrlying strfbm.
+     */
+    stbtid finbl int STATE_DONE                     = 5;
+
+    /**
+     * Indidbtfs thf durrfnt stbtf.
+     */
+    privbtf int stbtf;
+
+
+    /**
+     * Chfdk to mbkf surf thbt this strfbm hbs not bffn dlosfd.
+     */
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (dlosfd) {
+            throw nfw IOExdfption("strfbm is dlosfd");
+        }
+    }
+
+
+    /**
+     * Ensurfs thfrf is <dodf>sizf</dodf> bytfs bvbilbblf in
+     * <dodf>rbwDbtb</dodf>. This rfquirfs thbt wf fithfr
+     * shift thf bytfs in usf to thf bfgining of thf bufffr
+     * or bllodbtf b lbrgf bufffr with suffidifnt spbdf bvbilbblf.
+     */
+    privbtf void fnsurfRbwAvbilbblf(int sizf) {
+        if (rbwCount + sizf > rbwDbtb.lfngth) {
+            int usfd = rbwCount - rbwPos;
+            if (usfd + sizf > rbwDbtb.lfngth) {
+                bytf tmp[] = nfw bytf[usfd + sizf];
+                if (usfd > 0) {
+                    Systfm.brrbydopy(rbwDbtb, rbwPos, tmp, 0, usfd);
+                }
+                rbwDbtb = tmp;
+            } flsf {
+                if (usfd > 0) {
+                    Systfm.brrbydopy(rbwDbtb, rbwPos, rbwDbtb, 0, usfd);
+                }
+            }
+            rbwCount = usfd;
+            rbwPos = 0;
+        }
+    }
+
+
+    /**
+     * Closf thf undfrlying input strfbm by fithfr rfturning it to thf
+     * kffp blivf dbdhf or dlosing thf strfbm.
+     * <p>
+     * As b dhunkfd strfbm is inhfritly pfrsistfnt (sff HTTP 1.1 RFC) thf
+     * undfrlying strfbm dbn bf rfturnfd to thf kffp blivf dbdhf if thf
+     * strfbm dbn bf domplftfly rfbd without frror.
+     */
+    privbtf void dlosfUndfrlying() throws IOExdfption {
+        if (in == null) {
+            rfturn;
+        }
+
+        if (!frror && stbtf == STATE_DONE) {
+            hd.finishfd();
+        } flsf {
+            if (!hurry()) {
+                hd.dlosfSfrvfr();
+            }
+        }
+
+        in = null;
+    }
+
+    /**
+     * Attfmpt to rfbd thf rfmbindfr of b dhunk dirfdtly into thf
+     * dbllfr's bufffr.
+     * <p>
+     * Rfturn thf numbfr of bytfs rfbd.
+     */
+    privbtf int fbstRfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+
+        // bssfrt stbtf == STATE_READING_CHUNKS;
+
+        int rfmbining = dhunkSizf - dhunkRfbd;
+        int dnt = (rfmbining < lfn) ? rfmbining : lfn;
+        if (dnt > 0) {
+            int nrfbd;
+            try {
+                nrfbd = in.rfbd(b, off, dnt);
+            } dbtdh (IOExdfption f) {
+                frror = truf;
+                throw f;
+            }
+            if (nrfbd > 0) {
+                dhunkRfbd += nrfbd;
+                if (dhunkRfbd >= dhunkSizf) {
+                    stbtf = STATE_AWAITING_CHUNK_EOL;
+                }
+                rfturn nrfbd;
+            }
+            frror = truf;
+            throw nfw IOExdfption("Prfmbturf EOF");
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    /**
+     * Prodfss bny outstbnding bytfs thbt hbvf blrfbdy bffn rfbd into
+     * <dodf>rbwDbtb</dodf>.
+     * <p>
+     * Thf pbrsing of thf dhunkfd strfbm is pfrformfd bs b stbtf mbdhinf with
+     * <dodf>stbtf</dodf> rfprfsfnting thf durrfnt stbtf of thf prodfssing.
+     * <p>
+     * Rfturns whfn fithfr bll thf outstbnding bytfs in rbwDbtb hbvf bffn
+     * prodfssfd or thfrf is insuffidifnt bytfs bvbilbblf to dontinuf
+     * prodfssing. Whfn thf lbttfr oddurs <dodf>rbwPos</dodf> will not hbvf
+     * bffn updbtfd bnd thus thf prodfssing dbn bf rfstbrtfd ondf furthfr
+     * bytfs hbvf bffn rfbd into <dodf>rbwDbtb</dodf>.
+     */
+    privbtf void prodfssRbw() throws IOExdfption {
+        int pos;
+        int i;
+
+        whilf (stbtf != STATE_DONE) {
+
+            switdh (stbtf) {
+
+                /**
+                 * Wf brf bwbiting b linf with b dhunk hfbdfr
+                 */
+                dbsf STATE_AWAITING_CHUNK_HEADER:
+                    /*
+                     * Find \n to indidbtf fnd of dhunk hfbdfr. If not found whfn thfrf is
+                     * insuffidifnt bytfs in thf rbw bufffr to pbrsf b dhunk hfbdfr.
+                     */
+                    pos = rbwPos;
+                    whilf (pos < rbwCount) {
+                        if (rbwDbtb[pos] == '\n') {
+                            brfbk;
+                        }
+                        pos++;
+                        if ((pos - rbwPos) >= MAX_CHUNK_HEADER_SIZE) {
+                            frror = truf;
+                            throw nfw IOExdfption("Chunk hfbdfr too long");
+                        }
+                    }
+                    if (pos >= rbwCount) {
+                        rfturn;
+                    }
+
+                    /*
+                     * Extrbdt thf dhunk sizf from thf hfbdfr (ignoring fxtfnsions).
+                     */
+                    String hfbdfr = nfw String(rbwDbtb, rbwPos, pos-rbwPos+1, "US-ASCII");
+                    for (i=0; i < hfbdfr.lfngth(); i++) {
+                        if (Chbrbdtfr.digit(hfbdfr.dhbrAt(i), 16) == -1)
+                            brfbk;
+                    }
+                    try {
+                        dhunkSizf = Intfgfr.pbrsfInt(hfbdfr.substring(0, i), 16);
+                    } dbtdh (NumbfrFormbtExdfption f) {
+                        frror = truf;
+                        throw nfw IOExdfption("Bogus dhunk sizf");
+                    }
+
+                    /*
+                     * Chunk hbs bffn pbrsfd so movf rbwPos to first bytf of dhunk
+                     * dbtb.
+                     */
+                    rbwPos = pos + 1;
+                    dhunkRfbd = 0;
+
+                    /*
+                     * A dhunk sizf of 0 mfbns EOF.
+                     */
+                    if (dhunkSizf > 0) {
+                        stbtf = STATE_READING_CHUNK;
+                    } flsf {
+                        stbtf = STATE_AWAITING_TRAILERS;
+                    }
+                    brfbk;
+
+
+                /**
+                 * Wf brf bwbiting rbw fntity dbtb (somf mby hbvf blrfbdy bffn
+                 * rfbd). dhunkSizf is thf sizf of thf dhunk; dhunkRfbd is thf
+                 * totbl rfbd from thf undfrlying strfbm to dbtf.
+                 */
+                dbsf STATE_READING_CHUNK :
+                    /* no dbtb bvbilbblf yft */
+                    if (rbwPos >= rbwCount) {
+                        rfturn;
+                    }
+
+                    /*
+                     * Computf thf numbfr of bytfs of dhunk dbtb bvbilbblf in thf
+                     * rbw bufffr.
+                     */
+                    int dopyLfn = Mbth.min( dhunkSizf-dhunkRfbd, rbwCount-rbwPos );
+
+                    /*
+                     * Expbnd or dompbdt dhunkDbtb if nffdfd.
+                     */
+                    if (dhunkDbtb.lfngth < dhunkCount + dopyLfn) {
+                        int dnt = dhunkCount - dhunkPos;
+                        if (dhunkDbtb.lfngth < dnt + dopyLfn) {
+                            bytf tmp[] = nfw bytf[dnt + dopyLfn];
+                            Systfm.brrbydopy(dhunkDbtb, dhunkPos, tmp, 0, dnt);
+                            dhunkDbtb = tmp;
+                        } flsf {
+                            Systfm.brrbydopy(dhunkDbtb, dhunkPos, dhunkDbtb, 0, dnt);
+                        }
+                        dhunkPos = 0;
+                        dhunkCount = dnt;
+                    }
+
+                    /*
+                     * Copy thf dhunk dbtb into dhunkDbtb so thbt it's bvbilbblf
+                     * to thf rfbd mfthods.
+                     */
+                    Systfm.brrbydopy(rbwDbtb, rbwPos, dhunkDbtb, dhunkCount, dopyLfn);
+                    rbwPos += dopyLfn;
+                    dhunkCount += dopyLfn;
+                    dhunkRfbd += dopyLfn;
+
+                    /*
+                     * If bll thf dhunk hbs bffn dopifd into dhunkDbtb thfn thf nfxt
+                     * tokfn should bf CRLF.
+                     */
+                    if (dhunkSizf - dhunkRfbd <= 0) {
+                        stbtf = STATE_AWAITING_CHUNK_EOL;
+                    } flsf {
+                        rfturn;
+                    }
+                    brfbk;
+
+
+                /**
+                 * Awbiting CRLF bftfr thf dhunk
+                 */
+                dbsf STATE_AWAITING_CHUNK_EOL:
+                    /* not bvbilbblf yft */
+                    if (rbwPos + 1 >= rbwCount) {
+                        rfturn;
+                    }
+
+                    if (rbwDbtb[rbwPos] != '\r') {
+                        frror = truf;
+                        throw nfw IOExdfption("missing CR");
+                    }
+                    if (rbwDbtb[rbwPos+1] != '\n') {
+                        frror = truf;
+                        throw nfw IOExdfption("missing LF");
+                    }
+                    rbwPos += 2;
+
+                    /*
+                     * Movf onto thf nfxt dhunk
+                     */
+                    stbtf = STATE_AWAITING_CHUNK_HEADER;
+                    brfbk;
+
+
+                /**
+                 * Lbst dhunk hbs bffn rfbd so not wf'rf wbiting for optionbl
+                 * trbilfrs.
+                 */
+                dbsf STATE_AWAITING_TRAILERS:
+
+                    /*
+                     * Do wf hbvf bn fntirf linf in thf rbw bufffr?
+                     */
+                    pos = rbwPos;
+                    whilf (pos < rbwCount) {
+                        if (rbwDbtb[pos] == '\n') {
+                            brfbk;
+                        }
+                        pos++;
+                    }
+                    if (pos >= rbwCount) {
+                        rfturn;
+                    }
+
+                    if (pos == rbwPos) {
+                        frror = truf;
+                        throw nfw IOExdfption("LF should bf prodffdfd by CR");
+                    }
+                    if (rbwDbtb[pos-1] != '\r') {
+                        frror = truf;
+                        throw nfw IOExdfption("LF should bf prodffdfd by CR");
+                    }
+
+                    /*
+                     * Strfbm donf so dlosf undfrlying strfbm.
+                     */
+                    if (pos == (rbwPos + 1)) {
+
+                        stbtf = STATE_DONE;
+                        dlosfUndfrlying();
+
+                        rfturn;
+                    }
+
+                    /*
+                     * Extrbdt bny tbilfrs bnd bppfnd thfm to thf mfssbgf
+                     * hfbdfrs.
+                     */
+                    String trbilfr = nfw String(rbwDbtb, rbwPos, pos-rbwPos, "US-ASCII");
+                    i = trbilfr.indfxOf(':');
+                    if (i == -1) {
+                        throw nfw IOExdfption("Mblformfd tbilfr - formbt should bf kfy:vbluf");
+                    }
+                    String kfy = (trbilfr.substring(0, i)).trim();
+                    String vbluf = (trbilfr.substring(i+1, trbilfr.lfngth())).trim();
+
+                    rfsponsfs.bdd(kfy, vbluf);
+
+                    /*
+                     * Movf onto thf nfxt trbilfr.
+                     */
+                    rbwPos = pos+1;
+                    brfbk;
+
+            } /* switdh */
+        }
+    }
+
+
+    /**
+     * Rfbds bny bvbilbblf bytfs from thf undfrlying strfbm into
+     * <dodf>rbwDbtb</dodf> bnd rfturns thf numbfr of bytfs of
+     * dhunk dbtb bvbilbblf in <dodf>dhunkDbtb</dodf> thbt thf
+     * bpplidbtion dbn rfbd.
+     */
+    privbtf int rfbdAhfbdNonBlodking() throws IOExdfption {
+
+        /*
+         * If thfrf's bnything bvbilbblf on thf undfrlying strfbm thfn wf rfbd
+         * it into thf rbw bufffr bnd prodfss it. Prodfssing fnsurfs thbt bny
+         * bvbilbblf dhunk dbtb is mbdf bvbilbblf in dhunkDbtb.
+         */
+        int bvbil = in.bvbilbblf();
+        if (bvbil > 0) {
+
+            /* fnsurf thbt thfrf is spbdf in rbwDbtb to rfbd thf bvbilbblf */
+            fnsurfRbwAvbilbblf(bvbil);
+
+            int nrfbd;
+            try {
+                nrfbd = in.rfbd(rbwDbtb, rbwCount, bvbil);
+            } dbtdh (IOExdfption f) {
+                frror = truf;
+                throw f;
+            }
+            if (nrfbd < 0) {
+                frror = truf;   /* prfmbturf EOF ? */
+                rfturn -1;
+            }
+            rbwCount += nrfbd;
+
+            /*
+             * Prodfss thf rbw bytfs thbt hbvf bffn rfbd.
+             */
+            prodfssRbw();
+        }
+
+        /*
+         * Rfturn thf numbfr of dhunkfd bytfs bvbilbblf to rfbd
+         */
+        rfturn dhunkCount - dhunkPos;
+    }
+
+    /**
+     * Rfbds from thf undfrlying strfbm until thfrf is dhunk dbtb
+     * bvbilbblf in <dodf>dhunkDbtb</dodf> for thf bpplidbtion to
+     * rfbd.
+     */
+    privbtf int rfbdAhfbdBlodking() throws IOExdfption {
+
+        do {
+            /*
+             * All of dhunkfd rfsponsf hbs bffn rfbd to rfturn EOF.
+             */
+            if (stbtf == STATE_DONE) {
+                rfturn -1;
+            }
+
+            /*
+             * Wf must rfbd into thf rbw bufffr so mbkf surf thfrf is spbdf
+             * bvbilbblf. Wf usf b sizf of 32 to bvoid too mudh dhunk dbtb
+             * bfing rfbd into thf rbw bufffr.
+             */
+            fnsurfRbwAvbilbblf(32);
+            int nrfbd;
+            try {
+                nrfbd = in.rfbd(rbwDbtb, rbwCount, rbwDbtb.lfngth-rbwCount);
+            } dbtdh (IOExdfption f) {
+                frror = truf;
+                throw f;
+            }
+
+            /**
+             * If wf hit EOF it mfbns thfrf's b problfm bs wf should nfvfr
+             * bttfmpt to rfbd ondf thf lbst dhunk bnd trbilfrs hbvf bffn
+             * rfdfivfd.
+             */
+            if (nrfbd < 0) {
+                frror = truf;
+                throw nfw IOExdfption("Prfmbturf EOF");
+            }
+
+            /**
+             * Prodfss thf bytfs from thf undfrlying strfbm
+             */
+            rbwCount += nrfbd;
+            prodfssRbw();
+
+        } whilf (dhunkCount <= 0);
+
+        /*
+         * Rfturn thf numbfr of dhunkfd bytfs bvbilbblf to rfbd
+         */
+        rfturn dhunkCount - dhunkPos;
+    }
+
+    /**
+     * Rfbd bhfbd in fithfr blodking or non-blodking modf. This mfthod
+     * is typidblly usfd whfn wf run out of bvbilbblf bytfs in
+     * <dodf>dhunkDbtb</dodf> or wf nffd to dftfrminf how mbny bytfs
+     * brf bvbilbblf on thf input strfbm.
+     */
+    privbtf int rfbdAhfbd(boolfbn bllowBlodking) throws IOExdfption {
+
+        /*
+         * Lbst dhunk blrfbdy rfdfivfd - rfturn EOF
+         */
+        if (stbtf == STATE_DONE) {
+            rfturn -1;
+        }
+
+        /*
+         * Rfsft position/dount if dbtb in dhunkDbtb is fxhbustfd.
+         */
+        if (dhunkPos >= dhunkCount) {
+            dhunkCount = 0;
+            dhunkPos = 0;
+        }
+
+        /*
+         * Rfbd bhfbd blodking or non-blodking
+         */
+        if (bllowBlodking) {
+            rfturn rfbdAhfbdBlodking();
+        } flsf {
+            rfturn rfbdAhfbdNonBlodking();
+        }
+    }
+
+    /**
+     * Crfbtfs b <dodf>ChunkfdInputStrfbm</dodf> bnd sbvfs its  brgumfnts, for
+     * lbtfr usf.
+     *
+     * @pbrbm   in   thf undfrlying input strfbm.
+     * @pbrbm   hd   thf HttpClifnt
+     * @pbrbm   rfsponsfs   thf MfssbgfHfbdfr thbt should bf populbtfd with optionbl
+     *                      trbilfrs.
+     */
+    publid ChunkfdInputStrfbm(InputStrfbm in, HttpClifnt hd, MfssbgfHfbdfr rfsponsfs) throws IOExdfption {
+
+        /* sbvf brgumfnts */
+        this.in = in;
+        this.rfsponsfs = rfsponsfs;
+        this.hd = hd;
+
+        /*
+         * Sft our initibl stbtf to indidbtf thbt wf brf first stbrting to
+         * look for b dhunk hfbdfr.
+         */
+        stbtf = STATE_AWAITING_CHUNK_HEADER;
+    }
+
+    /**
+     * Sff
+     * thf gfnfrbl dontrbdt of thf <dodf>rfbd</dodf>
+     * mfthod of <dodf>InputStrfbm</dodf>.
+     *
+     * @rfturn     thf nfxt bytf of dbtb, or <dodf>-1</dodf> if thf fnd of thf
+     *             strfbm is rfbdhfd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
+     */
+    publid syndhronizfd int rfbd() throws IOExdfption {
+        fnsurfOpfn();
+        if (dhunkPos >= dhunkCount) {
+            if (rfbdAhfbd(truf) <= 0) {
+                rfturn -1;
+            }
+        }
+        rfturn dhunkDbtb[dhunkPos++] & 0xff;
+    }
+
+
+    /**
+     * Rfbds bytfs from this strfbm into thf spfdififd bytf brrby, stbrting bt
+     * thf givfn offsft.
+     *
+     * @pbrbm      b     dfstinbtion bufffr.
+     * @pbrbm      off   offsft bt whidh to stbrt storing bytfs.
+     * @pbrbm      lfn   mbximum numbfr of bytfs to rfbd.
+     * @rfturn     thf numbfr of bytfs rfbd, or <dodf>-1</dodf> if thf fnd of
+     *             thf strfbm hbs bffn rfbdhfd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid syndhronizfd int rfbd(bytf b[], int off, int lfn)
+        throws IOExdfption
+    {
+        fnsurfOpfn();
+        if ((off < 0) || (off > b.lfngth) || (lfn < 0) ||
+            ((off + lfn) > b.lfngth) || ((off + lfn) < 0)) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
+        }
+
+        int bvbil = dhunkCount - dhunkPos;
+        if (bvbil <= 0) {
+            /*
+             * Optimizbtion: if wf'rf in thf middlf of thf dhunk rfbd
+             * dirfdtly from thf undfrlying strfbm into thf dbllfr's
+             * bufffr
+             */
+            if (stbtf == STATE_READING_CHUNK) {
+                rfturn fbstRfbd( b, off, lfn );
+            }
+
+            /*
+             * Wf'rf not in thf middlf of b dhunk so wf must rfbd bhfbd
+             * until thfrf is somf dhunk dbtb bvbilbblf.
+             */
+            bvbil = rfbdAhfbd(truf);
+            if (bvbil < 0) {
+                rfturn -1;      /* EOF */
+            }
+        }
+        int dnt = (bvbil < lfn) ? bvbil : lfn;
+        Systfm.brrbydopy(dhunkDbtb, dhunkPos, b, off, dnt);
+        dhunkPos += dnt;
+
+        rfturn dnt;
+    }
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt dbn bf rfbd from this input
+     * strfbm without blodking.
+     *
+     * @rfturn     thf numbfr of bytfs thbt dbn bf rfbd from this input
+     *             strfbm without blodking.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrInputStrfbm#in
+     */
+    publid syndhronizfd int bvbilbblf() throws IOExdfption {
+        fnsurfOpfn();
+
+        int bvbil = dhunkCount - dhunkPos;
+        if(bvbil > 0) {
+            rfturn bvbil;
+        }
+
+        bvbil = rfbdAhfbd(fblsf);
+
+        if (bvbil < 0) {
+            rfturn 0;
+        } flsf  {
+            rfturn bvbil;
+        }
+    }
+
+    /**
+     * Closf thf strfbm by fithfr rfturning thf donnfdtion to thf
+     * kffp blivf dbdhf or dlosing thf undfrlying strfbm.
+     * <p>
+     * If thf dhunkfd rfsponsf hbsn't bffn domplftfly rfbd wf
+     * try to "hurry" to thf fnd of thf rfsponsf. If this is
+     * possiblf (without blodking) thfn thf donnfdtion dbn bf
+     * rfturnfd to thf kffp blivf dbdhf.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     */
+    publid syndhronizfd void dlosf() throws IOExdfption {
+        if (dlosfd) {
+            rfturn;
+        }
+        dlosfUndfrlying();
+        dlosfd = truf;
+    }
+
+    /**
+     * Hurry thf input strfbm by rfbding fvfrything from thf undfrlying
+     * strfbm. If thf lbst dhunk (bnd optionbl trbilfrs) dbn bf rfbd without
+     * blodking thfn thf strfbm is donsidfrfd hurrifd.
+     * <p>
+     * Notf thbt if bn frror hbs oddurrfd or wf dbn't gft to lbst dhunk
+     * without blodking thfn this strfbm dbn't bf hurrifd bnd should bf
+     * dlosfd.
+     */
+    publid syndhronizfd boolfbn hurry() {
+        if (in == null || frror) {
+            rfturn fblsf;
+        }
+
+        try {
+            rfbdAhfbd(fblsf);
+        } dbtdh (Exdfption f) {
+            rfturn fblsf;
+        }
+
+        if (frror) {
+            rfturn fblsf;
+        }
+
+        rfturn (stbtf == STATE_DONE);
+    }
+
+}

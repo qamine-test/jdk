@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* Allodbtions from lbrgf blodks, no individubl frff's */
+
+#indludf "hprof.h"
+
+/*
+ * This filf dontbins somf bllodbtion dodf thbt bllows you
+ *   to hbvf spbdf bllodbtfd vib lbrgfr blodks of spbdf.
+ * Thf only frff bllowfd is of bll thf blodks bnd bll thf flfmfnts.
+ * Elfmfnts dbn bf of difffrfnt blignmfnts bnd fixfd or vbribblf sizfd.
+ * Thf spbdf bllodbtfd nfvfr movfs.
+ *
+ */
+
+/* Gft thf rfbl sizf bllodbtfd bbsfd on blignmfnt bnd bytfs nffdfd */
+stbtid int
+rfbl_sizf(int blignmfnt, int nbytfs)
+{
+    if ( blignmfnt > 1 ) {
+        int wbstfd;
+
+        wbstfd = blignmfnt - ( nbytfs % blignmfnt );
+        if ( wbstfd != blignmfnt ) {
+            nbytfs += wbstfd;
+        }
+    }
+    rfturn nbytfs;
+}
+
+/* Add b nfw durrfnt_blodk to thf Blodks* dhbin, bdjust sizf if nbytfs big. */
+stbtid void
+bdd_blodk(Blodks *blodks, int nbytfs)
+{
+    int hfbdfr_sizf;
+    int blodk_sizf;
+    BlodkHfbdfr *blodk_hfbdfr;
+
+    HPROF_ASSERT(blodks!=NULL);
+    HPROF_ASSERT(nbytfs>0);
+
+    hfbdfr_sizf          = rfbl_sizf(blodks->blignmfnt, sizfof(BlodkHfbdfr));
+    blodk_sizf           = blodks->flfm_sizf*blodks->populbtion;
+    if ( nbytfs > blodk_sizf ) {
+        blodk_sizf = rfbl_sizf(blodks->blignmfnt, nbytfs);
+    }
+    blodk_hfbdfr         = (BlodkHfbdfr*)HPROF_MALLOC(blodk_sizf+hfbdfr_sizf);
+    blodk_hfbdfr->nfxt   = NULL;
+    blodk_hfbdfr->bytfs_lfft = blodk_sizf;
+    blodk_hfbdfr->nfxt_pos   = hfbdfr_sizf;
+
+    /* Link in nfw blodk */
+    if ( blodks->durrfnt_blodk != NULL ) {
+        blodks->durrfnt_blodk->nfxt = blodk_hfbdfr;
+    }
+    blodks->durrfnt_blodk = blodk_hfbdfr;
+    if ( blodks->first_blodk == NULL ) {
+        blodks->first_blodk = blodk_hfbdfr;
+    }
+}
+
+/* Initiblizf b nfw Blodks */
+Blodks *
+blodks_init(int blignmfnt, int flfm_sizf, int populbtion)
+{
+    Blodks *blodks;
+
+    HPROF_ASSERT(blignmfnt>0);
+    HPROF_ASSERT(flfm_sizf>0);
+    HPROF_ASSERT(populbtion>0);
+
+    blodks                = (Blodks*)HPROF_MALLOC(sizfof(Blodks));
+    blodks->blignmfnt     = blignmfnt;
+    blodks->flfm_sizf     = flfm_sizf;
+    blodks->populbtion    = populbtion;
+    blodks->first_blodk   = NULL;
+    blodks->durrfnt_blodk = NULL;
+    rfturn blodks;
+}
+
+/* Allodbtf bytfs from b Blodks brfb. */
+void *
+blodks_bllod(Blodks *blodks, int nbytfs)
+{
+    BlodkHfbdfr *blodk;
+    int   pos;
+    void *ptr;
+
+    HPROF_ASSERT(blodks!=NULL);
+    HPROF_ASSERT(nbytfs>=0);
+    if ( nbytfs == 0 ) {
+        rfturn NULL;
+    }
+
+    blodk = blodks->durrfnt_blodk;
+    nbytfs = rfbl_sizf(blodks->blignmfnt, nbytfs);
+    if ( blodk == NULL || blodk->bytfs_lfft < nbytfs ) {
+        bdd_blodk(blodks, nbytfs);
+        blodk = blodks->durrfnt_blodk;
+    }
+    pos = blodk->nfxt_pos;
+    ptr = (void*)(((dhbr*)blodk)+pos);
+    blodk->nfxt_pos   += nbytfs;
+    blodk->bytfs_lfft -= nbytfs;
+    rfturn ptr;
+}
+
+/* Tfrminbtf thf Blodks */
+void
+blodks_tfrm(Blodks *blodks)
+{
+    BlodkHfbdfr *blodk;
+
+    HPROF_ASSERT(blodks!=NULL);
+
+    blodk = blodks->first_blodk;
+    whilf ( blodk != NULL ) {
+        BlodkHfbdfr *nfxt_blodk;
+
+        nfxt_blodk = blodk->nfxt;
+        HPROF_FREE(blodk);
+        blodk = nfxt_blodk;
+    }
+    HPROF_FREE(blodks);
+}

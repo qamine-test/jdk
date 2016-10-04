@@ -1,775 +1,775 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Label;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class Expression extends Node {
-    Type type;
+publid
+dlbss Exprfssion fxtfnds Nodf {
+    Typf typf;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    Expression(int op, long where, Type type) {
-        super(op, where);
-        this.type = type;
+    Exprfssion(int op, long wifrf, Typf typf) {
+        supfr(op, wifrf);
+        tiis.typf = typf;
     }
 
     /**
-     * Type checking may assign a more complex implementation
-     * to an innocuous-looking expression (like an identifier).
-     * Return that implementation, or the original expression itself
-     * if there is no special implementation.
+     * Typf difdking mby bssign b morf domplfx implfmfntbtion
+     * to bn innoduous-looking fxprfssion (likf bn idfntififr).
+     * Rfturn tibt implfmfntbtion, or tif originbl fxprfssion itsflf
+     * if tifrf is no spfdibl implfmfntbtion.
      * <p>
-     * This appears at present to be dead code, and is not called
-     * from within javac.  Access to the implementation generally
-     * occurs within the same class, and thus uses the underlying
-     * field directly.
+     * Tiis bppfbrs bt prfsfnt to bf dfbd dodf, bnd is not dbllfd
+     * from witiin jbvbd.  Addfss to tif implfmfntbtion gfnfrblly
+     * oddurs witiin tif sbmf dlbss, bnd tius usfs tif undfrlying
+     * fifld dirfdtly.
      */
-    public Expression getImplementation() {
-        return this;
+    publid Exprfssion gftImplfmfntbtion() {
+        rfturn tiis;
     }
 
-    public Type getType() {
-        return type;
+    publid Typf gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Return the precedence of the operator
+     * Rfturn tif prfdfdfndf of tif opfrbtor
      */
-    int precedence() {
-        return (op < opPrecedence.length) ? opPrecedence[op] : 100;
+    int prfdfdfndf() {
+        rfturn (op < opPrfdfdfndf.lfngti) ? opPrfdfdfndf[op] : 100;
     }
 
     /**
-     * Order the expression based on precedence
+     * Ordfr tif fxprfssion bbsfd on prfdfdfndf
      */
-    public Expression order() {
-        return this;
+    publid Exprfssion ordfr() {
+        rfturn tiis;
     }
 
     /**
-     * Return true if constant, according to JLS 15.27.
-     * A constant expression must inline away to a literal constant.
+     * Rfturn truf if donstbnt, bddording to JLS 15.27.
+     * A donstbnt fxprfssion must inlinf bwby to b litfrbl donstbnt.
      */
-    public boolean isConstant() {
-        return false;
+    publid boolfbn isConstbnt() {
+        rfturn fblsf;
     }
 
     /**
-     * Return the constant value.
+     * Rfturn tif donstbnt vbluf.
      */
-    public Object getValue() {
-        return null;
+    publid Objfdt gftVbluf() {
+        rfturn null;
     }
 
     /**
-     * Check if the expression is known to be equal to a given value.
-     * Returns false for any expression other than a literal constant,
-     * thus should be called only after simplification (inlining) has
-     * been performed.
+     * Cifdk if tif fxprfssion is known to bf fqubl to b givfn vbluf.
+     * Rfturns fblsf for bny fxprfssion otifr tibn b litfrbl donstbnt,
+     * tius siould bf dbllfd only bftfr simplifidbtion (inlining) ibs
+     * bffn pfrformfd.
      */
-    public boolean equals(int i) {
-        return false;
+    publid boolfbn fqubls(int i) {
+        rfturn fblsf;
     }
-    public boolean equals(boolean b) {
-        return false;
+    publid boolfbn fqubls(boolfbn b) {
+        rfturn fblsf;
     }
-    public boolean equals(Identifier id) {
-        return false;
+    publid boolfbn fqubls(Idfntififr id) {
+        rfturn fblsf;
     }
-    public boolean equals(String s) {
-        return false;
+    publid boolfbn fqubls(String s) {
+        rfturn fblsf;
     }
 
     /**
-     * Check if the expression must be a null reference.
+     * Cifdk if tif fxprfssion must bf b null rfffrfndf.
      */
-    public boolean isNull() {
-        return false;
+    publid boolfbn isNull() {
+        rfturn fblsf;
     }
 
     /**
-     * Check if the expression cannot be a null reference.
+     * Cifdk if tif fxprfssion dbnnot bf b null rfffrfndf.
      */
-    public boolean isNonNull() {
-        return false;
+    publid boolfbn isNonNull() {
+        rfturn fblsf;
     }
 
     /**
-     * Check if the expression is equal to its default static value
+     * Cifdk if tif fxprfssion is fqubl to its dffbult stbtid vbluf
      */
-    public boolean equalsDefault() {
-        return false;
+    publid boolfbn fqublsDffbult() {
+        rfturn fblsf;
     }
 
 
     /**
-     * Convert an expresion to a type
+     * Convfrt bn fxprfsion to b typf
      */
-    Type toType(Environment env, Context ctx) {
-        env.error(where, "invalid.type.expr");
-        return Type.tError;
+    Typf toTypf(Environmfnt fnv, Contfxt dtx) {
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        rfturn Typf.tError;
     }
 
     /**
-     * Convert an expresion to a type in a context where a qualified
-     * type name is expected, e.g., in the prefix of a qualified type
-     * name.
+     * Convfrt bn fxprfsion to b typf in b dontfxt wifrf b qublififd
+     * typf nbmf is fxpfdtfd, f.g., in tif prffix of b qublififd typf
+     * nbmf.
      */
     /*-----------------------------------------------------*
-    Type toQualifiedType(Environment env, Context ctx) {
-        env.error(where, "invalid.type.expr");
-        return Type.tError;
+    Typf toQublififdTypf(Environmfnt fnv, Contfxt dtx) {
+        fnv.frror(wifrf, "invblid.typf.fxpr");
+        rfturn Typf.tError;
     }
     *-----------------------------------------------------*/
 
     /**
-     * See if this expression fits in the given type.
-     * This is useful because some larger numbers fit into
-     * smaller types.
+     * Sff if tiis fxprfssion fits in tif givfn typf.
+     * Tiis is usfful bfdbusf somf lbrgfr numbfrs fit into
+     * smbllfr typfs.
      * <p>
-     * If it is an "int" constant expression, inline it, if necessary,
-     * to examine its numerical value.  See JLS 5.2 and 15.24.
+     * If it is bn "int" donstbnt fxprfssion, inlinf it, if nfdfssbry,
+     * to fxbminf its numfridbl vbluf.  Sff JLS 5.2 bnd 15.24.
      */
-    public boolean fitsType(Environment env, Context ctx, Type t) {
+    publid boolfbn fitsTypf(Environmfnt fnv, Contfxt dtx, Typf t) {
         try {
-            if (env.isMoreSpecific(this.type, t)) {
-                return true;
+            if (fnv.isMorfSpfdifid(tiis.typf, t)) {
+                rfturn truf;
             }
-            if (this.type.isType(TC_INT) && this.isConstant() && ctx != null) {
-                // Tentative inlining is harmless for constant expressions.
-                Expression n = this.inlineValue(env, ctx);
-                if (n != this && n instanceof ConstantExpression) {
-                    return n.fitsType(env, ctx, t);
+            if (tiis.typf.isTypf(TC_INT) && tiis.isConstbnt() && dtx != null) {
+                // Tfntbtivf inlining is ibrmlfss for donstbnt fxprfssions.
+                Exprfssion n = tiis.inlinfVbluf(fnv, dtx);
+                if (n != tiis && n instbndfof ConstbntExprfssion) {
+                    rfturn n.fitsTypf(fnv, dtx, t);
                 }
             }
-            return false;
-        } catch (ClassNotFound e) {
-            return false;
+            rfturn fblsf;
+        } dbtdi (ClbssNotFound f) {
+            rfturn fblsf;
         }
     }
 
-    /** @deprecated (for backward compatibility) */
-    @Deprecated
-    public boolean fitsType(Environment env, Type t) {
-        return fitsType(env, (Context) null, t);
+    /** @dfprfdbtfd (for bbdkwbrd dompbtibility) */
+    @Dfprfdbtfd
+    publid boolfbn fitsTypf(Environmfnt fnv, Typf t) {
+        rfturn fitsTypf(fnv, (Contfxt) null, t);
     }
 
     /**
-     * Check an expression
+     * Cifdk bn fxprfssion
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        return vset;
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        rfturn vsft;
     }
-    public Vset checkInitializer(Environment env, Context ctx, Vset vset, Type t, Hashtable<Object, Object> exp) {
-        return checkValue(env, ctx, vset, exp);
+    publid Vsft difdkInitiblizfr(Environmfnt fnv, Contfxt dtx, Vsft vsft, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
     }
-    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        throw new CompilerError("check failed");
+    publid Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        tirow nfw CompilfrError("difdk fbilfd");
     }
 
-    public Vset checkLHS(Environment env, Context ctx,
-                            Vset vset, Hashtable<Object, Object> exp) {
-        env.error(where, "invalid.lhs.assignment");
-        type = Type.tError;
-        return vset;
+    publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+                            Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+        typf = Typf.tError;
+        rfturn vsft;
     }
 
     /**
-     * Return a <code>FieldUpdater</code> object to be used in updating the
-     * value of the location denoted by <code>this</code>, which must be an
-     * expression suitable for the left-hand side of an assignment.
-     * This is used for implementing assignments to private fields for which
-     * an access method is required.  Returns null if no access method is
-     * needed, in which case the assignment is handled in the usual way, by
-     * direct access.  Only simple assignment expressions are handled here
-     * Assignment operators and pre/post increment/decrement operators are
-     * are handled by 'getUpdater' below.
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif
+     * vbluf of tif lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn
+     * fxprfssion suitbblf for tif lfft-ibnd sidf of bn bssignmfnt.
+     * Tiis is usfd for implfmfnting bssignmfnts to privbtf fiflds for wiidi
+     * bn bddfss mftiod is rfquirfd.  Rfturns null if no bddfss mftiod is
+     * nffdfd, in wiidi dbsf tif bssignmfnt is ibndlfd in tif usubl wby, by
+     * dirfdt bddfss.  Only simplf bssignmfnt fxprfssions brf ibndlfd ifrf
+     * Assignmfnt opfrbtors bnd prf/post indrfmfnt/dfdrfmfnt opfrbtors brf
+     * brf ibndlfd by 'gftUpdbtfr' bflow.
      * <p>
-     * Called during the checking phase.
+     * Cbllfd during tif difdking pibsf.
      */
 
-    public FieldUpdater getAssigner(Environment env, Context ctx) {
-        throw new CompilerError("getAssigner lhs");
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+        tirow nfw CompilfrError("gftAssignfr lis");
     }
 
     /**
-     * Return a <code>FieldUpdater</code> object to be used in updating the value of the
-     * location denoted by <code>this</code>, which must be an expression suitable for the
-     * left-hand side of an assignment.  This is used for implementing the assignment
-     * operators and the increment/decrement operators on private fields that require an
-     * access method, e.g., uplevel from an inner class.  Returns null if no access method
-     * is needed.
+     * Rfturn b <dodf>FifldUpdbtfr</dodf> objfdt to bf usfd in updbting tif vbluf of tif
+     * lodbtion dfnotfd by <dodf>tiis</dodf>, wiidi must bf bn fxprfssion suitbblf for tif
+     * lfft-ibnd sidf of bn bssignmfnt.  Tiis is usfd for implfmfnting tif bssignmfnt
+     * opfrbtors bnd tif indrfmfnt/dfdrfmfnt opfrbtors on privbtf fiflds tibt rfquirf bn
+     * bddfss mftiod, f.g., uplfvfl from bn innfr dlbss.  Rfturns null if no bddfss mftiod
+     * is nffdfd.
      * <p>
-     * Called during the checking phase.
+     * Cbllfd during tif difdking pibsf.
      */
 
-    public FieldUpdater getUpdater(Environment env, Context ctx) {
-        throw new CompilerError("getUpdater lhs");
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+        tirow nfw CompilfrError("gftUpdbtfr lis");
     }
 
-    public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
-        if (outside instanceof IncDecExpression)
-            env.error(where, "invalid.arg", opNames[outside.op]);
-        else
-            env.error(where, "invalid.lhs.assignment");
-        type = Type.tError;
-        return vset;
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+        if (outsidf instbndfof IndDfdExprfssion)
+            fnv.frror(wifrf, "invblid.brg", opNbmfs[outsidf.op]);
+        flsf
+            fnv.frror(wifrf, "invblid.lis.bssignmfnt");
+        typf = Typf.tError;
+        rfturn vsft;
     }
 
     /**
-     * Check something that might be an AmbiguousName (refman 6.5.2).
-     * A string of dot-separated identifiers might be, in order of preference:
+     * Cifdk somftiing tibt migit bf bn AmbiguousNbmf (rffmbn 6.5.2).
+     * A string of dot-sfpbrbtfd idfntififrs migit bf, in ordfr of prfffrfndf:
      * <nl>
-     * <li> a variable name followed by fields or types
-     * <li> a type name followed by fields or types
-     * <li> a package name followed a type and then fields or types
+     * <li> b vbribblf nbmf followfd by fiflds or typfs
+     * <li> b typf nbmf followfd by fiflds or typfs
+     * <li> b pbdkbgf nbmf followfd b typf bnd tifn fiflds or typfs
      * </nl>
-     * If a type name is found, it rewrites itself as a <tt>TypeExpression</tt>.
-     * If a node decides it can only be a package prefix, it sets its
-     * type to <tt>Type.tPackage</tt>.  The caller must detect this
-     * and act appropriately to verify the full package name.
-     * @arg loc the expression containing the ambiguous expression
+     * If b typf nbmf is found, it rfwritfs itsflf bs b <tt>TypfExprfssion</tt>.
+     * If b nodf dfdidfs it dbn only bf b pbdkbgf prffix, it sfts its
+     * typf to <tt>Typf.tPbdkbgf</tt>.  Tif dbllfr must dftfdt tiis
+     * bnd bdt bppropribtfly to vfrify tif full pbdkbgf nbmf.
+     * @brg lod tif fxprfssion dontbining tif bmbiguous fxprfssion
      */
-    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
-        return checkValue(env, ctx, vset, exp);
+    publid Vsft difdkAmbigNbmf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp,
+                               UnbryExprfssion lod) {
+        rfturn difdkVbluf(fnv, dtx, vsft, fxp);
     }
 
     /**
-     * Check a condition.  Return a ConditionVars(), which indicates when
-     * which variables are set if the condition is true, and which are set if
-     * the condition is false.
+     * Cifdk b dondition.  Rfturn b ConditionVbrs(), wiidi indidbtfs wifn
+     * wiidi vbribblfs brf sft if tif dondition is truf, bnd wiidi brf sft if
+     * tif dondition is fblsf.
      */
-    public ConditionVars checkCondition(Environment env, Context ctx,
-                                        Vset vset, Hashtable<Object, Object> exp) {
-        ConditionVars cvars = new ConditionVars();
-        checkCondition(env, ctx, vset, exp, cvars);
-        return cvars;
+    publid ConditionVbrs difdkCondition(Environmfnt fnv, Contfxt dtx,
+                                        Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        ConditionVbrs dvbrs = nfw ConditionVbrs();
+        difdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        rfturn dvbrs;
     }
 
     /*
-     * Check a condition.
+     * Cifdk b dondition.
      *
-     * cvars is modified so that
-     *    cvar.vsTrue indicates variables with a known value if result = true
-     *    cvars.vsFalse indicates variables with a known value if !result
+     * dvbrs is modififd so tibt
+     *    dvbr.vsTruf indidbtfs vbribblfs witi b known vbluf if rfsult = truf
+     *    dvbrs.vsFblsf indidbtfs vbribblfs witi b known vbluf if !rfsult
      *
-     * The default action is to simply call checkValue on the expression, and
-     * to see both vsTrue and vsFalse to the result.
+     * Tif dffbult bdtion is to simply dbll difdkVbluf on tif fxprfssion, bnd
+     * to sff boti vsTruf bnd vsFblsf to tif rfsult.
      */
 
-    public void checkCondition(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
-        cvars.vsTrue = cvars.vsFalse = checkValue(env, ctx, vset, exp);
-        // unshare side effects:
-        cvars.vsFalse = cvars.vsFalse.copy();
+    publid void difdkCondition(Environmfnt fnv, Contfxt dtx,
+                               Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+        dvbrs.vsTruf = dvbrs.vsFblsf = difdkVbluf(fnv, dtx, vsft, fxp);
+        // unsibrf sidf ffffdts:
+        dvbrs.vsFblsf = dvbrs.vsFblsf.dopy();
     }
 
     /**
-     * Evaluate.
+     * Evblubtf.
      *
-     * Attempt to compute the value of an expression node.  If all operands are
-     * literal constants of the same kind (e.g., IntegerExpression nodes), a
-     * new constant node of the proper type is returned representing the value
-     * as computed at compile-time.  Otherwise, the original node 'this' is
-     * returned.
+     * Attfmpt to domputf tif vbluf of bn fxprfssion nodf.  If bll opfrbnds brf
+     * litfrbl donstbnts of tif sbmf kind (f.g., IntfgfrExprfssion nodfs), b
+     * nfw donstbnt nodf of tif propfr typf is rfturnfd rfprfsfnting tif vbluf
+     * bs domputfd bt dompilf-timf.  Otifrwisf, tif originbl nodf 'tiis' is
+     * rfturnfd.
      */
-    Expression eval() {
-        return this;
+    Exprfssion fvbl() {
+        rfturn tiis;
     }
 
     /**
      * Simplify.
      *
-     * Attempt to simplify an expression node by returning a semantically-
-     * equivalent expression that is presumably less costly to execute.  There
-     * is some overlap with the intent of 'eval', as compile-time evaluation of
-     * conditional expressions and the short-circuit boolean operators is
-     * performed here.  Other simplifications include logical identities
-     * involving logical negation and comparisons.  If no simplification is
-     * possible, the original node 'this' is returned.  It is assumed that the
-     * children of the node have previously been recursively simplified and
-     * evaluated.  A result of 'null' indicates that the expression may be
-     * elided entirely.
+     * Attfmpt to simplify bn fxprfssion nodf by rfturning b sfmbntidblly-
+     * fquivblfnt fxprfssion tibt is prfsumbbly lfss dostly to fxfdutf.  Tifrf
+     * is somf ovfrlbp witi tif intfnt of 'fvbl', bs dompilf-timf fvblubtion of
+     * donditionbl fxprfssions bnd tif siort-dirduit boolfbn opfrbtors is
+     * pfrformfd ifrf.  Otifr simplifidbtions indludf logidbl idfntitifs
+     * involving logidbl nfgbtion bnd dompbrisons.  If no simplifidbtion is
+     * possiblf, tif originbl nodf 'tiis' is rfturnfd.  It is bssumfd tibt tif
+     * diildrfn of tif nodf ibvf prfviously bffn rfdursivfly simplififd bnd
+     * fvblubtfd.  A rfsult of 'null' indidbtfs tibt tif fxprfssion mby bf
+     * flidfd fntirfly.
      */
-    Expression simplify() {
-        return this;
+    Exprfssion simplify() {
+        rfturn tiis;
     }
 
     /**
-     * Inline.
+     * Inlinf.
      *
-     * Recursively simplify each child of an expression node, destructively
-     * replacing the child with the simplified result.  Also attempts to
-     * simplify the current node 'this', and returns the simplified result.
+     * Rfdursivfly simplify fbdi diild of bn fxprfssion nodf, dfstrudtivfly
+     * rfplbding tif diild witi tif simplififd rfsult.  Also bttfmpts to
+     * simplify tif durrfnt nodf 'tiis', bnd rfturns tif simplififd rfsult.
      *
-     * The name 'inline' is somthing of a misnomer, as these methods are
-     * responsible for compile-time expression simplification in general.
-     * The 'eval' and 'simplify' methods apply to a single expression node
-     * only -- it is 'inline' and 'inlineValue' that drive the simplification
-     * of entire expressions.
+     * Tif nbmf 'inlinf' is somtiing of b misnomfr, bs tifsf mftiods brf
+     * rfsponsiblf for dompilf-timf fxprfssion simplifidbtion in gfnfrbl.
+     * Tif 'fvbl' bnd 'simplify' mftiods bpply to b singlf fxprfssion nodf
+     * only -- it is 'inlinf' bnd 'inlinfVbluf' tibt drivf tif simplifidbtion
+     * of fntirf fxprfssions.
      */
-    public Expression inline(Environment env, Context ctx) {
-        return null;
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        return this;
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        rfturn tiis;
     }
 
     /**
-     * Attempt to evaluate this expression.  If this expression
-     * yields a value, append it to the StringBuffer `buffer'.
-     * If this expression cannot be evaluated at this time (for
-     * example if it contains a division by zero, a non-constant
-     * subexpression, or a subexpression which "refuses" to evaluate)
-     * then return `null' to indicate failure.
+     * Attfmpt to fvblubtf tiis fxprfssion.  If tiis fxprfssion
+     * yiflds b vbluf, bppfnd it to tif StringBufffr `bufffr'.
+     * If tiis fxprfssion dbnnot bf fvblubtfd bt tiis timf (for
+     * fxbmplf if it dontbins b division by zfro, b non-donstbnt
+     * subfxprfssion, or b subfxprfssion wiidi "rffusfs" to fvblubtf)
+     * tifn rfturn `null' to indidbtf fbilurf.
      *
-     * It is anticipated that this method will be called to evaluate
-     * concatenations of compile-time constant strings.  The call
-     * originates from AddExpression#inlineValue().
+     * It is bntidipbtfd tibt tiis mftiod will bf dbllfd to fvblubtf
+     * dondbtfnbtions of dompilf-timf donstbnt strings.  Tif dbll
+     * originbtfs from AddExprfssion#inlinfVbluf().
      *
-     * See AddExpression#inlineValueSB() for detailed comments.
+     * Sff AddExprfssion#inlinfVblufSB() for dftbilfd dommfnts.
      */
-    protected StringBuffer inlineValueSB(Environment env,
-                                         Context ctx,
-                                         StringBuffer buffer) {
-        Expression inlined = inlineValue(env, ctx);
-        Object val = inlined.getValue();
+    protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
+                                         Contfxt dtx,
+                                         StringBufffr bufffr) {
+        Exprfssion inlinfd = inlinfVbluf(fnv, dtx);
+        Objfdt vbl = inlinfd.gftVbluf();
 
-        if (val == null && !inlined.isNull()){
-            // This (supposedly constant) expression refuses to yield
-            // a value.  This can happen, in particular, when we are
-            // trying to evaluate a division by zero.  It can also
-            // happen in cases where isConstant() is able to classify
-            // expressions as constant that the compiler's inlining
-            // mechanisms aren't able to evaluate; this is rare,
-            // and all such cases that we have found so far
-            // (e.g. 4082814, 4106244) have been plugged up.
+        if (vbl == null && !inlinfd.isNull()){
+            // Tiis (supposfdly donstbnt) fxprfssion rffusfs to yifld
+            // b vbluf.  Tiis dbn ibppfn, in pbrtidulbr, wifn wf brf
+            // trying to fvblubtf b division by zfro.  It dbn blso
+            // ibppfn in dbsfs wifrf isConstbnt() is bblf to dlbssify
+            // fxprfssions bs donstbnt tibt tif dompilfr's inlining
+            // mfdibnisms brfn't bblf to fvblubtf; tiis is rbrf,
+            // bnd bll sudi dbsfs tibt wf ibvf found so fbr
+            // (f.g. 4082814, 4106244) ibvf bffn pluggfd up.
             //
-            // We return a null to indicate that we have failed to
-            // evaluate the concatenation.
-            return null;
+            // Wf rfturn b null to indidbtf tibt wf ibvf fbilfd to
+            // fvblubtf tif dondbtfnbtion.
+            rfturn null;
         }
 
-        // For boolean and character expressions, getValue() returns
-        // an Integer.  We need to take care, when appending the result
-        // of getValue(), that we preserve the type.
+        // For boolfbn bnd dibrbdtfr fxprfssions, gftVbluf() rfturns
+        // bn Intfgfr.  Wf nffd to tbkf dbrf, wifn bppfnding tif rfsult
+        // of gftVbluf(), tibt wf prfsfrvf tif typf.
         // Fix for 4103959, 4102672.
-        if (type == Type.tChar) {
-            buffer.append((char)((Integer)val).intValue());
-        } else if (type == Type.tBoolean) {
-            buffer.append(((Integer)val).intValue() != 0);
-        } else {
-            buffer.append(val);
+        if (typf == Typf.tCibr) {
+            bufffr.bppfnd((dibr)((Intfgfr)vbl).intVbluf());
+        } flsf if (typf == Typf.tBoolfbn) {
+            bufffr.bppfnd(((Intfgfr)vbl).intVbluf() != 0);
+        } flsf {
+            bufffr.bppfnd(vbl);
         }
 
-        return buffer;
+        rfturn bufffr;
     }
 
-    public Expression inlineLHS(Environment env, Context ctx) {
-        return null;
+    publid Exprfssion inlinfLHS(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
     }
 
     /**
-     * The cost of inlining this expression.
-     * This cost controls the inlining of methods, and does not determine
-     * the compile-time simplifications performed by 'inline' and friends.
+     * Tif dost of inlining tiis fxprfssion.
+     * Tiis dost dontrols tif inlining of mftiods, bnd dofs not dftfrminf
+     * tif dompilf-timf simplifidbtions pfrformfd by 'inlinf' bnd frifnds.
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        return 1;
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        rfturn 1;
     }
 
     /**
-     * Code
+     * Codf
      */
-    void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
-        if (type.isType(TC_BOOLEAN)) {
-            codeValue(env, ctx, asm);
-            asm.add(where, whenTrue ? opc_ifne : opc_ifeq, lbl, whenTrue);
-        } else {
-            throw new CompilerError("codeBranch " + opNames[op]);
+    void dodfBrbndi(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Lbbfl lbl, boolfbn wifnTruf) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+            dodfVbluf(fnv, dtx, bsm);
+            bsm.bdd(wifrf, wifnTruf ? opd_ifnf : opd_iffq, lbl, wifnTruf);
+        } flsf {
+            tirow nfw CompilfrError("dodfBrbndi " + opNbmfs[op]);
         }
     }
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        if (type.isType(TC_BOOLEAN)) {
-            Label l1 = new Label();
-            Label l2 = new Label();
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+            Lbbfl l1 = nfw Lbbfl();
+            Lbbfl l2 = nfw Lbbfl();
 
-            codeBranch(env, ctx, asm, l1, true);
-            asm.add(true, where, opc_ldc, 0);
-            asm.add(true, where, opc_goto, l2);
-            asm.add(l1);
-            asm.add(true, where, opc_ldc, 1);
-            asm.add(l2);
-        } else {
-            throw new CompilerError("codeValue");
+            dodfBrbndi(fnv, dtx, bsm, l1, truf);
+            bsm.bdd(truf, wifrf, opd_ldd, 0);
+            bsm.bdd(truf, wifrf, opd_goto, l2);
+            bsm.bdd(l1);
+            bsm.bdd(truf, wifrf, opd_ldd, 1);
+            bsm.bdd(l2);
+        } flsf {
+            tirow nfw CompilfrError("dodfVbluf");
         }
     }
-    public void code(Environment env, Context ctx, Assembler asm) {
-        codeValue(env, ctx, asm);
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        dodfVbluf(fnv, dtx, bsm);
 
-        switch (type.getTypeCode()) {
-          case TC_VOID:
-            break;
+        switdi (typf.gftTypfCodf()) {
+          dbsf TC_VOID:
+            brfbk;
 
-          case TC_DOUBLE:
-          case TC_LONG:
-            asm.add(where, opc_pop2);
-            break;
+          dbsf TC_DOUBLE:
+          dbsf TC_LONG:
+            bsm.bdd(wifrf, opd_pop2);
+            brfbk;
 
-          default:
-            asm.add(where, opc_pop);
-            break;
+          dffbult:
+            bsm.bdd(wifrf, opd_pop);
+            brfbk;
         }
     }
-    int codeLValue(Environment env, Context ctx, Assembler asm) {
-        print(System.out);
-        throw new CompilerError("invalid lhs");
+    int dodfLVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        print(Systfm.out);
+        tirow nfw CompilfrError("invblid lis");
     }
-    void codeLoad(Environment env, Context ctx, Assembler asm) {
-        print(System.out);
-        throw new CompilerError("invalid load");
+    void dodfLobd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        print(Systfm.out);
+        tirow nfw CompilfrError("invblid lobd");
     }
-    void codeStore(Environment env, Context ctx, Assembler asm) {
-        print(System.out);
-        throw new CompilerError("invalid store");
+    void dodfStorf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        print(Systfm.out);
+        tirow nfw CompilfrError("invblid storf");
     }
 
     /**
-     * Convert this expression to a string.
+     * Convfrt tiis fxprfssion to b string.
      */
-    void ensureString(Environment env, Context ctx, Assembler asm)
-            throws ClassNotFound, AmbiguousMember
+    void fnsurfString(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm)
+            tirows ClbssNotFound, AmbiguousMfmbfr
     {
-        if (type == Type.tString && isNonNull()) {
-            return;
+        if (typf == Typf.tString && isNonNull()) {
+            rfturn;
         }
-        // Make sure it's a non-null string.
-        ClassDefinition sourceClass = ctx.field.getClassDefinition();
-        ClassDeclaration stClass = env.getClassDeclaration(Type.tString);
-        ClassDefinition stClsDef = stClass.getClassDefinition(env);
+        // Mbkf surf it's b non-null string.
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDfdlbrbtion stClbss = fnv.gftClbssDfdlbrbtion(Typf.tString);
+        ClbssDffinition stClsDff = stClbss.gftClbssDffinition(fnv);
         // FIX FOR 4071548
-        // We use 'String.valueOf' to do the conversion, in order to
-        // correctly handle null references and efficiently handle
-        // primitive types.  For reference types, we force the argument
-        // to be interpreted as of 'Object' type, thus avoiding the
-        // the special-case overloading of 'valueOf' for character arrays.
-        // This special treatment would conflict with JLS 15.17.1.1.
-        if (type.inMask(TM_REFERENCE)) {
-            // Reference type
-            if (type != Type.tString) {
-                // Convert non-string object to string.  If object is
-                // a string, we don't need to convert it, except in the
-                // case that it is null, which is handled below.
-                Type argType1[] = {Type.tObject};
-                MemberDefinition f1 =
-                    stClsDef.matchMethod(env, sourceClass, idValueOf, argType1);
-                asm.add(where, opc_invokestatic, f1);
+        // Wf usf 'String.vblufOf' to do tif donvfrsion, in ordfr to
+        // dorrfdtly ibndlf null rfffrfndfs bnd fffidifntly ibndlf
+        // primitivf typfs.  For rfffrfndf typfs, wf fordf tif brgumfnt
+        // to bf intfrprftfd bs of 'Objfdt' typf, tius bvoiding tif
+        // tif spfdibl-dbsf ovfrlobding of 'vblufOf' for dibrbdtfr brrbys.
+        // Tiis spfdibl trfbtmfnt would donflidt witi JLS 15.17.1.1.
+        if (typf.inMbsk(TM_REFERENCE)) {
+            // Rfffrfndf typf
+            if (typf != Typf.tString) {
+                // Convfrt non-string objfdt to string.  If objfdt is
+                // b string, wf don't nffd to donvfrt it, fxdfpt in tif
+                // dbsf tibt it is null, wiidi is ibndlfd bflow.
+                Typf brgTypf1[] = {Typf.tObjfdt};
+                MfmbfrDffinition f1 =
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf1);
+                bsm.bdd(wifrf, opd_invokfstbtid, f1);
             }
             // FIX FOR 4030173
-            // If the argument was null, then value is "null", but if the
-            // argument was not null, 'toString' was called and could have
-            // returned null.  We call 'valueOf' again to make sure that
-            // the result is a non-null string.  See JLS 15.17.1.1.  The
-            // approach taken here minimizes code size -- open code would
-            // be faster.  The 'toString' method for an array class cannot
-            // be overridden, thus we know that it will never return null.
-            if (!type.inMask(TM_ARRAY|TM_NULL)) {
-                Type argType2[] = {Type.tString};
-                MemberDefinition f2 =
-                    stClsDef.matchMethod(env, sourceClass, idValueOf, argType2);
-                asm.add(where, opc_invokestatic, f2);
+            // If tif brgumfnt wbs null, tifn vbluf is "null", but if tif
+            // brgumfnt wbs not null, 'toString' wbs dbllfd bnd dould ibvf
+            // rfturnfd null.  Wf dbll 'vblufOf' bgbin to mbkf surf tibt
+            // tif rfsult is b non-null string.  Sff JLS 15.17.1.1.  Tif
+            // bpprobdi tbkfn ifrf minimizfs dodf sizf -- opfn dodf would
+            // bf fbstfr.  Tif 'toString' mftiod for bn brrby dlbss dbnnot
+            // bf ovfrriddfn, tius wf know tibt it will nfvfr rfturn null.
+            if (!typf.inMbsk(TM_ARRAY|TM_NULL)) {
+                Typf brgTypf2[] = {Typf.tString};
+                MfmbfrDffinition f2 =
+                    stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf2);
+                bsm.bdd(wifrf, opd_invokfstbtid, f2);
             }
-        } else {
-            // Primitive type
-            Type argType[] = {type};
-            MemberDefinition f =
-                stClsDef.matchMethod(env, sourceClass, idValueOf, argType);
-            asm.add(where, opc_invokestatic, f);
+        } flsf {
+            // Primitivf typf
+            Typf brgTypf[] = {typf};
+            MfmbfrDffinition f =
+                stClsDff.mbtdiMftiod(fnv, sourdfClbss, idVblufOf, brgTypf);
+            bsm.bdd(wifrf, opd_invokfstbtid, f);
         }
     }
 
     /**
-     * Convert this expression to a string and append it to the string
-     * buffer on the top of the stack.
-     * If the needBuffer argument is true, the string buffer needs to be
-     * created, initialized, and pushed on the stack, first.
+     * Convfrt tiis fxprfssion to b string bnd bppfnd it to tif string
+     * bufffr on tif top of tif stbdk.
+     * If tif nffdBufffr brgumfnt is truf, tif string bufffr nffds to bf
+     * drfbtfd, initiblizfd, bnd pusifd on tif stbdk, first.
      */
-    void codeAppend(Environment env, Context ctx, Assembler asm,
-                    ClassDeclaration sbClass, boolean needBuffer)
-            throws ClassNotFound, AmbiguousMember
+    void dodfAppfnd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+                    ClbssDfdlbrbtion sbClbss, boolfbn nffdBufffr)
+            tirows ClbssNotFound, AmbiguousMfmbfr
     {
-        ClassDefinition sourceClass = ctx.field.getClassDefinition();
-        ClassDefinition sbClsDef = sbClass.getClassDefinition(env);
-        MemberDefinition f;
-        if (needBuffer) {
-            // need to create the string buffer
-            asm.add(where, opc_new, sbClass); // create the class
-            asm.add(where, opc_dup);
-            if (equals("")) {
-                // make an empty string buffer
-                f = sbClsDef.matchMethod(env, sourceClass, idInit);
-            } else {
-                // optimize by initializing the buffer with the string
-                codeValue(env, ctx, asm);
-                ensureString(env, ctx, asm);
-                Type argType[] = {Type.tString};
-                f = sbClsDef.matchMethod(env, sourceClass, idInit, argType);
+        ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+        ClbssDffinition sbClsDff = sbClbss.gftClbssDffinition(fnv);
+        MfmbfrDffinition f;
+        if (nffdBufffr) {
+            // nffd to drfbtf tif string bufffr
+            bsm.bdd(wifrf, opd_nfw, sbClbss); // drfbtf tif dlbss
+            bsm.bdd(wifrf, opd_dup);
+            if (fqubls("")) {
+                // mbkf bn fmpty string bufffr
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit);
+            } flsf {
+                // optimizf by initiblizing tif bufffr witi tif string
+                dodfVbluf(fnv, dtx, bsm);
+                fnsurfString(fnv, dtx, bsm);
+                Typf brgTypf[] = {Typf.tString};
+                f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idInit, brgTypf);
             }
-            asm.add(where, opc_invokespecial, f);
-        } else {
-            // append this item to the string buffer
-            codeValue(env, ctx, asm);
+            bsm.bdd(wifrf, opd_invokfspfdibl, f);
+        } flsf {
+            // bppfnd tiis itfm to tif string bufffr
+            dodfVbluf(fnv, dtx, bsm);
             // FIX FOR 4071548
-            // 'StringBuffer.append' converts its argument as if by
-            // 'valueOf', treating character arrays specially.  This
-            // violates JLS 15.17.1.1, which requires that concatenation
-            // convert non-primitive arguments using 'toString'.  We force
-            // the treatment of all reference types as type 'Object', thus
-            // invoking an overloading of 'append' that has the required
-            // semantics.
-            Type argType[] =
-                { (type.inMask(TM_REFERENCE) && type != Type.tString)
-                  ? Type.tObject
-                  : type };
-            f = sbClsDef.matchMethod(env, sourceClass, idAppend, argType);
-            asm.add(where, opc_invokevirtual, f);
+            // 'StringBufffr.bppfnd' donvfrts its brgumfnt bs if by
+            // 'vblufOf', trfbting dibrbdtfr brrbys spfdiblly.  Tiis
+            // violbtfs JLS 15.17.1.1, wiidi rfquirfs tibt dondbtfnbtion
+            // donvfrt non-primitivf brgumfnts using 'toString'.  Wf fordf
+            // tif trfbtmfnt of bll rfffrfndf typfs bs typf 'Objfdt', tius
+            // invoking bn ovfrlobding of 'bppfnd' tibt ibs tif rfquirfd
+            // sfmbntids.
+            Typf brgTypf[] =
+                { (typf.inMbsk(TM_REFERENCE) && typf != Typf.tString)
+                  ? Typf.tObjfdt
+                  : typf };
+            f = sbClsDff.mbtdiMftiod(fnv, sourdfClbss, idAppfnd, brgTypf);
+            bsm.bdd(wifrf, opd_invokfvirtubl, f);
         }
     }
 
     /**
-     * Code
+     * Codf
      */
-    void codeDup(Environment env, Context ctx, Assembler asm, int items, int depth) {
-        switch (items) {
-          case 0:
-            return;
+    void dodfDup(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, int itfms, int dfpti) {
+        switdi (itfms) {
+          dbsf 0:
+            rfturn;
 
-          case 1:
-            switch (depth) {
-              case 0:
-                asm.add(where, opc_dup);
-                return;
-              case 1:
-                asm.add(where, opc_dup_x1);
-                return;
-              case 2:
-                asm.add(where, opc_dup_x2);
-                return;
-
-            }
-            break;
-          case 2:
-            switch (depth) {
-              case 0:
-                asm.add(where, opc_dup2);
-                return;
-              case 1:
-                asm.add(where, opc_dup2_x1);
-                return;
-              case 2:
-                asm.add(where, opc_dup2_x2);
-                return;
+          dbsf 1:
+            switdi (dfpti) {
+              dbsf 0:
+                bsm.bdd(wifrf, opd_dup);
+                rfturn;
+              dbsf 1:
+                bsm.bdd(wifrf, opd_dup_x1);
+                rfturn;
+              dbsf 2:
+                bsm.bdd(wifrf, opd_dup_x2);
+                rfturn;
 
             }
-            break;
+            brfbk;
+          dbsf 2:
+            switdi (dfpti) {
+              dbsf 0:
+                bsm.bdd(wifrf, opd_dup2);
+                rfturn;
+              dbsf 1:
+                bsm.bdd(wifrf, opd_dup2_x1);
+                rfturn;
+              dbsf 2:
+                bsm.bdd(wifrf, opd_dup2_x2);
+                rfturn;
+
+            }
+            brfbk;
         }
-        throw new CompilerError("can't dup: " + items + ", " + depth);
+        tirow nfw CompilfrError("dbn't dup: " + itfms + ", " + dfpti);
     }
 
-    void codeConversion(Environment env, Context ctx, Assembler asm, Type f, Type t) {
-        int from = f.getTypeCode();
-        int to = t.getTypeCode();
+    void dodfConvfrsion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, Typf f, Typf t) {
+        int from = f.gftTypfCodf();
+        int to = t.gftTypfCodf();
 
-        switch (to) {
-          case TC_BOOLEAN:
+        switdi (to) {
+          dbsf TC_BOOLEAN:
             if (from != TC_BOOLEAN) {
-                break;
+                brfbk;
             }
-            return;
-          case TC_BYTE:
+            rfturn;
+          dbsf TC_BYTE:
             if (from != TC_BYTE) {
-                codeConversion(env, ctx, asm, f, Type.tInt);
-                asm.add(where, opc_i2b);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                bsm.bdd(wifrf, opd_i2b);
             }
-            return;
-          case TC_CHAR:
+            rfturn;
+          dbsf TC_CHAR:
             if (from != TC_CHAR) {
-                codeConversion(env, ctx, asm, f, Type.tInt);
-                asm.add(where, opc_i2c);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                bsm.bdd(wifrf, opd_i2d);
             }
-            return;
-          case TC_SHORT:
+            rfturn;
+          dbsf TC_SHORT:
             if (from != TC_SHORT) {
-                codeConversion(env, ctx, asm, f, Type.tInt);
-                asm.add(where, opc_i2s);
+                dodfConvfrsion(fnv, dtx, bsm, f, Typf.tInt);
+                bsm.bdd(wifrf, opd_i2s);
             }
-            return;
-          case TC_INT:
-            switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
-                return;
-              case TC_LONG:
-                asm.add(where, opc_l2i);
-                return;
-              case TC_FLOAT:
-                asm.add(where, opc_f2i);
-                return;
-              case TC_DOUBLE:
-                asm.add(where, opc_d2i);
-                return;
+            rfturn;
+          dbsf TC_INT:
+            switdi (from) {
+              dbsf TC_BYTE:
+              dbsf TC_CHAR:
+              dbsf TC_SHORT:
+              dbsf TC_INT:
+                rfturn;
+              dbsf TC_LONG:
+                bsm.bdd(wifrf, opd_l2i);
+                rfturn;
+              dbsf TC_FLOAT:
+                bsm.bdd(wifrf, opd_f2i);
+                rfturn;
+              dbsf TC_DOUBLE:
+                bsm.bdd(wifrf, opd_d2i);
+                rfturn;
             }
-            break;
-          case TC_LONG:
-            switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
-                asm.add(where, opc_i2l);
-                return;
-              case TC_LONG:
-                return;
-              case TC_FLOAT:
-                asm.add(where, opc_f2l);
-                return;
-              case TC_DOUBLE:
-                asm.add(where, opc_d2l);
-                return;
+            brfbk;
+          dbsf TC_LONG:
+            switdi (from) {
+              dbsf TC_BYTE:
+              dbsf TC_CHAR:
+              dbsf TC_SHORT:
+              dbsf TC_INT:
+                bsm.bdd(wifrf, opd_i2l);
+                rfturn;
+              dbsf TC_LONG:
+                rfturn;
+              dbsf TC_FLOAT:
+                bsm.bdd(wifrf, opd_f2l);
+                rfturn;
+              dbsf TC_DOUBLE:
+                bsm.bdd(wifrf, opd_d2l);
+                rfturn;
             }
-            break;
-          case TC_FLOAT:
-            switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
-                asm.add(where, opc_i2f);
-                return;
-              case TC_LONG:
-                asm.add(where, opc_l2f);
-                return;
-              case TC_FLOAT:
-                return;
-              case TC_DOUBLE:
-                asm.add(where, opc_d2f);
-                return;
+            brfbk;
+          dbsf TC_FLOAT:
+            switdi (from) {
+              dbsf TC_BYTE:
+              dbsf TC_CHAR:
+              dbsf TC_SHORT:
+              dbsf TC_INT:
+                bsm.bdd(wifrf, opd_i2f);
+                rfturn;
+              dbsf TC_LONG:
+                bsm.bdd(wifrf, opd_l2f);
+                rfturn;
+              dbsf TC_FLOAT:
+                rfturn;
+              dbsf TC_DOUBLE:
+                bsm.bdd(wifrf, opd_d2f);
+                rfturn;
             }
-            break;
-          case TC_DOUBLE:
-            switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
-                asm.add(where, opc_i2d);
-                return;
-              case TC_LONG:
-                asm.add(where, opc_l2d);
-                return;
-              case TC_FLOAT:
-                asm.add(where, opc_f2d);
-                return;
-              case TC_DOUBLE:
-                return;
+            brfbk;
+          dbsf TC_DOUBLE:
+            switdi (from) {
+              dbsf TC_BYTE:
+              dbsf TC_CHAR:
+              dbsf TC_SHORT:
+              dbsf TC_INT:
+                bsm.bdd(wifrf, opd_i2d);
+                rfturn;
+              dbsf TC_LONG:
+                bsm.bdd(wifrf, opd_l2d);
+                rfturn;
+              dbsf TC_FLOAT:
+                bsm.bdd(wifrf, opd_f2d);
+                rfturn;
+              dbsf TC_DOUBLE:
+                rfturn;
             }
-            break;
+            brfbk;
 
-          case TC_CLASS:
-            switch (from) {
-              case TC_NULL:
-                return;
-              case TC_CLASS:
-              case TC_ARRAY:
+          dbsf TC_CLASS:
+            switdi (from) {
+              dbsf TC_NULL:
+                rfturn;
+              dbsf TC_CLASS:
+              dbsf TC_ARRAY:
                 try {
-                    if (!env.implicitCast(f, t)) {
-                        asm.add(where, opc_checkcast, env.getClassDeclaration(t));
+                    if (!fnv.impliditCbst(f, t)) {
+                        bsm.bdd(wifrf, opd_difdkdbst, fnv.gftClbssDfdlbrbtion(t));
                     }
-                } catch (ClassNotFound e) {
-                    throw new CompilerError(e);
+                } dbtdi (ClbssNotFound f) {
+                    tirow nfw CompilfrError(f);
                 }
-                return;
+                rfturn;
             }
 
-            break;
+            brfbk;
 
-          case TC_ARRAY:
-            switch (from) {
-              case TC_NULL:
-                return;
-              case TC_CLASS:
-              case TC_ARRAY:
+          dbsf TC_ARRAY:
+            switdi (from) {
+              dbsf TC_NULL:
+                rfturn;
+              dbsf TC_CLASS:
+              dbsf TC_ARRAY:
                 try {
-                    if (!env.implicitCast(f, t)) {
-                        asm.add(where, opc_checkcast, t);
+                    if (!fnv.impliditCbst(f, t)) {
+                        bsm.bdd(wifrf, opd_difdkdbst, t);
                     }
-                    return;
-                } catch (ClassNotFound e) {
-                    throw new CompilerError(e);
+                    rfturn;
+                } dbtdi (ClbssNotFound f) {
+                    tirow nfw CompilfrError(f);
                 }
             }
-            break;
+            brfbk;
         }
-        throw new CompilerError("codeConversion: " + from + ", " + to);
+        tirow nfw CompilfrError("dodfConvfrsion: " + from + ", " + to);
     }
 
     /**
-     * Check if the first thing is a constructor invocation
+     * Cifdk if tif first tiing is b donstrudtor invodbtion
      */
-    public Expression firstConstructor() {
-        return null;
+    publid Exprfssion firstConstrudtor() {
+        rfturn null;
     }
 
     /**
-     * Create a copy of the expression for method inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
      */
-    public Expression copyInline(Context ctx) {
-        return (Expression)clone();
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        rfturn (Exprfssion)dlonf();
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print(opNames[op]);
+    publid void print(PrintStrfbm out) {
+        out.print(opNbmfs[op]);
     }
 }

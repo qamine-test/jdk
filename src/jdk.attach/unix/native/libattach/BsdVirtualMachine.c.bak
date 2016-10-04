@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <signal.h>
-#include <dirent.h>
-#include <ctype.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-#include <sys/syslimits.h>
-#include <sys/un.h>
-#include <fcntl.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <frrno.i>
+#indludf <unistd.i>
+#indludf <signbl.i>
+#indludf <dirfnt.i>
+#indludf <dtypf.i>
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
+#indludf <sys/stbt.i>
+#indludf <sys/syslimits.i>
+#indludf <sys/un.i>
+#indludf <fdntl.i>
 
-#include "sun_tools_attach_BsdVirtualMachine.h"
+#indludf "sun_tools_bttbdi_BsdVirtublMbdiinf.i"
 
-#define RESTARTABLE(_cmd, _result) do { \
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
   do { \
-    _result = _cmd; \
-  } while((_result == -1) && (errno == EINTR)); \
-} while(0)
+    _rfsult = _dmd; \
+  } wiilf((_rfsult == -1) && (frrno == EINTR)); \
+} wiilf(0)
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
- * Method:    socket
- * Signature: ()I
+ * Clbss:     sun_tools_bttbdi_BsdVirtublMbdiinf
+ * Mftiod:    sodkft
+ * Signbturf: ()I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_BsdVirtualMachine_socket
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_sodkft
+  (JNIEnv *fnv, jdlbss dls)
 {
-    int fd = socket(PF_UNIX, SOCK_STREAM, 0);
+    int fd = sodkft(PF_UNIX, SOCK_STREAM, 0);
     if (fd == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "socket");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "sodkft");
     }
-    return (jint)fd;
+    rfturn (jint)fd;
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
- * Method:    connect
- * Signature: (ILjava/lang/String;)I
+ * Clbss:     sun_tools_bttbdi_BsdVirtublMbdiinf
+ * Mftiod:    donnfdt
+ * Signbturf: (ILjbvb/lbng/String;)I
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_connect
-  (JNIEnv *env, jclass cls, jint fd, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_donnfdt
+  (JNIEnv *fnv, jdlbss dls, jint fd, jstring pbti)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolfbn isCopy;
+    donst dibr* p = GftStringPlbtformCibrs(fnv, pbti, &isCopy);
     if (p != NULL) {
-        struct sockaddr_un addr;
-        int err = 0;
+        strudt sodkbddr_un bddr;
+        int frr = 0;
 
-        memset(&addr, 0, sizeof(addr));
-        addr.sun_family = AF_UNIX;
-        /* strncpy is safe because addr.sun_path was zero-initialized before. */
-        strncpy(addr.sun_path, p, sizeof(addr.sun_path) - 1);
+        mfmsft(&bddr, 0, sizfof(bddr));
+        bddr.sun_fbmily = AF_UNIX;
+        /* strndpy is sbff bfdbusf bddr.sun_pbti wbs zfro-initiblizfd bfforf. */
+        strndpy(bddr.sun_pbti, p, sizfof(bddr.sun_pbti) - 1);
 
-        if (connect(fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
-            err = errno;
+        if (donnfdt(fd, (strudt sodkbddr*)&bddr, sizfof(bddr)) == -1) {
+            frr = frrno;
         }
 
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, pbti, p);
         }
 
         /*
-         * If the connect failed then we throw the appropriate exception
-         * here (can't throw it before releasing the string as can't call
-         * JNI with pending exception)
+         * If tif donnfdt fbilfd tifn wf tirow tif bppropribtf fxdfption
+         * ifrf (dbn't tirow it bfforf rflfbsing tif string bs dbn't dbll
+         * JNI witi pfnding fxdfption)
          */
-        if (err != 0) {
-            if (err == ENOENT) {
-                JNU_ThrowByName(env, "java/io/FileNotFoundException", NULL);
-            } else {
-                char* msg = strdup(strerror(err));
-                JNU_ThrowIOException(env, msg);
+        if (frr != 0) {
+            if (frr == ENOENT) {
+                JNU_TirowByNbmf(fnv, "jbvb/io/FilfNotFoundExdfption", NULL);
+            } flsf {
+                dibr* msg = strdup(strfrror(frr));
+                JNU_TirowIOExdfption(fnv, msg);
                 if (msg != NULL) {
-                    free(msg);
+                    frff(msg);
                 }
             }
         }
@@ -111,199 +111,199 @@ JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_connect
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
- * Method:    sendQuitTo
- * Signature: (I)V
+ * Clbss:     sun_tools_bttbdi_BsdVirtublMbdiinf
+ * Mftiod:    sfndQuitTo
+ * Signbturf: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_sendQuitTo
-  (JNIEnv *env, jclass cls, jint pid)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_sfndQuitTo
+  (JNIEnv *fnv, jdlbss dls, jint pid)
 {
     if (kill((pid_t)pid, SIGQUIT)) {
-        JNU_ThrowIOExceptionWithLastError(env, "kill");
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "kill");
     }
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
- * Method:    checkPermissions
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_tools_bttbdi_BsdVirtublMbdiinf
+ * Mftiod:    difdkPfrmissions
+ * Signbturf: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_checkPermissions
-  (JNIEnv *env, jclass cls, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_difdkPfrmissions
+  (JNIEnv *fnv, jdlbss dls, jstring pbti)
 {
-    jboolean isCopy;
-    const char* p = GetStringPlatformChars(env, path, &isCopy);
+    jboolfbn isCopy;
+    donst dibr* p = GftStringPlbtformCibrs(fnv, pbti, &isCopy);
     if (p != NULL) {
-        struct stat sb;
+        strudt stbt sb;
         uid_t uid, gid;
-        int res;
+        int rfs;
 
         /*
-         * Check that the path is owned by the effective uid/gid of this
-         * process. Also check that group/other access is not allowed.
+         * Cifdk tibt tif pbti is ownfd by tif ffffdtivf uid/gid of tiis
+         * prodfss. Also difdk tibt group/otifr bddfss is not bllowfd.
          */
-        uid = geteuid();
-        gid = getegid();
+        uid = gftfuid();
+        gid = gftfgid();
 
-        res = stat(p, &sb);
-        if (res != 0) {
-            /* save errno */
-            res = errno;
+        rfs = stbt(p, &sb);
+        if (rfs != 0) {
+            /* sbvf frrno */
+            rfs = frrno;
         }
 
-        /* release p here before we throw an I/O exception */
+        /* rflfbsf p ifrf bfforf wf tirow bn I/O fxdfption */
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, p);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, pbti, p);
         }
 
-        if (res == 0) {
+        if (rfs == 0) {
             if ( (sb.st_uid != uid) || (sb.st_gid != gid) ||
-                 ((sb.st_mode & (S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)) != 0) ) {
-                JNU_ThrowIOException(env, "well-known file is not secure");
+                 ((sb.st_modf & (S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)) != 0) ) {
+                JNU_TirowIOExdfption(fnv, "wfll-known filf is not sfdurf");
             }
-        } else {
-            char* msg = strdup(strerror(res));
-            JNU_ThrowIOException(env, msg);
+        } flsf {
+            dibr* msg = strdup(strfrror(rfs));
+            JNU_TirowIOExdfption(fnv, msg);
             if (msg != NULL) {
-                free(msg);
+                frff(msg);
             }
         }
     }
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
- * Method:    close
- * Signature: (I)V
+ * Clbss:     sun_tools_bttbdi_BsdVirtublMbdiinf
+ * Mftiod:    dlosf
+ * Signbturf: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_close
-  (JNIEnv *env, jclass cls, jint fd)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_dlosf
+  (JNIEnv *fnv, jdlbss dls, jint fd)
 {
-    int res;
-    RESTARTABLE(close(fd), res);
+    int rfs;
+    RESTARTABLE(dlosf(fd), rfs);
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
- * Method:    read
- * Signature: (I[BI)I
+ * Clbss:     sun_tools_bttbdi_BsdVirtublMbdiinf
+ * Mftiod:    rfbd
+ * Signbturf: (I[BI)I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_BsdVirtualMachine_read
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint baLen)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_rfbd
+  (JNIEnv *fnv, jdlbss dls, jint fd, jbytfArrby bb, jint off, jint bbLfn)
 {
-    unsigned char buf[128];
-    size_t len = sizeof(buf);
-    ssize_t n;
+    unsignfd dibr buf[128];
+    sizf_t lfn = sizfof(buf);
+    ssizf_t n;
 
-    size_t remaining = (size_t)(baLen - off);
-    if (len > remaining) {
-        len = remaining;
+    sizf_t rfmbining = (sizf_t)(bbLfn - off);
+    if (lfn > rfmbining) {
+        lfn = rfmbining;
     }
 
-    RESTARTABLE(read(fd, buf, len), n);
+    RESTARTABLE(rfbd(fd, buf, lfn), n);
     if (n == -1) {
-        JNU_ThrowIOExceptionWithLastError(env, "read");
-    } else {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "rfbd");
+    } flsf {
         if (n == 0) {
             n = -1;     // EOF
-        } else {
-            (*env)->SetByteArrayRegion(env, ba, off, (jint)n, (jbyte *)(buf));
+        } flsf {
+            (*fnv)->SftBytfArrbyRfgion(fnv, bb, off, (jint)n, (jbytf *)(buf));
         }
     }
-    return n;
+    rfturn n;
 }
 
 /*
- * Class:     sun_tools_attach_BsdVirtualMachine
- * Method:    write
- * Signature: (I[B)V
+ * Clbss:     sun_tools_bttbdi_BsdVirtublMbdiinf
+ * Mftiod:    writf
+ * Signbturf: (I[B)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_write
-  (JNIEnv *env, jclass cls, jint fd, jbyteArray ba, jint off, jint bufLen)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_writf
+  (JNIEnv *fnv, jdlbss dls, jint fd, jbytfArrby bb, jint off, jint bufLfn)
 {
-    size_t remaining = bufLen;
+    sizf_t rfmbining = bufLfn;
     do {
-        unsigned char buf[128];
-        size_t len = sizeof(buf);
+        unsignfd dibr buf[128];
+        sizf_t lfn = sizfof(buf);
         int n;
 
-        if (len > remaining) {
-            len = remaining;
+        if (lfn > rfmbining) {
+            lfn = rfmbining;
         }
-        (*env)->GetByteArrayRegion(env, ba, off, len, (jbyte *)buf);
+        (*fnv)->GftBytfArrbyRfgion(fnv, bb, off, lfn, (jbytf *)buf);
 
-        RESTARTABLE(write(fd, buf, len), n);
+        RESTARTABLE(writf(fd, buf, lfn), n);
         if (n > 0) {
            off += n;
-           remaining -= n;
-        } else {
-            JNU_ThrowIOExceptionWithLastError(env, "write");
-            return;
+           rfmbining -= n;
+        } flsf {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "writf");
+            rfturn;
         }
 
-    } while (remaining > 0);
+    } wiilf (rfmbining > 0);
 }
 
 /*
- * Class:     sun_tools_attach_BSDVirtualMachine
- * Method:    createAttachFile
- * Signature: (Ljava.lang.String;)V
+ * Clbss:     sun_tools_bttbdi_BSDVirtublMbdiinf
+ * Mftiod:    drfbtfAttbdiFilf
+ * Signbturf: (Ljbvb.lbng.String;)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_BsdVirtualMachine_createAttachFile(JNIEnv *env, jclass cls, jstring path)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_drfbtfAttbdiFilf(JNIEnv *fnv, jdlbss dls, jstring pbti)
 {
-    const char* _path;
-    jboolean isCopy;
-    int fd, rc;
+    donst dibr* _pbti;
+    jboolfbn isCopy;
+    int fd, rd;
 
-    _path = GetStringPlatformChars(env, path, &isCopy);
-    if (_path == NULL) {
-        JNU_ThrowIOException(env, "Must specify a path");
-        return;
+    _pbti = GftStringPlbtformCibrs(fnv, pbti, &isCopy);
+    if (_pbti == NULL) {
+        JNU_TirowIOExdfption(fnv, "Must spfdify b pbti");
+        rfturn;
     }
 
-    RESTARTABLE(open(_path, O_CREAT | O_EXCL, S_IWUSR | S_IRUSR), fd);
+    RESTARTABLE(opfn(_pbti, O_CREAT | O_EXCL, S_IWUSR | S_IRUSR), fd);
     if (fd == -1) {
-        /* release p here before we throw an I/O exception */
+        /* rflfbsf p ifrf bfforf wf tirow bn I/O fxdfption */
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, path, _path);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, pbti, _pbti);
         }
-        JNU_ThrowIOExceptionWithLastError(env, "open");
-        return;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "opfn");
+        rfturn;
     }
 
-    RESTARTABLE(chown(_path, geteuid(), getegid()), rc);
+    RESTARTABLE(diown(_pbti, gftfuid(), gftfgid()), rd);
 
-    RESTARTABLE(close(fd), rc);
+    RESTARTABLE(dlosf(fd), rd);
 
-    /* release p here */
+    /* rflfbsf p ifrf */
     if (isCopy) {
-        JNU_ReleaseStringPlatformChars(env, path, _path);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, pbti, _pbti);
     }
 }
 
 /*
- * Class:     sun_tools_attach_BSDVirtualMachine
- * Method:    getTempDir
- * Signature: (V)Ljava.lang.String;
+ * Clbss:     sun_tools_bttbdi_BSDVirtublMbdiinf
+ * Mftiod:    gftTfmpDir
+ * Signbturf: (V)Ljbvb.lbng.String;
  */
-JNIEXPORT jstring JNICALL Java_sun_tools_attach_BsdVirtualMachine_getTempDir(JNIEnv *env, jclass cls)
+JNIEXPORT jstring JNICALL Jbvb_sun_tools_bttbdi_BsdVirtublMbdiinf_gftTfmpDir(JNIEnv *fnv, jdlbss dls)
 {
-    // This must be hard coded because it's the system's temporary
-    // directory not the java application's temp directory, ala java.io.tmpdir.
+    // Tiis must bf ibrd dodfd bfdbusf it's tif systfm's tfmporbry
+    // dirfdtory not tif jbvb bpplidbtion's tfmp dirfdtory, blb jbvb.io.tmpdir.
 
-#ifdef __APPLE__
-    // macosx has a secure per-user temporary directory
-    static char *temp_path = NULL;
-    char temp_path_storage[PATH_MAX];
-    if (temp_path == NULL) {
-        int pathSize = confstr(_CS_DARWIN_USER_TEMP_DIR, temp_path_storage, PATH_MAX);
-        if (pathSize == 0 || pathSize > PATH_MAX) {
-            strlcpy(temp_path_storage, "/tmp", sizeof(temp_path_storage));
+#ifdff __APPLE__
+    // mbdosx ibs b sfdurf pfr-usfr tfmporbry dirfdtory
+    stbtid dibr *tfmp_pbti = NULL;
+    dibr tfmp_pbti_storbgf[PATH_MAX];
+    if (tfmp_pbti == NULL) {
+        int pbtiSizf = donfstr(_CS_DARWIN_USER_TEMP_DIR, tfmp_pbti_storbgf, PATH_MAX);
+        if (pbtiSizf == 0 || pbtiSizf > PATH_MAX) {
+            strldpy(tfmp_pbti_storbgf, "/tmp", sizfof(tfmp_pbti_storbgf));
         }
-        temp_path = temp_path_storage;
+        tfmp_pbti = tfmp_pbti_storbgf;
     }
-    return JNU_NewStringPlatform(env, temp_path);
-#else /* __APPLE__ */
-    return (*env)->NewStringUTF(env, "/tmp");
-#endif /* __APPLE__ */
+    rfturn JNU_NfwStringPlbtform(fnv, tfmp_pbti);
+#flsf /* __APPLE__ */
+    rfturn (*fnv)->NfwStringUTF(fnv, "/tmp");
+#fndif /* __APPLE__ */
 }

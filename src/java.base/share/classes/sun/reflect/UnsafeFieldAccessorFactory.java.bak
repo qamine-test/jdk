@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect;
+pbdkbgf sun.rfflfdt;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Modififr;
 
-class UnsafeFieldAccessorFactory {
-    static FieldAccessor newFieldAccessor(Field field, boolean override) {
-        Class<?> type = field.getType();
-        boolean isStatic = Modifier.isStatic(field.getModifiers());
-        boolean isFinal = Modifier.isFinal(field.getModifiers());
-        boolean isVolatile = Modifier.isVolatile(field.getModifiers());
-        boolean isQualified = isFinal || isVolatile;
-        boolean isReadOnly = isFinal && (isStatic || !override);
-        if (isStatic) {
-            // This code path does not guarantee that the field's
-            // declaring class has been initialized, but it must be
-            // before performing reflective operations.
-            UnsafeFieldAccessorImpl.unsafe.ensureClassInitialized(field.getDeclaringClass());
+dlbss UnsbffFifldAddfssorFbdtory {
+    stbtid FifldAddfssor nfwFifldAddfssor(Fifld fifld, boolfbn ovfrridf) {
+        Clbss<?> typf = fifld.gftTypf();
+        boolfbn isStbtid = Modififr.isStbtid(fifld.gftModififrs());
+        boolfbn isFinbl = Modififr.isFinbl(fifld.gftModififrs());
+        boolfbn isVolbtilf = Modififr.isVolbtilf(fifld.gftModififrs());
+        boolfbn isQublififd = isFinbl || isVolbtilf;
+        boolfbn isRfbdOnly = isFinbl && (isStbtid || !ovfrridf);
+        if (isStbtid) {
+            // Tiis dodf pbti dofs not gubrbntff tibt tif fifld's
+            // dfdlbring dlbss ibs bffn initiblizfd, but it must bf
+            // bfforf pfrforming rfflfdtivf opfrbtions.
+            UnsbffFifldAddfssorImpl.unsbff.fnsurfClbssInitiblizfd(fifld.gftDfdlbringClbss());
 
-            if (!isQualified) {
-                if (type == Boolean.TYPE) {
-                    return new UnsafeStaticBooleanFieldAccessorImpl(field);
-                } else if (type == Byte.TYPE) {
-                    return new UnsafeStaticByteFieldAccessorImpl(field);
-                } else if (type == Short.TYPE) {
-                    return new UnsafeStaticShortFieldAccessorImpl(field);
-                } else if (type == Character.TYPE) {
-                    return new UnsafeStaticCharacterFieldAccessorImpl(field);
-                } else if (type == Integer.TYPE) {
-                    return new UnsafeStaticIntegerFieldAccessorImpl(field);
-                } else if (type == Long.TYPE) {
-                    return new UnsafeStaticLongFieldAccessorImpl(field);
-                } else if (type == Float.TYPE) {
-                    return new UnsafeStaticFloatFieldAccessorImpl(field);
-                } else if (type == Double.TYPE) {
-                    return new UnsafeStaticDoubleFieldAccessorImpl(field);
-                } else {
-                    return new UnsafeStaticObjectFieldAccessorImpl(field);
+            if (!isQublififd) {
+                if (typf == Boolfbn.TYPE) {
+                    rfturn nfw UnsbffStbtidBoolfbnFifldAddfssorImpl(fifld);
+                } flsf if (typf == Bytf.TYPE) {
+                    rfturn nfw UnsbffStbtidBytfFifldAddfssorImpl(fifld);
+                } flsf if (typf == Siort.TYPE) {
+                    rfturn nfw UnsbffStbtidSiortFifldAddfssorImpl(fifld);
+                } flsf if (typf == Cibrbdtfr.TYPE) {
+                    rfturn nfw UnsbffStbtidCibrbdtfrFifldAddfssorImpl(fifld);
+                } flsf if (typf == Intfgfr.TYPE) {
+                    rfturn nfw UnsbffStbtidIntfgfrFifldAddfssorImpl(fifld);
+                } flsf if (typf == Long.TYPE) {
+                    rfturn nfw UnsbffStbtidLongFifldAddfssorImpl(fifld);
+                } flsf if (typf == Flobt.TYPE) {
+                    rfturn nfw UnsbffStbtidFlobtFifldAddfssorImpl(fifld);
+                } flsf if (typf == Doublf.TYPE) {
+                    rfturn nfw UnsbffStbtidDoublfFifldAddfssorImpl(fifld);
+                } flsf {
+                    rfturn nfw UnsbffStbtidObjfdtFifldAddfssorImpl(fifld);
                 }
-            } else {
-                if (type == Boolean.TYPE) {
-                    return new UnsafeQualifiedStaticBooleanFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Byte.TYPE) {
-                    return new UnsafeQualifiedStaticByteFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Short.TYPE) {
-                    return new UnsafeQualifiedStaticShortFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Character.TYPE) {
-                    return new UnsafeQualifiedStaticCharacterFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Integer.TYPE) {
-                    return new UnsafeQualifiedStaticIntegerFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Long.TYPE) {
-                    return new UnsafeQualifiedStaticLongFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Float.TYPE) {
-                    return new UnsafeQualifiedStaticFloatFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Double.TYPE) {
-                    return new UnsafeQualifiedStaticDoubleFieldAccessorImpl(field, isReadOnly);
-                } else {
-                    return new UnsafeQualifiedStaticObjectFieldAccessorImpl(field, isReadOnly);
+            } flsf {
+                if (typf == Boolfbn.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidBoolfbnFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Bytf.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidBytfFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Siort.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidSiortFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Cibrbdtfr.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidCibrbdtfrFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Intfgfr.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidIntfgfrFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Long.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidLongFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Flobt.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidFlobtFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Doublf.TYPE) {
+                    rfturn nfw UnsbffQublififdStbtidDoublfFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf {
+                    rfturn nfw UnsbffQublififdStbtidObjfdtFifldAddfssorImpl(fifld, isRfbdOnly);
                 }
             }
-        } else {
-            if (!isQualified) {
-                if (type == Boolean.TYPE) {
-                    return new UnsafeBooleanFieldAccessorImpl(field);
-                } else if (type == Byte.TYPE) {
-                    return new UnsafeByteFieldAccessorImpl(field);
-                } else if (type == Short.TYPE) {
-                    return new UnsafeShortFieldAccessorImpl(field);
-                } else if (type == Character.TYPE) {
-                    return new UnsafeCharacterFieldAccessorImpl(field);
-                } else if (type == Integer.TYPE) {
-                    return new UnsafeIntegerFieldAccessorImpl(field);
-                } else if (type == Long.TYPE) {
-                    return new UnsafeLongFieldAccessorImpl(field);
-                } else if (type == Float.TYPE) {
-                    return new UnsafeFloatFieldAccessorImpl(field);
-                } else if (type == Double.TYPE) {
-                    return new UnsafeDoubleFieldAccessorImpl(field);
-                } else {
-                    return new UnsafeObjectFieldAccessorImpl(field);
+        } flsf {
+            if (!isQublififd) {
+                if (typf == Boolfbn.TYPE) {
+                    rfturn nfw UnsbffBoolfbnFifldAddfssorImpl(fifld);
+                } flsf if (typf == Bytf.TYPE) {
+                    rfturn nfw UnsbffBytfFifldAddfssorImpl(fifld);
+                } flsf if (typf == Siort.TYPE) {
+                    rfturn nfw UnsbffSiortFifldAddfssorImpl(fifld);
+                } flsf if (typf == Cibrbdtfr.TYPE) {
+                    rfturn nfw UnsbffCibrbdtfrFifldAddfssorImpl(fifld);
+                } flsf if (typf == Intfgfr.TYPE) {
+                    rfturn nfw UnsbffIntfgfrFifldAddfssorImpl(fifld);
+                } flsf if (typf == Long.TYPE) {
+                    rfturn nfw UnsbffLongFifldAddfssorImpl(fifld);
+                } flsf if (typf == Flobt.TYPE) {
+                    rfturn nfw UnsbffFlobtFifldAddfssorImpl(fifld);
+                } flsf if (typf == Doublf.TYPE) {
+                    rfturn nfw UnsbffDoublfFifldAddfssorImpl(fifld);
+                } flsf {
+                    rfturn nfw UnsbffObjfdtFifldAddfssorImpl(fifld);
                 }
-            } else {
-                if (type == Boolean.TYPE) {
-                    return new UnsafeQualifiedBooleanFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Byte.TYPE) {
-                    return new UnsafeQualifiedByteFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Short.TYPE) {
-                    return new UnsafeQualifiedShortFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Character.TYPE) {
-                    return new UnsafeQualifiedCharacterFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Integer.TYPE) {
-                    return new UnsafeQualifiedIntegerFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Long.TYPE) {
-                    return new UnsafeQualifiedLongFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Float.TYPE) {
-                    return new UnsafeQualifiedFloatFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Double.TYPE) {
-                    return new UnsafeQualifiedDoubleFieldAccessorImpl(field, isReadOnly);
-                } else {
-                    return new UnsafeQualifiedObjectFieldAccessorImpl(field, isReadOnly);
+            } flsf {
+                if (typf == Boolfbn.TYPE) {
+                    rfturn nfw UnsbffQublififdBoolfbnFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Bytf.TYPE) {
+                    rfturn nfw UnsbffQublififdBytfFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Siort.TYPE) {
+                    rfturn nfw UnsbffQublififdSiortFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Cibrbdtfr.TYPE) {
+                    rfturn nfw UnsbffQublififdCibrbdtfrFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Intfgfr.TYPE) {
+                    rfturn nfw UnsbffQublififdIntfgfrFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Long.TYPE) {
+                    rfturn nfw UnsbffQublififdLongFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Flobt.TYPE) {
+                    rfturn nfw UnsbffQublififdFlobtFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf if (typf == Doublf.TYPE) {
+                    rfturn nfw UnsbffQublififdDoublfFifldAddfssorImpl(fifld, isRfbdOnly);
+                } flsf {
+                    rfturn nfw UnsbffQublififdObjfdtFifldAddfssorImpl(fifld, isRfbdOnly);
                 }
             }
         }

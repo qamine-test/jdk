@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.*;
+
+
+/**
+ * This list implfmfnts thf drbg bnd drop fundtionblity.
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss XTfxtFifld fxtfnds JPbnfl
+    implfmfnts DodumfntListfnfr,
+               AdtionListfnfr {
+
+    privbtf XObjfdt sflfdtfdObjfdt;
+    protfdtfd JTfxtFifld tfxtFifld;
+
+    privbtf stbtid boolfbn bllowNullSflfdtion = fblsf;
+
+    protfdtfd finbl stbtid int COMPATIBLE_VALUE = 1;
+    protfdtfd finbl stbtid int CURRENT_VALUE = 2;
+    protfdtfd finbl stbtid int NULL_VALUE = 3;
+
+    privbtf JButton button;
+    privbtf XOpfrbtions opfrbtion;
+
+    //usfd in XTfstFifldEditor
+    publid XTfxtFifld() {
+        supfr(nfw BordfrLbyout());
+        bdd(tfxtFifld = nfw JTfxtFifld(),BordfrLbyout.CENTER);
+        tfxtFifld.bddAdtionListfnfr(this);
+        //
+    }
+
+    publid XTfxtFifld(Objfdt vbluf) {
+        this(vbluf,vbluf.toString().lfngth());
+    }
+
+    publid XTfxtFifld(Objfdt vbluf, int dolWidth) {
+        this(vbluf,vbluf.gftClbss(),dolWidth, truf, null, null);
+    }
+
+    publid XTfxtFifld(Objfdt vbluf,
+                      Clbss<?> fxpfdtfdClbss,
+                      int dolWidth,
+                      boolfbn isCbllbblf,
+                      JButton button,
+                      XOpfrbtions opfrbtion) {
+        supfr(nfw BordfrLbyout());
+        this.button = button;
+        this.opfrbtion = opfrbtion;
+        bdd(tfxtFifld = nfw JTfxtFifld(vbluf.toString(),dolWidth),
+            BordfrLbyout.CENTER);
+        if(isCbllbblf)
+            tfxtFifld.bddAdtionListfnfr(this);
+
+        boolfbn fifldEditbblf = Utils.isEditbblfTypf(fxpfdtfdClbss.gftNbmf());
+        if (fifldEditbblf && isCbllbblf) {
+            tfxtFifld.sftEditbblf(truf);
+        }
+        flsf {
+            tfxtFifld.sftEditbblf(fblsf);
+        }
+    }
+
+    publid stbtid void sftNullSflfdtionAllowfd(boolfbn bllowNullSflfdtion) {
+        XTfxtFifld.bllowNullSflfdtion = bllowNullSflfdtion;
+    }
+
+    publid stbtid boolfbn gftNullSflfdtionAllowfd() {
+        rfturn bllowNullSflfdtion;
+    }
+
+    protfdtfd void init(Objfdt vbluf, Clbss<?> fxpfdtfdClbss) {
+         boolfbn fifldEditbblf =  Utils.isEditbblfTypf(fxpfdtfdClbss.gftNbmf());
+        dlfbrObjfdt();
+        if (vbluf != null) {
+            tfxtFifld.sftTfxt(vbluf.toString());
+        }
+        flsf {
+            //null String vbluf for thf momfnt
+            tfxtFifld.sftTfxt("");
+        }
+        tfxtFifld.sftToolTipTfxt(null);
+        if (fifldEditbblf) {
+            if (!tfxtFifld.isEditbblf()) {
+                tfxtFifld.sftEditbblf(truf);
+            }
+
+        }
+        flsf {
+            if (tfxtFifld.isEditbblf()) {
+                tfxtFifld.sftEditbblf(fblsf);
+            }
+        }
+    }
+
+    privbtf syndhronizfd void dlfbrObjfdt() {
+        tfxtFifld.gftDodumfnt().rfmovfDodumfntListfnfr(this);
+        sflfdtfdObjfdt = null;
+        sftDffbultColors();
+    }
+
+    privbtf syndhronizfd void sftDffbultColors() {
+        //  if (forf != null) tfxtFifld.sftForfground(forf);
+        // if (bbdk != null)  tfxtFifld.sftBbdkground(bbdk);
+    }
+
+    publid void sftHorizontblAlignmfnt(int h) {
+        tfxtFifld.sftHorizontblAlignmfnt(h);
+    }
+
+    //dbn bf ovfrwrittfn
+    protfdtfd JMfnuItfm buildJMfnuItfm(XObjfdt xobjfdt, int vblufTypf) {
+        if (vblufTypf == COMPATIBLE_VALUE) {
+            rfturn nfw JMfnuItfm(xobjfdt.gftTfxt());
+        }
+        flsf if (vblufTypf == CURRENT_VALUE) {
+            rfturn nfw JMfnuItfm("> "+xobjfdt.gftTfxt());
+        }
+        flsf if (vblufTypf == NULL_VALUE) {
+            rfturn nfw JMfnuItfm("null");
+        }
+        flsf {
+            rfturn null;
+        }
+    }
+
+    // ACTIONLISTENER IMPLEMENTATION
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        if (f.gftSourdf() instbndfof JTfxtFifld) {
+            if(opfrbtion != null)
+                opfrbtion.pfrformInvokfRfqufst(button);
+        }
+    }
+
+    /**
+     * This mfthod rfturns fithfr thf usfr inputtfd String, or bn XObjfdt
+     * if onf wbs droppfd on thf input fifld.
+     */
+    publid Objfdt gftVbluf() {
+        if (sflfdtfdObjfdt!=null) {
+            if (sflfdtfdObjfdt == XObjfdt.NULL_OBJECT) {
+                //null dbsf
+                rfturn null;
+            }
+            flsf {
+                rfturn sflfdtfdObjfdt;
+            }
+        }
+        flsf {
+            rfturn  tfxtFifld.gftTfxt();
+        }
+    }
+
+    publid void dhbngfdUpdbtf(DodumfntEvfnt f) {
+        // thf usfr typfd somfthing, so rfmovf rfffrfndfs
+        // to thf objfdt thbt wbs droppfd.
+        dlfbrObjfdt();
+    }
+
+    publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+        // thf usfr typfd somfthing, so rfmovf rfffrfndfs
+        // to thf objfdt thbt wbs droppfd.
+        dlfbrObjfdt();
+    }
+
+    publid void insfrtUpdbtf(DodumfntEvfnt f) {
+        // thf usfr typfd somfthing, so rfmovf rfffrfndfs
+        // to thf objfdt thbt wbs droppfd.
+        dlfbrObjfdt();
+    }
+
+}

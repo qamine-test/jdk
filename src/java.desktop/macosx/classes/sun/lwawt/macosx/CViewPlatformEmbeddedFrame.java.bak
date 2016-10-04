@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GraphicsDevice;
-import java.awt.Insets;
-import java.awt.MenuBar;
-import java.awt.Point;
-import java.awt.Window;
-import sun.awt.CausedFocusEvent.Cause;
-import sun.java2d.SurfaceData;
-import sun.lwawt.LWWindowPeer;
-import sun.lwawt.PlatformWindow;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.GrbpiidsDfvidf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.MfnuBbr;
+import jbvb.bwt.Point;
+import jbvb.bwt.Window;
+import sun.bwt.CbusfdFodusEvfnt.Cbusf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.lwbwt.LWWindowPffr;
+import sun.lwbwt.PlbtformWindow;
 
-public class CViewPlatformEmbeddedFrame implements PlatformWindow {
+publid dlbss CVifwPlbtformEmbfddfdFrbmf implfmfnts PlbtformWindow {
 
-    private CPlatformView view;
-    private LWWindowPeer peer;
-    private CViewEmbeddedFrame target;
-    private CPlatformResponder responder;
+    privbtf CPlbtformVifw vifw;
+    privbtf LWWindowPffr pffr;
+    privbtf CVifwEmbfddfdFrbmf tbrgft;
+    privbtf CPlbtformRfspondfr rfspondfr;
 
-    @Override // PlatformWindow
-    public void initialize(Window target, final LWWindowPeer peer, PlatformWindow owner) {
-        this.peer = peer;
-        this.target = (CViewEmbeddedFrame) target;
-        responder = new CPlatformResponder(peer, false);
+    @Ovfrridf // PlbtformWindow
+    publid void initiblizf(Window tbrgft, finbl LWWindowPffr pffr, PlbtformWindow ownfr) {
+        tiis.pffr = pffr;
+        tiis.tbrgft = (CVifwEmbfddfdFrbmf) tbrgft;
+        rfspondfr = nfw CPlbtformRfspondfr(pffr, fblsf);
 
-        view = new CPlatformView();
-        view.initialize(peer, responder);
+        vifw = nfw CPlbtformVifw();
+        vifw.initiblizf(pffr, rfspondfr);
 
-        CWrapper.NSView.addSubview(this.target.getEmbedderHandle(), view.getAWTView());
-        view.setAutoResizable(true);
+        CWrbppfr.NSVifw.bddSubvifw(tiis.tbrgft.gftEmbfddfrHbndlf(), vifw.gftAWTVifw());
+        vifw.sftAutoRfsizbblf(truf);
     }
 
-    public long getNSViewPtr() {
-        return view.getAWTView();
+    publid long gftNSVifwPtr() {
+        rfturn vifw.gftAWTVifw();
     }
 
-    @Override
-    public long getLayerPtr() {
-        return view.getWindowLayerPtr();
+    @Ovfrridf
+    publid long gftLbyfrPtr() {
+        rfturn vifw.gftWindowLbyfrPtr();
     }
 
-    @Override
-    public LWWindowPeer getPeer() {
-        return peer;
+    @Ovfrridf
+    publid LWWindowPffr gftPffr() {
+        rfturn pffr;
     }
 
-    @Override
-    public void dispose() {
-        CWrapper.NSView.removeFromSuperview(view.getAWTView());
-        view.dispose();
+    @Ovfrridf
+    publid void disposf() {
+        CWrbppfr.NSVifw.rfmovfFromSupfrvifw(vifw.gftAWTVifw());
+        vifw.disposf();
     }
 
-    @Override
-    public void setVisible(boolean visible) {
-        CWrapper.NSView.setHidden(view.getAWTView(), !visible);
+    @Ovfrridf
+    publid void sftVisiblf(boolfbn visiblf) {
+        CWrbppfr.NSVifw.sftHiddfn(vifw.gftAWTVifw(), !visiblf);
     }
 
-    @Override
-    public void setTitle(String title) {
+    @Ovfrridf
+    publid void sftTitlf(String titlf) {
     }
 
-    @Override
-    public void setBounds(int x, int y, int w, int h) {
-        view.setBounds(x, y, w, h);
-        peer.notifyReshape(x, y, w, h);
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int w, int i) {
+        vifw.sftBounds(x, y, w, i);
+        pffr.notifyRfsibpf(x, y, w, i);
     }
 
-    @Override
-    public GraphicsDevice getGraphicsDevice() {
-        return view.getGraphicsDevice();
+    @Ovfrridf
+    publid GrbpiidsDfvidf gftGrbpiidsDfvidf() {
+        rfturn vifw.gftGrbpiidsDfvidf();
     }
 
-    @Override
-    public Point getLocationOnScreen() {
-        return view.getLocationOnScreen();
+    @Ovfrridf
+    publid Point gftLodbtionOnSdrffn() {
+        rfturn vifw.gftLodbtionOnSdrffn();
     }
 
-    @Override
-    public Insets getInsets() {
-        return new Insets(0, 0, 0, 0);
+    @Ovfrridf
+    publid Insfts gftInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
     }
 
-    @Override
-    public FontMetrics getFontMetrics(Font f) {
-        throw new RuntimeException("Not implemented");
+    @Ovfrridf
+    publid FontMftrids gftFontMftrids(Font f) {
+        tirow nfw RuntimfExdfption("Not implfmfntfd");
     }
 
-    @Override
-    public SurfaceData getScreenSurface() {
-        return view.getSurfaceData();
+    @Ovfrridf
+    publid SurfbdfDbtb gftSdrffnSurfbdf() {
+        rfturn vifw.gftSurfbdfDbtb();
     }
 
-    @Override
-    public SurfaceData replaceSurfaceData() {
-        return view.replaceSurfaceData();
+    @Ovfrridf
+    publid SurfbdfDbtb rfplbdfSurfbdfDbtb() {
+        rfturn vifw.rfplbdfSurfbdfDbtb();
     }
 
-    @Override
-    public void setModalBlocked(boolean blocked) {
+    @Ovfrridf
+    publid void sftModblBlodkfd(boolfbn blodkfd) {
     }
 
-    @Override
-    public void toFront() {
+    @Ovfrridf
+    publid void toFront() {
     }
 
-    @Override
-    public void toBack() {
+    @Ovfrridf
+    publid void toBbdk() {
     }
 
-    @Override
-    public void setMenuBar(MenuBar mb) {
+    @Ovfrridf
+    publid void sftMfnuBbr(MfnuBbr mb) {
     }
 
-    @Override
-    public void setAlwaysOnTop(boolean value) {
+    @Ovfrridf
+    publid void sftAlwbysOnTop(boolfbn vbluf) {
     }
 
-    @Override
-    public PlatformWindow getTopmostPlatformWindowUnderMouse() {
-        return null;
+    @Ovfrridf
+    publid PlbtformWindow gftTopmostPlbtformWindowUndfrMousf() {
+        rfturn null;
     }
 
-    @Override
-    public void updateFocusableWindowState() {
+    @Ovfrridf
+    publid void updbtfFodusbblfWindowStbtf() {
     }
 
-    @Override
-    public boolean rejectFocusRequest(Cause cause) {
-        return false;
+    @Ovfrridf
+    publid boolfbn rfjfdtFodusRfqufst(Cbusf dbusf) {
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean requestWindowFocus() {
-        return true;
+    @Ovfrridf
+    publid boolfbn rfqufstWindowFodus() {
+        rfturn truf;
     }
 
-    @Override
-    public boolean isActive() {
-        return target.isParentWindowActive();
+    @Ovfrridf
+    publid boolfbn isAdtivf() {
+        rfturn tbrgft.isPbrfntWindowAdtivf();
     }
 
-    @Override
-    public void setResizable(boolean resizable) {
+    @Ovfrridf
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {
     }
 
-    @Override
-    public void setSizeConstraints(int minW, int minH, int maxW, int maxH) {
+    @Ovfrridf
+    publid void sftSizfConstrbints(int minW, int minH, int mbxW, int mbxH) {
     }
 
-    @Override
-    public Graphics transformGraphics(Graphics g) {
-        return g;
+    @Ovfrridf
+    publid Grbpiids trbnsformGrbpiids(Grbpiids g) {
+        rfturn g;
     }
 
-    @Override
-    public void updateIconImages() {
+    @Ovfrridf
+    publid void updbtfIdonImbgfs() {
     }
 
-    @Override
-    public void setOpacity(float opacity) {
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {
     }
 
-    @Override
-    public void setOpaque(boolean isOpaque) {
+    @Ovfrridf
+    publid void sftOpbquf(boolfbn isOpbquf) {
     }
 
-    @Override
-    public void enterFullScreenMode() {
+    @Ovfrridf
+    publid void fntfrFullSdrffnModf() {
     }
 
-    @Override
-    public void exitFullScreenMode() {
+    @Ovfrridf
+    publid void fxitFullSdrffnModf() {
     }
 
-    @Override
-    public boolean isFullScreenMode() {
-        return false;
+    @Ovfrridf
+    publid boolfbn isFullSdrffnModf() {
+        rfturn fblsf;
     }
 
-    @Override
-    public void setWindowState(int windowState) {
+    @Ovfrridf
+    publid void sftWindowStbtf(int windowStbtf) {
     }
 
-    @Override
-    public boolean isUnderMouse() {
-        return view.isUnderMouse();
+    @Ovfrridf
+    publid boolfbn isUndfrMousf() {
+        rfturn vifw.isUndfrMousf();
     }
 }

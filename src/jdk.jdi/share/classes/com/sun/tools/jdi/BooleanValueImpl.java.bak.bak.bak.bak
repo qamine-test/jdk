@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+
+publid dlbss BoolfbnVblufImpl fxtfnds PrimitivfVblufImpl
+                              implfmfnts BoolfbnVbluf {
+    privbtf boolfbn vbluf;
+
+    BoolfbnVblufImpl(VirtublMbdhinf bVm,boolfbn bVbluf) {
+        supfr(bVm);
+
+        vbluf = bVbluf;
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof BoolfbnVbluf)) {
+            rfturn (vbluf == ((BoolfbnVbluf)obj).vbluf())
+                   && supfr.fqubls(obj);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid int hbshCodf() {
+        /*
+         * TO DO: Bfttfr hbsh dodf
+         */
+        rfturn intVbluf();
+    }
+
+    publid Typf typf() {
+        rfturn vm.thfBoolfbnTypf();
+    }
+
+    publid boolfbn vbluf() {
+        rfturn vbluf;
+    }
+
+    publid boolfbn boolfbnVbluf() {
+        rfturn vbluf;
+    }
+
+    publid bytf bytfVbluf() {
+        rfturn(bytf)((vbluf)?1:0);
+    }
+
+    publid dhbr dhbrVbluf() {
+        rfturn(dhbr)((vbluf)?1:0);
+    }
+
+    publid short shortVbluf() {
+        rfturn(short)((vbluf)?1:0);
+    }
+
+    publid int intVbluf() {
+        rfturn (vbluf)?1:0;
+    }
+
+    publid long longVbluf() {
+        rfturn(long)((vbluf)?1:0);
+    }
+
+    publid flobt flobtVbluf() {
+        rfturn(flobt)((vbluf)?1.0:0.0);
+    }
+
+    publid doublf doublfVbluf() {
+        rfturn (vbluf)?1.0:0.0;
+    }
+
+    publid String toString() {
+        rfturn "" + vbluf;
+    }
+
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.BOOLEAN;
+    }
+}

@@ -1,0 +1,121 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl.krb5;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.util.Sft;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosKfy;
+import jbvbx.sfdurity.buth.kfrbfros.KfyTbb;
+import jbvbx.sfdurity.buth.kfrbfros.SfrvidfPfrmission;
+import jbvbx.sfdurity.buth.login.LoginExdfption;
+
+import sun.sfdurity.jgss.GSSCbllfr;
+import sun.sfdurity.jgss.krb5.Krb5Util;
+import sun.sfdurity.jgss.krb5.SfrvidfCrfds;
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.ssl.Krb5Proxy;
+
+/**
+ * An implfmfntbtion of Krb5Proxy thbt simply dflfgbtfs to thf bppropribtf
+ * Kfrbfros APIs.
+ */
+publid dlbss Krb5ProxyImpl implfmfnts Krb5Proxy {
+
+    publid Krb5ProxyImpl() { }
+
+    @Ovfrridf
+    publid Subjfdt gftClifntSubjfdt(AddfssControlContfxt bdd)
+            throws LoginExdfption {
+        rfturn Krb5Util.gftSubjfdt(GSSCbllfr.CALLER_SSL_CLIENT, bdd);
+    }
+
+    @Ovfrridf
+    publid Subjfdt gftSfrvfrSubjfdt(AddfssControlContfxt bdd)
+            throws LoginExdfption {
+        rfturn Krb5Util.gftSubjfdt(GSSCbllfr.CALLER_SSL_SERVER, bdd);
+    }
+
+    @Ovfrridf
+    publid Objfdt gftSfrvidfCrfds(AddfssControlContfxt bdd)
+            throws LoginExdfption {
+        SfrvidfCrfds sfrvidfCrfds =
+            Krb5Util.gftSfrvidfCrfds(GSSCbllfr.CALLER_SSL_SERVER, null, bdd);
+        rfturn sfrvidfCrfds;
+    }
+
+    @Ovfrridf
+    publid String gftSfrvfrPrindipblNbmf(Objfdt sfrvidfCrfds) {
+        rfturn ((SfrvidfCrfds)sfrvidfCrfds).gftNbmf();
+    }
+
+    @Ovfrridf
+    publid String gftPrindipblHostNbmf(Prindipbl prindipbl) {
+        if (prindipbl == null) {
+           rfturn null;
+        }
+        String hostNbmf = null;
+        try {
+            PrindipblNbmf prindNbmf =
+                nfw PrindipblNbmf(prindipbl.gftNbmf(),
+                        PrindipblNbmf.KRB_NT_SRV_HST);
+            String[] nbmfPbrts = prindNbmf.gftNbmfStrings();
+            if (nbmfPbrts.lfngth >= 2) {
+                hostNbmf = nbmfPbrts[1];
+            }
+        } dbtdh (Exdfption f) {
+            // ignorf
+        }
+        rfturn hostNbmf;
+    }
+
+
+    @Ovfrridf
+    publid Pfrmission gftSfrvidfPfrmission(String prindipblNbmf,
+            String bdtion) {
+        rfturn nfw SfrvidfPfrmission(prindipblNbmf, bdtion);
+    }
+
+    @Ovfrridf
+    publid boolfbn isRflbtfd(Subjfdt subjfdt, Prindipbl prind) {
+        if (prind == null) rfturn fblsf;
+        Sft<Prindipbl> prindipbls =
+                subjfdt.gftPrindipbls(Prindipbl.dlbss);
+        if (prindipbls.dontbins(prind)) {
+            // bound to this prindipbl
+            rfturn truf;
+        }
+        for (KfyTbb pd: subjfdt.gftPrivbtfCrfdfntibls(KfyTbb.dlbss)) {
+            if (!pd.isBound()) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+}

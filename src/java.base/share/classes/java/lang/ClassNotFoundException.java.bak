@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
- * Thrown when an application tries to load in a class through its
- * string name using:
+ * Tirown wifn bn bpplidbtion trifs to lobd in b dlbss tirougi its
+ * string nbmf using:
  * <ul>
- * <li>The <code>forName</code> method in class <code>Class</code>.
- * <li>The <code>findSystemClass</code> method in class
- *     <code>ClassLoader</code> .
- * <li>The <code>loadClass</code> method in class <code>ClassLoader</code>.
+ * <li>Tif <dodf>forNbmf</dodf> mftiod in dlbss <dodf>Clbss</dodf>.
+ * <li>Tif <dodf>findSystfmClbss</dodf> mftiod in dlbss
+ *     <dodf>ClbssLobdfr</dodf> .
+ * <li>Tif <dodf>lobdClbss</dodf> mftiod in dlbss <dodf>ClbssLobdfr</dodf>.
  * </ul>
  * <p>
- * but no definition for the class with the specified name could be found.
+ * but no dffinition for tif dlbss witi tif spfdififd nbmf dould bf found.
  *
- * <p>As of release 1.4, this exception has been retrofitted to conform to
- * the general purpose exception-chaining mechanism.  The "optional exception
- * that was raised while loading the class" that may be provided at
- * construction time and accessed via the {@link #getException()} method is
- * now known as the <i>cause</i>, and may be accessed via the {@link
- * Throwable#getCause()} method, as well as the aforementioned "legacy method."
+ * <p>As of rflfbsf 1.4, tiis fxdfption ibs bffn rftrofittfd to donform to
+ * tif gfnfrbl purposf fxdfption-dibining mfdibnism.  Tif "optionbl fxdfption
+ * tibt wbs rbisfd wiilf lobding tif dlbss" tibt mby bf providfd bt
+ * donstrudtion timf bnd bddfssfd vib tif {@link #gftExdfption()} mftiod is
+ * now known bs tif <i>dbusf</i>, bnd mby bf bddfssfd vib tif {@link
+ * Tirowbblf#gftCbusf()} mftiod, bs wfll bs tif bforfmfntionfd "lfgbdy mftiod."
  *
- * @author  unascribed
- * @see     java.lang.Class#forName(java.lang.String)
- * @see     java.lang.ClassLoader#findSystemClass(java.lang.String)
- * @see     java.lang.ClassLoader#loadClass(java.lang.String, boolean)
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sff     jbvb.lbng.Clbss#forNbmf(jbvb.lbng.String)
+ * @sff     jbvb.lbng.ClbssLobdfr#findSystfmClbss(jbvb.lbng.String)
+ * @sff     jbvb.lbng.ClbssLobdfr#lobdClbss(jbvb.lbng.String, boolfbn)
+ * @sindf   1.0
  */
-public class ClassNotFoundException extends ReflectiveOperationException {
+publid dlbss ClbssNotFoundExdfption fxtfnds RfflfdtivfOpfrbtionExdfption {
     /**
-     * use serialVersionUID from JDK 1.1.X for interoperability
+     * usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
      */
-     private static final long serialVersionUID = 9176873029745254542L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 9176873029745254542L;
 
     /**
-     * This field holds the exception ex if the
-     * ClassNotFoundException(String s, Throwable ex) constructor was
-     * used to instantiate the object
-     * @serial
-     * @since 1.2
+     * Tiis fifld iolds tif fxdfption fx if tif
+     * ClbssNotFoundExdfption(String s, Tirowbblf fx) donstrudtor wbs
+     * usfd to instbntibtf tif objfdt
+     * @sfribl
+     * @sindf 1.2
      */
-    private Throwable ex;
+    privbtf Tirowbblf fx;
 
     /**
-     * Constructs a <code>ClassNotFoundException</code> with no detail message.
+     * Construdts b <dodf>ClbssNotFoundExdfption</dodf> witi no dftbil mfssbgf.
      */
-    public ClassNotFoundException() {
-        super((Throwable)null);  // Disallow initCause
+    publid ClbssNotFoundExdfption() {
+        supfr((Tirowbblf)null);  // Disbllow initCbusf
     }
 
     /**
-     * Constructs a <code>ClassNotFoundException</code> with the
-     * specified detail message.
+     * Construdts b <dodf>ClbssNotFoundExdfption</dodf> witi tif
+     * spfdififd dftbil mfssbgf.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   tif dftbil mfssbgf.
      */
-    public ClassNotFoundException(String s) {
-        super(s, null);  //  Disallow initCause
+    publid ClbssNotFoundExdfption(String s) {
+        supfr(s, null);  //  Disbllow initCbusf
     }
 
     /**
-     * Constructs a <code>ClassNotFoundException</code> with the
-     * specified detail message and optional exception that was
-     * raised while loading the class.
+     * Construdts b <dodf>ClbssNotFoundExdfption</dodf> witi tif
+     * spfdififd dftbil mfssbgf bnd optionbl fxdfption tibt wbs
+     * rbisfd wiilf lobding tif dlbss.
      *
-     * @param s the detail message
-     * @param ex the exception that was raised while loading the class
-     * @since 1.2
+     * @pbrbm s tif dftbil mfssbgf
+     * @pbrbm fx tif fxdfption tibt wbs rbisfd wiilf lobding tif dlbss
+     * @sindf 1.2
      */
-    public ClassNotFoundException(String s, Throwable ex) {
-        super(s, null);  //  Disallow initCause
-        this.ex = ex;
+    publid ClbssNotFoundExdfption(String s, Tirowbblf fx) {
+        supfr(s, null);  //  Disbllow initCbusf
+        tiis.fx = fx;
     }
 
     /**
-     * Returns the exception that was raised if an error occurred while
-     * attempting to load the class. Otherwise, returns <tt>null</tt>.
+     * Rfturns tif fxdfption tibt wbs rbisfd if bn frror oddurrfd wiilf
+     * bttfmpting to lobd tif dlbss. Otifrwisf, rfturns <tt>null</tt>.
      *
-     * <p>This method predates the general-purpose exception chaining facility.
-     * The {@link Throwable#getCause()} method is now the preferred means of
-     * obtaining this information.
+     * <p>Tiis mftiod prfdbtfs tif gfnfrbl-purposf fxdfption dibining fbdility.
+     * Tif {@link Tirowbblf#gftCbusf()} mftiod is now tif prfffrrfd mfbns of
+     * obtbining tiis informbtion.
      *
-     * @return the <code>Exception</code> that was raised while loading a class
-     * @since 1.2
+     * @rfturn tif <dodf>Exdfption</dodf> tibt wbs rbisfd wiilf lobding b dlbss
+     * @sindf 1.2
      */
-    public Throwable getException() {
-        return ex;
+    publid Tirowbblf gftExdfption() {
+        rfturn fx;
     }
 
     /**
-     * Returns the cause of this exception (the exception that was raised
-     * if an error occurred while attempting to load the class; otherwise
+     * Rfturns tif dbusf of tiis fxdfption (tif fxdfption tibt wbs rbisfd
+     * if bn frror oddurrfd wiilf bttfmpting to lobd tif dlbss; otifrwisf
      * <tt>null</tt>).
      *
-     * @return  the cause of this exception.
-     * @since   1.4
+     * @rfturn  tif dbusf of tiis fxdfption.
+     * @sindf   1.4
      */
-    public Throwable getCause() {
-        return ex;
+    publid Tirowbblf gftCbusf() {
+        rfturn fx;
     }
 }

@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * Instances of the file descriptor class serve as an opaque handle
- * to the underlying machine-specific structure representing an
- * open file, an open socket, or another source or sink of bytes.
- * The main practical use for a file descriptor is to create a
- * {@link FileInputStream} or {@link FileOutputStream} to contain it.
+ * Instbndfs of tif filf dfsdriptor dlbss sfrvf bs bn opbquf ibndlf
+ * to tif undfrlying mbdiinf-spfdifid strudturf rfprfsfnting bn
+ * opfn filf, bn opfn sodkft, or bnotifr sourdf or sink of bytfs.
+ * Tif mbin prbdtidbl usf for b filf dfsdriptor is to drfbtf b
+ * {@link FilfInputStrfbm} or {@link FilfOutputStrfbm} to dontbin it.
  *
- * <p>Applications should not create their own file descriptors.
+ * <p>Applidbtions siould not drfbtf tifir own filf dfsdriptors.
  *
- * @author  Pavani Diwanji
- * @since   1.0
+ * @butior  Pbvbni Diwbnji
+ * @sindf   1.0
  */
-public final class FileDescriptor {
+publid finbl dlbss FilfDfsdriptor {
 
-    private int fd;
+    privbtf int fd;
 
-    private long handle;
+    privbtf long ibndlf;
 
-    private Closeable parent;
-    private List<Closeable> otherParents;
-    private boolean closed;
+    privbtf Closfbblf pbrfnt;
+    privbtf List<Closfbblf> otifrPbrfnts;
+    privbtf boolfbn dlosfd;
 
     /**
-     * Constructs an (invalid) FileDescriptor
-     * object.
+     * Construdts bn (invblid) FilfDfsdriptor
+     * objfdt.
      */
-    public /**/ FileDescriptor() {
+    publid /**/ FilfDfsdriptor() {
         fd = -1;
-        handle = -1;
+        ibndlf = -1;
     }
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    // Set up JavaIOFileDescriptorAccess in SharedSecrets
-    static {
-        sun.misc.SharedSecrets.setJavaIOFileDescriptorAccess(
-            new sun.misc.JavaIOFileDescriptorAccess() {
-                public void set(FileDescriptor obj, int fd) {
+    // Sft up JbvbIOFilfDfsdriptorAddfss in SibrfdSfdrfts
+    stbtid {
+        sun.misd.SibrfdSfdrfts.sftJbvbIOFilfDfsdriptorAddfss(
+            nfw sun.misd.JbvbIOFilfDfsdriptorAddfss() {
+                publid void sft(FilfDfsdriptor obj, int fd) {
                     obj.fd = fd;
                 }
 
-                public int get(FileDescriptor obj) {
-                    return obj.fd;
+                publid int gft(FilfDfsdriptor obj) {
+                    rfturn obj.fd;
                 }
 
-                public void setHandle(FileDescriptor obj, long handle) {
-                    obj.handle = handle;
+                publid void sftHbndlf(FilfDfsdriptor obj, long ibndlf) {
+                    obj.ibndlf = ibndlf;
                 }
 
-                public long getHandle(FileDescriptor obj) {
-                    return obj.handle;
+                publid long gftHbndlf(FilfDfsdriptor obj) {
+                    rfturn obj.ibndlf;
                 }
             }
         );
     }
 
     /**
-     * A handle to the standard input stream. Usually, this file
-     * descriptor is not used directly, but rather via the input stream
-     * known as {@code System.in}.
+     * A ibndlf to tif stbndbrd input strfbm. Usublly, tiis filf
+     * dfsdriptor is not usfd dirfdtly, but rbtifr vib tif input strfbm
+     * known bs {@dodf Systfm.in}.
      *
-     * @see     java.lang.System#in
+     * @sff     jbvb.lbng.Systfm#in
      */
-    public static final FileDescriptor in = standardStream(0);
+    publid stbtid finbl FilfDfsdriptor in = stbndbrdStrfbm(0);
 
     /**
-     * A handle to the standard output stream. Usually, this file
-     * descriptor is not used directly, but rather via the output stream
-     * known as {@code System.out}.
-     * @see     java.lang.System#out
+     * A ibndlf to tif stbndbrd output strfbm. Usublly, tiis filf
+     * dfsdriptor is not usfd dirfdtly, but rbtifr vib tif output strfbm
+     * known bs {@dodf Systfm.out}.
+     * @sff     jbvb.lbng.Systfm#out
      */
-    public static final FileDescriptor out = standardStream(1);
+    publid stbtid finbl FilfDfsdriptor out = stbndbrdStrfbm(1);
 
     /**
-     * A handle to the standard error stream. Usually, this file
-     * descriptor is not used directly, but rather via the output stream
-     * known as {@code System.err}.
+     * A ibndlf to tif stbndbrd frror strfbm. Usublly, tiis filf
+     * dfsdriptor is not usfd dirfdtly, but rbtifr vib tif output strfbm
+     * known bs {@dodf Systfm.frr}.
      *
-     * @see     java.lang.System#err
+     * @sff     jbvb.lbng.Systfm#frr
      */
-    public static final FileDescriptor err = standardStream(2);
+    publid stbtid finbl FilfDfsdriptor frr = stbndbrdStrfbm(2);
 
     /**
-     * Tests if this file descriptor object is valid.
+     * Tfsts if tiis filf dfsdriptor objfdt is vblid.
      *
-     * @return  {@code true} if the file descriptor object represents a
-     *          valid, open file, socket, or other active I/O connection;
-     *          {@code false} otherwise.
+     * @rfturn  {@dodf truf} if tif filf dfsdriptor objfdt rfprfsfnts b
+     *          vblid, opfn filf, sodkft, or otifr bdtivf I/O donnfdtion;
+     *          {@dodf fblsf} otifrwisf.
      */
-    public boolean valid() {
-        return ((handle != -1) || (fd != -1));
+    publid boolfbn vblid() {
+        rfturn ((ibndlf != -1) || (fd != -1));
     }
 
     /**
-     * Force all system buffers to synchronize with the underlying
-     * device.  This method returns after all modified data and
-     * attributes of this FileDescriptor have been written to the
-     * relevant device(s).  In particular, if this FileDescriptor
-     * refers to a physical storage medium, such as a file in a file
-     * system, sync will not return until all in-memory modified copies
-     * of buffers associated with this FileDesecriptor have been
-     * written to the physical medium.
+     * Fordf bll systfm bufffrs to syndironizf witi tif undfrlying
+     * dfvidf.  Tiis mftiod rfturns bftfr bll modififd dbtb bnd
+     * bttributfs of tiis FilfDfsdriptor ibvf bffn writtfn to tif
+     * rflfvbnt dfvidf(s).  In pbrtidulbr, if tiis FilfDfsdriptor
+     * rfffrs to b piysidbl storbgf mfdium, sudi bs b filf in b filf
+     * systfm, synd will not rfturn until bll in-mfmory modififd dopifs
+     * of bufffrs bssodibtfd witi tiis FilfDfsfdriptor ibvf bffn
+     * writtfn to tif piysidbl mfdium.
      *
-     * sync is meant to be used by code that requires physical
-     * storage (such as a file) to be in a known state  For
-     * example, a class that provided a simple transaction facility
-     * might use sync to ensure that all changes to a file caused
-     * by a given transaction were recorded on a storage medium.
+     * synd is mfbnt to bf usfd by dodf tibt rfquirfs piysidbl
+     * storbgf (sudi bs b filf) to bf in b known stbtf  For
+     * fxbmplf, b dlbss tibt providfd b simplf trbnsbdtion fbdility
+     * migit usf synd to fnsurf tibt bll dibngfs to b filf dbusfd
+     * by b givfn trbnsbdtion wfrf rfdordfd on b storbgf mfdium.
      *
-     * sync only affects buffers downstream of this FileDescriptor.  If
-     * any in-memory buffering is being done by the application (for
-     * example, by a BufferedOutputStream object), those buffers must
-     * be flushed into the FileDescriptor (for example, by invoking
-     * OutputStream.flush) before that data will be affected by sync.
+     * synd only bfffdts bufffrs downstrfbm of tiis FilfDfsdriptor.  If
+     * bny in-mfmory bufffring is bfing donf by tif bpplidbtion (for
+     * fxbmplf, by b BufffrfdOutputStrfbm objfdt), tiosf bufffrs must
+     * bf flusifd into tif FilfDfsdriptor (for fxbmplf, by invoking
+     * OutputStrfbm.flusi) bfforf tibt dbtb will bf bfffdtfd by synd.
      *
-     * @exception SyncFailedException
-     *        Thrown when the buffers cannot be flushed,
-     *        or because the system cannot guarantee that all the
-     *        buffers have been synchronized with physical media.
-     * @since     1.1
+     * @fxdfption SyndFbilfdExdfption
+     *        Tirown wifn tif bufffrs dbnnot bf flusifd,
+     *        or bfdbusf tif systfm dbnnot gubrbntff tibt bll tif
+     *        bufffrs ibvf bffn syndironizfd witi piysidbl mfdib.
+     * @sindf     1.1
      */
-    public native void sync() throws SyncFailedException;
+    publid nbtivf void synd() tirows SyndFbilfdExdfption;
 
-    /* This routine initializes JNI field offsets for the class */
-    private static native void initIDs();
+    /* Tiis routinf initiblizfs JNI fifld offsfts for tif dlbss */
+    privbtf stbtid nbtivf void initIDs();
 
-    private static native long set(int d);
+    privbtf stbtid nbtivf long sft(int d);
 
-    private static FileDescriptor standardStream(int fd) {
-        FileDescriptor desc = new FileDescriptor();
-        desc.handle = set(fd);
-        return desc;
+    privbtf stbtid FilfDfsdriptor stbndbrdStrfbm(int fd) {
+        FilfDfsdriptor dfsd = nfw FilfDfsdriptor();
+        dfsd.ibndlf = sft(fd);
+        rfturn dfsd;
     }
 
     /*
-     * Package private methods to track referents.
-     * If multiple streams point to the same FileDescriptor, we cycle
-     * through the list of all referents and call close()
+     * Pbdkbgf privbtf mftiods to trbdk rfffrfnts.
+     * If multiplf strfbms point to tif sbmf FilfDfsdriptor, wf dydlf
+     * tirougi tif list of bll rfffrfnts bnd dbll dlosf()
      */
 
     /**
-     * Attach a Closeable to this FD for tracking.
-     * parent reference is added to otherParents when
-     * needed to make closeAll simpler.
+     * Attbdi b Closfbblf to tiis FD for trbdking.
+     * pbrfnt rfffrfndf is bddfd to otifrPbrfnts wifn
+     * nffdfd to mbkf dlosfAll simplfr.
      */
-    synchronized void attach(Closeable c) {
-        if (parent == null) {
-            // first caller gets to do this
-            parent = c;
-        } else if (otherParents == null) {
-            otherParents = new ArrayList<>();
-            otherParents.add(parent);
-            otherParents.add(c);
-        } else {
-            otherParents.add(c);
+    syndironizfd void bttbdi(Closfbblf d) {
+        if (pbrfnt == null) {
+            // first dbllfr gfts to do tiis
+            pbrfnt = d;
+        } flsf if (otifrPbrfnts == null) {
+            otifrPbrfnts = nfw ArrbyList<>();
+            otifrPbrfnts.bdd(pbrfnt);
+            otifrPbrfnts.bdd(d);
+        } flsf {
+            otifrPbrfnts.bdd(d);
         }
     }
 
     /**
-     * Cycle through all Closeables sharing this FD and call
-     * close() on each one.
+     * Cydlf tirougi bll Closfbblfs sibring tiis FD bnd dbll
+     * dlosf() on fbdi onf.
      *
-     * The caller closeable gets to call close0().
+     * Tif dbllfr dlosfbblf gfts to dbll dlosf0().
      */
-    @SuppressWarnings("try")
-    synchronized void closeAll(Closeable releaser) throws IOException {
-        if (!closed) {
-            closed = true;
-            IOException ioe = null;
-            try (Closeable c = releaser) {
-                if (otherParents != null) {
-                    for (Closeable referent : otherParents) {
+    @SupprfssWbrnings("try")
+    syndironizfd void dlosfAll(Closfbblf rflfbsfr) tirows IOExdfption {
+        if (!dlosfd) {
+            dlosfd = truf;
+            IOExdfption iof = null;
+            try (Closfbblf d = rflfbsfr) {
+                if (otifrPbrfnts != null) {
+                    for (Closfbblf rfffrfnt : otifrPbrfnts) {
                         try {
-                            referent.close();
-                        } catch(IOException x) {
-                            if (ioe == null) {
-                                ioe = x;
-                            } else {
-                                ioe.addSuppressed(x);
+                            rfffrfnt.dlosf();
+                        } dbtdi(IOExdfption x) {
+                            if (iof == null) {
+                                iof = x;
+                            } flsf {
+                                iof.bddSupprfssfd(x);
                             }
                         }
                     }
                 }
-            } catch(IOException ex) {
+            } dbtdi(IOExdfption fx) {
                 /*
-                 * If releaser close() throws IOException
-                 * add other exceptions as suppressed.
+                 * If rflfbsfr dlosf() tirows IOExdfption
+                 * bdd otifr fxdfptions bs supprfssfd.
                  */
-                if (ioe != null)
-                    ex.addSuppressed(ioe);
-                ioe = ex;
-            } finally {
-                if (ioe != null)
-                    throw ioe;
+                if (iof != null)
+                    fx.bddSupprfssfd(iof);
+                iof = fx;
+            } finblly {
+                if (iof != null)
+                    tirow iof;
             }
         }
     }

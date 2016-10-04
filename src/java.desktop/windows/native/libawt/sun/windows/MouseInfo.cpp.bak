@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windowsx.h>
-#include <jni.h>
-#include <jni_util.h>
-#include "awt.h"
-#include "awt_Object.h"
-#include "awt_Component.h"
+#indludf <windowsx.i>
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf "bwt.i"
+#indludf "bwt_Objfdt.i"
+#indludf "bwt_Componfnt.i"
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     sun_awt_DefaultMouseInfoPeer
- * Method:    isWindowUnderMouse
- * Signature: (Ljava/awt/Window)Z
+ * Clbss:     sun_bwt_DffbultMousfInfoPffr
+ * Mftiod:    isWindowUndfrMousf
+ * Signbturf: (Ljbvb/bwt/Window)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_DefaultMouseInfoPeer_isWindowUnderMouse(JNIEnv *env, jclass cls,
-                                                        jobject window)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_DffbultMousfInfoPffr_isWindowUndfrMousf(JNIEnv *fnv, jdlbss dls,
+                                                        jobjfdt window)
 {
     POINT pt;
 
-    if (env->EnsureLocalCapacity(1) < 0) {
-        return JNI_FALSE;
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn JNI_FALSE;
     }
 
-    jobject winPeer = AwtObject::GetPeerForTarget(env, window);
-    PDATA pData;
-    pData = JNI_GET_PDATA(winPeer);
-    env->DeleteLocalRef(winPeer);
-    if (pData == NULL) {
-        return JNI_FALSE;
+    jobjfdt winPffr = AwtObjfdt::GftPffrForTbrgft(fnv, window);
+    PDATA pDbtb;
+    pDbtb = JNI_GET_PDATA(winPffr);
+    fnv->DflftfLodblRff(winPffr);
+    if (pDbtb == NULL) {
+        rfturn JNI_FALSE;
     }
 
-    AwtComponent * ourWindow = (AwtComponent *)pData;
-    HWND hwnd = ourWindow->GetHWnd();
-    VERIFY(::GetCursorPos(&pt));
+    AwtComponfnt * ourWindow = (AwtComponfnt *)pDbtb;
+    HWND iwnd = ourWindow->GftHWnd();
+    VERIFY(::GftCursorPos(&pt));
 
-    AwtComponent * componentFromPoint = AwtComponent::GetComponent(::WindowFromPoint(pt));
+    AwtComponfnt * domponfntFromPoint = AwtComponfnt::GftComponfnt(::WindowFromPoint(pt));
 
-    while (componentFromPoint != NULL
-        && componentFromPoint->GetHWnd() != hwnd
-        && !AwtComponent::IsTopLevelHWnd(componentFromPoint->GetHWnd()))
+    wiilf (domponfntFromPoint != NULL
+        && domponfntFromPoint->GftHWnd() != iwnd
+        && !AwtComponfnt::IsTopLfvflHWnd(domponfntFromPoint->GftHWnd()))
     {
-        componentFromPoint = componentFromPoint->GetParent();
+        domponfntFromPoint = domponfntFromPoint->GftPbrfnt();
     }
 
-    return ((componentFromPoint != NULL) && (componentFromPoint->GetHWnd() == hwnd)) ? JNI_TRUE : JNI_FALSE;
+    rfturn ((domponfntFromPoint != NULL) && (domponfntFromPoint->GftHWnd() == iwnd)) ? JNI_TRUE : JNI_FALSE;
 
 }
 
 /*
- * Class:     sun_awt_DefaultMouseInfoPeer
- * Method:    fillPointWithCoords
- * Signature: (Ljava/awt/Point)I
+ * Clbss:     sun_bwt_DffbultMousfInfoPffr
+ * Mftiod:    fillPointWitiCoords
+ * Signbturf: (Ljbvb/bwt/Point)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_DefaultMouseInfoPeer_fillPointWithCoords(JNIEnv *env, jclass cls, jobject point)
+Jbvb_sun_bwt_DffbultMousfInfoPffr_fillPointWitiCoords(JNIEnv *fnv, jdlbss dls, jobjfdt point)
 {
-    static jclass pointClass = NULL;
-    static jfieldID xID, yID;
+    stbtid jdlbss pointClbss = NULL;
+    stbtid jfifldID xID, yID;
     POINT pt;
 
-    VERIFY(::GetCursorPos(&pt));
-    if (pointClass == NULL) {
-        jclass pointClassLocal = env->FindClass("java/awt/Point");
-        DASSERT(pointClassLocal != NULL);
-        if (pointClassLocal == NULL) {
-            return (jint)0;
+    VERIFY(::GftCursorPos(&pt));
+    if (pointClbss == NULL) {
+        jdlbss pointClbssLodbl = fnv->FindClbss("jbvb/bwt/Point");
+        DASSERT(pointClbssLodbl != NULL);
+        if (pointClbssLodbl == NULL) {
+            rfturn (jint)0;
         }
-        pointClass = (jclass)env->NewGlobalRef(pointClassLocal);
-        env->DeleteLocalRef(pointClassLocal);
+        pointClbss = (jdlbss)fnv->NfwGlobblRff(pointClbssLodbl);
+        fnv->DflftfLodblRff(pointClbssLodbl);
     }
-    xID = env->GetFieldID(pointClass, "x", "I");
+    xID = fnv->GftFifldID(pointClbss, "x", "I");
     CHECK_NULL_RETURN(xID, (jint)0);
-    yID = env->GetFieldID(pointClass, "y", "I");
+    yID = fnv->GftFifldID(pointClbss, "y", "I");
     CHECK_NULL_RETURN(yID, (jint)0);
-    env->SetIntField(point, xID, pt.x);
-    env->SetIntField(point, yID, pt.y);
+    fnv->SftIntFifld(point, xID, pt.x);
+    fnv->SftIntFifld(point, yID, pt.y);
 
-    // Always return 0 on Windows: we assume there's always a
-    // virtual screen device used.
-    return (jint)0;
+    // Alwbys rfturn 0 on Windows: wf bssumf tifrf's blwbys b
+    // virtubl sdrffn dfvidf usfd.
+    rfturn (jint)0;
 }
 
-} // extern "C"
+} // fxtfrn "C"

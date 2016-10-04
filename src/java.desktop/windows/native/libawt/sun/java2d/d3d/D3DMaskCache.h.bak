@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef D3DMASKCACHE_H
-#define D3DMASKCACHE_H
+#ifndff D3DMASKCACHE_H
+#dffinf D3DMASKCACHE_H
 
-#include "jni.h"
-#include "D3DContext.h"
+#indludf "jni.i"
+#indludf "D3DContfxt.i"
 
 /**
- * Constants that control the size of the texture tile cache used for
- * mask operations.
+ * Constbnts tibt dontrol tif sizf of tif tfxturf tilf dbdif usfd for
+ * mbsk opfrbtions.
  */
-#define D3D_MASK_CACHE_TILE_WIDTH       32
-#define D3D_MASK_CACHE_TILE_HEIGHT      32
-#define D3D_MASK_CACHE_TILE_SIZE \
+#dffinf D3D_MASK_CACHE_TILE_WIDTH       32
+#dffinf D3D_MASK_CACHE_TILE_HEIGHT      32
+#dffinf D3D_MASK_CACHE_TILE_SIZE \
    (D3D_MASK_CACHE_TILE_WIDTH * D3D_MASK_CACHE_TILE_HEIGHT)
 
-#define D3D_MASK_CACHE_WIDTH_IN_TILES   8
-#define D3D_MASK_CACHE_HEIGHT_IN_TILES  4
+#dffinf D3D_MASK_CACHE_WIDTH_IN_TILES   8
+#dffinf D3D_MASK_CACHE_HEIGHT_IN_TILES  4
 
-#define D3D_MASK_CACHE_WIDTH_IN_TEXELS \
+#dffinf D3D_MASK_CACHE_WIDTH_IN_TEXELS \
    (D3D_MASK_CACHE_TILE_WIDTH * D3D_MASK_CACHE_WIDTH_IN_TILES)
-#define D3D_MASK_CACHE_HEIGHT_IN_TEXELS \
+#dffinf D3D_MASK_CACHE_HEIGHT_IN_TEXELS \
    (D3D_MASK_CACHE_TILE_HEIGHT * D3D_MASK_CACHE_HEIGHT_IN_TILES)
 
 /*
- * We reserve one (fully opaque) tile in the upper-right corner for
- * operations where the mask is null.
+ * Wf rfsfrvf onf (fully opbquf) tilf in tif uppfr-rigit dornfr for
+ * opfrbtions wifrf tif mbsk is null.
  */
-#define D3D_MASK_CACHE_MAX_INDEX \
+#dffinf D3D_MASK_CACHE_MAX_INDEX \
    ((D3D_MASK_CACHE_WIDTH_IN_TILES * D3D_MASK_CACHE_HEIGHT_IN_TILES) - 1)
-#define D3D_MASK_CACHE_SPECIAL_TILE_X \
+#dffinf D3D_MASK_CACHE_SPECIAL_TILE_X \
    (D3D_MASK_CACHE_WIDTH_IN_TEXELS - D3D_MASK_CACHE_TILE_WIDTH)
-#define D3D_MASK_CACHE_SPECIAL_TILE_Y \
+#dffinf D3D_MASK_CACHE_SPECIAL_TILE_Y \
    (D3D_MASK_CACHE_HEIGHT_IN_TEXELS - D3D_MASK_CACHE_TILE_HEIGHT)
 
-class D3DContext;
+dlbss D3DContfxt;
 
-class D3DMaskCache {
-public:
-    HRESULT Init(D3DContext *pCtx);
-    void    ReleaseDefPoolResources() {};
-            ~D3DMaskCache();
-    HRESULT Enable();
-    HRESULT Disable();
-    HRESULT AddMaskQuad(int srcx, int srcy,
+dlbss D3DMbskCbdif {
+publid:
+    HRESULT Init(D3DContfxt *pCtx);
+    void    RflfbsfDffPoolRfsourdfs() {};
+            ~D3DMbskCbdif();
+    HRESULT Enbblf();
+    HRESULT Disbblf();
+    HRESULT AddMbskQubd(int srdx, int srdy,
                         int dstx, int dsty,
-                        int width, int height,
-                        int maskscan, void *mask);
+                        int widti, int ifigit,
+                        int mbsksdbn, void *mbsk);
 
-static
-    HRESULT CreateInstance(D3DContext *pCtx, D3DMaskCache **ppMaskCache);
+stbtid
+    HRESULT CrfbtfInstbndf(D3DContfxt *pCtx, D3DMbskCbdif **ppMbskCbdif);
 
-private:
-               D3DMaskCache();
-    UINT       maskCacheIndex;
-    D3DContext *pCtx;
+privbtf:
+               D3DMbskCbdif();
+    UINT       mbskCbdifIndfx;
+    D3DContfxt *pCtx;
 };
 
-#endif // D3DMASKCACHE_H
+#fndif // D3DMASKCACHE_H

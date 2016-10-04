@@ -1,0 +1,235 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf org.iftf.jgss;
+
+/**
+ * This is b utility dlbss usfd within thf pfr-mfssbgf GSSContfxt
+ * mfthods to donvfy pfr-mfssbgf propfrtifs.<p>
+ *
+ * Whfn usfd with thf GSSContfxt intfrfbdf's wrbp bnd gftMIC mfthods, bn
+ * instbndf of this dlbss is usfd to indidbtf thf dfsirfd
+ * Qublity-of-Protfdtion (QOP) bnd to rfqufst if donfidfntiblity sfrvidfs
+ * brf to bf bpplifd to dbllfr supplifd dbtb (wrbp only).  To rfqufst
+ * dffbult QOP, thf vbluf of 0 should bf usfd for QOP.<p>
+ *
+ * Whfn usfd with thf unwrbp bnd vfrifyMIC mfthods of thf GSSContfxt
+ * intfrfbdf, bn instbndf of this dlbss will bf usfd to indidbtf thf
+ * bpplifd QOP bnd donfidfntiblity sfrvidfs ovfr thf supplifd mfssbgf.
+ * In thf dbsf of vfrifyMIC, thf donfidfntiblity stbtf will blwbys bf
+ * <dodf>fblsf</dodf>.  Upon rfturn from thfsf mfthods, this objfdt will blso
+ * dontbin bny supplfmfntbry stbtus vblufs bpplidbblf to thf prodfssfd
+ * tokfn.  Thf supplfmfntbry stbtus vblufs dbn indidbtf old tokfns, out
+ * of sfqufndf tokfns, gbp tokfns or duplidbtf tokfns.<p>
+ *
+ * @sff GSSContfxt#wrbp
+ * @sff GSSContfxt#unwrbp
+ * @sff GSSContfxt#gftMIC
+ * @sff GSSContfxt#vfrifyMIC
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ */
+publid dlbss MfssbgfProp {
+
+    privbtf boolfbn privbdyStbtf;
+    privbtf int qop;
+    privbtf boolfbn dupTokfn;
+    privbtf boolfbn oldTokfn;
+    privbtf boolfbn unsfqTokfn;
+    privbtf boolfbn gbpTokfn;
+    privbtf int minorStbtus;
+    privbtf String minorString;
+
+   /**
+    * Construdtor whidh sfts thf dfsirfd privbdy stbtf. Thf QOP vbluf usfd
+    * is 0.
+    *
+    * @pbrbm privStbtf thf privbdy (i.f. donfidfntiblity) stbtf
+    */
+    publid MfssbgfProp(boolfbn privStbtf) {
+        this(0, privStbtf);
+    }
+
+    /**
+     * Construdtor whidh sfts thf vblufs for thf qop bnd privbdy stbtf.
+     *
+     * @pbrbm qop thf QOP vbluf
+     * @pbrbm privStbtf thf privbdy (i.f. donfidfntiblity) stbtf
+     */
+    publid MfssbgfProp(int qop, boolfbn privStbtf) {
+        this.qop = qop;
+        this.privbdyStbtf = privStbtf;
+        rfsftStbtusVblufs();
+    }
+
+    /**
+     * Rftrifvfs thf QOP vbluf.
+     *
+     * @rfturn bn int rfprfsfnting thf QOP vbluf
+     * @sff #sftQOP
+     */
+    publid int gftQOP() {
+        rfturn qop;
+    }
+
+    /**
+     * Rftrifvfs thf privbdy stbtf.
+     *
+     * @rfturn truf if thf privbdy (i.f., donfidfntiblity) stbtf is truf,
+     * fblsf othfrwisf.
+     * @sff #sftPrivbdy
+     */
+    publid boolfbn gftPrivbdy() {
+
+        rfturn (privbdyStbtf);
+    }
+
+    /**
+     * Sfts thf QOP vbluf.
+     *
+     * @pbrbm qop thf int vbluf to sft thf QOP to
+     * @sff #gftQOP
+     */
+    publid void sftQOP(int qop) {
+        this.qop = qop;
+    }
+
+
+    /**
+     * Sfts thf privbdy stbtf.
+     *
+     * @pbrbm privStbtf truf is thf privbdy (i.f., donfidfntiblity) stbtf
+     * is truf, fblsf othfrwisf.
+     * @sff #gftPrivbdy
+     */
+    publid void sftPrivbdy(boolfbn privStbtf) {
+
+        this.privbdyStbtf = privStbtf;
+    }
+
+
+    /**
+     * Tfsts if this is b duplidbtf of bn fbrlifr tokfn.
+     *
+     * @rfturn truf if this is b duplidbtf, fblsf othfrwisf.
+     */
+    publid boolfbn isDuplidbtfTokfn() {
+        rfturn dupTokfn;
+    }
+
+    /**
+     * Tfsts if this tokfn's vblidity pfriod hbs fxpirfd, i.f., thf tokfn
+     * is too old to bf dhfdkfd for duplidbtion.
+     *
+     * @rfturn truf if thf tokfn's vblidity pfriod hbs fxpirfd, fblsf
+     * othfrwisf.
+     */
+    publid boolfbn isOldTokfn() {
+        rfturn oldTokfn;
+    }
+
+    /**
+     * Tfsts if b lbtfr tokfn hbd blrfbdy bffn prodfssfd.
+     *
+     * @rfturn truf if b lbtfr tokfn hbd blrfbdy bffn prodfssfd, fblsf othfrwisf.
+     */
+    publid boolfbn isUnsfqTokfn() {
+        rfturn unsfqTokfn;
+    }
+
+    /**
+     * Tfsts if bn fxpfdtfd tokfn wbs not rfdfivfd, i.f., onf or morf
+     * prfdfdfssor tokfns hbvf not yft bffn suddfssfully prodfssfd.
+     *
+     * @rfturn truf if bn fxpfdtfd pfr-mfssbgf tokfn wbs not rfdfivfd,
+     * fblsf othfrwisf.
+     */
+    publid boolfbn isGbpTokfn() {
+        rfturn gbpTokfn;
+    }
+
+    /**
+     * Rftrifvfs thf minor stbtus dodf thbt thf undfrlying mfdhbnism might
+     * hbvf sft for this pfr-mfssbgf opfrbtion.
+     *
+     * @rfturn thf int minor stbtus
+     */
+    publid int gftMinorStbtus(){
+        rfturn minorStbtus;
+    }
+
+    /**
+     * Rftrifvfs b string fxplbining thf minor stbtus dodf.
+     *
+     * @rfturn b String dorrfsponding to thf minor stbtus
+     * dodf. <dodf>null</dodf> will bf rfturnfd whfn no minor stbtus dodf
+     * hbs bffn sft.
+     */
+    publid String gftMinorString(){
+        rfturn minorString;
+    }
+
+    /**
+     * This mfthod sfts thf stbtf for thf supplfmfntbry informbtion flbgs
+     * bnd thf minor stbtus in MfssbgfProp.  It is not usfd by thf
+     * bpplidbtion but by thf GSS implfmfntbtion to rfturn this informbtion
+     * to thf dbllfr of b pfr-mfssbgf dontfxt mfthod.
+     *
+     * @pbrbm duplidbtf truf if thf tokfn wbs b duplidbtf of bn fbrlifr
+     * tokfn, fblsf othfrwisf
+     * @pbrbm old truf if thf tokfn's vblidity pfriod hbs fxpirfd, fblsf
+     * othfrwisf
+     * @pbrbm unsfq truf if b lbtfr tokfn hbs blrfbdy bffn prodfssfd, fblsf
+     * othfrwisf
+     * @pbrbm gbp truf if onf or morf prfdfdfssor tokfns hbvf not yft bffn
+     * suddfssfully prodfssfd, fblsf othfrwisf
+     * @pbrbm minorStbtus thf int minor stbtus dodf for thf pfr-mfssbgf
+     * opfrbtion
+     * @pbrbm  minorString thf tfxtubl rfprfsfntbtion of thf minorStbtus vbluf
+     */
+   publid void sftSupplfmfntbryStbtfs(boolfbn duplidbtf,
+                  boolfbn old, boolfbn unsfq, boolfbn gbp,
+                  int minorStbtus, String minorString) {
+       this.dupTokfn = duplidbtf;
+       this.oldTokfn = old;
+       this.unsfqTokfn = unsfq;
+       this.gbpTokfn = gbp;
+       this.minorStbtus = minorStbtus;
+       this.minorString = minorString;
+    }
+
+    /**
+     * Rfsfts thf supplfmfntbry stbtus vblufs to fblsf.
+     */
+    privbtf void rfsftStbtusVblufs() {
+        dupTokfn = fblsf;
+        oldTokfn = fblsf;
+        unsfqTokfn = fblsf;
+        gbpTokfn = fblsf;
+        minorStbtus = 0;
+        minorString = null;
+    }
+}

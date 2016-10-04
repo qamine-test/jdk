@@ -1,0 +1,166 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * A low-lfvfl fvfnt whidh indidbtfs thbt b domponfnt movfd, dhbngfd
+ * sizf, or dhbngfd visibility (blso, thf root dlbss for thf othfr
+ * domponfnt-lfvfl fvfnts).
+ * <P>
+ * Componfnt fvfnts brf providfd for notifidbtion purposfs ONLY;
+ * Thf AWT will butombtidblly hbndlf domponfnt movfs bnd rfsizfs
+ * intfrnblly so thbt GUI lbyout works propfrly rfgbrdlfss of
+ * whfthfr b progrbm is rfdfiving thfsf fvfnts or not.
+ * <P>
+ * In bddition to sfrving bs thf bbsf dlbss for othfr domponfnt-rflbtfd
+ * fvfnts (InputEvfnt, FodusEvfnt, WindowEvfnt, ContbinfrEvfnt),
+ * this dlbss dffinfs thf fvfnts thbt indidbtf dhbngfs in
+ * b domponfnt's sizf, position, or visibility.
+ * <P>
+ * This low-lfvfl fvfnt is gfnfrbtfd by b domponfnt objfdt (sudh bs b
+ * List) whfn thf domponfnt is movfd, rfsizfd, rfndfrfd invisiblf, or mbdf
+ * visiblf bgbin. Thf fvfnt is pbssfd to fvfry <dodf>ComponfntListfnfr</dodf>
+ * or <dodf>ComponfntAdbptfr</dodf> objfdt whidh rfgistfrfd to rfdfivf sudh
+ * fvfnts using thf domponfnt's <dodf>bddComponfntListfnfr</dodf> mfthod.
+ * (<dodf>ComponfntAdbptfr</dodf> objfdts implfmfnt thf
+ * <dodf>ComponfntListfnfr</dodf> intfrfbdf.) Ebdh sudh listfnfr objfdt
+ * gfts this <dodf>ComponfntEvfnt</dodf> whfn thf fvfnt oddurs.
+ * <p>
+ * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf ComponfntEvfnt} instbndf is not
+ * in thf rbngf from {@dodf COMPONENT_FIRST} to {@dodf COMPONENT_LAST}.
+ *
+ * @sff ComponfntAdbptfr
+ * @sff ComponfntListfnfr
+ * @sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/domponfntlistfnfr.html">Tutoribl: Writing b Componfnt Listfnfr</b>
+ *
+ * @buthor Cbrl Quinn
+ * @sindf 1.1
+ */
+publid dlbss ComponfntEvfnt fxtfnds AWTEvfnt {
+
+    /**
+     * Thf first numbfr in thf rbngf of ids usfd for domponfnt fvfnts.
+     */
+    publid stbtid finbl int COMPONENT_FIRST             = 100;
+
+    /**
+     * Thf lbst numbfr in thf rbngf of ids usfd for domponfnt fvfnts.
+     */
+    publid stbtid finbl int COMPONENT_LAST              = 103;
+
+   /**
+     * This fvfnt indidbtfs thbt thf domponfnt's position dhbngfd.
+     */
+    @Nbtivf publid stbtid finbl int COMPONENT_MOVED     = COMPONENT_FIRST;
+
+    /**
+     * This fvfnt indidbtfs thbt thf domponfnt's sizf dhbngfd.
+     */
+    @Nbtivf publid stbtid finbl int COMPONENT_RESIZED   = 1 + COMPONENT_FIRST;
+
+    /**
+     * This fvfnt indidbtfs thbt thf domponfnt wbs mbdf visiblf.
+     */
+    @Nbtivf publid stbtid finbl int COMPONENT_SHOWN     = 2 + COMPONENT_FIRST;
+
+    /**
+     * This fvfnt indidbtfs thbt thf domponfnt wbs rfndfrfd invisiblf.
+     */
+    @Nbtivf publid stbtid finbl int COMPONENT_HIDDEN    = 3 + COMPONENT_FIRST;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8101406823902992965L;
+
+    /**
+     * Construdts b <dodf>ComponfntEvfnt</dodf> objfdt.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf Thf <dodf>Componfnt</dodf> thbt originbtfd thf fvfnt
+     * @pbrbm id     An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link ComponfntEvfnt}
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftComponfnt()
+     * @sff #gftID()
+     */
+    publid ComponfntEvfnt(Componfnt sourdf, int id) {
+        supfr(sourdf, id);
+    }
+
+    /**
+     * Rfturns thf originbtor of thf fvfnt.
+     *
+     * @rfturn thf <dodf>Componfnt</dodf> objfdt thbt originbtfd
+     * thf fvfnt, or <dodf>null</dodf> if thf objfdt is not b
+     * <dodf>Componfnt</dodf>.
+     */
+    publid Componfnt gftComponfnt() {
+        rfturn (sourdf instbndfof Componfnt) ? (Componfnt)sourdf : null;
+    }
+
+    /**
+     * Rfturns b pbrbmftfr string idfntifying this fvfnt.
+     * This mfthod is usfful for fvfnt-logging bnd for dfbugging.
+     *
+     * @rfturn b string idfntifying thf fvfnt bnd its bttributfs
+     */
+    publid String pbrbmString() {
+        String typfStr;
+        Rfdtbnglf b = (sourdf !=null
+                       ? ((Componfnt)sourdf).gftBounds()
+                       : null);
+
+        switdh(id) {
+          dbsf COMPONENT_SHOWN:
+              typfStr = "COMPONENT_SHOWN";
+              brfbk;
+          dbsf COMPONENT_HIDDEN:
+              typfStr = "COMPONENT_HIDDEN";
+              brfbk;
+          dbsf COMPONENT_MOVED:
+              typfStr = "COMPONENT_MOVED ("+
+                         b.x+","+b.y+" "+b.width+"x"+b.hfight+")";
+              brfbk;
+          dbsf COMPONENT_RESIZED:
+              typfStr = "COMPONENT_RESIZED ("+
+                         b.x+","+b.y+" "+b.width+"x"+b.hfight+")";
+              brfbk;
+          dffbult:
+              typfStr = "unknown typf";
+        }
+        rfturn typfStr;
+    }
+}

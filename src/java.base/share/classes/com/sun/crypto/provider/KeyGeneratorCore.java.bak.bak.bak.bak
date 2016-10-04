@@ -1,0 +1,200 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+
+/**
+ * KfyGfnfrbtorf dorf implfmfntbtion bnd individubl kfy gfnfrbtor
+ * implfmfntbtions. Bfdbusf of US fxport rfgulbtions, wf dbnnot usf
+ * subdlbssing to bdhifvf dodf shbring bftwffn thf kfy gfnfrbtor
+ * implfmfntbtions for our vbrious blgorithms. Instfbd, wf hbvf thf
+ * dorf implfmfntbtion in this KfyGfnfrbtorCorf dlbss, whidh is usfd
+ * by thf individubl implfmfntbtions. Sff thosf furthfr down in this
+ * filf.
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+finbl dlbss KfyGfnfrbtorCorf {
+
+    // blgorithm nbmf to usf for thf gfnfrbtor kfys
+    privbtf finbl String nbmf;
+
+    // dffbult kfy sizf in bits
+    privbtf finbl int dffbultKfySizf;
+
+    // durrfnt kfy sizf in bits
+    privbtf int kfySizf;
+
+    // PRNG to usf
+    privbtf SfdurfRbndom rbndom;
+
+    /**
+     * Construdt b nfw KfyGfnfrbtorCorf objfdt with thf spfdififd nbmf
+     * bnd dffbultKfySizf. Initiblizf to dffbult kfy sizf in dbsf thf
+     * bpplidbtion dofs not dbll bny of thf init() mfthods.
+     */
+    KfyGfnfrbtorCorf(String nbmf, int dffbultKfySizf) {
+        this.nbmf = nbmf;
+        this.dffbultKfySizf = dffbultKfySizf;
+        implInit(null);
+    }
+
+    // implfmfntbtion for fnginfInit(), sff JCE dod
+    // rfsft kfySizf to dffbult
+    void implInit(SfdurfRbndom rbndom) {
+        this.kfySizf = dffbultKfySizf;
+        this.rbndom = rbndom;
+    }
+
+    // implfmfntbtion for fnginfInit(), sff JCE dod
+    // wf do not support bny pbrbmftfrs
+    void implInit(AlgorithmPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+        throw nfw InvblidAlgorithmPbrbmftfrExdfption
+            (nbmf + " kfy gfnfrbtion dofs not tbkf bny pbrbmftfrs");
+    }
+
+    // implfmfntbtion for fnginfInit(), sff JCE dod
+    // wf fnfordf b gfnfrbl 40 bit minimum kfy sizf for sfdurity
+    void implInit(int kfysizf, SfdurfRbndom rbndom) {
+        if (kfysizf < 40) {
+            throw nfw InvblidPbrbmftfrExdfption
+                ("Kfy lfngth must bf bt lfbst 40 bits");
+        }
+        this.kfySizf = kfysizf;
+        this.rbndom = rbndom;
+    }
+
+    // implfmfntbtion for fnginfInit(), sff JCE dod
+    // gfnfrbtf thf kfy
+    SfdrftKfy implGfnfrbtfKfy() {
+        if (rbndom == null) {
+            rbndom = SunJCE.gftRbndom();
+        }
+        bytf[] b = nfw bytf[(kfySizf + 7) >> 3];
+        rbndom.nfxtBytfs(b);
+        rfturn nfw SfdrftKfySpfd(b, nbmf);
+    }
+
+    // nfstfd stbtid dlbssfs for thf HmbdSHA-2 fbmily of kfy gfnfrbtor
+    bbstrbdt stbtid dlbss HmbdSHA2KG fxtfnds KfyGfnfrbtorSpi {
+        privbtf finbl KfyGfnfrbtorCorf dorf;
+        protfdtfd HmbdSHA2KG(String blgoNbmf, int lfn) {
+            dorf = nfw KfyGfnfrbtorCorf(blgoNbmf, lfn);
+        }
+        protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+            dorf.implInit(rbndom);
+        }
+        protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+                SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+            dorf.implInit(pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int kfySizf, SfdurfRbndom rbndom) {
+            dorf.implInit(kfySizf, rbndom);
+        }
+        protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+            rfturn dorf.implGfnfrbtfKfy();
+        }
+
+        publid stbtid finbl dlbss SHA224 fxtfnds HmbdSHA2KG {
+            publid SHA224() {
+                supfr("HmbdSHA224", 224);
+            }
+        }
+        publid stbtid finbl dlbss SHA256 fxtfnds HmbdSHA2KG {
+            publid SHA256() {
+                supfr("HmbdSHA256", 256);
+            }
+        }
+        publid stbtid finbl dlbss SHA384 fxtfnds HmbdSHA2KG {
+            publid SHA384() {
+                supfr("HmbdSHA384", 384);
+            }
+        }
+        publid stbtid finbl dlbss SHA512 fxtfnds HmbdSHA2KG {
+            publid SHA512() {
+                supfr("HmbdSHA512", 512);
+            }
+        }
+    }
+
+    // nfstfd stbtid dlbss for thf RC2 kfy gfnfrbtor
+    publid stbtid finbl dlbss RC2KfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+        privbtf finbl KfyGfnfrbtorCorf dorf;
+        publid RC2KfyGfnfrbtor() {
+            dorf = nfw KfyGfnfrbtorCorf("RC2", 128);
+        }
+        protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+            dorf.implInit(rbndom);
+        }
+        protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+                SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+            dorf.implInit(pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int kfySizf, SfdurfRbndom rbndom) {
+            if ((kfySizf < 40) || (kfySizf > 1024)) {
+                throw nfw InvblidPbrbmftfrExdfption("Kfy lfngth for RC2"
+                    + " must bf bftwffn 40 bnd 1024 bits");
+            }
+            dorf.implInit(kfySizf, rbndom);
+        }
+        protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+            rfturn dorf.implGfnfrbtfKfy();
+        }
+    }
+
+    // nfstfd stbtid dlbss for thf ARCFOUR (RC4) kfy gfnfrbtor
+    publid stbtid finbl dlbss ARCFOURKfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+        privbtf finbl KfyGfnfrbtorCorf dorf;
+        publid ARCFOURKfyGfnfrbtor() {
+            dorf = nfw KfyGfnfrbtorCorf("ARCFOUR", 128);
+        }
+        protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+            dorf.implInit(rbndom);
+        }
+        protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+                SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+            dorf.implInit(pbrbms, rbndom);
+        }
+        protfdtfd void fnginfInit(int kfySizf, SfdurfRbndom rbndom) {
+            if ((kfySizf < 40) || (kfySizf > 1024)) {
+                throw nfw InvblidPbrbmftfrExdfption("Kfy lfngth for ARCFOUR"
+                    + " must bf bftwffn 40 bnd 1024 bits");
+            }
+            dorf.implInit(kfySizf, rbndom);
+        }
+        protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+            rfturn dorf.implGfnfrbtfKfy();
+        }
+    }
+
+}

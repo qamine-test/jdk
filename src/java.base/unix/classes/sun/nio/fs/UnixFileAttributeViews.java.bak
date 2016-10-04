@@ -1,382 +1,382 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.io.IOException;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.io.IOExdfption;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
+import stbtid sun.nio.fs.UnixNbtivfDispbtdifr.*;
 
-class UnixFileAttributeViews {
+dlbss UnixFilfAttributfVifws {
 
-    static class Basic extends AbstractBasicFileAttributeView {
-        protected final UnixPath file;
-        protected final boolean followLinks;
+    stbtid dlbss Bbsid fxtfnds AbstrbdtBbsidFilfAttributfVifw {
+        protfdtfd finbl UnixPbti filf;
+        protfdtfd finbl boolfbn followLinks;
 
-        Basic(UnixPath file, boolean followLinks) {
-            this.file = file;
-            this.followLinks = followLinks;
+        Bbsid(UnixPbti filf, boolfbn followLinks) {
+            tiis.filf = filf;
+            tiis.followLinks = followLinks;
         }
 
-        @Override
-        public BasicFileAttributes readAttributes() throws IOException {
-            file.checkRead();
+        @Ovfrridf
+        publid BbsidFilfAttributfs rfbdAttributfs() tirows IOExdfption {
+            filf.difdkRfbd();
             try {
-                 UnixFileAttributes attrs =
-                     UnixFileAttributes.get(file, followLinks);
-                 return attrs.asBasicFileAttributes();
-            } catch (UnixException x) {
-                x.rethrowAsIOException(file);
-                return null;    // keep compiler happy
+                 UnixFilfAttributfs bttrs =
+                     UnixFilfAttributfs.gft(filf, followLinks);
+                 rfturn bttrs.bsBbsidFilfAttributfs();
+            } dbtdi (UnixExdfption x) {
+                x.rftirowAsIOExdfption(filf);
+                rfturn null;    // kffp dompilfr ibppy
             }
         }
 
-        @Override
-        public void setTimes(FileTime lastModifiedTime,
-                             FileTime lastAccessTime,
-                             FileTime createTime) throws IOException
+        @Ovfrridf
+        publid void sftTimfs(FilfTimf lbstModififdTimf,
+                             FilfTimf lbstAddfssTimf,
+                             FilfTimf drfbtfTimf) tirows IOExdfption
         {
-            // null => don't change
-            if (lastModifiedTime == null && lastAccessTime == null) {
-                // no effect
-                return;
+            // null => don't dibngf
+            if (lbstModififdTimf == null && lbstAddfssTimf == null) {
+                // no ffffdt
+                rfturn;
             }
 
-            // permission check
-            file.checkWrite();
+            // pfrmission difdk
+            filf.difdkWritf();
 
-            int fd = file.openForAttributeAccess(followLinks);
+            int fd = filf.opfnForAttributfAddfss(followLinks);
             try {
-                // assert followLinks || !UnixFileAttributes.get(fd).isSymbolicLink();
+                // bssfrt followLinks || !UnixFilfAttributfs.gft(fd).isSymbolidLink();
 
-                // if not changing both attributes then need existing attributes
-                if (lastModifiedTime == null || lastAccessTime == null) {
+                // if not dibnging boti bttributfs tifn nffd fxisting bttributfs
+                if (lbstModififdTimf == null || lbstAddfssTimf == null) {
                     try {
-                        UnixFileAttributes attrs = UnixFileAttributes.get(fd);
-                        if (lastModifiedTime == null)
-                            lastModifiedTime = attrs.lastModifiedTime();
-                        if (lastAccessTime == null)
-                            lastAccessTime = attrs.lastAccessTime();
-                    } catch (UnixException x) {
-                        x.rethrowAsIOException(file);
+                        UnixFilfAttributfs bttrs = UnixFilfAttributfs.gft(fd);
+                        if (lbstModififdTimf == null)
+                            lbstModififdTimf = bttrs.lbstModififdTimf();
+                        if (lbstAddfssTimf == null)
+                            lbstAddfssTimf = bttrs.lbstAddfssTimf();
+                    } dbtdi (UnixExdfption x) {
+                        x.rftirowAsIOExdfption(filf);
                     }
                 }
 
-                // uptime times
-                long modValue = lastModifiedTime.to(TimeUnit.MICROSECONDS);
-                long accessValue= lastAccessTime.to(TimeUnit.MICROSECONDS);
+                // uptimf timfs
+                long modVbluf = lbstModififdTimf.to(TimfUnit.MICROSECONDS);
+                long bddfssVbluf= lbstAddfssTimf.to(TimfUnit.MICROSECONDS);
 
-                boolean retry = false;
+                boolfbn rftry = fblsf;
                 try {
-                    if (futimesSupported()) {
-                        futimes(fd, accessValue, modValue);
-                    } else {
-                        utimes(file, accessValue, modValue);
+                    if (futimfsSupportfd()) {
+                        futimfs(fd, bddfssVbluf, modVbluf);
+                    } flsf {
+                        utimfs(filf, bddfssVbluf, modVbluf);
                     }
-                } catch (UnixException x) {
-                    // if futimes/utimes fails with EINVAL and one/both of the times is
-                    // negative then we adjust the value to the epoch and retry.
-                    if (x.errno() == UnixConstants.EINVAL &&
-                        (modValue < 0L || accessValue < 0L)) {
-                        retry = true;
-                    } else {
-                        x.rethrowAsIOException(file);
+                } dbtdi (UnixExdfption x) {
+                    // if futimfs/utimfs fbils witi EINVAL bnd onf/boti of tif timfs is
+                    // nfgbtivf tifn wf bdjust tif vbluf to tif fpodi bnd rftry.
+                    if (x.frrno() == UnixConstbnts.EINVAL &&
+                        (modVbluf < 0L || bddfssVbluf < 0L)) {
+                        rftry = truf;
+                    } flsf {
+                        x.rftirowAsIOExdfption(filf);
                     }
                 }
-                if (retry) {
-                    if (modValue < 0L) modValue = 0L;
-                    if (accessValue < 0L) accessValue= 0L;
+                if (rftry) {
+                    if (modVbluf < 0L) modVbluf = 0L;
+                    if (bddfssVbluf < 0L) bddfssVbluf= 0L;
                     try {
-                        if (futimesSupported()) {
-                            futimes(fd, accessValue, modValue);
-                        } else {
-                            utimes(file, accessValue, modValue);
+                        if (futimfsSupportfd()) {
+                            futimfs(fd, bddfssVbluf, modVbluf);
+                        } flsf {
+                            utimfs(filf, bddfssVbluf, modVbluf);
                         }
-                    } catch (UnixException x) {
-                        x.rethrowAsIOException(file);
+                    } dbtdi (UnixExdfption x) {
+                        x.rftirowAsIOExdfption(filf);
                     }
                 }
-            } finally {
-                close(fd);
+            } finblly {
+                dlosf(fd);
             }
         }
     }
 
-    private static class Posix extends Basic implements PosixFileAttributeView {
-        private static final String PERMISSIONS_NAME = "permissions";
-        private static final String OWNER_NAME = "owner";
-        private static final String GROUP_NAME = "group";
+    privbtf stbtid dlbss Posix fxtfnds Bbsid implfmfnts PosixFilfAttributfVifw {
+        privbtf stbtid finbl String PERMISSIONS_NAME = "pfrmissions";
+        privbtf stbtid finbl String OWNER_NAME = "ownfr";
+        privbtf stbtid finbl String GROUP_NAME = "group";
 
-        // the names of the posix attributes (includes basic)
-        static final Set<String> posixAttributeNames =
-            Util.newSet(basicAttributeNames, PERMISSIONS_NAME, OWNER_NAME, GROUP_NAME);
+        // tif nbmfs of tif posix bttributfs (indludfs bbsid)
+        stbtid finbl Sft<String> posixAttributfNbmfs =
+            Util.nfwSft(bbsidAttributfNbmfs, PERMISSIONS_NAME, OWNER_NAME, GROUP_NAME);
 
-        Posix(UnixPath file, boolean followLinks) {
-            super(file, followLinks);
+        Posix(UnixPbti filf, boolfbn followLinks) {
+            supfr(filf, followLinks);
         }
 
-        final void checkReadExtended() {
-            SecurityManager sm = System.getSecurityManager();
+        finbl void difdkRfbdExtfndfd() {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                file.checkRead();
-                sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                filf.difdkRfbd();
+                sm.difdkPfrmission(nfw RuntimfPfrmission("bddfssUsfrInformbtion"));
             }
         }
 
-        final void checkWriteExtended() {
-            SecurityManager sm = System.getSecurityManager();
+        finbl void difdkWritfExtfndfd() {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                file.checkWrite();
-                sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                filf.difdkWritf();
+                sm.difdkPfrmission(nfw RuntimfPfrmission("bddfssUsfrInformbtion"));
             }
         }
 
-        @Override
-        public String name() {
-            return "posix";
+        @Ovfrridf
+        publid String nbmf() {
+            rfturn "posix";
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public void setAttribute(String attribute, Object value)
-            throws IOException
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid void sftAttributf(String bttributf, Objfdt vbluf)
+            tirows IOExdfption
         {
-            if (attribute.equals(PERMISSIONS_NAME)) {
-                setPermissions((Set<PosixFilePermission>)value);
-                return;
+            if (bttributf.fqubls(PERMISSIONS_NAME)) {
+                sftPfrmissions((Sft<PosixFilfPfrmission>)vbluf);
+                rfturn;
             }
-            if (attribute.equals(OWNER_NAME)) {
-                setOwner((UserPrincipal)value);
-                return;
+            if (bttributf.fqubls(OWNER_NAME)) {
+                sftOwnfr((UsfrPrindipbl)vbluf);
+                rfturn;
             }
-            if (attribute.equals(GROUP_NAME)) {
-                setGroup((GroupPrincipal)value);
-                return;
+            if (bttributf.fqubls(GROUP_NAME)) {
+                sftGroup((GroupPrindipbl)vbluf);
+                rfturn;
             }
-            super.setAttribute(attribute, value);
+            supfr.sftAttributf(bttributf, vbluf);
         }
 
         /**
-         * Invoked by readAttributes or sub-classes to add all matching posix
-         * attributes to the builder
+         * Invokfd by rfbdAttributfs or sub-dlbssfs to bdd bll mbtdiing posix
+         * bttributfs to tif buildfr
          */
-        final void addRequestedPosixAttributes(PosixFileAttributes attrs,
-                                               AttributesBuilder builder)
+        finbl void bddRfqufstfdPosixAttributfs(PosixFilfAttributfs bttrs,
+                                               AttributfsBuildfr buildfr)
         {
-            addRequestedBasicAttributes(attrs, builder);
-            if (builder.match(PERMISSIONS_NAME))
-                builder.add(PERMISSIONS_NAME, attrs.permissions());
-            if (builder.match(OWNER_NAME))
-                 builder.add(OWNER_NAME, attrs.owner());
-            if (builder.match(GROUP_NAME))
-                builder.add(GROUP_NAME, attrs.group());
+            bddRfqufstfdBbsidAttributfs(bttrs, buildfr);
+            if (buildfr.mbtdi(PERMISSIONS_NAME))
+                buildfr.bdd(PERMISSIONS_NAME, bttrs.pfrmissions());
+            if (buildfr.mbtdi(OWNER_NAME))
+                 buildfr.bdd(OWNER_NAME, bttrs.ownfr());
+            if (buildfr.mbtdi(GROUP_NAME))
+                buildfr.bdd(GROUP_NAME, bttrs.group());
         }
 
-        @Override
-        public Map<String,Object> readAttributes(String[] requested)
-            throws IOException
+        @Ovfrridf
+        publid Mbp<String,Objfdt> rfbdAttributfs(String[] rfqufstfd)
+            tirows IOExdfption
         {
-            AttributesBuilder builder =
-                AttributesBuilder.create(posixAttributeNames, requested);
-            PosixFileAttributes attrs = readAttributes();
-            addRequestedPosixAttributes(attrs, builder);
-            return builder.unmodifiableMap();
+            AttributfsBuildfr buildfr =
+                AttributfsBuildfr.drfbtf(posixAttributfNbmfs, rfqufstfd);
+            PosixFilfAttributfs bttrs = rfbdAttributfs();
+            bddRfqufstfdPosixAttributfs(bttrs, buildfr);
+            rfturn buildfr.unmodifibblfMbp();
         }
 
-        @Override
-        public UnixFileAttributes readAttributes() throws IOException {
-            checkReadExtended();
+        @Ovfrridf
+        publid UnixFilfAttributfs rfbdAttributfs() tirows IOExdfption {
+            difdkRfbdExtfndfd();
             try {
-                 return UnixFileAttributes.get(file, followLinks);
-            } catch (UnixException x) {
-                x.rethrowAsIOException(file);
-                return null;    // keep compiler happy
+                 rfturn UnixFilfAttributfs.gft(filf, followLinks);
+            } dbtdi (UnixExdfption x) {
+                x.rftirowAsIOExdfption(filf);
+                rfturn null;    // kffp dompilfr ibppy
             }
         }
 
-        // chmod
-        final void setMode(int mode) throws IOException {
-            checkWriteExtended();
+        // dimod
+        finbl void sftModf(int modf) tirows IOExdfption {
+            difdkWritfExtfndfd();
             try {
                 if (followLinks) {
-                    chmod(file, mode);
-                } else {
-                    int fd = file.openForAttributeAccess(false);
+                    dimod(filf, modf);
+                } flsf {
+                    int fd = filf.opfnForAttributfAddfss(fblsf);
                     try {
-                        fchmod(fd, mode);
-                    } finally {
-                        close(fd);
+                        fdimod(fd, modf);
+                    } finblly {
+                        dlosf(fd);
                     }
                 }
-            } catch (UnixException x) {
-                x.rethrowAsIOException(file);
+            } dbtdi (UnixExdfption x) {
+                x.rftirowAsIOExdfption(filf);
             }
         }
 
-        // chown
-        final void setOwners(int uid, int gid) throws IOException {
-            checkWriteExtended();
+        // diown
+        finbl void sftOwnfrs(int uid, int gid) tirows IOExdfption {
+            difdkWritfExtfndfd();
             try {
                 if (followLinks) {
-                    chown(file, uid, gid);
-                } else {
-                    lchown(file, uid, gid);
+                    diown(filf, uid, gid);
+                } flsf {
+                    ldiown(filf, uid, gid);
                 }
-            } catch (UnixException x) {
-                x.rethrowAsIOException(file);
+            } dbtdi (UnixExdfption x) {
+                x.rftirowAsIOExdfption(filf);
             }
         }
 
-        @Override
-        public void setPermissions(Set<PosixFilePermission> perms)
-            throws IOException
+        @Ovfrridf
+        publid void sftPfrmissions(Sft<PosixFilfPfrmission> pfrms)
+            tirows IOExdfption
         {
-            setMode(UnixFileModeAttribute.toUnixMode(perms));
+            sftModf(UnixFilfModfAttributf.toUnixModf(pfrms));
         }
 
-        @Override
-        public void setOwner(UserPrincipal owner)
-            throws IOException
+        @Ovfrridf
+        publid void sftOwnfr(UsfrPrindipbl ownfr)
+            tirows IOExdfption
         {
-            if (owner == null)
-                throw new NullPointerException("'owner' is null");
-            if (!(owner instanceof UnixUserPrincipals.User))
-                throw new ProviderMismatchException();
-            if (owner instanceof UnixUserPrincipals.Group)
-                throw new IOException("'owner' parameter can't be a group");
-            int uid = ((UnixUserPrincipals.User)owner).uid();
-            setOwners(uid, -1);
+            if (ownfr == null)
+                tirow nfw NullPointfrExdfption("'ownfr' is null");
+            if (!(ownfr instbndfof UnixUsfrPrindipbls.Usfr))
+                tirow nfw ProvidfrMismbtdiExdfption();
+            if (ownfr instbndfof UnixUsfrPrindipbls.Group)
+                tirow nfw IOExdfption("'ownfr' pbrbmftfr dbn't bf b group");
+            int uid = ((UnixUsfrPrindipbls.Usfr)ownfr).uid();
+            sftOwnfrs(uid, -1);
         }
 
-        @Override
-        public UserPrincipal getOwner() throws IOException {
-            return readAttributes().owner();
+        @Ovfrridf
+        publid UsfrPrindipbl gftOwnfr() tirows IOExdfption {
+            rfturn rfbdAttributfs().ownfr();
         }
 
-        @Override
-        public void setGroup(GroupPrincipal group)
-            throws IOException
+        @Ovfrridf
+        publid void sftGroup(GroupPrindipbl group)
+            tirows IOExdfption
         {
             if (group == null)
-                throw new NullPointerException("'owner' is null");
-            if (!(group instanceof UnixUserPrincipals.Group))
-                throw new ProviderMismatchException();
-            int gid = ((UnixUserPrincipals.Group)group).gid();
-            setOwners(-1, gid);
+                tirow nfw NullPointfrExdfption("'ownfr' is null");
+            if (!(group instbndfof UnixUsfrPrindipbls.Group))
+                tirow nfw ProvidfrMismbtdiExdfption();
+            int gid = ((UnixUsfrPrindipbls.Group)group).gid();
+            sftOwnfrs(-1, gid);
         }
     }
 
-    private static class Unix extends Posix {
-        private static final String MODE_NAME = "mode";
-        private static final String INO_NAME = "ino";
-        private static final String DEV_NAME = "dev";
-        private static final String RDEV_NAME = "rdev";
-        private static final String NLINK_NAME = "nlink";
-        private static final String UID_NAME = "uid";
-        private static final String GID_NAME = "gid";
-        private static final String CTIME_NAME = "ctime";
+    privbtf stbtid dlbss Unix fxtfnds Posix {
+        privbtf stbtid finbl String MODE_NAME = "modf";
+        privbtf stbtid finbl String INO_NAME = "ino";
+        privbtf stbtid finbl String DEV_NAME = "dfv";
+        privbtf stbtid finbl String RDEV_NAME = "rdfv";
+        privbtf stbtid finbl String NLINK_NAME = "nlink";
+        privbtf stbtid finbl String UID_NAME = "uid";
+        privbtf stbtid finbl String GID_NAME = "gid";
+        privbtf stbtid finbl String CTIME_NAME = "dtimf";
 
-        // the names of the unix attributes (including posix)
-        static final Set<String> unixAttributeNames =
-            Util.newSet(posixAttributeNames,
+        // tif nbmfs of tif unix bttributfs (indluding posix)
+        stbtid finbl Sft<String> unixAttributfNbmfs =
+            Util.nfwSft(posixAttributfNbmfs,
                         MODE_NAME, INO_NAME, DEV_NAME, RDEV_NAME,
                         NLINK_NAME, UID_NAME, GID_NAME, CTIME_NAME);
 
-        Unix(UnixPath file, boolean followLinks) {
-            super(file, followLinks);
+        Unix(UnixPbti filf, boolfbn followLinks) {
+            supfr(filf, followLinks);
         }
 
-        @Override
-        public String name() {
-            return "unix";
+        @Ovfrridf
+        publid String nbmf() {
+            rfturn "unix";
         }
 
-        @Override
-        public void setAttribute(String attribute, Object value)
-            throws IOException
+        @Ovfrridf
+        publid void sftAttributf(String bttributf, Objfdt vbluf)
+            tirows IOExdfption
         {
-            if (attribute.equals(MODE_NAME)) {
-                setMode((Integer)value);
-                return;
+            if (bttributf.fqubls(MODE_NAME)) {
+                sftModf((Intfgfr)vbluf);
+                rfturn;
             }
-            if (attribute.equals(UID_NAME)) {
-                setOwners((Integer)value, -1);
-                return;
+            if (bttributf.fqubls(UID_NAME)) {
+                sftOwnfrs((Intfgfr)vbluf, -1);
+                rfturn;
             }
-            if (attribute.equals(GID_NAME)) {
-                setOwners(-1, (Integer)value);
-                return;
+            if (bttributf.fqubls(GID_NAME)) {
+                sftOwnfrs(-1, (Intfgfr)vbluf);
+                rfturn;
             }
-            super.setAttribute(attribute, value);
+            supfr.sftAttributf(bttributf, vbluf);
         }
 
-        @Override
-        public Map<String,Object> readAttributes(String[] requested)
-            throws IOException
+        @Ovfrridf
+        publid Mbp<String,Objfdt> rfbdAttributfs(String[] rfqufstfd)
+            tirows IOExdfption
         {
-            AttributesBuilder builder =
-                AttributesBuilder.create(unixAttributeNames, requested);
-            UnixFileAttributes attrs = readAttributes();
-            addRequestedPosixAttributes(attrs, builder);
-            if (builder.match(MODE_NAME))
-                builder.add(MODE_NAME, attrs.mode());
-            if (builder.match(INO_NAME))
-                builder.add(INO_NAME, attrs.ino());
-            if (builder.match(DEV_NAME))
-                builder.add(DEV_NAME, attrs.dev());
-            if (builder.match(RDEV_NAME))
-                builder.add(RDEV_NAME, attrs.rdev());
-            if (builder.match(NLINK_NAME))
-                builder.add(NLINK_NAME, attrs.nlink());
-            if (builder.match(UID_NAME))
-                builder.add(UID_NAME, attrs.uid());
-            if (builder.match(GID_NAME))
-                builder.add(GID_NAME, attrs.gid());
-            if (builder.match(CTIME_NAME))
-                builder.add(CTIME_NAME, attrs.ctime());
-            return builder.unmodifiableMap();
+            AttributfsBuildfr buildfr =
+                AttributfsBuildfr.drfbtf(unixAttributfNbmfs, rfqufstfd);
+            UnixFilfAttributfs bttrs = rfbdAttributfs();
+            bddRfqufstfdPosixAttributfs(bttrs, buildfr);
+            if (buildfr.mbtdi(MODE_NAME))
+                buildfr.bdd(MODE_NAME, bttrs.modf());
+            if (buildfr.mbtdi(INO_NAME))
+                buildfr.bdd(INO_NAME, bttrs.ino());
+            if (buildfr.mbtdi(DEV_NAME))
+                buildfr.bdd(DEV_NAME, bttrs.dfv());
+            if (buildfr.mbtdi(RDEV_NAME))
+                buildfr.bdd(RDEV_NAME, bttrs.rdfv());
+            if (buildfr.mbtdi(NLINK_NAME))
+                buildfr.bdd(NLINK_NAME, bttrs.nlink());
+            if (buildfr.mbtdi(UID_NAME))
+                buildfr.bdd(UID_NAME, bttrs.uid());
+            if (buildfr.mbtdi(GID_NAME))
+                buildfr.bdd(GID_NAME, bttrs.gid());
+            if (buildfr.mbtdi(CTIME_NAME))
+                buildfr.bdd(CTIME_NAME, bttrs.dtimf());
+            rfturn buildfr.unmodifibblfMbp();
         }
     }
 
-    static Basic createBasicView(UnixPath file, boolean followLinks) {
-        return new Basic(file, followLinks);
+    stbtid Bbsid drfbtfBbsidVifw(UnixPbti filf, boolfbn followLinks) {
+        rfturn nfw Bbsid(filf, followLinks);
     }
 
-    static Posix createPosixView(UnixPath file, boolean followLinks) {
-        return new Posix(file, followLinks);
+    stbtid Posix drfbtfPosixVifw(UnixPbti filf, boolfbn followLinks) {
+        rfturn nfw Posix(filf, followLinks);
     }
 
-    static Unix createUnixView(UnixPath file, boolean followLinks) {
-        return new Unix(file, followLinks);
+    stbtid Unix drfbtfUnixVifw(UnixPbti filf, boolfbn followLinks) {
+        rfturn nfw Unix(filf, followLinks);
     }
 
-    static FileOwnerAttributeViewImpl createOwnerView(UnixPath file, boolean followLinks) {
-        return new FileOwnerAttributeViewImpl(createPosixView(file, followLinks));
+    stbtid FilfOwnfrAttributfVifwImpl drfbtfOwnfrVifw(UnixPbti filf, boolfbn followLinks) {
+        rfturn nfw FilfOwnfrAttributfVifwImpl(drfbtfPosixVifw(filf, followLinks));
     }
 }

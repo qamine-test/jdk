@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 5884 $"/>
-		<generation date="$Date: 2011-05-11 05:58:32 +0900 (Wed, 11 May 2011) $"/>
-		<language type="es"/>
-		<territory type="NI"/>
-	</identity>
-	<numbers>
-		<currencies>
-			<currency type="NIO">
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 5884 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-05-11 05:58:32 +0900 (Wfd, 11 Mby 2011) $"/>
+		<lbngubgf typf="fs"/>
+		<tfrritory typf="NI"/>
+	</idfntity>
+	<numbfrs>
+		<durrfndifs>
+			<durrfndy typf="NIO">
 				<symbol>C$</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 </ldml>
 

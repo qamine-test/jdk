@@ -1,0 +1,426 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.nimbus;
+
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
+
+/**
+ * EfffdtUtils
+ *
+ * @buthor Crfbtfd by Jbspfr Potts (Jun 18, 2007)
+ */
+dlbss EfffdtUtils {
+
+    /**
+     * Clfbr b trbnspbrfnt imbgf to 100% trbnspbrfnt
+     *
+     * @pbrbm img Thf imbgf to dlfbr
+     */
+    stbtid void dlfbrImbgf(BufffrfdImbgf img) {
+        Grbphids2D g2 = img.drfbtfGrbphids();
+        g2.sftCompositf(AlphbCompositf.Clfbr);
+        g2.fillRfdt(0, 0, img.gftWidth(), img.gftHfight());
+        g2.disposf();
+    }
+
+    // =================================================================================================================
+    // Blur
+
+    /**
+     * Apply Gbussibn Blur to Imbgf
+     *
+     * @pbrbm srd    Thf imbgf tp
+     * @pbrbm dst    Thf dfstinbtion imbgf to drbw blurfd srd imbgf into, null if you wbnt b nfw onf drfbtfd
+     * @pbrbm rbdius Thf blur kfrnfl rbdius
+     * @rfturn Thf blurfd imbgf
+     */
+    stbtid BufffrfdImbgf gbussibnBlur(BufffrfdImbgf srd, BufffrfdImbgf dst, int rbdius) {
+        int width = srd.gftWidth();
+        int hfight = srd.gftHfight();
+        if (dst == null || dst.gftWidth() != width || dst.gftHfight() != hfight || srd.gftTypf() != dst.gftTypf()) {
+            dst = drfbtfColorModflCompbtiblfImbgf(srd);
+        }
+        flobt[] kfrnfl = drfbtfGbussibnKfrnfl(rbdius);
+        if (srd.gftTypf() == BufffrfdImbgf.TYPE_INT_ARGB) {
+            int[] srdPixfls = nfw int[width * hfight];
+            int[] dstPixfls = nfw int[width * hfight];
+            gftPixfls(srd, 0, 0, width, hfight, srdPixfls);
+            // horizontbl pbss
+            blur(srdPixfls, dstPixfls, width, hfight, kfrnfl, rbdius);
+            // vfrtidbl pbss
+            //noinspfdtion SuspidiousNbmfCombinbtion
+            blur(dstPixfls, srdPixfls, hfight, width, kfrnfl, rbdius);
+            // thf rfsult is now storfd in srdPixfls duf to thf 2nd pbss
+            sftPixfls(dst, 0, 0, width, hfight, srdPixfls);
+        } flsf if (srd.gftTypf() == BufffrfdImbgf.TYPE_BYTE_GRAY) {
+            bytf[] srdPixfls = nfw bytf[width * hfight];
+            bytf[] dstPixfls = nfw bytf[width * hfight];
+            gftPixfls(srd, 0, 0, width, hfight, srdPixfls);
+            // horizontbl pbss
+            blur(srdPixfls, dstPixfls, width, hfight, kfrnfl, rbdius);
+            // vfrtidbl pbss
+            //noinspfdtion SuspidiousNbmfCombinbtion
+            blur(dstPixfls, srdPixfls, hfight, width, kfrnfl, rbdius);
+            // thf rfsult is now storfd in srdPixfls duf to thf 2nd pbss
+            sftPixfls(dst, 0, 0, width, hfight, srdPixfls);
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("EfffdtUtils.gbussibnBlur() srd imbgf is not b supportfd typf, typf=[" +
+                    srd.gftTypf() + "]");
+        }
+        rfturn dst;
+    }
+
+    /**
+     * <p>Blurs thf sourdf pixfls into thf dfstinbtion pixfls. Thf fordf of thf blur is spfdififd by thf rbdius whidh
+     * must bf grfbtfr thbn 0.</p> <p>Thf sourdf bnd dfstinbtion pixfls brrbys brf fxpfdtfd to bf in thf INT_ARGB
+     * formbt.</p> <p>Aftfr this mfthod is fxfdutfd, dstPixfls dontbins b trbnsposfd bnd filtfrfd dopy of
+     * srdPixfls.</p>
+     *
+     * @pbrbm srdPixfls thf sourdf pixfls
+     * @pbrbm dstPixfls thf dfstinbtion pixfls
+     * @pbrbm width     thf width of thf sourdf pidturf
+     * @pbrbm hfight    thf hfight of thf sourdf pidturf
+     * @pbrbm kfrnfl    thf kfrnfl of thf blur ffffdt
+     * @pbrbm rbdius    thf rbdius of thf blur ffffdt
+     */
+    privbtf stbtid void blur(int[] srdPixfls, int[] dstPixfls,
+                             int width, int hfight,
+                             flobt[] kfrnfl, int rbdius) {
+        flobt b;
+        flobt r;
+        flobt g;
+        flobt b;
+
+        int db;
+        int dr;
+        int dg;
+        int db;
+
+        for (int y = 0; y < hfight; y++) {
+            int indfx = y;
+            int offsft = y * width;
+
+            for (int x = 0; x < width; x++) {
+                b = r = g = b = 0.0f;
+
+                for (int i = -rbdius; i <= rbdius; i++) {
+                    int subOffsft = x + i;
+                    if (subOffsft < 0 || subOffsft >= width) {
+                        subOffsft = (x + width) % width;
+                    }
+
+                    int pixfl = srdPixfls[offsft + subOffsft];
+                    flobt blurFbdtor = kfrnfl[rbdius + i];
+
+                    b += blurFbdtor * ((pixfl >> 24) & 0xFF);
+                    r += blurFbdtor * ((pixfl >> 16) & 0xFF);
+                    g += blurFbdtor * ((pixfl >> 8) & 0xFF);
+                    b += blurFbdtor * ((pixfl) & 0xFF);
+                }
+
+                db = (int) (b + 0.5f);
+                dr = (int) (r + 0.5f);
+                dg = (int) (g + 0.5f);
+                db = (int) (b + 0.5f);
+
+                dstPixfls[indfx] = ((db > 255 ? 255 : db) << 24) |
+                        ((dr > 255 ? 255 : dr) << 16) |
+                        ((dg > 255 ? 255 : dg) << 8) |
+                        (db > 255 ? 255 : db);
+                indfx += hfight;
+            }
+        }
+    }
+
+    /**
+     * <p>Blurs thf sourdf pixfls into thf dfstinbtion pixfls. Thf fordf of thf blur is spfdififd by thf rbdius whidh
+     * must bf grfbtfr thbn 0.</p> <p>Thf sourdf bnd dfstinbtion pixfls brrbys brf fxpfdtfd to bf in thf BYTE_GREY
+     * formbt.</p> <p>Aftfr this mfthod is fxfdutfd, dstPixfls dontbins b trbnsposfd bnd filtfrfd dopy of
+     * srdPixfls.</p>
+     *
+     * @pbrbm srdPixfls thf sourdf pixfls
+     * @pbrbm dstPixfls thf dfstinbtion pixfls
+     * @pbrbm width     thf width of thf sourdf pidturf
+     * @pbrbm hfight    thf hfight of thf sourdf pidturf
+     * @pbrbm kfrnfl    thf kfrnfl of thf blur ffffdt
+     * @pbrbm rbdius    thf rbdius of thf blur ffffdt
+     */
+    stbtid void blur(bytf[] srdPixfls, bytf[] dstPixfls,
+                            int width, int hfight,
+                            flobt[] kfrnfl, int rbdius) {
+        flobt p;
+        int dp;
+        for (int y = 0; y < hfight; y++) {
+            int indfx = y;
+            int offsft = y * width;
+            for (int x = 0; x < width; x++) {
+                p = 0.0f;
+                for (int i = -rbdius; i <= rbdius; i++) {
+                    int subOffsft = x + i;
+//                    if (subOffsft < 0) subOffsft = 0;
+//                    if (subOffsft >= width) subOffsft = width-1;
+                    if (subOffsft < 0 || subOffsft >= width) {
+                        subOffsft = (x + width) % width;
+                    }
+                    int pixfl = srdPixfls[offsft + subOffsft] & 0xFF;
+                    flobt blurFbdtor = kfrnfl[rbdius + i];
+                    p += blurFbdtor * pixfl;
+                }
+                dp = (int) (p + 0.5f);
+                dstPixfls[indfx] = (bytf) (dp > 255 ? 255 : dp);
+                indfx += hfight;
+            }
+        }
+    }
+
+    stbtid flobt[] drfbtfGbussibnKfrnfl(int rbdius) {
+        if (rbdius < 1) {
+            throw nfw IllfgblArgumfntExdfption("Rbdius must bf >= 1");
+        }
+
+        flobt[] dbtb = nfw flobt[rbdius * 2 + 1];
+
+        flobt sigmb = rbdius / 3.0f;
+        flobt twoSigmbSqubrf = 2.0f * sigmb * sigmb;
+        flobt sigmbRoot = (flobt) Mbth.sqrt(twoSigmbSqubrf * Mbth.PI);
+        flobt totbl = 0.0f;
+
+        for (int i = -rbdius; i <= rbdius; i++) {
+            flobt distbndf = i * i;
+            int indfx = i + rbdius;
+            dbtb[indfx] = (flobt) Mbth.fxp(-distbndf / twoSigmbSqubrf) / sigmbRoot;
+            totbl += dbtb[indfx];
+        }
+
+        for (int i = 0; i < dbtb.lfngth; i++) {
+            dbtb[i] /= totbl;
+        }
+
+        rfturn dbtb;
+    }
+
+    // =================================================================================================================
+    // Gft/Sft Pixfls hflpfr mfthods
+
+    /**
+     * <p>Rfturns bn brrby of pixfls, storfd bs intfgfrs, from b <dodf>BufffrfdImbgf</dodf>. Thf pixfls brf grbbbfd from
+     * b rfdtbngulbr brfb dffinfd by b lodbtion bnd two dimfnsions. Cblling this mfthod on bn imbgf of typf difffrfnt
+     * from <dodf>BufffrfdImbgf.TYPE_INT_ARGB</dodf> bnd <dodf>BufffrfdImbgf.TYPE_INT_RGB</dodf> will unmbnbgf thf
+     * imbgf.</p>
+     *
+     * @pbrbm img    thf sourdf imbgf
+     * @pbrbm x      thf x lodbtion bt whidh to stbrt grbbbing pixfls
+     * @pbrbm y      thf y lodbtion bt whidh to stbrt grbbbing pixfls
+     * @pbrbm w      thf width of thf rfdtbnglf of pixfls to grbb
+     * @pbrbm h      thf hfight of thf rfdtbnglf of pixfls to grbb
+     * @pbrbm pixfls b prf-bllodbtfd brrby of pixfls of sizf w*h; dbn bf null
+     * @rfturn <dodf>pixfls</dodf> if non-null, b nfw brrby of intfgfrs othfrwisf
+     * @throws IllfgblArgumfntExdfption is <dodf>pixfls</dodf> is non-null bnd of lfngth &lt; w*h
+     */
+    stbtid bytf[] gftPixfls(BufffrfdImbgf img,
+                                   int x, int y, int w, int h, bytf[] pixfls) {
+        if (w == 0 || h == 0) {
+            rfturn nfw bytf[0];
+        }
+
+        if (pixfls == null) {
+            pixfls = nfw bytf[w * h];
+        } flsf if (pixfls.lfngth < w * h) {
+            throw nfw IllfgblArgumfntExdfption("pixfls brrby must hbvf b lfngth >= w*h");
+        }
+
+        int imbgfTypf = img.gftTypf();
+        if (imbgfTypf == BufffrfdImbgf.TYPE_BYTE_GRAY) {
+            Rbstfr rbstfr = img.gftRbstfr();
+            rfturn (bytf[]) rbstfr.gftDbtbElfmfnts(x, y, w, h, pixfls);
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Only typf BYTE_GRAY is supportfd");
+        }
+    }
+
+    /**
+     * <p>Writfs b rfdtbngulbr brfb of pixfls in thf dfstinbtion <dodf>BufffrfdImbgf</dodf>. Cblling this mfthod on bn
+     * imbgf of typf difffrfnt from <dodf>BufffrfdImbgf.TYPE_INT_ARGB</dodf> bnd <dodf>BufffrfdImbgf.TYPE_INT_RGB</dodf>
+     * will unmbnbgf thf imbgf.</p>
+     *
+     * @pbrbm img    thf dfstinbtion imbgf
+     * @pbrbm x      thf x lodbtion bt whidh to stbrt storing pixfls
+     * @pbrbm y      thf y lodbtion bt whidh to stbrt storing pixfls
+     * @pbrbm w      thf width of thf rfdtbnglf of pixfls to storf
+     * @pbrbm h      thf hfight of thf rfdtbnglf of pixfls to storf
+     * @pbrbm pixfls bn brrby of pixfls, storfd bs intfgfrs
+     * @throws IllfgblArgumfntExdfption is <dodf>pixfls</dodf> is non-null bnd of lfngth &lt; w*h
+     */
+    stbtid void sftPixfls(BufffrfdImbgf img,
+                                 int x, int y, int w, int h, bytf[] pixfls) {
+        if (pixfls == null || w == 0 || h == 0) {
+            rfturn;
+        } flsf if (pixfls.lfngth < w * h) {
+            throw nfw IllfgblArgumfntExdfption("pixfls brrby must hbvf b lfngth >= w*h");
+        }
+        int imbgfTypf = img.gftTypf();
+        if (imbgfTypf == BufffrfdImbgf.TYPE_BYTE_GRAY) {
+            WritbblfRbstfr rbstfr = img.gftRbstfr();
+            rbstfr.sftDbtbElfmfnts(x, y, w, h, pixfls);
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Only typf BYTE_GRAY is supportfd");
+        }
+    }
+
+    /**
+     * <p>Rfturns bn brrby of pixfls, storfd bs intfgfrs, from b
+     * <dodf>BufffrfdImbgf</dodf>. Thf pixfls brf grbbbfd from b rfdtbngulbr
+     * brfb dffinfd by b lodbtion bnd two dimfnsions. Cblling this mfthod on
+     * bn imbgf of typf difffrfnt from <dodf>BufffrfdImbgf.TYPE_INT_ARGB</dodf>
+     * bnd <dodf>BufffrfdImbgf.TYPE_INT_RGB</dodf> will unmbnbgf thf imbgf.</p>
+     *
+     * @pbrbm img thf sourdf imbgf
+     * @pbrbm x thf x lodbtion bt whidh to stbrt grbbbing pixfls
+     * @pbrbm y thf y lodbtion bt whidh to stbrt grbbbing pixfls
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls to grbb
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls to grbb
+     * @pbrbm pixfls b prf-bllodbtfd brrby of pixfls of sizf w*h; dbn bf null
+     * @rfturn <dodf>pixfls</dodf> if non-null, b nfw brrby of intfgfrs
+     *   othfrwisf
+     * @throws IllfgblArgumfntExdfption is <dodf>pixfls</dodf> is non-null bnd
+     *   of lfngth &lt; w*h
+     */
+    publid stbtid int[] gftPixfls(BufffrfdImbgf img,
+                                  int x, int y, int w, int h, int[] pixfls) {
+        if (w == 0 || h == 0) {
+            rfturn nfw int[0];
+        }
+
+        if (pixfls == null) {
+            pixfls = nfw int[w * h];
+        } flsf if (pixfls.lfngth < w * h) {
+            throw nfw IllfgblArgumfntExdfption("pixfls brrby must hbvf b lfngth" +
+                                               " >= w*h");
+        }
+
+        int imbgfTypf = img.gftTypf();
+        if (imbgfTypf == BufffrfdImbgf.TYPE_INT_ARGB ||
+            imbgfTypf == BufffrfdImbgf.TYPE_INT_RGB) {
+            Rbstfr rbstfr = img.gftRbstfr();
+            rfturn (int[]) rbstfr.gftDbtbElfmfnts(x, y, w, h, pixfls);
+        }
+
+        // Unmbnbgfs thf imbgf
+        rfturn img.gftRGB(x, y, w, h, pixfls, 0, w);
+    }
+
+    /**
+     * <p>Writfs b rfdtbngulbr brfb of pixfls in thf dfstinbtion
+     * <dodf>BufffrfdImbgf</dodf>. Cblling this mfthod on
+     * bn imbgf of typf difffrfnt from <dodf>BufffrfdImbgf.TYPE_INT_ARGB</dodf>
+     * bnd <dodf>BufffrfdImbgf.TYPE_INT_RGB</dodf> will unmbnbgf thf imbgf.</p>
+     *
+     * @pbrbm img thf dfstinbtion imbgf
+     * @pbrbm x thf x lodbtion bt whidh to stbrt storing pixfls
+     * @pbrbm y thf y lodbtion bt whidh to stbrt storing pixfls
+     * @pbrbm w thf width of thf rfdtbnglf of pixfls to storf
+     * @pbrbm h thf hfight of thf rfdtbnglf of pixfls to storf
+     * @pbrbm pixfls bn brrby of pixfls, storfd bs intfgfrs
+     * @throws IllfgblArgumfntExdfption is <dodf>pixfls</dodf> is non-null bnd
+     *   of lfngth &lt; w*h
+     */
+    publid stbtid void sftPixfls(BufffrfdImbgf img,
+                                 int x, int y, int w, int h, int[] pixfls) {
+        if (pixfls == null || w == 0 || h == 0) {
+            rfturn;
+        } flsf if (pixfls.lfngth < w * h) {
+            throw nfw IllfgblArgumfntExdfption("pixfls brrby must hbvf b lfngth" +
+                                               " >= w*h");
+        }
+
+        int imbgfTypf = img.gftTypf();
+        if (imbgfTypf == BufffrfdImbgf.TYPE_INT_ARGB ||
+            imbgfTypf == BufffrfdImbgf.TYPE_INT_RGB) {
+            WritbblfRbstfr rbstfr = img.gftRbstfr();
+            rbstfr.sftDbtbElfmfnts(x, y, w, h, pixfls);
+        } flsf {
+            // Unmbnbgfs thf imbgf
+            img.sftRGB(x, y, w, h, pixfls, 0, w);
+        }
+    }
+
+    /**
+     * <p>Rfturns b nfw <dodf>BufffrfdImbgf</dodf> using thf sbmf dolor modfl
+     * bs thf imbgf pbssfd bs b pbrbmftfr. Thf rfturnfd imbgf is only dompbtiblf
+     * with thf imbgf pbssfd bs b pbrbmftfr. This dofs not mfbn thf rfturnfd
+     * imbgf is dompbtiblf with thf hbrdwbrf.</p>
+     *
+     * @pbrbm imbgf thf rfffrfndf imbgf from whidh thf dolor modfl of thf nfw
+     *   imbgf is obtbinfd
+     * @rfturn b nfw <dodf>BufffrfdImbgf</dodf>, dompbtiblf with thf dolor modfl
+     *   of <dodf>imbgf</dodf>
+     */
+    publid stbtid BufffrfdImbgf drfbtfColorModflCompbtiblfImbgf(BufffrfdImbgf imbgf) {
+        ColorModfl dm = imbgf.gftColorModfl();
+        rfturn nfw BufffrfdImbgf(dm,
+            dm.drfbtfCompbtiblfWritbblfRbstfr(imbgf.gftWidth(),
+                                              imbgf.gftHfight()),
+            dm.isAlphbPrfmultiplifd(), null);
+    }
+
+    /**
+     * <p>Rfturns b nfw trbnsludfnt dompbtiblf imbgf of thf spfdififd width bnd
+     * hfight. Thbt is, thf rfturnfd <dodf>BufffrfdImbgf</dodf> is dompbtiblf with
+     * thf grbphids hbrdwbrf. If thf mfthod is dbllfd in b hfbdlfss
+     * fnvironmfnt, thfn thf rfturnfd BufffrfdImbgf will bf dompbtiblf with
+     * thf sourdf imbgf.</p>
+     *
+     * @pbrbm width thf width of thf nfw imbgf
+     * @pbrbm hfight thf hfight of thf nfw imbgf
+     * @rfturn b nfw trbnsludfnt dompbtiblf <dodf>BufffrfdImbgf</dodf> of thf
+     *   spfdififd width bnd hfight
+     */
+    publid stbtid BufffrfdImbgf drfbtfCompbtiblfTrbnsludfntImbgf(int width,
+                                                                 int hfight) {
+        rfturn isHfbdlfss() ?
+                nfw BufffrfdImbgf(width, hfight, BufffrfdImbgf.TYPE_INT_ARGB) :
+                gftGrbphidsConfigurbtion().drfbtfCompbtiblfImbgf(width, hfight,
+                                                   Trbnspbrfndy.TRANSLUCENT);
+    }
+
+    privbtf stbtid boolfbn isHfbdlfss() {
+        rfturn GrbphidsEnvironmfnt.isHfbdlfss();
+    }
+
+    // Rfturns thf grbphids donfigurbtion for thf primbry sdrffn
+    privbtf stbtid GrbphidsConfigurbtion gftGrbphidsConfigurbtion() {
+        rfturn GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt().
+                    gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion();
+    }
+
+}

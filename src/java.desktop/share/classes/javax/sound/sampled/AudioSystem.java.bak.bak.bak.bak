@@ -1,0 +1,1566 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.nft.URL;
+
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
+import jbvb.util.ArrbyList;
+
+import jbvbx.sound.sbmplfd.spi.AudioFilfWritfr;
+import jbvbx.sound.sbmplfd.spi.AudioFilfRfbdfr;
+import jbvbx.sound.sbmplfd.spi.FormbtConvfrsionProvidfr;
+import jbvbx.sound.sbmplfd.spi.MixfrProvidfr;
+
+import dom.sun.mfdib.sound.JDK13Sfrvidfs;
+
+/* $fb TODO:
+ * - donsistfnt usbgf of (typfd) dollfdtions
+ */
+
+
+/**
+ * Thf {@dodf AudioSystfm} dlbss bdts bs thf fntry point to thf sbmplfd-budio
+ * systfm rfsourdfs. This dlbss lfts you qufry bnd bddfss thf mixfrs thbt brf
+ * instbllfd on thf systfm. {@dodf AudioSystfm} indludfs b numbfr of mfthods for
+ * donvfrting budio dbtb bftwffn difffrfnt formbts, bnd for trbnslbting bftwffn
+ * budio filfs bnd strfbms. It blso providfs b mfthod for obtbining b
+ * {@link Linf} dirfdtly from thf {@dodf AudioSystfm} without dfbling fxpliditly
+ * with mixfrs.
+ * <p>
+ * Propfrtifs dbn bf usfd to spfdify thf dffbult mixfr for spfdifid linf typfs.
+ * Both systfm propfrtifs bnd b propfrtifs filf brf donsidfrfd. Thf
+ * {@dodf sound.propfrtifs} propfrtifs filf is rfbd from bn
+ * implfmfntbtion-spfdifid lodbtion (typidblly it is thf {@dodf lib} dirfdtory
+ * in thf Jbvb instbllbtion dirfdtory). If b propfrty fxists both bs b systfm
+ * propfrty bnd in thf propfrtifs filf, thf systfm propfrty tbkfs prfdfdfndf.
+ * If nonf is spfdififd, b suitbblf dffbult is dhosfn bmong thf bvbilbblf
+ * dfvidfs. Thf syntbx of thf propfrtifs filf is spfdififd in
+ * {@link jbvb.util.Propfrtifs#lobd(InputStrfbm) Propfrtifs.lobd}. Thf following
+ * tbblf lists thf bvbilbblf propfrty kfys bnd whidh mfthods donsidfr thfm:
+ *
+ * <tbblf bordfr=0>
+ *  <dbption>Audio Systfm Propfrty Kfys</dbption>
+ *  <tr>
+ *   <th>Propfrty Kfy</th>
+ *   <th>Intfrfbdf</th>
+ *   <th>Afffdtfd Mfthod(s)</th>
+ *  </tr>
+ *  <tr>
+ *   <td>{@dodf jbvbx.sound.sbmplfd.Clip}</td>
+ *   <td>{@link Clip}</td>
+ *   <td>{@link #gftLinf}, {@link #gftClip}</td>
+ *  </tr>
+ *  <tr>
+ *   <td>{@dodf jbvbx.sound.sbmplfd.Port}</td>
+ *   <td>{@link Port}</td>
+ *   <td>{@link #gftLinf}</td>
+ *  </tr>
+ *  <tr>
+ *   <td>{@dodf jbvbx.sound.sbmplfd.SourdfDbtbLinf}</td>
+ *   <td>{@link SourdfDbtbLinf}</td>
+ *   <td>{@link #gftLinf}, {@link #gftSourdfDbtbLinf}</td>
+ *  </tr>
+ *  <tr>
+ *   <td>{@dodf jbvbx.sound.sbmplfd.TbrgftDbtbLinf}</td>
+ *   <td>{@link TbrgftDbtbLinf}</td>
+ *   <td>{@link #gftLinf}, {@link #gftTbrgftDbtbLinf}</td>
+ *  </tr>
+ * </tbblf>
+ *
+ * Thf propfrty vbluf donsists of thf providfr dlbss nbmf bnd thf mixfr nbmf,
+ * sfpbrbtfd by thf hbsh mbrk (&quot;#&quot;). Thf providfr dlbss nbmf is thf
+ * fully-qublififd nbmf of b dondrftf
+ * {@link jbvbx.sound.sbmplfd.spi.MixfrProvidfr mixfr providfr} dlbss. Thf mixfr
+ * nbmf is mbtdhfd bgbinst thf {@dodf String} rfturnfd by thf {@dodf gftNbmf}
+ * mfthod of {@dodf Mixfr.Info}. Eithfr thf dlbss nbmf, or thf mixfr nbmf mby bf
+ * omittfd. If only thf dlbss nbmf is spfdififd, thf trbiling hbsh mbrk is
+ * optionbl.
+ * <p>
+ * If thf providfr dlbss is spfdififd, bnd it dbn bf suddfssfully rftrifvfd from
+ * thf instbllfd providfrs, thf list of {@dodf Mixfr.Info} objfdts is rftrifvfd
+ * from thf providfr. Othfrwisf, or whfn thfsf mixfrs do not providf b
+ * subsfqufnt mbtdh, thf list is rftrifvfd from {@link #gftMixfrInfo} to dontbin
+ * bll bvbilbblf {@dodf Mixfr.Info} objfdts.
+ * <p>
+ * If b mixfr nbmf is spfdififd, thf rfsulting list of {@dodf Mixfr.Info}
+ * objfdts is sfbrdhfd: thf first onf with b mbtdhing nbmf, bnd whosf
+ * {@dodf Mixfr} providfs thf rfspfdtivf linf intfrfbdf, will bf rfturnfd. If no
+ * mbtdhing {@dodf Mixfr.Info} objfdt is found, or thf mixfr nbmf is not
+ * spfdififd, thf first mixfr from thf rfsulting list, whidh providfs thf
+ * rfspfdtivf linf intfrfbdf, will bf rfturnfd.
+ *
+ * For fxbmplf, thf propfrty {@dodf jbvbx.sound.sbmplfd.Clip} with b vbluf
+ * {@dodf "dom.sun.mfdib.sound.MixfrProvidfr#SunClip"}
+ * will hbvf thf following donsfqufndfs whfn {@dodf gftLinf} is dbllfd
+ * rfqufsting b {@dodf Clip} instbndf: if thf dlbss
+ * {@dodf dom.sun.mfdib.sound.MixfrProvidfr} fxists in thf list of instbllfd
+ * mixfr providfrs, thf first {@dodf Clip} from thf first mixfr with nbmf
+ * {@dodf "SunClip"} will bf rfturnfd. If it dbnnot bf found, thf
+ * first {@dodf Clip} from thf first mixfr of thf spfdififd providfr will bf
+ * rfturnfd, rfgbrdlfss of nbmf. If thfrf is nonf, thf first {@dodf Clip} from
+ * thf first {@dodf Mixfr} with nbmf {@dodf "SunClip"} in thf list of
+ * bll mixfrs (bs rfturnfd by {@dodf gftMixfrInfo}) will bf rfturnfd, or, if not
+ * found, thf first {@dodf Clip} of thf first {@dodf Mixfr} thbt dbn bf found in
+ * thf list of bll mixfrs is rfturnfd. If thbt fbils, too, bn
+ * {@dodf IllfgblArgumfntExdfption} is thrown.
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ * @buthor Mbtthibs Pfistfrfr
+ * @buthor Kfvin P. Smith
+ * @sff AudioFormbt
+ * @sff AudioInputStrfbm
+ * @sff Mixfr
+ * @sff Linf
+ * @sff Linf.Info
+ * @sindf 1.3
+ */
+publid dlbss AudioSystfm {
+
+    /**
+     * An intfgfr thbt stbnds for bn unknown numfrid vbluf. This vbluf is
+     * bppropribtf only for signfd qubntitifs thbt do not normblly tbkf nfgbtivf
+     * vblufs. Exbmplfs indludf filf sizfs, frbmf sizfs, bufffr sizfs, bnd
+     * sbmplf rbtfs. A numbfr of Jbvb Sound donstrudtors bddfpt b vbluf of
+     * {@dodf NOT_SPECIFIED} for sudh pbrbmftfrs. Othfr mfthods mby blso bddfpt
+     * or rfturn this vbluf, bs dodumfntfd.
+     */
+    publid stbtid finbl int NOT_SPECIFIED = -1;
+
+    /**
+     * Privbtf no-brgs donstrudtor for fnsuring bgbinst instbntibtion.
+     */
+    privbtf AudioSystfm() {
+    }
+
+    /**
+     * Obtbins bn brrby of mixfr info objfdts thbt rfprfsfnts thf sft of budio
+     * mixfrs thbt brf durrfntly instbllfd on thf systfm.
+     *
+     * @rfturn bn brrby of info objfdts for thf durrfntly instbllfd mixfrs. If
+     *         no mixfrs brf bvbilbblf on thf systfm, bn brrby of lfngth 0 is
+     *         rfturnfd.
+     * @sff #gftMixfr
+     */
+    publid stbtid Mixfr.Info[] gftMixfrInfo() {
+
+        List<Mixfr.Info> infos = gftMixfrInfoList();
+        Mixfr.Info[] bllInfos = infos.toArrby(nfw Mixfr.Info[infos.sizf()]);
+        rfturn bllInfos;
+    }
+
+    /**
+     * Obtbins thf rfqufstfd budio mixfr.
+     *
+     * @pbrbm  info b {@dodf Mixfr.Info} objfdt rfprfsfnting thf dfsirfd mixfr,
+     *         or {@dodf null} for thf systfm dffbult mixfr
+     * @rfturn thf rfqufstfd mixfr
+     * @throws SfdurityExdfption if thf rfqufstfd mixfr is unbvbilbblf bfdbusf
+     *         of sfdurity rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf info objfdt dofs not rfprfsfnt b
+     *         mixfr instbllfd on thf systfm
+     * @sff #gftMixfrInfo
+     */
+    publid stbtid Mixfr gftMixfr(Mixfr.Info info) {
+
+        Mixfr mixfr = null;
+        List<MixfrProvidfr> providfrs = gftMixfrProvidfrs();
+
+        for(int i = 0; i < providfrs.sizf(); i++ ) {
+
+            try {
+                rfturn providfrs.gft(i).gftMixfr(info);
+
+            } dbtdh (IllfgblArgumfntExdfption f) {
+            } dbtdh (NullPointfrExdfption f) {
+                // $$jb 08.20.99:  If thf strings in thf info objfdt brfn't
+                // sft, thfn Nftsdbpf (using jdk1.1.5) tfnds to throw
+                // NPE's whfn doing somf string mbnipulbtion.  This is
+                // probbbly not thf bfst fix, but is solvfs thf problfm
+                // of thf NPE in Nftsdbpf using lodbl dlbssfs
+                // $$jb 11.01.99: Rfplbding this pbtdh.
+            }
+        }
+
+        //$$fb if looking for dffbult mixfr, bnd not found yft, bdd b round of looking
+        if (info == null) {
+            for(int i = 0; i < providfrs.sizf(); i++ ) {
+                try {
+                    MixfrProvidfr providfr = providfrs.gft(i);
+                    Mixfr.Info[] infos = providfr.gftMixfrInfo();
+                    // stbrt from 0 to lbst dfvidf (do not rfvfrsf this ordfr)
+                    for (int ii = 0; ii < infos.lfngth; ii++) {
+                        try {
+                            rfturn providfr.gftMixfr(infos[ii]);
+                        } dbtdh (IllfgblArgumfntExdfption f) {
+                            // this is not b good dffbult dfvidf :)
+                        }
+                    }
+                } dbtdh (IllfgblArgumfntExdfption f) {
+                } dbtdh (NullPointfrExdfption f) {
+                }
+            }
+        }
+
+
+        throw nfw IllfgblArgumfntExdfption("Mixfr not supportfd: "
+                                           + (info!=null?info.toString():"null"));
+    }
+
+    //$$fb 2002-11-26: fix for 4757930: DOC: AudioSystfm.gftTbrgft/SourdfLinfInfo() is bmbiguous
+
+    /**
+     * Obtbins informbtion bbout bll sourdf linfs of b pbrtidulbr typf thbt brf
+     * supportfd by thf instbllfd mixfrs.
+     *
+     * @pbrbm  info b {@dodf Linf.Info} objfdt thbt spfdififs thf kind of linfs
+     *         bbout whidh informbtion is rfqufstfd
+     * @rfturn bn brrby of {@dodf Linf.Info} objfdts dfsdribing sourdf linfs
+     *         mbtdhing thf typf rfqufstfd. If no mbtdhing sourdf linfs brf
+     *         supportfd, bn brrby of lfngth 0 is rfturnfd.
+     * @sff Mixfr#gftSourdfLinfInfo(Linf.Info)
+     */
+    publid stbtid Linf.Info[] gftSourdfLinfInfo(Linf.Info info) {
+
+        Vfdtor<Linf.Info> vfdtor = nfw Vfdtor<>();
+        Linf.Info[] durrfntInfoArrby;
+
+        Mixfr mixfr;
+        Linf.Info fullInfo = null;
+        Mixfr.Info[] infoArrby = gftMixfrInfo();
+
+        for (int i = 0; i < infoArrby.lfngth; i++) {
+
+            mixfr = gftMixfr(infoArrby[i]);
+
+            durrfntInfoArrby = mixfr.gftSourdfLinfInfo(info);
+            for (int j = 0; j < durrfntInfoArrby.lfngth; j++) {
+                vfdtor.bddElfmfnt(durrfntInfoArrby[j]);
+            }
+        }
+
+        Linf.Info[] rfturnfdArrby = nfw Linf.Info[vfdtor.sizf()];
+
+        for (int i = 0; i < rfturnfdArrby.lfngth; i++) {
+            rfturnfdArrby[i] = vfdtor.gft(i);
+        }
+
+        rfturn rfturnfdArrby;
+    }
+
+    /**
+     * Obtbins informbtion bbout bll tbrgft linfs of b pbrtidulbr typf thbt brf
+     * supportfd by thf instbllfd mixfrs.
+     *
+     * @pbrbm  info b {@dodf Linf.Info} objfdt thbt spfdififs thf kind of linfs
+     *         bbout whidh informbtion is rfqufstfd
+     * @rfturn bn brrby of {@dodf Linf.Info} objfdts dfsdribing tbrgft linfs
+     *         mbtdhing thf typf rfqufstfd. If no mbtdhing tbrgft linfs brf
+     *         supportfd, bn brrby of lfngth 0 is rfturnfd.
+     * @sff Mixfr#gftTbrgftLinfInfo(Linf.Info)
+     */
+    publid stbtid Linf.Info[] gftTbrgftLinfInfo(Linf.Info info) {
+
+        Vfdtor<Linf.Info> vfdtor = nfw Vfdtor<>();
+        Linf.Info[] durrfntInfoArrby;
+
+        Mixfr mixfr;
+        Linf.Info fullInfo = null;
+        Mixfr.Info[] infoArrby = gftMixfrInfo();
+
+        for (int i = 0; i < infoArrby.lfngth; i++) {
+
+            mixfr = gftMixfr(infoArrby[i]);
+
+            durrfntInfoArrby = mixfr.gftTbrgftLinfInfo(info);
+            for (int j = 0; j < durrfntInfoArrby.lfngth; j++) {
+                vfdtor.bddElfmfnt(durrfntInfoArrby[j]);
+            }
+        }
+
+        Linf.Info[] rfturnfdArrby = nfw Linf.Info[vfdtor.sizf()];
+
+        for (int i = 0; i < rfturnfdArrby.lfngth; i++) {
+            rfturnfdArrby[i] = vfdtor.gft(i);
+        }
+
+        rfturn rfturnfdArrby;
+    }
+
+    /**
+     * Indidbtfs whfthfr thf systfm supports bny linfs thbt mbtdh thf spfdififd
+     * {@dodf Linf.Info} objfdt. A linf is supportfd if bny instbllfd mixfr
+     * supports it.
+     *
+     * @pbrbm  info b {@dodf Linf.Info} objfdt dfsdribing thf linf for whidh
+     *         support is qufrifd
+     * @rfturn {@dodf truf} if bt lfbst onf mbtdhing linf is supportfd,
+     *         othfrwisf {@dodf fblsf}
+     * @sff Mixfr#isLinfSupportfd(Linf.Info)
+     */
+    publid stbtid boolfbn isLinfSupportfd(Linf.Info info) {
+
+        Mixfr mixfr;
+        Mixfr.Info[] infoArrby = gftMixfrInfo();
+
+        for (int i = 0; i < infoArrby.lfngth; i++) {
+
+            if( infoArrby[i] != null ) {
+                mixfr = gftMixfr(infoArrby[i]);
+                if (mixfr.isLinfSupportfd(info)) {
+                    rfturn truf;
+                }
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins b linf thbt mbtdhfs thf dfsdription in thf spfdififd
+     * {@dodf Linf.Info} objfdt.
+     * <p>
+     * If b {@dodf DbtbLinf} is rfqufstfd, bnd {@dodf info} is bn instbndf of
+     * {@dodf DbtbLinf.Info} spfdifying bt lfbst onf fully qublififd budio
+     * formbt, thf lbst onf will bf usfd bs thf dffbult formbt of thf rfturnfd
+     * {@dodf DbtbLinf}.
+     * <p>
+     * If systfm propfrtifs
+     * {@dodf jbvbx.sound.sbmplfd.Clip},
+     * {@dodf jbvbx.sound.sbmplfd.Port},
+     * {@dodf jbvbx.sound.sbmplfd.SourdfDbtbLinf} bnd
+     * {@dodf jbvbx.sound.sbmplfd.TbrgftDbtbLinf} brf dffinfd or thfy brf
+     * dffinfd in thf filf "sound.propfrtifs", thfy brf usfd to rftrifvf dffbult
+     * linfs. For dftbils, rfffr to thf {@link AudioSystfm dlbss dfsdription}.
+     *
+     * If thf rfspfdtivf propfrty is not sft, or thf mixfr rfqufstfd in thf
+     * propfrty is not instbllfd or dofs not providf thf rfqufstfd linf, bll
+     * instbllfd mixfrs brf qufrifd for thf rfqufstfd linf typf. A Linf will bf
+     * rfturnfd from thf first mixfr providing thf rfqufstfd linf typf.
+     *
+     * @pbrbm  info b {@dodf Linf.Info} objfdt dfsdribing thf dfsirfd kind of
+     *         linf
+     * @rfturn b linf of thf rfqufstfd kind
+     * @throws LinfUnbvbilbblfExdfption if b mbtdhing linf is not bvbilbblf duf
+     *         to rfsourdf rfstridtions
+     * @throws SfdurityExdfption if b mbtdhing linf is not bvbilbblf duf to
+     *         sfdurity rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf systfm dofs not support bt lfbst
+     *         onf linf mbtdhing thf spfdififd {@dodf Linf.Info} objfdt through
+     *         bny instbllfd mixfr
+     */
+    publid stbtid Linf gftLinf(Linf.Info info) throws LinfUnbvbilbblfExdfption {
+        LinfUnbvbilbblfExdfption luf = null;
+        List<MixfrProvidfr> providfrs = gftMixfrProvidfrs();
+
+
+        // 1: try from dffbult mixfr for this linf dlbss
+        try {
+            Mixfr mixfr = gftDffbultMixfr(providfrs, info);
+            if (mixfr != null && mixfr.isLinfSupportfd(info)) {
+                rfturn mixfr.gftLinf(info);
+            }
+        } dbtdh (LinfUnbvbilbblfExdfption f) {
+            luf = f;
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+            // must not hbppfn... but bfttfr to dbtdh it hfrf,
+            // if plug-ins brf bbdly writtfn
+        }
+
+
+        // 2: if thbt dofsn't work, try to find bny mixing mixfr
+        for(int i = 0; i < providfrs.sizf(); i++) {
+            MixfrProvidfr providfr = providfrs.gft(i);
+            Mixfr.Info[] infos = providfr.gftMixfrInfo();
+
+            for (int j = 0; j < infos.lfngth; j++) {
+                try {
+                    Mixfr mixfr = providfr.gftMixfr(infos[j]);
+                    // sff if this is bn bppropribtf mixfr whidh dbn mix
+                    if (isAppropribtfMixfr(mixfr, info, truf)) {
+                        rfturn mixfr.gftLinf(info);
+                    }
+                } dbtdh (LinfUnbvbilbblfExdfption f) {
+                    luf = f;
+                } dbtdh (IllfgblArgumfntExdfption ibf) {
+                    // must not hbppfn... but bfttfr to dbtdh it hfrf,
+                    // if plug-ins brf bbdly writtfn
+                }
+            }
+        }
+
+
+        // 3: if thbt didn't work, try to find bny non-mixing mixfr
+        for(int i = 0; i < providfrs.sizf(); i++) {
+            MixfrProvidfr providfr = providfrs.gft(i);
+            Mixfr.Info[] infos = providfr.gftMixfrInfo();
+            for (int j = 0; j < infos.lfngth; j++) {
+                try {
+                    Mixfr mixfr = providfr.gftMixfr(infos[j]);
+                    // sff if this is bn bppropribtf mixfr whidh dbn mix
+                    if (isAppropribtfMixfr(mixfr, info, fblsf)) {
+                        rfturn mixfr.gftLinf(info);
+                    }
+                } dbtdh (LinfUnbvbilbblfExdfption f) {
+                    luf = f;
+                } dbtdh (IllfgblArgumfntExdfption ibf) {
+                    // must not hbppfn... but bfttfr to dbtdh it hfrf,
+                    // if plug-ins brf bbdly writtfn
+                }
+            }
+        }
+
+        // if this linf wbs supportfd but wbs not bvbilbblf, throw thf lbst
+        // LinfUnbvbilbblfExdfption wf got (??).
+        if (luf != null) {
+            throw luf;
+        }
+
+        // othfrwisf, thf rfqufstfd linf wbs not supportfd, so throw
+        // bn Illfgbl brgumfnt fxdfption
+        throw nfw IllfgblArgumfntExdfption("No linf mbtdhing " +
+                                           info.toString() + " is supportfd.");
+    }
+
+    /**
+     * Obtbins b dlip thbt dbn bf usfd for plbying bbdk bn budio filf or bn
+     * budio strfbm. Thf rfturnfd dlip will bf providfd by thf dffbult systfm
+     * mixfr, or, if not possiblf, by bny othfr mixfr instbllfd in thf systfm
+     * thbt supports b {@dodf Clip} objfdt.
+     * <p>
+     * Thf rfturnfd dlip must bf opfnfd with thf {@dodf opfn(AudioFormbt)} or
+     * {@dodf opfn(AudioInputStrfbm)} mfthod.
+     * <p>
+     * This is b high-lfvfl mfthod thbt usfs {@dodf gftMixfr} bnd
+     * {@dodf gftLinf} intfrnblly.
+     * <p>
+     * If thf systfm propfrty {@dodf jbvbx.sound.sbmplfd.Clip} is dffinfd or it
+     * is dffinfd in thf filf "sound.propfrtifs", it is usfd to rftrifvf thf
+     * dffbult dlip. For dftbils, rfffr to thf
+     * {@link AudioSystfm dlbss dfsdription}.
+     *
+     * @rfturn thf dfsirfd dlip objfdt
+     * @throws LinfUnbvbilbblfExdfption if b dlip objfdt is not bvbilbblf duf to
+     *         rfsourdf rfstridtions
+     * @throws SfdurityExdfption if b dlip objfdt is not bvbilbblf duf to
+     *         sfdurity rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf systfm dofs not support bt lfbst
+     *         onf dlip instbndf through bny instbllfd mixfr
+     * @sff #gftClip(Mixfr.Info)
+     * @sindf 1.5
+     */
+    publid stbtid Clip gftClip() throws LinfUnbvbilbblfExdfption{
+        AudioFormbt formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                             AudioSystfm.NOT_SPECIFIED,
+                                             16, 2, 4,
+                                             AudioSystfm.NOT_SPECIFIED, truf);
+        DbtbLinf.Info info = nfw DbtbLinf.Info(Clip.dlbss, formbt);
+        rfturn (Clip) AudioSystfm.gftLinf(info);
+    }
+
+    /**
+     * Obtbins b dlip from thf spfdififd mixfr thbt dbn bf usfd for plbying bbdk
+     * bn budio filf or bn budio strfbm.
+     * <p>
+     * Thf rfturnfd dlip must bf opfnfd with thf {@dodf opfn(AudioFormbt)} or
+     * {@dodf opfn(AudioInputStrfbm)} mfthod.
+     * <p>
+     * This is b high-lfvfl mfthod thbt usfs {@dodf gftMixfr} bnd
+     * {@dodf gftLinf} intfrnblly.
+     *
+     * @pbrbm  mixfrInfo b {@dodf Mixfr.Info} objfdt rfprfsfnting thf dfsirfd
+     *         mixfr, or {@dodf null} for thf systfm dffbult mixfr
+     * @rfturn b dlip objfdt from thf spfdififd mixfr
+     *
+     * @throws LinfUnbvbilbblfExdfption if b dlip is not bvbilbblf from this
+     *         mixfr duf to rfsourdf rfstridtions
+     * @throws SfdurityExdfption if b dlip is not bvbilbblf from this mixfr duf
+     *         to sfdurity rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf systfm dofs not support bt lfbst
+     *         onf dlip through thf spfdififd mixfr
+     * @sff #gftClip()
+     * @sindf 1.5
+     */
+    publid stbtid Clip gftClip(Mixfr.Info mixfrInfo) throws LinfUnbvbilbblfExdfption{
+        AudioFormbt formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                             AudioSystfm.NOT_SPECIFIED,
+                                             16, 2, 4,
+                                             AudioSystfm.NOT_SPECIFIED, truf);
+        DbtbLinf.Info info = nfw DbtbLinf.Info(Clip.dlbss, formbt);
+        Mixfr mixfr = AudioSystfm.gftMixfr(mixfrInfo);
+        rfturn (Clip) mixfr.gftLinf(info);
+    }
+
+    /**
+     * Obtbins b sourdf dbtb linf thbt dbn bf usfd for plbying bbdk budio dbtb
+     * in thf formbt spfdififd by thf {@dodf AudioFormbt} objfdt. Thf rfturnfd
+     * linf will bf providfd by thf dffbult systfm mixfr, or, if not possiblf,
+     * by bny othfr mixfr instbllfd in thf systfm thbt supports b mbtdhing
+     * {@dodf SourdfDbtbLinf} objfdt.
+     * <p>
+     * Thf rfturnfd linf should bf opfnfd with thf {@dodf opfn(AudioFormbt)} or
+     * {@dodf opfn(AudioFormbt, int)} mfthod.
+     * <p>
+     * This is b high-lfvfl mfthod thbt usfs {@dodf gftMixfr} bnd
+     * {@dodf gftLinf} intfrnblly.
+     * <p>
+     * Thf rfturnfd {@dodf SourdfDbtbLinf}'s dffbult budio formbt will bf
+     * initiblizfd with {@dodf formbt}.
+     * <p>
+     * If thf systfm propfrty {@dodf jbvbx.sound.sbmplfd.SourdfDbtbLinf} is
+     * dffinfd or it is dffinfd in thf filf "sound.propfrtifs", it is usfd to
+     * rftrifvf thf dffbult sourdf dbtb linf. For dftbils, rfffr to thf
+     * {@link AudioSystfm dlbss dfsdription}.
+     *
+     * @pbrbm  formbt bn {@dodf AudioFormbt} objfdt spfdifying thf supportfd
+     *         budio formbt of thf rfturnfd linf, or {@dodf null} for bny budio
+     *         formbt
+     * @rfturn thf dfsirfd {@dodf SourdfDbtbLinf} objfdt
+     * @throws LinfUnbvbilbblfExdfption if b mbtdhing sourdf dbtb linf is not
+     *         bvbilbblf duf to rfsourdf rfstridtions
+     * @throws SfdurityExdfption if b mbtdhing sourdf dbtb linf is not bvbilbblf
+     *         duf to sfdurity rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf systfm dofs not support bt lfbst
+     *         onf sourdf dbtb linf supporting thf spfdififd budio formbt
+     *         through bny instbllfd mixfr
+     * @sff #gftSourdfDbtbLinf(AudioFormbt, Mixfr.Info)
+     * @sindf 1.5
+     */
+    publid stbtid SourdfDbtbLinf gftSourdfDbtbLinf(AudioFormbt formbt)
+        throws LinfUnbvbilbblfExdfption{
+        DbtbLinf.Info info = nfw DbtbLinf.Info(SourdfDbtbLinf.dlbss, formbt);
+        rfturn (SourdfDbtbLinf) AudioSystfm.gftLinf(info);
+    }
+
+    /**
+     * Obtbins b sourdf dbtb linf thbt dbn bf usfd for plbying bbdk budio dbtb
+     * in thf formbt spfdififd by thf {@dodf AudioFormbt} objfdt, providfd by
+     * thf mixfr spfdififd by thf {@dodf Mixfr.Info} objfdt.
+     * <p>
+     * Thf rfturnfd linf should bf opfnfd with thf {@dodf opfn(AudioFormbt)} or
+     * {@dodf opfn(AudioFormbt, int)} mfthod.
+     * <p>
+     * This is b high-lfvfl mfthod thbt usfs {@dodf gftMixfr} bnd
+     * {@dodf gftLinf} intfrnblly.
+     * <p>
+     * Thf rfturnfd {@dodf SourdfDbtbLinf}'s dffbult budio formbt will bf
+     * initiblizfd with {@dodf formbt}.
+     *
+     * @pbrbm  formbt bn {@dodf AudioFormbt} objfdt spfdifying thf supportfd
+     *         budio formbt of thf rfturnfd linf, or {@dodf null} for bny budio
+     *         formbt
+     * @pbrbm  mixfrinfo b {@dodf Mixfr.Info} objfdt rfprfsfnting thf dfsirfd
+     *         mixfr, or {@dodf null} for thf systfm dffbult mixfr
+     * @rfturn thf dfsirfd {@dodf SourdfDbtbLinf} objfdt
+     * @throws LinfUnbvbilbblfExdfption if b mbtdhing sourdf dbtb linf is not
+     *         bvbilbblf from thf spfdififd mixfr duf to rfsourdf rfstridtions
+     * @throws SfdurityExdfption if b mbtdhing sourdf dbtb linf is not bvbilbblf
+     *         from thf spfdififd mixfr duf to sfdurity rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf spfdififd mixfr dofs not support
+     *         bt lfbst onf sourdf dbtb linf supporting thf spfdififd budio
+     *         formbt
+     * @sff #gftSourdfDbtbLinf(AudioFormbt)
+     * @sindf 1.5
+     */
+    publid stbtid SourdfDbtbLinf gftSourdfDbtbLinf(AudioFormbt formbt,
+                                                   Mixfr.Info mixfrinfo)
+        throws LinfUnbvbilbblfExdfption{
+        DbtbLinf.Info info = nfw DbtbLinf.Info(SourdfDbtbLinf.dlbss, formbt);
+        Mixfr mixfr = AudioSystfm.gftMixfr(mixfrinfo);
+        rfturn (SourdfDbtbLinf) mixfr.gftLinf(info);
+    }
+
+    /**
+     * Obtbins b tbrgft dbtb linf thbt dbn bf usfd for rfdording budio dbtb in
+     * thf formbt spfdififd by thf {@dodf AudioFormbt} objfdt. Thf rfturnfd linf
+     * will bf providfd by thf dffbult systfm mixfr, or, if not possiblf, by bny
+     * othfr mixfr instbllfd in thf systfm thbt supports b mbtdhing
+     * {@dodf TbrgftDbtbLinf} objfdt.
+     * <p>
+     * Thf rfturnfd linf should bf opfnfd with thf {@dodf opfn(AudioFormbt)} or
+     * {@dodf opfn(AudioFormbt, int)} mfthod.
+     * <p>
+     * This is b high-lfvfl mfthod thbt usfs {@dodf gftMixfr} bnd
+     * {@dodf gftLinf} intfrnblly.
+     * <p>
+     * Thf rfturnfd {@dodf TbrgftDbtbLinf}'s dffbult budio formbt will bf
+     * initiblizfd with {@dodf formbt}.
+     * <p>
+     * If thf systfm propfrty {@dodf jbvbx.sound.sbmplfd.TbrgftDbtbLinf} is
+     * dffinfd or it is dffinfd in thf filf "sound.propfrtifs", it is usfd to
+     * rftrifvf thf dffbult tbrgft dbtb linf. For dftbils, rfffr to thf
+     * {@link AudioSystfm dlbss dfsdription}.
+     *
+     * @pbrbm  formbt bn {@dodf AudioFormbt} objfdt spfdifying thf supportfd
+     *         budio formbt of thf rfturnfd linf, or {@dodf null} for bny budio
+     *         formbt
+     * @rfturn thf dfsirfd {@dodf TbrgftDbtbLinf} objfdt
+     * @throws LinfUnbvbilbblfExdfption if b mbtdhing tbrgft dbtb linf is not
+     *         bvbilbblf duf to rfsourdf rfstridtions
+     * @throws SfdurityExdfption if b mbtdhing tbrgft dbtb linf is not bvbilbblf
+     *         duf to sfdurity rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf systfm dofs not support bt lfbst
+     *         onf tbrgft dbtb linf supporting thf spfdififd budio formbt
+     *         through bny instbllfd mixfr
+     * @sff #gftTbrgftDbtbLinf(AudioFormbt, Mixfr.Info)
+     * @sff AudioPfrmission
+     * @sindf 1.5
+     */
+    publid stbtid TbrgftDbtbLinf gftTbrgftDbtbLinf(AudioFormbt formbt)
+        throws LinfUnbvbilbblfExdfption{
+
+        DbtbLinf.Info info = nfw DbtbLinf.Info(TbrgftDbtbLinf.dlbss, formbt);
+        rfturn (TbrgftDbtbLinf) AudioSystfm.gftLinf(info);
+    }
+
+    /**
+     * Obtbins b tbrgft dbtb linf thbt dbn bf usfd for rfdording budio dbtb in
+     * thf formbt spfdififd by thf {@dodf AudioFormbt} objfdt, providfd by thf
+     * mixfr spfdififd by thf {@dodf Mixfr.Info} objfdt.
+     * <p>
+     * Thf rfturnfd linf should bf opfnfd with thf {@dodf opfn(AudioFormbt)} or
+     * {@dodf opfn(AudioFormbt, int)} mfthod.
+     * <p>
+     * This is b high-lfvfl mfthod thbt usfs {@dodf gftMixfr} bnd
+     * {@dodf gftLinf} intfrnblly.
+     * <p>
+     * Thf rfturnfd {@dodf TbrgftDbtbLinf}'s dffbult budio formbt will bf
+     * initiblizfd with {@dodf formbt}.
+     *
+     * @pbrbm  formbt bn {@dodf AudioFormbt} objfdt spfdifying thf supportfd
+     *         budio formbt of thf rfturnfd linf, or {@dodf null} for bny budio
+     *         formbt
+     * @pbrbm  mixfrinfo b {@dodf Mixfr.Info} objfdt rfprfsfnting thf dfsirfd
+     *         mixfr, or {@dodf null} for thf systfm dffbult mixfr
+     * @rfturn thf dfsirfd {@dodf TbrgftDbtbLinf} objfdt
+     * @throws LinfUnbvbilbblfExdfption if b mbtdhing tbrgft dbtb linf is not
+     *         bvbilbblf from thf spfdififd mixfr duf to rfsourdf rfstridtions
+     * @throws SfdurityExdfption if b mbtdhing tbrgft dbtb linf is not bvbilbblf
+     *         from thf spfdififd mixfr duf to sfdurity rfstridtions
+     * @throws IllfgblArgumfntExdfption if thf spfdififd mixfr dofs not support
+     *         bt lfbst onf tbrgft dbtb linf supporting thf spfdififd budio
+     *         formbt
+     * @sff #gftTbrgftDbtbLinf(AudioFormbt)
+     * @sff AudioPfrmission
+     * @sindf 1.5
+     */
+    publid stbtid TbrgftDbtbLinf gftTbrgftDbtbLinf(AudioFormbt formbt,
+                                                   Mixfr.Info mixfrinfo)
+        throws LinfUnbvbilbblfExdfption {
+
+        DbtbLinf.Info info = nfw DbtbLinf.Info(TbrgftDbtbLinf.dlbss, formbt);
+        Mixfr mixfr = AudioSystfm.gftMixfr(mixfrinfo);
+        rfturn (TbrgftDbtbLinf) mixfr.gftLinf(info);
+    }
+
+    // $$fb 2002-04-12: fix for 4662082: bfhbvior of AudioSystfm.gftTbrgftEndodings() mfthods dofsn't mbtdh thf spfd
+
+    /**
+     * Obtbins thf fndodings thbt thf systfm dbn obtbin from bn budio input
+     * strfbm with thf spfdififd fndoding using thf sft of instbllfd formbt
+     * donvfrtfrs.
+     *
+     * @pbrbm  sourdfEndoding thf fndoding for whidh donvfrsion support is
+     *         qufrifd
+     * @rfturn brrby of fndodings. If {@dodf sourdfEndoding}is not supportfd, bn
+     *         brrby of lfngth 0 is rfturnfd. Othfrwisf, thf brrby will hbvf b
+     *         lfngth of bt lfbst 1, rfprfsfnting {@dodf sourdfEndoding}
+     *         (no donvfrsion).
+     */
+    publid stbtid AudioFormbt.Endoding[] gftTbrgftEndodings(AudioFormbt.Endoding sourdfEndoding) {
+
+        List<FormbtConvfrsionProvidfr> dodfds = gftFormbtConvfrsionProvidfrs();
+        Vfdtor<AudioFormbt.Endoding> fndodings = nfw Vfdtor<>();
+
+        AudioFormbt.Endoding fnds[] = null;
+
+        // gbthfr from bll thf dodfds
+        for(int i=0; i<dodfds.sizf(); i++ ) {
+            FormbtConvfrsionProvidfr dodfd = dodfds.gft(i);
+            if( dodfd.isSourdfEndodingSupportfd( sourdfEndoding ) ) {
+                fnds = dodfd.gftTbrgftEndodings();
+                for (int j = 0; j < fnds.lfngth; j++) {
+                    fndodings.bddElfmfnt( fnds[j] );
+                }
+            }
+        }
+        AudioFormbt.Endoding fnds2[] = fndodings.toArrby(nfw AudioFormbt.Endoding[0]);
+        rfturn fnds2;
+    }
+
+    // $$fb 2002-04-12: fix for 4662082: bfhbvior of AudioSystfm.gftTbrgftEndodings() mfthods dofsn't mbtdh thf spfd
+
+    /**
+     * Obtbins thf fndodings thbt thf systfm dbn obtbin from bn budio input
+     * strfbm with thf spfdififd formbt using thf sft of instbllfd formbt
+     * donvfrtfrs.
+     *
+     * @pbrbm  sourdfFormbt thf budio formbt for whidh donvfrsion is qufrifd
+     * @rfturn brrby of fndodings. If {@dodf sourdfFormbt}is not supportfd, bn
+     *         brrby of lfngth 0 is rfturnfd. Othfrwisf, thf brrby will hbvf b
+     *         lfngth of bt lfbst 1, rfprfsfnting thf fndoding of
+     *         {@dodf sourdfFormbt} (no donvfrsion).
+     */
+    publid stbtid AudioFormbt.Endoding[] gftTbrgftEndodings(AudioFormbt sourdfFormbt) {
+
+
+        List<FormbtConvfrsionProvidfr> dodfds = gftFormbtConvfrsionProvidfrs();
+        Vfdtor<AudioFormbt.Endoding[]> fndodings = nfw Vfdtor<>();
+
+        int sizf = 0;
+        int indfx = 0;
+        AudioFormbt.Endoding fnds[] = null;
+
+        // gbthfr from bll thf dodfds
+
+        for(int i=0; i<dodfds.sizf(); i++ ) {
+            fnds = dodfds.gft(i).gftTbrgftEndodings(sourdfFormbt);
+            sizf += fnds.lfngth;
+            fndodings.bddElfmfnt( fnds );
+        }
+
+        // now build b nfw brrby
+
+        AudioFormbt.Endoding fnds2[] = nfw AudioFormbt.Endoding[sizf];
+        for(int i=0; i<fndodings.sizf(); i++ ) {
+            fnds = fndodings.gft(i);
+            for(int j=0; j<fnds.lfngth; j++ ) {
+                fnds2[indfx++] = fnds[j];
+            }
+        }
+        rfturn fnds2;
+    }
+
+    /**
+     * Indidbtfs whfthfr bn budio input strfbm of thf spfdififd fndoding dbn bf
+     * obtbinfd from bn budio input strfbm thbt hbs thf spfdififd formbt.
+     *
+     * @pbrbm  tbrgftEndoding thf dfsirfd fndoding bftfr donvfrsion
+     * @pbrbm  sourdfFormbt thf budio formbt bfforf donvfrsion
+     * @rfturn {@dodf truf} if thf donvfrsion is supportfd, othfrwisf
+     *         {@dodf fblsf}
+     */
+    publid stbtid boolfbn isConvfrsionSupportfd(AudioFormbt.Endoding tbrgftEndoding, AudioFormbt sourdfFormbt) {
+
+
+        List<FormbtConvfrsionProvidfr> dodfds = gftFormbtConvfrsionProvidfrs();
+
+        for(int i=0; i<dodfds.sizf(); i++ ) {
+            FormbtConvfrsionProvidfr dodfd = dodfds.gft(i);
+            if(dodfd.isConvfrsionSupportfd(tbrgftEndoding,sourdfFormbt) ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins bn budio input strfbm of thf indidbtfd fndoding, by donvfrting
+     * thf providfd budio input strfbm.
+     *
+     * @pbrbm  tbrgftEndoding thf dfsirfd fndoding bftfr donvfrsion
+     * @pbrbm  sourdfStrfbm thf strfbm to bf donvfrtfd
+     * @rfturn bn budio input strfbm of thf indidbtfd fndoding
+     * @throws IllfgblArgumfntExdfption if thf donvfrsion is not supportfd
+     * @sff #gftTbrgftEndodings(AudioFormbt.Endoding)
+     * @sff #gftTbrgftEndodings(AudioFormbt)
+     * @sff #isConvfrsionSupportfd(AudioFormbt.Endoding, AudioFormbt)
+     * @sff #gftAudioInputStrfbm(AudioFormbt, AudioInputStrfbm)
+     */
+    publid stbtid AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt.Endoding tbrgftEndoding,
+                                                       AudioInputStrfbm sourdfStrfbm) {
+
+        List<FormbtConvfrsionProvidfr> dodfds = gftFormbtConvfrsionProvidfrs();
+
+        for(int i = 0; i < dodfds.sizf(); i++) {
+            FormbtConvfrsionProvidfr dodfd = dodfds.gft(i);
+            if( dodfd.isConvfrsionSupportfd( tbrgftEndoding, sourdfStrfbm.gftFormbt() ) ) {
+                rfturn dodfd.gftAudioInputStrfbm( tbrgftEndoding, sourdfStrfbm );
+            }
+        }
+        // wf rbn out of options, throw bn fxdfption
+        throw nfw IllfgblArgumfntExdfption("Unsupportfd donvfrsion: " + tbrgftEndoding + " from " + sourdfStrfbm.gftFormbt());
+    }
+
+    /**
+     * Obtbins thf formbts thbt hbvf b pbrtidulbr fndoding bnd thbt thf systfm
+     * dbn obtbin from b strfbm of thf spfdififd formbt using thf sft of
+     * instbllfd formbt donvfrtfrs.
+     *
+     * @pbrbm  tbrgftEndoding thf dfsirfd fndoding bftfr donvfrsion
+     * @pbrbm  sourdfFormbt thf budio formbt bfforf donvfrsion
+     * @rfturn brrby of formbts. If no formbts of thf spfdififd fndoding brf
+     *         supportfd, bn brrby of lfngth 0 is rfturnfd.
+     */
+    publid stbtid AudioFormbt[] gftTbrgftFormbts(AudioFormbt.Endoding tbrgftEndoding, AudioFormbt sourdfFormbt) {
+
+        List<FormbtConvfrsionProvidfr> dodfds = gftFormbtConvfrsionProvidfrs();
+        Vfdtor<AudioFormbt[]> formbts = nfw Vfdtor<>();
+
+        int sizf = 0;
+        int indfx = 0;
+        AudioFormbt fmts[] = null;
+
+        // gbthfr from bll thf dodfds
+
+        for(int i=0; i<dodfds.sizf(); i++ ) {
+            FormbtConvfrsionProvidfr dodfd = dodfds.gft(i);
+            fmts = dodfd.gftTbrgftFormbts(tbrgftEndoding, sourdfFormbt);
+            sizf += fmts.lfngth;
+            formbts.bddElfmfnt( fmts );
+        }
+
+        // now build b nfw brrby
+
+        AudioFormbt fmts2[] = nfw AudioFormbt[sizf];
+        for(int i=0; i<formbts.sizf(); i++ ) {
+            fmts = formbts.gft(i);
+            for(int j=0; j<fmts.lfngth; j++ ) {
+                fmts2[indfx++] = fmts[j];
+            }
+        }
+        rfturn fmts2;
+    }
+
+    /**
+     * Indidbtfs whfthfr bn budio input strfbm of b spfdififd formbt dbn bf
+     * obtbinfd from bn budio input strfbm of bnothfr spfdififd formbt.
+     *
+     * @pbrbm  tbrgftFormbt thf dfsirfd budio formbt bftfr donvfrsion
+     * @pbrbm  sourdfFormbt thf budio formbt bfforf donvfrsion
+     * @rfturn {@dodf truf} if thf donvfrsion is supportfd, othfrwisf
+     *         {@dodf fblsf}
+     */
+    publid stbtid boolfbn isConvfrsionSupportfd(AudioFormbt tbrgftFormbt, AudioFormbt sourdfFormbt) {
+
+        List<FormbtConvfrsionProvidfr> dodfds = gftFormbtConvfrsionProvidfrs();
+
+        for(int i=0; i<dodfds.sizf(); i++ ) {
+            FormbtConvfrsionProvidfr dodfd = dodfds.gft(i);
+            if(dodfd.isConvfrsionSupportfd(tbrgftFormbt, sourdfFormbt) ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins bn budio input strfbm of thf indidbtfd formbt, by donvfrting thf
+     * providfd budio input strfbm.
+     *
+     * @pbrbm  tbrgftFormbt thf dfsirfd budio formbt bftfr donvfrsion
+     * @pbrbm  sourdfStrfbm thf strfbm to bf donvfrtfd
+     * @rfturn bn budio input strfbm of thf indidbtfd formbt
+     * @throws IllfgblArgumfntExdfption if thf donvfrsion is not supportfd
+     * @sff #gftTbrgftEndodings(AudioFormbt)
+     * @sff #gftTbrgftFormbts(AudioFormbt.Endoding, AudioFormbt)
+     * @sff #isConvfrsionSupportfd(AudioFormbt, AudioFormbt)
+     * @sff #gftAudioInputStrfbm(AudioFormbt.Endoding, AudioInputStrfbm)
+     */
+    publid stbtid AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt tbrgftFormbt,
+                                                       AudioInputStrfbm sourdfStrfbm) {
+
+        if (sourdfStrfbm.gftFormbt().mbtdhfs(tbrgftFormbt)) {
+            rfturn sourdfStrfbm;
+        }
+
+        List<FormbtConvfrsionProvidfr> dodfds = gftFormbtConvfrsionProvidfrs();
+
+        for(int i = 0; i < dodfds.sizf(); i++) {
+            FormbtConvfrsionProvidfr dodfd = dodfds.gft(i);
+            if(dodfd.isConvfrsionSupportfd(tbrgftFormbt,sourdfStrfbm.gftFormbt()) ) {
+                rfturn dodfd.gftAudioInputStrfbm(tbrgftFormbt,sourdfStrfbm);
+            }
+        }
+
+        // wf rbn out of options...
+        throw nfw IllfgblArgumfntExdfption("Unsupportfd donvfrsion: " + tbrgftFormbt + " from " + sourdfStrfbm.gftFormbt());
+    }
+
+    /**
+     * Obtbins thf budio filf formbt of thf providfd input strfbm. Thf strfbm
+     * must point to vblid budio filf dbtb. Thf implfmfntbtion of this mfthod
+     * mby rfquirf multiplf pbrsfrs to fxbminf thf strfbm to dftfrminf whfthfr
+     * thfy support it. Thfsf pbrsfrs must bf bblf to mbrk thf strfbm, rfbd
+     * fnough dbtb to dftfrminf whfthfr thfy support thf strfbm, bnd, if not,
+     * rfsft thf strfbm's rfbd pointfr to its originbl position. If thf input
+     * strfbm dofs not support thfsf opfrbtions, this mfthod mby fbil with bn
+     * {@dodf IOExdfption}.
+     *
+     * @pbrbm  strfbm thf input strfbm from whidh filf formbt informbtion should
+     *         bf fxtrbdtfd
+     * @rfturn bn {@dodf AudioFilfFormbt} objfdt dfsdribing thf strfbm's budio
+     *         filf formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf strfbm dofs not point to
+     *         vblid budio filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn input/output fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
+     */
+    publid stbtid AudioFilfFormbt gftAudioFilfFormbt(InputStrfbm strfbm)
+        throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        List<AudioFilfRfbdfr> providfrs = gftAudioFilfRfbdfrs();
+        AudioFilfFormbt formbt = null;
+
+        for(int i = 0; i < providfrs.sizf(); i++ ) {
+            AudioFilfRfbdfr rfbdfr = providfrs.gft(i);
+            try {
+                formbt = rfbdfr.gftAudioFilfFormbt( strfbm ); // throws IOExdfption
+                brfbk;
+            } dbtdh (UnsupportfdAudioFilfExdfption f) {
+                dontinuf;
+            }
+        }
+
+        if( formbt==null ) {
+            throw nfw UnsupportfdAudioFilfExdfption("filf is not b supportfd filf typf");
+        } flsf {
+            rfturn formbt;
+        }
+    }
+
+    /**
+     * Obtbins thf budio filf formbt of thf spfdififd URL. Thf URL must point to
+     * vblid budio filf dbtb.
+     *
+     * @pbrbm  url thf URL from whidh filf formbt informbtion should bf
+     *         fxtrbdtfd
+     * @rfturn bn {@dodf AudioFilfFormbt} objfdt dfsdribing thf budio filf
+     *         formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf URL dofs not point to vblid
+     *         budio filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn input/output fxdfption oddurs
+     */
+    publid stbtid AudioFilfFormbt gftAudioFilfFormbt(URL url)
+        throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        List<AudioFilfRfbdfr> providfrs = gftAudioFilfRfbdfrs();
+        AudioFilfFormbt formbt = null;
+
+        for(int i = 0; i < providfrs.sizf(); i++ ) {
+            AudioFilfRfbdfr rfbdfr = providfrs.gft(i);
+            try {
+                formbt = rfbdfr.gftAudioFilfFormbt( url ); // throws IOExdfption
+                brfbk;
+            } dbtdh (UnsupportfdAudioFilfExdfption f) {
+                dontinuf;
+            }
+        }
+
+        if( formbt==null ) {
+            throw nfw UnsupportfdAudioFilfExdfption("filf is not b supportfd filf typf");
+        } flsf {
+            rfturn formbt;
+        }
+    }
+
+    /**
+     * Obtbins thf budio filf formbt of thf spfdififd {@dodf Filf}. Thf
+     * {@dodf Filf} must point to vblid budio filf dbtb.
+     *
+     * @pbrbm  filf thf {@dodf Filf} from whidh filf formbt informbtion should
+     *         bf fxtrbdtfd
+     * @rfturn bn {@dodf AudioFilfFormbt} objfdt dfsdribing thf budio filf
+     *         formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf {@dodf Filf} dofs not point
+     *         to vblid budio filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid stbtid AudioFilfFormbt gftAudioFilfFormbt(Filf filf)
+        throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        List<AudioFilfRfbdfr> providfrs = gftAudioFilfRfbdfrs();
+        AudioFilfFormbt formbt = null;
+
+        for(int i = 0; i < providfrs.sizf(); i++ ) {
+            AudioFilfRfbdfr rfbdfr = providfrs.gft(i);
+            try {
+                formbt = rfbdfr.gftAudioFilfFormbt( filf ); // throws IOExdfption
+                brfbk;
+            } dbtdh (UnsupportfdAudioFilfExdfption f) {
+                dontinuf;
+            }
+        }
+
+        if( formbt==null ) {
+            throw nfw UnsupportfdAudioFilfExdfption("filf is not b supportfd filf typf");
+        } flsf {
+            rfturn formbt;
+        }
+    }
+
+    /**
+     * Obtbins bn budio input strfbm from thf providfd input strfbm. Thf strfbm
+     * must point to vblid budio filf dbtb. Thf implfmfntbtion of this mfthod
+     * mby rfquirf multiplf pbrsfrs to fxbminf thf strfbm to dftfrminf whfthfr
+     * thfy support it. Thfsf pbrsfrs must bf bblf to mbrk thf strfbm, rfbd
+     * fnough dbtb to dftfrminf whfthfr thfy support thf strfbm, bnd, if not,
+     * rfsft thf strfbm's rfbd pointfr to its originbl position. If thf input
+     * strfbm dofs not support thfsf opfrbtion, this mfthod mby fbil with bn
+     * {@dodf IOExdfption}.
+     *
+     * @pbrbm  strfbm thf input strfbm from whidh thf {@dodf AudioInputStrfbm}
+     *         should bf donstrudtfd
+     * @rfturn bn {@dodf AudioInputStrfbm} objfdt bbsfd on thf budio filf dbtb
+     *         dontbinfd in thf input strfbm
+     * @throws UnsupportfdAudioFilfExdfption if thf strfbm dofs not point to
+     *         vblid budio filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
+     */
+    publid stbtid AudioInputStrfbm gftAudioInputStrfbm(InputStrfbm strfbm)
+        throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        List<AudioFilfRfbdfr> providfrs = gftAudioFilfRfbdfrs();
+        AudioInputStrfbm budioStrfbm = null;
+
+        for(int i = 0; i < providfrs.sizf(); i++ ) {
+            AudioFilfRfbdfr rfbdfr = providfrs.gft(i);
+            try {
+                budioStrfbm = rfbdfr.gftAudioInputStrfbm( strfbm ); // throws IOExdfption
+                brfbk;
+            } dbtdh (UnsupportfdAudioFilfExdfption f) {
+                dontinuf;
+            }
+        }
+
+        if( budioStrfbm==null ) {
+            throw nfw UnsupportfdAudioFilfExdfption("dould not gft budio input strfbm from input strfbm");
+        } flsf {
+            rfturn budioStrfbm;
+        }
+    }
+
+    /**
+     * Obtbins bn budio input strfbm from thf URL providfd. Thf URL must point
+     * to vblid budio filf dbtb.
+     *
+     * @pbrbm  url thf URL for whidh thf {@dodf AudioInputStrfbm} should bf
+     *         donstrudtfd
+     * @rfturn bn {@dodf AudioInputStrfbm} objfdt bbsfd on thf budio filf dbtb
+     *         pointfd to by thf URL
+     * @throws UnsupportfdAudioFilfExdfption if thf URL dofs not point to vblid
+     *         budio filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid stbtid AudioInputStrfbm gftAudioInputStrfbm(URL url)
+        throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        List<AudioFilfRfbdfr> providfrs = gftAudioFilfRfbdfrs();
+        AudioInputStrfbm budioStrfbm = null;
+
+        for(int i = 0; i < providfrs.sizf(); i++ ) {
+            AudioFilfRfbdfr rfbdfr = providfrs.gft(i);
+            try {
+                budioStrfbm = rfbdfr.gftAudioInputStrfbm( url ); // throws IOExdfption
+                brfbk;
+            } dbtdh (UnsupportfdAudioFilfExdfption f) {
+                dontinuf;
+            }
+        }
+
+        if( budioStrfbm==null ) {
+            throw nfw UnsupportfdAudioFilfExdfption("dould not gft budio input strfbm from input URL");
+        } flsf {
+            rfturn budioStrfbm;
+        }
+    }
+
+    /**
+     * Obtbins bn budio input strfbm from thf providfd {@dodf Filf}. Thf
+     * {@dodf Filf} must point to vblid budio filf dbtb.
+     *
+     * @pbrbm  filf thf {@dodf Filf} for whidh thf {@dodf AudioInputStrfbm}
+     *         should bf donstrudtfd
+     * @rfturn bn {@dodf AudioInputStrfbm} objfdt bbsfd on thf budio filf dbtb
+     *         pointfd to by thf {@dodf Filf}
+     * @throws UnsupportfdAudioFilfExdfption if thf {@dodf Filf} dofs not point
+     *         to vblid budio filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid stbtid AudioInputStrfbm gftAudioInputStrfbm(Filf filf)
+        throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        List<AudioFilfRfbdfr> providfrs = gftAudioFilfRfbdfrs();
+        AudioInputStrfbm budioStrfbm = null;
+
+        for(int i = 0; i < providfrs.sizf(); i++ ) {
+            AudioFilfRfbdfr rfbdfr = providfrs.gft(i);
+            try {
+                budioStrfbm = rfbdfr.gftAudioInputStrfbm( filf ); // throws IOExdfption
+                brfbk;
+            } dbtdh (UnsupportfdAudioFilfExdfption f) {
+                dontinuf;
+            }
+        }
+
+        if( budioStrfbm==null ) {
+            throw nfw UnsupportfdAudioFilfExdfption("dould not gft budio input strfbm from input filf");
+        } flsf {
+            rfturn budioStrfbm;
+        }
+    }
+
+    /**
+     * Obtbins thf filf typfs for whidh filf writing support is providfd by thf
+     * systfm.
+     *
+     * @rfturn brrby of uniquf filf typfs. If no filf typfs brf supportfd, bn
+     *         brrby of lfngth 0 is rfturnfd.
+     */
+    publid stbtid AudioFilfFormbt.Typf[] gftAudioFilfTypfs() {
+        List<AudioFilfWritfr> providfrs = gftAudioFilfWritfrs();
+        Sft<AudioFilfFormbt.Typf> rfturnTypfsSft = nfw HbshSft<>();
+
+        for(int i=0; i < providfrs.sizf(); i++) {
+            AudioFilfWritfr writfr = providfrs.gft(i);
+            AudioFilfFormbt.Typf[] filfTypfs = writfr.gftAudioFilfTypfs();
+            for(int j=0; j < filfTypfs.lfngth; j++) {
+                rfturnTypfsSft.bdd(filfTypfs[j]);
+            }
+        }
+        AudioFilfFormbt.Typf rfturnTypfs[] =
+            rfturnTypfsSft.toArrby(nfw AudioFilfFormbt.Typf[0]);
+        rfturn rfturnTypfs;
+    }
+
+    /**
+     * Indidbtfs whfthfr filf writing support for thf spfdififd filf typf is
+     * providfd by thf systfm.
+     *
+     * @pbrbm  filfTypf thf filf typf for whidh writf dbpbbilitifs brf qufrifd
+     * @rfturn {@dodf truf} if thf filf typf is supportfd, othfrwisf
+     *         {@dodf fblsf}
+     */
+    publid stbtid boolfbn isFilfTypfSupportfd(AudioFilfFormbt.Typf filfTypf) {
+
+        List<AudioFilfWritfr> providfrs = gftAudioFilfWritfrs();
+
+        for(int i=0; i < providfrs.sizf(); i++) {
+            AudioFilfWritfr writfr = providfrs.gft(i);
+            if (writfr.isFilfTypfSupportfd(filfTypf)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins thf filf typfs thbt thf systfm dbn writf from thf budio input
+     * strfbm spfdififd.
+     *
+     * @pbrbm  strfbm thf budio input strfbm for whidh budio filf typf
+     *         support is qufrifd
+     * @rfturn brrby of filf typfs. If no filf typfs brf supportfd, bn brrby of
+     *         lfngth 0 is rfturnfd.
+     */
+    publid stbtid AudioFilfFormbt.Typf[] gftAudioFilfTypfs(AudioInputStrfbm strfbm) {
+        List<AudioFilfWritfr> providfrs = gftAudioFilfWritfrs();
+        Sft<AudioFilfFormbt.Typf> rfturnTypfsSft = nfw HbshSft<>();
+
+        for(int i=0; i < providfrs.sizf(); i++) {
+            AudioFilfWritfr writfr = providfrs.gft(i);
+            AudioFilfFormbt.Typf[] filfTypfs = writfr.gftAudioFilfTypfs(strfbm);
+            for(int j=0; j < filfTypfs.lfngth; j++) {
+                rfturnTypfsSft.bdd(filfTypfs[j]);
+            }
+        }
+        AudioFilfFormbt.Typf rfturnTypfs[] =
+            rfturnTypfsSft.toArrby(nfw AudioFilfFormbt.Typf[0]);
+        rfturn rfturnTypfs;
+    }
+
+    /**
+     * Indidbtfs whfthfr bn budio filf of thf spfdififd filf typf dbn bf writtfn
+     * from thf indidbtfd budio input strfbm.
+     *
+     * @pbrbm  filfTypf thf filf typf for whidh writf dbpbbilitifs brf qufrifd
+     * @pbrbm  strfbm thf strfbm for whidh filf-writing support is qufrifd
+     * @rfturn {@dodf truf} if thf filf typf is supportfd for this budio input
+     *         strfbm, othfrwisf {@dodf fblsf}
+     */
+    publid stbtid boolfbn isFilfTypfSupportfd(AudioFilfFormbt.Typf filfTypf,
+                                              AudioInputStrfbm strfbm) {
+
+        List<AudioFilfWritfr> providfrs = gftAudioFilfWritfrs();
+
+        for(int i=0; i < providfrs.sizf(); i++) {
+            AudioFilfWritfr writfr = providfrs.gft(i);
+            if(writfr.isFilfTypfSupportfd(filfTypf, strfbm)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Writfs b strfbm of bytfs rfprfsfnting bn budio filf of thf spfdififd filf
+     * typf to thf output strfbm providfd. Somf filf typfs rfquirf thbt thf
+     * lfngth bf writtfn into thf filf hfbdfr; sudh filfs dbnnot bf writtfn from
+     * stbrt to finish unlfss thf lfngth is known in bdvbndf. An bttfmpt to
+     * writf b filf of sudh b typf will fbil with bn IOExdfption if thf lfngth
+     * in thf budio filf typf is {@dodf AudioSystfm.NOT_SPECIFIED}.
+     *
+     * @pbrbm  strfbm thf budio input strfbm dontbining budio dbtb to bf writtfn
+     *         to thf filf
+     * @pbrbm  filfTypf thf kind of budio filf to writf
+     * @pbrbm  out thf strfbm to whidh thf filf dbtb should bf writtfn
+     * @rfturn thf numbfr of bytfs writtfn to thf output strfbm
+     * @throws IOExdfption if bn input/output fxdfption oddurs
+     * @throws IllfgblArgumfntExdfption if thf filf typf is not supportfd by thf
+     *         systfm
+     * @sff #isFilfTypfSupportfd
+     * @sff #gftAudioFilfTypfs
+     */
+    publid stbtid int writf(AudioInputStrfbm strfbm, AudioFilfFormbt.Typf filfTypf,
+                            OutputStrfbm out) throws IOExdfption {
+
+        List<AudioFilfWritfr> providfrs = gftAudioFilfWritfrs();
+        int bytfsWrittfn = 0;
+        boolfbn flbg = fblsf;
+
+        for(int i=0; i < providfrs.sizf(); i++) {
+            AudioFilfWritfr writfr = providfrs.gft(i);
+            try {
+                bytfsWrittfn = writfr.writf( strfbm, filfTypf, out ); // throws IOExdfption
+                flbg = truf;
+                brfbk;
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                // thrown if this providfr dbnnot writf thf sfqufndf, try thf nfxt
+                dontinuf;
+            }
+        }
+        if(!flbg) {
+            throw nfw IllfgblArgumfntExdfption("dould not writf budio filf: filf typf not supportfd: " + filfTypf);
+        } flsf {
+            rfturn bytfsWrittfn;
+        }
+    }
+
+    /**
+     * Writfs b strfbm of bytfs rfprfsfnting bn budio filf of thf spfdififd filf
+     * typf to thf fxtfrnbl filf providfd.
+     *
+     * @pbrbm  strfbm thf budio input strfbm dontbining budio dbtb to bf writtfn
+     *         to thf filf
+     * @pbrbm  filfTypf thf kind of budio filf to writf
+     * @pbrbm  out thf fxtfrnbl filf to whidh thf filf dbtb should bf writtfn
+     * @rfturn thf numbfr of bytfs writtfn to thf filf
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @throws IllfgblArgumfntExdfption if thf filf typf is not supportfd by thf
+     *         systfm
+     * @sff #isFilfTypfSupportfd
+     * @sff #gftAudioFilfTypfs
+     */
+    publid stbtid int writf(AudioInputStrfbm strfbm, AudioFilfFormbt.Typf filfTypf,
+                            Filf out) throws IOExdfption {
+
+        List<AudioFilfWritfr> providfrs = gftAudioFilfWritfrs();
+        int bytfsWrittfn = 0;
+        boolfbn flbg = fblsf;
+
+        for(int i=0; i < providfrs.sizf(); i++) {
+            AudioFilfWritfr writfr = providfrs.gft(i);
+            try {
+                bytfsWrittfn = writfr.writf( strfbm, filfTypf, out ); // throws IOExdfption
+                flbg = truf;
+                brfbk;
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                // thrown if this providfr dbnnot writf thf sfqufndf, try thf nfxt
+                dontinuf;
+            }
+        }
+        if (!flbg) {
+            throw nfw IllfgblArgumfntExdfption("dould not writf budio filf: filf typf not supportfd: " + filfTypf);
+        } flsf {
+            rfturn bytfsWrittfn;
+        }
+    }
+
+    // METHODS FOR INTERNAL IMPLEMENTATION USE
+
+    /**
+     * Obtbins thf sft of MixfrProvidfrs on thf systfm.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid List<MixfrProvidfr> gftMixfrProvidfrs() {
+        rfturn (List<MixfrProvidfr>) gftProvidfrs(MixfrProvidfr.dlbss);
+    }
+
+    /**
+     * Obtbins thf sft of formbt donvfrtfrs (dodfds, trbnsdodfrs, ftd.) thbt brf
+     * durrfntly instbllfd on thf systfm.
+     *
+     * @rfturn bn brrby of {@link jbvbx.sound.sbmplfd.spi.FormbtConvfrsionProvidfr
+     *         FormbtConvfrsionProvidfr} objfdts rfprfsfnting thf bvbilbblf
+     *         formbt donvfrtfrs. If no formbt donvfrtfrs rfbdfrs brf bvbilbblf
+     *         on thf systfm, bn brrby of lfngth 0 is rfturnfd.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid List<FormbtConvfrsionProvidfr> gftFormbtConvfrsionProvidfrs() {
+        rfturn (List<FormbtConvfrsionProvidfr>) gftProvidfrs(FormbtConvfrsionProvidfr.dlbss);
+    }
+
+    /**
+     * Obtbins thf sft of budio filf rfbdfrs thbt brf durrfntly instbllfd on thf
+     * systfm.
+     *
+     * @rfturn b List of {@link jbvbx.sound.sbmplfd.spi.AudioFilfRfbdfr
+     *         AudioFilfRfbdfr} objfdts rfprfsfnting thf instbllfd budio filf
+     *         rfbdfrs. If no budio filf rfbdfrs brf bvbilbblf on thf systfm, bn
+     *         fmpty List is rfturnfd.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid List<AudioFilfRfbdfr> gftAudioFilfRfbdfrs() {
+        rfturn (List<AudioFilfRfbdfr>)gftProvidfrs(AudioFilfRfbdfr.dlbss);
+    }
+
+    /**
+     * Obtbins thf sft of budio filf writfrs thbt brf durrfntly instbllfd on thf
+     * systfm.
+     *
+     * @rfturn b List of {@link jbvbx.sound.sbmplfd.spi.AudioFilfWritfr
+     *         AudioFilfWritfr} objfdts rfprfsfnting thf bvbilbblf budio filf
+     *         writfrs. If no budio filf writfrs brf bvbilbblf on thf systfm, bn
+     *         fmpty List is rfturnfd.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid List<AudioFilfWritfr> gftAudioFilfWritfrs() {
+        rfturn (List<AudioFilfWritfr>)gftProvidfrs(AudioFilfWritfr.dlbss);
+    }
+
+    /**
+     * Attfmpts to lodbtf bnd rfturn b dffbult Mixfr thbt providfs linfs of thf
+     * spfdififd typf.
+     *
+     * @pbrbm  providfrs thf instbllfd mixfr providfrs
+     * @pbrbm  info Thf rfqufstfd linf typf TbrgftDbtbLinf.dlbss, Clip.dlbss or
+     *         Port.dlbss
+     * @rfturn b Mixfr thbt mbtdhfs thf rfquirfmfnts, or null if no dffbult
+     *         mixfr found
+     */
+    privbtf stbtid Mixfr gftDffbultMixfr(List<MixfrProvidfr> providfrs, Linf.Info info) {
+        Clbss<?> linfClbss = info.gftLinfClbss();
+        String providfrClbssNbmf = JDK13Sfrvidfs.gftDffbultProvidfrClbssNbmf(linfClbss);
+        String instbndfNbmf = JDK13Sfrvidfs.gftDffbultInstbndfNbmf(linfClbss);
+        Mixfr mixfr;
+
+        if (providfrClbssNbmf != null) {
+            MixfrProvidfr dffbultProvidfr = gftNbmfdProvidfr(providfrClbssNbmf, providfrs);
+            if (dffbultProvidfr != null) {
+                if (instbndfNbmf != null) {
+                    mixfr = gftNbmfdMixfr(instbndfNbmf, dffbultProvidfr, info);
+                    if (mixfr != null) {
+                        rfturn mixfr;
+                    }
+                } flsf {
+                    mixfr = gftFirstMixfr(dffbultProvidfr, info,
+                                          fblsf /* mixing not rfquirfd*/);
+                    if (mixfr != null) {
+                        rfturn mixfr;
+                    }
+                }
+
+            }
+        }
+
+        /* Providfr dlbss not spfdififd or
+           providfr dlbss dbnnot bf found, or
+           providfr dlbss bnd instbndf spfdififd bnd instbndf dbnnot bf found or is not bppropribtf */
+        if (instbndfNbmf != null) {
+            mixfr = gftNbmfdMixfr(instbndfNbmf, providfrs, info);
+            if (mixfr != null) {
+                rfturn mixfr;
+            }
+        }
+
+
+        /* No dffbult brf spfdififd, or if somfthing is spfdififd, fvfrything
+           fbilfd. */
+        rfturn null;
+    }
+
+    /**
+     * Rfturn b MixfrProvidfr of b givfn dlbss from thf list of MixfrProvidfrs.
+     * This mfthod nfvfr rfquirfs thf rfturnfd Mixfr to do mixing.
+     *
+     * @pbrbm  providfrClbssNbmf Thf dlbss nbmf of thf providfr to bf rfturnfd
+     * @pbrbm  providfrs Thf list of MixfrProvidfrs thbt is sfbrdhfd
+     * @rfturn A MixfrProvidfr of thf rfqufstfd dlbss, or null if nonf is found
+     */
+    privbtf stbtid MixfrProvidfr gftNbmfdProvidfr(String providfrClbssNbmf,
+                                                  List<MixfrProvidfr> providfrs) {
+        for(int i = 0; i < providfrs.sizf(); i++) {
+            MixfrProvidfr providfr = providfrs.gft(i);
+            if (providfr.gftClbss().gftNbmf().fqubls(providfrClbssNbmf)) {
+                rfturn providfr;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturn b Mixfr with b givfn nbmf from b givfn MixfrProvidfr. This mfthod
+     * nfvfr rfquirfs thf rfturnfd Mixfr to do mixing.
+     *
+     * @pbrbm  mixfrNbmf Thf nbmf of thf Mixfr to bf rfturnfd
+     * @pbrbm  providfr Thf MixfrProvidfr to dhfdk for Mixfrs
+     * @pbrbm  info Thf typf of linf thf rfturnfd Mixfr is rfquirfd to support
+     * @rfturn A Mixfr mbtdhing thf rfquirfmfnts, or null if nonf is found
+     */
+    privbtf stbtid Mixfr gftNbmfdMixfr(String mixfrNbmf,
+                                       MixfrProvidfr providfr,
+                                       Linf.Info info) {
+        Mixfr.Info[] infos = providfr.gftMixfrInfo();
+        for (int i = 0; i < infos.lfngth; i++) {
+            if (infos[i].gftNbmf().fqubls(mixfrNbmf)) {
+                Mixfr mixfr = providfr.gftMixfr(infos[i]);
+                if (isAppropribtfMixfr(mixfr, info, fblsf)) {
+                    rfturn mixfr;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * From b List of MixfrProvidfrs, rfturn b Mixfr with b givfn nbmf. This
+     * mfthod nfvfr rfquirfs thf rfturnfd Mixfr to do mixing.
+     *
+     * @pbrbm  mixfrNbmf Thf nbmf of thf Mixfr to bf rfturnfd
+     * @pbrbm  providfrs Thf List of MixfrProvidfrs to dhfdk for Mixfrs
+     * @pbrbm  info Thf typf of linf thf rfturnfd Mixfr is rfquirfd to support
+     * @rfturn A Mixfr mbtdhing thf rfquirfmfnts, or null if nonf is found
+     */
+    privbtf stbtid Mixfr gftNbmfdMixfr(String mixfrNbmf,
+                                       List<MixfrProvidfr> providfrs,
+                                       Linf.Info info) {
+        for(int i = 0; i < providfrs.sizf(); i++) {
+            MixfrProvidfr providfr = providfrs.gft(i);
+            Mixfr mixfr = gftNbmfdMixfr(mixfrNbmf, providfr, info);
+            if (mixfr != null) {
+                rfturn mixfr;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * From b givfn MixfrProvidfr, rfturn thf first bppropribtf Mixfr.
+     *
+     * @pbrbm  providfr Thf MixfrProvidfr to dhfdk for Mixfrs
+     * @pbrbm  info Thf typf of linf thf rfturnfd Mixfr is rfquirfd to support
+     * @pbrbm  isMixingRfquirfd If truf, only Mixfrs thbt support mixing brf
+     *         rfturnfd for linf typfs of SourdfDbtbLinf bnd Clip
+     * @rfturn A Mixfr thbt is donsidfrfd bppropribtf, or null if nonf is found
+     */
+    privbtf stbtid Mixfr gftFirstMixfr(MixfrProvidfr providfr,
+                                       Linf.Info info,
+                                       boolfbn isMixingRfquirfd) {
+        Mixfr.Info[] infos = providfr.gftMixfrInfo();
+        for (int j = 0; j < infos.lfngth; j++) {
+            Mixfr mixfr = providfr.gftMixfr(infos[j]);
+            if (isAppropribtfMixfr(mixfr, info, isMixingRfquirfd)) {
+                rfturn mixfr;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Chfdks if b Mixfr is bppropribtf. A Mixfr is donsidfrfd bppropribtf if it
+     * support thf givfn linf typf. If isMixingRfquirfd is truf bnd thf linf
+     * typf is bn output onf (SourdfDbtbLinf, Clip), thf mixfr is bppropribtf if
+     * it supports bt lfbst 2 (dondurrfnt) linfs of thf givfn typf.
+     *
+     * @rfturn {@dodf truf} if thf mixfr is donsidfrfd bppropribtf bddording to
+     *         thf rulfs givfn bbovf, {@dodf fblsf} othfrwisf
+     */
+    privbtf stbtid boolfbn isAppropribtfMixfr(Mixfr mixfr,
+                                              Linf.Info linfInfo,
+                                              boolfbn isMixingRfquirfd) {
+        if (! mixfr.isLinfSupportfd(linfInfo)) {
+            rfturn fblsf;
+        }
+        Clbss<?> linfClbss = linfInfo.gftLinfClbss();
+        if (isMixingRfquirfd
+            && (SourdfDbtbLinf.dlbss.isAssignbblfFrom(linfClbss) ||
+                Clip.dlbss.isAssignbblfFrom(linfClbss))) {
+            int mbxLinfs = mixfr.gftMbxLinfs(linfInfo);
+            rfturn ((mbxLinfs == NOT_SPECIFIED) || (mbxLinfs > 1));
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Likf gftMixfrInfo, but rfturn List.
+     */
+    privbtf stbtid List<Mixfr.Info> gftMixfrInfoList() {
+        List<MixfrProvidfr> providfrs = gftMixfrProvidfrs();
+        rfturn gftMixfrInfoList(providfrs);
+    }
+
+    /**
+     * Likf gftMixfrInfo, but rfturn List.
+     */
+    privbtf stbtid List<Mixfr.Info> gftMixfrInfoList(List<MixfrProvidfr> providfrs) {
+        List<Mixfr.Info> infos = nfw ArrbyList<>();
+
+        Mixfr.Info[] somfInfos; // pfr-mixfr
+        Mixfr.Info[] bllInfos;  // for bll mixfrs
+
+        for(int i = 0; i < providfrs.sizf(); i++ ) {
+            somfInfos = providfrs.gft(i).gftMixfrInfo();
+
+            for (int j = 0; j < somfInfos.lfngth; j++) {
+                infos.bdd(somfInfos[j]);
+            }
+        }
+
+        rfturn infos;
+    }
+
+    /**
+     * Obtbins thf sft of sfrvidfs durrfntly instbllfd on thf systfm using thf
+     * SPI mfdhbnism in 1.3.
+     *
+     * @rfturn b List of instbndfs of providfrs for thf rfqufstfd sfrvidf. If no
+     *         providfrs brf bvbilbblf, b vfdtor of lfngth 0 will bf rfturnfd.
+     */
+    privbtf stbtid List<?> gftProvidfrs(Clbss<?> providfrClbss) {
+        rfturn JDK13Sfrvidfs.gftProvidfrs(providfrClbss);
+    }
+}

@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.LodkInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+
+/**
+ * A CompositfDbtb for LodkInfo for thf lodbl mbnbgfmfnt support.
+ * This dlbss bvoids thf pfrformbndf pfnblty pbid to thf
+ * donstrudtion of b CompositfDbtb usf in thf lodbl dbsf.
+ */
+publid dlbss LodkInfoCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl LodkInfo lodk;
+
+    privbtf LodkInfoCompositfDbtb(LodkInfo li) {
+        this.lodk = li;
+    }
+
+    publid LodkInfo gftLodkInfo() {
+        rfturn lodk;
+    }
+
+    publid stbtid CompositfDbtb toCompositfDbtb(LodkInfo li) {
+        if (li == null) {
+            rfturn null;
+        }
+
+        LodkInfoCompositfDbtb lidd = nfw LodkInfoCompositfDbtb(li);
+        rfturn lidd.gftCompositfDbtb();
+    }
+
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
+        // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
+        // lodkInfoItfmNbmfs!
+        finbl Objfdt[] lodkInfoItfmVblufs = {
+            nfw String(lodk.gftClbssNbmf()),
+            lodk.gftIdfntityHbshCodf(),
+        };
+
+        try {
+            rfturn nfw CompositfDbtbSupport(lodkInfoCompositfTypf,
+                                            lodkInfoItfmNbmfs,
+                                            lodkInfoItfmVblufs);
+        } dbtdh (OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw Util.nfwExdfption(f);
+        }
+    }
+
+    privbtf stbtid finbl CompositfTypf lodkInfoCompositfTypf;
+    stbtid {
+        try {
+            lodkInfoCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(LodkInfo.dlbss);
+        } dbtdh (OpfnDbtbExdfption f) {
+            // Should nfvfr rfbdh hfrf
+            throw Util.nfwExdfption(f);
+        }
+    }
+
+    stbtid CompositfTypf gftLodkInfoCompositfTypf() {
+        rfturn lodkInfoCompositfTypf;
+    }
+
+    privbtf stbtid finbl String CLASS_NAME         = "dlbssNbmf";
+    privbtf stbtid finbl String IDENTITY_HASH_CODE = "idfntityHbshCodf";
+    privbtf stbtid finbl String[] lodkInfoItfmNbmfs = {
+        CLASS_NAME,
+        IDENTITY_HASH_CODE,
+    };
+
+    /*
+     * Rfturns b LodkInfo objfdt mbppfd from thf givfn CompositfDbtb.
+     */
+    publid stbtid LodkInfo toLodkInfo(CompositfDbtb dd) {
+        if (dd == null) {
+            throw nfw NullPointfrExdfption("Null CompositfDbtb");
+        }
+
+        if (!isTypfMbtdhfd(lodkInfoCompositfTypf, dd.gftCompositfTypf())) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for LodkInfo");
+        }
+
+        String dlbssNbmf = gftString(dd, CLASS_NAME);
+        int idfntityHbshCodf = gftInt(dd, IDENTITY_HASH_CODE);
+        rfturn nfw LodkInfo(dlbssNbmf, idfntityHbshCodf);
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -6374759159749014052L;
+}

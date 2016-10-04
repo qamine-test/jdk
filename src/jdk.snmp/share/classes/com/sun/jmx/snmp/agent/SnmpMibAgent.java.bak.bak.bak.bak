@@ -1,0 +1,768 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.SfrvidfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpEnginf;
+
+/**
+ * Abstrbdt dlbss for rfprfsfnting bn SNMP bgfnt.
+ *
+ * Thf dlbss is usfd by thf SNMP protodol bdbptor bs thf fntry point in
+ * thf SNMP bgfnt to qufry.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpMibAgfnt
+    implfmfnts SnmpMibAgfntMBfbn, MBfbnRfgistrbtion, Sfriblizbblf {
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid SnmpMibAgfnt() {
+    }
+
+    // ---------------------------------------------------------------------
+    // PUBLIC METHODS
+    //----------------------------------------------------------------------
+
+    /**
+     * Initiblizfs thf MIB (with no rfgistrbtion of thf MBfbns into thf
+     * MBfbn sfrvfr).
+     *
+     * @fxdfption IllfgblAddfssExdfption Thf MIB dbn not bf initiblizfd.
+     */
+    publid bbstrbdt void init() throws IllfgblAddfssExdfption;
+
+    /**
+     * Initiblizfs thf MIB but fbdh singlf MBfbn rfprfsfnting thf MIB
+     * is insfrtfd into thf MBfbn sfrvfr.
+     *
+     * @pbrbm sfrvfr Thf MBfbn sfrvfr to rfgistfr thf sfrvidf with.
+     * @pbrbm nbmf Thf objfdt nbmf.
+     *
+     * @rfturn Thf nbmf of thf SNMP MIB rfgistfrfd.
+     *
+     * @fxdfption jbvb.lbng.Exdfption
+     */
+    @Ovfrridf
+    publid bbstrbdt ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr,
+                                           ObjfdtNbmf nbmf)
+        throws jbvb.lbng.Exdfption;
+
+    /**
+     * Not usfd in this dontfxt.
+     */
+    @Ovfrridf
+    publid void postRfgistfr (Boolfbn rfgistrbtionDonf) {
+    }
+
+    /**
+     * Not usfd in this dontfxt.
+     */
+    @Ovfrridf
+    publid void prfDfrfgistfr() throws jbvb.lbng.Exdfption {
+    }
+
+    /**
+     * Not usfd in this dontfxt.
+     */
+    @Ovfrridf
+    publid void postDfrfgistfr() {
+    }
+
+    /**
+     * Prodfssfs b <CODE>gft</CODE> opfrbtion.
+     * This mfthod must updbtf thf SnmpVbrBinds dontbinfd in thf
+     * <vbr>{@link SnmpMibRfqufst} rfq</vbr> pbrbmftfr.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblf to
+     *            bf rftrifvfd. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     */
+    @Ovfrridf
+    publid bbstrbdt void gft(SnmpMibRfqufst rfq)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Prodfssfs b <CODE>gftNfxt</CODE> opfrbtion.
+     * This mfthod must updbtf thf SnmpVbrBinds dontbinfd in thf
+     * <vbr>{@link SnmpMibRfqufst} rfq</vbr> pbrbmftfr.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of
+     *            OIDs from whidh thf nfxt vbribblfs should bf rftrifvfd.
+     *            This list is domposfd of <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     */
+    @Ovfrridf
+    publid bbstrbdt void gftNfxt(SnmpMibRfqufst rfq)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Prodfssfs b <CODE>gftBulk</CODE> opfrbtion.
+     * This mfthod must updbtf thf SnmpVbrBinds dontbinfd in thf
+     * <vbr>{@link SnmpMibRfqufst} rfq</vbr> pbrbmftfr.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblf to
+     *            bf rftrifvfd. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @pbrbm nonRfpfbt Thf numbfr of vbribblfs, stbrting with thf first
+     *    vbribblf in thf vbribblf-bindings, for whidh b singlf
+     *    lfxidogrbphid suddfssor is rfqufstfd.
+     *
+     * @pbrbm mbxRfpfbt Thf numbfr of lfxidogrbphid suddfssors rfqufstfd
+     *    for fbdh of thf lbst R vbribblfs. R is thf numbfr of vbribblfs
+     *    following thf first <CODE>nonRfpfbt</CODE> vbribblfs for whidh
+     *    multiplf lfxidogrbphid suddfssors brf rfqufstfd.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     */
+    @Ovfrridf
+    publid bbstrbdt void gftBulk(SnmpMibRfqufst rfq, int nonRfpfbt,
+                                 int mbxRfpfbt)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Prodfssfs b <CODE>sft</CODE> opfrbtion.
+     * This mfthod must updbtf thf SnmpVbrBinds dontbinfd in thf
+     * <vbr>{@link SnmpMibRfqufst} rfq</vbr> pbrbmftfr.
+     * This mfthod is dbllfd during thf sfdond phbsf of thf SET two-phbsf
+     * dommit.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblf to
+     *            bf sft. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     *            Throwing bn fxdfption in this mfthod will brfbk thf
+     *            btomidity of thf SET opfrbtion. Cbrf must bf tbkfn so thbt
+     *            thf fxdfption is thrown in thf {@link #dhfdk(SnmpMibRfqufst)}
+     *            mfthod instfbd.
+     */
+    @Ovfrridf
+    publid bbstrbdt void sft(SnmpMibRfqufst rfq)
+        throws SnmpStbtusExdfption;
+
+
+    /**
+     * Chfdks if b <CODE>sft</CODE> opfrbtion dbn bf pfrformfd.
+     * If thf opfrbtion dbn not bf pfrformfd, thf mfthod should throw bn
+     * <CODE>SnmpStbtusExdfption</CODE>.
+     * This mfthod is dbllfd during thf first phbsf of thf SET two-phbsf
+     * dommit.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblf to
+     *            bf sft. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @fxdfption SnmpStbtusExdfption Thf <CODE>sft</CODE> opfrbtion
+     *    dbnnot bf pfrformfd.
+     */
+    @Ovfrridf
+    publid bbstrbdt void dhfdk(SnmpMibRfqufst rfq)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Gfts thf root objfdt idfntififr of thf MIB.
+     * <P>Thf root objfdt idfntififr is thf objfdt idfntififr uniqufly
+     * idfntifying thf MIB.
+     *
+     * @rfturn Thf root objfdt idfntififr.
+     */
+    publid bbstrbdt long[] gftRootOid();
+
+    // ---------------------------------------------------------------------
+    // GETTERS AND SETTERS
+    // ---------------------------------------------------------------------
+
+    /**
+     * Gfts thf rfffrfndf to thf MBfbn sfrvfr in whidh thf SNMP MIB is
+     * rfgistfrfd.
+     *
+     * @rfturn Thf MBfbn sfrvfr or null if thf MIB is not rfgistfrfd in bny
+     *     MBfbn sfrvfr.
+     */
+    @Ovfrridf
+    publid MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn sfrvfr;
+    }
+
+    /**
+     * Gfts thf rfffrfndf to thf SNMP protodol bdbptor to whidh thf MIB is
+     * bound.
+     *
+     * @rfturn Thf SNMP MIB hbndlfr.
+     */
+    @Ovfrridf
+    publid SnmpMibHbndlfr gftSnmpAdbptor() {
+        rfturn bdbptor;
+    }
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr.
+     *
+     * @pbrbm stbdk Thf SNMP MIB hbndlfr.
+     */
+    @Ovfrridf
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk) {
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(this);
+        }
+        bdbptor = stbdk;
+        if (bdbptor != null) {
+            bdbptor.bddMib(this);
+        }
+    }
+
+     /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr.
+     * This mfthod is to bf dbllfd to sft b spfdifid bgfnt to b spfdifid OID. This dbn bf usfful whfn dfbling with MIB ovfrlbpping.
+     * Somf OID dbn bf implfmfntfd in morf thbn onf MIB. In this dbsf, thf OID nfbrfst thf bgfnt will bf usfd on SNMP opfrbtions.
+     * @pbrbm stbdk Thf SNMP MIB hbndlfr.
+     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
+     *
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk, SnmpOid[] oids) {
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(this);
+        }
+        bdbptor = stbdk;
+        if (bdbptor != null) {
+            bdbptor.bddMib(this, oids);
+        }
+    }
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdds this nfw MIB in thf SNMP MIB hbndlfr.
+     * Adds b nfw dontfxtublizfd MIB in thf SNMP MIB hbndlfr.
+     *
+     * @pbrbm stbdk Thf SNMP MIB hbndlfr.
+     * @pbrbm dontfxtNbmf Thf MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in thf dffbult dontfxt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption If thf pbrbmftfr is null.
+     *
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk, String dontfxtNbmf) {
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(this, dontfxtNbmf);
+        }
+        bdbptor = stbdk;
+        if (bdbptor != null) {
+            bdbptor.bddMib(this, dontfxtNbmf);
+        }
+    }
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdds this nfw MIB in thf SNMP MIB hbndlfr.
+     * Adds b nfw dontfxtublizfd MIB in thf SNMP MIB hbndlfr.
+     *
+     * @pbrbm stbdk Thf SNMP MIB hbndlfr.
+     * @pbrbm dontfxtNbmf Thf MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in thf dffbult dontfxt.
+     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
+     * @fxdfption IllfgblArgumfntExdfption If thf pbrbmftfr is null.
+     *
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk,
+                               String dontfxtNbmf,
+                               SnmpOid[] oids) {
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(this, dontfxtNbmf);
+        }
+        bdbptor = stbdk;
+        if (bdbptor != null) {
+            bdbptor.bddMib(this, dontfxtNbmf, oids);
+        }
+    }
+
+    /**
+     * Gfts thf objfdt nbmf of thf SNMP protodol bdbptor to whidh thf MIB
+     * is bound.
+     *
+     * @rfturn Thf nbmf of thf SNMP protodol bdbptor.
+     */
+    @Ovfrridf
+    publid ObjfdtNbmf gftSnmpAdbptorNbmf() {
+        rfturn bdbptorNbmf;
+    }
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr
+     * bssodibtfd to thf spfdififd <CODE>nbmf</CODE>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf SNMP protodol bdbptor.
+     *
+     * @fxdfption InstbndfNotFoundExdfption Thf SNMP protodol bdbptor dofs
+     *     not fxist in thf MBfbn sfrvfr.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption This SNMP MIB is not rfgistfrfd
+     *     in thf MBfbn sfrvfr or thf rfqufstfd sfrvidf is not supportfd.
+     */
+    @Ovfrridf
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf)
+        throws InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption {
+
+        if (sfrvfr == null) {
+            throw nfw SfrvidfNotFoundExdfption(mibNbmf + " is not rfgistfrfd in thf MBfbn sfrvfr");
+        }
+        // First rfmovf thf rfffrfndf on thf old bdbptor sfrvfr.
+        //
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(this);
+        }
+
+        // Thfn updbtf thf rfffrfndf to thf nfw bdbptor sfrvfr.
+        //
+        Objfdt[] pbrbms = {this};
+        String[] signbturf = {"dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt"};
+        try {
+            bdbptor = (SnmpMibHbndlfr)(sfrvfr.invokf(nbmf, "bddMib", pbrbms,
+                                                     signbturf));
+        } dbtdh (InstbndfNotFoundExdfption f) {
+            throw nfw InstbndfNotFoundExdfption(nbmf.toString());
+        } dbtdh (RfflfdtionExdfption f) {
+            throw nfw SfrvidfNotFoundExdfption(nbmf.toString());
+        } dbtdh (MBfbnExdfption f) {
+            // Should nfvfr oddur...
+        }
+
+        bdbptorNbmf = nbmf;
+    }
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr
+     * bssodibtfd to thf spfdififd <CODE>nbmf</CODE>.
+     * This mfthod is to bf dbllfd to sft b spfdifid bgfnt to b spfdifid OID. This dbn bf usfful whfn dfbling with MIB ovfrlbpping.
+     * Somf OID dbn bf implfmfntfd in morf thbn onf MIB. In this dbsf, thf OID nfbrfr bgfnt will bf usfd on SNMP opfrbtions.
+     * @pbrbm nbmf Thf nbmf of thf SNMP protodol bdbptor.
+     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
+     * @fxdfption InstbndfNotFoundExdfption Thf SNMP protodol bdbptor dofs
+     *     not fxist in thf MBfbn sfrvfr.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption This SNMP MIB is not rfgistfrfd
+     *     in thf MBfbn sfrvfr or thf rfqufstfd sfrvidf is not supportfd.
+     *
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf, SnmpOid[] oids)
+        throws InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption {
+
+        if (sfrvfr == null) {
+            throw nfw SfrvidfNotFoundExdfption(mibNbmf + " is not rfgistfrfd in thf MBfbn sfrvfr");
+        }
+        // First rfmovf thf rfffrfndf on thf old bdbptor sfrvfr.
+        //
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(this);
+        }
+
+        // Thfn updbtf thf rfffrfndf to thf nfw bdbptor sfrvfr.
+        //
+        Objfdt[] pbrbms = {this, oids};
+        String[] signbturf = {"dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt",
+        oids.gftClbss().gftNbmf()};
+        try {
+            bdbptor = (SnmpMibHbndlfr)(sfrvfr.invokf(nbmf, "bddMib", pbrbms,
+                                                     signbturf));
+        } dbtdh (InstbndfNotFoundExdfption f) {
+            throw nfw InstbndfNotFoundExdfption(nbmf.toString());
+        } dbtdh (RfflfdtionExdfption f) {
+            throw nfw SfrvidfNotFoundExdfption(nbmf.toString());
+        } dbtdh (MBfbnExdfption f) {
+            // Should nfvfr oddur...
+        }
+
+        bdbptorNbmf = nbmf;
+    }
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr
+     * bssodibtfd to thf spfdififd <CODE>nbmf</CODE>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf SNMP protodol bdbptor.
+     * @pbrbm dontfxtNbmf Thf MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in thf dffbult dontfxt.
+     * @fxdfption InstbndfNotFoundExdfption Thf SNMP protodol bdbptor dofs
+     *     not fxist in thf MBfbn sfrvfr.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption This SNMP MIB is not rfgistfrfd
+     *     in thf MBfbn sfrvfr or thf rfqufstfd sfrvidf is not supportfd.
+     *
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf, String dontfxtNbmf)
+        throws InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption {
+
+        if (sfrvfr == null) {
+            throw nfw SfrvidfNotFoundExdfption(mibNbmf + " is not rfgistfrfd in thf MBfbn sfrvfr");
+        }
+
+        // First rfmovf thf rfffrfndf on thf old bdbptor sfrvfr.
+        //
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(this, dontfxtNbmf);
+        }
+
+        // Thfn updbtf thf rfffrfndf to thf nfw bdbptor sfrvfr.
+        //
+        Objfdt[] pbrbms = {this, dontfxtNbmf};
+        String[] signbturf = {"dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt", "jbvb.lbng.String"};
+        try {
+            bdbptor = (SnmpMibHbndlfr)(sfrvfr.invokf(nbmf, "bddMib", pbrbms,
+                                                     signbturf));
+        } dbtdh (InstbndfNotFoundExdfption f) {
+            throw nfw InstbndfNotFoundExdfption(nbmf.toString());
+        } dbtdh (RfflfdtionExdfption f) {
+            throw nfw SfrvidfNotFoundExdfption(nbmf.toString());
+        } dbtdh (MBfbnExdfption f) {
+            // Should nfvfr oddur...
+        }
+
+        bdbptorNbmf = nbmf;
+    }
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr
+     * bssodibtfd to thf spfdififd <CODE>nbmf</CODE>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf SNMP protodol bdbptor.
+     * @pbrbm dontfxtNbmf Thf MIB dontfxt nbmf. If null is pbssfd, will bf rfgistfrfd in thf dffbult dontfxt.
+     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
+     * @fxdfption InstbndfNotFoundExdfption Thf SNMP protodol bdbptor dofs
+     *     not fxist in thf MBfbn sfrvfr.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption This SNMP MIB is not rfgistfrfd
+     *     in thf MBfbn sfrvfr or thf rfqufstfd sfrvidf is not supportfd.
+     *
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf,
+                                   String dontfxtNbmf, SnmpOid[] oids)
+        throws InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption {
+
+        if (sfrvfr == null) {
+            throw nfw SfrvidfNotFoundExdfption(mibNbmf + " is not rfgistfrfd in thf MBfbn sfrvfr");
+        }
+
+        // First rfmovf thf rfffrfndf on thf old bdbptor sfrvfr.
+        //
+        if (bdbptor != null) {
+            bdbptor.rfmovfMib(this, dontfxtNbmf);
+        }
+
+        // Thfn updbtf thf rfffrfndf to thf nfw bdbptor sfrvfr.
+        //
+        Objfdt[] pbrbms = {this, dontfxtNbmf, oids};
+        String[] signbturf = {"dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt", "jbvb.lbng.String", oids.gftClbss().gftNbmf()};
+        try {
+            bdbptor = (SnmpMibHbndlfr)(sfrvfr.invokf(nbmf, "bddMib", pbrbms,
+                                                     signbturf));
+        } dbtdh (InstbndfNotFoundExdfption f) {
+            throw nfw InstbndfNotFoundExdfption(nbmf.toString());
+        } dbtdh (RfflfdtionExdfption f) {
+            throw nfw SfrvidfNotFoundExdfption(nbmf.toString());
+        } dbtdh (MBfbnExdfption f) {
+            // Should nfvfr oddur...
+        }
+
+        bdbptorNbmf = nbmf;
+    }
+
+    /**
+     * Indidbtfs whfthfr or not thf MIB modulf is bound to b SNMP protodol
+     * bdbptor.
+     * As b rfmindfr, only bound MIBs dbn bf bddfssfd through SNMP protodol
+     * bdbptor.
+     *
+     * @rfturn <CODE>truf</CODE> if thf MIB modulf is bound,
+     *         <CODE>fblsf</CODE> othfrwisf.
+     */
+    @Ovfrridf
+    publid boolfbn gftBindingStbtf() {
+        if (bdbptor == null)
+            rfturn fblsf;
+        flsf
+            rfturn truf;
+    }
+
+    /**
+     * Gfts thf MIB nbmf.
+     *
+     * @rfturn Thf MIB nbmf.
+     */
+    @Ovfrridf
+    publid String gftMibNbmf() {
+        rfturn mibNbmf;
+    }
+
+    /**
+     * This is b fbdtory mfthod for drfbting nfw SnmpMibRfqufst objfdts.
+     * @pbrbm rfqPdu Thf rfdfivfd PDU.
+     * @pbrbm vblist   Thf vfdtor of SnmpVbrBind objfdts in whidh thf
+     *        MIB dondfrnfd by this rfqufst is involvfd.
+     * @pbrbm vfrsion  Thf protodol vfrsion of thf SNMP rfqufst.
+     * @pbrbm usfrDbtb Usfr bllodbtfd dontfxtubl dbtb.
+     *
+     * @rfturn A nfw SnmpMibRfqufst objfdt.
+     *
+     * @sindf 1.5
+     **/
+    publid stbtid SnmpMibRfqufst nfwMibRfqufst(SnmpPdu rfqPdu,
+                                               Vfdtor<SnmpVbrBind> vblist,
+                                               int vfrsion,
+                                               Objfdt usfrDbtb)
+    {
+        rfturn nfw SnmpMibRfqufstImpl(null,
+                                      rfqPdu,
+                                      vblist,
+                                      vfrsion,
+                                      usfrDbtb,
+                                      null,
+                                      SnmpDffinitions.noAuthNoPriv,
+                                      gftSfdurityModfl(vfrsion),
+                                      null,null);
+    }
+    /**
+     * This is b fbdtory mfthod for drfbting nfw SnmpMibRfqufst objfdts.
+     * @pbrbm fnginf Thf lodbl fnginf.
+     * @pbrbm rfqPdu Thf rfdfivfd pdu.
+     * @pbrbm vblist Thf vfdtor of SnmpVbrBind objfdts in whidh thf
+     *        MIB dondfrnfd by this rfqufst is involvfd.
+     * @pbrbm vfrsion Thf protodol vfrsion of thf SNMP rfqufst.
+     * @pbrbm usfrDbtb Usfr bllodbtfd dontfxtubl dbtb.
+     *
+     * @rfturn A nfw SnmpMibRfqufst objfdt.
+     *
+     * @sindf 1.5
+     **/
+    publid stbtid SnmpMibRfqufst nfwMibRfqufst(SnmpEnginf fnginf,
+                                               SnmpPdu rfqPdu,
+                                               Vfdtor<SnmpVbrBind> vblist,
+                                               int vfrsion,
+                                               Objfdt usfrDbtb,
+                                               String prindipbl,
+                                               int sfdurityLfvfl,
+                                               int sfdurityModfl,
+                                               bytf[] dontfxtNbmf,
+                                               bytf[] bddfssContfxtNbmf) {
+        rfturn nfw SnmpMibRfqufstImpl(fnginf,
+                                      rfqPdu,
+                                      vblist,
+                                      vfrsion,
+                                      usfrDbtb,
+                                      prindipbl,
+                                      sfdurityLfvfl,
+                                      sfdurityModfl,
+                                      dontfxtNbmf,
+                                      bddfssContfxtNbmf);
+    }
+    // ---------------------------------------------------------------------
+    // PACKAGE METHODS
+    // ---------------------------------------------------------------------
+
+    /**
+     * Prodfssfs b <CODE>gftBulk</CODE> opfrbtion using dbll to
+     * <CODE>gftNfxt</CODE>.
+     * Thf mfthod implfmfnts thf <CODE>gftBulk</CODE> opfrbtion by dblling
+     * bppropribtfly thf <CODE>gftNfxt</CODE> mfthod.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst dontbining thf vbribblf list to bf
+     *        rftrifvfd.
+     *
+     * @pbrbm nonRfpfbt Thf numbfr of vbribblfs, stbrting with thf first
+     *    vbribblf in thf vbribblf-bindings, for whidh b singlf lfxidogrbphid
+     *    suddfssor is rfqufstfd.
+     *
+     * @pbrbm mbxRfpfbt Thf numbfr of lfxidogrbphid suddfssors
+     *    rfqufstfd for fbdh of thf lbst R vbribblfs. R is thf numbfr of
+     *    vbribblfs following thf first nonRfpfbt vbribblfs for whidh
+     *    multiplf lfxidogrbphid suddfssors brf rfqufstfd.
+     *
+     * @rfturn Thf vbribblf list dontbining rfturnfd vblufs.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     */
+    void gftBulkWithGftNfxt(SnmpMibRfqufst rfq, int nonRfpfbt, int mbxRfpfbt)
+        throws SnmpStbtusExdfption {
+        finbl Vfdtor<SnmpVbrBind> list = rfq.gftSubList();
+
+        // RFC 1905, Sfdtion 4.2.3, p14
+        finbl int L = list.sizf() ;
+        finbl int N = Mbth.mbx(Mbth.min(nonRfpfbt, L), 0) ;
+        finbl int M = Mbth.mbx(mbxRfpfbt, 0) ;
+        finbl int R = L - N ;
+
+        // Lft's build thf vbrBindList for thf rfsponsf pdu
+        //
+        // int frrorStbtus = SnmpDffinitions.snmpRspNoError ;
+        // int frrorIndfx = 0 ;
+        if (L != 0) {
+
+            // Non-rfpfbtfrs bnd first row of rfpfbtfrs
+            //
+            gftNfxt(rfq);
+
+            // Now thf rfmbining rfpfbtfrs
+            //
+            Vfdtor<SnmpVbrBind> rfpfbtfrs= splitFrom(list, N);
+            SnmpMibRfqufstImpl rfpfbtfdRfq =
+                nfw SnmpMibRfqufstImpl(rfq.gftEnginf(),
+                                       rfq.gftPdu(),
+                                       rfpfbtfrs,
+                                       SnmpDffinitions.snmpVfrsionTwo,
+                                       rfq.gftUsfrDbtb(),
+                                       rfq.gftPrindipbl(),
+                                       rfq.gftSfdurityLfvfl(),
+                                       rfq.gftSfdurityModfl(),
+                                       rfq.gftContfxtNbmf(),
+                                       rfq.gftAddfssContfxtNbmf());
+            for (int i = 2 ; i <= M ; i++) {
+                gftNfxt(rfpfbtfdRfq);
+                dondbtVfdtor(rfq, rfpfbtfrs);
+            }
+        }
+    }
+
+
+    // ---------------------------------------------------------------------
+    // PRIVATE METHODS
+    // ---------------------------------------------------------------------
+
+    /**
+     * This mfthod drfbtfs b nfw Vfdtor whidh dofs not dontbin thf first
+     * flfmfnt up to thf spfdififd limit.
+     *
+     * @pbrbm originbl Thf originbl vfdtor.
+     * @pbrbm limit Thf limit.
+     */
+    privbtf Vfdtor<SnmpVbrBind> splitFrom(Vfdtor<SnmpVbrBind> originbl, int limit) {
+
+        int mbx= originbl.sizf();
+        Vfdtor<SnmpVbrBind> rfsult= nfw Vfdtor<>(mbx - limit);
+        int i= limit;
+
+        // Ok thf loop looks b bit strbngf. But in ordfr to improvf thf
+        // pfrf, wf try to bvoid rfffrfndf to thf limit vbribblf from
+        // within thf loop ...
+        //
+        for(Enumfrbtion<SnmpVbrBind> f= originbl.flfmfnts(); f.hbsMorfElfmfnts(); --i) {
+            SnmpVbrBind vbr= f.nfxtElfmfnt();
+            if (i >0)
+                dontinuf;
+            rfsult.bddElfmfnt(nfw SnmpVbrBind(vbr.oid, vbr.vbluf));
+        }
+        rfturn rfsult;
+    }
+
+    privbtf void dondbtVfdtor(SnmpMibRfqufst rfq, Vfdtor<SnmpVbrBind> sourdf) {
+        for(Enumfrbtion<SnmpVbrBind> f= sourdf.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+            SnmpVbrBind vbr= f.nfxtElfmfnt();
+            // Wf nffd to duplidbtf thf SnmpVbrBind othfrwisf it is going
+            // to bf ovfrlobdfd by thf nfxt gft Nfxt ...
+            rfq.bddVbrBind(nfw SnmpVbrBind(vbr.oid, vbr.vbluf));
+        }
+    }
+
+    privbtf stbtid int gftSfdurityModfl(int vfrsion) {
+        switdh(vfrsion) {
+        dbsf SnmpDffinitions.snmpVfrsionOnf:
+            rfturn SnmpDffinitions.snmpV1SfdurityModfl;
+        dffbult:
+            rfturn SnmpDffinitions.snmpV2SfdurityModfl;
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // PROTECTED VARIABLES
+    // ---------------------------------------------------------------------
+
+    /**
+     * Thf objfdt nbmf of thf MIB.
+     * @sfribl
+     */
+    protfdtfd String mibNbmf;
+
+    /**
+     * Thf rfffrfndf to thf MBfbn sfrvfr.
+     * @sfribl
+     */
+    protfdtfd MBfbnSfrvfr sfrvfr;
+
+    // ---------------------------------------------------------------------
+    // PRIVATE VARIABLES
+    // ---------------------------------------------------------------------
+
+    /**
+     * Thf objfdt nbmf of thf SNMP protodol bdbptor.
+     * @sfribl
+     */
+    privbtf ObjfdtNbmf bdbptorNbmf;
+
+    /**
+     * Thf rfffrfndf to thf SNMP stbdk.
+     */
+    privbtf trbnsifnt SnmpMibHbndlfr bdbptor;
+}

@@ -1,413 +1,413 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.spi;
+pbdkbgf jbvbx.imbgfio.spi;
 
-import java.io.IOException;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.IOExdfption;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
 
 /**
- * The service provider interface (SPI) for <code>ImageReader</code>s.
- * For more information on service provider classes, see the class comment
- * for the <code>IIORegistry</code> class.
+ * Tif sfrvidf providfr intfrfbdf (SPI) for <dodf>ImbgfRfbdfr</dodf>s.
+ * For morf informbtion on sfrvidf providfr dlbssfs, sff tif dlbss dommfnt
+ * for tif <dodf>IIORfgistry</dodf> dlbss.
  *
- * <p> Each <code>ImageReaderSpi</code> provides several types of information
- * about the <code>ImageReader</code> class with which it is associated.
+ * <p> Ebdi <dodf>ImbgfRfbdfrSpi</dodf> providfs sfvfrbl typfs of informbtion
+ * bbout tif <dodf>ImbgfRfbdfr</dodf> dlbss witi wiidi it is bssodibtfd.
  *
- * <p> The name of the vendor who defined the SPI class and a
- * brief description of the class are available via the
- * <code>getVendorName</code>, <code>getDescription</code>,
- * and <code>getVersion</code> methods.
- * These methods may be internationalized to provide locale-specific
- * output.  These methods are intended mainly to provide short,
- * human-readable information that might be used to organize a pop-up
- * menu or other list.
+ * <p> Tif nbmf of tif vfndor wio dffinfd tif SPI dlbss bnd b
+ * briff dfsdription of tif dlbss brf bvbilbblf vib tif
+ * <dodf>gftVfndorNbmf</dodf>, <dodf>gftDfsdription</dodf>,
+ * bnd <dodf>gftVfrsion</dodf> mftiods.
+ * Tifsf mftiods mby bf intfrnbtionblizfd to providf lodblf-spfdifid
+ * output.  Tifsf mftiods brf intfndfd mbinly to providf siort,
+ * iumbn-rfbdbblf informbtion tibt migit bf usfd to orgbnizf b pop-up
+ * mfnu or otifr list.
  *
- * <p> Lists of format names, file suffixes, and MIME types associated
- * with the service may be obtained by means of the
- * <code>getFormatNames</code>, <code>getFileSuffixes</code>, and
- * <code>getMIMETypes</code> methods.  These methods may be used to
- * identify candidate <code>ImageReader</code>s for decoding a
- * particular file or stream based on manual format selection, file
- * naming, or MIME associations (for example, when accessing a file
- * over HTTP or as an email attachment).
+ * <p> Lists of formbt nbmfs, filf suffixfs, bnd MIME typfs bssodibtfd
+ * witi tif sfrvidf mby bf obtbinfd by mfbns of tif
+ * <dodf>gftFormbtNbmfs</dodf>, <dodf>gftFilfSuffixfs</dodf>, bnd
+ * <dodf>gftMIMETypfs</dodf> mftiods.  Tifsf mftiods mby bf usfd to
+ * idfntify dbndidbtf <dodf>ImbgfRfbdfr</dodf>s for dfdoding b
+ * pbrtidulbr filf or strfbm bbsfd on mbnubl formbt sflfdtion, filf
+ * nbming, or MIME bssodibtions (for fxbmplf, wifn bddfssing b filf
+ * ovfr HTTP or bs bn fmbil bttbdimfnt).
  *
- * <p> A more reliable way to determine which <code>ImageReader</code>s
- * are likely to be able to parse a particular data stream is provided
- * by the <code>canDecodeInput</code> method.  This methods allows the
- * service provider to inspect the actual stream contents.
+ * <p> A morf rflibblf wby to dftfrminf wiidi <dodf>ImbgfRfbdfr</dodf>s
+ * brf likfly to bf bblf to pbrsf b pbrtidulbr dbtb strfbm is providfd
+ * by tif <dodf>dbnDfdodfInput</dodf> mftiod.  Tiis mftiods bllows tif
+ * sfrvidf providfr to inspfdt tif bdtubl strfbm dontfnts.
  *
- * <p> Finally, an instance of the <code>ImageReader</code> class
- * associated with this service provider may be obtained by calling
- * the <code>createReaderInstance</code> method.  Any heavyweight
- * initialization, such as the loading of native libraries or creation
- * of large tables, should be deferred at least until the first
- * invocation of this method.
+ * <p> Finblly, bn instbndf of tif <dodf>ImbgfRfbdfr</dodf> dlbss
+ * bssodibtfd witi tiis sfrvidf providfr mby bf obtbinfd by dblling
+ * tif <dodf>drfbtfRfbdfrInstbndf</dodf> mftiod.  Any ifbvywfigit
+ * initiblizbtion, sudi bs tif lobding of nbtivf librbrifs or drfbtion
+ * of lbrgf tbblfs, siould bf dfffrrfd bt lfbst until tif first
+ * invodbtion of tiis mftiod.
  *
- * @see IIORegistry
- * @see javax.imageio.ImageReader
+ * @sff IIORfgistry
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr
  *
  */
-public abstract class ImageReaderSpi extends ImageReaderWriterSpi {
+publid bbstrbdt dlbss ImbgfRfbdfrSpi fxtfnds ImbgfRfbdfrWritfrSpi {
 
     /**
-     * A single-element array, initially containing
-     * <code>ImageInputStream.class</code>, to be returned from
-     * <code>getInputTypes</code>.
-     * @deprecated Instead of using this field, directly create
-     * the equivalent array <code>{ ImageInputStream.class }</code>.
+     * A singlf-flfmfnt brrby, initiblly dontbining
+     * <dodf>ImbgfInputStrfbm.dlbss</dodf>, to bf rfturnfd from
+     * <dodf>gftInputTypfs</dodf>.
+     * @dfprfdbtfd Instfbd of using tiis fifld, dirfdtly drfbtf
+     * tif fquivblfnt brrby <dodf>{ ImbgfInputStrfbm.dlbss }</dodf>.
      */
-    @Deprecated
-    public static final Class<?>[] STANDARD_INPUT_TYPE =
-        { ImageInputStream.class };
+    @Dfprfdbtfd
+    publid stbtid finbl Clbss<?>[] STANDARD_INPUT_TYPE =
+        { ImbgfInputStrfbm.dlbss };
 
     /**
-     * An array of <code>Class</code> objects to be returned from
-     * <code>getInputTypes</code>, initially <code>null</code>.
+     * An brrby of <dodf>Clbss</dodf> objfdts to bf rfturnfd from
+     * <dodf>gftInputTypfs</dodf>, initiblly <dodf>null</dodf>.
      */
-    protected Class<?>[] inputTypes = null;
+    protfdtfd Clbss<?>[] inputTypfs = null;
 
     /**
-     * An array of strings to be returned from
-     * <code>getImageWriterSpiNames</code>, initially
-     * <code>null</code>.
+     * An brrby of strings to bf rfturnfd from
+     * <dodf>gftImbgfWritfrSpiNbmfs</dodf>, initiblly
+     * <dodf>null</dodf>.
      */
-    protected String[] writerSpiNames = null;
+    protfdtfd String[] writfrSpiNbmfs = null;
 
     /**
-     * The <code>Class</code> of the reader, initially
-     * <code>null</code>.
+     * Tif <dodf>Clbss</dodf> of tif rfbdfr, initiblly
+     * <dodf>null</dodf>.
      */
-    private Class<?> readerClass = null;
+    privbtf Clbss<?> rfbdfrClbss = null;
 
     /**
-     * Constructs a blank <code>ImageReaderSpi</code>.  It is up to
-     * the subclass to initialize instance variables and/or override
-     * method implementations in order to provide working versions of
-     * all methods.
+     * Construdts b blbnk <dodf>ImbgfRfbdfrSpi</dodf>.  It is up to
+     * tif subdlbss to initiblizf instbndf vbribblfs bnd/or ovfrridf
+     * mftiod implfmfntbtions in ordfr to providf working vfrsions of
+     * bll mftiods.
      */
-    protected ImageReaderSpi() {
+    protfdtfd ImbgfRfbdfrSpi() {
     }
 
     /**
-     * Constructs an <code>ImageReaderSpi</code> with a given
-     * set of values.
+     * Construdts bn <dodf>ImbgfRfbdfrSpi</dodf> witi b givfn
+     * sft of vblufs.
      *
-     * @param vendorName the vendor name, as a non-<code>null</code>
-     * <code>String</code>.
-     * @param version a version identifier, as a non-<code>null</code>
-     * <code>String</code>.
-     * @param names a non-<code>null</code> array of
-     * <code>String</code>s indicating the format names.  At least one
-     * entry must be present.
-     * @param suffixes an array of <code>String</code>s indicating the
-     * common file suffixes.  If no suffixes are defined,
-     * <code>null</code> should be supplied.  An array of length 0
-     * will be normalized to <code>null</code>.
-     * @param MIMETypes an array of <code>String</code>s indicating
-     * the format's MIME types.  If no MIME types are defined,
-     * <code>null</code> should be supplied.  An array of length 0
-     * will be normalized to <code>null</code>.
-     * @param readerClassName the fully-qualified name of the
-     * associated <code>ImageReader</code> class, as a
-     * non-<code>null</code> <code>String</code>.
-     * @param inputTypes a non-<code>null</code> array of
-     * <code>Class</code> objects of length at least 1 indicating the
-     * legal input types.
-     * @param writerSpiNames an array <code>String</code>s naming the
-     * classes of all associated <code>ImageWriter</code>s, or
-     * <code>null</code>.  An array of length 0 is normalized to
-     * <code>null</code>.
-     * @param supportsStandardStreamMetadataFormat a
-     * <code>boolean</code> that indicates whether a stream metadata
-     * object can use trees described by the standard metadata format.
-     * @param nativeStreamMetadataFormatName a
-     * <code>String</code>, or <code>null</code>, to be returned from
-     * <code>getNativeStreamMetadataFormatName</code>.
-     * @param nativeStreamMetadataFormatClassName a
-     * <code>String</code>, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getNativeStreamMetadataFormat</code>.
-     * @param extraStreamMetadataFormatNames an array of
-     * <code>String</code>s, or <code>null</code>, to be returned from
-     * <code>getExtraStreamMetadataFormatNames</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
-     * @param extraStreamMetadataFormatClassNames an array of
-     * <code>String</code>s, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getStreamMetadataFormat</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
-     * @param supportsStandardImageMetadataFormat a
-     * <code>boolean</code> that indicates whether an image metadata
-     * object can use trees described by the standard metadata format.
-     * @param nativeImageMetadataFormatName a
-     * <code>String</code>, or <code>null</code>, to be returned from
-     * <code>getNativeImageMetadataFormatName</code>.
-     * @param nativeImageMetadataFormatClassName a
-     * <code>String</code>, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getNativeImageMetadataFormat</code>.
-     * @param extraImageMetadataFormatNames an array of
-     * <code>String</code>s to be returned from
-     * <code>getExtraImageMetadataFormatNames</code>.  An array of length 0
-     * is normalized to <code>null</code>.
-     * @param extraImageMetadataFormatClassNames an array of
-     * <code>String</code>s, or <code>null</code>, to be used to instantiate
-     * a metadata format object to be returned from
-     * <code>getImageMetadataFormat</code>.  An array of length
-     * 0 is normalized to <code>null</code>.
+     * @pbrbm vfndorNbmf tif vfndor nbmf, bs b non-<dodf>null</dodf>
+     * <dodf>String</dodf>.
+     * @pbrbm vfrsion b vfrsion idfntififr, bs b non-<dodf>null</dodf>
+     * <dodf>String</dodf>.
+     * @pbrbm nbmfs b non-<dodf>null</dodf> brrby of
+     * <dodf>String</dodf>s indidbting tif formbt nbmfs.  At lfbst onf
+     * fntry must bf prfsfnt.
+     * @pbrbm suffixfs bn brrby of <dodf>String</dodf>s indidbting tif
+     * dommon filf suffixfs.  If no suffixfs brf dffinfd,
+     * <dodf>null</dodf> siould bf supplifd.  An brrby of lfngti 0
+     * will bf normblizfd to <dodf>null</dodf>.
+     * @pbrbm MIMETypfs bn brrby of <dodf>String</dodf>s indidbting
+     * tif formbt's MIME typfs.  If no MIME typfs brf dffinfd,
+     * <dodf>null</dodf> siould bf supplifd.  An brrby of lfngti 0
+     * will bf normblizfd to <dodf>null</dodf>.
+     * @pbrbm rfbdfrClbssNbmf tif fully-qublififd nbmf of tif
+     * bssodibtfd <dodf>ImbgfRfbdfr</dodf> dlbss, bs b
+     * non-<dodf>null</dodf> <dodf>String</dodf>.
+     * @pbrbm inputTypfs b non-<dodf>null</dodf> brrby of
+     * <dodf>Clbss</dodf> objfdts of lfngti bt lfbst 1 indidbting tif
+     * lfgbl input typfs.
+     * @pbrbm writfrSpiNbmfs bn brrby <dodf>String</dodf>s nbming tif
+     * dlbssfs of bll bssodibtfd <dodf>ImbgfWritfr</dodf>s, or
+     * <dodf>null</dodf>.  An brrby of lfngti 0 is normblizfd to
+     * <dodf>null</dodf>.
+     * @pbrbm supportsStbndbrdStrfbmMftbdbtbFormbt b
+     * <dodf>boolfbn</dodf> tibt indidbtfs wiftifr b strfbm mftbdbtb
+     * objfdt dbn usf trffs dfsdribfd by tif stbndbrd mftbdbtb formbt.
+     * @pbrbm nbtivfStrfbmMftbdbtbFormbtNbmf b
+     * <dodf>String</dodf>, or <dodf>null</dodf>, to bf rfturnfd from
+     * <dodf>gftNbtivfStrfbmMftbdbtbFormbtNbmf</dodf>.
+     * @pbrbm nbtivfStrfbmMftbdbtbFormbtClbssNbmf b
+     * <dodf>String</dodf>, or <dodf>null</dodf>, to bf usfd to instbntibtf
+     * b mftbdbtb formbt objfdt to bf rfturnfd from
+     * <dodf>gftNbtivfStrfbmMftbdbtbFormbt</dodf>.
+     * @pbrbm fxtrbStrfbmMftbdbtbFormbtNbmfs bn brrby of
+     * <dodf>String</dodf>s, or <dodf>null</dodf>, to bf rfturnfd from
+     * <dodf>gftExtrbStrfbmMftbdbtbFormbtNbmfs</dodf>.  An brrby of lfngti
+     * 0 is normblizfd to <dodf>null</dodf>.
+     * @pbrbm fxtrbStrfbmMftbdbtbFormbtClbssNbmfs bn brrby of
+     * <dodf>String</dodf>s, or <dodf>null</dodf>, to bf usfd to instbntibtf
+     * b mftbdbtb formbt objfdt to bf rfturnfd from
+     * <dodf>gftStrfbmMftbdbtbFormbt</dodf>.  An brrby of lfngti
+     * 0 is normblizfd to <dodf>null</dodf>.
+     * @pbrbm supportsStbndbrdImbgfMftbdbtbFormbt b
+     * <dodf>boolfbn</dodf> tibt indidbtfs wiftifr bn imbgf mftbdbtb
+     * objfdt dbn usf trffs dfsdribfd by tif stbndbrd mftbdbtb formbt.
+     * @pbrbm nbtivfImbgfMftbdbtbFormbtNbmf b
+     * <dodf>String</dodf>, or <dodf>null</dodf>, to bf rfturnfd from
+     * <dodf>gftNbtivfImbgfMftbdbtbFormbtNbmf</dodf>.
+     * @pbrbm nbtivfImbgfMftbdbtbFormbtClbssNbmf b
+     * <dodf>String</dodf>, or <dodf>null</dodf>, to bf usfd to instbntibtf
+     * b mftbdbtb formbt objfdt to bf rfturnfd from
+     * <dodf>gftNbtivfImbgfMftbdbtbFormbt</dodf>.
+     * @pbrbm fxtrbImbgfMftbdbtbFormbtNbmfs bn brrby of
+     * <dodf>String</dodf>s to bf rfturnfd from
+     * <dodf>gftExtrbImbgfMftbdbtbFormbtNbmfs</dodf>.  An brrby of lfngti 0
+     * is normblizfd to <dodf>null</dodf>.
+     * @pbrbm fxtrbImbgfMftbdbtbFormbtClbssNbmfs bn brrby of
+     * <dodf>String</dodf>s, or <dodf>null</dodf>, to bf usfd to instbntibtf
+     * b mftbdbtb formbt objfdt to bf rfturnfd from
+     * <dodf>gftImbgfMftbdbtbFormbt</dodf>.  An brrby of lfngti
+     * 0 is normblizfd to <dodf>null</dodf>.
      *
-     * @exception IllegalArgumentException if <code>vendorName</code>
-     * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>version</code>
-     * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>names</code>
-     * is <code>null</code> or has length 0.
-     * @exception IllegalArgumentException if <code>readerClassName</code>
-     * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>inputTypes</code>
-     * is <code>null</code> or has length 0.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vfndorNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vfrsion</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nbmfs</dodf>
+     * is <dodf>null</dodf> or ibs lfngti 0.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rfbdfrClbssNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>inputTypfs</dodf>
+     * is <dodf>null</dodf> or ibs lfngti 0.
      */
-    public ImageReaderSpi(String vendorName,
-                          String version,
-                          String[] names,
-                          String[] suffixes,
-                          String[] MIMETypes,
-                          String readerClassName,
-                          Class<?>[] inputTypes,
-                          String[] writerSpiNames,
-                          boolean supportsStandardStreamMetadataFormat,
-                          String nativeStreamMetadataFormatName,
-                          String nativeStreamMetadataFormatClassName,
-                          String[] extraStreamMetadataFormatNames,
-                          String[] extraStreamMetadataFormatClassNames,
-                          boolean supportsStandardImageMetadataFormat,
-                          String nativeImageMetadataFormatName,
-                          String nativeImageMetadataFormatClassName,
-                          String[] extraImageMetadataFormatNames,
-                          String[] extraImageMetadataFormatClassNames) {
-        super(vendorName, version,
-              names, suffixes, MIMETypes, readerClassName,
-              supportsStandardStreamMetadataFormat,
-              nativeStreamMetadataFormatName,
-              nativeStreamMetadataFormatClassName,
-              extraStreamMetadataFormatNames,
-              extraStreamMetadataFormatClassNames,
-              supportsStandardImageMetadataFormat,
-              nativeImageMetadataFormatName,
-              nativeImageMetadataFormatClassName,
-              extraImageMetadataFormatNames,
-              extraImageMetadataFormatClassNames);
+    publid ImbgfRfbdfrSpi(String vfndorNbmf,
+                          String vfrsion,
+                          String[] nbmfs,
+                          String[] suffixfs,
+                          String[] MIMETypfs,
+                          String rfbdfrClbssNbmf,
+                          Clbss<?>[] inputTypfs,
+                          String[] writfrSpiNbmfs,
+                          boolfbn supportsStbndbrdStrfbmMftbdbtbFormbt,
+                          String nbtivfStrfbmMftbdbtbFormbtNbmf,
+                          String nbtivfStrfbmMftbdbtbFormbtClbssNbmf,
+                          String[] fxtrbStrfbmMftbdbtbFormbtNbmfs,
+                          String[] fxtrbStrfbmMftbdbtbFormbtClbssNbmfs,
+                          boolfbn supportsStbndbrdImbgfMftbdbtbFormbt,
+                          String nbtivfImbgfMftbdbtbFormbtNbmf,
+                          String nbtivfImbgfMftbdbtbFormbtClbssNbmf,
+                          String[] fxtrbImbgfMftbdbtbFormbtNbmfs,
+                          String[] fxtrbImbgfMftbdbtbFormbtClbssNbmfs) {
+        supfr(vfndorNbmf, vfrsion,
+              nbmfs, suffixfs, MIMETypfs, rfbdfrClbssNbmf,
+              supportsStbndbrdStrfbmMftbdbtbFormbt,
+              nbtivfStrfbmMftbdbtbFormbtNbmf,
+              nbtivfStrfbmMftbdbtbFormbtClbssNbmf,
+              fxtrbStrfbmMftbdbtbFormbtNbmfs,
+              fxtrbStrfbmMftbdbtbFormbtClbssNbmfs,
+              supportsStbndbrdImbgfMftbdbtbFormbt,
+              nbtivfImbgfMftbdbtbFormbtNbmf,
+              nbtivfImbgfMftbdbtbFormbtClbssNbmf,
+              fxtrbImbgfMftbdbtbFormbtNbmfs,
+              fxtrbImbgfMftbdbtbFormbtClbssNbmfs);
 
-        if (inputTypes == null) {
-            throw new IllegalArgumentException
-                ("inputTypes == null!");
+        if (inputTypfs == null) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("inputTypfs == null!");
         }
-        if (inputTypes.length == 0) {
-            throw new IllegalArgumentException
-                ("inputTypes.length == 0!");
+        if (inputTypfs.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("inputTypfs.lfngti == 0!");
         }
 
-        this.inputTypes = (inputTypes == STANDARD_INPUT_TYPE) ?
-            new Class<?>[] { ImageInputStream.class } :
-            inputTypes.clone();
+        tiis.inputTypfs = (inputTypfs == STANDARD_INPUT_TYPE) ?
+            nfw Clbss<?>[] { ImbgfInputStrfbm.dlbss } :
+            inputTypfs.dlonf();
 
-        // If length == 0, leave it null
-        if (writerSpiNames != null && writerSpiNames.length > 0) {
-            this.writerSpiNames = writerSpiNames.clone();
+        // If lfngti == 0, lfbvf it null
+        if (writfrSpiNbmfs != null && writfrSpiNbmfs.lfngti > 0) {
+            tiis.writfrSpiNbmfs = writfrSpiNbmfs.dlonf();
         }
     }
 
     /**
-     * Returns an array of <code>Class</code> objects indicating what
-     * types of objects may be used as arguments to the reader's
-     * <code>setInput</code> method.
+     * Rfturns bn brrby of <dodf>Clbss</dodf> objfdts indidbting wibt
+     * typfs of objfdts mby bf usfd bs brgumfnts to tif rfbdfr's
+     * <dodf>sftInput</dodf> mftiod.
      *
-     * <p> For most readers, which only accept input from an
-     * <code>ImageInputStream</code>, a single-element array
-     * containing <code>ImageInputStream.class</code> should be
-     * returned.
+     * <p> For most rfbdfrs, wiidi only bddfpt input from bn
+     * <dodf>ImbgfInputStrfbm</dodf>, b singlf-flfmfnt brrby
+     * dontbining <dodf>ImbgfInputStrfbm.dlbss</dodf> siould bf
+     * rfturnfd.
      *
-     * @return a non-<code>null</code> array of
-     * <code>Class</code> objects of length at least 1.
+     * @rfturn b non-<dodf>null</dodf> brrby of
+     * <dodf>Clbss</dodf> objfdts of lfngti bt lfbst 1.
      */
-    public Class<?>[] getInputTypes() {
-        return inputTypes.clone();
+    publid Clbss<?>[] gftInputTypfs() {
+        rfturn inputTypfs.dlonf();
     }
 
     /**
-     * Returns <code>true</code> if the supplied source object appears
-     * to be of the format supported by this reader.  Returning
-     * <code>true</code> from this method does not guarantee that
-     * reading will succeed, only that there appears to be a
-     * reasonable chance of success based on a brief inspection of the
-     * stream contents.  If the source is an
-     * <code>ImageInputStream</code>, implementations will commonly
-     * check the first several bytes of the stream for a "magic
-     * number" associated with the format.  Once actual reading has
-     * commenced, the reader may still indicate failure at any time
-     * prior to the completion of decoding.
+     * Rfturns <dodf>truf</dodf> if tif supplifd sourdf objfdt bppfbrs
+     * to bf of tif formbt supportfd by tiis rfbdfr.  Rfturning
+     * <dodf>truf</dodf> from tiis mftiod dofs not gubrbntff tibt
+     * rfbding will suddffd, only tibt tifrf bppfbrs to bf b
+     * rfbsonbblf dibndf of suddfss bbsfd on b briff inspfdtion of tif
+     * strfbm dontfnts.  If tif sourdf is bn
+     * <dodf>ImbgfInputStrfbm</dodf>, implfmfntbtions will dommonly
+     * difdk tif first sfvfrbl bytfs of tif strfbm for b "mbgid
+     * numbfr" bssodibtfd witi tif formbt.  Ondf bdtubl rfbding ibs
+     * dommfndfd, tif rfbdfr mby still indidbtf fbilurf bt bny timf
+     * prior to tif domplftion of dfdoding.
      *
-     * <p> It is important that the state of the object not be
-     * disturbed in order that other <code>ImageReaderSpi</code>s can
-     * properly determine whether they are able to decode the object.
-     * In particular, if the source is an
-     * <code>ImageInputStream</code>, a
-     * <code>mark</code>/<code>reset</code> pair should be used to
-     * preserve the stream position.
+     * <p> It is importbnt tibt tif stbtf of tif objfdt not bf
+     * disturbfd in ordfr tibt otifr <dodf>ImbgfRfbdfrSpi</dodf>s dbn
+     * propfrly dftfrminf wiftifr tify brf bblf to dfdodf tif objfdt.
+     * In pbrtidulbr, if tif sourdf is bn
+     * <dodf>ImbgfInputStrfbm</dodf>, b
+     * <dodf>mbrk</dodf>/<dodf>rfsft</dodf> pbir siould bf usfd to
+     * prfsfrvf tif strfbm position.
      *
-     * <p> Formats such as "raw," which can potentially attempt
-     * to read nearly any stream, should return <code>false</code>
-     * in order to avoid being invoked in preference to a closer
-     * match.
+     * <p> Formbts sudi bs "rbw," wiidi dbn potfntiblly bttfmpt
+     * to rfbd nfbrly bny strfbm, siould rfturn <dodf>fblsf</dodf>
+     * in ordfr to bvoid bfing invokfd in prfffrfndf to b dlosfr
+     * mbtdi.
      *
-     * <p> If <code>source</code> is not an instance of one of the
-     * classes returned by <code>getInputTypes</code>, the method
-     * should simply return <code>false</code>.
+     * <p> If <dodf>sourdf</dodf> is not bn instbndf of onf of tif
+     * dlbssfs rfturnfd by <dodf>gftInputTypfs</dodf>, tif mftiod
+     * siould simply rfturn <dodf>fblsf</dodf>.
      *
-     * @param source the object (typically an
-     * <code>ImageInputStream</code>) to be decoded.
+     * @pbrbm sourdf tif objfdt (typidblly bn
+     * <dodf>ImbgfInputStrfbm</dodf>) to bf dfdodfd.
      *
-     * @return <code>true</code> if it is likely that this stream can
-     * be decoded.
+     * @rfturn <dodf>truf</dodf> if it is likfly tibt tiis strfbm dbn
+     * bf dfdodfd.
      *
-     * @exception IllegalArgumentException if <code>source</code> is
-     * <code>null</code>.
-     * @exception IOException if an I/O error occurs while reading the
-     * stream.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding tif
+     * strfbm.
      */
-    public abstract boolean canDecodeInput(Object source) throws IOException;
+    publid bbstrbdt boolfbn dbnDfdodfInput(Objfdt sourdf) tirows IOExdfption;
 
     /**
-     * Returns an instance of the <code>ImageReader</code>
-     * implementation associated with this service provider.
-     * The returned object will initially be in an initial state
-     * as if its <code>reset</code> method had been called.
+     * Rfturns bn instbndf of tif <dodf>ImbgfRfbdfr</dodf>
+     * implfmfntbtion bssodibtfd witi tiis sfrvidf providfr.
+     * Tif rfturnfd objfdt will initiblly bf in bn initibl stbtf
+     * bs if its <dodf>rfsft</dodf> mftiod ibd bffn dbllfd.
      *
-     * <p> The default implementation simply returns
-     * <code>createReaderInstance(null)</code>.
+     * <p> Tif dffbult implfmfntbtion simply rfturns
+     * <dodf>drfbtfRfbdfrInstbndf(null)</dodf>.
      *
-     * @return an <code>ImageReader</code> instance.
+     * @rfturn bn <dodf>ImbgfRfbdfr</dodf> instbndf.
      *
-     * @exception IOException if an error occurs during loading,
-     * or initialization of the reader class, or during instantiation
-     * or initialization of the reader object.
+     * @fxdfption IOExdfption if bn frror oddurs during lobding,
+     * or initiblizbtion of tif rfbdfr dlbss, or during instbntibtion
+     * or initiblizbtion of tif rfbdfr objfdt.
      */
-    public ImageReader createReaderInstance() throws IOException {
-        return createReaderInstance(null);
+    publid ImbgfRfbdfr drfbtfRfbdfrInstbndf() tirows IOExdfption {
+        rfturn drfbtfRfbdfrInstbndf(null);
     }
 
     /**
-     * Returns an instance of the <code>ImageReader</code>
-     * implementation associated with this service provider.
-     * The returned object will initially be in an initial state
-     * as if its <code>reset</code> method had been called.
+     * Rfturns bn instbndf of tif <dodf>ImbgfRfbdfr</dodf>
+     * implfmfntbtion bssodibtfd witi tiis sfrvidf providfr.
+     * Tif rfturnfd objfdt will initiblly bf in bn initibl stbtf
+     * bs if its <dodf>rfsft</dodf> mftiod ibd bffn dbllfd.
      *
-     * <p> An <code>Object</code> may be supplied to the plug-in at
-     * construction time.  The nature of the object is entirely
-     * plug-in specific.
+     * <p> An <dodf>Objfdt</dodf> mby bf supplifd to tif plug-in bt
+     * donstrudtion timf.  Tif nbturf of tif objfdt is fntirfly
+     * plug-in spfdifid.
      *
-     * <p> Typically, a plug-in will implement this method using code
-     * such as <code>return new MyImageReader(this)</code>.
+     * <p> Typidblly, b plug-in will implfmfnt tiis mftiod using dodf
+     * sudi bs <dodf>rfturn nfw MyImbgfRfbdfr(tiis)</dodf>.
      *
-     * @param extension a plug-in specific extension object, which may
-     * be <code>null</code>.
+     * @pbrbm fxtfnsion b plug-in spfdifid fxtfnsion objfdt, wiidi mby
+     * bf <dodf>null</dodf>.
      *
-     * @return an <code>ImageReader</code> instance.
+     * @rfturn bn <dodf>ImbgfRfbdfr</dodf> instbndf.
      *
-     * @exception IOException if the attempt to instantiate
-     * the reader fails.
-     * @exception IllegalArgumentException if the
-     * <code>ImageReader</code>'s constructor throws an
-     * <code>IllegalArgumentException</code> to indicate that the
-     * extension object is unsuitable.
+     * @fxdfption IOExdfption if tif bttfmpt to instbntibtf
+     * tif rfbdfr fbils.
+     * @fxdfption IllfgblArgumfntExdfption if tif
+     * <dodf>ImbgfRfbdfr</dodf>'s donstrudtor tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> to indidbtf tibt tif
+     * fxtfnsion objfdt is unsuitbblf.
      */
-    public abstract ImageReader createReaderInstance(Object extension)
-        throws IOException;
+    publid bbstrbdt ImbgfRfbdfr drfbtfRfbdfrInstbndf(Objfdt fxtfnsion)
+        tirows IOExdfption;
 
     /**
-     * Returns <code>true</code> if the <code>ImageReader</code> object
-     * passed in is an instance of the <code>ImageReader</code>
-     * associated with this service provider.
+     * Rfturns <dodf>truf</dodf> if tif <dodf>ImbgfRfbdfr</dodf> objfdt
+     * pbssfd in is bn instbndf of tif <dodf>ImbgfRfbdfr</dodf>
+     * bssodibtfd witi tiis sfrvidf providfr.
      *
-     * <p> The default implementation compares the fully-qualified
-     * class name of the <code>reader</code> argument with the class
-     * name passed into the constructor.  This method may be overridden
-     * if more sophisticated checking is required.
+     * <p> Tif dffbult implfmfntbtion dompbrfs tif fully-qublififd
+     * dlbss nbmf of tif <dodf>rfbdfr</dodf> brgumfnt witi tif dlbss
+     * nbmf pbssfd into tif donstrudtor.  Tiis mftiod mby bf ovfrriddfn
+     * if morf sopiistidbtfd difdking is rfquirfd.
      *
-     * @param reader an <code>ImageReader</code> instance.
+     * @pbrbm rfbdfr bn <dodf>ImbgfRfbdfr</dodf> instbndf.
      *
-     * @return <code>true</code> if <code>reader</code> is recognized.
+     * @rfturn <dodf>truf</dodf> if <dodf>rfbdfr</dodf> is rfdognizfd.
      *
-     * @exception IllegalArgumentException if <code>reader</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rfbdfr</dodf> is
+     * <dodf>null</dodf>.
      */
-    public boolean isOwnReader(ImageReader reader) {
-        if (reader == null) {
-            throw new IllegalArgumentException("reader == null!");
+    publid boolfbn isOwnRfbdfr(ImbgfRfbdfr rfbdfr) {
+        if (rfbdfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("rfbdfr == null!");
         }
-        String name = reader.getClass().getName();
-        return name.equals(pluginClassName);
+        String nbmf = rfbdfr.gftClbss().gftNbmf();
+        rfturn nbmf.fqubls(pluginClbssNbmf);
     }
 
     /**
-     * Returns an array of <code>String</code>s containing the fully
-     * qualified names of all the <code>ImageWriterSpi</code> classes
-     * that can understand the internal metadata representation used
-     * by the <code>ImageReader</code> associated with this service
-     * provider, or <code>null</code> if there are no such
-     * <code>ImageWriter</code>s specified.  If a
-     * non-<code>null</code> value is returned, it must have non-zero
-     * length.
+     * Rfturns bn brrby of <dodf>String</dodf>s dontbining tif fully
+     * qublififd nbmfs of bll tif <dodf>ImbgfWritfrSpi</dodf> dlbssfs
+     * tibt dbn undfrstbnd tif intfrnbl mftbdbtb rfprfsfntbtion usfd
+     * by tif <dodf>ImbgfRfbdfr</dodf> bssodibtfd witi tiis sfrvidf
+     * providfr, or <dodf>null</dodf> if tifrf brf no sudi
+     * <dodf>ImbgfWritfr</dodf>s spfdififd.  If b
+     * non-<dodf>null</dodf> vbluf is rfturnfd, it must ibvf non-zfro
+     * lfngti.
      *
-     * <p> The first item in the array must be the name of the service
-     * provider for the "preferred" writer, as it will be used to
-     * instantiate the <code>ImageWriter</code> returned by
-     * <code>ImageIO.getImageWriter(ImageReader)</code>.
+     * <p> Tif first itfm in tif brrby must bf tif nbmf of tif sfrvidf
+     * providfr for tif "prfffrrfd" writfr, bs it will bf usfd to
+     * instbntibtf tif <dodf>ImbgfWritfr</dodf> rfturnfd by
+     * <dodf>ImbgfIO.gftImbgfWritfr(ImbgfRfbdfr)</dodf>.
      *
-     * <p> This mechanism may be used to obtain
-     * <code>ImageWriters</code> that will understand the internal
-     * structure of non-pixel meta-data (see
-     * <code>IIOTreeInfo</code>) generated by an
-     * <code>ImageReader</code>.  By obtaining this data from the
-     * <code>ImageReader</code> and passing it on to one of the
-     * <code>ImageWriters</code> obtained with this method, a client
-     * program can read an image, modify it in some way, and write it
-     * back out while preserving all meta-data, without having to
-     * understand anything about the internal structure of the
-     * meta-data, or even about the image format.
+     * <p> Tiis mfdibnism mby bf usfd to obtbin
+     * <dodf>ImbgfWritfrs</dodf> tibt will undfrstbnd tif intfrnbl
+     * strudturf of non-pixfl mftb-dbtb (sff
+     * <dodf>IIOTrffInfo</dodf>) gfnfrbtfd by bn
+     * <dodf>ImbgfRfbdfr</dodf>.  By obtbining tiis dbtb from tif
+     * <dodf>ImbgfRfbdfr</dodf> bnd pbssing it on to onf of tif
+     * <dodf>ImbgfWritfrs</dodf> obtbinfd witi tiis mftiod, b dlifnt
+     * progrbm dbn rfbd bn imbgf, modify it in somf wby, bnd writf it
+     * bbdk out wiilf prfsfrving bll mftb-dbtb, witiout ibving to
+     * undfrstbnd bnytiing bbout tif intfrnbl strudturf of tif
+     * mftb-dbtb, or fvfn bbout tif imbgf formbt.
      *
-     * @return an array of <code>String</code>s of length at least 1
-     * containing names of <code>ImageWriterSpi</code>, or
-     * <code>null</code>.
+     * @rfturn bn brrby of <dodf>String</dodf>s of lfngti bt lfbst 1
+     * dontbining nbmfs of <dodf>ImbgfWritfrSpi</dodf>, or
+     * <dodf>null</dodf>.
      *
-     * @see javax.imageio.ImageIO#getImageWriter(ImageReader)
+     * @sff jbvbx.imbgfio.ImbgfIO#gftImbgfWritfr(ImbgfRfbdfr)
      */
-    public String[] getImageWriterSpiNames() {
-        return writerSpiNames == null ?
-            null : writerSpiNames.clone();
+    publid String[] gftImbgfWritfrSpiNbmfs() {
+        rfturn writfrSpiNbmfs == null ?
+            null : writfrSpiNbmfs.dlonf();
     }
 }

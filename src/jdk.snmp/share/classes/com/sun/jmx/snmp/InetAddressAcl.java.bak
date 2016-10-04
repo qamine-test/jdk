@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
-// java import
+// jbvb import
 //
-import java.net.InetAddress;
-import java.util.Enumeration;
+import jbvb.nft.InftAddrfss;
+import jbvb.util.Enumfrbtion;
 
 /**
- * Defines the IP address based ACL used by the SNMP protocol adaptor.
+ * Dffinfs tif IP bddrfss bbsfd ACL usfd by tif SNMP protodol bdbptor.
  * <p>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
 
-public interface InetAddressAcl {
+publid intfrfbdf InftAddrfssAdl {
 
     /**
-     * Returns the name of the ACL.
+     * Rfturns tif nbmf of tif ACL.
      *
-     * @return The name of the ACL.
+     * @rfturn Tif nbmf of tif ACL.
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Checks whether or not the specified host has <CODE>READ</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd iost ibs <CODE>READ</CODE> bddfss.
      *
-     * @param address The host address to check.
+     * @pbrbm bddrfss Tif iost bddrfss to difdk.
      *
-     * @return <CODE>true</CODE> if the host has read permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif iost ibs rfbd pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkReadPermission(InetAddress address);
+    publid boolfbn difdkRfbdPfrmission(InftAddrfss bddrfss);
 
     /**
-     * Checks whether or not the specified host and community have <CODE>READ</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd iost bnd dommunity ibvf <CODE>READ</CODE> bddfss.
      *
-     * @param address The host address to check.
-     * @param community The community associated with the host.
+     * @pbrbm bddrfss Tif iost bddrfss to difdk.
+     * @pbrbm dommunity Tif dommunity bssodibtfd witi tif iost.
      *
-     * @return <CODE>true</CODE> if the pair (host, community) has read permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif pbir (iost, dommunity) ibs rfbd pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkReadPermission(InetAddress address, String community);
+    publid boolfbn difdkRfbdPfrmission(InftAddrfss bddrfss, String dommunity);
 
     /**
-     * Checks whether or not a community string is defined.
+     * Cifdks wiftifr or not b dommunity string is dffinfd.
      *
-     * @param community The community to check.
+     * @pbrbm dommunity Tif dommunity to difdk.
      *
-     * @return <CODE>true</CODE> if the community is known, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif dommunity is known, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkCommunity(String community);
+    publid boolfbn difdkCommunity(String dommunity);
 
     /**
-     * Checks whether or not the specified host has <CODE>WRITE</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd iost ibs <CODE>WRITE</CODE> bddfss.
      *
-     * @param address The host address to check.
+     * @pbrbm bddrfss Tif iost bddrfss to difdk.
      *
-     * @return <CODE>true</CODE> if the host has write permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif iost ibs writf pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkWritePermission(InetAddress address);
+    publid boolfbn difdkWritfPfrmission(InftAddrfss bddrfss);
 
     /**
-     * Checks whether or not the specified host and community have <CODE>WRITE</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd iost bnd dommunity ibvf <CODE>WRITE</CODE> bddfss.
      *
-     * @param address The host address to check.
-     * @param community The community associated with the host.
+     * @pbrbm bddrfss Tif iost bddrfss to difdk.
+     * @pbrbm dommunity Tif dommunity bssodibtfd witi tif iost.
      *
-     * @return <CODE>true</CODE> if the pair (host, community) has write permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif pbir (iost, dommunity) ibs writf pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkWritePermission(InetAddress address, String community);
+    publid boolfbn difdkWritfPfrmission(InftAddrfss bddrfss, String dommunity);
 
     /**
-     * Returns an enumeration of trap destinations.
+     * Rfturns bn fnumfrbtion of trbp dfstinbtions.
      *
-     * @return An enumeration of the trap destinations (enumeration of <CODE>InetAddress</CODE>).
+     * @rfturn An fnumfrbtion of tif trbp dfstinbtions (fnumfrbtion of <CODE>InftAddrfss</CODE>).
      */
-    public Enumeration<InetAddress> getTrapDestinations();
+    publid Enumfrbtion<InftAddrfss> gftTrbpDfstinbtions();
 
     /**
-     * Returns an enumeration of trap communities for a given host.
+     * Rfturns bn fnumfrbtion of trbp dommunitifs for b givfn iost.
      *
-     * @param address The address of the host.
+     * @pbrbm bddrfss Tif bddrfss of tif iost.
      *
-     * @return An enumeration of trap communities for a given host (enumeration of <CODE>String</CODE>).
+     * @rfturn An fnumfrbtion of trbp dommunitifs for b givfn iost (fnumfrbtion of <CODE>String</CODE>).
      */
-    public Enumeration<String> getTrapCommunities(InetAddress address);
+    publid Enumfrbtion<String> gftTrbpCommunitifs(InftAddrfss bddrfss);
 
     /**
-     * Returns an enumeration of inform destinations.
+     * Rfturns bn fnumfrbtion of inform dfstinbtions.
      *
-     * @return An enumeration of the inform destinations (enumeration of <CODE>InetAddress</CODE>).
+     * @rfturn An fnumfrbtion of tif inform dfstinbtions (fnumfrbtion of <CODE>InftAddrfss</CODE>).
      */
-    public Enumeration<InetAddress> getInformDestinations();
+    publid Enumfrbtion<InftAddrfss> gftInformDfstinbtions();
 
     /**
-     * Returns an enumeration of inform communities for a given host.
+     * Rfturns bn fnumfrbtion of inform dommunitifs for b givfn iost.
      *
-     * @param address The address of the host.
+     * @pbrbm bddrfss Tif bddrfss of tif iost.
      *
-     * @return An enumeration of inform communities for a given host (enumeration of <CODE>String</CODE>).
+     * @rfturn An fnumfrbtion of inform dommunitifs for b givfn iost (fnumfrbtion of <CODE>String</CODE>).
      */
-    public Enumeration<String> getInformCommunities(InetAddress address);
+    publid Enumfrbtion<String> gftInformCommunitifs(InftAddrfss bddrfss);
 }

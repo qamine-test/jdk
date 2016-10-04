@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.util.Enumeration;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
 
 /**
- * A view implementation to display an unwrapped
- * preformatted line.<p>
- * This subclasses ParagraphView, but this really only contains one
- * Row of text.
+ * A vifw implfmfntbtion to displby bn unwrbppfd
+ * prfformbttfd linf.<p>
+ * Tiis subdlbssfs PbrbgrbpiVifw, but tiis rfblly only dontbins onf
+ * Row of tfxt.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-class LineView extends ParagraphView {
-    /** Last place painted at. */
-    int tabBase;
+dlbss LinfVifw fxtfnds PbrbgrbpiVifw {
+    /** Lbst plbdf pbintfd bt. */
+    int tbbBbsf;
 
     /**
-     * Creates a LineView object.
+     * Crfbtfs b LinfVifw objfdt.
      *
-     * @param elem the element to wrap in a view
+     * @pbrbm flfm tif flfmfnt to wrbp in b vifw
      */
-    public LineView(Element elem) {
-        super(elem);
+    publid LinfVifw(Elfmfnt flfm) {
+        supfr(flfm);
     }
 
     /**
-     * Preformatted lines are not suppressed if they
-     * have only whitespace, so they are always visible.
+     * Prfformbttfd linfs brf not supprfssfd if tify
+     * ibvf only wiitfspbdf, so tify brf blwbys visiblf.
      */
-    public boolean isVisible() {
-        return true;
+    publid boolfbn isVisiblf() {
+        rfturn truf;
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.  The preformatted line should refuse to be
-     * sized less than the preferred size.
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * bxis.  Tif prfformbttfd linf siould rffusf to bf
+     * sizfd lfss tibn tif prfffrrfd sizf.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *  <code>View.Y_AXIS</code>
-     * @return  the minimum span the view can be rendered into
-     * @see View#getPreferredSpan
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn  tif minimum spbn tif vifw dbn bf rfndfrfd into
+     * @sff Vifw#gftPrfffrrfdSpbn
      */
-    public float getMinimumSpan(int axis) {
-        return getPreferredSpan(axis);
+    publid flobt gftMinimumSpbn(int bxis) {
+        rfturn gftPrfffrrfdSpbn(bxis);
     }
 
     /**
-     * Gets the resize weight for the specified axis.
+     * Gfts tif rfsizf wfigit for tif spfdififd bxis.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
-     * @return the weight
+     * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+     * @rfturn tif wfigit
      */
-    public int getResizeWeight(int axis) {
-        switch (axis) {
-        case View.X_AXIS:
-            return 1;
-        case View.Y_AXIS:
-            return 0;
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+    publid int gftRfsizfWfigit(int bxis) {
+        switdi (bxis) {
+        dbsf Vifw.X_AXIS:
+            rfturn 1;
+        dbsf Vifw.Y_AXIS:
+            rfturn 0;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Gets the alignment for an axis.
+     * Gfts tif blignmfnt for bn bxis.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
-     * @return the alignment
+     * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+     * @rfturn tif blignmfnt
      */
-    public float getAlignment(int axis) {
-        if (axis == View.X_AXIS) {
-            return 0;
+    publid flobt gftAlignmfnt(int bxis) {
+        if (bxis == Vifw.X_AXIS) {
+            rfturn 0;
         }
-        return super.getAlignment(axis);
+        rfturn supfr.gftAlignmfnt(bxis);
     }
 
     /**
-     * Lays out the children.  If the layout span has changed,
-     * the rows are rebuilt.  The superclass functionality
-     * is called after checking and possibly rebuilding the
-     * rows.  If the height has changed, the
-     * <code>preferenceChanged</code> method is called
-     * on the parent since the vertical preference is
+     * Lbys out tif diildrfn.  If tif lbyout spbn ibs dibngfd,
+     * tif rows brf rfbuilt.  Tif supfrdlbss fundtionblity
+     * is dbllfd bftfr difdking bnd possibly rfbuilding tif
+     * rows.  If tif ifigit ibs dibngfd, tif
+     * <dodf>prfffrfndfCibngfd</dodf> mftiod is dbllfd
+     * on tif pbrfnt sindf tif vfrtidbl prfffrfndf is
      * rigid.
      *
-     * @param width  the width to lay out against >= 0.  This is
-     *   the width inside of the inset area.
-     * @param height the height to lay out against >= 0 (not used
-     *   by paragraph, but used by the superclass).  This
-     *   is the height inside of the inset area.
+     * @pbrbm widti  tif widti to lby out bgbinst >= 0.  Tiis is
+     *   tif widti insidf of tif insft brfb.
+     * @pbrbm ifigit tif ifigit to lby out bgbinst >= 0 (not usfd
+     *   by pbrbgrbpi, but usfd by tif supfrdlbss).  Tiis
+     *   is tif ifigit insidf of tif insft brfb.
      */
-    protected void layout(int width, int height) {
-        super.layout(Integer.MAX_VALUE - 1, height);
+    protfdtfd void lbyout(int widti, int ifigit) {
+        supfr.lbyout(Intfgfr.MAX_VALUE - 1, ifigit);
     }
 
     /**
-     * Returns the next tab stop position given a reference position.
-     * This view implements the tab coordinate system, and calls
-     * <code>getTabbedSpan</code> on the logical children in the process
-     * of layout to determine the desired span of the children.  The
-     * logical children can delegate their tab expansion upward to
-     * the paragraph which knows how to expand tabs.
-     * <code>LabelView</code> is an example of a view that delegates
-     * its tab expansion needs upward to the paragraph.
+     * Rfturns tif nfxt tbb stop position givfn b rfffrfndf position.
+     * Tiis vifw implfmfnts tif tbb doordinbtf systfm, bnd dblls
+     * <dodf>gftTbbbfdSpbn</dodf> on tif logidbl diildrfn in tif prodfss
+     * of lbyout to dftfrminf tif dfsirfd spbn of tif diildrfn.  Tif
+     * logidbl diildrfn dbn dflfgbtf tifir tbb fxpbnsion upwbrd to
+     * tif pbrbgrbpi wiidi knows iow to fxpbnd tbbs.
+     * <dodf>LbbflVifw</dodf> is bn fxbmplf of b vifw tibt dflfgbtfs
+     * its tbb fxpbnsion nffds upwbrd to tif pbrbgrbpi.
      * <p>
-     * This is implemented to try and locate a <code>TabSet</code>
-     * in the paragraph element's attribute set.  If one can be
-     * found, its settings will be used, otherwise a default expansion
-     * will be provided.  The base location for for tab expansion
-     * is the left inset from the paragraphs most recent allocation
-     * (which is what the layout of the children is based upon).
+     * Tiis is implfmfntfd to try bnd lodbtf b <dodf>TbbSft</dodf>
+     * in tif pbrbgrbpi flfmfnt's bttributf sft.  If onf dbn bf
+     * found, its sfttings will bf usfd, otifrwisf b dffbult fxpbnsion
+     * will bf providfd.  Tif bbsf lodbtion for for tbb fxpbnsion
+     * is tif lfft insft from tif pbrbgrbpis most rfdfnt bllodbtion
+     * (wiidi is wibt tif lbyout of tif diildrfn is bbsfd upon).
      *
-     * @param x the X reference position
-     * @param tabOffset the position within the text stream
-     *   that the tab occurred at >= 0.
-     * @return the trailing end of the tab expansion >= 0
-     * @see TabSet
-     * @see TabStop
-     * @see LabelView
+     * @pbrbm x tif X rfffrfndf position
+     * @pbrbm tbbOffsft tif position witiin tif tfxt strfbm
+     *   tibt tif tbb oddurrfd bt >= 0.
+     * @rfturn tif trbiling fnd of tif tbb fxpbnsion >= 0
+     * @sff TbbSft
+     * @sff TbbStop
+     * @sff LbbflVifw
      */
-    public float nextTabStop(float x, int tabOffset) {
-        // If the text isn't left justified, offset by 10 pixels!
-        if (getTabSet() == null &&
-            StyleConstants.getAlignment(getAttributes()) ==
-            StyleConstants.ALIGN_LEFT) {
-            return getPreTab(x, tabOffset);
+    publid flobt nfxtTbbStop(flobt x, int tbbOffsft) {
+        // If tif tfxt isn't lfft justififd, offsft by 10 pixfls!
+        if (gftTbbSft() == null &&
+            StylfConstbnts.gftAlignmfnt(gftAttributfs()) ==
+            StylfConstbnts.ALIGN_LEFT) {
+            rfturn gftPrfTbb(x, tbbOffsft);
         }
-        return super.nextTabStop(x, tabOffset);
+        rfturn supfr.nfxtTbbStop(x, tbbOffsft);
     }
 
     /**
-     * Returns the location for the tab.
+     * Rfturns tif lodbtion for tif tbb.
      */
-    protected float getPreTab(float x, int tabOffset) {
-        Document d = getDocument();
-        View v = getViewAtPosition(tabOffset, null);
-        if ((d instanceof StyledDocument) && v != null) {
-            // Assume f is fixed point.
-            Font f = ((StyledDocument)d).getFont(v.getAttributes());
-            Container c = getContainer();
-            FontMetrics fm = (c != null) ? c.getFontMetrics(f) :
-                Toolkit.getDefaultToolkit().getFontMetrics(f);
-            int width = getCharactersPerTab() * fm.charWidth('W');
-            int tb = (int)getTabBase();
-            return (float)((((int)x - tb) / width + 1) * width + tb);
+    protfdtfd flobt gftPrfTbb(flobt x, int tbbOffsft) {
+        Dodumfnt d = gftDodumfnt();
+        Vifw v = gftVifwAtPosition(tbbOffsft, null);
+        if ((d instbndfof StylfdDodumfnt) && v != null) {
+            // Assumf f is fixfd point.
+            Font f = ((StylfdDodumfnt)d).gftFont(v.gftAttributfs());
+            Contbinfr d = gftContbinfr();
+            FontMftrids fm = (d != null) ? d.gftFontMftrids(f) :
+                Toolkit.gftDffbultToolkit().gftFontMftrids(f);
+            int widti = gftCibrbdtfrsPfrTbb() * fm.dibrWidti('W');
+            int tb = (int)gftTbbBbsf();
+            rfturn (flobt)((((int)x - tb) / widti + 1) * widti + tb);
         }
-        return 10.0f + x;
+        rfturn 10.0f + x;
     }
 
     /**
-     * @return number of characters per tab, 8.
+     * @rfturn numbfr of dibrbdtfrs pfr tbb, 8.
      */
-    protected int getCharactersPerTab() {
-        return 8;
+    protfdtfd int gftCibrbdtfrsPfrTbb() {
+        rfturn 8;
     }
 }

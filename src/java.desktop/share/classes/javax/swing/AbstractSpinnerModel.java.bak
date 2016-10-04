@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.util.*;
-import javax.swing.event.*;
-import java.io.Serializable;
+import jbvb.util.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * This class provides the ChangeListener part of the
- * SpinnerModel interface that should be suitable for most concrete SpinnerModel
- * implementations.  Subclasses must provide an implementation of the
- * <code>setValue</code>, <code>getValue</code>, <code>getNextValue</code> and
- * <code>getPreviousValue</code> methods.
+ * Tiis dlbss providfs tif CibngfListfnfr pbrt of tif
+ * SpinnfrModfl intfrfbdf tibt siould bf suitbblf for most dondrftf SpinnfrModfl
+ * implfmfntbtions.  Subdlbssfs must providf bn implfmfntbtion of tif
+ * <dodf>sftVbluf</dodf>, <dodf>gftVbluf</dodf>, <dodf>gftNfxtVbluf</dodf> bnd
+ * <dodf>gftPrfviousVbluf</dodf> mftiods.
  *
- * @see JSpinner
- * @see SpinnerModel
- * @see SpinnerListModel
- * @see SpinnerNumberModel
- * @see SpinnerDateModel
+ * @sff JSpinnfr
+ * @sff SpinnfrModfl
+ * @sff SpinnfrListModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff SpinnfrDbtfModfl
  *
- * @author Hans Muller
- * @since 1.4
+ * @butior Hbns Mullfr
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Field contents are not serializable across versions
-public abstract class AbstractSpinnerModel implements SpinnerModel, Serializable
+@SupprfssWbrnings("sfribl") // Fifld dontfnts brf not sfriblizbblf bdross vfrsions
+publid bbstrbdt dlbss AbstrbdtSpinnfrModfl implfmfnts SpinnfrModfl, Sfriblizbblf
 {
 
     /**
-     * Only one ChangeEvent is needed per model instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
+     * Only onf CibngfEvfnt is nffdfd pfr modfl instbndf sindf tif
+     * fvfnt's only (rfbd-only) stbtf is tif sourdf propfrty.  Tif sourdf
+     * of fvfnts gfnfrbtfd ifrf is blwbys "tiis".
      */
-    private transient ChangeEvent changeEvent = null;
+    privbtf trbnsifnt CibngfEvfnt dibngfEvfnt = null;
 
 
     /**
-     * The list of ChangeListeners for this model.  Subclasses may
-     * store their own listeners here.
+     * Tif list of CibngfListfnfrs for tiis modfl.  Subdlbssfs mby
+     * storf tifir own listfnfrs ifrf.
      */
-    protected EventListenerList listenerList = new EventListenerList();
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
 
     /**
-     * Adds a ChangeListener to the model's listener list.  The
-     * ChangeListeners must be notified when the models value changes.
+     * Adds b CibngfListfnfr to tif modfl's listfnfr list.  Tif
+     * CibngfListfnfrs must bf notififd wifn tif modfls vbluf dibngfs.
      *
-     * @param l the ChangeListener to add
-     * @see #removeChangeListener
-     * @see SpinnerModel#addChangeListener
+     * @pbrbm l tif CibngfListfnfr to bdd
+     * @sff #rfmovfCibngfListfnfr
+     * @sff SpinnfrModfl#bddCibngfListfnfr
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.bdd(CibngfListfnfr.dlbss, l);
     }
 
 
     /**
-     * Removes a ChangeListener from the model's listener list.
+     * Rfmovfs b CibngfListfnfr from tif modfl's listfnfr list.
      *
-     * @param l the ChangeListener to remove
-     * @see #addChangeListener
-     * @see SpinnerModel#removeChangeListener
+     * @pbrbm l tif CibngfListfnfr to rfmovf
+     * @sff #bddCibngfListfnfr
+     * @sff SpinnfrModfl#rfmovfCibngfListfnfr
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
     }
 
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this AbstractSpinnerModel with addChangeListener().
+     * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+     * to tiis AbstrbdtSpinnfrModfl witi bddCibngfListfnfr().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
 
     /**
-     * Run each ChangeListeners stateChanged() method.
+     * Run fbdi CibngfListfnfrs stbtfCibngfd() mftiod.
      *
-     * @see #setValue
-     * @see EventListenerList
+     * @sff #sftVbluf
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged()
+    protfdtfd void firfStbtfCibngfd()
     {
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -=2 ) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngti - 2; i >= 0; i -=2 ) {
+            if (listfnfrs[i] == CibngfListfnfr.dlbss) {
+                if (dibngfEvfnt == null) {
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }
 
 
     /**
-     * Return an array of all the listeners of the given type that
-     * were added to this model.  For example to find all of the
-     * ChangeListeners added to this model:
-     * <pre>
-     * myAbstractSpinnerModel.getListeners(ChangeListener.class);
-     * </pre>
+     * Rfturn bn brrby of bll tif listfnfrs of tif givfn typf tibt
+     * wfrf bddfd to tiis modfl.  For fxbmplf to find bll of tif
+     * CibngfListfnfrs bddfd to tiis modfl:
+     * <prf>
+     * myAbstrbdtSpinnfrModfl.gftListfnfrs(CibngfListfnfr.dlbss);
+     * </prf>
      *
-     * @param <T> the type of requested listeners
-     * @param listenerType the type of listeners to return, e.g. ChangeListener.class
-     * @return all of the objects receiving <em>listenerType</em> notifications
-     *         from this model
+     * @pbrbm <T> tif typf of rfqufstfd listfnfrs
+     * @pbrbm listfnfrTypf tif typf of listfnfrs to rfturn, f.g. CibngfListfnfr.dlbss
+     * @rfturn bll of tif objfdts rfdfiving <fm>listfnfrTypf</fm> notifidbtions
+     *         from tiis modfl
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        return listenerList.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
     }
 }

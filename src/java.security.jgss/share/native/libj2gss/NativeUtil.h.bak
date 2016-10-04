@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
-#include <stdlib.h>
-#include <string.h>
-#include "gssapi.h"
+#indludf <jni.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf "gssbpi.i"
 
-#ifndef _Included_NATIVE_Util
-#define _Included_NATIVE_Util
-#ifdef __cplusplus
-extern "C" {
-#endif
-  extern jint getJavaTime(OM_uint32);
-  extern OM_uint32 getGSSTime(jint);
-  extern void checkStatus(JNIEnv *, jobject, OM_uint32, OM_uint32, char*);
-  extern jint checkTime(OM_uint32);
-  extern void throwOutOfMemoryError(JNIEnv *, const char*);
-  extern void initGSSBuffer(JNIEnv *, jbyteArray, gss_buffer_t);
-  extern void resetGSSBuffer(gss_buffer_t);
+#ifndff _Indludfd_NATIVE_Util
+#dffinf _Indludfd_NATIVE_Util
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+  fxtfrn jint gftJbvbTimf(OM_uint32);
+  fxtfrn OM_uint32 gftGSSTimf(jint);
+  fxtfrn void difdkStbtus(JNIEnv *, jobjfdt, OM_uint32, OM_uint32, dibr*);
+  fxtfrn jint difdkTimf(OM_uint32);
+  fxtfrn void tirowOutOfMfmoryError(JNIEnv *, donst dibr*);
+  fxtfrn void initGSSBufffr(JNIEnv *, jbytfArrby, gss_bufffr_t);
+  fxtfrn void rfsftGSSBufffr(gss_bufffr_t);
 
-  extern gss_OID newGSSOID(JNIEnv *, jobject);
-  extern void deleteGSSOID(gss_OID);
-  extern gss_OID_set newGSSOIDSet(gss_OID);
-  extern void deleteGSSOIDSet(gss_OID_set);
+  fxtfrn gss_OID nfwGSSOID(JNIEnv *, jobjfdt);
+  fxtfrn void dflftfGSSOID(gss_OID);
+  fxtfrn gss_OID_sft nfwGSSOIDSft(gss_OID);
+  fxtfrn void dflftfGSSOIDSft(gss_OID_sft);
 
-  extern jbyteArray getJavaBuffer(JNIEnv *, gss_buffer_t);
-  extern jstring getJavaString(JNIEnv *, gss_buffer_t);
-  extern jobject getJavaOID(JNIEnv *, gss_OID);
-  extern jobjectArray getJavaOIDArray(JNIEnv *, gss_OID_set);
+  fxtfrn jbytfArrby gftJbvbBufffr(JNIEnv *, gss_bufffr_t);
+  fxtfrn jstring gftJbvbString(JNIEnv *, gss_bufffr_t);
+  fxtfrn jobjfdt gftJbvbOID(JNIEnv *, gss_OID);
+  fxtfrn jobjfdtArrby gftJbvbOIDArrby(JNIEnv *, gss_OID_sft);
 
-  extern jstring getMinorMessage(JNIEnv *, jobject, OM_uint32);
-  extern int sameMech(gss_OID, gss_OID);
+  fxtfrn jstring gftMinorMfssbgf(JNIEnv *, jobjfdt, OM_uint32);
+  fxtfrn int sbmfMfdi(gss_OID, gss_OID);
 
-  JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *, void *);
-  JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *, void *);
+  JNIEXPORT jint JNICALL JNI_OnLobd(JbvbVM *, void *);
+  JNIEXPORT void JNICALL JNI_OnUnlobd(JbvbVM *, void *);
 
-  extern int JGSS_DEBUG;
+  fxtfrn int JGSS_DEBUG;
 
-  extern jclass CLS_Object;
-  extern jclass CLS_GSSNameElement;
-  extern jclass CLS_GSSCredElement;
-  extern jclass CLS_NativeGSSContext;
-  extern jmethodID MID_MessageProp_getPrivacy;
-  extern jmethodID MID_MessageProp_getQOP;
-  extern jmethodID MID_MessageProp_setPrivacy;
-  extern jmethodID MID_MessageProp_setQOP;
-  extern jmethodID MID_MessageProp_setSupplementaryStates;
-  extern jmethodID MID_ChannelBinding_getInitiatorAddr;
-  extern jmethodID MID_ChannelBinding_getAcceptorAddr;
-  extern jmethodID MID_ChannelBinding_getAppData;
-  extern jmethodID MID_InetAddress_getAddr;
-  extern jmethodID MID_GSSNameElement_ctor;
-  extern jmethodID MID_GSSCredElement_ctor;
-  extern jmethodID MID_NativeGSSContext_ctor;
-  extern jfieldID FID_GSSLibStub_pMech;
-  extern jfieldID FID_NativeGSSContext_pContext;
-  extern jfieldID FID_NativeGSSContext_srcName;
-  extern jfieldID FID_NativeGSSContext_targetName;
-  extern jfieldID FID_NativeGSSContext_isInitiator;
-  extern jfieldID FID_NativeGSSContext_isEstablished;
-  extern jfieldID FID_NativeGSSContext_delegatedCred;
-  extern jfieldID FID_NativeGSSContext_flags;
-  extern jfieldID FID_NativeGSSContext_lifetime;
-  extern jfieldID FID_NativeGSSContext_actualMech;
-  #define TRACE0(s) { if (JGSS_DEBUG) { puts(s); fflush(stdout); }}
-  #define TRACE1(s, p1) { if (JGSS_DEBUG) { printf(s"\n", p1); fflush(stdout); }}
-  #define TRACE2(s, p1, p2) { if (JGSS_DEBUG) { printf(s"\n", p1, p2); fflush(stdout); }}
-  #define TRACE3(s, p1, p2, p3) { if (JGSS_DEBUG) { printf(s"\n", p1, p2, p3); fflush(stdout); }}
+  fxtfrn jdlbss CLS_Objfdt;
+  fxtfrn jdlbss CLS_GSSNbmfElfmfnt;
+  fxtfrn jdlbss CLS_GSSCrfdElfmfnt;
+  fxtfrn jdlbss CLS_NbtivfGSSContfxt;
+  fxtfrn jmftiodID MID_MfssbgfProp_gftPrivbdy;
+  fxtfrn jmftiodID MID_MfssbgfProp_gftQOP;
+  fxtfrn jmftiodID MID_MfssbgfProp_sftPrivbdy;
+  fxtfrn jmftiodID MID_MfssbgfProp_sftQOP;
+  fxtfrn jmftiodID MID_MfssbgfProp_sftSupplfmfntbryStbtfs;
+  fxtfrn jmftiodID MID_CibnnflBinding_gftInitibtorAddr;
+  fxtfrn jmftiodID MID_CibnnflBinding_gftAddfptorAddr;
+  fxtfrn jmftiodID MID_CibnnflBinding_gftAppDbtb;
+  fxtfrn jmftiodID MID_InftAddrfss_gftAddr;
+  fxtfrn jmftiodID MID_GSSNbmfElfmfnt_dtor;
+  fxtfrn jmftiodID MID_GSSCrfdElfmfnt_dtor;
+  fxtfrn jmftiodID MID_NbtivfGSSContfxt_dtor;
+  fxtfrn jfifldID FID_GSSLibStub_pMfdi;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_pContfxt;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_srdNbmf;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_tbrgftNbmf;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_isInitibtor;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_isEstbblisifd;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_dflfgbtfdCrfd;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_flbgs;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_lifftimf;
+  fxtfrn jfifldID FID_NbtivfGSSContfxt_bdtublMfdi;
+  #dffinf TRACE0(s) { if (JGSS_DEBUG) { puts(s); fflusi(stdout); }}
+  #dffinf TRACE1(s, p1) { if (JGSS_DEBUG) { printf(s"\n", p1); fflusi(stdout); }}
+  #dffinf TRACE2(s, p1, p2) { if (JGSS_DEBUG) { printf(s"\n", p1, p2); fflusi(stdout); }}
+  #dffinf TRACE3(s, p1, p2, p3) { if (JGSS_DEBUG) { printf(s"\n", p1, p2, p3); fflusi(stdout); }}
 
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 }
-#endif
-#endif
+#fndif
+#fndif

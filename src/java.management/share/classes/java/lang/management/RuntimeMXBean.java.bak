@@ -1,339 +1,339 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
 /**
- * The management interface for the runtime system of
- * the Java virtual machine.
+ * Tif mbnbgfmfnt intfrfbdf for tif runtimf systfm of
+ * tif Jbvb virtubl mbdiinf.
  *
- * <p> A Java virtual machine has a single instance of the implementation
- * class of this interface.  This instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getRuntimeMXBean} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif implfmfntbtion
+ * dlbss of tiis intfrfbdf.  Tiis instbndf implfmfnting tiis intfrfbdf is
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * tibt dbn bf obtbinfd by dblling
+ * tif {@link MbnbgfmfntFbdtory#gftRuntimfMXBfbn} mftiod or
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * the runtime system within an MBeanServer is:
- * <blockquote>
- *    {@link ManagementFactory#RUNTIME_MXBEAN_NAME
- *           <tt>java.lang:type=Runtime</tt>}
- * </blockquote>
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * tif runtimf systfm witiin bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *    {@link MbnbgfmfntFbdtory#RUNTIME_MXBEAN_NAME
+ *           <tt>jbvb.lbng:typf=Runtimf</tt>}
+ * </blodkquotf>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It dbn bf obtbinfd by dblling tif
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
  *
- * <p> This interface defines several convenient methods for accessing
- * system properties about the Java virtual machine.
+ * <p> Tiis intfrfbdf dffinfs sfvfrbl donvfnifnt mftiods for bddfssing
+ * systfm propfrtifs bbout tif Jbvb virtubl mbdiinf.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
-public interface RuntimeMXBean extends PlatformManagedObject {
+publid intfrfbdf RuntimfMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
     /**
-     * Returns the name representing the running Java virtual machine.
-     * The returned name string can be any arbitrary string and
-     * a Java virtual machine implementation can choose
-     * to embed platform-specific useful information in the
-     * returned name string.  Each running virtual machine could have
-     * a different name.
+     * Rfturns tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
+     * Tif rfturnfd nbmf string dbn bf bny brbitrbry string bnd
+     * b Jbvb virtubl mbdiinf implfmfntbtion dbn dioosf
+     * to fmbfd plbtform-spfdifid usfful informbtion in tif
+     * rfturnfd nbmf string.  Ebdi running virtubl mbdiinf dould ibvf
+     * b difffrfnt nbmf.
      *
-     * @return the name representing the running Java virtual machine.
+     * @rfturn tif nbmf rfprfsfnting tif running Jbvb virtubl mbdiinf.
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Returns the Java virtual machine implementation name.
-     * This method is equivalent to {@link System#getProperty
-     * System.getProperty("java.vm.name")}.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.nbmf")}.
      *
-     * @return the Java virtual machine implementation name.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion nbmf.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getVmName();
+    publid String gftVmNbmf();
 
     /**
-     * Returns the Java virtual machine implementation vendor.
-     * This method is equivalent to {@link System#getProperty
-     * System.getProperty("java.vm.vendor")}.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.vfndor")}.
      *
-     * @return the Java virtual machine implementation vendor.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfndor.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getVmVendor();
+    publid String gftVmVfndor();
 
     /**
-     * Returns the Java virtual machine implementation version.
-     * This method is equivalent to {@link System#getProperty
-     * System.getProperty("java.vm.version")}.
+     * Rfturns tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.vfrsion")}.
      *
-     * @return the Java virtual machine implementation version.
+     * @rfturn tif Jbvb virtubl mbdiinf implfmfntbtion vfrsion.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getVmVersion();
+    publid String gftVmVfrsion();
 
     /**
-     * Returns the Java virtual machine specification name.
-     * This method is equivalent to {@link System#getProperty
-     * System.getProperty("java.vm.specification.name")}.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.nbmf")}.
      *
-     * @return the Java virtual machine specification name.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion nbmf.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getSpecName();
+    publid String gftSpfdNbmf();
 
     /**
-     * Returns the Java virtual machine specification vendor.
-     * This method is equivalent to {@link System#getProperty
-     * System.getProperty("java.vm.specification.vendor")}.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfndor")}.
      *
-     * @return the Java virtual machine specification vendor.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfndor.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getSpecVendor();
+    publid String gftSpfdVfndor();
 
     /**
-     * Returns the Java virtual machine specification version.
-     * This method is equivalent to {@link System#getProperty
-     * System.getProperty("java.vm.specification.version")}.
+     * Rfturns tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.vm.spfdifidbtion.vfrsion")}.
      *
-     * @return the Java virtual machine specification version.
+     * @rfturn tif Jbvb virtubl mbdiinf spfdifidbtion vfrsion.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getSpecVersion();
+    publid String gftSpfdVfrsion();
 
 
     /**
-     * Returns the version of the specification for the management interface
-     * implemented by the running Java virtual machine.
+     * Rfturns tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
      *
-     * @return the version of the specification for the management interface
-     * implemented by the running Java virtual machine.
+     * @rfturn tif vfrsion of tif spfdifidbtion for tif mbnbgfmfnt intfrfbdf
+     * implfmfntfd by tif running Jbvb virtubl mbdiinf.
      */
-    public String getManagementSpecVersion();
+    publid String gftMbnbgfmfntSpfdVfrsion();
 
     /**
-     * Returns the Java class path that is used by the system class loader
-     * to search for class files.
-     * This method is equivalent to {@link System#getProperty
-     * System.getProperty("java.class.path")}.
+     * Rfturns tif Jbvb dlbss pbti tibt is usfd by tif systfm dlbss lobdfr
+     * to sfbrdi for dlbss filfs.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.dlbss.pbti")}.
      *
-     * <p> Multiple paths in the Java class path are separated by the
-     * path separator character of the platform of the Java virtual machine
-     * being monitored.
+     * <p> Multiplf pbtis in tif Jbvb dlbss pbti brf sfpbrbtfd by tif
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * bfing monitorfd.
      *
-     * @return the Java class path.
+     * @rfturn tif Jbvb dlbss pbti.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getClassPath();
+    publid String gftClbssPbti();
 
     /**
-     * Returns the Java library path.
-     * This method is equivalent to {@link System#getProperty
-     * System.getProperty("java.library.path")}.
+     * Rfturns tif Jbvb librbry pbti.
+     * Tiis mftiod is fquivblfnt to {@link Systfm#gftPropfrty
+     * Systfm.gftPropfrty("jbvb.librbry.pbti")}.
      *
-     * <p> Multiple paths in the Java library path are separated by the
-     * path separator character of the platform of the Java virtual machine
-     * being monitored.
+     * <p> Multiplf pbtis in tif Jbvb librbry pbti brf sfpbrbtfd by tif
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform of tif Jbvb virtubl mbdiinf
+     * bfing monitorfd.
      *
-     * @return the Java library path.
+     * @rfturn tif Jbvb librbry pbti.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getLibraryPath();
+    publid String gftLibrbryPbti();
 
     /**
-     * Tests if the Java virtual machine supports the boot class path
-     * mechanism used by the bootstrap class loader to search for class
-     * files.
+     * Tfsts if tif Jbvb virtubl mbdiinf supports tif boot dlbss pbti
+     * mfdibnism usfd by tif bootstrbp dlbss lobdfr to sfbrdi for dlbss
+     * filfs.
      *
-     * @return <tt>true</tt> if the Java virtual machine supports the
-     * class path mechanism; <tt>false</tt> otherwise.
+     * @rfturn <tt>truf</tt> if tif Jbvb virtubl mbdiinf supports tif
+     * dlbss pbti mfdibnism; <tt>fblsf</tt> otifrwisf.
      */
-    public boolean isBootClassPathSupported();
+    publid boolfbn isBootClbssPbtiSupportfd();
 
     /**
-     * Returns the boot class path that is used by the bootstrap class loader
-     * to search for class files.
+     * Rfturns tif boot dlbss pbti tibt is usfd by tif bootstrbp dlbss lobdfr
+     * to sfbrdi for dlbss filfs.
      *
-     * <p> Multiple paths in the boot class path are separated by the
-     * path separator character of the platform on which the Java
-     * virtual machine is running.
+     * <p> Multiplf pbtis in tif boot dlbss pbti brf sfpbrbtfd by tif
+     * pbti sfpbrbtor dibrbdtfr of tif plbtform on wiidi tif Jbvb
+     * virtubl mbdiinf is running.
      *
-     * <p>A Java virtual machine implementation may not support
-     * the boot class path mechanism for the bootstrap class loader
-     * to search for class files.
-     * The {@link #isBootClassPathSupported} method can be used
-     * to determine if the Java virtual machine supports this method.
+     * <p>A Jbvb virtubl mbdiinf implfmfntbtion mby not support
+     * tif boot dlbss pbti mfdibnism for tif bootstrbp dlbss lobdfr
+     * to sfbrdi for dlbss filfs.
+     * Tif {@link #isBootClbssPbtiSupportfd} mftiod dbn bf usfd
+     * to dftfrminf if tif Jbvb virtubl mbdiinf supports tiis mftiod.
      *
-     * @return the boot class path.
+     * @rfturn tif boot dlbss pbti.
      *
-     * @throws java.lang.UnsupportedOperationException
-     *     if the Java virtual machine does not support this operation.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption
+     *     if tif Jbvb virtubl mbdiinf dofs not support tiis opfrbtion.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and the caller does not have
-     *     ManagementPermission("monitor").
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     MbnbgfmfntPfrmission("monitor").
      */
-    public String getBootClassPath();
+    publid String gftBootClbssPbti();
 
     /**
-     * Returns the input arguments passed to the Java virtual machine
-     * which does not include the arguments to the <tt>main</tt> method.
-     * This method returns an empty list if there is no input argument
-     * to the Java virtual machine.
+     * Rfturns tif input brgumfnts pbssfd to tif Jbvb virtubl mbdiinf
+     * wiidi dofs not indludf tif brgumfnts to tif <tt>mbin</tt> mftiod.
+     * Tiis mftiod rfturns bn fmpty list if tifrf is no input brgumfnt
+     * to tif Jbvb virtubl mbdiinf.
      * <p>
-     * Some Java virtual machine implementations may take input arguments
-     * from multiple different sources: for examples, arguments passed from
-     * the application that launches the Java virtual machine such as
-     * the 'java' command, environment variables, configuration files, etc.
+     * Somf Jbvb virtubl mbdiinf implfmfntbtions mby tbkf input brgumfnts
+     * from multiplf difffrfnt sourdfs: for fxbmplfs, brgumfnts pbssfd from
+     * tif bpplidbtion tibt lbundifs tif Jbvb virtubl mbdiinf sudi bs
+     * tif 'jbvb' dommbnd, fnvironmfnt vbribblfs, donfigurbtion filfs, ftd.
      * <p>
-     * Typically, not all command-line options to the 'java' command
-     * are passed to the Java virtual machine.
-     * Thus, the returned input arguments may not
-     * include all command-line options.
-     *
-     * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of {@code List<String>} is <tt>String[]</tt>.
-     *
-     * @return a list of <tt>String</tt> objects; each element
-     * is an argument passed to the Java virtual machine.
-     *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and the caller does not have
-     *     ManagementPermission("monitor").
-     */
-    public java.util.List<String> getInputArguments();
-
-    /**
-     * Returns the uptime of the Java virtual machine in milliseconds.
-     *
-     * @return uptime of the Java virtual machine in milliseconds.
-     */
-    public long getUptime();
-
-    /**
-     * Returns the start time of the Java virtual machine in milliseconds.
-     * This method returns the approximate time when the Java virtual
-     * machine started.
-     *
-     * @return start time of the Java virtual machine in milliseconds.
-     *
-     */
-    public long getStartTime();
-
-    /**
-     * Returns a map of names and values of all system properties.
-     * This method calls {@link System#getProperties} to get all
-     * system properties.  Properties whose name or value is not
-     * a <tt>String</tt> are omitted.
+     * Typidblly, not bll dommbnd-linf options to tif 'jbvb' dommbnd
+     * brf pbssfd to tif Jbvb virtubl mbdiinf.
+     * Tius, tif rfturnfd input brgumfnts mby not
+     * indludf bll dommbnd-linf options.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of {@code Map<String,String>} is
-     * {@link javax.management.openmbean.TabularData TabularData}
-     * with two items in each row as follows:
-     * <blockquote>
-     * <table border summary="Name and Type for each item">
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Tif mbppfd typf of {@dodf List<String>} is <tt>String[]</tt>.
+     *
+     * @rfturn b list of <tt>String</tt> objfdts; fbdi flfmfnt
+     * is bn brgumfnt pbssfd to tif Jbvb virtubl mbdiinf.
+     *
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd tif dbllfr dofs not ibvf
+     *     MbnbgfmfntPfrmission("monitor").
+     */
+    publid jbvb.util.List<String> gftInputArgumfnts();
+
+    /**
+     * Rfturns tif uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     *
+     * @rfturn uptimf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     */
+    publid long gftUptimf();
+
+    /**
+     * Rfturns tif stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     * Tiis mftiod rfturns tif bpproximbtf timf wifn tif Jbvb virtubl
+     * mbdiinf stbrtfd.
+     *
+     * @rfturn stbrt timf of tif Jbvb virtubl mbdiinf in millisfdonds.
+     *
+     */
+    publid long gftStbrtTimf();
+
+    /**
+     * Rfturns b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
+     * Tiis mftiod dblls {@link Systfm#gftPropfrtifs} to gft bll
+     * systfm propfrtifs.  Propfrtifs wiosf nbmf or vbluf is not
+     * b <tt>String</tt> brf omittfd.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Tif mbppfd typf of {@dodf Mbp<String,String>} is
+     * {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+     * witi two itfms in fbdi row bs follows:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Nbmf bnd Typf for fbdi itfm">
      * <tr>
-     *   <th>Item Name</th>
-     *   <th>Item Type</th>
+     *   <ti>Itfm Nbmf</ti>
+     *   <ti>Itfm Typf</ti>
      *   </tr>
      * <tr>
-     *   <td><tt>key</tt></td>
+     *   <td><tt>kfy</tt></td>
      *   <td><tt>String</tt></td>
      *   </tr>
      * <tr>
-     *   <td><tt>value</tt></td>
+     *   <td><tt>vbluf</tt></td>
      *   <td><tt>String</tt></td>
      *   </tr>
-     * </table>
-     * </blockquote>
+     * </tbblf>
+     * </blodkquotf>
      *
-     * @return a map of names and values of all system properties.
+     * @rfturn b mbp of nbmfs bnd vblufs of bll systfm propfrtifs.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to the system properties.
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tif systfm propfrtifs.
      */
-    public java.util.Map<String, String> getSystemProperties();
+    publid jbvb.util.Mbp<String, String> gftSystfmPropfrtifs();
 }

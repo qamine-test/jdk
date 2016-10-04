@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * This utility class associates
- * name of primitive type with appropriate wrapper.
+ * Tiis utility dlbss bssodibtfs
+ * nbmf of primitivf typf witi bppropribtf wrbppfr.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-public final class PrimitiveWrapperMap {
+publid finbl dlbss PrimitivfWrbppfrMbp {
 
     /**
-     * Replaces all primitive types in specified array with wrappers.
+     * Rfplbdfs bll primitivf typfs in spfdififd brrby witi wrbppfrs.
      *
-     * @param types  array of classes where all primitive types
-     *               will be replaced by appropriate wrappers
+     * @pbrbm typfs  brrby of dlbssfs wifrf bll primitivf typfs
+     *               will bf rfplbdfd by bppropribtf wrbppfrs
      */
-    static void replacePrimitivesWithWrappers(Class<?>[] types) {
-        for (int i = 0; i < types.length; i++) {
-            if (types[i] != null) {
-                if (types[i].isPrimitive()) {
-                    types[i] = getType(types[i].getName());
+    stbtid void rfplbdfPrimitivfsWitiWrbppfrs(Clbss<?>[] typfs) {
+        for (int i = 0; i < typfs.lfngti; i++) {
+            if (typfs[i] != null) {
+                if (typfs[i].isPrimitivf()) {
+                    typfs[i] = gftTypf(typfs[i].gftNbmf());
                 }
             }
         }
     }
 
     /**
-     * Returns wrapper for primitive type by its name.
+     * Rfturns wrbppfr for primitivf typf by its nbmf.
      *
-     * @param name  the name of primitive type
-     * @return found wrapper for primitive type,
-     *         or {@code null} if not found
+     * @pbrbm nbmf  tif nbmf of primitivf typf
+     * @rfturn found wrbppfr for primitivf typf,
+     *         or {@dodf null} if not found
      */
-    public static Class<?> getType(String name) {
-        return map.get(name);
+    publid stbtid Clbss<?> gftTypf(String nbmf) {
+        rfturn mbp.gft(nbmf);
     }
 
-    private static final Map<String, Class<?>> map = new HashMap<String, Class<?>>(9);
+    privbtf stbtid finbl Mbp<String, Clbss<?>> mbp = nfw HbsiMbp<String, Clbss<?>>(9);
 
-    static {
-        map.put(Boolean.TYPE.getName(), Boolean.class);
-        map.put(Character.TYPE.getName(), Character.class);
-        map.put(Byte.TYPE.getName(), Byte.class);
-        map.put(Short.TYPE.getName(), Short.class);
-        map.put(Integer.TYPE.getName(), Integer.class);
-        map.put(Long.TYPE.getName(), Long.class);
-        map.put(Float.TYPE.getName(), Float.class);
-        map.put(Double.TYPE.getName(), Double.class);
-        map.put(Void.TYPE.getName(), Void.class);
+    stbtid {
+        mbp.put(Boolfbn.TYPE.gftNbmf(), Boolfbn.dlbss);
+        mbp.put(Cibrbdtfr.TYPE.gftNbmf(), Cibrbdtfr.dlbss);
+        mbp.put(Bytf.TYPE.gftNbmf(), Bytf.dlbss);
+        mbp.put(Siort.TYPE.gftNbmf(), Siort.dlbss);
+        mbp.put(Intfgfr.TYPE.gftNbmf(), Intfgfr.dlbss);
+        mbp.put(Long.TYPE.gftNbmf(), Long.dlbss);
+        mbp.put(Flobt.TYPE.gftNbmf(), Flobt.dlbss);
+        mbp.put(Doublf.TYPE.gftNbmf(), Doublf.dlbss);
+        mbp.put(Void.TYPE.gftNbmf(), Void.dlbss);
     }
 
     /**
-     * Disable instantiation.
+     * Disbblf instbntibtion.
      */
-    private PrimitiveWrapperMap() {
+    privbtf PrimitivfWrbppfrMbp() {
     }
 }

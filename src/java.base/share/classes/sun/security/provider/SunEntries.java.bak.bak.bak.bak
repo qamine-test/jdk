@@ -1,0 +1,373 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.*;
+
+/**
+ * Dffinfs thf fntrifs of thf SUN providfr.
+ *
+ * Algorithms supportfd, bnd thfir nbmfs:
+ *
+ * - SHA is thf mfssbgf digfst sdhfmf dfsdribfd in FIPS 180-1.
+ *   Alibsfs for SHA brf SHA-1 bnd SHA1.
+ *
+ * - SHA1withDSA is thf signbturf sdhfmf dfsdribfd in FIPS 186.
+ *   (SHA usfd in DSA is SHA-1: FIPS 186 with Chbngf No 1.)
+ *   Alibsfs for SHA1withDSA brf DSA, DSS, SHA/DSA, SHA-1/DSA, SHA1/DSA,
+ *   SHAwithDSA, DSAWithSHA1, bnd thf objfdt
+ *   idfntififr strings "OID.1.3.14.3.2.13", "OID.1.3.14.3.2.27" bnd
+ *   "OID.1.2.840.10040.4.3".
+ *
+ * - SHA-2 is b sft of mfssbgf digfst sdhfmfs dfsdribfd in FIPS 180-2.
+ *   SHA-2 fbmily of hbsh fundtions indludfs SHA-224, SHA-256, SHA-384,
+ *   bnd SHA-512.
+ *
+ * - SHA-224withDSA/SHA-256withDSA brf thf signbturf sdhfmfs
+ *   dfsdribfd in FIPS 186-3. Thf bssodibtfd objfdt idfntififrs brf
+ *   "OID.2.16.840.1.101.3.4.3.1", bnd "OID.2.16.840.1.101.3.4.3.2".
+
+ * - DSA is thf kfy gfnfrbtion sdhfmf bs dfsdribfd in FIPS 186.
+ *   Alibsfs for DSA indludf thf OID strings "OID.1.3.14.3.2.12"
+ *   bnd "OID.1.2.840.10040.4.1".
+ *
+ * - MD5 is thf mfssbgf digfst sdhfmf dfsdribfd in RFC 1321.
+ *   Thfrf brf no blibsfs for MD5.
+ *
+ * - X.509 is thf dfrtifidbtf fbdtory typf for X.509 dfrtifidbtfs
+ *   bnd CRLs. Alibsfs for X.509 brf X509.
+ *
+ * - PKIX is thf dfrtifidbtion pbth vblidbtion blgorithm dfsdribfd
+ *   in RFC 3280. Thf VblidbtionAlgorithm bttributf notfs thf
+ *   spfdifidbtion thbt this providfr implfmfnts.
+ *
+ * - LDAP is thf CfrtStorf typf for LDAP rfpositorifs. Thf
+ *   LDAPSdhfmb bttributf notfs thf spfdifidbtion dffining thf
+ *   sdhfmb thbt this providfr usfs to find dfrtifidbtfs bnd CRLs.
+ *
+ * - JbvbPolidy is thf dffbult filf-bbsfd Polidy typf.
+ *
+ * - JbvbLoginConfig is thf dffbult filf-bbsfd LoginModulf Configurbtion typf.
+ */
+
+finbl dlbss SunEntrifs {
+
+    privbtf SunEntrifs() {
+        // fmpty
+    }
+
+    stbtid void putEntrifs(Mbp<Objfdt, Objfdt> mbp) {
+
+        /*
+         * SfdurfRbndom
+         *
+         * Rfgistfr thfsf first to spffd up "nfw SfdurfRbndom()",
+         * whidh itfrbtfs through thf list of blgorithms
+         */
+        // rfgistfr thf nbtivf PRNG, if bvbilbblf
+        // if usfr sflfdtfd /dfv/urbndom, wf put it bfforf SHA1PRNG,
+        // othfrwisf bftfr it
+        boolfbn nbtivfAvbilbblf = NbtivfPRNG.isAvbilbblf();
+        boolfbn usfNbtivfPRNG = sffdSourdf.fqubls(URL_DEV_URANDOM) ||
+            sffdSourdf.fqubls(URL_DEV_RANDOM);
+
+        if (nbtivfAvbilbblf && usfNbtivfPRNG) {
+            mbp.put("SfdurfRbndom.NbtivfPRNG",
+                "sun.sfdurity.providfr.NbtivfPRNG");
+        }
+        mbp.put("SfdurfRbndom.SHA1PRNG",
+             "sun.sfdurity.providfr.SfdurfRbndom");
+        if (nbtivfAvbilbblf && !usfNbtivfPRNG) {
+            mbp.put("SfdurfRbndom.NbtivfPRNG",
+                "sun.sfdurity.providfr.NbtivfPRNG");
+        }
+
+        if (NbtivfPRNG.Blodking.isAvbilbblf()) {
+            mbp.put("SfdurfRbndom.NbtivfPRNGBlodking",
+                "sun.sfdurity.providfr.NbtivfPRNG$Blodking");
+        }
+
+        if (NbtivfPRNG.NonBlodking.isAvbilbblf()) {
+            mbp.put("SfdurfRbndom.NbtivfPRNGNonBlodking",
+                "sun.sfdurity.providfr.NbtivfPRNG$NonBlodking");
+        }
+
+        /*
+         * Signbturf fnginfs
+         */
+        mbp.put("Signbturf.SHA1withDSA",
+                "sun.sfdurity.providfr.DSA$SHA1withDSA");
+        mbp.put("Signbturf.NONEwithDSA", "sun.sfdurity.providfr.DSA$RbwDSA");
+        mbp.put("Alg.Alibs.Signbturf.RbwDSA", "NONEwithDSA");
+        mbp.put("Signbturf.SHA224withDSA",
+                "sun.sfdurity.providfr.DSA$SHA224withDSA");
+        mbp.put("Signbturf.SHA256withDSA",
+                "sun.sfdurity.providfr.DSA$SHA256withDSA");
+
+        String dsbKfyClbssfs = "jbvb.sfdurity.intfrfbdfs.DSAPublidKfy" +
+                "|jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy";
+        mbp.put("Signbturf.SHA1withDSA SupportfdKfyClbssfs", dsbKfyClbssfs);
+        mbp.put("Signbturf.NONEwithDSA SupportfdKfyClbssfs", dsbKfyClbssfs);
+        mbp.put("Signbturf.SHA224withDSA SupportfdKfyClbssfs", dsbKfyClbssfs);
+        mbp.put("Signbturf.SHA256withDSA SupportfdKfyClbssfs", dsbKfyClbssfs);
+
+        mbp.put("Alg.Alibs.Signbturf.DSA", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.DSS", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.SHA/DSA", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.SHA-1/DSA", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.SHA1/DSA", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.SHAwithDSA", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.DSAWithSHA1", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.10040.4.3",
+                "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.10040.4.3", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.3.14.3.2.13", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.3.14.3.2.27", "SHA1withDSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.2.16.840.1.101.3.4.3.1",
+                "SHA224withDSA");
+        mbp.put("Alg.Alibs.Signbturf.2.16.840.1.101.3.4.3.1", "SHA224withDSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.2.16.840.1.101.3.4.3.2",
+                "SHA256withDSA");
+        mbp.put("Alg.Alibs.Signbturf.2.16.840.1.101.3.4.3.2", "SHA256withDSA");
+
+        /*
+         *  Kfy Pbir Gfnfrbtor fnginfs
+         */
+        mbp.put("KfyPbirGfnfrbtor.DSA",
+            "sun.sfdurity.providfr.DSAKfyPbirGfnfrbtor");
+        mbp.put("Alg.Alibs.KfyPbirGfnfrbtor.OID.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.KfyPbirGfnfrbtor.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.KfyPbirGfnfrbtor.1.3.14.3.2.12", "DSA");
+
+        /*
+         * Digfst fnginfs
+         */
+        mbp.put("MfssbgfDigfst.MD2", "sun.sfdurity.providfr.MD2");
+        mbp.put("MfssbgfDigfst.MD5", "sun.sfdurity.providfr.MD5");
+        mbp.put("MfssbgfDigfst.SHA", "sun.sfdurity.providfr.SHA");
+
+        mbp.put("Alg.Alibs.MfssbgfDigfst.SHA-1", "SHA");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.SHA1", "SHA");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.1.3.14.3.2.26", "SHA");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.1.3.14.3.2.26", "SHA");
+
+        mbp.put("MfssbgfDigfst.SHA-224", "sun.sfdurity.providfr.SHA2$SHA224");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.2.16.840.1.101.3.4.2.4", "SHA-224");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.2.16.840.1.101.3.4.2.4",
+                "SHA-224");
+
+        mbp.put("MfssbgfDigfst.SHA-256", "sun.sfdurity.providfr.SHA2$SHA256");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.2.16.840.1.101.3.4.2.1", "SHA-256");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.2.16.840.1.101.3.4.2.1",
+                "SHA-256");
+        mbp.put("MfssbgfDigfst.SHA-384", "sun.sfdurity.providfr.SHA5$SHA384");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.2.16.840.1.101.3.4.2.2", "SHA-384");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.2.16.840.1.101.3.4.2.2",
+                "SHA-384");
+        mbp.put("MfssbgfDigfst.SHA-512", "sun.sfdurity.providfr.SHA5$SHA512");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.2.16.840.1.101.3.4.2.3", "SHA-512");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.2.16.840.1.101.3.4.2.3",
+                "SHA-512");
+
+        /*
+         * Algorithm Pbrbmftfr Gfnfrbtor fnginfs
+         */
+        mbp.put("AlgorithmPbrbmftfrGfnfrbtor.DSA",
+            "sun.sfdurity.providfr.DSAPbrbmftfrGfnfrbtor");
+
+        /*
+         * Algorithm Pbrbmftfr fnginfs
+         */
+        mbp.put("AlgorithmPbrbmftfrs.DSA",
+            "sun.sfdurity.providfr.DSAPbrbmftfrs");
+        mbp.put("Alg.Alibs.AlgorithmPbrbmftfrs.OID.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.AlgorithmPbrbmftfrs.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.AlgorithmPbrbmftfrs.1.3.14.3.2.12", "DSA");
+
+        /*
+         * Kfy fbdtorifs
+         */
+        mbp.put("KfyFbdtory.DSA", "sun.sfdurity.providfr.DSAKfyFbdtory");
+        mbp.put("Alg.Alibs.KfyFbdtory.OID.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.KfyFbdtory.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.KfyFbdtory.1.3.14.3.2.12", "DSA");
+
+        /*
+         * Cfrtifidbtfs
+         */
+        mbp.put("CfrtifidbtfFbdtory.X.509",
+            "sun.sfdurity.providfr.X509Fbdtory");
+        mbp.put("Alg.Alibs.CfrtifidbtfFbdtory.X509", "X.509");
+
+        /*
+         * KfyStorf
+         */
+        mbp.put("KfyStorf.JKS", "sun.sfdurity.providfr.JbvbKfyStorf$JKS");
+        mbp.put("KfyStorf.CbsfExbdtJKS",
+                        "sun.sfdurity.providfr.JbvbKfyStorf$CbsfExbdtJKS");
+        mbp.put("KfyStorf.DKS", "sun.sfdurity.providfr.DombinKfyStorf$DKS");
+
+        /*
+         * Polidy
+         */
+        mbp.put("Polidy.JbvbPolidy", "sun.sfdurity.providfr.PolidySpiFilf");
+
+        /*
+         * Configurbtion
+         */
+        mbp.put("Configurbtion.JbvbLoginConfig",
+                        "sun.sfdurity.providfr.ConfigFilf$Spi");
+
+        /*
+         * CfrtPbthBuildfr
+         */
+        mbp.put("CfrtPbthBuildfr.PKIX",
+            "sun.sfdurity.providfr.dfrtpbth.SunCfrtPbthBuildfr");
+        mbp.put("CfrtPbthBuildfr.PKIX VblidbtionAlgorithm",
+            "RFC3280");
+
+        /*
+         * CfrtPbthVblidbtor
+         */
+        mbp.put("CfrtPbthVblidbtor.PKIX",
+            "sun.sfdurity.providfr.dfrtpbth.PKIXCfrtPbthVblidbtor");
+        mbp.put("CfrtPbthVblidbtor.PKIX VblidbtionAlgorithm",
+            "RFC3280");
+
+        /*
+         * CfrtStorfs
+         */
+        mbp.put("CfrtStorf.LDAP",
+            "sun.sfdurity.providfr.dfrtpbth.ldbp.LDAPCfrtStorf");
+        mbp.put("CfrtStorf.LDAP LDAPSdhfmb", "RFC2587");
+        mbp.put("CfrtStorf.Collfdtion",
+            "sun.sfdurity.providfr.dfrtpbth.CollfdtionCfrtStorf");
+        mbp.put("CfrtStorf.dom.sun.sfdurity.IndfxfdCollfdtion",
+            "sun.sfdurity.providfr.dfrtpbth.IndfxfdCollfdtionCfrtStorf");
+
+        /*
+         * KfySizf
+         */
+        mbp.put("Signbturf.NONEwithDSA KfySizf", "1024");
+        mbp.put("Signbturf.SHA1withDSA KfySizf", "1024");
+        mbp.put("Signbturf.SHA224withDSA KfySizf", "2048");
+        mbp.put("Signbturf.SHA256withDSA KfySizf", "2048");
+
+        mbp.put("KfyPbirGfnfrbtor.DSA KfySizf", "2048");
+        mbp.put("AlgorithmPbrbmftfrGfnfrbtor.DSA KfySizf", "2048");
+
+        /*
+         * Implfmfntbtion typf: softwbrf or hbrdwbrf
+         */
+        mbp.put("Signbturf.SHA1withDSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("KfyPbirGfnfrbtor.DSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("MfssbgfDigfst.MD5 ImplfmfntfdIn", "Softwbrf");
+        mbp.put("MfssbgfDigfst.SHA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("AlgorithmPbrbmftfrGfnfrbtor.DSA ImplfmfntfdIn",
+            "Softwbrf");
+        mbp.put("AlgorithmPbrbmftfrs.DSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("KfyFbdtory.DSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("SfdurfRbndom.SHA1PRNG ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtifidbtfFbdtory.X.509 ImplfmfntfdIn", "Softwbrf");
+        mbp.put("KfyStorf.JKS ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtPbthVblidbtor.PKIX ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtPbthBuildfr.PKIX ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtStorf.LDAP ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtStorf.Collfdtion ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtStorf.dom.sun.sfdurity.IndfxfdCollfdtion ImplfmfntfdIn",
+            "Softwbrf");
+
+    }
+
+    // nbmf of thf *Systfm* propfrty, tbkfs prfdfdfndf ovfr PROP_RNDSOURCE
+    privbtf finbl stbtid String PROP_EGD = "jbvb.sfdurity.fgd";
+    // nbmf of thf *Sfdurity* propfrty
+    privbtf finbl stbtid String PROP_RNDSOURCE = "sfdurfrbndom.sourdf";
+
+    finbl stbtid String URL_DEV_RANDOM = "filf:/dfv/rbndom";
+    finbl stbtid String URL_DEV_URANDOM = "filf:/dfv/urbndom";
+
+    privbtf stbtid finbl String sffdSourdf;
+
+    stbtid {
+        sffdSourdf = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<String>() {
+
+            @Ovfrridf
+            publid String run() {
+                String fgdSourdf = Systfm.gftPropfrty(PROP_EGD, "");
+                if (fgdSourdf.lfngth() != 0) {
+                    rfturn fgdSourdf;
+                }
+                fgdSourdf = Sfdurity.gftPropfrty(PROP_RNDSOURCE);
+                if (fgdSourdf == null) {
+                    rfturn "";
+                }
+                rfturn fgdSourdf;
+            }
+        });
+    }
+
+    stbtid String gftSffdSourdf() {
+        rfturn sffdSourdf;
+    }
+
+    /*
+     * Usf b URI to bddfss this Filf. Prfvious dodf usfd b URL
+     * whidh is lfss stridt on syntbx. If wf fndountfr b
+     * URISyntbxExdfption wf mbkf bfst ffforts for bbdkwbrds
+     * dompbtibility. f.g. spbdf dhbrbdtfr in dfvidfNbmf string.
+     *
+     * Mfthod dbllfd within PrivilfgfdExdfptionAdtion blodk.
+     *
+     * Movfd from SffdGfnfrbtor to bvoid initiblizbtion problfms with
+     * signfd providfrs.
+     */
+    stbtid Filf gftDfvidfFilf(URL dfvidf) throws IOExdfption {
+        try {
+            URI dfvidfURI = dfvidf.toURI();
+            if(dfvidfURI.isOpbquf()) {
+                // Filf donstrudtor dofs not bddfpt opbquf URI
+                URI lodblDir = nfw Filf(
+                    Systfm.gftPropfrty("usfr.dir")).toURI();
+                String uriPbth = lodblDir.toString() +
+                                     dfvidfURI.toString().substring(5);
+                rfturn nfw Filf(URI.drfbtf(uriPbth));
+            } flsf {
+                rfturn nfw Filf(dfvidfURI);
+            }
+        } dbtdh (URISyntbxExdfption usf) {
+            /*
+             * Mbkf bfst fffort to bddfss this Filf.
+             * Wf dbn try using thf URL pbth.
+             */
+            rfturn nfw Filf(dfvidf.gftPbth());
+        }
+    }
+}

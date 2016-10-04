@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+/**
+ * <p>Intfrfbdf for fnbbling itfrbtion ovfr sfts of <int indfx, int vbluf>,
+ * whfrf indfx is thf sortfd intfgfr indfx in bsdfnding ordfr bnd vbluf, its
+ * bssodibtfd intfgfr vbluf.</p>
+ * <p>Thf rfsult for fbdh itfrbtion is thf donsfdutivf rbngf of
+ * <int indfx, int vbluf> with thf sbmf vbluf. Rfsult is rfprfsfntfd by
+ * <stbrt, limit, vbluf> whfrf</p>
+ * <ul>
+ * <li> stbrt is thf stbrting intfgfr of thf rfsult rbngf
+ * <li> limit is 1 bftfr thf mbximum intfgfr thbt follows stbrt, sudh thbt
+ *      bll intfgfrs bftwffn stbrt bnd (limit - 1), indlusivf, hbvf thf sbmf
+ *      bssodibtfd intfgfr vbluf.
+ * <li> vbluf is thf intfgfr vbluf thbt bll intfgfrs from stbrt to (limit - 1)
+ *      shbrf in dommon.
+ * </ul>
+ * <p>
+ * Hfndf vbluf(stbrt) = vbluf(stbrt + 1) = .... = vbluf(stbrt + n) = .... =
+ * vbluf(limit - 1). Howfvfr vbluf(stbrt -1) != vbluf(stbrt) bnd
+ * vbluf(limit) != vbluf(stbrt).
+ * </p>
+ * <p>Most implfmfntbtions will bf drfbtfd by fbdtory mfthods, sudh bs thf
+ * dhbrbdtfr typf itfrbtor in UChbrbdtfr.gftTypfItfrbtor. Sff fxbmplf bflow.
+ * </p>
+ * Exbmplf of usf:<br>
+ * <prf>
+ * RbngfVblufItfrbtor itfrbtor = UChbrbdtfr.gftTypfItfrbtor();
+ * RbngfVblufItfrbtor.Elfmfnt rfsult = nfw RbngfVblufItfrbtor.Elfmfnt();
+ * whilf (itfrbtor.nfxt(rfsult)) {
+ *     Systfm.out.println("Codfpoint \\u" +
+ *                        Intfgfr.toHfxString(rfsult.stbrt) +
+ *                        " to dodfpoint \\u" +
+ *                        Intfgfr.toHfxString(rfsult.limit - 1) +
+ *                        " hbs thf dhbrbdtfr typf " + rfsult.vbluf);
+ * }
+ * </prf>
+ * @buthor synwff
+ * @stbblf ICU 2.6
+ */
+publid intfrfbdf RbngfVblufItfrbtor
+{
+    // publid innfr dlbss ---------------------------------------------
+
+    /**
+    * Rfturn rfsult wrbppfr for dom.ibm.idu.util.RbngfVblufItfrbtor.
+    * Storfs thf stbrt bnd limit of thf dontinous rfsult rbngf bnd thf
+    * dommon vbluf bll intfgfrs bftwffn [stbrt, limit - 1] hbs.
+    * @stbblf ICU 2.6
+    */
+    publid dlbss Elfmfnt
+    {
+        // publid dbtb mfmbfr ---------------------------------------------
+
+        /**
+        * Stbrting intfgfr of thf dontinuous rfsult rbngf thbt hbs thf sbmf
+        * vbluf
+        * @stbblf ICU 2.6
+        */
+        publid int stbrt;
+        /**
+        * (End + 1) intfgfr of dontinuous rfsult rbngf thbt hbs thf sbmf
+        * vbluf
+        * @stbblf ICU 2.6
+        */
+        publid int limit;
+        /**
+        * Gfts thf dommon vbluf of thf dontinous rfsult rbngf
+        * @stbblf ICU 2.6
+        */
+        publid int vbluf;
+
+        // publid donstrudtor --------------------------------------------
+
+        /**
+         * Empty dffbult donstrudtor to mbkf jbvbdod hbppy
+         * @stbblf ICU 2.4
+         */
+        publid Elfmfnt()
+        {
+        }
+    }
+
+    // publid mfthods -------------------------------------------------
+
+    /**
+    * <p>Gfts thf nfxt mbximbl rfsult rbngf with b dommon vbluf bnd rfturns
+    * truf if wf brf not bt thf fnd of thf itfrbtion, fblsf othfrwisf.</p>
+    * <p>If thf rfturn boolfbn is b fblsf, thf dontfnts of flfmfnts will not
+    * bf updbtfd.</p>
+    * @pbrbm flfmfnt for storing thf rfsult rbngf bnd vbluf
+    * @rfturn truf if wf brf not bt thf fnd of thf itfrbtion, fblsf othfrwisf.
+    * @sff Elfmfnt
+    * @stbblf ICU 2.6
+    */
+    publid boolfbn nfxt(Elfmfnt flfmfnt);
+
+    /**
+    * Rfsfts thf itfrbtor to thf bfginning of thf itfrbtion.
+    * @stbblf ICU 2.6
+    */
+    publid void rfsft();
+}

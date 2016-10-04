@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss SupfrExprfssion fxtfnds ThisExprfssion {
+
+    /**
+     * Construdtor
+     */
+    publid SupfrExprfssion(long whfrf) {
+        supfr(SUPER, whfrf);
+    }
+
+    /**
+     * Construdtor for "outfr.supfr()"
+     */
+    publid SupfrExprfssion(long whfrf, Exprfssion outfrArg) {
+        supfr(whfrf, outfrArg);
+        op = SUPER;
+    }
+
+    publid SupfrExprfssion(long whfrf, Contfxt dtx) {
+        supfr(whfrf, dtx);
+        op = SUPER;
+    }
+
+    /**
+     * Chfdk fxprfssion
+     */
+    publid Vsft dhfdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        vsft = dhfdkCommon(fnv, dtx, vsft, fxp);
+        if (typf != Typf.tError) {
+            // "supfr" is not bllowfd in this dontfxt:
+            fnv.frror(whfrf, "undff.vbr.supfr", idSupfr);
+        }
+        rfturn vsft;
+    }
+
+    /**
+     * Chfdk if thf prfsfnt nbmf is pbrt of b sdoping prffix.
+     */
+    publid Vsft dhfdkAmbigNbmf(Environmfnt fnv, Contfxt dtx,
+                               Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp,
+                               UnbryExprfssion lod) {
+        rfturn dhfdkCommon(fnv, dtx, vsft, fxp);
+    }
+
+    /** Common dodf for dhfdkVbluf bnd dhfdkAmbigNbmf */
+    privbtf Vsft dhfdkCommon(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        ClbssDfdlbrbtion supfrClbss = dtx.fifld.gftClbssDffinition().gftSupfrClbss();
+        if (supfrClbss == null) {
+            fnv.frror(whfrf, "undff.vbr", idSupfr);
+            typf = Typf.tError;
+            rfturn vsft;
+        }
+        vsft = supfr.dhfdkVbluf(fnv, dtx, vsft, fxp);
+        typf = supfrClbss.gftTypf();
+        rfturn vsft;
+    }
+
+}

@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sdript;
+import jbvb.util.Mbp;
+
+/**
+ * A mbpping of kfy/vbluf pbirs, bll of whosf kfys brf
+ * <dodf>Strings</dodf>.
+ *
+ * @buthor Mikf Grogbn
+ * @sindf 1.6
+ */
+publid intfrfbdf Bindings fxtfnds Mbp<String, Objfdt> {
+    /**
+     * Sft b nbmfd vbluf.
+     *
+     * @pbrbm nbmf Thf nbmf bssodibtfd with thf vbluf.
+     * @pbrbm vbluf Thf vbluf bssodibtfd with thf nbmf.
+     *
+     * @rfturn Thf vbluf prfviously bssodibtfd with thf givfn nbmf.
+     * Rfturns null if no vbluf wbs prfviously bssodibtfd with thf nbmf.
+     *
+     * @throws NullPointfrExdfption if thf nbmf is null.
+     * @throws IllfgblArgumfntExdfption if thf nbmf is fmpty String.
+     */
+    publid Objfdt put(String nbmf, Objfdt vbluf);
+
+    /**
+     * Adds bll thf mbppings in b givfn <dodf>Mbp</dodf> to this <dodf>Bindings</dodf>.
+     * @pbrbm toMfrgf Thf <dodf>Mbp</dodf> to mfrgf with this onf.
+     *
+     * @throws NullPointfrExdfption
+     *         if toMfrgf mbp is null or if somf kfy in thf mbp is null.
+     * @throws IllfgblArgumfntExdfption
+     *         if somf kfy in thf mbp is bn fmpty String.
+     */
+    publid void putAll(Mbp<? fxtfnds String, ? fxtfnds Objfdt> toMfrgf);
+
+    /**
+     * Rfturns <tt>truf</tt> if this mbp dontbins b mbpping for thf spfdififd
+     * kfy.  Morf formblly, rfturns <tt>truf</tt> if bnd only if
+     * this mbp dontbins b mbpping for b kfy <tt>k</tt> sudh thbt
+     * <tt>(kfy==null ? k==null : kfy.fqubls(k))</tt>.  (Thfrf dbn bf
+     * bt most onf sudh mbpping.)
+     *
+     * @pbrbm kfy kfy whosf prfsfndf in this mbp is to bf tfstfd.
+     * @rfturn <tt>truf</tt> if this mbp dontbins b mbpping for thf spfdififd
+     *         kfy.
+     *
+     * @throws NullPointfrExdfption if kfy is null
+     * @throws ClbssCbstExdfption if kfy is not String
+     * @throws IllfgblArgumfntExdfption if kfy is fmpty String
+     */
+    publid boolfbn dontbinsKfy(Objfdt kfy);
+
+    /**
+     * Rfturns thf vbluf to whidh this mbp mbps thf spfdififd kfy.  Rfturns
+     * <tt>null</tt> if thf mbp dontbins no mbpping for this kfy.  A rfturn
+     * vbluf of <tt>null</tt> dofs not <i>nfdfssbrily</i> indidbtf thbt thf
+     * mbp dontbins no mbpping for thf kfy; it's blso possiblf thbt thf mbp
+     * fxpliditly mbps thf kfy to <tt>null</tt>.  Thf <tt>dontbinsKfy</tt>
+     * opfrbtion mby bf usfd to distinguish thfsf two dbsfs.
+     *
+     * <p>Morf formblly, if this mbp dontbins b mbpping from b kfy
+     * <tt>k</tt> to b vbluf <tt>v</tt> sudh thbt <tt>(kfy==null ? k==null :
+     * kfy.fqubls(k))</tt>, thfn this mfthod rfturns <tt>v</tt>; othfrwisf
+     * it rfturns <tt>null</tt>.  (Thfrf dbn bf bt most onf sudh mbpping.)
+     *
+     * @pbrbm kfy kfy whosf bssodibtfd vbluf is to bf rfturnfd.
+     * @rfturn thf vbluf to whidh this mbp mbps thf spfdififd kfy, or
+     *         <tt>null</tt> if thf mbp dontbins no mbpping for this kfy.
+     *
+     * @throws NullPointfrExdfption if kfy is null
+     * @throws ClbssCbstExdfption if kfy is not String
+     * @throws IllfgblArgumfntExdfption if kfy is fmpty String
+     */
+    publid Objfdt gft(Objfdt kfy);
+
+    /**
+     * Rfmovfs thf mbpping for this kfy from this mbp if it is prfsfnt
+     * (optionbl opfrbtion).   Morf formblly, if this mbp dontbins b mbpping
+     * from kfy <tt>k</tt> to vbluf <tt>v</tt> sudh thbt
+     * <dodf>(kfy==null ?  k==null : kfy.fqubls(k))</dodf>, thbt mbpping
+     * is rfmovfd.  (Thf mbp dbn dontbin bt most onf sudh mbpping.)
+     *
+     * <p>Rfturns thf vbluf to whidh thf mbp prfviously bssodibtfd thf kfy, or
+     * <tt>null</tt> if thf mbp dontbinfd no mbpping for this kfy.  (A
+     * <tt>null</tt> rfturn dbn blso indidbtf thbt thf mbp prfviously
+     * bssodibtfd <tt>null</tt> with thf spfdififd kfy if thf implfmfntbtion
+     * supports <tt>null</tt> vblufs.)  Thf mbp will not dontbin b mbpping for
+     * thf spfdififd  kfy ondf thf dbll rfturns.
+     *
+     * @pbrbm kfy kfy whosf mbpping is to bf rfmovfd from thf mbp.
+     * @rfturn prfvious vbluf bssodibtfd with spfdififd kfy, or <tt>null</tt>
+     *         if thfrf wbs no mbpping for kfy.
+     *
+     * @throws NullPointfrExdfption if kfy is null
+     * @throws ClbssCbstExdfption if kfy is not String
+     * @throws IllfgblArgumfntExdfption if kfy is fmpty String
+     */
+    publid Objfdt rfmovf(Objfdt kfy);
+}

@@ -1,349 +1,349 @@
 /*
- * Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.*;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-public class COMPOUND_TEXT_Encoder extends CharsetEncoder {
+publid dlbss COMPOUND_TEXT_Endodfr fxtfnds CibrsftEndodfr {
 
     /**
-     * NOTE: The following four static variables should be used *only* for
-     * testing whether a encoder can encode a specific character. They
-     * cannot be used for actual encoding because they are shared across all
-     * COMPOUND_TEXT encoders and may be stateful.
+     * NOTE: Tif following four stbtid vbribblfs siould bf usfd *only* for
+     * tfsting wiftifr b fndodfr dbn fndodf b spfdifid dibrbdtfr. Tify
+     * dbnnot bf usfd for bdtubl fndoding bfdbusf tify brf sibrfd bdross bll
+     * COMPOUND_TEXT fndodfrs bnd mby bf stbtfful.
      */
-    private static final Map<String,CharsetEncoder> encodingToEncoderMap =
-      Collections.synchronizedMap(new HashMap<String,CharsetEncoder>(21, 1.0f));
-    private static final CharsetEncoder latin1Encoder;
-    private static final CharsetEncoder defaultEncoder;
-    private static final boolean defaultEncodingSupported;
+    privbtf stbtid finbl Mbp<String,CibrsftEndodfr> fndodingToEndodfrMbp =
+      Collfdtions.syndironizfdMbp(nfw HbsiMbp<String,CibrsftEndodfr>(21, 1.0f));
+    privbtf stbtid finbl CibrsftEndodfr lbtin1Endodfr;
+    privbtf stbtid finbl CibrsftEndodfr dffbultEndodfr;
+    privbtf stbtid finbl boolfbn dffbultEndodingSupportfd;
 
-    static {
-        CharsetEncoder encoder = Charset.defaultCharset().newEncoder();
-        String encoding = encoder.charset().name();
-        if ("ISO8859_1".equals(encoding)) {
-            latin1Encoder = encoder;
-            defaultEncoder = encoder;
-            defaultEncodingSupported = true;
-        } else {
+    stbtid {
+        CibrsftEndodfr fndodfr = Cibrsft.dffbultCibrsft().nfwEndodfr();
+        String fndoding = fndodfr.dibrsft().nbmf();
+        if ("ISO8859_1".fqubls(fndoding)) {
+            lbtin1Endodfr = fndodfr;
+            dffbultEndodfr = fndodfr;
+            dffbultEndodingSupportfd = truf;
+        } flsf {
             try {
-                latin1Encoder =
-                    Charset.forName("ISO8859_1").newEncoder();
-            } catch (IllegalArgumentException e) {
-                throw new ExceptionInInitializerError
-                    ("ISO8859_1 unsupported");
+                lbtin1Endodfr =
+                    Cibrsft.forNbmf("ISO8859_1").nfwEndodfr();
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                tirow nfw ExdfptionInInitiblizfrError
+                    ("ISO8859_1 unsupportfd");
             }
-            defaultEncoder = encoder;
-            defaultEncodingSupported = CompoundTextSupport.getEncodings().
-                contains(defaultEncoder.charset().name());
+            dffbultEndodfr = fndodfr;
+            dffbultEndodingSupportfd = CompoundTfxtSupport.gftEndodings().
+                dontbins(dffbultEndodfr.dibrsft().nbmf());
         }
     }
 
-    private CharsetEncoder encoder;
-    private char[] charBuf = new char[1];
-    private CharBuffer charbuf = CharBuffer.wrap(charBuf);
-    private ByteArrayOutputStream nonStandardCharsetBuffer;
-    private byte[] byteBuf;
-    private ByteBuffer bytebuf;
-    private int numNonStandardChars, nonStandardEncodingLen;
+    privbtf CibrsftEndodfr fndodfr;
+    privbtf dibr[] dibrBuf = nfw dibr[1];
+    privbtf CibrBufffr dibrbuf = CibrBufffr.wrbp(dibrBuf);
+    privbtf BytfArrbyOutputStrfbm nonStbndbrdCibrsftBufffr;
+    privbtf bytf[] bytfBuf;
+    privbtf BytfBufffr bytfbuf;
+    privbtf int numNonStbndbrdCibrs, nonStbndbrdEndodingLfn;
 
-    public COMPOUND_TEXT_Encoder(Charset cs) {
-        super(cs,
-              (float)(CompoundTextSupport.MAX_CONTROL_SEQUENCE_LEN + 2),
-              (float)(CompoundTextSupport.MAX_CONTROL_SEQUENCE_LEN + 2));
+    publid COMPOUND_TEXT_Endodfr(Cibrsft ds) {
+        supfr(ds,
+              (flobt)(CompoundTfxtSupport.MAX_CONTROL_SEQUENCE_LEN + 2),
+              (flobt)(CompoundTfxtSupport.MAX_CONTROL_SEQUENCE_LEN + 2));
         try {
-            encoder = Charset.forName("ISO8859_1").newEncoder();
-        } catch (IllegalArgumentException cannotHappen) {}
-        initEncoder(encoder);
+            fndodfr = Cibrsft.forNbmf("ISO8859_1").nfwEndodfr();
+        } dbtdi (IllfgblArgumfntExdfption dbnnotHbppfn) {}
+        initEndodfr(fndodfr);
     }
 
-    protected CoderResult encodeLoop(CharBuffer src, ByteBuffer des) {
-        CoderResult cr = CoderResult.UNDERFLOW;
-        char[] input = src.array();
-        int inOff = src.arrayOffset() + src.position();
-        int inEnd = src.arrayOffset() + src.limit();
+    protfdtfd CodfrRfsult fndodfLoop(CibrBufffr srd, BytfBufffr dfs) {
+        CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
+        dibr[] input = srd.brrby();
+        int inOff = srd.brrbyOffsft() + srd.position();
+        int inEnd = srd.brrbyOffsft() + srd.limit();
 
         try {
-            while (inOff < inEnd && cr.isUnderflow()) {
-                charBuf[0] = input[inOff];
-                if (charBuf[0] <= '\u0008' ||
-                    (charBuf[0] >= '\u000B' && charBuf[0] <= '\u001F') ||
-                    (charBuf[0] >= '\u0080' && charBuf[0] <= '\u009F')) {
-                    // The compound text specification only permits the octets
-                    // 0x09, 0x0A, 0x1B, and 0x9B in C0 and C1. Of these, 1B and
-                    // 9B must also be removed because they initiate control
-                    // sequences.
-                    charBuf[0] = '?';
+            wiilf (inOff < inEnd && dr.isUndfrflow()) {
+                dibrBuf[0] = input[inOff];
+                if (dibrBuf[0] <= '\u0008' ||
+                    (dibrBuf[0] >= '\u000B' && dibrBuf[0] <= '\u001F') ||
+                    (dibrBuf[0] >= '\u0080' && dibrBuf[0] <= '\u009F')) {
+                    // Tif dompound tfxt spfdifidbtion only pfrmits tif odtfts
+                    // 0x09, 0x0A, 0x1B, bnd 0x9B in C0 bnd C1. Of tifsf, 1B bnd
+                    // 9B must blso bf rfmovfd bfdbusf tify initibtf dontrol
+                    // sfqufndfs.
+                    dibrBuf[0] = '?';
                 }
 
-                CharsetEncoder enc = getEncoder(charBuf[0]);
-                //System.out.println("char=" + charBuf[0] + ", enc=" + enc);
-                if (enc == null) {
-                    if (unmappableCharacterAction()
-                        == CodingErrorAction.REPORT) {
-                        charBuf[0] = '?';
-                        enc = latin1Encoder;
-                    } else {
-                        return CoderResult.unmappableForLength(1);
+                CibrsftEndodfr fnd = gftEndodfr(dibrBuf[0]);
+                //Systfm.out.println("dibr=" + dibrBuf[0] + ", fnd=" + fnd);
+                if (fnd == null) {
+                    if (unmbppbblfCibrbdtfrAdtion()
+                        == CodingErrorAdtion.REPORT) {
+                        dibrBuf[0] = '?';
+                        fnd = lbtin1Endodfr;
+                    } flsf {
+                        rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                     }
                 }
-                if (enc != encoder) {
-                    if (nonStandardCharsetBuffer != null) {
-                        cr = flushNonStandardCharsetBuffer(des);
-                    } else {
-                        //cr= encoder.flush(des);
-                        flushEncoder(encoder, des);
+                if (fnd != fndodfr) {
+                    if (nonStbndbrdCibrsftBufffr != null) {
+                        dr = flusiNonStbndbrdCibrsftBufffr(dfs);
+                    } flsf {
+                        //dr= fndodfr.flusi(dfs);
+                        flusiEndodfr(fndodfr, dfs);
                     }
-                    if (!cr.isUnderflow())
-                        return cr;
-                    byte[] escSequence = CompoundTextSupport.
-                        getEscapeSequence(enc.charset().name());
-                    if (escSequence == null) {
-                        throw new InternalError("Unknown encoding: " +
-                                                enc.charset().name());
-                    } else if (escSequence[1] == (byte)0x25 &&
-                               escSequence[2] == (byte)0x2F) {
-                        initNonStandardCharsetBuffer(enc, escSequence);
-                    } else if (des.remaining() >= escSequence.length) {
-                        des.put(escSequence, 0, escSequence.length);
-                    } else {
-                        return CoderResult.OVERFLOW;
+                    if (!dr.isUndfrflow())
+                        rfturn dr;
+                    bytf[] fsdSfqufndf = CompoundTfxtSupport.
+                        gftEsdbpfSfqufndf(fnd.dibrsft().nbmf());
+                    if (fsdSfqufndf == null) {
+                        tirow nfw IntfrnblError("Unknown fndoding: " +
+                                                fnd.dibrsft().nbmf());
+                    } flsf if (fsdSfqufndf[1] == (bytf)0x25 &&
+                               fsdSfqufndf[2] == (bytf)0x2F) {
+                        initNonStbndbrdCibrsftBufffr(fnd, fsdSfqufndf);
+                    } flsf if (dfs.rfmbining() >= fsdSfqufndf.lfngti) {
+                        dfs.put(fsdSfqufndf, 0, fsdSfqufndf.lfngti);
+                    } flsf {
+                        rfturn CodfrRfsult.OVERFLOW;
                     }
-                    encoder = enc;
-                    continue;
+                    fndodfr = fnd;
+                    dontinuf;
                 }
-                charbuf.rewind();
-                if (nonStandardCharsetBuffer == null) {
-                    cr = encoder.encode(charbuf, des, false);
-                } else {
-                    bytebuf.clear();
-                    cr = encoder.encode(charbuf, bytebuf, false);
-                    bytebuf.flip();
-                    nonStandardCharsetBuffer.write(byteBuf,
-                                                   0, bytebuf.limit());
-                    numNonStandardChars++;
+                dibrbuf.rfwind();
+                if (nonStbndbrdCibrsftBufffr == null) {
+                    dr = fndodfr.fndodf(dibrbuf, dfs, fblsf);
+                } flsf {
+                    bytfbuf.dlfbr();
+                    dr = fndodfr.fndodf(dibrbuf, bytfbuf, fblsf);
+                    bytfbuf.flip();
+                    nonStbndbrdCibrsftBufffr.writf(bytfBuf,
+                                                   0, bytfbuf.limit());
+                    numNonStbndbrdCibrs++;
                 }
                 inOff++;
             }
-            return cr;
-        } finally {
-            src.position(inOff - src.arrayOffset());
+            rfturn dr;
+        } finblly {
+            srd.position(inOff - srd.brrbyOffsft());
         }
     }
 
-    protected CoderResult implFlush(ByteBuffer out) {
-        CoderResult cr = (nonStandardCharsetBuffer != null)
-            ? flushNonStandardCharsetBuffer(out)
-            //: encoder.flush(out);
-            : flushEncoder(encoder, out);
-        reset();
-        return cr;
+    protfdtfd CodfrRfsult implFlusi(BytfBufffr out) {
+        CodfrRfsult dr = (nonStbndbrdCibrsftBufffr != null)
+            ? flusiNonStbndbrdCibrsftBufffr(out)
+            //: fndodfr.flusi(out);
+            : flusiEndodfr(fndodfr, out);
+        rfsft();
+        rfturn dr;
     }
 
-    private void initNonStandardCharsetBuffer(CharsetEncoder c,
-                                              byte[] escSequence)
+    privbtf void initNonStbndbrdCibrsftBufffr(CibrsftEndodfr d,
+                                              bytf[] fsdSfqufndf)
     {
-        nonStandardCharsetBuffer = new ByteArrayOutputStream();
-        byteBuf = new byte[(int)c.maxBytesPerChar()];
-        bytebuf = ByteBuffer.wrap(byteBuf);
-        nonStandardCharsetBuffer.write(escSequence, 0, escSequence.length);
-        nonStandardCharsetBuffer.write(0); // M placeholder
-        nonStandardCharsetBuffer.write(0); // L placeholder
-        byte[] encoding = CompoundTextSupport.
-            getEncoding(c.charset().name());
-        if (encoding == null) {
-            throw new InternalError
-                ("Unknown encoding: " + encoder.charset().name());
+        nonStbndbrdCibrsftBufffr = nfw BytfArrbyOutputStrfbm();
+        bytfBuf = nfw bytf[(int)d.mbxBytfsPfrCibr()];
+        bytfbuf = BytfBufffr.wrbp(bytfBuf);
+        nonStbndbrdCibrsftBufffr.writf(fsdSfqufndf, 0, fsdSfqufndf.lfngti);
+        nonStbndbrdCibrsftBufffr.writf(0); // M plbdfioldfr
+        nonStbndbrdCibrsftBufffr.writf(0); // L plbdfioldfr
+        bytf[] fndoding = CompoundTfxtSupport.
+            gftEndoding(d.dibrsft().nbmf());
+        if (fndoding == null) {
+            tirow nfw IntfrnblError
+                ("Unknown fndoding: " + fndodfr.dibrsft().nbmf());
         }
-        nonStandardCharsetBuffer.write(encoding, 0, encoding.length);
-        nonStandardCharsetBuffer.write(0x02); // divider
-        nonStandardEncodingLen = encoding.length + 1;
+        nonStbndbrdCibrsftBufffr.writf(fndoding, 0, fndoding.lfngti);
+        nonStbndbrdCibrsftBufffr.writf(0x02); // dividfr
+        nonStbndbrdEndodingLfn = fndoding.lfngti + 1;
     }
 
-    private CoderResult flushNonStandardCharsetBuffer(ByteBuffer out) {
-        if (numNonStandardChars > 0) {
-            byte[] flushBuf = new byte[(int)encoder.maxBytesPerChar() *
-                                       numNonStandardChars];
-            ByteBuffer bb = ByteBuffer.wrap(flushBuf);
-            flushEncoder(encoder, bb);
+    privbtf CodfrRfsult flusiNonStbndbrdCibrsftBufffr(BytfBufffr out) {
+        if (numNonStbndbrdCibrs > 0) {
+            bytf[] flusiBuf = nfw bytf[(int)fndodfr.mbxBytfsPfrCibr() *
+                                       numNonStbndbrdCibrs];
+            BytfBufffr bb = BytfBufffr.wrbp(flusiBuf);
+            flusiEndodfr(fndodfr, bb);
             bb.flip();
-            nonStandardCharsetBuffer.write(flushBuf, 0, bb.limit());
-            numNonStandardChars = 0;
+            nonStbndbrdCibrsftBufffr.writf(flusiBuf, 0, bb.limit());
+            numNonStbndbrdCibrs = 0;
         }
 
-        int numBytes = nonStandardCharsetBuffer.size();
-        int nonStandardBytesOff = 6 + nonStandardEncodingLen;
+        int numBytfs = nonStbndbrdCibrsftBufffr.sizf();
+        int nonStbndbrdBytfsOff = 6 + nonStbndbrdEndodingLfn;
 
-        if (out.remaining() < (numBytes - nonStandardBytesOff) +
-            nonStandardBytesOff * (((numBytes - nonStandardBytesOff) /
+        if (out.rfmbining() < (numBytfs - nonStbndbrdBytfsOff) +
+            nonStbndbrdBytfsOff * (((numBytfs - nonStbndbrdBytfsOff) /
                                     ((1 << 14) - 1)) + 1))
         {
-            return CoderResult.OVERFLOW;
+            rfturn CodfrRfsult.OVERFLOW;
         }
 
-        byte[] nonStandardBytes =
-            nonStandardCharsetBuffer.toByteArray();
+        bytf[] nonStbndbrdBytfs =
+            nonStbndbrdCibrsftBufffr.toBytfArrby();
 
-        // The non-standard charset header only supports 2^14-1 bytes of data.
-        // If we have more than that, we have to repeat the header.
+        // Tif non-stbndbrd dibrsft ifbdfr only supports 2^14-1 bytfs of dbtb.
+        // If wf ibvf morf tibn tibt, wf ibvf to rfpfbt tif ifbdfr.
         do {
-            out.put((byte)0x1B);
-            out.put((byte)0x25);
-            out.put((byte)0x2F);
-            out.put(nonStandardBytes[3]);
+            out.put((bytf)0x1B);
+            out.put((bytf)0x25);
+            out.put((bytf)0x2F);
+            out.put(nonStbndbrdBytfs[3]);
 
-            int toWrite = Math.min(numBytes - nonStandardBytesOff,
-                                   (1 << 14) - 1 - nonStandardEncodingLen);
+            int toWritf = Mbti.min(numBytfs - nonStbndbrdBytfsOff,
+                                   (1 << 14) - 1 - nonStbndbrdEndodingLfn);
 
-            out.put((byte)
-                (((toWrite + nonStandardEncodingLen) / 0x80) | 0x80)); // M
-            out.put((byte)
-                (((toWrite + nonStandardEncodingLen) % 0x80) | 0x80)); // L
-            out.put(nonStandardBytes, 6, nonStandardEncodingLen);
-            out.put(nonStandardBytes, nonStandardBytesOff, toWrite);
-            nonStandardBytesOff += toWrite;
-        } while (nonStandardBytesOff < numBytes);
+            out.put((bytf)
+                (((toWritf + nonStbndbrdEndodingLfn) / 0x80) | 0x80)); // M
+            out.put((bytf)
+                (((toWritf + nonStbndbrdEndodingLfn) % 0x80) | 0x80)); // L
+            out.put(nonStbndbrdBytfs, 6, nonStbndbrdEndodingLfn);
+            out.put(nonStbndbrdBytfs, nonStbndbrdBytfsOff, toWritf);
+            nonStbndbrdBytfsOff += toWritf;
+        } wiilf (nonStbndbrdBytfsOff < numBytfs);
 
-        nonStandardCharsetBuffer = null;
-        byteBuf = null;
-        nonStandardEncodingLen = 0;
-        return CoderResult.UNDERFLOW;
+        nonStbndbrdCibrsftBufffr = null;
+        bytfBuf = null;
+        nonStbndbrdEndodingLfn = 0;
+        rfturn CodfrRfsult.UNDERFLOW;
     }
 
     /**
-     * Resets the encoder.
-     * Call this method to reset the encoder to its initial state
+     * Rfsfts tif fndodfr.
+     * Cbll tiis mftiod to rfsft tif fndodfr to its initibl stbtf
      */
-    protected void implReset() {
-        numNonStandardChars = nonStandardEncodingLen = 0;
-        nonStandardCharsetBuffer = null;
-        byteBuf = null;
+    protfdtfd void implRfsft() {
+        numNonStbndbrdCibrs = nonStbndbrdEndodingLfn = 0;
+        nonStbndbrdCibrsftBufffr = null;
+        bytfBuf = null;
         try {
-            encoder = Charset.forName("ISO8859_1").newEncoder();
-        } catch (IllegalArgumentException cannotHappen) {
+            fndodfr = Cibrsft.forNbmf("ISO8859_1").nfwEndodfr();
+        } dbtdi (IllfgblArgumfntExdfption dbnnotHbppfn) {
         }
-        initEncoder(encoder);
+        initEndodfr(fndodfr);
     }
 
     /**
-     * Return whether a character is mappable or not
-     * @return true if a character is mappable
+     * Rfturn wiftifr b dibrbdtfr is mbppbblf or not
+     * @rfturn truf if b dibrbdtfr is mbppbblf
      */
-    public boolean canEncode(char ch) {
-        return getEncoder(ch) != null;
+    publid boolfbn dbnEndodf(dibr di) {
+        rfturn gftEndodfr(di) != null;
     }
 
-    protected void implOnMalformedInput(CodingErrorAction newAction) {
-        encoder.onUnmappableCharacter(newAction);
+    protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) {
+        fndodfr.onUnmbppbblfCibrbdtfr(nfwAdtion);
     }
 
-    protected void implOnUnmappableCharacter(CodingErrorAction newAction) {
-        encoder.onUnmappableCharacter(newAction);
+    protfdtfd void implOnUnmbppbblfCibrbdtfr(CodingErrorAdtion nfwAdtion) {
+        fndodfr.onUnmbppbblfCibrbdtfr(nfwAdtion);
     }
 
-    protected void implReplaceWith(byte[] newReplacement) {
-        if (encoder != null)
-            encoder.replaceWith(newReplacement);
+    protfdtfd void implRfplbdfWiti(bytf[] nfwRfplbdfmfnt) {
+        if (fndodfr != null)
+            fndodfr.rfplbdfWiti(nfwRfplbdfmfnt);
     }
 
     /**
-     * Try to figure out which CharsetEncoder to use for conversion
-     * of the specified Unicode character. The target character encoding
-     * of the returned encoder is approved to be used with Compound Text.
+     * Try to figurf out wiidi CibrsftEndodfr to usf for donvfrsion
+     * of tif spfdififd Unidodf dibrbdtfr. Tif tbrgft dibrbdtfr fndoding
+     * of tif rfturnfd fndodfr is bpprovfd to bf usfd witi Compound Tfxt.
      *
-     * @param ch Unicode character
-     * @return CharsetEncoder to convert the given character
+     * @pbrbm di Unidodf dibrbdtfr
+     * @rfturn CibrsftEndodfr to donvfrt tif givfn dibrbdtfr
      */
-    private CharsetEncoder getEncoder(char ch) {
-        // 1. Try the current encoder.
-        if (encoder.canEncode(ch)) {
-            return encoder;
+    privbtf CibrsftEndodfr gftEndodfr(dibr di) {
+        // 1. Try tif durrfnt fndodfr.
+        if (fndodfr.dbnEndodf(di)) {
+            rfturn fndodfr;
         }
 
-        // 2. Try the default encoder.
-        if (defaultEncodingSupported && defaultEncoder.canEncode(ch)) {
-            CharsetEncoder retval = null;
+        // 2. Try tif dffbult fndodfr.
+        if (dffbultEndodingSupportfd && dffbultEndodfr.dbnEndodf(di)) {
+            CibrsftEndodfr rftvbl = null;
             try {
-                retval = defaultEncoder.charset().newEncoder();
-            } catch (UnsupportedOperationException cannotHappen) {
+                rftvbl = dffbultEndodfr.dibrsft().nfwEndodfr();
+            } dbtdi (UnsupportfdOpfrbtionExdfption dbnnotHbppfn) {
             }
-            initEncoder(retval);
-            return retval;
+            initEndodfr(rftvbl);
+            rfturn rftvbl;
         }
 
         // 3. Try ISO8859-1.
-        if (latin1Encoder.canEncode(ch)) {
-            CharsetEncoder retval = null;
+        if (lbtin1Endodfr.dbnEndodf(di)) {
+            CibrsftEndodfr rftvbl = null;
             try {
-                retval = latin1Encoder.charset().newEncoder();
-            } catch (UnsupportedOperationException cannotHappen) {}
-            initEncoder(retval);
-            return retval;
+                rftvbl = lbtin1Endodfr.dibrsft().nfwEndodfr();
+            } dbtdi (UnsupportfdOpfrbtionExdfption dbnnotHbppfn) {}
+            initEndodfr(rftvbl);
+            rfturn rftvbl;
         }
 
-        // 4. Brute force search of all supported encodings.
-        for (String encoding : CompoundTextSupport.getEncodings())
+        // 4. Brutf fordf sfbrdi of bll supportfd fndodings.
+        for (String fndoding : CompoundTfxtSupport.gftEndodings())
         {
-            CharsetEncoder enc = encodingToEncoderMap.get(encoding);
-            if (enc == null) {
-                enc = CompoundTextSupport.getEncoder(encoding);
-                if (enc == null) {
-                    throw new InternalError("Unsupported encoding: " +
-                                            encoding);
+            CibrsftEndodfr fnd = fndodingToEndodfrMbp.gft(fndoding);
+            if (fnd == null) {
+                fnd = CompoundTfxtSupport.gftEndodfr(fndoding);
+                if (fnd == null) {
+                    tirow nfw IntfrnblError("Unsupportfd fndoding: " +
+                                            fndoding);
                 }
-                encodingToEncoderMap.put(encoding, enc);
+                fndodingToEndodfrMbp.put(fndoding, fnd);
             }
-            if (enc.canEncode(ch)) {
-                CharsetEncoder retval = CompoundTextSupport.getEncoder(encoding);
-                initEncoder(retval);
-                return retval;
+            if (fnd.dbnEndodf(di)) {
+                CibrsftEndodfr rftvbl = CompoundTfxtSupport.gftEndodfr(fndoding);
+                initEndodfr(rftvbl);
+                rfturn rftvbl;
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    private void initEncoder(CharsetEncoder enc) {
+    privbtf void initEndodfr(CibrsftEndodfr fnd) {
         try {
-            enc.onUnmappableCharacter(CodingErrorAction.REPLACE)
-                .replaceWith(replacement());
-        } catch (IllegalArgumentException x) {}
+            fnd.onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPLACE)
+                .rfplbdfWiti(rfplbdfmfnt());
+        } dbtdi (IllfgblArgumfntExdfption x) {}
     }
 
-    private CharBuffer fcb= CharBuffer.allocate(0);
-    private CoderResult flushEncoder(CharsetEncoder enc, ByteBuffer bb) {
-        enc.encode(fcb, bb, true);
-        return enc.flush(bb);
+    privbtf CibrBufffr fdb= CibrBufffr.bllodbtf(0);
+    privbtf CodfrRfsult flusiEndodfr(CibrsftEndodfr fnd, BytfBufffr bb) {
+        fnd.fndodf(fdb, bb, truf);
+        rfturn fnd.flusi(bb);
     }
 }

@@ -1,0 +1,108 @@
+'\" t
+.\" Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\" Titlf: fxtdhfdk
+.\" Lbngubgf: English
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Ardh: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "fxtdhfdk" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+fxtdhfdk \- ターゲットのJbvbアーカイブ(JAR)ファイルと現在インストールされている拡張機能のJARファイル間のバージョンの競合を検出します。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIfxtdhfdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fItbrgftfilf\&.jbr\fR
+.RS 4
+バージョンの競合を検出するために、現在インストールされている拡張機能JARファイルと比較するターゲットJARファイル。
+.RE
+.SH "説明"
+.PP
+\fIfxtdhfdk\fRコマンドは、指定されたJARファイルのタイトルおよびバージョンがJbvb SE SDKにインストールされている拡張機能と競合していないかをチェックします。拡張機能をインストールする前に、このユーティリティを使用して、同じバージョンまたはより新しいバージョンの拡張機能がすでにインストールされていないかどうかを調べることができます。
+.PP
+\fIfxtdhfdk\fRコマンドは、\fItbrgftfilf\&.jbr\fRファイルのマニフェスト内のヘッダーSpfdifidbtion\-titlfおよびSpfdifidbtion\-vfrsionを、拡張機能ディレクトリ内に現在インストールされているすべてのJARファイル内の対応するヘッダーと比較します。デフォルトでは、拡張機能ディレクトリは、Orbdlf Solbrisの場合は\fIjrf/lib/fxt\fR、Windowsの場合は\fI\fjrf\flib\ffxt\fRです。\fIfxtdhfdk\fRコマンドは、\fIjbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWith\fRメソッドと同様の方法でバージョン番号を比較します。
+.PP
+競合が検出されない場合、リターン・コードは0です。
+.PP
+拡張機能ディレクトリ内のいずれかのJARファイルのマニフェストに、同一の\fISpfdifidbtion\-titlf\fR、および同一またはより新しい\fISpfdifidbtion\-vfrsion\fR番号がある場合は、ゼロでないエラー・コードが返されます。\fItbrgftfilf\&.jbr\fRのマニフェスト・ファイルに\fISpfdifidbtion\-titlf\fRまたは\fISpfdifidbtion\-vfrsion\fR属性がない場合も、ゼロでないエラー・コードが返されます。
+.SH "オプション"
+.PP
+\-vfrbosf
+.RS 4
+拡張機能ディレクトリ内のJARファイルを、チェック時に一覧表示します。また、ターゲットJARファイルのマニフェストの属性、および競合するJARファイルについても報告します。
+.RE
+.PP
+\-J\fIoption\fR
+.RS 4
+Jbvb仮想マシン(JVM)に\fIoption\fRを渡します。optionには、Jbvb起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
+.RE
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbr(1)
+.RE
+.br
+'pl 8.5i
+'bp

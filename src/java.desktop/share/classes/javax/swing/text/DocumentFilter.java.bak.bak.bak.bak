@@ -1,0 +1,186 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+/**
+ * <dodf>DodumfntFiltfr</dodf>, bs thf nbmf implifs, is b filtfr for thf
+ * <dodf>Dodumfnt</dodf> mutbtion mfthods. Whfn b <dodf>Dodumfnt</dodf>
+ * dontbining b <dodf>DodumfntFiltfr</dodf> is modififd (fithfr through
+ * <dodf>insfrt</dodf> or <dodf>rfmovf</dodf>), it forwbrds thf bppropribtf
+ * mfthod invodbtion to thf <dodf>DodumfntFiltfr</dodf>. Thf
+ * dffbult implfmfntbtion bllows thf modifidbtion to
+ * oddur. Subdlbssfs dbn filtfr thf modifidbtions by donditionblly invoking
+ * mfthods on thf supfrdlbss, or invoking thf nfdfssbry mfthods on
+ * thf pbssfd in <dodf>FiltfrBypbss</dodf>. Subdlbssfs should NOT dbll bbdk
+ * into thf Dodumfnt for thf modifidbtion
+ * instfbd dbll into thf supfrdlbss or thf <dodf>FiltfrBypbss</dodf>.
+ * <p>
+ * Whfn <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> is invokfd
+ * on thf <dodf>DodumfntFiltfr</dodf>, thf <dodf>DodumfntFiltfr</dodf>
+ * mby dbllbbdk into thf
+ * <dodf>FiltfrBypbss</dodf> multiplf timfs, or for difffrfnt rfgions, but
+ * it should not dbllbbdk into thf <dodf>FiltfrBypbss</dodf> bftfr rfturning
+ * from thf <dodf>rfmovf</dodf> or <dodf>insfrtString</dodf> mfthod.
+ * <p>
+ * By dffbult, tfxt rflbtfd dodumfnt mutbtion mfthods sudh bs
+ * <dodf>insfrtString</dodf>, <dodf>rfplbdf</dodf> bnd <dodf>rfmovf</dodf>
+ * in <dodf>AbstrbdtDodumfnt</dodf> usf <dodf>DodumfntFiltfr</dodf> whfn
+ * bvbilbblf, bnd <dodf>Elfmfnt</dodf> rflbtfd mutbtion mfthods sudh bs
+ * <dodf>drfbtf</dodf>, <dodf>insfrt</dodf> bnd <dodf>rfmovfElfmfnt</dodf> in
+ * <dodf>DffbultStylfdDodumfnt</dodf> do not usf <dodf>DodumfntFiltfr</dodf>.
+ * If b mfthod dofsn't follow thfsf dffbults, this must bf fxpliditly stbtfd
+ * in thf mfthod dodumfntbtion.
+ *
+ * @sff jbvbx.swing.tfxt.Dodumfnt
+ * @sff jbvbx.swing.tfxt.AbstrbdtDodumfnt
+ * @sff jbvbx.swing.tfxt.DffbultStylfdDodumfnt
+ *
+ * @sindf 1.4
+ */
+publid dlbss DodumfntFiltfr {
+    /**
+     * Invokfd prior to rfmovbl of thf spfdififd rfgion in thf
+     * spfdififd Dodumfnt. Subdlbssfs thbt wbnt to donditionblly bllow
+     * rfmovbl should ovfrridf this bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into thf <dodf>FiltfrBypbss</dodf> bs
+     * nfdfssbry.
+     *
+     * @pbrbm fb FiltfrBypbss thbt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm offsft thf offsft from thf bfginning &gt;= 0
+     * @pbrbm lfngth thf numbfr of dhbrbdtfrs to rfmovf &gt;= 0
+     * @fxdfption BbdLodbtionExdfption  somf portion of thf rfmovbl rbngf
+     *   wbs not b vblid pbrt of thf dodumfnt.  Thf lodbtion in thf fxdfption
+     *   is thf first bbd position fndountfrfd.
+     */
+    publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngth) throws
+                       BbdLodbtionExdfption {
+        fb.rfmovf(offsft, lfngth);
+    }
+
+    /**
+     * Invokfd prior to insfrtion of tfxt into thf
+     * spfdififd Dodumfnt. Subdlbssfs thbt wbnt to donditionblly bllow
+     * insfrtion should ovfrridf this bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into thf FiltfrBypbss.
+     *
+     * @pbrbm fb FiltfrBypbss thbt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm offsft  thf offsft into thf dodumfnt to insfrt thf dontfnt &gt;= 0.
+     *    All positions thbt trbdk dhbngf bt or bftfr thf givfn lodbtion
+     *    will movf.
+     * @pbrbm string thf string to insfrt
+     * @pbrbm bttr      thf bttributfs to bssodibtf with thf insfrtfd
+     *   dontfnt.  This mby bf null if thfrf brf no bttributfs.
+     * @fxdfption BbdLodbtionExdfption  thf givfn insfrt position is not b
+     *   vblid position within thf dodumfnt
+     */
+    publid void insfrtString(FiltfrBypbss fb, int offsft, String string,
+                             AttributfSft bttr) throws BbdLodbtionExdfption {
+        fb.insfrtString(offsft, string, bttr);
+    }
+
+    /**
+     * Invokfd prior to rfplbding b rfgion of tfxt in thf
+     * spfdififd Dodumfnt. Subdlbssfs thbt wbnt to donditionblly bllow
+     * rfplbdf should ovfrridf this bnd only dbll supfrs implfmfntbtion bs
+     * nfdfssbry, or dbll dirfdtly into thf FiltfrBypbss.
+     *
+     * @pbrbm fb FiltfrBypbss thbt dbn bf usfd to mutbtf Dodumfnt
+     * @pbrbm offsft Lodbtion in Dodumfnt
+     * @pbrbm lfngth Lfngth of tfxt to dflftf
+     * @pbrbm tfxt Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+     * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+     *              null is lfgbl.
+     * @fxdfption BbdLodbtionExdfption  thf givfn insfrt position is not b
+     *   vblid position within thf dodumfnt
+     */
+    publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngth, String tfxt,
+                        AttributfSft bttrs) throws BbdLodbtionExdfption {
+        fb.rfplbdf(offsft, lfngth, tfxt, bttrs);
+    }
+
+
+    /**
+     * Usfd bs b wby to dirdumvfnt dblling bbdk into thf Dodumfnt to
+     * dhbngf it. Dodumfnt implfmfntbtions thbt wish to support
+     * b DodumfntFiltfr must providf bn implfmfntbtion thbt will
+     * not dbllbbdk into thf DodumfntFiltfr whfn thf following mfthods
+     * brf invokfd from thf DodumfntFiltfr.
+     * @sindf 1.4
+     */
+    publid stbtid bbstrbdt dlbss FiltfrBypbss {
+        /**
+         * Rfturns thf Dodumfnt thf mutbtion is oddurring on.
+         *
+         * @rfturn Dodumfnt thbt rfmovf/insfrtString will opfrbtf on
+         */
+        publid bbstrbdt Dodumfnt gftDodumfnt();
+
+        /**
+         * Rfmovfs thf spfdififd rfgion of tfxt, bypbssing thf
+         * DodumfntFiltfr.
+         *
+         * @pbrbm offsft thf offsft from thf bfginning &gt;= 0
+         * @pbrbm lfngth thf numbfr of dhbrbdtfrs to rfmovf &gt;= 0
+         * @fxdfption BbdLodbtionExdfption somf portion of thf rfmovbl rbngf
+         *   wbs not b vblid pbrt of thf dodumfnt.  Thf lodbtion in thf
+         *   fxdfption is thf first bbd position fndountfrfd.
+         */
+        publid bbstrbdt void rfmovf(int offsft, int lfngth) throws
+                             BbdLodbtionExdfption;
+
+        /**
+         * Insfrts thf spfdififd tfxt, bypbssing thf
+         * DodumfntFiltfr.
+         * @pbrbm offsft  thf offsft into thf dodumfnt to insfrt thf
+         *   dontfnt &gt;= 0. All positions thbt trbdk dhbngf bt or bftfr thf
+         *   givfn lodbtion will movf.
+         * @pbrbm string thf string to insfrt
+         * @pbrbm bttr thf bttributfs to bssodibtf with thf insfrtfd
+         *   dontfnt.  This mby bf null if thfrf brf no bttributfs.
+         * @fxdfption BbdLodbtionExdfption  thf givfn insfrt position is not b
+         *   vblid position within thf dodumfnt
+         */
+        publid bbstrbdt void insfrtString(int offsft, String string,
+                                          AttributfSft bttr) throws
+                                   BbdLodbtionExdfption;
+
+        /**
+         * Dflftfs thf rfgion of tfxt from <dodf>offsft</dodf> to
+         * <dodf>offsft + lfngth</dodf>, bnd rfplbdfs it with
+         *  <dodf>tfxt</dodf>.
+         *
+         * @pbrbm offsft Lodbtion in Dodumfnt
+         * @pbrbm lfngth Lfngth of tfxt to dflftf
+         * @pbrbm string Tfxt to insfrt, null indidbtfs no tfxt to insfrt
+         * @pbrbm bttrs AttributfSft indidbting bttributfs of insfrtfd tfxt,
+         *              null is lfgbl.
+         * @fxdfption BbdLodbtionExdfption  thf givfn insfrt is not b
+         *   vblid position within thf dodumfnt
+         */
+        publid bbstrbdt void rfplbdf(int offsft, int lfngth, String string,
+                                          AttributfSft bttrs) throws
+                                   BbdLodbtionExdfption;
+    }
+}

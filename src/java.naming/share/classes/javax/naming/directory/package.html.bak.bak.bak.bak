@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+
+Extfnds thf <tt>jbvbx.nbming</tt> pbdkbgf to providf fundtionblity
+for bddfssing dirfdtory sfrvidfs.
+
+<p>
+This pbdkbgf dffinfs thf dirfdtory opfrbtions of thf Jbvb Nbming bnd
+Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+writtfn in thf Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+implfmfntbtion.  Thus b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
+
+<p>
+This pbdkbgf bllows bpplidbtions to rftrifvf bnd updbtf bttributfs
+bssodibtfd with objfdts storfd in b dirfdtory, bnd to sfbrdh for
+objfdts using spfdififd bttributfs.
+
+<h4>Thf Dirfdtory Contfxt</h4>
+
+Thf <tt>DirContfxt</tt>
+intfrfbdf rfprfsfnts b <fm>dirfdtory dontfxt</fm>.
+It dffinfs mfthods for fxbmining bnd updbting bttributfs bssodibtfd with b
+<fm>dirfdtory objfdt</fm>, or <fm>dirfdtory fntry</fm> bs it is somftimfs
+dbllfd.
+<p>
+You usf	<tt>gftAttributfs()</tt> to rftrifvf thf bttributfs 
+bssodibtfd with b dirfdtory objfdt (for whidh you supply thf nbmf).
+Attributfs brf modififd using <tt>modifyAttributfs()</tt>. 
+You dbn bdd, rfplbdf, or rfmovf bttributfs bnd/or bttributf vblufs
+using this opfrbtion.
+<p>
+<tt>DirContfxt</tt> blso bfhbvfs bs b nbming dontfxt
+by fxtfnding thf <tt>Contfxt</tt> intfrfbdf in thf <tt>jbvbx.nbming</tt> pbdkbgf.
+This mfbns thbt bny dirfdtory objfdt dbn blso providf
+b nbming dontfxt. 
+For fxbmplf, thf dirfdtory objfdt for b pfrson might dontbin
+thf bttributfs of thbt pfrson, bnd bt thf sbmf timf providf
+b dontfxt for nbming objfdts rflbtivf to thbt pfrson
+sudh bs his printfrs bnd homf dirfdtory.
+
+<h4>Sfbrdhfs</h4>
+<tt>DirContfxt</tt> dontbins mfthods for 
+pfrforming dontfnt-bbsfd sfbrdhing of thf dirfdtory.
+In thf simplfst bnd most dommon form of usbgf, thf bpplidbtion
+spfdififs b sft of bttributfs--possibly with spfdifid 
+vblufs--to mbtdh, bnd submits this bttributf sft, to thf 
+<tt>sfbrdh()</tt> mfthod.
+Thfrf brf othfr ovfrlobdfd forms of <tt>sfbrdh()</tt>
+thbt support morf sophistidbtfd <fm>sfbrdh filtfrs</fm>.
+
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+Thf JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in thf
+<b hrff="../../../../tfdhnotfs/guidfs/jndi/indfx.html">JNDI dodumfntbtion</b>.
+
+@sindf 1.3
+
+</body>
+</html>

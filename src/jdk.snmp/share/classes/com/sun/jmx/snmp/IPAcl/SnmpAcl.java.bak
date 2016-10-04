@@ -1,443 +1,443 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
 
 
 
-// java import
+// jbvb import
 //
-import java.io.Serializable;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Hashtable;
-import java.util.logging.Level;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.security.acl.AclEntry;
-import java.security.acl.NotOwnerException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiSft;
+import jbvb.sfdurity.bdl.AdlEntry;
+import jbvb.sfdurity.bdl.NotOwnfrExdfption;
 
-// SNMP Runtime import
+// SNMP Runtimf import
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_LOGGER;
-import com.sun.jmx.snmp.InetAddressAcl;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_LOGGER;
+import dom.sun.jmx.snmp.InftAddrfssAdl;
 
 /**
- * Defines an implementation of the {@link com.sun.jmx.snmp.InetAddressAcl InetAddressAcl} interface.
+ * Dffinfs bn implfmfntbtion of tif {@link dom.sun.jmx.snmp.InftAddrfssAdl InftAddrfssAdl} intfrfbdf.
  * <p>
- * In this implementation the ACL information is stored on a flat file and
- * its default location is "$JRE/lib/snmp.acl" - See
- * {@link #getDefaultAclFileName()}
+ * In tiis implfmfntbtion tif ACL informbtion is storfd on b flbt filf bnd
+ * its dffbult lodbtion is "$JRE/lib/snmp.bdl" - Sff
+ * {@link #gftDffbultAdlFilfNbmf()}
  * <p>
  * <OL>
   *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpAcl implements InetAddressAcl, Serializable {
-    private static final long serialVersionUID = -6702287103824397063L;
+publid dlbss SnmpAdl implfmfnts InftAddrfssAdl, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6702287103824397063L;
 
-    static final PermissionImpl READ  = new PermissionImpl("READ");
-    static final PermissionImpl WRITE = new PermissionImpl("WRITE");
+    stbtid finbl PfrmissionImpl READ  = nfw PfrmissionImpl("READ");
+    stbtid finbl PfrmissionImpl WRITE = nfw PfrmissionImpl("WRITE");
 
     /**
-     * Constructs the Java Dynamic Management(TM) Access Control List
-     * based on IP addresses. The ACL will take the given owner name.
-     * The current IP address will be the owner of the ACL.
+     * Construdts tif Jbvb Dynbmid Mbnbgfmfnt(TM) Addfss Control List
+     * bbsfd on IP bddrfssfs. Tif ACL will tbkf tif givfn ownfr nbmf.
+     * Tif durrfnt IP bddrfss will bf tif ownfr of tif ACL.
      *
-     * @param Owner The name of the ACL Owner.
+     * @pbrbm Ownfr Tif nbmf of tif ACL Ownfr.
      *
-     * @exception UnknownHostException If the local host is unknown.
-     * @exception IllegalArgumentException If the ACL file doesn't exist.
+     * @fxdfption UnknownHostExdfption If tif lodbl iost is unknown.
+     * @fxdfption IllfgblArgumfntExdfption If tif ACL filf dofsn't fxist.
      */
-    public SnmpAcl(String Owner)
-        throws UnknownHostException, IllegalArgumentException {
-        this(Owner,null);
+    publid SnmpAdl(String Ownfr)
+        tirows UnknownHostExdfption, IllfgblArgumfntExdfption {
+        tiis(Ownfr,null);
     }
 
     /**
-     * Constructs the Java Dynamic Management(TM) Access Control List
-     * based on IP addresses. The ACL will take the given owner name.
-     * The current IP address will be the owner of the ACL.
+     * Construdts tif Jbvb Dynbmid Mbnbgfmfnt(TM) Addfss Control List
+     * bbsfd on IP bddrfssfs. Tif ACL will tbkf tif givfn ownfr nbmf.
+     * Tif durrfnt IP bddrfss will bf tif ownfr of tif ACL.
      *
-     * @param Owner The name of the ACL Owner.
-     * @param aclFileName The name of the ACL File.
+     * @pbrbm Ownfr Tif nbmf of tif ACL Ownfr.
+     * @pbrbm bdlFilfNbmf Tif nbmf of tif ACL Filf.
      *
-     * @exception UnknownHostException If the local host is unknown.
-     * @exception IllegalArgumentException If the ACL file doesn't exist.
+     * @fxdfption UnknownHostExdfption If tif lodbl iost is unknown.
+     * @fxdfption IllfgblArgumfntExdfption If tif ACL filf dofsn't fxist.
      */
-    public SnmpAcl(String Owner, String aclFileName)
-        throws UnknownHostException, IllegalArgumentException {
-        trapDestList= new Hashtable<InetAddress, Vector<String>>();
-        informDestList= new Hashtable<InetAddress, Vector<String>>();
+    publid SnmpAdl(String Ownfr, String bdlFilfNbmf)
+        tirows UnknownHostExdfption, IllfgblArgumfntExdfption {
+        trbpDfstList= nfw Hbsitbblf<InftAddrfss, Vfdtor<String>>();
+        informDfstList= nfw Hbsitbblf<InftAddrfss, Vfdtor<String>>();
 
-        // PrincipalImpl() take the current host as entry
-        owner = new PrincipalImpl();
+        // PrindipblImpl() tbkf tif durrfnt iost bs fntry
+        ownfr = nfw PrindipblImpl();
         try {
-            acl = new AclImpl(owner,Owner);
-            AclEntry ownEntry = new AclEntryImpl(owner);
-            ownEntry.addPermission(READ);
-            ownEntry.addPermission(WRITE);
-            acl.addEntry(owner,ownEntry);
-        } catch (NotOwnerException ex) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                    "SnmpAcl(String,String)",
-                    "Should never get NotOwnerException as the owner " +
-                    "is built in this constructor");
+            bdl = nfw AdlImpl(ownfr,Ownfr);
+            AdlEntry ownEntry = nfw AdlEntryImpl(ownfr);
+            ownEntry.bddPfrmission(READ);
+            ownEntry.bddPfrmission(WRITE);
+            bdl.bddEntry(ownfr,ownEntry);
+        } dbtdi (NotOwnfrExdfption fx) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                    "SnmpAdl(String,String)",
+                    "Siould nfvfr gft NotOwnfrExdfption bs tif ownfr " +
+                    "is built in tiis donstrudtor");
             }
         }
-        if (aclFileName == null) setDefaultFileName();
-        else setAuthorizedListFile(aclFileName);
-        readAuthorizedListFile();
+        if (bdlFilfNbmf == null) sftDffbultFilfNbmf();
+        flsf sftAutiorizfdListFilf(bdlFilfNbmf);
+        rfbdAutiorizfdListFilf();
     }
 
     /**
-     * Returns an enumeration of the entries in this ACL. Each element in the
-     * enumeration is of type <CODE>java.security.acl.AclEntry</CODE>.
+     * Rfturns bn fnumfrbtion of tif fntrifs in tiis ACL. Ebdi flfmfnt in tif
+     * fnumfrbtion is of typf <CODE>jbvb.sfdurity.bdl.AdlEntry</CODE>.
      *
-     * @return An enumeration of the entries in this ACL.
+     * @rfturn An fnumfrbtion of tif fntrifs in tiis ACL.
      */
-    public Enumeration<AclEntry> entries() {
-        return acl.entries();
+    publid Enumfrbtion<AdlEntry> fntrifs() {
+        rfturn bdl.fntrifs();
     }
 
     /**
-     * Returns ann enumeration of community strings. Community strings are returned as String.
-     * @return The enumeration of community strings.
+     * Rfturns bnn fnumfrbtion of dommunity strings. Community strings brf rfturnfd bs String.
+     * @rfturn Tif fnumfrbtion of dommunity strings.
      */
-    public Enumeration<String> communities() {
-        HashSet<String> set = new HashSet<String>();
-        Vector<String> res = new Vector<String>();
-        for (Enumeration<AclEntry> e = acl.entries() ; e.hasMoreElements() ;) {
-            AclEntryImpl entry = (AclEntryImpl) e.nextElement();
-            for (Enumeration<String> cs = entry.communities();
-                 cs.hasMoreElements() ;) {
-                set.add(cs.nextElement());
+    publid Enumfrbtion<String> dommunitifs() {
+        HbsiSft<String> sft = nfw HbsiSft<String>();
+        Vfdtor<String> rfs = nfw Vfdtor<String>();
+        for (Enumfrbtion<AdlEntry> f = bdl.fntrifs() ; f.ibsMorfElfmfnts() ;) {
+            AdlEntryImpl fntry = (AdlEntryImpl) f.nfxtElfmfnt();
+            for (Enumfrbtion<String> ds = fntry.dommunitifs();
+                 ds.ibsMorfElfmfnts() ;) {
+                sft.bdd(ds.nfxtElfmfnt());
             }
         }
-        String[] objs = set.toArray(new String[0]);
-        for(int i = 0; i < objs.length; i++)
-            res.addElement(objs[i]);
+        String[] objs = sft.toArrby(nfw String[0]);
+        for(int i = 0; i < objs.lfngti; i++)
+            rfs.bddElfmfnt(objs[i]);
 
-        return res.elements();
+        rfturn rfs.flfmfnts();
     }
 
     /**
-     * Returns the name of the ACL.
+     * Rfturns tif nbmf of tif ACL.
      *
-     * @return The name of the ACL.
+     * @rfturn Tif nbmf of tif ACL.
      */
-    public String getName() {
-        return acl.getName();
+    publid String gftNbmf() {
+        rfturn bdl.gftNbmf();
     }
 
     /**
-     * Returns the read permission instance used.
+     * Rfturns tif rfbd pfrmission instbndf usfd.
      *
-     * @return The read permission instance.
+     * @rfturn Tif rfbd pfrmission instbndf.
      */
-    static public PermissionImpl getREAD() {
-        return READ;
+    stbtid publid PfrmissionImpl gftREAD() {
+        rfturn READ;
     }
 
     /**
-     * Returns the write permission instance used.
+     * Rfturns tif writf pfrmission instbndf usfd.
      *
-     * @return  The write permission instance.
+     * @rfturn  Tif writf pfrmission instbndf.
      */
-    static public PermissionImpl getWRITE() {
-        return WRITE;
+    stbtid publid PfrmissionImpl gftWRITE() {
+        rfturn WRITE;
     }
 
     /**
-     * Get the default name for the ACL file.
-     * In this implementation this is "$JRE/lib/snmp.acl"
-     * @return The default name for the ACL file.
+     * Gft tif dffbult nbmf for tif ACL filf.
+     * In tiis implfmfntbtion tiis is "$JRE/lib/snmp.bdl"
+     * @rfturn Tif dffbult nbmf for tif ACL filf.
      **/
-    public static String getDefaultAclFileName() {
-        final String fileSeparator =
-            System.getProperty("file.separator");
-        final StringBuilder defaultAclName =
-            new StringBuilder(System.getProperty("java.home")).
-            append(fileSeparator).append("lib").append(fileSeparator).
-            append("snmp.acl");
-        return defaultAclName.toString();
+    publid stbtid String gftDffbultAdlFilfNbmf() {
+        finbl String filfSfpbrbtor =
+            Systfm.gftPropfrty("filf.sfpbrbtor");
+        finbl StringBuildfr dffbultAdlNbmf =
+            nfw StringBuildfr(Systfm.gftPropfrty("jbvb.iomf")).
+            bppfnd(filfSfpbrbtor).bppfnd("lib").bppfnd(filfSfpbrbtor).
+            bppfnd("snmp.bdl");
+        rfturn dffbultAdlNbmf.toString();
     }
 
     /**
-     * Sets the full path of the file containing the ACL information.
+     * Sfts tif full pbti of tif filf dontbining tif ACL informbtion.
      *
-     * @param filename The full path of the file containing the ACL information.
-     * @throws IllegalArgumentException If the passed ACL file doesn't exist.
+     * @pbrbm filfnbmf Tif full pbti of tif filf dontbining tif ACL informbtion.
+     * @tirows IllfgblArgumfntExdfption If tif pbssfd ACL filf dofsn't fxist.
      */
-    public void setAuthorizedListFile(String filename)
-        throws IllegalArgumentException {
-        File file = new File(filename);
-        if (!file.isFile() ) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                    "setAuthorizedListFile", "ACL file not found: " + filename);
+    publid void sftAutiorizfdListFilf(String filfnbmf)
+        tirows IllfgblArgumfntExdfption {
+        Filf filf = nfw Filf(filfnbmf);
+        if (!filf.isFilf() ) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                    "sftAutiorizfdListFilf", "ACL filf not found: " + filfnbmf);
             }
-            throw new
-                IllegalArgumentException("The specified file ["+file+"] "+
-                                         "doesn't exist or is not a file, "+
-                                         "no configuration loaded");
+            tirow nfw
+                IllfgblArgumfntExdfption("Tif spfdififd filf ["+filf+"] "+
+                                         "dofsn't fxist or is not b filf, "+
+                                         "no donfigurbtion lobdfd");
         }
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                "setAuthorizedListFile", "Default file set to " + filename);
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                "sftAutiorizfdListFilf", "Dffbult filf sft to " + filfnbmf);
         }
-        authorizedListFile = filename;
+        butiorizfdListFilf = filfnbmf;
     }
 
     /**
-     * Resets this ACL to the values contained in the configuration file.
+     * Rfsfts tiis ACL to tif vblufs dontbinfd in tif donfigurbtion filf.
      *
-     * @exception NotOwnerException If the principal attempting the reset is not an owner of this ACL.
-     * @exception UnknownHostException If IP addresses for hosts contained in the ACL file couldn't be found.
+     * @fxdfption NotOwnfrExdfption If tif prindipbl bttfmpting tif rfsft is not bn ownfr of tiis ACL.
+     * @fxdfption UnknownHostExdfption If IP bddrfssfs for iosts dontbinfd in tif ACL filf douldn't bf found.
      */
-    public void rereadTheFile() throws NotOwnerException, UnknownHostException {
-        alwaysAuthorized = false;
-        acl.removeAll(owner);
-        trapDestList.clear();
-        informDestList.clear();
-        AclEntry ownEntry = new AclEntryImpl(owner);
-        ownEntry.addPermission(READ);
-        ownEntry.addPermission(WRITE);
-        acl.addEntry(owner,ownEntry);
-        readAuthorizedListFile();
+    publid void rfrfbdTifFilf() tirows NotOwnfrExdfption, UnknownHostExdfption {
+        blwbysAutiorizfd = fblsf;
+        bdl.rfmovfAll(ownfr);
+        trbpDfstList.dlfbr();
+        informDfstList.dlfbr();
+        AdlEntry ownEntry = nfw AdlEntryImpl(ownfr);
+        ownEntry.bddPfrmission(READ);
+        ownEntry.bddPfrmission(WRITE);
+        bdl.bddEntry(ownfr,ownEntry);
+        rfbdAutiorizfdListFilf();
     }
 
     /**
-     * Returns the full path of the file used to get ACL information.
+     * Rfturns tif full pbti of tif filf usfd to gft ACL informbtion.
      *
-     * @return The full path of the file used to get ACL information.
+     * @rfturn Tif full pbti of tif filf usfd to gft ACL informbtion.
      */
-    public String getAuthorizedListFile() {
-        return authorizedListFile;
+    publid String gftAutiorizfdListFilf() {
+        rfturn butiorizfdListFilf;
     }
 
     /**
-     * Checks whether or not the specified host has <CODE>READ</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd iost ibs <CODE>READ</CODE> bddfss.
      *
-     * @param address The host address to check.
+     * @pbrbm bddrfss Tif iost bddrfss to difdk.
      *
-     * @return <CODE>true</CODE> if the host has read permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif iost ibs rfbd pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkReadPermission(InetAddress address) {
-        if (alwaysAuthorized) return ( true );
-        PrincipalImpl p = new PrincipalImpl(address);
-        return acl.checkPermission(p, READ);
+    publid boolfbn difdkRfbdPfrmission(InftAddrfss bddrfss) {
+        if (blwbysAutiorizfd) rfturn ( truf );
+        PrindipblImpl p = nfw PrindipblImpl(bddrfss);
+        rfturn bdl.difdkPfrmission(p, READ);
     }
 
     /**
-     * Checks whether or not the specified host and community have <CODE>READ</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd iost bnd dommunity ibvf <CODE>READ</CODE> bddfss.
      *
-     * @param address The host address to check.
-     * @param community The community associated with the host.
+     * @pbrbm bddrfss Tif iost bddrfss to difdk.
+     * @pbrbm dommunity Tif dommunity bssodibtfd witi tif iost.
      *
-     * @return <CODE>true</CODE> if the pair (host, community) has read permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif pbir (iost, dommunity) ibs rfbd pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkReadPermission(InetAddress address, String community) {
-        if (alwaysAuthorized) return ( true );
-        PrincipalImpl p = new PrincipalImpl(address);
-        return acl.checkPermission(p, community, READ);
+    publid boolfbn difdkRfbdPfrmission(InftAddrfss bddrfss, String dommunity) {
+        if (blwbysAutiorizfd) rfturn ( truf );
+        PrindipblImpl p = nfw PrindipblImpl(bddrfss);
+        rfturn bdl.difdkPfrmission(p, dommunity, READ);
     }
 
     /**
-     * Checks whether or not a community string is defined.
+     * Cifdks wiftifr or not b dommunity string is dffinfd.
      *
-     * @param community The community to check.
+     * @pbrbm dommunity Tif dommunity to difdk.
      *
-     * @return <CODE>true</CODE> if the community is known, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif dommunity is known, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkCommunity(String community) {
-        return acl.checkCommunity(community);
+    publid boolfbn difdkCommunity(String dommunity) {
+        rfturn bdl.difdkCommunity(dommunity);
     }
 
     /**
-     * Checks whether or not the specified host has <CODE>WRITE</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd iost ibs <CODE>WRITE</CODE> bddfss.
      *
-     * @param address The host address to check.
+     * @pbrbm bddrfss Tif iost bddrfss to difdk.
      *
-     * @return <CODE>true</CODE> if the host has write permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif iost ibs writf pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkWritePermission(InetAddress address) {
-        if (alwaysAuthorized) return ( true );
-        PrincipalImpl p = new PrincipalImpl(address);
-        return acl.checkPermission(p, WRITE);
+    publid boolfbn difdkWritfPfrmission(InftAddrfss bddrfss) {
+        if (blwbysAutiorizfd) rfturn ( truf );
+        PrindipblImpl p = nfw PrindipblImpl(bddrfss);
+        rfturn bdl.difdkPfrmission(p, WRITE);
     }
 
     /**
-     * Checks whether or not the specified host and community have <CODE>WRITE</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd iost bnd dommunity ibvf <CODE>WRITE</CODE> bddfss.
      *
-     * @param address The host address to check.
-     * @param community The community associated with the host.
+     * @pbrbm bddrfss Tif iost bddrfss to difdk.
+     * @pbrbm dommunity Tif dommunity bssodibtfd witi tif iost.
      *
-     * @return <CODE>true</CODE> if the pair (host, community) has write permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif pbir (iost, dommunity) ibs writf pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkWritePermission(InetAddress address, String community) {
-        if (alwaysAuthorized) return ( true );
-        PrincipalImpl p = new PrincipalImpl(address);
-        return acl.checkPermission(p, community, WRITE);
+    publid boolfbn difdkWritfPfrmission(InftAddrfss bddrfss, String dommunity) {
+        if (blwbysAutiorizfd) rfturn ( truf );
+        PrindipblImpl p = nfw PrindipblImpl(bddrfss);
+        rfturn bdl.difdkPfrmission(p, dommunity, WRITE);
     }
 
     /**
-     * Returns an enumeration of trap destinations.
+     * Rfturns bn fnumfrbtion of trbp dfstinbtions.
      *
-     * @return An enumeration of the trap destinations (enumeration of <CODE>InetAddress</CODE>).
+     * @rfturn An fnumfrbtion of tif trbp dfstinbtions (fnumfrbtion of <CODE>InftAddrfss</CODE>).
      */
-    public Enumeration<InetAddress> getTrapDestinations() {
-        return trapDestList.keys();
+    publid Enumfrbtion<InftAddrfss> gftTrbpDfstinbtions() {
+        rfturn trbpDfstList.kfys();
     }
 
     /**
-     * Returns an enumeration of trap communities for a given host.
+     * Rfturns bn fnumfrbtion of trbp dommunitifs for b givfn iost.
      *
-     * @param i The address of the host.
+     * @pbrbm i Tif bddrfss of tif iost.
      *
-     * @return An enumeration of trap communities for a given host (enumeration of <CODE>String</CODE>).
+     * @rfturn An fnumfrbtion of trbp dommunitifs for b givfn iost (fnumfrbtion of <CODE>String</CODE>).
      */
-    public Enumeration<String> getTrapCommunities(InetAddress i) {
-        Vector<String> list = null;
-        if ((list = trapDestList.get(i)) != null ) {
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                    "getTrapCommunities", "["+i.toString()+"] is in list");
+    publid Enumfrbtion<String> gftTrbpCommunitifs(InftAddrfss i) {
+        Vfdtor<String> list = null;
+        if ((list = trbpDfstList.gft(i)) != null ) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "gftTrbpCommunitifs", "["+i.toString()+"] is in list");
             }
-            return list.elements();
-        } else {
-            list = new Vector<>();
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                    "getTrapCommunities", "["+i.toString()+"] is not in list");
+            rfturn list.flfmfnts();
+        } flsf {
+            list = nfw Vfdtor<>();
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "gftTrbpCommunitifs", "["+i.toString()+"] is not in list");
             }
-            return list.elements();
-        }
-    }
-
-    /**
-     * Returns an enumeration of inform destinations.
-     *
-     * @return An enumeration of the inform destinations (enumeration of <CODE>InetAddress</CODE>).
-     */
-    public Enumeration<InetAddress> getInformDestinations() {
-        return informDestList.keys();
-    }
-
-    /**
-     * Returns an enumeration of inform communities for a given host.
-     *
-     * @param i The address of the host.
-     *
-     * @return An enumeration of inform communities for a given host (enumeration of <CODE>String</CODE>).
-     */
-    public Enumeration<String> getInformCommunities(InetAddress i) {
-        Vector<String> list = null;
-        if ((list = informDestList.get(i)) != null ) {
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                    "getInformCommunities", "["+i.toString()+"] is in list");
-            }
-            return list.elements();
-        } else {
-            list = new Vector<>();
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                    "getInformCommunities", "["+i.toString()+"] is not in list");
-            }
-            return list.elements();
+            rfturn list.flfmfnts();
         }
     }
 
     /**
-     * Converts the input configuration file into ACL.
+     * Rfturns bn fnumfrbtion of inform dfstinbtions.
+     *
+     * @rfturn An fnumfrbtion of tif inform dfstinbtions (fnumfrbtion of <CODE>InftAddrfss</CODE>).
      */
-    private void readAuthorizedListFile() {
+    publid Enumfrbtion<InftAddrfss> gftInformDfstinbtions() {
+        rfturn informDfstList.kfys();
+    }
 
-        alwaysAuthorized = false;
-
-        if (authorizedListFile == null) {
-            if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                    "readAuthorizedListFile", "alwaysAuthorized set to true");
+    /**
+     * Rfturns bn fnumfrbtion of inform dommunitifs for b givfn iost.
+     *
+     * @pbrbm i Tif bddrfss of tif iost.
+     *
+     * @rfturn An fnumfrbtion of inform dommunitifs for b givfn iost (fnumfrbtion of <CODE>String</CODE>).
+     */
+    publid Enumfrbtion<String> gftInformCommunitifs(InftAddrfss i) {
+        Vfdtor<String> list = null;
+        if ((list = informDfstList.gft(i)) != null ) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "gftInformCommunitifs", "["+i.toString()+"] is in list");
             }
-            alwaysAuthorized = true ;
-        } else {
-            // Read the file content
-            Parser parser = null;
+            rfturn list.flfmfnts();
+        } flsf {
+            list = nfw Vfdtor<>();
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "gftInformCommunitifs", "["+i.toString()+"] is not in list");
+            }
+            rfturn list.flfmfnts();
+        }
+    }
+
+    /**
+     * Convfrts tif input donfigurbtion filf into ACL.
+     */
+    privbtf void rfbdAutiorizfdListFilf() {
+
+        blwbysAutiorizfd = fblsf;
+
+        if (butiorizfdListFilf == null) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                    "rfbdAutiorizfdListFilf", "blwbysAutiorizfd sft to truf");
+            }
+            blwbysAutiorizfd = truf ;
+        } flsf {
+            // Rfbd tif filf dontfnt
+            Pbrsfr pbrsfr = null;
             try {
-                parser= new Parser(new FileInputStream(getAuthorizedListFile()));
-            } catch (FileNotFoundException e) {
-                if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                            "readAuthorizedListFile",
-                            "The specified file was not found, authorize everybody");
+                pbrsfr= nfw Pbrsfr(nfw FilfInputStrfbm(gftAutiorizfdListFilf()));
+            } dbtdi (FilfNotFoundExdfption f) {
+                if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                            "rfbdAutiorizfdListFilf",
+                            "Tif spfdififd filf wbs not found, butiorizf fvfrybody");
                 }
-                alwaysAuthorized = true ;
-                return;
+                blwbysAutiorizfd = truf ;
+                rfturn;
             }
 
             try {
-                JDMSecurityDefs n = parser.SecurityDefs();
-                n.buildAclEntries(owner, acl);
-                n.buildTrapEntries(trapDestList);
-                n.buildInformEntries(informDestList);
-            } catch (ParseException e) {
-                if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                        "readAuthorizedListFile", "Got parsing exception", e);
+                JDMSfdurityDffs n = pbrsfr.SfdurityDffs();
+                n.buildAdlEntrifs(ownfr, bdl);
+                n.buildTrbpEntrifs(trbpDfstList);
+                n.buildInformEntrifs(informDfstList);
+            } dbtdi (PbrsfExdfption f) {
+                if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                        "rfbdAutiorizfdListFilf", "Got pbrsing fxdfption", f);
                 }
-                throw new IllegalArgumentException(e.getMessage());
-            } catch (Error err) {
-                if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_LOGGER.logp(Level.FINEST, SnmpAcl.class.getName(),
-                        "readAuthorizedListFile", "Got unexpected error", err);
+                tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
+            } dbtdi (Error frr) {
+                if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_LOGGER.logp(Lfvfl.FINEST, SnmpAdl.dlbss.gftNbmf(),
+                        "rfbdAutiorizfdListFilf", "Got unfxpfdtfd frror", frr);
                 }
-                throw new IllegalArgumentException(err.getMessage());
+                tirow nfw IllfgblArgumfntExdfption(frr.gftMfssbgf());
             }
 
-            for(Enumeration<AclEntry> e = acl.entries(); e.hasMoreElements();) {
-                AclEntryImpl aa = (AclEntryImpl) e.nextElement();
-                if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                            "readAuthorizedListFile",
-                            "===> " + aa.getPrincipal().toString());
+            for(Enumfrbtion<AdlEntry> f = bdl.fntrifs(); f.ibsMorfElfmfnts();) {
+                AdlEntryImpl bb = (AdlEntryImpl) f.nfxtElfmfnt();
+                if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                            "rfbdAutiorizfdListFilf",
+                            "===> " + bb.gftPrindipbl().toString());
                 }
-                for (Enumeration<java.security.acl.Permission> eee = aa.permissions();eee.hasMoreElements();) {
-                    java.security.acl.Permission perm = eee.nextElement();
-                    if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_LOGGER.logp(Level.FINER, SnmpAcl.class.getName(),
-                                "readAuthorizedListFile", "perm = " + perm);
+                for (Enumfrbtion<jbvb.sfdurity.bdl.Pfrmission> fff = bb.pfrmissions();fff.ibsMorfElfmfnts();) {
+                    jbvb.sfdurity.bdl.Pfrmission pfrm = fff.nfxtElfmfnt();
+                    if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_LOGGER.logp(Lfvfl.FINER, SnmpAdl.dlbss.gftNbmf(),
+                                "rfbdAutiorizfdListFilf", "pfrm = " + pfrm);
                     }
                 }
             }
@@ -445,13 +445,13 @@ public class SnmpAcl implements InetAddressAcl, Serializable {
     }
 
     /**
-     * Set the default full path for "snmp.acl" input file.
-     * Do not complain if the file does not exists.
+     * Sft tif dffbult full pbti for "snmp.bdl" input filf.
+     * Do not domplbin if tif filf dofs not fxists.
      */
-    private void setDefaultFileName() {
+    privbtf void sftDffbultFilfNbmf() {
         try {
-            setAuthorizedListFile(getDefaultAclFileName());
-        } catch (IllegalArgumentException x) {
+            sftAutiorizfdListFilf(gftDffbultAdlFilfNbmf());
+        } dbtdi (IllfgblArgumfntExdfption x) {
             // OK...
         }
     }
@@ -461,26 +461,26 @@ public class SnmpAcl implements InetAddressAcl, Serializable {
     //------------------
 
     /**
-     * Represents the Access Control List.
+     * Rfprfsfnts tif Addfss Control List.
      */
-    private AclImpl acl = null;
+    privbtf AdlImpl bdl = null;
     /**
-     * Flag indicating whether the access is always authorized.
-     * <BR>This is the case if there is no flat file defined.
+     * Flbg indidbting wiftifr tif bddfss is blwbys butiorizfd.
+     * <BR>Tiis is tif dbsf if tifrf is no flbt filf dffinfd.
      */
-    private boolean alwaysAuthorized = false;
+    privbtf boolfbn blwbysAutiorizfd = fblsf;
     /**
-     * Represents the Access Control List flat file.
+     * Rfprfsfnts tif Addfss Control List flbt filf.
      */
-    private String authorizedListFile = null;
+    privbtf String butiorizfdListFilf = null;
     /**
-     * Contains the hosts list for trap destination.
+     * Contbins tif iosts list for trbp dfstinbtion.
      */
-    private Hashtable<InetAddress, Vector<String>> trapDestList = null;
+    privbtf Hbsitbblf<InftAddrfss, Vfdtor<String>> trbpDfstList = null;
     /**
-     * Contains the hosts list for inform destination.
+     * Contbins tif iosts list for inform dfstinbtion.
      */
-    private Hashtable<InetAddress, Vector<String>> informDestList = null;
+    privbtf Hbsitbblf<InftAddrfss, Vfdtor<String>> informDfstList = null;
 
-    private PrincipalImpl owner = null;
+    privbtf PrindipblImpl ownfr = null;
 }

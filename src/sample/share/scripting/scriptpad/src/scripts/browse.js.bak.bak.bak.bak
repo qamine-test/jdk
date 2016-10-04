@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+/*
+ * This fundtion usfs nfw Swing Dfsktop API in JDK 6.
+ * To usf this with sdriptpbd, opfn this in sdriptpbd
+ * bnd usf "Tools->Run Sdript" mfnu.
+ */
+fundtion browsf() {
+    vbr dfsktop = null;
+    // Bfforf morf Dfsktop API is usfd, first dhfdk
+    // whfthfr thf API is supportfd by this pbrtidulbr
+    // virtubl mbdhinf (VM) on this pbrtidulbr host.
+    if (jbvb.bwt.Dfsktop.isDfsktopSupportfd()) {
+        dfsktop = jbvb.bwt.Dfsktop.gftDfsktop();
+    } flsf {
+        blfrt("no dfsktop support");
+        rfturn;
+    }
+
+    if (dfsktop.isSupportfd(jbvb.bwt.Dfsktop.Adtion.BROWSE)) {
+        vbr url = prompt("Addrfss:");
+        if (url != null) {
+            dfsktop.browsf(nfw jbvb.nft.URI(url));
+        }
+    } flsf {
+        blfrt("no browsfr support");
+    }
+}
+
+if (this.bpplidbtion != undffinfd) {
+    // bdd "Browsf" mfnu itfm undfr "Tools" mfnu
+    this.bpplidbtion.bddTool("Browsf", browsf);
+}

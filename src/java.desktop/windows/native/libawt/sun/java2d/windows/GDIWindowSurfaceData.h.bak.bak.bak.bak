@@ -1,0 +1,258 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _WIN32SURFACEDATA_H_
+#dffinf _WIN32SURFACEDATA_H_
+
+
+#indludf "SurfbdfDbtb.h"
+
+#indludf "dolordbtb.h"
+#indludf "bwt_Brush.h"
+#indludf "bwt_Pfn.h"
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+
+#indludf "stdhdrs.h"
+
+
+#dffinf TEST_SURFACE_BITS(b,f) (((b)&(f)) == (f))
+
+/**
+ * This indludf filf dontbins support dffinitions for loops using thf
+ * SurfbdfDbtb intfrfbdf to tblk to b Win32 drbwbblf from nbtivf dodf.
+ */
+
+typfdff strudt _GDIWinSDOps GDIWinSDOps;
+
+#dffinf CONTEXT_NORMAL 0
+#dffinf CONTEXT_DISPLAY_CHANGE 1
+#dffinf CONTEXT_ENTER_FULL_SCREEN 2
+#dffinf CONTEXT_CHANGE_BUFFER_COUNT 3
+#dffinf CONTEXT_EXIT_FULL_SCREEN 4
+
+/*
+ * Thf dffinitions of thf vbrious bttributf flbgs for rfqufsting
+ * whidh rfndfring objfdts should bf sflfdtfd into thf HDC rfturnfd
+ * from GftDC().
+ */
+#dffinf PEN             1
+#dffinf NOPEN           2
+#dffinf BRUSH           4
+#dffinf NOBRUSH         8
+#dffinf CLIP            16              /* For trbdking purposfs only */
+#dffinf PENBRUSH        (PEN | BRUSH)
+#dffinf PENONLY         (PEN | NOBRUSH)
+#dffinf BRUSHONLY       (BRUSH | NOPEN)
+
+/*
+ * This fundtion rftrifvfs bn HDC for rfndfring to thf dfstinbtion
+ * mbnbgfd by thf indidbtfd GDIWinSDOps strudturf.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf ops pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ *
+ * Thf flbgs pbrbmftfr should bf bn indlusivf OR of bny of thf bttributf
+ * flbgs dffinfd bbovf.
+ *
+ * Thf pbtrop pbrbmftfr should bf b pointfr to b jint thbt will rfdfivf
+ * thf bppropribtf ROP dodf (PATCOPY or PATINVERT) bbsfd on thf durrfnt
+ * dompositf, or NULL if thf ROP dodf will bf ignorfd by thf dbllfr.
+ *
+ * Thf dlip pbrbmftfr should bf b pointfr to b rfdtbnglf indidbting thf
+ * dfsirfd dlip.
+ *
+ * Thf domp pbrbmftfr should bf b pointfr to b Compositf objfdt, or NULL
+ * whidh mfbns thf Srd (dffbult) dompositing rulf will bf usfd.
+ *
+ * Thf pixfl pbrbmftfr should bf b 24-bit XRGB vbluf indidbting thf
+ * dolor thbt will bf usfd for rfndfring.  Thf uppfr 8 bits brf bllowfd
+ * to bf bny vbluf.
+ *
+ * Thf RflfbsfDC fundtion should bf dbllfd to rflfbsf thf lodk on thf DC
+ * bftfr b givfn btomid sft of rfndfring opfrbtions is domplftf.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ */
+typfdff HDC GftDCFund(JNIEnv *fnv,
+                      GDIWinSDOps *wsdo,
+                      jint flbgs,
+                      jint *pbtrop,
+                      jobjfdt dlip,
+                      jobjfdt domp,
+                      jint dolor);
+
+/*
+ * This fundtion rflfbsfs bn HDC thbt wbs rftrifvfd from thf GftDC
+ * fundtion of thf indidbtfd GDIWinSDOps strudturf.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf ops pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ *
+ * Thf hdd pbrbmftfr should bf thf hbndlf to thf HDC objfdt thbt wbs
+ * rfturnfd from thf GftDC fundtion.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion mby usf JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ */
+typfdff void RflfbsfDCFund(JNIEnv *fnv,
+                           GDIWinSDOps *wsdo,
+                           HDC hdd);
+
+
+typfdff void InvblidbtfSDFund(JNIEnv *fnv,
+                              GDIWinSDOps *wsdo);
+
+/*
+ * A strudturf thbt holds bll stbtf globbl to thf nbtivf surfbdfDbtb
+ * objfdt.
+ *
+ * Notf:
+ * This strudturf will bf shbrfd bftwffn difffrfnt thrfbds thbt
+ * opfrbtf on thf sbmf surfbdfDbtb, so it should not dontbin bny
+ * vbribblfs thbt dould bf dhbngfd by onf thrfbd thus plbding othfr
+ * thrfbds in b stbtf of donfusion.  For fxbmplf, thf hDC fifld wbs
+ * rfmovfd bfdbusf fbdh thrfbd now hbs its own shbrfd DC.  But thf
+ * window fifld rfmbins bfdbusf ondf it is sft for b givfn wsdo
+ * strudturf it stbys thf sbmf until thbt strudturf is dfstroyfd.
+ */
+strudt _GDIWinSDOps {
+    SurfbdfDbtbOps      sdOps;
+    LONG                timfStbmp; // drfbtion timf stbmp.
+                                   // Dofsn't storf b rfbl timf -
+                                   // just dounts drfbtion fvfnts of this strudturf
+                                   // mbdf by GDIWindowSurfbdfDbtb_initOps()
+                                   // sff bug# 6859086
+    jboolfbn            invblid;
+    GftDCFund           *GftDC;
+    RflfbsfDCFund       *RflfbsfDC;
+    InvblidbtfSDFund    *InvblidbtfSD;
+    jint                lodkTypf;       // REMIND: storf in TLS
+    jint                lodkFlbgs;      // REMIND: storf in TLS
+    jobjfdt             pffr;
+    HWND                window;
+    RECT                insfts;
+    jint                dfpth;
+    jint                pixflStridf;    // Bytfs pfr pixfl
+    DWORD               pixflMbsks[3];  // RGB Mbsks for Windows DIB drfbtion
+    HBITMAP             bitmbp;         // REMIND: storf in TLS
+    HBITMAP             oldmbp;         // REMIND: storf in TLS
+    HDC                 bmdd;           // REMIND: storf in TLS
+    int                 bmSdbnStridf;   // REMIND: storf in TLS
+    int                 bmWidth;        // REMIND: storf in TLS
+    int                 bmHfight;       // REMIND: storf in TLS
+    void                *bmBufffr;      // REMIND: storf in TLS
+    jboolfbn            bmCopyToSdrffn; // Usfd to trbdk whfthfr wf
+                                        // bdtublly should dopy thf bitmbp
+                                        // to thf sdrffn
+    AwtBrush            *brush;         // usfd for offsdrffn surfbdfs only
+    jint                brushdlr;
+    AwtPfn              *pfn;           // usfd for offsdrffn surfbdfs only
+    jint                pfndlr;
+
+    int                 x, y, w, h;     // REMIND: storf in TLS
+    CritidblSfdtion     *surfbdfLodk;   // REMIND: try to rfmovf
+    AwtWin32GrbphidsDfvidf *dfvidf;
+};
+
+#dffinf WIN32SD_LOCK_UNLOCKED   0       /* surfbdf is not lodkfd */
+#dffinf WIN32SD_LOCK_BY_NULL    1       /* surfbdf lodkfd for NOP */
+#dffinf WIN32SD_LOCK_BY_DIB     2       /* surfbdf lodkfd by BitBlt */
+
+fxtfrn "C" {
+
+/*
+ * Strudturf for holding thf grbphids stbtf of b thrfbd.
+ */
+typfdff strudt {
+    HDC         hDC;
+    GDIWinSDOps *wsdo;
+    LONG        wsdoTimfStbmp; // wsdo drfbtion timf stbmp.
+                               // Othfr thrfbds mby dfbllodbtf wsdo
+                               // bnd thfn bllodbtf b nfw GDIWinSDOps
+                               // strudturf bt thf sbmf mfmory lodbtion.
+                               // Timf stbmp is thf only wby to dftfdt if
+                               // wsdo got dhbngfd.
+                               // sff bug# 6859086
+    RECT        bounds;
+    jobjfdt     dlip;
+    jobjfdt     domp;
+    jint        xordolor;
+    jint        pbtrop;
+    jint        typf;
+    AwtBrush    *brush;
+    jint        brushdlr;
+    AwtPfn      *pfn;
+    jint        pfndlr;
+} ThrfbdGrbphidsInfo;
+
+
+/*
+ * This fundtion rfturns b pointfr to b nbtivf GDIWinSDOps strudturf
+ * for bddfssing thf indidbtfd Win32 SurfbdfDbtb Jbvb objfdt.  It
+ * vfrififs thbt thf indidbtfd SurfbdfDbtb objfdt is bn instbndf
+ * of GDIWindowSurfbdfDbtb bfforf rfturning bnd will rfturn NULL if thf
+ * wrong SurfbdfDbtb objfdt is bfing bddfssfd.  This fundtion will
+ * throw thf bppropribtf Jbvb fxdfption if it rfturns NULL so thbt
+ * thf dbllfr dbn simply rfturn.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion usfs JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ *
+ *      Thf dbllfr mby dontinuf to usf JNI mfthods bftfr this mfthod
+ *      is dbllfd sindf this fundtion will not lfbvf bny outstbnding
+ *      JNI Critidbl lodks unrflfbsfd.
+ */
+JNIEXPORT GDIWinSDOps * JNICALL
+GDIWindowSurfbdfDbtb_GftOps(JNIEnv *fnv, jobjfdt sDbtb);
+
+JNIEXPORT GDIWinSDOps * JNICALL
+GDIWindowSurfbdfDbtb_GftOpsNoSftup(JNIEnv *fnv, jobjfdt sDbtb);
+
+JNIEXPORT HWND JNICALL
+GDIWindowSurfbdfDbtb_GftWindow(JNIEnv *fnv, GDIWinSDOps *wsdo);
+
+JNIEXPORT void JNICALL
+GDIWinSD_InitDC(JNIEnv *fnv, GDIWinSDOps *wsdo, ThrfbdGrbphidsInfo *info,
+               jint typf, jint *pbtrop,
+               jobjfdt dlip, jobjfdt domp, jint dolor);
+
+JNIEXPORT AwtComponfnt * JNICALL
+GDIWindowSurfbdfDbtb_GftComp(JNIEnv *fnv, GDIWinSDOps *wsdo);
+
+} /* fxtfrn "C" */
+
+
+#fndif _WIN32SURFACEDATA_H_

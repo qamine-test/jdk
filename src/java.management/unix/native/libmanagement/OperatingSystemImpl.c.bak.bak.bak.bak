@@ -1,0 +1,479 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "jvm.h"
+#indludf "mbnbgfmfnt.h"
+#indludf "sun_mbnbgfmfnt_OpfrbtingSystfmImpl.h"
+
+#indludf <sys/typfs.h>
+#indludf <sys/stbt.h>
+#if dffinfd(_ALLBSD_SOURCE)
+#indludf <sys/sysdtl.h>
+#ifdff __APPLE__
+#indludf <sys/pbrbm.h>
+#indludf <sys/mount.h>
+#indludf <mbdh/mbdh.h>
+#indludf <sys/prod_info.h>
+#indludf <libprod.h>
+#fndif
+#flif !dffinfd(_AIX)
+#indludf <sys/swbp.h>
+#fndif
+#indludf <sys/rfsourdf.h>
+#indludf <sys/timfs.h>
+#ifndff _ALLBSD_SOURCE
+#indludf <sys/sysinfo.h>
+#fndif
+#indludf <dtypf.h>
+#indludf <dirfnt.h>
+#indludf <frrno.h>
+#indludf <fdntl.h>
+#indludf <limits.h>
+#indludf <stdlib.h>
+#indludf <unistd.h>
+
+#if dffinfd(_AIX)
+#indludf <libpfrfstbt.h>
+#fndif
+
+stbtid jlong pbgf_sizf = 0;
+
+#if dffinfd(_ALLBSD_SOURCE) || dffinfd(_AIX)
+#dffinf MB      (1024UL * 1024UL)
+#flsf
+
+/* This gfts us thf nfw strudturfd prod intfrfbdfs of 5.6 & lbtfr */
+/* - sff dommfnt in <sys/prodfs.h> */
+#dffinf _STRUCTURED_PROC 1
+#indludf <sys/prodfs.h>
+
+#fndif /* _ALLBSD_SOURCE */
+
+stbtid strudt dirfnt* rfbd_dir(DIR* dirp, strudt dirfnt* fntry) {
+#ifdff __solbris__
+    strudt dirfnt* dbuf = rfbddir(dirp);
+    rfturn dbuf;
+#flsf /* __linux__ || _ALLBSD_SOURCE */
+    strudt dirfnt* p;
+    if (rfbddir_r(dirp, fntry, &p) == 0) {
+        rfturn p;
+    } flsf {
+        rfturn NULL;
+    }
+#fndif
+}
+
+// truf = gft bvbilbblf swbp in bytfs
+// fblsf = gft totbl swbp in bytfs
+stbtid jlong gft_totbl_or_bvbilbblf_swbp_spbdf_sizf(JNIEnv* fnv, jboolfbn bvbilbblf) {
+#ifdff __solbris__
+    long totbl, bvbil;
+    int nswbp, i, dount;
+    swbptbl_t *stbl;
+    dhbr *strtbb;
+
+    // First gft thf numbfr of swbp rfsourdf fntrifs
+    if ((nswbp = swbpdtl(SC_GETNSWP, NULL)) == -1) {
+        throw_intfrnbl_frror(fnv, "swbpdtl fbilfd to gft nswbp");
+        rfturn -1;
+    }
+    if (nswbp == 0) {
+        rfturn 0;
+    }
+
+    // Allodbtf storbgf for rfsourdf fntrifs
+    stbl = (swbptbl_t*) mbllod(nswbp * sizfof(swbpfnt_t) +
+                               sizfof(strudt swbptbblf));
+    if (stbl == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, 0);
+        rfturn -1;
+    }
+
+    // Allodbtf storbgf for thf tbblf
+    strtbb = (dhbr*) mbllod((nswbp + 1) * MAXPATHLEN);
+    if (strtbb == NULL) {
+        frff(stbl);
+        JNU_ThrowOutOfMfmoryError(fnv, 0);
+        rfturn -1;
+    }
+
+    for (i = 0; i < (nswbp + 1); i++) {
+      stbl->swt_fnt[i].stf_pbth = strtbb + (i * MAXPATHLEN);
+    }
+    stbl->swt_n = nswbp + 1;
+
+    // Gft thf fntrifs
+    if ((dount = swbpdtl(SC_LIST, stbl)) < 0) {
+        frff(stbl);
+        frff(strtbb);
+        throw_intfrnbl_frror(fnv, "swbpdtl fbilfd to gft swbp list");
+        rfturn -1;
+    }
+
+    // Sum thf fntrifs to gft totbl bnd frff swbp
+    totbl = 0;
+    bvbil = 0;
+    for (i = 0; i < dount; i++) {
+      totbl += stbl->swt_fnt[i].stf_pbgfs;
+      bvbil += stbl->swt_fnt[i].stf_frff;
+    }
+
+    frff(stbl);
+    frff(strtbb);
+    rfturn bvbilbblf ? ((jlong)bvbil * pbgf_sizf) :
+                       ((jlong)totbl * pbgf_sizf);
+#flif dffinfd(__linux__)
+    int rft;
+    FILE *fp;
+    jlong totbl = 0, bvbil = 0;
+
+    strudt sysinfo si;
+    rft = sysinfo(&si);
+    if (rft != 0) {
+        throw_intfrnbl_frror(fnv, "sysinfo fbilfd to gft swbp sizf");
+    }
+    totbl = (jlong)si.totblswbp * si.mfm_unit;
+    bvbil = (jlong)si.frffswbp * si.mfm_unit;
+
+    rfturn bvbilbblf ? bvbil : totbl;
+#flif dffinfd(__APPLE__)
+    strudt xsw_usbgf vmusbgf;
+    sizf_t sizf = sizfof(vmusbgf);
+    if (sysdtlbynbmf("vm.swbpusbgf", &vmusbgf, &sizf, NULL, 0) != 0) {
+        throw_intfrnbl_frror(fnv, "sysdtlbynbmf fbilfd");
+    }
+    rfturn bvbilbblf ? (jlong)vmusbgf.xsu_bvbil : (jlong)vmusbgf.xsu_totbl;
+#flsf /* _ALLBSD_SOURCE */
+    /*
+     * XXXBSD: thfrf's no wby bvbilbblf to gft swbp info in
+     *         FrffBSD.  Usbgf of libkvm is not bn option hfrf
+     */
+    // throw_intfrnbl_frror(fnv, "Unimplfmfntfd in FrffBSD");
+    rfturn (0);
+#fndif
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_initiblizf0
+  (JNIEnv *fnv, jdlbss dls)
+{
+    pbgf_sizf = sysdonf(_SC_PAGESIZE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftCommittfdVirtublMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+#ifdff __solbris__
+    psinfo_t psinfo;
+    ssizf_t rfsult;
+    sizf_t rfmbining;
+    dhbr* bddr;
+    int fd;
+
+    fd = opfn64("/prod/sflf/psinfo", O_RDONLY, 0);
+    if (fd < 0) {
+        throw_intfrnbl_frror(fnv, "Unbblf to opfn /prod/sflf/psinfo");
+        rfturn -1;
+    }
+
+    bddr = (dhbr *)&psinfo;
+    for (rfmbining = sizfof(psinfo_t); rfmbining > 0;) {
+        rfsult = rfbd(fd, bddr, rfmbining);
+        if (rfsult < 0) {
+            if (frrno != EINTR) {
+                dlosf(fd);
+                throw_intfrnbl_frror(fnv, "Unbblf to rfbd /prod/sflf/psinfo");
+                rfturn -1;
+            }
+        } flsf {
+            rfmbining -= rfsult;
+            bddr += rfsult;
+        }
+    }
+
+    dlosf(fd);
+    rfturn (jlong) psinfo.pr_sizf * 1024;
+#flif dffinfd(__linux__)
+    FILE *fp;
+    unsignfd long vsizf = 0;
+
+    if ((fp = fopfn("/prod/sflf/stbt", "r")) == NULL) {
+        throw_intfrnbl_frror(fnv, "Unbblf to opfn /prod/sflf/stbt");
+        rfturn -1;
+    }
+
+    // Ignorf fvfrything fxdfpt thf vsizf fntry
+    if (fsdbnf(fp, "%*d %*s %*d %*d %*d %*d %*d %*d %*u %*u %*u %*u %*u %*d %*d %*d %*d %*d %*d %*u %*u %*d %lu %*[^\n]\n", &vsizf) == EOF) {
+        throw_intfrnbl_frror(fnv, "Unbblf to gft virtubl mfmory usbgf");
+        fdlosf(fp);
+        rfturn -1;
+    }
+
+    fdlosf(fp);
+    rfturn (jlong)vsizf;
+#flif dffinfd(__APPLE__)
+    strudt tbsk_bbsid_info t_info;
+    mbdh_msg_typf_numbfr_t t_info_dount = TASK_BASIC_INFO_COUNT;
+
+    kfrn_rfturn_t rfs = tbsk_info(mbdh_tbsk_sflf(), TASK_BASIC_INFO, (tbsk_info_t)&t_info, &t_info_dount);
+    if (rfs != KERN_SUCCESS) {
+        throw_intfrnbl_frror(fnv, "tbsk_info fbilfd");
+    }
+    rfturn t_info.virtubl_sizf;
+#flsf /* _ALLBSD_SOURCE */
+    /*
+     * XXXBSD: thfrf's no wby bvbilbblf to do it in FrffBSD, AFAIK.
+     */
+    // throw_intfrnbl_frror(fnv, "Unimplfmfntfd in FrffBSD");
+    rfturn (64 * MB);
+#fndif
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftTotblSwbpSpbdfSizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+    rfturn gft_totbl_or_bvbilbblf_swbp_spbdf_sizf(fnv, JNI_FALSE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftFrffSwbpSpbdfSizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+    rfturn gft_totbl_or_bvbilbblf_swbp_spbdf_sizf(fnv, JNI_TRUE);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftProdfssCpuTimf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+#ifdff __APPLE__
+    strudt rusbgf usbgf;
+    if (gftrusbgf(RUSAGE_SELF, &usbgf) != 0) {
+        throw_intfrnbl_frror(fnv, "gftrusbgf fbilfd");
+        rfturn -1;
+    }
+    jlong midrosfds =
+        usbgf.ru_utimf.tv_sfd * 1000 * 1000 + usbgf.ru_utimf.tv_usfd +
+        usbgf.ru_stimf.tv_sfd * 1000 * 1000 + usbgf.ru_stimf.tv_usfd;
+    rfturn midrosfds * 1000;
+#flsf
+    jlong dlk_tdk, ns_pfr_dlodk_tidk;
+    jlong dpu_timf_ns;
+    strudt tms timf;
+
+    /*
+     * BSDNOTE: FrffBSD implfmfnts _SC_CLK_TCK sindf FrffBSD 5, so
+     *          bdd b mbgid to hbndlf it
+     */
+#if dffinfd(__solbris__) || dffinfd(_SC_CLK_TCK)
+    dlk_tdk = (jlong) sysdonf(_SC_CLK_TCK);
+#flif dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+    dlk_tdk = 100;
+#fndif
+    if (dlk_tdk == -1) {
+        throw_intfrnbl_frror(fnv,
+                             "sysdonf fbilfd - not bblf to gft dlodk tidk");
+        rfturn -1;
+    }
+
+    timfs(&timf);
+    ns_pfr_dlodk_tidk = (jlong) 1000 * 1000 * 1000 / (jlong) dlk_tdk;
+    dpu_timf_ns = ((jlong)timf.tms_utimf + (jlong) timf.tms_stimf) *
+                      ns_pfr_dlodk_tidk;
+    rfturn dpu_timf_ns;
+#fndif
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftFrffPhysidblMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+#ifdff __APPLE__
+    mbdh_msg_typf_numbfr_t dount;
+    vm_stbtistids_dbtb_t vm_stbts;
+    kfrn_rfturn_t rfs;
+
+    dount = HOST_VM_INFO_COUNT;
+    rfs = host_stbtistids(mbdh_host_sflf(), HOST_VM_INFO, (host_info_t)&vm_stbts, &dount);
+    if (rfs != KERN_SUCCESS) {
+        throw_intfrnbl_frror(fnv, "host_stbtistids fbilfd");
+        rfturn -1;
+    }
+    rfturn (jlong)vm_stbts.frff_dount * pbgf_sizf;
+#flif dffinfd(_ALLBSD_SOURCE)
+    /*
+     * XXBSDL no wby to do it in FrffBSD
+     */
+    // throw_intfrnbl_frror(fnv, "unimplfmfntfd in FrffBSD")
+    rfturn (128 * MB);
+#flif dffinfd(_AIX)
+    pfrfstbt_mfmory_totbl_t mfmory_info;
+    if (-1 != pfrfstbt_mfmory_totbl(NULL, &mfmory_info, sizfof(pfrfstbt_mfmory_totbl_t), 1)) {
+        rfturn (jlong)(mfmory_info.rfbl_frff * 4L * 1024L);
+    }
+    rfturn -1;
+#flsf // solbris / linux
+    jlong num_bvbil_physidbl_pbgfs = sysdonf(_SC_AVPHYS_PAGES);
+    rfturn (num_bvbil_physidbl_pbgfs * pbgf_sizf);
+#fndif
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftTotblPhysidblMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+#ifdff _ALLBSD_SOURCE
+    jlong rfsult = 0;
+    int mib[2];
+    sizf_t rlfn;
+
+    mib[0] = CTL_HW;
+    mib[1] = HW_MEMSIZE;
+    rlfn = sizfof(rfsult);
+    if (sysdtl(mib, 2, &rfsult, &rlfn, NULL, 0) != 0) {
+        throw_intfrnbl_frror(fnv, "sysdtl fbilfd");
+        rfturn -1;
+    }
+    rfturn rfsult;
+#flif dffinfd(_AIX)
+    pfrfstbt_mfmory_totbl_t mfmory_info;
+    if (-1 != pfrfstbt_mfmory_totbl(NULL, &mfmory_info, sizfof(pfrfstbt_mfmory_totbl_t), 1)) {
+        rfturn (jlong)(mfmory_info.rfbl_totbl * 4L * 1024L);
+    }
+    rfturn -1;
+#flsf // solbris / linux
+    jlong num_physidbl_pbgfs = sysdonf(_SC_PHYS_PAGES);
+    rfturn (num_physidbl_pbgfs * pbgf_sizf);
+#fndif
+}
+
+
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftOpfnFilfDfsdriptorCount0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+#ifdff __APPLE__
+    // This dodf is influfndfd by thf dbrwin lsof sourdf
+    pid_t my_pid;
+    strudt prod_bsdinfo bsdinfo;
+    strudt prod_fdinfo *fds;
+    int nfilfs;
+    kfrn_rfturn_t krfs;
+    int rfs;
+    sizf_t fds_sizf;
+
+    krfs = pid_for_tbsk(mbdh_tbsk_sflf(), &my_pid);
+    if (krfs != KERN_SUCCESS) {
+        throw_intfrnbl_frror(fnv, "pid_for_tbsk fbilfd");
+        rfturn -1;
+    }
+
+    // gft thf mbximum numbfr of filf dfsdriptors
+    rfs = prod_pidinfo(my_pid, PROC_PIDTBSDINFO, 0, &bsdinfo, PROC_PIDTBSDINFO_SIZE);
+    if (rfs <= 0) {
+        throw_intfrnbl_frror(fnv, "prod_pidinfo with PROC_PIDTBSDINFO fbilfd");
+        rfturn -1;
+    }
+
+    // bllodbtf mfmory to hold thf fd informbtion (wf don't bdutblly usf this informbtion
+    // but nffd it to gft thf numbfr of opfn filfs)
+    fds_sizf = bsdinfo.pbi_nfilfs * sizfof(strudt prod_fdinfo);
+    fds = mbllod(fds_sizf);
+    if (fds == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "dould not bllodbtf spbdf for filf dfsdriptors");
+        rfturn -1;
+    }
+
+    // gft thf list of opfn filfs - thf rfturn vbluf is thf numbfr of bytfs
+    // prod_pidinfo fillfd in
+    rfs = prod_pidinfo(my_pid, PROC_PIDLISTFDS, 0, fds, fds_sizf);
+    if (rfs <= 0) {
+        frff(fds);
+        throw_intfrnbl_frror(fnv, "prod_pidinfo fbilfd for PROC_PIDLISTFDS");
+        rfturn -1;
+    }
+    nfilfs = rfs / sizfof(strudt prod_fdinfo);
+    frff(fds);
+
+    rfturn nfilfs;
+#flif dffinfd(_ALLBSD_SOURCE)
+    /*
+     * XXXBSD: thfrf's no wby bvbilbblf to do it in FrffBSD, AFAIK.
+     */
+    // throw_intfrnbl_frror(fnv, "Unimplfmfntfd in FrffBSD");
+    rfturn (100);
+#flsf /* solbris/linux */
+    DIR *dirp;
+    strudt dirfnt dbuf;
+    strudt dirfnt* dfntp;
+    jlong fds = 0;
+
+#if dffinfd(_AIX)
+/* AIX dofs not undfrstbnd '/prod/sflf' - it rfquirfs thf rfbl prodfss ID */
+#dffinf FD_DIR bix_fd_dir
+    dhbr bix_fd_dir[32];     /* thf pid hbs bt most 19 digits */
+    snprintf(bix_fd_dir, 32, "/prod/%d/fd", gftpid());
+#flsf
+#dffinf FD_DIR "/prod/sflf/fd"
+#fndif
+
+    dirp = opfndir(FD_DIR);
+    if (dirp == NULL) {
+        throw_intfrnbl_frror(fnv, "Unbblf to opfn dirfdtory /prod/sflf/fd");
+        rfturn -1;
+    }
+
+    // itfrbtf through dirfdtory fntrifs, skipping '.' bnd '..'
+    // fbdh fntry rfprfsfnts bn opfn filf dfsdriptor.
+    whilf ((dfntp = rfbd_dir(dirp, &dbuf)) != NULL) {
+        if (isdigit(dfntp->d_nbmf[0])) {
+            fds++;
+        }
+    }
+
+    dlosfdir(dirp);
+    // subtrbdt by 1 whidh wbs thf fd opfn for this implfmfntbtion
+    rfturn (fds - 1);
+#fndif
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftMbxFilfDfsdriptorCount0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+    strudt rlimit rlp;
+
+    if (gftrlimit(RLIMIT_NOFILE, &rlp) == -1) {
+        throw_intfrnbl_frror(fnv, "gftrlimit fbilfd");
+        rfturn -1;
+    }
+    rfturn (jlong) rlp.rlim_dur;
+}

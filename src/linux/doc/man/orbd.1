@@ -1,56 +1,56 @@
 '\" t
-.\"  Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Jbvb IDL bnd RMI-IIOP Tools
-.\"     Title: orbd.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: orbd.1
 .\"
 .if n .pl 99999
-.TH orbd 1 "21 November 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH orbd 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-orbd \- Enbbles clients to locbte bnd cbll persistent objects on servers in the CORBA environment\&.
+orbd \- Enbblfs dlifnts to lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in tif CORBA fnvironmfnt\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
@@ -60,57 +60,57 @@ orbd \- Enbbles clients to locbte bnd cbll persistent objects on servers in the 
 .sp     
 .TP     
 \fIoptions\fR
-Commbnd-line options\&. See Options\&.
+Commbnd-linf options\&. Sff Options\&.
 .SH DESCRIPTION    
-The \f3orbd\fR commbnd enbbles clients to trbnspbrently locbte bnd cbll persistent objects on servers in the CORBA environment\&. The Server Mbnbger included with the orbd tool is used to enbble clients to trbnspbrently locbte bnd cbll persistent objects on servers in the CORBA environment\&. The persistent servers, while publishing the persistent object references in the nbming service, include the port number of the ORBD in the object reference instebd of the port number of the server\&. The inclusion of bn ORBD port number in the object reference for persistent object references hbs the following bdvbntbges:
+Tif \f3orbd\fR dommbnd fnbblfs dlifnts to trbnspbrfntly lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in tif CORBA fnvironmfnt\&. Tif Sfrvfr Mbnbgfr indludfd witi tif orbd tool is usfd to fnbblf dlifnts to trbnspbrfntly lodbtf bnd dbll pfrsistfnt objfdts on sfrvfrs in tif CORBA fnvironmfnt\&. Tif pfrsistfnt sfrvfrs, wiilf publisiing tif pfrsistfnt objfdt rfffrfndfs in tif nbming sfrvidf, indludf tif port numbfr of tif ORBD in tif objfdt rfffrfndf instfbd of tif port numbfr of tif sfrvfr\&. Tif indlusion of bn ORBD port numbfr in tif objfdt rfffrfndf for pfrsistfnt objfdt rfffrfndfs ibs tif following bdvbntbgfs:
 .TP 0.2i    
 \(bu
-The object reference in the nbming service rembins independent of the server life cycle\&. For exbmple, the object reference could be published by the server in the Nbming Service when it is first instblled, bnd then, independent of how mbny times the server is stbrted or shut down, the ORBD returns the correct object reference to the cblling client\&.
+Tif objfdt rfffrfndf in tif nbming sfrvidf rfmbins indfpfndfnt of tif sfrvfr liff dydlf\&. For fxbmplf, tif objfdt rfffrfndf dould bf publisifd by tif sfrvfr in tif Nbming Sfrvidf wifn it is first instbllfd, bnd tifn, indfpfndfnt of iow mbny timfs tif sfrvfr is stbrtfd or siut down, tif ORBD rfturns tif dorrfdt objfdt rfffrfndf to tif dblling dlifnt\&.
 .TP 0.2i    
 \(bu
-The client needs to look up the object reference in the nbming service only once, bnd cbn keep reusing this reference independent of the chbnges introduced due to server life cycle\&.
+Tif dlifnt nffds to look up tif objfdt rfffrfndf in tif nbming sfrvidf only ondf, bnd dbn kffp rfusing tiis rfffrfndf indfpfndfnt of tif dibngfs introdudfd duf to sfrvfr liff dydlf\&.
 .PP
-To bccess the ORBD Server Mbnbger, the server must be stbrted using \f3servertool\fR, which is b commbnd-line interfbce for bpplicbtion progrbmmers to register, unregister, stbrt up, bnd shut down b persistent server\&. For more informbtion on the Server Mbnbger, see Server Mbnbger\&.
+To bddfss tif ORBD Sfrvfr Mbnbgfr, tif sfrvfr must bf stbrtfd using \f3sfrvfrtool\fR, wiidi is b dommbnd-linf intfrfbdf for bpplidbtion progrbmmfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. For morf informbtion on tif Sfrvfr Mbnbgfr, sff Sfrvfr Mbnbgfr\&.
 .PP
-When \f3orbd\fR stbrts, it blso stbrts b nbming service\&. For more informbtion bbout the nbming service\&. See Stbrt bnd Stop the Nbming Service\&.
+Wifn \f3orbd\fR stbrts, it blso stbrts b nbming sfrvidf\&. For morf informbtion bbout tif nbming sfrvidf\&. Sff Stbrt bnd Stop tif Nbming Sfrvidf\&.
 .SH OPTIONS    
 .TP
--ORBInitiblPort \fInbmeserverport\fR
+-ORBInitiblPort \fInbmfsfrvfrport\fR
 .br
-Required\&. Specifies the port on which the nbme server should be stbrted\&. After it is stbrted, \f3orbd\fR listens for incoming requests on this port\&. On Orbcle Solbris softwbre, you must become the root user to stbrt b process on b port below 1024\&. For this rebson, Orbcle recommends thbt you use b port number bbove or equbl to 1024\&.
+Rfquirfd\&. Spfdififs tif port on wiidi tif nbmf sfrvfr siould bf stbrtfd\&. Aftfr it is stbrtfd, \f3orbd\fR listfns for indoming rfqufsts on tiis port\&. On Orbdlf Solbris softwbrf, you must bfdomf tif root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, Orbdlf rfdommfnds tibt you usf b port numbfr bbovf or fqubl to 1024\&.
 .SS NONREQUIRED\ OPTIONS    
 .TP
 -port \fIport\fR
 .br
-Specifies the bctivbtion port where ORBD should be stbrted, bnd where ORBD will be bccepting requests for persistent objects\&. The defbult vblue for this port is 1049\&. This port number is bdded to the port field of the persistent Interoperbble Object References (IOR)\&.
+Spfdififs tif bdtivbtion port wifrf ORBD siould bf stbrtfd, bnd wifrf ORBD will bf bddfpting rfqufsts for pfrsistfnt objfdts\&. Tif dffbult vbluf for tiis port is 1049\&. Tiis port numbfr is bddfd to tif port fifld of tif pfrsistfnt Intfropfrbblf Objfdt Rfffrfndfs (IOR)\&.
 .TP
--defbultdb \fIdirectory\fR
+-dffbultdb \fIdirfdtory\fR
 .br
-Specifies the bbse where the ORBD persistent storbge directory, \f3orb\&.db\fR, is crebted\&. If this option is not specified, then the defbult vblue is \f3\&./orb\&.db\fR\&.
+Spfdififs tif bbsf wifrf tif ORBD pfrsistfnt storbgf dirfdtory, \f3orb\&.db\fR, is drfbtfd\&. If tiis option is not spfdififd, tifn tif dffbult vbluf is \f3\&./orb\&.db\fR\&.
 .TP
--serverPollingTime \fImilliseconds\fR
+-sfrvfrPollingTimf \fImillisfdonds\fR
 .br
-Specifies how often ORBD checks for the heblth of persistent servers registered through \f3servertool\fR\&. The defbult vblue is 1000 ms\&. The vblue specified for \f3milliseconds\fR must be b vblid positive integer\&.
+Spfdififs iow oftfn ORBD difdks for tif ifblti of pfrsistfnt sfrvfrs rfgistfrfd tirougi \f3sfrvfrtool\fR\&. Tif dffbult vbluf is 1000 ms\&. Tif vbluf spfdififd for \f3millisfdonds\fR must bf b vblid positivf intfgfr\&.
 .TP
--serverStbrtupDelby milliseconds
+-sfrvfrStbrtupDflby millisfdonds
 .br
-Specifies how long ORBD wbits before sending b locbtion forwbrd exception bfter b persistent server thbt is registered through \f3servertool\fR is restbrted\&. The defbult vblue is 1000 ms\&. The vblue specified for \f3milliseconds\fR must be b vblid positive integer\&.
+Spfdififs iow long ORBD wbits bfforf sfnding b lodbtion forwbrd fxdfption bftfr b pfrsistfnt sfrvfr tibt is rfgistfrfd tirougi \f3sfrvfrtool\fR is rfstbrtfd\&. Tif dffbult vbluf is 1000 ms\&. Tif vbluf spfdififd for \f3millisfdonds\fR must bf b vblid positivf intfgfr\&.
 .TP
 -J\fIoption\fR
 .br
-Pbsses \f3option\fR to the Jbvb Virtubl Mbchine, where \f3option\fR is one of the options described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SS START\ AND\ STOP\ THE\ NAMING\ SERVICE    
-A nbming service is b CORBA service thbt bllows CORBA objects to be nbmed by mebns of binding b nbme to bn object reference\&. The nbme binding cbn be stored in the nbming service, bnd b client cbn supply the nbme to obtbin the desired object reference\&.
+A nbming sfrvidf is b CORBA sfrvidf tibt bllows CORBA objfdts to bf nbmfd by mfbns of binding b nbmf to bn objfdt rfffrfndf\&. Tif nbmf binding dbn bf storfd in tif nbming sfrvidf, bnd b dlifnt dbn supply tif nbmf to obtbin tif dfsirfd objfdt rfffrfndf\&.
 .PP
-Before running b client or b server, you will stbrt ORBD\&. ORBD includes b persistent nbming service bnd b trbnsient nbming service, both of which bre bn implementbtion of the COS Nbming Service\&.
+Bfforf running b dlifnt or b sfrvfr, you will stbrt ORBD\&. ORBD indludfs b pfrsistfnt nbming sfrvidf bnd b trbnsifnt nbming sfrvidf, boti of wiidi brf bn implfmfntbtion of tif COS Nbming Sfrvidf\&.
 .PP
-The Persistent Nbming Service provides persistence for nbming contexts\&. This mebns thbt this informbtion is persistent bcross service shutdowns bnd stbrtups, bnd is recoverbble in the event of b service fbilure\&. If ORBD is restbrted, then the Persistent Nbming Service restores the nbming context grbph, so thbt the binding of bll clients\&' bnd servers\&' nbmes rembins intbct (persistent)\&.
+Tif Pfrsistfnt Nbming Sfrvidf providfs pfrsistfndf for nbming dontfxts\&. Tiis mfbns tibt tiis informbtion is pfrsistfnt bdross sfrvidf siutdowns bnd stbrtups, bnd is rfdovfrbblf in tif fvfnt of b sfrvidf fbilurf\&. If ORBD is rfstbrtfd, tifn tif Pfrsistfnt Nbming Sfrvidf rfstorfs tif nbming dontfxt grbpi, so tibt tif binding of bll dlifnts\&' bnd sfrvfrs\&' nbmfs rfmbins intbdt (pfrsistfnt)\&.
 .PP
-For bbckwbrd compbtibility, \f3tnbmeserv\fR, b Trbnsient Nbming Service thbt shipped with ebrlier relebses of the JDK, is blso included in this relebse of Jbvb SE\&. A trbnsient nbming service retbins nbming contexts bs long bs it is running\&. If there is b service interruption, then the nbming context grbph is lost\&.
+For bbdkwbrd dompbtibility, \f3tnbmfsfrv\fR, b Trbnsifnt Nbming Sfrvidf tibt siippfd witi fbrlifr rflfbsfs of tif JDK, is blso indludfd in tiis rflfbsf of Jbvb SE\&. A trbnsifnt nbming sfrvidf rftbins nbming dontfxts bs long bs it is running\&. If tifrf is b sfrvidf intfrruption, tifn tif nbming dontfxt grbpi is lost\&.
 .PP
-The \f3-ORBInitiblPort\fR brgument is b required commbnd-line brgument for \f3orbd\fR, bnd is used to set the port number on which the nbming service runs\&. The following instructions bssume you cbn use port 1050 for the Jbvb IDL Object Request Broker Dbemon\&. When using Orbcle Solbris softwbre, you must become b root user to stbrt b process on b port lower thbn 1024\&. For this rebson, it is recommended thbt you use b port number bbove or equbl to 1024\&. You cbn substitute b different port when necessbry\&.
+Tif \f3-ORBInitiblPort\fR brgumfnt is b rfquirfd dommbnd-linf brgumfnt for \f3orbd\fR, bnd is usfd to sft tif port numbfr on wiidi tif nbming sfrvidf runs\&. Tif following instrudtions bssumf you dbn usf port 1050 for tif Jbvb IDL Objfdt Rfqufst Brokfr Dbfmon\&. Wifn using Orbdlf Solbris softwbrf, you must bfdomf b root usfr to stbrt b prodfss on b port lowfr tibn 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr bbovf or fqubl to 1024\&. You dbn substitutf b difffrfnt port wifn nfdfssbry\&.
 .PP
-To stbrt \f3orbd\fR from b UNIX commbnd shell, enter:
+To stbrt \f3orbd\fR from b UNIX dommbnd sifll, fntfr:
 .sp     
 .nf     
 \f3orbd \-ORBInitiblPort 1050&\fP
@@ -119,7 +119,7 @@ To stbrt \f3orbd\fR from b UNIX commbnd shell, enter:
 \f3\fP
 .fi     
 .sp     
-From bn MS-DOS system prompt (Windows), enter:
+From bn MS-DOS systfm prompt (Windows), fntfr:
 .sp     
 .nf     
 \f3stbrt orbd \-ORBInitiblPort 1050\fP
@@ -128,10 +128,10 @@ From bn MS-DOS system prompt (Windows), enter:
 \f3\fP
 .fi     
 .sp     
-Now thbt ORBD is running, you cbn run your server bnd client bpplicbtions\&. When running the client bnd server bpplicbtions, they must be mbde bwbre of the port number (bnd mbchine nbme, when bpplicbble) where the Nbming Service is running\&. One wby to do this is to bdd the following code to your bpplicbtion:
+Now tibt ORBD is running, you dbn run your sfrvfr bnd dlifnt bpplidbtions\&. Wifn running tif dlifnt bnd sfrvfr bpplidbtions, tify must bf mbdf bwbrf of tif port numbfr (bnd mbdiinf nbmf, wifn bpplidbblf) wifrf tif Nbming Sfrvidf is running\&. Onf wby to do tiis is to bdd tif following dodf to your bpplidbtion:
 .sp     
 .nf     
-\f3Properties props = new Properties();\fP
+\f3Propfrtifs props = nfw Propfrtifs();\fP
 .fi     
 .nf     
 \f3props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
@@ -146,68 +146,68 @@ Now thbt ORBD is running, you cbn run your server bnd client bpplicbtions\&. Whe
 \f3\fP
 .fi     
 .sp     
-In this exbmple, the nbming service is running on port 1050 on host \f3MyHost\fR\&. Another wby is to specify the port number bnd/or mbchine nbme when running the server or client bpplicbtion from the commbnd line\&. For exbmple, you would stbrt your \f3HelloApplicbtion\fR with the following commbnd line:
+In tiis fxbmplf, tif nbming sfrvidf is running on port 1050 on iost \f3MyHost\fR\&. Anotifr wby is to spfdify tif port numbfr bnd/or mbdiinf nbmf wifn running tif sfrvfr or dlifnt bpplidbtion from tif dommbnd linf\&. For fxbmplf, you would stbrt your \f3HflloApplidbtion\fR witi tif following dommbnd linf:
 .sp     
 .nf     
-\f3jbvb HelloApplicbtion \-ORBInitiblPort 1050 \-ORBInitiblHost MyHost\fP
+\f3jbvb HflloApplidbtion \-ORBInitiblPort 1050 \-ORBInitiblHost MyHost\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-To stop the nbming service, use the relevbnt operbting system commbnd, such bs \f3pkill\fR\f3orbd\fR on Orbcle Solbris, or \fICtrl+C\fR in the DOS window in which \f3orbd\fR is running\&. Note thbt nbmes registered with the nbming service cbn disbppebr when the service is terminbted becbuse of b trbnsient nbming service\&. The Jbvb IDL nbming service will run until it is explicitly stopped\&.
+To stop tif nbming sfrvidf, usf tif rflfvbnt opfrbting systfm dommbnd, sudi bs \f3pkill\fR\f3orbd\fR on Orbdlf Solbris, or \fICtrl+C\fR in tif DOS window in wiidi \f3orbd\fR is running\&. Notf tibt nbmfs rfgistfrfd witi tif nbming sfrvidf dbn disbppfbr wifn tif sfrvidf is tfrminbtfd bfdbusf of b trbnsifnt nbming sfrvidf\&. Tif Jbvb IDL nbming sfrvidf will run until it is fxpliditly stoppfd\&.
 .PP
-For more informbtion bbout the nbming service included with ORBD, see Nbming Service bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.html
+For morf informbtion bbout tif nbming sfrvidf indludfd witi ORBD, sff Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
 .SH SERVER\ MANAGER    
-To bccess the ORBD Server Mbnbger bnd run b persistent server, the server must be stbrted with \f3servertool\fR, which is b commbnd-line interfbce for bpplicbtion progrbmmers to register, unregister, stbrt up, bnd shut down b persistent server\&. When b server is stbrted using \f3servertool\fR, it must be stbrted on the sbme host bnd port on which \f3orbd\fR is executing\&. If the server is run on b different port, then the informbtion stored in the dbtbbbse for locbl contexts will be invblid bnd the service will not work properly\&.
+To bddfss tif ORBD Sfrvfr Mbnbgfr bnd run b pfrsistfnt sfrvfr, tif sfrvfr must bf stbrtfd witi \f3sfrvfrtool\fR, wiidi is b dommbnd-linf intfrfbdf for bpplidbtion progrbmmfrs to rfgistfr, unrfgistfr, stbrt up, bnd siut down b pfrsistfnt sfrvfr\&. Wifn b sfrvfr is stbrtfd using \f3sfrvfrtool\fR, it must bf stbrtfd on tif sbmf iost bnd port on wiidi \f3orbd\fR is fxfduting\&. If tif sfrvfr is run on b difffrfnt port, tifn tif informbtion storfd in tif dbtbbbsf for lodbl dontfxts will bf invblid bnd tif sfrvidf will not work propfrly\&.
 .PP
-See Jbvb IDL: The "Hello World" Exbmple bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlExbmple\&.html
+Sff Jbvb IDL: Tif "Hfllo World" Exbmplf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlExbmplf\&.itml
 .PP
-In this exbmple, you run the \f3idlj\fR compiler bnd \f3jbvbc\fR compiler bs shown in the tutoribl\&. To run the ORBD Server Mbnbger, follow these steps for running the bpplicbtion:
+In tiis fxbmplf, you run tif \f3idlj\fR dompilfr bnd \f3jbvbd\fR dompilfr bs siown in tif tutoribl\&. To run tif ORBD Sfrvfr Mbnbgfr, follow tifsf stfps for running tif bpplidbtion:
 .PP
 Stbrt \f3orbd\fR\&.
 .PP
-UNIX commbnd shell, enter: \f3orbd -ORBInitiblPort 1050\fR\&.
+UNIX dommbnd sifll, fntfr: \f3orbd -ORBInitiblPort 1050\fR\&.
 .PP
-MS-DOS system prompt (Windows), enter: \f3s\fR\f3tbrt orbd -ORBInitiblPort 105\fR\f30\fR\&.
+MS-DOS systfm prompt (Windows), fntfr: \f3s\fR\f3tbrt orbd -ORBInitiblPort 105\fR\f30\fR\&.
 .PP
-Port 1050 is the port on which you wbnt the nbme server to run\&. The \f3-ORBInitiblPort\fR option is b required commbnd-line brgument\&. When using Orbcle Solbris softwbre, you must become b root user to stbrt b process on b port below 1024\&. For this rebson, it is recommended thbt you use b port number bbove or equbl to 1024\&.
+Port 1050 is tif port on wiidi you wbnt tif nbmf sfrvfr to run\&. Tif \f3-ORBInitiblPort\fR option is b rfquirfd dommbnd-linf brgumfnt\&. Wifn using Orbdlf Solbris softwbrf, you must bfdomf b root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr bbovf or fqubl to 1024\&.
 .PP
-Stbrt the \f3servertool\fR: \f3servertool -ORBInitiblPort 1050\fR\&.
+Stbrt tif \f3sfrvfrtool\fR: \f3sfrvfrtool -ORBInitiblPort 1050\fR\&.
 .PP
-Mbke sure the nbme server (\f3orbd\fR) port is the sbme bs in the previous step, for exbmple, \f3-ORBInitiblPort 1050\&.\fR The \f3servertool\fR must be stbrted on the sbme port bs the nbme server\&.
+Mbkf surf tif nbmf sfrvfr (\f3orbd\fR) port is tif sbmf bs in tif prfvious stfp, for fxbmplf, \f3-ORBInitiblPort 1050\&.\fR Tif \f3sfrvfrtool\fR must bf stbrtfd on tif sbmf port bs tif nbmf sfrvfr\&.
 .PP
-In the \f3servertool\fR commbnd line interfbce, stbrt the \f3Hello\fR server from the \f3servertool\fR prompt:
+In tif \f3sfrvfrtool\fR dommbnd linf intfrfbdf, stbrt tif \f3Hfllo\fR sfrvfr from tif \f3sfrvfrtool\fR prompt:
 .sp     
 .nf     
-\f3servertool  > register \-server HelloServer \-clbsspbth \&. \-bpplicbtionNbme\fP
+\f3sfrvfrtool  > rfgistfr \-sfrvfr HflloSfrvfr \-dlbsspbti \&. \-bpplidbtionNbmf\fP
 .fi     
 .nf     
-\f3                HelloServerApNbme\fP
+\f3                HflloSfrvfrApNbmf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3servertool\fR registers the server, bssigns it the nbme \f3HelloServerApNbme\fR, bnd displbys its server ID with b listing of bll registered servers\&.Run the client bpplicbtion from bnother terminbl window or prompt:
+Tif \f3sfrvfrtool\fR rfgistfrs tif sfrvfr, bssigns it tif nbmf \f3HflloSfrvfrApNbmf\fR, bnd displbys its sfrvfr ID witi b listing of bll rfgistfrfd sfrvfrs\&.Run tif dlifnt bpplidbtion from bnotifr tfrminbl window or prompt:
 .sp     
 .nf     
-\f3jbvb HelloClient \-ORBInitiblPort 1050 \-ORBInitiblHost locblhost\fP
+\f3jbvb HflloClifnt \-ORBInitiblPort 1050 \-ORBInitiblHost lodbliost\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-For this exbmple, you cbn omit \f3-ORBInitiblHost locblhost\fR becbuse the nbme server is running on the sbme host bs the \f3Hello\fR client\&. If the nbme server is running on b different host, then use the -\f3ORBInitiblHost nbmeserverhost\fR option to specify the host on which the IDL nbme server is running\&.Specify the nbme server (\f3orbd\fR) port bs done in the previous step, for exbmple, \f3-ORBInitiblPort 1050\fR\&. When you finish experimenting with the ORBD Server Mbnbger, be sure to shut down or terminbte the nbme server (\f3orbd\fR) bnd \f3servertool\fR\&. To shut down \f3orbd\fR from bm MS-DOS prompt, select the window thbt is running the server bnd enter \fICtrl+C\fR to shut it down\&.
+For tiis fxbmplf, you dbn omit \f3-ORBInitiblHost lodbliost\fR bfdbusf tif nbmf sfrvfr is running on tif sbmf iost bs tif \f3Hfllo\fR dlifnt\&. If tif nbmf sfrvfr is running on b difffrfnt iost, tifn usf tif -\f3ORBInitiblHost nbmfsfrvfriost\fR option to spfdify tif iost on wiidi tif IDL nbmf sfrvfr is running\&.Spfdify tif nbmf sfrvfr (\f3orbd\fR) port bs donf in tif prfvious stfp, for fxbmplf, \f3-ORBInitiblPort 1050\fR\&. Wifn you finisi fxpfrimfnting witi tif ORBD Sfrvfr Mbnbgfr, bf surf to siut down or tfrminbtf tif nbmf sfrvfr (\f3orbd\fR) bnd \f3sfrvfrtool\fR\&. To siut down \f3orbd\fR from bm MS-DOS prompt, sflfdt tif window tibt is running tif sfrvfr bnd fntfr \fICtrl+C\fR to siut it down\&.
 .PP
-To shut down \f3orbd\fR from bn Orbcle Solbris shell, find the process, bnd terminbte with the \f3kill\fR commbnd\&. The server continues to wbit for invocbtions until it is explicitly stopped\&. To shut down the \f3servertool\fR, type \fIquit\fR bnd press the \fIEnter\fR key\&.
+To siut down \f3orbd\fR from bn Orbdlf Solbris sifll, find tif prodfss, bnd tfrminbtf witi tif \f3kill\fR dommbnd\&. Tif sfrvfr dontinufs to wbit for invodbtions until it is fxpliditly stoppfd\&. To siut down tif \f3sfrvfrtool\fR, typf \fIquit\fR bnd prfss tif \fIEntfr\fR kfy\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-servertool(1)
+sfrvfrtool(1)
 .TP 0.2i    
 \(bu
-Nbming Service bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.html
+Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
 .RE
 .br
 'pl 8.5i

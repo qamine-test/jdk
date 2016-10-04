@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.http.ntlm;
+pbdkbgf sun.nft.www.protodol.ittp.ntlm;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.PasswordAuthentication;
-import java.net.UnknownHostException;
-import java.net.URL;
-import sun.net.www.HeaderParser;
-import sun.net.www.protocol.http.AuthenticationInfo;
-import sun.net.www.protocol.http.AuthScheme;
-import sun.net.www.protocol.http.HttpURLConnection;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.PbsswordAutifntidbtion;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.nft.URL;
+import sun.nft.www.HfbdfrPbrsfr;
+import sun.nft.www.protodol.ittp.AutifntidbtionInfo;
+import sun.nft.www.protodol.ittp.AutiSdifmf;
+import sun.nft.www.protodol.ittp.HttpURLConnfdtion;
 
 /**
- * NTLMAuthentication:
+ * NTLMAutifntidbtion:
  *
- * @author Michael McMahon
+ * @butior Midibfl MdMbion
  */
 
-public class NTLMAuthentication extends AuthenticationInfo {
+publid dlbss NTLMAutifntidbtion fxtfnds AutifntidbtionInfo {
 
-    private static final long serialVersionUID = 100L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 100L;
 
-    private static final NTLMAuthenticationCallback NTLMAuthCallback =
-        NTLMAuthenticationCallback.getNTLMAuthenticationCallback();
+    privbtf stbtid finbl NTLMAutifntidbtionCbllbbdk NTLMAutiCbllbbdk =
+        NTLMAutifntidbtionCbllbbdk.gftNTLMAutifntidbtionCbllbbdk();
 
-    private String hostname;
-    private static String defaultDomain; /* Domain to use if not specified by user */
+    privbtf String iostnbmf;
+    privbtf stbtid String dffbultDombin; /* Dombin to usf if not spfdififd by usfr */
 
-    static {
-        defaultDomain = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("http.auth.ntlm.domain",
-                                                      "domain"));
+    stbtid {
+        dffbultDombin = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("ittp.buti.ntlm.dombin",
+                                                      "dombin"));
     };
 
-    private void init0() {
+    privbtf void init0() {
 
-        hostname = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<String>() {
-            public String run() {
-                String localhost;
+        iostnbmf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+            publid String run() {
+                String lodbliost;
                 try {
-                    localhost = InetAddress.getLocalHost().getHostName().toUpperCase();
-                } catch (UnknownHostException e) {
-                     localhost = "localhost";
+                    lodbliost = InftAddrfss.gftLodblHost().gftHostNbmf().toUppfrCbsf();
+                } dbtdi (UnknownHostExdfption f) {
+                     lodbliost = "lodbliost";
                 }
-                return localhost;
+                rfturn lodbliost;
             }
         });
-        int x = hostname.indexOf ('.');
+        int x = iostnbmf.indfxOf ('.');
         if (x != -1) {
-            hostname = hostname.substring (0, x);
+            iostnbmf = iostnbmf.substring (0, x);
         }
     }
 
-    String username;
-    String ntdomain;
-    String password;
+    String usfrnbmf;
+    String ntdombin;
+    String pbssword;
 
     /**
-     * Create a NTLMAuthentication:
-     * Username may be specified as domain<BACKSLASH>username in the application Authenticator.
-     * If this notation is not used, then the domain will be taken
-     * from a system property: "http.auth.ntlm.domain".
+     * Crfbtf b NTLMAutifntidbtion:
+     * Usfrnbmf mby bf spfdififd bs dombin<BACKSLASH>usfrnbmf in tif bpplidbtion Autifntidbtor.
+     * If tiis notbtion is not usfd, tifn tif dombin will bf tbkfn
+     * from b systfm propfrty: "ittp.buti.ntlm.dombin".
      */
-    public NTLMAuthentication(boolean isProxy, URL url, PasswordAuthentication pw) {
-        super(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
-              AuthScheme.NTLM,
+    publid NTLMAutifntidbtion(boolfbn isProxy, URL url, PbsswordAutifntidbtion pw) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              AutiSdifmf.NTLM,
               url,
               "");
         init (pw);
     }
 
-    private void init (PasswordAuthentication pw) {
-        this.pw = pw;
+    privbtf void init (PbsswordAutifntidbtion pw) {
+        tiis.pw = pw;
         if (pw != null) {
-            String s = pw.getUserName();
-            int i = s.indexOf ('\\');
+            String s = pw.gftUsfrNbmf();
+            int i = s.indfxOf ('\\');
             if (i == -1) {
-                username = s;
-                ntdomain = defaultDomain;
-            } else {
-                ntdomain = s.substring (0, i).toUpperCase();
-                username = s.substring (i+1);
+                usfrnbmf = s;
+                ntdombin = dffbultDombin;
+            } flsf {
+                ntdombin = s.substring (0, i).toUppfrCbsf();
+                usfrnbmf = s.substring (i+1);
             }
-            password = new String (pw.getPassword());
-        } else {
-            /* credentials will be acquired from OS */
-            username = null;
-            ntdomain = null;
-            password = null;
+            pbssword = nfw String (pw.gftPbssword());
+        } flsf {
+            /* drfdfntibls will bf bdquirfd from OS */
+            usfrnbmf = null;
+            ntdombin = null;
+            pbssword = null;
         }
         init0();
     }
 
    /**
-    * Constructor used for proxy entries
+    * Construdtor usfd for proxy fntrifs
     */
-    public NTLMAuthentication(boolean isProxy, String host, int port,
-                                PasswordAuthentication pw) {
-        super(isProxy?PROXY_AUTHENTICATION:SERVER_AUTHENTICATION,
-              AuthScheme.NTLM,
-              host,
+    publid NTLMAutifntidbtion(boolfbn isProxy, String iost, int port,
+                                PbsswordAutifntidbtion pw) {
+        supfr(isProxy?PROXY_AUTHENTICATION:SERVER_AUTHENTICATION,
+              AutiSdifmf.NTLM,
+              iost,
               port,
               "");
         init (pw);
     }
 
     /**
-     * @return true if this authentication supports preemptive authorization
+     * @rfturn truf if tiis butifntidbtion supports prffmptivf butiorizbtion
      */
-    @Override
-    public boolean supportsPreemptiveAuthorization() {
-        return false;
+    @Ovfrridf
+    publid boolfbn supportsPrffmptivfAutiorizbtion() {
+        rfturn fblsf;
     }
 
     /**
-     * @return true if NTLM supported transparently (no password needed, SSO)
+     * @rfturn truf if NTLM supportfd trbnspbrfntly (no pbssword nffdfd, SSO)
      */
-    public static boolean supportsTransparentAuth() {
-        return true;
+    publid stbtid boolfbn supportsTrbnspbrfntAuti() {
+        rfturn truf;
     }
 
     /**
-     * Returns true if the given site is trusted, i.e. we can try
-     * transparent Authentication.
+     * Rfturns truf if tif givfn sitf is trustfd, i.f. wf dbn try
+     * trbnspbrfnt Autifntidbtion.
      */
-    public static boolean isTrustedSite(URL url) {
-        return NTLMAuthCallback.isTrustedSite(url);
+    publid stbtid boolfbn isTrustfdSitf(URL url) {
+        rfturn NTLMAutiCbllbbdk.isTrustfdSitf(url);
     }
 
     /**
-     * Not supported. Must use the setHeaders() method
+     * Not supportfd. Must usf tif sftHfbdfrs() mftiod
      */
-    @Override
-    public String getHeaderValue(URL url, String method) {
-        throw new RuntimeException ("getHeaderValue not supported");
+    @Ovfrridf
+    publid String gftHfbdfrVbluf(URL url, String mftiod) {
+        tirow nfw RuntimfExdfption ("gftHfbdfrVbluf not supportfd");
     }
 
     /**
-     * Check if the header indicates that the current auth. parameters are stale.
-     * If so, then replace the relevant field with the new value
-     * and return true. Otherwise return false.
-     * returning true means the request can be retried with the same userid/password
-     * returning false means we have to go back to the user to ask for a new
-     * username password.
+     * Cifdk if tif ifbdfr indidbtfs tibt tif durrfnt buti. pbrbmftfrs brf stblf.
+     * If so, tifn rfplbdf tif rflfvbnt fifld witi tif nfw vbluf
+     * bnd rfturn truf. Otifrwisf rfturn fblsf.
+     * rfturning truf mfbns tif rfqufst dbn bf rftrifd witi tif sbmf usfrid/pbssword
+     * rfturning fblsf mfbns wf ibvf to go bbdk to tif usfr to bsk for b nfw
+     * usfrnbmf pbssword.
      */
-    @Override
-    public boolean isAuthorizationStale (String header) {
-        return false; /* should not be called for ntlm */
+    @Ovfrridf
+    publid boolfbn isAutiorizbtionStblf (String ifbdfr) {
+        rfturn fblsf; /* siould not bf dbllfd for ntlm */
     }
 
     /**
-     * Set header(s) on the given connection.
-     * @param conn The connection to apply the header(s) to
-     * @param p A source of header values for this connection, not used because
-     *          HeaderParser converts the fields to lower case, use raw instead
-     * @param raw The raw header field.
-     * @return true if all goes well, false if no headers were set.
+     * Sft ifbdfr(s) on tif givfn donnfdtion.
+     * @pbrbm donn Tif donnfdtion to bpply tif ifbdfr(s) to
+     * @pbrbm p A sourdf of ifbdfr vblufs for tiis donnfdtion, not usfd bfdbusf
+     *          HfbdfrPbrsfr donvfrts tif fiflds to lowfr dbsf, usf rbw instfbd
+     * @pbrbm rbw Tif rbw ifbdfr fifld.
+     * @rfturn truf if bll gofs wfll, fblsf if no ifbdfrs wfrf sft.
      */
-    @Override
-    public synchronized boolean setHeaders(HttpURLConnection conn, HeaderParser p, String raw) {
+    @Ovfrridf
+    publid syndironizfd boolfbn sftHfbdfrs(HttpURLConnfdtion donn, HfbdfrPbrsfr p, String rbw) {
 
         try {
-            NTLMAuthSequence seq = (NTLMAuthSequence)conn.authObj();
-            if (seq == null) {
-                seq = new NTLMAuthSequence (username, password, ntdomain);
-                conn.authObj(seq);
+            NTLMAutiSfqufndf sfq = (NTLMAutiSfqufndf)donn.butiObj();
+            if (sfq == null) {
+                sfq = nfw NTLMAutiSfqufndf (usfrnbmf, pbssword, ntdombin);
+                donn.butiObj(sfq);
             }
-            String response = "NTLM " + seq.getAuthHeader (raw.length()>6?raw.substring(5):null);
-            conn.setAuthenticationProperty(getHeaderName(), response);
-            if (seq.isComplete()) {
-                conn.authObj(null);
+            String rfsponsf = "NTLM " + sfq.gftAutiHfbdfr (rbw.lfngti()>6?rbw.substring(5):null);
+            donn.sftAutifntidbtionPropfrty(gftHfbdfrNbmf(), rfsponsf);
+            if (sfq.isComplftf()) {
+                donn.butiObj(null);
             }
-            return true;
-        } catch (IOException e) {
-            conn.authObj(null);
-            return false;
+            rfturn truf;
+        } dbtdi (IOExdfption f) {
+            donn.butiObj(null);
+            rfturn fblsf;
         }
     }
 

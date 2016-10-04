@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import jbvb.io.PrintStrfbm;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss NbryExprfssion fxtfnds UnbryExprfssion {
+    Exprfssion brgs[];
+
+    /**
+     * Construdtor
+     */
+    NbryExprfssion(int op, long whfrf, Typf typf, Exprfssion right, Exprfssion brgs[]) {
+        supfr(op, whfrf, typf, right);
+        this.brgs = brgs;
+    }
+
+    /**
+     * Crfbtf b dopy of thf fxprfssion for mfthod inlining
+     */
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        NbryExprfssion f = (NbryExprfssion)dlonf();
+        if (right != null) {
+            f.right = right.dopyInlinf(dtx);
+        }
+        f.brgs = nfw Exprfssion[brgs.lfngth];
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            if (brgs[i] != null) {
+                f.brgs[i] = brgs[i].dopyInlinf(dtx);
+            }
+        }
+        rfturn f;
+    }
+
+    /**
+     * Thf dost of inlining this fxprfssion
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        int dost = 3;
+        if (right != null)
+            dost += right.dostInlinf(thrfsh, fnv, dtx);
+        for (int i = 0 ; (i < brgs.lfngth) && (dost < thrfsh) ; i++) {
+            if (brgs[i] != null) {
+                dost += brgs[i].dostInlinf(thrfsh, fnv, dtx);
+            }
+        }
+        rfturn dost;
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + "#" + hbshCodf());
+        if (right != null) {
+            out.print(" ");
+            right.print(out);
+        }
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            out.print(" ");
+            if (brgs[i] != null) {
+                brgs[i].print(out);
+            } flsf {
+                out.print("<null>");
+            }
+        }
+        out.print(")");
+    }
+}

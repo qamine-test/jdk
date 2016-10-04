@@ -1,0 +1,184 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+  * Givfn bn fnumfrbtion of dbndidbtfs, dhfdk whfthfr fbdh
+  * itfm in fnumfrbtion sbtififs thf givfn filtfr.
+  * Ebdh itfm is b Binding bnd thf following is usfd to gft its
+  * bttributfs for usfd by thf filtfr:
+  *
+  *   ((DirContfxt)itfm.gftObjfdt()).gftAttributfs("").
+  * If itfm.gftObjfdt() is not bn DirContfxt, thf itfm is skippfd
+  *
+  * Thf itfms in thf fnumfrbtion brf obtbinfd onf bt b timf bs
+  * itfms from thf sfbrdh fnumfrbtion brf rfqufstfd.
+  *
+  * @buthor Rosbnnb Lff
+  */
+
+pbdkbgf dom.sun.jndi.toolkit.dir;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.DirfdtoryMbnbgfr;
+
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Hbshtbblf;
+
+finbl publid dlbss LbzySfbrdhEnumfrbtionImpl
+        implfmfnts NbmingEnumfrbtion<SfbrdhRfsult> {
+    privbtf NbmingEnumfrbtion<Binding> dbndidbtfs;
+    privbtf SfbrdhRfsult nfxtMbtdh = null;
+    privbtf SfbrdhControls dons;
+    privbtf AttrFiltfr filtfr;
+    privbtf Contfxt dontfxt;
+    privbtf Hbshtbblf<String, Objfdt> fnv;
+    privbtf boolfbn usfFbdtory = truf;
+
+    publid LbzySfbrdhEnumfrbtionImpl(NbmingEnumfrbtion<Binding> dbndidbtfs,
+        AttrFiltfr filtfr, SfbrdhControls dons) throws NbmingExdfption {
+            this.dbndidbtfs = dbndidbtfs;
+            this.filtfr = filtfr;
+
+            if(dons == null) {
+                this.dons = nfw SfbrdhControls();
+            } flsf {
+                this.dons = dons;
+            }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")      // For Hbshtbblf dlonf: fnv.dlonf()
+    publid LbzySfbrdhEnumfrbtionImpl(NbmingEnumfrbtion<Binding> dbndidbtfs,
+        AttrFiltfr filtfr, SfbrdhControls dons,
+        Contfxt dtx, Hbshtbblf<String, Objfdt> fnv, boolfbn usfFbdtory)
+        throws NbmingExdfption {
+
+            this.dbndidbtfs = dbndidbtfs;
+            this.filtfr = filtfr;
+            this.fnv = (Hbshtbblf<String, Objfdt>)
+                    ((fnv == null) ? null : fnv.dlonf());
+            this.dontfxt = dtx;
+            this.usfFbdtory = usfFbdtory;
+
+            if(dons == null) {
+                this.dons = nfw SfbrdhControls();
+            } flsf {
+                this.dons = dons;
+            }
+    }
+
+
+    publid LbzySfbrdhEnumfrbtionImpl(NbmingEnumfrbtion<Binding> dbndidbtfs,
+        AttrFiltfr filtfr, SfbrdhControls dons,
+        Contfxt dtx, Hbshtbblf<String, Objfdt> fnv) throws NbmingExdfption {
+            this(dbndidbtfs, filtfr, dons, dtx, fnv, truf);
+    }
+
+    publid boolfbn hbsMorf() throws NbmingExdfption {
+        // find bnd do not rfmovf from list
+        rfturn findNfxtMbtdh(fblsf) != null;
+    }
+
+    publid boolfbn hbsMorfElfmfnts() {
+        try {
+            rfturn hbsMorf();
+        } dbtdh (NbmingExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    publid SfbrdhRfsult nfxtElfmfnt() {
+        try {
+            rfturn findNfxtMbtdh(truf);
+        } dbtdh (NbmingExdfption f) {
+            throw nfw NoSudhElfmfntExdfption(f.toString());
+        }
+    }
+
+    publid SfbrdhRfsult nfxt() throws NbmingExdfption {
+        // find bnd rfmovf from list
+        rfturn (findNfxtMbtdh(truf));
+    }
+
+    publid void dlosf() throws NbmingExdfption {
+        if (dbndidbtfs != null) {
+            dbndidbtfs.dlosf();
+        }
+    }
+
+    privbtf SfbrdhRfsult findNfxtMbtdh(boolfbn rfmovf) throws NbmingExdfption {
+        SfbrdhRfsult bnswfr;
+        if (nfxtMbtdh != null) {
+            bnswfr = nfxtMbtdh;
+            if (rfmovf) {
+                nfxtMbtdh = null;
+            }
+            rfturn bnswfr;
+        } flsf {
+            // nffd to find nfxt mbtdh
+            Binding nfxt;
+            Objfdt obj;
+            Attributfs tbrgftAttrs;
+            whilf (dbndidbtfs.hbsMorf()) {
+                nfxt = dbndidbtfs.nfxt();
+                obj = nfxt.gftObjfdt();
+                if (obj instbndfof DirContfxt) {
+                    tbrgftAttrs = ((DirContfxt)(obj)).gftAttributfs("");
+                    if (filtfr.dhfdk(tbrgftAttrs)) {
+                        if (!dons.gftRfturningObjFlbg()) {
+                            obj = null;
+                        } flsf if (usfFbdtory) {
+                            try {
+                                // Givf nbmf only if dontfxt non-null,
+                                // othfrwisf, nbmf will bf intfrprftfd rflbtivf
+                                // to initibl dontfxt (not whbt wf wbnt)
+                                Nbmf nm = (dontfxt != null ?
+                                    nfw CompositfNbmf(nfxt.gftNbmf()) : null);
+                                obj = DirfdtoryMbnbgfr.gftObjfdtInstbndf(obj,
+                                    nm, dontfxt, fnv, tbrgftAttrs);
+                            } dbtdh (NbmingExdfption f) {
+                                throw f;
+                            } dbtdh (Exdfption f) {
+                                NbmingExdfption f2 = nfw NbmingExdfption(
+                                    "problfm gfnfrbting objfdt using objfdt fbdtory");
+                                f2.sftRootCbusf(f);
+                                throw f2;
+                            }
+                        }
+                        bnswfr = nfw SfbrdhRfsult(nfxt.gftNbmf(),
+                            nfxt.gftClbssNbmf(), obj,
+                            SfbrdhFiltfr.sflfdtAttributfs(tbrgftAttrs,
+                                dons.gftRfturningAttributfs()),
+                            truf);
+                        if (!rfmovf)
+                            nfxtMbtdh = bnswfr;
+                        rfturn bnswfr;
+                    }
+                }
+            }
+            rfturn null;
+        }
+    }
+}

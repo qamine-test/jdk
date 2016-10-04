@@ -1,500 +1,500 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import static com.sun.java.util.jar.pack.Constants.*;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
 
 /**
- * Population-based coding.
- * See the section "Encodings of Uncorrelated Values" in the Pack200 spec.
- * @author John Rose
+ * Populbtion-bbsfd doding.
+ * Sff tif sfdtion "Endodings of Undorrflbtfd Vblufs" in tif Pbdk200 spfd.
+ * @butior Join Rosf
  */
-// This tactic alone reduces the final zipped rt.jar by about a percent.
-class PopulationCoding implements CodingMethod {
-    Histogram vHist;   // histogram of all values
-    int[]     fValues; // list of favored values
-    int       fVlen;   // inclusive max index
-    long[]    symtab;  // int map of favored value -> token [1..#fValues]
+// Tiis tbdtid blonf rfdudfs tif finbl zippfd rt.jbr by bbout b pfrdfnt.
+dlbss PopulbtionCoding implfmfnts CodingMftiod {
+    Histogrbm vHist;   // iistogrbm of bll vblufs
+    int[]     fVblufs; // list of fbvorfd vblufs
+    int       fVlfn;   // indlusivf mbx indfx
+    long[]    symtbb;  // int mbp of fbvorfd vbluf -> tokfn [1..#fVblufs]
 
-    CodingMethod favoredCoding;
-    CodingMethod tokenCoding;
-    CodingMethod unfavoredCoding;
+    CodingMftiod fbvorfdCoding;
+    CodingMftiod tokfnCoding;
+    CodingMftiod unfbvorfdCoding;
 
-    int L = -1;  //preferred L value for tokenCoding
+    int L = -1;  //prfffrrfd L vbluf for tokfnCoding
 
-    public void setFavoredValues(int[] fValues, int fVlen) {
-        // Note:  {f} is allFavoredValues[1..fvlen], not [0..fvlen-1].
-        // This is because zero is an exceptional favored value index.
-        assert(fValues[0] == 0);  // must be empty
-        assert(this.fValues == null);  // do not do this twice
-        this.fValues = fValues;
-        this.fVlen   = fVlen;
+    publid void sftFbvorfdVblufs(int[] fVblufs, int fVlfn) {
+        // Notf:  {f} is bllFbvorfdVblufs[1..fvlfn], not [0..fvlfn-1].
+        // Tiis is bfdbusf zfro is bn fxdfptionbl fbvorfd vbluf indfx.
+        bssfrt(fVblufs[0] == 0);  // must bf fmpty
+        bssfrt(tiis.fVblufs == null);  // do not do tiis twidf
+        tiis.fVblufs = fVblufs;
+        tiis.fVlfn   = fVlfn;
         if (L >= 0) {
-            setL(L);  // reassert
+            sftL(L);  // rfbssfrt
         }
     }
-    public void setFavoredValues(int[] fValues) {
-        int lfVlen = fValues.length-1;
-        setFavoredValues(fValues, lfVlen);
+    publid void sftFbvorfdVblufs(int[] fVblufs) {
+        int lfVlfn = fVblufs.lfngti-1;
+        sftFbvorfdVblufs(fVblufs, lfVlfn);
     }
-    public void setHistogram(Histogram vHist) {
-        this.vHist = vHist;
+    publid void sftHistogrbm(Histogrbm vHist) {
+        tiis.vHist = vHist;
     }
-    public void setL(int L) {
-        this.L = L;
-        if (L >= 0 && fValues != null && tokenCoding == null) {
-            tokenCoding = fitTokenCoding(fVlen, L);
-            assert(tokenCoding != null);
+    publid void sftL(int L) {
+        tiis.L = L;
+        if (L >= 0 && fVblufs != null && tokfnCoding == null) {
+            tokfnCoding = fitTokfnCoding(fVlfn, L);
+            bssfrt(tokfnCoding != null);
         }
     }
 
-    public static Coding fitTokenCoding(int fVlen, int L) {
-        // Find the smallest B s.t. (B,H,0) covers fVlen.
-        if (fVlen < 256)
-            // H/L do not matter when B==1
-            return BandStructure.BYTE1;
-        Coding longest = BandStructure.UNSIGNED5.setL(L);
-        if (!longest.canRepresentUnsigned(fVlen))
-            return null;  // failure; L is too sharp and fVlen too large
-        Coding tc = longest;
-        for (Coding shorter = longest; ; ) {
-            shorter = shorter.setB(shorter.B()-1);
-            if (shorter.umax() < fVlen)
-                break;
-            tc = shorter;  // shorten it by reducing B
+    publid stbtid Coding fitTokfnCoding(int fVlfn, int L) {
+        // Find tif smbllfst B s.t. (B,H,0) dovfrs fVlfn.
+        if (fVlfn < 256)
+            // H/L do not mbttfr wifn B==1
+            rfturn BbndStrudturf.BYTE1;
+        Coding longfst = BbndStrudturf.UNSIGNED5.sftL(L);
+        if (!longfst.dbnRfprfsfntUnsignfd(fVlfn))
+            rfturn null;  // fbilurf; L is too sibrp bnd fVlfn too lbrgf
+        Coding td = longfst;
+        for (Coding siortfr = longfst; ; ) {
+            siortfr = siortfr.sftB(siortfr.B()-1);
+            if (siortfr.umbx() < fVlfn)
+                brfbk;
+            td = siortfr;  // siortfn it by rfduding B
         }
-        return tc;
+        rfturn td;
     }
 
-    public void setFavoredCoding(CodingMethod favoredCoding) {
-        this.favoredCoding = favoredCoding;
+    publid void sftFbvorfdCoding(CodingMftiod fbvorfdCoding) {
+        tiis.fbvorfdCoding = fbvorfdCoding;
     }
-    public void setTokenCoding(CodingMethod tokenCoding) {
-        this.tokenCoding = tokenCoding;
-        this.L = -1;
-        if (tokenCoding instanceof Coding && fValues != null) {
-            Coding tc = (Coding) tokenCoding;
-            if (tc == fitTokenCoding(fVlen, tc.L()))
-                this.L = tc.L();
-            // Otherwise, it's a non-default coding.
+    publid void sftTokfnCoding(CodingMftiod tokfnCoding) {
+        tiis.tokfnCoding = tokfnCoding;
+        tiis.L = -1;
+        if (tokfnCoding instbndfof Coding && fVblufs != null) {
+            Coding td = (Coding) tokfnCoding;
+            if (td == fitTokfnCoding(fVlfn, td.L()))
+                tiis.L = td.L();
+            // Otifrwisf, it's b non-dffbult doding.
         }
     }
-    public void setUnfavoredCoding(CodingMethod unfavoredCoding) {
-        this.unfavoredCoding = unfavoredCoding;
+    publid void sftUnfbvorfdCoding(CodingMftiod unfbvorfdCoding) {
+        tiis.unfbvorfdCoding = unfbvorfdCoding;
     }
 
-    public int favoredValueMaxLength() {
+    publid int fbvorfdVblufMbxLfngti() {
         if (L == 0)
-            return Integer.MAX_VALUE;
-        else
-            return BandStructure.UNSIGNED5.setL(L).umax();
+            rfturn Intfgfr.MAX_VALUE;
+        flsf
+            rfturn BbndStrudturf.UNSIGNED5.sftL(L).umbx();
     }
 
-    public void resortFavoredValues() {
-        Coding tc = (Coding) tokenCoding;
-        // Make a local copy before reordering.
-        fValues = BandStructure.realloc(fValues, 1+fVlen);
-        // Resort favoredValues within each byte-size cadre.
-        int fillp = 1;  // skip initial zero
-        for (int n = 1; n <= tc.B(); n++) {
-            int nmax = tc.byteMax(n);
-            if (nmax > fVlen)
-                nmax = fVlen;
-            if (nmax < tc.byteMin(n))
-                break;
+    publid void rfsortFbvorfdVblufs() {
+        Coding td = (Coding) tokfnCoding;
+        // Mbkf b lodbl dopy bfforf rfordfring.
+        fVblufs = BbndStrudturf.rfbllod(fVblufs, 1+fVlfn);
+        // Rfsort fbvorfdVblufs witiin fbdi bytf-sizf dbdrf.
+        int fillp = 1;  // skip initibl zfro
+        for (int n = 1; n <= td.B(); n++) {
+            int nmbx = td.bytfMbx(n);
+            if (nmbx > fVlfn)
+                nmbx = fVlfn;
+            if (nmbx < td.bytfMin(n))
+                brfbk;
             int low = fillp;
-            int high = nmax+1;
-            if (high == low)  continue;
-            assert(high > low)
-                : high+"!>"+low;
-            assert(tc.getLength(low) == n)
-                : n+" != len("+(low)+") == "+
-                  tc.getLength(low);
-            assert(tc.getLength(high-1) == n)
-                : n+" != len("+(high-1)+") == "+
-                  tc.getLength(high-1);
-            int midTarget = low + (high-low)/2;
+            int iigi = nmbx+1;
+            if (iigi == low)  dontinuf;
+            bssfrt(iigi > low)
+                : iigi+"!>"+low;
+            bssfrt(td.gftLfngti(low) == n)
+                : n+" != lfn("+(low)+") == "+
+                  td.gftLfngti(low);
+            bssfrt(td.gftLfngti(iigi-1) == n)
+                : n+" != lfn("+(iigi-1)+") == "+
+                  td.gftLfngti(iigi-1);
+            int midTbrgft = low + (iigi-low)/2;
             int mid = low;
-            // Divide the values into cadres, and sort within each.
-            int prevCount = -1;
-            int prevLimit = low;
-            for (int i = low; i < high; i++) {
-                int val = fValues[i];
-                int count = vHist.getFrequency(val);
-                if (prevCount != count) {
+            // Dividf tif vblufs into dbdrfs, bnd sort witiin fbdi.
+            int prfvCount = -1;
+            int prfvLimit = low;
+            for (int i = low; i < iigi; i++) {
+                int vbl = fVblufs[i];
+                int dount = vHist.gftFrfqufndy(vbl);
+                if (prfvCount != dount) {
                     if (n == 1) {
-                        // For the single-byte encoding, keep strict order
-                        // among frequency groups.
-                        Arrays.sort(fValues, prevLimit, i);
-                    } else if (Math.abs(mid - midTarget) >
-                               Math.abs(i   - midTarget)) {
-                        // Find a single inflection point
-                        // close to the middle of the byte-size cadre.
+                        // For tif singlf-bytf fndoding, kffp stridt ordfr
+                        // bmong frfqufndy groups.
+                        Arrbys.sort(fVblufs, prfvLimit, i);
+                    } flsf if (Mbti.bbs(mid - midTbrgft) >
+                               Mbti.bbs(i   - midTbrgft)) {
+                        // Find b singlf inflfdtion point
+                        // dlosf to tif middlf of tif bytf-sizf dbdrf.
                         mid = i;
                     }
-                    prevCount = count;
-                    prevLimit = i;
+                    prfvCount = dount;
+                    prfvLimit = i;
                 }
             }
             if (n == 1) {
-                Arrays.sort(fValues, prevLimit, high);
-            } else {
-                // Sort up to the midpoint, if any.
-                Arrays.sort(fValues, low, mid);
-                Arrays.sort(fValues, mid, high);
+                Arrbys.sort(fVblufs, prfvLimit, iigi);
+            } flsf {
+                // Sort up to tif midpoint, if bny.
+                Arrbys.sort(fVblufs, low, mid);
+                Arrbys.sort(fVblufs, mid, iigi);
             }
-            assert(tc.getLength(low) == tc.getLength(mid));
-            assert(tc.getLength(low) == tc.getLength(high-1));
-            fillp = nmax+1;
+            bssfrt(td.gftLfngti(low) == td.gftLfngti(mid));
+            bssfrt(td.gftLfngti(low) == td.gftLfngti(iigi-1));
+            fillp = nmbx+1;
         }
-        assert(fillp == fValues.length);
+        bssfrt(fillp == fVblufs.lfngti);
 
-        // Reset symtab.
-        symtab = null;
+        // Rfsft symtbb.
+        symtbb = null;
     }
 
-    public int getToken(int value) {
-        if (symtab == null)
-            symtab = makeSymtab();
-        int pos = Arrays.binarySearch(symtab, (long)value << 32);
+    publid int gftTokfn(int vbluf) {
+        if (symtbb == null)
+            symtbb = mbkfSymtbb();
+        int pos = Arrbys.binbrySfbrdi(symtbb, (long)vbluf << 32);
         if (pos < 0)  pos = -pos-1;
-        if (pos < symtab.length && value == (int)(symtab[pos] >>> 32))
-            return (int)symtab[pos];
-        else
-            return 0;
+        if (pos < symtbb.lfngti && vbluf == (int)(symtbb[pos] >>> 32))
+            rfturn (int)symtbb[pos];
+        flsf
+            rfturn 0;
     }
 
-    public int[][] encodeValues(int[] values, int start, int end) {
-        // Compute token sequence.
-        int[] tokens = new int[end-start];
+    publid int[][] fndodfVblufs(int[] vblufs, int stbrt, int fnd) {
+        // Computf tokfn sfqufndf.
+        int[] tokfns = nfw int[fnd-stbrt];
         int nuv = 0;
-        for (int i = 0; i < tokens.length; i++) {
-            int val = values[start+i];
-            int tok = getToken(val);
+        for (int i = 0; i < tokfns.lfngti; i++) {
+            int vbl = vblufs[stbrt+i];
+            int tok = gftTokfn(vbl);
             if (tok != 0)
-                tokens[i] = tok;
-            else
+                tokfns[i] = tok;
+            flsf
                 nuv += 1;
         }
-        // Compute unfavored value sequence.
-        int[] unfavoredValues = new int[nuv];
-        nuv = 0;  // reset
-        for (int i = 0; i < tokens.length; i++) {
-            if (tokens[i] != 0)  continue;  // already covered
-            int val = values[start+i];
-            unfavoredValues[nuv++] = val;
+        // Computf unfbvorfd vbluf sfqufndf.
+        int[] unfbvorfdVblufs = nfw int[nuv];
+        nuv = 0;  // rfsft
+        for (int i = 0; i < tokfns.lfngti; i++) {
+            if (tokfns[i] != 0)  dontinuf;  // blrfbdy dovfrfd
+            int vbl = vblufs[stbrt+i];
+            unfbvorfdVblufs[nuv++] = vbl;
         }
-        assert(nuv == unfavoredValues.length);
-        return new int[][]{ tokens, unfavoredValues };
+        bssfrt(nuv == unfbvorfdVblufs.lfngti);
+        rfturn nfw int[][]{ tokfns, unfbvorfdVblufs };
     }
 
-    private long[] makeSymtab() {
-        long[] lsymtab = new long[fVlen];
-        for (int token = 1; token <= fVlen; token++) {
-            lsymtab[token-1] = ((long)fValues[token] << 32) | token;
+    privbtf long[] mbkfSymtbb() {
+        long[] lsymtbb = nfw long[fVlfn];
+        for (int tokfn = 1; tokfn <= fVlfn; tokfn++) {
+            lsymtbb[tokfn-1] = ((long)fVblufs[tokfn] << 32) | tokfn;
         }
-        // Index by value:
-        Arrays.sort(lsymtab);
-        return lsymtab;
+        // Indfx by vbluf:
+        Arrbys.sort(lsymtbb);
+        rfturn lsymtbb;
     }
 
-    private Coding getTailCoding(CodingMethod c) {
-        while (c instanceof AdaptiveCoding)
-            c = ((AdaptiveCoding)c).tailCoding;
-        return (Coding) c;
+    privbtf Coding gftTbilCoding(CodingMftiod d) {
+        wiilf (d instbndfof AdbptivfCoding)
+            d = ((AdbptivfCoding)d).tbilCoding;
+        rfturn (Coding) d;
     }
 
-    // CodingMethod methods.
-    public void writeArrayTo(OutputStream out, int[] a, int start, int end) throws IOException {
-        int[][] vals = encodeValues(a, start, end);
-        writeSequencesTo(out, vals[0], vals[1]);
+    // CodingMftiod mftiods.
+    publid void writfArrbyTo(OutputStrfbm out, int[] b, int stbrt, int fnd) tirows IOExdfption {
+        int[][] vbls = fndodfVblufs(b, stbrt, fnd);
+        writfSfqufndfsTo(out, vbls[0], vbls[1]);
     }
-    void writeSequencesTo(OutputStream out, int[] tokens, int[] uValues) throws IOException {
-        favoredCoding.writeArrayTo(out, fValues, 1, 1+fVlen);
-        getTailCoding(favoredCoding).writeTo(out, computeSentinelValue());
-        tokenCoding.writeArrayTo(out, tokens, 0, tokens.length);
-        if (uValues.length > 0)
-            unfavoredCoding.writeArrayTo(out, uValues, 0, uValues.length);
+    void writfSfqufndfsTo(OutputStrfbm out, int[] tokfns, int[] uVblufs) tirows IOExdfption {
+        fbvorfdCoding.writfArrbyTo(out, fVblufs, 1, 1+fVlfn);
+        gftTbilCoding(fbvorfdCoding).writfTo(out, domputfSfntinflVbluf());
+        tokfnCoding.writfArrbyTo(out, tokfns, 0, tokfns.lfngti);
+        if (uVblufs.lfngti > 0)
+            unfbvorfdCoding.writfArrbyTo(out, uVblufs, 0, uVblufs.lfngti);
     }
 
-   int computeSentinelValue() {
-        Coding fc = getTailCoding(favoredCoding);
-        if (fc.isDelta()) {
-            // repeat the last favored value, using delta=0
-            return 0;
-        } else {
-            // else repeat the shorter of the min or last value
-            int min = fValues[1];
-            int last = min;
-            // (remember that fVlen is an inclusive limit in fValues)
-            for (int i = 2; i <= fVlen; i++) {
-                last = fValues[i];
-                min = moreCentral(min, last);
+   int domputfSfntinflVbluf() {
+        Coding fd = gftTbilCoding(fbvorfdCoding);
+        if (fd.isDfltb()) {
+            // rfpfbt tif lbst fbvorfd vbluf, using dfltb=0
+            rfturn 0;
+        } flsf {
+            // flsf rfpfbt tif siortfr of tif min or lbst vbluf
+            int min = fVblufs[1];
+            int lbst = min;
+            // (rfmfmbfr tibt fVlfn is bn indlusivf limit in fVblufs)
+            for (int i = 2; i <= fVlfn; i++) {
+                lbst = fVblufs[i];
+                min = morfCfntrbl(min, lbst);
             }
-            int endVal;
-            if (fc.getLength(min) <= fc.getLength(last))
-                return min;
-            else
-                return last;
+            int fndVbl;
+            if (fd.gftLfngti(min) <= fd.gftLfngti(lbst))
+                rfturn min;
+            flsf
+                rfturn lbst;
         }
    }
 
-    public void readArrayFrom(InputStream in, int[] a, int start, int end) throws IOException {
-        // Parameters are fCode, L, uCode.
-        setFavoredValues(readFavoredValuesFrom(in, end-start));
-        // Read the tokens.  Read them into the final array, for the moment.
-        tokenCoding.readArrayFrom(in, a, start, end);
-        // Decode the favored tokens.
-        int headp = 0, tailp = -1;
-        int uVlen = 0;
-        for (int i = start; i < end; i++) {
-            int tok = a[i];
+    publid void rfbdArrbyFrom(InputStrfbm in, int[] b, int stbrt, int fnd) tirows IOExdfption {
+        // Pbrbmftfrs brf fCodf, L, uCodf.
+        sftFbvorfdVblufs(rfbdFbvorfdVblufsFrom(in, fnd-stbrt));
+        // Rfbd tif tokfns.  Rfbd tifm into tif finbl brrby, for tif momfnt.
+        tokfnCoding.rfbdArrbyFrom(in, b, stbrt, fnd);
+        // Dfdodf tif fbvorfd tokfns.
+        int ifbdp = 0, tbilp = -1;
+        int uVlfn = 0;
+        for (int i = stbrt; i < fnd; i++) {
+            int tok = b[i];
             if (tok == 0) {
-                // Make a linked list, and decode in a second pass.
-                if (tailp < 0) {
-                    headp = i;
-                } else {
-                    a[tailp] = i;
+                // Mbkf b linkfd list, bnd dfdodf in b sfdond pbss.
+                if (tbilp < 0) {
+                    ifbdp = i;
+                } flsf {
+                    b[tbilp] = i;
                 }
-                tailp = i;
-                uVlen += 1;
-            } else {
-                a[i] = fValues[tok];
+                tbilp = i;
+                uVlfn += 1;
+            } flsf {
+                b[i] = fVblufs[tok];
             }
         }
-        // Walk the linked list of "zero" locations, decoding unfavored vals.
-        int[] uValues = new int[uVlen];
-        if (uVlen > 0)
-            unfavoredCoding.readArrayFrom(in, uValues, 0, uVlen);
-        for (int i = 0; i < uVlen; i++) {
-            int nextp = a[headp];
-            a[headp] = uValues[i];
-            headp = nextp;
+        // Wblk tif linkfd list of "zfro" lodbtions, dfdoding unfbvorfd vbls.
+        int[] uVblufs = nfw int[uVlfn];
+        if (uVlfn > 0)
+            unfbvorfdCoding.rfbdArrbyFrom(in, uVblufs, 0, uVlfn);
+        for (int i = 0; i < uVlfn; i++) {
+            int nfxtp = b[ifbdp];
+            b[ifbdp] = uVblufs[i];
+            ifbdp = nfxtp;
         }
     }
 
-    int[] readFavoredValuesFrom(InputStream in, int maxForDebug) throws IOException {
-        int[] lfValues = new int[1000];  // realloc as needed
-        // The set uniqueValuesForDebug records all favored values.
-        // As each new value is added, we assert that the value
-        // was not already in the set.
-        Set<Integer> uniqueValuesForDebug = null;
-        assert((uniqueValuesForDebug = new HashSet<>()) != null);
+    int[] rfbdFbvorfdVblufsFrom(InputStrfbm in, int mbxForDfbug) tirows IOExdfption {
+        int[] lfVblufs = nfw int[1000];  // rfbllod bs nffdfd
+        // Tif sft uniqufVblufsForDfbug rfdords bll fbvorfd vblufs.
+        // As fbdi nfw vbluf is bddfd, wf bssfrt tibt tif vbluf
+        // wbs not blrfbdy in tif sft.
+        Sft<Intfgfr> uniqufVblufsForDfbug = null;
+        bssfrt((uniqufVblufsForDfbug = nfw HbsiSft<>()) != null);
         int fillp = 1;
-        maxForDebug += fillp;
-        int min = Integer.MIN_VALUE;  // farthest from the center
-        //int min2 = Integer.MIN_VALUE;  // emulate buggy 150.7 spec.
-        int last = 0;
-        CodingMethod fcm = favoredCoding;
-        while (fcm instanceof AdaptiveCoding) {
-            AdaptiveCoding ac = (AdaptiveCoding) fcm;
-            int len = ac.headLength;
-            while (fillp + len > lfValues.length) {
-                lfValues = BandStructure.realloc(lfValues);
+        mbxForDfbug += fillp;
+        int min = Intfgfr.MIN_VALUE;  // fbrtifst from tif dfntfr
+        //int min2 = Intfgfr.MIN_VALUE;  // fmulbtf buggy 150.7 spfd.
+        int lbst = 0;
+        CodingMftiod fdm = fbvorfdCoding;
+        wiilf (fdm instbndfof AdbptivfCoding) {
+            AdbptivfCoding bd = (AdbptivfCoding) fdm;
+            int lfn = bd.ifbdLfngti;
+            wiilf (fillp + lfn > lfVblufs.lfngti) {
+                lfVblufs = BbndStrudturf.rfbllod(lfVblufs);
             }
-            int newFillp = fillp + len;
-            ac.headCoding.readArrayFrom(in, lfValues, fillp, newFillp);
-            while (fillp < newFillp) {
-                int val = lfValues[fillp++];
-                assert(uniqueValuesForDebug.add(val));
-                assert(fillp <= maxForDebug);
-                last = val;
-                min = moreCentral(min, val);
-                //min2 = moreCentral2(min2, val, min);
+            int nfwFillp = fillp + lfn;
+            bd.ifbdCoding.rfbdArrbyFrom(in, lfVblufs, fillp, nfwFillp);
+            wiilf (fillp < nfwFillp) {
+                int vbl = lfVblufs[fillp++];
+                bssfrt(uniqufVblufsForDfbug.bdd(vbl));
+                bssfrt(fillp <= mbxForDfbug);
+                lbst = vbl;
+                min = morfCfntrbl(min, vbl);
+                //min2 = morfCfntrbl2(min2, vbl, min);
             }
-            fcm = ac.tailCoding;
+            fdm = bd.tbilCoding;
         }
-        Coding fc = (Coding) fcm;
-        if (fc.isDelta()) {
-            for (long state = 0;;) {
-                // Read a new value:
-                state += fc.readFrom(in);
-                int val;
-                if (fc.isSubrange())
-                    val = fc.reduceToUnsignedRange(state);
-                else
-                    val = (int)state;
-                state = val;
-                if (fillp > 1 && (val == last || val == min)) //|| val == min2
-                    break;
-                if (fillp == lfValues.length)
-                    lfValues = BandStructure.realloc(lfValues);
-                lfValues[fillp++] = val;
-                assert(uniqueValuesForDebug.add(val));
-                assert(fillp <= maxForDebug);
-                last = val;
-                min = moreCentral(min, val);
-                //min2 = moreCentral(min2, val);
+        Coding fd = (Coding) fdm;
+        if (fd.isDfltb()) {
+            for (long stbtf = 0;;) {
+                // Rfbd b nfw vbluf:
+                stbtf += fd.rfbdFrom(in);
+                int vbl;
+                if (fd.isSubrbngf())
+                    vbl = fd.rfdudfToUnsignfdRbngf(stbtf);
+                flsf
+                    vbl = (int)stbtf;
+                stbtf = vbl;
+                if (fillp > 1 && (vbl == lbst || vbl == min)) //|| vbl == min2
+                    brfbk;
+                if (fillp == lfVblufs.lfngti)
+                    lfVblufs = BbndStrudturf.rfbllod(lfVblufs);
+                lfVblufs[fillp++] = vbl;
+                bssfrt(uniqufVblufsForDfbug.bdd(vbl));
+                bssfrt(fillp <= mbxForDfbug);
+                lbst = vbl;
+                min = morfCfntrbl(min, vbl);
+                //min2 = morfCfntrbl(min2, vbl);
             }
-        } else {
+        } flsf {
             for (;;) {
-                int val = fc.readFrom(in);
-                if (fillp > 1 && (val == last || val == min)) //|| val == min2
-                    break;
-                if (fillp == lfValues.length)
-                    lfValues = BandStructure.realloc(lfValues);
-                lfValues[fillp++] = val;
-                assert(uniqueValuesForDebug.add(val));
-                assert(fillp <= maxForDebug);
-                last = val;
-                min = moreCentral(min, val);
-                //min2 = moreCentral2(min2, val, min);
+                int vbl = fd.rfbdFrom(in);
+                if (fillp > 1 && (vbl == lbst || vbl == min)) //|| vbl == min2
+                    brfbk;
+                if (fillp == lfVblufs.lfngti)
+                    lfVblufs = BbndStrudturf.rfbllod(lfVblufs);
+                lfVblufs[fillp++] = vbl;
+                bssfrt(uniqufVblufsForDfbug.bdd(vbl));
+                bssfrt(fillp <= mbxForDfbug);
+                lbst = vbl;
+                min = morfCfntrbl(min, vbl);
+                //min2 = morfCfntrbl2(min2, vbl, min);
             }
         }
-        return BandStructure.realloc(lfValues, fillp);
+        rfturn BbndStrudturf.rfbllod(lfVblufs, fillp);
     }
 
-    private static int moreCentral(int x, int y) {
+    privbtf stbtid int morfCfntrbl(int x, int y) {
         int kx = (x >> 31) ^ (x << 1);
         int ky = (y >> 31) ^ (y << 1);
-        // bias kx/ky to get an unsigned comparison:
-        kx -= Integer.MIN_VALUE;
-        ky -= Integer.MIN_VALUE;
+        // bibs kx/ky to gft bn unsignfd dompbrison:
+        kx -= Intfgfr.MIN_VALUE;
+        ky -= Intfgfr.MIN_VALUE;
         int xy = (kx < ky? x: y);
-        // assert that this ALU-ish version is the same:
-        assert(xy == moreCentralSlow(x, y));
-        return xy;
+        // bssfrt tibt tiis ALU-isi vfrsion is tif sbmf:
+        bssfrt(xy == morfCfntrblSlow(x, y));
+        rfturn xy;
     }
-//  private static int moreCentral2(int x, int y, int min) {
-//      // Strict implementation of buggy 150.7 specification.
-//      // The bug is that the spec. says absolute-value ties are broken
-//      // in favor of positive numbers, but the suggested implementation
-//      // (also mentioned in the spec.) breaks ties in favor of negatives.
-//      if (x + y == 0)  return (x > y? x : y);
-//      return min;
+//  privbtf stbtid int morfCfntrbl2(int x, int y, int min) {
+//      // Stridt implfmfntbtion of buggy 150.7 spfdifidbtion.
+//      // Tif bug is tibt tif spfd. sbys bbsolutf-vbluf tifs brf brokfn
+//      // in fbvor of positivf numbfrs, but tif suggfstfd implfmfntbtion
+//      // (blso mfntionfd in tif spfd.) brfbks tifs in fbvor of nfgbtivfs.
+//      if (x + y == 0)  rfturn (x > y? x : y);
+//      rfturn min;
 //  }
-    private static int moreCentralSlow(int x, int y) {
-        int ax = x;
-        if (ax < 0)  ax = -ax;
-        if (ax < 0)  return y;  //x is MIN_VALUE
-        int ay = y;
-        if (ay < 0)  ay = -ay;
-        if (ay < 0)  return x;  //y is MIN_VALUE
-        if (ax < ay)  return x;
-        if (ax > ay)  return y;
-        // At this point the absolute values agree, and the negative wins.
-        return x < y ? x : y;
+    privbtf stbtid int morfCfntrblSlow(int x, int y) {
+        int bx = x;
+        if (bx < 0)  bx = -bx;
+        if (bx < 0)  rfturn y;  //x is MIN_VALUE
+        int by = y;
+        if (by < 0)  by = -by;
+        if (by < 0)  rfturn x;  //y is MIN_VALUE
+        if (bx < by)  rfturn x;
+        if (bx > by)  rfturn y;
+        // At tiis point tif bbsolutf vblufs bgrff, bnd tif nfgbtivf wins.
+        rfturn x < y ? x : y;
     }
 
-    static final int[] LValuesCoded
+    stbtid finbl int[] LVblufsCodfd
         = { -1, 4, 8, 16, 32, 64, 128, 192, 224, 240, 248, 252 };
 
-    public byte[] getMetaCoding(Coding dflt) {
-        int K = fVlen;
-        int LCoded = 0;
-        if (tokenCoding instanceof Coding) {
-            Coding tc = (Coding) tokenCoding;
-            if (tc.B() == 1) {
-                LCoded = 1;
-            } else if (L >= 0) {
-                assert(L == tc.L());
-                for (int i = 1; i < LValuesCoded.length; i++) {
-                    if (LValuesCoded[i] == L) { LCoded = i; break; }
+    publid bytf[] gftMftbCoding(Coding dflt) {
+        int K = fVlfn;
+        int LCodfd = 0;
+        if (tokfnCoding instbndfof Coding) {
+            Coding td = (Coding) tokfnCoding;
+            if (td.B() == 1) {
+                LCodfd = 1;
+            } flsf if (L >= 0) {
+                bssfrt(L == td.L());
+                for (int i = 1; i < LVblufsCodfd.lfngti; i++) {
+                    if (LVblufsCodfd[i] == L) { LCodfd = i; brfbk; }
                 }
             }
         }
-        CodingMethod tokenDflt = null;
-        if (LCoded != 0 && tokenCoding == fitTokenCoding(fVlen, L)) {
-            // A simple L value is enough to recover the tokenCoding.
-            tokenDflt = tokenCoding;
+        CodingMftiod tokfnDflt = null;
+        if (LCodfd != 0 && tokfnCoding == fitTokfnCoding(fVlfn, L)) {
+            // A simplf L vbluf is fnougi to rfdovfr tif tokfnCoding.
+            tokfnDflt = tokfnCoding;
         }
-        int FDef = (favoredCoding == dflt)?1:0;
-        int UDef = (unfavoredCoding == dflt || unfavoredCoding == null)?1:0;
-        int TDef = (tokenCoding == tokenDflt)?1:0;
-        int TDefL = (TDef == 1) ? LCoded : 0;
-        assert(TDef == ((TDefL>0)?1:0));
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream(10);
-        bytes.write(_meta_pop + FDef + 2*UDef + 4*TDefL);
+        int FDff = (fbvorfdCoding == dflt)?1:0;
+        int UDff = (unfbvorfdCoding == dflt || unfbvorfdCoding == null)?1:0;
+        int TDff = (tokfnCoding == tokfnDflt)?1:0;
+        int TDffL = (TDff == 1) ? LCodfd : 0;
+        bssfrt(TDff == ((TDffL>0)?1:0));
+        BytfArrbyOutputStrfbm bytfs = nfw BytfArrbyOutputStrfbm(10);
+        bytfs.writf(_mftb_pop + FDff + 2*UDff + 4*TDffL);
         try {
-            if (FDef == 0)  bytes.write(favoredCoding.getMetaCoding(dflt));
-            if (TDef == 0)  bytes.write(tokenCoding.getMetaCoding(dflt));
-            if (UDef == 0)  bytes.write(unfavoredCoding.getMetaCoding(dflt));
-        } catch (IOException ee) {
-            throw new RuntimeException(ee);
+            if (FDff == 0)  bytfs.writf(fbvorfdCoding.gftMftbCoding(dflt));
+            if (TDff == 0)  bytfs.writf(tokfnCoding.gftMftbCoding(dflt));
+            if (UDff == 0)  bytfs.writf(unfbvorfdCoding.gftMftbCoding(dflt));
+        } dbtdi (IOExdfption ff) {
+            tirow nfw RuntimfExdfption(ff);
         }
-        return bytes.toByteArray();
+        rfturn bytfs.toBytfArrby();
     }
-    public static int parseMetaCoding(byte[] bytes, int pos, Coding dflt, CodingMethod res[]) {
-        int op = bytes[pos++] & 0xFF;
-        if (op < _meta_pop || op >= _meta_limit)  return pos-1; // backup
-        op -= _meta_pop;
-        int FDef = op % 2;
-        int UDef = (op / 2) % 2;
-        int TDefL = (op / 4);
-        int TDef = (TDefL > 0)?1:0;
-        int L = LValuesCoded[TDefL];
-        CodingMethod[] FCode = {dflt}, TCode = {null}, UCode = {dflt};
-        if (FDef == 0)
-            pos = BandStructure.parseMetaCoding(bytes, pos, dflt, FCode);
-        if (TDef == 0)
-            pos = BandStructure.parseMetaCoding(bytes, pos, dflt, TCode);
-        if (UDef == 0)
-            pos = BandStructure.parseMetaCoding(bytes, pos, dflt, UCode);
-        PopulationCoding pop = new PopulationCoding();
-        pop.L = L;  // might be -1
-        pop.favoredCoding   = FCode[0];
-        pop.tokenCoding     = TCode[0];  // might be null!
-        pop.unfavoredCoding = UCode[0];
-        res[0] = pop;
-        return pos;
+    publid stbtid int pbrsfMftbCoding(bytf[] bytfs, int pos, Coding dflt, CodingMftiod rfs[]) {
+        int op = bytfs[pos++] & 0xFF;
+        if (op < _mftb_pop || op >= _mftb_limit)  rfturn pos-1; // bbdkup
+        op -= _mftb_pop;
+        int FDff = op % 2;
+        int UDff = (op / 2) % 2;
+        int TDffL = (op / 4);
+        int TDff = (TDffL > 0)?1:0;
+        int L = LVblufsCodfd[TDffL];
+        CodingMftiod[] FCodf = {dflt}, TCodf = {null}, UCodf = {dflt};
+        if (FDff == 0)
+            pos = BbndStrudturf.pbrsfMftbCoding(bytfs, pos, dflt, FCodf);
+        if (TDff == 0)
+            pos = BbndStrudturf.pbrsfMftbCoding(bytfs, pos, dflt, TCodf);
+        if (UDff == 0)
+            pos = BbndStrudturf.pbrsfMftbCoding(bytfs, pos, dflt, UCodf);
+        PopulbtionCoding pop = nfw PopulbtionCoding();
+        pop.L = L;  // migit bf -1
+        pop.fbvorfdCoding   = FCodf[0];
+        pop.tokfnCoding     = TCodf[0];  // migit bf null!
+        pop.unfbvorfdCoding = UCodf[0];
+        rfs[0] = pop;
+        rfturn pos;
     }
 
-    private String keyString(CodingMethod m) {
-        if (m instanceof Coding)
-            return ((Coding)m).keyString();
+    privbtf String kfyString(CodingMftiod m) {
+        if (m instbndfof Coding)
+            rfturn ((Coding)m).kfyString();
         if (m == null)
-            return "none";
-        return m.toString();
+            rfturn "nonf";
+        rfturn m.toString();
     }
-    public String toString() {
-        PropMap p200 = Utils.currentPropMap();
-        boolean verbose
+    publid String toString() {
+        PropMbp p200 = Utils.durrfntPropMbp();
+        boolfbn vfrbosf
             = (p200 != null &&
-               p200.getBoolean(Utils.COM_PREFIX+"verbose.pop"));
-        StringBuilder res = new StringBuilder(100);
-        res.append("pop(").append("fVlen=").append(fVlen);
-        if (verbose && fValues != null) {
-            res.append(" fV=[");
-            for (int i = 1; i <= fVlen; i++) {
-                res.append(i==1?"":",").append(fValues[i]);
+               p200.gftBoolfbn(Utils.COM_PREFIX+"vfrbosf.pop"));
+        StringBuildfr rfs = nfw StringBuildfr(100);
+        rfs.bppfnd("pop(").bppfnd("fVlfn=").bppfnd(fVlfn);
+        if (vfrbosf && fVblufs != null) {
+            rfs.bppfnd(" fV=[");
+            for (int i = 1; i <= fVlfn; i++) {
+                rfs.bppfnd(i==1?"":",").bppfnd(fVblufs[i]);
             }
-            res.append(";").append(computeSentinelValue());
-            res.append("]");
+            rfs.bppfnd(";").bppfnd(domputfSfntinflVbluf());
+            rfs.bppfnd("]");
         }
-        res.append(" fc=").append(keyString(favoredCoding));
-        res.append(" tc=").append(keyString(tokenCoding));
-        res.append(" uc=").append(keyString(unfavoredCoding));
-        res.append(")");
-        return res.toString();
+        rfs.bppfnd(" fd=").bppfnd(kfyString(fbvorfdCoding));
+        rfs.bppfnd(" td=").bppfnd(kfyString(tokfnCoding));
+        rfs.bppfnd(" ud=").bppfnd(kfyString(unfbvorfdCoding));
+        rfs.bppfnd(")");
+        rfturn rfs.toString();
     }
 }

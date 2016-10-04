@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.BytfBufffr;
 
-import javax.crypto.MacSpi;
-import javax.crypto.SecretKey;
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import static com.sun.crypto.provider.TlsPrfGenerator.genPad;
+import stbtid dom.sun.drypto.providfr.TlsPrfGfnfrbtor.gfnPbd;
 
 /**
- * This file contains the code for the SslMacMD5 and SslMacSHA1 implementations.
- * The SSL 3.0 MAC is a variation of the HMAC algorithm.
+ * Tiis filf dontbins tif dodf for tif SslMbdMD5 bnd SslMbdSHA1 implfmfntbtions.
+ * Tif SSL 3.0 MAC is b vbribtion of tif HMAC blgoritim.
  *
- * Note that we don't implement Cloneable as that is not needed for SSL.
+ * Notf tibt wf don't implfmfnt Clonfbblf bs tibt is not nffdfd for SSL.
  *
- * @author  Andreas Sterbenz
- * @since   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.6
  */
-final class SslMacCore {
+finbl dlbss SslMbdCorf {
 
-    private final MessageDigest md;
-    private final byte[] pad1, pad2;
+    privbtf finbl MfssbgfDigfst md;
+    privbtf finbl bytf[] pbd1, pbd2;
 
-    private boolean first;       // Is this the first data to be processed?
-    private byte[] secret;
+    privbtf boolfbn first;       // Is tiis tif first dbtb to bf prodfssfd?
+    privbtf bytf[] sfdrft;
 
     /**
-     * Standard constructor, creates a new SslMacCore instance instantiating
-     * a MessageDigest of the specified name.
+     * Stbndbrd donstrudtor, drfbtfs b nfw SslMbdCorf instbndf instbntibting
+     * b MfssbgfDigfst of tif spfdififd nbmf.
      */
-    SslMacCore(String digestAlgorithm, byte[] pad1, byte[] pad2)
-            throws NoSuchAlgorithmException {
-        md = MessageDigest.getInstance(digestAlgorithm);
-        this.pad1 = pad1;
-        this.pad2 = pad2;
-        first = true;
+    SslMbdCorf(String digfstAlgoritim, bytf[] pbd1, bytf[] pbd2)
+            tirows NoSudiAlgoritimExdfption {
+        md = MfssbgfDigfst.gftInstbndf(digfstAlgoritim);
+        tiis.pbd1 = pbd1;
+        tiis.pbd2 = pbd2;
+        first = truf;
     }
 
     /**
-     * Returns the length of the Mac in bytes.
+     * Rfturns tif lfngti of tif Mbd in bytfs.
      *
-     * @return the Mac length in bytes.
+     * @rfturn tif Mbd lfngti in bytfs.
      */
-    int getDigestLength() {
-        return md.getDigestLength();
+    int gftDigfstLfngti() {
+        rfturn md.gftDigfstLfngti();
     }
 
     /**
-     * Initializes the Mac with the given secret key and algorithm parameters.
+     * Initiblizfs tif Mbd witi tif givfn sfdrft kfy bnd blgoritim pbrbmftfrs.
      *
-     * @param key the secret key.
-     * @param params the algorithm parameters.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this MAC.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis MAC.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
      */
-    void init(Key key, AlgorithmParameterSpec params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
+    void init(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
 
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException
-                ("SslMac does not use parameters");
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("SslMbd dofs not usf pbrbmftfrs");
         }
 
-        if (!(key instanceof SecretKey)) {
-            throw new InvalidKeyException("Secret key expected");
+        if (!(kfy instbndfof SfdrftKfy)) {
+            tirow nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
         }
 
-        secret = key.getEncoded();
-        if (secret == null || secret.length == 0) {
-            throw new InvalidKeyException("Missing key data");
+        sfdrft = kfy.gftEndodfd();
+        if (sfdrft == null || sfdrft.lfngti == 0) {
+            tirow nfw InvblidKfyExdfption("Missing kfy dbtb");
         }
 
-        reset();
+        rfsft();
     }
 
     /**
-     * Processes the given byte.
+     * Prodfssfs tif givfn bytf.
      *
-     * @param input the input byte to be processed.
+     * @pbrbm input tif input bytf to bf prodfssfd.
      */
-    void update(byte input) {
-        if (first == true) {
-            // compute digest for 1st pass; start with inner pad
-            md.update(secret);
-            md.update(pad1);
-            first = false;
+    void updbtf(bytf input) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+            first = fblsf;
         }
 
-        // add the passed byte to the inner digest
-        md.update(input);
+        // bdd tif pbssfd bytf to tif innfr digfst
+        md.updbtf(input);
     }
 
     /**
-     * Processes the first <code>len</code> bytes in <code>input</code>,
-     * starting at <code>offset</code>.
+     * Prodfssfs tif first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * stbrting bt <dodf>offsft</dodf>.
      *
-     * @param input the input buffer.
-     * @param offset the offset in <code>input</code> where the input starts.
-     * @param len the number of bytes to process.
+     * @pbrbm input tif input bufffr.
+     * @pbrbm offsft tif offsft in <dodf>input</dodf> wifrf tif input stbrts.
+     * @pbrbm lfn tif numbfr of bytfs to prodfss.
      */
-    void update(byte input[], int offset, int len) {
-        if (first == true) {
-            // compute digest for 1st pass; start with inner pad
-            md.update(secret);
-            md.update(pad1);
-            first = false;
+    void updbtf(bytf input[], int offsft, int lfn) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+            first = fblsf;
         }
 
-        // add the selected part of an array of bytes to the inner digest
-        md.update(input, offset, len);
+        // bdd tif sflfdtfd pbrt of bn brrby of bytfs to tif innfr digfst
+        md.updbtf(input, offsft, lfn);
     }
 
-    void update(ByteBuffer input) {
-        if (first == true) {
-            // compute digest for 1st pass; start with inner pad
-            md.update(secret);
-            md.update(pad1);
-            first = false;
+    void updbtf(BytfBufffr input) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+            first = fblsf;
         }
 
-        md.update(input);
+        md.updbtf(input);
     }
 
     /**
-     * Completes the Mac computation and resets the Mac for further use,
-     * maintaining the secret key that the Mac was initialized with.
+     * Complftfs tif Mbd domputbtion bnd rfsfts tif Mbd for furtifr usf,
+     * mbintbining tif sfdrft kfy tibt tif Mbd wbs initiblizfd witi.
      *
-     * @return the Mac result.
+     * @rfturn tif Mbd rfsult.
      */
-    byte[] doFinal() {
-        if (first == true) {
-            // compute digest for 1st pass; start with inner pad
-            md.update(secret);
-            md.update(pad1);
-        } else {
-            first = true;
+    bytf[] doFinbl() {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt witi innfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd1);
+        } flsf {
+            first = truf;
         }
 
         try {
-            // finish the inner digest
-            byte[] tmp = md.digest();
+            // finisi tif innfr digfst
+            bytf[] tmp = md.digfst();
 
-            // compute digest for 2nd pass; start with outer pad
-            md.update(secret);
-            md.update(pad2);
-            // add result of 1st hash
-            md.update(tmp);
+            // domputf digfst for 2nd pbss; stbrt witi outfr pbd
+            md.updbtf(sfdrft);
+            md.updbtf(pbd2);
+            // bdd rfsult of 1st ibsi
+            md.updbtf(tmp);
 
-            md.digest(tmp, 0, tmp.length);
-            return tmp;
-        } catch (DigestException e) {
-            // should never occur
-            throw new ProviderException(e);
+            md.digfst(tmp, 0, tmp.lfngti);
+            rfturn tmp;
+        } dbtdi (DigfstExdfption f) {
+            // siould nfvfr oddur
+            tirow nfw ProvidfrExdfption(f);
         }
     }
 
     /**
-     * Resets the Mac for further use, maintaining the secret key that the
-     * Mac was initialized with.
+     * Rfsfts tif Mbd for furtifr usf, mbintbining tif sfdrft kfy tibt tif
+     * Mbd wbs initiblizfd witi.
      */
-    void reset() {
-        if (first == false) {
-            md.reset();
-            first = true;
+    void rfsft() {
+        if (first == fblsf) {
+            md.rfsft();
+            first = truf;
         }
     }
 
-    // nested static class for the SslMacMD5 implementation
-    public static final class SslMacMD5 extends MacSpi {
-        private final SslMacCore core;
-        public SslMacMD5() throws NoSuchAlgorithmException {
-            core = new SslMacCore("MD5", md5Pad1, md5Pad2);
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    publid stbtid finbl dlbss SslMbdMD5 fxtfnds MbdSpi {
+        privbtf finbl SslMbdCorf dorf;
+        publid SslMbdMD5() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw SslMbdCorf("MD5", md5Pbd1, md5Pbd2);
         }
-        protected int engineGetMacLength() {
-            return core.getDigestLength();
+        protfdtfd int fnginfGftMbdLfngti() {
+            rfturn dorf.gftDigfstLfngti();
         }
-        protected void engineInit(Key key, AlgorithmParameterSpec params)
-                throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.init(key, params);
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.init(kfy, pbrbms);
         }
-        protected void engineUpdate(byte input) {
-            core.update(input);
+        protfdtfd void fnginfUpdbtf(bytf input) {
+            dorf.updbtf(input);
         }
-        protected void engineUpdate(byte input[], int offset, int len) {
-            core.update(input, offset, len);
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+            dorf.updbtf(input, offsft, lfn);
         }
-        protected void engineUpdate(ByteBuffer input) {
-            core.update(input);
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+            dorf.updbtf(input);
         }
-        protected byte[] engineDoFinal() {
-            return core.doFinal();
+        protfdtfd bytf[] fnginfDoFinbl() {
+            rfturn dorf.doFinbl();
         }
-        protected void engineReset() {
-            core.reset();
+        protfdtfd void fnginfRfsft() {
+            dorf.rfsft();
         }
 
-        static final byte[] md5Pad1 = genPad((byte)0x36, 48);
-        static final byte[] md5Pad2 = genPad((byte)0x5c, 48);
+        stbtid finbl bytf[] md5Pbd1 = gfnPbd((bytf)0x36, 48);
+        stbtid finbl bytf[] md5Pbd2 = gfnPbd((bytf)0x5d, 48);
     }
 
-    // nested static class for the SslMacMD5 implementation
-    public static final class SslMacSHA1 extends MacSpi {
-        private final SslMacCore core;
-        public SslMacSHA1() throws NoSuchAlgorithmException {
-            core = new SslMacCore("SHA", shaPad1, shaPad2);
+    // nfstfd stbtid dlbss for tif SslMbdMD5 implfmfntbtion
+    publid stbtid finbl dlbss SslMbdSHA1 fxtfnds MbdSpi {
+        privbtf finbl SslMbdCorf dorf;
+        publid SslMbdSHA1() tirows NoSudiAlgoritimExdfption {
+            dorf = nfw SslMbdCorf("SHA", sibPbd1, sibPbd2);
         }
-        protected int engineGetMacLength() {
-            return core.getDigestLength();
+        protfdtfd int fnginfGftMbdLfngti() {
+            rfturn dorf.gftDigfstLfngti();
         }
-        protected void engineInit(Key key, AlgorithmParameterSpec params)
-                throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.init(key, params);
+        protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+                tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+            dorf.init(kfy, pbrbms);
         }
-        protected void engineUpdate(byte input) {
-            core.update(input);
+        protfdtfd void fnginfUpdbtf(bytf input) {
+            dorf.updbtf(input);
         }
-        protected void engineUpdate(byte input[], int offset, int len) {
-            core.update(input, offset, len);
+        protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+            dorf.updbtf(input, offsft, lfn);
         }
-        protected void engineUpdate(ByteBuffer input) {
-            core.update(input);
+        protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+            dorf.updbtf(input);
         }
-        protected byte[] engineDoFinal() {
-            return core.doFinal();
+        protfdtfd bytf[] fnginfDoFinbl() {
+            rfturn dorf.doFinbl();
         }
-        protected void engineReset() {
-            core.reset();
+        protfdtfd void fnginfRfsft() {
+            dorf.rfsft();
         }
 
-        static final byte[] shaPad1 = genPad((byte)0x36, 40);
-        static final byte[] shaPad2 = genPad((byte)0x5c, 40);
+        stbtid finbl bytf[] sibPbd1 = gfnPbd((bytf)0x36, 40);
+        stbtid finbl bytf[] sibPbd2 = gfnPbd((bytf)0x5d, 40);
     }
 
 }

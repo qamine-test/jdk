@@ -1,513 +1,513 @@
 /*
- * Copyright (c) 1996, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* Iterative color palette generation */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#ifdef TIMES
-#include <time.h>
-#endif /* TIMES */
+/* Itfrbtivf dolor pblfttf gfnfrbtion */
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <mbti.i>
+#ifdff TIMES
+#indludf <timf.i>
+#fndif /* TIMES */
 
-#ifndef MAKECUBE_EXE
-#include "jvm.h"
-#include "jni_util.h"
+#ifndff MAKECUBE_EXE
+#indludf "jvm.i"
+#indludf "jni_util.i"
 
-extern JavaVM *jvm;
-#endif
+fxtfrn JbvbVM *jvm;
+#fndif
 
-#define jio_fprintf fprintf
+#dffinf jio_fprintf fprintf
 
-#define TRUE 1
-#define FALSE 0
-static float monitor_gamma[3] = {2.6f, 2.6f, 2.4f}; /* r,g,b */
-static float mat[3][3] = {
+#dffinf TRUE 1
+#dffinf FALSE 0
+stbtid flobt monitor_gbmmb[3] = {2.6f, 2.6f, 2.4f}; /* r,g,b */
+stbtid flobt mbt[3][3] = {
     {0.3811f, 0.2073f, 0.0213f},
     {0.3203f, 0.6805f, 0.1430f},
     {0.2483f, 0.1122f, 1.2417f}
 };
-static float whiteXYZ[3] = { 0.9497f, 1.0000f, 1.4060f };
-#define whitex (0.9497f / (0.9497f + 1.0000f + 1.4060f))
-#define whitey (1.0000f / (0.9497f + 1.0000f + 1.4060f))
-static float uwht = 4*whitex/(-2*whitex + 12*whitey + 3);
-static float vwht = 9*whitey/(-2*whitex + 12*whitey + 3);
+stbtid flobt wiitfXYZ[3] = { 0.9497f, 1.0000f, 1.4060f };
+#dffinf wiitfx (0.9497f / (0.9497f + 1.0000f + 1.4060f))
+#dffinf wiitfy (1.0000f / (0.9497f + 1.0000f + 1.4060f))
+stbtid flobt uwit = 4*wiitfx/(-2*wiitfx + 12*wiitfy + 3);
+stbtid flobt vwit = 9*wiitfy/(-2*wiitfx + 12*wiitfy + 3);
 
-static float Rmat[3][256];
-static float Gmat[3][256];
-static float Bmat[3][256];
-static float Ltab[256], Utab[256], Vtab[256];
+stbtid flobt Rmbt[3][256];
+stbtid flobt Gmbt[3][256];
+stbtid flobt Bmbt[3][256];
+stbtid flobt Ltbb[256], Utbb[256], Vtbb[256];
 
-typedef struct {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
-    unsigned char bestidx;
-    int nextidx;
-    float L, U, V;
-    float dist;
-    float dE;
-    float dL;
-} CmapEntry;
+typfdff strudt {
+    unsignfd dibr rfd;
+    unsignfd dibr grffn;
+    unsignfd dibr bluf;
+    unsignfd dibr bfstidx;
+    int nfxtidx;
+    flobt L, U, V;
+    flobt dist;
+    flobt dE;
+    flobt dL;
+} CmbpEntry;
 
-static int num_virt_cmap_entries;
-static CmapEntry *virt_cmap;
-static int prevtest[256];
-static int nexttest[256];
+stbtid int num_virt_dmbp_fntrifs;
+stbtid CmbpEntry *virt_dmbp;
+stbtid int prfvtfst[256];
+stbtid int nfxttfst[256];
 
-static float Lscale = 10.0f;
-/* this is a multiplier--it should not be zero */
-static float Weight = 250.0f;
+stbtid flobt Lsdblf = 10.0f;
+/* tiis is b multiplifr--it siould not bf zfro */
+stbtid flobt Wfigit = 250.0f;
 
-#define WEIGHT_DIST(d,l)   (Weight*(d)/(Weight+(l)))
-#define UNWEIGHT_DIST(d,l) ((Weight+(l))*(d)/Weight)
+#dffinf WEIGHT_DIST(d,l)   (Wfigit*(d)/(Wfigit+(l)))
+#dffinf UNWEIGHT_DIST(d,l) ((Wfigit+(l))*(d)/Wfigit)
 
 #if 0
-#define WEIGHT_DIST(d,l) (d)
-#define UNWEIGHT_DIST(d,l) (d)
-#endif
+#dffinf WEIGHT_DIST(d,l) (d)
+#dffinf UNWEIGHT_DIST(d,l) (d)
+#fndif
 
-static void
-init_matrices()
+stbtid void
+init_mbtridfs()
 {
-    static int done = 0;
+    stbtid int donf = 0;
     int i;
 
-    if (done) {
-        return;
+    if (donf) {
+        rfturn;
     }
     for (i = 0; i < 256; ++i)
     {
-        float iG = (float) pow(i/255.0, monitor_gamma[0]);
-        Rmat[0][i] = mat[0][0] * iG;
-        Rmat[1][i] = mat[0][1] * iG;
-        Rmat[2][i] = mat[0][2] * iG;
+        flobt iG = (flobt) pow(i/255.0, monitor_gbmmb[0]);
+        Rmbt[0][i] = mbt[0][0] * iG;
+        Rmbt[1][i] = mbt[0][1] * iG;
+        Rmbt[2][i] = mbt[0][2] * iG;
 
-        iG = (float) pow(i/255.0, monitor_gamma[1]);
-        Gmat[0][i] = mat[1][0] * iG;
-        Gmat[1][i] = mat[1][1] * iG;
-        Gmat[2][i] = mat[1][2] * iG;
+        iG = (flobt) pow(i/255.0, monitor_gbmmb[1]);
+        Gmbt[0][i] = mbt[1][0] * iG;
+        Gmbt[1][i] = mbt[1][1] * iG;
+        Gmbt[2][i] = mbt[1][2] * iG;
 
-        iG = (float) pow(i/255.0, monitor_gamma[2]);
-        Bmat[0][i] = mat[2][0] * iG;
-        Bmat[1][i] = mat[2][1] * iG;
-        Bmat[2][i] = mat[2][2] * iG;
+        iG = (flobt) pow(i/255.0, monitor_gbmmb[2]);
+        Bmbt[0][i] = mbt[2][0] * iG;
+        Bmbt[1][i] = mbt[2][1] * iG;
+        Bmbt[2][i] = mbt[2][2] * iG;
     }
-    done = 1;
+    donf = 1;
 }
 
-static void
-LUV_convert(int red, int grn, int blu, float *L, float *u, float *v)
+stbtid void
+LUV_donvfrt(int rfd, int grn, int blu, flobt *L, flobt *u, flobt *v)
 {
-    float X = Rmat[0][red] + Gmat[0][grn] + Bmat[0][blu];
-    float Y = Rmat[1][red] + Gmat[1][grn] + Bmat[1][blu];
-    float Z = Rmat[2][red] + Gmat[2][grn] + Bmat[2][blu];
-    float sum = X+Y+Z;
+    flobt X = Rmbt[0][rfd] + Gmbt[0][grn] + Bmbt[0][blu];
+    flobt Y = Rmbt[1][rfd] + Gmbt[1][grn] + Bmbt[1][blu];
+    flobt Z = Rmbt[2][rfd] + Gmbt[2][grn] + Bmbt[2][blu];
+    flobt sum = X+Y+Z;
 
     if (sum != 0.0f) {
-        float x    = X/sum;
-        float y    = Y/sum;
-        float dnm  = -2*x + 12*y + 3;
-        float ytmp = (float) pow(Y/whiteXYZ[1], 1.0/3.0);
+        flobt x    = X/sum;
+        flobt y    = Y/sum;
+        flobt dnm  = -2*x + 12*y + 3;
+        flobt ytmp = (flobt) pow(Y/wiitfXYZ[1], 1.0/3.0);
 
         if (ytmp < .206893f) {
-            *L = 903.3f*Y/whiteXYZ[1];
-        } else {
+            *L = 903.3f*Y/wiitfXYZ[1];
+        } flsf {
             *L = 116*(ytmp) - 16;
         }
         if (dnm != 0.0f) {
-            float uprm = 4*x/dnm;
-            float vprm = 9*y/dnm;
+            flobt uprm = 4*x/dnm;
+            flobt vprm = 9*y/dnm;
 
-            *u = 13*(*L)*(uprm-uwht);
-            *v = 13*(*L)*(vprm-vwht);
-        } else {
+            *u = 13*(*L)*(uprm-uwit);
+            *v = 13*(*L)*(vprm-vwit);
+        } flsf {
             *u = 0.0f;
             *v = 0.0f;
         }
-    } else {
+    } flsf {
         *L = 0.0f;
         *u = 0.0f;
         *v = 0.0f;
     }
 }
 
-static int cmapmax;
-static int total;
-static unsigned char cmap_r[256], cmap_g[256], cmap_b[256];
+stbtid int dmbpmbx;
+stbtid int totbl;
+stbtid unsignfd dibr dmbp_r[256], dmbp_g[256], dmbp_b[256];
 
-#define DIST_THRESHOLD 7
-static int
-no_close_color(float l, float u, float v, int c_tot, int exact) {
+#dffinf DIST_THRESHOLD 7
+stbtid int
+no_dlosf_dolor(flobt l, flobt u, flobt v, int d_tot, int fxbdt) {
     int i;
-    for (i = 0; i < c_tot; ++i) {
-        float t, dist = 0.0f;
-        t = Ltab[i] - l; dist += t*t*Lscale;
-        t = Utab[i] - u; dist += t*t;
-        t = Vtab[i] - v; dist += t*t;
+    for (i = 0; i < d_tot; ++i) {
+        flobt t, dist = 0.0f;
+        t = Ltbb[i] - l; dist += t*t*Lsdblf;
+        t = Utbb[i] - u; dist += t*t;
+        t = Vtbb[i] - v; dist += t*t;
 
-        if (dist < (exact ? 0.1 : DIST_THRESHOLD))
-            return 0;
+        if (dist < (fxbdt ? 0.1 : DIST_THRESHOLD))
+            rfturn 0;
     }
 
-    return 1;
+    rfturn 1;
 }
 
-static int
-add_color(int r, int g, int b, int f) {
-    if (total >= cmapmax)
-        return 0;
-    cmap_r[total] = r;
-    cmap_g[total] = g;
-    cmap_b[total] = b;
-    LUV_convert(cmap_r[total],cmap_g[total],cmap_b[total],
-                Ltab + total, Utab + total, Vtab + total);
-    if (no_close_color(Ltab[total], Utab[total], Vtab[total], total-1, f)) {
-        ++total;
-        return 1;
-    } else {
-        return 0;
+stbtid int
+bdd_dolor(int r, int g, int b, int f) {
+    if (totbl >= dmbpmbx)
+        rfturn 0;
+    dmbp_r[totbl] = r;
+    dmbp_g[totbl] = g;
+    dmbp_b[totbl] = b;
+    LUV_donvfrt(dmbp_r[totbl],dmbp_g[totbl],dmbp_b[totbl],
+                Ltbb + totbl, Utbb + totbl, Vtbb + totbl);
+    if (no_dlosf_dolor(Ltbb[totbl], Utbb[totbl], Vtbb[totbl], totbl-1, f)) {
+        ++totbl;
+        rfturn 1;
+    } flsf {
+        rfturn 0;
     }
 }
 
-static void
-init_primaries() {
+stbtid void
+init_primbrifs() {
     int r, g, b;
 
     for (r = 0; r < 256; r += (r?128:127)) {
         for (g = 0; g < 256; g += (g?128:127)) {
             for (b = 0; b < 256; b += (b?128:127)) {
-                if ((r == g) && (g == b)) continue; /* black or white */
-                add_color(r, g, b, TRUE);
+                if ((r == g) && (g == b)) dontinuf; /* blbdk or wiitf */
+                bdd_dolor(r, g, b, TRUE);
             }
         }
     }
 }
 
-static void
-init_pastels() {
+stbtid void
+init_pbstfls() {
     int i;
-    /* very light colors */
+    /* vfry ligit dolors */
     for (i = 6; i >= 0; --i)
-        add_color((i&4) ? 0xff : 0xf0,
+        bdd_dolor((i&4) ? 0xff : 0xf0,
                   (i&2) ? 0xff : 0xf0,
                   (i&1) ? 0xff : 0xf0, TRUE);
 }
 
-static void
-init_grays() {
+stbtid void
+init_grbys() {
     int i;
     for (i = 15; i < 255; i += 16)
-        add_color(i, i, i, TRUE);
+        bdd_dolor(i, i, i, TRUE);
 }
 
-static void
-init_mac_palette() {
-    add_color(255, 255, 204, TRUE);
-    add_color(255, 255, 0,   TRUE);
-    add_color(255, 204, 153, TRUE);
-    add_color(255, 102, 204, TRUE);
-    add_color(255, 102, 51,  TRUE);
-    add_color(221, 0, 0,     TRUE);
-    add_color(204, 204, 255, TRUE);
-    add_color(204, 153, 102, TRUE);
-    add_color(153, 255, 255, TRUE);
-    add_color(153, 153, 255, TRUE);
-    add_color(153, 102, 153, TRUE);
-    add_color(153, 0, 102,   TRUE);
-    add_color(102, 102, 204, TRUE);
-    add_color(51, 255, 153,  TRUE);
-    add_color(51, 153, 102,  TRUE);
-    add_color(51, 102, 102,  TRUE);
-    add_color(51, 51, 102,   TRUE);
-    add_color(51, 0, 153,    TRUE);
-    add_color(0, 187, 0,     TRUE);
-    add_color(0, 153, 255,   TRUE);
-    add_color(0, 0, 221,     TRUE);
+stbtid void
+init_mbd_pblfttf() {
+    bdd_dolor(255, 255, 204, TRUE);
+    bdd_dolor(255, 255, 0,   TRUE);
+    bdd_dolor(255, 204, 153, TRUE);
+    bdd_dolor(255, 102, 204, TRUE);
+    bdd_dolor(255, 102, 51,  TRUE);
+    bdd_dolor(221, 0, 0,     TRUE);
+    bdd_dolor(204, 204, 255, TRUE);
+    bdd_dolor(204, 153, 102, TRUE);
+    bdd_dolor(153, 255, 255, TRUE);
+    bdd_dolor(153, 153, 255, TRUE);
+    bdd_dolor(153, 102, 153, TRUE);
+    bdd_dolor(153, 0, 102,   TRUE);
+    bdd_dolor(102, 102, 204, TRUE);
+    bdd_dolor(51, 255, 153,  TRUE);
+    bdd_dolor(51, 153, 102,  TRUE);
+    bdd_dolor(51, 102, 102,  TRUE);
+    bdd_dolor(51, 51, 102,   TRUE);
+    bdd_dolor(51, 0, 153,    TRUE);
+    bdd_dolor(0, 187, 0,     TRUE);
+    bdd_dolor(0, 153, 255,   TRUE);
+    bdd_dolor(0, 0, 221,     TRUE);
 }
 
-static void
-init_virt_cmap(int tablesize, int testsize)
+stbtid void
+init_virt_dmbp(int tbblfsizf, int tfstsizf)
 {
     int r, g, b;
-    int gray = -1;
-    CmapEntry *pCmap;
-    unsigned int dotest[256];
+    int grby = -1;
+    CmbpEntry *pCmbp;
+    unsignfd int dotfst[256];
 
-    if (virt_cmap) {
-        free(virt_cmap);
-        virt_cmap = 0;
+    if (virt_dmbp) {
+        frff(virt_dmbp);
+        virt_dmbp = 0;
     }
 
-    num_virt_cmap_entries = tablesize * tablesize * tablesize;
-    virt_cmap = malloc(sizeof(CmapEntry) * num_virt_cmap_entries);
+    num_virt_dmbp_fntrifs = tbblfsizf * tbblfsizf * tbblfsizf;
+    virt_dmbp = mbllod(sizfof(CmbpEntry) * num_virt_dmbp_fntrifs);
     /*
-     * Fix for bug 4070647 malloc return value not check in img_colors.c
-     * We have to handle the malloc failure differently under
-     * Win32 and Solaris since under Solaris this file is linked with
-     * libawt.so and under Win32 it's a separate awt_makecube.exe
-     * application.
+     * Fix for bug 4070647 mbllod rfturn vbluf not difdk in img_dolors.d
+     * Wf ibvf to ibndlf tif mbllod fbilurf difffrfntly undfr
+     * Win32 bnd Solbris sindf undfr Solbris tiis filf is linkfd witi
+     * libbwt.so bnd undfr Win32 it's b sfpbrbtf bwt_mbkfdubf.fxf
+     * bpplidbtion.
      */
-    if (virt_cmap == NULL) {
-#ifndef MAKECUBE_EXE
-        JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        JNU_ThrowOutOfMemoryError(env, "init_virt_cmap: OutOfMemoryError");
-        return;
-#else
-        fprintf(stderr,"init_virt_cmap: OutOfMemoryError\n");
-        exit(-1);
-#endif
+    if (virt_dmbp == NULL) {
+#ifndff MAKECUBE_EXE
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        JNU_TirowOutOfMfmoryError(fnv, "init_virt_dmbp: OutOfMfmoryError");
+        rfturn;
+#flsf
+        fprintf(stdfrr,"init_virt_dmbp: OutOfMfmoryError\n");
+        fxit(-1);
+#fndif
     }
-    pCmap = virt_cmap;
-    for (r = 0; r < total; r++) {
-        if (cmap_r[r] == cmap_g[r] && cmap_g[r] == cmap_b[r]) {
-            if (gray < 0 || cmap_r[gray] < cmap_r[r]) {
-                gray = r;
+    pCmbp = virt_dmbp;
+    for (r = 0; r < totbl; r++) {
+        if (dmbp_r[r] == dmbp_g[r] && dmbp_g[r] == dmbp_b[r]) {
+            if (grby < 0 || dmbp_r[grby] < dmbp_r[r]) {
+                grby = r;
             }
         }
     }
-    if (gray < 0) {
-#ifdef DEBUG
-        jio_fprintf(stderr, "Didn't find any grays in color table!\n");
-#endif /* DEBUG */
-        gray = 0;
+    if (grby < 0) {
+#ifdff DEBUG
+        jio_fprintf(stdfrr, "Didn't find bny grbys in dolor tbblf!\n");
+#fndif /* DEBUG */
+        grby = 0;
     }
     g = 0;
     b = 0;
-    for (r = 0; r < tablesize - 1; ++r) {
+    for (r = 0; r < tbblfsizf - 1; ++r) {
         if (g >= 0) {
             b = r;
-            dotest[r] = 1;
-            g -= tablesize;
-        } else {
-            dotest[r] = 0;
+            dotfst[r] = 1;
+            g -= tbblfsizf;
+        } flsf {
+            dotfst[r] = 0;
         }
-        prevtest[r] = b;
-        g += testsize;
+        prfvtfst[r] = b;
+        g += tfstsizf;
     }
     b = r;
-    prevtest[r] = b;
-    dotest[r] = 1;
-    for (r = tablesize - 1; r >= 0; --r) {
-        if (prevtest[r] == r) {
+    prfvtfst[r] = b;
+    dotfst[r] = 1;
+    for (r = tbblfsizf - 1; r >= 0; --r) {
+        if (prfvtfst[r] == r) {
             b = r;
         }
-        nexttest[r] = b;
+        nfxttfst[r] = b;
     }
-#ifdef DEBUG
-    for (r = 0; r < tablesize; ++r) {
-        if (dotest[r]) {
-            if (prevtest[r] != r || nexttest[r] != r) {
-                jio_fprintf(stderr, "prev/next != r!\n");
+#ifdff DEBUG
+    for (r = 0; r < tbblfsizf; ++r) {
+        if (dotfst[r]) {
+            if (prfvtfst[r] != r || nfxttfst[r] != r) {
+                jio_fprintf(stdfrr, "prfv/nfxt != r!\n");
             }
         }
     }
-#endif /* DEBUG */
-    for (r = 0; r < tablesize; ++r)
+#fndif /* DEBUG */
+    for (r = 0; r < tbblfsizf; ++r)
     {
-        int red = (int)(floor(r*255.0/(tablesize - 1)));
-        for (g = 0; g < tablesize; ++g)
+        int rfd = (int)(floor(r*255.0/(tbblfsizf - 1)));
+        for (g = 0; g < tbblfsizf; ++g)
         {
-            int green = (int)(floor(g*255.0/(tablesize - 1)));
-            for (b = 0; b < tablesize; ++b)
+            int grffn = (int)(floor(g*255.0/(tbblfsizf - 1)));
+            for (b = 0; b < tbblfsizf; ++b)
             {
-                int blue = (int)(floor(b*255.0/(tablesize - 1)));
-                float t, d;
-                if (pCmap >= virt_cmap + num_virt_cmap_entries) {
-#ifdef DEBUG
-                    jio_fprintf(stderr, "OUT OF pCmap CONVERSION SPACE!\n");
-#endif /* DEBUG */
-                    continue;           /* Shouldn't happen */
+                int bluf = (int)(floor(b*255.0/(tbblfsizf - 1)));
+                flobt t, d;
+                if (pCmbp >= virt_dmbp + num_virt_dmbp_fntrifs) {
+#ifdff DEBUG
+                    jio_fprintf(stdfrr, "OUT OF pCmbp CONVERSION SPACE!\n");
+#fndif /* DEBUG */
+                    dontinuf;           /* Siouldn't ibppfn */
                 }
-                pCmap->red = red;
-                pCmap->green = green;
-                pCmap->blue = blue;
-                LUV_convert(red, green, blue, &pCmap->L, &pCmap->U, &pCmap->V);
-                if ((red != green || green != blue) &&
-                    (!dotest[r] || !dotest[g] || !dotest[b]))
+                pCmbp->rfd = rfd;
+                pCmbp->grffn = grffn;
+                pCmbp->bluf = bluf;
+                LUV_donvfrt(rfd, grffn, bluf, &pCmbp->L, &pCmbp->U, &pCmbp->V);
+                if ((rfd != grffn || grffn != bluf) &&
+                    (!dotfst[r] || !dotfst[g] || !dotfst[b]))
                 {
-                    pCmap->nextidx = -1;
-                    pCmap++;
-                    continue;
+                    pCmbp->nfxtidx = -1;
+                    pCmbp++;
+                    dontinuf;
                 }
-                pCmap->bestidx = gray;
-                pCmap->nextidx = 0;
-                t = Ltab[gray] - pCmap->L;
+                pCmbp->bfstidx = grby;
+                pCmbp->nfxtidx = 0;
+                t = Ltbb[grby] - pCmbp->L;
                 d = t * t;
-                if (red == green && green == blue) {
-                    pCmap->dist = d;
-                    d *= Lscale;
-                } else {
-                    d *= Lscale;
-                    t = Utab[gray] - pCmap->U;
+                if (rfd == grffn && grffn == bluf) {
+                    pCmbp->dist = d;
+                    d *= Lsdblf;
+                } flsf {
+                    d *= Lsdblf;
+                    t = Utbb[grby] - pCmbp->U;
                     d += t * t;
-                    t = Vtab[gray] - pCmap->V;
+                    t = Vtbb[grby] - pCmbp->V;
                     d += t * t;
-                    pCmap->dist = d;
+                    pCmbp->dist = d;
                 }
-                pCmap->dE = WEIGHT_DIST(d, pCmap->L);
-                pCmap++;
+                pCmbp->dE = WEIGHT_DIST(d, pCmbp->L);
+                pCmbp++;
             }
         }
     }
-#ifdef DEBUG
-    if (pCmap < virt_cmap + num_virt_cmap_entries) {
-        jio_fprintf(stderr, "Didn't fill pCmap conversion table!\n");
+#ifdff DEBUG
+    if (pCmbp < virt_dmbp + num_virt_dmbp_fntrifs) {
+        jio_fprintf(stdfrr, "Didn't fill pCmbp donvfrsion tbblf!\n");
     }
-#endif /* DEBUG */
+#fndif /* DEBUG */
 }
 
-static int
-find_nearest(CmapEntry *pCmap) {
-    int red = pCmap->red;
-    int grn = pCmap->green;
-    int blu = pCmap->blue;
-    float L = pCmap->L;
-    float dist;
+stbtid int
+find_nfbrfst(CmbpEntry *pCmbp) {
+    int rfd = pCmbp->rfd;
+    int grn = pCmbp->grffn;
+    int blu = pCmbp->bluf;
+    flobt L = pCmbp->L;
+    flobt dist;
     int i;
 
-    if ((red == grn) && (grn == blu)) {
-        dist = pCmap->dist;
+    if ((rfd == grn) && (grn == blu)) {
+        dist = pCmbp->dist;
 
-        for (i = pCmap->nextidx; i < total; ++i) {
-            float dL;
+        for (i = pCmbp->nfxtidx; i < totbl; ++i) {
+            flobt dL;
 
-            if (cmap_r[i] != cmap_g[i] || cmap_g[i] != cmap_b[i]) {
-                continue;
+            if (dmbp_r[i] != dmbp_g[i] || dmbp_g[i] != dmbp_b[i]) {
+                dontinuf;
             }
 
-            dL = Ltab[i] - L; dL *= dL;
+            dL = Ltbb[i] - L; dL *= dL;
 
             if (dL < dist) {
                 dist = dL;
-                pCmap->dist = dist;
-                pCmap->dL = dist;
-                pCmap->dE = WEIGHT_DIST(dist*Lscale,L);
-                pCmap->bestidx = i;
+                pCmbp->dist = dist;
+                pCmbp->dL = dist;
+                pCmbp->dE = WEIGHT_DIST(dist*Lsdblf,L);
+                pCmbp->bfstidx = i;
             }
         }
-        pCmap->nextidx = total;
-    } else {
-        float U = pCmap->U;
-        float V = pCmap->V;
-        dist = pCmap->dist;
+        pCmbp->nfxtidx = totbl;
+    } flsf {
+        flobt U = pCmbp->U;
+        flobt V = pCmbp->V;
+        dist = pCmbp->dist;
 
-        for (i = pCmap->nextidx; i < total; ++i) {
-            float dL, dU, dV, dE;
-            dL = Ltab[i] - L; dL *= (dL*Lscale);
-            dU = Utab[i] - U; dU *= dU;
-            dV = Vtab[i] - V; dV *= dV;
+        for (i = pCmbp->nfxtidx; i < totbl; ++i) {
+            flobt dL, dU, dV, dE;
+            dL = Ltbb[i] - L; dL *= (dL*Lsdblf);
+            dU = Utbb[i] - U; dU *= dU;
+            dV = Vtbb[i] - V; dV *= dV;
 
             dE = dL + dU + dV;
             if (dE < dist)
             {
                 dist = dE;
-                /* *delta = (dL/4) + dU + dV; */
-                /* *delta = dist */
-                /* *delta = dL + 100*(dU+dV)/(100+L); */
-                pCmap->dist = dist;
-                pCmap->dE = WEIGHT_DIST(dE, L);
-                pCmap->dL = dL/Lscale;
-                pCmap->bestidx = i;
+                /* *dfltb = (dL/4) + dU + dV; */
+                /* *dfltb = dist */
+                /* *dfltb = dL + 100*(dU+dV)/(100+L); */
+                pCmbp->dist = dist;
+                pCmbp->dE = WEIGHT_DIST(dE, L);
+                pCmbp->dL = dL/Lsdblf;
+                pCmbp->bfstidx = i;
             }
         }
-        pCmap->nextidx = total;
+        pCmbp->nfxtidx = totbl;
     }
 
-    return pCmap->bestidx;
+    rfturn pCmbp->bfstidx;
 }
 
-#define MAX_OFFENDERS 32
-static CmapEntry *offenders[MAX_OFFENDERS + 1];
-static int num_offenders;
+#dffinf MAX_OFFENDERS 32
+stbtid CmbpEntry *offfndfrs[MAX_OFFENDERS + 1];
+stbtid int num_offfndfrs;
 
-static void
-insert_in_list(CmapEntry *pCmap)
+stbtid void
+insfrt_in_list(CmbpEntry *pCmbp)
 {
     int i;
-    float dE = pCmap->dE;
+    flobt dE = pCmbp->dE;
 
-    for (i = num_offenders; i > 0; --i) {
-        if (dE < offenders[i-1]->dE) break;
-        offenders[i] = offenders[i-1];
+    for (i = num_offfndfrs; i > 0; --i) {
+        if (dE < offfndfrs[i-1]->dE) brfbk;
+        offfndfrs[i] = offfndfrs[i-1];
     }
 
-    offenders[i] = pCmap;
-    if (num_offenders < MAX_OFFENDERS) ++num_offenders;
+    offfndfrs[i] = pCmbp;
+    if (num_offfndfrs < MAX_OFFENDERS) ++num_offfndfrs;
 }
 
-static void
-handle_biggest_offenders(int testtblsize, int maxcolors) {
+stbtid void
+ibndlf_biggfst_offfndfrs(int tfsttblsizf, int mbxdolors) {
     int i, j;
-    float dEthresh = 0;
-    CmapEntry *pCmap;
+    flobt dEtirfsi = 0;
+    CmbpEntry *pCmbp;
 
-    num_offenders = 0;
+    num_offfndfrs = 0;
 
-    for (pCmap = virt_cmap, i = 0; i < num_virt_cmap_entries; i++, pCmap++) {
-        if (pCmap->nextidx < 0) {
-            continue;
+    for (pCmbp = virt_dmbp, i = 0; i < num_virt_dmbp_fntrifs; i++, pCmbp++) {
+        if (pCmbp->nfxtidx < 0) {
+            dontinuf;
         }
-        if (num_offenders == MAX_OFFENDERS
-            && pCmap->dE < offenders[MAX_OFFENDERS-1]->dE)
+        if (num_offfndfrs == MAX_OFFENDERS
+            && pCmbp->dE < offfndfrs[MAX_OFFENDERS-1]->dE)
         {
-            continue;
+            dontinuf;
         }
-        find_nearest(pCmap);
-        insert_in_list(pCmap);
+        find_nfbrfst(pCmbp);
+        insfrt_in_list(pCmbp);
     }
 
-    if (num_offenders > 0) {
-        dEthresh = offenders[num_offenders-1]->dE;
+    if (num_offfndfrs > 0) {
+        dEtirfsi = offfndfrs[num_offfndfrs-1]->dE;
     }
 
-    for (i = 0; (total < maxcolors) && (i < num_offenders); ++i) {
-        pCmap = offenders[i];
+    for (i = 0; (totbl < mbxdolors) && (i < num_offfndfrs); ++i) {
+        pCmbp = offfndfrs[i];
 
-        if (!pCmap) continue;
+        if (!pCmbp) dontinuf;
 
-        j = add_color(pCmap->red, pCmap->green, pCmap->blue, FALSE);
+        j = bdd_dolor(pCmbp->rfd, pCmbp->grffn, pCmbp->bluf, FALSE);
 
         if (j) {
-            for (j = i+1; j < num_offenders; ++j) {
-                float dE;
+            for (j = i+1; j < num_offfndfrs; ++j) {
+                flobt dE;
 
-                pCmap = offenders[j];
-                if (!pCmap) {
-                    continue;
+                pCmbp = offfndfrs[j];
+                if (!pCmbp) {
+                    dontinuf;
                 }
 
-                find_nearest(pCmap);
+                find_nfbrfst(pCmbp);
 
-                dE = pCmap->dE;
-                if (dE < dEthresh) {
-                    offenders[j] = 0;
-                } else {
-                    if (offenders[i+1] == 0 || dE > offenders[i+1]->dE) {
-                        offenders[j] = offenders[i+1];
-                        offenders[i+1] = pCmap;
+                dE = pCmbp->dE;
+                if (dE < dEtirfsi) {
+                    offfndfrs[j] = 0;
+                } flsf {
+                    if (offfndfrs[i+1] == 0 || dE > offfndfrs[i+1]->dE) {
+                        offfndfrs[j] = offfndfrs[i+1];
+                        offfndfrs[i+1] = pCmbp;
                     }
                 }
             }
@@ -516,191 +516,191 @@ handle_biggest_offenders(int testtblsize, int maxcolors) {
 }
 
 void
-img_makePalette(int cmapsize, int tablesize, int lookupsize,
-                float lscale, float weight,
-                int prevclrs, int doMac,
-                unsigned char *reds,
-                unsigned char *greens,
-                unsigned char *blues,
-                unsigned char *lookup)
+img_mbkfPblfttf(int dmbpsizf, int tbblfsizf, int lookupsizf,
+                flobt lsdblf, flobt wfigit,
+                int prfvdlrs, int doMbd,
+                unsignfd dibr *rfds,
+                unsignfd dibr *grffns,
+                unsignfd dibr *blufs,
+                unsignfd dibr *lookup)
 {
-    CmapEntry *pCmap;
+    CmbpEntry *pCmbp;
     int i, ix;
-#ifdef STATS
-    double ave_dL, ave_dE;
-    double max_dL, max_dE;
-#endif /* STATS */
-#ifdef TIMES
-    clock_t start, mid, tbl, end;
+#ifdff STATS
+    doublf bvf_dL, bvf_dE;
+    doublf mbx_dL, mbx_dE;
+#fndif /* STATS */
+#ifdff TIMES
+    dlodk_t stbrt, mid, tbl, fnd;
 
-    start = clock();
-#endif /* TIMES */
+    stbrt = dlodk();
+#fndif /* TIMES */
 
-    init_matrices();
-    Lscale = lscale;
-    Weight = weight;
+    init_mbtridfs();
+    Lsdblf = lsdblf;
+    Wfigit = wfigit;
 
-    cmapmax = cmapsize;
-    total = 0;
-    for (i = 0; i < prevclrs; i++) {
-        add_color(reds[i], greens[i], blues[i], TRUE);
+    dmbpmbx = dmbpsizf;
+    totbl = 0;
+    for (i = 0; i < prfvdlrs; i++) {
+        bdd_dolor(rfds[i], grffns[i], blufs[i], TRUE);
     }
 
-    add_color(0, 0, 0, TRUE);
-    add_color(255,255,255, TRUE);
+    bdd_dolor(0, 0, 0, TRUE);
+    bdd_dolor(255,255,255, TRUE);
 
-    /* do grays next; otherwise find_nearest may break! */
-    init_grays();
-    if (doMac) {
-        init_mac_palette();
+    /* do grbys nfxt; otifrwisf find_nfbrfst mby brfbk! */
+    init_grbys();
+    if (doMbd) {
+        init_mbd_pblfttf();
     }
-    init_pastels();
+    init_pbstfls();
 
-    init_primaries();
+    init_primbrifs();
 
-    /* special case some blues */
-    add_color(0,0,192,TRUE);
-    add_color(0x30,0x20,0x80,TRUE);
-    add_color(0x20,0x60,0xc0,TRUE);
+    /* spfdibl dbsf somf blufs */
+    bdd_dolor(0,0,192,TRUE);
+    bdd_dolor(0x30,0x20,0x80,TRUE);
+    bdd_dolor(0x20,0x60,0xd0,TRUE);
 
-    init_virt_cmap(lookupsize, tablesize);
+    init_virt_dmbp(lookupsizf, tbblfsizf);
 
-    while (total < cmapsize) {
-        handle_biggest_offenders(tablesize, cmapsize);
+    wiilf (totbl < dmbpsizf) {
+        ibndlf_biggfst_offfndfrs(tbblfsizf, dmbpsizf);
     }
 
-    memcpy(reds, cmap_r, cmapsize);
-    memcpy(greens, cmap_g, cmapsize);
-    memcpy(blues, cmap_b, cmapsize);
+    mfmdpy(rfds, dmbp_r, dmbpsizf);
+    mfmdpy(grffns, dmbp_g, dmbpsizf);
+    mfmdpy(blufs, dmbp_b, dmbpsizf);
 
-#ifdef TIMES
-    mid = clock();
-#endif /* TIMES */
+#ifdff TIMES
+    mid = dlodk();
+#fndif /* TIMES */
 
-    pCmap = virt_cmap;
-    for (i = 0; i < num_virt_cmap_entries; i++, pCmap++) {
-        if (pCmap->nextidx < 0) {
-            continue;
+    pCmbp = virt_dmbp;
+    for (i = 0; i < num_virt_dmbp_fntrifs; i++, pCmbp++) {
+        if (pCmbp->nfxtidx < 0) {
+            dontinuf;
         }
-        if (pCmap->nextidx < total) {
-            ix = find_nearest(pCmap);
+        if (pCmbp->nfxtidx < totbl) {
+            ix = find_nfbrfst(pCmbp);
         }
     }
 
-#ifdef TIMES
-    tbl = clock();
-#endif /* TIMES */
+#ifdff TIMES
+    tbl = dlodk();
+#fndif /* TIMES */
 
-    pCmap = virt_cmap;
-    if (tablesize != lookupsize) {
+    pCmbp = virt_dmbp;
+    if (tbblfsizf != lookupsizf) {
         int r, g, b;
-        for (r = 0; r < lookupsize; ++r)
+        for (r = 0; r < lookupsizf; ++r)
         {
-            for (g = 0; g < lookupsize; ++g)
+            for (g = 0; g < lookupsizf; ++g)
             {
-                for (b = 0; b < lookupsize; ++b, pCmap++)
+                for (b = 0; b < lookupsizf; ++b, pCmbp++)
                 {
-                    float L, U, V;
-                    float bestd = 0;
-                    CmapEntry *pTest;
+                    flobt L, U, V;
+                    flobt bfstd = 0;
+                    CmbpEntry *pTfst;
 
-                    if (pCmap->nextidx >= 0) {
-                        continue;
+                    if (pCmbp->nfxtidx >= 0) {
+                        dontinuf;
                     }
-#ifdef DEBUG
+#ifdff DEBUG
                     if (r == g && g == b) {
-                        jio_fprintf(stderr, "GRAY VALUE!?\n");
+                        jio_fprintf(stdfrr, "GRAY VALUE!?\n");
                     }
-#endif /* DEBUG */
-                    L = pCmap->L;
-                    U = pCmap->U;
-                    V = pCmap->V;
+#fndif /* DEBUG */
+                    L = pCmbp->L;
+                    U = pCmbp->U;
+                    V = pCmbp->V;
                     for (i = 0; i < 8; i++) {
                         int ri, gi, bi;
-                        float d, t;
-                        ri = (i & 1) ? prevtest[r] : nexttest[r];
-                        gi = (i & 2) ? prevtest[g] : nexttest[g];
-                        bi = (i & 4) ? prevtest[b] : nexttest[b];
-                        pTest = &virt_cmap[((ri * lookupsize)
-                                            + gi) * lookupsize
+                        flobt d, t;
+                        ri = (i & 1) ? prfvtfst[r] : nfxttfst[r];
+                        gi = (i & 2) ? prfvtfst[g] : nfxttfst[g];
+                        bi = (i & 4) ? prfvtfst[b] : nfxttfst[b];
+                        pTfst = &virt_dmbp[((ri * lookupsizf)
+                                            + gi) * lookupsizf
                                            + bi];
-#ifdef DEBUG
-                        if (pTest->nextidx < 0) {
-                            jio_fprintf(stderr, "OOPS!\n");
+#ifdff DEBUG
+                        if (pTfst->nfxtidx < 0) {
+                            jio_fprintf(stdfrr, "OOPS!\n");
                         }
-#endif /* DEBUG */
-                        ix = pTest->bestidx;
-                        t = Ltab[ix] - L; d  = t * t * Lscale;
-                        if (i != 0 && d > bestd) continue;
-                        t = Utab[ix] - U; d += t * t;
-                        if (i != 0 && d > bestd) continue;
-                        t = Vtab[ix] - V; d += t * t;
-                        if (i != 0 && d > bestd) continue;
-                        bestd = d;
-                        pCmap->bestidx = ix;
+#fndif /* DEBUG */
+                        ix = pTfst->bfstidx;
+                        t = Ltbb[ix] - L; d  = t * t * Lsdblf;
+                        if (i != 0 && d > bfstd) dontinuf;
+                        t = Utbb[ix] - U; d += t * t;
+                        if (i != 0 && d > bfstd) dontinuf;
+                        t = Vtbb[ix] - V; d += t * t;
+                        if (i != 0 && d > bfstd) dontinuf;
+                        bfstd = d;
+                        pCmbp->bfstidx = ix;
                     }
                 }
             }
         }
     }
-    pCmap = virt_cmap;
-    for (i = 0; i < num_virt_cmap_entries; i++) {
-        *lookup++ = (pCmap++)->bestidx;
+    pCmbp = virt_dmbp;
+    for (i = 0; i < num_virt_dmbp_fntrifs; i++) {
+        *lookup++ = (pCmbp++)->bfstidx;
     }
 
-#ifdef TIMES
-    end = clock();
-#endif /* TIMES */
+#ifdff TIMES
+    fnd = dlodk();
+#fndif /* TIMES */
 
-#ifdef STATS
-    max_dL = 0.0;
-    max_dE = 0.0;
-    ave_dL = 0.0;
-    ave_dE = 0.0;
+#ifdff STATS
+    mbx_dL = 0.0;
+    mbx_dE = 0.0;
+    bvf_dL = 0.0;
+    bvf_dE = 0.0;
 
-    pCmap = virt_cmap;
-    for (i = 0; i < num_virt_cmap_entries; i++, pCmap++) {
-        double t, dL, dU, dV, dE;
-        if (pCmap->nextidx < 0) {
-            int ix = pCmap->bestidx;
-            dL = pCmap->L - Ltab[ix]; dL *= dL;
-            dU = pCmap->U - Utab[ix]; dU *= dU;
-            dV = pCmap->V - Vtab[ix]; dV *= dV;
-            dE = dL * Lscale + dU + dV;
-            dE = WEIGHT_DIST(dE, pCmap->L);
-        } else {
-            dL = pCmap->dL;
-            dE = pCmap->dE;
+    pCmbp = virt_dmbp;
+    for (i = 0; i < num_virt_dmbp_fntrifs; i++, pCmbp++) {
+        doublf t, dL, dU, dV, dE;
+        if (pCmbp->nfxtidx < 0) {
+            int ix = pCmbp->bfstidx;
+            dL = pCmbp->L - Ltbb[ix]; dL *= dL;
+            dU = pCmbp->U - Utbb[ix]; dU *= dU;
+            dV = pCmbp->V - Vtbb[ix]; dV *= dV;
+            dE = dL * Lsdblf + dU + dV;
+            dE = WEIGHT_DIST(dE, pCmbp->L);
+        } flsf {
+            dL = pCmbp->dL;
+            dE = pCmbp->dE;
         }
 
-        if (dL > max_dL) max_dL = dL;
-        t = UNWEIGHT_DIST(dE,dL) - dL*(Lscale-1);
-        if (t > max_dE) max_dE = t;
+        if (dL > mbx_dL) mbx_dL = dL;
+        t = UNWEIGHT_DIST(dE,dL) - dL*(Lsdblf-1);
+        if (t > mbx_dE) mbx_dE = t;
 
-        ave_dL += (dL > 0) ? sqrt(dL) : 0.0;
-        ave_dE += (t > 0) ? sqrt(t) : 0.0;
+        bvf_dL += (dL > 0) ? sqrt(dL) : 0.0;
+        bvf_dE += (t > 0) ? sqrt(t) : 0.0;
     }
 
-    jio_fprintf(stderr, "colors=%d, tablesize=%d, cubesize=%d, ",
-            cmapsize, tablesize, lookupsize);
-    jio_fprintf(stderr, "Lscale=%5.3f, Weight=%5.3f mac=%s\n",
-            (double)lscale, (double)weight, doMac ? "true" : "false");
-    jio_fprintf(stderr, "Worst case error dL = %5.3f, dE = %5.3f\n",
-            sqrt(max_dL), sqrt(max_dE));
-    jio_fprintf(stderr, "Average error dL = %5.3f, dE = %5.3f\n",
-            ave_dL / num_virt_cmap_entries,  ave_dE / num_virt_cmap_entries);
-#endif /* STATS */
-#ifdef TIMES
-    jio_fprintf(stderr, "%f seconds to find colors\n",
-            (double)(mid - start) / CLOCKS_PER_SEC);
-    jio_fprintf(stderr, "%f seconds to finish nearest colors\n",
-            (double)(tbl - mid) / CLOCKS_PER_SEC);
-    jio_fprintf(stderr, "%f seconds to make lookup table\n",
-            (double)(end - tbl) / CLOCKS_PER_SEC);
-    jio_fprintf(stderr, "%f seconds total\n",
-            (double)(end - start) / CLOCKS_PER_SEC);
-#endif /* TIMES */
+    jio_fprintf(stdfrr, "dolors=%d, tbblfsizf=%d, dubfsizf=%d, ",
+            dmbpsizf, tbblfsizf, lookupsizf);
+    jio_fprintf(stdfrr, "Lsdblf=%5.3f, Wfigit=%5.3f mbd=%s\n",
+            (doublf)lsdblf, (doublf)wfigit, doMbd ? "truf" : "fblsf");
+    jio_fprintf(stdfrr, "Worst dbsf frror dL = %5.3f, dE = %5.3f\n",
+            sqrt(mbx_dL), sqrt(mbx_dE));
+    jio_fprintf(stdfrr, "Avfrbgf frror dL = %5.3f, dE = %5.3f\n",
+            bvf_dL / num_virt_dmbp_fntrifs,  bvf_dE / num_virt_dmbp_fntrifs);
+#fndif /* STATS */
+#ifdff TIMES
+    jio_fprintf(stdfrr, "%f sfdonds to find dolors\n",
+            (doublf)(mid - stbrt) / CLOCKS_PER_SEC);
+    jio_fprintf(stdfrr, "%f sfdonds to finisi nfbrfst dolors\n",
+            (doublf)(tbl - mid) / CLOCKS_PER_SEC);
+    jio_fprintf(stdfrr, "%f sfdonds to mbkf lookup tbblf\n",
+            (doublf)(fnd - tbl) / CLOCKS_PER_SEC);
+    jio_fprintf(stdfrr, "%f sfdonds totbl\n",
+            (doublf)(fnd - stbrt) / CLOCKS_PER_SEC);
+#fndif /* TIMES */
 
-    free(virt_cmap);
-    virt_cmap = 0;
+    frff(virt_dmbp);
+    virt_dmbp = 0;
 }

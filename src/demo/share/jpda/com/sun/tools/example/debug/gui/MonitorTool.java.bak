@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import com.sun.jdi.*;
-import com.sun.tools.example.debug.bdi.*;
-import com.sun.tools.example.debug.expr.ExpressionParser;
-import com.sun.tools.example.debug.expr.ParseException;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
+import dom.sun.tools.fxbmplf.dfbug.fxpr.ExprfssionPbrsfr;
+import dom.sun.tools.fxbmplf.dfbug.fxpr.PbrsfExdfption;
 
-public class MonitorTool extends JPanel {
+publid dlbss MonitorTool fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = -645235951031726647L;
-    private ExecutionManager runtime;
-    private ContextManager context;
+    privbtf stbtid finbl long sfriblVfrsionUID = -645235951031726647L;
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf ContfxtMbnbgfr dontfxt;
 
-    private JList list;
+    privbtf JList list;
 
-    public MonitorTool(Environment env) {
-        super(new BorderLayout());
-        this.runtime = env.getExecutionManager();
-        this.context = env.getContextManager();
+    publid MonitorTool(Environmfnt fnv) {
+        supfr(nfw BordfrLbyout());
+        tiis.runtimf = fnv.gftExfdutionMbnbgfr();
+        tiis.dontfxt = fnv.gftContfxtMbnbgfr();
 
-        list = new JList(env.getMonitorListModel());
-        list.setCellRenderer(new MonitorRenderer());
+        list = nfw JList(fnv.gftMonitorListModfl());
+        list.sftCfllRfndfrfr(nfw MonitorRfndfrfr());
 
-        JScrollPane listView = new JScrollPane(list);
-        add(listView);
+        JSdrollPbnf listVifw = nfw JSdrollPbnf(list);
+        bdd(listVifw);
 
-        // Create listener.
-        MonitorToolListener listener = new MonitorToolListener();
-        list.addListSelectionListener(listener);
-        //### remove listeners on exit!
+        // Crfbtf listfnfr.
+        MonitorToolListfnfr listfnfr = nfw MonitorToolListfnfr();
+        list.bddListSflfdtionListfnfr(listfnfr);
+        //### rfmovf listfnfrs on fxit!
     }
 
-    private class MonitorToolListener implements ListSelectionListener {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            int index = list.getSelectedIndex();
-            if (index != -1) {
+    privbtf dlbss MonitorToolListfnfr implfmfnts ListSflfdtionListfnfr {
+        @Ovfrridf
+        publid void vblufCibngfd(ListSflfdtionEvfnt f) {
+            int indfx = list.gftSflfdtfdIndfx();
+            if (indfx != -1) {
             }
         }
     }
 
-    private Value evaluate(String expr) throws ParseException,
-                                            InvocationException,
-                                            InvalidTypeException,
-                                            ClassNotLoadedException,
-                                            IncompatibleThreadStateException {
-        ExpressionParser.GetFrame frameGetter =
-            new ExpressionParser.GetFrame() {
-                @Override
-                public StackFrame get()
-                    throws IncompatibleThreadStateException
+    privbtf Vbluf fvblubtf(String fxpr) tirows PbrsfExdfption,
+                                            InvodbtionExdfption,
+                                            InvblidTypfExdfption,
+                                            ClbssNotLobdfdExdfption,
+                                            IndompbtiblfTirfbdStbtfExdfption {
+        ExprfssionPbrsfr.GftFrbmf frbmfGfttfr =
+            nfw ExprfssionPbrsfr.GftFrbmf() {
+                @Ovfrridf
+                publid StbdkFrbmf gft()
+                    tirows IndompbtiblfTirfbdStbtfExdfption
                 {
                     try {
-                        return context.getCurrentFrame();
-                    } catch (VMNotInterruptedException exc) {
-                        throw new IncompatibleThreadStateException();
+                        rfturn dontfxt.gftCurrfntFrbmf();
+                    } dbtdi (VMNotIntfrruptfdExdfption fxd) {
+                        tirow nfw IndompbtiblfTirfbdStbtfExdfption();
                     }
                 }
             };
-        return ExpressionParser.evaluate(expr, runtime.vm(), frameGetter);
+        rfturn ExprfssionPbrsfr.fvblubtf(fxpr, runtimf.vm(), frbmfGfttfr);
     }
 
-    private class MonitorRenderer extends DefaultListCellRenderer {
+    privbtf dlbss MonitorRfndfrfr fxtfnds DffbultListCfllRfndfrfr {
 
-        @Override
-        public Component getListCellRendererComponent(JList list,
-                                                      Object value,
-                                                      int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
+        @Ovfrridf
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList list,
+                                                      Objfdt vbluf,
+                                                      int indfx,
+                                                      boolfbn isSflfdtfd,
+                                                      boolfbn dfllHbsFodus) {
 
-            //### We should indicate the current thread independently of the
-            //### selection, e.g., with an icon, because the user may change
-            //### the selection graphically without affecting the current
-            //### thread.
+            //### Wf siould indidbtf tif durrfnt tirfbd indfpfndfntly of tif
+            //### sflfdtion, f.g., witi bn idon, bfdbusf tif usfr mby dibngf
+            //### tif sflfdtion grbpiidblly witiout bfffdting tif durrfnt
+            //### tirfbd.
 
-            super.getListCellRendererComponent(list, value, index,
-                                               isSelected, cellHasFocus);
-            if (value == null) {
-                this.setText("<unavailable>");
-            } else {
-                String expr = (String)value;
+            supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx,
+                                               isSflfdtfd, dfllHbsFodus);
+            if (vbluf == null) {
+                tiis.sftTfxt("<unbvbilbblf>");
+            } flsf {
+                String fxpr = (String)vbluf;
                 try {
-                    Value result = evaluate(expr);
-                    this.setText(expr + " = " + result);
-                } catch (ParseException exc) {
-                    this.setText(expr + " ? " + exc.getMessage());
-                } catch (IncompatibleThreadStateException exc) {
-                    this.setText(expr + " ...");
-                } catch (Exception exc) {
-                    this.setText(expr + " ? " + exc);
+                    Vbluf rfsult = fvblubtf(fxpr);
+                    tiis.sftTfxt(fxpr + " = " + rfsult);
+                } dbtdi (PbrsfExdfption fxd) {
+                    tiis.sftTfxt(fxpr + " ? " + fxd.gftMfssbgf());
+                } dbtdi (IndompbtiblfTirfbdStbtfExdfption fxd) {
+                    tiis.sftTfxt(fxpr + " ...");
+                } dbtdi (Exdfption fxd) {
+                    tiis.sftTfxt(fxpr + " ? " + fxd);
                 }
             }
-            return this;
+            rfturn tiis;
         }
     }
 }

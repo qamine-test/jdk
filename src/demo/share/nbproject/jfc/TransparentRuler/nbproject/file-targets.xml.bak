@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
 
 <!--
- Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,16 +31,16 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project basedir=".." name="TransparentRuler/file">
+<projfdt bbsfdir=".." nbmf="TrbnspbrfntRulfr/filf">
     
-    <import file="../build.xml"/>
+    <import filf="../build.xml"/>
     
-    <target name="compile-selected" depends="-init">
-        <fail unless="includes">Must set property 'includes'</fail>
-        <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="${deprecation}" includes="${includes}">
-            <classpath path="${cp}"/>
-        </javac>
-    </target>
+    <tbrgft nbmf="dompilf-sflfdtfd" dfpfnds="-init">
+        <fbil unlfss="indludfs">Must sft propfrty 'indludfs'</fbil>
+        <mkdir dir="${dlbssfs.dir}"/>
+        <jbvbd srddir="${srd.dir}" dfstdir="${dlbssfs.dir}" dfbug="${dfbug}" dfprfdbtion="${dfprfdbtion}" indludfs="${indludfs}">
+            <dlbsspbti pbti="${dp}"/>
+        </jbvbd>
+    </tbrgft>
     
-</project>
+</projfdt>

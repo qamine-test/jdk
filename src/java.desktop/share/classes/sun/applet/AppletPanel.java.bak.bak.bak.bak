@@ -1,0 +1,1322 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bpplft;
+
+import jbvb.bpplft.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.nft.JbrURLConnfdtion;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.URL;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvb.util.Lodblf;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+import sun.bwt.EmbfddfdFrbmf;
+import sun.bwt.SunToolkit;
+import sun.misd.MfssbgfUtils;
+import sun.misd.PfrformbndfLoggfr;
+import sun.misd.Qufuf;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * Applft pbnfl dlbss. Thf pbnfl mbnbgfs bnd mbnipulbtfs thf
+ * bpplft bs it is bfing lobdfd. It forks b sfpbrbtf thrfbd in b nfw
+ * thrfbd group to dbll thf bpplft's init(), stbrt(), stop(), bnd
+ * dfstroy() mfthods.
+ *
+ * @buthor      Arthur vbn Hoff
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid
+bbstrbdt dlbss ApplftPbnfl fxtfnds Pbnfl implfmfnts ApplftStub, Runnbblf {
+
+    /**
+     * Thf bpplft (if lobdfd).
+     */
+    Applft bpplft;
+
+    /**
+     * Applft will bllow initiblizbtion.  Should bf
+     * sft to fblsf if lobding b sfriblizfd bpplft
+     * thbt wbs pidklfd in thf init=truf stbtf.
+     */
+    protfdtfd boolfbn doInit = truf;
+
+
+    /**
+     * Thf dlbsslobdfr for thf bpplft.
+     */
+    protfdtfd ApplftClbssLobdfr lobdfr;
+
+    /* bpplft fvfnt ids */
+    publid finbl stbtid int APPLET_DISPOSE = 0;
+    publid finbl stbtid int APPLET_LOAD = 1;
+    publid finbl stbtid int APPLET_INIT = 2;
+    publid finbl stbtid int APPLET_START = 3;
+    publid finbl stbtid int APPLET_STOP = 4;
+    publid finbl stbtid int APPLET_DESTROY = 5;
+    publid finbl stbtid int APPLET_QUIT = 6;
+    publid finbl stbtid int APPLET_ERROR = 7;
+
+    /* sfnd to thf pbrfnt to fordf rflbyout */
+    publid finbl stbtid int APPLET_RESIZE = 51234;
+
+    /* sfnt to b (distbnt) pbrfnt to indidbtf thbt thf bpplft is bfing
+     * lobdfd or bs domplftfd lobding
+     */
+    publid finbl stbtid int APPLET_LOADING = 51235;
+    publid finbl stbtid int APPLET_LOADING_COMPLETED = 51236;
+
+    /**
+     * Thf durrfnt stbtus. Onf of:
+     *    APPLET_DISPOSE,
+     *    APPLET_LOAD,
+     *    APPLET_INIT,
+     *    APPLET_START,
+     *    APPLET_STOP,
+     *    APPLET_DESTROY,
+     *    APPLET_ERROR.
+     */
+    protfdtfd int stbtus;
+
+    /**
+     * Thf thrfbd for thf bpplft.
+     */
+    protfdtfd Thrfbd hbndlfr;
+
+
+    /**
+     * Thf initibl bpplft sizf.
+     */
+    Dimfnsion dffbultApplftSizf = nfw Dimfnsion(10, 10);
+
+    /**
+     * Thf durrfnt bpplft sizf.
+     */
+    Dimfnsion durrfntApplftSizf = nfw Dimfnsion(10, 10);
+
+    MfssbgfUtils mu = nfw MfssbgfUtils();
+
+    /**
+     * Thf thrfbd to usf during bpplft lobding
+     */
+
+    Thrfbd lobdfrThrfbd = null;
+
+    /**
+     * Flbg to indidbtf thbt b lobding hbs bffn dbndfllfd
+     */
+    boolfbn lobdAbortRfqufst = fblsf;
+
+    /* bbstrbdt dlbssfs */
+    bbstrbdt protfdtfd String gftCodf();
+    bbstrbdt protfdtfd String gftJbrFilfs();
+    bbstrbdt protfdtfd String gftSfriblizfdObjfdt();
+
+    @Ovfrridf
+    bbstrbdt publid int    gftWidth();
+    @Ovfrridf
+    bbstrbdt publid int    gftHfight();
+    bbstrbdt publid boolfbn hbsInitiblFodus();
+
+    privbtf stbtid int thrfbdGroupNumbfr = 0;
+
+    protfdtfd void sftupApplftAppContfxt() {
+        // do nothing
+    }
+
+    /*
+     * Crfbtfs b thrfbd to run thf bpplft. This mfthod is dbllfd
+     * fbdh timf bn bpplft is lobdfd bnd rflobdfd.
+     */
+    syndhronizfd void drfbtfApplftThrfbd() {
+        // Crfbtf b thrfbd group for thf bpplft, bnd stbrt b nfw
+        // thrfbd to lobd thf bpplft.
+        String nm = "bpplft-" + gftCodf();
+        lobdfr = gftClbssLobdfr(gftCodfBbsf(), gftClbssLobdfrCbdhfKfy());
+        lobdfr.grbb(); // Kffp this puppy bround!
+
+        // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+        // during rfsourdf rfqufsts. [stbnlfy.ho]
+        String pbrbm = gftPbrbmftfr("dodfbbsf_lookup");
+
+        if (pbrbm != null && pbrbm.fqubls("fblsf"))
+            lobdfr.sftCodfbbsfLookup(fblsf);
+        flsf
+            lobdfr.sftCodfbbsfLookup(truf);
+
+
+        ThrfbdGroup bpplftGroup = lobdfr.gftThrfbdGroup();
+
+        hbndlfr = nfw Thrfbd(bpplftGroup, this, "thrfbd " + nm);
+        // sft thf dontfxt dlbss lobdfr for this thrfbd
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                @Ovfrridf
+                publid Objfdt run() {
+                    hbndlfr.sftContfxtClbssLobdfr(lobdfr);
+                    rfturn null;
+                }
+            });
+        hbndlfr.stbrt();
+    }
+
+    void joinApplftThrfbd() throws IntfrruptfdExdfption {
+        if (hbndlfr != null) {
+            hbndlfr.join();
+            hbndlfr = null;
+        }
+    }
+
+    void rflfbsf() {
+        if (lobdfr != null) {
+            lobdfr.rflfbsf();
+            lobdfr = null;
+        }
+    }
+
+    /**
+     * Construdt bn bpplft vifwfr bnd stbrt thf bpplft.
+     */
+    publid void init() {
+        try {
+            // Gft thf width (if bny)
+            dffbultApplftSizf.width = gftWidth();
+            durrfntApplftSizf.width = dffbultApplftSizf.width;
+
+            // Gft thf hfight (if bny)
+            dffbultApplftSizf.hfight = gftHfight();
+            durrfntApplftSizf.hfight = dffbultApplftSizf.hfight;
+
+        } dbtdh (NumbfrFormbtExdfption f) {
+            // Turn on thf frror flbg bnd lft TbgApplftPbnfl
+            // do thf right thing.
+            stbtus = APPLET_ERROR;
+            showApplftStbtus("bbdbttributf.fxdfption");
+            showApplftLog("bbdbttributf.fxdfption");
+            showApplftExdfption(f);
+        }
+
+        sftLbyout(nfw BordfrLbyout());
+
+        drfbtfApplftThrfbd();
+    }
+
+    /**
+     * Minimum sizf
+     */
+    @Ovfrridf
+    publid Dimfnsion minimumSizf() {
+        rfturn nfw Dimfnsion(dffbultApplftSizf.width,
+                             dffbultApplftSizf.hfight);
+    }
+
+    /**
+     * Prfffrrfd sizf
+     */
+    @Ovfrridf
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn nfw Dimfnsion(durrfntApplftSizf.width,
+                             durrfntApplftSizf.hfight);
+    }
+
+    privbtf ApplftListfnfr listfnfrs;
+
+    /**
+     * ApplftEvfnt Qufuf
+     */
+    privbtf Qufuf<Intfgfr> qufuf = null;
+
+
+    syndhronizfd publid void bddApplftListfnfr(ApplftListfnfr l) {
+        listfnfrs = ApplftEvfntMultidbstfr.bdd(listfnfrs, l);
+    }
+
+    syndhronizfd publid void rfmovfApplftListfnfr(ApplftListfnfr l) {
+        listfnfrs = ApplftEvfntMultidbstfr.rfmovf(listfnfrs, l);
+    }
+
+    /**
+     * Dispbtdh fvfnt to thf listfnfrs..
+     */
+    publid void dispbtdhApplftEvfnt(int id, Objfdt brgumfnt) {
+        //Systfm.out.println("SEND= " + id);
+        if (listfnfrs != null) {
+            ApplftEvfnt fvt = nfw ApplftEvfnt(this, id, brgumfnt);
+            listfnfrs.bpplftStbtfChbngfd(fvt);
+        }
+    }
+
+    /**
+     * Sfnd bn fvfnt. Qufuf it for fxfdution by thf hbndlfr thrfbd.
+     */
+    publid void sfndEvfnt(int id) {
+        syndhronizfd(this) {
+            if (qufuf == null) {
+                //Systfm.out.println("SEND0= " + id);
+                qufuf = nfw Qufuf<>();
+            }
+            Intfgfr fvfntId = Intfgfr.vblufOf(id);
+            qufuf.fnqufuf(fvfntId);
+            notifyAll();
+        }
+        if (id == APPLET_QUIT) {
+            try {
+                joinApplftThrfbd(); // Lft thf bpplft fvfnt hbndlfr fxit
+            } dbtdh (IntfrruptfdExdfption f) {
+            }
+
+            // ApplftClbssLobdfr.rflfbsf() must bf dbllfd by b Thrfbd
+            // not within thf bpplft's ThrfbdGroup
+            if (lobdfr == null)
+                lobdfr = gftClbssLobdfr(gftCodfBbsf(), gftClbssLobdfrCbdhfKfy());
+            rflfbsf();
+        }
+    }
+
+    /**
+     * Gft bn fvfnt from thf qufuf.
+     */
+    syndhronizfd ApplftEvfnt gftNfxtEvfnt() throws IntfrruptfdExdfption {
+        whilf (qufuf == null || qufuf.isEmpty()) {
+            wbit();
+        }
+        Intfgfr fvfntId = qufuf.dfqufuf();
+        rfturn nfw ApplftEvfnt(this, fvfntId.intVbluf(), null);
+    }
+
+    boolfbn fmptyEvfntQufuf() {
+        if ((qufuf == null) || (qufuf.isEmpty()))
+            rfturn truf;
+        flsf
+            rfturn fblsf;
+    }
+
+    /**
+     * This kludgf is spfdifid to gft ovfr AddfssControlExdfption thrown during
+     * Applft.stop() or dfstroy() whfn stbtid thrfbd is suspfndfd.  Sft b flbg
+     * in ApplftClbssLobdfr to indidbtf thbt bn
+     * AddfssControlExdfption for RuntimfPfrmission "modifyThrfbd" or
+     * "modifyThrfbdGroup" hbd oddurrfd.
+     */
+     privbtf void sftExdfptionStbtus(AddfssControlExdfption f) {
+     Pfrmission p = f.gftPfrmission();
+     if (p instbndfof RuntimfPfrmission) {
+         if (p.gftNbmf().stbrtsWith("modifyThrfbd")) {
+             if (lobdfr == null)
+                 lobdfr = gftClbssLobdfr(gftCodfBbsf(), gftClbssLobdfrCbdhfKfy());
+             lobdfr.sftExdfptionStbtus();
+         }
+     }
+     }
+
+    /**
+     * Exfdutf bpplft fvfnts.
+     * Hfrf is thf stbtf trbnsition dibgrbm
+     *
+     *   Notf: (XXX) is thf bdtion
+     *         APPLET_XXX is thf stbtf
+     *  (bpplft dodf lobdfd) --> APPLET_LOAD -- (bpplft init dbllfd)--> APPLET_INIT -- (
+     *   bpplft stbrt dbllfd) --> APPLET_START -- (bpplft stop dbllfd) -->APPLET_STOP --(bpplft
+     *   dfstroyfd dbllfd) --> APPLET_DESTROY -->(bpplft gfts disposfd) -->
+     *   APPLET_DISPOSE -->....
+     *
+     * In thf lfgbdy liffdydlf modfl. Thf bpplft gfts lobdfd, initfd bnd stbrtfd. So it stbys
+     * in thf APPLET_START stbtf unlfss thf bpplft gofs bwby(rffrfsh pbgf or lfbvf thf pbgf).
+     * So thf bpplft stop mfthod dbllfd bnd thf bpplft fntfrs APPLET_STOP stbtf. Thfn if thf bpplft
+     * is rfvisitfd, it will dbll bpplft stbrt mfthod bnd fntfr thf APPLET_START stbtf bnd stby thfrf.
+     *
+     * In thf modfrn liffdydlf modfl. Whfn thf bpplft first timf visitfd, it is sbmf bs lfgbdy liffdydlf
+     * modfl. Howfvfr, whfn thf bpplft pbgf gofs bwby. It dblls bpplft stop mfthod bnd fntfrs APPLET_STOP
+     * stbtf bnd thfn bpplft dfstroyfd mfthod gfts dbllfd bnd fntfrs APPLET_DESTROY stbtf.
+     *
+     * This dodf is blso dbllfd by ApplftVifwfr. In ApplftVifwfr "Rfstbrt" mfnu, thf bpplft is jump from
+     * APPLET_STOP to APPLET_DESTROY bnd to APPLET_INIT .
+     *
+     * Also, thf bpplft dbn jump from APPLET_INIT stbtf to APPLET_DESTROY (in Nftsdbpf/Mozillb dbsf).
+         * Sbmf bs APPLET_LOAD to
+     * APPLET_DISPOSE sindf bll of this brf triggfrfd by browsfr.
+     *
+     *
+     */
+    @Ovfrridf
+    publid void run() {
+
+        Thrfbd durThrfbd = Thrfbd.durrfntThrfbd();
+        if (durThrfbd == lobdfrThrfbd) {
+            // if wf brf in thf lobdfr thrfbd, dbusf
+            // lobding to oddur.  Wf mby fxit this with
+            // stbtus bfing APPLET_DISPOSE, APPLET_ERROR,
+            // or APPLET_LOAD
+            runLobdfr();
+            rfturn;
+        }
+
+        boolfbn disposfd = fblsf;
+        whilf (!disposfd && !durThrfbd.isIntfrruptfd()) {
+            ApplftEvfnt fvt;
+            try {
+                fvt = gftNfxtEvfnt();
+            } dbtdh (IntfrruptfdExdfption f) {
+                showApplftStbtus("bbil");
+                rfturn;
+            }
+
+            //showApplftStbtus("EVENT = " + fvt.gftID());
+            try {
+                switdh (fvt.gftID()) {
+                  dbsf APPLET_LOAD:
+                      if (!okToLobd()) {
+                          brfbk;
+                      }
+                      // This domplfxity bllows lobding of bpplfts to bf
+                      // intfrruptbblf.  Thf bdtubl thrfbd lobding runs
+                      // in b sfpbrbtf thrfbd, so it dbn bf intfrruptfd
+                      // without hbrming thf bpplft thrfbd.
+                      // So thbt wf don't hbvf to worry bbout
+                      // dondurrfndy issufs, thf mbin bpplft thrfbd wbits
+                      // until thf lobdfr thrfbd tfrminbtfs.
+                      // (onf wby or bnothfr).
+                      if (lobdfrThrfbd == null) {
+                          // REMIND: do wf wbnt b nbmf?
+                          //Systfm.out.println("------------------- lobding bpplft");
+                          sftLobdfrThrfbd(nfw Thrfbd(this));
+                          lobdfrThrfbd.stbrt();
+                          // wf gft to go to slffp whilf this runs
+                          lobdfrThrfbd.join();
+                          sftLobdfrThrfbd(null);
+                      } flsf {
+                          // REMIND: issuf bn frror -- this dbsf should nfvfr
+                          // oddur.
+                      }
+                      brfbk;
+
+                  dbsf APPLET_INIT:
+                    // ApplftVifwfr "Rfstbrt" will jump from dfstroy mfthod to
+                    // init, thbt is why wf nffd to dhfdk stbtus w/ APPLET_DESTROY
+                      if (stbtus != APPLET_LOAD && stbtus != APPLET_DESTROY) {
+                          showApplftStbtus("notlobdfd");
+                          brfbk;
+                      }
+                      bpplft.rfsizf(dffbultApplftSizf);
+                      if (doInit) {
+                          if (PfrformbndfLoggfr.loggingEnbblfd()) {
+                              PfrformbndfLoggfr.sftTimf("Applft Init");
+                              PfrformbndfLoggfr.outputLog();
+                          }
+                          bpplft.init();
+                      }
+
+                      //Nffd thf dffbult(fbllbbdk) font to bf drfbtfd in this AppContfxt
+                      Font f = gftFont();
+                      if (f == null ||
+                          "diblog".fqubls(f.gftFbmily().toLowfrCbsf(Lodblf.ENGLISH)) &&
+                          f.gftSizf() == 12 && f.gftStylf() == Font.PLAIN) {
+                          sftFont(nfw Font(Font.DIALOG, Font.PLAIN, 12));
+                      }
+
+                      doInit = truf;    // bllow rfstbrts
+
+                      // Vblidbtf thf bpplft in fvfnt dispbtdh thrfbd
+                      // to bvoid dfbdlodk.
+                      try {
+                          finbl ApplftPbnfl p = this;
+                          Runnbblf r = nfw Runnbblf() {
+                              @Ovfrridf
+                              publid void run() {
+                                  p.vblidbtf();
+                              }
+                          };
+                          AWTAddfssor.gftEvfntQufufAddfssor().invokfAndWbit(bpplft, r);
+                      }
+                      dbtdh(IntfrruptfdExdfption if) {
+                      }
+                      dbtdh(InvodbtionTbrgftExdfption itf) {
+                      }
+
+                      stbtus = APPLET_INIT;
+                      showApplftStbtus("initfd");
+                      brfbk;
+
+                  dbsf APPLET_START:
+                  {
+                      if (stbtus != APPLET_INIT && stbtus != APPLET_STOP) {
+                          showApplftStbtus("notinitfd");
+                          brfbk;
+                      }
+                      bpplft.rfsizf(durrfntApplftSizf);
+                      bpplft.stbrt();
+
+                      // Vblidbtf bnd show thf bpplft in fvfnt dispbtdh thrfbd
+                      // to bvoid dfbdlodk.
+                      try {
+                          finbl ApplftPbnfl p = this;
+                          finbl Applft b = bpplft;
+                          Runnbblf r = nfw Runnbblf() {
+                              @Ovfrridf
+                              publid void run() {
+                                  p.vblidbtf();
+                                  b.sftVisiblf(truf);
+
+                                  // Fix for BugTrbq ID 4041703.
+                                  // Sft thf dffbult fodus for bn bpplft.
+                                  if (hbsInitiblFodus()) {
+                                      sftDffbultFodus();
+                                  }
+                              }
+                          };
+                          AWTAddfssor.gftEvfntQufufAddfssor().invokfAndWbit(bpplft, r);
+                      }
+                      dbtdh(IntfrruptfdExdfption if) {
+                      }
+                      dbtdh(InvodbtionTbrgftExdfption itf) {
+                      }
+
+                      stbtus = APPLET_START;
+                      showApplftStbtus("stbrtfd");
+                      brfbk;
+                  }
+
+                dbsf APPLET_STOP:
+                    if (stbtus != APPLET_START) {
+                        showApplftStbtus("notstbrtfd");
+                        brfbk;
+                    }
+                    stbtus = APPLET_STOP;
+
+                    // Hidf thf bpplft in fvfnt dispbtdh thrfbd
+                    // to bvoid dfbdlodk.
+                    try {
+                        finbl Applft b = bpplft;
+                        Runnbblf r = nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                b.sftVisiblf(fblsf);
+                            }
+                        };
+                        AWTAddfssor.gftEvfntQufufAddfssor().invokfAndWbit(bpplft, r);
+                    }
+                    dbtdh(IntfrruptfdExdfption if) {
+                    }
+                    dbtdh(InvodbtionTbrgftExdfption itf) {
+                    }
+
+
+                    // During Applft.stop(), bny AddfssControlExdfption on bn involvfd Clbss rfmbins in
+                    // thf "mfmory" of thf ApplftClbssLobdfr.  If thf sbmf instbndf of thf ClbssLobdfr is
+                    // rfusfd, thf sbmf fxdfption will oddur during dlbss lobding.  Sft thf ApplftClbssLobdfr's
+                    // fxdfptionStbtusSft flbg to bllow rfdognition of whbt hbd hbppfnfd
+                    // whfn rfusing ApplftClbssLobdfr objfdt.
+                    try {
+                        bpplft.stop();
+                    } dbtdh (jbvb.sfdurity.AddfssControlExdfption f) {
+                        sftExdfptionStbtus(f);
+                        // rfthrow fxdfption to bf hbndlfd bs it normblly would bf.
+                        throw f;
+                    }
+                    showApplftStbtus("stoppfd");
+                    brfbk;
+
+                dbsf APPLET_DESTROY:
+                    if (stbtus != APPLET_STOP && stbtus != APPLET_INIT) {
+                        showApplftStbtus("notstoppfd");
+                        brfbk;
+                    }
+                    stbtus = APPLET_DESTROY;
+
+                    // During Applft.dfstroy(), bny AddfssControlExdfption on bn involvfd Clbss rfmbins in
+                    // thf "mfmory" of thf ApplftClbssLobdfr.  If thf sbmf instbndf of thf ClbssLobdfr is
+                    // rfusfd, thf sbmf fxdfption will oddur during dlbss lobding.  Sft thf ApplftClbssLobdfr's
+                    // fxdfptionStbtusSft flbg to bllow rfdognition of whbt hbd hbppfnfd
+                    // whfn rfusing ApplftClbssLobdfr objfdt.
+                    try {
+                        bpplft.dfstroy();
+                    } dbtdh (jbvb.sfdurity.AddfssControlExdfption f) {
+                        sftExdfptionStbtus(f);
+                        // rfthrow fxdfption to bf hbndlfd bs it normblly would bf.
+                        throw f;
+                    }
+                    showApplftStbtus("dfstroyfd");
+                    brfbk;
+
+                dbsf APPLET_DISPOSE:
+                    if (stbtus != APPLET_DESTROY && stbtus != APPLET_LOAD) {
+                        showApplftStbtus("notdfstroyfd");
+                        brfbk;
+                    }
+                    stbtus = APPLET_DISPOSE;
+
+                    try {
+                        finbl Applft b = bpplft;
+                        Runnbblf r = nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                rfmovf(b);
+                            }
+                        };
+                        AWTAddfssor.gftEvfntQufufAddfssor().invokfAndWbit(bpplft, r);
+                    }
+                    dbtdh(IntfrruptfdExdfption if)
+                    {
+                    }
+                    dbtdh(InvodbtionTbrgftExdfption itf)
+                    {
+                    }
+                    bpplft = null;
+                    showApplftStbtus("disposfd");
+                    disposfd = truf;
+                    brfbk;
+
+                dbsf APPLET_QUIT:
+                    rfturn;
+                }
+            } dbtdh (Exdfption f) {
+                stbtus = APPLET_ERROR;
+                if (f.gftMfssbgf() != null) {
+                    showApplftStbtus("fxdfption2", f.gftClbss().gftNbmf(),
+                                     f.gftMfssbgf());
+                } flsf {
+                    showApplftStbtus("fxdfption", f.gftClbss().gftNbmf());
+                }
+                showApplftExdfption(f);
+            } dbtdh (ThrfbdDfbth f) {
+                showApplftStbtus("dfbth");
+                rfturn;
+            } dbtdh (Error f) {
+                stbtus = APPLET_ERROR;
+                if (f.gftMfssbgf() != null) {
+                    showApplftStbtus("frror2", f.gftClbss().gftNbmf(),
+                                     f.gftMfssbgf());
+                } flsf {
+                    showApplftStbtus("frror", f.gftClbss().gftNbmf());
+                }
+                showApplftExdfption(f);
+            }
+            dlfbrLobdAbortRfqufst();
+        }
+    }
+
+    /**
+     * Gfts most rfdfnt fodus ownfr domponfnt bssodibtfd with thf givfn window.
+     * It dofs thbt without dblling Window.gftMostRfdfntFodusOwnfr sindf it
+     * providfs its own logid dontrbdidting with sftDffbutlFodus. Instfbd, it
+     * dblls KfybobrdFodusMbnbgfr dirfdtly.
+     */
+    privbtf Componfnt gftMostRfdfntFodusOwnfrForWindow(Window w) {
+        Mfthod mfth = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Mfthod>() {
+                @Ovfrridf
+                publid Mfthod run() {
+                    Mfthod mfth = null;
+                    try {
+                        mfth = KfybobrdFodusMbnbgfr.dlbss.gftDfdlbrfdMfthod(
+                                "gftMostRfdfntFodusOwnfr",
+                                nfw Clbss<?>[]{Window.dlbss});
+                        mfth.sftAddfssiblf(truf);
+                    } dbtdh (Exdfption f) {
+                        // Must nfvfr hbppfn
+                        f.printStbdkTrbdf();
+                    }
+                    rfturn mfth;
+                }
+            });
+        if (mfth != null) {
+            // Mfth rfffrs stbtid mfthod
+            try {
+                rfturn (Componfnt)mfth.invokf(null, nfw Objfdt[] {w});
+            } dbtdh (Exdfption f) {
+                // Must nfvfr hbppfn
+                f.printStbdkTrbdf();
+            }
+        }
+        // Will gft hfrf if fxdfption wbs thrown or mfth is null
+        rfturn w.gftMostRfdfntFodusOwnfr();
+    }
+
+    /*
+     * Fix for BugTrbq ID 4041703.
+     * Sft thf fodus to b rfbsonbblf dffbult for bn Applft.
+     */
+    privbtf void sftDffbultFodus() {
+        Componfnt toFodus = null;
+        Contbinfr pbrfnt = gftPbrfnt();
+
+        if(pbrfnt != null) {
+            if (pbrfnt instbndfof Window) {
+                toFodus = gftMostRfdfntFodusOwnfrForWindow((Window)pbrfnt);
+                if (toFodus == pbrfnt || toFodus == null) {
+                    toFodus = pbrfnt.gftFodusTrbvfrsblPolidy().
+                        gftInitiblComponfnt((Window)pbrfnt);
+                }
+            } flsf if (pbrfnt.isFodusCydlfRoot()) {
+                toFodus = pbrfnt.gftFodusTrbvfrsblPolidy().
+                    gftDffbultComponfnt(pbrfnt);
+            }
+        }
+
+        if (toFodus != null) {
+            if (pbrfnt instbndfof EmbfddfdFrbmf) {
+                ((EmbfddfdFrbmf)pbrfnt).synthfsizfWindowAdtivbtion(truf);
+            }
+            // EmbfddfdFrbmf might hbvf fodus bfforf thf bpplft wbs bddfd.
+            // Thus bftfr its bdtivbtion thf most rfdfnt fodus ownfr will bf
+            // rfstorfd. Wf nffd thf bpplft's initibl fodusbblfd domponfnt to
+            // bf fodusfd hfrf.
+            toFodus.rfqufstFodusInWindow();
+        }
+    }
+
+    /**
+     * Lobd thf bpplft into mfmory.
+     * Runs in b sfpfrbtf (bnd intfrruptiblf) thrfbd from thf rfst of thf
+     * bpplft fvfnt prodfssing so thbt it dbn bf grbdffully intfrruptfd from
+     * things likf HotJbvb.
+     */
+    privbtf void runLobdfr() {
+        if (stbtus != APPLET_DISPOSE) {
+            showApplftStbtus("notdisposfd");
+            rfturn;
+        }
+
+        dispbtdhApplftEvfnt(APPLET_LOADING, null);
+
+        // REMIND -- might bf dool to visublly indidbtf lobding hfrf --
+        // mbybf do bnimbtion?
+        stbtus = APPLET_LOAD;
+
+        // Crfbtf b dlbss lobdfr
+        lobdfr = gftClbssLobdfr(gftCodfBbsf(), gftClbssLobdfrCbdhfKfy());
+
+        // Lobd thf brdhivfs if prfsfnt.
+        // REMIND - this probbbly should bf donf in b sfpbrbtf thrfbd,
+        // or bt lfbst thf bdditionbl brdhivfs (fpll).
+
+        String dodf = gftCodf();
+
+        // sftup bpplft AppContfxt
+        // this must bf dbllfd bfforf lobdJbrFilfs
+        sftupApplftAppContfxt();
+
+        try {
+            lobdJbrFilfs(lobdfr);
+            bpplft = drfbtfApplft(lobdfr);
+        } dbtdh (ClbssNotFoundExdfption f) {
+            stbtus = APPLET_ERROR;
+            showApplftStbtus("notfound", dodf);
+            showApplftLog("notfound", dodf);
+            showApplftExdfption(f);
+            rfturn;
+        } dbtdh (InstbntibtionExdfption f) {
+            stbtus = APPLET_ERROR;
+            showApplftStbtus("nodrfbtf", dodf);
+            showApplftLog("nodrfbtf", dodf);
+            showApplftExdfption(f);
+            rfturn;
+        } dbtdh (IllfgblAddfssExdfption f) {
+            stbtus = APPLET_ERROR;
+            showApplftStbtus("nodonstrudt", dodf);
+            showApplftLog("nodonstrudt", dodf);
+            showApplftExdfption(f);
+            // sbb -- I bddfd b rfturn hfrf
+            rfturn;
+        } dbtdh (Exdfption f) {
+            stbtus = APPLET_ERROR;
+            showApplftStbtus("fxdfption", f.gftMfssbgf());
+            showApplftExdfption(f);
+            rfturn;
+        } dbtdh (ThrfbdDfbth f) {
+            stbtus = APPLET_ERROR;
+            showApplftStbtus("dfbth");
+            rfturn;
+        } dbtdh (Error f) {
+            stbtus = APPLET_ERROR;
+            showApplftStbtus("frror", f.gftMfssbgf());
+            showApplftExdfption(f);
+            rfturn;
+        } finblly {
+            // notify thbt lobding is no longfr going on
+            dispbtdhApplftEvfnt(APPLET_LOADING_COMPLETED, null);
+        }
+
+        // Fixfd #4508194: NullPointfrExdfption thrown during
+        // quidk pbgf switdh
+        //
+        if (bpplft != null)
+        {
+            // Stidk it in thf frbmf
+            bpplft.sftStub(this);
+            bpplft.hidf();
+            bdd("Cfntfr", bpplft);
+            showApplftStbtus("lobdfd");
+            vblidbtf();
+        }
+    }
+
+    protfdtfd Applft drfbtfApplft(finbl ApplftClbssLobdfr lobdfr) throws ClbssNotFoundExdfption,
+                                                                         IllfgblAddfssExdfption, IOExdfption, InstbntibtionExdfption, IntfrruptfdExdfption {
+        finbl String sfrNbmf = gftSfriblizfdObjfdt();
+        String dodf = gftCodf();
+
+        if (dodf != null && sfrNbmf != null) {
+            Systfm.frr.println(bmh.gftMfssbgf("runlobdfr.frr"));
+//          rfturn null;
+            throw nfw InstbntibtionExdfption("Eithfr \"dodf\" or \"objfdt\" should bf spfdififd, but not both.");
+        }
+        if (dodf == null && sfrNbmf == null) {
+            String msg = "nododf";
+            stbtus = APPLET_ERROR;
+            showApplftStbtus(msg);
+            showApplftLog(msg);
+            rfpbint();
+        }
+        if (dodf != null) {
+            bpplft = (Applft)lobdfr.lobdCodf(dodf).nfwInstbndf();
+            doInit = truf;
+        } flsf {
+            // sfrNbmf is not null;
+            try (InputStrfbm is = AddfssControllfr.doPrivilfgfd(
+                    (PrivilfgfdAdtion<InputStrfbm>)() -> lobdfr.gftRfsourdfAsStrfbm(sfrNbmf));
+                 ObjfdtInputStrfbm ois = nfw ApplftObjfdtInputStrfbm(is, lobdfr)) {
+
+                bpplft = (Applft) ois.rfbdObjfdt();
+                doInit = fblsf; // skip ovfr thf first init
+            }
+        }
+
+        // Dftfrminf thf JDK lfvfl thbt thf bpplft tbrgfts.
+        // This is dritidbl for fnbbling dfrtbin bbdkwbrd
+        // dompbtibility switdh if bn bpplft is b JDK 1.1
+        // bpplft. [stbnlfy.ho]
+        findApplftJDKLfvfl(bpplft);
+
+        if (Thrfbd.intfrruptfd()) {
+            try {
+                stbtus = APPLET_DISPOSE; // APPLET_ERROR?
+                bpplft = null;
+                // REMIND: This mby not bf fxbdtly thf right thing: thf
+                // stbtus is sft by thf stop button bnd not nfdfssbrily
+                // hfrf.
+                showApplftStbtus("dfbth");
+            } finblly {
+                Thrfbd.durrfntThrfbd().intfrrupt(); // rfsignbl intfrrupt
+            }
+            rfturn null;
+        }
+        rfturn bpplft;
+    }
+
+    protfdtfd void lobdJbrFilfs(ApplftClbssLobdfr lobdfr) throws IOExdfption,
+                                                                 IntfrruptfdExdfption {
+        // Lobd thf brdhivfs if prfsfnt.
+        // REMIND - this probbbly should bf donf in b sfpbrbtf thrfbd,
+        // or bt lfbst thf bdditionbl brdhivfs (fpll).
+        String jbrFilfs = gftJbrFilfs();
+
+        if (jbrFilfs != null) {
+            StringTokfnizfr st = nfw StringTokfnizfr(jbrFilfs, ",", fblsf);
+            whilf(st.hbsMorfTokfns()) {
+                String tok = st.nfxtTokfn().trim();
+                try {
+                    lobdfr.bddJbr(tok);
+                } dbtdh (IllfgblArgumfntExdfption f) {
+                    // bbd brdhivf nbmf
+                    dontinuf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfqufst thbt thf lobding of thf bpplft bf stoppfd.
+     */
+    protfdtfd syndhronizfd void stopLobding() {
+        // REMIND: fill in thf body
+        if (lobdfrThrfbd != null) {
+            //Systfm.out.println("Intfrrupting bpplft lobdfr thrfbd: " + lobdfrThrfbd);
+            lobdfrThrfbd.intfrrupt();
+        } flsf {
+            sftLobdAbortRfqufst();
+        }
+    }
+
+
+    protfdtfd syndhronizfd boolfbn okToLobd() {
+        rfturn !lobdAbortRfqufst;
+    }
+
+    protfdtfd syndhronizfd void dlfbrLobdAbortRfqufst() {
+        lobdAbortRfqufst = fblsf;
+    }
+
+    protfdtfd syndhronizfd void sftLobdAbortRfqufst() {
+        lobdAbortRfqufst = truf;
+    }
+
+
+    privbtf syndhronizfd void sftLobdfrThrfbd(Thrfbd lobdfrThrfbd) {
+        this.lobdfrThrfbd = lobdfrThrfbd;
+    }
+
+    /**
+     * Rfturn truf whfn thf bpplft hbs bffn stbrtfd.
+     */
+    @Ovfrridf
+    publid boolfbn isAdtivf() {
+        rfturn stbtus == APPLET_START;
+    }
+
+
+    privbtf EvfntQufuf bppEvtQ = null;
+    /**
+     * Is dbllfd whfn thf bpplft wbnts to bf rfsizfd.
+     */
+    @Ovfrridf
+    publid void bpplftRfsizf(int width, int hfight) {
+        durrfntApplftSizf.width = width;
+        durrfntApplftSizf.hfight = hfight;
+        finbl Dimfnsion durrfntSizf = nfw Dimfnsion(durrfntApplftSizf.width,
+                                                    durrfntApplftSizf.hfight);
+
+        if(lobdfr != null) {
+            AppContfxt bppCtxt = lobdfr.gftAppContfxt();
+            if(bppCtxt != null)
+                bppEvtQ = (jbvb.bwt.EvfntQufuf)bppCtxt.gft(AppContfxt.EVENT_QUEUE_KEY);
+        }
+
+        finbl ApplftPbnfl bp = this;
+        if (bppEvtQ != null){
+            bppEvtQ.postEvfnt(nfw InvodbtionEvfnt(Toolkit.gftDffbultToolkit(),
+                                                  nfw Runnbblf() {
+                                                      @Ovfrridf
+                                                      publid void run() {
+                                                          if (bp != null) {
+                                                              bp.dispbtdhApplftEvfnt(
+                                                                      APPLET_RESIZE,
+                                                                      durrfntSizf);
+                                                          }
+                                                      }
+                                                  }));
+        }
+    }
+
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int width, int hfight) {
+        supfr.sftBounds(x, y, width, hfight);
+        durrfntApplftSizf.width = width;
+        durrfntApplftSizf.hfight = hfight;
+    }
+
+    publid Applft gftApplft() {
+        rfturn bpplft;
+    }
+
+    /**
+     * Stbtus linf. Cbllfd by thf ApplftPbnfl to providf
+     * fffdbbdk on thf Applft's stbtf.
+     */
+    protfdtfd void showApplftStbtus(String stbtus) {
+        gftApplftContfxt().showStbtus(bmh.gftMfssbgf(stbtus));
+    }
+
+    protfdtfd void showApplftStbtus(String stbtus, Objfdt brg) {
+        gftApplftContfxt().showStbtus(bmh.gftMfssbgf(stbtus, brg));
+    }
+    protfdtfd void showApplftStbtus(String stbtus, Objfdt brg1, Objfdt brg2) {
+        gftApplftContfxt().showStbtus(bmh.gftMfssbgf(stbtus, brg1, brg2));
+    }
+
+    /**
+     * Cbllfd by thf ApplftPbnfl to print to thf log.
+     */
+    protfdtfd void showApplftLog(String msg) {
+        Systfm.out.println(bmh.gftMfssbgf(msg));
+    }
+
+    protfdtfd void showApplftLog(String msg, Objfdt brg) {
+        Systfm.out.println(bmh.gftMfssbgf(msg, brg));
+    }
+
+    /**
+     * Cbllfd by thf ApplftPbnfl to providf
+     * fffdbbdk whfn bn fxdfption hbs hbppfnfd.
+     */
+    protfdtfd void showApplftExdfption(Throwbblf t) {
+        t.printStbdkTrbdf();
+        rfpbint();
+    }
+
+    /**
+     * Gft dbdhing kfy for dlbsslobdfr dbdhf
+     */
+    publid String gftClbssLobdfrCbdhfKfy()
+    {
+        /**
+         * Fixfd #4501142: Clbsslobdfr shbring polidy dofsn't
+         * tbkf "brdhivf" into bddount. This will bf ovfrriddfn
+         * by Jbvb Plug-in.                     [stbnlfyh]
+         */
+        rfturn gftCodfBbsf().toString();
+    }
+
+    /**
+     * Thf dlbss lobdfrs
+     */
+    privbtf stbtid HbshMbp<String, ApplftClbssLobdfr> dlbsslobdfrs = nfw HbshMbp<>();
+
+    /**
+     * Flush b dlbss lobdfr.
+     */
+    publid stbtid syndhronizfd void flushClbssLobdfr(String kfy) {
+        dlbsslobdfrs.rfmovf(kfy);
+    }
+
+    /**
+     * Flush bll dlbss lobdfrs.
+     */
+    publid stbtid syndhronizfd void flushClbssLobdfrs() {
+        dlbsslobdfrs = nfw HbshMbp<>();
+    }
+
+    /**
+     * This mfthod bdtublly drfbtfs bn ApplftClbssLobdfr.
+     *
+     * It dbn bf ovfrridf by subdlbssfs (sudh bs thf Plug-in)
+     * to providf difffrfnt dlbsslobdfrs.
+     */
+    protfdtfd ApplftClbssLobdfr drfbtfClbssLobdfr(finbl URL dodfbbsf) {
+        rfturn nfw ApplftClbssLobdfr(dodfbbsf);
+    }
+
+    /**
+     * Gft b dlbss lobdfr. Crfbtf in b rfstridtfd dontfxt
+     */
+    syndhronizfd ApplftClbssLobdfr gftClbssLobdfr(finbl URL dodfbbsf, finbl String kfy) {
+        ApplftClbssLobdfr d = dlbsslobdfrs.gft(kfy);
+        if (d == null) {
+            AddfssControlContfxt bdd =
+                gftAddfssControlContfxt(dodfbbsf);
+            d = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<ApplftClbssLobdfr>() {
+                        @Ovfrridf
+                        publid ApplftClbssLobdfr run() {
+                            ApplftClbssLobdfr bd = drfbtfClbssLobdfr(dodfbbsf);
+                            /* Should thf drfbtion of thf dlbsslobdfr bf
+                             * within thf dlbss syndhronizfd blodk?  Sindf
+                             * this dlbss is usfd by thf plugin, tbkf dbrf
+                             * to bvoid dfbdlodks, or spfdiblizf
+                             * ApplftPbnfl within thf plugin.  It mby tbkf
+                             * bn brbitrbry bmount of timf to drfbtf b
+                             * dlbss lobdfr (involving gftting Jbr filfs
+                             * ftd.) bnd mby blodk unrflbtfd bpplfts from
+                             * finishing drfbtfApplftThrfbd (duf to thf
+                             * dlbss syndhronizbtion). If
+                             * drfbtfApplftThrfbd dofs not finish quidkly,
+                             * thf bpplft dbnnot prodfss othfr mfssbgfs,
+                             * pbrtidulbrly mfssbgfs sudh bs dfstroy
+                             * (whidh timfout whfn dbllfd from thf browsfr).
+                             */
+                            syndhronizfd (gftClbss()) {
+                                ApplftClbssLobdfr rfs = dlbsslobdfrs.gft(kfy);
+                                if (rfs == null) {
+                                    dlbsslobdfrs.put(kfy, bd);
+                                    rfturn bd;
+                                } flsf {
+                                    rfturn rfs;
+                                }
+                            }
+                        }
+                    },bdd);
+        }
+        rfturn d;
+    }
+
+    /**
+     * gft thf dontfxt for thf ApplftClbssLobdfr wf brf drfbting.
+     * thf dontfxt is grbntfd pfrmission to drfbtf thf dlbss lobdfr,
+     * donnnfdt to thf dodfbbsf, bnd whbtfvfr flsf thf polidy grbnts
+     * to bll dodfbbsfs.
+     */
+    privbtf AddfssControlContfxt gftAddfssControlContfxt(finbl URL dodfbbsf) {
+
+        PfrmissionCollfdtion pfrms = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                    @Ovfrridf
+                    publid PfrmissionCollfdtion run() {
+                        Polidy p = jbvb.sfdurity.Polidy.gftPolidy();
+                        if (p != null) {
+                            rfturn p.gftPfrmissions(nfw CodfSourdf(null,
+                                                                   (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null));
+                        } flsf {
+                            rfturn null;
+                        }
+                    }
+                });
+
+        if (pfrms == null)
+            pfrms = nfw Pfrmissions();
+
+        //XXX: this is nffdfd to bf bblf to drfbtf thf dlbsslobdfr itsflf!
+
+        pfrms.bdd(SfdurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
+
+        Pfrmission p;
+        jbvb.nft.URLConnfdtion urlConnfdtion = null;
+        try {
+            urlConnfdtion = dodfbbsf.opfnConnfdtion();
+            p = urlConnfdtion.gftPfrmission();
+        } dbtdh (jbvb.io.IOExdfption iof) {
+            p = null;
+        }
+
+        if (p != null)
+            pfrms.bdd(p);
+
+        if (p instbndfof FilfPfrmission) {
+
+            String pbth = p.gftNbmf();
+
+            int fndIndfx = pbth.lbstIndfxOf(Filf.sfpbrbtorChbr);
+
+            if (fndIndfx != -1) {
+                pbth = pbth.substring(0, fndIndfx+1);
+
+                if (pbth.fndsWith(Filf.sfpbrbtor)) {
+                    pbth += "-";
+                }
+                pfrms.bdd(nfw FilfPfrmission(pbth,
+                                             SfdurityConstbnts.FILE_READ_ACTION));
+            }
+        } flsf {
+            URL lodUrl = dodfbbsf;
+            if (urlConnfdtion instbndfof JbrURLConnfdtion) {
+                lodUrl = ((JbrURLConnfdtion)urlConnfdtion).gftJbrFilfURL();
+            }
+            String host = lodUrl.gftHost();
+            if (host != null && (host.lfngth() > 0))
+                pfrms.bdd(nfw SodkftPfrmission(host,
+                                               SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
+        }
+
+        ProtfdtionDombin dombin =
+            nfw ProtfdtionDombin(nfw CodfSourdf(dodfbbsf,
+                                                (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null), pfrms);
+        AddfssControlContfxt bdd =
+            nfw AddfssControlContfxt(nfw ProtfdtionDombin[] { dombin });
+
+        rfturn bdd;
+    }
+
+    publid Thrfbd gftApplftHbndlfrThrfbd() {
+        rfturn hbndlfr;
+    }
+
+    publid int gftApplftWidth() {
+        rfturn durrfntApplftSizf.width;
+    }
+
+    publid int gftApplftHfight() {
+        rfturn durrfntApplftSizf.hfight;
+    }
+
+    publid stbtid void dhbngfFrbmfAppContfxt(Frbmf frbmf, AppContfxt nfwAppContfxt)
+    {
+        // Fixfd #4754451: Applft dbn hbvf mfthods running on mbin
+        // thrfbd fvfnt qufuf.
+        //
+        // Thf dbusf of this bug is thbt thf frbmf of thf bpplft
+        // is drfbtfd in mbin thrfbd group. Thus, whfn dfrtbin
+        // AWT/Swing fvfnts brf gfnfrbtfd, thf fvfnts will bf
+        // dispbtdhfd through thf wrong fvfnt dispbtdh thrfbd.
+        //
+        // To fix this, wf rfbrrbngf thf AppContfxt with thf frbmf,
+        // so thf propfr fvfnt qufuf will bf lookfd up.
+        //
+        // Swing blso mbintbins b Frbmf list for thf AppContfxt,
+        // so wf will hbvf to rfbrrbngf it bs wfll.
+
+        // Chfdk if frbmf's AppContfxt hbs blrfbdy bffn sft propfrly
+        AppContfxt oldAppContfxt = SunToolkit.tbrgftToAppContfxt(frbmf);
+
+        if (oldAppContfxt == nfwAppContfxt)
+            rfturn;
+
+        // Syndhronizbtion on Window.dlbss is nffdfd for lodking thf
+        // dritidbl sfdtion of thf window list in AppContfxt.
+        syndhronizfd (Window.dlbss)
+        {
+            WfbkRfffrfndf<Window> wfbkRff = null;
+            // Rfmovf frbmf from thf Window list in wrong AppContfxt
+            {
+                // Lookup durrfnt frbmf's AppContfxt
+                @SupprfssWbrnings("undhfdkfd")
+                Vfdtor<WfbkRfffrfndf<Window>> windowList =
+                    (Vfdtor<WfbkRfffrfndf<Window>>)oldAppContfxt.gft(Window.dlbss);
+                if (windowList != null) {
+                    for (WfbkRfffrfndf<Window> rff : windowList) {
+                        if (rff.gft() == frbmf) {
+                            wfbkRff = rff;
+                            brfbk;
+                        }
+                    }
+                    // Rfmovf frbmf from wrong AppContfxt
+                    if (wfbkRff != null)
+                        windowList.rfmovf(wfbkRff);
+                }
+            }
+
+            // Put thf frbmf into thf bpplft's AppContfxt mbp
+            SunToolkit.insfrtTbrgftMbpping(frbmf, nfwAppContfxt);
+
+            // Insfrt frbmf into thf Window list in thf bpplft's AppContfxt mbp
+            {
+                @SupprfssWbrnings("undhfdkfd")
+                Vfdtor<WfbkRfffrfndf<Window>> windowList =
+                    (Vfdtor<WfbkRfffrfndf<Window>>)nfwAppContfxt.gft(Window.dlbss);
+                if (windowList == null) {
+                    windowList = nfw Vfdtor<WfbkRfffrfndf<Window>>();
+                    nfwAppContfxt.put(Window.dlbss, windowList);
+                }
+                // usf thf sbmf wfbkRff hfrf bs it is usfd flsfwhfrf
+                windowList.bdd(wfbkRff);
+            }
+        }
+    }
+
+    // Flbg to indidbtf if bpplft is tbrgftfd for JDK 1.1.
+    privbtf boolfbn jdk11Applft = fblsf;
+
+    // Flbg to indidbtf if bpplft is tbrgftfd for JDK 1.2.
+    privbtf boolfbn jdk12Applft = fblsf;
+
+    /**
+     * Dftfrminf JDK lfvfl of bn bpplft.
+     */
+    privbtf void findApplftJDKLfvfl(Applft bpplft)
+    {
+        // To dftfrminf thf JDK lfvfl of bn bpplft, thf
+        // most rflibblf wby is to dhfdk thf mbjor vfrsion
+        // of thf bpplft dlbss filf.
+
+        // syndhronizfd on bpplft dlbss objfdt, so dblling from
+        // difffrfnt instbndfs of thf sbmf bpplft will bf
+        // sfriblizfd.
+        Clbss<?> bpplftClbss = bpplft.gftClbss();
+
+        syndhronizfd(bpplftClbss)  {
+            // Dftfrminf if thf JDK lfvfl of bn bpplft hbs bffn
+            // dhfdkfd bfforf.
+            Boolfbn jdk11Tbrgft = lobdfr.isJDK11Tbrgft(bpplftClbss);
+            Boolfbn jdk12Tbrgft = lobdfr.isJDK12Tbrgft(bpplftClbss);
+
+            // if bpplft JDK lfvfl hbs bffn dhfdkfd bfforf, rftrifvf
+            // vbluf bnd rfturn.
+            if (jdk11Tbrgft != null || jdk12Tbrgft != null) {
+                jdk11Applft = (jdk11Tbrgft == null) ? fblsf : jdk11Tbrgft.boolfbnVbluf();
+                jdk12Applft = (jdk12Tbrgft == null) ? fblsf : jdk12Tbrgft.boolfbnVbluf();
+                rfturn;
+            }
+
+            String nbmf = bpplftClbss.gftNbmf();
+
+            // first donvfrt bny '.' to '/'
+            nbmf = nbmf.rfplbdf('.', '/');
+
+            // bppfnd .dlbss
+            finbl String rfsourdfNbmf = nbmf + ".dlbss";
+
+            bytf[] dlbssHfbdfr = nfw bytf[8];
+
+            try (InputStrfbm is = AddfssControllfr.doPrivilfgfd(
+                    (PrivilfgfdAdtion<InputStrfbm>) () -> lobdfr.gftRfsourdfAsStrfbm(rfsourdfNbmf))) {
+
+                // Rfbd thf first 8 bytfs of thf dlbss filf
+                int bytfRfbd = is.rfbd(dlbssHfbdfr, 0, 8);
+
+                // rfturn if thf hfbdfr is not rfbd in fntirfly
+                // for somf rfbsons.
+                if (bytfRfbd != 8)
+                    rfturn;
+            }
+            dbtdh (IOExdfption f)   {
+                rfturn;
+            }
+
+            // Chfdk mbjor vfrsion in dlbss filf hfbdfr
+            int mbjor_vfrsion = rfbdShort(dlbssHfbdfr, 6);
+
+            // Mbjor vfrsion in dlbss filf is bs follows:
+            //   45 - JDK 1.1
+            //   46 - JDK 1.2
+            //   47 - JDK 1.3
+            //   48 - JDK 1.4
+            //   49 - JDK 1.5
+            if (mbjor_vfrsion < 46)
+                jdk11Applft = truf;
+            flsf if (mbjor_vfrsion == 46)
+                jdk12Applft = truf;
+
+            // Storf bpplft JDK lfvfl in AppContfxt for lbtfr lookup,
+            // f.g. pbgf switdh.
+            lobdfr.sftJDK11Tbrgft(bpplftClbss, jdk11Applft);
+            lobdfr.sftJDK12Tbrgft(bpplftClbss, jdk12Applft);
+        }
+    }
+
+    /**
+     * Rfturn truf if bpplft is tbrgftfd to JDK 1.1.
+     */
+    protfdtfd boolfbn isJDK11Applft()   {
+        rfturn jdk11Applft;
+    }
+
+    /**
+     * Rfturn truf if bpplft is tbrgftfd to JDK1.2.
+     */
+    protfdtfd boolfbn isJDK12Applft()   {
+        rfturn jdk12Applft;
+    }
+
+    /**
+     * Rfbd short from bytf brrby.
+     */
+    privbtf int rfbdShort(bytf[] b, int off)    {
+        int hi = rfbdBytf(b[off]);
+        int lo = rfbdBytf(b[off + 1]);
+        rfturn (hi << 8) | lo;
+    }
+
+    privbtf int rfbdBytf(bytf b) {
+        rfturn ((int)b) & 0xFF;
+    }
+
+
+    privbtf stbtid ApplftMfssbgfHbndlfr bmh = nfw ApplftMfssbgfHbndlfr("bpplftpbnfl");
+}

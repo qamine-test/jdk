@@ -1,0 +1,355 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.util.logging;
+
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * A <tt>Hbndlfr</tt> objfdt tbkfs log mfssbgfs from b <tt>Loggfr</tt> bnd
+ * fxports thfm.  It might for fxbmplf, writf thfm to b donsolf
+ * or writf thfm to b filf, or sfnd thfm to b nftwork logging sfrvidf,
+ * or forwbrd thfm to bn OS log, or whbtfvfr.
+ * <p>
+ * A <tt>Hbndlfr</tt> dbn bf disbblfd by doing b <tt>sftLfvfl(Lfvfl.OFF)</tt>
+ * bnd dbn  bf rf-fnbblfd by doing b <tt>sftLfvfl</tt> with bn bppropribtf lfvfl.
+ * <p>
+ * <tt>Hbndlfr</tt> dlbssfs typidblly usf <tt>LogMbnbgfr</tt> propfrtifs to sft
+ * dffbult vblufs for thf <tt>Hbndlfr</tt>'s <tt>Filtfr</tt>, <tt>Formbttfr</tt>,
+ * bnd <tt>Lfvfl</tt>.  Sff thf spfdifid dodumfntbtion for fbdh dondrftf
+ * <tt>Hbndlfr</tt> dlbss.
+ *
+ *
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss Hbndlfr {
+    privbtf stbtid finbl int offVbluf = Lfvfl.OFF.intVbluf();
+    privbtf finbl LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
+
+    // Wf'rf using volbtilf hfrf to bvoid syndhronizing gfttfrs, whidh
+    // would prfvfnt othfr thrfbds from dblling isLoggbblf()
+    // whilf publish() is fxfduting.
+    // On thf othfr hbnd, sfttfrs will bf syndhronizfd to fxdludf dondurrfnt
+    // fxfdution with morf domplfx mfthods, sudh bs StrfbmHbndlfr.publish().
+    // Wf wouldn't wbnt 'lfvfl' to bf dhbngfd by bnothfr thrfbd in thf middlf
+    // of thf fxfdution of b 'publish' dbll.
+    privbtf volbtilf Filtfr filtfr;
+    privbtf volbtilf Formbttfr formbttfr;
+    privbtf volbtilf Lfvfl logLfvfl = Lfvfl.ALL;
+    privbtf volbtilf ErrorMbnbgfr frrorMbnbgfr = nfw ErrorMbnbgfr();
+    privbtf volbtilf String fndoding;
+
+    /**
+     * Dffbult donstrudtor.  Thf rfsulting <tt>Hbndlfr</tt> hbs b log
+     * lfvfl of <tt>Lfvfl.ALL</tt>, no <tt>Formbttfr</tt>, bnd no
+     * <tt>Filtfr</tt>.  A dffbult <tt>ErrorMbnbgfr</tt> instbndf is instbllfd
+     * bs thf <tt>ErrorMbnbgfr</tt>.
+     */
+    protfdtfd Hbndlfr() {
+    }
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor for dhbining from subdlbss donstrudtors
+     * thbt wish to donfigurf thf hbndlfr with spfdifid dffbult bnd/or
+     * spfdififd vblufs.
+     *
+     * @pbrbm dffbultLfvfl       b dffbult {@link Lfvfl} to donfigurf if onf is
+     *                           not found in LogMbnbgfr donfigurbtion propfrtifs
+     * @pbrbm dffbultFormbttfr   b dffbult {@link Formbttfr} to donfigurf if onf is
+     *                           not spfdififd by {@dodf spfdififdFormbttfr} pbrbmftfr
+     *                           nor found in LogMbnbgfr donfigurbtion propfrtifs
+     * @pbrbm spfdififdFormbttfr if not null, this is thf formbttfr to donfigurf
+     */
+    Hbndlfr(Lfvfl dffbultLfvfl, Formbttfr dffbultFormbttfr,
+            Formbttfr spfdififdFormbttfr) {
+
+        LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
+        String dnbmf = gftClbss().gftNbmf();
+
+        finbl Lfvfl lfvfl = mbnbgfr.gftLfvflPropfrty(dnbmf + ".lfvfl", dffbultLfvfl);
+        finbl Filtfr filtfr = mbnbgfr.gftFiltfrPropfrty(dnbmf + ".filtfr", null);
+        finbl Formbttfr formbttfr = spfdififdFormbttfr == null
+                                    ? mbnbgfr.gftFormbttfrPropfrty(dnbmf + ".formbttfr", dffbultFormbttfr)
+                                    : spfdififdFormbttfr;
+        finbl String fndoding = mbnbgfr.gftStringPropfrty(dnbmf + ".fndoding", null);
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                sftLfvfl(lfvfl);
+                sftFiltfr(filtfr);
+                sftFormbttfr(formbttfr);
+                try {
+                    sftEndoding(fndoding);
+                } dbtdh (Exdfption fx) {
+                    try {
+                        sftEndoding(null);
+                    } dbtdh (Exdfption fx2) {
+                        // doing b sftEndoding with null should blwbys work.
+                        // bssfrt fblsf;
+                    }
+                }
+                rfturn null;
+            }
+        }, null, LogMbnbgfr.dontrolPfrmission);
+    }
+
+    /**
+     * Publish b <tt>LogRfdord</tt>.
+     * <p>
+     * Thf logging rfqufst wbs mbdf initiblly to b <tt>Loggfr</tt> objfdt,
+     * whidh initiblizfd thf <tt>LogRfdord</tt> bnd forwbrdfd it hfrf.
+     * <p>
+     * Thf <tt>Hbndlfr</tt>  is rfsponsiblf for formbtting thf mfssbgf, whfn bnd
+     * if nfdfssbry.  Thf formbtting should indludf lodblizbtion.
+     *
+     * @pbrbm  rfdord  dfsdription of thf log fvfnt. A null rfdord is
+     *                 silfntly ignorfd bnd is not publishfd
+     */
+    publid bbstrbdt void publish(LogRfdord rfdord);
+
+    /**
+     * Flush bny bufffrfd output.
+     */
+    publid bbstrbdt void flush();
+
+    /**
+     * Closf thf <tt>Hbndlfr</tt> bnd frff bll bssodibtfd rfsourdfs.
+     * <p>
+     * Thf dlosf mfthod will pfrform b <tt>flush</tt> bnd thfn dlosf thf
+     * <tt>Hbndlfr</tt>.   Aftfr dlosf hbs bffn dbllfd this <tt>Hbndlfr</tt>
+     * should no longfr bf usfd.  Mfthod dblls mby fithfr bf silfntly
+     * ignorfd or mby throw runtimf fxdfptions.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf <tt>LoggingPfrmission("dontrol")</tt>.
+     */
+    publid bbstrbdt void dlosf() throws SfdurityExdfption;
+
+    /**
+     * Sft b <tt>Formbttfr</tt>.  This <tt>Formbttfr</tt> will bf usfd
+     * to formbt <tt>LogRfdords</tt> for this <tt>Hbndlfr</tt>.
+     * <p>
+     * Somf <tt>Hbndlfrs</tt> mby not usf <tt>Formbttfrs</tt>, in
+     * whidh dbsf thf <tt>Formbttfr</tt> will bf rfmfmbfrfd, but not usfd.
+     *
+     * @pbrbm nfwFormbttfr thf <tt>Formbttfr</tt> to usf (mby not bf null)
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf <tt>LoggingPfrmission("dontrol")</tt>.
+     */
+    publid syndhronizfd void sftFormbttfr(Formbttfr nfwFormbttfr) throws SfdurityExdfption {
+        dhfdkPfrmission();
+        // Chfdk for b null pointfr:
+        nfwFormbttfr.gftClbss();
+        formbttfr = nfwFormbttfr;
+    }
+
+    /**
+     * Rfturn thf <tt>Formbttfr</tt> for this <tt>Hbndlfr</tt>.
+     * @rfturn thf <tt>Formbttfr</tt> (mby bf null).
+     */
+    publid Formbttfr gftFormbttfr() {
+        rfturn formbttfr;
+    }
+
+    /**
+     * Sft thf dhbrbdtfr fndoding usfd by this <tt>Hbndlfr</tt>.
+     * <p>
+     * Thf fndoding should bf sft bfforf bny <tt>LogRfdords</tt> brf writtfn
+     * to thf <tt>Hbndlfr</tt>.
+     *
+     * @pbrbm fndoding  Thf nbmf of b supportfd dhbrbdtfr fndoding.
+     *        Mby bf null, to indidbtf thf dffbult plbtform fndoding.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf <tt>LoggingPfrmission("dontrol")</tt>.
+     * @fxdfption  UnsupportfdEndodingExdfption if thf nbmfd fndoding is
+     *          not supportfd.
+     */
+    publid syndhronizfd void sftEndoding(String fndoding)
+                        throws SfdurityExdfption, jbvb.io.UnsupportfdEndodingExdfption {
+        dhfdkPfrmission();
+        if (fndoding != null) {
+            try {
+                if(!jbvb.nio.dhbrsft.Chbrsft.isSupportfd(fndoding)) {
+                    throw nfw UnsupportfdEndodingExdfption(fndoding);
+                }
+            } dbtdh (jbvb.nio.dhbrsft.IllfgblChbrsftNbmfExdfption f) {
+                throw nfw UnsupportfdEndodingExdfption(fndoding);
+            }
+        }
+        this.fndoding = fndoding;
+    }
+
+    /**
+     * Rfturn thf dhbrbdtfr fndoding for this <tt>Hbndlfr</tt>.
+     *
+     * @rfturn  Thf fndoding nbmf.  Mby bf null, whidh indidbtfs thf
+     *          dffbult fndoding should bf usfd.
+     */
+    publid String gftEndoding() {
+        rfturn fndoding;
+    }
+
+    /**
+     * Sft b <tt>Filtfr</tt> to dontrol output on this <tt>Hbndlfr</tt>.
+     * <P>
+     * For fbdh dbll of <tt>publish</tt> thf <tt>Hbndlfr</tt> will dbll
+     * this <tt>Filtfr</tt> (if it is non-null) to dhfdk if thf
+     * <tt>LogRfdord</tt> should bf publishfd or disdbrdfd.
+     *
+     * @pbrbm   nfwFiltfr  b <tt>Filtfr</tt> objfdt (mby bf null)
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf <tt>LoggingPfrmission("dontrol")</tt>.
+     */
+    publid syndhronizfd void sftFiltfr(Filtfr nfwFiltfr) throws SfdurityExdfption {
+        dhfdkPfrmission();
+        filtfr = nfwFiltfr;
+    }
+
+    /**
+     * Gft thf durrfnt <tt>Filtfr</tt> for this <tt>Hbndlfr</tt>.
+     *
+     * @rfturn  b <tt>Filtfr</tt> objfdt (mby bf null)
+     */
+    publid Filtfr gftFiltfr() {
+        rfturn filtfr;
+    }
+
+    /**
+     * Dffinf bn ErrorMbnbgfr for this Hbndlfr.
+     * <p>
+     * Thf ErrorMbnbgfr's "frror" mfthod will bf invokfd if bny
+     * frrors oddur whilf using this Hbndlfr.
+     *
+     * @pbrbm fm  thf nfw ErrorMbnbgfr
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf <tt>LoggingPfrmission("dontrol")</tt>.
+     */
+    publid syndhronizfd void sftErrorMbnbgfr(ErrorMbnbgfr fm) {
+        dhfdkPfrmission();
+        if (fm == null) {
+           throw nfw NullPointfrExdfption();
+        }
+        frrorMbnbgfr = fm;
+    }
+
+    /**
+     * Rftrifvfs thf ErrorMbnbgfr for this Hbndlfr.
+     *
+     * @rfturn thf ErrorMbnbgfr for this Hbndlfr
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf <tt>LoggingPfrmission("dontrol")</tt>.
+     */
+    publid ErrorMbnbgfr gftErrorMbnbgfr() {
+        dhfdkPfrmission();
+        rfturn frrorMbnbgfr;
+    }
+
+   /**
+     * Protfdtfd donvfnifndf mfthod to rfport bn frror to this Hbndlfr's
+     * ErrorMbnbgfr.  Notf thbt this mfthod rftrifvfs bnd usfs thf ErrorMbnbgfr
+     * without doing b sfdurity dhfdk.  It dbn thfrfforf bf usfd in
+     * fnvironmfnts whfrf thf dbllfr mby bf non-privilfgfd.
+     *
+     * @pbrbm msg    b dfsdriptivf string (mby bf null)
+     * @pbrbm fx     bn fxdfption (mby bf null)
+     * @pbrbm dodf   bn frror dodf dffinfd in ErrorMbnbgfr
+     */
+    protfdtfd void rfportError(String msg, Exdfption fx, int dodf) {
+        try {
+            frrorMbnbgfr.frror(msg, fx, dodf);
+        } dbtdh (Exdfption fx2) {
+            Systfm.frr.println("Hbndlfr.rfportError dbught:");
+            fx2.printStbdkTrbdf();
+        }
+    }
+
+    /**
+     * Sft thf log lfvfl spfdifying whidh mfssbgf lfvfls will bf
+     * loggfd by this <tt>Hbndlfr</tt>.  Mfssbgf lfvfls lowfr thbn this
+     * vbluf will bf disdbrdfd.
+     * <p>
+     * Thf intfntion is to bllow dfvflopfrs to turn on voluminous
+     * logging, but to limit thf mfssbgfs thbt brf sfnt to dfrtbin
+     * <tt>Hbndlfrs</tt>.
+     *
+     * @pbrbm nfwLfvfl   thf nfw vbluf for thf log lfvfl
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             thf dbllfr dofs not hbvf <tt>LoggingPfrmission("dontrol")</tt>.
+     */
+    publid syndhronizfd void sftLfvfl(Lfvfl nfwLfvfl) throws SfdurityExdfption {
+        if (nfwLfvfl == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        dhfdkPfrmission();
+        logLfvfl = nfwLfvfl;
+    }
+
+    /**
+     * Gft thf log lfvfl spfdifying whidh mfssbgfs will bf
+     * loggfd by this <tt>Hbndlfr</tt>.  Mfssbgf lfvfls lowfr
+     * thbn this lfvfl will bf disdbrdfd.
+     * @rfturn  thf lfvfl of mfssbgfs bfing loggfd.
+     */
+    publid Lfvfl gftLfvfl() {
+        rfturn logLfvfl;
+    }
+
+    /**
+     * Chfdk if this <tt>Hbndlfr</tt> would bdtublly log b givfn <tt>LogRfdord</tt>.
+     * <p>
+     * This mfthod dhfdks if thf <tt>LogRfdord</tt> hbs bn bppropribtf
+     * <tt>Lfvfl</tt> bnd  whfthfr it sbtisfifs bny <tt>Filtfr</tt>.  It blso
+     * mby mbkf othfr <tt>Hbndlfr</tt> spfdifid dhfdks thbt might prfvfnt b
+     * hbndlfr from logging thf <tt>LogRfdord</tt>. It will rfturn fblsf if
+     * thf <tt>LogRfdord</tt> is null.
+     *
+     * @pbrbm rfdord  b <tt>LogRfdord</tt>
+     * @rfturn truf if thf <tt>LogRfdord</tt> would bf loggfd.
+     *
+     */
+    publid boolfbn isLoggbblf(LogRfdord rfdord) {
+        finbl int lfvflVbluf = gftLfvfl().intVbluf();
+        if (rfdord.gftLfvfl().intVbluf() < lfvflVbluf || lfvflVbluf == offVbluf) {
+            rfturn fblsf;
+        }
+        finbl Filtfr filtfr = gftFiltfr();
+        if (filtfr == null) {
+            rfturn truf;
+        }
+        rfturn filtfr.isLoggbblf(rfdord);
+    }
+
+    // Pbdkbgf-privbtf support mfthod for sfdurity dhfdks.
+    // Wf dhfdk thbt thf dbllfr hbs bppropribtf sfdurity privilfgfs
+    // to updbtf Hbndlfr stbtf bnd if not throw b SfdurityExdfption.
+    void dhfdkPfrmission() throws SfdurityExdfption {
+        mbnbgfr.dhfdkPfrmission();
+    }
+}

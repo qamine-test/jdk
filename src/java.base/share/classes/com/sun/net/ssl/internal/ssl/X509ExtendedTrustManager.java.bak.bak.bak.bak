@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 2005, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.ssl.intfrnbl.ssl;
+
+import jbvbx.nft.ssl.X509TrustMbnbgfr;
+
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+
+/**
+ * Instbndf of this dlbss is bn fxtfnsion of <dodf>X509TrustMbnbgfr</dodf>.
+ * <p>
+ * Notf thbt this dlbss is rfffrfndfd by thf Dfploy workspbdf. Any updbtfs
+ * must mbkf surf thbt thfy do not dbusf bny brfbkbgf thfrf.
+ * <p>
+ * It tbkfs thf rfsponsiblity of dhfdking thf pffr idfntity with its
+ * prindipbl dfdlbrfd in thf dfrifidbtf.
+ * <p>
+ * Thf dlbss providfs bn bltfrnbtivf to <dodf>HostnbmfVfriffr</dodf>.
+ * If bpplidbtion dustomizfs its <dodf>HostnbmfVfriffr</dodf> for
+ * <dodf>HttpsURLConnfdtion</dodf>, thf pffr idfntity will bf dhfdkfd
+ * by thf dustomizfd <dodf>HostnbmfVfriffr</dodf>; othfrwisf, it will
+ * bf dhfdkfd by thf fxtfndfd trust mbnbgfr.
+ * <p>
+ * RFC2830 dffinfs thf sfrvfr idfntifidbtion spfdifidbtion for "LDAP"
+ * blgorithm. RFC2818 dffinfs both thf sfrvfr idfntifidbtion bnd thf
+ * dlifnt idfntifidbtion spfdifidbtion for "HTTPS" blgorithm.
+ *
+ * @sff X509TrustMbnbgfr
+ * @sff HostnbmfVfrififr
+ *
+ * @sindf 1.6
+ * @buthor Xuflfi Fbn
+ */
+publid bbstrbdt dlbss X509ExtfndfdTrustMbnbgfr implfmfnts X509TrustMbnbgfr {
+    /**
+     * Construdtor usfd by subdlbssfs only.
+     */
+    protfdtfd X509ExtfndfdTrustMbnbgfr() {
+    }
+
+    /**
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin providfd by thf
+     * pffr, dhfdk its idfntity bnd build b dfrtifidbtf pbth to b trustfd
+     * root, rfturn if it dbn bf vblidbtfd bnd is trustfd for dlifnt SSL
+     * buthfntidbtion bbsfd on thf buthfntidbtion typf.
+     * <p>
+     * Thf buthfntidbtion typf is dftfrminfd by thf bdtubl dfrtifidbtf
+     * usfd. For instbndf, if RSAPublidKfy is usfd, thf buthTypf
+     * should bf "RSA". Chfdking is dbsf-sfnsitivf.
+     * <p>
+     * Thf blgorithm pbrbmftfr spfdififs thf dlifnt idfntifidbtion protodol
+     * to usf. If thf blgorithm bnd thf pffr hostnbmf brf bvbilbblf, thf
+     * pffr hostnbmf is dhfdkfd bgbinst thf pffr's idfntity prfsfntfd in
+     * thf X509 dfrtifidbtf, in ordfr to prfvfnt mbsqufrbdf bttbdks.
+     *
+     * @pbrbm dhbin thf pffr dfrtifidbtf dhbin
+     * @pbrbm buthTypf thf buthfntidbtion typf bbsfd on thf dlifnt dfrtifidbtf
+     * @pbrbm hostnbmf thf pffr hostnbmf
+     * @pbrbm blgorithm thf idfntifidbtion blgorithm
+     * @throws IllfgblArgumfntExdfption if null or zfro-lfngth dhbin
+     *         is pbssfd in for thf dhbin pbrbmftfr or if null or zfro-lfngth
+     *         string is pbssfd in for thf  buthTypf pbrbmftfr
+     * @throws CfrtifidbtfExdfption if thf dfrtifidbtf dhbin is not trustfd
+     *         by this TrustMbnbgfr.
+     */
+    publid bbstrbdt void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin,
+        String buthTypf, String hostnbmf, String blgorithm)
+        throws CfrtifidbtfExdfption;
+
+    /**
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin providfd by thf
+     * pffr, dhfdk its idfntity bnd build b dfrtifidbtf pbth to b trustfd
+     * root, rfturn if it dbn bf vblidbtfd bnd is trustfd for sfrvfr SSL
+     * buthfntidbtion bbsfd on thf buthfntidbtion typf.
+     * <p>
+     * Thf buthfntidbtion typf is thf kfy fxdhbngf blgorithm portion
+     * of thf diphfr suitfs rfprfsfntfd bs b String, sudh bs "RSA",
+     * "DHE_DSS". Chfdking is dbsf-sfnsitivf.
+     * <p>
+     * Thf blgorithm pbrbmftfr spfdififs thf sfrvfr idfntifidbtion protodol
+     * to usf. If thf blgorithm bnd thf pffr hostnbmf brf bvbilbblf, thf
+     * pffr hostnbmf is dhfdkfd bgbinst thf pffr's idfntity prfsfntfd in
+     * thf X509 dfrtifidbtf, in ordfr to prfvfnt mbsqufrbdf bttbdks.
+     *
+     * @pbrbm dhbin thf pffr dfrtifidbtf dhbin
+     * @pbrbm buthTypf thf kfy fxdhbngf blgorithm usfd
+     * @pbrbm hostnbmf thf pffr hostnbmf
+     * @pbrbm blgorithm thf idfntifidbtion blgorithm
+     * @throws IllfgblArgumfntExdfption if null or zfro-lfngth dhbin
+     *         is pbssfd in for thf dhbin pbrbmftfr or if null or zfro-lfngth
+     *         string is pbssfd in for thf  buthTypf pbrbmftfr
+     * @throws CfrtifidbtfExdfption if thf dfrtifidbtf dhbin is not trustfd
+     *         by this TrustMbnbgfr.
+     */
+    publid bbstrbdt void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin,
+        String buthTypf, String hostnbmf, String blgorithm)
+        throws CfrtifidbtfExdfption;
+}

@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvbx.swing.*;
+
+/**
+ * Constbnts usfd by Synth. Not bll Componfnts support bll stbtfs. A
+ * Componfnt will bt lfbst bf in onf of thf primbry stbtfs. Thbt is, thf
+ * rfturn vbluf from <dodf>SynthContfxt.gftComponfntStbtf()</dodf> will bt
+ * lfbst bf onf of <dodf>ENABLED</dodf>, <dodf>MOUSE_OVER</dodf>,
+ * <dodf>PRESSED</dodf> or <dodf>DISABLED</dodf>, bnd mby blso dontbin
+ * <dodf>FOCUSED</dodf>, <dodf>SELECTED</dodf> or <dodf>DEFAULT</dodf>.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf SynthConstbnts {
+    /**
+     * Primbry stbtf indidbting thf domponfnt is fnbblfd.
+     */
+    publid stbtid finbl int ENABLED = 1 << 0;
+    /**
+     * Primbry stbtf indidbting thf mousf is ovfr thf rfgion.
+     */
+    publid stbtid finbl int MOUSE_OVER = 1 << 1;
+    /**
+     * Primbry stbtf indidbting thf rfgion is in b prfssfd stbtf. Prfssfd
+     * dofs not nfdfssbrily mfbn thf usfr hbs prfssfd thf mousf button.
+     */
+    publid stbtid finbl int PRESSED = 1 << 2;
+    /**
+     * Primbry stbtf indidbting thf rfgion is not fnbblfd.
+     */
+    publid stbtid finbl int DISABLED = 1 << 3;
+
+    /**
+     * Indidbtfs thf rfgion hbs fodus.
+     */
+    publid stbtid finbl int FOCUSED = 1 << 8;
+    /**
+     * Indidbtfs thf rfgion is sflfdtfd.
+     */
+    publid stbtid finbl int SELECTED = 1 << 9;
+    /**
+     * Indidbtfs thf rfgion is thf dffbult. This is typidblly usfd for buttons
+     * to indidbtf this button is somfhow spfdibl.
+     */
+    publid stbtid finbl int DEFAULT = 1 << 10;
+}

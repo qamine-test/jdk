@@ -1,483 +1,483 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
 /**
- * A {@code FloatControl} object provides control over a range of floating-point
- * values. Float controls are often represented in graphical user interfaces by
- * continuously adjustable objects such as sliders or rotary knobs. Concrete
- * subclasses of {@code FloatControl} implement controls, such as gain and pan,
- * that affect a line's audio signal in some way that an application can
- * manipulate. The {@link FloatControl.Type} inner class provides static
- * instances of types that are used to identify some common kinds of float
- * control.
+ * A {@dodf FlobtControl} objfdt providfs dontrol ovfr b rbngf of flobting-point
+ * vblufs. Flobt dontrols brf oftfn rfprfsfntfd in grbpiidbl usfr intfrfbdfs by
+ * dontinuously bdjustbblf objfdts sudi bs slidfrs or rotbry knobs. Condrftf
+ * subdlbssfs of {@dodf FlobtControl} implfmfnt dontrols, sudi bs gbin bnd pbn,
+ * tibt bfffdt b linf's budio signbl in somf wby tibt bn bpplidbtion dbn
+ * mbnipulbtf. Tif {@link FlobtControl.Typf} innfr dlbss providfs stbtid
+ * instbndfs of typfs tibt brf usfd to idfntify somf dommon kinds of flobt
+ * dontrol.
  * <p>
- * The {@code FloatControl} abstract class provides methods to set and get the
- * control's current floating-point value. Other methods obtain the possible
- * range of values and the control's resolution (the smallest increment between
- * returned values). Some float controls allow ramping to a new value over a
- * specified period of time. {@code FloatControl} also includes methods that
- * return string labels for the minimum, maximum, and midpoint positions of the
- * control.
+ * Tif {@dodf FlobtControl} bbstrbdt dlbss providfs mftiods to sft bnd gft tif
+ * dontrol's durrfnt flobting-point vbluf. Otifr mftiods obtbin tif possiblf
+ * rbngf of vblufs bnd tif dontrol's rfsolution (tif smbllfst indrfmfnt bftwffn
+ * rfturnfd vblufs). Somf flobt dontrols bllow rbmping to b nfw vbluf ovfr b
+ * spfdififd pfriod of timf. {@dodf FlobtControl} blso indludfs mftiods tibt
+ * rfturn string lbbfls for tif minimum, mbximum, bnd midpoint positions of tif
+ * dontrol.
  *
- * @author David Rivas
- * @author Kara Kytle
- * @see Line#getControls
- * @see Line#isControlSupported
- * @since 1.3
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
+ * @sff Linf#gftControls
+ * @sff Linf#isControlSupportfd
+ * @sindf 1.3
  */
-public abstract class FloatControl extends Control {
+publid bbstrbdt dlbss FlobtControl fxtfnds Control {
 
     /**
-     * The minimum supported value.
+     * Tif minimum supportfd vbluf.
      */
-    private float minimum;
+    privbtf flobt minimum;
 
     /**
-     * The maximum supported value.
+     * Tif mbximum supportfd vbluf.
      */
-    private float maximum;
+    privbtf flobt mbximum;
 
     /**
-     * The control's precision.
+     * Tif dontrol's prfdision.
      */
-    private float precision;
+    privbtf flobt prfdision;
 
     /**
-     * The smallest time increment in which a value change can be effected
-     * during a value shift, in microseconds.
+     * Tif smbllfst timf indrfmfnt in wiidi b vbluf dibngf dbn bf ffffdtfd
+     * during b vbluf siift, in midrosfdonds.
      */
-    private int updatePeriod;
+    privbtf int updbtfPfriod;
 
     /**
-     * A label for the units in which the control values are expressed, such as
-     * "dB" for decibels.
+     * A lbbfl for tif units in wiidi tif dontrol vblufs brf fxprfssfd, sudi bs
+     * "dB" for dfdibfls.
      */
-    private final String units;
+    privbtf finbl String units;
 
     /**
-     * A label for the minimum value, such as "Left".
+     * A lbbfl for tif minimum vbluf, sudi bs "Lfft".
      */
-    private final String minLabel;
+    privbtf finbl String minLbbfl;
 
     /**
-     * A label for the maximum value, such as "Right".
+     * A lbbfl for tif mbximum vbluf, sudi bs "Rigit".
      */
-    private final String maxLabel;
+    privbtf finbl String mbxLbbfl;
 
     /**
-     * A label for the mid-point value, such as "Center".
+     * A lbbfl for tif mid-point vbluf, sudi bs "Cfntfr".
      */
-    private final String midLabel;
+    privbtf finbl String midLbbfl;
 
     /**
-     * The current value.
+     * Tif durrfnt vbluf.
      */
-    private float value;
+    privbtf flobt vbluf;
 
     /**
-     * Constructs a new float control object with the given parameters.
+     * Construdts b nfw flobt dontrol objfdt witi tif givfn pbrbmftfrs.
      *
-     * @param  type the kind of control represented by this float control object
-     * @param  minimum the smallest value permitted for the control
-     * @param  maximum the largest value permitted for the control
-     * @param  precision the resolution or granularity of the control. This is
-     *         the size of the increment between discrete valid values.
-     * @param  updatePeriod the smallest time interval, in microseconds, over
-     *         which the control can change from one discrete value to the next
-     *         during a {@link #shift(float,float,int) shift}
-     * @param  initialValue the value that the control starts with when
-     *         constructed
-     * @param  units the label for the units in which the control's values are
-     *         expressed, such as "dB" or "frames per second"
-     * @param  minLabel the label for the minimum value, such as "Left" or "Off"
-     * @param  midLabel the label for the midpoint value, such as "Center" or
-     *         "Default"
-     * @param  maxLabel the label for the maximum value, such as "Right" or
+     * @pbrbm  typf tif kind of dontrol rfprfsfntfd by tiis flobt dontrol objfdt
+     * @pbrbm  minimum tif smbllfst vbluf pfrmittfd for tif dontrol
+     * @pbrbm  mbximum tif lbrgfst vbluf pfrmittfd for tif dontrol
+     * @pbrbm  prfdision tif rfsolution or grbnulbrity of tif dontrol. Tiis is
+     *         tif sizf of tif indrfmfnt bftwffn disdrftf vblid vblufs.
+     * @pbrbm  updbtfPfriod tif smbllfst timf intfrvbl, in midrosfdonds, ovfr
+     *         wiidi tif dontrol dbn dibngf from onf disdrftf vbluf to tif nfxt
+     *         during b {@link #siift(flobt,flobt,int) siift}
+     * @pbrbm  initiblVbluf tif vbluf tibt tif dontrol stbrts witi wifn
+     *         donstrudtfd
+     * @pbrbm  units tif lbbfl for tif units in wiidi tif dontrol's vblufs brf
+     *         fxprfssfd, sudi bs "dB" or "frbmfs pfr sfdond"
+     * @pbrbm  minLbbfl tif lbbfl for tif minimum vbluf, sudi bs "Lfft" or "Off"
+     * @pbrbm  midLbbfl tif lbbfl for tif midpoint vbluf, sudi bs "Cfntfr" or
+     *         "Dffbult"
+     * @pbrbm  mbxLbbfl tif lbbfl for tif mbximum vbluf, sudi bs "Rigit" or
      *         "Full"
-     * @throws IllegalArgumentException if {@code minimum} is greater than
-     *         {@code maximum} or {@code initialValue} does not fall within the
-     *         allowable range
+     * @tirows IllfgblArgumfntExdfption if {@dodf minimum} is grfbtfr tibn
+     *         {@dodf mbximum} or {@dodf initiblVbluf} dofs not fbll witiin tif
+     *         bllowbblf rbngf
      */
-    protected FloatControl(Type type, float minimum, float maximum,
-            float precision, int updatePeriod, float initialValue,
-            String units, String minLabel, String midLabel, String maxLabel) {
+    protfdtfd FlobtControl(Typf typf, flobt minimum, flobt mbximum,
+            flobt prfdision, int updbtfPfriod, flobt initiblVbluf,
+            String units, String minLbbfl, String midLbbfl, String mbxLbbfl) {
 
-        super(type);
+        supfr(typf);
 
-        if (minimum > maximum) {
-            throw new IllegalArgumentException("Minimum value " + minimum
-                    + " exceeds maximum value " + maximum + ".");
+        if (minimum > mbximum) {
+            tirow nfw IllfgblArgumfntExdfption("Minimum vbluf " + minimum
+                    + " fxdffds mbximum vbluf " + mbximum + ".");
         }
-        if (initialValue < minimum) {
-            throw new IllegalArgumentException("Initial value " + initialValue
-                    + " smaller than allowable minimum value " + minimum + ".");
+        if (initiblVbluf < minimum) {
+            tirow nfw IllfgblArgumfntExdfption("Initibl vbluf " + initiblVbluf
+                    + " smbllfr tibn bllowbblf minimum vbluf " + minimum + ".");
         }
-        if (initialValue > maximum) {
-            throw new IllegalArgumentException("Initial value " + initialValue
-                    + " exceeds allowable maximum value " + maximum + ".");
-        }
-
-
-        this.minimum = minimum;
-        this.maximum = maximum;
-
-        this.precision = precision;
-        this.updatePeriod = updatePeriod;
-        this.value = initialValue;
-
-        this.units = units;
-        this.minLabel = ( (minLabel == null) ? "" : minLabel);
-        this.midLabel = ( (midLabel == null) ? "" : midLabel);
-        this.maxLabel = ( (maxLabel == null) ? "" : maxLabel);
-    }
-
-    /**
-     * Constructs a new float control object with the given parameters. The
-     * labels for the minimum, maximum, and mid-point values are set to
-     * zero-length strings.
-     *
-     * @param  type the kind of control represented by this float control object
-     * @param  minimum the smallest value permitted for the control
-     * @param  maximum the largest value permitted for the control
-     * @param  precision the resolution or granularity of the control. This is
-     *         the size of the increment between discrete valid values.
-     * @param  updatePeriod the smallest time interval, in microseconds, over
-     *         which the control can change from one discrete value to the next
-     *         during a {@link #shift(float,float,int) shift}
-     * @param  initialValue the value that the control starts with when
-     *         constructed
-     * @param  units the label for the units in which the control's values are
-     *         expressed, such as "dB" or "frames per second"
-     * @throws IllegalArgumentException if {@code minimum} is greater than
-     *         {@code maximum} or {@code initialValue} does not fall within the
-     *         allowable range
-     */
-    protected FloatControl(Type type, float minimum, float maximum,
-            float precision, int updatePeriod, float initialValue, String units) {
-        this(type, minimum, maximum, precision, updatePeriod,
-                initialValue, units, "", "", "");
-    }
-
-    /**
-     * Sets the current value for the control. The default implementation simply
-     * sets the value as indicated. If the value indicated is greater than the
-     * maximum value, or smaller than the minimum value, an
-     * {@code IllegalArgumentException} is thrown. Some controls require that
-     * their line be open before they can be affected by setting a value.
-     *
-     * @param  newValue desired new value
-     * @throws IllegalArgumentException if the value indicated does not fall
-     *         within the allowable range
-     */
-    public void setValue(float newValue) {
-
-        if (newValue > maximum) {
-            throw new IllegalArgumentException("Requested value " + newValue + " exceeds allowable maximum value " + maximum + ".");
+        if (initiblVbluf > mbximum) {
+            tirow nfw IllfgblArgumfntExdfption("Initibl vbluf " + initiblVbluf
+                    + " fxdffds bllowbblf mbximum vbluf " + mbximum + ".");
         }
 
-        if (newValue < minimum) {
-            throw new IllegalArgumentException("Requested value " + newValue + " smaller than allowable minimum value " + minimum + ".");
+
+        tiis.minimum = minimum;
+        tiis.mbximum = mbximum;
+
+        tiis.prfdision = prfdision;
+        tiis.updbtfPfriod = updbtfPfriod;
+        tiis.vbluf = initiblVbluf;
+
+        tiis.units = units;
+        tiis.minLbbfl = ( (minLbbfl == null) ? "" : minLbbfl);
+        tiis.midLbbfl = ( (midLbbfl == null) ? "" : midLbbfl);
+        tiis.mbxLbbfl = ( (mbxLbbfl == null) ? "" : mbxLbbfl);
+    }
+
+    /**
+     * Construdts b nfw flobt dontrol objfdt witi tif givfn pbrbmftfrs. Tif
+     * lbbfls for tif minimum, mbximum, bnd mid-point vblufs brf sft to
+     * zfro-lfngti strings.
+     *
+     * @pbrbm  typf tif kind of dontrol rfprfsfntfd by tiis flobt dontrol objfdt
+     * @pbrbm  minimum tif smbllfst vbluf pfrmittfd for tif dontrol
+     * @pbrbm  mbximum tif lbrgfst vbluf pfrmittfd for tif dontrol
+     * @pbrbm  prfdision tif rfsolution or grbnulbrity of tif dontrol. Tiis is
+     *         tif sizf of tif indrfmfnt bftwffn disdrftf vblid vblufs.
+     * @pbrbm  updbtfPfriod tif smbllfst timf intfrvbl, in midrosfdonds, ovfr
+     *         wiidi tif dontrol dbn dibngf from onf disdrftf vbluf to tif nfxt
+     *         during b {@link #siift(flobt,flobt,int) siift}
+     * @pbrbm  initiblVbluf tif vbluf tibt tif dontrol stbrts witi wifn
+     *         donstrudtfd
+     * @pbrbm  units tif lbbfl for tif units in wiidi tif dontrol's vblufs brf
+     *         fxprfssfd, sudi bs "dB" or "frbmfs pfr sfdond"
+     * @tirows IllfgblArgumfntExdfption if {@dodf minimum} is grfbtfr tibn
+     *         {@dodf mbximum} or {@dodf initiblVbluf} dofs not fbll witiin tif
+     *         bllowbblf rbngf
+     */
+    protfdtfd FlobtControl(Typf typf, flobt minimum, flobt mbximum,
+            flobt prfdision, int updbtfPfriod, flobt initiblVbluf, String units) {
+        tiis(typf, minimum, mbximum, prfdision, updbtfPfriod,
+                initiblVbluf, units, "", "", "");
+    }
+
+    /**
+     * Sfts tif durrfnt vbluf for tif dontrol. Tif dffbult implfmfntbtion simply
+     * sfts tif vbluf bs indidbtfd. If tif vbluf indidbtfd is grfbtfr tibn tif
+     * mbximum vbluf, or smbllfr tibn tif minimum vbluf, bn
+     * {@dodf IllfgblArgumfntExdfption} is tirown. Somf dontrols rfquirf tibt
+     * tifir linf bf opfn bfforf tify dbn bf bfffdtfd by sftting b vbluf.
+     *
+     * @pbrbm  nfwVbluf dfsirfd nfw vbluf
+     * @tirows IllfgblArgumfntExdfption if tif vbluf indidbtfd dofs not fbll
+     *         witiin tif bllowbblf rbngf
+     */
+    publid void sftVbluf(flobt nfwVbluf) {
+
+        if (nfwVbluf > mbximum) {
+            tirow nfw IllfgblArgumfntExdfption("Rfqufstfd vbluf " + nfwVbluf + " fxdffds bllowbblf mbximum vbluf " + mbximum + ".");
         }
 
-        value = newValue;
+        if (nfwVbluf < minimum) {
+            tirow nfw IllfgblArgumfntExdfption("Rfqufstfd vbluf " + nfwVbluf + " smbllfr tibn bllowbblf minimum vbluf " + minimum + ".");
+        }
+
+        vbluf = nfwVbluf;
     }
 
     /**
-     * Obtains this control's current value.
+     * Obtbins tiis dontrol's durrfnt vbluf.
      *
-     * @return the current value
+     * @rfturn tif durrfnt vbluf
      */
-    public float getValue() {
-        return value;
+    publid flobt gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Obtains the maximum value permitted.
+     * Obtbins tif mbximum vbluf pfrmittfd.
      *
-     * @return the maximum allowable value
+     * @rfturn tif mbximum bllowbblf vbluf
      */
-    public float getMaximum() {
-        return maximum;
+    publid flobt gftMbximum() {
+        rfturn mbximum;
     }
 
     /**
-     * Obtains the minimum value permitted.
+     * Obtbins tif minimum vbluf pfrmittfd.
      *
-     * @return the minimum allowable value
+     * @rfturn tif minimum bllowbblf vbluf
      */
-    public float getMinimum() {
-        return minimum;
+    publid flobt gftMinimum() {
+        rfturn minimum;
     }
 
     /**
-     * Obtains the label for the units in which the control's values are
-     * expressed, such as "dB" or "frames per second."
+     * Obtbins tif lbbfl for tif units in wiidi tif dontrol's vblufs brf
+     * fxprfssfd, sudi bs "dB" or "frbmfs pfr sfdond."
      *
-     * @return the units label, or a zero-length string if no label
+     * @rfturn tif units lbbfl, or b zfro-lfngti string if no lbbfl
      */
-    public String getUnits() {
-        return units;
+    publid String gftUnits() {
+        rfturn units;
     }
 
     /**
-     * Obtains the label for the minimum value, such as "Left" or "Off".
+     * Obtbins tif lbbfl for tif minimum vbluf, sudi bs "Lfft" or "Off".
      *
-     * @return the minimum value label, or a zero-length string if no label has
-     *         been set
+     * @rfturn tif minimum vbluf lbbfl, or b zfro-lfngti string if no lbbfl ibs
+     *         bffn sft
      */
-    public String getMinLabel() {
-        return minLabel;
+    publid String gftMinLbbfl() {
+        rfturn minLbbfl;
     }
 
     /**
-     * Obtains the label for the mid-point value, such as "Center" or "Default".
+     * Obtbins tif lbbfl for tif mid-point vbluf, sudi bs "Cfntfr" or "Dffbult".
      *
-     * @return the mid-point value label, or a zero-length string if no label
-     *         has been set
+     * @rfturn tif mid-point vbluf lbbfl, or b zfro-lfngti string if no lbbfl
+     *         ibs bffn sft
      */
-    public String getMidLabel() {
-        return midLabel;
+    publid String gftMidLbbfl() {
+        rfturn midLbbfl;
     }
 
     /**
-     * Obtains the label for the maximum value, such as "Right" or "Full".
+     * Obtbins tif lbbfl for tif mbximum vbluf, sudi bs "Rigit" or "Full".
      *
-     * @return the maximum value label, or a zero-length string if no label has
-     *         been set
+     * @rfturn tif mbximum vbluf lbbfl, or b zfro-lfngti string if no lbbfl ibs
+     *         bffn sft
      */
-    public String getMaxLabel() {
-        return maxLabel;
+    publid String gftMbxLbbfl() {
+        rfturn mbxLbbfl;
     }
 
     /**
-     * Obtains the resolution or granularity of the control, in the units that
-     * the control measures. The precision is the size of the increment between
-     * discrete valid values for this control, over the set of supported
-     * floating-point values.
+     * Obtbins tif rfsolution or grbnulbrity of tif dontrol, in tif units tibt
+     * tif dontrol mfbsurfs. Tif prfdision is tif sizf of tif indrfmfnt bftwffn
+     * disdrftf vblid vblufs for tiis dontrol, ovfr tif sft of supportfd
+     * flobting-point vblufs.
      *
-     * @return the control's precision
+     * @rfturn tif dontrol's prfdision
      */
-    public float getPrecision() {
-        return precision;
+    publid flobt gftPrfdision() {
+        rfturn prfdision;
     }
 
     /**
-     * Obtains the smallest time interval, in microseconds, over which the
-     * control's value can change during a shift. The update period is the
-     * inverse of the frequency with which the control updates its value during
-     * a shift. If the implementation does not support value shifting over time,
-     * it should set the control's value to the final value immediately and
-     * return -1 from this method.
+     * Obtbins tif smbllfst timf intfrvbl, in midrosfdonds, ovfr wiidi tif
+     * dontrol's vbluf dbn dibngf during b siift. Tif updbtf pfriod is tif
+     * invfrsf of tif frfqufndy witi wiidi tif dontrol updbtfs its vbluf during
+     * b siift. If tif implfmfntbtion dofs not support vbluf siifting ovfr timf,
+     * it siould sft tif dontrol's vbluf to tif finbl vbluf immfdibtfly bnd
+     * rfturn -1 from tiis mftiod.
      *
-     * @return update period in microseconds, or -1 if shifting over time is
-     *         unsupported
-     * @see #shift
+     * @rfturn updbtf pfriod in midrosfdonds, or -1 if siifting ovfr timf is
+     *         unsupportfd
+     * @sff #siift
      */
-    public int getUpdatePeriod() {
-        return updatePeriod;
+    publid int gftUpdbtfPfriod() {
+        rfturn updbtfPfriod;
     }
 
     /**
-     * Changes the control value from the initial value to the final value
-     * linearly over the specified time period, specified in microseconds. This
-     * method returns without blocking; it does not wait for the shift to
-     * complete. An implementation should complete the operation within the time
-     * specified. The default implementation simply changes the value to the
-     * final value immediately.
+     * Cibngfs tif dontrol vbluf from tif initibl vbluf to tif finbl vbluf
+     * linfbrly ovfr tif spfdififd timf pfriod, spfdififd in midrosfdonds. Tiis
+     * mftiod rfturns witiout blodking; it dofs not wbit for tif siift to
+     * domplftf. An implfmfntbtion siould domplftf tif opfrbtion witiin tif timf
+     * spfdififd. Tif dffbult implfmfntbtion simply dibngfs tif vbluf to tif
+     * finbl vbluf immfdibtfly.
      *
-     * @param  from initial value at the beginning of the shift
-     * @param  to final value after the shift
-     * @param  microseconds maximum duration of the shift in microseconds
-     * @throws IllegalArgumentException if either {@code from} or {@code to}
-     *         value does not fall within the allowable range
-     * @see #getUpdatePeriod
+     * @pbrbm  from initibl vbluf bt tif bfginning of tif siift
+     * @pbrbm  to finbl vbluf bftfr tif siift
+     * @pbrbm  midrosfdonds mbximum durbtion of tif siift in midrosfdonds
+     * @tirows IllfgblArgumfntExdfption if fitifr {@dodf from} or {@dodf to}
+     *         vbluf dofs not fbll witiin tif bllowbblf rbngf
+     * @sff #gftUpdbtfPfriod
      */
-    public void shift(float from, float to, int microseconds) {
-        // test "from" value, "to" value will be tested by setValue()
+    publid void siift(flobt from, flobt to, int midrosfdonds) {
+        // tfst "from" vbluf, "to" vbluf will bf tfstfd by sftVbluf()
         if (from < minimum) {
-            throw new IllegalArgumentException("Requested value " + from
-                    + " smaller than allowable minimum value " + minimum + ".");
+            tirow nfw IllfgblArgumfntExdfption("Rfqufstfd vbluf " + from
+                    + " smbllfr tibn bllowbblf minimum vbluf " + minimum + ".");
         }
-        if (from > maximum) {
-            throw new IllegalArgumentException("Requested value " + from
-                    + " exceeds allowable maximum value " + maximum + ".");
+        if (from > mbximum) {
+            tirow nfw IllfgblArgumfntExdfption("Rfqufstfd vbluf " + from
+                    + " fxdffds bllowbblf mbximum vbluf " + mbximum + ".");
         }
-        setValue(to);
+        sftVbluf(to);
     }
 
     /**
-     * Provides a string representation of the control.
+     * Providfs b string rfprfsfntbtion of tif dontrol.
      *
-     * @return a string description
+     * @rfturn b string dfsdription
      */
-    public String toString() {
-        return new String(getType() + " with current value: " + getValue() + " " + units +
-                          " (range: " + minimum + " - " + maximum + ")");
+    publid String toString() {
+        rfturn nfw String(gftTypf() + " witi durrfnt vbluf: " + gftVbluf() + " " + units +
+                          " (rbngf: " + minimum + " - " + mbximum + ")");
     }
 
     /**
-     * An instance of the {@code FloatControl.Type} inner class identifies one
-     * kind of float control. Static instances are provided for the common
-     * types.
+     * An instbndf of tif {@dodf FlobtControl.Typf} innfr dlbss idfntififs onf
+     * kind of flobt dontrol. Stbtid instbndfs brf providfd for tif dommon
+     * typfs.
      *
-     * @author Kara Kytle
-     * @since 1.3
+     * @butior Kbrb Kytlf
+     * @sindf 1.3
      */
-    public static class Type extends Control.Type {
+    publid stbtid dlbss Typf fxtfnds Control.Typf {
 
         /**
-         * Represents a control for the overall gain on a line.
+         * Rfprfsfnts b dontrol for tif ovfrbll gbin on b linf.
          * <p>
-         * Gain is a quantity in decibels (dB) that is added to the intrinsic
-         * decibel level of the audio signal--that is, the level of the signal
-         * before it is altered by the gain control. A positive gain amplifies
-         * (boosts) the signal's volume, and a negative gain attenuates(cuts)it.
-         * The gain setting defaults to a value of 0.0 dB, meaning the signal's
-         * loudness is unaffected. Note that gain measures dB, not amplitude.
-         * The relationship between a gain in decibels and the corresponding
-         * linear amplitude multiplier is:
+         * Gbin is b qubntity in dfdibfls (dB) tibt is bddfd to tif intrinsid
+         * dfdibfl lfvfl of tif budio signbl--tibt is, tif lfvfl of tif signbl
+         * bfforf it is bltfrfd by tif gbin dontrol. A positivf gbin bmplififs
+         * (boosts) tif signbl's volumf, bnd b nfgbtivf gbin bttfnubtfs(duts)it.
+         * Tif gbin sftting dffbults to b vbluf of 0.0 dB, mfbning tif signbl's
+         * loudnfss is unbfffdtfd. Notf tibt gbin mfbsurfs dB, not bmplitudf.
+         * Tif rflbtionsiip bftwffn b gbin in dfdibfls bnd tif dorrfsponding
+         * linfbr bmplitudf multiplifr is:
          *
-         * <CENTER>{@code linearScalar = pow(10.0, gainDB/20.0)}</CENTER>
+         * <CENTER>{@dodf linfbrSdblbr = pow(10.0, gbinDB/20.0)}</CENTER>
          * <p>
-         * The {@code FloatControl} class has methods to impose a maximum and
-         * minimum allowable value for gain. However, because an audio signal
-         * might already be at a high amplitude, the maximum setting does not
-         * guarantee that the signal will be undistorted when the gain is
-         * applied to it (unless the maximum is zero or negative). To avoid
-         * numeric overflow from excessively large gain settings, a gain control
-         * can implement clipping, meaning that the signal's amplitude will be
-         * limited to the maximum value representable by its audio format,
-         * instead of wrapping around.
+         * Tif {@dodf FlobtControl} dlbss ibs mftiods to imposf b mbximum bnd
+         * minimum bllowbblf vbluf for gbin. Howfvfr, bfdbusf bn budio signbl
+         * migit blrfbdy bf bt b iigi bmplitudf, tif mbximum sftting dofs not
+         * gubrbntff tibt tif signbl will bf undistortfd wifn tif gbin is
+         * bpplifd to it (unlfss tif mbximum is zfro or nfgbtivf). To bvoid
+         * numfrid ovfrflow from fxdfssivfly lbrgf gbin sfttings, b gbin dontrol
+         * dbn implfmfnt dlipping, mfbning tibt tif signbl's bmplitudf will bf
+         * limitfd to tif mbximum vbluf rfprfsfntbblf by its budio formbt,
+         * instfbd of wrbpping bround.
          * <p>
-         * These comments apply to gain controls in general, not just master
-         * gain controls. A line can have more than one gain control. For
-         * example, a mixer (which is itself a line) might have a master gain
-         * control, an auxiliary return control, a reverb return control, and,
-         * on each of its source lines, an individual aux send and reverb send.
+         * Tifsf dommfnts bpply to gbin dontrols in gfnfrbl, not just mbstfr
+         * gbin dontrols. A linf dbn ibvf morf tibn onf gbin dontrol. For
+         * fxbmplf, b mixfr (wiidi is itsflf b linf) migit ibvf b mbstfr gbin
+         * dontrol, bn buxilibry rfturn dontrol, b rfvfrb rfturn dontrol, bnd,
+         * on fbdi of its sourdf linfs, bn individubl bux sfnd bnd rfvfrb sfnd.
          *
-         * @see #AUX_SEND
-         * @see #AUX_RETURN
-         * @see #REVERB_SEND
-         * @see #REVERB_RETURN
-         * @see #VOLUME
+         * @sff #AUX_SEND
+         * @sff #AUX_RETURN
+         * @sff #REVERB_SEND
+         * @sff #REVERB_RETURN
+         * @sff #VOLUME
          */
-        public static final Type MASTER_GAIN            = new Type("Master Gain");
+        publid stbtid finbl Typf MASTER_GAIN            = nfw Typf("Mbstfr Gbin");
 
         /**
-         * Represents a control for the auxiliary send gain on a line.
+         * Rfprfsfnts b dontrol for tif buxilibry sfnd gbin on b linf.
          *
-         * @see #MASTER_GAIN
-         * @see #AUX_RETURN
+         * @sff #MASTER_GAIN
+         * @sff #AUX_RETURN
          */
-        public static final Type AUX_SEND                       = new Type("AUX Send");
+        publid stbtid finbl Typf AUX_SEND                       = nfw Typf("AUX Sfnd");
 
         /**
-         * Represents a control for the auxiliary return gain on a line.
+         * Rfprfsfnts b dontrol for tif buxilibry rfturn gbin on b linf.
          *
-         * @see #MASTER_GAIN
-         * @see #AUX_SEND
+         * @sff #MASTER_GAIN
+         * @sff #AUX_SEND
          */
-        public static final Type AUX_RETURN                     = new Type("AUX Return");
+        publid stbtid finbl Typf AUX_RETURN                     = nfw Typf("AUX Rfturn");
 
         /**
-         * Represents a control for the pre-reverb gain on a line. This control
-         * may be used to affect how much of a line's signal is directed to a
-         * mixer's internal reverberation unit.
+         * Rfprfsfnts b dontrol for tif prf-rfvfrb gbin on b linf. Tiis dontrol
+         * mby bf usfd to bfffdt iow mudi of b linf's signbl is dirfdtfd to b
+         * mixfr's intfrnbl rfvfrbfrbtion unit.
          *
-         * @see #MASTER_GAIN
-         * @see #REVERB_RETURN
-         * @see EnumControl.Type#REVERB
+         * @sff #MASTER_GAIN
+         * @sff #REVERB_RETURN
+         * @sff EnumControl.Typf#REVERB
          */
-        public static final Type REVERB_SEND            = new Type("Reverb Send");
+        publid stbtid finbl Typf REVERB_SEND            = nfw Typf("Rfvfrb Sfnd");
 
         /**
-         * Represents a control for the post-reverb gain on a line. This control
-         * may be used to control the relative amplitude of the signal returned
-         * from an internal reverberation unit.
+         * Rfprfsfnts b dontrol for tif post-rfvfrb gbin on b linf. Tiis dontrol
+         * mby bf usfd to dontrol tif rflbtivf bmplitudf of tif signbl rfturnfd
+         * from bn intfrnbl rfvfrbfrbtion unit.
          *
-         * @see #MASTER_GAIN
-         * @see #REVERB_SEND
+         * @sff #MASTER_GAIN
+         * @sff #REVERB_SEND
          */
-        public static final Type REVERB_RETURN          = new Type("Reverb Return");
+        publid stbtid finbl Typf REVERB_RETURN          = nfw Typf("Rfvfrb Rfturn");
 
         /**
-         * Represents a control for the volume on a line.
+         * Rfprfsfnts b dontrol for tif volumf on b linf.
          */
         /*
-         * $$kk: 08.30.99: ISSUE: what units?  linear or dB?
+         * $$kk: 08.30.99: ISSUE: wibt units?  linfbr or dB?
          */
-        public static final Type VOLUME                         = new Type("Volume");
+        publid stbtid finbl Typf VOLUME                         = nfw Typf("Volumf");
 
         /**
-         * Represents a control for the relative pan (left-right positioning) of
-         * the signal. The signal may be mono; the pan setting affects how it is
-         * distributed by the mixer in a stereo mix. The valid range of values
-         * is -1.0 (left channel only) to 1.0 (right channel only). The default
-         * is 0.0 (centered).
+         * Rfprfsfnts b dontrol for tif rflbtivf pbn (lfft-rigit positioning) of
+         * tif signbl. Tif signbl mby bf mono; tif pbn sftting bfffdts iow it is
+         * distributfd by tif mixfr in b stfrfo mix. Tif vblid rbngf of vblufs
+         * is -1.0 (lfft dibnnfl only) to 1.0 (rigit dibnnfl only). Tif dffbult
+         * is 0.0 (dfntfrfd).
          *
-         * @see #BALANCE
+         * @sff #BALANCE
          */
-        public static final Type PAN                            = new Type("Pan");
+        publid stbtid finbl Typf PAN                            = nfw Typf("Pbn");
 
         /**
-         * Represents a control for the relative balance of a stereo signal
-         * between two stereo speakers. The valid range of values is -1.0 (left
-         * channel only) to 1.0 (right channel only). The default is 0.0
-         * (centered).
+         * Rfprfsfnts b dontrol for tif rflbtivf bblbndf of b stfrfo signbl
+         * bftwffn two stfrfo spfbkfrs. Tif vblid rbngf of vblufs is -1.0 (lfft
+         * dibnnfl only) to 1.0 (rigit dibnnfl only). Tif dffbult is 0.0
+         * (dfntfrfd).
          *
-         * @see #PAN
+         * @sff #PAN
          */
-        public static final Type BALANCE                        = new Type("Balance");
+        publid stbtid finbl Typf BALANCE                        = nfw Typf("Bblbndf");
 
         /**
-         * Represents a control that changes the sample rate of audio playback.
-         * The net effect of changing the sample rate depends on the
-         * relationship between the media's natural rate and the rate that is
-         * set via this control. The natural rate is the sample rate that is
-         * specified in the data line's {@code AudioFormat} object. For example,
-         * if the natural rate of the media is 11025 samples per second and the
-         * sample rate is set to 22050 samples per second, the media will play
-         * back at twice the normal speed.
+         * Rfprfsfnts b dontrol tibt dibngfs tif sbmplf rbtf of budio plbybbdk.
+         * Tif nft ffffdt of dibnging tif sbmplf rbtf dfpfnds on tif
+         * rflbtionsiip bftwffn tif mfdib's nbturbl rbtf bnd tif rbtf tibt is
+         * sft vib tiis dontrol. Tif nbturbl rbtf is tif sbmplf rbtf tibt is
+         * spfdififd in tif dbtb linf's {@dodf AudioFormbt} objfdt. For fxbmplf,
+         * if tif nbturbl rbtf of tif mfdib is 11025 sbmplfs pfr sfdond bnd tif
+         * sbmplf rbtf is sft to 22050 sbmplfs pfr sfdond, tif mfdib will plby
+         * bbdk bt twidf tif normbl spffd.
          * <p>
-         * Changing the sample rate with this control does not affect the data
-         * line's audio format. Also note that whenever you change a sound's
-         * sample rate, a change in the sound's pitch results. For example,
-         * doubling the sample rate has the effect of doubling the frequencies
-         * in the sound's spectrum, which raises the pitch by an octave.
+         * Cibnging tif sbmplf rbtf witi tiis dontrol dofs not bfffdt tif dbtb
+         * linf's budio formbt. Also notf tibt wifnfvfr you dibngf b sound's
+         * sbmplf rbtf, b dibngf in tif sound's pitdi rfsults. For fxbmplf,
+         * doubling tif sbmplf rbtf ibs tif ffffdt of doubling tif frfqufndifs
+         * in tif sound's spfdtrum, wiidi rbisfs tif pitdi by bn odtbvf.
          */
-        public static final Type SAMPLE_RATE            = new Type("Sample Rate");
+        publid stbtid finbl Typf SAMPLE_RATE            = nfw Typf("Sbmplf Rbtf");
 
         /**
-         * Constructs a new float control type.
+         * Construdts b nfw flobt dontrol typf.
          *
-         * @param name the name of the new float control type
+         * @pbrbm nbmf tif nbmf of tif nfw flobt dontrol typf
          */
-        protected Type(final String name) {
-            super(name);
+        protfdtfd Typf(finbl String nbmf) {
+            supfr(nbmf);
         }
     }
 }

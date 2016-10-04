@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by IBM, Ind. Thfsf mbtfribls brf providfd undfr tfrms of b
+ * Lidfnsf Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by
+ * multiplf US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM
+ * mby not bf rfmovfd.
+ *
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+
+/**
+  * Thf ComponfntOrifntbtion dlbss fndbpsulbtfs thf lbngubgf-sfnsitivf
+  * orifntbtion thbt is to bf usfd to ordfr thf flfmfnts of b domponfnt
+  * or of tfxt. It is usfd to rfflfdt thf difffrfndfs in this ordfring
+  * bftwffn Wfstfrn blphbbfts, Middlf Ebstfrn (sudh bs Hfbrfw), bnd Fbr
+  * Ebstfrn (sudh bs Jbpbnfsf).
+  * <p>
+  * Fundbmfntblly, this govfrns itfms (sudh bs dhbrbdtfrs) whidh brf lbid out
+  * in linfs, with thf linfs thfn lbid out in b blodk. This blso bpplifs
+  * to itfms in b widgft: for fxbmplf, in b dhfdk box whfrf thf box is
+  * positionfd rflbtivf to thf tfxt.
+  * <p>
+  * Thfrf brf four difffrfnt orifntbtions usfd in modfrn lbngubgfs
+  * bs in thf following tbblf.<br>
+  * <prf>
+  * LT          RT          TL          TR
+  * A B C       C B A       A D G       G D A
+  * D E F       F E D       B E H       H E B
+  * G H I       I H G       C F I       I F C
+  * </prf><br>
+  * (In thf hfbdfr, thf two-lfttfr bbbrfvibtion rfprfsfnts thf itfm dirfdtion
+  * in thf first lfttfr, bnd thf linf dirfdtion in thf sfdond. For fxbmplf,
+  * LT mfbns "itfms lfft-to-right, linfs top-to-bottom",
+  * TL mfbns "itfms top-to-bottom, linfs lfft-to-right", bnd so on.)
+  * <p>
+  * Thf orifntbtions brf:
+  * <ul>
+  * <li>LT - Wfstfrn Europf (optionbl for Jbpbnfsf, Chinfsf, Korfbn)
+  * <li>RT - Middlf Ebst (Arbbid, Hfbrfw)
+  * <li>TR - Jbpbnfsf, Chinfsf, Korfbn
+  * <li>TL - Mongolibn
+  * </ul>
+  * Componfnts whosf vifw bnd dontrollfr dodf dfpfnds on orifntbtion
+  * should usf thf <dodf>isLfftToRight()</dodf> bnd
+  * <dodf>isHorizontbl()</dodf> mfthods to
+  * dftfrminf thfir bfhbvior. Thfy should not indludf switdh-likf
+  * dodf thbt kfys off of thf donstbnts, sudh bs:
+  * <prf>
+  * if (orifntbtion == LEFT_TO_RIGHT) {
+  *   ...
+  * } flsf if (orifntbtion == RIGHT_TO_LEFT) {
+  *   ...
+  * } flsf {
+  *   // Oops
+  * }
+  * </prf>
+  * This is unsbff, sindf morf donstbnts mby bf bddfd in thf futurf bnd
+  * sindf it is not gubrbntffd thbt orifntbtion objfdts will bf uniquf.
+  */
+publid finbl dlbss ComponfntOrifntbtion implfmfnts jbvb.io.Sfriblizbblf
+{
+    /*
+     * sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4113291392143563828L;
+
+    // Intfrnbl donstbnts usfd in thf implfmfntbtion
+    privbtf stbtid finbl int UNK_BIT      = 1;
+    privbtf stbtid finbl int HORIZ_BIT    = 2;
+    privbtf stbtid finbl int LTR_BIT      = 4;
+
+    /**
+     * Itfms run lfft to right bnd linfs flow top to bottom
+     * Exbmplfs: English, Frfndh.
+     */
+    publid stbtid finbl ComponfntOrifntbtion LEFT_TO_RIGHT =
+                    nfw ComponfntOrifntbtion(HORIZ_BIT|LTR_BIT);
+
+    /**
+     * Itfms run right to lfft bnd linfs flow top to bottom
+     * Exbmplfs: Arbbid, Hfbrfw.
+     */
+    publid stbtid finbl ComponfntOrifntbtion RIGHT_TO_LEFT =
+                    nfw ComponfntOrifntbtion(HORIZ_BIT);
+
+    /**
+     * Indidbtfs thbt b domponfnt's orifntbtion hbs not bffn sft.
+     * To prfsfrvf thf bfhbvior of fxisting bpplidbtions,
+     * isLfftToRight will rfturn truf for this vbluf.
+     */
+    publid stbtid finbl ComponfntOrifntbtion UNKNOWN =
+                    nfw ComponfntOrifntbtion(HORIZ_BIT|LTR_BIT|UNK_BIT);
+
+    /**
+     * Arf linfs horizontbl?
+     * This will rfturn truf for horizontbl, lfft-to-right writing
+     * systfms sudh bs Rombn.
+     *
+     * @rfturn {@dodf truf} if this orifntbtion hbs horizontbl linfs
+     */
+    publid boolfbn isHorizontbl() {
+        rfturn (orifntbtion & HORIZ_BIT) != 0;
+    }
+
+    /**
+     * HorizontblLinfs: Do itfms run lfft-to-right?<br>
+     * Vfrtidbl Linfs:  Do linfs run lfft-to-right?<br>
+     * This will rfturn truf for horizontbl, lfft-to-right writing
+     * systfms sudh bs Rombn.
+     *
+     * @rfturn {@dodf truf} if this orifntbtion is lfft-to-right
+     */
+    publid boolfbn isLfftToRight() {
+        rfturn (orifntbtion & LTR_BIT) != 0;
+    }
+
+    /**
+     * Rfturns thf orifntbtion thbt is bppropribtf for thf givfn lodblf.
+     *
+     * @pbrbm lodblf thf spfdififd lodblf
+     * @rfturn thf orifntbtion for thf lodblf
+     */
+    publid stbtid ComponfntOrifntbtion gftOrifntbtion(Lodblf lodblf) {
+        // A morf flfxiblf implfmfntbtion would donsult b RfsourdfBundlf
+        // to find thf bppropribtf orifntbtion.  Until pluggbblf lodblfs
+        // brf introdudfd howfvfr, thf flfxiblity isn't rfblly nffdfd.
+        // So wf dhoosf fffidifndy instfbd.
+        String lbng = lodblf.gftLbngubgf();
+        if( "iw".fqubls(lbng) || "br".fqubls(lbng)
+            || "fb".fqubls(lbng) || "ur".fqubls(lbng) )
+        {
+            rfturn RIGHT_TO_LEFT;
+        } flsf {
+            rfturn LEFT_TO_RIGHT;
+        }
+    }
+
+    /**
+     * Rfturns thf orifntbtion bppropribtf for thf givfn RfsourdfBundlf's
+     * lodblizbtion.  Thrff bpprobdhfs brf trifd, in thf following ordfr:
+     * <ol>
+     * <li>Rftrifvf b ComponfntOrifntbtion objfdt from thf RfsourdfBundlf
+     *      using thf string "Orifntbtion" bs thf kfy.
+     * <li>Usf thf RfsourdfBundlf.gftLodblf to dftfrminf thf bundlf's
+     *      lodblf, thfn rfturn thf orifntbtion for thbt lodblf.
+     * <li>Rfturn thf dffbult lodblf's orifntbtion.
+     * </ol>
+     *
+     * @pbrbm  bdl thf bundlf to usf
+     * @rfturn thf orifntbtion
+     * @dfprfdbtfd As of J2SE 1.4, usf {@link #gftOrifntbtion(jbvb.util.Lodblf)}.
+     */
+    @Dfprfdbtfd
+    publid stbtid ComponfntOrifntbtion gftOrifntbtion(RfsourdfBundlf bdl)
+    {
+        ComponfntOrifntbtion rfsult = null;
+
+        try {
+            rfsult = (ComponfntOrifntbtion)bdl.gftObjfdt("Orifntbtion");
+        }
+        dbtdh (Exdfption f) {
+        }
+
+        if (rfsult == null) {
+            rfsult = gftOrifntbtion(bdl.gftLodblf());
+        }
+        if (rfsult == null) {
+            rfsult = gftOrifntbtion(Lodblf.gftDffbult());
+        }
+        rfturn rfsult;
+    }
+
+    privbtf int orifntbtion;
+
+    privbtf ComponfntOrifntbtion(int vbluf)
+    {
+        orifntbtion = vbluf;
+    }
+ }

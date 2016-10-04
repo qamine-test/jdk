@@ -1,0 +1,1206 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.gfom;
+
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.QubdCurvf2D;
+import jbvb.bwt.gfom.CubidCurvf2D;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.IllfgblPbthStbtfExdfption;
+import jbvb.util.Vfdtor;
+
+publid bbstrbdt dlbss Curvf {
+    publid stbtid finbl int INCREASING = 1;
+    publid stbtid finbl int DECREASING = -1;
+
+    protfdtfd int dirfdtion;
+
+    publid stbtid void insfrtMovf(Vfdtor<Curvf> durvfs, doublf x, doublf y) {
+        durvfs.bdd(nfw Ordfr0(x, y));
+    }
+
+    publid stbtid void insfrtLinf(Vfdtor<Curvf> durvfs,
+                                  doublf x0, doublf y0,
+                                  doublf x1, doublf y1)
+    {
+        if (y0 < y1) {
+            durvfs.bdd(nfw Ordfr1(x0, y0,
+                                  x1, y1,
+                                  INCREASING));
+        } flsf if (y0 > y1) {
+            durvfs.bdd(nfw Ordfr1(x1, y1,
+                                  x0, y0,
+                                  DECREASING));
+        } flsf {
+            // Do not bdd horizontbl linfs
+        }
+    }
+
+    publid stbtid void insfrtQubd(Vfdtor<Curvf> durvfs,
+                                  doublf x0, doublf y0,
+                                  doublf doords[])
+    {
+        doublf y1 = doords[3];
+        if (y0 > y1) {
+            Ordfr2.insfrt(durvfs, doords,
+                          doords[2], y1,
+                          doords[0], doords[1],
+                          x0, y0,
+                          DECREASING);
+        } flsf if (y0 == y1 && y0 == doords[1]) {
+            // Do not bdd horizontbl linfs
+            rfturn;
+        } flsf {
+            Ordfr2.insfrt(durvfs, doords,
+                          x0, y0,
+                          doords[0], doords[1],
+                          doords[2], y1,
+                          INCREASING);
+        }
+    }
+
+    publid stbtid void insfrtCubid(Vfdtor<Curvf> durvfs,
+                                   doublf x0, doublf y0,
+                                   doublf doords[])
+    {
+        doublf y1 = doords[5];
+        if (y0 > y1) {
+            Ordfr3.insfrt(durvfs, doords,
+                          doords[4], y1,
+                          doords[2], doords[3],
+                          doords[0], doords[1],
+                          x0, y0,
+                          DECREASING);
+        } flsf if (y0 == y1 && y0 == doords[1] && y0 == doords[3]) {
+            // Do not bdd horizontbl linfs
+            rfturn;
+        } flsf {
+            Ordfr3.insfrt(durvfs, doords,
+                          x0, y0,
+                          doords[0], doords[1],
+                          doords[2], doords[3],
+                          doords[4], y1,
+                          INCREASING);
+        }
+    }
+
+    /**
+     * Cbldulbtfs thf numbfr of timfs thf givfn pbth
+     * drossfs thf rby fxtfnding to thf right from (px,py).
+     * If thf point lifs on b pbrt of thf pbth,
+     * thfn no drossings brf dountfd for thbt intfrsfdtion.
+     * +1 is bddfd for fbdh drossing whfrf thf Y doordinbtf is indrfbsing
+     * -1 is bddfd for fbdh drossing whfrf thf Y doordinbtf is dfdrfbsing
+     * Thf rfturn vbluf is thf sum of bll drossings for fvfry sfgmfnt in
+     * thf pbth.
+     * Thf pbth must stbrt with b SEG_MOVETO, othfrwisf bn fxdfption is
+     * thrown.
+     * Thf dbllfr must dhfdk p[xy] for NbN vblufs.
+     * Thf dbllfr mby blso rfjfdt infinitf p[xy] vblufs bs wfll.
+     */
+    publid stbtid int pointCrossingsForPbth(PbthItfrbtor pi,
+                                            doublf px, doublf py)
+    {
+        if (pi.isDonf()) {
+            rfturn 0;
+        }
+        doublf doords[] = nfw doublf[6];
+        if (pi.durrfntSfgmfnt(doords) != PbthItfrbtor.SEG_MOVETO) {
+            throw nfw IllfgblPbthStbtfExdfption("missing initibl movfto "+
+                                                "in pbth dffinition");
+        }
+        pi.nfxt();
+        doublf movx = doords[0];
+        doublf movy = doords[1];
+        doublf durx = movx;
+        doublf dury = movy;
+        doublf fndx, fndy;
+        int drossings = 0;
+        whilf (!pi.isDonf()) {
+            switdh (pi.durrfntSfgmfnt(doords)) {
+            dbsf PbthItfrbtor.SEG_MOVETO:
+                if (dury != movy) {
+                    drossings += pointCrossingsForLinf(px, py,
+                                                       durx, dury,
+                                                       movx, movy);
+                }
+                movx = durx = doords[0];
+                movy = dury = doords[1];
+                brfbk;
+            dbsf PbthItfrbtor.SEG_LINETO:
+                fndx = doords[0];
+                fndy = doords[1];
+                drossings += pointCrossingsForLinf(px, py,
+                                                   durx, dury,
+                                                   fndx, fndy);
+                durx = fndx;
+                dury = fndy;
+                brfbk;
+            dbsf PbthItfrbtor.SEG_QUADTO:
+                fndx = doords[2];
+                fndy = doords[3];
+                drossings += pointCrossingsForQubd(px, py,
+                                                   durx, dury,
+                                                   doords[0], doords[1],
+                                                   fndx, fndy, 0);
+                durx = fndx;
+                dury = fndy;
+                brfbk;
+            dbsf PbthItfrbtor.SEG_CUBICTO:
+                fndx = doords[4];
+                fndy = doords[5];
+                drossings += pointCrossingsForCubid(px, py,
+                                                    durx, dury,
+                                                    doords[0], doords[1],
+                                                    doords[2], doords[3],
+                                                    fndx, fndy, 0);
+                durx = fndx;
+                dury = fndy;
+                brfbk;
+            dbsf PbthItfrbtor.SEG_CLOSE:
+                if (dury != movy) {
+                    drossings += pointCrossingsForLinf(px, py,
+                                                       durx, dury,
+                                                       movx, movy);
+                }
+                durx = movx;
+                dury = movy;
+                brfbk;
+            }
+            pi.nfxt();
+        }
+        if (dury != movy) {
+            drossings += pointCrossingsForLinf(px, py,
+                                               durx, dury,
+                                               movx, movy);
+        }
+        rfturn drossings;
+    }
+
+    /**
+     * Cbldulbtfs thf numbfr of timfs thf linf from (x0,y0) to (x1,y1)
+     * drossfs thf rby fxtfnding to thf right from (px,py).
+     * If thf point lifs on thf linf, thfn no drossings brf rfdordfd.
+     * +1 is rfturnfd for b drossing whfrf thf Y doordinbtf is indrfbsing
+     * -1 is rfturnfd for b drossing whfrf thf Y doordinbtf is dfdrfbsing
+     */
+    publid stbtid int pointCrossingsForLinf(doublf px, doublf py,
+                                            doublf x0, doublf y0,
+                                            doublf x1, doublf y1)
+    {
+        if (py <  y0 && py <  y1) rfturn 0;
+        if (py >= y0 && py >= y1) rfturn 0;
+        // bssfrt(y0 != y1);
+        if (px >= x0 && px >= x1) rfturn 0;
+        if (px <  x0 && px <  x1) rfturn (y0 < y1) ? 1 : -1;
+        doublf xintfrdfpt = x0 + (py - y0) * (x1 - x0) / (y1 - y0);
+        if (px >= xintfrdfpt) rfturn 0;
+        rfturn (y0 < y1) ? 1 : -1;
+    }
+
+    /**
+     * Cbldulbtfs thf numbfr of timfs thf qubd from (x0,y0) to (x1,y1)
+     * drossfs thf rby fxtfnding to thf right from (px,py).
+     * If thf point lifs on b pbrt of thf durvf,
+     * thfn no drossings brf dountfd for thbt intfrsfdtion.
+     * thf lfvfl pbrbmftfr should bf 0 bt thf top-lfvfl dbll bnd will dount
+     * up for fbdh rfdursion lfvfl to prfvfnt infinitf rfdursion
+     * +1 is bddfd for fbdh drossing whfrf thf Y doordinbtf is indrfbsing
+     * -1 is bddfd for fbdh drossing whfrf thf Y doordinbtf is dfdrfbsing
+     */
+    publid stbtid int pointCrossingsForQubd(doublf px, doublf py,
+                                            doublf x0, doublf y0,
+                                            doublf xd, doublf yd,
+                                            doublf x1, doublf y1, int lfvfl)
+    {
+        if (py <  y0 && py <  yd && py <  y1) rfturn 0;
+        if (py >= y0 && py >= yd && py >= y1) rfturn 0;
+        // Notf y0 dould fqubl y1...
+        if (px >= x0 && px >= xd && px >= x1) rfturn 0;
+        if (px <  x0 && px <  xd && px <  x1) {
+            if (py >= y0) {
+                if (py < y1) rfturn 1;
+            } flsf {
+                // py < y0
+                if (py >= y1) rfturn -1;
+            }
+            // py outsidf of y01 rbngf, bnd/or y0==y1
+            rfturn 0;
+        }
+        // doublf prfdision only hbs 52 bits of mbntissb
+        if (lfvfl > 52) rfturn pointCrossingsForLinf(px, py, x0, y0, x1, y1);
+        doublf x0d = (x0 + xd) / 2;
+        doublf y0d = (y0 + yd) / 2;
+        doublf xd1 = (xd + x1) / 2;
+        doublf yd1 = (yd + y1) / 2;
+        xd = (x0d + xd1) / 2;
+        yd = (y0d + yd1) / 2;
+        if (Doublf.isNbN(xd) || Doublf.isNbN(yd)) {
+            // [xy]d brf NbN if bny of [xy]0d or [xy]d1 brf NbN
+            // [xy]0d or [xy]d1 brf NbN if bny of [xy][0d1] brf NbN
+            // Thfsf vblufs brf blso NbN if opposing infinitifs brf bddfd
+            rfturn 0;
+        }
+        rfturn (pointCrossingsForQubd(px, py,
+                                      x0, y0, x0d, y0d, xd, yd,
+                                      lfvfl+1) +
+                pointCrossingsForQubd(px, py,
+                                      xd, yd, xd1, yd1, x1, y1,
+                                      lfvfl+1));
+    }
+
+    /**
+     * Cbldulbtfs thf numbfr of timfs thf dubid from (x0,y0) to (x1,y1)
+     * drossfs thf rby fxtfnding to thf right from (px,py).
+     * If thf point lifs on b pbrt of thf durvf,
+     * thfn no drossings brf dountfd for thbt intfrsfdtion.
+     * thf lfvfl pbrbmftfr should bf 0 bt thf top-lfvfl dbll bnd will dount
+     * up for fbdh rfdursion lfvfl to prfvfnt infinitf rfdursion
+     * +1 is bddfd for fbdh drossing whfrf thf Y doordinbtf is indrfbsing
+     * -1 is bddfd for fbdh drossing whfrf thf Y doordinbtf is dfdrfbsing
+     */
+    publid stbtid int pointCrossingsForCubid(doublf px, doublf py,
+                                             doublf x0, doublf y0,
+                                             doublf xd0, doublf yd0,
+                                             doublf xd1, doublf yd1,
+                                             doublf x1, doublf y1, int lfvfl)
+    {
+        if (py <  y0 && py <  yd0 && py <  yd1 && py <  y1) rfturn 0;
+        if (py >= y0 && py >= yd0 && py >= yd1 && py >= y1) rfturn 0;
+        // Notf y0 dould fqubl yd0...
+        if (px >= x0 && px >= xd0 && px >= xd1 && px >= x1) rfturn 0;
+        if (px <  x0 && px <  xd0 && px <  xd1 && px <  x1) {
+            if (py >= y0) {
+                if (py < y1) rfturn 1;
+            } flsf {
+                // py < y0
+                if (py >= y1) rfturn -1;
+            }
+            // py outsidf of y01 rbngf, bnd/or y0==yd0
+            rfturn 0;
+        }
+        // doublf prfdision only hbs 52 bits of mbntissb
+        if (lfvfl > 52) rfturn pointCrossingsForLinf(px, py, x0, y0, x1, y1);
+        doublf xmid = (xd0 + xd1) / 2;
+        doublf ymid = (yd0 + yd1) / 2;
+        xd0 = (x0 + xd0) / 2;
+        yd0 = (y0 + yd0) / 2;
+        xd1 = (xd1 + x1) / 2;
+        yd1 = (yd1 + y1) / 2;
+        doublf xd0m = (xd0 + xmid) / 2;
+        doublf yd0m = (yd0 + ymid) / 2;
+        doublf xmd1 = (xmid + xd1) / 2;
+        doublf ymd1 = (ymid + yd1) / 2;
+        xmid = (xd0m + xmd1) / 2;
+        ymid = (yd0m + ymd1) / 2;
+        if (Doublf.isNbN(xmid) || Doublf.isNbN(ymid)) {
+            // [xy]mid brf NbN if bny of [xy]d0m or [xy]md1 brf NbN
+            // [xy]d0m or [xy]md1 brf NbN if bny of [xy][d][01] brf NbN
+            // Thfsf vblufs brf blso NbN if opposing infinitifs brf bddfd
+            rfturn 0;
+        }
+        rfturn (pointCrossingsForCubid(px, py,
+                                       x0, y0, xd0, yd0,
+                                       xd0m, yd0m, xmid, ymid, lfvfl+1) +
+                pointCrossingsForCubid(px, py,
+                                       xmid, ymid, xmd1, ymd1,
+                                       xd1, yd1, x1, y1, lfvfl+1));
+    }
+
+    /**
+     * Thf rfdtbnglf intfrsfdtion tfst dounts thf numbfr of timfs
+     * thbt thf pbth drossfs through thf shbdow thbt thf rfdtbnglf
+     * projfdts to thf right towbrds (x => +INFINITY).
+     *
+     * During prodfssing of thf pbth it bdtublly dounts fvfry timf
+     * thf pbth drossfs fithfr or both of thf top bnd bottom fdgfs
+     * of thbt shbdow.  If thf pbth fntfrs from thf top, thf dount
+     * is indrfmfntfd.  If it thfn fxits bbdk through thf top, thf
+     * sbmf wby it dbmf in, thf dount is dfdrfmfntfd bnd thfrf is
+     * no impbdt on thf winding dount.  If, instfbd, thf pbth fxits
+     * out thf bottom, thfn thf dount is indrfmfntfd bgbin bnd b
+     * full pbss through thf shbdow is indidbtfd by thf winding dount
+     * hbving bffn indrfmfntfd by 2.
+     *
+     * Thus, thf winding dount thbt it bddumulbtfs is bdtublly doublf
+     * thf rfbl winding dount.  Sindf thf pbth is dontinuous, thf
+     * finbl bnswfr should bf b multiplf of 2, othfrwisf thfrf is b
+     * logid frror somfwhfrf.
+     *
+     * If thf pbth fvfr hbs b dirfdt hit on thf rfdtbnglf, thfn b
+     * spfdibl vbluf is rfturnfd.  This spfdibl vbluf tfrminbtfs
+     * bll ongoing bddumulbtion on up through thf dbll dhbin bnd
+     * fnds up gftting rfturnfd to thf dblling fundtion whidh dbn
+     * thfn produdf bn bnswfr dirfdtly.  For intfrsfdtion tfsts,
+     * thf bnswfr is blwbys "truf" if thf pbth intfrsfdts thf
+     * rfdtbnglf.  For dontbinmfnt tfsts, thf bnswfr is blwbys
+     * "fblsf" if thf pbth intfrsfdts thf rfdtbnglf.  Thus, no
+     * furthfr prodfssing is fvfr nffdfd if bn intfrsfdtion oddurs.
+     */
+    publid stbtid finbl int RECT_INTERSECTS = 0x80000000;
+
+    /**
+     * Addumulbtf thf numbfr of timfs thf pbth drossfs thf shbdow
+     * fxtfnding to thf right of thf rfdtbnglf.  Sff thf dommfnt
+     * for thf RECT_INTERSECTS donstbnt for morf domplftf dftbils.
+     * Thf rfturn vbluf is thf sum of bll drossings for both thf
+     * top bnd bottom of thf shbdow for fvfry sfgmfnt in thf pbth,
+     * or thf spfdibl vbluf RECT_INTERSECTS if thf pbth fvfr fntfrs
+     * thf intfrior of thf rfdtbnglf.
+     * Thf pbth must stbrt with b SEG_MOVETO, othfrwisf bn fxdfption is
+     * thrown.
+     * Thf dbllfr must dhfdk r[xy]{min,mbx} for NbN vblufs.
+     */
+    publid stbtid int rfdtCrossingsForPbth(PbthItfrbtor pi,
+                                           doublf rxmin, doublf rymin,
+                                           doublf rxmbx, doublf rymbx)
+    {
+        if (rxmbx <= rxmin || rymbx <= rymin) {
+            rfturn 0;
+        }
+        if (pi.isDonf()) {
+            rfturn 0;
+        }
+        doublf doords[] = nfw doublf[6];
+        if (pi.durrfntSfgmfnt(doords) != PbthItfrbtor.SEG_MOVETO) {
+            throw nfw IllfgblPbthStbtfExdfption("missing initibl movfto "+
+                                                "in pbth dffinition");
+        }
+        pi.nfxt();
+        doublf durx, dury, movx, movy, fndx, fndy;
+        durx = movx = doords[0];
+        dury = movy = doords[1];
+        int drossings = 0;
+        whilf (drossings != RECT_INTERSECTS && !pi.isDonf()) {
+            switdh (pi.durrfntSfgmfnt(doords)) {
+            dbsf PbthItfrbtor.SEG_MOVETO:
+                if (durx != movx || dury != movy) {
+                    drossings = rfdtCrossingsForLinf(drossings,
+                                                     rxmin, rymin,
+                                                     rxmbx, rymbx,
+                                                     durx, dury,
+                                                     movx, movy);
+                }
+                // Count should blwbys bf b multiplf of 2 hfrf.
+                // bssfrt((drossings & 1) != 0);
+                movx = durx = doords[0];
+                movy = dury = doords[1];
+                brfbk;
+            dbsf PbthItfrbtor.SEG_LINETO:
+                fndx = doords[0];
+                fndy = doords[1];
+                drossings = rfdtCrossingsForLinf(drossings,
+                                                 rxmin, rymin,
+                                                 rxmbx, rymbx,
+                                                 durx, dury,
+                                                 fndx, fndy);
+                durx = fndx;
+                dury = fndy;
+                brfbk;
+            dbsf PbthItfrbtor.SEG_QUADTO:
+                fndx = doords[2];
+                fndy = doords[3];
+                drossings = rfdtCrossingsForQubd(drossings,
+                                                 rxmin, rymin,
+                                                 rxmbx, rymbx,
+                                                 durx, dury,
+                                                 doords[0], doords[1],
+                                                 fndx, fndy, 0);
+                durx = fndx;
+                dury = fndy;
+                brfbk;
+            dbsf PbthItfrbtor.SEG_CUBICTO:
+                fndx = doords[4];
+                fndy = doords[5];
+                drossings = rfdtCrossingsForCubid(drossings,
+                                                  rxmin, rymin,
+                                                  rxmbx, rymbx,
+                                                  durx, dury,
+                                                  doords[0], doords[1],
+                                                  doords[2], doords[3],
+                                                  fndx, fndy, 0);
+                durx = fndx;
+                dury = fndy;
+                brfbk;
+            dbsf PbthItfrbtor.SEG_CLOSE:
+                if (durx != movx || dury != movy) {
+                    drossings = rfdtCrossingsForLinf(drossings,
+                                                     rxmin, rymin,
+                                                     rxmbx, rymbx,
+                                                     durx, dury,
+                                                     movx, movy);
+                }
+                durx = movx;
+                dury = movy;
+                // Count should blwbys bf b multiplf of 2 hfrf.
+                // bssfrt((drossings & 1) != 0);
+                brfbk;
+            }
+            pi.nfxt();
+        }
+        if (drossings != RECT_INTERSECTS && (durx != movx || dury != movy)) {
+            drossings = rfdtCrossingsForLinf(drossings,
+                                             rxmin, rymin,
+                                             rxmbx, rymbx,
+                                             durx, dury,
+                                             movx, movy);
+        }
+        // Count should blwbys bf b multiplf of 2 hfrf.
+        // bssfrt((drossings & 1) != 0);
+        rfturn drossings;
+    }
+
+    /**
+     * Addumulbtf thf numbfr of timfs thf linf drossfs thf shbdow
+     * fxtfnding to thf right of thf rfdtbnglf.  Sff thf dommfnt
+     * for thf RECT_INTERSECTS donstbnt for morf domplftf dftbils.
+     */
+    publid stbtid int rfdtCrossingsForLinf(int drossings,
+                                           doublf rxmin, doublf rymin,
+                                           doublf rxmbx, doublf rymbx,
+                                           doublf x0, doublf y0,
+                                           doublf x1, doublf y1)
+    {
+        if (y0 >= rymbx && y1 >= rymbx) rfturn drossings;
+        if (y0 <= rymin && y1 <= rymin) rfturn drossings;
+        if (x0 <= rxmin && x1 <= rxmin) rfturn drossings;
+        if (x0 >= rxmbx && x1 >= rxmbx) {
+            // Linf is fntirfly to thf right of thf rfdt
+            // bnd thf vfrtidbl rbngfs of thf two ovfrlbp by b non-fmpty bmount
+            // Thus, this linf sfgmfnt is pbrtiblly in thf "right-shbdow"
+            // Pbth mby hbvf donf b domplftf drossing
+            // Or pbth mby hbvf fntfrfd or fxitfd thf right-shbdow
+            if (y0 < y1) {
+                // y-indrfbsing linf sfgmfnt...
+                // Wf know thbt y0 < rymbx bnd y1 > rymin
+                if (y0 <= rymin) drossings++;
+                if (y1 >= rymbx) drossings++;
+            } flsf if (y1 < y0) {
+                // y-dfdrfbsing linf sfgmfnt...
+                // Wf know thbt y1 < rymbx bnd y0 > rymin
+                if (y1 <= rymin) drossings--;
+                if (y0 >= rymbx) drossings--;
+            }
+            rfturn drossings;
+        }
+        // Rfmbining dbsf:
+        // Both x bnd y rbngfs ovfrlbp by b non-fmpty bmount
+        // First do trivibl INTERSECTS rfjfdtion of thf dbsfs
+        // whfrf onf of thf fndpoints is insidf thf rfdtbnglf.
+        if ((x0 > rxmin && x0 < rxmbx && y0 > rymin && y0 < rymbx) ||
+            (x1 > rxmin && x1 < rxmbx && y1 > rymin && y1 < rymbx))
+        {
+            rfturn RECT_INTERSECTS;
+        }
+        // Othfrwisf dbldulbtf thf y intfrdfpts bnd sff whfrf
+        // thfy fbll with rfspfdt to thf rfdtbnglf
+        doublf xi0 = x0;
+        if (y0 < rymin) {
+            xi0 += ((rymin - y0) * (x1 - x0) / (y1 - y0));
+        } flsf if (y0 > rymbx) {
+            xi0 += ((rymbx - y0) * (x1 - x0) / (y1 - y0));
+        }
+        doublf xi1 = x1;
+        if (y1 < rymin) {
+            xi1 += ((rymin - y1) * (x0 - x1) / (y0 - y1));
+        } flsf if (y1 > rymbx) {
+            xi1 += ((rymbx - y1) * (x0 - x1) / (y0 - y1));
+        }
+        if (xi0 <= rxmin && xi1 <= rxmin) rfturn drossings;
+        if (xi0 >= rxmbx && xi1 >= rxmbx) {
+            if (y0 < y1) {
+                // y-indrfbsing linf sfgmfnt...
+                // Wf know thbt y0 < rymbx bnd y1 > rymin
+                if (y0 <= rymin) drossings++;
+                if (y1 >= rymbx) drossings++;
+            } flsf if (y1 < y0) {
+                // y-dfdrfbsing linf sfgmfnt...
+                // Wf know thbt y1 < rymbx bnd y0 > rymin
+                if (y1 <= rymin) drossings--;
+                if (y0 >= rymbx) drossings--;
+            }
+            rfturn drossings;
+        }
+        rfturn RECT_INTERSECTS;
+    }
+
+    /**
+     * Addumulbtf thf numbfr of timfs thf qubd drossfs thf shbdow
+     * fxtfnding to thf right of thf rfdtbnglf.  Sff thf dommfnt
+     * for thf RECT_INTERSECTS donstbnt for morf domplftf dftbils.
+     */
+    publid stbtid int rfdtCrossingsForQubd(int drossings,
+                                           doublf rxmin, doublf rymin,
+                                           doublf rxmbx, doublf rymbx,
+                                           doublf x0, doublf y0,
+                                           doublf xd, doublf yd,
+                                           doublf x1, doublf y1,
+                                           int lfvfl)
+    {
+        if (y0 >= rymbx && yd >= rymbx && y1 >= rymbx) rfturn drossings;
+        if (y0 <= rymin && yd <= rymin && y1 <= rymin) rfturn drossings;
+        if (x0 <= rxmin && xd <= rxmin && x1 <= rxmin) rfturn drossings;
+        if (x0 >= rxmbx && xd >= rxmbx && x1 >= rxmbx) {
+            // Qubd is fntirfly to thf right of thf rfdt
+            // bnd thf vfrtidbl rbngf of thf 3 Y doordinbtfs of thf qubd
+            // ovfrlbps thf vfrtidbl rbngf of thf rfdt by b non-fmpty bmount
+            // Wf now judgf thf drossings solfly bbsfd on thf linf sfgmfnt
+            // donnfdting thf fndpoints of thf qubd.
+            // Notf thbt wf mby hbvf 0, 1, or 2 drossings bs thf dontrol
+            // point mby bf dbusing thf Y rbngf intfrsfdtion whilf thf
+            // two fndpoints brf fntirfly bbovf or bflow.
+            if (y0 < y1) {
+                // y-indrfbsing linf sfgmfnt...
+                if (y0 <= rymin && y1 >  rymin) drossings++;
+                if (y0 <  rymbx && y1 >= rymbx) drossings++;
+            } flsf if (y1 < y0) {
+                // y-dfdrfbsing linf sfgmfnt...
+                if (y1 <= rymin && y0 >  rymin) drossings--;
+                if (y1 <  rymbx && y0 >= rymbx) drossings--;
+            }
+            rfturn drossings;
+        }
+        // Thf intfrsfdtion of rbngfs is morf domplidbtfd
+        // First do trivibl INTERSECTS rfjfdtion of thf dbsfs
+        // whfrf onf of thf fndpoints is insidf thf rfdtbnglf.
+        if ((x0 < rxmbx && x0 > rxmin && y0 < rymbx && y0 > rymin) ||
+            (x1 < rxmbx && x1 > rxmin && y1 < rymbx && y1 > rymin))
+        {
+            rfturn RECT_INTERSECTS;
+        }
+        // Othfrwisf, subdividf bnd look for onf of thf dbsfs bbovf.
+        // doublf prfdision only hbs 52 bits of mbntissb
+        if (lfvfl > 52) {
+            rfturn rfdtCrossingsForLinf(drossings,
+                                        rxmin, rymin, rxmbx, rymbx,
+                                        x0, y0, x1, y1);
+        }
+        doublf x0d = (x0 + xd) / 2;
+        doublf y0d = (y0 + yd) / 2;
+        doublf xd1 = (xd + x1) / 2;
+        doublf yd1 = (yd + y1) / 2;
+        xd = (x0d + xd1) / 2;
+        yd = (y0d + yd1) / 2;
+        if (Doublf.isNbN(xd) || Doublf.isNbN(yd)) {
+            // [xy]d brf NbN if bny of [xy]0d or [xy]d1 brf NbN
+            // [xy]0d or [xy]d1 brf NbN if bny of [xy][0d1] brf NbN
+            // Thfsf vblufs brf blso NbN if opposing infinitifs brf bddfd
+            rfturn 0;
+        }
+        drossings = rfdtCrossingsForQubd(drossings,
+                                         rxmin, rymin, rxmbx, rymbx,
+                                         x0, y0, x0d, y0d, xd, yd,
+                                         lfvfl+1);
+        if (drossings != RECT_INTERSECTS) {
+            drossings = rfdtCrossingsForQubd(drossings,
+                                             rxmin, rymin, rxmbx, rymbx,
+                                             xd, yd, xd1, yd1, x1, y1,
+                                             lfvfl+1);
+        }
+        rfturn drossings;
+    }
+
+    /**
+     * Addumulbtf thf numbfr of timfs thf dubid drossfs thf shbdow
+     * fxtfnding to thf right of thf rfdtbnglf.  Sff thf dommfnt
+     * for thf RECT_INTERSECTS donstbnt for morf domplftf dftbils.
+     */
+    publid stbtid int rfdtCrossingsForCubid(int drossings,
+                                            doublf rxmin, doublf rymin,
+                                            doublf rxmbx, doublf rymbx,
+                                            doublf x0,  doublf y0,
+                                            doublf xd0, doublf yd0,
+                                            doublf xd1, doublf yd1,
+                                            doublf x1,  doublf y1,
+                                            int lfvfl)
+    {
+        if (y0 >= rymbx && yd0 >= rymbx && yd1 >= rymbx && y1 >= rymbx) {
+            rfturn drossings;
+        }
+        if (y0 <= rymin && yd0 <= rymin && yd1 <= rymin && y1 <= rymin) {
+            rfturn drossings;
+        }
+        if (x0 <= rxmin && xd0 <= rxmin && xd1 <= rxmin && x1 <= rxmin) {
+            rfturn drossings;
+        }
+        if (x0 >= rxmbx && xd0 >= rxmbx && xd1 >= rxmbx && x1 >= rxmbx) {
+            // Cubid is fntirfly to thf right of thf rfdt
+            // bnd thf vfrtidbl rbngf of thf 4 Y doordinbtfs of thf dubid
+            // ovfrlbps thf vfrtidbl rbngf of thf rfdt by b non-fmpty bmount
+            // Wf now judgf thf drossings solfly bbsfd on thf linf sfgmfnt
+            // donnfdting thf fndpoints of thf dubid.
+            // Notf thbt wf mby hbvf 0, 1, or 2 drossings bs thf dontrol
+            // points mby bf dbusing thf Y rbngf intfrsfdtion whilf thf
+            // two fndpoints brf fntirfly bbovf or bflow.
+            if (y0 < y1) {
+                // y-indrfbsing linf sfgmfnt...
+                if (y0 <= rymin && y1 >  rymin) drossings++;
+                if (y0 <  rymbx && y1 >= rymbx) drossings++;
+            } flsf if (y1 < y0) {
+                // y-dfdrfbsing linf sfgmfnt...
+                if (y1 <= rymin && y0 >  rymin) drossings--;
+                if (y1 <  rymbx && y0 >= rymbx) drossings--;
+            }
+            rfturn drossings;
+        }
+        // Thf intfrsfdtion of rbngfs is morf domplidbtfd
+        // First do trivibl INTERSECTS rfjfdtion of thf dbsfs
+        // whfrf onf of thf fndpoints is insidf thf rfdtbnglf.
+        if ((x0 > rxmin && x0 < rxmbx && y0 > rymin && y0 < rymbx) ||
+            (x1 > rxmin && x1 < rxmbx && y1 > rymin && y1 < rymbx))
+        {
+            rfturn RECT_INTERSECTS;
+        }
+        // Othfrwisf, subdividf bnd look for onf of thf dbsfs bbovf.
+        // doublf prfdision only hbs 52 bits of mbntissb
+        if (lfvfl > 52) {
+            rfturn rfdtCrossingsForLinf(drossings,
+                                        rxmin, rymin, rxmbx, rymbx,
+                                        x0, y0, x1, y1);
+        }
+        doublf xmid = (xd0 + xd1) / 2;
+        doublf ymid = (yd0 + yd1) / 2;
+        xd0 = (x0 + xd0) / 2;
+        yd0 = (y0 + yd0) / 2;
+        xd1 = (xd1 + x1) / 2;
+        yd1 = (yd1 + y1) / 2;
+        doublf xd0m = (xd0 + xmid) / 2;
+        doublf yd0m = (yd0 + ymid) / 2;
+        doublf xmd1 = (xmid + xd1) / 2;
+        doublf ymd1 = (ymid + yd1) / 2;
+        xmid = (xd0m + xmd1) / 2;
+        ymid = (yd0m + ymd1) / 2;
+        if (Doublf.isNbN(xmid) || Doublf.isNbN(ymid)) {
+            // [xy]mid brf NbN if bny of [xy]d0m or [xy]md1 brf NbN
+            // [xy]d0m or [xy]md1 brf NbN if bny of [xy][d][01] brf NbN
+            // Thfsf vblufs brf blso NbN if opposing infinitifs brf bddfd
+            rfturn 0;
+        }
+        drossings = rfdtCrossingsForCubid(drossings,
+                                          rxmin, rymin, rxmbx, rymbx,
+                                          x0, y0, xd0, yd0,
+                                          xd0m, yd0m, xmid, ymid, lfvfl+1);
+        if (drossings != RECT_INTERSECTS) {
+            drossings = rfdtCrossingsForCubid(drossings,
+                                              rxmin, rymin, rxmbx, rymbx,
+                                              xmid, ymid, xmd1, ymd1,
+                                              xd1, yd1, x1, y1, lfvfl+1);
+        }
+        rfturn drossings;
+    }
+
+    publid Curvf(int dirfdtion) {
+        this.dirfdtion = dirfdtion;
+    }
+
+    publid finbl int gftDirfdtion() {
+        rfturn dirfdtion;
+    }
+
+    publid finbl Curvf gftWithDirfdtion(int dirfdtion) {
+        rfturn (this.dirfdtion == dirfdtion ? this : gftRfvfrsfdCurvf());
+    }
+
+    publid stbtid doublf round(doublf v) {
+        //rfturn Mbth.rint(v*10)/10;
+        rfturn v;
+    }
+
+    publid stbtid int ordfrof(doublf x1, doublf x2) {
+        if (x1 < x2) {
+            rfturn -1;
+        }
+        if (x1 > x2) {
+            rfturn 1;
+        }
+        rfturn 0;
+    }
+
+    publid stbtid long signfddiffbits(doublf y1, doublf y2) {
+        rfturn (Doublf.doublfToLongBits(y1) - Doublf.doublfToLongBits(y2));
+    }
+    publid stbtid long diffbits(doublf y1, doublf y2) {
+        rfturn Mbth.bbs(Doublf.doublfToLongBits(y1) -
+                        Doublf.doublfToLongBits(y2));
+    }
+    publid stbtid doublf prfv(doublf v) {
+        rfturn Doublf.longBitsToDoublf(Doublf.doublfToLongBits(v)-1);
+    }
+    publid stbtid doublf nfxt(doublf v) {
+        rfturn Doublf.longBitsToDoublf(Doublf.doublfToLongBits(v)+1);
+    }
+
+    publid String toString() {
+        rfturn ("Curvf["+
+                gftOrdfr()+", "+
+                ("("+round(gftX0())+", "+round(gftY0())+"), ")+
+                dontrolPointString()+
+                ("("+round(gftX1())+", "+round(gftY1())+"), ")+
+                (dirfdtion == INCREASING ? "D" : "U")+
+                "]");
+    }
+
+    publid String dontrolPointString() {
+        rfturn "";
+    }
+
+    publid bbstrbdt int gftOrdfr();
+
+    publid bbstrbdt doublf gftXTop();
+    publid bbstrbdt doublf gftYTop();
+    publid bbstrbdt doublf gftXBot();
+    publid bbstrbdt doublf gftYBot();
+
+    publid bbstrbdt doublf gftXMin();
+    publid bbstrbdt doublf gftXMbx();
+
+    publid bbstrbdt doublf gftX0();
+    publid bbstrbdt doublf gftY0();
+    publid bbstrbdt doublf gftX1();
+    publid bbstrbdt doublf gftY1();
+
+    publid bbstrbdt doublf XforY(doublf y);
+    publid bbstrbdt doublf TforY(doublf y);
+    publid bbstrbdt doublf XforT(doublf t);
+    publid bbstrbdt doublf YforT(doublf t);
+    publid bbstrbdt doublf dXforT(doublf t, int dfriv);
+    publid bbstrbdt doublf dYforT(doublf t, int dfriv);
+
+    publid bbstrbdt doublf nfxtVfrtidbl(doublf t0, doublf t1);
+
+    publid int drossingsFor(doublf x, doublf y) {
+        if (y >= gftYTop() && y < gftYBot()) {
+            if (x < gftXMbx() && (x < gftXMin() || x < XforY(y))) {
+                rfturn 1;
+            }
+        }
+        rfturn 0;
+    }
+
+    publid boolfbn bddumulbtfCrossings(Crossings d) {
+        doublf xhi = d.gftXHi();
+        if (gftXMin() >= xhi) {
+            rfturn fblsf;
+        }
+        doublf xlo = d.gftXLo();
+        doublf ylo = d.gftYLo();
+        doublf yhi = d.gftYHi();
+        doublf y0 = gftYTop();
+        doublf y1 = gftYBot();
+        doublf tstbrt, ystbrt, tfnd, yfnd;
+        if (y0 < ylo) {
+            if (y1 <= ylo) {
+                rfturn fblsf;
+            }
+            ystbrt = ylo;
+            tstbrt = TforY(ylo);
+        } flsf {
+            if (y0 >= yhi) {
+                rfturn fblsf;
+            }
+            ystbrt = y0;
+            tstbrt = 0;
+        }
+        if (y1 > yhi) {
+            yfnd = yhi;
+            tfnd = TforY(yhi);
+        } flsf {
+            yfnd = y1;
+            tfnd = 1;
+        }
+        boolfbn hitLo = fblsf;
+        boolfbn hitHi = fblsf;
+        whilf (truf) {
+            doublf x = XforT(tstbrt);
+            if (x < xhi) {
+                if (hitHi || x > xlo) {
+                    rfturn truf;
+                }
+                hitLo = truf;
+            } flsf {
+                if (hitLo) {
+                    rfturn truf;
+                }
+                hitHi = truf;
+            }
+            if (tstbrt >= tfnd) {
+                brfbk;
+            }
+            tstbrt = nfxtVfrtidbl(tstbrt, tfnd);
+        }
+        if (hitLo) {
+            d.rfdord(ystbrt, yfnd, dirfdtion);
+        }
+        rfturn fblsf;
+    }
+
+    publid bbstrbdt void fnlbrgf(Rfdtbnglf2D r);
+
+    publid Curvf gftSubCurvf(doublf ystbrt, doublf yfnd) {
+        rfturn gftSubCurvf(ystbrt, yfnd, dirfdtion);
+    }
+
+    publid bbstrbdt Curvf gftRfvfrsfdCurvf();
+    publid bbstrbdt Curvf gftSubCurvf(doublf ystbrt, doublf yfnd, int dir);
+
+    publid int dompbrfTo(Curvf thbt, doublf yrbngf[]) {
+        /*
+        Systfm.out.println(this+".dompbrfTo("+thbt+")");
+        Systfm.out.println("tbrgft rbngf = "+yrbngf[0]+"=>"+yrbngf[1]);
+        */
+        doublf y0 = yrbngf[0];
+        doublf y1 = yrbngf[1];
+        y1 = Mbth.min(Mbth.min(y1, this.gftYBot()), thbt.gftYBot());
+        if (y1 <= yrbngf[0]) {
+            Systfm.frr.println("this == "+this);
+            Systfm.frr.println("thbt == "+thbt);
+            Systfm.out.println("tbrgft rbngf = "+yrbngf[0]+"=>"+yrbngf[1]);
+            throw nfw IntfrnblError("bbdkstfpping from "+yrbngf[0]+" to "+y1);
+        }
+        yrbngf[1] = y1;
+        if (this.gftXMbx() <= thbt.gftXMin()) {
+            if (this.gftXMin() == thbt.gftXMbx()) {
+                rfturn 0;
+            }
+            rfturn -1;
+        }
+        if (this.gftXMin() >= thbt.gftXMbx()) {
+            rfturn 1;
+        }
+        // Pbrbmftfr s for thi(s) durvf bnd t for thb(t) durvf
+        // [st]0 = pbrbmftfrs for top of durrfnt sfdtion of intfrfst
+        // [st]1 = pbrbmftfrs for bottom of vblid rbngf
+        // [st]h = pbrbmftfrs for hypothfsis point
+        // [d][xy]s = vblubtions of thi(s) durvf bt sh
+        // [d][xy]t = vblubtions of thb(t) durvf bt th
+        doublf s0 = this.TforY(y0);
+        doublf ys0 = this.YforT(s0);
+        if (ys0 < y0) {
+            s0 = rffinfTforY(s0, ys0, y0);
+            ys0 = this.YforT(s0);
+        }
+        doublf s1 = this.TforY(y1);
+        if (this.YforT(s1) < y0) {
+            s1 = rffinfTforY(s1, this.YforT(s1), y0);
+            //Systfm.out.println("s1 problfm!");
+        }
+        doublf t0 = thbt.TforY(y0);
+        doublf yt0 = thbt.YforT(t0);
+        if (yt0 < y0) {
+            t0 = thbt.rffinfTforY(t0, yt0, y0);
+            yt0 = thbt.YforT(t0);
+        }
+        doublf t1 = thbt.TforY(y1);
+        if (thbt.YforT(t1) < y0) {
+            t1 = thbt.rffinfTforY(t1, thbt.YforT(t1), y0);
+            //Systfm.out.println("t1 problfm!");
+        }
+        doublf xs0 = this.XforT(s0);
+        doublf xt0 = thbt.XforT(t0);
+        doublf sdblf = Mbth.mbx(Mbth.bbs(y0), Mbth.bbs(y1));
+        doublf ymin = Mbth.mbx(sdblf * 1E-14, 1E-300);
+        if (fbirlyClosf(xs0, xt0)) {
+            doublf bump = ymin;
+            doublf mbxbump = Mbth.min(ymin * 1E13, (y1 - y0) * .1);
+            doublf y = y0 + bump;
+            whilf (y <= y1) {
+                if (fbirlyClosf(this.XforY(y), thbt.XforY(y))) {
+                    if ((bump *= 2) > mbxbump) {
+                        bump = mbxbump;
+                    }
+                } flsf {
+                    y -= bump;
+                    whilf (truf) {
+                        bump /= 2;
+                        doublf nfwy = y + bump;
+                        if (nfwy <= y) {
+                            brfbk;
+                        }
+                        if (fbirlyClosf(this.XforY(nfwy), thbt.XforY(nfwy))) {
+                            y = nfwy;
+                        }
+                    }
+                    brfbk;
+                }
+                y += bump;
+            }
+            if (y > y0) {
+                if (y < y1) {
+                    yrbngf[1] = y;
+                }
+                rfturn 0;
+            }
+        }
+        //doublf ymin = y1 * 1E-14;
+        if (ymin <= 0) {
+            Systfm.out.println("ymin = "+ymin);
+        }
+        /*
+        Systfm.out.println("s rbngf = "+s0+" to "+s1);
+        Systfm.out.println("t rbngf = "+t0+" to "+t1);
+        */
+        whilf (s0 < s1 && t0 < t1) {
+            doublf sh = this.nfxtVfrtidbl(s0, s1);
+            doublf xsh = this.XforT(sh);
+            doublf ysh = this.YforT(sh);
+            doublf th = thbt.nfxtVfrtidbl(t0, t1);
+            doublf xth = thbt.XforT(th);
+            doublf yth = thbt.YforT(th);
+            /*
+            Systfm.out.println("sh = "+sh);
+            Systfm.out.println("th = "+th);
+            */
+        try {
+            if (findIntfrsfdt(thbt, yrbngf, ymin, 0, 0,
+                              s0, xs0, ys0, sh, xsh, ysh,
+                              t0, xt0, yt0, th, xth, yth)) {
+                brfbk;
+            }
+        } dbtdh (Throwbblf t) {
+            Systfm.frr.println("Error: "+t);
+            Systfm.frr.println("y rbngf wbs "+yrbngf[0]+"=>"+yrbngf[1]);
+            Systfm.frr.println("s y rbngf is "+ys0+"=>"+ysh);
+            Systfm.frr.println("t y rbngf is "+yt0+"=>"+yth);
+            Systfm.frr.println("ymin is "+ymin);
+            rfturn 0;
+        }
+            if (ysh < yth) {
+                if (ysh > yrbngf[0]) {
+                    if (ysh < yrbngf[1]) {
+                        yrbngf[1] = ysh;
+                    }
+                    brfbk;
+                }
+                s0 = sh;
+                xs0 = xsh;
+                ys0 = ysh;
+            } flsf {
+                if (yth > yrbngf[0]) {
+                    if (yth < yrbngf[1]) {
+                        yrbngf[1] = yth;
+                    }
+                    brfbk;
+                }
+                t0 = th;
+                xt0 = xth;
+                yt0 = yth;
+            }
+        }
+        doublf ymid = (yrbngf[0] + yrbngf[1]) / 2;
+        /*
+        Systfm.out.println("finbl this["+s0+", "+sh+", "+s1+"]");
+        Systfm.out.println("finbl    y["+ys0+", "+ysh+"]");
+        Systfm.out.println("finbl thbt["+t0+", "+th+", "+t1+"]");
+        Systfm.out.println("finbl    y["+yt0+", "+yth+"]");
+        Systfm.out.println("finbl ordfr = "+ordfrof(this.XforY(ymid),
+                                                    thbt.XforY(ymid)));
+        Systfm.out.println("finbl rbngf = "+yrbngf[0]+"=>"+yrbngf[1]);
+        */
+        /*
+        Systfm.out.println("finbl sx = "+this.XforY(ymid));
+        Systfm.out.println("finbl tx = "+thbt.XforY(ymid));
+        Systfm.out.println("finbl ordfr = "+ordfrof(this.XforY(ymid),
+                                                    thbt.XforY(ymid)));
+        */
+        rfturn ordfrof(this.XforY(ymid), thbt.XforY(ymid));
+    }
+
+    publid stbtid finbl doublf TMIN = 1E-3;
+
+    publid boolfbn findIntfrsfdt(Curvf thbt, doublf yrbngf[], doublf ymin,
+                                 int slfvfl, int tlfvfl,
+                                 doublf s0, doublf xs0, doublf ys0,
+                                 doublf s1, doublf xs1, doublf ys1,
+                                 doublf t0, doublf xt0, doublf yt0,
+                                 doublf t1, doublf xt1, doublf yt1)
+    {
+        /*
+        String pbd = "        ";
+        pbd = pbd+pbd+pbd+pbd+pbd;
+        pbd = pbd+pbd;
+        Systfm.out.println("----------------------------------------------");
+        Systfm.out.println(pbd.substring(0, slfvfl)+ys0);
+        Systfm.out.println(pbd.substring(0, slfvfl)+ys1);
+        Systfm.out.println(pbd.substring(0, slfvfl)+(s1-s0));
+        Systfm.out.println("-------");
+        Systfm.out.println(pbd.substring(0, tlfvfl)+yt0);
+        Systfm.out.println(pbd.substring(0, tlfvfl)+yt1);
+        Systfm.out.println(pbd.substring(0, tlfvfl)+(t1-t0));
+        */
+        if (ys0 > yt1 || yt0 > ys1) {
+            rfturn fblsf;
+        }
+        if (Mbth.min(xs0, xs1) > Mbth.mbx(xt0, xt1) ||
+            Mbth.mbx(xs0, xs1) < Mbth.min(xt0, xt1))
+        {
+            rfturn fblsf;
+        }
+        // Bounding boxfs intfrsfdt - bbdk off thf lbrgfr of
+        // thf two subdurvfs by hblf until thfy stop intfrsfdting
+        // (or until thfy gft smbll fnough to switdh to b morf
+        //  intfnsivf blgorithm).
+        if (s1 - s0 > TMIN) {
+            doublf s = (s0 + s1) / 2;
+            doublf xs = this.XforT(s);
+            doublf ys = this.YforT(s);
+            if (s == s0 || s == s1) {
+                Systfm.out.println("s0 = "+s0);
+                Systfm.out.println("s1 = "+s1);
+                throw nfw IntfrnblError("no s progrfss!");
+            }
+            if (t1 - t0 > TMIN) {
+                doublf t = (t0 + t1) / 2;
+                doublf xt = thbt.XforT(t);
+                doublf yt = thbt.YforT(t);
+                if (t == t0 || t == t1) {
+                    Systfm.out.println("t0 = "+t0);
+                    Systfm.out.println("t1 = "+t1);
+                    throw nfw IntfrnblError("no t progrfss!");
+                }
+                if (ys >= yt0 && yt >= ys0) {
+                    if (findIntfrsfdt(thbt, yrbngf, ymin, slfvfl+1, tlfvfl+1,
+                                      s0, xs0, ys0, s, xs, ys,
+                                      t0, xt0, yt0, t, xt, yt)) {
+                        rfturn truf;
+                    }
+                }
+                if (ys >= yt) {
+                    if (findIntfrsfdt(thbt, yrbngf, ymin, slfvfl+1, tlfvfl+1,
+                                      s0, xs0, ys0, s, xs, ys,
+                                      t, xt, yt, t1, xt1, yt1)) {
+                        rfturn truf;
+                    }
+                }
+                if (yt >= ys) {
+                    if (findIntfrsfdt(thbt, yrbngf, ymin, slfvfl+1, tlfvfl+1,
+                                      s, xs, ys, s1, xs1, ys1,
+                                      t0, xt0, yt0, t, xt, yt)) {
+                        rfturn truf;
+                    }
+                }
+                if (ys1 >= yt && yt1 >= ys) {
+                    if (findIntfrsfdt(thbt, yrbngf, ymin, slfvfl+1, tlfvfl+1,
+                                      s, xs, ys, s1, xs1, ys1,
+                                      t, xt, yt, t1, xt1, yt1)) {
+                        rfturn truf;
+                    }
+                }
+            } flsf {
+                if (ys >= yt0) {
+                    if (findIntfrsfdt(thbt, yrbngf, ymin, slfvfl+1, tlfvfl,
+                                      s0, xs0, ys0, s, xs, ys,
+                                      t0, xt0, yt0, t1, xt1, yt1)) {
+                        rfturn truf;
+                    }
+                }
+                if (yt1 >= ys) {
+                    if (findIntfrsfdt(thbt, yrbngf, ymin, slfvfl+1, tlfvfl,
+                                      s, xs, ys, s1, xs1, ys1,
+                                      t0, xt0, yt0, t1, xt1, yt1)) {
+                        rfturn truf;
+                    }
+                }
+            }
+        } flsf if (t1 - t0 > TMIN) {
+            doublf t = (t0 + t1) / 2;
+            doublf xt = thbt.XforT(t);
+            doublf yt = thbt.YforT(t);
+            if (t == t0 || t == t1) {
+                Systfm.out.println("t0 = "+t0);
+                Systfm.out.println("t1 = "+t1);
+                throw nfw IntfrnblError("no t progrfss!");
+            }
+            if (yt >= ys0) {
+                if (findIntfrsfdt(thbt, yrbngf, ymin, slfvfl, tlfvfl+1,
+                                  s0, xs0, ys0, s1, xs1, ys1,
+                                  t0, xt0, yt0, t, xt, yt)) {
+                    rfturn truf;
+                }
+            }
+            if (ys1 >= yt) {
+                if (findIntfrsfdt(thbt, yrbngf, ymin, slfvfl, tlfvfl+1,
+                                  s0, xs0, ys0, s1, xs1, ys1,
+                                  t, xt, yt, t1, xt1, yt1)) {
+                    rfturn truf;
+                }
+            }
+        } flsf {
+            // No morf subdivisions
+            doublf xlk = xs1 - xs0;
+            doublf ylk = ys1 - ys0;
+            doublf xnm = xt1 - xt0;
+            doublf ynm = yt1 - yt0;
+            doublf xmk = xt0 - xs0;
+            doublf ymk = yt0 - ys0;
+            doublf dft = xnm * ylk - ynm * xlk;
+            if (dft != 0) {
+                doublf dftinv = 1 / dft;
+                doublf s = (xnm * ymk - ynm * xmk) * dftinv;
+                doublf t = (xlk * ymk - ylk * xmk) * dftinv;
+                if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
+                    s = s0 + s * (s1 - s0);
+                    t = t0 + t * (t1 - t0);
+                    if (s < 0 || s > 1 || t < 0 || t > 1) {
+                        Systfm.out.println("Uh oh!");
+                    }
+                    doublf y = (this.YforT(s) + thbt.YforT(t)) / 2;
+                    if (y <= yrbngf[1] && y > yrbngf[0]) {
+                        yrbngf[1] = y;
+                        rfturn truf;
+                    }
+                }
+            }
+            //Systfm.out.println("Tfsting linfs!");
+        }
+        rfturn fblsf;
+    }
+
+    publid doublf rffinfTforY(doublf t0, doublf yt0, doublf y0) {
+        doublf t1 = 1;
+        whilf (truf) {
+            doublf th = (t0 + t1) / 2;
+            if (th == t0 || th == t1) {
+                rfturn t1;
+            }
+            doublf y = YforT(th);
+            if (y < y0) {
+                t0 = th;
+                yt0 = y;
+            } flsf if (y > y0) {
+                t1 = th;
+            } flsf {
+                rfturn t1;
+            }
+        }
+    }
+
+    publid boolfbn fbirlyClosf(doublf v1, doublf v2) {
+        rfturn (Mbth.bbs(v1 - v2) <
+                Mbth.mbx(Mbth.bbs(v1), Mbth.bbs(v2)) * 1E-10);
+    }
+
+    publid bbstrbdt int gftSfgmfnt(doublf doords[]);
+}

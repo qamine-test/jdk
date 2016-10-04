@@ -1,1369 +1,1369 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.*;
-import javax.swing.SwingConstants;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvbx.swing.SwingConstbnts;
+import jbvbx.swing.fvfnt.*;
 
 /**
  * <p>
- * A very important part of the text package is the <code>View</code> class.
- * As the name suggests it represents a view of the text model,
- * or a piece of the text model.
- * It is this class that is responsible for the look of the text component.
- * The view is not intended to be some completely new thing that one must
- * learn, but rather is much like a lightweight component.
+ * A vfry importbnt pbrt of tif tfxt pbdkbgf is tif <dodf>Vifw</dodf> dlbss.
+ * As tif nbmf suggfsts it rfprfsfnts b vifw of tif tfxt modfl,
+ * or b pifdf of tif tfxt modfl.
+ * It is tiis dlbss tibt is rfsponsiblf for tif look of tif tfxt domponfnt.
+ * Tif vifw is not intfndfd to bf somf domplftfly nfw tiing tibt onf must
+ * lfbrn, but rbtifr is mudi likf b ligitwfigit domponfnt.
  * <p>
-By default, a view is very light.  It contains a reference to the parent
-view from which it can fetch many things without holding state, and it
-contains a reference to a portion of the model (<code>Element</code>).
-A view does not
-have to exactly represent an element in the model, that is simply a typical
-and therefore convenient mapping.  A view can alternatively maintain a couple
-of Position objects to maintain its location in the model (i.e. represent
-a fragment of an element).  This is typically the result of formatting where
-views have been broken down into pieces.  The convenience of a substantial
-relationship to the element makes it easier to build factories to produce the
-views, and makes it easier  to keep track of the view pieces as the model is
-changed and the view must be changed to reflect the model.  Simple views
-therefore represent an Element directly and complex views do not.
+By dffbult, b vifw is vfry ligit.  It dontbins b rfffrfndf to tif pbrfnt
+vifw from wiidi it dbn fftdi mbny tiings witiout iolding stbtf, bnd it
+dontbins b rfffrfndf to b portion of tif modfl (<dodf>Elfmfnt</dodf>).
+A vifw dofs not
+ibvf to fxbdtly rfprfsfnt bn flfmfnt in tif modfl, tibt is simply b typidbl
+bnd tifrfforf donvfnifnt mbpping.  A vifw dbn bltfrnbtivfly mbintbin b douplf
+of Position objfdts to mbintbin its lodbtion in tif modfl (i.f. rfprfsfnt
+b frbgmfnt of bn flfmfnt).  Tiis is typidblly tif rfsult of formbtting wifrf
+vifws ibvf bffn brokfn down into pifdfs.  Tif donvfnifndf of b substbntibl
+rflbtionsiip to tif flfmfnt mbkfs it fbsifr to build fbdtorifs to produdf tif
+vifws, bnd mbkfs it fbsifr  to kffp trbdk of tif vifw pifdfs bs tif modfl is
+dibngfd bnd tif vifw must bf dibngfd to rfflfdt tif modfl.  Simplf vifws
+tifrfforf rfprfsfnt bn Elfmfnt dirfdtly bnd domplfx vifws do not.
 <p>
-A view has the following responsibilities:
+A vifw ibs tif following rfsponsibilitifs:
   <dl>
 
-    <dt><b>Participate in layout.</b>
+    <dt><b>Pbrtidipbtf in lbyout.</b>
     <dd>
-    <p>The view has a <code>setSize</code> method which is like
-    <code>doLayout</code> and <code>setSize</code> in <code>Component</code> combined.
-    The view has a <code>preferenceChanged</code> method which is
-    like <code>invalidate</code> in <code>Component</code> except that one can
-    invalidate just one axis
-    and the child requesting the change is identified.
-    <p>A View expresses the size that it would like to be in terms of three
-    values, a minimum, a preferred, and a maximum span.  Layout in a view is
-    can be done independently upon each axis.  For a properly functioning View
-    implementation, the minimum span will be &lt;= the preferred span which in turn
-    will be &lt;= the maximum span.
+    <p>Tif vifw ibs b <dodf>sftSizf</dodf> mftiod wiidi is likf
+    <dodf>doLbyout</dodf> bnd <dodf>sftSizf</dodf> in <dodf>Componfnt</dodf> dombinfd.
+    Tif vifw ibs b <dodf>prfffrfndfCibngfd</dodf> mftiod wiidi is
+    likf <dodf>invblidbtf</dodf> in <dodf>Componfnt</dodf> fxdfpt tibt onf dbn
+    invblidbtf just onf bxis
+    bnd tif diild rfqufsting tif dibngf is idfntififd.
+    <p>A Vifw fxprfssfs tif sizf tibt it would likf to bf in tfrms of tirff
+    vblufs, b minimum, b prfffrrfd, bnd b mbximum spbn.  Lbyout in b vifw is
+    dbn bf donf indfpfndfntly upon fbdi bxis.  For b propfrly fundtioning Vifw
+    implfmfntbtion, tif minimum spbn will bf &lt;= tif prfffrrfd spbn wiidi in turn
+    will bf &lt;= tif mbximum spbn.
     </p>
-    <p style="text-align:center"><img src="doc-files/View-flexibility.jpg"
-                     alt="The above text describes this graphic.">
-    <p>The minimum set of methods for layout are:
+    <p stylf="tfxt-blign:dfntfr"><img srd="dod-filfs/Vifw-flfxibility.jpg"
+                     blt="Tif bbovf tfxt dfsdribfs tiis grbpiid.">
+    <p>Tif minimum sft of mftiods for lbyout brf:
     <ul>
-    <li>{@link #getMinimumSpan(int) getMinimumSpan}
-    <li>{@link #getPreferredSpan(int) getPreferredSpan}
-    <li>{@link #getMaximumSpan(int) getMaximumSpan}
-    <li>{@link #getAlignment(int) getAlignment}
-    <li>{@link #preferenceChanged(javax.swing.text.View, boolean, boolean) preferenceChanged}
-    <li>{@link #setSize(float, float) setSize}
+    <li>{@link #gftMinimumSpbn(int) gftMinimumSpbn}
+    <li>{@link #gftPrfffrrfdSpbn(int) gftPrfffrrfdSpbn}
+    <li>{@link #gftMbximumSpbn(int) gftMbximumSpbn}
+    <li>{@link #gftAlignmfnt(int) gftAlignmfnt}
+    <li>{@link #prfffrfndfCibngfd(jbvbx.swing.tfxt.Vifw, boolfbn, boolfbn) prfffrfndfCibngfd}
+    <li>{@link #sftSizf(flobt, flobt) sftSizf}
     </ul>
 
-  <p>The <code>setSize</code> method should be prepared to be called a number of times
-    (i.e. It may be called even if the size didn't change).
-    The <code>setSize</code> method
-    is generally called to make sure the View layout is complete prior to trying
-    to perform an operation on it that requires an up-to-date layout.  A view's
-    size should <em>always</em> be set to a value within the minimum and maximum
-    span specified by that view.  Additionally, the view must always call the
-    <code>preferenceChanged</code> method on the parent if it has changed the
-    values for the
-    layout it would like, and expects the parent to honor.  The parent View is
-    not required to recognize a change until the <code>preferenceChanged</code>
-    has been sent.
-    This allows parent View implementations to cache the child requirements if
-    desired.  The calling sequence looks something like the following:
+  <p>Tif <dodf>sftSizf</dodf> mftiod siould bf prfpbrfd to bf dbllfd b numbfr of timfs
+    (i.f. It mby bf dbllfd fvfn if tif sizf didn't dibngf).
+    Tif <dodf>sftSizf</dodf> mftiod
+    is gfnfrblly dbllfd to mbkf surf tif Vifw lbyout is domplftf prior to trying
+    to pfrform bn opfrbtion on it tibt rfquirfs bn up-to-dbtf lbyout.  A vifw's
+    sizf siould <fm>blwbys</fm> bf sft to b vbluf witiin tif minimum bnd mbximum
+    spbn spfdififd by tibt vifw.  Additionblly, tif vifw must blwbys dbll tif
+    <dodf>prfffrfndfCibngfd</dodf> mftiod on tif pbrfnt if it ibs dibngfd tif
+    vblufs for tif
+    lbyout it would likf, bnd fxpfdts tif pbrfnt to ionor.  Tif pbrfnt Vifw is
+    not rfquirfd to rfdognizf b dibngf until tif <dodf>prfffrfndfCibngfd</dodf>
+    ibs bffn sfnt.
+    Tiis bllows pbrfnt Vifw implfmfntbtions to dbdif tif diild rfquirfmfnts if
+    dfsirfd.  Tif dblling sfqufndf looks somftiing likf tif following:
     </p>
-    <p style="text-align:center">
-      <img src="doc-files/View-layout.jpg"
-       alt="Sample calling sequence between parent view and child view:
-       setSize, getMinimum, getPreferred, getMaximum, getAlignment, setSize">
-    <p>The exact calling sequence is up to the layout functionality of
-    the parent view (if the view has any children).  The view may collect
-    the preferences of the children prior to determining what it will give
-    each child, or it might iteratively update the children one at a time.
-    </p>
-
-    <dt><b>Render a portion of the model.</b>
-    <dd>
-    <p>This is done in the paint method, which is pretty much like a component
-    paint method.  Views are expected to potentially populate a fairly large
-    tree.  A <code>View</code> has the following semantics for rendering:
-    </p>
-    <ul>
-    <li>The view gets its allocation from the parent at paint time, so it
-    must be prepared to redo layout if the allocated area is different from
-    what it is prepared to deal with.
-    <li>The coordinate system is the same as the hosting <code>Component</code>
-    (i.e. the <code>Component</code> returned by the
-    {@link #getContainer getContainer} method).
-    This means a child view lives in the same coordinate system as the parent
-    view unless the parent has explicitly changed the coordinate system.
-    To schedule itself to be repainted a view can call repaint on the hosting
-    <code>Component</code>.
-    <li>The default is to <em>not clip</em> the children.  It is more efficient
-    to allow a view to clip only if it really feels it needs clipping.
-    <li>The <code>Graphics</code> object given is not initialized in any way.
-    A view should set any settings needed.
-    <li>A <code>View</code> is inherently transparent.  While a view may render into its
-    entire allocation, typically a view does not.  Rendering is performed by
-    traversing down the tree of <code>View</code> implementations.
-    Each <code>View</code> is responsible
-    for rendering its children.  This behavior is depended upon for thread
-    safety.  While view implementations do not necessarily have to be implemented
-    with thread safety in mind, other view implementations that do make use of
-    concurrency can depend upon a tree traversal to guarantee thread safety.
-    <li>The order of views relative to the model is up to the implementation.
-    Although child views will typically be arranged in the same order that they
-    occur in the model, they may be visually arranged in an entirely different
-    order.  View implementations may have Z-Order associated with them if the
-    children are overlapping.
-    </ul>
-    <p>The methods for rendering are:
-    <ul>
-    <li>{@link #paint(java.awt.Graphics, java.awt.Shape) paint}
-    </ul>
-
-    <dt><b>Translate between the model and view coordinate systems.</b>
-    <dd>
-    <p>Because the view objects are produced from a factory and therefore cannot
-    necessarily be counted upon to be in a particular pattern, one must be able
-    to perform translation to properly locate spatial representation of the model.
-    The methods for doing this are:
-    <ul>
-    <li>{@link #modelToView(int, javax.swing.text.Position.Bias, int, javax.swing.text.Position.Bias, java.awt.Shape) modelToView}
-    <li>{@link #viewToModel(float, float, java.awt.Shape, javax.swing.text.Position.Bias[]) viewToModel}
-    <li>{@link #getDocument() getDocument}
-    <li>{@link #getElement() getElement}
-    <li>{@link #getStartOffset() getStartOffset}
-    <li>{@link #getEndOffset() getEndOffset}
-    </ul>
-    <p>The layout must be valid prior to attempting to make the translation.
-    The translation is not valid, and must not be attempted while changes
-    are being broadcasted from the model via a <code>DocumentEvent</code>.
+    <p stylf="tfxt-blign:dfntfr">
+      <img srd="dod-filfs/Vifw-lbyout.jpg"
+       blt="Sbmplf dblling sfqufndf bftwffn pbrfnt vifw bnd diild vifw:
+       sftSizf, gftMinimum, gftPrfffrrfd, gftMbximum, gftAlignmfnt, sftSizf">
+    <p>Tif fxbdt dblling sfqufndf is up to tif lbyout fundtionblity of
+    tif pbrfnt vifw (if tif vifw ibs bny diildrfn).  Tif vifw mby dollfdt
+    tif prfffrfndfs of tif diildrfn prior to dftfrmining wibt it will givf
+    fbdi diild, or it migit itfrbtivfly updbtf tif diildrfn onf bt b timf.
     </p>
 
-    <dt><b>Respond to changes from the model.</b>
+    <dt><b>Rfndfr b portion of tif modfl.</b>
     <dd>
-    <p>If the overall view is represented by many pieces (which is the best situation
-    if one want to be able to change the view and write the least amount of new code),
-    it would be impractical to have a huge number of <code>DocumentListener</code>s.
-    If each
-    view listened to the model, only a few would actually be interested in the
-    changes broadcasted at any given time.   Since the model has no knowledge of
-    views, it has no way to filter the broadcast of change information.  The view
-    hierarchy itself is instead responsible for propagating the change information.
-    At any level in the view hierarchy, that view knows enough about its children to
-    best distribute the change information further.   Changes are therefore broadcasted
-    starting from the root of the view hierarchy.
-    The methods for doing this are:
+    <p>Tiis is donf in tif pbint mftiod, wiidi is prftty mudi likf b domponfnt
+    pbint mftiod.  Vifws brf fxpfdtfd to potfntiblly populbtf b fbirly lbrgf
+    trff.  A <dodf>Vifw</dodf> ibs tif following sfmbntids for rfndfring:
+    </p>
     <ul>
-    <li>{@link #insertUpdate insertUpdate}
-    <li>{@link #removeUpdate removeUpdate}
-    <li>{@link #changedUpdate changedUpdate}
+    <li>Tif vifw gfts its bllodbtion from tif pbrfnt bt pbint timf, so it
+    must bf prfpbrfd to rfdo lbyout if tif bllodbtfd brfb is difffrfnt from
+    wibt it is prfpbrfd to dfbl witi.
+    <li>Tif doordinbtf systfm is tif sbmf bs tif iosting <dodf>Componfnt</dodf>
+    (i.f. tif <dodf>Componfnt</dodf> rfturnfd by tif
+    {@link #gftContbinfr gftContbinfr} mftiod).
+    Tiis mfbns b diild vifw livfs in tif sbmf doordinbtf systfm bs tif pbrfnt
+    vifw unlfss tif pbrfnt ibs fxpliditly dibngfd tif doordinbtf systfm.
+    To sdifdulf itsflf to bf rfpbintfd b vifw dbn dbll rfpbint on tif iosting
+    <dodf>Componfnt</dodf>.
+    <li>Tif dffbult is to <fm>not dlip</fm> tif diildrfn.  It is morf fffidifnt
+    to bllow b vifw to dlip only if it rfblly fffls it nffds dlipping.
+    <li>Tif <dodf>Grbpiids</dodf> objfdt givfn is not initiblizfd in bny wby.
+    A vifw siould sft bny sfttings nffdfd.
+    <li>A <dodf>Vifw</dodf> is inifrfntly trbnspbrfnt.  Wiilf b vifw mby rfndfr into its
+    fntirf bllodbtion, typidblly b vifw dofs not.  Rfndfring is pfrformfd by
+    trbvfrsing down tif trff of <dodf>Vifw</dodf> implfmfntbtions.
+    Ebdi <dodf>Vifw</dodf> is rfsponsiblf
+    for rfndfring its diildrfn.  Tiis bfibvior is dfpfndfd upon for tirfbd
+    sbffty.  Wiilf vifw implfmfntbtions do not nfdfssbrily ibvf to bf implfmfntfd
+    witi tirfbd sbffty in mind, otifr vifw implfmfntbtions tibt do mbkf usf of
+    dondurrfndy dbn dfpfnd upon b trff trbvfrsbl to gubrbntff tirfbd sbffty.
+    <li>Tif ordfr of vifws rflbtivf to tif modfl is up to tif implfmfntbtion.
+    Altiougi diild vifws will typidblly bf brrbngfd in tif sbmf ordfr tibt tify
+    oddur in tif modfl, tify mby bf visublly brrbngfd in bn fntirfly difffrfnt
+    ordfr.  Vifw implfmfntbtions mby ibvf Z-Ordfr bssodibtfd witi tifm if tif
+    diildrfn brf ovfrlbpping.
+    </ul>
+    <p>Tif mftiods for rfndfring brf:
+    <ul>
+    <li>{@link #pbint(jbvb.bwt.Grbpiids, jbvb.bwt.Sibpf) pbint}
+    </ul>
+
+    <dt><b>Trbnslbtf bftwffn tif modfl bnd vifw doordinbtf systfms.</b>
+    <dd>
+    <p>Bfdbusf tif vifw objfdts brf produdfd from b fbdtory bnd tifrfforf dbnnot
+    nfdfssbrily bf dountfd upon to bf in b pbrtidulbr pbttfrn, onf must bf bblf
+    to pfrform trbnslbtion to propfrly lodbtf spbtibl rfprfsfntbtion of tif modfl.
+    Tif mftiods for doing tiis brf:
+    <ul>
+    <li>{@link #modflToVifw(int, jbvbx.swing.tfxt.Position.Bibs, int, jbvbx.swing.tfxt.Position.Bibs, jbvb.bwt.Sibpf) modflToVifw}
+    <li>{@link #vifwToModfl(flobt, flobt, jbvb.bwt.Sibpf, jbvbx.swing.tfxt.Position.Bibs[]) vifwToModfl}
+    <li>{@link #gftDodumfnt() gftDodumfnt}
+    <li>{@link #gftElfmfnt() gftElfmfnt}
+    <li>{@link #gftStbrtOffsft() gftStbrtOffsft}
+    <li>{@link #gftEndOffsft() gftEndOffsft}
+    </ul>
+    <p>Tif lbyout must bf vblid prior to bttfmpting to mbkf tif trbnslbtion.
+    Tif trbnslbtion is not vblid, bnd must not bf bttfmptfd wiilf dibngfs
+    brf bfing brobddbstfd from tif modfl vib b <dodf>DodumfntEvfnt</dodf>.
+    </p>
+
+    <dt><b>Rfspond to dibngfs from tif modfl.</b>
+    <dd>
+    <p>If tif ovfrbll vifw is rfprfsfntfd by mbny pifdfs (wiidi is tif bfst situbtion
+    if onf wbnt to bf bblf to dibngf tif vifw bnd writf tif lfbst bmount of nfw dodf),
+    it would bf imprbdtidbl to ibvf b iugf numbfr of <dodf>DodumfntListfnfr</dodf>s.
+    If fbdi
+    vifw listfnfd to tif modfl, only b ffw would bdtublly bf intfrfstfd in tif
+    dibngfs brobddbstfd bt bny givfn timf.   Sindf tif modfl ibs no knowlfdgf of
+    vifws, it ibs no wby to filtfr tif brobddbst of dibngf informbtion.  Tif vifw
+    iifrbrdiy itsflf is instfbd rfsponsiblf for propbgbting tif dibngf informbtion.
+    At bny lfvfl in tif vifw iifrbrdiy, tibt vifw knows fnougi bbout its diildrfn to
+    bfst distributf tif dibngf informbtion furtifr.   Cibngfs brf tifrfforf brobddbstfd
+    stbrting from tif root of tif vifw iifrbrdiy.
+    Tif mftiods for doing tiis brf:
+    <ul>
+    <li>{@link #insfrtUpdbtf insfrtUpdbtf}
+    <li>{@link #rfmovfUpdbtf rfmovfUpdbtf}
+    <li>{@link #dibngfdUpdbtf dibngfdUpdbtf}
     </ul>
 </dl>
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-public abstract class View implements SwingConstants {
+publid bbstrbdt dlbss Vifw implfmfnts SwingConstbnts {
 
     /**
-     * Creates a new <code>View</code> object.
+     * Crfbtfs b nfw <dodf>Vifw</dodf> objfdt.
      *
-     * @param elem the <code>Element</code> to represent
+     * @pbrbm flfm tif <dodf>Elfmfnt</dodf> to rfprfsfnt
      */
-    public View(Element elem) {
-        this.elem = elem;
+    publid Vifw(Elfmfnt flfm) {
+        tiis.flfm = flfm;
     }
 
     /**
-     * Returns the parent of the view.
+     * Rfturns tif pbrfnt of tif vifw.
      *
-     * @return the parent, or <code>null</code> if none exists
+     * @rfturn tif pbrfnt, or <dodf>null</dodf> if nonf fxists
      */
-    public View getParent() {
-        return parent;
+    publid Vifw gftPbrfnt() {
+        rfturn pbrfnt;
     }
 
     /**
-     *  Returns a boolean that indicates whether
-     *  the view is visible or not.  By default
-     *  all views are visible.
+     *  Rfturns b boolfbn tibt indidbtfs wiftifr
+     *  tif vifw is visiblf or not.  By dffbult
+     *  bll vifws brf visiblf.
      *
-     *  @return always returns true
+     *  @rfturn blwbys rfturns truf
      */
-    public boolean isVisible() {
-        return true;
+    publid boolfbn isVisiblf() {
+        rfturn truf;
     }
 
 
     /**
-     * Determines the preferred span for this view along an
-     * axis.
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @return   the span the view would like to be rendered into.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view
-     * @see View#getPreferredSpan
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into.
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
+     * @sff Vifw#gftPrfffrrfdSpbn
      */
-    public abstract float getPreferredSpan(int axis);
+    publid bbstrbdt flobt gftPrfffrrfdSpbn(int bxis);
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @return  the minimum span the view can be rendered into
-     * @see View#getPreferredSpan
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn  tif minimum spbn tif vifw dbn bf rfndfrfd into
+     * @sff Vifw#gftPrfffrrfdSpbn
      */
-    public float getMinimumSpan(int axis) {
-        int w = getResizeWeight(axis);
+    publid flobt gftMinimumSpbn(int bxis) {
+        int w = gftRfsizfWfigit(bxis);
         if (w == 0) {
-            // can't resize
-            return getPreferredSpan(axis);
+            // dbn't rfsizf
+            rfturn gftPrfffrrfdSpbn(bxis);
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @return  the maximum span the view can be rendered into
-     * @see View#getPreferredSpan
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn  tif mbximum spbn tif vifw dbn bf rfndfrfd into
+     * @sff Vifw#gftPrfffrrfdSpbn
      */
-    public float getMaximumSpan(int axis) {
-        int w = getResizeWeight(axis);
+    publid flobt gftMbximumSpbn(int bxis) {
+        int w = gftRfsizfWfigit(bxis);
         if (w == 0) {
-            // can't resize
-            return getPreferredSpan(axis);
+            // dbn't rfsizf
+            rfturn gftPrfffrrfdSpbn(bxis);
         }
-        return Integer.MAX_VALUE;
+        rfturn Intfgfr.MAX_VALUE;
     }
 
     /**
-     * Child views can call this on the parent to indicate that
-     * the preference has changed and should be reconsidered
-     * for layout.  By default this just propagates upward to
-     * the next parent.  The root view will call
-     * <code>revalidate</code> on the associated text component.
+     * Ciild vifws dbn dbll tiis on tif pbrfnt to indidbtf tibt
+     * tif prfffrfndf ibs dibngfd bnd siould bf rfdonsidfrfd
+     * for lbyout.  By dffbult tiis just propbgbtfs upwbrd to
+     * tif nfxt pbrfnt.  Tif root vifw will dbll
+     * <dodf>rfvblidbtf</dodf> on tif bssodibtfd tfxt domponfnt.
      *
-     * @param child the child view
-     * @param width true if the width preference has changed
-     * @param height true if the height preference has changed
-     * @see javax.swing.JComponent#revalidate
+     * @pbrbm diild tif diild vifw
+     * @pbrbm widti truf if tif widti prfffrfndf ibs dibngfd
+     * @pbrbm ifigit truf if tif ifigit prfffrfndf ibs dibngfd
+     * @sff jbvbx.swing.JComponfnt#rfvblidbtf
      */
-    public void preferenceChanged(View child, boolean width, boolean height) {
-        View parent = getParent();
-        if (parent != null) {
-            parent.preferenceChanged(this, width, height);
+    publid void prfffrfndfCibngfd(Vifw diild, boolfbn widti, boolfbn ifigit) {
+        Vifw pbrfnt = gftPbrfnt();
+        if (pbrfnt != null) {
+            pbrfnt.prfffrfndfCibngfd(tiis, widti, ifigit);
         }
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  The desired alignment is returned.  This should be
-     * a value &gt;= 0.0 and &lt;= 1.0, where 0 indicates alignment at
-     * the origin and 1.0 indicates alignment to the full span
-     * away from the origin.  An alignment of 0.5 would be the
-     * center of the view.
+     * Dftfrminfs tif dfsirfd blignmfnt for tiis vifw blong bn
+     * bxis.  Tif dfsirfd blignmfnt is rfturnfd.  Tiis siould bf
+     * b vbluf &gt;= 0.0 bnd &lt;= 1.0, wifrf 0 indidbtfs blignmfnt bt
+     * tif origin bnd 1.0 indidbtfs blignmfnt to tif full spbn
+     * bwby from tif origin.  An blignmfnt of 0.5 would bf tif
+     * dfntfr of tif vifw.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @return the value 0.5
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif vbluf 0.5
      */
-    public float getAlignment(int axis) {
-        return 0.5f;
+    publid flobt gftAlignmfnt(int bxis) {
+        rfturn 0.5f;
     }
 
     /**
-     * Renders using the given rendering surface and area on that
-     * surface.  The view may need to do layout and create child
-     * views to enable itself to render into the given allocation.
+     * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt
+     * surfbdf.  Tif vifw mby nffd to do lbyout bnd drfbtf diild
+     * vifws to fnbblf itsflf to rfndfr into tif givfn bllodbtion.
      *
-     * @param g the rendering surface to use
-     * @param allocation the allocated region to render into
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm bllodbtion tif bllodbtfd rfgion to rfndfr into
      */
-    public abstract void paint(Graphics g, Shape allocation);
+    publid bbstrbdt void pbint(Grbpiids g, Sibpf bllodbtion);
 
     /**
-     * Establishes the parent view for this view.  This is
-     * guaranteed to be called before any other methods if the
-     * parent view is functioning properly.  This is also
-     * the last method called, since it is called to indicate
-     * the view has been removed from the hierarchy as
-     * well. When this method is called to set the parent to
-     * null, this method does the same for each of its children,
-     * propagating the notification that they have been
-     * disconnected from the view tree. If this is
-     * reimplemented, <code>super.setParent()</code> should
-     * be called.
+     * Estbblisifs tif pbrfnt vifw for tiis vifw.  Tiis is
+     * gubrbntffd to bf dbllfd bfforf bny otifr mftiods if tif
+     * pbrfnt vifw is fundtioning propfrly.  Tiis is blso
+     * tif lbst mftiod dbllfd, sindf it is dbllfd to indidbtf
+     * tif vifw ibs bffn rfmovfd from tif iifrbrdiy bs
+     * wfll. Wifn tiis mftiod is dbllfd to sft tif pbrfnt to
+     * null, tiis mftiod dofs tif sbmf for fbdi of its diildrfn,
+     * propbgbting tif notifidbtion tibt tify ibvf bffn
+     * disdonnfdtfd from tif vifw trff. If tiis is
+     * rfimplfmfntfd, <dodf>supfr.sftPbrfnt()</dodf> siould
+     * bf dbllfd.
      *
-     * @param parent the new parent, or <code>null</code> if the view is
-     *          being removed from a parent
+     * @pbrbm pbrfnt tif nfw pbrfnt, or <dodf>null</dodf> if tif vifw is
+     *          bfing rfmovfd from b pbrfnt
      */
-    public void setParent(View parent) {
-        // if the parent is null then propogate down the view tree
-        if (parent == null) {
-            for (int i = 0; i < getViewCount(); i++) {
-                if (getView(i).getParent() == this) {
-                    // in FlowView.java view might be referenced
-                    // from two super-views as a child. see logicalView
-                    getView(i).setParent(null);
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        // if tif pbrfnt is null tifn propogbtf down tif vifw trff
+        if (pbrfnt == null) {
+            for (int i = 0; i < gftVifwCount(); i++) {
+                if (gftVifw(i).gftPbrfnt() == tiis) {
+                    // in FlowVifw.jbvb vifw migit bf rfffrfndfd
+                    // from two supfr-vifws bs b diild. sff logidblVifw
+                    gftVifw(i).sftPbrfnt(null);
                 }
             }
         }
-        this.parent = parent;
+        tiis.pbrfnt = pbrfnt;
     }
 
     /**
-     * Returns the number of views in this view.  Since
-     * the default is to not be a composite view this
-     * returns 0.
+     * Rfturns tif numbfr of vifws in tiis vifw.  Sindf
+     * tif dffbult is to not bf b dompositf vifw tiis
+     * rfturns 0.
      *
-     * @return the number of views &gt;= 0
-     * @see View#getViewCount
+     * @rfturn tif numbfr of vifws &gt;= 0
+     * @sff Vifw#gftVifwCount
      */
-    public int getViewCount() {
-        return 0;
+    publid int gftVifwCount() {
+        rfturn 0;
     }
 
     /**
-     * Gets the <i>n</i>th child view.  Since there are no
-     * children by default, this returns <code>null</code>.
+     * Gfts tif <i>n</i>ti diild vifw.  Sindf tifrf brf no
+     * diildrfn by dffbult, tiis rfturns <dodf>null</dodf>.
      *
-     * @param n the number of the view to get, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @return the view
+     * @pbrbm n tif numbfr of tif vifw to gft, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+     * @rfturn tif vifw
      */
-    public View getView(int n) {
-        return null;
+    publid Vifw gftVifw(int n) {
+        rfturn null;
     }
 
 
     /**
-     * Removes all of the children.  This is a convenience
-     * call to <code>replace</code>.
+     * Rfmovfs bll of tif diildrfn.  Tiis is b donvfnifndf
+     * dbll to <dodf>rfplbdf</dodf>.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public void removeAll() {
-        replace(0, getViewCount(), null);
+    publid void rfmovfAll() {
+        rfplbdf(0, gftVifwCount(), null);
     }
 
     /**
-     * Removes one of the children at the given position.
-     * This is a convenience call to <code>replace</code>.
-     * @since 1.3
+     * Rfmovfs onf of tif diildrfn bt tif givfn position.
+     * Tiis is b donvfnifndf dbll to <dodf>rfplbdf</dodf>.
+     * @sindf 1.3
      */
-    public void remove(int i) {
-        replace(i, 1, null);
+    publid void rfmovf(int i) {
+        rfplbdf(i, 1, null);
     }
 
     /**
-     * Inserts a single child view.  This is a convenience
-     * call to <code>replace</code>.
+     * Insfrts b singlf diild vifw.  Tiis is b donvfnifndf
+     * dbll to <dodf>rfplbdf</dodf>.
      *
-     * @param offs the offset of the view to insert before &gt;= 0
-     * @param v the view
-     * @see #replace
-     * @since 1.3
+     * @pbrbm offs tif offsft of tif vifw to insfrt bfforf &gt;= 0
+     * @pbrbm v tif vifw
+     * @sff #rfplbdf
+     * @sindf 1.3
      */
-    public void insert(int offs, View v) {
-        View[] one = new View[1];
-        one[0] = v;
-        replace(offs, 0, one);
+    publid void insfrt(int offs, Vifw v) {
+        Vifw[] onf = nfw Vifw[1];
+        onf[0] = v;
+        rfplbdf(offs, 0, onf);
     }
 
     /**
-     * Appends a single child view.  This is a convenience
-     * call to <code>replace</code>.
+     * Appfnds b singlf diild vifw.  Tiis is b donvfnifndf
+     * dbll to <dodf>rfplbdf</dodf>.
      *
-     * @param v the view
-     * @see #replace
-     * @since 1.3
+     * @pbrbm v tif vifw
+     * @sff #rfplbdf
+     * @sindf 1.3
      */
-    public void append(View v) {
-        View[] one = new View[1];
-        one[0] = v;
-        replace(getViewCount(), 0, one);
+    publid void bppfnd(Vifw v) {
+        Vifw[] onf = nfw Vifw[1];
+        onf[0] = v;
+        rfplbdf(gftVifwCount(), 0, onf);
     }
 
     /**
-     * Replaces child views.  If there are no views to remove
-     * this acts as an insert.  If there are no views to
-     * add this acts as a remove.  Views being removed will
-     * have the parent set to <code>null</code>, and the internal reference
-     * to them removed so that they can be garbage collected.
-     * This is implemented to do nothing, because by default
-     * a view has no children.
+     * Rfplbdfs diild vifws.  If tifrf brf no vifws to rfmovf
+     * tiis bdts bs bn insfrt.  If tifrf brf no vifws to
+     * bdd tiis bdts bs b rfmovf.  Vifws bfing rfmovfd will
+     * ibvf tif pbrfnt sft to <dodf>null</dodf>, bnd tif intfrnbl rfffrfndf
+     * to tifm rfmovfd so tibt tify dbn bf gbrbbgf dollfdtfd.
+     * Tiis is implfmfntfd to do notiing, bfdbusf by dffbult
+     * b vifw ibs no diildrfn.
      *
-     * @param offset the starting index into the child views to insert
-     *   the new views.  This should be a value &gt;= 0 and &lt;= getViewCount
-     * @param length the number of existing child views to remove
-     *   This should be a value &gt;= 0 and &lt;= (getViewCount() - offset).
-     * @param views the child views to add.  This value can be
-     *   <code>null</code> to indicate no children are being added
-     *   (useful to remove).
-     * @since 1.3
+     * @pbrbm offsft tif stbrting indfx into tif diild vifws to insfrt
+     *   tif nfw vifws.  Tiis siould bf b vbluf &gt;= 0 bnd &lt;= gftVifwCount
+     * @pbrbm lfngti tif numbfr of fxisting diild vifws to rfmovf
+     *   Tiis siould bf b vbluf &gt;= 0 bnd &lt;= (gftVifwCount() - offsft).
+     * @pbrbm vifws tif diild vifws to bdd.  Tiis vbluf dbn bf
+     *   <dodf>null</dodf> to indidbtf no diildrfn brf bfing bddfd
+     *   (usfful to rfmovf).
+     * @sindf 1.3
      */
-    public void replace(int offset, int length, View[] views) {
+    publid void rfplbdf(int offsft, int lfngti, Vifw[] vifws) {
     }
 
     /**
-     * Returns the child view index representing the given position in
-     * the model.  By default a view has no children so this is implemented
-     * to return -1 to indicate there is no valid child index for any
+     * Rfturns tif diild vifw indfx rfprfsfnting tif givfn position in
+     * tif modfl.  By dffbult b vifw ibs no diildrfn so tiis is implfmfntfd
+     * to rfturn -1 to indidbtf tifrf is no vblid diild indfx for bny
      * position.
      *
-     * @param pos the position &gt;= 0
-     * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
-     * @since 1.3
+     * @pbrbm pos tif position &gt;= 0
+     * @rfturn  indfx of tif vifw rfprfsfnting tif givfn position, or
+     *   -1 if no vifw rfprfsfnts tibt position
+     * @sindf 1.3
      */
-    public int getViewIndex(int pos, Position.Bias b) {
-        return -1;
+    publid int gftVifwIndfx(int pos, Position.Bibs b) {
+        rfturn -1;
     }
 
     /**
-     * Fetches the allocation for the given child view.
-     * This enables finding out where various views
-     * are located, without assuming how the views store
-     * their location.  This returns <code>null</code> since the
-     * default is to not have any child views.
+     * Fftdifs tif bllodbtion for tif givfn diild vifw.
+     * Tiis fnbblfs finding out wifrf vbrious vifws
+     * brf lodbtfd, witiout bssuming iow tif vifws storf
+     * tifir lodbtion.  Tiis rfturns <dodf>null</dodf> sindf tif
+     * dffbult is to not ibvf bny diild vifws.
      *
-     * @param index the index of the child, &gt;= 0 &amp;&amp; &lt;
-     *          <code>getViewCount()</code>
-     * @param a  the allocation to this view
-     * @return the allocation to the child
+     * @pbrbm indfx tif indfx of tif diild, &gt;= 0 &bmp;&bmp; &lt;
+     *          <dodf>gftVifwCount()</dodf>
+     * @pbrbm b  tif bllodbtion to tiis vifw
+     * @rfturn tif bllodbtion to tif diild
      */
-    public Shape getChildAllocation(int index, Shape a) {
-        return null;
+    publid Sibpf gftCiildAllodbtion(int indfx, Sibpf b) {
+        rfturn null;
     }
 
     /**
-     * Provides a way to determine the next visually represented model
-     * location at which one might place a caret.
-     * Some views may not be visible,
-     * they might not be in the same order found in the model, or they just
-     * might not allow access to some of the locations in the model.
-     * This method enables specifying a position to convert
-     * within the range of &gt;=0.  If the value is -1, a position
-     * will be calculated automatically.  If the value &lt; -1,
-     * the {@code BadLocationException} will be thrown.
+     * Providfs b wby to dftfrminf tif nfxt visublly rfprfsfntfd modfl
+     * lodbtion bt wiidi onf migit plbdf b dbrft.
+     * Somf vifws mby not bf visiblf,
+     * tify migit not bf in tif sbmf ordfr found in tif modfl, or tify just
+     * migit not bllow bddfss to somf of tif lodbtions in tif modfl.
+     * Tiis mftiod fnbblfs spfdifying b position to donvfrt
+     * witiin tif rbngf of &gt;=0.  If tif vbluf is -1, b position
+     * will bf dbldulbtfd butombtidblly.  If tif vbluf &lt; -1,
+     * tif {@dodf BbdLodbtionExdfption} will bf tirown.
      *
-     * @param pos the position to convert
-     * @param a the allocated region in which to render
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard.
-     *  This will be one of the following values:
+     * @pbrbm pos tif position to donvfrt
+     * @pbrbm b tif bllodbtfd rfgion in wiidi to rfndfr
+     * @pbrbm dirfdtion tif dirfdtion from tif durrfnt position tibt dbn
+     *  bf tiougit of bs tif brrow kfys typidblly found on b kfybobrd.
+     *  Tiis will bf onf of tif following vblufs:
      * <ul>
-     * <li>SwingConstants.WEST
-     * <li>SwingConstants.EAST
-     * <li>SwingConstants.NORTH
-     * <li>SwingConstants.SOUTH
+     * <li>SwingConstbnts.WEST
+     * <li>SwingConstbnts.EAST
+     * <li>SwingConstbnts.NORTH
+     * <li>SwingConstbnts.SOUTH
      * </ul>
-     * @return the location within the model that best represents the next
-     *  location visual position
-     * @exception BadLocationException the given position is not a valid
-     *                                 position within the document
-     * @exception IllegalArgumentException if <code>direction</code>
-     *          doesn't have one of the legal values above
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif nfxt
+     *  lodbtion visubl position
+     * @fxdfption BbdLodbtionExdfption tif givfn position is not b vblid
+     *                                 position witiin tif dodumfnt
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dirfdtion</dodf>
+     *          dofsn't ibvf onf of tif lfgbl vblufs bbovf
      */
-    public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
-                                         int direction, Position.Bias[] biasRet)
-      throws BadLocationException {
+    publid int gftNfxtVisublPositionFrom(int pos, Position.Bibs b, Sibpf b,
+                                         int dirfdtion, Position.Bibs[] bibsRft)
+      tirows BbdLodbtionExdfption {
         if (pos < -1) {
-            // -1 is a reserved value, see the code below
-            throw new BadLocationException("Invalid position", pos);
+            // -1 is b rfsfrvfd vbluf, sff tif dodf bflow
+            tirow nfw BbdLodbtionExdfption("Invblid position", pos);
         }
 
-        biasRet[0] = Position.Bias.Forward;
-        switch (direction) {
-        case NORTH:
-        case SOUTH:
+        bibsRft[0] = Position.Bibs.Forwbrd;
+        switdi (dirfdtion) {
+        dbsf NORTH:
+        dbsf SOUTH:
         {
             if (pos == -1) {
-                pos = (direction == NORTH) ? Math.max(0, getEndOffset() - 1) :
-                    getStartOffset();
-                break;
+                pos = (dirfdtion == NORTH) ? Mbti.mbx(0, gftEndOffsft() - 1) :
+                    gftStbrtOffsft();
+                brfbk;
             }
-            JTextComponent target = (JTextComponent) getContainer();
-            Caret c = (target != null) ? target.getCaret() : null;
-            // YECK! Ideally, the x location from the magic caret position
-            // would be passed in.
-            Point mcp;
-            if (c != null) {
-                mcp = c.getMagicCaretPosition();
+            JTfxtComponfnt tbrgft = (JTfxtComponfnt) gftContbinfr();
+            Cbrft d = (tbrgft != null) ? tbrgft.gftCbrft() : null;
+            // YECK! Idfblly, tif x lodbtion from tif mbgid dbrft position
+            // would bf pbssfd in.
+            Point mdp;
+            if (d != null) {
+                mdp = d.gftMbgidCbrftPosition();
             }
-            else {
-                mcp = null;
+            flsf {
+                mdp = null;
             }
             int x;
-            if (mcp == null) {
-                Rectangle loc = target.modelToView(pos);
-                x = (loc == null) ? 0 : loc.x;
+            if (mdp == null) {
+                Rfdtbnglf lod = tbrgft.modflToVifw(pos);
+                x = (lod == null) ? 0 : lod.x;
             }
-            else {
-                x = mcp.x;
+            flsf {
+                x = mdp.x;
             }
-            if (direction == NORTH) {
-                pos = Utilities.getPositionAbove(target, pos, x);
+            if (dirfdtion == NORTH) {
+                pos = Utilitifs.gftPositionAbovf(tbrgft, pos, x);
             }
-            else {
-                pos = Utilities.getPositionBelow(target, pos, x);
+            flsf {
+                pos = Utilitifs.gftPositionBflow(tbrgft, pos, x);
             }
         }
-            break;
-        case WEST:
+            brfbk;
+        dbsf WEST:
             if(pos == -1) {
-                pos = Math.max(0, getEndOffset() - 1);
+                pos = Mbti.mbx(0, gftEndOffsft() - 1);
             }
-            else {
-                pos = Math.max(0, pos - 1);
+            flsf {
+                pos = Mbti.mbx(0, pos - 1);
             }
-            break;
-        case EAST:
+            brfbk;
+        dbsf EAST:
             if(pos == -1) {
-                pos = getStartOffset();
+                pos = gftStbrtOffsft();
             }
-            else {
-                pos = Math.min(pos + 1, getDocument().getLength());
+            flsf {
+                pos = Mbti.min(pos + 1, gftDodumfnt().gftLfngti());
             }
-            break;
-        default:
-            throw new IllegalArgumentException("Bad direction: " + direction);
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Bbd dirfdtion: " + dirfdtion);
         }
-        return pos;
+        rfturn pos;
     }
 
     /**
-     * Provides a mapping, for a given character,
-     * from the document model coordinate space
-     * to the view coordinate space.
+     * Providfs b mbpping, for b givfn dibrbdtfr,
+     * from tif dodumfnt modfl doordinbtf spbdf
+     * to tif vifw doordinbtf spbdf.
      *
-     * @param pos the position of the desired character (&gt;=0)
-     * @param a the area of the view, which encompasses the requested character
-     * @param b the bias toward the previous character or the
-     *  next character represented by the offset, in case the
-     *  position is a boundary of two views; <code>b</code> will have one
-     *  of these values:
+     * @pbrbm pos tif position of tif dfsirfd dibrbdtfr (&gt;=0)
+     * @pbrbm b tif brfb of tif vifw, wiidi fndompbssfs tif rfqufstfd dibrbdtfr
+     * @pbrbm b tif bibs towbrd tif prfvious dibrbdtfr or tif
+     *  nfxt dibrbdtfr rfprfsfntfd by tif offsft, in dbsf tif
+     *  position is b boundbry of two vifws; <dodf>b</dodf> will ibvf onf
+     *  of tifsf vblufs:
      * <ul>
-     * <li> <code>Position.Bias.Forward</code>
-     * <li> <code>Position.Bias.Backward</code>
+     * <li> <dodf>Position.Bibs.Forwbrd</dodf>
+     * <li> <dodf>Position.Bibs.Bbdkwbrd</dodf>
      * </ul>
-     * @return the bounding box, in view coordinate space,
-     *          of the character at the specified position
-     * @exception BadLocationException  if the specified position does
-     *   not represent a valid location in the associated document
-     * @exception IllegalArgumentException if <code>b</code> is not one of the
-     *          legal <code>Position.Bias</code> values listed above
-     * @see View#viewToModel
+     * @rfturn tif bounding box, in vifw doordinbtf spbdf,
+     *          of tif dibrbdtfr bt tif spfdififd position
+     * @fxdfption BbdLodbtionExdfption  if tif spfdififd position dofs
+     *   not rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>b</dodf> is not onf of tif
+     *          lfgbl <dodf>Position.Bibs</dodf> vblufs listfd bbovf
+     * @sff Vifw#vifwToModfl
      */
-    public abstract Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException;
+    publid bbstrbdt Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption;
 
     /**
-     * Provides a mapping, for a given region,
-     * from the document model coordinate space
-     * to the view coordinate space. The specified region is
-     * created as a union of the first and last character positions.
+     * Providfs b mbpping, for b givfn rfgion,
+     * from tif dodumfnt modfl doordinbtf spbdf
+     * to tif vifw doordinbtf spbdf. Tif spfdififd rfgion is
+     * drfbtfd bs b union of tif first bnd lbst dibrbdtfr positions.
      *
-     * @param p0 the position of the first character (&gt;=0)
-     * @param b0 the bias of the first character position,
-     *  toward the previous character or the
-     *  next character represented by the offset, in case the
-     *  position is a boundary of two views; <code>b0</code> will have one
-     *  of these values:
-     * <ul style="list-style-type:none">
-     * <li> <code>Position.Bias.Forward</code>
-     * <li> <code>Position.Bias.Backward</code>
+     * @pbrbm p0 tif position of tif first dibrbdtfr (&gt;=0)
+     * @pbrbm b0 tif bibs of tif first dibrbdtfr position,
+     *  towbrd tif prfvious dibrbdtfr or tif
+     *  nfxt dibrbdtfr rfprfsfntfd by tif offsft, in dbsf tif
+     *  position is b boundbry of two vifws; <dodf>b0</dodf> will ibvf onf
+     *  of tifsf vblufs:
+     * <ul stylf="list-stylf-typf:nonf">
+     * <li> <dodf>Position.Bibs.Forwbrd</dodf>
+     * <li> <dodf>Position.Bibs.Bbdkwbrd</dodf>
      * </ul>
-     * @param p1 the position of the last character (&gt;=0)
-     * @param b1 the bias for the second character position, defined
-     *          one of the legal values shown above
-     * @param a the area of the view, which encompasses the requested region
-     * @return the bounding box which is a union of the region specified
-     *          by the first and last character positions
-     * @exception BadLocationException  if the given position does
-     *   not represent a valid location in the associated document
-     * @exception IllegalArgumentException if <code>b0</code> or
-     *          <code>b1</code> are not one of the
-     *          legal <code>Position.Bias</code> values listed above
-     * @see View#viewToModel
+     * @pbrbm p1 tif position of tif lbst dibrbdtfr (&gt;=0)
+     * @pbrbm b1 tif bibs for tif sfdond dibrbdtfr position, dffinfd
+     *          onf of tif lfgbl vblufs siown bbovf
+     * @pbrbm b tif brfb of tif vifw, wiidi fndompbssfs tif rfqufstfd rfgion
+     * @rfturn tif bounding box wiidi is b union of tif rfgion spfdififd
+     *          by tif first bnd lbst dibrbdtfr positions
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs
+     *   not rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>b0</dodf> or
+     *          <dodf>b1</dodf> brf not onf of tif
+     *          lfgbl <dodf>Position.Bibs</dodf> vblufs listfd bbovf
+     * @sff Vifw#vifwToModfl
      */
-    public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a) throws BadLocationException {
-        Shape s0 = modelToView(p0, a, b0);
-        Shape s1;
-        if (p1 == getEndOffset()) {
+    publid Sibpf modflToVifw(int p0, Position.Bibs b0, int p1, Position.Bibs b1, Sibpf b) tirows BbdLodbtionExdfption {
+        Sibpf s0 = modflToVifw(p0, b, b0);
+        Sibpf s1;
+        if (p1 == gftEndOffsft()) {
             try {
-                s1 = modelToView(p1, a, b1);
-            } catch (BadLocationException ble) {
+                s1 = modflToVifw(p1, b, b1);
+            } dbtdi (BbdLodbtionExdfption blf) {
                 s1 = null;
             }
             if (s1 == null) {
-                // Assume extends left to right.
-                Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-                                  a.getBounds();
-                s1 = new Rectangle(alloc.x + alloc.width - 1, alloc.y,
-                                   1, alloc.height);
+                // Assumf fxtfnds lfft to rigit.
+                Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b :
+                                  b.gftBounds();
+                s1 = nfw Rfdtbnglf(bllod.x + bllod.widti - 1, bllod.y,
+                                   1, bllod.ifigit);
             }
         }
-        else {
-            s1 = modelToView(p1, a, b1);
+        flsf {
+            s1 = modflToVifw(p1, b, b1);
         }
-        Rectangle r0 = s0.getBounds();
-        Rectangle r1 = (s1 instanceof Rectangle) ? (Rectangle) s1 :
-                                                   s1.getBounds();
+        Rfdtbnglf r0 = s0.gftBounds();
+        Rfdtbnglf r1 = (s1 instbndfof Rfdtbnglf) ? (Rfdtbnglf) s1 :
+                                                   s1.gftBounds();
         if (r0.y != r1.y) {
-            // If it spans lines, force it to be the width of the view.
-            Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-                              a.getBounds();
-            r0.x = alloc.x;
-            r0.width = alloc.width;
+            // If it spbns linfs, fordf it to bf tif widti of tif vifw.
+            Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b :
+                              b.gftBounds();
+            r0.x = bllod.x;
+            r0.widti = bllod.widti;
         }
-        r0.add(r1);
-        return r0;
+        r0.bdd(r1);
+        rfturn r0;
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.  The <code>biasReturn</code>
-     * argument will be filled in to indicate that the point given is
-     * closer to the next character in the model or the previous
-     * character in the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.  Tif <dodf>bibsRfturn</dodf>
+     * brgumfnt will bf fillfd in to indidbtf tibt tif point givfn is
+     * dlosfr to tif nfxt dibrbdtfr in tif modfl or tif prfvious
+     * dibrbdtfr in tif modfl.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param a the allocated region in which to render
-     * @return the location within the model that best represents the
-     *  given point in the view &gt;= 0.  The <code>biasReturn</code>
-     *  argument will be
-     * filled in to indicate that the point given is closer to the next
-     * character in the model or the previous character in the model.
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @pbrbm y tif Y doordinbtf &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion in wiidi to rfndfr
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point in tif vifw &gt;= 0.  Tif <dodf>bibsRfturn</dodf>
+     *  brgumfnt will bf
+     * fillfd in to indidbtf tibt tif point givfn is dlosfr to tif nfxt
+     * dibrbdtfr in tif modfl or tif prfvious dibrbdtfr in tif modfl.
      */
-    public abstract int viewToModel(float x, float y, Shape a, Position.Bias[] biasReturn);
+    publid bbstrbdt int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibsRfturn);
 
     /**
-     * Gives notification that something was inserted into
-     * the document in a location that this view is responsible for.
-     * To reduce the burden to subclasses, this functionality is
-     * spread out into the following calls that subclasses can
-     * reimplement:
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into
+     * tif dodumfnt in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * To rfdudf tif burdfn to subdlbssfs, tiis fundtionblity is
+     * sprfbd out into tif following dblls tibt subdlbssfs dbn
+     * rfimplfmfnt:
      * <ol>
-     * <li>{@link #updateChildren updateChildren} is called
-     * if there were any changes to the element this view is
-     * responsible for.  If this view has child views that are
-     * represent the child elements, then this method should do
-     * whatever is necessary to make sure the child views correctly
-     * represent the model.
-     * <li>{@link #forwardUpdate forwardUpdate} is called
-     * to forward the DocumentEvent to the appropriate child views.
-     * <li>{@link #updateLayout updateLayout} is called to
-     * give the view a chance to either repair its layout, to reschedule
-     * layout, or do nothing.
+     * <li>{@link #updbtfCiildrfn updbtfCiildrfn} is dbllfd
+     * if tifrf wfrf bny dibngfs to tif flfmfnt tiis vifw is
+     * rfsponsiblf for.  If tiis vifw ibs diild vifws tibt brf
+     * rfprfsfnt tif diild flfmfnts, tifn tiis mftiod siould do
+     * wibtfvfr is nfdfssbry to mbkf surf tif diild vifws dorrfdtly
+     * rfprfsfnt tif modfl.
+     * <li>{@link #forwbrdUpdbtf forwbrdUpdbtf} is dbllfd
+     * to forwbrd tif DodumfntEvfnt to tif bppropribtf diild vifws.
+     * <li>{@link #updbtfLbyout updbtfLbyout} is dbllfd to
+     * givf tif vifw b dibndf to fitifr rfpbir its lbyout, to rfsdifdulf
+     * lbyout, or do notiing.
      * </ol>
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#insertUpdate
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#insfrtUpdbtf
      */
-    public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        if (getViewCount() > 0) {
-            Element elem = getElement();
-            DocumentEvent.ElementChange ec = e.getChange(elem);
-            if (ec != null) {
-                if (! updateChildren(ec, e, f)) {
-                    // don't consider the element changes they
-                    // are for a view further down.
-                    ec = null;
+    publid void insfrtUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+        if (gftVifwCount() > 0) {
+            Elfmfnt flfm = gftElfmfnt();
+            DodumfntEvfnt.ElfmfntCibngf fd = f.gftCibngf(flfm);
+            if (fd != null) {
+                if (! updbtfCiildrfn(fd, f, f)) {
+                    // don't donsidfr tif flfmfnt dibngfs tify
+                    // brf for b vifw furtifr down.
+                    fd = null;
                 }
             }
-            forwardUpdate(ec, e, a, f);
-            updateLayout(ec, e, a);
+            forwbrdUpdbtf(fd, f, b, f);
+            updbtfLbyout(fd, f, b);
         }
     }
 
     /**
-     * Gives notification that something was removed from the document
-     * in a location that this view is responsible for.
-     * To reduce the burden to subclasses, this functionality is
-     * spread out into the following calls that subclasses can
-     * reimplement:
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * To rfdudf tif burdfn to subdlbssfs, tiis fundtionblity is
+     * sprfbd out into tif following dblls tibt subdlbssfs dbn
+     * rfimplfmfnt:
      * <ol>
-     * <li>{@link #updateChildren updateChildren} is called
-     * if there were any changes to the element this view is
-     * responsible for.  If this view has child views that are
-     * represent the child elements, then this method should do
-     * whatever is necessary to make sure the child views correctly
-     * represent the model.
-     * <li>{@link #forwardUpdate forwardUpdate} is called
-     * to forward the DocumentEvent to the appropriate child views.
-     * <li>{@link #updateLayout updateLayout} is called to
-     * give the view a chance to either repair its layout, to reschedule
-     * layout, or do nothing.
+     * <li>{@link #updbtfCiildrfn updbtfCiildrfn} is dbllfd
+     * if tifrf wfrf bny dibngfs to tif flfmfnt tiis vifw is
+     * rfsponsiblf for.  If tiis vifw ibs diild vifws tibt brf
+     * rfprfsfnt tif diild flfmfnts, tifn tiis mftiod siould do
+     * wibtfvfr is nfdfssbry to mbkf surf tif diild vifws dorrfdtly
+     * rfprfsfnt tif modfl.
+     * <li>{@link #forwbrdUpdbtf forwbrdUpdbtf} is dbllfd
+     * to forwbrd tif DodumfntEvfnt to tif bppropribtf diild vifws.
+     * <li>{@link #updbtfLbyout updbtfLbyout} is dbllfd to
+     * givf tif vifw b dibndf to fitifr rfpbir its lbyout, to rfsdifdulf
+     * lbyout, or do notiing.
      * </ol>
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#removeUpdate
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#rfmovfUpdbtf
      */
-    public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        if (getViewCount() > 0) {
-            Element elem = getElement();
-            DocumentEvent.ElementChange ec = e.getChange(elem);
-            if (ec != null) {
-                if (! updateChildren(ec, e, f)) {
-                    // don't consider the element changes they
-                    // are for a view further down.
-                    ec = null;
+    publid void rfmovfUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+        if (gftVifwCount() > 0) {
+            Elfmfnt flfm = gftElfmfnt();
+            DodumfntEvfnt.ElfmfntCibngf fd = f.gftCibngf(flfm);
+            if (fd != null) {
+                if (! updbtfCiildrfn(fd, f, f)) {
+                    // don't donsidfr tif flfmfnt dibngfs tify
+                    // brf for b vifw furtifr down.
+                    fd = null;
                 }
             }
-            forwardUpdate(ec, e, a, f);
-            updateLayout(ec, e, a);
+            forwbrdUpdbtf(fd, f, b, f);
+            updbtfLbyout(fd, f, b);
         }
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
-     * To reduce the burden to subclasses, this functionality is
-     * spread out into the following calls that subclasses can
-     * reimplement:
+     * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     * To rfdudf tif burdfn to subdlbssfs, tiis fundtionblity is
+     * sprfbd out into tif following dblls tibt subdlbssfs dbn
+     * rfimplfmfnt:
      * <ol>
-     * <li>{@link #updateChildren updateChildren} is called
-     * if there were any changes to the element this view is
-     * responsible for.  If this view has child views that are
-     * represent the child elements, then this method should do
-     * whatever is necessary to make sure the child views correctly
-     * represent the model.
-     * <li>{@link #forwardUpdate forwardUpdate} is called
-     * to forward the DocumentEvent to the appropriate child views.
-     * <li>{@link #updateLayout updateLayout} is called to
-     * give the view a chance to either repair its layout, to reschedule
-     * layout, or do nothing.
+     * <li>{@link #updbtfCiildrfn updbtfCiildrfn} is dbllfd
+     * if tifrf wfrf bny dibngfs to tif flfmfnt tiis vifw is
+     * rfsponsiblf for.  If tiis vifw ibs diild vifws tibt brf
+     * rfprfsfnt tif diild flfmfnts, tifn tiis mftiod siould do
+     * wibtfvfr is nfdfssbry to mbkf surf tif diild vifws dorrfdtly
+     * rfprfsfnt tif modfl.
+     * <li>{@link #forwbrdUpdbtf forwbrdUpdbtf} is dbllfd
+     * to forwbrd tif DodumfntEvfnt to tif bppropribtf diild vifws.
+     * <li>{@link #updbtfLbyout updbtfLbyout} is dbllfd to
+     * givf tif vifw b dibndf to fitifr rfpbir its lbyout, to rfsdifdulf
+     * lbyout, or do notiing.
      * </ol>
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#dibngfdUpdbtf
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        if (getViewCount() > 0) {
-            Element elem = getElement();
-            DocumentEvent.ElementChange ec = e.getChange(elem);
-            if (ec != null) {
-                if (! updateChildren(ec, e, f)) {
-                    // don't consider the element changes they
-                    // are for a view further down.
-                    ec = null;
+    publid void dibngfdUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+        if (gftVifwCount() > 0) {
+            Elfmfnt flfm = gftElfmfnt();
+            DodumfntEvfnt.ElfmfntCibngf fd = f.gftCibngf(flfm);
+            if (fd != null) {
+                if (! updbtfCiildrfn(fd, f, f)) {
+                    // don't donsidfr tif flfmfnt dibngfs tify
+                    // brf for b vifw furtifr down.
+                    fd = null;
                 }
             }
-            forwardUpdate(ec, e, a, f);
-            updateLayout(ec, e, a);
+            forwbrdUpdbtf(fd, f, b, f);
+            updbtfLbyout(fd, f, b);
         }
     }
 
     /**
-     * Fetches the model associated with the view.
+     * Fftdifs tif modfl bssodibtfd witi tif vifw.
      *
-     * @return the view model, <code>null</code> if none
-     * @see View#getDocument
+     * @rfturn tif vifw modfl, <dodf>null</dodf> if nonf
+     * @sff Vifw#gftDodumfnt
      */
-    public Document getDocument() {
-        return elem.getDocument();
+    publid Dodumfnt gftDodumfnt() {
+        rfturn flfm.gftDodumfnt();
     }
 
     /**
-     * Fetches the portion of the model for which this view is
-     * responsible.
+     * Fftdifs tif portion of tif modfl for wiidi tiis vifw is
+     * rfsponsiblf.
      *
-     * @return the starting offset into the model &gt;= 0
-     * @see View#getStartOffset
+     * @rfturn tif stbrting offsft into tif modfl &gt;= 0
+     * @sff Vifw#gftStbrtOffsft
      */
-    public int getStartOffset() {
-        return elem.getStartOffset();
+    publid int gftStbrtOffsft() {
+        rfturn flfm.gftStbrtOffsft();
     }
 
     /**
-     * Fetches the portion of the model for which this view is
-     * responsible.
+     * Fftdifs tif portion of tif modfl for wiidi tiis vifw is
+     * rfsponsiblf.
      *
-     * @return the ending offset into the model &gt;= 0
-     * @see View#getEndOffset
+     * @rfturn tif fnding offsft into tif modfl &gt;= 0
+     * @sff Vifw#gftEndOffsft
      */
-    public int getEndOffset() {
-        return elem.getEndOffset();
+    publid int gftEndOffsft() {
+        rfturn flfm.gftEndOffsft();
     }
 
     /**
-     * Fetches the structural portion of the subject that this
-     * view is mapped to.  The view may not be responsible for the
-     * entire portion of the element.
+     * Fftdifs tif strudturbl portion of tif subjfdt tibt tiis
+     * vifw is mbppfd to.  Tif vifw mby not bf rfsponsiblf for tif
+     * fntirf portion of tif flfmfnt.
      *
-     * @return the subject
-     * @see View#getElement
+     * @rfturn tif subjfdt
+     * @sff Vifw#gftElfmfnt
      */
-    public Element getElement() {
-        return elem;
+    publid Elfmfnt gftElfmfnt() {
+        rfturn flfm;
     }
 
     /**
-     * Fetch a <code>Graphics</code> for rendering.
-     * This can be used to determine
-     * font characteristics, and will be different for a print view
-     * than a component view.
+     * Fftdi b <dodf>Grbpiids</dodf> for rfndfring.
+     * Tiis dbn bf usfd to dftfrminf
+     * font dibrbdtfristids, bnd will bf difffrfnt for b print vifw
+     * tibn b domponfnt vifw.
      *
-     * @return a <code>Graphics</code> object for rendering
-     * @since 1.3
+     * @rfturn b <dodf>Grbpiids</dodf> objfdt for rfndfring
+     * @sindf 1.3
      */
-    public Graphics getGraphics() {
-        // PENDING(prinz) this is a temporary implementation
-        Component c = getContainer();
-        return c.getGraphics();
+    publid Grbpiids gftGrbpiids() {
+        // PENDING(prinz) tiis is b tfmporbry implfmfntbtion
+        Componfnt d = gftContbinfr();
+        rfturn d.gftGrbpiids();
     }
 
     /**
-     * Fetches the attributes to use when rendering.  By default
-     * this simply returns the attributes of the associated element.
-     * This method should be used rather than using the element
-     * directly to obtain access to the attributes to allow
-     * view-specific attributes to be mixed in or to allow the
-     * view to have view-specific conversion of attributes by
-     * subclasses.
-     * Each view should document what attributes it recognizes
-     * for the purpose of rendering or layout, and should always
-     * access them through the <code>AttributeSet</code> returned
-     * by this method.
+     * Fftdifs tif bttributfs to usf wifn rfndfring.  By dffbult
+     * tiis simply rfturns tif bttributfs of tif bssodibtfd flfmfnt.
+     * Tiis mftiod siould bf usfd rbtifr tibn using tif flfmfnt
+     * dirfdtly to obtbin bddfss to tif bttributfs to bllow
+     * vifw-spfdifid bttributfs to bf mixfd in or to bllow tif
+     * vifw to ibvf vifw-spfdifid donvfrsion of bttributfs by
+     * subdlbssfs.
+     * Ebdi vifw siould dodumfnt wibt bttributfs it rfdognizfs
+     * for tif purposf of rfndfring or lbyout, bnd siould blwbys
+     * bddfss tifm tirougi tif <dodf>AttributfSft</dodf> rfturnfd
+     * by tiis mftiod.
      */
-    public AttributeSet getAttributes() {
-        return elem.getAttributes();
+    publid AttributfSft gftAttributfs() {
+        rfturn flfm.gftAttributfs();
     }
 
     /**
-     * Tries to break this view on the given axis.  This is
-     * called by views that try to do formatting of their
-     * children.  For example, a view of a paragraph will
-     * typically try to place its children into row and
-     * views representing chunks of text can sometimes be
-     * broken down into smaller pieces.
+     * Trifs to brfbk tiis vifw on tif givfn bxis.  Tiis is
+     * dbllfd by vifws tibt try to do formbtting of tifir
+     * diildrfn.  For fxbmplf, b vifw of b pbrbgrbpi will
+     * typidblly try to plbdf its diildrfn into row bnd
+     * vifws rfprfsfnting diunks of tfxt dbn somftimfs bf
+     * brokfn down into smbllfr pifdfs.
      * <p>
-     * This is implemented to return the view itself, which
-     * represents the default behavior on not being
-     * breakable.  If the view does support breaking, the
-     * starting offset of the view returned should be the
-     * given offset, and the end offset should be less than
-     * or equal to the end offset of the view being broken.
+     * Tiis is implfmfntfd to rfturn tif vifw itsflf, wiidi
+     * rfprfsfnts tif dffbult bfibvior on not bfing
+     * brfbkbblf.  If tif vifw dofs support brfbking, tif
+     * stbrting offsft of tif vifw rfturnfd siould bf tif
+     * givfn offsft, bnd tif fnd offsft siould bf lfss tibn
+     * or fqubl to tif fnd offsft of tif vifw bfing brokfn.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @param offset the location in the document model
-     *   that a broken fragment would occupy &gt;= 0.  This
-     *   would be the starting offset of the fragment
-     *   returned
-     * @param pos the position along the axis that the
-     *  broken view would occupy &gt;= 0.  This may be useful for
-     *  things like tab calculations
-     * @param len specifies the distance along the axis
-     *  where a potential break is desired &gt;= 0
-     * @return the fragment of the view that represents the
-     *  given span, if the view can be broken.  If the view
-     *  doesn't support breaking behavior, the view itself is
-     *  returned.
-     * @see ParagraphView
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @pbrbm offsft tif lodbtion in tif dodumfnt modfl
+     *   tibt b brokfn frbgmfnt would oddupy &gt;= 0.  Tiis
+     *   would bf tif stbrting offsft of tif frbgmfnt
+     *   rfturnfd
+     * @pbrbm pos tif position blong tif bxis tibt tif
+     *  brokfn vifw would oddupy &gt;= 0.  Tiis mby bf usfful for
+     *  tiings likf tbb dbldulbtions
+     * @pbrbm lfn spfdififs tif distbndf blong tif bxis
+     *  wifrf b potfntibl brfbk is dfsirfd &gt;= 0
+     * @rfturn tif frbgmfnt of tif vifw tibt rfprfsfnts tif
+     *  givfn spbn, if tif vifw dbn bf brokfn.  If tif vifw
+     *  dofsn't support brfbking bfibvior, tif vifw itsflf is
+     *  rfturnfd.
+     * @sff PbrbgrbpiVifw
      */
-    public View breakView(int axis, int offset, float pos, float len) {
-        return this;
+    publid Vifw brfbkVifw(int bxis, int offsft, flobt pos, flobt lfn) {
+        rfturn tiis;
     }
 
     /**
-     * Creates a view that represents a portion of the element.
-     * This is potentially useful during formatting operations
-     * for taking measurements of fragments of the view.  If
-     * the view doesn't support fragmenting (the default), it
-     * should return itself.
+     * Crfbtfs b vifw tibt rfprfsfnts b portion of tif flfmfnt.
+     * Tiis is potfntiblly usfful during formbtting opfrbtions
+     * for tbking mfbsurfmfnts of frbgmfnts of tif vifw.  If
+     * tif vifw dofsn't support frbgmfnting (tif dffbult), it
+     * siould rfturn itsflf.
      *
-     * @param p0 the starting offset &gt;= 0.  This should be a value
-     *   greater or equal to the element starting offset and
-     *   less than the element ending offset.
-     * @param p1 the ending offset &gt; p0.  This should be a value
-     *   less than or equal to the elements end offset and
-     *   greater than the elements starting offset.
-     * @return the view fragment, or itself if the view doesn't
-     *   support breaking into fragments
-     * @see LabelView
+     * @pbrbm p0 tif stbrting offsft &gt;= 0.  Tiis siould bf b vbluf
+     *   grfbtfr or fqubl to tif flfmfnt stbrting offsft bnd
+     *   lfss tibn tif flfmfnt fnding offsft.
+     * @pbrbm p1 tif fnding offsft &gt; p0.  Tiis siould bf b vbluf
+     *   lfss tibn or fqubl to tif flfmfnts fnd offsft bnd
+     *   grfbtfr tibn tif flfmfnts stbrting offsft.
+     * @rfturn tif vifw frbgmfnt, or itsflf if tif vifw dofsn't
+     *   support brfbking into frbgmfnts
+     * @sff LbbflVifw
      */
-    public View createFragment(int p0, int p1) {
-        return this;
+    publid Vifw drfbtfFrbgmfnt(int p0, int p1) {
+        rfturn tiis;
     }
 
     /**
-     * Determines how attractive a break opportunity in
-     * this view is.  This can be used for determining which
-     * view is the most attractive to call <code>breakView</code>
-     * on in the process of formatting.  A view that represents
-     * text that has whitespace in it might be more attractive
-     * than a view that has no whitespace, for example.  The
-     * higher the weight, the more attractive the break.  A
-     * value equal to or lower than <code>BadBreakWeight</code>
-     * should not be considered for a break.  A value greater
-     * than or equal to <code>ForcedBreakWeight</code> should
-     * be broken.
+     * Dftfrminfs iow bttrbdtivf b brfbk opportunity in
+     * tiis vifw is.  Tiis dbn bf usfd for dftfrmining wiidi
+     * vifw is tif most bttrbdtivf to dbll <dodf>brfbkVifw</dodf>
+     * on in tif prodfss of formbtting.  A vifw tibt rfprfsfnts
+     * tfxt tibt ibs wiitfspbdf in it migit bf morf bttrbdtivf
+     * tibn b vifw tibt ibs no wiitfspbdf, for fxbmplf.  Tif
+     * iigifr tif wfigit, tif morf bttrbdtivf tif brfbk.  A
+     * vbluf fqubl to or lowfr tibn <dodf>BbdBrfbkWfigit</dodf>
+     * siould not bf donsidfrfd for b brfbk.  A vbluf grfbtfr
+     * tibn or fqubl to <dodf>FordfdBrfbkWfigit</dodf> siould
+     * bf brokfn.
      * <p>
-     * This is implemented to provide the default behavior
-     * of returning <code>BadBreakWeight</code> unless the length
-     * is greater than the length of the view in which case the
-     * entire view represents the fragment.  Unless a view has
-     * been written to support breaking behavior, it is not
-     * attractive to try and break the view.  An example of
-     * a view that does support breaking is <code>LabelView</code>.
-     * An example of a view that uses break weight is
-     * <code>ParagraphView</code>.
+     * Tiis is implfmfntfd to providf tif dffbult bfibvior
+     * of rfturning <dodf>BbdBrfbkWfigit</dodf> unlfss tif lfngti
+     * is grfbtfr tibn tif lfngti of tif vifw in wiidi dbsf tif
+     * fntirf vifw rfprfsfnts tif frbgmfnt.  Unlfss b vifw ibs
+     * bffn writtfn to support brfbking bfibvior, it is not
+     * bttrbdtivf to try bnd brfbk tif vifw.  An fxbmplf of
+     * b vifw tibt dofs support brfbking is <dodf>LbbflVifw</dodf>.
+     * An fxbmplf of b vifw tibt usfs brfbk wfigit is
+     * <dodf>PbrbgrbpiVifw</dodf>.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @param pos the potential location of the start of the
-     *   broken view &gt;= 0.  This may be useful for calculating tab
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @pbrbm pos tif potfntibl lodbtion of tif stbrt of tif
+     *   brokfn vifw &gt;= 0.  Tiis mby bf usfful for dbldulbting tbb
      *   positions
-     * @param len specifies the relative length from <em>pos</em>
-     *   where a potential break is desired &gt;= 0
-     * @return the weight, which should be a value between
-     *   ForcedBreakWeight and BadBreakWeight
-     * @see LabelView
-     * @see ParagraphView
-     * @see #BadBreakWeight
-     * @see #GoodBreakWeight
-     * @see #ExcellentBreakWeight
-     * @see #ForcedBreakWeight
+     * @pbrbm lfn spfdififs tif rflbtivf lfngti from <fm>pos</fm>
+     *   wifrf b potfntibl brfbk is dfsirfd &gt;= 0
+     * @rfturn tif wfigit, wiidi siould bf b vbluf bftwffn
+     *   FordfdBrfbkWfigit bnd BbdBrfbkWfigit
+     * @sff LbbflVifw
+     * @sff PbrbgrbpiVifw
+     * @sff #BbdBrfbkWfigit
+     * @sff #GoodBrfbkWfigit
+     * @sff #ExdfllfntBrfbkWfigit
+     * @sff #FordfdBrfbkWfigit
      */
-    public int getBreakWeight(int axis, float pos, float len) {
-        if (len > getPreferredSpan(axis)) {
-            return GoodBreakWeight;
+    publid int gftBrfbkWfigit(int bxis, flobt pos, flobt lfn) {
+        if (lfn > gftPrfffrrfdSpbn(bxis)) {
+            rfturn GoodBrfbkWfigit;
         }
-        return BadBreakWeight;
+        rfturn BbdBrfbkWfigit;
     }
 
     /**
-     * Determines the resizability of the view along the
-     * given axis.  A value of 0 or less is not resizable.
+     * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+     * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *          <code>View.Y_AXIS</code>
-     * @return the weight
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *          <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif wfigit
      */
-    public int getResizeWeight(int axis) {
-        return 0;
+    publid int gftRfsizfWfigit(int bxis) {
+        rfturn 0;
     }
 
     /**
-     * Sets the size of the view.  This should cause
-     * layout of the view along the given axis, if it
-     * has any layout duties.
+     * Sfts tif sizf of tif vifw.  Tiis siould dbusf
+     * lbyout of tif vifw blong tif givfn bxis, if it
+     * ibs bny lbyout dutifs.
      *
-     * @param width the width &gt;= 0
-     * @param height the height &gt;= 0
+     * @pbrbm widti tif widti &gt;= 0
+     * @pbrbm ifigit tif ifigit &gt;= 0
      */
-    public void setSize(float width, float height) {
+    publid void sftSizf(flobt widti, flobt ifigit) {
     }
 
     /**
-     * Fetches the container hosting the view.  This is useful for
-     * things like scheduling a repaint, finding out the host
-     * components font, etc.  The default implementation
-     * of this is to forward the query to the parent view.
+     * Fftdifs tif dontbinfr iosting tif vifw.  Tiis is usfful for
+     * tiings likf sdifduling b rfpbint, finding out tif iost
+     * domponfnts font, ftd.  Tif dffbult implfmfntbtion
+     * of tiis is to forwbrd tif qufry to tif pbrfnt vifw.
      *
-     * @return the container, <code>null</code> if none
+     * @rfturn tif dontbinfr, <dodf>null</dodf> if nonf
      */
-    public Container getContainer() {
-        View v = getParent();
-        return (v != null) ? v.getContainer() : null;
+    publid Contbinfr gftContbinfr() {
+        Vifw v = gftPbrfnt();
+        rfturn (v != null) ? v.gftContbinfr() : null;
     }
 
     /**
-     * Fetches the <code>ViewFactory</code> implementation that is feeding
-     * the view hierarchy.  Normally the views are given this
-     * as an argument to updates from the model when they
-     * are most likely to need the factory, but this
-     * method serves to provide it at other times.
+     * Fftdifs tif <dodf>VifwFbdtory</dodf> implfmfntbtion tibt is fffding
+     * tif vifw iifrbrdiy.  Normblly tif vifws brf givfn tiis
+     * bs bn brgumfnt to updbtfs from tif modfl wifn tify
+     * brf most likfly to nffd tif fbdtory, but tiis
+     * mftiod sfrvfs to providf it bt otifr timfs.
      *
-     * @return the factory, <code>null</code> if none
+     * @rfturn tif fbdtory, <dodf>null</dodf> if nonf
      */
-    public ViewFactory getViewFactory() {
-        View v = getParent();
-        return (v != null) ? v.getViewFactory() : null;
+    publid VifwFbdtory gftVifwFbdtory() {
+        Vifw v = gftPbrfnt();
+        rfturn (v != null) ? v.gftVifwFbdtory() : null;
     }
 
     /**
-     * Returns the tooltip text at the specified location. The default
-     * implementation returns the value from the child View identified by
-     * the passed in location.
+     * Rfturns tif tooltip tfxt bt tif spfdififd lodbtion. Tif dffbult
+     * implfmfntbtion rfturns tif vbluf from tif diild Vifw idfntififd by
+     * tif pbssfd in lodbtion.
      *
-     * @since 1.4
-     * @see JTextComponent#getToolTipText
+     * @sindf 1.4
+     * @sff JTfxtComponfnt#gftToolTipTfxt
      */
-    public String getToolTipText(float x, float y, Shape allocation) {
-        int viewIndex = getViewIndex(x, y, allocation);
-        if (viewIndex >= 0) {
-            allocation = getChildAllocation(viewIndex, allocation);
-            Rectangle rect = (allocation instanceof Rectangle) ?
-                             (Rectangle)allocation : allocation.getBounds();
-            if (rect.contains(x, y)) {
-                return getView(viewIndex).getToolTipText(x, y, allocation);
+    publid String gftToolTipTfxt(flobt x, flobt y, Sibpf bllodbtion) {
+        int vifwIndfx = gftVifwIndfx(x, y, bllodbtion);
+        if (vifwIndfx >= 0) {
+            bllodbtion = gftCiildAllodbtion(vifwIndfx, bllodbtion);
+            Rfdtbnglf rfdt = (bllodbtion instbndfof Rfdtbnglf) ?
+                             (Rfdtbnglf)bllodbtion : bllodbtion.gftBounds();
+            if (rfdt.dontbins(x, y)) {
+                rfturn gftVifw(vifwIndfx).gftToolTipTfxt(x, y, bllodbtion);
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the child view index representing the given position in
-     * the view. This iterates over all the children returning the
-     * first with a bounds that contains <code>x</code>, <code>y</code>.
+     * Rfturns tif diild vifw indfx rfprfsfnting tif givfn position in
+     * tif vifw. Tiis itfrbtfs ovfr bll tif diildrfn rfturning tif
+     * first witi b bounds tibt dontbins <dodf>x</dodf>, <dodf>y</dodf>.
      *
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param allocation current allocation of the View.
-     * @return  index of the view representing the given location, or
-     *   -1 if no view represents that position
-     * @since 1.4
+     * @pbrbm x tif x doordinbtf
+     * @pbrbm y tif y doordinbtf
+     * @pbrbm bllodbtion durrfnt bllodbtion of tif Vifw.
+     * @rfturn  indfx of tif vifw rfprfsfnting tif givfn lodbtion, or
+     *   -1 if no vifw rfprfsfnts tibt position
+     * @sindf 1.4
      */
-    public int getViewIndex(float x, float y, Shape allocation) {
-        for (int counter = getViewCount() - 1; counter >= 0; counter--) {
-            Shape childAllocation = getChildAllocation(counter, allocation);
+    publid int gftVifwIndfx(flobt x, flobt y, Sibpf bllodbtion) {
+        for (int dountfr = gftVifwCount() - 1; dountfr >= 0; dountfr--) {
+            Sibpf diildAllodbtion = gftCiildAllodbtion(dountfr, bllodbtion);
 
-            if (childAllocation != null) {
-                Rectangle rect = (childAllocation instanceof Rectangle) ?
-                         (Rectangle)childAllocation : childAllocation.getBounds();
+            if (diildAllodbtion != null) {
+                Rfdtbnglf rfdt = (diildAllodbtion instbndfof Rfdtbnglf) ?
+                         (Rfdtbnglf)diildAllodbtion : diildAllodbtion.gftBounds();
 
-                if (rect.contains(x, y)) {
-                    return counter;
+                if (rfdt.dontbins(x, y)) {
+                    rfturn dountfr;
                 }
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Updates the child views in response to receiving notification
-     * that the model changed, and there is change record for the
-     * element this view is responsible for.  This is implemented
-     * to assume the child views are directly responsible for the
-     * child elements of the element this view represents.  The
-     * <code>ViewFactory</code> is used to create child views for each element
-     * specified as added in the <code>ElementChange</code>, starting at the
-     * index specified in the given <code>ElementChange</code>.  The number of
-     * child views representing the removed elements specified are
-     * removed.
+     * Updbtfs tif diild vifws in rfsponsf to rfdfiving notifidbtion
+     * tibt tif modfl dibngfd, bnd tifrf is dibngf rfdord for tif
+     * flfmfnt tiis vifw is rfsponsiblf for.  Tiis is implfmfntfd
+     * to bssumf tif diild vifws brf dirfdtly rfsponsiblf for tif
+     * diild flfmfnts of tif flfmfnt tiis vifw rfprfsfnts.  Tif
+     * <dodf>VifwFbdtory</dodf> is usfd to drfbtf diild vifws for fbdi flfmfnt
+     * spfdififd bs bddfd in tif <dodf>ElfmfntCibngf</dodf>, stbrting bt tif
+     * indfx spfdififd in tif givfn <dodf>ElfmfntCibngf</dodf>.  Tif numbfr of
+     * diild vifws rfprfsfnting tif rfmovfd flfmfnts spfdififd brf
+     * rfmovfd.
      *
-     * @param ec the change information for the element this view
-     *  is responsible for.  This should not be <code>null</code> if
-     *  this method gets called
-     * @param e the change information from the associated document
-     * @param f the factory to use to build child views
-     * @return whether or not the child views represent the
-     *  child elements of the element this view is responsible
-     *  for.  Some views create children that represent a portion
-     *  of the element they are responsible for, and should return
-     *  false.  This information is used to determine if views
-     *  in the range of the added elements should be forwarded to
+     * @pbrbm fd tif dibngf informbtion for tif flfmfnt tiis vifw
+     *  is rfsponsiblf for.  Tiis siould not bf <dodf>null</dodf> if
+     *  tiis mftiod gfts dbllfd
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm f tif fbdtory to usf to build diild vifws
+     * @rfturn wiftifr or not tif diild vifws rfprfsfnt tif
+     *  diild flfmfnts of tif flfmfnt tiis vifw is rfsponsiblf
+     *  for.  Somf vifws drfbtf diildrfn tibt rfprfsfnt b portion
+     *  of tif flfmfnt tify brf rfsponsiblf for, bnd siould rfturn
+     *  fblsf.  Tiis informbtion is usfd to dftfrminf if vifws
+     *  in tif rbngf of tif bddfd flfmfnts siould bf forwbrdfd to
      *  or not
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
-     * @since 1.3
+     * @sff #insfrtUpdbtf
+     * @sff #rfmovfUpdbtf
+     * @sff #dibngfdUpdbtf
+     * @sindf 1.3
      */
-    protected boolean updateChildren(DocumentEvent.ElementChange ec,
-                                         DocumentEvent e, ViewFactory f) {
-        Element[] removedElems = ec.getChildrenRemoved();
-        Element[] addedElems = ec.getChildrenAdded();
-        View[] added = null;
-        if (addedElems != null) {
-            added = new View[addedElems.length];
-            for (int i = 0; i < addedElems.length; i++) {
-                added[i] = f.create(addedElems[i]);
+    protfdtfd boolfbn updbtfCiildrfn(DodumfntEvfnt.ElfmfntCibngf fd,
+                                         DodumfntEvfnt f, VifwFbdtory f) {
+        Elfmfnt[] rfmovfdElfms = fd.gftCiildrfnRfmovfd();
+        Elfmfnt[] bddfdElfms = fd.gftCiildrfnAddfd();
+        Vifw[] bddfd = null;
+        if (bddfdElfms != null) {
+            bddfd = nfw Vifw[bddfdElfms.lfngti];
+            for (int i = 0; i < bddfdElfms.lfngti; i++) {
+                bddfd[i] = f.drfbtf(bddfdElfms[i]);
             }
         }
-        int nremoved = 0;
-        int index = ec.getIndex();
-        if (removedElems != null) {
-            nremoved = removedElems.length;
+        int nrfmovfd = 0;
+        int indfx = fd.gftIndfx();
+        if (rfmovfdElfms != null) {
+            nrfmovfd = rfmovfdElfms.lfngti;
         }
-        replace(index, nremoved, added);
-        return true;
+        rfplbdf(indfx, nrfmovfd, bddfd);
+        rfturn truf;
     }
 
     /**
-     * Forwards the given <code>DocumentEvent</code> to the child views
-     * that need to be notified of the change to the model.
-     * If there were changes to the element this view is
-     * responsible for, that should be considered when
-     * forwarding (i.e. new child views should not get
-     * notified).
+     * Forwbrds tif givfn <dodf>DodumfntEvfnt</dodf> to tif diild vifws
+     * tibt nffd to bf notififd of tif dibngf to tif modfl.
+     * If tifrf wfrf dibngfs to tif flfmfnt tiis vifw is
+     * rfsponsiblf for, tibt siould bf donsidfrfd wifn
+     * forwbrding (i.f. nfw diild vifws siould not gft
+     * notififd).
      *
-     * @param ec changes to the element this view is responsible
-     *  for (may be <code>null</code> if there were no changes).
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
-     * @since 1.3
+     * @pbrbm fd dibngfs to tif flfmfnt tiis vifw is rfsponsiblf
+     *  for (mby bf <dodf>null</dodf> if tifrf wfrf no dibngfs).
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff #insfrtUpdbtf
+     * @sff #rfmovfUpdbtf
+     * @sff #dibngfdUpdbtf
+     * @sindf 1.3
      */
-    protected void forwardUpdate(DocumentEvent.ElementChange ec,
-                                      DocumentEvent e, Shape a, ViewFactory f) {
-        calculateUpdateIndexes(e);
+    protfdtfd void forwbrdUpdbtf(DodumfntEvfnt.ElfmfntCibngf fd,
+                                      DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+        dbldulbtfUpdbtfIndfxfs(f);
 
-        int hole0 = lastUpdateIndex + 1;
-        int hole1 = hole0;
-        Element[] addedElems = (ec != null) ? ec.getChildrenAdded() : null;
-        if ((addedElems != null) && (addedElems.length > 0)) {
-            hole0 = ec.getIndex();
-            hole1 = hole0 + addedElems.length - 1;
+        int iolf0 = lbstUpdbtfIndfx + 1;
+        int iolf1 = iolf0;
+        Elfmfnt[] bddfdElfms = (fd != null) ? fd.gftCiildrfnAddfd() : null;
+        if ((bddfdElfms != null) && (bddfdElfms.lfngti > 0)) {
+            iolf0 = fd.gftIndfx();
+            iolf1 = iolf0 + bddfdElfms.lfngti - 1;
         }
 
-        // forward to any view not in the forwarding hole
-        // formed by added elements (i.e. they will be updated
-        // by initialization.
-        for (int i = firstUpdateIndex; i <= lastUpdateIndex; i++) {
-            if (! ((i >= hole0) && (i <= hole1))) {
-                View v = getView(i);
+        // forwbrd to bny vifw not in tif forwbrding iolf
+        // formfd by bddfd flfmfnts (i.f. tify will bf updbtfd
+        // by initiblizbtion.
+        for (int i = firstUpdbtfIndfx; i <= lbstUpdbtfIndfx; i++) {
+            if (! ((i >= iolf0) && (i <= iolf1))) {
+                Vifw v = gftVifw(i);
                 if (v != null) {
-                    Shape childAlloc = getChildAllocation(i, a);
-                    forwardUpdateToView(v, e, childAlloc, f);
+                    Sibpf diildAllod = gftCiildAllodbtion(i, b);
+                    forwbrdUpdbtfToVifw(v, f, diildAllod, f);
                 }
             }
         }
     }
 
     /**
-     * Calculates the first and the last indexes of the child views
-     * that need to be notified of the change to the model.
-     * @param e the change information from the associated document
+     * Cbldulbtfs tif first bnd tif lbst indfxfs of tif diild vifws
+     * tibt nffd to bf notififd of tif dibngf to tif modfl.
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
      */
-    void calculateUpdateIndexes(DocumentEvent e) {
-        int pos = e.getOffset();
-        firstUpdateIndex = getViewIndex(pos, Position.Bias.Forward);
-        if (firstUpdateIndex == -1 && e.getType() == DocumentEvent.EventType.REMOVE &&
-            pos >= getEndOffset()) {
-            // Event beyond our offsets. We may have represented this, that is
-            // the remove may have removed one of our child Elements that
-            // represented this, so, we should forward to last element.
-            firstUpdateIndex = getViewCount() - 1;
+    void dbldulbtfUpdbtfIndfxfs(DodumfntEvfnt f) {
+        int pos = f.gftOffsft();
+        firstUpdbtfIndfx = gftVifwIndfx(pos, Position.Bibs.Forwbrd);
+        if (firstUpdbtfIndfx == -1 && f.gftTypf() == DodumfntEvfnt.EvfntTypf.REMOVE &&
+            pos >= gftEndOffsft()) {
+            // Evfnt bfyond our offsfts. Wf mby ibvf rfprfsfntfd tiis, tibt is
+            // tif rfmovf mby ibvf rfmovfd onf of our diild Elfmfnts tibt
+            // rfprfsfntfd tiis, so, wf siould forwbrd to lbst flfmfnt.
+            firstUpdbtfIndfx = gftVifwCount() - 1;
         }
-        lastUpdateIndex = firstUpdateIndex;
-        View v = (firstUpdateIndex >= 0) ? getView(firstUpdateIndex) : null;
+        lbstUpdbtfIndfx = firstUpdbtfIndfx;
+        Vifw v = (firstUpdbtfIndfx >= 0) ? gftVifw(firstUpdbtfIndfx) : null;
         if (v != null) {
-            if ((v.getStartOffset() == pos) && (pos > 0)) {
-                // If v is at a boundary, forward the event to the previous
-                // view too.
-                firstUpdateIndex = Math.max(firstUpdateIndex - 1, 0);
+            if ((v.gftStbrtOffsft() == pos) && (pos > 0)) {
+                // If v is bt b boundbry, forwbrd tif fvfnt to tif prfvious
+                // vifw too.
+                firstUpdbtfIndfx = Mbti.mbx(firstUpdbtfIndfx - 1, 0);
             }
         }
-        if (e.getType() != DocumentEvent.EventType.REMOVE) {
-            lastUpdateIndex = getViewIndex(pos + e.getLength(), Position.Bias.Forward);
-            if (lastUpdateIndex < 0) {
-                lastUpdateIndex = getViewCount() - 1;
+        if (f.gftTypf() != DodumfntEvfnt.EvfntTypf.REMOVE) {
+            lbstUpdbtfIndfx = gftVifwIndfx(pos + f.gftLfngti(), Position.Bibs.Forwbrd);
+            if (lbstUpdbtfIndfx < 0) {
+                lbstUpdbtfIndfx = gftVifwCount() - 1;
             }
         }
-        firstUpdateIndex = Math.max(firstUpdateIndex, 0);
+        firstUpdbtfIndfx = Mbti.mbx(firstUpdbtfIndfx, 0);
     }
 
     /**
-     * Forwards the <code>DocumentEvent</code> to the give child view.  This
-     * simply messages the view with a call to <code>insertUpdate</code>,
-     * <code>removeUpdate</code>, or <code>changedUpdate</code> depending
-     * upon the type of the event.  This is called by
-     * {@link #forwardUpdate forwardUpdate} to forward
-     * the event to children that need it.
+     * Forwbrds tif <dodf>DodumfntEvfnt</dodf> to tif givf diild vifw.  Tiis
+     * simply mfssbgfs tif vifw witi b dbll to <dodf>insfrtUpdbtf</dodf>,
+     * <dodf>rfmovfUpdbtf</dodf>, or <dodf>dibngfdUpdbtf</dodf> dfpfnding
+     * upon tif typf of tif fvfnt.  Tiis is dbllfd by
+     * {@link #forwbrdUpdbtf forwbrdUpdbtf} to forwbrd
+     * tif fvfnt to diildrfn tibt nffd it.
      *
-     * @param v the child view to forward the event to
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see #forwardUpdate
-     * @since 1.3
+     * @pbrbm v tif diild vifw to forwbrd tif fvfnt to
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff #forwbrdUpdbtf
+     * @sindf 1.3
      */
-    protected void forwardUpdateToView(View v, DocumentEvent e,
-                                           Shape a, ViewFactory f) {
-        DocumentEvent.EventType type = e.getType();
-        if (type == DocumentEvent.EventType.INSERT) {
-            v.insertUpdate(e, a, f);
-        } else if (type == DocumentEvent.EventType.REMOVE) {
-            v.removeUpdate(e, a, f);
-        } else {
-            v.changedUpdate(e, a, f);
+    protfdtfd void forwbrdUpdbtfToVifw(Vifw v, DodumfntEvfnt f,
+                                           Sibpf b, VifwFbdtory f) {
+        DodumfntEvfnt.EvfntTypf typf = f.gftTypf();
+        if (typf == DodumfntEvfnt.EvfntTypf.INSERT) {
+            v.insfrtUpdbtf(f, b, f);
+        } flsf if (typf == DodumfntEvfnt.EvfntTypf.REMOVE) {
+            v.rfmovfUpdbtf(f, b, f);
+        } flsf {
+            v.dibngfdUpdbtf(f, b, f);
         }
     }
 
     /**
-     * Updates the layout in response to receiving notification of
-     * change from the model.  This is implemented to call
-     * <code>preferenceChanged</code> to reschedule a new layout
-     * if the <code>ElementChange</code> record is not <code>null</code>.
+     * Updbtfs tif lbyout in rfsponsf to rfdfiving notifidbtion of
+     * dibngf from tif modfl.  Tiis is implfmfntfd to dbll
+     * <dodf>prfffrfndfCibngfd</dodf> to rfsdifdulf b nfw lbyout
+     * if tif <dodf>ElfmfntCibngf</dodf> rfdord is not <dodf>null</dodf>.
      *
-     * @param ec changes to the element this view is responsible
-     *  for (may be <code>null</code> if there were no changes)
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
-     * @since 1.3
+     * @pbrbm fd dibngfs to tif flfmfnt tiis vifw is rfsponsiblf
+     *  for (mby bf <dodf>null</dodf> if tifrf wfrf no dibngfs)
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @sff #insfrtUpdbtf
+     * @sff #rfmovfUpdbtf
+     * @sff #dibngfdUpdbtf
+     * @sindf 1.3
      */
-    protected void updateLayout(DocumentEvent.ElementChange ec,
-                                    DocumentEvent e, Shape a) {
-        if ((ec != null) && (a != null)) {
-            // should damage more intelligently
-            preferenceChanged(null, true, true);
-            Container host = getContainer();
-            if (host != null) {
-                host.repaint();
+    protfdtfd void updbtfLbyout(DodumfntEvfnt.ElfmfntCibngf fd,
+                                    DodumfntEvfnt f, Sibpf b) {
+        if ((fd != null) && (b != null)) {
+            // siould dbmbgf morf intflligfntly
+            prfffrfndfCibngfd(null, truf, truf);
+            Contbinfr iost = gftContbinfr();
+            if (iost != null) {
+                iost.rfpbint();
             }
         }
     }
 
     /**
-     * The weight to indicate a view is a bad break
-     * opportunity for the purpose of formatting.  This
-     * value indicates that no attempt should be made to
-     * break the view into fragments as the view has
-     * not been written to support fragmenting.
+     * Tif wfigit to indidbtf b vifw is b bbd brfbk
+     * opportunity for tif purposf of formbtting.  Tiis
+     * vbluf indidbtfs tibt no bttfmpt siould bf mbdf to
+     * brfbk tif vifw into frbgmfnts bs tif vifw ibs
+     * not bffn writtfn to support frbgmfnting.
      *
-     * @see #getBreakWeight
-     * @see #GoodBreakWeight
-     * @see #ExcellentBreakWeight
-     * @see #ForcedBreakWeight
+     * @sff #gftBrfbkWfigit
+     * @sff #GoodBrfbkWfigit
+     * @sff #ExdfllfntBrfbkWfigit
+     * @sff #FordfdBrfbkWfigit
      */
-    public static final int BadBreakWeight = 0;
+    publid stbtid finbl int BbdBrfbkWfigit = 0;
 
     /**
-     * The weight to indicate a view supports breaking,
-     * but better opportunities probably exist.
+     * Tif wfigit to indidbtf b vifw supports brfbking,
+     * but bfttfr opportunitifs probbbly fxist.
      *
-     * @see #getBreakWeight
-     * @see #BadBreakWeight
-     * @see #ExcellentBreakWeight
-     * @see #ForcedBreakWeight
+     * @sff #gftBrfbkWfigit
+     * @sff #BbdBrfbkWfigit
+     * @sff #ExdfllfntBrfbkWfigit
+     * @sff #FordfdBrfbkWfigit
      */
-    public static final int GoodBreakWeight = 1000;
+    publid stbtid finbl int GoodBrfbkWfigit = 1000;
 
     /**
-     * The weight to indicate a view supports breaking,
-     * and this represents a very attractive place to
-     * break.
+     * Tif wfigit to indidbtf b vifw supports brfbking,
+     * bnd tiis rfprfsfnts b vfry bttrbdtivf plbdf to
+     * brfbk.
      *
-     * @see #getBreakWeight
-     * @see #BadBreakWeight
-     * @see #GoodBreakWeight
-     * @see #ForcedBreakWeight
+     * @sff #gftBrfbkWfigit
+     * @sff #BbdBrfbkWfigit
+     * @sff #GoodBrfbkWfigit
+     * @sff #FordfdBrfbkWfigit
      */
-    public static final int ExcellentBreakWeight = 2000;
+    publid stbtid finbl int ExdfllfntBrfbkWfigit = 2000;
 
     /**
-     * The weight to indicate a view supports breaking,
-     * and must be broken to be represented properly
-     * when placed in a view that formats its children
-     * by breaking them.
+     * Tif wfigit to indidbtf b vifw supports brfbking,
+     * bnd must bf brokfn to bf rfprfsfntfd propfrly
+     * wifn plbdfd in b vifw tibt formbts its diildrfn
+     * by brfbking tifm.
      *
-     * @see #getBreakWeight
-     * @see #BadBreakWeight
-     * @see #GoodBreakWeight
-     * @see #ExcellentBreakWeight
+     * @sff #gftBrfbkWfigit
+     * @sff #BbdBrfbkWfigit
+     * @sff #GoodBrfbkWfigit
+     * @sff #ExdfllfntBrfbkWfigit
      */
-    public static final int ForcedBreakWeight = 3000;
+    publid stbtid finbl int FordfdBrfbkWfigit = 3000;
 
     /**
-     * Axis for format/break operations.
+     * Axis for formbt/brfbk opfrbtions.
      */
-    public static final int X_AXIS = HORIZONTAL;
+    publid stbtid finbl int X_AXIS = HORIZONTAL;
 
     /**
-     * Axis for format/break operations.
+     * Axis for formbt/brfbk opfrbtions.
      */
-    public static final int Y_AXIS = VERTICAL;
+    publid stbtid finbl int Y_AXIS = VERTICAL;
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it. This is
-     * implemented to default the bias to <code>Position.Bias.Forward</code>
-     * which was previously implied.
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it. Tiis is
+     * implfmfntfd to dffbult tif bibs to <dodf>Position.Bibs.Forwbrd</dodf>
+     * wiidi wbs prfviously implifd.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region in which to render
-     * @return the bounding box of the given position is returned
-     * @exception BadLocationException  if the given position does
-     *   not represent a valid location in the associated document
-     * @see View#modelToView
-     * @deprecated
+     * @pbrbm pos tif position to donvfrt &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion in wiidi to rfndfr
+     * @rfturn tif bounding box of tif givfn position is rfturnfd
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs
+     *   not rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
+     * @dfprfdbtfd
      */
-    @Deprecated
-    public Shape modelToView(int pos, Shape a) throws BadLocationException {
-        return modelToView(pos, a, Position.Bias.Forward);
+    @Dfprfdbtfd
+    publid Sibpf modflToVifw(int pos, Sibpf b) tirows BbdLodbtionExdfption {
+        rfturn modflToVifw(pos, b, Position.Bibs.Forwbrd);
     }
 
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param a the allocated region in which to render
-     * @return the location within the model that best represents the
-     *  given point in the view &gt;= 0
-     * @see View#viewToModel
-     * @deprecated
+     * @pbrbm x tif X doordinbtf &gt;= 0
+     * @pbrbm y tif Y doordinbtf &gt;= 0
+     * @pbrbm b tif bllodbtfd rfgion in wiidi to rfndfr
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point in tif vifw &gt;= 0
+     * @sff Vifw#vifwToModfl
+     * @dfprfdbtfd
      */
-    @Deprecated
-    public int viewToModel(float x, float y, Shape a) {
-        sharedBiasReturn[0] = Position.Bias.Forward;
-        return viewToModel(x, y, a, sharedBiasReturn);
+    @Dfprfdbtfd
+    publid int vifwToModfl(flobt x, flobt y, Sibpf b) {
+        sibrfdBibsRfturn[0] = Position.Bibs.Forwbrd;
+        rfturn vifwToModfl(x, y, b, sibrfdBibsRfturn);
     }
 
-    // static argument available for viewToModel calls since only
-    // one thread at a time may call this method.
-    static final Position.Bias[] sharedBiasReturn = new Position.Bias[1];
+    // stbtid brgumfnt bvbilbblf for vifwToModfl dblls sindf only
+    // onf tirfbd bt b timf mby dbll tiis mftiod.
+    stbtid finbl Position.Bibs[] sibrfdBibsRfturn = nfw Position.Bibs[1];
 
-    private View parent;
-    private Element elem;
-
-    /**
-     * The index of the first child view to be notified.
-     */
-    int firstUpdateIndex;
+    privbtf Vifw pbrfnt;
+    privbtf Elfmfnt flfm;
 
     /**
-     * The index of the last child view to be notified.
+     * Tif indfx of tif first diild vifw to bf notififd.
      */
-    int lastUpdateIndex;
+    int firstUpdbtfIndfx;
+
+    /**
+     * Tif indfx of tif lbst diild vifw to bf notififd.
+     */
+    int lbstUpdbtfIndfx;
 
 };

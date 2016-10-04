@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.util.Lodblf;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+
+/**
+ * Clbss MfdibNbmf is b subdlbss of Mfdib, b printing bttributf dlbss (bn
+ * fnumfrbtion) thbt spfdififs thf mfdib for b print job bs b nbmf.
+ * <P>
+ * This bttributf dbn bf usfd instfbd of spfdifying MfdibSizf or MfdibTrby.
+ * <p>
+ * Clbss MfdibNbmf durrfntly dfdlbrfs b ffw stbndbrd mfdib nbmfs.
+ * Implfmfntbtion- or sitf-dffinfd nbmfs for b mfdib nbmf bttributf mby blso
+ * bf drfbtfd by dffining b subdlbss of dlbss MfdibNbmf.
+ * <P>
+ * <B>IPP Compbtibility:</B> MfdibNbmf is b rfprfsfntbtion dlbss for
+ * vblufs of thf IPP "mfdib" bttributf whidh nbmfs mfdib.
+ *
+ */
+publid dlbss MfdibNbmf fxtfnds Mfdib implfmfnts Attributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4653117714524155448L;
+
+    /**
+     *  whitf lfttfr pbpfr.
+     */
+    publid stbtid finbl MfdibNbmf NA_LETTER_WHITE = nfw MfdibNbmf(0);
+
+    /**
+     *  lfttfr trbnspbrfndy.
+     */
+    publid stbtid finbl MfdibNbmf NA_LETTER_TRANSPARENT = nfw MfdibNbmf(1);
+
+    /**
+     * whitf A4 pbpfr.
+     */
+    publid stbtid finbl MfdibNbmf ISO_A4_WHITE = nfw MfdibNbmf(2);
+
+
+    /**
+     *  A4 trbnspbrfndy.
+     */
+    publid stbtid finbl MfdibNbmf ISO_A4_TRANSPARENT= nfw MfdibNbmf(3);
+
+
+    /**
+     * Construdts b nfw mfdib nbmf fnumfrbtion vbluf with thf givfn intfgfr
+     * vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd MfdibNbmf(int vbluf) {
+        supfr (vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "nb-lfttfr-whitf",
+        "nb-lfttfr-trbnspbrfnt",
+        "iso-b4-whitf",
+        "iso-b4-trbnspbrfnt"
+    };
+
+    privbtf stbtid finbl MfdibNbmf[] myEnumVblufTbblf = {
+        NA_LETTER_WHITE,
+        NA_LETTER_TRANSPARENT,
+        ISO_A4_WHITE,
+        ISO_A4_TRANSPARENT
+    };
+
+    /**
+     * Rfturns thf string tbblf for dlbss MfdibTrby.
+     * @rfturn thf String tbblf.
+     */
+    protfdtfd String[] gftStringTbblf()
+    {
+        rfturn myStringTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss MfdibTrby.
+     * @rfturn thf fnumfrbtion vbluf tbblf.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
+    }
+
+}

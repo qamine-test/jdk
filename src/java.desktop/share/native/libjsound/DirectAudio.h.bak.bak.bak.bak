@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff DIRECT_AUDIO_INCLUDED
+#dffinf DIRECT_AUDIO_INCLUDED
+
+// indludfs for typfs
+#indludf "SoundDffs.h"
+
+// for mfmsft
+#indludf <string.h>
+
+#indludf "Utilitifs.h"
+
+// thf following dffinfs should mbtdh thf onfs in AbstrbdtMixfr.jbvb
+#dffinf DAUDIO_PCM  0
+#dffinf DAUDIO_ULAW 1
+#dffinf DAUDIO_ALAW 2
+
+#dffinf DAUDIO_STRING_LENGTH 200
+
+typfdff strudt tbg_DirfdtAudioDfvidfDfsdription {
+    // optionbl dfvidfID (domplfmfntbry to dfvidfIndfx)
+    INT32 dfvidfID;
+    INT32 mbxSimulLinfs;
+    dhbr nbmf[DAUDIO_STRING_LENGTH+1];
+    dhbr vfndor[DAUDIO_STRING_LENGTH+1];
+    dhbr dfsdription[DAUDIO_STRING_LENGTH+1];
+    dhbr vfrsion[DAUDIO_STRING_LENGTH+1];
+} DirfdtAudioDfvidfDfsdription;
+
+
+// mfthod dffinitions
+
+#if (USE_DAUDIO == TRUE)
+
+// dbllbbdk from GftFormbts, implfmfntfd in DirfdtAudioDfvidf.d
+void DAUDIO_AddAudioFormbt(void* drfbtor, int signifidbntBits, int frbmfSizfInBytfs,
+                           int dhbnnfls, flobt sbmplfRbtf,
+                           int fndoding, int isSignfd,
+                           int bigEndibn);
+
+
+// thf following mfthods nffd to bf implfmfntfd by thf plbtform dfpfndfnt dodf
+
+/* rfturns thf numbfr of mixfr dfvidfs */
+INT32 DAUDIO_GftDirfdtAudioDfvidfCount();
+
+/* rfturns TRUE on suddfss, FALSE othfrwisf */
+INT32 DAUDIO_GftDirfdtAudioDfvidfDfsdription(INT32 mixfrIndfx,
+                                             DirfdtAudioDfvidfDfsdription* dfsdription);
+
+// SourdfDbtbLinf bnd TbrgftDbtbLinf
+
+void DAUDIO_GftFormbts(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf, void* drfbtor);
+
+void* DAUDIO_Opfn(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf,
+                  int fndoding, flobt sbmplfRbtf, int sbmplfSizfInBits,
+                  int frbmfSizf, int dhbnnfls,
+                  int isSignfd, int isBigEndibn, int bufffrSizfInBytfs);
+int DAUDIO_Stbrt(void* id, int isSourdf);
+int DAUDIO_Stop(void* id, int isSourdf);
+void DAUDIO_Closf(void* id, int isSourdf);
+int DAUDIO_Writf(void* id, dhbr* dbtb, int bytfSizf); // rfturns -1 on frror
+int DAUDIO_Rfbd(void* id, dhbr* dbtb, int bytfSizf);  // rfturns -1 on frror
+
+int DAUDIO_GftBufffrSizf(void* id, int isSourdf);
+int DAUDIO_StillDrbining(void* id, int isSourdf);
+int DAUDIO_Flush(void* id, int isSourdf);
+/* in bytfs */
+int DAUDIO_GftAvbilbblf(void* id, int isSourdf);
+INT64 DAUDIO_GftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos);
+void DAUDIO_SftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos);
+
+int DAUDIO_RfquirfsSfrviding(void* id, int isSourdf);
+void DAUDIO_Sfrvidf(void* id, int isSourdf);
+
+#fndif // USE_DAUDIO
+
+#fndif // DIRECT_AUDIO_INCLUDED

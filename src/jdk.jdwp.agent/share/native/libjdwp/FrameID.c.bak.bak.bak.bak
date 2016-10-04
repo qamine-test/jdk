@@ -1,0 +1,67 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "util.h"
+#indludf "FrbmfID.h"
+#indludf "thrfbdControl.h"
+
+/* FrbmfID: */
+
+/* ------------------------------------------------------------ */
+/* | thrfbd frbmf gfnfrbtion (48 bits)| frbmf numbfr (16 bits)| */
+/* ------------------------------------------------------------ */
+
+#dffinf FNUM_BWIDTH 16
+#dffinf FNUM_BMASK ((1<<FNUM_BWIDTH)-1)
+
+FrbmfID
+drfbtfFrbmfID(jthrfbd thrfbd, FrbmfNumbfr fnum)
+{
+    FrbmfID frbmf;
+    jlong frbmfGfnfrbtion;
+
+    frbmfGfnfrbtion = thrfbdControl_gftFrbmfGfnfrbtion(thrfbd);
+    frbmf = (frbmfGfnfrbtion<<FNUM_BWIDTH) | (jlong)fnum;
+    rfturn frbmf;
+}
+
+FrbmfNumbfr
+gftFrbmfNumbfr(FrbmfID frbmf)
+{
+    /*LINTED*/
+    rfturn (FrbmfNumbfr)(((jint)frbmf) & FNUM_BMASK);
+}
+
+jdwpError
+vblidbtfFrbmfID(jthrfbd thrfbd, FrbmfID frbmf)
+{
+    jlong frbmfGfnfrbtion;
+
+    frbmfGfnfrbtion = thrfbdControl_gftFrbmfGfnfrbtion(thrfbd);
+    if ( frbmfGfnfrbtion != (frbmf>>FNUM_BWIDTH)  ) {
+        rfturn JDWP_ERROR(INVALID_FRAMEID);
+    }
+    rfturn JDWP_ERROR(NONE);
+}

@@ -1,663 +1,663 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Hashtable;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * A Scanner for Java tokens. Errors are reported
- * to the environment object.<p>
+ * A Sdbnnfr for Jbvb tokfns. Errors brf rfportfd
+ * to tif fnvironmfnt objfdt.<p>
  *
- * The scanner keeps track of the current token,
- * the value of the current token (if any), and the start
- * position of the current token.<p>
+ * Tif sdbnnfr kffps trbdk of tif durrfnt tokfn,
+ * tif vbluf of tif durrfnt tokfn (if bny), bnd tif stbrt
+ * position of tif durrfnt tokfn.<p>
  *
- * The scan() method advances the scanner to the next
- * token in the input.<p>
+ * Tif sdbn() mftiod bdvbndfs tif sdbnnfr to tif nfxt
+ * tokfn in tif input.<p>
  *
- * The match() method is used to quickly match opening
- * brackets (ie: '(', '{', or '[') with their closing
- * counter part. This is useful during error recovery.<p>
+ * Tif mbtdi() mftiod is usfd to quidkly mbtdi opfning
+ * brbdkfts (if: '(', '{', or '[') witi tifir dlosing
+ * dountfr pbrt. Tiis is usfful during frror rfdovfry.<p>
  *
- * An position consists of: ((linenr << WHEREOFFSETBITS) | offset)
- * this means that both the line number and the exact offset into
- * the file are encoded in each position value.<p>
+ * An position donsists of: ((linfnr << WHEREOFFSETBITS) | offsft)
+ * tiis mfbns tibt boti tif linf numbfr bnd tif fxbdt offsft into
+ * tif filf brf fndodfd in fbdi position vbluf.<p>
  *
- * The compiler treats either "\n", "\r" or "\r\n" as the
- * end of a line.<p>
+ * Tif dompilfr trfbts fitifr "\n", "\r" or "\r\n" bs tif
+ * fnd of b linf.<p>
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author      Arthur van Hoff
+ * @butior      Artiur vbn Hoff
  */
 
-public
-class Scanner implements Constants {
+publid
+dlbss Sdbnnfr implfmfnts Constbnts {
     /**
-     * The increment for each character.
+     * Tif indrfmfnt for fbdi dibrbdtfr.
      */
-    public static final long OFFSETINC = 1;
+    publid stbtid finbl long OFFSETINC = 1;
 
     /**
-     * The increment for each line.
+     * Tif indrfmfnt for fbdi linf.
      */
-    public static final long LINEINC = 1L << WHEREOFFSETBITS;
+    publid stbtid finbl long LINEINC = 1L << WHEREOFFSETBITS;
 
     /**
      * End of input
      */
-    public static final int EOF = -1;
+    publid stbtid finbl int EOF = -1;
 
     /**
-     * Where errors are reported
+     * Wifrf frrors brf rfportfd
      */
-    public Environment env;
+    publid Environmfnt fnv;
 
     /**
-     * Input reader
+     * Input rfbdfr
      */
-    protected ScannerInputReader in;
+    protfdtfd SdbnnfrInputRfbdfr in;
 
     /**
-     * If true, present all comments as tokens.
-     * Contents are not saved, but positions are recorded accurately,
-     * so the comment can be recovered from the text.
-     * Line terminations are also returned as comment tokens,
-     * and may be distinguished by their start and end positions,
-     * which are equal (meaning, these tokens contain no chars).
+     * If truf, prfsfnt bll dommfnts bs tokfns.
+     * Contfnts brf not sbvfd, but positions brf rfdordfd bddurbtfly,
+     * so tif dommfnt dbn bf rfdovfrfd from tif tfxt.
+     * Linf tfrminbtions brf blso rfturnfd bs dommfnt tokfns,
+     * bnd mby bf distinguisifd by tifir stbrt bnd fnd positions,
+     * wiidi brf fqubl (mfbning, tifsf tokfns dontbin no dibrs).
      */
-   public boolean scanComments = false;
+   publid boolfbn sdbnCommfnts = fblsf;
 
     /**
-     * Current token
+     * Currfnt tokfn
      */
-    public int token;
+    publid int tokfn;
 
     /**
-     * The position of the current token
+     * Tif position of tif durrfnt tokfn
      */
-    public long pos;
+    publid long pos;
 
     /**
-     * The position of the previous token
+     * Tif position of tif prfvious tokfn
      */
-    public long prevPos;
+    publid long prfvPos;
 
     /**
-     * The current character
+     * Tif durrfnt dibrbdtfr
      */
-    protected int ch;
+    protfdtfd int di;
 
     /*
-     * Token values.
+     * Tokfn vblufs.
      */
-    public char charValue;
-    public int intValue;
-    public long longValue;
-    public float floatValue;
-    public double doubleValue;
-    public String stringValue;
-    public Identifier idValue;
-    public int radix;   // Radix, when reading int or long
+    publid dibr dibrVbluf;
+    publid int intVbluf;
+    publid long longVbluf;
+    publid flobt flobtVbluf;
+    publid doublf doublfVbluf;
+    publid String stringVbluf;
+    publid Idfntififr idVbluf;
+    publid int rbdix;   // Rbdix, wifn rfbding int or long
 
     /*
-     * A doc comment preceding the most recent token
+     * A dod dommfnt prfdfding tif most rfdfnt tokfn
      */
-    public String docComment;
+    publid String dodCommfnt;
 
     /*
-     * A growable character buffer.
+     * A growbblf dibrbdtfr bufffr.
      */
-    private int count;
-    private char buffer[] = new char[1024];
-    private void growBuffer() {
-        char newBuffer[] = new char[buffer.length * 2];
-        System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
-        buffer = newBuffer;
+    privbtf int dount;
+    privbtf dibr bufffr[] = nfw dibr[1024];
+    privbtf void growBufffr() {
+        dibr nfwBufffr[] = nfw dibr[bufffr.lfngti * 2];
+        Systfm.brrbydopy(bufffr, 0, nfwBufffr, 0, bufffr.lfngti);
+        bufffr = nfwBufffr;
     }
 
-    // The following two methods have been hand-inlined in
-    // scanDocComment.  If you make changes here, you should
-    // check to see if scanDocComment also needs modification.
-    private void putc(int ch) {
-        if (count == buffer.length) {
-            growBuffer();
+    // Tif following two mftiods ibvf bffn ibnd-inlinfd in
+    // sdbnDodCommfnt.  If you mbkf dibngfs ifrf, you siould
+    // difdk to sff if sdbnDodCommfnt blso nffds modifidbtion.
+    privbtf void putd(int di) {
+        if (dount == bufffr.lfngti) {
+            growBufffr();
         }
-        buffer[count++] = (char)ch;
+        bufffr[dount++] = (dibr)di;
     }
 
-    private String bufferString() {
-        return new String(buffer, 0, count);
-    }
-
-    /**
-     * Create a scanner to scan an input stream.
-     */
-    public Scanner(Environment env, InputStream in) throws IOException {
-        this.env = env;
-        useInputStream(in);
+    privbtf String bufffrString() {
+        rfturn nfw String(bufffr, 0, dount);
     }
 
     /**
-     * Setup input from the given input stream,
-     * and scan the first token from it.
+     * Crfbtf b sdbnnfr to sdbn bn input strfbm.
      */
-    protected void useInputStream(InputStream in) throws IOException {
+    publid Sdbnnfr(Environmfnt fnv, InputStrfbm in) tirows IOExdfption {
+        tiis.fnv = fnv;
+        usfInputStrfbm(in);
+    }
+
+    /**
+     * Sftup input from tif givfn input strfbm,
+     * bnd sdbn tif first tokfn from it.
+     */
+    protfdtfd void usfInputStrfbm(InputStrfbm in) tirows IOExdfption {
         try {
-            this.in = new ScannerInputReader(env, in);
-        } catch (Exception e) {
-            env.setCharacterEncoding(null);
-            this.in = new ScannerInputReader(env, in);
+            tiis.in = nfw SdbnnfrInputRfbdfr(fnv, in);
+        } dbtdi (Exdfption f) {
+            fnv.sftCibrbdtfrEndoding(null);
+            tiis.in = nfw SdbnnfrInputRfbdfr(fnv, in);
         }
 
-        ch = this.in.read();
-        prevPos = this.in.pos;
+        di = tiis.in.rfbd();
+        prfvPos = tiis.in.pos;
 
-        scan();
+        sdbn();
     }
 
     /**
-     * Create a scanner to scan an input stream.
+     * Crfbtf b sdbnnfr to sdbn bn input strfbm.
      */
-    protected Scanner(Environment env) {
-        this.env = env;
-        // Expect the subclass to call useInputStream at the right time.
+    protfdtfd Sdbnnfr(Environmfnt fnv) {
+        tiis.fnv = fnv;
+        // Expfdt tif subdlbss to dbll usfInputStrfbm bt tif rigit timf.
     }
 
     /**
-     * Define a keyword.
+     * Dffinf b kfyword.
      */
-    private static void defineKeyword(int val) {
-        Identifier.lookup(opNames[val]).setType(val);
+    privbtf stbtid void dffinfKfyword(int vbl) {
+        Idfntififr.lookup(opNbmfs[vbl]).sftTypf(vbl);
     }
 
     /**
-     * Initialized keyword and token Hashtables
+     * Initiblizfd kfyword bnd tokfn Hbsitbblfs
      */
-    static {
-        // Statement keywords
-        defineKeyword(FOR);
-        defineKeyword(IF);
-        defineKeyword(ELSE);
-        defineKeyword(WHILE);
-        defineKeyword(DO);
-        defineKeyword(SWITCH);
-        defineKeyword(CASE);
-        defineKeyword(DEFAULT);
-        defineKeyword(BREAK);
-        defineKeyword(CONTINUE);
-        defineKeyword(RETURN);
-        defineKeyword(TRY);
-        defineKeyword(CATCH);
-        defineKeyword(FINALLY);
-        defineKeyword(THROW);
+    stbtid {
+        // Stbtfmfnt kfywords
+        dffinfKfyword(FOR);
+        dffinfKfyword(IF);
+        dffinfKfyword(ELSE);
+        dffinfKfyword(WHILE);
+        dffinfKfyword(DO);
+        dffinfKfyword(SWITCH);
+        dffinfKfyword(CASE);
+        dffinfKfyword(DEFAULT);
+        dffinfKfyword(BREAK);
+        dffinfKfyword(CONTINUE);
+        dffinfKfyword(RETURN);
+        dffinfKfyword(TRY);
+        dffinfKfyword(CATCH);
+        dffinfKfyword(FINALLY);
+        dffinfKfyword(THROW);
 
-        // Type defineKeywords
-        defineKeyword(BYTE);
-        defineKeyword(CHAR);
-        defineKeyword(SHORT);
-        defineKeyword(INT);
-        defineKeyword(LONG);
-        defineKeyword(FLOAT);
-        defineKeyword(DOUBLE);
-        defineKeyword(VOID);
-        defineKeyword(BOOLEAN);
+        // Typf dffinfKfywords
+        dffinfKfyword(BYTE);
+        dffinfKfyword(CHAR);
+        dffinfKfyword(SHORT);
+        dffinfKfyword(INT);
+        dffinfKfyword(LONG);
+        dffinfKfyword(FLOAT);
+        dffinfKfyword(DOUBLE);
+        dffinfKfyword(VOID);
+        dffinfKfyword(BOOLEAN);
 
-        // Expression keywords
-        defineKeyword(INSTANCEOF);
-        defineKeyword(TRUE);
-        defineKeyword(FALSE);
-        defineKeyword(NEW);
-        defineKeyword(THIS);
-        defineKeyword(SUPER);
-        defineKeyword(NULL);
+        // Exprfssion kfywords
+        dffinfKfyword(INSTANCEOF);
+        dffinfKfyword(TRUE);
+        dffinfKfyword(FALSE);
+        dffinfKfyword(NEW);
+        dffinfKfyword(THIS);
+        dffinfKfyword(SUPER);
+        dffinfKfyword(NULL);
 
-        // Declaration keywords
-        defineKeyword(IMPORT);
-        defineKeyword(CLASS);
-        defineKeyword(EXTENDS);
-        defineKeyword(IMPLEMENTS);
-        defineKeyword(INTERFACE);
-        defineKeyword(PACKAGE);
-        defineKeyword(THROWS);
+        // Dfdlbrbtion kfywords
+        dffinfKfyword(IMPORT);
+        dffinfKfyword(CLASS);
+        dffinfKfyword(EXTENDS);
+        dffinfKfyword(IMPLEMENTS);
+        dffinfKfyword(INTERFACE);
+        dffinfKfyword(PACKAGE);
+        dffinfKfyword(THROWS);
 
-        // Modifier keywords
-        defineKeyword(PRIVATE);
-        defineKeyword(PUBLIC);
-        defineKeyword(PROTECTED);
-        defineKeyword(STATIC);
-        defineKeyword(TRANSIENT);
-        defineKeyword(SYNCHRONIZED);
-        defineKeyword(NATIVE);
-        defineKeyword(ABSTRACT);
-        defineKeyword(VOLATILE);
-        defineKeyword(FINAL);
-        defineKeyword(STRICTFP);
+        // Modififr kfywords
+        dffinfKfyword(PRIVATE);
+        dffinfKfyword(PUBLIC);
+        dffinfKfyword(PROTECTED);
+        dffinfKfyword(STATIC);
+        dffinfKfyword(TRANSIENT);
+        dffinfKfyword(SYNCHRONIZED);
+        dffinfKfyword(NATIVE);
+        dffinfKfyword(ABSTRACT);
+        dffinfKfyword(VOLATILE);
+        dffinfKfyword(FINAL);
+        dffinfKfyword(STRICTFP);
 
-        // reserved keywords
-        defineKeyword(CONST);
-        defineKeyword(GOTO);
+        // rfsfrvfd kfywords
+        dffinfKfyword(CONST);
+        dffinfKfyword(GOTO);
     }
 
     /**
-     * Scan a comment. This method should be
-     * called once the initial /, * and the next
-     * character have been read.
+     * Sdbn b dommfnt. Tiis mftiod siould bf
+     * dbllfd ondf tif initibl /, * bnd tif nfxt
+     * dibrbdtfr ibvf bffn rfbd.
      */
-    private void skipComment() throws IOException {
-        while (true) {
-            switch (ch) {
-              case EOF:
-                env.error(pos, "eof.in.comment");
-                return;
+    privbtf void skipCommfnt() tirows IOExdfption {
+        wiilf (truf) {
+            switdi (di) {
+              dbsf EOF:
+                fnv.frror(pos, "fof.in.dommfnt");
+                rfturn;
 
-              case '*':
-                if ((ch = in.read()) == '/')  {
-                    ch = in.read();
-                    return;
+              dbsf '*':
+                if ((di = in.rfbd()) == '/')  {
+                    di = in.rfbd();
+                    rfturn;
                 }
-                break;
+                brfbk;
 
-              default:
-                ch = in.read();
-                break;
+              dffbult:
+                di = in.rfbd();
+                brfbk;
             }
         }
     }
 
     /**
-     * Scan a doc comment. This method should be called
-     * once the initial /, * and * have been read. It gathers
-     * the content of the comment (witout leading spaces and '*'s)
-     * in the string buffer.
+     * Sdbn b dod dommfnt. Tiis mftiod siould bf dbllfd
+     * ondf tif initibl /, * bnd * ibvf bffn rfbd. It gbtifrs
+     * tif dontfnt of tif dommfnt (witout lfbding spbdfs bnd '*'s)
+     * in tif string bufffr.
      */
-    private String scanDocComment() throws IOException {
-        // Note: this method has been hand-optimized to yield
-        // better performance.  This was done after it was noted
-        // that javadoc spent a great deal of its time here.
-        // This should also help the performance of the compiler
-        // as well -- it scans the doc comments to find
-        // @deprecated tags.
+    privbtf String sdbnDodCommfnt() tirows IOExdfption {
+        // Notf: tiis mftiod ibs bffn ibnd-optimizfd to yifld
+        // bfttfr pfrformbndf.  Tiis wbs donf bftfr it wbs notfd
+        // tibt jbvbdod spfnt b grfbt dfbl of its timf ifrf.
+        // Tiis siould blso iflp tif pfrformbndf of tif dompilfr
+        // bs wfll -- it sdbns tif dod dommfnts to find
+        // @dfprfdbtfd tbgs.
         //
-        // The logic of the method has been completely rewritten
-        // to avoid the use of flags that need to be looked at
-        // for every character read.  Members that are accessed
-        // more than once have been stored in local variables.
-        // The methods putc() and bufferString() have been
-        // inlined by hand.  Extra cases have been added to
-        // switch statements to trick the compiler into generating
-        // a tableswitch instead of a lookupswitch.
+        // Tif logid of tif mftiod ibs bffn domplftfly rfwrittfn
+        // to bvoid tif usf of flbgs tibt nffd to bf lookfd bt
+        // for fvfry dibrbdtfr rfbd.  Mfmbfrs tibt brf bddfssfd
+        // morf tibn ondf ibvf bffn storfd in lodbl vbribblfs.
+        // Tif mftiods putd() bnd bufffrString() ibvf bffn
+        // inlinfd by ibnd.  Extrb dbsfs ibvf bffn bddfd to
+        // switdi stbtfmfnts to tridk tif dompilfr into gfnfrbting
+        // b tbblfswitdi instfbd of b lookupswitdi.
         //
-        // This implementation aims to preserve the previous
-        // behavior of this method.
+        // Tiis implfmfntbtion bims to prfsfrvf tif prfvious
+        // bfibvior of tiis mftiod.
 
-        int c;
+        int d;
 
-        // Put `in' in a local variable.
-        final ScannerInputReader in = this.in;
+        // Put `in' in b lodbl vbribblf.
+        finbl SdbnnfrInputRfbdfr in = tiis.in;
 
-        // We maintain the buffer locally rather than calling putc().
-        char[] buffer = this.buffer;
-        int count = 0;
+        // Wf mbintbin tif bufffr lodblly rbtifr tibn dblling putd().
+        dibr[] bufffr = tiis.bufffr;
+        int dount = 0;
 
-        // We are called pointing at the second star of the doc
-        // comment:
+        // Wf brf dbllfd pointing bt tif sfdond stbr of tif dod
+        // dommfnt:
         //
-        // Input: /** the rest of the comment ... */
+        // Input: /** tif rfst of tif dommfnt ... */
         //          ^
         //
-        // We rely on this in the code below.
+        // Wf rfly on tiis in tif dodf bflow.
 
-        // Consume any number of stars.
-        while ((c = in.read()) == '*')
+        // Consumf bny numbfr of stbrs.
+        wiilf ((d = in.rfbd()) == '*')
             ;
 
-        // Is the comment of the form /**/, /***/, /****/, etc.?
-        if (c == '/') {
-            // Set ch and return
-            ch = in.read();
-            return "";
+        // Is tif dommfnt of tif form /**/, /***/, /****/, ftd.?
+        if (d == '/') {
+            // Sft di bnd rfturn
+            di = in.rfbd();
+            rfturn "";
         }
 
-        // Skip a newline on the first line of the comment.
-        if (c == '\n') {
-            c = in.read();
+        // Skip b nfwlinf on tif first linf of tif dommfnt.
+        if (d == '\n') {
+            d = in.rfbd();
         }
 
-    outerLoop:
-        // The outerLoop processes the doc comment, looping once
-        // for each line.  For each line, it first strips off
-        // whitespace, then it consumes any stars, then it
-        // puts the rest of the line into our buffer.
-        while (true) {
+    outfrLoop:
+        // Tif outfrLoop prodfssfs tif dod dommfnt, looping ondf
+        // for fbdi linf.  For fbdi linf, it first strips off
+        // wiitfspbdf, tifn it donsumfs bny stbrs, tifn it
+        // puts tif rfst of tif linf into our bufffr.
+        wiilf (truf) {
 
-            // The wsLoop consumes whitespace from the beginning
-            // of each line.
+            // Tif wsLoop donsumfs wiitfspbdf from tif bfginning
+            // of fbdi linf.
         wsLoop:
-            while (true) {
-                switch (c) {
-                case ' ':
-                case '\t':
-                    // We could check for other forms of whitespace
-                    // as well, but this is left as is for minimum
-                    // disturbance of functionality.
+            wiilf (truf) {
+                switdi (d) {
+                dbsf ' ':
+                dbsf '\t':
+                    // Wf dould difdk for otifr forms of wiitfspbdf
+                    // bs wfll, but tiis is lfft bs is for minimum
+                    // disturbbndf of fundtionblity.
                     //
-                    // Just skip whitespace.
-                    c = in.read();
-                    break;
+                    // Just skip wiitfspbdf.
+                    d = in.rfbd();
+                    brfbk;
 
-                // We have added extra cases here to trick the
-                // compiler into using a tableswitch instead of
-                // a lookupswitch.  They can be removed without
-                // a change in meaning.
-                case 10: case 11: case 12: case 13: case 14: case 15:
-                case 16: case 17: case 18: case 19: case 20: case 21:
-                case 22: case 23: case 24: case 25: case 26: case 27:
-                case 28: case 29: case 30: case 31:
-                default:
-                    // We've seen something that isn't whitespace,
+                // Wf ibvf bddfd fxtrb dbsfs ifrf to tridk tif
+                // dompilfr into using b tbblfswitdi instfbd of
+                // b lookupswitdi.  Tify dbn bf rfmovfd witiout
+                // b dibngf in mfbning.
+                dbsf 10: dbsf 11: dbsf 12: dbsf 13: dbsf 14: dbsf 15:
+                dbsf 16: dbsf 17: dbsf 18: dbsf 19: dbsf 20: dbsf 21:
+                dbsf 22: dbsf 23: dbsf 24: dbsf 25: dbsf 26: dbsf 27:
+                dbsf 28: dbsf 29: dbsf 30: dbsf 31:
+                dffbult:
+                    // Wf'vf sffn somftiing tibt isn't wiitfspbdf,
                     // jump out.
-                    break wsLoop;
+                    brfbk wsLoop;
                 }
-            } // end wsLoop.
+            } // fnd wsLoop.
 
-            // Are there stars here?  If so, consume them all
-            // and check for the end of comment.
-            if (c == '*') {
-                // Skip all of the stars...
+            // Arf tifrf stbrs ifrf?  If so, donsumf tifm bll
+            // bnd difdk for tif fnd of dommfnt.
+            if (d == '*') {
+                // Skip bll of tif stbrs...
                 do {
-                    c = in.read();
-                } while (c == '*');
+                    d = in.rfbd();
+                } wiilf (d == '*');
 
-                // ...then check for the closing slash.
-                if (c == '/') {
-                    // We're done with the doc comment.
-                    // Set ch and break out.
-                    ch = in.read();
-                    break outerLoop;
+                // ...tifn difdk for tif dlosing slbsi.
+                if (d == '/') {
+                    // Wf'rf donf witi tif dod dommfnt.
+                    // Sft di bnd brfbk out.
+                    di = in.rfbd();
+                    brfbk outfrLoop;
                 }
             }
 
-            // The textLoop processes the rest of the characters
-            // on the line, adding them to our buffer.
-        textLoop:
-            while (true) {
-                switch (c) {
-                case EOF:
-                    // We've seen a premature EOF.  Break out
-                    // of the loop.
-                    env.error(pos, "eof.in.comment");
-                    ch = EOF;
-                    break outerLoop;
+            // Tif tfxtLoop prodfssfs tif rfst of tif dibrbdtfrs
+            // on tif linf, bdding tifm to our bufffr.
+        tfxtLoop:
+            wiilf (truf) {
+                switdi (d) {
+                dbsf EOF:
+                    // Wf'vf sffn b prfmbturf EOF.  Brfbk out
+                    // of tif loop.
+                    fnv.frror(pos, "fof.in.dommfnt");
+                    di = EOF;
+                    brfbk outfrLoop;
 
-                case '*':
-                    // Is this just a star?  Or is this the
-                    // end of a comment?
-                    c = in.read();
-                    if (c == '/') {
-                        // This is the end of the comment,
-                        // set ch and return our buffer.
-                        ch = in.read();
-                        break outerLoop;
+                dbsf '*':
+                    // Is tiis just b stbr?  Or is tiis tif
+                    // fnd of b dommfnt?
+                    d = in.rfbd();
+                    if (d == '/') {
+                        // Tiis is tif fnd of tif dommfnt,
+                        // sft di bnd rfturn our bufffr.
+                        di = in.rfbd();
+                        brfbk outfrLoop;
                     }
-                    // This is just an ordinary star.  Add it to
-                    // the buffer.
-                    if (count == buffer.length) {
-                        growBuffer();
-                        buffer = this.buffer;
+                    // Tiis is just bn ordinbry stbr.  Add it to
+                    // tif bufffr.
+                    if (dount == bufffr.lfngti) {
+                        growBufffr();
+                        bufffr = tiis.bufffr;
                     }
-                    buffer[count++] = '*';
-                    break;
+                    bufffr[dount++] = '*';
+                    brfbk;
 
-                case '\n':
-                    // We've seen a newline.  Add it to our
-                    // buffer and break out of this loop,
-                    // starting fresh on a new line.
-                    if (count == buffer.length) {
-                        growBuffer();
-                        buffer = this.buffer;
+                dbsf '\n':
+                    // Wf'vf sffn b nfwlinf.  Add it to our
+                    // bufffr bnd brfbk out of tiis loop,
+                    // stbrting frfsi on b nfw linf.
+                    if (dount == bufffr.lfngti) {
+                        growBufffr();
+                        bufffr = tiis.bufffr;
                     }
-                    buffer[count++] = '\n';
-                    c = in.read();
-                    break textLoop;
+                    bufffr[dount++] = '\n';
+                    d = in.rfbd();
+                    brfbk tfxtLoop;
 
-                // Again, the extra cases here are a trick
-                // to get the compiler to generate a tableswitch.
-                case 0: case 1: case 2: case 3: case 4: case 5:
-                case 6: case 7: case 8: case 11: case 12: case 13:
-                case 14: case 15: case 16: case 17: case 18: case 19:
-                case 20: case 21: case 22: case 23: case 24: case 25:
-                case 26: case 27: case 28: case 29: case 30: case 31:
-                case 32: case 33: case 34: case 35: case 36: case 37:
-                case 38: case 39: case 40:
-                default:
-                    // Add the character to our buffer.
-                    if (count == buffer.length) {
-                        growBuffer();
-                        buffer = this.buffer;
+                // Agbin, tif fxtrb dbsfs ifrf brf b tridk
+                // to gft tif dompilfr to gfnfrbtf b tbblfswitdi.
+                dbsf 0: dbsf 1: dbsf 2: dbsf 3: dbsf 4: dbsf 5:
+                dbsf 6: dbsf 7: dbsf 8: dbsf 11: dbsf 12: dbsf 13:
+                dbsf 14: dbsf 15: dbsf 16: dbsf 17: dbsf 18: dbsf 19:
+                dbsf 20: dbsf 21: dbsf 22: dbsf 23: dbsf 24: dbsf 25:
+                dbsf 26: dbsf 27: dbsf 28: dbsf 29: dbsf 30: dbsf 31:
+                dbsf 32: dbsf 33: dbsf 34: dbsf 35: dbsf 36: dbsf 37:
+                dbsf 38: dbsf 39: dbsf 40:
+                dffbult:
+                    // Add tif dibrbdtfr to our bufffr.
+                    if (dount == bufffr.lfngti) {
+                        growBufffr();
+                        bufffr = tiis.bufffr;
                     }
-                    buffer[count++] = (char)c;
-                    c = in.read();
-                    break;
+                    bufffr[dount++] = (dibr)d;
+                    d = in.rfbd();
+                    brfbk;
                 }
-            } // end textLoop
-        } // end outerLoop
+            } // fnd tfxtLoop
+        } // fnd outfrLoop
 
-        // We have scanned our doc comment.  It is stored in
-        // buffer.  The previous implementation of scanDocComment
-        // stripped off all trailing spaces and stars from the comment.
-        // We will do this as well, so as to cause a minimum of
-        // disturbance.  Is this what we want?
-        if (count > 0) {
-            int i = count - 1;
-        trailLoop:
-            while (i > -1) {
-                switch (buffer[i]) {
-                case ' ':
-                case '\t':
-                case '*':
+        // Wf ibvf sdbnnfd our dod dommfnt.  It is storfd in
+        // bufffr.  Tif prfvious implfmfntbtion of sdbnDodCommfnt
+        // strippfd off bll trbiling spbdfs bnd stbrs from tif dommfnt.
+        // Wf will do tiis bs wfll, so bs to dbusf b minimum of
+        // disturbbndf.  Is tiis wibt wf wbnt?
+        if (dount > 0) {
+            int i = dount - 1;
+        trbilLoop:
+            wiilf (i > -1) {
+                switdi (bufffr[i]) {
+                dbsf ' ':
+                dbsf '\t':
+                dbsf '*':
                     i--;
-                    break;
-                // And again, the extra cases here are a trick
-                // to get the compiler to generate a tableswitch.
-                case 0: case 1: case 2: case 3: case 4: case 5:
-                case 6: case 7: case 8: case 10: case 11: case 12:
-                case 13: case 14: case 15: case 16: case 17: case 18:
-                case 19: case 20: case 21: case 22: case 23: case 24:
-                case 25: case 26: case 27: case 28: case 29: case 30:
-                case 31: case 33: case 34: case 35: case 36: case 37:
-                case 38: case 39: case 40:
-                default:
-                    break trailLoop;
+                    brfbk;
+                // And bgbin, tif fxtrb dbsfs ifrf brf b tridk
+                // to gft tif dompilfr to gfnfrbtf b tbblfswitdi.
+                dbsf 0: dbsf 1: dbsf 2: dbsf 3: dbsf 4: dbsf 5:
+                dbsf 6: dbsf 7: dbsf 8: dbsf 10: dbsf 11: dbsf 12:
+                dbsf 13: dbsf 14: dbsf 15: dbsf 16: dbsf 17: dbsf 18:
+                dbsf 19: dbsf 20: dbsf 21: dbsf 22: dbsf 23: dbsf 24:
+                dbsf 25: dbsf 26: dbsf 27: dbsf 28: dbsf 29: dbsf 30:
+                dbsf 31: dbsf 33: dbsf 34: dbsf 35: dbsf 36: dbsf 37:
+                dbsf 38: dbsf 39: dbsf 40:
+                dffbult:
+                    brfbk trbilLoop;
                 }
             }
-            count = i + 1;
+            dount = i + 1;
 
-            // Return the text of the doc comment.
-            return new String(buffer, 0, count);
-        } else {
-            return "";
+            // Rfturn tif tfxt of tif dod dommfnt.
+            rfturn nfw String(bufffr, 0, dount);
+        } flsf {
+            rfturn "";
         }
     }
 
     /**
-     * Scan a number. The first digit of the number should be the current
-     * character.  We may be scanning hex, decimal, or octal at this point
+     * Sdbn b numbfr. Tif first digit of tif numbfr siould bf tif durrfnt
+     * dibrbdtfr.  Wf mby bf sdbnning ifx, dfdimbl, or odtbl bt tiis point
      */
-    @SuppressWarnings("fallthrough")
-    private void scanNumber() throws IOException {
-        boolean seenNonOctal = false;
-        boolean overflow = false;
-        boolean seenDigit = false; // used to detect invalid hex number 0xL
-        radix = (ch == '0' ? 8 : 10);
-        long value = ch - '0';
-        count = 0;
-        putc(ch);               // save character in buffer
-    numberLoop:
+    @SupprfssWbrnings("fblltirougi")
+    privbtf void sdbnNumbfr() tirows IOExdfption {
+        boolfbn sffnNonOdtbl = fblsf;
+        boolfbn ovfrflow = fblsf;
+        boolfbn sffnDigit = fblsf; // usfd to dftfdt invblid ifx numbfr 0xL
+        rbdix = (di == '0' ? 8 : 10);
+        long vbluf = di - '0';
+        dount = 0;
+        putd(di);               // sbvf dibrbdtfr in bufffr
+    numbfrLoop:
         for (;;) {
-            switch (ch = in.read()) {
-              case '.':
-                if (radix == 16)
-                    break numberLoop; // an illegal character
-                scanReal();
-                return;
+            switdi (di = in.rfbd()) {
+              dbsf '.':
+                if (rbdix == 16)
+                    brfbk numbfrLoop; // bn illfgbl dibrbdtfr
+                sdbnRfbl();
+                rfturn;
 
-              case '8': case '9':
-                // We can't yet throw an error if reading an octal.  We might
-                // discover we're really reading a real.
-                seenNonOctal = true;
-                // Fall through
-              case '0': case '1': case '2': case '3':
-              case '4': case '5': case '6': case '7':
-                seenDigit = true;
-                putc(ch);
-                if (radix == 10) {
-                    overflow = overflow || (value * 10)/10 != value;
-                    value = (value * 10) + (ch - '0');
-                    overflow = overflow || (value - 1 < -1);
-                } else if (radix == 8) {
-                    overflow = overflow || (value >>> 61) != 0;
-                    value = (value << 3) + (ch - '0');
-                } else {
-                    overflow = overflow || (value >>> 60) != 0;
-                    value = (value << 4) + (ch - '0');
+              dbsf '8': dbsf '9':
+                // Wf dbn't yft tirow bn frror if rfbding bn odtbl.  Wf migit
+                // disdovfr wf'rf rfblly rfbding b rfbl.
+                sffnNonOdtbl = truf;
+                // Fbll tirougi
+              dbsf '0': dbsf '1': dbsf '2': dbsf '3':
+              dbsf '4': dbsf '5': dbsf '6': dbsf '7':
+                sffnDigit = truf;
+                putd(di);
+                if (rbdix == 10) {
+                    ovfrflow = ovfrflow || (vbluf * 10)/10 != vbluf;
+                    vbluf = (vbluf * 10) + (di - '0');
+                    ovfrflow = ovfrflow || (vbluf - 1 < -1);
+                } flsf if (rbdix == 8) {
+                    ovfrflow = ovfrflow || (vbluf >>> 61) != 0;
+                    vbluf = (vbluf << 3) + (di - '0');
+                } flsf {
+                    ovfrflow = ovfrflow || (vbluf >>> 60) != 0;
+                    vbluf = (vbluf << 4) + (di - '0');
                 }
-                break;
+                brfbk;
 
-              case 'd': case 'D': case 'e': case 'E': case 'f': case 'F':
-                if (radix != 16) {
-                    scanReal();
-                    return;
+              dbsf 'd': dbsf 'D': dbsf 'f': dbsf 'E': dbsf 'f': dbsf 'F':
+                if (rbdix != 16) {
+                    sdbnRfbl();
+                    rfturn;
                 }
-                // fall through
-              case 'a': case 'A': case 'b': case 'B': case 'c': case 'C':
-                seenDigit = true;
-                putc(ch);
-                if (radix != 16)
-                    break numberLoop; // an illegal character
-                overflow = overflow || (value >>> 60) != 0;
-                value = (value << 4) + 10 +
-                         Character.toLowerCase((char)ch) - 'a';
-                break;
+                // fbll tirougi
+              dbsf 'b': dbsf 'A': dbsf 'b': dbsf 'B': dbsf 'd': dbsf 'C':
+                sffnDigit = truf;
+                putd(di);
+                if (rbdix != 16)
+                    brfbk numbfrLoop; // bn illfgbl dibrbdtfr
+                ovfrflow = ovfrflow || (vbluf >>> 60) != 0;
+                vbluf = (vbluf << 4) + 10 +
+                         Cibrbdtfr.toLowfrCbsf((dibr)di) - 'b';
+                brfbk;
 
-              case 'l': case 'L':
-                ch = in.read(); // skip over 'l'
-                longValue = value;
-                token = LONGVAL;
-                break numberLoop;
+              dbsf 'l': dbsf 'L':
+                di = in.rfbd(); // skip ovfr 'l'
+                longVbluf = vbluf;
+                tokfn = LONGVAL;
+                brfbk numbfrLoop;
 
-              case 'x': case 'X':
-                // if the first character is a '0' and this is the second
-                // letter, then read in a hexadecimal number.  Otherwise, error.
-                if (count == 1 && radix == 8) {
-                    radix = 16;
-                    seenDigit = false;
-                    break;
-                } else {
-                    // we'll get an illegal character error
-                    break numberLoop;
+              dbsf 'x': dbsf 'X':
+                // if tif first dibrbdtfr is b '0' bnd tiis is tif sfdond
+                // lfttfr, tifn rfbd in b ifxbdfdimbl numbfr.  Otifrwisf, frror.
+                if (dount == 1 && rbdix == 8) {
+                    rbdix = 16;
+                    sffnDigit = fblsf;
+                    brfbk;
+                } flsf {
+                    // wf'll gft bn illfgbl dibrbdtfr frror
+                    brfbk numbfrLoop;
                 }
 
-              default:
-                intValue = (int)value;
-                token = INTVAL;
-                break numberLoop;
+              dffbult:
+                intVbluf = (int)vbluf;
+                tokfn = INTVAL;
+                brfbk numbfrLoop;
             }
-        } // while true
+        } // wiilf truf
 
-        // We have just finished reading the number.  The next thing better
-        // not be a letter or digit.
-        // Note:  There will be deprecation warnings against these uses
-        // of Character.isJavaLetterOrDigit and Character.isJavaLetter.
-        // Do not fix them yet; allow the compiler to run on pre-JDK1.1 VMs.
-        if (Character.isJavaLetterOrDigit((char)ch) || ch == '.') {
-            env.error(in.pos, "invalid.number");
-            do { ch = in.read(); }
-            while (Character.isJavaLetterOrDigit((char)ch) || ch == '.');
-            intValue = 0;
-            token = INTVAL;
-        } else if (radix == 8 && seenNonOctal) {
-            // A bogus octal literal.
-            intValue = 0;
-            token = INTVAL;
-            env.error(pos, "invalid.octal.number");
-        } else if (radix == 16 && seenDigit == false) {
-            // A hex literal with no digits, 0xL, for example.
-            intValue = 0;
-            token = INTVAL;
-            env.error(pos, "invalid.hex.number");
-        } else {
-            if (token == INTVAL) {
-                // Check for overflow.  Note that base 10 literals
-                // have different rules than base 8 and 16.
-                overflow = overflow ||
-                    (value & 0xFFFFFFFF00000000L) != 0 ||
-                    (radix == 10 && value > 2147483648L);
+        // Wf ibvf just finisifd rfbding tif numbfr.  Tif nfxt tiing bfttfr
+        // not bf b lfttfr or digit.
+        // Notf:  Tifrf will bf dfprfdbtion wbrnings bgbinst tifsf usfs
+        // of Cibrbdtfr.isJbvbLfttfrOrDigit bnd Cibrbdtfr.isJbvbLfttfr.
+        // Do not fix tifm yft; bllow tif dompilfr to run on prf-JDK1.1 VMs.
+        if (Cibrbdtfr.isJbvbLfttfrOrDigit((dibr)di) || di == '.') {
+            fnv.frror(in.pos, "invblid.numbfr");
+            do { di = in.rfbd(); }
+            wiilf (Cibrbdtfr.isJbvbLfttfrOrDigit((dibr)di) || di == '.');
+            intVbluf = 0;
+            tokfn = INTVAL;
+        } flsf if (rbdix == 8 && sffnNonOdtbl) {
+            // A bogus odtbl litfrbl.
+            intVbluf = 0;
+            tokfn = INTVAL;
+            fnv.frror(pos, "invblid.odtbl.numbfr");
+        } flsf if (rbdix == 16 && sffnDigit == fblsf) {
+            // A ifx litfrbl witi no digits, 0xL, for fxbmplf.
+            intVbluf = 0;
+            tokfn = INTVAL;
+            fnv.frror(pos, "invblid.ifx.numbfr");
+        } flsf {
+            if (tokfn == INTVAL) {
+                // Cifdk for ovfrflow.  Notf tibt bbsf 10 litfrbls
+                // ibvf difffrfnt rulfs tibn bbsf 8 bnd 16.
+                ovfrflow = ovfrflow ||
+                    (vbluf & 0xFFFFFFFF00000000L) != 0 ||
+                    (rbdix == 10 && vbluf > 2147483648L);
 
-                if (overflow) {
-                    intValue = 0;
+                if (ovfrflow) {
+                    intVbluf = 0;
 
-                    // Give a specific error message which tells
-                    // the user the range.
-                    switch (radix) {
-                    case 8:
-                        env.error(pos, "overflow.int.oct");
-                        break;
-                    case 10:
-                        env.error(pos, "overflow.int.dec");
-                        break;
-                    case 16:
-                        env.error(pos, "overflow.int.hex");
-                        break;
-                    default:
-                        throw new CompilerError("invalid radix");
+                    // Givf b spfdifid frror mfssbgf wiidi tflls
+                    // tif usfr tif rbngf.
+                    switdi (rbdix) {
+                    dbsf 8:
+                        fnv.frror(pos, "ovfrflow.int.odt");
+                        brfbk;
+                    dbsf 10:
+                        fnv.frror(pos, "ovfrflow.int.dfd");
+                        brfbk;
+                    dbsf 16:
+                        fnv.frror(pos, "ovfrflow.int.ifx");
+                        brfbk;
+                    dffbult:
+                        tirow nfw CompilfrError("invblid rbdix");
                     }
                 }
-            } else {
-                if (overflow) {
-                    longValue = 0;
+            } flsf {
+                if (ovfrflow) {
+                    longVbluf = 0;
 
-                    // Give a specific error message which tells
-                    // the user the range.
-                    switch (radix) {
-                    case 8:
-                        env.error(pos, "overflow.long.oct");
-                        break;
-                    case 10:
-                        env.error(pos, "overflow.long.dec");
-                        break;
-                    case 16:
-                        env.error(pos, "overflow.long.hex");
-                        break;
-                    default:
-                        throw new CompilerError("invalid radix");
+                    // Givf b spfdifid frror mfssbgf wiidi tflls
+                    // tif usfr tif rbngf.
+                    switdi (rbdix) {
+                    dbsf 8:
+                        fnv.frror(pos, "ovfrflow.long.odt");
+                        brfbk;
+                    dbsf 10:
+                        fnv.frror(pos, "ovfrflow.long.dfd");
+                        brfbk;
+                    dbsf 16:
+                        fnv.frror(pos, "ovfrflow.long.ifx");
+                        brfbk;
+                    dffbult:
+                        tirow nfw CompilfrError("invblid rbdix");
                     }
                 }
             }
@@ -665,681 +665,681 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan a float.  We are either looking at the decimal, or we have already
-     * seen it and put it into the buffer.  We haven't seen an exponent.
-     * Scan a float.  Should be called with the current character is either
-     * the 'e', 'E' or '.'
+     * Sdbn b flobt.  Wf brf fitifr looking bt tif dfdimbl, or wf ibvf blrfbdy
+     * sffn it bnd put it into tif bufffr.  Wf ibvfn't sffn bn fxponfnt.
+     * Sdbn b flobt.  Siould bf dbllfd witi tif durrfnt dibrbdtfr is fitifr
+     * tif 'f', 'E' or '.'
      */
-    @SuppressWarnings("fallthrough")
-    private void scanReal() throws IOException {
-        boolean seenExponent = false;
-        boolean isSingleFloat = false;
-        char lastChar;
-        if (ch == '.') {
-            putc(ch);
-            ch = in.read();
+    @SupprfssWbrnings("fblltirougi")
+    privbtf void sdbnRfbl() tirows IOExdfption {
+        boolfbn sffnExponfnt = fblsf;
+        boolfbn isSinglfFlobt = fblsf;
+        dibr lbstCibr;
+        if (di == '.') {
+            putd(di);
+            di = in.rfbd();
         }
 
-    numberLoop:
-        for ( ; ; ch = in.read()) {
-            switch (ch) {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
-                    putc(ch);
-                    break;
+    numbfrLoop:
+        for ( ; ; di = in.rfbd()) {
+            switdi (di) {
+                dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':
+                dbsf '5': dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                    putd(di);
+                    brfbk;
 
-                case 'e': case 'E':
-                    if (seenExponent)
-                        break numberLoop; // we'll get a format error
-                    putc(ch);
-                    seenExponent = true;
-                    break;
+                dbsf 'f': dbsf 'E':
+                    if (sffnExponfnt)
+                        brfbk numbfrLoop; // wf'll gft b formbt frror
+                    putd(di);
+                    sffnExponfnt = truf;
+                    brfbk;
 
-                case '+': case '-':
-                    lastChar = buffer[count - 1];
-                    if (lastChar != 'e' && lastChar != 'E')
-                        break numberLoop; // this isn't an error, though!
-                    putc(ch);
-                    break;
+                dbsf '+': dbsf '-':
+                    lbstCibr = bufffr[dount - 1];
+                    if (lbstCibr != 'f' && lbstCibr != 'E')
+                        brfbk numbfrLoop; // tiis isn't bn frror, tiougi!
+                    putd(di);
+                    brfbk;
 
-                case 'f': case 'F':
-                    ch = in.read(); // skip over 'f'
-                    isSingleFloat = true;
-                    break numberLoop;
+                dbsf 'f': dbsf 'F':
+                    di = in.rfbd(); // skip ovfr 'f'
+                    isSinglfFlobt = truf;
+                    brfbk numbfrLoop;
 
-                case 'd': case 'D':
-                    ch = in.read(); // skip over 'd'
-                    // fall through
-                default:
-                    break numberLoop;
-            } // sswitch
+                dbsf 'd': dbsf 'D':
+                    di = in.rfbd(); // skip ovfr 'd'
+                    // fbll tirougi
+                dffbult:
+                    brfbk numbfrLoop;
+            } // sswitdi
         } // loop
 
-        // we have just finished reading the number.  The next thing better
-        // not be a letter or digit.
-        if (Character.isJavaLetterOrDigit((char)ch) || ch == '.') {
-            env.error(in.pos, "invalid.number");
-            do { ch = in.read(); }
-            while (Character.isJavaLetterOrDigit((char)ch) || ch == '.');
-            doubleValue = 0;
-            token = DOUBLEVAL;
-        } else {
-            token = isSingleFloat ? FLOATVAL : DOUBLEVAL;
+        // wf ibvf just finisifd rfbding tif numbfr.  Tif nfxt tiing bfttfr
+        // not bf b lfttfr or digit.
+        if (Cibrbdtfr.isJbvbLfttfrOrDigit((dibr)di) || di == '.') {
+            fnv.frror(in.pos, "invblid.numbfr");
+            do { di = in.rfbd(); }
+            wiilf (Cibrbdtfr.isJbvbLfttfrOrDigit((dibr)di) || di == '.');
+            doublfVbluf = 0;
+            tokfn = DOUBLEVAL;
+        } flsf {
+            tokfn = isSinglfFlobt ? FLOATVAL : DOUBLEVAL;
             try {
-                lastChar = buffer[count - 1];
-                if (lastChar == 'e' || lastChar == 'E'
-                       || lastChar == '+' || lastChar == '-') {
-                    env.error(in.pos -1, "float.format");
-                } else if (isSingleFloat) {
-                    String string = bufferString();
-                    floatValue = Float.valueOf(string).floatValue();
-                    if (Float.isInfinite(floatValue)) {
-                        env.error(pos, "overflow.float");
-                    } else if (floatValue == 0 && !looksLikeZero(string)) {
-                        env.error(pos, "underflow.float");
+                lbstCibr = bufffr[dount - 1];
+                if (lbstCibr == 'f' || lbstCibr == 'E'
+                       || lbstCibr == '+' || lbstCibr == '-') {
+                    fnv.frror(in.pos -1, "flobt.formbt");
+                } flsf if (isSinglfFlobt) {
+                    String string = bufffrString();
+                    flobtVbluf = Flobt.vblufOf(string).flobtVbluf();
+                    if (Flobt.isInfinitf(flobtVbluf)) {
+                        fnv.frror(pos, "ovfrflow.flobt");
+                    } flsf if (flobtVbluf == 0 && !looksLikfZfro(string)) {
+                        fnv.frror(pos, "undfrflow.flobt");
                     }
-                } else {
-                    String string = bufferString();
-                    doubleValue = Double.valueOf(string).doubleValue();
-                    if (Double.isInfinite(doubleValue)) {
-                        env.error(pos, "overflow.double");
-                    } else if (doubleValue == 0 && !looksLikeZero(string)) {
-                        env.error(pos, "underflow.double");
+                } flsf {
+                    String string = bufffrString();
+                    doublfVbluf = Doublf.vblufOf(string).doublfVbluf();
+                    if (Doublf.isInfinitf(doublfVbluf)) {
+                        fnv.frror(pos, "ovfrflow.doublf");
+                    } flsf if (doublfVbluf == 0 && !looksLikfZfro(string)) {
+                        fnv.frror(pos, "undfrflow.doublf");
                     }
                 }
-            } catch (NumberFormatException ee) {
-                env.error(pos, "float.format");
-                doubleValue = 0;
-                floatValue = 0;
+            } dbtdi (NumbfrFormbtExdfption ff) {
+                fnv.frror(pos, "flobt.formbt");
+                doublfVbluf = 0;
+                flobtVbluf = 0;
             }
         }
-        return;
+        rfturn;
     }
 
-    // We have a token that parses as a number.  Is this token possibly zero?
-    // i.e. does it have a non-zero value in the mantissa?
-    private static boolean looksLikeZero(String token) {
-        int length = token.length();
-        for (int i = 0; i < length; i++) {
-            switch (token.charAt(i)) {
-                case 0: case '.':
-                    continue;
-                case '1': case '2': case '3': case '4': case '5':
-                case '6': case '7': case '8': case '9':
-                    return false;
-                case 'e': case 'E': case 'f': case 'F':
-                    return true;
+    // Wf ibvf b tokfn tibt pbrsfs bs b numbfr.  Is tiis tokfn possibly zfro?
+    // i.f. dofs it ibvf b non-zfro vbluf in tif mbntissb?
+    privbtf stbtid boolfbn looksLikfZfro(String tokfn) {
+        int lfngti = tokfn.lfngti();
+        for (int i = 0; i < lfngti; i++) {
+            switdi (tokfn.dibrAt(i)) {
+                dbsf 0: dbsf '.':
+                    dontinuf;
+                dbsf '1': dbsf '2': dbsf '3': dbsf '4': dbsf '5':
+                dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                    rfturn fblsf;
+                dbsf 'f': dbsf 'E': dbsf 'f': dbsf 'F':
+                    rfturn truf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Scan an escape character.
-     * @return the character or -1 if it escaped an
-     * end-of-line.
+     * Sdbn bn fsdbpf dibrbdtfr.
+     * @rfturn tif dibrbdtfr or -1 if it fsdbpfd bn
+     * fnd-of-linf.
      */
-    private int scanEscapeChar() throws IOException {
+    privbtf int sdbnEsdbpfCibr() tirows IOExdfption {
         long p = in.pos;
 
-        switch (ch = in.read()) {
-          case '0': case '1': case '2': case '3':
-          case '4': case '5': case '6': case '7': {
-            int n = ch - '0';
+        switdi (di = in.rfbd()) {
+          dbsf '0': dbsf '1': dbsf '2': dbsf '3':
+          dbsf '4': dbsf '5': dbsf '6': dbsf '7': {
+            int n = di - '0';
             for (int i = 2 ; i > 0 ; i--) {
-                switch (ch = in.read()) {
-                  case '0': case '1': case '2': case '3':
-                  case '4': case '5': case '6': case '7':
-                    n = (n << 3) + ch - '0';
-                    break;
+                switdi (di = in.rfbd()) {
+                  dbsf '0': dbsf '1': dbsf '2': dbsf '3':
+                  dbsf '4': dbsf '5': dbsf '6': dbsf '7':
+                    n = (n << 3) + di - '0';
+                    brfbk;
 
-                  default:
+                  dffbult:
                     if (n > 0xFF) {
-                        env.error(p, "invalid.escape.char");
+                        fnv.frror(p, "invblid.fsdbpf.dibr");
                     }
-                    return n;
+                    rfturn n;
                 }
             }
-            ch = in.read();
+            di = in.rfbd();
             if (n > 0xFF) {
-                env.error(p, "invalid.escape.char");
+                fnv.frror(p, "invblid.fsdbpf.dibr");
             }
-            return n;
+            rfturn n;
           }
 
-          case 'r':  ch = in.read(); return '\r';
-          case 'n':  ch = in.read(); return '\n';
-          case 'f':  ch = in.read(); return '\f';
-          case 'b':  ch = in.read(); return '\b';
-          case 't':  ch = in.read(); return '\t';
-          case '\\': ch = in.read(); return '\\';
-          case '\"': ch = in.read(); return '\"';
-          case '\'': ch = in.read(); return '\'';
+          dbsf 'r':  di = in.rfbd(); rfturn '\r';
+          dbsf 'n':  di = in.rfbd(); rfturn '\n';
+          dbsf 'f':  di = in.rfbd(); rfturn '\f';
+          dbsf 'b':  di = in.rfbd(); rfturn '\b';
+          dbsf 't':  di = in.rfbd(); rfturn '\t';
+          dbsf '\\': di = in.rfbd(); rfturn '\\';
+          dbsf '\"': di = in.rfbd(); rfturn '\"';
+          dbsf '\'': di = in.rfbd(); rfturn '\'';
         }
 
-        env.error(p, "invalid.escape.char");
-        ch = in.read();
-        return -1;
+        fnv.frror(p, "invblid.fsdbpf.dibr");
+        di = in.rfbd();
+        rfturn -1;
     }
 
     /**
-     * Scan a string. The current character
-     * should be the opening " of the string.
+     * Sdbn b string. Tif durrfnt dibrbdtfr
+     * siould bf tif opfning " of tif string.
      */
-    private void scanString() throws IOException {
-        token = STRINGVAL;
-        count = 0;
-        ch = in.read();
+    privbtf void sdbnString() tirows IOExdfption {
+        tokfn = STRINGVAL;
+        dount = 0;
+        di = in.rfbd();
 
-        // Scan a String
-        while (true) {
-            switch (ch) {
-              case EOF:
-                env.error(pos, "eof.in.string");
-                stringValue = bufferString();
-                return;
+        // Sdbn b String
+        wiilf (truf) {
+            switdi (di) {
+              dbsf EOF:
+                fnv.frror(pos, "fof.in.string");
+                stringVbluf = bufffrString();
+                rfturn;
 
-              case '\r':
-              case '\n':
-                ch = in.read();
-                env.error(pos, "newline.in.string");
-                stringValue = bufferString();
-                return;
+              dbsf '\r':
+              dbsf '\n':
+                di = in.rfbd();
+                fnv.frror(pos, "nfwlinf.in.string");
+                stringVbluf = bufffrString();
+                rfturn;
 
-              case '"':
-                ch = in.read();
-                stringValue = bufferString();
-                return;
+              dbsf '"':
+                di = in.rfbd();
+                stringVbluf = bufffrString();
+                rfturn;
 
-              case '\\': {
-                int c = scanEscapeChar();
-                if (c >= 0) {
-                    putc((char)c);
+              dbsf '\\': {
+                int d = sdbnEsdbpfCibr();
+                if (d >= 0) {
+                    putd((dibr)d);
                 }
-                break;
+                brfbk;
               }
 
-              default:
-                putc(ch);
-                ch = in.read();
-                break;
+              dffbult:
+                putd(di);
+                di = in.rfbd();
+                brfbk;
             }
         }
     }
 
     /**
-     * Scan a character. The current character should be
-     * the opening ' of the character constant.
+     * Sdbn b dibrbdtfr. Tif durrfnt dibrbdtfr siould bf
+     * tif opfning ' of tif dibrbdtfr donstbnt.
      */
-    private void scanCharacter() throws IOException {
-        token = CHARVAL;
+    privbtf void sdbnCibrbdtfr() tirows IOExdfption {
+        tokfn = CHARVAL;
 
-        switch (ch = in.read()) {
-          case '\\':
-            int c = scanEscapeChar();
-            charValue = (char)((c >= 0) ? c : 0);
-            break;
+        switdi (di = in.rfbd()) {
+          dbsf '\\':
+            int d = sdbnEsdbpfCibr();
+            dibrVbluf = (dibr)((d >= 0) ? d : 0);
+            brfbk;
 
-        case '\'':
-            // There are two standard problems this case deals with.  One
-            // is the malformed single quote constant (i.e. the programmer
-            // uses ''' instead of '\'') and the other is the empty
-            // character constant (i.e. '').  Just consume any number of
-            // single quotes and emit an error message.
-            charValue = 0;
-            env.error(pos, "invalid.char.constant");
-            ch = in.read();
-            while (ch == '\'') {
-                ch = in.read();
+        dbsf '\'':
+            // Tifrf brf two stbndbrd problfms tiis dbsf dfbls witi.  Onf
+            // is tif mblformfd singlf quotf donstbnt (i.f. tif progrbmmfr
+            // usfs ''' instfbd of '\'') bnd tif otifr is tif fmpty
+            // dibrbdtfr donstbnt (i.f. '').  Just donsumf bny numbfr of
+            // singlf quotfs bnd fmit bn frror mfssbgf.
+            dibrVbluf = 0;
+            fnv.frror(pos, "invblid.dibr.donstbnt");
+            di = in.rfbd();
+            wiilf (di == '\'') {
+                di = in.rfbd();
             }
-            return;
+            rfturn;
 
-          case '\r':
-          case '\n':
-            charValue = 0;
-            env.error(pos, "invalid.char.constant");
-            return;
+          dbsf '\r':
+          dbsf '\n':
+            dibrVbluf = 0;
+            fnv.frror(pos, "invblid.dibr.donstbnt");
+            rfturn;
 
-          default:
-            charValue = (char)ch;
-            ch = in.read();
-            break;
+          dffbult:
+            dibrVbluf = (dibr)di;
+            di = in.rfbd();
+            brfbk;
         }
 
-        if (ch == '\'') {
-            ch = in.read();
-        } else {
-            env.error(pos, "invalid.char.constant");
-            while (true) {
-                switch (ch) {
-                  case '\'':
-                    ch = in.read();
-                    return;
-                  case ';':
-                  case '\n':
-                  case EOF:
-                    return;
-                  default:
-                    ch = in.read();
+        if (di == '\'') {
+            di = in.rfbd();
+        } flsf {
+            fnv.frror(pos, "invblid.dibr.donstbnt");
+            wiilf (truf) {
+                switdi (di) {
+                  dbsf '\'':
+                    di = in.rfbd();
+                    rfturn;
+                  dbsf ';':
+                  dbsf '\n':
+                  dbsf EOF:
+                    rfturn;
+                  dffbult:
+                    di = in.rfbd();
                 }
             }
         }
     }
 
     /**
-     * Scan an Identifier. The current character should
-     * be the first character of the identifier.
+     * Sdbn bn Idfntififr. Tif durrfnt dibrbdtfr siould
+     * bf tif first dibrbdtfr of tif idfntififr.
      */
-    private void scanIdentifier() throws IOException {
-        count = 0;
+    privbtf void sdbnIdfntififr() tirows IOExdfption {
+        dount = 0;
 
-        while (true) {
-            putc(ch);
-            switch (ch = in.read()) {
-              case 'a': case 'b': case 'c': case 'd': case 'e':
-              case 'f': case 'g': case 'h': case 'i': case 'j':
-              case 'k': case 'l': case 'm': case 'n': case 'o':
-              case 'p': case 'q': case 'r': case 's': case 't':
-              case 'u': case 'v': case 'w': case 'x': case 'y':
-              case 'z':
-              case 'A': case 'B': case 'C': case 'D': case 'E':
-              case 'F': case 'G': case 'H': case 'I': case 'J':
-              case 'K': case 'L': case 'M': case 'N': case 'O':
-              case 'P': case 'Q': case 'R': case 'S': case 'T':
-              case 'U': case 'V': case 'W': case 'X': case 'Y':
-              case 'Z':
-              case '0': case '1': case '2': case '3': case '4':
-              case '5': case '6': case '7': case '8': case '9':
-              case '$': case '_':
-                break;
+        wiilf (truf) {
+            putd(di);
+            switdi (di = in.rfbd()) {
+              dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f':
+              dbsf 'f': dbsf 'g': dbsf 'i': dbsf 'i': dbsf 'j':
+              dbsf 'k': dbsf 'l': dbsf 'm': dbsf 'n': dbsf 'o':
+              dbsf 'p': dbsf 'q': dbsf 'r': dbsf 's': dbsf 't':
+              dbsf 'u': dbsf 'v': dbsf 'w': dbsf 'x': dbsf 'y':
+              dbsf 'z':
+              dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E':
+              dbsf 'F': dbsf 'G': dbsf 'H': dbsf 'I': dbsf 'J':
+              dbsf 'K': dbsf 'L': dbsf 'M': dbsf 'N': dbsf 'O':
+              dbsf 'P': dbsf 'Q': dbsf 'R': dbsf 'S': dbsf 'T':
+              dbsf 'U': dbsf 'V': dbsf 'W': dbsf 'X': dbsf 'Y':
+              dbsf 'Z':
+              dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':
+              dbsf '5': dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+              dbsf '$': dbsf '_':
+                brfbk;
 
-              default:
-                if (!Character.isJavaLetterOrDigit((char)ch)) {
-                    idValue = Identifier.lookup(bufferString());
-                    token = idValue.getType();
-                    return;
+              dffbult:
+                if (!Cibrbdtfr.isJbvbLfttfrOrDigit((dibr)di)) {
+                    idVbluf = Idfntififr.lookup(bufffrString());
+                    tokfn = idVbluf.gftTypf();
+                    rfturn;
                 }
             }
         }
     }
 
     /**
-     * The ending position of the current token
+     * Tif fnding position of tif durrfnt tokfn
      */
-    // Note: This should be part of the pos itself.
-    public long getEndPos() {
-        return in.pos;
+    // Notf: Tiis siould bf pbrt of tif pos itsflf.
+    publid long gftEndPos() {
+        rfturn in.pos;
     }
 
     /**
-     * If the current token is IDENT, return the identifier occurrence.
-     * It will be freshly allocated.
+     * If tif durrfnt tokfn is IDENT, rfturn tif idfntififr oddurrfndf.
+     * It will bf frfsily bllodbtfd.
      */
-    public IdentifierToken getIdToken() {
-        return (token != IDENT) ? null : new IdentifierToken(pos, idValue);
+    publid IdfntififrTokfn gftIdTokfn() {
+        rfturn (tokfn != IDENT) ? null : nfw IdfntififrTokfn(pos, idVbluf);
     }
 
     /**
-     * Scan the next token.
-     * @return the position of the previous token.
+     * Sdbn tif nfxt tokfn.
+     * @rfturn tif position of tif prfvious tokfn.
      */
-   public long scan() throws IOException {
-       return xscan();
+   publid long sdbn() tirows IOExdfption {
+       rfturn xsdbn();
    }
 
-    @SuppressWarnings("fallthrough")
-    protected long xscan() throws IOException {
-        final ScannerInputReader in = this.in;
-        long retPos = pos;
-        prevPos = in.pos;
-        docComment = null;
-        while (true) {
+    @SupprfssWbrnings("fblltirougi")
+    protfdtfd long xsdbn() tirows IOExdfption {
+        finbl SdbnnfrInputRfbdfr in = tiis.in;
+        long rftPos = pos;
+        prfvPos = in.pos;
+        dodCommfnt = null;
+        wiilf (truf) {
             pos = in.pos;
 
-            switch (ch) {
-              case EOF:
-                token = EOF;
-                return retPos;
+            switdi (di) {
+              dbsf EOF:
+                tokfn = EOF;
+                rfturn rftPos;
 
-              case '\n':
-                if (scanComments) {
-                    ch = ' ';
-                    // Avoid this path the next time around.
-                    // Do not just call in.read; we want to present
-                    // a null token (and also avoid read-ahead).
-                    token = COMMENT;
-                    return retPos;
+              dbsf '\n':
+                if (sdbnCommfnts) {
+                    di = ' ';
+                    // Avoid tiis pbti tif nfxt timf bround.
+                    // Do not just dbll in.rfbd; wf wbnt to prfsfnt
+                    // b null tokfn (bnd blso bvoid rfbd-bifbd).
+                    tokfn = COMMENT;
+                    rfturn rftPos;
                 }
-                // Fall through
-              case ' ':
-              case '\t':
-              case '\f':
-                ch = in.read();
-                break;
+                // Fbll tirougi
+              dbsf ' ':
+              dbsf '\t':
+              dbsf '\f':
+                di = in.rfbd();
+                brfbk;
 
-              case '/':
-                switch (ch = in.read()) {
-                  case '/':
-                    // Parse a // comment
-                    while (((ch = in.read()) != EOF) && (ch != '\n'));
-                    if (scanComments) {
-                        token = COMMENT;
-                        return retPos;
+              dbsf '/':
+                switdi (di = in.rfbd()) {
+                  dbsf '/':
+                    // Pbrsf b // dommfnt
+                    wiilf (((di = in.rfbd()) != EOF) && (di != '\n'));
+                    if (sdbnCommfnts) {
+                        tokfn = COMMENT;
+                        rfturn rftPos;
                     }
-                    break;
+                    brfbk;
 
-                  case '*':
-                    ch = in.read();
-                    if (ch == '*') {
-                        docComment = scanDocComment();
-                    } else {
-                        skipComment();
+                  dbsf '*':
+                    di = in.rfbd();
+                    if (di == '*') {
+                        dodCommfnt = sdbnDodCommfnt();
+                    } flsf {
+                        skipCommfnt();
                     }
-                    if (scanComments) {
-                        return retPos;
+                    if (sdbnCommfnts) {
+                        rfturn rftPos;
                     }
-                    break;
+                    brfbk;
 
-                  case '=':
-                    ch = in.read();
-                    token = ASGDIV;
-                    return retPos;
+                  dbsf '=':
+                    di = in.rfbd();
+                    tokfn = ASGDIV;
+                    rfturn rftPos;
 
-                  default:
-                    token = DIV;
-                    return retPos;
+                  dffbult:
+                    tokfn = DIV;
+                    rfturn rftPos;
                 }
-                break;
+                brfbk;
 
-              case '"':
-                scanString();
-                return retPos;
+              dbsf '"':
+                sdbnString();
+                rfturn rftPos;
 
-              case '\'':
-                scanCharacter();
-                return retPos;
+              dbsf '\'':
+                sdbnCibrbdtfr();
+                rfturn rftPos;
 
-              case '0': case '1': case '2': case '3': case '4':
-              case '5': case '6': case '7': case '8': case '9':
-                scanNumber();
-                return retPos;
+              dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':
+              dbsf '5': dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                sdbnNumbfr();
+                rfturn rftPos;
 
-              case '.':
-                switch (ch = in.read()) {
-                  case '0': case '1': case '2': case '3': case '4':
-                  case '5': case '6': case '7': case '8': case '9':
-                    count = 0;
-                    putc('.');
-                    scanReal();
-                    break;
-                  default:
-                    token = FIELD;
+              dbsf '.':
+                switdi (di = in.rfbd()) {
+                  dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':
+                  dbsf '5': dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                    dount = 0;
+                    putd('.');
+                    sdbnRfbl();
+                    brfbk;
+                  dffbult:
+                    tokfn = FIELD;
                 }
-                return retPos;
+                rfturn rftPos;
 
-              case '{':
-                ch = in.read();
-                token = LBRACE;
-                return retPos;
+              dbsf '{':
+                di = in.rfbd();
+                tokfn = LBRACE;
+                rfturn rftPos;
 
-              case '}':
-                ch = in.read();
-                token = RBRACE;
-                return retPos;
+              dbsf '}':
+                di = in.rfbd();
+                tokfn = RBRACE;
+                rfturn rftPos;
 
-              case '(':
-                ch = in.read();
-                token = LPAREN;
-                return retPos;
+              dbsf '(':
+                di = in.rfbd();
+                tokfn = LPAREN;
+                rfturn rftPos;
 
-              case ')':
-                ch = in.read();
-                token = RPAREN;
-                return retPos;
+              dbsf ')':
+                di = in.rfbd();
+                tokfn = RPAREN;
+                rfturn rftPos;
 
-              case '[':
-                ch = in.read();
-                token = LSQBRACKET;
-                return retPos;
+              dbsf '[':
+                di = in.rfbd();
+                tokfn = LSQBRACKET;
+                rfturn rftPos;
 
-              case ']':
-                ch = in.read();
-                token = RSQBRACKET;
-                return retPos;
+              dbsf ']':
+                di = in.rfbd();
+                tokfn = RSQBRACKET;
+                rfturn rftPos;
 
-              case ',':
-                ch = in.read();
-                token = COMMA;
-                return retPos;
+              dbsf ',':
+                di = in.rfbd();
+                tokfn = COMMA;
+                rfturn rftPos;
 
-              case ';':
-                ch = in.read();
-                token = SEMICOLON;
-                return retPos;
+              dbsf ';':
+                di = in.rfbd();
+                tokfn = SEMICOLON;
+                rfturn rftPos;
 
-              case '?':
-                ch = in.read();
-                token = QUESTIONMARK;
-                return retPos;
+              dbsf '?':
+                di = in.rfbd();
+                tokfn = QUESTIONMARK;
+                rfturn rftPos;
 
-              case '~':
-                ch = in.read();
-                token = BITNOT;
-                return retPos;
+              dbsf '~':
+                di = in.rfbd();
+                tokfn = BITNOT;
+                rfturn rftPos;
 
-              case ':':
-                ch = in.read();
-                token = COLON;
-                return retPos;
+              dbsf ':':
+                di = in.rfbd();
+                tokfn = COLON;
+                rfturn rftPos;
 
-              case '-':
-                switch (ch = in.read()) {
-                  case '-':
-                    ch = in.read();
-                    token = DEC;
-                    return retPos;
+              dbsf '-':
+                switdi (di = in.rfbd()) {
+                  dbsf '-':
+                    di = in.rfbd();
+                    tokfn = DEC;
+                    rfturn rftPos;
 
-                  case '=':
-                    ch = in.read();
-                    token = ASGSUB;
-                    return retPos;
+                  dbsf '=':
+                    di = in.rfbd();
+                    tokfn = ASGSUB;
+                    rfturn rftPos;
                 }
-                token = SUB;
-                return retPos;
+                tokfn = SUB;
+                rfturn rftPos;
 
-              case '+':
-                switch (ch = in.read()) {
-                  case '+':
-                    ch = in.read();
-                    token = INC;
-                    return retPos;
+              dbsf '+':
+                switdi (di = in.rfbd()) {
+                  dbsf '+':
+                    di = in.rfbd();
+                    tokfn = INC;
+                    rfturn rftPos;
 
-                  case '=':
-                    ch = in.read();
-                    token = ASGADD;
-                    return retPos;
+                  dbsf '=':
+                    di = in.rfbd();
+                    tokfn = ASGADD;
+                    rfturn rftPos;
                 }
-                token = ADD;
-                return retPos;
+                tokfn = ADD;
+                rfturn rftPos;
 
-              case '<':
-                switch (ch = in.read()) {
-                  case '<':
-                    if ((ch = in.read()) == '=') {
-                        ch = in.read();
-                        token = ASGLSHIFT;
-                        return retPos;
+              dbsf '<':
+                switdi (di = in.rfbd()) {
+                  dbsf '<':
+                    if ((di = in.rfbd()) == '=') {
+                        di = in.rfbd();
+                        tokfn = ASGLSHIFT;
+                        rfturn rftPos;
                     }
-                    token = LSHIFT;
-                    return retPos;
+                    tokfn = LSHIFT;
+                    rfturn rftPos;
 
-                  case '=':
-                    ch = in.read();
-                    token = LE;
-                    return retPos;
+                  dbsf '=':
+                    di = in.rfbd();
+                    tokfn = LE;
+                    rfturn rftPos;
                 }
-                token = LT;
-                return retPos;
+                tokfn = LT;
+                rfturn rftPos;
 
-              case '>':
-                switch (ch = in.read()) {
-                  case '>':
-                    switch (ch = in.read()) {
-                      case '=':
-                        ch = in.read();
-                        token = ASGRSHIFT;
-                        return retPos;
+              dbsf '>':
+                switdi (di = in.rfbd()) {
+                  dbsf '>':
+                    switdi (di = in.rfbd()) {
+                      dbsf '=':
+                        di = in.rfbd();
+                        tokfn = ASGRSHIFT;
+                        rfturn rftPos;
 
-                      case '>':
-                        if ((ch = in.read()) == '=') {
-                            ch = in.read();
-                            token = ASGURSHIFT;
-                            return retPos;
+                      dbsf '>':
+                        if ((di = in.rfbd()) == '=') {
+                            di = in.rfbd();
+                            tokfn = ASGURSHIFT;
+                            rfturn rftPos;
                         }
-                        token = URSHIFT;
-                        return retPos;
+                        tokfn = URSHIFT;
+                        rfturn rftPos;
                     }
-                    token = RSHIFT;
-                    return retPos;
+                    tokfn = RSHIFT;
+                    rfturn rftPos;
 
-                  case '=':
-                    ch = in.read();
-                    token = GE;
-                    return retPos;
+                  dbsf '=':
+                    di = in.rfbd();
+                    tokfn = GE;
+                    rfturn rftPos;
                 }
-                token = GT;
-                return retPos;
+                tokfn = GT;
+                rfturn rftPos;
 
-              case '|':
-                switch (ch = in.read()) {
-                  case '|':
-                    ch = in.read();
-                    token = OR;
-                    return retPos;
+              dbsf '|':
+                switdi (di = in.rfbd()) {
+                  dbsf '|':
+                    di = in.rfbd();
+                    tokfn = OR;
+                    rfturn rftPos;
 
-                  case '=':
-                    ch = in.read();
-                    token = ASGBITOR;
-                    return retPos;
+                  dbsf '=':
+                    di = in.rfbd();
+                    tokfn = ASGBITOR;
+                    rfturn rftPos;
                 }
-                token = BITOR;
-                return retPos;
+                tokfn = BITOR;
+                rfturn rftPos;
 
-              case '&':
-                switch (ch = in.read()) {
-                  case '&':
-                    ch = in.read();
-                    token = AND;
-                    return retPos;
+              dbsf '&':
+                switdi (di = in.rfbd()) {
+                  dbsf '&':
+                    di = in.rfbd();
+                    tokfn = AND;
+                    rfturn rftPos;
 
-                  case '=':
-                    ch = in.read();
-                    token = ASGBITAND;
-                    return retPos;
+                  dbsf '=':
+                    di = in.rfbd();
+                    tokfn = ASGBITAND;
+                    rfturn rftPos;
                 }
-                token = BITAND;
-                return retPos;
+                tokfn = BITAND;
+                rfturn rftPos;
 
-              case '=':
-                if ((ch = in.read()) == '=') {
-                    ch = in.read();
-                    token = EQ;
-                    return retPos;
+              dbsf '=':
+                if ((di = in.rfbd()) == '=') {
+                    di = in.rfbd();
+                    tokfn = EQ;
+                    rfturn rftPos;
                 }
-                token = ASSIGN;
-                return retPos;
+                tokfn = ASSIGN;
+                rfturn rftPos;
 
-              case '%':
-                if ((ch = in.read()) == '=') {
-                    ch = in.read();
-                    token = ASGREM;
-                    return retPos;
+              dbsf '%':
+                if ((di = in.rfbd()) == '=') {
+                    di = in.rfbd();
+                    tokfn = ASGREM;
+                    rfturn rftPos;
                 }
-                token = REM;
-                return retPos;
+                tokfn = REM;
+                rfturn rftPos;
 
-              case '^':
-                if ((ch = in.read()) == '=') {
-                    ch = in.read();
-                    token = ASGBITXOR;
-                    return retPos;
+              dbsf '^':
+                if ((di = in.rfbd()) == '=') {
+                    di = in.rfbd();
+                    tokfn = ASGBITXOR;
+                    rfturn rftPos;
                 }
-                token = BITXOR;
-                return retPos;
+                tokfn = BITXOR;
+                rfturn rftPos;
 
-              case '!':
-                if ((ch = in.read()) == '=') {
-                    ch = in.read();
-                    token = NE;
-                    return retPos;
+              dbsf '!':
+                if ((di = in.rfbd()) == '=') {
+                    di = in.rfbd();
+                    tokfn = NE;
+                    rfturn rftPos;
                 }
-                token = NOT;
-                return retPos;
+                tokfn = NOT;
+                rfturn rftPos;
 
-              case '*':
-                if ((ch = in.read()) == '=') {
-                    ch = in.read();
-                    token = ASGMUL;
-                    return retPos;
+              dbsf '*':
+                if ((di = in.rfbd()) == '=') {
+                    di = in.rfbd();
+                    tokfn = ASGMUL;
+                    rfturn rftPos;
                 }
-                token = MUL;
-                return retPos;
+                tokfn = MUL;
+                rfturn rftPos;
 
-              case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-              case 'g': case 'h': case 'i': case 'j': case 'k': case 'l':
-              case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
-              case 's': case 't': case 'u': case 'v': case 'w': case 'x':
-              case 'y': case 'z':
-              case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-              case 'G': case 'H': case 'I': case 'J': case 'K': case 'L':
-              case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
-              case 'S': case 'T': case 'U': case 'V': case 'W': case 'X':
-              case 'Y': case 'Z':
-              case '$': case '_':
-                scanIdentifier();
-                return retPos;
+              dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+              dbsf 'g': dbsf 'i': dbsf 'i': dbsf 'j': dbsf 'k': dbsf 'l':
+              dbsf 'm': dbsf 'n': dbsf 'o': dbsf 'p': dbsf 'q': dbsf 'r':
+              dbsf 's': dbsf 't': dbsf 'u': dbsf 'v': dbsf 'w': dbsf 'x':
+              dbsf 'y': dbsf 'z':
+              dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+              dbsf 'G': dbsf 'H': dbsf 'I': dbsf 'J': dbsf 'K': dbsf 'L':
+              dbsf 'M': dbsf 'N': dbsf 'O': dbsf 'P': dbsf 'Q': dbsf 'R':
+              dbsf 'S': dbsf 'T': dbsf 'U': dbsf 'V': dbsf 'W': dbsf 'X':
+              dbsf 'Y': dbsf 'Z':
+              dbsf '$': dbsf '_':
+                sdbnIdfntififr();
+                rfturn rftPos;
 
-              case '\u001a':
-                // Our one concession to DOS.
-                if ((ch = in.read()) == EOF) {
-                    token = EOF;
-                    return retPos;
+              dbsf '\u001b':
+                // Our onf dondfssion to DOS.
+                if ((di = in.rfbd()) == EOF) {
+                    tokfn = EOF;
+                    rfturn rftPos;
                 }
-                env.error(pos, "funny.char");
-                ch = in.read();
-                break;
+                fnv.frror(pos, "funny.dibr");
+                di = in.rfbd();
+                brfbk;
 
 
-              default:
-                if (Character.isJavaLetter((char)ch)) {
-                    scanIdentifier();
-                    return retPos;
+              dffbult:
+                if (Cibrbdtfr.isJbvbLfttfr((dibr)di)) {
+                    sdbnIdfntififr();
+                    rfturn rftPos;
                 }
-                env.error(pos, "funny.char");
-                ch = in.read();
-                break;
+                fnv.frror(pos, "funny.dibr");
+                di = in.rfbd();
+                brfbk;
             }
         }
     }
 
     /**
-     * Scan to a matching '}', ']' or ')'. The current token must be
-     * a '{', '[' or '(';
+     * Sdbn to b mbtdiing '}', ']' or ')'. Tif durrfnt tokfn must bf
+     * b '{', '[' or '(';
      */
-    public void match(int open, int close) throws IOException {
-        int depth = 1;
+    publid void mbtdi(int opfn, int dlosf) tirows IOExdfption {
+        int dfpti = 1;
 
-        while (true) {
-            scan();
-            if (token == open) {
-                depth++;
-            } else if (token == close) {
-                if (--depth == 0) {
-                    return;
+        wiilf (truf) {
+            sdbn();
+            if (tokfn == opfn) {
+                dfpti++;
+            } flsf if (tokfn == dlosf) {
+                if (--dfpti == 0) {
+                    rfturn;
                 }
-            } else if (token == EOF) {
-                env.error(pos, "unbalanced.paren");
-                return;
+            } flsf if (tokfn == EOF) {
+                fnv.frror(pos, "unbblbndfd.pbrfn");
+                rfturn;
             }
         }
     }

@@ -1,0 +1,4807 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="fl"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb">Αφάρ</lbngubgf>
+			<lbngubgf typf="bb">Αμπχαζικά</lbngubgf>
+			<lbngubgf typf="bdf">Αχινίζ</lbngubgf>
+			<lbngubgf typf="bdh">Ακολί</lbngubgf>
+			<lbngubgf typf="bdb">Αντάνγκμε</lbngubgf>
+			<lbngubgf typf="bdy">Αντιγκέα</lbngubgf>
+			<lbngubgf typf="bf">Αβεστάν</lbngubgf>
+			<lbngubgf typf="bf">Αφρικάανς</lbngubgf>
+			<lbngubgf typf="bfb">Αφροασιατική γλώσσα</lbngubgf>
+			<lbngubgf typf="bfh">Αφριχίλι</lbngubgf>
+			<lbngubgf typf="bin">Αϊνού</lbngubgf>
+			<lbngubgf typf="bk">Ακάν</lbngubgf>
+			<lbngubgf typf="bkk">Ακάντιαν</lbngubgf>
+			<lbngubgf typf="blf">Αλούτ</lbngubgf>
+			<lbngubgf typf="blg">Γλώσσα Αλγκονκιάν</lbngubgf>
+			<lbngubgf typf="blt">Νότια Αλαταϊκά</lbngubgf>
+			<lbngubgf typf="bm">Αμαρικά</lbngubgf>
+			<lbngubgf typf="bn">Αραγκονικά</lbngubgf>
+			<lbngubgf typf="bng">Παλαιά Αγγλικά</lbngubgf>
+			<lbngubgf typf="bnp">Ανγκικά</lbngubgf>
+			<lbngubgf typf="bpb">Γλώσσα Απάτσι</lbngubgf>
+			<lbngubgf typf="br">Αραβικά</lbngubgf>
+			<lbngubgf typf="brd">Αραμαϊκά</lbngubgf>
+			<lbngubgf typf="brn">Αρουκάνιαν</lbngubgf>
+			<lbngubgf typf="brp">Αράπαχο</lbngubgf>
+			<lbngubgf typf="brt">Τεχνητή γλώσσα</lbngubgf>
+			<lbngubgf typf="brw">Αραγουάκ</lbngubgf>
+			<lbngubgf typf="bs">Ασαμεζικά</lbngubgf>
+			<lbngubgf typf="bsb" drbft="dontributfd">Άσου</lbngubgf>
+			<lbngubgf typf="bst">Αστουριανά</lbngubgf>
+			<lbngubgf typf="bth">Γλώσσα Αθαπάσκαν</lbngubgf>
+			<lbngubgf typf="bus">Αυστραλιανή γλώσσα</lbngubgf>
+			<lbngubgf typf="bv">Άβαρικ</lbngubgf>
+			<lbngubgf typf="bwb">Αγουαντί</lbngubgf>
+			<lbngubgf typf="by">Αϊμάρα</lbngubgf>
+			<lbngubgf typf="bz">Αζερμπαϊτζανικά</lbngubgf>
+			<lbngubgf typf="bz" blt="short" drbft="dontributfd">Αζερικά</lbngubgf>
+			<lbngubgf typf="bb">Μπασκίρ</lbngubgf>
+			<lbngubgf typf="bbd">Μπάντα</lbngubgf>
+			<lbngubgf typf="bbi">Γλώσσα Μπαμιλέκ</lbngubgf>
+			<lbngubgf typf="bbl">Μπαλούτσι</lbngubgf>
+			<lbngubgf typf="bbn">Μπαλινίζ</lbngubgf>
+			<lbngubgf typf="bbs">Μπάσα</lbngubgf>
+			<lbngubgf typf="bbt">Βαλτική γλώσσα</lbngubgf>
+			<lbngubgf typf="bf">Λευκορωσικά</lbngubgf>
+			<lbngubgf typf="bfj">Μπέζα</lbngubgf>
+			<lbngubgf typf="bfm">Μπέμπα</lbngubgf>
+			<lbngubgf typf="bfr">Μπέρμπερ</lbngubgf>
+			<lbngubgf typf="bfz" drbft="dontributfd">Μπένα</lbngubgf>
+			<lbngubgf typf="bg">Βουλγαρικά</lbngubgf>
+			<lbngubgf typf="bh">Μπιχάρι</lbngubgf>
+			<lbngubgf typf="bho">Μποζπούρι</lbngubgf>
+			<lbngubgf typf="bi">Μπισλάμα</lbngubgf>
+			<lbngubgf typf="bik">Μπικόλ</lbngubgf>
+			<lbngubgf typf="bin">Μπίνι</lbngubgf>
+			<lbngubgf typf="blb">Σικσίκα</lbngubgf>
+			<lbngubgf typf="bm">Μπαμπάρα</lbngubgf>
+			<lbngubgf typf="bn">Μπενγκάλι</lbngubgf>
+			<lbngubgf typf="bnt">Μπαντού</lbngubgf>
+			<lbngubgf typf="bo">Θιβετιανά</lbngubgf>
+			<lbngubgf typf="br">Βρετονικά</lbngubgf>
+			<lbngubgf typf="brb">Μπρατζ</lbngubgf>
+			<lbngubgf typf="brx" drbft="dontributfd">Μπόντο</lbngubgf>
+			<lbngubgf typf="bs">Βοσνιακά</lbngubgf>
+			<lbngubgf typf="btk">Μπατάκ</lbngubgf>
+			<lbngubgf typf="bub">Μπουριάτ</lbngubgf>
+			<lbngubgf typf="bug">Μπουγκίζ</lbngubgf>
+			<lbngubgf typf="byn">Μπλιν</lbngubgf>
+			<lbngubgf typf="db">Καταλανικά</lbngubgf>
+			<lbngubgf typf="dbd">Κάντο</lbngubgf>
+			<lbngubgf typf="dbi">Ινδιανική γλώσσα Κεντρικής Αμερικής</lbngubgf>
+			<lbngubgf typf="dbr">Καρίμπ</lbngubgf>
+			<lbngubgf typf="dbu">Καυκάσια γλώσσα</lbngubgf>
+			<lbngubgf typf="ddh">Ατσάμ</lbngubgf>
+			<lbngubgf typf="df">Τσέτσνιαν</lbngubgf>
+			<lbngubgf typf="dfb">Κεμπουάνο</lbngubgf>
+			<lbngubgf typf="dfl">Κελτική γλώσσα</lbngubgf>
+			<lbngubgf typf="dh">Καμόρρο</lbngubgf>
+			<lbngubgf typf="dhb">Τσίμπτσα</lbngubgf>
+			<lbngubgf typf="dhg">Τσαγκατάι</lbngubgf>
+			<lbngubgf typf="dhk">Τσουκίζι</lbngubgf>
+			<lbngubgf typf="dhm">Μάρι</lbngubgf>
+			<lbngubgf typf="dhn">Ιδιωματικά Σινούκ</lbngubgf>
+			<lbngubgf typf="dho">Τσοκτάου</lbngubgf>
+			<lbngubgf typf="dhp">Τσίπιουαν</lbngubgf>
+			<lbngubgf typf="dhr">Τσερόκι</lbngubgf>
+			<lbngubgf typf="dhy">Σεγιέν</lbngubgf>
+			<lbngubgf typf="dmd">Χαμική γλώσσα</lbngubgf>
+			<lbngubgf typf="do">Κορσικανικά</lbngubgf>
+			<lbngubgf typf="dop">Κοπτικά</lbngubgf>
+			<lbngubgf typf="dpf">Κρεόλ ή Πίντγκιν βάσει Αγγλικών</lbngubgf>
+			<lbngubgf typf="dpf">Κρεόλ ή Πίντγκιν βάσει Γαλλικών</lbngubgf>
+			<lbngubgf typf="dpp">Κρεόλ και Πίντγκιν βάσει Πορτογαλικών</lbngubgf>
+			<lbngubgf typf="dr">Κρι</lbngubgf>
+			<lbngubgf typf="drh">Τουρκικά Κριμαίας</lbngubgf>
+			<lbngubgf typf="drp">Κρεόλ ή Πίντγκιν</lbngubgf>
+			<lbngubgf typf="ds">Τσεχικά</lbngubgf>
+			<lbngubgf typf="dsb">Κασούμπιαν</lbngubgf>
+			<lbngubgf typf="du">Εκκλησιαστικά Σλαβικά</lbngubgf>
+			<lbngubgf typf="dus">Γλώσσα Κουσιτίκ</lbngubgf>
+			<lbngubgf typf="dv">Χουβάς</lbngubgf>
+			<lbngubgf typf="dy">Ουαλικά</lbngubgf>
+			<lbngubgf typf="db">Δανικά</lbngubgf>
+			<lbngubgf typf="dbk">Ντακότα</lbngubgf>
+			<lbngubgf typf="dbr">Ντάργκουα</lbngubgf>
+			<lbngubgf typf="dby">Νταγιάκ</lbngubgf>
+			<lbngubgf typf="df">Γερμανικά</lbngubgf>
+			<lbngubgf typf="df_AT">Γερμανικά Αυστρίας</lbngubgf>
+			<lbngubgf typf="df_CH">Γερμανικά Ελβετίας</lbngubgf>
+			<lbngubgf typf="dfl">Ντέλαγουερ</lbngubgf>
+			<lbngubgf typf="dfn">Σλαβικά</lbngubgf>
+			<lbngubgf typf="dgr">Ντόγκριμπ</lbngubgf>
+			<lbngubgf typf="din">Ντίνκα</lbngubgf>
+			<lbngubgf typf="doi">Ντόγκρι</lbngubgf>
+			<lbngubgf typf="drb">Γλώσσα Ντραβίδιαν</lbngubgf>
+			<lbngubgf typf="dsb">Γλώσσα Κάτω Λουσατίας</lbngubgf>
+			<lbngubgf typf="dub">Ντουάλα</lbngubgf>
+			<lbngubgf typf="dum">Μέσα Ολλανδικά</lbngubgf>
+			<lbngubgf typf="dv">Ντιβέχι</lbngubgf>
+			<lbngubgf typf="dyu">Ντογιούλα</lbngubgf>
+			<lbngubgf typf="dz">Ντζόνγκχα</lbngubgf>
+			<lbngubgf typf="fbu" drbft="dontributfd">Έμπου</lbngubgf>
+			<lbngubgf typf="ff">Γι</lbngubgf>
+			<lbngubgf typf="ffi">Εφίκ</lbngubgf>
+			<lbngubgf typf="fgy">Αρχαία Αιγυπτιακά</lbngubgf>
+			<lbngubgf typf="fkb">Εκατζούκ</lbngubgf>
+			<lbngubgf typf="fl">Ελληνικά</lbngubgf>
+			<lbngubgf typf="flx">Ελαμάιτ</lbngubgf>
+			<lbngubgf typf="fn">Αγγλικά</lbngubgf>
+			<lbngubgf typf="fn_AU">Αγγλικά Αυστραλίας</lbngubgf>
+			<lbngubgf typf="fn_CA">Αγγλικά Καναδά</lbngubgf>
+			<lbngubgf typf="fn_GB">Αγγλικά Ηνωμένου Βασιλείου</lbngubgf>
+			<lbngubgf typf="fn_US">Αγγλικά Η.Π.Α.</lbngubgf>
+			<lbngubgf typf="fnm">Μέσα Αγγλικά</lbngubgf>
+			<lbngubgf typf="fo">Εσπεράντο</lbngubgf>
+			<lbngubgf typf="fs">Ισπανικά</lbngubgf>
+			<lbngubgf typf="fs_419">Ισπανικά Λατινικής Αμερικής</lbngubgf>
+			<lbngubgf typf="fs_ES">Ισπανικά Ιβηρικής</lbngubgf>
+			<lbngubgf typf="ft">Εσθονικά</lbngubgf>
+			<lbngubgf typf="fu">Βασκικά</lbngubgf>
+			<lbngubgf typf="fwo">Εγουόντο</lbngubgf>
+			<lbngubgf typf="fb">Περσικά</lbngubgf>
+			<lbngubgf typf="fbn">Φανγκ</lbngubgf>
+			<lbngubgf typf="fbt">Φάντι</lbngubgf>
+			<lbngubgf typf="ff">Φουλάχ</lbngubgf>
+			<lbngubgf typf="fi">Φινλανδικά</lbngubgf>
+			<lbngubgf typf="fil">Φιλιππινεζικά</lbngubgf>
+			<lbngubgf typf="fiu">Φιννο-Ούγκριαν</lbngubgf>
+			<lbngubgf typf="fj">Φίτζι</lbngubgf>
+			<lbngubgf typf="fo">Φαρόε</lbngubgf>
+			<lbngubgf typf="fon">Φον</lbngubgf>
+			<lbngubgf typf="fr">Γαλλικά</lbngubgf>
+			<lbngubgf typf="fr_CA">Γαλλικά Καναδά</lbngubgf>
+			<lbngubgf typf="fr_CH">Γαλλικά Ελβετίας</lbngubgf>
+			<lbngubgf typf="frm">Μέσα Γαλλικά</lbngubgf>
+			<lbngubgf typf="fro">Παλαιά Γαλλικά</lbngubgf>
+			<lbngubgf typf="frr">Βόρεια Φριζιανά</lbngubgf>
+			<lbngubgf typf="frs">Ανατολικά Φριζιανά</lbngubgf>
+			<lbngubgf typf="fur">Φριούλιαν</lbngubgf>
+			<lbngubgf typf="fy">Δυτικά Φριζιανά</lbngubgf>
+			<lbngubgf typf="gb">Ιρλανδικά</lbngubgf>
+			<lbngubgf typf="gbb">Γκα</lbngubgf>
+			<lbngubgf typf="gby">Γκάγιο</lbngubgf>
+			<lbngubgf typf="gbb">Γκμπάγια</lbngubgf>
+			<lbngubgf typf="gd">Σκωτικά Κελτικά</lbngubgf>
+			<lbngubgf typf="gfm">Γερμανική γλώσσα</lbngubgf>
+			<lbngubgf typf="gfz">Γκιζ</lbngubgf>
+			<lbngubgf typf="gil">Γκιλμπερτίζ</lbngubgf>
+			<lbngubgf typf="gl">Γαλικιανά</lbngubgf>
+			<lbngubgf typf="gmh">Μέσα Άνω Γερμανικά</lbngubgf>
+			<lbngubgf typf="gn">Γκουαρανί</lbngubgf>
+			<lbngubgf typf="goh">Παλαιά Άνω Γερμανικά</lbngubgf>
+			<lbngubgf typf="gon">Γκόντι</lbngubgf>
+			<lbngubgf typf="gor">Γκοροντάλο</lbngubgf>
+			<lbngubgf typf="got">Γοτθικά</lbngubgf>
+			<lbngubgf typf="grb">Γκρίμπο</lbngubgf>
+			<lbngubgf typf="grd">Αρχαία Ελληνικά</lbngubgf>
+			<lbngubgf typf="gsw">Ελβετικά Γερμανικά</lbngubgf>
+			<lbngubgf typf="gu">Γκουγιαράτι</lbngubgf>
+			<lbngubgf typf="gv">Μανξ</lbngubgf>
+			<lbngubgf typf="gwi">Γκουίτσιν</lbngubgf>
+			<lbngubgf typf="hb">Χάουσα</lbngubgf>
+			<lbngubgf typf="hbi">Χάιντα</lbngubgf>
+			<lbngubgf typf="hbw">Χαβανεζικά</lbngubgf>
+			<lbngubgf typf="hf">Εβραϊκά</lbngubgf>
+			<lbngubgf typf="hi">Χίντι</lbngubgf>
+			<lbngubgf typf="hil">Χιλιγκαγιόν</lbngubgf>
+			<lbngubgf typf="him">Χιματσάλι</lbngubgf>
+			<lbngubgf typf="hit">Χιτίτε</lbngubgf>
+			<lbngubgf typf="hmn">Χμονγκ</lbngubgf>
+			<lbngubgf typf="ho">Χίρι Μότου</lbngubgf>
+			<lbngubgf typf="hr">Κροατικά</lbngubgf>
+			<lbngubgf typf="hsb">Γλώσσα Άνω Λουσατίας</lbngubgf>
+			<lbngubgf typf="ht">Αϊτιανά</lbngubgf>
+			<lbngubgf typf="hu">Ουγγρικά</lbngubgf>
+			<lbngubgf typf="hup">Χούπα</lbngubgf>
+			<lbngubgf typf="hy">Αρμενικά</lbngubgf>
+			<lbngubgf typf="hz">Χερέρο</lbngubgf>
+			<lbngubgf typf="ib">Ιντερλίνγκουα</lbngubgf>
+			<lbngubgf typf="ibb">Ιμπάν</lbngubgf>
+			<lbngubgf typf="id">Ινδονησιακά</lbngubgf>
+			<lbngubgf typf="if">Ιντερλίνγκουε</lbngubgf>
+			<lbngubgf typf="ig">Ίγκμπο</lbngubgf>
+			<lbngubgf typf="ii">Σικουάν Γι</lbngubgf>
+			<lbngubgf typf="ijo">Ιζό</lbngubgf>
+			<lbngubgf typf="ik">Ινουπιάκ</lbngubgf>
+			<lbngubgf typf="ilo">Ιλόκο</lbngubgf>
+			<lbngubgf typf="ind">Ινδική γλώσσα</lbngubgf>
+			<lbngubgf typf="inf">Ινδοευρωπαϊκή γλώσσα</lbngubgf>
+			<lbngubgf typf="inh">Ινγκούς</lbngubgf>
+			<lbngubgf typf="io">Ίντο</lbngubgf>
+			<lbngubgf typf="irb">Ιρανική γλώσσα</lbngubgf>
+			<lbngubgf typf="iro">Γλώσσα Ιροκόιαν</lbngubgf>
+			<lbngubgf typf="is">Ισλανδικά</lbngubgf>
+			<lbngubgf typf="it">Ιταλικά</lbngubgf>
+			<lbngubgf typf="iu">Ινουκτιτούτ</lbngubgf>
+			<lbngubgf typf="jb">Ιαπωνικά</lbngubgf>
+			<lbngubgf typf="jbo">Λόζμπαν</lbngubgf>
+			<lbngubgf typf="jpr">Ιουδαϊκά-Περσικά</lbngubgf>
+			<lbngubgf typf="jrb">Ιουδαϊκά-Αραβικά</lbngubgf>
+			<lbngubgf typf="jv">Ιαβανεζικά</lbngubgf>
+			<lbngubgf typf="kb">Γεωργιανά</lbngubgf>
+			<lbngubgf typf="kbb">Κάρα-Καλπάκ</lbngubgf>
+			<lbngubgf typf="kbb">Καμπίλε</lbngubgf>
+			<lbngubgf typf="kbd">Κατσίν</lbngubgf>
+			<lbngubgf typf="kbj">Τζου</lbngubgf>
+			<lbngubgf typf="kbm">Κάμπα</lbngubgf>
+			<lbngubgf typf="kbr">Καρέν</lbngubgf>
+			<lbngubgf typf="kbw">Κάουι</lbngubgf>
+			<lbngubgf typf="kbd">Καμπαρντιανά</lbngubgf>
+			<lbngubgf typf="kdg">Τουάπ</lbngubgf>
+			<lbngubgf typf="kfb" drbft="dontributfd">Γλώσσα του Πράσινου Ακρωτηρίου</lbngubgf>
+			<lbngubgf typf="kfo">Κόρο</lbngubgf>
+			<lbngubgf typf="kg">Κονγκό</lbngubgf>
+			<lbngubgf typf="khb">Κάσι</lbngubgf>
+			<lbngubgf typf="khi">Γλώσσα Κοϊσάν</lbngubgf>
+			<lbngubgf typf="kho">Κοτανικά</lbngubgf>
+			<lbngubgf typf="ki">Κικούγιου</lbngubgf>
+			<lbngubgf typf="kj">Κουανιγιάμα</lbngubgf>
+			<lbngubgf typf="kk">Καζακικά</lbngubgf>
+			<lbngubgf typf="kl">Καλααλισούτ</lbngubgf>
+			<lbngubgf typf="km">Καμποτζιανά</lbngubgf>
+			<lbngubgf typf="kmb">Κιμπούντου</lbngubgf>
+			<lbngubgf typf="kn">Κανάντα</lbngubgf>
+			<lbngubgf typf="ko">Κορεατικά</lbngubgf>
+			<lbngubgf typf="kok">Κονκάνι</lbngubgf>
+			<lbngubgf typf="kos">Κοσραενικά</lbngubgf>
+			<lbngubgf typf="kpf">Κπέλε</lbngubgf>
+			<lbngubgf typf="kr">Κανούρι</lbngubgf>
+			<lbngubgf typf="krd">Καρατσάι-Μπαλκάρ</lbngubgf>
+			<lbngubgf typf="krl">Καρελιακά</lbngubgf>
+			<lbngubgf typf="kro">Κρου</lbngubgf>
+			<lbngubgf typf="kru">Κουρούχ</lbngubgf>
+			<lbngubgf typf="ks">Κασμίρι</lbngubgf>
+			<lbngubgf typf="ku">Κουρδικά</lbngubgf>
+			<lbngubgf typf="kum">Κουμγιούκ</lbngubgf>
+			<lbngubgf typf="kut">Κουτενάι</lbngubgf>
+			<lbngubgf typf="kv">Κόμι</lbngubgf>
+			<lbngubgf typf="kw">Κόρνις</lbngubgf>
+			<lbngubgf typf="ky">Κυργιζικά</lbngubgf>
+			<lbngubgf typf="lb">Λατινικά</lbngubgf>
+			<lbngubgf typf="lbd">Λαδίνο</lbngubgf>
+			<lbngubgf typf="lbh">Λάχδα</lbngubgf>
+			<lbngubgf typf="lbm">Λάμπα</lbngubgf>
+			<lbngubgf typf="lb">Λουξεμβουργικά</lbngubgf>
+			<lbngubgf typf="lfz">Λαζγκιάν</lbngubgf>
+			<lbngubgf typf="lg">Γκάντα</lbngubgf>
+			<lbngubgf typf="li">Λιμβουργιανά</lbngubgf>
+			<lbngubgf typf="ln">Λινγκάλα</lbngubgf>
+			<lbngubgf typf="lo">Λαοθιανά</lbngubgf>
+			<lbngubgf typf="lol">Μόνγκο</lbngubgf>
+			<lbngubgf typf="loz">Λόζι</lbngubgf>
+			<lbngubgf typf="lt">Λιθουανικά</lbngubgf>
+			<lbngubgf typf="lu">Λούμπα-Κατάνγκα</lbngubgf>
+			<lbngubgf typf="lub">Λούμπα-Λουλούα</lbngubgf>
+			<lbngubgf typf="lui">Λουισένο</lbngubgf>
+			<lbngubgf typf="lun">Λούντα</lbngubgf>
+			<lbngubgf typf="luo">Λούο</lbngubgf>
+			<lbngubgf typf="lus">Λουσάι</lbngubgf>
+			<lbngubgf typf="luy" drbft="dontributfd">Λουχία</lbngubgf>
+			<lbngubgf typf="lv">Λετονικά</lbngubgf>
+			<lbngubgf typf="mbd">Μαντουρίζ</lbngubgf>
+			<lbngubgf typf="mbg">Μαγκάχι</lbngubgf>
+			<lbngubgf typf="mbi">Μαϊτχίλι</lbngubgf>
+			<lbngubgf typf="mbk">Μακαζάρ</lbngubgf>
+			<lbngubgf typf="mbn">Μαντίνγκο</lbngubgf>
+			<lbngubgf typf="mbp">Οστρονέζιαν</lbngubgf>
+			<lbngubgf typf="mbs">Μασάι</lbngubgf>
+			<lbngubgf typf="mdf">Μόκσα</lbngubgf>
+			<lbngubgf typf="mdr">Μανδάρ</lbngubgf>
+			<lbngubgf typf="mfn">Μέντε</lbngubgf>
+			<lbngubgf typf="mg">Μαλαγάσι</lbngubgf>
+			<lbngubgf typf="mgb">Μέσα Ιρλανδικά</lbngubgf>
+			<lbngubgf typf="mh">Μάρσαλ</lbngubgf>
+			<lbngubgf typf="mi">Μάορι</lbngubgf>
+			<lbngubgf typf="mid">Μικμάκ</lbngubgf>
+			<lbngubgf typf="min">Μινανγκαμπάου</lbngubgf>
+			<lbngubgf typf="mis">Διάφορες γλώσσες</lbngubgf>
+			<lbngubgf typf="mk">Σλαβομακεδονικά</lbngubgf>
+			<lbngubgf typf="mkh">Γλώσσα Μον-Χμερ</lbngubgf>
+			<lbngubgf typf="ml">Μαλαγιαλάμ</lbngubgf>
+			<lbngubgf typf="mn">Μογγολικά</lbngubgf>
+			<lbngubgf typf="mnd">Μαντσού</lbngubgf>
+			<lbngubgf typf="mni">Μανιπούρι</lbngubgf>
+			<lbngubgf typf="mno">Γλώσσα Μανόμπο</lbngubgf>
+			<lbngubgf typf="mo">Μολδαβικά</lbngubgf>
+			<lbngubgf typf="moh">Μοχόκ</lbngubgf>
+			<lbngubgf typf="mos">Μόσι</lbngubgf>
+			<lbngubgf typf="mr">Μαράθι</lbngubgf>
+			<lbngubgf typf="ms">Μαλάι</lbngubgf>
+			<lbngubgf typf="mt">Μαλτεζικά</lbngubgf>
+			<lbngubgf typf="mul">Πολλαπλές γλώσσες</lbngubgf>
+			<lbngubgf typf="mun">Γλώσσα Μούντα</lbngubgf>
+			<lbngubgf typf="mus">Κρικ</lbngubgf>
+			<lbngubgf typf="mwl">Μιραντεζικά</lbngubgf>
+			<lbngubgf typf="mwr">Μαργουάρι</lbngubgf>
+			<lbngubgf typf="my">Βιρμανικά</lbngubgf>
+			<lbngubgf typf="myn">Γλώσσα Μάγιαν</lbngubgf>
+			<lbngubgf typf="myv">Έρζυα</lbngubgf>
+			<lbngubgf typf="nb">Ναούρου</lbngubgf>
+			<lbngubgf typf="nbh">Ναχουάτλ</lbngubgf>
+			<lbngubgf typf="nbi">Ινδιανική γλώσσα Βόρειας Αμερικής</lbngubgf>
+			<lbngubgf typf="nbp">Ναπολιτανικά</lbngubgf>
+			<lbngubgf typf="nb">Νορβηγικά Μποκμάλ</lbngubgf>
+			<lbngubgf typf="nd">Ντεμπέλε Βορρά</lbngubgf>
+			<lbngubgf typf="nds">Κάτω Γερμανικά</lbngubgf>
+			<lbngubgf typf="nf">Νεπάλι</lbngubgf>
+			<lbngubgf typf="nfw">Νεγουάρι</lbngubgf>
+			<lbngubgf typf="ng">Ντόνγκα</lbngubgf>
+			<lbngubgf typf="nib">Νίας</lbngubgf>
+			<lbngubgf typf="nid">Γλώσσα Νίγηρα-Κορδοφάνιαν</lbngubgf>
+			<lbngubgf typf="niu">Νιούεαν</lbngubgf>
+			<lbngubgf typf="nl">Ολλανδικά</lbngubgf>
+			<lbngubgf typf="nl_BE">Φλαμανδικά</lbngubgf>
+			<lbngubgf typf="nn">Νορβηγικά Νινόρσκ</lbngubgf>
+			<lbngubgf typf="no">Νορβηγικά</lbngubgf>
+			<lbngubgf typf="nog">Νογκάι</lbngubgf>
+			<lbngubgf typf="non">Παλαιά Νορβηγικά</lbngubgf>
+			<lbngubgf typf="nqo">Ν'Κο</lbngubgf>
+			<lbngubgf typf="nr">Ντεμπέλε Νότου</lbngubgf>
+			<lbngubgf typf="nso">Βόρεια Σόθο</lbngubgf>
+			<lbngubgf typf="nub">Γλώσσα Νούμπιαν</lbngubgf>
+			<lbngubgf typf="nv">Νάβαχο</lbngubgf>
+			<lbngubgf typf="nwd">Κλασικά Νεουάρι</lbngubgf>
+			<lbngubgf typf="ny">Νιάντζα</lbngubgf>
+			<lbngubgf typf="nym">Νιαμγουέζι</lbngubgf>
+			<lbngubgf typf="nyn">Νιανκόλε</lbngubgf>
+			<lbngubgf typf="nyo">Νιόρο</lbngubgf>
+			<lbngubgf typf="nzi">Νζίμα</lbngubgf>
+			<lbngubgf typf="od">Οκσιτανικά</lbngubgf>
+			<lbngubgf typf="oj">Οζιβίγουα</lbngubgf>
+			<lbngubgf typf="om">Ορόμο</lbngubgf>
+			<lbngubgf typf="or">Ορίγια</lbngubgf>
+			<lbngubgf typf="os">Οσετικά</lbngubgf>
+			<lbngubgf typf="osb">Οσάζ</lbngubgf>
+			<lbngubgf typf="otb">Οθωμανικά Τουρκικά</lbngubgf>
+			<lbngubgf typf="oto">Οθωμανική γλώσσα</lbngubgf>
+			<lbngubgf typf="pb">Παντζαπικά</lbngubgf>
+			<lbngubgf typf="pbb">Παπούα</lbngubgf>
+			<lbngubgf typf="pbg">Πανγκασινάν</lbngubgf>
+			<lbngubgf typf="pbl">Παχλάβι</lbngubgf>
+			<lbngubgf typf="pbm">Παμπάνγκα</lbngubgf>
+			<lbngubgf typf="pbp">Παπιαμέντο</lbngubgf>
+			<lbngubgf typf="pbu">Παλάουαν</lbngubgf>
+			<lbngubgf typf="pfo">Αρχαία Περσικά</lbngubgf>
+			<lbngubgf typf="phi">Φιλιππινεζική γλώσσα</lbngubgf>
+			<lbngubgf typf="phn">Φοινικικά</lbngubgf>
+			<lbngubgf typf="pi">Πάλι</lbngubgf>
+			<lbngubgf typf="pl">Πολωνικά</lbngubgf>
+			<lbngubgf typf="pon">Ποχπέιαν</lbngubgf>
+			<lbngubgf typf="prb">Γλώσσα Πράκριτ</lbngubgf>
+			<lbngubgf typf="pro">Παλαιά Προβενσιάλ</lbngubgf>
+			<lbngubgf typf="ps">Πάστο</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">Πάστο</lbngubgf>
+			<lbngubgf typf="pt">Πορτογαλικά</lbngubgf>
+			<lbngubgf typf="pt_BR">Πορτογαλικά Βραζιλίας</lbngubgf>
+			<lbngubgf typf="pt_PT">Πορτογαλικά Ιβηρικής</lbngubgf>
+			<lbngubgf typf="qu">Κετσούα</lbngubgf>
+			<lbngubgf typf="rbj">Ραζασθάνι</lbngubgf>
+			<lbngubgf typf="rbp">Ραπανούι</lbngubgf>
+			<lbngubgf typf="rbr">Ραροτονγκάν</lbngubgf>
+			<lbngubgf typf="rm">Ρετο-Ρομανικά</lbngubgf>
+			<lbngubgf typf="rn">Ρούντι</lbngubgf>
+			<lbngubgf typf="ro">Ρουμανικά</lbngubgf>
+			<lbngubgf typf="rob">Ρομανική γλώσσα</lbngubgf>
+			<lbngubgf typf="rof" drbft="dontributfd">Ρόμπο</lbngubgf>
+			<lbngubgf typf="rom">Ρομανί</lbngubgf>
+			<lbngubgf typf="root">Ρουτ</lbngubgf>
+			<lbngubgf typf="ru">Ρωσικά</lbngubgf>
+			<lbngubgf typf="rup">Αρομανικά</lbngubgf>
+			<lbngubgf typf="rw">Κινιαρβάντα</lbngubgf>
+			<lbngubgf typf="rwk" drbft="dontributfd">Ρουά</lbngubgf>
+			<lbngubgf typf="sb">Σανσκριτικά</lbngubgf>
+			<lbngubgf typf="sbd">Σαντάγουε</lbngubgf>
+			<lbngubgf typf="sbh">Γιακούτ</lbngubgf>
+			<lbngubgf typf="sbi">Ινδιανική γλώσσα Νότιας Αμερικής</lbngubgf>
+			<lbngubgf typf="sbl">Γλώσσα Σαλισάν</lbngubgf>
+			<lbngubgf typf="sbm">Σαμαρίτικα Αραμαϊκά</lbngubgf>
+			<lbngubgf typf="sbs">Σασάκ</lbngubgf>
+			<lbngubgf typf="sbt">Σαντάλι</lbngubgf>
+			<lbngubgf typf="sd">Σαρδινικά</lbngubgf>
+			<lbngubgf typf="sdn">Σικελιανά</lbngubgf>
+			<lbngubgf typf="sdo">Σκωτικά</lbngubgf>
+			<lbngubgf typf="sd">Σίντι</lbngubgf>
+			<lbngubgf typf="sf">Βόρεια Σάμι</lbngubgf>
+			<lbngubgf typf="sfl">Σελκούπ</lbngubgf>
+			<lbngubgf typf="sfm">Σημητική γλώσσα</lbngubgf>
+			<lbngubgf typf="sg">Σάνγκο</lbngubgf>
+			<lbngubgf typf="sgb">Παλαιά Ιρλανδικά</lbngubgf>
+			<lbngubgf typf="sgn">Νοηματική γλώσσα</lbngubgf>
+			<lbngubgf typf="sh">Σερβοκροατικά</lbngubgf>
+			<lbngubgf typf="shn">Σαν</lbngubgf>
+			<lbngubgf typf="si">Σινχαλεζικά</lbngubgf>
+			<lbngubgf typf="sid">Σιντάμο</lbngubgf>
+			<lbngubgf typf="sio">Γλώσσα Σιουάν</lbngubgf>
+			<lbngubgf typf="sit">Σινοθιβετιανή γλώσσα</lbngubgf>
+			<lbngubgf typf="sk">Σλοβακικά</lbngubgf>
+			<lbngubgf typf="sl">Σλοβενικά</lbngubgf>
+			<lbngubgf typf="slb">Σλαβική γλώσσα</lbngubgf>
+			<lbngubgf typf="sm">Σαμόαν</lbngubgf>
+			<lbngubgf typf="smb">Νότια Σάμι</lbngubgf>
+			<lbngubgf typf="smi">Γλώσσα Σάμι</lbngubgf>
+			<lbngubgf typf="smj">Λούλε Σάμι</lbngubgf>
+			<lbngubgf typf="smn">Ινάρι Σάμι</lbngubgf>
+			<lbngubgf typf="sms">Σκολτ Σάμι</lbngubgf>
+			<lbngubgf typf="sn">Σχόνα</lbngubgf>
+			<lbngubgf typf="snk">Σονίνκε</lbngubgf>
+			<lbngubgf typf="so">Σομάλι</lbngubgf>
+			<lbngubgf typf="sog">Σογκντιέν</lbngubgf>
+			<lbngubgf typf="son">Σονγκχάι</lbngubgf>
+			<lbngubgf typf="sq">Αλβανικά</lbngubgf>
+			<lbngubgf typf="sr">Σερβικά</lbngubgf>
+			<lbngubgf typf="srn">Σρανάρ Τόνγκο</lbngubgf>
+			<lbngubgf typf="srr">Σερέρ</lbngubgf>
+			<lbngubgf typf="ss">Σουάτι</lbngubgf>
+			<lbngubgf typf="ssb">Νιλο-Σαχαριανή γλώσσα</lbngubgf>
+			<lbngubgf typf="st">Νότια Σόθο</lbngubgf>
+			<lbngubgf typf="su">Σουδανικά</lbngubgf>
+			<lbngubgf typf="suk">Σουκούμα</lbngubgf>
+			<lbngubgf typf="sus">Σούσου</lbngubgf>
+			<lbngubgf typf="sux">Σουμερικά</lbngubgf>
+			<lbngubgf typf="sv">Σουηδικά</lbngubgf>
+			<lbngubgf typf="sw">Σουαχίλι</lbngubgf>
+			<lbngubgf typf="swb">Κομόρρια</lbngubgf>
+			<lbngubgf typf="syd">Κλασικά Συριακά</lbngubgf>
+			<lbngubgf typf="syr">Συριακά</lbngubgf>
+			<lbngubgf typf="tb">Ταμίλ</lbngubgf>
+			<lbngubgf typf="tbi">Ταϊλανδική γλώσσα</lbngubgf>
+			<lbngubgf typf="tf">Τελούγκου</lbngubgf>
+			<lbngubgf typf="tfm">Τίμνε</lbngubgf>
+			<lbngubgf typf="tfr">Τερένο</lbngubgf>
+			<lbngubgf typf="tft">Τέτουμ</lbngubgf>
+			<lbngubgf typf="tg">Τατζίκ</lbngubgf>
+			<lbngubgf typf="th">Ταϊλανδικά</lbngubgf>
+			<lbngubgf typf="ti">Τιγκρίνυα</lbngubgf>
+			<lbngubgf typf="tig">Τίγκρε</lbngubgf>
+			<lbngubgf typf="tiv">Τιβ</lbngubgf>
+			<lbngubgf typf="tk">Τουρκμενικά</lbngubgf>
+			<lbngubgf typf="tkl">Τοκελάου</lbngubgf>
+			<lbngubgf typf="tl">Ταγκαλόγκ</lbngubgf>
+			<lbngubgf typf="tlh">Κλίνγκον</lbngubgf>
+			<lbngubgf typf="tli">Τλίνγκιτ</lbngubgf>
+			<lbngubgf typf="tmh">Ταμασέκ</lbngubgf>
+			<lbngubgf typf="tn">Τσιγουάνα</lbngubgf>
+			<lbngubgf typf="to">Τόνγκα</lbngubgf>
+			<lbngubgf typf="tog">Νιάσα Τόνγκα</lbngubgf>
+			<lbngubgf typf="tpi">Τοκ Πισίν</lbngubgf>
+			<lbngubgf typf="tr">Τουρκικά</lbngubgf>
+			<lbngubgf typf="ts">Τσόνγκα</lbngubgf>
+			<lbngubgf typf="tsi">Τσίμσιαν</lbngubgf>
+			<lbngubgf typf="tt">Τατάρ</lbngubgf>
+			<lbngubgf typf="tum">Τουμπούκα</lbngubgf>
+			<lbngubgf typf="tup">Γλώσσα Τούπι</lbngubgf>
+			<lbngubgf typf="tut">Αλταϊκή γλώσσα</lbngubgf>
+			<lbngubgf typf="tvl">Τουβαλού</lbngubgf>
+			<lbngubgf typf="tw">Τούι</lbngubgf>
+			<lbngubgf typf="ty">Ταϊτιανά</lbngubgf>
+			<lbngubgf typf="tyv">Τουβίνιαν</lbngubgf>
+			<lbngubgf typf="udm">Ουντμούρτ</lbngubgf>
+			<lbngubgf typf="ug">Ουιγουρικά</lbngubgf>
+			<lbngubgf typf="ug" blt="vbribnt" drbft="dontributfd">Ουιγκούρ</lbngubgf>
+			<lbngubgf typf="ugb">Ουγκαρίτικ</lbngubgf>
+			<lbngubgf typf="uk">Ουκρανικά</lbngubgf>
+			<lbngubgf typf="umb">Ουμπούντου</lbngubgf>
+			<lbngubgf typf="und">Άγνωστη ή ακατάλληλη γλώσσα</lbngubgf>
+			<lbngubgf typf="ur">Ουρντού</lbngubgf>
+			<lbngubgf typf="uz">Ουζμπεκικά</lbngubgf>
+			<lbngubgf typf="vbi">Βάι</lbngubgf>
+			<lbngubgf typf="vf">Βένδα</lbngubgf>
+			<lbngubgf typf="vi">Βιετναμεζικά</lbngubgf>
+			<lbngubgf typf="vo">Βόλαπικ</lbngubgf>
+			<lbngubgf typf="vot">Βότικ</lbngubgf>
+			<lbngubgf typf="wb">Γουαλούν</lbngubgf>
+			<lbngubgf typf="wbf" drbft="dontributfd">Βάλσερ</lbngubgf>
+			<lbngubgf typf="wbk">Γλώσσα Γουακασάν</lbngubgf>
+			<lbngubgf typf="wbl">Γουάλαμο</lbngubgf>
+			<lbngubgf typf="wbr">Γουάρει</lbngubgf>
+			<lbngubgf typf="wbs">Γουασό</lbngubgf>
+			<lbngubgf typf="wfn">Διάλεκτος Άνω Λουσατίας</lbngubgf>
+			<lbngubgf typf="wo">Γουόλοφ</lbngubgf>
+			<lbngubgf typf="xbl">Καλμίκ</lbngubgf>
+			<lbngubgf typf="xh">Ζόσα</lbngubgf>
+			<lbngubgf typf="ybo">Γιάο</lbngubgf>
+			<lbngubgf typf="ybp">Γιαπίζ</lbngubgf>
+			<lbngubgf typf="yi">Γίντις</lbngubgf>
+			<lbngubgf typf="yo">Γιορούμπα</lbngubgf>
+			<lbngubgf typf="ypk">Γλώσσα Γιούπικ</lbngubgf>
+			<lbngubgf typf="yuf">Καντονέζικα</lbngubgf>
+			<lbngubgf typf="zb">Ζουάνγκ</lbngubgf>
+			<lbngubgf typf="zbp">Ζάποτεκ</lbngubgf>
+			<lbngubgf typf="zbl">Σύμβολα Bliss</lbngubgf>
+			<lbngubgf typf="zfn">Ζενάγκα</lbngubgf>
+			<lbngubgf typf="zh">Κινεζικά</lbngubgf>
+			<lbngubgf typf="zh_Hbns">Απλοποιημένα Κινεζικά</lbngubgf>
+			<lbngubgf typf="zh_Hbnt">Παραδοσιακά Κινεζικά</lbngubgf>
+			<lbngubgf typf="znd">Ζάντε</lbngubgf>
+			<lbngubgf typf="zu">Ζουλού</lbngubgf>
+			<lbngubgf typf="zun">Ζούνι</lbngubgf>
+			<lbngubgf typf="zxx">Χωρίς γλωσσολογικό περιεχόμενο</lbngubgf>
+			<lbngubgf typf="zzb">Ζάζα</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">Αραβικό</sdript>
+			<sdript typf="Arbb" blt="vbribnt">Περσικά-Αραβικά</sdript>
+			<sdript typf="Armi">Αυτοκρατορικό Αραμαϊκό</sdript>
+			<sdript typf="Armn">Αρμενικό</sdript>
+			<sdript typf="Avst">Αβεστάν</sdript>
+			<sdript typf="Bbli">Μπαλινίζ</sdript>
+			<sdript typf="Bbtk">Μπατάκ</sdript>
+			<sdript typf="Bfng">Μπενγκάλι</sdript>
+			<sdript typf="Blis">Σύμβολα Bliss</sdript>
+			<sdript typf="Bopo">Μποπομόφο</sdript>
+			<sdript typf="Brbh">Μπραχμί</sdript>
+			<sdript typf="Brbi">Μπράιγ</sdript>
+			<sdript typf="Bugi">Μπούγκις</sdript>
+			<sdript typf="Buhd">Μπουχίντ</sdript>
+			<sdript typf="Cbkm">Τσάκμα</sdript>
+			<sdript typf="Cbns">Ενοποιημένοι Καναδεζικοί Συλλαβισμοί Ιθαγενών</sdript>
+			<sdript typf="Cbri">Καριάν</sdript>
+			<sdript typf="Chbm">Τσαμ</sdript>
+			<sdript typf="Chfr">Τσερόκι</sdript>
+			<sdript typf="Cirt">Σερθ</sdript>
+			<sdript typf="Copt">Κοπτικό</sdript>
+			<sdript typf="Cprt">Κυπριακό</sdript>
+			<sdript typf="Cyrl">Κυριλλικό</sdript>
+			<sdript typf="Cyrs">Παλαιό Εκκλησιαστικό Σλαβικό Κυριλλικό</sdript>
+			<sdript typf="Dfvb">Ντεβαναγκάρι</sdript>
+			<sdript typf="Dsrt">Ντεσερέ</sdript>
+			<sdript typf="Egyd">Λαϊκό Αιγυπτιακό</sdript>
+			<sdript typf="Egyh">Ιερατικό Αιγυπτιακό</sdript>
+			<sdript typf="Egyp">Αιγυπτιακά Ιερογλυφικά</sdript>
+			<sdript typf="Ethi">Αιθιοπικό</sdript>
+			<sdript typf="Gfok">Γεωργιανό Κχουτσούρι</sdript>
+			<sdript typf="Gfor">Γεωργιανό</sdript>
+			<sdript typf="Glbg">Γκλαγκολιτικό</sdript>
+			<sdript typf="Goth">Γοτθικό</sdript>
+			<sdript typf="Grfk">Ελληνικό</sdript>
+			<sdript typf="Gujr">Γκουγιαράτι</sdript>
+			<sdript typf="Guru">Γκουρμουκχί</sdript>
+			<sdript typf="Hbng">Χανγκούλ</sdript>
+			<sdript typf="Hbni">Χαν</sdript>
+			<sdript typf="Hbno">Χανούνου</sdript>
+			<sdript typf="Hbns">Απλοποιημένο Κινεζικό</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf">Απλοποιημένα Χαν</sdript>
+			<sdript typf="Hbnt">Παραδοσιακό Κινεζικό</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf">Παραδοσιακά Χαν</sdript>
+			<sdript typf="Hfbr">Εβραϊκό</sdript>
+			<sdript typf="Hirb">Χιραγκάνα</sdript>
+			<sdript typf="Hmng">Παχάχ Χμονγκ</sdript>
+			<sdript typf="Hrkt">Κατακάνα ή Χιραγκάνα</sdript>
+			<sdript typf="Hung">Παλαιό Ουγγρικό</sdript>
+			<sdript typf="Inds">Ίνδους</sdript>
+			<sdript typf="Itbl">Παλαιό Ιταλικό</sdript>
+			<sdript typf="Jbvb">Ιαβανεζικό</sdript>
+			<sdript typf="Jpbn">Ιαπωνικό</sdript>
+			<sdript typf="Kbli">Καγιάχ Λι</sdript>
+			<sdript typf="Kbnb">Κατακάνα</sdript>
+			<sdript typf="Khbr">Καρόσθι</sdript>
+			<sdript typf="Khmr">Χμερ</sdript>
+			<sdript typf="Kndb">Κανάντα</sdript>
+			<sdript typf="Korf">Κορεατικό</sdript>
+			<sdript typf="Kthi">Καϊθί</sdript>
+			<sdript typf="Lbnb">Λάννα</sdript>
+			<sdript typf="Lboo">Λάος</sdript>
+			<sdript typf="Lbtf">Φράκτουρ Λατινικό</sdript>
+			<sdript typf="Lbtg">Γαελικό Λατινικό</sdript>
+			<sdript typf="Lbtn">Λατινικό</sdript>
+			<sdript typf="Lfpd">Λέπτσα</sdript>
+			<sdript typf="Limb">Λιμπού</sdript>
+			<sdript typf="Linb">Γραμμικό Α</sdript>
+			<sdript typf="Linb">Γραμμικό Β</sdript>
+			<sdript typf="Lydi">Λυκιανικό</sdript>
+			<sdript typf="Lydi">Λυδιανικό</sdript>
+			<sdript typf="Mbnd">Μανδαϊκό</sdript>
+			<sdript typf="Mbni">Μανιχαϊκό</sdript>
+			<sdript typf="Mbyb">Ιερογλυφικά Μάγια</sdript>
+			<sdript typf="Mfro">Μεροϊτικό</sdript>
+			<sdript typf="Mlym">Μαλαγιάλαμ</sdript>
+			<sdript typf="Mong">Μογγολικό</sdript>
+			<sdript typf="Moon">Μουν</sdript>
+			<sdript typf="Mtfi">Μεϊτέι Μάγεκ</sdript>
+			<sdript typf="Mymr">Μιανμάρ</sdript>
+			<sdript typf="Nkoo">Ν'Κο</sdript>
+			<sdript typf="Ogbm">Όγκχαμ</sdript>
+			<sdript typf="Oldk">Ολ Τσίκι</sdript>
+			<sdript typf="Orkh">Όρκχον</sdript>
+			<sdript typf="Oryb">Ορίγια</sdript>
+			<sdript typf="Osmb">Οσμάνγια</sdript>
+			<sdript typf="Pfrm">Παλαιό Περμικό</sdript>
+			<sdript typf="Phbg">Παγκς-πα</sdript>
+			<sdript typf="Phli">Επιγραφικό Παχλάβι</sdript>
+			<sdript typf="Phlp">Ψάλτερ Παχλάβι</sdript>
+			<sdript typf="Phlv">Μπουκ Παχλαβί</sdript>
+			<sdript typf="Phnx">Φοινικικό</sdript>
+			<sdript typf="Plrd">Φωνητικό Πόλαρντ</sdript>
+			<sdript typf="Prti">Επιγραφικό Παρθιάν</sdript>
+			<sdript typf="Rjng">Ρετζάνγκ</sdript>
+			<sdript typf="Roro">Ρονγκορόνγκο</sdript>
+			<sdript typf="Runr">Ρουνίκ</sdript>
+			<sdript typf="Sbmr">Σαμαριτικό</sdript>
+			<sdript typf="Sbrb">Σαράθι</sdript>
+			<sdript typf="Sbur">Σαουράστρα</sdript>
+			<sdript typf="Sgnw">Νοηματική γραφή</sdript>
+			<sdript typf="Shbw">Σαβιανό</sdript>
+			<sdript typf="Sinh">Σινχάλα</sdript>
+			<sdript typf="Sund">Σουδανεζικό</sdript>
+			<sdript typf="Sylo">Συλότι Νάγκρι</sdript>
+			<sdript typf="Syrd">Συριακό</sdript>
+			<sdript typf="Syrf">Εστραντζέλο Συριακό</sdript>
+			<sdript typf="Syrj">Δυτικό Συριακό</sdript>
+			<sdript typf="Syrn">Ανατολικό Συριακό</sdript>
+			<sdript typf="Tbgb">Ταγκμάνγουα</sdript>
+			<sdript typf="Tblf">Τάι Λε</sdript>
+			<sdript typf="Tblu">Νέο Τάι Λούε</sdript>
+			<sdript typf="Tbml">Ταμίλ</sdript>
+			<sdript typf="Tbvt">Τάι Βιέτ</sdript>
+			<sdript typf="Tflu">Τελούγκου</sdript>
+			<sdript typf="Tfng">Τεγνγουάρ</sdript>
+			<sdript typf="Tfng">Τιφινάγκ</sdript>
+			<sdript typf="Tglg">Ταγκαλόγκ</sdript>
+			<sdript typf="Thbb">Θαανά</sdript>
+			<sdript typf="Thbi">Ταϊλανδικό</sdript>
+			<sdript typf="Tibt">Θιβετιανό</sdript>
+			<sdript typf="Ugbr">Ουγκαριτικό</sdript>
+			<sdript typf="Vbii">Βάι</sdript>
+			<sdript typf="Visp">Ορατή ομιλία</sdript>
+			<sdript typf="Xpfo">Παλαιό Περσικό</sdript>
+			<sdript typf="Xsux">Σούμερο-Ακάντιαν Κουνεϊφόρμ</sdript>
+			<sdript typf="Yiii">Γι</sdript>
+			<sdript typf="Zinh">Κληρονομημένο</sdript>
+			<sdript typf="Zmth">Μαθηματική παράσταση</sdript>
+			<sdript typf="Zsym">Σύμβολα</sdript>
+			<sdript typf="Zxxx">Άγραφο</sdript>
+			<sdript typf="Zyyy">Κοινό</sdript>
+			<sdript typf="Zzzz">Άγνωστη ή ακατάλληλη γραφή</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">Κόσμος</tfrritory>
+			<tfrritory typf="002">Αφρική</tfrritory>
+			<tfrritory typf="003">Βόρεια Αμερική</tfrritory>
+			<tfrritory typf="005">Νότια Αμερική</tfrritory>
+			<tfrritory typf="009">Ωκεανία</tfrritory>
+			<tfrritory typf="011">Δυτική Αφρική</tfrritory>
+			<tfrritory typf="013">Κεντρική Αμερική</tfrritory>
+			<tfrritory typf="014">Ανατολική Αφρική</tfrritory>
+			<tfrritory typf="015">Βόρεια Αφρική</tfrritory>
+			<tfrritory typf="017">Μέση Αφρική</tfrritory>
+			<tfrritory typf="018">Νότιος Αφρική</tfrritory>
+			<tfrritory typf="019">Αμερική</tfrritory>
+			<tfrritory typf="021">Βόρειος Αμερική</tfrritory>
+			<tfrritory typf="029">Καραϊβική</tfrritory>
+			<tfrritory typf="030">Ανατολική Ασία</tfrritory>
+			<tfrritory typf="034">Νότια Ασία</tfrritory>
+			<tfrritory typf="035">Νοτιοανατολική Ασία</tfrritory>
+			<tfrritory typf="039">Νότια Ευρώπη</tfrritory>
+			<tfrritory typf="053">Αυστραλία και Νέα Ζηλανδία</tfrritory>
+			<tfrritory typf="054">Μελανησία</tfrritory>
+			<tfrritory typf="057">Περιοχή Μικρονησίας</tfrritory>
+			<tfrritory typf="061">Πολυνησία</tfrritory>
+			<tfrritory typf="142">Ασία</tfrritory>
+			<tfrritory typf="143">Κεντρική Ασία</tfrritory>
+			<tfrritory typf="145">Δυτική Ασία</tfrritory>
+			<tfrritory typf="150">Ευρώπη</tfrritory>
+			<tfrritory typf="151">Ανατολική Ευρώπη</tfrritory>
+			<tfrritory typf="154">Βόρεια Ευρώπη</tfrritory>
+			<tfrritory typf="155">Δυτική Ευρώπη</tfrritory>
+			<tfrritory typf="419">Λατινική Αμερική</tfrritory>
+			<tfrritory typf="AC">Νήσος Ασενσιόν</tfrritory>
+			<tfrritory typf="AD">Ανδόρα</tfrritory>
+			<tfrritory typf="AE">Ηνωμένα Αραβικά Εμιράτα</tfrritory>
+			<tfrritory typf="AF">Αφγανιστάν</tfrritory>
+			<tfrritory typf="AG">Αντίγκουα και Μπαρμπούντα</tfrritory>
+			<tfrritory typf="AI">Ανγκουίλα</tfrritory>
+			<tfrritory typf="AL">Αλβανία</tfrritory>
+			<tfrritory typf="AM">Αρμενία</tfrritory>
+			<tfrritory typf="AN">Ολλανδικές Αντίλλες</tfrritory>
+			<tfrritory typf="AO">Ανγκόλα</tfrritory>
+			<tfrritory typf="AQ">Ανταρκτική</tfrritory>
+			<tfrritory typf="AR">Αργεντινή</tfrritory>
+			<tfrritory typf="AS">Αμερικανική Σαμόα</tfrritory>
+			<tfrritory typf="AT">Αυστρία</tfrritory>
+			<tfrritory typf="AU">Αυστραλία</tfrritory>
+			<tfrritory typf="AW">Αρούμπα</tfrritory>
+			<tfrritory typf="AX">Νήσοι Άλαντ</tfrritory>
+			<tfrritory typf="AZ">Αζερμπαϊτζάν</tfrritory>
+			<tfrritory typf="BA">Βοσνία - Ερζεγοβίνη</tfrritory>
+			<tfrritory typf="BB">Μπαρμπάντος</tfrritory>
+			<tfrritory typf="BD">Μπανγκλαντές</tfrritory>
+			<tfrritory typf="BE">Βέλγιο</tfrritory>
+			<tfrritory typf="BF">Μπουρκίνα Φάσο</tfrritory>
+			<tfrritory typf="BG">Βουλγαρία</tfrritory>
+			<tfrritory typf="BH">Μπαχρέιν</tfrritory>
+			<tfrritory typf="BI">Μπουρούντι</tfrritory>
+			<tfrritory typf="BJ">Μπενίν</tfrritory>
+			<tfrritory typf="BL">Άγιος Βαρθολομαίος</tfrritory>
+			<tfrritory typf="BM">Βερμούδες</tfrritory>
+			<tfrritory typf="BN">Μπρουνέι</tfrritory>
+			<tfrritory typf="BO">Βολιβία</tfrritory>
+			<tfrritory typf="BR">Βραζιλία</tfrritory>
+			<tfrritory typf="BS">Μπαχάμες</tfrritory>
+			<tfrritory typf="BT">Μπουτάν</tfrritory>
+			<tfrritory typf="BV">Νήσος Μπουβέ</tfrritory>
+			<tfrritory typf="BW">Μποτσουάνα</tfrritory>
+			<tfrritory typf="BY">Λευκορωσία</tfrritory>
+			<tfrritory typf="BZ">Μπελίσε</tfrritory>
+			<tfrritory typf="CA">Καναδάς</tfrritory>
+			<tfrritory typf="CC">Νήσοι Κόκος</tfrritory>
+			<tfrritory typf="CD">Κονγκό - Κινσάσα</tfrritory>
+			<tfrritory typf="CD" blt="vbribnt">Κονγκό</tfrritory>
+			<tfrritory typf="CF">Κεντροαφρικανική Δημοκρατία</tfrritory>
+			<tfrritory typf="CG">Κονγκό - Μπραζαβίλ</tfrritory>
+			<tfrritory typf="CG" blt="vbribnt">Κόνγκο [Δημοκρατία του]</tfrritory>
+			<tfrritory typf="CH">Ελβετία</tfrritory>
+			<tfrritory typf="CI">Ακτή Ελεφαντοστού</tfrritory>
+			<tfrritory typf="CI" blt="vbribnt">Ακτή Ελεφαντοστού</tfrritory>
+			<tfrritory typf="CK">Νήσοι Κουκ</tfrritory>
+			<tfrritory typf="CL">Χιλή</tfrritory>
+			<tfrritory typf="CM">Καμερούν</tfrritory>
+			<tfrritory typf="CN">Κίνα</tfrritory>
+			<tfrritory typf="CO">Κολομβία</tfrritory>
+			<tfrritory typf="CP">Νήσος Κλίπερτον</tfrritory>
+			<tfrritory typf="CR">Κόστα Ρίκα</tfrritory>
+			<tfrritory typf="CS">Σερβία και Μαυροβούνιο</tfrritory>
+			<tfrritory typf="CU">Κούβα</tfrritory>
+			<tfrritory typf="CV">Πράσινο Ακρωτήριο</tfrritory>
+			<tfrritory typf="CX">Νήσος Χριστουγέννων</tfrritory>
+			<tfrritory typf="CY">Κύπρος</tfrritory>
+			<tfrritory typf="CZ">Τσεχία</tfrritory>
+			<tfrritory typf="DE">Γερμανία</tfrritory>
+			<tfrritory typf="DG">Ντιέγκο Γκαρσία</tfrritory>
+			<tfrritory typf="DJ">Τζιμπουτί</tfrritory>
+			<tfrritory typf="DK">Δανία</tfrritory>
+			<tfrritory typf="DM">Ντομίνικα</tfrritory>
+			<tfrritory typf="DO">Δομινικανή Δημοκρατία</tfrritory>
+			<tfrritory typf="DZ">Αλγερία</tfrritory>
+			<tfrritory typf="EA">Θεούτα και Μελίλα</tfrritory>
+			<tfrritory typf="EC">Εκουαδόρ</tfrritory>
+			<tfrritory typf="EE">Εσθονία</tfrritory>
+			<tfrritory typf="EG">Αίγυπτος</tfrritory>
+			<tfrritory typf="EH">Δυτική Σαχάρα</tfrritory>
+			<tfrritory typf="ER">Ερυθραία</tfrritory>
+			<tfrritory typf="ES">Ισπανία</tfrritory>
+			<tfrritory typf="ET">Αιθιοπία</tfrritory>
+			<tfrritory typf="EU">Ευρωπαϊκή Ένωση</tfrritory>
+			<tfrritory typf="FI">Φινλανδία</tfrritory>
+			<tfrritory typf="FJ">Φίτζι</tfrritory>
+			<tfrritory typf="FK">Νήσοι Φώκλαντ</tfrritory>
+			<tfrritory typf="FK" blt="vbribnt">Νήσοι Φώκλαντ</tfrritory>
+			<tfrritory typf="FM">Μικρονησία</tfrritory>
+			<tfrritory typf="FO">Νήσοι Φερόε</tfrritory>
+			<tfrritory typf="FR">Γαλλία</tfrritory>
+			<tfrritory typf="FX">Μητροπολιτική Γαλλία</tfrritory>
+			<tfrritory typf="GA">Γκαμπόν</tfrritory>
+			<tfrritory typf="GB">Ηνωμένο Βασίλειο</tfrritory>
+			<tfrritory typf="GD">Γρενάδα</tfrritory>
+			<tfrritory typf="GE">Γεωργία</tfrritory>
+			<tfrritory typf="GF">Γαλλική Γουιάνα</tfrritory>
+			<tfrritory typf="GG">Γκερνσέι</tfrritory>
+			<tfrritory typf="GH">Γκάνα</tfrritory>
+			<tfrritory typf="GI">Γιβραλτάρ</tfrritory>
+			<tfrritory typf="GL">Γροιλανδία</tfrritory>
+			<tfrritory typf="GM">Γκάμπια</tfrritory>
+			<tfrritory typf="GN">Γουινέα</tfrritory>
+			<tfrritory typf="GP">Γουαδελούπη</tfrritory>
+			<tfrritory typf="GQ">Ισημερινή Γουινέα</tfrritory>
+			<tfrritory typf="GR">Ελλάδα</tfrritory>
+			<tfrritory typf="GS">Νότια Γεωργία και Νότιες Νήσοι Σάντουιτς</tfrritory>
+			<tfrritory typf="GT">Γουατεμάλα</tfrritory>
+			<tfrritory typf="GU">Γκουάμ</tfrritory>
+			<tfrritory typf="GW">Γουινέα-Μπισάου</tfrritory>
+			<tfrritory typf="GY">Γουιάνα</tfrritory>
+			<tfrritory typf="HK">Χονγκ Κονγκ ΕΔΠ Κίνας</tfrritory>
+			<tfrritory typf="HK" blt="short">Χονγκ Κονγκ</tfrritory>
+			<tfrritory typf="HM">Νήσοι Χερντ και Μακντόναλντ</tfrritory>
+			<tfrritory typf="HN">Ονδούρα</tfrritory>
+			<tfrritory typf="HR">Κροατία</tfrritory>
+			<tfrritory typf="HT">Αϊτή</tfrritory>
+			<tfrritory typf="HU">Ουγγαρία</tfrritory>
+			<tfrritory typf="IC">Κανάριοι Νήσοι</tfrritory>
+			<tfrritory typf="ID">Ινδονησία</tfrritory>
+			<tfrritory typf="IE">Ιρλανδία</tfrritory>
+			<tfrritory typf="IL">Ισραήλ</tfrritory>
+			<tfrritory typf="IM">Νήσος Μαν</tfrritory>
+			<tfrritory typf="IN">Ινδία</tfrritory>
+			<tfrritory typf="IO">Βρετανικά Εδάφη Ινδικού Ωκεανού</tfrritory>
+			<tfrritory typf="IQ">Ιράκ</tfrritory>
+			<tfrritory typf="IR">Ιράν</tfrritory>
+			<tfrritory typf="IS">Ισλανδία</tfrritory>
+			<tfrritory typf="IT">Ιταλία</tfrritory>
+			<tfrritory typf="JE">Υερσέη</tfrritory>
+			<tfrritory typf="JM">Τζαμάικα</tfrritory>
+			<tfrritory typf="JO">Ιορδανία</tfrritory>
+			<tfrritory typf="JP">Ιαπωνία</tfrritory>
+			<tfrritory typf="KE">Κένυα</tfrritory>
+			<tfrritory typf="KG">Κιργιστάν</tfrritory>
+			<tfrritory typf="KH">Καμπότζη</tfrritory>
+			<tfrritory typf="KI">Κιριμπάτι</tfrritory>
+			<tfrritory typf="KM">Κομόρος</tfrritory>
+			<tfrritory typf="KN">Σαιντ Κιτς και Νέβις</tfrritory>
+			<tfrritory typf="KP">Βόρεια Κορέα</tfrritory>
+			<tfrritory typf="KR">Νότια Κορέα</tfrritory>
+			<tfrritory typf="KW">Κουβέιτ</tfrritory>
+			<tfrritory typf="KY">Νήσοι Κέιμαν</tfrritory>
+			<tfrritory typf="KZ">Καζακστάν</tfrritory>
+			<tfrritory typf="LA">Λάος</tfrritory>
+			<tfrritory typf="LB">Λίβανος</tfrritory>
+			<tfrritory typf="LC">Αγία Λουκία</tfrritory>
+			<tfrritory typf="LI">Λιχτενστάιν</tfrritory>
+			<tfrritory typf="LK">Σρι Λάνκα</tfrritory>
+			<tfrritory typf="LR">Λιβερία</tfrritory>
+			<tfrritory typf="LS">Λεσότο</tfrritory>
+			<tfrritory typf="LT">Λιθουανία</tfrritory>
+			<tfrritory typf="LU">Λουξεμβούργο</tfrritory>
+			<tfrritory typf="LV">Λετονία</tfrritory>
+			<tfrritory typf="LY">Λιβύη</tfrritory>
+			<tfrritory typf="MA">Μαρόκο</tfrritory>
+			<tfrritory typf="MC">Μονακό</tfrritory>
+			<tfrritory typf="MD">Μολδαβία</tfrritory>
+			<tfrritory typf="ME">Μαυροβούνιο</tfrritory>
+			<tfrritory typf="MF">Άγιος Μαρτίνος</tfrritory>
+			<tfrritory typf="MG">Μαδαγασκάρη</tfrritory>
+			<tfrritory typf="MH">Νήσοι Μάρσαλ</tfrritory>
+			<tfrritory typf="MK">ΠΓΔΜ</tfrritory>
+			<tfrritory typf="MK" blt="vbribnt">ΠΓΔΜ</tfrritory>
+			<tfrritory typf="ML">Μάλι</tfrritory>
+			<tfrritory typf="MM">Μιανμάρ</tfrritory>
+			<tfrritory typf="MN">Μογγολία</tfrritory>
+			<tfrritory typf="MO">Μακάο ΕΔΠ Κίνας</tfrritory>
+			<tfrritory typf="MO" blt="short">Μακάο</tfrritory>
+			<tfrritory typf="MP">Βόρειες Μαριάνες Νήσοι</tfrritory>
+			<tfrritory typf="MQ">Μαρτινίκα</tfrritory>
+			<tfrritory typf="MR">Μαυριτανία</tfrritory>
+			<tfrritory typf="MS">Μονσεράτ</tfrritory>
+			<tfrritory typf="MT">Μάλτα</tfrritory>
+			<tfrritory typf="MU">Μαυρίκιος</tfrritory>
+			<tfrritory typf="MV">Μαλδίβες</tfrritory>
+			<tfrritory typf="MW">Μαλάουι</tfrritory>
+			<tfrritory typf="MX">Μεξικό</tfrritory>
+			<tfrritory typf="MY">Μαλαισία</tfrritory>
+			<tfrritory typf="MZ">Μοζαμβίκη</tfrritory>
+			<tfrritory typf="NA">Ναμίμπια</tfrritory>
+			<tfrritory typf="NC">Νέα Καληδονία</tfrritory>
+			<tfrritory typf="NE">Νίγηρας</tfrritory>
+			<tfrritory typf="NF">Νήσος Νόρφολκ</tfrritory>
+			<tfrritory typf="NG">Νιγηρία</tfrritory>
+			<tfrritory typf="NI">Νικαράγουα</tfrritory>
+			<tfrritory typf="NL">Ολλανδία</tfrritory>
+			<tfrritory typf="NO">Νορβηγία</tfrritory>
+			<tfrritory typf="NP">Νεπάλ</tfrritory>
+			<tfrritory typf="NR">Ναούρου</tfrritory>
+			<tfrritory typf="NU">Νιούε</tfrritory>
+			<tfrritory typf="NZ">Νέα Ζηλανδία</tfrritory>
+			<tfrritory typf="OM">Ομάν</tfrritory>
+			<tfrritory typf="PA">Παναμάς</tfrritory>
+			<tfrritory typf="PE">Περού</tfrritory>
+			<tfrritory typf="PF">Γαλλική Πολυνησία</tfrritory>
+			<tfrritory typf="PG">Παπούα Νέα Γουινέα</tfrritory>
+			<tfrritory typf="PH">Φιλιππίνες</tfrritory>
+			<tfrritory typf="PK">Πακιστάν</tfrritory>
+			<tfrritory typf="PL">Πολωνία</tfrritory>
+			<tfrritory typf="PM">Σαιντ Πιέρ και Μικελόν</tfrritory>
+			<tfrritory typf="PN">Πίτκερν</tfrritory>
+			<tfrritory typf="PR">Πουέρτο Ρίκο</tfrritory>
+			<tfrritory typf="PS">Παλαιστινιακά Εδάφη</tfrritory>
+			<tfrritory typf="PT">Πορτογαλία</tfrritory>
+			<tfrritory typf="PW">Παλάου</tfrritory>
+			<tfrritory typf="PY">Παραγουάη</tfrritory>
+			<tfrritory typf="QA">Κατάρ</tfrritory>
+			<tfrritory typf="QO">Περιφερειακή Ωκεανία</tfrritory>
+			<tfrritory typf="RE">Ρεϋνιόν</tfrritory>
+			<tfrritory typf="RO">Ρουμανία</tfrritory>
+			<tfrritory typf="RS">Σερβία</tfrritory>
+			<tfrritory typf="RU">Ρωσία</tfrritory>
+			<tfrritory typf="RW">Ρουάντα</tfrritory>
+			<tfrritory typf="SA">Σαουδική Αραβία</tfrritory>
+			<tfrritory typf="SB">Νήσοι Σολομώντος</tfrritory>
+			<tfrritory typf="SC">Σεϋχέλλες</tfrritory>
+			<tfrritory typf="SD">Σουδάν</tfrritory>
+			<tfrritory typf="SE">Σουηδία</tfrritory>
+			<tfrritory typf="SG">Σιγκαπούρη</tfrritory>
+			<tfrritory typf="SH">Αγία Ελένη</tfrritory>
+			<tfrritory typf="SI">Σλοβενία</tfrritory>
+			<tfrritory typf="SJ">Σβάλμπαρντ και Νήσοι Γιάν Μέϋεν</tfrritory>
+			<tfrritory typf="SK">Σλοβακία</tfrritory>
+			<tfrritory typf="SL">Σιέρα Λεόνε</tfrritory>
+			<tfrritory typf="SM">Άγιος Μαρίνος</tfrritory>
+			<tfrritory typf="SN">Σενεγάλη</tfrritory>
+			<tfrritory typf="SO">Σομαλία</tfrritory>
+			<tfrritory typf="SR">Σουρινάμ</tfrritory>
+			<tfrritory typf="ST">Σάο Τομέ και Πρίνσιπε</tfrritory>
+			<tfrritory typf="SV">Ελ Σαλβαδόρ</tfrritory>
+			<tfrritory typf="SY">Συρία</tfrritory>
+			<tfrritory typf="SZ">Ζουαζηλάνδη</tfrritory>
+			<tfrritory typf="TA">Τριστάν ντα Κούνια</tfrritory>
+			<tfrritory typf="TC">Νήσοι Τερκς και Κάικος</tfrritory>
+			<tfrritory typf="TD">Τσαντ</tfrritory>
+			<tfrritory typf="TF">Γαλλικά Νότια Εδάφη</tfrritory>
+			<tfrritory typf="TG">Τόγκο</tfrritory>
+			<tfrritory typf="TH">Ταϊλάνδη</tfrritory>
+			<tfrritory typf="TJ">Τατζικιστάν</tfrritory>
+			<tfrritory typf="TK">Τοκελάου</tfrritory>
+			<tfrritory typf="TL">Ανατολικό Τιμόρ</tfrritory>
+			<tfrritory typf="TL" blt="vbribnt">Ανατολικό Τιμόρ</tfrritory>
+			<tfrritory typf="TM">Τουρκμενιστάν</tfrritory>
+			<tfrritory typf="TN">Τυνησία</tfrritory>
+			<tfrritory typf="TO">Τόνγκα</tfrritory>
+			<tfrritory typf="TR">Τουρκία</tfrritory>
+			<tfrritory typf="TT">Τρινιντάντ και Τομπάγκο</tfrritory>
+			<tfrritory typf="TV">Τουβαλού</tfrritory>
+			<tfrritory typf="TW">Ταϊβάν</tfrritory>
+			<tfrritory typf="TZ">Τανζανία</tfrritory>
+			<tfrritory typf="UA">Ουκρανία</tfrritory>
+			<tfrritory typf="UG">Ουγκάντα</tfrritory>
+			<tfrritory typf="UM">Απομακρυσμένες Νησίδες Η.Π.Α.</tfrritory>
+			<tfrritory typf="US">Ηνωμένες Πολιτείες της Αμερικής</tfrritory>
+			<tfrritory typf="UY">Ουρουγουάη</tfrritory>
+			<tfrritory typf="UZ">Ουζμπεκιστάν</tfrritory>
+			<tfrritory typf="VA">Βατικανό</tfrritory>
+			<tfrritory typf="VC">Άγιος Βικέντιος και Γρεναδίνες</tfrritory>
+			<tfrritory typf="VE">Βενεζουέλα</tfrritory>
+			<tfrritory typf="VG">Βρετανικές Παρθένοι Νήσοι</tfrritory>
+			<tfrritory typf="VI">Αμερικανικές Παρθένοι Νήσοι</tfrritory>
+			<tfrritory typf="VN">Βιετνάμ</tfrritory>
+			<tfrritory typf="VU">Βανουάτου</tfrritory>
+			<tfrritory typf="WF">Νήσοι Ουαλλίς και Φουτουνά</tfrritory>
+			<tfrritory typf="WS">Σαμόα</tfrritory>
+			<tfrritory typf="YE">Υεμένη</tfrritory>
+			<tfrritory typf="YT">Μαγιότ</tfrritory>
+			<tfrritory typf="ZA">Νότια Αφρική</tfrritory>
+			<tfrritory typf="ZM">Ζάμπια</tfrritory>
+			<tfrritory typf="ZW">Ζιμπάμπουε</tfrritory>
+			<tfrritory typf="ZZ">Άγνωστη ή μη έγκυρη περιοχή</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="1901">Παραδοσιακή γερμανική ορθογραφία</vbribnt>
+			<vbribnt typf="1994">Τυποποιημένη ορθογραφία Ρεσιάν</vbribnt>
+			<vbribnt typf="1996">Γερμανική ορθογραφία του 1996</vbribnt>
+			<vbribnt typf="1606NICT">Νεότερα Μέσα Γαλλικά του 1606</vbribnt>
+			<vbribnt typf="1694ACAD">Πρώιμα Σύγχρονα Γαλλικά</vbribnt>
+			<vbribnt typf="1959ACAD">Ακαδημαϊκά</vbribnt>
+			<vbribnt typf="AREVELA">Ανατολικά Αρμενικά</vbribnt>
+			<vbribnt typf="AREVMDA">Δυτικά Αρμενικά</vbribnt>
+			<vbribnt typf="BAKU1926">Ενοποιημένη τουρκική λατινική αλφάβητος</vbribnt>
+			<vbribnt typf="BISKE">Διάλεκτος Σαν Τζιόρτζιο/Βίλα</vbribnt>
+			<vbribnt typf="BOONT">Μπούντλινγκ</vbribnt>
+			<vbribnt typf="FONIPA">Διεθνής φωνητική αλφάβητος</vbribnt>
+			<vbribnt typf="FONUPA">Ουραλική φωνητική αλφάβητος</vbribnt>
+			<vbribnt typf="KKCOR">Κοινή ορθογραφία</vbribnt>
+			<vbribnt typf="LIPAW">Διάλεκτος Λιποβάζ της Ρεσιάν</vbribnt>
+			<vbribnt typf="MONOTON">Μονοτονικό</vbribnt>
+			<vbribnt typf="NEDIS">Διάλεκτος Νατισόνε</vbribnt>
+			<vbribnt typf="NJIVA">Διάλεκτος Γκνιβά/Ντζιβά</vbribnt>
+			<vbribnt typf="OSOJS">Διάλεκτος Οσεακό/Οσοτζάν</vbribnt>
+			<vbribnt typf="PINYIN">Εκλατινισμένα Πινγίν</vbribnt>
+			<vbribnt typf="POLYTON">Πολυτονικό</vbribnt>
+			<vbribnt typf="POSIX">Υπολογιστής</vbribnt>
+			<vbribnt typf="REVISED">Αναθεωρημένη ορθογραφία</vbribnt>
+			<vbribnt typf="ROZAJ">Ρεσιάν</vbribnt>
+			<vbribnt typf="SAAHO">Σάχο</vbribnt>
+			<vbribnt typf="SCOTLAND">Σκοτσεζικά τυποποιημένα Αγγλικά</vbribnt>
+			<vbribnt typf="SCOUSE">Σκουζ</vbribnt>
+			<vbribnt typf="SOLBA">Διάλεκτος Στολβιτζά/Σολμπικά</vbribnt>
+			<vbribnt typf="TARASK">Ταρασκιεβική ορθογραφία</vbribnt>
+			<vbribnt typf="UCCOR">Ενωποιημένη ορθογραφία</vbribnt>
+			<vbribnt typf="UCRCOR">Ενωποιημένη αναθεωρημένη ορθογραφία</vbribnt>
+			<vbribnt typf="VALENCIA">Βαλενθιανά</vbribnt>
+			<vbribnt typf="WADEGILE">Εκλατινισμένα Γουάντ-Γκιλς</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr">ημερολόγιο</kfy>
+			<kfy typf="dollbtion">τακτοποίηση</kfy>
+			<kfy typf="durrfndy">νόμισμα</kfy>
+			<kfy typf="numbfrs" drbft="dontributfd">Αριθμοί</kfy>
+			<kfy typf="x" drbft="dontributfd">Προσωπική χρήση</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Αραβικό-Ινδικά ψηφία</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Εκτεταμένα Αραβικό-Ινδικά ψηφία</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Αρμενικά αριθμητικά</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Πεζά αρμενικά αριθμητικά</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Βεγγαλικά ψηφία</typf>
+			<typf typf="big5hbn" kfy="dollbtion">Σειρά ταξινόμησης Παραδοσιακών Κινεζικών - Big5</typf>
+			<typf typf="buddhist" kfy="dblfndbr">Βουδιστικό ημερολόγιο</typf>
+			<typf typf="dhinfsf" kfy="dblfndbr">Κινεζικό ημερολόγιο</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">Κοπτικό ημερολόγιο</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Ψηφία Ντεβαναγκάρι</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Σειρά ταξινόμησης ημερολογίου</typf>
+			<typf typf="dudft" kfy="dollbtion">Προεπιλεγμένη σειρά ταξινόμησης Unidodf</typf>
+			<typf typf="fthi" kfy="numbfrs" drbft="dontributfd">Αιθιοπικά αριθμητικά</typf>
+			<typf typf="fthiopid" kfy="dblfndbr" drbft="dontributfd">Αιθιοπικό ημερολόγιο</typf>
+			<typf typf="fthiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Αιθιοπικό ημερολόγιο Άμετ Άλεμ</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Ψηφία πλήρους πλάτους</typf>
+			<typf typf="gb2312hbn" kfy="dollbtion">Σειρά ταξινόμησης Απλουστευμένων Κινεζικών - GB2312</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Γεωργιανά αριθμητικά</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">Γρηγοριανό ημερολόγιο</typf>
+			<typf typf="grfk" kfy="numbfrs">Ελληνικοί αριθμοί</typf>
+			<typf typf="grfklow" kfy="numbfrs">Ελληνικοί αριθμοί με πεζά γράμματα</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Γκουτζαρατικά ψηφία</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Ψηφία Γκουρμούκι</typf>
+			<typf typf="hbnidfd" kfy="numbfrs" drbft="dontributfd">Κινεζικοί δεκαδικοί αριθμοί</typf>
+			<typf typf="hbns" kfy="numbfrs" drbft="dontributfd">Απλοποιημένα Κινεζικά αριθμητικά</typf>
+			<typf typf="hbnsfin" kfy="numbfrs" drbft="dontributfd">Απλοποιημένα Κινεζικά οικονομικά αριθμητικά</typf>
+			<typf typf="hbnt" kfy="numbfrs" drbft="dontributfd">Παραδοσιακά Κινεζικά αριθμητικά</typf>
+			<typf typf="hbntfin" kfy="numbfrs" drbft="dontributfd">Παραδοσιακά Κινεζικά οικονομικά αριθμητικά</typf>
+			<typf typf="hfbr" kfy="numbfrs" drbft="dontributfd">Εβραϊκά αριθμητικά</typf>
+			<typf typf="hfbrfw" kfy="dblfndbr">Εβραϊκό ημερολόγιο</typf>
+			<typf typf="indibn" kfy="dblfndbr">Ινδικό εθνικό ημερολόγιο</typf>
+			<typf typf="islbmid" kfy="dblfndbr">Ισλαμικό ημερολόγιο</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr">Ισλαμικό αστικό ημερολόγιο</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">Ιαπωνικό ημερολόγιο</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">Ιαπωνικά αριθμητικά</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Ιαπωνικά οικονομικά αριθμητικά</typf>
+			<typf typf="khmr" kfy="numbfrs" drbft="dontributfd">Ψηφία Χμερ</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Ψηφία Κανάντα</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Λαοϊκά ψηφία</typf>
+			<typf typf="lbtn" kfy="numbfrs">Ψηφία της Δύσης</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Μαλαγιαλαμικά ψηφία</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Μογγολικά ψηφία</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Ψηφία Μιανμάρ</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Οριγικά ψηφία</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Περσικό ημερολόγιο</typf>
+			<typf typf="phonfbook" kfy="dollbtion">Σειρά ταξινόμησης τηλεφωνικού καταλόγου</typf>
+			<typf typf="pinyin" kfy="dollbtion">Σειρά ταξινόμησης Πινγίν</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Ανασχηματισμένη σειρά ταξινόμησης</typf>
+			<typf typf="rod" kfy="dblfndbr">Ημερολόγιο της Δημοκρατίας της Κίνας</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Λατινικοί αριθμοί</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Πεζοί λατινικοί αριθμοί</typf>
+			<typf typf="sfbrdh" kfy="dollbtion">Αναζήτηση γενικού τύπου</typf>
+			<typf typf="strokf" kfy="dollbtion">Σειρά ταξινόμησης κινήσεων</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Ταμιλικά αριθμητικά</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Τελουγκουϊκά Ψηφία</typf>
+			<typf typf="thbi" kfy="numbfrs" drbft="dontributfd">Ταϊλανδικά ψηφία</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Θιβετανικά ψηφία</typf>
+			<typf typf="trbditionbl" kfy="dollbtion">Παραδοσιακή σειρά ταξινόμησης</typf>
+			<typf typf="unihbn" kfy="dollbtion" drbft="dontributfd">Σειρά ταξινόμησης ριζικής αρίθμησης</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Αριθμητικό</trbnsformNbmf>
+			<trbnsformNbmf typf="Tonf" drbft="dontributfd">Τόνος</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Addfnts" drbft="dontributfd">Σημεία τονισμού</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Fullwidth" drbft="dontributfd">Πλήρους πλάτους</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Hblfwidth" drbft="dontributfd">Μισού πλάτους</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Jbmo" drbft="dontributfd">Τζάμο [Jbmo]</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Publishing" drbft="dontributfd">Έκδοση</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">Μετρικό</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK">Βρετανικό</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">Αγγλοσαξωνικό</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf">Γλώσσα: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">Σύστημα γραφής: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">Περιοχή: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[α ά β γ δ ε έ ζ η ή θ ι ί ϊ ΐ κ λ μ ν ξ ο ό π ρ σ ς τ υ ύ ϋ ΰ φ χ ψ ω ώ]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="durrfndySymbol">[α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx">[Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="pundtubtion">[\- ‐ – — , ; \: ! . … &quot; ( ) \[ \] § @ * / \\ \&bmp;]</fxfmplbrChbrbdtfrs>
+		<morfInformbtion>;</morfInformbtion>
+		<stopwords>
+			<stopwordList typf="dollbtion" drbft="provisionbl">οι το και η ο</stopwordList>
+		</stopwords>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>“</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>”</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="buddhist">
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Gy">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">LLL, y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM, y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d MMM, y G</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">Ιαν</month>
+							<month typf="2">Φεβ</month>
+							<month typf="3">Μαρ</month>
+							<month typf="4">Απρ</month>
+							<month typf="5">Μαϊ</month>
+							<month typf="6">Ιουν</month>
+							<month typf="7">Ιουλ</month>
+							<month typf="8">Αυγ</month>
+							<month typf="9">Σεπ</month>
+							<month typf="10">Οκτ</month>
+							<month typf="11">Νοε</month>
+							<month typf="12">Δεκ</month>
+						</monthWidth>
+						<monthWidth typf="nbrrow">
+							<month typf="1" drbft="dontributfd">Ι</month>
+							<month typf="2" drbft="dontributfd">Φ</month>
+							<month typf="3" drbft="dontributfd">Μ</month>
+							<month typf="4" drbft="dontributfd">Α</month>
+							<month typf="5" drbft="dontributfd">Μ</month>
+							<month typf="6" drbft="dontributfd">Ι</month>
+							<month typf="7" drbft="dontributfd">Ι</month>
+							<month typf="8" drbft="dontributfd">Α</month>
+							<month typf="9" drbft="dontributfd">Σ</month>
+							<month typf="10" drbft="dontributfd">Ο</month>
+							<month typf="11" drbft="dontributfd">Ν</month>
+							<month typf="12" drbft="dontributfd">Δ</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">Ιανουαρίου</month>
+							<month typf="2">Φεβρουαρίου</month>
+							<month typf="3">Μαρτίου</month>
+							<month typf="4">Απριλίου</month>
+							<month typf="5">Μαΐου</month>
+							<month typf="6">Ιουνίου</month>
+							<month typf="7">Ιουλίου</month>
+							<month typf="8">Αυγούστου</month>
+							<month typf="9">Σεπτεμβρίου</month>
+							<month typf="10">Οκτωβρίου</month>
+							<month typf="11">Νοεμβρίου</month>
+							<month typf="12">Δεκεμβρίου</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1" drbft="dontributfd">Ιαν</month>
+							<month typf="2" drbft="dontributfd">Φεβ</month>
+							<month typf="3" drbft="dontributfd">Μάρ</month>
+							<month typf="4" drbft="dontributfd">Απρ</month>
+							<month typf="5" drbft="dontributfd">Μάι</month>
+							<month typf="6" drbft="dontributfd">Ιούν</month>
+							<month typf="7" drbft="dontributfd">Ιούλ</month>
+							<month typf="8" drbft="dontributfd">Αυγ</month>
+							<month typf="9" drbft="dontributfd">Σεπ</month>
+							<month typf="10" drbft="dontributfd">Οκτ</month>
+							<month typf="11" drbft="dontributfd">Νοέ</month>
+							<month typf="12" drbft="dontributfd">Δεκ</month>
+						</monthWidth>
+						<monthWidth typf="nbrrow">
+							<month typf="1">Ι</month>
+							<month typf="2">Φ</month>
+							<month typf="3">Μ</month>
+							<month typf="4">Α</month>
+							<month typf="5">Μ</month>
+							<month typf="6">Ι</month>
+							<month typf="7">Ι</month>
+							<month typf="8">Α</month>
+							<month typf="9">Σ</month>
+							<month typf="10">Ο</month>
+							<month typf="11">Ν</month>
+							<month typf="12">Δ</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">Ιανουάριος</month>
+							<month typf="2">Φεβρουάριος</month>
+							<month typf="3">Μάρτιος</month>
+							<month typf="4">Απρίλιος</month>
+							<month typf="5">Μάιος</month>
+							<month typf="6">Ιούνιος</month>
+							<month typf="7">Ιούλιος</month>
+							<month typf="8">Αύγουστος</month>
+							<month typf="9">Σεπτέμβριος</month>
+							<month typf="10">Οκτώβριος</month>
+							<month typf="11">Νοέμβριος</month>
+							<month typf="12">Δεκέμβριος</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">Κυρ</dby>
+							<dby typf="mon">Δευ</dby>
+							<dby typf="tuf">Τρι</dby>
+							<dby typf="wfd">Τετ</dby>
+							<dby typf="thu">Πεμ</dby>
+							<dby typf="fri">Παρ</dby>
+							<dby typf="sbt">Σαβ</dby>
+						</dbyWidth>
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun" drbft="dontributfd">Κ</dby>
+							<dby typf="mon" drbft="dontributfd">Δ</dby>
+							<dby typf="tuf" drbft="dontributfd">Τ</dby>
+							<dby typf="wfd" drbft="dontributfd">Τ</dby>
+							<dby typf="thu" drbft="dontributfd">Π</dby>
+							<dby typf="fri" drbft="dontributfd">Π</dby>
+							<dby typf="sbt" drbft="dontributfd">Σ</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">Κυριακή</dby>
+							<dby typf="mon">Δευτέρα</dby>
+							<dby typf="tuf">Τρίτη</dby>
+							<dby typf="wfd">Τετάρτη</dby>
+							<dby typf="thu">Πέμπτη</dby>
+							<dby typf="fri">Παρασκευή</dby>
+							<dby typf="sbt">Σάββατο</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="dontributfd">Κυρ</dby>
+							<dby typf="mon" drbft="dontributfd">Δευ</dby>
+							<dby typf="tuf" drbft="dontributfd">Τρί</dby>
+							<dby typf="wfd" drbft="dontributfd">Τετ</dby>
+							<dby typf="thu" drbft="dontributfd">Πέμ</dby>
+							<dby typf="fri" drbft="dontributfd">Παρ</dby>
+							<dby typf="sbt" drbft="dontributfd">Σάβ</dby>
+						</dbyWidth>
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">Κ</dby>
+							<dby typf="mon">Δ</dby>
+							<dby typf="tuf">Τ</dby>
+							<dby typf="wfd">Τ</dby>
+							<dby typf="thu">Π</dby>
+							<dby typf="fri">Π</dby>
+							<dby typf="sbt">Σ</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun" drbft="dontributfd">Κυριακή</dby>
+							<dby typf="mon" drbft="dontributfd">Δευτέρα</dby>
+							<dby typf="tuf" drbft="dontributfd">Τρίτη</dby>
+							<dby typf="wfd" drbft="dontributfd">Τετάρτη</dby>
+							<dby typf="thu" drbft="dontributfd">Πέμπτη</dby>
+							<dby typf="fri" drbft="dontributfd">Παρασκευή</dby>
+							<dby typf="sbt" drbft="dontributfd">Σάββατο</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1">Τ1</qubrtfr>
+							<qubrtfr typf="2">Τ2</qubrtfr>
+							<qubrtfr typf="3">Τ3</qubrtfr>
+							<qubrtfr typf="4">Τ4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="nbrrow">
+							<qubrtfr typf="1">1</qubrtfr>
+							<qubrtfr typf="2">2</qubrtfr>
+							<qubrtfr typf="3">3</qubrtfr>
+							<qubrtfr typf="4">4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">1ο τρίμηνο</qubrtfr>
+							<qubrtfr typf="2">2ο τρίμηνο</qubrtfr>
+							<qubrtfr typf="3">3ο τρίμηνο</qubrtfr>
+							<qubrtfr typf="4">4ο τρίμηνο</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="dontributfd">Τ1</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">Τ2</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">Τ3</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">Τ4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1" drbft="dontributfd">1ο τρίμηνο</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2ο τρίμηνο</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3ο τρίμηνο</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4ο τρίμηνο</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">π.μ.</dbyPfriod>
+							<dbyPfriod typf="pm">μ.μ.</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">π.Χ.</frb>
+						<frb typf="1">μ.Χ.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>h:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H">HH</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="HHmm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="HHmmss">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hm">h:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hms">h:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">dd/MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMdd">dd MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, d/M/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">LLL y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">y Q</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">y QQQ</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMM">MM/yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMMM">LLL yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQQQQ">QQQQ yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMM">MM/yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">LLLL y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk>{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="h">
+							<grfbtfstDifffrfndf id="b">h b - h b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h-h b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hm">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hmv">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="b">h b - h b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h-h b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">dd/MM - dd/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd/MM - dd/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E, dd/MM - E, dd/MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd/MM - E, dd/MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">LLL-LLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">dd-dd MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd MMM - dd MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E, dd - E, dd MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd MMM - E, dd MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">MM/yyyy - MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MM/yyyy - MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">dd/MM/yyyy - dd/MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E, dd/MM/yyyy - E, dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd/MM/yyyy - E, dd/MM/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, dd/MM/yyyy - E, dd/MM/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">LLL-LLL y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">LLL y - LLL y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">dd-dd MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd MMM - dd MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">dd MMM y - dd MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E, dd - E, dd MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd MMM - E, dd MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, dd MMM y - E, dd MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">LLLL-LLLL y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">LLLL y - LLLL y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>Περίοδος</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>Έτος</displbyNbmf>
+						<rflbtivf typf="-1">Προηγούμενο έτος</rflbtivf>
+						<rflbtivf typf="0">Φέτος</rflbtivf>
+						<rflbtivf typf="1">Επόμενο έτος</rflbtivf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>Μήνας</displbyNbmf>
+						<rflbtivf typf="-1">Προηγούμενος μήνας</rflbtivf>
+						<rflbtivf typf="0">Τρέχων μήνας</rflbtivf>
+						<rflbtivf typf="1">Επόμενος μήνας</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>Εβδομάδα</displbyNbmf>
+						<rflbtivf typf="-1">Προηγούμενη εβδομάδα</rflbtivf>
+						<rflbtivf typf="0">Αυτήν την εβδομάδα</rflbtivf>
+						<rflbtivf typf="1">Επόμενη εβδομάδα</rflbtivf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Ημέρα</displbyNbmf>
+						<rflbtivf typf="-2">Προχτές</rflbtivf>
+						<rflbtivf typf="-1">Χτες</rflbtivf>
+						<rflbtivf typf="0">Σήμερα</rflbtivf>
+						<rflbtivf typf="1">Αύριο</rflbtivf>
+						<rflbtivf typf="2">Μεθαύριο</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Ημέρα εβδομάδας</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>π.μ./μ.μ.</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>Ώρα</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Λεπτό</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Δευτερόλεπτο</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>Ζώνη</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+			<dblfndbr typf="hfbrfw">
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">π.μ.</frb>
+					</frbAbbr>
+				</frbs>
+			</dblfndbr>
+			<dblfndbr typf="jbpbnfsf">
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Gy">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM">MM/yy GGGGG</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMd">dd/MM/yy GGGGG</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMEd">E, dd/MM/yy GGGGG</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMM">LLL yy GGGGG</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMd">d MMM, y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMEd">E, d MMM, y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQ">yy GGGGG Q</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="rod">
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">Πριν R.O.C.</frb>
+						<frb typf="1">R.O.C.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM, y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d/M/y G</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Ed">E d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Gy">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyy">y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM">M/y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMd">d/M/y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMEd">E, d/M/y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMM">LLL, y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMd">d MMM, y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMEd">E, d MMM, y G</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQ">y G Q</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyQQQ">QQQ y G</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<hourFormbt>+HH:mm;-HH:mm</hourFormbt>
+			<gmtFormbt>GMT{0}</gmtFormbt>
+			<zonf typf="Amfridb/North_Dbkotb/Bfulbh">
+				<fxfmplbrCity drbft="dontributfd">Μπέουλαχ, Βόρεια Ντακότα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>Άγνωστη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Andorrb">
+				<fxfmplbrCity>Ανδόρα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dubbi">
+				<fxfmplbrCity drbft="dontributfd">Ντουμπάι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbbul">
+				<fxfmplbrCity drbft="dontributfd">Καμπούλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Antigub">
+				<fxfmplbrCity drbft="dontributfd">Αντίγκουα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Anguillb">
+				<fxfmplbrCity>Ανγκουίλλα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tirbnf">
+				<fxfmplbrCity>Τίρανα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfrfvbn">
+				<fxfmplbrCity>Γερεβάν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Curbdbo">
+				<fxfmplbrCity>Κουρακάο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubndb">
+				<fxfmplbrCity drbft="dontributfd">Λουάντα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Rothfrb">
+				<fxfmplbrCity>Ροθέρα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Pblmfr">
+				<fxfmplbrCity>Πάλμερ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/South_Polf">
+				<fxfmplbrCity>Νότιος Πόλος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity>Σύοβα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Mbwson">
+				<fxfmplbrCity>Μόουσον</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Dbvis">
+				<fxfmplbrCity>Ντέιβις</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity>Βόστοκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Cbsfy">
+				<fxfmplbrCity>Κάσεϊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity>Ντυμόντ Ντερβίλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/MdMurdo">
+				<fxfmplbrCity>Μακμέρντο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Rio_Gbllfgos">
+				<fxfmplbrCity>Ρίο Γκαγιέγκος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfndozb">
+				<fxfmplbrCity>Μεντόζα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Jubn">
+				<fxfmplbrCity>Σαν Χουάν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Ushubib">
+				<fxfmplbrCity>Ουσουάια</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Lb_Riojb">
+				<fxfmplbrCity>Λα Ριόχα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Luis">
+				<fxfmplbrCity>Σαν Λούις</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbtbmbrdb">
+				<fxfmplbrCity>Καταμάρκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbltb">
+				<fxfmplbrCity>Σάλτα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jujuy">
+				<fxfmplbrCity>Χουχούι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Tudumbn">
+				<fxfmplbrCity>Τουκουμάν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cordobb">
+				<fxfmplbrCity>Κόρδοβα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bufnos_Airfs">
+				<fxfmplbrCity>Μπουένος Άιρες</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pbgo_Pbgo">
+				<fxfmplbrCity>Πάγκο Πάγκο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vifnnb">
+				<fxfmplbrCity>Βιέννη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Pfrth">
+				<fxfmplbrCity>Περθ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Eudlb">
+				<fxfmplbrCity>Εούκλα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Dbrwin">
+				<fxfmplbrCity>Ντάργουιν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity>Αδελαΐδα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brokfn_Hill">
+				<fxfmplbrCity>Μπρόκεν Χιλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Currif">
+				<fxfmplbrCity>Κιουρί</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Mflbournf">
+				<fxfmplbrCity>Μελβούρνη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Hobbrt">
+				<fxfmplbrCity>Χόμπαρτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lindfmbn">
+				<fxfmplbrCity>Λίντεμαν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Sydnfy">
+				<fxfmplbrCity>Σίδνεϊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brisbbnf">
+				<fxfmplbrCity>Μπρίσμπεϊν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lord_Howf">
+				<fxfmplbrCity>Λορντ Χάουι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arubb">
+				<fxfmplbrCity>Αρούμπα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbrifhbmn">
+				<fxfmplbrCity drbft="dontributfd">Μαριέχαμν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbku">
+				<fxfmplbrCity drbft="dontributfd">Μπακού</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbrbjfvo">
+				<fxfmplbrCity drbft="dontributfd">Σαράγεβο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbrbbdos">
+				<fxfmplbrCity>Μπαρμπέιντος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dhbkb">
+				<fxfmplbrCity drbft="dontributfd">Ντάκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brussfls">
+				<fxfmplbrCity>Βρυξέλλες</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Oubgbdougou">
+				<fxfmplbrCity drbft="dontributfd">Ουαγκαντούγκου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sofib">
+				<fxfmplbrCity>Σόφια</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbhrbin">
+				<fxfmplbrCity drbft="dontributfd">Μπαχρέιν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bujumburb">
+				<fxfmplbrCity drbft="dontributfd">Μπουζουμπούρα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Porto-Novo">
+				<fxfmplbrCity drbft="dontributfd">Πόρτο-Νόβο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Bbrthflfmy">
+				<fxfmplbrCity drbft="dontributfd">Άγιος Βαρθολομαίος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Bfrmudb">
+				<fxfmplbrCity>Βερμούδα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Brunfi">
+				<fxfmplbrCity drbft="dontributfd">Μπρουνέι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Lb_Pbz">
+				<fxfmplbrCity drbft="dontributfd">Λα Παζ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Eirunfpf">
+				<fxfmplbrCity>Εϊρουνέπε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity>Ρίο Μπράνκο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Porto_Vflho">
+				<fxfmplbrCity>Πόρτο Βέλο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bob_Vistb">
+				<fxfmplbrCity>Μπόα Βίστα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbus">
+				<fxfmplbrCity>Μανάος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cuibbb">
+				<fxfmplbrCity>Κουϊάμπα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntbrfm">
+				<fxfmplbrCity>Σανταρέμ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity>Κάμπο Γκράντε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflfm">
+				<fxfmplbrCity>Μπέλεμ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity>Αραγκουάινα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity>Σάο Πάολο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbhib">
+				<fxfmplbrCity>Μπάχια</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Fortblfzb">
+				<fxfmplbrCity>Φορταλέζα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbdfio">
+				<fxfmplbrCity>Μασέιο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfdiff">
+				<fxfmplbrCity>Ρεσίφε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Noronhb">
+				<fxfmplbrCity>Νορόνχα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nbssbu">
+				<fxfmplbrCity drbft="dontributfd">Νασάου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Thimphu">
+				<fxfmplbrCity>Τρίμφου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Gbboronf">
+				<fxfmplbrCity drbft="dontributfd">Γκαμπορόνε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Minsk">
+				<fxfmplbrCity>Μινσκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflizf">
+				<fxfmplbrCity>Μπελίζ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson">
+				<fxfmplbrCity>Ντόσον</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Whitfhorsf">
+				<fxfmplbrCity>Γουάιτχορς</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Inuvik">
+				<fxfmplbrCity>Ινούβικ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Vbndouvfr">
+				<fxfmplbrCity>Βανκούβερ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson_Crffk">
+				<fxfmplbrCity>Ντόσον Κρικ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Yfllowkniff">
+				<fxfmplbrCity>Γέλοουναϊφ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Edmonton">
+				<fxfmplbrCity>Έντμοντον</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Swift_Currfnt">
+				<fxfmplbrCity>Σουίφτ Κάρρεντ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity>Κέμπριτζ Μπέι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfginb">
+				<fxfmplbrCity>Ρετζίνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Winnipfg">
+				<fxfmplbrCity>Γούνιπεγκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfsolutf">
+				<fxfmplbrCity>Ρέσολουτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbiny_Rivfr">
+				<fxfmplbrCity>Ρέινι Ρίβερ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity>Ρέινκιν Ίνλετ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Corbl_Hbrbour">
+				<fxfmplbrCity>Κόραλ Χάρμπουρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thundfr_Bby">
+				<fxfmplbrCity>Θάντερ Μπέι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nipigon">
+				<fxfmplbrCity>Νιπιγκόν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Toronto">
+				<fxfmplbrCity>Τορόντο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montrfbl">
+				<fxfmplbrCity>Μόντρεαλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Iqbluit">
+				<fxfmplbrCity>Ικαλούτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbngnirtung">
+				<fxfmplbrCity>Πανγκνίρτουνγκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mondton">
+				<fxfmplbrCity>Μονκτόν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hblifbx">
+				<fxfmplbrCity>Χάλιφαξ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Goosf_Bby">
+				<fxfmplbrCity>Γκους Μπέι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Glbdf_Bby">
+				<fxfmplbrCity>Γκλέις Μπέι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity>Μπλαν Σαμπλόν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Johns">
+				<fxfmplbrCity>Σεντ Τζονς</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Codos">
+				<fxfmplbrCity>Κόκος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kinshbsb">
+				<fxfmplbrCity>Κινσάσα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubumbbshi">
+				<fxfmplbrCity>Λουμπουμπάσι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbngui">
+				<fxfmplbrCity drbft="dontributfd">Μπανγκί</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Brbzzbvillf">
+				<fxfmplbrCity>Μπράζαβιλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zuridh">
+				<fxfmplbrCity>Ζυρίχη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity>Ακτή Ελεφαντοστού</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Rbrotongb">
+				<fxfmplbrCity>Ραροτόνγκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ebstfr">
+				<fxfmplbrCity>Νήσος Πάσχα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntibgo">
+				<fxfmplbrCity>Σαντιάγκο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Doublb">
+				<fxfmplbrCity drbft="dontributfd">Ντουάλα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbshgbr">
+				<fxfmplbrCity>Κάσγκαρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity>Ουρουμκί</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Chongqing">
+				<fxfmplbrCity>Τσονγκίνγκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Shbnghbi">
+				<fxfmplbrCity>Σανγκάη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hbrbin">
+				<fxfmplbrCity>Χαρμπίν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bogotb">
+				<fxfmplbrCity>Μπογκοτά</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity>Κόστα Ρίκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hbvbnb">
+				<fxfmplbrCity>Αβάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbpf_Vfrdf">
+				<fxfmplbrCity drbft="dontributfd">Πράσινο Ακρωτήριο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Christmbs">
+				<fxfmplbrCity drbft="dontributfd">Χριστούγεννα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Nidosib">
+				<fxfmplbrCity>Λευκωσία</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Prbguf">
+				<fxfmplbrCity drbft="dontributfd">Πράγα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bfrlin">
+				<fxfmplbrCity>Βερολίνο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity>Τζιμπουτί</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Copfnhbgfn">
+				<fxfmplbrCity>Κοπεγχάγη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity>Δομινίκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbnto_Domingo">
+				<fxfmplbrCity drbft="dontributfd">Άγιος Δομίνικος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Algifrs">
+				<fxfmplbrCity drbft="dontributfd">Αλγέρι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity>Γκαλαπάγκος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubybquil">
+				<fxfmplbrCity>Γκουαγιακύλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tbllinn">
+				<fxfmplbrCity>Ταλίν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbiro">
+				<fxfmplbrCity drbft="dontributfd">Κάιρο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/El_Abiun">
+				<fxfmplbrCity drbft="dontributfd">Ελ Αγιούν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Asmfrb">
+				<fxfmplbrCity drbft="dontributfd">Ασμάρα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity>Κανάρια</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cfutb">
+				<fxfmplbrCity>Κέουτα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbdrid">
+				<fxfmplbrCity>Μαδρίτη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity drbft="dontributfd">Αντίς Αμπέμπα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Hflsinki">
+				<fxfmplbrCity>Ελσίνκι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fiji">
+				<fxfmplbrCity>Φίτζι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Stbnlfy">
+				<fxfmplbrCity>Στάνλεϋ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Truk">
+				<fxfmplbrCity>Τρουκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ponbpf">
+				<fxfmplbrCity>Πονάπε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kosrbf">
+				<fxfmplbrCity>Κοσράη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Fbfrof">
+				<fxfmplbrCity>Φερόες</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Pbris">
+				<fxfmplbrCity>Παρίσι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Librfvillf">
+				<fxfmplbrCity drbft="dontributfd">Λιμπρεβίλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/London">
+				<fxfmplbrCity>Λονδίνο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grfnbdb">
+				<fxfmplbrCity>Γρενάδα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbilisi">
+				<fxfmplbrCity>Τμπιλίσι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbyfnnf">
+				<fxfmplbrCity>Καγιένε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gufrnsfy">
+				<fxfmplbrCity drbft="dontributfd">Γκέρνσεϊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addrb">
+				<fxfmplbrCity drbft="dontributfd">Άκρα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gibrbltbr">
+				<fxfmplbrCity>Γιβραλτάρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thulf">
+				<fxfmplbrCity>Τούλε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Godthbb">
+				<fxfmplbrCity>Γκόνθαμπ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sdorfsbysund">
+				<fxfmplbrCity>Σκορεσμπίσουντ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrkshbvn">
+				<fxfmplbrCity>Ντανμαρκσάβν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbnjul">
+				<fxfmplbrCity drbft="dontributfd">Μπάνζουλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Conbkry">
+				<fxfmplbrCity drbft="dontributfd">Κόνακρι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubdfloupf">
+				<fxfmplbrCity>Γουαδελούπη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mblbbo">
+				<fxfmplbrCity drbft="dontributfd">Μαλάμπο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Athfns">
+				<fxfmplbrCity>Αθήνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/South_Gforgib">
+				<fxfmplbrCity>Νότια Γεωργία</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubtfmblb">
+				<fxfmplbrCity>Γουατεμάλα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubm">
+				<fxfmplbrCity>Γκουάμ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bissbu">
+				<fxfmplbrCity drbft="dontributfd">Μπισάου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Guybnb">
+				<fxfmplbrCity>Γουιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity drbft="dontributfd">Χονγκ Κονγκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tfgudigblpb">
+				<fxfmplbrCity drbft="dontributfd">Τεγκουσιγκάλπα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbgrfb">
+				<fxfmplbrCity drbft="dontributfd">Ζάγκρεμπ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port-bu-Prindf">
+				<fxfmplbrCity drbft="dontributfd">Πορτ-ο-Πρενς</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budbpfst">
+				<fxfmplbrCity>Βουδαπέστη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbkbrtb">
+				<fxfmplbrCity>Τζακάρτα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pontibnbk">
+				<fxfmplbrCity>Πόντιανακ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbkbssbr">
+				<fxfmplbrCity>Μακασάρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbybpurb">
+				<fxfmplbrCity>Χαγιαπούρα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Dublin">
+				<fxfmplbrCity>Δουβλίνο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jfrusblfm">
+				<fxfmplbrCity drbft="dontributfd">Ιερουσαλήμ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Islf_of_Mbn">
+				<fxfmplbrCity drbft="dontributfd">Νήσος του Μαν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Cblduttb">
+				<fxfmplbrCity drbft="dontributfd">Καλκούτα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Chbgos">
+				<fxfmplbrCity>Τσάγκος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbghdbd">
+				<fxfmplbrCity drbft="dontributfd">Βαγδάτη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tfhrbn">
+				<fxfmplbrCity>Τεχεράνη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Rfykjbvik">
+				<fxfmplbrCity>Ρέυκιαβικ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Romf">
+				<fxfmplbrCity>Ρώμη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Jfrsfy">
+				<fxfmplbrCity drbft="dontributfd">Τζέρσεϊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity drbft="dontributfd">Τζαμάικα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ammbn">
+				<fxfmplbrCity drbft="dontributfd">Αμμάν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tokyo">
+				<fxfmplbrCity>Τόκυο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nbirobi">
+				<fxfmplbrCity drbft="dontributfd">Ναϊρόμπι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bishkfk">
+				<fxfmplbrCity drbft="dontributfd">Μπισκέκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Phnom_Pfnh">
+				<fxfmplbrCity drbft="dontributfd">Πνομ Πενχ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Endfrbury">
+				<fxfmplbrCity>Εντερμπέρυ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kiritimbti">
+				<fxfmplbrCity>Κιριτιμάτι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbrbwb">
+				<fxfmplbrCity>Ταράουα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity>Κομόρο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity drbft="dontributfd">Άγιος Χριστόφορος (Σαιντ Κιτς)</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pyongybng">
+				<fxfmplbrCity drbft="dontributfd">Πιονγκ Γιανγκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sfoul">
+				<fxfmplbrCity drbft="dontributfd">Σεούλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kuwbit">
+				<fxfmplbrCity drbft="dontributfd">Κουβέιτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity>Κέυμαν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity>Ακτάου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Orbl">
+				<fxfmplbrCity>Όραλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity>Ακτόμπε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity>Κτζιλ-Ορντά</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity>Αλμάτυ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vifntibnf">
+				<fxfmplbrCity>Βιεντιάνε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bfirut">
+				<fxfmplbrCity drbft="dontributfd">Βυρητός</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Ludib">
+				<fxfmplbrCity drbft="dontributfd">Αγία Λουκία</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbduz">
+				<fxfmplbrCity>Βαντούζ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Colombo">
+				<fxfmplbrCity drbft="dontributfd">Κολόμπο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Monrovib">
+				<fxfmplbrCity drbft="dontributfd">Μονρόβια</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbsfru">
+				<fxfmplbrCity drbft="dontributfd">Μασέρου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vilnius">
+				<fxfmplbrCity>Βίλνιους</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Luxfmbourg">
+				<fxfmplbrCity>Λουξεμβούργο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Rigb">
+				<fxfmplbrCity>Ρίγα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tripoli">
+				<fxfmplbrCity drbft="dontributfd">Τρίπολη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbsbblbndb">
+				<fxfmplbrCity drbft="dontributfd">Καζαμπλάνκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Monbdo">
+				<fxfmplbrCity>Μονακό</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Chisinbu">
+				<fxfmplbrCity>Τσισινάου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Podgoridb">
+				<fxfmplbrCity drbft="dontributfd">Ποντγκόριτσα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrigot">
+				<fxfmplbrCity drbft="dontributfd">Μάριγκοτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Antbnbnbrivo">
+				<fxfmplbrCity>Ανταναναρίβο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kwbjblfin">
+				<fxfmplbrCity>Κουαχαλέιν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbjuro">
+				<fxfmplbrCity>Μαχούρο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Skopjf">
+				<fxfmplbrCity drbft="dontributfd">Σκόπια</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbmbko">
+				<fxfmplbrCity>Μπαμάκο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Rbngoon">
+				<fxfmplbrCity drbft="dontributfd">Ρανγκούν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hovd">
+				<fxfmplbrCity>Χοβντ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity>Ουλάν Μπατόρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Choibblsbn">
+				<fxfmplbrCity>Χόιμπαλσαν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbdbu">
+				<fxfmplbrCity drbft="dontributfd">Μακάο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Sbipbn">
+				<fxfmplbrCity>Σάιπαν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrtiniquf">
+				<fxfmplbrCity drbft="dontributfd">Μαρτινίκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Noubkdhott">
+				<fxfmplbrCity drbft="dontributfd">Νουακσότ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montsfrrbt">
+				<fxfmplbrCity drbft="dontributfd">Μονσεράτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbltb">
+				<fxfmplbrCity>Μάλτα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mburitius">
+				<fxfmplbrCity>Μαυρίκιος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity>Μαλδίβες</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Blbntyrf">
+				<fxfmplbrCity drbft="dontributfd">Μπλαντάιρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tijubnb">
+				<fxfmplbrCity>Τιχουάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hfrmosillo">
+				<fxfmplbrCity>Ερμοσίγιο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbzbtlbn">
+				<fxfmplbrCity>Μαζατλάν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chihubhub">
+				<fxfmplbrCity>Τσιουάουα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfrrfy">
+				<fxfmplbrCity>Μοντερέι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity>Πόλη του Μεξικού</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfridb">
+				<fxfmplbrCity>Μέριντα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbndun">
+				<fxfmplbrCity>Κανκούν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kublb_Lumpur">
+				<fxfmplbrCity>Κουάλα Λουμπούρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kudhing">
+				<fxfmplbrCity>Κουτσίνγκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbputo">
+				<fxfmplbrCity drbft="dontributfd">Μαπούτο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windhofk">
+				<fxfmplbrCity drbft="dontributfd">Βίντχουκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Noumfb">
+				<fxfmplbrCity>Νουμέα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nibmfy">
+				<fxfmplbrCity drbft="dontributfd">Νιαμέι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Norfolk">
+				<fxfmplbrCity>Νόρφολκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lbgos">
+				<fxfmplbrCity drbft="dontributfd">Λάγκος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbgub">
+				<fxfmplbrCity drbft="dontributfd">Μανάγκουα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Amstfrdbm">
+				<fxfmplbrCity>Άμστερνταμ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Oslo">
+				<fxfmplbrCity>Όσλο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbtmbndu">
+				<fxfmplbrCity drbft="dontributfd">Κατμαντού</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Nburu">
+				<fxfmplbrCity>Ναούρου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Niuf">
+				<fxfmplbrCity>Νιούε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Chbthbm">
+				<fxfmplbrCity>Τσάταμ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Audklbnd">
+				<fxfmplbrCity>Όκλαντ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Musdbt">
+				<fxfmplbrCity drbft="dontributfd">Μασκάτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbnbmb">
+				<fxfmplbrCity drbft="dontributfd">Παναμάς</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Limb">
+				<fxfmplbrCity drbft="dontributfd">Λίμα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbhiti">
+				<fxfmplbrCity>Αϊτή</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbrqufsbs">
+				<fxfmplbrCity>Μαρκέσας</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gbmbifr">
+				<fxfmplbrCity>Γκάμπιερ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Port_Morfsby">
+				<fxfmplbrCity>Πορτ Μόρεσμπυ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbnilb">
+				<fxfmplbrCity drbft="dontributfd">Μανίλα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbrbdhi">
+				<fxfmplbrCity drbft="dontributfd">Καράτσι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Wbrsbw">
+				<fxfmplbrCity>Βαρσοβία</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Miquflon">
+				<fxfmplbrCity drbft="dontributfd">Μικελόν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity>Πιτκέιρν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pufrto_Rido">
+				<fxfmplbrCity drbft="dontributfd">Πουέρτο Ρίκο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Gbzb">
+				<fxfmplbrCity drbft="dontributfd">Γάζα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity>Αζόρες</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Mbdfirb">
+				<fxfmplbrCity>Μαδέρα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Lisbon">
+				<fxfmplbrCity>Λισσαβώνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pblbu">
+				<fxfmplbrCity>Παλάου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Asundion">
+				<fxfmplbrCity>Ασουνσιόν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qbtbr">
+				<fxfmplbrCity drbft="dontributfd">Κατάρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Rfunion">
+				<fxfmplbrCity>Ρεϋνιόν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budhbrfst">
+				<fxfmplbrCity>Βουκουρέστι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bflgrbdf">
+				<fxfmplbrCity drbft="dontributfd">Βελιγράδι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity>Καλλίπολη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity>Μόσχα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity>Βόλγκοκραντ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbmbrb">
+				<fxfmplbrCity>Σαμάρα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity>Αικατερινούπολη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Omsk">
+				<fxfmplbrCity>Ομσκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Novosibirsk">
+				<fxfmplbrCity>Νοβοσιμπίρσκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity>Κρασνογιάρσκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity>Ιρκούτσκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity>Γιάκουτσκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity>Βλαδιβοστόκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkhblin">
+				<fxfmplbrCity>Σακαλίνσκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbgbdbn">
+				<fxfmplbrCity>Μαγκαντάν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdhbtkb">
+				<fxfmplbrCity>Καμτσάτκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity>Αναντίρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kigbli">
+				<fxfmplbrCity drbft="dontributfd">Κιγκάλι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Riybdh">
+				<fxfmplbrCity drbft="dontributfd">Ριάντ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubdbldbnbl">
+				<fxfmplbrCity>Γκουανταλκανάλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbhf">
+				<fxfmplbrCity>Μάχε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Khbrtoum">
+				<fxfmplbrCity drbft="dontributfd">Χαρτούμ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Stodkholm">
+				<fxfmplbrCity>Στοκχόλμη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Singbporf">
+				<fxfmplbrCity>Σιγκαπούρη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/St_Hflfnb">
+				<fxfmplbrCity>Αγ. Ελένη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ljubljbnb">
+				<fxfmplbrCity drbft="dontributfd">Λιουμπλιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Ardtid/Longyfbrbyfn">
+				<fxfmplbrCity drbft="dontributfd">Λόνγκιεαρμπιεν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brbtislbvb">
+				<fxfmplbrCity drbft="dontributfd">Μπρατισλάβα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Frfftown">
+				<fxfmplbrCity drbft="dontributfd">Φρίταουν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbn_Mbrino">
+				<fxfmplbrCity drbft="dontributfd">Άγιος Μαρίνος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbkbr">
+				<fxfmplbrCity drbft="dontributfd">Ντακάρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mogbdishu">
+				<fxfmplbrCity drbft="dontributfd">Μογκαντίσου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbrbmbribo">
+				<fxfmplbrCity drbft="dontributfd">Παραμαρίμπο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Sbo_Tomf">
+				<fxfmplbrCity>Σάο Τόμε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity>Σαλβαδόρ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dbmbsdus">
+				<fxfmplbrCity drbft="dontributfd">Δαμασκός</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbbbbnf">
+				<fxfmplbrCity drbft="dontributfd">Μπαμπάνε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grbnd_Turk">
+				<fxfmplbrCity>Γραντ Τουρκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Ndjbmfnb">
+				<fxfmplbrCity drbft="dontributfd">Ντζαμένα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity>Κέργκουελεν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lomf">
+				<fxfmplbrCity drbft="dontributfd">Λομέ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbngkok">
+				<fxfmplbrCity drbft="dontributfd">Μπανγκόκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dushbnbf">
+				<fxfmplbrCity drbft="dontributfd">Ντουσάμπε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fbkbofo">
+				<fxfmplbrCity>Φακαόφο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dili">
+				<fxfmplbrCity drbft="dontributfd">Ντίλι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ashgbbbt">
+				<fxfmplbrCity drbft="dontributfd">Ασχαμπάτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tunis">
+				<fxfmplbrCity drbft="dontributfd">Τύνιδα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tongbtbpu">
+				<fxfmplbrCity>Τονγκατάπου</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Istbnbul">
+				<fxfmplbrCity>Κωνσταντινούπολη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port_of_Spbin">
+				<fxfmplbrCity drbft="dontributfd">Πορτ οφ Σπέιν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Funbfuti">
+				<fxfmplbrCity>Φουναφούτι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbipfi">
+				<fxfmplbrCity>Ταϊπέι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbr_fs_Sblbbm">
+				<fxfmplbrCity drbft="dontributfd">Νταρ Ες Σαλάμ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzhgorod">
+				<fxfmplbrCity>Ουζκόροντ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kifv">
+				<fxfmplbrCity>Κίεβο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Simffropol">
+				<fxfmplbrCity>Συμφερούπολη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporozhyf">
+				<fxfmplbrCity>Ζαπορόζιε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kbmpblb">
+				<fxfmplbrCity drbft="dontributfd">Καμπάλα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Midwby">
+				<fxfmplbrCity>Μίντγουεϊ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Johnston">
+				<fxfmplbrCity>Τζόνστον</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbkf">
+				<fxfmplbrCity>Γουέικ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Adbk">
+				<fxfmplbrCity>Άντακ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nomf">
+				<fxfmplbrCity>Νόμε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity>Χονολουλού</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andhorbgf">
+				<fxfmplbrCity>Άνκορατζ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity>Γιακούτατ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Junfbu">
+				<fxfmplbrCity>Τζούνο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity>Λος Άντζελες</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Boisf">
+				<fxfmplbrCity>Μπόιζ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Phofnix">
+				<fxfmplbrCity>Φοίνιξ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Shiprodk">
+				<fxfmplbrCity>Σίπροκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dfnvfr">
+				<fxfmplbrCity>Ντένβερ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity>Νιου Σάλεμ, Βόρεια Ντακότα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Cfntfr">
+				<fxfmplbrCity>Κέντρο, Βόρεια Ντακότα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chidbgo">
+				<fxfmplbrCity>Σικάγο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfnominff">
+				<fxfmplbrCity>Μενομίνε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity>Βίνκενες, Ιντιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity>Πίτερσμπεργκ, Ιντιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity>Τελ Σίτυ, Ιντιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity>Νοξ, Ιντιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Winbmbd">
+				<fxfmplbrCity>Γουίναμακ, Ιντιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity>Μαρένγκο, Ιντιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity>Ινδιανάπολη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Louisvillf">
+				<fxfmplbrCity>Λούισβιλ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity>Βεβάι, Ιντιάνα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity>Μοντιτσέλο, Κεντάκι</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dftroit">
+				<fxfmplbrCity>Ντητρόιτ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity>Νέα Υόρκη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfvidfo">
+				<fxfmplbrCity drbft="dontributfd">Μοντεβιδέο</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbmbrkbnd">
+				<fxfmplbrCity>Σαμαρκάνδη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbshkfnt">
+				<fxfmplbrCity>Τασκένδη</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbtidbn">
+				<fxfmplbrCity drbft="dontributfd">Βατικανό</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Vindfnt">
+				<fxfmplbrCity drbft="dontributfd">Άγιος Βικέντιος</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbrbdbs">
+				<fxfmplbrCity>Καράκας</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tortolb">
+				<fxfmplbrCity drbft="dontributfd">Τορτόλα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Thombs">
+				<fxfmplbrCity drbft="dontributfd">Άγιος Θωμάς</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbigon">
+				<fxfmplbrCity drbft="dontributfd">Πόλη Χο Τσι Μινχ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Efbtf">
+				<fxfmplbrCity>Εφάτε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbllis">
+				<fxfmplbrCity>Γουόλις</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Apib">
+				<fxfmplbrCity>Άπια</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Adfn">
+				<fxfmplbrCity drbft="dontributfd">Άντεν</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbyottf">
+				<fxfmplbrCity>Μαγιότε</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Johbnnfsburg">
+				<fxfmplbrCity drbft="dontributfd">Γιοχάνεσμπουργκ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lusbkb">
+				<fxfmplbrCity drbft="dontributfd">Λουζάκα</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Hbrbrf">
+				<fxfmplbrCity drbft="dontributfd">Χαράρε</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
+				<long>
+					<stbndbrd>Ώρα Κεντρικής Αφρικής</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
+				<long>
+					<stbndbrd>Ώρα Ανατολικής Αφρικής</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Southfrn">
+				<long>
+					<stbndbrd>Ώρα Νότιας Αφρικής</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
+				<long>
+					<gfnfrid>Ώρα Δυτικής Αφρικής</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Δυτικής Αφρικής</stbndbrd>
+					<dbylight>Θερινή ώρα Δυτικής Αφρικής</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Αλάσκας</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Αλάσκας</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Αλάσκας</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ambzon">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Αμαζονίου</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Αμαζονίου</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Αμαζονίου</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Κεντρική ώρα</gfnfrid>
+					<stbndbrd drbft="dontributfd">Κεντρική χειμερινή ώρα</stbndbrd>
+					<dbylight drbft="dontributfd">Κεντρική θερινή ώρα</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Ανατολική ώρα</gfnfrid>
+					<stbndbrd drbft="dontributfd">Ανατολική χειμερινή ώρα</stbndbrd>
+					<dbylight drbft="dontributfd">Ανατολική θερινή ώρα</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<long>
+					<gfnfrid drbft="dontributfd">Ορεινή ώρα</gfnfrid>
+					<stbndbrd drbft="dontributfd">Ορεινή χειμερινή ώρα</stbndbrd>
+					<dbylight drbft="dontributfd">Ορεινή θερινή ώρα</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Ειρηνικού</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Ειρηνικού</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Ειρηνικού</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Anbdyr">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Αναντίρ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Αναντίρ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Αναντίρ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Αργεντινής</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Αργεντινής</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Αργεντινής</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Δυτική ώρα Αργεντινής</gfnfrid>
+					<stbndbrd drbft="dontributfd">Ώρα δυτικής Αργεντινής</stbndbrd>
+					<dbylight drbft="dontributfd">Δυτική θερινή ώρα Αργεντινής</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Atlbntid">
+				<long>
+					<gfnfrid>Ώρα Ατλαντικού</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Ατλαντικού</stbndbrd>
+					<dbylight>Θερινή ώρα Ατλαντικού</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<long>
+					<gfnfrid>Ώρα Κεντρικής Αυστραλίας</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Κεντρικής Αυστραλίας</stbndbrd>
+					<dbylight>Θερινή ώρα Κεντρικής Αυστραλίας</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<long>
+					<gfnfrid>Ώρα Κεντροδυτικής Αυστραλίας</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Κεντροδυτικής Αυστραλίας</stbndbrd>
+					<dbylight>Θερινή ώρα Κεντροδυτικής Αυστραλίας</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<long>
+					<gfnfrid>Ώρα Ανατολικής Αυστραλίας</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Ανατολικής Αυστραλίας</stbndbrd>
+					<dbylight>Θερινή ώρα Ανατολικής Αυστραλίας</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<long>
+					<gfnfrid>Ώρα Δυτικής Αυστραλίας</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Δυτικής Αυστραλίας</stbndbrd>
+					<dbylight>Θερινή ώρα Δυτικής Αυστραλίας</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brbsilib">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Μπραζίλια</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Μπραζίλια</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Μπραζίλια</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Choibblsbn">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Τσοϊμπαλσάν</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Τσοϊμπαλσάν</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Τσοϊμπαλσάν</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid>Ώρα Κεντρικής Ευρώπης</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Κεντρικής Ευρώπης</stbndbrd>
+					<dbylight>Θερινή ώρα Κεντρικής Ευρώπης</dbylight>
+				</long>
+				<short>
+					<gfnfrid>CET</gfnfrid>
+					<stbndbrd>CET</stbndbrd>
+					<dbylight>CEST</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid>Ώρα Ανατολικής Ευρώπης</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Ανατολικής Ευρώπης</stbndbrd>
+					<dbylight>Θερινή ώρα Ανατολικής Ευρώπης</dbylight>
+				</long>
+				<short>
+					<gfnfrid>EET</gfnfrid>
+					<stbndbrd>EET</stbndbrd>
+					<dbylight>EEST</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Δυτικής Ευρώπης</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Δυτικής Ευρώπης</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Δυτικής Ευρώπης</dbylight>
+				</long>
+				<short>
+					<gfnfrid>WET</gfnfrid>
+					<stbndbrd>WET</stbndbrd>
+					<dbylight>WEST</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Hbwbii_Alfutibn">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Χαβάης-Αλεούτιων νήσων</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Χαβάης-Αλεούτιων νήσων</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Χαβάης-Αλεούτιων νήσων</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hovd">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Χοβντ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Χοβντ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Χοβντ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Κεντρική ώρα Ινδονησίας</gfnfrid>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Ανατολική ώρα Ινδονησίας</gfnfrid>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Δυτική ώρα Ινδονησίας</gfnfrid>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irkutsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Ιρκούτσκ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Ιρκούτσκ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Ιρκούτσκ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbmdhbtkb">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Καμτσάτκα</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Πετροπαβλόβσκ-Καμτσάτσκι</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Πετροπαβλόβσκ-Καμτσάτσκι</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Ebstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Ώρα Ανατολικού Καζακστάν</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Wfstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Ώρα δυτικού Καζακστάν</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Krbsnoybrsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Κρασνόγιαρσκ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Κρασνόγιαρσκ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Κρασνόγιαρσκ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lord_Howf">
+				<long>
+					<gfnfrid>Ώρα Λορντ Χάου</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Λορντ Χάου</stbndbrd>
+					<dbylight>Θερινή ώρα Λορντ Χάου</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdqubrif">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Μακουάρι</gfnfrid>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbgbdbn">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Μάγκανταν</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Μάγκανταν</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Μαγκαντάν</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mongolib">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Ουλάν Μπατόρ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Ουλάν Μπατόρ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Ουλάν Μπατόρ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid>Ώρα Μόσχας</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Μόσχας</stbndbrd>
+					<dbylight>Θερινή ώρα Μόσχας</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Νέας Γης</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Νέας Γης</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Νέας Γης</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Noronhb">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Φερνάρντο ντε Νορόνια</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Φερνάρντο ντε Νορόνια</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Φερνάρντο ντε Νορόνια</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Novosibirsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Νοβοσιμπίρσκ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Νοβοσιμπίρσκ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Νοβοσιμπίρσκ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Omsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Ομσκ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Ομσκ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Ομσκ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbkhblin">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Σαχαλίνης</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Σαχαλίνης</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Σαχαλίνης</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrb">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Σάμαρας</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Σάμαρας</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Σαμάρας</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vlbdivostok">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Βλαδιβοστόκ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Βλαδιβοστόκ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Βλαδιβοστόκ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Volgogrbd">
+				<long>
+					<gfnfrid>Ώρα Βόλγκογκραντ</gfnfrid>
+					<stbndbrd>Χειμερινή ώρα Βόλγκογκραντ</stbndbrd>
+					<dbylight>Θερινή ώρα Βόλγκογκραντ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ybkutsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Γιακούτσκ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Γιακούτσκ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Γιακούτσκ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfkbtfrinburg">
+				<long>
+					<gfnfrid drbft="dontributfd">Ώρα Γεκατερίνμπουργκ</gfnfrid>
+					<stbndbrd drbft="dontributfd">Χειμερινή ώρα Γεκατερίνμπουργκ</stbndbrd>
+					<dbylight drbft="dontributfd">Θερινή ώρα Γεκατερίνμπουργκ</dbylight>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<othfrNumbfringSystfms>
+			<nbtivf>lbtn</nbtivf>
+			<trbditionbl>grfk</trbditionbl>
+		</othfrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group>.</group>
+			<list>,</list>
+			<pfrdfntSign>%</pfrdfntSign>
+			<plusSign>+</plusSign>
+			<minusSign>-</minusSign>
+			<fxponfntibl>f</fxponfntibl>
+			<pfrMillf>‰</pfrMillf>
+			<infinity>∞</infinity>
+			<nbn>NbN</nbn>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+			<dfdimblFormbtLfngth typf="short">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000" drbft="dontributfd">0.0 χιλ'.'</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00 χιλ'.'</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000 χιλ'.'</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 εκ'.'</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 εκ'.'</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 εκ'.'</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0 δις</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00 δις</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000 δις</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 τρις</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 τρις</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 τρις</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+			<unitPbttfrn dount="othfr">{0} {1}</unitPbttfrn>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ADP">
+				<displbyNbmf>Πεσέτα Ανδόρας</displbyNbmf>
+				<displbyNbmf dount="onf">πεσέτα Ανδόρας</displbyNbmf>
+				<displbyNbmf dount="othfr">πεσέτες Ανδόρας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AED">
+				<displbyNbmf>Ντιράμ Ηνωμένων Αραβικών Εμιράτων</displbyNbmf>
+				<displbyNbmf dount="onf">ντιράμ Ηνωμένων Αραβικών Εμιράτων</displbyNbmf>
+				<displbyNbmf dount="othfr">ντιράμ Ηνωμένων Αραβικών Εμιράτων</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFA">
+				<displbyNbmf>Αφγανί Αφγανιστάν (1927-2002)</displbyNbmf>
+				<displbyNbmf dount="onf">αφγάνι Αφγανιστάν (AFA)</displbyNbmf>
+				<displbyNbmf dount="othfr">αφγάνι Αφγανιστάν (AFA)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf>Αφγανί Αφγανιστάν</displbyNbmf>
+				<displbyNbmf dount="onf">αφγάνι Αφγανιστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">Αφγάνι Αφγανιστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALK">
+				<displbyNbmf dount="onf" drbft="provisionbl">Παλαιό λεκ Αλβανίας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Παλαιά λεκ Αλβανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf>Λεκ Αλβανίας</displbyNbmf>
+				<displbyNbmf dount="onf">λεκ Αλβανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λεκ Αλβανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf>Ντραμ Αρμενίας</displbyNbmf>
+				<displbyNbmf dount="onf">ντραμ Αρμενίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ντραμ Αρμενίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf>Γκίλντα Ολλανδικών Αντιλλών</displbyNbmf>
+				<displbyNbmf dount="onf">γκίλντα Ολλανδικών Αντιλλών</displbyNbmf>
+				<displbyNbmf dount="othfr">γκίλντα Ολλανδικών Αντιλλών</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>Κουάνζα Ανγκόλας</displbyNbmf>
+				<displbyNbmf dount="onf">κουάνζα Ανγκόλας</displbyNbmf>
+				<displbyNbmf dount="othfr">κουάνζα Ανγκόλας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOK">
+				<displbyNbmf>Κουάνζα Ανγκόλας (1977-1990)</displbyNbmf>
+				<displbyNbmf dount="onf">κουάνζα Ανγκόλας (AOK)</displbyNbmf>
+				<displbyNbmf dount="othfr">κουάνζα Ανγκόλας (AOK)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AON">
+				<displbyNbmf>Νέα Κουάνζα Ανγκόλας (1990-2000)</displbyNbmf>
+				<displbyNbmf dount="onf">νέο κουάνζα Ανγκόλας (AON)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">νέα κουάνζα Ανγκόλας (AON)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARA">
+				<displbyNbmf>Ωστράλ Αργετινής</displbyNbmf>
+				<displbyNbmf dount="onf">αουστράλ Αργεντινής</displbyNbmf>
+				<displbyNbmf dount="othfr">αουστράλ Αργεντινής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARL">
+				<displbyNbmf dount="onf" drbft="provisionbl">Πέσο λέι Αργετινής</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Πέσο λέι Αργετινής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARP">
+				<displbyNbmf>Πέσο Αργεντινής (1983-1985)</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Αργεντινής (ARP)</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Αργεντινής (ARP)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf>Πέσο Αργεντινής</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Αργεντινής</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Αργεντινής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ATS">
+				<displbyNbmf>Σελίνι Αυστρίας</displbyNbmf>
+				<displbyNbmf dount="onf">σελίνι Αυστρίας</displbyNbmf>
+				<displbyNbmf dount="othfr">σελίνια Αυστρίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>Δολάριο Αυστραλίας</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Αυστραλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Αυστραλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf>Γκίλντα Αρούμπα</displbyNbmf>
+				<displbyNbmf dount="onf">γκίλντα Αρούμπα</displbyNbmf>
+				<displbyNbmf dount="othfr">γκίλντα Αρούμπα</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZM">
+				<displbyNbmf>Μανάτ Αζερμπαϊτζάν (1993-2006)</displbyNbmf>
+				<displbyNbmf dount="onf">μανάτ Αζερμπαϊτζάν (1993-2006)</displbyNbmf>
+				<displbyNbmf dount="othfr">μανάτ Αζερμπαϊτζάν (1993-2006)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf>Μανάτ Αζερμπαϊτζάν</displbyNbmf>
+				<displbyNbmf dount="onf">μανάτ Αζερμπαϊτζαν</displbyNbmf>
+				<displbyNbmf dount="othfr">μανάτ Αζερμπαϊτζαν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAD">
+				<displbyNbmf>Δηνάριο Βοσνίας-Ερζεγοβίνης</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Βοσνίας-Ερζεγοβίνης</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Βοσνίας-Ερζεγοβίνης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf>Μετατρέψιμο Μάρκο Βοσνίας-Ερζεγοβίνης</displbyNbmf>
+				<displbyNbmf dount="onf">μάρκο Βοσνίας-Ερζεγοβίνης</displbyNbmf>
+				<displbyNbmf dount="othfr">μάρκα Βοσνίας-Ερζεγοβίνης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAN">
+				<displbyNbmf dount="onf" drbft="provisionbl">Νέο δινάριο Βοσνίας-Ερζεγοβίνης</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Νέα δινάρια Βοσνίας-Ερζεγοβίνης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf>Δολάριο Μπαρμπάντος</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Μπαρμπάντος</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Μπαρμπάντος</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf>Τάκα Μπαγκλαντές</displbyNbmf>
+				<displbyNbmf dount="onf">τάκα Μπαγκλαντές</displbyNbmf>
+				<displbyNbmf dount="othfr">τάκα Μπαγκλαντές</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEC">
+				<displbyNbmf>Φράγκο Βελγίου (μετατρέψιμο)</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Βελγίου (μετατρέψιμο)</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Βελγίου (μετατρέψιμα)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEF">
+				<displbyNbmf>Φράγκο Βελγίου</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Βελγίου</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Βελγίου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEL">
+				<displbyNbmf>Φράγκο Βελγίου (οικονομικό)</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Βελγίου (οικονομικό)</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Βελγίου (οικονομικό)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGL">
+				<displbyNbmf>Μεταλλικό Λεβ Βουλγαρίας</displbyNbmf>
+				<displbyNbmf dount="onf">μεταλλικό λεβ Βουλγαρίας</displbyNbmf>
+				<displbyNbmf dount="othfr">μεταλλικά λεβ Βουλγαρίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGM">
+				<displbyNbmf dount="onf" drbft="provisionbl">Σοσιαλιστικό λεβ Βουλγαρίας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Σοσιαλιστικά λεβ Βουλγαρίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf>Νέο Λεβ Βουλγαρίας</displbyNbmf>
+				<displbyNbmf dount="onf">νέο λεβ Βουλγαρίας</displbyNbmf>
+				<displbyNbmf dount="othfr">νέα λεβ Βουλγαρίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGO">
+				<displbyNbmf dount="onf" drbft="provisionbl">Παλαιό λεβ Βουλγαρίας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Παλαιά λεβ Βουλγαρίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>Δηνάριο Μπαχρέιν</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Μπαχρέιν</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Μπαχρέιν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>Φράγκο Μπουρούντι</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Μπουρούντι</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Μπουρούντι</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf>Δολάριο Βερμούδων</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Βερμούδων</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Βερμούδων</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>Δολάριο Μπρουνέι</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Μπρουνέι</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Μπρουνέι</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf>Μπολιβιάνο Βολιβίας</displbyNbmf>
+				<displbyNbmf dount="onf">μπολιβιάνο Βολιβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">μπολιβιάνο Βολιβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOL">
+				<displbyNbmf dount="onf" drbft="provisionbl">Παλαιό βολιβιάνο Βολιβίας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Παλαιά βολιβιάνο Βολιβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOP">
+				<displbyNbmf>Πέσο Βολιβίας</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Βολιβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Βολιβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOV">
+				<displbyNbmf>Μβδολ Βολιβίας</displbyNbmf>
+				<displbyNbmf dount="onf">μβντολ Βολιβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">μβντολ Βολιβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRB">
+				<displbyNbmf>Νέο Κρουζιέρο Βραζιλίας (1967-1986)</displbyNbmf>
+				<displbyNbmf dount="onf">νέο κρουζέιρο Βραζιλίας (BRB)</displbyNbmf>
+				<displbyNbmf dount="othfr">νέα κρουζέιρο Βραζιλίας (BRB)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRC">
+				<displbyNbmf>Κρουζάντο Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="onf">κρουζάντο Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κρουζάντο Βραζιλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRE">
+				<displbyNbmf>Κρουζιέρο Βραζιλίας (1990-1993)</displbyNbmf>
+				<displbyNbmf dount="onf">κρουζέιρο Βραζιλίας (BRE)</displbyNbmf>
+				<displbyNbmf dount="othfr">κρουζέιρο Βραζιλίας (BRE)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>Ρεάλ Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="onf">ρεάλ Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ρεάλ Βραζιλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRN">
+				<displbyNbmf>Νέο Κρουζάντο Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="onf">νέο κρουζάντο Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">νέα κρουζάντο Βραζιλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRR">
+				<displbyNbmf>Κρουζιέρο Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="onf">κρουζέιρο Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κρουζέιρο Βραζιλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRZ">
+				<displbyNbmf dount="onf" drbft="provisionbl">Παλαιό κρουζέιρο Βραζιλίας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Παλαιά κρουζέιρο Βραζιλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf>Δολάριο Μπαχάμες</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Μπαχάμες</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Μπαχάμες</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BTN">
+				<displbyNbmf>Νγκούλτρουμ Μπουτάν</displbyNbmf>
+				<displbyNbmf dount="onf">νγκούλτρουμ Μπουτάν</displbyNbmf>
+				<displbyNbmf dount="othfr">νγκούλτρουμ Μπουτάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BUK">
+				<displbyNbmf>Κιατ Βιρμανίας</displbyNbmf>
+				<displbyNbmf dount="onf">κιάτ Βιρμανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κιάτ Βιρμανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>Πούλα Μποτσουάνας</displbyNbmf>
+				<displbyNbmf dount="onf">πούλα Μποτσουάνας</displbyNbmf>
+				<displbyNbmf dount="othfr">πούλα Μποτσουάνας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYB">
+				<displbyNbmf>Νέο Ρούβλι Λευκορωσίας (1994-1999)</displbyNbmf>
+				<displbyNbmf dount="onf">νέο ρούβλι Λευκορωσίας (1994-1999)</displbyNbmf>
+				<displbyNbmf dount="othfr">νέα ρούβλια Λευκορωσίας (1994-1999)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>Ρούβλι Λευκορωσίας</displbyNbmf>
+				<displbyNbmf dount="onf">ρούβλι Λευκορωσίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούβλια Λευκορωσίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf>Δολάριο Μπελίζ</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Μπελίζ</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Μπελίζ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>Δολάριο Καναδά</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Καναδά</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Καναδά</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>Φράγκο Κονγκό</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Κονγκό</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Κονγκό</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHE">
+				<displbyNbmf>Ευρώ WIR</displbyNbmf>
+				<displbyNbmf dount="onf">ευρώ WIR</displbyNbmf>
+				<displbyNbmf dount="othfr">ευρώ WIR</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>Φράγκο Ελβετίας</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Ελβετίας</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Ελβετίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHW">
+				<displbyNbmf>Φράγκο WIR</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο WIR</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα WIR</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLE">
+				<displbyNbmf drbft="provisionbl">Εσκούδο Χιλής</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="provisionbl">Εσκούδο Χιλής</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Εσκούδο Χιλής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLF">
+				<displbyNbmf>Ουνιδάδες ντε φομέντο Χιλής</displbyNbmf>
+				<displbyNbmf dount="onf">ουνιδάδες ντε φομέντο Χιλής</displbyNbmf>
+				<displbyNbmf dount="othfr">ουνιδάδες ντε φομέντο Χιλής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf>Πέσο Χιλής</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Χιλής</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Χιλής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNX">
+				<displbyNbmf dount="onf" drbft="provisionbl">Δολάριο Λαϊκής Τράπεζας Κίνας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Δολάρια Λαϊκής Τράπεζας Κίνας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Γιουάν Ρενμίμπι Κίνας</displbyNbmf>
+				<displbyNbmf dount="onf">γιουάν Κίνας</displbyNbmf>
+				<displbyNbmf dount="othfr">γιουάν Κίνας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf>Πέσο Κολομβίας</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Κολομβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Κολομβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf>Κολόν Κόστα Ρίκα</displbyNbmf>
+				<displbyNbmf dount="onf">κολόν Κόστα Ρίκα</displbyNbmf>
+				<displbyNbmf dount="othfr">κολόν Κόστα Ρίκα</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSD">
+				<displbyNbmf>Παλαιό Δηνάριο Σερβίας</displbyNbmf>
+				<displbyNbmf dount="onf">παλιό δινάρη Σερβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">παλιά δινάρια Σερβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSK">
+				<displbyNbmf>Σκληρή Κορόνα Τσεχοσλοβακίας</displbyNbmf>
+				<displbyNbmf dount="onf">σκληρή κορόνα Τσεχοσλοβακίας</displbyNbmf>
+				<displbyNbmf dount="othfr">σκληρές κορόνες Τσεχοσλοβακίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUC">
+				<displbyNbmf>Μετατρέψιμο πέσο Κούβας</displbyNbmf>
+				<displbyNbmf dount="onf">Μετατρέψιμο πέσο Κούβας</displbyNbmf>
+				<displbyNbmf dount="othfr">Μετατρέψιμα πέσο Κούβας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf>Πέσο Κούβας</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Κούβας</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Κούβας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>Εσκούδο Πράσινου Ακρωτηρίου</displbyNbmf>
+				<displbyNbmf dount="onf">εσκούδο Πράσινου Ακρωτηρίου</displbyNbmf>
+				<displbyNbmf dount="othfr">εσκούδο Πράσινου Ακρωτηρίου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CYP">
+				<displbyNbmf>Λίρα Κύπρου</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Κύπρου</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Κύπρου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf>Κορόνα Τσέχικης Δημοκρατίας</displbyNbmf>
+				<displbyNbmf dount="onf">κορόνα Τσέχικης Δημοκρατίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κορόνες Τσέχικης Δημοκρατίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DDM">
+				<displbyNbmf>Οστμάρκ Ανατολικής Γερμανίας</displbyNbmf>
+				<displbyNbmf dount="onf">όστμαρκ Ανατολικής Γερμανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">όστμαρκ Ανατολικής Γερμανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DEM">
+				<displbyNbmf>Μάρκο Γερμανίας</displbyNbmf>
+				<displbyNbmf dount="onf">μάρκο Γερμανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">μάρκα Γερμανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>Φράγκο Τζιμπουτί</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Τζιμπουτί</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Τζιμπουτί</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf>Κορόνα Δανίας</displbyNbmf>
+				<displbyNbmf dount="onf">κορόνα Δανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κορόνες Δανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf>Πέσο Δομίνικου</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Δομίνικου</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Δομινικανής Δημοκρατίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>Δηνάριο Αλγερίας</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Αλγερίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Αλγερίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ECS">
+				<displbyNbmf>Σούκρε Εκουαδόρ</displbyNbmf>
+				<displbyNbmf dount="onf">σούκρε Εκουαδόρ</displbyNbmf>
+				<displbyNbmf dount="othfr">σούκρε Εκουαδόρ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EEK">
+				<displbyNbmf>Κορόνα Εσθονίας</displbyNbmf>
+				<displbyNbmf dount="onf">κορόνα Εσθονίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κορόνες Εσθονίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>Λίρα Αιγύπτου</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Αιγύπτου</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Αιγύπτου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>Νάκφα Ερυθραίας</displbyNbmf>
+				<displbyNbmf dount="onf">νάκφα Ερυθραίας</displbyNbmf>
+				<displbyNbmf dount="othfr">νάκφα Ερυθραίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESA">
+				<displbyNbmf>πεσέτα Ισπανίας (λογαριασμός Α)</displbyNbmf>
+				<displbyNbmf dount="onf">πεσέτα Ισπανίας (λογαριασμός Α)</displbyNbmf>
+				<displbyNbmf dount="othfr">πεσέτες Ισπανίας (λογαριασμός Α)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESB">
+				<displbyNbmf>πεσέτα Ισπανίας (μετατρέψιμος λογαριασμός)</displbyNbmf>
+				<displbyNbmf dount="onf">πεσέτα Ισπανίας (μετατρέψιμος λογαριασμός)</displbyNbmf>
+				<displbyNbmf dount="othfr">πεσέτες Ισπανίας (μετατρέψιμες)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESP">
+				<displbyNbmf>Πεσέτα Ισπανίας</displbyNbmf>
+				<displbyNbmf dount="onf">πεσέτα Ισπανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">πεσέτες Ισπανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>Μπιρ Αιθιοπίας</displbyNbmf>
+				<displbyNbmf dount="onf">μπιρ Αιθιοπίας</displbyNbmf>
+				<displbyNbmf dount="othfr">μπιρ Αιθιοπίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Ευρώ</displbyNbmf>
+				<displbyNbmf dount="onf">ευρώ</displbyNbmf>
+				<displbyNbmf dount="othfr">ευρώ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FIM">
+				<displbyNbmf>Μάρκο Φινλανδίας</displbyNbmf>
+				<displbyNbmf dount="onf">μάρκο Φινλανδίας</displbyNbmf>
+				<displbyNbmf dount="othfr">μάρκα Φινλανδίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf>Δολάριο Φίτζι</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Φίτζι</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Φίτζι</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf>Λίρα Νησιών Φώλκλαντ</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Νησιών Φώλκλαντ</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Νησιών Φώλκλαντ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FRF">
+				<displbyNbmf>Φράγκο Γαλλίας</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Γαλλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Γαλλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Λίρα Στερλίνα Βρετανίας</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα στερλίνα Βρετανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες στερλίνες Βρετανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEK">
+				<displbyNbmf>Κούπον Λάρι Γεωργίας</displbyNbmf>
+				<displbyNbmf dount="onf">κούπον λάρι Γεωργίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κούπον λάρι Γεωργίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf>Λάρι Γεωργίας</displbyNbmf>
+				<displbyNbmf dount="onf">λάρι Γεωργίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λάρι Γεωργίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf>Σέντι Γκάνας (1979-2007)</displbyNbmf>
+				<displbyNbmf dount="onf">σέντι Γκάνας (GHC)</displbyNbmf>
+				<displbyNbmf dount="othfr">σέντι Γκάνας (GHC)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHS">
+				<displbyNbmf>Σέντι Γκάνας</displbyNbmf>
+				<displbyNbmf dount="onf">σέντι Γκάνας</displbyNbmf>
+				<displbyNbmf dount="othfr">σέντι Γκανά</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf>Λίρα Γιβραλτάρ</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Γιβραλτάρ</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Γιβραλτάρ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>Νταλάσι Γκάμπιας</displbyNbmf>
+				<displbyNbmf dount="onf">νταλάσι Γκάμπιας</displbyNbmf>
+				<displbyNbmf dount="othfr">νταλάσι Γκάμπιας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf>Φράγκο Γουινέας</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Γουινέας</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Γουινέας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf>Συλί Γουινέας</displbyNbmf>
+				<displbyNbmf dount="onf">συλί Γουινέας</displbyNbmf>
+				<displbyNbmf dount="othfr">συλί Γουινέας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GQE">
+				<displbyNbmf>Εκγουέλε Ισημερινής Γουινέας</displbyNbmf>
+				<displbyNbmf dount="onf">εκουέλε Ισημερινής Γουινέας</displbyNbmf>
+				<displbyNbmf dount="othfr">εκουέλε Ισημερινής Γουινέας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GRD">
+				<pbttfrn>#,##0.00 ¤;-#,##0.00 ¤</pbttfrn>
+				<displbyNbmf>Δραχμή Ελλάδας</displbyNbmf>
+				<displbyNbmf dount="onf">δραχμή Ελλάδας</displbyNbmf>
+				<displbyNbmf dount="othfr">δραχμές Ελλάδας</displbyNbmf>
+				<symbol>Δρχ</symbol>
+				<dfdimbl>,</dfdimbl>
+				<group>.</group>
+			</durrfndy>
+			<durrfndy typf="GTQ">
+				<displbyNbmf>Κουετσάλ Γουατεμάλας</displbyNbmf>
+				<displbyNbmf dount="onf">κουετσάλ Γουατεμάλας</displbyNbmf>
+				<displbyNbmf dount="othfr">κουετσάλ Γουατεμάλας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWE">
+				<displbyNbmf>Γκινέα Εσκούδο Πορτογαλίας</displbyNbmf>
+				<displbyNbmf dount="onf">γκινέα εσκούδο Πορτογαλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">γκινέα εσκούδο Πορτογαλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWP">
+				<displbyNbmf>Πέσο Γουινέας-Μπισάου</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Γουινέα-Μπισάου</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Γουινέα-Μπισάου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GYD">
+				<displbyNbmf>Δολάριο Γουιάνας</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Γουιάνας</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Γουιάνας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf>Δολάριο Χονγκ Κονγκ</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Χονγκ Κονγκ</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Χονγκ Κονγκ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf>Λεμπίρα Ονδούρας</displbyNbmf>
+				<displbyNbmf dount="onf">λεμπίρα Ονδούρας</displbyNbmf>
+				<displbyNbmf dount="othfr">λεμπίρα Ονδούρας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRD">
+				<displbyNbmf>Δηνάριο Κροατίας</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Κροατίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Κροατίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf>Κούνα Κροατίας</displbyNbmf>
+				<displbyNbmf dount="onf">κούνα Κροατίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κούνα Κροατίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HTG">
+				<displbyNbmf>Γκουρντ Αϊτής</displbyNbmf>
+				<displbyNbmf dount="onf">γκουρντ Αϊτής</displbyNbmf>
+				<displbyNbmf dount="othfr">γκουρντ Αϊτής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf>Φιορίνι Ουγγαρίας</displbyNbmf>
+				<displbyNbmf dount="onf">φιορίνι Ουγγαρίας</displbyNbmf>
+				<displbyNbmf dount="othfr">φιορίνια Ουγγαρίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf>Ρούπια Ινδονησίας</displbyNbmf>
+				<displbyNbmf dount="onf">ρούπι Ινδονησίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούπια Ινδονησίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IEP">
+				<displbyNbmf>Λίρα Ιρλανδίας</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Ιρλανδίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Ιρλανδίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILP">
+				<displbyNbmf>Λίρα Ισραήλ</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Ισραήλ</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Ισραήλ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILR">
+				<displbyNbmf>παλιό σεκέλ Ισραήλ</displbyNbmf>
+				<displbyNbmf dount="onf">παλιό σεκέλ Ισραήλ</displbyNbmf>
+				<displbyNbmf dount="othfr">παλιά σεκέλ Ισραήλ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILS">
+				<displbyNbmf>Νέο Σέκελ Ισραήλ</displbyNbmf>
+				<displbyNbmf dount="onf">νέο σέκελ Ισραήλ</displbyNbmf>
+				<displbyNbmf dount="othfr">νέα σέκελ Ισραήλ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Ρούπια Ινδίας</displbyNbmf>
+				<displbyNbmf dount="onf">ρούπι Ινδίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούπια Ινδίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IQD">
+				<displbyNbmf>Δηνάριο Ιράκ</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Ιράκ</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Ιράκ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IRR">
+				<displbyNbmf>Ριάλ Ιράν</displbyNbmf>
+				<displbyNbmf dount="onf">ριάλ Ιράν</displbyNbmf>
+				<displbyNbmf dount="othfr">ριάλ Ιράν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISJ">
+				<displbyNbmf>Παλιά κορόνα Ισλανδίας</displbyNbmf>
+				<displbyNbmf dount="onf">Παλιά κορόνα Ισλανδίας</displbyNbmf>
+				<displbyNbmf dount="othfr">παλιές κορόνες Ισλανδίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf>Κορόνα Ισλανδίας</displbyNbmf>
+				<displbyNbmf dount="onf">κορόνα Ισλανδίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κορόνες Ισλανδίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ITL">
+				<displbyNbmf>Λιρέτα Ιταλίας</displbyNbmf>
+				<displbyNbmf dount="onf">λιρέτα Ιταλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λιρέτες Ιταλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf>Δολάριο Τζαμάικας</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Τζαμάικας</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Τζαμάικας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf>Δηνάριο Ιορδανίας</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Ιορδανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Ιορδανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Γιεν Ιαπωνίας</displbyNbmf>
+				<displbyNbmf dount="onf">γιεν Ιαπωνίας</displbyNbmf>
+				<displbyNbmf dount="othfr">γιεν Ιαπωνίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>Σελίνι Κένυας</displbyNbmf>
+				<displbyNbmf dount="onf">σελίνι Κένυας</displbyNbmf>
+				<displbyNbmf dount="othfr">σελίνια Κένυας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf>Σομ Κιργιζίας</displbyNbmf>
+				<displbyNbmf dount="onf">σομ Κιργιστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">σομ Κιργιστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf>Ρίελ Καμπότζης</displbyNbmf>
+				<displbyNbmf dount="onf">ρίελ Καμπότζης</displbyNbmf>
+				<displbyNbmf dount="othfr">ρίελ Καμπότζης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>Φράγκο Κομόρος</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Κομόρος</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Κομόρο</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf>Γον Βόρειας Κορέας</displbyNbmf>
+				<displbyNbmf dount="onf">γουόν Βόρειας Κορέας</displbyNbmf>
+				<displbyNbmf dount="othfr">γουόν Βόρειας Κορέας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRO">
+				<displbyNbmf dount="onf" drbft="provisionbl">Παλιό γον Νότιας Κορέας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Παλιά γον Νότιας Κορέας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf>Γον Νότιας Κορέας</displbyNbmf>
+				<displbyNbmf dount="onf">γουόν Νότιας Κορέας</displbyNbmf>
+				<displbyNbmf dount="othfr">γουόν Νότιας Κορέας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf>Δηνάριο Κουβέιτ</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Κουβέιτ</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Κουβέιτ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf>Δολάριο Νήσων Κάιμαν</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Νήσων Κάιμαν</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Νήσων Κάιμαν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf>Τένγκε Καζακστάν</displbyNbmf>
+				<displbyNbmf dount="onf">τένγκε Καζακστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">τένγκε Καζακστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LAK">
+				<displbyNbmf>Κιπ Λάος</displbyNbmf>
+				<displbyNbmf dount="onf">κιπ Λάος</displbyNbmf>
+				<displbyNbmf dount="othfr">κιπ Λάος</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf>Λίρα Λιβάνου</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Λιβάνου</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Λιβάνου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf>Ρούπια Σρι Λάνκα</displbyNbmf>
+				<displbyNbmf dount="onf">ρούπι Σρι Λάνκα</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούπια Σρι Λάνκα</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>Δολάριο Λιβερίας</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Λιβερίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Λιβερίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>Λότι Λεσότο</displbyNbmf>
+				<displbyNbmf dount="onf">λότι Λεσόθο</displbyNbmf>
+				<displbyNbmf dount="othfr">λότι Λεσόθο</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf>Λίτα Λιθουανίας</displbyNbmf>
+				<displbyNbmf dount="onf">λίτα Λιθουανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λίτα Λιθουανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTT">
+				<displbyNbmf>Ταλόνας Λιθουανίας</displbyNbmf>
+				<displbyNbmf dount="onf">ταλόνας Λιθουανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ταλόνας Λιθουανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUC">
+				<displbyNbmf>Μετατρέψιμο Φράγκο Λουξεμβούργου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUF">
+				<displbyNbmf>Φράγκο Λουξεμβούργου</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Λουξεμβούργου</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Λουξεμβούργου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUL">
+				<displbyNbmf>Οικονομικό Φράγκο Λουξεμβούργου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf>Λατς Λετονίας</displbyNbmf>
+				<displbyNbmf dount="onf">λατς Λετονίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λατς Λετονίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVR">
+				<displbyNbmf>Ρούβλι Λετονίας</displbyNbmf>
+				<displbyNbmf dount="onf">ρούβλι Λετονίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούβλια Λετονίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>Δηνάριο Λιβύης</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Λιβύης</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Λιβύης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>Ντιράμ Μαρόκου</displbyNbmf>
+				<displbyNbmf dount="onf">ντιράμ Μαρόκου</displbyNbmf>
+				<displbyNbmf dount="othfr">ντιράμ Μαρόκου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAF">
+				<displbyNbmf>Φράγκο Μαρόκου</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Μαρόκου</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Μαρόκου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MCF">
+				<displbyNbmf dount="onf" drbft="provisionbl">Φράγκο Μονακό</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Φράγκα Μονακό</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDC">
+				<displbyNbmf dount="onf" drbft="provisionbl">Κούπον Μολδαβίας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Κούπον Μολδαβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf>Λέι Μολδαβίας</displbyNbmf>
+				<displbyNbmf dount="onf">λέι Μολδαβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λέι Μολδαβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>Αριανί Μαδαγασκάρης</displbyNbmf>
+				<displbyNbmf dount="onf">αριάρι Μαδαγασκάρης</displbyNbmf>
+				<displbyNbmf dount="othfr">αριάρι Μαδαγασκάρης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGF">
+				<displbyNbmf>Φράγκο Μαδαγασκάρης</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Μαδαγασκάρης</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Μαδαγασκάρης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf>Δηνάριο Π.Γ.Δ.Μ.</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Π.Γ.Δ.Μ.</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Π.Γ.Δ.Μ.</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKN">
+				<displbyNbmf dount="onf" drbft="provisionbl">Παλιό δηνάριο ΠΓΔΜ</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Παλιά δηνάρια ΠΓΔΜ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MLF">
+				<displbyNbmf>Φράγκο Μαλί</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Μαλί</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Μαλί</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf>Κυάτ Μιανμάρ</displbyNbmf>
+				<displbyNbmf dount="onf">κυάτ Μιανμάρ</displbyNbmf>
+				<displbyNbmf dount="othfr">κυάτ Μιανμάρ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf>Τουγκρίκ Μογγολίας</displbyNbmf>
+				<displbyNbmf dount="onf">τουγκρίκ Μογγολίας</displbyNbmf>
+				<displbyNbmf dount="othfr">τουγκρίκ Μογγολίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MOP">
+				<displbyNbmf>Πατάκα Μακάο</displbyNbmf>
+				<displbyNbmf dount="onf">πατάκα Μακάο</displbyNbmf>
+				<displbyNbmf dount="othfr">πατάκα Μακάο</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>Ουγκουίγκα Μαυριτανίας</displbyNbmf>
+				<displbyNbmf dount="onf">ουγκουίγκα Μαυριτανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ουγκουίγκα Μαυριτανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTL">
+				<displbyNbmf>Λιρέτα Μάλτας</displbyNbmf>
+				<displbyNbmf dount="onf">λιρέτα Μάλτας</displbyNbmf>
+				<displbyNbmf dount="othfr">λιρέτες Μάλτας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTP">
+				<displbyNbmf>Λίρα Μάλτας</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Μάλτας</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Μάλτας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>Ρούπια Μαυρικίου</displbyNbmf>
+				<displbyNbmf dount="onf">ρούπι Μαυρικίου</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούπια Μαυρικίου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf>Ρουφίγια Νήσων Μαλδίβων</displbyNbmf>
+				<displbyNbmf dount="onf">ρουφίγια Νήσων Μαλδίβων</displbyNbmf>
+				<displbyNbmf dount="othfr">ρουφίγια Νήσων Μαλδίβων</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>Κουάτσα Μαλάουι</displbyNbmf>
+				<displbyNbmf dount="onf">κουάτσα Μαλάουι</displbyNbmf>
+				<displbyNbmf dount="othfr">κουάτσα Μαλάουι</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf>Πέσο Μεξικού</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Μεξικού</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Μεξικού</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXP">
+				<displbyNbmf>Ασημένιο Πέσο Μεξικού (1861-1992)</displbyNbmf>
+				<displbyNbmf dount="onf">ασημένιο πέσο Μεξικού (MXP)</displbyNbmf>
+				<displbyNbmf dount="othfr">ασημένια πέσο Μεξικού (MXP)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf>Ρινγκίτ Μαλαισίας</displbyNbmf>
+				<displbyNbmf dount="onf">ρινγκίτ Μαλαισίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ρινγκίτ Μαλαισίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZE">
+				<displbyNbmf>Εσκούδο Μοζαμβίκης</displbyNbmf>
+				<displbyNbmf dount="onf">εσκούδο Μοζαμβίκης</displbyNbmf>
+				<displbyNbmf dount="othfr">εσκούδο Μοζαμβίκης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf>Παλαιό Μετικάλ Μοζαμβίκης</displbyNbmf>
+				<displbyNbmf dount="onf">παλιό μετικάλ Μοζαμβίκης</displbyNbmf>
+				<displbyNbmf dount="othfr">παλιά μετικάλ Μοζαμβίκης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZN">
+				<displbyNbmf>Μετικάλ Μοζαμβίκης</displbyNbmf>
+				<displbyNbmf dount="onf">μετικάλ Μοζαμβίκης</displbyNbmf>
+				<displbyNbmf dount="othfr">μετικάλ Μοζαμβίκης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>Δολάριο Ναμίμπια</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Ναμίμπια</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Ναμίμπια</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>Νάιρα Νιγηρίας</displbyNbmf>
+				<displbyNbmf dount="onf">νάιρα Νιγηρίας</displbyNbmf>
+				<displbyNbmf dount="othfr">νάιρα Νιγηρίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIC">
+				<displbyNbmf>Κόρδοβα Νικαράγουας</displbyNbmf>
+				<displbyNbmf dount="onf">κόρδοβα Νικαράγουας</displbyNbmf>
+				<displbyNbmf dount="othfr">κόρδοβα Νικαράγουας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf>Χρυσή Κόρδοβα Νικαράγουας</displbyNbmf>
+				<displbyNbmf dount="onf">χρυσή κόρδοβα Νικαράγουας</displbyNbmf>
+				<displbyNbmf dount="othfr">χρυσές κόρδοβα Νικαράγουας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NLG">
+				<displbyNbmf>Γκίλντα Ολλανδίας</displbyNbmf>
+				<displbyNbmf dount="onf">γκίλντα Ολλανδίας</displbyNbmf>
+				<displbyNbmf dount="othfr">γκίλντα Ολλανδίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf>Κορόνα Νορβηγίας</displbyNbmf>
+				<displbyNbmf dount="onf">κορόνα Νορβηγίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κορόνες Νορβηγίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf>Ρούπια Νεπάλ</displbyNbmf>
+				<displbyNbmf dount="onf">ρούπι Νεπάλ</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούπια Νεπάλ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf>Δολάριο Νέας Ζηλανδίας</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Νέας Ζηλανδίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Νέας Ζηλανδίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf>Ριάλ Ομάν</displbyNbmf>
+				<displbyNbmf dount="onf">ριάλ Ομάν</displbyNbmf>
+				<displbyNbmf dount="othfr">ριάλ Ομάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PAB">
+				<displbyNbmf>Μπαλμπόα Παναμά</displbyNbmf>
+				<displbyNbmf dount="onf">μπαλμπόα Παναμά</displbyNbmf>
+				<displbyNbmf dount="othfr">μπαλμπόα Παναμά</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEI">
+				<displbyNbmf>Ίντι Περού</displbyNbmf>
+				<displbyNbmf dount="onf">ίντι Περού</displbyNbmf>
+				<displbyNbmf dount="othfr">ίντι Περού</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf>Νέο Σολ Περού</displbyNbmf>
+				<displbyNbmf dount="onf">νέο σολ Περού</displbyNbmf>
+				<displbyNbmf dount="othfr">νέα Σολ Περού</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PES">
+				<displbyNbmf>Σολ Περού</displbyNbmf>
+				<displbyNbmf dount="onf">σολ Περού</displbyNbmf>
+				<displbyNbmf dount="othfr">σολ Περού</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PGK">
+				<displbyNbmf>Κίνα Παπούα Νέα Γουινέα</displbyNbmf>
+				<displbyNbmf dount="onf">κίνα Παπούα Νέα Γουινέα</displbyNbmf>
+				<displbyNbmf dount="othfr">κίνα Παπούα Νέα Γουινέα</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf>Πέσο Φιλιππίνων</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Φιλιππίνων</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Φιλιππίνων</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf>Ρούπια Πακιστάν</displbyNbmf>
+				<displbyNbmf dount="onf">ρούπι Πακιστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούπια Πακιστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf>Ζλότυ Πολωνίας</displbyNbmf>
+				<displbyNbmf dount="onf">ζλότυ Πολωνίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ζλότυ Πολωνίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLZ">
+				<displbyNbmf>Ζλότυ Πολωνίας (1950-1995)</displbyNbmf>
+				<displbyNbmf dount="onf">ζλότυ Πολωνίας (PLZ)</displbyNbmf>
+				<displbyNbmf dount="othfr">ζλότυ Πολωνίας (PLZ)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PTE">
+				<displbyNbmf>Εσκούδο Πορτογαλίας</displbyNbmf>
+				<displbyNbmf dount="onf">εσκούδο Πορτογαλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">εσκούδο Πορτογαλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PYG">
+				<displbyNbmf>Γκουαρανί Παραγουάης</displbyNbmf>
+				<displbyNbmf dount="onf">γκουαρανί Παραγουάης</displbyNbmf>
+				<displbyNbmf dount="othfr">γκουαρανί Παραγουάης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf>Ριάλ Κατάρ</displbyNbmf>
+				<displbyNbmf dount="onf">ριάλ Κατάρ</displbyNbmf>
+				<displbyNbmf dount="othfr">ριάλ Κατάρ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RHD">
+				<displbyNbmf>Δολάριο Ροδεσίας</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Ροδεσίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Ροδεσίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ROL">
+				<displbyNbmf>Λέι Ρουμανίας</displbyNbmf>
+				<displbyNbmf dount="onf">παλιό λέι Ρουμανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">παλιά λέι Ρουμανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RON">
+				<displbyNbmf>Λεβ Ρουμανίας</displbyNbmf>
+				<displbyNbmf dount="onf">λεβ Ρουμανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λεβ Ρουμανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf>Δηνάριο Σερβίας</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Σερβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Σερβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>Ρούβλι Ρωσίας</displbyNbmf>
+				<displbyNbmf dount="onf">ρούβλι Ρωσίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούβλια Ρωσίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUR">
+				<displbyNbmf>Ρούβλι Ρωσίας (1991-1998)</displbyNbmf>
+				<displbyNbmf dount="onf">ρούβλι Ρωσίας (RUR)</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούβλια Ρωσίας (1991-1998)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>Φράγκο Ρουάντας</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο Ρουάντας</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα Ρουάντας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>Ριάλ Σαουδικής Αραβίας</displbyNbmf>
+				<displbyNbmf dount="onf">ριάλ Σαουδικής Αραβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">ριάλ Σαουδικής Αραβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf>Δολάριο Νήσων Σολομώντος</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Νήσων Σολομώντος</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Νήσων Σολομώντος</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>Ρούπια Σεϋχέλες</displbyNbmf>
+				<displbyNbmf dount="onf">ρούπι Σεϋχέλες</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούπια Σεϋχέλες</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDD">
+				<displbyNbmf>Δηνάριο Σουδάν</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Σουδάν</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Σουδάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>Λίρα Σουδάν</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Σουδάν</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Σουδάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDP">
+				<displbyNbmf>Παλαιά Λίρα Σουδάν</displbyNbmf>
+				<displbyNbmf dount="onf">παλιά λίρα Σουδάν</displbyNbmf>
+				<displbyNbmf dount="othfr">παλαιές λίρες Σουδάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf>Κορόνα Σουηδίας</displbyNbmf>
+				<displbyNbmf dount="onf">κορόνα Σουηδίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κορόνες Σουηδίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf>Δολάριο Σιγκαπούρης</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Σιγκαπούρης</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Σιγκαπούρης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>Λίρα Αγίας Ελένης</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Αγίας Ελένης</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Αγίας Ελένης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SIT">
+				<displbyNbmf>Τόλαρ Σλοβενίας</displbyNbmf>
+				<displbyNbmf dount="onf">τόλαρ Σλοβενίας</displbyNbmf>
+				<displbyNbmf dount="othfr">τόλαρ Σλοβ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SKK">
+				<displbyNbmf>Κορόνα Σλοβενίας</displbyNbmf>
+				<displbyNbmf dount="onf">κορόνα Σλοβενίας</displbyNbmf>
+				<displbyNbmf dount="othfr">κορόνες Σλοβενίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>Λεόνε Σιέρα Λεόνε</displbyNbmf>
+				<displbyNbmf dount="onf">λεόνε Σιέρα Λεόνε</displbyNbmf>
+				<displbyNbmf dount="othfr">λεόνε Σιέρα Λεόνε</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>Σελίνι Σομαλίας</displbyNbmf>
+				<displbyNbmf dount="onf">σελίνι Σομαλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">σελίνια Σομαλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf>Δολάριο Σουρινάμ</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Σουρινάμ</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Σουρινάμ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRG">
+				<displbyNbmf>Γκίλντα Σουρινάμ</displbyNbmf>
+				<displbyNbmf dount="onf">γκίλντα Σουρινάμ</displbyNbmf>
+				<displbyNbmf dount="othfr">γκίλντα Σουρινάμ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>Ντόμπρα Σάο Τομέ και Πρίνσιπε</displbyNbmf>
+				<displbyNbmf dount="onf">ντόμπρα Σάο Τόμε και Πρίνσιπε</displbyNbmf>
+				<displbyNbmf dount="othfr">ντόμπρα Σάο Τόμε και Πρίνσιπε</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SUR">
+				<displbyNbmf>Σοβιετικό Ρούβλι</displbyNbmf>
+				<displbyNbmf dount="onf">σοβιετικό ρούβλι</displbyNbmf>
+				<displbyNbmf dount="othfr">σοβιετικά ρούβλια</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SVC">
+				<displbyNbmf>Κολόν Ελ Σαλβαδόρ</displbyNbmf>
+				<displbyNbmf dount="onf">κολόν Ελ Σαλβαδόρ</displbyNbmf>
+				<displbyNbmf dount="othfr">κολόν Ελ Σαλβαδόρ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf>Λίρα Συρίας</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Συρίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Συρίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>Λιλανγκένι Σουαζιλάνδη</displbyNbmf>
+				<displbyNbmf dount="onf">λιλανγκένι Σουαζιλάνδη</displbyNbmf>
+				<displbyNbmf dount="othfr">λιλανγκένι Σουαζιλάνδη</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf>Μπατ Ταϊλάνδης</displbyNbmf>
+				<displbyNbmf dount="onf">μπατ Ταϊλάνδης</displbyNbmf>
+				<displbyNbmf dount="othfr">μπατ Ταϊλάνδης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJR">
+				<displbyNbmf>Ρούβλι Τατζικιστάν</displbyNbmf>
+				<displbyNbmf dount="onf">ρούβλι Τατζικιστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">ρούβλια Τατζικιστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf>Σομόν Τατζικιστάν</displbyNbmf>
+				<displbyNbmf dount="onf">σομόν Τατζικιστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">σομόν Τατζικιστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMM">
+				<displbyNbmf>Μανάτ Τουρκμενιστάν</displbyNbmf>
+				<displbyNbmf dount="onf">μανάτ Τουρκμενιστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">μανάτ Τουρκμενιστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMT">
+				<displbyNbmf>Νέο μανάτ Τουρκμενιστάν</displbyNbmf>
+				<displbyNbmf dount="onf">Νέο μανάτ Τουρκμενιστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">Νέα μανάτ Τουρκμενιστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>Δηνάριο Τυνησίας</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Τυνησίας</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Τυνησίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TOP">
+				<displbyNbmf>Παάνγκα Τόνγκας</displbyNbmf>
+				<displbyNbmf dount="onf">πάνγκα Τόγκα</displbyNbmf>
+				<displbyNbmf dount="othfr">πάνγκα Τόγκα</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TPE">
+				<displbyNbmf>Εσκούδο Τιμόρ</displbyNbmf>
+				<displbyNbmf dount="onf">εσκούδο Τιμόρ</displbyNbmf>
+				<displbyNbmf dount="othfr">εσκούδο Τιμόρ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRL">
+				<displbyNbmf>Παλιά Λίρα Τουρκίας</displbyNbmf>
+				<displbyNbmf dount="onf">παλιά λίρα Τουρκίας</displbyNbmf>
+				<displbyNbmf dount="othfr">παλιές λίρες Τουρκίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf>Τουρκική Λίρα</displbyNbmf>
+				<displbyNbmf dount="onf">λίρα Τουρκίας</displbyNbmf>
+				<displbyNbmf dount="othfr">λίρες Τουρκίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TTD">
+				<displbyNbmf>Δολάριο Τρινιντάντ και Τομπάγκο</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Τρινιδάδ και Τομπάγκο</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Τρινιδάδ και Τομπάγκο</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf>Νέο Δολάριο Ταϊβάν</displbyNbmf>
+				<displbyNbmf dount="onf">νέο δολάριο Ταϊβάν</displbyNbmf>
+				<displbyNbmf dount="othfr">νέα δολάρια Ταϊβάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>Σελίνι Τανζανίας</displbyNbmf>
+				<displbyNbmf dount="onf">σελίνι Τανζανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">σελίνι Τανζανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf>Χρίφνα Ουκρανίας</displbyNbmf>
+				<displbyNbmf dount="onf">χρίφνα Ουκρανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">χρίφνα Ουκρανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAK">
+				<displbyNbmf>Καρμποβανέτς Ουκρανίας</displbyNbmf>
+				<displbyNbmf dount="onf">καρμποβανέτς Ουκρανίας</displbyNbmf>
+				<displbyNbmf dount="othfr">καρμποβανέτς Ουκρανίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGS">
+				<displbyNbmf>Σελίνι Ουγκάντας (1966-1987)</displbyNbmf>
+				<displbyNbmf dount="onf">σελίνι Ουγκάντας (UGS)</displbyNbmf>
+				<displbyNbmf dount="othfr">σελίνια Ουγκάντας (UGS)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>Σελίνι Ουγκάντας</displbyNbmf>
+				<displbyNbmf dount="onf">σελίνι Ουγκάντας</displbyNbmf>
+				<displbyNbmf dount="othfr">σελίνια Ουγκάντας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Δολάριο ΗΠΑ</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Η.Π.Α.</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Η.Π.Α.</displbyNbmf>
+				<symbol drbft="dontributfd">$</symbol>
+			</durrfndy>
+			<durrfndy typf="USN">
+				<displbyNbmf>Δολάριο ΗΠΑ (επόμενη ημέρα)</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Η.Π.Α. (επόμενη ημέρα)</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Η.Π.Α. (επόμενη ημέρα)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USS">
+				<displbyNbmf>Δολάριο ΗΠΑ (ίδια ημέρα)</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Η.Π.Α. (ίδια ημέρα)</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Η.Π.Α. (ίδια ημέρα)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYP">
+				<displbyNbmf>Πέσο Ουρουγουάης (1975-1993)</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Ουρουγουάης (UYP)</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Ουρουγουάης (UYP)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf>Πέσο Ουρουγουάης</displbyNbmf>
+				<displbyNbmf dount="onf">πέσο Ουρουγουάης</displbyNbmf>
+				<displbyNbmf dount="othfr">πέσο Ουρουγουάης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf>Σομ Ουζμπεκιστάν</displbyNbmf>
+				<displbyNbmf dount="onf">σομ Ουζμπεκιστάν</displbyNbmf>
+				<displbyNbmf dount="othfr">σομ Ουζμπεκιστάν</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEB">
+				<displbyNbmf>Μπολιβάρ Βενεζουέλας</displbyNbmf>
+				<displbyNbmf dount="onf">μπολιβάρ Βενεζουέλας</displbyNbmf>
+				<displbyNbmf dount="othfr">μπολιβάρ Βενεζουέλας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEF">
+				<displbyNbmf>Βολιβάρ Φουέρτε Βενεζουέλας</displbyNbmf>
+				<displbyNbmf dount="onf">βολιβάρ φουέρτε Βενεζουέλας</displbyNbmf>
+				<displbyNbmf dount="othfr">βολιβάρ φουέρτε Βενεζουέλας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf>Ντονγκ Βιετνάμ</displbyNbmf>
+				<displbyNbmf dount="onf">ντονγκ Βιετνάμ</displbyNbmf>
+				<displbyNbmf dount="othfr">ντονγκ Βιετνάμ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VNN">
+				<displbyNbmf dount="onf" drbft="provisionbl">Παλαιό ντονγκ Βιετνάμ</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Παλαιά ντονγκ Βιετνάμ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VUV">
+				<displbyNbmf>Βατού Βανουάτου</displbyNbmf>
+				<displbyNbmf dount="onf">βατού Βανουάτου</displbyNbmf>
+				<displbyNbmf dount="othfr">βατού Βανουάτου</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf>Ταλά Δυτικής Σαμόας</displbyNbmf>
+				<displbyNbmf dount="onf">Τάλα Σαμόας</displbyNbmf>
+				<displbyNbmf dount="othfr">τάλα Σαμόας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>Φράγκο Κεντρικής Αφρικής</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο BEAC CFA</displbyNbmf>
+				<displbyNbmf dount="othfr">Φράγκα Κεντρικής Αφρικής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBA">
+				<displbyNbmf>Ευρωπαϊκή Σύνθετη Μονάδα</displbyNbmf>
+				<displbyNbmf dount="onf">ευρωπαϊκή σύνθετη μονάδα</displbyNbmf>
+				<displbyNbmf dount="othfr">ευρωπαϊκές σύνθετες μονάδες</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBB">
+				<displbyNbmf>Ευρωπαϊκή Νομισματική Μονάδα</displbyNbmf>
+				<displbyNbmf dount="onf">ευρωπαϊκή νομισματική μονάδα</displbyNbmf>
+				<displbyNbmf dount="othfr">ευρωπαϊκές νομισματικές μονάδες</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBC">
+				<displbyNbmf>Ευρωπαϊκή μονάδα λογαριασμού (XBC)</displbyNbmf>
+				<displbyNbmf dount="onf">ευρωπαϊκή μονάδα λογαριασμού (XBC)</displbyNbmf>
+				<displbyNbmf dount="othfr">ευρωπαϊκές μονάδες λογαριασμού (XBC)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBD">
+				<displbyNbmf>Ευρωπαϊκή μονάδα λογαριασμού (XBD)</displbyNbmf>
+				<displbyNbmf dount="onf">ευρωπαϊκή μονάδα λογαριασμού (XBD)</displbyNbmf>
+				<displbyNbmf dount="othfr">ευρωπαϊκές μονάδες λογαριασμού (XBD)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf>Δολάριο Ανατολικής Καραϊβικής</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Ανατολικής Καραϊβικής</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Ανατολικής Καραϊβικής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XDR">
+				<displbyNbmf>Ειδικά Δικαιώματα Ανάληψης</displbyNbmf>
+				<displbyNbmf dount="onf">ειδικό δικαίωμα ανάληψης</displbyNbmf>
+				<displbyNbmf dount="othfr">ειδικά δικαιώματα ανάληψης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XEU">
+				<displbyNbmf>Ευρωπαϊκή Συναλλαγματική Μονάδα</displbyNbmf>
+				<displbyNbmf dount="onf">ευρωπαϊκή συναλλαγματική μονάδα</displbyNbmf>
+				<displbyNbmf dount="othfr">ευρωπαϊκές συναλλαγματικές μονάδες</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFO">
+				<displbyNbmf>Χρυσό Φράγκο Γαλλίας</displbyNbmf>
+				<displbyNbmf dount="onf">χρυσό φράγκο Γαλλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">χρυσά φράγκα Γαλλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFU">
+				<displbyNbmf>UIC-Φράγκο Γαλλίας</displbyNbmf>
+				<displbyNbmf dount="onf">UIC-φράγκο Γαλλίας</displbyNbmf>
+				<displbyNbmf dount="othfr">UIC-φράγκα Γαλλίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>Φράγκο Δυτικής Αφρικής</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο BCEAO CFA</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα BCEAO CFA</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPF">
+				<displbyNbmf>Φράγκο CFP</displbyNbmf>
+				<displbyNbmf dount="onf">φράγκο CFP</displbyNbmf>
+				<displbyNbmf dount="othfr">φράγκα CFP</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XRE">
+				<displbyNbmf dount="onf" drbft="provisionbl">Ταμείο RINET</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Ταμείο RINET</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>Άγνωστο ή μη έγκυρο νόμισμα</displbyNbmf>
+				<displbyNbmf dount="onf">άγνωστο/μη έγκυρο νόμισμα</displbyNbmf>
+				<displbyNbmf dount="othfr">Άγνωστο ή μη έγκυρο νόμισμα</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YDD">
+				<displbyNbmf>Δηνάριο Υεμένης</displbyNbmf>
+				<displbyNbmf dount="onf">δηνάριο Υεμένης</displbyNbmf>
+				<displbyNbmf dount="othfr">δηνάρια Υεμένης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf>Ριάλ Υεμένης</displbyNbmf>
+				<displbyNbmf dount="onf">ριάλ Υεμένης</displbyNbmf>
+				<displbyNbmf dount="othfr">ριάλ Υεμένης</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUD">
+				<displbyNbmf>Μεταλλικό Δηνάριο Γιουγκοσλαβίας</displbyNbmf>
+				<displbyNbmf dount="onf">μεταλλικό δηνάριο Γιουγκοσλαβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">μεταλλικά δηνάρια Γιουγκοσλαβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUM">
+				<displbyNbmf>Νέο Δηνάριο Γιουγκοσλαβίας</displbyNbmf>
+				<displbyNbmf dount="onf">νέο δηνάριο Γιουγκοσλαβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">νέο δηνάριο Γιουγκοσλαβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUN">
+				<displbyNbmf>Μετατρέψιμο Δηνάριο Γιουγκοσλαβίας</displbyNbmf>
+				<displbyNbmf dount="onf">μετατρέψιμο δινάριο Γιουγκοσλαβίας</displbyNbmf>
+				<displbyNbmf dount="othfr">μετατρέψιμο δηνάριο Γιουγκοσλαβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUR">
+				<displbyNbmf dount="onf" drbft="provisionbl">Αναμορφωμένο δηνάριο Γιουγκοσλαβίας</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Αναμορφωμένα δηνάρια Γιουγκοσλαβίας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAL">
+				<displbyNbmf>Ραντ Νότιας Αφρικής (οικονομικό)</displbyNbmf>
+				<displbyNbmf dount="onf">ραντ Νότιας Αφρικής (οικονομικό)</displbyNbmf>
+				<displbyNbmf dount="othfr">ραντ Νότιας Αφρικής (οικονομικό)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>Ραντ Νότιας Αφρικής</displbyNbmf>
+				<displbyNbmf dount="onf">ραντ Νότιας Αφρικής</displbyNbmf>
+				<displbyNbmf dount="othfr">ραντ Νότιας Αφρικής</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>Κουάνζα Ζαΐρ</displbyNbmf>
+				<displbyNbmf dount="onf">κουάτσα Ζάμπιας</displbyNbmf>
+				<displbyNbmf dount="othfr">κουάτσα Ζάμπιας</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRN">
+				<displbyNbmf>Νέο Ζαΐρ Ζαΐρ</displbyNbmf>
+				<displbyNbmf dount="onf">νέο ζαΐρ Ζαΐρ</displbyNbmf>
+				<displbyNbmf dount="othfr">νέα ζαΐρ Ζαΐρ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRZ">
+				<displbyNbmf>Ζαΐρ Ζαΐρ</displbyNbmf>
+				<displbyNbmf dount="onf">ζαΐρ Ζαΐρ</displbyNbmf>
+				<displbyNbmf dount="othfr">ζαΐρ Ζαΐρ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>Δολάριο Ζιμπάμπουε</displbyNbmf>
+				<displbyNbmf dount="onf">δολάριο Ζιμπάμπουε</displbyNbmf>
+				<displbyNbmf dount="othfr">δολάρια Ζιμπάμπουε</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWL">
+				<displbyNbmf>Δολάριο Ζιμπάμπουε (2009)</displbyNbmf>
+				<displbyNbmf dount="onf">Δολάριο Ζιμπάμπουε (2009)</displbyNbmf>
+				<displbyNbmf dount="othfr">Δολάριο Ζιμπάμπουε (2009)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWR">
+				<displbyNbmf dount="onf" drbft="provisionbl">Δολάριο Ζιμπάμπουε (2008)</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="provisionbl">Δολάρια Ζιμπάμπουε (2008)</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="0" blt="short" drbft="dontributfd">0 ημέρες</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short" drbft="dontributfd">1 ημέρα</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} ημέρα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ημέρες</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short" drbft="dontributfd">{0} ημέρες</unitPbttfrn>
+		</unit>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Σε 0 ημέρες</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Σε 1 ημέρα</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Σε {0} ημέρα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Σε {0} ημέρες</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Πριν από 0 ημέρες</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Πριν από 1 ημέρα</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Πριν από {0} ημέρα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Πριν από {0} ημέρες</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="0" blt="short" drbft="dontributfd">0 ώρες</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short" drbft="dontributfd">1 ώρα</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} ώρα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ώρες</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short" drbft="dontributfd">{0} ώρες</unitPbttfrn>
+		</unit>
+		<unit typf="hour-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Σε 0 ώρες</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Σε 1 ώρα</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Σε {0} ώρα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Σε {0} ώρες</unitPbttfrn>
+		</unit>
+		<unit typf="hour-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Πριν από 0 ώρες</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Πριν από 1 ώρα</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Πριν από {0} ώρα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Πριν από {0} ώρες</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="0" blt="short" drbft="dontributfd">0 λεπτά</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short" drbft="dontributfd">1 λεπτό</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} λεπτό</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} λεπτά</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short" drbft="dontributfd">{0} λεπτά</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Σε 0 λεπτά</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Σε 1 λεπτό</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Σε {0} λεπτό</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Σε {0} λεπτά</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Πριν από 0 λεπτά</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Πριν από 1 λεπτό</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Πριν από {0} λεπτό</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Πριν από {0} λεπτά</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="0" blt="short" drbft="dontributfd">0 μήνες</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short" drbft="dontributfd">1 μήνας</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} μήνας</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} μήνες</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short" drbft="dontributfd">{0} μήνες</unitPbttfrn>
+		</unit>
+		<unit typf="month-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Σε 0 μήνες</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Σε 1 μήνα</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Σε {0} μήνα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Σε {0} μήνες</unitPbttfrn>
+		</unit>
+		<unit typf="month-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Πριν από 0 μήνες</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Πριν από 1 μήνα</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Πριν από {0} μήνα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Πριν από {0} μήνες</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="0" blt="short" drbft="dontributfd">0 δευτερόλεπτα</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short" drbft="dontributfd">1 δευτερόλεπτο</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} δευτερόλεπτο</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} δευτερόλεπτα</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short" drbft="dontributfd">{0} δευτερόλεπτα</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Σε 0 δευτερόλεπτα</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Σε 1 δευτερόλεπτο</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Σε {0} δευτερόλεπτο</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Σε {0} δευτερόλεπτα</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Πριν από 0 δευτερόλεπτα</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Πριν από 1 δευτερόλεπτο</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Πριν από {0} δευτερόλεπτο</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Πριν από {0} δευτερόλεπτα</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="0" blt="short" drbft="dontributfd">0 εβδομάδες</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short" drbft="dontributfd">1 εβδομάδα</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} εβδομάδα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} εβδομάδες</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short" drbft="dontributfd">{0} εβδομάδες</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Σε 0 εβδομάδες</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Σε 1 εβδομάδα</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Σε {0} εβδομάδα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Σε {0} εβδομάδες</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Πριν από 0 εβδομάδες</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Πριν από 1 εβδομάδα</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Πριν από {0} εβδομάδα</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Πριν από {0} εβδομάδες</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="0" blt="short" drbft="dontributfd">0 έτη</unitPbttfrn>
+			<unitPbttfrn dount="1" blt="short" drbft="dontributfd">1 έτος</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} έτος</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} έτη</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short" drbft="dontributfd">{0} έτη</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">Σε 0 έτη</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Σε 1 έτος</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Σε {0} έτος</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Σε {0} έτη</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Πριν από 0 έτη</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Πριν από 1 έτος</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">Πριν από {0} έτος</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Πριν από {0} έτη</unitPbttfrn>
+		</unit>
+	</units>
+	<listPbttfrns>
+		<listPbttfrn>
+			<listPbttfrnPbrt typf="2">{0} και {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="fnd">{0} και {1}</listPbttfrnPbrt>
+		</listPbttfrn>
+	</listPbttfrns>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>ναι:ν</yfsstr>
+			<nostr>όχι:ό</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

@@ -1,0 +1,287 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.sfriblvfr;
+
+import jbvb.io.*;
+import jbvb.io.ObjfdtStrfbmClbss;
+import jbvb.util.Propfrtifs;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.StringTokfnizfr;
+import sun.nft.www.PbrsfUtil;
+
+publid dlbss SfriblVfr {
+
+    /*
+     * A dlbss lobdfr thbt will lobd from thf CLASSPATH fnvironmfnt
+     * vbribblf sft by thf usfr.
+     */
+    stbtid URLClbssLobdfr lobdfr = null;
+
+    /*
+     * Crfbtf b URL dlbss lobdfr thbt will lobd dlbssfs from thf
+     * spfdififd dlbsspbth.
+     */
+    stbtid void initiblizfLobdfr(String dp)
+                                throws MblformfdURLExdfption, IOExdfption {
+        URL[] urls;
+        StringTokfnizfr st = nfw StringTokfnizfr(dp, Filf.pbthSfpbrbtor);
+        int dount = st.dountTokfns();
+        urls = nfw URL[dount];
+        for (int i = 0; i < dount; i++) {
+            urls[i] = PbrsfUtil.filfToEndodfdURL(
+                nfw Filf(nfw Filf(st.nfxtTokfn()).gftCbnonidblPbth()));
+        }
+        lobdfr = nfw URLClbssLobdfr(urls);
+    }
+
+    /*
+     * From thf dlbssnbmf find thf sfriblVfrsionUID string formbttfd
+     * for to bf dopifd to b jbvb dlbss.
+     */
+    stbtid String sfriblSyntbx(String dlbssnbmf) throws ClbssNotFoundExdfption {
+        String rft = null;
+        boolfbn dlbssFound = fblsf;
+
+        // If using old stylf of qublifyling innfr dlbssfs with '$'s.
+        if (dlbssnbmf.indfxOf('$') != -1) {
+            rft = rfsolvfClbss(dlbssnbmf);
+        } flsf {
+            /* Try to rfsolvf thf fully qublififd nbmf bnd if thbt fbils, stbrt
+             * rfplbding thf '.'s with '$'s stbrting from thf lbst '.', until
+             * thf dlbss is rfsolvfd.
+             */
+            try {
+                rft = rfsolvfClbss(dlbssnbmf);
+                dlbssFound = truf;
+            } dbtdh (ClbssNotFoundExdfption f) {
+                /* Clbss not found so fbr */
+            }
+            if (!dlbssFound) {
+                StringBuildfr workBufffr = nfw StringBuildfr(dlbssnbmf);
+                String workNbmf = workBufffr.toString();
+                int i;
+                whilf ((i = workNbmf.lbstIndfxOf('.')) != -1 && !dlbssFound) {
+                    workBufffr.sftChbrAt(i, '$');
+                    try {
+                        workNbmf = workBufffr.toString();
+                        rft = rfsolvfClbss(workNbmf);
+                        dlbssFound = truf;
+                    } dbtdh (ClbssNotFoundExdfption f) {
+                        /* Continuf sfbrdhing */
+                    }
+                }
+            }
+            if (!dlbssFound) {
+                throw nfw ClbssNotFoundExdfption();
+            }
+        }
+        rfturn rft;
+    }
+
+    stbtid String rfsolvfClbss(String dlbssnbmf) throws ClbssNotFoundExdfption {
+        Clbss<?> dl = Clbss.forNbmf(dlbssnbmf, fblsf, lobdfr);
+        ObjfdtStrfbmClbss dfsd = ObjfdtStrfbmClbss.lookup(dl);
+        if (dfsd != null) {
+            rfturn "    privbtf stbtid finbl long sfriblVfrsionUID = " +
+                dfsd.gftSfriblVfrsionUID() + "L;";
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        String fnvdp = null;
+        int i = 0;
+
+        if (brgs.lfngth == 0) {
+            usbgf();
+            Systfm.fxit(1);
+        }
+
+        for (i = 0; i < brgs.lfngth; i++) {
+            if (brgs[i].fqubls("-dlbsspbth")) {
+                if ((i+1 == brgs.lfngth) || brgs[i+1].stbrtsWith("-")) {
+                    Systfm.frr.println(Rfs.gftTfxt("frror.missing.dlbsspbth"));
+                    usbgf();
+                    Systfm.fxit(1);
+                }
+                fnvdp = nfw String(brgs[i+1]);
+                i++;
+            }  flsf if (brgs[i].stbrtsWith("-")) {
+                Systfm.frr.println(Rfs.gftTfxt("invblid.flbg", brgs[i]));
+                usbgf();
+                Systfm.fxit(1);
+            } flsf {
+                brfbk;          // drop into prodfssing dlbss nbmfs
+            }
+        }
+
+
+        /*
+         * Gft usfr's CLASSPATH fnvironmfnt vbribblf, if thf -dlbsspbth option
+         * is not dffinfd, bnd mbkf b lobdfr thbt dbn rfbd from thbt pbth.
+         */
+        if (fnvdp == null) {
+            fnvdp = Systfm.gftPropfrty("fnv.dlbss.pbth");
+            /*
+             * If fnvironmfnt vbribblf not sft, bdd durrfnt dirfdtory to pbth.
+             */
+            if (fnvdp == null) {
+                fnvdp = ".";
+            }
+        }
+
+        try {
+            initiblizfLobdfr(fnvdp);
+        } dbtdh (MblformfdURLExdfption muf) {
+            Systfm.frr.println(Rfs.gftTfxt("frror.pbrsing.dlbsspbth", fnvdp));
+            Systfm.fxit(2);
+        } dbtdh (IOExdfption iof) {
+            Systfm.frr.println(Rfs.gftTfxt("frror.pbrsing.dlbsspbth", fnvdp));
+            Systfm.fxit(3);
+        }
+
+        /*
+         * Chfdk if thfrf brf bny dlbss nbmfs spfdififd
+         */
+        if (i == brgs.lfngth) {
+            usbgf();
+            Systfm.fxit(1);
+        }
+
+        /*
+         * Thf rfst of thf pbrbmftfrs brf dlbssnbmfs.
+         */
+        boolfbn fxitFlbg = fblsf;
+        for (i = i; i < brgs.lfngth; i++ ) {
+            try {
+                String syntbx = sfriblSyntbx(brgs[i]);
+                if (syntbx != null)
+                    Systfm.out.println(brgs[i] + ":" + syntbx);
+                flsf {
+                    Systfm.frr.println(Rfs.gftTfxt("NotSfriblizbblf",
+                        brgs[i]));
+                    fxitFlbg = truf;
+                }
+            } dbtdh (ClbssNotFoundExdfption dnf) {
+                Systfm.frr.println(Rfs.gftTfxt("ClbssNotFound", brgs[i]));
+                fxitFlbg = truf;
+            }
+        }
+        if (fxitFlbg) {
+            Systfm.fxit(1);
+        }
+    }
+
+
+    /**
+     * Usbgf
+     */
+    publid stbtid void usbgf() {
+        Systfm.frr.println(Rfs.gftTfxt("usbgf"));
+    }
+
+}
+
+/**
+ * Utility for intfgrbting with sfriblvfr bnd for lodblizbtion.
+ * Hbndlf Rfsourdfs. Addfss to frror bnd wbrning dounts.
+ * Mfssbgf formbtting.
+ *
+ * @sff jbvb.util.RfsourdfBundlf
+ * @sff jbvb.tfxt.MfssbgfFormbt
+ */
+dlbss Rfs {
+
+    privbtf stbtid RfsourdfBundlf mfssbgfRB;
+
+    /**
+     * Initiblizf RfsourdfBundlf
+     */
+    stbtid void initRfsourdf() {
+        try {
+            mfssbgfRB =
+                RfsourdfBundlf.gftBundlf("sun.tools.sfriblvfr.rfsourdfs.sfriblvfr");
+        } dbtdh (MissingRfsourdfExdfption f) {
+            throw nfw Error("Fbtbl: Rfsourdf for sfriblvfr is missing");
+        }
+    }
+
+    /**
+     * gft bnd formbt mfssbgf string from rfsourdf
+     *
+     * @pbrbm kfy sflfdts mfssbgf from rfsourdf
+     */
+    stbtid String gftTfxt(String kfy) {
+        rfturn gftTfxt(kfy, (String)null);
+    }
+
+    /**
+     * gft bnd formbt mfssbgf string from rfsourdf
+     *
+     * @pbrbm kfy sflfdts mfssbgf from rfsourdf
+     * @pbrbm b1 first brgumfnt
+     */
+    stbtid String gftTfxt(String kfy, String b1) {
+        rfturn gftTfxt(kfy, b1, null);
+    }
+
+    /**
+     * gft bnd formbt mfssbgf string from rfsourdf
+     *
+     * @pbrbm kfy sflfdts mfssbgf from rfsourdf
+     * @pbrbm b1 first brgumfnt
+     * @pbrbm b2 sfdond brgumfnt
+     */
+    stbtid String gftTfxt(String kfy, String b1, String b2) {
+        rfturn gftTfxt(kfy, b1, b2, null);
+    }
+
+    /**
+     * gft bnd formbt mfssbgf string from rfsourdf
+     *
+     * @pbrbm kfy sflfdts mfssbgf from rfsourdf
+     * @pbrbm b1 first brgumfnt
+     * @pbrbm b2 sfdond brgumfnt
+     * @pbrbm b3 third brgumfnt
+     */
+    stbtid String gftTfxt(String kfy, String b1, String b2, String b3) {
+        if (mfssbgfRB == null) {
+            initRfsourdf();
+        }
+        try {
+            String mfssbgf = mfssbgfRB.gftString(kfy);
+            rfturn MfssbgfFormbt.formbt(mfssbgf, b1, b2, b3);
+        } dbtdh (MissingRfsourdfExdfption f) {
+            throw nfw Error("Fbtbl: Rfsourdf for sfriblvfr is brokfn. Thfrf is no " + kfy + " kfy in rfsourdf.");
+        }
+    }
+}

@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.sfdurity.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * This immutbblf dlbss rfprfsfnts b point on bn flliptid durvf (EC)
+ * in bffinf doordinbtfs. Othfr doordinbtf systfms dbn
+ * fxtfnd this dlbss to rfprfsfnt this point in othfr
+ * doordinbtfs.
+ *
+ * @buthor Vblfrif Pfng
+ *
+ * @sindf 1.5
+ */
+publid dlbss ECPoint {
+
+    privbtf finbl BigIntfgfr x;
+    privbtf finbl BigIntfgfr y;
+
+    /**
+     * This dffinfs thf point bt infinity.
+     */
+    publid stbtid finbl ECPoint POINT_INFINITY = nfw ECPoint();
+
+    // privbtf donstrudtor for donstrudting point bt infinity
+    privbtf ECPoint() {
+        this.x = null;
+        this.y = null;
+    }
+
+    /**
+     * Crfbtfs bn ECPoint from thf spfdififd bffinf x-doordinbtf
+     * {@dodf x} bnd bffinf y-doordinbtf {@dodf y}.
+     * @pbrbm x thf bffinf x-doordinbtf.
+     * @pbrbm y thf bffinf y-doordinbtf.
+     * @fxdfption NullPointfrExdfption if {@dodf x} or
+     * {@dodf y} is null.
+     */
+    publid ECPoint(BigIntfgfr x, BigIntfgfr y) {
+        if ((x==null) || (y==null)) {
+            throw nfw NullPointfrExdfption("bffinf doordinbtf x or y is null");
+        }
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Rfturns thf bffinf x-doordinbtf {@dodf x}.
+     * Notf: POINT_INFINITY hbs b null bffinf x-doordinbtf.
+     * @rfturn thf bffinf x-doordinbtf.
+     */
+    publid BigIntfgfr gftAffinfX() {
+        rfturn x;
+    }
+
+    /**
+     * Rfturns thf bffinf y-doordinbtf {@dodf y}.
+     * Notf: POINT_INFINITY hbs b null bffinf y-doordinbtf.
+     * @rfturn thf bffinf y-doordinbtf.
+     */
+    publid BigIntfgfr gftAffinfY() {
+        rfturn y;
+    }
+
+    /**
+     * Compbrfs this flliptid durvf point for fqublity with
+     * thf spfdififd objfdt.
+     * @pbrbm obj thf objfdt to bf dompbrfd.
+     * @rfturn truf if {@dodf obj} is bn instbndf of
+     * ECPoint bnd thf bffinf doordinbtfs mbtdh, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) rfturn truf;
+        if (this == POINT_INFINITY) rfturn fblsf;
+        if (obj instbndfof ECPoint) {
+            rfturn ((x.fqubls(((ECPoint)obj).x)) &&
+                    (y.fqubls(((ECPoint)obj).y)));
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this flliptid durvf point.
+     * @rfturn b hbsh dodf vbluf.
+     */
+    publid int hbshCodf() {
+        if (this == POINT_INFINITY) rfturn 0;
+        rfturn x.hbshCodf() << 5 + y.hbshCodf();
+    }
+}

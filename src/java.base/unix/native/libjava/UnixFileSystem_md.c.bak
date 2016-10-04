@@ -1,457 +1,457 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <assert.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/stat.h>
-#include <sys/statvfs.h>
-#include <string.h>
-#include <stdlib.h>
-#include <dlfcn.h>
-#include <limits.h>
+#indludf <bssfrt.i>
+#indludf <sys/typfs.i>
+#indludf <sys/timf.i>
+#indludf <sys/stbt.i>
+#indludf <sys/stbtvfs.i>
+#indludf <string.i>
+#indludf <stdlib.i>
+#indludf <dlfdn.i>
+#indludf <limits.i>
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jlong.h"
-#include "jvm.h"
-#include "io_util.h"
-#include "io_util_md.h"
-#include "java_io_FileSystem.h"
-#include "java_io_UnixFileSystem.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jlong.i"
+#indludf "jvm.i"
+#indludf "io_util.i"
+#indludf "io_util_md.i"
+#indludf "jbvb_io_FilfSystfm.i"
+#indludf "jbvb_io_UnixFilfSystfm.i"
 
-#if defined(_ALLBSD_SOURCE)
-#define dirent64 dirent
-#define readdir64_r readdir_r
-#define stat64 stat
-#define statvfs64 statvfs
-#endif
+#if dffinfd(_ALLBSD_SOURCE)
+#dffinf dirfnt64 dirfnt
+#dffinf rfbddir64_r rfbddir_r
+#dffinf stbt64 stbt
+#dffinf stbtvfs64 stbtvfs
+#fndif
 
-/* -- Field IDs -- */
+/* -- Fifld IDs -- */
 
-static struct {
-    jfieldID path;
+stbtid strudt {
+    jfifldID pbti;
 } ids;
 
 
 JNIEXPORT void JNICALL
-Java_java_io_UnixFileSystem_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_io_UnixFilfSystfm_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    jclass fileClass = (*env)->FindClass(env, "java/io/File");
-    if (!fileClass) return;
-    ids.path = (*env)->GetFieldID(env, fileClass,
-                                  "path", "Ljava/lang/String;");
+    jdlbss filfClbss = (*fnv)->FindClbss(fnv, "jbvb/io/Filf");
+    if (!filfClbss) rfturn;
+    ids.pbti = (*fnv)->GftFifldID(fnv, filfClbss,
+                                  "pbti", "Ljbvb/lbng/String;");
 }
 
-/* -- Path operations -- */
+/* -- Pbti opfrbtions -- */
 
-extern int canonicalize(char *path, const char *out, int len);
+fxtfrn int dbnonidblizf(dibr *pbti, donst dibr *out, int lfn);
 
 JNIEXPORT jstring JNICALL
-Java_java_io_UnixFileSystem_canonicalize0(JNIEnv *env, jobject this,
-                                          jstring pathname)
+Jbvb_jbvb_io_UnixFilfSystfm_dbnonidblizf0(JNIEnv *fnv, jobjfdt tiis,
+                                          jstring pbtinbmf)
 {
     jstring rv = NULL;
 
-    WITH_PLATFORM_STRING(env, pathname, path) {
-        char canonicalPath[JVM_MAXPATHLEN];
-        if (canonicalize((char *)path,
-                         canonicalPath, JVM_MAXPATHLEN) < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, "Bad pathname");
-        } else {
-#ifdef MACOSX
-            rv = newStringPlatform(env, canonicalPath);
-#else
-            rv = JNU_NewStringPlatform(env, canonicalPath);
-#endif
+    WITH_PLATFORM_STRING(fnv, pbtinbmf, pbti) {
+        dibr dbnonidblPbti[JVM_MAXPATHLEN];
+        if (dbnonidblizf((dibr *)pbti,
+                         dbnonidblPbti, JVM_MAXPATHLEN) < 0) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Bbd pbtinbmf");
+        } flsf {
+#ifdff MACOSX
+            rv = nfwStringPlbtform(fnv, dbnonidblPbti);
+#flsf
+            rv = JNU_NfwStringPlbtform(fnv, dbnonidblPbti);
+#fndif
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 
-/* -- Attribute accessors -- */
+/* -- Attributf bddfssors -- */
 
 
-static jboolean
-statMode(const char *path, int *mode)
+stbtid jboolfbn
+stbtModf(donst dibr *pbti, int *modf)
 {
-    struct stat64 sb;
-    if (stat64(path, &sb) == 0) {
-        *mode = sb.st_mode;
-        return JNI_TRUE;
+    strudt stbt64 sb;
+    if (stbt64(pbti, &sb) == 0) {
+        *modf = sb.st_modf;
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 
 JNIEXPORT jint JNICALL
-Java_java_io_UnixFileSystem_getBooleanAttributes0(JNIEnv *env, jobject this,
-                                                  jobject file)
+Jbvb_jbvb_io_UnixFilfSystfm_gftBoolfbnAttributfs0(JNIEnv *fnv, jobjfdt tiis,
+                                                  jobjfdt filf)
 {
     jint rv = 0;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        int mode;
-        if (statMode(path, &mode)) {
-            int fmt = mode & S_IFMT;
-            rv = (jint) (java_io_FileSystem_BA_EXISTS
-                  | ((fmt == S_IFREG) ? java_io_FileSystem_BA_REGULAR : 0)
-                  | ((fmt == S_IFDIR) ? java_io_FileSystem_BA_DIRECTORY : 0));
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        int modf;
+        if (stbtModf(pbti, &modf)) {
+            int fmt = modf & S_IFMT;
+            rv = (jint) (jbvb_io_FilfSystfm_BA_EXISTS
+                  | ((fmt == S_IFREG) ? jbvb_io_FilfSystfm_BA_REGULAR : 0)
+                  | ((fmt == S_IFDIR) ? jbvb_io_FilfSystfm_BA_DIRECTORY : 0));
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_checkAccess(JNIEnv *env, jobject this,
-                                        jobject file, jint a)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_difdkAddfss(JNIEnv *fnv, jobjfdt tiis,
+                                        jobjfdt filf, jint b)
 {
-    jboolean rv = JNI_FALSE;
-    int mode = 0;
-    switch (a) {
-    case java_io_FileSystem_ACCESS_READ:
-        mode = R_OK;
-        break;
-    case java_io_FileSystem_ACCESS_WRITE:
-        mode = W_OK;
-        break;
-    case java_io_FileSystem_ACCESS_EXECUTE:
-        mode = X_OK;
-        break;
-    default: assert(0);
+    jboolfbn rv = JNI_FALSE;
+    int modf = 0;
+    switdi (b) {
+    dbsf jbvb_io_FilfSystfm_ACCESS_READ:
+        modf = R_OK;
+        brfbk;
+    dbsf jbvb_io_FilfSystfm_ACCESS_WRITE:
+        modf = W_OK;
+        brfbk;
+    dbsf jbvb_io_FilfSystfm_ACCESS_EXECUTE:
+        modf = X_OK;
+        brfbk;
+    dffbult: bssfrt(0);
     }
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        if (access(path, mode) == 0) {
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        if (bddfss(pbti, modf) == 0) {
             rv = JNI_TRUE;
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_setPermission(JNIEnv *env, jobject this,
-                                          jobject file,
-                                          jint access,
-                                          jboolean enable,
-                                          jboolean owneronly)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_sftPfrmission(JNIEnv *fnv, jobjfdt tiis,
+                                          jobjfdt filf,
+                                          jint bddfss,
+                                          jboolfbn fnbblf,
+                                          jboolfbn ownfronly)
 {
-    jboolean rv = JNI_FALSE;
+    jboolfbn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        int amode = 0;
-        int mode;
-        switch (access) {
-        case java_io_FileSystem_ACCESS_READ:
-            if (owneronly)
-                amode = S_IRUSR;
-            else
-                amode = S_IRUSR | S_IRGRP | S_IROTH;
-            break;
-        case java_io_FileSystem_ACCESS_WRITE:
-            if (owneronly)
-                amode = S_IWUSR;
-            else
-                amode = S_IWUSR | S_IWGRP | S_IWOTH;
-            break;
-        case java_io_FileSystem_ACCESS_EXECUTE:
-            if (owneronly)
-                amode = S_IXUSR;
-            else
-                amode = S_IXUSR | S_IXGRP | S_IXOTH;
-            break;
-        default:
-            assert(0);
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        int bmodf = 0;
+        int modf;
+        switdi (bddfss) {
+        dbsf jbvb_io_FilfSystfm_ACCESS_READ:
+            if (ownfronly)
+                bmodf = S_IRUSR;
+            flsf
+                bmodf = S_IRUSR | S_IRGRP | S_IROTH;
+            brfbk;
+        dbsf jbvb_io_FilfSystfm_ACCESS_WRITE:
+            if (ownfronly)
+                bmodf = S_IWUSR;
+            flsf
+                bmodf = S_IWUSR | S_IWGRP | S_IWOTH;
+            brfbk;
+        dbsf jbvb_io_FilfSystfm_ACCESS_EXECUTE:
+            if (ownfronly)
+                bmodf = S_IXUSR;
+            flsf
+                bmodf = S_IXUSR | S_IXGRP | S_IXOTH;
+            brfbk;
+        dffbult:
+            bssfrt(0);
         }
-        if (statMode(path, &mode)) {
-            if (enable)
-                mode |= amode;
-            else
-                mode &= ~amode;
-            if (chmod(path, mode) >= 0) {
+        if (stbtModf(pbti, &modf)) {
+            if (fnbblf)
+                modf |= bmodf;
+            flsf
+                modf &= ~bmodf;
+            if (dimod(pbti, modf) >= 0) {
                 rv = JNI_TRUE;
             }
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_io_UnixFileSystem_getLastModifiedTime(JNIEnv *env, jobject this,
-                                                jobject file)
+Jbvb_jbvb_io_UnixFilfSystfm_gftLbstModififdTimf(JNIEnv *fnv, jobjfdt tiis,
+                                                jobjfdt filf)
 {
     jlong rv = 0;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        struct stat64 sb;
-        if (stat64(path, &sb) == 0) {
-            rv = 1000 * (jlong)sb.st_mtime;
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        strudt stbt64 sb;
+        if (stbt64(pbti, &sb) == 0) {
+            rv = 1000 * (jlong)sb.st_mtimf;
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_java_io_UnixFileSystem_getLength(JNIEnv *env, jobject this,
-                                      jobject file)
+Jbvb_jbvb_io_UnixFilfSystfm_gftLfngti(JNIEnv *fnv, jobjfdt tiis,
+                                      jobjfdt filf)
 {
     jlong rv = 0;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        struct stat64 sb;
-        if (stat64(path, &sb) == 0) {
-            rv = sb.st_size;
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        strudt stbt64 sb;
+        if (stbt64(pbti, &sb) == 0) {
+            rv = sb.st_sizf;
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 
-/* -- File operations -- */
+/* -- Filf opfrbtions -- */
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_createFileExclusively(JNIEnv *env, jclass cls,
-                                                  jstring pathname)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_drfbtfFilfExdlusivfly(JNIEnv *fnv, jdlbss dls,
+                                                  jstring pbtinbmf)
 {
-    jboolean rv = JNI_FALSE;
+    jboolfbn rv = JNI_FALSE;
 
-    WITH_PLATFORM_STRING(env, pathname, path) {
+    WITH_PLATFORM_STRING(fnv, pbtinbmf, pbti) {
         FD fd;
-        /* The root directory always exists */
-        if (strcmp (path, "/")) {
-            fd = handleOpen(path, O_RDWR | O_CREAT | O_EXCL, 0666);
+        /* Tif root dirfdtory blwbys fxists */
+        if (strdmp (pbti, "/")) {
+            fd = ibndlfOpfn(pbti, O_RDWR | O_CREAT | O_EXCL, 0666);
             if (fd < 0) {
-                if (errno != EEXIST)
-                    JNU_ThrowIOExceptionWithLastError(env, path);
-            } else {
-                if (close(fd) == -1)
-                    JNU_ThrowIOExceptionWithLastError(env, path);
+                if (frrno != EEXIST)
+                    JNU_TirowIOExdfptionWitiLbstError(fnv, pbti);
+            } flsf {
+                if (dlosf(fd) == -1)
+                    JNU_TirowIOExdfptionWitiLbstError(fnv, pbti);
                 rv = JNI_TRUE;
             }
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_delete0(JNIEnv *env, jobject this,
-                                    jobject file)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_dflftf0(JNIEnv *fnv, jobjfdt tiis,
+                                    jobjfdt filf)
 {
-    jboolean rv = JNI_FALSE;
+    jboolfbn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        if (remove(path) == 0) {
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        if (rfmovf(pbti) == 0) {
             rv = JNI_TRUE;
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_io_UnixFileSystem_list(JNIEnv *env, jobject this,
-                                 jobject file)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_list(JNIEnv *fnv, jobjfdt tiis,
+                                 jobjfdt filf)
 {
     DIR *dir = NULL;
-    struct dirent64 *ptr;
-    struct dirent64 *result;
-    int len, maxlen;
-    jobjectArray rv, old;
-    jclass str_class;
+    strudt dirfnt64 *ptr;
+    strudt dirfnt64 *rfsult;
+    int lfn, mbxlfn;
+    jobjfdtArrby rv, old;
+    jdlbss str_dlbss;
 
-    str_class = JNU_ClassString(env);
-    CHECK_NULL_RETURN(str_class, NULL);
+    str_dlbss = JNU_ClbssString(fnv);
+    CHECK_NULL_RETURN(str_dlbss, NULL);
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        dir = opendir(path);
-    } END_PLATFORM_STRING(env, path);
-    if (dir == NULL) return NULL;
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        dir = opfndir(pbti);
+    } END_PLATFORM_STRING(fnv, pbti);
+    if (dir == NULL) rfturn NULL;
 
-    ptr = malloc(sizeof(struct dirent64) + (PATH_MAX + 1));
+    ptr = mbllod(sizfof(strudt dirfnt64) + (PATH_MAX + 1));
     if (ptr == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "heap allocation failed");
-        closedir(dir);
-        return NULL;
+        JNU_TirowOutOfMfmoryError(fnv, "ifbp bllodbtion fbilfd");
+        dlosfdir(dir);
+        rfturn NULL;
     }
 
-    /* Allocate an initial String array */
-    len = 0;
-    maxlen = 16;
-    rv = (*env)->NewObjectArray(env, maxlen, str_class, NULL);
-    if (rv == NULL) goto error;
+    /* Allodbtf bn initibl String brrby */
+    lfn = 0;
+    mbxlfn = 16;
+    rv = (*fnv)->NfwObjfdtArrby(fnv, mbxlfn, str_dlbss, NULL);
+    if (rv == NULL) goto frror;
 
-    /* Scan the directory */
-    while ((readdir64_r(dir, ptr, &result) == 0)  && (result != NULL)) {
-        jstring name;
-        if (!strcmp(ptr->d_name, ".") || !strcmp(ptr->d_name, ".."))
-            continue;
-        if (len == maxlen) {
+    /* Sdbn tif dirfdtory */
+    wiilf ((rfbddir64_r(dir, ptr, &rfsult) == 0)  && (rfsult != NULL)) {
+        jstring nbmf;
+        if (!strdmp(ptr->d_nbmf, ".") || !strdmp(ptr->d_nbmf, ".."))
+            dontinuf;
+        if (lfn == mbxlfn) {
             old = rv;
-            rv = (*env)->NewObjectArray(env, maxlen <<= 1, str_class, NULL);
-            if (rv == NULL) goto error;
-            if (JNU_CopyObjectArray(env, rv, old, len) < 0) goto error;
-            (*env)->DeleteLocalRef(env, old);
+            rv = (*fnv)->NfwObjfdtArrby(fnv, mbxlfn <<= 1, str_dlbss, NULL);
+            if (rv == NULL) goto frror;
+            if (JNU_CopyObjfdtArrby(fnv, rv, old, lfn) < 0) goto frror;
+            (*fnv)->DflftfLodblRff(fnv, old);
         }
-#ifdef MACOSX
-        name = newStringPlatform(env, ptr->d_name);
-#else
-        name = JNU_NewStringPlatform(env, ptr->d_name);
-#endif
-        if (name == NULL) goto error;
-        (*env)->SetObjectArrayElement(env, rv, len++, name);
-        (*env)->DeleteLocalRef(env, name);
+#ifdff MACOSX
+        nbmf = nfwStringPlbtform(fnv, ptr->d_nbmf);
+#flsf
+        nbmf = JNU_NfwStringPlbtform(fnv, ptr->d_nbmf);
+#fndif
+        if (nbmf == NULL) goto frror;
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rv, lfn++, nbmf);
+        (*fnv)->DflftfLodblRff(fnv, nbmf);
     }
-    closedir(dir);
-    free(ptr);
+    dlosfdir(dir);
+    frff(ptr);
 
-    /* Copy the final results into an appropriately-sized array */
+    /* Copy tif finbl rfsults into bn bppropribtfly-sizfd brrby */
     old = rv;
-    rv = (*env)->NewObjectArray(env, len, str_class, NULL);
+    rv = (*fnv)->NfwObjfdtArrby(fnv, lfn, str_dlbss, NULL);
     if (rv == NULL) {
-        return NULL;
+        rfturn NULL;
     }
-    if (JNU_CopyObjectArray(env, rv, old, len) < 0) {
-        return NULL;
+    if (JNU_CopyObjfdtArrby(fnv, rv, old, lfn) < 0) {
+        rfturn NULL;
     }
-    return rv;
+    rfturn rv;
 
- error:
-    closedir(dir);
-    free(ptr);
-    return NULL;
+ frror:
+    dlosfdir(dir);
+    frff(ptr);
+    rfturn NULL;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_createDirectory(JNIEnv *env, jobject this,
-                                            jobject file)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_drfbtfDirfdtory(JNIEnv *fnv, jobjfdt tiis,
+                                            jobjfdt filf)
 {
-    jboolean rv = JNI_FALSE;
+    jboolfbn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        if (mkdir(path, 0777) == 0) {
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        if (mkdir(pbti, 0777) == 0) {
             rv = JNI_TRUE;
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_rename0(JNIEnv *env, jobject this,
-                                    jobject from, jobject to)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_rfnbmf0(JNIEnv *fnv, jobjfdt tiis,
+                                    jobjfdt from, jobjfdt to)
 {
-    jboolean rv = JNI_FALSE;
+    jboolfbn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, from, ids.path, fromPath) {
-        WITH_FIELD_PLATFORM_STRING(env, to, ids.path, toPath) {
-            if (rename(fromPath, toPath) == 0) {
+    WITH_FIELD_PLATFORM_STRING(fnv, from, ids.pbti, fromPbti) {
+        WITH_FIELD_PLATFORM_STRING(fnv, to, ids.pbti, toPbti) {
+            if (rfnbmf(fromPbti, toPbti) == 0) {
                 rv = JNI_TRUE;
             }
-        } END_PLATFORM_STRING(env, toPath);
-    } END_PLATFORM_STRING(env, fromPath);
-    return rv;
+        } END_PLATFORM_STRING(fnv, toPbti);
+    } END_PLATFORM_STRING(fnv, fromPbti);
+    rfturn rv;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_setLastModifiedTime(JNIEnv *env, jobject this,
-                                                jobject file, jlong time)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_sftLbstModififdTimf(JNIEnv *fnv, jobjfdt tiis,
+                                                jobjfdt filf, jlong timf)
 {
-    jboolean rv = JNI_FALSE;
+    jboolfbn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        struct stat64 sb;
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        strudt stbt64 sb;
 
-        if (stat64(path, &sb) == 0) {
-            struct timeval tv[2];
+        if (stbt64(pbti, &sb) == 0) {
+            strudt timfvbl tv[2];
 
-            /* Preserve access time */
-            tv[0].tv_sec = sb.st_atime;
-            tv[0].tv_usec = 0;
+            /* Prfsfrvf bddfss timf */
+            tv[0].tv_sfd = sb.st_btimf;
+            tv[0].tv_usfd = 0;
 
-            /* Change last-modified time */
-            tv[1].tv_sec = time / 1000;
-            tv[1].tv_usec = (time % 1000) * 1000;
+            /* Cibngf lbst-modififd timf */
+            tv[1].tv_sfd = timf / 1000;
+            tv[1].tv_usfd = (timf % 1000) * 1000;
 
-            if (utimes(path, tv) == 0)
+            if (utimfs(pbti, tv) == 0)
                 rv = JNI_TRUE;
         }
-    } END_PLATFORM_STRING(env, path);
+    } END_PLATFORM_STRING(fnv, pbti);
 
-    return rv;
+    rfturn rv;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_java_io_UnixFileSystem_setReadOnly(JNIEnv *env, jobject this,
-                                        jobject file)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_UnixFilfSystfm_sftRfbdOnly(JNIEnv *fnv, jobjfdt tiis,
+                                        jobjfdt filf)
 {
-    jboolean rv = JNI_FALSE;
+    jboolfbn rv = JNI_FALSE;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        int mode;
-        if (statMode(path, &mode)) {
-            if (chmod(path, mode & ~(S_IWUSR | S_IWGRP | S_IWOTH)) >= 0) {
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        int modf;
+        if (stbtModf(pbti, &modf)) {
+            if (dimod(pbti, modf & ~(S_IWUSR | S_IWGRP | S_IWOTH)) >= 0) {
                 rv = JNI_TRUE;
             }
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_io_UnixFileSystem_getSpace(JNIEnv *env, jobject this,
-                                     jobject file, jint t)
+Jbvb_jbvb_io_UnixFilfSystfm_gftSpbdf(JNIEnv *fnv, jobjfdt tiis,
+                                     jobjfdt filf, jint t)
 {
     jlong rv = 0L;
 
-    WITH_FIELD_PLATFORM_STRING(env, file, ids.path, path) {
-        struct statvfs64 fsstat;
-        memset(&fsstat, 0, sizeof(fsstat));
-        if (statvfs64(path, &fsstat) == 0) {
-            switch(t) {
-            case java_io_FileSystem_SPACE_TOTAL:
-                rv = jlong_mul(long_to_jlong(fsstat.f_frsize),
-                               long_to_jlong(fsstat.f_blocks));
-                break;
-            case java_io_FileSystem_SPACE_FREE:
-                rv = jlong_mul(long_to_jlong(fsstat.f_frsize),
-                               long_to_jlong(fsstat.f_bfree));
-                break;
-            case java_io_FileSystem_SPACE_USABLE:
-                rv = jlong_mul(long_to_jlong(fsstat.f_frsize),
-                               long_to_jlong(fsstat.f_bavail));
-                break;
-            default:
-                assert(0);
+    WITH_FIELD_PLATFORM_STRING(fnv, filf, ids.pbti, pbti) {
+        strudt stbtvfs64 fsstbt;
+        mfmsft(&fsstbt, 0, sizfof(fsstbt));
+        if (stbtvfs64(pbti, &fsstbt) == 0) {
+            switdi(t) {
+            dbsf jbvb_io_FilfSystfm_SPACE_TOTAL:
+                rv = jlong_mul(long_to_jlong(fsstbt.f_frsizf),
+                               long_to_jlong(fsstbt.f_blodks));
+                brfbk;
+            dbsf jbvb_io_FilfSystfm_SPACE_FREE:
+                rv = jlong_mul(long_to_jlong(fsstbt.f_frsizf),
+                               long_to_jlong(fsstbt.f_bfrff));
+                brfbk;
+            dbsf jbvb_io_FilfSystfm_SPACE_USABLE:
+                rv = jlong_mul(long_to_jlong(fsstbt.f_frsizf),
+                               long_to_jlong(fsstbt.f_bbvbil));
+                brfbk;
+            dffbult:
+                bssfrt(0);
             }
         }
-    } END_PLATFORM_STRING(env, path);
-    return rv;
+    } END_PLATFORM_STRING(fnv, pbti);
+    rfturn rv;
 }

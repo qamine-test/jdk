@@ -1,0 +1,271 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __CONTEXTUALSUBSTITUTIONSUBTABLES_H
+#dffinf __CONTEXTUALSUBSTITUTIONSUBTABLES_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphSubstitutionTbblfs.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LookupProdfssor.h"
+#indludf "LETbblfRfffrfndf.h"
+
+U_NAMESPACE_BEGIN
+
+strudt SubstitutionLookupRfdord
+{
+    lf_uint16  sfqufndfIndfx;
+    lf_uint16  lookupListIndfx;
+};
+
+strudt ContfxtublSubstitutionBbsf : GlyphSubstitutionSubtbblf
+{
+    stbtid lf_bool mbtdhGlyphIDs(
+                                 donst LERfffrfndfToArrbyOf<TTGlyphID> &glyphArrby, lf_uint16 glyphCount, GlyphItfrbtor *glyphItfrbtor,
+        lf_bool bbdktrbdk = FALSE);
+
+    stbtid lf_bool mbtdhGlyphClbssfs(
+                                     donst LERfffrfndfToArrbyOf<lf_uint16> &dlbssArrby, lf_uint16 glyphCount, GlyphItfrbtor *glyphItfrbtor,
+        donst LERfffrfndfTo<ClbssDffinitionTbblf> &dlbssDffinitionTbblf, LEErrorCodf &suddfss, lf_bool bbdktrbdk = FALSE);
+
+    stbtid lf_bool mbtdhGlyphCovfrbgfs(
+                                       donst LERfffrfndfToArrbyOf<Offsft> &dovfrbgfTbblfOffsftArrby, lf_uint16 glyphCount,
+        GlyphItfrbtor *glyphItfrbtor, donst LETbblfRfffrfndf& offsftBbsf, LEErrorCodf &suddfss, lf_bool bbdktrbdk = FALSE);
+
+    /**
+     * littlf shim to wrbp thf Offsft brrby in rbngf dhfdking
+     * @privbtf
+     */
+    stbtid lf_bool mbtdhGlyphCovfrbgfs(
+                                       donst Offsft *dovfrbgfTbblfOffsftArrby, lf_uint16 glyphCount,
+                                       GlyphItfrbtor *glyphItfrbtor, donst LETbblfRfffrfndf& offsftBbsf, LEErrorCodf &suddfss, lf_bool bbdktrbdk = FALSE) {
+      LERfffrfndfToArrbyOf<Offsft> rff(offsftBbsf, suddfss, dovfrbgfTbblfOffsftArrby, glyphCount);
+      if( LE_FAILURE(suddfss) ) { rfturn FALSE; }
+      rfturn mbtdhGlyphCovfrbgfs(rff, glyphCount, glyphItfrbtor, offsftBbsf, suddfss, bbdktrbdk);
+    }
+
+    stbtid void bpplySubstitutionLookups(
+        donst LookupProdfssor *lookupProdfssor,
+        donst LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>& substLookupRfdordArrby,
+        lf_uint16 substCount,
+        GlyphItfrbtor *glyphItfrbtor,
+        donst LEFontInstbndf *fontInstbndf,
+        lf_int32 position,
+        LEErrorCodf& suddfss);
+};
+
+strudt ContfxtublSubstitutionSubtbblf : ContfxtublSubstitutionBbsf
+{
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                       GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
+};
+
+strudt ContfxtublSubstitutionFormbt1Subtbblf : ContfxtublSubstitutionSubtbblf
+{
+    lf_uint16  subRulfSftCount;
+    Offsft  subRulfSftTbblfOffsftArrby[ANY_NUMBER];
+
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlyphItfrbtor *glyphItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
+};
+LE_VAR_ARRAY(ContfxtublSubstitutionFormbt1Subtbblf, subRulfSftTbblfOffsftArrby)
+
+
+strudt SubRulfSftTbblf
+{
+    lf_uint16  subRulfCount;
+    Offsft  subRulfTbblfOffsftArrby[ANY_NUMBER];
+
+};
+LE_VAR_ARRAY(SubRulfSftTbblf, subRulfTbblfOffsftArrby)
+
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt SubRulfTbblf
+{
+    lf_uint16  glyphCount;
+    lf_uint16  substCount;
+    TTGlyphID inputGlyphArrby[ANY_NUMBER];
+  //SubstitutionLookupRfdord substLookupRfdordArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(SubRulfTbblf, inputGlyphArrby)
+
+strudt ContfxtublSubstitutionFormbt2Subtbblf : ContfxtublSubstitutionSubtbblf
+{
+    Offsft  dlbssDffTbblfOffsft;
+    lf_uint16  subClbssSftCount;
+    Offsft  subClbssSftTbblfOffsftArrby[ANY_NUMBER];
+
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
+};
+LE_VAR_ARRAY(ContfxtublSubstitutionFormbt2Subtbblf, subClbssSftTbblfOffsftArrby)
+
+
+strudt SubClbssSftTbblf
+{
+    lf_uint16  subClbssRulfCount;
+    Offsft  subClbssRulfTbblfOffsftArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(SubClbssSftTbblf, subClbssRulfTbblfOffsftArrby)
+
+
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt SubClbssRulfTbblf
+{
+    lf_uint16  glyphCount;
+    lf_uint16  substCount;
+    lf_uint16  dlbssArrby[ANY_NUMBER];
+  //SubstitutionLookupRfdord substLookupRfdordArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(SubClbssRulfTbblf, dlbssArrby)
+
+
+// NOTE: This isn't b subdlbss of GlyphSubstitutionSubtbblf 'dbusf
+// it hbs bn brrby of dovfrbgf tbblfs instfbd of b singlf dovfrbgf tbblf...
+//
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt ContfxtublSubstitutionFormbt3Subtbblf
+{
+    lf_uint16  substFormbt;
+    lf_uint16  glyphCount;
+    lf_uint16  substCount;
+    Offsft  dovfrbgfTbblfOffsftArrby[ANY_NUMBER];
+  //SubstitutionLookupRfdord substLookupRfdord[ANY_NUMBER];
+
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlyphItfrbtor *glyphItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
+};
+LE_VAR_ARRAY(ContfxtublSubstitutionFormbt3Subtbblf, dovfrbgfTbblfOffsftArrby)
+
+strudt ChbiningContfxtublSubstitutionSubtbblf : ContfxtublSubstitutionBbsf
+{
+    lf_uint32  prodfss(donst LERfffrfndfTo<ChbiningContfxtublSubstitutionSubtbblf> &bbsf, donst LookupProdfssor *lookupProdfssor, GlyphItfrbtor *glyphItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
+};
+
+strudt ChbiningContfxtublSubstitutionFormbt1Subtbblf : ChbiningContfxtublSubstitutionSubtbblf
+{
+    lf_uint16  dhbinSubRulfSftCount;
+    Offsft  dhbinSubRulfSftTbblfOffsftArrby[ANY_NUMBER];
+
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlyphItfrbtor *glyphItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
+};
+LE_VAR_ARRAY(ChbiningContfxtublSubstitutionFormbt1Subtbblf, dhbinSubRulfSftTbblfOffsftArrby)
+
+
+strudt ChbinSubRulfSftTbblf
+{
+    lf_uint16  dhbinSubRulfCount;
+    Offsft  dhbinSubRulfTbblfOffsftArrby[ANY_NUMBER];
+
+};
+LE_VAR_ARRAY(ChbinSubRulfSftTbblf, dhbinSubRulfTbblfOffsftArrby)
+
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt ChbinSubRulfTbblf
+{
+    lf_uint16  bbdktrbdkGlyphCount;
+    TTGlyphID bbdktrbdkGlyphArrby[ANY_NUMBER];
+  //lf_uint16  inputGlyphCount;
+  //TTGlyphID inputGlyphArrby[ANY_NUMBER];
+  //lf_uint16  lookbhfbdGlyphCount;
+  //TTGlyphID lookbhfbdGlyphArrby[ANY_NUMBER];
+  //lf_uint16  substCount;
+  //SubstitutionLookupRfdord substLookupRfdordArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(ChbinSubRulfTbblf, bbdktrbdkGlyphArrby)
+
+strudt ChbiningContfxtublSubstitutionFormbt2Subtbblf : ChbiningContfxtublSubstitutionSubtbblf
+{
+    Offsft  bbdktrbdkClbssDffTbblfOffsft;
+    Offsft  inputClbssDffTbblfOffsft;
+    Offsft  lookbhfbdClbssDffTbblfOffsft;
+    lf_uint16  dhbinSubClbssSftCount;
+    Offsft  dhbinSubClbssSftTbblfOffsftArrby[ANY_NUMBER];
+
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlyphItfrbtor *glyphItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
+};
+LE_VAR_ARRAY(ChbiningContfxtublSubstitutionFormbt2Subtbblf, dhbinSubClbssSftTbblfOffsftArrby)
+
+strudt ChbinSubClbssSftTbblf
+{
+    lf_uint16  dhbinSubClbssRulfCount;
+    Offsft  dhbinSubClbssRulfTbblfOffsftArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(ChbinSubClbssSftTbblf, dhbinSubClbssRulfTbblfOffsftArrby)
+
+
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt ChbinSubClbssRulfTbblf
+{
+    lf_uint16  bbdktrbdkGlyphCount;
+    lf_uint16  bbdktrbdkClbssArrby[ANY_NUMBER];
+  //lf_uint16  inputGlyphCount;
+  //lf_uint16  inputClbssArrby[ANY_NUMBER];
+  //lf_uint16  lookbhfbdGlyphCount;
+  //lf_uint16  lookbhfbdClbssArrby[ANY_NUMBER];
+  //lf_uint16  substCount;
+  //SubstitutionLookupRfdord substLookupRfdordArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(ChbinSubClbssRulfTbblf, bbdktrbdkClbssArrby)
+
+// NOTE: This isn't b subdlbss of GlyphSubstitutionSubtbblf 'dbusf
+// it hbs brrbys of dovfrbgf tbblfs instfbd of b singlf dovfrbgf tbblf...
+//
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt ChbiningContfxtublSubstitutionFormbt3Subtbblf
+{
+    lf_uint16  substFormbt;
+    lf_uint16  bbdktrbdkGlyphCount;
+    Offsft  bbdktrbdkCovfrbgfTbblfOffsftArrby[ANY_NUMBER];
+  //lf_uint16  inputGlyphCount;
+  //Offsft  inputCovfrbgfTbblfOffsftArrby[ANY_NUMBER];
+  //lf_uint16  lookbhfbdGlyphCount;
+  //lf_uint16  lookbhfbdCovfrbgfTbblfOffsftArrby[ANY_NUMBER];
+  //lf_uint16  substCount;
+  //SubstitutionLookupRfdord substLookupRfdord[ANY_NUMBER];
+
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                       GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
+};
+LE_VAR_ARRAY(ChbiningContfxtublSubstitutionFormbt3Subtbblf, bbdktrbdkCovfrbgfTbblfOffsftArrby)
+
+
+U_NAMESPACE_END
+#fndif

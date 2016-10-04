@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * ===========================================================================
+ *
+ * (C) Copyright IBM Corp. 2003 All Rights Rfsfrvfd.
+ *
+ * ===========================================================================
+ */
+/*
+ * $Id: URIDfrfffrfndfr.jbvb,v 1.5 2005/05/10 15:47:42 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto;
+
+/**
+ * A dfrfffrfndfr of {@link URIRfffrfndf}s.
+ * <p>
+ * Thf rfsult of dfrfffrfnding b <dodf>URIRfffrfndf</dodf> is fithfr bn
+ * instbndf of {@link OdtftStrfbmDbtb} or {@link NodfSftDbtb}. Unlfss thf
+ * <dodf>URIRfffrfndf</dodf> is b <i>sbmf-dodumfnt rfffrfndf</i> bs dffinfd
+ * in sfdtion 4.2 of thf W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd
+ * Prodfssing, thf rfsult of dfrfffrfnding thf <dodf>URIRfffrfndf</dodf>
+ * MUST bf bn <dodf>OdtftStrfbmDbtb</dodf>.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor Joydf Lfung
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLCryptoContfxt#sftURIDfrfffrfndfr(URIDfrfffrfndfr)
+ * @sff XMLCryptoContfxt#gftURIDfrfffrfndfr
+ */
+publid intfrfbdf URIDfrfffrfndfr {
+
+    /**
+     * Dfrfffrfndfs thf spfdififd <dodf>URIRfffrfndf</dodf> bnd rfturns thf
+     * dfrfffrfndfd dbtb.
+     *
+     * @pbrbm uriRfffrfndf thf <dodf>URIRfffrfndf</dodf>
+     * @pbrbm dontfxt bn <dodf>XMLCryptoContfxt</dodf> thbt mby
+     *    dontbin bdditionbl usfful informbtion for dfrfffrfnding thf URI. This
+     *    implfmfntbtion should dfrfffrfndf thf spfdififd
+     *    <dodf>URIRfffrfndf</dodf> bgbinst thf dontfxt's <dodf>bbsfURI</dodf>
+     *    pbrbmftfr, if spfdififd.
+     * @rfturn thf dfrfffrfndfd dbtb
+     * @throws NullPointfrExdfption if <dodf>uriRfffrfndf</dodf> or
+     *    <dodf>dontfxt</dodf> brf <dodf>null</dodf>
+     * @throws URIRfffrfndfExdfption if bn fxdfption oddurs whilf
+     *    dfrfffrfnding thf spfdififd <dodf>uriRfffrfndf</dodf>
+     */
+    Dbtb dfrfffrfndf(URIRfffrfndf uriRfffrfndf, XMLCryptoContfxt dontfxt)
+        throws URIRfffrfndfExdfption;
+}

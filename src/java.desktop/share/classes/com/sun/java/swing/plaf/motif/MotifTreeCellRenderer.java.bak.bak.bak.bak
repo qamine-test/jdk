@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.trff.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * Motif rfndfrfd to displby b trff dfll.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Jfff Dinkins
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss MotifTrffCfllRfndfrfr fxtfnds DffbultTrffCfllRfndfrfr
+{
+    stbtid finbl int LEAF_SIZE = 13;
+    stbtid finbl Idon LEAF_ICON = nfw IdonUIRfsourdf(nfw TrffLfbfIdon());
+
+    publid MotifTrffCfllRfndfrfr() {
+        supfr();
+    }
+
+    publid stbtid Idon lobdLfbfIdon() {
+        rfturn LEAF_ICON;
+    }
+
+    /**
+     * Idon for b nodf with no dhildrfn.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+     * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+     * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+     * long tfrm pfrsistfndf.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss TrffLfbfIdon implfmfnts Idon, Sfriblizbblf {
+
+        Color bg;
+        Color shbdow;
+        Color highlight;
+
+        publid TrffLfbfIdon() {
+            bg = UIMbnbgfr.gftColor("Trff.idonBbdkground");
+            shbdow = UIMbnbgfr.gftColor("Trff.idonShbdow");
+            highlight = UIMbnbgfr.gftColor("Trff.idonHighlight");
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            g.sftColor(bg);
+
+            y -= 3;
+            g.fillRfdt(x + 4, y + 7, 5, 5);
+
+            g.drbwLinf(x + 6, y + 6, x + 6, y + 6);
+            g.drbwLinf(x + 3, y + 9, x + 3, y + 9);
+            g.drbwLinf(x + 6, y + 12, x + 6, y + 12);
+            g.drbwLinf(x + 9, y + 9, x + 9, y + 9);
+
+            g.sftColor(highlight);
+            g.drbwLinf(x + 2, y + 9, x + 5, y + 6);
+            g.drbwLinf(x + 3, y + 10, x + 5, y + 12);
+
+            g.sftColor(shbdow);
+            g.drbwLinf(x + 6, y + 13, x + 10, y + 9);
+            g.drbwLinf(x + 9, y + 8, x + 7, y + 6);
+        }
+
+        publid int gftIdonWidth() {
+            rfturn LEAF_SIZE;
+        }
+
+        publid int gftIdonHfight() {
+            rfturn LEAF_SIZE;
+        }
+
+    }
+}

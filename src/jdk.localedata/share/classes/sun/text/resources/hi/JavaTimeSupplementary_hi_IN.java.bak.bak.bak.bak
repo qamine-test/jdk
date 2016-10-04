@@ -1,0 +1,167 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * COPYRIGHT AND PERMISSION NOTICE
+ *
+ * Copyright (C) 1991-2012 Unidodf, Ind. All rights rfsfrvfd. Distributfd undfr
+ * thf Tfrms of Usf in http://www.unidodf.org/dopyright.html.
+ *
+ * Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining b dopy
+ * of thf Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (thf "Dbtb
+ * Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (thf
+ * "Softwbrf") to dfbl in thf Dbtb Filfs or Softwbrf without rfstridtion,
+ * indluding without limitbtion thf rights to usf, dopy, modify, mfrgf,
+ * publish, distributf, bnd/or sfll dopifs of thf Dbtb Filfs or Softwbrf, bnd
+ * to pfrmit pfrsons to whom thf Dbtb Filfs or Softwbrf brf furnishfd to do so,
+ * providfd thbt (b) thf bbovf dopyright notidf(s) bnd this pfrmission notidf
+ * bppfbr with bll dopifs of thf Dbtb Filfs or Softwbrf, (b) both thf bbovf
+ * dopyright notidf(s) bnd this pfrmission notidf bppfbr in bssodibtfd
+ * dodumfntbtion, bnd (d) thfrf is dlfbr notidf in fbdh modififd Dbtb Filf or
+ * in thf Softwbrf bs wfll bs in thf dodumfntbtion bssodibtfd with thf Dbtb
+ * Filf(s) or Softwbrf thbt thf dbtb or softwbrf hbs bffn modififd.
+ *
+ * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+ * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+ * THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+ * INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+ * CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ * OF THE DATA FILES OR SOFTWARE.
+ *
+ * Exdfpt bs dontbinfd in this notidf, thf nbmf of b dopyright holdfr shbll not
+ * bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf or othfr
+ * dfblings in thfsf Dbtb Filfs or Softwbrf without prior writtfn buthorizbtion
+ * of thf dopyright holdfr.
+ */
+
+//  Notf: this filf hbs bffn gfnfrbtfd by b tool.
+
+pbdkbgf sun.tfxt.rfsourdfs.hi;
+
+import sun.util.rfsourdfs.OpfnListRfsourdfBundlf;
+
+publid dlbss JbvbTimfSupplfmfntbry_hi_IN fxtfnds OpfnListRfsourdfBundlf {
+    @Ovfrridf
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "QubrtfrNbmfs",
+                nfw String[] {
+                    "\u0924\u093f\u092f\u093f\u0939\u0940",
+                    "\u0926\u0942\u0938\u0930\u0940 \u0924\u093f\u092f\u093f\u0939\u0940",
+                    "\u0924\u0940\u0938\u0930\u0940 \u0924\u093f\u092f\u093f\u0939\u0940",
+                    "\u091b\u094d\u0925\u0940 \u0924\u093f\u092f\u093f\u0939\u0940",
+                }
+            },
+            { "QubrtfrNbrrows",
+                nfw String[] {
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                }
+            },
+            { "dblfndbrnbmf.buddhist",
+                "\u092d\u094d\u0926\u094d\u0927 \u092b\u0902\u091b\u093f\u0902\u0917" },
+            { "dblfndbrnbmf.grfgoribn",
+                "\u0917\u094d\u0930\u0947\u0917\u0930\u0940 \u092b\u0902\u091b\u093f\u0902\u0917" },
+            { "dblfndbrnbmf.grfgory",
+                "\u0917\u094d\u0930\u0947\u0917\u0930\u0940 \u092b\u0902\u091b\u093f\u0902\u0917" },
+            { "dblfndbrnbmf.islbmid",
+                "\u0907\u0938\u094d\u0932\u093f\u092f\u0940 \u092b\u0902\u091b\u093f\u0902\u0917" },
+            { "dblfndbrnbmf.islbmid-divil",
+                "\u0907\u0938\u094d\u0932\u093f\u092f\u0940 \u0928\u093f\u0917\u0930\u093f\u0915 \u092b\u0902\u091b\u093f\u0902\u0917" },
+            { "dblfndbrnbmf.islbmidd",
+                "\u0907\u0938\u094d\u0932\u093f\u092f\u0940 \u0928\u093f\u0917\u0930\u093f\u0915 \u092b\u0902\u091b\u093f\u0902\u0917" },
+            { "dblfndbrnbmf.jbpbnfsf",
+                "\u091d\u093f\u092b\u093f\u0928\u0940 \u092b\u0902\u091b\u093f\u0902\u0917" },
+            { "dblfndbrnbmf.rod",
+                "\u091b\u0940\u0928\u0940 \u0917\u0923\u0924\u0902\u0924\u094d\u0930 \u092b\u0902\u091b\u093f\u0902\u0917" },
+            { "fifld.dbypfriod",
+                "\u0938\u092f\u092f \u0905\u0935\u0927\u093f" },
+            { "fifld.frb",
+                "\u092f\u0941\u0917" },
+            { "fifld.hour",
+                "\u0918\u0902\u091f\u093f" },
+            { "fifld.minutf",
+                "\u092f\u093f\u0928\u091f" },
+            { "fifld.month",
+                "\u092f\u093f\u0938" },
+            { "fifld.sfdond",
+                "\u0938\u0947\u0915\u0947\u0902\u0921" },
+            { "fifld.wffk",
+                "\u0938\u092b\u094d\u0924\u093f\u0939" },
+            { "fifld.wffkdby",
+                "\u0938\u092b\u094d\u0924\u093f\u0939 \u0915\u093f \u0926\u093f\u0928" },
+            { "fifld.yfbr",
+                "\u0935\u0930\u094d\u0937" },
+            { "fifld.zonf",
+                "\u0915\u094d\u0937\u0947\u0924\u094d\u0930" },
+            { "islbmid.MonthNbmfs",
+                nfw String[] {
+                    "\u092f\u0941\u0939\u0930\u094d\u0930\u092f",
+                    "\u0938\u092b\u0930",
+                    "\u0930\u093f\u092d\u0940 \u092b\u094d\u0930\u0925\u092f",
+                    "\u0930\u093f\u092d\u0940 \u0926\u094d\u0935\u093f\u0924\u0940\u092f",
+                    "\u091d\u0941\u092f\u094d\u0921\u093f \u092b\u094d\u0930\u0925\u092f",
+                    "\u091d\u0941\u092f\u094d\u0921\u093f \u0926\u094d\u0935\u093f\u0924\u0940\u092f",
+                    "\u0930\u091d\u092d",
+                    "\u0936\u093f\u0935\u0928",
+                    "\u0930\u092f\u091d\u093f\u0928",
+                    "\u0936\u0935\u094d\u0935\u094d\u0932",
+                    "Dhu\u02bbl-Qi\u02bbdbh",
+                    "Dhu\u02bbl-Hijjbh",
+                    "",
+                }
+            },
+            { "jbvb.timf.jbpbnfsf.long.Erbs",
+                nfw String[] {
+                    "\u0938\u0928",
+                    "\u092f\u0947\u091d\u0940",
+                    "\u0924\u093f\u0908\u0936\u094b",
+                    "\u0936\u094b\u0935\u093f",
+                    "\u0939\u0947\u0908\u0938\u0947\u0908",
+                }
+            },
+            { "jbvb.timf.jbpbnfsf.short.Erbs",
+                nfw String[] {
+                    "\u0938\u0928",
+                    "\u092f\u0947\u091d\u0940",
+                    "\u0924\u093f\u0908\u0936\u094b",
+                    "\u0936\u094b\u0935\u093f",
+                    "\u0939\u0947\u0908\u0938\u0947\u0908",
+                }
+            },
+            { "jbvb.timf.short.Erbs",
+                nfw String[] {
+                    "\u0908\u0938\u093f\u092b\u0942\u0930\u094d\u0935",
+                    "\u0938\u0928",
+                }
+            },
+        };
+    }
+}

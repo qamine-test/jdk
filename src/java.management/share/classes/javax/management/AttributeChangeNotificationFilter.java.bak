@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
-import java.util.Vector;
+import jbvb.util.Vfdtor;
 
 
 /**
- * This class implements of the {@link javax.management.NotificationFilter NotificationFilter}
- * interface for the {@link javax.management.AttributeChangeNotification attribute change notification}.
- * The filtering is performed on the name of the observed attribute.
+ * Tiis dlbss implfmfnts of tif {@link jbvbx.mbnbgfmfnt.NotifidbtionFiltfr NotifidbtionFiltfr}
+ * intfrfbdf for tif {@link jbvbx.mbnbgfmfnt.AttributfCibngfNotifidbtion bttributf dibngf notifidbtion}.
+ * Tif filtfring is pfrformfd on tif nbmf of tif obsfrvfd bttributf.
  * <P>
- * It manages a list of enabled attribute names.
- * A method allows users to enable/disable as many attribute names as required.
+ * It mbnbgfs b list of fnbblfd bttributf nbmfs.
+ * A mftiod bllows usfrs to fnbblf/disbblf bs mbny bttributf nbmfs bs rfquirfd.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class AttributeChangeNotificationFilter implements NotificationFilter {
+publid dlbss AttributfCibngfNotifidbtionFiltfr implfmfnts NotifidbtionFiltfr {
 
-    /* Serial version */
-    private static final long serialVersionUID = -6347317584796410029L;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -6347317584796410029L;
 
     /**
-     * @serial {@link Vector} that contains the enabled attribute names.
-     *         The default value is an empty vector.
+     * @sfribl {@link Vfdtor} tibt dontbins tif fnbblfd bttributf nbmfs.
+     *         Tif dffbult vbluf is bn fmpty vfdtor.
      */
-    private Vector<String> enabledAttributes = new Vector<String>();
+    privbtf Vfdtor<String> fnbblfdAttributfs = nfw Vfdtor<String>();
 
 
     /**
-     * Invoked before sending the specified notification to the listener.
-     * <BR>This filter compares the attribute name of the specified attribute change notification
-     * with each enabled attribute name.
-     * If the attribute name equals one of the enabled attribute names,
-     * the notification must be sent to the listener and this method returns <CODE>true</CODE>.
+     * Invokfd bfforf sfnding tif spfdififd notifidbtion to tif listfnfr.
+     * <BR>Tiis filtfr dompbrfs tif bttributf nbmf of tif spfdififd bttributf dibngf notifidbtion
+     * witi fbdi fnbblfd bttributf nbmf.
+     * If tif bttributf nbmf fqubls onf of tif fnbblfd bttributf nbmfs,
+     * tif notifidbtion must bf sfnt to tif listfnfr bnd tiis mftiod rfturns <CODE>truf</CODE>.
      *
-     * @param notification The attribute change notification to be sent.
-     * @return <CODE>true</CODE> if the notification has to be sent to the listener, <CODE>false</CODE> otherwise.
+     * @pbrbm notifidbtion Tif bttributf dibngf notifidbtion to bf sfnt.
+     * @rfturn <CODE>truf</CODE> if tif notifidbtion ibs to bf sfnt to tif listfnfr, <CODE>fblsf</CODE> otifrwisf.
      */
-    public synchronized boolean isNotificationEnabled(Notification notification) {
+    publid syndironizfd boolfbn isNotifidbtionEnbblfd(Notifidbtion notifidbtion) {
 
-        String type = notification.getType();
+        String typf = notifidbtion.gftTypf();
 
-        if ((type == null) ||
-            (type.equals(AttributeChangeNotification.ATTRIBUTE_CHANGE) == false) ||
-            (!(notification instanceof AttributeChangeNotification))) {
-            return false;
+        if ((typf == null) ||
+            (typf.fqubls(AttributfCibngfNotifidbtion.ATTRIBUTE_CHANGE) == fblsf) ||
+            (!(notifidbtion instbndfof AttributfCibngfNotifidbtion))) {
+            rfturn fblsf;
         }
 
-        String attributeName =
-          ((AttributeChangeNotification)notification).getAttributeName();
-        return enabledAttributes.contains(attributeName);
+        String bttributfNbmf =
+          ((AttributfCibngfNotifidbtion)notifidbtion).gftAttributfNbmf();
+        rfturn fnbblfdAttributfs.dontbins(bttributfNbmf);
     }
 
     /**
-     * Enables all the attribute change notifications the attribute name of which equals
-     * the specified name to be sent to the listener.
-     * <BR>If the specified name is already in the list of enabled attribute names,
-     * this method has no effect.
+     * Enbblfs bll tif bttributf dibngf notifidbtions tif bttributf nbmf of wiidi fqubls
+     * tif spfdififd nbmf to bf sfnt to tif listfnfr.
+     * <BR>If tif spfdififd nbmf is blrfbdy in tif list of fnbblfd bttributf nbmfs,
+     * tiis mftiod ibs no ffffdt.
      *
-     * @param name The attribute name.
-     * @exception java.lang.IllegalArgumentException The attribute name parameter is null.
+     * @pbrbm nbmf Tif bttributf nbmf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif bttributf nbmf pbrbmftfr is null.
      */
-    public synchronized void enableAttribute(String name) throws java.lang.IllegalArgumentException {
+    publid syndironizfd void fnbblfAttributf(String nbmf) tirows jbvb.lbng.IllfgblArgumfntExdfption {
 
-        if (name == null) {
-            throw new java.lang.IllegalArgumentException("The name cannot be null.");
+        if (nbmf == null) {
+            tirow nfw jbvb.lbng.IllfgblArgumfntExdfption("Tif nbmf dbnnot bf null.");
         }
-        if (!enabledAttributes.contains(name)) {
-            enabledAttributes.addElement(name);
+        if (!fnbblfdAttributfs.dontbins(nbmf)) {
+            fnbblfdAttributfs.bddElfmfnt(nbmf);
         }
     }
 
     /**
-     * Disables all the attribute change notifications the attribute name of which equals
-     * the specified attribute name to be sent to the listener.
-     * <BR>If the specified name is not in the list of enabled attribute names,
-     * this method has no effect.
+     * Disbblfs bll tif bttributf dibngf notifidbtions tif bttributf nbmf of wiidi fqubls
+     * tif spfdififd bttributf nbmf to bf sfnt to tif listfnfr.
+     * <BR>If tif spfdififd nbmf is not in tif list of fnbblfd bttributf nbmfs,
+     * tiis mftiod ibs no ffffdt.
      *
-     * @param name The attribute name.
+     * @pbrbm nbmf Tif bttributf nbmf.
      */
-    public synchronized void disableAttribute(String name) {
-        enabledAttributes.removeElement(name);
+    publid syndironizfd void disbblfAttributf(String nbmf) {
+        fnbblfdAttributfs.rfmovfElfmfnt(nbmf);
     }
 
     /**
-     * Disables all the attribute names.
+     * Disbblfs bll tif bttributf nbmfs.
      */
-    public synchronized void disableAllAttributes() {
-        enabledAttributes.removeAllElements();
+    publid syndironizfd void disbblfAllAttributfs() {
+        fnbblfdAttributfs.rfmovfAllElfmfnts();
     }
 
     /**
-     * Gets all the enabled attribute names for this filter.
+     * Gfts bll tif fnbblfd bttributf nbmfs for tiis filtfr.
      *
-     * @return The list containing all the enabled attribute names.
+     * @rfturn Tif list dontbining bll tif fnbblfd bttributf nbmfs.
      */
-    public synchronized Vector<String> getEnabledAttributes() {
-        return enabledAttributes;
+    publid syndironizfd Vfdtor<String> gftEnbblfdAttributfs() {
+        rfturn fnbblfdAttributfs;
     }
 
 }

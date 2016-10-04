@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.rmi.Rfmotf;
+
+/**
+ * Thf <dodf>Skflfton</dodf> intfrfbdf is usfd solfly by thf RMI
+ * implfmfntbtion.
+ *
+ * <p> Evfry vfrsion 1.1 (bnd vfrsion 1.1 dompbtiblf skflftons gfnfrbtfd in
+ * 1.2 using <dodf>rmid -vdompbt</dodf>) skflfton dlbss gfnfrbtfd by thf rmid
+ * stub dompilfr implfmfnts this intfrfbdf. A skflfton for b rfmotf objfdt is
+ * b sfrvfr-sidf fntity thbt dispbtdhfs dblls to thf bdtubl rfmotf objfdt
+ * implfmfntbtion.
+ *
+ * @buthor  Ann Wollrbth
+ * @sindf   1.1
+ * @dfprfdbtfd no rfplbdfmfnt.  Skflftons brf no longfr rfquirfd for rfmotf
+ * mfthod dblls in thf Jbvb 2 plbtform v1.2 bnd grfbtfr.
+ */
+@Dfprfdbtfd
+publid intfrfbdf Skflfton {
+    /**
+     * Unmbrshbls brgumfnts, dblls thf bdtubl rfmotf objfdt implfmfntbtion,
+     * bnd mbrshbls thf rfturn vbluf or bny fxdfption.
+     *
+     * @pbrbm obj rfmotf implfmfntbtion to dispbtdh dbll to
+     * @pbrbm thfCbll objfdt rfprfsfnting rfmotf dbll
+     * @pbrbm opnum opfrbtion numbfr
+     * @pbrbm hbsh stub/skflfton intfrfbdf hbsh
+     * @fxdfption jbvb.lbng.Exdfption if b gfnfrbl fxdfption oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    void dispbtdh(Rfmotf obj, RfmotfCbll thfCbll, int opnum, long hbsh)
+        throws Exdfption;
+
+    /**
+     * Rfturns thf opfrbtions supportfd by thf skflfton.
+     * @rfturn opfrbtions supportfd by skflfton
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    Opfrbtion[] gftOpfrbtions();
+}

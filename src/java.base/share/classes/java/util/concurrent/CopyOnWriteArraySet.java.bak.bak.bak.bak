@@ -1,0 +1,433 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.Collfdtion;
+import jbvb.util.Sft;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.Consumfr;
+
+/**
+ * A {@link jbvb.util.Sft} thbt usfs bn intfrnbl {@link CopyOnWritfArrbyList}
+ * for bll of its opfrbtions.  Thus, it shbrfs thf sbmf bbsid propfrtifs:
+ * <ul>
+ *  <li>It is bfst suitfd for bpplidbtions in whidh sft sizfs gfnfrblly
+ *       stby smbll, rfbd-only opfrbtions
+ *       vbstly outnumbfr mutbtivf opfrbtions, bnd you nffd
+ *       to prfvfnt intfrffrfndf bmong thrfbds during trbvfrsbl.
+ *  <li>It is thrfbd-sbff.
+ *  <li>Mutbtivf opfrbtions ({@dodf bdd}, {@dodf sft}, {@dodf rfmovf}, ftd.)
+ *      brf fxpfnsivf sindf thfy usublly fntbil dopying thf fntirf undfrlying
+ *      brrby.
+ *  <li>Itfrbtors do not support thf mutbtivf {@dodf rfmovf} opfrbtion.
+ *  <li>Trbvfrsbl vib itfrbtors is fbst bnd dbnnot fndountfr
+ *      intfrffrfndf from othfr thrfbds. Itfrbtors rfly on
+ *      undhbnging snbpshots of thf brrby bt thf timf thf itfrbtors wfrf
+ *      donstrudtfd.
+ * </ul>
+ *
+ * <p><b>Sbmplf Usbgf.</b> Thf following dodf skftdh usfs b
+ * dopy-on-writf sft to mbintbin b sft of Hbndlfr objfdts thbt
+ * pfrform somf bdtion upon stbtf updbtfs.
+ *
+ *  <prf> {@dodf
+ * dlbss Hbndlfr { void hbndlf(); ... }
+ *
+ * dlbss X {
+ *   privbtf finbl CopyOnWritfArrbySft<Hbndlfr> hbndlfrs
+ *     = nfw CopyOnWritfArrbySft<Hbndlfr>();
+ *   publid void bddHbndlfr(Hbndlfr h) { hbndlfrs.bdd(h); }
+ *
+ *   privbtf long intfrnblStbtf;
+ *   privbtf syndhronizfd void dhbngfStbtf() { intfrnblStbtf = ...; }
+ *
+ *   publid void updbtf() {
+ *     dhbngfStbtf();
+ *     for (Hbndlfr hbndlfr : hbndlfrs)
+ *       hbndlfr.hbndlf();
+ *   }
+ * }}</prf>
+ *
+ * <p>This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @sff CopyOnWritfArrbyList
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ * @pbrbm <E> thf typf of flfmfnts hfld in this dollfdtion
+ */
+publid dlbss CopyOnWritfArrbySft<E> fxtfnds AbstrbdtSft<E>
+        implfmfnts jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5457747651344034263L;
+
+    privbtf finbl CopyOnWritfArrbyList<E> bl;
+
+    /**
+     * Crfbtfs bn fmpty sft.
+     */
+    publid CopyOnWritfArrbySft() {
+        bl = nfw CopyOnWritfArrbyList<E>();
+    }
+
+    /**
+     * Crfbtfs b sft dontbining bll of thf flfmfnts of thf spfdififd
+     * dollfdtion.
+     *
+     * @pbrbm d thf dollfdtion of flfmfnts to initiblly dontbin
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion is null
+     */
+    publid CopyOnWritfArrbySft(Collfdtion<? fxtfnds E> d) {
+        if (d.gftClbss() == CopyOnWritfArrbySft.dlbss) {
+            @SupprfssWbrnings("undhfdkfd") CopyOnWritfArrbySft<E> dd =
+                (CopyOnWritfArrbySft<E>)d;
+            bl = nfw CopyOnWritfArrbyList<E>(dd.bl);
+        }
+        flsf {
+            bl = nfw CopyOnWritfArrbyList<E>();
+            bl.bddAllAbsfnt(d);
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of flfmfnts in this sft.
+     *
+     * @rfturn thf numbfr of flfmfnts in this sft
+     */
+    publid int sizf() {
+        rfturn bl.sizf();
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this sft dontbins no flfmfnts.
+     *
+     * @rfturn {@dodf truf} if this sft dontbins no flfmfnts
+     */
+    publid boolfbn isEmpty() {
+        rfturn bl.isEmpty();
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this sft dontbins thf spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if this sft
+     * dontbins bn flfmfnt {@dodf f} sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
+     *
+     * @pbrbm o flfmfnt whosf prfsfndf in this sft is to bf tfstfd
+     * @rfturn {@dodf truf} if this sft dontbins thf spfdififd flfmfnt
+     */
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn bl.dontbins(o);
+    }
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf flfmfnts in this sft.
+     * If this sft mbkfs bny gubrbntffs bs to whbt ordfr its flfmfnts
+     * brf rfturnfd by its itfrbtor, this mfthod must rfturn thf
+     * flfmfnts in thf sbmf ordfr.
+     *
+     * <p>Thf rfturnfd brrby will bf "sbff" in thbt no rfffrfndfs to it
+     * brf mbintbinfd by this sft.  (In othfr words, this mfthod must
+     * bllodbtf b nfw brrby fvfn if this sft is bbdkfd by bn brrby).
+     * Thf dbllfr is thus frff to modify thf rfturnfd brrby.
+     *
+     * <p>This mfthod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
+     * APIs.
+     *
+     * @rfturn bn brrby dontbining bll thf flfmfnts in this sft
+     */
+    publid Objfdt[] toArrby() {
+        rfturn bl.toArrby();
+    }
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf flfmfnts in this sft; thf
+     * runtimf typf of thf rfturnfd brrby is thbt of thf spfdififd brrby.
+     * If thf sft fits in thf spfdififd brrby, it is rfturnfd thfrfin.
+     * Othfrwisf, b nfw brrby is bllodbtfd with thf runtimf typf of thf
+     * spfdififd brrby bnd thf sizf of this sft.
+     *
+     * <p>If this sft fits in thf spfdififd brrby with room to spbrf
+     * (i.f., thf brrby hbs morf flfmfnts thbn this sft), thf flfmfnt in
+     * thf brrby immfdibtfly following thf fnd of thf sft is sft to
+     * {@dodf null}.  (This is usfful in dftfrmining thf lfngth of this
+     * sft <i>only</i> if thf dbllfr knows thbt this sft dofs not dontbin
+     * bny null flfmfnts.)
+     *
+     * <p>If this sft mbkfs bny gubrbntffs bs to whbt ordfr its flfmfnts
+     * brf rfturnfd by its itfrbtor, this mfthod must rfturn thf flfmfnts
+     * in thf sbmf ordfr.
+     *
+     * <p>Likf thf {@link #toArrby()} mfthod, this mfthod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furthfr, this mfthod bllows
+     * prfdisf dontrol ovfr thf runtimf typf of thf output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
+     *
+     * <p>Supposf {@dodf x} is b sft known to dontbin only strings.
+     * Thf following dodf dbn bf usfd to dump thf sft into b nfwly bllodbtfd
+     * brrby of {@dodf String}:
+     *
+     *  <prf> {@dodf String[] y = x.toArrby(nfw String[0]);}</prf>
+     *
+     * Notf thbt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
+     *
+     * @pbrbm b thf brrby into whidh thf flfmfnts of this sft brf to bf
+     *        storfd, if it is big fnough; othfrwisf, b nfw brrby of thf sbmf
+     *        runtimf typf is bllodbtfd for this purposf.
+     * @rfturn bn brrby dontbining bll thf flfmfnts in this sft
+     * @throws ArrbyStorfExdfption if thf runtimf typf of thf spfdififd brrby
+     *         is not b supfrtypf of thf runtimf typf of fvfry flfmfnt in this
+     *         sft
+     * @throws NullPointfrExdfption if thf spfdififd brrby is null
+     */
+    publid <T> T[] toArrby(T[] b) {
+        rfturn bl.toArrby(b);
+    }
+
+    /**
+     * Rfmovfs bll of thf flfmfnts from this sft.
+     * Thf sft will bf fmpty bftfr this dbll rfturns.
+     */
+    publid void dlfbr() {
+        bl.dlfbr();
+    }
+
+    /**
+     * Rfmovfs thf spfdififd flfmfnt from this sft if it is prfsfnt.
+     * Morf formblly, rfmovfs bn flfmfnt {@dodf f} sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>,
+     * if this sft dontbins sudh bn flfmfnt.  Rfturns {@dodf truf} if
+     * this sft dontbinfd thf flfmfnt (or fquivblfntly, if this sft
+     * dhbngfd bs b rfsult of thf dbll).  (This sft will not dontbin thf
+     * flfmfnt ondf thf dbll rfturns.)
+     *
+     * @pbrbm o objfdt to bf rfmovfd from this sft, if prfsfnt
+     * @rfturn {@dodf truf} if this sft dontbinfd thf spfdififd flfmfnt
+     */
+    publid boolfbn rfmovf(Objfdt o) {
+        rfturn bl.rfmovf(o);
+    }
+
+    /**
+     * Adds thf spfdififd flfmfnt to this sft if it is not blrfbdy prfsfnt.
+     * Morf formblly, bdds thf spfdififd flfmfnt {@dodf f} to this sft if
+     * thf sft dontbins no flfmfnt {@dodf f2} sudh thbt
+     * <tt>(f==null&nbsp;?&nbsp;f2==null&nbsp;:&nbsp;f.fqubls(f2))</tt>.
+     * If this sft blrfbdy dontbins thf flfmfnt, thf dbll lfbvfs thf sft
+     * undhbngfd bnd rfturns {@dodf fblsf}.
+     *
+     * @pbrbm f flfmfnt to bf bddfd to this sft
+     * @rfturn {@dodf truf} if this sft did not blrfbdy dontbin thf spfdififd
+     *         flfmfnt
+     */
+    publid boolfbn bdd(E f) {
+        rfturn bl.bddIfAbsfnt(f);
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this sft dontbins bll of thf flfmfnts of thf
+     * spfdififd dollfdtion.  If thf spfdififd dollfdtion is blso b sft, this
+     * mfthod rfturns {@dodf truf} if it is b <i>subsft</i> of this sft.
+     *
+     * @pbrbm  d dollfdtion to bf dhfdkfd for dontbinmfnt in this sft
+     * @rfturn {@dodf truf} if this sft dontbins bll of thf flfmfnts of thf
+     *         spfdififd dollfdtion
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion is null
+     * @sff #dontbins(Objfdt)
+     */
+    publid boolfbn dontbinsAll(Collfdtion<?> d) {
+        rfturn bl.dontbinsAll(d);
+    }
+
+    /**
+     * Adds bll of thf flfmfnts in thf spfdififd dollfdtion to this sft if
+     * thfy'rf not blrfbdy prfsfnt.  If thf spfdififd dollfdtion is blso b
+     * sft, thf {@dodf bddAll} opfrbtion ffffdtivfly modififs this sft so
+     * thbt its vbluf is thf <i>union</i> of thf two sfts.  Thf bfhbvior of
+     * this opfrbtion is undffinfd if thf spfdififd dollfdtion is modififd
+     * whilf thf opfrbtion is in progrfss.
+     *
+     * @pbrbm  d dollfdtion dontbining flfmfnts to bf bddfd to this sft
+     * @rfturn {@dodf truf} if this sft dhbngfd bs b rfsult of thf dbll
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion is null
+     * @sff #bdd(Objfdt)
+     */
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        rfturn bl.bddAllAbsfnt(d) > 0;
+    }
+
+    /**
+     * Rfmovfs from this sft bll of its flfmfnts thbt brf dontbinfd in thf
+     * spfdififd dollfdtion.  If thf spfdififd dollfdtion is blso b sft,
+     * this opfrbtion ffffdtivfly modififs this sft so thbt its vbluf is thf
+     * <i>bsymmftrid sft difffrfndf</i> of thf two sfts.
+     *
+     * @pbrbm  d dollfdtion dontbining flfmfnts to bf rfmovfd from this sft
+     * @rfturn {@dodf truf} if this sft dhbngfd bs b rfsult of thf dbll
+     * @throws ClbssCbstExdfption if thf dlbss of bn flfmfnt of this sft
+     *         is indompbtiblf with thf spfdififd dollfdtion (optionbl)
+     * @throws NullPointfrExdfption if this sft dontbins b null flfmfnt bnd thf
+     *         spfdififd dollfdtion dofs not pfrmit null flfmfnts (optionbl),
+     *         or if thf spfdififd dollfdtion is null
+     * @sff #rfmovf(Objfdt)
+     */
+    publid boolfbn rfmovfAll(Collfdtion<?> d) {
+        rfturn bl.rfmovfAll(d);
+    }
+
+    /**
+     * Rftbins only thf flfmfnts in this sft thbt brf dontbinfd in thf
+     * spfdififd dollfdtion.  In othfr words, rfmovfs from this sft bll of
+     * its flfmfnts thbt brf not dontbinfd in thf spfdififd dollfdtion.  If
+     * thf spfdififd dollfdtion is blso b sft, this opfrbtion ffffdtivfly
+     * modififs this sft so thbt its vbluf is thf <i>intfrsfdtion</i> of thf
+     * two sfts.
+     *
+     * @pbrbm  d dollfdtion dontbining flfmfnts to bf rftbinfd in this sft
+     * @rfturn {@dodf truf} if this sft dhbngfd bs b rfsult of thf dbll
+     * @throws ClbssCbstExdfption if thf dlbss of bn flfmfnt of this sft
+     *         is indompbtiblf with thf spfdififd dollfdtion (optionbl)
+     * @throws NullPointfrExdfption if this sft dontbins b null flfmfnt bnd thf
+     *         spfdififd dollfdtion dofs not pfrmit null flfmfnts (optionbl),
+     *         or if thf spfdififd dollfdtion is null
+     * @sff #rfmovf(Objfdt)
+     */
+    publid boolfbn rftbinAll(Collfdtion<?> d) {
+        rfturn bl.rftbinAll(d);
+    }
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts dontbinfd in this sft
+     * in thf ordfr in whidh thfsf flfmfnts wfrf bddfd.
+     *
+     * <p>Thf rfturnfd itfrbtor providfs b snbpshot of thf stbtf of thf sft
+     * whfn thf itfrbtor wbs donstrudtfd. No syndhronizbtion is nffdfd whilf
+     * trbvfrsing thf itfrbtor. Thf itfrbtor dofs <fm>NOT</fm> support thf
+     * {@dodf rfmovf} mfthod.
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this sft
+     */
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn bl.itfrbtor();
+    }
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this sft for fqublity.
+     * Rfturns {@dodf truf} if thf spfdififd objfdt is thf sbmf objfdt
+     * bs this objfdt, or if it is blso b {@link Sft} bnd thf flfmfnts
+     * rfturnfd by bn {@linkplbin Sft#itfrbtor() itfrbtor} ovfr thf
+     * spfdififd sft brf thf sbmf bs thf flfmfnts rfturnfd by bn
+     * itfrbtor ovfr this sft.  Morf formblly, thf two itfrbtors brf
+     * donsidfrfd to rfturn thf sbmf flfmfnts if thfy rfturn thf sbmf
+     * numbfr of flfmfnts bnd for fvfry flfmfnt {@dodf f1} rfturnfd by
+     * thf itfrbtor ovfr thf spfdififd sft, thfrf is bn flfmfnt
+     * {@dodf f2} rfturnfd by thf itfrbtor ovfr this sft sudh thbt
+     * {@dodf (f1==null ? f2==null : f1.fqubls(f2))}.
+     *
+     * @pbrbm o objfdt to bf dompbrfd for fqublity with this sft
+     * @rfturn {@dodf truf} if thf spfdififd objfdt is fqubl to this sft
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this)
+            rfturn truf;
+        if (!(o instbndfof Sft))
+            rfturn fblsf;
+        Sft<?> sft = (Sft<?>)(o);
+        Itfrbtor<?> it = sft.itfrbtor();
+
+        // Usfs O(n^2) blgorithm thbt is only bppropribtf
+        // for smbll sfts, whidh CopyOnWritfArrbySfts should bf.
+
+        //  Usf b singlf snbpshot of undfrlying brrby
+        Objfdt[] flfmfnts = bl.gftArrby();
+        int lfn = flfmfnts.lfngth;
+        // Mbrk mbtdhfd flfmfnts to bvoid rf-dhfdking
+        boolfbn[] mbtdhfd = nfw boolfbn[lfn];
+        int k = 0;
+        outfr: whilf (it.hbsNfxt()) {
+            if (++k > lfn)
+                rfturn fblsf;
+            Objfdt x = it.nfxt();
+            for (int i = 0; i < lfn; ++i) {
+                if (!mbtdhfd[i] && fq(x, flfmfnts[i])) {
+                    mbtdhfd[i] = truf;
+                    dontinuf outfr;
+                }
+            }
+            rfturn fblsf;
+        }
+        rfturn k == lfn;
+    }
+
+    publid boolfbn rfmovfIf(Prfdidbtf<? supfr E> filtfr) {
+        rfturn bl.rfmovfIf(filtfr);
+    }
+
+    publid void forEbdh(Consumfr<? supfr E> bdtion) {
+        bl.forEbdh(bdtion);
+    }
+
+    /**
+     * Rfturns b {@link Splitfrbtor} ovfr thf flfmfnts in this sft in thf ordfr
+     * in whidh thfsf flfmfnts wfrf bddfd.
+     *
+     * <p>Thf {@dodf Splitfrbtor} rfports {@link Splitfrbtor#IMMUTABLE},
+     * {@link Splitfrbtor#DISTINCT}, {@link Splitfrbtor#SIZED}, bnd
+     * {@link Splitfrbtor#SUBSIZED}.
+     *
+     * <p>Thf splitfrbtor providfs b snbpshot of thf stbtf of thf sft
+     * whfn thf splitfrbtor wbs donstrudtfd. No syndhronizbtion is nffdfd whilf
+     * opfrbting on thf splitfrbtor.
+     *
+     * @rfturn b {@dodf Splitfrbtor} ovfr thf flfmfnts in this sft
+     * @sindf 1.8
+     */
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn Splitfrbtors.splitfrbtor
+            (bl.gftArrby(), Splitfrbtor.IMMUTABLE | Splitfrbtor.DISTINCT);
+    }
+
+    /**
+     * Tfsts for fqublity, doping with nulls.
+     */
+    privbtf stbtid boolfbn fq(Objfdt o1, Objfdt o2) {
+        rfturn (o1 == null) ? o2 == null : o1.fqubls(o2);
+    }
+}

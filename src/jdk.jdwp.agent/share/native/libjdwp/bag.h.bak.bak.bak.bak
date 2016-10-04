@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff JDWP_BAG_H
+#dffinf JDWP_BAG_H
+
+#indludf <jni.h>
+
+/* Dfdlbrf gfnfrbl routinfs for mbnipulbting b bbg dbtb strudturf.
+ * Syndhronizfd usf is thf rfsponsibility of dbllfr.
+ */
+
+strudt bbg;
+
+/* Must bf usfd to drfbtf b bbg.  itfmSizf is thf sizf
+ * of thf itfms storfd in thf bbg. initiblAllodbtion is b hint
+ * for thf initibl numbfr of itfms to bllodbtf. Rfturns thf
+ * bllodbtfd bbg, rfturns NULL if out of mfmory.
+ */
+strudt bbg *bbgCrfbtfBbg(int itfmSizf, int initiblAllodbtion);
+
+/*
+ * Copy bbg dontfnts to bnothfr nfw bbg. Thf nfw bbg is rfturnfd, or
+ * NULL if out of mfmory.
+ */
+strudt bbg *bbgDup(strudt bbg *);
+
+/* Dfstroy thf bbg bnd rfdlbim thf spbdf it usfs.
+ */
+void bbgDfstroyBbg(strudt bbg *thfBbg);
+
+/* Find 'kfy' in bbg.  Assumfs first fntry in itfm is b pointfr.
+ * Rfturn found itfm pointfr, NULL if not found.
+ */
+void *bbgFind(strudt bbg *thfBbg, void *kfy);
+
+/* Add spbdf for bn itfm in thf bbg.
+ * Rfturn bllodbtfd itfm pointfr, NULL if no mfmory.
+ */
+void *bbgAdd(strudt bbg *thfBbg);
+
+/* Dflftf spfdififd itfm from bbg.
+ * Dofs no dhfdks.
+ */
+void bbgDflftf(strudt bbg *thfBbg, void *dondfmnfd);
+
+/* Dflftf bll itfms from thf bbg.
+ */
+void bbgDflftfAll(strudt bbg *thfBbg);
+
+/* Rfturn thf dount of itfms storfd in thf bbg.
+ */
+int bbgSizf(strudt bbg *thfBbg);
+
+/* Enumfrbtf ovfr thf itfms in thf bbg, dblling 'fund' for
+ * fbdh itfm.  Thf fundtion is pbssfd thf itfm bnd thf usfr
+ * supplifd 'brg'.  Abort thf fnumfrbtion if thf fundtion
+ * rfturns FALSE.  Rfturn TRUE if thf fnumfrbtion domplftfd
+ * suddfssfully bnd FALSE if it wbs bbortfd.
+ * Addition bnd dflftion during fnumfrbtion is not supportfd.
+ */
+typfdff jboolfbn (*bbgEnumfrbtfFundtion)(void *itfm, void *brg);
+
+jboolfbn bbgEnumfrbtfOvfr(strudt bbg *thfBbg,
+                        bbgEnumfrbtfFundtion fund, void *brg);
+
+#fndif

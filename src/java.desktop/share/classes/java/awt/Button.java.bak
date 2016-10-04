@@ -1,677 +1,677 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.ButtonPeer;
-import java.util.EventListener;
-import java.awt.event.*;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import javax.accessibility.*;
+import jbvb.bwt.pffr.ButtonPffr;
+import jbvb.util.EvfntListfnfr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvbx.bddfssibility.*;
 
 /**
- * This class creates a labeled button. The application can cause
- * some action to happen when the button is pushed. This image
- * depicts three views of a "<code>Quit</code>" button as it appears
- * under the Solaris operating system:
+ * Tiis dlbss drfbtfs b lbbflfd button. Tif bpplidbtion dbn dbusf
+ * somf bdtion to ibppfn wifn tif button is pusifd. Tiis imbgf
+ * dfpidts tirff vifws of b "<dodf>Quit</dodf>" button bs it bppfbrs
+ * undfr tif Solbris opfrbting systfm:
  * <p>
- * <img src="doc-files/Button-1.gif" alt="The following context describes the graphic"
- * style="float:center; margin: 7px 10px;">
+ * <img srd="dod-filfs/Button-1.gif" blt="Tif following dontfxt dfsdribfs tif grbpiid"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * <p>
- * The first view shows the button as it appears normally.
- * The second view shows the button
- * when it has input focus. Its outline is darkened to let the
- * user know that it is an active object. The third view shows the
- * button when the user clicks the mouse over the button, and thus
- * requests that an action be performed.
+ * Tif first vifw siows tif button bs it bppfbrs normblly.
+ * Tif sfdond vifw siows tif button
+ * wifn it ibs input fodus. Its outlinf is dbrkfnfd to lft tif
+ * usfr know tibt it is bn bdtivf objfdt. Tif tiird vifw siows tif
+ * button wifn tif usfr dlidks tif mousf ovfr tif button, bnd tius
+ * rfqufsts tibt bn bdtion bf pfrformfd.
  * <p>
- * The gesture of clicking on a button with the mouse
- * is associated with one instance of <code>ActionEvent</code>,
- * which is sent out when the mouse is both pressed and released
- * over the button. If an application is interested in knowing
- * when the button has been pressed but not released, as a separate
- * gesture, it can specialize <code>processMouseEvent</code>,
- * or it can register itself as a listener for mouse events by
- * calling <code>addMouseListener</code>. Both of these methods are
- * defined by <code>Component</code>, the abstract superclass of
- * all components.
+ * Tif gfsturf of dlidking on b button witi tif mousf
+ * is bssodibtfd witi onf instbndf of <dodf>AdtionEvfnt</dodf>,
+ * wiidi is sfnt out wifn tif mousf is boti prfssfd bnd rflfbsfd
+ * ovfr tif button. If bn bpplidbtion is intfrfstfd in knowing
+ * wifn tif button ibs bffn prfssfd but not rflfbsfd, bs b sfpbrbtf
+ * gfsturf, it dbn spfdiblizf <dodf>prodfssMousfEvfnt</dodf>,
+ * or it dbn rfgistfr itsflf bs b listfnfr for mousf fvfnts by
+ * dblling <dodf>bddMousfListfnfr</dodf>. Boti of tifsf mftiods brf
+ * dffinfd by <dodf>Componfnt</dodf>, tif bbstrbdt supfrdlbss of
+ * bll domponfnts.
  * <p>
- * When a button is pressed and released, AWT sends an instance
- * of <code>ActionEvent</code> to the button, by calling
- * <code>processEvent</code> on the button. The button's
- * <code>processEvent</code> method receives all events
- * for the button; it passes an action event along by
- * calling its own <code>processActionEvent</code> method.
- * The latter method passes the action event on to any action
- * listeners that have registered an interest in action
- * events generated by this button.
+ * Wifn b button is prfssfd bnd rflfbsfd, AWT sfnds bn instbndf
+ * of <dodf>AdtionEvfnt</dodf> to tif button, by dblling
+ * <dodf>prodfssEvfnt</dodf> on tif button. Tif button's
+ * <dodf>prodfssEvfnt</dodf> mftiod rfdfivfs bll fvfnts
+ * for tif button; it pbssfs bn bdtion fvfnt blong by
+ * dblling its own <dodf>prodfssAdtionEvfnt</dodf> mftiod.
+ * Tif lbttfr mftiod pbssfs tif bdtion fvfnt on to bny bdtion
+ * listfnfrs tibt ibvf rfgistfrfd bn intfrfst in bdtion
+ * fvfnts gfnfrbtfd by tiis button.
  * <p>
- * If an application wants to perform some action based on
- * a button being pressed and released, it should implement
- * <code>ActionListener</code> and register the new listener
- * to receive events from this button, by calling the button's
- * <code>addActionListener</code> method. The application can
- * make use of the button's action command as a messaging protocol.
+ * If bn bpplidbtion wbnts to pfrform somf bdtion bbsfd on
+ * b button bfing prfssfd bnd rflfbsfd, it siould implfmfnt
+ * <dodf>AdtionListfnfr</dodf> bnd rfgistfr tif nfw listfnfr
+ * to rfdfivf fvfnts from tiis button, by dblling tif button's
+ * <dodf>bddAdtionListfnfr</dodf> mftiod. Tif bpplidbtion dbn
+ * mbkf usf of tif button's bdtion dommbnd bs b mfssbging protodol.
  *
- * @author      Sami Shaio
- * @see         java.awt.event.ActionEvent
- * @see         java.awt.event.ActionListener
- * @see         java.awt.Component#processMouseEvent
- * @see         java.awt.Component#addMouseListener
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @sff         jbvb.bwt.fvfnt.AdtionEvfnt
+ * @sff         jbvb.bwt.fvfnt.AdtionListfnfr
+ * @sff         jbvb.bwt.Componfnt#prodfssMousfEvfnt
+ * @sff         jbvb.bwt.Componfnt#bddMousfListfnfr
+ * @sindf       1.0
  */
-public class Button extends Component implements Accessible {
+publid dlbss Button fxtfnds Componfnt implfmfnts Addfssiblf {
 
     /**
-     * The button's label.  This value may be null.
-     * @serial
-     * @see #getLabel()
-     * @see #setLabel(String)
+     * Tif button's lbbfl.  Tiis vbluf mby bf null.
+     * @sfribl
+     * @sff #gftLbbfl()
+     * @sff #sftLbbfl(String)
      */
-    String label;
+    String lbbfl;
 
     /**
-     * The action to be performed once a button has been
-     * pressed.  This value may be null.
-     * @serial
-     * @see #getActionCommand()
-     * @see #setActionCommand(String)
+     * Tif bdtion to bf pfrformfd ondf b button ibs bffn
+     * prfssfd.  Tiis vbluf mby bf null.
+     * @sfribl
+     * @sff #gftAdtionCommbnd()
+     * @sff #sftAdtionCommbnd(String)
      */
-    String actionCommand;
+    String bdtionCommbnd;
 
-    transient ActionListener actionListener;
+    trbnsifnt AdtionListfnfr bdtionListfnfr;
 
-    private static final String base = "button";
-    private static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "button";
+    privbtf stbtid int nbmfCountfr = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -8774683716313001058L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8774683716313001058L;
 
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-     * accessed from C.
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     * bddfssfd from C.
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /**
-     * Constructs a button with an empty string for its label.
+     * Construdts b button witi bn fmpty string for its lbbfl.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public Button() throws HeadlessException {
-        this("");
+    publid Button() tirows HfbdlfssExdfption {
+        tiis("");
     }
 
     /**
-     * Constructs a button with the specified label.
+     * Construdts b button witi tif spfdififd lbbfl.
      *
-     * @param label  a string label for the button, or
-     *               <code>null</code> for no label
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm lbbfl  b string lbbfl for tif button, or
+     *               <dodf>null</dodf> for no lbbfl
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public Button(String label) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        this.label = label;
+    publid Button(String lbbfl) tirows HfbdlfssExdfption {
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        tiis.lbbfl = lbbfl;
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is null.
+     * Construdt b nbmf for tiis domponfnt.  Cbllfd by gftNbmf() wifn tif
+     * nbmf is null.
      */
-    String constructComponentName() {
-        synchronized (Button.class) {
-            return base + nameCounter++;
+    String donstrudtComponfntNbmf() {
+        syndironizfd (Button.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Creates the peer of the button.  The button's peer allows the
-     * application to change the look of the button without changing
-     * its functionality.
+     * Crfbtfs tif pffr of tif button.  Tif button's pffr bllows tif
+     * bpplidbtion to dibngf tif look of tif button witiout dibnging
+     * its fundtionblity.
      *
-     * @see     java.awt.Toolkit#createButton(java.awt.Button)
-     * @see     java.awt.Component#getToolkit()
+     * @sff     jbvb.bwt.Toolkit#drfbtfButton(jbvb.bwt.Button)
+     * @sff     jbvb.bwt.Componfnt#gftToolkit()
      */
-    public void addNotify() {
-        synchronized(getTreeLock()) {
-            if (peer == null)
-                peer = getToolkit().createButton(this);
-            super.addNotify();
+    publid void bddNotify() {
+        syndironizfd(gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfButton(tiis);
+            supfr.bddNotify();
         }
     }
 
     /**
-     * Gets the label of this button.
+     * Gfts tif lbbfl of tiis button.
      *
-     * @return    the button's label, or <code>null</code>
-     *                if the button has no label.
-     * @see       java.awt.Button#setLabel
+     * @rfturn    tif button's lbbfl, or <dodf>null</dodf>
+     *                if tif button ibs no lbbfl.
+     * @sff       jbvb.bwt.Button#sftLbbfl
      */
-    public String getLabel() {
-        return label;
+    publid String gftLbbfl() {
+        rfturn lbbfl;
     }
 
     /**
-     * Sets the button's label to be the specified string.
+     * Sfts tif button's lbbfl to bf tif spfdififd string.
      *
-     * @param     label   the new label, or <code>null</code>
-     *                if the button has no label.
-     * @see       java.awt.Button#getLabel
+     * @pbrbm     lbbfl   tif nfw lbbfl, or <dodf>null</dodf>
+     *                if tif button ibs no lbbfl.
+     * @sff       jbvb.bwt.Button#gftLbbfl
      */
-    public void setLabel(String label) {
-        boolean testvalid = false;
+    publid void sftLbbfl(String lbbfl) {
+        boolfbn tfstvblid = fblsf;
 
-        synchronized (this) {
-            if (label != this.label && (this.label == null ||
-                                        !this.label.equals(label))) {
-                this.label = label;
-                ButtonPeer peer = (ButtonPeer)this.peer;
-                if (peer != null) {
-                    peer.setLabel(label);
+        syndironizfd (tiis) {
+            if (lbbfl != tiis.lbbfl && (tiis.lbbfl == null ||
+                                        !tiis.lbbfl.fqubls(lbbfl))) {
+                tiis.lbbfl = lbbfl;
+                ButtonPffr pffr = (ButtonPffr)tiis.pffr;
+                if (pffr != null) {
+                    pffr.sftLbbfl(lbbfl);
                 }
-                testvalid = true;
+                tfstvblid = truf;
             }
         }
 
-        // This could change the preferred size of the Component.
-        if (testvalid) {
-            invalidateIfValid();
+        // Tiis dould dibngf tif prfffrrfd sizf of tif Componfnt.
+        if (tfstvblid) {
+            invblidbtfIfVblid();
         }
     }
 
     /**
-     * Sets the command name for the action event fired
-     * by this button. By default this action command is
-     * set to match the label of the button.
+     * Sfts tif dommbnd nbmf for tif bdtion fvfnt firfd
+     * by tiis button. By dffbult tiis bdtion dommbnd is
+     * sft to mbtdi tif lbbfl of tif button.
      *
-     * @param     command  a string used to set the button's
-     *                  action command.
-     *            If the string is <code>null</code> then the action command
-     *            is set to match the label of the button.
-     * @see       java.awt.event.ActionEvent
-     * @since     1.1
+     * @pbrbm     dommbnd  b string usfd to sft tif button's
+     *                  bdtion dommbnd.
+     *            If tif string is <dodf>null</dodf> tifn tif bdtion dommbnd
+     *            is sft to mbtdi tif lbbfl of tif button.
+     * @sff       jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sindf     1.1
      */
-    public void setActionCommand(String command) {
-        actionCommand = command;
+    publid void sftAdtionCommbnd(String dommbnd) {
+        bdtionCommbnd = dommbnd;
     }
 
     /**
-     * Returns the command name of the action event fired by this button.
-     * If the command name is <code>null</code> (default) then this method
-     * returns the label of the button.
+     * Rfturns tif dommbnd nbmf of tif bdtion fvfnt firfd by tiis button.
+     * If tif dommbnd nbmf is <dodf>null</dodf> (dffbult) tifn tiis mftiod
+     * rfturns tif lbbfl of tif button.
      *
-     * @return the action command name (or label) for this button
+     * @rfturn tif bdtion dommbnd nbmf (or lbbfl) for tiis button
      */
-    public String getActionCommand() {
-        return (actionCommand == null? label : actionCommand);
+    publid String gftAdtionCommbnd() {
+        rfturn (bdtionCommbnd == null? lbbfl : bdtionCommbnd);
     }
 
     /**
-     * Adds the specified action listener to receive action events from
-     * this button. Action events occur when a user presses or releases
-     * the mouse over this button.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Adds tif spfdififd bdtion listfnfr to rfdfivf bdtion fvfnts from
+     * tiis button. Adtion fvfnts oddur wifn b usfr prfssfs or rflfbsfs
+     * tif mousf ovfr tiis button.
+     * If l is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param         l the action listener
-     * @see           #removeActionListener
-     * @see           #getActionListeners
-     * @see           java.awt.event.ActionListener
-     * @since         1.1
+     * @pbrbm         l tif bdtion listfnfr
+     * @sff           #rfmovfAdtionListfnfr
+     * @sff           #gftAdtionListfnfrs
+     * @sff           jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf         1.1
      */
-    public synchronized void addActionListener(ActionListener l) {
+    publid syndironizfd void bddAdtionListfnfr(AdtionListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        actionListener = AWTEventMulticaster.add(actionListener, l);
-        newEventsOnly = true;
+        bdtionListfnfr = AWTEvfntMultidbstfr.bdd(bdtionListfnfr, l);
+        nfwEvfntsOnly = truf;
     }
 
     /**
-     * Removes the specified action listener so that it no longer
-     * receives action events from this button. Action events occur
-     * when a user presses or releases the mouse over this button.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Rfmovfs tif spfdififd bdtion listfnfr so tibt it no longfr
+     * rfdfivfs bdtion fvfnts from tiis button. Adtion fvfnts oddur
+     * wifn b usfr prfssfs or rflfbsfs tif mousf ovfr tiis button.
+     * If l is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param           l     the action listener
-     * @see             #addActionListener
-     * @see             #getActionListeners
-     * @see             java.awt.event.ActionListener
-     * @since           1.1
+     * @pbrbm           l     tif bdtion listfnfr
+     * @sff             #bddAdtionListfnfr
+     * @sff             #gftAdtionListfnfrs
+     * @sff             jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf           1.1
      */
-    public synchronized void removeActionListener(ActionListener l) {
+    publid syndironizfd void rfmovfAdtionListfnfr(AdtionListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        actionListener = AWTEventMulticaster.remove(actionListener, l);
+        bdtionListfnfr = AWTEvfntMultidbstfr.rfmovf(bdtionListfnfr, l);
     }
 
     /**
-     * Returns an array of all the action listeners
-     * registered on this button.
+     * Rfturns bn brrby of bll tif bdtion listfnfrs
+     * rfgistfrfd on tiis button.
      *
-     * @return all of this button's <code>ActionListener</code>s
-     *         or an empty array if no action
-     *         listeners are currently registered
+     * @rfturn bll of tiis button's <dodf>AdtionListfnfr</dodf>s
+     *         or bn fmpty brrby if no bdtion
+     *         listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see             #addActionListener
-     * @see             #removeActionListener
-     * @see             java.awt.event.ActionListener
-     * @since 1.4
+     * @sff             #bddAdtionListfnfr
+     * @sff             #rfmovfAdtionListfnfr
+     * @sff             jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf 1.4
      */
-    public synchronized ActionListener[] getActionListeners() {
-        return getListeners(ActionListener.class);
+    publid syndironizfd AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn gftListfnfrs(AdtionListfnfr.dlbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>Button</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis <dodf>Button</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>Button</code> <code>b</code>
-     * for its action listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>Button</dodf> <dodf>b</dodf>
+     * for its bdtion listfnfrs witi tif following dodf:
      *
-     * <pre>ActionListener[] als = (ActionListener[])(b.getListeners(ActionListener.class));</pre>
+     * <prf>AdtionListfnfr[] bls = (AdtionListfnfr[])(b.gftListfnfrs(AdtionListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this button,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis button,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getActionListeners
-     * @since 1.3
+     * @sff #gftAdtionListfnfrs
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        EventListener l = null;
-        if  (listenerType == ActionListener.class) {
-            l = actionListener;
-        } else {
-            return super.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == AdtionListfnfr.dlbss) {
+            l = bdtionListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
-        if (e.id == ActionEvent.ACTION_PERFORMED) {
-            if ((eventMask & AWTEvent.ACTION_EVENT_MASK) != 0 ||
-                actionListener != null) {
-                return true;
+    // REMIND: rfmovf wifn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == AdtionEvfnt.ACTION_PERFORMED) {
+            if ((fvfntMbsk & AWTEvfnt.ACTION_EVENT_MASK) != 0 ||
+                bdtionListfnfr != null) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
-        return super.eventEnabled(e);
+        rfturn supfr.fvfntEnbblfd(f);
     }
 
     /**
-     * Processes events on this button. If an event is
-     * an instance of <code>ActionEvent</code>, this method invokes
-     * the <code>processActionEvent</code> method. Otherwise,
-     * it invokes <code>processEvent</code> on the superclass.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * Prodfssfs fvfnts on tiis button. If bn fvfnt is
+     * bn instbndf of <dodf>AdtionEvfnt</dodf>, tiis mftiod invokfs
+     * tif <dodf>prodfssAdtionEvfnt</dodf> mftiod. Otifrwisf,
+     * it invokfs <dodf>prodfssEvfnt</dodf> on tif supfrdlbss.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param        e the event
-     * @see          java.awt.event.ActionEvent
-     * @see          java.awt.Button#processActionEvent
-     * @since        1.1
+     * @pbrbm        f tif fvfnt
+     * @sff          jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff          jbvb.bwt.Button#prodfssAdtionEvfnt
+     * @sindf        1.1
      */
-    protected void processEvent(AWTEvent e) {
-        if (e instanceof ActionEvent) {
-            processActionEvent((ActionEvent)e);
-            return;
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof AdtionEvfnt) {
+            prodfssAdtionEvfnt((AdtionEvfnt)f);
+            rfturn;
         }
-        super.processEvent(e);
+        supfr.prodfssEvfnt(f);
     }
 
     /**
-     * Processes action events occurring on this button
-     * by dispatching them to any registered
-     * <code>ActionListener</code> objects.
+     * Prodfssfs bdtion fvfnts oddurring on tiis button
+     * by dispbtdiing tifm to bny rfgistfrfd
+     * <dodf>AdtionListfnfr</dodf> objfdts.
      * <p>
-     * This method is not called unless action events are
-     * enabled for this button. Action events are enabled
-     * when one of the following occurs:
+     * Tiis mftiod is not dbllfd unlfss bdtion fvfnts brf
+     * fnbblfd for tiis button. Adtion fvfnts brf fnbblfd
+     * wifn onf of tif following oddurs:
      * <ul>
-     * <li>An <code>ActionListener</code> object is registered
-     * via <code>addActionListener</code>.
-     * <li>Action events are enabled via <code>enableEvents</code>.
+     * <li>An <dodf>AdtionListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddAdtionListfnfr</dodf>.
+     * <li>Adtion fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param       e the action event
-     * @see         java.awt.event.ActionListener
-     * @see         java.awt.Button#addActionListener
-     * @see         java.awt.Component#enableEvents
-     * @since       1.1
+     * @pbrbm       f tif bdtion fvfnt
+     * @sff         jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sff         jbvb.bwt.Button#bddAdtionListfnfr
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
      */
-    protected void processActionEvent(ActionEvent e) {
-        ActionListener listener = actionListener;
-        if (listener != null) {
-            listener.actionPerformed(e);
+    protfdtfd void prodfssAdtionEvfnt(AdtionEvfnt f) {
+        AdtionListfnfr listfnfr = bdtionListfnfr;
+        if (listfnfr != null) {
+            listfnfr.bdtionPfrformfd(f);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>Button</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>Button</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return     the parameter string of this button
+     * @rfturn     tif pbrbmftfr string of tiis button
      */
-    protected String paramString() {
-        return super.paramString() + ",label=" + label;
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString() + ",lbbfl=" + lbbfl;
     }
 
 
-    /* Serialization support.
+    /* Sfriblizbtion support.
      */
 
     /*
-     * Button Serial Data Version.
-     * @serial
+     * Button Sfribl Dbtb Vfrsion.
+     * @sfribl
      */
-    private int buttonSerializedDataVersion = 1;
+    privbtf int buttonSfriblizfdDbtbVfrsion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>ActionListeners</code>
-     * as optional data.  The non-serializable
-     * <code>ActionListeners</code> are detected and
-     * no attempt is made to serialize them.
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf <dodf>AdtionListfnfrs</dodf>
+     * bs optionbl dbtb.  Tif non-sfriblizbblf
+     * <dodf>AdtionListfnfrs</dodf> brf dftfdtfd bnd
+     * no bttfmpt is mbdf to sfriblizf tifm.
      *
-     * @serialData <code>null</code> terminated sequence of 0 or
-     *   more pairs: the pair consists of a <code>String</code>
-     *   and an <code>Object</code>; the <code>String</code>
-     *   indicates the type of object and is one of the following:
-     *   <code>actionListenerK</code> indicating an
-     *     <code>ActionListener</code> object
+     * @sfriblDbtb <dodf>null</dodf> tfrminbtfd sfqufndf of 0 or
+     *   morf pbirs: tif pbir donsists of b <dodf>String</dodf>
+     *   bnd bn <dodf>Objfdt</dodf>; tif <dodf>String</dodf>
+     *   indidbtfs tif typf of objfdt bnd is onf of tif following:
+     *   <dodf>bdtionListfnfrK</dodf> indidbting bn
+     *     <dodf>AdtionListfnfr</dodf> objfdt
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#actionListenerK
-     * @see #readObject(ObjectInputStream)
+     * @pbrbm s tif <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#bdtionListfnfrK
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
      */
-    private void writeObject(ObjectOutputStream s)
-      throws IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      tirows IOExdfption
     {
-      s.defaultWriteObject();
+      s.dffbultWritfObjfdt();
 
-      AWTEventMulticaster.save(s, actionListenerK, actionListener);
-      s.writeObject(null);
+      AWTEvfntMultidbstfr.sbvf(s, bdtionListfnfrK, bdtionListfnfr);
+      s.writfObjfdt(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if
-     * it isn't <code>null</code> adds a listener to
-     * receive action events fired by the button.
-     * Unrecognized keys or values will be ignored.
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd if
+     * it isn't <dodf>null</dodf> bdds b listfnfr to
+     * rfdfivf bdtion fvfnts firfd by tif button.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
-     *   <code>true</code>
-     * @serial
-     * @see #removeActionListener(ActionListener)
-     * @see #addActionListener(ActionListener)
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sfribl
+     * @sff #rfmovfAdtionListfnfr(AdtionListfnfr)
+     * @sff #bddAdtionListfnfr(AdtionListfnfr)
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-      GraphicsEnvironment.checkHeadless();
-      s.defaultReadObject();
+      GrbpiidsEnvironmfnt.difdkHfbdlfss();
+      s.dffbultRfbdObjfdt();
 
-      Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
-        String key = ((String)keyOrNull).intern();
+      Objfdt kfyOrNull;
+      wiilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+        String kfy = ((String)kfyOrNull).intfrn();
 
-        if (actionListenerK == key)
-          addActionListener((ActionListener)(s.readObject()));
+        if (bdtionListfnfrK == kfy)
+          bddAdtionListfnfr((AdtionListfnfr)(s.rfbdObjfdt()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        flsf // skip vbluf for unrfdognizfd kfy
+          s.rfbdObjfdt();
       }
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with
-     * this <code>Button</code>. For buttons, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleAWTButton</code>.
-     * A new <code>AccessibleAWTButton</code> instance is
-     * created if necessary.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi
+     * tiis <dodf>Button</dodf>. For buttons, tif
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfAWTButton</dodf>.
+     * A nfw <dodf>AddfssiblfAWTButton</dodf> instbndf is
+     * drfbtfd if nfdfssbry.
      *
-     * @return an <code>AccessibleAWTButton</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>Button</code>
-     * @beaninfo
-     *       expert: true
-     *  description: The AccessibleContext associated with this Button.
-     * @since 1.3
+     * @rfturn bn <dodf>AddfssiblfAWTButton</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>Button</dodf>
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis Button.
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTButton();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTButton();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Button</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to button user-interface elements.
-     * @since 1.3
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Button</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to button usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTButton extends AccessibleAWTComponent
-        implements AccessibleAction, AccessibleValue
+    protfdtfd dlbss AddfssiblfAWTButton fxtfnds AddfssiblfAWTComponfnt
+        implfmfnts AddfssiblfAdtion, AddfssiblfVbluf
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = -5932203980244017102L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -5932203980244017102L;
 
         /**
-         * Get the accessible name of this object.
+         * Gft tif bddfssiblf nbmf of tiis objfdt.
          *
-         * @return the localized name of the object -- can be null if this
-         * object does not have a name
+         * @rfturn tif lodblizfd nbmf of tif objfdt -- dbn bf null if tiis
+         * objfdt dofs not ibvf b nbmf
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
-            } else {
-                if (getLabel() == null) {
-                    return super.getAccessibleName();
-                } else {
-                    return getLabel();
+        publid String gftAddfssiblfNbmf() {
+            if (bddfssiblfNbmf != null) {
+                rfturn bddfssiblfNbmf;
+            } flsf {
+                if (gftLbbfl() == null) {
+                    rfturn supfr.gftAddfssiblfNbmf();
+                } flsf {
+                    rfturn gftLbbfl();
                 }
             }
         }
 
         /**
-         * Get the AccessibleAction associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleAction interface on behalf of itself.
+         * Gft tif AddfssiblfAdtion bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfAdtion intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleAction getAccessibleAction() {
-            return this;
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * Gft tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfVbluf intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
         /**
-         * Returns the number of Actions available in this object.  The
-         * default behavior of a button is to have one action - toggle
-         * the button.
+         * Rfturns tif numbfr of Adtions bvbilbblf in tiis objfdt.  Tif
+         * dffbult bfibvior of b button is to ibvf onf bdtion - togglf
+         * tif button.
          *
-         * @return 1, the number of Actions in this object
+         * @rfturn 1, tif numbfr of Adtions in tiis objfdt
          */
-        public int getAccessibleActionCount() {
-            return 1;
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 1;
         }
 
         /**
-         * Return a description of the specified action of the object.
+         * Rfturn b dfsdription of tif spfdififd bdtion of tif objfdt.
          *
-         * @param i zero-based index of the actions
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
          */
-        public String getAccessibleActionDescription(int i) {
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
             if (i == 0) {
-                // [[[PENDING:  WDW -- need to provide a localized string]]]
-                return "click";
-            } else {
-                return null;
+                // [[[PENDING:  WDW -- nffd to providf b lodblizfd string]]]
+                rfturn "dlidk";
+            } flsf {
+                rfturn null;
             }
         }
 
         /**
-         * Perform the specified Action on the object
+         * Pfrform tif spfdififd Adtion on tif objfdt
          *
-         * @param i zero-based index of actions
-         * @return true if the the action was performed; else false.
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if tif tif bdtion wbs pfrformfd; flsf fblsf.
          */
-        public boolean doAccessibleAction(int i) {
+        publid boolfbn doAddfssiblfAdtion(int i) {
             if (i == 0) {
-                // Simulate a button click
-                Toolkit.getEventQueue().postEvent(
-                        new ActionEvent(Button.this,
-                                        ActionEvent.ACTION_PERFORMED,
-                                        Button.this.getActionCommand()));
-                return true;
-            } else {
-                return false;
+                // Simulbtf b button dlidk
+                Toolkit.gftEvfntQufuf().postEvfnt(
+                        nfw AdtionEvfnt(Button.tiis,
+                                        AdtionEvfnt.ACTION_PERFORMED,
+                                        Button.tiis.gftAdtionCommbnd()));
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
         }
 
         /**
-         * Get the value of this object as a Number.
+         * Gft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return An Integer of 0 if this isn't selected or an Integer of 1 if
-         * this is selected.
-         * @see javax.swing.AbstractButton#isSelected()
+         * @rfturn An Intfgfr of 0 if tiis isn't sflfdtfd or bn Intfgfr of 1 if
+         * tiis is sflfdtfd.
+         * @sff jbvbx.swing.AbstrbdtButton#isSflfdtfd()
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(0);
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Sft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return True if the value was set.
+         * @rfturn Truf if tif vbluf wbs sft.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
-            return false;
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            rfturn fblsf;
         }
 
         /**
-         * Get the minimum value of this object as a Number.
+         * Gft tif minimum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return An Integer of 0.
+         * @rfturn An Intfgfr of 0.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(0);
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
         }
 
         /**
-         * Get the maximum value of this object as a Number.
+         * Gft tif mbximum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return An Integer of 0.
+         * @rfturn An Intfgfr of 0.
          */
-        public Number getMaximumAccessibleValue() {
-            return Integer.valueOf(0);
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(0);
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.PUSH_BUTTON;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.PUSH_BUTTON;
         }
-    } // inner class AccessibleAWTButton
+    } // innfr dlbss AddfssiblfAWTButton
 
 }

@@ -1,0 +1,365 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.RbndomAddfssFilf;
+
+/**
+ * Rfsourdf Intfrdhbngf Filf Formbt (RIFF) strfbm fndodfr.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss RIFFWritfr fxtfnds OutputStrfbm {
+
+    privbtf intfrfbdf RbndomAddfssWritfr {
+
+        publid void sffk(long dhunksizfpointfr) throws IOExdfption;
+
+        publid long gftPointfr() throws IOExdfption;
+
+        publid void dlosf() throws IOExdfption;
+
+        publid void writf(int b) throws IOExdfption;
+
+        publid void writf(bytf[] b, int off, int lfn) throws IOExdfption;
+
+        publid void writf(bytf[] bytfs) throws IOExdfption;
+
+        publid long lfngth() throws IOExdfption;
+
+        publid void sftLfngth(long i) throws IOExdfption;
+    }
+
+    privbtf stbtid dlbss RbndomAddfssFilfWritfr implfmfnts RbndomAddfssWritfr {
+
+        RbndomAddfssFilf rbf;
+
+        RbndomAddfssFilfWritfr(Filf filf) throws FilfNotFoundExdfption {
+            this.rbf = nfw RbndomAddfssFilf(filf, "rw");
+        }
+
+        RbndomAddfssFilfWritfr(String nbmf) throws FilfNotFoundExdfption {
+            this.rbf = nfw RbndomAddfssFilf(nbmf, "rw");
+        }
+
+        publid void sffk(long dhunksizfpointfr) throws IOExdfption {
+            rbf.sffk(dhunksizfpointfr);
+        }
+
+        publid long gftPointfr() throws IOExdfption {
+            rfturn rbf.gftFilfPointfr();
+        }
+
+        publid void dlosf() throws IOExdfption {
+            rbf.dlosf();
+        }
+
+        publid void writf(int b) throws IOExdfption {
+            rbf.writf(b);
+        }
+
+        publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+            rbf.writf(b, off, lfn);
+        }
+
+        publid void writf(bytf[] bytfs) throws IOExdfption {
+            rbf.writf(bytfs);
+        }
+
+        publid long lfngth() throws IOExdfption {
+            rfturn rbf.lfngth();
+        }
+
+        publid void sftLfngth(long i) throws IOExdfption {
+            rbf.sftLfngth(i);
+        }
+    }
+
+    privbtf stbtid dlbss RbndomAddfssBytfWritfr implfmfnts RbndomAddfssWritfr {
+
+        bytf[] buff = nfw bytf[32];
+        int lfngth = 0;
+        int pos = 0;
+        bytf[] s;
+        finbl OutputStrfbm strfbm;
+
+        RbndomAddfssBytfWritfr(OutputStrfbm strfbm) {
+            this.strfbm = strfbm;
+        }
+
+        publid void sffk(long dhunksizfpointfr) throws IOExdfption {
+            pos = (int) dhunksizfpointfr;
+        }
+
+        publid long gftPointfr() throws IOExdfption {
+            rfturn pos;
+        }
+
+        publid void dlosf() throws IOExdfption {
+            strfbm.writf(buff, 0, lfngth);
+            strfbm.dlosf();
+        }
+
+        publid void writf(int b) throws IOExdfption {
+            if (s == null)
+                s = nfw bytf[1];
+            s[0] = (bytf)b;
+            writf(s, 0, 1);
+        }
+
+        publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+            int nfwsizf = pos + lfn;
+            if (nfwsizf > lfngth)
+                sftLfngth(nfwsizf);
+            int fnd = off + lfn;
+            for (int i = off; i < fnd; i++) {
+                buff[pos++] = b[i];
+            }
+        }
+
+        publid void writf(bytf[] bytfs) throws IOExdfption {
+            writf(bytfs, 0, bytfs.lfngth);
+        }
+
+        publid long lfngth() throws IOExdfption {
+            rfturn lfngth;
+        }
+
+        publid void sftLfngth(long i) throws IOExdfption {
+            lfngth = (int) i;
+            if (lfngth > buff.lfngth) {
+                int nfwlfn = Mbth.mbx(buff.lfngth << 1, lfngth);
+                bytf[] nfwbuff = nfw bytf[nfwlfn];
+                Systfm.brrbydopy(buff, 0, nfwbuff, 0, buff.lfngth);
+                buff = nfwbuff;
+            }
+        }
+    }
+    privbtf int dhunktypf = 0; // 0=RIFF, 1=LIST; 2=CHUNK
+    privbtf RbndomAddfssWritfr rbf;
+    privbtf finbl long dhunksizfpointfr;
+    privbtf finbl long stbrtpointfr;
+    privbtf RIFFWritfr dhilddhunk = null;
+    privbtf boolfbn opfn = truf;
+    privbtf boolfbn writfovfrridf = fblsf;
+
+    publid RIFFWritfr(String nbmf, String formbt) throws IOExdfption {
+        this(nfw RbndomAddfssFilfWritfr(nbmf), formbt, 0);
+    }
+
+    publid RIFFWritfr(Filf filf, String formbt) throws IOExdfption {
+        this(nfw RbndomAddfssFilfWritfr(filf), formbt, 0);
+    }
+
+    publid RIFFWritfr(OutputStrfbm strfbm, String formbt) throws IOExdfption {
+        this(nfw RbndomAddfssBytfWritfr(strfbm), formbt, 0);
+    }
+
+    privbtf RIFFWritfr(RbndomAddfssWritfr rbf, String formbt, int dhunktypf)
+            throws IOExdfption {
+        if (dhunktypf == 0)
+            if (rbf.lfngth() != 0)
+                rbf.sftLfngth(0);
+        this.rbf = rbf;
+        if (rbf.gftPointfr() % 2 != 0)
+            rbf.writf(0);
+
+        if (dhunktypf == 0)
+            rbf.writf("RIFF".gftBytfs("bsdii"));
+        flsf if (dhunktypf == 1)
+            rbf.writf("LIST".gftBytfs("bsdii"));
+        flsf
+            rbf.writf((formbt + "    ").substring(0, 4).gftBytfs("bsdii"));
+
+        dhunksizfpointfr = rbf.gftPointfr();
+        this.dhunktypf = 2;
+        writfUnsignfdInt(0);
+        this.dhunktypf = dhunktypf;
+        stbrtpointfr = rbf.gftPointfr();
+        if (dhunktypf != 2)
+            rbf.writf((formbt + "    ").substring(0, 4).gftBytfs("bsdii"));
+
+    }
+
+    publid void sffk(long pos) throws IOExdfption {
+        rbf.sffk(pos);
+    }
+
+    publid long gftFilfPointfr() throws IOExdfption {
+        rfturn rbf.gftPointfr();
+    }
+
+    publid void sftWritfOvfrridf(boolfbn writfovfrridf) {
+        this.writfovfrridf = writfovfrridf;
+    }
+
+    publid boolfbn gftWritfOvfrridf() {
+        rfturn writfovfrridf;
+    }
+
+    publid void dlosf() throws IOExdfption {
+        if (!opfn)
+            rfturn;
+        if (dhilddhunk != null) {
+            dhilddhunk.dlosf();
+            dhilddhunk = null;
+        }
+
+        int bbkdhunktypf = dhunktypf;
+        long fpointfr = rbf.gftPointfr();
+        rbf.sffk(dhunksizfpointfr);
+        dhunktypf = 2;
+        writfUnsignfdInt(fpointfr - stbrtpointfr);
+
+        if (bbkdhunktypf == 0)
+            rbf.dlosf();
+        flsf
+            rbf.sffk(fpointfr);
+        opfn = fblsf;
+        rbf = null;
+    }
+
+    publid void writf(int b) throws IOExdfption {
+        if (!writfovfrridf) {
+            if (dhunktypf != 2) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Only dhunks dbn writf bytfs!");
+            }
+            if (dhilddhunk != null) {
+                dhilddhunk.dlosf();
+                dhilddhunk = null;
+            }
+        }
+        rbf.writf(b);
+    }
+
+    publid void writf(bytf b[], int off, int lfn) throws IOExdfption {
+        if (!writfovfrridf) {
+            if (dhunktypf != 2) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Only dhunks dbn writf bytfs!");
+            }
+            if (dhilddhunk != null) {
+                dhilddhunk.dlosf();
+                dhilddhunk = null;
+            }
+        }
+        rbf.writf(b, off, lfn);
+    }
+
+    publid RIFFWritfr writfList(String formbt) throws IOExdfption {
+        if (dhunktypf == 2) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Only LIST bnd RIFF dbn writf lists!");
+        }
+        if (dhilddhunk != null) {
+            dhilddhunk.dlosf();
+            dhilddhunk = null;
+        }
+        dhilddhunk = nfw RIFFWritfr(this.rbf, formbt, 1);
+        rfturn dhilddhunk;
+    }
+
+    publid RIFFWritfr writfChunk(String formbt) throws IOExdfption {
+        if (dhunktypf == 2) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Only LIST bnd RIFF dbn writf dhunks!");
+        }
+        if (dhilddhunk != null) {
+            dhilddhunk.dlosf();
+            dhilddhunk = null;
+        }
+        dhilddhunk = nfw RIFFWritfr(this.rbf, formbt, 2);
+        rfturn dhilddhunk;
+    }
+
+    // Writf ASCII dhbrs to strfbm
+    publid void writfString(String string) throws IOExdfption {
+        bytf[] buff = string.gftBytfs();
+        writf(buff);
+    }
+
+    // Writf ASCII dhbrs to strfbm
+    publid void writfString(String string, int lfn) throws IOExdfption {
+        bytf[] buff = string.gftBytfs();
+        if (buff.lfngth > lfn)
+            writf(buff, 0, lfn);
+        flsf {
+            writf(buff);
+            for (int i = buff.lfngth; i < lfn; i++)
+                writf(0);
+        }
+    }
+
+    // Writf 8 bit signfd intfgfr to strfbm
+    publid void writfBytf(int b) throws IOExdfption {
+        writf(b);
+    }
+
+    // Writf 16 bit signfd intfgfr to strfbm
+    publid void writfShort(short b) throws IOExdfption {
+        writf((b >>> 0) & 0xFF);
+        writf((b >>> 8) & 0xFF);
+    }
+
+    // Writf 32 bit signfd intfgfr to strfbm
+    publid void writfInt(int b) throws IOExdfption {
+        writf((b >>> 0) & 0xFF);
+        writf((b >>> 8) & 0xFF);
+        writf((b >>> 16) & 0xFF);
+        writf((b >>> 24) & 0xFF);
+    }
+
+    // Writf 64 bit signfd intfgfr to strfbm
+    publid void writfLong(long b) throws IOExdfption {
+        writf((int) (b >>> 0) & 0xFF);
+        writf((int) (b >>> 8) & 0xFF);
+        writf((int) (b >>> 16) & 0xFF);
+        writf((int) (b >>> 24) & 0xFF);
+        writf((int) (b >>> 32) & 0xFF);
+        writf((int) (b >>> 40) & 0xFF);
+        writf((int) (b >>> 48) & 0xFF);
+        writf((int) (b >>> 56) & 0xFF);
+    }
+
+    // Writf 8 bit unsignfd intfgfr to strfbm
+    publid void writfUnsignfdBytf(int b) throws IOExdfption {
+        writfBytf((bytf) b);
+    }
+
+    // Writf 16 bit unsignfd intfgfr to strfbm
+    publid void writfUnsignfdShort(int b) throws IOExdfption {
+        writfShort((short) b);
+    }
+
+    // Writf 32 bit unsignfd intfgfr to strfbm
+    publid void writfUnsignfdInt(long b) throws IOExdfption {
+        writfInt((int) b);
+    }
+}

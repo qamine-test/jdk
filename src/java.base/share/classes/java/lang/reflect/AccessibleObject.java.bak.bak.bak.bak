@@ -1,0 +1,316 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+import jbvb.sfdurity.AddfssControllfr;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.RfflfdtionFbdtory;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+
+/**
+ * Thf AddfssiblfObjfdt dlbss is thf bbsf dlbss for Fifld, Mfthod bnd
+ * Construdtor objfdts.  It providfs thf bbility to flbg b rfflfdtfd
+ * objfdt bs supprfssing dffbult Jbvb lbngubgf bddfss dontrol dhfdks
+ * whfn it is usfd.  Thf bddfss dhfdks--for publid, dffbult (pbdkbgf)
+ * bddfss, protfdtfd, bnd privbtf mfmbfrs--brf pfrformfd whfn Fiflds,
+ * Mfthods or Construdtors brf usfd to sft or gft fiflds, to invokf
+ * mfthods, or to drfbtf bnd initiblizf nfw instbndfs of dlbssfs,
+ * rfspfdtivfly.
+ *
+ * <p>Sftting thf {@dodf bddfssiblf} flbg in b rfflfdtfd objfdt
+ * pfrmits sophistidbtfd bpplidbtions with suffidifnt privilfgf, sudh
+ * bs Jbvb Objfdt Sfriblizbtion or othfr pfrsistfndf mfdhbnisms, to
+ * mbnipulbtf objfdts in b mbnnfr thbt would normblly bf prohibitfd.
+ *
+ * <p>By dffbult, b rfflfdtfd objfdt is <fm>not</fm> bddfssiblf.
+ *
+ * @sff Fifld
+ * @sff Mfthod
+ * @sff Construdtor
+ * @sff RfflfdtPfrmission
+ *
+ * @sindf 1.2
+ */
+publid dlbss AddfssiblfObjfdt implfmfnts AnnotbtfdElfmfnt {
+
+    /**
+     * Thf Pfrmission objfdt thbt is usfd to dhfdk whfthfr b dlifnt
+     * hbs suffidifnt privilfgf to dfffbt Jbvb lbngubgf bddfss
+     * dontrol dhfdks.
+     */
+    stbtid finbl privbtf jbvb.sfdurity.Pfrmission ACCESS_PERMISSION =
+        nfw RfflfdtPfrmission("supprfssAddfssChfdks");
+
+    /**
+     * Convfnifndf mfthod to sft thf {@dodf bddfssiblf} flbg for bn
+     * brrby of objfdts with b singlf sfdurity dhfdk (for fffidifndy).
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkPfrmission} mfthod is dbllfd with b
+     * {@dodf RfflfdtPfrmission("supprfssAddfssChfdks")} pfrmission.
+     *
+     * <p>A {@dodf SfdurityExdfption} is rbisfd if {@dodf flbg} is
+     * {@dodf truf} but bddfssibility of bny of thf flfmfnts of thf input
+     * {@dodf brrby} mby not bf dhbngfd (for fxbmplf, if thf flfmfnt
+     * objfdt is b {@link Construdtor} objfdt for thf dlbss {@link
+     * jbvb.lbng.Clbss}).  In thf fvfnt of sudh b SfdurityExdfption, thf
+     * bddfssibility of objfdts is sft to {@dodf flbg} for brrby flfmfnts
+     * upto (bnd fxdluding) thf flfmfnt for whidh thf fxdfption oddurrfd; thf
+     * bddfssibility of flfmfnts bfyond (bnd indluding) thf flfmfnt for whidh
+     * thf fxdfption oddurrfd is undhbngfd.
+     *
+     * @pbrbm brrby thf brrby of AddfssiblfObjfdts
+     * @pbrbm flbg  thf nfw vbluf for thf {@dodf bddfssiblf} flbg
+     *              in fbdh objfdt
+     * @throws SfdurityExdfption if thf rfqufst is dfnifd.
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
+     */
+    publid stbtid void sftAddfssiblf(AddfssiblfObjfdt[] brrby, boolfbn flbg)
+        throws SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.dhfdkPfrmission(ACCESS_PERMISSION);
+        for (AddfssiblfObjfdt bo : brrby) {
+            sftAddfssiblf0(bo, flbg);
+        }
+    }
+
+    /**
+     * Sft thf {@dodf bddfssiblf} flbg for this objfdt to
+     * thf indidbtfd boolfbn vbluf.  A vbluf of {@dodf truf} indidbtfs thbt
+     * thf rfflfdtfd objfdt should supprfss Jbvb lbngubgf bddfss
+     * dhfdking whfn it is usfd.  A vbluf of {@dodf fblsf} indidbtfs
+     * thbt thf rfflfdtfd objfdt should fnfordf Jbvb lbngubgf bddfss dhfdks.
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkPfrmission} mfthod is dbllfd with b
+     * {@dodf RfflfdtPfrmission("supprfssAddfssChfdks")} pfrmission.
+     *
+     * <p>A {@dodf SfdurityExdfption} is rbisfd if {@dodf flbg} is
+     * {@dodf truf} but bddfssibility of this objfdt mby not bf dhbngfd
+     * (for fxbmplf, if this flfmfnt objfdt is b {@link Construdtor} objfdt for
+     * thf dlbss {@link jbvb.lbng.Clbss}).
+     *
+     * <p>A {@dodf SfdurityExdfption} is rbisfd if this objfdt is b {@link
+     * jbvb.lbng.rfflfdt.Construdtor} objfdt for thf dlbss
+     * {@dodf jbvb.lbng.Clbss}, bnd {@dodf flbg} is truf.
+     *
+     * @pbrbm flbg thf nfw vbluf for thf {@dodf bddfssiblf} flbg
+     * @throws SfdurityExdfption if thf rfqufst is dfnifd.
+     * @sff SfdurityMbnbgfr#dhfdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
+     */
+    publid void sftAddfssiblf(boolfbn flbg) throws SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.dhfdkPfrmission(ACCESS_PERMISSION);
+        sftAddfssiblf0(this, flbg);
+    }
+
+    /* Chfdk thbt you brfn't fxposing jbvb.lbng.Clbss.<init> or sfnsitivf
+       fiflds in jbvb.lbng.Clbss. */
+    privbtf stbtid void sftAddfssiblf0(AddfssiblfObjfdt obj, boolfbn flbg)
+        throws SfdurityExdfption
+    {
+        if (obj instbndfof Construdtor && flbg == truf) {
+            Construdtor<?> d = (Construdtor<?>)obj;
+            if (d.gftDfdlbringClbss() == Clbss.dlbss) {
+                throw nfw SfdurityExdfption("Cbnnot mbkf b jbvb.lbng.Clbss" +
+                                            " donstrudtor bddfssiblf");
+            }
+        } flsf if (obj instbndfof Fifld && flbg == truf) {
+            Fifld f = (Fifld)obj;
+            if (f.gftDfdlbringClbss() == Clbss.dlbss &&
+                f.gftNbmf().fqubls("dlbssLobdfr")) {
+                throw nfw SfdurityExdfption("Cbnnot mbkf jbvb.lbng.Clbss.dlbssLobdfr" +
+                                            " bddfssiblf");
+            }
+        }
+        obj.ovfrridf = flbg;
+    }
+
+    /**
+     * Gft thf vbluf of thf {@dodf bddfssiblf} flbg for this objfdt.
+     *
+     * @rfturn thf vbluf of thf objfdt's {@dodf bddfssiblf} flbg
+     */
+    publid boolfbn isAddfssiblf() {
+        rfturn ovfrridf;
+    }
+
+    /**
+     * Construdtor: only usfd by thf Jbvb Virtubl Mbdhinf.
+     */
+    protfdtfd AddfssiblfObjfdt() {}
+
+    // Indidbtfs whfthfr lbngubgf-lfvfl bddfss dhfdks brf ovfrriddfn
+    // by this objfdt. Initiblizfs to "fblsf". This fifld is usfd by
+    // Fifld, Mfthod, bnd Construdtor.
+    //
+    // NOTE: for sfdurity purposfs, this fifld must not bf visiblf
+    // outsidf this pbdkbgf.
+    boolfbn ovfrridf;
+
+    // Rfflfdtion fbdtory usfd by subdlbssfs for drfbting fifld,
+    // mfthod, bnd donstrudtor bddfssors. Notf thbt this is dbllfd
+    // vfry fbrly in thf bootstrbpping prodfss.
+    stbtid finbl RfflfdtionFbdtory rfflfdtionFbdtory =
+        AddfssControllfr.doPrivilfgfd(
+            nfw sun.rfflfdt.RfflfdtionFbdtory.GftRfflfdtionFbdtoryAdtion());
+
+    /**
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @sindf 1.5
+     */
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        throw nfw AssfrtionError("All subdlbssfs should ovfrridf this mfthod");
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid boolfbn isAnnotbtionPrfsfnt(Clbss<? fxtfnds Annotbtion> bnnotbtionClbss) {
+        rfturn AnnotbtfdElfmfnt.supfr.isAnnotbtionPrfsfnt(bnnotbtionClbss);
+    }
+
+   /**
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        throw nfw AssfrtionError("All subdlbssfs should ovfrridf this mfthod");
+    }
+
+    /**
+     * @sindf 1.5
+     */
+    publid Annotbtion[] gftAnnotbtions() {
+        rfturn gftDfdlbrfdAnnotbtions();
+    }
+
+    /**
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T gftDfdlbrfdAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on dlbssfs brf inhfritfd, for bll othfr
+        // objfdts gftDfdlbrfdAnnotbtion is thf sbmf bs
+        // gftAnnotbtion.
+        rfturn gftAnnotbtion(bnnotbtionClbss);
+    }
+
+    /**
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftDfdlbrfdAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on dlbssfs brf inhfritfd, for bll othfr
+        // objfdts gftDfdlbrfdAnnotbtionsByTypf is thf sbmf bs
+        // gftAnnotbtionsByTypf.
+        rfturn gftAnnotbtionsByTypf(bnnotbtionClbss);
+    }
+
+    /**
+     * @sindf 1.5
+     */
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions()  {
+        throw nfw AssfrtionError("All subdlbssfs should ovfrridf this mfthod");
+    }
+
+
+    // Shbrfd bddfss dhfdking logid.
+
+    // For non-publid mfmbfrs or mfmbfrs in pbdkbgf-privbtf dlbssfs,
+    // it is nfdfssbry to pfrform somfwhbt fxpfnsivf sfdurity dhfdks.
+    // If thf sfdurity dhfdk suddffds for b givfn dlbss, it will
+    // blwbys suddffd (it is not bfffdtfd by thf grbnting or rfvoking
+    // of pfrmissions); wf spffd up thf dhfdk in thf dommon dbsf by
+    // rfmfmbfring thf lbst Clbss for whidh thf dhfdk suddffdfd.
+    //
+    // Thf simplf sfdurity dhfdk for Construdtor is to sff if
+    // thf dbllfr hbs blrfbdy bffn sffn, vfrififd, bnd dbdhfd.
+    // (Sff blso Clbss.nfwInstbndf(), whidh usfs b similbr mfthod.)
+    //
+    // A morf domplidbtfd sfdurity dhfdk dbdhf is nffdfd for Mfthod bnd Fifld
+    // Thf dbdhf dbn bf fithfr null (fmpty dbdhf), b 2-brrby of {dbllfr,tbrgft},
+    // or b dbllfr (with tbrgft impliditly fqubl to this.dlbzz).
+    // In thf 2-brrby dbsf, thf tbrgft is blwbys difffrfnt from thf dlbzz.
+    volbtilf Objfdt sfdurityChfdkCbdhf;
+
+    void dhfdkAddfss(Clbss<?> dbllfr, Clbss<?> dlbzz, Objfdt obj, int modififrs)
+        throws IllfgblAddfssExdfption
+    {
+        if (dbllfr == dlbzz) {  // quidk dhfdk
+            rfturn;             // ACCESS IS OK
+        }
+        Objfdt dbdhf = sfdurityChfdkCbdhf;  // rfbd volbtilf
+        Clbss<?> tbrgftClbss = dlbzz;
+        if (obj != null
+            && Modififr.isProtfdtfd(modififrs)
+            && ((tbrgftClbss = obj.gftClbss()) != dlbzz)) {
+            // Must mbtdh b 2-list of { dbllfr, tbrgftClbss }.
+            if (dbdhf instbndfof Clbss[]) {
+                Clbss<?>[] dbdhf2 = (Clbss<?>[]) dbdhf;
+                if (dbdhf2[1] == tbrgftClbss &&
+                    dbdhf2[0] == dbllfr) {
+                    rfturn;     // ACCESS IS OK
+                }
+                // (Tfst dbdhf[1] first sindf rbngf dhfdk for [1]
+                // subsumfs rbngf dhfdk for [0].)
+            }
+        } flsf if (dbdhf == dbllfr) {
+            // Non-protfdtfd dbsf (or obj.dlbss == this.dlbzz).
+            rfturn;             // ACCESS IS OK
+        }
+
+        // If no rfturn, fbll through to thf slow pbth.
+        slowChfdkMfmbfrAddfss(dbllfr, dlbzz, obj, modififrs, tbrgftClbss);
+    }
+
+    // Kffp bll this slow stuff out of linf:
+    void slowChfdkMfmbfrAddfss(Clbss<?> dbllfr, Clbss<?> dlbzz, Objfdt obj, int modififrs,
+                               Clbss<?> tbrgftClbss)
+        throws IllfgblAddfssExdfption
+    {
+        Rfflfdtion.fnsurfMfmbfrAddfss(dbllfr, dlbzz, obj, modififrs);
+
+        // Suddfss: Updbtf thf dbdhf.
+        Objfdt dbdhf = ((tbrgftClbss == dlbzz)
+                        ? dbllfr
+                        : nfw Clbss<?>[] { dbllfr, tbrgftClbss });
+
+        // Notf:  Thf two dbdhf flfmfnts brf not volbtilf,
+        // but thfy brf ffffdtivfly finbl.  Thf Jbvb mfmory modfl
+        // gubrbntffs thbt thf initiblizing storfs for thf dbdhf
+        // flfmfnts will oddur bfforf thf volbtilf writf.
+        sfdurityChfdkCbdhf = dbdhf;         // writf volbtilf
+    }
+}

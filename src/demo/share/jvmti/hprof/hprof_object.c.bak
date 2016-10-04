@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,295 +30,295 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Object table. */
+/* Objfdt tbblf. */
 
 /*
- * An Object is unique by it's allocation site (SiteIndex), it's size,
- *   it's kind, and it's serial number. Normally only the serial number
- *   would have been necessary for heap=dump, and these other items
- *   could have been moved to the ObjectInfo. An optimization left
- *   to the reader. Lookups are not normally done on ObjectIndex's
- *   anyway because we typically know when to create them.
- *   Objects that have been tagged, are tagged with an ObjectIndex,
- *   Objects that are not tagged need a ObjectIndex, a lookup when
- *     heap=sites, and a new one when heap=dump.
- *   Objects that are freed, need the tag converted to an ObjectIndex,
- *     so they can be freed, but only when heap=dump.
- *   The thread serial number is for the thread associated with this
- *     object. If the object is a Thread object, it should be the serial
- *     number for that thread. The ThreadStart event is responsible
- *     for making sure the thread serial number is correct, but between the
- *     initial allocation of a Thread object and it's ThreadStart event
- *     the thread serial number could be for the thread that allocated
- *     the Thread object.
+ * An Objfdt is uniquf by it's bllodbtion sitf (SitfIndfx), it's sizf,
+ *   it's kind, bnd it's sfribl numbfr. Normblly only tif sfribl numbfr
+ *   would ibvf bffn nfdfssbry for ifbp=dump, bnd tifsf otifr itfms
+ *   dould ibvf bffn movfd to tif ObjfdtInfo. An optimizbtion lfft
+ *   to tif rfbdfr. Lookups brf not normblly donf on ObjfdtIndfx's
+ *   bnywby bfdbusf wf typidblly know wifn to drfbtf tifm.
+ *   Objfdts tibt ibvf bffn tbggfd, brf tbggfd witi bn ObjfdtIndfx,
+ *   Objfdts tibt brf not tbggfd nffd b ObjfdtIndfx, b lookup wifn
+ *     ifbp=sitfs, bnd b nfw onf wifn ifbp=dump.
+ *   Objfdts tibt brf frffd, nffd tif tbg donvfrtfd to bn ObjfdtIndfx,
+ *     so tify dbn bf frffd, but only wifn ifbp=dump.
+ *   Tif tirfbd sfribl numbfr is for tif tirfbd bssodibtfd witi tiis
+ *     objfdt. If tif objfdt is b Tirfbd objfdt, it siould bf tif sfribl
+ *     numbfr for tibt tirfbd. Tif TirfbdStbrt fvfnt is rfsponsiblf
+ *     for mbking surf tif tirfbd sfribl numbfr is dorrfdt, but bftwffn tif
+ *     initibl bllodbtion of b Tirfbd objfdt bnd it's TirfbdStbrt fvfnt
+ *     tif tirfbd sfribl numbfr dould bf for tif tirfbd tibt bllodbtfd
+ *     tif Tirfbd objfdt.
  *
- * This will likely be the largest table when using heap=dump, when
- *   there is one table entry per object.
+ * Tiis will likfly bf tif lbrgfst tbblf wifn using ifbp=dump, wifn
+ *   tifrf is onf tbblf fntry pfr objfdt.
  *
- * ObjectIndex entries differ between heap=dump and heap=sites.
- *   With heap=sites, each ObjectIndex represents a unique site, size,
- *   and kind of object, so many jobject's will map to a single ObjectIndex.
- *   With heap=dump, every ObjectIndex maps to a unique jobject.
+ * ObjfdtIndfx fntrifs difffr bftwffn ifbp=dump bnd ifbp=sitfs.
+ *   Witi ifbp=sitfs, fbdi ObjfdtIndfx rfprfsfnts b uniquf sitf, sizf,
+ *   bnd kind of objfdt, so mbny jobjfdt's will mbp to b singlf ObjfdtIndfx.
+ *   Witi ifbp=dump, fvfry ObjfdtIndfx mbps to b uniquf jobjfdt.
  *
- * During processing of a heap dump, the references for the object
- *   this ObjectIndex represents is assigned to the references field
- *   of the ObjectInfo as a linked list. (see hprof_references.c).
- *   Once all the refernces are attached, they are processed into the
- *   appropriate hprof dump information.
+ * During prodfssing of b ifbp dump, tif rfffrfndfs for tif objfdt
+ *   tiis ObjfdtIndfx rfprfsfnts is bssignfd to tif rfffrfndfs fifld
+ *   of tif ObjfdtInfo bs b linkfd list. (sff iprof_rfffrfndfs.d).
+ *   Ondf bll tif rfffrndfs brf bttbdifd, tify brf prodfssfd into tif
+ *   bppropribtf iprof dump informbtion.
  *
- * The references field is set and cleared as many times as the heap
- *   is dumped, as is the reference table.
+ * Tif rfffrfndfs fifld is sft bnd dlfbrfd bs mbny timfs bs tif ifbp
+ *   is dumpfd, bs is tif rfffrfndf tbblf.
  *
  */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-typedef struct ObjectKey {
-    SiteIndex    site_index;    /* Site of allocation */
-    jint         size;          /* Size of object as reported by VM */
-    ObjectKind   kind;          /* Kind of object, most are OBJECT_NORMAL */
-    SerialNumber serial_num;    /* For heap=dump, a unique number. */
-} ObjectKey;
+typfdff strudt ObjfdtKfy {
+    SitfIndfx    sitf_indfx;    /* Sitf of bllodbtion */
+    jint         sizf;          /* Sizf of objfdt bs rfportfd by VM */
+    ObjfdtKind   kind;          /* Kind of objfdt, most brf OBJECT_NORMAL */
+    SfriblNumbfr sfribl_num;    /* For ifbp=dump, b uniquf numbfr. */
+} ObjfdtKfy;
 
-typedef struct ObjectInfo {
-    RefIndex     references;        /* Linked list of refs in this object */
-    SerialNumber thread_serial_num; /* Thread serial number for allocation */
-} ObjectInfo;
+typfdff strudt ObjfdtInfo {
+    RffIndfx     rfffrfndfs;        /* Linkfd list of rffs in tiis objfdt */
+    SfriblNumbfr tirfbd_sfribl_num; /* Tirfbd sfribl numbfr for bllodbtion */
+} ObjfdtInfo;
 
-/* Private internal functions. */
+/* Privbtf intfrnbl fundtions. */
 
-static ObjectKey*
-get_pkey(ObjectIndex index)
+stbtid ObjfdtKfy*
+gft_pkfy(ObjfdtIndfx indfx)
 {
-    void *key_ptr;
-    int   key_len;
+    void *kfy_ptr;
+    int   kfy_lfn;
 
-    table_get_key(gdata->object_table, index, (void*)&key_ptr, &key_len);
-    HPROF_ASSERT(key_len==(int)sizeof(ObjectKey));
-    HPROF_ASSERT(key_ptr!=NULL);
-    return (ObjectKey*)key_ptr;
+    tbblf_gft_kfy(gdbtb->objfdt_tbblf, indfx, (void*)&kfy_ptr, &kfy_lfn);
+    HPROF_ASSERT(kfy_lfn==(int)sizfof(ObjfdtKfy));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    rfturn (ObjfdtKfy*)kfy_ptr;
 }
 
-static ObjectInfo *
-get_info(ObjectIndex index)
+stbtid ObjfdtInfo *
+gft_info(ObjfdtIndfx indfx)
 {
-    ObjectInfo *info;
+    ObjfdtInfo *info;
 
-    info = (ObjectInfo*)table_get_info(gdata->object_table, index);
-    return info;
+    info = (ObjfdtInfo*)tbblf_gft_info(gdbtb->objfdt_tbblf, indfx);
+    rfturn info;
 }
 
-static void
-list_item(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+list_itfm(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    ObjectKey  *pkey;
-    ObjectInfo *info;
+    ObjfdtKfy  *pkfy;
+    ObjfdtInfo *info;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len!=0);
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn!=0);
     HPROF_ASSERT(info_ptr!=NULL);
 
-    info = (ObjectInfo*)info_ptr;
+    info = (ObjfdtInfo*)info_ptr;
 
-    pkey = (ObjectKey*)key_ptr;
-    debug_message( "Object 0x%08x: site=0x%08x, SN=%u, "
-                          " size=%d, kind=%d, refs=0x%x, threadSN=%u\n",
-         i, pkey->site_index, pkey->serial_num, pkey->size, pkey->kind,
-         info->references, info->thread_serial_num);
+    pkfy = (ObjfdtKfy*)kfy_ptr;
+    dfbug_mfssbgf( "Objfdt 0x%08x: sitf=0x%08x, SN=%u, "
+                          " sizf=%d, kind=%d, rffs=0x%x, tirfbdSN=%u\n",
+         i, pkfy->sitf_indfx, pkfy->sfribl_num, pkfy->sizf, pkfy->kind,
+         info->rfffrfndfs, info->tirfbd_sfribl_num);
 }
 
-static void
-clear_references(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dlfbr_rfffrfndfs(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    ObjectInfo *info;
+    ObjfdtInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (ObjectInfo *)info_ptr;
-    info->references = 0;
+    info = (ObjfdtInfo *)info_ptr;
+    info->rfffrfndfs = 0;
 }
 
-static void
-dump_class_references(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dump_dlbss_rfffrfndfs(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    ObjectInfo *info;
+    ObjfdtInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (ObjectInfo *)info_ptr;
-    reference_dump_class((JNIEnv*)arg, i, info->references);
+    info = (ObjfdtInfo *)info_ptr;
+    rfffrfndf_dump_dlbss((JNIEnv*)brg, i, info->rfffrfndfs);
 }
 
-static void
-dump_instance_references(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dump_instbndf_rfffrfndfs(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    ObjectInfo *info;
+    ObjfdtInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (ObjectInfo *)info_ptr;
-    reference_dump_instance((JNIEnv*)arg, i, info->references);
+    info = (ObjfdtInfo *)info_ptr;
+    rfffrfndf_dump_instbndf((JNIEnv*)brg, i, info->rfffrfndfs);
 }
 
-/* External interfaces. */
+/* Extfrnbl intfrfbdfs. */
 
-ObjectIndex
-object_new(SiteIndex site_index, jint size, ObjectKind kind, SerialNumber thread_serial_num)
+ObjfdtIndfx
+objfdt_nfw(SitfIndfx sitf_indfx, jint sizf, ObjfdtKind kind, SfriblNumbfr tirfbd_sfribl_num)
 {
-    ObjectIndex index;
-    ObjectKey   key;
-    static ObjectKey empty_key;
+    ObjfdtIndfx indfx;
+    ObjfdtKfy   kfy;
+    stbtid ObjfdtKfy fmpty_kfy;
 
-    key            = empty_key;
-    key.site_index = site_index;
-    key.size       = size;
-    key.kind       = kind;
-    if ( gdata->heap_dump ) {
-        static ObjectInfo empty_info;
-        ObjectInfo i;
+    kfy            = fmpty_kfy;
+    kfy.sitf_indfx = sitf_indfx;
+    kfy.sizf       = sizf;
+    kfy.kind       = kind;
+    if ( gdbtb->ifbp_dump ) {
+        stbtid ObjfdtInfo fmpty_info;
+        ObjfdtInfo i;
 
-        i = empty_info;
-        i.thread_serial_num = thread_serial_num;
-        key.serial_num = gdata->object_serial_number_counter++;
-        index = table_create_entry(gdata->object_table,
-                            &key, (int)sizeof(ObjectKey), &i);
-    } else {
-        key.serial_num =
-             class_get_serial_number(site_get_class_index(site_index));
-        index = table_find_or_create_entry(gdata->object_table,
-                            &key, (int)sizeof(ObjectKey), NULL, NULL);
+        i = fmpty_info;
+        i.tirfbd_sfribl_num = tirfbd_sfribl_num;
+        kfy.sfribl_num = gdbtb->objfdt_sfribl_numbfr_dountfr++;
+        indfx = tbblf_drfbtf_fntry(gdbtb->objfdt_tbblf,
+                            &kfy, (int)sizfof(ObjfdtKfy), &i);
+    } flsf {
+        kfy.sfribl_num =
+             dlbss_gft_sfribl_numbfr(sitf_gft_dlbss_indfx(sitf_indfx));
+        indfx = tbblf_find_or_drfbtf_fntry(gdbtb->objfdt_tbblf,
+                            &kfy, (int)sizfof(ObjfdtKfy), NULL, NULL);
     }
-    site_update_stats(site_index, size, 1);
-    return index;
+    sitf_updbtf_stbts(sitf_indfx, sizf, 1);
+    rfturn indfx;
 }
 
 void
-object_init(void)
+objfdt_init(void)
 {
-    jint bucket_count;
+    jint budkft_dount;
 
-    bucket_count = 511;
-    if ( gdata->heap_dump ) {
-        bucket_count = 0;
+    budkft_dount = 511;
+    if ( gdbtb->ifbp_dump ) {
+        budkft_dount = 0;
     }
-    HPROF_ASSERT(gdata->object_table==NULL);
-    gdata->object_table = table_initialize("Object", 4096,
-                        4096, bucket_count, (int)sizeof(ObjectInfo));
+    HPROF_ASSERT(gdbtb->objfdt_tbblf==NULL);
+    gdbtb->objfdt_tbblf = tbblf_initiblizf("Objfdt", 4096,
+                        4096, budkft_dount, (int)sizfof(ObjfdtInfo));
 }
 
-SiteIndex
-object_get_site(ObjectIndex index)
+SitfIndfx
+objfdt_gft_sitf(ObjfdtIndfx indfx)
 {
-    ObjectKey *pkey;
+    ObjfdtKfy *pkfy;
 
-    pkey = get_pkey(index);
-    return pkey->site_index;
+    pkfy = gft_pkfy(indfx);
+    rfturn pkfy->sitf_indfx;
 }
 
 jint
-object_get_size(ObjectIndex index)
+objfdt_gft_sizf(ObjfdtIndfx indfx)
 {
-    ObjectKey *pkey;
+    ObjfdtKfy *pkfy;
 
-    pkey = get_pkey(index);
-    return pkey->size;
+    pkfy = gft_pkfy(indfx);
+    rfturn pkfy->sizf;
 }
 
-ObjectKind
-object_get_kind(ObjectIndex index)
+ObjfdtKind
+objfdt_gft_kind(ObjfdtIndfx indfx)
 {
-    ObjectKey *pkey;
+    ObjfdtKfy *pkfy;
 
-    pkey = get_pkey(index);
-    return pkey->kind;
+    pkfy = gft_pkfy(indfx);
+    rfturn pkfy->kind;
 }
 
-ObjectKind
-object_free(ObjectIndex index)
+ObjfdtKind
+objfdt_frff(ObjfdtIndfx indfx)
 {
-    ObjectKey *pkey;
-    ObjectKind kind;
+    ObjfdtKfy *pkfy;
+    ObjfdtKind kind;
 
-    pkey = get_pkey(index);
-    kind = pkey->kind;
+    pkfy = gft_pkfy(indfx);
+    kind = pkfy->kind;
 
-    /* Decrement allocations at this site. */
-    site_update_stats(pkey->site_index, -(pkey->size), -1);
+    /* Dfdrfmfnt bllodbtions bt tiis sitf. */
+    sitf_updbtf_stbts(pkfy->sitf_indfx, -(pkfy->sizf), -1);
 
-    if ( gdata->heap_dump ) {
-        table_free_entry(gdata->object_table, index);
+    if ( gdbtb->ifbp_dump ) {
+        tbblf_frff_fntry(gdbtb->objfdt_tbblf, indfx);
     }
-    return kind;
+    rfturn kind;
 }
 
 void
-object_list(void)
+objfdt_list(void)
 {
-    debug_message(
-        "--------------------- Object Table ------------------------\n");
-    table_walk_items(gdata->object_table, &list_item, NULL);
-    debug_message(
+    dfbug_mfssbgf(
+        "--------------------- Objfdt Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->objfdt_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
         "----------------------------------------------------------\n");
 }
 
 void
-object_cleanup(void)
+objfdt_dlfbnup(void)
 {
-    table_cleanup(gdata->object_table, NULL, NULL);
-    gdata->object_table = NULL;
+    tbblf_dlfbnup(gdbtb->objfdt_tbblf, NULL, NULL);
+    gdbtb->objfdt_tbblf = NULL;
 }
 
 void
-object_set_thread_serial_number(ObjectIndex index,
-                                SerialNumber thread_serial_num)
+objfdt_sft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx,
+                                SfriblNumbfr tirfbd_sfribl_num)
 {
-    ObjectInfo *info;
+    ObjfdtInfo *info;
 
-    info = get_info(index);
-    info->thread_serial_num = thread_serial_num;
+    info = gft_info(indfx);
+    info->tirfbd_sfribl_num = tirfbd_sfribl_num;
 }
 
-SerialNumber
-object_get_thread_serial_number(ObjectIndex index)
+SfriblNumbfr
+objfdt_gft_tirfbd_sfribl_numbfr(ObjfdtIndfx indfx)
 {
-    ObjectInfo *info;
+    ObjfdtInfo *info;
 
-    info = get_info(index);
-    return info->thread_serial_num;
+    info = gft_info(indfx);
+    rfturn info->tirfbd_sfribl_num;
 }
 
-RefIndex
-object_get_references(ObjectIndex index)
+RffIndfx
+objfdt_gft_rfffrfndfs(ObjfdtIndfx indfx)
 {
-    ObjectInfo *info;
+    ObjfdtInfo *info;
 
-    info = get_info(index);
-    return info->references;
-}
-
-void
-object_set_references(ObjectIndex index, RefIndex ref_index)
-{
-    ObjectInfo *info;
-
-    info = get_info(index);
-    info->references = ref_index;
+    info = gft_info(indfx);
+    rfturn info->rfffrfndfs;
 }
 
 void
-object_clear_references(void)
+objfdt_sft_rfffrfndfs(ObjfdtIndfx indfx, RffIndfx rff_indfx)
 {
-    table_walk_items(gdata->object_table, &clear_references, NULL);
+    ObjfdtInfo *info;
+
+    info = gft_info(indfx);
+    info->rfffrfndfs = rff_indfx;
 }
 
 void
-object_reference_dump(JNIEnv *env)
+objfdt_dlfbr_rfffrfndfs(void)
 {
-    table_walk_items(gdata->object_table, &dump_instance_references, (void*)env);
-    table_walk_items(gdata->object_table, &dump_class_references, (void*)env);
+    tbblf_wblk_itfms(gdbtb->objfdt_tbblf, &dlfbr_rfffrfndfs, NULL);
+}
+
+void
+objfdt_rfffrfndf_dump(JNIEnv *fnv)
+{
+    tbblf_wblk_itfms(gdbtb->objfdt_tbblf, &dump_instbndf_rfffrfndfs, (void*)fnv);
+    tbblf_wblk_itfms(gdbtb->objfdt_tbblf, &dump_dlbss_rfffrfndfs, (void*)fnv);
 }

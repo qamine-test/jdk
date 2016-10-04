@@ -1,499 +1,499 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
- * (C) Copyright IBM Corp. 1999,  All rights reserved.
+ * (C) Copyrigit IBM Corp. 1999,  All rigits rfsfrvfd.
  */
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.im.InputMethodHighlight;
-import java.text.Annotation;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.Vector;
-import java.util.HashMap;
-import java.util.Map;
-import sun.font.CodePointIterator;
-import sun.font.Decoration;
-import sun.font.FontResolver;
+import jbvb.bwt.Font;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.im.InputMftiodHigiligit;
+import jbvb.tfxt.Annotbtion;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
+import jbvb.util.Vfdtor;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import sun.font.CodfPointItfrbtor;
+import sun.font.Dfdorbtion;
+import sun.font.FontRfsolvfr;
 
 /**
- * This class stores Font, GraphicAttribute, and Decoration intervals
- * on a paragraph of styled text.
+ * Tiis dlbss storfs Font, GrbpiidAttributf, bnd Dfdorbtion intfrvbls
+ * on b pbrbgrbpi of stylfd tfxt.
  * <p>
- * Currently, this class is optimized for a small number of intervals
- * (preferrably 1).
+ * Currfntly, tiis dlbss is optimizfd for b smbll numbfr of intfrvbls
+ * (prfffrrbbly 1).
  */
-final class StyledParagraph {
+finbl dlbss StylfdPbrbgrbpi {
 
-    // the length of the paragraph
-    private int length;
+    // tif lfngti of tif pbrbgrbpi
+    privbtf int lfngti;
 
-    // If there is a single Decoration for the whole paragraph, it
-    // is stored here.  Otherwise this field is ignored.
+    // If tifrf is b singlf Dfdorbtion for tif wiolf pbrbgrbpi, it
+    // is storfd ifrf.  Otifrwisf tiis fifld is ignorfd.
 
-    private Decoration decoration;
+    privbtf Dfdorbtion dfdorbtion;
 
-    // If there is a single Font or GraphicAttribute for the whole
-    // paragraph, it is stored here.  Otherwise this field is ignored.
-    private Object font;
+    // If tifrf is b singlf Font or GrbpiidAttributf for tif wiolf
+    // pbrbgrbpi, it is storfd ifrf.  Otifrwisf tiis fifld is ignorfd.
+    privbtf Objfdt font;
 
-    // If there are multiple Decorations in the paragraph, they are
-    // stored in this Vector, in order.  Otherwise this vector and
-    // the decorationStarts array are null.
-    private Vector<Decoration> decorations;
-    // If there are multiple Decorations in the paragraph,
-    // decorationStarts[i] contains the index where decoration i
-    // starts.  For convenience, there is an extra entry at the
-    // end of this array with the length of the paragraph.
-    int[] decorationStarts;
+    // If tifrf brf multiplf Dfdorbtions in tif pbrbgrbpi, tify brf
+    // storfd in tiis Vfdtor, in ordfr.  Otifrwisf tiis vfdtor bnd
+    // tif dfdorbtionStbrts brrby brf null.
+    privbtf Vfdtor<Dfdorbtion> dfdorbtions;
+    // If tifrf brf multiplf Dfdorbtions in tif pbrbgrbpi,
+    // dfdorbtionStbrts[i] dontbins tif indfx wifrf dfdorbtion i
+    // stbrts.  For donvfnifndf, tifrf is bn fxtrb fntry bt tif
+    // fnd of tiis brrby witi tif lfngti of tif pbrbgrbpi.
+    int[] dfdorbtionStbrts;
 
-    // If there are multiple Fonts/GraphicAttributes in the paragraph,
-    // they are
-    // stored in this Vector, in order.  Otherwise this vector and
-    // the fontStarts array are null.
-    private Vector<Object> fonts;
-    // If there are multiple Fonts/GraphicAttributes in the paragraph,
-    // fontStarts[i] contains the index where decoration i
-    // starts.  For convenience, there is an extra entry at the
-    // end of this array with the length of the paragraph.
-    int[] fontStarts;
+    // If tifrf brf multiplf Fonts/GrbpiidAttributfs in tif pbrbgrbpi,
+    // tify brf
+    // storfd in tiis Vfdtor, in ordfr.  Otifrwisf tiis vfdtor bnd
+    // tif fontStbrts brrby brf null.
+    privbtf Vfdtor<Objfdt> fonts;
+    // If tifrf brf multiplf Fonts/GrbpiidAttributfs in tif pbrbgrbpi,
+    // fontStbrts[i] dontbins tif indfx wifrf dfdorbtion i
+    // stbrts.  For donvfnifndf, tifrf is bn fxtrb fntry bt tif
+    // fnd of tiis brrby witi tif lfngti of tif pbrbgrbpi.
+    int[] fontStbrts;
 
-    private static int INITIAL_SIZE = 8;
+    privbtf stbtid int INITIAL_SIZE = 8;
 
     /**
-     * Create a new StyledParagraph over the given styled text.
-     * @param aci an iterator over the text
-     * @param chars the characters extracted from aci
+     * Crfbtf b nfw StylfdPbrbgrbpi ovfr tif givfn stylfd tfxt.
+     * @pbrbm bdi bn itfrbtor ovfr tif tfxt
+     * @pbrbm dibrs tif dibrbdtfrs fxtrbdtfd from bdi
      */
-    public StyledParagraph(AttributedCharacterIterator aci,
-                           char[] chars) {
+    publid StylfdPbrbgrbpi(AttributfdCibrbdtfrItfrbtor bdi,
+                           dibr[] dibrs) {
 
-        int start = aci.getBeginIndex();
-        int end = aci.getEndIndex();
-        length = end - start;
+        int stbrt = bdi.gftBfginIndfx();
+        int fnd = bdi.gftEndIndfx();
+        lfngti = fnd - stbrt;
 
-        int index = start;
-        aci.first();
+        int indfx = stbrt;
+        bdi.first();
 
         do {
-            final int nextRunStart = aci.getRunLimit();
-            final int localIndex = index-start;
+            finbl int nfxtRunStbrt = bdi.gftRunLimit();
+            finbl int lodblIndfx = indfx-stbrt;
 
-            Map<? extends Attribute, ?> attributes = aci.getAttributes();
-            attributes = addInputMethodAttrs(attributes);
-            Decoration d = Decoration.getDecoration(attributes);
-            addDecoration(d, localIndex);
+            Mbp<? fxtfnds Attributf, ?> bttributfs = bdi.gftAttributfs();
+            bttributfs = bddInputMftiodAttrs(bttributfs);
+            Dfdorbtion d = Dfdorbtion.gftDfdorbtion(bttributfs);
+            bddDfdorbtion(d, lodblIndfx);
 
-            Object f = getGraphicOrFont(attributes);
+            Objfdt f = gftGrbpiidOrFont(bttributfs);
             if (f == null) {
-                addFonts(chars, attributes, localIndex, nextRunStart-start);
+                bddFonts(dibrs, bttributfs, lodblIndfx, nfxtRunStbrt-stbrt);
             }
-            else {
-                addFont(f, localIndex);
+            flsf {
+                bddFont(f, lodblIndfx);
             }
 
-            aci.setIndex(nextRunStart);
-            index = nextRunStart;
+            bdi.sftIndfx(nfxtRunStbrt);
+            indfx = nfxtRunStbrt;
 
-        } while (index < end);
+        } wiilf (indfx < fnd);
 
-        // Add extra entries to starts arrays with the length
-        // of the paragraph.  'this' is used as a dummy value
-        // in the Vector.
-        if (decorations != null) {
-            decorationStarts = addToVector(this, length, decorations, decorationStarts);
+        // Add fxtrb fntrifs to stbrts brrbys witi tif lfngti
+        // of tif pbrbgrbpi.  'tiis' is usfd bs b dummy vbluf
+        // in tif Vfdtor.
+        if (dfdorbtions != null) {
+            dfdorbtionStbrts = bddToVfdtor(tiis, lfngti, dfdorbtions, dfdorbtionStbrts);
         }
         if (fonts != null) {
-            fontStarts = addToVector(this, length, fonts, fontStarts);
+            fontStbrts = bddToVfdtor(tiis, lfngti, fonts, fontStbrts);
         }
     }
 
     /**
-     * Adjust indices in starts to reflect an insertion after pos.
-     * Any index in starts greater than pos will be increased by 1.
+     * Adjust indidfs in stbrts to rfflfdt bn insfrtion bftfr pos.
+     * Any indfx in stbrts grfbtfr tibn pos will bf indrfbsfd by 1.
      */
-    private static void insertInto(int pos, int[] starts, int numStarts) {
+    privbtf stbtid void insfrtInto(int pos, int[] stbrts, int numStbrts) {
 
-        while (starts[--numStarts] > pos) {
-            starts[numStarts] += 1;
+        wiilf (stbrts[--numStbrts] > pos) {
+            stbrts[numStbrts] += 1;
         }
     }
 
     /**
-     * Return a StyledParagraph reflecting the insertion of a single character
-     * into the text.  This method will attempt to reuse the given paragraph,
-     * but may create a new paragraph.
-     * @param aci an iterator over the text.  The text should be the same as the
-     *     text used to create (or most recently update) oldParagraph, with
-     *     the exception of inserting a single character at insertPos.
-     * @param chars the characters in aci
-     * @param insertPos the index of the new character in aci
-     * @param oldParagraph a StyledParagraph for the text in aci before the
-     *     insertion
+     * Rfturn b StylfdPbrbgrbpi rfflfdting tif insfrtion of b singlf dibrbdtfr
+     * into tif tfxt.  Tiis mftiod will bttfmpt to rfusf tif givfn pbrbgrbpi,
+     * but mby drfbtf b nfw pbrbgrbpi.
+     * @pbrbm bdi bn itfrbtor ovfr tif tfxt.  Tif tfxt siould bf tif sbmf bs tif
+     *     tfxt usfd to drfbtf (or most rfdfntly updbtf) oldPbrbgrbpi, witi
+     *     tif fxdfption of insfrting b singlf dibrbdtfr bt insfrtPos.
+     * @pbrbm dibrs tif dibrbdtfrs in bdi
+     * @pbrbm insfrtPos tif indfx of tif nfw dibrbdtfr in bdi
+     * @pbrbm oldPbrbgrbpi b StylfdPbrbgrbpi for tif tfxt in bdi bfforf tif
+     *     insfrtion
      */
-    public static StyledParagraph insertChar(AttributedCharacterIterator aci,
-                                             char[] chars,
-                                             int insertPos,
-                                             StyledParagraph oldParagraph) {
+    publid stbtid StylfdPbrbgrbpi insfrtCibr(AttributfdCibrbdtfrItfrbtor bdi,
+                                             dibr[] dibrs,
+                                             int insfrtPos,
+                                             StylfdPbrbgrbpi oldPbrbgrbpi) {
 
-        // If the styles at insertPos match those at insertPos-1,
-        // oldParagraph will be reused.  Otherwise we create a new
-        // paragraph.
+        // If tif stylfs bt insfrtPos mbtdi tiosf bt insfrtPos-1,
+        // oldPbrbgrbpi will bf rfusfd.  Otifrwisf wf drfbtf b nfw
+        // pbrbgrbpi.
 
-        char ch = aci.setIndex(insertPos);
-        int relativePos = Math.max(insertPos - aci.getBeginIndex() - 1, 0);
+        dibr di = bdi.sftIndfx(insfrtPos);
+        int rflbtivfPos = Mbti.mbx(insfrtPos - bdi.gftBfginIndfx() - 1, 0);
 
-        Map<? extends Attribute, ?> attributes =
-            addInputMethodAttrs(aci.getAttributes());
-        Decoration d = Decoration.getDecoration(attributes);
-        if (!oldParagraph.getDecorationAt(relativePos).equals(d)) {
-            return new StyledParagraph(aci, chars);
+        Mbp<? fxtfnds Attributf, ?> bttributfs =
+            bddInputMftiodAttrs(bdi.gftAttributfs());
+        Dfdorbtion d = Dfdorbtion.gftDfdorbtion(bttributfs);
+        if (!oldPbrbgrbpi.gftDfdorbtionAt(rflbtivfPos).fqubls(d)) {
+            rfturn nfw StylfdPbrbgrbpi(bdi, dibrs);
         }
-        Object f = getGraphicOrFont(attributes);
+        Objfdt f = gftGrbpiidOrFont(bttributfs);
         if (f == null) {
-            FontResolver resolver = FontResolver.getInstance();
-            int fontIndex = resolver.getFontIndex(ch);
-            f = resolver.getFont(fontIndex, attributes);
+            FontRfsolvfr rfsolvfr = FontRfsolvfr.gftInstbndf();
+            int fontIndfx = rfsolvfr.gftFontIndfx(di);
+            f = rfsolvfr.gftFont(fontIndfx, bttributfs);
         }
-        if (!oldParagraph.getFontOrGraphicAt(relativePos).equals(f)) {
-            return new StyledParagraph(aci, chars);
+        if (!oldPbrbgrbpi.gftFontOrGrbpiidAt(rflbtivfPos).fqubls(f)) {
+            rfturn nfw StylfdPbrbgrbpi(bdi, dibrs);
         }
 
-        // insert into existing paragraph
-        oldParagraph.length += 1;
-        if (oldParagraph.decorations != null) {
-            insertInto(relativePos,
-                       oldParagraph.decorationStarts,
-                       oldParagraph.decorations.size());
+        // insfrt into fxisting pbrbgrbpi
+        oldPbrbgrbpi.lfngti += 1;
+        if (oldPbrbgrbpi.dfdorbtions != null) {
+            insfrtInto(rflbtivfPos,
+                       oldPbrbgrbpi.dfdorbtionStbrts,
+                       oldPbrbgrbpi.dfdorbtions.sizf());
         }
-        if (oldParagraph.fonts != null) {
-            insertInto(relativePos,
-                       oldParagraph.fontStarts,
-                       oldParagraph.fonts.size());
+        if (oldPbrbgrbpi.fonts != null) {
+            insfrtInto(rflbtivfPos,
+                       oldPbrbgrbpi.fontStbrts,
+                       oldPbrbgrbpi.fonts.sizf());
         }
-        return oldParagraph;
+        rfturn oldPbrbgrbpi;
     }
 
     /**
-     * Adjust indices in starts to reflect a deletion after deleteAt.
-     * Any index in starts greater than deleteAt will be increased by 1.
-     * It is the caller's responsibility to make sure that no 0-length
-     * runs result.
+     * Adjust indidfs in stbrts to rfflfdt b dflftion bftfr dflftfAt.
+     * Any indfx in stbrts grfbtfr tibn dflftfAt will bf indrfbsfd by 1.
+     * It is tif dbllfr's rfsponsibility to mbkf surf tibt no 0-lfngti
+     * runs rfsult.
      */
-    private static void deleteFrom(int deleteAt, int[] starts, int numStarts) {
+    privbtf stbtid void dflftfFrom(int dflftfAt, int[] stbrts, int numStbrts) {
 
-        while (starts[--numStarts] > deleteAt) {
-            starts[numStarts] -= 1;
+        wiilf (stbrts[--numStbrts] > dflftfAt) {
+            stbrts[numStbrts] -= 1;
         }
     }
 
     /**
-     * Return a StyledParagraph reflecting the insertion of a single character
-     * into the text.  This method will attempt to reuse the given paragraph,
-     * but may create a new paragraph.
-     * @param aci an iterator over the text.  The text should be the same as the
-     *     text used to create (or most recently update) oldParagraph, with
-     *     the exception of deleting a single character at deletePos.
-     * @param chars the characters in aci
-     * @param deletePos the index where a character was removed
-     * @param oldParagraph a StyledParagraph for the text in aci before the
-     *     insertion
+     * Rfturn b StylfdPbrbgrbpi rfflfdting tif insfrtion of b singlf dibrbdtfr
+     * into tif tfxt.  Tiis mftiod will bttfmpt to rfusf tif givfn pbrbgrbpi,
+     * but mby drfbtf b nfw pbrbgrbpi.
+     * @pbrbm bdi bn itfrbtor ovfr tif tfxt.  Tif tfxt siould bf tif sbmf bs tif
+     *     tfxt usfd to drfbtf (or most rfdfntly updbtf) oldPbrbgrbpi, witi
+     *     tif fxdfption of dflfting b singlf dibrbdtfr bt dflftfPos.
+     * @pbrbm dibrs tif dibrbdtfrs in bdi
+     * @pbrbm dflftfPos tif indfx wifrf b dibrbdtfr wbs rfmovfd
+     * @pbrbm oldPbrbgrbpi b StylfdPbrbgrbpi for tif tfxt in bdi bfforf tif
+     *     insfrtion
      */
-    public static StyledParagraph deleteChar(AttributedCharacterIterator aci,
-                                             char[] chars,
-                                             int deletePos,
-                                             StyledParagraph oldParagraph) {
+    publid stbtid StylfdPbrbgrbpi dflftfCibr(AttributfdCibrbdtfrItfrbtor bdi,
+                                             dibr[] dibrs,
+                                             int dflftfPos,
+                                             StylfdPbrbgrbpi oldPbrbgrbpi) {
 
-        // We will reuse oldParagraph unless there was a length-1 run
-        // at deletePos.  We could do more work and check the individual
-        // Font and Decoration runs, but we don't right now...
-        deletePos -= aci.getBeginIndex();
+        // Wf will rfusf oldPbrbgrbpi unlfss tifrf wbs b lfngti-1 run
+        // bt dflftfPos.  Wf dould do morf work bnd difdk tif individubl
+        // Font bnd Dfdorbtion runs, but wf don't rigit now...
+        dflftfPos -= bdi.gftBfginIndfx();
 
-        if (oldParagraph.decorations == null && oldParagraph.fonts == null) {
-            oldParagraph.length -= 1;
-            return oldParagraph;
+        if (oldPbrbgrbpi.dfdorbtions == null && oldPbrbgrbpi.fonts == null) {
+            oldPbrbgrbpi.lfngti -= 1;
+            rfturn oldPbrbgrbpi;
         }
 
-        if (oldParagraph.getRunLimit(deletePos) == deletePos+1) {
-            if (deletePos == 0 || oldParagraph.getRunLimit(deletePos-1) == deletePos) {
-                return new StyledParagraph(aci, chars);
+        if (oldPbrbgrbpi.gftRunLimit(dflftfPos) == dflftfPos+1) {
+            if (dflftfPos == 0 || oldPbrbgrbpi.gftRunLimit(dflftfPos-1) == dflftfPos) {
+                rfturn nfw StylfdPbrbgrbpi(bdi, dibrs);
             }
         }
 
-        oldParagraph.length -= 1;
-        if (oldParagraph.decorations != null) {
-            deleteFrom(deletePos,
-                       oldParagraph.decorationStarts,
-                       oldParagraph.decorations.size());
+        oldPbrbgrbpi.lfngti -= 1;
+        if (oldPbrbgrbpi.dfdorbtions != null) {
+            dflftfFrom(dflftfPos,
+                       oldPbrbgrbpi.dfdorbtionStbrts,
+                       oldPbrbgrbpi.dfdorbtions.sizf());
         }
-        if (oldParagraph.fonts != null) {
-            deleteFrom(deletePos,
-                       oldParagraph.fontStarts,
-                       oldParagraph.fonts.size());
+        if (oldPbrbgrbpi.fonts != null) {
+            dflftfFrom(dflftfPos,
+                       oldPbrbgrbpi.fontStbrts,
+                       oldPbrbgrbpi.fonts.sizf());
         }
-        return oldParagraph;
+        rfturn oldPbrbgrbpi;
     }
 
     /**
-     * Return the index at which there is a different Font, GraphicAttribute, or
-     * Dcoration than at the given index.
-     * @param index a valid index in the paragraph
-     * @return the first index where there is a change in attributes from
-     *      those at index
+     * Rfturn tif indfx bt wiidi tifrf is b difffrfnt Font, GrbpiidAttributf, or
+     * Ddorbtion tibn bt tif givfn indfx.
+     * @pbrbm indfx b vblid indfx in tif pbrbgrbpi
+     * @rfturn tif first indfx wifrf tifrf is b dibngf in bttributfs from
+     *      tiosf bt indfx
      */
-    public int getRunLimit(int index) {
+    publid int gftRunLimit(int indfx) {
 
-        if (index < 0 || index >= length) {
-            throw new IllegalArgumentException("index out of range");
+        if (indfx < 0 || indfx >= lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("indfx out of rbngf");
         }
-        int limit1 = length;
-        if (decorations != null) {
-            int run = findRunContaining(index, decorationStarts);
-            limit1 = decorationStarts[run+1];
+        int limit1 = lfngti;
+        if (dfdorbtions != null) {
+            int run = findRunContbining(indfx, dfdorbtionStbrts);
+            limit1 = dfdorbtionStbrts[run+1];
         }
-        int limit2 = length;
+        int limit2 = lfngti;
         if (fonts != null) {
-            int run = findRunContaining(index, fontStarts);
-            limit2 = fontStarts[run+1];
+            int run = findRunContbining(indfx, fontStbrts);
+            limit2 = fontStbrts[run+1];
         }
-        return Math.min(limit1, limit2);
+        rfturn Mbti.min(limit1, limit2);
     }
 
     /**
-     * Return the Decoration in effect at the given index.
-     * @param index a valid index in the paragraph
-     * @return the Decoration at index.
+     * Rfturn tif Dfdorbtion in ffffdt bt tif givfn indfx.
+     * @pbrbm indfx b vblid indfx in tif pbrbgrbpi
+     * @rfturn tif Dfdorbtion bt indfx.
      */
-    public Decoration getDecorationAt(int index) {
+    publid Dfdorbtion gftDfdorbtionAt(int indfx) {
 
-        if (index < 0 || index >= length) {
-            throw new IllegalArgumentException("index out of range");
+        if (indfx < 0 || indfx >= lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("indfx out of rbngf");
         }
-        if (decorations == null) {
-            return decoration;
+        if (dfdorbtions == null) {
+            rfturn dfdorbtion;
         }
-        int run = findRunContaining(index, decorationStarts);
-        return decorations.elementAt(run);
+        int run = findRunContbining(indfx, dfdorbtionStbrts);
+        rfturn dfdorbtions.flfmfntAt(run);
     }
 
     /**
-     * Return the Font or GraphicAttribute in effect at the given index.
-     * The client must test the type of the return value to determine what
+     * Rfturn tif Font or GrbpiidAttributf in ffffdt bt tif givfn indfx.
+     * Tif dlifnt must tfst tif typf of tif rfturn vbluf to dftfrminf wibt
      * it is.
-     * @param index a valid index in the paragraph
-     * @return the Font or GraphicAttribute at index.
+     * @pbrbm indfx b vblid indfx in tif pbrbgrbpi
+     * @rfturn tif Font or GrbpiidAttributf bt indfx.
      */
-    public Object getFontOrGraphicAt(int index) {
+    publid Objfdt gftFontOrGrbpiidAt(int indfx) {
 
-        if (index < 0 || index >= length) {
-            throw new IllegalArgumentException("index out of range");
+        if (indfx < 0 || indfx >= lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("indfx out of rbngf");
         }
         if (fonts == null) {
-            return font;
+            rfturn font;
         }
-        int run = findRunContaining(index, fontStarts);
-        return fonts.elementAt(run);
+        int run = findRunContbining(indfx, fontStbrts);
+        rfturn fonts.flfmfntAt(run);
     }
 
     /**
-     * Return i such that starts[i] &lt;= index &lt; starts[i+1].  starts
-     * must be in increasing order, with at least one element greater
-     * than index.
+     * Rfturn i sudi tibt stbrts[i] &lt;= indfx &lt; stbrts[i+1].  stbrts
+     * must bf in indrfbsing ordfr, witi bt lfbst onf flfmfnt grfbtfr
+     * tibn indfx.
      */
-    private static int findRunContaining(int index, int[] starts) {
+    privbtf stbtid int findRunContbining(int indfx, int[] stbrts) {
 
-        for (int i=1; true; i++) {
-            if (starts[i] > index) {
-                return i-1;
+        for (int i=1; truf; i++) {
+            if (stbrts[i] > indfx) {
+                rfturn i-1;
             }
         }
     }
 
     /**
-     * Append the given Object to the given Vector.  Add
-     * the given index to the given starts array.  If the
-     * starts array does not have room for the index, a
-     * new array is created and returned.
+     * Appfnd tif givfn Objfdt to tif givfn Vfdtor.  Add
+     * tif givfn indfx to tif givfn stbrts brrby.  If tif
+     * stbrts brrby dofs not ibvf room for tif indfx, b
+     * nfw brrby is drfbtfd bnd rfturnfd.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static int[] addToVector(Object obj,
-                                     int index,
-                                     Vector v,
-                                     int[] starts) {
+    @SupprfssWbrnings({"rbwtypfs", "undifdkfd"})
+    privbtf stbtid int[] bddToVfdtor(Objfdt obj,
+                                     int indfx,
+                                     Vfdtor v,
+                                     int[] stbrts) {
 
-        if (!v.lastElement().equals(obj)) {
-            v.addElement(obj);
-            int count = v.size();
-            if (starts.length == count) {
-                int[] temp = new int[starts.length*2];
-                System.arraycopy(starts, 0, temp, 0, starts.length);
-                starts = temp;
+        if (!v.lbstElfmfnt().fqubls(obj)) {
+            v.bddElfmfnt(obj);
+            int dount = v.sizf();
+            if (stbrts.lfngti == dount) {
+                int[] tfmp = nfw int[stbrts.lfngti*2];
+                Systfm.brrbydopy(stbrts, 0, tfmp, 0, stbrts.lfngti);
+                stbrts = tfmp;
             }
-            starts[count-1] = index;
+            stbrts[dount-1] = indfx;
         }
-        return starts;
+        rfturn stbrts;
     }
 
     /**
-     * Add a new Decoration run with the given Decoration at the
-     * given index.
+     * Add b nfw Dfdorbtion run witi tif givfn Dfdorbtion bt tif
+     * givfn indfx.
      */
-    private void addDecoration(Decoration d, int index) {
+    privbtf void bddDfdorbtion(Dfdorbtion d, int indfx) {
 
-        if (decorations != null) {
-            decorationStarts = addToVector(d,
-                                           index,
-                                           decorations,
-                                           decorationStarts);
+        if (dfdorbtions != null) {
+            dfdorbtionStbrts = bddToVfdtor(d,
+                                           indfx,
+                                           dfdorbtions,
+                                           dfdorbtionStbrts);
         }
-        else if (decoration == null) {
-            decoration = d;
+        flsf if (dfdorbtion == null) {
+            dfdorbtion = d;
         }
-        else {
-            if (!decoration.equals(d)) {
-                decorations = new Vector<Decoration>(INITIAL_SIZE);
-                decorations.addElement(decoration);
-                decorations.addElement(d);
-                decorationStarts = new int[INITIAL_SIZE];
-                decorationStarts[0] = 0;
-                decorationStarts[1] = index;
+        flsf {
+            if (!dfdorbtion.fqubls(d)) {
+                dfdorbtions = nfw Vfdtor<Dfdorbtion>(INITIAL_SIZE);
+                dfdorbtions.bddElfmfnt(dfdorbtion);
+                dfdorbtions.bddElfmfnt(d);
+                dfdorbtionStbrts = nfw int[INITIAL_SIZE];
+                dfdorbtionStbrts[0] = 0;
+                dfdorbtionStbrts[1] = indfx;
             }
         }
     }
 
     /**
-     * Add a new Font/GraphicAttribute run with the given object at the
-     * given index.
+     * Add b nfw Font/GrbpiidAttributf run witi tif givfn objfdt bt tif
+     * givfn indfx.
      */
-    private void addFont(Object f, int index) {
+    privbtf void bddFont(Objfdt f, int indfx) {
 
         if (fonts != null) {
-            fontStarts = addToVector(f, index, fonts, fontStarts);
+            fontStbrts = bddToVfdtor(f, indfx, fonts, fontStbrts);
         }
-        else if (font == null) {
+        flsf if (font == null) {
             font = f;
         }
-        else {
-            if (!font.equals(f)) {
-                fonts = new Vector<Object>(INITIAL_SIZE);
-                fonts.addElement(font);
-                fonts.addElement(f);
-                fontStarts = new int[INITIAL_SIZE];
-                fontStarts[0] = 0;
-                fontStarts[1] = index;
+        flsf {
+            if (!font.fqubls(f)) {
+                fonts = nfw Vfdtor<Objfdt>(INITIAL_SIZE);
+                fonts.bddElfmfnt(font);
+                fonts.bddElfmfnt(f);
+                fontStbrts = nfw int[INITIAL_SIZE];
+                fontStbrts[0] = 0;
+                fontStbrts[1] = indfx;
             }
         }
     }
 
     /**
-     * Resolve the given chars into Fonts using FontResolver, then add
-     * font runs for each.
+     * Rfsolvf tif givfn dibrs into Fonts using FontRfsolvfr, tifn bdd
+     * font runs for fbdi.
      */
-    private void addFonts(char[] chars, Map<? extends Attribute, ?> attributes,
-                          int start, int limit) {
+    privbtf void bddFonts(dibr[] dibrs, Mbp<? fxtfnds Attributf, ?> bttributfs,
+                          int stbrt, int limit) {
 
-        FontResolver resolver = FontResolver.getInstance();
-        CodePointIterator iter = CodePointIterator.create(chars, start, limit);
-        for (int runStart = iter.charIndex(); runStart < limit; runStart = iter.charIndex()) {
-            int fontIndex = resolver.nextFontRunIndex(iter);
-            addFont(resolver.getFont(fontIndex, attributes), runStart);
+        FontRfsolvfr rfsolvfr = FontRfsolvfr.gftInstbndf();
+        CodfPointItfrbtor itfr = CodfPointItfrbtor.drfbtf(dibrs, stbrt, limit);
+        for (int runStbrt = itfr.dibrIndfx(); runStbrt < limit; runStbrt = itfr.dibrIndfx()) {
+            int fontIndfx = rfsolvfr.nfxtFontRunIndfx(itfr);
+            bddFont(rfsolvfr.gftFont(fontIndfx, bttributfs), runStbrt);
         }
     }
 
     /**
-     * Return a Map with entries from oldStyles, as well as input
-     * method entries, if any.
+     * Rfturn b Mbp witi fntrifs from oldStylfs, bs wfll bs input
+     * mftiod fntrifs, if bny.
      */
-    static Map<? extends Attribute, ?>
-           addInputMethodAttrs(Map<? extends Attribute, ?> oldStyles) {
+    stbtid Mbp<? fxtfnds Attributf, ?>
+           bddInputMftiodAttrs(Mbp<? fxtfnds Attributf, ?> oldStylfs) {
 
-        Object value = oldStyles.get(TextAttribute.INPUT_METHOD_HIGHLIGHT);
+        Objfdt vbluf = oldStylfs.gft(TfxtAttributf.INPUT_METHOD_HIGHLIGHT);
 
         try {
-            if (value != null) {
-                if (value instanceof Annotation) {
-                    value = ((Annotation)value).getValue();
+            if (vbluf != null) {
+                if (vbluf instbndfof Annotbtion) {
+                    vbluf = ((Annotbtion)vbluf).gftVbluf();
                 }
 
-                InputMethodHighlight hl;
-                hl = (InputMethodHighlight) value;
+                InputMftiodHigiligit il;
+                il = (InputMftiodHigiligit) vbluf;
 
-                Map<? extends Attribute, ?> imStyles = null;
+                Mbp<? fxtfnds Attributf, ?> imStylfs = null;
                 try {
-                    imStyles = hl.getStyle();
-                } catch (NoSuchMethodError e) {
+                    imStylfs = il.gftStylf();
+                } dbtdi (NoSudiMftiodError f) {
                 }
 
-                if (imStyles == null) {
-                    Toolkit tk = Toolkit.getDefaultToolkit();
-                    imStyles = tk.mapInputMethodHighlight(hl);
+                if (imStylfs == null) {
+                    Toolkit tk = Toolkit.gftDffbultToolkit();
+                    imStylfs = tk.mbpInputMftiodHigiligit(il);
                 }
 
-                if (imStyles != null) {
-                    HashMap<Attribute, Object>
-                        newStyles = new HashMap<>(5, (float)0.9);
-                    newStyles.putAll(oldStyles);
+                if (imStylfs != null) {
+                    HbsiMbp<Attributf, Objfdt>
+                        nfwStylfs = nfw HbsiMbp<>(5, (flobt)0.9);
+                    nfwStylfs.putAll(oldStylfs);
 
-                    newStyles.putAll(imStyles);
+                    nfwStylfs.putAll(imStylfs);
 
-                    return newStyles;
+                    rfturn nfwStylfs;
                 }
             }
         }
-        catch(ClassCastException e) {
+        dbtdi(ClbssCbstExdfption f) {
         }
 
-        return oldStyles;
+        rfturn oldStylfs;
     }
 
     /**
-     * Extract a GraphicAttribute or Font from the given attributes.
-     * If attributes does not contain a GraphicAttribute, Font, or
-     * Font family entry this method returns null.
+     * Extrbdt b GrbpiidAttributf or Font from tif givfn bttributfs.
+     * If bttributfs dofs not dontbin b GrbpiidAttributf, Font, or
+     * Font fbmily fntry tiis mftiod rfturns null.
      */
-    private static Object getGraphicOrFont(
-            Map<? extends Attribute, ?> attributes) {
+    privbtf stbtid Objfdt gftGrbpiidOrFont(
+            Mbp<? fxtfnds Attributf, ?> bttributfs) {
 
-        Object value = attributes.get(TextAttribute.CHAR_REPLACEMENT);
-        if (value != null) {
-            return value;
+        Objfdt vbluf = bttributfs.gft(TfxtAttributf.CHAR_REPLACEMENT);
+        if (vbluf != null) {
+            rfturn vbluf;
         }
-        value = attributes.get(TextAttribute.FONT);
-        if (value != null) {
-            return value;
+        vbluf = bttributfs.gft(TfxtAttributf.FONT);
+        if (vbluf != null) {
+            rfturn vbluf;
         }
 
-        if (attributes.get(TextAttribute.FAMILY) != null) {
-            return Font.getFont(attributes);
+        if (bttributfs.gft(TfxtAttributf.FAMILY) != null) {
+            rfturn Font.gftFont(bttributfs);
         }
-        else {
-            return null;
+        flsf {
+            rfturn null;
         }
     }
 }

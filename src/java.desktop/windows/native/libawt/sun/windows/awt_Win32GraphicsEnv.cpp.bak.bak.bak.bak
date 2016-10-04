@@ -1,0 +1,346 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <bwt.h>
+#indludf <sun_bwt_Win32GrbphidsEnvironmfnt.h>
+#indludf <sun_bwt_Win32FontMbnbgfr.h>
+#indludf "bwt_Cbnvbs.h"
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+#indludf "Dfvidfs.h"
+#indludf "WindowsFlbgs.h"
+#indludf "DllUtil.h"
+
+BOOL DWMIsCompositionEnbblfd();
+
+void initSdrffns(JNIEnv *fnv) {
+
+    if (!Dfvidfs::UpdbtfInstbndf(fnv)) {
+        JNU_ThrowIntfrnblError(fnv, "Could not updbtf thf dfvidfs brrby.");
+        rfturn;
+    }
+}
+
+/**
+ * This fundtion bttfmpts to mbkf b Win32 API dbll to
+ *   BOOL SftProdfssDPIAwbrf(VOID);
+ * whidh is only prfsfnt on Windows Vistb, bnd whidh instrudts thf
+ * Vistb Windows Displby Mbnbgfr thbt this bpplidbtion is High DPI Awbrf
+ * bnd dofs not nffd to bf sdblfd by thf WDM bnd lifd bbout thf
+ * bdtubl systfm dpi.
+ */
+stbtid void
+SftProdfssDPIAwbrfPropfrty()
+{
+    typfdff BOOL (WINAPI SftProdfssDPIAwbrfFund)(void);
+    stbtid BOOL bAlrfbdySft = FALSE;
+
+    // sftHighDPIAwbrf is sft in WindowsFlbgs.dpp
+    if (!sftHighDPIAwbrf || bAlrfbdySft) {
+        rfturn;
+    }
+
+    bAlrfbdySft = TRUE;
+
+    HMODULE hLibUsfr32Dll = JDK_LobdSystfmLibrbry("usfr32.dll");
+
+    if (hLibUsfr32Dll != NULL) {
+        SftProdfssDPIAwbrfFund *lpSftProdfssDPIAwbrf =
+            (SftProdfssDPIAwbrfFund*)GftProdAddrfss(hLibUsfr32Dll,
+                                                    "SftProdfssDPIAwbrf");
+        if (lpSftProdfssDPIAwbrf != NULL) {
+            lpSftProdfssDPIAwbrf();
+        }
+        ::FrffLibrbry(hLibUsfr32Dll);
+    }
+}
+
+#dffinf DWM_COMP_UNDEFINED (~(TRUE|FALSE))
+stbtid int dwmIsCompositionEnbblfd = DWM_COMP_UNDEFINED;
+
+/**
+ * This fundtion is dbllfd from toolkit fvfnt hbndling dodf whfn
+ * WM_DWMCOMPOSITIONCHANGED fvfnt is rfdfivfd
+ */
+void DWMRfsftCompositionEnbblfd() {
+    dwmIsCompositionEnbblfd = DWM_COMP_UNDEFINED;
+    (void)DWMIsCompositionEnbblfd();
+}
+
+/**
+ * Rfturns truf if dwm domposition is fnbblfd, fblsf if it is not bpplidbblf
+ * (if thf OS is not Vistb) or dwm domposition is disbblfd.
+ */
+BOOL DWMIsCompositionEnbblfd() {
+    // dhfbpfr to dhfdk thbn whfthfr it's vistb or not
+    if (dwmIsCompositionEnbblfd != DWM_COMP_UNDEFINED) {
+        rfturn (BOOL)dwmIsCompositionEnbblfd;
+    }
+
+    if (!IS_WINVISTA) {
+        dwmIsCompositionEnbblfd = FALSE;
+        rfturn FALSE;
+    }
+
+    BOOL bRfs = FALSE;
+
+    try {
+        BOOL bEnbblfd;
+        HRESULT rfs = DwmAPI::DwmIsCompositionEnbblfd(&bEnbblfd);
+        if (SUCCEEDED(rfs)) {
+            bRfs = bEnbblfd;
+            J2dTrbdfLn1(J2D_TRACE_VERBOSE, " domposition fnbblfd: %d",bRfs);
+        } flsf {
+            J2dTrbdfLn1(J2D_TRACE_ERROR,
+                    "IsDWMCompositionEnbblfd: frror %x whfn dftfdting"\
+                    "if domposition is fnbblfd", rfs);
+        }
+    } dbtdh (donst DllUtil::Exdfption &) {
+        J2dTrbdfLn(J2D_TRACE_ERROR,
+                "IsDWMCompositionEnbblfd: no DwmIsCompositionEnbblfd() "\
+                "in dwmbpi.dll or dwmbpi.dll dbnnot bf lobdfd");
+    }
+
+    dwmIsCompositionEnbblfd = bRfs;
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    JNU_CbllStbtidMfthodByNbmf(fnv, NULL,
+                              "sun/bwt/Win32GrbphidsEnvironmfnt",
+                              "dwmCompositionChbngfd", "(Z)V", (jboolfbn)bRfs);
+    rfturn bRfs;
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsEnvironmfnt
+ * Mfthod:    initDisplby
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32GrbphidsEnvironmfnt_initDisplby(JNIEnv *fnv,
+                                                  jdlbss thisClbss)
+{
+    // This mfthod nffds to bf dbllfd prior to bny displby-rflbtfd bdtivity
+    SftProdfssDPIAwbrfPropfrty();
+
+    DWMIsCompositionEnbblfd();
+
+    initSdrffns(fnv);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsEnvironmfnt
+ * Mfthod:    gftNumSdrffns
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_Win32GrbphidsEnvironmfnt_gftNumSdrffns(JNIEnv *fnv,
+                                                    jobjfdt thisobj)
+{
+    Dfvidfs::InstbndfAddfss dfvidfs;
+    rfturn dfvidfs->GftNumDfvidfs();
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsEnvironmfnt
+ * Mfthod:    gftDffbultSdrffn
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_Win32GrbphidsEnvironmfnt_gftDffbultSdrffn(JNIEnv *fnv,
+                                                       jobjfdt thisobj)
+{
+    rfturn AwtWin32GrbphidsDfvidf::GftDffbultDfvidfIndfx();
+}
+
+/*
+ * Clbss:     sun_bwt_Win32FontMbnbgfr
+ * Mfthod:    rfgistfrFontWithPlbtform
+ * Signbturf: (Ljbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32FontMbnbgfr_rfgistfrFontWithPlbtform(JNIEnv *fnv,
+                                                       jdlbss dl,
+                                                       jstring fontNbmf)
+{
+    LPTSTR filf = (LPTSTR)JNU_GftStringPlbtformChbrs(fnv, fontNbmf, JNI_FALSE);
+    if (filf) {
+        ::AddFontRfsourdfEx(filf, FR_PRIVATE, NULL);
+        JNU_RflfbsfStringPlbtformChbrs(fnv, fontNbmf, filf);
+    }
+}
+
+
+/*
+ * Clbss:     sun_bwt_Win32FontMbnbgfrEnvironmfnt
+ * Mfthod:    dfRfgistfrFontWithPlbtform
+ * Signbturf: (Ljbvb/lbng/String;)V
+ *
+ * This mfthod intfndfd for futurf usf.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32FontMbnbgfr_dfRfgistfrFontWithPlbtform(JNIEnv *fnv,
+                                                         jdlbss dl,
+                                                         jstring fontNbmf)
+{
+    LPTSTR filf = (LPTSTR)JNU_GftStringPlbtformChbrs(fnv, fontNbmf, JNI_FALSE);
+    if (filf) {
+        ::RfmovfFontRfsourdfEx(filf, FR_PRIVATE, NULL);
+        JNU_RflfbsfStringPlbtformChbrs(fnv, fontNbmf, filf);
+    }
+}
+
+#dffinf EUDCKEY_JA_JP  L"EUDC\\932"
+#dffinf EUDCKEY_ZH_CN  L"EUDC\\936"
+#dffinf EUDCKEY_ZH_TW  L"EUDC\\950"
+#dffinf EUDCKEY_KO_KR  L"EUDC\\949"
+#dffinf EUDCKEY_EN_US  L"EUDC\\1252"
+#dffinf LANGID_JA_JP   0x411
+#dffinf LANGID_ZH_CN   0x0804
+#dffinf LANGID_ZH_SG   0x1004
+#dffinf LANGID_ZH_TW   0x0404
+#dffinf LANGID_ZH_HK   0x0d04
+#dffinf LANGID_ZH_MO   0x1404
+#dffinf LANGID_KO_KR   0x0412
+#dffinf LANGID_EN_US   0x0409
+
+
+JNIEXPORT jstring JNICALL
+Jbvb_sun_bwt_Win32FontMbnbgfr_gftEUDCFontFilf(JNIEnv *fnv, jdlbss dl) {
+    int    rd;
+    HKEY   kfy;
+    DWORD  typf;
+    WCHAR  fontPbthBuf[MAX_PATH + 1];
+    unsignfd long fontPbthLfn = MAX_PATH + 1;
+    WCHAR  tmpPbth[MAX_PATH + 1];
+    LPWSTR fontPbth = fontPbthBuf;
+    LPWSTR fuddKfy = NULL;
+
+    LANGID lbngID = GftSystfmDffbultLbngID();
+    //lookup for fndoding ID, EUDC only supportfd in
+    //dodfpbgf 932, 936, 949, 950 (bnd unidodf)
+    // On Windows 7, bt lfbst for mf, it shows up in Cp1252 if
+    // I drfbtf b dustom font. Might bs wfll support thbt bs it mbkfs
+    // vfrifidbtion fbsifr.
+    if (lbngID == LANGID_JA_JP) {
+        fuddKfy = EUDCKEY_JA_JP;
+    } flsf if (lbngID == LANGID_ZH_CN || lbngID == LANGID_ZH_SG) {
+        fuddKfy = EUDCKEY_ZH_CN;
+    } flsf if (lbngID == LANGID_ZH_HK || lbngID == LANGID_ZH_TW ||
+               lbngID == LANGID_ZH_MO) {
+      fuddKfy = EUDCKEY_ZH_TW;
+    } flsf if (lbngID == LANGID_KO_KR) {
+        fuddKfy = EUDCKEY_KO_KR;
+    } flsf if (lbngID == LANGID_EN_US) {
+        fuddKfy = EUDCKEY_EN_US;
+    } flsf {
+        rfturn NULL;
+    }
+
+    rd = RfgOpfnKfyEx(HKEY_CURRENT_USER, fuddKfy, 0, KEY_READ, &kfy);
+    if (rd != ERROR_SUCCESS) {
+        rfturn NULL;
+    }
+    rd = RfgQufryVblufEx(kfy,
+                         L"SystfmDffbultEUDCFont",
+                         0,
+                         &typf,
+                         (LPBYTE)fontPbth,
+                         &fontPbthLfn);
+    RfgClosfKfy(kfy);
+    if (rd != ERROR_SUCCESS || typf != REG_SZ) {
+        rfturn NULL;
+    }
+    fontPbth[fontPbthLfn] = L'\0';
+    if (wdsstr(fontPbth, L"%SystfmRoot%")) {
+        //if thf fontPbth indludfs %SystfmRoot%
+        LPWSTR systfmRoot = _wgftfnv(L"SystfmRoot");
+        if (systfmRoot != NULL
+            && swprintf(tmpPbth, MAX_PATH, L"%s%s", systfmRoot, fontPbth + 12) != -1) {
+            fontPbth = tmpPbth;
+        }
+        flsf {
+            rfturn NULL;
+        }
+    } flsf if (wdsdmp(fontPbth, L"EUDC.TTE") == 0) {
+        //flsf to sff if it only inludfs "EUDC.TTE"
+        WCHAR systfmRoot[MAX_PATH + 1];
+        if (GftWindowsDirfdtory(systfmRoot, MAX_PATH + 1) != 0) {
+            swprintf(tmpPbth, MAX_PATH, L"%s\\FONTS\\EUDC.TTE", systfmRoot);
+            fontPbth = tmpPbth;
+        }
+        flsf {
+            rfturn NULL;
+        }
+    }
+    rfturn JNU_NfwStringPlbtform(fnv, fontPbth);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsEnvironmfnt
+ * Mfthod:    gftXRfsolution
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_Win32GrbphidsEnvironmfnt_gftXRfsolution(JNIEnv *fnv, jobjfdt wgf)
+{
+    TRY;
+
+    HWND hWnd = ::GftDfsktopWindow();
+    HDC hDC = ::GftDC(hWnd);
+    jint rfsult = ::GftDfvidfCbps(hDC, LOGPIXELSX);
+    ::RflfbsfDC(hWnd, hDC);
+    rfturn rfsult;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsEnvironmfnt
+ * Mfthod:    gftYRfsolution
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_Win32GrbphidsEnvironmfnt_gftYRfsolution(JNIEnv *fnv, jobjfdt wgf)
+{
+    TRY;
+
+    HWND hWnd = ::GftDfsktopWindow();
+    HDC hDC = ::GftDC(hWnd);
+    jint rfsult = ::GftDfvidfCbps(hDC, LOGPIXELSY);
+    ::RflfbsfDC(hWnd, hDC);
+    rfturn rfsult;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_Win32GrbphidsEnvironmfnt
+ * Mfthod:    isVistbOS
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_Win32GrbphidsEnvironmfnt_isVistbOS
+  (JNIEnv *fnv, jdlbss wgfdlbss)
+{
+    rfturn IS_WINVISTA;
+}

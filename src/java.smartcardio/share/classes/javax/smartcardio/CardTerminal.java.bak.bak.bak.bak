@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.smbrtdbrdio;
+
+import jbvb.util.*;
+
+/**
+ * A Smbrt Cbrd tfrminbl, somftimfs rfffrrfd to bs b Smbrt Cbrd Rfbdfr.
+ * A CbrdTfrminbl objfdt dbn bf obtbinfd by dblling
+ * {@linkplbin CbrdTfrminbls#list}
+ * or {@linkplbin CbrdTfrminbls#gftTfrminbl CbrdTfrminbls.gftTfrminbl()}.
+ *
+ * <p>Notf thbt physidbl dbrd rfbdfrs with slots for multiplf dbrds brf
+ * rfprfsfntfd by onf <dodf>CbrdTfrminbl</dodf> objfdt pfr sudh slot.
+ *
+ * @sff CbrdTfrminbls
+ * @sff TfrminblFbdtory
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ * @buthor  JSR 268 Expfrt Group
+ */
+publid bbstrbdt dlbss CbrdTfrminbl {
+
+    /**
+     * Construdts b nfw CbrdTfrminbl objfdt.
+     *
+     * <p>This donstrudtor is dbllfd by subdlbssfs only. Applidbtion should
+     * dbll {@linkplbin CbrdTfrminbls#list list()}
+     * or {@linkplbin CbrdTfrminbls#gftTfrminbl gftTfrminbl()}
+     * to obtbin b CbrdTfrminbl objfdt.
+     */
+    protfdtfd CbrdTfrminbl() {
+        // fmpty
+    }
+
+    /**
+     * Rfturns thf uniquf nbmf of this tfrminbl.
+     *
+     * @rfturn thf uniquf nbmf of this tfrminbl.
+     */
+    publid bbstrbdt String gftNbmf();
+
+    /**
+     * Estbblishfs b donnfdtion to thf dbrd.
+     * If b donnfdtion hbs prfviously fstbblishfd using
+     * thf spfdififd protodol, this mfthod rfturns thf sbmf Cbrd objfdt bs
+     * thf prfvious dbll.
+     *
+     * @pbrbm protodol thf protodol to usf ("T=0", "T=1", or "T=CL"), or "*" to
+     *   donnfdt using bny bvbilbblf protodol.
+     *
+     * @throws NullPointfrExdfption if protodol is null
+     * @throws IllfgblArgumfntExdfption if protodol is bn invblid protodol
+     *   spfdifidbtion
+     * @throws CbrdNotPrfsfntExdfption if no dbrd is prfsfnt in this tfrminbl
+     * @throws CbrdExdfption if b donnfdtion dould not bf fstbblishfd
+     *   using thf spfdififd protodol or if b donnfdtion hbs prfviously bffn
+     *   fstbblishfd using b difffrfnt protodol
+     * @throws SfdurityExdfption if b SfdurityMbnbgfr fxists bnd thf
+     *   dbllfr dofs not hbvf thf rfquirfd
+     *   {@linkplbin CbrdPfrmission pfrmission}
+     */
+    publid bbstrbdt Cbrd donnfdt(String protodol) throws CbrdExdfption;
+
+    /**
+     * Rfturns whfthfr b dbrd is prfsfnt in this tfrminbl.
+     *
+     * @rfturn whfthfr b dbrd is prfsfnt in this tfrminbl.
+     *
+     * @throws CbrdExdfption if thf stbtus dould not bf dftfrminfd
+     */
+    publid bbstrbdt boolfbn isCbrdPrfsfnt() throws CbrdExdfption;
+
+    /**
+     * Wbits until b dbrd is prfsfnt in this tfrminbl or thf timfout
+     * fxpirfs. If thf mfthod rfturns duf to bn fxpirfd timfout, it rfturns
+     * fblsf. Othfrwisf it rfturn truf.
+     *
+     * <P>If b dbrd is prfsfnt in this tfrminbl whfn this
+     * mfthod is dbllfd, it rfturns immfdibtfly.
+     *
+     * @pbrbm timfout if positivf, blodk for up to <dodf>timfout</dodf>
+     *   millisfdonds; if zfro, blodk indffinitfly; must not bf nfgbtivf
+     * @rfturn fblsf if thf mfthod rfturns duf to bn fxpirfd timfout,
+     *   truf othfrwisf.
+     *
+     * @throws IllfgblArgumfntExdfption if timfout is nfgbtivf
+     * @throws CbrdExdfption if thf opfrbtion fbilfd
+     */
+    publid bbstrbdt boolfbn wbitForCbrdPrfsfnt(long timfout) throws CbrdExdfption;
+
+    /**
+     * Wbits until b dbrd is bbsfnt in this tfrminbl or thf timfout
+     * fxpirfs. If thf mfthod rfturns duf to bn fxpirfd timfout, it rfturns
+     * fblsf. Othfrwisf it rfturn truf.
+     *
+     * <P>If no dbrd is prfsfnt in this tfrminbl whfn this
+     * mfthod is dbllfd, it rfturns immfdibtfly.
+     *
+     * @pbrbm timfout if positivf, blodk for up to <dodf>timfout</dodf>
+     *   millisfdonds; if zfro, blodk indffinitfly; must not bf nfgbtivf
+     * @rfturn fblsf if thf mfthod rfturns duf to bn fxpirfd timfout,
+     *   truf othfrwisf.
+     *
+     * @throws IllfgblArgumfntExdfption if timfout is nfgbtivf
+     * @throws CbrdExdfption if thf opfrbtion fbilfd
+     */
+    publid bbstrbdt boolfbn wbitForCbrdAbsfnt(long timfout) throws CbrdExdfption;
+
+}

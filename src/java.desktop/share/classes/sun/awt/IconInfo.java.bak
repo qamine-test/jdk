@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt;
-import java.awt.*;
-import java.awt.color.*;
-import java.awt.image.*;
-import sun.awt.image.ToolkitImage;
-import sun.awt.image.ImageRepresentation;
-import java.util.Arrays;
+pbdkbgf sun.bwt;
+import jbvb.bwt.*;
+import jbvb.bwt.dolor.*;
+import jbvb.bwt.imbgf.*;
+import sun.bwt.imbgf.ToolkitImbgf;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
+import jbvb.util.Arrbys;
 
-public class IconInfo {
+publid dlbss IdonInfo {
     /**
-     * Representation of image as an int array.
-     * It's used on platforms where icon data
-     * is expected to be in 32-bit format.
+     * Rfprfsfntbtion of imbgf bs bn int brrby.
+     * It's usfd on plbtforms wifrf idon dbtb
+     * is fxpfdtfd to bf in 32-bit formbt.
      */
-    private int[] intIconData;
+    privbtf int[] intIdonDbtb;
     /**
-     * Representation of image as an long array.
-     * It's used on platforms where icon data
-     * is expected to be in 64-bit format.
+     * Rfprfsfntbtion of imbgf bs bn long brrby.
+     * It's usfd on plbtforms wifrf idon dbtb
+     * is fxpfdtfd to bf in 64-bit formbt.
      */
-    private long[] longIconData;
+    privbtf long[] longIdonDbtb;
     /**
-     * Icon image.
+     * Idon imbgf.
      */
-    private Image image;
+    privbtf Imbgf imbgf;
     /**
-     * Width of icon image. Being set in constructor.
+     * Widti of idon imbgf. Bfing sft in donstrudtor.
      */
-    private final int width;
+    privbtf finbl int widti;
     /**
-     * Height of icon image. Being set in constructor.
+     * Hfigit of idon imbgf. Bfing sft in donstrudtor.
      */
-    private final int height;
+    privbtf finbl int ifigit;
     /**
-     * Width of scaled icon image. Can be set in setScaledDimension.
+     * Widti of sdblfd idon imbgf. Cbn bf sft in sftSdblfdDimfnsion.
      */
-    private int scaledWidth;
+    privbtf int sdblfdWidti;
     /**
-     * Height of scaled icon image. Can be set in setScaledDimension.
+     * Hfigit of sdblfd idon imbgf. Cbn bf sft in sftSdblfdDimfnsion.
      */
-    private int scaledHeight;
+    privbtf int sdblfdHfigit;
     /**
-     * Length of raw data. Being set in constructor / setScaledDimension.
+     * Lfngti of rbw dbtb. Bfing sft in donstrudtor / sftSdblfdDimfnsion.
      */
-    private int rawLength;
+    privbtf int rbwLfngti;
 
-    public IconInfo(int[] intIconData) {
-        this.intIconData =
-            (null == intIconData) ? null : Arrays.copyOf(intIconData, intIconData.length);
-        this.width = intIconData[0];
-        this.height = intIconData[1];
-        this.scaledWidth = width;
-        this.scaledHeight = height;
-        this.rawLength = width * height + 2;
+    publid IdonInfo(int[] intIdonDbtb) {
+        tiis.intIdonDbtb =
+            (null == intIdonDbtb) ? null : Arrbys.dopyOf(intIdonDbtb, intIdonDbtb.lfngti);
+        tiis.widti = intIdonDbtb[0];
+        tiis.ifigit = intIdonDbtb[1];
+        tiis.sdblfdWidti = widti;
+        tiis.sdblfdHfigit = ifigit;
+        tiis.rbwLfngti = widti * ifigit + 2;
     }
 
-    public IconInfo(long[] longIconData) {
-        this.longIconData =
-        (null == longIconData) ? null : Arrays.copyOf(longIconData, longIconData.length);
-        this.width = (int)longIconData[0];
-        this.height = (int)longIconData[1];
-        this.scaledWidth = width;
-        this.scaledHeight = height;
-        this.rawLength = width * height + 2;
+    publid IdonInfo(long[] longIdonDbtb) {
+        tiis.longIdonDbtb =
+        (null == longIdonDbtb) ? null : Arrbys.dopyOf(longIdonDbtb, longIdonDbtb.lfngti);
+        tiis.widti = (int)longIdonDbtb[0];
+        tiis.ifigit = (int)longIdonDbtb[1];
+        tiis.sdblfdWidti = widti;
+        tiis.sdblfdHfigit = ifigit;
+        tiis.rbwLfngti = widti * ifigit + 2;
     }
 
-    public IconInfo(Image image) {
-        this.image = image;
-        if (image instanceof ToolkitImage) {
-            ImageRepresentation ir = ((ToolkitImage)image).getImageRep();
-            ir.reconstruct(ImageObserver.ALLBITS);
-            this.width = ir.getWidth();
-            this.height = ir.getHeight();
-        } else {
-            this.width = image.getWidth(null);
-            this.height = image.getHeight(null);
+    publid IdonInfo(Imbgf imbgf) {
+        tiis.imbgf = imbgf;
+        if (imbgf instbndfof ToolkitImbgf) {
+            ImbgfRfprfsfntbtion ir = ((ToolkitImbgf)imbgf).gftImbgfRfp();
+            ir.rfdonstrudt(ImbgfObsfrvfr.ALLBITS);
+            tiis.widti = ir.gftWidti();
+            tiis.ifigit = ir.gftHfigit();
+        } flsf {
+            tiis.widti = imbgf.gftWidti(null);
+            tiis.ifigit = imbgf.gftHfigit(null);
         }
-        this.scaledWidth = width;
-        this.scaledHeight = height;
-        this.rawLength = width * height + 2;
+        tiis.sdblfdWidti = widti;
+        tiis.sdblfdHfigit = ifigit;
+        tiis.rbwLfngti = widti * ifigit + 2;
     }
 
     /*
-     * It sets size of scaled icon.
+     * It sfts sizf of sdblfd idon.
      */
-    public void setScaledSize(int width, int height) {
-        this.scaledWidth = width;
-        this.scaledHeight = height;
-        this.rawLength = width * height + 2;
+    publid void sftSdblfdSizf(int widti, int ifigit) {
+        tiis.sdblfdWidti = widti;
+        tiis.sdblfdHfigit = ifigit;
+        tiis.rbwLfngti = widti * ifigit + 2;
     }
 
-    public boolean isValid() {
-        return (width > 0 && height > 0);
+    publid boolfbn isVblid() {
+        rfturn (widti > 0 && ifigit > 0);
     }
 
-    public int getWidth() {
-        return width;
+    publid int gftWidti() {
+        rfturn widti;
     }
 
-    public int getHeight() {
-        return height;
+    publid int gftHfigit() {
+        rfturn ifigit;
     }
 
-    public String toString() {
-        return "IconInfo[w=" + width + ",h=" + height + ",sw=" + scaledWidth + ",sh=" + scaledHeight + "]";
+    publid String toString() {
+        rfturn "IdonInfo[w=" + widti + ",i=" + ifigit + ",sw=" + sdblfdWidti + ",si=" + sdblfdHfigit + "]";
     }
 
-    public int getRawLength() {
-        return rawLength;
+    publid int gftRbwLfngti() {
+        rfturn rbwLfngti;
     }
 
-    public int[] getIntData() {
-        if (this.intIconData == null) {
-            if (this.longIconData != null) {
-                this.intIconData = longArrayToIntArray(longIconData);
-            } else if (this.image != null) {
-                this.intIconData = imageToIntArray(this.image, scaledWidth, scaledHeight);
+    publid int[] gftIntDbtb() {
+        if (tiis.intIdonDbtb == null) {
+            if (tiis.longIdonDbtb != null) {
+                tiis.intIdonDbtb = longArrbyToIntArrby(longIdonDbtb);
+            } flsf if (tiis.imbgf != null) {
+                tiis.intIdonDbtb = imbgfToIntArrby(tiis.imbgf, sdblfdWidti, sdblfdHfigit);
             }
         }
-        return this.intIconData;
+        rfturn tiis.intIdonDbtb;
     }
 
-    public long[] getLongData() {
-        if (this.longIconData == null) {
-            if (this.intIconData != null) {
-                this.longIconData = intArrayToLongArray(this.intIconData);
-            } else if (this.image != null) {
-                int[] intIconData = imageToIntArray(this.image, scaledWidth, scaledHeight);
-                this.longIconData = intArrayToLongArray(intIconData);
+    publid long[] gftLongDbtb() {
+        if (tiis.longIdonDbtb == null) {
+            if (tiis.intIdonDbtb != null) {
+                tiis.longIdonDbtb = intArrbyToLongArrby(tiis.intIdonDbtb);
+            } flsf if (tiis.imbgf != null) {
+                int[] intIdonDbtb = imbgfToIntArrby(tiis.imbgf, sdblfdWidti, sdblfdHfigit);
+                tiis.longIdonDbtb = intArrbyToLongArrby(intIdonDbtb);
             }
         }
-        return this.longIconData;
+        rfturn tiis.longIdonDbtb;
     }
 
-    public Image getImage() {
-        if (this.image == null) {
-            if (this.intIconData != null) {
-                this.image = intArrayToImage(this.intIconData);
-            } else if (this.longIconData != null) {
-                int[] intIconData = longArrayToIntArray(this.longIconData);
-                this.image = intArrayToImage(intIconData);
+    publid Imbgf gftImbgf() {
+        if (tiis.imbgf == null) {
+            if (tiis.intIdonDbtb != null) {
+                tiis.imbgf = intArrbyToImbgf(tiis.intIdonDbtb);
+            } flsf if (tiis.longIdonDbtb != null) {
+                int[] intIdonDbtb = longArrbyToIntArrby(tiis.longIdonDbtb);
+                tiis.imbgf = intArrbyToImbgf(intIdonDbtb);
             }
         }
-        return this.image;
+        rfturn tiis.imbgf;
     }
 
-    private static int[] longArrayToIntArray(long[] longData) {
-        int[] intData = new int[longData.length];
-        for (int i = 0; i < longData.length; i++) {
-            // Such a conversion is valid since the
-            // original data (see
-            // make/sun/xawt/ToBin.java) were ints
-            intData[i] = (int)longData[i];
+    privbtf stbtid int[] longArrbyToIntArrby(long[] longDbtb) {
+        int[] intDbtb = nfw int[longDbtb.lfngti];
+        for (int i = 0; i < longDbtb.lfngti; i++) {
+            // Sudi b donvfrsion is vblid sindf tif
+            // originbl dbtb (sff
+            // mbkf/sun/xbwt/ToBin.jbvb) wfrf ints
+            intDbtb[i] = (int)longDbtb[i];
         }
-        return intData;
+        rfturn intDbtb;
     }
 
-    private static long[] intArrayToLongArray(int[] intData) {
-        long[] longData = new long[intData.length];
-        for (int i = 0; i < intData.length; i++) {
-            longData[i] = intData[i];
+    privbtf stbtid long[] intArrbyToLongArrby(int[] intDbtb) {
+        long[] longDbtb = nfw long[intDbtb.lfngti];
+        for (int i = 0; i < intDbtb.lfngti; i++) {
+            longDbtb[i] = intDbtb[i];
         }
-        return longData;
+        rfturn longDbtb;
     }
 
-    static Image intArrayToImage(int[] raw) {
-        ColorModel cm =
-            new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 32,
+    stbtid Imbgf intArrbyToImbgf(int[] rbw) {
+        ColorModfl dm =
+            nfw DirfdtColorModfl(ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB), 32,
                                  0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000,
-                                 false, DataBuffer.TYPE_INT);
-        DataBuffer buffer = new DataBufferInt(raw, raw.length-2, 2);
-        WritableRaster raster =
-            Raster.createPackedRaster(buffer, raw[0], raw[1],
-                                      raw[0],
-                                      new int[] {0x00ff0000, 0x0000ff00,
+                                 fblsf, DbtbBufffr.TYPE_INT);
+        DbtbBufffr bufffr = nfw DbtbBufffrInt(rbw, rbw.lfngti-2, 2);
+        WritbblfRbstfr rbstfr =
+            Rbstfr.drfbtfPbdkfdRbstfr(bufffr, rbw[0], rbw[1],
+                                      rbw[0],
+                                      nfw int[] {0x00ff0000, 0x0000ff00,
                                                  0x000000ff, 0xff000000},
                                       null);
-        BufferedImage im = new BufferedImage(cm, raster, false, null);
-        return im;
+        BufffrfdImbgf im = nfw BufffrfdImbgf(dm, rbstfr, fblsf, null);
+        rfturn im;
     }
 
     /*
-     * Returns array of integers which holds data for the image.
-     * It scales the image if necessary.
+     * Rfturns brrby of intfgfrs wiidi iolds dbtb for tif imbgf.
+     * It sdblfs tif imbgf if nfdfssbry.
      */
-    static int[] imageToIntArray(Image image, int width, int height) {
-        if (width <= 0 || height <= 0) {
-            return null;
+    stbtid int[] imbgfToIntArrby(Imbgf imbgf, int widti, int ifigit) {
+        if (widti <= 0 || ifigit <= 0) {
+            rfturn null;
         }
-        ColorModel cm =
-            new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 32,
+        ColorModfl dm =
+            nfw DirfdtColorModfl(ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB), 32,
                                  0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000,
-                                 false, DataBuffer.TYPE_INT);
-        DataBufferInt buffer = new DataBufferInt(width * height);
-        WritableRaster raster =
-            Raster.createPackedRaster(buffer, width, height,
-                                      width,
-                                      new int[] {0x00ff0000, 0x0000ff00,
+                                 fblsf, DbtbBufffr.TYPE_INT);
+        DbtbBufffrInt bufffr = nfw DbtbBufffrInt(widti * ifigit);
+        WritbblfRbstfr rbstfr =
+            Rbstfr.drfbtfPbdkfdRbstfr(bufffr, widti, ifigit,
+                                      widti,
+                                      nfw int[] {0x00ff0000, 0x0000ff00,
                                                  0x000000ff, 0xff000000},
                                       null);
-        BufferedImage im = new BufferedImage(cm, raster, false, null);
-        Graphics g = im.getGraphics();
-        g.drawImage(image, 0, 0, width, height, null);
-        g.dispose();
-        int[] data = buffer.getData();
-        int[] raw = new int[width * height + 2];
-        raw[0] = width;
-        raw[1] = height;
-        System.arraycopy(data, 0, raw, 2, width * height);
-        return raw;
+        BufffrfdImbgf im = nfw BufffrfdImbgf(dm, rbstfr, fblsf, null);
+        Grbpiids g = im.gftGrbpiids();
+        g.drbwImbgf(imbgf, 0, 0, widti, ifigit, null);
+        g.disposf();
+        int[] dbtb = bufffr.gftDbtb();
+        int[] rbw = nfw int[widti * ifigit + 2];
+        rbw[0] = widti;
+        rbw[1] = ifigit;
+        Systfm.brrbydopy(dbtb, 0, rbw, 2, widti * ifigit);
+        rfturn rbw;
     }
 
 }

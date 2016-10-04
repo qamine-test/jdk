@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include "splashscreen.h"
+#indludf <stdio.i>
+#indludf "splbsisdrffn.i"
 
-extern void* SplashProcAddress(const char* name); /* in java_md.c */
+fxtfrn void* SplbsiProdAddrfss(donst dibr* nbmf); /* in jbvb_md.d */
 
 /*
- * Prototypes of pointers to functions in splashscreen shared lib
+ * Prototypfs of pointfrs to fundtions in splbsisdrffn sibrfd lib
  */
-typedef int (*SplashLoadMemory_t)(void* pdata, int size);
-typedef int (*SplashLoadFile_t)(const char* filename);
-typedef void (*SplashInit_t)(void);
-typedef void (*SplashClose_t)(void);
-typedef void (*SplashSetFileJarName_t)(const char* fileName,
-                                       const char* jarName);
-typedef void (*SplashSetScaleFactor_t)(float scaleFactor);
-typedef char* (*SplashGetScaledImageName_t)(const char* fileName,
-                        const char* jarName, float* scaleFactor);
+typfdff int (*SplbsiLobdMfmory_t)(void* pdbtb, int sizf);
+typfdff int (*SplbsiLobdFilf_t)(donst dibr* filfnbmf);
+typfdff void (*SplbsiInit_t)(void);
+typfdff void (*SplbsiClosf_t)(void);
+typfdff void (*SplbsiSftFilfJbrNbmf_t)(donst dibr* filfNbmf,
+                                       donst dibr* jbrNbmf);
+typfdff void (*SplbsiSftSdblfFbdtor_t)(flobt sdblfFbdtor);
+typfdff dibr* (*SplbsiGftSdblfdImbgfNbmf_t)(donst dibr* filfNbmf,
+                        donst dibr* jbrNbmf, flobt* sdblfFbdtor);
 
 /*
- * This macro invokes a function from the shared lib.
- * it locates a function with SplashProcAddress on demand.
- * if SplashProcAddress fails, def value is returned.
+ * Tiis mbdro invokfs b fundtion from tif sibrfd lib.
+ * it lodbtfs b fundtion witi SplbsiProdAddrfss on dfmbnd.
+ * if SplbsiProdAddrfss fbils, dff vbluf is rfturnfd.
  *
- * it is further wrapped with INVOKEV (works with functions which return
- * void and INVOKE (for all other functions). INVOKEV looks a bit ugly,
- * that's due being unable to return a value of type void in C. INVOKEV
- * works around this by using semicolon instead of return operator.
+ * it is furtifr wrbppfd witi INVOKEV (works witi fundtions wiidi rfturn
+ * void bnd INVOKE (for bll otifr fundtions). INVOKEV looks b bit ugly,
+ * tibt's duf bfing unbblf to rfturn b vbluf of typf void in C. INVOKEV
+ * works bround tiis by using sfmidolon instfbd of rfturn opfrbtor.
  */
-#define _INVOKE(name,def,ret) \
-    static void* proc = NULL; \
-    if (!proc) { proc = SplashProcAddress(#name); } \
-    if (!proc) { return def; } \
-    ret ((name##_t)proc)
+#dffinf _INVOKE(nbmf,dff,rft) \
+    stbtid void* prod = NULL; \
+    if (!prod) { prod = SplbsiProdAddrfss(#nbmf); } \
+    if (!prod) { rfturn dff; } \
+    rft ((nbmf##_t)prod)
 
-#define INVOKE(name,def) _INVOKE(name,def,return)
-#define INVOKEV(name) _INVOKE(name, ,;)
+#dffinf INVOKE(nbmf,dff) _INVOKE(nbmf,dff,rfturn)
+#dffinf INVOKEV(nbmf) _INVOKE(nbmf, ,;)
 
-int     DoSplashLoadMemory(void* pdata, int size) {
-    INVOKE(SplashLoadMemory, NULL)(pdata, size);
+int     DoSplbsiLobdMfmory(void* pdbtb, int sizf) {
+    INVOKE(SplbsiLobdMfmory, NULL)(pdbtb, sizf);
 }
 
-int     DoSplashLoadFile(const char* filename) {
-    INVOKE(SplashLoadFile, NULL)(filename);
+int     DoSplbsiLobdFilf(donst dibr* filfnbmf) {
+    INVOKE(SplbsiLobdFilf, NULL)(filfnbmf);
 }
 
-void    DoSplashInit(void) {
-    INVOKEV(SplashInit)();
+void    DoSplbsiInit(void) {
+    INVOKEV(SplbsiInit)();
 }
 
-void    DoSplashClose(void) {
-    INVOKEV(SplashClose)();
+void    DoSplbsiClosf(void) {
+    INVOKEV(SplbsiClosf)();
 }
 
-void    DoSplashSetFileJarName(const char* fileName, const char* jarName) {
-    INVOKEV(SplashSetFileJarName)(fileName, jarName);
+void    DoSplbsiSftFilfJbrNbmf(donst dibr* filfNbmf, donst dibr* jbrNbmf) {
+    INVOKEV(SplbsiSftFilfJbrNbmf)(filfNbmf, jbrNbmf);
 }
 
-void    DoSplashSetScaleFactor(float scaleFactor) {
-    INVOKEV(SplashSetScaleFactor)(scaleFactor);
+void    DoSplbsiSftSdblfFbdtor(flobt sdblfFbdtor) {
+    INVOKEV(SplbsiSftSdblfFbdtor)(sdblfFbdtor);
 }
 
-char*    DoSplashGetScaledImageName(const char* fileName, const char* jarName,
-                                    float* scaleFactor) {
-    INVOKE(SplashGetScaledImageName, NULL)(fileName, jarName, scaleFactor);
+dibr*    DoSplbsiGftSdblfdImbgfNbmf(donst dibr* filfNbmf, donst dibr* jbrNbmf,
+                                    flobt* sdblfFbdtor) {
+    INVOKE(SplbsiGftSdblfdImbgfNbmf, NULL)(filfNbmf, jbrNbmf, sdblfFbdtor);
 }

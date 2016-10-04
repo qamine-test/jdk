@@ -1,480 +1,480 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.io.File;
-import java.io.FileInputStream;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
 
-import java.beans.ConstructorProperties;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.AWTAddfssor;
 
 /**
- * A class to encapsulate the bitmap representation of the mouse cursor.
+ * A dlbss to fndbpsulbtf tif bitmbp rfprfsfntbtion of tif mousf dursor.
  *
- * @see Component#setCursor
- * @author      Amy Fowler
+ * @sff Componfnt#sftCursor
+ * @butior      Amy Fowlfr
  */
-public class Cursor implements java.io.Serializable {
+publid dlbss Cursor implfmfnts jbvb.io.Sfriblizbblf {
 
     /**
-     * The default cursor type (gets set if no cursor is defined).
+     * Tif dffbult dursor typf (gfts sft if no dursor is dffinfd).
      */
-    public static final int     DEFAULT_CURSOR                  = 0;
+    publid stbtid finbl int     DEFAULT_CURSOR                  = 0;
 
     /**
-     * The crosshair cursor type.
+     * Tif drossibir dursor typf.
      */
-    public static final int     CROSSHAIR_CURSOR                = 1;
+    publid stbtid finbl int     CROSSHAIR_CURSOR                = 1;
 
     /**
-     * The text cursor type.
+     * Tif tfxt dursor typf.
      */
-    public static final int     TEXT_CURSOR                     = 2;
+    publid stbtid finbl int     TEXT_CURSOR                     = 2;
 
     /**
-     * The wait cursor type.
+     * Tif wbit dursor typf.
      */
-    public static final int     WAIT_CURSOR                     = 3;
+    publid stbtid finbl int     WAIT_CURSOR                     = 3;
 
     /**
-     * The south-west-resize cursor type.
+     * Tif souti-wfst-rfsizf dursor typf.
      */
-    public static final int     SW_RESIZE_CURSOR                = 4;
+    publid stbtid finbl int     SW_RESIZE_CURSOR                = 4;
 
     /**
-     * The south-east-resize cursor type.
+     * Tif souti-fbst-rfsizf dursor typf.
      */
-    public static final int     SE_RESIZE_CURSOR                = 5;
+    publid stbtid finbl int     SE_RESIZE_CURSOR                = 5;
 
     /**
-     * The north-west-resize cursor type.
+     * Tif norti-wfst-rfsizf dursor typf.
      */
-    public static final int     NW_RESIZE_CURSOR                = 6;
+    publid stbtid finbl int     NW_RESIZE_CURSOR                = 6;
 
     /**
-     * The north-east-resize cursor type.
+     * Tif norti-fbst-rfsizf dursor typf.
      */
-    public static final int     NE_RESIZE_CURSOR                = 7;
+    publid stbtid finbl int     NE_RESIZE_CURSOR                = 7;
 
     /**
-     * The north-resize cursor type.
+     * Tif norti-rfsizf dursor typf.
      */
-    public static final int     N_RESIZE_CURSOR                 = 8;
+    publid stbtid finbl int     N_RESIZE_CURSOR                 = 8;
 
     /**
-     * The south-resize cursor type.
+     * Tif souti-rfsizf dursor typf.
      */
-    public static final int     S_RESIZE_CURSOR                 = 9;
+    publid stbtid finbl int     S_RESIZE_CURSOR                 = 9;
 
     /**
-     * The west-resize cursor type.
+     * Tif wfst-rfsizf dursor typf.
      */
-    public static final int     W_RESIZE_CURSOR                 = 10;
+    publid stbtid finbl int     W_RESIZE_CURSOR                 = 10;
 
     /**
-     * The east-resize cursor type.
+     * Tif fbst-rfsizf dursor typf.
      */
-    public static final int     E_RESIZE_CURSOR                 = 11;
+    publid stbtid finbl int     E_RESIZE_CURSOR                 = 11;
 
     /**
-     * The hand cursor type.
+     * Tif ibnd dursor typf.
      */
-    public static final int     HAND_CURSOR                     = 12;
+    publid stbtid finbl int     HAND_CURSOR                     = 12;
 
     /**
-     * The move cursor type.
+     * Tif movf dursor typf.
      */
-    public static final int     MOVE_CURSOR                     = 13;
+    publid stbtid finbl int     MOVE_CURSOR                     = 13;
 
     /**
-      * @deprecated As of JDK version 1.7, the {@link #getPredefinedCursor(int)}
-      * method should be used instead.
+      * @dfprfdbtfd As of JDK vfrsion 1.7, tif {@link #gftPrfdffinfdCursor(int)}
+      * mftiod siould bf usfd instfbd.
       */
-    @Deprecated
-    protected static Cursor predefined[] = new Cursor[14];
+    @Dfprfdbtfd
+    protfdtfd stbtid Cursor prfdffinfd[] = nfw Cursor[14];
 
     /**
-     * This field is a private replacement for 'predefined' array.
+     * Tiis fifld is b privbtf rfplbdfmfnt for 'prfdffinfd' brrby.
      */
-    private final static Cursor[] predefinedPrivate = new Cursor[14];
+    privbtf finbl stbtid Cursor[] prfdffinfdPrivbtf = nfw Cursor[14];
 
-    /* Localization names and default values */
-    static final String[][] cursorProperties = {
-        { "AWT.DefaultCursor", "Default Cursor" },
-        { "AWT.CrosshairCursor", "Crosshair Cursor" },
-        { "AWT.TextCursor", "Text Cursor" },
-        { "AWT.WaitCursor", "Wait Cursor" },
-        { "AWT.SWResizeCursor", "Southwest Resize Cursor" },
-        { "AWT.SEResizeCursor", "Southeast Resize Cursor" },
-        { "AWT.NWResizeCursor", "Northwest Resize Cursor" },
-        { "AWT.NEResizeCursor", "Northeast Resize Cursor" },
-        { "AWT.NResizeCursor", "North Resize Cursor" },
-        { "AWT.SResizeCursor", "South Resize Cursor" },
-        { "AWT.WResizeCursor", "West Resize Cursor" },
-        { "AWT.EResizeCursor", "East Resize Cursor" },
-        { "AWT.HandCursor", "Hand Cursor" },
-        { "AWT.MoveCursor", "Move Cursor" },
+    /* Lodblizbtion nbmfs bnd dffbult vblufs */
+    stbtid finbl String[][] dursorPropfrtifs = {
+        { "AWT.DffbultCursor", "Dffbult Cursor" },
+        { "AWT.CrossibirCursor", "Crossibir Cursor" },
+        { "AWT.TfxtCursor", "Tfxt Cursor" },
+        { "AWT.WbitCursor", "Wbit Cursor" },
+        { "AWT.SWRfsizfCursor", "Soutiwfst Rfsizf Cursor" },
+        { "AWT.SERfsizfCursor", "Soutifbst Rfsizf Cursor" },
+        { "AWT.NWRfsizfCursor", "Nortiwfst Rfsizf Cursor" },
+        { "AWT.NERfsizfCursor", "Nortifbst Rfsizf Cursor" },
+        { "AWT.NRfsizfCursor", "Norti Rfsizf Cursor" },
+        { "AWT.SRfsizfCursor", "Souti Rfsizf Cursor" },
+        { "AWT.WRfsizfCursor", "Wfst Rfsizf Cursor" },
+        { "AWT.ERfsizfCursor", "Ebst Rfsizf Cursor" },
+        { "AWT.HbndCursor", "Hbnd Cursor" },
+        { "AWT.MovfCursor", "Movf Cursor" },
     };
 
     /**
-     * The chosen cursor type initially set to
-     * the <code>DEFAULT_CURSOR</code>.
+     * Tif diosfn dursor typf initiblly sft to
+     * tif <dodf>DEFAULT_CURSOR</dodf>.
      *
-     * @serial
-     * @see #getType()
+     * @sfribl
+     * @sff #gftTypf()
      */
-    int type = DEFAULT_CURSOR;
+    int typf = DEFAULT_CURSOR;
 
     /**
-     * The type associated with all custom cursors.
+     * Tif typf bssodibtfd witi bll dustom dursors.
      */
-    public static final int     CUSTOM_CURSOR                   = -1;
+    publid stbtid finbl int     CUSTOM_CURSOR                   = -1;
 
     /*
-     * hashtable, filesystem dir prefix, filename, and properties for custom cursors support
+     * ibsitbblf, filfsystfm dir prffix, filfnbmf, bnd propfrtifs for dustom dursors support
      */
 
-    private static final Hashtable<String,Cursor> systemCustomCursors = new Hashtable<>(1);
-    private static final String systemCustomCursorDirPrefix = initCursorDir();
+    privbtf stbtid finbl Hbsitbblf<String,Cursor> systfmCustomCursors = nfw Hbsitbblf<>(1);
+    privbtf stbtid finbl String systfmCustomCursorDirPrffix = initCursorDir();
 
-    private static String initCursorDir() {
-        String jhome = java.security.AccessController.doPrivileged(
-               new sun.security.action.GetPropertyAction("java.home"));
-        return jhome +
-            File.separator + "lib" + File.separator + "images" +
-            File.separator + "cursors" + File.separator;
+    privbtf stbtid String initCursorDir() {
+        String jiomf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+               nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.iomf"));
+        rfturn jiomf +
+            Filf.sfpbrbtor + "lib" + Filf.sfpbrbtor + "imbgfs" +
+            Filf.sfpbrbtor + "dursors" + Filf.sfpbrbtor;
     }
 
-    private static final String     systemCustomCursorPropertiesFile = systemCustomCursorDirPrefix + "cursors.properties";
+    privbtf stbtid finbl String     systfmCustomCursorPropfrtifsFilf = systfmCustomCursorDirPrffix + "dursors.propfrtifs";
 
-    private static       Properties systemCustomCursorProperties = null;
+    privbtf stbtid       Propfrtifs systfmCustomCursorPropfrtifs = null;
 
-    private static final String CursorDotPrefix  = "Cursor.";
-    private static final String DotFileSuffix    = ".File";
-    private static final String DotHotspotSuffix = ".HotSpot";
-    private static final String DotNameSuffix    = ".Name";
+    privbtf stbtid finbl String CursorDotPrffix  = "Cursor.";
+    privbtf stbtid finbl String DotFilfSuffix    = ".Filf";
+    privbtf stbtid finbl String DotHotspotSuffix = ".HotSpot";
+    privbtf stbtid finbl String DotNbmfSuffix    = ".Nbmf";
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = 8028237497568985504L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8028237497568985504L;
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("java.awt.Cursor");
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("jbvb.bwt.Cursor");
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
 
-        AWTAccessor.setCursorAccessor(
-            new AWTAccessor.CursorAccessor() {
-                public long getPData(Cursor cursor) {
-                    return cursor.pData;
+        AWTAddfssor.sftCursorAddfssor(
+            nfw AWTAddfssor.CursorAddfssor() {
+                publid long gftPDbtb(Cursor dursor) {
+                    rfturn dursor.pDbtb;
                 }
 
-                public void setPData(Cursor cursor, long pData) {
-                    cursor.pData = pData;
+                publid void sftPDbtb(Cursor dursor, long pDbtb) {
+                    dursor.pDbtb = pDbtb;
                 }
 
-                public int getType(Cursor cursor) {
-                    return cursor.type;
+                publid int gftTypf(Cursor dursor) {
+                    rfturn dursor.typf;
                 }
             });
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-     * accessed from C.
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+     * bddfssfd from C.
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /**
-     * Hook into native data.
+     * Hook into nbtivf dbtb.
      */
-    private transient long pData;
+    privbtf trbnsifnt long pDbtb;
 
-    private transient Object anchor = new Object();
+    privbtf trbnsifnt Objfdt bndior = nfw Objfdt();
 
-    static class CursorDisposer implements sun.java2d.DisposerRecord {
-        volatile long pData;
-        public CursorDisposer(long pData) {
-            this.pData = pData;
+    stbtid dlbss CursorDisposfr implfmfnts sun.jbvb2d.DisposfrRfdord {
+        volbtilf long pDbtb;
+        publid CursorDisposfr(long pDbtb) {
+            tiis.pDbtb = pDbtb;
         }
-        public void dispose() {
-            if (pData != 0) {
-                finalizeImpl(pData);
+        publid void disposf() {
+            if (pDbtb != 0) {
+                finblizfImpl(pDbtb);
             }
         }
     }
-    transient CursorDisposer disposer;
-    private void setPData(long pData) {
-        this.pData = pData;
-        if (GraphicsEnvironment.isHeadless()) {
-            return;
+    trbnsifnt CursorDisposfr disposfr;
+    privbtf void sftPDbtb(long pDbtb) {
+        tiis.pDbtb = pDbtb;
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            rfturn;
         }
-        if (disposer == null) {
-            disposer = new CursorDisposer(pData);
-            // anchor is null after deserialization
-            if (anchor == null) {
-                anchor = new Object();
+        if (disposfr == null) {
+            disposfr = nfw CursorDisposfr(pDbtb);
+            // bndior is null bftfr dfsfriblizbtion
+            if (bndior == null) {
+                bndior = nfw Objfdt();
             }
-            sun.java2d.Disposer.addRecord(anchor, disposer);
-        } else {
-            disposer.pData = pData;
+            sun.jbvb2d.Disposfr.bddRfdord(bndior, disposfr);
+        } flsf {
+            disposfr.pDbtb = pDbtb;
         }
     }
 
     /**
-     * The user-visible name of the cursor.
+     * Tif usfr-visiblf nbmf of tif dursor.
      *
-     * @serial
-     * @see #getName()
+     * @sfribl
+     * @sff #gftNbmf()
      */
-    protected String name;
+    protfdtfd String nbmf;
 
     /**
-     * Returns a cursor object with the specified predefined type.
+     * Rfturns b dursor objfdt witi tif spfdififd prfdffinfd typf.
      *
-     * @param type the type of predefined cursor
-     * @return the specified predefined cursor
-     * @throws IllegalArgumentException if the specified cursor type is
-     *         invalid
+     * @pbrbm typf tif typf of prfdffinfd dursor
+     * @rfturn tif spfdififd prfdffinfd dursor
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd dursor typf is
+     *         invblid
      */
-    static public Cursor getPredefinedCursor(int type) {
-        if (type < Cursor.DEFAULT_CURSOR || type > Cursor.MOVE_CURSOR) {
-            throw new IllegalArgumentException("illegal cursor type");
+    stbtid publid Cursor gftPrfdffinfdCursor(int typf) {
+        if (typf < Cursor.DEFAULT_CURSOR || typf > Cursor.MOVE_CURSOR) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl dursor typf");
         }
-        Cursor c = predefinedPrivate[type];
-        if (c == null) {
-            predefinedPrivate[type] = c = new Cursor(type);
+        Cursor d = prfdffinfdPrivbtf[typf];
+        if (d == null) {
+            prfdffinfdPrivbtf[typf] = d = nfw Cursor(typf);
         }
-        // fill 'predefined' array for backwards compatibility.
-        if (predefined[type] == null) {
-            predefined[type] = c;
+        // fill 'prfdffinfd' brrby for bbdkwbrds dompbtibility.
+        if (prfdffinfd[typf] == null) {
+            prfdffinfd[typf] = d;
         }
-        return c;
+        rfturn d;
     }
 
     /**
-     * Returns a system-specific custom cursor object matching the
-     * specified name.  Cursor names are, for example: "Invalid.16x16"
+     * Rfturns b systfm-spfdifid dustom dursor objfdt mbtdiing tif
+     * spfdififd nbmf.  Cursor nbmfs brf, for fxbmplf: "Invblid.16x16"
      *
-     * @param name a string describing the desired system-specific custom cursor
-     * @return the system specific custom cursor named
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @exception AWTException in case of erroneous retrieving of the cursor
+     * @pbrbm nbmf b string dfsdribing tif dfsirfd systfm-spfdifid dustom dursor
+     * @rfturn tif systfm spfdifid dustom dursor nbmfd
+     * @fxdfption HfbdlfssExdfption if
+     * <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @fxdfption AWTExdfption in dbsf of frronfous rftrifving of tif dursor
      */
-    static public Cursor getSystemCustomCursor(final String name)
-        throws AWTException, HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        Cursor cursor = systemCustomCursors.get(name);
+    stbtid publid Cursor gftSystfmCustomCursor(finbl String nbmf)
+        tirows AWTExdfption, HfbdlfssExdfption {
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        Cursor dursor = systfmCustomCursors.gft(nbmf);
 
-        if (cursor == null) {
-            synchronized(systemCustomCursors) {
-                if (systemCustomCursorProperties == null)
-                    loadSystemCustomCursorProperties();
+        if (dursor == null) {
+            syndironizfd(systfmCustomCursors) {
+                if (systfmCustomCursorPropfrtifs == null)
+                    lobdSystfmCustomCursorPropfrtifs();
             }
 
-            String prefix = CursorDotPrefix + name;
-            String key    = prefix + DotFileSuffix;
+            String prffix = CursorDotPrffix + nbmf;
+            String kfy    = prffix + DotFilfSuffix;
 
-            if (!systemCustomCursorProperties.containsKey(key)) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("Cursor.getSystemCustomCursor(" + name + ") returned null");
+            if (!systfmCustomCursorPropfrtifs.dontbinsKfy(kfy)) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("Cursor.gftSystfmCustomCursor(" + nbmf + ") rfturnfd null");
                 }
-                return null;
+                rfturn null;
             }
 
-            final String fileName =
-                systemCustomCursorProperties.getProperty(key);
+            finbl String filfNbmf =
+                systfmCustomCursorPropfrtifs.gftPropfrty(kfy);
 
-            String localized = systemCustomCursorProperties.getProperty(prefix + DotNameSuffix);
+            String lodblizfd = systfmCustomCursorPropfrtifs.gftPropfrty(prffix + DotNbmfSuffix);
 
-            if (localized == null) localized = name;
+            if (lodblizfd == null) lodblizfd = nbmf;
 
-            String hotspot = systemCustomCursorProperties.getProperty(prefix + DotHotspotSuffix);
+            String iotspot = systfmCustomCursorPropfrtifs.gftPropfrty(prffix + DotHotspotSuffix);
 
-            if (hotspot == null)
-                throw new AWTException("no hotspot property defined for cursor: " + name);
+            if (iotspot == null)
+                tirow nfw AWTExdfption("no iotspot propfrty dffinfd for dursor: " + nbmf);
 
-            StringTokenizer st = new StringTokenizer(hotspot, ",");
+            StringTokfnizfr st = nfw StringTokfnizfr(iotspot, ",");
 
-            if (st.countTokens() != 2)
-                throw new AWTException("failed to parse hotspot property for cursor: " + name);
+            if (st.dountTokfns() != 2)
+                tirow nfw AWTExdfption("fbilfd to pbrsf iotspot propfrty for dursor: " + nbmf);
 
             int x = 0;
             int y = 0;
 
             try {
-                x = Integer.parseInt(st.nextToken());
-                y = Integer.parseInt(st.nextToken());
-            } catch (NumberFormatException nfe) {
-                throw new AWTException("failed to parse hotspot property for cursor: " + name);
+                x = Intfgfr.pbrsfInt(st.nfxtTokfn());
+                y = Intfgfr.pbrsfInt(st.nfxtTokfn());
+            } dbtdi (NumbfrFormbtExdfption nff) {
+                tirow nfw AWTExdfption("fbilfd to pbrsf iotspot propfrty for dursor: " + nbmf);
             }
 
             try {
-                final int fx = x;
-                final int fy = y;
-                final String flocalized = localized;
+                finbl int fx = x;
+                finbl int fy = y;
+                finbl String flodblizfd = lodblizfd;
 
-                cursor = java.security.AccessController.<Cursor>doPrivileged(
-                    new java.security.PrivilegedExceptionAction<Cursor>() {
-                    public Cursor run() throws Exception {
-                        Toolkit toolkit = Toolkit.getDefaultToolkit();
-                        Image image = toolkit.getImage(
-                           systemCustomCursorDirPrefix + fileName);
-                        return toolkit.createCustomCursor(
-                                    image, new Point(fx,fy), flocalized);
+                dursor = jbvb.sfdurity.AddfssControllfr.<Cursor>doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Cursor>() {
+                    publid Cursor run() tirows Exdfption {
+                        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+                        Imbgf imbgf = toolkit.gftImbgf(
+                           systfmCustomCursorDirPrffix + filfNbmf);
+                        rfturn toolkit.drfbtfCustomCursor(
+                                    imbgf, nfw Point(fx,fy), flodblizfd);
                     }
                 });
-            } catch (Exception e) {
-                throw new AWTException(
-                    "Exception: " + e.getClass() + " " + e.getMessage() +
-                    " occurred while creating cursor " + name);
+            } dbtdi (Exdfption f) {
+                tirow nfw AWTExdfption(
+                    "Exdfption: " + f.gftClbss() + " " + f.gftMfssbgf() +
+                    " oddurrfd wiilf drfbting dursor " + nbmf);
             }
 
-            if (cursor == null) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("Cursor.getSystemCustomCursor(" + name + ") returned null");
+            if (dursor == null) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("Cursor.gftSystfmCustomCursor(" + nbmf + ") rfturnfd null");
                 }
-            } else {
-                systemCustomCursors.put(name, cursor);
+            } flsf {
+                systfmCustomCursors.put(nbmf, dursor);
             }
         }
 
-        return cursor;
+        rfturn dursor;
     }
 
     /**
-     * Return the system default cursor.
+     * Rfturn tif systfm dffbult dursor.
      *
-     * @return the default cursor
+     * @rfturn tif dffbult dursor
      */
-    static public Cursor getDefaultCursor() {
-        return getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    stbtid publid Cursor gftDffbultCursor() {
+        rfturn gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
     }
 
     /**
-     * Creates a new cursor object with the specified type.
-     * @param type the type of cursor
-     * @throws IllegalArgumentException if the specified cursor type
-     * is invalid
+     * Crfbtfs b nfw dursor objfdt witi tif spfdififd typf.
+     * @pbrbm typf tif typf of dursor
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd dursor typf
+     * is invblid
      */
-    @ConstructorProperties({"type"})
-    public Cursor(int type) {
-        if (type < Cursor.DEFAULT_CURSOR || type > Cursor.MOVE_CURSOR) {
-            throw new IllegalArgumentException("illegal cursor type");
+    @ConstrudtorPropfrtifs({"typf"})
+    publid Cursor(int typf) {
+        if (typf < Cursor.DEFAULT_CURSOR || typf > Cursor.MOVE_CURSOR) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl dursor typf");
         }
-        this.type = type;
+        tiis.typf = typf;
 
-        // Lookup localized name.
-        name = Toolkit.getProperty(cursorProperties[type][0],
-                                   cursorProperties[type][1]);
+        // Lookup lodblizfd nbmf.
+        nbmf = Toolkit.gftPropfrty(dursorPropfrtifs[typf][0],
+                                   dursorPropfrtifs[typf][1]);
     }
 
     /**
-     * Creates a new custom cursor object with the specified name.<p>
-     * Note:  this constructor should only be used by AWT implementations
-     * as part of their support for custom cursors.  Applications should
-     * use Toolkit.createCustomCursor().
-     * @param name the user-visible name of the cursor.
-     * @see java.awt.Toolkit#createCustomCursor
+     * Crfbtfs b nfw dustom dursor objfdt witi tif spfdififd nbmf.<p>
+     * Notf:  tiis donstrudtor siould only bf usfd by AWT implfmfntbtions
+     * bs pbrt of tifir support for dustom dursors.  Applidbtions siould
+     * usf Toolkit.drfbtfCustomCursor().
+     * @pbrbm nbmf tif usfr-visiblf nbmf of tif dursor.
+     * @sff jbvb.bwt.Toolkit#drfbtfCustomCursor
      */
-    protected Cursor(String name) {
-        this.type = Cursor.CUSTOM_CURSOR;
-        this.name = name;
+    protfdtfd Cursor(String nbmf) {
+        tiis.typf = Cursor.CUSTOM_CURSOR;
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Returns the type for this cursor.
+     * Rfturns tif typf for tiis dursor.
      *
-     * @return the cursor type
+     * @rfturn tif dursor typf
      */
-    public int getType() {
-        return type;
+    publid int gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Returns the name of this cursor.
-     * @return    a localized description of this cursor.
-     * @since     1.2
+     * Rfturns tif nbmf of tiis dursor.
+     * @rfturn    b lodblizfd dfsdription of tiis dursor.
+     * @sindf     1.2
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns a string representation of this cursor.
-     * @return    a string representation of this cursor.
-     * @since     1.2
+     * Rfturns b string rfprfsfntbtion of tiis dursor.
+     * @rfturn    b string rfprfsfntbtion of tiis dursor.
+     * @sindf     1.2
      */
-    public String toString() {
-        return getClass().getName() + "[" + getName() + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[" + gftNbmf() + "]";
     }
 
     /*
-     * load the cursor.properties file
+     * lobd tif dursor.propfrtifs filf
      */
-    private static void loadSystemCustomCursorProperties() throws AWTException {
-        synchronized(systemCustomCursors) {
-            systemCustomCursorProperties = new Properties();
+    privbtf stbtid void lobdSystfmCustomCursorPropfrtifs() tirows AWTExdfption {
+        syndironizfd(systfmCustomCursors) {
+            systfmCustomCursorPropfrtifs = nfw Propfrtifs();
 
             try {
-                AccessController.<Object>doPrivileged(
-                      new java.security.PrivilegedExceptionAction<Object>() {
-                    public Object run() throws Exception {
-                        FileInputStream fis = null;
+                AddfssControllfr.<Objfdt>doPrivilfgfd(
+                      nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Objfdt>() {
+                    publid Objfdt run() tirows Exdfption {
+                        FilfInputStrfbm fis = null;
                         try {
-                            fis = new FileInputStream(
-                                           systemCustomCursorPropertiesFile);
-                            systemCustomCursorProperties.load(fis);
-                        } finally {
+                            fis = nfw FilfInputStrfbm(
+                                           systfmCustomCursorPropfrtifsFilf);
+                            systfmCustomCursorPropfrtifs.lobd(fis);
+                        } finblly {
                             if (fis != null)
-                                fis.close();
+                                fis.dlosf();
                         }
-                        return null;
+                        rfturn null;
                     }
                 });
-            } catch (Exception e) {
-                systemCustomCursorProperties = null;
-                 throw new AWTException("Exception: " + e.getClass() + " " +
-                   e.getMessage() + " occurred while loading: " +
-                                        systemCustomCursorPropertiesFile);
+            } dbtdi (Exdfption f) {
+                systfmCustomCursorPropfrtifs = null;
+                 tirow nfw AWTExdfption("Exdfption: " + f.gftClbss() + " " +
+                   f.gftMfssbgf() + " oddurrfd wiilf lobding: " +
+                                        systfmCustomCursorPropfrtifsFilf);
             }
         }
     }
 
-    private native static void finalizeImpl(long pData);
+    privbtf nbtivf stbtid void finblizfImpl(long pDbtb);
 }

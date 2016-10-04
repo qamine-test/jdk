@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.filf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
 /**
- * Base implementation of background poller thread used in watch service
- * implementations. A poller thread waits on events from the file system and
- * also services "requests" from clients to register for new events or cancel
- * existing registrations.
+ * Bbsf implfmfntbtion of bbdkground pollfr tirfbd usfd in wbtdi sfrvidf
+ * implfmfntbtions. A pollfr tirfbd wbits on fvfnts from tif filf systfm bnd
+ * blso sfrvidfs "rfqufsts" from dlifnts to rfgistfr for nfw fvfnts or dbndfl
+ * fxisting rfgistrbtions.
  */
 
-abstract class AbstractPoller implements Runnable {
+bbstrbdt dlbss AbstrbdtPollfr implfmfnts Runnbblf {
 
-    // list of requests pending to the poller thread
-    private final LinkedList<Request> requestList;
+    // list of rfqufsts pfnding to tif pollfr tirfbd
+    privbtf finbl LinkfdList<Rfqufst> rfqufstList;
 
-    // set to true when shutdown
-    private boolean shutdown;
+    // sft to truf wifn siutdown
+    privbtf boolfbn siutdown;
 
-    protected AbstractPoller() {
-        this.requestList = new LinkedList<Request>();
-        this.shutdown = false;
+    protfdtfd AbstrbdtPollfr() {
+        tiis.rfqufstList = nfw LinkfdList<Rfqufst>();
+        tiis.siutdown = fblsf;
     }
 
     /**
-     * Starts the poller thread
+     * Stbrts tif pollfr tirfbd
      */
-    public void start() {
-        final Runnable thisRunnable = this;
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            @Override
-            public Object run() {
-                Thread thr = new Thread(thisRunnable);
-                thr.setDaemon(true);
-                thr.start();
-                return null;
+    publid void stbrt() {
+        finbl Runnbblf tiisRunnbblf = tiis;
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            @Ovfrridf
+            publid Objfdt run() {
+                Tirfbd tir = nfw Tirfbd(tiisRunnbblf);
+                tir.sftDbfmon(truf);
+                tir.stbrt();
+                rfturn null;
             }
          });
     }
 
     /**
-     * Wakeup poller thread so that it can service pending requests
+     * Wbkfup pollfr tirfbd so tibt it dbn sfrvidf pfnding rfqufsts
      */
-    abstract void wakeup() throws IOException;
+    bbstrbdt void wbkfup() tirows IOExdfption;
 
     /**
-     * Executed by poller thread to register directory for changes
+     * Exfdutfd by pollfr tirfbd to rfgistfr dirfdtory for dibngfs
      */
-    abstract Object implRegister(Path path,
-                                 Set<? extends WatchEvent.Kind<?>> events,
-                                 WatchEvent.Modifier... modifiers);
+    bbstrbdt Objfdt implRfgistfr(Pbti pbti,
+                                 Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts,
+                                 WbtdiEvfnt.Modififr... modififrs);
 
     /**
-     * Executed by poller thread to cancel key
+     * Exfdutfd by pollfr tirfbd to dbndfl kfy
      */
-    abstract void implCancelKey(WatchKey key);
+    bbstrbdt void implCbndflKfy(WbtdiKfy kfy);
 
     /**
-     * Executed by poller thread to shutdown and cancel all keys
+     * Exfdutfd by pollfr tirfbd to siutdown bnd dbndfl bll kfys
      */
-    abstract void implCloseAll();
+    bbstrbdt void implClosfAll();
 
     /**
-     * Requests, and waits on, poller thread to register given file.
+     * Rfqufsts, bnd wbits on, pollfr tirfbd to rfgistfr givfn filf.
      */
-    final WatchKey register(Path dir,
-                            WatchEvent.Kind<?>[] events,
-                            WatchEvent.Modifier... modifiers)
-        throws IOException
+    finbl WbtdiKfy rfgistfr(Pbti dir,
+                            WbtdiEvfnt.Kind<?>[] fvfnts,
+                            WbtdiEvfnt.Modififr... modififrs)
+        tirows IOExdfption
     {
-        // validate arguments before request to poller
+        // vblidbtf brgumfnts bfforf rfqufst to pollfr
         if (dir == null)
-            throw new NullPointerException();
-        Set<WatchEvent.Kind<?>> eventSet = new HashSet<>(events.length);
-        for (WatchEvent.Kind<?> event: events) {
-            // standard events
-            if (event == StandardWatchEventKinds.ENTRY_CREATE ||
-                event == StandardWatchEventKinds.ENTRY_MODIFY ||
-                event == StandardWatchEventKinds.ENTRY_DELETE)
+            tirow nfw NullPointfrExdfption();
+        Sft<WbtdiEvfnt.Kind<?>> fvfntSft = nfw HbsiSft<>(fvfnts.lfngti);
+        for (WbtdiEvfnt.Kind<?> fvfnt: fvfnts) {
+            // stbndbrd fvfnts
+            if (fvfnt == StbndbrdWbtdiEvfntKinds.ENTRY_CREATE ||
+                fvfnt == StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY ||
+                fvfnt == StbndbrdWbtdiEvfntKinds.ENTRY_DELETE)
             {
-                eventSet.add(event);
-                continue;
+                fvfntSft.bdd(fvfnt);
+                dontinuf;
             }
 
-            // OVERFLOW is ignored
-            if (event == StandardWatchEventKinds.OVERFLOW)
-                continue;
+            // OVERFLOW is ignorfd
+            if (fvfnt == StbndbrdWbtdiEvfntKinds.OVERFLOW)
+                dontinuf;
 
-            // null/unsupported
-            if (event == null)
-                throw new NullPointerException("An element in event set is 'null'");
-            throw new UnsupportedOperationException(event.name());
+            // null/unsupportfd
+            if (fvfnt == null)
+                tirow nfw NullPointfrExdfption("An flfmfnt in fvfnt sft is 'null'");
+            tirow nfw UnsupportfdOpfrbtionExdfption(fvfnt.nbmf());
         }
-        if (eventSet.isEmpty())
-            throw new IllegalArgumentException("No events to register");
-        return (WatchKey)invoke(RequestType.REGISTER, dir, eventSet, modifiers);
+        if (fvfntSft.isEmpty())
+            tirow nfw IllfgblArgumfntExdfption("No fvfnts to rfgistfr");
+        rfturn (WbtdiKfy)invokf(RfqufstTypf.REGISTER, dir, fvfntSft, modififrs);
     }
 
     /**
-     * Cancels, and waits on, poller thread to cancel given key.
+     * Cbndfls, bnd wbits on, pollfr tirfbd to dbndfl givfn kfy.
      */
-    final void cancel(WatchKey key) {
+    finbl void dbndfl(WbtdiKfy kfy) {
         try {
-            invoke(RequestType.CANCEL, key);
-        } catch (IOException x) {
-            // should not happen
-            throw new AssertionError(x.getMessage());
+            invokf(RfqufstTypf.CANCEL, kfy);
+        } dbtdi (IOExdfption x) {
+            // siould not ibppfn
+            tirow nfw AssfrtionError(x.gftMfssbgf());
         }
     }
 
     /**
-     * Shutdown poller thread
+     * Siutdown pollfr tirfbd
      */
-    final void close() throws IOException {
-        invoke(RequestType.CLOSE);
+    finbl void dlosf() tirows IOExdfption {
+        invokf(RfqufstTypf.CLOSE);
     }
 
     /**
-     * Types of request that the poller thread must handle
+     * Typfs of rfqufst tibt tif pollfr tirfbd must ibndlf
      */
-    private static enum RequestType {
+    privbtf stbtid fnum RfqufstTypf {
         REGISTER,
         CANCEL,
         CLOSE;
     }
 
     /**
-     * Encapsulates a request (command) to the poller thread.
+     * Endbpsulbtfs b rfqufst (dommbnd) to tif pollfr tirfbd.
      */
-    private static class Request {
-        private final RequestType type;
-        private final Object[] params;
+    privbtf stbtid dlbss Rfqufst {
+        privbtf finbl RfqufstTypf typf;
+        privbtf finbl Objfdt[] pbrbms;
 
-        private boolean completed = false;
-        private Object result = null;
+        privbtf boolfbn domplftfd = fblsf;
+        privbtf Objfdt rfsult = null;
 
-        Request(RequestType type, Object... params) {
-            this.type = type;
-            this.params = params;
+        Rfqufst(RfqufstTypf typf, Objfdt... pbrbms) {
+            tiis.typf = typf;
+            tiis.pbrbms = pbrbms;
         }
 
-        RequestType type() {
-            return type;
+        RfqufstTypf typf() {
+            rfturn typf;
         }
 
-        Object[] parameters() {
-            return params;
+        Objfdt[] pbrbmftfrs() {
+            rfturn pbrbms;
         }
 
-        void release(Object result) {
-            synchronized (this) {
-                this.completed = true;
-                this.result = result;
+        void rflfbsf(Objfdt rfsult) {
+            syndironizfd (tiis) {
+                tiis.domplftfd = truf;
+                tiis.rfsult = rfsult;
                 notifyAll();
             }
         }
 
         /**
-         * Await completion of the request. The return value is the result of
-         * the request.
+         * Awbit domplftion of tif rfqufst. Tif rfturn vbluf is tif rfsult of
+         * tif rfqufst.
          */
-        Object awaitResult() {
-            boolean interrupted = false;
-            synchronized (this) {
-                while (!completed) {
+        Objfdt bwbitRfsult() {
+            boolfbn intfrruptfd = fblsf;
+            syndironizfd (tiis) {
+                wiilf (!domplftfd) {
                     try {
-                        wait();
-                    } catch (InterruptedException x) {
-                        interrupted = true;
+                        wbit();
+                    } dbtdi (IntfrruptfdExdfption x) {
+                        intfrruptfd = truf;
                     }
                 }
-                if (interrupted)
-                    Thread.currentThread().interrupt();
-                return result;
+                if (intfrruptfd)
+                    Tirfbd.durrfntTirfbd().intfrrupt();
+                rfturn rfsult;
             }
         }
     }
 
     /**
-     * Enqueues request to poller thread and waits for result
+     * Enqufufs rfqufst to pollfr tirfbd bnd wbits for rfsult
      */
-    private Object invoke(RequestType type, Object... params) throws IOException {
-        // submit request
-        Request req = new Request(type, params);
-        synchronized (requestList) {
-            if (shutdown) {
-                throw new ClosedWatchServiceException();
+    privbtf Objfdt invokf(RfqufstTypf typf, Objfdt... pbrbms) tirows IOExdfption {
+        // submit rfqufst
+        Rfqufst rfq = nfw Rfqufst(typf, pbrbms);
+        syndironizfd (rfqufstList) {
+            if (siutdown) {
+                tirow nfw ClosfdWbtdiSfrvidfExdfption();
             }
-            requestList.add(req);
+            rfqufstList.bdd(rfq);
         }
 
-        // wakeup thread
-        wakeup();
+        // wbkfup tirfbd
+        wbkfup();
 
-        // wait for result
-        Object result = req.awaitResult();
+        // wbit for rfsult
+        Objfdt rfsult = rfq.bwbitRfsult();
 
-        if (result instanceof RuntimeException)
-            throw (RuntimeException)result;
-        if (result instanceof IOException )
-            throw (IOException)result;
-        return result;
+        if (rfsult instbndfof RuntimfExdfption)
+            tirow (RuntimfExdfption)rfsult;
+        if (rfsult instbndfof IOExdfption )
+            tirow (IOExdfption)rfsult;
+        rfturn rfsult;
     }
 
     /**
-     * Invoked by poller thread to process all pending requests
+     * Invokfd by pollfr tirfbd to prodfss bll pfnding rfqufsts
      *
-     * @return  true if poller thread should shutdown
+     * @rfturn  truf if pollfr tirfbd siould siutdown
      */
-    @SuppressWarnings("unchecked")
-    boolean processRequests() {
-        synchronized (requestList) {
-            Request req;
-            while ((req = requestList.poll()) != null) {
-                // if in process of shutdown then reject request
-                if (shutdown) {
-                    req.release(new ClosedWatchServiceException());
+    @SupprfssWbrnings("undifdkfd")
+    boolfbn prodfssRfqufsts() {
+        syndironizfd (rfqufstList) {
+            Rfqufst rfq;
+            wiilf ((rfq = rfqufstList.poll()) != null) {
+                // if in prodfss of siutdown tifn rfjfdt rfqufst
+                if (siutdown) {
+                    rfq.rflfbsf(nfw ClosfdWbtdiSfrvidfExdfption());
                 }
 
-                switch (req.type()) {
+                switdi (rfq.typf()) {
                     /**
-                     * Register directory
+                     * Rfgistfr dirfdtory
                      */
-                    case REGISTER: {
-                        Object[] params = req.parameters();
-                        Path path = (Path)params[0];
-                        Set<? extends WatchEvent.Kind<?>> events =
-                            (Set<? extends WatchEvent.Kind<?>>)params[1];
-                        WatchEvent.Modifier[] modifiers =
-                            (WatchEvent.Modifier[])params[2];
-                        req.release(implRegister(path, events, modifiers));
-                        break;
+                    dbsf REGISTER: {
+                        Objfdt[] pbrbms = rfq.pbrbmftfrs();
+                        Pbti pbti = (Pbti)pbrbms[0];
+                        Sft<? fxtfnds WbtdiEvfnt.Kind<?>> fvfnts =
+                            (Sft<? fxtfnds WbtdiEvfnt.Kind<?>>)pbrbms[1];
+                        WbtdiEvfnt.Modififr[] modififrs =
+                            (WbtdiEvfnt.Modififr[])pbrbms[2];
+                        rfq.rflfbsf(implRfgistfr(pbti, fvfnts, modififrs));
+                        brfbk;
                     }
                     /**
-                     * Cancel existing key
+                     * Cbndfl fxisting kfy
                      */
-                    case CANCEL : {
-                        Object[] params = req.parameters();
-                        WatchKey key = (WatchKey)params[0];
-                        implCancelKey(key);
-                        req.release(null);
-                        break;
+                    dbsf CANCEL : {
+                        Objfdt[] pbrbms = rfq.pbrbmftfrs();
+                        WbtdiKfy kfy = (WbtdiKfy)pbrbms[0];
+                        implCbndflKfy(kfy);
+                        rfq.rflfbsf(null);
+                        brfbk;
                     }
                     /**
-                     * Close watch service
+                     * Closf wbtdi sfrvidf
                      */
-                    case CLOSE: {
-                        implCloseAll();
-                        req.release(null);
-                        shutdown = true;
-                        break;
+                    dbsf CLOSE: {
+                        implClosfAll();
+                        rfq.rflfbsf(null);
+                        siutdown = truf;
+                        brfbk;
                     }
 
-                    default:
-                        req.release(new IOException("request not recognized"));
+                    dffbult:
+                        rfq.rflfbsf(nfw IOExdfption("rfqufst not rfdognizfd"));
                 }
             }
         }
-        return shutdown;
+        rfturn siutdown;
     }
 }

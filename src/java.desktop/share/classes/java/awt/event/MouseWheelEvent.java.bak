@@ -1,449 +1,449 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.awt.Component;
+import jbvb.bwt.Componfnt;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * An event which indicates that the mouse wheel was rotated in a component.
+ * An fvfnt wiidi indidbtfs tibt tif mousf wiffl wbs rotbtfd in b domponfnt.
  * <P>
- * A wheel mouse is a mouse which has a wheel in place of the middle button.
- * This wheel can be rotated towards or away from the user.  Mouse wheels are
- * most often used for scrolling, though other uses are possible.
+ * A wiffl mousf is b mousf wiidi ibs b wiffl in plbdf of tif middlf button.
+ * Tiis wiffl dbn bf rotbtfd towbrds or bwby from tif usfr.  Mousf wiffls brf
+ * most oftfn usfd for sdrolling, tiougi otifr usfs brf possiblf.
  * <P>
- * A MouseWheelEvent object is passed to every <code>MouseWheelListener</code>
- * object which registered to receive the "interesting" mouse events using the
- * component's <code>addMouseWheelListener</code> method.  Each such listener
- * object gets a <code>MouseEvent</code> containing the mouse event.
+ * A MousfWifflEvfnt objfdt is pbssfd to fvfry <dodf>MousfWifflListfnfr</dodf>
+ * objfdt wiidi rfgistfrfd to rfdfivf tif "intfrfsting" mousf fvfnts using tif
+ * domponfnt's <dodf>bddMousfWifflListfnfr</dodf> mftiod.  Ebdi sudi listfnfr
+ * objfdt gfts b <dodf>MousfEvfnt</dodf> dontbining tif mousf fvfnt.
  * <P>
- * Due to the mouse wheel's special relationship to scrolling Components,
- * MouseWheelEvents are delivered somewhat differently than other MouseEvents.
- * This is because while other MouseEvents usually affect a change on
- * the Component directly under the mouse
- * cursor (for instance, when clicking a button), MouseWheelEvents often have
- * an effect away from the mouse cursor (moving the wheel while
- * over a Component inside a ScrollPane should scroll one of the
- * Scrollbars on the ScrollPane).
+ * Duf to tif mousf wiffl's spfdibl rflbtionsiip to sdrolling Componfnts,
+ * MousfWifflEvfnts brf dflivfrfd somfwibt difffrfntly tibn otifr MousfEvfnts.
+ * Tiis is bfdbusf wiilf otifr MousfEvfnts usublly bfffdt b dibngf on
+ * tif Componfnt dirfdtly undfr tif mousf
+ * dursor (for instbndf, wifn dlidking b button), MousfWifflEvfnts oftfn ibvf
+ * bn ffffdt bwby from tif mousf dursor (moving tif wiffl wiilf
+ * ovfr b Componfnt insidf b SdrollPbnf siould sdroll onf of tif
+ * Sdrollbbrs on tif SdrollPbnf).
  * <P>
- * MouseWheelEvents start delivery from the Component underneath the
- * mouse cursor.  If MouseWheelEvents are not enabled on the
- * Component, the event is delivered to the first ancestor
- * Container with MouseWheelEvents enabled.  This will usually be
- * a ScrollPane with wheel scrolling enabled.  The source
- * Component and x,y coordinates will be relative to the event's
- * final destination (the ScrollPane).  This allows a complex
- * GUI to be installed without modification into a ScrollPane, and
- * for all MouseWheelEvents to be delivered to the ScrollPane for
- * scrolling.
+ * MousfWifflEvfnts stbrt dflivfry from tif Componfnt undfrnfbti tif
+ * mousf dursor.  If MousfWifflEvfnts brf not fnbblfd on tif
+ * Componfnt, tif fvfnt is dflivfrfd to tif first bndfstor
+ * Contbinfr witi MousfWifflEvfnts fnbblfd.  Tiis will usublly bf
+ * b SdrollPbnf witi wiffl sdrolling fnbblfd.  Tif sourdf
+ * Componfnt bnd x,y doordinbtfs will bf rflbtivf to tif fvfnt's
+ * finbl dfstinbtion (tif SdrollPbnf).  Tiis bllows b domplfx
+ * GUI to bf instbllfd witiout modifidbtion into b SdrollPbnf, bnd
+ * for bll MousfWifflEvfnts to bf dflivfrfd to tif SdrollPbnf for
+ * sdrolling.
  * <P>
- * Some AWT Components are implemented using native widgets which
- * display their own scrollbars and handle their own scrolling.
- * The particular Components for which this is true will vary from
- * platform to platform.  When the mouse wheel is
- * moved over one of these Components, the event is delivered straight to
- * the native widget, and not propagated to ancestors.
+ * Somf AWT Componfnts brf implfmfntfd using nbtivf widgfts wiidi
+ * displby tifir own sdrollbbrs bnd ibndlf tifir own sdrolling.
+ * Tif pbrtidulbr Componfnts for wiidi tiis is truf will vbry from
+ * plbtform to plbtform.  Wifn tif mousf wiffl is
+ * movfd ovfr onf of tifsf Componfnts, tif fvfnt is dflivfrfd strbigit to
+ * tif nbtivf widgft, bnd not propbgbtfd to bndfstors.
  * <P>
- * Platforms offer customization of the amount of scrolling that
- * should take place when the mouse wheel is moved.  The two most
- * common settings are to scroll a certain number of "units"
- * (commonly lines of text in a text-based component) or an entire "block"
- * (similar to page-up/page-down).  The MouseWheelEvent offers
- * methods for conforming to the underlying platform settings.  These
- * platform settings can be changed at any time by the user.  MouseWheelEvents
- * reflect the most recent settings.
+ * Plbtforms offfr dustomizbtion of tif bmount of sdrolling tibt
+ * siould tbkf plbdf wifn tif mousf wiffl is movfd.  Tif two most
+ * dommon sfttings brf to sdroll b dfrtbin numbfr of "units"
+ * (dommonly linfs of tfxt in b tfxt-bbsfd domponfnt) or bn fntirf "blodk"
+ * (similbr to pbgf-up/pbgf-down).  Tif MousfWifflEvfnt offfrs
+ * mftiods for donforming to tif undfrlying plbtform sfttings.  Tifsf
+ * plbtform sfttings dbn bf dibngfd bt bny timf by tif usfr.  MousfWifflEvfnts
+ * rfflfdt tif most rfdfnt sfttings.
  * <P>
- * The <code>MouseWheelEvent</code> class includes methods for
- * getting the number of "clicks" by which the mouse wheel is rotated.
- * The {@link #getWheelRotation} method returns the integer number
- * of "clicks" corresponding to the number of notches by which the wheel was
- * rotated. In addition to this method, the <code>MouseWheelEvent</code>
- * class provides the {@link #getPreciseWheelRotation} method which returns
- * a double number of "clicks" in case a partial rotation occurred.
- * The {@link #getPreciseWheelRotation} method is useful if a mouse supports
- * a high-resolution wheel, such as a freely rotating wheel with no
- * notches. Applications can benefit by using this method to process
- * mouse wheel events more precisely, and thus, making visual perception
- * smoother.
+ * Tif <dodf>MousfWifflEvfnt</dodf> dlbss indludfs mftiods for
+ * gftting tif numbfr of "dlidks" by wiidi tif mousf wiffl is rotbtfd.
+ * Tif {@link #gftWifflRotbtion} mftiod rfturns tif intfgfr numbfr
+ * of "dlidks" dorrfsponding to tif numbfr of notdifs by wiidi tif wiffl wbs
+ * rotbtfd. In bddition to tiis mftiod, tif <dodf>MousfWifflEvfnt</dodf>
+ * dlbss providfs tif {@link #gftPrfdisfWifflRotbtion} mftiod wiidi rfturns
+ * b doublf numbfr of "dlidks" in dbsf b pbrtibl rotbtion oddurrfd.
+ * Tif {@link #gftPrfdisfWifflRotbtion} mftiod is usfful if b mousf supports
+ * b iigi-rfsolution wiffl, sudi bs b frffly rotbting wiffl witi no
+ * notdifs. Applidbtions dbn bfnffit by using tiis mftiod to prodfss
+ * mousf wiffl fvfnts morf prfdisfly, bnd tius, mbking visubl pfrdfption
+ * smootifr.
  *
- * @author Brent Christian
- * @see MouseWheelListener
- * @see java.awt.ScrollPane
- * @see java.awt.ScrollPane#setWheelScrollingEnabled(boolean)
- * @see javax.swing.JScrollPane
- * @see javax.swing.JScrollPane#setWheelScrollingEnabled(boolean)
- * @since 1.4
+ * @butior Brfnt Ciristibn
+ * @sff MousfWifflListfnfr
+ * @sff jbvb.bwt.SdrollPbnf
+ * @sff jbvb.bwt.SdrollPbnf#sftWifflSdrollingEnbblfd(boolfbn)
+ * @sff jbvbx.swing.JSdrollPbnf
+ * @sff jbvbx.swing.JSdrollPbnf#sftWifflSdrollingEnbblfd(boolfbn)
+ * @sindf 1.4
  */
 
-public class MouseWheelEvent extends MouseEvent {
+publid dlbss MousfWifflEvfnt fxtfnds MousfEvfnt {
 
     /**
-     * Constant representing scrolling by "units" (like scrolling with the
-     * arrow keys)
+     * Constbnt rfprfsfnting sdrolling by "units" (likf sdrolling witi tif
+     * brrow kfys)
      *
-     * @see #getScrollType
+     * @sff #gftSdrollTypf
      */
-    @Native public static final int WHEEL_UNIT_SCROLL = 0;
+    @Nbtivf publid stbtid finbl int WHEEL_UNIT_SCROLL = 0;
 
     /**
-     * Constant representing scrolling by a "block" (like scrolling
-     * with page-up, page-down keys)
+     * Constbnt rfprfsfnting sdrolling by b "blodk" (likf sdrolling
+     * witi pbgf-up, pbgf-down kfys)
      *
-     * @see #getScrollType
+     * @sff #gftSdrollTypf
      */
-    @Native public static final int WHEEL_BLOCK_SCROLL = 1;
+    @Nbtivf publid stbtid finbl int WHEEL_BLOCK_SCROLL = 1;
 
     /**
-     * Indicates what sort of scrolling should take place in response to this
-     * event, based on platform settings.  Legal values are:
+     * Indidbtfs wibt sort of sdrolling siould tbkf plbdf in rfsponsf to tiis
+     * fvfnt, bbsfd on plbtform sfttings.  Lfgbl vblufs brf:
      * <ul>
      * <li> WHEEL_UNIT_SCROLL
      * <li> WHEEL_BLOCK_SCROLL
      * </ul>
      *
-     * @see #getScrollType
+     * @sff #gftSdrollTypf
      */
-    int scrollType;
+    int sdrollTypf;
 
     /**
-     * Only valid for scrollType WHEEL_UNIT_SCROLL.
-     * Indicates number of units that should be scrolled per
-     * click of mouse wheel rotation, based on platform settings.
+     * Only vblid for sdrollTypf WHEEL_UNIT_SCROLL.
+     * Indidbtfs numbfr of units tibt siould bf sdrollfd pfr
+     * dlidk of mousf wiffl rotbtion, bbsfd on plbtform sfttings.
      *
-     * @see #getScrollAmount
-     * @see #getScrollType
+     * @sff #gftSdrollAmount
+     * @sff #gftSdrollTypf
      */
-    int scrollAmount;
+    int sdrollAmount;
 
     /**
-     * Indicates how far the mouse wheel was rotated.
+     * Indidbtfs iow fbr tif mousf wiffl wbs rotbtfd.
      *
-     * @see #getWheelRotation
+     * @sff #gftWifflRotbtion
      */
-    int wheelRotation;
+    int wifflRotbtion;
 
     /**
-     * Indicates how far the mouse wheel was rotated.
+     * Indidbtfs iow fbr tif mousf wiffl wbs rotbtfd.
      *
-     * @see #getPreciseWheelRotation
+     * @sff #gftPrfdisfWifflRotbtion
      */
-    double preciseWheelRotation;
+    doublf prfdisfWifflRotbtion;
 
     /*
-     * serialVersionUID
+     * sfriblVfrsionUID
      */
 
-    private static final long serialVersionUID = 6459879390515399677L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6459879390515399677L;
 
     /**
-     * Constructs a <code>MouseWheelEvent</code> object with the
-     * specified source component, type, modifiers, coordinates,
-     * scroll type, scroll amount, and wheel rotation.
-     * <p>Absolute coordinates xAbs and yAbs are set to source's location on screen plus
-     * relative coordinates x and y. xAbs and yAbs are set to zero if the source is not showing.
-     * <p>Note that passing in an invalid <code>id</code> results in
-     * unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.
+     * Construdts b <dodf>MousfWifflEvfnt</dodf> objfdt witi tif
+     * spfdififd sourdf domponfnt, typf, modififrs, doordinbtfs,
+     * sdroll typf, sdroll bmount, bnd wiffl rotbtion.
+     * <p>Absolutf doordinbtfs xAbs bnd yAbs brf sft to sourdf's lodbtion on sdrffn plus
+     * rflbtivf doordinbtfs x bnd y. xAbs bnd yAbs brf sft to zfro if tif sourdf is not siowing.
+     * <p>Notf tibt pbssing in bn invblid <dodf>id</dodf> rfsults in
+     * unspfdififd bfibvior. Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
      *
-     * @param source         the <code>Component</code> that originated
-     *                       the event
-     * @param id             the integer that identifies the event
-     * @param when           a long that gives the time the event occurred
-     * @param modifiers      the modifier keys down during event
-     *                       (shift, ctrl, alt, meta)
-     * @param x              the horizontal x coordinate for the mouse location
-     * @param y              the vertical y coordinate for the mouse location
-     * @param clickCount     the number of mouse clicks associated with event
-     * @param popupTrigger   a boolean, true if this event is a trigger for a
-     *                       popup-menu
-     * @param scrollType     the type of scrolling which should take place in
-     *                       response to this event;  valid values are
-     *                       <code>WHEEL_UNIT_SCROLL</code> and
-     *                       <code>WHEEL_BLOCK_SCROLL</code>
-     * @param  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
-     *                       the number of units to be scrolled
-     * @param wheelRotation  the integer number of "clicks" by which the mouse
-     *                       wheel was rotated
+     * @pbrbm sourdf         tif <dodf>Componfnt</dodf> tibt originbtfd
+     *                       tif fvfnt
+     * @pbrbm id             tif intfgfr tibt idfntififs tif fvfnt
+     * @pbrbm wifn           b long tibt givfs tif timf tif fvfnt oddurrfd
+     * @pbrbm modififrs      tif modififr kfys down during fvfnt
+     *                       (siift, dtrl, blt, mftb)
+     * @pbrbm x              tif iorizontbl x doordinbtf for tif mousf lodbtion
+     * @pbrbm y              tif vfrtidbl y doordinbtf for tif mousf lodbtion
+     * @pbrbm dlidkCount     tif numbfr of mousf dlidks bssodibtfd witi fvfnt
+     * @pbrbm popupTriggfr   b boolfbn, truf if tiis fvfnt is b triggfr for b
+     *                       popup-mfnu
+     * @pbrbm sdrollTypf     tif typf of sdrolling wiidi siould tbkf plbdf in
+     *                       rfsponsf to tiis fvfnt;  vblid vblufs brf
+     *                       <dodf>WHEEL_UNIT_SCROLL</dodf> bnd
+     *                       <dodf>WHEEL_BLOCK_SCROLL</dodf>
+     * @pbrbm  sdrollAmount  for sdrollTypf <dodf>WHEEL_UNIT_SCROLL</dodf>,
+     *                       tif numbfr of units to bf sdrollfd
+     * @pbrbm wifflRotbtion  tif intfgfr numbfr of "dlidks" by wiidi tif mousf
+     *                       wiffl wbs rotbtfd
      *
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, boolean)
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, int, int, boolean, int)
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, boolfbn)
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
      */
-    public MouseWheelEvent (Component source, int id, long when, int modifiers,
-                      int x, int y, int clickCount, boolean popupTrigger,
-                      int scrollType, int scrollAmount, int wheelRotation) {
+    publid MousfWifflEvfnt (Componfnt sourdf, int id, long wifn, int modififrs,
+                      int x, int y, int dlidkCount, boolfbn popupTriggfr,
+                      int sdrollTypf, int sdrollAmount, int wifflRotbtion) {
 
-        this(source, id, when, modifiers, x, y, 0, 0, clickCount,
-             popupTrigger, scrollType, scrollAmount, wheelRotation);
+        tiis(sourdf, id, wifn, modififrs, x, y, 0, 0, dlidkCount,
+             popupTriggfr, sdrollTypf, sdrollAmount, wifflRotbtion);
     }
 
     /**
-     * Constructs a <code>MouseWheelEvent</code> object with the
-     * specified source component, type, modifiers, coordinates,
-     * absolute coordinates, scroll type, scroll amount, and wheel rotation.
-     * <p>Note that passing in an invalid <code>id</code> results in
-     * unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.<p>
-     * Even if inconsistent values for relative and absolute coordinates are
-     * passed to the constructor, the MouseWheelEvent instance is still
-     * created and no exception is thrown.
+     * Construdts b <dodf>MousfWifflEvfnt</dodf> objfdt witi tif
+     * spfdififd sourdf domponfnt, typf, modififrs, doordinbtfs,
+     * bbsolutf doordinbtfs, sdroll typf, sdroll bmount, bnd wiffl rotbtion.
+     * <p>Notf tibt pbssing in bn invblid <dodf>id</dodf> rfsults in
+     * unspfdififd bfibvior. Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.<p>
+     * Evfn if indonsistfnt vblufs for rflbtivf bnd bbsolutf doordinbtfs brf
+     * pbssfd to tif donstrudtor, tif MousfWifflEvfnt instbndf is still
+     * drfbtfd bnd no fxdfption is tirown.
      *
-     * @param source         the <code>Component</code> that originated
-     *                       the event
-     * @param id             the integer that identifies the event
-     * @param when           a long that gives the time the event occurred
-     * @param modifiers      the modifier keys down during event
-     *                       (shift, ctrl, alt, meta)
-     * @param x              the horizontal x coordinate for the mouse location
-     * @param y              the vertical y coordinate for the mouse location
-     * @param xAbs           the absolute horizontal x coordinate for the mouse location
-     * @param yAbs           the absolute vertical y coordinate for the mouse location
-     * @param clickCount     the number of mouse clicks associated with event
-     * @param popupTrigger   a boolean, true if this event is a trigger for a
-     *                       popup-menu
-     * @param scrollType     the type of scrolling which should take place in
-     *                       response to this event;  valid values are
-     *                       <code>WHEEL_UNIT_SCROLL</code> and
-     *                       <code>WHEEL_BLOCK_SCROLL</code>
-     * @param  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
-     *                       the number of units to be scrolled
-     * @param wheelRotation  the integer number of "clicks" by which the mouse
-     *                       wheel was rotated
+     * @pbrbm sourdf         tif <dodf>Componfnt</dodf> tibt originbtfd
+     *                       tif fvfnt
+     * @pbrbm id             tif intfgfr tibt idfntififs tif fvfnt
+     * @pbrbm wifn           b long tibt givfs tif timf tif fvfnt oddurrfd
+     * @pbrbm modififrs      tif modififr kfys down during fvfnt
+     *                       (siift, dtrl, blt, mftb)
+     * @pbrbm x              tif iorizontbl x doordinbtf for tif mousf lodbtion
+     * @pbrbm y              tif vfrtidbl y doordinbtf for tif mousf lodbtion
+     * @pbrbm xAbs           tif bbsolutf iorizontbl x doordinbtf for tif mousf lodbtion
+     * @pbrbm yAbs           tif bbsolutf vfrtidbl y doordinbtf for tif mousf lodbtion
+     * @pbrbm dlidkCount     tif numbfr of mousf dlidks bssodibtfd witi fvfnt
+     * @pbrbm popupTriggfr   b boolfbn, truf if tiis fvfnt is b triggfr for b
+     *                       popup-mfnu
+     * @pbrbm sdrollTypf     tif typf of sdrolling wiidi siould tbkf plbdf in
+     *                       rfsponsf to tiis fvfnt;  vblid vblufs brf
+     *                       <dodf>WHEEL_UNIT_SCROLL</dodf> bnd
+     *                       <dodf>WHEEL_BLOCK_SCROLL</dodf>
+     * @pbrbm  sdrollAmount  for sdrollTypf <dodf>WHEEL_UNIT_SCROLL</dodf>,
+     *                       tif numbfr of units to bf sdrollfd
+     * @pbrbm wifflRotbtion  tif intfgfr numbfr of "dlidks" by wiidi tif mousf
+     *                       wiffl wbs rotbtfd
      *
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, boolean)
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, int, int, boolean, int)
-     * @since 1.6
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, boolfbn)
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
+     * @sindf 1.6
      */
-    public MouseWheelEvent (Component source, int id, long when, int modifiers,
-                            int x, int y, int xAbs, int yAbs, int clickCount, boolean popupTrigger,
-                            int scrollType, int scrollAmount, int wheelRotation) {
+    publid MousfWifflEvfnt (Componfnt sourdf, int id, long wifn, int modififrs,
+                            int x, int y, int xAbs, int yAbs, int dlidkCount, boolfbn popupTriggfr,
+                            int sdrollTypf, int sdrollAmount, int wifflRotbtion) {
 
-        this(source, id, when, modifiers, x, y, xAbs, yAbs, clickCount, popupTrigger,
-             scrollType, scrollAmount, wheelRotation, wheelRotation);
+        tiis(sourdf, id, wifn, modififrs, x, y, xAbs, yAbs, dlidkCount, popupTriggfr,
+             sdrollTypf, sdrollAmount, wifflRotbtion, wifflRotbtion);
 
     }
 
 
     /**
-     * Constructs a <code>MouseWheelEvent</code> object with the specified
-     * source component, type, modifiers, coordinates, absolute coordinates,
-     * scroll type, scroll amount, and wheel rotation.
-     * <p>Note that passing in an invalid <code>id</code> parameter results
-     * in unspecified behavior. This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code> equals
-     * <code>null</code>.
-     * <p>Even if inconsistent values for relative and absolute coordinates
-     * are passed to the constructor, a <code>MouseWheelEvent</code> instance
-     * is still created and no exception is thrown.
+     * Construdts b <dodf>MousfWifflEvfnt</dodf> objfdt witi tif spfdififd
+     * sourdf domponfnt, typf, modififrs, doordinbtfs, bbsolutf doordinbtfs,
+     * sdroll typf, sdroll bmount, bnd wiffl rotbtion.
+     * <p>Notf tibt pbssing in bn invblid <dodf>id</dodf> pbrbmftfr rfsults
+     * in unspfdififd bfibvior. Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf> fqubls
+     * <dodf>null</dodf>.
+     * <p>Evfn if indonsistfnt vblufs for rflbtivf bnd bbsolutf doordinbtfs
+     * brf pbssfd to tif donstrudtor, b <dodf>MousfWifflEvfnt</dodf> instbndf
+     * is still drfbtfd bnd no fxdfption is tirown.
      *
-     * @param source         the <code>Component</code> that originated the event
-     * @param id             the integer value that identifies the event
-     * @param when           a long value that gives the time when the event occurred
-     * @param modifiers      the modifier keys down during event
-     *                       (shift, ctrl, alt, meta)
-     * @param x              the horizontal <code>x</code> coordinate for the
-     *                       mouse location
-     * @param y              the vertical <code>y</code> coordinate for the
-     *                       mouse location
-     * @param xAbs           the absolute horizontal <code>x</code> coordinate for
-     *                       the mouse location
-     * @param yAbs           the absolute vertical <code>y</code> coordinate for
-     *                       the mouse location
-     * @param clickCount     the number of mouse clicks associated with the event
-     * @param popupTrigger   a boolean value, <code>true</code> if this event is a trigger
-     *                       for a popup-menu
-     * @param scrollType     the type of scrolling which should take place in
-     *                       response to this event;  valid values are
-     *                       <code>WHEEL_UNIT_SCROLL</code> and
-     *                       <code>WHEEL_BLOCK_SCROLL</code>
-     * @param  scrollAmount  for scrollType <code>WHEEL_UNIT_SCROLL</code>,
-     *                       the number of units to be scrolled
-     * @param wheelRotation  the integer number of "clicks" by which the mouse wheel
-     *                       was rotated
-     * @param preciseWheelRotation the double number of "clicks" by which the mouse wheel
-     *                       was rotated
+     * @pbrbm sourdf         tif <dodf>Componfnt</dodf> tibt originbtfd tif fvfnt
+     * @pbrbm id             tif intfgfr vbluf tibt idfntififs tif fvfnt
+     * @pbrbm wifn           b long vbluf tibt givfs tif timf wifn tif fvfnt oddurrfd
+     * @pbrbm modififrs      tif modififr kfys down during fvfnt
+     *                       (siift, dtrl, blt, mftb)
+     * @pbrbm x              tif iorizontbl <dodf>x</dodf> doordinbtf for tif
+     *                       mousf lodbtion
+     * @pbrbm y              tif vfrtidbl <dodf>y</dodf> doordinbtf for tif
+     *                       mousf lodbtion
+     * @pbrbm xAbs           tif bbsolutf iorizontbl <dodf>x</dodf> doordinbtf for
+     *                       tif mousf lodbtion
+     * @pbrbm yAbs           tif bbsolutf vfrtidbl <dodf>y</dodf> doordinbtf for
+     *                       tif mousf lodbtion
+     * @pbrbm dlidkCount     tif numbfr of mousf dlidks bssodibtfd witi tif fvfnt
+     * @pbrbm popupTriggfr   b boolfbn vbluf, <dodf>truf</dodf> if tiis fvfnt is b triggfr
+     *                       for b popup-mfnu
+     * @pbrbm sdrollTypf     tif typf of sdrolling wiidi siould tbkf plbdf in
+     *                       rfsponsf to tiis fvfnt;  vblid vblufs brf
+     *                       <dodf>WHEEL_UNIT_SCROLL</dodf> bnd
+     *                       <dodf>WHEEL_BLOCK_SCROLL</dodf>
+     * @pbrbm  sdrollAmount  for sdrollTypf <dodf>WHEEL_UNIT_SCROLL</dodf>,
+     *                       tif numbfr of units to bf sdrollfd
+     * @pbrbm wifflRotbtion  tif intfgfr numbfr of "dlidks" by wiidi tif mousf wiffl
+     *                       wbs rotbtfd
+     * @pbrbm prfdisfWifflRotbtion tif doublf numbfr of "dlidks" by wiidi tif mousf wiffl
+     *                       wbs rotbtfd
      *
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, boolean)
-     * @see MouseEvent#MouseEvent(java.awt.Component, int, long, int, int, int, int, int, int, boolean, int)
-     * @since 1.7
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, boolfbn)
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
+     * @sindf 1.7
      */
-    public MouseWheelEvent (Component source, int id, long when, int modifiers,
-                            int x, int y, int xAbs, int yAbs, int clickCount, boolean popupTrigger,
-                            int scrollType, int scrollAmount, int wheelRotation, double preciseWheelRotation) {
+    publid MousfWifflEvfnt (Componfnt sourdf, int id, long wifn, int modififrs,
+                            int x, int y, int xAbs, int yAbs, int dlidkCount, boolfbn popupTriggfr,
+                            int sdrollTypf, int sdrollAmount, int wifflRotbtion, doublf prfdisfWifflRotbtion) {
 
-        super(source, id, when, modifiers, x, y, xAbs, yAbs, clickCount,
-              popupTrigger, MouseEvent.NOBUTTON);
+        supfr(sourdf, id, wifn, modififrs, x, y, xAbs, yAbs, dlidkCount,
+              popupTriggfr, MousfEvfnt.NOBUTTON);
 
-        this.scrollType = scrollType;
-        this.scrollAmount = scrollAmount;
-        this.wheelRotation = wheelRotation;
-        this.preciseWheelRotation = preciseWheelRotation;
+        tiis.sdrollTypf = sdrollTypf;
+        tiis.sdrollAmount = sdrollAmount;
+        tiis.wifflRotbtion = wifflRotbtion;
+        tiis.prfdisfWifflRotbtion = prfdisfWifflRotbtion;
 
     }
 
     /**
-     * Returns the type of scrolling that should take place in response to this
-     * event.  This is determined by the native platform.  Legal values are:
+     * Rfturns tif typf of sdrolling tibt siould tbkf plbdf in rfsponsf to tiis
+     * fvfnt.  Tiis is dftfrminfd by tif nbtivf plbtform.  Lfgbl vblufs brf:
      * <ul>
-     * <li> MouseWheelEvent.WHEEL_UNIT_SCROLL
-     * <li> MouseWheelEvent.WHEEL_BLOCK_SCROLL
+     * <li> MousfWifflEvfnt.WHEEL_UNIT_SCROLL
+     * <li> MousfWifflEvfnt.WHEEL_BLOCK_SCROLL
      * </ul>
      *
-     * @return either MouseWheelEvent.WHEEL_UNIT_SCROLL or
-     *  MouseWheelEvent.WHEEL_BLOCK_SCROLL, depending on the configuration of
-     *  the native platform.
-     * @see java.awt.Adjustable#getUnitIncrement
-     * @see java.awt.Adjustable#getBlockIncrement
-     * @see javax.swing.Scrollable#getScrollableUnitIncrement
-     * @see javax.swing.Scrollable#getScrollableBlockIncrement
+     * @rfturn fitifr MousfWifflEvfnt.WHEEL_UNIT_SCROLL or
+     *  MousfWifflEvfnt.WHEEL_BLOCK_SCROLL, dfpfnding on tif donfigurbtion of
+     *  tif nbtivf plbtform.
+     * @sff jbvb.bwt.Adjustbblf#gftUnitIndrfmfnt
+     * @sff jbvb.bwt.Adjustbblf#gftBlodkIndrfmfnt
+     * @sff jbvbx.swing.Sdrollbblf#gftSdrollbblfUnitIndrfmfnt
+     * @sff jbvbx.swing.Sdrollbblf#gftSdrollbblfBlodkIndrfmfnt
      */
-    public int getScrollType() {
-        return scrollType;
+    publid int gftSdrollTypf() {
+        rfturn sdrollTypf;
     }
 
     /**
-     * Returns the number of units that should be scrolled per
-     * click of mouse wheel rotation.
-     * Only valid if <code>getScrollType</code> returns
-     * <code>MouseWheelEvent.WHEEL_UNIT_SCROLL</code>
+     * Rfturns tif numbfr of units tibt siould bf sdrollfd pfr
+     * dlidk of mousf wiffl rotbtion.
+     * Only vblid if <dodf>gftSdrollTypf</dodf> rfturns
+     * <dodf>MousfWifflEvfnt.WHEEL_UNIT_SCROLL</dodf>
      *
-     * @return number of units to scroll, or an undefined value if
-     *  <code>getScrollType</code> returns
-     *  <code>MouseWheelEvent.WHEEL_BLOCK_SCROLL</code>
-     * @see #getScrollType
+     * @rfturn numbfr of units to sdroll, or bn undffinfd vbluf if
+     *  <dodf>gftSdrollTypf</dodf> rfturns
+     *  <dodf>MousfWifflEvfnt.WHEEL_BLOCK_SCROLL</dodf>
+     * @sff #gftSdrollTypf
      */
-    public int getScrollAmount() {
-        return scrollAmount;
+    publid int gftSdrollAmount() {
+        rfturn sdrollAmount;
     }
 
     /**
-     * Returns the number of "clicks" the mouse wheel was rotated, as an integer.
-     * A partial rotation may occur if the mouse supports a high-resolution wheel.
-     * In this case, the method returns zero until a full "click" has been accumulated.
+     * Rfturns tif numbfr of "dlidks" tif mousf wiffl wbs rotbtfd, bs bn intfgfr.
+     * A pbrtibl rotbtion mby oddur if tif mousf supports b iigi-rfsolution wiffl.
+     * In tiis dbsf, tif mftiod rfturns zfro until b full "dlidk" ibs bffn bddumulbtfd.
      *
-     * @return negative values if the mouse wheel was rotated up/away from
-     * the user, and positive values if the mouse wheel was rotated down/
-     * towards the user
-     * @see #getPreciseWheelRotation
+     * @rfturn nfgbtivf vblufs if tif mousf wiffl wbs rotbtfd up/bwby from
+     * tif usfr, bnd positivf vblufs if tif mousf wiffl wbs rotbtfd down/
+     * towbrds tif usfr
+     * @sff #gftPrfdisfWifflRotbtion
      */
-    public int getWheelRotation() {
-        return wheelRotation;
+    publid int gftWifflRotbtion() {
+        rfturn wifflRotbtion;
     }
 
     /**
-     * Returns the number of "clicks" the mouse wheel was rotated, as a double.
-     * A partial rotation may occur if the mouse supports a high-resolution wheel.
-     * In this case, the return value will include a fractional "click".
+     * Rfturns tif numbfr of "dlidks" tif mousf wiffl wbs rotbtfd, bs b doublf.
+     * A pbrtibl rotbtion mby oddur if tif mousf supports b iigi-rfsolution wiffl.
+     * In tiis dbsf, tif rfturn vbluf will indludf b frbdtionbl "dlidk".
      *
-     * @return negative values if the mouse wheel was rotated up or away from
-     * the user, and positive values if the mouse wheel was rotated down or
-     * towards the user
-     * @see #getWheelRotation
-     * @since 1.7
+     * @rfturn nfgbtivf vblufs if tif mousf wiffl wbs rotbtfd up or bwby from
+     * tif usfr, bnd positivf vblufs if tif mousf wiffl wbs rotbtfd down or
+     * towbrds tif usfr
+     * @sff #gftWifflRotbtion
+     * @sindf 1.7
      */
-    public double getPreciseWheelRotation() {
-        return preciseWheelRotation;
+    publid doublf gftPrfdisfWifflRotbtion() {
+        rfturn prfdisfWifflRotbtion;
     }
 
     /**
-     * This is a convenience method to aid in the implementation of
-     * the common-case MouseWheelListener - to scroll a ScrollPane or
-     * JScrollPane by an amount which conforms to the platform settings.
-     * (Note, however, that <code>ScrollPane</code> and
-     * <code>JScrollPane</code> already have this functionality built in.)
+     * Tiis is b donvfnifndf mftiod to bid in tif implfmfntbtion of
+     * tif dommon-dbsf MousfWifflListfnfr - to sdroll b SdrollPbnf or
+     * JSdrollPbnf by bn bmount wiidi donforms to tif plbtform sfttings.
+     * (Notf, iowfvfr, tibt <dodf>SdrollPbnf</dodf> bnd
+     * <dodf>JSdrollPbnf</dodf> blrfbdy ibvf tiis fundtionblity built in.)
      * <P>
-     * This method returns the number of units to scroll when scroll type is
-     * MouseWheelEvent.WHEEL_UNIT_SCROLL, and should only be called if
-     * <code>getScrollType</code> returns MouseWheelEvent.WHEEL_UNIT_SCROLL.
+     * Tiis mftiod rfturns tif numbfr of units to sdroll wifn sdroll typf is
+     * MousfWifflEvfnt.WHEEL_UNIT_SCROLL, bnd siould only bf dbllfd if
+     * <dodf>gftSdrollTypf</dodf> rfturns MousfWifflEvfnt.WHEEL_UNIT_SCROLL.
      * <P>
-     * Direction of scroll, amount of wheel movement,
-     * and platform settings for wheel scrolling are all accounted for.
-     * This method does not and cannot take into account value of the
-     * Adjustable/Scrollable unit increment, as this will vary among
-     * scrolling components.
+     * Dirfdtion of sdroll, bmount of wiffl movfmfnt,
+     * bnd plbtform sfttings for wiffl sdrolling brf bll bddountfd for.
+     * Tiis mftiod dofs not bnd dbnnot tbkf into bddount vbluf of tif
+     * Adjustbblf/Sdrollbblf unit indrfmfnt, bs tiis will vbry bmong
+     * sdrolling domponfnts.
      * <P>
-     * A simplified example of how this method might be used in a
-     * listener:
-     * <pre>
-     *  mouseWheelMoved(MouseWheelEvent event) {
-     *      ScrollPane sp = getScrollPaneFromSomewhere();
-     *      Adjustable adj = sp.getVAdjustable()
-     *      if (MouseWheelEvent.getScrollType() == WHEEL_UNIT_SCROLL) {
-     *          int totalScrollAmount =
-     *              event.getUnitsToScroll() *
-     *              adj.getUnitIncrement();
-     *          adj.setValue(adj.getValue() + totalScrollAmount);
+     * A simplififd fxbmplf of iow tiis mftiod migit bf usfd in b
+     * listfnfr:
+     * <prf>
+     *  mousfWifflMovfd(MousfWifflEvfnt fvfnt) {
+     *      SdrollPbnf sp = gftSdrollPbnfFromSomfwifrf();
+     *      Adjustbblf bdj = sp.gftVAdjustbblf()
+     *      if (MousfWifflEvfnt.gftSdrollTypf() == WHEEL_UNIT_SCROLL) {
+     *          int totblSdrollAmount =
+     *              fvfnt.gftUnitsToSdroll() *
+     *              bdj.gftUnitIndrfmfnt();
+     *          bdj.sftVbluf(bdj.gftVbluf() + totblSdrollAmount);
      *      }
      *  }
-     * </pre>
+     * </prf>
      *
-     * @return the number of units to scroll based on the direction and amount
-     *  of mouse wheel rotation, and on the wheel scrolling settings of the
-     *  native platform
-     * @see #getScrollType
-     * @see #getScrollAmount
-     * @see MouseWheelListener
-     * @see java.awt.Adjustable
-     * @see java.awt.Adjustable#getUnitIncrement
-     * @see javax.swing.Scrollable
-     * @see javax.swing.Scrollable#getScrollableUnitIncrement
-     * @see java.awt.ScrollPane
-     * @see java.awt.ScrollPane#setWheelScrollingEnabled
-     * @see javax.swing.JScrollPane
-     * @see javax.swing.JScrollPane#setWheelScrollingEnabled
+     * @rfturn tif numbfr of units to sdroll bbsfd on tif dirfdtion bnd bmount
+     *  of mousf wiffl rotbtion, bnd on tif wiffl sdrolling sfttings of tif
+     *  nbtivf plbtform
+     * @sff #gftSdrollTypf
+     * @sff #gftSdrollAmount
+     * @sff MousfWifflListfnfr
+     * @sff jbvb.bwt.Adjustbblf
+     * @sff jbvb.bwt.Adjustbblf#gftUnitIndrfmfnt
+     * @sff jbvbx.swing.Sdrollbblf
+     * @sff jbvbx.swing.Sdrollbblf#gftSdrollbblfUnitIndrfmfnt
+     * @sff jbvb.bwt.SdrollPbnf
+     * @sff jbvb.bwt.SdrollPbnf#sftWifflSdrollingEnbblfd
+     * @sff jbvbx.swing.JSdrollPbnf
+     * @sff jbvbx.swing.JSdrollPbnf#sftWifflSdrollingEnbblfd
      */
-    public int getUnitsToScroll() {
-        return scrollAmount * wheelRotation;
+    publid int gftUnitsToSdroll() {
+        rfturn sdrollAmount * wifflRotbtion;
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event-logging and for debugging.
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
      *
-     * @return a string identifying the event and its attributes
+     * @rfturn b string idfntifying tif fvfnt bnd its bttributfs
      */
-    public String paramString() {
-        String scrollTypeStr = null;
+    publid String pbrbmString() {
+        String sdrollTypfStr = null;
 
-        if (getScrollType() == WHEEL_UNIT_SCROLL) {
-            scrollTypeStr = "WHEEL_UNIT_SCROLL";
+        if (gftSdrollTypf() == WHEEL_UNIT_SCROLL) {
+            sdrollTypfStr = "WHEEL_UNIT_SCROLL";
         }
-        else if (getScrollType() == WHEEL_BLOCK_SCROLL) {
-            scrollTypeStr = "WHEEL_BLOCK_SCROLL";
+        flsf if (gftSdrollTypf() == WHEEL_BLOCK_SCROLL) {
+            sdrollTypfStr = "WHEEL_BLOCK_SCROLL";
         }
-        else {
-            scrollTypeStr = "unknown scroll type";
+        flsf {
+            sdrollTypfStr = "unknown sdroll typf";
         }
-        return super.paramString()+",scrollType="+scrollTypeStr+
-         ",scrollAmount="+getScrollAmount()+",wheelRotation="+
-         getWheelRotation()+",preciseWheelRotation="+getPreciseWheelRotation();
+        rfturn supfr.pbrbmString()+",sdrollTypf="+sdrollTypfStr+
+         ",sdrollAmount="+gftSdrollAmount()+",wifflRotbtion="+
+         gftWifflRotbtion()+",prfdisfWifflRotbtion="+gftPrfdisfWifflRotbtion();
     }
 }

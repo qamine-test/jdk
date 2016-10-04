@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.lang.ref.Reference;
-import java.awt.FontFormatException;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.nio.ByteBuffer;
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.io.Filf;
+import jbvb.nio.BytfBufffr;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
 
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
 
-public abstract class FileFont extends PhysicalFont {
+publid bbstrbdt dlbss FilfFont fxtfnds PiysidblFont {
 
-    protected boolean useJavaRasterizer = true;
+    protfdtfd boolfbn usfJbvbRbstfrizfr = truf;
 
-    /* I/O and file operations are always synchronized on the font
-     * object. Two threads can be accessing the font and retrieving
-     * information, and synchronized only to the extent that filesystem
-     * operations require.
-     * A limited number of files can be open at a time, to limit the
-     * absorption of file descriptors. If a file needs to be opened
-     * when there are none free, then the synchronization of all I/O
-     * ensures that any in progress operation will complete before some
-     * other thread closes the descriptor in order to allocate another one.
+    /* I/O bnd filf opfrbtions brf blwbys syndironizfd on tif font
+     * objfdt. Two tirfbds dbn bf bddfssing tif font bnd rftrifving
+     * informbtion, bnd syndironizfd only to tif fxtfnt tibt filfsystfm
+     * opfrbtions rfquirf.
+     * A limitfd numbfr of filfs dbn bf opfn bt b timf, to limit tif
+     * bbsorption of filf dfsdriptors. If b filf nffds to bf opfnfd
+     * wifn tifrf brf nonf frff, tifn tif syndironizbtion of bll I/O
+     * fnsurfs tibt bny in progrfss opfrbtion will domplftf bfforf somf
+     * otifr tirfbd dlosfs tif dfsdriptor in ordfr to bllodbtf bnotifr onf.
      */
-    // NB consider using a RAF. FIS has finalize method so may take a
-    // little longer to be GC'd. We don't use this stream at all anyway.
-    // In fact why increase the size of a FileFont object if the stream
-    // isn't needed ..
-    //protected FileInputStream stream;
-    //protected FileChannel channel;
-    protected int fileSize;
+    // NB donsidfr using b RAF. FIS ibs finblizf mftiod so mby tbkf b
+    // littlf longfr to bf GC'd. Wf don't usf tiis strfbm bt bll bnywby.
+    // In fbdt wiy indrfbsf tif sizf of b FilfFont objfdt if tif strfbm
+    // isn't nffdfd ..
+    //protfdtfd FilfInputStrfbm strfbm;
+    //protfdtfd FilfCibnnfl dibnnfl;
+    protfdtfd int filfSizf;
 
-    protected FontScaler scaler;
+    protfdtfd FontSdblfr sdblfr;
 
-    /* The following variables are used, (and in the case of the arrays,
-     * only initialised) for select fonts where a native scaler may be
-     * used to get glyph images and metrics.
-     * glyphToCharMap is filled in on the fly and used to do a reverse
-     * lookup when a FileFont needs to get the charcode back from a glyph
-     * code so it can re-map via a NativeGlyphMapper to get a native glyph.
-     * This isn't a big hit in time, since a boolean test is sufficient
-     * to choose the usual default path, nor in memory for fonts which take
-     * the native path, since fonts have contiguous zero-based glyph indexes,
-     * and these obviously do all exist in the font.
+    /* Tif following vbribblfs brf usfd, (bnd in tif dbsf of tif brrbys,
+     * only initiblisfd) for sflfdt fonts wifrf b nbtivf sdblfr mby bf
+     * usfd to gft glypi imbgfs bnd mftrids.
+     * glypiToCibrMbp is fillfd in on tif fly bnd usfd to do b rfvfrsf
+     * lookup wifn b FilfFont nffds to gft tif dibrdodf bbdk from b glypi
+     * dodf so it dbn rf-mbp vib b NbtivfGlypiMbppfr to gft b nbtivf glypi.
+     * Tiis isn't b big iit in timf, sindf b boolfbn tfst is suffidifnt
+     * to dioosf tif usubl dffbult pbti, nor in mfmory for fonts wiidi tbkf
+     * tif nbtivf pbti, sindf fonts ibvf dontiguous zfro-bbsfd glypi indfxfs,
+     * bnd tifsf obviously do bll fxist in tif font.
      */
-    protected boolean checkedNatives;
-    protected boolean useNatives;
-    protected NativeFont[] nativeFonts;
-    protected char[] glyphToCharMap;
+    protfdtfd boolfbn difdkfdNbtivfs;
+    protfdtfd boolfbn usfNbtivfs;
+    protfdtfd NbtivfFont[] nbtivfFonts;
+    protfdtfd dibr[] glypiToCibrMbp;
     /*
-     * @throws FontFormatException - if the font can't be opened
+     * @tirows FontFormbtExdfption - if tif font dbn't bf opfnfd
      */
-    FileFont(String platname, Object nativeNames)
-        throws FontFormatException {
+    FilfFont(String plbtnbmf, Objfdt nbtivfNbmfs)
+        tirows FontFormbtExdfption {
 
-        super(platname, nativeNames);
+        supfr(plbtnbmf, nbtivfNbmfs);
     }
 
-    FontStrike createStrike(FontStrikeDesc desc) {
-        if (!checkedNatives) {
-           checkUseNatives();
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+        if (!difdkfdNbtivfs) {
+           difdkUsfNbtivfs();
         }
-        return new FileFontStrike(this, desc);
+        rfturn nfw FilfFontStrikf(tiis, dfsd);
     }
 
-    protected boolean checkUseNatives() {
-        checkedNatives = true;
-        return useNatives;
+    protfdtfd boolfbn difdkUsfNbtivfs() {
+        difdkfdNbtivfs = truf;
+        rfturn usfNbtivfs;
     }
 
-    /* This method needs to be accessible to FontManager if there is
-     * file pool management. It may be a no-op.
+    /* Tiis mftiod nffds to bf bddfssiblf to FontMbnbgfr if tifrf is
+     * filf pool mbnbgfmfnt. It mby bf b no-op.
      */
-    protected abstract void close();
+    protfdtfd bbstrbdt void dlosf();
 
 
     /*
-     * This is the public interface. The subclasses need to implement
-     * this. The returned block may be longer than the requested length.
+     * Tiis is tif publid intfrfbdf. Tif subdlbssfs nffd to implfmfnt
+     * tiis. Tif rfturnfd blodk mby bf longfr tibn tif rfqufstfd lfngti.
      */
-    abstract ByteBuffer readBlock(int offset, int length);
+    bbstrbdt BytfBufffr rfbdBlodk(int offsft, int lfngti);
 
-    public boolean canDoStyle(int style) {
-        return true;
+    publid boolfbn dbnDoStylf(int stylf) {
+        rfturn truf;
     }
 
-    void setFileToRemove(File file, CreatedFontTracker tracker) {
-        Disposer.addObjectRecord(this,
-                         new CreatedFontFileDisposerRecord(file, tracker));
+    void sftFilfToRfmovf(Filf filf, CrfbtfdFontTrbdkfr trbdkfr) {
+        Disposfr.bddObjfdtRfdord(tiis,
+                         nfw CrfbtfdFontFilfDisposfrRfdord(filf, trbdkfr));
     }
 
-    // MACOSX begin -- Make this static so that we can pass in CFont
-    static void setFileToRemove(Object font, File file, CreatedFontTracker tracker) {
-        Disposer.addObjectRecord(font,
-                         new CreatedFontFileDisposerRecord(file, tracker));
+    // MACOSX bfgin -- Mbkf tiis stbtid so tibt wf dbn pbss in CFont
+    stbtid void sftFilfToRfmovf(Objfdt font, Filf filf, CrfbtfdFontTrbdkfr trbdkfr) {
+        Disposfr.bddObjfdtRfdord(font,
+                         nfw CrfbtfdFontFilfDisposfrRfdord(filf, trbdkfr));
     }
-    // MACOSX - end
+    // MACOSX - fnd
 
-    /* This is called when a font scaler is determined to
-     * be unusable (ie bad).
-     * We want to replace current scaler with NullFontScaler, so
-     * we never try to use same font scaler again.
-     * Scaler native resources could have already been disposed
-     * or they will be eventually by Java2D disposer.
-     * However, it should be safe to call dispose() explicitly here.
+    /* Tiis is dbllfd wifn b font sdblfr is dftfrminfd to
+     * bf unusbblf (if bbd).
+     * Wf wbnt to rfplbdf durrfnt sdblfr witi NullFontSdblfr, so
+     * wf nfvfr try to usf sbmf font sdblfr bgbin.
+     * Sdblfr nbtivf rfsourdfs dould ibvf blrfbdy bffn disposfd
+     * or tify will bf fvfntublly by Jbvb2D disposfr.
+     * Howfvfr, it siould bf sbff to dbll disposf() fxpliditly ifrf.
      *
-     * For safety we also invalidate all strike's scaler context.
-     * So, in case they cache pointer to native scaler
-     * it will not ever be used.
+     * For sbffty wf blso invblidbtf bll strikf's sdblfr dontfxt.
+     * So, in dbsf tify dbdif pointfr to nbtivf sdblfr
+     * it will not fvfr bf usfd.
      *
-     * It also appears desirable to remove all the entries from the
-     * cache so no other code will pick them up. But we can't just
-     * 'delete' them as code may be using them. And simply dropping
-     * the reference to the cache will make the reference objects
-     * unreachable and so they will not get disposed.
-     * Since a strike may hold (via java arrays) native pointers to many
-     * rasterised glyphs, this would be a memory leak.
-     * The solution is :
-     * - to move all the entries to another map where they
-     *   are no longer locatable
-     * - update FontStrikeDisposer to be able to distinguish which
-     * map they are held in via a boolean flag
-     * Since this isn't expected to be anything other than an extremely
-     * rare maybe it is not worth doing this last part.
+     * It blso bppfbrs dfsirbblf to rfmovf bll tif fntrifs from tif
+     * dbdif so no otifr dodf will pidk tifm up. But wf dbn't just
+     * 'dflftf' tifm bs dodf mby bf using tifm. And simply dropping
+     * tif rfffrfndf to tif dbdif will mbkf tif rfffrfndf objfdts
+     * unrfbdibblf bnd so tify will not gft disposfd.
+     * Sindf b strikf mby iold (vib jbvb brrbys) nbtivf pointfrs to mbny
+     * rbstfrisfd glypis, tiis would bf b mfmory lfbk.
+     * Tif solution is :
+     * - to movf bll tif fntrifs to bnotifr mbp wifrf tify
+     *   brf no longfr lodbtbblf
+     * - updbtf FontStrikfDisposfr to bf bblf to distinguisi wiidi
+     * mbp tify brf ifld in vib b boolfbn flbg
+     * Sindf tiis isn't fxpfdtfd to bf bnytiing otifr tibn bn fxtrfmfly
+     * rbrf mbybf it is not worti doing tiis lbst pbrt.
      */
-    synchronized void deregisterFontAndClearStrikeCache() {
-        SunFontManager fm = SunFontManager.getInstance();
-        fm.deRegisterBadFont(this);
+    syndironizfd void dfrfgistfrFontAndClfbrStrikfCbdif() {
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        fm.dfRfgistfrBbdFont(tiis);
 
-        for (Reference<FontStrike> strikeRef : strikeCache.values()) {
-            if (strikeRef != null) {
-                /* NB we know these are all FileFontStrike instances
-                 * because the cache is on this FileFont
+        for (Rfffrfndf<FontStrikf> strikfRff : strikfCbdif.vblufs()) {
+            if (strikfRff != null) {
+                /* NB wf know tifsf brf bll FilfFontStrikf instbndfs
+                 * bfdbusf tif dbdif is on tiis FilfFont
                  */
-                FileFontStrike strike = (FileFontStrike)strikeRef.get();
-                if (strike != null && strike.pScalerContext != 0L) {
-                    scaler.invalidateScalerContext(strike.pScalerContext);
+                FilfFontStrikf strikf = (FilfFontStrikf)strikfRff.gft();
+                if (strikf != null && strikf.pSdblfrContfxt != 0L) {
+                    sdblfr.invblidbtfSdblfrContfxt(strikf.pSdblfrContfxt);
                 }
             }
         }
-        if (scaler != null) {
-            scaler.dispose();
+        if (sdblfr != null) {
+            sdblfr.disposf();
         }
-        scaler = FontScaler.getNullScaler();
+        sdblfr = FontSdblfr.gftNullSdblfr();
     }
 
-    StrikeMetrics getFontMetrics(long pScalerContext) {
+    StrikfMftrids gftFontMftrids(long pSdblfrContfxt) {
         try {
-            return getScaler().getFontMetrics(pScalerContext);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getFontMetrics(pScalerContext);
+            rfturn gftSdblfr().gftFontMftrids(pSdblfrContfxt);
+        } dbtdi (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftFontMftrids(pSdblfrContfxt);
         }
     }
 
-    float getGlyphAdvance(long pScalerContext, int glyphCode) {
+    flobt gftGlypiAdvbndf(long pSdblfrContfxt, int glypiCodf) {
         try {
-            return getScaler().getGlyphAdvance(pScalerContext, glyphCode);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphAdvance(pScalerContext, glyphCode);
+            rfturn gftSdblfr().gftGlypiAdvbndf(pSdblfrContfxt, glypiCodf);
+        } dbtdi (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftGlypiAdvbndf(pSdblfrContfxt, glypiCodf);
         }
     }
 
-    void getGlyphMetrics(long pScalerContext, int glyphCode, Point2D.Float metrics) {
+    void gftGlypiMftrids(long pSdblfrContfxt, int glypiCodf, Point2D.Flobt mftrids) {
         try {
-            getScaler().getGlyphMetrics(pScalerContext, glyphCode, metrics);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            getGlyphMetrics(pScalerContext, glyphCode, metrics);
+            gftSdblfr().gftGlypiMftrids(pSdblfrContfxt, glypiCodf, mftrids);
+        } dbtdi (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            gftGlypiMftrids(pSdblfrContfxt, glypiCodf, mftrids);
         }
     }
 
-    long getGlyphImage(long pScalerContext, int glyphCode) {
+    long gftGlypiImbgf(long pSdblfrContfxt, int glypiCodf) {
         try {
-            return getScaler().getGlyphImage(pScalerContext, glyphCode);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphImage(pScalerContext, glyphCode);
+            rfturn gftSdblfr().gftGlypiImbgf(pSdblfrContfxt, glypiCodf);
+        } dbtdi (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftGlypiImbgf(pSdblfrContfxt, glypiCodf);
         }
     }
 
-    Rectangle2D.Float getGlyphOutlineBounds(long pScalerContext, int glyphCode) {
+    Rfdtbnglf2D.Flobt gftGlypiOutlinfBounds(long pSdblfrContfxt, int glypiCodf) {
         try {
-            return getScaler().getGlyphOutlineBounds(pScalerContext, glyphCode);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphOutlineBounds(pScalerContext, glyphCode);
+            rfturn gftSdblfr().gftGlypiOutlinfBounds(pSdblfrContfxt, glypiCodf);
+        } dbtdi (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftGlypiOutlinfBounds(pSdblfrContfxt, glypiCodf);
         }
     }
 
-    GeneralPath getGlyphOutline(long pScalerContext, int glyphCode, float x, float y) {
+    GfnfrblPbti gftGlypiOutlinf(long pSdblfrContfxt, int glypiCodf, flobt x, flobt y) {
         try {
-            return getScaler().getGlyphOutline(pScalerContext, glyphCode, x, y);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphOutline(pScalerContext, glyphCode, x, y);
+            rfturn gftSdblfr().gftGlypiOutlinf(pSdblfrContfxt, glypiCodf, x, y);
+        } dbtdi (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftGlypiOutlinf(pSdblfrContfxt, glypiCodf, x, y);
         }
     }
 
-    GeneralPath getGlyphVectorOutline(long pScalerContext, int[] glyphs, int numGlyphs, float x, float y) {
+    GfnfrblPbti gftGlypiVfdtorOutlinf(long pSdblfrContfxt, int[] glypis, int numGlypis, flobt x, flobt y) {
         try {
-            return getScaler().getGlyphVectorOutline(pScalerContext, glyphs, numGlyphs, x, y);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphVectorOutline(pScalerContext, glyphs, numGlyphs, x, y);
+            rfturn gftSdblfr().gftGlypiVfdtorOutlinf(pSdblfrContfxt, glypis, numGlypis, x, y);
+        } dbtdi (FontSdblfrExdfption ff) {
+            sdblfr = FontSdblfr.gftNullSdblfr();
+            rfturn gftGlypiVfdtorOutlinf(pSdblfrContfxt, glypis, numGlypis, x, y);
         }
     }
 
-    /* T1 & TT implementation differ so this method is abstract.
-       NB: null should not be returned here! */
-    protected abstract FontScaler getScaler();
+    /* T1 & TT implfmfntbtion difffr so tiis mftiod is bbstrbdt.
+       NB: null siould not bf rfturnfd ifrf! */
+    protfdtfd bbstrbdt FontSdblfr gftSdblfr();
 
-    protected long getUnitsPerEm() {
-        return getScaler().getUnitsPerEm();
+    protfdtfd long gftUnitsPfrEm() {
+        rfturn gftSdblfr().gftUnitsPfrEm();
     }
 
-    private static class CreatedFontFileDisposerRecord
-        implements DisposerRecord {
+    privbtf stbtid dlbss CrfbtfdFontFilfDisposfrRfdord
+        implfmfnts DisposfrRfdord {
 
-        File fontFile = null;
-        CreatedFontTracker tracker;
+        Filf fontFilf = null;
+        CrfbtfdFontTrbdkfr trbdkfr;
 
-        private CreatedFontFileDisposerRecord(File file,
-                                              CreatedFontTracker tracker) {
-            fontFile = file;
-            this.tracker = tracker;
+        privbtf CrfbtfdFontFilfDisposfrRfdord(Filf filf,
+                                              CrfbtfdFontTrbdkfr trbdkfr) {
+            fontFilf = filf;
+            tiis.trbdkfr = trbdkfr;
         }
 
-        public void dispose() {
-            java.security.AccessController.doPrivileged(
-                 new java.security.PrivilegedAction<Object>() {
-                      public Object run() {
-                          if (fontFile != null) {
+        publid void disposf() {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                 nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                      publid Objfdt run() {
+                          if (fontFilf != null) {
                               try {
-                                  if (tracker != null) {
-                                      tracker.subBytes((int)fontFile.length());
+                                  if (trbdkfr != null) {
+                                      trbdkfr.subBytfs((int)fontFilf.lfngti());
                                   }
-                                  /* REMIND: is it possible that the file is
-                                   * still open? It will be closed when the
-                                   * font2D is disposed but could this code
-                                   * execute first? If so the file would not
-                                   * be deleted on MS-windows.
+                                  /* REMIND: is it possiblf tibt tif filf is
+                                   * still opfn? It will bf dlosfd wifn tif
+                                   * font2D is disposfd but dould tiis dodf
+                                   * fxfdutf first? If so tif filf would not
+                                   * bf dflftfd on MS-windows.
                                    */
-                                  fontFile.delete();
-                                  /* remove from delete on exit hook list : */
-                                  // FIXME: still need to be refactored
-                                  SunFontManager.getInstance().tmpFontFiles.remove(fontFile);
-                              } catch (Exception e) {
+                                  fontFilf.dflftf();
+                                  /* rfmovf from dflftf on fxit iook list : */
+                                  // FIXME: still nffd to bf rffbdtorfd
+                                  SunFontMbnbgfr.gftInstbndf().tmpFontFilfs.rfmovf(fontFilf);
+                              } dbtdi (Exdfption f) {
                               }
                           }
-                          return null;
+                          rfturn null;
                       }
             });
         }
     }
 
-    protected String getPublicFileName() {
-        SecurityManager sm = System.getSecurityManager();
+    protfdtfd String gftPublidFilfNbmf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm == null) {
-            return platName;
+            rfturn plbtNbmf;
         }
-        boolean canReadProperty = true;
+        boolfbn dbnRfbdPropfrty = truf;
 
         try {
-            sm.checkPropertyAccess("java.io.tmpdir");
-        } catch (SecurityException e) {
-            canReadProperty = false;
+            sm.difdkPropfrtyAddfss("jbvb.io.tmpdir");
+        } dbtdi (SfdurityExdfption f) {
+            dbnRfbdPropfrty = fblsf;
         }
 
-        if (canReadProperty) {
-            return platName;
+        if (dbnRfbdPropfrty) {
+            rfturn plbtNbmf;
         }
 
-        final File f = new File(platName);
+        finbl Filf f = nfw Filf(plbtNbmf);
 
-        Boolean isTmpFile = Boolean.FALSE;
+        Boolfbn isTmpFilf = Boolfbn.FALSE;
         try {
-            isTmpFile = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Boolean>() {
-                    public Boolean run() {
-                        File tmp = new File(System.getProperty("java.io.tmpdir"));
+            isTmpFilf = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Boolfbn>() {
+                    publid Boolfbn run() {
+                        Filf tmp = nfw Filf(Systfm.gftPropfrty("jbvb.io.tmpdir"));
                         try {
-                            String tpath = tmp.getCanonicalPath();
-                            String fpath = f.getCanonicalPath();
+                            String tpbti = tmp.gftCbnonidblPbti();
+                            String fpbti = f.gftCbnonidblPbti();
 
-                            return (fpath == null) || fpath.startsWith(tpath);
-                        } catch (IOException e) {
-                            return Boolean.TRUE;
+                            rfturn (fpbti == null) || fpbti.stbrtsWiti(tpbti);
+                        } dbtdi (IOExdfption f) {
+                            rfturn Boolfbn.TRUE;
                         }
                     }
                 }
             );
-        } catch (PrivilegedActionException e) {
-            // unable to verify whether value of java.io.tempdir will be
-            // exposed, so return only a name of the font file.
-            isTmpFile = Boolean.TRUE;
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            // unbblf to vfrify wiftifr vbluf of jbvb.io.tfmpdir will bf
+            // fxposfd, so rfturn only b nbmf of tif font filf.
+            isTmpFilf = Boolfbn.TRUE;
         }
 
-        return  isTmpFile ? "temp file" : platName;
+        rfturn  isTmpFilf ? "tfmp filf" : plbtNbmf;
     }
 }

@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0"> 
-  <assemblyIdentity version="IMVERSION"
-     processorArchitecture="X86"
-     name="unpack200.exe"
-     type="win32"/> 
+<?xml vfrsion="1.0" fndoding="UTF-8" stbndblonf="yfs"?>
+<bssfmbly xmlns="urn:sdifmbs-midrosoft-dom:bsm.v1" mbniffstVfrsion="1.0"> 
+  <bssfmblyIdfntity vfrsion="IMVERSION"
+     prodfssorArdiitfdturf="X86"
+     nbmf="unpbdk200.fxf"
+     typf="win32"/> 
 
-  <description>Java(TM) SE Runtime Environment unpack200 Process.</description> 
-  <!-- Identify the application security requirements. -->
-  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
-    <security>
-      <requestedPrivileges>
-        <requestedExecutionLevel
-          level="asInvoker"
-          uiAccess="false"/>
-        </requestedPrivileges>
-       </security>
+  <dfsdription>Jbvb(TM) SE Runtimf Environmfnt unpbdk200 Prodfss.</dfsdription> 
+  <!-- Idfntify tif bpplidbtion sfdurity rfquirfmfnts. -->
+  <trustInfo xmlns="urn:sdifmbs-midrosoft-dom:bsm.v3">
+    <sfdurity>
+      <rfqufstfdPrivilfgfs>
+        <rfqufstfdExfdutionLfvfl
+          lfvfl="bsInvokfr"
+          uiAddfss="fblsf"/>
+        </rfqufstfdPrivilfgfs>
+       </sfdurity>
   </trustInfo>
-</assembly>
+</bssfmbly>

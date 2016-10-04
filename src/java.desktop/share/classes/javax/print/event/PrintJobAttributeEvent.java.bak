@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print.event;
+pbdkbgf jbvbx.print.fvfnt;
 
-import javax.print.DocPrintJob;
-import javax.print.attribute.AttributeSetUtilities;
-import javax.print.attribute.PrintJobAttributeSet;
+import jbvbx.print.DodPrintJob;
+import jbvbx.print.bttributf.AttributfSftUtilitifs;
+import jbvbx.print.bttributf.PrintJobAttributfSft;
 
 /**
- * Class PrintJobAttributeEvent encapsulates an event a PrintService
- * reports to let the client know that one or more printing attributes for a
- * PrintJob have changed.
+ * Clbss PrintJobAttributfEvfnt fndbpsulbtfs bn fvfnt b PrintSfrvidf
+ * rfports to lft tif dlifnt know tibt onf or morf printing bttributfs for b
+ * PrintJob ibvf dibngfd.
  */
 
-public class PrintJobAttributeEvent extends PrintEvent {
+publid dlbss PrintJobAttributfEvfnt fxtfnds PrintEvfnt {
 
-    private static final long serialVersionUID = -6534469883874742101L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6534469883874742101L;
 
-    private PrintJobAttributeSet attributes;
+    privbtf PrintJobAttributfSft bttributfs;
 
     /**
-     * Constructs a PrintJobAttributeEvent object.
-     * @param source the print job generating  this event
-     * @param attributes the attribute changes being reported
-     * @throws IllegalArgumentException if <code>source</code> is
-     *         <code>null</code>.
+     * Construdts b PrintJobAttributfEvfnt objfdt.
+     * @pbrbm sourdf tif print job gfnfrbting  tiis fvfnt
+     * @pbrbm bttributfs tif bttributf dibngfs bfing rfportfd
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is
+     *         <dodf>null</dodf>.
      */
-    public PrintJobAttributeEvent (DocPrintJob source,
-                                   PrintJobAttributeSet attributes)  {
-        super(source);
+    publid PrintJobAttributfEvfnt (DodPrintJob sourdf,
+                                   PrintJobAttributfSft bttributfs)  {
+        supfr(sourdf);
 
-        this.attributes = AttributeSetUtilities.unmodifiableView(attributes);
+        tiis.bttributfs = AttributfSftUtilitifs.unmodifibblfVifw(bttributfs);
     }
 
 
     /**
-     * Determine the Print Job to which this print job event pertains.
+     * Dftfrminf tif Print Job to wiidi tiis print job fvfnt pfrtbins.
      *
-     * @return  Print Job object.
+     * @rfturn  Print Job objfdt.
      */
-    public DocPrintJob getPrintJob() {
+    publid DodPrintJob gftPrintJob() {
 
-        return (DocPrintJob) getSource();
+        rfturn (DodPrintJob) gftSourdf();
     }
 
 
     /**
-     * Determine the printing attributes that changed and their new values.
+     * Dftfrminf tif printing bttributfs tibt dibngfd bnd tifir nfw vblufs.
      *
-     * @return  Attributes containing the new values for the print job
-     * attributes that changed. The returned set may not be modifiable.
+     * @rfturn  Attributfs dontbining tif nfw vblufs for tif print job
+     * bttributfs tibt dibngfd. Tif rfturnfd sft mby not bf modifibblf.
      */
-    public PrintJobAttributeSet getAttributes() {
+    publid PrintJobAttributfSft gftAttributfs() {
 
-        return attributes;
+        rfturn bttributfs;
 
     }
 

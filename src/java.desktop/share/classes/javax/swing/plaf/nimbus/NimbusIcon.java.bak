@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.nimbus;
+pbdkbgf jbvbx.swing.plbf.nimbus;
 
-import javax.swing.Painter;
-import sun.swing.plaf.synth.SynthIcon;
+import jbvbx.swing.Pbintfr;
+import sun.swing.plbf.synti.SyntiIdon;
 
-import javax.swing.plaf.synth.SynthContext;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.plbf.synti.SyntiContfxt;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvbx.swing.plbf.UIRfsourdf;
 
 /**
- * An icon that delegates to a painter.
- * @author rbair
+ * An idon tibt dflfgbtfs to b pbintfr.
+ * @butior rbbir
  */
-class NimbusIcon extends SynthIcon {
-    private int width;
-    private int height;
-    private String prefix;
-    private String key;
+dlbss NimbusIdon fxtfnds SyntiIdon {
+    privbtf int widti;
+    privbtf int ifigit;
+    privbtf String prffix;
+    privbtf String kfy;
 
-    NimbusIcon(String prefix, String key, int w, int h) {
-        this.width = w;
-        this.height = h;
-        this.prefix = prefix;
-        this.key = key;
+    NimbusIdon(String prffix, String kfy, int w, int i) {
+        tiis.widti = w;
+        tiis.ifigit = i;
+        tiis.prffix = prffix;
+        tiis.kfy = kfy;
     }
 
-    @SuppressWarnings("unchecked")
-    private static Painter<JComponent> paintFilter(@SuppressWarnings("rawtypes") Painter painter) {
-        return (Painter<JComponent>) painter;
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid Pbintfr<JComponfnt> pbintFiltfr(@SupprfssWbrnings("rbwtypfs") Pbintfr pbintfr) {
+        rfturn (Pbintfr<JComponfnt>) pbintfr;
     }
 
-    @Override
-    public void paintIcon(SynthContext context, Graphics g, int x, int y,
-                          int w, int h) {
-        Painter<JComponent> painter = null;
-        if (context != null) {
-            painter = paintFilter((Painter)context.getStyle().get(context, key));
+    @Ovfrridf
+    publid void pbintIdon(SyntiContfxt dontfxt, Grbpiids g, int x, int y,
+                          int w, int i) {
+        Pbintfr<JComponfnt> pbintfr = null;
+        if (dontfxt != null) {
+            pbintfr = pbintFiltfr((Pbintfr)dontfxt.gftStylf().gft(dontfxt, kfy));
         }
-        if (painter == null){
-            painter = paintFilter((Painter)UIManager.get(prefix + "[Enabled]." + key));
+        if (pbintfr == null){
+            pbintfr = pbintFiltfr((Pbintfr)UIMbnbgfr.gft(prffix + "[Enbblfd]." + kfy));
         }
 
-        if (painter != null && context != null) {
-            JComponent c = context.getComponent();
-            boolean rotate = false;
-            boolean flip = false;
-            //translatex and translatey are additional translations that
-            //must occur on the graphics context when rendering a toolbar
-            //icon
-            int translatex = 0;
-            int translatey = 0;
-            if (c instanceof JToolBar) {
-                JToolBar toolbar = (JToolBar)c;
-                rotate = toolbar.getOrientation() == JToolBar.VERTICAL;
-                flip = !toolbar.getComponentOrientation().isLeftToRight();
-                Object o = NimbusLookAndFeel.resolveToolbarConstraint(toolbar);
-                //we only do the +1 hack for UIResource borders, assuming
-                //that the border is probably going to be our border
-                if (toolbar.getBorder() instanceof UIResource) {
-                    if (o == BorderLayout.SOUTH) {
-                        translatey = 1;
-                    } else if (o == BorderLayout.EAST) {
-                        translatex = 1;
+        if (pbintfr != null && dontfxt != null) {
+            JComponfnt d = dontfxt.gftComponfnt();
+            boolfbn rotbtf = fblsf;
+            boolfbn flip = fblsf;
+            //trbnslbtfx bnd trbnslbtfy brf bdditionbl trbnslbtions tibt
+            //must oddur on tif grbpiids dontfxt wifn rfndfring b toolbbr
+            //idon
+            int trbnslbtfx = 0;
+            int trbnslbtfy = 0;
+            if (d instbndfof JToolBbr) {
+                JToolBbr toolbbr = (JToolBbr)d;
+                rotbtf = toolbbr.gftOrifntbtion() == JToolBbr.VERTICAL;
+                flip = !toolbbr.gftComponfntOrifntbtion().isLfftToRigit();
+                Objfdt o = NimbusLookAndFffl.rfsolvfToolbbrConstrbint(toolbbr);
+                //wf only do tif +1 ibdk for UIRfsourdf bordfrs, bssuming
+                //tibt tif bordfr is probbbly going to bf our bordfr
+                if (toolbbr.gftBordfr() instbndfof UIRfsourdf) {
+                    if (o == BordfrLbyout.SOUTH) {
+                        trbnslbtfy = 1;
+                    } flsf if (o == BordfrLbyout.EAST) {
+                        trbnslbtfx = 1;
                     }
                 }
-            } else if (c instanceof JMenu) {
-                flip = ! c.getComponentOrientation().isLeftToRight();
+            } flsf if (d instbndfof JMfnu) {
+                flip = ! d.gftComponfntOrifntbtion().isLfftToRigit();
             }
-            if (g instanceof Graphics2D){
-                Graphics2D gfx = (Graphics2D)g;
-                gfx.translate(x, y);
-                gfx.translate(translatex, translatey);
-                if (rotate) {
-                    gfx.rotate(Math.toRadians(90));
-                    gfx.translate(0, -w);
-                    painter.paint(gfx, context.getComponent(), h, w);
-                    gfx.translate(0, w);
-                    gfx.rotate(Math.toRadians(-90));
-                } else if (flip){
-                    gfx.scale(-1, 1);
-                    gfx.translate(-w,0);
-                    painter.paint(gfx, context.getComponent(), w, h);
-                    gfx.translate(w,0);
-                    gfx.scale(-1, 1);
-                } else {
-                    painter.paint(gfx, context.getComponent(), w, h);
+            if (g instbndfof Grbpiids2D){
+                Grbpiids2D gfx = (Grbpiids2D)g;
+                gfx.trbnslbtf(x, y);
+                gfx.trbnslbtf(trbnslbtfx, trbnslbtfy);
+                if (rotbtf) {
+                    gfx.rotbtf(Mbti.toRbdibns(90));
+                    gfx.trbnslbtf(0, -w);
+                    pbintfr.pbint(gfx, dontfxt.gftComponfnt(), i, w);
+                    gfx.trbnslbtf(0, w);
+                    gfx.rotbtf(Mbti.toRbdibns(-90));
+                } flsf if (flip){
+                    gfx.sdblf(-1, 1);
+                    gfx.trbnslbtf(-w,0);
+                    pbintfr.pbint(gfx, dontfxt.gftComponfnt(), w, i);
+                    gfx.trbnslbtf(w,0);
+                    gfx.sdblf(-1, 1);
+                } flsf {
+                    pbintfr.pbint(gfx, dontfxt.gftComponfnt(), w, i);
                 }
-                gfx.translate(-translatex, -translatey);
-                gfx.translate(-x, -y);
-            } else {
-                // use image if we are printing to a Java 1.1 PrintGraphics as
-                // it is not a instance of Graphics2D
-                BufferedImage img = new BufferedImage(w,h,
-                        BufferedImage.TYPE_INT_ARGB);
-                Graphics2D gfx = img.createGraphics();
-                if (rotate) {
-                    gfx.rotate(Math.toRadians(90));
-                    gfx.translate(0, -w);
-                    painter.paint(gfx, context.getComponent(), h, w);
-                } else if (flip){
-                    gfx.scale(-1, 1);
-                    gfx.translate(-w,0);
-                    painter.paint(gfx, context.getComponent(), w, h);
-                } else {
-                    painter.paint(gfx, context.getComponent(), w, h);
+                gfx.trbnslbtf(-trbnslbtfx, -trbnslbtfy);
+                gfx.trbnslbtf(-x, -y);
+            } flsf {
+                // usf imbgf if wf brf printing to b Jbvb 1.1 PrintGrbpiids bs
+                // it is not b instbndf of Grbpiids2D
+                BufffrfdImbgf img = nfw BufffrfdImbgf(w,i,
+                        BufffrfdImbgf.TYPE_INT_ARGB);
+                Grbpiids2D gfx = img.drfbtfGrbpiids();
+                if (rotbtf) {
+                    gfx.rotbtf(Mbti.toRbdibns(90));
+                    gfx.trbnslbtf(0, -w);
+                    pbintfr.pbint(gfx, dontfxt.gftComponfnt(), i, w);
+                } flsf if (flip){
+                    gfx.sdblf(-1, 1);
+                    gfx.trbnslbtf(-w,0);
+                    pbintfr.pbint(gfx, dontfxt.gftComponfnt(), w, i);
+                } flsf {
+                    pbintfr.pbint(gfx, dontfxt.gftComponfnt(), w, i);
                 }
-                gfx.dispose();
-                g.drawImage(img,x,y,null);
+                gfx.disposf();
+                g.drbwImbgf(img,x,y,null);
                 img = null;
             }
         }
     }
 
     /**
-     * Implements the standard Icon interface's paintIcon method as the standard
-     * synth stub passes null for the context and this will cause us to not
-     * paint any thing, so we override here so that we can paint the enabled
-     * state if no synth context is available
+     * Implfmfnts tif stbndbrd Idon intfrfbdf's pbintIdon mftiod bs tif stbndbrd
+     * synti stub pbssfs null for tif dontfxt bnd tiis will dbusf us to not
+     * pbint bny tiing, so wf ovfrridf ifrf so tibt wf dbn pbint tif fnbblfd
+     * stbtf if no synti dontfxt is bvbilbblf
      */
-    @Override
-    public void paintIcon(Component c, Graphics g, int x, int y) {
-        Painter<JComponent> painter =
-            paintFilter((Painter)UIManager.get(prefix + "[Enabled]." + key));
-        if (painter != null){
-            JComponent jc = (c instanceof JComponent) ? (JComponent)c : null;
-            Graphics2D gfx = (Graphics2D)g;
-            gfx.translate(x, y);
-            painter.paint(gfx, jc , width, height);
-            gfx.translate(-x, -y);
+    @Ovfrridf
+    publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+        Pbintfr<JComponfnt> pbintfr =
+            pbintFiltfr((Pbintfr)UIMbnbgfr.gft(prffix + "[Enbblfd]." + kfy));
+        if (pbintfr != null){
+            JComponfnt jd = (d instbndfof JComponfnt) ? (JComponfnt)d : null;
+            Grbpiids2D gfx = (Grbpiids2D)g;
+            gfx.trbnslbtf(x, y);
+            pbintfr.pbint(gfx, jd , widti, ifigit);
+            gfx.trbnslbtf(-x, -y);
         }
     }
 
-    @Override
-    public int getIconWidth(SynthContext context) {
-        if (context == null) {
-            return width;
+    @Ovfrridf
+    publid int gftIdonWidti(SyntiContfxt dontfxt) {
+        if (dontfxt == null) {
+            rfturn widti;
         }
-        JComponent c = context.getComponent();
-        if (c instanceof JToolBar && ((JToolBar)c).getOrientation() == JToolBar.VERTICAL) {
-            //we only do the -1 hack for UIResource borders, assuming
-            //that the border is probably going to be our border
-            if (c.getBorder() instanceof UIResource) {
-                return c.getWidth() - 1;
-            } else {
-                return c.getWidth();
+        JComponfnt d = dontfxt.gftComponfnt();
+        if (d instbndfof JToolBbr && ((JToolBbr)d).gftOrifntbtion() == JToolBbr.VERTICAL) {
+            //wf only do tif -1 ibdk for UIRfsourdf bordfrs, bssuming
+            //tibt tif bordfr is probbbly going to bf our bordfr
+            if (d.gftBordfr() instbndfof UIRfsourdf) {
+                rfturn d.gftWidti() - 1;
+            } flsf {
+                rfturn d.gftWidti();
             }
-        } else {
-            return scale(context, width);
+        } flsf {
+            rfturn sdblf(dontfxt, widti);
         }
     }
 
-    @Override
-    public int getIconHeight(SynthContext context) {
-        if (context == null) {
-            return height;
+    @Ovfrridf
+    publid int gftIdonHfigit(SyntiContfxt dontfxt) {
+        if (dontfxt == null) {
+            rfturn ifigit;
         }
-        JComponent c = context.getComponent();
-        if (c instanceof JToolBar){
-            JToolBar toolbar = (JToolBar)c;
-            if (toolbar.getOrientation() == JToolBar.HORIZONTAL) {
-                //we only do the -1 hack for UIResource borders, assuming
-                //that the border is probably going to be our border
-                if (toolbar.getBorder() instanceof UIResource) {
-                    return c.getHeight() - 1;
-                } else {
-                    return c.getHeight();
+        JComponfnt d = dontfxt.gftComponfnt();
+        if (d instbndfof JToolBbr){
+            JToolBbr toolbbr = (JToolBbr)d;
+            if (toolbbr.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                //wf only do tif -1 ibdk for UIRfsourdf bordfrs, bssuming
+                //tibt tif bordfr is probbbly going to bf our bordfr
+                if (toolbbr.gftBordfr() instbndfof UIRfsourdf) {
+                    rfturn d.gftHfigit() - 1;
+                } flsf {
+                    rfturn d.gftHfigit();
                 }
-            } else {
-                return scale(context, width);
+            } flsf {
+                rfturn sdblf(dontfxt, widti);
             }
-        } else {
-            return scale(context, height);
+        } flsf {
+            rfturn sdblf(dontfxt, ifigit);
         }
     }
 
     /**
-     * Scale a size based on the "JComponent.sizeVariant" client property of the
-     * component that is using this icon
+     * Sdblf b sizf bbsfd on tif "JComponfnt.sizfVbribnt" dlifnt propfrty of tif
+     * domponfnt tibt is using tiis idon
      *
-     * @param context The synthContext to get the component from
-     * @param size The size to scale
-     * @return The scaled size or original if "JComponent.sizeVariant" is not
-     *          set
+     * @pbrbm dontfxt Tif syntiContfxt to gft tif domponfnt from
+     * @pbrbm sizf Tif sizf to sdblf
+     * @rfturn Tif sdblfd sizf or originbl if "JComponfnt.sizfVbribnt" is not
+     *          sft
      */
-    private int scale(SynthContext context, int size) {
-        if (context == null || context.getComponent() == null){
-            return size;
+    privbtf int sdblf(SyntiContfxt dontfxt, int sizf) {
+        if (dontfxt == null || dontfxt.gftComponfnt() == null){
+            rfturn sizf;
         }
-        // The key "JComponent.sizeVariant" is used to match Apple's LAF
-        String scaleKey = (String) context.getComponent().getClientProperty(
-                "JComponent.sizeVariant");
-        if (scaleKey != null) {
-            if (NimbusStyle.LARGE_KEY.equals(scaleKey)) {
-                size *= NimbusStyle.LARGE_SCALE;
-            } else if (NimbusStyle.SMALL_KEY.equals(scaleKey)) {
-                size *= NimbusStyle.SMALL_SCALE;
-            } else if (NimbusStyle.MINI_KEY.equals(scaleKey)) {
-                // mini is not quite as small for icons as full mini is
+        // Tif kfy "JComponfnt.sizfVbribnt" is usfd to mbtdi Applf's LAF
+        String sdblfKfy = (String) dontfxt.gftComponfnt().gftClifntPropfrty(
+                "JComponfnt.sizfVbribnt");
+        if (sdblfKfy != null) {
+            if (NimbusStylf.LARGE_KEY.fqubls(sdblfKfy)) {
+                sizf *= NimbusStylf.LARGE_SCALE;
+            } flsf if (NimbusStylf.SMALL_KEY.fqubls(sdblfKfy)) {
+                sizf *= NimbusStylf.SMALL_SCALE;
+            } flsf if (NimbusStylf.MINI_KEY.fqubls(sdblfKfy)) {
+                // mini is not quitf bs smbll for idons bs full mini is
                 // just too tiny
-                size *= NimbusStyle.MINI_SCALE + 0.07;
+                sizf *= NimbusStylf.MINI_SCALE + 0.07;
             }
         }
-        return size;
+        rfturn sizf;
     }
 }

@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.nbming.spi;
+
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.Nbmf;
+import jbvbx.nbming.NbmingExdfption;
+
+/**
+  * This intfrfbdf rfprfsfnts bn "intfrmfdibtf dontfxt" for nbmf rfsolution.
+  *<p>
+  * Thf Rfsolvfr intfrfbdf dontbins mfthods thbt brf implfmfntfd by dontfxts
+  * thbt do not support subtypfs of Contfxt, but whidh dbn bdt bs
+  * intfrmfdibtf dontfxts for rfsolution purposfs.
+  *<p>
+  * A <tt>Nbmf</tt> pbrbmftfr pbssfd to bny mfthod is ownfd
+  * by thf dbllfr.  Thf sfrvidf providfr will not modify thf objfdt
+  * or kffp b rfffrfndf to it.
+  * A <tt>RfsolvfRfsult</tt> objfdt rfturnfd by bny
+  * mfthod is ownfd by thf dbllfr.  Thf dbllfr mby subsfqufntly modify it;
+  * thf sfrvidf providfr mby not.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @sindf 1.3
+  */
+
+publid intfrfbdf Rfsolvfr {
+
+    /**
+     * Pbrtiblly rfsolvfs b nbmf.  Stops bt thf first
+     * dontfxt thbt is bn instbndf of b givfn subtypf of
+     * <dodf>Contfxt</dodf>.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to rfsolvf
+     * @pbrbm dontfxtTypf
+     *          thf typf of objfdt to rfsolvf.  This should
+     *          bf b subtypf of <dodf>Contfxt</dodf>.
+     * @rfturn  thf objfdt thbt wbs found, blong with thf unrfsolvfd
+     *          suffix of <dodf>nbmf</dodf>.  Cbnnot bf null.
+     *
+     * @throws  jbvbx.nbming.NotContfxtExdfption
+     *          if no dontfxt of thf bppropribtf typf is found
+     * @throws  NbmingExdfption if b nbming fxdfption wbs fndountfrfd
+     *
+     * @sff #rfsolvfToClbss(String, Clbss)
+     */
+    publid RfsolvfRfsult rfsolvfToClbss(Nbmf nbmf,
+                                        Clbss<? fxtfnds Contfxt> dontfxtTypf)
+            throws NbmingExdfption;
+
+    /**
+     * Pbrtiblly rfsolvfs b nbmf.
+     * Sff {@link #rfsolvfToClbss(Nbmf, Clbss)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to rfsolvf
+     * @pbrbm dontfxtTypf
+     *          thf typf of objfdt to rfsolvf.  This should
+     *          bf b subtypf of <dodf>Contfxt</dodf>.
+     * @rfturn  thf objfdt thbt wbs found, blong with thf unrfsolvfd
+     *          suffix of <dodf>nbmf</dodf>.  Cbnnot bf null.
+     *
+     * @throws  jbvbx.nbming.NotContfxtExdfption
+     *          if no dontfxt of thf bppropribtf typf is found
+     * @throws  NbmingExdfption if b nbming fxdfption wbs fndountfrfd
+     */
+    publid RfsolvfRfsult rfsolvfToClbss(String nbmf,
+                                        Clbss<? fxtfnds Contfxt> dontfxtTypf)
+            throws NbmingExdfption;
+};

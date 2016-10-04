@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef SIZECALC_H
-#define SIZECALC_H
+#ifndff SIZECALC_H
+#dffinf SIZECALC_H
 
 /*
- * A machinery for safe calculation of sizes used when allocating memory.
+ * A mbdiinfry for sbff dbldulbtion of sizfs usfd wifn bllodbting mfmory.
  *
- * All size checks are performed against the SIZE_MAX (the maximum value for
- * size_t). All numerical arguments as well as the result of calculation must
- * be non-negative integers less than or equal to SIZE_MAX, otherwise the
- * calculated size is considered unsafe.
+ * All sizf difdks brf pfrformfd bgbinst tif SIZE_MAX (tif mbximum vbluf for
+ * sizf_t). All numfridbl brgumfnts bs wfll bs tif rfsult of dbldulbtion must
+ * bf non-nfgbtivf intfgfrs lfss tibn or fqubl to SIZE_MAX, otifrwisf tif
+ * dbldulbtfd sizf is donsidfrfd unsbff.
  *
- * If the SIZECALC_ALLOC_THROWING_BAD_ALLOC macro is defined, then _ALLOC_
- * helper macros throw the std::bad_alloc instead of returning NULL.
+ * If tif SIZECALC_ALLOC_THROWING_BAD_ALLOC mbdro is dffinfd, tifn _ALLOC_
+ * iflpfr mbdros tirow tif std::bbd_bllod instfbd of rfturning NULL.
  */
 
-#include <stdint.h> /* SIZE_MAX for C99+ */
-/* http://stackoverflow.com/questions/3472311/what-is-a-portable-method-to-find-the-maximum-value-of-size-t */
-#ifndef SIZE_MAX
-#define SIZE_MAX ((size_t)-1)
-#endif
+#indludf <stdint.i> /* SIZE_MAX for C99+ */
+/* ittp://stbdkovfrflow.dom/qufstions/3472311/wibt-is-b-portbblf-mftiod-to-find-tif-mbximum-vbluf-of-sizf-t */
+#ifndff SIZE_MAX
+#dffinf SIZE_MAX ((sizf_t)-1)
+#fndif
 
-#define IS_SAFE_SIZE_T(x) ((x) >= 0 && (unsigned long long)(x) <= SIZE_MAX)
+#dffinf IS_SAFE_SIZE_T(x) ((x) >= 0 && (unsignfd long long)(x) <= SIZE_MAX)
 
-#define IS_SAFE_SIZE_MUL(m, n) \
-    (IS_SAFE_SIZE_T(m) && IS_SAFE_SIZE_T(n) && ((m) == 0 || (n) == 0 || (size_t)(n) <= (SIZE_MAX / (size_t)(m))))
+#dffinf IS_SAFE_SIZE_MUL(m, n) \
+    (IS_SAFE_SIZE_T(m) && IS_SAFE_SIZE_T(n) && ((m) == 0 || (n) == 0 || (sizf_t)(n) <= (SIZE_MAX / (sizf_t)(m))))
 
-#define IS_SAFE_SIZE_ADD(a, b) \
-    (IS_SAFE_SIZE_T(a) && IS_SAFE_SIZE_T(b) && (size_t)(b) <= (SIZE_MAX - (size_t)(a)))
+#dffinf IS_SAFE_SIZE_ADD(b, b) \
+    (IS_SAFE_SIZE_T(b) && IS_SAFE_SIZE_T(b) && (sizf_t)(b) <= (SIZE_MAX - (sizf_t)(b)))
 
 
 
-/* Helper macros */
+/* Hflpfr mbdros */
 
-#ifdef SIZECALC_ALLOC_THROWING_BAD_ALLOC
-#define FAILURE_RESULT throw std::bad_alloc()
-#else
-#define FAILURE_RESULT NULL
-#endif
+#ifdff SIZECALC_ALLOC_THROWING_BAD_ALLOC
+#dffinf FAILURE_RESULT tirow std::bbd_bllod()
+#flsf
+#dffinf FAILURE_RESULT NULL
+#fndif
 
 /*
- * A helper macro to safely allocate an array of size m*n.
- * Example usage:
- *    int* p = (int*)SAFE_SIZE_ARRAY_ALLOC(malloc, sizeof(int), n);
- *    if (!p) throw OutOfMemory;
- *    // Use the allocated array...
+ * A iflpfr mbdro to sbffly bllodbtf bn brrby of sizf m*n.
+ * Exbmplf usbgf:
+ *    int* p = (int*)SAFE_SIZE_ARRAY_ALLOC(mbllod, sizfof(int), n);
+ *    if (!p) tirow OutOfMfmory;
+ *    // Usf tif bllodbtfd brrby...
  */
-#define SAFE_SIZE_ARRAY_ALLOC(func, m, n) \
-    (IS_SAFE_SIZE_MUL((m), (n)) ? ((func)((m) * (n))) : FAILURE_RESULT)
+#dffinf SAFE_SIZE_ARRAY_ALLOC(fund, m, n) \
+    (IS_SAFE_SIZE_MUL((m), (n)) ? ((fund)((m) * (n))) : FAILURE_RESULT)
 
-#define SAFE_SIZE_ARRAY_REALLOC(func, p, m, n) \
-    (IS_SAFE_SIZE_MUL((m), (n)) ? ((func)((p), (m) * (n))) : FAILURE_RESULT)
+#dffinf SAFE_SIZE_ARRAY_REALLOC(fund, p, m, n) \
+    (IS_SAFE_SIZE_MUL((m), (n)) ? ((fund)((p), (m) * (n))) : FAILURE_RESULT)
 
 /*
- * A helper macro to safely allocate an array of type 'type' with 'n' items
- * using the C++ new[] operator.
- * Example usage:
- *    MyClass* p = SAFE_SIZE_NEW_ARRAY(MyClass, n);
- *    // Use the pointer.
- * This macro throws the std::bad_alloc C++ exception to indicate
- * a failure.
- * NOTE: if 'n' is calculated, the calling code is responsible for using the
- * IS_SAFE_... macros to check if the calculations are safe.
+ * A iflpfr mbdro to sbffly bllodbtf bn brrby of typf 'typf' witi 'n' itfms
+ * using tif C++ nfw[] opfrbtor.
+ * Exbmplf usbgf:
+ *    MyClbss* p = SAFE_SIZE_NEW_ARRAY(MyClbss, n);
+ *    // Usf tif pointfr.
+ * Tiis mbdro tirows tif std::bbd_bllod C++ fxdfption to indidbtf
+ * b fbilurf.
+ * NOTE: if 'n' is dbldulbtfd, tif dblling dodf is rfsponsiblf for using tif
+ * IS_SAFE_... mbdros to difdk if tif dbldulbtions brf sbff.
  */
-#define SAFE_SIZE_NEW_ARRAY(type, n) \
-    (IS_SAFE_SIZE_MUL(sizeof(type), (n)) ? (new type[(n)]) : throw std::bad_alloc())
+#dffinf SAFE_SIZE_NEW_ARRAY(typf, n) \
+    (IS_SAFE_SIZE_MUL(sizfof(typf), (n)) ? (nfw typf[(n)]) : tirow std::bbd_bllod())
 
-#define SAFE_SIZE_NEW_ARRAY2(type, n, m) \
-    (IS_SAFE_SIZE_MUL((m), (n)) && IS_SAFE_SIZE_MUL(sizeof(type), (n) * (m)) ? \
-     (new type[(n) * (m)]) : throw std::bad_alloc())
+#dffinf SAFE_SIZE_NEW_ARRAY2(typf, n, m) \
+    (IS_SAFE_SIZE_MUL((m), (n)) && IS_SAFE_SIZE_MUL(sizfof(typf), (n) * (m)) ? \
+     (nfw typf[(n) * (m)]) : tirow std::bbd_bllod())
 
 /*
- * Checks if a data structure of size (a + m*n) can be safely allocated
- * w/o producing an integer overflow when calculating its size.
+ * Cifdks if b dbtb strudturf of sizf (b + m*n) dbn bf sbffly bllodbtfd
+ * w/o produding bn intfgfr ovfrflow wifn dbldulbting its sizf.
  */
-#define IS_SAFE_STRUCT_SIZE(a, m, n) \
+#dffinf IS_SAFE_STRUCT_SIZE(b, m, n) \
     ( \
-      IS_SAFE_SIZE_MUL((m), (n)) && IS_SAFE_SIZE_ADD((m) * (n), (a)) \
+      IS_SAFE_SIZE_MUL((m), (n)) && IS_SAFE_SIZE_ADD((m) * (n), (b)) \
     )
 
 /*
- * A helper macro for implementing safe memory allocation for a data structure
- * of size (a + m * n).
- * Example usage:
- *    void * p = SAFE_SIZE_ALLOC(malloc, header, num, itemSize);
- *    if (!p) throw OutOfMemory;
- *    // Use the allocated memory...
+ * A iflpfr mbdro for implfmfnting sbff mfmory bllodbtion for b dbtb strudturf
+ * of sizf (b + m * n).
+ * Exbmplf usbgf:
+ *    void * p = SAFE_SIZE_ALLOC(mbllod, ifbdfr, num, itfmSizf);
+ *    if (!p) tirow OutOfMfmory;
+ *    // Usf tif bllodbtfd mfmory...
  */
-#define SAFE_SIZE_STRUCT_ALLOC(func, a, m, n) \
-    (IS_SAFE_STRUCT_SIZE((a), (m), (n)) ? ((func)((a) + (m) * (n))) : FAILURE_RESULT)
+#dffinf SAFE_SIZE_STRUCT_ALLOC(fund, b, m, n) \
+    (IS_SAFE_STRUCT_SIZE((b), (m), (n)) ? ((fund)((b) + (m) * (n))) : FAILURE_RESULT)
 
 
-#endif /* SIZECALC_H */
+#fndif /* SIZECALC_H */
 

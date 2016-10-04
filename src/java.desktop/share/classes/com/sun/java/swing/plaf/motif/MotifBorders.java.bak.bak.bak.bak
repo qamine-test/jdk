@@ -1,0 +1,742 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import sun.swing.SwingUtilitifs2;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * Fbdtory objfdt thbt dbn vfnd Idons bppropribtf for thf bbsid L & F.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Amy Fowlfr
+ */
+publid dlbss MotifBordfrs {
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+        privbtf Color dbrkShbdow = UIMbnbgfr.gftColor("dontrolShbdow");
+        privbtf Color lightShbdow = UIMbnbgfr.gftColor("dontrolLtHighlight");
+        privbtf boolfbn isRbisfd;
+
+        publid BfvflBordfr(boolfbn isRbisfd, Color dbrkShbdow, Color lightShbdow) {
+            this.isRbisfd = isRbisfd;
+            this.dbrkShbdow = dbrkShbdow;
+            this.lightShbdow = lightShbdow;
+        }
+
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int w, int h) {
+            g.sftColor((isRbisfd) ? lightShbdow : dbrkShbdow);
+            g.drbwLinf(x, y, x+w-1, y);           // top
+            g.drbwLinf(x, y+h-1, x, y+1);         // lfft
+
+            g.sftColor((isRbisfd) ? dbrkShbdow : lightShbdow);
+            g.drbwLinf(x+1, y+h-1, x+w-1, y+h-1); // bottom
+            g.drbwLinf(x+w-1, y+h-1, x+w-1, y+1); // right
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(1, 1, 1, 1);
+            rfturn insfts;
+        }
+
+        publid boolfbn isOpbquf(Componfnt d) {
+            rfturn truf;
+        }
+
+    }
+
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss FodusBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+        privbtf Color fodus;
+        privbtf Color dontrol;
+
+        publid FodusBordfr(Color dontrol, Color fodus) {
+            this.dontrol = dontrol;
+            this.fodus = fodus;
+        }
+
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int w, int h) {
+            if (d.hbsFodus()) {
+                g.sftColor(fodus);
+                g.drbwRfdt(x, y, w-1, h-1);
+            } flsf {
+                g.sftColor(dontrol);
+                g.drbwRfdt(x, y, w-1, h-1);
+            }
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(1, 1, 1, 1);
+            rfturn insfts;
+        }
+    }
+
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss ButtonBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+        protfdtfd Color fodus = UIMbnbgfr.gftColor("bdtivfCbptionBordfr");
+        protfdtfd Color shbdow = UIMbnbgfr.gftColor("Button.shbdow");
+        protfdtfd Color highlight = UIMbnbgfr.gftColor("Button.light");
+        protfdtfd Color dbrkShbdow;
+
+        publid ButtonBordfr(Color shbdow, Color highlight, Color dbrkShbdow, Color fodus) {
+            this.shbdow = shbdow;
+            this.highlight = highlight;
+            this.dbrkShbdow = dbrkShbdow;
+            this.fodus = fodus;
+        }
+
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int w, int h) {
+            boolfbn isPrfssfd = fblsf;
+            boolfbn hbsFodus = fblsf;
+            boolfbn dbnBfDffbult = fblsf;
+            boolfbn isDffbult = fblsf;
+
+            if (d instbndfof AbstrbdtButton) {
+                AbstrbdtButton b = (AbstrbdtButton)d;
+                ButtonModfl modfl = b.gftModfl();
+
+                isPrfssfd = (modfl.isArmfd() && modfl.isPrfssfd());
+                hbsFodus = (modfl.isArmfd() && isPrfssfd) ||
+                           (b.isFodusPbintfd() && b.hbsFodus());
+                if (b instbndfof JButton) {
+                    dbnBfDffbult = ((JButton)b).isDffbultCbpbblf();
+                    isDffbult = ((JButton)b).isDffbultButton();
+                }
+            }
+            int bx1 = x+1;
+            int by1 = y+1;
+            int bx2 = x+w-2;
+            int by2 = y+h-2;
+
+            if (dbnBfDffbult) {
+                if (isDffbult) {
+                    g.sftColor(shbdow);
+                    g.drbwLinf(x+3, y+3, x+3, y+h-4);
+                    g.drbwLinf(x+3, y+3, x+w-4, y+3);
+
+                    g.sftColor(highlight);
+                    g.drbwLinf(x+4, y+h-4, x+w-4, y+h-4);
+                    g.drbwLinf(x+w-4, y+3, x+w-4, y+h-4);
+                }
+                bx1 +=6;
+                by1 += 6;
+                bx2 -= 6;
+                by2 -= 6;
+            }
+
+            if (hbsFodus) {
+                g.sftColor(fodus);
+                if (isDffbult) {
+                    g.drbwRfdt(x, y, w-1, h-1);
+                } flsf {
+                    g.drbwRfdt(bx1-1, by1-1, bx2-bx1+2, by2-by1+2);
+                }
+            }
+
+            g.sftColor(isPrfssfd? shbdow : highlight);
+            g.drbwLinf(bx1, by1, bx2, by1);
+            g.drbwLinf(bx1, by1, bx1, by2);
+
+            g.sftColor(isPrfssfd? highlight : shbdow);
+            g.drbwLinf(bx2, by1+1, bx2, by2);
+            g.drbwLinf(bx1+1, by2, bx2, by2);
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            int thidknfss = (d instbndfof JButton && ((JButton)d).isDffbultCbpbblf())? 8 : 2;
+            insfts.sft(thidknfss, thidknfss, thidknfss, thidknfss);
+            rfturn insfts;
+        }
+
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss TogglfButtonBordfr fxtfnds ButtonBordfr {
+
+        publid TogglfButtonBordfr(Color shbdow, Color highlight, Color dbrkShbdow, Color fodus) {
+             supfr(shbdow, highlight, dbrkShbdow, fodus);
+        }
+
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y,
+                            int width, int hfight) {
+            if (d instbndfof AbstrbdtButton) {
+                AbstrbdtButton b = (AbstrbdtButton)d;
+                ButtonModfl modfl = b.gftModfl();
+
+                if (modfl.isArmfd() && modfl.isPrfssfd() || modfl.isSflfdtfd()) {
+                    drbwBfzfl(g, x, y, width, hfight,
+                              (modfl.isPrfssfd() || modfl.isSflfdtfd()),
+                              b.isFodusPbintfd() && b.hbsFodus(), shbdow, highlight, dbrkShbdow, fodus);
+                } flsf {
+                    drbwBfzfl(g, x, y, width, hfight,
+                              fblsf, b.isFodusPbintfd() && b.hbsFodus(),
+                              shbdow, highlight, dbrkShbdow, fodus);
+                }
+            } flsf {
+                drbwBfzfl(g, x, y, width, hfight, fblsf, fblsf,
+                          shbdow, highlight, dbrkShbdow, fodus);
+            }
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(2, 2, 3, 3);
+            rfturn insfts;
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss MfnuBbrBordfr fxtfnds ButtonBordfr {
+
+        publid MfnuBbrBordfr(Color shbdow, Color highlight, Color dbrkShbdow, Color fodus) {
+            supfr(shbdow, highlight, dbrkShbdow, fodus);
+        }
+
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+            if (!(d instbndfof JMfnuBbr)) {
+                rfturn;
+            }
+            JMfnuBbr mfnuBbr = (JMfnuBbr)d;
+            if (mfnuBbr.isBordfrPbintfd() == truf) {
+                // this drbws thf MfnuBbr bordfr
+                Dimfnsion sizf = mfnuBbr.gftSizf();
+                drbwBfzfl(g,x,y,sizf.width,sizf.hfight,fblsf,fblsf,
+                          shbdow, highlight, dbrkShbdow, fodus);
+            }
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(6, 6, 6, 6);
+            rfturn insfts;
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss FrbmfBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+
+        JComponfnt jdomp;
+        Color frbmfHighlight;
+        Color frbmfColor;
+        Color frbmfShbdow;
+
+        // Thf width of thf bordfr
+        publid finbl stbtid int BORDER_SIZE = 5;
+
+        /** Construdts bn FrbmfBordfr for thf JComponfnt <b>domp</b>.
+        */
+        publid FrbmfBordfr(JComponfnt domp) {
+            jdomp = domp;
+        }
+
+        /** Sfts thf FrbmfBordfr's JComponfnt.
+      */
+        publid void sftComponfnt(JComponfnt domp) {
+            jdomp = domp;
+        }
+
+        /** Rfturns thf FrbmfBordfr's JComponfnt.
+          * @sff #sftComponfnt
+          */
+        publid JComponfnt domponfnt() {
+            rfturn jdomp;
+        }
+
+        protfdtfd Color gftFrbmfHighlight() {
+            rfturn frbmfHighlight;
+        }
+
+        protfdtfd Color gftFrbmfColor() {
+            rfturn frbmfColor;
+        }
+
+        protfdtfd Color gftFrbmfShbdow() {
+            rfturn frbmfShbdow;
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts nfwInsfts) {
+            nfwInsfts.sft(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE);
+            rfturn nfwInsfts;
+        }
+
+       /** Drbws thf FrbmfBordfr's top bordfr.
+         */
+        protfdtfd boolfbn drbwTopBordfr(Componfnt d, Grbphids g,
+                                    int x, int y, int width, int hfight) {
+            Rfdtbnglf titlfBbrRfdt = nfw Rfdtbnglf(x, y, width, BORDER_SIZE);
+            if (!g.gftClipBounds().intfrsfdts(titlfBbrRfdt)) {
+                rfturn fblsf;
+            }
+
+            int mbxX = width - 1;
+            int mbxY = BORDER_SIZE - 1;
+
+            // Drbw frbmf
+            g.sftColor(frbmfColor);
+            g.drbwLinf(x, y + 2, mbxX - 2, y + 2);
+            g.drbwLinf(x, y + 3, mbxX - 2, y + 3);
+            g.drbwLinf(x, y + 4, mbxX - 2, y + 4);
+
+            // Drbw highlights
+            g.sftColor(frbmfHighlight);
+            g.drbwLinf(x, y, mbxX, y);
+            g.drbwLinf(x, y + 1, mbxX, y + 1);
+            g.drbwLinf(x, y + 2, x, y + 4);
+            g.drbwLinf(x + 1, y + 2, x + 1, y + 4);
+
+            // Drbw shbdows
+            g.sftColor(frbmfShbdow);
+            g.drbwLinf(x + 4, y + 4, mbxX - 4, y + 4);
+            g.drbwLinf(mbxX, y + 1, mbxX, mbxY);
+            g.drbwLinf(mbxX - 1, y + 2, mbxX - 1, mbxY);
+
+            rfturn truf;
+        }
+
+        /** Drbws thf FrbmfBordfr's lfft bordfr.
+          */
+        protfdtfd boolfbn drbwLfftBordfr(Componfnt d, Grbphids g, int x, int y,
+                               int width, int hfight) {
+            Rfdtbnglf bordfrRfdt =
+                nfw Rfdtbnglf(0, 0, gftBordfrInsfts(d).lfft, hfight);
+            if (!g.gftClipBounds().intfrsfdts(bordfrRfdt)) {
+                rfturn fblsf;
+            }
+
+            int stbrtY = BORDER_SIZE;
+
+            g.sftColor(frbmfHighlight);
+            g.drbwLinf(x, stbrtY, x, hfight - 1);
+            g.drbwLinf(x + 1, stbrtY, x + 1, hfight - 2);
+
+            g.sftColor(frbmfColor);
+            g.fillRfdt(x + 2, stbrtY, x + 2, hfight - 3);
+
+            g.sftColor(frbmfShbdow);
+            g.drbwLinf(x + 4, stbrtY, x + 4, hfight - 5);
+
+            rfturn truf;
+        }
+
+        /** Drbws thf FrbmfBordfr's right bordfr.
+          */
+        protfdtfd boolfbn drbwRightBordfr(Componfnt d, Grbphids g, int x, int y,
+                                int width, int hfight) {
+            Rfdtbnglf bordfrRfdt = nfw Rfdtbnglf(
+                width - gftBordfrInsfts(d).right, 0,
+                gftBordfrInsfts(d).right, hfight);
+            if (!g.gftClipBounds().intfrsfdts(bordfrRfdt)) {
+                rfturn fblsf;
+            }
+
+            int stbrtX = width - gftBordfrInsfts(d).right;
+            int stbrtY = BORDER_SIZE;
+
+            g.sftColor(frbmfColor);
+            g.fillRfdt(stbrtX + 1, stbrtY, 2, hfight - 1);
+
+            g.sftColor(frbmfShbdow);
+            g.fillRfdt(stbrtX + 3, stbrtY, 2, hfight - 1);
+
+            g.sftColor(frbmfHighlight);
+            g.drbwLinf(stbrtX, stbrtY, stbrtX, hfight - 1);
+
+            rfturn truf;
+        }
+
+        /** Drbws thf FrbmfBordfr's bottom bordfr.
+          */
+        protfdtfd boolfbn drbwBottomBordfr(Componfnt d, Grbphids g, int x, int y,
+                                 int width, int hfight) {
+            Rfdtbnglf    bordfrRfdt;
+            int     mbrginHfight, stbrtY;
+
+            bordfrRfdt = nfw Rfdtbnglf(0, hfight - gftBordfrInsfts(d).bottom,
+                                  width, gftBordfrInsfts(d).bottom);
+            if (!g.gftClipBounds().intfrsfdts(bordfrRfdt)) {
+                rfturn fblsf;
+            }
+
+            stbrtY = hfight - gftBordfrInsfts(d).bottom;
+
+            g.sftColor(frbmfShbdow);
+            g.drbwLinf(x + 1, hfight - 1, width - 1, hfight - 1);
+            g.drbwLinf(x + 2, hfight - 2, width - 2, hfight - 2);
+
+            g.sftColor(frbmfColor);
+            g.fillRfdt(x + 2, stbrtY + 1, width - 4, 2);
+
+            g.sftColor(frbmfHighlight);
+            g.drbwLinf(x + 5, stbrtY, width - 5, stbrtY);
+
+            rfturn truf;
+        }
+
+        // Rfturns truf if thf bssodibtfd domponfnt hbs fodus.
+        protfdtfd boolfbn isAdtivfFrbmf() {
+            rfturn jdomp.hbsFodus();
+        }
+
+        /** Drbws thf FrbmfBordfr in thf givfn Rfdt.  Cblls
+          * <b>drbwTitlfBbr</b>, <b>drbwLfftBordfr</b>, <b>drbwRightBordfr</b> bnd
+          * <b>drbwBottomBordfr</b>.
+          */
+        publid void pbintBordfr(Componfnt d, Grbphids g,
+                            int x, int y, int width, int hfight) {
+            if (isAdtivfFrbmf()) {
+                frbmfColor = UIMbnbgfr.gftColor("bdtivfCbptionBordfr");
+            } flsf {
+                frbmfColor = UIMbnbgfr.gftColor("inbdtivfCbptionBordfr");
+            }
+            frbmfHighlight = frbmfColor.brightfr();
+            frbmfShbdow = frbmfColor.dbrkfr().dbrkfr();
+
+            drbwTopBordfr(d, g, x, y, width, hfight);
+            drbwLfftBordfr(d, g, x, y, width, hfight);
+            drbwRightBordfr(d, g, x, y, width, hfight);
+            drbwBottomBordfr(d, g, x, y, width, hfight);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss IntfrnblFrbmfBordfr fxtfnds FrbmfBordfr {
+
+        JIntfrnblFrbmf frbmf;
+
+        // Thf sizf of thf bounding box for Motif frbmf dornfrs.
+        publid finbl stbtid int CORNER_SIZE = 24;
+
+        /** Construdts bn IntfrnblFrbmfBordfr for thf IntfrnblFrbmf
+          * <b>bFrbmf</b>.
+          */
+        publid IntfrnblFrbmfBordfr(JIntfrnblFrbmf bFrbmf) {
+            supfr(bFrbmf);
+            frbmf = bFrbmf;
+        }
+
+        /** Sfts thf IntfrnblFrbmfBordfr's IntfrnblFrbmf.
+          */
+        publid void sftFrbmf(JIntfrnblFrbmf bFrbmf) {
+            frbmf = bFrbmf;
+        }
+
+        /** Rfturns thf IntfrnblFrbmfBordfr's IntfrnblFrbmf.
+          * @sff #sftFrbmf
+          */
+        publid JIntfrnblFrbmf frbmf() {
+            rfturn frbmf;
+        }
+
+        /** Rfturns thf width of thf IntfrnblFrbmfBordfr's rfsizf dontrols,
+          * bppfbring blong thf IntfrnblFrbmfBordfr's bottom bordfr.  Clidking
+          * bnd drbgging within thfsf dontrols lfts thf usfr dhbngf both thf
+          * IntfrnblFrbmf's width bnd hfight, whilf drbgging bftwffn thf dontrols
+          * donstrbins rfsizing to just thf vfrtidbl dimfnsion.  Ovfrridf this
+          * mfthod if you implfmfnt your own bottom bordfr pbinting bnd usf b
+          * rfsizf dontrol with b difffrfnt sizf.
+          */
+        publid int rfsizfPbrtWidth() {
+            if (!frbmf.isRfsizbblf()) {
+                rfturn 0;
+            }
+            rfturn FrbmfBordfr.BORDER_SIZE;
+        }
+
+        /** Drbws thf IntfrnblFrbmfBordfr's top bordfr.
+         */
+        protfdtfd boolfbn drbwTopBordfr(Componfnt d, Grbphids g,
+                                    int x, int y, int width, int hfight) {
+            if (supfr.drbwTopBordfr(d, g, x, y, width, hfight) &&
+                frbmf.isRfsizbblf()) {
+                g.sftColor(gftFrbmfShbdow());
+                g.drbwLinf(CORNER_SIZE - 1, y + 1, CORNER_SIZE - 1, y + 4);
+                g.drbwLinf(width - CORNER_SIZE - 1, y + 1,
+                       width - CORNER_SIZE - 1, y + 4);
+
+                g.sftColor(gftFrbmfHighlight());
+                g.drbwLinf(CORNER_SIZE, y, CORNER_SIZE, y + 4);
+                g.drbwLinf(width - CORNER_SIZE, y, width - CORNER_SIZE, y + 4);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        /** Drbws thf IntfrnblFrbmfBordfr's lfft bordfr.
+          */
+        protfdtfd boolfbn drbwLfftBordfr(Componfnt d, Grbphids g, int x, int y,
+                                     int width, int hfight) {
+            if (supfr.drbwLfftBordfr(d, g, x, y, width, hfight) &&
+                frbmf.isRfsizbblf()) {
+                g.sftColor(gftFrbmfHighlight());
+                int topY = y + CORNER_SIZE;
+                g.drbwLinf(x, topY, x + 4, topY);
+                int bottomY = hfight - CORNER_SIZE;
+                g.drbwLinf(x + 1, bottomY, x + 5, bottomY);
+                g.sftColor(gftFrbmfShbdow());
+                g.drbwLinf(x + 1, topY - 1, x + 5, topY - 1);
+                g.drbwLinf(x + 1, bottomY - 1, x + 5, bottomY - 1);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        /** Drbws thf IntfrnblFrbmfBordfr's right bordfr.
+          */
+        protfdtfd boolfbn drbwRightBordfr(Componfnt d, Grbphids g, int x, int y,
+                                      int width, int hfight) {
+            if (supfr.drbwRightBordfr(d, g, x, y, width, hfight) &&
+                frbmf.isRfsizbblf()) {
+                int stbrtX = width - gftBordfrInsfts(d).right;
+                g.sftColor(gftFrbmfHighlight());
+                int topY = y + CORNER_SIZE;
+                g.drbwLinf(stbrtX, topY, width - 2, topY);
+                int bottomY = hfight - CORNER_SIZE;
+                g.drbwLinf(stbrtX + 1, bottomY, stbrtX + 3, bottomY);
+                g.sftColor(gftFrbmfShbdow());
+                g.drbwLinf(stbrtX + 1, topY - 1, width - 2, topY - 1);
+                g.drbwLinf(stbrtX + 1, bottomY - 1, stbrtX + 3, bottomY - 1);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        /** Drbws thf IntfrnblFrbmfBordfr's bottom bordfr.
+          */
+        protfdtfd boolfbn drbwBottomBordfr(Componfnt d, Grbphids g, int x, int y,
+                                       int width, int hfight) {
+            if (supfr.drbwBottomBordfr(d, g, x, y, width, hfight) &&
+                frbmf.isRfsizbblf()) {
+                int stbrtY = hfight - gftBordfrInsfts(d).bottom;
+
+                g.sftColor(gftFrbmfShbdow());
+                g.drbwLinf(CORNER_SIZE - 1, stbrtY + 1,
+                       CORNER_SIZE - 1, hfight - 1);
+                g.drbwLinf(width - CORNER_SIZE, stbrtY + 1,
+                       width - CORNER_SIZE, hfight - 1);
+
+                g.sftColor(gftFrbmfHighlight());
+                g.drbwLinf(CORNER_SIZE, stbrtY, CORNER_SIZE, hfight - 2);
+                g.drbwLinf(width - CORNER_SIZE + 1, stbrtY,
+                       width - CORNER_SIZE + 1, hfight - 2);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        // Rfturns truf if thf bssodibtfd intfrnbl frbmf hbs fodus.
+        protfdtfd boolfbn isAdtivfFrbmf() {
+            rfturn frbmf.isSflfdtfd();
+        }
+    }
+
+    publid stbtid void drbwBfzfl(Grbphids g, int x, int y, int w, int h,
+                               boolfbn isPrfssfd, boolfbn hbsFodus,
+                               Color shbdow, Color highlight,
+                               Color dbrkShbdow, Color fodus)  {
+
+        Color oldColor = g.gftColor();
+        g.trbnslbtf(x, y);
+
+        if (isPrfssfd) {
+            if (hbsFodus){
+                g.sftColor(fodus);
+                g.drbwRfdt(0, 0, w-1, h-1);
+            }
+            g.sftColor(shbdow);         // innfr bordfr
+            g.drbwRfdt(1, 1, w-3, h-3);
+
+            g.sftColor(highlight);    // innfr 3D bordfr
+            g.drbwLinf(2, h-3, w-3, h-3);
+            g.drbwLinf(w-3, 2, w-3, h-4);
+
+        } flsf {
+            if (hbsFodus) {
+                g.sftColor(fodus);
+                g.drbwRfdt(0, 0, w-1, h-1);
+
+                g.sftColor(highlight);   // innfr 3D bordfr
+                g.drbwLinf(1, 1, 1, h-3);
+                g.drbwLinf(2, 1, w-4, 1);
+
+                g.sftColor(shbdow);
+                g.drbwLinf(2, h-3, w-3, h-3);
+                g.drbwLinf(w-3, 1, w-3, h-4);
+
+                g.sftColor(dbrkShbdow);        // blbdk drop shbdow  __|
+                g.drbwLinf(1, h-2, w-2, h-2);
+                g.drbwLinf(w-2, h-2, w-2, 1);
+            } flsf {
+                g.sftColor(highlight);    // innfr 3D bordfr
+                g.drbwLinf(1,1,1,h-3);
+                g.drbwLinf(2,1,w-4,1);
+                g.sftColor(shbdow);
+                g.drbwLinf(2,h-3,w-3,h-3);
+                g.drbwLinf(w-3,1,w-3,h-4);
+
+                g.sftColor(dbrkShbdow);         // blbdk drop shbdow  __|
+                g.drbwLinf(1,h-2,w-2,h-2);
+                g.drbwLinf(w-2,h-2,w-2,0);
+
+            }
+            g.trbnslbtf(-x, -y);
+        }
+        g.sftColor(oldColor);
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    publid stbtid dlbss MotifPopupMfnuBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+        protfdtfd Font   font;
+        protfdtfd Color  bbdkground;
+        protfdtfd Color  forfground;
+        protfdtfd Color  shbdowColor;
+        protfdtfd Color  highlightColor;
+
+        // Spbdf bftwffn thf bordfr bnd tfxt
+        stbtid protfdtfd finbl int TEXT_SPACING = 2;
+
+        // Spbdf for thf sfpbrbtor undfr thf titlf
+        stbtid protfdtfd finbl int GROOVE_HEIGHT = 2;
+
+        /**
+         * Crfbtfs b MotifPopupMfnuBordfr instbndf
+         *
+         */
+        publid MotifPopupMfnuBordfr(
+                                    Font titlfFont,
+                                    Color bgColor,
+                                    Color fgColor,
+                                    Color shbdow,
+                                    Color highlight)       {
+            this.font = titlfFont;
+            this.bbdkground = bgColor;
+            this.forfground = fgColor;
+            this.shbdowColor = shbdow;
+            this.highlightColor = highlight;
+        }
+
+        /**
+         * Pbints thf bordfr for thf spfdififd domponfnt with thf
+         * spfdififd position bnd sizf.
+         * @pbrbm d thf domponfnt for whidh this bordfr is bfing pbintfd
+         * @pbrbm g thf pbint grbphids
+         * @pbrbm x thf x position of thf pbintfd bordfr
+         * @pbrbm y thf y position of thf pbintfd bordfr
+         * @pbrbm width thf width of thf pbintfd bordfr
+         * @pbrbm hfight thf hfight of thf pbintfd bordfr
+         */
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+            if (!(d instbndfof JPopupMfnu)) {
+                rfturn;
+            }
+
+            Font origFont = g.gftFont();
+            Color origColor = g.gftColor();
+            JPopupMfnu popup = (JPopupMfnu)d;
+
+            String titlf = popup.gftLbbfl();
+            if (titlf == null) {
+                rfturn;
+            }
+
+            g.sftFont(font);
+
+            FontMftrids fm = SwingUtilitifs2.gftFontMftrids(popup, g, font);
+            int         fontHfight = fm.gftHfight();
+            int         dfsdfnt = fm.gftDfsdfnt();
+            int         bsdfnt = fm.gftAsdfnt();
+            Point       tfxtLod = nfw Point();
+            int         stringWidth = SwingUtilitifs2.stringWidth(popup, fm,
+                                                                  titlf);
+
+            tfxtLod.y = y + bsdfnt + TEXT_SPACING;
+            tfxtLod.x = x + ((width - stringWidth) / 2);
+
+            g.sftColor(bbdkground);
+            g.fillRfdt(tfxtLod.x - TEXT_SPACING, tfxtLod.y - (fontHfight-dfsdfnt),
+                       stringWidth + (2 * TEXT_SPACING), fontHfight - dfsdfnt);
+            g.sftColor(forfground);
+            SwingUtilitifs2.drbwString(popup, g, titlf, tfxtLod.x, tfxtLod.y);
+
+            MotifGrbphidsUtils.drbwGroovf(g, x, tfxtLod.y + TEXT_SPACING,
+                                          width, GROOVE_HEIGHT,
+                                          shbdowColor, highlightColor);
+
+            g.sftFont(origFont);
+            g.sftColor(origColor);
+        }
+
+        /**
+         * Rfinitiblizf thf insfts pbrbmftfr with this Bordfr's durrfnt Insfts.
+         * @pbrbm d thf domponfnt for whidh this bordfr insfts vbluf bpplifs
+         * @pbrbm insfts thf objfdt to bf rfinitiblizfd
+         */
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            if (!(d instbndfof JPopupMfnu)) {
+                rfturn insfts;
+            }
+            FontMftrids fm;
+            int         dfsdfnt = 0;
+            int         bsdfnt = 16;
+
+            String titlf = ((JPopupMfnu)d).gftLbbfl();
+            if (titlf == null) {
+                insfts.lfft = insfts.top = insfts.right = insfts.bottom = 0;
+                rfturn insfts;
+            }
+
+            fm = d.gftFontMftrids(font);
+
+            if(fm != null) {
+                dfsdfnt = fm.gftDfsdfnt();
+                bsdfnt = fm.gftAsdfnt();
+            }
+
+            insfts.top += bsdfnt + dfsdfnt + TEXT_SPACING + GROOVE_HEIGHT;
+            rfturn insfts;
+        }
+
+    }
+
+}

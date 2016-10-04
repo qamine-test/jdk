@@ -1,1503 +1,1503 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 
-package java.nio;
+pbdkbgf jbvb.nio;
 
-#if[char]
-import java.io.IOException;
-#end[char]
-#if[streamableType]
-import java.util.Spliterator;
-import java.util.stream.StreamSupport;
-import java.util.stream.$Streamtype$Stream;
-#end[streamableType]
+#if[dibr]
+import jbvb.io.IOExdfption;
+#fnd[dibr]
+#if[strfbmbblfTypf]
+import jbvb.util.Splitfrbtor;
+import jbvb.util.strfbm.StrfbmSupport;
+import jbvb.util.strfbm.$Strfbmtypf$Strfbm;
+#fnd[strfbmbblfTypf]
 
 /**
- * $A$ $type$ buffer.
+ * $A$ $typf$ bufffr.
  *
- * <p> This class defines {#if[byte]?six:four} categories of operations upon
- * $type$ buffers:
- *
- * <ul>
- *
- *   <li><p> Absolute and relative {@link #get() <i>get</i>} and
- *   {@link #put($type$) <i>put</i>} methods that read and write
- *   single $type$s; </p></li>
- *
- *   <li><p> Relative {@link #get($type$[]) <i>bulk get</i>}
- *   methods that transfer contiguous sequences of $type$s from this buffer
- *   into an array; {#if[!byte]?and}</p></li>
- *
- *   <li><p> Relative {@link #put($type$[]) <i>bulk put</i>}
- *   methods that transfer contiguous sequences of $type$s from $a$
- *   $type$ array{#if[char]?,&#32;a&#32;string,} or some other $type$
- *   buffer into this buffer;{#if[!byte]?&#32;and} </p></li>
- *
-#if[byte]
- *
- *   <li><p> Absolute and relative {@link #getChar() <i>get</i>}
- *   and {@link #putChar(char) <i>put</i>} methods that read and
- *   write values of other primitive types, translating them to and from
- *   sequences of bytes in a particular byte order; </p></li>
- *
- *   <li><p> Methods for creating <i><a href="#views">view buffers</a></i>,
- *   which allow a byte buffer to be viewed as a buffer containing values of
- *   some other primitive type; and </p></li>
- *
-#end[byte]
- *
- *   <li><p> Methods for {@link #compact compacting}, {@link
- *   #duplicate duplicating}, and {@link #slice slicing}
- *   $a$ $type$ buffer.  </p></li>
- *
- * </ul>
- *
- * <p> $Type$ buffers can be created either by {@link #allocate
- * <i>allocation</i>}, which allocates space for the buffer's
- *
-#if[byte]
- *
- * content, or by {@link #wrap($type$[]) <i>wrapping</i>} an
- * existing $type$ array {#if[char]?or&#32;string} into a buffer.
- *
-#else[byte]
- *
- * content, by {@link #wrap($type$[]) <i>wrapping</i>} an existing
- * $type$ array {#if[char]?or&#32;string} into a buffer, or by creating a
- * <a href="ByteBuffer.html#views"><i>view</i></a> of an existing byte buffer.
- *
-#end[byte]
- *
-#if[byte]
- *
- * <a name="direct"></a>
- * <h2> Direct <i>vs.</i> non-direct buffers </h2>
- *
- * <p> A byte buffer is either <i>direct</i> or <i>non-direct</i>.  Given a
- * direct byte buffer, the Java virtual machine will make a best effort to
- * perform native I/O operations directly upon it.  That is, it will attempt to
- * avoid copying the buffer's content to (or from) an intermediate buffer
- * before (or after) each invocation of one of the underlying operating
- * system's native I/O operations.
- *
- * <p> A direct byte buffer may be created by invoking the {@link
- * #allocateDirect(int) allocateDirect} factory method of this class.  The
- * buffers returned by this method typically have somewhat higher allocation
- * and deallocation costs than non-direct buffers.  The contents of direct
- * buffers may reside outside of the normal garbage-collected heap, and so
- * their impact upon the memory footprint of an application might not be
- * obvious.  It is therefore recommended that direct buffers be allocated
- * primarily for large, long-lived buffers that are subject to the underlying
- * system's native I/O operations.  In general it is best to allocate direct
- * buffers only when they yield a measureable gain in program performance.
- *
- * <p> A direct byte buffer may also be created by {@link
- * java.nio.channels.FileChannel#map mapping} a region of a file
- * directly into memory.  An implementation of the Java platform may optionally
- * support the creation of direct byte buffers from native code via JNI.  If an
- * instance of one of these kinds of buffers refers to an inaccessible region
- * of memory then an attempt to access that region will not change the buffer's
- * content and will cause an unspecified exception to be thrown either at the
- * time of the access or at some later time.
- *
- * <p> Whether a byte buffer is direct or non-direct may be determined by
- * invoking its {@link #isDirect isDirect} method.  This method is provided so
- * that explicit buffer management can be done in performance-critical code.
- *
- *
- * <a name="bin"></a>
- * <h2> Access to binary data </h2>
- *
- * <p> This class defines methods for reading and writing values of all other
- * primitive types, except <tt>boolean</tt>.  Primitive values are translated
- * to (or from) sequences of bytes according to the buffer's current byte
- * order, which may be retrieved and modified via the {@link #order order}
- * methods.  Specific byte orders are represented by instances of the {@link
- * ByteOrder} class.  The initial order of a byte buffer is always {@link
- * ByteOrder#BIG_ENDIAN BIG_ENDIAN}.
- *
- * <p> For access to heterogeneous binary data, that is, sequences of values of
- * different types, this class defines a family of absolute and relative
- * <i>get</i> and <i>put</i> methods for each type.  For 32-bit floating-point
- * values, for example, this class defines:
- *
- * <blockquote><pre>
- * float  {@link #getFloat()}
- * float  {@link #getFloat(int) getFloat(int index)}
- *  void  {@link #putFloat(float) putFloat(float f)}
- *  void  {@link #putFloat(int,float) putFloat(int index, float f)}</pre></blockquote>
- *
- * <p> Corresponding methods are defined for the types <tt>char</tt>,
- * <tt>short</tt>, <tt>int</tt>, <tt>long</tt>, and <tt>double</tt>.  The index
- * parameters of the absolute <i>get</i> and <i>put</i> methods are in terms of
- * bytes rather than of the type being read or written.
- *
- * <a name="views"></a>
- *
- * <p> For access to homogeneous binary data, that is, sequences of values of
- * the same type, this class defines methods that can create <i>views</i> of a
- * given byte buffer.  A <i>view buffer</i> is simply another buffer whose
- * content is backed by the byte buffer.  Changes to the byte buffer's content
- * will be visible in the view buffer, and vice versa; the two buffers'
- * position, limit, and mark values are independent.  The {@link
- * #asFloatBuffer() asFloatBuffer} method, for example, creates an instance of
- * the {@link FloatBuffer} class that is backed by the byte buffer upon which
- * the method is invoked.  Corresponding view-creation methods are defined for
- * the types <tt>char</tt>, <tt>short</tt>, <tt>int</tt>, <tt>long</tt>, and
- * <tt>double</tt>.
- *
- * <p> View buffers have three important advantages over the families of
- * type-specific <i>get</i> and <i>put</i> methods described above:
+ * <p> Tiis dlbss dffinfs {#if[bytf]?six:four} dbtfgorifs of opfrbtions upon
+ * $typf$ bufffrs:
  *
  * <ul>
  *
- *   <li><p> A view buffer is indexed not in terms of bytes but rather in terms
- *   of the type-specific size of its values;  </p></li>
+ *   <li><p> Absolutf bnd rflbtivf {@link #gft() <i>gft</i>} bnd
+ *   {@link #put($typf$) <i>put</i>} mftiods tibt rfbd bnd writf
+ *   singlf $typf$s; </p></li>
  *
- *   <li><p> A view buffer provides relative bulk <i>get</i> and <i>put</i>
- *   methods that can transfer contiguous sequences of values between a buffer
- *   and an array or some other buffer of the same type; and  </p></li>
+ *   <li><p> Rflbtivf {@link #gft($typf$[]) <i>bulk gft</i>}
+ *   mftiods tibt trbnsffr dontiguous sfqufndfs of $typf$s from tiis bufffr
+ *   into bn brrby; {#if[!bytf]?bnd}</p></li>
  *
- *   <li><p> A view buffer is potentially much more efficient because it will
- *   be direct if, and only if, its backing byte buffer is direct.  </p></li>
+ *   <li><p> Rflbtivf {@link #put($typf$[]) <i>bulk put</i>}
+ *   mftiods tibt trbnsffr dontiguous sfqufndfs of $typf$s from $b$
+ *   $typf$ brrby{#if[dibr]?,&#32;b&#32;string,} or somf otifr $typf$
+ *   bufffr into tiis bufffr;{#if[!bytf]?&#32;bnd} </p></li>
+ *
+#if[bytf]
+ *
+ *   <li><p> Absolutf bnd rflbtivf {@link #gftCibr() <i>gft</i>}
+ *   bnd {@link #putCibr(dibr) <i>put</i>} mftiods tibt rfbd bnd
+ *   writf vblufs of otifr primitivf typfs, trbnslbting tifm to bnd from
+ *   sfqufndfs of bytfs in b pbrtidulbr bytf ordfr; </p></li>
+ *
+ *   <li><p> Mftiods for drfbting <i><b irff="#vifws">vifw bufffrs</b></i>,
+ *   wiidi bllow b bytf bufffr to bf vifwfd bs b bufffr dontbining vblufs of
+ *   somf otifr primitivf typf; bnd </p></li>
+ *
+#fnd[bytf]
+ *
+ *   <li><p> Mftiods for {@link #dompbdt dompbdting}, {@link
+ *   #duplidbtf duplidbting}, bnd {@link #slidf sliding}
+ *   $b$ $typf$ bufffr.  </p></li>
  *
  * </ul>
  *
- * <p> The byte order of a view buffer is fixed to be that of its byte buffer
- * at the time that the view is created.  </p>
+ * <p> $Typf$ bufffrs dbn bf drfbtfd fitifr by {@link #bllodbtf
+ * <i>bllodbtion</i>}, wiidi bllodbtfs spbdf for tif bufffr's
  *
-#end[byte]
+#if[bytf]
+ *
+ * dontfnt, or by {@link #wrbp($typf$[]) <i>wrbpping</i>} bn
+ * fxisting $typf$ brrby {#if[dibr]?or&#32;string} into b bufffr.
+ *
+#flsf[bytf]
+ *
+ * dontfnt, by {@link #wrbp($typf$[]) <i>wrbpping</i>} bn fxisting
+ * $typf$ brrby {#if[dibr]?or&#32;string} into b bufffr, or by drfbting b
+ * <b irff="BytfBufffr.itml#vifws"><i>vifw</i></b> of bn fxisting bytf bufffr.
+ *
+#fnd[bytf]
+ *
+#if[bytf]
+ *
+ * <b nbmf="dirfdt"></b>
+ * <i2> Dirfdt <i>vs.</i> non-dirfdt bufffrs </i2>
+ *
+ * <p> A bytf bufffr is fitifr <i>dirfdt</i> or <i>non-dirfdt</i>.  Givfn b
+ * dirfdt bytf bufffr, tif Jbvb virtubl mbdiinf will mbkf b bfst fffort to
+ * pfrform nbtivf I/O opfrbtions dirfdtly upon it.  Tibt is, it will bttfmpt to
+ * bvoid dopying tif bufffr's dontfnt to (or from) bn intfrmfdibtf bufffr
+ * bfforf (or bftfr) fbdi invodbtion of onf of tif undfrlying opfrbting
+ * systfm's nbtivf I/O opfrbtions.
+ *
+ * <p> A dirfdt bytf bufffr mby bf drfbtfd by invoking tif {@link
+ * #bllodbtfDirfdt(int) bllodbtfDirfdt} fbdtory mftiod of tiis dlbss.  Tif
+ * bufffrs rfturnfd by tiis mftiod typidblly ibvf somfwibt iigifr bllodbtion
+ * bnd dfbllodbtion dosts tibn non-dirfdt bufffrs.  Tif dontfnts of dirfdt
+ * bufffrs mby rfsidf outsidf of tif normbl gbrbbgf-dollfdtfd ifbp, bnd so
+ * tifir impbdt upon tif mfmory footprint of bn bpplidbtion migit not bf
+ * obvious.  It is tifrfforf rfdommfndfd tibt dirfdt bufffrs bf bllodbtfd
+ * primbrily for lbrgf, long-livfd bufffrs tibt brf subjfdt to tif undfrlying
+ * systfm's nbtivf I/O opfrbtions.  In gfnfrbl it is bfst to bllodbtf dirfdt
+ * bufffrs only wifn tify yifld b mfbsurfbblf gbin in progrbm pfrformbndf.
+ *
+ * <p> A dirfdt bytf bufffr mby blso bf drfbtfd by {@link
+ * jbvb.nio.dibnnfls.FilfCibnnfl#mbp mbpping} b rfgion of b filf
+ * dirfdtly into mfmory.  An implfmfntbtion of tif Jbvb plbtform mby optionblly
+ * support tif drfbtion of dirfdt bytf bufffrs from nbtivf dodf vib JNI.  If bn
+ * instbndf of onf of tifsf kinds of bufffrs rfffrs to bn inbddfssiblf rfgion
+ * of mfmory tifn bn bttfmpt to bddfss tibt rfgion will not dibngf tif bufffr's
+ * dontfnt bnd will dbusf bn unspfdififd fxdfption to bf tirown fitifr bt tif
+ * timf of tif bddfss or bt somf lbtfr timf.
+ *
+ * <p> Wiftifr b bytf bufffr is dirfdt or non-dirfdt mby bf dftfrminfd by
+ * invoking its {@link #isDirfdt isDirfdt} mftiod.  Tiis mftiod is providfd so
+ * tibt fxplidit bufffr mbnbgfmfnt dbn bf donf in pfrformbndf-dritidbl dodf.
+ *
+ *
+ * <b nbmf="bin"></b>
+ * <i2> Addfss to binbry dbtb </i2>
+ *
+ * <p> Tiis dlbss dffinfs mftiods for rfbding bnd writing vblufs of bll otifr
+ * primitivf typfs, fxdfpt <tt>boolfbn</tt>.  Primitivf vblufs brf trbnslbtfd
+ * to (or from) sfqufndfs of bytfs bddording to tif bufffr's durrfnt bytf
+ * ordfr, wiidi mby bf rftrifvfd bnd modififd vib tif {@link #ordfr ordfr}
+ * mftiods.  Spfdifid bytf ordfrs brf rfprfsfntfd by instbndfs of tif {@link
+ * BytfOrdfr} dlbss.  Tif initibl ordfr of b bytf bufffr is blwbys {@link
+ * BytfOrdfr#BIG_ENDIAN BIG_ENDIAN}.
+ *
+ * <p> For bddfss to iftfrogfnfous binbry dbtb, tibt is, sfqufndfs of vblufs of
+ * difffrfnt typfs, tiis dlbss dffinfs b fbmily of bbsolutf bnd rflbtivf
+ * <i>gft</i> bnd <i>put</i> mftiods for fbdi typf.  For 32-bit flobting-point
+ * vblufs, for fxbmplf, tiis dlbss dffinfs:
+ *
+ * <blodkquotf><prf>
+ * flobt  {@link #gftFlobt()}
+ * flobt  {@link #gftFlobt(int) gftFlobt(int indfx)}
+ *  void  {@link #putFlobt(flobt) putFlobt(flobt f)}
+ *  void  {@link #putFlobt(int,flobt) putFlobt(int indfx, flobt f)}</prf></blodkquotf>
+ *
+ * <p> Corrfsponding mftiods brf dffinfd for tif typfs <tt>dibr</tt>,
+ * <tt>siort</tt>, <tt>int</tt>, <tt>long</tt>, bnd <tt>doublf</tt>.  Tif indfx
+ * pbrbmftfrs of tif bbsolutf <i>gft</i> bnd <i>put</i> mftiods brf in tfrms of
+ * bytfs rbtifr tibn of tif typf bfing rfbd or writtfn.
+ *
+ * <b nbmf="vifws"></b>
+ *
+ * <p> For bddfss to iomogfnfous binbry dbtb, tibt is, sfqufndfs of vblufs of
+ * tif sbmf typf, tiis dlbss dffinfs mftiods tibt dbn drfbtf <i>vifws</i> of b
+ * givfn bytf bufffr.  A <i>vifw bufffr</i> is simply bnotifr bufffr wiosf
+ * dontfnt is bbdkfd by tif bytf bufffr.  Cibngfs to tif bytf bufffr's dontfnt
+ * will bf visiblf in tif vifw bufffr, bnd vidf vfrsb; tif two bufffrs'
+ * position, limit, bnd mbrk vblufs brf indfpfndfnt.  Tif {@link
+ * #bsFlobtBufffr() bsFlobtBufffr} mftiod, for fxbmplf, drfbtfs bn instbndf of
+ * tif {@link FlobtBufffr} dlbss tibt is bbdkfd by tif bytf bufffr upon wiidi
+ * tif mftiod is invokfd.  Corrfsponding vifw-drfbtion mftiods brf dffinfd for
+ * tif typfs <tt>dibr</tt>, <tt>siort</tt>, <tt>int</tt>, <tt>long</tt>, bnd
+ * <tt>doublf</tt>.
+ *
+ * <p> Vifw bufffrs ibvf tirff importbnt bdvbntbgfs ovfr tif fbmilifs of
+ * typf-spfdifid <i>gft</i> bnd <i>put</i> mftiods dfsdribfd bbovf:
+ *
+ * <ul>
+ *
+ *   <li><p> A vifw bufffr is indfxfd not in tfrms of bytfs but rbtifr in tfrms
+ *   of tif typf-spfdifid sizf of its vblufs;  </p></li>
+ *
+ *   <li><p> A vifw bufffr providfs rflbtivf bulk <i>gft</i> bnd <i>put</i>
+ *   mftiods tibt dbn trbnsffr dontiguous sfqufndfs of vblufs bftwffn b bufffr
+ *   bnd bn brrby or somf otifr bufffr of tif sbmf typf; bnd  </p></li>
+ *
+ *   <li><p> A vifw bufffr is potfntiblly mudi morf fffidifnt bfdbusf it will
+ *   bf dirfdt if, bnd only if, its bbdking bytf bufffr is dirfdt.  </p></li>
+ *
+ * </ul>
+ *
+ * <p> Tif bytf ordfr of b vifw bufffr is fixfd to bf tibt of its bytf bufffr
+ * bt tif timf tibt tif vifw is drfbtfd.  </p>
+ *
+#fnd[bytf]
 *
-#if[!byte]
+#if[!bytf]
  *
- * <p> Like a byte buffer, $a$ $type$ buffer is either <a
- * href="ByteBuffer.html#direct"><i>direct</i> or <i>non-direct</i></a>.  A
- * $type$ buffer created via the <tt>wrap</tt> methods of this class will
- * be non-direct.  $A$ $type$ buffer created as a view of a byte buffer will
- * be direct if, and only if, the byte buffer itself is direct.  Whether or not
- * $a$ $type$ buffer is direct may be determined by invoking the {@link
- * #isDirect isDirect} method.  </p>
+ * <p> Likf b bytf bufffr, $b$ $typf$ bufffr is fitifr <b
+ * irff="BytfBufffr.itml#dirfdt"><i>dirfdt</i> or <i>non-dirfdt</i></b>.  A
+ * $typf$ bufffr drfbtfd vib tif <tt>wrbp</tt> mftiods of tiis dlbss will
+ * bf non-dirfdt.  $A$ $typf$ bufffr drfbtfd bs b vifw of b bytf bufffr will
+ * bf dirfdt if, bnd only if, tif bytf bufffr itsflf is dirfdt.  Wiftifr or not
+ * $b$ $typf$ bufffr is dirfdt mby bf dftfrminfd by invoking tif {@link
+ * #isDirfdt isDirfdt} mftiod.  </p>
  *
-#end[!byte]
+#fnd[!bytf]
 *
-#if[char]
+#if[dibr]
  *
- * <p> This class implements the {@link CharSequence} interface so that
- * character buffers may be used wherever character sequences are accepted, for
- * example in the regular-expression package <tt>{@link java.util.regex}</tt>.
+ * <p> Tiis dlbss implfmfnts tif {@link CibrSfqufndf} intfrfbdf so tibt
+ * dibrbdtfr bufffrs mby bf usfd wifrfvfr dibrbdtfr sfqufndfs brf bddfptfd, for
+ * fxbmplf in tif rfgulbr-fxprfssion pbdkbgf <tt>{@link jbvb.util.rfgfx}</tt>.
  * </p>
  *
-#end[char]
+#fnd[dibr]
  *
-#if[byte]
- * <h2> Invocation chaining </h2>
-#end[byte]
+#if[bytf]
+ * <i2> Invodbtion dibining </i2>
+#fnd[bytf]
  *
- * <p> Methods in this class that do not otherwise have a value to return are
- * specified to return the buffer upon which they are invoked.  This allows
- * method invocations to be chained.
+ * <p> Mftiods in tiis dlbss tibt do not otifrwisf ibvf b vbluf to rfturn brf
+ * spfdififd to rfturn tif bufffr upon wiidi tify brf invokfd.  Tiis bllows
+ * mftiod invodbtions to bf dibinfd.
  *
-#if[byte]
+#if[bytf]
  *
- * The sequence of statements
+ * Tif sfqufndf of stbtfmfnts
  *
- * <blockquote><pre>
+ * <blodkquotf><prf>
  * bb.putInt(0xCAFEBABE);
- * bb.putShort(3);
- * bb.putShort(45);</pre></blockquote>
+ * bb.putSiort(3);
+ * bb.putSiort(45);</prf></blodkquotf>
  *
- * can, for example, be replaced by the single statement
+ * dbn, for fxbmplf, bf rfplbdfd by tif singlf stbtfmfnt
  *
- * <blockquote><pre>
- * bb.putInt(0xCAFEBABE).putShort(3).putShort(45);</pre></blockquote>
+ * <blodkquotf><prf>
+ * bb.putInt(0xCAFEBABE).putSiort(3).putSiort(45);</prf></blodkquotf>
  *
-#end[byte]
-#if[char]
+#fnd[bytf]
+#if[dibr]
  *
- * The sequence of statements
+ * Tif sfqufndf of stbtfmfnts
  *
- * <blockquote><pre>
- * cb.put("text/");
- * cb.put(subtype);
- * cb.put("; charset=");
- * cb.put(enc);</pre></blockquote>
+ * <blodkquotf><prf>
+ * db.put("tfxt/");
+ * db.put(subtypf);
+ * db.put("; dibrsft=");
+ * db.put(fnd);</prf></blodkquotf>
  *
- * can, for example, be replaced by the single statement
+ * dbn, for fxbmplf, bf rfplbdfd by tif singlf stbtfmfnt
  *
- * <blockquote><pre>
- * cb.put("text/").put(subtype).put("; charset=").put(enc);</pre></blockquote>
+ * <blodkquotf><prf>
+ * db.put("tfxt/").put(subtypf).put("; dibrsft=").put(fnd);</prf></blodkquotf>
  *
-#end[char]
+#fnd[dibr]
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public abstract class $Type$Buffer
-    extends Buffer
-    implements Comparable<$Type$Buffer>{#if[char]?, Appendable, CharSequence, Readable}
+publid bbstrbdt dlbss $Typf$Bufffr
+    fxtfnds Bufffr
+    implfmfnts Compbrbblf<$Typf$Bufffr>{#if[dibr]?, Appfndbblf, CibrSfqufndf, Rfbdbblf}
 {
 
-    // These fields are declared here rather than in Heap-X-Buffer in order to
-    // reduce the number of virtual method invocations needed to access these
-    // values, which is especially costly when coding small buffers.
+    // Tifsf fiflds brf dfdlbrfd ifrf rbtifr tibn in Hfbp-X-Bufffr in ordfr to
+    // rfdudf tif numbfr of virtubl mftiod invodbtions nffdfd to bddfss tifsf
+    // vblufs, wiidi is fspfdiblly dostly wifn doding smbll bufffrs.
     //
-    final $type$[] hb;                  // Non-null only for heap buffers
-    final int offset;
-    boolean isReadOnly;                 // Valid only for heap buffers
+    finbl $typf$[] ib;                  // Non-null only for ifbp bufffrs
+    finbl int offsft;
+    boolfbn isRfbdOnly;                 // Vblid only for ifbp bufffrs
 
-    // Creates a new buffer with the given mark, position, limit, capacity,
-    // backing array, and array offset
+    // Crfbtfs b nfw bufffr witi tif givfn mbrk, position, limit, dbpbdity,
+    // bbdking brrby, bnd brrby offsft
     //
-    $Type$Buffer(int mark, int pos, int lim, int cap,   // package-private
-                 $type$[] hb, int offset)
+    $Typf$Bufffr(int mbrk, int pos, int lim, int dbp,   // pbdkbgf-privbtf
+                 $typf$[] ib, int offsft)
     {
-        super(mark, pos, lim, cap);
-        this.hb = hb;
-        this.offset = offset;
+        supfr(mbrk, pos, lim, dbp);
+        tiis.ib = ib;
+        tiis.offsft = offsft;
     }
 
-    // Creates a new buffer with the given mark, position, limit, and capacity
+    // Crfbtfs b nfw bufffr witi tif givfn mbrk, position, limit, bnd dbpbdity
     //
-    $Type$Buffer(int mark, int pos, int lim, int cap) { // package-private
-        this(mark, pos, lim, cap, null, 0);
+    $Typf$Bufffr(int mbrk, int pos, int lim, int dbp) { // pbdkbgf-privbtf
+        tiis(mbrk, pos, lim, dbp, null, 0);
     }
 
-#if[byte]
+#if[bytf]
 
     /**
-     * Allocates a new direct $type$ buffer.
+     * Allodbtfs b nfw dirfdt $typf$ bufffr.
      *
-     * <p> The new buffer's position will be zero, its limit will be its
-     * capacity, its mark will be undefined, and each of its elements will be
-     * initialized to zero.  Whether or not it has a
-     * {@link #hasArray backing array} is unspecified.
+     * <p> Tif nfw bufffr's position will bf zfro, its limit will bf its
+     * dbpbdity, its mbrk will bf undffinfd, bnd fbdi of its flfmfnts will bf
+     * initiblizfd to zfro.  Wiftifr or not it ibs b
+     * {@link #ibsArrby bbdking brrby} is unspfdififd.
      *
-     * @param  capacity
-     *         The new buffer's capacity, in $type$s
+     * @pbrbm  dbpbdity
+     *         Tif nfw bufffr's dbpbdity, in $typf$s
      *
-     * @return  The new $type$ buffer
+     * @rfturn  Tif nfw $typf$ bufffr
      *
-     * @throws  IllegalArgumentException
-     *          If the <tt>capacity</tt> is a negative integer
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif <tt>dbpbdity</tt> is b nfgbtivf intfgfr
      */
-    public static $Type$Buffer allocateDirect(int capacity) {
-        return new Direct$Type$Buffer(capacity);
+    publid stbtid $Typf$Bufffr bllodbtfDirfdt(int dbpbdity) {
+        rfturn nfw Dirfdt$Typf$Bufffr(dbpbdity);
     }
 
-#end[byte]
+#fnd[bytf]
 
     /**
-     * Allocates a new $type$ buffer.
+     * Allodbtfs b nfw $typf$ bufffr.
      *
-     * <p> The new buffer's position will be zero, its limit will be its
-     * capacity, its mark will be undefined, and each of its elements will be
-     * initialized to zero.  It will have a {@link #array backing array},
-     * and its {@link #arrayOffset array offset} will be zero.
+     * <p> Tif nfw bufffr's position will bf zfro, its limit will bf its
+     * dbpbdity, its mbrk will bf undffinfd, bnd fbdi of its flfmfnts will bf
+     * initiblizfd to zfro.  It will ibvf b {@link #brrby bbdking brrby},
+     * bnd its {@link #brrbyOffsft brrby offsft} will bf zfro.
      *
-     * @param  capacity
-     *         The new buffer's capacity, in $type$s
+     * @pbrbm  dbpbdity
+     *         Tif nfw bufffr's dbpbdity, in $typf$s
      *
-     * @return  The new $type$ buffer
+     * @rfturn  Tif nfw $typf$ bufffr
      *
-     * @throws  IllegalArgumentException
-     *          If the <tt>capacity</tt> is a negative integer
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif <tt>dbpbdity</tt> is b nfgbtivf intfgfr
      */
-    public static $Type$Buffer allocate(int capacity) {
-        if (capacity < 0)
-            throw new IllegalArgumentException();
-        return new Heap$Type$Buffer(capacity, capacity);
+    publid stbtid $Typf$Bufffr bllodbtf(int dbpbdity) {
+        if (dbpbdity < 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        rfturn nfw Hfbp$Typf$Bufffr(dbpbdity, dbpbdity);
     }
 
     /**
-     * Wraps $a$ $type$ array into a buffer.
+     * Wrbps $b$ $typf$ brrby into b bufffr.
      *
-     * <p> The new buffer will be backed by the given $type$ array;
-     * that is, modifications to the buffer will cause the array to be modified
-     * and vice versa.  The new buffer's capacity will be
-     * <tt>array.length</tt>, its position will be <tt>offset</tt>, its limit
-     * will be <tt>offset + length</tt>, and its mark will be undefined.  Its
-     * {@link #array backing array} will be the given array, and
-     * its {@link #arrayOffset array offset} will be zero.  </p>
+     * <p> Tif nfw bufffr will bf bbdkfd by tif givfn $typf$ brrby;
+     * tibt is, modifidbtions to tif bufffr will dbusf tif brrby to bf modififd
+     * bnd vidf vfrsb.  Tif nfw bufffr's dbpbdity will bf
+     * <tt>brrby.lfngti</tt>, its position will bf <tt>offsft</tt>, its limit
+     * will bf <tt>offsft + lfngti</tt>, bnd its mbrk will bf undffinfd.  Its
+     * {@link #brrby bbdking brrby} will bf tif givfn brrby, bnd
+     * its {@link #brrbyOffsft brrby offsft} will bf zfro.  </p>
      *
-     * @param  array
-     *         The array that will back the new buffer
+     * @pbrbm  brrby
+     *         Tif brrby tibt will bbdk tif nfw bufffr
      *
-     * @param  offset
-     *         The offset of the subarray to be used; must be non-negative and
-     *         no larger than <tt>array.length</tt>.  The new buffer's position
-     *         will be set to this value.
+     * @pbrbm  offsft
+     *         Tif offsft of tif subbrrby to bf usfd; must bf non-nfgbtivf bnd
+     *         no lbrgfr tibn <tt>brrby.lfngti</tt>.  Tif nfw bufffr's position
+     *         will bf sft to tiis vbluf.
      *
-     * @param  length
-     *         The length of the subarray to be used;
-     *         must be non-negative and no larger than
-     *         <tt>array.length - offset</tt>.
-     *         The new buffer's limit will be set to <tt>offset + length</tt>.
+     * @pbrbm  lfngti
+     *         Tif lfngti of tif subbrrby to bf usfd;
+     *         must bf non-nfgbtivf bnd no lbrgfr tibn
+     *         <tt>brrby.lfngti - offsft</tt>.
+     *         Tif nfw bufffr's limit will bf sft to <tt>offsft + lfngti</tt>.
      *
-     * @return  The new $type$ buffer
+     * @rfturn  Tif nfw $typf$ bufffr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>offset</tt> and <tt>length</tt>
-     *          parameters do not hold
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on tif <tt>offsft</tt> bnd <tt>lfngti</tt>
+     *          pbrbmftfrs do not iold
      */
-    public static $Type$Buffer wrap($type$[] array,
-                                    int offset, int length)
+    publid stbtid $Typf$Bufffr wrbp($typf$[] brrby,
+                                    int offsft, int lfngti)
     {
         try {
-            return new Heap$Type$Buffer(array, offset, length);
-        } catch (IllegalArgumentException x) {
-            throw new IndexOutOfBoundsException();
+            rfturn nfw Hfbp$Typf$Bufffr(brrby, offsft, lfngti);
+        } dbtdi (IllfgblArgumfntExdfption x) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
     }
 
     /**
-     * Wraps $a$ $type$ array into a buffer.
+     * Wrbps $b$ $typf$ brrby into b bufffr.
      *
-     * <p> The new buffer will be backed by the given $type$ array;
-     * that is, modifications to the buffer will cause the array to be modified
-     * and vice versa.  The new buffer's capacity and limit will be
-     * <tt>array.length</tt>, its position will be zero, and its mark will be
-     * undefined.  Its {@link #array backing array} will be the
-     * given array, and its {@link #arrayOffset array offset>} will
-     * be zero.  </p>
+     * <p> Tif nfw bufffr will bf bbdkfd by tif givfn $typf$ brrby;
+     * tibt is, modifidbtions to tif bufffr will dbusf tif brrby to bf modififd
+     * bnd vidf vfrsb.  Tif nfw bufffr's dbpbdity bnd limit will bf
+     * <tt>brrby.lfngti</tt>, its position will bf zfro, bnd its mbrk will bf
+     * undffinfd.  Its {@link #brrby bbdking brrby} will bf tif
+     * givfn brrby, bnd its {@link #brrbyOffsft brrby offsft>} will
+     * bf zfro.  </p>
      *
-     * @param  array
-     *         The array that will back this buffer
+     * @pbrbm  brrby
+     *         Tif brrby tibt will bbdk tiis bufffr
      *
-     * @return  The new $type$ buffer
+     * @rfturn  Tif nfw $typf$ bufffr
      */
-    public static $Type$Buffer wrap($type$[] array) {
-        return wrap(array, 0, array.length);
+    publid stbtid $Typf$Bufffr wrbp($typf$[] brrby) {
+        rfturn wrbp(brrby, 0, brrby.lfngti);
     }
 
-#if[char]
+#if[dibr]
 
     /**
-     * Attempts to read characters into the specified character buffer.
-     * The buffer is used as a repository of characters as-is: the only
-     * changes made are the results of a put operation. No flipping or
-     * rewinding of the buffer is performed.
+     * Attfmpts to rfbd dibrbdtfrs into tif spfdififd dibrbdtfr bufffr.
+     * Tif bufffr is usfd bs b rfpository of dibrbdtfrs bs-is: tif only
+     * dibngfs mbdf brf tif rfsults of b put opfrbtion. No flipping or
+     * rfwinding of tif bufffr is pfrformfd.
      *
-     * @param target the buffer to read characters into
-     * @return The number of characters added to the buffer, or
-     *         -1 if this source of characters is at its end
-     * @throws IOException if an I/O error occurs
-     * @throws NullPointerException if target is null
-     * @throws ReadOnlyBufferException if target is a read only buffer
-     * @since 1.5
+     * @pbrbm tbrgft tif bufffr to rfbd dibrbdtfrs into
+     * @rfturn Tif numbfr of dibrbdtfrs bddfd to tif bufffr, or
+     *         -1 if tiis sourdf of dibrbdtfrs is bt its fnd
+     * @tirows IOExdfption if bn I/O frror oddurs
+     * @tirows NullPointfrExdfption if tbrgft is null
+     * @tirows RfbdOnlyBufffrExdfption if tbrgft is b rfbd only bufffr
+     * @sindf 1.5
      */
-    public int read(CharBuffer target) throws IOException {
-        // Determine the number of bytes n that can be transferred
-        int targetRemaining = target.remaining();
-        int remaining = remaining();
-        if (remaining == 0)
-            return -1;
-        int n = Math.min(remaining, targetRemaining);
+    publid int rfbd(CibrBufffr tbrgft) tirows IOExdfption {
+        // Dftfrminf tif numbfr of bytfs n tibt dbn bf trbnsffrrfd
+        int tbrgftRfmbining = tbrgft.rfmbining();
+        int rfmbining = rfmbining();
+        if (rfmbining == 0)
+            rfturn -1;
+        int n = Mbti.min(rfmbining, tbrgftRfmbining);
         int limit = limit();
-        // Set source limit to prevent target overflow
-        if (targetRemaining < remaining)
+        // Sft sourdf limit to prfvfnt tbrgft ovfrflow
+        if (tbrgftRfmbining < rfmbining)
             limit(position() + n);
         try {
             if (n > 0)
-                target.put(this);
-        } finally {
-            limit(limit); // restore real limit
+                tbrgft.put(tiis);
+        } finblly {
+            limit(limit); // rfstorf rfbl limit
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Wraps a character sequence into a buffer.
+     * Wrbps b dibrbdtfr sfqufndf into b bufffr.
      *
-     * <p> The content of the new, read-only buffer will be the content of the
-     * given character sequence.  The buffer's capacity will be
-     * <tt>csq.length()</tt>, its position will be <tt>start</tt>, its limit
-     * will be <tt>end</tt>, and its mark will be undefined.  </p>
+     * <p> Tif dontfnt of tif nfw, rfbd-only bufffr will bf tif dontfnt of tif
+     * givfn dibrbdtfr sfqufndf.  Tif bufffr's dbpbdity will bf
+     * <tt>dsq.lfngti()</tt>, its position will bf <tt>stbrt</tt>, its limit
+     * will bf <tt>fnd</tt>, bnd its mbrk will bf undffinfd.  </p>
      *
-     * @param  csq
-     *         The character sequence from which the new character buffer is to
-     *         be created
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf from wiidi tif nfw dibrbdtfr bufffr is to
+     *         bf drfbtfd
      *
-     * @param  start
-     *         The index of the first character to be used;
-     *         must be non-negative and no larger than <tt>csq.length()</tt>.
-     *         The new buffer's position will be set to this value.
+     * @pbrbm  stbrt
+     *         Tif indfx of tif first dibrbdtfr to bf usfd;
+     *         must bf non-nfgbtivf bnd no lbrgfr tibn <tt>dsq.lfngti()</tt>.
+     *         Tif nfw bufffr's position will bf sft to tiis vbluf.
      *
-     * @param  end
-     *         The index of the character following the last character to be
-     *         used; must be no smaller than <tt>start</tt> and no larger
-     *         than <tt>csq.length()</tt>.
-     *         The new buffer's limit will be set to this value.
+     * @pbrbm  fnd
+     *         Tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr to bf
+     *         usfd; must bf no smbllfr tibn <tt>stbrt</tt> bnd no lbrgfr
+     *         tibn <tt>dsq.lfngti()</tt>.
+     *         Tif nfw bufffr's limit will bf sft to tiis vbluf.
      *
-     * @return  The new character buffer
+     * @rfturn  Tif nfw dibrbdtfr bufffr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>start</tt> and <tt>end</tt>
-     *          parameters do not hold
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on tif <tt>stbrt</tt> bnd <tt>fnd</tt>
+     *          pbrbmftfrs do not iold
      */
-    public static CharBuffer wrap(CharSequence csq, int start, int end) {
+    publid stbtid CibrBufffr wrbp(CibrSfqufndf dsq, int stbrt, int fnd) {
         try {
-            return new StringCharBuffer(csq, start, end);
-        } catch (IllegalArgumentException x) {
-            throw new IndexOutOfBoundsException();
+            rfturn nfw StringCibrBufffr(dsq, stbrt, fnd);
+        } dbtdi (IllfgblArgumfntExdfption x) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
     }
 
     /**
-     * Wraps a character sequence into a buffer.
+     * Wrbps b dibrbdtfr sfqufndf into b bufffr.
      *
-     * <p> The content of the new, read-only buffer will be the content of the
-     * given character sequence.  The new buffer's capacity and limit will be
-     * <tt>csq.length()</tt>, its position will be zero, and its mark will be
-     * undefined.  </p>
+     * <p> Tif dontfnt of tif nfw, rfbd-only bufffr will bf tif dontfnt of tif
+     * givfn dibrbdtfr sfqufndf.  Tif nfw bufffr's dbpbdity bnd limit will bf
+     * <tt>dsq.lfngti()</tt>, its position will bf zfro, bnd its mbrk will bf
+     * undffinfd.  </p>
      *
-     * @param  csq
-     *         The character sequence from which the new character buffer is to
-     *         be created
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf from wiidi tif nfw dibrbdtfr bufffr is to
+     *         bf drfbtfd
      *
-     * @return  The new character buffer
+     * @rfturn  Tif nfw dibrbdtfr bufffr
      */
-    public static CharBuffer wrap(CharSequence csq) {
-        return wrap(csq, 0, csq.length());
+    publid stbtid CibrBufffr wrbp(CibrSfqufndf dsq) {
+        rfturn wrbp(dsq, 0, dsq.lfngti());
     }
 
-#end[char]
+#fnd[dibr]
 
     /**
-     * Creates a new $type$ buffer whose content is a shared subsequence of
-     * this buffer's content.
+     * Crfbtfs b nfw $typf$ bufffr wiosf dontfnt is b sibrfd subsfqufndf of
+     * tiis bufffr's dontfnt.
      *
-     * <p> The content of the new buffer will start at this buffer's current
-     * position.  Changes to this buffer's content will be visible in the new
-     * buffer, and vice versa; the two buffers' position, limit, and mark
-     * values will be independent.
+     * <p> Tif dontfnt of tif nfw bufffr will stbrt bt tiis bufffr's durrfnt
+     * position.  Cibngfs to tiis bufffr's dontfnt will bf visiblf in tif nfw
+     * bufffr, bnd vidf vfrsb; tif two bufffrs' position, limit, bnd mbrk
+     * vblufs will bf indfpfndfnt.
      *
-     * <p> The new buffer's position will be zero, its capacity and its limit
-     * will be the number of $type$s remaining in this buffer, and its mark
-     * will be undefined.  The new buffer will be direct if, and only if, this
-     * buffer is direct, and it will be read-only if, and only if, this buffer
-     * is read-only.  </p>
+     * <p> Tif nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * will bf tif numbfr of $typf$s rfmbining in tiis bufffr, bnd its mbrk
+     * will bf undffinfd.  Tif nfw bufffr will bf dirfdt if, bnd only if, tiis
+     * bufffr is dirfdt, bnd it will bf rfbd-only if, bnd only if, tiis bufffr
+     * is rfbd-only.  </p>
      *
-     * @return  The new $type$ buffer
+     * @rfturn  Tif nfw $typf$ bufffr
      */
-    public abstract $Type$Buffer slice();
+    publid bbstrbdt $Typf$Bufffr slidf();
 
     /**
-     * Creates a new $type$ buffer that shares this buffer's content.
+     * Crfbtfs b nfw $typf$ bufffr tibt sibrfs tiis bufffr's dontfnt.
      *
-     * <p> The content of the new buffer will be that of this buffer.  Changes
-     * to this buffer's content will be visible in the new buffer, and vice
-     * versa; the two buffers' position, limit, and mark values will be
-     * independent.
+     * <p> Tif dontfnt of tif nfw bufffr will bf tibt of tiis bufffr.  Cibngfs
+     * to tiis bufffr's dontfnt will bf visiblf in tif nfw bufffr, bnd vidf
+     * vfrsb; tif two bufffrs' position, limit, bnd mbrk vblufs will bf
+     * indfpfndfnt.
      *
-     * <p> The new buffer's capacity, limit, position, and mark values will be
-     * identical to those of this buffer.  The new buffer will be direct if,
-     * and only if, this buffer is direct, and it will be read-only if, and
-     * only if, this buffer is read-only.  </p>
+     * <p> Tif nfw bufffr's dbpbdity, limit, position, bnd mbrk vblufs will bf
+     * idfntidbl to tiosf of tiis bufffr.  Tif nfw bufffr will bf dirfdt if,
+     * bnd only if, tiis bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
+     * only if, tiis bufffr is rfbd-only.  </p>
      *
-     * @return  The new $type$ buffer
+     * @rfturn  Tif nfw $typf$ bufffr
      */
-    public abstract $Type$Buffer duplicate();
+    publid bbstrbdt $Typf$Bufffr duplidbtf();
 
     /**
-     * Creates a new, read-only $type$ buffer that shares this buffer's
-     * content.
+     * Crfbtfs b nfw, rfbd-only $typf$ bufffr tibt sibrfs tiis bufffr's
+     * dontfnt.
      *
-     * <p> The content of the new buffer will be that of this buffer.  Changes
-     * to this buffer's content will be visible in the new buffer; the new
-     * buffer itself, however, will be read-only and will not allow the shared
-     * content to be modified.  The two buffers' position, limit, and mark
-     * values will be independent.
+     * <p> Tif dontfnt of tif nfw bufffr will bf tibt of tiis bufffr.  Cibngfs
+     * to tiis bufffr's dontfnt will bf visiblf in tif nfw bufffr; tif nfw
+     * bufffr itsflf, iowfvfr, will bf rfbd-only bnd will not bllow tif sibrfd
+     * dontfnt to bf modififd.  Tif two bufffrs' position, limit, bnd mbrk
+     * vblufs will bf indfpfndfnt.
      *
-     * <p> The new buffer's capacity, limit, position, and mark values will be
-     * identical to those of this buffer.
+     * <p> Tif nfw bufffr's dbpbdity, limit, position, bnd mbrk vblufs will bf
+     * idfntidbl to tiosf of tiis bufffr.
      *
-     * <p> If this buffer is itself read-only then this method behaves in
-     * exactly the same way as the {@link #duplicate duplicate} method.  </p>
+     * <p> If tiis bufffr is itsflf rfbd-only tifn tiis mftiod bfibvfs in
+     * fxbdtly tif sbmf wby bs tif {@link #duplidbtf duplidbtf} mftiod.  </p>
      *
-     * @return  The new, read-only $type$ buffer
+     * @rfturn  Tif nfw, rfbd-only $typf$ bufffr
      */
-    public abstract $Type$Buffer asReadOnlyBuffer();
+    publid bbstrbdt $Typf$Bufffr bsRfbdOnlyBufffr();
 
 
-    // -- Singleton get/put methods --
+    // -- Singlfton gft/put mftiods --
 
     /**
-     * Relative <i>get</i> method.  Reads the $type$ at this buffer's
-     * current position, and then increments the position.
+     * Rflbtivf <i>gft</i> mftiod.  Rfbds tif $typf$ bt tiis bufffr's
+     * durrfnt position, bnd tifn indrfmfnts tif position.
      *
-     * @return  The $type$ at the buffer's current position
+     * @rfturn  Tif $typf$ bt tif bufffr's durrfnt position
      *
-     * @throws  BufferUnderflowException
-     *          If the buffer's current position is not smaller than its limit
+     * @tirows  BufffrUndfrflowExdfption
+     *          If tif bufffr's durrfnt position is not smbllfr tibn its limit
      */
-    public abstract $type$ get();
+    publid bbstrbdt $typf$ gft();
 
     /**
-     * Relative <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rflbtivf <i>put</i> mftiod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> Writes the given $type$ into this buffer at the current
-     * position, and then increments the position. </p>
+     * <p> Writfs tif givfn $typf$ into tiis bufffr bt tif durrfnt
+     * position, bnd tifn indrfmfnts tif position. </p>
      *
-     * @param  $x$
-     *         The $type$ to be written
+     * @pbrbm  $x$
+     *         Tif $typf$ to bf writtfn
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If this buffer's current position is not smaller than its limit
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tiis bufffr's durrfnt position is not smbllfr tibn its limit
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public abstract $Type$Buffer put($type$ $x$);
+    publid bbstrbdt $Typf$Bufffr put($typf$ $x$);
 
     /**
-     * Absolute <i>get</i> method.  Reads the $type$ at the given
-     * index.
+     * Absolutf <i>gft</i> mftiod.  Rfbds tif $typf$ bt tif givfn
+     * indfx.
      *
-     * @param  index
-     *         The index from which the $type$ will be read
+     * @pbrbm  indfx
+     *         Tif indfx from wiidi tif $typf$ will bf rfbd
      *
-     * @return  The $type$ at the given index
+     * @rfturn  Tif $typf$ bt tif givfn indfx
      *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>index</tt> is negative
-     *          or not smaller than the buffer's limit
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          or not smbllfr tibn tif bufffr's limit
      */
-    public abstract $type$ get(int index);
+    publid bbstrbdt $typf$ gft(int indfx);
 
-#if[streamableType]
+#if[strfbmbblfTypf]
     /**
-     * Absolute <i>get</i> method.  Reads the $type$ at the given
-     * index without any validation of the index.
+     * Absolutf <i>gft</i> mftiod.  Rfbds tif $typf$ bt tif givfn
+     * indfx witiout bny vblidbtion of tif indfx.
      *
-     * @param  index
-     *         The index from which the $type$ will be read
+     * @pbrbm  indfx
+     *         Tif indfx from wiidi tif $typf$ will bf rfbd
      *
-     * @return  The $type$ at the given index
+     * @rfturn  Tif $typf$ bt tif givfn indfx
      */
-    abstract $type$ getUnchecked(int index);   // package-private
-#end[streamableType]
-
-    /**
-     * Absolute <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
-     *
-     * <p> Writes the given $type$ into this buffer at the given
-     * index. </p>
-     *
-     * @param  index
-     *         The index at which the $type$ will be written
-     *
-     * @param  $x$
-     *         The $type$ value to be written
-     *
-     * @return  This buffer
-     *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>index</tt> is negative
-     *          or not smaller than the buffer's limit
-     *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
-     */
-    public abstract $Type$Buffer put(int index, $type$ $x$);
-
-
-    // -- Bulk get operations --
+    bbstrbdt $typf$ gftUndifdkfd(int indfx);   // pbdkbgf-privbtf
+#fnd[strfbmbblfTypf]
 
     /**
-     * Relative bulk <i>get</i> method.
+     * Absolutf <i>put</i> mftiod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> This method transfers $type$s from this buffer into the given
-     * destination array.  If there are fewer $type$s remaining in the
-     * buffer than are required to satisfy the request, that is, if
-     * <tt>length</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>, then no
-     * $type$s are transferred and a {@link BufferUnderflowException} is
-     * thrown.
+     * <p> Writfs tif givfn $typf$ into tiis bufffr bt tif givfn
+     * indfx. </p>
      *
-     * <p> Otherwise, this method copies <tt>length</tt> $type$s from this
-     * buffer into the given array, starting at the current position of this
-     * buffer and at the given offset in the array.  The position of this
-     * buffer is then incremented by <tt>length</tt>.
+     * @pbrbm  indfx
+     *         Tif indfx bt wiidi tif $typf$ will bf writtfn
      *
-     * <p> In other words, an invocation of this method of the form
-     * <tt>src.get(dst,&nbsp;off,&nbsp;len)</tt> has exactly the same effect as
-     * the loop
+     * @pbrbm  $x$
+     *         Tif $typf$ vbluf to bf writtfn
      *
-     * <pre>{@code
-     *     for (int i = off; i < off + len; i++)
-     *         dst[i] = src.get():
-     * }</pre>
+     * @rfturn  Tiis bufffr
      *
-     * except that it first checks that there are sufficient $type$s in
-     * this buffer and it is potentially much more efficient.
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          or not smbllfr tibn tif bufffr's limit
      *
-     * @param  dst
-     *         The array into which $type$s are to be written
-     *
-     * @param  offset
-     *         The offset within the array of the first $type$ to be
-     *         written; must be non-negative and no larger than
-     *         <tt>dst.length</tt>
-     *
-     * @param  length
-     *         The maximum number of $type$s to be written to the given
-     *         array; must be non-negative and no larger than
-     *         <tt>dst.length - offset</tt>
-     *
-     * @return  This buffer
-     *
-     * @throws  BufferUnderflowException
-     *          If there are fewer than <tt>length</tt> $type$s
-     *          remaining in this buffer
-     *
-     * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>offset</tt> and <tt>length</tt>
-     *          parameters do not hold
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public $Type$Buffer get($type$[] dst, int offset, int length) {
-        checkBounds(offset, length, dst.length);
-        if (length > remaining())
-            throw new BufferUnderflowException();
-        int end = offset + length;
-        for (int i = offset; i < end; i++)
-            dst[i] = get();
-        return this;
+    publid bbstrbdt $Typf$Bufffr put(int indfx, $typf$ $x$);
+
+
+    // -- Bulk gft opfrbtions --
+
+    /**
+     * Rflbtivf bulk <i>gft</i> mftiod.
+     *
+     * <p> Tiis mftiod trbnsffrs $typf$s from tiis bufffr into tif givfn
+     * dfstinbtion brrby.  If tifrf brf ffwfr $typf$s rfmbining in tif
+     * bufffr tibn brf rfquirfd to sbtisfy tif rfqufst, tibt is, if
+     * <tt>lfngti</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rfmbining()</tt>, tifn no
+     * $typf$s brf trbnsffrrfd bnd b {@link BufffrUndfrflowExdfption} is
+     * tirown.
+     *
+     * <p> Otifrwisf, tiis mftiod dopifs <tt>lfngti</tt> $typf$s from tiis
+     * bufffr into tif givfn brrby, stbrting bt tif durrfnt position of tiis
+     * bufffr bnd bt tif givfn offsft in tif brrby.  Tif position of tiis
+     * bufffr is tifn indrfmfntfd by <tt>lfngti</tt>.
+     *
+     * <p> In otifr words, bn invodbtion of tiis mftiod of tif form
+     * <tt>srd.gft(dst,&nbsp;off,&nbsp;lfn)</tt> ibs fxbdtly tif sbmf ffffdt bs
+     * tif loop
+     *
+     * <prf>{@dodf
+     *     for (int i = off; i < off + lfn; i++)
+     *         dst[i] = srd.gft():
+     * }</prf>
+     *
+     * fxdfpt tibt it first difdks tibt tifrf brf suffidifnt $typf$s in
+     * tiis bufffr bnd it is potfntiblly mudi morf fffidifnt.
+     *
+     * @pbrbm  dst
+     *         Tif brrby into wiidi $typf$s brf to bf writtfn
+     *
+     * @pbrbm  offsft
+     *         Tif offsft witiin tif brrby of tif first $typf$ to bf
+     *         writtfn; must bf non-nfgbtivf bnd no lbrgfr tibn
+     *         <tt>dst.lfngti</tt>
+     *
+     * @pbrbm  lfngti
+     *         Tif mbximum numbfr of $typf$s to bf writtfn to tif givfn
+     *         brrby; must bf non-nfgbtivf bnd no lbrgfr tibn
+     *         <tt>dst.lfngti - offsft</tt>
+     *
+     * @rfturn  Tiis bufffr
+     *
+     * @tirows  BufffrUndfrflowExdfption
+     *          If tifrf brf ffwfr tibn <tt>lfngti</tt> $typf$s
+     *          rfmbining in tiis bufffr
+     *
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on tif <tt>offsft</tt> bnd <tt>lfngti</tt>
+     *          pbrbmftfrs do not iold
+     */
+    publid $Typf$Bufffr gft($typf$[] dst, int offsft, int lfngti) {
+        difdkBounds(offsft, lfngti, dst.lfngti);
+        if (lfngti > rfmbining())
+            tirow nfw BufffrUndfrflowExdfption();
+        int fnd = offsft + lfngti;
+        for (int i = offsft; i < fnd; i++)
+            dst[i] = gft();
+        rfturn tiis;
     }
 
     /**
-     * Relative bulk <i>get</i> method.
+     * Rflbtivf bulk <i>gft</i> mftiod.
      *
-     * <p> This method transfers $type$s from this buffer into the given
-     * destination array.  An invocation of this method of the form
-     * <tt>src.get(a)</tt> behaves in exactly the same way as the invocation
+     * <p> Tiis mftiod trbnsffrs $typf$s from tiis bufffr into tif givfn
+     * dfstinbtion brrby.  An invodbtion of tiis mftiod of tif form
+     * <tt>srd.gft(b)</tt> bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     src.get(a, 0, a.length) </pre>
+     * <prf>
+     *     srd.gft(b, 0, b.lfngti) </prf>
      *
-     * @param   dst
-     *          The destination array
+     * @pbrbm   dst
+     *          Tif dfstinbtion brrby
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferUnderflowException
-     *          If there are fewer than <tt>length</tt> $type$s
-     *          remaining in this buffer
+     * @tirows  BufffrUndfrflowExdfption
+     *          If tifrf brf ffwfr tibn <tt>lfngti</tt> $typf$s
+     *          rfmbining in tiis bufffr
      */
-    public $Type$Buffer get($type$[] dst) {
-        return get(dst, 0, dst.length);
+    publid $Typf$Bufffr gft($typf$[] dst) {
+        rfturn gft(dst, 0, dst.lfngti);
     }
 
 
-    // -- Bulk put operations --
+    // -- Bulk put opfrbtions --
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rflbtivf bulk <i>put</i> mftiod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> This method transfers the $type$s remaining in the given source
-     * buffer into this buffer.  If there are more $type$s remaining in the
-     * source buffer than in this buffer, that is, if
-     * <tt>src.remaining()</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>,
-     * then no $type$s are transferred and a {@link
-     * BufferOverflowException} is thrown.
+     * <p> Tiis mftiod trbnsffrs tif $typf$s rfmbining in tif givfn sourdf
+     * bufffr into tiis bufffr.  If tifrf brf morf $typf$s rfmbining in tif
+     * sourdf bufffr tibn in tiis bufffr, tibt is, if
+     * <tt>srd.rfmbining()</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rfmbining()</tt>,
+     * tifn no $typf$s brf trbnsffrrfd bnd b {@link
+     * BufffrOvfrflowExdfption} is tirown.
      *
-     * <p> Otherwise, this method copies
-     * <i>n</i>&nbsp;=&nbsp;<tt>src.remaining()</tt> $type$s from the given
-     * buffer into this buffer, starting at each buffer's current position.
-     * The positions of both buffers are then incremented by <i>n</i>.
+     * <p> Otifrwisf, tiis mftiod dopifs
+     * <i>n</i>&nbsp;=&nbsp;<tt>srd.rfmbining()</tt> $typf$s from tif givfn
+     * bufffr into tiis bufffr, stbrting bt fbdi bufffr's durrfnt position.
+     * Tif positions of boti bufffrs brf tifn indrfmfntfd by <i>n</i>.
      *
-     * <p> In other words, an invocation of this method of the form
-     * <tt>dst.put(src)</tt> has exactly the same effect as the loop
+     * <p> In otifr words, bn invodbtion of tiis mftiod of tif form
+     * <tt>dst.put(srd)</tt> ibs fxbdtly tif sbmf ffffdt bs tif loop
      *
-     * <pre>
-     *     while (src.hasRemaining())
-     *         dst.put(src.get()); </pre>
+     * <prf>
+     *     wiilf (srd.ibsRfmbining())
+     *         dst.put(srd.gft()); </prf>
      *
-     * except that it first checks that there is sufficient space in this
-     * buffer and it is potentially much more efficient.
+     * fxdfpt tibt it first difdks tibt tifrf is suffidifnt spbdf in tiis
+     * bufffr bnd it is potfntiblly mudi morf fffidifnt.
      *
-     * @param  src
-     *         The source buffer from which $type$s are to be read;
-     *         must not be this buffer
+     * @pbrbm  srd
+     *         Tif sourdf bufffr from wiidi $typf$s brf to bf rfbd;
+     *         must not bf tiis bufffr
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
-     *          for the remaining $type$s in the source buffer
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf is insuffidifnt spbdf in tiis bufffr
+     *          for tif rfmbining $typf$s in tif sourdf bufffr
      *
-     * @throws  IllegalArgumentException
-     *          If the source buffer is this buffer
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif sourdf bufffr is tiis bufffr
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public $Type$Buffer put($Type$Buffer src) {
-        if (src == this)
-            throw new IllegalArgumentException();
-        if (isReadOnly())
-            throw new ReadOnlyBufferException();
-        int n = src.remaining();
-        if (n > remaining())
-            throw new BufferOverflowException();
+    publid $Typf$Bufffr put($Typf$Bufffr srd) {
+        if (srd == tiis)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (isRfbdOnly())
+            tirow nfw RfbdOnlyBufffrExdfption();
+        int n = srd.rfmbining();
+        if (n > rfmbining())
+            tirow nfw BufffrOvfrflowExdfption();
         for (int i = 0; i < n; i++)
-            put(src.get());
-        return this;
+            put(srd.gft());
+        rfturn tiis;
     }
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rflbtivf bulk <i>put</i> mftiod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> This method transfers $type$s into this buffer from the given
-     * source array.  If there are more $type$s to be copied from the array
-     * than remain in this buffer, that is, if
-     * <tt>length</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>, then no
-     * $type$s are transferred and a {@link BufferOverflowException} is
-     * thrown.
+     * <p> Tiis mftiod trbnsffrs $typf$s into tiis bufffr from tif givfn
+     * sourdf brrby.  If tifrf brf morf $typf$s to bf dopifd from tif brrby
+     * tibn rfmbin in tiis bufffr, tibt is, if
+     * <tt>lfngti</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rfmbining()</tt>, tifn no
+     * $typf$s brf trbnsffrrfd bnd b {@link BufffrOvfrflowExdfption} is
+     * tirown.
      *
-     * <p> Otherwise, this method copies <tt>length</tt> $type$s from the
-     * given array into this buffer, starting at the given offset in the array
-     * and at the current position of this buffer.  The position of this buffer
-     * is then incremented by <tt>length</tt>.
+     * <p> Otifrwisf, tiis mftiod dopifs <tt>lfngti</tt> $typf$s from tif
+     * givfn brrby into tiis bufffr, stbrting bt tif givfn offsft in tif brrby
+     * bnd bt tif durrfnt position of tiis bufffr.  Tif position of tiis bufffr
+     * is tifn indrfmfntfd by <tt>lfngti</tt>.
      *
-     * <p> In other words, an invocation of this method of the form
-     * <tt>dst.put(src,&nbsp;off,&nbsp;len)</tt> has exactly the same effect as
-     * the loop
+     * <p> In otifr words, bn invodbtion of tiis mftiod of tif form
+     * <tt>dst.put(srd,&nbsp;off,&nbsp;lfn)</tt> ibs fxbdtly tif sbmf ffffdt bs
+     * tif loop
      *
-     * <pre>{@code
-     *     for (int i = off; i < off + len; i++)
-     *         dst.put(a[i]);
-     * }</pre>
+     * <prf>{@dodf
+     *     for (int i = off; i < off + lfn; i++)
+     *         dst.put(b[i]);
+     * }</prf>
      *
-     * except that it first checks that there is sufficient space in this
-     * buffer and it is potentially much more efficient.
+     * fxdfpt tibt it first difdks tibt tifrf is suffidifnt spbdf in tiis
+     * bufffr bnd it is potfntiblly mudi morf fffidifnt.
      *
-     * @param  src
-     *         The array from which $type$s are to be read
+     * @pbrbm  srd
+     *         Tif brrby from wiidi $typf$s brf to bf rfbd
      *
-     * @param  offset
-     *         The offset within the array of the first $type$ to be read;
-     *         must be non-negative and no larger than <tt>array.length</tt>
+     * @pbrbm  offsft
+     *         Tif offsft witiin tif brrby of tif first $typf$ to bf rfbd;
+     *         must bf non-nfgbtivf bnd no lbrgfr tibn <tt>brrby.lfngti</tt>
      *
-     * @param  length
-     *         The number of $type$s to be read from the given array;
-     *         must be non-negative and no larger than
-     *         <tt>array.length - offset</tt>
+     * @pbrbm  lfngti
+     *         Tif numbfr of $typf$s to bf rfbd from tif givfn brrby;
+     *         must bf non-nfgbtivf bnd no lbrgfr tibn
+     *         <tt>brrby.lfngti - offsft</tt>
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf is insuffidifnt spbdf in tiis bufffr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>offset</tt> and <tt>length</tt>
-     *          parameters do not hold
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on tif <tt>offsft</tt> bnd <tt>lfngti</tt>
+     *          pbrbmftfrs do not iold
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public $Type$Buffer put($type$[] src, int offset, int length) {
-        checkBounds(offset, length, src.length);
-        if (length > remaining())
-            throw new BufferOverflowException();
-        int end = offset + length;
-        for (int i = offset; i < end; i++)
-            this.put(src[i]);
-        return this;
+    publid $Typf$Bufffr put($typf$[] srd, int offsft, int lfngti) {
+        difdkBounds(offsft, lfngti, srd.lfngti);
+        if (lfngti > rfmbining())
+            tirow nfw BufffrOvfrflowExdfption();
+        int fnd = offsft + lfngti;
+        for (int i = offsft; i < fnd; i++)
+            tiis.put(srd[i]);
+        rfturn tiis;
     }
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rflbtivf bulk <i>put</i> mftiod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> This method transfers the entire content of the given source
-     * $type$ array into this buffer.  An invocation of this method of the
-     * form <tt>dst.put(a)</tt> behaves in exactly the same way as the
-     * invocation
+     * <p> Tiis mftiod trbnsffrs tif fntirf dontfnt of tif givfn sourdf
+     * $typf$ brrby into tiis bufffr.  An invodbtion of tiis mftiod of tif
+     * form <tt>dst.put(b)</tt> bfibvfs in fxbdtly tif sbmf wby bs tif
+     * invodbtion
      *
-     * <pre>
-     *     dst.put(a, 0, a.length) </pre>
+     * <prf>
+     *     dst.put(b, 0, b.lfngti) </prf>
      *
-     * @param   src
-     *          The source array
+     * @pbrbm   srd
+     *          Tif sourdf brrby
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf is insuffidifnt spbdf in tiis bufffr
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public final $Type$Buffer put($type$[] src) {
-        return put(src, 0, src.length);
+    publid finbl $Typf$Bufffr put($typf$[] srd) {
+        rfturn put(srd, 0, srd.lfngti);
     }
 
-#if[char]
+#if[dibr]
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rflbtivf bulk <i>put</i> mftiod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> This method transfers $type$s from the given string into this
-     * buffer.  If there are more $type$s to be copied from the string than
-     * remain in this buffer, that is, if
-     * <tt>end&nbsp;-&nbsp;start</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>,
-     * then no $type$s are transferred and a {@link
-     * BufferOverflowException} is thrown.
+     * <p> Tiis mftiod trbnsffrs $typf$s from tif givfn string into tiis
+     * bufffr.  If tifrf brf morf $typf$s to bf dopifd from tif string tibn
+     * rfmbin in tiis bufffr, tibt is, if
+     * <tt>fnd&nbsp;-&nbsp;stbrt</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rfmbining()</tt>,
+     * tifn no $typf$s brf trbnsffrrfd bnd b {@link
+     * BufffrOvfrflowExdfption} is tirown.
      *
-     * <p> Otherwise, this method copies
-     * <i>n</i>&nbsp;=&nbsp;<tt>end</tt>&nbsp;-&nbsp;<tt>start</tt> $type$s
-     * from the given string into this buffer, starting at the given
-     * <tt>start</tt> index and at the current position of this buffer.  The
-     * position of this buffer is then incremented by <i>n</i>.
+     * <p> Otifrwisf, tiis mftiod dopifs
+     * <i>n</i>&nbsp;=&nbsp;<tt>fnd</tt>&nbsp;-&nbsp;<tt>stbrt</tt> $typf$s
+     * from tif givfn string into tiis bufffr, stbrting bt tif givfn
+     * <tt>stbrt</tt> indfx bnd bt tif durrfnt position of tiis bufffr.  Tif
+     * position of tiis bufffr is tifn indrfmfntfd by <i>n</i>.
      *
-     * <p> In other words, an invocation of this method of the form
-     * <tt>dst.put(src,&nbsp;start,&nbsp;end)</tt> has exactly the same effect
-     * as the loop
+     * <p> In otifr words, bn invodbtion of tiis mftiod of tif form
+     * <tt>dst.put(srd,&nbsp;stbrt,&nbsp;fnd)</tt> ibs fxbdtly tif sbmf ffffdt
+     * bs tif loop
      *
-     * <pre>{@code
-     *     for (int i = start; i < end; i++)
-     *         dst.put(src.charAt(i));
-     * }</pre>
+     * <prf>{@dodf
+     *     for (int i = stbrt; i < fnd; i++)
+     *         dst.put(srd.dibrAt(i));
+     * }</prf>
      *
-     * except that it first checks that there is sufficient space in this
-     * buffer and it is potentially much more efficient.
+     * fxdfpt tibt it first difdks tibt tifrf is suffidifnt spbdf in tiis
+     * bufffr bnd it is potfntiblly mudi morf fffidifnt.
      *
-     * @param  src
-     *         The string from which $type$s are to be read
+     * @pbrbm  srd
+     *         Tif string from wiidi $typf$s brf to bf rfbd
      *
-     * @param  start
-     *         The offset within the string of the first $type$ to be read;
-     *         must be non-negative and no larger than
-     *         <tt>string.length()</tt>
+     * @pbrbm  stbrt
+     *         Tif offsft witiin tif string of tif first $typf$ to bf rfbd;
+     *         must bf non-nfgbtivf bnd no lbrgfr tibn
+     *         <tt>string.lfngti()</tt>
      *
-     * @param  end
-     *         The offset within the string of the last $type$ to be read,
-     *         plus one; must be non-negative and no larger than
-     *         <tt>string.length()</tt>
+     * @pbrbm  fnd
+     *         Tif offsft witiin tif string of tif lbst $typf$ to bf rfbd,
+     *         plus onf; must bf non-nfgbtivf bnd no lbrgfr tibn
+     *         <tt>string.lfngti()</tt>
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf is insuffidifnt spbdf in tiis bufffr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>start</tt> and <tt>end</tt>
-     *          parameters do not hold
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on tif <tt>stbrt</tt> bnd <tt>fnd</tt>
+     *          pbrbmftfrs do not iold
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public $Type$Buffer put(String src, int start, int end) {
-        checkBounds(start, end - start, src.length());
-        if (isReadOnly())
-            throw new ReadOnlyBufferException();
-        if (end - start > remaining())
-            throw new BufferOverflowException();
-        for (int i = start; i < end; i++)
-            this.put(src.charAt(i));
-        return this;
+    publid $Typf$Bufffr put(String srd, int stbrt, int fnd) {
+        difdkBounds(stbrt, fnd - stbrt, srd.lfngti());
+        if (isRfbdOnly())
+            tirow nfw RfbdOnlyBufffrExdfption();
+        if (fnd - stbrt > rfmbining())
+            tirow nfw BufffrOvfrflowExdfption();
+        for (int i = stbrt; i < fnd; i++)
+            tiis.put(srd.dibrAt(i));
+        rfturn tiis;
     }
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rflbtivf bulk <i>put</i> mftiod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> This method transfers the entire content of the given source string
-     * into this buffer.  An invocation of this method of the form
-     * <tt>dst.put(s)</tt> behaves in exactly the same way as the invocation
+     * <p> Tiis mftiod trbnsffrs tif fntirf dontfnt of tif givfn sourdf string
+     * into tiis bufffr.  An invodbtion of tiis mftiod of tif form
+     * <tt>dst.put(s)</tt> bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     dst.put(s, 0, s.length()) </pre>
+     * <prf>
+     *     dst.put(s, 0, s.lfngti()) </prf>
      *
-     * @param   src
-     *          The source string
+     * @pbrbm   srd
+     *          Tif sourdf string
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf is insuffidifnt spbdf in tiis bufffr
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public final $Type$Buffer put(String src) {
-        return put(src, 0, src.length());
+    publid finbl $Typf$Bufffr put(String srd) {
+        rfturn put(srd, 0, srd.lfngti());
     }
 
-#end[char]
+#fnd[dibr]
 
 
-    // -- Other stuff --
+    // -- Otifr stuff --
 
     /**
-     * Tells whether or not this buffer is backed by an accessible $type$
-     * array.
+     * Tflls wiftifr or not tiis bufffr is bbdkfd by bn bddfssiblf $typf$
+     * brrby.
      *
-     * <p> If this method returns <tt>true</tt> then the {@link #array() array}
-     * and {@link #arrayOffset() arrayOffset} methods may safely be invoked.
+     * <p> If tiis mftiod rfturns <tt>truf</tt> tifn tif {@link #brrby() brrby}
+     * bnd {@link #brrbyOffsft() brrbyOffsft} mftiods mby sbffly bf invokfd.
      * </p>
      *
-     * @return  <tt>true</tt> if, and only if, this buffer
-     *          is backed by an array and is not read-only
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis bufffr
+     *          is bbdkfd by bn brrby bnd is not rfbd-only
      */
-    public final boolean hasArray() {
-        return (hb != null) && !isReadOnly;
+    publid finbl boolfbn ibsArrby() {
+        rfturn (ib != null) && !isRfbdOnly;
     }
 
     /**
-     * Returns the $type$ array that backs this
-     * buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rfturns tif $typf$ brrby tibt bbdks tiis
+     * bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> Modifications to this buffer's content will cause the returned
-     * array's content to be modified, and vice versa.
+     * <p> Modifidbtions to tiis bufffr's dontfnt will dbusf tif rfturnfd
+     * brrby's dontfnt to bf modififd, bnd vidf vfrsb.
      *
-     * <p> Invoke the {@link #hasArray hasArray} method before invoking this
-     * method in order to ensure that this buffer has an accessible backing
-     * array.  </p>
+     * <p> Invokf tif {@link #ibsArrby ibsArrby} mftiod bfforf invoking tiis
+     * mftiod in ordfr to fnsurf tibt tiis bufffr ibs bn bddfssiblf bbdking
+     * brrby.  </p>
      *
-     * @return  The array that backs this buffer
+     * @rfturn  Tif brrby tibt bbdks tiis bufffr
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is backed by an array but is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is bbdkfd by bn brrby but is rfbd-only
      *
-     * @throws  UnsupportedOperationException
-     *          If this buffer is not backed by an accessible array
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis bufffr is not bbdkfd by bn bddfssiblf brrby
      */
-    public final $type$[] array() {
-        if (hb == null)
-            throw new UnsupportedOperationException();
-        if (isReadOnly)
-            throw new ReadOnlyBufferException();
-        return hb;
+    publid finbl $typf$[] brrby() {
+        if (ib == null)
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+        if (isRfbdOnly)
+            tirow nfw RfbdOnlyBufffrExdfption();
+        rfturn ib;
     }
 
     /**
-     * Returns the offset within this buffer's backing array of the first
-     * element of the buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rfturns tif offsft witiin tiis bufffr's bbdking brrby of tif first
+     * flfmfnt of tif bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> If this buffer is backed by an array then buffer position <i>p</i>
-     * corresponds to array index <i>p</i>&nbsp;+&nbsp;<tt>arrayOffset()</tt>.
+     * <p> If tiis bufffr is bbdkfd by bn brrby tifn bufffr position <i>p</i>
+     * dorrfsponds to brrby indfx <i>p</i>&nbsp;+&nbsp;<tt>brrbyOffsft()</tt>.
      *
-     * <p> Invoke the {@link #hasArray hasArray} method before invoking this
-     * method in order to ensure that this buffer has an accessible backing
-     * array.  </p>
+     * <p> Invokf tif {@link #ibsArrby ibsArrby} mftiod bfforf invoking tiis
+     * mftiod in ordfr to fnsurf tibt tiis bufffr ibs bn bddfssiblf bbdking
+     * brrby.  </p>
      *
-     * @return  The offset within this buffer's array
-     *          of the first element of the buffer
+     * @rfturn  Tif offsft witiin tiis bufffr's brrby
+     *          of tif first flfmfnt of tif bufffr
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is backed by an array but is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is bbdkfd by bn brrby but is rfbd-only
      *
-     * @throws  UnsupportedOperationException
-     *          If this buffer is not backed by an accessible array
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis bufffr is not bbdkfd by bn bddfssiblf brrby
      */
-    public final int arrayOffset() {
-        if (hb == null)
-            throw new UnsupportedOperationException();
-        if (isReadOnly)
-            throw new ReadOnlyBufferException();
-        return offset;
+    publid finbl int brrbyOffsft() {
+        if (ib == null)
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+        if (isRfbdOnly)
+            tirow nfw RfbdOnlyBufffrExdfption();
+        rfturn offsft;
     }
 
     /**
-     * Compacts this buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Compbdts tiis bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> The $type$s between the buffer's current position and its limit,
-     * if any, are copied to the beginning of the buffer.  That is, the
-     * $type$ at index <i>p</i>&nbsp;=&nbsp;<tt>position()</tt> is copied
-     * to index zero, the $type$ at index <i>p</i>&nbsp;+&nbsp;1 is copied
-     * to index one, and so forth until the $type$ at index
-     * <tt>limit()</tt>&nbsp;-&nbsp;1 is copied to index
+     * <p> Tif $typf$s bftwffn tif bufffr's durrfnt position bnd its limit,
+     * if bny, brf dopifd to tif bfginning of tif bufffr.  Tibt is, tif
+     * $typf$ bt indfx <i>p</i>&nbsp;=&nbsp;<tt>position()</tt> is dopifd
+     * to indfx zfro, tif $typf$ bt indfx <i>p</i>&nbsp;+&nbsp;1 is dopifd
+     * to indfx onf, bnd so forti until tif $typf$ bt indfx
+     * <tt>limit()</tt>&nbsp;-&nbsp;1 is dopifd to indfx
      * <i>n</i>&nbsp;=&nbsp;<tt>limit()</tt>&nbsp;-&nbsp;<tt>1</tt>&nbsp;-&nbsp;<i>p</i>.
-     * The buffer's position is then set to <i>n+1</i> and its limit is set to
-     * its capacity.  The mark, if defined, is discarded.
+     * Tif bufffr's position is tifn sft to <i>n+1</i> bnd its limit is sft to
+     * its dbpbdity.  Tif mbrk, if dffinfd, is disdbrdfd.
      *
-     * <p> The buffer's position is set to the number of $type$s copied,
-     * rather than to zero, so that an invocation of this method can be
-     * followed immediately by an invocation of another relative <i>put</i>
-     * method. </p>
+     * <p> Tif bufffr's position is sft to tif numbfr of $typf$s dopifd,
+     * rbtifr tibn to zfro, so tibt bn invodbtion of tiis mftiod dbn bf
+     * followfd immfdibtfly by bn invodbtion of bnotifr rflbtivf <i>put</i>
+     * mftiod. </p>
      *
-#if[byte]
+#if[bytf]
      *
-     * <p> Invoke this method after writing data from a buffer in case the
-     * write was incomplete.  The following loop, for example, copies bytes
-     * from one channel to another via the buffer <tt>buf</tt>:
+     * <p> Invokf tiis mftiod bftfr writing dbtb from b bufffr in dbsf tif
+     * writf wbs indomplftf.  Tif following loop, for fxbmplf, dopifs bytfs
+     * from onf dibnnfl to bnotifr vib tif bufffr <tt>buf</tt>:
      *
-     * <blockquote><pre>{@code
-     *   buf.clear();          // Prepare buffer for use
-     *   while (in.read(buf) >= 0 || buf.position != 0) {
+     * <blodkquotf><prf>{@dodf
+     *   buf.dlfbr();          // Prfpbrf bufffr for usf
+     *   wiilf (in.rfbd(buf) >= 0 || buf.position != 0) {
      *       buf.flip();
-     *       out.write(buf);
-     *       buf.compact();    // In case of partial write
+     *       out.writf(buf);
+     *       buf.dompbdt();    // In dbsf of pbrtibl writf
      *   }
-     * }</pre></blockquote>
+     * }</prf></blodkquotf>
      *
-#end[byte]
+#fnd[bytf]
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      */
-    public abstract $Type$Buffer compact();
+    publid bbstrbdt $Typf$Bufffr dompbdt();
 
     /**
-     * Tells whether or not this $type$ buffer is direct.
+     * Tflls wiftifr or not tiis $typf$ bufffr is dirfdt.
      *
-     * @return  <tt>true</tt> if, and only if, this buffer is direct
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis bufffr is dirfdt
      */
-    public abstract boolean isDirect();
+    publid bbstrbdt boolfbn isDirfdt();
 
-#if[!char]
+#if[!dibr]
 
     /**
-     * Returns a string summarizing the state of this buffer.
+     * Rfturns b string summbrizing tif stbtf of tiis bufffr.
      *
-     * @return  A summary string
+     * @rfturn  A summbry string
      */
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(getClass().getName());
-        sb.append("[pos=");
-        sb.append(position());
-        sb.append(" lim=");
-        sb.append(limit());
-        sb.append(" cap=");
-        sb.append(capacity());
-        sb.append("]");
-        return sb.toString();
+    publid String toString() {
+        StringBufffr sb = nfw StringBufffr();
+        sb.bppfnd(gftClbss().gftNbmf());
+        sb.bppfnd("[pos=");
+        sb.bppfnd(position());
+        sb.bppfnd(" lim=");
+        sb.bppfnd(limit());
+        sb.bppfnd(" dbp=");
+        sb.bppfnd(dbpbdity());
+        sb.bppfnd("]");
+        rfturn sb.toString();
     }
 
-#end[!char]
+#fnd[!dibr]
 
 
-    // ## Should really use unchecked accessors here for speed
+    // ## Siould rfblly usf undifdkfd bddfssors ifrf for spffd
 
     /**
-     * Returns the current hash code of this buffer.
+     * Rfturns tif durrfnt ibsi dodf of tiis bufffr.
      *
-     * <p> The hash code of a $type$ buffer depends only upon its remaining
-     * elements; that is, upon the elements from <tt>position()</tt> up to, and
-     * including, the element at <tt>limit()</tt>&nbsp;-&nbsp;<tt>1</tt>.
+     * <p> Tif ibsi dodf of b $typf$ bufffr dfpfnds only upon its rfmbining
+     * flfmfnts; tibt is, upon tif flfmfnts from <tt>position()</tt> up to, bnd
+     * indluding, tif flfmfnt bt <tt>limit()</tt>&nbsp;-&nbsp;<tt>1</tt>.
      *
-     * <p> Because buffer hash codes are content-dependent, it is inadvisable
-     * to use buffers as keys in hash maps or similar data structures unless it
-     * is known that their contents will not change.  </p>
+     * <p> Bfdbusf bufffr ibsi dodfs brf dontfnt-dfpfndfnt, it is inbdvisbblf
+     * to usf bufffrs bs kfys in ibsi mbps or similbr dbtb strudturfs unlfss it
+     * is known tibt tifir dontfnts will not dibngf.  </p>
      *
-     * @return  The current hash code of this buffer
+     * @rfturn  Tif durrfnt ibsi dodf of tiis bufffr
      */
-    public int hashCode() {
-        int h = 1;
+    publid int ibsiCodf() {
+        int i = 1;
         int p = position();
         for (int i = limit() - 1; i >= p; i--)
 #if[int]
-            h = 31 * h + get(i);
-#else[int]
-            h = 31 * h + (int)get(i);
-#end[int]
-        return h;
+            i = 31 * i + gft(i);
+#flsf[int]
+            i = 31 * i + (int)gft(i);
+#fnd[int]
+        rfturn i;
     }
 
     /**
-     * Tells whether or not this buffer is equal to another object.
+     * Tflls wiftifr or not tiis bufffr is fqubl to bnotifr objfdt.
      *
-     * <p> Two $type$ buffers are equal if, and only if,
+     * <p> Two $typf$ bufffrs brf fqubl if, bnd only if,
      *
      * <ol>
      *
-     *   <li><p> They have the same element type,  </p></li>
+     *   <li><p> Tify ibvf tif sbmf flfmfnt typf,  </p></li>
      *
-     *   <li><p> They have the same number of remaining elements, and
+     *   <li><p> Tify ibvf tif sbmf numbfr of rfmbining flfmfnts, bnd
      *   </p></li>
      *
-     *   <li><p> The two sequences of remaining elements, considered
-     *   independently of their starting positions, are pointwise equal.
-#if[floatingPointType]
-     *   This method considers two $type$ elements {@code a} and {@code b}
-     *   to be equal if
-     *   {@code (a == b) || ($Fulltype$.isNaN(a) && $Fulltype$.isNaN(b))}.
-     *   The values {@code -0.0} and {@code +0.0} are considered to be
-     *   equal, unlike {@link $Fulltype$#equals(Object)}.
-#end[floatingPointType]
+     *   <li><p> Tif two sfqufndfs of rfmbining flfmfnts, donsidfrfd
+     *   indfpfndfntly of tifir stbrting positions, brf pointwisf fqubl.
+#if[flobtingPointTypf]
+     *   Tiis mftiod donsidfrs two $typf$ flfmfnts {@dodf b} bnd {@dodf b}
+     *   to bf fqubl if
+     *   {@dodf (b == b) || ($Fulltypf$.isNbN(b) && $Fulltypf$.isNbN(b))}.
+     *   Tif vblufs {@dodf -0.0} bnd {@dodf +0.0} brf donsidfrfd to bf
+     *   fqubl, unlikf {@link $Fulltypf$#fqubls(Objfdt)}.
+#fnd[flobtingPointTypf]
      *   </p></li>
      *
      * </ol>
      *
-     * <p> A $type$ buffer is not equal to any other type of object.  </p>
+     * <p> A $typf$ bufffr is not fqubl to bny otifr typf of objfdt.  </p>
      *
-     * @param  ob  The object to which this buffer is to be compared
+     * @pbrbm  ob  Tif objfdt to wiidi tiis bufffr is to bf dompbrfd
      *
-     * @return  <tt>true</tt> if, and only if, this buffer is equal to the
-     *           given object
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis bufffr is fqubl to tif
+     *           givfn objfdt
      */
-    public boolean equals(Object ob) {
-        if (this == ob)
-            return true;
-        if (!(ob instanceof $Type$Buffer))
-            return false;
-        $Type$Buffer that = ($Type$Buffer)ob;
-        if (this.remaining() != that.remaining())
-            return false;
-        int p = this.position();
-        for (int i = this.limit() - 1, j = that.limit() - 1; i >= p; i--, j--)
-            if (!equals(this.get(i), that.get(j)))
-                return false;
-        return true;
+    publid boolfbn fqubls(Objfdt ob) {
+        if (tiis == ob)
+            rfturn truf;
+        if (!(ob instbndfof $Typf$Bufffr))
+            rfturn fblsf;
+        $Typf$Bufffr tibt = ($Typf$Bufffr)ob;
+        if (tiis.rfmbining() != tibt.rfmbining())
+            rfturn fblsf;
+        int p = tiis.position();
+        for (int i = tiis.limit() - 1, j = tibt.limit() - 1; i >= p; i--, j--)
+            if (!fqubls(tiis.gft(i), tibt.gft(j)))
+                rfturn fblsf;
+        rfturn truf;
     }
 
-    private static boolean equals($type$ x, $type$ y) {
-#if[floatingPointType]
-        return (x == y) || ($Fulltype$.isNaN(x) && $Fulltype$.isNaN(y));
-#else[floatingPointType]
-        return x == y;
-#end[floatingPointType]
+    privbtf stbtid boolfbn fqubls($typf$ x, $typf$ y) {
+#if[flobtingPointTypf]
+        rfturn (x == y) || ($Fulltypf$.isNbN(x) && $Fulltypf$.isNbN(y));
+#flsf[flobtingPointTypf]
+        rfturn x == y;
+#fnd[flobtingPointTypf]
     }
 
     /**
-     * Compares this buffer to another.
+     * Compbrfs tiis bufffr to bnotifr.
      *
-     * <p> Two $type$ buffers are compared by comparing their sequences of
-     * remaining elements lexicographically, without regard to the starting
-     * position of each sequence within its corresponding buffer.
-#if[floatingPointType]
-     * Pairs of {@code $type$} elements are compared as if by invoking
-     * {@link $Fulltype$#compare($type$,$type$)}, except that
-     * {@code -0.0} and {@code 0.0} are considered to be equal.
-     * {@code $Fulltype$.NaN} is considered by this method to be equal
-     * to itself and greater than all other {@code $type$} values
-     * (including {@code $Fulltype$.POSITIVE_INFINITY}).
-#else[floatingPointType]
-     * Pairs of {@code $type$} elements are compared as if by invoking
-     * {@link $Fulltype$#compare($type$,$type$)}.
-#end[floatingPointType]
+     * <p> Two $typf$ bufffrs brf dompbrfd by dompbring tifir sfqufndfs of
+     * rfmbining flfmfnts lfxidogrbpiidblly, witiout rfgbrd to tif stbrting
+     * position of fbdi sfqufndf witiin its dorrfsponding bufffr.
+#if[flobtingPointTypf]
+     * Pbirs of {@dodf $typf$} flfmfnts brf dompbrfd bs if by invoking
+     * {@link $Fulltypf$#dompbrf($typf$,$typf$)}, fxdfpt tibt
+     * {@dodf -0.0} bnd {@dodf 0.0} brf donsidfrfd to bf fqubl.
+     * {@dodf $Fulltypf$.NbN} is donsidfrfd by tiis mftiod to bf fqubl
+     * to itsflf bnd grfbtfr tibn bll otifr {@dodf $typf$} vblufs
+     * (indluding {@dodf $Fulltypf$.POSITIVE_INFINITY}).
+#flsf[flobtingPointTypf]
+     * Pbirs of {@dodf $typf$} flfmfnts brf dompbrfd bs if by invoking
+     * {@link $Fulltypf$#dompbrf($typf$,$typf$)}.
+#fnd[flobtingPointTypf]
      *
-     * <p> A $type$ buffer is not comparable to any other type of object.
+     * <p> A $typf$ bufffr is not dompbrbblf to bny otifr typf of objfdt.
      *
-     * @return  A negative integer, zero, or a positive integer as this buffer
-     *          is less than, equal to, or greater than the given buffer
+     * @rfturn  A nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis bufffr
+     *          is lfss tibn, fqubl to, or grfbtfr tibn tif givfn bufffr
      */
-    public int compareTo($Type$Buffer that) {
-        int n = this.position() + Math.min(this.remaining(), that.remaining());
-        for (int i = this.position(), j = that.position(); i < n; i++, j++) {
-            int cmp = compare(this.get(i), that.get(j));
-            if (cmp != 0)
-                return cmp;
+    publid int dompbrfTo($Typf$Bufffr tibt) {
+        int n = tiis.position() + Mbti.min(tiis.rfmbining(), tibt.rfmbining());
+        for (int i = tiis.position(), j = tibt.position(); i < n; i++, j++) {
+            int dmp = dompbrf(tiis.gft(i), tibt.gft(j));
+            if (dmp != 0)
+                rfturn dmp;
         }
-        return this.remaining() - that.remaining();
+        rfturn tiis.rfmbining() - tibt.rfmbining();
     }
 
-    private static int compare($type$ x, $type$ y) {
-#if[floatingPointType]
-        return ((x < y)  ? -1 :
+    privbtf stbtid int dompbrf($typf$ x, $typf$ y) {
+#if[flobtingPointTypf]
+        rfturn ((x < y)  ? -1 :
                 (x > y)  ? +1 :
                 (x == y) ?  0 :
-                $Fulltype$.isNaN(x) ? ($Fulltype$.isNaN(y) ? 0 : +1) : -1);
-#else[floatingPointType]
-        return $Fulltype$.compare(x, y);
-#end[floatingPointType]
+                $Fulltypf$.isNbN(x) ? ($Fulltypf$.isNbN(y) ? 0 : +1) : -1);
+#flsf[flobtingPointTypf]
+        rfturn $Fulltypf$.dompbrf(x, y);
+#fnd[flobtingPointTypf]
     }
 
-    // -- Other char stuff --
+    // -- Otifr dibr stuff --
 
-#if[char]
+#if[dibr]
 
     /**
-     * Returns a string containing the characters in this buffer.
+     * Rfturns b string dontbining tif dibrbdtfrs in tiis bufffr.
      *
-     * <p> The first character of the resulting string will be the character at
-     * this buffer's position, while the last character will be the character
-     * at index <tt>limit()</tt>&nbsp;-&nbsp;1.  Invoking this method does not
-     * change the buffer's position. </p>
+     * <p> Tif first dibrbdtfr of tif rfsulting string will bf tif dibrbdtfr bt
+     * tiis bufffr's position, wiilf tif lbst dibrbdtfr will bf tif dibrbdtfr
+     * bt indfx <tt>limit()</tt>&nbsp;-&nbsp;1.  Invoking tiis mftiod dofs not
+     * dibngf tif bufffr's position. </p>
      *
-     * @return  The specified string
+     * @rfturn  Tif spfdififd string
      */
-    public String toString() {
-        return toString(position(), limit());
+    publid String toString() {
+        rfturn toString(position(), limit());
     }
 
-    abstract String toString(int start, int end);       // package-private
+    bbstrbdt String toString(int stbrt, int fnd);       // pbdkbgf-privbtf
 
 
-    // --- Methods to support CharSequence ---
+    // --- Mftiods to support CibrSfqufndf ---
 
     /**
-     * Returns the length of this character buffer.
+     * Rfturns tif lfngti of tiis dibrbdtfr bufffr.
      *
-     * <p> When viewed as a character sequence, the length of a character
-     * buffer is simply the number of characters between the position
-     * (inclusive) and the limit (exclusive); that is, it is equivalent to
-     * <tt>remaining()</tt>. </p>
+     * <p> Wifn vifwfd bs b dibrbdtfr sfqufndf, tif lfngti of b dibrbdtfr
+     * bufffr is simply tif numbfr of dibrbdtfrs bftwffn tif position
+     * (indlusivf) bnd tif limit (fxdlusivf); tibt is, it is fquivblfnt to
+     * <tt>rfmbining()</tt>. </p>
      *
-     * @return  The length of this character buffer
+     * @rfturn  Tif lfngti of tiis dibrbdtfr bufffr
      */
-    public final int length() {
-        return remaining();
+    publid finbl int lfngti() {
+        rfturn rfmbining();
     }
 
     /**
-     * Reads the character at the given index relative to the current
+     * Rfbds tif dibrbdtfr bt tif givfn indfx rflbtivf to tif durrfnt
      * position.
      *
-     * @param  index
-     *         The index of the character to be read, relative to the position;
-     *         must be non-negative and smaller than <tt>remaining()</tt>
+     * @pbrbm  indfx
+     *         Tif indfx of tif dibrbdtfr to bf rfbd, rflbtivf to tif position;
+     *         must bf non-nfgbtivf bnd smbllfr tibn <tt>rfmbining()</tt>
      *
-     * @return  The character at index
-     *          <tt>position()&nbsp;+&nbsp;index</tt>
+     * @rfturn  Tif dibrbdtfr bt indfx
+     *          <tt>position()&nbsp;+&nbsp;indfx</tt>
      *
-     * @throws  IndexOutOfBoundsException
-     *          If the preconditions on <tt>index</tt> do not hold
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on <tt>indfx</tt> do not iold
      */
-    public final char charAt(int index) {
-        return get(position() + checkIndex(index, 1));
+    publid finbl dibr dibrAt(int indfx) {
+        rfturn gft(position() + difdkIndfx(indfx, 1));
     }
 
     /**
-     * Creates a new character buffer that represents the specified subsequence
-     * of this buffer, relative to the current position.
+     * Crfbtfs b nfw dibrbdtfr bufffr tibt rfprfsfnts tif spfdififd subsfqufndf
+     * of tiis bufffr, rflbtivf to tif durrfnt position.
      *
-     * <p> The new buffer will share this buffer's content; that is, if the
-     * content of this buffer is mutable then modifications to one buffer will
-     * cause the other to be modified.  The new buffer's capacity will be that
-     * of this buffer, its position will be
-     * <tt>position()</tt>&nbsp;+&nbsp;<tt>start</tt>, and its limit will be
-     * <tt>position()</tt>&nbsp;+&nbsp;<tt>end</tt>.  The new buffer will be
-     * direct if, and only if, this buffer is direct, and it will be read-only
-     * if, and only if, this buffer is read-only.  </p>
+     * <p> Tif nfw bufffr will sibrf tiis bufffr's dontfnt; tibt is, if tif
+     * dontfnt of tiis bufffr is mutbblf tifn modifidbtions to onf bufffr will
+     * dbusf tif otifr to bf modififd.  Tif nfw bufffr's dbpbdity will bf tibt
+     * of tiis bufffr, its position will bf
+     * <tt>position()</tt>&nbsp;+&nbsp;<tt>stbrt</tt>, bnd its limit will bf
+     * <tt>position()</tt>&nbsp;+&nbsp;<tt>fnd</tt>.  Tif nfw bufffr will bf
+     * dirfdt if, bnd only if, tiis bufffr is dirfdt, bnd it will bf rfbd-only
+     * if, bnd only if, tiis bufffr is rfbd-only.  </p>
      *
-     * @param  start
-     *         The index, relative to the current position, of the first
-     *         character in the subsequence; must be non-negative and no larger
-     *         than <tt>remaining()</tt>
+     * @pbrbm  stbrt
+     *         Tif indfx, rflbtivf to tif durrfnt position, of tif first
+     *         dibrbdtfr in tif subsfqufndf; must bf non-nfgbtivf bnd no lbrgfr
+     *         tibn <tt>rfmbining()</tt>
      *
-     * @param  end
-     *         The index, relative to the current position, of the character
-     *         following the last character in the subsequence; must be no
-     *         smaller than <tt>start</tt> and no larger than
-     *         <tt>remaining()</tt>
+     * @pbrbm  fnd
+     *         Tif indfx, rflbtivf to tif durrfnt position, of tif dibrbdtfr
+     *         following tif lbst dibrbdtfr in tif subsfqufndf; must bf no
+     *         smbllfr tibn <tt>stbrt</tt> bnd no lbrgfr tibn
+     *         <tt>rfmbining()</tt>
      *
-     * @return  The new character buffer
+     * @rfturn  Tif nfw dibrbdtfr bufffr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If the preconditions on <tt>start</tt> and <tt>end</tt>
-     *          do not hold
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on <tt>stbrt</tt> bnd <tt>fnd</tt>
+     *          do not iold
      */
-    public abstract CharBuffer subSequence(int start, int end);
+    publid bbstrbdt CibrBufffr subSfqufndf(int stbrt, int fnd);
 
 
-    // --- Methods to support Appendable ---
+    // --- Mftiods to support Appfndbblf ---
 
     /**
-     * Appends the specified character sequence  to this
-     * buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Appfnds tif spfdififd dibrbdtfr sfqufndf  to tiis
+     * bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> An invocation of this method of the form <tt>dst.append(csq)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>dst.bppfnd(dsq)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     dst.put(csq.toString()) </pre>
+     * <prf>
+     *     dst.put(dsq.toString()) </prf>
      *
-     * <p> Depending on the specification of <tt>toString</tt> for the
-     * character sequence <tt>csq</tt>, the entire sequence may not be
-     * appended.  For instance, invoking the {@link $Type$Buffer#toString()
-     * toString} method of a character buffer will return a subsequence whose
-     * content depends upon the buffer's position and limit.
+     * <p> Dfpfnding on tif spfdifidbtion of <tt>toString</tt> for tif
+     * dibrbdtfr sfqufndf <tt>dsq</tt>, tif fntirf sfqufndf mby not bf
+     * bppfndfd.  For instbndf, invoking tif {@link $Typf$Bufffr#toString()
+     * toString} mftiod of b dibrbdtfr bufffr will rfturn b subsfqufndf wiosf
+     * dontfnt dfpfnds upon tif bufffr's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this character buffer.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, tifn tif four dibrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to tiis dibrbdtfr bufffr.
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf is insuffidifnt spbdf in tiis bufffr
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public $Type$Buffer append(CharSequence csq) {
-        if (csq == null)
-            return put("null");
-        else
-            return put(csq.toString());
+    publid $Typf$Bufffr bppfnd(CibrSfqufndf dsq) {
+        if (dsq == null)
+            rfturn put("null");
+        flsf
+            rfturn put(dsq.toString());
     }
 
     /**
-     * Appends a subsequence of the  specified character sequence  to this
-     * buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Appfnds b subsfqufndf of tif  spfdififd dibrbdtfr sfqufndf  to tiis
+     * bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> An invocation of this method of the form <tt>dst.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behaves in exactly the
-     * same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>dst.bppfnd(dsq, stbrt,
+     * fnd)</tt> wifn <tt>dsq</tt> is not <tt>null</tt>, bfibvfs in fxbdtly tif
+     * sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     dst.put(csq.subSequence(start, end).toString()) </pre>
+     * <prf>
+     *     dst.put(dsq.subSfqufndf(stbrt, fnd).toString()) </prf>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  dsq
+     *         Tif dibrbdtfr sfqufndf from wiidi b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, tifn dibrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd tif four
+     *         dibrbdtfrs <tt>"null"</tt>.
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf is insuffidifnt spbdf in tiis bufffr
      *
-     * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
-     *          <tt>csq.length()</tt>
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr tibn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr tibn
+     *          <tt>dsq.lfngti()</tt>
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public $Type$Buffer append(CharSequence csq, int start, int end) {
-        CharSequence cs = (csq == null ? "null" : csq);
-        return put(cs.subSequence(start, end).toString());
+    publid $Typf$Bufffr bppfnd(CibrSfqufndf dsq, int stbrt, int fnd) {
+        CibrSfqufndf ds = (dsq == null ? "null" : dsq);
+        rfturn put(ds.subSfqufndf(stbrt, fnd).toString());
     }
 
     /**
-     * Appends the specified $type$  to this
-     * buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Appfnds tif spfdififd $typf$  to tiis
+     * bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> An invocation of this method of the form <tt>dst.append($x$)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invodbtion of tiis mftiod of tif form <tt>dst.bppfnd($x$)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion
      *
-     * <pre>
-     *     dst.put($x$) </pre>
+     * <prf>
+     *     dst.put($x$) </prf>
      *
-     * @param  $x$
-     *         The 16-bit $type$ to append
+     * @pbrbm  $x$
+     *         Tif 16-bit $typf$ to bppfnd
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      *
-     * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tifrf is insuffidifnt spbdf in tiis bufffr
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          If tiis bufffr is rfbd-only
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    public $Type$Buffer append($type$ $x$) {
-        return put($x$);
+    publid $Typf$Bufffr bppfnd($typf$ $x$) {
+        rfturn put($x$);
     }
 
-#end[char]
+#fnd[dibr]
 
 
-    // -- Other byte stuff: Access to binary data --
+    // -- Otifr bytf stuff: Addfss to binbry dbtb --
 
-#if[!byte]
+#if[!bytf]
 
     /**
-     * Retrieves this buffer's byte order.
+     * Rftrifvfs tiis bufffr's bytf ordfr.
      *
-     * <p> The byte order of $a$ $type$ buffer created by allocation or by
-     * wrapping an existing <tt>$type$</tt> array is the {@link
-     * ByteOrder#nativeOrder native order} of the underlying
-     * hardware.  The byte order of $a$ $type$ buffer created as a <a
-     * href="ByteBuffer.html#views">view</a> of a byte buffer is that of the
-     * byte buffer at the moment that the view is created.  </p>
+     * <p> Tif bytf ordfr of $b$ $typf$ bufffr drfbtfd by bllodbtion or by
+     * wrbpping bn fxisting <tt>$typf$</tt> brrby is tif {@link
+     * BytfOrdfr#nbtivfOrdfr nbtivf ordfr} of tif undfrlying
+     * ibrdwbrf.  Tif bytf ordfr of $b$ $typf$ bufffr drfbtfd bs b <b
+     * irff="BytfBufffr.itml#vifws">vifw</b> of b bytf bufffr is tibt of tif
+     * bytf bufffr bt tif momfnt tibt tif vifw is drfbtfd.  </p>
      *
-     * @return  This buffer's byte order
+     * @rfturn  Tiis bufffr's bytf ordfr
      */
-    public abstract ByteOrder order();
+    publid bbstrbdt BytfOrdfr ordfr();
 
-#end[!byte]
+#fnd[!bytf]
 
-#if[byte]
+#if[bytf]
 
-    boolean bigEndian                                   // package-private
-        = true;
-    boolean nativeByteOrder                             // package-private
-        = (Bits.byteOrder() == ByteOrder.BIG_ENDIAN);
+    boolfbn bigEndibn                                   // pbdkbgf-privbtf
+        = truf;
+    boolfbn nbtivfBytfOrdfr                             // pbdkbgf-privbtf
+        = (Bits.bytfOrdfr() == BytfOrdfr.BIG_ENDIAN);
 
     /**
-     * Retrieves this buffer's byte order.
+     * Rftrifvfs tiis bufffr's bytf ordfr.
      *
-     * <p> The byte order is used when reading or writing multibyte values, and
-     * when creating buffers that are views of this byte buffer.  The order of
-     * a newly-created byte buffer is always {@link ByteOrder#BIG_ENDIAN
+     * <p> Tif bytf ordfr is usfd wifn rfbding or writing multibytf vblufs, bnd
+     * wifn drfbting bufffrs tibt brf vifws of tiis bytf bufffr.  Tif ordfr of
+     * b nfwly-drfbtfd bytf bufffr is blwbys {@link BytfOrdfr#BIG_ENDIAN
      * BIG_ENDIAN}.  </p>
      *
-     * @return  This buffer's byte order
+     * @rfturn  Tiis bufffr's bytf ordfr
      */
-    public final ByteOrder order() {
-        return bigEndian ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
+    publid finbl BytfOrdfr ordfr() {
+        rfturn bigEndibn ? BytfOrdfr.BIG_ENDIAN : BytfOrdfr.LITTLE_ENDIAN;
     }
 
     /**
-     * Modifies this buffer's byte order.
+     * Modififs tiis bufffr's bytf ordfr.
      *
-     * @param  bo
-     *         The new byte order,
-     *         either {@link ByteOrder#BIG_ENDIAN BIG_ENDIAN}
-     *         or {@link ByteOrder#LITTLE_ENDIAN LITTLE_ENDIAN}
+     * @pbrbm  bo
+     *         Tif nfw bytf ordfr,
+     *         fitifr {@link BytfOrdfr#BIG_ENDIAN BIG_ENDIAN}
+     *         or {@link BytfOrdfr#LITTLE_ENDIAN LITTLE_ENDIAN}
      *
-     * @return  This buffer
+     * @rfturn  Tiis bufffr
      */
-    public final $Type$Buffer order(ByteOrder bo) {
-        bigEndian = (bo == ByteOrder.BIG_ENDIAN);
-        nativeByteOrder =
-            (bigEndian == (Bits.byteOrder() == ByteOrder.BIG_ENDIAN));
-        return this;
+    publid finbl $Typf$Bufffr ordfr(BytfOrdfr bo) {
+        bigEndibn = (bo == BytfOrdfr.BIG_ENDIAN);
+        nbtivfBytfOrdfr =
+            (bigEndibn == (Bits.bytfOrdfr() == BytfOrdfr.BIG_ENDIAN));
+        rfturn tiis;
     }
 
-    // Unchecked accessors, for use by ByteBufferAs-X-Buffer classes
+    // Undifdkfd bddfssors, for usf by BytfBufffrAs-X-Bufffr dlbssfs
     //
-    abstract byte _get(int i);                          // package-private
-    abstract void _put(int i, byte b);                  // package-private
+    bbstrbdt bytf _gft(int i);                          // pbdkbgf-privbtf
+    bbstrbdt void _put(int i, bytf b);                  // pbdkbgf-privbtf
 
     // #BIN
     //
-    // Binary-data access methods  for short, char, int, long, float,
-    // and double will be inserted here
+    // Binbry-dbtb bddfss mftiods  for siort, dibr, int, long, flobt,
+    // bnd doublf will bf insfrtfd ifrf
 
-#end[byte]
+#fnd[bytf]
 
-#if[streamableType]
+#if[strfbmbblfTypf]
 
-#if[char]
-    @Override
-#end[char]
-    public $Streamtype$Stream $type$s() {
-        return StreamSupport.$streamtype$Stream(() -> new $Type$BufferSpliterator(this),
-            Buffer.SPLITERATOR_CHARACTERISTICS, false);
+#if[dibr]
+    @Ovfrridf
+#fnd[dibr]
+    publid $Strfbmtypf$Strfbm $typf$s() {
+        rfturn StrfbmSupport.$strfbmtypf$Strfbm(() -> nfw $Typf$BufffrSplitfrbtor(tiis),
+            Bufffr.SPLITERATOR_CHARACTERISTICS, fblsf);
     }
 
-#end[streamableType]
+#fnd[strfbmbblfTypf]
 
 }

@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.logging.Level;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.logging.Lfvfl;
 
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.EnumRowStatus;
-import com.sun.jmx.snmp.SnmpInt;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpVarBind;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.EnumRowStbtus;
+import dom.sun.jmx.snmp.SnmpInt;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
 
 /**
- * This class is the base class for SNMP table metadata.
+ * Tiis dlbss is tif bbsf dlbss for SNMP tbblf mftbdbtb.
  * <p>
- * Its responsibility is to manage a sorted array of OID indexes
- * according to the SNMP indexing scheme over the "real" table.
- * Each object of this class can be bound to an
- * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} to which it will
- * forward remote entry creation requests, and invoke callbacks
- * when an entry has been successfully added to / removed from
- * the OID index array.
+ * Its rfsponsibility is to mbnbgf b sortfd brrby of OID indfxfs
+ * bddording to tif SNMP indfxing sdifmf ovfr tif "rfbl" tbblf.
+ * Ebdi objfdt of tiis dlbss dbn bf bound to bn
+ * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} to wiidi it will
+ * forwbrd rfmotf fntry drfbtion rfqufsts, bnd invokf dbllbbdks
+ * wifn bn fntry ibs bffn suddfssfully bddfd to / rfmovfd from
+ * tif OID indfx brrby.
  * </p>
  *
  * <p>
- * For each table defined in the MIB, mibgen will generate a specific
- * class called Table<i>TableName</i> that will implement the
- * SnmpTableEntryFactory interface, and a corresponding
- * <i>TableName</i>Meta class that will extend this class. <br>
- * The Table<i>TableName</i> class corresponds to the MBean view of the
- * table while the <i>TableName</i>Meta class corresponds to the
- * MIB metadata view of the same table.
+ * For fbdi tbblf dffinfd in tif MIB, mibgfn will gfnfrbtf b spfdifid
+ * dlbss dbllfd Tbblf<i>TbblfNbmf</i> tibt will implfmfnt tif
+ * SnmpTbblfEntryFbdtory intfrfbdf, bnd b dorrfsponding
+ * <i>TbblfNbmf</i>Mftb dlbss tibt will fxtfnd tiis dlbss. <br>
+ * Tif Tbblf<i>TbblfNbmf</i> dlbss dorrfsponds to tif MBfbn vifw of tif
+ * tbblf wiilf tif <i>TbblfNbmf</i>Mftb dlbss dorrfsponds to tif
+ * MIB mftbdbtb vifw of tif sbmf tbblf.
  * </p>
  *
  * <p>
- * Objects of this class are instantiated by the generated
- * whole MIB class extending {@link com.sun.jmx.snmp.agent.SnmpMib}
- * You should never need to instantiate this class directly.
+ * Objfdts of tiis dlbss brf instbntibtfd by tif gfnfrbtfd
+ * wiolf MIB dlbss fxtfnding {@link dom.sun.jmx.snmp.bgfnt.SnmpMib}
+ * You siould nfvfr nffd to instbntibtf tiis dlbss dirfdtly.
  * </p>
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @see com.sun.jmx.snmp.agent.SnmpMib
- * @see com.sun.jmx.snmp.agent.SnmpMibEntry
- * @see com.sun.jmx.snmp.agent.SnmpTableEntryFactory
- * @see com.sun.jmx.snmp.agent.SnmpTableSupport
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpMib
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibEntry
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpTbblfSupport
  *
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpMibTable extends SnmpMibNode
-    implements NotificationBroadcaster, Serializable {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpMibTbblf fxtfnds SnmpMibNodf
+    implfmfnts NotifidbtionBrobddbstfr, Sfriblizbblf {
 
     /**
-     * Create a new <CODE>SnmpMibTable</CODE> metadata node.
+     * Crfbtf b nfw <CODE>SnmpMibTbblf</CODE> mftbdbtb nodf.
      *
      * <p>
-     * @param mib The SNMP MIB to which the metadata will be linked.
+     * @pbrbm mib Tif SNMP MIB to wiidi tif mftbdbtb will bf linkfd.
      */
-    public SnmpMibTable(SnmpMib mib) {
-        this.theMib= mib;
-        setCreationEnabled(false);
+    publid SnmpMibTbblf(SnmpMib mib) {
+        tiis.tifMib= mib;
+        sftCrfbtionEnbblfd(fblsf);
     }
 
     // -------------------------------------------------------------------
@@ -104,2099 +104,2099 @@ public abstract class SnmpMibTable extends SnmpMibNode
     // -------------------------------------------------------------------
 
     /**
-     * This method is invoked when the creation of a new entry is requested
-     * by a remote SNMP manager.
-     * <br>By default, remote entry creation is disabled - and this method
-     * will not be called. You can dynamically switch the entry creation
-     * policy by calling <code>setCreationEnabled(true)</code> and <code>
-     * setCreationEnabled(false)</code> on this object.
+     * Tiis mftiod is invokfd wifn tif drfbtion of b nfw fntry is rfqufstfd
+     * by b rfmotf SNMP mbnbgfr.
+     * <br>By dffbult, rfmotf fntry drfbtion is disbblfd - bnd tiis mftiod
+     * will not bf dbllfd. You dbn dynbmidblly switdi tif fntry drfbtion
+     * polidy by dblling <dodf>sftCrfbtionEnbblfd(truf)</dodf> bnd <dodf>
+     * sftCrfbtionEnbblfd(fblsf)</dodf> on tiis objfdt.
      * <p><b><i>
-     * This method is called internally by the SNMP runtime and you
-     * should never need to call it directly. </b></i>However you might want
-     * to extend it in order to implement your own specific application
-     * behaviour, should the default behaviour not be at your convenience.
+     * Tiis mftiod is dbllfd intfrnblly by tif SNMP runtimf bnd you
+     * siould nfvfr nffd to dbll it dirfdtly. </b></i>Howfvfr you migit wbnt
+     * to fxtfnd it in ordfr to implfmfnt your own spfdifid bpplidbtion
+     * bfibviour, siould tif dffbult bfibviour not bf bt your donvfnifndf.
      * </p>
      * <p>
-     * @param req   The SNMP  subrequest requesting this creation
-     * @param rowOid  The OID indexing the conceptual row (entry) for which
-     *                the creation was requested.
-     * @param depth The position of the columnar object arc in the OIDs
-     *              from the varbind list.
+     * @pbrbm rfq   Tif SNMP  subrfqufst rfqufsting tiis drfbtion
+     * @pbrbm rowOid  Tif OID indfxing tif dondfptubl row (fntry) for wiidi
+     *                tif drfbtion wbs rfqufstfd.
+     * @pbrbm dfpti Tif position of tif dolumnbr objfdt brd in tif OIDs
+     *              from tif vbrbind list.
      *
-     * @exception SnmpStatusException if the entry cannot be created.
+     * @fxdfption SnmpStbtusExdfption if tif fntry dbnnot bf drfbtfd.
      */
-    public abstract void createNewEntry(SnmpMibSubRequest req, SnmpOid rowOid,
-                                        int depth)
-        throws SnmpStatusException;
+    publid bbstrbdt void drfbtfNfwEntry(SnmpMibSubRfqufst rfq, SnmpOid rowOid,
+                                        int dfpti)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Tell whether the specific version of this metadata generated
-     * by <code>mibgen</code> requires entries to be registered with
-     * the MBeanServer. In this case an ObjectName will have to be
-     * passed to addEntry() in order for the table to behave correctly
-     * (case of the generic metadata).
+     * Tfll wiftifr tif spfdifid vfrsion of tiis mftbdbtb gfnfrbtfd
+     * by <dodf>mibgfn</dodf> rfquirfs fntrifs to bf rfgistfrfd witi
+     * tif MBfbnSfrvfr. In tiis dbsf bn ObjfdtNbmf will ibvf to bf
+     * pbssfd to bddEntry() in ordfr for tif tbblf to bfibvf dorrfdtly
+     * (dbsf of tif gfnfrid mftbdbtb).
      * <p>
-     * If that version of the metadata does not require entry to be
-     * registered, then passing an ObjectName becomes optional (null
-     * can be passed instead).
+     * If tibt vfrsion of tif mftbdbtb dofs not rfquirf fntry to bf
+     * rfgistfrfd, tifn pbssing bn ObjfdtNbmf bfdomfs optionbl (null
+     * dbn bf pbssfd instfbd).
      *
-     * @return <code>true</code> if registration is required by this
-     *         version of the metadata.
+     * @rfturn <dodf>truf</dodf> if rfgistrbtion is rfquirfd by tiis
+     *         vfrsion of tif mftbdbtb.
      */
-    public abstract boolean isRegistrationRequired();
+    publid bbstrbdt boolfbn isRfgistrbtionRfquirfd();
 
     /**
-     * Tell whether a new entry should be created when a SET operation
-     * is received for an entry that does not exist yet.
+     * Tfll wiftifr b nfw fntry siould bf drfbtfd wifn b SET opfrbtion
+     * is rfdfivfd for bn fntry tibt dofs not fxist yft.
      *
-     * @return true if a new entry must be created, false otherwise.<br>
-     *         [default: returns <CODE>false</CODE>]
+     * @rfturn truf if b nfw fntry must bf drfbtfd, fblsf otifrwisf.<br>
+     *         [dffbult: rfturns <CODE>fblsf</CODE>]
      **/
-    public boolean isCreationEnabled() {
-        return creationEnabled;
+    publid boolfbn isCrfbtionEnbblfd() {
+        rfturn drfbtionEnbblfd;
     }
 
     /**
-     * This method lets you dynamically switch the creation policy.
+     * Tiis mftiod lfts you dynbmidblly switdi tif drfbtion polidy.
      *
      * <p>
-     * @param remoteCreationFlag Tells whether remote entry creation must
-     *        be enabled or disabled.
+     * @pbrbm rfmotfCrfbtionFlbg Tflls wiftifr rfmotf fntry drfbtion must
+     *        bf fnbblfd or disbblfd.
      * <ul><li>
-     * <CODE>setCreationEnabled(true)</CODE> will enable remote entry
-     *      creation via SET operations.</li>
+     * <CODE>sftCrfbtionEnbblfd(truf)</CODE> will fnbblf rfmotf fntry
+     *      drfbtion vib SET opfrbtions.</li>
      * <li>
-     * <CODE>setCreationEnabled(false)</CODE> will disable remote entry
-     *      creation via SET operations.</li>
-     * <p> By default remote entry creation via SET operation is disabled.
+     * <CODE>sftCrfbtionEnbblfd(fblsf)</CODE> will disbblf rfmotf fntry
+     *      drfbtion vib SET opfrbtions.</li>
+     * <p> By dffbult rfmotf fntry drfbtion vib SET opfrbtion is disbblfd.
      * </p>
      * </ul>
      **/
-    public void setCreationEnabled(boolean remoteCreationFlag) {
-        creationEnabled = remoteCreationFlag;
+    publid void sftCrfbtionEnbblfd(boolfbn rfmotfCrfbtionFlbg) {
+        drfbtionEnbblfd = rfmotfCrfbtionFlbg;
     }
 
     /**
-     * Return <code>true</code> if the conceptual row contains a columnar
-     * object used to control creation/deletion of rows in this table.
+     * Rfturn <dodf>truf</dodf> if tif dondfptubl row dontbins b dolumnbr
+     * objfdt usfd to dontrol drfbtion/dflftion of rows in tiis tbblf.
      * <p>
-     * This  columnar object can be either a variable with RowStatus
-     * syntax as defined by RFC 2579, or a plain variable whose
-     * semantics is table specific.
+     * Tiis  dolumnbr objfdt dbn bf fitifr b vbribblf witi RowStbtus
+     * syntbx bs dffinfd by RFC 2579, or b plbin vbribblf wiosf
+     * sfmbntids is tbblf spfdifid.
      * <p>
-     * By default, this function returns <code>false</code>, and it is
-     * assumed that the table has no such control variable.<br>
-     * When <code>mibgen</code> is used over SMIv2 MIBs, it will generate
-     * an <code>hasRowStatus()</code> method returning <code>true</code>
-     * for each table containing an object with RowStatus syntax.
+     * By dffbult, tiis fundtion rfturns <dodf>fblsf</dodf>, bnd it is
+     * bssumfd tibt tif tbblf ibs no sudi dontrol vbribblf.<br>
+     * Wifn <dodf>mibgfn</dodf> is usfd ovfr SMIv2 MIBs, it will gfnfrbtf
+     * bn <dodf>ibsRowStbtus()</dodf> mftiod rfturning <dodf>truf</dodf>
+     * for fbdi tbblf dontbining bn objfdt witi RowStbtus syntbx.
      * <p>
-     * When this method returns <code>false</code> the default mechanism
-     * for remote entry creation is used.
-     * Otherwise, creation/deletion is performed as specified
-     * by the control variable (see getRowAction() for more details).
+     * Wifn tiis mftiod rfturns <dodf>fblsf</dodf> tif dffbult mfdibnism
+     * for rfmotf fntry drfbtion is usfd.
+     * Otifrwisf, drfbtion/dflftion is pfrformfd bs spfdififd
+     * by tif dontrol vbribblf (sff gftRowAdtion() for morf dftbils).
      * <p>
-     * This method is called internally when a SET request involving
-     * this table is processed.
+     * Tiis mftiod is dbllfd intfrnblly wifn b SET rfqufst involving
+     * tiis tbblf is prodfssfd.
      * <p>
-     * If you need to implement a control variable which do not use
-     * the RowStatus convention as defined by RFC 2579, you should
-     * subclass the generated table metadata class in order to redefine
-     * this method and make it returns <code>true</code>.<br>
-     * You will then have to redefine the isRowStatus(), mapRowStatus(),
-     * isRowReady(), and setRowStatus() methods to suit your specific
-     * implementation.
+     * If you nffd to implfmfnt b dontrol vbribblf wiidi do not usf
+     * tif RowStbtus donvfntion bs dffinfd by RFC 2579, you siould
+     * subdlbss tif gfnfrbtfd tbblf mftbdbtb dlbss in ordfr to rfdffinf
+     * tiis mftiod bnd mbkf it rfturns <dodf>truf</dodf>.<br>
+     * You will tifn ibvf to rfdffinf tif isRowStbtus(), mbpRowStbtus(),
+     * isRowRfbdy(), bnd sftRowStbtus() mftiods to suit your spfdifid
+     * implfmfntbtion.
      * <p>
-     * @return <li><code>true</code> if this table contains a control
-     *         variable (eg: a variable with RFC 2579 RowStatus syntax),
+     * @rfturn <li><dodf>truf</dodf> if tiis tbblf dontbins b dontrol
+     *         vbribblf (fg: b vbribblf witi RFC 2579 RowStbtus syntbx),
      *         </li>
-     *         <li><code>false</code> if this table does not contain
-     *         any control variable.</li>
+     *         <li><dodf>fblsf</dodf> if tiis tbblf dofs not dontbin
+     *         bny dontrol vbribblf.</li>
      *
      **/
-    public boolean hasRowStatus() {
-        return false;
+    publid boolfbn ibsRowStbtus() {
+        rfturn fblsf;
     }
 
     // ---------------------------------------------------------------------
     //
-    // Implements the method defined in SnmpMibNode.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibNodf.
     //
     // ---------------------------------------------------------------------
     /**
-     * Generic handling of the <CODE>get</CODE> operation.
-     * <p> The default implementation of this method is to
+     * Gfnfrid ibndling of tif <CODE>gft</CODE> opfrbtion.
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod is to
      * <ul>
-     * <li> check whether the entry exists, and if not register an
-     *      exception for each varbind in the list.
-     * <li> call the generated
-     *      <CODE>get(req,oid,depth+1)</CODE> method. </li>
+     * <li> difdk wiftifr tif fntry fxists, bnd if not rfgistfr bn
+     *      fxdfption for fbdi vbrbind in tif list.
+     * <li> dbll tif gfnfrbtfd
+     *      <CODE>gft(rfq,oid,dfpti+1)</CODE> mftiod. </li>
      * </ul>
      * <p>
-     * <pre>
-     * public void get(SnmpMibSubRequest req, int depth)
-     *    throws SnmpStatusException {
-     *    boolean         isnew  = req.isNewEntry();
+     * <prf>
+     * publid void gft(SnmpMibSubRfqufst rfq, int dfpti)
+     *    tirows SnmpStbtusExdfption {
+     *    boolfbn         isnfw  = rfq.isNfwEntry();
      *
-     *    // if the entry does not exists, then registers an error for
-     *    // each varbind involved (nb: this should not happen, since
-     *    // the error should already have been detected earlier)
+     *    // if tif fntry dofs not fxists, tifn rfgistfrs bn frror for
+     *    // fbdi vbrbind involvfd (nb: tiis siould not ibppfn, sindf
+     *    // tif frror siould blrfbdy ibvf bffn dftfdtfd fbrlifr)
      *    //
-     *    if (isnew) {
-     *        SnmpVarBind     var = null;
-     *        for (Enumeration e= req.getElements(); e.hasMoreElements();) {
-     *            var = (SnmpVarBind) e.nextElement();
-     *            req.registerGetException(var,noSuchNameException);
+     *    if (isnfw) {
+     *        SnmpVbrBind     vbr = null;
+     *        for (Enumfrbtion f= rfq.gftElfmfnts(); f.ibsMorfElfmfnts();) {
+     *            vbr = (SnmpVbrBind) f.nfxtElfmfnt();
+     *            rfq.rfgistfrGftExdfption(vbr,noSudiNbmfExdfption);
      *        }
      *    }
      *
-     *    final SnmpOid oid = req.getEntryOid();
-     *    get(req,oid,depth+1);
+     *    finbl SnmpOid oid = rfq.gftEntryOid();
+     *    gft(rfq,oid,dfpti+1);
      * }
-     * </pre>
-     * <p> You should not need to override this method in any cases, because
-     * it will eventually call
-     * <CODE>get(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>. If you need to implement
-     * specific policies for minimizing the accesses made to some remote
-     * underlying resources, or if you need to implement some consistency
-     * checks between the different values provided in the varbind list,
-     * you should then rather override
-     * <CODE>get(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>.
+     * </prf>
+     * <p> You siould not nffd to ovfrridf tiis mftiod in bny dbsfs, bfdbusf
+     * it will fvfntublly dbll
+     * <CODE>gft(SnmpMibSubRfqufst rfq, int dfpti)</CODE> on tif gfnfrbtfd
+     * dfrivbtivf of <CODE>SnmpMibEntry</CODE>. If you nffd to implfmfnt
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * difdks bftwffn tif difffrfnt vblufs providfd in tif vbrbind list,
+     * you siould tifn rbtifr ovfrridf
+     * <CODE>gft(SnmpMibSubRfqufst rfq, int dfpti)</CODE> on tif gfnfrbtfd
+     * dfrivbtivf of <CODE>SnmpMibEntry</CODE>.
      * <p>
      *
      */
-    @Override
-    public void get(SnmpMibSubRequest req, int depth)
-        throws SnmpStatusException {
+    @Ovfrridf
+    publid void gft(SnmpMibSubRfqufst rfq, int dfpti)
+        tirows SnmpStbtusExdfption {
 
-        final boolean         isnew  = req.isNewEntry();
-        final SnmpMibSubRequest  r      = req;
+        finbl boolfbn         isnfw  = rfq.isNfwEntry();
+        finbl SnmpMibSubRfqufst  r      = rfq;
 
-        // if the entry does not exists, then registers an error for
-        // each varbind involved (nb: should not happen, the error
-        // should have been registered earlier)
-        if (isnew) {
-            SnmpVarBind var;
-            for (Enumeration<SnmpVarBind> e= r.getElements(); e.hasMoreElements();) {
-                var = e.nextElement();
-                r.registerGetException(var,new SnmpStatusException(SnmpStatusException.noSuchInstance));
+        // if tif fntry dofs not fxists, tifn rfgistfrs bn frror for
+        // fbdi vbrbind involvfd (nb: siould not ibppfn, tif frror
+        // siould ibvf bffn rfgistfrfd fbrlifr)
+        if (isnfw) {
+            SnmpVbrBind vbr;
+            for (Enumfrbtion<SnmpVbrBind> f= r.gftElfmfnts(); f.ibsMorfElfmfnts();) {
+                vbr = f.nfxtElfmfnt();
+                r.rfgistfrGftExdfption(vbr,nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf));
             }
         }
 
-        final SnmpOid     oid    = r.getEntryOid();
+        finbl SnmpOid     oid    = r.gftEntryOid();
 
-        // SnmpIndex   index  = buildSnmpIndex(oid.longValue(false), 0);
-        // get(req,index,depth+1);
+        // SnmpIndfx   indfx  = buildSnmpIndfx(oid.longVbluf(fblsf), 0);
+        // gft(rfq,indfx,dfpti+1);
         //
-        get(req,oid,depth+1);
+        gft(rfq,oid,dfpti+1);
     }
 
     // ---------------------------------------------------------------------
     //
-    // Implements the method defined in SnmpMibNode.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibNodf.
     //
     // ---------------------------------------------------------------------
     /**
-     * Generic handling of the <CODE>check</CODE> operation.
-     * <p> The default implementation of this method is to
+     * Gfnfrid ibndling of tif <CODE>difdk</CODE> opfrbtion.
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod is to
      * <ul>
-     * <li> check whether a new entry must be created, and if remote
-     *      creation of entries is enabled, create it. </li>
-     * <li> call the generated
-     *      <CODE>check(req,oid,depth+1)</CODE> method. </li>
+     * <li> difdk wiftifr b nfw fntry must bf drfbtfd, bnd if rfmotf
+     *      drfbtion of fntrifs is fnbblfd, drfbtf it. </li>
+     * <li> dbll tif gfnfrbtfd
+     *      <CODE>difdk(rfq,oid,dfpti+1)</CODE> mftiod. </li>
      * </ul>
      * <p>
-     * <pre>
-     * public void check(SnmpMibSubRequest req, int depth)
-     *    throws SnmpStatusException {
-     *    final SnmpOid     oid    = req.getEntryOid();
-     *    final int         action = getRowAction(req,oid,depth+1);
+     * <prf>
+     * publid void difdk(SnmpMibSubRfqufst rfq, int dfpti)
+     *    tirows SnmpStbtusExdfption {
+     *    finbl SnmpOid     oid    = rfq.gftEntryOid();
+     *    finbl int         bdtion = gftRowAdtion(rfq,oid,dfpti+1);
      *
-     *    beginRowAction(req,oid,depth+1,action);
-     *    check(req,oid,depth+1);
+     *    bfginRowAdtion(rfq,oid,dfpti+1,bdtion);
+     *    difdk(rfq,oid,dfpti+1);
      * }
-     * </pre>
-     * <p> You should not need to override this method in any cases, because
-     * it will eventually call
-     * <CODE>check(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>. If you need to implement
-     * specific policies for minimizing the accesses made to some remote
-     * underlying resources, or if you need to implement some consistency
-     * checks between the different values provided in the varbind list,
-     * you should then rather override
-     * <CODE>check(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>.
+     * </prf>
+     * <p> You siould not nffd to ovfrridf tiis mftiod in bny dbsfs, bfdbusf
+     * it will fvfntublly dbll
+     * <CODE>difdk(SnmpMibSubRfqufst rfq, int dfpti)</CODE> on tif gfnfrbtfd
+     * dfrivbtivf of <CODE>SnmpMibEntry</CODE>. If you nffd to implfmfnt
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * difdks bftwffn tif difffrfnt vblufs providfd in tif vbrbind list,
+     * you siould tifn rbtifr ovfrridf
+     * <CODE>difdk(SnmpMibSubRfqufst rfq, int dfpti)</CODE> on tif gfnfrbtfd
+     * dfrivbtivf of <CODE>SnmpMibEntry</CODE>.
      * <p>
      *
      */
-    @Override
-    public void check(SnmpMibSubRequest req, int depth)
-        throws SnmpStatusException {
-        final SnmpOid     oid    = req.getEntryOid();
-        final int         action = getRowAction(req,oid,depth+1);
+    @Ovfrridf
+    publid void difdk(SnmpMibSubRfqufst rfq, int dfpti)
+        tirows SnmpStbtusExdfption {
+        finbl SnmpOid     oid    = rfq.gftEntryOid();
+        finbl int         bdtion = gftRowAdtion(rfq,oid,dfpti+1);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "check", "Calling beginRowAction");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMibTbblf.dlbss.gftNbmf(),
+                    "difdk", "Cblling bfginRowAdtion");
         }
 
-        beginRowAction(req,oid,depth+1,action);
+        bfginRowAdtion(rfq,oid,dfpti+1,bdtion);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "check",
-                    "Calling check for " + req.getSize() + " varbinds");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMibTbblf.dlbss.gftNbmf(),
+                    "difdk",
+                    "Cblling difdk for " + rfq.gftSizf() + " vbrbinds");
         }
 
-        check(req,oid,depth+1);
+        difdk(rfq,oid,dfpti+1);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "check", "check finished");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMibTbblf.dlbss.gftNbmf(),
+                    "difdk", "difdk finisifd");
         }
     }
 
     // ---------------------------------------------------------------------
     //
-    // Implements the method defined in SnmpMibNode.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibNodf.
     //
     // ---------------------------------------------------------------------
     /**
-     * Generic handling of the <CODE>set</CODE> operation.
-     * <p> The default implementation of this method is to
-     * call the generated
-     * <CODE>set(req,oid,depth+1)</CODE> method.
+     * Gfnfrid ibndling of tif <CODE>sft</CODE> opfrbtion.
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod is to
+     * dbll tif gfnfrbtfd
+     * <CODE>sft(rfq,oid,dfpti+1)</CODE> mftiod.
      * <p>
-     * <pre>
-     * public void set(SnmpMibSubRequest req, int depth)
-     *    throws SnmpStatusException {
-     *    final SnmpOid oid = req.getEntryOid();
-     *    final int  action = getRowAction(req,oid,depth+1);
+     * <prf>
+     * publid void sft(SnmpMibSubRfqufst rfq, int dfpti)
+     *    tirows SnmpStbtusExdfption {
+     *    finbl SnmpOid oid = rfq.gftEntryOid();
+     *    finbl int  bdtion = gftRowAdtion(rfq,oid,dfpti+1);
      *
-     *    set(req,oid,depth+1);
-     *    endRowAction(req,oid,depth+1,action);
+     *    sft(rfq,oid,dfpti+1);
+     *    fndRowAdtion(rfq,oid,dfpti+1,bdtion);
      * }
-     * </pre>
-     * <p> You should not need to override this method in any cases, because
-     * it will eventually call
-     * <CODE>set(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>. If you need to implement
-     * specific policies for minimizing the accesses made to some remote
-     * underlying resources, or if you need to implement some consistency
-     * checks between the different values provided in the varbind list,
-     * you should then rather override
-     * <CODE>set(SnmpMibSubRequest req, int depth)</CODE> on the generated
-     * derivative of <CODE>SnmpMibEntry</CODE>.
+     * </prf>
+     * <p> You siould not nffd to ovfrridf tiis mftiod in bny dbsfs, bfdbusf
+     * it will fvfntublly dbll
+     * <CODE>sft(SnmpMibSubRfqufst rfq, int dfpti)</CODE> on tif gfnfrbtfd
+     * dfrivbtivf of <CODE>SnmpMibEntry</CODE>. If you nffd to implfmfnt
+     * spfdifid polidifs for minimizing tif bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * difdks bftwffn tif difffrfnt vblufs providfd in tif vbrbind list,
+     * you siould tifn rbtifr ovfrridf
+     * <CODE>sft(SnmpMibSubRfqufst rfq, int dfpti)</CODE> on tif gfnfrbtfd
+     * dfrivbtivf of <CODE>SnmpMibEntry</CODE>.
      * <p>
      *
      */
-    @Override
-    public void set(SnmpMibSubRequest req, int depth)
-        throws SnmpStatusException {
+    @Ovfrridf
+    publid void sft(SnmpMibSubRfqufst rfq, int dfpti)
+        tirows SnmpStbtusExdfption {
 
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "set", "Entering set");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMibTbblf.dlbss.gftNbmf(),
+                    "sft", "Entfring sft");
         }
 
-        final SnmpOid     oid    = req.getEntryOid();
-        final int         action = getRowAction(req,oid,depth+1);
+        finbl SnmpOid     oid    = rfq.gftEntryOid();
+        finbl int         bdtion = gftRowAdtion(rfq,oid,dfpti+1);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "set", "Calling set for " + req.getSize() + " varbinds");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMibTbblf.dlbss.gftNbmf(),
+                    "sft", "Cblling sft for " + rfq.gftSizf() + " vbrbinds");
         }
 
-        set(req,oid,depth+1);
+        sft(rfq,oid,dfpti+1);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "set", "Calling endRowAction");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMibTbblf.dlbss.gftNbmf(),
+                    "sft", "Cblling fndRowAdtion");
         }
 
-        endRowAction(req,oid,depth+1,action);
+        fndRowAdtion(rfq,oid,dfpti+1,bdtion);
 
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpMibTable.class.getName(),
-                    "set", "RowAction finished");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMibTbblf.dlbss.gftNbmf(),
+                    "sft", "RowAdtion finisifd");
         }
 
     }
 
     /**
-     * Add a new entry in this <CODE>SnmpMibTable</CODE>.
-     * Also triggers the addEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Add b nfw fntry in tiis <CODE>SnmpMibTbblf</CODE>.
+     * Also triggfrs tif bddEntryCB() dbllbbdk of tif
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} intfrfbdf
+     * if tiis nodf is bound to b fbdtory.
      *
-     * This method assumes that the given entry will not be registered.
-     * If the entry is going to be registered, or if ObjectName's are
-     * required, then
-     * {@link com.sun.jmx.snmp.agent.SnmpMibTable#addEntry(SnmpOid,
-     * ObjectName, Object)} should be preferred.
-     * <br> This function is mainly provided for backward compatibility.
+     * Tiis mftiod bssumfs tibt tif givfn fntry will not bf rfgistfrfd.
+     * If tif fntry is going to bf rfgistfrfd, or if ObjfdtNbmf's brf
+     * rfquirfd, tifn
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf#bddEntry(SnmpOid,
+     * ObjfdtNbmf, Objfdt)} siould bf prfffrrfd.
+     * <br> Tiis fundtion is mbinly providfd for bbdkwbrd dompbtibility.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row to be added.
-     * @param entry The entry to add.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row to bf bddfd.
+     * @pbrbm fntry Tif fntry to bdd.
      *
-     * @exception SnmpStatusException The entry couldn't be added
-     *            at the position identified by the given
-     *            <code>rowOid</code>, or this version of the metadata
-     *            requires ObjectName's.
+     * @fxdfption SnmpStbtusExdfption Tif fntry douldn't bf bddfd
+     *            bt tif position idfntififd by tif givfn
+     *            <dodf>rowOid</dodf>, or tiis vfrsion of tif mftbdbtb
+     *            rfquirfs ObjfdtNbmf's.
      */
-     // public void addEntry(SnmpIndex index, Object entry)
-     public void addEntry(SnmpOid rowOid, Object entry)
-        throws SnmpStatusException {
+     // publid void bddEntry(SnmpIndfx indfx, Objfdt fntry)
+     publid void bddEntry(SnmpOid rowOid, Objfdt fntry)
+        tirows SnmpStbtusExdfption {
 
-         addEntry(rowOid, null, entry);
+         bddEntry(rowOid, null, fntry);
     }
 
     /**
-     * Add a new entry in this <CODE>SnmpMibTable</CODE>.
-     * Also triggers the addEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Add b nfw fntry in tiis <CODE>SnmpMibTbblf</CODE>.
+     * Also triggfrs tif bddEntryCB() dbllbbdk of tif
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} intfrfbdf
+     * if tiis nodf is bound to b fbdtory.
      *
      * <p>
-     * @param oid    The <CODE>SnmpOid</CODE> identifying the table
-     *               row to be added.
+     * @pbrbm oid    Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row to bf bddfd.
      *
-     * @param name  The ObjectName with which this entry is registered.
-     *              This parameter can be omitted if isRegistrationRequired()
-     *              return false.
+     * @pbrbm nbmf  Tif ObjfdtNbmf witi wiidi tiis fntry is rfgistfrfd.
+     *              Tiis pbrbmftfr dbn bf omittfd if isRfgistrbtionRfquirfd()
+     *              rfturn fblsf.
      *
-     * @param entry The entry to add.
+     * @pbrbm fntry Tif fntry to bdd.
      *
-     * @exception SnmpStatusException The entry couldn't be added
-     *            at the position identified by the given
-     *            <code>rowOid</code>, or if this version of the metadata
-     *            requires ObjectName's, and the given name is null.
+     * @fxdfption SnmpStbtusExdfption Tif fntry douldn't bf bddfd
+     *            bt tif position idfntififd by tif givfn
+     *            <dodf>rowOid</dodf>, or if tiis vfrsion of tif mftbdbtb
+     *            rfquirfs ObjfdtNbmf's, bnd tif givfn nbmf is null.
      */
-    // protected synchronized void addEntry(SnmpIndex index, ObjectName name,
-    //                                      Object entry)
-    public synchronized void addEntry(SnmpOid oid, ObjectName name,
-                                      Object entry)
-        throws SnmpStatusException {
+    // protfdtfd syndironizfd void bddEntry(SnmpIndfx indfx, ObjfdtNbmf nbmf,
+    //                                      Objfdt fntry)
+    publid syndironizfd void bddEntry(SnmpOid oid, ObjfdtNbmf nbmf,
+                                      Objfdt fntry)
+        tirows SnmpStbtusExdfption {
 
-        if (isRegistrationRequired() == true && name == null)
-            throw new SnmpStatusException(SnmpStatusException.badValue);
+        if (isRfgistrbtionRfquirfd() == truf && nbmf == null)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.bbdVbluf);
 
-        if (size == 0) {
-            //            indexes.addElement(index);
-            // XX oids.addElement(oid);
-            insertOid(0,oid);
-            if (entries != null)
-                entries.addElement(entry);
-            if (entrynames != null)
-                entrynames.addElement(name);
-            size++;
+        if (sizf == 0) {
+            //            indfxfs.bddElfmfnt(indfx);
+            // XX oids.bddElfmfnt(oid);
+            insfrtOid(0,oid);
+            if (fntrifs != null)
+                fntrifs.bddElfmfnt(fntry);
+            if (fntrynbmfs != null)
+                fntrynbmfs.bddElfmfnt(nbmf);
+            sizf++;
 
-            // triggers callbacks on the entry factory
+            // triggfrs dbllbbdks on tif fntry fbdtory
             //
-            if (factory != null) {
+            if (fbdtory != null) {
                 try {
-                    factory.addEntryCb(0,oid,name,entry,this);
-                } catch (SnmpStatusException x) {
-                    removeOid(0);
-                    if (entries != null)
-                        entries.removeElementAt(0);
-                    if (entrynames != null)
-                        entrynames.removeElementAt(0);
-                    throw x;
+                    fbdtory.bddEntryCb(0,oid,nbmf,fntry,tiis);
+                } dbtdi (SnmpStbtusExdfption x) {
+                    rfmovfOid(0);
+                    if (fntrifs != null)
+                        fntrifs.rfmovfElfmfntAt(0);
+                    if (fntrynbmfs != null)
+                        fntrynbmfs.rfmovfElfmfntAt(0);
+                    tirow x;
                 }
             }
 
-            // sends the notifications
+            // sfnds tif notifidbtions
             //
-            sendNotification(SnmpTableEntryNotification.SNMP_ENTRY_ADDED,
-                             (new Date()).getTime(), entry, name);
-            return;
+            sfndNotifidbtion(SnmpTbblfEntryNotifidbtion.SNMP_ENTRY_ADDED,
+                             (nfw Dbtf()).gftTimf(), fntry, nbmf);
+            rfturn;
         }
 
-        // Get the insertion position ...
+        // Gft tif insfrtion position ...
         //
         int pos= 0;
-        // bug jaw.00356.B : use oid rather than index to get the
-        // insertion point.
+        // bug jbw.00356.B : usf oid rbtifr tibn indfx to gft tif
+        // insfrtion point.
         //
-        pos= getInsertionPoint(oid,true);
-        if (pos == size) {
-            // Add a new element in the vectors ...
+        pos= gftInsfrtionPoint(oid,truf);
+        if (pos == sizf) {
+            // Add b nfw flfmfnt in tif vfdtors ...
             //
-            //            indexes.addElement(index);
-            // XX oids.addElement(oid);
-            insertOid(tablecount,oid);
-            if (entries != null)
-                entries.addElement(entry);
-            if (entrynames != null)
-                entrynames.addElement(name);
-            size++;
-        } else {
-            // Insert new element ...
+            //            indfxfs.bddElfmfnt(indfx);
+            // XX oids.bddElfmfnt(oid);
+            insfrtOid(tbblfdount,oid);
+            if (fntrifs != null)
+                fntrifs.bddElfmfnt(fntry);
+            if (fntrynbmfs != null)
+                fntrynbmfs.bddElfmfnt(nbmf);
+            sizf++;
+        } flsf {
+            // Insfrt nfw flfmfnt ...
             //
             try {
-                //                indexes.insertElementAt(index, pos);
-                // XX oids.insertElementAt(oid, pos);
-                insertOid(pos,oid);
-                if (entries != null)
-                    entries.insertElementAt(entry, pos);
-                if (entrynames != null)
-                    entrynames.insertElementAt(name,pos);
-                size++;
-            } catch(ArrayIndexOutOfBoundsException e) {
+                //                indfxfs.insfrtElfmfntAt(indfx, pos);
+                // XX oids.insfrtElfmfntAt(oid, pos);
+                insfrtOid(pos,oid);
+                if (fntrifs != null)
+                    fntrifs.insfrtElfmfntAt(fntry, pos);
+                if (fntrynbmfs != null)
+                    fntrynbmfs.insfrtElfmfntAt(nbmf,pos);
+                sizf++;
+            } dbtdi(ArrbyIndfxOutOfBoundsExdfption f) {
             }
         }
 
-        // triggers callbacks on the entry factory
+        // triggfrs dbllbbdks on tif fntry fbdtory
         //
-        if (factory != null) {
+        if (fbdtory != null) {
             try {
-                factory.addEntryCb(pos,oid,name,entry,this);
-            } catch (SnmpStatusException x) {
-                removeOid(pos);
-                if (entries != null)
-                    entries.removeElementAt(pos);
-                if (entrynames != null)
-                    entrynames.removeElementAt(pos);
-                throw x;
+                fbdtory.bddEntryCb(pos,oid,nbmf,fntry,tiis);
+            } dbtdi (SnmpStbtusExdfption x) {
+                rfmovfOid(pos);
+                if (fntrifs != null)
+                    fntrifs.rfmovfElfmfntAt(pos);
+                if (fntrynbmfs != null)
+                    fntrynbmfs.rfmovfElfmfntAt(pos);
+                tirow x;
             }
         }
 
-        // sends the notifications
+        // sfnds tif notifidbtions
         //
-        sendNotification(SnmpTableEntryNotification.SNMP_ENTRY_ADDED,
-                         (new Date()).getTime(), entry, name);
+        sfndNotifidbtion(SnmpTbblfEntryNotifidbtion.SNMP_ENTRY_ADDED,
+                         (nfw Dbtf()).gftTimf(), fntry, nbmf);
     }
 
     /**
-     * Remove the specified entry from the table.
-     * Also triggers the removeEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Rfmovf tif spfdififd fntry from tif tbblf.
+     * Also triggfrs tif rfmovfEntryCB() dbllbbdk of tif
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} intfrfbdf
+     * if tiis nodf is bound to b fbdtory.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row to remove.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row to rfmovf.
      *
-     * @param entry The entry to be removed. This parameter is not used
-     *              internally, it is simply passed along to the
-     *              removeEntryCB() callback.
+     * @pbrbm fntry Tif fntry to bf rfmovfd. Tiis pbrbmftfr is not usfd
+     *              intfrnblly, it is simply pbssfd blong to tif
+     *              rfmovfEntryCB() dbllbbdk.
      *
-     * @exception SnmpStatusException if the specified entry couldn't
-     *            be removed (if the given <code>rowOid</code> is not
-     *            valid for instance).
+     * @fxdfption SnmpStbtusExdfption if tif spfdififd fntry douldn't
+     *            bf rfmovfd (if tif givfn <dodf>rowOid</dodf> is not
+     *            vblid for instbndf).
      */
-    public synchronized void removeEntry(SnmpOid rowOid, Object entry)
-        throws SnmpStatusException {
-        int pos = findObject(rowOid);
+    publid syndironizfd void rfmovfEntry(SnmpOid rowOid, Objfdt fntry)
+        tirows SnmpStbtusExdfption {
+        int pos = findObjfdt(rowOid);
         if (pos == -1)
-            return;
-        removeEntry(pos,entry);
+            rfturn;
+        rfmovfEntry(pos,fntry);
     }
 
     /**
-     * Remove the specified entry from the table.
-     * Also triggers the removeEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Rfmovf tif spfdififd fntry from tif tbblf.
+     * Also triggfrs tif rfmovfEntryCB() dbllbbdk of tif
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} intfrfbdf
+     * if tiis nodf is bound to b fbdtory.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row to remove.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row to rfmovf.
      *
-     * @exception SnmpStatusException if the specified entry couldn't
-     *            be removed (if the given <code>rowOid</code> is not
-     *            valid for instance).
+     * @fxdfption SnmpStbtusExdfption if tif spfdififd fntry douldn't
+     *            bf rfmovfd (if tif givfn <dodf>rowOid</dodf> is not
+     *            vblid for instbndf).
      */
-    public void removeEntry(SnmpOid rowOid)
-        throws SnmpStatusException {
-        int pos = findObject(rowOid);
+    publid void rfmovfEntry(SnmpOid rowOid)
+        tirows SnmpStbtusExdfption {
+        int pos = findObjfdt(rowOid);
         if (pos == -1)
-            return;
-        removeEntry(pos,null);
+            rfturn;
+        rfmovfEntry(pos,null);
     }
 
     /**
-     * Remove the specified entry from the table.
-     * Also triggers the removeEntryCB() callback of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface
-     * if this node is bound to a factory.
+     * Rfmovf tif spfdififd fntry from tif tbblf.
+     * Also triggfrs tif rfmovfEntryCB() dbllbbdk of tif
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} intfrfbdf
+     * if tiis nodf is bound to b fbdtory.
      *
      * <p>
-     * @param pos The position of the entry in the table.
+     * @pbrbm pos Tif position of tif fntry in tif tbblf.
      *
-     * @param entry The entry to be removed. This parameter is not used
-     *              internally, it is simply passed along to the
-     *              removeEntryCB() callback.
+     * @pbrbm fntry Tif fntry to bf rfmovfd. Tiis pbrbmftfr is not usfd
+     *              intfrnblly, it is simply pbssfd blong to tif
+     *              rfmovfEntryCB() dbllbbdk.
      *
-     * @exception SnmpStatusException if the specified entry couldn't
-     *            be removed.
+     * @fxdfption SnmpStbtusExdfption if tif spfdififd fntry douldn't
+     *            bf rfmovfd.
      */
-    public synchronized void removeEntry(int pos, Object entry)
-        throws SnmpStatusException {
+    publid syndironizfd void rfmovfEntry(int pos, Objfdt fntry)
+        tirows SnmpStbtusExdfption {
         if (pos == -1)
-            return;
-        if (pos >= size) return;
+            rfturn;
+        if (pos >= sizf) rfturn;
 
-        Object obj = entry;
-        if (entries != null && entries.size() > pos) {
-            obj = entries.elementAt(pos);
-            entries.removeElementAt(pos);
+        Objfdt obj = fntry;
+        if (fntrifs != null && fntrifs.sizf() > pos) {
+            obj = fntrifs.flfmfntAt(pos);
+            fntrifs.rfmovfElfmfntAt(pos);
         }
 
-        ObjectName name = null;
-        if (entrynames != null && entrynames.size() > pos) {
-            name = entrynames.elementAt(pos);
-            entrynames.removeElementAt(pos);
+        ObjfdtNbmf nbmf = null;
+        if (fntrynbmfs != null && fntrynbmfs.sizf() > pos) {
+            nbmf = fntrynbmfs.flfmfntAt(pos);
+            fntrynbmfs.rfmovfElfmfntAt(pos);
         }
 
-        final SnmpOid rowOid = tableoids[pos];
-        removeOid(pos);
-        size --;
+        finbl SnmpOid rowOid = tbblfoids[pos];
+        rfmovfOid(pos);
+        sizf --;
 
-        if (obj == null) obj = entry;
+        if (obj == null) obj = fntry;
 
-        if (factory != null)
-            factory.removeEntryCb(pos,rowOid,name,obj,this);
+        if (fbdtory != null)
+            fbdtory.rfmovfEntryCb(pos,rowOid,nbmf,obj,tiis);
 
-        sendNotification(SnmpTableEntryNotification.SNMP_ENTRY_REMOVED,
-                         (new Date()).getTime(), obj, name);
+        sfndNotifidbtion(SnmpTbblfEntryNotifidbtion.SNMP_ENTRY_REMOVED,
+                         (nfw Dbtf()).gftTimf(), obj, nbmf);
     }
 
     /**
-     * Get the entry corresponding to the specified rowOid.
+     * Gft tif fntry dorrfsponding to tif spfdififd rowOid.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the
-     *        row to be retrieved.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif
+     *        row to bf rftrifvfd.
      *
-     * @return The entry.
+     * @rfturn Tif fntry.
      *
-     * @exception SnmpStatusException There is no entry with the specified
-     *      <code>rowOid</code> in the table.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no fntry witi tif spfdififd
+     *      <dodf>rowOid</dodf> in tif tbblf.
      */
-    public synchronized Object getEntry(SnmpOid rowOid)
-        throws SnmpStatusException {
-        int pos= findObject(rowOid);
+    publid syndironizfd Objfdt gftEntry(SnmpOid rowOid)
+        tirows SnmpStbtusExdfption {
+        int pos= findObjfdt(rowOid);
         if (pos == -1)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
-        return entries.elementAt(pos);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+        rfturn fntrifs.flfmfntAt(pos);
     }
 
     /**
-     * Get the ObjectName of the entry corresponding to the
-     * specified rowOid.
-     * The result of this method is only meaningful if
-     * isRegistrationRequired() yields true.
+     * Gft tif ObjfdtNbmf of tif fntry dorrfsponding to tif
+     * spfdififd rowOid.
+     * Tif rfsult of tiis mftiod is only mfbningful if
+     * isRfgistrbtionRfquirfd() yiflds truf.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *        row whose ObjectName we want to retrieve.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *        row wiosf ObjfdtNbmf wf wbnt to rftrifvf.
      *
-     * @return The object name of the entry.
+     * @rfturn Tif objfdt nbmf of tif fntry.
      *
-     * @exception SnmpStatusException There is no entry with the specified
-     *      <code>rowOid</code> in the table.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no fntry witi tif spfdififd
+     *      <dodf>rowOid</dodf> in tif tbblf.
      */
-    public synchronized ObjectName getEntryName(SnmpOid rowOid)
-        throws SnmpStatusException {
-        int pos = findObject(rowOid);
-        if (entrynames == null) return null;
-        if (pos == -1 || pos >= entrynames.size())
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
-        return entrynames.elementAt(pos);
+    publid syndironizfd ObjfdtNbmf gftEntryNbmf(SnmpOid rowOid)
+        tirows SnmpStbtusExdfption {
+        int pos = findObjfdt(rowOid);
+        if (fntrynbmfs == null) rfturn null;
+        if (pos == -1 || pos >= fntrynbmfs.sizf())
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+        rfturn fntrynbmfs.flfmfntAt(pos);
     }
 
     /**
-     * Return the entries stored in this table <CODE>SnmpMibTable</CODE>.
+     * Rfturn tif fntrifs storfd in tiis tbblf <CODE>SnmpMibTbblf</CODE>.
      * <p>
-     * If the subclass generated by mibgen uses the generic way to access
-     * the entries (i.e. if it goes through the MBeanServer) then some of
-     * the entries may be <code>null</code>. It all depends whether a non
-     * <code>null</code> entry was passed to addEntry().<br>
-     * Otherwise, if it uses the standard way (access the entry directly
-     * through their standard MBean interface) this array will contain all
-     * the entries.
+     * If tif subdlbss gfnfrbtfd by mibgfn usfs tif gfnfrid wby to bddfss
+     * tif fntrifs (i.f. if it gofs tirougi tif MBfbnSfrvfr) tifn somf of
+     * tif fntrifs mby bf <dodf>null</dodf>. It bll dfpfnds wiftifr b non
+     * <dodf>null</dodf> fntry wbs pbssfd to bddEntry().<br>
+     * Otifrwisf, if it usfs tif stbndbrd wby (bddfss tif fntry dirfdtly
+     * tirougi tifir stbndbrd MBfbn intfrfbdf) tiis brrby will dontbin bll
+     * tif fntrifs.
      * <p>
-     * @return The entries array.
+     * @rfturn Tif fntrifs brrby.
      */
-    public Object[] getBasicEntries() {
-        Object[] array= new Object[size];
-        entries.copyInto(array);
-        return array;
+    publid Objfdt[] gftBbsidEntrifs() {
+        Objfdt[] brrby= nfw Objfdt[sizf];
+        fntrifs.dopyInto(brrby);
+        rfturn brrby;
     }
 
     /**
-     * Get the size of the table.
+     * Gft tif sizf of tif tbblf.
      *
-     * @return The number of entries currently registered in this table.
+     * @rfturn Tif numbfr of fntrifs durrfntly rfgistfrfd in tiis tbblf.
      */
-    public int getSize() {
-        return size;
+    publid int gftSizf() {
+        rfturn sizf;
     }
 
     // EVENT STUFF
     //------------
 
     /**
-     * Enable to add an SNMP entry listener to this
-     * <CODE>SnmpMibTable</CODE>.
+     * Enbblf to bdd bn SNMP fntry listfnfr to tiis
+     * <CODE>SnmpMibTbblf</CODE>.
      *
      * <p>
-     * @param listener The listener object which will handle the
-     *    notifications emitted by the registered MBean.
+     * @pbrbm listfnfr Tif listfnfr objfdt wiidi will ibndlf tif
+     *    notifidbtions fmittfd by tif rfgistfrfd MBfbn.
      *
-     * @param filter The filter object. If filter is null, no filtering
-     *    will be performed before handling notifications.
+     * @pbrbm filtfr Tif filtfr objfdt. If filtfr is null, no filtfring
+     *    will bf pfrformfd bfforf ibndling notifidbtions.
      *
-     * @param handback The context to be sent to the listener when a
-     *    notification is emitted.
+     * @pbrbm ibndbbdk Tif dontfxt to bf sfnt to tif listfnfr wifn b
+     *    notifidbtion is fmittfd.
      *
-     * @exception IllegalArgumentException Listener parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption Listfnfr pbrbmftfr is null.
      */
-    @Override
-    public synchronized void
-        addNotificationListener(NotificationListener listener,
-                                NotificationFilter filter, Object handback)  {
+    @Ovfrridf
+    publid syndironizfd void
+        bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                NotifidbtionFiltfr filtfr, Objfdt ibndbbdk)  {
 
-        // Check listener
+        // Cifdk listfnfr
         //
-        if (listener == null) {
-            throw new java.lang.IllegalArgumentException
-                ("Listener can't be null") ;
+        if (listfnfr == null) {
+            tirow nfw jbvb.lbng.IllfgblArgumfntExdfption
+                ("Listfnfr dbn't bf null") ;
         }
 
-        // looking for listener in handbackTable
+        // looking for listfnfr in ibndbbdkTbblf
         //
-        Vector<Object> handbackList = handbackTable.get(listener) ;
-        Vector<NotificationFilter> filterList = filterTable.get(listener) ;
-        if ( handbackList == null ) {
-            handbackList = new Vector<>() ;
-            filterList = new Vector<>() ;
-            handbackTable.put(listener, handbackList) ;
-            filterTable.put(listener, filterList) ;
+        Vfdtor<Objfdt> ibndbbdkList = ibndbbdkTbblf.gft(listfnfr) ;
+        Vfdtor<NotifidbtionFiltfr> filtfrList = filtfrTbblf.gft(listfnfr) ;
+        if ( ibndbbdkList == null ) {
+            ibndbbdkList = nfw Vfdtor<>() ;
+            filtfrList = nfw Vfdtor<>() ;
+            ibndbbdkTbblf.put(listfnfr, ibndbbdkList) ;
+            filtfrTbblf.put(listfnfr, filtfrList) ;
         }
 
-        // Add the handback and the filter
+        // Add tif ibndbbdk bnd tif filtfr
         //
-        handbackList.addElement(handback) ;
-        filterList.addElement(filter) ;
+        ibndbbdkList.bddElfmfnt(ibndbbdk) ;
+        filtfrList.bddElfmfnt(filtfr) ;
     }
 
     /**
-     * Enable to remove an SNMP entry listener from this
-     * <CODE>SnmpMibTable</CODE>.
+     * Enbblf to rfmovf bn SNMP fntry listfnfr from tiis
+     * <CODE>SnmpMibTbblf</CODE>.
      *
-     * @param listener The listener object which will handle the
-     *    notifications emitted by the registered MBean.
-     *    This method will remove all the information related to this
-     *    listener.
+     * @pbrbm listfnfr Tif listfnfr objfdt wiidi will ibndlf tif
+     *    notifidbtions fmittfd by tif rfgistfrfd MBfbn.
+     *    Tiis mftiod will rfmovf bll tif informbtion rflbtfd to tiis
+     *    listfnfr.
      *
-     * @exception ListenerNotFoundException The listener is not registered
-     *    in the MBean.
+     * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not rfgistfrfd
+     *    in tif MBfbn.
      */
-    @Override
-    public synchronized void
-        removeNotificationListener(NotificationListener listener)
-        throws ListenerNotFoundException {
+    @Ovfrridf
+    publid syndironizfd void
+        rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption {
 
-        // looking for listener in handbackTable
+        // looking for listfnfr in ibndbbdkTbblf
         //
-        java.util.Vector<?> handbackList = handbackTable.get(listener) ;
-        if ( handbackList == null ) {
-            throw new ListenerNotFoundException("listener");
+        jbvb.util.Vfdtor<?> ibndbbdkList = ibndbbdkTbblf.gft(listfnfr) ;
+        if ( ibndbbdkList == null ) {
+            tirow nfw ListfnfrNotFoundExdfption("listfnfr");
         }
 
-        // If handback is null, remove the listener entry
+        // If ibndbbdk is null, rfmovf tif listfnfr fntry
         //
-        handbackTable.remove(listener) ;
-        filterTable.remove(listener) ;
+        ibndbbdkTbblf.rfmovf(listfnfr) ;
+        filtfrTbblf.rfmovf(listfnfr) ;
     }
 
     /**
-     * Return a <CODE>NotificationInfo</CODE> object containing the
-     * notification class and the notification type sent by the
-     * <CODE>SnmpMibTable</CODE>.
+     * Rfturn b <CODE>NotifidbtionInfo</CODE> objfdt dontbining tif
+     * notifidbtion dlbss bnd tif notifidbtion typf sfnt by tif
+     * <CODE>SnmpMibTbblf</CODE>.
      */
-    @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
 
-        String[] types = {SnmpTableEntryNotification.SNMP_ENTRY_ADDED,
-                          SnmpTableEntryNotification.SNMP_ENTRY_REMOVED};
+        String[] typfs = {SnmpTbblfEntryNotifidbtion.SNMP_ENTRY_ADDED,
+                          SnmpTbblfEntryNotifidbtion.SNMP_ENTRY_REMOVED};
 
-        MBeanNotificationInfo[] notifsInfo = {
-            new MBeanNotificationInfo
-            (types, "com.sun.jmx.snmp.agent.SnmpTableEntryNotification",
-             "Notifications sent by the SnmpMibTable")
+        MBfbnNotifidbtionInfo[] notifsInfo = {
+            nfw MBfbnNotifidbtionInfo
+            (typfs, "dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryNotifidbtion",
+             "Notifidbtions sfnt by tif SnmpMibTbblf")
         };
 
-        return notifsInfo;
+        rfturn notifsInfo;
     }
 
 
     /**
-     * Register the factory through which table entries should
-     * be created when remote entry creation is enabled.
+     * Rfgistfr tif fbdtory tirougi wiidi tbblf fntrifs siould
+     * bf drfbtfd wifn rfmotf fntry drfbtion is fnbblfd.
      *
      * <p>
-     * @param factory The
-     *        {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} through
-     *        which entries will be created when a remote SNMP manager
-     *        request the creation of a new entry via an SNMP SET request.
+     * @pbrbm fbdtory Tif
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} tirougi
+     *        wiidi fntrifs will bf drfbtfd wifn b rfmotf SNMP mbnbgfr
+     *        rfqufst tif drfbtion of b nfw fntry vib bn SNMP SET rfqufst.
      */
-    public void registerEntryFactory(SnmpTableEntryFactory factory) {
-        this.factory = factory;
+    publid void rfgistfrEntryFbdtory(SnmpTbblfEntryFbdtory fbdtory) {
+        tiis.fbdtory = fbdtory;
     }
 
     // ----------------------------------------------------------------------
-    // PROTECTED METHODS - RowStatus
+    // PROTECTED METHODS - RowStbtus
     // ----------------------------------------------------------------------
 
     /**
-     * Return true if the columnar object identified by <code>var</code>
-     * is used to control the addition/deletion of rows in this table.
+     * Rfturn truf if tif dolumnbr objfdt idfntififd by <dodf>vbr</dodf>
+     * is usfd to dontrol tif bddition/dflftion of rows in tiis tbblf.
      *
      * <p>
-     * By default, this method assumes that there is no control variable
-     * and always return <code>false</code>
+     * By dffbult, tiis mftiod bssumfs tibt tifrf is no dontrol vbribblf
+     * bnd blwbys rfturn <dodf>fblsf</dodf>
      * <p>
-     * If this table was defined using SMIv2, and if it contains a
-     * control variable with RowStatus syntax, <code>mibgen</code>
-     * will generate a non default implementation for this method
-     * that will identify the RowStatus control variable.
+     * If tiis tbblf wbs dffinfd using SMIv2, bnd if it dontbins b
+     * dontrol vbribblf witi RowStbtus syntbx, <dodf>mibgfn</dodf>
+     * will gfnfrbtf b non dffbult implfmfntbtion for tiis mftiod
+     * tibt will idfntify tif RowStbtus dontrol vbribblf.
      * <p>
-     * You will have to redefine this method if you need to implement
-     * control variables that do not conform to RFC 2579 RowStatus
+     * You will ibvf to rfdffinf tiis mftiod if you nffd to implfmfnt
+     * dontrol vbribblfs tibt do not donform to RFC 2579 RowStbtus
      * TEXTUAL-CONVENTION.
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param var The OID arc identifying the involved columnar object.
+     * @pbrbm vbr Tif OID brd idfntifying tif involvfd dolumnbr objfdt.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
      **/
-    protected boolean isRowStatus(SnmpOid rowOid, long var,
-                                    Object  userData) {
-        return false;
+    protfdtfd boolfbn isRowStbtus(SnmpOid rowOid, long vbr,
+                                    Objfdt  usfrDbtb) {
+        rfturn fblsf;
     }
 
 
     /**
-     * Return the RowStatus code value specified in this request.
+     * Rfturn tif RowStbtus dodf vbluf spfdififd in tiis rfqufst.
      * <p>
-     * The RowStatus code value should be one of the values defined
-     * by {@link com.sun.jmx.snmp.EnumRowStatus}. These codes correspond
-     * to RowStatus codes as defined in RFC 2579, plus the <i>unspecified</i>
-     * value which is SNMP Runtime specific.
+     * Tif RowStbtus dodf vbluf siould bf onf of tif vblufs dffinfd
+     * by {@link dom.sun.jmx.snmp.EnumRowStbtus}. Tifsf dodfs dorrfspond
+     * to RowStbtus dodfs bs dffinfd in RFC 2579, plus tif <i>unspfdififd</i>
+     * vbluf wiidi is SNMP Runtimf spfdifid.
      * <p>
      *
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm rfq    Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm dfpti  Tif dfpti rfbdifd in tif OID trff.
      *
-     * @return The RowStatus code specified in this request, if any:
+     * @rfturn Tif RowStbtus dodf spfdififd in tiis rfqufst, if bny:
      * <ul>
-     * <li>If the specified row does not exist and this table do
-     *     not use any variable to control creation/deletion of
-     *     rows, then default creation mechanism is assumed and
-     *     <i>createAndGo</i> is returned</li>
-     * <li>Otherwise, if the row exists and this table do not use any
-     *     variable to control creation/deletion of rows,
-     *     <i>unspecified</i> is returned.</li>
-     * <li>Otherwise, if the request does not contain the control variable,
-     *     <i>unspecified</i> is returned.</li>
-     * <li>Otherwise, mapRowStatus() is called to extract the RowStatus
-     *     code from the SnmpVarBind that contains the control variable.</li>
+     * <li>If tif spfdififd row dofs not fxist bnd tiis tbblf do
+     *     not usf bny vbribblf to dontrol drfbtion/dflftion of
+     *     rows, tifn dffbult drfbtion mfdibnism is bssumfd bnd
+     *     <i>drfbtfAndGo</i> is rfturnfd</li>
+     * <li>Otifrwisf, if tif row fxists bnd tiis tbblf do not usf bny
+     *     vbribblf to dontrol drfbtion/dflftion of rows,
+     *     <i>unspfdififd</i> is rfturnfd.</li>
+     * <li>Otifrwisf, if tif rfqufst dofs not dontbin tif dontrol vbribblf,
+     *     <i>unspfdififd</i> is rfturnfd.</li>
+     * <li>Otifrwisf, mbpRowStbtus() is dbllfd to fxtrbdt tif RowStbtus
+     *     dodf from tif SnmpVbrBind tibt dontbins tif dontrol vbribblf.</li>
      * </ul>
      *
-     * @exception SnmpStatusException if the value of the control variable
-     *            could not be mapped to a RowStatus code.
+     * @fxdfption SnmpStbtusExdfption if tif vbluf of tif dontrol vbribblf
+     *            dould not bf mbppfd to b RowStbtus dodf.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @sff dom.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected int getRowAction(SnmpMibSubRequest req, SnmpOid rowOid,
-                               int depth)
-        throws SnmpStatusException {
-        final boolean     isnew  = req.isNewEntry();
-        final SnmpVarBind vb = req.getRowStatusVarBind();
+    protfdtfd int gftRowAdtion(SnmpMibSubRfqufst rfq, SnmpOid rowOid,
+                               int dfpti)
+        tirows SnmpStbtusExdfption {
+        finbl boolfbn     isnfw  = rfq.isNfwEntry();
+        finbl SnmpVbrBind vb = rfq.gftRowStbtusVbrBind();
         if (vb == null) {
-            if (isnew && ! hasRowStatus())
-                return EnumRowStatus.createAndGo;
-            else return EnumRowStatus.unspecified;
+            if (isnfw && ! ibsRowStbtus())
+                rfturn EnumRowStbtus.drfbtfAndGo;
+            flsf rfturn EnumRowStbtus.unspfdififd;
         }
 
         try {
-            return mapRowStatus(rowOid, vb, req.getUserData());
-        } catch( SnmpStatusException x) {
-            checkRowStatusFail(req, x.getStatus());
+            rfturn mbpRowStbtus(rowOid, vb, rfq.gftUsfrDbtb());
+        } dbtdi( SnmpStbtusExdfption x) {
+            difdkRowStbtusFbil(rfq, x.gftStbtus());
         }
-        return EnumRowStatus.unspecified;
+        rfturn EnumRowStbtus.unspfdififd;
     }
 
     /**
-     * Map the value of the <code>vbstatus</code> varbind to the
-     * corresponding RowStatus code defined in
-     * {@link com.sun.jmx.snmp.EnumRowStatus}.
-     * These codes correspond to RowStatus codes as defined in RFC 2579,
-     * plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * Mbp tif vbluf of tif <dodf>vbstbtus</dodf> vbrbind to tif
+     * dorrfsponding RowStbtus dodf dffinfd in
+     * {@link dom.sun.jmx.snmp.EnumRowStbtus}.
+     * Tifsf dodfs dorrfspond to RowStbtus dodfs bs dffinfd in RFC 2579,
+     * plus tif <i>unspfdififd</i> vbluf wiidi is SNMP Runtimf spfdifid.
      * <p>
-     * By default, this method assumes that the control variable is
-     * an Integer, and it simply returns its value without further
-     * analysis.
+     * By dffbult, tiis mftiod bssumfs tibt tif dontrol vbribblf is
+     * bn Intfgfr, bnd it simply rfturns its vbluf witiout furtifr
+     * bnblysis.
      * <p>
-     * If this table was defined using SMIv2, and if it contains a
-     * control variable with RowStatus syntax, <code>mibgen</code>
-     * will generate a non default implementation for this method.
+     * If tiis tbblf wbs dffinfd using SMIv2, bnd if it dontbins b
+     * dontrol vbribblf witi RowStbtus syntbx, <dodf>mibgfn</dodf>
+     * will gfnfrbtf b non dffbult implfmfntbtion for tiis mftiod.
      * <p>
-     * You will have to redefine this method if you need to implement
-     * control variables that do not conform to RFC 2579 RowStatus
+     * You will ibvf to rfdffinf tiis mftiod if you nffd to implfmfnt
+     * dontrol vbribblfs tibt do not donform to RFC 2579 RowStbtus
      * TEXTUAL-CONVENTION.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param vbstatus The SnmpVarBind containing the value of the control
-     *           variable, as identified by the isRowStatus() method.
+     * @pbrbm vbstbtus Tif SnmpVbrBind dontbining tif vbluf of tif dontrol
+     *           vbribblf, bs idfntififd by tif isRowStbtus() mftiod.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @return The RowStatus code mapped from the value contained
-     *     in <code>vbstatus</code>.
+     * @rfturn Tif RowStbtus dodf mbppfd from tif vbluf dontbinfd
+     *     in <dodf>vbstbtus</dodf>.
      *
-     * @exception SnmpStatusException if the value of the control variable
-     *            could not be mapped to a RowStatus code.
+     * @fxdfption SnmpStbtusExdfption if tif vbluf of tif dontrol vbribblf
+     *            dould not bf mbppfd to b RowStbtus dodf.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @sff dom.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected int mapRowStatus(SnmpOid rowOid, SnmpVarBind vbstatus,
-                               Object userData)
-        throws SnmpStatusException {
-        final SnmpValue rsvalue = vbstatus.value;
+    protfdtfd int mbpRowStbtus(SnmpOid rowOid, SnmpVbrBind vbstbtus,
+                               Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        finbl SnmpVbluf rsvbluf = vbstbtus.vbluf;
 
-        if (rsvalue instanceof SnmpInt)
-            return ((SnmpInt)rsvalue).intValue();
-        else
-            throw new SnmpStatusException(
-                       SnmpStatusException.snmpRspInconsistentValue);
+        if (rsvbluf instbndfof SnmpInt)
+            rfturn ((SnmpInt)rsvbluf).intVbluf();
+        flsf
+            tirow nfw SnmpStbtusExdfption(
+                       SnmpStbtusExdfption.snmpRspIndonsistfntVbluf);
     }
 
     /**
-     * Set the control variable to the specified <code>newStatus</code>
-     * value.
+     * Sft tif dontrol vbribblf to tif spfdififd <dodf>nfwStbtus</dodf>
+     * vbluf.
      *
      * <p>
-     * This method maps the given <code>newStatus</code> to the appropriate
-     * value for the control variable, then sets the control variable in
-     * the entry identified by <code>rowOid</code>. It returns the new
-     * value of the control variable.
+     * Tiis mftiod mbps tif givfn <dodf>nfwStbtus</dodf> to tif bppropribtf
+     * vbluf for tif dontrol vbribblf, tifn sfts tif dontrol vbribblf in
+     * tif fntry idfntififd by <dodf>rowOid</dodf>. It rfturns tif nfw
+     * vbluf of tif dontrol vbribblf.
      * <p>
-     * By default, it is assumed that there is no control variable so this
-     * method does nothing and simply returns <code>null</code>.
+     * By dffbult, it is bssumfd tibt tifrf is no dontrol vbribblf so tiis
+     * mftiod dofs notiing bnd simply rfturns <dodf>null</dodf>.
      * <p>
-     * If this table was defined using SMIv2, and if it contains a
-     * control variable with RowStatus syntax, <code>mibgen</code>
-     * will generate a non default implementation for this method.
+     * If tiis tbblf wbs dffinfd using SMIv2, bnd if it dontbins b
+     * dontrol vbribblf witi RowStbtus syntbx, <dodf>mibgfn</dodf>
+     * will gfnfrbtf b non dffbult implfmfntbtion for tiis mftiod.
      * <p>
-     * You will have to redefine this method if you need to implement
-     * control variables that do not conform to RFC 2579 RowStatus
+     * You will ibvf to rfdffinf tiis mftiod if you nffd to implfmfnt
+     * dontrol vbribblfs tibt do not donform to RFC 2579 RowStbtus
      * TEXTUAL-CONVENTION.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param newStatus The new status for the row: one of the
-     *        RowStatus code defined in
-     *        {@link com.sun.jmx.snmp.EnumRowStatus}. These codes
-     *        correspond to RowStatus codes as defined in RFC 2579,
-     *        plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * @pbrbm nfwStbtus Tif nfw stbtus for tif row: onf of tif
+     *        RowStbtus dodf dffinfd in
+     *        {@link dom.sun.jmx.snmp.EnumRowStbtus}. Tifsf dodfs
+     *        dorrfspond to RowStbtus dodfs bs dffinfd in RFC 2579,
+     *        plus tif <i>unspfdififd</i> vbluf wiidi is SNMP Runtimf spfdifid.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @return The new value of the control variable (usually
-     *         <code>new SnmpInt(newStatus)</code>) or <code>null</code>
-     *         if the table do not have any control variable.
+     * @rfturn Tif nfw vbluf of tif dontrol vbribblf (usublly
+     *         <dodf>nfw SnmpInt(nfwStbtus)</dodf>) or <dodf>null</dodf>
+     *         if tif tbblf do not ibvf bny dontrol vbribblf.
      *
-     * @exception SnmpStatusException If the given <code>newStatus</code>
-     *            could not be set on the specified entry, or if the
-     *            given <code>newStatus</code> is not valid.
+     * @fxdfption SnmpStbtusExdfption If tif givfn <dodf>nfwStbtus</dodf>
+     *            dould not bf sft on tif spfdififd fntry, or if tif
+     *            givfn <dodf>nfwStbtus</dodf> is not vblid.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @sff dom.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected SnmpValue setRowStatus(SnmpOid rowOid, int newStatus,
-                                     Object userData)
-        throws SnmpStatusException {
-        return null;
+    protfdtfd SnmpVbluf sftRowStbtus(SnmpOid rowOid, int nfwStbtus,
+                                     Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        rfturn null;
     }
 
     /**
-     * Tell whether the specified row is ready and can be put in the
-     * <i>notInService</i> state.
+     * Tfll wiftifr tif spfdififd row is rfbdy bnd dbn bf put in tif
+     * <i>notInSfrvidf</i> stbtf.
      * <p>
-     * This method is called only once, after all the varbind have been
-     * set on a new entry for which <i>createAndWait</i> was specified.
+     * Tiis mftiod is dbllfd only ondf, bftfr bll tif vbrbind ibvf bffn
+     * sft on b nfw fntry for wiidi <i>drfbtfAndWbit</i> wbs spfdififd.
      * <p>
-     * If the entry is not yet ready, this method should return false.
-     * It will then be the responsibility of the entry to switch its
-     * own state to <i>notInService</i> when it becomes ready.
-     * No further call to <code>isRowReady()</code> will be made.
+     * If tif fntry is not yft rfbdy, tiis mftiod siould rfturn fblsf.
+     * It will tifn bf tif rfsponsibility of tif fntry to switdi its
+     * own stbtf to <i>notInSfrvidf</i> wifn it bfdomfs rfbdy.
+     * No furtifr dbll to <dodf>isRowRfbdy()</dodf> will bf mbdf.
      * <p>
-     * By default, this method always return true. <br>
-     * <code>mibgen</code> will not generate any specific implementation
-     * for this method - meaning that by default, a row created using
-     * <i>createAndWait</i> will always be placed in <i>notInService</i>
-     * state at the end of the request.
+     * By dffbult, tiis mftiod blwbys rfturn truf. <br>
+     * <dodf>mibgfn</dodf> will not gfnfrbtf bny spfdifid implfmfntbtion
+     * for tiis mftiod - mfbning tibt by dffbult, b row drfbtfd using
+     * <i>drfbtfAndWbit</i> will blwbys bf plbdfd in <i>notInSfrvidf</i>
+     * stbtf bt tif fnd of tif rfqufst.
      * <p>
-     * If this table was defined using SMIv2, and if it contains a
-     * control variable with RowStatus syntax, <code>mibgen</code>
-     * will generate an implementation for this method that will
-     * delegate the work to the metadata class modelling the conceptual
-     * row, so that you can override the default behaviour by subclassing
-     * that metadata class.
+     * If tiis tbblf wbs dffinfd using SMIv2, bnd if it dontbins b
+     * dontrol vbribblf witi RowStbtus syntbx, <dodf>mibgfn</dodf>
+     * will gfnfrbtf bn implfmfntbtion for tiis mftiod tibt will
+     * dflfgbtf tif work to tif mftbdbtb dlbss modflling tif dondfptubl
+     * row, so tibt you dbn ovfrridf tif dffbult bfibviour by subdlbssing
+     * tibt mftbdbtb dlbss.
      * <p>
-     * You will have to redefine this method if this default mechanism
-     * does not suit your needs.
+     * You will ibvf to rfdffinf tiis mftiod if tiis dffbult mfdibnism
+     * dofs not suit your nffds.
      *
      * <p>
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @return <code>true</code> if the row can be placed in
-     *         <i>notInService</i> state.
+     * @rfturn <dodf>truf</dodf> if tif row dbn bf plbdfd in
+     *         <i>notInSfrvidf</i> stbtf.
      *
-     * @exception SnmpStatusException An error occurred while trying
-     *            to retrieve the row status, and the operation should
-     *            be aborted.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd wiilf trying
+     *            to rftrifvf tif row stbtus, bnd tif opfrbtion siould
+     *            bf bbortfd.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @sff dom.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected boolean isRowReady(SnmpOid rowOid, Object userData)
-        throws SnmpStatusException {
-        return true;
+    protfdtfd boolfbn isRowRfbdy(SnmpOid rowOid, Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        rfturn truf;
     }
 
     /**
-     * Check whether the control variable of the given row can be
-     * switched to the new specified <code>newStatus</code>.
+     * Cifdk wiftifr tif dontrol vbribblf of tif givfn row dbn bf
+     * switdifd to tif nfw spfdififd <dodf>nfwStbtus</dodf>.
      * <p>
-     * This method is called during the <i>check</i> phase of a SET
-     * request when the control variable specifies <i>active</i> or
-     * <i>notInService</i>.
+     * Tiis mftiod is dbllfd during tif <i>difdk</i> pibsf of b SET
+     * rfqufst wifn tif dontrol vbribblf spfdififs <i>bdtivf</i> or
+     * <i>notInSfrvidf</i>.
      * <p>
-     * By default it is assumed that nothing prevents putting the
-     * row in the requested state, and this method does nothing.
-     * It is simply provided as a hook so that specific checks can
-     * be implemented.
+     * By dffbult it is bssumfd tibt notiing prfvfnts putting tif
+     * row in tif rfqufstfd stbtf, bnd tiis mftiod dofs notiing.
+     * It is simply providfd bs b iook so tibt spfdifid difdks dbn
+     * bf implfmfntfd.
      * <p>
-     * Note that if the actual row deletion fails afterward, the
-     * atomicity of the request is no longer guaranteed.
+     * Notf tibt if tif bdtubl row dflftion fbils bftfrwbrd, tif
+     * btomidity of tif rfqufst is no longfr gubrbntffd.
      *
      * <p>
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm rfq    Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm dfpti  Tif dfpti rfbdifd in tif OID trff.
      *
-     * @param newStatus The new status for the row: one of the
-     *        RowStatus code defined in
-     *        {@link com.sun.jmx.snmp.EnumRowStatus}. These codes
-     *        correspond to RowStatus codes as defined in RFC 2579,
-     *        plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * @pbrbm nfwStbtus Tif nfw stbtus for tif row: onf of tif
+     *        RowStbtus dodf dffinfd in
+     *        {@link dom.sun.jmx.snmp.EnumRowStbtus}. Tifsf dodfs
+     *        dorrfspond to RowStbtus dodfs bs dffinfd in RFC 2579,
+     *        plus tif <i>unspfdififd</i> vbluf wiidi is SNMP Runtimf spfdifid.
      *
-     * @exception SnmpStatusException if switching to this new state
-     *            would fail.
+     * @fxdfption SnmpStbtusExdfption if switdiing to tiis nfw stbtf
+     *            would fbil.
      *
      **/
-    protected void checkRowStatusChange(SnmpMibSubRequest req,
-                                        SnmpOid rowOid, int depth,
-                                        int newStatus)
-        throws SnmpStatusException {
-
-    }
-
-    /**
-     * Check whether the specified row can be removed from the table.
-     * <p>
-     * This method is called during the <i>check</i> phase of a SET
-     * request when the control variable specifies <i>destroy</i>
-     * <p>
-     * By default it is assumed that nothing prevents row deletion
-     * and this method does nothing. It is simply provided as a hook
-     * so that specific checks can be implemented.
-     * <p>
-     * Note that if the actual row deletion fails afterward, the
-     * atomicity of the request is no longer guaranteed.
-     *
-     * <p>
-     * @param req    The sub-request that must be handled by this node.
-     *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
-     *
-     * @param depth  The depth reached in the OID tree.
-     *
-     * @exception SnmpStatusException if the row deletion must be
-     *            rejected.
-     **/
-    protected void checkRemoveTableRow(SnmpMibSubRequest req, SnmpOid rowOid,
-                                       int depth)
-        throws SnmpStatusException {
+    protfdtfd void difdkRowStbtusCibngf(SnmpMibSubRfqufst rfq,
+                                        SnmpOid rowOid, int dfpti,
+                                        int nfwStbtus)
+        tirows SnmpStbtusExdfption {
 
     }
 
     /**
-     * Remove a table row upon a remote manager request.
-     *
-     * This method is called internally when <code>getRowAction()</code>
-     * yields <i>destroy</i> - i.e.: it is only called when a remote
-     * manager requests the removal of a table row.<br>
-     * You should never need to call this function directly.
+     * Cifdk wiftifr tif spfdififd row dbn bf rfmovfd from tif tbblf.
      * <p>
-     * By default, this method simply calls <code>removeEntry(rowOid)
-     * </code>.
+     * Tiis mftiod is dbllfd during tif <i>difdk</i> pibsf of b SET
+     * rfqufst wifn tif dontrol vbribblf spfdififs <i>dfstroy</i>
      * <p>
-     * You can redefine this method if you need to implement some
-     * specific behaviour when a remote row deletion is invoked.
+     * By dffbult it is bssumfd tibt notiing prfvfnts row dflftion
+     * bnd tiis mftiod dofs notiing. It is simply providfd bs b iook
+     * so tibt spfdifid difdks dbn bf implfmfntfd.
      * <p>
-     * Note that specific checks should not be implemented in this
-     * method, but rather in <code>checkRemoveTableRow()</code>.
-     * If <code>checkRemoveTableRow()</code> succeeds and this method
-     * fails afterward, the atomicity of the original SET request can no
-     * longer be guaranteed.
+     * Notf tibt if tif bdtubl row dflftion fbils bftfrwbrd, tif
+     * btomidity of tif rfqufst is no longfr gubrbntffd.
+     *
      * <p>
+     * @pbrbm rfq    Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
      *
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm dfpti  Tif dfpti rfbdifd in tif OID trff.
      *
-     * @param depth  The depth reached in the OID tree.
-     *
-     * @exception SnmpStatusException if the actual row deletion fails.
-     *            This should not happen since it would break the
-     *            atomicity of the SET request. Specific checks should
-     *            be implemented in <code>checkRemoveTableRow()</code>
-     *            if needed. If the entry does not exists, no exception
-     *            is generated and the method simply returns.
-     *
+     * @fxdfption SnmpStbtusExdfption if tif row dflftion must bf
+     *            rfjfdtfd.
      **/
-    protected void removeTableRow(SnmpMibSubRequest req, SnmpOid rowOid,
-                                  int depth)
-        throws SnmpStatusException {
+    protfdtfd void difdkRfmovfTbblfRow(SnmpMibSubRfqufst rfq, SnmpOid rowOid,
+                                       int dfpti)
+        tirows SnmpStbtusExdfption {
 
-        removeEntry(rowOid);
     }
 
     /**
-     * This method takes care of initial RowStatus handling during the
-     * check() phase of a SET request.
+     * Rfmovf b tbblf row upon b rfmotf mbnbgfr rfqufst.
      *
-     * In particular it will:
-     * <ul><li>check that the given <code>rowAction</code> returned by
-     *         <code>getRowAction()</code> is valid.</li>
-     * <li>Then depending on the <code>rowAction</code> specified it will:
-     *     <ul><li>either call <code>createNewEntry()</code> (<code>
-     *         rowAction = <i>createAndGo</i> or <i>createAndWait</i>
-     *         </code>),</li>
-     *     <li>or call <code>checkRemoveTableRow()</code> (<code>
-     *         rowAction = <i>destroy</i></code>),</li>
-     *     <li>or call <code>checkRowStatusChange()</code> (<code>
-     *         rowAction = <i>active</i> or <i>notInService</i></code>),</li>
-     *     <li>or generate a SnmpStatusException if the passed <code>
-     *         rowAction</code> is not correct.</li>
+     * Tiis mftiod is dbllfd intfrnblly wifn <dodf>gftRowAdtion()</dodf>
+     * yiflds <i>dfstroy</i> - i.f.: it is only dbllfd wifn b rfmotf
+     * mbnbgfr rfqufsts tif rfmovbl of b tbblf row.<br>
+     * You siould nfvfr nffd to dbll tiis fundtion dirfdtly.
+     * <p>
+     * By dffbult, tiis mftiod simply dblls <dodf>rfmovfEntry(rowOid)
+     * </dodf>.
+     * <p>
+     * You dbn rfdffinf tiis mftiod if you nffd to implfmfnt somf
+     * spfdifid bfibviour wifn b rfmotf row dflftion is invokfd.
+     * <p>
+     * Notf tibt spfdifid difdks siould not bf implfmfntfd in tiis
+     * mftiod, but rbtifr in <dodf>difdkRfmovfTbblfRow()</dodf>.
+     * If <dodf>difdkRfmovfTbblfRow()</dodf> suddffds bnd tiis mftiod
+     * fbils bftfrwbrd, tif btomidity of tif originbl SET rfqufst dbn no
+     * longfr bf gubrbntffd.
+     * <p>
+     *
+     * @pbrbm rfq    Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
+     *
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
+     *
+     * @pbrbm dfpti  Tif dfpti rfbdifd in tif OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption if tif bdtubl row dflftion fbils.
+     *            Tiis siould not ibppfn sindf it would brfbk tif
+     *            btomidity of tif SET rfqufst. Spfdifid difdks siould
+     *            bf implfmfntfd in <dodf>difdkRfmovfTbblfRow()</dodf>
+     *            if nffdfd. If tif fntry dofs not fxists, no fxdfption
+     *            is gfnfrbtfd bnd tif mftiod simply rfturns.
+     *
+     **/
+    protfdtfd void rfmovfTbblfRow(SnmpMibSubRfqufst rfq, SnmpOid rowOid,
+                                  int dfpti)
+        tirows SnmpStbtusExdfption {
+
+        rfmovfEntry(rowOid);
+    }
+
+    /**
+     * Tiis mftiod tbkfs dbrf of initibl RowStbtus ibndling during tif
+     * difdk() pibsf of b SET rfqufst.
+     *
+     * In pbrtidulbr it will:
+     * <ul><li>difdk tibt tif givfn <dodf>rowAdtion</dodf> rfturnfd by
+     *         <dodf>gftRowAdtion()</dodf> is vblid.</li>
+     * <li>Tifn dfpfnding on tif <dodf>rowAdtion</dodf> spfdififd it will:
+     *     <ul><li>fitifr dbll <dodf>drfbtfNfwEntry()</dodf> (<dodf>
+     *         rowAdtion = <i>drfbtfAndGo</i> or <i>drfbtfAndWbit</i>
+     *         </dodf>),</li>
+     *     <li>or dbll <dodf>difdkRfmovfTbblfRow()</dodf> (<dodf>
+     *         rowAdtion = <i>dfstroy</i></dodf>),</li>
+     *     <li>or dbll <dodf>difdkRowStbtusCibngf()</dodf> (<dodf>
+     *         rowAdtion = <i>bdtivf</i> or <i>notInSfrvidf</i></dodf>),</li>
+     *     <li>or gfnfrbtf b SnmpStbtusExdfption if tif pbssfd <dodf>
+     *         rowAdtion</dodf> is not dorrfdt.</li>
      * </ul></li></ul>
      * <p>
-     * In principle, you should not need to redefine this method.
+     * In prindiplf, you siould not nffd to rfdffinf tiis mftiod.
      * <p>
-     * <code>beginRowAction()</code> is called during the check phase
-     * of a SET request, before actual checking on the varbind list
-     * is performed.
+     * <dodf>bfginRowAdtion()</dodf> is dbllfd during tif difdk pibsf
+     * of b SET rfqufst, bfforf bdtubl difdking on tif vbrbind list
+     * is pfrformfd.
      *
      * <p>
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm rfq    Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm dfpti  Tif dfpti rfbdifd in tif OID trff.
      *
-     * @param rowAction The requested action as returned by <code>
-     *        getRowAction()</code>: one of the RowStatus codes defined in
-     *        {@link com.sun.jmx.snmp.EnumRowStatus}. These codes
-     *        correspond to RowStatus codes as defined in RFC 2579,
-     *        plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * @pbrbm rowAdtion Tif rfqufstfd bdtion bs rfturnfd by <dodf>
+     *        gftRowAdtion()</dodf>: onf of tif RowStbtus dodfs dffinfd in
+     *        {@link dom.sun.jmx.snmp.EnumRowStbtus}. Tifsf dodfs
+     *        dorrfspond to RowStbtus dodfs bs dffinfd in RFC 2579,
+     *        plus tif <i>unspfdififd</i> vbluf wiidi is SNMP Runtimf spfdifid.
      *
-     * @exception SnmpStatusException if the specified <code>rowAction</code>
-     *            is not valid or cannot be executed.
-     *            This should not happen since it would break the
-     *            atomicity of the SET request. Specific checks should
-     *            be implemented in <code>beginRowAction()</code> if needed.
+     * @fxdfption SnmpStbtusExdfption if tif spfdififd <dodf>rowAdtion</dodf>
+     *            is not vblid or dbnnot bf fxfdutfd.
+     *            Tiis siould not ibppfn sindf it would brfbk tif
+     *            btomidity of tif SET rfqufst. Spfdifid difdks siould
+     *            bf implfmfntfd in <dodf>bfginRowAdtion()</dodf> if nffdfd.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @sff dom.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected synchronized void beginRowAction(SnmpMibSubRequest req,
-                              SnmpOid rowOid, int depth, int rowAction)
-        throws SnmpStatusException {
-        final boolean     isnew  = req.isNewEntry();
-        final SnmpOid     oid    = rowOid;
-        final int         action = rowAction;
+    protfdtfd syndironizfd void bfginRowAdtion(SnmpMibSubRfqufst rfq,
+                              SnmpOid rowOid, int dfpti, int rowAdtion)
+        tirows SnmpStbtusExdfption {
+        finbl boolfbn     isnfw  = rfq.isNfwEntry();
+        finbl SnmpOid     oid    = rowOid;
+        finbl int         bdtion = rowAdtion;
 
-        switch (action) {
-        case EnumRowStatus.unspecified:
-            if (isnew) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "beginRowAction", "Failed to create row[" +
-                            rowOid + "] : RowStatus = unspecified");
+        switdi (bdtion) {
+        dbsf EnumRowStbtus.unspfdififd:
+            if (isnfw) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "bfginRowAdtion", "Fbilfd to drfbtf row[" +
+                            rowOid + "] : RowStbtus = unspfdififd");
                 }
-                checkRowStatusFail(req,SnmpStatusException.snmpRspNoAccess);
+                difdkRowStbtusFbil(rfq,SnmpStbtusExdfption.snmpRspNoAddfss);
             }
-            break;
-        case EnumRowStatus.createAndGo:
-        case EnumRowStatus.createAndWait:
-            if (isnew) {
-                if (isCreationEnabled()) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMibTable.class.getName(),
-                                "beginRowAction", "Creating row[" + rowOid +
-                                "] : RowStatus = createAndGo | createAndWait");
+            brfbk;
+        dbsf EnumRowStbtus.drfbtfAndGo:
+        dbsf EnumRowStbtus.drfbtfAndWbit:
+            if (isnfw) {
+                if (isCrfbtionEnbblfd()) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                                SnmpMibTbblf.dlbss.gftNbmf(),
+                                "bfginRowAdtion", "Crfbting row[" + rowOid +
+                                "] : RowStbtus = drfbtfAndGo | drfbtfAndWbit");
                     }
-                    createNewEntry(req,oid,depth);
-                } else {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                                SnmpMibTable.class.getName(),
-                                "beginRowAction", "Can't create row[" + rowOid +
-                                "] : RowStatus = createAndGo | createAndWait " +
-                                "but creation is disabled");
+                    drfbtfNfwEntry(rfq,oid,dfpti);
+                } flsf {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                                SnmpMibTbblf.dlbss.gftNbmf(),
+                                "bfginRowAdtion", "Cbn't drfbtf row[" + rowOid +
+                                "] : RowStbtus = drfbtfAndGo | drfbtfAndWbit " +
+                                "but drfbtion is disbblfd");
                     }
-                    checkRowStatusFail(req,
-                       SnmpStatusException.snmpRspNoAccess);
+                    difdkRowStbtusFbil(rfq,
+                       SnmpStbtusExdfption.snmpRspNoAddfss);
                 }
-            } else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "beginRowAction", "Can't create row[" + rowOid +
-                            "] : RowStatus = createAndGo | createAndWait " +
-                            "but row already exists");
+            } flsf {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "bfginRowAdtion", "Cbn't drfbtf row[" + rowOid +
+                            "] : RowStbtus = drfbtfAndGo | drfbtfAndWbit " +
+                            "but row blrfbdy fxists");
                 }
-                checkRowStatusFail(req,
-                       SnmpStatusException.snmpRspInconsistentValue);
+                difdkRowStbtusFbil(rfq,
+                       SnmpStbtusExdfption.snmpRspIndonsistfntVbluf);
             }
-            break;
-        case EnumRowStatus.destroy:
-            if (isnew) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "beginRowAction",
-                            "Warning: can't destroy row[" + rowOid +
-                            "] : RowStatus = destroy but row does not exist");
+            brfbk;
+        dbsf EnumRowStbtus.dfstroy:
+            if (isnfw) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "bfginRowAdtion",
+                            "Wbrning: dbn't dfstroy row[" + rowOid +
+                            "] : RowStbtus = dfstroy but row dofs not fxist");
                 }
-            } else if (!isCreationEnabled()) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "beginRowAction",
-                            "Can't destroy row[" + rowOid + "] : " +
-                            "RowStatus = destroy but creation is disabled");
+            } flsf if (!isCrfbtionEnbblfd()) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "bfginRowAdtion",
+                            "Cbn't dfstroy row[" + rowOid + "] : " +
+                            "RowStbtus = dfstroy but drfbtion is disbblfd");
                 }
-                checkRowStatusFail(req,SnmpStatusException.snmpRspNoAccess);
+                difdkRowStbtusFbil(rfq,SnmpStbtusExdfption.snmpRspNoAddfss);
             }
-            checkRemoveTableRow(req,rowOid,depth);
-            break;
-        case EnumRowStatus.active:
-        case EnumRowStatus.notInService:
-            if (isnew) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "beginRowAction", "Can't switch state of row[" +
-                            rowOid + "] : specified RowStatus = active | " +
-                            "notInService but row does not exist");
+            difdkRfmovfTbblfRow(rfq,rowOid,dfpti);
+            brfbk;
+        dbsf EnumRowStbtus.bdtivf:
+        dbsf EnumRowStbtus.notInSfrvidf:
+            if (isnfw) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "bfginRowAdtion", "Cbn't switdi stbtf of row[" +
+                            rowOid + "] : spfdififd RowStbtus = bdtivf | " +
+                            "notInSfrvidf but row dofs not fxist");
                 }
-                checkRowStatusFail(req,
-                        SnmpStatusException.snmpRspInconsistentValue);
+                difdkRowStbtusFbil(rfq,
+                        SnmpStbtusExdfption.snmpRspIndonsistfntVbluf);
             }
-            checkRowStatusChange(req,rowOid,depth,action);
-            break;
-        case EnumRowStatus.notReady:
-        default:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
-                        "beginRowAction", "Invalid RowStatus value for row[" +
-                        rowOid + "] : specified RowStatus = " + action);
+            difdkRowStbtusCibngf(rfq,rowOid,dfpti,bdtion);
+            brfbk;
+        dbsf EnumRowStbtus.notRfbdy:
+        dffbult:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                        SnmpMibTbblf.dlbss.gftNbmf(),
+                        "bfginRowAdtion", "Invblid RowStbtus vbluf for row[" +
+                        rowOid + "] : spfdififd RowStbtus = " + bdtion);
             }
-            checkRowStatusFail(req,
-                    SnmpStatusException.snmpRspInconsistentValue);
+            difdkRowStbtusFbil(rfq,
+                    SnmpStbtusExdfption.snmpRspIndonsistfntVbluf);
         }
     }
 
     /**
-     * This method takes care of final RowStatus handling during the
-     * set() phase of a SET request.
+     * Tiis mftiod tbkfs dbrf of finbl RowStbtus ibndling during tif
+     * sft() pibsf of b SET rfqufst.
      *
-     * In particular it will:
-     *     <ul><li>either call <code>setRowStatus(<i>active</i>)</code>
-     *         (<code> rowAction = <i>createAndGo</i> or <i>active</i>
-     *         </code>),</li>
-     *     <li>or call <code>setRowStatus(<i>notInService</i> or <i>
-     *         notReady</i>)</code> depending on the result of <code>
-     *         isRowReady()</code> (<code>rowAction = <i>createAndWait</i>
-     *         </code>),</li>
-     *     <li>or call <code>setRowStatus(<i>notInService</i>)</code>
-     *         (<code> rowAction = <i>notInService</i></code>),
-     *     <li>or call <code>removeTableRow()</code> (<code>
-     *         rowAction = <i>destroy</i></code>),</li>
-     *     <li>or generate a SnmpStatusException if the passed <code>
-     *         rowAction</code> is not correct. This should be avoided
-     *         since it would break SET request atomicity</li>
+     * In pbrtidulbr it will:
+     *     <ul><li>fitifr dbll <dodf>sftRowStbtus(<i>bdtivf</i>)</dodf>
+     *         (<dodf> rowAdtion = <i>drfbtfAndGo</i> or <i>bdtivf</i>
+     *         </dodf>),</li>
+     *     <li>or dbll <dodf>sftRowStbtus(<i>notInSfrvidf</i> or <i>
+     *         notRfbdy</i>)</dodf> dfpfnding on tif rfsult of <dodf>
+     *         isRowRfbdy()</dodf> (<dodf>rowAdtion = <i>drfbtfAndWbit</i>
+     *         </dodf>),</li>
+     *     <li>or dbll <dodf>sftRowStbtus(<i>notInSfrvidf</i>)</dodf>
+     *         (<dodf> rowAdtion = <i>notInSfrvidf</i></dodf>),
+     *     <li>or dbll <dodf>rfmovfTbblfRow()</dodf> (<dodf>
+     *         rowAdtion = <i>dfstroy</i></dodf>),</li>
+     *     <li>or gfnfrbtf b SnmpStbtusExdfption if tif pbssfd <dodf>
+     *         rowAdtion</dodf> is not dorrfdt. Tiis siould bf bvoidfd
+     *         sindf it would brfbk SET rfqufst btomidity</li>
      *     </ul>
      * <p>
-     * In principle, you should not need to redefine this method.
+     * In prindiplf, you siould not nffd to rfdffinf tiis mftiod.
      * <p>
-     * <code>endRowAction()</code> is called during the set() phase
-     * of a SET request, after the actual set() on the varbind list
-     * has been performed. The varbind containing the control variable
-     * is updated with the value returned by setRowStatus() (if it is
-     * not <code>null</code>).
+     * <dodf>fndRowAdtion()</dodf> is dbllfd during tif sft() pibsf
+     * of b SET rfqufst, bftfr tif bdtubl sft() on tif vbrbind list
+     * ibs bffn pfrformfd. Tif vbrbind dontbining tif dontrol vbribblf
+     * is updbtfd witi tif vbluf rfturnfd by sftRowStbtus() (if it is
+     * not <dodf>null</dodf>).
      *
      * <p>
-     * @param req    The sub-request that must be handled by this node.
+     * @pbrbm rfq    Tif sub-rfqufst tibt must bf ibndlfd by tiis nodf.
      *
-     * @param rowOid The <CODE>SnmpOid</CODE> identifying the table
-     *               row involved in the operation.
+     * @pbrbm rowOid Tif <CODE>SnmpOid</CODE> idfntifying tif tbblf
+     *               row involvfd in tif opfrbtion.
      *
-     * @param depth  The depth reached in the OID tree.
+     * @pbrbm dfpti  Tif dfpti rfbdifd in tif OID trff.
      *
-     * @param rowAction The requested action as returned by <code>
-     *        getRowAction()</code>: one of the RowStatus codes defined in
-     *        {@link com.sun.jmx.snmp.EnumRowStatus}. These codes
-     *        correspond to RowStatus codes as defined in RFC 2579,
-     *        plus the <i>unspecified</i> value which is SNMP Runtime specific.
+     * @pbrbm rowAdtion Tif rfqufstfd bdtion bs rfturnfd by <dodf>
+     *        gftRowAdtion()</dodf>: onf of tif RowStbtus dodfs dffinfd in
+     *        {@link dom.sun.jmx.snmp.EnumRowStbtus}. Tifsf dodfs
+     *        dorrfspond to RowStbtus dodfs bs dffinfd in RFC 2579,
+     *        plus tif <i>unspfdififd</i> vbluf wiidi is SNMP Runtimf spfdifid.
      *
-     * @exception SnmpStatusException if the specified <code>rowAction</code>
-     *            is not valid.
+     * @fxdfption SnmpStbtusExdfption if tif spfdififd <dodf>rowAdtion</dodf>
+     *            is not vblid.
      *
-     * @see com.sun.jmx.snmp.EnumRowStatus
+     * @sff dom.sun.jmx.snmp.EnumRowStbtus
      **/
-    protected void endRowAction(SnmpMibSubRequest req, SnmpOid rowOid,
-                               int depth, int rowAction)
-        throws SnmpStatusException {
-        final boolean     isnew  = req.isNewEntry();
-        final SnmpOid     oid    = rowOid;
-        final int         action = rowAction;
-        final Object      data   = req.getUserData();
-        SnmpValue         value  = null;
+    protfdtfd void fndRowAdtion(SnmpMibSubRfqufst rfq, SnmpOid rowOid,
+                               int dfpti, int rowAdtion)
+        tirows SnmpStbtusExdfption {
+        finbl boolfbn     isnfw  = rfq.isNfwEntry();
+        finbl SnmpOid     oid    = rowOid;
+        finbl int         bdtion = rowAdtion;
+        finbl Objfdt      dbtb   = rfq.gftUsfrDbtb();
+        SnmpVbluf         vbluf  = null;
 
-        switch (action) {
-        case EnumRowStatus.unspecified:
-            break;
-        case EnumRowStatus.createAndGo:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
-                        "endRowAction", "Setting RowStatus to 'active' " +
-                        "for row[" + rowOid + "] : requested RowStatus = " +
-                        "createAndGo");
+        switdi (bdtion) {
+        dbsf EnumRowStbtus.unspfdififd:
+            brfbk;
+        dbsf EnumRowStbtus.drfbtfAndGo:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                        SnmpMibTbblf.dlbss.gftNbmf(),
+                        "fndRowAdtion", "Sftting RowStbtus to 'bdtivf' " +
+                        "for row[" + rowOid + "] : rfqufstfd RowStbtus = " +
+                        "drfbtfAndGo");
             }
-            value = setRowStatus(oid,EnumRowStatus.active,data);
-            break;
-        case EnumRowStatus.createAndWait:
-            if (isRowReady(oid,data)) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "endRowAction",
-                            "Setting RowStatus to 'notInService' for row[" +
-                            rowOid + "] : requested RowStatus = createAndWait");
+            vbluf = sftRowStbtus(oid,EnumRowStbtus.bdtivf,dbtb);
+            brfbk;
+        dbsf EnumRowStbtus.drfbtfAndWbit:
+            if (isRowRfbdy(oid,dbtb)) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "fndRowAdtion",
+                            "Sftting RowStbtus to 'notInSfrvidf' for row[" +
+                            rowOid + "] : rfqufstfd RowStbtus = drfbtfAndWbit");
                 }
-                value = setRowStatus(oid,EnumRowStatus.notInService,data);
-            } else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "endRowAction", "Setting RowStatus to 'notReady' " +
-                            "for row[" + rowOid + "] : requested RowStatus = " +
-                            "createAndWait");
+                vbluf = sftRowStbtus(oid,EnumRowStbtus.notInSfrvidf,dbtb);
+            } flsf {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "fndRowAdtion", "Sftting RowStbtus to 'notRfbdy' " +
+                            "for row[" + rowOid + "] : rfqufstfd RowStbtus = " +
+                            "drfbtfAndWbit");
                 }
-                value = setRowStatus(oid,EnumRowStatus.notReady,data);
+                vbluf = sftRowStbtus(oid,EnumRowStbtus.notRfbdy,dbtb);
             }
-            break;
-        case EnumRowStatus.destroy:
-            if (isnew) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "endRowAction",
-                            "Warning: requested RowStatus = destroy, " +
-                            "but row[" + rowOid + "] does not exist");
+            brfbk;
+        dbsf EnumRowStbtus.dfstroy:
+            if (isnfw) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "fndRowAdtion",
+                            "Wbrning: rfqufstfd RowStbtus = dfstroy, " +
+                            "but row[" + rowOid + "] dofs not fxist");
                 }
-            } else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                            SnmpMibTable.class.getName(),
-                            "endRowAction", "Destroying row[" + rowOid +
-                            "] : requested RowStatus = destroy");
+            } flsf {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                            SnmpMibTbblf.dlbss.gftNbmf(),
+                            "fndRowAdtion", "Dfstroying row[" + rowOid +
+                            "] : rfqufstfd RowStbtus = dfstroy");
                 }
             }
-            removeTableRow(req,oid,depth);
-            break;
-        case EnumRowStatus.active:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
-                        "endRowAction",
-                        "Setting RowStatus to 'active' for row[" +
-                        rowOid + "] : requested RowStatus = active");
+            rfmovfTbblfRow(rfq,oid,dfpti);
+            brfbk;
+        dbsf EnumRowStbtus.bdtivf:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                        SnmpMibTbblf.dlbss.gftNbmf(),
+                        "fndRowAdtion",
+                        "Sftting RowStbtus to 'bdtivf' for row[" +
+                        rowOid + "] : rfqufstfd RowStbtus = bdtivf");
             }
-            value = setRowStatus(oid,EnumRowStatus.active,data);
-            break;
-        case EnumRowStatus.notInService:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
-                        "endRowAction",
-                        "Setting RowStatus to 'notInService' for row[" +
-                        rowOid + "] : requested RowStatus = notInService");
+            vbluf = sftRowStbtus(oid,EnumRowStbtus.bdtivf,dbtb);
+            brfbk;
+        dbsf EnumRowStbtus.notInSfrvidf:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                        SnmpMibTbblf.dlbss.gftNbmf(),
+                        "fndRowAdtion",
+                        "Sftting RowStbtus to 'notInSfrvidf' for row[" +
+                        rowOid + "] : rfqufstfd RowStbtus = notInSfrvidf");
             }
-            value = setRowStatus(oid,EnumRowStatus.notInService,data);
-            break;
-        case EnumRowStatus.notReady:
-        default:
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                        SnmpMibTable.class.getName(),
-                        "endRowAction", "Invalid RowStatus value for row[" +
-                        rowOid + "] : specified RowStatus = " + action);
+            vbluf = sftRowStbtus(oid,EnumRowStbtus.notInSfrvidf,dbtb);
+            brfbk;
+        dbsf EnumRowStbtus.notRfbdy:
+        dffbult:
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                        SnmpMibTbblf.dlbss.gftNbmf(),
+                        "fndRowAdtion", "Invblid RowStbtus vbluf for row[" +
+                        rowOid + "] : spfdififd RowStbtus = " + bdtion);
             }
-            setRowStatusFail(req,
-                          SnmpStatusException.snmpRspInconsistentValue);
+            sftRowStbtusFbil(rfq,
+                          SnmpStbtusExdfption.snmpRspIndonsistfntVbluf);
         }
-        if (value != null) {
-            final SnmpVarBind vb = req.getRowStatusVarBind();
-            if (vb != null) vb.value = value;
+        if (vbluf != null) {
+            finbl SnmpVbrBind vb = rfq.gftRowStbtusVbrBind();
+            if (vb != null) vb.vbluf = vbluf;
         }
     }
 
     // -------------------------------------------------------------------
-    // PROTECTED METHODS - get next
+    // PROTECTED METHODS - gft nfxt
     // -------------------------------------------------------------------
 
     /**
-     * Return the next OID arc corresponding to a readable columnar
-     * object in the underlying entry OBJECT-TYPE, possibly skipping over
-     * those objects that must not or cannot be returned.
-     * Calls {@link
-     * #getNextVarEntryId(com.sun.jmx.snmp.SnmpOid,long,java.lang.Object)},
+     * Rfturn tif nfxt OID brd dorrfsponding to b rfbdbblf dolumnbr
+     * objfdt in tif undfrlying fntry OBJECT-TYPE, possibly skipping ovfr
+     * tiosf objfdts tibt must not or dbnnot bf rfturnfd.
+     * Cblls {@link
+     * #gftNfxtVbrEntryId(dom.sun.jmx.snmp.SnmpOid,long,jbvb.lbng.Objfdt)},
      * until
-     * {@link #skipEntryVariable(com.sun.jmx.snmp.SnmpOid,long,
-     * java.lang.Object,int)} returns false.
+     * {@link #skipEntryVbribblf(dom.sun.jmx.snmp.SnmpOid,long,
+     * jbvb.lbng.Objfdt,int)} rfturns fblsf.
      *
      *
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid Tif OID indfx of tif row involvfd in tif opfrbtion.
      *
-     * @param var Id of the variable we start from, looking for the next.
+     * @pbrbm vbr Id of tif vbribblf wf stbrt from, looking for tif nfxt.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @param pduVersion Protocol version of the original request PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
      *
-     * @return The next columnar object id which can be returned using
-     *         the given PDU's protocol version.
+     * @rfturn Tif nfxt dolumnbr objfdt id wiidi dbn bf rfturnfd using
+     *         tif givfn PDU's protodol vfrsion.
      *
-     * @exception SnmpStatusException If no id is found after the given id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
      *
      **/
-    protected long getNextVarEntryId(SnmpOid rowOid,
-                                     long var,
-                                     Object userData,
-                                     int pduVersion)
-        throws SnmpStatusException {
+    protfdtfd long gftNfxtVbrEntryId(SnmpOid rowOid,
+                                     long vbr,
+                                     Objfdt usfrDbtb,
+                                     int pduVfrsion)
+        tirows SnmpStbtusExdfption {
 
-        long varid=var;
+        long vbrid=vbr;
         do {
-            varid = getNextVarEntryId(rowOid,varid,userData);
-        } while (skipEntryVariable(rowOid,varid,userData,pduVersion));
+            vbrid = gftNfxtVbrEntryId(rowOid,vbrid,usfrDbtb);
+        } wiilf (skipEntryVbribblf(rowOid,vbrid,usfrDbtb,pduVfrsion));
 
-        return varid;
+        rfturn vbrid;
     }
 
     /**
-     * Hook for subclasses.
-     * The default implementation of this method is to always return
-     * false. Subclasses should redefine this method so that it returns
-     * true when:
-     * <ul><li>the variable is a leaf that is not instantiated,</li>
-     * <li>or the variable is a leaf whose type cannot be returned by that
-     *     version of the protocol (e.g. an Counter64 with SNMPv1).</li>
+     * Hook for subdlbssfs.
+     * Tif dffbult implfmfntbtion of tiis mftiod is to blwbys rfturn
+     * fblsf. Subdlbssfs siould rfdffinf tiis mftiod so tibt it rfturns
+     * truf wifn:
+     * <ul><li>tif vbribblf is b lfbf tibt is not instbntibtfd,</li>
+     * <li>or tif vbribblf is b lfbf wiosf typf dbnnot bf rfturnfd by tibt
+     *     vfrsion of tif protodol (f.g. bn Countfr64 witi SNMPv1).</li>
      * </ul>
      *
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid Tif OID indfx of tif row involvfd in tif opfrbtion.
      *
-     * @param var Id of the variable we start from, looking for the next.
+     * @pbrbm vbr Id of tif vbribblf wf stbrt from, looking for tif nfxt.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @param pduVersion Protocol version of the original request PDU.
+     * @pbrbm pduVfrsion Protodol vfrsion of tif originbl rfqufst PDU.
      *
-     * @return true if the variable must be skipped by the get-next
-     *         algorithm.
+     * @rfturn truf if tif vbribblf must bf skippfd by tif gft-nfxt
+     *         blgoritim.
      */
-    protected boolean skipEntryVariable(SnmpOid rowOid,
-                                        long var,
-                                        Object userData,
-                                        int pduVersion) {
-        return false;
+    protfdtfd boolfbn skipEntryVbribblf(SnmpOid rowOid,
+                                        long vbr,
+                                        Objfdt usfrDbtb,
+                                        int pduVfrsion) {
+        rfturn fblsf;
     }
 
     /**
-     * Get the <CODE>SnmpOid</CODE> index of the row that follows
-     * the given <CODE>oid</CODE> in the table. The given <CODE>
-     * oid</CODE> does not need to be a valid row OID index.
+     * Gft tif <CODE>SnmpOid</CODE> indfx of tif row tibt follows
+     * tif givfn <CODE>oid</CODE> in tif tbblf. Tif givfn <CODE>
+     * oid</CODE> dofs not nffd to bf b vblid row OID indfx.
      *
      * <p>
-     * @param oid The OID from which the search will begin.
+     * @pbrbm oid Tif OID from wiidi tif sfbrdi will bfgin.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @return The next <CODE>SnmpOid</CODE> index.
+     * @rfturn Tif nfxt <CODE>SnmpOid</CODE> indfx.
      *
-     * @exception SnmpStatusException There is no index following the
-     *     specified <CODE>oid</CODE> in the table.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no indfx following tif
+     *     spfdififd <CODE>oid</CODE> in tif tbblf.
      */
-    protected SnmpOid getNextOid(SnmpOid oid, Object userData)
-        throws SnmpStatusException {
+    protfdtfd SnmpOid gftNfxtOid(SnmpOid oid, Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
 
-        if (size == 0) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (sizf == 0) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
         }
 
-        final SnmpOid resOid = oid;
+        finbl SnmpOid rfsOid = oid;
 
-        // Just a simple check to speed up retrieval of last element ...
+        // Just b simplf difdk to spffd up rftrifvbl of lbst flfmfnt ...
         //
-        // XX SnmpOid last= (SnmpOid) oids.lastElement();
-        SnmpOid last= tableoids[tablecount-1];
-        if (last.equals(resOid)) {
-            // Last element of the table ...
+        // XX SnmpOid lbst= (SnmpOid) oids.lbstElfmfnt();
+        SnmpOid lbst= tbblfoids[tbblfdount-1];
+        if (lbst.fqubls(rfsOid)) {
+            // Lbst flfmfnt of tif tbblf ...
             //
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
         }
 
-        // First find the oid. This will allow to speed up retrieval process
-        // during smart discovery of table (using the getNext) as the
-        // management station will use the valid index returned during a
-        // previous getNext ...
+        // First find tif oid. Tiis will bllow to spffd up rftrifvbl prodfss
+        // during smbrt disdovfry of tbblf (using tif gftNfxt) bs tif
+        // mbnbgfmfnt stbtion will usf tif vblid indfx rfturnfd during b
+        // prfvious gftNfxt ...
         //
 
-        // Returns the position following the position at which resOid
-        // is found, or the position at which resOid should be inserted.
+        // Rfturns tif position following tif position bt wiidi rfsOid
+        // is found, or tif position bt wiidi rfsOid siould bf insfrtfd.
         //
-        final int newPos = getInsertionPoint(resOid,false);
+        finbl int nfwPos = gftInsfrtionPoint(rfsOid,fblsf);
 
-        // If the position returned is not out of bound, we will find
-        // the next element in the array.
+        // If tif position rfturnfd is not out of bound, wf will find
+        // tif nfxt flfmfnt in tif brrby.
         //
-        if (newPos > -1 && newPos < size) {
+        if (nfwPos > -1 && nfwPos < sizf) {
             try {
-                // XX last = (SnmpOid) oids.elementAt(newPos);
-                last = tableoids[newPos];
-            } catch(ArrayIndexOutOfBoundsException e) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+                // XX lbst = (SnmpOid) oids.flfmfntAt(nfwPos);
+                lbst = tbblfoids[nfwPos];
+            } dbtdi(ArrbyIndfxOutOfBoundsExdfption f) {
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
             }
-        } else {
-            // We are dealing with the last element of the table ..
+        } flsf {
+            // Wf brf dfbling witi tif lbst flfmfnt of tif tbblf ..
             //
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
         }
 
 
-        return last;
+        rfturn lbst;
     }
 
     /**
-     * Return the first entry OID registered in the table.
+     * Rfturn tif first fntry OID rfgistfrfd in tif tbblf.
      *
      * <p>
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @return The <CODE>SnmpOid</CODE> of the first entry in the table.
+     * @rfturn Tif <CODE>SnmpOid</CODE> of tif first fntry in tif tbblf.
      *
-     * @exception SnmpStatusException If the table is empty.
+     * @fxdfption SnmpStbtusExdfption If tif tbblf is fmpty.
      */
-    protected SnmpOid getNextOid(Object userData)
-        throws SnmpStatusException {
-        if (size == 0) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+    protfdtfd SnmpOid gftNfxtOid(Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
+        if (sizf == 0) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
         }
-        // XX return (SnmpOid) oids.firstElement();
-        return tableoids[0];
+        // XX rfturn (SnmpOid) oids.firstElfmfnt();
+        rfturn tbblfoids[0];
     }
 
     // -------------------------------------------------------------------
-    // Abstract Protected Methods
+    // Abstrbdt Protfdtfd Mftiods
     // -------------------------------------------------------------------
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * Tiis mftiod is usfd intfrnblly bnd is implfmfntfd by tif
+     * <CODE>SnmpMibTbblf</CODE> subdlbssfs gfnfrbtfd by <CODE>mibgfn</CODE>.
      *
-     * <p> Return the next OID arc corresponding to a readable columnar
-     *     object in the underlying entry OBJECT-TYPE.</p>
+     * <p> Rfturn tif nfxt OID brd dorrfsponding to b rfbdbblf dolumnbr
+     *     objfdt in tif undfrlying fntry OBJECT-TYPE.</p>
      *
      * <p>
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid Tif OID indfx of tif row involvfd in tif opfrbtion.
      *
-     * @param var Id of the variable we start from, looking for the next.
+     * @pbrbm vbr Id of tif vbribblf wf stbrt from, looking for tif nfxt.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @return The next columnar object id.
+     * @rfturn Tif nfxt dolumnbr objfdt id.
      *
-     * @exception SnmpStatusException If no id is found after the given id.
+     * @fxdfption SnmpStbtusExdfption If no id is found bftfr tif givfn id.
      *
      **/
-    abstract protected long getNextVarEntryId(SnmpOid rowOid, long var,
-                                              Object userData)
-        throws SnmpStatusException;
+    bbstrbdt protfdtfd long gftNfxtVbrEntryId(SnmpOid rowOid, long vbr,
+                                              Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * Tiis mftiod is usfd intfrnblly bnd is implfmfntfd by tif
+     * <CODE>SnmpMibTbblf</CODE> subdlbssfs gfnfrbtfd by <CODE>mibgfn</CODE>.
      *
      * <p>
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid Tif OID indfx of tif row involvfd in tif opfrbtion.
      *
-     * @param var The var we want to validate.
+     * @pbrbm vbr Tif vbr wf wbnt to vblidbtf.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @exception SnmpStatusException If this id is not valid.
+     * @fxdfption SnmpStbtusExdfption If tiis id is not vblid.
      *
      */
-    abstract protected void validateVarEntryId(SnmpOid rowOid, long var,
-                                               Object userData)
-        throws SnmpStatusException;
+    bbstrbdt protfdtfd void vblidbtfVbrEntryId(SnmpOid rowOid, long vbr,
+                                               Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption;
 
     /**
      *
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * Tiis mftiod is usfd intfrnblly bnd is implfmfntfd by tif
+     * <CODE>SnmpMibTbblf</CODE> subdlbssfs gfnfrbtfd by <CODE>mibgfn</CODE>.
      *
      * <p>
-     * @param rowOid The OID index of the row involved in the operation.
+     * @pbrbm rowOid Tif OID indfx of tif row involvfd in tif opfrbtion.
      *
-     * @param var The OID arc.
+     * @pbrbm vbr Tif OID brd.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @exception SnmpStatusException If this id is not valid.
+     * @fxdfption SnmpStbtusExdfption If tiis id is not vblid.
      *
      */
-    abstract protected boolean isReadableEntryId(SnmpOid rowOid, long var,
-                                                 Object userData)
-        throws SnmpStatusException;
+    bbstrbdt protfdtfd boolfbn isRfbdbblfEntryId(SnmpOid rowOid, long vbr,
+                                                 Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * Tiis mftiod is usfd intfrnblly bnd is implfmfntfd by tif
+     * <CODE>SnmpMibTbblf</CODE> subdlbssfs gfnfrbtfd by <CODE>mibgfn</CODE>.
      */
-    abstract protected void get(SnmpMibSubRequest req,
-                                SnmpOid rowOid, int depth)
-        throws SnmpStatusException;
+    bbstrbdt protfdtfd void gft(SnmpMibSubRfqufst rfq,
+                                SnmpOid rowOid, int dfpti)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * Tiis mftiod is usfd intfrnblly bnd is implfmfntfd by tif
+     * <CODE>SnmpMibTbblf</CODE> subdlbssfs gfnfrbtfd by <CODE>mibgfn</CODE>.
      */
-    abstract protected void check(SnmpMibSubRequest req,
-                                  SnmpOid rowOid, int depth)
-        throws SnmpStatusException;
+    bbstrbdt protfdtfd void difdk(SnmpMibSubRfqufst rfq,
+                                  SnmpOid rowOid, int dfpti)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * This method is used internally and is implemented by the
-     * <CODE>SnmpMibTable</CODE> subclasses generated by <CODE>mibgen</CODE>.
+     * Tiis mftiod is usfd intfrnblly bnd is implfmfntfd by tif
+     * <CODE>SnmpMibTbblf</CODE> subdlbssfs gfnfrbtfd by <CODE>mibgfn</CODE>.
      */
-    abstract protected void set(SnmpMibSubRequest req,
-                                SnmpOid rowOid, int depth)
-        throws SnmpStatusException;
+    bbstrbdt protfdtfd void sft(SnmpMibSubRfqufst rfq,
+                                SnmpOid rowOid, int dfpti)
+        tirows SnmpStbtusExdfption;
 
     // ----------------------------------------------------------------------
     // PACKAGE METHODS
     // ----------------------------------------------------------------------
 
     /**
-     * Get the <CODE>SnmpOid</CODE> index of the row that follows the
-     * index extracted from the specified OID array.
-     * Builds the SnmpOid corresponding to the row OID and calls
-     * <code>getNextOid(oid,userData)</code>;
+     * Gft tif <CODE>SnmpOid</CODE> indfx of tif row tibt follows tif
+     * indfx fxtrbdtfd from tif spfdififd OID brrby.
+     * Builds tif SnmpOid dorrfsponding to tif row OID bnd dblls
+     * <dodf>gftNfxtOid(oid,usfrDbtb)</dodf>;
      *
      * <p>
-     * @param oid The OID array.
+     * @pbrbm oid Tif OID brrby.
      *
-     * @param pos The position in the OID array at which the index starts.
+     * @pbrbm pos Tif position in tif OID brrby bt wiidi tif indfx stbrts.
      *
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @return The next <CODE>SnmpOid</CODE>.
+     * @rfturn Tif nfxt <CODE>SnmpOid</CODE>.
      *
-     * @exception SnmpStatusException There is no index following the
-     *     specified one in the table.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no indfx following tif
+     *     spfdififd onf in tif tbblf.
      */
-    SnmpOid getNextOid(long[] oid, int pos, Object userData)
-        throws SnmpStatusException {
+    SnmpOid gftNfxtOid(long[] oid, int pos, Objfdt usfrDbtb)
+        tirows SnmpStbtusExdfption {
 
-        // Construct the sub-oid starting at pos.
-        // This sub-oid correspond to the oid part just after the entry
-        // variable oid.
+        // Construdt tif sub-oid stbrting bt pos.
+        // Tiis sub-oid dorrfspond to tif oid pbrt just bftfr tif fntry
+        // vbribblf oid.
         //
-        final SnmpOid resOid = new SnmpEntryOid(oid,pos);
+        finbl SnmpOid rfsOid = nfw SnmpEntryOid(oid,pos);
 
-        return getNextOid(resOid,userData);
+        rfturn gftNfxtOid(rfsOid,usfrDbtb);
     }
 
     // ---------------------------------------------------------------------
     //
-    // Register an exception when checking the RowStatus variable
+    // Rfgistfr bn fxdfption wifn difdking tif RowStbtus vbribblf
     //
     // ---------------------------------------------------------------------
 
-    static void checkRowStatusFail(SnmpMibSubRequest req, int errorStatus)
-        throws SnmpStatusException {
+    stbtid void difdkRowStbtusFbil(SnmpMibSubRfqufst rfq, int frrorStbtus)
+        tirows SnmpStbtusExdfption {
 
-        final SnmpVarBind statusvb  = req.getRowStatusVarBind();
-        final SnmpStatusException x = new SnmpStatusException(errorStatus);
-        req.registerCheckException(statusvb,x);
+        finbl SnmpVbrBind stbtusvb  = rfq.gftRowStbtusVbrBind();
+        finbl SnmpStbtusExdfption x = nfw SnmpStbtusExdfption(frrorStbtus);
+        rfq.rfgistfrCifdkExdfption(stbtusvb,x);
     }
 
     // ---------------------------------------------------------------------
     //
-    // Register an exception when checking the RowStatus variable
+    // Rfgistfr bn fxdfption wifn difdking tif RowStbtus vbribblf
     //
     // ---------------------------------------------------------------------
 
-    static void setRowStatusFail(SnmpMibSubRequest req, int errorStatus)
-        throws SnmpStatusException {
+    stbtid void sftRowStbtusFbil(SnmpMibSubRfqufst rfq, int frrorStbtus)
+        tirows SnmpStbtusExdfption {
 
-        final SnmpVarBind statusvb  = req.getRowStatusVarBind();
-        final SnmpStatusException x = new SnmpStatusException(errorStatus);
-        req.registerSetException(statusvb,x);
+        finbl SnmpVbrBind stbtusvb  = rfq.gftRowStbtusVbrBind();
+        finbl SnmpStbtusExdfption x = nfw SnmpStbtusExdfption(frrorStbtus);
+        rfq.rfgistfrSftExdfption(stbtusvb,x);
     }
 
     // ---------------------------------------------------------------------
     //
-    // Implements the method defined in SnmpMibNode.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibNodf.
     //
     // ---------------------------------------------------------------------
-    @Override
-    final synchronized void findHandlingNode(SnmpVarBind varbind,
-                                             long[] oid, int depth,
-                                             SnmpRequestTree handlers)
-        throws SnmpStatusException {
+    @Ovfrridf
+    finbl syndironizfd void findHbndlingNodf(SnmpVbrBind vbrbind,
+                                             long[] oid, int dfpti,
+                                             SnmpRfqufstTrff ibndlfrs)
+        tirows SnmpStbtusExdfption {
 
-        final int  length = oid.length;
+        finbl int  lfngti = oid.lfngti;
 
-        if (handlers == null)
-            throw new SnmpStatusException(SnmpStatusException.snmpRspGenErr);
+        if (ibndlfrs == null)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspGfnErr);
 
-        if (depth >= length)
-            throw new SnmpStatusException(SnmpStatusException.noAccess);
+        if (dfpti >= lfngti)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
 
-        if (oid[depth] != nodeId)
-            throw new SnmpStatusException(SnmpStatusException.noAccess);
+        if (oid[dfpti] != nodfId)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
 
-        if (depth+2 >= length)
-            throw new SnmpStatusException(SnmpStatusException.noAccess);
+        if (dfpti+2 >= lfngti)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
 
-        // Checks that the oid is valid
-        // validateOid(oid,depth);
+        // Cifdks tibt tif oid is vblid
+        // vblidbtfOid(oid,dfpti);
 
-        // Gets the part of the OID that identifies the entry
-        final SnmpOid entryoid = new SnmpEntryOid(oid, depth+2);
+        // Gfts tif pbrt of tif OID tibt idfntififs tif fntry
+        finbl SnmpOid fntryoid = nfw SnmpEntryOid(oid, dfpti+2);
 
-        // Finds the entry: false means that the entry does not exists
-        final Object data = handlers.getUserData();
-        final boolean hasEntry = contains(entryoid, data);
+        // Finds tif fntry: fblsf mfbns tibt tif fntry dofs not fxists
+        finbl Objfdt dbtb = ibndlfrs.gftUsfrDbtb();
+        finbl boolfbn ibsEntry = dontbins(fntryoid, dbtb);
 
-        // Fails if the entry is not found and the table does not
-        // not support creation.
-        // We know that the entry does not exists if (isentry == false).
-        if (!hasEntry) {
-            if (!handlers.isCreationAllowed()) {
-                // we're not doing a set
-                throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
-            } else if (!isCreationEnabled())
-                // we're doing a set but creation is disabled.
-                throw new
-                    SnmpStatusException(SnmpStatusException.snmpRspNoAccess);
+        // Fbils if tif fntry is not found bnd tif tbblf dofs not
+        // not support drfbtion.
+        // Wf know tibt tif fntry dofs not fxists if (isfntry == fblsf).
+        if (!ibsEntry) {
+            if (!ibndlfrs.isCrfbtionAllowfd()) {
+                // wf'rf not doing b sft
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
+            } flsf if (!isCrfbtionEnbblfd())
+                // wf'rf doing b sft but drfbtion is disbblfd.
+                tirow nfw
+                    SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspNoAddfss);
         }
 
-        final long   var  = oid[depth+1];
+        finbl long   vbr  = oid[dfpti+1];
 
-        // Validate the entry id
-        if (hasEntry) {
-            // The entry already exists - validate the id
-            validateVarEntryId(entryoid,var,data);
+        // Vblidbtf tif fntry id
+        if (ibsEntry) {
+            // Tif fntry blrfbdy fxists - vblidbtf tif id
+            vblidbtfVbrEntryId(fntryoid,vbr,dbtb);
         }
 
-        // Registers this node for the identified entry.
+        // Rfgistfrs tiis nodf for tif idfntififd fntry.
         //
-        if (handlers.isSetRequest() && isRowStatus(entryoid,var,data))
+        if (ibndlfrs.isSftRfqufst() && isRowStbtus(fntryoid,vbr,dbtb))
 
-            // We only try to identify the RowStatus for SET operations
+            // Wf only try to idfntify tif RowStbtus for SET opfrbtions
             //
-            handlers.add(this,depth,entryoid,varbind,(!hasEntry),varbind);
+            ibndlfrs.bdd(tiis,dfpti,fntryoid,vbrbind,(!ibsEntry),vbrbind);
 
-        else
-            handlers.add(this,depth,entryoid,varbind,(!hasEntry));
+        flsf
+            ibndlfrs.bdd(tiis,dfpti,fntryoid,vbrbind,(!ibsEntry));
     }
 
 
     // ---------------------------------------------------------------------
     //
-    // Implements the method defined in SnmpMibNode. The algorithm is very
-    // largely inspired from the original getNext() method.
+    // Implfmfnts tif mftiod dffinfd in SnmpMibNodf. Tif blgoritim is vfry
+    // lbrgfly inspirfd from tif originbl gftNfxt() mftiod.
     //
     // ---------------------------------------------------------------------
-    @Override
-    final synchronized long[] findNextHandlingNode(SnmpVarBind varbind,
+    @Ovfrridf
+    finbl syndironizfd long[] findNfxtHbndlingNodf(SnmpVbrBind vbrbind,
                                                    long[] oid,
                                                    int pos,
-                                                   int depth,
-                                                   SnmpRequestTree handlers,
-                                                   AcmChecker checker)
-        throws SnmpStatusException {
+                                                   int dfpti,
+                                                   SnmpRfqufstTrff ibndlfrs,
+                                                   AdmCifdkfr difdkfr)
+        tirows SnmpStbtusExdfption {
 
-            int length = oid.length;
+            int lfngti = oid.lfngti;
 
-            if (handlers == null) {
-                // This should be considered as a genErr, but we do not want to
-                // abort the whole request, so we're going to throw
-                // a noSuchObject...
+            if (ibndlfrs == null) {
+                // Tiis siould bf donsidfrfd bs b gfnErr, but wf do not wbnt to
+                // bbort tif wiolf rfqufst, so wf'rf going to tirow
+                // b noSudiObjfdt...
                 //
-                throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
             }
 
-            final Object data = handlers.getUserData();
-            final int pduVersion = handlers.getRequestPduVersion();
+            finbl Objfdt dbtb = ibndlfrs.gftUsfrDbtb();
+            finbl int pduVfrsion = ibndlfrs.gftRfqufstPduVfrsion();
 
-            long var= -1;
+            long vbr= -1;
 
-            // If the querried oid contains less arcs than the OID of the
-            // xxxEntry object, we must return the first leaf under the
-            // first columnar object: the best way to do that is to reset
-            // the queried oid:
-            //   oid[0] = nodeId (arc of the xxxEntry object)
-            //   pos    = 0 (points to the arc of the xxxEntry object)
-            // then we just have to proceed...
+            // If tif qufrrifd oid dontbins lfss brds tibn tif OID of tif
+            // xxxEntry objfdt, wf must rfturn tif first lfbf undfr tif
+            // first dolumnbr objfdt: tif bfst wby to do tibt is to rfsft
+            // tif qufrifd oid:
+            //   oid[0] = nodfId (brd of tif xxxEntry objfdt)
+            //   pos    = 0 (points to tif brd of tif xxxEntry objfdt)
+            // tifn wf just ibvf to prodffd...
             //
-            if (pos >= length) {
-                // this will have the side effect to set
-                //    oid[pos] = nodeId
-                // and
-                //    (pos+1) = length
-                // so we won't fall into the "else if" cases below -
-                // so using "else if" rather than "if ..." is guaranteed
-                // to be safe.
+            if (pos >= lfngti) {
+                // tiis will ibvf tif sidf ffffdt to sft
+                //    oid[pos] = nodfId
+                // bnd
+                //    (pos+1) = lfngti
+                // so wf won't fbll into tif "flsf if" dbsfs bflow -
+                // so using "flsf if" rbtifr tibn "if ..." is gubrbntffd
+                // to bf sbff.
                 //
-                oid = new long[1];
-                oid[0] = nodeId;
+                oid = nfw long[1];
+                oid[0] = nodfId;
                 pos = 0;
-                length = 1;
-            } else if (oid[pos] > nodeId) {
-                // oid[pos] is expected to be the id of the xxxEntry ...
-                // The id requested is greater than the id of the xxxEntry,
-                // so we won't find the next element in this table... (any
-                // element in this table will have a smaller OID)
+                lfngti = 1;
+            } flsf if (oid[pos] > nodfId) {
+                // oid[pos] is fxpfdtfd to bf tif id of tif xxxEntry ...
+                // Tif id rfqufstfd is grfbtfr tibn tif id of tif xxxEntry,
+                // so wf won't find tif nfxt flfmfnt in tiis tbblf... (bny
+                // flfmfnt in tiis tbblf will ibvf b smbllfr OID)
                 //
-                throw new SnmpStatusException(SnmpStatusException.noSuchObject);
-            } else if (oid[pos] < nodeId) {
-                // we must return the first leaf under the first columnar
-                // object, so we are back to our first case where pos was
-                // out of bounds... => reset the oid to contain only the
-                // arc of the xxxEntry object.
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
+            } flsf if (oid[pos] < nodfId) {
+                // wf must rfturn tif first lfbf undfr tif first dolumnbr
+                // objfdt, so wf brf bbdk to our first dbsf wifrf pos wbs
+                // out of bounds... => rfsft tif oid to dontbin only tif
+                // brd of tif xxxEntry objfdt.
                 //
-                oid = new long[1];
-                oid[0] = nodeId;
+                oid = nfw long[1];
+                oid[0] = nodfId;
                 pos = 0;
-                length = 0;
-            } else if ((pos + 1) < length) {
-                // The arc at the position "pos+1" is the id of the columnar
-                // object (ie: the id of the variable in the table entry)
+                lfngti = 0;
+            } flsf if ((pos + 1) < lfngti) {
+                // Tif brd bt tif position "pos+1" is tif id of tif dolumnbr
+                // objfdt (if: tif id of tif vbribblf in tif tbblf fntry)
                 //
-                var = oid[pos+1];
+                vbr = oid[pos+1];
             }
 
-            // Now that we've got everything right we can begin.
-            SnmpOid entryoid;
+            // Now tibt wf'vf got fvfrytiing rigit wf dbn bfgin.
+            SnmpOid fntryoid;
 
-            if (pos == (length - 1)) {
-                // pos points to the last arc in the oid, and this arc is
-                // guaranteed to be the xxxEntry id (we have handled all
-                // the other possibilities before)
+            if (pos == (lfngti - 1)) {
+                // pos points to tif lbst brd in tif oid, bnd tiis brd is
+                // gubrbntffd to bf tif xxxEntry id (wf ibvf ibndlfd bll
+                // tif otifr possibilitifs bfforf)
                 //
-                // We must therefore return the first leaf below the first
-                // columnar object in the table.
+                // Wf must tifrfforf rfturn tif first lfbf bflow tif first
+                // dolumnbr objfdt in tif tbblf.
                 //
-                // Get the first index. If an exception is raised,
-                // then it means that the table is empty. We thus do not
-                // have to catch the exception - we let it propagate to
-                // the caller.
+                // Gft tif first indfx. If bn fxdfption is rbisfd,
+                // tifn it mfbns tibt tif tbblf is fmpty. Wf tius do not
+                // ibvf to dbtdi tif fxdfption - wf lft it propbgbtf to
+                // tif dbllfr.
                 //
-                entryoid = getNextOid(data);
-                var = getNextVarEntryId(entryoid,var,data,pduVersion);
-            } else if ( pos == (length-2)) {
-                // In that case we have (pos+1) = (length-1), so pos
-                // points to the arc of the querried variable (columnar object).
-                // Since the requested oid stops there, it means we have
-                // to return the first leaf under this columnar object.
+                fntryoid = gftNfxtOid(dbtb);
+                vbr = gftNfxtVbrEntryId(fntryoid,vbr,dbtb,pduVfrsion);
+            } flsf if ( pos == (lfngti-2)) {
+                // In tibt dbsf wf ibvf (pos+1) = (lfngti-1), so pos
+                // points to tif brd of tif qufrrifd vbribblf (dolumnbr objfdt).
+                // Sindf tif rfqufstfd oid stops tifrf, it mfbns wf ibvf
+                // to rfturn tif first lfbf undfr tiis dolumnbr objfdt.
                 //
-                // So we first get the first index:
-                // Note: if this raises an exception, this means that the table
-                // is empty, so we can let the exception propagate to the caller.
+                // So wf first gft tif first indfx:
+                // Notf: if tiis rbisfs bn fxdfption, tiis mfbns tibt tif tbblf
+                // is fmpty, so wf dbn lft tif fxdfption propbgbtf to tif dbllfr.
                 //
-                entryoid = getNextOid(data);
+                fntryoid = gftNfxtOid(dbtb);
 
-                // XXX revisit: not exactly perfect:
-                //     a specific row could be empty.. But we don't know
-                //     how to make the difference! => tradeoff holes
-                //     in tables can't be properly supported (all rows
-                //     must have the same holes)
+                // XXX rfvisit: not fxbdtly pfrffdt:
+                //     b spfdifid row dould bf fmpty.. But wf don't know
+                //     iow to mbkf tif difffrfndf! => trbdfoff iolfs
+                //     in tbblfs dbn't bf propfrly supportfd (bll rows
+                //     must ibvf tif sbmf iolfs)
                 //
-                if (skipEntryVariable(entryoid,var,data,pduVersion)) {
-                    var = getNextVarEntryId(entryoid,var,data,pduVersion);
+                if (skipEntryVbribblf(fntryoid,vbr,dbtb,pduVfrsion)) {
+                    vbr = gftNfxtVbrEntryId(fntryoid,vbr,dbtb,pduVfrsion);
                 }
-            } else {
+            } flsf {
 
-                // So now there remain one last case, namely: some part of the
-                // index is provided by the oid...
-                // We build a possibly incomplete and invalid index from
-                // the OID.
-                // The piece of index provided should begin at pos+2
-                //   oid[pos]   = id of the xxxEntry object,
-                //   oid[pos+1] = id of the columnar object,
-                //   oid[pos+2] ... oid[length-1] = piece of index.
+                // So now tifrf rfmbin onf lbst dbsf, nbmfly: somf pbrt of tif
+                // indfx is providfd by tif oid...
+                // Wf build b possibly indomplftf bnd invblid indfx from
+                // tif OID.
+                // Tif pifdf of indfx providfd siould bfgin bt pos+2
+                //   oid[pos]   = id of tif xxxEntry objfdt,
+                //   oid[pos+1] = id of tif dolumnbr objfdt,
+                //   oid[pos+2] ... oid[lfngti-1] = pifdf of indfx.
                 //
 
-                // We get the next index following the provided index.
-                // If this raises an exception, then it means that we have
-                // reached the last index in the table, and we must then
-                // try with the next columnar object.
+                // Wf gft tif nfxt indfx following tif providfd indfx.
+                // If tiis rbisfs bn fxdfption, tifn it mfbns tibt wf ibvf
+                // rfbdifd tif lbst indfx in tif tbblf, bnd wf must tifn
+                // try witi tif nfxt dolumnbr objfdt.
                 //
                 // Bug fix 4269251
-                // The SnmpIndex is defined to contain a valid oid:
-                // this is not an SNMP requirement for the getNext request.
-                // So we no more use the SnmpIndex but directly the SnmpOid.
+                // Tif SnmpIndfx is dffinfd to dontbin b vblid oid:
+                // tiis is not bn SNMP rfquirfmfnt for tif gftNfxt rfqufst.
+                // So wf no morf usf tif SnmpIndfx but dirfdtly tif SnmpOid.
                 //
                 try {
-                    entryoid = getNextOid(oid, pos + 2, data);
+                    fntryoid = gftNfxtOid(oid, pos + 2, dbtb);
 
-                    // If the variable must ne skipped, fall through...
+                    // If tif vbribblf must nf skippfd, fbll tirougi...
                     //
-                    // XXX revisit: not exactly perfect:
-                    //     a specific row could be empty.. But we don't know
-                    //     how to make the difference! => tradeoff holes
-                    //     in tables can't be properly supported (all rows
-                    //     must have the same holes)
+                    // XXX rfvisit: not fxbdtly pfrffdt:
+                    //     b spfdifid row dould bf fmpty.. But wf don't know
+                    //     iow to mbkf tif difffrfndf! => trbdfoff iolfs
+                    //     in tbblfs dbn't bf propfrly supportfd (bll rows
+                    //     must ibvf tif sbmf iolfs)
                     //
-                    if (skipEntryVariable(entryoid,var,data,pduVersion)) {
-                        throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+                    if (skipEntryVbribblf(fntryoid,vbr,dbtb,pduVfrsion)) {
+                        tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
                     }
-                } catch(SnmpStatusException se) {
-                    entryoid = getNextOid(data);
-                    var = getNextVarEntryId(entryoid,var,data,pduVersion);
+                } dbtdi(SnmpStbtusExdfption sf) {
+                    fntryoid = gftNfxtOid(dbtb);
+                    vbr = gftNfxtVbrEntryId(fntryoid,vbr,dbtb,pduVfrsion);
                 }
             }
 
-            return findNextAccessibleOid(entryoid,
-                                         varbind,
+            rfturn findNfxtAddfssiblfOid(fntryoid,
+                                         vbrbind,
                                          oid,
-                                         depth,
-                                         handlers,
-                                         checker,
-                                         data,
-                                         var);
+                                         dfpti,
+                                         ibndlfrs,
+                                         difdkfr,
+                                         dbtb,
+                                         vbr);
         }
 
-    private long[] findNextAccessibleOid(SnmpOid entryoid,
-                                         SnmpVarBind varbind,long[] oid,
-                                         int depth, SnmpRequestTree handlers,
-                                         AcmChecker checker, Object data,
-                                         long var)
-        throws SnmpStatusException {
-        final int pduVersion = handlers.getRequestPduVersion();
+    privbtf long[] findNfxtAddfssiblfOid(SnmpOid fntryoid,
+                                         SnmpVbrBind vbrbind,long[] oid,
+                                         int dfpti, SnmpRfqufstTrff ibndlfrs,
+                                         AdmCifdkfr difdkfr, Objfdt dbtb,
+                                         long vbr)
+        tirows SnmpStbtusExdfption {
+        finbl int pduVfrsion = ibndlfrs.gftRfqufstPduVfrsion();
 
-        // Loop on each var (column)
-        while(true) {
-            // This should not happen. If it happens, (bug, or customized
-            // methods returning garbage instead of raising an exception),
-            // it probably means that there is nothing to return anyway.
-            // So we throw the exception.
-            // => will skip to next node in the MIB tree.
+        // Loop on fbdi vbr (dolumn)
+        wiilf(truf) {
+            // Tiis siould not ibppfn. If it ibppfns, (bug, or dustomizfd
+            // mftiods rfturning gbrbbgf instfbd of rbising bn fxdfption),
+            // it probbbly mfbns tibt tifrf is notiing to rfturn bnywby.
+            // So wf tirow tif fxdfption.
+            // => will skip to nfxt nodf in tif MIB trff.
             //
-            if (entryoid == null || var == -1 ) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+            if (fntryoid == null || vbr == -1 ) {
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
             }
 
-            // So here we know both the row (entryoid) and the column (var)
+            // So ifrf wf know boti tif row (fntryoid) bnd tif dolumn (vbr)
             //
 
             try {
-                // Raising an exception here will make the catch() clause
-                // switch to the next variable. If `var' is not readable
-                // for this specific entry, it is not readable for any
-                // other entry => skip to next column.
+                // Rbising bn fxdfption ifrf will mbkf tif dbtdi() dlbusf
+                // switdi to tif nfxt vbribblf. If `vbr' is not rfbdbblf
+                // for tiis spfdifid fntry, it is not rfbdbblf for bny
+                // otifr fntry => skip to nfxt dolumn.
                 //
-                if (!isReadableEntryId(entryoid,var,data)) {
-                    throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+                if (!isRfbdbblfEntryId(fntryoid,vbr,dbtb)) {
+                    tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
                 }
 
-                // Prepare the result and the ACM checker.
+                // Prfpbrf tif rfsult bnd tif ACM difdkfr.
                 //
-                final long[] etable  = entryoid.longValue(false);
-                final int    elength = etable.length;
-                final long[] result  = new long[depth + 2 + elength];
-                result[0] = -1 ; // Bug detector!
+                finbl long[] ftbblf  = fntryoid.longVbluf(fblsf);
+                finbl int    flfngti = ftbblf.lfngti;
+                finbl long[] rfsult  = nfw long[dfpti + 2 + flfngti];
+                rfsult[0] = -1 ; // Bug dftfdtor!
 
-                // Copy the entryOid at the end of `result'
+                // Copy tif fntryOid bt tif fnd of `rfsult'
                 //
-                java.lang.System.arraycopy(etable, 0, result,
-                                           depth+2, elength);
+                jbvb.lbng.Systfm.brrbydopy(ftbblf, 0, rfsult,
+                                           dfpti+2, flfngti);
 
-                // Set the node Id and var Id in result.
+                // Sft tif nodf Id bnd vbr Id in rfsult.
                 //
-                result[depth] = nodeId;
-                result[depth+1] = var;
+                rfsult[dfpti] = nodfId;
+                rfsult[dfpti+1] = vbr;
 
-                // Append nodeId.varId.<rowOid> to ACM checker.
+                // Appfnd nodfId.vbrId.<rowOid> to ACM difdkfr.
                 //
-                checker.add(depth,result,depth,elength+2);
+                difdkfr.bdd(dfpti,rfsult,dfpti,flfngti+2);
 
-                // No we're going to ACM check our OID.
+                // No wf'rf going to ACM difdk our OID.
                 try {
-                    checker.checkCurrentOid();
+                    difdkfr.difdkCurrfntOid();
 
-                    // No exception thrown by checker => this is all OK!
-                    // we have it: register the handler and return the
-                    // result.
+                    // No fxdfption tirown by difdkfr => tiis is bll OK!
+                    // wf ibvf it: rfgistfr tif ibndlfr bnd rfturn tif
+                    // rfsult.
                     //
-                    handlers.add(this,depth,entryoid,varbind,false);
-                    return result;
-                } catch(SnmpStatusException e) {
-                    // Skip to the next entry. If an exception is
-                    // thrown, will be catch by enclosing catch
-                    // and a skip is done to the next var.
+                    ibndlfrs.bdd(tiis,dfpti,fntryoid,vbrbind,fblsf);
+                    rfturn rfsult;
+                } dbtdi(SnmpStbtusExdfption f) {
+                    // Skip to tif nfxt fntry. If bn fxdfption is
+                    // tirown, will bf dbtdi by fndlosing dbtdi
+                    // bnd b skip is donf to tif nfxt vbr.
                     //
-                    entryoid = getNextOid(entryoid, data);
-                } finally {
-                    // Clean the checker.
+                    fntryoid = gftNfxtOid(fntryoid, dbtb);
+                } finblly {
+                    // Clfbn tif difdkfr.
                     //
-                    checker.remove(depth,elength+2);
+                    difdkfr.rfmovf(dfpti,flfngti+2);
                 }
-            } catch(SnmpStatusException e) {
-                // Catching an exception here means we have to skip to the
-                // next column.
+            } dbtdi(SnmpStbtusExdfption f) {
+                // Cbtdiing bn fxdfption ifrf mfbns wf ibvf to skip to tif
+                // nfxt dolumn.
                 //
-                // Back to the first row.
-                entryoid = getNextOid(data);
+                // Bbdk to tif first row.
+                fntryoid = gftNfxtOid(dbtb);
 
-                // Find out the next column.
+                // Find out tif nfxt dolumn.
                 //
-                var = getNextVarEntryId(entryoid,var,data,pduVersion);
+                vbr = gftNfxtVbrEntryId(fntryoid,vbr,dbtb,pduVfrsion);
 
             }
 
-            // This should not happen. If it happens, (bug, or customized
-            // methods returning garbage instead of raising an exception),
-            // it probably means that there is nothing to return anyway.
-            // No need to continue, we throw an exception.
-            // => will skip to next node in the MIB tree.
+            // Tiis siould not ibppfn. If it ibppfns, (bug, or dustomizfd
+            // mftiods rfturning gbrbbgf instfbd of rbising bn fxdfption),
+            // it probbbly mfbns tibt tifrf is notiing to rfturn bnywby.
+            // No nffd to dontinuf, wf tirow bn fxdfption.
+            // => will skip to nfxt nodf in tif MIB trff.
             //
-            if (entryoid == null || var == -1 ) {
-                throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+            if (fntryoid == null || vbr == -1 ) {
+                tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
             }
         }
     }
 
 
     /**
-     * Validate the specified OID.
+     * Vblidbtf tif spfdififd OID.
      *
      * <p>
-     * @param oid The OID array.
+     * @pbrbm oid Tif OID brrby.
      *
-     * @param pos The position in the array.
+     * @pbrbm pos Tif position in tif brrby.
      *
-     * @exception SnmpStatusException If the validation fails.
+     * @fxdfption SnmpStbtusExdfption If tif vblidbtion fbils.
      */
-    final void validateOid(long[] oid, int pos) throws SnmpStatusException {
-        final int length= oid.length;
+    finbl void vblidbtfOid(long[] oid, int pos) tirows SnmpStbtusExdfption {
+        finbl int lfngti= oid.lfngti;
 
-        // Control the length of the oid
+        // Control tif lfngti of tif oid
         //
-        if (pos +2 >= length) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (pos +2 >= lfngti) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiInstbndf);
         }
 
-        // Check that the entry identifier is specified
+        // Cifdk tibt tif fntry idfntififr is spfdififd
         //
-        if (oid[pos] != nodeId) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchObject);
+        if (oid[pos] != nodfId) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiObjfdt);
         }
     }
 
@@ -2205,265 +2205,265 @@ public abstract class SnmpMibTable extends SnmpMibNode
     // ----------------------------------------------------------------------
 
     /**
-     * Enable this <CODE>SnmpMibTable</CODE> to send a notification.
+     * Enbblf tiis <CODE>SnmpMibTbblf</CODE> to sfnd b notifidbtion.
      *
      * <p>
-     * @param notification The notification to send.
+     * @pbrbm notifidbtion Tif notifidbtion to sfnd.
      */
-    private synchronized void sendNotification(Notification notification) {
+    privbtf syndironizfd void sfndNotifidbtion(Notifidbtion notifidbtion) {
 
-        // loop on listener
+        // loop on listfnfr
         //
-        for(java.util.Enumeration<NotificationListener> k = handbackTable.keys();
-            k.hasMoreElements(); ) {
+        for(jbvb.util.Enumfrbtion<NotifidbtionListfnfr> k = ibndbbdkTbblf.kfys();
+            k.ibsMorfElfmfnts(); ) {
 
-            NotificationListener listener = k.nextElement();
+            NotifidbtionListfnfr listfnfr = k.nfxtElfmfnt();
 
-            // Get the associated handback list and the associated filter list
+            // Gft tif bssodibtfd ibndbbdk list bnd tif bssodibtfd filtfr list
             //
-            java.util.Vector<?> handbackList = handbackTable.get(listener) ;
-            java.util.Vector<NotificationFilter> filterList =
-                filterTable.get(listener) ;
+            jbvb.util.Vfdtor<?> ibndbbdkList = ibndbbdkTbblf.gft(listfnfr) ;
+            jbvb.util.Vfdtor<NotifidbtionFiltfr> filtfrList =
+                filtfrTbblf.gft(listfnfr) ;
 
-            // loop on handback
+            // loop on ibndbbdk
             //
-            java.util.Enumeration<NotificationFilter> f = filterList.elements();
-            for(java.util.Enumeration<?> h = handbackList.elements();
-                h.hasMoreElements(); ) {
+            jbvb.util.Enumfrbtion<NotifidbtionFiltfr> f = filtfrList.flfmfnts();
+            for(jbvb.util.Enumfrbtion<?> i = ibndbbdkList.flfmfnts();
+                i.ibsMorfElfmfnts(); ) {
 
-                Object handback = h.nextElement();
-                NotificationFilter filter = f.nextElement();
+                Objfdt ibndbbdk = i.nfxtElfmfnt();
+                NotifidbtionFiltfr filtfr = f.nfxtElfmfnt();
 
-                if ((filter == null) ||
-                     (filter.isNotificationEnabled(notification))) {
+                if ((filtfr == null) ||
+                     (filtfr.isNotifidbtionEnbblfd(notifidbtion))) {
 
-                    listener.handleNotification(notification,handback) ;
+                    listfnfr.ibndlfNotifidbtion(notifidbtion,ibndbbdk) ;
                 }
             }
         }
     }
 
     /**
-     * This method is used by the SnmpMibTable to create and send a table
-     * entry notification to all the listeners registered for this kind of
-     * notification.
+     * Tiis mftiod is usfd by tif SnmpMibTbblf to drfbtf bnd sfnd b tbblf
+     * fntry notifidbtion to bll tif listfnfrs rfgistfrfd for tiis kind of
+     * notifidbtion.
      *
      * <p>
-     * @param type The notification type.
+     * @pbrbm typf Tif notifidbtion typf.
      *
-     * @param timeStamp The notification emission date.
+     * @pbrbm timfStbmp Tif notifidbtion fmission dbtf.
      *
-     * @param entry The entry object.
+     * @pbrbm fntry Tif fntry objfdt.
      */
-    private void sendNotification(String type, long timeStamp,
-                                  Object entry, ObjectName name) {
+    privbtf void sfndNotifidbtion(String typf, long timfStbmp,
+                                  Objfdt fntry, ObjfdtNbmf nbmf) {
 
-        synchronized(this) {
-            sequenceNumber = sequenceNumber + 1;
+        syndironizfd(tiis) {
+            sfqufndfNumbfr = sfqufndfNumbfr + 1;
         }
 
-        SnmpTableEntryNotification notif =
-            new SnmpTableEntryNotification(type, this, sequenceNumber,
-                                           timeStamp, entry, name);
+        SnmpTbblfEntryNotifidbtion notif =
+            nfw SnmpTbblfEntryNotifidbtion(typf, tiis, sfqufndfNumbfr,
+                                           timfStbmp, fntry, nbmf);
 
-        this.sendNotification(notif) ;
+        tiis.sfndNotifidbtion(notif) ;
     }
 
     /**
-     * Return true if the entry identified by the given OID index
-     * is contained in this table.
+     * Rfturn truf if tif fntry idfntififd by tif givfn OID indfx
+     * is dontbinfd in tiis tbblf.
      * <p>
-     * <b>Do not call this method directly</b>.
+     * <b>Do not dbll tiis mftiod dirfdtly</b>.
      * <p>
-     * This method is provided has a hook for subclasses.
-     * It is called when a get/set request is received in order to
-     * determine whether the specified entry is contained in the table.
-     * You may want to override this method if you need to perform e.g.
-     * lazy evaluation of tables (you need to update the table when a
-     * request is received) or if your table is virtual.
+     * Tiis mftiod is providfd ibs b iook for subdlbssfs.
+     * It is dbllfd wifn b gft/sft rfqufst is rfdfivfd in ordfr to
+     * dftfrminf wiftifr tif spfdififd fntry is dontbinfd in tif tbblf.
+     * You mby wbnt to ovfrridf tiis mftiod if you nffd to pfrform f.g.
+     * lbzy fvblubtion of tbblfs (you nffd to updbtf tif tbblf wifn b
+     * rfqufst is rfdfivfd) or if your tbblf is virtubl.
      * <p>
-     * Note that this method is called by the Runtime from within a
-     * synchronized block.
+     * Notf tibt tiis mftiod is dbllfd by tif Runtimf from witiin b
+     * syndironizfd blodk.
      *
-     * @param oid The index part of the OID we're looking for.
-     * @param userData A contextual object containing user-data.
-     *        This object is allocated through the <code>
-     *        {@link com.sun.jmx.snmp.agent.SnmpUserDataFactory}</code>
-     *        for each incoming SNMP request.
+     * @pbrbm oid Tif indfx pbrt of tif OID wf'rf looking for.
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        Tiis objfdt is bllodbtfd tirougi tif <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdi indoming SNMP rfqufst.
      *
-     * @return <code>true</code> if the entry is found, <code>false</code>
-     *         otherwise.
+     * @rfturn <dodf>truf</dodf> if tif fntry is found, <dodf>fblsf</dodf>
+     *         otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      **/
-    protected boolean contains(SnmpOid oid, Object userData) {
-        return (findObject(oid) > -1);
+    protfdtfd boolfbn dontbins(SnmpOid oid, Objfdt usfrDbtb) {
+        rfturn (findObjfdt(oid) > -1);
     }
 
     /**
-     * Look for the given oid in the OID table (tableoids) and returns
+     * Look for tif givfn oid in tif OID tbblf (tbblfoids) bnd rfturns
      * its position.
      *
      * <p>
-     * @param oid The OID we're looking for.
+     * @pbrbm oid Tif OID wf'rf looking for.
      *
-     * @return The position of the OID in the table. -1 if the given
-     *         OID was not found.
+     * @rfturn Tif position of tif OID in tif tbblf. -1 if tif givfn
+     *         OID wbs not found.
      *
      **/
-    private int findObject(SnmpOid oid) {
+    privbtf int findObjfdt(SnmpOid oid) {
         int low= 0;
-        int max= size - 1;
+        int mbx= sizf - 1;
         SnmpOid pos;
-        int comp;
-        int curr= low + (max-low)/2;
-        //System.out.println("Try to retrieve: " + oid.toString());
-        while (low <= max) {
+        int domp;
+        int durr= low + (mbx-low)/2;
+        //Systfm.out.println("Try to rftrifvf: " + oid.toString());
+        wiilf (low <= mbx) {
 
-            // XX pos = (SnmpOid) oids.elementAt(curr);
-            pos = tableoids[curr];
+            // XX pos = (SnmpOid) oids.flfmfntAt(durr);
+            pos = tbblfoids[durr];
 
-            //System.out.println("Compare with" + pos.toString());
-            // never know ...we might find something ...
+            //Systfm.out.println("Compbrf witi" + pos.toString());
+            // nfvfr know ...wf migit find somftiing ...
             //
-            comp = oid.compareTo(pos);
-            if (comp == 0)
-                return curr;
+            domp = oid.dompbrfTo(pos);
+            if (domp == 0)
+                rfturn durr;
 
-            if (oid.equals(pos) == true) {
-                return curr;
+            if (oid.fqubls(pos) == truf) {
+                rfturn durr;
             }
-            if (comp > 0) {
-                low = curr + 1;
-            } else {
-                max = curr - 1;
+            if (domp > 0) {
+                low = durr + 1;
+            } flsf {
+                mbx = durr - 1;
             }
-            curr = low + (max-low)/2;
+            durr = low + (mbx-low)/2;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Search the position at which the given oid should be inserted
-     * in the OID table (tableoids).
+     * Sfbrdi tif position bt wiidi tif givfn oid siould bf insfrtfd
+     * in tif OID tbblf (tbblfoids).
      *
      * <p>
-     * @param oid The OID we would like to insert.
+     * @pbrbm oid Tif OID wf would likf to insfrt.
      *
-     * @param fail Tells whether a SnmpStatusException must be generated
-     *             if the given OID is already present in the table.
+     * @pbrbm fbil Tflls wiftifr b SnmpStbtusExdfption must bf gfnfrbtfd
+     *             if tif givfn OID is blrfbdy prfsfnt in tif tbblf.
      *
-     * @return The position at which the OID should be inserted in
-     *         the table. When the OID is found, it returns the next
-     *         position. Note that it is not valid to insert twice the
-     *         same OID. This feature is only an optimization to improve
-     *         the getNextOid() behaviour.
+     * @rfturn Tif position bt wiidi tif OID siould bf insfrtfd in
+     *         tif tbblf. Wifn tif OID is found, it rfturns tif nfxt
+     *         position. Notf tibt it is not vblid to insfrt twidf tif
+     *         sbmf OID. Tiis ffbturf is only bn optimizbtion to improvf
+     *         tif gftNfxtOid() bfibviour.
      *
-     * @exception SnmpStatusException if the OID is already present in the
-     *            table and <code>fail</code> is <code>true</code>.
+     * @fxdfption SnmpStbtusExdfption if tif OID is blrfbdy prfsfnt in tif
+     *            tbblf bnd <dodf>fbil</dodf> is <dodf>truf</dodf>.
      *
      **/
-    private int getInsertionPoint(SnmpOid oid, boolean fail)
-        throws SnmpStatusException {
+    privbtf int gftInsfrtionPoint(SnmpOid oid, boolfbn fbil)
+        tirows SnmpStbtusExdfption {
 
-        final int failStatus = SnmpStatusException.snmpRspNotWritable;
+        finbl int fbilStbtus = SnmpStbtusExdfption.snmpRspNotWritbblf;
         int low= 0;
-        int max= size - 1;
+        int mbx= sizf - 1;
         SnmpOid pos;
-        int comp;
-        int curr= low + (max-low)/2;
-        while (low <= max) {
+        int domp;
+        int durr= low + (mbx-low)/2;
+        wiilf (low <= mbx) {
 
-            // XX pos= (SnmpOid) oids.elementAt(curr);
-            pos= tableoids[curr];
+            // XX pos= (SnmpOid) oids.flfmfntAt(durr);
+            pos= tbblfoids[durr];
 
-            // never know ...we might find something ...
+            // nfvfr know ...wf migit find somftiing ...
             //
-            comp= oid.compareTo(pos);
+            domp= oid.dompbrfTo(pos);
 
-            if (comp == 0) {
-                if (fail)
-                    throw new SnmpStatusException(failStatus,curr);
-                else
-                    return curr+1;
+            if (domp == 0) {
+                if (fbil)
+                    tirow nfw SnmpStbtusExdfption(fbilStbtus,durr);
+                flsf
+                    rfturn durr+1;
             }
 
-            if (comp>0) {
-                low= curr +1;
-            } else {
-                max= curr -1;
+            if (domp>0) {
+                low= durr +1;
+            } flsf {
+                mbx= durr -1;
             }
-            curr= low + (max-low)/2;
+            durr= low + (mbx-low)/2;
         }
-        return curr;
+        rfturn durr;
     }
 
     /**
-     * Remove the OID located at the given position.
+     * Rfmovf tif OID lodbtfd bt tif givfn position.
      *
      * <p>
-     * @param pos The position at which the OID to be removed is located.
+     * @pbrbm pos Tif position bt wiidi tif OID to bf rfmovfd is lodbtfd.
      *
      **/
-    private void removeOid(int pos) {
-        if (pos >= tablecount) return;
-        if (pos < 0) return;
-        final int l1 = --tablecount-pos;
-        tableoids[pos] = null;
+    privbtf void rfmovfOid(int pos) {
+        if (pos >= tbblfdount) rfturn;
+        if (pos < 0) rfturn;
+        finbl int l1 = --tbblfdount-pos;
+        tbblfoids[pos] = null;
         if (l1 > 0)
-            java.lang.System.arraycopy(tableoids,pos+1,tableoids,pos,l1);
-        tableoids[tablecount] = null;
+            jbvb.lbng.Systfm.brrbydopy(tbblfoids,pos+1,tbblfoids,pos,l1);
+        tbblfoids[tbblfdount] = null;
     }
 
     /**
-     * Insert an OID at the given position.
+     * Insfrt bn OID bt tif givfn position.
      *
      * <p>
-     * @param oid The OID to be inserted in the table
-     * @param pos The position at which the OID to be added is located.
+     * @pbrbm oid Tif OID to bf insfrtfd in tif tbblf
+     * @pbrbm pos Tif position bt wiidi tif OID to bf bddfd is lodbtfd.
      *
      **/
-    private void insertOid(int pos, SnmpOid oid) {
-        if (pos >= tablesize || tablecount == tablesize) {
-                // Vector must be enlarged
+    privbtf void insfrtOid(int pos, SnmpOid oid) {
+        if (pos >= tbblfsizf || tbblfdount == tbblfsizf) {
+                // Vfdtor must bf fnlbrgfd
 
-                // Save old vector
-                final SnmpOid[] olde = tableoids;
+                // Sbvf old vfdtor
+                finbl SnmpOid[] oldf = tbblfoids;
 
-                // Allocate larger vectors
-                tablesize += Delta;
-                tableoids = new SnmpOid[tablesize];
+                // Allodbtf lbrgfr vfdtors
+                tbblfsizf += Dfltb;
+                tbblfoids = nfw SnmpOid[tbblfsizf];
 
-                // Check pos validity
-                if (pos > tablecount) pos = tablecount;
+                // Cifdk pos vblidity
+                if (pos > tbblfdount) pos = tbblfdount;
                 if (pos < 0) pos = 0;
 
-                final int l1 = pos;
-                final int l2 = tablecount - pos;
+                finbl int l1 = pos;
+                finbl int l2 = tbblfdount - pos;
 
-                // Copy original vector up to `pos'
+                // Copy originbl vfdtor up to `pos'
                 if (l1 > 0)
-                    java.lang.System.arraycopy(olde,0,tableoids,0,l1);
+                    jbvb.lbng.Systfm.brrbydopy(oldf,0,tbblfoids,0,l1);
 
-                // Copy original vector from `pos' to end, leaving
-                // an empty room at `pos' in the new vector.
+                // Copy originbl vfdtor from `pos' to fnd, lfbving
+                // bn fmpty room bt `pos' in tif nfw vfdtor.
                 if (l2 > 0)
-                    java.lang.System.arraycopy(olde,l1,tableoids,
+                    jbvb.lbng.Systfm.brrbydopy(oldf,l1,tbblfoids,
                                                l1+1,l2);
 
-            } else if (pos < tablecount) {
-                // Vector is large enough to accommodate one additional
-                // entry.
+            } flsf if (pos < tbblfdount) {
+                // Vfdtor is lbrgf fnougi to bddommodbtf onf bdditionbl
+                // fntry.
                 //
-                // Shift vector, making an empty room at `pos'
+                // Siift vfdtor, mbking bn fmpty room bt `pos'
 
-                java.lang.System.arraycopy(tableoids,pos,tableoids,
-                                           pos+1,tablecount-pos);
+                jbvb.lbng.Systfm.brrbydopy(tbblfoids,pos,tbblfoids,
+                                           pos+1,tbblfdount-pos);
             }
 
-            // Fill the gap at `pos'
-            tableoids[pos]  = oid;
-            tablecount++;
+            // Fill tif gbp bt `pos'
+            tbblfoids[pos]  = oid;
+            tbblfdount++;
     }
 
 
@@ -2472,90 +2472,90 @@ public abstract class SnmpMibTable extends SnmpMibNode
     // ----------------------------------------------------------------------
 
     /**
-     * The id of the contained entry object.
-     * @serial
+     * Tif id of tif dontbinfd fntry objfdt.
+     * @sfribl
      */
-    protected int nodeId=1;
+    protfdtfd int nodfId=1;
 
     /**
-     * The MIB to which the metadata is linked.
-     * @serial
+     * Tif MIB to wiidi tif mftbdbtb is linkfd.
+     * @sfribl
      */
-    protected SnmpMib theMib;
+    protfdtfd SnmpMib tifMib;
 
     /**
-     * <CODE>true</CODE> if remote creation of entries via SET operations
-     * is enabled.
-     * [default value is <CODE>false</CODE>]
-     * @serial
+     * <CODE>truf</CODE> if rfmotf drfbtion of fntrifs vib SET opfrbtions
+     * is fnbblfd.
+     * [dffbult vbluf is <CODE>fblsf</CODE>]
+     * @sfribl
      */
-    protected boolean creationEnabled = false;
+    protfdtfd boolfbn drfbtionEnbblfd = fblsf;
 
     /**
-     * The entry factory
+     * Tif fntry fbdtory
      */
-    protected SnmpTableEntryFactory factory = null;
+    protfdtfd SnmpTbblfEntryFbdtory fbdtory = null;
 
     // ----------------------------------------------------------------------
     // PRIVATE VARIABLES
     // ----------------------------------------------------------------------
 
     /**
-     * The number of elements in the table.
-     * @serial
+     * Tif numbfr of flfmfnts in tif tbblf.
+     * @sfribl
      */
-    private int size=0;
+    privbtf int sizf=0;
 
     /**
-     * The list of indexes.
-     * @serial
+     * Tif list of indfxfs.
+     * @sfribl
      */
-    //    private Vector indexes= new Vector();
+    //    privbtf Vfdtor indfxfs= nfw Vfdtor();
 
     /**
-     * The list of OIDs.
-     * @serial
+     * Tif list of OIDs.
+     * @sfribl
      */
-    // private Vector oids= new Vector();
-    private final static int Delta = 16;
-    private int     tablecount     = 0;
-    private int     tablesize      = Delta;
-    private SnmpOid tableoids[]    = new SnmpOid[tablesize];
+    // privbtf Vfdtor oids= nfw Vfdtor();
+    privbtf finbl stbtid int Dfltb = 16;
+    privbtf int     tbblfdount     = 0;
+    privbtf int     tbblfsizf      = Dfltb;
+    privbtf SnmpOid tbblfoids[]    = nfw SnmpOid[tbblfsizf];
 
     /**
-     * The list of entries.
-     * @serial
+     * Tif list of fntrifs.
+     * @sfribl
      */
-    private final Vector<Object> entries= new Vector<>();
+    privbtf finbl Vfdtor<Objfdt> fntrifs= nfw Vfdtor<>();
 
     /**
-     * The list of object names.
-     * @serial
+     * Tif list of objfdt nbmfs.
+     * @sfribl
      */
-    private final Vector<ObjectName> entrynames= new Vector<>();
+    privbtf finbl Vfdtor<ObjfdtNbmf> fntrynbmfs= nfw Vfdtor<>();
 
     /**
-     * Callback handlers
+     * Cbllbbdk ibndlfrs
      */
-    // final Vector callbacks = new Vector();
+    // finbl Vfdtor dbllbbdks = nfw Vfdtor();
 
     /**
-     * Listener hashtable containing the hand-back objects.
+     * Listfnfr ibsitbblf dontbining tif ibnd-bbdk objfdts.
      */
-    private Hashtable<NotificationListener, Vector<Object>> handbackTable =
-            new Hashtable<>();
+    privbtf Hbsitbblf<NotifidbtionListfnfr, Vfdtor<Objfdt>> ibndbbdkTbblf =
+            nfw Hbsitbblf<>();
 
     /**
-     * Listener hashtable containing the filter objects.
+     * Listfnfr ibsitbblf dontbining tif filtfr objfdts.
      */
-    private Hashtable<NotificationListener, Vector<NotificationFilter>>
-            filterTable = new Hashtable<>();
+    privbtf Hbsitbblf<NotifidbtionListfnfr, Vfdtor<NotifidbtionFiltfr>>
+            filtfrTbblf = nfw Hbsitbblf<>();
 
     // PACKAGE VARIABLES
     //------------------
     /**
-     * SNMP table sequence number.
-     * The default value is set to 0.
+     * SNMP tbblf sfqufndf numbfr.
+     * Tif dffbult vbluf is sft to 0.
      */
-    transient long sequenceNumber = 0;
+    trbnsifnt long sfqufndfNumbfr = 0;
 }

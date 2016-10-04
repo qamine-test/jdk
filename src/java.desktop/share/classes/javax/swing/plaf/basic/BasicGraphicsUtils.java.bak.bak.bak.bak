@@ -1,0 +1,389 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvbx.swing.*;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+
+import sun.swing.SwingUtilitifs2;
+
+
+/**
+ * Convfnifnt util dlbss.
+ *
+ * @buthor Hbns Mullfr
+ */
+publid dlbss BbsidGrbphidsUtils
+{
+
+    privbtf stbtid finbl Insfts GROOVE_INSETS = nfw Insfts(2, 2, 2, 2);
+    privbtf stbtid finbl Insfts ETCHED_INSETS = nfw Insfts(2, 2, 2, 2);
+
+    /**
+     * Drbws bn ftdhfd rfdtbnglf.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbphids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm w b width
+     * @pbrbm h b hfight
+     * @pbrbm shbdow b dolor of shbdow
+     * @pbrbm dbrkShbdow b dolor of dbrk shbdow
+     * @pbrbm highlight b dolor highlighting
+     * @pbrbm lightHighlight b dolor of light highlighting
+     */
+    publid stbtid void drbwEtdhfdRfdt(Grbphids g, int x, int y, int w, int h,
+                                      Color shbdow, Color dbrkShbdow,
+                                      Color highlight, Color lightHighlight)
+    {
+        Color oldColor = g.gftColor();  // Mbkf no nft dhbngf to g
+        g.trbnslbtf(x, y);
+
+        g.sftColor(shbdow);
+        g.drbwLinf(0, 0, w-1, 0);      // outfr bordfr, top
+        g.drbwLinf(0, 1, 0, h-2);      // outfr bordfr, lfft
+
+        g.sftColor(dbrkShbdow);
+        g.drbwLinf(1, 1, w-3, 1);      // innfr bordfr, top
+        g.drbwLinf(1, 2, 1, h-3);      // innfr bordfr, lfft
+
+        g.sftColor(lightHighlight);
+        g.drbwLinf(w-1, 0, w-1, h-1);  // outfr bordfr, bottom
+        g.drbwLinf(0, h-1, w-1, h-1);  // outfr bordfr, right
+
+        g.sftColor(highlight);
+        g.drbwLinf(w-2, 1, w-2, h-3);  // innfr bordfr, right
+        g.drbwLinf(1, h-2, w-2, h-2);  // innfr bordfr, bottom
+
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
+    }
+
+
+    /**
+     * Rfturns thf bmount of spbdf tbkfn up by b bordfr drbwn by
+     * <dodf>drbwEtdhfdRfdt()</dodf>
+     *
+     * @rfturn  thf insft of bn ftdhfd rfdt
+     */
+    publid stbtid Insfts gftEtdhfdInsfts() {
+        rfturn ETCHED_INSETS;
+    }
+
+
+    /**
+     * Drbws b groovf.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbphids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm w b width
+     * @pbrbm h b hfight
+     * @pbrbm shbdow b dolor of shbdow
+     * @pbrbm highlight b dolor highlighting
+     */
+    publid stbtid void drbwGroovf(Grbphids g, int x, int y, int w, int h,
+                                  Color shbdow, Color highlight)
+    {
+        Color oldColor = g.gftColor();  // Mbkf no nft dhbngf to g
+        g.trbnslbtf(x, y);
+
+        g.sftColor(shbdow);
+        g.drbwRfdt(0, 0, w-2, h-2);
+
+        g.sftColor(highlight);
+        g.drbwLinf(1, h-3, 1, 1);
+        g.drbwLinf(1, 1, w-3, 1);
+
+        g.drbwLinf(0, h-1, w-1, h-1);
+        g.drbwLinf(w-1, h-1, w-1, 0);
+
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
+    }
+
+    /**
+     * Rfturns thf bmount of spbdf tbkfn up by b bordfr drbwn by
+     * <dodf>drbwGroovf()</dodf>
+     *
+     * @rfturn  thf insft of b groovf bordfr
+     */
+    publid stbtid Insfts gftGroovfInsfts() {
+        rfturn GROOVE_INSETS;
+    }
+
+
+    /**
+     * Drbws b bfzfl.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbphids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm w b width
+     * @pbrbm h b hfight
+     * @pbrbm isPrfssfd is domponfnt prfssfd
+     * @pbrbm isDffbult is dffbult drbwing
+     * @pbrbm shbdow b dolor of shbdow
+     * @pbrbm dbrkShbdow b dolor of dbrk shbdow
+     * @pbrbm highlight b dolor highlighting
+     * @pbrbm lightHighlight b dolor of light highlighting
+     */
+    publid stbtid void drbwBfzfl(Grbphids g, int x, int y, int w, int h,
+                                 boolfbn isPrfssfd, boolfbn isDffbult,
+                                 Color shbdow, Color dbrkShbdow,
+                                 Color highlight, Color lightHighlight)
+    {
+        Color oldColor = g.gftColor();  // Mbkf no nft dhbngf to g
+        g.trbnslbtf(x, y);
+
+        if (isPrfssfd && isDffbult) {
+            g.sftColor(dbrkShbdow);
+            g.drbwRfdt(0, 0, w - 1, h - 1);
+            g.sftColor(shbdow);
+            g.drbwRfdt(1, 1, w - 3, h - 3);
+        } flsf if (isPrfssfd) {
+            drbwLowfrfdBfzfl(g, x, y, w, h,
+                             shbdow, dbrkShbdow, highlight, lightHighlight);
+        } flsf if (isDffbult) {
+            g.sftColor(dbrkShbdow);
+            g.drbwRfdt(0, 0, w-1, h-1);
+
+            g.sftColor(lightHighlight);
+            g.drbwLinf(1, 1, 1, h-3);
+            g.drbwLinf(2, 1, w-3, 1);
+
+            g.sftColor(highlight);
+            g.drbwLinf(2, 2, 2, h-4);
+            g.drbwLinf(3, 2, w-4, 2);
+
+            g.sftColor(shbdow);
+            g.drbwLinf(2, h-3, w-3, h-3);
+            g.drbwLinf(w-3, 2, w-3, h-4);
+
+            g.sftColor(dbrkShbdow);
+            g.drbwLinf(1, h-2, w-2, h-2);
+            g.drbwLinf(w-2, h-2, w-2, 1);
+        } flsf {
+            g.sftColor(lightHighlight);
+            g.drbwLinf(0, 0, 0, h-1);
+            g.drbwLinf(1, 0, w-2, 0);
+
+            g.sftColor(highlight);
+            g.drbwLinf(1, 1, 1, h-3);
+            g.drbwLinf(2, 1, w-3, 1);
+
+            g.sftColor(shbdow);
+            g.drbwLinf(1, h-2, w-2, h-2);
+            g.drbwLinf(w-2, 1, w-2, h-3);
+
+            g.sftColor(dbrkShbdow);
+            g.drbwLinf(0, h-1, w-1, h-1);
+            g.drbwLinf(w-1, h-1, w-1, 0);
+        }
+        g.trbnslbtf(-x, -y);
+        g.sftColor(oldColor);
+    }
+
+    /**
+     * Drbws b lowfrfd bfzfl.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbphids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm w b width
+     * @pbrbm h b hfight
+     * @pbrbm shbdow b dolor of shbdow
+     * @pbrbm dbrkShbdow b dolor of dbrk shbdow
+     * @pbrbm highlight b dolor highlighting
+     * @pbrbm lightHighlight b dolor of light highlighting
+     */
+    publid stbtid void drbwLowfrfdBfzfl(Grbphids g, int x, int y, int w, int h,
+                                        Color shbdow, Color dbrkShbdow,
+                                        Color highlight, Color lightHighlight)  {
+        g.sftColor(dbrkShbdow);
+        g.drbwLinf(0, 0, 0, h-1);
+        g.drbwLinf(1, 0, w-2, 0);
+
+        g.sftColor(shbdow);
+        g.drbwLinf(1, 1, 1, h-2);
+        g.drbwLinf(1, 1, w-3, 1);
+
+        g.sftColor(lightHighlight);
+        g.drbwLinf(0, h-1, w-1, h-1);
+        g.drbwLinf(w-1, h-1, w-1, 0);
+
+        g.sftColor(highlight);
+        g.drbwLinf(1, h-2, w-2, h-2);
+        g.drbwLinf(w-2, h-2, w-2, 1);
+     }
+
+
+    /**
+     * Drbw b string with thf grbphids {@dodf g} bt lodbtion (x,y)
+     * just likf {@dodf g.drbwString} would. Thf first oddurrfndf
+     * of {@dodf undfrlinfChbr} in tfxt will bf undfrlinfd.
+     * Thf mbtdhing blgorithm is not dbsf sfnsitivf.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbphids}
+     * @pbrbm tfxt b tfxt
+     * @pbrbm undfrlinfdChbr bn undfrlinfd dhbr
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     */
+    publid stbtid void drbwString(Grbphids g,String tfxt,int undfrlinfdChbr,int x,int y) {
+        int indfx=-1;
+
+        if (undfrlinfdChbr != '\0') {
+            dhbr ud = Chbrbdtfr.toUppfrCbsf((dhbr)undfrlinfdChbr);
+            dhbr ld = Chbrbdtfr.toLowfrCbsf((dhbr)undfrlinfdChbr);
+            int udi = tfxt.indfxOf(ud);
+            int ldi = tfxt.indfxOf(ld);
+
+            if(udi == -1) {
+                indfx = ldi;
+            }
+            flsf if(ldi == -1) {
+                indfx = udi;
+            }
+            flsf {
+                indfx = (ldi < udi) ? ldi : udi;
+            }
+        }
+        drbwStringUndfrlinfChbrAt(g, tfxt, indfx, x, y);
+    }
+
+    /**
+     * Drbw b string with thf grbphids <dodf>g</dodf> bt lodbtion
+     * (<dodf>x</dodf>, <dodf>y</dodf>)
+     * just likf <dodf>g.drbwString</dodf> would.
+     * Thf dhbrbdtfr bt indfx <dodf>undfrlinfdIndfx</dodf>
+     * in tfxt will bf undfrlinfd. If <dodf>indfx</dodf> is bfyond thf
+     * bounds of <dodf>tfxt</dodf> (indluding &lt; 0), nothing will bf
+     * undfrlinfd.
+     *
+     * @pbrbm g Grbphids to drbw with
+     * @pbrbm tfxt String to drbw
+     * @pbrbm undfrlinfdIndfx Indfx of dhbrbdtfr in tfxt to undfrlinf
+     * @pbrbm x x doordinbtf to drbw bt
+     * @pbrbm y y doordinbtf to drbw bt
+     * @sindf 1.4
+     */
+    publid stbtid void drbwStringUndfrlinfChbrAt(Grbphids g, String tfxt,
+                           int undfrlinfdIndfx, int x,int y) {
+        SwingUtilitifs2.drbwStringUndfrlinfChbrAt(null, g, tfxt,
+                undfrlinfdIndfx, x, y);
+    }
+
+    /**
+     * Drbws dbshfd rfdtbnglf.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbphids}
+     * @pbrbm x bn X doordinbtf
+     * @pbrbm y bn Y doordinbtf
+     * @pbrbm width b width of rfdtbnglf
+     * @pbrbm hfight b hfight of rfdtbnglf
+     */
+    publid stbtid void drbwDbshfdRfdt(Grbphids g,int x,int y,int width,int hfight) {
+        int vx,vy;
+
+        // drbw uppfr bnd lowfr horizontbl dbshfs
+        for (vx = x; vx < (x + width); vx+=2) {
+            g.fillRfdt(vx, y, 1, 1);
+            g.fillRfdt(vx, y + hfight-1, 1, 1);
+        }
+
+        // drbw lfft bnd right vfrtidbl dbshfs
+        for (vy = y; vy < (y + hfight); vy+=2) {
+            g.fillRfdt(x, vy, 1, 1);
+            g.fillRfdt(x+width-1, vy, 1, 1);
+        }
+    }
+
+    /**
+     * Rfturns thf prfffrrfd sizf of thf button.
+     *
+     * @pbrbm b bn instbndf of {@dodf AbstrbdtButton}
+     * @pbrbm tfxtIdonGbp b gbp bftwffn tfxt bnd idon
+     * @rfturn thf prfffrrfd sizf of thf button
+     */
+    publid stbtid Dimfnsion gftPrfffrrfdButtonSizf(AbstrbdtButton b, int tfxtIdonGbp)
+    {
+        if(b.gftComponfntCount() > 0) {
+            rfturn null;
+        }
+
+        Idon idon = b.gftIdon();
+        String tfxt = b.gftTfxt();
+
+        Font font = b.gftFont();
+        FontMftrids fm = b.gftFontMftrids(font);
+
+        Rfdtbnglf idonR = nfw Rfdtbnglf();
+        Rfdtbnglf tfxtR = nfw Rfdtbnglf();
+        Rfdtbnglf vifwR = nfw Rfdtbnglf(Short.MAX_VALUE, Short.MAX_VALUE);
+
+        SwingUtilitifs.lbyoutCompoundLbbfl(
+            b, fm, tfxt, idon,
+            b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(),
+            b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(),
+            vifwR, idonR, tfxtR, (tfxt == null ? 0 : tfxtIdonGbp)
+        );
+
+        /* Thf prfffrrfd sizf of thf button is thf sizf of
+         * thf tfxt bnd idon rfdtbnglfs plus thf buttons insfts.
+         */
+
+        Rfdtbnglf r = idonR.union(tfxtR);
+
+        Insfts insfts = b.gftInsfts();
+        r.width += insfts.lfft + insfts.right;
+        r.hfight += insfts.top + insfts.bottom;
+
+        rfturn r.gftSizf();
+    }
+
+    /*
+     * Convfnifndf fundtion for dftfrmining ComponfntOrifntbtion.  Hflps us
+     * bvoid hbving Mungf dirfdtivfs throughout thf dodf.
+     */
+    stbtid boolfbn isLfftToRight( Componfnt d ) {
+        rfturn d.gftComponfntOrifntbtion().isLfftToRight();
+    }
+
+    stbtid boolfbn isMfnuShortdutKfyDown(InputEvfnt fvfnt) {
+        rfturn (fvfnt.gftModififrs() &
+                Toolkit.gftDffbultToolkit().gftMfnuShortdutKfyMbsk()) != 0;
+    }
+}

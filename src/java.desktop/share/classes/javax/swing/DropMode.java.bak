@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 /**
- * Drop modes, used to determine the method by which a component
- * tracks and indicates a drop location during drag and drop.
+ * Drop modfs, usfd to dftfrminf tif mftiod by wiidi b domponfnt
+ * trbdks bnd indidbtfs b drop lodbtion during drbg bnd drop.
  *
- * @author Shannon Hickey
- * @see JTable#setDropMode
- * @see JList#setDropMode
- * @see JTree#setDropMode
- * @see javax.swing.text.JTextComponent#setDropMode
- * @since 1.6
+ * @butior Sibnnon Hidkfy
+ * @sff JTbblf#sftDropModf
+ * @sff JList#sftDropModf
+ * @sff JTrff#sftDropModf
+ * @sff jbvbx.swing.tfxt.JTfxtComponfnt#sftDropModf
+ * @sindf 1.6
  */
-public enum DropMode {
+publid fnum DropModf {
 
     /**
-     * A component's own internal selection mechanism (or caret for text
-     * components) should be used to track the drop location.
+     * A domponfnt's own intfrnbl sflfdtion mfdibnism (or dbrft for tfxt
+     * domponfnts) siould bf usfd to trbdk tif drop lodbtion.
      */
     USE_SELECTION,
 
     /**
-     * The drop location should be tracked in terms of the index of
-     * existing items. Useful for dropping on items in tables, lists,
-     * and trees.
+     * Tif drop lodbtion siould bf trbdkfd in tfrms of tif indfx of
+     * fxisting itfms. Usfful for dropping on itfms in tbblfs, lists,
+     * bnd trffs.
      */
     ON,
 
     /**
-     * The drop location should be tracked in terms of the position
-     * where new data should be inserted. For components that manage
-     * a list of items (list and tree for example), the drop location
-     * should indicate the index where new data should be inserted.
-     * For text components the location should represent a position
-     * between characters. For components that manage tabular data
-     * (table for example), the drop location should indicate
-     * where to insert new rows, columns, or both, to accommodate
-     * the dropped data.
+     * Tif drop lodbtion siould bf trbdkfd in tfrms of tif position
+     * wifrf nfw dbtb siould bf insfrtfd. For domponfnts tibt mbnbgf
+     * b list of itfms (list bnd trff for fxbmplf), tif drop lodbtion
+     * siould indidbtf tif indfx wifrf nfw dbtb siould bf insfrtfd.
+     * For tfxt domponfnts tif lodbtion siould rfprfsfnt b position
+     * bftwffn dibrbdtfrs. For domponfnts tibt mbnbgf tbbulbr dbtb
+     * (tbblf for fxbmplf), tif drop lodbtion siould indidbtf
+     * wifrf to insfrt nfw rows, dolumns, or boti, to bddommodbtf
+     * tif droppfd dbtb.
      */
     INSERT,
 
     /**
-     * The drop location should be tracked in terms of the row index
-     * where new rows should be inserted to accommodate the dropped
-     * data. This is useful for components that manage tabular data.
+     * Tif drop lodbtion siould bf trbdkfd in tfrms of tif row indfx
+     * wifrf nfw rows siould bf insfrtfd to bddommodbtf tif droppfd
+     * dbtb. Tiis is usfful for domponfnts tibt mbnbgf tbbulbr dbtb.
      */
     INSERT_ROWS,
 
     /**
-     * The drop location should be tracked in terms of the column index
-     * where new columns should be inserted to accommodate the dropped
-     * data. This is useful for components that manage tabular data.
+     * Tif drop lodbtion siould bf trbdkfd in tfrms of tif dolumn indfx
+     * wifrf nfw dolumns siould bf insfrtfd to bddommodbtf tif droppfd
+     * dbtb. Tiis is usfful for domponfnts tibt mbnbgf tbbulbr dbtb.
      */
     INSERT_COLS,
 
     /**
-     * This mode is a combination of <code>ON</code>
-     * and <code>INSERT</code>, specifying that data can be
-     * dropped on existing items, or in insert locations
-     * as specified by <code>INSERT</code>.
+     * Tiis modf is b dombinbtion of <dodf>ON</dodf>
+     * bnd <dodf>INSERT</dodf>, spfdifying tibt dbtb dbn bf
+     * droppfd on fxisting itfms, or in insfrt lodbtions
+     * bs spfdififd by <dodf>INSERT</dodf>.
      */
     ON_OR_INSERT,
 
     /**
-     * This mode is a combination of <code>ON</code>
-     * and <code>INSERT_ROWS</code>, specifying that data can be
-     * dropped on existing items, or as insert rows
-     * as specified by <code>INSERT_ROWS</code>.
+     * Tiis modf is b dombinbtion of <dodf>ON</dodf>
+     * bnd <dodf>INSERT_ROWS</dodf>, spfdifying tibt dbtb dbn bf
+     * droppfd on fxisting itfms, or bs insfrt rows
+     * bs spfdififd by <dodf>INSERT_ROWS</dodf>.
      */
     ON_OR_INSERT_ROWS,
 
     /**
-     * This mode is a combination of <code>ON</code>
-     * and <code>INSERT_COLS</code>, specifying that data can be
-     * dropped on existing items, or as insert columns
-     * as specified by <code>INSERT_COLS</code>.
+     * Tiis modf is b dombinbtion of <dodf>ON</dodf>
+     * bnd <dodf>INSERT_COLS</dodf>, spfdifying tibt dbtb dbn bf
+     * droppfd on fxisting itfms, or bs insfrt dolumns
+     * bs spfdififd by <dodf>INSERT_COLS</dodf>.
      */
     ON_OR_INSERT_COLS
 }

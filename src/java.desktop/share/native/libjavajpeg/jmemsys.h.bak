@@ -1,202 +1,202 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jmemsys.h
+ * jmfmsys.i
  *
- * Copyright (C) 1992-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1992-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This include file defines the interface between the system-independent
- * and system-dependent portions of the JPEG memory manager.  No other
- * modules need include it.  (The system-independent portion is jmemmgr.c;
- * there are several different versions of the system-dependent portion.)
+ * Tiis indludf filf dffinfs tif intfrfbdf bftwffn tif systfm-indfpfndfnt
+ * bnd systfm-dfpfndfnt portions of tif JPEG mfmory mbnbgfr.  No otifr
+ * modulfs nffd indludf it.  (Tif systfm-indfpfndfnt portion is jmfmmgr.d;
+ * tifrf brf sfvfrbl difffrfnt vfrsions of tif systfm-dfpfndfnt portion.)
  *
- * This file works as-is for the system-dependent memory managers supplied
- * in the IJG distribution.  You may need to modify it if you write a
- * custom memory manager.  If system-dependent changes are needed in
- * this file, the best method is to #ifdef them based on a configuration
- * symbol supplied in jconfig.h, as we have done with USE_MSDOS_MEMMGR
- * and USE_MAC_MEMMGR.
+ * Tiis filf works bs-is for tif systfm-dfpfndfnt mfmory mbnbgfrs supplifd
+ * in tif IJG distribution.  You mby nffd to modify it if you writf b
+ * dustom mfmory mbnbgfr.  If systfm-dfpfndfnt dibngfs brf nffdfd in
+ * tiis filf, tif bfst mftiod is to #ifdff tifm bbsfd on b donfigurbtion
+ * symbol supplifd in jdonfig.i, bs wf ibvf donf witi USE_MSDOS_MEMMGR
+ * bnd USE_MAC_MEMMGR.
  */
 
 
-/* Short forms of external names for systems with brain-damaged linkers. */
+/* Siort forms of fxtfrnbl nbmfs for systfms witi brbin-dbmbgfd linkfrs. */
 
-#ifdef NEED_SHORT_EXTERNAL_NAMES
-#define jpeg_get_small          jGetSmall
-#define jpeg_free_small         jFreeSmall
-#define jpeg_get_large          jGetLarge
-#define jpeg_free_large         jFreeLarge
-#define jpeg_mem_available      jMemAvail
-#define jpeg_open_backing_store jOpenBackStore
-#define jpeg_mem_init           jMemInit
-#define jpeg_mem_term           jMemTerm
-#endif /* NEED_SHORT_EXTERNAL_NAMES */
+#ifdff NEED_SHORT_EXTERNAL_NAMES
+#dffinf jpfg_gft_smbll          jGftSmbll
+#dffinf jpfg_frff_smbll         jFrffSmbll
+#dffinf jpfg_gft_lbrgf          jGftLbrgf
+#dffinf jpfg_frff_lbrgf         jFrffLbrgf
+#dffinf jpfg_mfm_bvbilbblf      jMfmAvbil
+#dffinf jpfg_opfn_bbdking_storf jOpfnBbdkStorf
+#dffinf jpfg_mfm_init           jMfmInit
+#dffinf jpfg_mfm_tfrm           jMfmTfrm
+#fndif /* NEED_SHORT_EXTERNAL_NAMES */
 
 
 /*
- * These two functions are used to allocate and release small chunks of
- * memory.  (Typically the total amount requested through jpeg_get_small is
- * no more than 20K or so; this will be requested in chunks of a few K each.)
- * Behavior should be the same as for the standard library functions malloc
- * and free; in particular, jpeg_get_small must return NULL on failure.
- * On most systems, these ARE malloc and free.  jpeg_free_small is passed the
- * size of the object being freed, just in case it's needed.
- * On an 80x86 machine using small-data memory model, these manage near heap.
+ * Tifsf two fundtions brf usfd to bllodbtf bnd rflfbsf smbll diunks of
+ * mfmory.  (Typidblly tif totbl bmount rfqufstfd tirougi jpfg_gft_smbll is
+ * no morf tibn 20K or so; tiis will bf rfqufstfd in diunks of b ffw K fbdi.)
+ * Bfibvior siould bf tif sbmf bs for tif stbndbrd librbry fundtions mbllod
+ * bnd frff; in pbrtidulbr, jpfg_gft_smbll must rfturn NULL on fbilurf.
+ * On most systfms, tifsf ARE mbllod bnd frff.  jpfg_frff_smbll is pbssfd tif
+ * sizf of tif objfdt bfing frffd, just in dbsf it's nffdfd.
+ * On bn 80x86 mbdiinf using smbll-dbtb mfmory modfl, tifsf mbnbgf nfbr ifbp.
  */
 
-EXTERN(void *) jpeg_get_small JPP((j_common_ptr cinfo, size_t sizeofobject));
-EXTERN(void) jpeg_free_small JPP((j_common_ptr cinfo, void * object,
-                                  size_t sizeofobject));
+EXTERN(void *) jpfg_gft_smbll JPP((j_dommon_ptr dinfo, sizf_t sizfofobjfdt));
+EXTERN(void) jpfg_frff_smbll JPP((j_dommon_ptr dinfo, void * objfdt,
+                                  sizf_t sizfofobjfdt));
 
 /*
- * These two functions are used to allocate and release large chunks of
- * memory (up to the total free space designated by jpeg_mem_available).
- * The interface is the same as above, except that on an 80x86 machine,
- * far pointers are used.  On most other machines these are identical to
- * the jpeg_get/free_small routines; but we keep them separate anyway,
- * in case a different allocation strategy is desirable for large chunks.
+ * Tifsf two fundtions brf usfd to bllodbtf bnd rflfbsf lbrgf diunks of
+ * mfmory (up to tif totbl frff spbdf dfsignbtfd by jpfg_mfm_bvbilbblf).
+ * Tif intfrfbdf is tif sbmf bs bbovf, fxdfpt tibt on bn 80x86 mbdiinf,
+ * fbr pointfrs brf usfd.  On most otifr mbdiinfs tifsf brf idfntidbl to
+ * tif jpfg_gft/frff_smbll routinfs; but wf kffp tifm sfpbrbtf bnywby,
+ * in dbsf b difffrfnt bllodbtion strbtfgy is dfsirbblf for lbrgf diunks.
  */
 
-EXTERN(void FAR *) jpeg_get_large JPP((j_common_ptr cinfo,
-                                       size_t sizeofobject));
-EXTERN(void) jpeg_free_large JPP((j_common_ptr cinfo, void FAR * object,
-                                  size_t sizeofobject));
+EXTERN(void FAR *) jpfg_gft_lbrgf JPP((j_dommon_ptr dinfo,
+                                       sizf_t sizfofobjfdt));
+EXTERN(void) jpfg_frff_lbrgf JPP((j_dommon_ptr dinfo, void FAR * objfdt,
+                                  sizf_t sizfofobjfdt));
 
 /*
- * The macro MAX_ALLOC_CHUNK designates the maximum number of bytes that may
- * be requested in a single call to jpeg_get_large (and jpeg_get_small for that
- * matter, but that case should never come into play).  This macro is needed
- * to model the 64Kb-segment-size limit of far addressing on 80x86 machines.
- * On those machines, we expect that jconfig.h will provide a proper value.
- * On machines with 32-bit flat address spaces, any large constant may be used.
+ * Tif mbdro MAX_ALLOC_CHUNK dfsignbtfs tif mbximum numbfr of bytfs tibt mby
+ * bf rfqufstfd in b singlf dbll to jpfg_gft_lbrgf (bnd jpfg_gft_smbll for tibt
+ * mbttfr, but tibt dbsf siould nfvfr domf into plby).  Tiis mbdro is nffdfd
+ * to modfl tif 64Kb-sfgmfnt-sizf limit of fbr bddrfssing on 80x86 mbdiinfs.
+ * On tiosf mbdiinfs, wf fxpfdt tibt jdonfig.i will providf b propfr vbluf.
+ * On mbdiinfs witi 32-bit flbt bddrfss spbdfs, bny lbrgf donstbnt mby bf usfd.
  *
- * NB: jmemmgr.c expects that MAX_ALLOC_CHUNK will be representable as type
- * size_t and will be a multiple of sizeof(align_type).
+ * NB: jmfmmgr.d fxpfdts tibt MAX_ALLOC_CHUNK will bf rfprfsfntbblf bs typf
+ * sizf_t bnd will bf b multiplf of sizfof(blign_typf).
  */
 
-#ifndef MAX_ALLOC_CHUNK         /* may be overridden in jconfig.h */
-#define MAX_ALLOC_CHUNK  1000000000L
-#endif
+#ifndff MAX_ALLOC_CHUNK         /* mby bf ovfrriddfn in jdonfig.i */
+#dffinf MAX_ALLOC_CHUNK  1000000000L
+#fndif
 
 /*
- * This routine computes the total space still available for allocation by
- * jpeg_get_large.  If more space than this is needed, backing store will be
- * used.  NOTE: any memory already allocated must not be counted.
+ * Tiis routinf domputfs tif totbl spbdf still bvbilbblf for bllodbtion by
+ * jpfg_gft_lbrgf.  If morf spbdf tibn tiis is nffdfd, bbdking storf will bf
+ * usfd.  NOTE: bny mfmory blrfbdy bllodbtfd must not bf dountfd.
  *
- * There is a minimum space requirement, corresponding to the minimum
- * feasible buffer sizes; jmemmgr.c will request that much space even if
- * jpeg_mem_available returns zero.  The maximum space needed, enough to hold
- * all working storage in memory, is also passed in case it is useful.
- * Finally, the total space already allocated is passed.  If no better
- * method is available, cinfo->mem->max_memory_to_use - already_allocated
- * is often a suitable calculation.
+ * Tifrf is b minimum spbdf rfquirfmfnt, dorrfsponding to tif minimum
+ * ffbsiblf bufffr sizfs; jmfmmgr.d will rfqufst tibt mudi spbdf fvfn if
+ * jpfg_mfm_bvbilbblf rfturns zfro.  Tif mbximum spbdf nffdfd, fnougi to iold
+ * bll working storbgf in mfmory, is blso pbssfd in dbsf it is usfful.
+ * Finblly, tif totbl spbdf blrfbdy bllodbtfd is pbssfd.  If no bfttfr
+ * mftiod is bvbilbblf, dinfo->mfm->mbx_mfmory_to_usf - blrfbdy_bllodbtfd
+ * is oftfn b suitbblf dbldulbtion.
  *
- * It is OK for jpeg_mem_available to underestimate the space available
- * (that'll just lead to more backing-store access than is really necessary).
- * However, an overestimate will lead to failure.  Hence it's wise to subtract
- * a slop factor from the true available space.  5% should be enough.
+ * It is OK for jpfg_mfm_bvbilbblf to undfrfstimbtf tif spbdf bvbilbblf
+ * (tibt'll just lfbd to morf bbdking-storf bddfss tibn is rfblly nfdfssbry).
+ * Howfvfr, bn ovfrfstimbtf will lfbd to fbilurf.  Hfndf it's wisf to subtrbdt
+ * b slop fbdtor from tif truf bvbilbblf spbdf.  5% siould bf fnougi.
  *
- * On machines with lots of virtual memory, any large constant may be returned.
- * Conversely, zero may be returned to always use the minimum amount of memory.
+ * On mbdiinfs witi lots of virtubl mfmory, bny lbrgf donstbnt mby bf rfturnfd.
+ * Convfrsfly, zfro mby bf rfturnfd to blwbys usf tif minimum bmount of mfmory.
  */
 
-EXTERN(size_t) jpeg_mem_available JPP((j_common_ptr cinfo,
-                                     size_t min_bytes_needed,
-                                     size_t max_bytes_needed,
-                                     size_t already_allocated));
+EXTERN(sizf_t) jpfg_mfm_bvbilbblf JPP((j_dommon_ptr dinfo,
+                                     sizf_t min_bytfs_nffdfd,
+                                     sizf_t mbx_bytfs_nffdfd,
+                                     sizf_t blrfbdy_bllodbtfd));
 
 
 /*
- * This structure holds whatever state is needed to access a single
- * backing-store object.  The read/write/close method pointers are called
- * by jmemmgr.c to manipulate the backing-store object; all other fields
- * are private to the system-dependent backing store routines.
+ * Tiis strudturf iolds wibtfvfr stbtf is nffdfd to bddfss b singlf
+ * bbdking-storf objfdt.  Tif rfbd/writf/dlosf mftiod pointfrs brf dbllfd
+ * by jmfmmgr.d to mbnipulbtf tif bbdking-storf objfdt; bll otifr fiflds
+ * brf privbtf to tif systfm-dfpfndfnt bbdking storf routinfs.
  */
 
-#define TEMP_NAME_LENGTH   64   /* max length of a temporary file's name */
+#dffinf TEMP_NAME_LENGTH   64   /* mbx lfngti of b tfmporbry filf's nbmf */
 
 
-#ifdef USE_MSDOS_MEMMGR         /* DOS-specific junk */
+#ifdff USE_MSDOS_MEMMGR         /* DOS-spfdifid junk */
 
-typedef unsigned short XMSH;    /* type of extended-memory handles */
-typedef unsigned short EMSH;    /* type of expanded-memory handles */
+typfdff unsignfd siort XMSH;    /* typf of fxtfndfd-mfmory ibndlfs */
+typfdff unsignfd siort EMSH;    /* typf of fxpbndfd-mfmory ibndlfs */
 
-typedef union {
-  short file_handle;            /* DOS file handle if it's a temp file */
-  XMSH xms_handle;              /* handle if it's a chunk of XMS */
-  EMSH ems_handle;              /* handle if it's a chunk of EMS */
-} handle_union;
+typfdff union {
+  siort filf_ibndlf;            /* DOS filf ibndlf if it's b tfmp filf */
+  XMSH xms_ibndlf;              /* ibndlf if it's b diunk of XMS */
+  EMSH fms_ibndlf;              /* ibndlf if it's b diunk of EMS */
+} ibndlf_union;
 
-#endif /* USE_MSDOS_MEMMGR */
+#fndif /* USE_MSDOS_MEMMGR */
 
-#ifdef USE_MAC_MEMMGR           /* Mac-specific junk */
-#include <Files.h>
-#endif /* USE_MAC_MEMMGR */
+#ifdff USE_MAC_MEMMGR           /* Mbd-spfdifid junk */
+#indludf <Filfs.i>
+#fndif /* USE_MAC_MEMMGR */
 
 
-typedef struct backing_store_struct * backing_store_ptr;
+typfdff strudt bbdking_storf_strudt * bbdking_storf_ptr;
 
-typedef struct backing_store_struct {
-  /* Methods for reading/writing/closing this backing-store object */
-  JMETHOD(void, read_backing_store, (j_common_ptr cinfo,
-                                     backing_store_ptr info,
-                                     void FAR * buffer_address,
-                                     long file_offset, long byte_count));
-  JMETHOD(void, write_backing_store, (j_common_ptr cinfo,
-                                      backing_store_ptr info,
-                                      void FAR * buffer_address,
-                                      long file_offset, long byte_count));
-  JMETHOD(void, close_backing_store, (j_common_ptr cinfo,
-                                      backing_store_ptr info));
+typfdff strudt bbdking_storf_strudt {
+  /* Mftiods for rfbding/writing/dlosing tiis bbdking-storf objfdt */
+  JMETHOD(void, rfbd_bbdking_storf, (j_dommon_ptr dinfo,
+                                     bbdking_storf_ptr info,
+                                     void FAR * bufffr_bddrfss,
+                                     long filf_offsft, long bytf_dount));
+  JMETHOD(void, writf_bbdking_storf, (j_dommon_ptr dinfo,
+                                      bbdking_storf_ptr info,
+                                      void FAR * bufffr_bddrfss,
+                                      long filf_offsft, long bytf_dount));
+  JMETHOD(void, dlosf_bbdking_storf, (j_dommon_ptr dinfo,
+                                      bbdking_storf_ptr info));
 
-  /* Private fields for system-dependent backing-store management */
-#ifdef USE_MSDOS_MEMMGR
-  /* For the MS-DOS manager (jmemdos.c), we need: */
-  handle_union handle;          /* reference to backing-store storage object */
-  char temp_name[TEMP_NAME_LENGTH]; /* name if it's a file */
-#else
-#ifdef USE_MAC_MEMMGR
-  /* For the Mac manager (jmemmac.c), we need: */
-  short temp_file;              /* file reference number to temp file */
-  FSSpec tempSpec;              /* the FSSpec for the temp file */
-  char temp_name[TEMP_NAME_LENGTH]; /* name if it's a file */
-#else
-  /* For a typical implementation with temp files, we need: */
-  FILE * temp_file;             /* stdio reference to temp file */
-  char temp_name[TEMP_NAME_LENGTH]; /* name of temp file */
-#endif
-#endif
-} backing_store_info;
+  /* Privbtf fiflds for systfm-dfpfndfnt bbdking-storf mbnbgfmfnt */
+#ifdff USE_MSDOS_MEMMGR
+  /* For tif MS-DOS mbnbgfr (jmfmdos.d), wf nffd: */
+  ibndlf_union ibndlf;          /* rfffrfndf to bbdking-storf storbgf objfdt */
+  dibr tfmp_nbmf[TEMP_NAME_LENGTH]; /* nbmf if it's b filf */
+#flsf
+#ifdff USE_MAC_MEMMGR
+  /* For tif Mbd mbnbgfr (jmfmmbd.d), wf nffd: */
+  siort tfmp_filf;              /* filf rfffrfndf numbfr to tfmp filf */
+  FSSpfd tfmpSpfd;              /* tif FSSpfd for tif tfmp filf */
+  dibr tfmp_nbmf[TEMP_NAME_LENGTH]; /* nbmf if it's b filf */
+#flsf
+  /* For b typidbl implfmfntbtion witi tfmp filfs, wf nffd: */
+  FILE * tfmp_filf;             /* stdio rfffrfndf to tfmp filf */
+  dibr tfmp_nbmf[TEMP_NAME_LENGTH]; /* nbmf of tfmp filf */
+#fndif
+#fndif
+} bbdking_storf_info;
 
 
 /*
- * Initial opening of a backing-store object.  This must fill in the
- * read/write/close pointers in the object.  The read/write routines
- * may take an error exit if the specified maximum file size is exceeded.
- * (If jpeg_mem_available always returns a large value, this routine can
- * just take an error exit.)
+ * Initibl opfning of b bbdking-storf objfdt.  Tiis must fill in tif
+ * rfbd/writf/dlosf pointfrs in tif objfdt.  Tif rfbd/writf routinfs
+ * mby tbkf bn frror fxit if tif spfdififd mbximum filf sizf is fxdffdfd.
+ * (If jpfg_mfm_bvbilbblf blwbys rfturns b lbrgf vbluf, tiis routinf dbn
+ * just tbkf bn frror fxit.)
  */
 
-EXTERN(void) jpeg_open_backing_store JPP((j_common_ptr cinfo,
-                                          backing_store_ptr info,
-                                          long total_bytes_needed));
+EXTERN(void) jpfg_opfn_bbdking_storf JPP((j_dommon_ptr dinfo,
+                                          bbdking_storf_ptr info,
+                                          long totbl_bytfs_nffdfd));
 
 
 /*
- * These routines take care of any system-dependent initialization and
- * cleanup required.  jpeg_mem_init will be called before anything is
- * allocated (and, therefore, nothing in cinfo is of use except the error
- * manager pointer).  It should return a suitable default value for
- * max_memory_to_use; this may subsequently be overridden by the surrounding
- * application.  (Note that max_memory_to_use is only important if
- * jpeg_mem_available chooses to consult it ... no one else will.)
- * jpeg_mem_term may assume that all requested memory has been freed and that
- * all opened backing-store objects have been closed.
+ * Tifsf routinfs tbkf dbrf of bny systfm-dfpfndfnt initiblizbtion bnd
+ * dlfbnup rfquirfd.  jpfg_mfm_init will bf dbllfd bfforf bnytiing is
+ * bllodbtfd (bnd, tifrfforf, notiing in dinfo is of usf fxdfpt tif frror
+ * mbnbgfr pointfr).  It siould rfturn b suitbblf dffbult vbluf for
+ * mbx_mfmory_to_usf; tiis mby subsfqufntly bf ovfrriddfn by tif surrounding
+ * bpplidbtion.  (Notf tibt mbx_mfmory_to_usf is only importbnt if
+ * jpfg_mfm_bvbilbblf dioosfs to donsult it ... no onf flsf will.)
+ * jpfg_mfm_tfrm mby bssumf tibt bll rfqufstfd mfmory ibs bffn frffd bnd tibt
+ * bll opfnfd bbdking-storf objfdts ibvf bffn dlosfd.
  */
 
-EXTERN(size_t) jpeg_mem_init JPP((j_common_ptr cinfo));
-EXTERN(void) jpeg_mem_term JPP((j_common_ptr cinfo));
+EXTERN(sizf_t) jpfg_mfm_init JPP((j_dommon_ptr dinfo));
+EXTERN(void) jpfg_mfm_tfrm JPP((j_dommon_ptr dinfo));

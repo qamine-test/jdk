@@ -1,0 +1,1506 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.TfxtArfbPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.DodumfntListfnfr;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.JTfxtArfb;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JSdrollBbr;
+import jbvbx.swing.plbf.ComponfntUI;
+import dom.sun.jbvb.swing.plbf.motif.MotifTfxtArfbUI;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.EmptyBordfr;
+import jbvbx.swing.bordfr.CompoundBordfr;
+import jbvbx.swing.bordfr.AbstrbdtBordfr;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JVifwport;
+import jbvbx.swing.InputMbp;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.TrbnsffrHbndlfr;
+import jbvbx.swing.plbf.bbsid.BbsidArrowButton;
+import jbvbx.swing.plbf.bbsid.BbsidSdrollBbrUI;
+import jbvbx.swing.plbf.bbsid.BbsidSdrollPbnfUI;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvbx.swing.tfxt.Cbrft;
+import jbvbx.swing.tfxt.DffbultCbrft;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+
+import jbvbx.swing.plbf.BordfrUIRfsourdf;
+import jbvb.bwt.im.InputMfthodRfqufsts;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
+
+finbl dlbss XTfxtArfbPffr fxtfnds XComponfntPffr implfmfnts TfxtArfbPffr {
+
+    privbtf finbl AWTTfxtPbnf tfxtPbnf;
+    privbtf finbl AWTTfxtArfb jtfxt;
+    privbtf finbl boolfbn firstChbngfSkippfd;
+
+    privbtf finbl JbvbMousfEvfntHbndlfr jbvbMousfEvfntHbndlfr =
+            nfw JbvbMousfEvfntHbndlfr(this);
+
+    /**
+     * Crfbtf b Tfxt brfb.
+     */
+    XTfxtArfbPffr(TfxtArfb tbrgft) {
+        supfr(tbrgft);
+
+        // somf initiblizbtions rfquirf thbt tbrgft bf sft fvfn
+        // though init(tbrgft) hbs not bffn dbllfd
+        this.tbrgft = tbrgft;
+
+        //ComponfntAddfssor.fnbblfEvfnts(tbrgft,AWTEvfnt.MOUSE_WHEEL_EVENT_MASK);
+
+        String tfxt = tbrgft.gftTfxt();
+        jtfxt = nfw AWTTfxtArfb(tfxt, this);
+        jtfxt.sftWrbpStylfWord(truf);
+        jtfxt.gftDodumfnt().bddDodumfntListfnfr(jtfxt);
+        XToolkit.spfdiblPffrMbp.put(jtfxt,this);
+        tfxtPbnf = nfw AWTTfxtPbnf(jtfxt,this, tbrgft.gftPbrfnt());
+
+        sftBounds(x, y, width, hfight, SET_BOUNDS);
+        tfxtPbnf.sftVisiblf(truf);
+        tfxtPbnf.vblidbtf();
+
+        AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
+        forfground = dompAddfssor.gftForfground(tbrgft);
+        if (forfground == null)  {
+            forfground = SystfmColor.tfxtTfxt;
+        }
+        sftForfground(forfground);
+
+        bbdkground = dompAddfssor.gftBbdkground(tbrgft);
+        if (bbdkground == null) {
+            if (tbrgft.isEditbblf()) bbdkground = SystfmColor.tfxt;
+            flsf bbdkground = SystfmColor.dontrol;
+        }
+        sftBbdkground(bbdkground);
+
+        if (!tbrgft.isBbdkgroundSft()) {
+            // This is b wby to sft thf bbdkground dolor of thf TfxtArfb
+            // without dblling sftBbdkground - go through bddfssor
+            dompAddfssor.sftBbdkground(tbrgft, bbdkground);
+        }
+        if (!tbrgft.isForfgroundSft()) {
+            tbrgft.sftForfground(SystfmColor.tfxtTfxt);
+        }
+
+        sftFont(font);
+
+        // sft thf tfxt of this objfdt to thf tfxt of its tbrgft
+        sftTfxtImpl(tbrgft.gftTfxt());  //?? should this bf sftTfxt
+
+        int stbrt = tbrgft.gftSflfdtionStbrt();
+        int fnd = tbrgft.gftSflfdtionEnd();
+        // Fix for 5100200
+        // Rfstoring Motif bfhbviour
+        // Sindf thf fnd position of thf sflfdtfd tfxt dbn bf grfbtfr thfn thf lfngth of thf tfxt,
+        // so wf should sft dbrft to mbx position of thf tfxt
+        sftCbrftPosition(Mbth.min(fnd, tfxt.lfngth()));
+        if (fnd > stbrt) {
+            // Should bf dbllfd bftfr sftTfxt() bnd sftCbrftPosition()
+            sflfdt(stbrt, fnd);
+        }
+        sftEditbblf(tbrgft.isEditbblf());
+        sftSdrollBbrVisibility();
+        // Aftfr this linf wf should not dhbngf thf domponfnt's tfxt
+        firstChbngfSkippfd = truf;
+    }
+
+    @Ovfrridf
+    publid void disposf() {
+        XToolkit.spfdiblPffrMbp.rfmovf(jtfxt);
+        // visiblf dbrft hbs b timfr thrfbd whidh must bf stoppfd
+        jtfxt.gftCbrft().sftVisiblf(fblsf);
+        jtfxt.rfmovfNotify();
+        tfxtPbnf.rfmovfNotify();
+        supfr.disposf();
+    }
+
+    /*
+     * Thf mfthod ovfrridfs onf from XComponfntPffr
+     * If ignorfSubComponfnts=={@dodf truf} it dblls supfr.
+     * If ignorfSubComponfnts=={@dodf fblsf} it usfs thf XTfxtArfb mbdhinfry
+     * to dhbngf dursor bppropribtfly. In pbrtidulbr it dhbngfs thf dursor to
+     * dffbult if ovfr sdrollbbrs.
+     */
+    @Ovfrridf
+    publid void pSftCursor(Cursor dursor, boolfbn ignorfSubComponfnts) {
+        if (ignorfSubComponfnts ||
+            jbvbMousfEvfntHbndlfr == null) {
+            supfr.pSftCursor(dursor, truf);
+            rfturn;
+        }
+
+        Point dursorPos = nfw Point();
+        ((XGlobblCursorMbnbgfr)XGlobblCursorMbnbgfr.gftCursorMbnbgfr()).gftCursorPos(dursorPos);
+
+        finbl Point onSdrffn = gftLodbtionOnSdrffn();
+        Point lodblPoint = nfw Point(dursorPos.x - onSdrffn.x, dursorPos.y - onSdrffn.y );
+
+        jbvbMousfEvfntHbndlfr.sftPointfrToUndfrPoint(lodblPoint);
+        jbvbMousfEvfntHbndlfr.sftCursor();
+    }
+
+    privbtf void sftSdrollBbrVisibility() {
+        int visibility = ((TfxtArfb)tbrgft).gftSdrollbbrVisibility();
+        jtfxt.sftLinfWrbp(fblsf);
+
+        if (visibility == TfxtArfb.SCROLLBARS_NONE) {
+            tfxtPbnf.sftHorizontblSdrollBbrPolidy(JSdrollPbnf.HORIZONTAL_SCROLLBAR_NEVER);
+            tfxtPbnf.sftVfrtidblSdrollBbrPolidy(JSdrollPbnf.VERTICAL_SCROLLBAR_NEVER);
+            jtfxt.sftLinfWrbp(truf);
+        }
+        flsf if (visibility == TfxtArfb.SCROLLBARS_BOTH) {
+
+            tfxtPbnf.sftHorizontblSdrollBbrPolidy(JSdrollPbnf.HORIZONTAL_SCROLLBAR_ALWAYS);
+            tfxtPbnf.sftVfrtidblSdrollBbrPolidy(JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS);
+        }
+        flsf if (visibility == TfxtArfb.SCROLLBARS_VERTICAL_ONLY) {
+            tfxtPbnf.sftHorizontblSdrollBbrPolidy(JSdrollPbnf.HORIZONTAL_SCROLLBAR_NEVER);
+            tfxtPbnf.sftVfrtidblSdrollBbrPolidy(JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS);
+            jtfxt.sftLinfWrbp(truf);
+        }
+        flsf if (visibility == TfxtArfb.SCROLLBARS_HORIZONTAL_ONLY) {
+            tfxtPbnf.sftVfrtidblSdrollBbrPolidy(JSdrollPbnf.VERTICAL_SCROLLBAR_NEVER);
+            tfxtPbnf.sftHorizontblSdrollBbrPolidy(JSdrollPbnf.HORIZONTAL_SCROLLBAR_ALWAYS);
+        }
+    }
+
+    /**
+     * Computf minimum sizf.
+     */
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn gftMinimumSizf(10, 60);
+    }
+
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(int rows, int dols) {
+        rfturn gftMinimumSizf(rows, dols);
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtArfbPffr
+     */
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf(int rows, int dols) {
+        /*    Dimfnsion d = null;
+              if (jtfxt != null) {
+              d = jtfxt.gftMinimumSizf(rows,dols);
+              }
+              rfturn d;
+        */
+
+        int vsbwidth=0;
+        int hsbhfight=0;
+
+        JSdrollBbr vsb = tfxtPbnf.gftVfrtidblSdrollBbr();
+        if (vsb != null) {
+            vsbwidth = vsb.gftMinimumSizf().width;
+        }
+
+        JSdrollBbr hsb = tfxtPbnf.gftHorizontblSdrollBbr();
+        if (hsb != null) {
+            hsbhfight = hsb.gftMinimumSizf().hfight;
+        }
+
+        Font f = jtfxt.gftFont();
+        FontMftrids fm = jtfxt.gftFontMftrids(f);
+
+        rfturn nfw Dimfnsion(fm.dhbrWidth('0') * dols + /*2*XMARGIN +*/ vsbwidth,
+                             fm.gftHfight() * rows + /*2*YMARGIN +*/ hsbhfight);
+    }
+
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid void sftVisiblf(boolfbn b) {
+        supfr.sftVisiblf(b);
+        if (tfxtPbnf != null)
+            tfxtPbnf.sftVisiblf(b);
+    }
+
+    void rfpbintTfxt() {
+        jtfxt.rfpbintNow();
+    }
+
+    @Ovfrridf
+    publid void fodusGbinfd(FodusEvfnt f) {
+        supfr.fodusGbinfd(f);
+        jtfxt.forwbrdFodusGbinfd(f);
+    }
+
+    @Ovfrridf
+    publid void fodusLost(FodusEvfnt f) {
+        supfr.fodusLost(f);
+        jtfxt.forwbrdFodusLost(f);
+    }
+
+    /**
+     * Pbint thf domponfnt
+     * this mfthod is dbllfd whfn thf rfpbint instrudtion hbs bffn usfd
+     */
+    @Ovfrridf
+    publid void rfpbint() {
+        if (tfxtPbnf  != null)  {
+            //tfxtPbnf.vblidbtf();
+            tfxtPbnf.rfpbint();
+        }
+    }
+
+    @Ovfrridf
+    void pbintPffr(finbl Grbphids g) {
+        if (tfxtPbnf  != null)  {
+            tfxtPbnf.pbint(g);
+        }
+    }
+
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int width, int hfight, int op) {
+        supfr.sftBounds(x, y, width, hfight, op);
+        if (tfxtPbnf != null) {
+            /*
+             * Fixfd 6277332, 6198290:
+             * thf doordinbtfs is doming (to pffr): rflbtivfly to dlosfst HW pbrfnt
+             * thf doordinbtfs is sftting (to tfxtPbnf): rflbtivfly to dlosfst ANY pbrfnt
+             * thf pbrfnt of pffr is tbrgft.gftPbrfnt()
+             * thf pbrfnt of tfxtPbnf is thf sbmf
+             * sff 6277332, 6198290 for morf informbtion
+             */
+            int dhildX = x;
+            int dhildY = y;
+            Componfnt pbrfnt = tbrgft.gftPbrfnt();
+            // wf up to hfbvywfight pbrfnt in ordfr to bf surf
+            // thbt thf doordinbtfs of thf tfxt pbnf is rflbtivfly to dlosfst pbrfnt
+            whilf (pbrfnt.isLightwfight()){
+                dhildX -= pbrfnt.gftX();
+                dhildY -= pbrfnt.gftY();
+                pbrfnt = pbrfnt.gftPbrfnt();
+            }
+            tfxtPbnf.sftBounds(dhildX,dhildY,width,hfight);
+            tfxtPbnf.vblidbtf();
+        }
+    }
+
+    @Ovfrridf
+    void hbndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt(jtfxt,f);
+    }
+
+    @Ovfrridf
+    publid boolfbn hbndlfsWhfflSdrolling() { rfturn truf; }
+
+    @Ovfrridf
+    void hbndlfJbvbMousfWhfflEvfnt(MousfWhfflEvfnt f) {
+        AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt(tfxtPbnf, f);
+    }
+
+    @Ovfrridf
+    publid void hbndlfJbvbMousfEvfnt( MousfEvfnt f ) {
+        supfr.hbndlfJbvbMousfEvfnt( f );
+        jbvbMousfEvfntHbndlfr.hbndlf( f );
+    }
+
+    @Ovfrridf
+    void hbndlfJbvbInputMfthodEvfnt(InputMfthodEvfnt f) {
+        if (jtfxt != null)
+            jtfxt.prodfssInputMfthodEvfntPublid(f);
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid void sflfdt(int s, int f) {
+        jtfxt.sflfdt(s, f);
+        // Fixfd 5100806
+        // Wf must tbkf dbrf thbt Swing domponfnts rfpbintfd dorrfdtly
+        jtfxt.rfpbint();
+    }
+
+    @Ovfrridf
+    publid void sftBbdkground(Color d) {
+        supfr.sftBbdkground(d);
+//          syndhronizfd (gftStbtfLodk()) {
+//              bbdkground = d;
+//          }
+        if (jtfxt != null) {
+            jtfxt.sftBbdkground(d);
+            jtfxt.sftSflfdtfdTfxtColor(d);
+        }
+//          rfpbintTfxt();
+    }
+
+    @Ovfrridf
+    publid void sftForfground(Color d) {
+        supfr.sftForfground(d);
+//          syndhronizfd (gftStbtfLodk()) {
+//              forfground = d;
+//          }
+        if (jtfxt != null) {
+            jtfxt.sftForfground(forfground);
+            jtfxt.sftSflfdtionColor(forfground);
+            jtfxt.sftCbrftColor(forfground);
+        }
+//          rfpbintTfxt();
+    }
+
+    @Ovfrridf
+    publid void sftFont(Font f) {
+        supfr.sftFont(f);
+//          syndhronizfd (gftStbtfLodk()) {
+//              font = f;
+//          }
+        if (jtfxt != null) {
+            jtfxt.sftFont(font);
+        }
+        tfxtPbnf.vblidbtf();
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid void sftEditbblf(boolfbn fditbblf) {
+        if (jtfxt != null) jtfxt.sftEditbblf(fditbblf);
+        rfpbintTfxt();
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.ComponfntPffr
+     */
+    @Ovfrridf
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        supfr.sftEnbblfd(fnbblfd);
+        if (jtfxt != null) {
+            jtfxt.sftEnbblfd(fnbblfd);
+            jtfxt.rfpbint();
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid InputMfthodRfqufsts gftInputMfthodRfqufsts() {
+        if (jtfxt != null) rfturn jtfxt.gftInputMfthodRfqufsts();
+        flsf  rfturn null;
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid int gftSflfdtionStbrt() {
+        rfturn jtfxt.gftSflfdtionStbrt();
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid int gftSflfdtionEnd() {
+        rfturn jtfxt.gftSflfdtionEnd();
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid String gftTfxt() {
+        rfturn jtfxt.gftTfxt();
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid void sftTfxt(String tfxt) {
+        sftTfxtImpl(tfxt);
+        rfpbintTfxt();
+    }
+
+    privbtf void sftTfxtImpl(String txt) {
+        if (jtfxt != null) {
+            // JTfxtArfb.sftTfxt() posts two difffrfnt fvfnts (rfmovf & insfrt).
+            // Sindf wf mbkf no difffrfndfs bftwffn tfxt fvfnts,
+            // thf dodumfnt listfnfr hbs to bf disbblfd whilf
+            // JTfxtArfb.sftTfxt() is dbllfd.
+            jtfxt.gftDodumfnt().rfmovfDodumfntListfnfr(jtfxt);
+            jtfxt.sftTfxt(txt);
+            if (firstChbngfSkippfd) {
+                postEvfnt(nfw TfxtEvfnt(tbrgft, TfxtEvfnt.TEXT_VALUE_CHANGED));
+            }
+            jtfxt.gftDodumfnt().bddDodumfntListfnfr(jtfxt);
+        }
+    }
+
+    /**
+     * insfrt thf tfxt "txt on position "pos" in thf brrby linfs
+     * @sff jbvb.bwt.pffr.TfxtArfbPffr
+     */
+    @Ovfrridf
+    publid void insfrt(String txt, int p) {
+        if (jtfxt != null) {
+            boolfbn doSdroll = (p >= jtfxt.gftDodumfnt().gftLfngth() && jtfxt.gftDodumfnt().gftLfngth() != 0);
+            jtfxt.insfrt(txt,p);
+            tfxtPbnf.vblidbtf();
+            if (doSdroll) {
+                JSdrollBbr bbr = tfxtPbnf.gftVfrtidblSdrollBbr();
+                if (bbr != null) {
+                    bbr.sftVbluf(bbr.gftMbximum()-bbr.gftVisiblfAmount());
+                }
+            }
+        }
+    }
+
+    /**
+     * rfplbdf thf tfxt bftwffn thf position "s" bnd "f" with "txt"
+     * @sff jbvb.bwt.pffr.TfxtArfbPffr
+     */
+    @Ovfrridf
+    publid void rfplbdfRbngf(String txt, int s, int f) {
+        if (jtfxt != null) {
+            // JTfxtArfb.rfplbdfRbngf() posts two difffrfnt fvfnts.
+            // Sindf wf mbkf no difffrfndfs bftwffn tfxt fvfnts,
+            // thf dodumfnt listfnfr hbs to bf disbblfd whilf
+            // JTfxtArfb.rfplbdfRbngf() is dbllfd.
+            jtfxt.gftDodumfnt().rfmovfDodumfntListfnfr(jtfxt);
+            jtfxt.rfplbdfRbngf(txt, s, f);
+            postEvfnt(nfw TfxtEvfnt(tbrgft, TfxtEvfnt.TEXT_VALUE_CHANGED));
+            jtfxt.gftDodumfnt().bddDodumfntListfnfr(jtfxt);
+        }
+    }
+
+    /**
+     * to bf implfmfntfd.
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid void sftCbrftPosition(int position) {
+        jtfxt.sftCbrftPosition(position);
+    }
+
+    /**
+     * to bf implfmfntfd.
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid int gftCbrftPosition() {
+        rfturn jtfxt.gftCbrftPosition();
+    }
+
+    finbl dlbss AWTTfxtArfbUI fxtfnds MotifTfxtArfbUI {
+
+        privbtf JTfxtArfb jtb;
+
+        @Ovfrridf
+        protfdtfd String gftPropfrtyPrffix() { rfturn "TfxtArfb"; }
+
+        @Ovfrridf
+        publid void instbllUI(JComponfnt d) {
+            supfr.instbllUI(d);
+
+            jtb = (JTfxtArfb) d;
+
+            JTfxtArfb fditor = jtb;
+
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
+
+            String prffix = gftPropfrtyPrffix();
+            Font f = fditor.gftFont();
+            if ((f == null) || (f instbndfof UIRfsourdf)) {
+                fditor.sftFont(uidffbults.gftFont(prffix + ".font"));
+            }
+
+            Color bg = fditor.gftBbdkground();
+            if ((bg == null) || (bg instbndfof UIRfsourdf)) {
+                fditor.sftBbdkground(uidffbults.gftColor(prffix + ".bbdkground"));
+            }
+
+            Color fg = fditor.gftForfground();
+            if ((fg == null) || (fg instbndfof UIRfsourdf)) {
+                fditor.sftForfground(uidffbults.gftColor(prffix + ".forfground"));
+            }
+
+            Color dolor = fditor.gftCbrftColor();
+            if ((dolor == null) || (dolor instbndfof UIRfsourdf)) {
+                fditor.sftCbrftColor(uidffbults.gftColor(prffix + ".dbrftForfground"));
+            }
+
+            Color s = fditor.gftSflfdtionColor();
+            if ((s == null) || (s instbndfof UIRfsourdf)) {
+                fditor.sftSflfdtionColor(uidffbults.gftColor(prffix + ".sflfdtionBbdkground"));
+            }
+
+            Color sfg = fditor.gftSflfdtfdTfxtColor();
+            if ((sfg == null) || (sfg instbndfof UIRfsourdf)) {
+                fditor.sftSflfdtfdTfxtColor(uidffbults.gftColor(prffix + ".sflfdtionForfground"));
+            }
+
+            Color dfg = fditor.gftDisbblfdTfxtColor();
+            if ((dfg == null) || (dfg instbndfof UIRfsourdf)) {
+                fditor.sftDisbblfdTfxtColor(uidffbults.gftColor(prffix + ".inbdtivfForfground"));
+            }
+
+            Bordfr b = nfw BfvflBordfr(fblsf,SystfmColor.dontrolDkShbdow,SystfmColor.dontrolLtHighlight);
+            fditor.sftBordfr(nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                b,nfw EmptyBordfr(2, 2, 2, 2)));
+
+            Insfts mbrgin = fditor.gftMbrgin();
+            if (mbrgin == null || mbrgin instbndfof UIRfsourdf) {
+                fditor.sftMbrgin(uidffbults.gftInsfts(prffix + ".mbrgin"));
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd void instbllKfybobrdAdtions() {
+            supfr.instbllKfybobrdAdtions();
+
+            JTfxtComponfnt domp = gftComponfnt();
+
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
+
+            String prffix = gftPropfrtyPrffix();
+
+            InputMbp mbp = (InputMbp)uidffbults.gft(prffix + ".fodusInputMbp");
+
+            if (mbp != null) {
+                SwingUtilitifs.rfplbdfUIInputMbp(domp, JComponfnt.WHEN_FOCUSED,
+                                                 mbp);
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd Cbrft drfbtfCbrft() {
+            rfturn nfw XAWTCbrft();
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid finbl dlbss XAWTCbrft fxtfnds DffbultCbrft {
+        @Ovfrridf
+        publid void fodusGbinfd(FodusEvfnt f) {
+            supfr.fodusGbinfd(f);
+            if (gftComponfnt().isEnbblfd()){
+                // Mbkf surf thf dursor is visiblf in dbsf of non-fditbblf TfxtArfb
+                supfr.sftVisiblf(truf);
+            }
+            gftComponfnt().rfpbint();
+        }
+
+        @Ovfrridf
+        publid void fodusLost(FodusEvfnt f) {
+            supfr.fodusLost(f);
+            gftComponfnt().rfpbint();
+        }
+
+        // Fix for 5100950: tfxtbrfb.gftSflfdtfdTfxt() rfturns thf df-sflfdtfd tfxt, on XToolkit
+        // Rfstoring Motif bfhbviour
+        // If thf tfxt is unhighlightfd thfn wf should sfts thf sflfdtion rbngf to zfro
+        @Ovfrridf
+        publid void sftSflfdtionVisiblf(boolfbn vis) {
+            if (vis){
+                supfr.sftSflfdtionVisiblf(vis);
+            }flsf{
+                // In ordfr to df-sflfdt thf sflfdtion
+                sftDot(gftDot());
+            }
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    finbl dlbss XAWTSdrollBbrButton fxtfnds BbsidArrowButton {
+
+        privbtf UIDffbults uidffbults = XToolkit.gftUIDffbults();
+        privbtf Color dbrkShbdow = SystfmColor.dontrolShbdow;
+        privbtf Color lightShbdow = SystfmColor.dontrolLtHighlight;
+        privbtf Color buttonBbdk = uidffbults.gftColor("SdrollBbr.trbdk");
+
+        XAWTSdrollBbrButton(int dirfdtion) {
+            supfr(dirfdtion);
+
+            switdh (dirfdtion) {
+            dbsf NORTH:
+            dbsf SOUTH:
+            dbsf EAST:
+            dbsf WEST:
+                this.dirfdtion = dirfdtion;
+                brfbk;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("invblid dirfdtion");
+            }
+
+            sftRfqufstFodusEnbblfd(fblsf);
+            sftOpbquf(truf);
+            sftBbdkground(uidffbults.gftColor("SdrollBbr.thumb"));
+            sftForfground(uidffbults.gftColor("SdrollBbr.forfground"));
+        }
+
+        @Ovfrridf
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            switdh (dirfdtion) {
+            dbsf NORTH:
+            dbsf SOUTH:
+                rfturn nfw Dimfnsion(11, 12);
+            dbsf EAST:
+            dbsf WEST:
+            dffbult:
+                rfturn nfw Dimfnsion(12, 11);
+            }
+        }
+
+        @Ovfrridf
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn gftPrfffrrfdSizf();
+        }
+
+        @Ovfrridf
+        publid Dimfnsion gftMbximumSizf() {
+            rfturn gftPrfffrrfdSizf();
+        }
+
+        @Ovfrridf
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid void pbint(Grbphids g)
+        {
+            int w = gftWidth();
+            int h = gftHfight();
+
+            if (isOpbquf()) {
+                g.sftColor(buttonBbdk);
+                g.fillRfdt(0, 0, w, h);
+            }
+
+            boolfbn isPrfssfd = gftModfl().isPrfssfd();
+            Color lfbd = (isPrfssfd) ? dbrkShbdow : lightShbdow;
+            Color trbil = (isPrfssfd) ? lightShbdow : dbrkShbdow;
+            Color fill = gftBbdkground();
+
+            int dx = w / 2;
+            int dy = h / 2;
+            int s = Mbth.min(w, h);
+
+            switdh (dirfdtion) {
+            dbsf NORTH:
+                g.sftColor(lfbd);
+                g.drbwLinf(dx, 0, dx, 0);
+                for (int x = dx - 1, y = 1, dx = 1; y <= s - 2; y += 2) {
+                    g.sftColor(lfbd);
+                    g.drbwLinf(x, y, x, y);
+                    if (y >= (s - 2)) {
+                        g.drbwLinf(x, y + 1, x, y + 1);
+                    }
+                    g.sftColor(fill);
+                    g.drbwLinf(x + 1, y, x + dx, y);
+                    if (y < (s - 2)) {
+                        g.drbwLinf(x, y + 1, x + dx + 1, y + 1);
+                    }
+                    g.sftColor(trbil);
+                    g.drbwLinf(x + dx + 1, y, x + dx + 1, y);
+                    if (y >= (s - 2)) {
+                        g.drbwLinf(x + 1, y + 1, x + dx + 1, y + 1);
+                    }
+                    dx += 2;
+                    x -= 1;
+                }
+                brfbk;
+
+            dbsf SOUTH:
+                g.sftColor(trbil);
+                g.drbwLinf(dx, s, dx, s);
+                for (int x = dx - 1, y = s - 1, dx = 1; y >= 1; y -= 2) {
+                    g.sftColor(lfbd);
+                    g.drbwLinf(x, y, x, y);
+                    if (y <= 2) {
+                        g.drbwLinf(x, y - 1, x + dx + 1, y - 1);
+                    }
+                    g.sftColor(fill);
+                    g.drbwLinf(x + 1, y, x + dx, y);
+                    if (y > 2) {
+                        g.drbwLinf(x, y - 1, x + dx + 1, y - 1);
+                    }
+                    g.sftColor(trbil);
+                    g.drbwLinf(x + dx + 1, y, x + dx + 1, y);
+
+                    dx += 2;
+                    x -= 1;
+                }
+                brfbk;
+
+            dbsf EAST:
+                g.sftColor(lfbd);
+                g.drbwLinf(s, dy, s, dy);
+                for (int y = dy - 1, x = s - 1, dy = 1; x >= 1; x -= 2) {
+                    g.sftColor(lfbd);
+                    g.drbwLinf(x, y, x, y);
+                    if (x <= 2) {
+                        g.drbwLinf(x - 1, y, x - 1, y + dy + 1);
+                    }
+                    g.sftColor(fill);
+                    g.drbwLinf(x, y + 1, x, y + dy);
+                    if (x > 2) {
+                        g.drbwLinf(x - 1, y, x - 1, y + dy + 1);
+                    }
+                    g.sftColor(trbil);
+                    g.drbwLinf(x, y + dy + 1, x, y + dy + 1);
+
+                    dy += 2;
+                    y -= 1;
+                }
+                brfbk;
+
+            dbsf WEST:
+                g.sftColor(trbil);
+                g.drbwLinf(0, dy, 0, dy);
+                for (int y = dy - 1, x = 1, dy = 1; x <= s - 2; x += 2) {
+                    g.sftColor(lfbd);
+                    g.drbwLinf(x, y, x, y);
+                    if (x >= (s - 2)) {
+                        g.drbwLinf(x + 1, y, x + 1, y);
+                    }
+                    g.sftColor(fill);
+                    g.drbwLinf(x, y + 1, x, y + dy);
+                    if (x < (s - 2)) {
+                        g.drbwLinf(x + 1, y, x + 1, y + dy + 1);
+                    }
+                    g.sftColor(trbil);
+                    g.drbwLinf(x, y + dy + 1, x, y + dy + 1);
+                    if (x >= (s - 2)) {
+                        g.drbwLinf(x + 1, y + 1, x + 1, y + dy + 1);
+                    }
+                    dy += 2;
+                    y -= 1;
+                }
+                brfbk;
+            }
+        }
+    }
+
+    finbl dlbss XAWTSdrollBbrUI fxtfnds BbsidSdrollBbrUI {
+
+        @Ovfrridf
+        protfdtfd void instbllDffbults()
+        {
+            supfr.instbllDffbults();
+            sdrollbbr.sftBordfr(nfw BfvflBordfr(fblsf,SystfmColor.dontrolDkShbdow,SystfmColor.dontrolLtHighlight) );
+        }
+
+        @Ovfrridf
+        protfdtfd void donfigurfSdrollBbrColors() {
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
+            Color bg = sdrollbbr.gftBbdkground();
+            if (bg == null || bg instbndfof UIRfsourdf) {
+                sdrollbbr.sftBbdkground(uidffbults.gftColor("SdrollBbr.bbdkground"));
+            }
+
+            Color fg = sdrollbbr.gftForfground();
+            if (fg == null || fg instbndfof UIRfsourdf) {
+                sdrollbbr.sftForfground(uidffbults.gftColor("SdrollBbr.forfground"));
+            }
+
+            thumbHighlightColor = uidffbults.gftColor("SdrollBbr.thumbHighlight");
+            thumbLightShbdowColor = uidffbults.gftColor("SdrollBbr.thumbShbdow");
+            thumbDbrkShbdowColor = uidffbults.gftColor("SdrollBbr.thumbDbrkShbdow");
+            thumbColor = uidffbults.gftColor("SdrollBbr.thumb");
+            trbdkColor = uidffbults.gftColor("SdrollBbr.trbdk");
+
+            trbdkHighlightColor = uidffbults.gftColor("SdrollBbr.trbdkHighlight");
+
+        }
+
+        @Ovfrridf
+        protfdtfd JButton drfbtfDfdrfbsfButton(int orifntbtion) {
+            JButton b = nfw XAWTSdrollBbrButton(orifntbtion);
+            rfturn b;
+
+        }
+
+        @Ovfrridf
+        protfdtfd JButton drfbtfIndrfbsfButton(int orifntbtion) {
+            JButton b = nfw XAWTSdrollBbrButton(orifntbtion);
+            rfturn b;
+        }
+
+        publid JButton gftDfdrfbsfButton(){
+            rfturn dfdrButton;
+        }
+
+        publid JButton gftIndrfbsfButton(){
+            rfturn indrButton;
+        }
+
+        @Ovfrridf
+        publid void pbint(Grbphids g, JComponfnt d) {
+            pbintTrbdk(g, d, gftTrbdkBounds());
+            Rfdtbnglf thumbBounds = gftThumbBounds();
+            pbintThumb(g, d, thumbBounds);
+        }
+
+        @Ovfrridf
+        publid void pbintThumb(Grbphids g, JComponfnt d, Rfdtbnglf thumbBounds)
+        {
+            if(!sdrollbbr.isEnbblfd()) {
+                rfturn;
+            }
+
+            if (thumbBounds.isEmpty())
+                thumbBounds = gftTrbdkBounds();
+
+            int w = thumbBounds.width;
+            int h = thumbBounds.hfight;
+
+            g.trbnslbtf(thumbBounds.x, thumbBounds.y);
+            g.sftColor(thumbColor);
+            g.fillRfdt(0, 0, w-1, h-1);
+
+            g.sftColor(thumbHighlightColor);
+            g.drbwLinf(0, 0, 0, h-1);
+            g.drbwLinf(1, 0, w-1, 0);
+
+            g.sftColor(thumbLightShbdowColor);
+            g.drbwLinf(1, h-1, w-1, h-1);
+            g.drbwLinf(w-1, 1, w-1, h-2);
+
+            g.trbnslbtf(-thumbBounds.x, -thumbBounds.y);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    finbl dlbss AWTTfxtArfb fxtfnds JTfxtArfb implfmfnts DodumfntListfnfr {
+
+        privbtf boolfbn isFodusfd = fblsf;
+        privbtf finbl XTfxtArfbPffr pffr;
+
+        AWTTfxtArfb(String tfxt, XTfxtArfbPffr pffr) {
+            supfr(tfxt);
+            sftFodusbblf(fblsf);
+            this.pffr = pffr;
+        }
+
+        @Ovfrridf
+        publid void insfrtUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
+            }
+        }
+
+        @Ovfrridf
+        publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
+            }
+        }
+
+        @Ovfrridf
+        publid void dhbngfdUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
+            }
+        }
+
+        void forwbrdFodusGbinfd( FodusEvfnt f) {
+            isFodusfd = truf;
+            FodusEvfnt ff = CbusfdFodusEvfnt.rftbrgft(f, this);
+            supfr.prodfssFodusEvfnt(ff);
+        }
+
+
+        void forwbrdFodusLost( FodusEvfnt f) {
+            isFodusfd = fblsf;
+            FodusEvfnt ff = CbusfdFodusEvfnt.rftbrgft(f, this);
+            supfr.prodfssFodusEvfnt(ff);
+        }
+
+        @Ovfrridf
+        publid boolfbn hbsFodus() {
+            rfturn isFodusfd;
+        }
+
+        publid void rfpbintNow() {
+            pbintImmfdibtfly(gftBounds());
+        }
+
+        publid void prodfssMousfEvfntPublid(MousfEvfnt f) {
+            prodfssMousfEvfnt(f);
+        }
+
+        publid void prodfssMousfMotionEvfntPublid(MousfEvfnt f) {
+            prodfssMousfMotionEvfnt(f);
+        }
+
+        publid void prodfssInputMfthodEvfntPublid(InputMfthodEvfnt f) {
+            prodfssInputMfthodEvfnt(f);
+        }
+
+        @Ovfrridf
+        publid void updbtfUI() {
+            ComponfntUI ui = nfw AWTTfxtArfbUI();
+            sftUI(ui);
+        }
+
+        // Fix for 4915454 - ovfrridf thf dffbult implfmfntbtion to bvoid
+        // lobding SystfmFlbvorMbp bnd bssodibtfd dlbssfs.
+        @Ovfrridf
+        publid void sftTrbnsffrHbndlfr(TrbnsffrHbndlfr nfwHbndlfr) {
+            TrbnsffrHbndlfr oldHbndlfr = (TrbnsffrHbndlfr)
+                gftClifntPropfrty(AWTAddfssor.gftClifntPropfrtyKfyAddfssor()
+                                      .gftJComponfnt_TRANSFER_HANDLER());
+            putClifntPropfrty(AWTAddfssor.gftClifntPropfrtyKfyAddfssor()
+                                  .gftJComponfnt_TRANSFER_HANDLER(),
+                              nfwHbndlfr);
+
+            firfPropfrtyChbngf("trbnsffrHbndlfr", oldHbndlfr, nfwHbndlfr);
+        }
+    }
+
+    finbl dlbss XAWTSdrollPbnfUI fxtfnds BbsidSdrollPbnfUI {
+
+        privbtf finbl Bordfr vsbMbrginBordfrR = nfw EmptyBordfr(0, 2, 0, 0);
+        privbtf finbl Bordfr vsbMbrginBordfrL = nfw EmptyBordfr(0, 0, 0, 2);
+        privbtf finbl Bordfr hsbMbrginBordfr = nfw EmptyBordfr(2, 0, 0, 0);
+
+        privbtf Bordfr vsbBordfr;
+        privbtf Bordfr hsbBordfr;
+
+        privbtf PropfrtyChbngfListfnfr propfrtyChbngfHbndlfr;
+
+        @Ovfrridf
+        protfdtfd void instbllListfnfrs(JSdrollPbnf sdrollPbnf) {
+            supfr.instbllListfnfrs(sdrollPbnf);
+            propfrtyChbngfHbndlfr = drfbtfPropfrtyChbngfHbndlfr();
+            sdrollPbnf.bddPropfrtyChbngfListfnfr(propfrtyChbngfHbndlfr);
+        }
+
+        @Ovfrridf
+        publid void pbint(Grbphids g, JComponfnt d) {
+            Bordfr vpBordfr = sdrollpbnf.gftVifwportBordfr();
+            if (vpBordfr != null) {
+                Rfdtbnglf r = sdrollpbnf.gftVifwportBordfrBounds();
+                vpBordfr.pbintBordfr(sdrollpbnf, g, r.x, r.y, r.width, r.hfight);
+            }
+        }
+
+        protfdtfd void uninstbllListfnfrs(JSdrollPbnf sdrollPbnf) {
+            supfr.uninstbllListfnfrs(sdrollPbnf);
+            sdrollPbnf.rfmovfPropfrtyChbngfListfnfr(propfrtyChbngfHbndlfr);
+        }
+
+        privbtf PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfHbndlfr() {
+            rfturn nfw PropfrtyChbngfListfnfr() {
+                    @Ovfrridf
+                    publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+                        String propfrtyNbmf = f.gftPropfrtyNbmf();
+
+                        if (propfrtyNbmf.fqubls("domponfntOrifntbtion")) {
+                            JSdrollPbnf pbnf = (JSdrollPbnf)f.gftSourdf();
+                            JSdrollBbr vsb = pbnf.gftVfrtidblSdrollBbr();
+                            if (vsb != null) {
+                                if (isLfftToRight(pbnf)) {
+                                    vsbBordfr = nfw CompoundBordfr(nfw EmptyBordfr(0, 4, 0, -4),
+                                                                   vsb.gftBordfr());
+                                } flsf {
+                                    vsbBordfr = nfw CompoundBordfr(nfw EmptyBordfr(0, -4, 0, 4),
+                                                                   vsb.gftBordfr());
+                                }
+                                vsb.sftBordfr(vsbBordfr);
+                            }
+                        }
+                    }};
+        }
+
+        boolfbn isLfftToRight( Componfnt d ) {
+            rfturn d.gftComponfntOrifntbtion().isLfftToRight();
+        }
+
+        @Ovfrridf
+        protfdtfd void instbllDffbults(JSdrollPbnf sdrollpbnf) {
+            Bordfr b = sdrollpbnf.gftBordfr();
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
+            sdrollpbnf.sftBordfr(uidffbults.gftBordfr("SdrollPbnf.bordfr"));
+            sdrollpbnf.sftBbdkground(uidffbults.gftColor("SdrollPbnf.bbdkground"));
+            sdrollpbnf.sftVifwportBordfr(uidffbults.gftBordfr("TfxtFifld.bordfr"));
+            JSdrollBbr vsb = sdrollpbnf.gftVfrtidblSdrollBbr();
+            if (vsb != null) {
+                if (isLfftToRight(sdrollpbnf)) {
+                    vsbBordfr = nfw CompoundBordfr(vsbMbrginBordfrR,
+                                                   vsb.gftBordfr());
+                }
+                flsf {
+                    vsbBordfr = nfw CompoundBordfr(vsbMbrginBordfrL,
+                                                   vsb.gftBordfr());
+                }
+                vsb.sftBordfr(vsbBordfr);
+            }
+
+            JSdrollBbr hsb = sdrollpbnf.gftHorizontblSdrollBbr();
+            if (hsb != null) {
+                hsbBordfr = nfw CompoundBordfr(hsbMbrginBordfr, hsb.gftBordfr());
+                hsb.sftBordfr(hsbBordfr);
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd void uninstbllDffbults(JSdrollPbnf d) {
+            supfr.uninstbllDffbults(d);
+
+            JSdrollBbr vsb = sdrollpbnf.gftVfrtidblSdrollBbr();
+            if (vsb != null) {
+                if (vsb.gftBordfr() == vsbBordfr) {
+                    vsb.sftBordfr(null);
+                }
+                vsbBordfr = null;
+            }
+
+            JSdrollBbr hsb = sdrollpbnf.gftHorizontblSdrollBbr();
+            if (hsb != null) {
+                if (hsb.gftBordfr() == hsbBordfr) {
+                    hsb.sftBordfr(null);
+                }
+                hsbBordfr = null;
+            }
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss AWTTfxtPbnf fxtfnds JSdrollPbnf implfmfnts FodusListfnfr {
+
+        privbtf finbl JTfxtArfb jtfxt;
+        privbtf finbl XWindow xwin;
+
+        privbtf finbl Color dontrol = SystfmColor.dontrol;
+        privbtf finbl Color fodus = SystfmColor.bdtivfCbptionBordfr;
+
+        AWTTfxtPbnf(JTfxtArfb jt, XWindow xwin, Contbinfr pbrfnt) {
+            supfr(jt);
+            this.xwin = xwin;
+            sftDoublfBufffrfd(truf);
+            jt.bddFodusListfnfr(this);
+            AWTAddfssor.gftComponfntAddfssor().sftPbrfnt(this,pbrfnt);
+            sftVifwportBordfr(nfw BfvflBordfr(fblsf,SystfmColor.dontrolDkShbdow,SystfmColor.dontrolLtHighlight) );
+            this.jtfxt = jt;
+            sftFodusbblf(fblsf);
+            bddNotify();
+        }
+
+        @Ovfrridf
+        publid void invblidbtf() {
+            syndhronizfd (gftTrffLodk()) {
+                finbl Contbinfr pbrfnt = gftPbrfnt();
+                AWTAddfssor.gftComponfntAddfssor().sftPbrfnt(this, null);
+                try {
+                    supfr.invblidbtf();
+                } finblly {
+                    AWTAddfssor.gftComponfntAddfssor().sftPbrfnt(this, pbrfnt);
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid void fodusGbinfd(FodusEvfnt f) {
+            Grbphids g = gftGrbphids();
+            Rfdtbnglf r = gftVifwportBordfrBounds();
+            g.sftColor(fodus);
+            g.drbwRfdt(r.x,r.y,r.width,r.hfight);
+            g.disposf();
+        }
+
+        @Ovfrridf
+        publid void fodusLost(FodusEvfnt f) {
+            Grbphids g = gftGrbphids();
+            Rfdtbnglf r = gftVifwportBordfrBounds();
+            g.sftColor(dontrol);
+            g.drbwRfdt(r.x,r.y,r.width,r.hfight);
+            g.disposf();
+        }
+
+        publid Window gftRfblPbrfnt() {
+            rfturn (Window) xwin.tbrgft;
+        }
+
+        @Ovfrridf
+        publid ComponfntPffr gftPffr() {
+            rfturn (ComponfntPffr) (xwin);
+        }
+
+        @Ovfrridf
+        publid void updbtfUI() {
+            ComponfntUI ui = nfw XAWTSdrollPbnfUI();
+            sftUI(ui);
+        }
+
+        @Ovfrridf
+        publid JSdrollBbr drfbtfVfrtidblSdrollBbr() {
+            rfturn nfw XAWTSdrollBbr(JSdrollBbr.VERTICAL);
+        }
+
+        @Ovfrridf
+        publid JSdrollBbr drfbtfHorizontblSdrollBbr() {
+            rfturn nfw XAWTSdrollBbr(JSdrollBbr.HORIZONTAL);
+        }
+
+        publid JTfxtArfb gftTfxtArfb () {
+            rfturn this.jtfxt;
+        }
+
+        @Ovfrridf
+        publid Grbphids gftGrbphids() {
+            rfturn xwin.gftGrbphids();
+        }
+
+        @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+        finbl dlbss XAWTSdrollBbr fxtfnds SdrollBbr {
+
+            XAWTSdrollBbr(int i) {
+                supfr(i);
+                sftFodusbblf(fblsf);
+            }
+
+            @Ovfrridf
+            publid void updbtfUI() {
+                ComponfntUI ui = nfw XAWTSdrollBbrUI();
+                sftUI(ui);
+            }
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+        privbtf Color dbrkShbdow = SystfmColor.dontrolDkShbdow;
+        privbtf Color lightShbdow = SystfmColor.dontrolLtHighlight;
+        privbtf Color dontrol = SystfmColor.dontrolShbdow;
+        privbtf boolfbn isRbisfd;
+
+        BfvflBordfr(boolfbn isRbisfd, Color dbrkShbdow, Color lightShbdow) {
+            this.isRbisfd = isRbisfd;
+            this.dbrkShbdow = dbrkShbdow;
+            this.lightShbdow = lightShbdow;
+        }
+
+        @Ovfrridf
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int w, int h) {
+            g.sftColor((isRbisfd) ? lightShbdow : dbrkShbdow);
+            g.drbwLinf(x, y, x+w-1, y);           // top
+            g.drbwLinf(x, y+h-1, x, y+1);         // lfft
+
+            g.sftColor(dontrol);
+            g.drbwLinf(x+1, y+1, x+w-2, y+1);           // top
+            g.drbwLinf(x+1, y+h-1, x+1, y+1);         // lfft
+
+            g.sftColor((isRbisfd) ? dbrkShbdow : lightShbdow);
+            g.drbwLinf(x+1, y+h-1, x+w-1, y+h-1); // bottom
+            g.drbwLinf(x+w-1, y+h-1, x+w-1, y+1); // right
+
+            g.sftColor(dontrol);
+            g.drbwLinf(x+1, y+h-2, x+w-2, y+h-2); // bottom
+            g.drbwLinf(x+w-2, y+h-2, x+w-2, y+1); // right
+        }
+
+        @Ovfrridf
+        publid Insfts gftBordfrInsfts(Componfnt d) {
+            rfturn gftBordfrInsfts(d, nfw Insfts(0,0,0,0));
+        }
+
+        @Ovfrridf
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.top = insfts.lfft = insfts.bottom = insfts.right = 2;
+            rfturn insfts;
+        }
+
+        publid boolfbn isOpbquf(Componfnt d) {
+            rfturn truf;
+        }
+    }
+
+
+    // This dlbss dispbtdhfs 'MousfEvfnt's to 'XTfxtArfbPffr''s (hiddfn)
+    // subdomponfnts, bnd ovfrridfs mousf dursor, f.g. for sdrollbbrs.
+    //
+    // Howfvfr, durrfnt dispbtdhing is b kind of fbkf, bnd is tunfd to do only
+    // whbt is nfdfssbry/possiblf. E.g. no bdditionbl mousf-fxitfd/fntfrfd
+    // fvfnts brf gfnfrbtfd, whfn mousf fxits sdrollbbr bnd fntfrs vifwport
+    // with JTfxtArfb insidf. Adtublly, no fvfnts brf fvfr gfnfrbtfd hfrf (for
+    // now). Thfy brf only dispbtdhfd bs dorrfdtly bs possiblf/nfddfssbry.
+    //
+    // In futurf, it would bf bfttfr to rfplbdf fbkf-fmulbtion of grbb-dftfdtion
+    // bnd fvfnt-dispbtdhing hfrf, by rfusing somf dommon implfmfntbtion of this
+    // fundtionblity. Mousf-dursor sftting should blso bf frffd of hbdkfd
+    // ovfrlobding hfrf.
+
+    privbtf stbtid finbl dlbss JbvbMousfEvfntHbndlfr {
+        privbtf finbl XTfxtArfbPffr outfr;
+        privbtf finbl Pointfr durrfnt = nfw Pointfr();
+        privbtf boolfbn grbbbfd = fblsf;
+
+        JbvbMousfEvfntHbndlfr( XTfxtArfbPffr outfr ) {
+            this.outfr = outfr;
+        }
+
+
+        // 1. Wf dbn mbkf grbb-trbdking fmulbtion hfrf morf robust to vbribtions in
+        //    in mousf-fvfnts ordfr bnd donsistfndf. E.g. by using sudh dodf:
+        //    if( grbbbfd && fvfnt.gftID()==MousfEvfnt.MOUSE_MOVED ) grbbbfd = fblsf;
+        //    Or wf dbn blso usf 'bssfrt'ions.
+        // 2. WARNING: Currfntly, whilf grbb-dftfdtion mfdhbnism _hfrf_ sbys, thbt
+        //    grbb is in progrfss, wf do not updbtf 'durrfnt'.  In dbsf 'durrfnt'
+        //    is sft to b sdrollbbr or to b sdroll-button, thfn rfffrfndfs to thfir
+        //    'Componfnt'-instbndfs brf "rfmfmbfrfd". And fvfnts brf dispbtdhfd to
+        //    thfsf rfmfmbfrfd domponfnts, without dhfdking, if XTfxtArfbPffr hbs
+        //    rfplbdfd thfsf instbndfs with bnothfr onfs. This blso bplifs to
+        //    mousf-drbgs-from-outsidf (sff dommfnt in 'grbbbfd_updbtf' mfthod).
+
+        void hbndlf( MousfEvfnt fvfnt ) {
+            if ( ! grbbbfd ) {
+                // dispbtdh() nffds up-to-dbtf pointfr in ungrbbbfd dbsf.
+                sftPointfrToUndfrPoint( fvfnt.gftPoint() );
+            }
+            dispbtdh( fvfnt );
+            boolfbn wbsGrbbbfd = grbbbfd;
+            grbbbfd_updbtf( fvfnt );
+            if ( wbsGrbbbfd && ! grbbbfd ) {
+                sftPointfrToUndfrPoint( fvfnt.gftPoint() );
+            }
+            sftCursor();
+        }
+
+        // Following is intfrnblly privbtf:
+
+        // Hfrf dispbtdhing is pfrformfd, of 'MousfEvfnt's to (somf)
+        // 'XTfxtArfbPffr''s (hiddfn) subdomponfnts.
+        privbtf void dispbtdh( MousfEvfnt fvfnt ) {
+            switdh( durrfnt.gftTypf() )
+            {
+                dbsf TEXT:
+                    Point point = toVifwportChildLodblSpbdf(
+                        outfr.tfxtPbnf.gftVifwport(), fvfnt.gftPoint() );
+                    XTfxtArfbPffr.AWTTfxtArfb jtfxt = outfr.jtfxt;
+                    MousfEvfnt nfwEvfnt = nfwMousfEvfnt( jtfxt, point, fvfnt );
+                    int id = nfwEvfnt.gftID();
+                    if ( id==MousfEvfnt.MOUSE_MOVED || id==MousfEvfnt.MOUSE_DRAGGED ) {
+                        jtfxt.prodfssMousfMotionEvfntPublid( nfwEvfnt );
+                    } flsf {
+                        jtfxt.prodfssMousfEvfntPublid( nfwEvfnt );
+                    }
+                    brfbk;
+
+                // Wf pfrform (bdditionbl) dispbtdhing of fvfnts to buttons of
+                // sdrollbbr, instfbd of lfbving it to JSdrollbbr. This is
+                // rfquirfd, bfdbusf of difffrfnt listfnfrs in Swing bnd AWT,
+                // whidh triggfr sdrolling (ArrowButtonListfnfr vs. TrbdkListfnfr,
+                // bddordingly). So wf dispbtdh fvfnts to sdroll-buttons, to
+                // invokf b dorrfdt Swing button listfnfr.
+                // Sff CR 6175401 for morf informbtion.
+                dbsf BAR:
+                dbsf BUTTON:
+                    Componfnt d = durrfnt.gftBbr();
+                    Point p = toLodblSpbdf( d, fvfnt.gftPoint() );
+                    if ( durrfnt.gftTypf()==Pointfr.Typf.BUTTON ) {
+                        d = durrfnt.gftButton();
+                        p = toLodblSpbdf( d, p );
+                    }
+                    AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt( d, nfwMousfEvfnt( d, p, fvfnt ) );
+                    brfbk;
+            }
+        }
+
+        privbtf stbtid MousfEvfnt nfwMousfEvfnt(
+            Componfnt sourdf, Point point, MousfEvfnt tfmplbtf )
+        {
+            MousfEvfnt f = tfmplbtf;
+            MousfEvfnt nmf = nfw MousfEvfnt(
+                sourdf,
+                f.gftID(), f.gftWhfn(),
+                f.gftModififrsEx() | f.gftModififrs(),
+                point.x, point.y,
+                f.gftXOnSdrffn(), f.gftYOnSdrffn(),
+                f.gftClidkCount(), f.isPopupTriggfr(), f.gftButton() );
+            // Bfdbusf thfsf MousfEvfnts brf dispbtdhfd dirfdtly to
+            // thfir tbrgft, wf nffd to mbrk thfm bs bfing
+            // systfm-gfnfrbtfd hfrf
+            SunToolkit.sftSystfmGfnfrbtfd(nmf);
+            rfturn nmf;
+        }
+
+        privbtf void sftCursor() {
+            if ( durrfnt.gftTypf()==Pointfr.Typf.TEXT ) {
+                // 'tbrgft.gftCursor()' is blso bpplifd from flsfwhfrf
+                // (bt lfbst now), but only whfn mousf "fntfrfd", bnd
+                // bfforf 'XTfxtArfbPffr.hbndlfJbvbMousfEvfnt' is invokfd.
+                outfr.pSftCursor( outfr.tbrgft.gftCursor(), truf );
+            }
+            flsf {
+                // Wf dbn writf hfrf b morf intflligfnt dursor sflfdtion
+                // mfdhbnism, likf gftting dursor from 'durrfnt' domponfnt.
+                // Howfvfr, I sff no point in doing so now. But if you fffl
+                // likf implfmfnting it, you'll probbbly nffd to introdudf
+                // 'Pointfr.Typf.PANEL'.
+                outfr.pSftCursor( outfr.tfxtPbnf.gftCursor(), truf );
+            }
+        }
+
+
+        // Currfnt wby of grbb-dftfdtion dbusfs intfrfsting (but hbrmlfss)
+        // sidf-ffffdt. If mousf is drbgfd from outsidf to insidf of TfxtArfb,
+        // wf will thfn (in somf dbsfs) bf bskfd to dispbtdh mousf-fntfrfd/fxitfd
+        // fvfnts. But, bs bt lfbst onf mousf-button is down, wf will dftfdt
+        // grbb-modf is on (though thf grbb isn't ours).
+        //
+        // Thus, wf will not updbtf 'durrfnt' (sff 'hbndlf' mfthod), bnd will
+        // dispbtdh fvfnts to thf lbst subdomponfnt, thf 'durrfnt' wbs sft to.
+        // As blwbys, wf sft dursor in this dbsf blso. But, bll this sffms
+        // hbrmlfss, bfdbusf mousf fntfrfd/fxitfd fvfnts sffm to hbvf no ffffdt
+        // hfrf, bnd dursor sftting is ignorfd in dbsf of drbgs from outsidf.
+        //
+        // Grbb-dftfdtion dbn bf furthfr improvfd, f.g. by tbking into bddount
+        // durrfnt fvfnt-ID, but I sff not point in doing it now.
+
+        privbtf void grbbbfd_updbtf( MousfEvfnt fvfnt ) {
+            finbl int bllButtonsMbsk
+                = MousfEvfnt.BUTTON1_DOWN_MASK
+                | MousfEvfnt.BUTTON2_DOWN_MASK
+                | MousfEvfnt.BUTTON3_DOWN_MASK;
+            grbbbfd = ( (fvfnt.gftModififrsEx() & bllButtonsMbsk) != 0 );
+        }
+
+        // 'toLodblSpbdf' bnd 'toVifwportChildLodblSpbdf' dbn bf "optimizfd" to
+        // 'rfturn' 'void' bnd usf 'Point' input-brgumfnt blso bs output.
+        privbtf stbtid Point toLodblSpbdf( Componfnt lodbl, Point inPbrfntSpbdf )
+        {
+            Point p = inPbrfntSpbdf;
+            Point l = lodbl.gftLodbtion();
+            rfturn nfw Point( p.x - l.x, p.y - l.y );
+        }
+        privbtf stbtid Point toVifwportChildLodblSpbdf( JVifwport v, Point inVifwportPbrfntSpbdf )
+        {
+            Point l = toLodblSpbdf(v, inVifwportPbrfntSpbdf);
+            Point p = v.gftVifwPosition();
+            l.x += p.x;
+            l.y += p.y;
+            rfturn l;
+        }
+
+        privbtf void sftPointfrToUndfrPoint( Point point ) {
+            if ( outfr.tfxtPbnf.gftVifwport().gftBounds().dontbins( point ) ) {
+                durrfnt.sftTfxt();
+            }
+            flsf if ( ! sftPointfrIfPointOvfrSdrollbbr(
+                outfr.tfxtPbnf.gftVfrtidblSdrollBbr(), point ) )
+            {
+                if ( ! sftPointfrIfPointOvfrSdrollbbr(
+                    outfr.tfxtPbnf.gftHorizontblSdrollBbr(), point ) )
+                {
+                    durrfnt.sftNonf();
+                }
+            }
+        }
+
+        privbtf boolfbn sftPointfrIfPointOvfrSdrollbbr( JSdrollBbr bbr, Point point ) {
+            if ( ! bbr.gftBounds().dontbins( point ) ) {
+                rfturn fblsf;
+            }
+            durrfnt.sftBbr( bbr );
+            Point lodbl = toLodblSpbdf( bbr, point );
+
+            XTfxtArfbPffr.XAWTSdrollBbrUI ui =
+                (XTfxtArfbPffr.XAWTSdrollBbrUI) bbr.gftUI();
+
+            if ( ! sftPointfrIfPointOvfrButton( ui.gftIndrfbsfButton(), lodbl ) ) {
+                sftPointfrIfPointOvfrButton( ui.gftDfdrfbsfButton(), lodbl );
+            }
+
+            rfturn truf;
+        }
+
+        privbtf boolfbn sftPointfrIfPointOvfrButton( JButton button, Point point ) {
+            if ( ! button.gftBounds().dontbins( point ) ) {
+                rfturn fblsf;
+            }
+            durrfnt.sftButton( button );
+            rfturn truf;
+        }
+
+        privbtf stbtid finbl dlbss Pointfr {
+            stbtid fnum Typf {
+                NONE, TEXT, BAR, BUTTON  // , PANEL
+            }
+            Typf gftTypf() {
+                rfturn typf;
+            }
+            boolfbn isNonf() {
+                rfturn typf==Typf.NONE;
+            }
+            JSdrollBbr gftBbr() {
+                boolfbn ok = typf==Typf.BAR || typf==Typf.BUTTON;
+                bssfrt ok;
+                rfturn ok ? bbr : null;
+            }
+            JButton gftButton() {
+                boolfbn ok = typf==Typf.BUTTON;
+                bssfrt ok;
+                rfturn ok ? button : null;
+            }
+            void sftNonf() {
+                typf = Typf.NONE;
+            }
+            void sftTfxt() {
+                typf = Typf.TEXT;
+            }
+            void sftBbr( JSdrollBbr bbr ) {
+                this.bbr=bbr;
+                typf=Typf.BAR;
+            }
+            void sftButton( JButton button ) {
+                this.button=button;
+                typf=Typf.BUTTON;
+            }
+
+            privbtf Typf typf;
+            privbtf JSdrollBbr bbr;
+            privbtf JButton button;
+        }
+    }
+}

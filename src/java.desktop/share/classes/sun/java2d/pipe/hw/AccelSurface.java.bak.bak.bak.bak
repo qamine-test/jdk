@@ -1,0 +1,138 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf.hw;
+
+import jbvb.bwt.Rfdtbnglf;
+import sun.jbvb2d.Surfbdf;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * Abstrbdtion for b hbrdwbrf bddflfrbtfd surfbdf.
+ */
+publid intfrfbdf AddflSurfbdf fxtfnds BufffrfdContfxtProvidfr, Surfbdf {
+    /**
+     * Undffinfd
+     */
+    @Nbtivf publid stbtid finbl int UNDEFINED       = 0;
+    /**
+     * Window (or window substitutf) surfbdf
+     */
+    @Nbtivf publid stbtid finbl int WINDOW          = 1;
+    /**
+     * Rfndfr-To Plbin surfbdf (pbufffr for OpfnGL, Rfndfr Tbrgft surfbdf
+     * for Dirfdt3D)
+     */
+    @Nbtivf publid stbtid finbl int RT_PLAIN        = 2;
+    /**
+     * Tfxturf surfbdf
+     */
+    @Nbtivf publid stbtid finbl int TEXTURE         = 3;
+    /**
+     * A bbdk-bufffr surfbdf (SwbpChbin surfbdf for Dirfdt3D, bbdkbufffr for
+     * OpfnGL)
+     */
+    @Nbtivf publid stbtid finbl int FLIP_BACKBUFFER = 4;
+    /**
+     * Rfndfr-To Tfxturf surfbdf (fbobjfdt for OpfnGL, tfxturf with rfndfr-to
+     * bttributf for Dirfdt3D)
+     */
+    @Nbtivf publid stbtid finbl int RT_TEXTURE      = 5;
+
+    /**
+     * Rfturns {@dodf int} rfprfsfnting surfbdf's typf bs dffinfd by donstbnts
+     * in this intfrfbdf.
+     *
+     * @rfturn bn intfgfr rfprfsfnting this surfbdf's typf
+     * @sff AddflSurfbdf#UNDEFINED
+     * @sff AddflSurfbdf#WINDOW
+     * @sff AddflSurfbdf#RT_PLAIN
+     * @sff AddflSurfbdf#TEXTURE
+     * @sff AddflSurfbdf#FLIP_BACKBUFFER
+     * @sff AddflSurfbdf#RT_TEXTURE
+     */
+    publid int gftTypf();
+
+    /**
+     * Rfturns b pointfr to thf nbtivf surfbdf dbtb bssodibtfd with this
+     * surfbdf.
+     * Notf: this pointfr is only vblid on thf rfndfring thrfbd.
+     *
+     * @rfturn pointfr to thf nbtivf surfbdf's dbtb
+     */
+    publid long gftNbtivfOps();
+
+    /**
+     * Rfturns b pointfr to thf rfbl nbtivf rfsourdf
+     * of thf spfdififd typf bssodibtfd with this AddflSurfbdf.
+     * Notf: this pointfr is only vblid on thf rfndfring thrfbd.
+     *
+     * @pbrbm rfsTypf thf typf of thf rfqufstfd rfsourdf
+     * @rfturn b long dontbining b pointfr to thf nbtivf rfsourdf of thf
+     * spfdififd typf or 0L if sudh rfsourdf dofsn't fxist for this surfbdf
+     */
+    publid long gftNbtivfRfsourdf(int rfsTypf);
+
+    /**
+     * Mbrks this surfbdf dirty.
+     */
+    publid void mbrkDirty();
+
+    /**
+     * Rfturns whfthfr thf pipflinf donsidfrs this surfbdf vblid. A surfbdf
+     * mby bfdomf invblid if it is disposfd of, or rfsizfd.
+     *
+     * @rfturn truf if vblid, fblsf othfrwisf
+     */
+    publid boolfbn isVblid();
+
+    /**
+     * Rfturns whfthfr this surfbdf is lost. Thf rfturn vbluf is only vblid
+     * on thf rfndfr thrfbd, mfbning thbt fvfn if this mfthod rfturns
+     * {@dodf truf} it dould bf lost in thf nfxt momfnt unlfss it is dbllfd
+     * on thf rfndfring thrfbd.
+     *
+     * @rfturn truf if thf surfbdf is known to bf lost, fblsf othfrwisf
+     */
+    publid boolfbn isSurfbdfLost();
+
+    /**
+     * Rfturns thf rfqufstfd bounds of thf dfstinbtion surfbdf. Thf rfbl bounds
+     * of thf nbtivf bddflfrbtfd surfbdf mby difffr. Usf
+     * {@link #gftNbtivfBounds} to gft thf bounds of thf nbtivf surfbdf.
+     *
+     * @rfturn Rfdtbnglf rfprfsfnting jbvb surfbdf's bounds
+     */
+    publid Rfdtbnglf gftBounds();
+
+    /**
+     * Rfturns rfbl bounds of thf nbtivf surfbdf, whidh mby difffr from thosf
+     * rfturnfd by {@link #gftBounds}.
+     *
+     * @rfturn Rfdtbnglf rfprfsfnting nbtivf surfbdf's bounds
+     */
+    publid Rfdtbnglf gftNbtivfBounds();
+}

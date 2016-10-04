@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: XMLVblidbtfContfxt.jbvb,v 1.8 2005/05/10 16:03:49 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+
+/**
+ * Contbins dontfxt informbtion for vblidbting XML Signbturfs. This intfrfbdf
+ * is primbrily intfndfd for typf-sbffty.
+ *
+ * <p>Notf thbt <dodf>XMLVblidbtfContfxt</dodf> instbndfs dbn dontbin
+ * informbtion bnd stbtf spfdifid to thf XML signbturf strudturf it is
+ * usfd with. Thf rfsults brf unprfdidtbblf if bn
+ * <dodf>XMLVblidbtfContfxt</dodf> is usfd with difffrfnt signbturf strudturfs
+ * (for fxbmplf, you should not usf thf sbmf <dodf>XMLVblidbtfContfxt</dodf>
+ * instbndf to vblidbtf two difffrfnt {@link XMLSignbturf} objfdts).
+ * <p>
+ * <b><b nbmf="SupportfdPropfrtifs"></b>Supportfd Propfrtifs</b>
+ * <p>Thf following propfrtifs dbn bf sft by bn bpplidbtion using thf
+ * {@link #sftPropfrty sftPropfrty} mfthod.
+ * <ul>
+ *   <li><dodf>jbvbx.xml.drypto.dsig.dbdhfRfffrfndf</dodf>: vbluf must bf b
+ *      {@link Boolfbn}. This propfrty dontrols whfthfr or not thf
+ *      {@link Rfffrfndf#vblidbtf Rfffrfndf.vblidbtf} mfthod will dbdhf thf
+ *      dfrfffrfndfd dontfnt bnd prf-digfstfd input for subsfqufnt rftrifvbl vib
+ *      thf {@link Rfffrfndf#gftDfrfffrfndfdDbtb Rfffrfndf.gftDfrfffrfndfdDbtb}
+ *      bnd {@link Rfffrfndf#gftDigfstInputStrfbm
+ *      Rfffrfndf.gftDigfstInputStrfbm} mfthods. Thf dffbult vbluf if not
+ *      spfdififd is <dodf>Boolfbn.FALSE</dodf>.
+ * </ul>
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturf#vblidbtf(XMLVblidbtfContfxt)
+ * @sff Rfffrfndf#vblidbtf(XMLVblidbtfContfxt)
+ */
+publid intfrfbdf XMLVblidbtfContfxt fxtfnds XMLCryptoContfxt {}

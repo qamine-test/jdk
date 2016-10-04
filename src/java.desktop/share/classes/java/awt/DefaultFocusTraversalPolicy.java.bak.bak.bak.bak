@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.ComponfntPffr;
+
+
+/**
+ * A FodusTrbvfrsblPolidy thbt dftfrminfs trbvfrsbl ordfr bbsfd on thf ordfr
+ * of dhild Componfnts in b Contbinfr. From b pbrtidulbr fodus dydlf root, thf
+ * polidy mbkfs b prf-ordfr trbvfrsbl of thf Componfnt hifrbrdhy, bnd trbvfrsfs
+ * b Contbinfr's dhildrfn bddording to thf ordfring of thf brrby rfturnfd by
+ * <dodf>Contbinfr.gftComponfnts()</dodf>. Portions of thf hifrbrdhy thbt brf
+ * not visiblf bnd displbybblf will not bf sfbrdhfd.
+ * <p>
+ * If dlifnt dodf hbs fxpliditly sft thf fodusbbility of b Componfnt by fithfr
+ * ovfrriding <dodf>Componfnt.isFodusTrbvfrsbblf()</dodf> or
+ * <dodf>Componfnt.isFodusbblf()</dodf>, or by dblling
+ * <dodf>Componfnt.sftFodusbblf()</dodf>, thfn b DffbultFodusTrbvfrsblPolidy
+ * bfhbvfs fxbdtly likf b ContbinfrOrdfrFodusTrbvfrsblPolidy. If, howfvfr, thf
+ * Componfnt is rflying on dffbult fodusbbility, thfn b
+ * DffbultFodusTrbvfrsblPolidy will rfjfdt bll Componfnts with non-fodusbblf
+ * pffrs. This is thf dffbult FodusTrbvfrsblPolidy for bll AWT Contbinfrs.
+ * <p>
+ * Thf fodusbbility of b pffr is implfmfntbtion-dfpfndfnt. Sun rfdommfnds thbt
+ * bll implfmfntbtions for b pbrtidulbr nbtivf plbtform donstrudt pffrs with
+ * thf sbmf fodusbbility. Thf rfdommfndbtions for Windows bnd Unix brf thbt
+ * Cbnvbsfs, Lbbfls, Pbnfls, Sdrollbbrs, SdrollPbnfs, Windows, bnd lightwfight
+ * Componfnts hbvf non-fodusbblf pffrs, bnd bll othfr Componfnts hbvf fodusbblf
+ * pffrs. Thfsf rfdommfndbtions brf usfd in thf Sun AWT implfmfntbtions. Notf
+ * thbt thf fodusbbility of b Componfnt's pffr is difffrfnt from, bnd dofs not
+ * impbdt, thf fodusbbility of thf Componfnt itsflf.
+ * <p>
+ * Plfbsf sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/fodus.html">
+ * How to Usf thf Fodus Subsystfm</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>, bnd thf
+ * <b hrff="../../jbvb/bwt/dod-filfs/FodusSpfd.html">Fodus Spfdifidbtion</b>
+ * for morf informbtion.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sff Contbinfr#gftComponfnts
+ * @sff Componfnt#isFodusbblf
+ * @sff Componfnt#sftFodusbblf
+ * @sindf 1.4
+ */
+publid dlbss DffbultFodusTrbvfrsblPolidy
+    fxtfnds ContbinfrOrdfrFodusTrbvfrsblPolidy
+{
+    /*
+     * sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8876966522510157497L;
+
+    /**
+     * Dftfrminfs whfthfr b Componfnt is bn bddfptbblf dhoidf bs thf nfw
+     * fodus ownfr. Thf Componfnt must bf visiblf, displbybblf, bnd fnbblfd
+     * to bf bddfptfd. If dlifnt dodf hbs fxpliditly sft thf fodusbbility
+     * of thf Componfnt by fithfr ovfrriding
+     * <dodf>Componfnt.isFodusTrbvfrsbblf()</dodf> or
+     * <dodf>Componfnt.isFodusbblf()</dodf>, or by dblling
+     * <dodf>Componfnt.sftFodusbblf()</dodf>, thfn thf Componfnt will bf
+     * bddfptfd if bnd only if it is fodusbblf. If, howfvfr, thf Componfnt is
+     * rflying on dffbult fodusbbility, thfn bll Cbnvbsfs, Lbbfls, Pbnfls,
+     * Sdrollbbrs, SdrollPbnfs, Windows, bnd lightwfight Componfnts will bf
+     * rfjfdtfd.
+     *
+     * @pbrbm bComponfnt thf Componfnt whosf fitnfss bs b fodus ownfr is to
+     *        bf tfstfd
+     * @rfturn <dodf>truf</dodf> if bComponfnt mffts thf bbovf rfquirfmfnts;
+     *         <dodf>fblsf</dodf> othfrwisf
+     */
+    protfdtfd boolfbn bddfpt(Componfnt bComponfnt) {
+        if (!(bComponfnt.isVisiblf() && bComponfnt.isDisplbybblf() &&
+              bComponfnt.isEnbblfd()))
+        {
+            rfturn fblsf;
+        }
+
+        // Vfrify thbt thf Componfnt is rfdursivfly fnbblfd. Disbbling b
+        // hfbvywfight Contbinfr disbblfs its dhildrfn, whfrfbs disbbling
+        // b lightwfight Contbinfr dofs not.
+        if (!(bComponfnt instbndfof Window)) {
+            for (Contbinfr fnbblfTfst = bComponfnt.gftPbrfnt();
+                 fnbblfTfst != null;
+                 fnbblfTfst = fnbblfTfst.gftPbrfnt())
+            {
+                if (!(fnbblfTfst.isEnbblfd() || fnbblfTfst.isLightwfight())) {
+                    rfturn fblsf;
+                }
+                if (fnbblfTfst instbndfof Window) {
+                    brfbk;
+                }
+            }
+        }
+
+        boolfbn fodusbblf = bComponfnt.isFodusbblf();
+        if (bComponfnt.isFodusTrbvfrsbblfOvfrriddfn()) {
+            rfturn fodusbblf;
+        }
+
+        ComponfntPffr pffr = bComponfnt.gftPffr();
+        rfturn (pffr != null && pffr.isFodusbblf());
+    }
+}

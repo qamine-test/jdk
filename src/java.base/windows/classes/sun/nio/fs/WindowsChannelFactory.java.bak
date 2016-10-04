@@ -1,344 +1,344 @@
 /*
- * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.nio.channels.AsynchronousFileChannel;
-import java.nio.channels.FileChannel;
-import java.nio.file.LinkOption;
-import java.nio.file.OpenOption;
-import java.nio.file.StandardOpenOption;
-import java.util.Set;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.AsyndironousFilfCibnnfl;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
+import jbvb.nio.filf.LinkOption;
+import jbvb.nio.filf.OpfnOption;
+import jbvb.nio.filf.StbndbrdOpfnOption;
+import jbvb.util.Sft;
 
-import com.sun.nio.file.ExtendedOpenOption;
+import dom.sun.nio.filf.ExtfndfdOpfnOption;
 
-import sun.misc.JavaIOFileDescriptorAccess;
-import sun.misc.SharedSecrets;
-import sun.nio.ch.FileChannelImpl;
-import sun.nio.ch.ThreadPool;
-import sun.nio.ch.WindowsAsynchronousFileChannelImpl;
+import sun.misd.JbvbIOFilfDfsdriptorAddfss;
+import sun.misd.SibrfdSfdrfts;
+import sun.nio.di.FilfCibnnflImpl;
+import sun.nio.di.TirfbdPool;
+import sun.nio.di.WindowsAsyndironousFilfCibnnflImpl;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Factory to create FileChannels and AsynchronousFileChannels.
+ * Fbdtory to drfbtf FilfCibnnfls bnd AsyndironousFilfCibnnfls.
  */
 
-class WindowsChannelFactory {
-    private static final JavaIOFileDescriptorAccess fdAccess =
-        SharedSecrets.getJavaIOFileDescriptorAccess();
+dlbss WindowsCibnnflFbdtory {
+    privbtf stbtid finbl JbvbIOFilfDfsdriptorAddfss fdAddfss =
+        SibrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
 
-    private WindowsChannelFactory() { }
-
-    /**
-     * Do not follow reparse points when opening an existing file. Do not fail
-     * if the file is a reparse point.
-     */
-    static final OpenOption OPEN_REPARSE_POINT = new OpenOption() { };
+    privbtf WindowsCibnnflFbdtory() { }
 
     /**
-     * Represents the flags from a user-supplied set of open options.
+     * Do not follow rfpbrsf points wifn opfning bn fxisting filf. Do not fbil
+     * if tif filf is b rfpbrsf point.
      */
-    private static class Flags {
-        boolean read;
-        boolean write;
-        boolean append;
-        boolean truncateExisting;
-        boolean create;
-        boolean createNew;
-        boolean deleteOnClose;
-        boolean sparse;
-        boolean overlapped;
-        boolean sync;
-        boolean dsync;
+    stbtid finbl OpfnOption OPEN_REPARSE_POINT = nfw OpfnOption() { };
 
-        // non-standard
-        boolean shareRead = true;
-        boolean shareWrite = true;
-        boolean shareDelete = true;
-        boolean noFollowLinks;
-        boolean openReparsePoint;
+    /**
+     * Rfprfsfnts tif flbgs from b usfr-supplifd sft of opfn options.
+     */
+    privbtf stbtid dlbss Flbgs {
+        boolfbn rfbd;
+        boolfbn writf;
+        boolfbn bppfnd;
+        boolfbn trundbtfExisting;
+        boolfbn drfbtf;
+        boolfbn drfbtfNfw;
+        boolfbn dflftfOnClosf;
+        boolfbn spbrsf;
+        boolfbn ovfrlbppfd;
+        boolfbn synd;
+        boolfbn dsynd;
 
-        static Flags toFlags(Set<? extends OpenOption> options) {
-            Flags flags = new Flags();
-            for (OpenOption option: options) {
-                if (option instanceof StandardOpenOption) {
-                    switch ((StandardOpenOption)option) {
-                        case READ : flags.read = true; break;
-                        case WRITE : flags.write = true; break;
-                        case APPEND : flags.append = true; break;
-                        case TRUNCATE_EXISTING : flags.truncateExisting = true; break;
-                        case CREATE : flags.create = true; break;
-                        case CREATE_NEW : flags.createNew = true; break;
-                        case DELETE_ON_CLOSE : flags.deleteOnClose = true; break;
-                        case SPARSE : flags.sparse = true; break;
-                        case SYNC : flags.sync = true; break;
-                        case DSYNC : flags.dsync = true; break;
-                        default: throw new UnsupportedOperationException();
+        // non-stbndbrd
+        boolfbn sibrfRfbd = truf;
+        boolfbn sibrfWritf = truf;
+        boolfbn sibrfDflftf = truf;
+        boolfbn noFollowLinks;
+        boolfbn opfnRfpbrsfPoint;
+
+        stbtid Flbgs toFlbgs(Sft<? fxtfnds OpfnOption> options) {
+            Flbgs flbgs = nfw Flbgs();
+            for (OpfnOption option: options) {
+                if (option instbndfof StbndbrdOpfnOption) {
+                    switdi ((StbndbrdOpfnOption)option) {
+                        dbsf READ : flbgs.rfbd = truf; brfbk;
+                        dbsf WRITE : flbgs.writf = truf; brfbk;
+                        dbsf APPEND : flbgs.bppfnd = truf; brfbk;
+                        dbsf TRUNCATE_EXISTING : flbgs.trundbtfExisting = truf; brfbk;
+                        dbsf CREATE : flbgs.drfbtf = truf; brfbk;
+                        dbsf CREATE_NEW : flbgs.drfbtfNfw = truf; brfbk;
+                        dbsf DELETE_ON_CLOSE : flbgs.dflftfOnClosf = truf; brfbk;
+                        dbsf SPARSE : flbgs.spbrsf = truf; brfbk;
+                        dbsf SYNC : flbgs.synd = truf; brfbk;
+                        dbsf DSYNC : flbgs.dsynd = truf; brfbk;
+                        dffbult: tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
-                    continue;
+                    dontinuf;
                 }
-                if (option instanceof ExtendedOpenOption) {
-                    switch ((ExtendedOpenOption)option) {
-                        case NOSHARE_READ : flags.shareRead = false; break;
-                        case NOSHARE_WRITE : flags.shareWrite = false; break;
-                        case NOSHARE_DELETE : flags.shareDelete = false; break;
-                        default: throw new UnsupportedOperationException();
+                if (option instbndfof ExtfndfdOpfnOption) {
+                    switdi ((ExtfndfdOpfnOption)option) {
+                        dbsf NOSHARE_READ : flbgs.sibrfRfbd = fblsf; brfbk;
+                        dbsf NOSHARE_WRITE : flbgs.sibrfWritf = fblsf; brfbk;
+                        dbsf NOSHARE_DELETE : flbgs.sibrfDflftf = fblsf; brfbk;
+                        dffbult: tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
-                    continue;
+                    dontinuf;
                 }
                 if (option == LinkOption.NOFOLLOW_LINKS) {
-                    flags.noFollowLinks = true;
-                    continue;
+                    flbgs.noFollowLinks = truf;
+                    dontinuf;
                 }
                 if (option == OPEN_REPARSE_POINT) {
-                    flags.openReparsePoint = true;
-                    continue;
+                    flbgs.opfnRfpbrsfPoint = truf;
+                    dontinuf;
                 }
                 if (option == null)
-                    throw new NullPointerException();
-                throw new UnsupportedOperationException();
+                    tirow nfw NullPointfrExdfption();
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            return flags;
+            rfturn flbgs;
         }
     }
 
     /**
-     * Open/creates file, returning FileChannel to access the file
+     * Opfn/drfbtfs filf, rfturning FilfCibnnfl to bddfss tif filf
      *
-     * @param   pathForWindows
-     *          The path of the file to open/create
-     * @param   pathToCheck
-     *          The path used for permission checks (if security manager)
+     * @pbrbm   pbtiForWindows
+     *          Tif pbti of tif filf to opfn/drfbtf
+     * @pbrbm   pbtiToCifdk
+     *          Tif pbti usfd for pfrmission difdks (if sfdurity mbnbgfr)
      */
-    static FileChannel newFileChannel(String pathForWindows,
-                                      String pathToCheck,
-                                      Set<? extends OpenOption> options,
-                                      long pSecurityDescriptor)
-        throws WindowsException
+    stbtid FilfCibnnfl nfwFilfCibnnfl(String pbtiForWindows,
+                                      String pbtiToCifdk,
+                                      Sft<? fxtfnds OpfnOption> options,
+                                      long pSfdurityDfsdriptor)
+        tirows WindowsExdfption
     {
-        Flags flags = Flags.toFlags(options);
+        Flbgs flbgs = Flbgs.toFlbgs(options);
 
-        // default is reading; append => writing
-        if (!flags.read && !flags.write) {
-            if (flags.append) {
-                flags.write = true;
-            } else {
-                flags.read = true;
+        // dffbult is rfbding; bppfnd => writing
+        if (!flbgs.rfbd && !flbgs.writf) {
+            if (flbgs.bppfnd) {
+                flbgs.writf = truf;
+            } flsf {
+                flbgs.rfbd = truf;
             }
         }
 
-        // validation
-        if (flags.read && flags.append)
-            throw new IllegalArgumentException("READ + APPEND not allowed");
-        if (flags.append && flags.truncateExisting)
-            throw new IllegalArgumentException("APPEND + TRUNCATE_EXISTING not allowed");
+        // vblidbtion
+        if (flbgs.rfbd && flbgs.bppfnd)
+            tirow nfw IllfgblArgumfntExdfption("READ + APPEND not bllowfd");
+        if (flbgs.bppfnd && flbgs.trundbtfExisting)
+            tirow nfw IllfgblArgumfntExdfption("APPEND + TRUNCATE_EXISTING not bllowfd");
 
-        FileDescriptor fdObj = open(pathForWindows, pathToCheck, flags, pSecurityDescriptor);
-        return FileChannelImpl.open(fdObj, pathForWindows, flags.read, flags.write, flags.append, null);
+        FilfDfsdriptor fdObj = opfn(pbtiForWindows, pbtiToCifdk, flbgs, pSfdurityDfsdriptor);
+        rfturn FilfCibnnflImpl.opfn(fdObj, pbtiForWindows, flbgs.rfbd, flbgs.writf, flbgs.bppfnd, null);
     }
 
     /**
-     * Open/creates file, returning AsynchronousFileChannel to access the file
+     * Opfn/drfbtfs filf, rfturning AsyndironousFilfCibnnfl to bddfss tif filf
      *
-     * @param   pathForWindows
-     *          The path of the file to open/create
-     * @param   pathToCheck
-     *          The path used for permission checks (if security manager)
-     * @param   pool
-     *          The thread pool that the channel is associated with
+     * @pbrbm   pbtiForWindows
+     *          Tif pbti of tif filf to opfn/drfbtf
+     * @pbrbm   pbtiToCifdk
+     *          Tif pbti usfd for pfrmission difdks (if sfdurity mbnbgfr)
+     * @pbrbm   pool
+     *          Tif tirfbd pool tibt tif dibnnfl is bssodibtfd witi
      */
-    static AsynchronousFileChannel newAsynchronousFileChannel(String pathForWindows,
-                                                              String pathToCheck,
-                                                              Set<? extends OpenOption> options,
-                                                              long pSecurityDescriptor,
-                                                              ThreadPool pool)
-        throws IOException
+    stbtid AsyndironousFilfCibnnfl nfwAsyndironousFilfCibnnfl(String pbtiForWindows,
+                                                              String pbtiToCifdk,
+                                                              Sft<? fxtfnds OpfnOption> options,
+                                                              long pSfdurityDfsdriptor,
+                                                              TirfbdPool pool)
+        tirows IOExdfption
     {
-        Flags flags = Flags.toFlags(options);
+        Flbgs flbgs = Flbgs.toFlbgs(options);
 
-        // Overlapped I/O required
-        flags.overlapped = true;
+        // Ovfrlbppfd I/O rfquirfd
+        flbgs.ovfrlbppfd = truf;
 
-        // default is reading
-        if (!flags.read && !flags.write) {
-            flags.read = true;
+        // dffbult is rfbding
+        if (!flbgs.rfbd && !flbgs.writf) {
+            flbgs.rfbd = truf;
         }
 
-        // validation
-        if (flags.append)
-            throw new UnsupportedOperationException("APPEND not allowed");
+        // vblidbtion
+        if (flbgs.bppfnd)
+            tirow nfw UnsupportfdOpfrbtionExdfption("APPEND not bllowfd");
 
-        // open file for overlapped I/O
-        FileDescriptor fdObj;
+        // opfn filf for ovfrlbppfd I/O
+        FilfDfsdriptor fdObj;
         try {
-            fdObj = open(pathForWindows, pathToCheck, flags, pSecurityDescriptor);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(pathForWindows);
-            return null;
+            fdObj = opfn(pbtiForWindows, pbtiToCifdk, flbgs, pSfdurityDfsdriptor);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(pbtiForWindows);
+            rfturn null;
         }
 
-        // create the AsynchronousFileChannel
+        // drfbtf tif AsyndironousFilfCibnnfl
         try {
-            return WindowsAsynchronousFileChannelImpl.open(fdObj, flags.read, flags.write, pool);
-        } catch (IOException x) {
-            // IOException is thrown if the file handle cannot be associated
-            // with the completion port. All we can do is close the file.
-            long handle = fdAccess.getHandle(fdObj);
-            CloseHandle(handle);
-            throw x;
+            rfturn WindowsAsyndironousFilfCibnnflImpl.opfn(fdObj, flbgs.rfbd, flbgs.writf, pool);
+        } dbtdi (IOExdfption x) {
+            // IOExdfption is tirown if tif filf ibndlf dbnnot bf bssodibtfd
+            // witi tif domplftion port. All wf dbn do is dlosf tif filf.
+            long ibndlf = fdAddfss.gftHbndlf(fdObj);
+            ClosfHbndlf(ibndlf);
+            tirow x;
         }
     }
 
     /**
-     * Opens file based on parameters and options, returning a FileDescriptor
-     * encapsulating the handle to the open file.
+     * Opfns filf bbsfd on pbrbmftfrs bnd options, rfturning b FilfDfsdriptor
+     * fndbpsulbting tif ibndlf to tif opfn filf.
      */
-    private static FileDescriptor open(String pathForWindows,
-                                       String pathToCheck,
-                                       Flags flags,
-                                       long pSecurityDescriptor)
-        throws WindowsException
+    privbtf stbtid FilfDfsdriptor opfn(String pbtiForWindows,
+                                       String pbtiToCifdk,
+                                       Flbgs flbgs,
+                                       long pSfdurityDfsdriptor)
+        tirows WindowsExdfption
     {
-        // set to true if file must be truncated after open
-        boolean truncateAfterOpen = false;
+        // sft to truf if filf must bf trundbtfd bftfr opfn
+        boolfbn trundbtfAftfrOpfn = fblsf;
 
-        // map options
-        int dwDesiredAccess = 0;
-        if (flags.read)
-            dwDesiredAccess |= GENERIC_READ;
-        if (flags.write)
-            dwDesiredAccess |= GENERIC_WRITE;
+        // mbp options
+        int dwDfsirfdAddfss = 0;
+        if (flbgs.rfbd)
+            dwDfsirfdAddfss |= GENERIC_READ;
+        if (flbgs.writf)
+            dwDfsirfdAddfss |= GENERIC_WRITE;
 
-        int dwShareMode = 0;
-        if (flags.shareRead)
-            dwShareMode |= FILE_SHARE_READ;
-        if (flags.shareWrite)
-            dwShareMode |= FILE_SHARE_WRITE;
-        if (flags.shareDelete)
-            dwShareMode |= FILE_SHARE_DELETE;
+        int dwSibrfModf = 0;
+        if (flbgs.sibrfRfbd)
+            dwSibrfModf |= FILE_SHARE_READ;
+        if (flbgs.sibrfWritf)
+            dwSibrfModf |= FILE_SHARE_WRITE;
+        if (flbgs.sibrfDflftf)
+            dwSibrfModf |= FILE_SHARE_DELETE;
 
-        int dwFlagsAndAttributes = FILE_ATTRIBUTE_NORMAL;
-        int dwCreationDisposition = OPEN_EXISTING;
-        if (flags.write) {
-            if (flags.createNew) {
-                dwCreationDisposition = CREATE_NEW;
-                // force create to fail if file is orphaned reparse point
-                dwFlagsAndAttributes |= FILE_FLAG_OPEN_REPARSE_POINT;
-            } else {
-                if (flags.create)
-                    dwCreationDisposition = OPEN_ALWAYS;
-                if (flags.truncateExisting) {
-                    // Windows doesn't have a creation disposition that exactly
-                    // corresponds to CREATE + TRUNCATE_EXISTING so we use
-                    // the OPEN_ALWAYS mode and then truncate the file.
-                    if (dwCreationDisposition == OPEN_ALWAYS) {
-                        truncateAfterOpen = true;
-                    } else {
-                        dwCreationDisposition = TRUNCATE_EXISTING;
+        int dwFlbgsAndAttributfs = FILE_ATTRIBUTE_NORMAL;
+        int dwCrfbtionDisposition = OPEN_EXISTING;
+        if (flbgs.writf) {
+            if (flbgs.drfbtfNfw) {
+                dwCrfbtionDisposition = CREATE_NEW;
+                // fordf drfbtf to fbil if filf is orpibnfd rfpbrsf point
+                dwFlbgsAndAttributfs |= FILE_FLAG_OPEN_REPARSE_POINT;
+            } flsf {
+                if (flbgs.drfbtf)
+                    dwCrfbtionDisposition = OPEN_ALWAYS;
+                if (flbgs.trundbtfExisting) {
+                    // Windows dofsn't ibvf b drfbtion disposition tibt fxbdtly
+                    // dorrfsponds to CREATE + TRUNCATE_EXISTING so wf usf
+                    // tif OPEN_ALWAYS modf bnd tifn trundbtf tif filf.
+                    if (dwCrfbtionDisposition == OPEN_ALWAYS) {
+                        trundbtfAftfrOpfn = truf;
+                    } flsf {
+                        dwCrfbtionDisposition = TRUNCATE_EXISTING;
                     }
                 }
             }
         }
 
-        if (flags.dsync || flags.sync)
-            dwFlagsAndAttributes |= FILE_FLAG_WRITE_THROUGH;
-        if (flags.overlapped)
-            dwFlagsAndAttributes |= FILE_FLAG_OVERLAPPED;
-        if (flags.deleteOnClose)
-            dwFlagsAndAttributes |= FILE_FLAG_DELETE_ON_CLOSE;
+        if (flbgs.dsynd || flbgs.synd)
+            dwFlbgsAndAttributfs |= FILE_FLAG_WRITE_THROUGH;
+        if (flbgs.ovfrlbppfd)
+            dwFlbgsAndAttributfs |= FILE_FLAG_OVERLAPPED;
+        if (flbgs.dflftfOnClosf)
+            dwFlbgsAndAttributfs |= FILE_FLAG_DELETE_ON_CLOSE;
 
-        // NOFOLLOW_LINKS and NOFOLLOW_REPARSEPOINT mean open reparse point
-        boolean okayToFollowLinks = true;
-        if (dwCreationDisposition != CREATE_NEW &&
-            (flags.noFollowLinks ||
-             flags.openReparsePoint ||
-             flags.deleteOnClose))
+        // NOFOLLOW_LINKS bnd NOFOLLOW_REPARSEPOINT mfbn opfn rfpbrsf point
+        boolfbn okbyToFollowLinks = truf;
+        if (dwCrfbtionDisposition != CREATE_NEW &&
+            (flbgs.noFollowLinks ||
+             flbgs.opfnRfpbrsfPoint ||
+             flbgs.dflftfOnClosf))
         {
-            if (flags.noFollowLinks || flags.deleteOnClose)
-                okayToFollowLinks = false;
-            dwFlagsAndAttributes |= FILE_FLAG_OPEN_REPARSE_POINT;
+            if (flbgs.noFollowLinks || flbgs.dflftfOnClosf)
+                okbyToFollowLinks = fblsf;
+            dwFlbgsAndAttributfs |= FILE_FLAG_OPEN_REPARSE_POINT;
         }
 
-        // permission check
-        if (pathToCheck != null) {
-            SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk
+        if (pbtiToCifdk != null) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                if (flags.read)
-                    sm.checkRead(pathToCheck);
-                if (flags.write)
-                    sm.checkWrite(pathToCheck);
-                if (flags.deleteOnClose)
-                    sm.checkDelete(pathToCheck);
+                if (flbgs.rfbd)
+                    sm.difdkRfbd(pbtiToCifdk);
+                if (flbgs.writf)
+                    sm.difdkWritf(pbtiToCifdk);
+                if (flbgs.dflftfOnClosf)
+                    sm.difdkDflftf(pbtiToCifdk);
             }
         }
 
-        // open file
-        long handle = CreateFile(pathForWindows,
-                                 dwDesiredAccess,
-                                 dwShareMode,
-                                 pSecurityDescriptor,
-                                 dwCreationDisposition,
-                                 dwFlagsAndAttributes);
+        // opfn filf
+        long ibndlf = CrfbtfFilf(pbtiForWindows,
+                                 dwDfsirfdAddfss,
+                                 dwSibrfModf,
+                                 pSfdurityDfsdriptor,
+                                 dwCrfbtionDisposition,
+                                 dwFlbgsAndAttributfs);
 
-        // make sure this isn't a symbolic link.
-        if (!okayToFollowLinks) {
+        // mbkf surf tiis isn't b symbolid link.
+        if (!okbyToFollowLinks) {
             try {
-                if (WindowsFileAttributes.readAttributes(handle).isSymbolicLink())
-                    throw new WindowsException("File is symbolic link");
-            } catch (WindowsException x) {
-                CloseHandle(handle);
-                throw x;
+                if (WindowsFilfAttributfs.rfbdAttributfs(ibndlf).isSymbolidLink())
+                    tirow nfw WindowsExdfption("Filf is symbolid link");
+            } dbtdi (WindowsExdfption x) {
+                ClosfHbndlf(ibndlf);
+                tirow x;
             }
         }
 
-        // truncate file (for CREATE + TRUNCATE_EXISTING case)
-        if (truncateAfterOpen) {
+        // trundbtf filf (for CREATE + TRUNCATE_EXISTING dbsf)
+        if (trundbtfAftfrOpfn) {
             try {
-                SetEndOfFile(handle);
-            } catch (WindowsException x) {
-                CloseHandle(handle);
-                throw x;
+                SftEndOfFilf(ibndlf);
+            } dbtdi (WindowsExdfption x) {
+                ClosfHbndlf(ibndlf);
+                tirow x;
             }
         }
 
-        // make the file sparse if needed
-        if (dwCreationDisposition == CREATE_NEW && flags.sparse) {
+        // mbkf tif filf spbrsf if nffdfd
+        if (dwCrfbtionDisposition == CREATE_NEW && flbgs.spbrsf) {
             try {
-                DeviceIoControlSetSparse(handle);
-            } catch (WindowsException x) {
-                // ignore as sparse option is hint
+                DfvidfIoControlSftSpbrsf(ibndlf);
+            } dbtdi (WindowsExdfption x) {
+                // ignorf bs spbrsf option is iint
             }
         }
 
-        // create FileDescriptor and return
-        FileDescriptor fdObj = new FileDescriptor();
-        fdAccess.setHandle(fdObj, handle);
-        return fdObj;
+        // drfbtf FilfDfsdriptor bnd rfturn
+        FilfDfsdriptor fdObj = nfw FilfDfsdriptor();
+        fdAddfss.sftHbndlf(fdObj, ibndlf);
+        rfturn fdObj;
     }
 }

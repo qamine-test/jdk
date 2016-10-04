@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef GLXGraphicsConfig_h_Included
-#define GLXGraphicsConfig_h_Included
+#ifndff GLXGrbpiidsConfig_i_Indludfd
+#dffinf GLXGrbpiidsConfig_i_Indludfd
 
-#include "jni.h"
-#include "J2D_GL/glx.h"
-#include "OGLSurfaceData.h"
-#include "OGLContext.h"
+#indludf "jni.i"
+#indludf "J2D_GL/glx.i"
+#indludf "OGLSurfbdfDbtb.i"
+#indludf "OGLContfxt.i"
 
-#ifdef HEADLESS
-#define GLXGraphicsConfigInfo void
-#define GLXCtxInfo void
-#else /* HEADLESS */
+#ifdff HEADLESS
+#dffinf GLXGrbpiidsConfigInfo void
+#dffinf GLXCtxInfo void
+#flsf /* HEADLESS */
 
 /**
- * The GLXGraphicsConfigInfo structure contains information specific to a
- * given GLXGraphicsConfig (visual).  Each AwtGraphicsConfigData struct
- * associated with a GLXGraphicsConfig contains a pointer to a
- * GLXGraphicsConfigInfo struct (if it is actually an X11GraphicsConfig, that
- * pointer value will be NULL).
+ * Tif GLXGrbpiidsConfigInfo strudturf dontbins informbtion spfdifid to b
+ * givfn GLXGrbpiidsConfig (visubl).  Ebdi AwtGrbpiidsConfigDbtb strudt
+ * bssodibtfd witi b GLXGrbpiidsConfig dontbins b pointfr to b
+ * GLXGrbpiidsConfigInfo strudt (if it is bdtublly bn X11GrbpiidsConfig, tibt
+ * pointfr vbluf will bf NULL).
  *
- *     jint screen, visual;
- * The X11 screen and visual IDs for the associated GLXGraphicsConfig.
+ *     jint sdrffn, visubl;
+ * Tif X11 sdrffn bnd visubl IDs for tif bssodibtfd GLXGrbpiidsConfig.
  *
- *     OGLContext *context;
- * The context associated with this GLXGraphicsConfig.
+ *     OGLContfxt *dontfxt;
+ * Tif dontfxt bssodibtfd witi tiis GLXGrbpiidsConfig.
  *
- *     GLXFBConfig fbconfig;
- * A handle used in many GLX methods for querying certain attributes of the
- * GraphicsConfig (visual), creating new GLXContexts, and creating
- * GLXDrawable surfaces (pbuffers, etc).  Each GraphicsConfig has one
- * associated GLXFBConfig.
+ *     GLXFBConfig fbdonfig;
+ * A ibndlf usfd in mbny GLX mftiods for qufrying dfrtbin bttributfs of tif
+ * GrbpiidsConfig (visubl), drfbting nfw GLXContfxts, bnd drfbting
+ * GLXDrbwbblf surfbdfs (pbufffrs, ftd).  Ebdi GrbpiidsConfig ibs onf
+ * bssodibtfd GLXFBConfig.
  */
-typedef struct _GLXGraphicsConfigInfo {
-    jint          screen;
-    jint          visual;
-    OGLContext    *context;
-    GLXFBConfig   fbconfig;
-} GLXGraphicsConfigInfo;
+typfdff strudt _GLXGrbpiidsConfigInfo {
+    jint          sdrffn;
+    jint          visubl;
+    OGLContfxt    *dontfxt;
+    GLXFBConfig   fbdonfig;
+} GLXGrbpiidsConfigInfo;
 
 /**
- * The GLXCtxInfo structure contains the native GLXContext information
- * required by and is encapsulated by the platform-independent OGLContext
- * structure.
+ * Tif GLXCtxInfo strudturf dontbins tif nbtivf GLXContfxt informbtion
+ * rfquirfd by bnd is fndbpsulbtfd by tif plbtform-indfpfndfnt OGLContfxt
+ * strudturf.
  *
- *     GLXContext context;
- * The core native GLX context.  Rendering commands have no effect until a
- * GLXContext is made current (active).
+ *     GLXContfxt dontfxt;
+ * Tif dorf nbtivf GLX dontfxt.  Rfndfring dommbnds ibvf no ffffdt until b
+ * GLXContfxt is mbdf durrfnt (bdtivf).
  *
- *     GLXFBConfig fbconfig;
- * This is the same GLXFBConfig that is stored in the GLXGraphicsConfigInfo
- * whence this GLXContext was created.  It is provided here for convenience.
+ *     GLXFBConfig fbdonfig;
+ * Tiis is tif sbmf GLXFBConfig tibt is storfd in tif GLXGrbpiidsConfigInfo
+ * wifndf tiis GLXContfxt wbs drfbtfd.  It is providfd ifrf for donvfnifndf.
  *
- *     GLXPbuffer  scratchSurface;
- * The scratch surface, which is used to make a context current when we do
- * not otherwise have a reference to an OpenGL surface for the purposes of
- * making a context current.
+ *     GLXPbufffr  sdrbtdiSurfbdf;
+ * Tif sdrbtdi surfbdf, wiidi is usfd to mbkf b dontfxt durrfnt wifn wf do
+ * not otifrwisf ibvf b rfffrfndf to bn OpfnGL surfbdf for tif purposfs of
+ * mbking b dontfxt durrfnt.
  */
-typedef struct _GLXCtxInfo {
-    GLXContext  context;
-    GLXFBConfig fbconfig;
-    GLXPbuffer  scratchSurface;
+typfdff strudt _GLXCtxInfo {
+    GLXContfxt  dontfxt;
+    GLXFBConfig fbdonfig;
+    GLXPbufffr  sdrbtdiSurfbdf;
 } GLXCtxInfo;
 
-jboolean GLXGC_IsGLXAvailable();
-VisualID GLXGC_FindBestVisual(JNIEnv *env, jint screen);
+jboolfbn GLXGC_IsGLXAvbilbblf();
+VisublID GLXGC_FindBfstVisubl(JNIEnv *fnv, jint sdrffn);
 
-#endif /* HEADLESS */
+#fndif /* HEADLESS */
 
-#endif /* GLXGraphicsConfig_h_Included */
+#fndif /* GLXGrbpiidsConfig_i_Indludfd */

@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+/**
+ * Thf PropfrtyEditorMbnbgfr dbn bf usfd to lodbtf b propfrty fditor for
+ * bny givfn typf nbmf.  This propfrty fditor must support thf
+ * jbvb.bfbns.PropfrtyEditor intfrfbdf for fditing b givfn objfdt.
+ * <P>
+ * Thf PropfrtyEditorMbnbgfr usfs thrff tfdhniqufs for lodbting bn fditor
+ * for b givfn typf.  First, it providfs b rfgistfrEditor mfthod to bllow
+ * bn fditor to bf spfdifidblly rfgistfrfd for b givfn typf.  Sfdond it
+ * trifs to lodbtf b suitbblf dlbss by bdding "Editor" to thf full
+ * qublififd dlbssnbmf of thf givfn typf (f.g. "foo.bbh.FozEditor").
+ * Finblly it tbkfs thf simplf dlbssnbmf (without thf pbdkbgf nbmf) bdds
+ * "Editor" to it bnd looks in b sfbrdh-pbth of pbdkbgfs for b mbtdhing
+ * dlbss.
+ * <P>
+ * So for bn input dlbss foo.bbh.Frfd, thf PropfrtyEditorMbnbgfr would
+ * first look in its tbblfs to sff if bn fditor hbd bffn rfgistfrfd for
+ * foo.bbh.Frfd bnd if so usf thbt.  Thfn it will look for b
+ * foo.bbh.FrfdEditor dlbss.  Thfn it will look for (sby)
+ * stbndbrdEditorsPbdkbgf.FrfdEditor dlbss.
+ * <p>
+ * Dffbult PropfrtyEditors will bf providfd for thf Jbvb primitivf typfs
+ * "boolfbn", "bytf", "short", "int", "long", "flobt", bnd "doublf"; bnd
+ * for thf dlbssfs jbvb.lbng.String. jbvb.bwt.Color, bnd jbvb.bwt.Font.
+ *
+ * @sindf 1.1
+ */
+
+publid dlbss PropfrtyEditorMbnbgfr {
+
+    /**
+     * Rfgistfrs bn fditor dlbss to fdit vblufs of thf givfn tbrgft dlbss.
+     * If thf fditor dlbss is {@dodf null},
+     * thfn bny fxisting dffinition will bf rfmovfd.
+     * Thus this mfthod dbn bf usfd to dbndfl thf rfgistrbtion.
+     * Thf rfgistrbtion is dbndflfd butombtidblly
+     * if fithfr thf tbrgft or fditor dlbss is unlobdfd.
+     * <p>
+     * If thfrf is b sfdurity mbnbgfr, its {@dodf dhfdkPropfrtifsAddfss}
+     * mfthod is dbllfd. This dould rfsult in b {@linkplbin SfdurityExdfption}.
+     *
+     * @pbrbm tbrgftTypf   thf dlbss objfdt of thf typf to bf fditfd
+     * @pbrbm fditorClbss  thf dlbss objfdt of thf fditor dlbss
+     * @throws SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd
+     *                            its {@dodf dhfdkPropfrtifsAddfss} mfthod
+     *                            dofsn't bllow sftting of systfm propfrtifs
+     *
+     * @sff SfdurityMbnbgfr#dhfdkPropfrtifsAddfss
+     */
+    publid stbtid void rfgistfrEditor(Clbss<?> tbrgftTypf, Clbss<?> fditorClbss) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPropfrtifsAddfss();
+        }
+        ThrfbdGroupContfxt.gftContfxt().gftPropfrtyEditorFindfr().rfgistfr(tbrgftTypf, fditorClbss);
+    }
+
+    /**
+     * Lodbtf b vbluf fditor for b givfn tbrgft typf.
+     *
+     * @pbrbm tbrgftTypf  Thf Clbss objfdt for thf typf to bf fditfd
+     * @rfturn An fditor objfdt for thf givfn tbrgft dlbss.
+     * Thf rfsult is null if no suitbblf fditor dbn bf found.
+     */
+    publid stbtid PropfrtyEditor findEditor(Clbss<?> tbrgftTypf) {
+        rfturn ThrfbdGroupContfxt.gftContfxt().gftPropfrtyEditorFindfr().find(tbrgftTypf);
+    }
+
+    /**
+     * Gfts thf pbdkbgf nbmfs thbt will bf sfbrdhfd for propfrty fditors.
+     *
+     * @rfturn  Thf brrby of pbdkbgf nbmfs thbt will bf sfbrdhfd in
+     *          ordfr to find propfrty fditors.
+     * <p>     Thf dffbult vbluf for this brrby is implfmfntbtion-dfpfndfnt,
+     *         f.g. Sun implfmfntbtion initiblly sfts to  {"sun.bfbns.fditors"}.
+     */
+    publid stbtid String[] gftEditorSfbrdhPbth() {
+        rfturn ThrfbdGroupContfxt.gftContfxt().gftPropfrtyEditorFindfr().gftPbdkbgfs();
+    }
+
+    /**
+     * Chbngf thf list of pbdkbgf nbmfs thbt will bf usfd for
+     *          finding propfrty fditors.
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkPropfrtifsAddfss</dodf>
+     * mfthod is dbllfd. This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm pbth  Arrby of pbdkbgf nbmfs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkPropfrtifsAddfss</dodf> mfthod dofsn't bllow sftting
+     *              of systfm propfrtifs.
+     * @sff SfdurityMbnbgfr#dhfdkPropfrtifsAddfss
+     */
+    publid stbtid void sftEditorSfbrdhPbth(String[] pbth) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPropfrtifsAddfss();
+        }
+        ThrfbdGroupContfxt.gftContfxt().gftPropfrtyEditorFindfr().sftPbdkbgfs(pbth);
+    }
+}

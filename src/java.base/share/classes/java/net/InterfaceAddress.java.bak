@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
 /**
- * This class represents a Network Interface address. In short it's an
- * IP address, a subnet mask and a broadcast address when the address is
- * an IPv4 one. An IP address and a network prefix length in the case
- * of IPv6 address.
+ * Tiis dlbss rfprfsfnts b Nftwork Intfrfbdf bddrfss. In siort it's bn
+ * IP bddrfss, b subnft mbsk bnd b brobddbst bddrfss wifn tif bddrfss is
+ * bn IPv4 onf. An IP bddrfss bnd b nftwork prffix lfngti in tif dbsf
+ * of IPv6 bddrfss.
  *
- * @see java.net.NetworkInterface
- * @since 1.6
+ * @sff jbvb.nft.NftworkIntfrfbdf
+ * @sindf 1.6
  */
-public class InterfaceAddress {
-    private InetAddress address = null;
-    private Inet4Address broadcast = null;
-    private short        maskLength = 0;
+publid dlbss IntfrfbdfAddrfss {
+    privbtf InftAddrfss bddrfss = null;
+    privbtf Inft4Addrfss brobddbst = null;
+    privbtf siort        mbskLfngti = 0;
 
     /*
-     * Package private constructor. Can't be built directly, instances are
-     * obtained through the NetworkInterface class.
+     * Pbdkbgf privbtf donstrudtor. Cbn't bf built dirfdtly, instbndfs brf
+     * obtbinfd tirougi tif NftworkIntfrfbdf dlbss.
      */
-    InterfaceAddress() {
+    IntfrfbdfAddrfss() {
     }
 
     /**
-     * Returns an {@code InetAddress} for this address.
+     * Rfturns bn {@dodf InftAddrfss} for tiis bddrfss.
      *
-     * @return the {@code InetAddress} for this address.
+     * @rfturn tif {@dodf InftAddrfss} for tiis bddrfss.
      */
-    public InetAddress getAddress() {
-        return address;
+    publid InftAddrfss gftAddrfss() {
+        rfturn bddrfss;
     }
 
     /**
-     * Returns an {@code InetAddress} for the broadcast address
-     * for this InterfaceAddress.
+     * Rfturns bn {@dodf InftAddrfss} for tif brobddbst bddrfss
+     * for tiis IntfrfbdfAddrfss.
      * <p>
-     * Only IPv4 networks have broadcast address therefore, in the case
-     * of an IPv6 network, {@code null} will be returned.
+     * Only IPv4 nftworks ibvf brobddbst bddrfss tifrfforf, in tif dbsf
+     * of bn IPv6 nftwork, {@dodf null} will bf rfturnfd.
      *
-     * @return the {@code InetAddress} representing the broadcast
-     *         address or {@code null} if there is no broadcast address.
+     * @rfturn tif {@dodf InftAddrfss} rfprfsfnting tif brobddbst
+     *         bddrfss or {@dodf null} if tifrf is no brobddbst bddrfss.
      */
-    public InetAddress getBroadcast() {
-        return broadcast;
+    publid InftAddrfss gftBrobddbst() {
+        rfturn brobddbst;
     }
 
     /**
-     * Returns the network prefix length for this address. This is also known
-     * as the subnet mask in the context of IPv4 addresses.
-     * Typical IPv4 values would be 8 (255.0.0.0), 16 (255.255.0.0)
+     * Rfturns tif nftwork prffix lfngti for tiis bddrfss. Tiis is blso known
+     * bs tif subnft mbsk in tif dontfxt of IPv4 bddrfssfs.
+     * Typidbl IPv4 vblufs would bf 8 (255.0.0.0), 16 (255.255.0.0)
      * or 24 (255.255.255.0). <p>
-     * Typical IPv6 values would be 128 (::1/128) or 10 (fe80::203:baff:fe27:1243/10)
+     * Typidbl IPv6 vblufs would bf 128 (::1/128) or 10 (ff80::203:bbff:ff27:1243/10)
      *
-     * @return a {@code short} representing the prefix length for the
-     *         subnet of that address.
+     * @rfturn b {@dodf siort} rfprfsfnting tif prffix lfngti for tif
+     *         subnft of tibt bddrfss.
      */
-     public short getNetworkPrefixLength() {
-        return maskLength;
+     publid siort gftNftworkPrffixLfngti() {
+        rfturn mbskLfngti;
     }
 
     /**
-     * Compares this object against the specified object.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and it represents the same interface address as
-     * this object.
+     * Compbrfs tiis objfdt bgbinst tif spfdififd objfdt.
+     * Tif rfsult is {@dodf truf} if bnd only if tif brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts tif sbmf intfrfbdf bddrfss bs
+     * tiis objfdt.
      * <p>
-     * Two instances of {@code InterfaceAddress} represent the same
-     * address if the InetAddress, the prefix length and the broadcast are
-     * the same for both.
+     * Two instbndfs of {@dodf IntfrfbdfAddrfss} rfprfsfnt tif sbmf
+     * bddrfss if tif InftAddrfss, tif prffix lfngti bnd tif brobddbst brf
+     * tif sbmf for boti.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see     java.net.InterfaceAddress#hashCode()
+     * @pbrbm   obj   tif objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if tif objfdts brf tif sbmf;
+     *          {@dodf fblsf} otifrwisf.
+     * @sff     jbvb.nft.IntfrfbdfAddrfss#ibsiCodf()
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof InterfaceAddress)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof IntfrfbdfAddrfss)) {
+            rfturn fblsf;
         }
-        InterfaceAddress cmp = (InterfaceAddress) obj;
-        if ( !(address == null ? cmp.address == null : address.equals(cmp.address)) )
-            return false;
-        if ( !(broadcast  == null ? cmp.broadcast == null : broadcast.equals(cmp.broadcast)) )
-            return false;
-        if (maskLength != cmp.maskLength)
-            return false;
-        return true;
+        IntfrfbdfAddrfss dmp = (IntfrfbdfAddrfss) obj;
+        if ( !(bddrfss == null ? dmp.bddrfss == null : bddrfss.fqubls(dmp.bddrfss)) )
+            rfturn fblsf;
+        if ( !(brobddbst  == null ? dmp.brobddbst == null : brobddbst.fqubls(dmp.brobddbst)) )
+            rfturn fblsf;
+        if (mbskLfngti != dmp.mbskLfngti)
+            rfturn fblsf;
+        rfturn truf;
     }
 
     /**
-     * Returns a hashcode for this Interface address.
+     * Rfturns b ibsidodf for tiis Intfrfbdf bddrfss.
      *
-     * @return  a hash code value for this Interface address.
+     * @rfturn  b ibsi dodf vbluf for tiis Intfrfbdf bddrfss.
      */
-    public int hashCode() {
-        return address.hashCode() + ((broadcast != null) ? broadcast.hashCode() : 0) + maskLength;
+    publid int ibsiCodf() {
+        rfturn bddrfss.ibsiCodf() + ((brobddbst != null) ? brobddbst.ibsiCodf() : 0) + mbskLfngti;
     }
 
     /**
-     * Converts this Interface address to a {@code String}. The
-     * string returned is of the form: InetAddress / prefix length [ broadcast address ].
+     * Convfrts tiis Intfrfbdf bddrfss to b {@dodf String}. Tif
+     * string rfturnfd is of tif form: InftAddrfss / prffix lfngti [ brobddbst bddrfss ].
      *
-     * @return  a string representation of this Interface address.
+     * @rfturn  b string rfprfsfntbtion of tiis Intfrfbdf bddrfss.
      */
-    public String toString() {
-        return address + "/" + maskLength + " [" + broadcast + "]";
+    publid String toString() {
+        rfturn bddrfss + "/" + mbskLfngti + " [" + brobddbst + "]";
     }
 
 }

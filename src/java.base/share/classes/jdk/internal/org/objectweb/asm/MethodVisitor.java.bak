@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,300 +56,300 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
 /**
- * A visitor to visit a Java method. The methods of this class must be called in
- * the following order: ( <tt>visitParameter</tt> )* [
- * <tt>visitAnnotationDefault</tt> ] ( <tt>visitAnnotation</tt> |
- * <tt>visitTypeAnnotation</tt> | <tt>visitAttribute</tt> )* [
- * <tt>visitCode</tt> ( <tt>visitFrame</tt> | <tt>visit<i>X</i>Insn</tt> |
- * <tt>visitLabel</tt> | <tt>visitInsnAnnotation</tt> |
- * <tt>visitTryCatchBlock</tt> | <tt>visitTryCatchBlockAnnotation</tt> |
- * <tt>visitLocalVariable</tt> | <tt>visitLocalVariableAnnotation</tt> |
- * <tt>visitLineNumber</tt> )* <tt>visitMaxs</tt> ] <tt>visitEnd</tt>. In
- * addition, the <tt>visit<i>X</i>Insn</tt> and <tt>visitLabel</tt> methods must
- * be called in the sequential order of the bytecode instructions of the visited
- * code, <tt>visitInsnAnnotation</tt> must be called <i>after</i> the annotated
- * instruction, <tt>visitTryCatchBlock</tt> must be called <i>before</i> the
- * labels passed as arguments have been visited,
- * <tt>visitTryCatchBlockAnnotation</tt> must be called <i>after</i> the
- * corresponding try catch block has been visited, and the
- * <tt>visitLocalVariable</tt>, <tt>visitLocalVariableAnnotation</tt> and
- * <tt>visitLineNumber</tt> methods must be called <i>after</i> the labels
- * passed as arguments have been visited.
+ * A visitor to visit b Jbvb mftiod. Tif mftiods of tiis dlbss must bf dbllfd in
+ * tif following ordfr: ( <tt>visitPbrbmftfr</tt> )* [
+ * <tt>visitAnnotbtionDffbult</tt> ] ( <tt>visitAnnotbtion</tt> |
+ * <tt>visitTypfAnnotbtion</tt> | <tt>visitAttributf</tt> )* [
+ * <tt>visitCodf</tt> ( <tt>visitFrbmf</tt> | <tt>visit<i>X</i>Insn</tt> |
+ * <tt>visitLbbfl</tt> | <tt>visitInsnAnnotbtion</tt> |
+ * <tt>visitTryCbtdiBlodk</tt> | <tt>visitTryCbtdiBlodkAnnotbtion</tt> |
+ * <tt>visitLodblVbribblf</tt> | <tt>visitLodblVbribblfAnnotbtion</tt> |
+ * <tt>visitLinfNumbfr</tt> )* <tt>visitMbxs</tt> ] <tt>visitEnd</tt>. In
+ * bddition, tif <tt>visit<i>X</i>Insn</tt> bnd <tt>visitLbbfl</tt> mftiods must
+ * bf dbllfd in tif sfqufntibl ordfr of tif bytfdodf instrudtions of tif visitfd
+ * dodf, <tt>visitInsnAnnotbtion</tt> must bf dbllfd <i>bftfr</i> tif bnnotbtfd
+ * instrudtion, <tt>visitTryCbtdiBlodk</tt> must bf dbllfd <i>bfforf</i> tif
+ * lbbfls pbssfd bs brgumfnts ibvf bffn visitfd,
+ * <tt>visitTryCbtdiBlodkAnnotbtion</tt> must bf dbllfd <i>bftfr</i> tif
+ * dorrfsponding try dbtdi blodk ibs bffn visitfd, bnd tif
+ * <tt>visitLodblVbribblf</tt>, <tt>visitLodblVbribblfAnnotbtion</tt> bnd
+ * <tt>visitLinfNumbfr</tt> mftiods must bf dbllfd <i>bftfr</i> tif lbbfls
+ * pbssfd bs brgumfnts ibvf bffn visitfd.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public abstract class MethodVisitor {
+publid bbstrbdt dlbss MftiodVisitor {
 
     /**
-     * The ASM API version implemented by this visitor. The value of this field
-     * must be one of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * Tif ASM API vfrsion implfmfntfd by tiis visitor. Tif vbluf of tiis fifld
+     * must bf onf of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
      */
-    protected final int api;
+    protfdtfd finbl int bpi;
 
     /**
-     * The method visitor to which this visitor must delegate method calls. May
-     * be null.
+     * Tif mftiod visitor to wiidi tiis visitor must dflfgbtf mftiod dblls. Mby
+     * bf null.
      */
-    protected MethodVisitor mv;
+    protfdtfd MftiodVisitor mv;
 
     /**
-     * Constructs a new {@link MethodVisitor}.
+     * Construdts b nfw {@link MftiodVisitor}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
      */
-    public MethodVisitor(final int api) {
-        this(api, null);
+    publid MftiodVisitor(finbl int bpi) {
+        tiis(bpi, null);
     }
 
     /**
-     * Constructs a new {@link MethodVisitor}.
+     * Construdts b nfw {@link MftiodVisitor}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param mv
-     *            the method visitor to which this visitor must delegate method
-     *            calls. May be null.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis visitor must dflfgbtf mftiod
+     *            dblls. Mby bf null.
      */
-    public MethodVisitor(final int api, final MethodVisitor mv) {
-        if (api != Opcodes.ASM4 && api != Opcodes.ASM5) {
-            throw new IllegalArgumentException();
+    publid MftiodVisitor(finbl int bpi, finbl MftiodVisitor mv) {
+        if (bpi != Opdodfs.ASM4 && bpi != Opdodfs.ASM5) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        this.api = api;
-        this.mv = mv;
+        tiis.bpi = bpi;
+        tiis.mv = mv;
     }
 
     // -------------------------------------------------------------------------
-    // Parameters, annotations and non standard attributes
+    // Pbrbmftfrs, bnnotbtions bnd non stbndbrd bttributfs
     // -------------------------------------------------------------------------
 
     /**
-     * Visits a parameter of this method.
+     * Visits b pbrbmftfr of tiis mftiod.
      *
-     * @param name
-     *            parameter name or null if none is provided.
-     * @param access
-     *            the parameter's access flags, only <tt>ACC_FINAL</tt>,
-     *            <tt>ACC_SYNTHETIC</tt> or/and <tt>ACC_MANDATED</tt> are
-     *            allowed (see {@link Opcodes}).
+     * @pbrbm nbmf
+     *            pbrbmftfr nbmf or null if nonf is providfd.
+     * @pbrbm bddfss
+     *            tif pbrbmftfr's bddfss flbgs, only <tt>ACC_FINAL</tt>,
+     *            <tt>ACC_SYNTHETIC</tt> or/bnd <tt>ACC_MANDATED</tt> brf
+     *            bllowfd (sff {@link Opdodfs}).
      */
-    public void visitParameter(String name, int access) {
-        if (api < Opcodes.ASM5) {
-            throw new RuntimeException();
+    publid void visitPbrbmftfr(String nbmf, int bddfss) {
+        if (bpi < Opdodfs.ASM5) {
+            tirow nfw RuntimfExdfption();
         }
         if (mv != null) {
-            mv.visitParameter(name, access);
+            mv.visitPbrbmftfr(nbmf, bddfss);
         }
     }
 
     /**
-     * Visits the default value of this annotation interface method.
+     * Visits tif dffbult vbluf of tiis bnnotbtion intfrfbdf mftiod.
      *
-     * @return a visitor to the visit the actual default value of this
-     *         annotation interface method, or <tt>null</tt> if this visitor is
-     *         not interested in visiting this default value. The 'name'
-     *         parameters passed to the methods of this annotation visitor are
-     *         ignored. Moreover, exacly one visit method must be called on this
-     *         annotation visitor, followed by visitEnd.
+     * @rfturn b visitor to tif visit tif bdtubl dffbult vbluf of tiis
+     *         bnnotbtion intfrfbdf mftiod, or <tt>null</tt> if tiis visitor is
+     *         not intfrfstfd in visiting tiis dffbult vbluf. Tif 'nbmf'
+     *         pbrbmftfrs pbssfd to tif mftiods of tiis bnnotbtion visitor brf
+     *         ignorfd. Morfovfr, fxbdly onf visit mftiod must bf dbllfd on tiis
+     *         bnnotbtion visitor, followfd by visitEnd.
      */
-    public AnnotationVisitor visitAnnotationDefault() {
+    publid AnnotbtionVisitor visitAnnotbtionDffbult() {
         if (mv != null) {
-            return mv.visitAnnotationDefault();
+            rfturn mv.visitAnnotbtionDffbult();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Visits an annotation of this method.
+     * Visits bn bnnotbtion of tiis mftiod.
      *
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if tif bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit tif bnnotbtion vblufs, or <tt>null</tt> if
+     *         tiis visitor is not intfrfstfd in visiting tiis bnnotbtion.
      */
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+    publid AnnotbtionVisitor visitAnnotbtion(String dfsd, boolfbn visiblf) {
         if (mv != null) {
-            return mv.visitAnnotation(desc, visible);
+            rfturn mv.visitAnnotbtion(dfsd, visiblf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Visits an annotation on a type in the method signature.
+     * Visits bn bnnotbtion on b typf in tif mftiod signbturf.
      *
-     * @param typeRef
-     *            a reference to the annotated type. The sort of this type
-     *            reference must be {@link TypeReference#METHOD_TYPE_PARAMETER
+     * @pbrbm typfRff
+     *            b rfffrfndf to tif bnnotbtfd typf. Tif sort of tiis typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#METHOD_TYPE_PARAMETER
      *            METHOD_TYPE_PARAMETER},
-     *            {@link TypeReference#METHOD_TYPE_PARAMETER_BOUND
+     *            {@link TypfRfffrfndf#METHOD_TYPE_PARAMETER_BOUND
      *            METHOD_TYPE_PARAMETER_BOUND},
-     *            {@link TypeReference#METHOD_RETURN METHOD_RETURN},
-     *            {@link TypeReference#METHOD_RECEIVER METHOD_RECEIVER},
-     *            {@link TypeReference#METHOD_FORMAL_PARAMETER
-     *            METHOD_FORMAL_PARAMETER} or {@link TypeReference#THROWS
-     *            THROWS}. See {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     *            {@link TypfRfffrfndf#METHOD_RETURN METHOD_RETURN},
+     *            {@link TypfRfffrfndf#METHOD_RECEIVER METHOD_RECEIVER},
+     *            {@link TypfRfffrfndf#METHOD_FORMAL_PARAMETER
+     *            METHOD_FORMAL_PARAMETER} or {@link TypfRfffrfndf#THROWS
+     *            THROWS}. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbti
+     *            tif pbti to tif bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf witiin 'typfRff'. Mby bf
+     *            <tt>null</tt> if tif bnnotbtion tbrgfts 'typfRff' bs b wiolf.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if tif bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit tif bnnotbtion vblufs, or <tt>null</tt> if
+     *         tiis visitor is not intfrfstfd in visiting tiis bnnotbtion.
      */
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        if (api < Opcodes.ASM5) {
-            throw new RuntimeException();
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            tirow nfw RuntimfExdfption();
         }
         if (mv != null) {
-            return mv.visitTypeAnnotation(typeRef, typePath, desc, visible);
+            rfturn mv.visitTypfAnnotbtion(typfRff, typfPbti, dfsd, visiblf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Visits an annotation of a parameter this method.
+     * Visits bn bnnotbtion of b pbrbmftfr tiis mftiod.
      *
-     * @param parameter
-     *            the parameter index.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * @pbrbm pbrbmftfr
+     *            tif pbrbmftfr indfx.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if tif bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit tif bnnotbtion vblufs, or <tt>null</tt> if
+     *         tiis visitor is not intfrfstfd in visiting tiis bnnotbtion.
      */
-    public AnnotationVisitor visitParameterAnnotation(int parameter,
-            String desc, boolean visible) {
+    publid AnnotbtionVisitor visitPbrbmftfrAnnotbtion(int pbrbmftfr,
+            String dfsd, boolfbn visiblf) {
         if (mv != null) {
-            return mv.visitParameterAnnotation(parameter, desc, visible);
+            rfturn mv.visitPbrbmftfrAnnotbtion(pbrbmftfr, dfsd, visiblf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Visits a non standard attribute of this method.
+     * Visits b non stbndbrd bttributf of tiis mftiod.
      *
-     * @param attr
-     *            an attribute.
+     * @pbrbm bttr
+     *            bn bttributf.
      */
-    public void visitAttribute(Attribute attr) {
+    publid void visitAttributf(Attributf bttr) {
         if (mv != null) {
-            mv.visitAttribute(attr);
+            mv.visitAttributf(bttr);
         }
     }
 
     /**
-     * Starts the visit of the method's code, if any (i.e. non abstract method).
+     * Stbrts tif visit of tif mftiod's dodf, if bny (i.f. non bbstrbdt mftiod).
      */
-    public void visitCode() {
+    publid void visitCodf() {
         if (mv != null) {
-            mv.visitCode();
+            mv.visitCodf();
         }
     }
 
     /**
-     * Visits the current state of the local variables and operand stack
-     * elements. This method must(*) be called <i>just before</i> any
-     * instruction <b>i</b> that follows an unconditional branch instruction
-     * such as GOTO or THROW, that is the target of a jump instruction, or that
-     * starts an exception handler block. The visited types must describe the
-     * values of the local variables and of the operand stack elements <i>just
-     * before</i> <b>i</b> is executed.<br>
+     * Visits tif durrfnt stbtf of tif lodbl vbribblfs bnd opfrbnd stbdk
+     * flfmfnts. Tiis mftiod must(*) bf dbllfd <i>just bfforf</i> bny
+     * instrudtion <b>i</b> tibt follows bn undonditionbl brbndi instrudtion
+     * sudi bs GOTO or THROW, tibt is tif tbrgft of b jump instrudtion, or tibt
+     * stbrts bn fxdfption ibndlfr blodk. Tif visitfd typfs must dfsdribf tif
+     * vblufs of tif lodbl vbribblfs bnd of tif opfrbnd stbdk flfmfnts <i>just
+     * bfforf</i> <b>i</b> is fxfdutfd.<br>
      * <br>
-     * (*) this is mandatory only for classes whose version is greater than or
-     * equal to {@link Opcodes#V1_6 V1_6}. <br>
+     * (*) tiis is mbndbtory only for dlbssfs wiosf vfrsion is grfbtfr tibn or
+     * fqubl to {@link Opdodfs#V1_6 V1_6}. <br>
      * <br>
-     * The frames of a method must be given either in expanded form, or in
-     * compressed form (all frames must use the same format, i.e. you must not
-     * mix expanded and compressed frames within a single method):
+     * Tif frbmfs of b mftiod must bf givfn fitifr in fxpbndfd form, or in
+     * domprfssfd form (bll frbmfs must usf tif sbmf formbt, i.f. you must not
+     * mix fxpbndfd bnd domprfssfd frbmfs witiin b singlf mftiod):
      * <ul>
-     * <li>In expanded form, all frames must have the F_NEW type.</li>
-     * <li>In compressed form, frames are basically "deltas" from the state of
-     * the previous frame:
+     * <li>In fxpbndfd form, bll frbmfs must ibvf tif F_NEW typf.</li>
+     * <li>In domprfssfd form, frbmfs brf bbsidblly "dfltbs" from tif stbtf of
+     * tif prfvious frbmf:
      * <ul>
-     * <li>{@link Opcodes#F_SAME} representing frame with exactly the same
-     * locals as the previous frame and with the empty stack.</li>
-     * <li>{@link Opcodes#F_SAME1} representing frame with exactly the same
-     * locals as the previous frame and with single value on the stack (
-     * <code>nStack</code> is 1 and <code>stack[0]</code> contains value for the
-     * type of the stack item).</li>
-     * <li>{@link Opcodes#F_APPEND} representing frame with current locals are
-     * the same as the locals in the previous frame, except that additional
-     * locals are defined (<code>nLocal</code> is 1, 2 or 3 and
-     * <code>local</code> elements contains values representing added types).</li>
-     * <li>{@link Opcodes#F_CHOP} representing frame with current locals are the
-     * same as the locals in the previous frame, except that the last 1-3 locals
-     * are absent and with the empty stack (<code>nLocals</code> is 1, 2 or 3).</li>
-     * <li>{@link Opcodes#F_FULL} representing complete frame data.</li>
+     * <li>{@link Opdodfs#F_SAME} rfprfsfnting frbmf witi fxbdtly tif sbmf
+     * lodbls bs tif prfvious frbmf bnd witi tif fmpty stbdk.</li>
+     * <li>{@link Opdodfs#F_SAME1} rfprfsfnting frbmf witi fxbdtly tif sbmf
+     * lodbls bs tif prfvious frbmf bnd witi singlf vbluf on tif stbdk (
+     * <dodf>nStbdk</dodf> is 1 bnd <dodf>stbdk[0]</dodf> dontbins vbluf for tif
+     * typf of tif stbdk itfm).</li>
+     * <li>{@link Opdodfs#F_APPEND} rfprfsfnting frbmf witi durrfnt lodbls brf
+     * tif sbmf bs tif lodbls in tif prfvious frbmf, fxdfpt tibt bdditionbl
+     * lodbls brf dffinfd (<dodf>nLodbl</dodf> is 1, 2 or 3 bnd
+     * <dodf>lodbl</dodf> flfmfnts dontbins vblufs rfprfsfnting bddfd typfs).</li>
+     * <li>{@link Opdodfs#F_CHOP} rfprfsfnting frbmf witi durrfnt lodbls brf tif
+     * sbmf bs tif lodbls in tif prfvious frbmf, fxdfpt tibt tif lbst 1-3 lodbls
+     * brf bbsfnt bnd witi tif fmpty stbdk (<dodf>nLodbls</dodf> is 1, 2 or 3).</li>
+     * <li>{@link Opdodfs#F_FULL} rfprfsfnting domplftf frbmf dbtb.</li>
      * </ul>
      * </li>
      * </ul>
      * <br>
-     * In both cases the first frame, corresponding to the method's parameters
-     * and access flags, is implicit and must not be visited. Also, it is
-     * illegal to visit two or more frames for the same code location (i.e., at
-     * least one instruction must be visited between two calls to visitFrame).
+     * In boti dbsfs tif first frbmf, dorrfsponding to tif mftiod's pbrbmftfrs
+     * bnd bddfss flbgs, is implidit bnd must not bf visitfd. Also, it is
+     * illfgbl to visit two or morf frbmfs for tif sbmf dodf lodbtion (i.f., bt
+     * lfbst onf instrudtion must bf visitfd bftwffn two dblls to visitFrbmf).
      *
-     * @param type
-     *            the type of this stack map frame. Must be
-     *            {@link Opcodes#F_NEW} for expanded frames, or
-     *            {@link Opcodes#F_FULL}, {@link Opcodes#F_APPEND},
-     *            {@link Opcodes#F_CHOP}, {@link Opcodes#F_SAME} or
-     *            {@link Opcodes#F_APPEND}, {@link Opcodes#F_SAME1} for
-     *            compressed frames.
-     * @param nLocal
-     *            the number of local variables in the visited frame.
-     * @param local
-     *            the local variable types in this frame. This array must not be
-     *            modified. Primitive types are represented by
-     *            {@link Opcodes#TOP}, {@link Opcodes#INTEGER},
-     *            {@link Opcodes#FLOAT}, {@link Opcodes#LONG},
-     *            {@link Opcodes#DOUBLE},{@link Opcodes#NULL} or
-     *            {@link Opcodes#UNINITIALIZED_THIS} (long and double are
-     *            represented by a single element). Reference types are
-     *            represented by String objects (representing internal names),
-     *            and uninitialized types by Label objects (this label
-     *            designates the NEW instruction that created this uninitialized
-     *            value).
-     * @param nStack
-     *            the number of operand stack elements in the visited frame.
-     * @param stack
-     *            the operand stack types in this frame. This array must not be
-     *            modified. Its content has the same format as the "local"
-     *            array.
-     * @throws IllegalStateException
-     *             if a frame is visited just after another one, without any
-     *             instruction between the two (unless this frame is a
-     *             Opcodes#F_SAME frame, in which case it is silently ignored).
+     * @pbrbm typf
+     *            tif typf of tiis stbdk mbp frbmf. Must bf
+     *            {@link Opdodfs#F_NEW} for fxpbndfd frbmfs, or
+     *            {@link Opdodfs#F_FULL}, {@link Opdodfs#F_APPEND},
+     *            {@link Opdodfs#F_CHOP}, {@link Opdodfs#F_SAME} or
+     *            {@link Opdodfs#F_APPEND}, {@link Opdodfs#F_SAME1} for
+     *            domprfssfd frbmfs.
+     * @pbrbm nLodbl
+     *            tif numbfr of lodbl vbribblfs in tif visitfd frbmf.
+     * @pbrbm lodbl
+     *            tif lodbl vbribblf typfs in tiis frbmf. Tiis brrby must not bf
+     *            modififd. Primitivf typfs brf rfprfsfntfd by
+     *            {@link Opdodfs#TOP}, {@link Opdodfs#INTEGER},
+     *            {@link Opdodfs#FLOAT}, {@link Opdodfs#LONG},
+     *            {@link Opdodfs#DOUBLE},{@link Opdodfs#NULL} or
+     *            {@link Opdodfs#UNINITIALIZED_THIS} (long bnd doublf brf
+     *            rfprfsfntfd by b singlf flfmfnt). Rfffrfndf typfs brf
+     *            rfprfsfntfd by String objfdts (rfprfsfnting intfrnbl nbmfs),
+     *            bnd uninitiblizfd typfs by Lbbfl objfdts (tiis lbbfl
+     *            dfsignbtfs tif NEW instrudtion tibt drfbtfd tiis uninitiblizfd
+     *            vbluf).
+     * @pbrbm nStbdk
+     *            tif numbfr of opfrbnd stbdk flfmfnts in tif visitfd frbmf.
+     * @pbrbm stbdk
+     *            tif opfrbnd stbdk typfs in tiis frbmf. Tiis brrby must not bf
+     *            modififd. Its dontfnt ibs tif sbmf formbt bs tif "lodbl"
+     *            brrby.
+     * @tirows IllfgblStbtfExdfption
+     *             if b frbmf is visitfd just bftfr bnotifr onf, witiout bny
+     *             instrudtion bftwffn tif two (unlfss tiis frbmf is b
+     *             Opdodfs#F_SAME frbmf, in wiidi dbsf it is silfntly ignorfd).
      */
-    public void visitFrame(int type, int nLocal, Object[] local, int nStack,
-            Object[] stack) {
+    publid void visitFrbmf(int typf, int nLodbl, Objfdt[] lodbl, int nStbdk,
+            Objfdt[] stbdk) {
         if (mv != null) {
-            mv.visitFrame(type, nLocal, local, nStack, stack);
+            mv.visitFrbmf(typf, nLodbl, lodbl, nStbdk, stbdk);
         }
     }
 
     // -------------------------------------------------------------------------
-    // Normal instructions
+    // Normbl instrudtions
     // -------------------------------------------------------------------------
 
     /**
-     * Visits a zero operand instruction.
+     * Visits b zfro opfrbnd instrudtion.
      *
-     * @param opcode
-     *            the opcode of the instruction to be visited. This opcode is
-     *            either NOP, ACONST_NULL, ICONST_M1, ICONST_0, ICONST_1,
+     * @pbrbm opdodf
+     *            tif opdodf of tif instrudtion to bf visitfd. Tiis opdodf is
+     *            fitifr NOP, ACONST_NULL, ICONST_M1, ICONST_0, ICONST_1,
      *            ICONST_2, ICONST_3, ICONST_4, ICONST_5, LCONST_0, LCONST_1,
      *            FCONST_0, FCONST_1, FCONST_2, DCONST_0, DCONST_1, IALOAD,
      *            LALOAD, FALOAD, DALOAD, AALOAD, BALOAD, CALOAD, SALOAD,
@@ -364,544 +364,544 @@ public abstract class MethodVisitor {
      *            DRETURN, ARETURN, RETURN, ARRAYLENGTH, ATHROW, MONITORENTER,
      *            or MONITOREXIT.
      */
-    public void visitInsn(int opcode) {
+    publid void visitInsn(int opdodf) {
         if (mv != null) {
-            mv.visitInsn(opcode);
+            mv.visitInsn(opdodf);
         }
     }
 
     /**
-     * Visits an instruction with a single int operand.
+     * Visits bn instrudtion witi b singlf int opfrbnd.
      *
-     * @param opcode
-     *            the opcode of the instruction to be visited. This opcode is
-     *            either BIPUSH, SIPUSH or NEWARRAY.
-     * @param operand
-     *            the operand of the instruction to be visited.<br>
-     *            When opcode is BIPUSH, operand value should be between
-     *            Byte.MIN_VALUE and Byte.MAX_VALUE.<br>
-     *            When opcode is SIPUSH, operand value should be between
-     *            Short.MIN_VALUE and Short.MAX_VALUE.<br>
-     *            When opcode is NEWARRAY, operand value should be one of
-     *            {@link Opcodes#T_BOOLEAN}, {@link Opcodes#T_CHAR},
-     *            {@link Opcodes#T_FLOAT}, {@link Opcodes#T_DOUBLE},
-     *            {@link Opcodes#T_BYTE}, {@link Opcodes#T_SHORT},
-     *            {@link Opcodes#T_INT} or {@link Opcodes#T_LONG}.
+     * @pbrbm opdodf
+     *            tif opdodf of tif instrudtion to bf visitfd. Tiis opdodf is
+     *            fitifr BIPUSH, SIPUSH or NEWARRAY.
+     * @pbrbm opfrbnd
+     *            tif opfrbnd of tif instrudtion to bf visitfd.<br>
+     *            Wifn opdodf is BIPUSH, opfrbnd vbluf siould bf bftwffn
+     *            Bytf.MIN_VALUE bnd Bytf.MAX_VALUE.<br>
+     *            Wifn opdodf is SIPUSH, opfrbnd vbluf siould bf bftwffn
+     *            Siort.MIN_VALUE bnd Siort.MAX_VALUE.<br>
+     *            Wifn opdodf is NEWARRAY, opfrbnd vbluf siould bf onf of
+     *            {@link Opdodfs#T_BOOLEAN}, {@link Opdodfs#T_CHAR},
+     *            {@link Opdodfs#T_FLOAT}, {@link Opdodfs#T_DOUBLE},
+     *            {@link Opdodfs#T_BYTE}, {@link Opdodfs#T_SHORT},
+     *            {@link Opdodfs#T_INT} or {@link Opdodfs#T_LONG}.
      */
-    public void visitIntInsn(int opcode, int operand) {
+    publid void visitIntInsn(int opdodf, int opfrbnd) {
         if (mv != null) {
-            mv.visitIntInsn(opcode, operand);
+            mv.visitIntInsn(opdodf, opfrbnd);
         }
     }
 
     /**
-     * Visits a local variable instruction. A local variable instruction is an
-     * instruction that loads or stores the value of a local variable.
+     * Visits b lodbl vbribblf instrudtion. A lodbl vbribblf instrudtion is bn
+     * instrudtion tibt lobds or storfs tif vbluf of b lodbl vbribblf.
      *
-     * @param opcode
-     *            the opcode of the local variable instruction to be visited.
-     *            This opcode is either ILOAD, LLOAD, FLOAD, DLOAD, ALOAD,
+     * @pbrbm opdodf
+     *            tif opdodf of tif lodbl vbribblf instrudtion to bf visitfd.
+     *            Tiis opdodf is fitifr ILOAD, LLOAD, FLOAD, DLOAD, ALOAD,
      *            ISTORE, LSTORE, FSTORE, DSTORE, ASTORE or RET.
-     * @param var
-     *            the operand of the instruction to be visited. This operand is
-     *            the index of a local variable.
+     * @pbrbm vbr
+     *            tif opfrbnd of tif instrudtion to bf visitfd. Tiis opfrbnd is
+     *            tif indfx of b lodbl vbribblf.
      */
-    public void visitVarInsn(int opcode, int var) {
+    publid void visitVbrInsn(int opdodf, int vbr) {
         if (mv != null) {
-            mv.visitVarInsn(opcode, var);
+            mv.visitVbrInsn(opdodf, vbr);
         }
     }
 
     /**
-     * Visits a type instruction. A type instruction is an instruction that
-     * takes the internal name of a class as parameter.
+     * Visits b typf instrudtion. A typf instrudtion is bn instrudtion tibt
+     * tbkfs tif intfrnbl nbmf of b dlbss bs pbrbmftfr.
      *
-     * @param opcode
-     *            the opcode of the type instruction to be visited. This opcode
-     *            is either NEW, ANEWARRAY, CHECKCAST or INSTANCEOF.
-     * @param type
-     *            the operand of the instruction to be visited. This operand
-     *            must be the internal name of an object or array class (see
-     *            {@link Type#getInternalName() getInternalName}).
+     * @pbrbm opdodf
+     *            tif opdodf of tif typf instrudtion to bf visitfd. Tiis opdodf
+     *            is fitifr NEW, ANEWARRAY, CHECKCAST or INSTANCEOF.
+     * @pbrbm typf
+     *            tif opfrbnd of tif instrudtion to bf visitfd. Tiis opfrbnd
+     *            must bf tif intfrnbl nbmf of bn objfdt or brrby dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
      */
-    public void visitTypeInsn(int opcode, String type) {
+    publid void visitTypfInsn(int opdodf, String typf) {
         if (mv != null) {
-            mv.visitTypeInsn(opcode, type);
+            mv.visitTypfInsn(opdodf, typf);
         }
     }
 
     /**
-     * Visits a field instruction. A field instruction is an instruction that
-     * loads or stores the value of a field of an object.
+     * Visits b fifld instrudtion. A fifld instrudtion is bn instrudtion tibt
+     * lobds or storfs tif vbluf of b fifld of bn objfdt.
      *
-     * @param opcode
-     *            the opcode of the type instruction to be visited. This opcode
-     *            is either GETSTATIC, PUTSTATIC, GETFIELD or PUTFIELD.
-     * @param owner
-     *            the internal name of the field's owner class (see
-     *            {@link Type#getInternalName() getInternalName}).
-     * @param name
-     *            the field's name.
-     * @param desc
-     *            the field's descriptor (see {@link Type Type}).
+     * @pbrbm opdodf
+     *            tif opdodf of tif typf instrudtion to bf visitfd. Tiis opdodf
+     *            is fitifr GETSTATIC, PUTSTATIC, GETFIELD or PUTFIELD.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif fifld's ownfr dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     * @pbrbm nbmf
+     *            tif fifld's nbmf.
+     * @pbrbm dfsd
+     *            tif fifld's dfsdriptor (sff {@link Typf Typf}).
      */
-    public void visitFieldInsn(int opcode, String owner, String name,
-            String desc) {
+    publid void visitFifldInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd) {
         if (mv != null) {
-            mv.visitFieldInsn(opcode, owner, name, desc);
+            mv.visitFifldInsn(opdodf, ownfr, nbmf, dfsd);
         }
     }
 
     /**
-     * Visits a method instruction. A method instruction is an instruction that
-     * invokes a method.
+     * Visits b mftiod instrudtion. A mftiod instrudtion is bn instrudtion tibt
+     * invokfs b mftiod.
      *
-     * @param opcode
-     *            the opcode of the type instruction to be visited. This opcode
-     *            is either INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or
+     * @pbrbm opdodf
+     *            tif opdodf of tif typf instrudtion to bf visitfd. Tiis opdodf
+     *            is fitifr INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or
      *            INVOKEINTERFACE.
-     * @param owner
-     *            the internal name of the method's owner class (see
-     *            {@link Type#getInternalName() getInternalName}).
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif mftiod's ownfr dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
      */
-    @Deprecated
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc) {
-        if (api >= Opcodes.ASM5) {
-            boolean itf = opcode == Opcodes.INVOKEINTERFACE;
-            visitMethodInsn(opcode, owner, name, desc, itf);
-            return;
+    @Dfprfdbtfd
+    publid void visitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            boolfbn itf = opdodf == Opdodfs.INVOKEINTERFACE;
+            visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
         }
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc);
+            mv.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
         }
     }
 
     /**
-     * Visits a method instruction. A method instruction is an instruction that
-     * invokes a method.
+     * Visits b mftiod instrudtion. A mftiod instrudtion is bn instrudtion tibt
+     * invokfs b mftiod.
      *
-     * @param opcode
-     *            the opcode of the type instruction to be visited. This opcode
-     *            is either INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or
+     * @pbrbm opdodf
+     *            tif opdodf of tif typf instrudtion to bf visitfd. Tiis opdodf
+     *            is fitifr INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or
      *            INVOKEINTERFACE.
-     * @param owner
-     *            the internal name of the method's owner class (see
-     *            {@link Type#getInternalName() getInternalName}).
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
-     * @param itf
-     *            if the method's owner class is an interface.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif mftiod's ownfr dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm itf
+     *            if tif mftiod's ownfr dlbss is bn intfrfbdf.
      */
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
-        if (api < Opcodes.ASM5) {
-            if (itf != (opcode == Opcodes.INVOKEINTERFACE)) {
-                throw new IllegalArgumentException(
-                        "INVOKESPECIAL/STATIC on interfaces require ASM 5");
+    publid void visitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd, boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            if (itf != (opdodf == Opdodfs.INVOKEINTERFACE)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "INVOKESPECIAL/STATIC on intfrfbdfs rfquirf ASM 5");
             }
-            visitMethodInsn(opcode, owner, name, desc);
-            return;
+            visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
         }
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc, itf);
+            mv.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
         }
     }
 
     /**
-     * Visits an invokedynamic instruction.
+     * Visits bn invokfdynbmid instrudtion.
      *
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
-     * @param bsm
-     *            the bootstrap method.
-     * @param bsmArgs
-     *            the bootstrap method constant arguments. Each argument must be
-     *            an {@link Integer}, {@link Float}, {@link Long},
-     *            {@link Double}, {@link String}, {@link Type} or {@link Handle}
-     *            value. This method is allowed to modify the content of the
-     *            array so a caller should expect that this array may change.
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm bsm
+     *            tif bootstrbp mftiod.
+     * @pbrbm bsmArgs
+     *            tif bootstrbp mftiod donstbnt brgumfnts. Ebdi brgumfnt must bf
+     *            bn {@link Intfgfr}, {@link Flobt}, {@link Long},
+     *            {@link Doublf}, {@link String}, {@link Typf} or {@link Hbndlf}
+     *            vbluf. Tiis mftiod is bllowfd to modify tif dontfnt of tif
+     *            brrby so b dbllfr siould fxpfdt tibt tiis brrby mby dibngf.
      */
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
-            Object... bsmArgs) {
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
         if (mv != null) {
-            mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+            mv.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
         }
     }
 
     /**
-     * Visits a jump instruction. A jump instruction is an instruction that may
-     * jump to another instruction.
+     * Visits b jump instrudtion. A jump instrudtion is bn instrudtion tibt mby
+     * jump to bnotifr instrudtion.
      *
-     * @param opcode
-     *            the opcode of the type instruction to be visited. This opcode
-     *            is either IFEQ, IFNE, IFLT, IFGE, IFGT, IFLE, IF_ICMPEQ,
+     * @pbrbm opdodf
+     *            tif opdodf of tif typf instrudtion to bf visitfd. Tiis opdodf
+     *            is fitifr IFEQ, IFNE, IFLT, IFGE, IFGT, IFLE, IF_ICMPEQ,
      *            IF_ICMPNE, IF_ICMPLT, IF_ICMPGE, IF_ICMPGT, IF_ICMPLE,
      *            IF_ACMPEQ, IF_ACMPNE, GOTO, JSR, IFNULL or IFNONNULL.
-     * @param label
-     *            the operand of the instruction to be visited. This operand is
-     *            a label that designates the instruction to which the jump
-     *            instruction may jump.
+     * @pbrbm lbbfl
+     *            tif opfrbnd of tif instrudtion to bf visitfd. Tiis opfrbnd is
+     *            b lbbfl tibt dfsignbtfs tif instrudtion to wiidi tif jump
+     *            instrudtion mby jump.
      */
-    public void visitJumpInsn(int opcode, Label label) {
+    publid void visitJumpInsn(int opdodf, Lbbfl lbbfl) {
         if (mv != null) {
-            mv.visitJumpInsn(opcode, label);
+            mv.visitJumpInsn(opdodf, lbbfl);
         }
     }
 
     /**
-     * Visits a label. A label designates the instruction that will be visited
-     * just after it.
+     * Visits b lbbfl. A lbbfl dfsignbtfs tif instrudtion tibt will bf visitfd
+     * just bftfr it.
      *
-     * @param label
-     *            a {@link Label Label} object.
+     * @pbrbm lbbfl
+     *            b {@link Lbbfl Lbbfl} objfdt.
      */
-    public void visitLabel(Label label) {
+    publid void visitLbbfl(Lbbfl lbbfl) {
         if (mv != null) {
-            mv.visitLabel(label);
+            mv.visitLbbfl(lbbfl);
         }
     }
 
     // -------------------------------------------------------------------------
-    // Special instructions
+    // Spfdibl instrudtions
     // -------------------------------------------------------------------------
 
     /**
-     * Visits a LDC instruction. Note that new constant types may be added in
-     * future versions of the Java Virtual Machine. To easily detect new
-     * constant types, implementations of this method should check for
-     * unexpected constant types, like this:
+     * Visits b LDC instrudtion. Notf tibt nfw donstbnt typfs mby bf bddfd in
+     * futurf vfrsions of tif Jbvb Virtubl Mbdiinf. To fbsily dftfdt nfw
+     * donstbnt typfs, implfmfntbtions of tiis mftiod siould difdk for
+     * unfxpfdtfd donstbnt typfs, likf tiis:
      *
-     * <pre>
-     * if (cst instanceof Integer) {
+     * <prf>
+     * if (dst instbndfof Intfgfr) {
      *     // ...
-     * } else if (cst instanceof Float) {
+     * } flsf if (dst instbndfof Flobt) {
      *     // ...
-     * } else if (cst instanceof Long) {
+     * } flsf if (dst instbndfof Long) {
      *     // ...
-     * } else if (cst instanceof Double) {
+     * } flsf if (dst instbndfof Doublf) {
      *     // ...
-     * } else if (cst instanceof String) {
+     * } flsf if (dst instbndfof String) {
      *     // ...
-     * } else if (cst instanceof Type) {
-     *     int sort = ((Type) cst).getSort();
-     *     if (sort == Type.OBJECT) {
+     * } flsf if (dst instbndfof Typf) {
+     *     int sort = ((Typf) dst).gftSort();
+     *     if (sort == Typf.OBJECT) {
      *         // ...
-     *     } else if (sort == Type.ARRAY) {
+     *     } flsf if (sort == Typf.ARRAY) {
      *         // ...
-     *     } else if (sort == Type.METHOD) {
+     *     } flsf if (sort == Typf.METHOD) {
      *         // ...
-     *     } else {
-     *         // throw an exception
+     *     } flsf {
+     *         // tirow bn fxdfption
      *     }
-     * } else if (cst instanceof Handle) {
+     * } flsf if (dst instbndfof Hbndlf) {
      *     // ...
-     * } else {
-     *     // throw an exception
+     * } flsf {
+     *     // tirow bn fxdfption
      * }
-     * </pre>
+     * </prf>
      *
-     * @param cst
-     *            the constant to be loaded on the stack. This parameter must be
-     *            a non null {@link Integer}, a {@link Float}, a {@link Long}, a
-     *            {@link Double}, a {@link String}, a {@link Type} of OBJECT or
-     *            ARRAY sort for <tt>.class</tt> constants, for classes whose
-     *            version is 49.0, a {@link Type} of METHOD sort or a
-     *            {@link Handle} for MethodType and MethodHandle constants, for
-     *            classes whose version is 51.0.
+     * @pbrbm dst
+     *            tif donstbnt to bf lobdfd on tif stbdk. Tiis pbrbmftfr must bf
+     *            b non null {@link Intfgfr}, b {@link Flobt}, b {@link Long}, b
+     *            {@link Doublf}, b {@link String}, b {@link Typf} of OBJECT or
+     *            ARRAY sort for <tt>.dlbss</tt> donstbnts, for dlbssfs wiosf
+     *            vfrsion is 49.0, b {@link Typf} of METHOD sort or b
+     *            {@link Hbndlf} for MftiodTypf bnd MftiodHbndlf donstbnts, for
+     *            dlbssfs wiosf vfrsion is 51.0.
      */
-    public void visitLdcInsn(Object cst) {
+    publid void visitLddInsn(Objfdt dst) {
         if (mv != null) {
-            mv.visitLdcInsn(cst);
+            mv.visitLddInsn(dst);
         }
     }
 
     /**
-     * Visits an IINC instruction.
+     * Visits bn IINC instrudtion.
      *
-     * @param var
-     *            index of the local variable to be incremented.
-     * @param increment
-     *            amount to increment the local variable by.
+     * @pbrbm vbr
+     *            indfx of tif lodbl vbribblf to bf indrfmfntfd.
+     * @pbrbm indrfmfnt
+     *            bmount to indrfmfnt tif lodbl vbribblf by.
      */
-    public void visitIincInsn(int var, int increment) {
+    publid void visitIindInsn(int vbr, int indrfmfnt) {
         if (mv != null) {
-            mv.visitIincInsn(var, increment);
+            mv.visitIindInsn(vbr, indrfmfnt);
         }
     }
 
     /**
-     * Visits a TABLESWITCH instruction.
+     * Visits b TABLESWITCH instrudtion.
      *
-     * @param min
-     *            the minimum key value.
-     * @param max
-     *            the maximum key value.
-     * @param dflt
-     *            beginning of the default handler block.
-     * @param labels
-     *            beginnings of the handler blocks. <tt>labels[i]</tt> is the
-     *            beginning of the handler block for the <tt>min + i</tt> key.
+     * @pbrbm min
+     *            tif minimum kfy vbluf.
+     * @pbrbm mbx
+     *            tif mbximum kfy vbluf.
+     * @pbrbm dflt
+     *            bfginning of tif dffbult ibndlfr blodk.
+     * @pbrbm lbbfls
+     *            bfginnings of tif ibndlfr blodks. <tt>lbbfls[i]</tt> is tif
+     *            bfginning of tif ibndlfr blodk for tif <tt>min + i</tt> kfy.
      */
-    public void visitTableSwitchInsn(int min, int max, Label dflt,
-            Label... labels) {
+    publid void visitTbblfSwitdiInsn(int min, int mbx, Lbbfl dflt,
+            Lbbfl... lbbfls) {
         if (mv != null) {
-            mv.visitTableSwitchInsn(min, max, dflt, labels);
+            mv.visitTbblfSwitdiInsn(min, mbx, dflt, lbbfls);
         }
     }
 
     /**
-     * Visits a LOOKUPSWITCH instruction.
+     * Visits b LOOKUPSWITCH instrudtion.
      *
-     * @param dflt
-     *            beginning of the default handler block.
-     * @param keys
-     *            the values of the keys.
-     * @param labels
-     *            beginnings of the handler blocks. <tt>labels[i]</tt> is the
-     *            beginning of the handler block for the <tt>keys[i]</tt> key.
+     * @pbrbm dflt
+     *            bfginning of tif dffbult ibndlfr blodk.
+     * @pbrbm kfys
+     *            tif vblufs of tif kfys.
+     * @pbrbm lbbfls
+     *            bfginnings of tif ibndlfr blodks. <tt>lbbfls[i]</tt> is tif
+     *            bfginning of tif ibndlfr blodk for tif <tt>kfys[i]</tt> kfy.
      */
-    public void visitLookupSwitchInsn(Label dflt, int[] keys, Label[] labels) {
+    publid void visitLookupSwitdiInsn(Lbbfl dflt, int[] kfys, Lbbfl[] lbbfls) {
         if (mv != null) {
-            mv.visitLookupSwitchInsn(dflt, keys, labels);
+            mv.visitLookupSwitdiInsn(dflt, kfys, lbbfls);
         }
     }
 
     /**
-     * Visits a MULTIANEWARRAY instruction.
+     * Visits b MULTIANEWARRAY instrudtion.
      *
-     * @param desc
-     *            an array type descriptor (see {@link Type Type}).
-     * @param dims
-     *            number of dimensions of the array to allocate.
+     * @pbrbm dfsd
+     *            bn brrby typf dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm dims
+     *            numbfr of dimfnsions of tif brrby to bllodbtf.
      */
-    public void visitMultiANewArrayInsn(String desc, int dims) {
+    publid void visitMultiANfwArrbyInsn(String dfsd, int dims) {
         if (mv != null) {
-            mv.visitMultiANewArrayInsn(desc, dims);
+            mv.visitMultiANfwArrbyInsn(dfsd, dims);
         }
     }
 
     /**
-     * Visits an annotation on an instruction. This method must be called just
-     * <i>after</i> the annotated instruction. It can be called several times
-     * for the same instruction.
+     * Visits bn bnnotbtion on bn instrudtion. Tiis mftiod must bf dbllfd just
+     * <i>bftfr</i> tif bnnotbtfd instrudtion. It dbn bf dbllfd sfvfrbl timfs
+     * for tif sbmf instrudtion.
      *
-     * @param typeRef
-     *            a reference to the annotated type. The sort of this type
-     *            reference must be {@link TypeReference#INSTANCEOF INSTANCEOF},
-     *            {@link TypeReference#NEW NEW},
-     *            {@link TypeReference#CONSTRUCTOR_REFERENCE
-     *            CONSTRUCTOR_REFERENCE}, {@link TypeReference#METHOD_REFERENCE
-     *            METHOD_REFERENCE}, {@link TypeReference#CAST CAST},
-     *            {@link TypeReference#CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
+     * @pbrbm typfRff
+     *            b rfffrfndf to tif bnnotbtfd typf. Tif sort of tiis typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#INSTANCEOF INSTANCEOF},
+     *            {@link TypfRfffrfndf#NEW NEW},
+     *            {@link TypfRfffrfndf#CONSTRUCTOR_REFERENCE
+     *            CONSTRUCTOR_REFERENCE}, {@link TypfRfffrfndf#METHOD_REFERENCE
+     *            METHOD_REFERENCE}, {@link TypfRfffrfndf#CAST CAST},
+     *            {@link TypfRfffrfndf#CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
      *            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT},
-     *            {@link TypeReference#METHOD_INVOCATION_TYPE_ARGUMENT
+     *            {@link TypfRfffrfndf#METHOD_INVOCATION_TYPE_ARGUMENT
      *            METHOD_INVOCATION_TYPE_ARGUMENT},
-     *            {@link TypeReference#CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
+     *            {@link TypfRfffrfndf#CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
      *            CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT}, or
-     *            {@link TypeReference#METHOD_REFERENCE_TYPE_ARGUMENT
-     *            METHOD_REFERENCE_TYPE_ARGUMENT}. See {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     *            {@link TypfRfffrfndf#METHOD_REFERENCE_TYPE_ARGUMENT
+     *            METHOD_REFERENCE_TYPE_ARGUMENT}. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbti
+     *            tif pbti to tif bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf witiin 'typfRff'. Mby bf
+     *            <tt>null</tt> if tif bnnotbtion tbrgfts 'typfRff' bs b wiolf.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if tif bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit tif bnnotbtion vblufs, or <tt>null</tt> if
+     *         tiis visitor is not intfrfstfd in visiting tiis bnnotbtion.
      */
-    public AnnotationVisitor visitInsnAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        if (api < Opcodes.ASM5) {
-            throw new RuntimeException();
+    publid AnnotbtionVisitor visitInsnAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            tirow nfw RuntimfExdfption();
         }
         if (mv != null) {
-            return mv.visitInsnAnnotation(typeRef, typePath, desc, visible);
+            rfturn mv.visitInsnAnnotbtion(typfRff, typfPbti, dfsd, visiblf);
         }
-        return null;
+        rfturn null;
     }
 
     // -------------------------------------------------------------------------
-    // Exceptions table entries, debug information, max stack and max locals
+    // Exdfptions tbblf fntrifs, dfbug informbtion, mbx stbdk bnd mbx lodbls
     // -------------------------------------------------------------------------
 
     /**
-     * Visits a try catch block.
+     * Visits b try dbtdi blodk.
      *
-     * @param start
-     *            beginning of the exception handler's scope (inclusive).
-     * @param end
-     *            end of the exception handler's scope (exclusive).
-     * @param handler
-     *            beginning of the exception handler's code.
-     * @param type
-     *            internal name of the type of exceptions handled by the
-     *            handler, or <tt>null</tt> to catch any exceptions (for
-     *            "finally" blocks).
-     * @throws IllegalArgumentException
-     *             if one of the labels has already been visited by this visitor
-     *             (by the {@link #visitLabel visitLabel} method).
+     * @pbrbm stbrt
+     *            bfginning of tif fxdfption ibndlfr's sdopf (indlusivf).
+     * @pbrbm fnd
+     *            fnd of tif fxdfption ibndlfr's sdopf (fxdlusivf).
+     * @pbrbm ibndlfr
+     *            bfginning of tif fxdfption ibndlfr's dodf.
+     * @pbrbm typf
+     *            intfrnbl nbmf of tif typf of fxdfptions ibndlfd by tif
+     *            ibndlfr, or <tt>null</tt> to dbtdi bny fxdfptions (for
+     *            "finblly" blodks).
+     * @tirows IllfgblArgumfntExdfption
+     *             if onf of tif lbbfls ibs blrfbdy bffn visitfd by tiis visitor
+     *             (by tif {@link #visitLbbfl visitLbbfl} mftiod).
      */
-    public void visitTryCatchBlock(Label start, Label end, Label handler,
-            String type) {
+    publid void visitTryCbtdiBlodk(Lbbfl stbrt, Lbbfl fnd, Lbbfl ibndlfr,
+            String typf) {
         if (mv != null) {
-            mv.visitTryCatchBlock(start, end, handler, type);
+            mv.visitTryCbtdiBlodk(stbrt, fnd, ibndlfr, typf);
         }
     }
 
     /**
-     * Visits an annotation on an exception handler type. This method must be
-     * called <i>after</i> the {@link #visitTryCatchBlock} for the annotated
-     * exception handler. It can be called several times for the same exception
-     * handler.
+     * Visits bn bnnotbtion on bn fxdfption ibndlfr typf. Tiis mftiod must bf
+     * dbllfd <i>bftfr</i> tif {@link #visitTryCbtdiBlodk} for tif bnnotbtfd
+     * fxdfption ibndlfr. It dbn bf dbllfd sfvfrbl timfs for tif sbmf fxdfption
+     * ibndlfr.
      *
-     * @param typeRef
-     *            a reference to the annotated type. The sort of this type
-     *            reference must be {@link TypeReference#EXCEPTION_PARAMETER
-     *            EXCEPTION_PARAMETER}. See {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
+     * @pbrbm typfRff
+     *            b rfffrfndf to tif bnnotbtfd typf. Tif sort of tiis typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#EXCEPTION_PARAMETER
+     *            EXCEPTION_PARAMETER}. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbti
+     *            tif pbti to tif bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf witiin 'typfRff'. Mby bf
+     *            <tt>null</tt> if tif bnnotbtion tbrgfts 'typfRff' bs b wiolf.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if tif bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit tif bnnotbtion vblufs, or <tt>null</tt> if
+     *         tiis visitor is not intfrfstfd in visiting tiis bnnotbtion.
      */
-    public AnnotationVisitor visitTryCatchAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        if (api < Opcodes.ASM5) {
-            throw new RuntimeException();
+    publid AnnotbtionVisitor visitTryCbtdiAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            tirow nfw RuntimfExdfption();
         }
         if (mv != null) {
-            return mv.visitTryCatchAnnotation(typeRef, typePath, desc, visible);
+            rfturn mv.visitTryCbtdiAnnotbtion(typfRff, typfPbti, dfsd, visiblf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Visits a local variable declaration.
+     * Visits b lodbl vbribblf dfdlbrbtion.
      *
-     * @param name
-     *            the name of a local variable.
-     * @param desc
-     *            the type descriptor of this local variable.
-     * @param signature
-     *            the type signature of this local variable. May be
-     *            <tt>null</tt> if the local variable type does not use generic
-     *            types.
-     * @param start
-     *            the first instruction corresponding to the scope of this local
-     *            variable (inclusive).
-     * @param end
-     *            the last instruction corresponding to the scope of this local
-     *            variable (exclusive).
-     * @param index
-     *            the local variable's index.
-     * @throws IllegalArgumentException
-     *             if one of the labels has not already been visited by this
-     *             visitor (by the {@link #visitLabel visitLabel} method).
+     * @pbrbm nbmf
+     *            tif nbmf of b lodbl vbribblf.
+     * @pbrbm dfsd
+     *            tif typf dfsdriptor of tiis lodbl vbribblf.
+     * @pbrbm signbturf
+     *            tif typf signbturf of tiis lodbl vbribblf. Mby bf
+     *            <tt>null</tt> if tif lodbl vbribblf typf dofs not usf gfnfrid
+     *            typfs.
+     * @pbrbm stbrt
+     *            tif first instrudtion dorrfsponding to tif sdopf of tiis lodbl
+     *            vbribblf (indlusivf).
+     * @pbrbm fnd
+     *            tif lbst instrudtion dorrfsponding to tif sdopf of tiis lodbl
+     *            vbribblf (fxdlusivf).
+     * @pbrbm indfx
+     *            tif lodbl vbribblf's indfx.
+     * @tirows IllfgblArgumfntExdfption
+     *             if onf of tif lbbfls ibs not blrfbdy bffn visitfd by tiis
+     *             visitor (by tif {@link #visitLbbfl visitLbbfl} mftiod).
      */
-    public void visitLocalVariable(String name, String desc, String signature,
-            Label start, Label end, int index) {
+    publid void visitLodblVbribblf(String nbmf, String dfsd, String signbturf,
+            Lbbfl stbrt, Lbbfl fnd, int indfx) {
         if (mv != null) {
-            mv.visitLocalVariable(name, desc, signature, start, end, index);
-        }
-    }
-
-    /**
-     * Visits an annotation on a local variable type.
-     *
-     * @param typeRef
-     *            a reference to the annotated type. The sort of this type
-     *            reference must be {@link TypeReference#LOCAL_VARIABLE
-     *            LOCAL_VARIABLE} or {@link TypeReference#RESOURCE_VARIABLE
-     *            RESOURCE_VARIABLE}. See {@link TypeReference}.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
-     * @param start
-     *            the fist instructions corresponding to the continuous ranges
-     *            that make the scope of this local variable (inclusive).
-     * @param end
-     *            the last instructions corresponding to the continuous ranges
-     *            that make the scope of this local variable (exclusive). This
-     *            array must have the same size as the 'start' array.
-     * @param index
-     *            the local variable's index in each range. This array must have
-     *            the same size as the 'start' array.
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @param visible
-     *            <tt>true</tt> if the annotation is visible at runtime.
-     * @return a visitor to visit the annotation values, or <tt>null</tt> if
-     *         this visitor is not interested in visiting this annotation.
-     */
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        if (api < Opcodes.ASM5) {
-            throw new RuntimeException();
-        }
-        if (mv != null) {
-            return mv.visitLocalVariableAnnotation(typeRef, typePath, start,
-                    end, index, desc, visible);
-        }
-        return null;
-    }
-
-    /**
-     * Visits a line number declaration.
-     *
-     * @param line
-     *            a line number. This number refers to the source file from
-     *            which the class was compiled.
-     * @param start
-     *            the first instruction corresponding to this line number.
-     * @throws IllegalArgumentException
-     *             if <tt>start</tt> has not already been visited by this
-     *             visitor (by the {@link #visitLabel visitLabel} method).
-     */
-    public void visitLineNumber(int line, Label start) {
-        if (mv != null) {
-            mv.visitLineNumber(line, start);
+            mv.visitLodblVbribblf(nbmf, dfsd, signbturf, stbrt, fnd, indfx);
         }
     }
 
     /**
-     * Visits the maximum stack size and the maximum number of local variables
-     * of the method.
+     * Visits bn bnnotbtion on b lodbl vbribblf typf.
      *
-     * @param maxStack
-     *            maximum stack size of the method.
-     * @param maxLocals
-     *            maximum number of local variables for the method.
+     * @pbrbm typfRff
+     *            b rfffrfndf to tif bnnotbtfd typf. Tif sort of tiis typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#LOCAL_VARIABLE
+     *            LOCAL_VARIABLE} or {@link TypfRfffrfndf#RESOURCE_VARIABLE
+     *            RESOURCE_VARIABLE}. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbti
+     *            tif pbti to tif bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf witiin 'typfRff'. Mby bf
+     *            <tt>null</tt> if tif bnnotbtion tbrgfts 'typfRff' bs b wiolf.
+     * @pbrbm stbrt
+     *            tif fist instrudtions dorrfsponding to tif dontinuous rbngfs
+     *            tibt mbkf tif sdopf of tiis lodbl vbribblf (indlusivf).
+     * @pbrbm fnd
+     *            tif lbst instrudtions dorrfsponding to tif dontinuous rbngfs
+     *            tibt mbkf tif sdopf of tiis lodbl vbribblf (fxdlusivf). Tiis
+     *            brrby must ibvf tif sbmf sizf bs tif 'stbrt' brrby.
+     * @pbrbm indfx
+     *            tif lodbl vbribblf's indfx in fbdi rbngf. Tiis brrby must ibvf
+     *            tif sbmf sizf bs tif 'stbrt' brrby.
+     * @pbrbm dfsd
+     *            tif dlbss dfsdriptor of tif bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if tif bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit tif bnnotbtion vblufs, or <tt>null</tt> if
+     *         tiis visitor is not intfrfstfd in visiting tiis bnnotbtion.
      */
-    public void visitMaxs(int maxStack, int maxLocals) {
+    publid AnnotbtionVisitor visitLodblVbribblfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, Lbbfl[] stbrt, Lbbfl[] fnd, int[] indfx,
+            String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            tirow nfw RuntimfExdfption();
+        }
         if (mv != null) {
-            mv.visitMaxs(maxStack, maxLocals);
+            rfturn mv.visitLodblVbribblfAnnotbtion(typfRff, typfPbti, stbrt,
+                    fnd, indfx, dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits b linf numbfr dfdlbrbtion.
+     *
+     * @pbrbm linf
+     *            b linf numbfr. Tiis numbfr rfffrs to tif sourdf filf from
+     *            wiidi tif dlbss wbs dompilfd.
+     * @pbrbm stbrt
+     *            tif first instrudtion dorrfsponding to tiis linf numbfr.
+     * @tirows IllfgblArgumfntExdfption
+     *             if <tt>stbrt</tt> ibs not blrfbdy bffn visitfd by tiis
+     *             visitor (by tif {@link #visitLbbfl visitLbbfl} mftiod).
+     */
+    publid void visitLinfNumbfr(int linf, Lbbfl stbrt) {
+        if (mv != null) {
+            mv.visitLinfNumbfr(linf, stbrt);
         }
     }
 
     /**
-     * Visits the end of the method. This method, which is the last one to be
-     * called, is used to inform the visitor that all the annotations and
-     * attributes of the method have been visited.
+     * Visits tif mbximum stbdk sizf bnd tif mbximum numbfr of lodbl vbribblfs
+     * of tif mftiod.
+     *
+     * @pbrbm mbxStbdk
+     *            mbximum stbdk sizf of tif mftiod.
+     * @pbrbm mbxLodbls
+     *            mbximum numbfr of lodbl vbribblfs for tif mftiod.
      */
-    public void visitEnd() {
+    publid void visitMbxs(int mbxStbdk, int mbxLodbls) {
+        if (mv != null) {
+            mv.visitMbxs(mbxStbdk, mbxLodbls);
+        }
+    }
+
+    /**
+     * Visits tif fnd of tif mftiod. Tiis mftiod, wiidi is tif lbst onf to bf
+     * dbllfd, is usfd to inform tif visitor tibt bll tif bnnotbtions bnd
+     * bttributfs of tif mftiod ibvf bffn visitfd.
+     */
+    publid void visitEnd() {
         if (mv != null) {
             mv.visitEnd();
         }

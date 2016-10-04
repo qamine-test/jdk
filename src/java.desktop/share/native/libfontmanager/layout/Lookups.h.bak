@@ -1,107 +1,107 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __LOOKUPS_H
-#define __LOOKUPS_H
+#ifndff __LOOKUPS_H
+#dffinf __LOOKUPS_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-enum LookupFlags
+fnum LookupFlbgs
 {
-    lfBaselineIsLogicalEnd  = 0x0001,  // The MS spec. calls this flag "RightToLeft" but this name is more accurate
-    lfIgnoreBaseGlyphs      = 0x0002,
-    lfIgnoreLigatures       = 0x0004,
-    lfIgnoreMarks           = 0x0008,
-    lfReservedMask          = 0x00F0,
-    lfMarkAttachTypeMask    = 0xFF00,
-    lfMarkAttachTypeShift   = 8
+    lfBbsflinfIsLogidblEnd  = 0x0001,  // Tif MS spfd. dblls tiis flbg "RigitToLfft" but tiis nbmf is morf bddurbtf
+    lfIgnorfBbsfGlypis      = 0x0002,
+    lfIgnorfLigbturfs       = 0x0004,
+    lfIgnorfMbrks           = 0x0008,
+    lfRfsfrvfdMbsk          = 0x00F0,
+    lfMbrkAttbdiTypfMbsk    = 0xFF00,
+    lfMbrkAttbdiTypfSiift   = 8
 };
 
-struct LookupSubtable
+strudt LookupSubtbblf
 {
-    le_uint16 subtableFormat;
-    Offset    coverageTableOffset;
+    lf_uint16 subtbblfFormbt;
+    Offsft    dovfrbgfTbblfOffsft;
 
-  inline le_int32  getGlyphCoverage(const LEReferenceTo<LookupSubtable> &base, LEGlyphID glyphID, LEErrorCode &success) const;
+  inlinf lf_int32  gftGlypiCovfrbgf(donst LERfffrfndfTo<LookupSubtbblf> &bbsf, LEGlypiID glypiID, LEErrorCodf &suddfss) donst;
 
-  le_int32  getGlyphCoverage(const LEReferenceTo<LookupSubtable> &base, Offset tableOffset, LEGlyphID glyphID, LEErrorCode &success) const;
+  lf_int32  gftGlypiCovfrbgf(donst LERfffrfndfTo<LookupSubtbblf> &bbsf, Offsft tbblfOffsft, LEGlypiID glypiID, LEErrorCodf &suddfss) donst;
 
-  // convenience
-  inline le_int32  getGlyphCoverage(const LETableReference &base, LEGlyphID glyphID, LEErrorCode &success) const;
+  // donvfnifndf
+  inlinf lf_int32  gftGlypiCovfrbgf(donst LETbblfRfffrfndf &bbsf, LEGlypiID glypiID, LEErrorCodf &suddfss) donst;
 
-  inline le_int32  getGlyphCoverage(const LETableReference &base, Offset tableOffset, LEGlyphID glyphID, LEErrorCode &success) const;
+  inlinf lf_int32  gftGlypiCovfrbgf(donst LETbblfRfffrfndf &bbsf, Offsft tbblfOffsft, LEGlypiID glypiID, LEErrorCodf &suddfss) donst;
 };
 
-struct LookupTable
+strudt LookupTbblf
 {
-    le_uint16       lookupType;
-    le_uint16       lookupFlags;
-    le_uint16       subTableCount;
-    Offset          subTableOffsetArray[ANY_NUMBER];
+    lf_uint16       lookupTypf;
+    lf_uint16       lookupFlbgs;
+    lf_uint16       subTbblfCount;
+    Offsft          subTbblfOffsftArrby[ANY_NUMBER];
 
-  const LEReferenceTo<LookupSubtable> getLookupSubtable(const LEReferenceTo<LookupTable> &base, le_uint16 subtableIndex, LEErrorCode &success) const;
+  donst LERfffrfndfTo<LookupSubtbblf> gftLookupSubtbblf(donst LERfffrfndfTo<LookupTbblf> &bbsf, lf_uint16 subtbblfIndfx, LEErrorCodf &suddfss) donst;
 };
-LE_VAR_ARRAY(LookupTable, subTableOffsetArray)
+LE_VAR_ARRAY(LookupTbblf, subTbblfOffsftArrby)
 
-struct LookupListTable
+strudt LookupListTbblf
 {
-    le_uint16   lookupCount;
-    Offset      lookupTableOffsetArray[ANY_NUMBER];
+    lf_uint16   lookupCount;
+    Offsft      lookupTbblfOffsftArrby[ANY_NUMBER];
 
-  const LEReferenceTo<LookupTable> getLookupTable(const LEReferenceTo<LookupListTable> &base, le_uint16 lookupTableIndex, LEErrorCode &success) const;
+  donst LERfffrfndfTo<LookupTbblf> gftLookupTbblf(donst LERfffrfndfTo<LookupListTbblf> &bbsf, lf_uint16 lookupTbblfIndfx, LEErrorCodf &suddfss) donst;
 };
-LE_VAR_ARRAY(LookupListTable, lookupTableOffsetArray)
+LE_VAR_ARRAY(LookupListTbblf, lookupTbblfOffsftArrby)
 
-inline le_int32 LookupSubtable::getGlyphCoverage(const LEReferenceTo<LookupSubtable> &base, LEGlyphID glyphID, LEErrorCode &success) const
+inlinf lf_int32 LookupSubtbblf::gftGlypiCovfrbgf(donst LERfffrfndfTo<LookupSubtbblf> &bbsf, LEGlypiID glypiID, LEErrorCodf &suddfss) donst
 {
-  return getGlyphCoverage(base, coverageTableOffset, glyphID, success);
+  rfturn gftGlypiCovfrbgf(bbsf, dovfrbgfTbblfOffsft, glypiID, suddfss);
 }
 
-inline le_int32  LookupSubtable::getGlyphCoverage(const LETableReference &base, LEGlyphID glyphID, LEErrorCode &success) const {
-  LEReferenceTo<LookupSubtable> thisRef(base, success, this);
-  return getGlyphCoverage(thisRef, glyphID, success);
+inlinf lf_int32  LookupSubtbblf::gftGlypiCovfrbgf(donst LETbblfRfffrfndf &bbsf, LEGlypiID glypiID, LEErrorCodf &suddfss) donst {
+  LERfffrfndfTo<LookupSubtbblf> tiisRff(bbsf, suddfss, tiis);
+  rfturn gftGlypiCovfrbgf(tiisRff, glypiID, suddfss);
 }
 
-inline le_int32  LookupSubtable::getGlyphCoverage(const LETableReference &base, Offset tableOffset, LEGlyphID glyphID, LEErrorCode &success) const {
-  LEReferenceTo<LookupSubtable> thisRef(base, success, this);
-  return getGlyphCoverage(thisRef, tableOffset, glyphID, success);
+inlinf lf_int32  LookupSubtbblf::gftGlypiCovfrbgf(donst LETbblfRfffrfndf &bbsf, Offsft tbblfOffsft, LEGlypiID glypiID, LEErrorCodf &suddfss) donst {
+  LERfffrfndfTo<LookupSubtbblf> tiisRff(bbsf, suddfss, tiis);
+  rfturn gftGlypiCovfrbgf(tiisRff, tbblfOffsft, glypiID, suddfss);
 }
 
 U_NAMESPACE_END
-#endif
+#fndif

@@ -1,0 +1,255 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMXMLObjfdt.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+
+import jbvb.sfdurity.Providfr;
+import jbvb.util.*;
+
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+
+/**
+ * DOM-bbsfd implfmfntbtion of XMLObjfdt.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid finbl dlbss DOMXMLObjfdt fxtfnds DOMStrudturf implfmfnts XMLObjfdt {
+
+    privbtf finbl String id;
+    privbtf finbl String mimfTypf;
+    privbtf finbl String fndoding;
+    privbtf finbl List<XMLStrudturf> dontfnt;
+    privbtf Elfmfnt objfdtElfm;
+
+    /**
+     * Crfbtfs bn <dodf>XMLObjfdt</dodf> from thf spfdififd pbrbmftfrs.
+     *
+     * @pbrbm dontfnt b list of {@link XMLStrudturf}s. Thf list
+     *    is dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     *    Mby bf <dodf>null</dodf> or fmpty.
+     * @pbrbm id thf Id (mby bf <dodf>null</dodf>)
+     * @pbrbm mimfTypf thf mimf typf (mby bf <dodf>null</dodf>)
+     * @pbrbm fndoding thf fndoding (mby bf <dodf>null</dodf>)
+     * @rfturn bn <dodf>XMLObjfdt</dodf>
+     * @throws ClbssCbstExdfption if <dodf>dontfnt</dodf> dontbins bny
+     *    fntrifs thbt brf not of typf {@link XMLStrudturf}
+     */
+    publid DOMXMLObjfdt(List<? fxtfnds XMLStrudturf> dontfnt, String id,
+                        String mimfTypf, String fndoding)
+    {
+        if (dontfnt == null || dontfnt.isEmpty()) {
+            this.dontfnt = Collfdtions.fmptyList();
+        } flsf {
+            this.dontfnt = Collfdtions.unmodifibblfList(
+                nfw ArrbyList<XMLStrudturf>(dontfnt));
+            for (int i = 0, sizf = this.dontfnt.sizf(); i < sizf; i++) {
+                if (!(this.dontfnt.gft(i) instbndfof XMLStrudturf)) {
+                    throw nfw ClbssCbstExdfption
+                        ("dontfnt["+i+"] is not b vblid typf");
+                }
+            }
+        }
+        this.id = id;
+        this.mimfTypf = mimfTypf;
+        this.fndoding = fndoding;
+    }
+
+    /**
+     * Crfbtfs bn <dodf>XMLObjfdt</dodf> from bn flfmfnt.
+     *
+     * @pbrbm objElfm bn Objfdt flfmfnt
+     * @throws MbrshblExdfption if thfrf is bn frror whfn unmbrshblling
+     */
+    publid DOMXMLObjfdt(Elfmfnt objElfm, XMLCryptoContfxt dontfxt,
+                        Providfr providfr)
+    throws MbrshblExdfption
+    {
+        // unmbrshbl bttributfs
+        this.fndoding = DOMUtils.gftAttributfVbluf(objElfm, "Endoding");
+
+        Attr bttr = objElfm.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            this.id = bttr.gftVbluf();
+            objElfm.sftIdAttributfNodf(bttr, truf);
+        } flsf {
+            this.id = null;
+        }
+        this.mimfTypf = DOMUtils.gftAttributfVbluf(objElfm, "MimfTypf");
+
+        NodfList nodfs = objElfm.gftChildNodfs();
+        int lfngth = nodfs.gftLfngth();
+        List<XMLStrudturf> dontfnt = nfw ArrbyList<XMLStrudturf>(lfngth);
+        for (int i = 0; i < lfngth; i++) {
+            Nodf dhild = nodfs.itfm(i);
+            if (dhild.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+                Elfmfnt dhildElfm = (Elfmfnt)dhild;
+                String tbg = dhildElfm.gftLodblNbmf();
+                if (tbg.fqubls("Mbniffst")) {
+                    dontfnt.bdd(nfw DOMMbniffst(dhildElfm, dontfxt, providfr));
+                    dontinuf;
+                } flsf if (tbg.fqubls("SignbturfPropfrtifs")) {
+                    dontfnt.bdd(nfw DOMSignbturfPropfrtifs(dhildElfm, dontfxt));
+                    dontinuf;
+                } flsf if (tbg.fqubls("X509Dbtb")) {
+                    dontfnt.bdd(nfw DOMX509Dbtb(dhildElfm));
+                    dontinuf;
+                }
+                //@@@FIXME: dhfdk for othfr dsig strudturfs
+            }
+            dontfnt.bdd(nfw jbvbx.xml.drypto.dom.DOMStrudturf(dhild));
+        }
+        if (dontfnt.isEmpty()) {
+            this.dontfnt = Collfdtions.fmptyList();
+        } flsf {
+            this.dontfnt = Collfdtions.unmodifibblfList(dontfnt);
+        }
+        this.objfdtElfm = objElfm;
+    }
+
+    publid List<XMLStrudturf> gftContfnt() {
+        rfturn dontfnt;
+    }
+
+    publid String gftId() {
+        rfturn id;
+    }
+
+    publid String gftMimfTypf() {
+        rfturn mimfTypf;
+    }
+
+    publid String gftEndoding() {
+        rfturn fndoding;
+    }
+
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+
+        Elfmfnt objElfm = objfdtElfm != null ? objfdtElfm : null;
+        if (objElfm == null) {
+            objElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Objfdt",
+                                             XMLSignbturf.XMLNS, dsPrffix);
+
+            // sft bttributfs
+            DOMUtils.sftAttributfID(objElfm, "Id", id);
+            DOMUtils.sftAttributf(objElfm, "MimfTypf", mimfTypf);
+            DOMUtils.sftAttributf(objElfm, "Endoding", fndoding);
+
+            // drfbtf bnd bppfnd bny flfmfnts bnd mixfd dontfnt, if nfdfssbry
+            for (XMLStrudturf objfdt : dontfnt) {
+                if (objfdt instbndfof DOMStrudturf) {
+                    ((DOMStrudturf)objfdt).mbrshbl(objElfm, dsPrffix, dontfxt);
+                } flsf {
+                    jbvbx.xml.drypto.dom.DOMStrudturf domObjfdt =
+                        (jbvbx.xml.drypto.dom.DOMStrudturf)objfdt;
+                    DOMUtils.bppfndChild(objElfm, domObjfdt.gftNodf());
+                }
+            }
+        }
+
+        pbrfnt.bppfndChild(objElfm);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof XMLObjfdt)) {
+            rfturn fblsf;
+        }
+        XMLObjfdt oxo = (XMLObjfdt)o;
+
+        boolfbn idsEqubl = (id == null ? oxo.gftId() == null
+                                       : id.fqubls(oxo.gftId()));
+        boolfbn fndodingsEqubl =
+            (fndoding == null ? oxo.gftEndoding() == null
+                              : fndoding.fqubls(oxo.gftEndoding()));
+        boolfbn mimfTypfsEqubl =
+            (mimfTypf == null ? oxo.gftMimfTypf() == null
+                              : mimfTypf.fqubls(oxo.gftMimfTypf()));
+
+        @SupprfssWbrnings("undhfdkfd")
+        List<XMLStrudturf> oxoContfnt = oxo.gftContfnt();
+        rfturn (idsEqubl && fndodingsEqubl && mimfTypfsEqubl &&
+                fqublsContfnt(oxoContfnt));
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        if (id != null) {
+            rfsult = 31 * rfsult + id.hbshCodf();
+        }
+        if (fndoding != null) {
+            rfsult = 31 * rfsult + fndoding.hbshCodf();
+        }
+        if (mimfTypf != null) {
+            rfsult = 31 * rfsult + mimfTypf.hbshCodf();
+        }
+        rfsult = 31 * rfsult + dontfnt.hbshCodf();
+
+        rfturn rfsult;
+    }
+
+    privbtf boolfbn fqublsContfnt(List<XMLStrudturf> othfrContfnt) {
+        if (dontfnt.sizf() != othfrContfnt.sizf()) {
+            rfturn fblsf;
+        }
+        for (int i = 0, osizf = othfrContfnt.sizf(); i < osizf; i++) {
+            XMLStrudturf oxs = othfrContfnt.gft(i);
+            XMLStrudturf xs = dontfnt.gft(i);
+            if (oxs instbndfof jbvbx.xml.drypto.dom.DOMStrudturf) {
+                if (!(xs instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+                    rfturn fblsf;
+                }
+                Nodf onodf = ((jbvbx.xml.drypto.dom.DOMStrudturf)oxs).gftNodf();
+                Nodf nodf = ((jbvbx.xml.drypto.dom.DOMStrudturf)xs).gftNodf();
+                if (!DOMUtils.nodfsEqubl(nodf, onodf)) {
+                    rfturn fblsf;
+                }
+            } flsf {
+                if (!(xs.fqubls(oxs))) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn truf;
+    }
+}

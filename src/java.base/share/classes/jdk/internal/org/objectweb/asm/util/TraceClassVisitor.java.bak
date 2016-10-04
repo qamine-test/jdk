@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,194 +56,194 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
 
-import java.io.PrintWriter;
+import jbvb.io.PrintWritfr;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
 
 /**
- * A {@link ClassVisitor} that prints the classes it visits with a
- * {@link Printer}. This class visitor can be used in the middle of a class
- * visitor chain to trace the class that is visited at a given point in this
- * chain. This may be useful for debugging purposes.
+ * A {@link ClbssVisitor} tibt prints tif dlbssfs it visits witi b
+ * {@link Printfr}. Tiis dlbss visitor dbn bf usfd in tif middlf of b dlbss
+ * visitor dibin to trbdf tif dlbss tibt is visitfd bt b givfn point in tiis
+ * dibin. Tiis mby bf usfful for dfbugging purposfs.
  * <p>
- * The trace printed when visiting the <tt>Hello</tt> class is the following:
+ * Tif trbdf printfd wifn visiting tif <tt>Hfllo</tt> dlbss is tif following:
  * <p>
- * <blockquote>
+ * <blodkquotf>
  *
- * <pre>
- * // class version 49.0 (49) // access flags 0x21 public class Hello {
+ * <prf>
+ * // dlbss vfrsion 49.0 (49) // bddfss flbgs 0x21 publid dlbss Hfllo {
  *
- * // compiled from: Hello.java
+ * // dompilfd from: Hfllo.jbvb
  *
- * // access flags 0x1 public &lt;init&gt; ()V ALOAD 0 INVOKESPECIAL
- * java/lang/Object &lt;init&gt; ()V RETURN MAXSTACK = 1 MAXLOCALS = 1
+ * // bddfss flbgs 0x1 publid &lt;init&gt; ()V ALOAD 0 INVOKESPECIAL
+ * jbvb/lbng/Objfdt &lt;init&gt; ()V RETURN MAXSTACK = 1 MAXLOCALS = 1
  *
- * // access flags 0x9 public static main ([Ljava/lang/String;)V GETSTATIC
- * java/lang/System out Ljava/io/PrintStream; LDC &quot;hello&quot;
- * INVOKEVIRTUAL java/io/PrintStream println (Ljava/lang/String;)V RETURN
+ * // bddfss flbgs 0x9 publid stbtid mbin ([Ljbvb/lbng/String;)V GETSTATIC
+ * jbvb/lbng/Systfm out Ljbvb/io/PrintStrfbm; LDC &quot;ifllo&quot;
+ * INVOKEVIRTUAL jbvb/io/PrintStrfbm println (Ljbvb/lbng/String;)V RETURN
  * MAXSTACK = 2 MAXLOCALS = 1 }
- * </pre>
+ * </prf>
  *
- * </blockquote> where <tt>Hello</tt> is defined by:
+ * </blodkquotf> wifrf <tt>Hfllo</tt> is dffinfd by:
  * <p>
- * <blockquote>
+ * <blodkquotf>
  *
- * <pre>
- * public class Hello {
+ * <prf>
+ * publid dlbss Hfllo {
  *
- *     public static void main(String[] args) {
- *         System.out.println(&quot;hello&quot;);
+ *     publid stbtid void mbin(String[] brgs) {
+ *         Systfm.out.println(&quot;ifllo&quot;);
  *     }
  * }
- * </pre>
+ * </prf>
  *
- * </blockquote>
+ * </blodkquotf>
  *
- * @author Eric Bruneton
- * @author Eugene Kuleshov
+ * @butior Erid Brunfton
+ * @butior Eugfnf Kulfsiov
  */
-public final class TraceClassVisitor extends ClassVisitor {
+publid finbl dlbss TrbdfClbssVisitor fxtfnds ClbssVisitor {
 
     /**
-     * The print writer to be used to print the class. May be null.
+     * Tif print writfr to bf usfd to print tif dlbss. Mby bf null.
      */
-    private final PrintWriter pw;
+    privbtf finbl PrintWritfr pw;
 
     /**
-     * The object that actually converts visit events into text.
+     * Tif objfdt tibt bdtublly donvfrts visit fvfnts into tfxt.
      */
-    public final Printer p;
+    publid finbl Printfr p;
 
     /**
-     * Constructs a new {@link TraceClassVisitor}.
+     * Construdts b nfw {@link TrbdfClbssVisitor}.
      *
-     * @param pw
-     *            the print writer to be used to print the class.
+     * @pbrbm pw
+     *            tif print writfr to bf usfd to print tif dlbss.
      */
-    public TraceClassVisitor(final PrintWriter pw) {
-        this(null, pw);
+    publid TrbdfClbssVisitor(finbl PrintWritfr pw) {
+        tiis(null, pw);
     }
 
     /**
-     * Constructs a new {@link TraceClassVisitor}.
+     * Construdts b nfw {@link TrbdfClbssVisitor}.
      *
-     * @param cv
-     *            the {@link ClassVisitor} to which this visitor delegates
-     *            calls. May be <tt>null</tt>.
-     * @param pw
-     *            the print writer to be used to print the class.
+     * @pbrbm dv
+     *            tif {@link ClbssVisitor} to wiidi tiis visitor dflfgbtfs
+     *            dblls. Mby bf <tt>null</tt>.
+     * @pbrbm pw
+     *            tif print writfr to bf usfd to print tif dlbss.
      */
-    public TraceClassVisitor(final ClassVisitor cv, final PrintWriter pw) {
-        this(cv, new Textifier(), pw);
+    publid TrbdfClbssVisitor(finbl ClbssVisitor dv, finbl PrintWritfr pw) {
+        tiis(dv, nfw Tfxtififr(), pw);
     }
 
     /**
-     * Constructs a new {@link TraceClassVisitor}.
+     * Construdts b nfw {@link TrbdfClbssVisitor}.
      *
-     * @param cv
-     *            the {@link ClassVisitor} to which this visitor delegates
-     *            calls. May be <tt>null</tt>.
-     * @param p
-     *            the object that actually converts visit events into text.
-     * @param pw
-     *            the print writer to be used to print the class. May be null if
-     *            you simply want to use the result via
-     *            {@link Printer#getText()}, instead of printing it.
+     * @pbrbm dv
+     *            tif {@link ClbssVisitor} to wiidi tiis visitor dflfgbtfs
+     *            dblls. Mby bf <tt>null</tt>.
+     * @pbrbm p
+     *            tif objfdt tibt bdtublly donvfrts visit fvfnts into tfxt.
+     * @pbrbm pw
+     *            tif print writfr to bf usfd to print tif dlbss. Mby bf null if
+     *            you simply wbnt to usf tif rfsult vib
+     *            {@link Printfr#gftTfxt()}, instfbd of printing it.
      */
-    public TraceClassVisitor(final ClassVisitor cv, final Printer p,
-            final PrintWriter pw) {
-        super(Opcodes.ASM5, cv);
-        this.pw = pw;
-        this.p = p;
+    publid TrbdfClbssVisitor(finbl ClbssVisitor dv, finbl Printfr p,
+            finbl PrintWritfr pw) {
+        supfr(Opdodfs.ASM5, dv);
+        tiis.pw = pw;
+        tiis.p = p;
     }
 
-    @Override
-    public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
-        p.visit(version, access, name, signature, superName, interfaces);
-        super.visit(version, access, name, signature, superName, interfaces);
+    @Ovfrridf
+    publid void visit(finbl int vfrsion, finbl int bddfss, finbl String nbmf,
+            finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs) {
+        p.visit(vfrsion, bddfss, nbmf, signbturf, supfrNbmf, intfrfbdfs);
+        supfr.visit(vfrsion, bddfss, nbmf, signbturf, supfrNbmf, intfrfbdfs);
     }
 
-    @Override
-    public void visitSource(final String file, final String debug) {
-        p.visitSource(file, debug);
-        super.visitSource(file, debug);
+    @Ovfrridf
+    publid void visitSourdf(finbl String filf, finbl String dfbug) {
+        p.visitSourdf(filf, dfbug);
+        supfr.visitSourdf(filf, dfbug);
     }
 
-    @Override
-    public void visitOuterClass(final String owner, final String name,
-            final String desc) {
-        p.visitOuterClass(owner, name, desc);
-        super.visitOuterClass(owner, name, desc);
+    @Ovfrridf
+    publid void visitOutfrClbss(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd) {
+        p.visitOutfrClbss(ownfr, nbmf, dfsd);
+        supfr.visitOutfrClbss(ownfr, nbmf, dfsd);
     }
 
-    @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        Printer p = this.p.visitClassAnnotation(desc, visible);
-        AnnotationVisitor av = cv == null ? null : cv.visitAnnotation(desc,
-                visible);
-        return new TraceAnnotationVisitor(av, p);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        Printfr p = tiis.p.visitClbssAnnotbtion(dfsd, visiblf);
+        AnnotbtionVisitor bv = dv == null ? null : dv.visitAnnotbtion(dfsd,
+                visiblf);
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
     }
 
-    @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        Printer p = this.p.visitClassTypeAnnotation(typeRef, typePath, desc,
-                visible);
-        AnnotationVisitor av = cv == null ? null : cv.visitTypeAnnotation(
-                typeRef, typePath, desc, visible);
-        return new TraceAnnotationVisitor(av, p);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        Printfr p = tiis.p.visitClbssTypfAnnotbtion(typfRff, typfPbti, dfsd,
+                visiblf);
+        AnnotbtionVisitor bv = dv == null ? null : dv.visitTypfAnnotbtion(
+                typfRff, typfPbti, dfsd, visiblf);
+        rfturn nfw TrbdfAnnotbtionVisitor(bv, p);
     }
 
-    @Override
-    public void visitAttribute(final Attribute attr) {
-        p.visitClassAttribute(attr);
-        super.visitAttribute(attr);
+    @Ovfrridf
+    publid void visitAttributf(finbl Attributf bttr) {
+        p.visitClbssAttributf(bttr);
+        supfr.visitAttributf(bttr);
     }
 
-    @Override
-    public void visitInnerClass(final String name, final String outerName,
-            final String innerName, final int access) {
-        p.visitInnerClass(name, outerName, innerName, access);
-        super.visitInnerClass(name, outerName, innerName, access);
+    @Ovfrridf
+    publid void visitInnfrClbss(finbl String nbmf, finbl String outfrNbmf,
+            finbl String innfrNbmf, finbl int bddfss) {
+        p.visitInnfrClbss(nbmf, outfrNbmf, innfrNbmf, bddfss);
+        supfr.visitInnfrClbss(nbmf, outfrNbmf, innfrNbmf, bddfss);
     }
 
-    @Override
-    public FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        Printer p = this.p.visitField(access, name, desc, signature, value);
-        FieldVisitor fv = cv == null ? null : cv.visitField(access, name, desc,
-                signature, value);
-        return new TraceFieldVisitor(fv, p);
+    @Ovfrridf
+    publid FifldVisitor visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        Printfr p = tiis.p.visitFifld(bddfss, nbmf, dfsd, signbturf, vbluf);
+        FifldVisitor fv = dv == null ? null : dv.visitFifld(bddfss, nbmf, dfsd,
+                signbturf, vbluf);
+        rfturn nfw TrbdfFifldVisitor(fv, p);
     }
 
-    @Override
-    public MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        Printer p = this.p.visitMethod(access, name, desc, signature,
-                exceptions);
-        MethodVisitor mv = cv == null ? null : cv.visitMethod(access, name,
-                desc, signature, exceptions);
-        return new TraceMethodVisitor(mv, p);
+    @Ovfrridf
+    publid MftiodVisitor visitMftiod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions) {
+        Printfr p = tiis.p.visitMftiod(bddfss, nbmf, dfsd, signbturf,
+                fxdfptions);
+        MftiodVisitor mv = dv == null ? null : dv.visitMftiod(bddfss, nbmf,
+                dfsd, signbturf, fxdfptions);
+        rfturn nfw TrbdfMftiodVisitor(mv, p);
     }
 
-    @Override
-    public void visitEnd() {
-        p.visitClassEnd();
+    @Ovfrridf
+    publid void visitEnd() {
+        p.visitClbssEnd();
         if (pw != null) {
             p.print(pw);
-            pw.flush();
+            pw.flusi();
         }
-        super.visitEnd();
+        supfr.visitEnd();
     }
 }

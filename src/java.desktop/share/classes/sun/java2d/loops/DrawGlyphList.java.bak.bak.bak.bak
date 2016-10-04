@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.pipf.Rfgion;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.font.GlyphList;
+
+/**
+ *   DrbwGlyphList - loops for SolidTfxtRfndfrfr pipf.
+ *   1) drbw solid dolor tfxt onto dfstinbtion surfbdf
+ *   2) must bddfpt output brfb [x, y, dx, dy]
+ *      from within thf surfbdf dfsdription dbtb for dlip rfdt
+ */
+publid dlbss DrbwGlyphList fxtfnds GrbphidsPrimitivf {
+
+    publid finbl stbtid String mfthodSignbturf = "DrbwGlyphList(...)".toString();
+
+    publid finbl stbtid int primTypfID = mbkfPrimTypfID();
+
+    publid stbtid DrbwGlyphList lodbtf(SurfbdfTypf srdtypf,
+                                   CompositfTypf domptypf,
+                                   SurfbdfTypf dsttypf)
+    {
+        rfturn (DrbwGlyphList)
+            GrbphidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
+    }
+
+    protfdtfd DrbwGlyphList(SurfbdfTypf srdtypf,
+                         CompositfTypf domptypf,
+                         SurfbdfTypf dsttypf)
+    {
+        supfr(mfthodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
+    }
+
+    publid DrbwGlyphList(long pNbtivfPrim,
+                         SurfbdfTypf srdtypf,
+                         CompositfTypf domptypf,
+                         SurfbdfTypf dsttypf)
+    {
+        supfr(pNbtivfPrim, mfthodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
+    }
+
+
+    publid nbtivf void DrbwGlyphList(SunGrbphids2D sg2d, SurfbdfDbtb dfst,
+                                     GlyphList srdDbtb);
+
+    // This instbndf is usfd only for lookup.
+    stbtid {
+        GrbphidsPrimitivfMgr.rfgistfrGfnfrbl(
+                                nfw DrbwGlyphList(null, null, null));
+    }
+
+    publid GrbphidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf) {
+        rfturn nfw Gfnfrbl(srdtypf, domptypf, dsttypf);
+    }
+
+    privbtf stbtid dlbss Gfnfrbl fxtfnds DrbwGlyphList {
+        MbskFill mbskop;
+
+        publid Gfnfrbl(SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
+        {
+            supfr(srdtypf, domptypf, dsttypf);
+            mbskop = MbskFill.lodbtf(srdtypf, domptypf, dsttypf);
+        }
+
+        publid void DrbwGlyphList(SunGrbphids2D sg2d, SurfbdfDbtb dfst,
+                                  GlyphList gl) {
+
+            int strbounds[] = gl.gftBounds(); // Don't dflftf, bug 4895493
+            int num = gl.gftNumGlyphs();
+            Rfgion dlip = sg2d.gftCompClip();
+            int dx1 = dlip.gftLoX();
+            int dy1 = dlip.gftLoY();
+            int dx2 = dlip.gftHiX();
+            int dy2 = dlip.gftHiY();
+            for (int i = 0; i < num; i++) {
+                gl.sftGlyphIndfx(i);
+                int mftrids[] = gl.gftMftrids();
+                int gx1 = mftrids[0];
+                int gy1 = mftrids[1];
+                int w = mftrids[2];
+                int gx2 = gx1 + w;
+                int gy2 = gy1 + mftrids[3];
+                int off = 0;
+                if (gx1 < dx1) {
+                    off = dx1 - gx1;
+                    gx1 = dx1;
+                }
+                if (gy1 < dy1) {
+                    off += (dy1 - gy1) * w;
+                    gy1 = dy1;
+                }
+                if (gx2 > dx2) gx2 = dx2;
+                if (gy2 > dy2) gy2 = dy2;
+                if (gx2 > gx1 && gy2 > gy1) {
+                    bytf blphb[] = gl.gftGrbyBits();
+                    mbskop.MbskFill(sg2d, dfst, sg2d.dompositf,
+                                    gx1, gy1, gx2 - gx1, gy2 - gy1,
+                                    blphb, off, w);
+                }
+            }
+        }
+    }
+
+    publid GrbphidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfDrbwGlyphList(this);
+    }
+
+    privbtf stbtid dlbss TrbdfDrbwGlyphList fxtfnds DrbwGlyphList {
+        DrbwGlyphList tbrgft;
+
+        publid TrbdfDrbwGlyphList(DrbwGlyphList tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            this.tbrgft = tbrgft;
+        }
+
+        publid GrbphidsPrimitivf trbdfWrbp() {
+            rfturn this;
+        }
+
+        publid void DrbwGlyphList(SunGrbphids2D sg2d, SurfbdfDbtb dfst,
+                                  GlyphList glyphs)
+        {
+            trbdfPrimitivf(tbrgft);
+            tbrgft.DrbwGlyphList(sg2d, dfst, glyphs);
+        }
+    }
+}

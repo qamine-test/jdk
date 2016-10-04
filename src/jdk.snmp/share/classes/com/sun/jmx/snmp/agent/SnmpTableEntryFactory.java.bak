@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.agent.SnmpMibTable;
-import com.sun.jmx.snmp.agent.SnmpMibSubRequest;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibSubRfqufst;
 
 /**
- * This interface is implemented by mibgen generated table objects
- * inheriting from {@link com.sun.jmx.snmp.agent.SnmpTableSupport}.
+ * Tiis intfrfbdf is implfmfntfd by mibgfn gfnfrbtfd tbblf objfdts
+ * inifriting from {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfSupport}.
  * <p>
- * It is used internally by the metadata whenever a remote SNMP manager
- * requests the creation of a new entry through an SNMP SET.
+ * It is usfd intfrnblly by tif mftbdbtb wifnfvfr b rfmotf SNMP mbnbgfr
+ * rfqufsts tif drfbtion of b nfw fntry tirougi bn SNMP SET.
  * </p>
  * <p>
- * At creation, the mibgen generated table object retrieves its
- * corresponding metadata from the MIB and registers with
- * this metadata as a SnmpTableEntryFactory.
+ * At drfbtion, tif mibgfn gfnfrbtfd tbblf objfdt rftrifvfs its
+ * dorrfsponding mftbdbtb from tif MIB bnd rfgistfrs witi
+ * tiis mftbdbtb bs b SnmpTbblfEntryFbdtory.
  * </p>
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  **/
 
-public interface SnmpTableEntryFactory extends SnmpTableCallbackHandler {
+publid intfrfbdf SnmpTbblfEntryFbdtory fxtfnds SnmpTbblfCbllbbdkHbndlfr {
 
     /**
-     * This method is called by the SNMP runtime whenever a new entry
-     * creation is requested by a remote manager.
+     * Tiis mftiod is dbllfd by tif SNMP runtimf wifnfvfr b nfw fntry
+     * drfbtion is rfqufstfd by b rfmotf mbnbgfr.
      *
-     * The factory is responsible for instantiating the appropriate MBean
-     * and for registering it with the appropriate metadata object.
+     * Tif fbdtory is rfsponsiblf for instbntibting tif bppropribtf MBfbn
+     * bnd for rfgistfring it witi tif bppropribtf mftbdbtb objfdt.
      *
-     * Usually this method will:
+     * Usublly tiis mftiod will:
      * <ul>
-     * <li>Check whether the creation can be accepted
-     * <li>Instantiate a new entry
-     * <li>Possibly register this entry with the MBeanServer, if needed.
-     * <li>Call <code>addEntry()</code> on the given <code>meta</code> object.
+     * <li>Cifdk wiftifr tif drfbtion dbn bf bddfptfd
+     * <li>Instbntibtf b nfw fntry
+     * <li>Possibly rfgistfr tiis fntry witi tif MBfbnSfrvfr, if nffdfd.
+     * <li>Cbll <dodf>bddEntry()</dodf> on tif givfn <dodf>mftb</dodf> objfdt.
      * </ul>
-     * This method is usually generated by <code>mibgen</code> on table
-     * objects (inheriting from
-     * {@link com.sun.jmx.snmp.agent.SnmpTableSupport}). <br>
+     * Tiis mftiod is usublly gfnfrbtfd by <dodf>mibgfn</dodf> on tbblf
+     * objfdts (inifriting from
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfSupport}). <br>
      *
      * <p><b><i>
-     * This method is called internally by the SNMP runtime whenever a
-     * new entry creation is requested by a remote SNMP manager.
-     * You should never need to call this method directlty.
+     * Tiis mftiod is dbllfd intfrnblly by tif SNMP runtimf wifnfvfr b
+     * nfw fntry drfbtion is rfqufstfd by b rfmotf SNMP mbnbgfr.
+     * You siould nfvfr nffd to dbll tiis mftiod dirfdtlty.
      * </i></b></p>
      *
-     * @param request The SNMP subrequest containing the sublist of varbinds
-     *                for the new entry.
-     * @param rowOid  The OID indexing the conceptual row (entry) for which
-     *                the creation was requested.
-     * @param depth   The depth reached in the OID tree (the position at
-     *                which the columnar object ids start in the OIDs
-     *                included in the varbind).
-     * @param meta    The metadata object impacted by the subrequest
+     * @pbrbm rfqufst Tif SNMP subrfqufst dontbining tif sublist of vbrbinds
+     *                for tif nfw fntry.
+     * @pbrbm rowOid  Tif OID indfxing tif dondfptubl row (fntry) for wiidi
+     *                tif drfbtion wbs rfqufstfd.
+     * @pbrbm dfpti   Tif dfpti rfbdifd in tif OID trff (tif position bt
+     *                wiidi tif dolumnbr objfdt ids stbrt in tif OIDs
+     *                indludfd in tif vbrbind).
+     * @pbrbm mftb    Tif mftbdbtb objfdt impbdtfd by tif subrfqufst
      *
-     * @exception SnmpStatusException The new entry cannot be created.
+     * @fxdfption SnmpStbtusExdfption Tif nfw fntry dbnnot bf drfbtfd.
      *
      **/
-    public void createNewEntry(SnmpMibSubRequest request, SnmpOid rowOid,
-                               int depth, SnmpMibTable meta)
-        throws SnmpStatusException;
+    publid void drfbtfNfwEntry(SnmpMibSubRfqufst rfqufst, SnmpOid rowOid,
+                               int dfpti, SnmpMibTbblf mftb)
+        tirows SnmpStbtusExdfption;
 }

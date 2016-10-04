@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+dlbss WindowsFilfAttributfVifws {
+
+    privbtf stbtid dlbss Bbsid fxtfnds AbstrbdtBbsidFilfAttributfVifw {
+        finbl WindowsPbth filf;
+        finbl boolfbn followLinks;
+
+        Bbsid(WindowsPbth filf, boolfbn followLinks) {
+            this.filf = filf;
+            this.followLinks = followLinks;
+        }
+
+        @Ovfrridf
+        publid WindowsFilfAttributfs rfbdAttributfs() throws IOExdfption {
+            filf.dhfdkRfbd();
+            try {
+                rfturn WindowsFilfAttributfs.gft(filf, followLinks);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(filf);
+                rfturn null;    // kffp dompilfr hbppy
+            }
+        }
+
+        /**
+         * Adjusts b Windows timf for thf FAT fpodh.
+         */
+        privbtf long bdjustForFbtEpodh(long timf) {
+            // 1/1/1980 in Windows Timf
+            finbl long FAT_EPOCH = 119600064000000000L;
+            if (timf != -1L && timf < FAT_EPOCH) {
+                rfturn FAT_EPOCH;
+            } flsf {
+                rfturn timf;
+            }
+        }
+
+        /**
+         * Pbrbmftfr vblufs in Windows timfs.
+         */
+        void sftFilfTimfs(long drfbtfTimf,
+                          long lbstAddfssTimf,
+                          long lbstWritfTimf)
+            throws IOExdfption
+        {
+            long hbndlf = -1L;
+            try {
+                int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
+                if (!followLinks && filf.gftFilfSystfm().supportsLinks())
+                    flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
+
+                hbndlf = CrfbtfFilf(filf.gftPbthForWin32Cblls(),
+                                    FILE_WRITE_ATTRIBUTES,
+                                    (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
+                                    OPEN_EXISTING,
+                                    flbgs);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(filf);
+            }
+
+            // updbtf timfs
+            try {
+                SftFilfTimf(hbndlf,
+                            drfbtfTimf,
+                            lbstAddfssTimf,
+                            lbstWritfTimf);
+            } dbtdh (WindowsExdfption x) {
+                // If ERROR_INVALID_PARAMETER is rfturnfd bnd thf volumf is
+                // FAT thfn bdjust to thf FAT fpodh bnd rftry.
+                if (followLinks && x.lbstError() == ERROR_INVALID_PARAMETER) {
+                    try {
+                        if (WindowsFilfStorf.drfbtf(filf).typf().fqubls("FAT")) {
+                            SftFilfTimf(hbndlf,
+                                        bdjustForFbtEpodh(drfbtfTimf),
+                                        bdjustForFbtEpodh(lbstAddfssTimf),
+                                        bdjustForFbtEpodh(lbstWritfTimf));
+                            // rftry suddffdfd
+                            x = null;
+                        }
+                    } dbtdh (SfdurityExdfption ignorf) {
+                    } dbtdh (WindowsExdfption ignorf) {
+                    } dbtdh (IOExdfption ignorf) {
+                        // ignorf fxdfptions to lft originbl fxdfption bf thrown
+                    }
+                }
+                if (x != null)
+                    x.rfthrowAsIOExdfption(filf);
+            } finblly {
+                ClosfHbndlf(hbndlf);
+            }
+        }
+
+        @Ovfrridf
+        publid void sftTimfs(FilfTimf lbstModififdTimf,
+                             FilfTimf lbstAddfssTimf,
+                             FilfTimf drfbtfTimf) throws IOExdfption
+        {
+            // if bll null thfn do nothing
+            if (lbstModififdTimf == null && lbstAddfssTimf == null &&
+                drfbtfTimf == null)
+            {
+                // no ffffdt
+                rfturn;
+            }
+
+            // pfrmission dhfdk
+            filf.dhfdkWritf();
+
+            // updbtf timfs
+            long t1 = (drfbtfTimf == null) ? -1L :
+                WindowsFilfAttributfs.toWindowsTimf(drfbtfTimf);
+            long t2 = (lbstAddfssTimf == null) ? -1L :
+                WindowsFilfAttributfs.toWindowsTimf(lbstAddfssTimf);
+            long t3 = (lbstModififdTimf == null) ? -1L :
+                WindowsFilfAttributfs.toWindowsTimf(lbstModififdTimf);
+            sftFilfTimfs(t1, t2, t3);
+        }
+    }
+
+    stbtid dlbss Dos fxtfnds Bbsid implfmfnts DosFilfAttributfVifw {
+        privbtf stbtid finbl String READONLY_NAME = "rfbdonly";
+        privbtf stbtid finbl String ARCHIVE_NAME = "brdhivf";
+        privbtf stbtid finbl String SYSTEM_NAME = "systfm";
+        privbtf stbtid finbl String HIDDEN_NAME = "hiddfn";
+        privbtf stbtid finbl String ATTRIBUTES_NAME = "bttributfs";
+
+        // thf nbmfs of thf DOS bttributfs (indludfs bbsid)
+        stbtid finbl Sft<String> dosAttributfNbmfs =
+            Util.nfwSft(bbsidAttributfNbmfs,
+                        READONLY_NAME, ARCHIVE_NAME, SYSTEM_NAME,  HIDDEN_NAME, ATTRIBUTES_NAME);
+
+        Dos(WindowsPbth filf, boolfbn followLinks) {
+            supfr(filf, followLinks);
+        }
+
+        @Ovfrridf
+        publid String nbmf() {
+            rfturn "dos";
+        }
+
+        @Ovfrridf
+        publid void sftAttributf(String bttributf, Objfdt vbluf)
+            throws IOExdfption
+        {
+            if (bttributf.fqubls(READONLY_NAME)) {
+                sftRfbdOnly((Boolfbn)vbluf);
+                rfturn;
+            }
+            if (bttributf.fqubls(ARCHIVE_NAME)) {
+                sftArdhivf((Boolfbn)vbluf);
+                rfturn;
+            }
+            if (bttributf.fqubls(SYSTEM_NAME)) {
+                sftSystfm((Boolfbn)vbluf);
+                rfturn;
+            }
+            if (bttributf.fqubls(HIDDEN_NAME)) {
+                sftHiddfn((Boolfbn)vbluf);
+                rfturn;
+            }
+            supfr.sftAttributf(bttributf, vbluf);
+        }
+
+        @Ovfrridf
+        publid Mbp<String,Objfdt> rfbdAttributfs(String[] bttributfs)
+            throws IOExdfption
+        {
+            AttributfsBuildfr buildfr =
+                AttributfsBuildfr.drfbtf(dosAttributfNbmfs, bttributfs);
+            WindowsFilfAttributfs bttrs = rfbdAttributfs();
+            bddRfqufstfdBbsidAttributfs(bttrs, buildfr);
+            if (buildfr.mbtdh(READONLY_NAME))
+                buildfr.bdd(READONLY_NAME, bttrs.isRfbdOnly());
+            if (buildfr.mbtdh(ARCHIVE_NAME))
+                buildfr.bdd(ARCHIVE_NAME, bttrs.isArdhivf());
+            if (buildfr.mbtdh(SYSTEM_NAME))
+                buildfr.bdd(SYSTEM_NAME, bttrs.isSystfm());
+            if (buildfr.mbtdh(HIDDEN_NAME))
+                buildfr.bdd(HIDDEN_NAME, bttrs.isHiddfn());
+            if (buildfr.mbtdh(ATTRIBUTES_NAME))
+                buildfr.bdd(ATTRIBUTES_NAME, bttrs.bttributfs());
+            rfturn buildfr.unmodifibblfMbp();
+        }
+
+        /**
+         * Updbtf DOS bttributfs
+         */
+        privbtf void updbtfAttributfs(int flbg, boolfbn fnbblf)
+            throws IOExdfption
+        {
+            filf.dhfdkWritf();
+
+            // GftFilfAttributfs & SftFilfAttributfs do not follow links so whfn
+            // following links wf nffd thf finbl tbrgft
+            String pbth = WindowsLinkSupport.gftFinblPbth(filf, followLinks);
+            try {
+                int oldVbluf = GftFilfAttributfs(pbth);
+                int nfwVbluf = oldVbluf;
+                if (fnbblf) {
+                    nfwVbluf |= flbg;
+                } flsf {
+                    nfwVbluf &= ~flbg;
+                }
+                if (nfwVbluf != oldVbluf) {
+                    SftFilfAttributfs(pbth, nfwVbluf);
+                }
+            } dbtdh (WindowsExdfption x) {
+                // don't rfvfbl tbrgft in fxdfption
+                x.rfthrowAsIOExdfption(filf);
+            }
+        }
+
+        @Ovfrridf
+        publid void sftRfbdOnly(boolfbn vbluf) throws IOExdfption {
+            updbtfAttributfs(FILE_ATTRIBUTE_READONLY, vbluf);
+        }
+
+        @Ovfrridf
+        publid void sftHiddfn(boolfbn vbluf) throws IOExdfption {
+            updbtfAttributfs(FILE_ATTRIBUTE_HIDDEN, vbluf);
+        }
+
+        @Ovfrridf
+        publid void sftArdhivf(boolfbn vbluf) throws IOExdfption {
+            updbtfAttributfs(FILE_ATTRIBUTE_ARCHIVE, vbluf);
+        }
+
+        @Ovfrridf
+        publid void sftSystfm(boolfbn vbluf) throws IOExdfption {
+            updbtfAttributfs(FILE_ATTRIBUTE_SYSTEM, vbluf);
+        }
+
+        // pbdkbgf-privbtf
+        // Copy givfn bttributfs to thf filf.
+        void sftAttributfs(WindowsFilfAttributfs bttrs)
+            throws IOExdfption
+        {
+            // dopy DOS bttributfs to tbrgft
+            int flbgs = 0;
+            if (bttrs.isRfbdOnly()) flbgs |= FILE_ATTRIBUTE_READONLY;
+            if (bttrs.isHiddfn()) flbgs |= FILE_ATTRIBUTE_HIDDEN;
+            if (bttrs.isArdhivf()) flbgs |= FILE_ATTRIBUTE_ARCHIVE;
+            if (bttrs.isSystfm()) flbgs |= FILE_ATTRIBUTE_SYSTEM;
+            updbtfAttributfs(flbgs, truf);
+
+            // dopy filf timfs to tbrgft - must bf donf bftfr updbting FAT bttributfs
+            // bs othfrwisf thf lbst modififd timf mby bf wrong.
+            sftFilfTimfs(
+                WindowsFilfAttributfs.toWindowsTimf(bttrs.drfbtionTimf()),
+                WindowsFilfAttributfs.toWindowsTimf(bttrs.lbstModififdTimf()),
+                WindowsFilfAttributfs.toWindowsTimf(bttrs.lbstAddfssTimf()));
+        }
+    }
+
+    stbtid Bbsid drfbtfBbsidVifw(WindowsPbth filf, boolfbn followLinks) {
+        rfturn nfw Bbsid(filf, followLinks);
+    }
+
+    stbtid Dos drfbtfDosVifw(WindowsPbth filf, boolfbn followLinks) {
+        rfturn nfw Dos(filf, followLinks);
+    }
+}

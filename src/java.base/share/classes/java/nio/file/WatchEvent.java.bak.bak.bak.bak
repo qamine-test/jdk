@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+/**
+ * An fvfnt or b rfpfbtfd fvfnt for bn objfdt thbt is rfgistfrfd with b {@link
+ * WbtdhSfrvidf}.
+ *
+ * <p> An fvfnt is dlbssififd by its {@link #kind() kind} bnd hbs b {@link
+ * #dount() dount} to indidbtf thf numbfr of timfs thbt thf fvfnt hbs bffn
+ * obsfrvfd. This bllows for fffidifnt rfprfsfntbtion of rfpfbtfd fvfnts. Thf
+ * {@link #dontfxt() dontfxt} mfthod rfturns bny dontfxt bssodibtfd with
+ * thf fvfnt. In thf dbsf of b rfpfbtfd fvfnt thfn thf dontfxt is thf sbmf for
+ * bll fvfnts.
+ *
+ * <p> Wbtdh fvfnts brf immutbblf bnd sbff for usf by multiplf dondurrfnt
+ * thrfbds.
+ *
+ * @pbrbm   <T>     Thf typf of thf dontfxt objfdt bssodibtfd with thf fvfnt
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf WbtdhEvfnt<T> {
+
+    /**
+     * An fvfnt kind, for thf purposfs of idfntifidbtion.
+     *
+     * @sindf 1.7
+     * @sff StbndbrdWbtdhEvfntKinds
+     */
+    publid stbtid intfrfbdf Kind<T> {
+        /**
+         * Rfturns thf nbmf of thf fvfnt kind.
+         *
+         * @rfturn thf nbmf of thf fvfnt kind
+         */
+        String nbmf();
+
+        /**
+         * Rfturns thf typf of thf {@link WbtdhEvfnt#dontfxt dontfxt} vbluf.
+         *
+         *
+         * @rfturn thf typf of thf dontfxt vbluf
+         */
+        Clbss<T> typf();
+    }
+
+    /**
+     * An fvfnt modififr thbt qublififs how b {@link Wbtdhbblf} is rfgistfrfd
+     * with b {@link WbtdhSfrvidf}.
+     *
+     * <p> This rflfbsf dofs not dffinf bny <fm>stbndbrd</fm> modififrs.
+     *
+     * @sindf 1.7
+     * @sff Wbtdhbblf#rfgistfr
+     */
+    publid stbtid intfrfbdf Modififr {
+        /**
+         * Rfturns thf nbmf of thf modififr.
+         *
+         * @rfturn thf nbmf of thf modififr
+         */
+        String nbmf();
+    }
+
+    /**
+     * Rfturns thf fvfnt kind.
+     *
+     * @rfturn  thf fvfnt kind
+     */
+    Kind<T> kind();
+
+    /**
+     * Rfturns thf fvfnt dount. If thf fvfnt dount is grfbtfr thbn {@dodf 1}
+     * thfn this is b rfpfbtfd fvfnt.
+     *
+     * @rfturn  thf fvfnt dount
+     */
+    int dount();
+
+    /**
+     * Rfturns thf dontfxt for thf fvfnt.
+     *
+     * <p> In thf dbsf of {@link StbndbrdWbtdhEvfntKinds#ENTRY_CREATE ENTRY_CREATE},
+     * {@link StbndbrdWbtdhEvfntKinds#ENTRY_DELETE ENTRY_DELETE}, bnd {@link
+     * StbndbrdWbtdhEvfntKinds#ENTRY_MODIFY ENTRY_MODIFY} fvfnts thf dontfxt is
+     * b {@dodf Pbth} thbt is thf {@link Pbth#rflbtivizf rflbtivf} pbth bftwffn
+     * thf dirfdtory rfgistfrfd with thf wbtdh sfrvidf, bnd thf fntry thbt is
+     * drfbtfd, dflftfd, or modififd.
+     *
+     * @rfturn  thf fvfnt dontfxt; mby bf {@dodf null}
+     */
+    T dontfxt();
+}

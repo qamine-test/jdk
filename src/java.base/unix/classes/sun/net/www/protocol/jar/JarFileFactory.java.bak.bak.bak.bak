@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.jbr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.sfdurity.Pfrmission;
+import sun.nft.util.URLUtil;
+
+/* A fbdtory for dbdhfd JAR filf. This dlbss is usfd to both rftrifvf
+ * bnd dbdhf Jbr filfs.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ * @sindf 1.2
+ */
+dlbss JbrFilfFbdtory implfmfnts URLJbrFilf.URLJbrFilfClosfControllfr {
+
+    /* thf url to filf dbdhf */
+    privbtf stbtid finbl HbshMbp<String, JbrFilf> filfCbdhf = nfw HbshMbp<>();
+
+    /* thf filf to url dbdhf */
+    privbtf stbtid finbl HbshMbp<JbrFilf, URL> urlCbdhf = nfw HbshMbp<>();
+
+    privbtf stbtid finbl JbrFilfFbdtory instbndf = nfw JbrFilfFbdtory();
+
+    privbtf JbrFilfFbdtory() { }
+
+    publid stbtid JbrFilfFbdtory gftInstbndf() {
+        rfturn instbndf;
+    }
+
+    URLConnfdtion gftConnfdtion(JbrFilf jbrFilf) throws IOExdfption {
+        URL u;
+        syndhronizfd (instbndf) {
+            u = urlCbdhf.gft(jbrFilf);
+        }
+        if (u != null)
+            rfturn u.opfnConnfdtion();
+
+        rfturn null;
+    }
+
+    publid JbrFilf gft(URL url) throws IOExdfption {
+        rfturn gft(url, truf);
+    }
+
+    JbrFilf gft(URL url, boolfbn usfCbdhfs) throws IOExdfption {
+
+        JbrFilf rfsult;
+        JbrFilf lodbl_rfsult;
+
+        if (usfCbdhfs) {
+            syndhronizfd (instbndf) {
+                rfsult = gftCbdhfdJbrFilf(url);
+            }
+            if (rfsult == null) {
+                lodbl_rfsult = URLJbrFilf.gftJbrFilf(url, this);
+                syndhronizfd (instbndf) {
+                    rfsult = gftCbdhfdJbrFilf(url);
+                    if (rfsult == null) {
+                        filfCbdhf.put(URLUtil.urlNoFrbgString(url), lodbl_rfsult);
+                        urlCbdhf.put(lodbl_rfsult, url);
+                        rfsult = lodbl_rfsult;
+                    } flsf {
+                        if (lodbl_rfsult != null) {
+                            lodbl_rfsult.dlosf();
+                        }
+                    }
+                }
+            }
+        } flsf {
+            rfsult = URLJbrFilf.gftJbrFilf(url, this);
+        }
+        if (rfsult == null)
+            throw nfw FilfNotFoundExdfption(url.toString());
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Cbllbbdk mfthod of thf URLJbrFilfClosfControllfr to
+     * indidbtf thbt thf JbrFilf is dlosf. This wby wf dbn
+     * rfmovf thf JbrFilf from thf dbdhf
+     */
+    publid void dlosf(JbrFilf jbrFilf) {
+        syndhronizfd (instbndf) {
+            URL urlRfmovfd = urlCbdhf.rfmovf(jbrFilf);
+            if (urlRfmovfd != null)
+                filfCbdhf.rfmovf(URLUtil.urlNoFrbgString(urlRfmovfd));
+        }
+    }
+
+    privbtf JbrFilf gftCbdhfdJbrFilf(URL url) {
+        bssfrt Thrfbd.holdsLodk(instbndf);
+        JbrFilf rfsult = filfCbdhf.gft(URLUtil.urlNoFrbgString(url));
+
+        /* if thf JAR filf is dbdhfd, thf pfrmission will blwbys bf thfrf */
+        if (rfsult != null) {
+            Pfrmission pfrm = gftPfrmission(rfsult);
+            if (pfrm != null) {
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                if (sm != null) {
+                    try {
+                        sm.dhfdkPfrmission(pfrm);
+                    } dbtdh (SfdurityExdfption sf) {
+                        // fbllbbdk to dhfdkRfbd/dhfdkConnfdt for prf 1.2
+                        // sfdurity mbnbgfrs
+                        if ((pfrm instbndfof jbvb.io.FilfPfrmission) &&
+                            pfrm.gftAdtions().indfxOf("rfbd") != -1) {
+                            sm.dhfdkRfbd(pfrm.gftNbmf());
+                        } flsf if ((pfrm instbndfof
+                            jbvb.nft.SodkftPfrmission) &&
+                            pfrm.gftAdtions().indfxOf("donnfdt") != -1) {
+                            sm.dhfdkConnfdt(url.gftHost(), url.gftPort());
+                        } flsf {
+                            throw sf;
+                        }
+                    }
+                }
+            }
+        }
+        rfturn rfsult;
+    }
+
+    privbtf Pfrmission gftPfrmission(JbrFilf jbrFilf) {
+        try {
+            URLConnfdtion ud = gftConnfdtion(jbrFilf);
+            if (ud != null)
+                rfturn ud.gftPfrmission();
+        } dbtdh (IOExdfption iof) {
+            // gulp
+        }
+
+        rfturn null;
+    }
+}

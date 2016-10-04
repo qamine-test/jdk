@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
+import sun.misd.Signbl;
+import sun.misd.SignblHbndlfr;
 
 
 /**
- * Package-private utility class for setting up and tearing down
- * platform-specific support for termination-triggered shutdowns.
+ * Pbdkbgf-privbtf utility dlbss for sftting up bnd tfbring down
+ * plbtform-spfdifid support for tfrminbtion-triggfrfd siutdowns.
  *
- * @author   Mark Reinhold
- * @since    1.3
+ * @butior   Mbrk Rfiniold
+ * @sindf    1.3
  */
 
-class Terminator {
+dlbss Tfrminbtor {
 
-    private static SignalHandler handler = null;
+    privbtf stbtid SignblHbndlfr ibndlfr = null;
 
-    /* Invocations of setup and teardown are already synchronized
-     * on the shutdown lock, so no further synchronization is needed here
+    /* Invodbtions of sftup bnd tfbrdown brf blrfbdy syndironizfd
+     * on tif siutdown lodk, so no furtifr syndironizbtion is nffdfd ifrf
      */
 
-    static void setup() {
-        if (handler != null) return;
-        SignalHandler sh = new SignalHandler() {
-            public void handle(Signal sig) {
-                Shutdown.exit(sig.getNumber() + 0200);
+    stbtid void sftup() {
+        if (ibndlfr != null) rfturn;
+        SignblHbndlfr si = nfw SignblHbndlfr() {
+            publid void ibndlf(Signbl sig) {
+                Siutdown.fxit(sig.gftNumbfr() + 0200);
             }
         };
-        handler = sh;
+        ibndlfr = si;
 
-        // When -Xrs is specified the user is responsible for
-        // ensuring that shutdown hooks are run by calling
-        // System.exit()
+        // Wifn -Xrs is spfdififd tif usfr is rfsponsiblf for
+        // fnsuring tibt siutdown iooks brf run by dblling
+        // Systfm.fxit()
         try {
-            Signal.handle(new Signal("INT"), sh);
-        } catch (IllegalArgumentException e) {
+            Signbl.ibndlf(nfw Signbl("INT"), si);
+        } dbtdi (IllfgblArgumfntExdfption f) {
         }
         try {
-            Signal.handle(new Signal("TERM"), sh);
-        } catch (IllegalArgumentException e) {
+            Signbl.ibndlf(nfw Signbl("TERM"), si);
+        } dbtdi (IllfgblArgumfntExdfption f) {
         }
     }
 
-    static void teardown() {
-        /* The current sun.misc.Signal class does not support
-         * the cancellation of handlers
+    stbtid void tfbrdown() {
+        /* Tif durrfnt sun.misd.Signbl dlbss dofs not support
+         * tif dbndfllbtion of ibndlfrs
          */
     }
 

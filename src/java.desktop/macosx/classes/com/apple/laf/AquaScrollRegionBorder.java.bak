@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.Component;
-import java.awt.Graphics;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbpiids;
 
-import javax.swing.JComponent;
+import jbvbx.swing.JComponfnt;
 
-import apple.laf.JRSUIState;
-import apple.laf.JRSUIConstants.Focused;
-import apple.laf.JRSUIConstants.State;
-import apple.laf.JRSUIConstants.Widget;
+import bpplf.lbf.JRSUIStbtf;
+import bpplf.lbf.JRSUIConstbnts.Fodusfd;
+import bpplf.lbf.JRSUIConstbnts.Stbtf;
+import bpplf.lbf.JRSUIConstbnts.Widgft;
 
-import com.apple.laf.AquaUtilControlSize.SizeDescriptor;
-import com.apple.laf.AquaUtilControlSize.SizeVariant;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import dom.bpplf.lbf.AqubUtilControlSizf.SizfDfsdriptor;
+import dom.bpplf.lbf.AqubUtilControlSizf.SizfVbribnt;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
 
-public class AquaScrollRegionBorder extends AquaBorder {
-    static final RecyclableSingletonFromDefaultConstructor<AquaScrollRegionBorder> instance = new RecyclableSingletonFromDefaultConstructor<AquaScrollRegionBorder>(AquaScrollRegionBorder.class);
+publid dlbss AqubSdrollRfgionBordfr fxtfnds AqubBordfr {
+    stbtid finbl RfdydlbblfSinglftonFromDffbultConstrudtor<AqubSdrollRfgionBordfr> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubSdrollRfgionBordfr>(AqubSdrollRfgionBordfr.dlbss);
 
-    public static AquaScrollRegionBorder getScrollRegionBorder() {
-        return instance.get();
+    publid stbtid AqubSdrollRfgionBordfr gftSdrollRfgionBordfr() {
+        rfturn instbndf.gft();
     }
 
-    public AquaScrollRegionBorder() {
-        super(new SizeDescriptor(new SizeVariant().alterMargins(2, 2, 2, 2)));
+    publid AqubSdrollRfgionBordfr() {
+        supfr(nfw SizfDfsdriptor(nfw SizfVbribnt().bltfrMbrgins(2, 2, 2, 2)));
     }
 
-    @Override
-    protected AquaPainter<? extends JRSUIState> createPainter() {
-        JRSUIState state =  JRSUIState.getInstance();
-        state.set(Widget.FRAME_LIST_BOX);
-        return AquaPainter.<JRSUIState>create(state, 7, 7, 3, 3, 3, 3);
+    @Ovfrridf
+    protfdtfd AqubPbintfr<? fxtfnds JRSUIStbtf> drfbtfPbintfr() {
+        JRSUIStbtf stbtf =  JRSUIStbtf.gftInstbndf();
+        stbtf.sft(Widgft.FRAME_LIST_BOX);
+        rfturn AqubPbintfr.<JRSUIStbtf>drfbtf(stbtf, 7, 7, 3, 3, 3, 3);
     }
 
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-        final State state = getState((JComponent)c);
-        painter.state.set(state);
-        painter.state.set(isFocused(c) && state == State.ACTIVE ? Focused.YES : Focused.NO);
-        painter.paint(g, c, x, y, width, height);
+    publid void pbintBordfr(finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y, finbl int widti, finbl int ifigit) {
+        finbl Stbtf stbtf = gftStbtf((JComponfnt)d);
+        pbintfr.stbtf.sft(stbtf);
+        pbintfr.stbtf.sft(isFodusfd(d) && stbtf == Stbtf.ACTIVE ? Fodusfd.YES : Fodusfd.NO);
+        pbintfr.pbint(g, d, x, y, widti, ifigit);
     }
 
-    protected State getState(final JComponent c) {
-        if (!AquaFocusHandler.isActive(c)) return State.INACTIVE;
-        if (!c.isEnabled()) return State.DISABLED;
-        return State.ACTIVE;
+    protfdtfd Stbtf gftStbtf(finbl JComponfnt d) {
+        if (!AqubFodusHbndlfr.isAdtivf(d)) rfturn Stbtf.INACTIVE;
+        if (!d.isEnbblfd()) rfturn Stbtf.DISABLED;
+        rfturn Stbtf.ACTIVE;
     }
 }

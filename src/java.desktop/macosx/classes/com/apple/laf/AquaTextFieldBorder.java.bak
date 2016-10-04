@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.plaf.*;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtilControlSize.*;
-import com.apple.laf.AquaUtils.*;
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.*;
 
-public class AquaTextFieldBorder extends AquaBorder {
-    protected static final RecyclableSingleton<AquaTextFieldBorder> instance = new RecyclableSingletonFromDefaultConstructor<AquaTextFieldBorder>(AquaTextFieldBorder.class);
-    public static AquaTextFieldBorder getTextFieldBorder() {
-        return instance.get();
+publid dlbss AqubTfxtFifldBordfr fxtfnds AqubBordfr {
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<AqubTfxtFifldBordfr> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubTfxtFifldBordfr>(AqubTfxtFifldBordfr.dlbss);
+    publid stbtid AqubTfxtFifldBordfr gftTfxtFifldBordfr() {
+        rfturn instbndf.gft();
     }
 
-    public AquaTextFieldBorder() {
-        this(new SizeDescriptor(new SizeVariant().alterMargins(6, 7, 6, 7).alterInsets(3, 3, 3, 3)));
-        painter.state.set(Widget.FRAME_TEXT_FIELD);
-        painter.state.set(FrameOnly.YES);
-        painter.state.set(Size.LARGE);
+    publid AqubTfxtFifldBordfr() {
+        tiis(nfw SizfDfsdriptor(nfw SizfVbribnt().bltfrMbrgins(6, 7, 6, 7).bltfrInsfts(3, 3, 3, 3)));
+        pbintfr.stbtf.sft(Widgft.FRAME_TEXT_FIELD);
+        pbintfr.stbtf.sft(FrbmfOnly.YES);
+        pbintfr.stbtf.sft(Sizf.LARGE);
     }
 
-    public AquaTextFieldBorder(final SizeDescriptor sizeDescriptor) {
-        super(sizeDescriptor);
+    publid AqubTfxtFifldBordfr(finbl SizfDfsdriptor sizfDfsdriptor) {
+        supfr(sizfDfsdriptor);
     }
 
-    public AquaTextFieldBorder(final AquaTextFieldBorder other) {
-        super(other);
+    publid AqubTfxtFifldBordfr(finbl AqubTfxtFifldBordfr otifr) {
+        supfr(otifr);
     }
 
-    protected void setSize(final Size size) {
-        super.setSize(size);
-        painter.state.set(Size.LARGE);
+    protfdtfd void sftSizf(finbl Sizf sizf) {
+        supfr.sftSizf(sizf);
+        pbintfr.stbtf.sft(Sizf.LARGE);
     }
 
-    public void paintBorder(final Component c, final Graphics g, int x, int y, int width, int height) {
-//        g.setColor(Color.MAGENTA);
-//        g.drawRect(x, y, width - 1, height - 1);
+    publid void pbintBordfr(finbl Componfnt d, finbl Grbpiids g, int x, int y, int widti, int ifigit) {
+//        g.sftColor(Color.MAGENTA);
+//        g.drbwRfdt(x, y, widti - 1, ifigit - 1);
 
-        if (!(c instanceof JTextComponent)) {
-            painter.state.set(State.ACTIVE);
-            painter.state.set(Focused.NO);
-            painter.paint(g, c, x, y, width, height);
-            return;
+        if (!(d instbndfof JTfxtComponfnt)) {
+            pbintfr.stbtf.sft(Stbtf.ACTIVE);
+            pbintfr.stbtf.sft(Fodusfd.NO);
+            pbintfr.pbint(g, d, x, y, widti, ifigit);
+            rfturn;
         }
 
-        final JTextComponent jc = (JTextComponent)c;
-        final State state = getStateFor(jc);
-        painter.state.set(state);
-        painter.state.set(State.ACTIVE == state && jc.hasFocus() ? Focused.YES : Focused.NO);
+        finbl JTfxtComponfnt jd = (JTfxtComponfnt)d;
+        finbl Stbtf stbtf = gftStbtfFor(jd);
+        pbintfr.stbtf.sft(stbtf);
+        pbintfr.stbtf.sft(Stbtf.ACTIVE == stbtf && jd.ibsFodus() ? Fodusfd.YES : Fodusfd.NO);
 
-        if (jc.isOpaque()) {
-            painter.paint(g, c, x, y, width, height);
-            return;
+        if (jd.isOpbquf()) {
+            pbintfr.pbint(g, d, x, y, widti, ifigit);
+            rfturn;
         }
 
-        final int shrinkage = getShrinkageFor(jc, height);
-        final Insets subInsets = getSubInsets(shrinkage);
-        x += subInsets.left;
-        y += subInsets.top;
-        width -= (subInsets.left + subInsets.right);
-        height -= (subInsets.top + subInsets.bottom);
+        finbl int sirinkbgf = gftSirinkbgfFor(jd, ifigit);
+        finbl Insfts subInsfts = gftSubInsfts(sirinkbgf);
+        x += subInsfts.lfft;
+        y += subInsfts.top;
+        widti -= (subInsfts.lfft + subInsfts.rigit);
+        ifigit -= (subInsfts.top + subInsfts.bottom);
 
-        if (shrinkage > 0) {
-            final Rectangle clipBounds = g.getClipBounds();
-            clipBounds.x += shrinkage;
-            clipBounds.width -= shrinkage * 2;
-            g.setClip(clipBounds);
+        if (sirinkbgf > 0) {
+            finbl Rfdtbnglf dlipBounds = g.gftClipBounds();
+            dlipBounds.x += sirinkbgf;
+            dlipBounds.widti -= sirinkbgf * 2;
+            g.sftClip(dlipBounds);
         }
 
-        painter.paint(g, c, x, y, width, height);
-//        g.setColor(Color.ORANGE);
-//        g.drawRect(x, y, width - 1, height - 1);
+        pbintfr.pbint(g, d, x, y, widti, ifigit);
+//        g.sftColor(Color.ORANGE);
+//        g.drbwRfdt(x, y, widti - 1, ifigit - 1);
     }
 
-    static int getShrinkageFor(final JTextComponent jc, final int height) {
-        if (jc == null) return 0;
-        final TextUI ui = jc.getUI();
-        if (ui == null) return 0;
-        final Dimension size = ui.getPreferredSize(jc);
-        if (size == null) return 0;
-        final int shrinkage = size.height - height;
-        return (shrinkage < 0) ? 0 : (shrinkage > 3) ? 3 : shrinkage;
+    stbtid int gftSirinkbgfFor(finbl JTfxtComponfnt jd, finbl int ifigit) {
+        if (jd == null) rfturn 0;
+        finbl TfxtUI ui = jd.gftUI();
+        if (ui == null) rfturn 0;
+        finbl Dimfnsion sizf = ui.gftPrfffrrfdSizf(jd);
+        if (sizf == null) rfturn 0;
+        finbl int sirinkbgf = sizf.ifigit - ifigit;
+        rfturn (sirinkbgf < 0) ? 0 : (sirinkbgf > 3) ? 3 : sirinkbgf;
     }
 
-    // this determines the rect that we should draw inset to our existing bounds
-    protected Insets getSubInsets(final int shrinkage) {
-        final Insets insets = sizeVariant.insets;
+    // tiis dftfrminfs tif rfdt tibt wf siould drbw insft to our fxisting bounds
+    protfdtfd Insfts gftSubInsfts(finbl int sirinkbgf) {
+        finbl Insfts insfts = sizfVbribnt.insfts;
 
-        if (shrinkage > 0) {
-            return new InsetsUIResource(insets.top - shrinkage, insets.left, insets.bottom - shrinkage, insets.right);
+        if (sirinkbgf > 0) {
+            rfturn nfw InsftsUIRfsourdf(insfts.top - sirinkbgf, insfts.lfft, insfts.bottom - sirinkbgf, insfts.rigit);
         }
 
-        return insets;
+        rfturn insfts;
     }
 
-    public Insets getBorderInsets(final Component c) {
-        if (!(c instanceof JTextComponent) || c.isOpaque()) return new InsetsUIResource(3, 7, 3, 7);
-        return new InsetsUIResource(6, 7, 6, 7);
+    publid Insfts gftBordfrInsfts(finbl Componfnt d) {
+        if (!(d instbndfof JTfxtComponfnt) || d.isOpbquf()) rfturn nfw InsftsUIRfsourdf(3, 7, 3, 7);
+        rfturn nfw InsftsUIRfsourdf(6, 7, 6, 7);
     }
 
-    protected static State getStateFor(final JTextComponent jc) {
-        if (!AquaFocusHandler.isActive(jc)) {
-            return State.INACTIVE;
+    protfdtfd stbtid Stbtf gftStbtfFor(finbl JTfxtComponfnt jd) {
+        if (!AqubFodusHbndlfr.isAdtivf(jd)) {
+            rfturn Stbtf.INACTIVE;
         }
 
-        if (!jc.isEnabled()) {
-            return State.DISABLED;
+        if (!jd.isEnbblfd()) {
+            rfturn Stbtf.DISABLED;
         }
 
-        if (!jc.isEditable()) {
-            return State.DISABLED;
+        if (!jd.isEditbblf()) {
+            rfturn Stbtf.DISABLED;
         }
 
-        return State.ACTIVE;
+        rfturn Stbtf.ACTIVE;
     }
 }

@@ -1,0 +1,777 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+/**
+ * An implfmfntbtion of b mfnu bbr. You bdd <dodf>JMfnu</dodf> objfdts to thf
+ * mfnu bbr to donstrudt b mfnu. Whfn thf usfr sflfdts b <dodf>JMfnu</dodf>
+ * objfdt, its bssodibtfd <dodf>JPopupMfnu</dodf> is displbyfd, bllowing thf
+ * usfr to sflfdt onf of thf <dodf>JMfnuItfms</dodf> on it.
+ * <p>
+ * For informbtion bnd fxbmplfs of using mfnu bbrs sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/mfnu.html">How to Usf Mfnus</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * By dffbult, prfssing thf Tbb kfy dofs not trbnsffr fodus from b <dodf>
+ * JMfnuBbr</dodf> whidh is bddfd to b dontbinfr togfthfr with othfr Swing
+ * domponfnts, bfdbusf thf <dodf>fodusTrbvfrsblKfysEnbblfd</dodf> propfrty
+ * of <dodf>JMfnuBbr</dodf> is sft to <dodf>fblsf</dodf>. To rfsolvf this,
+ * you should dbll thf <dodf>JMfnuBbr.sftFodusTrbvfrsblKfysEnbblfd(truf)</dodf>
+ * mfthod.
+ * @bfbninfo
+ *   bttributf: isContbinfr truf
+ * dfsdription: A dontbinfr for holding bnd displbying mfnus.
+ *
+ * @buthor Gforgfs Sbbb
+ * @buthor Dbvid Kbrlton
+ * @buthor Arnbud Wfbfr
+ * @sff JMfnu
+ * @sff JPopupMfnu
+ * @sff JMfnuItfm
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss JMfnuBbr fxtfnds JComponfnt implfmfnts Addfssiblf,MfnuElfmfnt
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "MfnuBbrUI";
+
+    /*
+     * Modfl for thf sflfdtfd subdontrol.
+     */
+    privbtf trbnsifnt SinglfSflfdtionModfl sflfdtionModfl;
+
+    privbtf boolfbn pbintBordfr           = truf;
+    privbtf Insfts     mbrgin             = null;
+
+    /* dibgnostid bids -- should bf fblsf for produdtion builds. */
+    privbtf stbtid finbl boolfbn TRACE =   fblsf; // trbdf drfbtfs bnd disposfs
+    privbtf stbtid finbl boolfbn VERBOSE = fblsf; // show rfusf hits/missfs
+    privbtf stbtid finbl boolfbn DEBUG =   fblsf;  // show bbd pbrbms, misd.
+
+    /**
+     * Crfbtfs b nfw mfnu bbr.
+     */
+    publid JMfnuBbr() {
+        supfr();
+        sftFodusTrbvfrsblKfysEnbblfd(fblsf);
+        sftSflfdtionModfl(nfw DffbultSinglfSflfdtionModfl());
+        updbtfUI();
+    }
+
+    /**
+     * Rfturns thf mfnubbr's durrfnt UI.
+     *
+     * @rfturn b {@dodf MfnuBbrUI} whidh is thf mfnubbr's durrfnt L&bmp;F objfdt
+     * @sff #sftUI
+     */
+    publid MfnuBbrUI gftUI() {
+        rfturn (MfnuBbrUI)ui;
+    }
+
+    /**
+     * Sfts thf L&bmp;F objfdt thbt rfndfrs this domponfnt.
+     *
+     * @pbrbm ui thf nfw MfnuBbrUI L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       hiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf UI objfdt thbt implfmfnts thf Componfnt's LookAndFffl.
+     */
+    publid void sftUI(MfnuBbrUI ui) {
+        supfr.sftUI(ui);
+    }
+
+    /**
+     * Rfsfts thf UI propfrty with b vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((MfnuBbrUI)UIMbnbgfr.gftUI(this));
+    }
+
+
+    /**
+     * Rfturns thf nbmf of thf L&bmp;F dlbss thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "MfnuBbrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Rfturns thf modfl objfdt thbt hbndlfs singlf sflfdtions.
+     *
+     * @rfturn thf <dodf>SinglfSflfdtionModfl</dodf> propfrty
+     * @sff SinglfSflfdtionModfl
+     */
+    publid SinglfSflfdtionModfl gftSflfdtionModfl() {
+        rfturn sflfdtionModfl;
+    }
+
+    /**
+     * Sfts thf modfl objfdt to hbndlf singlf sflfdtions.
+     *
+     * @pbrbm modfl thf <dodf>SinglfSflfdtionModfl</dodf> to usf
+     * @sff SinglfSflfdtionModfl
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Thf sflfdtion modfl, rfdording whidh dhild is sflfdtfd.
+     */
+    publid void sftSflfdtionModfl(SinglfSflfdtionModfl modfl) {
+        SinglfSflfdtionModfl oldVbluf = sflfdtionModfl;
+        this.sflfdtionModfl = modfl;
+        firfPropfrtyChbngf("sflfdtionModfl", oldVbluf, sflfdtionModfl);
+    }
+
+
+    /**
+     * Appfnds thf spfdififd mfnu to thf fnd of thf mfnu bbr.
+     *
+     * @pbrbm d thf <dodf>JMfnu</dodf> domponfnt to bdd
+     * @rfturn thf mfnu domponfnt
+     */
+    publid JMfnu bdd(JMfnu d) {
+        supfr.bdd(d);
+        rfturn d;
+    }
+
+    /**
+     * Rfturns thf mfnu bt thf spfdififd position in thf mfnu bbr.
+     *
+     * @pbrbm indfx  bn intfgfr giving thf position in thf mfnu bbr, whfrf
+     *               0 is thf first position
+     * @rfturn thf <dodf>JMfnu</dodf> bt thbt position, or <dodf>null</dodf> if
+     *          if thfrf is no <dodf>JMfnu</dodf> bt thbt position (if. if
+     *          it is b <dodf>JMfnuItfm</dodf>)
+     */
+    publid JMfnu gftMfnu(int indfx) {
+        Componfnt d = gftComponfntAtIndfx(indfx);
+        if (d instbndfof JMfnu)
+            rfturn (JMfnu) d;
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf numbfr of itfms in thf mfnu bbr.
+     *
+     * @rfturn thf numbfr of itfms in thf mfnu bbr
+     */
+    publid int gftMfnuCount() {
+        rfturn gftComponfntCount();
+    }
+
+    /**
+     * Sfts thf hflp mfnu thbt bppfbrs whfn thf usfr sflfdts thf
+     * "hflp" option in thf mfnu bbr. This mfthod is not yft implfmfntfd
+     * bnd will throw bn fxdfption.
+     *
+     * @pbrbm mfnu thf JMfnu thbt dflivfrs hflp to thf usfr
+     */
+    publid void sftHflpMfnu(JMfnu mfnu) {
+        throw nfw Error("sftHflpMfnu() not yft implfmfntfd.");
+    }
+
+    /**
+     * Gfts thf hflp mfnu for thf mfnu bbr.  This mfthod is not yft
+     * implfmfntfd bnd will throw bn fxdfption.
+     *
+     * @rfturn thf <dodf>JMfnu</dodf> thbt dflivfrs hflp to thf usfr
+     */
+    @Trbnsifnt
+    publid JMfnu gftHflpMfnu() {
+        throw nfw Error("gftHflpMfnu() not yft implfmfntfd.");
+    }
+
+    /**
+     * Rfturns thf domponfnt bt thf spfdififd indfx.
+     *
+     * @pbrbm i bn intfgfr spfdifying thf position, whfrf 0 is first
+     * @rfturn thf <dodf>Componfnt</dodf> bt thf position,
+     *          or <dodf>null</dodf> for bn invblid indfx
+     * @dfprfdbtfd rfplbdfd by <dodf>gftComponfnt(int i)</dodf>
+     */
+    @Dfprfdbtfd
+    publid Componfnt gftComponfntAtIndfx(int i) {
+        if(i < 0 || i >= gftComponfntCount()) {
+            rfturn null;
+        }
+        rfturn gftComponfnt(i);
+    }
+
+    /**
+     * Rfturns thf indfx of thf spfdififd domponfnt.
+     *
+     * @pbrbm d  thf <dodf>Componfnt</dodf> to find
+     * @rfturn bn intfgfr giving thf domponfnt's position, whfrf 0 is first;
+     *          or -1 if it dbn't bf found
+     */
+    publid int gftComponfntIndfx(Componfnt d) {
+        int ndomponfnts = this.gftComponfntCount();
+        Componfnt[] domponfnt = this.gftComponfnts();
+        for (int i = 0 ; i < ndomponfnts ; i++) {
+            Componfnt domp = domponfnt[i];
+            if (domp == d)
+                rfturn i;
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Sfts thf durrfntly sflfdtfd domponfnt, produding b
+     * b dhbngf to thf sflfdtion modfl.
+     *
+     * @pbrbm sfl thf <dodf>Componfnt</dodf> to sflfdt
+     */
+    publid void sftSflfdtfd(Componfnt sfl) {
+        SinglfSflfdtionModfl modfl = gftSflfdtionModfl();
+        int indfx = gftComponfntIndfx(sfl);
+        modfl.sftSflfdtfdIndfx(indfx);
+    }
+
+    /**
+     * Rfturns truf if thf mfnu bbr durrfntly hbs b domponfnt sflfdtfd.
+     *
+     * @rfturn truf if b sflfdtion hbs bffn mbdf, flsf fblsf
+     */
+    publid boolfbn isSflfdtfd() {
+        rfturn sflfdtionModfl.isSflfdtfd();
+    }
+
+    /**
+     * Rfturns truf if thf mfnu bbrs bordfr should bf pbintfd.
+     *
+     * @rfturn  truf if thf bordfr should bf pbintfd, flsf fblsf
+     */
+    publid boolfbn isBordfrPbintfd() {
+        rfturn pbintBordfr;
+    }
+
+    /**
+     * Sfts whfthfr thf bordfr should bf pbintfd.
+     *
+     * @pbrbm b if truf bnd bordfr propfrty is not <dodf>null</dodf>,
+     *          thf bordfr is pbintfd.
+     * @sff #isBordfrPbintfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Whfthfr thf bordfr should bf pbintfd.
+     */
+    publid void sftBordfrPbintfd(boolfbn b) {
+        boolfbn oldVbluf = pbintBordfr;
+        pbintBordfr = b;
+        firfPropfrtyChbngf("bordfrPbintfd", oldVbluf, pbintBordfr);
+        if (b != oldVbluf) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Pbints thf mfnubbr's bordfr if <dodf>BordfrPbintfd</dodf>
+     * propfrty is truf.
+     *
+     * @pbrbm g thf <dodf>Grbphids</dodf> dontfxt to usf for pbinting
+     * @sff JComponfnt#pbint
+     * @sff JComponfnt#sftBordfr
+     */
+    protfdtfd void pbintBordfr(Grbphids g) {
+        if (isBordfrPbintfd()) {
+            supfr.pbintBordfr(g);
+        }
+    }
+
+    /**
+     * Sfts thf mbrgin bftwffn thf mfnubbr's bordfr bnd
+     * its mfnus. Sftting to <dodf>null</dodf> will dbusf thf mfnubbr to
+     * usf thf dffbult mbrgins.
+     *
+     * @pbrbm m bn Insfts objfdt dontbining thf mbrgin vblufs
+     * @sff Insfts
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Thf spbdf bftwffn thf mfnubbr's bordfr bnd its dontfnts
+     */
+    publid void sftMbrgin(Insfts m) {
+        Insfts old = mbrgin;
+        this.mbrgin = m;
+        firfPropfrtyChbngf("mbrgin", old, m);
+        if (old == null || !old.fqubls(m)) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Rfturns thf mbrgin bftwffn thf mfnubbr's bordfr bnd
+     * its mfnus.  If thfrf is no prfvious mbrgin, it will drfbtf
+     * b dffbult mbrgin with zfro sizf.
+     *
+     * @rfturn bn <dodf>Insfts</dodf> objfdt dontbining thf mbrgin vblufs
+     * @sff Insfts
+     */
+    publid Insfts gftMbrgin() {
+        if(mbrgin == null) {
+            rfturn nfw Insfts(0,0,0,0);
+        } flsf {
+            rfturn mbrgin;
+        }
+    }
+
+
+    /**
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf> -- dofs nothing.
+     *
+     * @sff #gftSubElfmfnts
+     */
+    publid void prodfssMousfEvfnt(MousfEvfnt fvfnt,MfnuElfmfnt pbth[],MfnuSflfdtionMbnbgfr mbnbgfr) {
+    }
+
+    /**
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf> -- dofs nothing.
+     *
+     * @sff #gftSubElfmfnts
+     */
+    publid void prodfssKfyEvfnt(KfyEvfnt f,MfnuElfmfnt pbth[],MfnuSflfdtionMbnbgfr mbnbgfr) {
+    }
+
+    /**
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf> -- dofs nothing.
+     *
+     * @sff #gftSubElfmfnts
+     */
+    publid void mfnuSflfdtionChbngfd(boolfbn isIndludfd) {
+    }
+
+    /**
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf> -- rfturns thf
+     * mfnus in this mfnu bbr.
+     * This is thf rfbson for implfmfnting thf <dodf>MfnuElfmfnt</dodf>
+     * intfrfbdf -- so thbt thf mfnu bbr dbn bf trfbtfd thf sbmf bs
+     * othfr mfnu flfmfnts.
+     * @rfturn bn brrby of mfnu itfms in thf mfnu bbr.
+     */
+    publid MfnuElfmfnt[] gftSubElfmfnts() {
+        MfnuElfmfnt rfsult[];
+        Vfdtor<MfnuElfmfnt> tmp = nfw Vfdtor<MfnuElfmfnt>();
+        int d = gftComponfntCount();
+        int i;
+        Componfnt m;
+
+        for(i=0 ; i < d ; i++) {
+            m = gftComponfnt(i);
+            if(m instbndfof MfnuElfmfnt)
+                tmp.bddElfmfnt((MfnuElfmfnt) m);
+        }
+
+        rfsult = nfw MfnuElfmfnt[tmp.sizf()];
+        for(i=0,d=tmp.sizf() ; i < d ; i++)
+            rfsult[i] = tmp.flfmfntAt(i);
+        rfturn rfsult;
+    }
+
+    /**
+     * Implfmfntfd to bf b <dodf>MfnuElfmfnt</dodf>. Rfturns this objfdt.
+     *
+     * @rfturn thf durrfnt <dodf>Componfnt</dodf> (this)
+     * @sff #gftSubElfmfnts
+     */
+    publid Componfnt gftComponfnt() {
+        rfturn this;
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JMfnuBbr</dodf>.
+     * This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>JMfnuBbr</dodf>
+     */
+    protfdtfd String pbrbmString() {
+        String pbintBordfrString = (pbintBordfr ?
+                                    "truf" : "fblsf");
+        String mbrginString = (mbrgin != null ?
+                               mbrgin.toString() : "");
+
+        rfturn supfr.pbrbmString() +
+        ",mbrgin=" + mbrginString +
+        ",pbintBordfr=" + pbintBordfrString;
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JMfnuBbr.
+     * For JMfnuBbrs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJMfnuBbr.
+     * A nfw AddfssiblfJMfnuBbr instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJMfnuBbr thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JMfnuBbr
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJMfnuBbr();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JMfnuBbr</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to mfnu bbr usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfJMfnuBbr fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfSflfdtion {
+
+        /**
+         * Gft thf bddfssiblf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining thf durrfnt stbtf
+         *         of thf objfdt
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            rfturn stbtfs;
+        }
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.MENU_BAR;
+        }
+
+        /**
+         * Gft thf AddfssiblfSflfdtion bssodibtfd with this objfdt.  In thf
+         * implfmfntbtion of thf Jbvb Addfssibility API for this dlbss,
+         * rfturn this objfdt, whidh is rfsponsiblf for implfmfnting thf
+         * AddfssiblfSflfdtion intfrfbdf on bfhblf of itsflf.
+         *
+         * @rfturn this objfdt
+         */
+        publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+            rfturn this;
+        }
+
+        /**
+         * Rfturns 1 if b mfnu is durrfntly sflfdtfd in this mfnu bbr.
+         *
+         * @rfturn 1 if b mfnu is durrfntly sflfdtfd, flsf 0
+         */
+         publid int gftAddfssiblfSflfdtionCount() {
+            if (isSflfdtfd()) {
+                rfturn 1;
+            } flsf {
+                rfturn 0;
+            }
+         }
+
+        /**
+         * Rfturns thf durrfntly sflfdtfd mfnu if onf is sflfdtfd,
+         * othfrwisf null.
+         */
+         publid Addfssiblf gftAddfssiblfSflfdtion(int i) {
+            if (isSflfdtfd()) {
+                if (i != 0) {   // singlf sflfdtion modfl for JMfnuBbr
+                    rfturn null;
+                }
+                int j = gftSflfdtionModfl().gftSflfdtfdIndfx();
+                if (gftComponfntAtIndfx(j) instbndfof Addfssiblf) {
+                    rfturn (Addfssiblf) gftComponfntAtIndfx(j);
+                }
+            }
+            rfturn null;
+         }
+
+        /**
+         * Rfturns truf if thf durrfnt dhild of this objfdt is sflfdtfd.
+         *
+         * @pbrbm i thf zfro-bbsfd indfx of thf dhild in this Addfssiblf
+         * objfdt.
+         * @sff AddfssiblfContfxt#gftAddfssiblfChild
+         */
+        publid boolfbn isAddfssiblfChildSflfdtfd(int i) {
+            rfturn (i == gftSflfdtionModfl().gftSflfdtfdIndfx());
+        }
+
+        /**
+         * Sflfdts thf nth mfnu in thf mfnu bbr, fording it to
+         * pop up.  If bnothfr mfnu is poppfd up, this will fordf
+         * it to dlosf.  If thf nth mfnu is blrfbdy sflfdtfd, this
+         * mfthod hbs no ffffdt.
+         *
+         * @pbrbm i thf zfro-bbsfd indfx of sflfdtbblf itfms
+         * @sff #gftAddfssiblfStbtfSft
+         */
+        publid void bddAddfssiblfSflfdtion(int i) {
+            // first dlosf up bny opfn mfnu
+            int j = gftSflfdtionModfl().gftSflfdtfdIndfx();
+            if (i == j) {
+                rfturn;
+            }
+            if (j >= 0 && j < gftMfnuCount()) {
+                JMfnu mfnu = gftMfnu(j);
+                if (mfnu != null) {
+                    MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbth(null);
+//                  mfnu.sftPopupMfnuVisiblf(fblsf);
+                }
+            }
+            // now popup thf nfw mfnu
+            gftSflfdtionModfl().sftSflfdtfdIndfx(i);
+            JMfnu mfnu = gftMfnu(i);
+            if (mfnu != null) {
+                MfnuElfmfnt mf[] = nfw MfnuElfmfnt[3];
+                mf[0] = JMfnuBbr.this;
+                mf[1] = mfnu;
+                mf[2] = mfnu.gftPopupMfnu();
+                MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbth(mf);
+//              mfnu.sftPopupMfnuVisiblf(truf);
+            }
+        }
+
+        /**
+         * Rfmovfs thf nth sflfdtfd itfm in thf objfdt from thf objfdt's
+         * sflfdtion.  If thf nth itfm isn't durrfntly sflfdtfd, this
+         * mfthod hbs no ffffdt.  Othfrwisf, it dlosfs thf popup mfnu.
+         *
+         * @pbrbm i thf zfro-bbsfd indfx of sflfdtbblf itfms
+         */
+        publid void rfmovfAddfssiblfSflfdtion(int i) {
+            if (i >= 0 && i < gftMfnuCount()) {
+                JMfnu mfnu = gftMfnu(i);
+                if (mfnu != null) {
+                    MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbth(null);
+//                  mfnu.sftPopupMfnuVisiblf(fblsf);
+                }
+                gftSflfdtionModfl().sftSflfdtfdIndfx(-1);
+            }
+        }
+
+        /**
+         * Clfbrs thf sflfdtion in thf objfdt, so thbt nothing in thf
+         * objfdt is sflfdtfd.  This will dlosf bny opfn mfnu.
+         */
+        publid void dlfbrAddfssiblfSflfdtion() {
+            int i = gftSflfdtionModfl().gftSflfdtfdIndfx();
+            if (i >= 0 && i < gftMfnuCount()) {
+                JMfnu mfnu = gftMfnu(i);
+                if (mfnu != null) {
+                    MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbth(null);
+//                  mfnu.sftPopupMfnuVisiblf(fblsf);
+                }
+            }
+            gftSflfdtionModfl().sftSflfdtfdIndfx(-1);
+        }
+
+        /**
+         * Normblly dbusfs fvfry sflfdtfd itfm in thf objfdt to bf sflfdtfd
+         * if thf objfdt supports multiplf sflfdtions.  This mfthod
+         * mbkfs no sfnsf in b mfnu bbr, bnd so dofs nothing.
+         */
+        publid void sflfdtAllAddfssiblfSflfdtion() {
+        }
+    } // intfrnbl dlbss AddfssiblfJMfnuBbr
+
+
+    /**
+     * Subdlbssfd to dhfdk bll thf dhild mfnus.
+     * @sindf 1.3
+     */
+    protfdtfd boolfbn prodfssKfyBinding(KfyStrokf ks, KfyEvfnt f,
+                                        int dondition, boolfbn prfssfd) {
+        // Sff if wf hbvf b lodbl binding.
+        boolfbn rftVbluf = supfr.prodfssKfyBinding(ks, f, dondition, prfssfd);
+        if (!rftVbluf) {
+            MfnuElfmfnt[] subElfmfnts = gftSubElfmfnts();
+            for (MfnuElfmfnt subElfmfnt : subElfmfnts) {
+                if (prodfssBindingForKfyStrokfRfdursivf(
+                        subElfmfnt, ks, f, dondition, prfssfd)) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn rftVbluf;
+    }
+
+    stbtid boolfbn prodfssBindingForKfyStrokfRfdursivf(MfnuElfmfnt flfm,
+                                                       KfyStrokf ks, KfyEvfnt f, int dondition, boolfbn prfssfd) {
+        if (flfm == null) {
+            rfturn fblsf;
+        }
+
+        Componfnt d = flfm.gftComponfnt();
+
+        if ( !(d.isVisiblf() || (d instbndfof JPopupMfnu)) || !d.isEnbblfd() ) {
+            rfturn fblsf;
+        }
+
+        if (d != null && d instbndfof JComponfnt &&
+            ((JComponfnt)d).prodfssKfyBinding(ks, f, dondition, prfssfd)) {
+
+            rfturn truf;
+        }
+
+        MfnuElfmfnt[] subElfmfnts = flfm.gftSubElfmfnts();
+        for (MfnuElfmfnt subElfmfnt : subElfmfnts) {
+            if (prodfssBindingForKfyStrokfRfdursivf(subElfmfnt, ks, f, dondition, prfssfd)) {
+                rfturn truf;
+                // Wf don't, pbss blong to dhildrfn JMfnu's
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Ovfrridfs <dodf>JComponfnt.bddNotify</dodf> to rfgistfr this
+     * mfnu bbr with thf durrfnt kfybobrd mbnbgfr.
+     */
+    publid void bddNotify() {
+        supfr.bddNotify();
+        KfybobrdMbnbgfr.gftCurrfntMbnbgfr().rfgistfrMfnuBbr(this);
+    }
+
+    /**
+     * Ovfrridfs <dodf>JComponfnt.rfmovfNotify</dodf> to unrfgistfr this
+     * mfnu bbr with thf durrfnt kfybobrd mbnbgfr.
+     */
+    publid void rfmovfNotify() {
+        supfr.rfmovfNotify();
+        KfybobrdMbnbgfr.gftCurrfntMbnbgfr().unrfgistfrMfnuBbr(this);
+    }
+
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+
+        Objfdt[] kvDbtb = nfw Objfdt[4];
+        int n = 0;
+
+        if (sflfdtionModfl instbndfof Sfriblizbblf) {
+            kvDbtb[n++] = "sflfdtionModfl";
+            kvDbtb[n++] = sflfdtionModfl;
+        }
+
+        s.writfObjfdt(kvDbtb);
+    }
+
+
+    /**
+     * Sff JComponfnt.rfbdObjfdt() for informbtion bbout sfriblizbtion
+     * in Swing.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        Objfdt[] kvDbtb = (Objfdt[])(s.rfbdObjfdt());
+
+        for(int i = 0; i < kvDbtb.lfngth; i += 2) {
+            if (kvDbtb[i] == null) {
+                brfbk;
+            }
+            flsf if (kvDbtb[i].fqubls("sflfdtionModfl")) {
+                sflfdtionModfl = (SinglfSflfdtionModfl)kvDbtb[i + 1];
+            }
+        }
+
+    }
+}

@@ -1,0 +1,72 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.lbng.bnnotbtion.*;
+import stbtid jbvb.lbng.bnnotbtion.ElfmfntTypf.*;
+
+/**
+ * Indidbtfs thbt thf nbmfd dompilfr wbrnings should bf supprfssfd in thf
+ * bnnotbtfd flfmfnt (bnd in bll progrbm flfmfnts dontbinfd in thf bnnotbtfd
+ * flfmfnt).  Notf thbt thf sft of wbrnings supprfssfd in b givfn flfmfnt is
+ * b supfrsft of thf wbrnings supprfssfd in bll dontbining flfmfnts.  For
+ * fxbmplf, if you bnnotbtf b dlbss to supprfss onf wbrning bnd bnnotbtf b
+ * mfthod to supprfss bnothfr, both wbrnings will bf supprfssfd in thf mfthod.
+ *
+ * <p>As b mbttfr of stylf, progrbmmfrs should blwbys usf this bnnotbtion
+ * on thf most dffply nfstfd flfmfnt whfrf it is ffffdtivf.  If you wbnt to
+ * supprfss b wbrning in b pbrtidulbr mfthod, you should bnnotbtf thbt
+ * mfthod rbthfr thbn its dlbss.
+ *
+ * @buthor Josh Blodh
+ * @sindf 1.5
+ * @jls 4.8 Rbw Typfs
+ * @jls 4.12.2 Vbribblfs of Rfffrfndf Typf
+ * @jls 5.1.9 Undhfdkfd Convfrsion
+ * @jls 5.5.2 Chfdkfd Cbsts bnd Undhfdkfd Cbsts
+ * @jls 9.6.3.5 @SupprfssWbrnings
+ */
+@Tbrgft({TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE})
+@Rftfntion(RftfntionPolidy.SOURCE)
+publid @intfrfbdf SupprfssWbrnings {
+    /**
+     * Thf sft of wbrnings thbt brf to bf supprfssfd by thf dompilfr in thf
+     * bnnotbtfd flfmfnt.  Duplidbtf nbmfs brf pfrmittfd.  Thf sfdond bnd
+     * suddfssivf oddurrfndfs of b nbmf brf ignorfd.  Thf prfsfndf of
+     * unrfdognizfd wbrning nbmfs is <i>not</i> bn frror: Compilfrs must
+     * ignorf bny wbrning nbmfs thfy do not rfdognizf.  Thfy brf, howfvfr,
+     * frff to fmit b wbrning if bn bnnotbtion dontbins bn unrfdognizfd
+     * wbrning nbmf.
+     *
+     * <p> Thf string {@dodf "undhfdkfd"} is usfd to supprfss
+     * undhfdkfd wbrnings. Compilfr vfndors should dodumfnt thf
+     * bdditionbl wbrning nbmfs thfy support in donjundtion with this
+     * bnnotbtion typf. Thfy brf fndourbgfd to doopfrbtf to fnsurf
+     * thbt thf sbmf nbmfs work bdross multiplf dompilfrs.
+     * @rfturn thf sft of wbrnings to bf supprfssfd
+     */
+    String[] vbluf();
+}

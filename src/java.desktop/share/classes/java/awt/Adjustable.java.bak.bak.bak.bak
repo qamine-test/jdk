@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.*;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * Thf intfrfbdf for objfdts whidh hbvf bn bdjustbblf numfrid vbluf
+ * dontbinfd within b boundfd rbngf of vblufs.
+ *
+ * @buthor Amy Fowlfr
+ * @buthor Tim Prinzing
+ */
+publid intfrfbdf Adjustbblf {
+
+    /**
+     * Indidbtfs thbt thf <dodf>Adjustbblf</dodf> hbs horizontbl orifntbtion.
+     */
+    @Nbtivf publid stbtid finbl int HORIZONTAL = 0;
+
+    /**
+     * Indidbtfs thbt thf <dodf>Adjustbblf</dodf> hbs vfrtidbl orifntbtion.
+     */
+    @Nbtivf publid stbtid finbl int VERTICAL = 1;
+
+    /**
+     * Indidbtfs thbt thf <dodf>Adjustbblf</dodf> hbs no orifntbtion.
+     */
+    @Nbtivf publid stbtid finbl int NO_ORIENTATION = 2;
+
+    /**
+     * Gfts thf orifntbtion of thf bdjustbblf objfdt.
+     * @rfturn thf orifntbtion of thf bdjustbblf objfdt;
+     *   fithfr <dodf>HORIZONTAL</dodf>, <dodf>VERTICAL</dodf>,
+     *   or <dodf>NO_ORIENTATION</dodf>
+     */
+    int gftOrifntbtion();
+
+    /**
+     * Sfts thf minimum vbluf of thf bdjustbblf objfdt.
+     * @pbrbm min thf minimum vbluf
+     */
+    void sftMinimum(int min);
+
+    /**
+     * Gfts thf minimum vbluf of thf bdjustbblf objfdt.
+     * @rfturn thf minimum vbluf of thf bdjustbblf objfdt
+     */
+    int gftMinimum();
+
+    /**
+     * Sfts thf mbximum vbluf of thf bdjustbblf objfdt.
+     * @pbrbm mbx thf mbximum vbluf
+     */
+    void sftMbximum(int mbx);
+
+    /**
+     * Gfts thf mbximum vbluf of thf bdjustbblf objfdt.
+     * @rfturn thf mbximum vbluf of thf bdjustbblf objfdt
+     */
+    int gftMbximum();
+
+    /**
+     * Sfts thf unit vbluf indrfmfnt for thf bdjustbblf objfdt.
+     * @pbrbm u thf unit indrfmfnt
+     */
+    void sftUnitIndrfmfnt(int u);
+
+    /**
+     * Gfts thf unit vbluf indrfmfnt for thf bdjustbblf objfdt.
+     * @rfturn thf unit vbluf indrfmfnt for thf bdjustbblf objfdt
+     */
+    int gftUnitIndrfmfnt();
+
+    /**
+     * Sfts thf blodk vbluf indrfmfnt for thf bdjustbblf objfdt.
+     * @pbrbm b thf blodk indrfmfnt
+     */
+    void sftBlodkIndrfmfnt(int b);
+
+    /**
+     * Gfts thf blodk vbluf indrfmfnt for thf bdjustbblf objfdt.
+     * @rfturn thf blodk vbluf indrfmfnt for thf bdjustbblf objfdt
+     */
+    int gftBlodkIndrfmfnt();
+
+    /**
+     * Sfts thf lfngth of thf proportionbl indidbtor of thf
+     * bdjustbblf objfdt.
+     * @pbrbm v thf lfngth of thf indidbtor
+     */
+    void sftVisiblfAmount(int v);
+
+    /**
+     * Gfts thf lfngth of thf proportionbl indidbtor.
+     * @rfturn thf lfngth of thf proportionbl indidbtor
+     */
+    int gftVisiblfAmount();
+
+    /**
+     * Sfts thf durrfnt vbluf of thf bdjustbblf objfdt. If
+     * thf vbluf supplifd is lfss thbn <dodf>minimum</dodf>
+     * or grfbtfr thbn <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>,
+     * thfn onf of thosf vblufs is substitutfd, bs bppropribtf.
+     * <p>
+     * Cblling this mfthod dofs not firf bn
+     * <dodf>AdjustmfntEvfnt</dodf>.
+     *
+     * @pbrbm v thf durrfnt vbluf, bftwffn <dodf>minimum</dodf>
+     *    bnd <dodf>mbximum</dodf> - <dodf>visiblfAmount</dodf>
+     */
+    void sftVbluf(int v);
+
+    /**
+     * Gfts thf durrfnt vbluf of thf bdjustbblf objfdt.
+     * @rfturn thf durrfnt vbluf of thf bdjustbblf objfdt
+     */
+    int gftVbluf();
+
+    /**
+     * Adds b listfnfr to rfdfivf bdjustmfnt fvfnts whfn thf vbluf of
+     * thf bdjustbblf objfdt dhbngfs.
+     * @pbrbm l thf listfnfr to rfdfivf fvfnts
+     * @sff AdjustmfntEvfnt
+     */
+    void bddAdjustmfntListfnfr(AdjustmfntListfnfr l);
+
+    /**
+     * Rfmovfs bn bdjustmfnt listfnfr.
+     * @pbrbm l thf listfnfr bfing rfmovfd
+     * @sff AdjustmfntEvfnt
+     */
+    void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l);
+
+}

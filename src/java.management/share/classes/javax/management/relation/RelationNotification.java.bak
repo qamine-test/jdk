@@ -1,615 +1,615 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
-import javax.management.Notification;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Sft;
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import static com.sun.jmx.mbeanserver.Util.cast;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.dbst;
 
 /**
- * A notification of a change in the Relation Service.
- * A RelationNotification notification is sent when a relation is created via
- * the Relation Service, or an MBean is added as a relation in the Relation
- * Service, or a role is updated in a relation, or a relation is removed from
- * the Relation Service.
+ * A notifidbtion of b dibngf in tif Rflbtion Sfrvidf.
+ * A RflbtionNotifidbtion notifidbtion is sfnt wifn b rflbtion is drfbtfd vib
+ * tif Rflbtion Sfrvidf, or bn MBfbn is bddfd bs b rflbtion in tif Rflbtion
+ * Sfrvidf, or b rolf is updbtfd in b rflbtion, or b rflbtion is rfmovfd from
+ * tif Rflbtion Sfrvidf.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-6871117877523310399L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-6871117877523310399L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class RelationNotification extends Notification {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss RflbtionNotifidbtion fxtfnds Notifidbtion {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -2126464566505527147L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -2126464566505527147L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -6871117877523310399L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -6871117877523310399L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-        new ObjectStreamField("myNewRoleValue", ArrayList.class),
-        new ObjectStreamField("myOldRoleValue", ArrayList.class),
-        new ObjectStreamField("myRelId", String.class),
-        new ObjectStreamField("myRelObjName", ObjectName.class),
-        new ObjectStreamField("myRelTypeName", String.class),
-        new ObjectStreamField("myRoleName", String.class),
-        new ObjectStreamField("myUnregMBeanList", ArrayList.class)
+        nfw ObjfdtStrfbmFifld("myNfwRolfVbluf", ArrbyList.dlbss),
+        nfw ObjfdtStrfbmFifld("myOldRolfVbluf", ArrbyList.dlbss),
+        nfw ObjfdtStrfbmFifld("myRflId", String.dlbss),
+        nfw ObjfdtStrfbmFifld("myRflObjNbmf", ObjfdtNbmf.dlbss),
+        nfw ObjfdtStrfbmFifld("myRflTypfNbmf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("myRolfNbmf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("myUnrfgMBfbnList", ArrbyList.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-        new ObjectStreamField("newRoleValue", List.class),
-        new ObjectStreamField("oldRoleValue", List.class),
-        new ObjectStreamField("relationId", String.class),
-        new ObjectStreamField("relationObjName", ObjectName.class),
-        new ObjectStreamField("relationTypeName", String.class),
-        new ObjectStreamField("roleName", String.class),
-        new ObjectStreamField("unregisterMBeanList", List.class)
+        nfw ObjfdtStrfbmFifld("nfwRolfVbluf", List.dlbss),
+        nfw ObjfdtStrfbmFifld("oldRolfVbluf", List.dlbss),
+        nfw ObjfdtStrfbmFifld("rflbtionId", String.dlbss),
+        nfw ObjfdtStrfbmFifld("rflbtionObjNbmf", ObjfdtNbmf.dlbss),
+        nfw ObjfdtStrfbmFifld("rflbtionTypfNbmf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("rolfNbmf", String.dlbss),
+        nfw ObjfdtStrfbmFifld("unrfgistfrMBfbnList", List.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField relationId String Relation identifier of
-     * created/removed/updated relation
-     * @serialField relationTypeName String Relation type name of
-     * created/removed/updated relation
-     * @serialField relationObjName ObjectName {@link ObjectName} of
-     * the relation MBean of created/removed/updated relation (only if
-     * the relation is represented by an MBean)
-     * @serialField unregisterMBeanList List List of {@link
-     * ObjectName}s of referenced MBeans to be unregistered due to
-     * relation removal
-     * @serialField roleName String Name of updated role (only for role update)
-     * @serialField oldRoleValue List Old role value ({@link
-     * ArrayList} of {@link ObjectName}s) (only for role update)
-     * @serialField newRoleValue List New role value ({@link
-     * ArrayList} of {@link ObjectName}s) (only for role update)
+     * @sfriblFifld rflbtionId String Rflbtion idfntififr of
+     * drfbtfd/rfmovfd/updbtfd rflbtion
+     * @sfriblFifld rflbtionTypfNbmf String Rflbtion typf nbmf of
+     * drfbtfd/rfmovfd/updbtfd rflbtion
+     * @sfriblFifld rflbtionObjNbmf ObjfdtNbmf {@link ObjfdtNbmf} of
+     * tif rflbtion MBfbn of drfbtfd/rfmovfd/updbtfd rflbtion (only if
+     * tif rflbtion is rfprfsfntfd by bn MBfbn)
+     * @sfriblFifld unrfgistfrMBfbnList List List of {@link
+     * ObjfdtNbmf}s of rfffrfndfd MBfbns to bf unrfgistfrfd duf to
+     * rflbtion rfmovbl
+     * @sfriblFifld rolfNbmf String Nbmf of updbtfd rolf (only for rolf updbtf)
+     * @sfriblFifld oldRolfVbluf List Old rolf vbluf ({@link
+     * ArrbyList} of {@link ObjfdtNbmf}s) (only for rolf updbtf)
+     * @sfriblFifld nfwRolfVbluf List Nfw rolf vbluf ({@link
+     * ArrbyList} of {@link ObjfdtNbmf}s) (only for rolf updbtf)
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK : Too bbd, no dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     //
-    // Notification types
-    //
-
-    /**
-     * Type for the creation of an internal relation.
-     */
-    public static final String RELATION_BASIC_CREATION = "jmx.relation.creation.basic";
-    /**
-     * Type for the relation MBean added into the Relation Service.
-     */
-    public static final String RELATION_MBEAN_CREATION = "jmx.relation.creation.mbean";
-    /**
-     * Type for an update of an internal relation.
-     */
-    public static final String RELATION_BASIC_UPDATE = "jmx.relation.update.basic";
-    /**
-     * Type for the update of a relation MBean.
-     */
-    public static final String RELATION_MBEAN_UPDATE = "jmx.relation.update.mbean";
-    /**
-     * Type for the removal from the Relation Service of an internal relation.
-     */
-    public static final String RELATION_BASIC_REMOVAL = "jmx.relation.removal.basic";
-    /**
-     * Type for the removal from the Relation Service of a relation MBean.
-     */
-    public static final String RELATION_MBEAN_REMOVAL = "jmx.relation.removal.mbean";
-
-    //
-    // Private members
+    // Notifidbtion typfs
     //
 
     /**
-     * @serial Relation identifier of created/removed/updated relation
+     * Typf for tif drfbtion of bn intfrnbl rflbtion.
      */
-    private String relationId = null;
-
+    publid stbtid finbl String RELATION_BASIC_CREATION = "jmx.rflbtion.drfbtion.bbsid";
     /**
-     * @serial Relation type name of created/removed/updated relation
+     * Typf for tif rflbtion MBfbn bddfd into tif Rflbtion Sfrvidf.
      */
-    private String relationTypeName = null;
-
+    publid stbtid finbl String RELATION_MBEAN_CREATION = "jmx.rflbtion.drfbtion.mbfbn";
     /**
-     * @serial {@link ObjectName} of the relation MBean of created/removed/updated relation
-     *         (only if the relation is represented by an MBean)
+     * Typf for bn updbtf of bn intfrnbl rflbtion.
      */
-    private ObjectName relationObjName = null;
-
+    publid stbtid finbl String RELATION_BASIC_UPDATE = "jmx.rflbtion.updbtf.bbsid";
     /**
-     * @serial List of {@link ObjectName}s of referenced MBeans to be unregistered due to
-     *         relation removal
+     * Typf for tif updbtf of b rflbtion MBfbn.
      */
-    private List<ObjectName> unregisterMBeanList = null;
-
+    publid stbtid finbl String RELATION_MBEAN_UPDATE = "jmx.rflbtion.updbtf.mbfbn";
     /**
-     * @serial Name of updated role (only for role update)
+     * Typf for tif rfmovbl from tif Rflbtion Sfrvidf of bn intfrnbl rflbtion.
      */
-    private String roleName = null;
-
+    publid stbtid finbl String RELATION_BASIC_REMOVAL = "jmx.rflbtion.rfmovbl.bbsid";
     /**
-     * @serial Old role value ({@link ArrayList} of {@link ObjectName}s) (only for role update)
+     * Typf for tif rfmovbl from tif Rflbtion Sfrvidf of b rflbtion MBfbn.
      */
-    private List<ObjectName> oldRoleValue = null;
-
-    /**
-     * @serial New role value ({@link ArrayList} of {@link ObjectName}s) (only for role update)
-     */
-    private List<ObjectName> newRoleValue = null;
+    publid stbtid finbl String RELATION_MBEAN_REMOVAL = "jmx.rflbtion.rfmovbl.mbfbn";
 
     //
-    // Constructors
+    // Privbtf mfmbfrs
     //
 
     /**
-     * Creates a notification for either a relation creation (RelationSupport
-     * object created internally in the Relation Service, or an MBean added as a
-     * relation) or for a relation removal from the Relation Service.
+     * @sfribl Rflbtion idfntififr of drfbtfd/rfmovfd/updbtfd rflbtion
+     */
+    privbtf String rflbtionId = null;
+
+    /**
+     * @sfribl Rflbtion typf nbmf of drfbtfd/rfmovfd/updbtfd rflbtion
+     */
+    privbtf String rflbtionTypfNbmf = null;
+
+    /**
+     * @sfribl {@link ObjfdtNbmf} of tif rflbtion MBfbn of drfbtfd/rfmovfd/updbtfd rflbtion
+     *         (only if tif rflbtion is rfprfsfntfd by bn MBfbn)
+     */
+    privbtf ObjfdtNbmf rflbtionObjNbmf = null;
+
+    /**
+     * @sfribl List of {@link ObjfdtNbmf}s of rfffrfndfd MBfbns to bf unrfgistfrfd duf to
+     *         rflbtion rfmovbl
+     */
+    privbtf List<ObjfdtNbmf> unrfgistfrMBfbnList = null;
+
+    /**
+     * @sfribl Nbmf of updbtfd rolf (only for rolf updbtf)
+     */
+    privbtf String rolfNbmf = null;
+
+    /**
+     * @sfribl Old rolf vbluf ({@link ArrbyList} of {@link ObjfdtNbmf}s) (only for rolf updbtf)
+     */
+    privbtf List<ObjfdtNbmf> oldRolfVbluf = null;
+
+    /**
+     * @sfribl Nfw rolf vbluf ({@link ArrbyList} of {@link ObjfdtNbmf}s) (only for rolf updbtf)
+     */
+    privbtf List<ObjfdtNbmf> nfwRolfVbluf = null;
+
+    //
+    // Construdtors
+    //
+
+    /**
+     * Crfbtfs b notifidbtion for fitifr b rflbtion drfbtion (RflbtionSupport
+     * objfdt drfbtfd intfrnblly in tif Rflbtion Sfrvidf, or bn MBfbn bddfd bs b
+     * rflbtion) or for b rflbtion rfmovbl from tif Rflbtion Sfrvidf.
      *
-     * @param notifType  type of the notification; either:
+     * @pbrbm notifTypf  typf of tif notifidbtion; fitifr:
      * <P>- RELATION_BASIC_CREATION
      * <P>- RELATION_MBEAN_CREATION
      * <P>- RELATION_BASIC_REMOVAL
      * <P>- RELATION_MBEAN_REMOVAL
-     * @param sourceObj  source object, sending the notification.  This is either
-     * an ObjectName or a RelationService object.  In the latter case it must be
-     * the MBean emitting the notification; the MBean Server will rewrite the
-     * source to be the ObjectName under which that MBean is registered.
-     * @param sequence  sequence number to identify the notification
-     * @param timeStamp  time stamp
-     * @param message  human-readable message describing the notification
-     * @param id  relation id identifying the relation in the Relation
-     * Service
-     * @param typeName  name of the relation type
-     * @param objectName  ObjectName of the relation object if it is an MBean
-     * (null for relations internally handled by the Relation Service)
-     * @param unregMBeanList  list of ObjectNames of referenced MBeans
-     * expected to be unregistered due to relation removal (only for removal,
-     * due to CIM qualifiers, can be null)
+     * @pbrbm sourdfObj  sourdf objfdt, sfnding tif notifidbtion.  Tiis is fitifr
+     * bn ObjfdtNbmf or b RflbtionSfrvidf objfdt.  In tif lbttfr dbsf it must bf
+     * tif MBfbn fmitting tif notifidbtion; tif MBfbn Sfrvfr will rfwritf tif
+     * sourdf to bf tif ObjfdtNbmf undfr wiidi tibt MBfbn is rfgistfrfd.
+     * @pbrbm sfqufndf  sfqufndf numbfr to idfntify tif notifidbtion
+     * @pbrbm timfStbmp  timf stbmp
+     * @pbrbm mfssbgf  iumbn-rfbdbblf mfssbgf dfsdribing tif notifidbtion
+     * @pbrbm id  rflbtion id idfntifying tif rflbtion in tif Rflbtion
+     * Sfrvidf
+     * @pbrbm typfNbmf  nbmf of tif rflbtion typf
+     * @pbrbm objfdtNbmf  ObjfdtNbmf of tif rflbtion objfdt if it is bn MBfbn
+     * (null for rflbtions intfrnblly ibndlfd by tif Rflbtion Sfrvidf)
+     * @pbrbm unrfgMBfbnList  list of ObjfdtNbmfs of rfffrfndfd MBfbns
+     * fxpfdtfd to bf unrfgistfrfd duf to rflbtion rfmovbl (only for rfmovbl,
+     * duf to CIM qublififrs, dbn bf null)
      *
-     * @exception IllegalArgumentException  if:
-     * <P>- no value for the notification type
-     * <P>- the notification type is not RELATION_BASIC_CREATION,
+     * @fxdfption IllfgblArgumfntExdfption  if:
+     * <P>- no vbluf for tif notifidbtion typf
+     * <P>- tif notifidbtion typf is not RELATION_BASIC_CREATION,
      * RELATION_MBEAN_CREATION, RELATION_BASIC_REMOVAL or
      * RELATION_MBEAN_REMOVAL
-     * <P>- no source object
-     * <P>- the source object is not a Relation Service
-     * <P>- no relation id
-     * <P>- no relation type name
+     * <P>- no sourdf objfdt
+     * <P>- tif sourdf objfdt is not b Rflbtion Sfrvidf
+     * <P>- no rflbtion id
+     * <P>- no rflbtion typf nbmf
      */
-    public RelationNotification(String notifType,
-                                Object sourceObj,
-                                long sequence,
-                                long timeStamp,
-                                String message,
+    publid RflbtionNotifidbtion(String notifTypf,
+                                Objfdt sourdfObj,
+                                long sfqufndf,
+                                long timfStbmp,
+                                String mfssbgf,
                                 String id,
-                                String typeName,
-                                ObjectName objectName,
-                                List<ObjectName> unregMBeanList)
-        throws IllegalArgumentException {
+                                String typfNbmf,
+                                ObjfdtNbmf objfdtNbmf,
+                                List<ObjfdtNbmf> unrfgMBfbnList)
+        tirows IllfgblArgumfntExdfption {
 
-        super(notifType, sourceObj, sequence, timeStamp, message);
+        supfr(notifTypf, sourdfObj, sfqufndf, timfStbmp, mfssbgf);
 
-        if (!isValidBasicStrict(notifType,sourceObj,id,typeName) || !isValidCreate(notifType)) {
-            throw new IllegalArgumentException("Invalid parameter.");
+        if (!isVblidBbsidStridt(notifTypf,sourdfObj,id,typfNbmf) || !isVblidCrfbtf(notifTypf)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid pbrbmftfr.");
         }
 
-        relationId = id;
-        relationTypeName = typeName;
-        relationObjName = safeGetObjectName(objectName);
-        unregisterMBeanList = safeGetObjectNameList(unregMBeanList);
+        rflbtionId = id;
+        rflbtionTypfNbmf = typfNbmf;
+        rflbtionObjNbmf = sbffGftObjfdtNbmf(objfdtNbmf);
+        unrfgistfrMBfbnList = sbffGftObjfdtNbmfList(unrfgMBfbnList);
     }
 
     /**
-     * Creates a notification for a role update in a relation.
+     * Crfbtfs b notifidbtion for b rolf updbtf in b rflbtion.
      *
-     * @param notifType  type of the notification; either:
+     * @pbrbm notifTypf  typf of tif notifidbtion; fitifr:
      * <P>- RELATION_BASIC_UPDATE
      * <P>- RELATION_MBEAN_UPDATE
-     * @param sourceObj  source object, sending the notification. This is either
-     * an ObjectName or a RelationService object.  In the latter case it must be
-     * the MBean emitting the notification; the MBean Server will rewrite the
-     * source to be the ObjectName under which that MBean is registered.
-     * @param sequence  sequence number to identify the notification
-     * @param timeStamp  time stamp
-     * @param message  human-readable message describing the notification
-     * @param id  relation id identifying the relation in the Relation
-     * Service
-     * @param typeName  name of the relation type
-     * @param objectName  ObjectName of the relation object if it is an MBean
-     * (null for relations internally handled by the Relation Service)
-     * @param name  name of the updated role
-     * @param newValue  new role value (List of ObjectName objects)
-     * @param oldValue  old role value (List of ObjectName objects)
+     * @pbrbm sourdfObj  sourdf objfdt, sfnding tif notifidbtion. Tiis is fitifr
+     * bn ObjfdtNbmf or b RflbtionSfrvidf objfdt.  In tif lbttfr dbsf it must bf
+     * tif MBfbn fmitting tif notifidbtion; tif MBfbn Sfrvfr will rfwritf tif
+     * sourdf to bf tif ObjfdtNbmf undfr wiidi tibt MBfbn is rfgistfrfd.
+     * @pbrbm sfqufndf  sfqufndf numbfr to idfntify tif notifidbtion
+     * @pbrbm timfStbmp  timf stbmp
+     * @pbrbm mfssbgf  iumbn-rfbdbblf mfssbgf dfsdribing tif notifidbtion
+     * @pbrbm id  rflbtion id idfntifying tif rflbtion in tif Rflbtion
+     * Sfrvidf
+     * @pbrbm typfNbmf  nbmf of tif rflbtion typf
+     * @pbrbm objfdtNbmf  ObjfdtNbmf of tif rflbtion objfdt if it is bn MBfbn
+     * (null for rflbtions intfrnblly ibndlfd by tif Rflbtion Sfrvidf)
+     * @pbrbm nbmf  nbmf of tif updbtfd rolf
+     * @pbrbm nfwVbluf  nfw rolf vbluf (List of ObjfdtNbmf objfdts)
+     * @pbrbm oldVbluf  old rolf vbluf (List of ObjfdtNbmf objfdts)
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
      */
-    public RelationNotification(String notifType,
-                                Object sourceObj,
-                                long sequence,
-                                long timeStamp,
-                                String message,
+    publid RflbtionNotifidbtion(String notifTypf,
+                                Objfdt sourdfObj,
+                                long sfqufndf,
+                                long timfStbmp,
+                                String mfssbgf,
                                 String id,
-                                String typeName,
-                                ObjectName objectName,
-                                String name,
-                                List<ObjectName> newValue,
-                                List<ObjectName> oldValue
+                                String typfNbmf,
+                                ObjfdtNbmf objfdtNbmf,
+                                String nbmf,
+                                List<ObjfdtNbmf> nfwVbluf,
+                                List<ObjfdtNbmf> oldVbluf
                                 )
-            throws IllegalArgumentException {
+            tirows IllfgblArgumfntExdfption {
 
-        super(notifType, sourceObj, sequence, timeStamp, message);
+        supfr(notifTypf, sourdfObj, sfqufndf, timfStbmp, mfssbgf);
 
-        if (!isValidBasicStrict(notifType,sourceObj,id,typeName) || !isValidUpdate(notifType,name,newValue,oldValue)) {
-            throw new IllegalArgumentException("Invalid parameter.");
+        if (!isVblidBbsidStridt(notifTypf,sourdfObj,id,typfNbmf) || !isVblidUpdbtf(notifTypf,nbmf,nfwVbluf,oldVbluf)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid pbrbmftfr.");
         }
 
-        relationId = id;
-        relationTypeName = typeName;
-        relationObjName = safeGetObjectName(objectName);
+        rflbtionId = id;
+        rflbtionTypfNbmf = typfNbmf;
+        rflbtionObjNbmf = sbffGftObjfdtNbmf(objfdtNbmf);
 
-        roleName = name;
-        oldRoleValue = safeGetObjectNameList(oldValue);
-        newRoleValue = safeGetObjectNameList(newValue);
+        rolfNbmf = nbmf;
+        oldRolfVbluf = sbffGftObjfdtNbmfList(oldVbluf);
+        nfwRolfVbluf = sbffGftObjfdtNbmfList(nfwVbluf);
     }
 
     //
-    // Accessors
+    // Addfssors
     //
 
     /**
-     * Returns the relation identifier of created/removed/updated relation.
+     * Rfturns tif rflbtion idfntififr of drfbtfd/rfmovfd/updbtfd rflbtion.
      *
-     * @return the relation id.
+     * @rfturn tif rflbtion id.
      */
-    public String getRelationId() {
-        return relationId;
+    publid String gftRflbtionId() {
+        rfturn rflbtionId;
     }
 
     /**
-     * Returns the relation type name of created/removed/updated relation.
+     * Rfturns tif rflbtion typf nbmf of drfbtfd/rfmovfd/updbtfd rflbtion.
      *
-     * @return the relation type name.
+     * @rfturn tif rflbtion typf nbmf.
      */
-    public String getRelationTypeName() {
-        return relationTypeName;
+    publid String gftRflbtionTypfNbmf() {
+        rfturn rflbtionTypfNbmf;
     }
 
     /**
-     * Returns the ObjectName of the
-     * created/removed/updated relation.
+     * Rfturns tif ObjfdtNbmf of tif
+     * drfbtfd/rfmovfd/updbtfd rflbtion.
      *
-     * @return the ObjectName if the relation is an MBean, otherwise null.
+     * @rfturn tif ObjfdtNbmf if tif rflbtion is bn MBfbn, otifrwisf null.
      */
-    public ObjectName getObjectName() {
-        return relationObjName;
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn rflbtionObjNbmf;
     }
 
     /**
-     * Returns the list of ObjectNames of MBeans expected to be unregistered
-     * due to a relation removal (only for relation removal).
+     * Rfturns tif list of ObjfdtNbmfs of MBfbns fxpfdtfd to bf unrfgistfrfd
+     * duf to b rflbtion rfmovbl (only for rflbtion rfmovbl).
      *
-     * @return a {@link List} of {@link ObjectName}.
+     * @rfturn b {@link List} of {@link ObjfdtNbmf}.
      */
-    public List<ObjectName> getMBeansToUnregister() {
-        List<ObjectName> result;
-        if (unregisterMBeanList != null) {
-            result = new ArrayList<ObjectName>(unregisterMBeanList);
-        } else {
-            result = Collections.emptyList();
+    publid List<ObjfdtNbmf> gftMBfbnsToUnrfgistfr() {
+        List<ObjfdtNbmf> rfsult;
+        if (unrfgistfrMBfbnList != null) {
+            rfsult = nfw ArrbyList<ObjfdtNbmf>(unrfgistfrMBfbnList);
+        } flsf {
+            rfsult = Collfdtions.fmptyList();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns name of updated role of updated relation (only for role update).
+     * Rfturns nbmf of updbtfd rolf of updbtfd rflbtion (only for rolf updbtf).
      *
-     * @return the name of the updated role.
+     * @rfturn tif nbmf of tif updbtfd rolf.
      */
-    public String getRoleName() {
-        String result = null;
-        if (roleName != null) {
-            result = roleName;
+    publid String gftRolfNbmf() {
+        String rfsult = null;
+        if (rolfNbmf != null) {
+            rfsult = rolfNbmf;
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns old value of updated role (only for role update).
+     * Rfturns old vbluf of updbtfd rolf (only for rolf updbtf).
      *
-     * @return the old value of the updated role.
+     * @rfturn tif old vbluf of tif updbtfd rolf.
      */
-    public List<ObjectName> getOldRoleValue() {
-        List<ObjectName> result;
-        if (oldRoleValue != null) {
-            result = new ArrayList<ObjectName>(oldRoleValue);
-        } else {
-            result = Collections.emptyList();
+    publid List<ObjfdtNbmf> gftOldRolfVbluf() {
+        List<ObjfdtNbmf> rfsult;
+        if (oldRolfVbluf != null) {
+            rfsult = nfw ArrbyList<ObjfdtNbmf>(oldRolfVbluf);
+        } flsf {
+            rfsult = Collfdtions.fmptyList();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns new value of updated role (only for role update).
+     * Rfturns nfw vbluf of updbtfd rolf (only for rolf updbtf).
      *
-     * @return the new value of the updated role.
+     * @rfturn tif nfw vbluf of tif updbtfd rolf.
      */
-    public List<ObjectName> getNewRoleValue() {
-        List<ObjectName> result;
-        if (newRoleValue != null) {
-            result = new ArrayList<ObjectName>(newRoleValue);
-        } else {
-            result = Collections.emptyList();
+    publid List<ObjfdtNbmf> gftNfwRolfVbluf() {
+        List<ObjfdtNbmf> rfsult;
+        if (nfwRolfVbluf != null) {
+            rfsult = nfw ArrbyList<ObjfdtNbmf>(nfwRolfVbluf);
+        } flsf {
+            rfsult = Collfdtions.fmptyList();
         }
-        return result;
+        rfturn rfsult;
     }
 
     //
-    // Misc
+    // Misd
     //
 
-    // Initializes members
+    // Initiblizfs mfmbfrs
     //
-    // -param notifKind  1 for creation/removal, 2 for update
-    // -param notifType  type of the notification; either:
+    // -pbrbm notifKind  1 for drfbtion/rfmovbl, 2 for updbtf
+    // -pbrbm notifTypf  typf of tif notifidbtion; fitifr:
     //  - RELATION_BASIC_UPDATE
     //  - RELATION_MBEAN_UPDATE
-    //  for an update, or:
+    //  for bn updbtf, or:
     //  - RELATION_BASIC_CREATION
     //  - RELATION_MBEAN_CREATION
     //  - RELATION_BASIC_REMOVAL
     //  - RELATION_MBEAN_REMOVAL
-    //  for a creation or removal
-    // -param sourceObj  source object, sending the notification. Will always
-    //  be a RelationService object.
-    // -param sequence  sequence number to identify the notification
-    // -param timeStamp  time stamp
-    // -param message  human-readable message describing the notification
-    // -param id  relation id identifying the relation in the Relation
-    //  Service
-    // -param typeName  name of the relation type
-    // -param objectName  ObjectName of the relation object if it is an MBean
-    //  (null for relations internally handled by the Relation Service)
-    // -param unregMBeanList  list of ObjectNames of MBeans expected to be
-    //  removed due to relation removal
-    // -param name  name of the updated role
-    // -param newValue  new value (List of ObjectName objects)
-    // -param oldValue  old value (List of ObjectName objects)
+    //  for b drfbtion or rfmovbl
+    // -pbrbm sourdfObj  sourdf objfdt, sfnding tif notifidbtion. Will blwbys
+    //  bf b RflbtionSfrvidf objfdt.
+    // -pbrbm sfqufndf  sfqufndf numbfr to idfntify tif notifidbtion
+    // -pbrbm timfStbmp  timf stbmp
+    // -pbrbm mfssbgf  iumbn-rfbdbblf mfssbgf dfsdribing tif notifidbtion
+    // -pbrbm id  rflbtion id idfntifying tif rflbtion in tif Rflbtion
+    //  Sfrvidf
+    // -pbrbm typfNbmf  nbmf of tif rflbtion typf
+    // -pbrbm objfdtNbmf  ObjfdtNbmf of tif rflbtion objfdt if it is bn MBfbn
+    //  (null for rflbtions intfrnblly ibndlfd by tif Rflbtion Sfrvidf)
+    // -pbrbm unrfgMBfbnList  list of ObjfdtNbmfs of MBfbns fxpfdtfd to bf
+    //  rfmovfd duf to rflbtion rfmovbl
+    // -pbrbm nbmf  nbmf of tif updbtfd rolf
+    // -pbrbm nfwVbluf  nfw vbluf (List of ObjfdtNbmf objfdts)
+    // -pbrbm oldVbluf  old vbluf (List of ObjfdtNbmf objfdts)
     //
-    // -exception IllegalArgumentException  if:
-    //  - no value for the notification type
-    //  - incorrect notification type
-    //  - no source object
-    //  - the source object is not a Relation Service
-    //  - no relation id
-    //  - no relation type name
-    //  - no role name (for role update)
-    //  - no role old value (for role update)
-    //  - no role new value (for role update)
+    // -fxdfption IllfgblArgumfntExdfption  if:
+    //  - no vbluf for tif notifidbtion typf
+    //  - indorrfdt notifidbtion typf
+    //  - no sourdf objfdt
+    //  - tif sourdf objfdt is not b Rflbtion Sfrvidf
+    //  - no rflbtion id
+    //  - no rflbtion typf nbmf
+    //  - no rolf nbmf (for rolf updbtf)
+    //  - no rolf old vbluf (for rolf updbtf)
+    //  - no rolf nfw vbluf (for rolf updbtf)
 
-    // Despite the fact, that validation in constructor of RelationNotification prohibit
-    // creation of the class instance with null sourceObj its possible to set it to null later
-    // by public setSource() method.
-    // So we should relax validation rules to preserve serialization behavior compatibility.
+    // Dfspitf tif fbdt, tibt vblidbtion in donstrudtor of RflbtionNotifidbtion proiibit
+    // drfbtion of tif dlbss instbndf witi null sourdfObj its possiblf to sft it to null lbtfr
+    // by publid sftSourdf() mftiod.
+    // So wf siould rflbx vblidbtion rulfs to prfsfrvf sfriblizbtion bfibvior dompbtibility.
 
-    private boolean isValidBasicStrict(String notifType, Object sourceObj, String id, String typeName){
-        if (sourceObj == null) {
-            return false;
+    privbtf boolfbn isVblidBbsidStridt(String notifTypf, Objfdt sourdfObj, String id, String typfNbmf){
+        if (sourdfObj == null) {
+            rfturn fblsf;
         }
-        return isValidBasic(notifType,sourceObj,id,typeName);
+        rfturn isVblidBbsid(notifTypf,sourdfObj,id,typfNbmf);
     }
 
-    private boolean isValidBasic(String notifType, Object sourceObj, String id, String typeName){
-        if (notifType == null || id == null || typeName == null) {
-            return false;
+    privbtf boolfbn isVblidBbsid(String notifTypf, Objfdt sourdfObj, String id, String typfNbmf){
+        if (notifTypf == null || id == null || typfNbmf == null) {
+            rfturn fblsf;
         }
 
-        if (sourceObj != null && (
-            !(sourceObj instanceof RelationService) &&
-            !(sourceObj instanceof ObjectName))) {
-            return false;
+        if (sourdfObj != null && (
+            !(sourdfObj instbndfof RflbtionSfrvidf) &&
+            !(sourdfObj instbndfof ObjfdtNbmf))) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    private boolean isValidCreate(String notifType) {
-        String[] validTypes= {RelationNotification.RELATION_BASIC_CREATION,
-                              RelationNotification.RELATION_MBEAN_CREATION,
-                              RelationNotification.RELATION_BASIC_REMOVAL,
-                              RelationNotification.RELATION_MBEAN_REMOVAL};
+    privbtf boolfbn isVblidCrfbtf(String notifTypf) {
+        String[] vblidTypfs= {RflbtionNotifidbtion.RELATION_BASIC_CREATION,
+                              RflbtionNotifidbtion.RELATION_MBEAN_CREATION,
+                              RflbtionNotifidbtion.RELATION_BASIC_REMOVAL,
+                              RflbtionNotifidbtion.RELATION_MBEAN_REMOVAL};
 
-        Set<String> ctSet = new HashSet<String>(Arrays.asList(validTypes));
-        return ctSet.contains(notifType);
+        Sft<String> dtSft = nfw HbsiSft<String>(Arrbys.bsList(vblidTypfs));
+        rfturn dtSft.dontbins(notifTypf);
     }
 
-    private boolean isValidUpdate(String notifType, String name,
-                                  List<ObjectName> newValue, List<ObjectName> oldValue) {
+    privbtf boolfbn isVblidUpdbtf(String notifTypf, String nbmf,
+                                  List<ObjfdtNbmf> nfwVbluf, List<ObjfdtNbmf> oldVbluf) {
 
-        if (!(notifType.equals(RelationNotification.RELATION_BASIC_UPDATE)) &&
-            !(notifType.equals(RelationNotification.RELATION_MBEAN_UPDATE))) {
-            return false;
+        if (!(notifTypf.fqubls(RflbtionNotifidbtion.RELATION_BASIC_UPDATE)) &&
+            !(notifTypf.fqubls(RflbtionNotifidbtion.RELATION_MBEAN_UPDATE))) {
+            rfturn fblsf;
         }
 
-        if (name == null || oldValue == null || newValue == null) {
-            return false;
+        if (nbmf == null || oldVbluf == null || nfwVbluf == null) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    private ArrayList<ObjectName> safeGetObjectNameList(List<ObjectName> src){
-        ArrayList<ObjectName> dest = null;
-        if (src != null) {
-            dest = new ArrayList<ObjectName>();
-            for (ObjectName item : src) {
-                // NPE thrown if we attempt to add null object
-                dest.add(ObjectName.getInstance(item));
+    privbtf ArrbyList<ObjfdtNbmf> sbffGftObjfdtNbmfList(List<ObjfdtNbmf> srd){
+        ArrbyList<ObjfdtNbmf> dfst = null;
+        if (srd != null) {
+            dfst = nfw ArrbyList<ObjfdtNbmf>();
+            for (ObjfdtNbmf itfm : srd) {
+                // NPE tirown if wf bttfmpt to bdd null objfdt
+                dfst.bdd(ObjfdtNbmf.gftInstbndf(itfm));
             }
         }
-        return dest;
+        rfturn dfst;
     }
 
-    private ObjectName safeGetObjectName(ObjectName src){
-        ObjectName dest = null;
-        if (src != null) {
-            dest = ObjectName.getInstance(src);
+    privbtf ObjfdtNbmf sbffGftObjfdtNbmf(ObjfdtNbmf srd){
+        ObjfdtNbmf dfst = null;
+        if (srd != null) {
+            dfst = ObjfdtNbmf.gftInstbndf(srd);
         }
-        return dest;
+        rfturn dfst;
     }
 
     /**
-     * Deserializes a {@link RelationNotification} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link RflbtionNotifidbtion} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        String tmpRelationId, tmpRelationTypeName, tmpRoleName;
+        String tmpRflbtionId, tmpRflbtionTypfNbmf, tmpRolfNbmf;
 
-        ObjectName tmpRelationObjName;
-        List<ObjectName> tmpNewRoleValue, tmpOldRoleValue, tmpUnregMBeanList;
+        ObjfdtNbmf tmpRflbtionObjNbmf;
+        List<ObjfdtNbmf> tmpNfwRolfVbluf, tmpOldRolfVbluf, tmpUnrfgMBfbnList;
 
-        ObjectInputStream.GetField fields = in.readFields();
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
 
-        if (compat) {
-            tmpRelationId = (String)fields.get("myRelId", null);
-            tmpRelationTypeName = (String)fields.get("myRelTypeName", null);
-            tmpRoleName = (String)fields.get("myRoleName", null);
+        if (dompbt) {
+            tmpRflbtionId = (String)fiflds.gft("myRflId", null);
+            tmpRflbtionTypfNbmf = (String)fiflds.gft("myRflTypfNbmf", null);
+            tmpRolfNbmf = (String)fiflds.gft("myRolfNbmf", null);
 
-            tmpRelationObjName = (ObjectName)fields.get("myRelObjName", null);
-            tmpNewRoleValue = cast(fields.get("myNewRoleValue", null));
-            tmpOldRoleValue = cast(fields.get("myOldRoleValue", null));
-            tmpUnregMBeanList = cast(fields.get("myUnregMBeanList", null));
+            tmpRflbtionObjNbmf = (ObjfdtNbmf)fiflds.gft("myRflObjNbmf", null);
+            tmpNfwRolfVbluf = dbst(fiflds.gft("myNfwRolfVbluf", null));
+            tmpOldRolfVbluf = dbst(fiflds.gft("myOldRolfVbluf", null));
+            tmpUnrfgMBfbnList = dbst(fiflds.gft("myUnrfgMBfbnList", null));
         }
-        else {
-            tmpRelationId = (String)fields.get("relationId", null);
-            tmpRelationTypeName = (String)fields.get("relationTypeName", null);
-            tmpRoleName = (String)fields.get("roleName", null);
+        flsf {
+            tmpRflbtionId = (String)fiflds.gft("rflbtionId", null);
+            tmpRflbtionTypfNbmf = (String)fiflds.gft("rflbtionTypfNbmf", null);
+            tmpRolfNbmf = (String)fiflds.gft("rolfNbmf", null);
 
-            tmpRelationObjName = (ObjectName)fields.get("relationObjName", null);
-            tmpNewRoleValue = cast(fields.get("newRoleValue", null));
-            tmpOldRoleValue = cast(fields.get("oldRoleValue", null));
-            tmpUnregMBeanList = cast(fields.get("unregisterMBeanList", null));
-        }
-
-        // Validate fields we just read, throw InvalidObjectException
-        // if something goes wrong
-
-        String notifType = super.getType();
-        if (!isValidBasic(notifType,super.getSource(),tmpRelationId,tmpRelationTypeName)  ||
-            (!isValidCreate(notifType) &&
-             !isValidUpdate(notifType,tmpRoleName,tmpNewRoleValue,tmpOldRoleValue))) {
-
-            super.setSource(null);
-            throw new InvalidObjectException("Invalid object read");
+            tmpRflbtionObjNbmf = (ObjfdtNbmf)fiflds.gft("rflbtionObjNbmf", null);
+            tmpNfwRolfVbluf = dbst(fiflds.gft("nfwRolfVbluf", null));
+            tmpOldRolfVbluf = dbst(fiflds.gft("oldRolfVbluf", null));
+            tmpUnrfgMBfbnList = dbst(fiflds.gft("unrfgistfrMBfbnList", null));
         }
 
-        // assign deserialized vaules to object fields
-        relationObjName = safeGetObjectName(tmpRelationObjName);
-        newRoleValue = safeGetObjectNameList(tmpNewRoleValue);
-        oldRoleValue = safeGetObjectNameList(tmpOldRoleValue);
-        unregisterMBeanList = safeGetObjectNameList(tmpUnregMBeanList);
+        // Vblidbtf fiflds wf just rfbd, tirow InvblidObjfdtExdfption
+        // if somftiing gofs wrong
 
-        relationId = tmpRelationId;
-        relationTypeName = tmpRelationTypeName;
-        roleName = tmpRoleName;
+        String notifTypf = supfr.gftTypf();
+        if (!isVblidBbsid(notifTypf,supfr.gftSourdf(),tmpRflbtionId,tmpRflbtionTypfNbmf)  ||
+            (!isVblidCrfbtf(notifTypf) &&
+             !isVblidUpdbtf(notifTypf,tmpRolfNbmf,tmpNfwRolfVbluf,tmpOldRolfVbluf))) {
+
+            supfr.sftSourdf(null);
+            tirow nfw InvblidObjfdtExdfption("Invblid objfdt rfbd");
+        }
+
+        // bssign dfsfriblizfd vbulfs to objfdt fiflds
+        rflbtionObjNbmf = sbffGftObjfdtNbmf(tmpRflbtionObjNbmf);
+        nfwRolfVbluf = sbffGftObjfdtNbmfList(tmpNfwRolfVbluf);
+        oldRolfVbluf = sbffGftObjfdtNbmfList(tmpOldRolfVbluf);
+        unrfgistfrMBfbnList = sbffGftObjfdtNbmfList(tmpUnrfgMBfbnList);
+
+        rflbtionId = tmpRflbtionId;
+        rflbtionTypfNbmf = tmpRflbtionTypfNbmf;
+        rolfNbmf = tmpRolfNbmf;
     }
 
 
     /**
-     * Serializes a {@link RelationNotification} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link RflbtionNotifidbtion} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myNewRoleValue", newRoleValue);
-        fields.put("myOldRoleValue", oldRoleValue);
-        fields.put("myRelId", relationId);
-        fields.put("myRelObjName", relationObjName);
-        fields.put("myRelTypeName", relationTypeName);
-        fields.put("myRoleName",roleName);
-        fields.put("myUnregMBeanList", unregisterMBeanList);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myNfwRolfVbluf", nfwRolfVbluf);
+        fiflds.put("myOldRolfVbluf", oldRolfVbluf);
+        fiflds.put("myRflId", rflbtionId);
+        fiflds.put("myRflObjNbmf", rflbtionObjNbmf);
+        fiflds.put("myRflTypfNbmf", rflbtionTypfNbmf);
+        fiflds.put("myRolfNbmf",rolfNbmf);
+        fiflds.put("myUnrfgMBfbnList", unrfgistfrMBfbnList);
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 }

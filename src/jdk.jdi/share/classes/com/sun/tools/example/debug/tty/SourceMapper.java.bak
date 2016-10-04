@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
 
-import com.sun.jdi.Location;
-import com.sun.jdi.AbsentInformationException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.io.*;
+import dom.sun.jdi.Lodbtion;
+import dom.sun.jdi.AbsfntInformbtionExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.StringTokfnizfr;
+import jbvb.io.*;
 
-class SourceMapper {
+dlbss SourdfMbppfr {
 
-    private final String[] dirs;
+    privbtf finbl String[] dirs;
 
-    SourceMapper(List<String> sourcepath) {
+    SourdfMbppfr(List<String> sourdfpbti) {
         /*
-         * sourcepath can arrive from the debugee as a List.
-         * (via PathSearchingVirtualMachine.classPath())
+         * sourdfpbti dbn brrivf from tif dfbugff bs b List.
+         * (vib PbtiSfbrdiingVirtublMbdiinf.dlbssPbti())
          */
-        List<String> dirList = new ArrayList<String>();
-        for (String element : sourcepath) {
-            //XXX remove .jar and .zip files; we want only directories on
-            //the source path. (Bug ID 4186582)
-            if ( ! (element.endsWith(".jar") ||
-                    element.endsWith(".zip"))) {
-                dirList.add(element);
+        List<String> dirList = nfw ArrbyList<String>();
+        for (String flfmfnt : sourdfpbti) {
+            //XXX rfmovf .jbr bnd .zip filfs; wf wbnt only dirfdtorifs on
+            //tif sourdf pbti. (Bug ID 4186582)
+            if ( ! (flfmfnt.fndsWiti(".jbr") ||
+                    flfmfnt.fndsWiti(".zip"))) {
+                dirList.bdd(flfmfnt);
             }
         }
-        dirs = dirList.toArray(new String[0]);
+        dirs = dirList.toArrby(nfw String[0]);
     }
 
-    SourceMapper(String sourcepath) {
+    SourdfMbppfr(String sourdfpbti) {
         /*
-         * sourcepath can also arrive from the command line
-         * as a String.  (via "-sourcepath")
+         * sourdfpbti dbn blso brrivf from tif dommbnd linf
+         * bs b String.  (vib "-sourdfpbti")
          *
-         * Using File.pathSeparator as delimiter below is OK
-         * because we are on the same machine as the command
-         * line originiated.
+         * Using Filf.pbtiSfpbrbtor bs dflimitfr bflow is OK
+         * bfdbusf wf brf on tif sbmf mbdiinf bs tif dommbnd
+         * linf originibtfd.
          */
-        StringTokenizer st = new StringTokenizer(sourcepath,
-                                                 File.pathSeparator);
-        List<String> dirList = new ArrayList<String>();
-        while (st.hasMoreTokens()) {
-            String s = st.nextToken();
-            //XXX remove .jar and .zip files; we want only directories on
-            //the source path. (Bug ID 4186582)
-            if ( ! (s.endsWith(".jar") ||
-                    s.endsWith(".zip"))) {
-                dirList.add(s);
+        StringTokfnizfr st = nfw StringTokfnizfr(sourdfpbti,
+                                                 Filf.pbtiSfpbrbtor);
+        List<String> dirList = nfw ArrbyList<String>();
+        wiilf (st.ibsMorfTokfns()) {
+            String s = st.nfxtTokfn();
+            //XXX rfmovf .jbr bnd .zip filfs; wf wbnt only dirfdtorifs on
+            //tif sourdf pbti. (Bug ID 4186582)
+            if ( ! (s.fndsWiti(".jbr") ||
+                    s.fndsWiti(".zip"))) {
+                dirList.bdd(s);
             }
         }
-        dirs = dirList.toArray(new String[0]);
+        dirs = dirList.toArrby(nfw String[0]);
     }
 
     /*
-     * Return the current sourcePath as a String.
+     * Rfturn tif durrfnt sourdfPbti bs b String.
      */
-    String getSourcePath() {
+    String gftSourdfPbti() {
         int i = 0;
-        StringBuffer sp;
-        if (dirs.length < 1) {
-            return "";          //The source path is empty.
-        } else {
-            sp = new StringBuffer(dirs[i++]);
+        StringBufffr sp;
+        if (dirs.lfngti < 1) {
+            rfturn "";          //Tif sourdf pbti is fmpty.
+        } flsf {
+            sp = nfw StringBufffr(dirs[i++]);
         }
-        for (; i < dirs.length; i++) {
-            sp.append(File.pathSeparator);
-            sp.append(dirs[i]);
+        for (; i < dirs.lfngti; i++) {
+            sp.bppfnd(Filf.pbtiSfpbrbtor);
+            sp.bppfnd(dirs[i]);
         }
-        return sp.toString();
+        rfturn sp.toString();
     }
 
     /**
-     * Return a File cooresponding to the source of this location.
-     * Return null if not available.
+     * Rfturn b Filf doorfsponding to tif sourdf of tiis lodbtion.
+     * Rfturn null if not bvbilbblf.
      */
-    File sourceFile(Location loc) {
+    Filf sourdfFilf(Lodbtion lod) {
         try {
-            String filename = loc.sourceName();
-            String refName = loc.declaringType().name();
-            int iDot = refName.lastIndexOf('.');
-            String pkgName = (iDot >= 0)? refName.substring(0, iDot+1) : "";
-            String full = pkgName.replace('.', File.separatorChar) + filename;
-            for (int i= 0; i < dirs.length; ++i) {
-                File path = new File(dirs[i], full);
-                if (path.exists()) {
-                    return path;
+            String filfnbmf = lod.sourdfNbmf();
+            String rffNbmf = lod.dfdlbringTypf().nbmf();
+            int iDot = rffNbmf.lbstIndfxOf('.');
+            String pkgNbmf = (iDot >= 0)? rffNbmf.substring(0, iDot+1) : "";
+            String full = pkgNbmf.rfplbdf('.', Filf.sfpbrbtorCibr) + filfnbmf;
+            for (int i= 0; i < dirs.lfngti; ++i) {
+                Filf pbti = nfw Filf(dirs[i], full);
+                if (pbti.fxists()) {
+                    rfturn pbti;
                 }
             }
-            return null;
-        } catch (AbsentInformationException e) {
-            return null;
+            rfturn null;
+        } dbtdi (AbsfntInformbtionExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Return a BufferedReader cooresponding to the source
-     * of this location.
-     * Return null if not available.
-     * Note: returned reader must be closed.
+     * Rfturn b BufffrfdRfbdfr doorfsponding to tif sourdf
+     * of tiis lodbtion.
+     * Rfturn null if not bvbilbblf.
+     * Notf: rfturnfd rfbdfr must bf dlosfd.
      */
-    BufferedReader sourceReader(Location loc) {
-        File sourceFile = sourceFile(loc);
-        if (sourceFile == null) {
-            return null;
+    BufffrfdRfbdfr sourdfRfbdfr(Lodbtion lod) {
+        Filf sourdfFilf = sourdfFilf(lod);
+        if (sourdfFilf == null) {
+            rfturn null;
         }
         try {
-            return new BufferedReader(new FileReader(sourceFile));
-        } catch(IOException exc) {
+            rfturn nfw BufffrfdRfbdfr(nfw FilfRfbdfr(sourdfFilf));
+        } dbtdi(IOExdfption fxd) {
         }
-        return null;
+        rfturn null;
     }
 }

@@ -1,0 +1,271 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.FilfChbnnfl;
+
+import sun.nft.ConnfdtionRfsftExdfption;
+
+/**
+ * This strfbm fxtfnds FilfInputStrfbm to implfmfnt b
+ * SodkftInputStrfbm. Notf thbt this dlbss should <b>NOT</b> bf
+ * publid.
+ *
+ * @buthor      Jonbthbn Pbynf
+ * @buthor      Arthur vbn Hoff
+ */
+dlbss SodkftInputStrfbm fxtfnds FilfInputStrfbm
+{
+    stbtid {
+        init();
+    }
+
+    privbtf boolfbn fof;
+    privbtf AbstrbdtPlbinSodkftImpl impl = null;
+    privbtf bytf tfmp[];
+    privbtf Sodkft sodkft = null;
+
+    /**
+     * Crfbtfs b nfw SodkftInputStrfbm. Cbn only bf dbllfd
+     * by b Sodkft. This mfthod nffds to hbng on to thf ownfr Sodkft so
+     * thbt thf fd will not bf dlosfd.
+     * @pbrbm impl thf implfmfntfd sodkft input strfbm
+     */
+    SodkftInputStrfbm(AbstrbdtPlbinSodkftImpl impl) throws IOExdfption {
+        supfr(impl.gftFilfDfsdriptor());
+        this.impl = impl;
+        sodkft = impl.gftSodkft();
+    }
+
+    /**
+     * Rfturns thf uniquf {@link jbvb.nio.dhbnnfls.FilfChbnnfl FilfChbnnfl}
+     * objfdt bssodibtfd with this filf input strfbm.</p>
+     *
+     * Thf {@dodf gftChbnnfl} mfthod of {@dodf SodkftInputStrfbm}
+     * rfturns {@dodf null} sindf it is b sodkft bbsfd strfbm.</p>
+     *
+     * @rfturn  thf filf dhbnnfl bssodibtfd with this filf input strfbm
+     *
+     * @sindf 1.4
+     * @spfd JSR-51
+     */
+    publid finbl FilfChbnnfl gftChbnnfl() {
+        rfturn null;
+    }
+
+    /**
+     * Rfbds into bn brrby of bytfs bt thf spfdififd offsft using
+     * thf rfdfivfd sodkft primitivf.
+     * @pbrbm fd thf FilfDfsdriptor
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfbd
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfn thf mbximum numbfr of bytfs rfbd
+     * @pbrbm timfout thf rfbd timfout in ms
+     * @rfturn thf bdtubl numbfr of bytfs rfbd, -1 is
+     *          rfturnfd whfn thf fnd of thf strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    privbtf nbtivf int sodkftRfbd0(FilfDfsdriptor fd,
+                                   bytf b[], int off, int lfn,
+                                   int timfout)
+        throws IOExdfption;
+
+    /**
+     * Rfbds into b bytf brrby dbtb from thf sodkft.
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfbd
+     * @rfturn thf bdtubl numbfr of bytfs rfbd, -1 is
+     *          rfturnfd whfn thf fnd of thf strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int rfbd(bytf b[]) throws IOExdfption {
+        rfturn rfbd(b, 0, b.lfngth);
+    }
+
+    /**
+     * Rfbds into b bytf brrby <i>b</i> bt offsft <i>off</i>,
+     * <i>lfngth</i> bytfs of dbtb.
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfbd
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfngth thf mbximum numbfr of bytfs rfbd
+     * @rfturn thf bdtubl numbfr of bytfs rfbd, -1 is
+     *          rfturnfd whfn thf fnd of thf strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int rfbd(bytf b[], int off, int lfngth) throws IOExdfption {
+        rfturn rfbd(b, off, lfngth, impl.gftTimfout());
+    }
+
+    int rfbd(bytf b[], int off, int lfngth, int timfout) throws IOExdfption {
+        int n;
+
+        // EOF blrfbdy fndountfrfd
+        if (fof) {
+            rfturn -1;
+        }
+
+        // donnfdtion rfsft
+        if (impl.isConnfdtionRfsft()) {
+            throw nfw SodkftExdfption("Connfdtion rfsft");
+        }
+
+        // bounds dhfdk
+        if (lfngth <= 0 || off < 0 || off + lfngth > b.lfngth) {
+            if (lfngth == 0) {
+                rfturn 0;
+            }
+            throw nfw ArrbyIndfxOutOfBoundsExdfption();
+        }
+
+        boolfbn gotRfsft = fblsf;
+
+        // bdquirf filf dfsdriptor bnd do thf rfbd
+        FilfDfsdriptor fd = impl.bdquirfFD();
+        try {
+            n = sodkftRfbd0(fd, b, off, lfngth, timfout);
+            if (n > 0) {
+                rfturn n;
+            }
+        } dbtdh (ConnfdtionRfsftExdfption rstExd) {
+            gotRfsft = truf;
+        } finblly {
+            impl.rflfbsfFD();
+        }
+
+        /*
+         * Wf rfdfivf b "donnfdtion rfsft" but thfrf mby bf bytfs still
+         * bufffrfd on thf sodkft
+         */
+        if (gotRfsft) {
+            impl.sftConnfdtionRfsftPfnding();
+            impl.bdquirfFD();
+            try {
+                n = sodkftRfbd0(fd, b, off, lfngth, timfout);
+                if (n > 0) {
+                    rfturn n;
+                }
+            } dbtdh (ConnfdtionRfsftExdfption rstExd) {
+            } finblly {
+                impl.rflfbsfFD();
+            }
+        }
+
+        /*
+         * If wf gft hfrf wf brf bt EOF, thf sodkft hbs bffn dlosfd,
+         * or thf donnfdtion hbs bffn rfsft.
+         */
+        if (impl.isClosfdOrPfnding()) {
+            throw nfw SodkftExdfption("Sodkft dlosfd");
+        }
+        if (impl.isConnfdtionRfsftPfnding()) {
+            impl.sftConnfdtionRfsft();
+        }
+        if (impl.isConnfdtionRfsft()) {
+            throw nfw SodkftExdfption("Connfdtion rfsft");
+        }
+        fof = truf;
+        rfturn -1;
+    }
+
+    /**
+     * Rfbds b singlf bytf from thf sodkft.
+     */
+    publid int rfbd() throws IOExdfption {
+        if (fof) {
+            rfturn -1;
+        }
+        tfmp = nfw bytf[1];
+        int n = rfbd(tfmp, 0, 1);
+        if (n <= 0) {
+            rfturn -1;
+        }
+        rfturn tfmp[0] & 0xff;
+    }
+
+    /**
+     * Skips n bytfs of input.
+     * @pbrbm numbytfs thf numbfr of bytfs to skip
+     * @rfturn  thf bdtubl numbfr of bytfs skippfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid long skip(long numbytfs) throws IOExdfption {
+        if (numbytfs <= 0) {
+            rfturn 0;
+        }
+        long n = numbytfs;
+        int buflfn = (int) Mbth.min(1024, n);
+        bytf dbtb[] = nfw bytf[buflfn];
+        whilf (n > 0) {
+            int r = rfbd(dbtb, 0, (int) Mbth.min((long) buflfn, n));
+            if (r < 0) {
+                brfbk;
+            }
+            n -= r;
+        }
+        rfturn numbytfs - n;
+    }
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt dbn bf rfbd without blodking.
+     * @rfturn thf numbfr of immfdibtfly bvbilbblf bytfs
+     */
+    publid int bvbilbblf() throws IOExdfption {
+        rfturn impl.bvbilbblf();
+    }
+
+    /**
+     * Closfs thf strfbm.
+     */
+    privbtf boolfbn dlosing = fblsf;
+    publid void dlosf() throws IOExdfption {
+        // Prfvfnt rfdursion. Sff BugId 4484411
+        if (dlosing)
+            rfturn;
+        dlosing = truf;
+        if (sodkft != null) {
+            if (!sodkft.isClosfd())
+                sodkft.dlosf();
+        } flsf
+            impl.dlosf();
+        dlosing = fblsf;
+    }
+
+    void sftEOF(boolfbn fof) {
+        this.fof = fof;
+    }
+
+    /**
+     * Ovfrridfs finblizf, thf fd is dlosfd by thf Sodkft.
+     */
+    protfdtfd void finblizf() {}
+
+    /**
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     */
+    privbtf nbtivf stbtid void init();
+}

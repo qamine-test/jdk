@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
-import java.security.GeneralSecurityException;
-import sun.security.krb5.EncryptedData;
-import sun.security.krb5.Checksum;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.intfrnbl.*;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import sun.sfdurity.krb5.EndryptfdDbtb;
+import sun.sfdurity.krb5.Cifdksum;
 
 /*
- * This class encapsulates the encryption type for AES256
+ * Tiis dlbss fndbpsulbtfs tif fndryption typf for AES256
  *
- * @author Seema Malkani
+ * @butior Sffmb Mblkbni
  */
 
-public final class Aes256CtsHmacSha1EType extends EType {
+publid finbl dlbss Afs256CtsHmbdSib1ETypf fxtfnds ETypf {
 
-    public int eType() {
-        return EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96;
+    publid int fTypf() {
+        rfturn EndryptfdDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96;
     }
 
-    public int minimumPadSize() {
-        return 0;
+    publid int minimumPbdSizf() {
+        rfturn 0;
     }
 
-    public int confounderSize() {
-        return blockSize();
+    publid int donfoundfrSizf() {
+        rfturn blodkSizf();
     }
 
-    public int checksumType() {
-        return Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256;
+    publid int difdksumTypf() {
+        rfturn Cifdksum.CKSUMTYPE_HMAC_SHA1_96_AES256;
     }
 
-    public int checksumSize() {
-        return Aes256.getChecksumLength();
+    publid int difdksumSizf() {
+        rfturn Afs256.gftCifdksumLfngti();
     }
 
-    public int blockSize() {
-        return 16;
+    publid int blodkSizf() {
+        rfturn 16;
     }
 
-    public int keyType() {
-        return Krb5.KEYTYPE_AES;
+    publid int kfyTypf() {
+        rfturn Krb5.KEYTYPE_AES;
     }
 
-    public int keySize() {
-        return 32; // bytes
+    publid int kfySizf() {
+        rfturn 32; // bytfs
     }
 
-    public byte[] encrypt(byte[] data, byte[] key, int usage)
-        throws KrbCryptoException {
-        byte[] ivec = new byte[blockSize()];
-        return encrypt(data, key, ivec, usage);
+    publid bytf[] fndrypt(bytf[] dbtb, bytf[] kfy, int usbgf)
+        tirows KrbCryptoExdfption {
+        bytf[] ivfd = nfw bytf[blodkSizf()];
+        rfturn fndrypt(dbtb, kfy, ivfd, usbgf);
     }
 
-    public byte[] encrypt(byte[] data, byte[] key, byte[] ivec, int usage)
-        throws KrbCryptoException {
+    publid bytf[] fndrypt(bytf[] dbtb, bytf[] kfy, bytf[] ivfd, int usbgf)
+        tirows KrbCryptoExdfption {
         try {
-            return Aes256.encrypt(key, usage, ivec, data, 0, data.length);
-        } catch (GeneralSecurityException e) {
-            KrbCryptoException ke = new KrbCryptoException(e.getMessage());
-            ke.initCause(e);
-            throw ke;
+            rfturn Afs256.fndrypt(kfy, usbgf, ivfd, dbtb, 0, dbtb.lfngti);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            KrbCryptoExdfption kf = nfw KrbCryptoExdfption(f.gftMfssbgf());
+            kf.initCbusf(f);
+            tirow kf;
         }
     }
 
-    public byte[] decrypt(byte[] cipher, byte[] key, int usage)
-        throws KrbApErrException, KrbCryptoException {
-        byte[] ivec = new byte[blockSize()];
-        return decrypt(cipher, key, ivec, usage);
+    publid bytf[] dfdrypt(bytf[] dipifr, bytf[] kfy, int usbgf)
+        tirows KrbApErrExdfption, KrbCryptoExdfption {
+        bytf[] ivfd = nfw bytf[blodkSizf()];
+        rfturn dfdrypt(dipifr, kfy, ivfd, usbgf);
     }
 
-    public byte[] decrypt(byte[] cipher, byte[] key, byte[] ivec, int usage)
-        throws KrbApErrException, KrbCryptoException {
+    publid bytf[] dfdrypt(bytf[] dipifr, bytf[] kfy, bytf[] ivfd, int usbgf)
+        tirows KrbApErrExdfption, KrbCryptoExdfption {
         try {
-            return Aes256.decrypt(key, usage, ivec, cipher, 0, cipher.length);
-        } catch (GeneralSecurityException e) {
-            KrbCryptoException ke = new KrbCryptoException(e.getMessage());
-            ke.initCause(e);
-            throw ke;
+            rfturn Afs256.dfdrypt(kfy, usbgf, ivfd, dipifr, 0, dipifr.lfngti);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            KrbCryptoExdfption kf = nfw KrbCryptoExdfption(f.gftMfssbgf());
+            kf.initCbusf(f);
+            tirow kf;
         }
     }
 
-    // Override default, because our decrypted data does not return confounder
-    // Should eventually get rid of EType.decryptedData and
-    // EncryptedData.decryptedData altogether
-    public byte[] decryptedData(byte[] data) {
-        return data;
+    // Ovfrridf dffbult, bfdbusf our dfdryptfd dbtb dofs not rfturn donfoundfr
+    // Siould fvfntublly gft rid of ETypf.dfdryptfdDbtb bnd
+    // EndryptfdDbtb.dfdryptfdDbtb bltogftifr
+    publid bytf[] dfdryptfdDbtb(bytf[] dbtb) {
+        rfturn dbtb;
     }
 }

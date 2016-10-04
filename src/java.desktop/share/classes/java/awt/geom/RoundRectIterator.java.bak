@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.geom;
+pbdkbgf jbvb.bwt.gfom;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A utility class to iterate over the path segments of an rounded rectangle
- * through the PathIterator interface.
+ * A utility dlbss to itfrbtf ovfr tif pbti sfgmfnts of bn roundfd rfdtbnglf
+ * tirougi tif PbtiItfrbtor intfrfbdf.
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-class RoundRectIterator implements PathIterator {
-    double x, y, w, h, aw, ah;
-    AffineTransform affine;
-    int index;
+dlbss RoundRfdtItfrbtor implfmfnts PbtiItfrbtor {
+    doublf x, y, w, i, bw, bi;
+    AffinfTrbnsform bffinf;
+    int indfx;
 
-    RoundRectIterator(RoundRectangle2D rr, AffineTransform at) {
-        this.x = rr.getX();
-        this.y = rr.getY();
-        this.w = rr.getWidth();
-        this.h = rr.getHeight();
-        this.aw = Math.min(w, Math.abs(rr.getArcWidth()));
-        this.ah = Math.min(h, Math.abs(rr.getArcHeight()));
-        this.affine = at;
-        if (aw < 0 || ah < 0) {
-            // Don't draw anything...
-            index = ctrlpts.length;
+    RoundRfdtItfrbtor(RoundRfdtbnglf2D rr, AffinfTrbnsform bt) {
+        tiis.x = rr.gftX();
+        tiis.y = rr.gftY();
+        tiis.w = rr.gftWidti();
+        tiis.i = rr.gftHfigit();
+        tiis.bw = Mbti.min(w, Mbti.bbs(rr.gftArdWidti()));
+        tiis.bi = Mbti.min(i, Mbti.bbs(rr.gftArdHfigit()));
+        tiis.bffinf = bt;
+        if (bw < 0 || bi < 0) {
+            // Don't drbw bnytiing...
+            indfx = dtrlpts.lfngti;
         }
     }
 
     /**
-     * Return the winding rule for determining the insideness of the
-     * path.
-     * @see #WIND_EVEN_ODD
-     * @see #WIND_NON_ZERO
+     * Rfturn tif winding rulf for dftfrmining tif insidfnfss of tif
+     * pbti.
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_NON_ZERO
      */
-    public int getWindingRule() {
-        return WIND_NON_ZERO;
+    publid int gftWindingRulf() {
+        rfturn WIND_NON_ZERO;
     }
 
     /**
-     * Tests if there are more points to read.
-     * @return true if there are more points to read
+     * Tfsts if tifrf brf morf points to rfbd.
+     * @rfturn truf if tifrf brf morf points to rfbd
      */
-    public boolean isDone() {
-        return index >= ctrlpts.length;
+    publid boolfbn isDonf() {
+        rfturn indfx >= dtrlpts.lfngti;
     }
 
     /**
-     * Moves the iterator to the next segment of the path forwards
-     * along the primary direction of traversal as long as there are
-     * more points in that direction.
+     * Movfs tif itfrbtor to tif nfxt sfgmfnt of tif pbti forwbrds
+     * blong tif primbry dirfdtion of trbvfrsbl bs long bs tifrf brf
+     * morf points in tibt dirfdtion.
      */
-    public void next() {
-        index++;
+    publid void nfxt() {
+        indfx++;
     }
 
-    private static final double angle = Math.PI / 4.0;
-    private static final double a = 1.0 - Math.cos(angle);
-    private static final double b = Math.tan(angle);
-    private static final double c = Math.sqrt(1.0 + b * b) - 1 + a;
-    private static final double cv = 4.0 / 3.0 * a * b / c;
-    private static final double acv = (1.0 - cv) / 2.0;
+    privbtf stbtid finbl doublf bnglf = Mbti.PI / 4.0;
+    privbtf stbtid finbl doublf b = 1.0 - Mbti.dos(bnglf);
+    privbtf stbtid finbl doublf b = Mbti.tbn(bnglf);
+    privbtf stbtid finbl doublf d = Mbti.sqrt(1.0 + b * b) - 1 + b;
+    privbtf stbtid finbl doublf dv = 4.0 / 3.0 * b * b / d;
+    privbtf stbtid finbl doublf bdv = (1.0 - dv) / 2.0;
 
-    // For each array:
-    //     4 values for each point {v0, v1, v2, v3}:
-    //         point = (x + v0 * w + v1 * arcWidth,
-    //                  y + v2 * h + v3 * arcHeight);
-    private static double ctrlpts[][] = {
+    // For fbdi brrby:
+    //     4 vblufs for fbdi point {v0, v1, v2, v3}:
+    //         point = (x + v0 * w + v1 * brdWidti,
+    //                  y + v2 * i + v3 * brdHfigit);
+    privbtf stbtid doublf dtrlpts[][] = {
         {  0.0,  0.0,  0.0,  0.5 },
         {  0.0,  0.0,  1.0, -0.5 },
-        {  0.0,  0.0,  1.0, -acv,
-           0.0,  acv,  1.0,  0.0,
+        {  0.0,  0.0,  1.0, -bdv,
+           0.0,  bdv,  1.0,  0.0,
            0.0,  0.5,  1.0,  0.0 },
         {  1.0, -0.5,  1.0,  0.0 },
-        {  1.0, -acv,  1.0,  0.0,
-           1.0,  0.0,  1.0, -acv,
+        {  1.0, -bdv,  1.0,  0.0,
+           1.0,  0.0,  1.0, -bdv,
            1.0,  0.0,  1.0, -0.5 },
         {  1.0,  0.0,  0.0,  0.5 },
-        {  1.0,  0.0,  0.0,  acv,
-           1.0, -acv,  0.0,  0.0,
+        {  1.0,  0.0,  0.0,  bdv,
+           1.0, -bdv,  0.0,  0.0,
            1.0, -0.5,  0.0,  0.0 },
         {  0.0,  0.5,  0.0,  0.0 },
-        {  0.0,  acv,  0.0,  0.0,
-           0.0,  0.0,  0.0,  acv,
+        {  0.0,  bdv,  0.0,  0.0,
+           0.0,  0.0,  0.0,  bdv,
            0.0,  0.0,  0.0,  0.5 },
         {},
     };
-    private static int types[] = {
+    privbtf stbtid int typfs[] = {
         SEG_MOVETO,
         SEG_LINETO, SEG_CUBICTO,
         SEG_LINETO, SEG_CUBICTO,
@@ -120,70 +120,70 @@ class RoundRectIterator implements PathIterator {
     };
 
     /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and may be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types will return one point,
-     * SEG_QUADTO will return two points,
-     * SEG_CUBICTO will return 3 points
-     * and SEG_CLOSE will not return any points.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
+     * A flobt brrby of lfngti 6 must bf pbssfd in bnd mby bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs will rfturn onf point,
+     * SEG_QUADTO will rfturn two points,
+     * SEG_CUBICTO will rfturn 3 points
+     * bnd SEG_CLOSE will not rfturn bny points.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("roundrect iterator out of bounds");
+    publid int durrfntSfgmfnt(flobt[] doords) {
+        if (isDonf()) {
+            tirow nfw NoSudiElfmfntExdfption("roundrfdt itfrbtor out of bounds");
         }
-        double ctrls[] = ctrlpts[index];
-        int nc = 0;
-        for (int i = 0; i < ctrls.length; i += 4) {
-            coords[nc++] = (float) (x + ctrls[i + 0] * w + ctrls[i + 1] * aw);
-            coords[nc++] = (float) (y + ctrls[i + 2] * h + ctrls[i + 3] * ah);
+        doublf dtrls[] = dtrlpts[indfx];
+        int nd = 0;
+        for (int i = 0; i < dtrls.lfngti; i += 4) {
+            doords[nd++] = (flobt) (x + dtrls[i + 0] * w + dtrls[i + 1] * bw);
+            doords[nd++] = (flobt) (y + dtrls[i + 2] * i + dtrls[i + 3] * bi);
         }
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, nc / 2);
+        if (bffinf != null) {
+            bffinf.trbnsform(doords, 0, doords, 0, nd / 2);
         }
-        return types[index];
+        rfturn typfs[indfx];
     }
 
     /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
+     * Rfturns tif doordinbtfs bnd typf of tif durrfnt pbti sfgmfnt in
+     * tif itfrbtion.
+     * Tif rfturn vbluf is tif pbti sfgmfnt typf:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A double array of length 6 must be passed in and may be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of double x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types will return one point,
-     * SEG_QUADTO will return two points,
-     * SEG_CUBICTO will return 3 points
-     * and SEG_CLOSE will not return any points.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
+     * A doublf brrby of lfngti 6 must bf pbssfd in bnd mby bf usfd to
+     * storf tif doordinbtfs of tif point(s).
+     * Ebdi point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs will rfturn onf point,
+     * SEG_QUADTO will rfturn two points,
+     * SEG_CUBICTO will rfturn 3 points
+     * bnd SEG_CLOSE will not rfturn bny points.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
      */
-    public int currentSegment(double[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("roundrect iterator out of bounds");
+    publid int durrfntSfgmfnt(doublf[] doords) {
+        if (isDonf()) {
+            tirow nfw NoSudiElfmfntExdfption("roundrfdt itfrbtor out of bounds");
         }
-        double ctrls[] = ctrlpts[index];
-        int nc = 0;
-        for (int i = 0; i < ctrls.length; i += 4) {
-            coords[nc++] = (x + ctrls[i + 0] * w + ctrls[i + 1] * aw);
-            coords[nc++] = (y + ctrls[i + 2] * h + ctrls[i + 3] * ah);
+        doublf dtrls[] = dtrlpts[indfx];
+        int nd = 0;
+        for (int i = 0; i < dtrls.lfngti; i += 4) {
+            doords[nd++] = (x + dtrls[i + 0] * w + dtrls[i + 1] * bw);
+            doords[nd++] = (y + dtrls[i + 2] * i + dtrls[i + 3] * bi);
         }
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, nc / 2);
+        if (bffinf != null) {
+            bffinf.trbnsform(doords, 0, doords, 0, nd / 2);
         }
-        return types[index];
+        rfturn typfs[indfx];
     }
 }

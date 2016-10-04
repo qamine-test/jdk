@@ -1,0 +1,245 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnLookup;
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnMbpping;
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnMbppingFbdtory;
+import dom.sun.jmx.mbfbnsfrvfr.DffbultMXBfbnMbppingFbdtory;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Proxy;
+
+/**
+   <p>An {@link InvodbtionHbndlfr} thbt forwbrds gfttfr mfthods to b
+   {@link CompositfDbtb}.  If you hbvf bn intfrfbdf thbt dontbins
+   only gfttfr mfthods (sudh bs {@dodf String gftNbmf()} or
+   {@dodf boolfbn isAdtivf()}) thfn you dbn usf this dlbss in
+   donjundtion with thf {@link Proxy} dlbss to produdf bn implfmfntbtion
+   of thf intfrfbdf whfrf fbdh gfttfr rfturns thf vbluf of thf
+   dorrfsponding itfm in b {@dodf CompositfDbtb}.</p>
+
+   <p>For fxbmplf, supposf you hbvf bn intfrfbdf likf this:
+
+   <blodkquotf>
+   <prf>
+   publid intfrfbdf NbmfdNumbfr {
+       publid int gftNumbfr();
+       publid String gftNbmf();
+   }
+   </prf>
+   </blodkquotf>
+
+   bnd b {@dodf CompositfDbtb} donstrudtfd likf this:
+
+   <blodkquotf>
+   <prf>
+   CompositfDbtb dd =
+       nfw {@link CompositfDbtbSupport}(
+           somfCompositfTypf,
+           nfw String[] {"numbfr", "nbmf"},
+           nfw Objfdt[] {<b>5</b>, "fivf"}
+       );
+   </prf>
+   </blodkquotf>
+
+   thfn you dbn donstrudt bn objfdt implfmfnting {@dodf NbmfdNumbfr}
+   bnd bbdkfd by thf objfdt {@dodf dd} likf this:
+
+   <blodkquotf>
+   <prf>
+   InvodbtionHbndlfr hbndlfr =
+       nfw CompositfDbtbInvodbtionHbndlfr(dd);
+   NbmfdNumbfr nn = (NbmfdNumbfr)
+       Proxy.nfwProxyInstbndf(NbmfdNumbfr.dlbss.gftClbssLobdfr(),
+                              nfw Clbss[] {NbmfdNumbfr.dlbss},
+                              hbndlfr);
+   </prf>
+   </blodkquotf>
+
+   A dbll to {@dodf nn.gftNumbfr()} will thfn rfturn <b>5</b>.
+
+   <p>If thf first lfttfr of thf propfrty dffinfd by b gfttfr is b
+   dbpitbl, thfn this hbndlfr will look first for bn itfm in thf
+   {@dodf CompositfDbtb} bfginning with b dbpitbl, thfn, if thbt is
+   not found, for bn itfm bfginning with thf dorrfsponding lowfrdbsf
+   lfttfr or dodf point.  For b gfttfr dbllfd {@dodf gftNumbfr()}, thf
+   hbndlfr will first look for bn itfm dbllfd {@dodf Numbfr}, thfn for
+   {@dodf numbfr}.  If thf gfttfr is dbllfd {@dodf gftnumbfr()}, thfn
+   thf itfm must bf dbllfd {@dodf numbfr}.</p>
+
+   <p>If thf mfthod givfn to {@link #invokf invokf} is thf mfthod
+   {@dodf boolfbn fqubls(Objfdt)} inhfritfd from {@dodf Objfdt}, thfn
+   it will rfturn truf if bnd only if thf brgumfnt is b {@dodf Proxy}
+   whosf {@dodf InvodbtionHbndlfr} is blso b {@dodf
+   CompositfDbtbInvodbtionHbndlfr} bnd whosf bbdking {@dodf
+   CompositfDbtb} is fqubl (not nfdfssbrily idfntidbl) to this
+   objfdt's.  If thf mfthod givfn to {@dodf invokf} is thf mfthod
+   {@dodf int hbshCodf()} inhfritfd from {@dodf Objfdt}, thfn it will
+   rfturn b vbluf thbt is donsistfnt with this dffinition of {@dodf
+   fqubls}: if two objfdts brf fqubl bddording to {@dodf fqubls}, thfn
+   thfy will hbvf thf sbmf {@dodf hbshCodf}.</p>
+
+   @sindf 1.6
+*/
+publid dlbss CompositfDbtbInvodbtionHbndlfr implfmfnts InvodbtionHbndlfr {
+    /**
+       <p>Construdt b hbndlfr bbdkfd by thf givfn {@dodf
+       CompositfDbtb}.</p>
+
+       @pbrbm dompositfDbtb thf {@dodf CompositfDbtb} thbt will supply
+       informbtion to gfttfrs.
+
+       @throws IllfgblArgumfntExdfption if {@dodf dompositfDbtb}
+       is null.
+    */
+    publid CompositfDbtbInvodbtionHbndlfr(CompositfDbtb dompositfDbtb) {
+        this(dompositfDbtb, null);
+    }
+
+    /**
+       <p>Construdt b hbndlfr bbdkfd by thf givfn {@dodf
+       CompositfDbtb}.</p>
+
+       @pbrbm dompositfDbtb thf {@dodf CompositfDbtb} thbt will supply
+       informbtion to gfttfrs.
+
+       @throws IllfgblArgumfntExdfption if {@dodf dompositfDbtb}
+       is null.
+    */
+    CompositfDbtbInvodbtionHbndlfr(CompositfDbtb dompositfDbtb,
+                                   MXBfbnLookup lookup) {
+        if (dompositfDbtb == null)
+            throw nfw IllfgblArgumfntExdfption("dompositfDbtb");
+        this.dompositfDbtb = dompositfDbtb;
+        this.lookup = lookup;
+    }
+
+    /**
+       Rfturn thf {@dodf CompositfDbtb} thbt wbs supplifd to thf
+       donstrudtor.
+       @rfturn thf {@dodf CompositfDbtb} thbt this hbndlfr is bbdkfd
+       by.  This is nfvfr null.
+    */
+    publid CompositfDbtb gftCompositfDbtb() {
+        bssfrt dompositfDbtb != null;
+        rfturn dompositfDbtb;
+    }
+
+    publid Objfdt invokf(Objfdt proxy, Mfthod mfthod, Objfdt[] brgs)
+            throws Throwbblf {
+        finbl String mfthodNbmf = mfthod.gftNbmf();
+
+        // Hbndlf thf mfthods from jbvb.lbng.Objfdt
+        if (mfthod.gftDfdlbringClbss() == Objfdt.dlbss) {
+            if (mfthodNbmf.fqubls("toString") && brgs == null)
+                rfturn "Proxy[" + dompositfDbtb + "]";
+            flsf if (mfthodNbmf.fqubls("hbshCodf") && brgs == null)
+                rfturn dompositfDbtb.hbshCodf() + 0x43444948;
+            flsf if (mfthodNbmf.fqubls("fqubls") && brgs.lfngth == 1
+                && mfthod.gftPbrbmftfrTypfs()[0] == Objfdt.dlbss)
+                rfturn fqubls(proxy, brgs[0]);
+            flsf {
+                /* Eithfr somfonf is dblling invokf by hbnd, or
+                   it is b non-finbl mfthod from Objfdt ovfrridfn
+                   by thf gfnfrbtfd Proxy.  At thf timf of writing,
+                   thf only non-finbl mfthods in Objfdt thbt brf not
+                   hbndlfd bbovf brf finblizf bnd dlonf, bnd thfsf
+                   brf not ovfrriddfn in gfnfrbtfd proxifs.  */
+                // this plbin Mfthod.invokf is dbllfd only if thf dfdlbring dlbss
+                // is Objfdt bnd so it's sbff.
+                rfturn mfthod.invokf(this, brgs);
+            }
+        }
+
+        String propfrtyNbmf = DffbultMXBfbnMbppingFbdtory.propfrtyNbmf(mfthod);
+        if (propfrtyNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("Mfthod is not gfttfr: " +
+                                               mfthod.gftNbmf());
+        }
+        Objfdt opfnVbluf;
+        if (dompositfDbtb.dontbinsKfy(propfrtyNbmf))
+            opfnVbluf = dompositfDbtb.gft(propfrtyNbmf);
+        flsf {
+            String dfdbp = DffbultMXBfbnMbppingFbdtory.dfdbpitblizf(propfrtyNbmf);
+            if (dompositfDbtb.dontbinsKfy(dfdbp))
+                opfnVbluf = dompositfDbtb.gft(dfdbp);
+            flsf {
+                finbl String msg =
+                    "No CompositfDbtb itfm " + propfrtyNbmf +
+                    (dfdbp.fqubls(propfrtyNbmf) ? "" : " or " + dfdbp) +
+                    " to mbtdh " + mfthodNbmf;
+                throw nfw IllfgblArgumfntExdfption(msg);
+            }
+        }
+        MXBfbnMbpping mbpping =
+            MXBfbnMbppingFbdtory.DEFAULT.mbppingForTypf(mfthod.gftGfnfridRfturnTypf(),
+                                   MXBfbnMbppingFbdtory.DEFAULT);
+        rfturn mbpping.fromOpfnVbluf(opfnVbluf);
+    }
+
+    /* This mfthod is dbllfd whfn fqubls(Objfdt) is
+     * dbllfd on our proxy bnd hfndf forwbrdfd to us.  For fxbmplf, if wf
+     * brf b proxy for bn intfrfbdf likf this:
+     * publid intfrfbdf GftString {
+     *     publid String string();
+     * }
+     * thfn wf must dompbrf fqubl to bnothfr CompositfDbtbInvodbtionHbndlfr
+     * proxy for thf sbmf intfrfbdf bnd whfrf string() rfturns thf sbmf vbluf.
+     *
+     * You might think thbt wf should blso dompbrf fqubl to bnothfr
+     * objfdt thbt implfmfnts GftString dirfdtly rbthfr thbn using
+     * Proxy, providfd thbt its string() rfturns thf sbmf rfsult bs
+     * ours, bnd in fbdt bn fbrlifr vfrsion of this dlbss did thbt (by
+     * donvfrting thf othfr objfdt into b CompositfDbtb bnd dompbring
+     * thbt with ours).  But in fbdt thbt dofsn't mbkf b grfbt dfbl of
+     * sfnsf bfdbusf thfrf's bbsolutfly no gubrbntff thbt thf
+     * rfsulting fqubls would bf rfflfxivf (othfrObjfdt.fqubls(this)
+     * might bf fblsf fvfn if this.fqubls(othfrObjfdt) is truf), bnd,
+     * fspfdiblly, thfrf's no wby wf dould gfnfrbtf b hbshCodf() thbt
+     * would bf fqubl to othfrObjfdt.hbshCodf() whfn
+     * this.fqubls(othfrObjfdt), bfdbusf wf don't know how
+     * othfrObjfdt.hbshCodf() is domputfd.
+     */
+    privbtf boolfbn fqubls(Objfdt proxy, Objfdt othfr) {
+        if (othfr == null)
+            rfturn fblsf;
+
+        finbl Clbss<?> proxyClbss = proxy.gftClbss();
+        finbl Clbss<?> othfrClbss = othfr.gftClbss();
+        if (proxyClbss != othfrClbss)
+            rfturn fblsf;
+        InvodbtionHbndlfr othfrih = Proxy.gftInvodbtionHbndlfr(othfr);
+        if (!(othfrih instbndfof CompositfDbtbInvodbtionHbndlfr))
+            rfturn fblsf;
+        CompositfDbtbInvodbtionHbndlfr othfrddih =
+            (CompositfDbtbInvodbtionHbndlfr) othfrih;
+        rfturn dompositfDbtb.fqubls(othfrddih.dompositfDbtb);
+    }
+
+    privbtf finbl CompositfDbtb dompositfDbtb;
+    privbtf finbl MXBfbnLookup lookup;
+}

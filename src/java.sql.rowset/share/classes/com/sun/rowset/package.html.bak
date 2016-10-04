@@ -1,86 +1,86 @@
 <!--
- Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
-<html>
-<head>
+<!DOCTYPE dodtypf PUBLIC "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<itml>
+<ifbd>
                                     
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
-  <title>com.sun.rowset Package</title>
-</head>
-  <body bgcolor="#ffffff">
-Provides five standard implementations of the standard JDBC <tt>RowSet</tt> implementation 
-interface definitions. These reference implementations are included with the J2SE version 
-1.5 platform and represent the benchmark standard <tt>RowSet</tt> implementations as verified 
-by the Test Compatibility Kit (TCK) as mandated by the Java Community Process.
+  <mftb ittp-fquiv="Contfnt-Typf"
+ dontfnt="tfxt/itml; dibrsft=iso-8859-1">
+  <titlf>dom.sun.rowsft Pbdkbgf</titlf>
+</ifbd>
+  <body bgdolor="#ffffff">
+Providfs fivf stbndbrd implfmfntbtions of tif stbndbrd JDBC <tt>RowSft</tt> implfmfntbtion 
+intfrfbdf dffinitions. Tifsf rfffrfndf implfmfntbtions brf indludfd witi tif J2SE vfrsion 
+1.5 plbtform bnd rfprfsfnt tif bfndimbrk stbndbrd <tt>RowSft</tt> implfmfntbtions bs vfrififd 
+by tif Tfst Compbtibility Kit (TCK) bs mbndbtfd by tif Jbvb Community Prodfss.
  <br>
    
-<h3>1.0 Available JDBC RowSet Reference Implementations </h3>
-  The following implementations are provided:<br>
+<i3>1.0 Avbilbblf JDBC RowSft Rfffrfndf Implfmfntbtions </i3>
+  Tif following implfmfntbtions brf providfd:<br>
            
-<blockquote><tt><b>JdbcRowSetImpl</b></tt> - The <tt>javax.sql.rowset.JdbcRowSet</tt>
-interface reference implementation. <br>
+<blodkquotf><tt><b>JdbdRowSftImpl</b></tt> - Tif <tt>jbvbx.sql.rowsft.JdbdRowSft</tt>
+intfrfbdf rfffrfndf implfmfntbtion. <br>
 <br>
-<tt><b>CachedRowSetImpl </b></tt>- The <tt>javax.sql.rowset.CachedRowSet</tt> interface
-reference implementation.<br>
+<tt><b>CbdifdRowSftImpl </b></tt>- Tif <tt>jbvbx.sql.rowsft.CbdifdRowSft</tt> intfrfbdf
+rfffrfndf implfmfntbtion.<br>
 <br>
-<tt><b>WebRowSetImpl</b></tt> - The <tt>javax.sql.rowset.WebRowSet</tt> interface
-reference implementation.<br>
+<tt><b>WfbRowSftImpl</b></tt> - Tif <tt>jbvbx.sql.rowsft.WfbRowSft</tt> intfrfbdf
+rfffrfndf implfmfntbtion.<br>
 <br>
-<tt><b>FilteredRowSetImpl</b></tt> - The <tt>javax.sql.rowset.FilteredRowSet</tt>
-interface reference implementation.<br>
+<tt><b>FiltfrfdRowSftImpl</b></tt> - Tif <tt>jbvbx.sql.rowsft.FiltfrfdRowSft</tt>
+intfrfbdf rfffrfndf implfmfntbtion.<br>
 <br>
-<tt><b>JoinRowSetImpl</b></tt> - The <tt>javax.sql.rowset.JoinRowSet</tt> interface
-reference implementation.<br>
-</blockquote>
+<tt><b>JoinRowSftImpl</b></tt> - Tif <tt>jbvbx.sql.rowsft.JoinRowSft</tt> intfrfbdf
+rfffrfndf implfmfntbtion.<br>
+</blodkquotf>
 
-All details on their expected behavior, including their interactions with the <tt>SyncProvider</tt>
-SPI and helper classes are provided in the interface definitions in the <tt>javax.sql.rowset</tt>
-package specification.<br>
+All dftbils on tifir fxpfdtfd bfibvior, indluding tifir intfrbdtions witi tif <tt>SyndProvidfr</tt>
+SPI bnd iflpfr dlbssfs brf providfd in tif intfrfbdf dffinitions in tif <tt>jbvbx.sql.rowsft</tt>
+pbdkbgf spfdifidbtion.<br>
    
-<h3>2.0 Usage</h3>
-The reference implementations represent robust implementations of the standard
-<code>RowSet</code> interfaces defined in the <code>javax.sql.rowset</code> package. 
-All disconnected <code>RowSet</code> implementations, such as the <tt>CachedRowSetImpl</tt>
-and <tt>WebRowSetImpl</tt>, are flexible enough to use the <tt>SyncFactory</tt> SPIs to 
-leverage non-reference implementation <tt>SyncProvider</tt> implementations to obtain
-differing synchronization semantics. Furthermore, developers and vendors alike are free 
-to use these implementations and integrate them into their products just as they
-can with to other components of the Java platform.<br>
+<i3>2.0 Usbgf</i3>
+Tif rfffrfndf implfmfntbtions rfprfsfnt robust implfmfntbtions of tif stbndbrd
+<dodf>RowSft</dodf> intfrfbdfs dffinfd in tif <dodf>jbvbx.sql.rowsft</dodf> pbdkbgf. 
+All disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtions, sudi bs tif <tt>CbdifdRowSftImpl</tt>
+bnd <tt>WfbRowSftImpl</tt>, brf flfxiblf fnougi to usf tif <tt>SyndFbdtory</tt> SPIs to 
+lfvfrbgf non-rfffrfndf implfmfntbtion <tt>SyndProvidfr</tt> implfmfntbtions to obtbin
+difffring syndironizbtion sfmbntids. Furtifrmorf, dfvflopfrs bnd vfndors blikf brf frff 
+to usf tifsf implfmfntbtions bnd intfgrbtf tifm into tifir produdts just bs tify
+dbn witi to otifr domponfnts of tif Jbvb plbtform.<br>
    
-<h3>3.0 Extending the JDBC RowSet Implementations</h3>
+<i3>3.0 Extfnding tif JDBC RowSft Implfmfntbtions</i3>
 
-The JDBC <code>RowSet</code> reference implementations are provided as non-final
-classes so that any developer can extend them to provide additional features
-while maintaining the core required standard functionality and compatibility. It
-is anticipated that many vendors and developers will extend the standard feature
-set to their their particular needs. The website for JDBC Technology will
-provider a portal where implementations can be listed, similar to the way it
-provides a site for JDBC drivers.
+Tif JDBC <dodf>RowSft</dodf> rfffrfndf implfmfntbtions brf providfd bs non-finbl
+dlbssfs so tibt bny dfvflopfr dbn fxtfnd tifm to providf bdditionbl ffbturfs
+wiilf mbintbining tif dorf rfquirfd stbndbrd fundtionblity bnd dompbtibility. It
+is bntidipbtfd tibt mbny vfndors bnd dfvflopfrs will fxtfnd tif stbndbrd ffbturf
+sft to tifir tifir pbrtidulbr nffds. Tif wfbsitf for JDBC Tfdinology will
+providfr b portbl wifrf implfmfntbtions dbn bf listfd, similbr to tif wby it
+providfs b sitf for JDBC drivfrs.
 <br>
  <br>
 </body>
-</html>
+</itml>

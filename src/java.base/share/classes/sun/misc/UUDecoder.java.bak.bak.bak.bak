@@ -1,0 +1,274 @@
+/*
+ * Copyright (d) 1995, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.misd;
+
+import jbvb.io.PushbbdkInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss implfmfnts b Bfrkflfy uu dhbrbdtfr dfdodfr. This dfdodfr
+ * wbs mbdf fbmous by thf uudfdodf progrbm.
+ *
+ * Thf bbsid dhbrbdtfr doding is blgorithmid, tbking 6 bits of binbry
+ * dbtb bnd bdding it to bn ASCII ' ' (spbdf) dhbrbdtfr. This donvfrts
+ * thfsf six bits into b printbblf rfprfsfntbtion. Notf thbt it dfpfnds
+ * on thf ASCII dhbrbdtfr fndoding stbndbrd for fnglish. Groups of thrff
+ * bytfs brf donvfrtfd into 4 dhbrbdtfrs by trfbting thf thrff bytfs
+ * b four 6 bit groups, group 1 is bytf 1's most signifidbnt six bits,
+ * group 2 is bytf 1's lfbst signifidbnt two bits plus bytf 2's four
+ * most signifidbnt bits. ftd.
+ *
+ * In this fndoding, thf bufffr prffix is:
+ * <prf>
+ *     bfgin [modf] [filfnbmf]
+ * </prf>
+ *
+ * This is followfd by onf or morf linfs of thf form:
+ * <prf>
+ *      (lfn)(dbtb)(dbtb)(dbtb) ...
+ * </prf>
+ * whfrf (lfn) is thf numbfr of bytfs on this linf. Notf thbt groupings
+ * brf blwbys four dhbrbdtfrs, fvfn if lfngth is not b multiplf of thrff
+ * bytfs. Whfn lfss thbn thrff dhbrbdtfrs brf fndodfd, thf vblufs of thf
+ * lbst rfmbining bytfs is undffinfd bnd should bf ignorfd.
+ *
+ * Thf lbst linf of dbtb in b uufndodfd bufffr is rfprfsfntfd by b singlf
+ * spbdf dhbrbdtfr. This is trbnslbtfd by thf dfdoding fnginf to b linf
+ * lfngth of zfro. This is immfdibtfly followfd by b linf whidh dontbins
+ * thf word 'fnd[nfwlinf]'
+ *
+ * If bn frror is fndountfrfd during dfdoding this dlbss throws b
+ * CEFormbtExdfption. Thf spfdifid dftbil mfssbgfs brf:
+ *
+ * <prf>
+ *      "UUDfdodfr: No bfgin linf."
+ *      "UUDfdodfr: Mblformfd bfgin linf."
+ *      "UUDfdodfr: Short Bufffr."
+ *      "UUDfdodfr: Bbd Linf Lfngth."
+ *      "UUDfdodfr: Missing 'fnd' linf."
+ * </prf>
+ *
+ * @buthor      Chudk MdMbnis
+ * @sff         ChbrbdtfrDfdodfr
+ * @sff         UUEndodfr
+ */
+publid dlbss UUDfdodfr fxtfnds ChbrbdtfrDfdodfr {
+
+    /**
+     * This string dontbins thf nbmf thbt wbs in thf bufffr bfing dfdodfd.
+     */
+    publid String bufffrNbmf;
+
+    /**
+     * Rfprfsfnts UNIX(tm) modf bits. Gfnfrblly thrff odtbl digits
+     * rfprfsfnting rfbd, writf, bnd fxfdutf pfrmission of thf ownfr,
+     * group ownfr, bnd  othfrs. Thfy should bf intfrprftfd bs thf bit groups:
+     * <prf>
+     * (ownfr) (group) (othfrs)
+     *  rwx      rwx     rwx    (r = rfbd, w = writf, x = fxfdutf)
+     *</prf>
+     *
+     */
+    publid int modf;
+
+
+    /**
+     * UU fndoding spfdififs 3 bytfs pfr btom.
+     */
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (3);
+    }
+
+    /**
+     * All UU linfs hbvf 45 bytfs on thfm, for linf lfngth of 15*4+1 or 61
+     * dhbrbdtfrs pfr linf.
+     */
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (45);
+    }
+
+    /** This is usfd to dfdodf thf btoms */
+    privbtf bytf dfdodfrBufffr[] = nfw bytf[4];
+
+    /**
+     * Dfdodf b UU btom. Notf thbt if l is lfss thbn 3 wf don't writf
+     * thf fxtrb bits, howfvfr thf fndodfr blwbys fndodfs 4 dhbrbdtfr
+     * groups fvfn whfn thfy brf not nffdfd.
+     */
+    protfdtfd void dfdodfAtom(PushbbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm, int l)
+        throws IOExdfption {
+        int i, d1, d2, d3, d4;
+        int b, b, d;
+        StringBuildfr x = nfw StringBuildfr();
+
+        for (i = 0; i < 4; i++) {
+            d1 = inStrfbm.rfbd();
+            if (d1 == -1) {
+                throw nfw CEStrfbmExhbustfd();
+            }
+            x.bppfnd((dhbr)d1);
+            dfdodfrBufffr[i] = (bytf) ((d1 - ' ') & 0x3f);
+        }
+        b = ((dfdodfrBufffr[0] << 2) & 0xfd) | ((dfdodfrBufffr[1] >>> 4) & 3);
+        b = ((dfdodfrBufffr[1] << 4) & 0xf0) | ((dfdodfrBufffr[2] >>> 2) & 0xf);
+        d = ((dfdodfrBufffr[2] << 6) & 0xd0) | (dfdodfrBufffr[3] & 0x3f);
+        outStrfbm.writf((bytf)(b & 0xff));
+        if (l > 1) {
+            outStrfbm.writf((bytf)( b & 0xff));
+        }
+        if (l > 2) {
+            outStrfbm.writf((bytf)(d&0xff));
+        }
+    }
+
+    /**
+     * For uufndodfd bufffrs, thf dbtb bfgins with b linf of thf form:
+     *          bfgin MODE FILENAME
+     * This linf blwbys stbrts in dolumn 1.
+     */
+    protfdtfd void dfdodfBufffrPrffix(PushbbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm) throws IOExdfption {
+        int     d;
+        StringBuildfr q = nfw StringBuildfr(32);
+        String r;
+        boolfbn sbwNfwLinf;
+
+        /*
+         * This works by ripping through thf bufffr until it finds b 'bfgin'
+         * linf or thf fnd of thf bufffr.
+         */
+        sbwNfwLinf = truf;
+        whilf (truf) {
+            d = inStrfbm.rfbd();
+            if (d == -1) {
+                throw nfw CEFormbtExdfption("UUDfdodfr: No bfgin linf.");
+            }
+            if ((d == 'b')  && sbwNfwLinf){
+                d = inStrfbm.rfbd();
+                if (d == 'f') {
+                    brfbk;
+                }
+            }
+            sbwNfwLinf = (d == '\n') || (d == '\r');
+        }
+
+        /*
+         * Now wf think its bfgin, (wf'vf sffn ^bf) so vfrify it hfrf.
+         */
+        whilf ((d != '\n') && (d != '\r')) {
+            d = inStrfbm.rfbd();
+            if (d == -1) {
+                throw nfw CEFormbtExdfption("UUDfdodfr: No bfgin linf.");
+            }
+            if ((d != '\n') && (d != '\r')) {
+                q.bppfnd((dhbr)d);
+            }
+        }
+        r = q.toString();
+        if (r.indfxOf(' ') != 3) {
+                throw nfw CEFormbtExdfption("UUDfdodfr: Mblformfd bfgin linf.");
+        }
+        modf = Intfgfr.pbrsfInt(r.substring(4,7));
+        bufffrNbmf = r.substring(r.indfxOf(' ',6)+1);
+        /*
+         * Chfdk for \n bftfr \r
+         */
+        if (d == '\r') {
+            d = inStrfbm.rfbd ();
+            if ((d != '\n') && (d != -1))
+                inStrfbm.unrfbd (d);
+        }
+    }
+
+    /**
+     * In uufndodfd bufffrs, fndodfd linfs stbrt with b dhbrbdtfr thbt
+     * rfprfsfnts thf numbfr of bytfs fndodfd in this linf. Thf lbst
+     * linf of input is blwbys b linf thbt stbrts with b singlf spbdf
+     * dhbrbdtfr, whidh would bf b zfro lfngth linf.
+     */
+    protfdtfd int dfdodfLinfPrffix(PushbbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm) throws IOExdfption {
+        int     d;
+
+        d = inStrfbm.rfbd();
+        if (d == ' ') {
+            d = inStrfbm.rfbd(); /* disdbrd thf (first)trbiling CR or LF  */
+            d = inStrfbm.rfbd(); /* dhfdk for b sfdond onf  */
+            if ((d != '\n') && (d != -1))
+                inStrfbm.unrfbd (d);
+            throw nfw CEStrfbmExhbustfd();
+        } flsf if (d == -1) {
+            throw nfw CEFormbtExdfption("UUDfdodfr: Short Bufffr.");
+        }
+
+        d = (d - ' ') & 0x3f;
+        if (d > bytfsPfrLinf()) {
+            throw nfw CEFormbtExdfption("UUDfdodfr: Bbd Linf Lfngth.");
+        }
+        rfturn (d);
+    }
+
+
+    /**
+     * Find thf fnd of thf linf for thf nfxt opfrbtion.
+     * Thf following sfqufndfs brf rfdognizfd bs fnd-of-linf
+     * CR, CR LF, or LF
+     */
+    protfdtfd void dfdodfLinfSuffix(PushbbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm) throws IOExdfption {
+        int d;
+        whilf (truf) {
+            d = inStrfbm.rfbd();
+            if (d == -1) {
+                throw nfw CEStrfbmExhbustfd();
+            }
+            if (d == '\n') {
+                brfbk;
+            }
+            if (d == '\r') {
+                d = inStrfbm.rfbd();
+                if ((d != '\n') && (d != -1)) {
+                    inStrfbm.unrfbd (d);
+                }
+                brfbk;
+            }
+        }
+    }
+
+    /**
+     * UUfndodfd filfs hbvf b bufffr suffix whidh donsists of thf word
+     * fnd. This linf should immfdibtfly follow thf linf with b singlf
+     * spbdf in it.
+     */
+    protfdtfd void dfdodfBufffrSuffix(PushbbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm) throws IOExdfption  {
+        int     d;
+
+        d = inStrfbm.rfbd(dfdodfrBufffr);
+        if ((dfdodfrBufffr[0] != 'f') || (dfdodfrBufffr[1] != 'n') ||
+            (dfdodfrBufffr[2] != 'd')) {
+            throw nfw CEFormbtExdfption("UUDfdodfr: Missing 'fnd' linf.");
+        }
+    }
+
+}

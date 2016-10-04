@@ -1,2000 +1,2000 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "ImageSurfaceData.h"
+#import "ImbgfSurfbdfDbtb.i"
 
-#import "java_awt_Transparency.h"
-#import "java_awt_image_BufferedImage.h"
-#import "sun_awt_image_BufImgSurfaceData.h"
-#import "sun_java2d_OSXOffScreenSurfaceData.h"
+#import "jbvb_bwt_Trbnspbrfndy.i"
+#import "jbvb_bwt_imbgf_BufffrfdImbgf.i"
+#import "sun_bwt_imbgf_BufImgSurfbdfDbtb.i"
+#import "sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb.i"
 
-#import "jni_util.h"
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import "jni_util.i"
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "BufImgSurfaceData.h"
-#import "ThreadUtilities.h"
+#import "BufImgSurfbdfDbtb.i"
+#import "TirfbdUtilitifs.i"
 
 
 
-//#define DEBUG 1
-#if defined DEBUG
-    #define IMAGE_SURFACE_INLINE
-    #define PRINT(msg) {fprintf(stderr, "%s\n", msg);fflush(stderr);}
-#else
-    #define IMAGE_SURFACE_INLINE static inline
-    #define PRINT(msg) {}
-#endif
+//#dffinf DEBUG 1
+#if dffinfd DEBUG
+    #dffinf IMAGE_SURFACE_INLINE
+    #dffinf PRINT(msg) {fprintf(stdfrr, "%s\n", msg);fflusi(stdfrr);}
+#flsf
+    #dffinf IMAGE_SURFACE_INLINE stbtid inlinf
+    #dffinf PRINT(msg) {}
+#fndif
 
-// same value as defined in Sun's own code
-#define XOR_ALPHA_CUTOFF 128
+// sbmf vbluf bs dffinfd in Sun's own dodf
+#dffinf XOR_ALPHA_CUTOFF 128
 
-// for vImage framework headers
-#include <Accelerate/Accelerate.h>
+// for vImbgf frbmfwork ifbdfrs
+#indludf <Addflfrbtf/Addflfrbtf.i>
 
-static ContextInfo sDefaultContextInfo[sun_java2d_OSXOffScreenSurfaceData_TYPE_3BYTE_RGB+1] =
+stbtid ContfxtInfo sDffbultContfxtInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_TYPE_3BYTE_RGB+1] =
 {
-    {YES,    YES,    8,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_CUSTOM            // special case
-    {YES,    YES,    8,        4,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host,        NULL},    // TYPE_INT_RGB
-    {YES,    YES,    8,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_INT_ARGB
-    {YES,    YES,    8,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_INT_ARGB_PRE
-    {YES,    YES,    8,        4,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host,        NULL},    // TYPE_INT_BGR
-    {YES,    NO,        8,        4,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host,        NULL},    // TYPE_3BYTE_BGR        // use the default ARGB_PRE context synce we have to sync by hand anyway
-    {YES,    YES,    8,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_4BYTE_ABGR
-    {YES,    YES,    8,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_4BYTE_ABGR_PRE
-#ifdef __LITTLE_ENDIAN__
-    {YES,    YES,    5,        2,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder16Host,        NULL},    // TYPE_USHORT_565_RGB
-    {YES,    YES,    5,        2,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder16Host,        NULL},    // TYPE_USHORT_555_RGB
-#else
-    {YES,    YES,    5,        2,        0,        kCGImageAlphaNoneSkipFirst,                                    NULL},    // TYPE_USHORT_565_RGB
-    {YES,    YES,    5,        2,        0,        kCGImageAlphaNoneSkipFirst,                                    NULL},    // TYPE_USHORT_555_RGB
-#endif
-    {YES,    YES,    8,        1,        0,        kCGImageAlphaNone,                                            NULL},    // TYPE_BYTE_GRAY
-    {YES,    NO,        8,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_USHORT_GRAY        // use the default ARGB_PRE context synce we have to sync by hand anyway
-    {NO,    NO,        8,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_BYTE_BINARY        mapped to TYPE_CUSTOM
-    {YES,    NO,        8,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_BYTE_INDEXED    // use the default ARGB_PRE context synce we have to sync by hand anyway
-    {YES,    NO,        8,        4,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host,        NULL},    // TYPE_3BYTE_RGB
+    {YES,    YES,    8,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_CUSTOM            // spfdibl dbsf
+    {YES,    YES,    8,        4,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host,        NULL},    // TYPE_INT_RGB
+    {YES,    YES,    8,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_INT_ARGB
+    {YES,    YES,    8,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_INT_ARGB_PRE
+    {YES,    YES,    8,        4,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host,        NULL},    // TYPE_INT_BGR
+    {YES,    NO,        8,        4,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host,        NULL},    // TYPE_3BYTE_BGR        // usf tif dffbult ARGB_PRE dontfxt syndf wf ibvf to synd by ibnd bnywby
+    {YES,    YES,    8,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_4BYTE_ABGR
+    {YES,    YES,    8,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_4BYTE_ABGR_PRE
+#ifdff __LITTLE_ENDIAN__
+    {YES,    YES,    5,        2,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr16Host,        NULL},    // TYPE_USHORT_565_RGB
+    {YES,    YES,    5,        2,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr16Host,        NULL},    // TYPE_USHORT_555_RGB
+#flsf
+    {YES,    YES,    5,        2,        0,        kCGImbgfAlpibNonfSkipFirst,                                    NULL},    // TYPE_USHORT_565_RGB
+    {YES,    YES,    5,        2,        0,        kCGImbgfAlpibNonfSkipFirst,                                    NULL},    // TYPE_USHORT_555_RGB
+#fndif
+    {YES,    YES,    8,        1,        0,        kCGImbgfAlpibNonf,                                            NULL},    // TYPE_BYTE_GRAY
+    {YES,    NO,        8,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_USHORT_GRAY        // usf tif dffbult ARGB_PRE dontfxt syndf wf ibvf to synd by ibnd bnywby
+    {NO,    NO,        8,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_BYTE_BINARY        mbppfd to TYPE_CUSTOM
+    {YES,    NO,        8,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_BYTE_INDEXED    // usf tif dffbult ARGB_PRE dontfxt syndf wf ibvf to synd by ibnd bnywby
+    {YES,    NO,        8,        4,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host,        NULL},    // TYPE_3BYTE_RGB
 };
 
-static ImageInfo sDefaultImageInfo[sun_java2d_OSXOffScreenSurfaceData_TYPE_3BYTE_RGB+1] =
+stbtid ImbgfInfo sDffbultImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_TYPE_3BYTE_RGB+1] =
 {
-    {8,        32,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_CUSTOM
-    {8,        32,        4,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host,        NULL},    // TYPE_INT_RGB
-    {8,        32,        4,        0,        kCGImageAlphaFirst | kCGBitmapByteOrder32Host,                NULL},    // TYPE_INT_ARGB
-    {8,        32,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_INT_ARGB_PRE
-    {8,        32,        4,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host,        NULL},    // TYPE_INT_BGR
-    {8,        32,        4,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host,        NULL},    // TYPE_3BYTE_BGR
-    {8,        32,        4,        0,        kCGImageAlphaFirst | kCGBitmapByteOrder32Host,                NULL},    // TYPE_4BYTE_ABGR
-    {8,        32,        4,        0,        kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host,    NULL},    // TYPE_4BYTE_ABGR_PRE
-#ifdef __LITTLE_ENDIAN__
-    {5,        16,        2,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder16Host,        NULL},    // TYPE_USHORT_565_RGB
-    {5,        16,        2,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder16Host,        NULL},    // TYPE_USHORT_555_RGB
-#else
-    {5,        16,        2,        0,        kCGImageAlphaNoneSkipFirst,                                    NULL},    // TYPE_USHORT_565_RGB
-    {5,        16,        2,        0,        kCGImageAlphaNoneSkipFirst,                                    NULL},    // TYPE_USHORT_555_RGB
-#endif
-    {8,        8,        1,        0,        kCGImageAlphaNone,                                            NULL},    // TYPE_BYTE_GRAY
-    {16,    16,        2,        0,        kCGImageAlphaNone | kCGBitmapByteOrder16Host,                NULL},    // TYPE_USHORT_GRAY
-    {0,        0,        0,        0,        -1,                                                            NULL},    // TYPE_BYTE_BINARY        mapped to TYPE_CUSTOM
-    {8,        32,        4,        0,        kCGImageAlphaFirst | kCGBitmapByteOrder32Host,                NULL},    // TYPE_BYTE_INDEXED  // Fully OPAQUE INDEXED images will use kCGImageAlphaNoneSkipFirst for performance reasosn. see <rdar://4224874>
-    {8,        32,        4,        0,        kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host,        NULL},    // TYPE_3BYTE_RGB
+    {8,        32,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_CUSTOM
+    {8,        32,        4,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host,        NULL},    // TYPE_INT_RGB
+    {8,        32,        4,        0,        kCGImbgfAlpibFirst | kCGBitmbpBytfOrdfr32Host,                NULL},    // TYPE_INT_ARGB
+    {8,        32,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_INT_ARGB_PRE
+    {8,        32,        4,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host,        NULL},    // TYPE_INT_BGR
+    {8,        32,        4,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host,        NULL},    // TYPE_3BYTE_BGR
+    {8,        32,        4,        0,        kCGImbgfAlpibFirst | kCGBitmbpBytfOrdfr32Host,                NULL},    // TYPE_4BYTE_ABGR
+    {8,        32,        4,        0,        kCGImbgfAlpibPrfmultiplifdFirst | kCGBitmbpBytfOrdfr32Host,    NULL},    // TYPE_4BYTE_ABGR_PRE
+#ifdff __LITTLE_ENDIAN__
+    {5,        16,        2,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr16Host,        NULL},    // TYPE_USHORT_565_RGB
+    {5,        16,        2,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr16Host,        NULL},    // TYPE_USHORT_555_RGB
+#flsf
+    {5,        16,        2,        0,        kCGImbgfAlpibNonfSkipFirst,                                    NULL},    // TYPE_USHORT_565_RGB
+    {5,        16,        2,        0,        kCGImbgfAlpibNonfSkipFirst,                                    NULL},    // TYPE_USHORT_555_RGB
+#fndif
+    {8,        8,        1,        0,        kCGImbgfAlpibNonf,                                            NULL},    // TYPE_BYTE_GRAY
+    {16,    16,        2,        0,        kCGImbgfAlpibNonf | kCGBitmbpBytfOrdfr16Host,                NULL},    // TYPE_USHORT_GRAY
+    {0,        0,        0,        0,        -1,                                                            NULL},    // TYPE_BYTE_BINARY        mbppfd to TYPE_CUSTOM
+    {8,        32,        4,        0,        kCGImbgfAlpibFirst | kCGBitmbpBytfOrdfr32Host,                NULL},    // TYPE_BYTE_INDEXED  // Fully OPAQUE INDEXED imbgfs will usf kCGImbgfAlpibNonfSkipFirst for pfrformbndf rfbsosn. sff <rdbr://4224874>
+    {8,        32,        4,        0,        kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host,        NULL},    // TYPE_3BYTE_RGB
 };
 
-static jfieldID        rgbID;
-static jfieldID        mapSizeID;
-static jfieldID        CMpDataID;
-static jfieldID        allGrayID;
+stbtid jfifldID        rgbID;
+stbtid jfifldID        mbpSizfID;
+stbtid jfifldID        CMpDbtbID;
+stbtid jfifldID        bllGrbyID;
 
 
-static JNF_CLASS_CACHE(jc_OSXOffScreenSurfaceData, "sun/java2d/OSXOffScreenSurfaceData");
-static JNF_MEMBER_CACHE(jm_syncFromCustom, jc_OSXOffScreenSurfaceData, "syncFromCustom", "()V");
-static JNF_MEMBER_CACHE(jm_syncToCustom, jc_OSXOffScreenSurfaceData, "syncToCustom", "()V");
-static JNF_CLASS_CACHE(jc_BufferedImage, "java/awt/image/BufferedImage");
-static JNF_MEMBER_CACHE(jm_SurfaceData, jc_BufferedImage, "sData", "Lsun/java2d/SurfaceData;");
-static JNF_CLASS_CACHE(jc_IndexColorModel, "java/awt/image/IndexColorModel");
-static JNF_MEMBER_CACHE(jm_rgb, jc_IndexColorModel, "rgb", "[I");
-static JNF_MEMBER_CACHE(jm_transparency, jc_IndexColorModel, "transparency", "I");
-static JNF_MEMBER_CACHE(jm_transparent_index, jc_IndexColorModel, "transparent_index", "I");
+stbtid JNF_CLASS_CACHE(jd_OSXOffSdrffnSurfbdfDbtb, "sun/jbvb2d/OSXOffSdrffnSurfbdfDbtb");
+stbtid JNF_MEMBER_CACHE(jm_syndFromCustom, jd_OSXOffSdrffnSurfbdfDbtb, "syndFromCustom", "()V");
+stbtid JNF_MEMBER_CACHE(jm_syndToCustom, jd_OSXOffSdrffnSurfbdfDbtb, "syndToCustom", "()V");
+stbtid JNF_CLASS_CACHE(jd_BufffrfdImbgf, "jbvb/bwt/imbgf/BufffrfdImbgf");
+stbtid JNF_MEMBER_CACHE(jm_SurfbdfDbtb, jd_BufffrfdImbgf, "sDbtb", "Lsun/jbvb2d/SurfbdfDbtb;");
+stbtid JNF_CLASS_CACHE(jd_IndfxColorModfl, "jbvb/bwt/imbgf/IndfxColorModfl");
+stbtid JNF_MEMBER_CACHE(jm_rgb, jd_IndfxColorModfl, "rgb", "[I");
+stbtid JNF_MEMBER_CACHE(jm_trbnspbrfndy, jd_IndfxColorModfl, "trbnspbrfndy", "I");
+stbtid JNF_MEMBER_CACHE(jm_trbnspbrfnt_indfx, jd_IndfxColorModfl, "trbnspbrfnt_indfx", "I");
 
-CGColorSpaceRef gColorspaceRGB = NULL;
-CGColorSpaceRef gColorspaceGray = NULL;
+CGColorSpbdfRff gColorspbdfRGB = NULL;
+CGColorSpbdfRff gColorspbdfGrby = NULL;
 
-IMAGE_SURFACE_INLINE void PrintImageInfo(ImageSDOps* isdo)
+IMAGE_SURFACE_INLINE void PrintImbgfInfo(ImbgfSDOps* isdo)
 {
-    fprintf(stderr, "\n");
-    fprintf(stderr, "PrintImageInfo:\n");
-    fprintf(stderr, "\t \n");
-    //fprintf(stderr, "\t magicID=%d\n", (jint)isdo->magicID);
-    //fprintf(stderr, "\n");
-    fprintf(stderr, "\t isdo=%p\n", isdo);
-    fprintf(stderr, "\t \n");
-    fprintf(stderr, "\t contextInfo:\n");
-    fprintf(stderr, "\t        useWindowContextReference=%d\n", isdo->contextInfo.useWindowContextReference);
-    fprintf(stderr, "\t        canUseJavaPixelsAsContext=%d\n", isdo->contextInfo.canUseJavaPixelsAsContext);
-    fprintf(stderr, "\t        bitsPerComponent=%ld\n", (long)isdo->contextInfo.bitsPerComponent);
-    fprintf(stderr, "\t        bytesPerPixel=%ld\n", (long)isdo->contextInfo.bytesPerPixel);
-    fprintf(stderr, "\t        bytesPerRow=%ld\n", (long)isdo->contextInfo.bytesPerRow);
-    fprintf(stderr, "\t        alphaInfo=%ld\n", (long)isdo->contextInfo.alphaInfo);
-    fprintf(stderr, "\t \n");
-    fprintf(stderr, "\t imageInfo:\n");
-    fprintf(stderr, "\t        bitsPerComponent=%ld\n", (long)isdo->imageInfo.bitsPerComponent);
-    fprintf(stderr, "\t        bitsPerPixel=%ld\n", (long)isdo->imageInfo.bitsPerPixel);
-    fprintf(stderr, "\t        bytesPerPixel=%ld\n", (long)isdo->imageInfo.bytesPerPixel);
-    fprintf(stderr, "\t        bytesPerRow=%ld\n", (long)isdo->imageInfo.bytesPerRow);
-    fprintf(stderr, "\t        alphaInfo=%ld\n", (long)isdo->imageInfo.alphaInfo);
-    fprintf(stderr, "\t \n");
-    fprintf(stderr, "\t isSubImage=%d\n", isdo->isSubImage);
-    fprintf(stderr, "\t \n");
-    fprintf(stderr, "\t java info:\n");
-    fprintf(stderr, "\t        array=%p\n", isdo->array);
-    fprintf(stderr, "\t        offset=%d\n", (int)isdo->offset);
-    fprintf(stderr, "\t        width=%d\n", (int)isdo->width);
-    fprintf(stderr, "\t        height=%d\n", (int)isdo->height);
-    fprintf(stderr, "\t        javaPixelBytes=%d\n", (int)isdo->javaPixelBytes);
-    fprintf(stderr, "\t        javaPixelsBytesPerRow=%d\n", (int)isdo->javaPixelsBytesPerRow);
-    fprintf(stderr, "\t        icm=%p\n", isdo->icm);
-    fprintf(stderr, "\t        type=%d\n", (int)isdo->type);
-    fprintf(stderr, "\n");
-    fprintf(stderr, "\t cgRef=%p\n", isdo->qsdo.cgRef);
-    fprintf(stderr, "\t nsRef=%p\n", isdo->nsRef);
-    fprintf(stderr, "\n");
-    fprintf(stderr, "\t pixelsLocked=%p\n", isdo->pixelsLocked);
-    fprintf(stderr, "\t pixels=%p\n", isdo->pixels);
-    fprintf(stderr, "\n");
-    fprintf(stderr, "\t indexedColorTable=%p\n", isdo->indexedColorTable);
-    fprintf(stderr, "\t lutData=%p\n", isdo->lutData);
-    fprintf(stderr, "\t lutDataSize=%u\n", (unsigned)isdo->lutDataSize);
-    fprintf(stderr, "\n");
-    fprintf(stderr, "\t nrOfPixelsOwners=%u\n", (unsigned)isdo->nrOfPixelsOwners);
-    fprintf(stderr, "\n");
+    fprintf(stdfrr, "\n");
+    fprintf(stdfrr, "PrintImbgfInfo:\n");
+    fprintf(stdfrr, "\t \n");
+    //fprintf(stdfrr, "\t mbgidID=%d\n", (jint)isdo->mbgidID);
+    //fprintf(stdfrr, "\n");
+    fprintf(stdfrr, "\t isdo=%p\n", isdo);
+    fprintf(stdfrr, "\t \n");
+    fprintf(stdfrr, "\t dontfxtInfo:\n");
+    fprintf(stdfrr, "\t        usfWindowContfxtRfffrfndf=%d\n", isdo->dontfxtInfo.usfWindowContfxtRfffrfndf);
+    fprintf(stdfrr, "\t        dbnUsfJbvbPixflsAsContfxt=%d\n", isdo->dontfxtInfo.dbnUsfJbvbPixflsAsContfxt);
+    fprintf(stdfrr, "\t        bitsPfrComponfnt=%ld\n", (long)isdo->dontfxtInfo.bitsPfrComponfnt);
+    fprintf(stdfrr, "\t        bytfsPfrPixfl=%ld\n", (long)isdo->dontfxtInfo.bytfsPfrPixfl);
+    fprintf(stdfrr, "\t        bytfsPfrRow=%ld\n", (long)isdo->dontfxtInfo.bytfsPfrRow);
+    fprintf(stdfrr, "\t        blpibInfo=%ld\n", (long)isdo->dontfxtInfo.blpibInfo);
+    fprintf(stdfrr, "\t \n");
+    fprintf(stdfrr, "\t imbgfInfo:\n");
+    fprintf(stdfrr, "\t        bitsPfrComponfnt=%ld\n", (long)isdo->imbgfInfo.bitsPfrComponfnt);
+    fprintf(stdfrr, "\t        bitsPfrPixfl=%ld\n", (long)isdo->imbgfInfo.bitsPfrPixfl);
+    fprintf(stdfrr, "\t        bytfsPfrPixfl=%ld\n", (long)isdo->imbgfInfo.bytfsPfrPixfl);
+    fprintf(stdfrr, "\t        bytfsPfrRow=%ld\n", (long)isdo->imbgfInfo.bytfsPfrRow);
+    fprintf(stdfrr, "\t        blpibInfo=%ld\n", (long)isdo->imbgfInfo.blpibInfo);
+    fprintf(stdfrr, "\t \n");
+    fprintf(stdfrr, "\t isSubImbgf=%d\n", isdo->isSubImbgf);
+    fprintf(stdfrr, "\t \n");
+    fprintf(stdfrr, "\t jbvb info:\n");
+    fprintf(stdfrr, "\t        brrby=%p\n", isdo->brrby);
+    fprintf(stdfrr, "\t        offsft=%d\n", (int)isdo->offsft);
+    fprintf(stdfrr, "\t        widti=%d\n", (int)isdo->widti);
+    fprintf(stdfrr, "\t        ifigit=%d\n", (int)isdo->ifigit);
+    fprintf(stdfrr, "\t        jbvbPixflBytfs=%d\n", (int)isdo->jbvbPixflBytfs);
+    fprintf(stdfrr, "\t        jbvbPixflsBytfsPfrRow=%d\n", (int)isdo->jbvbPixflsBytfsPfrRow);
+    fprintf(stdfrr, "\t        idm=%p\n", isdo->idm);
+    fprintf(stdfrr, "\t        typf=%d\n", (int)isdo->typf);
+    fprintf(stdfrr, "\n");
+    fprintf(stdfrr, "\t dgRff=%p\n", isdo->qsdo.dgRff);
+    fprintf(stdfrr, "\t nsRff=%p\n", isdo->nsRff);
+    fprintf(stdfrr, "\n");
+    fprintf(stdfrr, "\t pixflsLodkfd=%p\n", isdo->pixflsLodkfd);
+    fprintf(stdfrr, "\t pixfls=%p\n", isdo->pixfls);
+    fprintf(stdfrr, "\n");
+    fprintf(stdfrr, "\t indfxfdColorTbblf=%p\n", isdo->indfxfdColorTbblf);
+    fprintf(stdfrr, "\t lutDbtb=%p\n", isdo->lutDbtb);
+    fprintf(stdfrr, "\t lutDbtbSizf=%u\n", (unsignfd)isdo->lutDbtbSizf);
+    fprintf(stdfrr, "\n");
+    fprintf(stdfrr, "\t nrOfPixflsOwnfrs=%u\n", (unsignfd)isdo->nrOfPixflsOwnfrs);
+    fprintf(stdfrr, "\n");
 }
 
-// if there is no image created for isdo.imgRef, it creates and image using the isdo.dataProvider
-// If there is an image present, this is a no-op
-void makeSureImageIsCreated(ImageSDOps* isdo)
+// if tifrf is no imbgf drfbtfd for isdo.imgRff, it drfbtfs bnd imbgf using tif isdo.dbtbProvidfr
+// If tifrf is bn imbgf prfsfnt, tiis is b no-op
+void mbkfSurfImbgfIsCrfbtfd(ImbgfSDOps* isdo)
 {
-    if (isdo->imgRef == NULL)  // create the image
+    if (isdo->imgRff == NULL)  // drfbtf tif imbgf
     {
-        isdo->imgRef = CGImageCreate(isdo->width,
-                                      isdo->height,
-                                      isdo->contextInfo.bitsPerComponent,
-                                      isdo->contextInfo.bytesPerPixel * 8,
-                                      isdo->contextInfo.bytesPerRow,
-                                      isdo->contextInfo.colorSpace,
-                                      isdo->contextInfo.alphaInfo,
-                                      isdo->dataProvider,
+        isdo->imgRff = CGImbgfCrfbtf(isdo->widti,
+                                      isdo->ifigit,
+                                      isdo->dontfxtInfo.bitsPfrComponfnt,
+                                      isdo->dontfxtInfo.bytfsPfrPixfl * 8,
+                                      isdo->dontfxtInfo.bytfsPfrRow,
+                                      isdo->dontfxtInfo.dolorSpbdf,
+                                      isdo->dontfxtInfo.blpibInfo,
+                                      isdo->dbtbProvidfr,
                                       NULL,
                                       NO,
-                                      kCGRenderingIntentDefault);
+                                      kCGRfndfringIntfntDffbult);
     }
 }
 
-IMAGE_SURFACE_INLINE void customPixelsFromJava(JNIEnv *env, ImageSDOps *isdo)
+IMAGE_SURFACE_INLINE void dustomPixflsFromJbvb(JNIEnv *fnv, ImbgfSDOps *isdo)
 {
-PRINT("    customPixelsFromJava")
+PRINT("    dustomPixflsFromJbvb")
 
-    SurfaceDataOps *sdo = (SurfaceDataOps*)isdo;
-    JNFCallVoidMethod([ThreadUtilities getJNIEnv], sdo->sdObject, jm_syncFromCustom); // AWT_THREADING Safe (known object)
+    SurfbdfDbtbOps *sdo = (SurfbdfDbtbOps*)isdo;
+    JNFCbllVoidMftiod([TirfbdUtilitifs gftJNIEnv], sdo->sdObjfdt, jm_syndFromCustom); // AWT_THREADING Sbff (known objfdt)
 }
 
 
-IMAGE_SURFACE_INLINE void copyBits(jint w, jint h, jint javaPixelsBytesPerRow, Pixel8bit *pixelsSrc, jint dstPixelsBytesPerRow, Pixel8bit *pixelsDst)
+IMAGE_SURFACE_INLINE void dopyBits(jint w, jint i, jint jbvbPixflsBytfsPfrRow, Pixfl8bit *pixflsSrd, jint dstPixflsBytfsPfrRow, Pixfl8bit *pixflsDst)
 {
-PRINT("    copyBits")
+PRINT("    dopyBits")
 
-    if (javaPixelsBytesPerRow == dstPixelsBytesPerRow)
+    if (jbvbPixflsBytfsPfrRow == dstPixflsBytfsPfrRow)
     {
-        memcpy(pixelsDst, pixelsSrc, h*javaPixelsBytesPerRow);
+        mfmdpy(pixflsDst, pixflsSrd, i*jbvbPixflsBytfsPfrRow);
     }
-    else
+    flsf
     {
-        register jint y;
-        for (y=0; y<h; y++)
+        rfgistfr jint y;
+        for (y=0; y<i; y++)
         {
-            memcpy(pixelsDst, pixelsSrc, dstPixelsBytesPerRow);
+            mfmdpy(pixflsDst, pixflsSrd, dstPixflsBytfsPfrRow);
 
-            pixelsSrc += javaPixelsBytesPerRow;
-            pixelsDst += dstPixelsBytesPerRow;
+            pixflsSrd += jbvbPixflsBytfsPfrRow;
+            pixflsDst += dstPixflsBytfsPfrRow;
         }
     }
 }
 
-IMAGE_SURFACE_INLINE void copySwapRandB_32bit_TYPE_4BYTE(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel32bit *pixelsSrc, Pixel32bit *pixelsDst, size_t extraBytesPerRow)
+IMAGE_SURFACE_INLINE void dopySwbpRbndB_32bit_TYPE_4BYTE(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl32bit *pixflsSrd, Pixfl32bit *pixflsDst, sizf_t fxtrbBytfsPfrRow)
 {
-PRINT("    copySwapRandB_32bit_TYPE_4BYTE")
+PRINT("    dopySwbpRbndB_32bit_TYPE_4BYTE")
 
-    register Pixel8bit *p8Bit = NULL;
-    register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register Pixel32bit pixel, red, blue;
-    register jint x, y;
+    rfgistfr Pixfl8bit *p8Bit = NULL;
+    rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr Pixfl32bit pixfl, rfd, bluf;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc++;
+            pixfl = *pixflsSrd++;
 
-#ifdef __LITTLE_ENDIAN__
-            pixel = CFSwapInt32BigToHost(pixel);   // the jint is in big endian format, we need to swap the bits
-#endif
+#ifdff __LITTLE_ENDIAN__
+            pixfl = CFSwbpInt32BigToHost(pixfl);   // tif jint is in big fndibn formbt, wf nffd to swbp tif bits
+#fndif
 
-            red        = (pixel & 0x00ff0000) >> 16; // get original red and shift to new position
-            blue    = (pixel & 0x000000ff) << 16; // get original blue and shift to new position
+            rfd        = (pixfl & 0x00ff0000) >> 16; // gft originbl rfd bnd siift to nfw position
+            bluf    = (pixfl & 0x000000ff) << 16; // gft originbl bluf bnd siift to nfw position
 
-            pixel    = (pixel & 0xff00ff00); // erase original red&blue
+            pixfl    = (pixfl & 0xff00ff00); // frbsf originbl rfd&bluf
 
-            pixel    = pixel | red | blue; // construct new pixel
+            pixfl    = pixfl | rfd | bluf; // donstrudt nfw pixfl
 
-            *pixelsDst++ = pixel;
+            *pixflsDst++ = pixfl;
         }
-        pixelsSrc += skip;
+        pixflsSrd += skip;
 
-        p8Bit = (Pixel8bit *) pixelsDst;
-        p8Bit += extraBytesPerRow;
-        pixelsDst = (Pixel32bit *) p8Bit;
+        p8Bit = (Pixfl8bit *) pixflsDst;
+        p8Bit += fxtrbBytfsPfrRow;
+        pixflsDst = (Pixfl32bit *) p8Bit;
     }
 }
 
 
-IMAGE_SURFACE_INLINE void copySwapRandB_32bit_TYPE_INT(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel32bit *pixelsSrc, Pixel32bit *pixelsDst, size_t extraBytesPerRow)
+IMAGE_SURFACE_INLINE void dopySwbpRbndB_32bit_TYPE_INT(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl32bit *pixflsSrd, Pixfl32bit *pixflsDst, sizf_t fxtrbBytfsPfrRow)
 {
-PRINT("    copySwapRandB_32bit_TYPE_INT")
+PRINT("    dopySwbpRbndB_32bit_TYPE_INT")
 
-    register Pixel8bit *p8Bit = NULL;
-    register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register Pixel32bit pixel, red, blue;
-    register jint x, y;
+    rfgistfr Pixfl8bit *p8Bit = NULL;
+    rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr Pixfl32bit pixfl, rfd, bluf;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc++;
+            pixfl = *pixflsSrd++;
 
-            red        = (pixel & 0x00ff0000) >> 16; // get original red and shift to new position
-            blue    = (pixel & 0x000000ff) << 16; // get original blue and shift to new position
+            rfd        = (pixfl & 0x00ff0000) >> 16; // gft originbl rfd bnd siift to nfw position
+            bluf    = (pixfl & 0x000000ff) << 16; // gft originbl bluf bnd siift to nfw position
 
-            pixel    = (pixel & 0xff00ff00); // erase original red&blue
+            pixfl    = (pixfl & 0xff00ff00); // frbsf originbl rfd&bluf
 
-            pixel    = pixel | red | blue; // construct new pixel
+            pixfl    = pixfl | rfd | bluf; // donstrudt nfw pixfl
 
-            *pixelsDst++ = pixel;
+            *pixflsDst++ = pixfl;
         }
-        pixelsSrc += skip;
+        pixflsSrd += skip;
 
-        p8Bit = (Pixel8bit *) pixelsDst;
-        p8Bit += extraBytesPerRow;
-        pixelsDst = (Pixel32bit *) p8Bit;
+        p8Bit = (Pixfl8bit *) pixflsDst;
+        p8Bit += fxtrbBytfsPfrRow;
+        pixflsDst = (Pixfl32bit *) p8Bit;
     }
 }
 
 
-IMAGE_SURFACE_INLINE void copyBGR_24bitToXRGB_32bit(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel8bit *pixelsSrc, Pixel32bit *pixelsDst, size_t extraBytesPerRow)
+IMAGE_SURFACE_INLINE void dopyBGR_24bitToXRGB_32bit(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl8bit *pixflsSrd, Pixfl32bit *pixflsDst, sizf_t fxtrbBytfsPfrRow)
 {
-PRINT("    copyBGR_24bitToXRGB_32bit")
+PRINT("    dopyBGR_24bitToXRGB_32bit")
 
-    register Pixel8bit *p8Bit = NULL;
-    register jint skip = ((javaPixelsBytesPerRow/javaPixelBytes)-w)*javaPixelBytes; // in pixelsSrc units
-    register Pixel32bit red, green, blue, pixel;
-    register jint x, y;
+    rfgistfr Pixfl8bit *p8Bit = NULL;
+    rfgistfr jint skip = ((jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w)*jbvbPixflBytfs; // in pixflsSrd units
+    rfgistfr Pixfl32bit rfd, grffn, bluf, pixfl;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel        = *pixelsSrc++;
-            blue        = pixel << 0;
+            pixfl        = *pixflsSrd++;
+            bluf        = pixfl << 0;
 
-            pixel        = *pixelsSrc++;
-            green        = pixel << 8;
+            pixfl        = *pixflsSrd++;
+            grffn        = pixfl << 8;
 
-            pixel        = *pixelsSrc++;
-            red            = pixel << 16;
+            pixfl        = *pixflsSrd++;
+            rfd            = pixfl << 16;
 
-            *pixelsDst    = red | green | blue;
+            *pixflsDst    = rfd | grffn | bluf;
 
-            *pixelsDst = 0xff000000 | *pixelsDst;
+            *pixflsDst = 0xff000000 | *pixflsDst;
 
-            pixelsDst++;
+            pixflsDst++;
         }
-        pixelsSrc += skip;
+        pixflsSrd += skip;
 
-        p8Bit = (Pixel8bit *) pixelsDst;
-        p8Bit += extraBytesPerRow;
-        pixelsDst = (Pixel32bit *) p8Bit;
+        p8Bit = (Pixfl8bit *) pixflsDst;
+        p8Bit += fxtrbBytfsPfrRow;
+        pixflsDst = (Pixfl32bit *) p8Bit;
     }
 }
 
-IMAGE_SURFACE_INLINE void copyRGB_24bitToXRGB_32bit(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel8bit *pixelsSrc, Pixel32bit *pixelsDst, size_t extraBytesPerRow)
+IMAGE_SURFACE_INLINE void dopyRGB_24bitToXRGB_32bit(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl8bit *pixflsSrd, Pixfl32bit *pixflsDst, sizf_t fxtrbBytfsPfrRow)
 {
-PRINT("    copyRGB_24bitToXRGB_32bit")
+PRINT("    dopyRGB_24bitToXRGB_32bit")
 
-    register Pixel8bit *p8Bit = NULL;
-    register jint skip = ((javaPixelsBytesPerRow/javaPixelBytes)-w)*javaPixelBytes; // in pixelsSrc units
-    register Pixel32bit red, green, blue, pixel;
-    register jint x, y;
+    rfgistfr Pixfl8bit *p8Bit = NULL;
+    rfgistfr jint skip = ((jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w)*jbvbPixflBytfs; // in pixflsSrd units
+    rfgistfr Pixfl32bit rfd, grffn, bluf, pixfl;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel        = *pixelsSrc++;
-            red            = pixel << 16;
+            pixfl        = *pixflsSrd++;
+            rfd            = pixfl << 16;
 
-            pixel        = *pixelsSrc++;
-            green        = pixel << 8;
+            pixfl        = *pixflsSrd++;
+            grffn        = pixfl << 8;
 
-            pixel        = *pixelsSrc++;
-            blue        = pixel << 0;
+            pixfl        = *pixflsSrd++;
+            bluf        = pixfl << 0;
 
-            *pixelsDst    = red | green | blue;
+            *pixflsDst    = rfd | grffn | bluf;
 
-            *pixelsDst = 0xff000000 | *pixelsDst;
+            *pixflsDst = 0xff000000 | *pixflsDst;
 
-            pixelsDst++;
+            pixflsDst++;
         }
-        pixelsSrc += skip;
+        pixflsSrd += skip;
 
-        p8Bit = (Pixel8bit *) pixelsDst;
-        p8Bit += extraBytesPerRow;
-        pixelsDst = (Pixel32bit *) p8Bit;
+        p8Bit = (Pixfl8bit *) pixflsDst;
+        p8Bit += fxtrbBytfsPfrRow;
+        pixflsDst = (Pixfl32bit *) p8Bit;
     }
 }
 
-IMAGE_SURFACE_INLINE void copyIndexed_8bitToARGB_32bit(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel8bit *pixelsSrc,
-                                                        Pixel32bit* lutdata, Pixel32bit *pixelsDst, size_t extraBytesPerRow)
+IMAGE_SURFACE_INLINE void dopyIndfxfd_8bitToARGB_32bit(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl8bit *pixflsSrd,
+                                                        Pixfl32bit* lutdbtb, Pixfl32bit *pixflsDst, sizf_t fxtrbBytfsPfrRow)
 {
-PRINT("    copyIndexed_8bitToARGB_32bit")
+PRINT("    dopyIndfxfd_8bitToARGB_32bit")
 
-    //gznote: how is the performance if the extraBytesPerRow != 0 ?
-    const vImage_Buffer src = {pixelsSrc, h, w, javaPixelsBytesPerRow};
-    const vImage_Buffer dest = {pixelsDst, h, w, w*sizeof(Pixel32bit)+extraBytesPerRow};
-    vImage_Error err = vImageLookupTable_Planar8toPlanarF(&src, &dest, (Pixel_F*)lutdata, kvImageDoNotTile);
-    if (err != kvImageNoError)
+    //gznotf: iow is tif pfrformbndf if tif fxtrbBytfsPfrRow != 0 ?
+    donst vImbgf_Bufffr srd = {pixflsSrd, i, w, jbvbPixflsBytfsPfrRow};
+    donst vImbgf_Bufffr dfst = {pixflsDst, i, w, w*sizfof(Pixfl32bit)+fxtrbBytfsPfrRow};
+    vImbgf_Error frr = vImbgfLookupTbblf_Plbnbr8toPlbnbrF(&srd, &dfst, (Pixfl_F*)lutdbtb, kvImbgfDoNotTilf);
+    if (frr != kvImbgfNoError)
     {
-        fprintf(stderr, "Error in copyIndexed_8bitToARGB_32bit: vImageLookupTable_Planar8toPlanarF returns %ld\n", (long)err);
-        register Pixel8bit *p8Bit = NULL;
-        register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-        register jint x, y;
-        for (y=0; y<h; y++)
+        fprintf(stdfrr, "Error in dopyIndfxfd_8bitToARGB_32bit: vImbgfLookupTbblf_Plbnbr8toPlbnbrF rfturns %ld\n", (long)frr);
+        rfgistfr Pixfl8bit *p8Bit = NULL;
+        rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+        rfgistfr jint x, y;
+        for (y=0; y<i; y++)
         {
             for (x=0; x<w; x++)
             {
-                *pixelsDst++ = lutdata[*pixelsSrc++];        // case 1
-                //*pixelsDst++ = *(lutdata + *pixelsSrc++);    // case 2: at best ~1% better than case 1
+                *pixflsDst++ = lutdbtb[*pixflsSrd++];        // dbsf 1
+                //*pixflsDst++ = *(lutdbtb + *pixflsSrd++);    // dbsf 2: bt bfst ~1% bfttfr tibn dbsf 1
             }
-            pixelsSrc += skip;
+            pixflsSrd += skip;
 
-            p8Bit = (Pixel8bit *) pixelsDst;
-            p8Bit += extraBytesPerRow;
-            pixelsDst = (Pixel32bit *) p8Bit;
+            p8Bit = (Pixfl8bit *) pixflsDst;
+            p8Bit += fxtrbBytfsPfrRow;
+            pixflsDst = (Pixfl32bit *) p8Bit;
         }
     }
 }
 
-IMAGE_SURFACE_INLINE void copy565_16bitTo555_16bit(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel16bit *pixelsSrc, Pixel16bit *pixelsDst, size_t extraBytesPerRow)
+IMAGE_SURFACE_INLINE void dopy565_16bitTo555_16bit(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl16bit *pixflsSrd, Pixfl16bit *pixflsDst, sizf_t fxtrbBytfsPfrRow)
 {
-PRINT("    copy565_16bitTo555_16bit")
+PRINT("    dopy565_16bitTo555_16bit")
 
-    register Pixel8bit *p8Bit = NULL;
-    register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register jint green;
-    register Pixel16bit pixel;
-    register jint x, y;
-    for (y=0; y<h; y++)
+    rfgistfr Pixfl8bit *p8Bit = NULL;
+    rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr jint grffn;
+    rfgistfr Pixfl16bit pixfl;
+    rfgistfr jint x, y;
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc++;
+            pixfl = *pixflsSrd++;
 
-            green = ((pixel >> 5) & 63);  // rrrrrggggggbbbbb => shift 5 right = 00000rrrrrgggggg => and 63 = 0000000000gggggg
-            green = ((jint) (((CGFloat) green / 63.0f) * 31.0f)) & 31; // first normalize to value between 0 and 1 and then un-normalize to 5 bit (31 = 0000000000011111)
+            grffn = ((pixfl >> 5) & 63);  // rrrrrggggggbbbbb => siift 5 rigit = 00000rrrrrgggggg => bnd 63 = 0000000000gggggg
+            grffn = ((jint) (((CGFlobt) grffn / 63.0f) * 31.0f)) & 31; // first normblizf to vbluf bftwffn 0 bnd 1 bnd tifn un-normblizf to 5 bit (31 = 0000000000011111)
 
-            *pixelsDst++ = ((pixel&0xf800)>>1) | (green << 5) | (pixel&0x01f);
+            *pixflsDst++ = ((pixfl&0xf800)>>1) | (grffn << 5) | (pixfl&0x01f);
         }
-        pixelsSrc += skip;
+        pixflsSrd += skip;
 
-        p8Bit = (Pixel8bit *) pixelsDst;
-        p8Bit += extraBytesPerRow;
-        pixelsDst = (Pixel16bit *) p8Bit;
+        p8Bit = (Pixfl8bit *) pixflsDst;
+        p8Bit += fxtrbBytfsPfrRow;
+        pixflsDst = (Pixfl16bit *) p8Bit;
     }
 }
 
 
-IMAGE_SURFACE_INLINE void customPixelsToJava(JNIEnv *env, ImageSDOps *isdo)
+IMAGE_SURFACE_INLINE void dustomPixflsToJbvb(JNIEnv *fnv, ImbgfSDOps *isdo)
 {
-PRINT("    customPixelsToJava")
+PRINT("    dustomPixflsToJbvb")
 
-    SurfaceDataOps *sdo = (SurfaceDataOps*)isdo;
-    JNFCallVoidMethod([ThreadUtilities getJNIEnv], sdo->sdObject, jm_syncToCustom); // AWT_THREADING Safe (known object)
+    SurfbdfDbtbOps *sdo = (SurfbdfDbtbOps*)isdo;
+    JNFCbllVoidMftiod([TirfbdUtilitifs gftJNIEnv], sdo->sdObjfdt, jm_syndToCustom); // AWT_THREADING Sbff (known objfdt)
 }
 
-IMAGE_SURFACE_INLINE void removeAlphaPre_32bit(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel32bit *pixelsSrc)
+IMAGE_SURFACE_INLINE void rfmovfAlpibPrf_32bit(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl32bit *pixflsSrd)
 {
-PRINT("    removeAlphaPre_32bit")
+PRINT("    rfmovfAlpibPrf_32bit")
 
-    register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register Pixel32bit pixel, alpha, red, green, blue;
-    register jint x, y;
+    rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr Pixfl32bit pixfl, blpib, rfd, grffn, bluf;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc;
+            pixfl = *pixflsSrd;
 
-            alpha        = (pixel >> 24) & 0xff;
+            blpib        = (pixfl >> 24) & 0xff;
 
-            if (alpha != 0)
+            if (blpib != 0)
             {
-                // get color components
-                red            = (pixel >> 16) & 0xff;
-                green        = (pixel >> 8) & 0xff;
-                blue        = (pixel >> 0) & 0xff;
+                // gft dolor domponfnts
+                rfd            = (pixfl >> 16) & 0xff;
+                grffn        = (pixfl >> 8) & 0xff;
+                bluf        = (pixfl >> 0) & 0xff;
 
-                // remove alpha pre
-                red            = ((red * 0xff) + 0x7f) / alpha;
-                green        = ((green * 0xff) + 0x7f) / alpha;
-                blue        = ((blue * 0xff) + 0x7f) / alpha;
+                // rfmovf blpib prf
+                rfd            = ((rfd * 0xff) + 0x7f) / blpib;
+                grffn        = ((grffn * 0xff) + 0x7f) / blpib;
+                bluf        = ((bluf * 0xff) + 0x7f) / blpib;
 
-                // clamp
-                red            = (red <= 0xff) ? red : 0xff;
-                green        = (green <= 0xff) ? green : 0xff;
-                blue        = (blue <= 0xff) ? blue : 0xff;
+                // dlbmp
+                rfd            = (rfd <= 0xff) ? rfd : 0xff;
+                grffn        = (grffn <= 0xff) ? grffn : 0xff;
+                bluf        = (bluf <= 0xff) ? bluf : 0xff;
 
-                *pixelsSrc++ = (alpha<<24) | (red<<16) | (green<<8) | blue; // construct new pixel
+                *pixflsSrd++ = (blpib<<24) | (rfd<<16) | (grffn<<8) | bluf; // donstrudt nfw pixfl
             }
-            else
+            flsf
             {
-                *pixelsSrc++ = 0;
+                *pixflsSrd++ = 0;
             }
         }
 
-        pixelsSrc += skip;
+        pixflsSrd += skip;
     }
 }
 
-IMAGE_SURFACE_INLINE void swapRandBAndRemoveAlphaPre_32bit(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel32bit *pixelsSrc)
+IMAGE_SURFACE_INLINE void swbpRbndBAndRfmovfAlpibPrf_32bit(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl32bit *pixflsSrd)
 {
-PRINT("    swapRandBAndRemoveAlphaPre_32bit")
+PRINT("    swbpRbndBAndRfmovfAlpibPrf_32bit")
 
-    register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register Pixel32bit pixel, alpha, red, green, blue;
-    register jint x, y;
+    rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr Pixfl32bit pixfl, blpib, rfd, grffn, bluf;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc;
+            pixfl = *pixflsSrd;
 
-            alpha        = (pixel & 0xff000000) >> 24;
+            blpib        = (pixfl & 0xff000000) >> 24;
 
-            if (alpha != 0)
+            if (blpib != 0)
             {
-                // get color components
-                red            = (pixel & 0x00ff0000) >> 16;
-                green        = (pixel & 0x0000ff00) >> 8;
-                blue        = (pixel & 0x000000ff) >> 0;
+                // gft dolor domponfnts
+                rfd            = (pixfl & 0x00ff0000) >> 16;
+                grffn        = (pixfl & 0x0000ff00) >> 8;
+                bluf        = (pixfl & 0x000000ff) >> 0;
 
-                // remove alpha pre
-                red            = ((red * 0xff) + 0x7f) / alpha;
-                green        = ((green * 0xff) + 0x7f) / alpha;
-                blue        = ((blue * 0xff) + 0x7f) / alpha;
+                // rfmovf blpib prf
+                rfd            = ((rfd * 0xff) + 0x7f) / blpib;
+                grffn        = ((grffn * 0xff) + 0x7f) / blpib;
+                bluf        = ((bluf * 0xff) + 0x7f) / blpib;
 
-                // clamp
-                red            = (red <= 0xff) ? red : 0xff;
-                green        = (green <= 0xff) ? green : 0xff;
-                blue        = (blue <= 0xff) ? blue : 0xff;
+                // dlbmp
+                rfd            = (rfd <= 0xff) ? rfd : 0xff;
+                grffn        = (grffn <= 0xff) ? grffn : 0xff;
+                bluf        = (bluf <= 0xff) ? bluf : 0xff;
 
-                pixel = (alpha<<24) | (blue<<16) | (green<<8) | red; // construct new pixel
+                pixfl = (blpib<<24) | (bluf<<16) | (grffn<<8) | rfd; // donstrudt nfw pixfl
 
-#ifdef __LITTLE_ENDIAN__
-                pixel = CFSwapInt32HostToBig(pixel);  // the jint is little endian, we need to swap the bits before we send it back to Java
-#endif
+#ifdff __LITTLE_ENDIAN__
+                pixfl = CFSwbpInt32HostToBig(pixfl);  // tif jint is littlf fndibn, wf nffd to swbp tif bits bfforf wf sfnd it bbdk to Jbvb
+#fndif
 
-                *pixelsSrc++ = pixel;
+                *pixflsSrd++ = pixfl;
             }
-            else
+            flsf
             {
-                *pixelsSrc++ = 0;
+                *pixflsSrd++ = 0;
             }
         }
 
-        pixelsSrc += skip;
+        pixflsSrd += skip;
     }
 }
 
-IMAGE_SURFACE_INLINE void swapRandB_32bit_TYPE_INT(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel32bit *pixelsSrc)
+IMAGE_SURFACE_INLINE void swbpRbndB_32bit_TYPE_INT(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl32bit *pixflsSrd)
 {
-PRINT("    swapRandB_32bit_TYPE_INT")
+PRINT("    swbpRbndB_32bit_TYPE_INT")
 
-    register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register Pixel32bit pixel, red, blue;
-    register jint x, y;
+    rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr Pixfl32bit pixfl, rfd, bluf;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc;
+            pixfl = *pixflsSrd;
 
-            red        = (pixel & 0x00ff0000) >> 16; // get original red and shift to new position
-            blue    = (pixel & 0x000000ff) << 16; // get original blue and shift to new position
+            rfd        = (pixfl & 0x00ff0000) >> 16; // gft originbl rfd bnd siift to nfw position
+            bluf    = (pixfl & 0x000000ff) << 16; // gft originbl bluf bnd siift to nfw position
 
-            pixel    = (pixel & 0xff00ff00); // erase original red&blue
+            pixfl    = (pixfl & 0xff00ff00); // frbsf originbl rfd&bluf
 
-            pixel    = pixel | red | blue; // construct new pixel
+            pixfl    = pixfl | rfd | bluf; // donstrudt nfw pixfl
 
-            *pixelsSrc++ = pixel;
+            *pixflsSrd++ = pixfl;
         }
 
-        pixelsSrc += skip;
+        pixflsSrd += skip;
     }
 }
 
-IMAGE_SURFACE_INLINE void swapRandB_32bit_TYPE_4BYTE(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel32bit *pixelsSrc)
+IMAGE_SURFACE_INLINE void swbpRbndB_32bit_TYPE_4BYTE(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl32bit *pixflsSrd)
 {
-PRINT("    swapRandB_32bit_TYPE_4BYTE")
+PRINT("    swbpRbndB_32bit_TYPE_4BYTE")
 
-    register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register Pixel32bit pixel, red, blue;
-    register jint x, y;
+    rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr Pixfl32bit pixfl, rfd, bluf;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc;
+            pixfl = *pixflsSrd;
 
-            red        = (pixel & 0x00ff0000) >> 16; // get original red and shift to new position
-            blue    = (pixel & 0x000000ff) << 16; // get original blue and shift to new position
+            rfd        = (pixfl & 0x00ff0000) >> 16; // gft originbl rfd bnd siift to nfw position
+            bluf    = (pixfl & 0x000000ff) << 16; // gft originbl bluf bnd siift to nfw position
 
-            pixel    = (pixel & 0xff00ff00); // erase original red&blue
+            pixfl    = (pixfl & 0xff00ff00); // frbsf originbl rfd&bluf
 
-            pixel    = pixel | red | blue; // construct new pixel
+            pixfl    = pixfl | rfd | bluf; // donstrudt nfw pixfl
 
-#ifdef __LITTLE_ENDIAN__
-            pixel = CFSwapInt32HostToBig(pixel); // the jint is little endian, we need to swap the bits before we send it back to Java
-#endif
+#ifdff __LITTLE_ENDIAN__
+            pixfl = CFSwbpInt32HostToBig(pixfl); // tif jint is littlf fndibn, wf nffd to swbp tif bits bfforf wf sfnd it bbdk to Jbvb
+#fndif
 
-            *pixelsSrc++ = pixel;
+            *pixflsSrd++ = pixfl;
         }
 
-        pixelsSrc += skip;
+        pixflsSrd += skip;
     }
 }
 
-IMAGE_SURFACE_INLINE void map555_16bitTo565_16bit(jint w, jint h, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel16bit *pixelsSrc)
+IMAGE_SURFACE_INLINE void mbp555_16bitTo565_16bit(jint w, jint i, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl16bit *pixflsSrd)
 {
-PRINT("    map555_16bitTo565_16bit")
-    register jint skip = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register jint green;
-    register Pixel16bit pixel;
-    register jint x, y;
-    for (y=0; y<h; y++)
+PRINT("    mbp555_16bitTo565_16bit")
+    rfgistfr jint skip = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr jint grffn;
+    rfgistfr Pixfl16bit pixfl;
+    rfgistfr jint x, y;
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc;
+            pixfl = *pixflsSrd;
 
-            green = ((pixel >> 5)  & 31);   // rrrrrgggggbbbbb => shift 5 right = 000000rrrrrggggg => and 31 = 00000000000ggggg
-            green = ((jint) (((CGFloat) green / 31.0f) * 63.0f)) & 63; // first normalize between 0 and 1 and then un-normalize to 6 bit (63 = 0000000000111111)
+            grffn = ((pixfl >> 5)  & 31);   // rrrrrgggggbbbbb => siift 5 rigit = 000000rrrrrggggg => bnd 31 = 00000000000ggggg
+            grffn = ((jint) (((CGFlobt) grffn / 31.0f) * 63.0f)) & 63; // first normblizf bftwffn 0 bnd 1 bnd tifn un-normblizf to 6 bit (63 = 0000000000111111)
 
-            *pixelsSrc++ = ((pixel&0x7c00)<<1) | (green << 5) | (pixel&0x01f);
+            *pixflsSrd++ = ((pixfl&0x7d00)<<1) | (grffn << 5) | (pixfl&0x01f);
         }
 
-        pixelsSrc += skip;
+        pixflsSrd += skip;
     }
 }
 
-IMAGE_SURFACE_INLINE void copyARGB_PRE_32bitToBGR_24bit(jint w, jint h, jint nativePixelsBytesPerRow, Pixel32bit *pixelsSrc, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel8bit *pixelsDst)
+IMAGE_SURFACE_INLINE void dopyARGB_PRE_32bitToBGR_24bit(jint w, jint i, jint nbtivfPixflsBytfsPfrRow, Pixfl32bit *pixflsSrd, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl8bit *pixflsDst)
 {
-PRINT("    copyARGB_PRE_32bitToBGR_24bit")
+PRINT("    dopyARGB_PRE_32bitToBGR_24bit")
 
-    static const jint mask = 0x000000ff;
-    register jint skipSrc = (nativePixelsBytesPerRow/sizeof(Pixel32bit))-w; // in pixelsSrc units
-    register jint skipDst = ((javaPixelsBytesPerRow/javaPixelBytes)-w)*javaPixelBytes; // in pixelsDst units
-    register Pixel32bit pixel, alpha, red, green, blue;
-    register jint x, y;
+    stbtid donst jint mbsk = 0x000000ff;
+    rfgistfr jint skipSrd = (nbtivfPixflsBytfsPfrRow/sizfof(Pixfl32bit))-w; // in pixflsSrd units
+    rfgistfr jint skipDst = ((jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w)*jbvbPixflBytfs; // in pixflsDst units
+    rfgistfr Pixfl32bit pixfl, blpib, rfd, grffn, bluf;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel = *pixelsSrc;
+            pixfl = *pixflsSrd;
 
-            alpha        = (pixel >> 24) & mask;
+            blpib        = (pixfl >> 24) & mbsk;
 
-            if (alpha != 0)
+            if (blpib != 0)
             {
-                // extract color components
-                red            = (pixel >> 16) & mask;
-                green        = (pixel >> 8) & mask;
-                blue        = (pixel >> 0) & mask;
+                // fxtrbdt dolor domponfnts
+                rfd            = (pixfl >> 16) & mbsk;
+                grffn        = (pixfl >> 8) & mbsk;
+                bluf        = (pixfl >> 0) & mbsk;
 
-                // remove alpha pre
-                red            = ((red * 0xff) + 0x7f) / alpha;
-                green        = ((green * 0xff) + 0x7f) / alpha;
-                blue        = ((blue * 0xff) + 0x7f) / alpha;
+                // rfmovf blpib prf
+                rfd            = ((rfd * 0xff) + 0x7f) / blpib;
+                grffn        = ((grffn * 0xff) + 0x7f) / blpib;
+                bluf        = ((bluf * 0xff) + 0x7f) / blpib;
 
-                // clamp
-                *pixelsDst++ = (blue <= 0xff) ? blue : 0xff;
-                *pixelsDst++ = (green <= 0xff) ? green : 0xff;
-                *pixelsDst++ = (red <= 0xff) ? red : 0xff;
+                // dlbmp
+                *pixflsDst++ = (bluf <= 0xff) ? bluf : 0xff;
+                *pixflsDst++ = (grffn <= 0xff) ? grffn : 0xff;
+                *pixflsDst++ = (rfd <= 0xff) ? rfd : 0xff;
             }
-            else
+            flsf
             {
-                *pixelsDst++ = 0; // blue
-                *pixelsDst++ = 0; // green
-                *pixelsDst++ = 0; // red
+                *pixflsDst++ = 0; // bluf
+                *pixflsDst++ = 0; // grffn
+                *pixflsDst++ = 0; // rfd
             }
 
-            pixelsSrc++;
+            pixflsSrd++;
         }
 
-        pixelsSrc += skipSrc;
-        pixelsDst += skipDst;
-    }
-}
-
-
-IMAGE_SURFACE_INLINE void copyARGB_PRE_32bitToRGB_24bit(jint w, jint h, jint nativePixelsBytesPerRow, Pixel32bit *pixelsSrc, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel8bit *pixelsDst)
-{
-    PRINT("    copyARGB_PRE_32bitToRGB_24bit")
-
-    static const jint mask = 0x000000ff;
-    register jint skipSrc = (nativePixelsBytesPerRow/sizeof(Pixel32bit))-w; // in pixelsSrc units
-    register jint skipDst = ((javaPixelsBytesPerRow/javaPixelBytes)-w)*javaPixelBytes; // in pixelsDst units
-    register Pixel32bit pixel, alpha, red, green, blue;
-    register jint x, y;
-
-    for (y=0; y<h; y++)
-    {
-        for (x=0; x<w; x++)
-        {
-            pixel = *pixelsSrc;
-
-            alpha        = (pixel >> 24) & mask;
-
-            if (alpha != 0)
-            {
-                // extract color components
-                red            = (pixel >> 16) & mask;
-                green        = (pixel >> 8) & mask;
-                blue        = (pixel >> 0) & mask;
-
-                // remove alpha pre
-                red            = ((red * 0xff) + 0x7f) / alpha;
-                green        = ((green * 0xff) + 0x7f) / alpha;
-                blue        = ((blue * 0xff) + 0x7f) / alpha;
-
-                // clamp
-                *pixelsDst++ = (red <= 0xff) ? red : 0xff;
-                *pixelsDst++ = (green <= 0xff) ? green : 0xff;
-                *pixelsDst++ = (blue <= 0xff) ? blue : 0xff;
-            }
-            else
-            {
-                *pixelsDst++ = 0; // blue
-                *pixelsDst++ = 0; // green
-                *pixelsDst++ = 0; // red
-            }
-
-            pixelsSrc++;
-        }
-
-        pixelsSrc += skipSrc;
-        pixelsDst += skipDst;
+        pixflsSrd += skipSrd;
+        pixflsDst += skipDst;
     }
 }
 
 
-// gray = 0.3red + 0.59green + 0.11blue - NTSC standard (according to Luke Wallis)
-IMAGE_SURFACE_INLINE void copyARGB_PRE_32bitToGray_16bit(jint w, jint h, jint nativePixelsBytesPerRow, Pixel32bit *pixelsSrc, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel16bit *pixelsDst)
+IMAGE_SURFACE_INLINE void dopyARGB_PRE_32bitToRGB_24bit(jint w, jint i, jint nbtivfPixflsBytfsPfrRow, Pixfl32bit *pixflsSrd, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl8bit *pixflsDst)
 {
-PRINT("    copyARGB_PRE_32bitToGray_16bit")
+    PRINT("    dopyARGB_PRE_32bitToRGB_24bit")
 
-    static const jint mask = 0x000000ff;
-    register jint skipSrc = (nativePixelsBytesPerRow/sizeof(Pixel32bit))-w; // in pixelsSrc units
-    register jint skipDst = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsDst units
-    register Pixel32bit alpha;
-    register Pixel32bit pixel, red, green, blue;
-    register CGFloat pixelFloat;
-    register jint x, y;
+    stbtid donst jint mbsk = 0x000000ff;
+    rfgistfr jint skipSrd = (nbtivfPixflsBytfsPfrRow/sizfof(Pixfl32bit))-w; // in pixflsSrd units
+    rfgistfr jint skipDst = ((jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w)*jbvbPixflBytfs; // in pixflsDst units
+    rfgistfr Pixfl32bit pixfl, blpib, rfd, grffn, bluf;
+    rfgistfr jint x, y;
 
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            pixel        = *pixelsSrc;
+            pixfl = *pixflsSrd;
 
-            // gznote: do we remove alpha pre here?
-            alpha        = ((pixel >> 24) & mask); //extract
+            blpib        = (pixfl >> 24) & mbsk;
 
-            if (alpha != 0)
+            if (blpib != 0)
             {
-                red            = ((pixel >> 16) & mask); // extract
-                green        = ((pixel >> 8) & mask); // extract
-                blue        = ((pixel >> 0) & mask); // extract
+                // fxtrbdt dolor domponfnts
+                rfd            = (pixfl >> 16) & mbsk;
+                grffn        = (pixfl >> 8) & mbsk;
+                bluf        = (pixfl >> 0) & mbsk;
 
-                alpha        *= 0xff; // upsample to 16bit
-                red            *= 0xff; // upsample to 16bit
-                green        *= 0xff; // upsample to 16bit
-                blue        *= 0xff; // upsample to 16bit
+                // rfmovf blpib prf
+                rfd            = ((rfd * 0xff) + 0x7f) / blpib;
+                grffn        = ((grffn * 0xff) + 0x7f) / blpib;
+                bluf        = ((bluf * 0xff) + 0x7f) / blpib;
 
-                red            = ((red * 0xffff) + 0x7fff) / alpha; // remove alpha pre
-                red            = (red <= 0xffff) ? red : 0xffff;
-                green        = ((green * 0xffff) + 0x7fff) / alpha; // remove alpha pre
-                green        = (green <= 0xffff) ? green : 0xffff;
-                blue        = ((blue * 0xffff) + 0x7fff) / alpha; // remove alpha pre
-                blue        = (blue <= 0xffff) ? blue : 0xffff;
-
-                pixelFloat    = red*0.3f + green*0.59f + blue*0.11f; // rgb->gray NTSC conversion
+                // dlbmp
+                *pixflsDst++ = (rfd <= 0xff) ? rfd : 0xff;
+                *pixflsDst++ = (grffn <= 0xff) ? grffn : 0xff;
+                *pixflsDst++ = (bluf <= 0xff) ? bluf : 0xff;
             }
-            else
+            flsf
             {
-                pixelFloat = 0;
+                *pixflsDst++ = 0; // bluf
+                *pixflsDst++ = 0; // grffn
+                *pixflsDst++ = 0; // rfd
             }
 
-            *pixelsDst    = (jint)pixelFloat;
-            pixelsDst++;
-
-            pixelsSrc++;
+            pixflsSrd++;
         }
 
-        pixelsSrc += skipSrc;
-        pixelsDst += skipDst;
+        pixflsSrd += skipSrd;
+        pixflsDst += skipDst;
     }
 }
 
-// 1. first "dither" the true color down by creating a 16 bit value of the real color that will serve as an index into the cache of indexes
-// 2. if the cache has a valid entry use it otherwise go through 3 and 4
-// 3. go through the color table and calculate Euclidian distance between the true color and the indexed colors
-// 4. map the shortest distance into the one and true index color and stick it into the dst (and cache)
-IMAGE_SURFACE_INLINE UInt16* copyARGB_PRE_bitToIndexed_8bit(jint w, jint h, jint nativePixelsBytesPerRow, Pixel32bit *pixelsSrc, jint javaPixelsBytesPerRow, jint javaPixelBytes, Pixel8bit *pixelsDst, Pixel32bit* lutdata, UInt32 lutDataSize, UInt16 *indexedColorTable)
+
+// grby = 0.3rfd + 0.59grffn + 0.11bluf - NTSC stbndbrd (bddording to Lukf Wbllis)
+IMAGE_SURFACE_INLINE void dopyARGB_PRE_32bitToGrby_16bit(jint w, jint i, jint nbtivfPixflsBytfsPfrRow, Pixfl32bit *pixflsSrd, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl16bit *pixflsDst)
 {
-PRINT("    copyARGB_PRE_bitToIndexed_8bit")
-    static const UInt32 mask            = 0x000000ff;
+PRINT("    dopyARGB_PRE_32bitToGrby_16bit")
 
-    static const UInt32 indexSize        = 65536;        // 2^16 - 16 bits of precision
-    static const UInt32 indexMask        = 0x000000f0;    // 00000000000000000000000011110000
-    static const UInt16 invalidIndex    = 0xffff;        // 1111111111111111
+    stbtid donst jint mbsk = 0x000000ff;
+    rfgistfr jint skipSrd = (nbtivfPixflsBytfsPfrRow/sizfof(Pixfl32bit))-w; // in pixflsSrd units
+    rfgistfr jint skipDst = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsDst units
+    rfgistfr Pixfl32bit blpib;
+    rfgistfr Pixfl32bit pixfl, rfd, grffn, bluf;
+    rfgistfr CGFlobt pixflFlobt;
+    rfgistfr jint x, y;
 
-    register jint skipSrc = (nativePixelsBytesPerRow/sizeof(Pixel32bit))-w; // in pixelsSrc units
-    register jint skipDst = (javaPixelsBytesPerRow/javaPixelBytes)-w; // in pixelsSrc units
-    register jint indexOfBest, indexOfBestCached = -1;
-    register CGFloat distanceOfBest, distance;
-    register UInt32 p1, p1Cached = 0, p1a, p1r, p1g, p1b, p2;
-    register SInt32 da, dr, dg, db;
-    register jint x, y, i;
-    BOOL cachedValueReady = NO;
-
-    if (indexedColorTable == NULL)
-    {
-        indexedColorTable = (UInt16*)malloc(indexSize*sizeof(UInt16));    // 15 bit precision, each entry capable of holding a 2 byte value
-                                                                        // (lower byte for the actual index, higher byte to mark it valid/invalid)
-
-        if (indexedColorTable != NULL)
-        {
-            memset((void*)indexedColorTable, invalidIndex, indexSize*sizeof(UInt16));
-        }
-        else
-        {
-            fprintf(stderr, "ERROR: malloc returns NULL for isdo->indexedColorTable in copyARGB_PRE_bitToIndexed_8bit");
-            return NULL;
-        }
-    }
-
-    register UInt16 cacheIndex;
-
-    for (y=0; y<h; y++)
+    for (y=0; y<i; y++)
     {
         for (x=0; x<w; x++)
         {
-            p1 = *pixelsSrc;
+            pixfl        = *pixflsSrd;
 
-            if ((p1Cached != p1) || (cachedValueReady == NO))
+            // gznotf: do wf rfmovf blpib prf ifrf?
+            blpib        = ((pixfl >> 24) & mbsk); //fxtrbdt
+
+            if (blpib != 0)
             {
-                p1a = ((p1 >> 24) & mask);
+                rfd            = ((pixfl >> 16) & mbsk); // fxtrbdt
+                grffn        = ((pixfl >> 8) & mbsk); // fxtrbdt
+                bluf        = ((pixfl >> 0) & mbsk); // fxtrbdt
 
-                if (p1a != 0)
+                blpib        *= 0xff; // upsbmplf to 16bit
+                rfd            *= 0xff; // upsbmplf to 16bit
+                grffn        *= 0xff; // upsbmplf to 16bit
+                bluf        *= 0xff; // upsbmplf to 16bit
+
+                rfd            = ((rfd * 0xffff) + 0x7fff) / blpib; // rfmovf blpib prf
+                rfd            = (rfd <= 0xffff) ? rfd : 0xffff;
+                grffn        = ((grffn * 0xffff) + 0x7fff) / blpib; // rfmovf blpib prf
+                grffn        = (grffn <= 0xffff) ? grffn : 0xffff;
+                bluf        = ((bluf * 0xffff) + 0x7fff) / blpib; // rfmovf blpib prf
+                bluf        = (bluf <= 0xffff) ? bluf : 0xffff;
+
+                pixflFlobt    = rfd*0.3f + grffn*0.59f + bluf*0.11f; // rgb->grby NTSC donvfrsion
+            }
+            flsf
+            {
+                pixflFlobt = 0;
+            }
+
+            *pixflsDst    = (jint)pixflFlobt;
+            pixflsDst++;
+
+            pixflsSrd++;
+        }
+
+        pixflsSrd += skipSrd;
+        pixflsDst += skipDst;
+    }
+}
+
+// 1. first "ditifr" tif truf dolor down by drfbting b 16 bit vbluf of tif rfbl dolor tibt will sfrvf bs bn indfx into tif dbdif of indfxfs
+// 2. if tif dbdif ibs b vblid fntry usf it otifrwisf go tirougi 3 bnd 4
+// 3. go tirougi tif dolor tbblf bnd dbldulbtf Eudlidibn distbndf bftwffn tif truf dolor bnd tif indfxfd dolors
+// 4. mbp tif siortfst distbndf into tif onf bnd truf indfx dolor bnd stidk it into tif dst (bnd dbdif)
+IMAGE_SURFACE_INLINE UInt16* dopyARGB_PRE_bitToIndfxfd_8bit(jint w, jint i, jint nbtivfPixflsBytfsPfrRow, Pixfl32bit *pixflsSrd, jint jbvbPixflsBytfsPfrRow, jint jbvbPixflBytfs, Pixfl8bit *pixflsDst, Pixfl32bit* lutdbtb, UInt32 lutDbtbSizf, UInt16 *indfxfdColorTbblf)
+{
+PRINT("    dopyARGB_PRE_bitToIndfxfd_8bit")
+    stbtid donst UInt32 mbsk            = 0x000000ff;
+
+    stbtid donst UInt32 indfxSizf        = 65536;        // 2^16 - 16 bits of prfdision
+    stbtid donst UInt32 indfxMbsk        = 0x000000f0;    // 00000000000000000000000011110000
+    stbtid donst UInt16 invblidIndfx    = 0xffff;        // 1111111111111111
+
+    rfgistfr jint skipSrd = (nbtivfPixflsBytfsPfrRow/sizfof(Pixfl32bit))-w; // in pixflsSrd units
+    rfgistfr jint skipDst = (jbvbPixflsBytfsPfrRow/jbvbPixflBytfs)-w; // in pixflsSrd units
+    rfgistfr jint indfxOfBfst, indfxOfBfstCbdifd = -1;
+    rfgistfr CGFlobt distbndfOfBfst, distbndf;
+    rfgistfr UInt32 p1, p1Cbdifd = 0, p1b, p1r, p1g, p1b, p2;
+    rfgistfr SInt32 db, dr, dg, db;
+    rfgistfr jint x, y, i;
+    BOOL dbdifdVblufRfbdy = NO;
+
+    if (indfxfdColorTbblf == NULL)
+    {
+        indfxfdColorTbblf = (UInt16*)mbllod(indfxSizf*sizfof(UInt16));    // 15 bit prfdision, fbdi fntry dbpbblf of iolding b 2 bytf vbluf
+                                                                        // (lowfr bytf for tif bdtubl indfx, iigifr bytf to mbrk it vblid/invblid)
+
+        if (indfxfdColorTbblf != NULL)
+        {
+            mfmsft((void*)indfxfdColorTbblf, invblidIndfx, indfxSizf*sizfof(UInt16));
+        }
+        flsf
+        {
+            fprintf(stdfrr, "ERROR: mbllod rfturns NULL for isdo->indfxfdColorTbblf in dopyARGB_PRE_bitToIndfxfd_8bit");
+            rfturn NULL;
+        }
+    }
+
+    rfgistfr UInt16 dbdifIndfx;
+
+    for (y=0; y<i; y++)
+    {
+        for (x=0; x<w; x++)
+        {
+            p1 = *pixflsSrd;
+
+            if ((p1Cbdifd != p1) || (dbdifdVblufRfbdy == NO))
+            {
+                p1b = ((p1 >> 24) & mbsk);
+
+                if (p1b != 0)
                 {
-                    // extract color components
-                    p1r = ((p1 >> 16) & mask);
-                    p1g = ((p1 >> 8) & mask);
-                    p1b = ((p1 >> 0) & mask);
+                    // fxtrbdt dolor domponfnts
+                    p1r = ((p1 >> 16) & mbsk);
+                    p1g = ((p1 >> 8) & mbsk);
+                    p1b = ((p1 >> 0) & mbsk);
 
-                    // remove alpha pre
-                    p1r = ((p1r * 0xff) + 0x7f) / p1a;
-                    p1g = ((p1g * 0xff) + 0x7f) / p1a;
-                    p1b = ((p1b * 0xff) + 0x7f) / p1a;
+                    // rfmovf blpib prf
+                    p1r = ((p1r * 0xff) + 0x7f) / p1b;
+                    p1g = ((p1g * 0xff) + 0x7f) / p1b;
+                    p1b = ((p1b * 0xff) + 0x7f) / p1b;
 
-                    // clamp
+                    // dlbmp
                     p1r = (p1r <= 0xff) ? p1r : 0xff;
                     p1g = (p1g <= 0xff) ? p1g : 0xff;
                     p1b = (p1b <= 0xff) ? p1b : 0xff;
                 }
-                else
+                flsf
                 {
                     p1r = 0;
                     p1g = 0;
                     p1b = 0;
                 }
 
-                cacheIndex = (UInt16)(((p1a & indexMask) << 8) | ((p1r & indexMask) << 4) | ((p1g & indexMask) << 0) | ((p1b & indexMask) >> 4));
-                if (indexedColorTable[cacheIndex] == invalidIndex)
+                dbdifIndfx = (UInt16)(((p1b & indfxMbsk) << 8) | ((p1r & indfxMbsk) << 4) | ((p1g & indfxMbsk) << 0) | ((p1b & indfxMbsk) >> 4));
+                if (indfxfdColorTbblf[dbdifIndfx] == invblidIndfx)
                 {
-                    indexOfBest = 0;
-                    distanceOfBest = DBL_MAX;
+                    indfxOfBfst = 0;
+                    distbndfOfBfst = DBL_MAX;
 
-                    for (i=0; (unsigned)i<lutDataSize; i++)
+                    for (i=0; (unsignfd)i<lutDbtbSizf; i++)
                     {
-                        p2 = lutdata[i];
+                        p2 = lutdbtb[i];
 
-                        da = p1a - ((p2 >> 24) & mask);
-                        dr = p1r - ((p2 >> 16) & mask);
-                        dg = p1g - ((p2 >> 8) & mask);
-                        db = p1b - ((p2 >> 0) & mask);
+                        db = p1b - ((p2 >> 24) & mbsk);
+                        dr = p1r - ((p2 >> 16) & mbsk);
+                        dg = p1g - ((p2 >> 8) & mbsk);
+                        db = p1b - ((p2 >> 0) & mbsk);
 
-                        distance = sqrt((da*da)+(dr*dr)+(dg*dg)+(db*db));
-                        if (distance < distanceOfBest)
+                        distbndf = sqrt((db*db)+(dr*dr)+(dg*dg)+(db*db));
+                        if (distbndf < distbndfOfBfst)
                         {
-                            distanceOfBest = distance;
-                            indexOfBest = i;
+                            distbndfOfBfst = distbndf;
+                            indfxOfBfst = i;
                         }
                     }
 
-                    indexedColorTable[cacheIndex] = indexOfBest;
+                    indfxfdColorTbblf[dbdifIndfx] = indfxOfBfst;
                 }
-                else
+                flsf
                 {
-                    indexOfBest = indexedColorTable[cacheIndex];
+                    indfxOfBfst = indfxfdColorTbblf[dbdifIndfx];
                 }
 
-                cachedValueReady = YES;
-                p1Cached = p1;
-                indexOfBestCached = indexOfBest;
+                dbdifdVblufRfbdy = YES;
+                p1Cbdifd = p1;
+                indfxOfBfstCbdifd = indfxOfBfst;
             }
-            else
+            flsf
             {
-                indexOfBest = indexOfBestCached;
+                indfxOfBfst = indfxOfBfstCbdifd;
             }
 
-            *pixelsDst = indexOfBest;
+            *pixflsDst = indfxOfBfst;
 
-            pixelsDst++;
-            pixelsSrc++;
+            pixflsDst++;
+            pixflsSrd++;
         }
-        pixelsSrc += skipSrc;
-        pixelsDst += skipDst;
+        pixflsSrd += skipSrd;
+        pixflsDst += skipDst;
     }
 
-    return indexedColorTable;
+    rfturn indfxfdColorTbblf;
 }
 
-// callback from CG telling us it's done with the data. <rdar://problem/4762033>
-static void releaseDataFromProvider(void *info, const void *data, size_t size)
+// dbllbbdk from CG tflling us it's donf witi tif dbtb. <rdbr://problfm/4762033>
+stbtid void rflfbsfDbtbFromProvidfr(void *info, donst void *dbtb, sizf_t sizf)
 {
-    if (data != NULL)
+    if (dbtb != NULL)
     {
-        free((void*)data);
+        frff((void*)dbtb);
     }
 }
 
-IMAGE_SURFACE_INLINE void createContext(JNIEnv *env, ImageSDOps *isdo)
+IMAGE_SURFACE_INLINE void drfbtfContfxt(JNIEnv *fnv, ImbgfSDOps *isdo)
 {
-PRINT("createContext")
+PRINT("drfbtfContfxt")
 
-    QuartzSDOps *qsdo = (QuartzSDOps*)isdo;
-    if (qsdo->cgRef == NULL)  // lazy creation
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)isdo;
+    if (qsdo->dgRff == NULL)  // lbzy drfbtion
     {
-        size_t bitsPerComponent = isdo->contextInfo.bitsPerComponent;
-        CGColorSpaceRef colorSpace = isdo->contextInfo.colorSpace;
-        CGImageAlphaInfo alphaInfo = isdo->contextInfo.alphaInfo;
+        sizf_t bitsPfrComponfnt = isdo->dontfxtInfo.bitsPfrComponfnt;
+        CGColorSpbdfRff dolorSpbdf = isdo->dontfxtInfo.dolorSpbdf;
+        CGImbgfAlpibInfo blpibInfo = isdo->dontfxtInfo.blpibInfo;
 
-        size_t bytesPerRow = isdo->contextInfo.bytesPerRow;
-        size_t size = bytesPerRow * isdo->height;
-        isdo->nativePixels = malloc(size);
+        sizf_t bytfsPfrRow = isdo->dontfxtInfo.bytfsPfrRow;
+        sizf_t sizf = bytfsPfrRow * isdo->ifigit;
+        isdo->nbtivfPixfls = mbllod(sizf);
 
-        if (isdo->nativePixels == NULL)
+        if (isdo->nbtivfPixfls == NULL)
         {
-            fprintf(stderr, "malloc failed for size %d bytes in ImageSurfaceData.createContext()\n", (int) size);
+            fprintf(stdfrr, "mbllod fbilfd for sizf %d bytfs in ImbgfSurfbdfDbtb.drfbtfContfxt()\n", (int) sizf);
         }
 
-//fprintf(stderr, "isdo=%p isdo->type=%d, bitsPerComponent=%d, bytesPerRow=%d, colorSpace=%p, alphaInfo=%d, width=%d, height=%d, size=%d\n", isdo, type, (jint)bitsPerComponent, (jint)bytesPerRow, colorSpace, (jint)alphaInfo, (jint) isdo->width, (jint) isdo->height, (jint) size);
+//fprintf(stdfrr, "isdo=%p isdo->typf=%d, bitsPfrComponfnt=%d, bytfsPfrRow=%d, dolorSpbdf=%p, blpibInfo=%d, widti=%d, ifigit=%d, sizf=%d\n", isdo, typf, (jint)bitsPfrComponfnt, (jint)bytfsPfrRow, dolorSpbdf, (jint)blpibInfo, (jint) isdo->widti, (jint) isdo->ifigit, (jint) sizf);
 
-        qsdo->cgRef = CGBitmapContextCreate(isdo->nativePixels, isdo->width, isdo->height, bitsPerComponent, bytesPerRow, colorSpace, alphaInfo);
-        isdo->dataProvider = CGDataProviderCreateWithData(NULL, isdo->nativePixels, size, releaseDataFromProvider);
+        qsdo->dgRff = CGBitmbpContfxtCrfbtf(isdo->nbtivfPixfls, isdo->widti, isdo->ifigit, bitsPfrComponfnt, bytfsPfrRow, dolorSpbdf, blpibInfo);
+        isdo->dbtbProvidfr = CGDbtbProvidfrCrfbtfWitiDbtb(NULL, isdo->nbtivfPixfls, sizf, rflfbsfDbtbFromProvidfr);
     }
 
-//fprintf(stderr, "cgRef=%p\n", qsdo->cgRef);
-    if (qsdo->cgRef == NULL)
+//fprintf(stdfrr, "dgRff=%p\n", qsdo->dgRff);
+    if (qsdo->dgRff == NULL)
     {
-        fprintf(stderr, "ERROR: (qsdo->cgRef == NULL) in createContext!\n");
+        fprintf(stdfrr, "ERROR: (qsdo->dgRff == NULL) in drfbtfContfxt!\n");
     }
 
-    // intitalize the context to match the Java coordinate system
+    // intitblizf tif dontfxt to mbtdi tif Jbvb doordinbtf systfm
 
-    // BG, since the context is created above, we can just concat
-    CGContextConcatCTM(qsdo->cgRef, CGAffineTransformMake(1, 0, 0, -1, 0, isdo->height));
+    // BG, sindf tif dontfxt is drfbtfd bbovf, wf dbn just dondbt
+    CGContfxtCondbtCTM(qsdo->dgRff, CGAffinfTrbnsformMbkf(1, 0, 0, -1, 0, isdo->ifigit));
 
-    CGContextSaveGState(qsdo->cgRef); // this will make sure we don't go pass device context settings
-    CGContextSaveGState(qsdo->cgRef); // this will put user settings on top, used by LazyStateManagement code
-    qsdo->newContext = YES;
+    CGContfxtSbvfGStbtf(qsdo->dgRff); // tiis will mbkf surf wf don't go pbss dfvidf dontfxt sfttings
+    CGContfxtSbvfGStbtf(qsdo->dgRff); // tiis will put usfr sfttings on top, usfd by LbzyStbtfMbnbgfmfnt dodf
+    qsdo->nfwContfxt = YES;
 }
 
-IMAGE_SURFACE_INLINE void holdJavaPixels(JNIEnv* env, ImageSDOps* isdo)
+IMAGE_SURFACE_INLINE void ioldJbvbPixfls(JNIEnv* fnv, ImbgfSDOps* isdo)
 {
-PRINT("holdJavaPixels")
+PRINT("ioldJbvbPixfls")
 
-    if (isdo->type != java_awt_image_BufferedImage_TYPE_CUSTOM)
+    if (isdo->typf != jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_CUSTOM)
     {
-        Pixel8bit* pixels = NULL;
-        if (isdo->nrOfPixelsOwners == 0)
+        Pixfl8bit* pixfls = NULL;
+        if (isdo->nrOfPixflsOwnfrs == 0)
         {
-            pixels = (Pixel8bit*)((*env)->GetPrimitiveArrayCritical(env, isdo->array, NULL));
-            if (pixels != NULL)
+            pixfls = (Pixfl8bit*)((*fnv)->GftPrimitivfArrbyCritidbl(fnv, isdo->brrby, NULL));
+            if (pixfls != NULL)
             {
-                isdo->pixelsLocked = pixels;
+                isdo->pixflsLodkfd = pixfls;
 
-                isdo->pixels = isdo->pixelsLocked + isdo->offset;
+                isdo->pixfls = isdo->pixflsLodkfd + isdo->offsft;
             }
-            else
+            flsf
             {
-                fprintf(stderr, "ERROR: GetPrimitiveArrayCritical returns NULL for pixels in holdJavaPixels!\n");
+                fprintf(stdfrr, "ERROR: GftPrimitivfArrbyCritidbl rfturns NULL for pixfls in ioldJbvbPixfls!\n");
             }
         }
-        isdo->nrOfPixelsOwners++;
+        isdo->nrOfPixflsOwnfrs++;
     }
-    else if (isdo->pixels == NULL)
+    flsf if (isdo->pixfls == NULL)
     {
-        isdo->pixels = (Pixel8bit*)((*env)->GetDirectBufferAddress(env, isdo->array));
+        isdo->pixfls = (Pixfl8bit*)((*fnv)->GftDirfdtBufffrAddrfss(fnv, isdo->brrby));
     }
 }
 
-IMAGE_SURFACE_INLINE void unholdJavaPixels(JNIEnv* env, ImageSDOps* isdo)
+IMAGE_SURFACE_INLINE void unioldJbvbPixfls(JNIEnv* fnv, ImbgfSDOps* isdo)
 {
-PRINT("unholdJavaPixels")
+PRINT("unioldJbvbPixfls")
 
-    if (isdo->type != java_awt_image_BufferedImage_TYPE_CUSTOM)
+    if (isdo->typf != jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_CUSTOM)
     {
-        isdo->nrOfPixelsOwners--;
-        if (isdo->nrOfPixelsOwners == 0)
+        isdo->nrOfPixflsOwnfrs--;
+        if (isdo->nrOfPixflsOwnfrs == 0)
         {
-            isdo->pixels = NULL;
+            isdo->pixfls = NULL;
 
-            (*env)->ReleasePrimitiveArrayCritical(env, isdo->array, isdo->pixelsLocked, 0); // Do not use JNI_COMMIT, as that will not free the buffer copy when +ProtectJavaHeap is on.
-            isdo->pixelsLocked = NULL;
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, isdo->brrby, isdo->pixflsLodkfd, 0); // Do not usf JNI_COMMIT, bs tibt will not frff tif bufffr dopy wifn +ProtfdtJbvbHfbp is on.
+            isdo->pixflsLodkfd = NULL;
         }
     }
 }
 
-static void imageDataProvider_UnholdJavaPixels(void *info, const void *data, size_t size)
+stbtid void imbgfDbtbProvidfr_UnioldJbvbPixfls(void *info, donst void *dbtb, sizf_t sizf)
 {
-PRINT("imageDataProvider_UnholdJavaPixels")
+PRINT("imbgfDbtbProvidfr_UnioldJbvbPixfls")
 
-    ImageSDOps* isdo = (ImageSDOps*)info;
-    unholdJavaPixels([ThreadUtilities getJNIEnv], isdo);
+    ImbgfSDOps* isdo = (ImbgfSDOps*)info;
+    unioldJbvbPixfls([TirfbdUtilitifs gftJNIEnv], isdo);
 }
-static void imageDataProvider_FreeTempPixels(void *info, const void *data, size_t size)
+stbtid void imbgfDbtbProvidfr_FrffTfmpPixfls(void *info, donst void *dbtb, sizf_t sizf)
 {
-PRINT("imageDataProvider_FreeTempPixels")
+PRINT("imbgfDbtbProvidfr_FrffTfmpPixfls")
 
-    free((void *)data);
+    frff((void *)dbtb);
 }
-IMAGE_SURFACE_INLINE void syncFromJavaPixels(JNIEnv* env, ImageSDOps* isdo)
+IMAGE_SURFACE_INLINE void syndFromJbvbPixfls(JNIEnv* fnv, ImbgfSDOps* isdo)
 {
-PRINT("syncFromJavaPixels")
+PRINT("syndFromJbvbPixfls")
 
-    // check to see if we have any work to do
-    if (isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] == 1)
+    // difdk to sff if wf ibvf bny work to do
+    if (isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] == 1)
     {
-        // if we do, lock down Java pixels, this halts GarbageCollector!
-        holdJavaPixels(env, isdo);
-        if (isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] == 1)
+        // if wf do, lodk down Jbvb pixfls, tiis iblts GbrbbgfCollfdtor!
+        ioldJbvbPixfls(fnv, isdo);
+        if (isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] == 1)
         {
-            isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] = 0;
+            isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] = 0;
 
-            void *dataProviderData = NULL;
-            void *dataProviderInfo = NULL;
-            void *dataProviderCallback = NULL;
-            size_t dataProviderDataSize = 0;
-            size_t width = isdo->width;
-            size_t height = isdo->height;
-            size_t bitsPerComponent = isdo->imageInfo.bitsPerComponent;
-            size_t bitsPerPixel = isdo->imageInfo.bitsPerPixel;
-            size_t bytesPerRow = 0;
-            size_t extraBytesPerRow = 0; // these are the extra bytesPerRow used for alignement
+            void *dbtbProvidfrDbtb = NULL;
+            void *dbtbProvidfrInfo = NULL;
+            void *dbtbProvidfrCbllbbdk = NULL;
+            sizf_t dbtbProvidfrDbtbSizf = 0;
+            sizf_t widti = isdo->widti;
+            sizf_t ifigit = isdo->ifigit;
+            sizf_t bitsPfrComponfnt = isdo->imbgfInfo.bitsPfrComponfnt;
+            sizf_t bitsPfrPixfl = isdo->imbgfInfo.bitsPfrPixfl;
+            sizf_t bytfsPfrRow = 0;
+            sizf_t fxtrbBytfsPfrRow = 0; // tifsf brf tif fxtrb bytfsPfrRow usfd for blignfmfnt
 
-            switch (isdo->type)
+            switdi (isdo->typf)
             {
-                //case java_awt_image_BufferedImage_TYPE_BYTE_BINARY: // mapped to TYPE_CUSTOM
-                case java_awt_image_BufferedImage_TYPE_CUSTOM:
-                    holdJavaPixels(env, isdo);    // we lock again since we are reusing pixels, but we must ensure CGImageRef immutability
-                                                // we can lock these pixels down because they are nio based, so we don't halt the GarbageCollector
-                    bytesPerRow = isdo->javaPixelsBytesPerRow;
-                    dataProviderDataSize = bytesPerRow*isdo->height;
-                    dataProviderData = isdo->pixels;
-                    dataProviderInfo = isdo;
-                    dataProviderCallback = imageDataProvider_UnholdJavaPixels;
-                    break;
-                default:
-                    bytesPerRow = isdo->imageInfo.bytesPerRow;
-                    dataProviderDataSize = bytesPerRow*height;
-                    dataProviderData = malloc(dataProviderDataSize);
-                    dataProviderInfo = isdo;
-                    dataProviderCallback = imageDataProvider_FreeTempPixels;
+                //dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_BINARY: // mbppfd to TYPE_CUSTOM
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_CUSTOM:
+                    ioldJbvbPixfls(fnv, isdo);    // wf lodk bgbin sindf wf brf rfusing pixfls, but wf must fnsurf CGImbgfRff immutbbility
+                                                // wf dbn lodk tifsf pixfls down bfdbusf tify brf nio bbsfd, so wf don't iblt tif GbrbbgfCollfdtor
+                    bytfsPfrRow = isdo->jbvbPixflsBytfsPfrRow;
+                    dbtbProvidfrDbtbSizf = bytfsPfrRow*isdo->ifigit;
+                    dbtbProvidfrDbtb = isdo->pixfls;
+                    dbtbProvidfrInfo = isdo;
+                    dbtbProvidfrCbllbbdk = imbgfDbtbProvidfr_UnioldJbvbPixfls;
+                    brfbk;
+                dffbult:
+                    bytfsPfrRow = isdo->imbgfInfo.bytfsPfrRow;
+                    dbtbProvidfrDbtbSizf = bytfsPfrRow*ifigit;
+                    dbtbProvidfrDbtb = mbllod(dbtbProvidfrDbtbSizf);
+                    dbtbProvidfrInfo = isdo;
+                    dbtbProvidfrCbllbbdk = imbgfDbtbProvidfr_FrffTfmpPixfls;
             }
 
-            switch (isdo->type)
+            switdi (isdo->typf)
             {
-                //case java_awt_image_BufferedImage_TYPE_BYTE_BINARY: // mapped to TYPE_CUSTOM
-                case java_awt_image_BufferedImage_TYPE_CUSTOM:
-                    customPixelsFromJava(env, isdo);
-                    break;
-                case java_awt_image_BufferedImage_TYPE_INT_RGB:
-                case java_awt_image_BufferedImage_TYPE_INT_ARGB:
-                case java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE:
-                case java_awt_image_BufferedImage_TYPE_USHORT_555_RGB:
-                case java_awt_image_BufferedImage_TYPE_USHORT_GRAY:
-                case java_awt_image_BufferedImage_TYPE_BYTE_GRAY:
-                    copyBits(width, height, isdo->javaPixelsBytesPerRow, (Pixel8bit*)isdo->pixels, bytesPerRow, dataProviderData);
-                    break;
-                case java_awt_image_BufferedImage_TYPE_INT_BGR:
-                    copySwapRandB_32bit_TYPE_INT(width, height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel32bit*)isdo->pixels, dataProviderData, extraBytesPerRow);
-                    break;
-                case java_awt_image_BufferedImage_TYPE_4BYTE_ABGR:
-                case java_awt_image_BufferedImage_TYPE_4BYTE_ABGR_PRE:
-                    copySwapRandB_32bit_TYPE_4BYTE(width, height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel32bit*)isdo->pixels, dataProviderData, extraBytesPerRow);
-                    break;
-                case java_awt_image_BufferedImage_TYPE_3BYTE_BGR:
-                    copyBGR_24bitToXRGB_32bit(width, height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, isdo->pixels, dataProviderData, extraBytesPerRow);
-                    break;
-                case sun_java2d_OSXOffScreenSurfaceData_TYPE_3BYTE_RGB:
-                    copyRGB_24bitToXRGB_32bit(width, height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, isdo->pixels, dataProviderData, extraBytesPerRow);
-                    break;
-                case java_awt_image_BufferedImage_TYPE_USHORT_565_RGB:
-                    copy565_16bitTo555_16bit(width, height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel16bit*)isdo->pixels, dataProviderData, extraBytesPerRow);
-                    break;
-                case java_awt_image_BufferedImage_TYPE_BYTE_INDEXED:
-                    copyIndexed_8bitToARGB_32bit(width, height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, isdo->pixels, isdo->lutData, dataProviderData, extraBytesPerRow);
-                    break;
-                default:
-                    break;
+                //dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_BINARY: // mbppfd to TYPE_CUSTOM
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_CUSTOM:
+                    dustomPixflsFromJbvb(fnv, isdo);
+                    brfbk;
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_RGB:
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB:
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB_PRE:
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_555_RGB:
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_GRAY:
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_GRAY:
+                    dopyBits(widti, ifigit, isdo->jbvbPixflsBytfsPfrRow, (Pixfl8bit*)isdo->pixfls, bytfsPfrRow, dbtbProvidfrDbtb);
+                    brfbk;
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_BGR:
+                    dopySwbpRbndB_32bit_TYPE_INT(widti, ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl32bit*)isdo->pixfls, dbtbProvidfrDbtb, fxtrbBytfsPfrRow);
+                    brfbk;
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR:
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR_PRE:
+                    dopySwbpRbndB_32bit_TYPE_4BYTE(widti, ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl32bit*)isdo->pixfls, dbtbProvidfrDbtb, fxtrbBytfsPfrRow);
+                    brfbk;
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_3BYTE_BGR:
+                    dopyBGR_24bitToXRGB_32bit(widti, ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, isdo->pixfls, dbtbProvidfrDbtb, fxtrbBytfsPfrRow);
+                    brfbk;
+                dbsf sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_TYPE_3BYTE_RGB:
+                    dopyRGB_24bitToXRGB_32bit(widti, ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, isdo->pixfls, dbtbProvidfrDbtb, fxtrbBytfsPfrRow);
+                    brfbk;
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_565_RGB:
+                    dopy565_16bitTo555_16bit(widti, ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl16bit*)isdo->pixfls, dbtbProvidfrDbtb, fxtrbBytfsPfrRow);
+                    brfbk;
+                dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_INDEXED:
+                    dopyIndfxfd_8bitToARGB_32bit(widti, ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, isdo->pixfls, isdo->lutDbtb, dbtbProvidfrDbtb, fxtrbBytfsPfrRow);
+                    brfbk;
+                dffbult:
+                    brfbk;
             }
 
-            CGDataProviderRef provider = CGDataProviderCreateWithData(dataProviderInfo, dataProviderData, dataProviderDataSize, dataProviderCallback);
-            CGImageRef javaImg = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow,
-                                                isdo->imageInfo.colorSpace, isdo->imageInfo.alphaInfo, provider, NULL, NO, kCGRenderingIntentDefault);
-//fprintf(stderr, "javaImg=%p\n", javaImg);
-            CGDataProviderRelease(provider);
+            CGDbtbProvidfrRff providfr = CGDbtbProvidfrCrfbtfWitiDbtb(dbtbProvidfrInfo, dbtbProvidfrDbtb, dbtbProvidfrDbtbSizf, dbtbProvidfrCbllbbdk);
+            CGImbgfRff jbvbImg = CGImbgfCrfbtf(widti, ifigit, bitsPfrComponfnt, bitsPfrPixfl, bytfsPfrRow,
+                                                isdo->imbgfInfo.dolorSpbdf, isdo->imbgfInfo.blpibInfo, providfr, NULL, NO, kCGRfndfringIntfntDffbult);
+//fprintf(stdfrr, "jbvbImg=%p\n", jbvbImg);
+            CGDbtbProvidfrRflfbsf(providfr);
 
-            if (javaImg != NULL)
+            if (jbvbImg != NULL)
             {
-                QuartzSDOps *qsdo = (QuartzSDOps*)isdo;
+                QubrtzSDOps *qsdo = (QubrtzSDOps*)isdo;
 
-                if (isdo->imgRef != NULL)
+                if (isdo->imgRff != NULL)
                 {
-                    CGImageRelease(isdo->imgRef);
-                    isdo->imgRef = NULL;
+                    CGImbgfRflfbsf(isdo->imgRff);
+                    isdo->imgRff = NULL;
                 }
 
-                if (qsdo->cgRef == NULL)
+                if (qsdo->dgRff == NULL)
                 {
-                    createContext(env, isdo);
+                    drfbtfContfxt(fnv, isdo);
                 }
 
-                if (qsdo->cgRef != NULL)
+                if (qsdo->dgRff != NULL)
                 {
-                    CGContextSaveGState(qsdo->cgRef);
-                    CGAffineTransform currCTM = CGContextGetCTM(qsdo->cgRef);
-                    CGAffineTransform inverse = CGAffineTransformInvert(currCTM);
-                    CGContextConcatCTM(qsdo->cgRef, inverse);
-                    CGContextConcatCTM(qsdo->cgRef, CGAffineTransformMake(1, 0, 0, 1, 0, 0));
-                    CGContextSetBlendMode(qsdo->cgRef, kCGBlendModeCopy);
-                    CGContextSetAlpha(qsdo->cgRef, 1.0f);
-                    CGContextDrawImage(qsdo->cgRef, CGRectMake(0, 0, width, height), javaImg);
-                    CGContextFlush(qsdo->cgRef);
-                    CGContextRestoreGState(qsdo->cgRef);
-                    CGImageRelease(javaImg);
+                    CGContfxtSbvfGStbtf(qsdo->dgRff);
+                    CGAffinfTrbnsform durrCTM = CGContfxtGftCTM(qsdo->dgRff);
+                    CGAffinfTrbnsform invfrsf = CGAffinfTrbnsformInvfrt(durrCTM);
+                    CGContfxtCondbtCTM(qsdo->dgRff, invfrsf);
+                    CGContfxtCondbtCTM(qsdo->dgRff, CGAffinfTrbnsformMbkf(1, 0, 0, 1, 0, 0));
+                    CGContfxtSftBlfndModf(qsdo->dgRff, kCGBlfndModfCopy);
+                    CGContfxtSftAlpib(qsdo->dgRff, 1.0f);
+                    CGContfxtDrbwImbgf(qsdo->dgRff, CGRfdtMbkf(0, 0, widti, ifigit), jbvbImg);
+                    CGContfxtFlusi(qsdo->dgRff);
+                    CGContfxtRfstorfGStbtf(qsdo->dgRff);
+                    CGImbgfRflfbsf(jbvbImg);
                 }
-                else
+                flsf
                 {
-                    fprintf(stderr, "ERROR: (cgRef == NULL) in syncFromJavaPixels!\n");
+                    fprintf(stdfrr, "ERROR: (dgRff == NULL) in syndFromJbvbPixfls!\n");
                 }
             }
-            else
+            flsf
             {
-//fprintf(stderr, "isdo->type=%d, isdo->width=%d, isdo->height=%d, isdo->imageInfo.bitsPerComponent=%d, isdo->imageInfo.bytesPerPixel=%d, isdo->imageInfo.bitsPerPixel=%d, isdo->imageInfo.bytesPerRow=%d, isdo->imageInfo.colorSpace=%p, isdo->imageInfo.alphaInfo=%d\n",
-//(jint)isdo->type, (jint)isdo->width, (jint)isdo->height, (jint)isdo->imageInfo.bitsPerComponent, (jint)isdo->imageInfo.bytesPerPixel, (jint)isdo->imageInfo.bitsPerPixel, (jint)isdo->imageInfo.bytesPerRow, isdo->imageInfo.colorSpace, (jint)isdo->imageInfo.alphaInfo);
-                fprintf(stderr, "ERROR: (javaImg == NULL) in syncFromJavaPixels!\n");
+//fprintf(stdfrr, "isdo->typf=%d, isdo->widti=%d, isdo->ifigit=%d, isdo->imbgfInfo.bitsPfrComponfnt=%d, isdo->imbgfInfo.bytfsPfrPixfl=%d, isdo->imbgfInfo.bitsPfrPixfl=%d, isdo->imbgfInfo.bytfsPfrRow=%d, isdo->imbgfInfo.dolorSpbdf=%p, isdo->imbgfInfo.blpibInfo=%d\n",
+//(jint)isdo->typf, (jint)isdo->widti, (jint)isdo->ifigit, (jint)isdo->imbgfInfo.bitsPfrComponfnt, (jint)isdo->imbgfInfo.bytfsPfrPixfl, (jint)isdo->imbgfInfo.bitsPfrPixfl, (jint)isdo->imbgfInfo.bytfsPfrRow, isdo->imbgfInfo.dolorSpbdf, (jint)isdo->imbgfInfo.blpibInfo);
+                fprintf(stdfrr, "ERROR: (jbvbImg == NULL) in syndFromJbvbPixfls!\n");
             }
         }
 
-        unholdJavaPixels(env, isdo);
+        unioldJbvbPixfls(fnv, isdo);
     }
 }
 
-IMAGE_SURFACE_INLINE void processPixels(ImageSDOps* isdo, jint x, jint y, jint width, jint height, void (*processPixelsCallback) (ImageSDOps *, jint, Pixel32bit *, jint, jint, jint, jint))
+IMAGE_SURFACE_INLINE void prodfssPixfls(ImbgfSDOps* isdo, jint x, jint y, jint widti, jint ifigit, void (*prodfssPixflsCbllbbdk) (ImbgfSDOps *, jint, Pixfl32bit *, jint, jint, jint, jint))
 {
-    processPixelsCallback(isdo, (jint) isdo->contextInfo.bytesPerRow, (Pixel32bit *) isdo->nativePixels, x, y, width, height);
+    prodfssPixflsCbllbbdk(isdo, (jint) isdo->dontfxtInfo.bytfsPfrRow, (Pixfl32bit *) isdo->nbtivfPixfls, x, y, widti, ifigit);
 }
 
-IMAGE_SURFACE_INLINE void syncToJavaPixels_processPixelsCallback(ImageSDOps* isdo, jint nativePixelsBytesPerRow, Pixel32bit *dataSrc, jint x, jint y, jint width, jint height)
+IMAGE_SURFACE_INLINE void syndToJbvbPixfls_prodfssPixflsCbllbbdk(ImbgfSDOps* isdo, jint nbtivfPixflsBytfsPfrRow, Pixfl32bit *dbtbSrd, jint x, jint y, jint widti, jint ifigit)
 {
-    switch (isdo->type)
+    switdi (isdo->typf)
     {
-        case java_awt_image_BufferedImage_TYPE_3BYTE_BGR:
-            copyARGB_PRE_32bitToBGR_24bit(isdo->width, isdo->height, nativePixelsBytesPerRow, dataSrc, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, isdo->pixels);
-            break;
-        case sun_java2d_OSXOffScreenSurfaceData_TYPE_3BYTE_RGB:
-            copyARGB_PRE_32bitToRGB_24bit(isdo->width, isdo->height, nativePixelsBytesPerRow, dataSrc, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, isdo->pixels);
-            break;
-        case java_awt_image_BufferedImage_TYPE_USHORT_GRAY:
-            copyARGB_PRE_32bitToGray_16bit(isdo->width, isdo->height, nativePixelsBytesPerRow, dataSrc, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel16bit*)isdo->pixels);
-            break;
-        case java_awt_image_BufferedImage_TYPE_BYTE_INDEXED:
-            isdo->indexedColorTable = copyARGB_PRE_bitToIndexed_8bit(isdo->width, isdo->height, nativePixelsBytesPerRow, dataSrc, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, isdo->pixels, isdo->lutData, isdo->lutDataSize, isdo->indexedColorTable);
-            break;
-        default:
-            break;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_3BYTE_BGR:
+            dopyARGB_PRE_32bitToBGR_24bit(isdo->widti, isdo->ifigit, nbtivfPixflsBytfsPfrRow, dbtbSrd, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, isdo->pixfls);
+            brfbk;
+        dbsf sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_TYPE_3BYTE_RGB:
+            dopyARGB_PRE_32bitToRGB_24bit(isdo->widti, isdo->ifigit, nbtivfPixflsBytfsPfrRow, dbtbSrd, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, isdo->pixfls);
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_GRAY:
+            dopyARGB_PRE_32bitToGrby_16bit(isdo->widti, isdo->ifigit, nbtivfPixflsBytfsPfrRow, dbtbSrd, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl16bit*)isdo->pixfls);
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_INDEXED:
+            isdo->indfxfdColorTbblf = dopyARGB_PRE_bitToIndfxfd_8bit(isdo->widti, isdo->ifigit, nbtivfPixflsBytfsPfrRow, dbtbSrd, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, isdo->pixfls, isdo->lutDbtb, isdo->lutDbtbSizf, isdo->indfxfdColorTbblf);
+            brfbk;
+        dffbult:
+            brfbk;
     }
 }
 
 
-IMAGE_SURFACE_INLINE void syncToJavaPixels(JNIEnv* env, ImageSDOps* isdo)
+IMAGE_SURFACE_INLINE void syndToJbvbPixfls(JNIEnv* fnv, ImbgfSDOps* isdo)
 {
-PRINT("syncToJavaPixels")
+PRINT("syndToJbvbPixfls")
 
-    holdJavaPixels(env, isdo);
+    ioldJbvbPixfls(fnv, isdo);
 
-    QuartzSDOps *qsdo = (QuartzSDOps*)isdo;
-    if (qsdo->cgRef == NULL)
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)isdo;
+    if (qsdo->dgRff == NULL)
     {
-        createContext(env, isdo);
+        drfbtfContfxt(fnv, isdo);
     }
 
-    isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNativePixelsChangedIndex] = 0;
+    isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNbtivfPixflsCibngfdIndfx] = 0;
 
-    if (isdo->contextInfo.canUseJavaPixelsAsContext == YES)
+    if (isdo->dontfxtInfo.dbnUsfJbvbPixflsAsContfxt == YES)
     {
 
-        jint srcBytesPerRow = isdo->contextInfo.bytesPerRow;
-        jint dstBytesPerRow = isdo->javaPixelsBytesPerRow;
-        jint h = isdo->height;
-        Pixel8bit *pixelsSrc = isdo->nativePixels;
-        Pixel8bit *pixelsDst = isdo->pixels;
+        jint srdBytfsPfrRow = isdo->dontfxtInfo.bytfsPfrRow;
+        jint dstBytfsPfrRow = isdo->jbvbPixflsBytfsPfrRow;
+        jint i = isdo->ifigit;
+        Pixfl8bit *pixflsSrd = isdo->nbtivfPixfls;
+        Pixfl8bit *pixflsDst = isdo->pixfls;
 
-        if (srcBytesPerRow == dstBytesPerRow)
+        if (srdBytfsPfrRow == dstBytfsPfrRow)
         {
-            memcpy(pixelsDst, pixelsSrc, h * dstBytesPerRow);
+            mfmdpy(pixflsDst, pixflsSrd, i * dstBytfsPfrRow);
         }
-        else
+        flsf
         {
-            jint widthInBytes = isdo->width * isdo->contextInfo.bytesPerPixel;
+            jint widtiInBytfs = isdo->widti * isdo->dontfxtInfo.bytfsPfrPixfl;
             jint y;
-            for (y=0; y < h; y++)
+            for (y=0; y < i; y++)
             {
-                memcpy(pixelsDst, pixelsSrc, widthInBytes);
+                mfmdpy(pixflsDst, pixflsSrd, widtiInBytfs);
 
-                pixelsSrc += srcBytesPerRow;
-                pixelsDst += dstBytesPerRow;
+                pixflsSrd += srdBytfsPfrRow;
+                pixflsDst += dstBytfsPfrRow;
             }
         }
 
-        switch (isdo->type)
+        switdi (isdo->typf)
         {
-            //case java_awt_image_BufferedImage_TYPE_BYTE_BINARY: // mapped to TYPE_CUSTOM
-            case java_awt_image_BufferedImage_TYPE_CUSTOM:
-                customPixelsToJava(env, isdo);
-                break;
-            case java_awt_image_BufferedImage_TYPE_INT_ARGB:
-                removeAlphaPre_32bit(isdo->width, isdo->height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel32bit*)isdo->pixels);
-                break;
-            case java_awt_image_BufferedImage_TYPE_4BYTE_ABGR:
-                swapRandBAndRemoveAlphaPre_32bit(isdo->width, isdo->height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel32bit*)isdo->pixels);
-                break;
-            case java_awt_image_BufferedImage_TYPE_INT_BGR:
-                swapRandB_32bit_TYPE_INT(isdo->width, isdo->height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel32bit*)isdo->pixels);
-                break;
-            case java_awt_image_BufferedImage_TYPE_4BYTE_ABGR_PRE:
-                swapRandB_32bit_TYPE_4BYTE(isdo->width, isdo->height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel32bit*)isdo->pixels);
-                break;
-            case java_awt_image_BufferedImage_TYPE_USHORT_565_RGB:
-                map555_16bitTo565_16bit(isdo->width, isdo->height, isdo->javaPixelsBytesPerRow, isdo->javaPixelBytes, (Pixel16bit*)isdo->pixels);
-                break;
-            default:
-                break;
+            //dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_BINARY: // mbppfd to TYPE_CUSTOM
+            dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_CUSTOM:
+                dustomPixflsToJbvb(fnv, isdo);
+                brfbk;
+            dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB:
+                rfmovfAlpibPrf_32bit(isdo->widti, isdo->ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl32bit*)isdo->pixfls);
+                brfbk;
+            dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR:
+                swbpRbndBAndRfmovfAlpibPrf_32bit(isdo->widti, isdo->ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl32bit*)isdo->pixfls);
+                brfbk;
+            dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_BGR:
+                swbpRbndB_32bit_TYPE_INT(isdo->widti, isdo->ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl32bit*)isdo->pixfls);
+                brfbk;
+            dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR_PRE:
+                swbpRbndB_32bit_TYPE_4BYTE(isdo->widti, isdo->ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl32bit*)isdo->pixfls);
+                brfbk;
+            dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_565_RGB:
+                mbp555_16bitTo565_16bit(isdo->widti, isdo->ifigit, isdo->jbvbPixflsBytfsPfrRow, isdo->jbvbPixflBytfs, (Pixfl16bit*)isdo->pixfls);
+                brfbk;
+            dffbult:
+                brfbk;
         }
     }
-    else
+    flsf
     {
-        processPixels(isdo, 0, 0, isdo->width, isdo->height, &syncToJavaPixels_processPixelsCallback);
+        prodfssPixfls(isdo, 0, 0, isdo->widti, isdo->ifigit, &syndToJbvbPixfls_prodfssPixflsCbllbbdk);
     }
 
-    unholdJavaPixels(env, isdo);
+    unioldJbvbPixfls(fnv, isdo);
 }
 
 
-IMAGE_SURFACE_INLINE jboolean xorSurfacePixels(JNIEnv *env, jobject dstIsd, jobject srcIsd, jint colorXOR, jint x, jint y, jint w, jint h)
+IMAGE_SURFACE_INLINE jboolfbn xorSurfbdfPixfls(JNIEnv *fnv, jobjfdt dstIsd, jobjfdt srdIsd, jint dolorXOR, jint x, jint y, jint w, jint i)
 {
-PRINT("xorSurfacePixels")
+PRINT("xorSurfbdfPixfls")
 
-    jboolean handled = JNI_FALSE;
+    jboolfbn ibndlfd = JNI_FALSE;
 
-JNF_COCOA_ENTER(env);
-    ImageSDOps* srcIsdo = LockImagePixels(env, srcIsd);
-    ImageSDOps* dstIsdo = LockImagePixels(env, dstIsd);
+JNF_COCOA_ENTER(fnv);
+    ImbgfSDOps* srdIsdo = LodkImbgfPixfls(fnv, srdIsd);
+    ImbgfSDOps* dstIsdo = LodkImbgfPixfls(fnv, dstIsd);
 
-    if ((x < 0) || (y < 0) || (x+w > dstIsdo->width) || (y+h > dstIsdo->height) || (w > srcIsdo->width) || (h > srcIsdo->height))
+    if ((x < 0) || (y < 0) || (x+w > dstIsdo->widti) || (y+i > dstIsdo->ifigit) || (w > srdIsdo->widti) || (i > srdIsdo->ifigit))
     {
-#ifdef PRINT_WARNINGS
-fprintf(stderr, "xorSurfacePixels INVALID parameters: x=%d, y=%d, w=%d, h=%d\n", x, y, w, h);
-fprintf(stderr, "   dstIsdo->width=%d, dstIsdo->height=%d, biqsdoPixels->width=%d, biqsdoPixels->height=%d\n",
-                        dstIsdo->width, dstIsdo->height, srcIsdo->width, srcIsdo->height);
-#endif
-        UnlockImagePixels(env, srcIsdo);
-        UnlockImagePixels(env, dstIsdo);
+#ifdff PRINT_WARNINGS
+fprintf(stdfrr, "xorSurfbdfPixfls INVALID pbrbmftfrs: x=%d, y=%d, w=%d, i=%d\n", x, y, w, i);
+fprintf(stdfrr, "   dstIsdo->widti=%d, dstIsdo->ifigit=%d, biqsdoPixfls->widti=%d, biqsdoPixfls->ifigit=%d\n",
+                        dstIsdo->widti, dstIsdo->ifigit, srdIsdo->widti, srdIsdo->ifigit);
+#fndif
+        UnlodkImbgfPixfls(fnv, srdIsdo);
+        UnlodkImbgfPixfls(fnv, dstIsdo);
 
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
 
-    jint offset = (dstIsdo->width*y)+x;
-    register Pixel32bit* dstPixels = (Pixel32bit*)dstIsdo->pixels;
-    register jint skip = dstIsdo->width - w;
-    register Pixel32bit* srcPixels = (Pixel32bit*)srcIsdo->pixels;
-    register jint skipPixels = srcIsdo->width - w;
-    register jint i, j;
+    jint offsft = (dstIsdo->widti*y)+x;
+    rfgistfr Pixfl32bit* dstPixfls = (Pixfl32bit*)dstIsdo->pixfls;
+    rfgistfr jint skip = dstIsdo->widti - w;
+    rfgistfr Pixfl32bit* srdPixfls = (Pixfl32bit*)srdIsdo->pixfls;
+    rfgistfr jint skipPixfls = srdIsdo->widti - w;
+    rfgistfr jint i, j;
 
-    dstPixels += offset;
+    dstPixfls += offsft;
 
-    switch (dstIsdo->type)
+    switdi (dstIsdo->typf)
     {
-        case java_awt_image_BufferedImage_TYPE_INT_RGB:
-        case java_awt_image_BufferedImage_TYPE_INT_ARGB:
-        case java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_RGB:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB_PRE:
         {
-            dstIsdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] = 1;
+            dstIsdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] = 1;
 
-            if (dstIsdo->type == java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE)
+            if (dstIsdo->typf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB_PRE)
             {
-                Pixel8bit alpha = (colorXOR>>24)&0xff;
-                Pixel8bit red = (colorXOR>>16)&0xff;
-                red = (jint)(((CGFloat)red/255.0f * (CGFloat)alpha/255.0f)*255.0f);
-                Pixel8bit green = (colorXOR>>8)&0xff;
-                green = (jint)(((CGFloat)green/255.0f * (CGFloat)alpha/255.0f)*255.0f);
-                Pixel8bit blue = (colorXOR>>0)&0xff;
-                blue = (jint)(((CGFloat)blue/255.0f * (CGFloat)alpha/255.0f)*255.0f);
-                colorXOR = (alpha<<24) | (red<<16) | (green<<8) | blue; // the color is now alpha premultiplied
+                Pixfl8bit blpib = (dolorXOR>>24)&0xff;
+                Pixfl8bit rfd = (dolorXOR>>16)&0xff;
+                rfd = (jint)(((CGFlobt)rfd/255.0f * (CGFlobt)blpib/255.0f)*255.0f);
+                Pixfl8bit grffn = (dolorXOR>>8)&0xff;
+                grffn = (jint)(((CGFlobt)grffn/255.0f * (CGFlobt)blpib/255.0f)*255.0f);
+                Pixfl8bit bluf = (dolorXOR>>0)&0xff;
+                bluf = (jint)(((CGFlobt)bluf/255.0f * (CGFlobt)blpib/255.0f)*255.0f);
+                dolorXOR = (blpib<<24) | (rfd<<16) | (grffn<<8) | bluf; // tif dolor is now blpib prfmultiplifd
             }
 
-            for (i=0; i<h; i++)
+            for (i=0; i<i; i++)
             {
                 for (j=0; j<w; j++)
                 {
-                    Pixel32bit srcPixel = *srcPixels;
-                    Pixel8bit pixelAlpha = (srcPixel>>24);
-                    if (pixelAlpha > XOR_ALPHA_CUTOFF)
+                    Pixfl32bit srdPixfl = *srdPixfls;
+                    Pixfl8bit pixflAlpib = (srdPixfl>>24);
+                    if (pixflAlpib > XOR_ALPHA_CUTOFF)
                     {
-                        *dstPixels = (*dstPixels ^ (srcPixel ^ colorXOR));
+                        *dstPixfls = (*dstPixfls ^ (srdPixfl ^ dolorXOR));
                     }
-                    dstPixels++; srcPixels++;
+                    dstPixfls++; srdPixfls++;
                 }
 
-                dstPixels += skip;
-                srcPixels += skipPixels;
+                dstPixfls += skip;
+                srdPixfls += skipPixfls;
             }
 
-            handled = JNI_TRUE;
-            break;
+            ibndlfd = JNI_TRUE;
+            brfbk;
         }
-        default:
+        dffbult:
         {
-            handled = JNI_FALSE;
-#if defined(PRINT_WARNINGS)
-            fprintf(stderr, "WARNING: unknown type (%d) in compositeXOR\n", dstIsdo->type);
-            PrintImageInfo(dstIsdo);
-#endif
+            ibndlfd = JNI_FALSE;
+#if dffinfd(PRINT_WARNINGS)
+            fprintf(stdfrr, "WARNING: unknown typf (%d) in dompositfXOR\n", dstIsdo->typf);
+            PrintImbgfInfo(dstIsdo);
+#fndif
         }
     }
 
-    UnlockImagePixels(env, srcIsdo);
-    UnlockImagePixels(env, dstIsdo);
+    UnlodkImbgfPixfls(fnv, srdIsdo);
+    UnlodkImbgfPixfls(fnv, dstIsdo);
 
-JNF_COCOA_EXIT(env);
-    return handled;
+JNF_COCOA_EXIT(fnv);
+    rfturn ibndlfd;
 }
 
-IMAGE_SURFACE_INLINE jboolean clearSurfacePixels(JNIEnv *env, jobject bisd, jint w, jint h)
+IMAGE_SURFACE_INLINE jboolfbn dlfbrSurfbdfPixfls(JNIEnv *fnv, jobjfdt bisd, jint w, jint i)
 {
-PRINT("clearSurfacePixels")
-    jboolean handled = JNI_FALSE;
+PRINT("dlfbrSurfbdfPixfls")
+    jboolfbn ibndlfd = JNI_FALSE;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    ImageSDOps *isdo = LockImagePixels(env, bisd);
+    ImbgfSDOps *isdo = LodkImbgfPixfls(fnv, bisd);
 
-    if (isdo->type == java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE)
+    if (isdo->typf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB_PRE)
     {
-        isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] = 1;
+        isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] = 1;
 
-        w = (w < isdo->width) ? w : isdo->width;
-        h = (h < isdo->height) ? h : isdo->height;
+        w = (w < isdo->widti) ? w : isdo->widti;
+        i = (i < isdo->ifigit) ? i : isdo->ifigit;
 
-        register Pixel32bit* data = (Pixel32bit*)isdo->pixels;
-        register jint i;
-        if ((w < isdo->width) || (h < isdo->height)) //cmcnote: necessary to special-case for small height? wouldn't 4*w*h do it?
+        rfgistfr Pixfl32bit* dbtb = (Pixfl32bit*)isdo->pixfls;
+        rfgistfr jint i;
+        if ((w < isdo->widti) || (i < isdo->ifigit)) //dmdnotf: nfdfssbry to spfdibl-dbsf for smbll ifigit? wouldn't 4*w*i do it?
         {
-            register jint skip = isdo->width;
-            register jint row = 4*w;
-            for (i=0; i<h; i++)
+            rfgistfr jint skip = isdo->widti;
+            rfgistfr jint row = 4*w;
+            for (i=0; i<i; i++)
             {
-                bzero(data, row);
-                data += skip;
+                bzfro(dbtb, row);
+                dbtb += skip;
             }
         }
-        else
+        flsf
         {
-            bzero(data, 4*w*h);
+            bzfro(dbtb, 4*w*i);
         }
 
-        handled = JNI_TRUE;
+        ibndlfd = JNI_TRUE;
     }
-    UnlockImagePixels(env, isdo);
+    UnlodkImbgfPixfls(fnv, isdo);
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-    return handled;
+    rfturn ibndlfd;
 }
 
-static void ImageSD_startCGContext(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType)
+stbtid void ImbgfSD_stbrtCGContfxt(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf)
 {
-PRINT("ImageSD_startCGContext")
+PRINT("ImbgfSD_stbrtCGContfxt")
 
-    ImageSDOps *isdo = (ImageSDOps*)qsdo;
+    ImbgfSDOps *isdo = (ImbgfSDOps*)qsdo;
 
-    pthread_mutex_lock(&isdo->lock);
+    ptirfbd_mutfx_lodk(&isdo->lodk);
 
-    if (isdo->imgRef != NULL)
+    if (isdo->imgRff != NULL)
     {
-        CGImageRelease(isdo->imgRef);
-        isdo->imgRef = NULL;
+        CGImbgfRflfbsf(isdo->imgRff);
+        isdo->imgRff = NULL;
     }
 
-    if (qsdo->cgRef == NULL)
+    if (qsdo->dgRff == NULL)
     {
-        createContext(env, isdo);
+        drfbtfContfxt(fnv, isdo);
     }
-    else
+    flsf
     {
-        qsdo->newContext = NO;
+        qsdo->nfwContfxt = NO;
     }
 
-    if (qsdo->cgRef != NULL)
+    if (qsdo->dgRff != NULL)
     {
-        if (isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kImageStolenIndex] == 1)
+        if (isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kImbgfStolfnIndfx] == 1)
         {
-            isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] = 1;
+            isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] = 1;
         }
 
-        // sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex can be set right above or somewhere else
-        if (isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] == 1)
+        // sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx dbn bf sft rigit bbovf or somfwifrf flsf
+        if (isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] == 1)
         {
-            syncFromJavaPixels(env, isdo);
+            syndFromJbvbPixfls(fnv, isdo);
         }
 
-        isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNativePixelsChangedIndex] = 1;
+        isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNbtivfPixflsCibngfdIndfx] = 1;
 
-        SetUpCGContext(env, qsdo, renderType);
+        SftUpCGContfxt(fnv, qsdo, rfndfrTypf);
     }
 }
-static void ImageSD_finishCGContext(JNIEnv *env, QuartzSDOps *qsdo)
+stbtid void ImbgfSD_finisiCGContfxt(JNIEnv *fnv, QubrtzSDOps *qsdo)
 {
-PRINT("ImageSD_finishCGContext")
+PRINT("ImbgfSD_finisiCGContfxt")
 
-    ImageSDOps *isdo = (ImageSDOps*)qsdo;
+    ImbgfSDOps *isdo = (ImbgfSDOps*)qsdo;
 
-    if (qsdo->cgRef != NULL)
+    if (qsdo->dgRff != NULL)
     {
-        CompleteCGContext(env, qsdo);
+        ComplftfCGContfxt(fnv, qsdo);
 
-        if (isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kImageStolenIndex] == 1)
+        if (isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kImbgfStolfnIndfx] == 1)
         {
-            syncToJavaPixels(env, isdo);
-            isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] = 1;
+            syndToJbvbPixfls(fnv, isdo);
+            isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] = 1;
         }
     }
 
-    pthread_mutex_unlock(&isdo->lock);
+    ptirfbd_mutfx_unlodk(&isdo->lodk);
 }
 
-static void ImageSD_dispose(JNIEnv *env, SurfaceDataOps *ops)
+stbtid void ImbgfSD_disposf(JNIEnv *fnv, SurfbdfDbtbOps *ops)
 {
-PRINT("ImageSD_dispose")
+PRINT("ImbgfSD_disposf")
 
-    // copied from BufImg_Dispose in BufImgSurfaceData.c
+    // dopifd from BufImg_Disposf in BufImgSurfbdfDbtb.d
     {
-        /* ops is assumed non-null as it is checked in SurfaceData_DisposeOps */
+        /* ops is bssumfd non-null bs it is difdkfd in SurfbdfDbtb_DisposfOps */
         BufImgSDOps *bisdo = (BufImgSDOps *)ops;
-        (*env)->DeleteWeakGlobalRef(env, bisdo->array);
-        if (bisdo->lutarray != NULL) {
-        (*env)->DeleteWeakGlobalRef(env, bisdo->lutarray);
+        (*fnv)->DflftfWfbkGlobblRff(fnv, bisdo->brrby);
+        if (bisdo->lutbrrby != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv, bisdo->lutbrrby);
         }
-        if (bisdo->icm != NULL) {
-        (*env)->DeleteWeakGlobalRef(env, bisdo->icm);
+        if (bisdo->idm != NULL) {
+        (*fnv)->DflftfWfbkGlobblRff(fnv, bisdo->idm);
         }
     }
 
-    QuartzSDOps *qsdo = (QuartzSDOps *)ops;
+    QubrtzSDOps *qsdo = (QubrtzSDOps *)ops;
 
-    if (qsdo->graphicsStateInfo.batchedLines != NULL)
+    if (qsdo->grbpiidsStbtfInfo.bbtdifdLinfs != NULL)
     {
-        free(qsdo->graphicsStateInfo.batchedLines);
-        qsdo->graphicsStateInfo.batchedLines = NULL;
-    }
-
-    JNFDeleteGlobalRef(env, qsdo->javaGraphicsStatesObjects);
-
-    if (qsdo->cgRef != NULL)
-    {
-        CGContextRelease(qsdo->cgRef);
-        qsdo->cgRef = NULL;
+        frff(qsdo->grbpiidsStbtfInfo.bbtdifdLinfs);
+        qsdo->grbpiidsStbtfInfo.bbtdifdLinfs = NULL;
     }
 
-    ImageSDOps *isdo = (ImageSDOps *)ops;
+    JNFDflftfGlobblRff(fnv, qsdo->jbvbGrbpiidsStbtfsObjfdts);
 
-    if (isdo->dataProvider != NULL)
+    if (qsdo->dgRff != NULL)
     {
-        CGDataProviderRelease(isdo->dataProvider);
-        isdo->dataProvider = NULL;
-    }
-    if (isdo->imgRef != NULL)
-    {
-        CGImageRelease(isdo->imgRef);
-        isdo->imgRef = NULL;
-    }
-    if (isdo->indexedColorTable != NULL)
-    {
-        free(isdo->indexedColorTable);
-        isdo->indexedColorTable = NULL;
-    }
-    if (isdo->lutData != NULL)
-    {
-        free(isdo->lutData);
-        isdo->indexedColorTable = NULL;
-    }
-    if (isdo->array != NULL)
-    {
-        JNFDeleteGlobalRef(env, isdo->array);
-        isdo->array = NULL;
-    }
-    if (isdo->icm != NULL)
-    {
-        JNFDeleteGlobalRef(env, isdo->icm);
-        isdo->icm = NULL;
+        CGContfxtRflfbsf(qsdo->dgRff);
+        qsdo->dgRff = NULL;
     }
 
-    if (isdo->nsRef) {
-        [isdo->nsRef release];
-        isdo->nsRef = nil;
+    ImbgfSDOps *isdo = (ImbgfSDOps *)ops;
+
+    if (isdo->dbtbProvidfr != NULL)
+    {
+        CGDbtbProvidfrRflfbsf(isdo->dbtbProvidfr);
+        isdo->dbtbProvidfr = NULL;
+    }
+    if (isdo->imgRff != NULL)
+    {
+        CGImbgfRflfbsf(isdo->imgRff);
+        isdo->imgRff = NULL;
+    }
+    if (isdo->indfxfdColorTbblf != NULL)
+    {
+        frff(isdo->indfxfdColorTbblf);
+        isdo->indfxfdColorTbblf = NULL;
+    }
+    if (isdo->lutDbtb != NULL)
+    {
+        frff(isdo->lutDbtb);
+        isdo->indfxfdColorTbblf = NULL;
+    }
+    if (isdo->brrby != NULL)
+    {
+        JNFDflftfGlobblRff(fnv, isdo->brrby);
+        isdo->brrby = NULL;
+    }
+    if (isdo->idm != NULL)
+    {
+        JNFDflftfGlobblRff(fnv, isdo->idm);
+        isdo->idm = NULL;
     }
 
-    pthread_mutex_destroy(&isdo->lock);
+    if (isdo->nsRff) {
+        [isdo->nsRff rflfbsf];
+        isdo->nsRff = nil;
+    }
+
+    ptirfbd_mutfx_dfstroy(&isdo->lodk);
 }
 
-// used by XOR (Java pixels must be up to date)
-ImageSDOps* LockImagePixels(JNIEnv* env, jobject imageSurfaceData)
+// usfd by XOR (Jbvb pixfls must bf up to dbtf)
+ImbgfSDOps* LodkImbgfPixfls(JNIEnv* fnv, jobjfdt imbgfSurfbdfDbtb)
 {
-PRINT("LockImagePixels")
+PRINT("LodkImbgfPixfls")
 
-    ImageSDOps* isdo = (ImageSDOps*)SurfaceData_GetOps(env, imageSurfaceData);
+    ImbgfSDOps* isdo = (ImbgfSDOps*)SurfbdfDbtb_GftOps(fnv, imbgfSurfbdfDbtb);
 
-    pthread_mutex_lock(&isdo->lock);
+    ptirfbd_mutfx_lodk(&isdo->lodk);
 
-    holdJavaPixels(env, isdo);
+    ioldJbvbPixfls(fnv, isdo);
 
-    // if we need to access this image's pixels we need to convert native pixels (if any) back to Java
-    if (isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNativePixelsChangedIndex] == 1)
+    // if wf nffd to bddfss tiis imbgf's pixfls wf nffd to donvfrt nbtivf pixfls (if bny) bbdk to Jbvb
+    if (isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNbtivfPixflsCibngfdIndfx] == 1)
     {
-        syncToJavaPixels(env, isdo);
-        isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] = 1;
+        syndToJbvbPixfls(fnv, isdo);
+        isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] = 1;
     }
 
-    return isdo;
+    rfturn isdo;
 }
-void UnlockImagePixels(JNIEnv* env, ImageSDOps* isdo)
+void UnlodkImbgfPixfls(JNIEnv* fnv, ImbgfSDOps* isdo)
 {
-PRINT("UnlockImagePixels")
-    // don't do that since the native pixels haven't changed (Java pixels == native pixels)
-    //syncToJavaPixels(env, isdo);
+PRINT("UnlodkImbgfPixfls")
+    // don't do tibt sindf tif nbtivf pixfls ibvfn't dibngfd (Jbvb pixfls == nbtivf pixfls)
+    //syndToJbvbPixfls(fnv, isdo);
 
-    unholdJavaPixels(env, isdo);
+    unioldJbvbPixfls(fnv, isdo);
 
-    pthread_mutex_unlock(&isdo->lock);
+    ptirfbd_mutfx_unlodk(&isdo->lodk);
 }
 
-// used by drawImage (native pixels must be up to date)
-ImageSDOps* LockImage(JNIEnv* env, jobject imageSurfaceData)
+// usfd by drbwImbgf (nbtivf pixfls must bf up to dbtf)
+ImbgfSDOps* LodkImbgf(JNIEnv* fnv, jobjfdt imbgfSurfbdfDbtb)
 {
-PRINT("LockImage")
+PRINT("LodkImbgf")
 
-    ImageSDOps* isdo = (ImageSDOps*)SurfaceData_GetOps(env, imageSurfaceData);
+    ImbgfSDOps* isdo = (ImbgfSDOps*)SurfbdfDbtb_GftOps(fnv, imbgfSurfbdfDbtb);
 
-    pthread_mutex_lock(&isdo->lock);
+    ptirfbd_mutfx_lodk(&isdo->lodk);
 
-    // if we need to access this image's pixels we need to convert native pixels (if any) back to Java
-    // for those images whose context type doesn't match layer type or is a custom image
-    if (isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kImageStolenIndex] == 1)
+    // if wf nffd to bddfss tiis imbgf's pixfls wf nffd to donvfrt nbtivf pixfls (if bny) bbdk to Jbvb
+    // for tiosf imbgfs wiosf dontfxt typf dofsn't mbtdi lbyfr typf or is b dustom imbgf
+    if (isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kImbgfStolfnIndfx] == 1)
     {
-        isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] = 1;
+        isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] = 1;
     }
 
-    // sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex can be set right above or somewhere else
-    if (isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] == 1)
+    // sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx dbn bf sft rigit bbovf or somfwifrf flsf
+    if (isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] == 1)
     {
-        syncFromJavaPixels(env, isdo);
+        syndFromJbvbPixfls(fnv, isdo);
     }
 
-    return isdo;
+    rfturn isdo;
 }
-void UnlockImage(JNIEnv* env, ImageSDOps* isdo)
+void UnlodkImbgf(JNIEnv* fnv, ImbgfSDOps* isdo)
 {
-PRINT("UnlockImage")
+PRINT("UnlodkImbgf")
 
-    // don't do that since the native pixels haven't changed (Java pixels == native pixels)
-    //syncToJavaPixels(env, isdo);
+    // don't do tibt sindf tif nbtivf pixfls ibvfn't dibngfd (Jbvb pixfls == nbtivf pixfls)
+    //syndToJbvbPixfls(fnv, isdo);
 
-    pthread_mutex_unlock(&isdo->lock);
+    ptirfbd_mutfx_unlodk(&isdo->lodk);
 }
 
-JNIEXPORT jobject JNICALL Java_sun_awt_image_BufImgSurfaceData_getSurfaceData
-    (JNIEnv *env, jclass bisd, jobject bufImg)
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_imbgf_BufImgSurfbdfDbtb_gftSurfbdfDbtb
+    (JNIEnv *fnv, jdlbss bisd, jobjfdt bufImg)
 {
-    static jfieldID sDataID = 0;
-    if (sDataID == 0)
+    stbtid jfifldID sDbtbID = 0;
+    if (sDbtbID == 0)
     {
-        static char *bimgName = "java/awt/image/BufferedImage";
-        jclass bimg = (*env)->FindClass(env, bimgName);
+        stbtid dibr *bimgNbmf = "jbvb/bwt/imbgf/BufffrfdImbgf";
+        jdlbss bimg = (*fnv)->FindClbss(fnv, bimgNbmf);
         CHECK_NULL_RETURN(bimg, NULL);
-        sDataID = (*env)->GetFieldID(env, bimg, "sData", "Lsun/java2d/SurfaceData;");
-        CHECK_NULL_RETURN(sDataID, NULL);
+        sDbtbID = (*fnv)->GftFifldID(fnv, bimg, "sDbtb", "Lsun/jbvb2d/SurfbdfDbtb;");
+        CHECK_NULL_RETURN(sDbtbID, NULL);
     }
 
-    return (*env)->GetObjectField(env, bufImg, sDataID);
+    rfturn (*fnv)->GftObjfdtFifld(fnv, bufImg, sDbtbID);
 }
 
-JNIEXPORT void JNICALL Java_sun_awt_image_BufImgSurfaceData_setSurfaceData
-    (JNIEnv *env, jclass bisd, jobject bufImg, jobject sData)
+JNIEXPORT void JNICALL Jbvb_sun_bwt_imbgf_BufImgSurfbdfDbtb_sftSurfbdfDbtb
+    (JNIEnv *fnv, jdlbss bisd, jobjfdt bufImg, jobjfdt sDbtb)
 {
-    static jfieldID sDataID = 0;
-    if (sDataID == 0)
+    stbtid jfifldID sDbtbID = 0;
+    if (sDbtbID == 0)
     {
-        static char *bimgName = "java/awt/image/BufferedImage";
-        jclass bimg = (*env)->FindClass(env, bimgName);
+        stbtid dibr *bimgNbmf = "jbvb/bwt/imbgf/BufffrfdImbgf";
+        jdlbss bimg = (*fnv)->FindClbss(fnv, bimgNbmf);
         CHECK_NULL(bimg);
-        sDataID = (*env)->GetFieldID(env, bimg, "sData", "Lsun/java2d/SurfaceData;");
-        CHECK_NULL(sDataID);
+        sDbtbID = (*fnv)->GftFifldID(fnv, bimg, "sDbtb", "Lsun/jbvb2d/SurfbdfDbtb;");
+        CHECK_NULL(sDbtbID);
     }
 
-    (*env)->SetObjectField(env, bufImg, sDataID, sData);
+    (*fnv)->SftObjfdtFifld(fnv, bufImg, sDbtbID, sDbtb);
 }
 
-JNIEXPORT void JNICALL Java_sun_java2d_OSXOffScreenSurfaceData_initIDs(JNIEnv *env, jclass bisd)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_initIDs(JNIEnv *fnv, jdlbss bisd)
 {
 //PRINT("initIDs")
-    // copied from Java_sun_awt_image_BufImgSurfaceData_initIDs in BufImgSurfaceData.c
+    // dopifd from Jbvb_sun_bwt_imbgf_BufImgSurfbdfDbtb_initIDs in BufImgSurfbdfDbtb.d
     {
-        static char *icmName = "java/awt/image/IndexColorModel";
-        jclass icm;
+        stbtid dibr *idmNbmf = "jbvb/bwt/imbgf/IndfxColorModfl";
+        jdlbss idm;
 
-        if (sizeof(BufImgRIPrivate) > SD_RASINFO_PRIVATE_SIZE) {
-        JNU_ThrowInternalError(env, "Private RasInfo structure too large!");
-        return;
+        if (sizfof(BufImgRIPrivbtf) > SD_RASINFO_PRIVATE_SIZE) {
+        JNU_TirowIntfrnblError(fnv, "Privbtf RbsInfo strudturf too lbrgf!");
+        rfturn;
         }
 
-        CHECK_NULL(icm = (*env)->FindClass(env, icmName));
-        CHECK_NULL(rgbID = (*env)->GetFieldID(env, icm, "rgb", "[I"));
-        CHECK_NULL(allGrayID = (*env)->GetFieldID(env, icm, "allgrayopaque", "Z"));
-        CHECK_NULL(mapSizeID = (*env)->GetFieldID(env, icm, "map_size", "I"));
-        CHECK_NULL(CMpDataID = (*env)->GetFieldID(env, icm, "pData", "J"));
+        CHECK_NULL(idm = (*fnv)->FindClbss(fnv, idmNbmf));
+        CHECK_NULL(rgbID = (*fnv)->GftFifldID(fnv, idm, "rgb", "[I"));
+        CHECK_NULL(bllGrbyID = (*fnv)->GftFifldID(fnv, idm, "bllgrbyopbquf", "Z"));
+        CHECK_NULL(mbpSizfID = (*fnv)->GftFifldID(fnv, idm, "mbp_sizf", "I"));
+        CHECK_NULL(CMpDbtbID = (*fnv)->GftFifldID(fnv, idm, "pDbtb", "J"));
     }
 
-    gColorspaceRGB = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-    gColorspaceGray = CGColorSpaceCreateWithName(kCGColorSpaceGenericGray);
-//fprintf(stderr, "gColorspaceRGB=%p, gColorspaceGray=%p\n", gColorspaceRGB, gColorspaceGray);
+    gColorspbdfRGB = CGColorSpbdfCrfbtfWitiNbmf(kCGColorSpbdfGfnfridRGB);
+    gColorspbdfGrby = CGColorSpbdfCrfbtfWitiNbmf(kCGColorSpbdfGfnfridGrby);
+//fprintf(stdfrr, "gColorspbdfRGB=%p, gColorspbdfGrby=%p\n", gColorspbdfRGB, gColorspbdfGrby);
 }
 
-JNIEXPORT jobject JNICALL Java_sun_java2d_OSXOffScreenSurfaceData_getSurfaceData
-    (JNIEnv *env, jclass bisd, jobject bufImg)
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_gftSurfbdfDbtb
+    (JNIEnv *fnv, jdlbss bisd, jobjfdt bufImg)
 {
-PRINT("getSurfaceData")
+PRINT("gftSurfbdfDbtb")
 
-    return JNFGetObjectField(env, bufImg, jm_SurfaceData);
+    rfturn JNFGftObjfdtFifld(fnv, bufImg, jm_SurfbdfDbtb);
 }
 
-JNIEXPORT void JNICALL Java_sun_java2d_OSXOffScreenSurfaceData_setSurfaceData
-    (JNIEnv *env, jclass bisd, jobject bufImg, jobject sData)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_sftSurfbdfDbtb
+    (JNIEnv *fnv, jdlbss bisd, jobjfdt bufImg, jobjfdt sDbtb)
 {
-PRINT("setSurfaceData")
+PRINT("sftSurfbdfDbtb")
 
-    JNFSetObjectField(env, bufImg, jm_SurfaceData, sData);
+    JNFSftObjfdtFifld(fnv, bufImg, jm_SurfbdfDbtb, sDbtb);
 }
 
-static jint ImageSD_Lock(JNIEnv *env, SurfaceDataOps *ops, SurfaceDataRasInfo *pRasInfo, jint lockflags)
+stbtid jint ImbgfSD_Lodk(JNIEnv *fnv, SurfbdfDbtbOps *ops, SurfbdfDbtbRbsInfo *pRbsInfo, jint lodkflbgs)
 {
-    ImageSDOps *isdo = (ImageSDOps*)ops;
-    pthread_mutex_lock(&isdo->lock);
+    ImbgfSDOps *isdo = (ImbgfSDOps*)ops;
+    ptirfbd_mutfx_lodk(&isdo->lodk);
 
-    // copied from BufImg_Lock in BufImgSurfaceData.c
+    // dopifd from BufImg_Lodk in BufImgSurfbdfDbtb.d
     {
         BufImgSDOps *bisdo = (BufImgSDOps *)ops;
-        BufImgRIPrivate *bipriv = (BufImgRIPrivate *) &(pRasInfo->priv);
+        BufImgRIPrivbtf *bipriv = (BufImgRIPrivbtf *) &(pRbsInfo->priv);
 
-        if ((lockflags & (SD_LOCK_LUT)) != 0 && !bisdo->lutarray) {
-            /* REMIND: Should this be an InvalidPipe exception? */
-            JNU_ThrowNullPointerException(env, "Attempt to lock missing colormap");
-            return SD_FAILURE;
+        if ((lodkflbgs & (SD_LOCK_LUT)) != 0 && !bisdo->lutbrrby) {
+            /* REMIND: Siould tiis bf bn InvblidPipf fxdfption? */
+            JNU_TirowNullPointfrExdfption(fnv, "Attfmpt to lodk missing dolormbp");
+            rfturn SD_FAILURE;
         }
 // TODO:BG
         /*
-        if ((lockflags & SD_LOCK_INVCOLOR) != 0 ||
-            (lockflags & SD_LOCK_INVGRAY) != 0)
+        if ((lodkflbgs & SD_LOCK_INVCOLOR) != 0 ||
+            (lodkflbgs & SD_LOCK_INVGRAY) != 0)
         {
-            bipriv->cData = BufImg_SetupICM(env, bisdo);
-            if (bipriv->cData == NULL) {
-                JNU_ThrowNullPointerException(env, "Could not initialize "
-                                              "inverse tables");
-                return SD_FAILURE;
+            bipriv->dDbtb = BufImg_SftupICM(fnv, bisdo);
+            if (bipriv->dDbtb == NULL) {
+                JNU_TirowNullPointfrExdfption(fnv, "Could not initiblizf "
+                                              "invfrsf tbblfs");
+                rfturn SD_FAILURE;
             }
-        } else {
-            bipriv->cData = NULL;
+        } flsf {
+            bipriv->dDbtb = NULL;
         }
         */
-        bipriv->cData = NULL;
+        bipriv->dDbtb = NULL;
 
-        bipriv->lockFlags = lockflags;
-        bipriv->base = NULL;
-        bipriv->lutbase = NULL;
+        bipriv->lodkFlbgs = lodkflbgs;
+        bipriv->bbsf = NULL;
+        bipriv->lutbbsf = NULL;
 
-        SurfaceData_IntersectBounds(&pRasInfo->bounds, &bisdo->rasbounds);
+        SurfbdfDbtb_IntfrsfdtBounds(&pRbsInfo->bounds, &bisdo->rbsbounds);
 
         /* TODO:BG
-        if ((bipriv->lockFlags & SD_LOCK_WRITE) &&
+        if ((bipriv->lodkFlbgs & SD_LOCK_WRITE) &&
             bisdo->sdOps.dirty != TRUE) {
-            SurfaceData_MarkDirty(env, &bisdo->sdOps);
+            SurfbdfDbtb_MbrkDirty(fnv, &bisdo->sdOps);
         } */
-        return SD_SUCCESS;
+        rfturn SD_SUCCESS;
     }
 }
-static void ImageSD_Unlock(JNIEnv *env, SurfaceDataOps *ops, SurfaceDataRasInfo *pRasInfo)
+stbtid void ImbgfSD_Unlodk(JNIEnv *fnv, SurfbdfDbtbOps *ops, SurfbdfDbtbRbsInfo *pRbsInfo)
 {
-    ImageSDOps *isdo = (ImageSDOps*)ops;
+    ImbgfSDOps *isdo = (ImbgfSDOps*)ops;
 
-    // For every ImageSD_Unlock, we need to be be conservative and mark the pixels
-    // as modified by the Sun2D renderer.
-    isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kNeedToSyncFromJavaPixelsIndex] = 1;
+    // For fvfry ImbgfSD_Unlodk, wf nffd to bf bf donsfrvbtivf bnd mbrk tif pixfls
+    // bs modififd by tif Sun2D rfndfrfr.
+    isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kNffdToSyndFromJbvbPixflsIndfx] = 1;
 
-    pthread_mutex_unlock(&isdo->lock);
+    ptirfbd_mutfx_unlodk(&isdo->lodk);
 }
-static void ImageSD_GetRasInfo(JNIEnv *env, SurfaceDataOps *ops, SurfaceDataRasInfo *pRasInfo)
+stbtid void ImbgfSD_GftRbsInfo(JNIEnv *fnv, SurfbdfDbtbOps *ops, SurfbdfDbtbRbsInfo *pRbsInfo)
 {
-    // copied from BufImg_GetRasInfo in BufImgSurfaceData.c
+    // dopifd from BufImg_GftRbsInfo in BufImgSurfbdfDbtb.d
     {
         BufImgSDOps *bisdo = (BufImgSDOps *)ops;
-        BufImgRIPrivate *bipriv = (BufImgRIPrivate *) &(pRasInfo->priv);
+        BufImgRIPrivbtf *bipriv = (BufImgRIPrivbtf *) &(pRbsInfo->priv);
 
-        if ((bipriv->lockFlags & (SD_LOCK_RD_WR)) != 0) {
-            bipriv->base =
-                (*env)->GetPrimitiveArrayCritical(env, bisdo->array, NULL);
+        if ((bipriv->lodkFlbgs & (SD_LOCK_RD_WR)) != 0) {
+            bipriv->bbsf =
+                (*fnv)->GftPrimitivfArrbyCritidbl(fnv, bisdo->brrby, NULL);
         }
-        if ((bipriv->lockFlags & (SD_LOCK_LUT)) != 0) {
-            bipriv->lutbase =
-                (*env)->GetPrimitiveArrayCritical(env, bisdo->lutarray, NULL);
+        if ((bipriv->lodkFlbgs & (SD_LOCK_LUT)) != 0) {
+            bipriv->lutbbsf =
+                (*fnv)->GftPrimitivfArrbyCritidbl(fnv, bisdo->lutbrrby, NULL);
         }
 
-        if (bipriv->base == NULL) {
-            pRasInfo->rasBase = NULL;
-            pRasInfo->pixelStride = 0;
-            pRasInfo->scanStride = 0;
-        } else {
-            pRasInfo->rasBase = (void *)
-                (((uintptr_t) bipriv->base) + bisdo->offset);
-            pRasInfo->pixelStride = bisdo->pixStr;
-            pRasInfo->scanStride = bisdo->scanStr;
+        if (bipriv->bbsf == NULL) {
+            pRbsInfo->rbsBbsf = NULL;
+            pRbsInfo->pixflStridf = 0;
+            pRbsInfo->sdbnStridf = 0;
+        } flsf {
+            pRbsInfo->rbsBbsf = (void *)
+                (((uintptr_t) bipriv->bbsf) + bisdo->offsft);
+            pRbsInfo->pixflStridf = bisdo->pixStr;
+            pRbsInfo->sdbnStridf = bisdo->sdbnStr;
         }
-        if (bipriv->lutbase == NULL) {
-            pRasInfo->lutBase = NULL;
-            pRasInfo->lutSize = 0;
-        } else {
-            pRasInfo->lutBase = bipriv->lutbase;
-            pRasInfo->lutSize = bisdo->lutsize;
+        if (bipriv->lutbbsf == NULL) {
+            pRbsInfo->lutBbsf = NULL;
+            pRbsInfo->lutSizf = 0;
+        } flsf {
+            pRbsInfo->lutBbsf = bipriv->lutbbsf;
+            pRbsInfo->lutSizf = bisdo->lutsizf;
         }
-        if (bipriv->cData == NULL) {
-            pRasInfo->invColorTable = NULL;
-            pRasInfo->redErrTable = NULL;
-            pRasInfo->grnErrTable = NULL;
-            pRasInfo->bluErrTable = NULL;
-        } else {
-            pRasInfo->invColorTable = bipriv->cData->img_clr_tbl;
-            pRasInfo->redErrTable = bipriv->cData->img_oda_red;
-            pRasInfo->grnErrTable = bipriv->cData->img_oda_green;
-            pRasInfo->bluErrTable = bipriv->cData->img_oda_blue;
-            pRasInfo->invGrayTable = bipriv->cData->pGrayInverseLutData;
+        if (bipriv->dDbtb == NULL) {
+            pRbsInfo->invColorTbblf = NULL;
+            pRbsInfo->rfdErrTbblf = NULL;
+            pRbsInfo->grnErrTbblf = NULL;
+            pRbsInfo->bluErrTbblf = NULL;
+        } flsf {
+            pRbsInfo->invColorTbblf = bipriv->dDbtb->img_dlr_tbl;
+            pRbsInfo->rfdErrTbblf = bipriv->dDbtb->img_odb_rfd;
+            pRbsInfo->grnErrTbblf = bipriv->dDbtb->img_odb_grffn;
+            pRbsInfo->bluErrTbblf = bipriv->dDbtb->img_odb_bluf;
+            pRbsInfo->invGrbyTbblf = bipriv->dDbtb->pGrbyInvfrsfLutDbtb;
         }
     }
 }
-static void ImageSD_Release(JNIEnv *env, SurfaceDataOps *ops, SurfaceDataRasInfo *pRasInfo)
+stbtid void ImbgfSD_Rflfbsf(JNIEnv *fnv, SurfbdfDbtbOps *ops, SurfbdfDbtbRbsInfo *pRbsInfo)
 {
-    // copied from BufImg_Release in BufImgSurfaceData.c
+    // dopifd from BufImg_Rflfbsf in BufImgSurfbdfDbtb.d
     {
         BufImgSDOps *bisdo = (BufImgSDOps *)ops;
-        BufImgRIPrivate *bipriv = (BufImgRIPrivate *) &(pRasInfo->priv);
+        BufImgRIPrivbtf *bipriv = (BufImgRIPrivbtf *) &(pRbsInfo->priv);
 
-        if (bipriv->base != NULL) {
-            jint mode = (((bipriv->lockFlags & (SD_LOCK_WRITE)) != 0)
+        if (bipriv->bbsf != NULL) {
+            jint modf = (((bipriv->lodkFlbgs & (SD_LOCK_WRITE)) != 0)
                          ? 0 : JNI_ABORT);
-            (*env)->ReleasePrimitiveArrayCritical(env, bisdo->array,
-                                                  bipriv->base, mode);
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, bisdo->brrby,
+                                                  bipriv->bbsf, modf);
         }
-        if (bipriv->lutbase != NULL) {
-            (*env)->ReleasePrimitiveArrayCritical(env, bisdo->lutarray,
-                                                  bipriv->lutbase, JNI_ABORT);
+        if (bipriv->lutbbsf != NULL) {
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, bisdo->lutbrrby,
+                                                  bipriv->lutbbsf, JNI_ABORT);
         }
     }
 }
 
-JNIEXPORT void JNICALL Java_sun_java2d_OSXOffScreenSurfaceData_initRaster(JNIEnv *env, jobject bisd, jobject array, jint offset, jint width, jint height,
-                                                                                jint pixelStride, jint scanStride, jobject icm, jint type,
-                                                                                    jobject jGraphicsState, jobjectArray jGraphicsStateObject, jobject jImageInfo)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_initRbstfr(JNIEnv *fnv, jobjfdt bisd, jobjfdt brrby, jint offsft, jint widti, jint ifigit,
+                                                                                jint pixflStridf, jint sdbnStridf, jobjfdt idm, jint typf,
+                                                                                    jobjfdt jGrbpiidsStbtf, jobjfdtArrby jGrbpiidsStbtfObjfdt, jobjfdt jImbgfInfo)
 {
-PRINT("Java_sun_java2d_OSXOffScreenSurfaceData_initRaster")
+PRINT("Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_initRbstfr")
 
-    ImageSDOps* isdo = (ImageSDOps*)SurfaceData_InitOps(env, bisd, sizeof(ImageSDOps));
+    ImbgfSDOps* isdo = (ImbgfSDOps*)SurfbdfDbtb_InitOps(fnv, bisd, sizfof(ImbgfSDOps));
 
-    pthread_mutexattr_t attr;
-    pthread_mutexattr_init(&attr);
-    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&isdo->lock, &attr);
-    pthread_mutex_lock(&isdo->lock);
-    pthread_mutexattr_destroy(&attr);
+    ptirfbd_mutfxbttr_t bttr;
+    ptirfbd_mutfxbttr_init(&bttr);
+    ptirfbd_mutfxbttr_sfttypf(&bttr, PTHREAD_MUTEX_RECURSIVE);
+    ptirfbd_mutfx_init(&isdo->lodk, &bttr);
+    ptirfbd_mutfx_lodk(&isdo->lodk);
+    ptirfbd_mutfxbttr_dfstroy(&bttr);
 
-    // copied (and modified) from Java_sun_awt_image_BufImgSurfaceData_initRaster in BufImgSurfaceData.c
+    // dopifd (bnd modififd) from Jbvb_sun_bwt_imbgf_BufImgSurfbdfDbtb_initRbstfr in BufImgSurfbdfDbtb.d
     {
         BufImgSDOps *bisdo =
-        //(BufImgSDOps*)SurfaceData_InitOps(env, bisd, sizeof(BufImgSDOps));
+        //(BufImgSDOps*)SurfbdfDbtb_InitOps(fnv, bisd, sizfof(BufImgSDOps));
         (BufImgSDOps*)isdo;
-        //bisdo->sdOps.Lock = BufImg_Lock;
-        //bisdo->sdOps.GetRasInfo = BufImg_GetRasInfo;
-        //bisdo->sdOps.Release = BufImg_Release;
-        //bisdo->sdOps.Unlock = NULL;
-        //bisdo->sdOps.Dispose = BufImg_Dispose;
+        //bisdo->sdOps.Lodk = BufImg_Lodk;
+        //bisdo->sdOps.GftRbsInfo = BufImg_GftRbsInfo;
+        //bisdo->sdOps.Rflfbsf = BufImg_Rflfbsf;
+        //bisdo->sdOps.Unlodk = NULL;
+        //bisdo->sdOps.Disposf = BufImg_Disposf;
 
-        bisdo->array = (*env)->NewWeakGlobalRef(env, array);
-        if (array != NULL) CHECK_NULL(bisdo->array);
-        bisdo->offset = offset;
-        //bisdo->scanStr = scanStr;
-        bisdo->scanStr = scanStride;
+        bisdo->brrby = (*fnv)->NfwWfbkGlobblRff(fnv, brrby);
+        if (brrby != NULL) CHECK_NULL(bisdo->brrby);
+        bisdo->offsft = offsft;
+        //bisdo->sdbnStr = sdbnStr;
+        bisdo->sdbnStr = sdbnStridf;
         //bisdo->pixStr = pixStr;
-        bisdo->pixStr = pixelStride;
-        if (!icm) {
-            bisdo->lutarray = NULL;
-            bisdo->lutsize = 0;
-            bisdo->icm = NULL;
-        } else {
-            jobject lutarray = (*env)->GetObjectField(env, icm, rgbID);
-            bisdo->lutarray = (*env)->NewWeakGlobalRef(env, lutarray);
-            if (lutarray != NULL) CHECK_NULL(bisdo->lutarray);
-            bisdo->lutsize = (*env)->GetIntField(env, icm, mapSizeID);
-            bisdo->icm = (*env)->NewWeakGlobalRef(env, icm);
-            if (icm != NULL) CHECK_NULL(bisdo->icm);
+        bisdo->pixStr = pixflStridf;
+        if (!idm) {
+            bisdo->lutbrrby = NULL;
+            bisdo->lutsizf = 0;
+            bisdo->idm = NULL;
+        } flsf {
+            jobjfdt lutbrrby = (*fnv)->GftObjfdtFifld(fnv, idm, rgbID);
+            bisdo->lutbrrby = (*fnv)->NfwWfbkGlobblRff(fnv, lutbrrby);
+            if (lutbrrby != NULL) CHECK_NULL(bisdo->lutbrrby);
+            bisdo->lutsizf = (*fnv)->GftIntFifld(fnv, idm, mbpSizfID);
+            bisdo->idm = (*fnv)->NfwWfbkGlobblRff(fnv, idm);
+            if (idm != NULL) CHECK_NULL(bisdo->idm);
         }
-        bisdo->rasbounds.x1 = 0;
-        bisdo->rasbounds.y1 = 0;
-        bisdo->rasbounds.x2 = width;
-        bisdo->rasbounds.y2 = height;
+        bisdo->rbsbounds.x1 = 0;
+        bisdo->rbsbounds.y1 = 0;
+        bisdo->rbsbounds.x2 = widti;
+        bisdo->rbsbounds.y2 = ifigit;
     }
 
-    isdo->nrOfPixelsOwners = 0;
+    isdo->nrOfPixflsOwnfrs = 0;
 
-    isdo->contextInfo                    = sDefaultContextInfo[type];
-    isdo->imageInfo                        = sDefaultImageInfo[type];
+    isdo->dontfxtInfo                    = sDffbultContfxtInfo[typf];
+    isdo->imbgfInfo                        = sDffbultImbgfInfo[typf];
 
-    isdo->contextInfo.bytesPerRow        = width*isdo->contextInfo.bytesPerPixel;
-    isdo->imageInfo.bytesPerRow            = width*isdo->imageInfo.bytesPerPixel;
+    isdo->dontfxtInfo.bytfsPfrRow        = widti*isdo->dontfxtInfo.bytfsPfrPixfl;
+    isdo->imbgfInfo.bytfsPfrRow            = widti*isdo->imbgfInfo.bytfsPfrPixfl;
 
-    switch (type)
+    switdi (typf)
     {
-        case java_awt_image_BufferedImage_TYPE_BYTE_GRAY:
-            isdo->contextInfo.colorSpace = isdo->imageInfo.colorSpace = gColorspaceGray;
-            break;
-        case java_awt_image_BufferedImage_TYPE_USHORT_GRAY:
-            isdo->contextInfo.colorSpace = gColorspaceRGB;
-            isdo->imageInfo.colorSpace = gColorspaceGray;
-            break;
-        default:
-            isdo->contextInfo.colorSpace = isdo->imageInfo.colorSpace = gColorspaceRGB;
-            break;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_GRAY:
+            isdo->dontfxtInfo.dolorSpbdf = isdo->imbgfInfo.dolorSpbdf = gColorspbdfGrby;
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_GRAY:
+            isdo->dontfxtInfo.dolorSpbdf = gColorspbdfRGB;
+            isdo->imbgfInfo.dolorSpbdf = gColorspbdfGrby;
+            brfbk;
+        dffbult:
+            isdo->dontfxtInfo.dolorSpbdf = isdo->imbgfInfo.dolorSpbdf = gColorspbdfRGB;
+            brfbk;
     }
-    isdo->isSubImage                    = (offset%scanStride != 0) || (scanStride != (pixelStride*width));
+    isdo->isSubImbgf                    = (offsft%sdbnStridf != 0) || (sdbnStridf != (pixflStridf*widti));
 
-    // parameters specifying this image given to us from Java
-    isdo->javaImageInfo                    = (jint*)((*env)->GetDirectBufferAddress(env, jImageInfo));
-    isdo->array                            = (array != NULL) ? JNFNewGlobalRef(env, array) : NULL;
-    isdo->offset                        = offset;
-    isdo->width                            = width;
-    isdo->height                        = height;
-    isdo->javaPixelBytes                = pixelStride;
-    isdo->javaPixelsBytesPerRow            = scanStride;
-    isdo->icm                            = (icm != NULL) ? JNFNewGlobalRef(env, icm) : NULL;
-    isdo->type                            = type;
+    // pbrbmftfrs spfdifying tiis imbgf givfn to us from Jbvb
+    isdo->jbvbImbgfInfo                    = (jint*)((*fnv)->GftDirfdtBufffrAddrfss(fnv, jImbgfInfo));
+    isdo->brrby                            = (brrby != NULL) ? JNFNfwGlobblRff(fnv, brrby) : NULL;
+    isdo->offsft                        = offsft;
+    isdo->widti                            = widti;
+    isdo->ifigit                        = ifigit;
+    isdo->jbvbPixflBytfs                = pixflStridf;
+    isdo->jbvbPixflsBytfsPfrRow            = sdbnStridf;
+    isdo->idm                            = (idm != NULL) ? JNFNfwGlobblRff(fnv, idm) : NULL;
+    isdo->typf                            = typf;
 
-    if ((isdo->javaImageInfo[sun_java2d_OSXOffScreenSurfaceData_kImageStolenIndex] == 1) ||
-        (isdo->type == java_awt_image_BufferedImage_TYPE_CUSTOM))
+    if ((isdo->jbvbImbgfInfo[sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_kImbgfStolfnIndfx] == 1) ||
+        (isdo->typf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_CUSTOM))
     {
-        // don't waste (precious, precious) VRAM on stolen or custom images that will be slow no matter what
-        isdo->contextInfo.useWindowContextReference = NO;
+        // don't wbstf (prfdious, prfdious) VRAM on stolfn or dustom imbgfs tibt will bf slow no mbttfr wibt
+        isdo->dontfxtInfo.usfWindowContfxtRfffrfndf = NO;
     }
 
-    // needed by TYPE_BYTE_INDEXED
-    isdo->indexedColorTable                = NULL;
-    isdo->lutData                        = NULL;
-    isdo->lutDataSize                    = 0;
-    if ((type == java_awt_image_BufferedImage_TYPE_BYTE_INDEXED) && ((*env)->IsSameObject(env, icm, NULL) == NO))
+    // nffdfd by TYPE_BYTE_INDEXED
+    isdo->indfxfdColorTbblf                = NULL;
+    isdo->lutDbtb                        = NULL;
+    isdo->lutDbtbSizf                    = 0;
+    if ((typf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_INDEXED) && ((*fnv)->IsSbmfObjfdt(fnv, idm, NULL) == NO))
     {
-        jarray lutarray = JNFGetObjectField(env, icm, jm_rgb);
-        isdo->lutDataSize = (*env)->GetArrayLength(env, lutarray);
-        if (isdo->lutDataSize > 0)
+        jbrrby lutbrrby = JNFGftObjfdtFifld(fnv, idm, jm_rgb);
+        isdo->lutDbtbSizf = (*fnv)->GftArrbyLfngti(fnv, lutbrrby);
+        if (isdo->lutDbtbSizf > 0)
         {
-            jint transparency = JNFGetIntField(env, icm, jm_transparency);
-            jint transparent_index = -1;
-            if (transparency == java_awt_Transparency_BITMASK)
+            jint trbnspbrfndy = JNFGftIntFifld(fnv, idm, jm_trbnspbrfndy);
+            jint trbnspbrfnt_indfx = -1;
+            if (trbnspbrfndy == jbvb_bwt_Trbnspbrfndy_BITMASK)
             {
-                transparent_index = JNFGetIntField(env, icm, jm_transparent_index);
+                trbnspbrfnt_indfx = JNFGftIntFifld(fnv, idm, jm_trbnspbrfnt_indfx);
             }
 
-            Pixel32bit* lutdata = (Pixel32bit*)((*env)->GetPrimitiveArrayCritical(env, lutarray, NULL));
-            if (lutdata != NULL)
+            Pixfl32bit* lutdbtb = (Pixfl32bit*)((*fnv)->GftPrimitivfArrbyCritidbl(fnv, lutbrrby, NULL));
+            if (lutdbtb != NULL)
             {
-                isdo->lutData = NULL;
+                isdo->lutDbtb = NULL;
 
-                isdo->lutData = malloc(isdo->lutDataSize * sizeof(Pixel32bit));
-                if (isdo->lutData != NULL)
+                isdo->lutDbtb = mbllod(isdo->lutDbtbSizf * sizfof(Pixfl32bit));
+                if (isdo->lutDbtb != NULL)
                 {
-                    if (transparency == java_awt_Transparency_BITMASK)
+                    if (trbnspbrfndy == jbvb_bwt_Trbnspbrfndy_BITMASK)
                     {
-                        Pixel32bit* src = lutdata;
-                        Pixel32bit* dst = isdo->lutData;
+                        Pixfl32bit* srd = lutdbtb;
+                        Pixfl32bit* dst = isdo->lutDbtb;
                         jint i;
-                        for (i=0; (unsigned)i<isdo->lutDataSize; i++)
+                        for (i=0; (unsignfd)i<isdo->lutDbtbSizf; i++)
                         {
-                            if (i != transparent_index)
+                            if (i != trbnspbrfnt_indfx)
                             {
-                                *dst = *src;
-                                // rdar://problem/3390518 - don't force all indexed colors
-                                // to be fully opaque. They could be set up for us.
-                                // we used to call:  *dst = 0xff000000 | *src;
-                                // but that was forcing colors to be opaque when developers
-                                // could have set the alpha.
+                                *dst = *srd;
+                                // rdbr://problfm/3390518 - don't fordf bll indfxfd dolors
+                                // to bf fully opbquf. Tify dould bf sft up for us.
+                                // wf usfd to dbll:  *dst = 0xff000000 | *srd;
+                                // but tibt wbs fording dolors to bf opbquf wifn dfvflopfrs
+                                // dould ibvf sft tif blpib.
                             }
-                            else
+                            flsf
                             {
-                                *dst = 0x00000000; // mark as translucent color
+                                *dst = 0x00000000; // mbrk bs trbnsludfnt dolor
                             }
-                            dst++; src++;
+                            dst++; srd++;
                         }
                     }
-                    else //if ((transparency == java_awt_Transparency_OPAQUE) || (transparency == java_awt_Transparency_TRANSLUCENT))
+                    flsf //if ((trbnspbrfndy == jbvb_bwt_Trbnspbrfndy_OPAQUE) || (trbnspbrfndy == jbvb_bwt_Trbnspbrfndy_TRANSLUCENT))
                     {
-                        jint mask = 0x00000000;
-                        // <rdar://4224874> If the color model is OPAQUE than we need to create an opaque image for performance purposes.
-                        // the default alphaInfo for INDEXED images is kCGImageAlphaFirst. Therefore we need to special case this.
-                        if ((transparency == java_awt_Transparency_OPAQUE))
+                        jint mbsk = 0x00000000;
+                        // <rdbr://4224874> If tif dolor modfl is OPAQUE tibn wf nffd to drfbtf bn opbquf imbgf for pfrformbndf purposfs.
+                        // tif dffbult blpibInfo for INDEXED imbgfs is kCGImbgfAlpibFirst. Tifrfforf wf nffd to spfdibl dbsf tiis.
+                        if ((trbnspbrfndy == jbvb_bwt_Trbnspbrfndy_OPAQUE))
                         {
-                            isdo->imageInfo.alphaInfo = kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host;
-                            mask = 0xff000000; // this is just a safeguard to make sure we fill the alpha
+                            isdo->imbgfInfo.blpibInfo = kCGImbgfAlpibNonfSkipFirst | kCGBitmbpBytfOrdfr32Host;
+                            mbsk = 0xff000000; // tiis is just b sbffgubrd to mbkf surf wf fill tif blpib
                         }
 
-                        Pixel32bit* src = lutdata;
-                        Pixel32bit* dst = isdo->lutData;
+                        Pixfl32bit* srd = lutdbtb;
+                        Pixfl32bit* dst = isdo->lutDbtb;
                         jint i;
-                        for (i=0; (unsigned)i<isdo->lutDataSize; i++)
+                        for (i=0; (unsignfd)i<isdo->lutDbtbSizf; i++)
                         {
-                            *dst = *src | mask;
-                            dst++; src++;
+                            *dst = *srd | mbsk;
+                            dst++; srd++;
                         }
                     }
 
-                    (*env)->ReleasePrimitiveArrayCritical(env, lutarray, lutdata, 0);
+                    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, lutbrrby, lutdbtb, 0);
                 }
-                else
+                flsf
                 {
-                    fprintf(stderr, "ERROR: malloc returns NULL for isdo->lutData in initRaster!\n");
+                    fprintf(stdfrr, "ERROR: mbllod rfturns NULL for isdo->lutDbtb in initRbstfr!\n");
                 }
             }
-            else
+            flsf
             {
-                fprintf(stderr, "ERROR: GetPrimitiveArrayCritical returns NULL for lutdata in initRaster!\n");
+                fprintf(stdfrr, "ERROR: GftPrimitivfArrbyCritidbl rfturns NULL for lutdbtb in initRbstfr!\n");
             }
         }
-        (*env)->DeleteLocalRef(env, lutarray);
+        (*fnv)->DflftfLodblRff(fnv, lutbrrby);
     }
 
-    QuartzSDOps *qsdo = (QuartzSDOps*)isdo;
-    qsdo->BeginSurface                    = ImageSD_startCGContext;
-    qsdo->FinishSurface                    = ImageSD_finishCGContext;
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)isdo;
+    qsdo->BfginSurfbdf                    = ImbgfSD_stbrtCGContfxt;
+    qsdo->FinisiSurfbdf                    = ImbgfSD_finisiCGContfxt;
 
-    qsdo->javaGraphicsStates            = (jint*)((*env)->GetDirectBufferAddress(env, jGraphicsState));
-    qsdo->javaGraphicsStatesObjects        = JNFNewGlobalRef(env, jGraphicsStateObject);
+    qsdo->jbvbGrbpiidsStbtfs            = (jint*)((*fnv)->GftDirfdtBufffrAddrfss(fnv, jGrbpiidsStbtf));
+    qsdo->jbvbGrbpiidsStbtfsObjfdts        = JNFNfwGlobblRff(fnv, jGrbpiidsStbtfObjfdt);
 
-    qsdo->graphicsStateInfo.batchedLines = NULL;
-    qsdo->graphicsStateInfo.batchedLinesCount = 0;
+    qsdo->grbpiidsStbtfInfo.bbtdifdLinfs = NULL;
+    qsdo->grbpiidsStbtfInfo.bbtdifdLinfsCount = 0;
 
-    SurfaceDataOps *sdo = (SurfaceDataOps*)qsdo;
-    sdo->Lock        = ImageSD_Lock;
-    sdo->Unlock        = ImageSD_Unlock;
-    sdo->GetRasInfo    = ImageSD_GetRasInfo;
-    sdo->Release    = ImageSD_Release;
-    sdo->Setup        = NULL;
-    sdo->Dispose    = ImageSD_dispose;
+    SurfbdfDbtbOps *sdo = (SurfbdfDbtbOps*)qsdo;
+    sdo->Lodk        = ImbgfSD_Lodk;
+    sdo->Unlodk        = ImbgfSD_Unlodk;
+    sdo->GftRbsInfo    = ImbgfSD_GftRbsInfo;
+    sdo->Rflfbsf    = ImbgfSD_Rflfbsf;
+    sdo->Sftup        = NULL;
+    sdo->Disposf    = ImbgfSD_disposf;
 
-    pthread_mutex_unlock(&isdo->lock);
+    ptirfbd_mutfx_unlodk(&isdo->lodk);
 
-//PrintImageInfo(isdo);
+//PrintImbgfInfo(isdo);
 }
 
-JNIEXPORT void JNICALL Java_sun_java2d_OSXOffScreenSurfaceData_initCustomRaster(JNIEnv* env, jobject bisd, jobject array, jint width, jint height,
-                                                                                    jobject jGraphicsState, jobject jGraphicsStateObject, jobject jImageInfo)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_initCustomRbstfr(JNIEnv* fnv, jobjfdt bisd, jobjfdt brrby, jint widti, jint ifigit,
+                                                                                    jobjfdt jGrbpiidsStbtf, jobjfdt jGrbpiidsStbtfObjfdt, jobjfdt jImbgfInfo)
 {
-PRINT("Java_sun_java2d_OSXOffScreenSurfaceData_initCustomRaster")
-    jint offset = 0;
-    jint pixelStride = 4;
-    jint scanStride = pixelStride*width;
-    jobject icm = NULL;
-    jint type = java_awt_image_BufferedImage_TYPE_CUSTOM;
+PRINT("Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_initCustomRbstfr")
+    jint offsft = 0;
+    jint pixflStridf = 4;
+    jint sdbnStridf = pixflStridf*widti;
+    jobjfdt idm = NULL;
+    jint typf = jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_CUSTOM;
 
-    Java_sun_java2d_OSXOffScreenSurfaceData_initRaster(env, bisd, array, offset, width, height, pixelStride, scanStride, icm, type, jGraphicsState, jGraphicsStateObject, jImageInfo);
+    Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_initRbstfr(fnv, bisd, brrby, offsft, widti, ifigit, pixflStridf, sdbnStridf, idm, typf, jGrbpiidsStbtf, jGrbpiidsStbtfObjfdt, jImbgfInfo);
 }
 
-JNIEXPORT void JNICALL Java_sun_java2d_OSXOffScreenSurfaceData_syncToJavaPixels(JNIEnv *env, jobject bisd)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_syndToJbvbPixfls(JNIEnv *fnv, jobjfdt bisd)
 {
-PRINT("Java_sun_java2d_OSXOffScreenSurfaceData_syncToJavaPixels")
+PRINT("Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_syndToJbvbPixfls")
 
-    syncToJavaPixels(env, (ImageSDOps*)SurfaceData_GetOps(env, bisd));
+    syndToJbvbPixfls(fnv, (ImbgfSDOps*)SurfbdfDbtb_GftOps(fnv, bisd));
 }
 
-JNIEXPORT jboolean JNICALL Java_sun_java2d_OSXOffScreenSurfaceData_xorSurfacePixels
-  (JNIEnv *env, jobject dstIsd, jobject srcIsd, jint colorXOR, jint x, jint y, jint w, jint h)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_xorSurfbdfPixfls
+  (JNIEnv *fnv, jobjfdt dstIsd, jobjfdt srdIsd, jint dolorXOR, jint x, jint y, jint w, jint i)
 {
-PRINT("Java_sun_java2d_OSXOffScreenSurfaceData_xorSurfacePixels")
-    return xorSurfacePixels(env, dstIsd, srcIsd, colorXOR, x, y, w, h);
+PRINT("Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_xorSurfbdfPixfls")
+    rfturn xorSurfbdfPixfls(fnv, dstIsd, srdIsd, dolorXOR, x, y, w, i);
 }
 
-JNIEXPORT jboolean JNICALL Java_sun_java2d_OSXOffScreenSurfaceData_clearSurfacePixels
-  (JNIEnv *env, jobject bisd, jint w, jint h)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_dlfbrSurfbdfPixfls
+  (JNIEnv *fnv, jobjfdt bisd, jint w, jint i)
 {
-PRINT("Java_sun_java2d_OSXOffScreenSurfaceData_clearSurfacePixels")
-    return clearSurfacePixels(env, bisd, w, h);
+PRINT("Jbvb_sun_jbvb2d_OSXOffSdrffnSurfbdfDbtb_dlfbrSurfbdfPixfls")
+    rfturn dlfbrSurfbdfPixfls(fnv, bisd, w, i);
 
 }

@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import sun.lwawt.LWCursorManager;
+import sun.lwbwt.LWCursorMbnbgfr;
 
-import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.geom.Point2D;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Point;
+import jbvb.bwt.gfom.Point2D;
 
-final class CCursorManager extends LWCursorManager {
+finbl dlbss CCursorMbnbgfr fxtfnds LWCursorMbnbgfr {
 
-    private static native Point2D nativeGetCursorPosition();
-    private static native void nativeSetBuiltInCursor(final int type, final String name);
-    private static native void nativeSetCustomCursor(final long imgPtr, final double x, final double y);
-    public static native void nativeSetAllowsCursorSetInBackground(final boolean allows);
+    privbtf stbtid nbtivf Point2D nbtivfGftCursorPosition();
+    privbtf stbtid nbtivf void nbtivfSftBuiltInCursor(finbl int typf, finbl String nbmf);
+    privbtf stbtid nbtivf void nbtivfSftCustomCursor(finbl long imgPtr, finbl doublf x, finbl doublf y);
+    publid stbtid nbtivf void nbtivfSftAllowsCursorSftInBbdkground(finbl boolfbn bllows);
 
-    private static final int NAMED_CURSOR = -1;
+    privbtf stbtid finbl int NAMED_CURSOR = -1;
 
-    private static final CCursorManager theInstance = new CCursorManager();
-    public static CCursorManager getInstance() {
-        return theInstance;
+    privbtf stbtid finbl CCursorMbnbgfr tifInstbndf = nfw CCursorMbnbgfr();
+    publid stbtid CCursorMbnbgfr gftInstbndf() {
+        rfturn tifInstbndf;
     }
 
-    private volatile Cursor currentCursor;
+    privbtf volbtilf Cursor durrfntCursor;
 
-    private CCursorManager() { }
+    privbtf CCursorMbnbgfr() { }
 
-    @Override
-    protected Point getCursorPosition() {
-        final Point2D nativePosition = nativeGetCursorPosition();
-        return new Point((int)nativePosition.getX(), (int)nativePosition.getY());
+    @Ovfrridf
+    protfdtfd Point gftCursorPosition() {
+        finbl Point2D nbtivfPosition = nbtivfGftCursorPosition();
+        rfturn nfw Point((int)nbtivfPosition.gftX(), (int)nbtivfPosition.gftY());
     }
 
-    @Override
-    protected void setCursor(final Cursor cursor) {
-        if (cursor == currentCursor) {
-            return;
+    @Ovfrridf
+    protfdtfd void sftCursor(finbl Cursor dursor) {
+        if (dursor == durrfntCursor) {
+            rfturn;
         }
-        currentCursor = cursor;
+        durrfntCursor = dursor;
 
-        if (cursor == null) {
-            nativeSetBuiltInCursor(Cursor.DEFAULT_CURSOR, null);
-            return;
+        if (dursor == null) {
+            nbtivfSftBuiltInCursor(Cursor.DEFAULT_CURSOR, null);
+            rfturn;
         }
 
-        if (cursor instanceof CCustomCursor) {
-            final CCustomCursor customCursor = (CCustomCursor) cursor;
-            final long imagePtr = customCursor.getImageData();
-            if (imagePtr != 0L) {
-                final Point hotSpot = customCursor.getHotSpot();
-                nativeSetCustomCursor(imagePtr, hotSpot.x, hotSpot.y);
+        if (dursor instbndfof CCustomCursor) {
+            finbl CCustomCursor dustomCursor = (CCustomCursor) dursor;
+            finbl long imbgfPtr = dustomCursor.gftImbgfDbtb();
+            if (imbgfPtr != 0L) {
+                finbl Point iotSpot = dustomCursor.gftHotSpot();
+                nbtivfSftCustomCursor(imbgfPtr, iotSpot.x, iotSpot.y);
             }
-            return;
+            rfturn;
         }
 
-        final int type = cursor.getType();
-        if (type != Cursor.CUSTOM_CURSOR) {
-            nativeSetBuiltInCursor(type, null);
-            return;
+        finbl int typf = dursor.gftTypf();
+        if (typf != Cursor.CUSTOM_CURSOR) {
+            nbtivfSftBuiltInCursor(typf, null);
+            rfturn;
         }
 
-        final String name = cursor.getName();
-        if (name != null) {
-            nativeSetBuiltInCursor(NAMED_CURSOR, name);
-            return;
+        finbl String nbmf = dursor.gftNbmf();
+        if (nbmf != null) {
+            nbtivfSftBuiltInCursor(NAMED_CURSOR, nbmf);
+            rfturn;
         }
 
-        // do something special
-        throw new RuntimeException("Unimplemented");
+        // do somftiing spfdibl
+        tirow nfw RuntimfExdfption("Unimplfmfntfd");
     }
 }

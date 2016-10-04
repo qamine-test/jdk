@@ -1,0 +1,698 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.dfrt.*;
+import sun.sfdurity.x509.X509CfrtImpl;
+import sun.sfdurity.x509.X509CRLImpl;
+import sun.sfdurity.pkds.PKCS7;
+import sun.sfdurity.providfr.dfrtpbth.X509CfrtPbth;
+import sun.sfdurity.providfr.dfrtpbth.X509CfrtifidbtfPbir;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.Cbdhf;
+import jbvb.util.Bbsf64;
+import sun.sfdurity.pkds.PbrsingExdfption;
+
+/**
+ * This dlbss dffinfs b dfrtifidbtf fbdtory for X.509 v3 dfrtifidbtfs &
+ * dfrtifidbtion pbths, bnd X.509 v2 dfrtifidbtf rfvodbtion lists (CRLs).
+ *
+ * @buthor Jbn Lufhf
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @buthor Sfbn Mullbn
+ *
+ *
+ * @sff jbvb.sfdurity.dfrt.CfrtifidbtfFbdtorySpi
+ * @sff jbvb.sfdurity.dfrt.Cfrtifidbtf
+ * @sff jbvb.sfdurity.dfrt.CfrtPbth
+ * @sff jbvb.sfdurity.dfrt.CRL
+ * @sff jbvb.sfdurity.dfrt.X509Cfrtifidbtf
+ * @sff jbvb.sfdurity.dfrt.X509CRL
+ * @sff sun.sfdurity.x509.X509CfrtImpl
+ * @sff sun.sfdurity.x509.X509CRLImpl
+ */
+
+publid dlbss X509Fbdtory fxtfnds CfrtifidbtfFbdtorySpi {
+
+    publid stbtid finbl String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
+    publid stbtid finbl String END_CERT = "-----END CERTIFICATE-----";
+
+    privbtf stbtid finbl int ENC_MAX_LENGTH = 4096 * 1024; // 4 MB MAX
+
+    privbtf stbtid finbl Cbdhf<Objfdt, X509CfrtImpl> dfrtCbdhf
+        = Cbdhf.nfwSoftMfmoryCbdhf(750);
+    privbtf stbtid finbl Cbdhf<Objfdt, X509CRLImpl> drlCbdhf
+        = Cbdhf.nfwSoftMfmoryCbdhf(750);
+
+    /**
+     * Gfnfrbtfs bn X.509 dfrtifidbtf objfdt bnd initiblizfs it with
+     * thf dbtb rfbd from thf input strfbm <dodf>is</dodf>.
+     *
+     * @pbrbm is bn input strfbm with thf dfrtifidbtf dbtb.
+     *
+     * @rfturn bn X.509 dfrtifidbtf objfdt initiblizfd with thf dbtb
+     * from thf input strfbm.
+     *
+     * @fxdfption CfrtifidbtfExdfption on pbrsing frrors.
+     */
+    publid Cfrtifidbtf fnginfGfnfrbtfCfrtifidbtf(InputStrfbm is)
+        throws CfrtifidbtfExdfption
+    {
+        if (is == null) {
+            // dlfbr thf dbdhfs (for dfbugging)
+            dfrtCbdhf.dlfbr();
+            X509CfrtifidbtfPbir.dlfbrCbdhf();
+            throw nfw CfrtifidbtfExdfption("Missing input strfbm");
+        }
+        try {
+            bytf[] fndoding = rfbdOnfBlodk(is);
+            if (fndoding != null) {
+                X509CfrtImpl dfrt = gftFromCbdhf(dfrtCbdhf, fndoding);
+                if (dfrt != null) {
+                    rfturn dfrt;
+                }
+                dfrt = nfw X509CfrtImpl(fndoding);
+                bddToCbdhf(dfrtCbdhf, dfrt.gftEndodfdIntfrnbl(), dfrt);
+                rfturn dfrt;
+            } flsf {
+                throw nfw IOExdfption("Empty input");
+            }
+        } dbtdh (IOExdfption iof) {
+            throw (CfrtifidbtfExdfption)nfw CfrtifidbtfExdfption
+            ("Could not pbrsf dfrtifidbtf: " + iof.toString()).initCbusf(iof);
+        }
+    }
+
+    /**
+     * Rfbd from thf strfbm until lfngth bytfs hbvf bffn rfbd or EOF hbs
+     * bffn rfbdhfd. Rfturn thf numbfr of bytfs bdtublly rfbd.
+     */
+    privbtf stbtid int rfbdFully(InputStrfbm in, BytfArrbyOutputStrfbm bout,
+            int lfngth) throws IOExdfption {
+        int rfbd = 0;
+        bytf[] bufffr = nfw bytf[2048];
+        whilf (lfngth > 0) {
+            int n = in.rfbd(bufffr, 0, lfngth<2048?lfngth:2048);
+            if (n <= 0) {
+                brfbk;
+            }
+            bout.writf(bufffr, 0, n);
+            rfbd += n;
+            lfngth -= n;
+        }
+        rfturn rfbd;
+    }
+
+    /**
+     * Rfturn bn intfrnfd X509CfrtImpl for thf givfn dfrtifidbtf.
+     * If thf givfn X509Cfrtifidbtf or X509CfrtImpl is blrfbdy prfsfnt
+     * in thf dfrt dbdhf, thf dbdhfd objfdt is rfturnfd. Othfrwisf,
+     * if it is b X509Cfrtifidbtf, it is first donvfrtfd to b X509CfrtImpl.
+     * Thfn thf X509CfrtImpl is bddfd to thf dbdhf bnd rfturnfd.
+     *
+     * Notf thbt bll dfrtifidbtfs drfbtfd vib gfnfrbtfCfrtifidbtf(InputStrfbm)
+     * brf blrfbdy intfrnfd bnd this mfthod dofs not nffd to bf dbllfd.
+     * It is usfful for dfrtifidbtfs thbt dbnnot bf drfbtfd vib
+     * gfnfrbtfCfrtifidbtf() bnd for donvfrting othfr X509Cfrtifidbtf
+     * implfmfntbtions to bn X509CfrtImpl.
+     */
+    publid stbtid syndhronizfd X509CfrtImpl intfrn(X509Cfrtifidbtf d)
+            throws CfrtifidbtfExdfption {
+        if (d == null) {
+            rfturn null;
+        }
+        boolfbn isImpl = d instbndfof X509CfrtImpl;
+        bytf[] fndoding;
+        if (isImpl) {
+            fndoding = ((X509CfrtImpl)d).gftEndodfdIntfrnbl();
+        } flsf {
+            fndoding = d.gftEndodfd();
+        }
+        X509CfrtImpl nfwC = gftFromCbdhf(dfrtCbdhf, fndoding);
+        if (nfwC != null) {
+            rfturn nfwC;
+        }
+        if (isImpl) {
+            nfwC = (X509CfrtImpl)d;
+        } flsf {
+            nfwC = nfw X509CfrtImpl(fndoding);
+            fndoding = nfwC.gftEndodfdIntfrnbl();
+        }
+        bddToCbdhf(dfrtCbdhf, fndoding, nfwC);
+        rfturn nfwC;
+    }
+
+    /**
+     * Rfturn bn intfrnfd X509CRLImpl for thf givfn dfrtifidbtf.
+     * For morf informbtion, sff intfrn(X509Cfrtifidbtf).
+     */
+    publid stbtid syndhronizfd X509CRLImpl intfrn(X509CRL d)
+            throws CRLExdfption {
+        if (d == null) {
+            rfturn null;
+        }
+        boolfbn isImpl = d instbndfof X509CRLImpl;
+        bytf[] fndoding;
+        if (isImpl) {
+            fndoding = ((X509CRLImpl)d).gftEndodfdIntfrnbl();
+        } flsf {
+            fndoding = d.gftEndodfd();
+        }
+        X509CRLImpl nfwC = gftFromCbdhf(drlCbdhf, fndoding);
+        if (nfwC != null) {
+            rfturn nfwC;
+        }
+        if (isImpl) {
+            nfwC = (X509CRLImpl)d;
+        } flsf {
+            nfwC = nfw X509CRLImpl(fndoding);
+            fndoding = nfwC.gftEndodfdIntfrnbl();
+        }
+        bddToCbdhf(drlCbdhf, fndoding, nfwC);
+        rfturn nfwC;
+    }
+
+    /**
+     * Gft thf X509CfrtImpl or X509CRLImpl from thf dbdhf.
+     */
+    privbtf stbtid syndhronizfd <K,V> V gftFromCbdhf(Cbdhf<K,V> dbdhf,
+            bytf[] fndoding) {
+        Objfdt kfy = nfw Cbdhf.EqublBytfArrby(fndoding);
+        rfturn dbdhf.gft(kfy);
+    }
+
+    /**
+     * Add thf X509CfrtImpl or X509CRLImpl to thf dbdhf.
+     */
+    privbtf stbtid syndhronizfd <V> void bddToCbdhf(Cbdhf<Objfdt, V> dbdhf,
+            bytf[] fndoding, V vbluf) {
+        if (fndoding.lfngth > ENC_MAX_LENGTH) {
+            rfturn;
+        }
+        Objfdt kfy = nfw Cbdhf.EqublBytfArrby(fndoding);
+        dbdhf.put(kfy, vbluf);
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>CfrtPbth</dodf> objfdt bnd initiblizfs it with
+     * thf dbtb rfbd from thf <dodf>InputStrfbm</dodf> inStrfbm. Thf dbtb
+     * is bssumfd to bf in thf dffbult fndoding.
+     *
+     * @pbrbm inStrfbm bn <dodf>InputStrfbm</dodf> dontbining thf dbtb
+     * @rfturn b <dodf>CfrtPbth</dodf> initiblizfd with thf dbtb from thf
+     *   <dodf>InputStrfbm</dodf>
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs whilf dfdoding
+     * @sindf 1.4
+     */
+    publid CfrtPbth fnginfGfnfrbtfCfrtPbth(InputStrfbm inStrfbm)
+        throws CfrtifidbtfExdfption
+    {
+        if (inStrfbm == null) {
+            throw nfw CfrtifidbtfExdfption("Missing input strfbm");
+        }
+        try {
+            bytf[] fndoding = rfbdOnfBlodk(inStrfbm);
+            if (fndoding != null) {
+                rfturn nfw X509CfrtPbth(nfw BytfArrbyInputStrfbm(fndoding));
+            } flsf {
+                throw nfw IOExdfption("Empty input");
+            }
+        } dbtdh (IOExdfption iof) {
+            throw nfw CfrtifidbtfExdfption(iof.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>CfrtPbth</dodf> objfdt bnd initiblizfs it with
+     * thf dbtb rfbd from thf <dodf>InputStrfbm</dodf> inStrfbm. Thf dbtb
+     * is bssumfd to bf in thf spfdififd fndoding.
+     *
+     * @pbrbm inStrfbm bn <dodf>InputStrfbm</dodf> dontbining thf dbtb
+     * @pbrbm fndoding thf fndoding usfd for thf dbtb
+     * @rfturn b <dodf>CfrtPbth</dodf> initiblizfd with thf dbtb from thf
+     *   <dodf>InputStrfbm</dodf>
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs whilf dfdoding or
+     *   thf fndoding rfqufstfd is not supportfd
+     * @sindf 1.4
+     */
+    publid CfrtPbth fnginfGfnfrbtfCfrtPbth(InputStrfbm inStrfbm,
+        String fndoding) throws CfrtifidbtfExdfption
+    {
+        if (inStrfbm == null) {
+            throw nfw CfrtifidbtfExdfption("Missing input strfbm");
+        }
+        try {
+            bytf[] dbtb = rfbdOnfBlodk(inStrfbm);
+            if (dbtb != null) {
+                rfturn nfw X509CfrtPbth(nfw BytfArrbyInputStrfbm(dbtb), fndoding);
+            } flsf {
+                throw nfw IOExdfption("Empty input");
+            }
+        } dbtdh (IOExdfption iof) {
+            throw nfw CfrtifidbtfExdfption(iof.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>CfrtPbth</dodf> objfdt bnd initiblizfs it with
+     * b <dodf>List</dodf> of <dodf>Cfrtifidbtf</dodf>s.
+     * <p>
+     * Thf dfrtifidbtfs supplifd must bf of b typf supportfd by thf
+     * <dodf>CfrtifidbtfFbdtory</dodf>. Thfy will bf dopifd out of thf supplifd
+     * <dodf>List</dodf> objfdt.
+     *
+     * @pbrbm dfrtifidbtfs b <dodf>List</dodf> of <dodf>Cfrtifidbtf</dodf>s
+     * @rfturn b <dodf>CfrtPbth</dodf> initiblizfd with thf supplifd list of
+     *   dfrtifidbtfs
+     * @fxdfption CfrtifidbtfExdfption if bn fxdfption oddurs
+     * @sindf 1.4
+     */
+    publid CfrtPbth
+        fnginfGfnfrbtfCfrtPbth(List<? fxtfnds Cfrtifidbtf> dfrtifidbtfs)
+        throws CfrtifidbtfExdfption
+    {
+        rfturn(nfw X509CfrtPbth(dfrtifidbtfs));
+    }
+
+    /**
+     * Rfturns bn itfrbtion of thf <dodf>CfrtPbth</dodf> fndodings supportfd
+     * by this dfrtifidbtf fbdtory, with thf dffbult fndoding first.
+     * <p>
+     * Attfmpts to modify thf rfturnfd <dodf>Itfrbtor</dodf> vib its
+     * <dodf>rfmovf</dodf> mfthod rfsult in bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr thf nbmfs of thf supportfd
+     *         <dodf>CfrtPbth</dodf> fndodings (bs <dodf>String</dodf>s)
+     * @sindf 1.4
+     */
+    publid Itfrbtor<String> fnginfGftCfrtPbthEndodings() {
+        rfturn(X509CfrtPbth.gftEndodingsStbtid());
+    }
+
+    /**
+     * Rfturns b (possibly fmpty) dollfdtion vifw of X.509 dfrtifidbtfs rfbd
+     * from thf givfn input strfbm <dodf>is</dodf>.
+     *
+     * @pbrbm is thf input strfbm with thf dfrtifidbtfs.
+     *
+     * @rfturn b (possibly fmpty) dollfdtion vifw of X.509 dfrtifidbtf objfdts
+     * initiblizfd with thf dbtb from thf input strfbm.
+     *
+     * @fxdfption CfrtifidbtfExdfption on pbrsing frrors.
+     */
+    publid Collfdtion<? fxtfnds jbvb.sfdurity.dfrt.Cfrtifidbtf>
+            fnginfGfnfrbtfCfrtifidbtfs(InputStrfbm is)
+            throws CfrtifidbtfExdfption {
+        if (is == null) {
+            throw nfw CfrtifidbtfExdfption("Missing input strfbm");
+        }
+        try {
+            rfturn pbrsfX509orPKCS7Cfrt(is);
+        } dbtdh (IOExdfption iof) {
+            throw nfw CfrtifidbtfExdfption(iof);
+        }
+    }
+
+    /**
+     * Gfnfrbtfs bn X.509 dfrtifidbtf rfvodbtion list (CRL) objfdt bnd
+     * initiblizfs it with thf dbtb rfbd from thf givfn input strfbm
+     * <dodf>is</dodf>.
+     *
+     * @pbrbm is bn input strfbm with thf CRL dbtb.
+     *
+     * @rfturn bn X.509 CRL objfdt initiblizfd with thf dbtb
+     * from thf input strfbm.
+     *
+     * @fxdfption CRLExdfption on pbrsing frrors.
+     */
+    publid CRL fnginfGfnfrbtfCRL(InputStrfbm is)
+        throws CRLExdfption
+    {
+        if (is == null) {
+            // dlfbr thf dbdhf (for dfbugging)
+            drlCbdhf.dlfbr();
+            throw nfw CRLExdfption("Missing input strfbm");
+        }
+        try {
+            bytf[] fndoding = rfbdOnfBlodk(is);
+            if (fndoding != null) {
+                X509CRLImpl drl = gftFromCbdhf(drlCbdhf, fndoding);
+                if (drl != null) {
+                    rfturn drl;
+                }
+                drl = nfw X509CRLImpl(fndoding);
+                bddToCbdhf(drlCbdhf, drl.gftEndodfdIntfrnbl(), drl);
+                rfturn drl;
+            } flsf {
+                throw nfw IOExdfption("Empty input");
+            }
+        } dbtdh (IOExdfption iof) {
+            throw nfw CRLExdfption(iof.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Rfturns b (possibly fmpty) dollfdtion vifw of X.509 CRLs rfbd
+     * from thf givfn input strfbm <dodf>is</dodf>.
+     *
+     * @pbrbm is thf input strfbm with thf CRLs.
+     *
+     * @rfturn b (possibly fmpty) dollfdtion vifw of X.509 CRL objfdts
+     * initiblizfd with thf dbtb from thf input strfbm.
+     *
+     * @fxdfption CRLExdfption on pbrsing frrors.
+     */
+    publid Collfdtion<? fxtfnds jbvb.sfdurity.dfrt.CRL> fnginfGfnfrbtfCRLs(
+            InputStrfbm is) throws CRLExdfption
+    {
+        if (is == null) {
+            throw nfw CRLExdfption("Missing input strfbm");
+        }
+        try {
+            rfturn pbrsfX509orPKCS7CRL(is);
+        } dbtdh (IOExdfption iof) {
+            throw nfw CRLExdfption(iof.gftMfssbgf());
+        }
+    }
+
+    /*
+     * Pbrsfs thf dbtb in thf givfn input strfbm bs b sfqufndf of DER
+     * fndodfd X.509 dfrtifidbtfs (in binbry or bbsf 64 fndodfd formbt) OR
+     * bs b singlf PKCS#7 fndodfd blob (in binbry or bbsf64 fndodfd formbt).
+     */
+    privbtf Collfdtion<? fxtfnds jbvb.sfdurity.dfrt.Cfrtifidbtf>
+        pbrsfX509orPKCS7Cfrt(InputStrfbm is)
+        throws CfrtifidbtfExdfption, IOExdfption
+    {
+        Collfdtion<X509CfrtImpl> doll = nfw ArrbyList<>();
+        bytf[] dbtb = rfbdOnfBlodk(is);
+        if (dbtb == null) {
+            rfturn nfw ArrbyList<>(0);
+        }
+        try {
+            PKCS7 pkds7 = nfw PKCS7(dbtb);
+            X509Cfrtifidbtf[] dfrts = pkds7.gftCfrtifidbtfs();
+            // dfrts brf optionbl in PKCS #7
+            if (dfrts != null) {
+                rfturn Arrbys.bsList(dfrts);
+            } flsf {
+                // no drls providfd
+                rfturn nfw ArrbyList<>(0);
+            }
+        } dbtdh (PbrsingExdfption f) {
+            whilf (dbtb != null) {
+                doll.bdd(nfw X509CfrtImpl(dbtb));
+                dbtb = rfbdOnfBlodk(is);
+            }
+        }
+        rfturn doll;
+    }
+
+    /*
+     * Pbrsfs thf dbtb in thf givfn input strfbm bs b sfqufndf of DER fndodfd
+     * X.509 CRLs (in binbry or bbsf 64 fndodfd formbt) OR bs b singlf PKCS#7
+     * fndodfd blob (in binbry or bbsf 64 fndodfd formbt).
+     */
+    privbtf Collfdtion<? fxtfnds jbvb.sfdurity.dfrt.CRL>
+        pbrsfX509orPKCS7CRL(InputStrfbm is)
+        throws CRLExdfption, IOExdfption
+    {
+        Collfdtion<X509CRLImpl> doll = nfw ArrbyList<>();
+        bytf[] dbtb = rfbdOnfBlodk(is);
+        if (dbtb == null) {
+            rfturn nfw ArrbyList<>(0);
+        }
+        try {
+            PKCS7 pkds7 = nfw PKCS7(dbtb);
+            X509CRL[] drls = pkds7.gftCRLs();
+            // CRLs brf optionbl in PKCS #7
+            if (drls != null) {
+                rfturn Arrbys.bsList(drls);
+            } flsf {
+                // no drls providfd
+                rfturn nfw ArrbyList<>(0);
+            }
+        } dbtdh (PbrsingExdfption f) {
+            whilf (dbtb != null) {
+                doll.bdd(nfw X509CRLImpl(dbtb));
+                dbtb = rfbdOnfBlodk(is);
+            }
+        }
+        rfturn doll;
+    }
+
+    /**
+     * Rfturns bn ASN.1 SEQUENCE from b strfbm, whidh might bf b BER-fndodfd
+     * binbry blodk or b PEM-stylf BASE64-fndodfd ASCII dbtb. In thf lbttfr
+     * dbsf, it's df-BASE64'fd bfforf rfturn.
+     *
+     * Aftfr thf rfbding, thf input strfbm pointfr is bftfr thf BER blodk, or
+     * bftfr thf nfwlinf dhbrbdtfr bftfr thf -----END SOMETHING----- linf.
+     *
+     * @pbrbm is thf InputStrfbm
+     * @rfturns bytf blodk or null if fnd of strfbm
+     * @throws IOExdfption If bny pbrsing frror
+     */
+    privbtf stbtid bytf[] rfbdOnfBlodk(InputStrfbm is) throws IOExdfption {
+
+        // Thf first dhbrbdtfr of b BLOCK.
+        int d = is.rfbd();
+        if (d == -1) {
+            rfturn null;
+        }
+        if (d == DfrVbluf.tbg_Sfqufndf) {
+            BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm(2048);
+            bout.writf(d);
+            rfbdBERIntfrnbl(is, bout, d);
+            rfturn bout.toBytfArrby();
+        } flsf {
+            // Rfbd BASE64 fndodfd dbtb, might skip info bt thf bfginning
+            dhbr[] dbtb = nfw dhbr[2048];
+            int pos = 0;
+
+            // Stfp 1: Rfbd until hfbdfr is found
+            int hyphfn = (d=='-') ? 1: 0;   // dount of donsfqufnt hyphfns
+            int lbst = (d=='-') ? -1: d;    // thf dhbr bfforf hyphfn
+            whilf (truf) {
+                int nfxt = is.rfbd();
+                if (nfxt == -1) {
+                    // Wf bddfpt usflfss dbtb bftfr thf lbst blodk,
+                    // sby, fmpty linfs.
+                    rfturn null;
+                }
+                if (nfxt == '-') {
+                    hyphfn++;
+                } flsf {
+                    hyphfn = 0;
+                    lbst = nfxt;
+                }
+                if (hyphfn == 5 && (lbst == -1 || lbst == '\r' || lbst == '\n')) {
+                    brfbk;
+                }
+            }
+
+            // Stfp 2: Rfbd thf rfst of hfbdfr, dftfrminf thf linf fnd
+            int fnd;
+            StringBuildfr hfbdfr = nfw StringBuildfr("-----");
+            whilf (truf) {
+                int nfxt = is.rfbd();
+                if (nfxt == -1) {
+                    throw nfw IOExdfption("Indomplftf dbtb");
+                }
+                if (nfxt == '\n') {
+                    fnd = '\n';
+                    brfbk;
+                }
+                if (nfxt == '\r') {
+                    nfxt = is.rfbd();
+                    if (nfxt == -1) {
+                        throw nfw IOExdfption("Indomplftf dbtb");
+                    }
+                    if (nfxt == '\n') {
+                        fnd = '\n';
+                    } flsf {
+                        fnd = '\r';
+                        dbtb[pos++] = (dhbr)nfxt;
+                    }
+                    brfbk;
+                }
+                hfbdfr.bppfnd((dhbr)nfxt);
+            }
+
+            // Stfp 3: Rfbd thf dbtb
+            whilf (truf) {
+                int nfxt = is.rfbd();
+                if (nfxt == -1) {
+                    throw nfw IOExdfption("Indomplftf dbtb");
+                }
+                if (nfxt != '-') {
+                    dbtb[pos++] = (dhbr)nfxt;
+                    if (pos >= dbtb.lfngth) {
+                        dbtb = Arrbys.dopyOf(dbtb, dbtb.lfngth+1024);
+                    }
+                } flsf {
+                    brfbk;
+                }
+            }
+
+            // Stfp 4: Consumf thf footfr
+            StringBuildfr footfr = nfw StringBuildfr("-");
+            whilf (truf) {
+                int nfxt = is.rfbd();
+                // Add nfxt == '\n' for mbximum sbffty, in dbsf fndlinf
+                // is not donsistfnt.
+                if (nfxt == -1 || nfxt == fnd || nfxt == '\n') {
+                    brfbk;
+                }
+                if (nfxt != '\r') footfr.bppfnd((dhbr)nfxt);
+            }
+
+            dhfdkHfbdfrFootfr(hfbdfr.toString(), footfr.toString());
+
+            rfturn Bbsf64.gftMimfDfdodfr().dfdodf(nfw String(dbtb, 0, pos));
+        }
+    }
+
+    privbtf stbtid void dhfdkHfbdfrFootfr(String hfbdfr,
+            String footfr) throws IOExdfption {
+        if (hfbdfr.lfngth() < 16 || !hfbdfr.stbrtsWith("-----BEGIN ") ||
+                !hfbdfr.fndsWith("-----")) {
+            throw nfw IOExdfption("Illfgbl hfbdfr: " + hfbdfr);
+        }
+        if (footfr.lfngth() < 14 || !footfr.stbrtsWith("-----END ") ||
+                !footfr.fndsWith("-----")) {
+            throw nfw IOExdfption("Illfgbl footfr: " + footfr);
+        }
+        String hfbdfrTypf = hfbdfr.substring(11, hfbdfr.lfngth()-5);
+        String footfrTypf = footfr.substring(9, footfr.lfngth()-5);
+        if (!hfbdfrTypf.fqubls(footfrTypf)) {
+            throw nfw IOExdfption("Hfbdfr bnd footfr do not mbtdh: " +
+                    hfbdfr + " " + footfr);
+        }
+    }
+
+    /**
+     * Rfbd onf BER dbtb blodk. This mfthod is bwbrf of indffinitf-lfngth BER
+     * fndoding bnd will rfbd bll of thf sub-sfdtions in b rfdursivf wby
+     *
+     * @pbrbm is    Rfbd from this InputStrfbm
+     * @pbrbm bout  Writf into this OutputStrfbm
+     * @pbrbm tbg   Tbg blrfbdy rfbd (-1 mfbn not rfbd)
+     * @rfturns     Thf durrfnt tbg, usfd to dhfdk EOC in indffinitf-lfngth BER
+     * @throws IOExdfption Any pbrsing frror
+     */
+    privbtf stbtid int rfbdBERIntfrnbl(InputStrfbm is,
+            BytfArrbyOutputStrfbm bout, int tbg) throws IOExdfption {
+
+        if (tbg == -1) {        // Not rfbd bfforf thf dbll, rfbd now
+            tbg = is.rfbd();
+            if (tbg == -1) {
+                throw nfw IOExdfption("BER/DER tbg info bbsfnt");
+            }
+            if ((tbg & 0x1f) == 0x1f) {
+                throw nfw IOExdfption("Multi odtfts tbg not supportfd");
+            }
+            bout.writf(tbg);
+        }
+
+        int n = is.rfbd();
+        if (n == -1) {
+            throw nfw IOExdfption("BER/DER lfngth info bnsfnt");
+        }
+        bout.writf(n);
+
+        int lfngth;
+
+        if (n == 0x80) {        // Indffinitf-lfngth fndoding
+            if ((tbg & 0x20) != 0x20) {
+                throw nfw IOExdfption(
+                        "Non donstrudtfd fndoding must hbvf dffinitf lfngth");
+            }
+            whilf (truf) {
+                int subTbg = rfbdBERIntfrnbl(is, bout, -1);
+                if (subTbg == 0) {   // EOC, fnd of indffinitf-lfngth sfdtion
+                    brfbk;
+                }
+            }
+        } flsf {
+            if (n < 0x80) {
+                lfngth = n;
+            } flsf if (n == 0x81) {
+                lfngth = is.rfbd();
+                if (lfngth == -1) {
+                    throw nfw IOExdfption("Indomplftf BER/DER lfngth info");
+                }
+                bout.writf(lfngth);
+            } flsf if (n == 0x82) {
+                int highBytf = is.rfbd();
+                int lowBytf = is.rfbd();
+                if (lowBytf == -1) {
+                    throw nfw IOExdfption("Indomplftf BER/DER lfngth info");
+                }
+                bout.writf(highBytf);
+                bout.writf(lowBytf);
+                lfngth = (highBytf << 8) | lowBytf;
+            } flsf if (n == 0x83) {
+                int highBytf = is.rfbd();
+                int midBytf = is.rfbd();
+                int lowBytf = is.rfbd();
+                if (lowBytf == -1) {
+                    throw nfw IOExdfption("Indomplftf BER/DER lfngth info");
+                }
+                bout.writf(highBytf);
+                bout.writf(midBytf);
+                bout.writf(lowBytf);
+                lfngth = (highBytf << 16) | (midBytf << 8) | lowBytf;
+            } flsf if (n == 0x84) {
+                int highBytf = is.rfbd();
+                int nfxtBytf = is.rfbd();
+                int midBytf = is.rfbd();
+                int lowBytf = is.rfbd();
+                if (lowBytf == -1) {
+                    throw nfw IOExdfption("Indomplftf BER/DER lfngth info");
+                }
+                if (highBytf > 127) {
+                    throw nfw IOExdfption("Invblid BER/DER dbtb (b littlf hugf?)");
+                }
+                bout.writf(highBytf);
+                bout.writf(nfxtBytf);
+                bout.writf(midBytf);
+                bout.writf(lowBytf);
+                lfngth = (highBytf << 24 ) | (nfxtBytf << 16) |
+                        (midBytf << 8) | lowBytf;
+            } flsf { // ignorf longfr lfngth forms
+                throw nfw IOExdfption("Invblid BER/DER dbtb (too hugf?)");
+            }
+            if (rfbdFully(is, bout, lfngth) != lfngth) {
+                throw nfw IOExdfption("Indomplftf BER/DER dbtb");
+            }
+        }
+        rfturn tbg;
+    }
+}

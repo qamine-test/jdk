@@ -1,0 +1,424 @@
+/*
+ * Copyright (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
+
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.logging.Lfvfl;
+import jbvb.io.Sfriblizbblf;
+
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpEnginfId;
+import dom.sun.jmx.snmp.SnmpEnginf;
+import dom.sun.jmx.snmp.SnmpUsmKfyHbndlfr;
+import dom.sun.jmx.snmp.SnmpEnginfFbdtory;
+import dom.sun.jmx.snmp.SnmpUnknownModflExdfption;
+
+import dom.sun.jmx.snmp.intfrnbl.SnmpTools;
+import dom.sun.jmx.snmp.SnmpBbdSfdurityLfvflExdfption;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_LOGGER;
+
+/**
+ * This fnginf is donformbnt with thf RFC 2571. It is thf mbin objfdt within
+ * bn SNMP fntity (bgfnt, mbnbgfr...).
+ * To bn fnginf is bssodibtfd bn {@link dom.sun.jmx.snmp.SnmpEnginfId}.
+ * Thf wby thf fnginfId is rftrifvfd is linkfd to thf wby thf fnginf is
+ * instbntibtfd. Sff fbdh <CODE>SnmpEnginf</CODE> donstrudtor for morf dftbils.
+ * An fnginf is domposfd of b sft of sub systfms
+ * {@link dom.sun.jmx.snmp.intfrnbl.SnmpSubSystfm}. An <CODE>SNMP</CODE>
+ * fnginf dbn dontbin b:
+ *<ul>
+ *<li> Mfssbgf Prodfssing Sub Systfm :
+ * {@link dom.sun.jmx.snmp.intfrnbl.SnmpMsgProdfssingSubSystfm}</li>
+ *<li> Sfdurity Sub Systfm :
+ * {@link dom.sun.jmx.snmp.intfrnbl.SnmpSfduritySubSystfm} </li>
+ *<li> Addfss Control Sub Systfm :
+ * {@link dom.sun.jmx.snmp.intfrnbl.SnmpAddfssControlSubSystfm}</li>
+ *</ul>
+ *<P> Ebdh sub systfm dontbins b sft of modfls. A modfl is bn implfmfntbtion
+ * of b pbrtidulbr trfbtfmfnt (fg: thf Usfr bbsfd Sfdurity Modfl dffinfd in
+ * RFC 2574 is b fundtionbl flfmfnt dfbling with buthfntidbtion bnd privbdy).
+ *</P>
+ * Enginf instbntibtion is bbsfd on b fbdtory. This fbdtory, implfmfnting
+ * mbndbtorily {@link dom.sun.jmx.snmp.SnmpEnginfFbdtory  SnmpEnginfFbdtory}
+ * is sft in thf mfthod <CODE>sftFbdtory</CODE>.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid dlbss SnmpEnginfImpl implfmfnts SnmpEnginf, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -2564301391365614725L;
+
+    /**
+     * Sfdurity lfvfl. No buthfntidbtion, no privbdy. Vbluf is 0,
+     * bs dffinfd in RFC 2572
+     */
+    publid stbtid finbl int noAuthNoPriv = 0;
+    /**
+     * Sfdurity lfvfl. Authfntidbtion, no privbdy. Vbluf is 1, bs
+     * dffinfd in RFC 2572
+     */
+    publid stbtid finbl int buthNoPriv = 1;
+    /**
+     * Sfdurity lfvfl. Authfntidbtion, privbdy. Vbluf is 3,
+     * bs dffinfd in RFC 2572
+     */
+    publid stbtid finbl int buthPriv = 3;
+    /**
+     * Flbg thbt indidbtfs thbt b rfport is to bf sfnt. Vbluf is 4, bs dffinfd in RFC 2572
+     */
+    publid stbtid finbl int rfportbblfFlbg = 4;
+
+    /**
+     * Mbsk usfd to isolbtf buthfntidbtion informbtion within b mfssbgf flbg.
+     */
+    publid stbtid finbl int buthMbsk = 1;
+    /**
+     * Mbsk usfd to isolbtf privbdy informbtion within b mfssbgf flbg.
+     */
+    publid stbtid finbl int privMbsk = 2;
+    /**
+     * Mbsk usfd to isolbtf buthfntidbtion bnd privbdy informbtion within b mfssbgf flbg.
+     */
+    publid stbtid finbl int buthPrivMbsk = 3;
+
+    privbtf SnmpEnginfId fnginfid = null;
+    privbtf SnmpEnginfFbdtory fbdtory = null;
+    privbtf long stbrtTimf = 0;
+
+    privbtf int boot = 0;
+    privbtf boolfbn dhfdkOid = fblsf;
+
+    trbnsifnt privbtf SnmpUsmKfyHbndlfr usmKfyHbndlfr = null;
+    trbnsifnt privbtf SnmpLdd ldd = null;
+
+    trbnsifnt privbtf SnmpSfduritySubSystfm sfduritySub = null;
+
+    trbnsifnt privbtf SnmpMsgProdfssingSubSystfm mfssbgfSub = null;
+
+    trbnsifnt privbtf SnmpAddfssControlSubSystfm bddfssSub = null;
+
+    /**
+     * Gfts thf fnginf timf in sfdonds. This is thf timf from thf lbst rfboot.
+     * @rfturn Thf timf from thf lbst rfboot.
+     */
+    publid syndhronizfd int gftEnginfTimf() {
+        //Wf do thf dountfr wrbp in b lbzt wby. Ebdh timf Enginf is bskfd for his timf it dhfdks. So if nobody usf thf Enginf, thf timf dbn wrbp bnd wrbp bgbin without indrfmfnting nb boot. Wf dbn imbginf thbt it is irrflfvbnt duf to thf bmount of timf nffdfd to wrbp.
+        long dfltb = (Systfm.durrfntTimfMillis() / 1000) - stbrtTimf;
+        if(dfltb >  0x7FFFFFFF) {
+            //67 yfbrs of running. Thbt is b grfbt thing!
+            //Rfinitiblizf stbrtTimf.
+            stbrtTimf = Systfm.durrfntTimfMillis() / 1000;
+
+            //Cbn't do bnything with this dountfr.
+            if(boot != 0x7FFFFFFF)
+                boot += 1;
+            //Storf for futurf usf.
+            storfNBBoots(boot);
+        }
+
+        rfturn (int) ((Systfm.durrfntTimfMillis() / 1000) - stbrtTimf);
+    }
+
+    /**
+     * Gfts thf fnginf Id. This is uniquf for fbdh fnginf.
+     * @rfturn Thf fnginf Id objfdt.
+     */
+    publid SnmpEnginfId gftEnginfId() {
+        rfturn fnginfid;
+    }
+
+    /**
+     * Gfts thf Usm kfy hbndlfr.
+     * @rfturn Thf kfy hbndlfr.
+     */
+    publid SnmpUsmKfyHbndlfr gftUsmKfyHbndlfr() {
+        rfturn usmKfyHbndlfr;
+    }
+
+    /**
+     * Gfts thf fnginf Ldd.
+     * @rfturn Thf fnginf Ldd.
+     */
+    publid SnmpLdd gftLdd() {
+        rfturn ldd;
+    }
+    /**
+     * Gfts thf fnginf boot numbfr. This is thf numbfr of timf this fnginf hbs rfbootfd. Ebdh timf bn <CODE>SnmpEnginf</CODE> is instbntibtfd, it will rfbd this vbluf in its Ldd, bnd storf bbdk thf vbluf indrfmfntfd by onf.
+     * @rfturn Thf fnginf's numbfr of rfboot.
+     */
+    publid int gftEnginfBoots() {
+        rfturn boot;
+    }
+
+     /**
+     * Construdtor. A Lodbl Configurbtion Dbtbstorf is pbssfd to thf fnginf. It will bf usfd to storf bnd rftrifvf dbtb (fnginf Id, fnginf boots).
+     * <P> WARNING : Thf SnmpEnginfId is domputfd bs follow:
+     * <ul>
+     * <li> If bn ldd filf is providfd dontbining thf propfrty "lodblEnginfID", this propfrty vbluf is usfd.</li>.
+     * <li> If not, if thf pbssfd fnginfID is not null, this fnginf ID is usfd.</li>
+     * <li> If not, b timf bbsfd fnginfID is domputfd.</li>
+     * </ul>
+     * This donstrudtor should bf dbllfd by bn <CODE>SnmpEnginfFbdtory</CODE>. Don't dbll it dirfdtly.
+     * @pbrbm fbdt Thf fbdtory usfd to instbntibtf this fnginf.
+     * @pbrbm ldd Thf lodbl donfigurbtion dbtbstorf.
+     * @pbrbm fnginfid Thf fnginf ID to usf. If null is providfd, bn SnmpEnginfId is domputfd using thf durrfnt timf.
+     * @throws UnknownHostExdfption Exdfption thrown, if thf host nbmf lodbtfd in thf propfrty "lodblEnginfID" is invblid.
+     */
+    publid SnmpEnginfImpl(SnmpEnginfFbdtory fbdt,
+                          SnmpLdd ldd,
+                          SnmpEnginfId fnginfid) throws UnknownHostExdfption {
+
+        init(ldd, fbdt);
+        initEnginfID();
+        if(this.fnginfid == null) {
+            if(fnginfid != null)
+                this.fnginfid = fnginfid;
+            flsf
+                this.fnginfid = SnmpEnginfId.drfbtfEnginfId();
+        }
+        ldd.storfEnginfId(this.fnginfid);
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpEnginfImpl.dlbss.gftNbmf(),
+                    "SnmpEnginfImpl(SnmpEnginfFbdtory,SnmpLdd,SnmpEnginfId)",
+                    "LOCAL ENGINE ID: " + this.fnginfid);
+        }
+    }
+    /**
+     * Construdtor. A Lodbl Configurbtion Dbtbstorf is pbssfd to thf fnginf. It will bf usfd to storf bnd rftrifvf dbtb (fnginf ID, fnginf boots).
+     * <P> WARNING : Thf SnmpEnginfId is domputfd bs follow:
+     * <ul>
+     * <li> If bn ldd filf is providfd dontbining thf propfrty "lodblEnginfID", this propfrty vbluf is usfd.</li>.
+     * <li> If not, thf pbssfd bddrfss bnd port brf usfd to domputf onf.</li>
+     * </ul>
+     * This donstrudtor should bf dbllfd by bn <CODE>SnmpEnginfFbdtory</CODE>. Don't dbll it dirfdtly.
+     * @pbrbm fbdt Thf fbdtory usfd to instbntibtf this fnginf.
+     * @pbrbm ldd Thf lodbl donfigurbtion dbtbstorf.
+     * @pbrbm port UDP port to usf in ordfr to dbldulbtf thf fnginf ID.
+     * @pbrbm bddrfss An IP bddrfss usfd to dbldulbtf thf fnginf ID.
+     * @throws UnknownHostExdfption Exdfption thrown, if thf host nbmf lodbtfd in thf propfrty "lodblEnginfID" is invblid.
+     */
+    publid SnmpEnginfImpl(SnmpEnginfFbdtory fbdt,
+                          SnmpLdd ldd,
+                          InftAddrfss bddrfss,
+                          int port) throws UnknownHostExdfption {
+        init(ldd, fbdt);
+        initEnginfID();
+        if(fnginfid == null)
+            fnginfid = SnmpEnginfId.drfbtfEnginfId(bddrfss, port);
+
+        ldd.storfEnginfId(fnginfid);
+
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpEnginfImpl.dlbss.gftNbmf(),
+                    "SnmpEnginfImpl(SnmpEnginfFbdtory,SnmpLdd,InftAddrfss,int)",
+                    "LOCAL ENGINE ID: " + fnginfid + " / " +
+                    "LOCAL ENGINE NB BOOTS: " + boot + " / " +
+                    "LOCAL ENGINE START TIME: " + gftEnginfTimf());
+        }
+    }
+
+    /**
+     * Construdtor. A Lodbl Configurbtion Dbtbstorf is pbssfd to thf fnginf. It will bf usfd to storf bnd rftrifvf dbtb (fnginf ID, fnginf boots).
+     * <P> WARNING : Thf SnmpEnginfId is domputfd bs follow:
+     * <ul>
+     * <li> If bn ldd filf is providfd dontbining thf propfrty "lodblEnginfID", this propfrty vbluf is usfd.</li>.
+     * <li> If not, Thf pbssfd port is usfd to domputf onf.</li>
+     * </ul>
+     * This donstrudtor should bf dbllfd by bn <CODE>SnmpEnginfFbdtory</CODE>. Don't dbll it dirfdtly.
+     * @pbrbm fbdt Thf fbdtory usfd to instbntibtf this fnginf.
+     * @pbrbm ldd Thf lodbl donfigurbtion dbtbstorf
+     * @pbrbm port UDP port to usf in ordfr to dbldulbtf thf fnginf ID.
+     * @throws UnknownHostExdfption Exdfption thrown, if thf host nbmf lodbtfd in thf propfrty "lodblEnginfID" is invblid.
+     */
+    publid SnmpEnginfImpl(SnmpEnginfFbdtory fbdt,
+                          SnmpLdd ldd,
+                          int port) throws UnknownHostExdfption {
+        init(ldd, fbdt);
+        initEnginfID();
+        if(fnginfid == null)
+           fnginfid = SnmpEnginfId.drfbtfEnginfId(port);
+
+        ldd.storfEnginfId(fnginfid);
+
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpEnginfImpl.dlbss.gftNbmf(),
+                    "SnmpEnginfImpl(SnmpEnginfFbdtory,SnmpLdd,int)",
+                    "LOCAL ENGINE ID: " + fnginfid + " / " +
+                    "LOCAL ENGINE NB BOOTS: " + boot + " / " +
+                    "LOCAL ENGINE START TIME: " + gftEnginfTimf());
+        }
+    }
+
+    /**
+     * Construdtor. A Lodbl Configurbtion Dbtbstorf is pbssfd to thf fnginf. It will bf usfd to storf bnd rftrifvf dbtb (fnginf ID, fnginf boots).
+     * <P> WARNING : Thf SnmpEnginfId is domputfd bs follow:
+     * <ul>
+     * <li> If bn ldd filf is providfd dontbining thf propfrty "lodblEnginfID", this propfrty vbluf is usfd.</li>.
+     * <li> If not, b timf bbsfd fnginfID is domputfd.</li>
+     * </ul>
+     * Whfn no donfigurbtion nor jbvb propfrty is sft for thf fnginf ID vbluf, b uniquf timf bbsfd fnginf ID will bf gfnfrbtfd.
+     * This donstrudtor should bf dbllfd by bn <CODE>SnmpEnginfFbdtory</CODE>. Don't dbll it dirfdtly.
+     * @pbrbm fbdt Thf fbdtory usfd to instbntibtf this fnginf.
+     * @pbrbm ldd Thf lodbl donfigurbtion dbtbstorf.
+     */
+    publid SnmpEnginfImpl(SnmpEnginfFbdtory fbdt,
+                          SnmpLdd ldd) throws UnknownHostExdfption {
+        init(ldd, fbdt);
+        initEnginfID();
+        if(fnginfid == null)
+            fnginfid = SnmpEnginfId.drfbtfEnginfId();
+
+        ldd.storfEnginfId(fnginfid);
+
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpEnginfImpl.dlbss.gftNbmf(),
+                    "SnmpEnginfImpl(SnmpEnginfFbdtory,SnmpLdd)",
+                    "LOCAL ENGINE ID: " + fnginfid + " / " +
+                    "LOCAL ENGINE NB BOOTS: " + boot + " / " +
+                    "LOCAL ENGINE START TIME: " + gftEnginfTimf());
+        }
+    }
+
+    /**
+     * Addfss Control will dhfdk thf oids. By dffbult is fblsf.
+     */
+    publid syndhronizfd void bdtivbtfChfdkOid() {
+        dhfdkOid = truf;
+    }
+
+    /**
+     * Addfss Control will not dhfdk thf oids. By dffbult is fblsf.
+     */
+    publid syndhronizfd void dfbdtivbtfChfdkOid() {
+        dhfdkOid = fblsf;
+    }
+
+    /**
+     * Addfss Control dhfdk or not thf oids. By dffbult is fblsf.
+     */
+    publid syndhronizfd boolfbn isChfdkOidAdtivbtfd() {
+        rfturn dhfdkOid;
+    }
+
+    //Do somf dhfdk bnd storf thf nb boots vbluf.
+    privbtf void storfNBBoots(int boot) {
+        if(boot < 0 || boot == 0x7FFFFFFF) {
+            boot = 0x7FFFFFFF;
+            ldd.storfEnginfBoots(boot);
+        }
+        flsf
+            ldd.storfEnginfBoots(boot + 1);
+    }
+
+    // Initiblizf intfrnbl stbtus.
+    privbtf void init(SnmpLdd ldd, SnmpEnginfFbdtory fbdt) {
+        this.fbdtory = fbdt;
+        this.ldd = ldd;
+        boot = ldd.gftEnginfBoots();
+
+        if(boot == -1 || boot == 0)
+            boot = 1;
+
+        storfNBBoots(boot);
+
+        stbrtTimf = Systfm.durrfntTimfMillis() / 1000;
+
+    }
+
+    void sftUsmKfyHbndlfr(SnmpUsmKfyHbndlfr usmKfyHbndlfr) {
+        this.usmKfyHbndlfr = usmKfyHbndlfr;
+    }
+
+    //Initiblizf thf fnginfID.
+    privbtf void initEnginfID() throws UnknownHostExdfption {
+        String id = ldd.gftEnginfId();
+        if(id != null) {
+            fnginfid = SnmpEnginfId.drfbtfEnginfId(id);
+        }
+    }
+
+
+    /**
+     * Rfturns thf Mfssbgf Prodfssing Sub Systfm.
+     * @rfturn Thf Mfssbgf Prodfssing Sub Systfm.
+     */
+    publid SnmpMsgProdfssingSubSystfm gftMsgProdfssingSubSystfm() {
+        rfturn mfssbgfSub;
+    }
+
+    /**
+     * Sfts thf Mfssbgf Prodfssing Sub Systfm.
+     * @pbrbm sys Thf Mfssbgf Prodfssing Sub Systfm.
+     */
+    publid void sftMsgProdfssingSubSystfm(SnmpMsgProdfssingSubSystfm sys) {
+        mfssbgfSub = sys;
+    }
+
+     /**
+     * Rfturns thf Sfdurity Sub Systfm.
+     * @rfturn Thf Sfdurity Sub Systfm.
+     */
+    publid SnmpSfduritySubSystfm gftSfduritySubSystfm() {
+        rfturn sfduritySub;
+    }
+    /**
+     * Sfts thf Sfdurity Sub Systfm.
+     * @pbrbm sys Thf Sfdurity Sub Systfm.
+     */
+    publid void sftSfduritySubSystfm(SnmpSfduritySubSystfm sys) {
+        sfduritySub = sys;
+    }
+     /**
+     * Sfts thf Addfss Control Sub Systfm.
+     * @pbrbm sys Thf Addfss Control Sub Systfm.
+     */
+    publid void sftAddfssControlSubSystfm(SnmpAddfssControlSubSystfm sys) {
+        bddfssSub = sys;
+    }
+
+    /**
+     * Rfturns thf Addfss Control Sub Systfm.
+     * @rfturn Thf Addfss Control Sub Systfm.
+     */
+    publid SnmpAddfssControlSubSystfm gftAddfssControlSubSystfm() {
+        rfturn bddfssSub;
+    }
+    /**
+     * Chfdks thf pbssfd msg flbgs bddording to thf rulfs spfdififd in RFC 2572.
+     * @pbrbm msgFlbgs Thf msg flbgs.
+     */
+    publid stbtid void dhfdkSfdurityLfvfl(bytf msgFlbgs)
+        throws SnmpBbdSfdurityLfvflExdfption {
+        int sfdLfvfl = msgFlbgs & SnmpDffinitions.buthPriv;
+        if((sfdLfvfl & SnmpDffinitions.privMbsk) != 0)
+            if((sfdLfvfl & SnmpDffinitions.buthMbsk) == 0) {
+                throw nfw SnmpBbdSfdurityLfvflExdfption("Sfdurity lfvfl:"+
+                                                        " noAuthPriv!!!");
+            }
+    }
+
+}

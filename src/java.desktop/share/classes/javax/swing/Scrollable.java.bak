@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
 
 
 /**
- * An interface that provides information to a scrolling container
- * like JScrollPane.  A complex component that's likely to be used
- * as a viewing a JScrollPane viewport (or other scrolling container)
- * should implement this interface.
+ * An intfrfbdf tibt providfs informbtion to b sdrolling dontbinfr
+ * likf JSdrollPbnf.  A domplfx domponfnt tibt's likfly to bf usfd
+ * bs b vifwing b JSdrollPbnf vifwport (or otifr sdrolling dontbinfr)
+ * siould implfmfnt tiis intfrfbdf.
  *
- * @see JViewport
- * @see JScrollPane
- * @see JScrollBar
- * @author Hans Muller
- * @since 1.2
+ * @sff JVifwport
+ * @sff JSdrollPbnf
+ * @sff JSdrollBbr
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-public interface Scrollable
+publid intfrfbdf Sdrollbblf
 {
     /**
-     * Returns the preferred size of the viewport for a view component.
-     * For example, the preferred size of a <code>JList</code> component
-     * is the size required to accommodate all of the cells in its list.
-     * However, the value of <code>preferredScrollableViewportSize</code>
-     * is the size required for <code>JList.getVisibleRowCount</code> rows.
-     * A component without any properties that would affect the viewport
-     * size should just return <code>getPreferredSize</code> here.
+     * Rfturns tif prfffrrfd sizf of tif vifwport for b vifw domponfnt.
+     * For fxbmplf, tif prfffrrfd sizf of b <dodf>JList</dodf> domponfnt
+     * is tif sizf rfquirfd to bddommodbtf bll of tif dflls in its list.
+     * Howfvfr, tif vbluf of <dodf>prfffrrfdSdrollbblfVifwportSizf</dodf>
+     * is tif sizf rfquirfd for <dodf>JList.gftVisiblfRowCount</dodf> rows.
+     * A domponfnt witiout bny propfrtifs tibt would bfffdt tif vifwport
+     * sizf siould just rfturn <dodf>gftPrfffrrfdSizf</dodf> ifrf.
      *
-     * @return the preferredSize of a <code>JViewport</code> whose view
-     *    is this <code>Scrollable</code>
-     * @see JViewport#getPreferredSize
+     * @rfturn tif prfffrrfdSizf of b <dodf>JVifwport</dodf> wiosf vifw
+     *    is tiis <dodf>Sdrollbblf</dodf>
+     * @sff JVifwport#gftPrfffrrfdSizf
      */
-    Dimension getPreferredScrollableViewportSize();
+    Dimfnsion gftPrfffrrfdSdrollbblfVifwportSizf();
 
 
     /**
-     * Components that display logical rows or columns should compute
-     * the scroll increment that will completely expose one new row
-     * or column, depending on the value of orientation.  Ideally,
-     * components should handle a partially exposed row or column by
-     * returning the distance required to completely expose the item.
+     * Componfnts tibt displby logidbl rows or dolumns siould domputf
+     * tif sdroll indrfmfnt tibt will domplftfly fxposf onf nfw row
+     * or dolumn, dfpfnding on tif vbluf of orifntbtion.  Idfblly,
+     * domponfnts siould ibndlf b pbrtiblly fxposfd row or dolumn by
+     * rfturning tif distbndf rfquirfd to domplftfly fxposf tif itfm.
      * <p>
-     * Scrolling containers, like JScrollPane, will use this method
-     * each time the user requests a unit scroll.
+     * Sdrolling dontbinfrs, likf JSdrollPbnf, will usf tiis mftiod
+     * fbdi timf tif usfr rfqufsts b unit sdroll.
      *
-     * @param visibleRect The view area visible within the viewport
-     * @param orientation Either SwingConstants.VERTICAL or SwingConstants.HORIZONTAL.
-     * @param direction Less than zero to scroll up/left, greater than zero for down/right.
-     * @return The "unit" increment for scrolling in the specified direction.
-     *         This value should always be positive.
-     * @see JScrollBar#setUnitIncrement
+     * @pbrbm visiblfRfdt Tif vifw brfb visiblf witiin tif vifwport
+     * @pbrbm orifntbtion Eitifr SwingConstbnts.VERTICAL or SwingConstbnts.HORIZONTAL.
+     * @pbrbm dirfdtion Lfss tibn zfro to sdroll up/lfft, grfbtfr tibn zfro for down/rigit.
+     * @rfturn Tif "unit" indrfmfnt for sdrolling in tif spfdififd dirfdtion.
+     *         Tiis vbluf siould blwbys bf positivf.
+     * @sff JSdrollBbr#sftUnitIndrfmfnt
      */
-    int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction);
+    int gftSdrollbblfUnitIndrfmfnt(Rfdtbnglf visiblfRfdt, int orifntbtion, int dirfdtion);
 
 
     /**
-     * Components that display logical rows or columns should compute
-     * the scroll increment that will completely expose one block
-     * of rows or columns, depending on the value of orientation.
+     * Componfnts tibt displby logidbl rows or dolumns siould domputf
+     * tif sdroll indrfmfnt tibt will domplftfly fxposf onf blodk
+     * of rows or dolumns, dfpfnding on tif vbluf of orifntbtion.
      * <p>
-     * Scrolling containers, like JScrollPane, will use this method
-     * each time the user requests a block scroll.
+     * Sdrolling dontbinfrs, likf JSdrollPbnf, will usf tiis mftiod
+     * fbdi timf tif usfr rfqufsts b blodk sdroll.
      *
-     * @param visibleRect The view area visible within the viewport
-     * @param orientation Either SwingConstants.VERTICAL or SwingConstants.HORIZONTAL.
-     * @param direction Less than zero to scroll up/left, greater than zero for down/right.
-     * @return The "block" increment for scrolling in the specified direction.
-     *         This value should always be positive.
-     * @see JScrollBar#setBlockIncrement
+     * @pbrbm visiblfRfdt Tif vifw brfb visiblf witiin tif vifwport
+     * @pbrbm orifntbtion Eitifr SwingConstbnts.VERTICAL or SwingConstbnts.HORIZONTAL.
+     * @pbrbm dirfdtion Lfss tibn zfro to sdroll up/lfft, grfbtfr tibn zfro for down/rigit.
+     * @rfturn Tif "blodk" indrfmfnt for sdrolling in tif spfdififd dirfdtion.
+     *         Tiis vbluf siould blwbys bf positivf.
+     * @sff JSdrollBbr#sftBlodkIndrfmfnt
      */
-    int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction);
+    int gftSdrollbblfBlodkIndrfmfnt(Rfdtbnglf visiblfRfdt, int orifntbtion, int dirfdtion);
 
 
     /**
-     * Return true if a viewport should always force the width of this
-     * <code>Scrollable</code> to match the width of the viewport.
-     * For example a normal
-     * text view that supported line wrapping would return true here, since it
-     * would be undesirable for wrapped lines to disappear beyond the right
-     * edge of the viewport.  Note that returning true for a Scrollable
-     * whose ancestor is a JScrollPane effectively disables horizontal
-     * scrolling.
+     * Rfturn truf if b vifwport siould blwbys fordf tif widti of tiis
+     * <dodf>Sdrollbblf</dodf> to mbtdi tif widti of tif vifwport.
+     * For fxbmplf b normbl
+     * tfxt vifw tibt supportfd linf wrbpping would rfturn truf ifrf, sindf it
+     * would bf undfsirbblf for wrbppfd linfs to disbppfbr bfyond tif rigit
+     * fdgf of tif vifwport.  Notf tibt rfturning truf for b Sdrollbblf
+     * wiosf bndfstor is b JSdrollPbnf ffffdtivfly disbblfs iorizontbl
+     * sdrolling.
      * <p>
-     * Scrolling containers, like JViewport, will use this method each
-     * time they are validated.
+     * Sdrolling dontbinfrs, likf JVifwport, will usf tiis mftiod fbdi
+     * timf tify brf vblidbtfd.
      *
-     * @return True if a viewport should force the Scrollables width to match its own.
+     * @rfturn Truf if b vifwport siould fordf tif Sdrollbblfs widti to mbtdi its own.
      */
-    boolean getScrollableTracksViewportWidth();
+    boolfbn gftSdrollbblfTrbdksVifwportWidti();
 
     /**
-     * Return true if a viewport should always force the height of this
-     * Scrollable to match the height of the viewport.  For example a
-     * columnar text view that flowed text in left to right columns
-     * could effectively disable vertical scrolling by returning
-     * true here.
+     * Rfturn truf if b vifwport siould blwbys fordf tif ifigit of tiis
+     * Sdrollbblf to mbtdi tif ifigit of tif vifwport.  For fxbmplf b
+     * dolumnbr tfxt vifw tibt flowfd tfxt in lfft to rigit dolumns
+     * dould ffffdtivfly disbblf vfrtidbl sdrolling by rfturning
+     * truf ifrf.
      * <p>
-     * Scrolling containers, like JViewport, will use this method each
-     * time they are validated.
+     * Sdrolling dontbinfrs, likf JVifwport, will usf tiis mftiod fbdi
+     * timf tify brf vblidbtfd.
      *
-     * @return True if a viewport should force the Scrollables height to match its own.
+     * @rfturn Truf if b vifwport siould fordf tif Sdrollbblfs ifigit to mbtdi its own.
      */
-    boolean getScrollableTracksViewportHeight();
+    boolfbn gftSdrollbblfTrbdksVifwportHfigit();
 }

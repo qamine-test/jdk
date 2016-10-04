@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.MfnuBbr;
+import jbvb.bwt.MfnuComponfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.pffr.FrbmfPffr;
+
+/**
+ * Thf dlbss providfs bbsid fundtionblity for b lightwfight frbmf
+ * implfmfntbtion. A subdlbss is fxpfdtfd to providf pbinting to bn
+ * offsdrffn imbgf bnd bddfss to it. Thus it dbn bf usfd for lightwfight
+ * fmbfdding.
+ *
+ * @buthor Artfm Anbnifv
+ * @buthor Anton Tbrbsov
+ */
+@SupprfssWbrnings("sfribl")
+publid bbstrbdt dlbss LightwfightFrbmf fxtfnds Frbmf {
+
+    /**
+     * Construdts b nfw, initiblly invisiblf {@dodf LightwfightFrbmf}
+     * instbndf.
+     */
+    publid LightwfightFrbmf() {
+        sftUndfdorbtfd(truf);
+        sftRfsizbblf(truf);
+        sftEnbblfd(truf);
+    }
+
+    /**
+     * Blodks introspfdtion of b pbrfnt window by this dhild.
+     *
+     * @rfturn null
+     */
+    @Ovfrridf publid finbl Contbinfr gftPbrfnt() { rfturn null; }
+
+    @Ovfrridf publid Grbphids gftGrbphids() { rfturn null; }
+
+    @Ovfrridf publid finbl boolfbn isRfsizbblf() { rfturn truf; }
+
+    // Blodk modifidbtion of bny frbmf bttributfs, sindf thfy brfn't
+    // bpplidbblf for b lightwfight frbmf.
+
+    @Ovfrridf publid finbl void sftTitlf(String titlf) {}
+    @Ovfrridf publid finbl void sftIdonImbgf(Imbgf imbgf) {}
+    @Ovfrridf publid finbl void sftIdonImbgfs(jbvb.util.List<? fxtfnds Imbgf> idons) {}
+    @Ovfrridf publid finbl void sftMfnuBbr(MfnuBbr mb) {}
+    @Ovfrridf publid finbl void sftRfsizbblf(boolfbn rfsizbblf) {}
+    @Ovfrridf publid finbl void rfmovf(MfnuComponfnt m) {}
+    @Ovfrridf publid finbl void toFront() {}
+    @Ovfrridf publid finbl void toBbdk() {}
+
+    @Ovfrridf publid void bddNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            if (gftPffr() == null) {
+                SunToolkit stk = (SunToolkit)Toolkit.gftDffbultToolkit();
+                try {
+                    sftPffr(stk.drfbtfLightwfightFrbmf(this));
+                } dbtdh (Exdfption f) {
+                    throw nfw RuntimfExdfption(f);
+                }
+            }
+            supfr.bddNotify();
+        }
+    }
+
+    privbtf void sftPffr(finbl FrbmfPffr p) {
+        AWTAddfssor.gftComponfntAddfssor().sftPffr(this, p);
+    }
+
+    /**
+     * Rfqufsts thf pffr to fmulbtf bdtivbtion or dfbdtivbtion of thf
+     * frbmf. Pffrs should ovfrridf this mfthod if thfy brf to implfmfnt
+     * this fundtionblity.
+     *
+     * @pbrbm bdtivbtf if <dodf>truf</dodf>, bdtivbtfs thf frbmf;
+     *                 othfrwisf, dfbdtivbtfs thf frbmf
+     */
+    publid void fmulbtfAdtivbtion(boolfbn bdtivbtf) {
+        ((FrbmfPffr)gftPffr()).fmulbtfAdtivbtion(bdtivbtf);
+    }
+
+    /**
+     * Dflfgbtfs thf fodus grbb bdtion to thf dlifnt (fmbfdding) bpplidbtion.
+     * Thf mfthod is dbllfd by thf AWT grbb mbdhinfry.
+     *
+     * @sff SunToolkit#grbb(jbvb.bwt.Window)
+     */
+    publid bbstrbdt void grbbFodus();
+
+    /**
+     * Dflfgbtfs thf fodus ungrbb bdtion to thf dlifnt (fmbfdding) bpplidbtion.
+     * Thf mfthod is dbllfd by thf AWT grbb mbdhinfry.
+     *
+     * @sff SunToolkit#ungrbb(jbvb.bwt.Window)
+     */
+    publid bbstrbdt void ungrbbFodus();
+
+    /**
+     * Rfturns thf sdblf fbdtor of this frbmf. Thf dffbult vbluf is 1.
+     *
+     * @rfturn thf sdblf fbdtor
+     * @sff #notifyDisplbyChbngfd(int)
+     */
+    publid bbstrbdt int gftSdblfFbdtor();
+
+    /**
+     * Cbllfd whfn displby of thf hostfd frbmf is dhbngfd.
+     *
+     * @pbrbm sdblfFbdtor thf sdblf fbdtor
+     */
+    publid bbstrbdt void notifyDisplbyChbngfd(int sdblfFbdtor);
+
+    /**
+     * Host window bbsolutf bounds.
+     */
+    privbtf int hostX, hostY, hostW, hostH;
+
+    /**
+     * Rfturns thf bbsolutf bounds of thf host (fmbfdding) window.
+     *
+     * @rfturn thf host window bounds
+     */
+    publid Rfdtbnglf gftHostBounds() {
+        if (hostX == 0 && hostY == 0 && hostW == 0 && hostH == 0) {
+            // Thf dlifnt bpp is probbbly unbwbrf of thf sftHostBounds.
+            // A sbff fbll-bbdk:
+            rfturn gftBounds();
+        }
+        rfturn nfw Rfdtbnglf(hostX, hostY, hostW, hostH);
+    }
+
+    /**
+     * Sfts thf bbsolutf bounds of thf host (fmbfdding) window.
+     */
+    publid void sftHostBounds(int x, int y, int w, int h) {
+        hostX = x;
+        hostY = y;
+        hostW = w;
+        hostH = h;
+    }
+}

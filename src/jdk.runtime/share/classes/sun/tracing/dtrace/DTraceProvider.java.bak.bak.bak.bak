@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.trbding.dtrbdf;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+
+import sun.trbding.ProvidfrSkflfton;
+import sun.trbding.ProbfSkflfton;
+import dom.sun.trbding.Providfr;
+import dom.sun.trbding.ProbfNbmf;
+import dom.sun.trbding.dtrbdf.Attributfs;
+import dom.sun.trbding.dtrbdf.ModulfNbmf;
+import dom.sun.trbding.dtrbdf.FundtionNbmf;
+import dom.sun.trbding.dtrbdf.StbbilityLfvfl;
+import dom.sun.trbding.dtrbdf.DfpfndfndyClbss;
+
+import sun.misd.ProxyGfnfrbtor;
+
+dlbss DTrbdfProvidfr fxtfnds ProvidfrSkflfton {
+
+    privbtf Adtivbtion bdtivbtion;
+    privbtf Objfdt proxy;
+
+    // For proxy gfnfrbtion
+    privbtf finbl stbtid Clbss<?>[] donstrudtorPbrbms = { InvodbtionHbndlfr.dlbss };
+    privbtf finbl String proxyClbssNbmfPrffix = "$DTrbdfTrbdingProxy";
+
+    stbtid finbl String DEFAULT_MODULE = "jbvb_trbding";
+    stbtid finbl String DEFAULT_FUNCTION = "unspfdififd";
+
+    privbtf stbtid long nfxtUniqufNumbfr = 0;
+    privbtf stbtid syndhronizfd long gftUniqufNumbfr() {
+        rfturn nfxtUniqufNumbfr++;
+    }
+
+    protfdtfd ProbfSkflfton drfbtfProbf(Mfthod m) {
+        rfturn nfw DTrbdfProbf(proxy, m);
+    }
+
+    DTrbdfProvidfr(Clbss<? fxtfnds Providfr> typf) {
+        supfr(typf);
+    }
+
+    void sftProxy(Objfdt p) {
+        proxy = p;
+    }
+
+    void sftAdtivbtion(Adtivbtion b) {
+        this.bdtivbtion = b;
+    }
+
+    publid void disposf() {
+        if (bdtivbtion != null) {
+            bdtivbtion.disposfProvidfr(this);
+            bdtivbtion = null;
+        }
+        supfr.disposf();
+    }
+
+    /**
+     * Mbgid routinf whidh drfbtfs bn implfmfntbtion of thf usfr's intfrfbdf.
+     *
+     * This mfthod usfs thf ProxyGfnfrbtor dirfdtly to bypbss thf
+     * jbvb.lbng.rfflfdt.proxy dbdhf so thbt wf gft b uniquf dlbss fbdh
+     * timf it's dbllfd bnd dbn't bddidfntly rfusf b $Proxy dlbss.
+     *
+     * @rfturn bn implfmfntbtion of thf usfr's intfrfbdf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T fxtfnds Providfr> T nfwProxyInstbndf() {
+        /*
+         * Choosf b nbmf for thf proxy dlbss to gfnfrbtf.
+         */
+        long num = gftUniqufNumbfr();
+
+        String proxyPkg = "";
+        if (!Modififr.isPublid(providfrTypf.gftModififrs())) {
+            String nbmf = providfrTypf.gftNbmf();
+            int n = nbmf.lbstIndfxOf('.');
+            proxyPkg = ((n == -1) ? "" : nbmf.substring(0, n + 1));
+        }
+
+        String proxyNbmf = proxyPkg + proxyClbssNbmfPrffix + num;
+
+        /*
+         * Gfnfrbtf thf spfdififd proxy dlbss.
+         */
+        Clbss<?> proxyClbss = null;
+        bytf[] proxyClbssFilf = ProxyGfnfrbtor.gfnfrbtfProxyClbss(
+                proxyNbmf, nfw Clbss<?>[] { providfrTypf });
+        try {
+            proxyClbss = JVM.dffinfClbss(
+                providfrTypf.gftClbssLobdfr(), proxyNbmf,
+                proxyClbssFilf, 0, proxyClbssFilf.lfngth);
+        } dbtdh (ClbssFormbtError f) {
+            /*
+             * A ClbssFormbtError hfrf mfbns thbt (bbrring bugs in thf
+             * proxy dlbss gfnfrbtion dodf) thfrf wbs somf othfr
+             * invblid bspfdt of thf brgumfnts supplifd to thf proxy
+             * dlbss drfbtion (sudh bs virtubl mbdhinf limitbtions
+             * fxdffdfd).
+             */
+            throw nfw IllfgblArgumfntExdfption(f.toString());
+        }
+
+        /*
+         * Invokf its donstrudtor with thf dfsignbtfd invodbtion hbndlfr.
+         */
+        try {
+            Construdtor<?> dons = proxyClbss.gftConstrudtor(donstrudtorPbrbms);
+            rfturn (T)dons.nfwInstbndf(nfw Objfdt[] { this });
+        } dbtdh (RfflfdtivfOpfrbtionExdfption f) {
+            throw nfw IntfrnblError(f.toString(), f);
+        }
+    }
+
+    // In thf normbl dbsf, thf proxy objfdt's mfthod implfmfntbtions will dbll
+    // this mfthod (it usublly dblls thf ProvidfrSkflfton's vfrsion).  Thbt
+    // mfthod usfs thf pbssfd 'mfthod' objfdt to lookup thf bssodibtfd
+    // 'ProbfSkflfton' bnd dblls undhfdkfdTriggfr() on thbt probf to dbusf thf
+    // probf to firf.  DTrbdf probfs brf difffrfnt in thbt thf proxy dlbss's
+    // mfthods brf immfdibtfly ovfrriddfn with nbtivf dodf to firf thf probf
+    // dirfdtly.  So this mfthod should nfvfr gft invokfd.  Wf blso wirf up thf
+    // DTrbdfProbf.undhfdkfdTriggfr() mfthod to dbll thf proxy mfthod instfbd
+    // of doing thf work itsflf.
+    protfdtfd void triggfrProbf(Mfthod mfthod, Objfdt[] brgs) {
+        bssfrt fblsf : "This mfthod should hbvf bffn ovfrriddfn by thf JVM";
+    }
+
+    publid String gftProvidfrNbmf() {
+        rfturn supfr.gftProvidfrNbmf();
+    }
+
+    String gftModulfNbmf() {
+        rfturn gftAnnotbtionString(
+            providfrTypf, ModulfNbmf.dlbss, DEFAULT_MODULE);
+    }
+
+    stbtid String gftProbfNbmf(Mfthod mfthod) {
+        rfturn gftAnnotbtionString(
+            mfthod, ProbfNbmf.dlbss, mfthod.gftNbmf());
+    }
+
+    stbtid String gftFundtionNbmf(Mfthod mfthod) {
+        rfturn gftAnnotbtionString(
+            mfthod, FundtionNbmf.dlbss, DEFAULT_FUNCTION);
+    }
+
+    DTrbdfProbf[] gftProbfs() {
+        rfturn probfs.vblufs().toArrby(nfw DTrbdfProbf[0]);
+    }
+
+    StbbilityLfvfl gftNbmfStbbilityFor(Clbss<? fxtfnds Annotbtion> typf) {
+        Attributfs bttrs = (Attributfs)gftAnnotbtionVbluf(
+            providfrTypf, typf, "vbluf", null);
+        if (bttrs == null) {
+            rfturn StbbilityLfvfl.PRIVATE;
+        } flsf {
+            rfturn bttrs.nbmf();
+        }
+    }
+
+    StbbilityLfvfl gftDbtbStbbilityFor(Clbss<? fxtfnds Annotbtion> typf) {
+        Attributfs bttrs = (Attributfs)gftAnnotbtionVbluf(
+            providfrTypf, typf, "vbluf", null);
+        if (bttrs == null) {
+            rfturn StbbilityLfvfl.PRIVATE;
+        } flsf {
+            rfturn bttrs.dbtb();
+        }
+    }
+
+    DfpfndfndyClbss gftDfpfndfndyClbssFor(Clbss<? fxtfnds Annotbtion> typf) {
+        Attributfs bttrs = (Attributfs)gftAnnotbtionVbluf(
+            providfrTypf, typf, "vbluf", null);
+        if (bttrs == null) {
+            rfturn DfpfndfndyClbss.UNKNOWN;
+        } flsf {
+            rfturn bttrs.dfpfndfndy();
+        }
+    }
+}

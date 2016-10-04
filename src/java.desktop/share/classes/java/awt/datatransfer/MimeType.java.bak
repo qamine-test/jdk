@@ -1,394 +1,394 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.datatransfer;
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
 
-import java.io.Externalizable;
-import java.io.ObjectOutput;
-import java.io.ObjectInput;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Locale;
+import jbvb.io.Extfrnblizbblf;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.IOExdfption;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Lodblf;
 
 
 /**
- * A Multipurpose Internet Mail Extension (MIME) type, as defined
- * in RFC 2045 and 2046.
+ * A Multipurposf Intfrnft Mbil Extfnsion (MIME) typf, bs dffinfd
+ * in RFC 2045 bnd 2046.
  *
- * THIS IS *NOT* - REPEAT *NOT* - A PUBLIC CLASS! DataFlavor IS
+ * THIS IS *NOT* - REPEAT *NOT* - A PUBLIC CLASS! DbtbFlbvor IS
  * THE PUBLIC INTERFACE, AND THIS IS PROVIDED AS A ***PRIVATE***
  * (THAT IS AS IN *NOT* PUBLIC) HELPER CLASS!
  */
-class MimeType implements Externalizable, Cloneable {
+dlbss MimfTypf implfmfnts Extfrnblizbblf, Clonfbblf {
 
     /*
-     * serialization support
+     * sfriblizbtion support
      */
 
-    static final long serialVersionUID = -6568722458793895906L;
+    stbtid finbl long sfriblVfrsionUID = -6568722458793895906L;
 
     /**
-     * Constructor for externalization; this constructor should not be
-     * called directly by an application, since the result will be an
-     * uninitialized, immutable <code>MimeType</code> object.
+     * Construdtor for fxtfrnblizbtion; tiis donstrudtor siould not bf
+     * dbllfd dirfdtly by bn bpplidbtion, sindf tif rfsult will bf bn
+     * uninitiblizfd, immutbblf <dodf>MimfTypf</dodf> objfdt.
      */
-    public MimeType() {
+    publid MimfTypf() {
     }
 
     /**
-     * Builds a <code>MimeType</code> from a <code>String</code>.
+     * Builds b <dodf>MimfTypf</dodf> from b <dodf>String</dodf>.
      *
-     * @param rawdata text used to initialize the <code>MimeType</code>
-     * @throws NullPointerException if <code>rawdata</code> is null
+     * @pbrbm rbwdbtb tfxt usfd to initiblizf tif <dodf>MimfTypf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>rbwdbtb</dodf> is null
      */
-    public MimeType(String rawdata) throws MimeTypeParseException {
-        parse(rawdata);
+    publid MimfTypf(String rbwdbtb) tirows MimfTypfPbrsfExdfption {
+        pbrsf(rbwdbtb);
     }
 
     /**
-     * Builds a <code>MimeType</code> with the given primary and sub
-     * type but has an empty parameter list.
+     * Builds b <dodf>MimfTypf</dodf> witi tif givfn primbry bnd sub
+     * typf but ibs bn fmpty pbrbmftfr list.
      *
-     * @param primary the primary type of this <code>MimeType</code>
-     * @param sub the subtype of this <code>MimeType</code>
-     * @throws NullPointerException if either <code>primary</code> or
-     *         <code>sub</code> is null
+     * @pbrbm primbry tif primbry typf of tiis <dodf>MimfTypf</dodf>
+     * @pbrbm sub tif subtypf of tiis <dodf>MimfTypf</dodf>
+     * @tirows NullPointfrExdfption if fitifr <dodf>primbry</dodf> or
+     *         <dodf>sub</dodf> is null
      */
-    public MimeType(String primary, String sub) throws MimeTypeParseException {
-        this(primary, sub, new MimeTypeParameterList());
+    publid MimfTypf(String primbry, String sub) tirows MimfTypfPbrsfExdfption {
+        tiis(primbry, sub, nfw MimfTypfPbrbmftfrList());
     }
 
     /**
-     * Builds a <code>MimeType</code> with a pre-defined
-     * and valid (or empty) parameter list.
+     * Builds b <dodf>MimfTypf</dodf> witi b prf-dffinfd
+     * bnd vblid (or fmpty) pbrbmftfr list.
      *
-     * @param primary the primary type of this <code>MimeType</code>
-     * @param sub the subtype of this <code>MimeType</code>
-     * @param mtpl the requested parameter list
-     * @throws NullPointerException if either <code>primary</code>,
-     *         <code>sub</code> or <code>mtpl</code> is null
+     * @pbrbm primbry tif primbry typf of tiis <dodf>MimfTypf</dodf>
+     * @pbrbm sub tif subtypf of tiis <dodf>MimfTypf</dodf>
+     * @pbrbm mtpl tif rfqufstfd pbrbmftfr list
+     * @tirows NullPointfrExdfption if fitifr <dodf>primbry</dodf>,
+     *         <dodf>sub</dodf> or <dodf>mtpl</dodf> is null
      */
-    public MimeType(String primary, String sub, MimeTypeParameterList mtpl) throws
-MimeTypeParseException {
-        //    check to see if primary is valid
-        if(isValidToken(primary)) {
-            primaryType = primary.toLowerCase(Locale.ENGLISH);
-        } else {
-            throw new MimeTypeParseException("Primary type is invalid.");
+    publid MimfTypf(String primbry, String sub, MimfTypfPbrbmftfrList mtpl) tirows
+MimfTypfPbrsfExdfption {
+        //    difdk to sff if primbry is vblid
+        if(isVblidTokfn(primbry)) {
+            primbryTypf = primbry.toLowfrCbsf(Lodblf.ENGLISH);
+        } flsf {
+            tirow nfw MimfTypfPbrsfExdfption("Primbry typf is invblid.");
         }
 
-        //    check to see if sub is valid
-        if(isValidToken(sub)) {
-            subType = sub.toLowerCase(Locale.ENGLISH);
-        } else {
-            throw new MimeTypeParseException("Sub type is invalid.");
+        //    difdk to sff if sub is vblid
+        if(isVblidTokfn(sub)) {
+            subTypf = sub.toLowfrCbsf(Lodblf.ENGLISH);
+        } flsf {
+            tirow nfw MimfTypfPbrsfExdfption("Sub typf is invblid.");
         }
 
-        parameters = (MimeTypeParameterList)mtpl.clone();
+        pbrbmftfrs = (MimfTypfPbrbmftfrList)mtpl.dlonf();
     }
 
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        // We sum up the hash codes for all of the strings. This
-        // way, the order of the strings is irrelevant
-        int code = 0;
-        code += primaryType.hashCode();
-        code += subType.hashCode();
-        code += parameters.hashCode();
-        return code;
-    } // hashCode()
+        // Wf sum up tif ibsi dodfs for bll of tif strings. Tiis
+        // wby, tif ordfr of tif strings is irrflfvbnt
+        int dodf = 0;
+        dodf += primbryTypf.ibsiCodf();
+        dodf += subTypf.ibsiCodf();
+        dodf += pbrbmftfrs.ibsiCodf();
+        rfturn dodf;
+    } // ibsiCodf()
 
     /**
-     * <code>MimeType</code>s are equal if their primary types,
-     * subtypes, and  parameters are all equal. No default values
-     * are taken into account.
-     * @param thatObject the object to be evaluated as a
-     *    <code>MimeType</code>
-     * @return <code>true</code> if <code>thatObject</code> is
-     *    a <code>MimeType</code>; otherwise returns <code>false</code>
+     * <dodf>MimfTypf</dodf>s brf fqubl if tifir primbry typfs,
+     * subtypfs, bnd  pbrbmftfrs brf bll fqubl. No dffbult vblufs
+     * brf tbkfn into bddount.
+     * @pbrbm tibtObjfdt tif objfdt to bf fvblubtfd bs b
+     *    <dodf>MimfTypf</dodf>
+     * @rfturn <dodf>truf</dodf> if <dodf>tibtObjfdt</dodf> is
+     *    b <dodf>MimfTypf</dodf>; otifrwisf rfturns <dodf>fblsf</dodf>
      */
-    public boolean equals(Object thatObject) {
-        if (!(thatObject instanceof MimeType)) {
-            return false;
+    publid boolfbn fqubls(Objfdt tibtObjfdt) {
+        if (!(tibtObjfdt instbndfof MimfTypf)) {
+            rfturn fblsf;
         }
-        MimeType that = (MimeType)thatObject;
-        boolean isIt =
-            ((this.primaryType.equals(that.primaryType)) &&
-             (this.subType.equals(that.subType)) &&
-             (this.parameters.equals(that.parameters)));
-        return isIt;
-    } // equals()
+        MimfTypf tibt = (MimfTypf)tibtObjfdt;
+        boolfbn isIt =
+            ((tiis.primbryTypf.fqubls(tibt.primbryTypf)) &&
+             (tiis.subTypf.fqubls(tibt.subTypf)) &&
+             (tiis.pbrbmftfrs.fqubls(tibt.pbrbmftfrs)));
+        rfturn isIt;
+    } // fqubls()
 
     /**
-     * A routine for parsing the MIME type out of a String.
+     * A routinf for pbrsing tif MIME typf out of b String.
      *
-     * @throws NullPointerException if <code>rawdata</code> is null
+     * @tirows NullPointfrExdfption if <dodf>rbwdbtb</dodf> is null
      */
-    private void parse(String rawdata) throws MimeTypeParseException {
-        int slashIndex = rawdata.indexOf('/');
-        int semIndex = rawdata.indexOf(';');
-        if((slashIndex < 0) && (semIndex < 0)) {
-            //    neither character is present, so treat it
-            //    as an error
-            throw new MimeTypeParseException("Unable to find a sub type.");
-        } else if((slashIndex < 0) && (semIndex >= 0)) {
-            //    we have a ';' (and therefore a parameter list),
-            //    but no '/' indicating a sub type is present
-            throw new MimeTypeParseException("Unable to find a sub type.");
-        } else if((slashIndex >= 0) && (semIndex < 0)) {
-            //    we have a primary and sub type but no parameter list
-            primaryType = rawdata.substring(0,slashIndex).
-                trim().toLowerCase(Locale.ENGLISH);
-            subType = rawdata.substring(slashIndex + 1).
-                trim().toLowerCase(Locale.ENGLISH);
-            parameters = new MimeTypeParameterList();
-        } else if (slashIndex < semIndex) {
-            //    we have all three items in the proper sequence
-            primaryType = rawdata.substring(0, slashIndex).
-                trim().toLowerCase(Locale.ENGLISH);
-            subType = rawdata.substring(slashIndex + 1,
-                semIndex).trim().toLowerCase(Locale.ENGLISH);
-            parameters = new
-MimeTypeParameterList(rawdata.substring(semIndex));
-        } else {
-            //    we have a ';' lexically before a '/' which means we have a primary type
-            //    & a parameter list but no sub type
-            throw new MimeTypeParseException("Unable to find a sub type.");
-        }
-
-        //    now validate the primary and sub types
-
-        //    check to see if primary is valid
-        if(!isValidToken(primaryType)) {
-            throw new MimeTypeParseException("Primary type is invalid.");
+    privbtf void pbrsf(String rbwdbtb) tirows MimfTypfPbrsfExdfption {
+        int slbsiIndfx = rbwdbtb.indfxOf('/');
+        int sfmIndfx = rbwdbtb.indfxOf(';');
+        if((slbsiIndfx < 0) && (sfmIndfx < 0)) {
+            //    nfitifr dibrbdtfr is prfsfnt, so trfbt it
+            //    bs bn frror
+            tirow nfw MimfTypfPbrsfExdfption("Unbblf to find b sub typf.");
+        } flsf if((slbsiIndfx < 0) && (sfmIndfx >= 0)) {
+            //    wf ibvf b ';' (bnd tifrfforf b pbrbmftfr list),
+            //    but no '/' indidbting b sub typf is prfsfnt
+            tirow nfw MimfTypfPbrsfExdfption("Unbblf to find b sub typf.");
+        } flsf if((slbsiIndfx >= 0) && (sfmIndfx < 0)) {
+            //    wf ibvf b primbry bnd sub typf but no pbrbmftfr list
+            primbryTypf = rbwdbtb.substring(0,slbsiIndfx).
+                trim().toLowfrCbsf(Lodblf.ENGLISH);
+            subTypf = rbwdbtb.substring(slbsiIndfx + 1).
+                trim().toLowfrCbsf(Lodblf.ENGLISH);
+            pbrbmftfrs = nfw MimfTypfPbrbmftfrList();
+        } flsf if (slbsiIndfx < sfmIndfx) {
+            //    wf ibvf bll tirff itfms in tif propfr sfqufndf
+            primbryTypf = rbwdbtb.substring(0, slbsiIndfx).
+                trim().toLowfrCbsf(Lodblf.ENGLISH);
+            subTypf = rbwdbtb.substring(slbsiIndfx + 1,
+                sfmIndfx).trim().toLowfrCbsf(Lodblf.ENGLISH);
+            pbrbmftfrs = nfw
+MimfTypfPbrbmftfrList(rbwdbtb.substring(sfmIndfx));
+        } flsf {
+            //    wf ibvf b ';' lfxidblly bfforf b '/' wiidi mfbns wf ibvf b primbry typf
+            //    & b pbrbmftfr list but no sub typf
+            tirow nfw MimfTypfPbrsfExdfption("Unbblf to find b sub typf.");
         }
 
-        //    check to see if sub is valid
-        if(!isValidToken(subType)) {
-            throw new MimeTypeParseException("Sub type is invalid.");
+        //    now vblidbtf tif primbry bnd sub typfs
+
+        //    difdk to sff if primbry is vblid
+        if(!isVblidTokfn(primbryTypf)) {
+            tirow nfw MimfTypfPbrsfExdfption("Primbry typf is invblid.");
         }
-    }
 
-    /**
-     * Retrieve the primary type of this object.
-     */
-    public String getPrimaryType() {
-        return primaryType;
-    }
-
-    /**
-     * Retrieve the sub type of this object.
-     */
-    public String getSubType() {
-        return subType;
-    }
-
-    /**
-     * Retrieve a copy of this object's parameter list.
-     */
-    public MimeTypeParameterList getParameters() {
-        return (MimeTypeParameterList)parameters.clone();
-    }
-
-    /**
-     * Retrieve the value associated with the given name, or null if there
-     * is no current association.
-     */
-    public String getParameter(String name) {
-        return parameters.get(name);
-    }
-
-    /**
-     * Set the value to be associated with the given name, replacing
-     * any previous association.
-     *
-     * @throw IllegalArgumentException if parameter or value is illegal
-     */
-    public void setParameter(String name, String value) {
-        parameters.set(name, value);
-    }
-
-    /**
-     * Remove any value associated with the given name.
-     *
-     * @throw IllegalArgumentExcpetion if parameter may not be deleted
-     */
-    public void removeParameter(String name) {
-        parameters.remove(name);
-    }
-
-    /**
-     * Return the String representation of this object.
-     */
-    public String toString() {
-        return getBaseType() + parameters.toString();
-    }
-
-    /**
-     * Return a String representation of this object
-     * without the parameter list.
-     */
-    public String getBaseType() {
-        return primaryType + "/" + subType;
-    }
-
-    /**
-     * Returns <code>true</code> if the primary type and the
-     * subtype of this object are the same as the specified
-     * <code>type</code>; otherwise returns <code>false</code>.
-     *
-     * @param type the type to compare to <code>this</code>'s type
-     * @return <code>true</code> if the primary type and the
-     *    subtype of this object are the same as the
-     *    specified <code>type</code>; otherwise returns
-     *    <code>false</code>
-     */
-    public boolean match(MimeType type) {
-        if (type == null)
-            return false;
-        return primaryType.equals(type.getPrimaryType())
-                    && (subType.equals("*")
-                            || type.getSubType().equals("*")
-                            || (subType.equals(type.getSubType())));
-    }
-
-    /**
-     * Returns <code>true</code> if the primary type and the
-     * subtype of this object are the same as the content type
-     * described in <code>rawdata</code>; otherwise returns
-     * <code>false</code>.
-     *
-     * @param rawdata the raw data to be examined
-     * @return <code>true</code> if the primary type and the
-     *    subtype of this object are the same as the content type
-     *    described in <code>rawdata</code>; otherwise returns
-     *    <code>false</code>; if <code>rawdata</code> is
-     *    <code>null</code>, returns <code>false</code>
-     */
-    public boolean match(String rawdata) throws MimeTypeParseException {
-        if (rawdata == null)
-            return false;
-        return match(new MimeType(rawdata));
-    }
-
-    /**
-     * The object implements the writeExternal method to save its contents
-     * by calling the methods of DataOutput for its primitive values or
-     * calling the writeObject method of ObjectOutput for objects, strings
-     * and arrays.
-     * @exception IOException Includes any I/O exceptions that may occur
-     */
-    public void writeExternal(ObjectOutput out) throws IOException {
-        String s = toString(); // contains ASCII chars only
-        // one-to-one correspondence between ASCII char and byte in UTF string
-        if (s.length() <= 65535) { // 65535 is max length of UTF string
-            out.writeUTF(s);
-        } else {
-            out.writeByte(0);
-            out.writeByte(0);
-            out.writeInt(s.length());
-            out.write(s.getBytes());
+        //    difdk to sff if sub is vblid
+        if(!isVblidTokfn(subTypf)) {
+            tirow nfw MimfTypfPbrsfExdfption("Sub typf is invblid.");
         }
     }
 
     /**
-     * The object implements the readExternal method to restore its
-     * contents by calling the methods of DataInput for primitive
-     * types and readObject for objects, strings and arrays.  The
-     * readExternal method must read the values in the same sequence
-     * and with the same types as were written by writeExternal.
-     * @exception ClassNotFoundException If the class for an object being
-     *              restored cannot be found.
+     * Rftrifvf tif primbry typf of tiis objfdt.
      */
-    public void readExternal(ObjectInput in) throws IOException,
-ClassNotFoundException {
-        String s = in.readUTF();
-        if (s == null || s.length() == 0) { // long mime type
-            byte[] ba = new byte[in.readInt()];
-            in.readFully(ba);
-            s = new String(ba);
+    publid String gftPrimbryTypf() {
+        rfturn primbryTypf;
+    }
+
+    /**
+     * Rftrifvf tif sub typf of tiis objfdt.
+     */
+    publid String gftSubTypf() {
+        rfturn subTypf;
+    }
+
+    /**
+     * Rftrifvf b dopy of tiis objfdt's pbrbmftfr list.
+     */
+    publid MimfTypfPbrbmftfrList gftPbrbmftfrs() {
+        rfturn (MimfTypfPbrbmftfrList)pbrbmftfrs.dlonf();
+    }
+
+    /**
+     * Rftrifvf tif vbluf bssodibtfd witi tif givfn nbmf, or null if tifrf
+     * is no durrfnt bssodibtion.
+     */
+    publid String gftPbrbmftfr(String nbmf) {
+        rfturn pbrbmftfrs.gft(nbmf);
+    }
+
+    /**
+     * Sft tif vbluf to bf bssodibtfd witi tif givfn nbmf, rfplbding
+     * bny prfvious bssodibtion.
+     *
+     * @tirow IllfgblArgumfntExdfption if pbrbmftfr or vbluf is illfgbl
+     */
+    publid void sftPbrbmftfr(String nbmf, String vbluf) {
+        pbrbmftfrs.sft(nbmf, vbluf);
+    }
+
+    /**
+     * Rfmovf bny vbluf bssodibtfd witi tif givfn nbmf.
+     *
+     * @tirow IllfgblArgumfntExdpftion if pbrbmftfr mby not bf dflftfd
+     */
+    publid void rfmovfPbrbmftfr(String nbmf) {
+        pbrbmftfrs.rfmovf(nbmf);
+    }
+
+    /**
+     * Rfturn tif String rfprfsfntbtion of tiis objfdt.
+     */
+    publid String toString() {
+        rfturn gftBbsfTypf() + pbrbmftfrs.toString();
+    }
+
+    /**
+     * Rfturn b String rfprfsfntbtion of tiis objfdt
+     * witiout tif pbrbmftfr list.
+     */
+    publid String gftBbsfTypf() {
+        rfturn primbryTypf + "/" + subTypf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if tif primbry typf bnd tif
+     * subtypf of tiis objfdt brf tif sbmf bs tif spfdififd
+     * <dodf>typf</dodf>; otifrwisf rfturns <dodf>fblsf</dodf>.
+     *
+     * @pbrbm typf tif typf to dompbrf to <dodf>tiis</dodf>'s typf
+     * @rfturn <dodf>truf</dodf> if tif primbry typf bnd tif
+     *    subtypf of tiis objfdt brf tif sbmf bs tif
+     *    spfdififd <dodf>typf</dodf>; otifrwisf rfturns
+     *    <dodf>fblsf</dodf>
+     */
+    publid boolfbn mbtdi(MimfTypf typf) {
+        if (typf == null)
+            rfturn fblsf;
+        rfturn primbryTypf.fqubls(typf.gftPrimbryTypf())
+                    && (subTypf.fqubls("*")
+                            || typf.gftSubTypf().fqubls("*")
+                            || (subTypf.fqubls(typf.gftSubTypf())));
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if tif primbry typf bnd tif
+     * subtypf of tiis objfdt brf tif sbmf bs tif dontfnt typf
+     * dfsdribfd in <dodf>rbwdbtb</dodf>; otifrwisf rfturns
+     * <dodf>fblsf</dodf>.
+     *
+     * @pbrbm rbwdbtb tif rbw dbtb to bf fxbminfd
+     * @rfturn <dodf>truf</dodf> if tif primbry typf bnd tif
+     *    subtypf of tiis objfdt brf tif sbmf bs tif dontfnt typf
+     *    dfsdribfd in <dodf>rbwdbtb</dodf>; otifrwisf rfturns
+     *    <dodf>fblsf</dodf>; if <dodf>rbwdbtb</dodf> is
+     *    <dodf>null</dodf>, rfturns <dodf>fblsf</dodf>
+     */
+    publid boolfbn mbtdi(String rbwdbtb) tirows MimfTypfPbrsfExdfption {
+        if (rbwdbtb == null)
+            rfturn fblsf;
+        rfturn mbtdi(nfw MimfTypf(rbwdbtb));
+    }
+
+    /**
+     * Tif objfdt implfmfnts tif writfExtfrnbl mftiod to sbvf its dontfnts
+     * by dblling tif mftiods of DbtbOutput for its primitivf vblufs or
+     * dblling tif writfObjfdt mftiod of ObjfdtOutput for objfdts, strings
+     * bnd brrbys.
+     * @fxdfption IOExdfption Indludfs bny I/O fxdfptions tibt mby oddur
+     */
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        String s = toString(); // dontbins ASCII dibrs only
+        // onf-to-onf dorrfspondfndf bftwffn ASCII dibr bnd bytf in UTF string
+        if (s.lfngti() <= 65535) { // 65535 is mbx lfngti of UTF string
+            out.writfUTF(s);
+        } flsf {
+            out.writfBytf(0);
+            out.writfBytf(0);
+            out.writfInt(s.lfngti());
+            out.writf(s.gftBytfs());
+        }
+    }
+
+    /**
+     * Tif objfdt implfmfnts tif rfbdExtfrnbl mftiod to rfstorf its
+     * dontfnts by dblling tif mftiods of DbtbInput for primitivf
+     * typfs bnd rfbdObjfdt for objfdts, strings bnd brrbys.  Tif
+     * rfbdExtfrnbl mftiod must rfbd tif vblufs in tif sbmf sfqufndf
+     * bnd witi tif sbmf typfs bs wfrf writtfn by writfExtfrnbl.
+     * @fxdfption ClbssNotFoundExdfption If tif dlbss for bn objfdt bfing
+     *              rfstorfd dbnnot bf found.
+     */
+    publid void rfbdExtfrnbl(ObjfdtInput in) tirows IOExdfption,
+ClbssNotFoundExdfption {
+        String s = in.rfbdUTF();
+        if (s == null || s.lfngti() == 0) { // long mimf typf
+            bytf[] bb = nfw bytf[in.rfbdInt()];
+            in.rfbdFully(bb);
+            s = nfw String(bb);
         }
         try {
-            parse(s);
-        } catch(MimeTypeParseException e) {
-            throw new IOException(e.toString());
+            pbrsf(s);
+        } dbtdi(MimfTypfPbrsfExdfption f) {
+            tirow nfw IOExdfption(f.toString());
         }
     }
 
     /**
-     * Returns a clone of this object.
-     * @return a clone of this object
+     * Rfturns b dlonf of tiis objfdt.
+     * @rfturn b dlonf of tiis objfdt
      */
 
-    public Object clone() {
-        MimeType newObj = null;
+    publid Objfdt dlonf() {
+        MimfTypf nfwObj = null;
         try {
-            newObj = (MimeType)super.clone();
-        } catch (CloneNotSupportedException cannotHappen) {
+            nfwObj = (MimfTypf)supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption dbnnotHbppfn) {
         }
-        newObj.parameters = (MimeTypeParameterList)parameters.clone();
-        return newObj;
+        nfwObj.pbrbmftfrs = (MimfTypfPbrbmftfrList)pbrbmftfrs.dlonf();
+        rfturn nfwObj;
     }
 
-    private String    primaryType;
-    private String    subType;
-    private MimeTypeParameterList parameters;
+    privbtf String    primbryTypf;
+    privbtf String    subTypf;
+    privbtf MimfTypfPbrbmftfrList pbrbmftfrs;
 
-    //    below here be scary parsing related things
+    //    bflow ifrf bf sdbry pbrsing rflbtfd tiings
 
     /**
-     * Determines whether or not a given character belongs to a legal token.
+     * Dftfrminfs wiftifr or not b givfn dibrbdtfr bflongs to b lfgbl tokfn.
      */
-    private static boolean isTokenChar(char c) {
-        return ((c > 040) && (c < 0177)) && (TSPECIALS.indexOf(c) < 0);
+    privbtf stbtid boolfbn isTokfnCibr(dibr d) {
+        rfturn ((d > 040) && (d < 0177)) && (TSPECIALS.indfxOf(d) < 0);
     }
 
     /**
-     * Determines whether or not a given string is a legal token.
+     * Dftfrminfs wiftifr or not b givfn string is b lfgbl tokfn.
      *
-     * @throws NullPointerException if <code>s</code> is null
+     * @tirows NullPointfrExdfption if <dodf>s</dodf> is null
      */
-    private boolean isValidToken(String s) {
-        int len = s.length();
-        if(len > 0) {
-            for (int i = 0; i < len; ++i) {
-                char c = s.charAt(i);
-                if (!isTokenChar(c)) {
-                    return false;
+    privbtf boolfbn isVblidTokfn(String s) {
+        int lfn = s.lfngti();
+        if(lfn > 0) {
+            for (int i = 0; i < lfn; ++i) {
+                dibr d = s.dibrAt(i);
+                if (!isTokfnCibr(d)) {
+                    rfturn fblsf;
                 }
             }
-            return true;
-        } else {
-            return false;
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * A string that holds all the special chars.
+     * A string tibt iolds bll tif spfdibl dibrs.
      */
 
-    private static final String TSPECIALS = "()<>@,;:\\\"/[]?=";
+    privbtf stbtid finbl String TSPECIALS = "()<>@,;:\\\"/[]?=";
 
-} // class MimeType
+} // dlbss MimfTypf

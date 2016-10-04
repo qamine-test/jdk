@@ -1,0 +1,649 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2007-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf;
+
+import stbtid jbvb.timf.LodblTimf.NANOS_PER_MINUTE;
+import stbtid jbvb.timf.LodblTimf.NANOS_PER_SECOND;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Objfdts;
+import jbvb.util.TimfZonf;
+
+/**
+ * A dlodk providing bddfss to thf durrfnt instbnt, dbtf bnd timf using b timf-zonf.
+ * <p>
+ * Instbndfs of this dlbss brf usfd to find thf durrfnt instbnt, whidh dbn bf
+ * intfrprftfd using thf storfd timf-zonf to find thf durrfnt dbtf bnd timf.
+ * As sudh, b dlodk dbn bf usfd instfbd of {@link Systfm#durrfntTimfMillis()}
+ * bnd {@link TimfZonf#gftDffbult()}.
+ * <p>
+ * Usf of b {@dodf Clodk} is optionbl. All kfy dbtf-timf dlbssfs blso hbvf b
+ * {@dodf now()} fbdtory mfthod thbt usfs thf systfm dlodk in thf dffbult timf zonf.
+ * Thf primbry purposf of this bbstrbdtion is to bllow bltfrnbtf dlodks to bf
+ * pluggfd in bs bnd whfn rfquirfd. Applidbtions usf bn objfdt to obtbin thf
+ * durrfnt timf rbthfr thbn b stbtid mfthod. This dbn simplify tfsting.
+ * <p>
+ * Bfst prbdtidf for bpplidbtions is to pbss b {@dodf Clodk} into bny mfthod
+ * thbt rfquirfs thf durrfnt instbnt. A dfpfndfndy injfdtion frbmfwork is onf
+ * wby to bdhifvf this:
+ * <prf>
+ *  publid dlbss MyBfbn {
+ *    privbtf Clodk dlodk;  // dfpfndfndy injfdt
+ *    ...
+ *    publid void prodfss(LodblDbtf fvfntDbtf) {
+ *      if (fvfntDbtf.isBfforf(LodblDbtf.now(dlodk)) {
+ *        ...
+ *      }
+ *    }
+ *  }
+ * </prf>
+ * This bpprobdh bllows bn bltfrnbtf dlodk, sudh bs {@link #fixfd(Instbnt, ZonfId) fixfd}
+ * or {@link #offsft(Clodk, Durbtion) offsft} to bf usfd during tfsting.
+ * <p>
+ * Thf {@dodf systfm} fbdtory mfthods providf dlodks bbsfd on thf bfst bvbilbblf
+ * systfm dlodk This mby usf {@link Systfm#durrfntTimfMillis()}, or b highfr
+ * rfsolution dlodk if onf is bvbilbblf.
+ *
+ * @implSpfd
+ * This bbstrbdt dlbss must bf implfmfntfd with dbrf to fnsurf othfr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions thbt dbn bf instbntibtfd must bf finbl, immutbblf bnd thrfbd-sbff.
+ * <p>
+ * Thf prindipbl mfthods brf dffinfd to bllow thf throwing of bn fxdfption.
+ * In normbl usf, no fxdfptions will bf thrown, howfvfr onf possiblf implfmfntbtion would bf to
+ * obtbin thf timf from b dfntrbl timf sfrvfr bdross thf nftwork. Obviously, in this dbsf thf
+ * lookup dould fbil, bnd so thf mfthod is pfrmittfd to throw bn fxdfption.
+ * <p>
+ * Thf rfturnfd instbnts from {@dodf Clodk} work on b timf-sdblf thbt ignorfs lfbp sfdonds,
+ * bs dfsdribfd in {@link Instbnt}. If thf implfmfntbtion wrbps b sourdf thbt providfs lfbp
+ * sfdond informbtion, thfn b mfdhbnism should bf usfd to "smooth" thf lfbp sfdond.
+ * Thf Jbvb Timf-Sdblf mbndbtfs thf usf of UTC-SLS, howfvfr dlodk implfmfntbtions mby dhoosf
+ * how bddurbtf thfy brf with thf timf-sdblf so long bs thfy dodumfnt how thfy work.
+ * Implfmfntbtions brf thfrfforf not rfquirfd to bdtublly pfrform thf UTC-SLS slfw or to
+ * othfrwisf bf bwbrf of lfbp sfdonds.
+ * <p>
+ * Implfmfntbtions should implfmfnt {@dodf Sfriblizbblf} whfrfvfr possiblf bnd must
+ * dodumfnt whfthfr or not thfy do support sfriblizbtion.
+ *
+ * @implNotf
+ * Thf dlodk implfmfntbtion providfd hfrf is bbsfd on {@link Systfm#durrfntTimfMillis()}.
+ * Thbt mfthod providfs littlf to no gubrbntff bbout thf bddurbdy of thf dlodk.
+ * Applidbtions rfquiring b morf bddurbtf dlodk must implfmfnt this bbstrbdt dlbss
+ * thfmsflvfs using b difffrfnt fxtfrnbl dlodk, sudh bs bn NTP sfrvfr.
+ *
+ * @sindf 1.8
+ */
+publid bbstrbdt dlbss Clodk {
+
+    /**
+     * Obtbins b dlodk thbt rfturns thf durrfnt instbnt using thf bfst bvbilbblf
+     * systfm dlodk, donvfrting to dbtf bnd timf using thf UTC timf-zonf.
+     * <p>
+     * This dlodk, rbthfr thbn {@link #systfmDffbultZonf()}, should bf usfd whfn
+     * you nffd thf durrfnt instbnt without thf dbtf or timf.
+     * <p>
+     * This dlodk is bbsfd on thf bfst bvbilbblf systfm dlodk.
+     * This mby usf {@link Systfm#durrfntTimfMillis()}, or b highfr rfsolution
+     * dlodk if onf is bvbilbblf.
+     * <p>
+     * Convfrsion from instbnt to dbtf or timf usfs thf {@linkplbin ZonfOffsft#UTC UTC timf-zonf}.
+     * <p>
+     * Thf rfturnfd implfmfntbtion is immutbblf, thrfbd-sbff bnd {@dodf Sfriblizbblf}.
+     * It is fquivblfnt to {@dodf systfm(ZonfOffsft.UTC)}.
+     *
+     * @rfturn b dlodk thbt usfs thf bfst bvbilbblf systfm dlodk in thf UTC zonf, not null
+     */
+    publid stbtid Clodk systfmUTC() {
+        rfturn nfw SystfmClodk(ZonfOffsft.UTC);
+    }
+
+    /**
+     * Obtbins b dlodk thbt rfturns thf durrfnt instbnt using thf bfst bvbilbblf
+     * systfm dlodk, donvfrting to dbtf bnd timf using thf dffbult timf-zonf.
+     * <p>
+     * This dlodk is bbsfd on thf bfst bvbilbblf systfm dlodk.
+     * This mby usf {@link Systfm#durrfntTimfMillis()}, or b highfr rfsolution
+     * dlodk if onf is bvbilbblf.
+     * <p>
+     * Using this mfthod hbrd dodfs b dfpfndfndy to thf dffbult timf-zonf into your bpplidbtion.
+     * It is rfdommfndfd to bvoid this bnd usf b spfdifid timf-zonf whfnfvfr possiblf.
+     * Thf {@link #systfmUTC() UTC dlodk} should bf usfd whfn you nffd thf durrfnt instbnt
+     * without thf dbtf or timf.
+     * <p>
+     * Thf rfturnfd implfmfntbtion is immutbblf, thrfbd-sbff bnd {@dodf Sfriblizbblf}.
+     * It is fquivblfnt to {@dodf systfm(ZonfId.systfmDffbult())}.
+     *
+     * @rfturn b dlodk thbt usfs thf bfst bvbilbblf systfm dlodk in thf dffbult zonf, not null
+     * @sff ZonfId#systfmDffbult()
+     */
+    publid stbtid Clodk systfmDffbultZonf() {
+        rfturn nfw SystfmClodk(ZonfId.systfmDffbult());
+    }
+
+    /**
+     * Obtbins b dlodk thbt rfturns thf durrfnt instbnt using bfst bvbilbblf
+     * systfm dlodk.
+     * <p>
+     * This dlodk is bbsfd on thf bfst bvbilbblf systfm dlodk.
+     * This mby usf {@link Systfm#durrfntTimfMillis()}, or b highfr rfsolution
+     * dlodk if onf is bvbilbblf.
+     * <p>
+     * Convfrsion from instbnt to dbtf or timf usfs thf spfdififd timf-zonf.
+     * <p>
+     * Thf rfturnfd implfmfntbtion is immutbblf, thrfbd-sbff bnd {@dodf Sfriblizbblf}.
+     *
+     * @pbrbm zonf  thf timf-zonf to usf to donvfrt thf instbnt to dbtf-timf, not null
+     * @rfturn b dlodk thbt usfs thf bfst bvbilbblf systfm dlodk in thf spfdififd zonf, not null
+     */
+    publid stbtid Clodk systfm(ZonfId zonf) {
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        rfturn nfw SystfmClodk(zonf);
+    }
+
+    //-------------------------------------------------------------------------
+    /**
+     * Obtbins b dlodk thbt rfturns thf durrfnt instbnt tidking in wholf sfdonds
+     * using bfst bvbilbblf systfm dlodk.
+     * <p>
+     * This dlodk will blwbys hbvf thf nbno-of-sfdond fifld sft to zfro.
+     * This fnsurfs thbt thf visiblf timf tidks in wholf sfdonds.
+     * Thf undfrlying dlodk is thf bfst bvbilbblf systfm dlodk, fquivblfnt to
+     * using {@link #systfm(ZonfId)}.
+     * <p>
+     * Implfmfntbtions mby usf b dbdhing strbtfgy for pfrformbndf rfbsons.
+     * As sudh, it is possiblf thbt thf stbrt of thf sfdond obsfrvfd vib this
+     * dlodk will bf lbtfr thbn thbt obsfrvfd dirfdtly vib thf undfrlying dlodk.
+     * <p>
+     * Thf rfturnfd implfmfntbtion is immutbblf, thrfbd-sbff bnd {@dodf Sfriblizbblf}.
+     * It is fquivblfnt to {@dodf tidk(systfm(zonf), Durbtion.ofSfdonds(1))}.
+     *
+     * @pbrbm zonf  thf timf-zonf to usf to donvfrt thf instbnt to dbtf-timf, not null
+     * @rfturn b dlodk thbt tidks in wholf sfdonds using thf spfdififd zonf, not null
+     */
+    publid stbtid Clodk tidkSfdonds(ZonfId zonf) {
+        rfturn nfw TidkClodk(systfm(zonf), NANOS_PER_SECOND);
+    }
+
+    /**
+     * Obtbins b dlodk thbt rfturns thf durrfnt instbnt tidking in wholf minutfs
+     * using bfst bvbilbblf systfm dlodk.
+     * <p>
+     * This dlodk will blwbys hbvf thf nbno-of-sfdond bnd sfdond-of-minutf fiflds sft to zfro.
+     * This fnsurfs thbt thf visiblf timf tidks in wholf minutfs.
+     * Thf undfrlying dlodk is thf bfst bvbilbblf systfm dlodk, fquivblfnt to
+     * using {@link #systfm(ZonfId)}.
+     * <p>
+     * Implfmfntbtions mby usf b dbdhing strbtfgy for pfrformbndf rfbsons.
+     * As sudh, it is possiblf thbt thf stbrt of thf minutf obsfrvfd vib this
+     * dlodk will bf lbtfr thbn thbt obsfrvfd dirfdtly vib thf undfrlying dlodk.
+     * <p>
+     * Thf rfturnfd implfmfntbtion is immutbblf, thrfbd-sbff bnd {@dodf Sfriblizbblf}.
+     * It is fquivblfnt to {@dodf tidk(systfm(zonf), Durbtion.ofMinutfs(1))}.
+     *
+     * @pbrbm zonf  thf timf-zonf to usf to donvfrt thf instbnt to dbtf-timf, not null
+     * @rfturn b dlodk thbt tidks in wholf minutfs using thf spfdififd zonf, not null
+     */
+    publid stbtid Clodk tidkMinutfs(ZonfId zonf) {
+        rfturn nfw TidkClodk(systfm(zonf), NANOS_PER_MINUTE);
+    }
+
+    /**
+     * Obtbins b dlodk thbt rfturns instbnts from thf spfdififd dlodk trundbtfd
+     * to thf nfbrfst oddurrfndf of thf spfdififd durbtion.
+     * <p>
+     * This dlodk will only tidk bs pfr thf spfdififd durbtion. Thus, if thf durbtion
+     * is hblf b sfdond, thf dlodk will rfturn instbnts trundbtfd to thf hblf sfdond.
+     * <p>
+     * Thf tidk durbtion must bf positivf. If it hbs b pbrt smbllfr thbn b wholf
+     * millisfdond, thfn thf wholf durbtion must dividf into onf sfdond without
+     * lfbving b rfmbindfr. All normbl tidk durbtions will mbtdh thfsf dritfrib,
+     * indluding bny multiplf of hours, minutfs, sfdonds bnd millisfdonds, bnd
+     * sfnsiblf nbnosfdond durbtions, sudh bs 20ns, 250,000ns bnd 500,000ns.
+     * <p>
+     * A durbtion of zfro or onf nbnosfdond would hbvf no trundbtion ffffdt.
+     * Pbssing onf of thfsf will rfturn thf undfrlying dlodk.
+     * <p>
+     * Implfmfntbtions mby usf b dbdhing strbtfgy for pfrformbndf rfbsons.
+     * As sudh, it is possiblf thbt thf stbrt of thf rfqufstfd durbtion obsfrvfd
+     * vib this dlodk will bf lbtfr thbn thbt obsfrvfd dirfdtly vib thf undfrlying dlodk.
+     * <p>
+     * Thf rfturnfd implfmfntbtion is immutbblf, thrfbd-sbff bnd {@dodf Sfriblizbblf}
+     * providing thbt thf bbsf dlodk is.
+     *
+     * @pbrbm bbsfClodk  thf bbsf dlodk to bbsf thf tidking dlodk on, not null
+     * @pbrbm tidkDurbtion  thf durbtion of fbdh visiblf tidk, not nfgbtivf, not null
+     * @rfturn b dlodk thbt tidks in wholf units of thf durbtion, not null
+     * @throws IllfgblArgumfntExdfption if thf durbtion is nfgbtivf, or hbs b
+     *  pbrt smbllfr thbn b wholf millisfdond sudh thbt thf wholf durbtion is not
+     *  divisiblf into onf sfdond
+     * @throws ArithmftidExdfption if thf durbtion is too lbrgf to bf rfprfsfntfd bs nbnos
+     */
+    publid stbtid Clodk tidk(Clodk bbsfClodk, Durbtion tidkDurbtion) {
+        Objfdts.rfquirfNonNull(bbsfClodk, "bbsfClodk");
+        Objfdts.rfquirfNonNull(tidkDurbtion, "tidkDurbtion");
+        if (tidkDurbtion.isNfgbtivf()) {
+            throw nfw IllfgblArgumfntExdfption("Tidk durbtion must not bf nfgbtivf");
+        }
+        long tidkNbnos = tidkDurbtion.toNbnos();
+        if (tidkNbnos % 1000_000 == 0) {
+            // ok, no frbdtion of millisfdond
+        } flsf if (1000_000_000 % tidkNbnos == 0) {
+            // ok, dividfs into onf sfdond without rfmbindfr
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Invblid tidk durbtion");
+        }
+        if (tidkNbnos <= 1) {
+            rfturn bbsfClodk;
+        }
+        rfturn nfw TidkClodk(bbsfClodk, tidkNbnos);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins b dlodk thbt blwbys rfturns thf sbmf instbnt.
+     * <p>
+     * This dlodk simply rfturns thf spfdififd instbnt.
+     * As sudh, it is not b dlodk in thf donvfntionbl sfnsf.
+     * Thf mbin usf dbsf for this is in tfsting, whfrf thf fixfd dlodk fnsurfs
+     * tfsts brf not dfpfndfnt on thf durrfnt dlodk.
+     * <p>
+     * Thf rfturnfd implfmfntbtion is immutbblf, thrfbd-sbff bnd {@dodf Sfriblizbblf}.
+     *
+     * @pbrbm fixfdInstbnt  thf instbnt to usf bs thf dlodk, not null
+     * @pbrbm zonf  thf timf-zonf to usf to donvfrt thf instbnt to dbtf-timf, not null
+     * @rfturn b dlodk thbt blwbys rfturns thf sbmf instbnt, not null
+     */
+    publid stbtid Clodk fixfd(Instbnt fixfdInstbnt, ZonfId zonf) {
+        Objfdts.rfquirfNonNull(fixfdInstbnt, "fixfdInstbnt");
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        rfturn nfw FixfdClodk(fixfdInstbnt, zonf);
+    }
+
+    //-------------------------------------------------------------------------
+    /**
+     * Obtbins b dlodk thbt rfturns instbnts from thf spfdififd dlodk with thf
+     * spfdififd durbtion bddfd
+     * <p>
+     * This dlodk wrbps bnothfr dlodk, rfturning instbnts thbt brf lbtfr by thf
+     * spfdififd durbtion. If thf durbtion is nfgbtivf, thf instbnts will bf
+     * fbrlifr thbn thf durrfnt dbtf bnd timf.
+     * Thf mbin usf dbsf for this is to simulbtf running in thf futurf or in thf pbst.
+     * <p>
+     * A durbtion of zfro would hbvf no offsftting ffffdt.
+     * Pbssing zfro will rfturn thf undfrlying dlodk.
+     * <p>
+     * Thf rfturnfd implfmfntbtion is immutbblf, thrfbd-sbff bnd {@dodf Sfriblizbblf}
+     * providing thbt thf bbsf dlodk is.
+     *
+     * @pbrbm bbsfClodk  thf bbsf dlodk to bdd thf durbtion to, not null
+     * @pbrbm offsftDurbtion  thf durbtion to bdd, not null
+     * @rfturn b dlodk bbsfd on thf bbsf dlodk with thf durbtion bddfd, not null
+     */
+    publid stbtid Clodk offsft(Clodk bbsfClodk, Durbtion offsftDurbtion) {
+        Objfdts.rfquirfNonNull(bbsfClodk, "bbsfClodk");
+        Objfdts.rfquirfNonNull(offsftDurbtion, "offsftDurbtion");
+        if (offsftDurbtion.fqubls(Durbtion.ZERO)) {
+            rfturn bbsfClodk;
+        }
+        rfturn nfw OffsftClodk(bbsfClodk, offsftDurbtion);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Construdtor bddfssiblf by subdlbssfs.
+     */
+    protfdtfd Clodk() {
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf timf-zonf bfing usfd to drfbtf dbtfs bnd timfs.
+     * <p>
+     * A dlodk will typidblly obtbin thf durrfnt instbnt bnd thfn donvfrt thbt
+     * to b dbtf or timf using b timf-zonf. This mfthod rfturns thf timf-zonf usfd.
+     *
+     * @rfturn thf timf-zonf bfing usfd to intfrprft instbnts, not null
+     */
+    publid bbstrbdt ZonfId gftZonf();
+
+    /**
+     * Rfturns b dopy of this dlodk with b difffrfnt timf-zonf.
+     * <p>
+     * A dlodk will typidblly obtbin thf durrfnt instbnt bnd thfn donvfrt thbt
+     * to b dbtf or timf using b timf-zonf. This mfthod rfturns b dlodk with
+     * similbr propfrtifs but using b difffrfnt timf-zonf.
+     *
+     * @pbrbm zonf  thf timf-zonf to dhbngf to, not null
+     * @rfturn b dlodk bbsfd on this dlodk with thf spfdififd timf-zonf, not null
+     */
+    publid bbstrbdt Clodk withZonf(ZonfId zonf);
+
+    //-------------------------------------------------------------------------
+    /**
+     * Gfts thf durrfnt millisfdond instbnt of thf dlodk.
+     * <p>
+     * This rfturns thf millisfdond-bbsfd instbnt, mfbsurfd from 1970-01-01T00:00Z (UTC).
+     * This is fquivblfnt to thf dffinition of {@link Systfm#durrfntTimfMillis()}.
+     * <p>
+     * Most bpplidbtions should bvoid this mfthod bnd usf {@link Instbnt} to rfprfsfnt
+     * bn instbnt on thf timf-linf rbthfr thbn b rbw millisfdond vbluf.
+     * This mfthod is providfd to bllow thf usf of thf dlodk in high pfrformbndf usf dbsfs
+     * whfrf thf drfbtion of bn objfdt would bf unbddfptbblf.
+     * <p>
+     * Thf dffbult implfmfntbtion durrfntly dblls {@link #instbnt}.
+     *
+     * @rfturn thf durrfnt millisfdond instbnt from this dlodk, mfbsurfd from
+     *  thf Jbvb fpodh of 1970-01-01T00:00Z (UTC), not null
+     * @throws DbtfTimfExdfption if thf instbnt dbnnot bf obtbinfd, not thrown by most implfmfntbtions
+     */
+    publid long millis() {
+        rfturn instbnt().toEpodhMilli();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf durrfnt instbnt of thf dlodk.
+     * <p>
+     * This rfturns bn instbnt rfprfsfnting thf durrfnt instbnt bs dffinfd by thf dlodk.
+     *
+     * @rfturn thf durrfnt instbnt from this dlodk, not null
+     * @throws DbtfTimfExdfption if thf instbnt dbnnot bf obtbinfd, not thrown by most implfmfntbtions
+     */
+    publid bbstrbdt Instbnt instbnt();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this dlodk is fqubl to bnothfr dlodk.
+     * <p>
+     * Clodks should ovfrridf this mfthod to dompbrf fqubls bbsfd on
+     * thfir stbtf bnd to mfft thf dontrbdt of {@link Objfdt#fqubls}.
+     * If not ovfrriddfn, thf bfhbvior is dffinfd by {@link Objfdt#fqubls}
+     *
+     * @pbrbm obj  thf objfdt to dhfdk, null rfturns fblsf
+     * @rfturn truf if this is fqubl to thf othfr dlodk
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn supfr.fqubls(obj);
+    }
+
+    /**
+     * A hbsh dodf for this dlodk.
+     * <p>
+     * Clodks should ovfrridf this mfthod bbsfd on
+     * thfir stbtf bnd to mfft thf dontrbdt of {@link Objfdt#hbshCodf}.
+     * If not ovfrriddfn, thf bfhbvior is dffinfd by {@link Objfdt#hbshCodf}
+     *
+     * @rfturn b suitbblf hbsh dodf
+     */
+    @Ovfrridf
+    publid  int hbshCodf() {
+        rfturn supfr.hbshCodf();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfntbtion of b dlodk thbt blwbys rfturns thf lbtfst timf from
+     * {@link Systfm#durrfntTimfMillis()}.
+     */
+    stbtid finbl dlbss SystfmClodk fxtfnds Clodk implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 6740630888130243051L;
+        privbtf finbl ZonfId zonf;
+
+        SystfmClodk(ZonfId zonf) {
+            this.zonf = zonf;
+        }
+        @Ovfrridf
+        publid ZonfId gftZonf() {
+            rfturn zonf;
+        }
+        @Ovfrridf
+        publid Clodk withZonf(ZonfId zonf) {
+            if (zonf.fqubls(this.zonf)) {  // intfntionbl NPE
+                rfturn this;
+            }
+            rfturn nfw SystfmClodk(zonf);
+        }
+        @Ovfrridf
+        publid long millis() {
+            rfturn Systfm.durrfntTimfMillis();
+        }
+        @Ovfrridf
+        publid Instbnt instbnt() {
+            rfturn Instbnt.ofEpodhMilli(millis());
+        }
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof SystfmClodk) {
+                rfturn zonf.fqubls(((SystfmClodk) obj).zonf);
+            }
+            rfturn fblsf;
+        }
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn zonf.hbshCodf() + 1;
+        }
+        @Ovfrridf
+        publid String toString() {
+            rfturn "SystfmClodk[" + zonf + "]";
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfntbtion of b dlodk thbt blwbys rfturns thf sbmf instbnt.
+     * This is typidblly usfd for tfsting.
+     */
+    stbtid finbl dlbss FixfdClodk fxtfnds Clodk implfmfnts Sfriblizbblf {
+       privbtf stbtid finbl long sfriblVfrsionUID = 7430389292664866958L;
+        privbtf finbl Instbnt instbnt;
+        privbtf finbl ZonfId zonf;
+
+        FixfdClodk(Instbnt fixfdInstbnt, ZonfId zonf) {
+            this.instbnt = fixfdInstbnt;
+            this.zonf = zonf;
+        }
+        @Ovfrridf
+        publid ZonfId gftZonf() {
+            rfturn zonf;
+        }
+        @Ovfrridf
+        publid Clodk withZonf(ZonfId zonf) {
+            if (zonf.fqubls(this.zonf)) {  // intfntionbl NPE
+                rfturn this;
+            }
+            rfturn nfw FixfdClodk(instbnt, zonf);
+        }
+        @Ovfrridf
+        publid long millis() {
+            rfturn instbnt.toEpodhMilli();
+        }
+        @Ovfrridf
+        publid Instbnt instbnt() {
+            rfturn instbnt;
+        }
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof FixfdClodk) {
+                FixfdClodk othfr = (FixfdClodk) obj;
+                rfturn instbnt.fqubls(othfr.instbnt) && zonf.fqubls(othfr.zonf);
+            }
+            rfturn fblsf;
+        }
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn instbnt.hbshCodf() ^ zonf.hbshCodf();
+        }
+        @Ovfrridf
+        publid String toString() {
+            rfturn "FixfdClodk[" + instbnt + "," + zonf + "]";
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfntbtion of b dlodk thbt bdds bn offsft to bn undfrlying dlodk.
+     */
+    stbtid finbl dlbss OffsftClodk fxtfnds Clodk implfmfnts Sfriblizbblf {
+       privbtf stbtid finbl long sfriblVfrsionUID = 2007484719125426256L;
+        privbtf finbl Clodk bbsfClodk;
+        privbtf finbl Durbtion offsft;
+
+        OffsftClodk(Clodk bbsfClodk, Durbtion offsft) {
+            this.bbsfClodk = bbsfClodk;
+            this.offsft = offsft;
+        }
+        @Ovfrridf
+        publid ZonfId gftZonf() {
+            rfturn bbsfClodk.gftZonf();
+        }
+        @Ovfrridf
+        publid Clodk withZonf(ZonfId zonf) {
+            if (zonf.fqubls(bbsfClodk.gftZonf())) {  // intfntionbl NPE
+                rfturn this;
+            }
+            rfturn nfw OffsftClodk(bbsfClodk.withZonf(zonf), offsft);
+        }
+        @Ovfrridf
+        publid long millis() {
+            rfturn Mbth.bddExbdt(bbsfClodk.millis(), offsft.toMillis());
+        }
+        @Ovfrridf
+        publid Instbnt instbnt() {
+            rfturn bbsfClodk.instbnt().plus(offsft);
+        }
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof OffsftClodk) {
+                OffsftClodk othfr = (OffsftClodk) obj;
+                rfturn bbsfClodk.fqubls(othfr.bbsfClodk) && offsft.fqubls(othfr.offsft);
+            }
+            rfturn fblsf;
+        }
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn bbsfClodk.hbshCodf() ^ offsft.hbshCodf();
+        }
+        @Ovfrridf
+        publid String toString() {
+            rfturn "OffsftClodk[" + bbsfClodk + "," + offsft + "]";
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfntbtion of b dlodk thbt bdds bn offsft to bn undfrlying dlodk.
+     */
+    stbtid finbl dlbss TidkClodk fxtfnds Clodk implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 6504659149906368850L;
+        privbtf finbl Clodk bbsfClodk;
+        privbtf finbl long tidkNbnos;
+
+        TidkClodk(Clodk bbsfClodk, long tidkNbnos) {
+            this.bbsfClodk = bbsfClodk;
+            this.tidkNbnos = tidkNbnos;
+        }
+        @Ovfrridf
+        publid ZonfId gftZonf() {
+            rfturn bbsfClodk.gftZonf();
+        }
+        @Ovfrridf
+        publid Clodk withZonf(ZonfId zonf) {
+            if (zonf.fqubls(bbsfClodk.gftZonf())) {  // intfntionbl NPE
+                rfturn this;
+            }
+            rfturn nfw TidkClodk(bbsfClodk.withZonf(zonf), tidkNbnos);
+        }
+        @Ovfrridf
+        publid long millis() {
+            long millis = bbsfClodk.millis();
+            rfturn millis - Mbth.floorMod(millis, tidkNbnos / 1000_000L);
+        }
+        @Ovfrridf
+        publid Instbnt instbnt() {
+            if ((tidkNbnos % 1000_000) == 0) {
+                long millis = bbsfClodk.millis();
+                rfturn Instbnt.ofEpodhMilli(millis - Mbth.floorMod(millis, tidkNbnos / 1000_000L));
+            }
+            Instbnt instbnt = bbsfClodk.instbnt();
+            long nbnos = instbnt.gftNbno();
+            long bdjust = Mbth.floorMod(nbnos, tidkNbnos);
+            rfturn instbnt.minusNbnos(bdjust);
+        }
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj instbndfof TidkClodk) {
+                TidkClodk othfr = (TidkClodk) obj;
+                rfturn bbsfClodk.fqubls(othfr.bbsfClodk) && tidkNbnos == othfr.tidkNbnos;
+            }
+            rfturn fblsf;
+        }
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn bbsfClodk.hbshCodf() ^ ((int) (tidkNbnos ^ (tidkNbnos >>> 32)));
+        }
+        @Ovfrridf
+        publid String toString() {
+            rfturn "TidkClodk[" + bbsfClodk + "," + Durbtion.ofNbnos(tidkNbnos) + "]";
+        }
+    }
+
+}

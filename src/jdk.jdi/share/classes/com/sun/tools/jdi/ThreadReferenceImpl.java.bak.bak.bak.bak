@@ -1,0 +1,644 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.BrfbkpointRfqufst;
+import jbvb.util.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+publid dlbss ThrfbdRfffrfndfImpl fxtfnds ObjfdtRfffrfndfImpl
+             implfmfnts ThrfbdRfffrfndf, VMListfnfr {
+    stbtid finbl int SUSPEND_STATUS_SUSPENDED = 0x1;
+    stbtid finbl int SUSPEND_STATUS_BREAK = 0x2;
+
+    privbtf int suspfndfdZombifCount = 0;
+
+    /*
+     * Somf objfdts dbn only bf drfbtfd whilf b thrfbd is suspfndfd bnd brf vblid
+     * only whilf thf thrfbd rfmbins suspfndfd.  Exbmplfs brf StbdkFrbmfImpl
+     * bnd MonitorInfoImpl.  Whfn thf thrfbd rfsumfs, thfsf objfdts hbvf to bf
+     * mbrkfd bs invblid so thbt thfir mfthods dbn throw
+     * InvblidStbdkFrbmfExdfption if thfy brf dbllfd.  To do this, sudh objfdts
+     * rfgistfr thfmsflvfs bs listfnfrs of thf bssodibtfd thrfbd.  Whfn thf
+     * thrfbd is rfsumfd, its listfnfrs brf notififd bnd mbrk thfmsflvfs
+     * invblid.
+     * Also, notf thbt ThrfbdRfffrfndfImpl itsflf dbdhfs somf info thbt
+     * is vblid only bs long bs thf thrfbd is suspfndfd.  Whfn thf thrfbd
+     * is rfsumfd, thbt dbdhf must bf purgfd.
+     * Lbstly, notf thbt ThrfbdRfffrfndfImpl bnd its supfr, ObjfdtRfffrfndfImpl
+     * dbdhf somf info thbt is only vblid bs long bs thf fntirf VM is suspfndfd.
+     * If _bny_ thrfbd is rfsumfd, this dbdhf must bf purgfd.  To hbndlf this,
+     * both ThrfbdRfffrfndfImpl bnd ObjfdtRfffrfndfImpl rfgistfr thfmsflvfs bs
+     * VMListfnfrs so thbt thfy gft notififd whfn bll thrfbds brf suspfndfd bnd
+     * whfn bny thrfbd is rfsumfd.
+     */
+
+    // This is dbdhfd for thf liff of thf thrfbd
+    privbtf ThrfbdGroupRfffrfndf thrfbdGroup;
+
+    // This is dbdhfd only whilf this onf thrfbd is suspfndfd.  Ebdh timf
+    // thf thrfbd is rfsumfd, wf bbbndon thf durrfnt dbdhf objfdt bnd
+    // drfbtf b nfw initiblizfd onf.
+    privbtf stbtid dlbss LodblCbdhf {
+        JDWP.ThrfbdRfffrfndf.Stbtus stbtus = null;
+        List<StbdkFrbmf> frbmfs = null;
+        int frbmfsStbrt = -1;
+        int frbmfsLfngth = 0;
+        int frbmfCount = -1;
+        List<ObjfdtRfffrfndf> ownfdMonitors = null;
+        List<MonitorInfo> ownfdMonitorsInfo = null;
+        ObjfdtRfffrfndf dontfndfdMonitor = null;
+        boolfbn trifdCurrfntContfndfd = fblsf;
+    }
+
+    /*
+     * Thf lodblCbdhf instbndf vbr is sft by rfsftLodblCbdhf to bn initiblizfd
+     * objfdt bs shown bbovf.  This oddurs whfn thf ThrfbdRfffrfndf
+     * objfdt is drfbtfd, bnd whfn thf mirrorfd thrfbd is rfsumfd.
+     * Thf fiflds brf thfn fillfd in by thf rflfvbnt mfthods bs thfy
+     * brf dbllfd.  A problfm dbn oddur if rfsftLodblCbdhf is dbllfd
+     * (if, b rfsumf() is fxfdutfd) bt dfrtbin points in thf fxfdution
+     * of somf of thfsf mfthods - sff 6751643.  To bvoid this, fbdh
+     * mfthod thbt wbnts to usf this dbdhf must mbkf b lodbl dopy of
+     * this vbribblf bnd usf thbt.  This mfbns thbt fbdh invodbtion of
+     * thfsf mfthods will usf b dopy of thf dbdhf objfdt thbt wbs in
+     * ffffdt bt thf point thbt thf dopy wbs mbdf; if b rbdy rfsumf
+     * oddurs, it won't bfffdt thf mfthod's lodbl dopy.  This mfbns thbt
+     * thf vblufs rfturnfd by thfsf dblls mby not mbtdh thf stbtf of
+     * thf dfbuggff bt thf timf thf dbllfr gfts thf vblufs.  EG,
+     * frbmfCount() is dbllfd bnd domfs up with 5 frbmfs.  But bfforf
+     * it rfturns this, b rfsumf of thf dfbuggff thrfbd is fxfdutfd in b
+     * difffrfnt dfbuggfr thrfbd.  Thf thrfbd is rfsumfd bnd running bt
+     * thf timf thbt thf vbluf 5 is rfturnfd.  Or fvfn worsf, thf thrfbd
+     * dould bf suspfndfd bgbin bnd hbvf b difffrfnt numbfr of frbmfs, fg, 24,
+     * but this dbll will still rfturn 5.
+     */
+    privbtf LodblCbdhf lodblCbdhf;
+
+    privbtf void rfsftLodblCbdhf() {
+        lodblCbdhf = nfw LodblCbdhf();
+    }
+
+    // This is dbdhfd only whilf bll thrfbds in thf VM brf suspfndfd
+    // Yfs, somfonf dould dhbngf thf nbmf of b thrfbd whilf it is suspfndfd.
+    privbtf stbtid dlbss Cbdhf fxtfnds ObjfdtRfffrfndfImpl.Cbdhf {
+        String nbmf = null;
+    }
+    protfdtfd ObjfdtRfffrfndfImpl.Cbdhf nfwCbdhf() {
+        rfturn nfw Cbdhf();
+    }
+
+    // Listfnfrs - syndhronizfd on vm.stbtf()
+    privbtf List<WfbkRfffrfndf<ThrfbdListfnfr>> listfnfrs = nfw ArrbyList<WfbkRfffrfndf<ThrfbdListfnfr>>();
+
+
+    ThrfbdRfffrfndfImpl(VirtublMbdhinf bVm, long bRff) {
+        supfr(bVm,bRff);
+        rfsftLodblCbdhf();
+        vm.stbtf().bddListfnfr(this);
+    }
+
+    protfdtfd String dfsdription() {
+        rfturn "ThrfbdRfffrfndf " + uniqufID();
+    }
+
+    /*
+     * VMListfnfr implfmfntbtion
+     */
+    publid boolfbn vmNotSuspfndfd(VMAdtion bdtion) {
+        if (bdtion.rfsumingThrfbd() == null) {
+            // bll thrfbds brf bfing rfsumfd
+            syndhronizfd (vm.stbtf()) {
+                prodfssThrfbdAdtion(nfw ThrfbdAdtion(this,
+                                            ThrfbdAdtion.THREAD_RESUMABLE));
+            }
+
+        }
+
+        /*
+         * Othfwisf, only onf thrfbd is bfing rfsumfd:
+         *   if it is us,
+         *      wf hbvf blrfbdy donf our prodfssThrfbdAdtion to notify our
+         *      listfnfrs whfn wf prodfssfd thf rfsumf.
+         *   if it is not us,
+         *      wf don't wbnt to notify our listfnfrs
+         *       bfdbusf wf brf not bfing rfsumfd.
+         */
+        rfturn supfr.vmNotSuspfndfd(bdtion);
+    }
+
+    /**
+     * Notf thbt wf only dbdhf thf nbmf string whilf thf fntirf VM is suspfndfd
+     * bfdbusf thf nbmf dbn dhbngf vib Thrfbd.sftNbmf brbitrbrily whilf this
+     * thrfbd is running.
+     */
+    publid String nbmf() {
+        String nbmf = null;
+        try {
+            Cbdhf lodbl = (Cbdhf)gftCbdhf();
+
+            if (lodbl != null) {
+                nbmf = lodbl.nbmf;
+            }
+            if (nbmf == null) {
+                nbmf = JDWP.ThrfbdRfffrfndf.Nbmf.prodfss(vm, this)
+                                                             .thrfbdNbmf;
+                if (lodbl != null) {
+                    lodbl.nbmf = nbmf;
+                }
+            }
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+        rfturn nbmf;
+    }
+
+    /*
+     * Sfnds b dommbnd to thf bbdk fnd whidh is dffinfd to do bn
+     * implidit vm-widf rfsumf.
+     */
+    PbdkftStrfbm sfndRfsumingCommbnd(CommbndSfndfr sfndfr) {
+        syndhronizfd (vm.stbtf()) {
+            prodfssThrfbdAdtion(nfw ThrfbdAdtion(this,
+                                        ThrfbdAdtion.THREAD_RESUMABLE));
+            rfturn sfndfr.sfnd();
+        }
+    }
+
+    publid void suspfnd() {
+        try {
+            JDWP.ThrfbdRfffrfndf.Suspfnd.prodfss(vm, this);
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+        // Don't donsidfr thf thrfbd suspfndfd yft. On rfply, notifySuspfnd()
+        // will bf dbllfd.
+    }
+
+    publid void rfsumf() {
+        /*
+         * If it's b zombif, wf dbn just updbtf intfrnbl stbtf without
+         * going to bbdk fnd.
+         */
+        if (suspfndfdZombifCount > 0) {
+            suspfndfdZombifCount--;
+            rfturn;
+        }
+
+        PbdkftStrfbm strfbm;
+        syndhronizfd (vm.stbtf()) {
+            prodfssThrfbdAdtion(nfw ThrfbdAdtion(this,
+                                      ThrfbdAdtion.THREAD_RESUMABLE));
+            strfbm = JDWP.ThrfbdRfffrfndf.Rfsumf.fnqufufCommbnd(vm, this);
+        }
+        try {
+            JDWP.ThrfbdRfffrfndf.Rfsumf.wbitForRfply(vm, strfbm);
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+    }
+
+    publid int suspfndCount() {
+        /*
+         * If it's b zombif, wf mbintbin thf dount in thf front fnd.
+         */
+        if (suspfndfdZombifCount > 0) {
+            rfturn suspfndfdZombifCount;
+        }
+
+        try {
+            rfturn JDWP.ThrfbdRfffrfndf.SuspfndCount.prodfss(vm, this).suspfndCount;
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+    }
+
+    publid void stop(ObjfdtRfffrfndf throwbblf) throws InvblidTypfExdfption {
+        vblidbtfMirror(throwbblf);
+        // Vfrify thbt thf givfn objfdt is b Throwbblf instbndf
+        List<RfffrfndfTypf> list = vm.dlbssfsByNbmf("jbvb.lbng.Throwbblf");
+        ClbssTypfImpl throwbblfClbss = (ClbssTypfImpl)list.gft(0);
+        if ((throwbblf == null) ||
+            !throwbblfClbss.isAssignbblfFrom(throwbblf)) {
+             throw nfw InvblidTypfExdfption("Not bn instbndf of Throwbblf");
+        }
+
+        try {
+            JDWP.ThrfbdRfffrfndf.Stop.prodfss(vm, this,
+                                         (ObjfdtRfffrfndfImpl)throwbblf);
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+    }
+
+    publid void intfrrupt() {
+        try {
+            JDWP.ThrfbdRfffrfndf.Intfrrupt.prodfss(vm, this);
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+    }
+
+    privbtf JDWP.ThrfbdRfffrfndf.Stbtus jdwpStbtus() {
+        LodblCbdhf snbpshot = lodblCbdhf;
+        JDWP.ThrfbdRfffrfndf.Stbtus myStbtus = snbpshot.stbtus;
+        try {
+             if (myStbtus == null) {
+                 myStbtus = JDWP.ThrfbdRfffrfndf.Stbtus.prodfss(vm, this);
+                if ((myStbtus.suspfndStbtus & SUSPEND_STATUS_SUSPENDED) != 0) {
+                    // thrfbd is suspfndfd, wf dbn dbdhf thf stbtus.
+                    snbpshot.stbtus = myStbtus;
+                }
+            }
+         } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+        rfturn myStbtus;
+    }
+
+    publid int stbtus() {
+        rfturn jdwpStbtus().thrfbdStbtus;
+    }
+
+    publid boolfbn isSuspfndfd() {
+        rfturn ((suspfndfdZombifCount > 0) ||
+                ((jdwpStbtus().suspfndStbtus & SUSPEND_STATUS_SUSPENDED) != 0));
+    }
+
+    publid boolfbn isAtBrfbkpoint() {
+        /*
+         * TO DO: This fbils to tbkf filtfrs into bddount.
+         */
+        try {
+            StbdkFrbmf frbmf = frbmf(0);
+            Lodbtion lodbtion = frbmf.lodbtion();
+            List<BrfbkpointRfqufst> rfqufsts = vm.fvfntRfqufstMbnbgfr().brfbkpointRfqufsts();
+            Itfrbtor<BrfbkpointRfqufst> itfr = rfqufsts.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                BrfbkpointRfqufst rfqufst = itfr.nfxt();
+                if (lodbtion.fqubls(rfqufst.lodbtion())) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        } dbtdh (IndfxOutOfBoundsExdfption iobf) {
+            rfturn fblsf;  // no frbmfs on stbdk => not bt brfbkpoint
+        } dbtdh (IndompbtiblfThrfbdStbtfExdfption itsf) {
+            // Pfr thf jbvbdod, not suspfndfd => rfturn fblsf
+            rfturn fblsf;
+        }
+    }
+
+    publid ThrfbdGroupRfffrfndf thrfbdGroup() {
+        /*
+         * Thrfbd group dbn't dhbngf, so it's dbdhfd ondf bnd for bll.
+         */
+        if (thrfbdGroup == null) {
+            try {
+                thrfbdGroup = JDWP.ThrfbdRfffrfndf.ThrfbdGroup.
+                    prodfss(vm, this).group;
+            } dbtdh (JDWPExdfption fxd) {
+                throw fxd.toJDIExdfption();
+            }
+        }
+        rfturn thrfbdGroup;
+    }
+
+    publid int frbmfCount() throws IndompbtiblfThrfbdStbtfExdfption  {
+        LodblCbdhf snbpshot = lodblCbdhf;
+        try {
+            if (snbpshot.frbmfCount == -1) {
+                snbpshot.frbmfCount = JDWP.ThrfbdRfffrfndf.FrbmfCount
+                                          .prodfss(vm, this).frbmfCount;
+            }
+        } dbtdh (JDWPExdfption fxd) {
+            switdh (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                throw nfw IndompbtiblfThrfbdStbtfExdfption();
+            dffbult:
+                throw fxd.toJDIExdfption();
+            }
+        }
+        rfturn snbpshot.frbmfCount;
+    }
+
+    publid List<StbdkFrbmf> frbmfs() throws IndompbtiblfThrfbdStbtfExdfption  {
+        rfturn privbtfFrbmfs(0, -1);
+    }
+
+    publid StbdkFrbmf frbmf(int indfx) throws IndompbtiblfThrfbdStbtfExdfption  {
+        List<StbdkFrbmf> list = privbtfFrbmfs(indfx, 1);
+        rfturn list.gft(0);
+    }
+
+    /**
+     * Is thf rfqufstfd subrbngf within whbt hbs bffn rftrifvfd?
+     * lodbl is known to bf non-null.  Should only bf dbllfd from
+     * b synd mfthod.
+     */
+    privbtf boolfbn isSubrbngf(LodblCbdhf snbpshot,
+                               int stbrt, int lfngth) {
+        if (stbrt < snbpshot.frbmfsStbrt) {
+            rfturn fblsf;
+        }
+        if (lfngth == -1) {
+            rfturn (snbpshot.frbmfsLfngth == -1);
+        }
+        if (snbpshot.frbmfsLfngth == -1) {
+            if ((stbrt + lfngth) > (snbpshot.frbmfsStbrt +
+                                    snbpshot.frbmfs.sizf())) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            }
+            rfturn truf;
+        }
+        rfturn ((stbrt + lfngth) <= (snbpshot.frbmfsStbrt + snbpshot.frbmfsLfngth));
+    }
+
+    publid List<StbdkFrbmf> frbmfs(int stbrt, int lfngth)
+                              throws IndompbtiblfThrfbdStbtfExdfption  {
+        if (lfngth < 0) {
+            throw nfw IndfxOutOfBoundsExdfption(
+                "lfngth must bf grfbtfr thbn or fqubl to zfro");
+        }
+        rfturn privbtfFrbmfs(stbrt, lfngth);
+    }
+
+    /**
+     * Privbtf vfrsion of frbmfs() bllows "-1" to spfdify bll
+     * rfmbining frbmfs.
+     */
+    syndhronizfd privbtf List<StbdkFrbmf> privbtfFrbmfs(int stbrt, int lfngth)
+                              throws IndompbtiblfThrfbdStbtfExdfption  {
+
+        // Lodk must bf hfld whilf drfbting stbdk frbmfs so if thbt two thrfbds
+        // do this bt thf sbmf timf, onf won't dlobbfr thf subsft drfbtfd by thf othfr.
+        LodblCbdhf snbpshot = lodblCbdhf;
+        try {
+            if (snbpshot.frbmfs == null || !isSubrbngf(snbpshot, stbrt, lfngth)) {
+                JDWP.ThrfbdRfffrfndf.Frbmfs.Frbmf[] jdwpFrbmfs
+                    = JDWP.ThrfbdRfffrfndf.Frbmfs.
+                    prodfss(vm, this, stbrt, lfngth).frbmfs;
+                int dount = jdwpFrbmfs.lfngth;
+                snbpshot.frbmfs = nfw ArrbyList<StbdkFrbmf>(dount);
+
+                for (int i = 0; i<dount; i++) {
+                    if (jdwpFrbmfs[i].lodbtion == null) {
+                        throw nfw IntfrnblExdfption("Invblid frbmf lodbtion");
+                    }
+                    StbdkFrbmf frbmf = nfw StbdkFrbmfImpl(vm, this,
+                                                          jdwpFrbmfs[i].frbmfID,
+                                                          jdwpFrbmfs[i].lodbtion);
+                    // Add to thf frbmf list
+                    snbpshot.frbmfs.bdd(frbmf);
+                }
+                snbpshot.frbmfsStbrt = stbrt;
+                snbpshot.frbmfsLfngth = lfngth;
+                rfturn Collfdtions.unmodifibblfList(snbpshot.frbmfs);
+            } flsf {
+                int fromIndfx = stbrt - snbpshot.frbmfsStbrt;
+                int toIndfx;
+                if (lfngth == -1) {
+                    toIndfx = snbpshot.frbmfs.sizf() - fromIndfx;
+                } flsf {
+                    toIndfx = fromIndfx + lfngth;
+                }
+                rfturn Collfdtions.unmodifibblfList(snbpshot.frbmfs.subList(fromIndfx, toIndfx));
+            }
+        } dbtdh (JDWPExdfption fxd) {
+            switdh (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                throw nfw IndompbtiblfThrfbdStbtfExdfption();
+            dffbult:
+                throw fxd.toJDIExdfption();
+            }
+        }
+    }
+
+    publid List<ObjfdtRfffrfndf> ownfdMonitors()  throws IndompbtiblfThrfbdStbtfExdfption  {
+        LodblCbdhf snbpshot = lodblCbdhf;
+        try {
+            if (snbpshot.ownfdMonitors == null) {
+                snbpshot.ownfdMonitors = Arrbys.bsList(
+                                 (ObjfdtRfffrfndf[])JDWP.ThrfbdRfffrfndf.OwnfdMonitors.
+                                         prodfss(vm, this).ownfd);
+                if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_OBJREFS) != 0) {
+                    vm.printTrbdf(dfsdription() +
+                                  " tfmporbrily dbdhing ownfd monitors"+
+                                  " (dount = " + snbpshot.ownfdMonitors.sizf() + ")");
+                }
+            }
+        } dbtdh (JDWPExdfption fxd) {
+            switdh (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                throw nfw IndompbtiblfThrfbdStbtfExdfption();
+            dffbult:
+                throw fxd.toJDIExdfption();
+            }
+        }
+        rfturn snbpshot.ownfdMonitors;
+    }
+
+    publid ObjfdtRfffrfndf durrfntContfndfdMonitor()
+                              throws IndompbtiblfThrfbdStbtfExdfption  {
+        LodblCbdhf snbpshot = lodblCbdhf;
+        try {
+            if (snbpshot.dontfndfdMonitor == null &&
+                !snbpshot.trifdCurrfntContfndfd) {
+                snbpshot.dontfndfdMonitor = JDWP.ThrfbdRfffrfndf.CurrfntContfndfdMonitor.
+                    prodfss(vm, this).monitor;
+                snbpshot.trifdCurrfntContfndfd = truf;
+                if ((snbpshot.dontfndfdMonitor != null) &&
+                    ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_OBJREFS) != 0)) {
+                    vm.printTrbdf(dfsdription() +
+                                  " tfmporbrily dbdhing dontfndfd monitor"+
+                                  " (id = " + snbpshot.dontfndfdMonitor.uniqufID() + ")");
+                }
+            }
+        } dbtdh (JDWPExdfption fxd) {
+            switdh (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                throw nfw IndompbtiblfThrfbdStbtfExdfption();
+            dffbult:
+                throw fxd.toJDIExdfption();
+            }
+        }
+        rfturn snbpshot.dontfndfdMonitor;
+    }
+
+    publid List<MonitorInfo> ownfdMonitorsAndFrbmfs()  throws IndompbtiblfThrfbdStbtfExdfption  {
+        LodblCbdhf snbpshot = lodblCbdhf;
+        try {
+            if (snbpshot.ownfdMonitorsInfo == null) {
+                JDWP.ThrfbdRfffrfndf.OwnfdMonitorsStbdkDfpthInfo.monitor[] minfo;
+                minfo = JDWP.ThrfbdRfffrfndf.OwnfdMonitorsStbdkDfpthInfo.prodfss(vm, this).ownfd;
+
+                snbpshot.ownfdMonitorsInfo = nfw ArrbyList<MonitorInfo>(minfo.lfngth);
+
+                for (int i=0; i < minfo.lfngth; i++) {
+                    JDWP.ThrfbdRfffrfndf.OwnfdMonitorsStbdkDfpthInfo.monitor mi =
+                                                                         minfo[i];
+                    MonitorInfo mon = nfw MonitorInfoImpl(vm, minfo[i].monitor, this, minfo[i].stbdk_dfpth);
+                    snbpshot.ownfdMonitorsInfo.bdd(mon);
+                }
+
+                if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_OBJREFS) != 0) {
+                    vm.printTrbdf(dfsdription() +
+                                  " tfmporbrily dbdhing ownfd monitors"+
+                                  " (dount = " + snbpshot.ownfdMonitorsInfo.sizf() + ")");
+                    }
+                }
+
+        } dbtdh (JDWPExdfption fxd) {
+            switdh (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                throw nfw IndompbtiblfThrfbdStbtfExdfption();
+            dffbult:
+                throw fxd.toJDIExdfption();
+            }
+        }
+        rfturn snbpshot.ownfdMonitorsInfo;
+    }
+
+    publid void popFrbmfs(StbdkFrbmf frbmf) throws IndompbtiblfThrfbdStbtfExdfption {
+        // Notf thbt intfrfbdf-wisf this fundtionblity bflongs
+        // hfrf in ThrfbdRfffrfndf, but implfmfntbtion-wisf it
+        // bflongs in StbdkFrbmf, so wf just forwbrd it.
+        if (!frbmf.thrfbd().fqubls(this)) {
+            throw nfw IllfgblArgumfntExdfption("frbmf dofs not bflong to this thrfbd");
+        }
+        if (!vm.dbnPopFrbmfs()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "tbrgft dofs not support popping frbmfs");
+        }
+        ((StbdkFrbmfImpl)frbmf).pop();
+    }
+
+    publid void fordfEbrlyRfturn(Vbluf  rfturnVbluf) throws InvblidTypfExdfption,
+                                                            ClbssNotLobdfdExdfption,
+                                             IndompbtiblfThrfbdStbtfExdfption {
+        if (!vm.dbnFordfEbrlyRfturn()) {
+            throw nfw UnsupportfdOpfrbtionExdfption(
+                "tbrgft dofs not support thf fording of b mfthod to rfturn fbrly");
+        }
+
+        vblidbtfMirrorOrNull(rfturnVbluf);
+
+        StbdkFrbmfImpl sf;
+        try {
+           sf = (StbdkFrbmfImpl)frbmf(0);
+        } dbtdh (IndfxOutOfBoundsExdfption fxd) {
+           throw nfw InvblidStbdkFrbmfExdfption("No morf frbmfs on thf stbdk");
+        }
+        sf.vblidbtfStbdkFrbmf();
+        MfthodImpl mfth = (MfthodImpl)sf.lodbtion().mfthod();
+        VblufImpl donvfrtfdVbluf  = VblufImpl.prfpbrfForAssignmfnt(rfturnVbluf,
+                                                                   mfth.gftRfturnVblufContbinfr());
+
+        try {
+            JDWP.ThrfbdRfffrfndf.FordfEbrlyRfturn.prodfss(vm, this, donvfrtfdVbluf);
+        } dbtdh (JDWPExdfption fxd) {
+            switdh (fxd.frrorCodf()) {
+            dbsf JDWP.Error.OPAQUE_FRAME:
+                throw nfw NbtivfMfthodExdfption();
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+                throw nfw IndompbtiblfThrfbdStbtfExdfption(
+                         "Thrfbd not suspfndfd");
+            dbsf JDWP.Error.THREAD_NOT_ALIVE:
+                throw nfw IndompbtiblfThrfbdStbtfExdfption(
+                                     "Thrfbd hbs not stbrtfd or hbs finishfd");
+            dbsf JDWP.Error.NO_MORE_FRAMES:
+                throw nfw InvblidStbdkFrbmfExdfption(
+                         "No morf frbmfs on thf stbdk");
+            dffbult:
+                throw fxd.toJDIExdfption();
+            }
+        }
+    }
+
+    publid String toString() {
+        rfturn "instbndf of " + rfffrfndfTypf().nbmf() +
+               "(nbmf='" + nbmf() + "', " + "id=" + uniqufID() + ")";
+    }
+
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.THREAD;
+    }
+
+    void bddListfnfr(ThrfbdListfnfr listfnfr) {
+        syndhronizfd (vm.stbtf()) {
+            listfnfrs.bdd(nfw WfbkRfffrfndf<ThrfbdListfnfr>(listfnfr));
+        }
+    }
+
+    void rfmovfListfnfr(ThrfbdListfnfr listfnfr) {
+        syndhronizfd (vm.stbtf()) {
+            Itfrbtor<WfbkRfffrfndf<ThrfbdListfnfr>> itfr = listfnfrs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                WfbkRfffrfndf<ThrfbdListfnfr> rff = itfr.nfxt();
+                if (listfnfr.fqubls(rff.gft())) {
+                    itfr.rfmovf();
+                    brfbk;
+                }
+            }
+        }
+    }
+
+    /**
+     * Propbgbtf thf thf thrfbd stbtf dhbngf informbtion
+     * to rfgistfrfd listfnfrs.
+     * Must bf fntfrfd whilf syndhronizfd on vm.stbtf()
+     */
+    privbtf void prodfssThrfbdAdtion(ThrfbdAdtion bdtion) {
+        syndhronizfd (vm.stbtf()) {
+            Itfrbtor<WfbkRfffrfndf<ThrfbdListfnfr>> itfr = listfnfrs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                WfbkRfffrfndf<ThrfbdListfnfr> rff = itfr.nfxt();
+                ThrfbdListfnfr listfnfr = rff.gft();
+                if (listfnfr != null) {
+                    switdh (bdtion.id()) {
+                        dbsf ThrfbdAdtion.THREAD_RESUMABLE:
+                            if (!listfnfr.thrfbdRfsumbblf(bdtion)) {
+                                itfr.rfmovf();
+                            }
+                            brfbk;
+                    }
+                } flsf {
+                    // Listfnfr is unrfbdhbblf; dlfbn up
+                    itfr.rfmovf();
+                }
+            }
+
+            // Disdbrd our lodbl dbdhf
+            rfsftLodblCbdhf();
+        }
+    }
+}

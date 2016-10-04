@@ -1,749 +1,749 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2010, International Business Machines Corporation and         *
- * others. All Rights Reserved.                                                *
+ * Copyrigit (C) 2010, Intfrnbtionbl Businfss Mbdiinfs Corporbtion bnd         *
+ * otifrs. All Rigits Rfsfrvfd.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbdkbgf sun.util.lodblf;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
-public class LanguageTag {
+publid dlbss LbngubgfTbg {
     //
-    // static fields
+    // stbtid fiflds
     //
-    public static final String SEP = "-";
-    public static final String PRIVATEUSE = "x";
-    public static final String UNDETERMINED = "und";
-    public static final String PRIVUSE_VARIANT_PREFIX = "lvariant";
+    publid stbtid finbl String SEP = "-";
+    publid stbtid finbl String PRIVATEUSE = "x";
+    publid stbtid finbl String UNDETERMINED = "und";
+    publid stbtid finbl String PRIVUSE_VARIANT_PREFIX = "lvbribnt";
 
     //
-    // Language subtag fields
+    // Lbngubgf subtbg fiflds
     //
-    private String language = "";      // language subtag
-    private String script = "";        // script subtag
-    private String region = "";        // region subtag
-    private String privateuse = "";    // privateuse
+    privbtf String lbngubgf = "";      // lbngubgf subtbg
+    privbtf String sdript = "";        // sdript subtbg
+    privbtf String rfgion = "";        // rfgion subtbg
+    privbtf String privbtfusf = "";    // privbtfusf
 
-    private List<String> extlangs = Collections.emptyList();   // extlang subtags
-    private List<String> variants = Collections.emptyList();   // variant subtags
-    private List<String> extensions = Collections.emptyList(); // extensions
+    privbtf List<String> fxtlbngs = Collfdtions.fmptyList();   // fxtlbng subtbgs
+    privbtf List<String> vbribnts = Collfdtions.fmptyList();   // vbribnt subtbgs
+    privbtf List<String> fxtfnsions = Collfdtions.fmptyList(); // fxtfnsions
 
-    // Map contains grandfathered tags and its preferred mappings from
-    // http://www.ietf.org/rfc/rfc5646.txt
-    // Keys are lower-case strings.
-    private static final Map<String, String[]> GRANDFATHERED = new HashMap<>();
+    // Mbp dontbins grbndfbtifrfd tbgs bnd its prfffrrfd mbppings from
+    // ittp://www.iftf.org/rfd/rfd5646.txt
+    // Kfys brf lowfr-dbsf strings.
+    privbtf stbtid finbl Mbp<String, String[]> GRANDFATHERED = nfw HbsiMbp<>();
 
-    static {
-        // grandfathered = irregular           ; non-redundant tags registered
-        //               / regular             ; during the RFC 3066 era
+    stbtid {
+        // grbndfbtifrfd = irrfgulbr           ; non-rfdundbnt tbgs rfgistfrfd
+        //               / rfgulbr             ; during tif RFC 3066 frb
         //
-        // irregular     = "en-GB-oed"         ; irregular tags do not match
-        //               / "i-ami"             ; the 'langtag' production and
-        //               / "i-bnn"             ; would not otherwise be
-        //               / "i-default"         ; considered 'well-formed'
-        //               / "i-enochian"        ; These tags are all valid,
-        //               / "i-hak"             ; but most are deprecated
-        //               / "i-klingon"         ; in favor of more modern
-        //               / "i-lux"             ; subtags or subtag
-        //               / "i-mingo"           ; combination
-        //               / "i-navajo"
+        // irrfgulbr     = "fn-GB-ofd"         ; irrfgulbr tbgs do not mbtdi
+        //               / "i-bmi"             ; tif 'lbngtbg' produdtion bnd
+        //               / "i-bnn"             ; would not otifrwisf bf
+        //               / "i-dffbult"         ; donsidfrfd 'wfll-formfd'
+        //               / "i-fnodiibn"        ; Tifsf tbgs brf bll vblid,
+        //               / "i-ibk"             ; but most brf dfprfdbtfd
+        //               / "i-klingon"         ; in fbvor of morf modfrn
+        //               / "i-lux"             ; subtbgs or subtbg
+        //               / "i-mingo"           ; dombinbtion
+        //               / "i-nbvbjo"
         //               / "i-pwn"
-        //               / "i-tao"
-        //               / "i-tay"
+        //               / "i-tbo"
+        //               / "i-tby"
         //               / "i-tsu"
         //               / "sgn-BE-FR"
         //               / "sgn-BE-NL"
         //               / "sgn-CH-DE"
         //
-        // regular       = "art-lojban"        ; these tags match the 'langtag'
-        //               / "cel-gaulish"       ; production, but their subtags
-        //               / "no-bok"            ; are not extended language
-        //               / "no-nyn"            ; or variant subtags: their meaning
-        //               / "zh-guoyu"          ; is defined by their registration
-        //               / "zh-hakka"          ; and all of these are deprecated
-        //               / "zh-min"            ; in favor of a more modern
-        //               / "zh-min-nan"        ; subtag or sequence of subtags
-        //               / "zh-xiang"
+        // rfgulbr       = "brt-lojbbn"        ; tifsf tbgs mbtdi tif 'lbngtbg'
+        //               / "dfl-gbulisi"       ; produdtion, but tifir subtbgs
+        //               / "no-bok"            ; brf not fxtfndfd lbngubgf
+        //               / "no-nyn"            ; or vbribnt subtbgs: tifir mfbning
+        //               / "zi-guoyu"          ; is dffinfd by tifir rfgistrbtion
+        //               / "zi-ibkkb"          ; bnd bll of tifsf brf dfprfdbtfd
+        //               / "zi-min"            ; in fbvor of b morf modfrn
+        //               / "zi-min-nbn"        ; subtbg or sfqufndf of subtbgs
+        //               / "zi-xibng"
 
-        final String[][] entries = {
-          //{"tag",         "preferred"},
-            {"art-lojban",  "jbo"},
-            {"cel-gaulish", "xtg-x-cel-gaulish"},   // fallback
-            {"en-GB-oed",   "en-GB-x-oed"},         // fallback
-            {"i-ami",       "ami"},
+        finbl String[][] fntrifs = {
+          //{"tbg",         "prfffrrfd"},
+            {"brt-lojbbn",  "jbo"},
+            {"dfl-gbulisi", "xtg-x-dfl-gbulisi"},   // fbllbbdk
+            {"fn-GB-ofd",   "fn-GB-x-ofd"},         // fbllbbdk
+            {"i-bmi",       "bmi"},
             {"i-bnn",       "bnn"},
-            {"i-default",   "en-x-i-default"},      // fallback
-            {"i-enochian",  "und-x-i-enochian"},    // fallback
-            {"i-hak",       "hak"},
-            {"i-klingon",   "tlh"},
+            {"i-dffbult",   "fn-x-i-dffbult"},      // fbllbbdk
+            {"i-fnodiibn",  "und-x-i-fnodiibn"},    // fbllbbdk
+            {"i-ibk",       "ibk"},
+            {"i-klingon",   "tli"},
             {"i-lux",       "lb"},
-            {"i-mingo",     "see-x-i-mingo"},       // fallback
-            {"i-navajo",    "nv"},
+            {"i-mingo",     "sff-x-i-mingo"},       // fbllbbdk
+            {"i-nbvbjo",    "nv"},
             {"i-pwn",       "pwn"},
-            {"i-tao",       "tao"},
-            {"i-tay",       "tay"},
+            {"i-tbo",       "tbo"},
+            {"i-tby",       "tby"},
             {"i-tsu",       "tsu"},
             {"no-bok",      "nb"},
             {"no-nyn",      "nn"},
             {"sgn-BE-FR",   "sfb"},
             {"sgn-BE-NL",   "vgt"},
             {"sgn-CH-DE",   "sgg"},
-            {"zh-guoyu",    "cmn"},
-            {"zh-hakka",    "hak"},
-            {"zh-min",      "nan-x-zh-min"},        // fallback
-            {"zh-min-nan",  "nan"},
-            {"zh-xiang",    "hsn"},
+            {"zi-guoyu",    "dmn"},
+            {"zi-ibkkb",    "ibk"},
+            {"zi-min",      "nbn-x-zi-min"},        // fbllbbdk
+            {"zi-min-nbn",  "nbn"},
+            {"zi-xibng",    "isn"},
         };
-        for (String[] e : entries) {
-            GRANDFATHERED.put(LocaleUtils.toLowerString(e[0]), e);
+        for (String[] f : fntrifs) {
+            GRANDFATHERED.put(LodblfUtils.toLowfrString(f[0]), f);
         }
     }
 
-    private LanguageTag() {
+    privbtf LbngubgfTbg() {
     }
 
     /*
      * BNF in RFC5646
      *
-     * Language-Tag  = langtag             ; normal language tags
-     *               / privateuse          ; private use tag
-     *               / grandfathered       ; grandfathered tags
+     * Lbngubgf-Tbg  = lbngtbg             ; normbl lbngubgf tbgs
+     *               / privbtfusf          ; privbtf usf tbg
+     *               / grbndfbtifrfd       ; grbndfbtifrfd tbgs
      *
      *
-     * langtag       = language
-     *                 ["-" script]
-     *                 ["-" region]
-     *                 *("-" variant)
-     *                 *("-" extension)
-     *                 ["-" privateuse]
+     * lbngtbg       = lbngubgf
+     *                 ["-" sdript]
+     *                 ["-" rfgion]
+     *                 *("-" vbribnt)
+     *                 *("-" fxtfnsion)
+     *                 ["-" privbtfusf]
      *
-     * language      = 2*3ALPHA            ; shortest ISO 639 code
-     *                 ["-" extlang]       ; sometimes followed by
-     *                                     ; extended language subtags
-     *               / 4ALPHA              ; or reserved for future use
-     *               / 5*8ALPHA            ; or registered language subtag
+     * lbngubgf      = 2*3ALPHA            ; siortfst ISO 639 dodf
+     *                 ["-" fxtlbng]       ; somftimfs followfd by
+     *                                     ; fxtfndfd lbngubgf subtbgs
+     *               / 4ALPHA              ; or rfsfrvfd for futurf usf
+     *               / 5*8ALPHA            ; or rfgistfrfd lbngubgf subtbg
      *
-     * extlang       = 3ALPHA              ; selected ISO 639 codes
-     *                 *2("-" 3ALPHA)      ; permanently reserved
+     * fxtlbng       = 3ALPHA              ; sflfdtfd ISO 639 dodfs
+     *                 *2("-" 3ALPHA)      ; pfrmbnfntly rfsfrvfd
      *
-     * script        = 4ALPHA              ; ISO 15924 code
+     * sdript        = 4ALPHA              ; ISO 15924 dodf
      *
-     * region        = 2ALPHA              ; ISO 3166-1 code
-     *               / 3DIGIT              ; UN M.49 code
+     * rfgion        = 2ALPHA              ; ISO 3166-1 dodf
+     *               / 3DIGIT              ; UN M.49 dodf
      *
-     * variant       = 5*8alphanum         ; registered variants
-     *               / (DIGIT 3alphanum)
+     * vbribnt       = 5*8blpibnum         ; rfgistfrfd vbribnts
+     *               / (DIGIT 3blpibnum)
      *
-     * extension     = singleton 1*("-" (2*8alphanum))
+     * fxtfnsion     = singlfton 1*("-" (2*8blpibnum))
      *
-     *                                     ; Single alphanumerics
-     *                                     ; "x" reserved for private use
-     * singleton     = DIGIT               ; 0 - 9
+     *                                     ; Singlf blpibnumfrids
+     *                                     ; "x" rfsfrvfd for privbtf usf
+     * singlfton     = DIGIT               ; 0 - 9
      *               / %x41-57             ; A - W
      *               / %x59-5A             ; Y - Z
-     *               / %x61-77             ; a - w
+     *               / %x61-77             ; b - w
      *               / %x79-7A             ; y - z
      *
-     * privateuse    = "x" 1*("-" (1*8alphanum))
+     * privbtfusf    = "x" 1*("-" (1*8blpibnum))
      *
      */
-    public static LanguageTag parse(String languageTag, ParseStatus sts) {
+    publid stbtid LbngubgfTbg pbrsf(String lbngubgfTbg, PbrsfStbtus sts) {
         if (sts == null) {
-            sts = new ParseStatus();
-        } else {
-            sts.reset();
+            sts = nfw PbrsfStbtus();
+        } flsf {
+            sts.rfsft();
         }
 
-        StringTokenIterator itr;
+        StringTokfnItfrbtor itr;
 
-        // Check if the tag is grandfathered
-        String[] gfmap = GRANDFATHERED.get(LocaleUtils.toLowerString(languageTag));
-        if (gfmap != null) {
-            // use preferred mapping
-            itr = new StringTokenIterator(gfmap[1], SEP);
-        } else {
-            itr = new StringTokenIterator(languageTag, SEP);
+        // Cifdk if tif tbg is grbndfbtifrfd
+        String[] gfmbp = GRANDFATHERED.gft(LodblfUtils.toLowfrString(lbngubgfTbg));
+        if (gfmbp != null) {
+            // usf prfffrrfd mbpping
+            itr = nfw StringTokfnItfrbtor(gfmbp[1], SEP);
+        } flsf {
+            itr = nfw StringTokfnItfrbtor(lbngubgfTbg, SEP);
         }
 
-        LanguageTag tag = new LanguageTag();
+        LbngubgfTbg tbg = nfw LbngubgfTbg();
 
-        // langtag must start with either language or privateuse
-        if (tag.parseLanguage(itr, sts)) {
-            tag.parseExtlangs(itr, sts);
-            tag.parseScript(itr, sts);
-            tag.parseRegion(itr, sts);
-            tag.parseVariants(itr, sts);
-            tag.parseExtensions(itr, sts);
+        // lbngtbg must stbrt witi fitifr lbngubgf or privbtfusf
+        if (tbg.pbrsfLbngubgf(itr, sts)) {
+            tbg.pbrsfExtlbngs(itr, sts);
+            tbg.pbrsfSdript(itr, sts);
+            tbg.pbrsfRfgion(itr, sts);
+            tbg.pbrsfVbribnts(itr, sts);
+            tbg.pbrsfExtfnsions(itr, sts);
         }
-        tag.parsePrivateuse(itr, sts);
+        tbg.pbrsfPrivbtfusf(itr, sts);
 
-        if (!itr.isDone() && !sts.isError()) {
-            String s = itr.current();
-            sts.errorIndex = itr.currentStart();
-            if (s.length() == 0) {
-                sts.errorMsg = "Empty subtag";
-            } else {
-                sts.errorMsg = "Invalid subtag: " + s;
+        if (!itr.isDonf() && !sts.isError()) {
+            String s = itr.durrfnt();
+            sts.frrorIndfx = itr.durrfntStbrt();
+            if (s.lfngti() == 0) {
+                sts.frrorMsg = "Empty subtbg";
+            } flsf {
+                sts.frrorMsg = "Invblid subtbg: " + s;
             }
         }
 
-        return tag;
+        rfturn tbg;
     }
 
     //
-    // Language subtag parsers
+    // Lbngubgf subtbg pbrsfrs
     //
 
-    private boolean parseLanguage(StringTokenIterator itr, ParseStatus sts) {
-        if (itr.isDone() || sts.isError()) {
-            return false;
+    privbtf boolfbn pbrsfLbngubgf(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
         }
 
-        boolean found = false;
+        boolfbn found = fblsf;
 
-        String s = itr.current();
-        if (isLanguage(s)) {
-            found = true;
-            language = s;
-            sts.parseLength = itr.currentEnd();
-            itr.next();
+        String s = itr.durrfnt();
+        if (isLbngubgf(s)) {
+            found = truf;
+            lbngubgf = s;
+            sts.pbrsfLfngti = itr.durrfntEnd();
+            itr.nfxt();
         }
 
-        return found;
+        rfturn found;
     }
 
-    private boolean parseExtlangs(StringTokenIterator itr, ParseStatus sts) {
-        if (itr.isDone() || sts.isError()) {
-            return false;
+    privbtf boolfbn pbrsfExtlbngs(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
         }
 
-        boolean found = false;
+        boolfbn found = fblsf;
 
-        while (!itr.isDone()) {
-            String s = itr.current();
-            if (!isExtlang(s)) {
-                break;
+        wiilf (!itr.isDonf()) {
+            String s = itr.durrfnt();
+            if (!isExtlbng(s)) {
+                brfbk;
             }
-            found = true;
-            if (extlangs.isEmpty()) {
-                extlangs = new ArrayList<>(3);
+            found = truf;
+            if (fxtlbngs.isEmpty()) {
+                fxtlbngs = nfw ArrbyList<>(3);
             }
-            extlangs.add(s);
-            sts.parseLength = itr.currentEnd();
-            itr.next();
+            fxtlbngs.bdd(s);
+            sts.pbrsfLfngti = itr.durrfntEnd();
+            itr.nfxt();
 
-            if (extlangs.size() == 3) {
-                // Maximum 3 extlangs
-                break;
+            if (fxtlbngs.sizf() == 3) {
+                // Mbximum 3 fxtlbngs
+                brfbk;
             }
         }
 
-        return found;
+        rfturn found;
     }
 
-    private boolean parseScript(StringTokenIterator itr, ParseStatus sts) {
-        if (itr.isDone() || sts.isError()) {
-            return false;
+    privbtf boolfbn pbrsfSdript(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
         }
 
-        boolean found = false;
+        boolfbn found = fblsf;
 
-        String s = itr.current();
-        if (isScript(s)) {
-            found = true;
-            script = s;
-            sts.parseLength = itr.currentEnd();
-            itr.next();
+        String s = itr.durrfnt();
+        if (isSdript(s)) {
+            found = truf;
+            sdript = s;
+            sts.pbrsfLfngti = itr.durrfntEnd();
+            itr.nfxt();
         }
 
-        return found;
+        rfturn found;
     }
 
-    private boolean parseRegion(StringTokenIterator itr, ParseStatus sts) {
-        if (itr.isDone() || sts.isError()) {
-            return false;
+    privbtf boolfbn pbrsfRfgion(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
         }
 
-        boolean found = false;
+        boolfbn found = fblsf;
 
-        String s = itr.current();
-        if (isRegion(s)) {
-            found = true;
-            region = s;
-            sts.parseLength = itr.currentEnd();
-            itr.next();
+        String s = itr.durrfnt();
+        if (isRfgion(s)) {
+            found = truf;
+            rfgion = s;
+            sts.pbrsfLfngti = itr.durrfntEnd();
+            itr.nfxt();
         }
 
-        return found;
+        rfturn found;
     }
 
-    private boolean parseVariants(StringTokenIterator itr, ParseStatus sts) {
-        if (itr.isDone() || sts.isError()) {
-            return false;
+    privbtf boolfbn pbrsfVbribnts(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
         }
 
-        boolean found = false;
+        boolfbn found = fblsf;
 
-        while (!itr.isDone()) {
-            String s = itr.current();
-            if (!isVariant(s)) {
-                break;
+        wiilf (!itr.isDonf()) {
+            String s = itr.durrfnt();
+            if (!isVbribnt(s)) {
+                brfbk;
             }
-            found = true;
-            if (variants.isEmpty()) {
-                variants = new ArrayList<>(3);
+            found = truf;
+            if (vbribnts.isEmpty()) {
+                vbribnts = nfw ArrbyList<>(3);
             }
-            variants.add(s);
-            sts.parseLength = itr.currentEnd();
-            itr.next();
+            vbribnts.bdd(s);
+            sts.pbrsfLfngti = itr.durrfntEnd();
+            itr.nfxt();
         }
 
-        return found;
+        rfturn found;
     }
 
-    private boolean parseExtensions(StringTokenIterator itr, ParseStatus sts) {
-        if (itr.isDone() || sts.isError()) {
-            return false;
+    privbtf boolfbn pbrsfExtfnsions(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
         }
 
-        boolean found = false;
+        boolfbn found = fblsf;
 
-        while (!itr.isDone()) {
-            String s = itr.current();
-            if (isExtensionSingleton(s)) {
-                int start = itr.currentStart();
-                String singleton = s;
-                StringBuilder sb = new StringBuilder(singleton);
+        wiilf (!itr.isDonf()) {
+            String s = itr.durrfnt();
+            if (isExtfnsionSinglfton(s)) {
+                int stbrt = itr.durrfntStbrt();
+                String singlfton = s;
+                StringBuildfr sb = nfw StringBuildfr(singlfton);
 
-                itr.next();
-                while (!itr.isDone()) {
-                    s = itr.current();
-                    if (isExtensionSubtag(s)) {
-                        sb.append(SEP).append(s);
-                        sts.parseLength = itr.currentEnd();
-                    } else {
-                        break;
+                itr.nfxt();
+                wiilf (!itr.isDonf()) {
+                    s = itr.durrfnt();
+                    if (isExtfnsionSubtbg(s)) {
+                        sb.bppfnd(SEP).bppfnd(s);
+                        sts.pbrsfLfngti = itr.durrfntEnd();
+                    } flsf {
+                        brfbk;
                     }
-                    itr.next();
+                    itr.nfxt();
                 }
 
-                if (sts.parseLength <= start) {
-                    sts.errorIndex = start;
-                    sts.errorMsg = "Incomplete extension '" + singleton + "'";
-                    break;
+                if (sts.pbrsfLfngti <= stbrt) {
+                    sts.frrorIndfx = stbrt;
+                    sts.frrorMsg = "Indomplftf fxtfnsion '" + singlfton + "'";
+                    brfbk;
                 }
 
-                if (extensions.isEmpty()) {
-                    extensions = new ArrayList<>(4);
+                if (fxtfnsions.isEmpty()) {
+                    fxtfnsions = nfw ArrbyList<>(4);
                 }
-                extensions.add(sb.toString());
-                found = true;
-            } else {
-                break;
+                fxtfnsions.bdd(sb.toString());
+                found = truf;
+            } flsf {
+                brfbk;
             }
         }
-        return found;
+        rfturn found;
     }
 
-    private boolean parsePrivateuse(StringTokenIterator itr, ParseStatus sts) {
-        if (itr.isDone() || sts.isError()) {
-            return false;
+    privbtf boolfbn pbrsfPrivbtfusf(StringTokfnItfrbtor itr, PbrsfStbtus sts) {
+        if (itr.isDonf() || sts.isError()) {
+            rfturn fblsf;
         }
 
-        boolean found = false;
+        boolfbn found = fblsf;
 
-        String s = itr.current();
-        if (isPrivateusePrefix(s)) {
-            int start = itr.currentStart();
-            StringBuilder sb = new StringBuilder(s);
+        String s = itr.durrfnt();
+        if (isPrivbtfusfPrffix(s)) {
+            int stbrt = itr.durrfntStbrt();
+            StringBuildfr sb = nfw StringBuildfr(s);
 
-            itr.next();
-            while (!itr.isDone()) {
-                s = itr.current();
-                if (!isPrivateuseSubtag(s)) {
-                    break;
+            itr.nfxt();
+            wiilf (!itr.isDonf()) {
+                s = itr.durrfnt();
+                if (!isPrivbtfusfSubtbg(s)) {
+                    brfbk;
                 }
-                sb.append(SEP).append(s);
-                sts.parseLength = itr.currentEnd();
+                sb.bppfnd(SEP).bppfnd(s);
+                sts.pbrsfLfngti = itr.durrfntEnd();
 
-                itr.next();
+                itr.nfxt();
             }
 
-            if (sts.parseLength <= start) {
-                // need at least 1 private subtag
-                sts.errorIndex = start;
-                sts.errorMsg = "Incomplete privateuse";
-            } else {
-                privateuse = sb.toString();
-                found = true;
+            if (sts.pbrsfLfngti <= stbrt) {
+                // nffd bt lfbst 1 privbtf subtbg
+                sts.frrorIndfx = stbrt;
+                sts.frrorMsg = "Indomplftf privbtfusf";
+            } flsf {
+                privbtfusf = sb.toString();
+                found = truf;
             }
         }
 
-        return found;
+        rfturn found;
     }
 
-    public static LanguageTag parseLocale(BaseLocale baseLocale, LocaleExtensions localeExtensions) {
-        LanguageTag tag = new LanguageTag();
+    publid stbtid LbngubgfTbg pbrsfLodblf(BbsfLodblf bbsfLodblf, LodblfExtfnsions lodblfExtfnsions) {
+        LbngubgfTbg tbg = nfw LbngubgfTbg();
 
-        String language = baseLocale.getLanguage();
-        String script = baseLocale.getScript();
-        String region = baseLocale.getRegion();
-        String variant = baseLocale.getVariant();
+        String lbngubgf = bbsfLodblf.gftLbngubgf();
+        String sdript = bbsfLodblf.gftSdript();
+        String rfgion = bbsfLodblf.gftRfgion();
+        String vbribnt = bbsfLodblf.gftVbribnt();
 
-        boolean hasSubtag = false;
+        boolfbn ibsSubtbg = fblsf;
 
-        String privuseVar = null;   // store ill-formed variant subtags
+        String privusfVbr = null;   // storf ill-formfd vbribnt subtbgs
 
-        if (isLanguage(language)) {
-            // Convert a deprecated language code to its new code
-            if (language.equals("iw")) {
-                language = "he";
-            } else if (language.equals("ji")) {
-                language = "yi";
-            } else if (language.equals("in")) {
-                language = "id";
+        if (isLbngubgf(lbngubgf)) {
+            // Convfrt b dfprfdbtfd lbngubgf dodf to its nfw dodf
+            if (lbngubgf.fqubls("iw")) {
+                lbngubgf = "if";
+            } flsf if (lbngubgf.fqubls("ji")) {
+                lbngubgf = "yi";
+            } flsf if (lbngubgf.fqubls("in")) {
+                lbngubgf = "id";
             }
-            tag.language = language;
+            tbg.lbngubgf = lbngubgf;
         }
 
-        if (isScript(script)) {
-            tag.script = canonicalizeScript(script);
-            hasSubtag = true;
+        if (isSdript(sdript)) {
+            tbg.sdript = dbnonidblizfSdript(sdript);
+            ibsSubtbg = truf;
         }
 
-        if (isRegion(region)) {
-            tag.region = canonicalizeRegion(region);
-            hasSubtag = true;
+        if (isRfgion(rfgion)) {
+            tbg.rfgion = dbnonidblizfRfgion(rfgion);
+            ibsSubtbg = truf;
         }
 
-        // Special handling for no_NO_NY - use nn_NO for language tag
-        if (tag.language.equals("no") && tag.region.equals("NO") && variant.equals("NY")) {
-            tag.language = "nn";
-            variant = "";
+        // Spfdibl ibndling for no_NO_NY - usf nn_NO for lbngubgf tbg
+        if (tbg.lbngubgf.fqubls("no") && tbg.rfgion.fqubls("NO") && vbribnt.fqubls("NY")) {
+            tbg.lbngubgf = "nn";
+            vbribnt = "";
         }
 
-        if (variant.length() > 0) {
-            List<String> variants = null;
-            StringTokenIterator varitr = new StringTokenIterator(variant, BaseLocale.SEP);
-            while (!varitr.isDone()) {
-                String var = varitr.current();
-                if (!isVariant(var)) {
-                    break;
+        if (vbribnt.lfngti() > 0) {
+            List<String> vbribnts = null;
+            StringTokfnItfrbtor vbritr = nfw StringTokfnItfrbtor(vbribnt, BbsfLodblf.SEP);
+            wiilf (!vbritr.isDonf()) {
+                String vbr = vbritr.durrfnt();
+                if (!isVbribnt(vbr)) {
+                    brfbk;
                 }
-                if (variants == null) {
-                    variants = new ArrayList<>();
+                if (vbribnts == null) {
+                    vbribnts = nfw ArrbyList<>();
                 }
-                variants.add(var);  // Do not canonicalize!
-                varitr.next();
+                vbribnts.bdd(vbr);  // Do not dbnonidblizf!
+                vbritr.nfxt();
             }
-            if (variants != null) {
-                tag.variants = variants;
-                hasSubtag = true;
+            if (vbribnts != null) {
+                tbg.vbribnts = vbribnts;
+                ibsSubtbg = truf;
             }
-            if (!varitr.isDone()) {
-                // ill-formed variant subtags
-                StringBuilder buf = new StringBuilder();
-                while (!varitr.isDone()) {
-                    String prvv = varitr.current();
-                    if (!isPrivateuseSubtag(prvv)) {
-                        // cannot use private use subtag - truncated
-                        break;
+            if (!vbritr.isDonf()) {
+                // ill-formfd vbribnt subtbgs
+                StringBuildfr buf = nfw StringBuildfr();
+                wiilf (!vbritr.isDonf()) {
+                    String prvv = vbritr.durrfnt();
+                    if (!isPrivbtfusfSubtbg(prvv)) {
+                        // dbnnot usf privbtf usf subtbg - trundbtfd
+                        brfbk;
                     }
-                    if (buf.length() > 0) {
-                        buf.append(SEP);
+                    if (buf.lfngti() > 0) {
+                        buf.bppfnd(SEP);
                     }
-                    buf.append(prvv);
-                    varitr.next();
+                    buf.bppfnd(prvv);
+                    vbritr.nfxt();
                 }
-                if (buf.length() > 0) {
-                    privuseVar = buf.toString();
+                if (buf.lfngti() > 0) {
+                    privusfVbr = buf.toString();
                 }
             }
         }
 
-        List<String> extensions = null;
-        String privateuse = null;
+        List<String> fxtfnsions = null;
+        String privbtfusf = null;
 
-        if (localeExtensions != null) {
-            Set<Character> locextKeys = localeExtensions.getKeys();
-            for (Character locextKey : locextKeys) {
-                Extension ext = localeExtensions.getExtension(locextKey);
-                if (isPrivateusePrefixChar(locextKey)) {
-                    privateuse = ext.getValue();
-                } else {
-                    if (extensions == null) {
-                        extensions = new ArrayList<>();
+        if (lodblfExtfnsions != null) {
+            Sft<Cibrbdtfr> lodfxtKfys = lodblfExtfnsions.gftKfys();
+            for (Cibrbdtfr lodfxtKfy : lodfxtKfys) {
+                Extfnsion fxt = lodblfExtfnsions.gftExtfnsion(lodfxtKfy);
+                if (isPrivbtfusfPrffixCibr(lodfxtKfy)) {
+                    privbtfusf = fxt.gftVbluf();
+                } flsf {
+                    if (fxtfnsions == null) {
+                        fxtfnsions = nfw ArrbyList<>();
                     }
-                    extensions.add(locextKey.toString() + SEP + ext.getValue());
+                    fxtfnsions.bdd(lodfxtKfy.toString() + SEP + fxt.gftVbluf());
                 }
             }
         }
 
-        if (extensions != null) {
-            tag.extensions = extensions;
-            hasSubtag = true;
+        if (fxtfnsions != null) {
+            tbg.fxtfnsions = fxtfnsions;
+            ibsSubtbg = truf;
         }
 
-        // append ill-formed variant subtags to private use
-        if (privuseVar != null) {
-            if (privateuse == null) {
-                privateuse = PRIVUSE_VARIANT_PREFIX + SEP + privuseVar;
-            } else {
-                privateuse = privateuse + SEP + PRIVUSE_VARIANT_PREFIX
-                             + SEP + privuseVar.replace(BaseLocale.SEP, SEP);
+        // bppfnd ill-formfd vbribnt subtbgs to privbtf usf
+        if (privusfVbr != null) {
+            if (privbtfusf == null) {
+                privbtfusf = PRIVUSE_VARIANT_PREFIX + SEP + privusfVbr;
+            } flsf {
+                privbtfusf = privbtfusf + SEP + PRIVUSE_VARIANT_PREFIX
+                             + SEP + privusfVbr.rfplbdf(BbsfLodblf.SEP, SEP);
             }
         }
 
-        if (privateuse != null) {
-            tag.privateuse = privateuse;
+        if (privbtfusf != null) {
+            tbg.privbtfusf = privbtfusf;
         }
 
-        if (tag.language.length() == 0 && (hasSubtag || privateuse == null)) {
-            // use lang "und" when 1) no language is available AND
-            // 2) any of other subtags other than private use are available or
-            // no private use tag is available
-            tag.language = UNDETERMINED;
+        if (tbg.lbngubgf.lfngti() == 0 && (ibsSubtbg || privbtfusf == null)) {
+            // usf lbng "und" wifn 1) no lbngubgf is bvbilbblf AND
+            // 2) bny of otifr subtbgs otifr tibn privbtf usf brf bvbilbblf or
+            // no privbtf usf tbg is bvbilbblf
+            tbg.lbngubgf = UNDETERMINED;
         }
 
-        return tag;
+        rfturn tbg;
     }
 
     //
-    // Getter methods for language subtag fields
+    // Gfttfr mftiods for lbngubgf subtbg fiflds
     //
 
-    public String getLanguage() {
-        return language;
+    publid String gftLbngubgf() {
+        rfturn lbngubgf;
     }
 
-    public List<String> getExtlangs() {
-        if (extlangs.isEmpty()) {
-            return Collections.emptyList();
+    publid List<String> gftExtlbngs() {
+        if (fxtlbngs.isEmpty()) {
+            rfturn Collfdtions.fmptyList();
         }
-        return Collections.unmodifiableList(extlangs);
+        rfturn Collfdtions.unmodifibblfList(fxtlbngs);
     }
 
-    public String getScript() {
-        return script;
+    publid String gftSdript() {
+        rfturn sdript;
     }
 
-    public String getRegion() {
-        return region;
+    publid String gftRfgion() {
+        rfturn rfgion;
     }
 
-    public List<String> getVariants() {
-        if (variants.isEmpty()) {
-            return Collections.emptyList();
+    publid List<String> gftVbribnts() {
+        if (vbribnts.isEmpty()) {
+            rfturn Collfdtions.fmptyList();
         }
-        return Collections.unmodifiableList(variants);
+        rfturn Collfdtions.unmodifibblfList(vbribnts);
     }
 
-    public List<String> getExtensions() {
-        if (extensions.isEmpty()) {
-            return Collections.emptyList();
+    publid List<String> gftExtfnsions() {
+        if (fxtfnsions.isEmpty()) {
+            rfturn Collfdtions.fmptyList();
         }
-        return Collections.unmodifiableList(extensions);
+        rfturn Collfdtions.unmodifibblfList(fxtfnsions);
     }
 
-    public String getPrivateuse() {
-        return privateuse;
+    publid String gftPrivbtfusf() {
+        rfturn privbtfusf;
     }
 
     //
-    // Language subtag syntax checking methods
+    // Lbngubgf subtbg syntbx difdking mftiods
     //
 
-    public static boolean isLanguage(String s) {
-        // language      = 2*3ALPHA            ; shortest ISO 639 code
-        //                 ["-" extlang]       ; sometimes followed by
-        //                                     ;   extended language subtags
-        //               / 4ALPHA              ; or reserved for future use
-        //               / 5*8ALPHA            ; or registered language subtag
-        int len = s.length();
-        return (len >= 2) && (len <= 8) && LocaleUtils.isAlphaString(s);
+    publid stbtid boolfbn isLbngubgf(String s) {
+        // lbngubgf      = 2*3ALPHA            ; siortfst ISO 639 dodf
+        //                 ["-" fxtlbng]       ; somftimfs followfd by
+        //                                     ;   fxtfndfd lbngubgf subtbgs
+        //               / 4ALPHA              ; or rfsfrvfd for futurf usf
+        //               / 5*8ALPHA            ; or rfgistfrfd lbngubgf subtbg
+        int lfn = s.lfngti();
+        rfturn (lfn >= 2) && (lfn <= 8) && LodblfUtils.isAlpibString(s);
     }
 
-    public static boolean isExtlang(String s) {
-        // extlang       = 3ALPHA              ; selected ISO 639 codes
-        //                 *2("-" 3ALPHA)      ; permanently reserved
-        return (s.length() == 3) && LocaleUtils.isAlphaString(s);
+    publid stbtid boolfbn isExtlbng(String s) {
+        // fxtlbng       = 3ALPHA              ; sflfdtfd ISO 639 dodfs
+        //                 *2("-" 3ALPHA)      ; pfrmbnfntly rfsfrvfd
+        rfturn (s.lfngti() == 3) && LodblfUtils.isAlpibString(s);
     }
 
-    public static boolean isScript(String s) {
-        // script        = 4ALPHA              ; ISO 15924 code
-        return (s.length() == 4) && LocaleUtils.isAlphaString(s);
+    publid stbtid boolfbn isSdript(String s) {
+        // sdript        = 4ALPHA              ; ISO 15924 dodf
+        rfturn (s.lfngti() == 4) && LodblfUtils.isAlpibString(s);
     }
 
-    public static boolean isRegion(String s) {
-        // region        = 2ALPHA              ; ISO 3166-1 code
-        //               / 3DIGIT              ; UN M.49 code
-        return ((s.length() == 2) && LocaleUtils.isAlphaString(s))
-                || ((s.length() == 3) && LocaleUtils.isNumericString(s));
+    publid stbtid boolfbn isRfgion(String s) {
+        // rfgion        = 2ALPHA              ; ISO 3166-1 dodf
+        //               / 3DIGIT              ; UN M.49 dodf
+        rfturn ((s.lfngti() == 2) && LodblfUtils.isAlpibString(s))
+                || ((s.lfngti() == 3) && LodblfUtils.isNumfridString(s));
     }
 
-    public static boolean isVariant(String s) {
-        // variant       = 5*8alphanum         ; registered variants
-        //               / (DIGIT 3alphanum)
-        int len = s.length();
-        if (len >= 5 && len <= 8) {
-            return LocaleUtils.isAlphaNumericString(s);
+    publid stbtid boolfbn isVbribnt(String s) {
+        // vbribnt       = 5*8blpibnum         ; rfgistfrfd vbribnts
+        //               / (DIGIT 3blpibnum)
+        int lfn = s.lfngti();
+        if (lfn >= 5 && lfn <= 8) {
+            rfturn LodblfUtils.isAlpibNumfridString(s);
         }
-        if (len == 4) {
-            return LocaleUtils.isNumeric(s.charAt(0))
-                    && LocaleUtils.isAlphaNumeric(s.charAt(1))
-                    && LocaleUtils.isAlphaNumeric(s.charAt(2))
-                    && LocaleUtils.isAlphaNumeric(s.charAt(3));
+        if (lfn == 4) {
+            rfturn LodblfUtils.isNumfrid(s.dibrAt(0))
+                    && LodblfUtils.isAlpibNumfrid(s.dibrAt(1))
+                    && LodblfUtils.isAlpibNumfrid(s.dibrAt(2))
+                    && LodblfUtils.isAlpibNumfrid(s.dibrAt(3));
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public static boolean isExtensionSingleton(String s) {
-        // singleton     = DIGIT               ; 0 - 9
+    publid stbtid boolfbn isExtfnsionSinglfton(String s) {
+        // singlfton     = DIGIT               ; 0 - 9
         //               / %x41-57             ; A - W
         //               / %x59-5A             ; Y - Z
-        //               / %x61-77             ; a - w
+        //               / %x61-77             ; b - w
         //               / %x79-7A             ; y - z
 
-        return (s.length() == 1)
-                && LocaleUtils.isAlphaString(s)
-                && !LocaleUtils.caseIgnoreMatch(PRIVATEUSE, s);
+        rfturn (s.lfngti() == 1)
+                && LodblfUtils.isAlpibString(s)
+                && !LodblfUtils.dbsfIgnorfMbtdi(PRIVATEUSE, s);
     }
 
-    public static boolean isExtensionSingletonChar(char c) {
-        return isExtensionSingleton(String.valueOf(c));
+    publid stbtid boolfbn isExtfnsionSinglftonCibr(dibr d) {
+        rfturn isExtfnsionSinglfton(String.vblufOf(d));
     }
 
-    public static boolean isExtensionSubtag(String s) {
-        // extension     = singleton 1*("-" (2*8alphanum))
-        int len = s.length();
-        return (len >= 2) && (len <= 8) && LocaleUtils.isAlphaNumericString(s);
+    publid stbtid boolfbn isExtfnsionSubtbg(String s) {
+        // fxtfnsion     = singlfton 1*("-" (2*8blpibnum))
+        int lfn = s.lfngti();
+        rfturn (lfn >= 2) && (lfn <= 8) && LodblfUtils.isAlpibNumfridString(s);
     }
 
-    public static boolean isPrivateusePrefix(String s) {
-        // privateuse    = "x" 1*("-" (1*8alphanum))
-        return (s.length() == 1)
-                && LocaleUtils.caseIgnoreMatch(PRIVATEUSE, s);
+    publid stbtid boolfbn isPrivbtfusfPrffix(String s) {
+        // privbtfusf    = "x" 1*("-" (1*8blpibnum))
+        rfturn (s.lfngti() == 1)
+                && LodblfUtils.dbsfIgnorfMbtdi(PRIVATEUSE, s);
     }
 
-    public static boolean isPrivateusePrefixChar(char c) {
-        return (LocaleUtils.caseIgnoreMatch(PRIVATEUSE, String.valueOf(c)));
+    publid stbtid boolfbn isPrivbtfusfPrffixCibr(dibr d) {
+        rfturn (LodblfUtils.dbsfIgnorfMbtdi(PRIVATEUSE, String.vblufOf(d)));
     }
 
-    public static boolean isPrivateuseSubtag(String s) {
-        // privateuse    = "x" 1*("-" (1*8alphanum))
-        int len = s.length();
-        return (len >= 1) && (len <= 8) && LocaleUtils.isAlphaNumericString(s);
+    publid stbtid boolfbn isPrivbtfusfSubtbg(String s) {
+        // privbtfusf    = "x" 1*("-" (1*8blpibnum))
+        int lfn = s.lfngti();
+        rfturn (lfn >= 1) && (lfn <= 8) && LodblfUtils.isAlpibNumfridString(s);
     }
 
     //
-    // Language subtag canonicalization methods
+    // Lbngubgf subtbg dbnonidblizbtion mftiods
     //
 
-    public static String canonicalizeLanguage(String s) {
-        return LocaleUtils.toLowerString(s);
+    publid stbtid String dbnonidblizfLbngubgf(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
     }
 
-    public static String canonicalizeExtlang(String s) {
-        return LocaleUtils.toLowerString(s);
+    publid stbtid String dbnonidblizfExtlbng(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
     }
 
-    public static String canonicalizeScript(String s) {
-        return LocaleUtils.toTitleString(s);
+    publid stbtid String dbnonidblizfSdript(String s) {
+        rfturn LodblfUtils.toTitlfString(s);
     }
 
-    public static String canonicalizeRegion(String s) {
-        return LocaleUtils.toUpperString(s);
+    publid stbtid String dbnonidblizfRfgion(String s) {
+        rfturn LodblfUtils.toUppfrString(s);
     }
 
-    public static String canonicalizeVariant(String s) {
-        return LocaleUtils.toLowerString(s);
+    publid stbtid String dbnonidblizfVbribnt(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
     }
 
-    public static String canonicalizeExtension(String s) {
-        return LocaleUtils.toLowerString(s);
+    publid stbtid String dbnonidblizfExtfnsion(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
     }
 
-    public static String canonicalizeExtensionSingleton(String s) {
-        return LocaleUtils.toLowerString(s);
+    publid stbtid String dbnonidblizfExtfnsionSinglfton(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
     }
 
-    public static String canonicalizeExtensionSubtag(String s) {
-        return LocaleUtils.toLowerString(s);
+    publid stbtid String dbnonidblizfExtfnsionSubtbg(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
     }
 
-    public static String canonicalizePrivateuse(String s) {
-        return LocaleUtils.toLowerString(s);
+    publid stbtid String dbnonidblizfPrivbtfusf(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
     }
 
-    public static String canonicalizePrivateuseSubtag(String s) {
-        return LocaleUtils.toLowerString(s);
+    publid stbtid String dbnonidblizfPrivbtfusfSubtbg(String s) {
+        rfturn LodblfUtils.toLowfrString(s);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        if (language.length() > 0) {
-            sb.append(language);
+        if (lbngubgf.lfngti() > 0) {
+            sb.bppfnd(lbngubgf);
 
-            for (String extlang : extlangs) {
-                sb.append(SEP).append(extlang);
+            for (String fxtlbng : fxtlbngs) {
+                sb.bppfnd(SEP).bppfnd(fxtlbng);
             }
 
-            if (script.length() > 0) {
-                sb.append(SEP).append(script);
+            if (sdript.lfngti() > 0) {
+                sb.bppfnd(SEP).bppfnd(sdript);
             }
 
-            if (region.length() > 0) {
-                sb.append(SEP).append(region);
+            if (rfgion.lfngti() > 0) {
+                sb.bppfnd(SEP).bppfnd(rfgion);
             }
 
-            for (String variant : variants) {
-                sb.append(SEP).append(variant);
+            for (String vbribnt : vbribnts) {
+                sb.bppfnd(SEP).bppfnd(vbribnt);
             }
 
-            for (String extension : extensions) {
-                sb.append(SEP).append(extension);
+            for (String fxtfnsion : fxtfnsions) {
+                sb.bppfnd(SEP).bppfnd(fxtfnsion);
             }
         }
-        if (privateuse.length() > 0) {
-            if (sb.length() > 0) {
-                sb.append(SEP);
+        if (privbtfusf.lfngti() > 0) {
+            if (sb.lfngti() > 0) {
+                sb.bppfnd(SEP);
             }
-            sb.append(privateuse);
+            sb.bppfnd(privbtfusf);
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

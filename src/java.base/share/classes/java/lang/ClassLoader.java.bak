@@ -1,2200 +1,2200 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.CodeSource;
-import java.security.Policy;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.ProtectionDomain;
-import java.security.cert.Certificate;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Map;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.WeakHashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import sun.misc.CompoundEnumeration;
-import sun.misc.Resource;
-import sun.misc.URLClassPath;
-import sun.misc.VM;
-import sun.reflect.CallerSensitive;
-import sun.reflect.Reflection;
-import sun.reflect.misc.ReflectUtil;
-import sun.security.util.SecurityConstants;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Polidy;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
+import jbvb.util.Stbdk;
+import jbvb.util.Mbp;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import sun.misd.CompoundEnumfrbtion;
+import sun.misd.Rfsourdf;
+import sun.misd.URLClbssPbti;
+import sun.misd.VM;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.misd.RfflfdtUtil;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * A class loader is an object that is responsible for loading classes. The
- * class <tt>ClassLoader</tt> is an abstract class.  Given the <a
- * href="#name">binary name</a> of a class, a class loader should attempt to
- * locate or generate data that constitutes a definition for the class.  A
- * typical strategy is to transform the name into a file name and then read a
- * "class file" of that name from a file system.
+ * A dlbss lobdfr is bn objfdt tibt is rfsponsiblf for lobding dlbssfs. Tif
+ * dlbss <tt>ClbssLobdfr</tt> is bn bbstrbdt dlbss.  Givfn tif <b
+ * irff="#nbmf">binbry nbmf</b> of b dlbss, b dlbss lobdfr siould bttfmpt to
+ * lodbtf or gfnfrbtf dbtb tibt donstitutfs b dffinition for tif dlbss.  A
+ * typidbl strbtfgy is to trbnsform tif nbmf into b filf nbmf bnd tifn rfbd b
+ * "dlbss filf" of tibt nbmf from b filf systfm.
  *
- * <p> Every {@link Class <tt>Class</tt>} object contains a {@link
- * Class#getClassLoader() reference} to the <tt>ClassLoader</tt> that defined
+ * <p> Evfry {@link Clbss <tt>Clbss</tt>} objfdt dontbins b {@link
+ * Clbss#gftClbssLobdfr() rfffrfndf} to tif <tt>ClbssLobdfr</tt> tibt dffinfd
  * it.
  *
- * <p> <tt>Class</tt> objects for array classes are not created by class
- * loaders, but are created automatically as required by the Java runtime.
- * The class loader for an array class, as returned by {@link
- * Class#getClassLoader()} is the same as the class loader for its element
- * type; if the element type is a primitive type, then the array class has no
- * class loader.
+ * <p> <tt>Clbss</tt> objfdts for brrby dlbssfs brf not drfbtfd by dlbss
+ * lobdfrs, but brf drfbtfd butombtidblly bs rfquirfd by tif Jbvb runtimf.
+ * Tif dlbss lobdfr for bn brrby dlbss, bs rfturnfd by {@link
+ * Clbss#gftClbssLobdfr()} is tif sbmf bs tif dlbss lobdfr for its flfmfnt
+ * typf; if tif flfmfnt typf is b primitivf typf, tifn tif brrby dlbss ibs no
+ * dlbss lobdfr.
  *
- * <p> Applications implement subclasses of <tt>ClassLoader</tt> in order to
- * extend the manner in which the Java virtual machine dynamically loads
- * classes.
+ * <p> Applidbtions implfmfnt subdlbssfs of <tt>ClbssLobdfr</tt> in ordfr to
+ * fxtfnd tif mbnnfr in wiidi tif Jbvb virtubl mbdiinf dynbmidblly lobds
+ * dlbssfs.
  *
- * <p> Class loaders may typically be used by security managers to indicate
- * security domains.
+ * <p> Clbss lobdfrs mby typidblly bf usfd by sfdurity mbnbgfrs to indidbtf
+ * sfdurity dombins.
  *
- * <p> The <tt>ClassLoader</tt> class uses a delegation model to search for
- * classes and resources.  Each instance of <tt>ClassLoader</tt> has an
- * associated parent class loader.  When requested to find a class or
- * resource, a <tt>ClassLoader</tt> instance will delegate the search for the
- * class or resource to its parent class loader before attempting to find the
- * class or resource itself.  The virtual machine's built-in class loader,
- * called the "bootstrap class loader", does not itself have a parent but may
- * serve as the parent of a <tt>ClassLoader</tt> instance.
+ * <p> Tif <tt>ClbssLobdfr</tt> dlbss usfs b dflfgbtion modfl to sfbrdi for
+ * dlbssfs bnd rfsourdfs.  Ebdi instbndf of <tt>ClbssLobdfr</tt> ibs bn
+ * bssodibtfd pbrfnt dlbss lobdfr.  Wifn rfqufstfd to find b dlbss or
+ * rfsourdf, b <tt>ClbssLobdfr</tt> instbndf will dflfgbtf tif sfbrdi for tif
+ * dlbss or rfsourdf to its pbrfnt dlbss lobdfr bfforf bttfmpting to find tif
+ * dlbss or rfsourdf itsflf.  Tif virtubl mbdiinf's built-in dlbss lobdfr,
+ * dbllfd tif "bootstrbp dlbss lobdfr", dofs not itsflf ibvf b pbrfnt but mby
+ * sfrvf bs tif pbrfnt of b <tt>ClbssLobdfr</tt> instbndf.
  *
- * <p> Class loaders that support concurrent loading of classes are known as
- * <em>parallel capable</em> class loaders and are required to register
- * themselves at their class initialization time by invoking the
+ * <p> Clbss lobdfrs tibt support dondurrfnt lobding of dlbssfs brf known bs
+ * <fm>pbrbllfl dbpbblf</fm> dlbss lobdfrs bnd brf rfquirfd to rfgistfr
+ * tifmsflvfs bt tifir dlbss initiblizbtion timf by invoking tif
  * {@link
- * #registerAsParallelCapable <tt>ClassLoader.registerAsParallelCapable</tt>}
- * method. Note that the <tt>ClassLoader</tt> class is registered as parallel
- * capable by default. However, its subclasses still need to register themselves
- * if they are parallel capable. <br>
- * In environments in which the delegation model is not strictly
- * hierarchical, class loaders need to be parallel capable, otherwise class
- * loading can lead to deadlocks because the loader lock is held for the
- * duration of the class loading process (see {@link #loadClass
- * <tt>loadClass</tt>} methods).
+ * #rfgistfrAsPbrbllflCbpbblf <tt>ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf</tt>}
+ * mftiod. Notf tibt tif <tt>ClbssLobdfr</tt> dlbss is rfgistfrfd bs pbrbllfl
+ * dbpbblf by dffbult. Howfvfr, its subdlbssfs still nffd to rfgistfr tifmsflvfs
+ * if tify brf pbrbllfl dbpbblf. <br>
+ * In fnvironmfnts in wiidi tif dflfgbtion modfl is not stridtly
+ * iifrbrdiidbl, dlbss lobdfrs nffd to bf pbrbllfl dbpbblf, otifrwisf dlbss
+ * lobding dbn lfbd to dfbdlodks bfdbusf tif lobdfr lodk is ifld for tif
+ * durbtion of tif dlbss lobding prodfss (sff {@link #lobdClbss
+ * <tt>lobdClbss</tt>} mftiods).
  *
- * <p> Normally, the Java virtual machine loads classes from the local file
- * system in a platform-dependent manner.  For example, on UNIX systems, the
- * virtual machine loads classes from the directory defined by the
- * <tt>CLASSPATH</tt> environment variable.
+ * <p> Normblly, tif Jbvb virtubl mbdiinf lobds dlbssfs from tif lodbl filf
+ * systfm in b plbtform-dfpfndfnt mbnnfr.  For fxbmplf, on UNIX systfms, tif
+ * virtubl mbdiinf lobds dlbssfs from tif dirfdtory dffinfd by tif
+ * <tt>CLASSPATH</tt> fnvironmfnt vbribblf.
  *
- * <p> However, some classes may not originate from a file; they may originate
- * from other sources, such as the network, or they could be constructed by an
- * application.  The method {@link #defineClass(String, byte[], int, int)
- * <tt>defineClass</tt>} converts an array of bytes into an instance of class
- * <tt>Class</tt>. Instances of this newly defined class can be created using
- * {@link Class#newInstance <tt>Class.newInstance</tt>}.
+ * <p> Howfvfr, somf dlbssfs mby not originbtf from b filf; tify mby originbtf
+ * from otifr sourdfs, sudi bs tif nftwork, or tify dould bf donstrudtfd by bn
+ * bpplidbtion.  Tif mftiod {@link #dffinfClbss(String, bytf[], int, int)
+ * <tt>dffinfClbss</tt>} donvfrts bn brrby of bytfs into bn instbndf of dlbss
+ * <tt>Clbss</tt>. Instbndfs of tiis nfwly dffinfd dlbss dbn bf drfbtfd using
+ * {@link Clbss#nfwInstbndf <tt>Clbss.nfwInstbndf</tt>}.
  *
- * <p> The methods and constructors of objects created by a class loader may
- * reference other classes.  To determine the class(es) referred to, the Java
- * virtual machine invokes the {@link #loadClass <tt>loadClass</tt>} method of
- * the class loader that originally created the class.
+ * <p> Tif mftiods bnd donstrudtors of objfdts drfbtfd by b dlbss lobdfr mby
+ * rfffrfndf otifr dlbssfs.  To dftfrminf tif dlbss(fs) rfffrrfd to, tif Jbvb
+ * virtubl mbdiinf invokfs tif {@link #lobdClbss <tt>lobdClbss</tt>} mftiod of
+ * tif dlbss lobdfr tibt originblly drfbtfd tif dlbss.
  *
- * <p> For example, an application could create a network class loader to
- * download class files from a server.  Sample code might look like:
+ * <p> For fxbmplf, bn bpplidbtion dould drfbtf b nftwork dlbss lobdfr to
+ * downlobd dlbss filfs from b sfrvfr.  Sbmplf dodf migit look likf:
  *
- * <blockquote><pre>
- *   ClassLoader loader&nbsp;= new NetworkClassLoader(host,&nbsp;port);
- *   Object main&nbsp;= loader.loadClass("Main", true).newInstance();
+ * <blodkquotf><prf>
+ *   ClbssLobdfr lobdfr&nbsp;= nfw NftworkClbssLobdfr(iost,&nbsp;port);
+ *   Objfdt mbin&nbsp;= lobdfr.lobdClbss("Mbin", truf).nfwInstbndf();
  *       &nbsp;.&nbsp;.&nbsp;.
- * </pre></blockquote>
+ * </prf></blodkquotf>
  *
- * <p> The network class loader subclass must define the methods {@link
- * #findClass <tt>findClass</tt>} and <tt>loadClassData</tt> to load a class
- * from the network.  Once it has downloaded the bytes that make up the class,
- * it should use the method {@link #defineClass <tt>defineClass</tt>} to
- * create a class instance.  A sample implementation is:
+ * <p> Tif nftwork dlbss lobdfr subdlbss must dffinf tif mftiods {@link
+ * #findClbss <tt>findClbss</tt>} bnd <tt>lobdClbssDbtb</tt> to lobd b dlbss
+ * from tif nftwork.  Ondf it ibs downlobdfd tif bytfs tibt mbkf up tif dlbss,
+ * it siould usf tif mftiod {@link #dffinfClbss <tt>dffinfClbss</tt>} to
+ * drfbtf b dlbss instbndf.  A sbmplf implfmfntbtion is:
  *
- * <blockquote><pre>
- *     class NetworkClassLoader extends ClassLoader {
- *         String host;
+ * <blodkquotf><prf>
+ *     dlbss NftworkClbssLobdfr fxtfnds ClbssLobdfr {
+ *         String iost;
  *         int port;
  *
- *         public Class findClass(String name) {
- *             byte[] b = loadClassData(name);
- *             return defineClass(name, b, 0, b.length);
+ *         publid Clbss findClbss(String nbmf) {
+ *             bytf[] b = lobdClbssDbtb(nbmf);
+ *             rfturn dffinfClbss(nbmf, b, 0, b.lfngti);
  *         }
  *
- *         private byte[] loadClassData(String name) {
- *             // load the class data from the connection
+ *         privbtf bytf[] lobdClbssDbtb(String nbmf) {
+ *             // lobd tif dlbss dbtb from tif donnfdtion
  *             &nbsp;.&nbsp;.&nbsp;.
  *         }
  *     }
- * </pre></blockquote>
+ * </prf></blodkquotf>
  *
- * <h3> <a name="name">Binary names</a> </h3>
+ * <i3> <b nbmf="nbmf">Binbry nbmfs</b> </i3>
  *
- * <p> Any class name provided as a {@link String} parameter to methods in
- * <tt>ClassLoader</tt> must be a binary name as defined by
- * <cite>The Java&trade; Language Specification</cite>.
+ * <p> Any dlbss nbmf providfd bs b {@link String} pbrbmftfr to mftiods in
+ * <tt>ClbssLobdfr</tt> must bf b binbry nbmf bs dffinfd by
+ * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
  *
- * <p> Examples of valid class names include:
- * <blockquote><pre>
- *   "java.lang.String"
- *   "javax.swing.JSpinner$DefaultEditor"
- *   "java.security.KeyStore$Builder$FileBuilder$1"
- *   "java.net.URLClassLoader$3$1"
- * </pre></blockquote>
+ * <p> Exbmplfs of vblid dlbss nbmfs indludf:
+ * <blodkquotf><prf>
+ *   "jbvb.lbng.String"
+ *   "jbvbx.swing.JSpinnfr$DffbultEditor"
+ *   "jbvb.sfdurity.KfyStorf$Buildfr$FilfBuildfr$1"
+ *   "jbvb.nft.URLClbssLobdfr$3$1"
+ * </prf></blodkquotf>
  *
- * {@code Class} objects for array classes are not created by {@code ClassLoader};
- * use the {@link Class#forName} method instead.
+ * {@dodf Clbss} objfdts for brrby dlbssfs brf not drfbtfd by {@dodf ClbssLobdfr};
+ * usf tif {@link Clbss#forNbmf} mftiod instfbd.
  *
- * @jls 13.1 The Form of a Binary
- * @see      #resolveClass(Class)
- * @since 1.0
+ * @jls 13.1 Tif Form of b Binbry
+ * @sff      #rfsolvfClbss(Clbss)
+ * @sindf 1.0
  */
-public abstract class ClassLoader {
+publid bbstrbdt dlbss ClbssLobdfr {
 
-    private static native void registerNatives();
-    static {
-        registerNatives();
+    privbtf stbtid nbtivf void rfgistfrNbtivfs();
+    stbtid {
+        rfgistfrNbtivfs();
     }
 
-    // The parent class loader for delegation
-    // Note: VM hardcoded the offset of this field, thus all new fields
-    // must be added *after* it.
-    private final ClassLoader parent;
+    // Tif pbrfnt dlbss lobdfr for dflfgbtion
+    // Notf: VM ibrddodfd tif offsft of tiis fifld, tius bll nfw fiflds
+    // must bf bddfd *bftfr* it.
+    privbtf finbl ClbssLobdfr pbrfnt;
 
     /**
-     * Encapsulates the set of parallel capable loader types.
+     * Endbpsulbtfs tif sft of pbrbllfl dbpbblf lobdfr typfs.
      */
-    private static class ParallelLoaders {
-        private ParallelLoaders() {}
+    privbtf stbtid dlbss PbrbllflLobdfrs {
+        privbtf PbrbllflLobdfrs() {}
 
-        // the set of parallel capable loader types
-        private static final Set<Class<? extends ClassLoader>> loaderTypes =
-            Collections.newSetFromMap(new WeakHashMap<>());
-        static {
-            synchronized (loaderTypes) { loaderTypes.add(ClassLoader.class); }
+        // tif sft of pbrbllfl dbpbblf lobdfr typfs
+        privbtf stbtid finbl Sft<Clbss<? fxtfnds ClbssLobdfr>> lobdfrTypfs =
+            Collfdtions.nfwSftFromMbp(nfw WfbkHbsiMbp<>());
+        stbtid {
+            syndironizfd (lobdfrTypfs) { lobdfrTypfs.bdd(ClbssLobdfr.dlbss); }
         }
 
         /**
-         * Registers the given class loader type as parallel capabale.
-         * Returns {@code true} is successfully registered; {@code false} if
-         * loader's super class is not registered.
+         * Rfgistfrs tif givfn dlbss lobdfr typf bs pbrbllfl dbpbbblf.
+         * Rfturns {@dodf truf} is suddfssfully rfgistfrfd; {@dodf fblsf} if
+         * lobdfr's supfr dlbss is not rfgistfrfd.
          */
-        static boolean register(Class<? extends ClassLoader> c) {
-            synchronized (loaderTypes) {
-                if (loaderTypes.contains(c.getSuperclass())) {
-                    // register the class loader as parallel capable
-                    // if and only if all of its super classes are.
-                    // Note: given current classloading sequence, if
-                    // the immediate super class is parallel capable,
-                    // all the super classes higher up must be too.
-                    loaderTypes.add(c);
-                    return true;
-                } else {
-                    return false;
+        stbtid boolfbn rfgistfr(Clbss<? fxtfnds ClbssLobdfr> d) {
+            syndironizfd (lobdfrTypfs) {
+                if (lobdfrTypfs.dontbins(d.gftSupfrdlbss())) {
+                    // rfgistfr tif dlbss lobdfr bs pbrbllfl dbpbblf
+                    // if bnd only if bll of its supfr dlbssfs brf.
+                    // Notf: givfn durrfnt dlbsslobding sfqufndf, if
+                    // tif immfdibtf supfr dlbss is pbrbllfl dbpbblf,
+                    // bll tif supfr dlbssfs iigifr up must bf too.
+                    lobdfrTypfs.bdd(d);
+                    rfturn truf;
+                } flsf {
+                    rfturn fblsf;
                 }
             }
         }
 
         /**
-         * Returns {@code true} if the given class loader type is
-         * registered as parallel capable.
+         * Rfturns {@dodf truf} if tif givfn dlbss lobdfr typf is
+         * rfgistfrfd bs pbrbllfl dbpbblf.
          */
-        static boolean isRegistered(Class<? extends ClassLoader> c) {
-            synchronized (loaderTypes) {
-                return loaderTypes.contains(c);
+        stbtid boolfbn isRfgistfrfd(Clbss<? fxtfnds ClbssLobdfr> d) {
+            syndironizfd (lobdfrTypfs) {
+                rfturn lobdfrTypfs.dontbins(d);
             }
         }
     }
 
-    // Maps class name to the corresponding lock object when the current
-    // class loader is parallel capable.
-    // Note: VM also uses this field to decide if the current class loader
-    // is parallel capable and the appropriate lock object for class loading.
-    private final ConcurrentHashMap<String, Object> parallelLockMap;
+    // Mbps dlbss nbmf to tif dorrfsponding lodk objfdt wifn tif durrfnt
+    // dlbss lobdfr is pbrbllfl dbpbblf.
+    // Notf: VM blso usfs tiis fifld to dfdidf if tif durrfnt dlbss lobdfr
+    // is pbrbllfl dbpbblf bnd tif bppropribtf lodk objfdt for dlbss lobding.
+    privbtf finbl CondurrfntHbsiMbp<String, Objfdt> pbrbllflLodkMbp;
 
-    // Hashtable that maps packages to certs
-    private final Map <String, Certificate[]> package2certs;
+    // Hbsitbblf tibt mbps pbdkbgfs to dfrts
+    privbtf finbl Mbp <String, Cfrtifidbtf[]> pbdkbgf2dfrts;
 
-    // Shared among all packages with unsigned classes
-    private static final Certificate[] nocerts = new Certificate[0];
+    // Sibrfd bmong bll pbdkbgfs witi unsignfd dlbssfs
+    privbtf stbtid finbl Cfrtifidbtf[] nodfrts = nfw Cfrtifidbtf[0];
 
-    // The classes loaded by this class loader. The only purpose of this table
-    // is to keep the classes from being GC'ed until the loader is GC'ed.
-    private final Vector<Class<?>> classes = new Vector<>();
+    // Tif dlbssfs lobdfd by tiis dlbss lobdfr. Tif only purposf of tiis tbblf
+    // is to kffp tif dlbssfs from bfing GC'fd until tif lobdfr is GC'fd.
+    privbtf finbl Vfdtor<Clbss<?>> dlbssfs = nfw Vfdtor<>();
 
-    // The "default" domain. Set as the default ProtectionDomain on newly
-    // created classes.
-    private final ProtectionDomain defaultDomain =
-        new ProtectionDomain(new CodeSource(null, (Certificate[]) null),
-                             null, this, null);
+    // Tif "dffbult" dombin. Sft bs tif dffbult ProtfdtionDombin on nfwly
+    // drfbtfd dlbssfs.
+    privbtf finbl ProtfdtionDombin dffbultDombin =
+        nfw ProtfdtionDombin(nfw CodfSourdf(null, (Cfrtifidbtf[]) null),
+                             null, tiis, null);
 
-    // The initiating protection domains for all classes loaded by this loader
-    private final Set<ProtectionDomain> domains;
+    // Tif initibting protfdtion dombins for bll dlbssfs lobdfd by tiis lobdfr
+    privbtf finbl Sft<ProtfdtionDombin> dombins;
 
-    // Invoked by the VM to record every loaded class with this loader.
-    void addClass(Class<?> c) {
-        classes.addElement(c);
+    // Invokfd by tif VM to rfdord fvfry lobdfd dlbss witi tiis lobdfr.
+    void bddClbss(Clbss<?> d) {
+        dlbssfs.bddElfmfnt(d);
     }
 
-    // The packages defined in this class loader.  Each package name is mapped
-    // to its corresponding Package object.
-    // @GuardedBy("itself")
-    private final HashMap<String, Package> packages = new HashMap<>();
+    // Tif pbdkbgfs dffinfd in tiis dlbss lobdfr.  Ebdi pbdkbgf nbmf is mbppfd
+    // to its dorrfsponding Pbdkbgf objfdt.
+    // @GubrdfdBy("itsflf")
+    privbtf finbl HbsiMbp<String, Pbdkbgf> pbdkbgfs = nfw HbsiMbp<>();
 
-    private static Void checkCreateClassLoader() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
+    privbtf stbtid Void difdkCrfbtfClbssLobdfr() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkCrfbtfClbssLobdfr();
         }
-        return null;
+        rfturn null;
     }
 
-    private ClassLoader(Void unused, ClassLoader parent) {
-        this.parent = parent;
-        if (ParallelLoaders.isRegistered(this.getClass())) {
-            parallelLockMap = new ConcurrentHashMap<>();
-            package2certs = new ConcurrentHashMap<>();
-            domains = Collections.synchronizedSet(new HashSet<>());
-            assertionLock = new Object();
-        } else {
-            // no finer-grained lock; lock on the classloader instance
-            parallelLockMap = null;
-            package2certs = new Hashtable<>();
-            domains = new HashSet<>();
-            assertionLock = this;
+    privbtf ClbssLobdfr(Void unusfd, ClbssLobdfr pbrfnt) {
+        tiis.pbrfnt = pbrfnt;
+        if (PbrbllflLobdfrs.isRfgistfrfd(tiis.gftClbss())) {
+            pbrbllflLodkMbp = nfw CondurrfntHbsiMbp<>();
+            pbdkbgf2dfrts = nfw CondurrfntHbsiMbp<>();
+            dombins = Collfdtions.syndironizfdSft(nfw HbsiSft<>());
+            bssfrtionLodk = nfw Objfdt();
+        } flsf {
+            // no finfr-grbinfd lodk; lodk on tif dlbsslobdfr instbndf
+            pbrbllflLodkMbp = null;
+            pbdkbgf2dfrts = nfw Hbsitbblf<>();
+            dombins = nfw HbsiSft<>();
+            bssfrtionLodk = tiis;
         }
     }
 
     /**
-     * Creates a new class loader using the specified parent class loader for
-     * delegation.
+     * Crfbtfs b nfw dlbss lobdfr using tif spfdififd pbrfnt dlbss lobdfr for
+     * dflfgbtion.
      *
-     * <p> If there is a security manager, its {@link
-     * SecurityManager#checkCreateClassLoader()
-     * <tt>checkCreateClassLoader</tt>} method is invoked.  This may result in
-     * a security exception.  </p>
+     * <p> If tifrf is b sfdurity mbnbgfr, its {@link
+     * SfdurityMbnbgfr#difdkCrfbtfClbssLobdfr()
+     * <tt>difdkCrfbtfClbssLobdfr</tt>} mftiod is invokfd.  Tiis mby rfsult in
+     * b sfdurity fxdfption.  </p>
      *
-     * @param  parent
-     *         The parent class loader
+     * @pbrbm  pbrfnt
+     *         Tif pbrfnt dlbss lobdfr
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its
-     *          <tt>checkCreateClassLoader</tt> method doesn't allow creation
-     *          of a new class loader.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its
+     *          <tt>difdkCrfbtfClbssLobdfr</tt> mftiod dofsn't bllow drfbtion
+     *          of b nfw dlbss lobdfr.
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    protected ClassLoader(ClassLoader parent) {
-        this(checkCreateClassLoader(), parent);
+    protfdtfd ClbssLobdfr(ClbssLobdfr pbrfnt) {
+        tiis(difdkCrfbtfClbssLobdfr(), pbrfnt);
     }
 
     /**
-     * Creates a new class loader using the <tt>ClassLoader</tt> returned by
-     * the method {@link #getSystemClassLoader()
-     * <tt>getSystemClassLoader()</tt>} as the parent class loader.
+     * Crfbtfs b nfw dlbss lobdfr using tif <tt>ClbssLobdfr</tt> rfturnfd by
+     * tif mftiod {@link #gftSystfmClbssLobdfr()
+     * <tt>gftSystfmClbssLobdfr()</tt>} bs tif pbrfnt dlbss lobdfr.
      *
-     * <p> If there is a security manager, its {@link
-     * SecurityManager#checkCreateClassLoader()
-     * <tt>checkCreateClassLoader</tt>} method is invoked.  This may result in
-     * a security exception.  </p>
+     * <p> If tifrf is b sfdurity mbnbgfr, its {@link
+     * SfdurityMbnbgfr#difdkCrfbtfClbssLobdfr()
+     * <tt>difdkCrfbtfClbssLobdfr</tt>} mftiod is invokfd.  Tiis mby rfsult in
+     * b sfdurity fxdfption.  </p>
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its
-     *          <tt>checkCreateClassLoader</tt> method doesn't allow creation
-     *          of a new class loader.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its
+     *          <tt>difdkCrfbtfClbssLobdfr</tt> mftiod dofsn't bllow drfbtion
+     *          of b nfw dlbss lobdfr.
      */
-    protected ClassLoader() {
-        this(checkCreateClassLoader(), getSystemClassLoader());
+    protfdtfd ClbssLobdfr() {
+        tiis(difdkCrfbtfClbssLobdfr(), gftSystfmClbssLobdfr());
     }
 
-    // -- Class --
+    // -- Clbss --
 
     /**
-     * Loads the class with the specified <a href="#name">binary name</a>.
-     * This method searches for classes in the same manner as the {@link
-     * #loadClass(String, boolean)} method.  It is invoked by the Java virtual
-     * machine to resolve class references.  Invoking this method is equivalent
-     * to invoking {@link #loadClass(String, boolean) <tt>loadClass(name,
-     * false)</tt>}.
+     * Lobds tif dlbss witi tif spfdififd <b irff="#nbmf">binbry nbmf</b>.
+     * Tiis mftiod sfbrdifs for dlbssfs in tif sbmf mbnnfr bs tif {@link
+     * #lobdClbss(String, boolfbn)} mftiod.  It is invokfd by tif Jbvb virtubl
+     * mbdiinf to rfsolvf dlbss rfffrfndfs.  Invoking tiis mftiod is fquivblfnt
+     * to invoking {@link #lobdClbss(String, boolfbn) <tt>lobdClbss(nbmf,
+     * fblsf)</tt>}.
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbmf
+     *         Tif <b irff="#nbmf">binbry nbmf</b> of tif dlbss
      *
-     * @return  The resulting <tt>Class</tt> object
+     * @rfturn  Tif rfsulting <tt>Clbss</tt> objfdt
      *
-     * @throws  ClassNotFoundException
-     *          If the class was not found
+     * @tirows  ClbssNotFoundExdfption
+     *          If tif dlbss wbs not found
      */
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
-        return loadClass(name, false);
+    publid Clbss<?> lobdClbss(String nbmf) tirows ClbssNotFoundExdfption {
+        rfturn lobdClbss(nbmf, fblsf);
     }
 
     /**
-     * Loads the class with the specified <a href="#name">binary name</a>.  The
-     * default implementation of this method searches for classes in the
-     * following order:
+     * Lobds tif dlbss witi tif spfdififd <b irff="#nbmf">binbry nbmf</b>.  Tif
+     * dffbult implfmfntbtion of tiis mftiod sfbrdifs for dlbssfs in tif
+     * following ordfr:
      *
      * <ol>
      *
-     *   <li><p> Invoke {@link #findLoadedClass(String)} to check if the class
-     *   has already been loaded.  </p></li>
+     *   <li><p> Invokf {@link #findLobdfdClbss(String)} to difdk if tif dlbss
+     *   ibs blrfbdy bffn lobdfd.  </p></li>
      *
-     *   <li><p> Invoke the {@link #loadClass(String) <tt>loadClass</tt>} method
-     *   on the parent class loader.  If the parent is <tt>null</tt> the class
-     *   loader built-in to the virtual machine is used, instead.  </p></li>
+     *   <li><p> Invokf tif {@link #lobdClbss(String) <tt>lobdClbss</tt>} mftiod
+     *   on tif pbrfnt dlbss lobdfr.  If tif pbrfnt is <tt>null</tt> tif dlbss
+     *   lobdfr built-in to tif virtubl mbdiinf is usfd, instfbd.  </p></li>
      *
-     *   <li><p> Invoke the {@link #findClass(String)} method to find the
-     *   class.  </p></li>
+     *   <li><p> Invokf tif {@link #findClbss(String)} mftiod to find tif
+     *   dlbss.  </p></li>
      *
      * </ol>
      *
-     * <p> If the class was found using the above steps, and the
-     * <tt>resolve</tt> flag is true, this method will then invoke the {@link
-     * #resolveClass(Class)} method on the resulting <tt>Class</tt> object.
+     * <p> If tif dlbss wbs found using tif bbovf stfps, bnd tif
+     * <tt>rfsolvf</tt> flbg is truf, tiis mftiod will tifn invokf tif {@link
+     * #rfsolvfClbss(Clbss)} mftiod on tif rfsulting <tt>Clbss</tt> objfdt.
      *
-     * <p> Subclasses of <tt>ClassLoader</tt> are encouraged to override {@link
-     * #findClass(String)}, rather than this method.  </p>
+     * <p> Subdlbssfs of <tt>ClbssLobdfr</tt> brf fndourbgfd to ovfrridf {@link
+     * #findClbss(String)}, rbtifr tibn tiis mftiod.  </p>
      *
-     * <p> Unless overridden, this method synchronizes on the result of
-     * {@link #getClassLoadingLock <tt>getClassLoadingLock</tt>} method
-     * during the entire class loading process.
+     * <p> Unlfss ovfrriddfn, tiis mftiod syndironizfs on tif rfsult of
+     * {@link #gftClbssLobdingLodk <tt>gftClbssLobdingLodk</tt>} mftiod
+     * during tif fntirf dlbss lobding prodfss.
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbmf
+     *         Tif <b irff="#nbmf">binbry nbmf</b> of tif dlbss
      *
-     * @param  resolve
-     *         If <tt>true</tt> then resolve the class
+     * @pbrbm  rfsolvf
+     *         If <tt>truf</tt> tifn rfsolvf tif dlbss
      *
-     * @return  The resulting <tt>Class</tt> object
+     * @rfturn  Tif rfsulting <tt>Clbss</tt> objfdt
      *
-     * @throws  ClassNotFoundException
-     *          If the class could not be found
+     * @tirows  ClbssNotFoundExdfption
+     *          If tif dlbss dould not bf found
      */
-    protected Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
+    protfdtfd Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+        tirows ClbssNotFoundExdfption
     {
-        synchronized (getClassLoadingLock(name)) {
-            // First, check if the class has already been loaded
-            Class<?> c = findLoadedClass(name);
-            if (c == null) {
-                long t0 = System.nanoTime();
+        syndironizfd (gftClbssLobdingLodk(nbmf)) {
+            // First, difdk if tif dlbss ibs blrfbdy bffn lobdfd
+            Clbss<?> d = findLobdfdClbss(nbmf);
+            if (d == null) {
+                long t0 = Systfm.nbnoTimf();
                 try {
-                    if (parent != null) {
-                        c = parent.loadClass(name, false);
-                    } else {
-                        c = findBootstrapClassOrNull(name);
+                    if (pbrfnt != null) {
+                        d = pbrfnt.lobdClbss(nbmf, fblsf);
+                    } flsf {
+                        d = findBootstrbpClbssOrNull(nbmf);
                     }
-                } catch (ClassNotFoundException e) {
-                    // ClassNotFoundException thrown if class not found
-                    // from the non-null parent class loader
+                } dbtdi (ClbssNotFoundExdfption f) {
+                    // ClbssNotFoundExdfption tirown if dlbss not found
+                    // from tif non-null pbrfnt dlbss lobdfr
                 }
 
-                if (c == null) {
-                    // If still not found, then invoke findClass in order
-                    // to find the class.
-                    long t1 = System.nanoTime();
-                    c = findClass(name);
+                if (d == null) {
+                    // If still not found, tifn invokf findClbss in ordfr
+                    // to find tif dlbss.
+                    long t1 = Systfm.nbnoTimf();
+                    d = findClbss(nbmf);
 
-                    // this is the defining class loader; record the stats
-                    sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);
-                    sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
-                    sun.misc.PerfCounter.getFindClasses().increment();
+                    // tiis is tif dffining dlbss lobdfr; rfdord tif stbts
+                    sun.misd.PfrfCountfr.gftPbrfntDflfgbtionTimf().bddTimf(t1 - t0);
+                    sun.misd.PfrfCountfr.gftFindClbssTimf().bddElbpsfdTimfFrom(t1);
+                    sun.misd.PfrfCountfr.gftFindClbssfs().indrfmfnt();
                 }
             }
-            if (resolve) {
-                resolveClass(c);
+            if (rfsolvf) {
+                rfsolvfClbss(d);
             }
-            return c;
+            rfturn d;
         }
     }
 
     /**
-     * Returns the lock object for class loading operations.
-     * For backward compatibility, the default implementation of this method
-     * behaves as follows. If this ClassLoader object is registered as
-     * parallel capable, the method returns a dedicated object associated
-     * with the specified class name. Otherwise, the method returns this
-     * ClassLoader object.
+     * Rfturns tif lodk objfdt for dlbss lobding opfrbtions.
+     * For bbdkwbrd dompbtibility, tif dffbult implfmfntbtion of tiis mftiod
+     * bfibvfs bs follows. If tiis ClbssLobdfr objfdt is rfgistfrfd bs
+     * pbrbllfl dbpbblf, tif mftiod rfturns b dfdidbtfd objfdt bssodibtfd
+     * witi tif spfdififd dlbss nbmf. Otifrwisf, tif mftiod rfturns tiis
+     * ClbssLobdfr objfdt.
      *
-     * @param  className
-     *         The name of the to-be-loaded class
+     * @pbrbm  dlbssNbmf
+     *         Tif nbmf of tif to-bf-lobdfd dlbss
      *
-     * @return the lock for class loading operations
+     * @rfturn tif lodk for dlbss lobding opfrbtions
      *
-     * @throws NullPointerException
-     *         If registered as parallel capable and <tt>className</tt> is null
+     * @tirows NullPointfrExdfption
+     *         If rfgistfrfd bs pbrbllfl dbpbblf bnd <tt>dlbssNbmf</tt> is null
      *
-     * @see #loadClass(String, boolean)
+     * @sff #lobdClbss(String, boolfbn)
      *
-     * @since  1.7
+     * @sindf  1.7
      */
-    protected Object getClassLoadingLock(String className) {
-        Object lock = this;
-        if (parallelLockMap != null) {
-            Object newLock = new Object();
-            lock = parallelLockMap.putIfAbsent(className, newLock);
-            if (lock == null) {
-                lock = newLock;
+    protfdtfd Objfdt gftClbssLobdingLodk(String dlbssNbmf) {
+        Objfdt lodk = tiis;
+        if (pbrbllflLodkMbp != null) {
+            Objfdt nfwLodk = nfw Objfdt();
+            lodk = pbrbllflLodkMbp.putIfAbsfnt(dlbssNbmf, nfwLodk);
+            if (lodk == null) {
+                lodk = nfwLodk;
             }
         }
-        return lock;
+        rfturn lodk;
     }
 
-    // This method is invoked by the virtual machine to load a class.
-    private Class<?> loadClassInternal(String name)
-        throws ClassNotFoundException
+    // Tiis mftiod is invokfd by tif virtubl mbdiinf to lobd b dlbss.
+    privbtf Clbss<?> lobdClbssIntfrnbl(String nbmf)
+        tirows ClbssNotFoundExdfption
     {
-        // For backward compatibility, explicitly lock on 'this' when
-        // the current class loader is not parallel capable.
-        if (parallelLockMap == null) {
-            synchronized (this) {
-                 return loadClass(name);
+        // For bbdkwbrd dompbtibility, fxpliditly lodk on 'tiis' wifn
+        // tif durrfnt dlbss lobdfr is not pbrbllfl dbpbblf.
+        if (pbrbllflLodkMbp == null) {
+            syndironizfd (tiis) {
+                 rfturn lobdClbss(nbmf);
             }
-        } else {
-            return loadClass(name);
+        } flsf {
+            rfturn lobdClbss(nbmf);
         }
     }
 
-    // Invoked by the VM after loading class with this loader.
-    private void checkPackageAccess(Class<?> cls, ProtectionDomain pd) {
-        final SecurityManager sm = System.getSecurityManager();
+    // Invokfd by tif VM bftfr lobding dlbss witi tiis lobdfr.
+    privbtf void difdkPbdkbgfAddfss(Clbss<?> dls, ProtfdtionDombin pd) {
+        finbl SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            if (ReflectUtil.isNonPublicProxyClass(cls)) {
-                for (Class<?> intf: cls.getInterfaces()) {
-                    checkPackageAccess(intf, pd);
+            if (RfflfdtUtil.isNonPublidProxyClbss(dls)) {
+                for (Clbss<?> intf: dls.gftIntfrfbdfs()) {
+                    difdkPbdkbgfAddfss(intf, pd);
                 }
-                return;
+                rfturn;
             }
 
-            final String name = cls.getName();
-            final int i = name.lastIndexOf('.');
+            finbl String nbmf = dls.gftNbmf();
+            finbl int i = nbmf.lbstIndfxOf('.');
             if (i != -1) {
-                AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                    public Void run() {
-                        sm.checkPackageAccess(name.substring(0, i));
-                        return null;
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        sm.difdkPbdkbgfAddfss(nbmf.substring(0, i));
+                        rfturn null;
                     }
-                }, new AccessControlContext(new ProtectionDomain[] {pd}));
+                }, nfw AddfssControlContfxt(nfw ProtfdtionDombin[] {pd}));
             }
         }
-        domains.add(pd);
+        dombins.bdd(pd);
     }
 
     /**
-     * Finds the class with the specified <a href="#name">binary name</a>.
-     * This method should be overridden by class loader implementations that
-     * follow the delegation model for loading classes, and will be invoked by
-     * the {@link #loadClass <tt>loadClass</tt>} method after checking the
-     * parent class loader for the requested class.  The default implementation
-     * throws a <tt>ClassNotFoundException</tt>.
+     * Finds tif dlbss witi tif spfdififd <b irff="#nbmf">binbry nbmf</b>.
+     * Tiis mftiod siould bf ovfrriddfn by dlbss lobdfr implfmfntbtions tibt
+     * follow tif dflfgbtion modfl for lobding dlbssfs, bnd will bf invokfd by
+     * tif {@link #lobdClbss <tt>lobdClbss</tt>} mftiod bftfr difdking tif
+     * pbrfnt dlbss lobdfr for tif rfqufstfd dlbss.  Tif dffbult implfmfntbtion
+     * tirows b <tt>ClbssNotFoundExdfption</tt>.
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbmf
+     *         Tif <b irff="#nbmf">binbry nbmf</b> of tif dlbss
      *
-     * @return  The resulting <tt>Class</tt> object
+     * @rfturn  Tif rfsulting <tt>Clbss</tt> objfdt
      *
-     * @throws  ClassNotFoundException
-     *          If the class could not be found
+     * @tirows  ClbssNotFoundExdfption
+     *          If tif dlbss dould not bf found
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-        throw new ClassNotFoundException(name);
+    protfdtfd Clbss<?> findClbss(String nbmf) tirows ClbssNotFoundExdfption {
+        tirow nfw ClbssNotFoundExdfption(nbmf);
     }
 
     /**
-     * Converts an array of bytes into an instance of class <tt>Class</tt>.
-     * Before the <tt>Class</tt> can be used it must be resolved.  This method
-     * is deprecated in favor of the version that takes a <a
-     * href="#name">binary name</a> as its first argument, and is more secure.
+     * Convfrts bn brrby of bytfs into bn instbndf of dlbss <tt>Clbss</tt>.
+     * Bfforf tif <tt>Clbss</tt> dbn bf usfd it must bf rfsolvfd.  Tiis mftiod
+     * is dfprfdbtfd in fbvor of tif vfrsion tibt tbkfs b <b
+     * irff="#nbmf">binbry nbmf</b> bs its first brgumfnt, bnd is morf sfdurf.
      *
-     * @param  b
-     *         The bytes that make up the class data.  The bytes in positions
-     *         <tt>off</tt> through <tt>off+len-1</tt> should have the format
-     *         of a valid class file as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  b
+     *         Tif bytfs tibt mbkf up tif dlbss dbtb.  Tif bytfs in positions
+     *         <tt>off</tt> tirougi <tt>off+lfn-1</tt> siould ibvf tif formbt
+     *         of b vblid dlbss filf bs dffinfd by
+     *         <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
      *
-     * @param  off
-     *         The start offset in <tt>b</tt> of the class data
+     * @pbrbm  off
+     *         Tif stbrt offsft in <tt>b</tt> of tif dlbss dbtb
      *
-     * @param  len
-     *         The length of the class data
+     * @pbrbm  lfn
+     *         Tif lfngti of tif dlbss dbtb
      *
-     * @return  The <tt>Class</tt> object that was created from the specified
-     *          class data
+     * @rfturn  Tif <tt>Clbss</tt> objfdt tibt wbs drfbtfd from tif spfdififd
+     *          dlbss dbtb
      *
-     * @throws  ClassFormatError
-     *          If the data did not contain a valid class
+     * @tirows  ClbssFormbtError
+     *          If tif dbtb did not dontbin b vblid dlbss
      *
-     * @throws  IndexOutOfBoundsException
-     *          If either <tt>off</tt> or <tt>len</tt> is negative, or if
-     *          <tt>off+len</tt> is greater than <tt>b.length</tt>.
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If fitifr <tt>off</tt> or <tt>lfn</tt> is nfgbtivf, or if
+     *          <tt>off+lfn</tt> is grfbtfr tibn <tt>b.lfngti</tt>.
      *
-     * @throws  SecurityException
-     *          If an attempt is made to add this class to a package that
-     *          contains classes that were signed by a different set of
-     *          certificates than this class, or if an attempt is made
-     *          to define a class in a package with a fully-qualified name
-     *          that starts with "{@code java.}".
+     * @tirows  SfdurityExdfption
+     *          If bn bttfmpt is mbdf to bdd tiis dlbss to b pbdkbgf tibt
+     *          dontbins dlbssfs tibt wfrf signfd by b difffrfnt sft of
+     *          dfrtifidbtfs tibn tiis dlbss, or if bn bttfmpt is mbdf
+     *          to dffinf b dlbss in b pbdkbgf witi b fully-qublififd nbmf
+     *          tibt stbrts witi "{@dodf jbvb.}".
      *
-     * @see  #loadClass(String, boolean)
-     * @see  #resolveClass(Class)
+     * @sff  #lobdClbss(String, boolfbn)
+     * @sff  #rfsolvfClbss(Clbss)
      *
-     * @deprecated  Replaced by {@link #defineClass(String, byte[], int, int)
-     * defineClass(String, byte[], int, int)}
+     * @dfprfdbtfd  Rfplbdfd by {@link #dffinfClbss(String, bytf[], int, int)
+     * dffinfClbss(String, bytf[], int, int)}
      */
-    @Deprecated
-    protected final Class<?> defineClass(byte[] b, int off, int len)
-        throws ClassFormatError
+    @Dfprfdbtfd
+    protfdtfd finbl Clbss<?> dffinfClbss(bytf[] b, int off, int lfn)
+        tirows ClbssFormbtError
     {
-        return defineClass(null, b, off, len, null);
+        rfturn dffinfClbss(null, b, off, lfn, null);
     }
 
     /**
-     * Converts an array of bytes into an instance of class <tt>Class</tt>.
-     * Before the <tt>Class</tt> can be used it must be resolved.
+     * Convfrts bn brrby of bytfs into bn instbndf of dlbss <tt>Clbss</tt>.
+     * Bfforf tif <tt>Clbss</tt> dbn bf usfd it must bf rfsolvfd.
      *
-     * <p> This method assigns a default {@link java.security.ProtectionDomain
-     * <tt>ProtectionDomain</tt>} to the newly defined class.  The
-     * <tt>ProtectionDomain</tt> is effectively granted the same set of
-     * permissions returned when {@link
-     * java.security.Policy#getPermissions(java.security.CodeSource)
-     * <tt>Policy.getPolicy().getPermissions(new CodeSource(null, null))</tt>}
-     * is invoked.  The default domain is created on the first invocation of
-     * {@link #defineClass(String, byte[], int, int) <tt>defineClass</tt>},
-     * and re-used on subsequent invocations.
+     * <p> Tiis mftiod bssigns b dffbult {@link jbvb.sfdurity.ProtfdtionDombin
+     * <tt>ProtfdtionDombin</tt>} to tif nfwly dffinfd dlbss.  Tif
+     * <tt>ProtfdtionDombin</tt> is ffffdtivfly grbntfd tif sbmf sft of
+     * pfrmissions rfturnfd wifn {@link
+     * jbvb.sfdurity.Polidy#gftPfrmissions(jbvb.sfdurity.CodfSourdf)
+     * <tt>Polidy.gftPolidy().gftPfrmissions(nfw CodfSourdf(null, null))</tt>}
+     * is invokfd.  Tif dffbult dombin is drfbtfd on tif first invodbtion of
+     * {@link #dffinfClbss(String, bytf[], int, int) <tt>dffinfClbss</tt>},
+     * bnd rf-usfd on subsfqufnt invodbtions.
      *
-     * <p> To assign a specific <tt>ProtectionDomain</tt> to the class, use
-     * the {@link #defineClass(String, byte[], int, int,
-     * java.security.ProtectionDomain) <tt>defineClass</tt>} method that takes a
-     * <tt>ProtectionDomain</tt> as one of its arguments.  </p>
+     * <p> To bssign b spfdifid <tt>ProtfdtionDombin</tt> to tif dlbss, usf
+     * tif {@link #dffinfClbss(String, bytf[], int, int,
+     * jbvb.sfdurity.ProtfdtionDombin) <tt>dffinfClbss</tt>} mftiod tibt tbkfs b
+     * <tt>ProtfdtionDombin</tt> bs onf of its brgumfnts.  </p>
      *
-     * @param  name
-     *         The expected <a href="#name">binary name</a> of the class, or
+     * @pbrbm  nbmf
+     *         Tif fxpfdtfd <b irff="#nbmf">binbry nbmf</b> of tif dlbss, or
      *         <tt>null</tt> if not known
      *
-     * @param  b
-     *         The bytes that make up the class data.  The bytes in positions
-     *         <tt>off</tt> through <tt>off+len-1</tt> should have the format
-     *         of a valid class file as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  b
+     *         Tif bytfs tibt mbkf up tif dlbss dbtb.  Tif bytfs in positions
+     *         <tt>off</tt> tirougi <tt>off+lfn-1</tt> siould ibvf tif formbt
+     *         of b vblid dlbss filf bs dffinfd by
+     *         <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
      *
-     * @param  off
-     *         The start offset in <tt>b</tt> of the class data
+     * @pbrbm  off
+     *         Tif stbrt offsft in <tt>b</tt> of tif dlbss dbtb
      *
-     * @param  len
-     *         The length of the class data
+     * @pbrbm  lfn
+     *         Tif lfngti of tif dlbss dbtb
      *
-     * @return  The <tt>Class</tt> object that was created from the specified
-     *          class data.
+     * @rfturn  Tif <tt>Clbss</tt> objfdt tibt wbs drfbtfd from tif spfdififd
+     *          dlbss dbtb.
      *
-     * @throws  ClassFormatError
-     *          If the data did not contain a valid class
+     * @tirows  ClbssFormbtError
+     *          If tif dbtb did not dontbin b vblid dlbss
      *
-     * @throws  IndexOutOfBoundsException
-     *          If either <tt>off</tt> or <tt>len</tt> is negative, or if
-     *          <tt>off+len</tt> is greater than <tt>b.length</tt>.
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If fitifr <tt>off</tt> or <tt>lfn</tt> is nfgbtivf, or if
+     *          <tt>off+lfn</tt> is grfbtfr tibn <tt>b.lfngti</tt>.
      *
-     * @throws  SecurityException
-     *          If an attempt is made to add this class to a package that
-     *          contains classes that were signed by a different set of
-     *          certificates than this class (which is unsigned), or if
-     *          <tt>name</tt> begins with "<tt>java.</tt>".
+     * @tirows  SfdurityExdfption
+     *          If bn bttfmpt is mbdf to bdd tiis dlbss to b pbdkbgf tibt
+     *          dontbins dlbssfs tibt wfrf signfd by b difffrfnt sft of
+     *          dfrtifidbtfs tibn tiis dlbss (wiidi is unsignfd), or if
+     *          <tt>nbmf</tt> bfgins witi "<tt>jbvb.</tt>".
      *
-     * @see  #loadClass(String, boolean)
-     * @see  #resolveClass(Class)
-     * @see  java.security.CodeSource
-     * @see  java.security.SecureClassLoader
+     * @sff  #lobdClbss(String, boolfbn)
+     * @sff  #rfsolvfClbss(Clbss)
+     * @sff  jbvb.sfdurity.CodfSourdf
+     * @sff  jbvb.sfdurity.SfdurfClbssLobdfr
      *
-     * @since  1.1
+     * @sindf  1.1
      */
-    protected final Class<?> defineClass(String name, byte[] b, int off, int len)
-        throws ClassFormatError
+    protfdtfd finbl Clbss<?> dffinfClbss(String nbmf, bytf[] b, int off, int lfn)
+        tirows ClbssFormbtError
     {
-        return defineClass(name, b, off, len, null);
+        rfturn dffinfClbss(nbmf, b, off, lfn, null);
     }
 
-    /* Determine protection domain, and check that:
-        - not define java.* class,
-        - signer of this class matches signers for the rest of the classes in
-          package.
+    /* Dftfrminf protfdtion dombin, bnd difdk tibt:
+        - not dffinf jbvb.* dlbss,
+        - signfr of tiis dlbss mbtdifs signfrs for tif rfst of tif dlbssfs in
+          pbdkbgf.
     */
-    private ProtectionDomain preDefineClass(String name,
-                                            ProtectionDomain pd)
+    privbtf ProtfdtionDombin prfDffinfClbss(String nbmf,
+                                            ProtfdtionDombin pd)
     {
-        if (!checkName(name))
-            throw new NoClassDefFoundError("IllegalName: " + name);
+        if (!difdkNbmf(nbmf))
+            tirow nfw NoClbssDffFoundError("IllfgblNbmf: " + nbmf);
 
-        if ((name != null) && name.startsWith("java.")) {
-            throw new SecurityException
-                ("Prohibited package name: " +
-                 name.substring(0, name.lastIndexOf('.')));
+        if ((nbmf != null) && nbmf.stbrtsWiti("jbvb.")) {
+            tirow nfw SfdurityExdfption
+                ("Proiibitfd pbdkbgf nbmf: " +
+                 nbmf.substring(0, nbmf.lbstIndfxOf('.')));
         }
         if (pd == null) {
-            pd = defaultDomain;
+            pd = dffbultDombin;
         }
 
-        if (name != null) checkCerts(name, pd.getCodeSource());
+        if (nbmf != null) difdkCfrts(nbmf, pd.gftCodfSourdf());
 
-        return pd;
+        rfturn pd;
     }
 
-    private String defineClassSourceLocation(ProtectionDomain pd)
+    privbtf String dffinfClbssSourdfLodbtion(ProtfdtionDombin pd)
     {
-        CodeSource cs = pd.getCodeSource();
-        String source = null;
-        if (cs != null && cs.getLocation() != null) {
-            source = cs.getLocation().toString();
+        CodfSourdf ds = pd.gftCodfSourdf();
+        String sourdf = null;
+        if (ds != null && ds.gftLodbtion() != null) {
+            sourdf = ds.gftLodbtion().toString();
         }
-        return source;
+        rfturn sourdf;
     }
 
-    private void postDefineClass(Class<?> c, ProtectionDomain pd)
+    privbtf void postDffinfClbss(Clbss<?> d, ProtfdtionDombin pd)
     {
-        if (pd.getCodeSource() != null) {
-            Certificate certs[] = pd.getCodeSource().getCertificates();
-            if (certs != null)
-                setSigners(c, certs);
+        if (pd.gftCodfSourdf() != null) {
+            Cfrtifidbtf dfrts[] = pd.gftCodfSourdf().gftCfrtifidbtfs();
+            if (dfrts != null)
+                sftSignfrs(d, dfrts);
         }
     }
 
     /**
-     * Converts an array of bytes into an instance of class <tt>Class</tt>,
-     * with an optional <tt>ProtectionDomain</tt>.  If the domain is
-     * <tt>null</tt>, then a default domain will be assigned to the class as
-     * specified in the documentation for {@link #defineClass(String, byte[],
-     * int, int)}.  Before the class can be used it must be resolved.
+     * Convfrts bn brrby of bytfs into bn instbndf of dlbss <tt>Clbss</tt>,
+     * witi bn optionbl <tt>ProtfdtionDombin</tt>.  If tif dombin is
+     * <tt>null</tt>, tifn b dffbult dombin will bf bssignfd to tif dlbss bs
+     * spfdififd in tif dodumfntbtion for {@link #dffinfClbss(String, bytf[],
+     * int, int)}.  Bfforf tif dlbss dbn bf usfd it must bf rfsolvfd.
      *
-     * <p> The first class defined in a package determines the exact set of
-     * certificates that all subsequent classes defined in that package must
-     * contain.  The set of certificates for a class is obtained from the
-     * {@link java.security.CodeSource <tt>CodeSource</tt>} within the
-     * <tt>ProtectionDomain</tt> of the class.  Any classes added to that
-     * package must contain the same set of certificates or a
-     * <tt>SecurityException</tt> will be thrown.  Note that if
-     * <tt>name</tt> is <tt>null</tt>, this check is not performed.
-     * You should always pass in the <a href="#name">binary name</a> of the
-     * class you are defining as well as the bytes.  This ensures that the
-     * class you are defining is indeed the class you think it is.
+     * <p> Tif first dlbss dffinfd in b pbdkbgf dftfrminfs tif fxbdt sft of
+     * dfrtifidbtfs tibt bll subsfqufnt dlbssfs dffinfd in tibt pbdkbgf must
+     * dontbin.  Tif sft of dfrtifidbtfs for b dlbss is obtbinfd from tif
+     * {@link jbvb.sfdurity.CodfSourdf <tt>CodfSourdf</tt>} witiin tif
+     * <tt>ProtfdtionDombin</tt> of tif dlbss.  Any dlbssfs bddfd to tibt
+     * pbdkbgf must dontbin tif sbmf sft of dfrtifidbtfs or b
+     * <tt>SfdurityExdfption</tt> will bf tirown.  Notf tibt if
+     * <tt>nbmf</tt> is <tt>null</tt>, tiis difdk is not pfrformfd.
+     * You siould blwbys pbss in tif <b irff="#nbmf">binbry nbmf</b> of tif
+     * dlbss you brf dffining bs wfll bs tif bytfs.  Tiis fnsurfs tibt tif
+     * dlbss you brf dffining is indffd tif dlbss you tiink it is.
      *
-     * <p> The specified <tt>name</tt> cannot begin with "<tt>java.</tt>", since
-     * all classes in the "<tt>java.*</tt> packages can only be defined by the
-     * bootstrap class loader.  If <tt>name</tt> is not <tt>null</tt>, it
-     * must be equal to the <a href="#name">binary name</a> of the class
-     * specified by the byte array "<tt>b</tt>", otherwise a {@link
-     * NoClassDefFoundError <tt>NoClassDefFoundError</tt>} will be thrown. </p>
+     * <p> Tif spfdififd <tt>nbmf</tt> dbnnot bfgin witi "<tt>jbvb.</tt>", sindf
+     * bll dlbssfs in tif "<tt>jbvb.*</tt> pbdkbgfs dbn only bf dffinfd by tif
+     * bootstrbp dlbss lobdfr.  If <tt>nbmf</tt> is not <tt>null</tt>, it
+     * must bf fqubl to tif <b irff="#nbmf">binbry nbmf</b> of tif dlbss
+     * spfdififd by tif bytf brrby "<tt>b</tt>", otifrwisf b {@link
+     * NoClbssDffFoundError <tt>NoClbssDffFoundError</tt>} will bf tirown. </p>
      *
-     * @param  name
-     *         The expected <a href="#name">binary name</a> of the class, or
+     * @pbrbm  nbmf
+     *         Tif fxpfdtfd <b irff="#nbmf">binbry nbmf</b> of tif dlbss, or
      *         <tt>null</tt> if not known
      *
-     * @param  b
-     *         The bytes that make up the class data. The bytes in positions
-     *         <tt>off</tt> through <tt>off+len-1</tt> should have the format
-     *         of a valid class file as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  b
+     *         Tif bytfs tibt mbkf up tif dlbss dbtb. Tif bytfs in positions
+     *         <tt>off</tt> tirougi <tt>off+lfn-1</tt> siould ibvf tif formbt
+     *         of b vblid dlbss filf bs dffinfd by
+     *         <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
      *
-     * @param  off
-     *         The start offset in <tt>b</tt> of the class data
+     * @pbrbm  off
+     *         Tif stbrt offsft in <tt>b</tt> of tif dlbss dbtb
      *
-     * @param  len
-     *         The length of the class data
+     * @pbrbm  lfn
+     *         Tif lfngti of tif dlbss dbtb
      *
-     * @param  protectionDomain
-     *         The ProtectionDomain of the class
+     * @pbrbm  protfdtionDombin
+     *         Tif ProtfdtionDombin of tif dlbss
      *
-     * @return  The <tt>Class</tt> object created from the data,
-     *          and optional <tt>ProtectionDomain</tt>.
+     * @rfturn  Tif <tt>Clbss</tt> objfdt drfbtfd from tif dbtb,
+     *          bnd optionbl <tt>ProtfdtionDombin</tt>.
      *
-     * @throws  ClassFormatError
-     *          If the data did not contain a valid class
+     * @tirows  ClbssFormbtError
+     *          If tif dbtb did not dontbin b vblid dlbss
      *
-     * @throws  NoClassDefFoundError
-     *          If <tt>name</tt> is not equal to the <a href="#name">binary
-     *          name</a> of the class specified by <tt>b</tt>
+     * @tirows  NoClbssDffFoundError
+     *          If <tt>nbmf</tt> is not fqubl to tif <b irff="#nbmf">binbry
+     *          nbmf</b> of tif dlbss spfdififd by <tt>b</tt>
      *
-     * @throws  IndexOutOfBoundsException
-     *          If either <tt>off</tt> or <tt>len</tt> is negative, or if
-     *          <tt>off+len</tt> is greater than <tt>b.length</tt>.
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If fitifr <tt>off</tt> or <tt>lfn</tt> is nfgbtivf, or if
+     *          <tt>off+lfn</tt> is grfbtfr tibn <tt>b.lfngti</tt>.
      *
-     * @throws  SecurityException
-     *          If an attempt is made to add this class to a package that
-     *          contains classes that were signed by a different set of
-     *          certificates than this class, or if <tt>name</tt> begins with
-     *          "<tt>java.</tt>".
+     * @tirows  SfdurityExdfption
+     *          If bn bttfmpt is mbdf to bdd tiis dlbss to b pbdkbgf tibt
+     *          dontbins dlbssfs tibt wfrf signfd by b difffrfnt sft of
+     *          dfrtifidbtfs tibn tiis dlbss, or if <tt>nbmf</tt> bfgins witi
+     *          "<tt>jbvb.</tt>".
      */
-    protected final Class<?> defineClass(String name, byte[] b, int off, int len,
-                                         ProtectionDomain protectionDomain)
-        throws ClassFormatError
+    protfdtfd finbl Clbss<?> dffinfClbss(String nbmf, bytf[] b, int off, int lfn,
+                                         ProtfdtionDombin protfdtionDombin)
+        tirows ClbssFormbtError
     {
-        protectionDomain = preDefineClass(name, protectionDomain);
-        String source = defineClassSourceLocation(protectionDomain);
-        Class<?> c = defineClass1(name, b, off, len, protectionDomain, source);
-        postDefineClass(c, protectionDomain);
-        return c;
+        protfdtionDombin = prfDffinfClbss(nbmf, protfdtionDombin);
+        String sourdf = dffinfClbssSourdfLodbtion(protfdtionDombin);
+        Clbss<?> d = dffinfClbss1(nbmf, b, off, lfn, protfdtionDombin, sourdf);
+        postDffinfClbss(d, protfdtionDombin);
+        rfturn d;
     }
 
     /**
-     * Converts a {@link java.nio.ByteBuffer <tt>ByteBuffer</tt>}
-     * into an instance of class <tt>Class</tt>,
-     * with an optional <tt>ProtectionDomain</tt>.  If the domain is
-     * <tt>null</tt>, then a default domain will be assigned to the class as
-     * specified in the documentation for {@link #defineClass(String, byte[],
-     * int, int)}.  Before the class can be used it must be resolved.
+     * Convfrts b {@link jbvb.nio.BytfBufffr <tt>BytfBufffr</tt>}
+     * into bn instbndf of dlbss <tt>Clbss</tt>,
+     * witi bn optionbl <tt>ProtfdtionDombin</tt>.  If tif dombin is
+     * <tt>null</tt>, tifn b dffbult dombin will bf bssignfd to tif dlbss bs
+     * spfdififd in tif dodumfntbtion for {@link #dffinfClbss(String, bytf[],
+     * int, int)}.  Bfforf tif dlbss dbn bf usfd it must bf rfsolvfd.
      *
-     * <p>The rules about the first class defined in a package determining the
-     * set of certificates for the package, and the restrictions on class names
-     * are identical to those specified in the documentation for {@link
-     * #defineClass(String, byte[], int, int, ProtectionDomain)}.
+     * <p>Tif rulfs bbout tif first dlbss dffinfd in b pbdkbgf dftfrmining tif
+     * sft of dfrtifidbtfs for tif pbdkbgf, bnd tif rfstridtions on dlbss nbmfs
+     * brf idfntidbl to tiosf spfdififd in tif dodumfntbtion for {@link
+     * #dffinfClbss(String, bytf[], int, int, ProtfdtionDombin)}.
      *
-     * <p> An invocation of this method of the form
-     * <i>cl</i><tt>.defineClass(</tt><i>name</i><tt>,</tt>
-     * <i>bBuffer</i><tt>,</tt> <i>pd</i><tt>)</tt> yields exactly the same
-     * result as the statements
+     * <p> An invodbtion of tiis mftiod of tif form
+     * <i>dl</i><tt>.dffinfClbss(</tt><i>nbmf</i><tt>,</tt>
+     * <i>bBufffr</i><tt>,</tt> <i>pd</i><tt>)</tt> yiflds fxbdtly tif sbmf
+     * rfsult bs tif stbtfmfnts
      *
      *<p> <tt>
      * ...<br>
-     * byte[] temp = new byte[bBuffer.{@link
-     * java.nio.ByteBuffer#remaining remaining}()];<br>
-     *     bBuffer.{@link java.nio.ByteBuffer#get(byte[])
-     * get}(temp);<br>
-     *     return {@link #defineClass(String, byte[], int, int, ProtectionDomain)
-     * cl.defineClass}(name, temp, 0,
-     * temp.length, pd);<br>
+     * bytf[] tfmp = nfw bytf[bBufffr.{@link
+     * jbvb.nio.BytfBufffr#rfmbining rfmbining}()];<br>
+     *     bBufffr.{@link jbvb.nio.BytfBufffr#gft(bytf[])
+     * gft}(tfmp);<br>
+     *     rfturn {@link #dffinfClbss(String, bytf[], int, int, ProtfdtionDombin)
+     * dl.dffinfClbss}(nbmf, tfmp, 0,
+     * tfmp.lfngti, pd);<br>
      * </tt></p>
      *
-     * @param  name
-     *         The expected <a href="#name">binary name</a>. of the class, or
+     * @pbrbm  nbmf
+     *         Tif fxpfdtfd <b irff="#nbmf">binbry nbmf</b>. of tif dlbss, or
      *         <tt>null</tt> if not known
      *
-     * @param  b
-     *         The bytes that make up the class data. The bytes from positions
-     *         <tt>b.position()</tt> through <tt>b.position() + b.limit() -1
-     *         </tt> should have the format of a valid class file as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  b
+     *         Tif bytfs tibt mbkf up tif dlbss dbtb. Tif bytfs from positions
+     *         <tt>b.position()</tt> tirougi <tt>b.position() + b.limit() -1
+     *         </tt> siould ibvf tif formbt of b vblid dlbss filf bs dffinfd by
+     *         <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
      *
-     * @param  protectionDomain
-     *         The ProtectionDomain of the class, or <tt>null</tt>.
+     * @pbrbm  protfdtionDombin
+     *         Tif ProtfdtionDombin of tif dlbss, or <tt>null</tt>.
      *
-     * @return  The <tt>Class</tt> object created from the data,
-     *          and optional <tt>ProtectionDomain</tt>.
+     * @rfturn  Tif <tt>Clbss</tt> objfdt drfbtfd from tif dbtb,
+     *          bnd optionbl <tt>ProtfdtionDombin</tt>.
      *
-     * @throws  ClassFormatError
-     *          If the data did not contain a valid class.
+     * @tirows  ClbssFormbtError
+     *          If tif dbtb did not dontbin b vblid dlbss.
      *
-     * @throws  NoClassDefFoundError
-     *          If <tt>name</tt> is not equal to the <a href="#name">binary
-     *          name</a> of the class specified by <tt>b</tt>
+     * @tirows  NoClbssDffFoundError
+     *          If <tt>nbmf</tt> is not fqubl to tif <b irff="#nbmf">binbry
+     *          nbmf</b> of tif dlbss spfdififd by <tt>b</tt>
      *
-     * @throws  SecurityException
-     *          If an attempt is made to add this class to a package that
-     *          contains classes that were signed by a different set of
-     *          certificates than this class, or if <tt>name</tt> begins with
-     *          "<tt>java.</tt>".
+     * @tirows  SfdurityExdfption
+     *          If bn bttfmpt is mbdf to bdd tiis dlbss to b pbdkbgf tibt
+     *          dontbins dlbssfs tibt wfrf signfd by b difffrfnt sft of
+     *          dfrtifidbtfs tibn tiis dlbss, or if <tt>nbmf</tt> bfgins witi
+     *          "<tt>jbvb.</tt>".
      *
-     * @see      #defineClass(String, byte[], int, int, ProtectionDomain)
+     * @sff      #dffinfClbss(String, bytf[], int, int, ProtfdtionDombin)
      *
-     * @since  1.5
+     * @sindf  1.5
      */
-    protected final Class<?> defineClass(String name, java.nio.ByteBuffer b,
-                                         ProtectionDomain protectionDomain)
-        throws ClassFormatError
+    protfdtfd finbl Clbss<?> dffinfClbss(String nbmf, jbvb.nio.BytfBufffr b,
+                                         ProtfdtionDombin protfdtionDombin)
+        tirows ClbssFormbtError
     {
-        int len = b.remaining();
+        int lfn = b.rfmbining();
 
-        // Use byte[] if not a direct ByteBufer:
-        if (!b.isDirect()) {
-            if (b.hasArray()) {
-                return defineClass(name, b.array(),
-                                   b.position() + b.arrayOffset(), len,
-                                   protectionDomain);
-            } else {
-                // no array, or read-only array
-                byte[] tb = new byte[len];
-                b.get(tb);  // get bytes out of byte buffer.
-                return defineClass(name, tb, 0, len, protectionDomain);
+        // Usf bytf[] if not b dirfdt BytfBuffr:
+        if (!b.isDirfdt()) {
+            if (b.ibsArrby()) {
+                rfturn dffinfClbss(nbmf, b.brrby(),
+                                   b.position() + b.brrbyOffsft(), lfn,
+                                   protfdtionDombin);
+            } flsf {
+                // no brrby, or rfbd-only brrby
+                bytf[] tb = nfw bytf[lfn];
+                b.gft(tb);  // gft bytfs out of bytf bufffr.
+                rfturn dffinfClbss(nbmf, tb, 0, lfn, protfdtionDombin);
             }
         }
 
-        protectionDomain = preDefineClass(name, protectionDomain);
-        String source = defineClassSourceLocation(protectionDomain);
-        Class<?> c = defineClass2(name, b, b.position(), len, protectionDomain, source);
-        postDefineClass(c, protectionDomain);
-        return c;
+        protfdtionDombin = prfDffinfClbss(nbmf, protfdtionDombin);
+        String sourdf = dffinfClbssSourdfLodbtion(protfdtionDombin);
+        Clbss<?> d = dffinfClbss2(nbmf, b, b.position(), lfn, protfdtionDombin, sourdf);
+        postDffinfClbss(d, protfdtionDombin);
+        rfturn d;
     }
 
-    private native Class<?> defineClass1(String name, byte[] b, int off, int len,
-                                         ProtectionDomain pd, String source);
+    privbtf nbtivf Clbss<?> dffinfClbss1(String nbmf, bytf[] b, int off, int lfn,
+                                         ProtfdtionDombin pd, String sourdf);
 
-    private native Class<?> defineClass2(String name, java.nio.ByteBuffer b,
-                                         int off, int len, ProtectionDomain pd,
-                                         String source);
+    privbtf nbtivf Clbss<?> dffinfClbss2(String nbmf, jbvb.nio.BytfBufffr b,
+                                         int off, int lfn, ProtfdtionDombin pd,
+                                         String sourdf);
 
-    // true if the name is null or has the potential to be a valid binary name
-    private boolean checkName(String name) {
-        if ((name == null) || (name.length() == 0))
-            return true;
-        if ((name.indexOf('/') != -1) || (name.charAt(0) == '['))
-            return false;
-        return true;
+    // truf if tif nbmf is null or ibs tif potfntibl to bf b vblid binbry nbmf
+    privbtf boolfbn difdkNbmf(String nbmf) {
+        if ((nbmf == null) || (nbmf.lfngti() == 0))
+            rfturn truf;
+        if ((nbmf.indfxOf('/') != -1) || (nbmf.dibrAt(0) == '['))
+            rfturn fblsf;
+        rfturn truf;
     }
 
-    private void checkCerts(String name, CodeSource cs) {
-        int i = name.lastIndexOf('.');
-        String pname = (i == -1) ? "" : name.substring(0, i);
+    privbtf void difdkCfrts(String nbmf, CodfSourdf ds) {
+        int i = nbmf.lbstIndfxOf('.');
+        String pnbmf = (i == -1) ? "" : nbmf.substring(0, i);
 
-        Certificate[] certs = null;
-        if (cs != null) {
-            certs = cs.getCertificates();
+        Cfrtifidbtf[] dfrts = null;
+        if (ds != null) {
+            dfrts = ds.gftCfrtifidbtfs();
         }
-        Certificate[] pcerts = null;
-        if (parallelLockMap == null) {
-            synchronized (this) {
-                pcerts = package2certs.get(pname);
-                if (pcerts == null) {
-                    package2certs.put(pname, (certs == null? nocerts:certs));
+        Cfrtifidbtf[] pdfrts = null;
+        if (pbrbllflLodkMbp == null) {
+            syndironizfd (tiis) {
+                pdfrts = pbdkbgf2dfrts.gft(pnbmf);
+                if (pdfrts == null) {
+                    pbdkbgf2dfrts.put(pnbmf, (dfrts == null? nodfrts:dfrts));
                 }
             }
-        } else {
-            pcerts = ((ConcurrentHashMap<String, Certificate[]>)package2certs).
-                putIfAbsent(pname, (certs == null? nocerts:certs));
+        } flsf {
+            pdfrts = ((CondurrfntHbsiMbp<String, Cfrtifidbtf[]>)pbdkbgf2dfrts).
+                putIfAbsfnt(pnbmf, (dfrts == null? nodfrts:dfrts));
         }
-        if (pcerts != null && !compareCerts(pcerts, certs)) {
-            throw new SecurityException("class \""+ name +
-                 "\"'s signer information does not match signer information of other classes in the same package");
+        if (pdfrts != null && !dompbrfCfrts(pdfrts, dfrts)) {
+            tirow nfw SfdurityExdfption("dlbss \""+ nbmf +
+                 "\"'s signfr informbtion dofs not mbtdi signfr informbtion of otifr dlbssfs in tif sbmf pbdkbgf");
         }
     }
 
     /**
-     * check to make sure the certs for the new class (certs) are the same as
-     * the certs for the first class inserted in the package (pcerts)
+     * difdk to mbkf surf tif dfrts for tif nfw dlbss (dfrts) brf tif sbmf bs
+     * tif dfrts for tif first dlbss insfrtfd in tif pbdkbgf (pdfrts)
      */
-    private boolean compareCerts(Certificate[] pcerts,
-                                 Certificate[] certs)
+    privbtf boolfbn dompbrfCfrts(Cfrtifidbtf[] pdfrts,
+                                 Cfrtifidbtf[] dfrts)
     {
-        // certs can be null, indicating no certs.
-        if ((certs == null) || (certs.length == 0)) {
-            return pcerts.length == 0;
+        // dfrts dbn bf null, indidbting no dfrts.
+        if ((dfrts == null) || (dfrts.lfngti == 0)) {
+            rfturn pdfrts.lfngti == 0;
         }
 
-        // the length must be the same at this point
-        if (certs.length != pcerts.length)
-            return false;
+        // tif lfngti must bf tif sbmf bt tiis point
+        if (dfrts.lfngti != pdfrts.lfngti)
+            rfturn fblsf;
 
-        // go through and make sure all the certs in one array
-        // are in the other and vice-versa.
-        boolean match;
-        for (Certificate cert : certs) {
-            match = false;
-            for (Certificate pcert : pcerts) {
-                if (cert.equals(pcert)) {
-                    match = true;
-                    break;
+        // go tirougi bnd mbkf surf bll tif dfrts in onf brrby
+        // brf in tif otifr bnd vidf-vfrsb.
+        boolfbn mbtdi;
+        for (Cfrtifidbtf dfrt : dfrts) {
+            mbtdi = fblsf;
+            for (Cfrtifidbtf pdfrt : pdfrts) {
+                if (dfrt.fqubls(pdfrt)) {
+                    mbtdi = truf;
+                    brfbk;
                 }
             }
-            if (!match) return false;
+            if (!mbtdi) rfturn fblsf;
         }
 
-        // now do the same for pcerts
-        for (Certificate pcert : pcerts) {
-            match = false;
-            for (Certificate cert : certs) {
-                if (pcert.equals(cert)) {
-                    match = true;
-                    break;
+        // now do tif sbmf for pdfrts
+        for (Cfrtifidbtf pdfrt : pdfrts) {
+            mbtdi = fblsf;
+            for (Cfrtifidbtf dfrt : dfrts) {
+                if (pdfrt.fqubls(dfrt)) {
+                    mbtdi = truf;
+                    brfbk;
                 }
             }
-            if (!match) return false;
+            if (!mbtdi) rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Links the specified class.  This (misleadingly named) method may be
-     * used by a class loader to link a class.  If the class <tt>c</tt> has
-     * already been linked, then this method simply returns. Otherwise, the
-     * class is linked as described in the "Execution" chapter of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Links tif spfdififd dlbss.  Tiis (mislfbdingly nbmfd) mftiod mby bf
+     * usfd by b dlbss lobdfr to link b dlbss.  If tif dlbss <tt>d</tt> ibs
+     * blrfbdy bffn linkfd, tifn tiis mftiod simply rfturns. Otifrwisf, tif
+     * dlbss is linkfd bs dfsdribfd in tif "Exfdution" dibptfr of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
      *
-     * @param  c
-     *         The class to link
+     * @pbrbm  d
+     *         Tif dlbss to link
      *
-     * @throws  NullPointerException
-     *          If <tt>c</tt> is <tt>null</tt>.
+     * @tirows  NullPointfrExdfption
+     *          If <tt>d</tt> is <tt>null</tt>.
      *
-     * @see  #defineClass(String, byte[], int, int)
+     * @sff  #dffinfClbss(String, bytf[], int, int)
      */
-    protected final void resolveClass(Class<?> c) {
-        resolveClass0(c);
+    protfdtfd finbl void rfsolvfClbss(Clbss<?> d) {
+        rfsolvfClbss0(d);
     }
 
-    private native void resolveClass0(Class<?> c);
+    privbtf nbtivf void rfsolvfClbss0(Clbss<?> d);
 
     /**
-     * Finds a class with the specified <a href="#name">binary name</a>,
-     * loading it if necessary.
+     * Finds b dlbss witi tif spfdififd <b irff="#nbmf">binbry nbmf</b>,
+     * lobding it if nfdfssbry.
      *
-     * <p> This method loads the class through the system class loader (see
-     * {@link #getSystemClassLoader()}).  The <tt>Class</tt> object returned
-     * might have more than one <tt>ClassLoader</tt> associated with it.
-     * Subclasses of <tt>ClassLoader</tt> need not usually invoke this method,
-     * because most class loaders need to override just {@link
-     * #findClass(String)}.  </p>
+     * <p> Tiis mftiod lobds tif dlbss tirougi tif systfm dlbss lobdfr (sff
+     * {@link #gftSystfmClbssLobdfr()}).  Tif <tt>Clbss</tt> objfdt rfturnfd
+     * migit ibvf morf tibn onf <tt>ClbssLobdfr</tt> bssodibtfd witi it.
+     * Subdlbssfs of <tt>ClbssLobdfr</tt> nffd not usublly invokf tiis mftiod,
+     * bfdbusf most dlbss lobdfrs nffd to ovfrridf just {@link
+     * #findClbss(String)}.  </p>
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbmf
+     *         Tif <b irff="#nbmf">binbry nbmf</b> of tif dlbss
      *
-     * @return  The <tt>Class</tt> object for the specified <tt>name</tt>
+     * @rfturn  Tif <tt>Clbss</tt> objfdt for tif spfdififd <tt>nbmf</tt>
      *
-     * @throws  ClassNotFoundException
-     *          If the class could not be found
+     * @tirows  ClbssNotFoundExdfption
+     *          If tif dlbss dould not bf found
      *
-     * @see  #ClassLoader(ClassLoader)
-     * @see  #getParent()
+     * @sff  #ClbssLobdfr(ClbssLobdfr)
+     * @sff  #gftPbrfnt()
      */
-    protected final Class<?> findSystemClass(String name)
-        throws ClassNotFoundException
+    protfdtfd finbl Clbss<?> findSystfmClbss(String nbmf)
+        tirows ClbssNotFoundExdfption
     {
-        ClassLoader system = getSystemClassLoader();
-        if (system == null) {
-            if (!checkName(name))
-                throw new ClassNotFoundException(name);
-            Class<?> cls = findBootstrapClass(name);
-            if (cls == null) {
-                throw new ClassNotFoundException(name);
+        ClbssLobdfr systfm = gftSystfmClbssLobdfr();
+        if (systfm == null) {
+            if (!difdkNbmf(nbmf))
+                tirow nfw ClbssNotFoundExdfption(nbmf);
+            Clbss<?> dls = findBootstrbpClbss(nbmf);
+            if (dls == null) {
+                tirow nfw ClbssNotFoundExdfption(nbmf);
             }
-            return cls;
+            rfturn dls;
         }
-        return system.loadClass(name);
+        rfturn systfm.lobdClbss(nbmf);
     }
 
     /**
-     * Returns a class loaded by the bootstrap class loader;
-     * or return null if not found.
+     * Rfturns b dlbss lobdfd by tif bootstrbp dlbss lobdfr;
+     * or rfturn null if not found.
      */
-    private Class<?> findBootstrapClassOrNull(String name)
+    privbtf Clbss<?> findBootstrbpClbssOrNull(String nbmf)
     {
-        if (!checkName(name)) return null;
+        if (!difdkNbmf(nbmf)) rfturn null;
 
-        return findBootstrapClass(name);
+        rfturn findBootstrbpClbss(nbmf);
     }
 
-    // return null if not found
-    private native Class<?> findBootstrapClass(String name);
+    // rfturn null if not found
+    privbtf nbtivf Clbss<?> findBootstrbpClbss(String nbmf);
 
     /**
-     * Returns the class with the given <a href="#name">binary name</a> if this
-     * loader has been recorded by the Java virtual machine as an initiating
-     * loader of a class with that <a href="#name">binary name</a>.  Otherwise
-     * <tt>null</tt> is returned.
+     * Rfturns tif dlbss witi tif givfn <b irff="#nbmf">binbry nbmf</b> if tiis
+     * lobdfr ibs bffn rfdordfd by tif Jbvb virtubl mbdiinf bs bn initibting
+     * lobdfr of b dlbss witi tibt <b irff="#nbmf">binbry nbmf</b>.  Otifrwisf
+     * <tt>null</tt> is rfturnfd.
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbmf
+     *         Tif <b irff="#nbmf">binbry nbmf</b> of tif dlbss
      *
-     * @return  The <tt>Class</tt> object, or <tt>null</tt> if the class has
-     *          not been loaded
+     * @rfturn  Tif <tt>Clbss</tt> objfdt, or <tt>null</tt> if tif dlbss ibs
+     *          not bffn lobdfd
      *
-     * @since  1.1
+     * @sindf  1.1
      */
-    protected final Class<?> findLoadedClass(String name) {
-        if (!checkName(name))
-            return null;
-        return findLoadedClass0(name);
+    protfdtfd finbl Clbss<?> findLobdfdClbss(String nbmf) {
+        if (!difdkNbmf(nbmf))
+            rfturn null;
+        rfturn findLobdfdClbss0(nbmf);
     }
 
-    private native final Class<?> findLoadedClass0(String name);
+    privbtf nbtivf finbl Clbss<?> findLobdfdClbss0(String nbmf);
 
     /**
-     * Sets the signers of a class.  This should be invoked after defining a
-     * class.
+     * Sfts tif signfrs of b dlbss.  Tiis siould bf invokfd bftfr dffining b
+     * dlbss.
      *
-     * @param  c
-     *         The <tt>Class</tt> object
+     * @pbrbm  d
+     *         Tif <tt>Clbss</tt> objfdt
      *
-     * @param  signers
-     *         The signers for the class
+     * @pbrbm  signfrs
+     *         Tif signfrs for tif dlbss
      *
-     * @since  1.1
+     * @sindf  1.1
      */
-    protected final void setSigners(Class<?> c, Object[] signers) {
-        c.setSigners(signers);
+    protfdtfd finbl void sftSignfrs(Clbss<?> d, Objfdt[] signfrs) {
+        d.sftSignfrs(signfrs);
     }
 
 
-    // -- Resource --
+    // -- Rfsourdf --
 
     /**
-     * Finds the resource with the given name.  A resource is some data
-     * (images, audio, text, etc) that can be accessed by class code in a way
-     * that is independent of the location of the code.
+     * Finds tif rfsourdf witi tif givfn nbmf.  A rfsourdf is somf dbtb
+     * (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss dodf in b wby
+     * tibt is indfpfndfnt of tif lodbtion of tif dodf.
      *
-     * <p> The name of a resource is a '<tt>/</tt>'-separated path name that
-     * identifies the resource.
+     * <p> Tif nbmf of b rfsourdf is b '<tt>/</tt>'-sfpbrbtfd pbti nbmf tibt
+     * idfntififs tif rfsourdf.
      *
-     * <p> This method will first search the parent class loader for the
-     * resource; if the parent is <tt>null</tt> the path of the class loader
-     * built-in to the virtual machine is searched.  That failing, this method
-     * will invoke {@link #findResource(String)} to find the resource.  </p>
+     * <p> Tiis mftiod will first sfbrdi tif pbrfnt dlbss lobdfr for tif
+     * rfsourdf; if tif pbrfnt is <tt>null</tt> tif pbti of tif dlbss lobdfr
+     * built-in to tif virtubl mbdiinf is sfbrdifd.  Tibt fbiling, tiis mftiod
+     * will invokf {@link #findRfsourdf(String)} to find tif rfsourdf.  </p>
      *
-     * @apiNote When overriding this method it is recommended that an
-     * implementation ensures that any delegation is consistent with the {@link
-     * #getResources(java.lang.String) getResources(String)} method.
+     * @bpiNotf Wifn ovfrriding tiis mftiod it is rfdommfndfd tibt bn
+     * implfmfntbtion fnsurfs tibt bny dflfgbtion is donsistfnt witi tif {@link
+     * #gftRfsourdfs(jbvb.lbng.String) gftRfsourdfs(String)} mftiod.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
      *
-     * @return  A <tt>URL</tt> object for reading the resource, or
-     *          <tt>null</tt> if the resource could not be found or the invoker
-     *          doesn't have adequate  privileges to get the resource.
+     * @rfturn  A <tt>URL</tt> objfdt for rfbding tif rfsourdf, or
+     *          <tt>null</tt> if tif rfsourdf dould not bf found or tif invokfr
+     *          dofsn't ibvf bdfqubtf  privilfgfs to gft tif rfsourdf.
      *
-     * @since  1.1
+     * @sindf  1.1
      */
-    public URL getResource(String name) {
+    publid URL gftRfsourdf(String nbmf) {
         URL url;
-        if (parent != null) {
-            url = parent.getResource(name);
-        } else {
-            url = getBootstrapResource(name);
+        if (pbrfnt != null) {
+            url = pbrfnt.gftRfsourdf(nbmf);
+        } flsf {
+            url = gftBootstrbpRfsourdf(nbmf);
         }
         if (url == null) {
-            url = findResource(name);
+            url = findRfsourdf(nbmf);
         }
-        return url;
+        rfturn url;
     }
 
     /**
-     * Finds all the resources with the given name. A resource is some data
-     * (images, audio, text, etc) that can be accessed by class code in a way
-     * that is independent of the location of the code.
+     * Finds bll tif rfsourdfs witi tif givfn nbmf. A rfsourdf is somf dbtb
+     * (imbgfs, budio, tfxt, ftd) tibt dbn bf bddfssfd by dlbss dodf in b wby
+     * tibt is indfpfndfnt of tif lodbtion of tif dodf.
      *
-     * <p>The name of a resource is a <tt>/</tt>-separated path name that
-     * identifies the resource.
+     * <p>Tif nbmf of b rfsourdf is b <tt>/</tt>-sfpbrbtfd pbti nbmf tibt
+     * idfntififs tif rfsourdf.
      *
-     * <p> The search order is described in the documentation for {@link
-     * #getResource(String)}.  </p>
+     * <p> Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for {@link
+     * #gftRfsourdf(String)}.  </p>
      *
-     * @apiNote When overriding this method it is recommended that an
-     * implementation ensures that any delegation is consistent with the {@link
-     * #getResource(java.lang.String) getResource(String)} method. This should
-     * ensure that the first element returned by the Enumeration's
-     * {@code nextElement} method is the same resource that the
-     * {@code getResource(String)} method would return.
+     * @bpiNotf Wifn ovfrriding tiis mftiod it is rfdommfndfd tibt bn
+     * implfmfntbtion fnsurfs tibt bny dflfgbtion is donsistfnt witi tif {@link
+     * #gftRfsourdf(jbvb.lbng.String) gftRfsourdf(String)} mftiod. Tiis siould
+     * fnsurf tibt tif first flfmfnt rfturnfd by tif Enumfrbtion's
+     * {@dodf nfxtElfmfnt} mftiod is tif sbmf rfsourdf tibt tif
+     * {@dodf gftRfsourdf(String)} mftiod would rfturn.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
      *
-     * @return  An enumeration of {@link java.net.URL <tt>URL</tt>} objects for
-     *          the resource.  If no resources could  be found, the enumeration
-     *          will be empty.  Resources that the class loader doesn't have
-     *          access to will not be in the enumeration.
+     * @rfturn  An fnumfrbtion of {@link jbvb.nft.URL <tt>URL</tt>} objfdts for
+     *          tif rfsourdf.  If no rfsourdfs dould  bf found, tif fnumfrbtion
+     *          will bf fmpty.  Rfsourdfs tibt tif dlbss lobdfr dofsn't ibvf
+     *          bddfss to will not bf in tif fnumfrbtion.
      *
-     * @throws  IOException
-     *          If I/O errors occur
+     * @tirows  IOExdfption
+     *          If I/O frrors oddur
      *
-     * @see  #findResources(String)
+     * @sff  #findRfsourdfs(String)
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    public Enumeration<URL> getResources(String name) throws IOException {
-        @SuppressWarnings("unchecked")
-        Enumeration<URL>[] tmp = (Enumeration<URL>[]) new Enumeration<?>[2];
-        if (parent != null) {
-            tmp[0] = parent.getResources(name);
-        } else {
-            tmp[0] = getBootstrapResources(name);
+    publid Enumfrbtion<URL> gftRfsourdfs(String nbmf) tirows IOExdfption {
+        @SupprfssWbrnings("undifdkfd")
+        Enumfrbtion<URL>[] tmp = (Enumfrbtion<URL>[]) nfw Enumfrbtion<?>[2];
+        if (pbrfnt != null) {
+            tmp[0] = pbrfnt.gftRfsourdfs(nbmf);
+        } flsf {
+            tmp[0] = gftBootstrbpRfsourdfs(nbmf);
         }
-        tmp[1] = findResources(name);
+        tmp[1] = findRfsourdfs(nbmf);
 
-        return new CompoundEnumeration<>(tmp);
+        rfturn nfw CompoundEnumfrbtion<>(tmp);
     }
 
     /**
-     * Finds the resource with the given name. Class loader implementations
-     * should override this method to specify where to find resources.
+     * Finds tif rfsourdf witi tif givfn nbmf. Clbss lobdfr implfmfntbtions
+     * siould ovfrridf tiis mftiod to spfdify wifrf to find rfsourdfs.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
      *
-     * @return  A <tt>URL</tt> object for reading the resource, or
-     *          <tt>null</tt> if the resource could not be found
+     * @rfturn  A <tt>URL</tt> objfdt for rfbding tif rfsourdf, or
+     *          <tt>null</tt> if tif rfsourdf dould not bf found
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    protected URL findResource(String name) {
-        return null;
+    protfdtfd URL findRfsourdf(String nbmf) {
+        rfturn null;
     }
 
     /**
-     * Returns an enumeration of {@link java.net.URL <tt>URL</tt>} objects
-     * representing all the resources with the given name. Class loader
-     * implementations should override this method to specify where to load
-     * resources from.
+     * Rfturns bn fnumfrbtion of {@link jbvb.nft.URL <tt>URL</tt>} objfdts
+     * rfprfsfnting bll tif rfsourdfs witi tif givfn nbmf. Clbss lobdfr
+     * implfmfntbtions siould ovfrridf tiis mftiod to spfdify wifrf to lobd
+     * rfsourdfs from.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
      *
-     * @return  An enumeration of {@link java.net.URL <tt>URL</tt>} objects for
-     *          the resources
+     * @rfturn  An fnumfrbtion of {@link jbvb.nft.URL <tt>URL</tt>} objfdts for
+     *          tif rfsourdfs
      *
-     * @throws  IOException
-     *          If I/O errors occur
+     * @tirows  IOExdfption
+     *          If I/O frrors oddur
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    protected Enumeration<URL> findResources(String name) throws IOException {
-        return java.util.Collections.emptyEnumeration();
+    protfdtfd Enumfrbtion<URL> findRfsourdfs(String nbmf) tirows IOExdfption {
+        rfturn jbvb.util.Collfdtions.fmptyEnumfrbtion();
     }
 
     /**
-     * Registers the caller as parallel capable.
-     * The registration succeeds if and only if all of the following
-     * conditions are met:
+     * Rfgistfrs tif dbllfr bs pbrbllfl dbpbblf.
+     * Tif rfgistrbtion suddffds if bnd only if bll of tif following
+     * donditions brf mft:
      * <ol>
-     * <li> no instance of the caller has been created</li>
-     * <li> all of the super classes (except class Object) of the caller are
-     * registered as parallel capable</li>
+     * <li> no instbndf of tif dbllfr ibs bffn drfbtfd</li>
+     * <li> bll of tif supfr dlbssfs (fxdfpt dlbss Objfdt) of tif dbllfr brf
+     * rfgistfrfd bs pbrbllfl dbpbblf</li>
      * </ol>
-     * <p>Note that once a class loader is registered as parallel capable, there
-     * is no way to change it back.</p>
+     * <p>Notf tibt ondf b dlbss lobdfr is rfgistfrfd bs pbrbllfl dbpbblf, tifrf
+     * is no wby to dibngf it bbdk.</p>
      *
-     * @return  true if the caller is successfully registered as
-     *          parallel capable and false if otherwise.
+     * @rfturn  truf if tif dbllfr is suddfssfully rfgistfrfd bs
+     *          pbrbllfl dbpbblf bnd fblsf if otifrwisf.
      *
-     * @since   1.7
+     * @sindf   1.7
      */
-    @CallerSensitive
-    protected static boolean registerAsParallelCapable() {
-        Class<? extends ClassLoader> callerClass =
-            Reflection.getCallerClass().asSubclass(ClassLoader.class);
-        return ParallelLoaders.register(callerClass);
+    @CbllfrSfnsitivf
+    protfdtfd stbtid boolfbn rfgistfrAsPbrbllflCbpbblf() {
+        Clbss<? fxtfnds ClbssLobdfr> dbllfrClbss =
+            Rfflfdtion.gftCbllfrClbss().bsSubdlbss(ClbssLobdfr.dlbss);
+        rfturn PbrbllflLobdfrs.rfgistfr(dbllfrClbss);
     }
 
     /**
-     * Find a resource of the specified name from the search path used to load
-     * classes.  This method locates the resource through the system class
-     * loader (see {@link #getSystemClassLoader()}).
+     * Find b rfsourdf of tif spfdififd nbmf from tif sfbrdi pbti usfd to lobd
+     * dlbssfs.  Tiis mftiod lodbtfs tif rfsourdf tirougi tif systfm dlbss
+     * lobdfr (sff {@link #gftSystfmClbssLobdfr()}).
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
      *
-     * @return  A {@link java.net.URL <tt>URL</tt>} object for reading the
-     *          resource, or <tt>null</tt> if the resource could not be found
+     * @rfturn  A {@link jbvb.nft.URL <tt>URL</tt>} objfdt for rfbding tif
+     *          rfsourdf, or <tt>null</tt> if tif rfsourdf dould not bf found
      *
-     * @since  1.1
+     * @sindf  1.1
      */
-    public static URL getSystemResource(String name) {
-        ClassLoader system = getSystemClassLoader();
-        if (system == null) {
-            return getBootstrapResource(name);
+    publid stbtid URL gftSystfmRfsourdf(String nbmf) {
+        ClbssLobdfr systfm = gftSystfmClbssLobdfr();
+        if (systfm == null) {
+            rfturn gftBootstrbpRfsourdf(nbmf);
         }
-        return system.getResource(name);
+        rfturn systfm.gftRfsourdf(nbmf);
     }
 
     /**
-     * Finds all resources of the specified name from the search path used to
-     * load classes.  The resources thus found are returned as an
-     * {@link java.util.Enumeration <tt>Enumeration</tt>} of {@link
-     * java.net.URL <tt>URL</tt>} objects.
+     * Finds bll rfsourdfs of tif spfdififd nbmf from tif sfbrdi pbti usfd to
+     * lobd dlbssfs.  Tif rfsourdfs tius found brf rfturnfd bs bn
+     * {@link jbvb.util.Enumfrbtion <tt>Enumfrbtion</tt>} of {@link
+     * jbvb.nft.URL <tt>URL</tt>} objfdts.
      *
-     * <p> The search order is described in the documentation for {@link
-     * #getSystemResource(String)}.  </p>
+     * <p> Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for {@link
+     * #gftSystfmRfsourdf(String)}.  </p>
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
      *
-     * @return  An enumeration of resource {@link java.net.URL <tt>URL</tt>}
-     *          objects
+     * @rfturn  An fnumfrbtion of rfsourdf {@link jbvb.nft.URL <tt>URL</tt>}
+     *          objfdts
      *
-     * @throws  IOException
-     *          If I/O errors occur
+     * @tirows  IOExdfption
+     *          If I/O frrors oddur
 
-     * @since  1.2
+     * @sindf  1.2
      */
-    public static Enumeration<URL> getSystemResources(String name)
-        throws IOException
+    publid stbtid Enumfrbtion<URL> gftSystfmRfsourdfs(String nbmf)
+        tirows IOExdfption
     {
-        ClassLoader system = getSystemClassLoader();
-        if (system == null) {
-            return getBootstrapResources(name);
+        ClbssLobdfr systfm = gftSystfmClbssLobdfr();
+        if (systfm == null) {
+            rfturn gftBootstrbpRfsourdfs(nbmf);
         }
-        return system.getResources(name);
+        rfturn systfm.gftRfsourdfs(nbmf);
     }
 
     /**
-     * Find resources from the VM's built-in classloader.
+     * Find rfsourdfs from tif VM's built-in dlbsslobdfr.
      */
-    private static URL getBootstrapResource(String name) {
-        URLClassPath ucp = getBootstrapClassPath();
-        Resource res = ucp.getResource(name);
-        return res != null ? res.getURL() : null;
+    privbtf stbtid URL gftBootstrbpRfsourdf(String nbmf) {
+        URLClbssPbti udp = gftBootstrbpClbssPbti();
+        Rfsourdf rfs = udp.gftRfsourdf(nbmf);
+        rfturn rfs != null ? rfs.gftURL() : null;
     }
 
     /**
-     * Find resources from the VM's built-in classloader.
+     * Find rfsourdfs from tif VM's built-in dlbsslobdfr.
      */
-    private static Enumeration<URL> getBootstrapResources(String name)
-        throws IOException
+    privbtf stbtid Enumfrbtion<URL> gftBootstrbpRfsourdfs(String nbmf)
+        tirows IOExdfption
     {
-        final Enumeration<Resource> e =
-            getBootstrapClassPath().getResources(name);
-        return new Enumeration<URL> () {
-            public URL nextElement() {
-                return e.nextElement().getURL();
+        finbl Enumfrbtion<Rfsourdf> f =
+            gftBootstrbpClbssPbti().gftRfsourdfs(nbmf);
+        rfturn nfw Enumfrbtion<URL> () {
+            publid URL nfxtElfmfnt() {
+                rfturn f.nfxtElfmfnt().gftURL();
             }
-            public boolean hasMoreElements() {
-                return e.hasMoreElements();
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn f.ibsMorfElfmfnts();
             }
         };
     }
 
-    // Returns the URLClassPath that is used for finding system resources.
-    static URLClassPath getBootstrapClassPath() {
-        return sun.misc.Launcher.getBootstrapClassPath();
+    // Rfturns tif URLClbssPbti tibt is usfd for finding systfm rfsourdfs.
+    stbtid URLClbssPbti gftBootstrbpClbssPbti() {
+        rfturn sun.misd.Lbundifr.gftBootstrbpClbssPbti();
     }
 
 
     /**
-     * Returns an input stream for reading the specified resource.
+     * Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf.
      *
-     * <p> The search order is described in the documentation for {@link
-     * #getResource(String)}.  </p>
+     * <p> Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for {@link
+     * #gftRfsourdf(String)}.  </p>
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
      *
-     * @return  An input stream for reading the resource, or <tt>null</tt>
-     *          if the resource could not be found
+     * @rfturn  An input strfbm for rfbding tif rfsourdf, or <tt>null</tt>
+     *          if tif rfsourdf dould not bf found
      *
-     * @since  1.1
+     * @sindf  1.1
      */
-    public InputStream getResourceAsStream(String name) {
-        URL url = getResource(name);
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf) {
+        URL url = gftRfsourdf(nbmf);
         try {
-            return url != null ? url.openStream() : null;
-        } catch (IOException e) {
-            return null;
+            rfturn url != null ? url.opfnStrfbm() : null;
+        } dbtdi (IOExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Open for reading, a resource of the specified name from the search path
-     * used to load classes.  This method locates the resource through the
-     * system class loader (see {@link #getSystemClassLoader()}).
+     * Opfn for rfbding, b rfsourdf of tif spfdififd nbmf from tif sfbrdi pbti
+     * usfd to lobd dlbssfs.  Tiis mftiod lodbtfs tif rfsourdf tirougi tif
+     * systfm dlbss lobdfr (sff {@link #gftSystfmClbssLobdfr()}).
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
      *
-     * @return  An input stream for reading the resource, or <tt>null</tt>
-     *          if the resource could not be found
+     * @rfturn  An input strfbm for rfbding tif rfsourdf, or <tt>null</tt>
+     *          if tif rfsourdf dould not bf found
      *
-     * @since  1.1
+     * @sindf  1.1
      */
-    public static InputStream getSystemResourceAsStream(String name) {
-        URL url = getSystemResource(name);
+    publid stbtid InputStrfbm gftSystfmRfsourdfAsStrfbm(String nbmf) {
+        URL url = gftSystfmRfsourdf(nbmf);
         try {
-            return url != null ? url.openStream() : null;
-        } catch (IOException e) {
-            return null;
+            rfturn url != null ? url.opfnStrfbm() : null;
+        } dbtdi (IOExdfption f) {
+            rfturn null;
         }
     }
 
 
-    // -- Hierarchy --
+    // -- Hifrbrdiy --
 
     /**
-     * Returns the parent class loader for delegation. Some implementations may
-     * use <tt>null</tt> to represent the bootstrap class loader. This method
-     * will return <tt>null</tt> in such implementations if this class loader's
-     * parent is the bootstrap class loader.
+     * Rfturns tif pbrfnt dlbss lobdfr for dflfgbtion. Somf implfmfntbtions mby
+     * usf <tt>null</tt> to rfprfsfnt tif bootstrbp dlbss lobdfr. Tiis mftiod
+     * will rfturn <tt>null</tt> in sudi implfmfntbtions if tiis dlbss lobdfr's
+     * pbrfnt is tif bootstrbp dlbss lobdfr.
      *
-     * <p> If a security manager is present, and the invoker's class loader is
-     * not <tt>null</tt> and is not an ancestor of this class loader, then this
-     * method invokes the security manager's {@link
-     * SecurityManager#checkPermission(java.security.Permission)
-     * <tt>checkPermission</tt>} method with a {@link
-     * RuntimePermission#RuntimePermission(String)
-     * <tt>RuntimePermission("getClassLoader")</tt>} permission to verify
-     * access to the parent class loader is permitted.  If not, a
-     * <tt>SecurityException</tt> will be thrown.  </p>
+     * <p> If b sfdurity mbnbgfr is prfsfnt, bnd tif invokfr's dlbss lobdfr is
+     * not <tt>null</tt> bnd is not bn bndfstor of tiis dlbss lobdfr, tifn tiis
+     * mftiod invokfs tif sfdurity mbnbgfr's {@link
+     * SfdurityMbnbgfr#difdkPfrmission(jbvb.sfdurity.Pfrmission)
+     * <tt>difdkPfrmission</tt>} mftiod witi b {@link
+     * RuntimfPfrmission#RuntimfPfrmission(String)
+     * <tt>RuntimfPfrmission("gftClbssLobdfr")</tt>} pfrmission to vfrify
+     * bddfss to tif pbrfnt dlbss lobdfr is pfrmittfd.  If not, b
+     * <tt>SfdurityExdfption</tt> will bf tirown.  </p>
      *
-     * @return  The parent <tt>ClassLoader</tt>
+     * @rfturn  Tif pbrfnt <tt>ClbssLobdfr</tt>
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <tt>checkPermission</tt>
-     *          method doesn't allow access to this class loader's parent class
-     *          loader.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <tt>difdkPfrmission</tt>
+     *          mftiod dofsn't bllow bddfss to tiis dlbss lobdfr's pbrfnt dlbss
+     *          lobdfr.
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    @CallerSensitive
-    public final ClassLoader getParent() {
-        if (parent == null)
-            return null;
-        SecurityManager sm = System.getSecurityManager();
+    @CbllfrSfnsitivf
+    publid finbl ClbssLobdfr gftPbrfnt() {
+        if (pbrfnt == null)
+            rfturn null;
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            checkClassLoaderPermission(this, Reflection.getCallerClass());
+            difdkClbssLobdfrPfrmission(tiis, Rfflfdtion.gftCbllfrClbss());
         }
-        return parent;
+        rfturn pbrfnt;
     }
 
     /**
-     * Returns the system class loader for delegation.  This is the default
-     * delegation parent for new <tt>ClassLoader</tt> instances, and is
-     * typically the class loader used to start the application.
+     * Rfturns tif systfm dlbss lobdfr for dflfgbtion.  Tiis is tif dffbult
+     * dflfgbtion pbrfnt for nfw <tt>ClbssLobdfr</tt> instbndfs, bnd is
+     * typidblly tif dlbss lobdfr usfd to stbrt tif bpplidbtion.
      *
-     * <p> This method is first invoked early in the runtime's startup
-     * sequence, at which point it creates the system class loader and sets it
-     * as the context class loader of the invoking <tt>Thread</tt>.
+     * <p> Tiis mftiod is first invokfd fbrly in tif runtimf's stbrtup
+     * sfqufndf, bt wiidi point it drfbtfs tif systfm dlbss lobdfr bnd sfts it
+     * bs tif dontfxt dlbss lobdfr of tif invoking <tt>Tirfbd</tt>.
      *
-     * <p> The default system class loader is an implementation-dependent
-     * instance of this class.
+     * <p> Tif dffbult systfm dlbss lobdfr is bn implfmfntbtion-dfpfndfnt
+     * instbndf of tiis dlbss.
      *
-     * <p> If the system property "<tt>java.system.class.loader</tt>" is defined
-     * when this method is first invoked then the value of that property is
-     * taken to be the name of a class that will be returned as the system
-     * class loader.  The class is loaded using the default system class loader
-     * and must define a public constructor that takes a single parameter of
-     * type <tt>ClassLoader</tt> which is used as the delegation parent.  An
-     * instance is then created using this constructor with the default system
-     * class loader as the parameter.  The resulting class loader is defined
-     * to be the system class loader.
+     * <p> If tif systfm propfrty "<tt>jbvb.systfm.dlbss.lobdfr</tt>" is dffinfd
+     * wifn tiis mftiod is first invokfd tifn tif vbluf of tibt propfrty is
+     * tbkfn to bf tif nbmf of b dlbss tibt will bf rfturnfd bs tif systfm
+     * dlbss lobdfr.  Tif dlbss is lobdfd using tif dffbult systfm dlbss lobdfr
+     * bnd must dffinf b publid donstrudtor tibt tbkfs b singlf pbrbmftfr of
+     * typf <tt>ClbssLobdfr</tt> wiidi is usfd bs tif dflfgbtion pbrfnt.  An
+     * instbndf is tifn drfbtfd using tiis donstrudtor witi tif dffbult systfm
+     * dlbss lobdfr bs tif pbrbmftfr.  Tif rfsulting dlbss lobdfr is dffinfd
+     * to bf tif systfm dlbss lobdfr.
      *
-     * <p> If a security manager is present, and the invoker's class loader is
-     * not <tt>null</tt> and the invoker's class loader is not the same as or
-     * an ancestor of the system class loader, then this method invokes the
-     * security manager's {@link
-     * SecurityManager#checkPermission(java.security.Permission)
-     * <tt>checkPermission</tt>} method with a {@link
-     * RuntimePermission#RuntimePermission(String)
-     * <tt>RuntimePermission("getClassLoader")</tt>} permission to verify
-     * access to the system class loader.  If not, a
-     * <tt>SecurityException</tt> will be thrown.  </p>
+     * <p> If b sfdurity mbnbgfr is prfsfnt, bnd tif invokfr's dlbss lobdfr is
+     * not <tt>null</tt> bnd tif invokfr's dlbss lobdfr is not tif sbmf bs or
+     * bn bndfstor of tif systfm dlbss lobdfr, tifn tiis mftiod invokfs tif
+     * sfdurity mbnbgfr's {@link
+     * SfdurityMbnbgfr#difdkPfrmission(jbvb.sfdurity.Pfrmission)
+     * <tt>difdkPfrmission</tt>} mftiod witi b {@link
+     * RuntimfPfrmission#RuntimfPfrmission(String)
+     * <tt>RuntimfPfrmission("gftClbssLobdfr")</tt>} pfrmission to vfrify
+     * bddfss to tif systfm dlbss lobdfr.  If not, b
+     * <tt>SfdurityExdfption</tt> will bf tirown.  </p>
      *
-     * @return  The system <tt>ClassLoader</tt> for delegation, or
-     *          <tt>null</tt> if none
+     * @rfturn  Tif systfm <tt>ClbssLobdfr</tt> for dflfgbtion, or
+     *          <tt>null</tt> if nonf
      *
-     * @throws  SecurityException
-     *          If a security manager exists and its <tt>checkPermission</tt>
-     *          method doesn't allow access to the system class loader.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr fxists bnd its <tt>difdkPfrmission</tt>
+     *          mftiod dofsn't bllow bddfss to tif systfm dlbss lobdfr.
      *
-     * @throws  IllegalStateException
-     *          If invoked recursively during the construction of the class
-     *          loader specified by the "<tt>java.system.class.loader</tt>"
-     *          property.
+     * @tirows  IllfgblStbtfExdfption
+     *          If invokfd rfdursivfly during tif donstrudtion of tif dlbss
+     *          lobdfr spfdififd by tif "<tt>jbvb.systfm.dlbss.lobdfr</tt>"
+     *          propfrty.
      *
-     * @throws  Error
-     *          If the system property "<tt>java.system.class.loader</tt>"
-     *          is defined but the named class could not be loaded, the
-     *          provider class does not define the required constructor, or an
-     *          exception is thrown by that constructor when it is invoked. The
-     *          underlying cause of the error can be retrieved via the
-     *          {@link Throwable#getCause()} method.
+     * @tirows  Error
+     *          If tif systfm propfrty "<tt>jbvb.systfm.dlbss.lobdfr</tt>"
+     *          is dffinfd but tif nbmfd dlbss dould not bf lobdfd, tif
+     *          providfr dlbss dofs not dffinf tif rfquirfd donstrudtor, or bn
+     *          fxdfption is tirown by tibt donstrudtor wifn it is invokfd. Tif
+     *          undfrlying dbusf of tif frror dbn bf rftrifvfd vib tif
+     *          {@link Tirowbblf#gftCbusf()} mftiod.
      *
-     * @revised  1.4
+     * @rfvisfd  1.4
      */
-    @CallerSensitive
-    public static ClassLoader getSystemClassLoader() {
-        initSystemClassLoader();
-        if (scl == null) {
-            return null;
+    @CbllfrSfnsitivf
+    publid stbtid ClbssLobdfr gftSystfmClbssLobdfr() {
+        initSystfmClbssLobdfr();
+        if (sdl == null) {
+            rfturn null;
         }
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            checkClassLoaderPermission(scl, Reflection.getCallerClass());
+            difdkClbssLobdfrPfrmission(sdl, Rfflfdtion.gftCbllfrClbss());
         }
-        return scl;
+        rfturn sdl;
     }
 
-    private static synchronized void initSystemClassLoader() {
-        if (!sclSet) {
-            if (scl != null)
-                throw new IllegalStateException("recursive invocation");
-            sun.misc.Launcher l = sun.misc.Launcher.getLauncher();
+    privbtf stbtid syndironizfd void initSystfmClbssLobdfr() {
+        if (!sdlSft) {
+            if (sdl != null)
+                tirow nfw IllfgblStbtfExdfption("rfdursivf invodbtion");
+            sun.misd.Lbundifr l = sun.misd.Lbundifr.gftLbundifr();
             if (l != null) {
-                Throwable oops = null;
-                scl = l.getClassLoader();
+                Tirowbblf oops = null;
+                sdl = l.gftClbssLobdfr();
                 try {
-                    scl = AccessController.doPrivileged(
-                        new SystemClassLoaderAction(scl));
-                } catch (PrivilegedActionException pae) {
-                    oops = pae.getCause();
-                    if (oops instanceof InvocationTargetException) {
-                        oops = oops.getCause();
+                    sdl = AddfssControllfr.doPrivilfgfd(
+                        nfw SystfmClbssLobdfrAdtion(sdl));
+                } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+                    oops = pbf.gftCbusf();
+                    if (oops instbndfof InvodbtionTbrgftExdfption) {
+                        oops = oops.gftCbusf();
                     }
                 }
                 if (oops != null) {
-                    if (oops instanceof Error) {
-                        throw (Error) oops;
-                    } else {
-                        // wrap the exception
-                        throw new Error(oops);
+                    if (oops instbndfof Error) {
+                        tirow (Error) oops;
+                    } flsf {
+                        // wrbp tif fxdfption
+                        tirow nfw Error(oops);
                     }
                 }
             }
-            sclSet = true;
+            sdlSft = truf;
         }
     }
 
-    // Returns true if the specified class loader can be found in this class
-    // loader's delegation chain.
-    boolean isAncestor(ClassLoader cl) {
-        ClassLoader acl = this;
+    // Rfturns truf if tif spfdififd dlbss lobdfr dbn bf found in tiis dlbss
+    // lobdfr's dflfgbtion dibin.
+    boolfbn isAndfstor(ClbssLobdfr dl) {
+        ClbssLobdfr bdl = tiis;
         do {
-            acl = acl.parent;
-            if (cl == acl) {
-                return true;
+            bdl = bdl.pbrfnt;
+            if (dl == bdl) {
+                rfturn truf;
             }
-        } while (acl != null);
-        return false;
+        } wiilf (bdl != null);
+        rfturn fblsf;
     }
 
-    // Tests if class loader access requires "getClassLoader" permission
-    // check.  A class loader 'from' can access class loader 'to' if
-    // class loader 'from' is same as class loader 'to' or an ancestor
-    // of 'to'.  The class loader in a system domain can access
-    // any class loader.
-    private static boolean needsClassLoaderPermissionCheck(ClassLoader from,
-                                                           ClassLoader to)
+    // Tfsts if dlbss lobdfr bddfss rfquirfs "gftClbssLobdfr" pfrmission
+    // difdk.  A dlbss lobdfr 'from' dbn bddfss dlbss lobdfr 'to' if
+    // dlbss lobdfr 'from' is sbmf bs dlbss lobdfr 'to' or bn bndfstor
+    // of 'to'.  Tif dlbss lobdfr in b systfm dombin dbn bddfss
+    // bny dlbss lobdfr.
+    privbtf stbtid boolfbn nffdsClbssLobdfrPfrmissionCifdk(ClbssLobdfr from,
+                                                           ClbssLobdfr to)
     {
         if (from == to)
-            return false;
+            rfturn fblsf;
 
         if (from == null)
-            return false;
+            rfturn fblsf;
 
-        return !to.isAncestor(from);
+        rfturn !to.isAndfstor(from);
     }
 
-    // Returns the class's class loader, or null if none.
-    static ClassLoader getClassLoader(Class<?> caller) {
-        // This can be null if the VM is requesting it
-        if (caller == null) {
-            return null;
+    // Rfturns tif dlbss's dlbss lobdfr, or null if nonf.
+    stbtid ClbssLobdfr gftClbssLobdfr(Clbss<?> dbllfr) {
+        // Tiis dbn bf null if tif VM is rfqufsting it
+        if (dbllfr == null) {
+            rfturn null;
         }
-        // Circumvent security check since this is package-private
-        return caller.getClassLoader0();
+        // Cirdumvfnt sfdurity difdk sindf tiis is pbdkbgf-privbtf
+        rfturn dbllfr.gftClbssLobdfr0();
     }
 
-    static void checkClassLoaderPermission(ClassLoader cl, Class<?> caller) {
-        SecurityManager sm = System.getSecurityManager();
+    stbtid void difdkClbssLobdfrPfrmission(ClbssLobdfr dl, Clbss<?> dbllfr) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            // caller can be null if the VM is requesting it
-            ClassLoader ccl = getClassLoader(caller);
-            if (needsClassLoaderPermissionCheck(ccl, cl)) {
-                sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
+            // dbllfr dbn bf null if tif VM is rfqufsting it
+            ClbssLobdfr ddl = gftClbssLobdfr(dbllfr);
+            if (nffdsClbssLobdfrPfrmissionCifdk(ddl, dl)) {
+                sm.difdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
             }
         }
     }
 
-    // The class loader for the system
-    // @GuardedBy("ClassLoader.class")
-    private static ClassLoader scl;
+    // Tif dlbss lobdfr for tif systfm
+    // @GubrdfdBy("ClbssLobdfr.dlbss")
+    privbtf stbtid ClbssLobdfr sdl;
 
-    // Set to true once the system class loader has been set
-    // @GuardedBy("ClassLoader.class")
-    private static boolean sclSet;
+    // Sft to truf ondf tif systfm dlbss lobdfr ibs bffn sft
+    // @GubrdfdBy("ClbssLobdfr.dlbss")
+    privbtf stbtid boolfbn sdlSft;
 
 
-    // -- Package --
+    // -- Pbdkbgf --
 
     /**
-     * Defines a package by name in this <tt>ClassLoader</tt>.  This allows
-     * class loaders to define the packages for their classes. Packages must
-     * be created before the class is defined, and package names must be
-     * unique within a class loader and cannot be redefined or changed once
-     * created.
+     * Dffinfs b pbdkbgf by nbmf in tiis <tt>ClbssLobdfr</tt>.  Tiis bllows
+     * dlbss lobdfrs to dffinf tif pbdkbgfs for tifir dlbssfs. Pbdkbgfs must
+     * bf drfbtfd bfforf tif dlbss is dffinfd, bnd pbdkbgf nbmfs must bf
+     * uniquf witiin b dlbss lobdfr bnd dbnnot bf rfdffinfd or dibngfd ondf
+     * drfbtfd.
      *
-     * @param  name
-     *         The package name
+     * @pbrbm  nbmf
+     *         Tif pbdkbgf nbmf
      *
-     * @param  specTitle
-     *         The specification title
+     * @pbrbm  spfdTitlf
+     *         Tif spfdifidbtion titlf
      *
-     * @param  specVersion
-     *         The specification version
+     * @pbrbm  spfdVfrsion
+     *         Tif spfdifidbtion vfrsion
      *
-     * @param  specVendor
-     *         The specification vendor
+     * @pbrbm  spfdVfndor
+     *         Tif spfdifidbtion vfndor
      *
-     * @param  implTitle
-     *         The implementation title
+     * @pbrbm  implTitlf
+     *         Tif implfmfntbtion titlf
      *
-     * @param  implVersion
-     *         The implementation version
+     * @pbrbm  implVfrsion
+     *         Tif implfmfntbtion vfrsion
      *
-     * @param  implVendor
-     *         The implementation vendor
+     * @pbrbm  implVfndor
+     *         Tif implfmfntbtion vfndor
      *
-     * @param  sealBase
-     *         If not <tt>null</tt>, then this package is sealed with
-     *         respect to the given code source {@link java.net.URL
-     *         <tt>URL</tt>}  object.  Otherwise, the package is not sealed.
+     * @pbrbm  sfblBbsf
+     *         If not <tt>null</tt>, tifn tiis pbdkbgf is sfblfd witi
+     *         rfspfdt to tif givfn dodf sourdf {@link jbvb.nft.URL
+     *         <tt>URL</tt>}  objfdt.  Otifrwisf, tif pbdkbgf is not sfblfd.
      *
-     * @return  The newly defined <tt>Package</tt> object
+     * @rfturn  Tif nfwly dffinfd <tt>Pbdkbgf</tt> objfdt
      *
-     * @throws  IllegalArgumentException
-     *          If package name duplicates an existing package either in this
-     *          class loader or one of its ancestors
+     * @tirows  IllfgblArgumfntExdfption
+     *          If pbdkbgf nbmf duplidbtfs bn fxisting pbdkbgf fitifr in tiis
+     *          dlbss lobdfr or onf of its bndfstors
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    protected Package definePackage(String name, String specTitle,
-                                    String specVersion, String specVendor,
-                                    String implTitle, String implVersion,
-                                    String implVendor, URL sealBase)
-        throws IllegalArgumentException
+    protfdtfd Pbdkbgf dffinfPbdkbgf(String nbmf, String spfdTitlf,
+                                    String spfdVfrsion, String spfdVfndor,
+                                    String implTitlf, String implVfrsion,
+                                    String implVfndor, URL sfblBbsf)
+        tirows IllfgblArgumfntExdfption
     {
-        synchronized (packages) {
-            Package pkg = getPackage(name);
+        syndironizfd (pbdkbgfs) {
+            Pbdkbgf pkg = gftPbdkbgf(nbmf);
             if (pkg != null) {
-                throw new IllegalArgumentException(name);
+                tirow nfw IllfgblArgumfntExdfption(nbmf);
             }
-            pkg = new Package(name, specTitle, specVersion, specVendor,
-                              implTitle, implVersion, implVendor,
-                              sealBase, this);
-            packages.put(name, pkg);
-            return pkg;
+            pkg = nfw Pbdkbgf(nbmf, spfdTitlf, spfdVfrsion, spfdVfndor,
+                              implTitlf, implVfrsion, implVfndor,
+                              sfblBbsf, tiis);
+            pbdkbgfs.put(nbmf, pkg);
+            rfturn pkg;
         }
     }
 
     /**
-     * Returns a <tt>Package</tt> that has been defined by this class loader
-     * or any of its ancestors.
+     * Rfturns b <tt>Pbdkbgf</tt> tibt ibs bffn dffinfd by tiis dlbss lobdfr
+     * or bny of its bndfstors.
      *
-     * @param  name
-     *         The package name
+     * @pbrbm  nbmf
+     *         Tif pbdkbgf nbmf
      *
-     * @return  The <tt>Package</tt> corresponding to the given name, or
+     * @rfturn  Tif <tt>Pbdkbgf</tt> dorrfsponding to tif givfn nbmf, or
      *          <tt>null</tt> if not found
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    protected Package getPackage(String name) {
-        Package pkg;
-        synchronized (packages) {
-            pkg = packages.get(name);
+    protfdtfd Pbdkbgf gftPbdkbgf(String nbmf) {
+        Pbdkbgf pkg;
+        syndironizfd (pbdkbgfs) {
+            pkg = pbdkbgfs.gft(nbmf);
         }
         if (pkg == null) {
-            if (parent != null) {
-                pkg = parent.getPackage(name);
-            } else {
-                pkg = Package.getSystemPackage(name);
+            if (pbrfnt != null) {
+                pkg = pbrfnt.gftPbdkbgf(nbmf);
+            } flsf {
+                pkg = Pbdkbgf.gftSystfmPbdkbgf(nbmf);
             }
             if (pkg != null) {
-                synchronized (packages) {
-                    Package pkg2 = packages.get(name);
+                syndironizfd (pbdkbgfs) {
+                    Pbdkbgf pkg2 = pbdkbgfs.gft(nbmf);
                     if (pkg2 == null) {
-                        packages.put(name, pkg);
-                    } else {
+                        pbdkbgfs.put(nbmf, pkg);
+                    } flsf {
                         pkg = pkg2;
                     }
                 }
             }
         }
-        return pkg;
+        rfturn pkg;
     }
 
     /**
-     * Returns all of the <tt>Packages</tt> defined by this class loader and
-     * its ancestors.
+     * Rfturns bll of tif <tt>Pbdkbgfs</tt> dffinfd by tiis dlbss lobdfr bnd
+     * its bndfstors.
      *
-     * @return  The array of <tt>Package</tt> objects defined by this
-     *          <tt>ClassLoader</tt>
+     * @rfturn  Tif brrby of <tt>Pbdkbgf</tt> objfdts dffinfd by tiis
+     *          <tt>ClbssLobdfr</tt>
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    protected Package[] getPackages() {
-        Map<String, Package> map;
-        synchronized (packages) {
-            map = new HashMap<>(packages);
+    protfdtfd Pbdkbgf[] gftPbdkbgfs() {
+        Mbp<String, Pbdkbgf> mbp;
+        syndironizfd (pbdkbgfs) {
+            mbp = nfw HbsiMbp<>(pbdkbgfs);
         }
-        Package[] pkgs;
-        if (parent != null) {
-            pkgs = parent.getPackages();
-        } else {
-            pkgs = Package.getSystemPackages();
+        Pbdkbgf[] pkgs;
+        if (pbrfnt != null) {
+            pkgs = pbrfnt.gftPbdkbgfs();
+        } flsf {
+            pkgs = Pbdkbgf.gftSystfmPbdkbgfs();
         }
         if (pkgs != null) {
-            for (Package pkg : pkgs) {
-                String pkgName = pkg.getName();
-                if (map.get(pkgName) == null) {
-                    map.put(pkgName, pkg);
+            for (Pbdkbgf pkg : pkgs) {
+                String pkgNbmf = pkg.gftNbmf();
+                if (mbp.gft(pkgNbmf) == null) {
+                    mbp.put(pkgNbmf, pkg);
                 }
             }
         }
-        return map.values().toArray(new Package[map.size()]);
+        rfturn mbp.vblufs().toArrby(nfw Pbdkbgf[mbp.sizf()]);
     }
 
 
-    // -- Native library access --
+    // -- Nbtivf librbry bddfss --
 
     /**
-     * Returns the absolute path name of a native library.  The VM invokes this
-     * method to locate the native libraries that belong to classes loaded with
-     * this class loader. If this method returns <tt>null</tt>, the VM
-     * searches the library along the path specified as the
-     * "<tt>java.library.path</tt>" property.
+     * Rfturns tif bbsolutf pbti nbmf of b nbtivf librbry.  Tif VM invokfs tiis
+     * mftiod to lodbtf tif nbtivf librbrifs tibt bflong to dlbssfs lobdfd witi
+     * tiis dlbss lobdfr. If tiis mftiod rfturns <tt>null</tt>, tif VM
+     * sfbrdifs tif librbry blong tif pbti spfdififd bs tif
+     * "<tt>jbvb.librbry.pbti</tt>" propfrty.
      *
-     * @param  libname
-     *         The library name
+     * @pbrbm  libnbmf
+     *         Tif librbry nbmf
      *
-     * @return  The absolute path of the native library
+     * @rfturn  Tif bbsolutf pbti of tif nbtivf librbry
      *
-     * @see  System#loadLibrary(String)
-     * @see  System#mapLibraryName(String)
+     * @sff  Systfm#lobdLibrbry(String)
+     * @sff  Systfm#mbpLibrbryNbmf(String)
      *
-     * @since  1.2
+     * @sindf  1.2
      */
-    protected String findLibrary(String libname) {
-        return null;
+    protfdtfd String findLibrbry(String libnbmf) {
+        rfturn null;
     }
 
     /**
-     * The inner class NativeLibrary denotes a loaded native library instance.
-     * Every classloader contains a vector of loaded native libraries in the
-     * private field <tt>nativeLibraries</tt>.  The native libraries loaded
-     * into the system are entered into the <tt>systemNativeLibraries</tt>
-     * vector.
+     * Tif innfr dlbss NbtivfLibrbry dfnotfs b lobdfd nbtivf librbry instbndf.
+     * Evfry dlbsslobdfr dontbins b vfdtor of lobdfd nbtivf librbrifs in tif
+     * privbtf fifld <tt>nbtivfLibrbrifs</tt>.  Tif nbtivf librbrifs lobdfd
+     * into tif systfm brf fntfrfd into tif <tt>systfmNbtivfLibrbrifs</tt>
+     * vfdtor.
      *
-     * <p> Every native library requires a particular version of JNI. This is
-     * denoted by the private <tt>jniVersion</tt> field.  This field is set by
-     * the VM when it loads the library, and used by the VM to pass the correct
-     * version of JNI to the native methods.  </p>
+     * <p> Evfry nbtivf librbry rfquirfs b pbrtidulbr vfrsion of JNI. Tiis is
+     * dfnotfd by tif privbtf <tt>jniVfrsion</tt> fifld.  Tiis fifld is sft by
+     * tif VM wifn it lobds tif librbry, bnd usfd by tif VM to pbss tif dorrfdt
+     * vfrsion of JNI to tif nbtivf mftiods.  </p>
      *
-     * @see      ClassLoader
-     * @since    1.2
+     * @sff      ClbssLobdfr
+     * @sindf    1.2
      */
-    static class NativeLibrary {
-        // opaque handle to native library, used in native code.
-        long handle;
-        // the version of JNI environment the native library requires.
-        private int jniVersion;
-        // the class from which the library is loaded, also indicates
-        // the loader this native library belongs.
-        private final Class<?> fromClass;
-        // the canonicalized name of the native library.
-        // or static library name
-        String name;
-        // Indicates if the native library is linked into the VM
-        boolean isBuiltin;
-        // Indicates if the native library is loaded
-        boolean loaded;
-        native void load(String name, boolean isBuiltin);
+    stbtid dlbss NbtivfLibrbry {
+        // opbquf ibndlf to nbtivf librbry, usfd in nbtivf dodf.
+        long ibndlf;
+        // tif vfrsion of JNI fnvironmfnt tif nbtivf librbry rfquirfs.
+        privbtf int jniVfrsion;
+        // tif dlbss from wiidi tif librbry is lobdfd, blso indidbtfs
+        // tif lobdfr tiis nbtivf librbry bflongs.
+        privbtf finbl Clbss<?> fromClbss;
+        // tif dbnonidblizfd nbmf of tif nbtivf librbry.
+        // or stbtid librbry nbmf
+        String nbmf;
+        // Indidbtfs if tif nbtivf librbry is linkfd into tif VM
+        boolfbn isBuiltin;
+        // Indidbtfs if tif nbtivf librbry is lobdfd
+        boolfbn lobdfd;
+        nbtivf void lobd(String nbmf, boolfbn isBuiltin);
 
-        native long find(String name);
-        native void unload(String name, boolean isBuiltin);
-        static native String findBuiltinLib(String name);
+        nbtivf long find(String nbmf);
+        nbtivf void unlobd(String nbmf, boolfbn isBuiltin);
+        stbtid nbtivf String findBuiltinLib(String nbmf);
 
-        public NativeLibrary(Class<?> fromClass, String name, boolean isBuiltin) {
-            this.name = name;
-            this.fromClass = fromClass;
-            this.isBuiltin = isBuiltin;
+        publid NbtivfLibrbry(Clbss<?> fromClbss, String nbmf, boolfbn isBuiltin) {
+            tiis.nbmf = nbmf;
+            tiis.fromClbss = fromClbss;
+            tiis.isBuiltin = isBuiltin;
         }
 
-        protected void finalize() {
-            synchronized (loadedLibraryNames) {
-                if (fromClass.getClassLoader() != null && loaded) {
-                    /* remove the native library name */
-                    int size = loadedLibraryNames.size();
-                    for (int i = 0; i < size; i++) {
-                        if (name.equals(loadedLibraryNames.elementAt(i))) {
-                            loadedLibraryNames.removeElementAt(i);
-                            break;
+        protfdtfd void finblizf() {
+            syndironizfd (lobdfdLibrbryNbmfs) {
+                if (fromClbss.gftClbssLobdfr() != null && lobdfd) {
+                    /* rfmovf tif nbtivf librbry nbmf */
+                    int sizf = lobdfdLibrbryNbmfs.sizf();
+                    for (int i = 0; i < sizf; i++) {
+                        if (nbmf.fqubls(lobdfdLibrbryNbmfs.flfmfntAt(i))) {
+                            lobdfdLibrbryNbmfs.rfmovfElfmfntAt(i);
+                            brfbk;
                         }
                     }
-                    /* unload the library. */
-                    ClassLoader.nativeLibraryContext.push(this);
+                    /* unlobd tif librbry. */
+                    ClbssLobdfr.nbtivfLibrbryContfxt.pusi(tiis);
                     try {
-                        unload(name, isBuiltin);
-                    } finally {
-                        ClassLoader.nativeLibraryContext.pop();
+                        unlobd(nbmf, isBuiltin);
+                    } finblly {
+                        ClbssLobdfr.nbtivfLibrbryContfxt.pop();
                     }
                 }
             }
         }
-        // Invoked in the VM to determine the context class in
-        // JNI_Load/JNI_Unload
-        static Class<?> getFromClass() {
-            return ClassLoader.nativeLibraryContext.peek().fromClass;
+        // Invokfd in tif VM to dftfrminf tif dontfxt dlbss in
+        // JNI_Lobd/JNI_Unlobd
+        stbtid Clbss<?> gftFromClbss() {
+            rfturn ClbssLobdfr.nbtivfLibrbryContfxt.pffk().fromClbss;
         }
     }
 
-    // All native library names we've loaded.
-    private static Vector<String> loadedLibraryNames = new Vector<>();
+    // All nbtivf librbry nbmfs wf'vf lobdfd.
+    privbtf stbtid Vfdtor<String> lobdfdLibrbryNbmfs = nfw Vfdtor<>();
 
-    // Native libraries belonging to system classes.
-    private static Vector<NativeLibrary> systemNativeLibraries
-        = new Vector<>();
+    // Nbtivf librbrifs bflonging to systfm dlbssfs.
+    privbtf stbtid Vfdtor<NbtivfLibrbry> systfmNbtivfLibrbrifs
+        = nfw Vfdtor<>();
 
-    // Native libraries associated with the class loader.
-    private Vector<NativeLibrary> nativeLibraries = new Vector<>();
+    // Nbtivf librbrifs bssodibtfd witi tif dlbss lobdfr.
+    privbtf Vfdtor<NbtivfLibrbry> nbtivfLibrbrifs = nfw Vfdtor<>();
 
-    // native libraries being loaded/unloaded.
-    private static Stack<NativeLibrary> nativeLibraryContext = new Stack<>();
+    // nbtivf librbrifs bfing lobdfd/unlobdfd.
+    privbtf stbtid Stbdk<NbtivfLibrbry> nbtivfLibrbryContfxt = nfw Stbdk<>();
 
-    // The paths searched for libraries
-    private static String usr_paths[];
-    private static String sys_paths[];
+    // Tif pbtis sfbrdifd for librbrifs
+    privbtf stbtid String usr_pbtis[];
+    privbtf stbtid String sys_pbtis[];
 
-    private static String[] initializePath(String propname) {
-        String ldpath = System.getProperty(propname, "");
-        String ps = File.pathSeparator;
-        int ldlen = ldpath.length();
+    privbtf stbtid String[] initiblizfPbti(String propnbmf) {
+        String ldpbti = Systfm.gftPropfrty(propnbmf, "");
+        String ps = Filf.pbtiSfpbrbtor;
+        int ldlfn = ldpbti.lfngti();
         int i, j, n;
-        // Count the separators in the path
-        i = ldpath.indexOf(ps);
+        // Count tif sfpbrbtors in tif pbti
+        i = ldpbti.indfxOf(ps);
         n = 0;
-        while (i >= 0) {
+        wiilf (i >= 0) {
             n++;
-            i = ldpath.indexOf(ps, i + 1);
+            i = ldpbti.indfxOf(ps, i + 1);
         }
 
-        // allocate the array of paths - n :'s = n + 1 path elements
-        String[] paths = new String[n + 1];
+        // bllodbtf tif brrby of pbtis - n :'s = n + 1 pbti flfmfnts
+        String[] pbtis = nfw String[n + 1];
 
-        // Fill the array with paths from the ldpath
+        // Fill tif brrby witi pbtis from tif ldpbti
         n = i = 0;
-        j = ldpath.indexOf(ps);
-        while (j >= 0) {
+        j = ldpbti.indfxOf(ps);
+        wiilf (j >= 0) {
             if (j - i > 0) {
-                paths[n++] = ldpath.substring(i, j);
-            } else if (j - i == 0) {
-                paths[n++] = ".";
+                pbtis[n++] = ldpbti.substring(i, j);
+            } flsf if (j - i == 0) {
+                pbtis[n++] = ".";
             }
             i = j + 1;
-            j = ldpath.indexOf(ps, i);
+            j = ldpbti.indfxOf(ps, i);
         }
-        paths[n] = ldpath.substring(i, ldlen);
-        return paths;
+        pbtis[n] = ldpbti.substring(i, ldlfn);
+        rfturn pbtis;
     }
 
-    // Invoked in the java.lang.Runtime class to implement load and loadLibrary.
-    static void loadLibrary(Class<?> fromClass, String name,
-                            boolean isAbsolute) {
-        ClassLoader loader =
-            (fromClass == null) ? null : fromClass.getClassLoader();
-        if (sys_paths == null) {
-            usr_paths = initializePath("java.library.path");
-            sys_paths = initializePath("sun.boot.library.path");
+    // Invokfd in tif jbvb.lbng.Runtimf dlbss to implfmfnt lobd bnd lobdLibrbry.
+    stbtid void lobdLibrbry(Clbss<?> fromClbss, String nbmf,
+                            boolfbn isAbsolutf) {
+        ClbssLobdfr lobdfr =
+            (fromClbss == null) ? null : fromClbss.gftClbssLobdfr();
+        if (sys_pbtis == null) {
+            usr_pbtis = initiblizfPbti("jbvb.librbry.pbti");
+            sys_pbtis = initiblizfPbti("sun.boot.librbry.pbti");
         }
-        if (isAbsolute) {
-            if (loadLibrary0(fromClass, new File(name))) {
-                return;
+        if (isAbsolutf) {
+            if (lobdLibrbry0(fromClbss, nfw Filf(nbmf))) {
+                rfturn;
             }
-            throw new UnsatisfiedLinkError("Can't load library: " + name);
+            tirow nfw UnsbtisfifdLinkError("Cbn't lobd librbry: " + nbmf);
         }
-        if (loader != null) {
-            String libfilename = loader.findLibrary(name);
-            if (libfilename != null) {
-                File libfile = new File(libfilename);
-                if (!libfile.isAbsolute()) {
-                    throw new UnsatisfiedLinkError(
-    "ClassLoader.findLibrary failed to return an absolute path: " + libfilename);
+        if (lobdfr != null) {
+            String libfilfnbmf = lobdfr.findLibrbry(nbmf);
+            if (libfilfnbmf != null) {
+                Filf libfilf = nfw Filf(libfilfnbmf);
+                if (!libfilf.isAbsolutf()) {
+                    tirow nfw UnsbtisfifdLinkError(
+    "ClbssLobdfr.findLibrbry fbilfd to rfturn bn bbsolutf pbti: " + libfilfnbmf);
                 }
-                if (loadLibrary0(fromClass, libfile)) {
-                    return;
+                if (lobdLibrbry0(fromClbss, libfilf)) {
+                    rfturn;
                 }
-                throw new UnsatisfiedLinkError("Can't load " + libfilename);
+                tirow nfw UnsbtisfifdLinkError("Cbn't lobd " + libfilfnbmf);
             }
         }
-        for (String sys_path : sys_paths) {
-            File libfile = new File(sys_path, System.mapLibraryName(name));
-            if (loadLibrary0(fromClass, libfile)) {
-                return;
+        for (String sys_pbti : sys_pbtis) {
+            Filf libfilf = nfw Filf(sys_pbti, Systfm.mbpLibrbryNbmf(nbmf));
+            if (lobdLibrbry0(fromClbss, libfilf)) {
+                rfturn;
             }
-            libfile = ClassLoaderHelper.mapAlternativeName(libfile);
-            if (libfile != null && loadLibrary0(fromClass, libfile)) {
-                return;
-            }
-        }
-        if (loader != null) {
-            for (String usr_path : usr_paths) {
-                File libfile = new File(usr_path, System.mapLibraryName(name));
-                if (loadLibrary0(fromClass, libfile)) {
-                    return;
-                }
-                libfile = ClassLoaderHelper.mapAlternativeName(libfile);
-                if (libfile != null && loadLibrary0(fromClass, libfile)) {
-                    return;
-                }
+            libfilf = ClbssLobdfrHflpfr.mbpAltfrnbtivfNbmf(libfilf);
+            if (libfilf != null && lobdLibrbry0(fromClbss, libfilf)) {
+                rfturn;
             }
         }
-        // Oops, it failed
-        throw new UnsatisfiedLinkError("no " + name + " in java.library.path");
+        if (lobdfr != null) {
+            for (String usr_pbti : usr_pbtis) {
+                Filf libfilf = nfw Filf(usr_pbti, Systfm.mbpLibrbryNbmf(nbmf));
+                if (lobdLibrbry0(fromClbss, libfilf)) {
+                    rfturn;
+                }
+                libfilf = ClbssLobdfrHflpfr.mbpAltfrnbtivfNbmf(libfilf);
+                if (libfilf != null && lobdLibrbry0(fromClbss, libfilf)) {
+                    rfturn;
+                }
+            }
+        }
+        // Oops, it fbilfd
+        tirow nfw UnsbtisfifdLinkError("no " + nbmf + " in jbvb.librbry.pbti");
     }
 
-    private static boolean loadLibrary0(Class<?> fromClass, final File file) {
-        // Check to see if we're attempting to access a static library
-        String name = NativeLibrary.findBuiltinLib(file.getName());
-        boolean isBuiltin = (name != null);
+    privbtf stbtid boolfbn lobdLibrbry0(Clbss<?> fromClbss, finbl Filf filf) {
+        // Cifdk to sff if wf'rf bttfmpting to bddfss b stbtid librbry
+        String nbmf = NbtivfLibrbry.findBuiltinLib(filf.gftNbmf());
+        boolfbn isBuiltin = (nbmf != null);
         if (!isBuiltin) {
-            name = AccessController.doPrivileged(
-                new PrivilegedAction<String>() {
-                    public String run() {
+            nbmf = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<String>() {
+                    publid String run() {
                         try {
-                            return file.exists() ? file.getCanonicalPath() : null;
-                        } catch (IOException e) {
-                            return null;
+                            rfturn filf.fxists() ? filf.gftCbnonidblPbti() : null;
+                        } dbtdi (IOExdfption f) {
+                            rfturn null;
                         }
                     }
                 });
-            if (name == null) {
-                return false;
+            if (nbmf == null) {
+                rfturn fblsf;
             }
         }
-        ClassLoader loader =
-            (fromClass == null) ? null : fromClass.getClassLoader();
-        Vector<NativeLibrary> libs =
-            loader != null ? loader.nativeLibraries : systemNativeLibraries;
-        synchronized (libs) {
-            int size = libs.size();
-            for (int i = 0; i < size; i++) {
-                NativeLibrary lib = libs.elementAt(i);
-                if (name.equals(lib.name)) {
-                    return true;
+        ClbssLobdfr lobdfr =
+            (fromClbss == null) ? null : fromClbss.gftClbssLobdfr();
+        Vfdtor<NbtivfLibrbry> libs =
+            lobdfr != null ? lobdfr.nbtivfLibrbrifs : systfmNbtivfLibrbrifs;
+        syndironizfd (libs) {
+            int sizf = libs.sizf();
+            for (int i = 0; i < sizf; i++) {
+                NbtivfLibrbry lib = libs.flfmfntAt(i);
+                if (nbmf.fqubls(lib.nbmf)) {
+                    rfturn truf;
                 }
             }
 
-            synchronized (loadedLibraryNames) {
-                if (loadedLibraryNames.contains(name)) {
-                    throw new UnsatisfiedLinkError
-                        ("Native Library " +
-                         name +
-                         " already loaded in another classloader");
+            syndironizfd (lobdfdLibrbryNbmfs) {
+                if (lobdfdLibrbryNbmfs.dontbins(nbmf)) {
+                    tirow nfw UnsbtisfifdLinkError
+                        ("Nbtivf Librbry " +
+                         nbmf +
+                         " blrfbdy lobdfd in bnotifr dlbsslobdfr");
                 }
-                /* If the library is being loaded (must be by the same thread,
-                 * because Runtime.load and Runtime.loadLibrary are
-                 * synchronous). The reason is can occur is that the JNI_OnLoad
-                 * function can cause another loadLibrary invocation.
+                /* If tif librbry is bfing lobdfd (must bf by tif sbmf tirfbd,
+                 * bfdbusf Runtimf.lobd bnd Runtimf.lobdLibrbry brf
+                 * syndironous). Tif rfbson is dbn oddur is tibt tif JNI_OnLobd
+                 * fundtion dbn dbusf bnotifr lobdLibrbry invodbtion.
                  *
-                 * Thus we can use a static stack to hold the list of libraries
-                 * we are loading.
+                 * Tius wf dbn usf b stbtid stbdk to iold tif list of librbrifs
+                 * wf brf lobding.
                  *
-                 * If there is a pending load operation for the library, we
-                 * immediately return success; otherwise, we raise
-                 * UnsatisfiedLinkError.
+                 * If tifrf is b pfnding lobd opfrbtion for tif librbry, wf
+                 * immfdibtfly rfturn suddfss; otifrwisf, wf rbisf
+                 * UnsbtisfifdLinkError.
                  */
-                int n = nativeLibraryContext.size();
+                int n = nbtivfLibrbryContfxt.sizf();
                 for (int i = 0; i < n; i++) {
-                    NativeLibrary lib = nativeLibraryContext.elementAt(i);
-                    if (name.equals(lib.name)) {
-                        if (loader == lib.fromClass.getClassLoader()) {
-                            return true;
-                        } else {
-                            throw new UnsatisfiedLinkError
-                                ("Native Library " +
-                                 name +
-                                 " is being loaded in another classloader");
+                    NbtivfLibrbry lib = nbtivfLibrbryContfxt.flfmfntAt(i);
+                    if (nbmf.fqubls(lib.nbmf)) {
+                        if (lobdfr == lib.fromClbss.gftClbssLobdfr()) {
+                            rfturn truf;
+                        } flsf {
+                            tirow nfw UnsbtisfifdLinkError
+                                ("Nbtivf Librbry " +
+                                 nbmf +
+                                 " is bfing lobdfd in bnotifr dlbsslobdfr");
                         }
                     }
                 }
-                NativeLibrary lib = new NativeLibrary(fromClass, name, isBuiltin);
-                nativeLibraryContext.push(lib);
+                NbtivfLibrbry lib = nfw NbtivfLibrbry(fromClbss, nbmf, isBuiltin);
+                nbtivfLibrbryContfxt.pusi(lib);
                 try {
-                    lib.load(name, isBuiltin);
-                } finally {
-                    nativeLibraryContext.pop();
+                    lib.lobd(nbmf, isBuiltin);
+                } finblly {
+                    nbtivfLibrbryContfxt.pop();
                 }
-                if (lib.loaded) {
-                    loadedLibraryNames.addElement(name);
-                    libs.addElement(lib);
-                    return true;
+                if (lib.lobdfd) {
+                    lobdfdLibrbryNbmfs.bddElfmfnt(nbmf);
+                    libs.bddElfmfnt(lib);
+                    rfturn truf;
                 }
-                return false;
+                rfturn fblsf;
             }
         }
     }
 
-    // Invoked in the VM class linking code.
-    static long findNative(ClassLoader loader, String name) {
-        Vector<NativeLibrary> libs =
-            loader != null ? loader.nativeLibraries : systemNativeLibraries;
-        synchronized (libs) {
-            int size = libs.size();
-            for (int i = 0; i < size; i++) {
-                NativeLibrary lib = libs.elementAt(i);
-                long entry = lib.find(name);
-                if (entry != 0)
-                    return entry;
+    // Invokfd in tif VM dlbss linking dodf.
+    stbtid long findNbtivf(ClbssLobdfr lobdfr, String nbmf) {
+        Vfdtor<NbtivfLibrbry> libs =
+            lobdfr != null ? lobdfr.nbtivfLibrbrifs : systfmNbtivfLibrbrifs;
+        syndironizfd (libs) {
+            int sizf = libs.sizf();
+            for (int i = 0; i < sizf; i++) {
+                NbtivfLibrbry lib = libs.flfmfntAt(i);
+                long fntry = lib.find(nbmf);
+                if (fntry != 0)
+                    rfturn fntry;
             }
         }
-        return 0;
+        rfturn 0;
     }
 
 
-    // -- Assertion management --
+    // -- Assfrtion mbnbgfmfnt --
 
-    final Object assertionLock;
+    finbl Objfdt bssfrtionLodk;
 
-    // The default toggle for assertion checking.
-    // @GuardedBy("assertionLock")
-    private boolean defaultAssertionStatus = false;
+    // Tif dffbult togglf for bssfrtion difdking.
+    // @GubrdfdBy("bssfrtionLodk")
+    privbtf boolfbn dffbultAssfrtionStbtus = fblsf;
 
-    // Maps String packageName to Boolean package default assertion status Note
-    // that the default package is placed under a null map key.  If this field
-    // is null then we are delegating assertion status queries to the VM, i.e.,
-    // none of this ClassLoader's assertion status modification methods have
-    // been invoked.
-    // @GuardedBy("assertionLock")
-    private Map<String, Boolean> packageAssertionStatus = null;
+    // Mbps String pbdkbgfNbmf to Boolfbn pbdkbgf dffbult bssfrtion stbtus Notf
+    // tibt tif dffbult pbdkbgf is plbdfd undfr b null mbp kfy.  If tiis fifld
+    // is null tifn wf brf dflfgbting bssfrtion stbtus qufrifs to tif VM, i.f.,
+    // nonf of tiis ClbssLobdfr's bssfrtion stbtus modifidbtion mftiods ibvf
+    // bffn invokfd.
+    // @GubrdfdBy("bssfrtionLodk")
+    privbtf Mbp<String, Boolfbn> pbdkbgfAssfrtionStbtus = null;
 
-    // Maps String fullyQualifiedClassName to Boolean assertionStatus If this
-    // field is null then we are delegating assertion status queries to the VM,
-    // i.e., none of this ClassLoader's assertion status modification methods
-    // have been invoked.
-    // @GuardedBy("assertionLock")
-    Map<String, Boolean> classAssertionStatus = null;
+    // Mbps String fullyQublififdClbssNbmf to Boolfbn bssfrtionStbtus If tiis
+    // fifld is null tifn wf brf dflfgbting bssfrtion stbtus qufrifs to tif VM,
+    // i.f., nonf of tiis ClbssLobdfr's bssfrtion stbtus modifidbtion mftiods
+    // ibvf bffn invokfd.
+    // @GubrdfdBy("bssfrtionLodk")
+    Mbp<String, Boolfbn> dlbssAssfrtionStbtus = null;
 
     /**
-     * Sets the default assertion status for this class loader.  This setting
-     * determines whether classes loaded by this class loader and initialized
-     * in the future will have assertions enabled or disabled by default.
-     * This setting may be overridden on a per-package or per-class basis by
-     * invoking {@link #setPackageAssertionStatus(String, boolean)} or {@link
-     * #setClassAssertionStatus(String, boolean)}.
+     * Sfts tif dffbult bssfrtion stbtus for tiis dlbss lobdfr.  Tiis sftting
+     * dftfrminfs wiftifr dlbssfs lobdfd by tiis dlbss lobdfr bnd initiblizfd
+     * in tif futurf will ibvf bssfrtions fnbblfd or disbblfd by dffbult.
+     * Tiis sftting mby bf ovfrriddfn on b pfr-pbdkbgf or pfr-dlbss bbsis by
+     * invoking {@link #sftPbdkbgfAssfrtionStbtus(String, boolfbn)} or {@link
+     * #sftClbssAssfrtionStbtus(String, boolfbn)}.
      *
-     * @param  enabled
-     *         <tt>true</tt> if classes loaded by this class loader will
-     *         henceforth have assertions enabled by default, <tt>false</tt>
-     *         if they will have assertions disabled by default.
+     * @pbrbm  fnbblfd
+     *         <tt>truf</tt> if dlbssfs lobdfd by tiis dlbss lobdfr will
+     *         ifndfforti ibvf bssfrtions fnbblfd by dffbult, <tt>fblsf</tt>
+     *         if tify will ibvf bssfrtions disbblfd by dffbult.
      *
-     * @since  1.4
+     * @sindf  1.4
      */
-    public void setDefaultAssertionStatus(boolean enabled) {
-        synchronized (assertionLock) {
-            if (classAssertionStatus == null)
-                initializeJavaAssertionMaps();
+    publid void sftDffbultAssfrtionStbtus(boolfbn fnbblfd) {
+        syndironizfd (bssfrtionLodk) {
+            if (dlbssAssfrtionStbtus == null)
+                initiblizfJbvbAssfrtionMbps();
 
-            defaultAssertionStatus = enabled;
+            dffbultAssfrtionStbtus = fnbblfd;
         }
     }
 
     /**
-     * Sets the package default assertion status for the named package.  The
-     * package default assertion status determines the assertion status for
-     * classes initialized in the future that belong to the named package or
-     * any of its "subpackages".
+     * Sfts tif pbdkbgf dffbult bssfrtion stbtus for tif nbmfd pbdkbgf.  Tif
+     * pbdkbgf dffbult bssfrtion stbtus dftfrminfs tif bssfrtion stbtus for
+     * dlbssfs initiblizfd in tif futurf tibt bflong to tif nbmfd pbdkbgf or
+     * bny of its "subpbdkbgfs".
      *
-     * <p> A subpackage of a package named p is any package whose name begins
-     * with "<tt>p.</tt>".  For example, <tt>javax.swing.text</tt> is a
-     * subpackage of <tt>javax.swing</tt>, and both <tt>java.util</tt> and
-     * <tt>java.lang.reflect</tt> are subpackages of <tt>java</tt>.
+     * <p> A subpbdkbgf of b pbdkbgf nbmfd p is bny pbdkbgf wiosf nbmf bfgins
+     * witi "<tt>p.</tt>".  For fxbmplf, <tt>jbvbx.swing.tfxt</tt> is b
+     * subpbdkbgf of <tt>jbvbx.swing</tt>, bnd boti <tt>jbvb.util</tt> bnd
+     * <tt>jbvb.lbng.rfflfdt</tt> brf subpbdkbgfs of <tt>jbvb</tt>.
      *
-     * <p> In the event that multiple package defaults apply to a given class,
-     * the package default pertaining to the most specific package takes
-     * precedence over the others.  For example, if <tt>javax.lang</tt> and
-     * <tt>javax.lang.reflect</tt> both have package defaults associated with
-     * them, the latter package default applies to classes in
-     * <tt>javax.lang.reflect</tt>.
+     * <p> In tif fvfnt tibt multiplf pbdkbgf dffbults bpply to b givfn dlbss,
+     * tif pbdkbgf dffbult pfrtbining to tif most spfdifid pbdkbgf tbkfs
+     * prfdfdfndf ovfr tif otifrs.  For fxbmplf, if <tt>jbvbx.lbng</tt> bnd
+     * <tt>jbvbx.lbng.rfflfdt</tt> boti ibvf pbdkbgf dffbults bssodibtfd witi
+     * tifm, tif lbttfr pbdkbgf dffbult bpplifs to dlbssfs in
+     * <tt>jbvbx.lbng.rfflfdt</tt>.
      *
-     * <p> Package defaults take precedence over the class loader's default
-     * assertion status, and may be overridden on a per-class basis by invoking
-     * {@link #setClassAssertionStatus(String, boolean)}.  </p>
+     * <p> Pbdkbgf dffbults tbkf prfdfdfndf ovfr tif dlbss lobdfr's dffbult
+     * bssfrtion stbtus, bnd mby bf ovfrriddfn on b pfr-dlbss bbsis by invoking
+     * {@link #sftClbssAssfrtionStbtus(String, boolfbn)}.  </p>
      *
-     * @param  packageName
-     *         The name of the package whose package default assertion status
-     *         is to be set. A <tt>null</tt> value indicates the unnamed
-     *         package that is "current"
-     *         (see section 7.4.2 of
-     *         <cite>The Java&trade; Language Specification</cite>.)
+     * @pbrbm  pbdkbgfNbmf
+     *         Tif nbmf of tif pbdkbgf wiosf pbdkbgf dffbult bssfrtion stbtus
+     *         is to bf sft. A <tt>null</tt> vbluf indidbtfs tif unnbmfd
+     *         pbdkbgf tibt is "durrfnt"
+     *         (sff sfdtion 7.4.2 of
+     *         <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.)
      *
-     * @param  enabled
-     *         <tt>true</tt> if classes loaded by this classloader and
-     *         belonging to the named package or any of its subpackages will
-     *         have assertions enabled by default, <tt>false</tt> if they will
-     *         have assertions disabled by default.
+     * @pbrbm  fnbblfd
+     *         <tt>truf</tt> if dlbssfs lobdfd by tiis dlbsslobdfr bnd
+     *         bflonging to tif nbmfd pbdkbgf or bny of its subpbdkbgfs will
+     *         ibvf bssfrtions fnbblfd by dffbult, <tt>fblsf</tt> if tify will
+     *         ibvf bssfrtions disbblfd by dffbult.
      *
-     * @since  1.4
+     * @sindf  1.4
      */
-    public void setPackageAssertionStatus(String packageName,
-                                          boolean enabled) {
-        synchronized (assertionLock) {
-            if (packageAssertionStatus == null)
-                initializeJavaAssertionMaps();
+    publid void sftPbdkbgfAssfrtionStbtus(String pbdkbgfNbmf,
+                                          boolfbn fnbblfd) {
+        syndironizfd (bssfrtionLodk) {
+            if (pbdkbgfAssfrtionStbtus == null)
+                initiblizfJbvbAssfrtionMbps();
 
-            packageAssertionStatus.put(packageName, enabled);
+            pbdkbgfAssfrtionStbtus.put(pbdkbgfNbmf, fnbblfd);
         }
     }
 
     /**
-     * Sets the desired assertion status for the named top-level class in this
-     * class loader and any nested classes contained therein.  This setting
-     * takes precedence over the class loader's default assertion status, and
-     * over any applicable per-package default.  This method has no effect if
-     * the named class has already been initialized.  (Once a class is
-     * initialized, its assertion status cannot change.)
+     * Sfts tif dfsirfd bssfrtion stbtus for tif nbmfd top-lfvfl dlbss in tiis
+     * dlbss lobdfr bnd bny nfstfd dlbssfs dontbinfd tifrfin.  Tiis sftting
+     * tbkfs prfdfdfndf ovfr tif dlbss lobdfr's dffbult bssfrtion stbtus, bnd
+     * ovfr bny bpplidbblf pfr-pbdkbgf dffbult.  Tiis mftiod ibs no ffffdt if
+     * tif nbmfd dlbss ibs blrfbdy bffn initiblizfd.  (Ondf b dlbss is
+     * initiblizfd, its bssfrtion stbtus dbnnot dibngf.)
      *
-     * <p> If the named class is not a top-level class, this invocation will
-     * have no effect on the actual assertion status of any class. </p>
+     * <p> If tif nbmfd dlbss is not b top-lfvfl dlbss, tiis invodbtion will
+     * ibvf no ffffdt on tif bdtubl bssfrtion stbtus of bny dlbss. </p>
      *
-     * @param  className
-     *         The fully qualified class name of the top-level class whose
-     *         assertion status is to be set.
+     * @pbrbm  dlbssNbmf
+     *         Tif fully qublififd dlbss nbmf of tif top-lfvfl dlbss wiosf
+     *         bssfrtion stbtus is to bf sft.
      *
-     * @param  enabled
-     *         <tt>true</tt> if the named class is to have assertions
-     *         enabled when (and if) it is initialized, <tt>false</tt> if the
-     *         class is to have assertions disabled.
+     * @pbrbm  fnbblfd
+     *         <tt>truf</tt> if tif nbmfd dlbss is to ibvf bssfrtions
+     *         fnbblfd wifn (bnd if) it is initiblizfd, <tt>fblsf</tt> if tif
+     *         dlbss is to ibvf bssfrtions disbblfd.
      *
-     * @since  1.4
+     * @sindf  1.4
      */
-    public void setClassAssertionStatus(String className, boolean enabled) {
-        synchronized (assertionLock) {
-            if (classAssertionStatus == null)
-                initializeJavaAssertionMaps();
+    publid void sftClbssAssfrtionStbtus(String dlbssNbmf, boolfbn fnbblfd) {
+        syndironizfd (bssfrtionLodk) {
+            if (dlbssAssfrtionStbtus == null)
+                initiblizfJbvbAssfrtionMbps();
 
-            classAssertionStatus.put(className, enabled);
+            dlbssAssfrtionStbtus.put(dlbssNbmf, fnbblfd);
         }
     }
 
     /**
-     * Sets the default assertion status for this class loader to
-     * <tt>false</tt> and discards any package defaults or class assertion
-     * status settings associated with the class loader.  This method is
-     * provided so that class loaders can be made to ignore any command line or
-     * persistent assertion status settings and "start with a clean slate."
+     * Sfts tif dffbult bssfrtion stbtus for tiis dlbss lobdfr to
+     * <tt>fblsf</tt> bnd disdbrds bny pbdkbgf dffbults or dlbss bssfrtion
+     * stbtus sfttings bssodibtfd witi tif dlbss lobdfr.  Tiis mftiod is
+     * providfd so tibt dlbss lobdfrs dbn bf mbdf to ignorf bny dommbnd linf or
+     * pfrsistfnt bssfrtion stbtus sfttings bnd "stbrt witi b dlfbn slbtf."
      *
-     * @since  1.4
+     * @sindf  1.4
      */
-    public void clearAssertionStatus() {
+    publid void dlfbrAssfrtionStbtus() {
         /*
-         * Whether or not "Java assertion maps" are initialized, set
-         * them to empty maps, effectively ignoring any present settings.
+         * Wiftifr or not "Jbvb bssfrtion mbps" brf initiblizfd, sft
+         * tifm to fmpty mbps, ffffdtivfly ignoring bny prfsfnt sfttings.
          */
-        synchronized (assertionLock) {
-            classAssertionStatus = new HashMap<>();
-            packageAssertionStatus = new HashMap<>();
-            defaultAssertionStatus = false;
+        syndironizfd (bssfrtionLodk) {
+            dlbssAssfrtionStbtus = nfw HbsiMbp<>();
+            pbdkbgfAssfrtionStbtus = nfw HbsiMbp<>();
+            dffbultAssfrtionStbtus = fblsf;
         }
     }
 
     /**
-     * Returns the assertion status that would be assigned to the specified
-     * class if it were to be initialized at the time this method is invoked.
-     * If the named class has had its assertion status set, the most recent
-     * setting will be returned; otherwise, if any package default assertion
-     * status pertains to this class, the most recent setting for the most
-     * specific pertinent package default assertion status is returned;
-     * otherwise, this class loader's default assertion status is returned.
+     * Rfturns tif bssfrtion stbtus tibt would bf bssignfd to tif spfdififd
+     * dlbss if it wfrf to bf initiblizfd bt tif timf tiis mftiod is invokfd.
+     * If tif nbmfd dlbss ibs ibd its bssfrtion stbtus sft, tif most rfdfnt
+     * sftting will bf rfturnfd; otifrwisf, if bny pbdkbgf dffbult bssfrtion
+     * stbtus pfrtbins to tiis dlbss, tif most rfdfnt sftting for tif most
+     * spfdifid pfrtinfnt pbdkbgf dffbult bssfrtion stbtus is rfturnfd;
+     * otifrwisf, tiis dlbss lobdfr's dffbult bssfrtion stbtus is rfturnfd.
      * </p>
      *
-     * @param  className
-     *         The fully qualified class name of the class whose desired
-     *         assertion status is being queried.
+     * @pbrbm  dlbssNbmf
+     *         Tif fully qublififd dlbss nbmf of tif dlbss wiosf dfsirfd
+     *         bssfrtion stbtus is bfing qufrifd.
      *
-     * @return  The desired assertion status of the specified class.
+     * @rfturn  Tif dfsirfd bssfrtion stbtus of tif spfdififd dlbss.
      *
-     * @see  #setClassAssertionStatus(String, boolean)
-     * @see  #setPackageAssertionStatus(String, boolean)
-     * @see  #setDefaultAssertionStatus(boolean)
+     * @sff  #sftClbssAssfrtionStbtus(String, boolfbn)
+     * @sff  #sftPbdkbgfAssfrtionStbtus(String, boolfbn)
+     * @sff  #sftDffbultAssfrtionStbtus(boolfbn)
      *
-     * @since  1.4
+     * @sindf  1.4
      */
-    boolean desiredAssertionStatus(String className) {
-        synchronized (assertionLock) {
-            // assert classAssertionStatus   != null;
-            // assert packageAssertionStatus != null;
+    boolfbn dfsirfdAssfrtionStbtus(String dlbssNbmf) {
+        syndironizfd (bssfrtionLodk) {
+            // bssfrt dlbssAssfrtionStbtus   != null;
+            // bssfrt pbdkbgfAssfrtionStbtus != null;
 
-            // Check for a class entry
-            Boolean result = classAssertionStatus.get(className);
-            if (result != null)
-                return result.booleanValue();
+            // Cifdk for b dlbss fntry
+            Boolfbn rfsult = dlbssAssfrtionStbtus.gft(dlbssNbmf);
+            if (rfsult != null)
+                rfturn rfsult.boolfbnVbluf();
 
-            // Check for most specific package entry
-            int dotIndex = className.lastIndexOf('.');
-            if (dotIndex < 0) { // default package
-                result = packageAssertionStatus.get(null);
-                if (result != null)
-                    return result.booleanValue();
+            // Cifdk for most spfdifid pbdkbgf fntry
+            int dotIndfx = dlbssNbmf.lbstIndfxOf('.');
+            if (dotIndfx < 0) { // dffbult pbdkbgf
+                rfsult = pbdkbgfAssfrtionStbtus.gft(null);
+                if (rfsult != null)
+                    rfturn rfsult.boolfbnVbluf();
             }
-            while(dotIndex > 0) {
-                className = className.substring(0, dotIndex);
-                result = packageAssertionStatus.get(className);
-                if (result != null)
-                    return result.booleanValue();
-                dotIndex = className.lastIndexOf('.', dotIndex-1);
+            wiilf(dotIndfx > 0) {
+                dlbssNbmf = dlbssNbmf.substring(0, dotIndfx);
+                rfsult = pbdkbgfAssfrtionStbtus.gft(dlbssNbmf);
+                if (rfsult != null)
+                    rfturn rfsult.boolfbnVbluf();
+                dotIndfx = dlbssNbmf.lbstIndfxOf('.', dotIndfx-1);
             }
 
-            // Return the classloader default
-            return defaultAssertionStatus;
+            // Rfturn tif dlbsslobdfr dffbult
+            rfturn dffbultAssfrtionStbtus;
         }
     }
 
-    // Set up the assertions with information provided by the VM.
-    // Note: Should only be called inside a synchronized block
-    private void initializeJavaAssertionMaps() {
-        // assert Thread.holdsLock(assertionLock);
+    // Sft up tif bssfrtions witi informbtion providfd by tif VM.
+    // Notf: Siould only bf dbllfd insidf b syndironizfd blodk
+    privbtf void initiblizfJbvbAssfrtionMbps() {
+        // bssfrt Tirfbd.ioldsLodk(bssfrtionLodk);
 
-        classAssertionStatus = new HashMap<>();
-        packageAssertionStatus = new HashMap<>();
-        AssertionStatusDirectives directives = retrieveDirectives();
+        dlbssAssfrtionStbtus = nfw HbsiMbp<>();
+        pbdkbgfAssfrtionStbtus = nfw HbsiMbp<>();
+        AssfrtionStbtusDirfdtivfs dirfdtivfs = rftrifvfDirfdtivfs();
 
-        for(int i = 0; i < directives.classes.length; i++)
-            classAssertionStatus.put(directives.classes[i],
-                                     directives.classEnabled[i]);
+        for(int i = 0; i < dirfdtivfs.dlbssfs.lfngti; i++)
+            dlbssAssfrtionStbtus.put(dirfdtivfs.dlbssfs[i],
+                                     dirfdtivfs.dlbssEnbblfd[i]);
 
-        for(int i = 0; i < directives.packages.length; i++)
-            packageAssertionStatus.put(directives.packages[i],
-                                       directives.packageEnabled[i]);
+        for(int i = 0; i < dirfdtivfs.pbdkbgfs.lfngti; i++)
+            pbdkbgfAssfrtionStbtus.put(dirfdtivfs.pbdkbgfs[i],
+                                       dirfdtivfs.pbdkbgfEnbblfd[i]);
 
-        defaultAssertionStatus = directives.deflt;
+        dffbultAssfrtionStbtus = dirfdtivfs.dfflt;
     }
 
-    // Retrieves the assertion directives from the VM.
-    private static native AssertionStatusDirectives retrieveDirectives();
+    // Rftrifvfs tif bssfrtion dirfdtivfs from tif VM.
+    privbtf stbtid nbtivf AssfrtionStbtusDirfdtivfs rftrifvfDirfdtivfs();
 }
 
 
-class SystemClassLoaderAction
-    implements PrivilegedExceptionAction<ClassLoader> {
-    private ClassLoader parent;
+dlbss SystfmClbssLobdfrAdtion
+    implfmfnts PrivilfgfdExdfptionAdtion<ClbssLobdfr> {
+    privbtf ClbssLobdfr pbrfnt;
 
-    SystemClassLoaderAction(ClassLoader parent) {
-        this.parent = parent;
+    SystfmClbssLobdfrAdtion(ClbssLobdfr pbrfnt) {
+        tiis.pbrfnt = pbrfnt;
     }
 
-    public ClassLoader run() throws Exception {
-        String cls = System.getProperty("java.system.class.loader");
-        if (cls == null) {
-            return parent;
+    publid ClbssLobdfr run() tirows Exdfption {
+        String dls = Systfm.gftPropfrty("jbvb.systfm.dlbss.lobdfr");
+        if (dls == null) {
+            rfturn pbrfnt;
         }
 
-        Constructor<?> ctor = Class.forName(cls, true, parent)
-            .getDeclaredConstructor(new Class<?>[] { ClassLoader.class });
-        ClassLoader sys = (ClassLoader) ctor.newInstance(
-            new Object[] { parent });
-        Thread.currentThread().setContextClassLoader(sys);
-        return sys;
+        Construdtor<?> dtor = Clbss.forNbmf(dls, truf, pbrfnt)
+            .gftDfdlbrfdConstrudtor(nfw Clbss<?>[] { ClbssLobdfr.dlbss });
+        ClbssLobdfr sys = (ClbssLobdfr) dtor.nfwInstbndf(
+            nfw Objfdt[] { pbrfnt });
+        Tirfbd.durrfntTirfbd().sftContfxtClbssLobdfr(sys);
+        rfturn sys;
     }
 }

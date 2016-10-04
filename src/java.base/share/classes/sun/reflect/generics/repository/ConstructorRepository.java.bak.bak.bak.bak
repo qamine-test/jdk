@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.gfnfrids.rfpository;
+
+import jbvb.lbng.rfflfdt.Typf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.pbrsfr.SignbturfPbrsfr;
+import sun.rfflfdt.gfnfrids.trff.FifldTypfSignbturf;
+import sun.rfflfdt.gfnfrids.trff.MfthodTypfSignbturf;
+import sun.rfflfdt.gfnfrids.trff.TypfSignbturf;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
+
+
+
+/**
+ * This dlbss rfprfsfnts thf gfnfrid typf informbtion for b donstrudtor.
+ * Thf dodf is not dfpfndfnt on b pbrtidulbr rfflfdtivf implfmfntbtion.
+ * It is dfsignfd to bf usfd undhbngfd by bt lfbst dorf rfflfdtion bnd JDI.
+ */
+publid dlbss ConstrudtorRfpository
+    fxtfnds GfnfridDfdlRfpository<MfthodTypfSignbturf> {
+
+    privbtf Typf[] pbrbmTypfs; // dbdhfs thf gfnfrid pbrbmftfr typfs info
+    privbtf Typf[] fxdfptionTypfs; // dbdhfs thf gfnfrid fxdfption typfs info
+
+ // protfdtfd, to fnfordf usf of stbtid fbdtory yft bllow subdlbssing
+    protfdtfd ConstrudtorRfpository(String rbwSig, GfnfridsFbdtory f) {
+      supfr(rbwSig, f);
+    }
+
+    protfdtfd MfthodTypfSignbturf pbrsf(String s) {
+        rfturn SignbturfPbrsfr.mbkf().pbrsfMfthodSig(s);
+    }
+
+    /**
+     * Stbtid fbdtory mfthod.
+     * @pbrbm rbwSig - thf gfnfrid signbturf of thf rfflfdtivf objfdt
+     * thbt this rfpository is sfrviding
+     * @pbrbm f - b fbdtory thbt will providf instbndfs of rfflfdtivf
+     * objfdts whfn this rfpository donvfrts its AST
+     * @rfturn b <tt>ConstrudtorRfpository</tt> thbt mbnbgfs thf gfnfrid typf
+     * informbtion rfprfsfntfd in thf signbturf <tt>rbwSig</tt>
+     */
+    publid stbtid ConstrudtorRfpository mbkf(String rbwSig,
+                                             GfnfridsFbdtory f) {
+        rfturn nfw ConstrudtorRfpository(rbwSig, f);
+    }
+
+    // publid API
+
+ /*
+ * Whfn qufrifd for b pbrtidulbr pifdf of typf informbtion, thf
+ * gfnfrbl pbttfrn is to donsult thf dorrfsponding dbdhfd vbluf.
+ * If thf dorrfsponding fifld is non-null, it is rfturnfd.
+ * If not, it is drfbtfd lbzily. This is donf by sflfdting thf bppropribtf
+ * pbrt of thf trff bnd trbnsforming it into b rfflfdtivf objfdt
+ * using b visitor.
+ * b visitor, whidh is drfbtfd by fffding it thf fbdtory
+ * with whidh thf rfpository wbs drfbtfd.
+ */
+
+    publid Typf[] gftPbrbmftfrTypfs(){
+        if (pbrbmTypfs == null) { // lbzily initiblizf pbrbmftfr typfs
+            // first, fxtrbdt pbrbmftfr typf subtrff(s) from AST
+            TypfSignbturf[] pts = gftTrff().gftPbrbmftfrTypfs();
+            // drfbtf brrby to storf rfififd subtrff(s)
+            Typf[] ps = nfw Typf[pts.lfngth];
+            // rfify bll subtrffs
+            for (int i = 0; i < pts.lfngth; i++) {
+                Rfififr r = gftRfififr(); // obtbin visitor
+                pts[i].bddfpt(r); // rfify subtrff
+                // fxtrbdt rfsult from visitor bnd storf it
+                ps[i] = r.gftRfsult();
+            }
+            pbrbmTypfs = ps; // dbdhf ovfrbll rfsult
+        }
+        rfturn pbrbmTypfs.dlonf(); // rfturn dbdhfd rfsult
+    }
+
+    publid Typf[] gftExdfptionTypfs(){
+        if (fxdfptionTypfs == null) { // lbzily initiblizf fxdfption typfs
+            // first, fxtrbdt fxdfption typf subtrff(s) from AST
+            FifldTypfSignbturf[] fts = gftTrff().gftExdfptionTypfs();
+            // drfbtf brrby to storf rfififd subtrff(s)
+            Typf[] fs = nfw Typf[fts.lfngth];
+            // rfify bll subtrffs
+            for (int i = 0; i < fts.lfngth; i++) {
+                Rfififr r = gftRfififr(); // obtbin visitor
+                fts[i].bddfpt(r); // rfify subtrff
+                // fxtrbdt rfsult from visitor bnd storf it
+                fs[i] = r.gftRfsult();
+            }
+            fxdfptionTypfs = fs; // dbdhf ovfrbll rfsult
+        }
+        rfturn fxdfptionTypfs.dlonf(); // rfturn dbdhfd rfsult
+    }
+}

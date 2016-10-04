@@ -1,671 +1,671 @@
 /*
- * Copyright (c) 2001, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect;
+pbdkbgf sun.rfflfdt;
 
-class ClassFileAssembler implements ClassFileConstants {
-    private ByteVector vec;
-    private short cpIdx = 0;
+dlbss ClbssFilfAssfmblfr implfmfnts ClbssFilfConstbnts {
+    privbtf BytfVfdtor vfd;
+    privbtf siort dpIdx = 0;
 
-    public ClassFileAssembler() {
-        this(ByteVectorFactory.create());
+    publid ClbssFilfAssfmblfr() {
+        tiis(BytfVfdtorFbdtory.drfbtf());
     }
 
-    public ClassFileAssembler(ByteVector vec) {
-        this.vec = vec;
+    publid ClbssFilfAssfmblfr(BytfVfdtor vfd) {
+        tiis.vfd = vfd;
     }
 
-    public ByteVector getData() {
-        return vec;
+    publid BytfVfdtor gftDbtb() {
+        rfturn vfd;
     }
 
-    /** Length in bytes */
-    public short getLength() {
-        return (short) vec.getLength();
+    /** Lfngti in bytfs */
+    publid siort gftLfngti() {
+        rfturn (siort) vfd.gftLfngti();
     }
 
-    public void emitMagicAndVersion() {
-        emitInt(0xCAFEBABE);
-        emitShort((short) 0);
-        emitShort((short) 49);
+    publid void fmitMbgidAndVfrsion() {
+        fmitInt(0xCAFEBABE);
+        fmitSiort((siort) 0);
+        fmitSiort((siort) 49);
     }
 
-    public void emitInt(int val) {
-        emitByte((byte) (val >> 24));
-        emitByte((byte) ((val >> 16) & 0xFF));
-        emitByte((byte) ((val >> 8) & 0xFF));
-        emitByte((byte) (val & 0xFF));
+    publid void fmitInt(int vbl) {
+        fmitBytf((bytf) (vbl >> 24));
+        fmitBytf((bytf) ((vbl >> 16) & 0xFF));
+        fmitBytf((bytf) ((vbl >> 8) & 0xFF));
+        fmitBytf((bytf) (vbl & 0xFF));
     }
 
-    public void emitShort(short val) {
-        emitByte((byte) ((val >> 8) & 0xFF));
-        emitByte((byte) (val & 0xFF));
+    publid void fmitSiort(siort vbl) {
+        fmitBytf((bytf) ((vbl >> 8) & 0xFF));
+        fmitBytf((bytf) (vbl & 0xFF));
     }
 
-    // Support for labels; package-private
-    void emitShort(short bci, short val) {
-        vec.put(bci,     (byte) ((val >> 8) & 0xFF));
-        vec.put(bci + 1, (byte) (val & 0xFF));
+    // Support for lbbfls; pbdkbgf-privbtf
+    void fmitSiort(siort bdi, siort vbl) {
+        vfd.put(bdi,     (bytf) ((vbl >> 8) & 0xFF));
+        vfd.put(bdi + 1, (bytf) (vbl & 0xFF));
     }
 
-    public void emitByte(byte val) {
-        vec.add(val);
+    publid void fmitBytf(bytf vbl) {
+        vfd.bdd(vbl);
     }
 
-    public void append(ClassFileAssembler asm) {
-        append(asm.vec);
+    publid void bppfnd(ClbssFilfAssfmblfr bsm) {
+        bppfnd(bsm.vfd);
     }
 
-    public void append(ByteVector vec) {
-        for (int i = 0; i < vec.getLength(); i++) {
-            emitByte(vec.get(i));
+    publid void bppfnd(BytfVfdtor vfd) {
+        for (int i = 0; i < vfd.gftLfngti(); i++) {
+            fmitBytf(vfd.gft(i));
         }
     }
 
-    /** Keeps track of the current (one-based) constant pool index;
-        incremented after emitting one of the following constant pool
-        entries. Can fetch the current constant pool index for use in
-        later entries.  Index points at the last valid constant pool
-        entry; initially invalid. It is illegal to fetch the constant
-        pool index before emitting at least one constant pool entry. */
-    public short cpi() {
-        if (cpIdx == 0) {
-            throw new RuntimeException("Illegal use of ClassFileAssembler");
+    /** Kffps trbdk of tif durrfnt (onf-bbsfd) donstbnt pool indfx;
+        indrfmfntfd bftfr fmitting onf of tif following donstbnt pool
+        fntrifs. Cbn fftdi tif durrfnt donstbnt pool indfx for usf in
+        lbtfr fntrifs.  Indfx points bt tif lbst vblid donstbnt pool
+        fntry; initiblly invblid. It is illfgbl to fftdi tif donstbnt
+        pool indfx bfforf fmitting bt lfbst onf donstbnt pool fntry. */
+    publid siort dpi() {
+        if (dpIdx == 0) {
+            tirow nfw RuntimfExdfption("Illfgbl usf of ClbssFilfAssfmblfr");
         }
-        return cpIdx;
+        rfturn dpIdx;
     }
 
-    public void emitConstantPoolUTF8(String str) {
-        // NOTE: can not use str.getBytes("UTF-8") here because of
-        // bootstrapping issues with the character set converters.
-        byte[] bytes = UTF8.encode(str);
-        emitByte(CONSTANT_Utf8);
-        emitShort((short) bytes.length);
-        for (int i = 0; i < bytes.length; i++) {
-            emitByte(bytes[i]);
+    publid void fmitConstbntPoolUTF8(String str) {
+        // NOTE: dbn not usf str.gftBytfs("UTF-8") ifrf bfdbusf of
+        // bootstrbpping issufs witi tif dibrbdtfr sft donvfrtfrs.
+        bytf[] bytfs = UTF8.fndodf(str);
+        fmitBytf(CONSTANT_Utf8);
+        fmitSiort((siort) bytfs.lfngti);
+        for (int i = 0; i < bytfs.lfngti; i++) {
+            fmitBytf(bytfs[i]);
         }
-        cpIdx++;
+        dpIdx++;
     }
 
-    public void emitConstantPoolClass(short index) {
-        emitByte(CONSTANT_Class);
-        emitShort(index);
-        cpIdx++;
+    publid void fmitConstbntPoolClbss(siort indfx) {
+        fmitBytf(CONSTANT_Clbss);
+        fmitSiort(indfx);
+        dpIdx++;
     }
 
-    public void emitConstantPoolNameAndType(short nameIndex, short typeIndex) {
-        emitByte(CONSTANT_NameAndType);
-        emitShort(nameIndex);
-        emitShort(typeIndex);
-        cpIdx++;
+    publid void fmitConstbntPoolNbmfAndTypf(siort nbmfIndfx, siort typfIndfx) {
+        fmitBytf(CONSTANT_NbmfAndTypf);
+        fmitSiort(nbmfIndfx);
+        fmitSiort(typfIndfx);
+        dpIdx++;
     }
 
-    public void emitConstantPoolFieldref
-        (short classIndex, short nameAndTypeIndex)
+    publid void fmitConstbntPoolFifldrff
+        (siort dlbssIndfx, siort nbmfAndTypfIndfx)
     {
-        emitByte(CONSTANT_Fieldref);
-        emitShort(classIndex);
-        emitShort(nameAndTypeIndex);
-        cpIdx++;
+        fmitBytf(CONSTANT_Fifldrff);
+        fmitSiort(dlbssIndfx);
+        fmitSiort(nbmfAndTypfIndfx);
+        dpIdx++;
     }
 
-    public void emitConstantPoolMethodref
-        (short classIndex, short nameAndTypeIndex)
+    publid void fmitConstbntPoolMftiodrff
+        (siort dlbssIndfx, siort nbmfAndTypfIndfx)
     {
-        emitByte(CONSTANT_Methodref);
-        emitShort(classIndex);
-        emitShort(nameAndTypeIndex);
-        cpIdx++;
+        fmitBytf(CONSTANT_Mftiodrff);
+        fmitSiort(dlbssIndfx);
+        fmitSiort(nbmfAndTypfIndfx);
+        dpIdx++;
     }
 
-    public void emitConstantPoolInterfaceMethodref
-        (short classIndex, short nameAndTypeIndex)
+    publid void fmitConstbntPoolIntfrfbdfMftiodrff
+        (siort dlbssIndfx, siort nbmfAndTypfIndfx)
     {
-        emitByte(CONSTANT_InterfaceMethodref);
-        emitShort(classIndex);
-        emitShort(nameAndTypeIndex);
-        cpIdx++;
+        fmitBytf(CONSTANT_IntfrfbdfMftiodrff);
+        fmitSiort(dlbssIndfx);
+        fmitSiort(nbmfAndTypfIndfx);
+        dpIdx++;
     }
 
-    public void emitConstantPoolString(short utf8Index) {
-        emitByte(CONSTANT_String);
-        emitShort(utf8Index);
-        cpIdx++;
+    publid void fmitConstbntPoolString(siort utf8Indfx) {
+        fmitBytf(CONSTANT_String);
+        fmitSiort(utf8Indfx);
+        dpIdx++;
     }
 
     //----------------------------------------------------------------------
-    // Opcodes. Keeps track of maximum stack and locals. Make a new
-    // assembler for each piece of assembled code, then append the
-    // result to the previous assembler's class file.
+    // Opdodfs. Kffps trbdk of mbximum stbdk bnd lodbls. Mbkf b nfw
+    // bssfmblfr for fbdi pifdf of bssfmblfd dodf, tifn bppfnd tif
+    // rfsult to tif prfvious bssfmblfr's dlbss filf.
     //
 
-    private int stack     = 0;
-    private int maxStack  = 0;
-    private int maxLocals = 0;
+    privbtf int stbdk     = 0;
+    privbtf int mbxStbdk  = 0;
+    privbtf int mbxLodbls = 0;
 
-    private void incStack() {
-        setStack(stack + 1);
+    privbtf void indStbdk() {
+        sftStbdk(stbdk + 1);
     }
 
-    private void decStack() {
-        --stack;
+    privbtf void dfdStbdk() {
+        --stbdk;
     }
 
-    public short getMaxStack() {
-        return (short) maxStack;
+    publid siort gftMbxStbdk() {
+        rfturn (siort) mbxStbdk;
     }
 
-    public short getMaxLocals() {
-        return (short) maxLocals;
+    publid siort gftMbxLodbls() {
+        rfturn (siort) mbxLodbls;
     }
 
-    /** It's necessary to be able to specify the number of arguments at
-        the beginning of the method (which translates to the initial
-        value of max locals) */
-    public void setMaxLocals(int maxLocals) {
-        this.maxLocals = maxLocals;
+    /** It's nfdfssbry to bf bblf to spfdify tif numbfr of brgumfnts bt
+        tif bfginning of tif mftiod (wiidi trbnslbtfs to tif initibl
+        vbluf of mbx lodbls) */
+    publid void sftMbxLodbls(int mbxLodbls) {
+        tiis.mbxLodbls = mbxLodbls;
     }
 
-    /** Needed to do flow control. Returns current stack depth. */
-    public int getStack() {
-        return stack;
+    /** Nffdfd to do flow dontrol. Rfturns durrfnt stbdk dfpti. */
+    publid int gftStbdk() {
+        rfturn stbdk;
     }
 
-    /** Needed to do flow control. */
-    public void setStack(int value) {
-        stack = value;
-        if (stack > maxStack) {
-            maxStack = stack;
+    /** Nffdfd to do flow dontrol. */
+    publid void sftStbdk(int vbluf) {
+        stbdk = vbluf;
+        if (stbdk > mbxStbdk) {
+            mbxStbdk = stbdk;
         }
     }
 
     ///////////////
-    // Constants //
+    // Constbnts //
     ///////////////
 
-    public void opc_aconst_null() {
-        emitByte(opc_aconst_null);
-        incStack();
+    publid void opd_bdonst_null() {
+        fmitBytf(opd_bdonst_null);
+        indStbdk();
     }
 
-    public void opc_sipush(short constant) {
-        emitByte(opc_sipush);
-        emitShort(constant);
-        incStack();
+    publid void opd_sipusi(siort donstbnt) {
+        fmitBytf(opd_sipusi);
+        fmitSiort(donstbnt);
+        indStbdk();
     }
 
-    public void opc_ldc(byte cpIdx) {
-        emitByte(opc_ldc);
-        emitByte(cpIdx);
-        incStack();
+    publid void opd_ldd(bytf dpIdx) {
+        fmitBytf(opd_ldd);
+        fmitBytf(dpIdx);
+        indStbdk();
     }
 
     /////////////////////////////////////
-    // Local variable loads and stores //
+    // Lodbl vbribblf lobds bnd storfs //
     /////////////////////////////////////
 
-    public void opc_iload_0() {
-        emitByte(opc_iload_0);
-        if (maxLocals < 1) maxLocals = 1;
-        incStack();
+    publid void opd_ilobd_0() {
+        fmitBytf(opd_ilobd_0);
+        if (mbxLodbls < 1) mbxLodbls = 1;
+        indStbdk();
     }
 
-    public void opc_iload_1() {
-        emitByte(opc_iload_1);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
+    publid void opd_ilobd_1() {
+        fmitBytf(opd_ilobd_1);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
     }
 
-    public void opc_iload_2() {
-        emitByte(opc_iload_2);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
+    publid void opd_ilobd_2() {
+        fmitBytf(opd_ilobd_2);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
     }
 
-    public void opc_iload_3() {
-        emitByte(opc_iload_3);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
+    publid void opd_ilobd_3() {
+        fmitBytf(opd_ilobd_3);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
     }
 
-    public void opc_lload_0() {
-        emitByte(opc_lload_0);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
-        incStack();
+    publid void opd_llobd_0() {
+        fmitBytf(opd_llobd_0);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
+        indStbdk();
     }
 
-    public void opc_lload_1() {
-        emitByte(opc_lload_1);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
-        incStack();
+    publid void opd_llobd_1() {
+        fmitBytf(opd_llobd_1);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
+        indStbdk();
     }
 
-    public void opc_lload_2() {
-        emitByte(opc_lload_2);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
-        incStack();
+    publid void opd_llobd_2() {
+        fmitBytf(opd_llobd_2);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
+        indStbdk();
     }
 
-    public void opc_lload_3() {
-        emitByte(opc_lload_3);
-        if (maxLocals < 5) maxLocals = 5;
-        incStack();
-        incStack();
+    publid void opd_llobd_3() {
+        fmitBytf(opd_llobd_3);
+        if (mbxLodbls < 5) mbxLodbls = 5;
+        indStbdk();
+        indStbdk();
     }
 
-    public void opc_fload_0() {
-        emitByte(opc_fload_0);
-        if (maxLocals < 1) maxLocals = 1;
-        incStack();
+    publid void opd_flobd_0() {
+        fmitBytf(opd_flobd_0);
+        if (mbxLodbls < 1) mbxLodbls = 1;
+        indStbdk();
     }
 
-    public void opc_fload_1() {
-        emitByte(opc_fload_1);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
+    publid void opd_flobd_1() {
+        fmitBytf(opd_flobd_1);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
     }
 
-    public void opc_fload_2() {
-        emitByte(opc_fload_2);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
+    publid void opd_flobd_2() {
+        fmitBytf(opd_flobd_2);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
     }
 
-    public void opc_fload_3() {
-        emitByte(opc_fload_3);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
+    publid void opd_flobd_3() {
+        fmitBytf(opd_flobd_3);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
     }
 
-    public void opc_dload_0() {
-        emitByte(opc_dload_0);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
-        incStack();
+    publid void opd_dlobd_0() {
+        fmitBytf(opd_dlobd_0);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
+        indStbdk();
     }
 
-    public void opc_dload_1() {
-        emitByte(opc_dload_1);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
-        incStack();
+    publid void opd_dlobd_1() {
+        fmitBytf(opd_dlobd_1);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
+        indStbdk();
     }
 
-    public void opc_dload_2() {
-        emitByte(opc_dload_2);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
-        incStack();
+    publid void opd_dlobd_2() {
+        fmitBytf(opd_dlobd_2);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
+        indStbdk();
     }
 
-    public void opc_dload_3() {
-        emitByte(opc_dload_3);
-        if (maxLocals < 5) maxLocals = 5;
-        incStack();
-        incStack();
+    publid void opd_dlobd_3() {
+        fmitBytf(opd_dlobd_3);
+        if (mbxLodbls < 5) mbxLodbls = 5;
+        indStbdk();
+        indStbdk();
     }
 
-    public void opc_aload_0() {
-        emitByte(opc_aload_0);
-        if (maxLocals < 1) maxLocals = 1;
-        incStack();
+    publid void opd_blobd_0() {
+        fmitBytf(opd_blobd_0);
+        if (mbxLodbls < 1) mbxLodbls = 1;
+        indStbdk();
     }
 
-    public void opc_aload_1() {
-        emitByte(opc_aload_1);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
+    publid void opd_blobd_1() {
+        fmitBytf(opd_blobd_1);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
     }
 
-    public void opc_aload_2() {
-        emitByte(opc_aload_2);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
+    publid void opd_blobd_2() {
+        fmitBytf(opd_blobd_2);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
     }
 
-    public void opc_aload_3() {
-        emitByte(opc_aload_3);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
+    publid void opd_blobd_3() {
+        fmitBytf(opd_blobd_3);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
     }
 
-    public void opc_aaload() {
-        emitByte(opc_aaload);
-        decStack();
+    publid void opd_bblobd() {
+        fmitBytf(opd_bblobd);
+        dfdStbdk();
     }
 
-    public void opc_astore_0() {
-        emitByte(opc_astore_0);
-        if (maxLocals < 1) maxLocals = 1;
-        decStack();
+    publid void opd_bstorf_0() {
+        fmitBytf(opd_bstorf_0);
+        if (mbxLodbls < 1) mbxLodbls = 1;
+        dfdStbdk();
     }
 
-    public void opc_astore_1() {
-        emitByte(opc_astore_1);
-        if (maxLocals < 2) maxLocals = 2;
-        decStack();
+    publid void opd_bstorf_1() {
+        fmitBytf(opd_bstorf_1);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        dfdStbdk();
     }
 
-    public void opc_astore_2() {
-        emitByte(opc_astore_2);
-        if (maxLocals < 3) maxLocals = 3;
-        decStack();
+    publid void opd_bstorf_2() {
+        fmitBytf(opd_bstorf_2);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        dfdStbdk();
     }
 
-    public void opc_astore_3() {
-        emitByte(opc_astore_3);
-        if (maxLocals < 4) maxLocals = 4;
-        decStack();
+    publid void opd_bstorf_3() {
+        fmitBytf(opd_bstorf_3);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        dfdStbdk();
     }
 
     ////////////////////////
-    // Stack manipulation //
+    // Stbdk mbnipulbtion //
     ////////////////////////
 
-    public void opc_pop() {
-        emitByte(opc_pop);
-        decStack();
+    publid void opd_pop() {
+        fmitBytf(opd_pop);
+        dfdStbdk();
     }
 
-    public void opc_dup() {
-        emitByte(opc_dup);
-        incStack();
+    publid void opd_dup() {
+        fmitBytf(opd_dup);
+        indStbdk();
     }
 
-    public void opc_dup_x1() {
-        emitByte(opc_dup_x1);
-        incStack();
+    publid void opd_dup_x1() {
+        fmitBytf(opd_dup_x1);
+        indStbdk();
     }
 
-    public void opc_swap() {
-        emitByte(opc_swap);
+    publid void opd_swbp() {
+        fmitBytf(opd_swbp);
     }
 
     ///////////////////////////////
-    // Widening conversions only //
+    // Widfning donvfrsions only //
     ///////////////////////////////
 
-    public void opc_i2l() {
-        emitByte(opc_i2l);
+    publid void opd_i2l() {
+        fmitBytf(opd_i2l);
     }
 
-    public void opc_i2f() {
-        emitByte(opc_i2f);
+    publid void opd_i2f() {
+        fmitBytf(opd_i2f);
     }
 
-    public void opc_i2d() {
-        emitByte(opc_i2d);
+    publid void opd_i2d() {
+        fmitBytf(opd_i2d);
     }
 
-    public void opc_l2f() {
-        emitByte(opc_l2f);
+    publid void opd_l2f() {
+        fmitBytf(opd_l2f);
     }
 
-    public void opc_l2d() {
-        emitByte(opc_l2d);
+    publid void opd_l2d() {
+        fmitBytf(opd_l2d);
     }
 
-    public void opc_f2d() {
-        emitByte(opc_f2d);
+    publid void opd_f2d() {
+        fmitBytf(opd_f2d);
     }
 
     //////////////////
     // Control flow //
     //////////////////
 
-    public void opc_ifeq(short bciOffset) {
-        emitByte(opc_ifeq);
-        emitShort(bciOffset);
-        decStack();
+    publid void opd_iffq(siort bdiOffsft) {
+        fmitBytf(opd_iffq);
+        fmitSiort(bdiOffsft);
+        dfdStbdk();
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes
-        straight-through control flow. */
-    public void opc_ifeq(Label l) {
-        short instrBCI = getLength();
-        emitByte(opc_ifeq);
-        l.add(this, instrBCI, getLength(), getStack() - 1);
-        emitShort((short) -1); // Must be patched later
+    /** Control flow witi forwbrd-rfffrfndf BCI. Stbdk bssumfs
+        strbigit-tirougi dontrol flow. */
+    publid void opd_iffq(Lbbfl l) {
+        siort instrBCI = gftLfngti();
+        fmitBytf(opd_iffq);
+        l.bdd(tiis, instrBCI, gftLfngti(), gftStbdk() - 1);
+        fmitSiort((siort) -1); // Must bf pbtdifd lbtfr
     }
 
-    public void opc_if_icmpeq(short bciOffset) {
-        emitByte(opc_if_icmpeq);
-        emitShort(bciOffset);
-        setStack(getStack() - 2);
+    publid void opd_if_idmpfq(siort bdiOffsft) {
+        fmitBytf(opd_if_idmpfq);
+        fmitSiort(bdiOffsft);
+        sftStbdk(gftStbdk() - 2);
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes straight
-        control flow. */
-    public void opc_if_icmpeq(Label l) {
-        short instrBCI = getLength();
-        emitByte(opc_if_icmpeq);
-        l.add(this, instrBCI, getLength(), getStack() - 2);
-        emitShort((short) -1); // Must be patched later
+    /** Control flow witi forwbrd-rfffrfndf BCI. Stbdk bssumfs strbigit
+        dontrol flow. */
+    publid void opd_if_idmpfq(Lbbfl l) {
+        siort instrBCI = gftLfngti();
+        fmitBytf(opd_if_idmpfq);
+        l.bdd(tiis, instrBCI, gftLfngti(), gftStbdk() - 2);
+        fmitSiort((siort) -1); // Must bf pbtdifd lbtfr
     }
 
-    public void opc_goto(short bciOffset) {
-        emitByte(opc_goto);
-        emitShort(bciOffset);
+    publid void opd_goto(siort bdiOffsft) {
+        fmitBytf(opd_goto);
+        fmitSiort(bdiOffsft);
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes straight
-        control flow. */
-    public void opc_goto(Label l) {
-        short instrBCI = getLength();
-        emitByte(opc_goto);
-        l.add(this, instrBCI, getLength(), getStack());
-        emitShort((short) -1); // Must be patched later
+    /** Control flow witi forwbrd-rfffrfndf BCI. Stbdk bssumfs strbigit
+        dontrol flow. */
+    publid void opd_goto(Lbbfl l) {
+        siort instrBCI = gftLfngti();
+        fmitBytf(opd_goto);
+        l.bdd(tiis, instrBCI, gftLfngti(), gftStbdk());
+        fmitSiort((siort) -1); // Must bf pbtdifd lbtfr
     }
 
-    public void opc_ifnull(short bciOffset) {
-        emitByte(opc_ifnull);
-        emitShort(bciOffset);
-        decStack();
+    publid void opd_ifnull(siort bdiOffsft) {
+        fmitBytf(opd_ifnull);
+        fmitSiort(bdiOffsft);
+        dfdStbdk();
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes straight
-        control flow. */
-    public void opc_ifnull(Label l) {
-        short instrBCI = getLength();
-        emitByte(opc_ifnull);
-        l.add(this, instrBCI, getLength(), getStack() - 1);
-        emitShort((short) -1); // Must be patched later
-        decStack();
+    /** Control flow witi forwbrd-rfffrfndf BCI. Stbdk bssumfs strbigit
+        dontrol flow. */
+    publid void opd_ifnull(Lbbfl l) {
+        siort instrBCI = gftLfngti();
+        fmitBytf(opd_ifnull);
+        l.bdd(tiis, instrBCI, gftLfngti(), gftStbdk() - 1);
+        fmitSiort((siort) -1); // Must bf pbtdifd lbtfr
+        dfdStbdk();
     }
 
-    public void opc_ifnonnull(short bciOffset) {
-        emitByte(opc_ifnonnull);
-        emitShort(bciOffset);
-        decStack();
+    publid void opd_ifnonnull(siort bdiOffsft) {
+        fmitBytf(opd_ifnonnull);
+        fmitSiort(bdiOffsft);
+        dfdStbdk();
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes straight
-        control flow. */
-    public void opc_ifnonnull(Label l) {
-        short instrBCI = getLength();
-        emitByte(opc_ifnonnull);
-        l.add(this, instrBCI, getLength(), getStack() - 1);
-        emitShort((short) -1); // Must be patched later
-        decStack();
+    /** Control flow witi forwbrd-rfffrfndf BCI. Stbdk bssumfs strbigit
+        dontrol flow. */
+    publid void opd_ifnonnull(Lbbfl l) {
+        siort instrBCI = gftLfngti();
+        fmitBytf(opd_ifnonnull);
+        l.bdd(tiis, instrBCI, gftLfngti(), gftStbdk() - 1);
+        fmitSiort((siort) -1); // Must bf pbtdifd lbtfr
+        dfdStbdk();
     }
 
     /////////////////////////
-    // Return instructions //
+    // Rfturn instrudtions //
     /////////////////////////
 
-    public void opc_ireturn() {
-        emitByte(opc_ireturn);
-        setStack(0);
+    publid void opd_irfturn() {
+        fmitBytf(opd_irfturn);
+        sftStbdk(0);
     }
 
-    public void opc_lreturn() {
-        emitByte(opc_lreturn);
-        setStack(0);
+    publid void opd_lrfturn() {
+        fmitBytf(opd_lrfturn);
+        sftStbdk(0);
     }
 
-    public void opc_freturn() {
-        emitByte(opc_freturn);
-        setStack(0);
+    publid void opd_frfturn() {
+        fmitBytf(opd_frfturn);
+        sftStbdk(0);
     }
 
-    public void opc_dreturn() {
-        emitByte(opc_dreturn);
-        setStack(0);
+    publid void opd_drfturn() {
+        fmitBytf(opd_drfturn);
+        sftStbdk(0);
     }
 
-    public void opc_areturn() {
-        emitByte(opc_areturn);
-        setStack(0);
+    publid void opd_brfturn() {
+        fmitBytf(opd_brfturn);
+        sftStbdk(0);
     }
 
-    public void opc_return() {
-        emitByte(opc_return);
-        setStack(0);
+    publid void opd_rfturn() {
+        fmitBytf(opd_rfturn);
+        sftStbdk(0);
     }
 
     //////////////////////
-    // Field operations //
+    // Fifld opfrbtions //
     //////////////////////
 
-    public void opc_getstatic(short fieldIndex, int fieldSizeInStackSlots) {
-        emitByte(opc_getstatic);
-        emitShort(fieldIndex);
-        setStack(getStack() + fieldSizeInStackSlots);
+    publid void opd_gftstbtid(siort fifldIndfx, int fifldSizfInStbdkSlots) {
+        fmitBytf(opd_gftstbtid);
+        fmitSiort(fifldIndfx);
+        sftStbdk(gftStbdk() + fifldSizfInStbdkSlots);
     }
 
-    public void opc_putstatic(short fieldIndex, int fieldSizeInStackSlots) {
-        emitByte(opc_putstatic);
-        emitShort(fieldIndex);
-        setStack(getStack() - fieldSizeInStackSlots);
+    publid void opd_putstbtid(siort fifldIndfx, int fifldSizfInStbdkSlots) {
+        fmitBytf(opd_putstbtid);
+        fmitSiort(fifldIndfx);
+        sftStbdk(gftStbdk() - fifldSizfInStbdkSlots);
     }
 
-    public void opc_getfield(short fieldIndex, int fieldSizeInStackSlots) {
-        emitByte(opc_getfield);
-        emitShort(fieldIndex);
-        setStack(getStack() + fieldSizeInStackSlots - 1);
+    publid void opd_gftfifld(siort fifldIndfx, int fifldSizfInStbdkSlots) {
+        fmitBytf(opd_gftfifld);
+        fmitSiort(fifldIndfx);
+        sftStbdk(gftStbdk() + fifldSizfInStbdkSlots - 1);
     }
 
-    public void opc_putfield(short fieldIndex, int fieldSizeInStackSlots) {
-        emitByte(opc_putfield);
-        emitShort(fieldIndex);
-        setStack(getStack() - fieldSizeInStackSlots - 1);
+    publid void opd_putfifld(siort fifldIndfx, int fifldSizfInStbdkSlots) {
+        fmitBytf(opd_putfifld);
+        fmitSiort(fifldIndfx);
+        sftStbdk(gftStbdk() - fifldSizfInStbdkSlots - 1);
     }
 
     ////////////////////////
-    // Method invocations //
+    // Mftiod invodbtions //
     ////////////////////////
 
-    /** Long and double arguments and return types count as 2 arguments;
-        other values count as 1. */
-    public void opc_invokevirtual(short methodIndex,
+    /** Long bnd doublf brgumfnts bnd rfturn typfs dount bs 2 brgumfnts;
+        otifr vblufs dount bs 1. */
+    publid void opd_invokfvirtubl(siort mftiodIndfx,
                                   int numArgs,
-                                  int numReturnValues)
+                                  int numRfturnVblufs)
     {
-        emitByte(opc_invokevirtual);
-        emitShort(methodIndex);
-        setStack(getStack() - numArgs - 1 + numReturnValues);
+        fmitBytf(opd_invokfvirtubl);
+        fmitSiort(mftiodIndfx);
+        sftStbdk(gftStbdk() - numArgs - 1 + numRfturnVblufs);
     }
 
-    /** Long and double arguments and return types count as 2 arguments;
-        other values count as 1. */
-    public void opc_invokespecial(short methodIndex,
+    /** Long bnd doublf brgumfnts bnd rfturn typfs dount bs 2 brgumfnts;
+        otifr vblufs dount bs 1. */
+    publid void opd_invokfspfdibl(siort mftiodIndfx,
                                   int numArgs,
-                                  int numReturnValues)
+                                  int numRfturnVblufs)
     {
-        emitByte(opc_invokespecial);
-        emitShort(methodIndex);
-        setStack(getStack() - numArgs - 1 + numReturnValues);
+        fmitBytf(opd_invokfspfdibl);
+        fmitSiort(mftiodIndfx);
+        sftStbdk(gftStbdk() - numArgs - 1 + numRfturnVblufs);
     }
 
-    /** Long and double arguments and return types count as 2 arguments;
-        other values count as 1. */
-    public void opc_invokestatic(short methodIndex,
+    /** Long bnd doublf brgumfnts bnd rfturn typfs dount bs 2 brgumfnts;
+        otifr vblufs dount bs 1. */
+    publid void opd_invokfstbtid(siort mftiodIndfx,
                                  int numArgs,
-                                 int numReturnValues)
+                                 int numRfturnVblufs)
     {
-        emitByte(opc_invokestatic);
-        emitShort(methodIndex);
-        setStack(getStack() - numArgs + numReturnValues);
+        fmitBytf(opd_invokfstbtid);
+        fmitSiort(mftiodIndfx);
+        sftStbdk(gftStbdk() - numArgs + numRfturnVblufs);
     }
 
-    /** Long and double arguments and return types count as 2 arguments;
-        other values count as 1. */
-    public void opc_invokeinterface(short methodIndex,
+    /** Long bnd doublf brgumfnts bnd rfturn typfs dount bs 2 brgumfnts;
+        otifr vblufs dount bs 1. */
+    publid void opd_invokfintfrfbdf(siort mftiodIndfx,
                                     int numArgs,
-                                    byte count,
-                                    int numReturnValues)
+                                    bytf dount,
+                                    int numRfturnVblufs)
     {
-        emitByte(opc_invokeinterface);
-        emitShort(methodIndex);
-        emitByte(count);
-        emitByte((byte) 0);
-        setStack(getStack() - numArgs - 1 + numReturnValues);
+        fmitBytf(opd_invokfintfrfbdf);
+        fmitSiort(mftiodIndfx);
+        fmitBytf(dount);
+        fmitBytf((bytf) 0);
+        sftStbdk(gftStbdk() - numArgs - 1 + numRfturnVblufs);
     }
 
     //////////////////
-    // Array length //
+    // Arrby lfngti //
     //////////////////
 
-    public void opc_arraylength() {
-        emitByte(opc_arraylength);
+    publid void opd_brrbylfngti() {
+        fmitBytf(opd_brrbylfngti);
     }
 
     /////////
-    // New //
+    // Nfw //
     /////////
 
-    public void opc_new(short classIndex) {
-        emitByte(opc_new);
-        emitShort(classIndex);
-        incStack();
+    publid void opd_nfw(siort dlbssIndfx) {
+        fmitBytf(opd_nfw);
+        fmitSiort(dlbssIndfx);
+        indStbdk();
     }
 
     ////////////
-    // Athrow //
+    // Atirow //
     ////////////
 
-    public void opc_athrow() {
-        emitByte(opc_athrow);
-        setStack(1);
+    publid void opd_btirow() {
+        fmitBytf(opd_btirow);
+        sftStbdk(1);
     }
 
     //////////////////////////////
-    // Checkcast and instanceof //
+    // Cifdkdbst bnd instbndfof //
     //////////////////////////////
 
-    /** Assumes the checkcast succeeds */
-    public void opc_checkcast(short classIndex) {
-        emitByte(opc_checkcast);
-        emitShort(classIndex);
+    /** Assumfs tif difdkdbst suddffds */
+    publid void opd_difdkdbst(siort dlbssIndfx) {
+        fmitBytf(opd_difdkdbst);
+        fmitSiort(dlbssIndfx);
     }
 
-    public void opc_instanceof(short classIndex) {
-        emitByte(opc_instanceof);
-        emitShort(classIndex);
+    publid void opd_instbndfof(siort dlbssIndfx) {
+        fmitBytf(opd_instbndfof);
+        fmitSiort(dlbssIndfx);
     }
 }

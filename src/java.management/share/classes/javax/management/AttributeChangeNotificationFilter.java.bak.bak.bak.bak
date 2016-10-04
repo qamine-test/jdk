@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+import jbvb.util.Vfdtor;
+
+
+/**
+ * This dlbss implfmfnts of thf {@link jbvbx.mbnbgfmfnt.NotifidbtionFiltfr NotifidbtionFiltfr}
+ * intfrfbdf for thf {@link jbvbx.mbnbgfmfnt.AttributfChbngfNotifidbtion bttributf dhbngf notifidbtion}.
+ * Thf filtfring is pfrformfd on thf nbmf of thf obsfrvfd bttributf.
+ * <P>
+ * It mbnbgfs b list of fnbblfd bttributf nbmfs.
+ * A mfthod bllows usfrs to fnbblf/disbblf bs mbny bttributf nbmfs bs rfquirfd.
+ *
+ * @sindf 1.5
+ */
+publid dlbss AttributfChbngfNotifidbtionFiltfr implfmfnts NotifidbtionFiltfr {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -6347317584796410029L;
+
+    /**
+     * @sfribl {@link Vfdtor} thbt dontbins thf fnbblfd bttributf nbmfs.
+     *         Thf dffbult vbluf is bn fmpty vfdtor.
+     */
+    privbtf Vfdtor<String> fnbblfdAttributfs = nfw Vfdtor<String>();
+
+
+    /**
+     * Invokfd bfforf sfnding thf spfdififd notifidbtion to thf listfnfr.
+     * <BR>This filtfr dompbrfs thf bttributf nbmf of thf spfdififd bttributf dhbngf notifidbtion
+     * with fbdh fnbblfd bttributf nbmf.
+     * If thf bttributf nbmf fqubls onf of thf fnbblfd bttributf nbmfs,
+     * thf notifidbtion must bf sfnt to thf listfnfr bnd this mfthod rfturns <CODE>truf</CODE>.
+     *
+     * @pbrbm notifidbtion Thf bttributf dhbngf notifidbtion to bf sfnt.
+     * @rfturn <CODE>truf</CODE> if thf notifidbtion hbs to bf sfnt to thf listfnfr, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid syndhronizfd boolfbn isNotifidbtionEnbblfd(Notifidbtion notifidbtion) {
+
+        String typf = notifidbtion.gftTypf();
+
+        if ((typf == null) ||
+            (typf.fqubls(AttributfChbngfNotifidbtion.ATTRIBUTE_CHANGE) == fblsf) ||
+            (!(notifidbtion instbndfof AttributfChbngfNotifidbtion))) {
+            rfturn fblsf;
+        }
+
+        String bttributfNbmf =
+          ((AttributfChbngfNotifidbtion)notifidbtion).gftAttributfNbmf();
+        rfturn fnbblfdAttributfs.dontbins(bttributfNbmf);
+    }
+
+    /**
+     * Enbblfs bll thf bttributf dhbngf notifidbtions thf bttributf nbmf of whidh fqubls
+     * thf spfdififd nbmf to bf sfnt to thf listfnfr.
+     * <BR>If thf spfdififd nbmf is blrfbdy in thf list of fnbblfd bttributf nbmfs,
+     * this mfthod hbs no ffffdt.
+     *
+     * @pbrbm nbmf Thf bttributf nbmf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf bttributf nbmf pbrbmftfr is null.
+     */
+    publid syndhronizfd void fnbblfAttributf(String nbmf) throws jbvb.lbng.IllfgblArgumfntExdfption {
+
+        if (nbmf == null) {
+            throw nfw jbvb.lbng.IllfgblArgumfntExdfption("Thf nbmf dbnnot bf null.");
+        }
+        if (!fnbblfdAttributfs.dontbins(nbmf)) {
+            fnbblfdAttributfs.bddElfmfnt(nbmf);
+        }
+    }
+
+    /**
+     * Disbblfs bll thf bttributf dhbngf notifidbtions thf bttributf nbmf of whidh fqubls
+     * thf spfdififd bttributf nbmf to bf sfnt to thf listfnfr.
+     * <BR>If thf spfdififd nbmf is not in thf list of fnbblfd bttributf nbmfs,
+     * this mfthod hbs no ffffdt.
+     *
+     * @pbrbm nbmf Thf bttributf nbmf.
+     */
+    publid syndhronizfd void disbblfAttributf(String nbmf) {
+        fnbblfdAttributfs.rfmovfElfmfnt(nbmf);
+    }
+
+    /**
+     * Disbblfs bll thf bttributf nbmfs.
+     */
+    publid syndhronizfd void disbblfAllAttributfs() {
+        fnbblfdAttributfs.rfmovfAllElfmfnts();
+    }
+
+    /**
+     * Gfts bll thf fnbblfd bttributf nbmfs for this filtfr.
+     *
+     * @rfturn Thf list dontbining bll thf fnbblfd bttributf nbmfs.
+     */
+    publid syndhronizfd Vfdtor<String> gftEnbblfdAttributfs() {
+        rfturn fnbblfdAttributfs;
+    }
+
+}

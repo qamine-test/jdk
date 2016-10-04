@@ -1,658 +1,658 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.Serializable;
-import java.io.*;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.swing.event.EventListenerList;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+import jbvb.util.dondurrfnt.lodks.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.swing.fvfnt.EvfntListfnfrList;
 
 
 
 /**
- * Fires one or more {@code ActionEvent}s at specified
- * intervals. An example use is an animation object that uses a
- * <code>Timer</code> as the trigger for drawing its frames.
+ * Firfs onf or morf {@dodf AdtionEvfnt}s bt spfdififd
+ * intfrvbls. An fxbmplf usf is bn bnimbtion objfdt tibt usfs b
+ * <dodf>Timfr</dodf> bs tif triggfr for drbwing its frbmfs.
  *<p>
- * Setting up a timer
- * involves creating a <code>Timer</code> object,
- * registering one or more action listeners on it,
- * and starting the timer using
- * the <code>start</code> method.
- * For example,
- * the following code creates and starts a timer
- * that fires an action event once per second
- * (as specified by the first argument to the <code>Timer</code> constructor).
- * The second argument to the <code>Timer</code> constructor
- * specifies a listener to receive the timer's action events.
+ * Sftting up b timfr
+ * involvfs drfbting b <dodf>Timfr</dodf> objfdt,
+ * rfgistfring onf or morf bdtion listfnfrs on it,
+ * bnd stbrting tif timfr using
+ * tif <dodf>stbrt</dodf> mftiod.
+ * For fxbmplf,
+ * tif following dodf drfbtfs bnd stbrts b timfr
+ * tibt firfs bn bdtion fvfnt ondf pfr sfdond
+ * (bs spfdififd by tif first brgumfnt to tif <dodf>Timfr</dodf> donstrudtor).
+ * Tif sfdond brgumfnt to tif <dodf>Timfr</dodf> donstrudtor
+ * spfdififs b listfnfr to rfdfivf tif timfr's bdtion fvfnts.
  *
- *<pre>
- *  int delay = 1000; //milliseconds
- *  ActionListener taskPerformer = new ActionListener() {
- *      public void actionPerformed(ActionEvent evt) {
- *          <em>//...Perform a task...</em>
+ *<prf>
+ *  int dflby = 1000; //millisfdonds
+ *  AdtionListfnfr tbskPfrformfr = nfw AdtionListfnfr() {
+ *      publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+ *          <fm>//...Pfrform b tbsk...</fm>
  *      }
  *  };
- *  new Timer(delay, taskPerformer).start();</pre>
+ *  nfw Timfr(dflby, tbskPfrformfr).stbrt();</prf>
  *
  * <p>
- * {@code Timers} are constructed by specifying both a delay parameter
- * and an {@code ActionListener}. The delay parameter is used
- * to set both the initial delay and the delay between event
- * firing, in milliseconds. Once the timer has been started,
- * it waits for the initial delay before firing its
- * first <code>ActionEvent</code> to registered listeners.
- * After this first event, it continues to fire events
- * every time the between-event delay has elapsed, until it
- * is stopped.
+ * {@dodf Timfrs} brf donstrudtfd by spfdifying boti b dflby pbrbmftfr
+ * bnd bn {@dodf AdtionListfnfr}. Tif dflby pbrbmftfr is usfd
+ * to sft boti tif initibl dflby bnd tif dflby bftwffn fvfnt
+ * firing, in millisfdonds. Ondf tif timfr ibs bffn stbrtfd,
+ * it wbits for tif initibl dflby bfforf firing its
+ * first <dodf>AdtionEvfnt</dodf> to rfgistfrfd listfnfrs.
+ * Aftfr tiis first fvfnt, it dontinufs to firf fvfnts
+ * fvfry timf tif bftwffn-fvfnt dflby ibs flbpsfd, until it
+ * is stoppfd.
  * <p>
- * After construction, the initial delay and the between-event
- * delay can be changed independently, and additional
- * <code>ActionListeners</code> may be added.
+ * Aftfr donstrudtion, tif initibl dflby bnd tif bftwffn-fvfnt
+ * dflby dbn bf dibngfd indfpfndfntly, bnd bdditionbl
+ * <dodf>AdtionListfnfrs</dodf> mby bf bddfd.
  * <p>
- * If you want the timer to fire only the first time and then stop,
- * invoke <code>setRepeats(false)</code> on the timer.
+ * If you wbnt tif timfr to firf only tif first timf bnd tifn stop,
+ * invokf <dodf>sftRfpfbts(fblsf)</dodf> on tif timfr.
  * <p>
- * Although all <code>Timer</code>s perform their waiting
- * using a single, shared thread
- * (created by the first <code>Timer</code> object that executes),
- * the action event handlers for <code>Timer</code>s
- * execute on another thread -- the event-dispatching thread.
- * This means that the action handlers for <code>Timer</code>s
- * can safely perform operations on Swing components.
- * However, it also means that the handlers must execute quickly
- * to keep the GUI responsive.
+ * Altiougi bll <dodf>Timfr</dodf>s pfrform tifir wbiting
+ * using b singlf, sibrfd tirfbd
+ * (drfbtfd by tif first <dodf>Timfr</dodf> objfdt tibt fxfdutfs),
+ * tif bdtion fvfnt ibndlfrs for <dodf>Timfr</dodf>s
+ * fxfdutf on bnotifr tirfbd -- tif fvfnt-dispbtdiing tirfbd.
+ * Tiis mfbns tibt tif bdtion ibndlfrs for <dodf>Timfr</dodf>s
+ * dbn sbffly pfrform opfrbtions on Swing domponfnts.
+ * Howfvfr, it blso mfbns tibt tif ibndlfrs must fxfdutf quidkly
+ * to kffp tif GUI rfsponsivf.
  *
  * <p>
- * In v 1.3, another <code>Timer</code> class was added
- * to the Java platform: <code>java.util.Timer</code>.
- * Both it and <code>javax.swing.Timer</code>
- * provide the same basic functionality,
- * but <code>java.util.Timer</code>
- * is more general and has more features.
- * The <code>javax.swing.Timer</code> has two features
- * that can make it a little easier to use with GUIs.
- * First, its event handling metaphor is familiar to GUI programmers
- * and can make dealing with the event-dispatching thread
- * a bit simpler.
- * Second, its
- * automatic thread sharing means that you don't have to
- * take special steps to avoid spawning
- * too many threads.
- * Instead, your timer uses the same thread
- * used to make cursors blink,
- * tool tips appear,
- * and so on.
+ * In v 1.3, bnotifr <dodf>Timfr</dodf> dlbss wbs bddfd
+ * to tif Jbvb plbtform: <dodf>jbvb.util.Timfr</dodf>.
+ * Boti it bnd <dodf>jbvbx.swing.Timfr</dodf>
+ * providf tif sbmf bbsid fundtionblity,
+ * but <dodf>jbvb.util.Timfr</dodf>
+ * is morf gfnfrbl bnd ibs morf ffbturfs.
+ * Tif <dodf>jbvbx.swing.Timfr</dodf> ibs two ffbturfs
+ * tibt dbn mbkf it b littlf fbsifr to usf witi GUIs.
+ * First, its fvfnt ibndling mftbpior is fbmilibr to GUI progrbmmfrs
+ * bnd dbn mbkf dfbling witi tif fvfnt-dispbtdiing tirfbd
+ * b bit simplfr.
+ * Sfdond, its
+ * butombtid tirfbd sibring mfbns tibt you don't ibvf to
+ * tbkf spfdibl stfps to bvoid spbwning
+ * too mbny tirfbds.
+ * Instfbd, your timfr usfs tif sbmf tirfbd
+ * usfd to mbkf dursors blink,
+ * tool tips bppfbr,
+ * bnd so on.
  *
  * <p>
- * You can find further documentation
- * and several examples of using timers by visiting
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/misc/timer.html"
- * target = "_top">How to Use Timers</a>,
- * a section in <em>The Java Tutorial.</em>
- * For more examples and help in choosing between
- * this <code>Timer</code> class and
- * <code>java.util.Timer</code>,
- * see
- * <a href="http://java.sun.com/products/jfc/tsc/articles/timer/"
- * target="_top">Using Timers in Swing Applications</a>,
- * an article in <em>The Swing Connection.</em>
+ * You dbn find furtifr dodumfntbtion
+ * bnd sfvfrbl fxbmplfs of using timfrs by visiting
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/timfr.itml"
+ * tbrgft = "_top">How to Usf Timfrs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
+ * For morf fxbmplfs bnd iflp in dioosing bftwffn
+ * tiis <dodf>Timfr</dodf> dlbss bnd
+ * <dodf>jbvb.util.Timfr</dodf>,
+ * sff
+ * <b irff="ittp://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/timfr/"
+ * tbrgft="_top">Using Timfrs in Swing Applidbtions</b>,
+ * bn brtidlf in <fm>Tif Swing Connfdtion.</fm>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see java.util.Timer <code>java.util.Timer</code>
+ * @sff jbvb.util.Timfr <dodf>jbvb.util.Timfr</dodf>
  *
  *
- * @author Dave Moore
- * @since 1.2
+ * @butior Dbvf Moorf
+ * @sindf 1.2
  */
-@SuppressWarnings("serial")
-public class Timer implements Serializable
+@SupprfssWbrnings("sfribl")
+publid dlbss Timfr implfmfnts Sfriblizbblf
 {
     /*
-     * NOTE: all fields need to be handled in readResolve
+     * NOTE: bll fiflds nffd to bf ibndlfd in rfbdRfsolvf
      */
 
     /**
-     * The collection of registered listeners
+     * Tif dollfdtion of rfgistfrfd listfnfrs
      */
-    protected EventListenerList listenerList = new EventListenerList();
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
-    // The following field strives to maintain the following:
-    //    If coalesce is true, only allow one Runnable to be queued on the
-    //    EventQueue and be pending (ie in the process of notifying the
-    //    ActionListener). If we didn't do this it would allow for a
-    //    situation where the app is taking too long to process the
-    //    actionPerformed, and thus we'ld end up queing a bunch of Runnables
-    //    and the app would never return: not good. This of course implies
-    //    you can get dropped events, but such is life.
-    // notify is used to indicate if the ActionListener can be notified, when
-    // the Runnable is processed if this is true it will notify the listeners.
-    // notify is set to true when the Timer fires and the Runnable is queued.
-    // It will be set to false after notifying the listeners (if coalesce is
-    // true) or if the developer invokes stop.
-    private transient final AtomicBoolean notify = new AtomicBoolean(false);
+    // Tif following fifld strivfs to mbintbin tif following:
+    //    If doblfsdf is truf, only bllow onf Runnbblf to bf qufufd on tif
+    //    EvfntQufuf bnd bf pfnding (if in tif prodfss of notifying tif
+    //    AdtionListfnfr). If wf didn't do tiis it would bllow for b
+    //    situbtion wifrf tif bpp is tbking too long to prodfss tif
+    //    bdtionPfrformfd, bnd tius wf'ld fnd up qufing b bundi of Runnbblfs
+    //    bnd tif bpp would nfvfr rfturn: not good. Tiis of doursf implifs
+    //    you dbn gft droppfd fvfnts, but sudi is liff.
+    // notify is usfd to indidbtf if tif AdtionListfnfr dbn bf notififd, wifn
+    // tif Runnbblf is prodfssfd if tiis is truf it will notify tif listfnfrs.
+    // notify is sft to truf wifn tif Timfr firfs bnd tif Runnbblf is qufufd.
+    // It will bf sft to fblsf bftfr notifying tif listfnfrs (if doblfsdf is
+    // truf) or if tif dfvflopfr invokfs stop.
+    privbtf trbnsifnt finbl AtomidBoolfbn notify = nfw AtomidBoolfbn(fblsf);
 
-    private volatile int     initialDelay, delay;
-    private volatile boolean repeats = true, coalesce = true;
+    privbtf volbtilf int     initiblDflby, dflby;
+    privbtf volbtilf boolfbn rfpfbts = truf, doblfsdf = truf;
 
-    private transient final Runnable doPostEvent;
+    privbtf trbnsifnt finbl Runnbblf doPostEvfnt;
 
-    private static volatile boolean logTimers;
+    privbtf stbtid volbtilf boolfbn logTimfrs;
 
-    private transient final Lock lock = new ReentrantLock();
+    privbtf trbnsifnt finbl Lodk lodk = nfw RffntrbntLodk();
 
-    // This field is maintained by TimerQueue.
-    // eventQueued can also be reset by the TimerQueue, but will only ever
-    // happen in applet case when TimerQueues thread is destroyed.
-    // access to this field is synchronized on getLock() lock.
-    transient TimerQueue.DelayedTimer delayedTimer = null;
+    // Tiis fifld is mbintbinfd by TimfrQufuf.
+    // fvfntQufufd dbn blso bf rfsft by tif TimfrQufuf, but will only fvfr
+    // ibppfn in bpplft dbsf wifn TimfrQufufs tirfbd is dfstroyfd.
+    // bddfss to tiis fifld is syndironizfd on gftLodk() lodk.
+    trbnsifnt TimfrQufuf.DflbyfdTimfr dflbyfdTimfr = null;
 
-    private volatile String actionCommand;
+    privbtf volbtilf String bdtionCommbnd;
 
     /**
-     * Creates a {@code Timer} and initializes both the initial delay and
-     * between-event delay to {@code delay} milliseconds. If {@code delay}
-     * is less than or equal to zero, the timer fires as soon as it
-     * is started. If <code>listener</code> is not <code>null</code>,
-     * it's registered as an action listener on the timer.
+     * Crfbtfs b {@dodf Timfr} bnd initiblizfs boti tif initibl dflby bnd
+     * bftwffn-fvfnt dflby to {@dodf dflby} millisfdonds. If {@dodf dflby}
+     * is lfss tibn or fqubl to zfro, tif timfr firfs bs soon bs it
+     * is stbrtfd. If <dodf>listfnfr</dodf> is not <dodf>null</dodf>,
+     * it's rfgistfrfd bs bn bdtion listfnfr on tif timfr.
      *
-     * @param delay milliseconds for the initial and between-event delay
-     * @param listener  an initial listener; can be <code>null</code>
+     * @pbrbm dflby millisfdonds for tif initibl bnd bftwffn-fvfnt dflby
+     * @pbrbm listfnfr  bn initibl listfnfr; dbn bf <dodf>null</dodf>
      *
-     * @see #addActionListener
-     * @see #setInitialDelay
-     * @see #setRepeats
+     * @sff #bddAdtionListfnfr
+     * @sff #sftInitiblDflby
+     * @sff #sftRfpfbts
      */
-    public Timer(int delay, ActionListener listener) {
-        super();
-        this.delay = delay;
-        this.initialDelay = delay;
+    publid Timfr(int dflby, AdtionListfnfr listfnfr) {
+        supfr();
+        tiis.dflby = dflby;
+        tiis.initiblDflby = dflby;
 
-        doPostEvent = new DoPostEvent();
+        doPostEvfnt = nfw DoPostEvfnt();
 
-        if (listener != null) {
-            addActionListener(listener);
+        if (listfnfr != null) {
+            bddAdtionListfnfr(listfnfr);
         }
     }
 
     /*
-     * The timer's AccessControlContext.
+     * Tif timfr's AddfssControlContfxt.
      */
-     private transient volatile AccessControlContext acc =
-            AccessController.getContext();
+     privbtf trbnsifnt volbtilf AddfssControlContfxt bdd =
+            AddfssControllfr.gftContfxt();
 
     /**
-      * Returns the acc this timer was constructed with.
+      * Rfturns tif bdd tiis timfr wbs donstrudtfd witi.
       */
-     final AccessControlContext getAccessControlContext() {
-       if (acc == null) {
-           throw new SecurityException(
-                   "Timer is missing AccessControlContext");
+     finbl AddfssControlContfxt gftAddfssControlContfxt() {
+       if (bdd == null) {
+           tirow nfw SfdurityExdfption(
+                   "Timfr is missing AddfssControlContfxt");
        }
-       return acc;
+       rfturn bdd;
      }
 
     /**
-     * DoPostEvent is a runnable class that fires actionEvents to
-     * the listeners on the EventDispatchThread, via invokeLater.
-     * @see Timer#post
+     * DoPostEvfnt is b runnbblf dlbss tibt firfs bdtionEvfnts to
+     * tif listfnfrs on tif EvfntDispbtdiTirfbd, vib invokfLbtfr.
+     * @sff Timfr#post
      */
-    class DoPostEvent implements Runnable
+    dlbss DoPostEvfnt implfmfnts Runnbblf
     {
-        public void run() {
-            if (logTimers) {
-                System.out.println("Timer ringing: " + Timer.this);
+        publid void run() {
+            if (logTimfrs) {
+                Systfm.out.println("Timfr ringing: " + Timfr.tiis);
             }
-            if(notify.get()) {
-                fireActionPerformed(new ActionEvent(Timer.this, 0, getActionCommand(),
-                                                    System.currentTimeMillis(),
+            if(notify.gft()) {
+                firfAdtionPfrformfd(nfw AdtionEvfnt(Timfr.tiis, 0, gftAdtionCommbnd(),
+                                                    Systfm.durrfntTimfMillis(),
                                                     0));
-                if (coalesce) {
-                    cancelEvent();
+                if (doblfsdf) {
+                    dbndflEvfnt();
                 }
             }
         }
 
-        Timer getTimer() {
-            return Timer.this;
+        Timfr gftTimfr() {
+            rfturn Timfr.tiis;
         }
     }
 
     /**
-     * Adds an action listener to the <code>Timer</code>.
+     * Adds bn bdtion listfnfr to tif <dodf>Timfr</dodf>.
      *
-     * @param listener the listener to add
+     * @pbrbm listfnfr tif listfnfr to bdd
      *
-     * @see #Timer
+     * @sff #Timfr
      */
-    public void addActionListener(ActionListener listener) {
-        listenerList.add(ActionListener.class, listener);
+    publid void bddAdtionListfnfr(AdtionListfnfr listfnfr) {
+        listfnfrList.bdd(AdtionListfnfr.dlbss, listfnfr);
     }
 
 
     /**
-     * Removes the specified action listener from the <code>Timer</code>.
+     * Rfmovfs tif spfdififd bdtion listfnfr from tif <dodf>Timfr</dodf>.
      *
-     * @param listener the listener to remove
+     * @pbrbm listfnfr tif listfnfr to rfmovf
      */
-    public void removeActionListener(ActionListener listener) {
-        listenerList.remove(ActionListener.class, listener);
+    publid void rfmovfAdtionListfnfr(AdtionListfnfr listfnfr) {
+        listfnfrList.rfmovf(AdtionListfnfr.dlbss, listfnfr);
     }
 
 
     /**
-     * Returns an array of all the action listeners registered
-     * on this timer.
+     * Rfturns bn brrby of bll tif bdtion listfnfrs rfgistfrfd
+     * on tiis timfr.
      *
-     * @return all of the timer's <code>ActionListener</code>s or an empty
-     *         array if no action listeners are currently registered
+     * @rfturn bll of tif timfr's <dodf>AdtionListfnfr</dodf>s or bn fmpty
+     *         brrby if no bdtion listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see #addActionListener
-     * @see #removeActionListener
+     * @sff #bddAdtionListfnfr
+     * @sff #rfmovfAdtionListfnfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public ActionListener[] getActionListeners() {
-        return listenerList.getListeners(ActionListener.class);
+    publid AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AdtionListfnfr.dlbss);
     }
 
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @param e the action event to fire
-     * @see EventListenerList
+     * @pbrbm f tif bdtion fvfnt to firf
+     * @sff EvfntListfnfrList
      */
-    protected void fireActionPerformed(ActionEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
+    protfdtfd void firfAdtionPfrformfd(AdtionEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
 
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i=listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ActionListener.class) {
-                ((ActionListener)listeners[i+1]).actionPerformed(e);
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i=listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AdtionListfnfr.dlbss) {
+                ((AdtionListfnfr)listfnfrs[i+1]).bdtionPfrformfd(f);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered as
-     * <code><em>Foo</em>Listener</code>s
-     * upon this <code>Timer</code>.
-     * <code><em>Foo</em>Listener</code>s
-     * are registered using the <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd bs
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis <dodf>Timfr</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * brf rfgistfrfd using tif <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a <code>Timer</code>
-     * instance <code>t</code>
-     * for its action listeners
-     * with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b <dodf>Timfr</dodf>
+     * instbndf <dodf>t</dodf>
+     * for its bdtion listfnfrs
+     * witi tif following dodf:
      *
-     * <pre>ActionListener[] als = (ActionListener[])(t.getListeners(ActionListener.class));</pre>
+     * <prf>AdtionListfnfr[] bls = (AdtionListfnfr[])(t.gftListfnfrs(AdtionListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist,
-     * this method returns an empty array.
+     * If no sudi listfnfrs fxist,
+     * tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param <T> the type of {@code EventListener} class being requested
-     * @param listenerType  the type of listeners requested;
-     *          this parameter should specify an interface
-     *          that descends from <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s
-     *          on this timer,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code> doesn't
-     *          specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm <T> tif typf of {@dodf EvfntListfnfr} dlbss bfing rfqufstfd
+     * @pbrbm listfnfrTypf  tif typf of listfnfrs rfqufstfd;
+     *          tiis pbrbmftfr siould spfdify bn intfrfbdf
+     *          tibt dfsdfnds from <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     *          on tiis timfr,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf> dofsn't
+     *          spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getActionListeners
-     * @see #addActionListener
-     * @see #removeActionListener
+     * @sff #gftAdtionListfnfrs
+     * @sff #bddAdtionListfnfr
+     * @sff #rfmovfAdtionListfnfr
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        return listenerList.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
     }
 
     /**
-     * Returns the timer queue.
+     * Rfturns tif timfr qufuf.
      */
-    private TimerQueue timerQueue() {
-        return TimerQueue.sharedInstance();
-    }
-
-
-    /**
-     * Enables or disables the timer log. When enabled, a message
-     * is posted to <code>System.out</code> whenever the timer goes off.
-     *
-     * @param flag  <code>true</code> to enable logging
-     * @see #getLogTimers
-     */
-    public static void setLogTimers(boolean flag) {
-        logTimers = flag;
+    privbtf TimfrQufuf timfrQufuf() {
+        rfturn TimfrQufuf.sibrfdInstbndf();
     }
 
 
     /**
-     * Returns <code>true</code> if logging is enabled.
+     * Enbblfs or disbblfs tif timfr log. Wifn fnbblfd, b mfssbgf
+     * is postfd to <dodf>Systfm.out</dodf> wifnfvfr tif timfr gofs off.
      *
-     * @return <code>true</code> if logging is enabled; otherwise, false
-     * @see #setLogTimers
+     * @pbrbm flbg  <dodf>truf</dodf> to fnbblf logging
+     * @sff #gftLogTimfrs
      */
-    public static boolean getLogTimers() {
-        return logTimers;
+    publid stbtid void sftLogTimfrs(boolfbn flbg) {
+        logTimfrs = flbg;
     }
 
 
     /**
-     * Sets the <code>Timer</code>'s between-event delay, the number of milliseconds
-     * between successive action events. This does not affect the initial delay
-     * property, which can be set by the {@code setInitialDelay} method.
+     * Rfturns <dodf>truf</dodf> if logging is fnbblfd.
      *
-     * @param delay the delay in milliseconds
-     * @see #setInitialDelay
+     * @rfturn <dodf>truf</dodf> if logging is fnbblfd; otifrwisf, fblsf
+     * @sff #sftLogTimfrs
      */
-    public void setDelay(int delay) {
-        if (delay < 0) {
-            throw new IllegalArgumentException("Invalid delay: " + delay);
+    publid stbtid boolfbn gftLogTimfrs() {
+        rfturn logTimfrs;
+    }
+
+
+    /**
+     * Sfts tif <dodf>Timfr</dodf>'s bftwffn-fvfnt dflby, tif numbfr of millisfdonds
+     * bftwffn suddfssivf bdtion fvfnts. Tiis dofs not bfffdt tif initibl dflby
+     * propfrty, wiidi dbn bf sft by tif {@dodf sftInitiblDflby} mftiod.
+     *
+     * @pbrbm dflby tif dflby in millisfdonds
+     * @sff #sftInitiblDflby
+     */
+    publid void sftDflby(int dflby) {
+        if (dflby < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid dflby: " + dflby);
         }
-        else {
-            this.delay = delay;
-        }
-    }
-
-
-    /**
-     * Returns the delay, in milliseconds,
-     * between firings of action events.
-     *
-     * @return the delay, in milliseconds, between firings of action events
-     * @see #setDelay
-     * @see #getInitialDelay
-     */
-    public int getDelay() {
-        return delay;
-    }
-
-
-    /**
-     * Sets the <code>Timer</code>'s initial delay, the time
-     * in milliseconds to wait after the timer is started
-     * before firing the first event. Upon construction, this
-     * is set to be the same as the between-event delay,
-     * but then its value is independent and remains unaffected
-     * by changes to the between-event delay.
-     *
-     * @param initialDelay the initial delay, in milliseconds
-     * @see #setDelay
-     */
-    public void setInitialDelay(int initialDelay) {
-        if (initialDelay < 0) {
-            throw new IllegalArgumentException("Invalid initial delay: " +
-                                               initialDelay);
-        }
-        else {
-            this.initialDelay = initialDelay;
+        flsf {
+            tiis.dflby = dflby;
         }
     }
 
 
     /**
-     * Returns the {@code Timer}'s initial delay.
+     * Rfturns tif dflby, in millisfdonds,
+     * bftwffn firings of bdtion fvfnts.
      *
-     * @return the {@code Timer}'s intial delay, in milliseconds
-     * @see #setInitialDelay
-     * @see #setDelay
+     * @rfturn tif dflby, in millisfdonds, bftwffn firings of bdtion fvfnts
+     * @sff #sftDflby
+     * @sff #gftInitiblDflby
      */
-    public int getInitialDelay() {
-        return initialDelay;
+    publid int gftDflby() {
+        rfturn dflby;
     }
 
 
     /**
-     * If <code>flag</code> is <code>false</code>,
-     * instructs the <code>Timer</code> to send only one
-     * action event to its listeners.
+     * Sfts tif <dodf>Timfr</dodf>'s initibl dflby, tif timf
+     * in millisfdonds to wbit bftfr tif timfr is stbrtfd
+     * bfforf firing tif first fvfnt. Upon donstrudtion, tiis
+     * is sft to bf tif sbmf bs tif bftwffn-fvfnt dflby,
+     * but tifn its vbluf is indfpfndfnt bnd rfmbins unbfffdtfd
+     * by dibngfs to tif bftwffn-fvfnt dflby.
      *
-     * @param flag specify <code>false</code> to make the timer
-     *             stop after sending its first action event
+     * @pbrbm initiblDflby tif initibl dflby, in millisfdonds
+     * @sff #sftDflby
      */
-    public void setRepeats(boolean flag) {
-        repeats = flag;
-    }
-
-
-    /**
-     * Returns <code>true</code> (the default)
-     * if the <code>Timer</code> will send
-     * an action event
-     * to its listeners multiple times.
-     *
-     * @return true if the {@code Timer} will send an action event to its
-     *              listeners multiple times
-     * @see #setRepeats
-     */
-    public boolean isRepeats() {
-        return repeats;
-    }
-
-
-    /**
-     * Sets whether the <code>Timer</code> coalesces multiple pending
-     * <code>ActionEvent</code> firings.
-     * A busy application may not be able
-     * to keep up with a <code>Timer</code>'s event generation,
-     * causing multiple
-     * action events to be queued.  When processed,
-     * the application sends these events one after the other, causing the
-     * <code>Timer</code>'s listeners to receive a sequence of
-     * events with no delay between them. Coalescing avoids this situation
-     * by reducing multiple pending events to a single event.
-     * <code>Timer</code>s
-     * coalesce events by default.
-     *
-     * @param flag specify <code>false</code> to turn off coalescing
-     */
-    public void setCoalesce(boolean flag) {
-        boolean old = coalesce;
-        coalesce = flag;
-        if (!old && coalesce) {
-            // We must do this as otherwise if the Timer once notified
-            // in !coalese mode notify will be stuck to true and never
-            // become false.
-            cancelEvent();
+    publid void sftInitiblDflby(int initiblDflby) {
+        if (initiblDflby < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid initibl dflby: " +
+                                               initiblDflby);
+        }
+        flsf {
+            tiis.initiblDflby = initiblDflby;
         }
     }
 
 
     /**
-     * Returns {@code true} if the {@code Timer} coalesces
-     * multiple pending action events.
+     * Rfturns tif {@dodf Timfr}'s initibl dflby.
      *
-     * @return true if the {@code Timer} coalesces multiple pending
-     *              action events
-     * @see #setCoalesce
+     * @rfturn tif {@dodf Timfr}'s intibl dflby, in millisfdonds
+     * @sff #sftInitiblDflby
+     * @sff #sftDflby
      */
-    public boolean isCoalesce() {
-        return coalesce;
+    publid int gftInitiblDflby() {
+        rfturn initiblDflby;
     }
 
 
     /**
-     * Sets the string that will be delivered as the action command
-     * in <code>ActionEvent</code>s fired by this timer.
-     * <code>null</code> is an acceptable value.
+     * If <dodf>flbg</dodf> is <dodf>fblsf</dodf>,
+     * instrudts tif <dodf>Timfr</dodf> to sfnd only onf
+     * bdtion fvfnt to its listfnfrs.
      *
-     * @param command the action command
-     * @since 1.6
+     * @pbrbm flbg spfdify <dodf>fblsf</dodf> to mbkf tif timfr
+     *             stop bftfr sfnding its first bdtion fvfnt
      */
-    public void setActionCommand(String command) {
-        this.actionCommand = command;
+    publid void sftRfpfbts(boolfbn flbg) {
+        rfpfbts = flbg;
     }
 
 
     /**
-     * Returns the string that will be delivered as the action command
-     * in <code>ActionEvent</code>s fired by this timer. May be
-     * <code>null</code>, which is also the default.
+     * Rfturns <dodf>truf</dodf> (tif dffbult)
+     * if tif <dodf>Timfr</dodf> will sfnd
+     * bn bdtion fvfnt
+     * to its listfnfrs multiplf timfs.
      *
-     * @return the action command used in firing events
-     * @since 1.6
+     * @rfturn truf if tif {@dodf Timfr} will sfnd bn bdtion fvfnt to its
+     *              listfnfrs multiplf timfs
+     * @sff #sftRfpfbts
      */
-    public String getActionCommand() {
-        return actionCommand;
+    publid boolfbn isRfpfbts() {
+        rfturn rfpfbts;
     }
 
 
     /**
-     * Starts the <code>Timer</code>,
-     * causing it to start sending action events
-     * to its listeners.
+     * Sfts wiftifr tif <dodf>Timfr</dodf> doblfsdfs multiplf pfnding
+     * <dodf>AdtionEvfnt</dodf> firings.
+     * A busy bpplidbtion mby not bf bblf
+     * to kffp up witi b <dodf>Timfr</dodf>'s fvfnt gfnfrbtion,
+     * dbusing multiplf
+     * bdtion fvfnts to bf qufufd.  Wifn prodfssfd,
+     * tif bpplidbtion sfnds tifsf fvfnts onf bftfr tif otifr, dbusing tif
+     * <dodf>Timfr</dodf>'s listfnfrs to rfdfivf b sfqufndf of
+     * fvfnts witi no dflby bftwffn tifm. Coblfsding bvoids tiis situbtion
+     * by rfduding multiplf pfnding fvfnts to b singlf fvfnt.
+     * <dodf>Timfr</dodf>s
+     * doblfsdf fvfnts by dffbult.
      *
-     * @see #stop
+     * @pbrbm flbg spfdify <dodf>fblsf</dodf> to turn off doblfsding
      */
-     public void start() {
-        timerQueue().addTimer(this, getInitialDelay());
+    publid void sftCoblfsdf(boolfbn flbg) {
+        boolfbn old = doblfsdf;
+        doblfsdf = flbg;
+        if (!old && doblfsdf) {
+            // Wf must do tiis bs otifrwisf if tif Timfr ondf notififd
+            // in !doblfsf modf notify will bf studk to truf bnd nfvfr
+            // bfdomf fblsf.
+            dbndflEvfnt();
+        }
     }
 
 
     /**
-     * Returns {@code true} if the {@code Timer} is running.
+     * Rfturns {@dodf truf} if tif {@dodf Timfr} doblfsdfs
+     * multiplf pfnding bdtion fvfnts.
      *
-     * @return true if the {@code Timer} is running, false otherwise
-     * @see #start
+     * @rfturn truf if tif {@dodf Timfr} doblfsdfs multiplf pfnding
+     *              bdtion fvfnts
+     * @sff #sftCoblfsdf
      */
-    public boolean isRunning() {
-        return timerQueue().containsTimer(this);
+    publid boolfbn isCoblfsdf() {
+        rfturn doblfsdf;
     }
 
 
     /**
-     * Stops the <code>Timer</code>,
-     * causing it to stop sending action events
-     * to its listeners.
+     * Sfts tif string tibt will bf dflivfrfd bs tif bdtion dommbnd
+     * in <dodf>AdtionEvfnt</dodf>s firfd by tiis timfr.
+     * <dodf>null</dodf> is bn bddfptbblf vbluf.
      *
-     * @see #start
+     * @pbrbm dommbnd tif bdtion dommbnd
+     * @sindf 1.6
      */
-    public void stop() {
-        getLock().lock();
+    publid void sftAdtionCommbnd(String dommbnd) {
+        tiis.bdtionCommbnd = dommbnd;
+    }
+
+
+    /**
+     * Rfturns tif string tibt will bf dflivfrfd bs tif bdtion dommbnd
+     * in <dodf>AdtionEvfnt</dodf>s firfd by tiis timfr. Mby bf
+     * <dodf>null</dodf>, wiidi is blso tif dffbult.
+     *
+     * @rfturn tif bdtion dommbnd usfd in firing fvfnts
+     * @sindf 1.6
+     */
+    publid String gftAdtionCommbnd() {
+        rfturn bdtionCommbnd;
+    }
+
+
+    /**
+     * Stbrts tif <dodf>Timfr</dodf>,
+     * dbusing it to stbrt sfnding bdtion fvfnts
+     * to its listfnfrs.
+     *
+     * @sff #stop
+     */
+     publid void stbrt() {
+        timfrQufuf().bddTimfr(tiis, gftInitiblDflby());
+    }
+
+
+    /**
+     * Rfturns {@dodf truf} if tif {@dodf Timfr} is running.
+     *
+     * @rfturn truf if tif {@dodf Timfr} is running, fblsf otifrwisf
+     * @sff #stbrt
+     */
+    publid boolfbn isRunning() {
+        rfturn timfrQufuf().dontbinsTimfr(tiis);
+    }
+
+
+    /**
+     * Stops tif <dodf>Timfr</dodf>,
+     * dbusing it to stop sfnding bdtion fvfnts
+     * to its listfnfrs.
+     *
+     * @sff #stbrt
+     */
+    publid void stop() {
+        gftLodk().lodk();
         try {
-            cancelEvent();
-            timerQueue().removeTimer(this);
-        } finally {
-            getLock().unlock();
+            dbndflEvfnt();
+            timfrQufuf().rfmovfTimfr(tiis);
+        } finblly {
+            gftLodk().unlodk();
         }
     }
 
 
     /**
-     * Restarts the <code>Timer</code>,
-     * canceling any pending firings and causing
-     * it to fire with its initial delay.
+     * Rfstbrts tif <dodf>Timfr</dodf>,
+     * dbndfling bny pfnding firings bnd dbusing
+     * it to firf witi its initibl dflby.
      */
-    public void restart() {
-        getLock().lock();
+    publid void rfstbrt() {
+        gftLodk().lodk();
         try {
             stop();
-            start();
-        } finally {
-            getLock().unlock();
+            stbrt();
+        } finblly {
+            gftLodk().unlodk();
         }
     }
 
 
     /**
-     * Resets the internal state to indicate this Timer shouldn't notify
-     * any of its listeners. This does not stop a repeatable Timer from
-     * firing again, use <code>stop</code> for that.
+     * Rfsfts tif intfrnbl stbtf to indidbtf tiis Timfr siouldn't notify
+     * bny of its listfnfrs. Tiis dofs not stop b rfpfbtbblf Timfr from
+     * firing bgbin, usf <dodf>stop</dodf> for tibt.
      */
-    void cancelEvent() {
-        notify.set(false);
+    void dbndflEvfnt() {
+        notify.sft(fblsf);
     }
 
 
     void post() {
-         if (notify.compareAndSet(false, true) || !coalesce) {
-             AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                 public Void run() {
-                     SwingUtilities.invokeLater(doPostEvent);
-                     return null;
+         if (notify.dompbrfAndSft(fblsf, truf) || !doblfsdf) {
+             AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                 publid Void run() {
+                     SwingUtilitifs.invokfLbtfr(doPostEvfnt);
+                     rfturn null;
                 }
-            }, getAccessControlContext());
+            }, gftAddfssControlContfxt());
         }
     }
 
-    Lock getLock() {
-        return lock;
+    Lodk gftLodk() {
+        rfturn lodk;
     }
 
-    private void readObject(ObjectInputStream in)
-        throws ClassNotFoundException, IOException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows ClbssNotFoundExdfption, IOExdfption
     {
-        this.acc = AccessController.getContext();
-        in.defaultReadObject();
+        tiis.bdd = AddfssControllfr.gftContfxt();
+        in.dffbultRfbdObjfdt();
     }
 
     /*
-     * We have to use readResolve because we can not initialize final
-     * fields for deserialized object otherwise
+     * Wf ibvf to usf rfbdRfsolvf bfdbusf wf dbn not initiblizf finbl
+     * fiflds for dfsfriblizfd objfdt otifrwisf
      */
-    private Object readResolve() {
-        Timer timer = new Timer(getDelay(), null);
-        timer.listenerList = listenerList;
-        timer.initialDelay = initialDelay;
-        timer.delay = delay;
-        timer.repeats = repeats;
-        timer.coalesce = coalesce;
-        timer.actionCommand = actionCommand;
-        return timer;
+    privbtf Objfdt rfbdRfsolvf() {
+        Timfr timfr = nfw Timfr(gftDflby(), null);
+        timfr.listfnfrList = listfnfrList;
+        timfr.initiblDflby = initiblDflby;
+        timfr.dflby = dflby;
+        timfr.rfpfbts = rfpfbts;
+        timfr.doblfsdf = doblfsdf;
+        timfr.bdtionCommbnd = bdtionCommbnd;
+        rfturn timfr;
     }
 }

@@ -1,206 +1,206 @@
-<html>
-<head>
-    <title>JMX<sup><font size="-2">TM</font></sup> Remote API.</title>
+<itml>
+<ifbd>
+    <titlf>JMX<sup><font sizf="-2">TM</font></sup> Rfmotf API.</titlf>
 <!--
-Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
-      <p>Interfaces for remote access to
-	JMX MBean servers.
-	This package defines the essential interfaces for making a JMX
-	MBean server manageable remotely. The specification of this 
-        functionality is completed by Part III of the 
-       <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-	JMX Specification, version 1.4</a> PDF document.</p>
+</ifbd>
+<body bgdolor="wiitf">
+      <p>Intfrfbdfs for rfmotf bddfss to
+	JMX MBfbn sfrvfrs.
+	Tiis pbdkbgf dffinfs tif fssfntibl intfrfbdfs for mbking b JMX
+	MBfbn sfrvfr mbnbgfbblf rfmotfly. Tif spfdifidbtion of tiis 
+        fundtionblity is domplftfd by Pbrt III of tif 
+       <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+	JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
 
-      <p>The JMX specification defines the notion of <b>connectors</b>.
-	A connector is attached to a JMX API MBean server and makes it
-	accessible to remote Java clients. The client end of a
-	connector exports essentially the same interface as the MBean
-	server, specifically the {@link
-	javax.management.MBeanServerConnection MBeanServerConnection}
-	interface.</p>
+      <p>Tif JMX spfdifidbtion dffinfs tif notion of <b>donnfdtors</b>.
+	A donnfdtor is bttbdifd to b JMX API MBfbn sfrvfr bnd mbkfs it
+	bddfssiblf to rfmotf Jbvb dlifnts. Tif dlifnt fnd of b
+	donnfdtor fxports fssfntiblly tif sbmf intfrfbdf bs tif MBfbn
+	sfrvfr, spfdifidblly tif {@link
+	jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion}
+	intfrfbdf.</p>
 
-      <p>A connector makes an MBean server remotely accessible through
-	a given protocol. The JMX Remote API allows the use of different 
-        type of connectors:
+      <p>A donnfdtor mbkfs bn MBfbn sfrvfr rfmotfly bddfssiblf tirougi
+	b givfn protodol. Tif JMX Rfmotf API bllows tif usf of difffrfnt 
+        typf of donnfdtors:
 
       <ul>
-       <li>The JMX Remote API defines a standard connector,
-	the <b>RMI Connector</b>, which provides remote access to an
-        MBeanServer through RMI.
+       <li>Tif JMX Rfmotf API dffinfs b stbndbrd donnfdtor,
+	tif <b>RMI Connfdtor</b>, wiidi providfs rfmotf bddfss to bn
+        MBfbnSfrvfr tirougi RMI.
 
-       <li>The JMX Remote API also defines an optional connector called 
-        <b>JMXMP Connector</b> implementing the JMX Message Protocol 
-	(JMXMP). As it is optional, it is not part of this bundle (see
-	note below).
+       <li>Tif JMX Rfmotf API blso dffinfs bn optionbl donnfdtor dbllfd 
+        <b>JMXMP Connfdtor</b> implfmfnting tif JMX Mfssbgf Protodol 
+	(JMXMP). As it is optionbl, it is not pbrt of tiis bundlf (sff
+	notf bflow).
 
-       <li>User-defined connector protocols are also possible using the 
-	{@link javax.management.remote.JMXConnectorFactory
-	JMXConnectorFactory} and, optionally, the Generic Connector
-	(not part of this bundle, see note below).
+       <li>Usfr-dffinfd donnfdtor protodols brf blso possiblf using tif 
+	{@link jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	JMXConnfdtorFbdtory} bnd, optionblly, tif Gfnfrid Connfdtor
+	(not pbrt of tiis bundlf, sff notf bflow).
       </ul>
 
-      <p><u>Note</u>: the optional packages implementing
-        the optional part of the <em>JMX Remote API</em>
-        are not included in the <em>Java SE Platform</em> 
-        but are available from the <em>JMX Remote API 
-	<a href="http://java.sun.com/products/JavaManagement/download.html">
-	Reference Implementation</a></em>.</p>
+      <p><u>Notf</u>: tif optionbl pbdkbgfs implfmfnting
+        tif optionbl pbrt of tif <fm>JMX Rfmotf API</fm>
+        brf not indludfd in tif <fm>Jbvb SE Plbtform</fm> 
+        but brf bvbilbblf from tif <fm>JMX Rfmotf API 
+	<b irff="ittp://jbvb.sun.dom/produdts/JbvbMbnbgfmfnt/downlobd.itml">
+	Rfffrfndf Implfmfntbtion</b></fm>.</p>
 
 
-      <h3>Connector addresses</h3>
+      <i3>Connfdtor bddrfssfs</i3>
 
-      <p>Typically, a connector server has an address, represented by the
-	class {@link javax.management.remote.JMXServiceURL
-	JMXServiceURL}.  An address for the RMI Connector can look
-	like this:</p>
+      <p>Typidblly, b donnfdtor sfrvfr ibs bn bddrfss, rfprfsfntfd by tif
+	dlbss {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+	JMXSfrvidfURL}.  An bddrfss for tif RMI Connfdtor dbn look
+	likf tiis:</p>
 
-      <pre>
-      service:jmx:rmi:///jndi/rmi://myhost:1099/myname
-      </pre>
+      <prf>
+      sfrvidf:jmx:rmi:///jndi/rmi://myiost:1099/mynbmf
+      </prf>
 
-      <p>In this <code>JMXServiceURL</code>, the first <code>rmi:</code>
-        specifies the RMI connector, while the second <code>rmi:</code> 
-        specifies the RMI registry into which the RMI connector server 
-        has stored its stub.
+      <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+        spfdififs tif RMI donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> 
+        spfdififs tif RMI rfgistry into wiidi tif RMI donnfdtor sfrvfr 
+        ibs storfd its stub.
 
-      <p>The example above shows only one form of address.
-        An address for the RMI Connector can take several forms,
-	as detailed in the documentation for the package
-	<code>{@link javax.management.remote.rmi}</code>.</p>
+      <p>Tif fxbmplf bbovf siows only onf form of bddrfss.
+        An bddrfss for tif RMI Connfdtor dbn tbkf sfvfrbl forms,
+	bs dftbilfd in tif dodumfntbtion for tif pbdkbgf
+	<dodf>{@link jbvbx.mbnbgfmfnt.rfmotf.rmi}</dodf>.</p>
 
-      <h3>Creating a connector server</h3>
+      <i3>Crfbting b donnfdtor sfrvfr</i3>
 
-      <p>A connector server is created by constructing an instance of
-	a subclass of {@link
-	javax.management.remote.JMXConnectorServer
-	JMXConnectorServer}.  Usually, this instance is created
-        using the method {@link
-        javax.management.remote.JMXConnectorServerFactory#newJMXConnectorServer(JMXServiceURL,
-        java.util.Map, javax.management.MBeanServer)
-	JMXConnectorServerFactory.newJMXConnectorServer}.</p>
+      <p>A donnfdtor sfrvfr is drfbtfd by donstrudting bn instbndf of
+	b subdlbss of {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr
+	JMXConnfdtorSfrvfr}.  Usublly, tiis instbndf is drfbtfd
+        using tif mftiod {@link
+        jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,
+        jbvb.util.Mbp, jbvbx.mbnbgfmfnt.MBfbnSfrvfr)
+	JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.</p>
 
-      <p>Typically, a connector server is associated with an MBean
-	server either by registering it in that MBean server, or by
-	supplying the MBean server as a parameter when creating the
-	connector server.</p>
+      <p>Typidblly, b donnfdtor sfrvfr is bssodibtfd witi bn MBfbn
+	sfrvfr fitifr by rfgistfring it in tibt MBfbn sfrvfr, or by
+	supplying tif MBfbn sfrvfr bs b pbrbmftfr wifn drfbting tif
+	donnfdtor sfrvfr.</p>
 
-      <h3>Creating a connector client</h3>
+      <i3>Crfbting b donnfdtor dlifnt</i3>
 
-      <p>A connector client is usually created by supplying the
-	<code>JMXServiceURL</code> of the connector server to connect to 
-        to the {@link
-	javax.management.remote.JMXConnectorFactory#connect(JMXServiceURL)
-	JMXConnectorFactory.connect} method.</p>
+      <p>A donnfdtor dlifnt is usublly drfbtfd by supplying tif
+	<dodf>JMXSfrvidfURL</dodf> of tif donnfdtor sfrvfr to donnfdt to 
+        to tif {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory#donnfdt(JMXSfrvidfURL)
+	JMXConnfdtorFbdtory.donnfdt} mftiod.</p>
 
-      <p>For more specialized uses, a connector client can be created
-	by directly instantiating a class that implements the {@link
-	javax.management.remote.JMXConnector JMXConnector} interface,
-	for example the class {@link
-	javax.management.remote.rmi.RMIConnector
-	RMIConnector}.</p>
+      <p>For morf spfdiblizfd usfs, b donnfdtor dlifnt dbn bf drfbtfd
+	by dirfdtly instbntibting b dlbss tibt implfmfnts tif {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor JMXConnfdtor} intfrfbdf,
+	for fxbmplf tif dlbss {@link
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+	RMIConnfdtor}.</p>
 
-      <h3>Additional client or server parameters</h3>
+      <i3>Additionbl dlifnt or sfrvfr pbrbmftfrs</i3>
 
-      <p>When creating a connector client or server, it is possible to
-	supply an object of type {@link java.util.Map Map} that defines
-	additional parameters.  Each entry in this Map has a key that is
-	a string and an associated value whose type is appropriate for
-	that key.  The standard keys defined by the JMX Remote API all
-	begin with the string "<code>jmx.remote.</code>".  The document
-	<em>JMX Remote API</em> lists these standard keys.</p>
+      <p>Wifn drfbting b donnfdtor dlifnt or sfrvfr, it is possiblf to
+	supply bn objfdt of typf {@link jbvb.util.Mbp Mbp} tibt dffinfs
+	bdditionbl pbrbmftfrs.  Ebdi fntry in tiis Mbp ibs b kfy tibt is
+	b string bnd bn bssodibtfd vbluf wiosf typf is bppropribtf for
+	tibt kfy.  Tif stbndbrd kfys dffinfd by tif JMX Rfmotf API bll
+	bfgin witi tif string "<dodf>jmx.rfmotf.</dodf>".  Tif dodumfnt
+	<fm>JMX Rfmotf API</fm> lists tifsf stbndbrd kfys.</p>
 
-      <h3>Connection identifiers</h3>
+      <i3>Connfdtion idfntififrs</i3>
 
-      <p>Every connection opened by a connector server has a string
-	identifier, called its <b>connection id</b>.  This identifier
-	appears in the {@link
-	javax.management.remote.JMXConnectionNotification
-	JMXConnectionNotification} events emitted by the connector
-	server, in the list returned by {@link
-	javax.management.remote.JMXConnectorServerMBean#getConnectionIds()
-	getConnectionIds()}, and in the value
-	returned by the client's {@link
-	javax.management.remote.JMXConnector#getConnectionId()
-	getConnectionId()} method.</p>
+      <p>Evfry donnfdtion opfnfd by b donnfdtor sfrvfr ibs b string
+	idfntififr, dbllfd its <b>donnfdtion id</b>.  Tiis idfntififr
+	bppfbrs in tif {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtionNotifidbtion
+	JMXConnfdtionNotifidbtion} fvfnts fmittfd by tif donnfdtor
+	sfrvfr, in tif list rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrMBfbn#gftConnfdtionIds()
+	gftConnfdtionIds()}, bnd in tif vbluf
+	rfturnfd by tif dlifnt's {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtor#gftConnfdtionId()
+	gftConnfdtionId()} mftiod.</p>
 
-      <p>As an example, a connection ID can look something like this:</p>
+      <p>As bn fxbmplf, b donnfdtion ID dbn look somftiing likf tiis:</p>
 
-      <pre>
-rmi://192.18.1.9 username 1
-      </pre>
+      <prf>
+rmi://192.18.1.9 usfrnbmf 1
+      </prf>
 
-      <p>The formal grammar for connection ids that follow this
-         convention is as follows (using the grammar notation from section 2.4 of 
-         <em>The Java&trade; Language Specification</em>):</p>
-      <pre>
-<em>ConnectionId:</em>
-    <em>Protocol</em> : <em>ClientAddress<sub>opt</sub></em> Space <em>ClientId<sub>opt</sub></em> Space <em>ArbitraryText</em>
+      <p>Tif formbl grbmmbr for donnfdtion ids tibt follow tiis
+         donvfntion is bs follows (using tif grbmmbr notbtion from sfdtion 2.4 of 
+         <fm>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</fm>):</p>
+      <prf>
+<fm>ConnfdtionId:</fm>
+    <fm>Protodol</fm> : <fm>ClifntAddrfss<sub>opt</sub></fm> Spbdf <fm>ClifntId<sub>opt</sub></fm> Spbdf <fm>ArbitrbryTfxt</fm>
 
-<em>ClientAddress:</em>
-    // <em>HostAddress</em> <em>ClientPort<sub>opt</sub></em>
+<fm>ClifntAddrfss:</fm>
+    // <fm>HostAddrfss</fm> <fm>ClifntPort<sub>opt</sub></fm>
 
-<em>ClientPort</em>
-    : <em>HostPort</em>
-      </pre>
+<fm>ClifntPort</fm>
+    : <fm>HostPort</fm>
+      </prf>
 
-      <p>The <code><em>Protocol</em></code> is a protocol that would
-	be recognized by {@link
-	javax.management.remote.JMXConnectorFactory
-	JMXConnectorFactory}.</p>
+      <p>Tif <dodf><fm>Protodol</fm></dodf> is b protodol tibt would
+	bf rfdognizfd by {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory
+	JMXConnfdtorFbdtory}.</p>
 
-      <p>The <code><em>ClientAddress</em></code> is the
-	address and port of the connecting client, if these can be
-	determined, otherwise nothing.  The
-	<code><em>HostAddress</em></code> is the Internet address of
-	the host that the client is connecting from, in numeric or DNS
-	form.  Numeric IPv6 addresses are enclosed in square brackets
-	<code>[]</code>.  The <code><em>HostPort</em></code> is the
-	decimal port number that the client is connecting from.</p>
+      <p>Tif <dodf><fm>ClifntAddrfss</fm></dodf> is tif
+	bddrfss bnd port of tif donnfdting dlifnt, if tifsf dbn bf
+	dftfrminfd, otifrwisf notiing.  Tif
+	<dodf><fm>HostAddrfss</fm></dodf> is tif Intfrnft bddrfss of
+	tif iost tibt tif dlifnt is donnfdting from, in numfrid or DNS
+	form.  Numfrid IPv6 bddrfssfs brf fndlosfd in squbrf brbdkfts
+	<dodf>[]</dodf>.  Tif <dodf><fm>HostPort</fm></dodf> is tif
+	dfdimbl port numbfr tibt tif dlifnt is donnfdting from.</p>
 
-      <p>The <code><em>ClientId</em></code> is the identity of the
-	client entity, typically a string returned by {@link
-	javax.management.remote.JMXPrincipal#getName()
-	JMXPrincipal.getName()}.  This string must not contain
-	spaces.</p>
+      <p>Tif <dodf><fm>ClifntId</fm></dodf> is tif idfntity of tif
+	dlifnt fntity, typidblly b string rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl#gftNbmf()
+	JMXPrindipbl.gftNbmf()}.  Tiis string must not dontbin
+	spbdfs.</p>
 
-      <p>The <code><em>ArbitraryText</em></code> is any additional
-	text that the connector server adds when creating the client id.
-	At a minimum, it must be enough to distinguish this connection
-	ID from the ID of any other connection currently opened by this
-	connector server.</p>
+      <p>Tif <dodf><fm>ArbitrbryTfxt</fm></dodf> is bny bdditionbl
+	tfxt tibt tif donnfdtor sfrvfr bdds wifn drfbting tif dlifnt id.
+	At b minimum, it must bf fnougi to distinguisi tiis donnfdtion
+	ID from tif ID of bny otifr donnfdtion durrfntly opfnfd by tiis
+	donnfdtor sfrvfr.</p>
 
 
-    @see <a href="{@docRoot}/../technotes/guides/jmx/">
-      Java Platform documentation on JMX technology</a>,
-    in particular the 
-    <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-      JMX Specification, version 1.4</a>
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
+    in pbrtidulbr tif 
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+      JMX Spfdifidbtion, vfrsion 1.4</b>
     
-    @since 1.5
+    @sindf 1.5
 
     </body>
-</html>
+</itml>

@@ -1,0 +1,1651 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MONITOR_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+import jbvb.util.dondurrfnt.CopyOnWritfArrbyList;
+import jbvb.util.dondurrfnt.Exfdutors;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.SdhfdulfdExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.SdhfdulfdFuturf;
+import jbvb.util.dondurrfnt.ThrfbdFbdtory;
+import jbvb.util.dondurrfnt.ThrfbdPoolExfdutor;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.IntrospfdtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import stbtid jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion.*;
+
+/**
+ * Dffinfs thf pbrt dommon to bll monitor MBfbns.
+ * A monitor MBfbn monitors vblufs of bn bttributf dommon to b sft of obsfrvfd
+ * MBfbns. Thf obsfrvfd bttributf is monitorfd bt intfrvbls spfdififd by thf
+ * grbnulbrity pfriod. A gbugf vbluf (dfrivfd gbugf) is dfrivfd from thf vblufs
+ * of thf obsfrvfd bttributf.
+ *
+ *
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss Monitor
+    fxtfnds NotifidbtionBrobddbstfrSupport
+    implfmfnts MonitorMBfbn, MBfbnRfgistrbtion {
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE CLASSES
+     * ------------------------------------------
+     */
+
+    stbtid dlbss ObsfrvfdObjfdt {
+
+        publid ObsfrvfdObjfdt(ObjfdtNbmf obsfrvfdObjfdt) {
+            this.obsfrvfdObjfdt = obsfrvfdObjfdt;
+        }
+
+        publid finbl ObjfdtNbmf gftObsfrvfdObjfdt() {
+            rfturn obsfrvfdObjfdt;
+        }
+        publid finbl syndhronizfd int gftAlrfbdyNotififd() {
+            rfturn blrfbdyNotififd;
+        }
+        publid finbl syndhronizfd void sftAlrfbdyNotififd(int blrfbdyNotififd) {
+            this.blrfbdyNotififd = blrfbdyNotififd;
+        }
+        publid finbl syndhronizfd Objfdt gftDfrivfdGbugf() {
+            rfturn dfrivfdGbugf;
+        }
+        publid finbl syndhronizfd void sftDfrivfdGbugf(Objfdt dfrivfdGbugf) {
+            this.dfrivfdGbugf = dfrivfdGbugf;
+        }
+        publid finbl syndhronizfd long gftDfrivfdGbugfTimfStbmp() {
+            rfturn dfrivfdGbugfTimfStbmp;
+        }
+        publid finbl syndhronizfd void sftDfrivfdGbugfTimfStbmp(
+                                                 long dfrivfdGbugfTimfStbmp) {
+            this.dfrivfdGbugfTimfStbmp = dfrivfdGbugfTimfStbmp;
+        }
+
+        privbtf finbl ObjfdtNbmf obsfrvfdObjfdt;
+        privbtf int blrfbdyNotififd;
+        privbtf Objfdt dfrivfdGbugf;
+        privbtf long dfrivfdGbugfTimfStbmp;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE VARIABLES
+     * ------------------------------------------
+     */
+
+    /**
+     * Attributf to obsfrvf.
+     */
+    privbtf String obsfrvfdAttributf;
+
+    /**
+     * Monitor grbnulbrity pfriod (in millisfdonds).
+     * Thf dffbult vbluf is sft to 10 sfdonds.
+     */
+    privbtf long grbnulbrityPfriod = 10000;
+
+    /**
+     * Monitor stbtf.
+     * Thf dffbult vbluf is sft to <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn isAdtivf = fblsf;
+
+    /**
+     * Monitor sfqufndf numbfr.
+     * Thf dffbult vbluf is sft to 0.
+     */
+    privbtf finbl AtomidLong sfqufndfNumbfr = nfw AtomidLong();
+
+    /**
+     * Complfx typf bttributf flbg.
+     * Thf dffbult vbluf is sft to <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn isComplfxTypfAttributf = fblsf;
+
+    /**
+     * First bttributf nbmf fxtrbdtfd from domplfx typf bttributf nbmf.
+     */
+    privbtf String firstAttributf;
+
+    /**
+     * Rfmbining bttributf nbmfs fxtrbdtfd from domplfx typf bttributf nbmf.
+     */
+    privbtf finbl List<String> rfmbiningAttributfs =
+        nfw CopyOnWritfArrbyList<String>();
+
+    /**
+     * AddfssControlContfxt of thf Monitor.stbrt() dbllfr.
+     */
+    privbtf stbtid finbl AddfssControlContfxt noPfrmissionsACC =
+            nfw AddfssControlContfxt(
+            nfw ProtfdtionDombin[] {nfw ProtfdtionDombin(null, null)});
+    privbtf volbtilf AddfssControlContfxt bdd = noPfrmissionsACC;
+
+    /**
+     * Sdhfdulfr Sfrvidf.
+     */
+    privbtf stbtid finbl SdhfdulfdExfdutorSfrvidf sdhfdulfr =
+        Exfdutors.nfwSinglfThrfbdSdhfdulfdExfdutor(
+            nfw DbfmonThrfbdFbdtory("Sdhfdulfr"));
+
+    /**
+     * Mbp dontbining thf thrfbd pool fxfdutor pfr thrfbd group.
+     */
+    privbtf stbtid finbl Mbp<ThrfbdPoolExfdutor, Void> fxfdutors =
+            nfw WfbkHbshMbp<ThrfbdPoolExfdutor, Void>();
+
+    /**
+     * Lodk for fxfdutors mbp.
+     */
+    privbtf stbtid finbl Objfdt fxfdutorsLodk = nfw Objfdt();
+
+    /**
+     * Mbximum Pool Sizf
+     */
+    privbtf stbtid finbl int mbximumPoolSizf;
+    stbtid {
+        finbl String mbximumPoolSizfSysProp = "jmx.x.monitor.mbximum.pool.sizf";
+        finbl String mbximumPoolSizfStr = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion(mbximumPoolSizfSysProp));
+        if (mbximumPoolSizfStr == null ||
+            mbximumPoolSizfStr.trim().lfngth() == 0) {
+            mbximumPoolSizf = 10;
+        } flsf {
+            int mbximumPoolSizfTmp = 10;
+            try {
+                mbximumPoolSizfTmp = Intfgfr.pbrsfInt(mbximumPoolSizfStr);
+            } dbtdh (NumbfrFormbtExdfption f) {
+                if (MONITOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                            "<stbtid initiblizfr>",
+                            "Wrong vbluf for " + mbximumPoolSizfSysProp +
+                            " systfm propfrty", f);
+                    MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                            "<stbtid initiblizfr>",
+                            mbximumPoolSizfSysProp + " dffbults to 10");
+                }
+                mbximumPoolSizfTmp = 10;
+            }
+            if (mbximumPoolSizfTmp < 1) {
+                mbximumPoolSizf = 1;
+            } flsf {
+                mbximumPoolSizf = mbximumPoolSizfTmp;
+            }
+        }
+    }
+
+    /**
+     * Futurf bssodibtfd to thf durrfnt monitor tbsk.
+     */
+    privbtf Futurf<?> monitorFuturf;
+
+    /**
+     * Sdhfdulfr tbsk to bf fxfdutfd by thf Sdhfdulfr Sfrvidf.
+     */
+    privbtf finbl SdhfdulfrTbsk sdhfdulfrTbsk = nfw SdhfdulfrTbsk();
+
+    /**
+     * SdhfdulfdFuturf bssodibtfd to thf durrfnt sdhfdulfr tbsk.
+     */
+    privbtf SdhfdulfdFuturf<?> sdhfdulfrFuturf;
+
+    /*
+     * ------------------------------------------
+     *  PROTECTED VARIABLES
+     * ------------------------------------------
+     */
+
+    /**
+     * Thf bmount by whidh thf dbpbdity of thf monitor brrbys brf
+     * butombtidblly indrfmfntfd whfn thfir sizf bfdomfs grfbtfr thbn
+     * thfir dbpbdity.
+     */
+    protfdtfd finbl stbtid int dbpbdityIndrfmfnt = 16;
+
+    /**
+     * Thf numbfr of vblid domponfnts in thf vfdtor of obsfrvfd objfdts.
+     *
+     */
+    protfdtfd int flfmfntCount = 0;
+
+    /**
+     * Monitor frrors thbt hbvf blrfbdy bffn notififd.
+     * @dfprfdbtfd fquivblfnt to {@link #blrfbdyNotififds}[0].
+     */
+    @Dfprfdbtfd
+    protfdtfd int blrfbdyNotififd = 0;
+
+    /**
+     * <p>Sflfdtfd monitor frrors thbt hbvf blrfbdy bffn notififd.</p>
+     *
+     * <p>Ebdh flfmfnt in this brrby dorrfsponds to bn obsfrvfd objfdt
+     * in thf vfdtor.  It dontbins b bit mbsk of thf flbgs {@link
+     * #OBSERVED_OBJECT_ERROR_NOTIFIED} ftd, indidbting whfthfr thf
+     * dorrfsponding notifidbtion hbs blrfbdy bffn sfnt for thf MBfbn
+     * bfing monitorfd.</p>
+     *
+     */
+    protfdtfd int blrfbdyNotififds[] = nfw int[dbpbdityIndrfmfnt];
+
+    /**
+     * Rfffrfndf to thf MBfbn sfrvfr.  This rfffrfndf is null whfn thf
+     * monitor MBfbn is not rfgistfrfd in bn MBfbn sfrvfr.  This
+     * rfffrfndf is initiblizfd bfforf thf monitor MBfbn is rfgistfrfd
+     * in thf MBfbn sfrvfr.
+     * @sff #prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+     */
+    protfdtfd MBfbnSfrvfr sfrvfr;
+
+    // Flbgs dffining possiblf monitor frrors.
+    //
+
+    /**
+     * This flbg is usfd to rfsft thf {@link #blrfbdyNotififds
+     * blrfbdyNotififds} monitor bttributf.
+     */
+    protfdtfd stbtid finbl int RESET_FLAGS_ALREADY_NOTIFIED             = 0;
+
+    /**
+     * Flbg dfnoting thbt b notifidbtion hbs oddurrfd bftfr dhbnging
+     * thf obsfrvfd objfdt.  This flbg is usfd to dhfdk thbt thf nfw
+     * obsfrvfd objfdt is rfgistfrfd in thf MBfbn sfrvfr bt thf timf
+     * of thf first notifidbtion.
+     */
+    protfdtfd stbtid finbl int OBSERVED_OBJECT_ERROR_NOTIFIED           = 1;
+
+    /**
+     * Flbg dfnoting thbt b notifidbtion hbs oddurrfd bftfr dhbnging
+     * thf obsfrvfd bttributf.  This flbg is usfd to dhfdk thbt thf
+     * nfw obsfrvfd bttributf bflongs to thf obsfrvfd objfdt bt thf
+     * timf of thf first notifidbtion.
+     */
+    protfdtfd stbtid finbl int OBSERVED_ATTRIBUTE_ERROR_NOTIFIED        = 2;
+
+    /**
+     * Flbg dfnoting thbt b notifidbtion hbs oddurrfd bftfr dhbnging
+     * thf obsfrvfd objfdt or thf obsfrvfd bttributf.  This flbg is
+     * usfd to dhfdk thbt thf obsfrvfd bttributf typf is dorrfdt
+     * (dfpfnding on thf monitor in usf) bt thf timf of thf first
+     * notifidbtion.
+     */
+    protfdtfd stbtid finbl int OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED   = 4;
+
+    /**
+     * Flbg dfnoting thbt b notifidbtion hbs oddurrfd bftfr dhbnging
+     * thf obsfrvfd objfdt or thf obsfrvfd bttributf.  This flbg is
+     * usfd to notify bny fxdfption (fxdfpt thf dbsfs dfsdribfd bbovf)
+     * whfn trying to gft thf vbluf of thf obsfrvfd bttributf bt thf
+     * timf of thf first notifidbtion.
+     */
+    protfdtfd stbtid finbl int RUNTIME_ERROR_NOTIFIED                   = 8;
+
+    /**
+     * This fifld is rftbinfd for dompbtibility but should not bf rfffrfndfd.
+     *
+     * @dfprfdbtfd No rfplbdfmfnt.
+     */
+    @Dfprfdbtfd
+    protfdtfd String dbgTbg = Monitor.dlbss.gftNbmf();
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE VARIABLES
+     * ------------------------------------------
+     */
+
+    /**
+     * List of ObsfrvfdObjfdts to whidh thf bttributf to obsfrvf bflongs.
+     */
+    finbl List<ObsfrvfdObjfdt> obsfrvfdObjfdts =
+        nfw CopyOnWritfArrbyList<ObsfrvfdObjfdt>();
+
+    /**
+     * Flbg dfnoting thbt b notifidbtion hbs oddurrfd bftfr dhbnging
+     * thf thrfshold. This flbg is usfd to notify bny fxdfption
+     * rflbtfd to invblid thrfsholds sfttings.
+     */
+    stbtid finbl int THRESHOLD_ERROR_NOTIFIED                           = 16;
+
+    /**
+     * Enumfrbtion usfd to kffp trbdf of thf dfrivfd gbugf typf
+     * in dountfr bnd gbugf monitors.
+     */
+    fnum NumfridblTypf { BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE };
+
+    /**
+     * Constbnt usfd to initiblizf bll thf numfrid vblufs.
+     */
+    stbtid finbl Intfgfr INTEGER_ZERO = 0;
+
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Allows thf monitor MBfbn to pfrform bny opfrbtions it nffds
+     * bfforf bfing rfgistfrfd in thf MBfbn sfrvfr.
+     * <P>
+     * Initiblizfs thf rfffrfndf to thf MBfbn sfrvfr.
+     *
+     * @pbrbm sfrvfr Thf MBfbn sfrvfr in whidh thf monitor MBfbn will
+     * bf rfgistfrfd.
+     * @pbrbm nbmf Thf objfdt nbmf of thf monitor MBfbn.
+     *
+     * @rfturn Thf nbmf of thf monitor MBfbn rfgistfrfd.
+     *
+     * @fxdfption Exdfption
+     */
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+        throws Exdfption {
+
+        MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                "prfRfgistfr(MBfbnSfrvfr, ObjfdtNbmf)",
+                "initiblizf thf rfffrfndf on thf MBfbn sfrvfr");
+
+        this.sfrvfr = sfrvfr;
+        rfturn nbmf;
+    }
+
+    /**
+     * Allows thf monitor MBfbn to pfrform bny opfrbtions nffdfd bftfr
+     * hbving bffn rfgistfrfd in thf MBfbn sfrvfr or bftfr thf
+     * rfgistrbtion hbs fbilfd.
+     * <P>
+     * Not usfd in this dontfxt.
+     */
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+    }
+
+    /**
+     * Allows thf monitor MBfbn to pfrform bny opfrbtions it nffds
+     * bfforf bfing unrfgistfrfd by thf MBfbn sfrvfr.
+     * <P>
+     * Stops thf monitor.
+     *
+     * @fxdfption Exdfption
+     */
+    publid void prfDfrfgistfr() throws Exdfption {
+
+        MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                "prfDfrfgistfr()", "stop thf monitor");
+
+        // Stop thf Monitor.
+        //
+        stop();
+    }
+
+    /**
+     * Allows thf monitor MBfbn to pfrform bny opfrbtions nffdfd bftfr
+     * hbving bffn unrfgistfrfd by thf MBfbn sfrvfr.
+     * <P>
+     * Not usfd in this dontfxt.
+     */
+    publid void postDfrfgistfr() {
+    }
+
+    /**
+     * Stbrts thf monitor.
+     */
+    publid bbstrbdt void stbrt();
+
+    /**
+     * Stops thf monitor.
+     */
+    publid bbstrbdt void stop();
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Rfturns thf objfdt nbmf of thf first objfdt in thf sft of obsfrvfd
+     * MBfbns, or <dodf>null</dodf> if thfrf is no sudh objfdt.
+     *
+     * @rfturn Thf objfdt bfing obsfrvfd.
+     *
+     * @sff #sftObsfrvfdObjfdt(ObjfdtNbmf)
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftObsfrvfdObjfdts}
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd ObjfdtNbmf gftObsfrvfdObjfdt() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn obsfrvfdObjfdts.gft(0).gftObsfrvfdObjfdt();
+        }
+    }
+
+    /**
+     * Rfmovfs bll objfdts from thf sft of obsfrvfd objfdts, bnd thfn bdds thf
+     * spfdififd objfdt.
+     *
+     * @pbrbm objfdt Thf objfdt to obsfrvf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd
+     * objfdt is null.
+     *
+     * @sff #gftObsfrvfdObjfdt()
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #bddObsfrvfdObjfdt}
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void sftObsfrvfdObjfdt(ObjfdtNbmf objfdt)
+        throws IllfgblArgumfntExdfption {
+        if (objfdt == null)
+            throw nfw IllfgblArgumfntExdfption("Null obsfrvfd objfdt");
+        if (obsfrvfdObjfdts.sizf() == 1 && dontbinsObsfrvfdObjfdt(objfdt))
+            rfturn;
+        obsfrvfdObjfdts.dlfbr();
+        bddObsfrvfdObjfdt(objfdt);
+    }
+
+    /**
+     * Adds thf spfdififd objfdt in thf sft of obsfrvfd MBfbns, if this objfdt
+     * is not blrfbdy prfsfnt.
+     *
+     * @pbrbm objfdt Thf objfdt to obsfrvf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd objfdt is null.
+     *
+     */
+    publid syndhronizfd void bddObsfrvfdObjfdt(ObjfdtNbmf objfdt)
+        throws IllfgblArgumfntExdfption {
+
+        if (objfdt == null) {
+            throw nfw IllfgblArgumfntExdfption("Null obsfrvfd objfdt");
+        }
+
+        // Chfdk thbt thf spfdififd objfdt is not blrfbdy dontbinfd.
+        //
+        if (dontbinsObsfrvfdObjfdt(objfdt))
+            rfturn;
+
+        // Add thf spfdififd objfdt in thf list.
+        //
+        ObsfrvfdObjfdt o = drfbtfObsfrvfdObjfdt(objfdt);
+        o.sftAlrfbdyNotififd(RESET_FLAGS_ALREADY_NOTIFIED);
+        o.sftDfrivfdGbugf(INTEGER_ZERO);
+        o.sftDfrivfdGbugfTimfStbmp(Systfm.durrfntTimfMillis());
+        obsfrvfdObjfdts.bdd(o);
+
+        // Updbtf lfgbdy protfdtfd stuff.
+        //
+        drfbtfAlrfbdyNotififd();
+    }
+
+    /**
+     * Rfmovfs thf spfdififd objfdt from thf sft of obsfrvfd MBfbns.
+     *
+     * @pbrbm objfdt Thf objfdt to rfmovf.
+     *
+     */
+    publid syndhronizfd void rfmovfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        // Chfdk for null objfdt.
+        //
+        if (objfdt == null)
+            rfturn;
+
+        finbl ObsfrvfdObjfdt o = gftObsfrvfdObjfdt(objfdt);
+        if (o != null) {
+            // Rfmovf thf spfdififd objfdt from thf list.
+            //
+            obsfrvfdObjfdts.rfmovf(o);
+            // Updbtf lfgbdy protfdtfd stuff.
+            //
+            drfbtfAlrfbdyNotififd();
+        }
+    }
+
+    /**
+     * Tfsts whfthfr thf spfdififd objfdt is in thf sft of obsfrvfd MBfbns.
+     *
+     * @pbrbm objfdt Thf objfdt to dhfdk.
+     * @rfturn <CODE>truf</CODE> if thf spfdififd objfdt is prfsfnt,
+     * <CODE>fblsf</CODE> othfrwisf.
+     *
+     */
+    publid syndhronizfd boolfbn dontbinsObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        rfturn gftObsfrvfdObjfdt(objfdt) != null;
+    }
+
+    /**
+     * Rfturns bn brrby dontbining thf objfdts bfing obsfrvfd.
+     *
+     * @rfturn Thf objfdts bfing obsfrvfd.
+     *
+     */
+    publid syndhronizfd ObjfdtNbmf[] gftObsfrvfdObjfdts() {
+        ObjfdtNbmf[] nbmfs = nfw ObjfdtNbmf[obsfrvfdObjfdts.sizf()];
+        for (int i = 0; i < nbmfs.lfngth; i++)
+            nbmfs[i] = obsfrvfdObjfdts.gft(i).gftObsfrvfdObjfdt();
+        rfturn nbmfs;
+    }
+
+    /**
+     * Gfts thf bttributf bfing obsfrvfd.
+     * <BR>Thf obsfrvfd bttributf is not initiblizfd by dffbult (sft to null).
+     *
+     * @rfturn Thf bttributf bfing obsfrvfd.
+     *
+     * @sff #sftObsfrvfdAttributf
+     */
+    publid syndhronizfd String gftObsfrvfdAttributf() {
+        rfturn obsfrvfdAttributf;
+    }
+
+    /**
+     * Sfts thf bttributf to obsfrvf.
+     * <BR>Thf obsfrvfd bttributf is not initiblizfd by dffbult (sft to null).
+     *
+     * @pbrbm bttributf Thf bttributf to obsfrvf.
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd
+     * bttributf is null.
+     *
+     * @sff #gftObsfrvfdAttributf
+     */
+    publid void sftObsfrvfdAttributf(String bttributf)
+        throws IllfgblArgumfntExdfption {
+
+        if (bttributf == null) {
+            throw nfw IllfgblArgumfntExdfption("Null obsfrvfd bttributf");
+        }
+
+        // Updbtf blrfbdyNotififd brrby.
+        //
+        syndhronizfd (this) {
+            if (obsfrvfdAttributf != null &&
+                obsfrvfdAttributf.fqubls(bttributf))
+                rfturn;
+            obsfrvfdAttributf = bttributf;
+
+            // Rfsft thf domplfx typf bttributf informbtion
+            // sudh thbt it is rfdbldulbtfd bgbin.
+            //
+            dlfbnupIsComplfxTypfAttributf();
+
+            int indfx = 0;
+            for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+                rfsftAlrfbdyNotififd(o, indfx++,
+                                     OBSERVED_ATTRIBUTE_ERROR_NOTIFIED |
+                                     OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED);
+            }
+        }
+    }
+
+    /**
+     * Gfts thf grbnulbrity pfriod (in millisfdonds).
+     * <BR>Thf dffbult vbluf of thf grbnulbrity pfriod is 10 sfdonds.
+     *
+     * @rfturn Thf grbnulbrity pfriod vbluf.
+     *
+     * @sff #sftGrbnulbrityPfriod
+     */
+    publid syndhronizfd long gftGrbnulbrityPfriod() {
+        rfturn grbnulbrityPfriod;
+    }
+
+    /**
+     * Sfts thf grbnulbrity pfriod (in millisfdonds).
+     * <BR>Thf dffbult vbluf of thf grbnulbrity pfriod is 10 sfdonds.
+     *
+     * @pbrbm pfriod Thf grbnulbrity pfriod vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Thf grbnulbrity
+     * pfriod is lfss thbn or fqubl to zfro.
+     *
+     * @sff #gftGrbnulbrityPfriod
+     */
+    publid syndhronizfd void sftGrbnulbrityPfriod(long pfriod)
+        throws IllfgblArgumfntExdfption {
+
+        if (pfriod <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Nonpositivf grbnulbrity " +
+                                               "pfriod");
+        }
+
+        if (grbnulbrityPfriod == pfriod)
+            rfturn;
+        grbnulbrityPfriod = pfriod;
+
+        // Rfsdhfdulf thf sdhfdulfr tbsk if thf monitor is bdtivf.
+        //
+        if (isAdtivf()) {
+            dlfbnupFuturfs();
+            sdhfdulfrFuturf = sdhfdulfr.sdhfdulf(sdhfdulfrTbsk,
+                                                 pfriod,
+                                                 TimfUnit.MILLISECONDS);
+        }
+    }
+
+    /**
+     * Tfsts whfthfr thf monitor MBfbn is bdtivf.  A monitor MBfbn is
+     * mbrkfd bdtivf whfn thf {@link #stbrt stbrt} mfthod is dbllfd.
+     * It bfdomfs inbdtivf whfn thf {@link #stop stop} mfthod is
+     * dbllfd.
+     *
+     * @rfturn <CODE>truf</CODE> if thf monitor MBfbn is bdtivf,
+     * <CODE>fblsf</CODE> othfrwisf.
+     */
+    /* This mfthod must bf syndhronizfd so thbt thf monitoring thrfbd will
+       dorrfdtly sff modifidbtions to thf isAdtivf vbribblf. Sff thf MonitorTbsk
+       bdtion fxfdutfd by thf Sdhfdulfd Exfdutor Sfrvidf. */
+    publid syndhronizfd boolfbn isAdtivf() {
+        rfturn isAdtivf;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Stbrts thf monitor.
+     */
+    void doStbrt() {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                "doStbrt()", "stbrt thf monitor");
+
+        syndhronizfd (this) {
+            if (isAdtivf()) {
+                MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                        "doStbrt()", "thf monitor is blrfbdy bdtivf");
+                rfturn;
+            }
+
+            isAdtivf = truf;
+
+            // Rfsft thf domplfx typf bttributf informbtion
+            // sudh thbt it is rfdbldulbtfd bgbin.
+            //
+            dlfbnupIsComplfxTypfAttributf();
+
+            // Cbdhf thf AddfssControlContfxt of thf Monitor.stbrt() dbllfr.
+            // Thf monitor tbsks will bf fxfdutfd within this dontfxt.
+            //
+            bdd = AddfssControllfr.gftContfxt();
+
+            // Stbrt thf sdhfdulfr.
+            //
+            dlfbnupFuturfs();
+            sdhfdulfrTbsk.sftMonitorTbsk(nfw MonitorTbsk());
+            sdhfdulfrFuturf = sdhfdulfr.sdhfdulf(sdhfdulfrTbsk,
+                                                 gftGrbnulbrityPfriod(),
+                                                 TimfUnit.MILLISECONDS);
+        }
+    }
+
+    /**
+     * Stops thf monitor.
+     */
+    void doStop() {
+        MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                "doStop()", "stop thf monitor");
+
+        syndhronizfd (this) {
+            if (!isAdtivf()) {
+                MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                        "doStop()", "thf monitor is not bdtivf");
+                rfturn;
+            }
+
+            isAdtivf = fblsf;
+
+            // Cbndfl thf sdhfdulfr tbsk bssodibtfd with thf
+            // sdhfdulfr bnd its bssodibtfd monitor tbsk.
+            //
+            dlfbnupFuturfs();
+
+            // Rfsft thf AddfssControlContfxt.
+            //
+            bdd = noPfrmissionsACC;
+
+            // Rfsft thf domplfx typf bttributf informbtion
+            // sudh thbt it is rfdbldulbtfd bgbin.
+            //
+            dlfbnupIsComplfxTypfAttributf();
+        }
+    }
+
+    /**
+     * Gfts thf dfrivfd gbugf of thf spfdififd objfdt, if this objfdt is
+     * dontbinfd in thf sft of obsfrvfd MBfbns, or <dodf>null</dodf> othfrwisf.
+     *
+     * @pbrbm objfdt thf nbmf of thf objfdt whosf dfrivfd gbugf is to
+     * bf rfturnfd.
+     *
+     * @rfturn Thf dfrivfd gbugf of thf spfdififd objfdt.
+     *
+     * @sindf 1.6
+     */
+    syndhronizfd Objfdt gftDfrivfdGbugf(ObjfdtNbmf objfdt) {
+        finbl ObsfrvfdObjfdt o = gftObsfrvfdObjfdt(objfdt);
+        rfturn o == null ? null : o.gftDfrivfdGbugf();
+    }
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp of thf spfdififd objfdt, if
+     * this objfdt is dontbinfd in thf sft of obsfrvfd MBfbns, or
+     * <dodf>0</dodf> othfrwisf.
+     *
+     * @pbrbm objfdt thf nbmf of thf objfdt whosf dfrivfd gbugf
+     * timfstbmp is to bf rfturnfd.
+     *
+     * @rfturn Thf dfrivfd gbugf timfstbmp of thf spfdififd objfdt.
+     *
+     */
+    syndhronizfd long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt) {
+        finbl ObsfrvfdObjfdt o = gftObsfrvfdObjfdt(objfdt);
+        rfturn o == null ? 0 : o.gftDfrivfdGbugfTimfStbmp();
+    }
+
+    Objfdt gftAttributf(MBfbnSfrvfrConnfdtion mbsd,
+                        ObjfdtNbmf objfdt,
+                        String bttributf)
+        throws AttributfNotFoundExdfption,
+               InstbndfNotFoundExdfption,
+               MBfbnExdfption,
+               RfflfdtionExdfption,
+               IOExdfption {
+        // Chfdk for "ObsfrvfdAttributf" rfplbdfmfnt.
+        // This dould hbppfn if b thrfbd A dbllfd sftObsfrvfdAttributf()
+        // whilf othfr thrfbd B wbs in thf middlf of thf monitor() mfthod
+        // bnd rfdfivfd thf old obsfrvfd bttributf vbluf.
+        //
+        finbl boolfbn lookupMBfbnInfo;
+        syndhronizfd (this) {
+            if (!isAdtivf())
+                throw nfw IllfgblArgumfntExdfption(
+                    "Thf monitor hbs bffn stoppfd");
+            if (!bttributf.fqubls(gftObsfrvfdAttributf()))
+                throw nfw IllfgblArgumfntExdfption(
+                    "Thf obsfrvfd bttributf hbs bffn dhbngfd");
+            lookupMBfbnInfo =
+                (firstAttributf == null && bttributf.indfxOf('.') != -1);
+        }
+
+        // Look up MBfbnInfo if nffdfd
+        //
+        finbl MBfbnInfo mbi;
+        if (lookupMBfbnInfo) {
+            try {
+                mbi = mbsd.gftMBfbnInfo(objfdt);
+            } dbtdh (IntrospfdtionExdfption f) {
+                throw nfw IllfgblArgumfntExdfption(f);
+            }
+        } flsf {
+            mbi = null;
+        }
+
+        // Chfdk for domplfx typf bttributf
+        //
+        finbl String fb;
+        syndhronizfd (this) {
+            if (!isAdtivf())
+                throw nfw IllfgblArgumfntExdfption(
+                    "Thf monitor hbs bffn stoppfd");
+            if (!bttributf.fqubls(gftObsfrvfdAttributf()))
+                throw nfw IllfgblArgumfntExdfption(
+                    "Thf obsfrvfd bttributf hbs bffn dhbngfd");
+            if (firstAttributf == null) {
+                if (bttributf.indfxOf('.') != -1) {
+                    MBfbnAttributfInfo mbbiArrby[] = mbi.gftAttributfs();
+                    for (MBfbnAttributfInfo mbbi : mbbiArrby) {
+                        if (bttributf.fqubls(mbbi.gftNbmf())) {
+                            firstAttributf = bttributf;
+                            brfbk;
+                        }
+                    }
+                    if (firstAttributf == null) {
+                        String tokfns[] = bttributf.split("\\.", -1);
+                        firstAttributf = tokfns[0];
+                        for (int i = 1; i < tokfns.lfngth; i++)
+                            rfmbiningAttributfs.bdd(tokfns[i]);
+                        isComplfxTypfAttributf = truf;
+                    }
+                } flsf {
+                    firstAttributf = bttributf;
+                }
+            }
+            fb = firstAttributf;
+        }
+        rfturn mbsd.gftAttributf(objfdt, fb);
+    }
+
+    Compbrbblf<?> gftCompbrbblfFromAttributf(ObjfdtNbmf objfdt,
+                                             String bttributf,
+                                             Objfdt vbluf)
+        throws AttributfNotFoundExdfption {
+        if (isComplfxTypfAttributf) {
+            Objfdt v = vbluf;
+            for (String bttr : rfmbiningAttributfs)
+                v = Introspfdtor.flfmfntFromComplfx(v, bttr);
+            rfturn (Compbrbblf<?>) v;
+        } flsf {
+            rfturn (Compbrbblf<?>) vbluf;
+        }
+    }
+
+    boolfbn isCompbrbblfTypfVblid(ObjfdtNbmf objfdt,
+                                  String bttributf,
+                                  Compbrbblf<?> vbluf) {
+        rfturn truf;
+    }
+
+    String buildErrorNotifidbtion(ObjfdtNbmf objfdt,
+                                  String bttributf,
+                                  Compbrbblf<?> vbluf) {
+        rfturn null;
+    }
+
+    void onErrorNotifidbtion(MonitorNotifidbtion notifidbtion) {
+    }
+
+    Compbrbblf<?> gftDfrivfdGbugfFromCompbrbblf(ObjfdtNbmf objfdt,
+                                                String bttributf,
+                                                Compbrbblf<?> vbluf) {
+        rfturn (Compbrbblf<?>) vbluf;
+    }
+
+    MonitorNotifidbtion buildAlbrmNotifidbtion(ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf){
+        rfturn null;
+    }
+
+    boolfbn isThrfsholdTypfVblid(ObjfdtNbmf objfdt,
+                                 String bttributf,
+                                 Compbrbblf<?> vbluf) {
+        rfturn truf;
+    }
+
+    stbtid Clbss<? fxtfnds Numbfr> dlbssForTypf(NumfridblTypf typf) {
+        switdh (typf) {
+            dbsf BYTE:
+                rfturn Bytf.dlbss;
+            dbsf SHORT:
+                rfturn Short.dlbss;
+            dbsf INTEGER:
+                rfturn Intfgfr.dlbss;
+            dbsf LONG:
+                rfturn Long.dlbss;
+            dbsf FLOAT:
+                rfturn Flobt.dlbss;
+            dbsf DOUBLE:
+                rfturn Doublf.dlbss;
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption(
+                    "Unsupportfd numfridbl typf");
+        }
+    }
+
+    stbtid boolfbn isVblidForTypf(Objfdt vbluf, Clbss<? fxtfnds Numbfr> d) {
+        rfturn ((vbluf == INTEGER_ZERO) || d.isInstbndf(vbluf));
+    }
+
+    /**
+     * Gft thf spfdififd {@dodf ObsfrvfdObjfdt} if this objfdt is
+     * dontbinfd in thf sft of obsfrvfd MBfbns, or {@dodf null}
+     * othfrwisf.
+     *
+     * @pbrbm objfdt thf nbmf of thf {@dodf ObsfrvfdObjfdt} to rftrifvf.
+     *
+     * @rfturn Thf {@dodf ObsfrvfdObjfdt} bssodibtfd to thf supplifd
+     * {@dodf ObjfdtNbmf}.
+     *
+     * @sindf 1.6
+     */
+    syndhronizfd ObsfrvfdObjfdt gftObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts)
+            if (o.gftObsfrvfdObjfdt().fqubls(objfdt))
+                rfturn o;
+        rfturn null;
+    }
+
+    /**
+     * Fbdtory mfthod for ObsfrvfdObjfdt drfbtion.
+     *
+     * @sindf 1.6
+     */
+    ObsfrvfdObjfdt drfbtfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        rfturn nfw ObsfrvfdObjfdt(objfdt);
+    }
+
+    /**
+     * Crfbtf thf {@link #blrfbdyNotififd} brrby from
+     * thf {@dodf ObsfrvfdObjfdt} brrby list.
+     */
+    syndhronizfd void drfbtfAlrfbdyNotififd() {
+        // Updbtf flfmfntCount.
+        //
+        flfmfntCount = obsfrvfdObjfdts.sizf();
+
+        // Updbtf brrbys.
+        //
+        blrfbdyNotififds = nfw int[flfmfntCount];
+        for (int i = 0; i < flfmfntCount; i++) {
+            blrfbdyNotififds[i] = obsfrvfdObjfdts.gft(i).gftAlrfbdyNotififd();
+        }
+        updbtfDfprfdbtfdAlrfbdyNotififd();
+    }
+
+    /**
+     * Updbtf thf dfprfdbtfd {@link #blrfbdyNotififd} fifld.
+     */
+    syndhronizfd void updbtfDfprfdbtfdAlrfbdyNotififd() {
+        if (flfmfntCount > 0)
+            blrfbdyNotififd = blrfbdyNotififds[0];
+        flsf
+            blrfbdyNotififd = 0;
+    }
+
+    /**
+     * Updbtf thf {@link #blrfbdyNotififds} brrby flfmfnt bt thf givfn indfx
+     * with thf blrfbdy notififd flbg in thf givfn {@dodf ObsfrvfdObjfdt}.
+     * Ensurf thf dfprfdbtfd {@link #blrfbdyNotififd} fifld is updbtfd
+     * if bppropribtf.
+     */
+    syndhronizfd void updbtfAlrfbdyNotififd(ObsfrvfdObjfdt o, int indfx) {
+        blrfbdyNotififds[indfx] = o.gftAlrfbdyNotififd();
+        if (indfx == 0)
+            updbtfDfprfdbtfdAlrfbdyNotififd();
+    }
+
+    /**
+     * Chfdk if thf givfn bits in thf givfn flfmfnt of {@link #blrfbdyNotififds}
+     * brf sft.
+     */
+    syndhronizfd boolfbn isAlrfbdyNotififd(ObsfrvfdObjfdt o, int mbsk) {
+        rfturn ((o.gftAlrfbdyNotififd() & mbsk) != 0);
+    }
+
+    /**
+     * Sft thf givfn bits in thf givfn flfmfnt of {@link #blrfbdyNotififds}.
+     * Ensurf thf dfprfdbtfd {@link #blrfbdyNotififd} fifld is updbtfd
+     * if bppropribtf.
+     */
+    syndhronizfd void sftAlrfbdyNotififd(ObsfrvfdObjfdt o, int indfx,
+                                         int mbsk, int bn[]) {
+        finbl int i = domputfAlrfbdyNotififdIndfx(o, indfx, bn);
+        if (i == -1)
+            rfturn;
+        o.sftAlrfbdyNotififd(o.gftAlrfbdyNotififd() | mbsk);
+        updbtfAlrfbdyNotififd(o, i);
+    }
+
+    /**
+     * Rfsft thf givfn bits in thf givfn flfmfnt of {@link #blrfbdyNotififds}.
+     * Ensurf thf dfprfdbtfd {@link #blrfbdyNotififd} fifld is updbtfd
+     * if bppropribtf.
+     */
+    syndhronizfd void rfsftAlrfbdyNotififd(ObsfrvfdObjfdt o,
+                                           int indfx, int mbsk) {
+        o.sftAlrfbdyNotififd(o.gftAlrfbdyNotififd() & ~mbsk);
+        updbtfAlrfbdyNotififd(o, indfx);
+    }
+
+    /**
+     * Rfsft bll bits in thf givfn flfmfnt of {@link #blrfbdyNotififds}.
+     * Ensurf thf dfprfdbtfd {@link #blrfbdyNotififd} fifld is updbtfd
+     * if bppropribtf.
+     */
+    syndhronizfd void rfsftAllAlrfbdyNotififd(ObsfrvfdObjfdt o,
+                                              int indfx, int bn[]) {
+        finbl int i = domputfAlrfbdyNotififdIndfx(o, indfx, bn);
+        if (i == -1)
+            rfturn;
+        o.sftAlrfbdyNotififd(RESET_FLAGS_ALREADY_NOTIFIED);
+        updbtfAlrfbdyNotififd(o, indfx);
+    }
+
+    /**
+     * Chfdk if thf {@link #blrfbdyNotififds} brrby hbs bffn modififd.
+     * If truf rfdomputf thf indfx for thf givfn obsfrvfd objfdt.
+     */
+    syndhronizfd int domputfAlrfbdyNotififdIndfx(ObsfrvfdObjfdt o,
+                                                 int indfx, int bn[]) {
+        if (bn == blrfbdyNotififds) {
+            rfturn indfx;
+        } flsf {
+            rfturn obsfrvfdObjfdts.indfxOf(o);
+        }
+    }
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * This mfthod is usfd by thf monitor MBfbn to drfbtf bnd sfnd b
+     * monitor notifidbtion to bll thf listfnfrs rfgistfrfd for this
+     * kind of notifidbtion.
+     *
+     * @pbrbm typf Thf notifidbtion typf.
+     * @pbrbm timfStbmp Thf notifidbtion fmission dbtf.
+     * @pbrbm msg Thf notifidbtion mfssbgf.
+     * @pbrbm dfrGbugf Thf dfrivfd gbugf.
+     * @pbrbm triggfr Thf thrfshold/string (dfpfnding on thf monitor
+     * typf) thbt triggfrfd off thf notifidbtion.
+     * @pbrbm objfdt Thf ObjfdtNbmf of thf obsfrvfd objfdt thbt triggfrfd
+     * off thf notifidbtion.
+     * @pbrbm onError Flbg indidbting if this monitor notifidbtion is
+     * bn frror notifidbtion or bn blbrm notifidbtion.
+     */
+    privbtf void sfndNotifidbtion(String typf, long timfStbmp, String msg,
+                                  Objfdt dfrGbugf, Objfdt triggfr,
+                                  ObjfdtNbmf objfdt, boolfbn onError) {
+        if (!isAdtivf())
+            rfturn;
+
+        if (MONITOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                    "sfndNotifidbtion", "sfnd notifidbtion: " +
+                    "\n\tNotifidbtion obsfrvfd objfdt = " + objfdt +
+                    "\n\tNotifidbtion obsfrvfd bttributf = " + obsfrvfdAttributf +
+                    "\n\tNotifidbtion dfrivfd gbugf = " + dfrGbugf);
+        }
+
+        long sfqno = sfqufndfNumbfr.gftAndIndrfmfnt();
+
+        MonitorNotifidbtion mn =
+            nfw MonitorNotifidbtion(typf,
+                                    this,
+                                    sfqno,
+                                    timfStbmp,
+                                    msg,
+                                    objfdt,
+                                    obsfrvfdAttributf,
+                                    dfrGbugf,
+                                    triggfr);
+        if (onError)
+            onErrorNotifidbtion(mn);
+        sfndNotifidbtion(mn);
+    }
+
+    /**
+     * This mfthod is dbllfd by thf monitor fbdh timf
+     * thf grbnulbrity pfriod hbs bffn fxdffdfd.
+     * @pbrbm o Thf obsfrvfd objfdt.
+     */
+    privbtf void monitor(ObsfrvfdObjfdt o, int indfx, int bn[]) {
+
+        String bttributf;
+        String notifTypf = null;
+        String msg = null;
+        Objfdt dfrGbugf = null;
+        Objfdt triggfr = null;
+        ObjfdtNbmf objfdt;
+        Compbrbblf<?> vbluf = null;
+        MonitorNotifidbtion blbrm = null;
+
+        if (!isAdtivf())
+            rfturn;
+
+        // Chfdk thbt nfithfr thf obsfrvfd objfdt nor thf
+        // obsfrvfd bttributf brf null.  If thf obsfrvfd
+        // objfdt or obsfrvfd bttributf is null, this mfbns
+        // thbt thf monitor stbrtfd bfforf b domplftf
+        // initiblizbtion bnd nothing is donf.
+        //
+        syndhronizfd (this) {
+            objfdt = o.gftObsfrvfdObjfdt();
+            bttributf = gftObsfrvfdAttributf();
+            if (objfdt == null || bttributf == null) {
+                rfturn;
+            }
+        }
+
+        // Chfdk thbt thf obsfrvfd objfdt is rfgistfrfd in thf
+        // MBfbn sfrvfr bnd thbt thf obsfrvfd bttributf
+        // bflongs to thf obsfrvfd objfdt.
+        //
+        Objfdt bttributfVbluf = null;
+        try {
+            bttributfVbluf = gftAttributf(sfrvfr, objfdt, bttributf);
+            if (bttributfVbluf == null)
+                if (isAlrfbdyNotififd(
+                        o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
+                    rfturn;
+                flsf {
+                    notifTypf = OBSERVED_ATTRIBUTE_TYPE_ERROR;
+                    sftAlrfbdyNotififd(
+                        o, indfx, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
+                    msg = "Thf obsfrvfd bttributf vbluf is null.";
+                    MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                            "monitor", msg);
+                }
+        } dbtdh (NullPointfrExdfption np_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg =
+                    "Thf monitor must bf rfgistfrfd in thf MBfbn " +
+                    "sfrvfr or bn MBfbnSfrvfrConnfdtion must bf " +
+                    "fxpliditly supplifd.";
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", msg);
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", np_fx.toString());
+            }
+        } dbtdh (InstbndfNotFoundExdfption inf_fx) {
+            if (isAlrfbdyNotififd(o, OBSERVED_OBJECT_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = OBSERVED_OBJECT_ERROR;
+                sftAlrfbdyNotififd(
+                    o, indfx, OBSERVED_OBJECT_ERROR_NOTIFIED, bn);
+                msg =
+                    "Thf obsfrvfd objfdt must bf bddfssiblf in " +
+                    "thf MBfbnSfrvfrConnfdtion.";
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", msg);
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", inf_fx.toString());
+            }
+        } dbtdh (AttributfNotFoundExdfption bnf_fx) {
+            if (isAlrfbdyNotififd(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = OBSERVED_ATTRIBUTE_ERROR;
+                sftAlrfbdyNotififd(
+                    o, indfx, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, bn);
+                msg =
+                    "Thf obsfrvfd bttributf must bf bddfssiblf in " +
+                    "thf obsfrvfd objfdt.";
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", msg);
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", bnf_fx.toString());
+            }
+        } dbtdh (MBfbnExdfption mb_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = mb_fx.gftMfssbgf() == null ? "" : mb_fx.gftMfssbgf();
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", msg);
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", mb_fx.toString());
+            }
+        } dbtdh (RfflfdtionExdfption rff_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED)) {
+                rfturn;
+            } flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = rff_fx.gftMfssbgf() == null ? "" : rff_fx.gftMfssbgf();
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", msg);
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", rff_fx.toString());
+            }
+        } dbtdh (IOExdfption io_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = io_fx.gftMfssbgf() == null ? "" : io_fx.gftMfssbgf();
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", msg);
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", io_fx.toString());
+            }
+        } dbtdh (RuntimfExdfption rt_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = rt_fx.gftMfssbgf() == null ? "" : rt_fx.gftMfssbgf();
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", msg);
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", rt_fx.toString());
+            }
+        }
+
+        syndhronizfd (this) {
+
+            // Chfdk if thf monitor hbs bffn stoppfd.
+            //
+            if (!isAdtivf())
+                rfturn;
+
+            // Chfdk if thf obsfrvfd bttributf hbs bffn dhbngfd.
+            //
+            // Avoid rbdf dondition whfrf mbs.gftAttributf() suddffdfd but
+            // bnothfr thrfbd rfplbdfd thf obsfrvfd bttributf mfbnwhilf.
+            //
+            // Avoid sftting domputfd dfrivfd gbugf on frronfous bttributf.
+            //
+            if (!bttributf.fqubls(gftObsfrvfdAttributf()))
+                rfturn;
+
+            // Dfrivf b Compbrbblf objfdt from thf ObsfrvfdAttributf vbluf
+            // if thf typf of thf ObsfrvfdAttributf vbluf is b domplfx typf.
+            //
+            if (msg == null) {
+                try {
+                    vbluf = gftCompbrbblfFromAttributf(objfdt,
+                                                       bttributf,
+                                                       bttributfVbluf);
+                } dbtdh (ClbssCbstExdfption f) {
+                    if (isAlrfbdyNotififd(
+                            o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = OBSERVED_ATTRIBUTE_TYPE_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
+                        msg =
+                            "Thf obsfrvfd bttributf vbluf dofs not " +
+                            "implfmfnt thf Compbrbblf intfrfbdf.";
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", f.toString());
+                    }
+                } dbtdh (AttributfNotFoundExdfption f) {
+                    if (isAlrfbdyNotififd(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = OBSERVED_ATTRIBUTE_ERROR;
+                        sftAlrfbdyNotififd(
+                            o, indfx, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, bn);
+                        msg =
+                            "Thf obsfrvfd bttributf must bf bddfssiblf in " +
+                            "thf obsfrvfd objfdt.";
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", f.toString());
+                    }
+                } dbtdh (RuntimfExdfption f) {
+                    if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = RUNTIME_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            RUNTIME_ERROR_NOTIFIED, bn);
+                        msg = f.gftMfssbgf() == null ? "" : f.gftMfssbgf();
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", f.toString());
+                    }
+                }
+            }
+
+            // Chfdk thbt thf obsfrvfd bttributf typf is supportfd by this
+            // monitor.
+            //
+            if (msg == null) {
+                if (!isCompbrbblfTypfVblid(objfdt, bttributf, vbluf)) {
+                    if (isAlrfbdyNotififd(
+                            o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = OBSERVED_ATTRIBUTE_TYPE_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
+                        msg = "Thf obsfrvfd bttributf typf is not vblid.";
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                    }
+                }
+            }
+
+            // Chfdk thbt thrfshold typf is supportfd by this monitor.
+            //
+            if (msg == null) {
+                if (!isThrfsholdTypfVblid(objfdt, bttributf, vbluf)) {
+                    if (isAlrfbdyNotififd(o, THRESHOLD_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = THRESHOLD_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            THRESHOLD_ERROR_NOTIFIED, bn);
+                        msg = "Thf thrfshold typf is not vblid.";
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                    }
+                }
+            }
+
+            // Lft somfonf subdlbssing thf monitor to pfrform bdditionbl
+            // monitor donsistfndy dhfdks bnd rfport frrors if nfdfssbry.
+            //
+            if (msg == null) {
+                msg = buildErrorNotifidbtion(objfdt, bttributf, vbluf);
+                if (msg != null) {
+                    if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = RUNTIME_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            RUNTIME_ERROR_NOTIFIED, bn);
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                    }
+                }
+            }
+
+            // If no frrors wfrf found thfn dlfbr bll frror flbgs bnd
+            // lft thf monitor dfdidf if b notifidbtion must bf sfnt.
+            //
+            if (msg == null) {
+                // Clfbr bll blrfbdy notififd flbgs.
+                //
+                rfsftAllAlrfbdyNotififd(o, indfx, bn);
+
+                // Gft dfrivfd gbugf from dompbrbblf vbluf.
+                //
+                dfrGbugf = gftDfrivfdGbugfFromCompbrbblf(objfdt,
+                                                         bttributf,
+                                                         vbluf);
+
+                o.sftDfrivfdGbugf(dfrGbugf);
+                o.sftDfrivfdGbugfTimfStbmp(Systfm.durrfntTimfMillis());
+
+                // Chfdk if bn blbrm must bf firfd.
+                //
+                blbrm = buildAlbrmNotifidbtion(objfdt,
+                                               bttributf,
+                                               (Compbrbblf<?>) dfrGbugf);
+            }
+
+        }
+
+        // Notify monitor frrors
+        //
+        if (msg != null)
+            sfndNotifidbtion(notifTypf,
+                             Systfm.durrfntTimfMillis(),
+                             msg,
+                             dfrGbugf,
+                             triggfr,
+                             objfdt,
+                             truf);
+
+        // Notify monitor blbrms
+        //
+        if (blbrm != null && blbrm.gftTypf() != null)
+            sfndNotifidbtion(blbrm.gftTypf(),
+                             Systfm.durrfntTimfMillis(),
+                             blbrm.gftMfssbgf(),
+                             dfrGbugf,
+                             blbrm.gftTriggfr(),
+                             objfdt,
+                             fblsf);
+    }
+
+    /**
+     * Clfbnup thf sdhfdulfr bnd monitor tbsks futurfs.
+     */
+    privbtf syndhronizfd void dlfbnupFuturfs() {
+        if (sdhfdulfrFuturf != null) {
+            sdhfdulfrFuturf.dbndfl(fblsf);
+            sdhfdulfrFuturf = null;
+        }
+        if (monitorFuturf != null) {
+            monitorFuturf.dbndfl(fblsf);
+            monitorFuturf = null;
+        }
+    }
+
+    /**
+     * Clfbnup thf "is domplfx typf bttributf" info.
+     */
+    privbtf syndhronizfd void dlfbnupIsComplfxTypfAttributf() {
+        firstAttributf = null;
+        rfmbiningAttributfs.dlfbr();
+        isComplfxTypfAttributf = fblsf;
+    }
+
+    /**
+     * SdhfdulfrTbsk nfstfd dlbss: This dlbss implfmfnts thf Runnbblf intfrfbdf.
+     *
+     * Thf SdhfdulfrTbsk is fxfdutfd pfriodidblly with b givfn fixfd dflby by
+     * thf Sdhfdulfd Exfdutor Sfrvidf.
+     */
+    privbtf dlbss SdhfdulfrTbsk implfmfnts Runnbblf {
+
+        privbtf MonitorTbsk tbsk;
+
+        /*
+         * ------------------------------------------
+         *  CONSTRUCTORS
+         * ------------------------------------------
+         */
+
+        publid SdhfdulfrTbsk() {
+        }
+
+        /*
+         * ------------------------------------------
+         *  GETTERS/SETTERS
+         * ------------------------------------------
+         */
+
+        publid void sftMonitorTbsk(MonitorTbsk tbsk) {
+            this.tbsk = tbsk;
+        }
+
+        /*
+         * ------------------------------------------
+         *  PUBLIC METHODS
+         * ------------------------------------------
+         */
+
+        publid void run() {
+            syndhronizfd (Monitor.this) {
+                Monitor.this.monitorFuturf = tbsk.submit();
+            }
+        }
+    }
+
+    /**
+     * MonitorTbsk nfstfd dlbss: This dlbss implfmfnts thf Runnbblf intfrfbdf.
+     *
+     * Thf MonitorTbsk is fxfdutfd pfriodidblly with b givfn fixfd dflby by thf
+     * Sdhfdulfd Exfdutor Sfrvidf.
+     */
+    privbtf dlbss MonitorTbsk implfmfnts Runnbblf {
+
+        privbtf ThrfbdPoolExfdutor fxfdutor;
+
+        /*
+         * ------------------------------------------
+         *  CONSTRUCTORS
+         * ------------------------------------------
+         */
+
+        publid MonitorTbsk() {
+            // Find out if thfrf's blrfbdy bn fxisting fxfdutor for thf dblling
+            // thrfbd bnd rfusf it. Othfrwisf, drfbtf b nfw onf bnd storf it in
+            // thf fxfdutors mbp. If thfrf is b SfdurityMbnbgfr, thf group of
+            // Systfm.gftSfdurityMbnbgfr() is usfd, flsf thf group of thf thrfbd
+            // instbntibting this MonitorTbsk, i.f. thf group of thf thrfbd thbt
+            // dblls "Monitor.stbrt()".
+            SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+            ThrfbdGroup group = (s != null) ? s.gftThrfbdGroup() :
+                Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+            syndhronizfd (fxfdutorsLodk) {
+                for (ThrfbdPoolExfdutor f : fxfdutors.kfySft()) {
+                    DbfmonThrfbdFbdtory tf =
+                            (DbfmonThrfbdFbdtory) f.gftThrfbdFbdtory();
+                    ThrfbdGroup tg = tf.gftThrfbdGroup();
+                    if (tg == group) {
+                        fxfdutor = f;
+                        brfbk;
+                    }
+                }
+                if (fxfdutor == null) {
+                    fxfdutor = nfw ThrfbdPoolExfdutor(
+                            mbximumPoolSizf,
+                            mbximumPoolSizf,
+                            60L,
+                            TimfUnit.SECONDS,
+                            nfw LinkfdBlodkingQufuf<Runnbblf>(),
+                            nfw DbfmonThrfbdFbdtory("ThrfbdGroup<" +
+                            group.gftNbmf() + "> Exfdutor", group));
+                    fxfdutor.bllowCorfThrfbdTimfOut(truf);
+                    fxfdutors.put(fxfdutor, null);
+                }
+            }
+        }
+
+        /*
+         * ------------------------------------------
+         *  PUBLIC METHODS
+         * ------------------------------------------
+         */
+
+        publid Futurf<?> submit() {
+            rfturn fxfdutor.submit(this);
+        }
+
+        publid void run() {
+            finbl SdhfdulfdFuturf<?> sf;
+            finbl AddfssControlContfxt bd;
+            syndhronizfd (Monitor.this) {
+                sf = Monitor.this.sdhfdulfrFuturf;
+                bd = Monitor.this.bdd;
+            }
+            PrivilfgfdAdtion<Void> bdtion = nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    if (Monitor.this.isAdtivf()) {
+                        finbl int bn[] = blrfbdyNotififds;
+                        int indfx = 0;
+                        for (ObsfrvfdObjfdt o : Monitor.this.obsfrvfdObjfdts) {
+                            if (Monitor.this.isAdtivf()) {
+                                Monitor.this.monitor(o, indfx++, bn);
+                            }
+                        }
+                    }
+                    rfturn null;
+                }
+            };
+            if (bd == null) {
+                throw nfw SfdurityExdfption("AddfssControlContfxt dbnnot bf null");
+            }
+            AddfssControllfr.doPrivilfgfd(bdtion, bd);
+            syndhronizfd (Monitor.this) {
+                if (Monitor.this.isAdtivf() &&
+                    Monitor.this.sdhfdulfrFuturf == sf) {
+                    Monitor.this.monitorFuturf = null;
+                    Monitor.this.sdhfdulfrFuturf =
+                        sdhfdulfr.sdhfdulf(Monitor.this.sdhfdulfrTbsk,
+                                           Monitor.this.gftGrbnulbrityPfriod(),
+                                           TimfUnit.MILLISECONDS);
+                }
+            }
+        }
+    }
+
+    /**
+     * Dbfmon thrfbd fbdtory usfd by thf monitor fxfdutors.
+     * <P>
+     * This fbdtory drfbtfs bll nfw thrfbds usfd by bn Exfdutor in
+     * thf sbmf ThrfbdGroup. If thfrf is b SfdurityMbnbgfr, it usfs
+     * thf group of Systfm.gftSfdurityMbnbgfr(), flsf thf group of
+     * thf thrfbd instbntibting this DbfmonThrfbdFbdtory. Ebdh nfw
+     * thrfbd is drfbtfd bs b dbfmon thrfbd with priority
+     * Thrfbd.NORM_PRIORITY. Nfw thrfbds hbvf nbmfs bddfssiblf vib
+     * Thrfbd.gftNbmf() of "{@litfrbl JMX Monitor <pool-nbmf> Pool [Thrfbd-M]}",
+     * whfrf M is thf sfqufndf numbfr of thf thrfbd drfbtfd by this
+     * fbdtory.
+     */
+    privbtf stbtid dlbss DbfmonThrfbdFbdtory implfmfnts ThrfbdFbdtory {
+        finbl ThrfbdGroup group;
+        finbl AtomidIntfgfr thrfbdNumbfr = nfw AtomidIntfgfr(1);
+        finbl String nbmfPrffix;
+        stbtid finbl String nbmfSuffix = "]";
+
+        publid DbfmonThrfbdFbdtory(String poolNbmf) {
+            SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+            group = (s != null) ? s.gftThrfbdGroup() :
+                                  Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+            nbmfPrffix = "JMX Monitor " + poolNbmf + " Pool [Thrfbd-";
+        }
+
+        publid DbfmonThrfbdFbdtory(String poolNbmf, ThrfbdGroup thrfbdGroup) {
+            group = thrfbdGroup;
+            nbmfPrffix = "JMX Monitor " + poolNbmf + " Pool [Thrfbd-";
+        }
+
+        publid ThrfbdGroup gftThrfbdGroup() {
+            rfturn group;
+        }
+
+        publid Thrfbd nfwThrfbd(Runnbblf r) {
+            Thrfbd t = nfw Thrfbd(group,
+                                  r,
+                                  nbmfPrffix +
+                                  thrfbdNumbfr.gftAndIndrfmfnt() +
+                                  nbmfSuffix,
+                                  0);
+            t.sftDbfmon(truf);
+            if (t.gftPriority() != Thrfbd.NORM_PRIORITY)
+                t.sftPriority(Thrfbd.NORM_PRIORITY);
+            rfturn t;
+        }
+    }
+}

@@ -1,418 +1,418 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMUtils.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMUtils.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import java.util.*;
-import java.security.spec.AlgorithmParameterSpec;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.*;
+import jbvb.util.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.spfd.*;
 
 /**
- * Useful static DOM utility methods.
+ * Usfful stbtid DOM utility mftiods.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public class DOMUtils {
+publid dlbss DOMUtils {
 
-    // class cannot be instantiated
-    private DOMUtils() {}
+    // dlbss dbnnot bf instbntibtfd
+    privbtf DOMUtils() {}
 
     /**
-     * Returns the owner document of the specified node.
+     * Rfturns tif ownfr dodumfnt of tif spfdififd nodf.
      *
-     * @param node the node
-     * @return the owner document
+     * @pbrbm nodf tif nodf
+     * @rfturn tif ownfr dodumfnt
      */
-    public static Document getOwnerDocument(Node node) {
-        if (node.getNodeType() == Node.DOCUMENT_NODE) {
-            return (Document)node;
-        } else {
-            return node.getOwnerDocument();
+    publid stbtid Dodumfnt gftOwnfrDodumfnt(Nodf nodf) {
+        if (nodf.gftNodfTypf() == Nodf.DOCUMENT_NODE) {
+            rfturn (Dodumfnt)nodf;
+        } flsf {
+            rfturn nodf.gftOwnfrDodumfnt();
         }
     }
 
     /**
-     * Creates an element in the specified namespace, with the specified tag
-     * and namespace prefix.
+     * Crfbtfs bn flfmfnt in tif spfdififd nbmfspbdf, witi tif spfdififd tbg
+     * bnd nbmfspbdf prffix.
      *
-     * @param doc the owner document
-     * @param tag the tag
-     * @param nsURI the namespace URI
-     * @param prefix the namespace prefix
-     * @return the newly created element
+     * @pbrbm dod tif ownfr dodumfnt
+     * @pbrbm tbg tif tbg
+     * @pbrbm nsURI tif nbmfspbdf URI
+     * @pbrbm prffix tif nbmfspbdf prffix
+     * @rfturn tif nfwly drfbtfd flfmfnt
      */
-    public static Element createElement(Document doc, String tag,
-                                        String nsURI, String prefix)
+    publid stbtid Elfmfnt drfbtfElfmfnt(Dodumfnt dod, String tbg,
+                                        String nsURI, String prffix)
     {
-        String qName = (prefix == null || prefix.length() == 0)
-                       ? tag : prefix + ":" + tag;
-        return doc.createElementNS(nsURI, qName);
+        String qNbmf = (prffix == null || prffix.lfngti() == 0)
+                       ? tbg : prffix + ":" + tbg;
+        rfturn dod.drfbtfElfmfntNS(nsURI, qNbmf);
     }
 
     /**
-     * Sets an element's attribute (using DOM level 2) with the
-     * specified value and namespace prefix.
+     * Sfts bn flfmfnt's bttributf (using DOM lfvfl 2) witi tif
+     * spfdififd vbluf bnd nbmfspbdf prffix.
      *
-     * @param elem the element to set the attribute on
-     * @param name the name of the attribute
-     * @param value the attribute value. If null, no attribute is set.
+     * @pbrbm flfm tif flfmfnt to sft tif bttributf on
+     * @pbrbm nbmf tif nbmf of tif bttributf
+     * @pbrbm vbluf tif bttributf vbluf. If null, no bttributf is sft.
      */
-    public static void setAttribute(Element elem, String name, String value) {
-        if (value == null) {
-            return;
+    publid stbtid void sftAttributf(Elfmfnt flfm, String nbmf, String vbluf) {
+        if (vbluf == null) {
+            rfturn;
         }
-        elem.setAttributeNS(null, name, value);
+        flfm.sftAttributfNS(null, nbmf, vbluf);
     }
 
     /**
-     * Sets an element's attribute (using DOM level 2) with the
-     * specified value and namespace prefix AND registers the ID value with
-     * the specified element. This is for resolving same-document
-     * ID references.
+     * Sfts bn flfmfnt's bttributf (using DOM lfvfl 2) witi tif
+     * spfdififd vbluf bnd nbmfspbdf prffix AND rfgistfrs tif ID vbluf witi
+     * tif spfdififd flfmfnt. Tiis is for rfsolving sbmf-dodumfnt
+     * ID rfffrfndfs.
      *
-     * @param elem the element to set the attribute on
-     * @param name the name of the attribute
-     * @param value the attribute value. If null, no attribute is set.
+     * @pbrbm flfm tif flfmfnt to sft tif bttributf on
+     * @pbrbm nbmf tif nbmf of tif bttributf
+     * @pbrbm vbluf tif bttributf vbluf. If null, no bttributf is sft.
      */
-    public static void setAttributeID(Element elem, String name, String value) {
-        if (value == null) {
-            return;
+    publid stbtid void sftAttributfID(Elfmfnt flfm, String nbmf, String vbluf) {
+        if (vbluf == null) {
+            rfturn;
         }
-        elem.setAttributeNS(null, name, value);
-        elem.setIdAttributeNS(null, name, true);
+        flfm.sftAttributfNS(null, nbmf, vbluf);
+        flfm.sftIdAttributfNS(null, nbmf, truf);
     }
 
     /**
-     * Returns the first child element of the specified node, or null if there
-     * is no such element.
+     * Rfturns tif first diild flfmfnt of tif spfdififd nodf, or null if tifrf
+     * is no sudi flfmfnt.
      *
-     * @param node the node
-     * @return the first child element of the specified node, or null if there
-     *    is no such element
-     * @throws NullPointerException if <code>node == null</code>
+     * @pbrbm nodf tif nodf
+     * @rfturn tif first diild flfmfnt of tif spfdififd nodf, or null if tifrf
+     *    is no sudi flfmfnt
+     * @tirows NullPointfrExdfption if <dodf>nodf == null</dodf>
      */
-    public static Element getFirstChildElement(Node node) {
-        Node child = node.getFirstChild();
-        while (child != null && child.getNodeType() != Node.ELEMENT_NODE) {
-            child = child.getNextSibling();
+    publid stbtid Elfmfnt gftFirstCiildElfmfnt(Nodf nodf) {
+        Nodf diild = nodf.gftFirstCiild();
+        wiilf (diild != null && diild.gftNodfTypf() != Nodf.ELEMENT_NODE) {
+            diild = diild.gftNfxtSibling();
         }
-        return (Element)child;
+        rfturn (Elfmfnt)diild;
     }
 
     /**
-     * Returns the first child element of the specified node and checks that
-     * the local name is equal to {@code localName}.
+     * Rfturns tif first diild flfmfnt of tif spfdififd nodf bnd difdks tibt
+     * tif lodbl nbmf is fqubl to {@dodf lodblNbmf}.
      *
-     * @param node the node
-     * @return the first child element of the specified node
-     * @throws NullPointerException if {@code node == null}
-     * @throws MarshalException if no such element or the local name is not
-     *    equal to {@code localName}
+     * @pbrbm nodf tif nodf
+     * @rfturn tif first diild flfmfnt of tif spfdififd nodf
+     * @tirows NullPointfrExdfption if {@dodf nodf == null}
+     * @tirows MbrsiblExdfption if no sudi flfmfnt or tif lodbl nbmf is not
+     *    fqubl to {@dodf lodblNbmf}
      */
-    public static Element getFirstChildElement(Node node, String localName)
-        throws MarshalException
+    publid stbtid Elfmfnt gftFirstCiildElfmfnt(Nodf nodf, String lodblNbmf)
+        tirows MbrsiblExdfption
     {
-        return verifyElement(getFirstChildElement(node), localName);
+        rfturn vfrifyElfmfnt(gftFirstCiildElfmfnt(nodf), lodblNbmf);
     }
 
-    private static Element verifyElement(Element elem, String localName)
-        throws MarshalException
+    privbtf stbtid Elfmfnt vfrifyElfmfnt(Elfmfnt flfm, String lodblNbmf)
+        tirows MbrsiblExdfption
     {
-        if (elem == null) {
-            throw new MarshalException("Missing " + localName + " element");
+        if (flfm == null) {
+            tirow nfw MbrsiblExdfption("Missing " + lodblNbmf + " flfmfnt");
         }
-        String name = elem.getLocalName();
-        if (!name.equals(localName)) {
-            throw new MarshalException("Invalid element name: " +
-                                       name + ", expected " + localName);
+        String nbmf = flfm.gftLodblNbmf();
+        if (!nbmf.fqubls(lodblNbmf)) {
+            tirow nfw MbrsiblExdfption("Invblid flfmfnt nbmf: " +
+                                       nbmf + ", fxpfdtfd " + lodblNbmf);
         }
-        return elem;
+        rfturn flfm;
     }
 
     /**
-     * Returns the last child element of the specified node, or null if there
-     * is no such element.
+     * Rfturns tif lbst diild flfmfnt of tif spfdififd nodf, or null if tifrf
+     * is no sudi flfmfnt.
      *
-     * @param node the node
-     * @return the last child element of the specified node, or null if there
-     *    is no such element
-     * @throws NullPointerException if <code>node == null</code>
+     * @pbrbm nodf tif nodf
+     * @rfturn tif lbst diild flfmfnt of tif spfdififd nodf, or null if tifrf
+     *    is no sudi flfmfnt
+     * @tirows NullPointfrExdfption if <dodf>nodf == null</dodf>
      */
-    public static Element getLastChildElement(Node node) {
-        Node child = node.getLastChild();
-        while (child != null && child.getNodeType() != Node.ELEMENT_NODE) {
-            child = child.getPreviousSibling();
+    publid stbtid Elfmfnt gftLbstCiildElfmfnt(Nodf nodf) {
+        Nodf diild = nodf.gftLbstCiild();
+        wiilf (diild != null && diild.gftNodfTypf() != Nodf.ELEMENT_NODE) {
+            diild = diild.gftPrfviousSibling();
         }
-        return (Element)child;
+        rfturn (Elfmfnt)diild;
     }
 
     /**
-     * Returns the next sibling element of the specified node, or null if there
-     * is no such element.
+     * Rfturns tif nfxt sibling flfmfnt of tif spfdififd nodf, or null if tifrf
+     * is no sudi flfmfnt.
      *
-     * @param node the node
-     * @return the next sibling element of the specified node, or null if there
-     *    is no such element
-     * @throws NullPointerException if <code>node == null</code>
+     * @pbrbm nodf tif nodf
+     * @rfturn tif nfxt sibling flfmfnt of tif spfdififd nodf, or null if tifrf
+     *    is no sudi flfmfnt
+     * @tirows NullPointfrExdfption if <dodf>nodf == null</dodf>
      */
-    public static Element getNextSiblingElement(Node node) {
-        Node sibling = node.getNextSibling();
-        while (sibling != null && sibling.getNodeType() != Node.ELEMENT_NODE) {
-            sibling = sibling.getNextSibling();
+    publid stbtid Elfmfnt gftNfxtSiblingElfmfnt(Nodf nodf) {
+        Nodf sibling = nodf.gftNfxtSibling();
+        wiilf (sibling != null && sibling.gftNodfTypf() != Nodf.ELEMENT_NODE) {
+            sibling = sibling.gftNfxtSibling();
         }
-        return (Element)sibling;
+        rfturn (Elfmfnt)sibling;
     }
 
     /**
-     * Returns the next sibling element of the specified node and checks that
-     * the local name is equal to {@code localName}.
+     * Rfturns tif nfxt sibling flfmfnt of tif spfdififd nodf bnd difdks tibt
+     * tif lodbl nbmf is fqubl to {@dodf lodblNbmf}.
      *
-     * @param node the node
-     * @return the next sibling element of the specified node
-     * @throws NullPointerException if {@code node == null}
-     * @throws MarshalException if no such element or the local name is not
-     *    equal to {@code localName}
+     * @pbrbm nodf tif nodf
+     * @rfturn tif nfxt sibling flfmfnt of tif spfdififd nodf
+     * @tirows NullPointfrExdfption if {@dodf nodf == null}
+     * @tirows MbrsiblExdfption if no sudi flfmfnt or tif lodbl nbmf is not
+     *    fqubl to {@dodf lodblNbmf}
      */
-    public static Element getNextSiblingElement(Node node, String localName)
-        throws MarshalException
+    publid stbtid Elfmfnt gftNfxtSiblingElfmfnt(Nodf nodf, String lodblNbmf)
+        tirows MbrsiblExdfption
     {
-        return verifyElement(getNextSiblingElement(node), localName);
+        rfturn vfrifyElfmfnt(gftNfxtSiblingElfmfnt(nodf), lodblNbmf);
     }
 
     /**
-     * Returns the attribute value for the attribute with the specified name.
-     * Returns null if there is no such attribute, or
-     * the empty string if the attribute value is empty.
+     * Rfturns tif bttributf vbluf for tif bttributf witi tif spfdififd nbmf.
+     * Rfturns null if tifrf is no sudi bttributf, or
+     * tif fmpty string if tif bttributf vbluf is fmpty.
      *
-     * <p>This works around a limitation of the DOM
-     * <code>Element.getAttributeNode</code> method, which does not distinguish
-     * between an unspecified attribute and an attribute with a value of
-     * "" (it returns "" for both cases).
+     * <p>Tiis works bround b limitbtion of tif DOM
+     * <dodf>Elfmfnt.gftAttributfNodf</dodf> mftiod, wiidi dofs not distinguisi
+     * bftwffn bn unspfdififd bttributf bnd bn bttributf witi b vbluf of
+     * "" (it rfturns "" for boti dbsfs).
      *
-     * @param elem the element containing the attribute
-     * @param name the name of the attribute
-     * @return the attribute value (may be null if unspecified)
+     * @pbrbm flfm tif flfmfnt dontbining tif bttributf
+     * @pbrbm nbmf tif nbmf of tif bttributf
+     * @rfturn tif bttributf vbluf (mby bf null if unspfdififd)
      */
-    public static String getAttributeValue(Element elem, String name) {
-        Attr attr = elem.getAttributeNodeNS(null, name);
-        return (attr == null) ? null : attr.getValue();
+    publid stbtid String gftAttributfVbluf(Elfmfnt flfm, String nbmf) {
+        Attr bttr = flfm.gftAttributfNodfNS(null, nbmf);
+        rfturn (bttr == null) ? null : bttr.gftVbluf();
     }
 
     /**
-     * Returns a Set of <code>Node</code>s, backed by the specified
-     * <code>NodeList</code>.
+     * Rfturns b Sft of <dodf>Nodf</dodf>s, bbdkfd by tif spfdififd
+     * <dodf>NodfList</dodf>.
      *
-     * @param nl the NodeList
-     * @return a Set of Nodes
+     * @pbrbm nl tif NodfList
+     * @rfturn b Sft of Nodfs
      */
-    public static Set<Node> nodeSet(NodeList nl) {
-        return new NodeSet(nl);
+    publid stbtid Sft<Nodf> nodfSft(NodfList nl) {
+        rfturn nfw NodfSft(nl);
     }
 
-    static class NodeSet extends AbstractSet<Node> {
-        private NodeList nl;
-        public NodeSet(NodeList nl) {
-            this.nl = nl;
+    stbtid dlbss NodfSft fxtfnds AbstrbdtSft<Nodf> {
+        privbtf NodfList nl;
+        publid NodfSft(NodfList nl) {
+            tiis.nl = nl;
         }
 
-        public int size() { return nl.getLength(); }
-        public Iterator<Node> iterator() {
-            return new Iterator<Node>() {
-                int index = 0;
+        publid int sizf() { rfturn nl.gftLfngti(); }
+        publid Itfrbtor<Nodf> itfrbtor() {
+            rfturn nfw Itfrbtor<Nodf>() {
+                int indfx = 0;
 
-                public void remove() {
-                    throw new UnsupportedOperationException();
+                publid void rfmovf() {
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
-                public Node next() {
-                    if (!hasNext()) {
-                        throw new NoSuchElementException();
+                publid Nodf nfxt() {
+                    if (!ibsNfxt()) {
+                        tirow nfw NoSudiElfmfntExdfption();
                     }
-                    return nl.item(index++);
+                    rfturn nl.itfm(indfx++);
                 }
-                public boolean hasNext() {
-                    return index < nl.getLength() ? true : false;
+                publid boolfbn ibsNfxt() {
+                    rfturn indfx < nl.gftLfngti() ? truf : fblsf;
                 }
             };
         }
     }
 
     /**
-     * Returns the prefix associated with the specified namespace URI
+     * Rfturns tif prffix bssodibtfd witi tif spfdififd nbmfspbdf URI
      *
-     * @param context contains the namespace map
-     * @param nsURI the namespace URI
-     * @return the prefix associated with the specified namespace URI, or
-     *    null if not set
+     * @pbrbm dontfxt dontbins tif nbmfspbdf mbp
+     * @pbrbm nsURI tif nbmfspbdf URI
+     * @rfturn tif prffix bssodibtfd witi tif spfdififd nbmfspbdf URI, or
+     *    null if not sft
      */
-    public static String getNSPrefix(XMLCryptoContext context, String nsURI) {
-        if (context != null) {
-            return context.getNamespacePrefix
-                (nsURI, context.getDefaultNamespacePrefix());
-        } else {
-            return null;
+    publid stbtid String gftNSPrffix(XMLCryptoContfxt dontfxt, String nsURI) {
+        if (dontfxt != null) {
+            rfturn dontfxt.gftNbmfspbdfPrffix
+                (nsURI, dontfxt.gftDffbultNbmfspbdfPrffix());
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Returns the prefix associated with the XML Signature namespace URI
+     * Rfturns tif prffix bssodibtfd witi tif XML Signbturf nbmfspbdf URI
      *
-     * @param context contains the namespace map
-     * @return the prefix associated with the specified namespace URI, or
-     *    null if not set
+     * @pbrbm dontfxt dontbins tif nbmfspbdf mbp
+     * @rfturn tif prffix bssodibtfd witi tif spfdififd nbmfspbdf URI, or
+     *    null if not sft
      */
-    public static String getSignaturePrefix(XMLCryptoContext context) {
-        return getNSPrefix(context, XMLSignature.XMLNS);
+    publid stbtid String gftSignbturfPrffix(XMLCryptoContfxt dontfxt) {
+        rfturn gftNSPrffix(dontfxt, XMLSignbturf.XMLNS);
     }
 
     /**
-     * Removes all children nodes from the specified node.
+     * Rfmovfs bll diildrfn nodfs from tif spfdififd nodf.
      *
-     * @param node the parent node whose children are to be removed
+     * @pbrbm nodf tif pbrfnt nodf wiosf diildrfn brf to bf rfmovfd
      */
-    public static void removeAllChildren(Node node) {
-        NodeList children = node.getChildNodes();
-        for (int i = 0, length = children.getLength(); i < length; i++) {
-            node.removeChild(children.item(i));
+    publid stbtid void rfmovfAllCiildrfn(Nodf nodf) {
+        NodfList diildrfn = nodf.gftCiildNodfs();
+        for (int i = 0, lfngti = diildrfn.gftLfngti(); i < lfngti; i++) {
+            nodf.rfmovfCiild(diildrfn.itfm(i));
         }
     }
 
     /**
-     * Compares 2 nodes for equality. Implementation is not complete.
+     * Compbrfs 2 nodfs for fqublity. Implfmfntbtion is not domplftf.
      */
-    public static boolean nodesEqual(Node thisNode, Node otherNode) {
-        if (thisNode == otherNode) {
-            return true;
+    publid stbtid boolfbn nodfsEqubl(Nodf tiisNodf, Nodf otifrNodf) {
+        if (tiisNodf == otifrNodf) {
+            rfturn truf;
         }
-        if (thisNode.getNodeType() != otherNode.getNodeType()) {
-            return false;
+        if (tiisNodf.gftNodfTypf() != otifrNodf.gftNodfTypf()) {
+            rfturn fblsf;
         }
-        // FIXME - test content, etc
-        return true;
+        // FIXME - tfst dontfnt, ftd
+        rfturn truf;
     }
 
     /**
-     * Checks if child element has same owner document before
-     * appending to the parent, and imports it to the parent's document
-     * if necessary.
+     * Cifdks if diild flfmfnt ibs sbmf ownfr dodumfnt bfforf
+     * bppfnding to tif pbrfnt, bnd imports it to tif pbrfnt's dodumfnt
+     * if nfdfssbry.
      */
-    public static void appendChild(Node parent, Node child) {
-        Document ownerDoc = getOwnerDocument(parent);
-        if (child.getOwnerDocument() != ownerDoc) {
-            parent.appendChild(ownerDoc.importNode(child, true));
-        } else {
-            parent.appendChild(child);
+    publid stbtid void bppfndCiild(Nodf pbrfnt, Nodf diild) {
+        Dodumfnt ownfrDod = gftOwnfrDodumfnt(pbrfnt);
+        if (diild.gftOwnfrDodumfnt() != ownfrDod) {
+            pbrfnt.bppfndCiild(ownfrDod.importNodf(diild, truf));
+        } flsf {
+            pbrfnt.bppfndCiild(diild);
         }
     }
 
-    public static boolean paramsEqual(AlgorithmParameterSpec spec1,
-        AlgorithmParameterSpec spec2) {
-        if (spec1 == spec2) {
-            return true;
+    publid stbtid boolfbn pbrbmsEqubl(AlgoritimPbrbmftfrSpfd spfd1,
+        AlgoritimPbrbmftfrSpfd spfd2) {
+        if (spfd1 == spfd2) {
+            rfturn truf;
         }
-        if (spec1 instanceof XPathFilter2ParameterSpec &&
-            spec2 instanceof XPathFilter2ParameterSpec) {
-            return paramsEqual((XPathFilter2ParameterSpec)spec1,
-                               (XPathFilter2ParameterSpec)spec2);
+        if (spfd1 instbndfof XPbtiFiltfr2PbrbmftfrSpfd &&
+            spfd2 instbndfof XPbtiFiltfr2PbrbmftfrSpfd) {
+            rfturn pbrbmsEqubl((XPbtiFiltfr2PbrbmftfrSpfd)spfd1,
+                               (XPbtiFiltfr2PbrbmftfrSpfd)spfd2);
         }
-        if (spec1 instanceof ExcC14NParameterSpec &&
-            spec2 instanceof ExcC14NParameterSpec) {
-            return paramsEqual((ExcC14NParameterSpec) spec1,
-                               (ExcC14NParameterSpec)spec2);
+        if (spfd1 instbndfof ExdC14NPbrbmftfrSpfd &&
+            spfd2 instbndfof ExdC14NPbrbmftfrSpfd) {
+            rfturn pbrbmsEqubl((ExdC14NPbrbmftfrSpfd) spfd1,
+                               (ExdC14NPbrbmftfrSpfd)spfd2);
         }
-        if (spec1 instanceof XPathFilterParameterSpec &&
-            spec2 instanceof XPathFilterParameterSpec) {
-            return paramsEqual((XPathFilterParameterSpec)spec1,
-                               (XPathFilterParameterSpec)spec2);
+        if (spfd1 instbndfof XPbtiFiltfrPbrbmftfrSpfd &&
+            spfd2 instbndfof XPbtiFiltfrPbrbmftfrSpfd) {
+            rfturn pbrbmsEqubl((XPbtiFiltfrPbrbmftfrSpfd)spfd1,
+                               (XPbtiFiltfrPbrbmftfrSpfd)spfd2);
         }
-        if (spec1 instanceof XSLTTransformParameterSpec &&
-            spec2 instanceof XSLTTransformParameterSpec) {
-            return paramsEqual((XSLTTransformParameterSpec)spec1,
-                               (XSLTTransformParameterSpec)spec2);
+        if (spfd1 instbndfof XSLTTrbnsformPbrbmftfrSpfd &&
+            spfd2 instbndfof XSLTTrbnsformPbrbmftfrSpfd) {
+            rfturn pbrbmsEqubl((XSLTTrbnsformPbrbmftfrSpfd)spfd1,
+                               (XSLTTrbnsformPbrbmftfrSpfd)spfd2);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static boolean paramsEqual(XPathFilter2ParameterSpec spec1,
-                                       XPathFilter2ParameterSpec spec2)
+    privbtf stbtid boolfbn pbrbmsEqubl(XPbtiFiltfr2PbrbmftfrSpfd spfd1,
+                                       XPbtiFiltfr2PbrbmftfrSpfd spfd2)
     {
-        @SuppressWarnings("unchecked")
-        List<XPathType> types = spec1.getXPathList();
-        @SuppressWarnings("unchecked")
-        List<XPathType> otypes = spec2.getXPathList();
-        int size = types.size();
-        if (size != otypes.size()) {
-            return false;
+        @SupprfssWbrnings("undifdkfd")
+        List<XPbtiTypf> typfs = spfd1.gftXPbtiList();
+        @SupprfssWbrnings("undifdkfd")
+        List<XPbtiTypf> otypfs = spfd2.gftXPbtiList();
+        int sizf = typfs.sizf();
+        if (sizf != otypfs.sizf()) {
+            rfturn fblsf;
         }
-        for (int i = 0; i < size; i++) {
-            XPathType type = types.get(i);
-            XPathType otype = otypes.get(i);
-            if (!type.getExpression().equals(otype.getExpression()) ||
-                !type.getNamespaceMap().equals(otype.getNamespaceMap()) ||
-                type.getFilter() != otype.getFilter()) {
-                return false;
+        for (int i = 0; i < sizf; i++) {
+            XPbtiTypf typf = typfs.gft(i);
+            XPbtiTypf otypf = otypfs.gft(i);
+            if (!typf.gftExprfssion().fqubls(otypf.gftExprfssion()) ||
+                !typf.gftNbmfspbdfMbp().fqubls(otypf.gftNbmfspbdfMbp()) ||
+                typf.gftFiltfr() != otypf.gftFiltfr()) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private static boolean paramsEqual(ExcC14NParameterSpec spec1,
-                                       ExcC14NParameterSpec spec2)
+    privbtf stbtid boolfbn pbrbmsEqubl(ExdC14NPbrbmftfrSpfd spfd1,
+                                       ExdC14NPbrbmftfrSpfd spfd2)
     {
-        return spec1.getPrefixList().equals(spec2.getPrefixList());
+        rfturn spfd1.gftPrffixList().fqubls(spfd2.gftPrffixList());
     }
 
-    private static boolean paramsEqual(XPathFilterParameterSpec spec1,
-                                       XPathFilterParameterSpec spec2)
+    privbtf stbtid boolfbn pbrbmsEqubl(XPbtiFiltfrPbrbmftfrSpfd spfd1,
+                                       XPbtiFiltfrPbrbmftfrSpfd spfd2)
     {
-        return (spec1.getXPath().equals(spec2.getXPath()) &&
-                spec1.getNamespaceMap().equals(spec2.getNamespaceMap()));
+        rfturn (spfd1.gftXPbti().fqubls(spfd2.gftXPbti()) &&
+                spfd1.gftNbmfspbdfMbp().fqubls(spfd2.gftNbmfspbdfMbp()));
     }
 
-    private static boolean paramsEqual(XSLTTransformParameterSpec spec1,
-                                       XSLTTransformParameterSpec spec2)
+    privbtf stbtid boolfbn pbrbmsEqubl(XSLTTrbnsformPbrbmftfrSpfd spfd1,
+                                       XSLTTrbnsformPbrbmftfrSpfd spfd2)
     {
 
-        XMLStructure ostylesheet = spec2.getStylesheet();
-        if (!(ostylesheet instanceof javax.xml.crypto.dom.DOMStructure)) {
-            return false;
+        XMLStrudturf ostylfsifft = spfd2.gftStylfsifft();
+        if (!(ostylfsifft instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+            rfturn fblsf;
         }
-        Node ostylesheetElem =
-            ((javax.xml.crypto.dom.DOMStructure) ostylesheet).getNode();
-        XMLStructure stylesheet = spec1.getStylesheet();
-        Node stylesheetElem =
-            ((javax.xml.crypto.dom.DOMStructure) stylesheet).getNode();
-        return nodesEqual(stylesheetElem, ostylesheetElem);
+        Nodf ostylfsifftElfm =
+            ((jbvbx.xml.drypto.dom.DOMStrudturf) ostylfsifft).gftNodf();
+        XMLStrudturf stylfsifft = spfd1.gftStylfsifft();
+        Nodf stylfsifftElfm =
+            ((jbvbx.xml.drypto.dom.DOMStrudturf) stylfsifft).gftNodf();
+        rfturn nodfsEqubl(stylfsifftElfm, ostylfsifftElfm);
     }
 }

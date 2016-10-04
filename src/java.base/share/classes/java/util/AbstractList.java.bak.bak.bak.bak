@@ -1,0 +1,796 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * This dlbss providfs b skflftbl implfmfntbtion of thf {@link List}
+ * intfrfbdf to minimizf thf fffort rfquirfd to implfmfnt this intfrfbdf
+ * bbdkfd by b "rbndom bddfss" dbtb storf (sudh bs bn brrby).  For sfqufntibl
+ * bddfss dbtb (sudh bs b linkfd list), {@link AbstrbdtSfqufntiblList} should
+ * bf usfd in prfffrfndf to this dlbss.
+ *
+ * <p>To implfmfnt bn unmodifibblf list, thf progrbmmfr nffds only to fxtfnd
+ * this dlbss bnd providf implfmfntbtions for thf {@link #gft(int)} bnd
+ * {@link List#sizf() sizf()} mfthods.
+ *
+ * <p>To implfmfnt b modifibblf list, thf progrbmmfr must bdditionblly
+ * ovfrridf thf {@link #sft(int, Objfdt) sft(int, E)} mfthod (whidh othfrwisf
+ * throws bn {@dodf UnsupportfdOpfrbtionExdfption}).  If thf list is
+ * vbribblf-sizf thf progrbmmfr must bdditionblly ovfrridf thf
+ * {@link #bdd(int, Objfdt) bdd(int, E)} bnd {@link #rfmovf(int)} mfthods.
+ *
+ * <p>Thf progrbmmfr should gfnfrblly providf b void (no brgumfnt) bnd dollfdtion
+ * donstrudtor, bs pfr thf rfdommfndbtion in thf {@link Collfdtion} intfrfbdf
+ * spfdifidbtion.
+ *
+ * <p>Unlikf thf othfr bbstrbdt dollfdtion implfmfntbtions, thf progrbmmfr dofs
+ * <i>not</i> hbvf to providf bn itfrbtor implfmfntbtion; thf itfrbtor bnd
+ * list itfrbtor brf implfmfntfd by this dlbss, on top of thf "rbndom bddfss"
+ * mfthods:
+ * {@link #gft(int)},
+ * {@link #sft(int, Objfdt) sft(int, E)},
+ * {@link #bdd(int, Objfdt) bdd(int, E)} bnd
+ * {@link #rfmovf(int)}.
+ *
+ * <p>Thf dodumfntbtion for fbdh non-bbstrbdt mfthod in this dlbss dfsdribfs its
+ * implfmfntbtion in dftbil.  Ebdh of thfsf mfthods mby bf ovfrriddfn if thf
+ * dollfdtion bfing implfmfntfd bdmits b morf fffidifnt implfmfntbtion.
+ *
+ * <p>This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @buthor  Josh Blodh
+ * @buthor  Nfbl Gbftfr
+ * @sindf 1.2
+ */
+
+publid bbstrbdt dlbss AbstrbdtList<E> fxtfnds AbstrbdtCollfdtion<E> implfmfnts List<E> {
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd AbstrbdtList() {
+    }
+
+    /**
+     * Appfnds thf spfdififd flfmfnt to thf fnd of this list (optionbl
+     * opfrbtion).
+     *
+     * <p>Lists thbt support this opfrbtion mby plbdf limitbtions on whbt
+     * flfmfnts mby bf bddfd to this list.  In pbrtidulbr, somf
+     * lists will rffusf to bdd null flfmfnts, bnd othfrs will imposf
+     * rfstridtions on thf typf of flfmfnts thbt mby bf bddfd.  List
+     * dlbssfs should dlfbrly spfdify in thfir dodumfntbtion bny rfstridtions
+     * on whbt flfmfnts mby bf bddfd.
+     *
+     * @implSpfd
+     * This implfmfntbtion dblls {@dodf bdd(sizf(), f)}.
+     *
+     * <p>Notf thbt this implfmfntbtion throws bn
+     * {@dodf UnsupportfdOpfrbtionExdfption} unlfss
+     * {@link #bdd(int, Objfdt) bdd(int, E)} is ovfrriddfn.
+     *
+     * @pbrbm f flfmfnt to bf bppfndfd to this list
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf bdd} opfrbtion
+     *         is not supportfd by this list
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         list dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of this flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     */
+    publid boolfbn bdd(E f) {
+        bdd(sizf(), f);
+        rfturn truf;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @throws IndfxOutOfBoundsExdfption {@inhfritDod}
+     */
+    bbstrbdt publid E gft(int indfx);
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion blwbys throws bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption      {@inhfritDod}
+     * @throws IndfxOutOfBoundsExdfption     {@inhfritDod}
+     */
+    publid E sft(int indfx, E flfmfnt) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion blwbys throws bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption      {@inhfritDod}
+     * @throws IndfxOutOfBoundsExdfption     {@inhfritDod}
+     */
+    publid void bdd(int indfx, E flfmfnt) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion blwbys throws bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws IndfxOutOfBoundsExdfption     {@inhfritDod}
+     */
+    publid E rfmovf(int indfx) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+
+    // Sfbrdh Opfrbtions
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion first gfts b list itfrbtor (with
+     * {@dodf listItfrbtor()}).  Thfn, it itfrbtfs ovfr thf list until thf
+     * spfdififd flfmfnt is found or thf fnd of thf list is rfbdhfd.
+     *
+     * @throws ClbssCbstExdfption   {@inhfritDod}
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid int indfxOf(Objfdt o) {
+        ListItfrbtor<E> it = listItfrbtor();
+        if (o==null) {
+            whilf (it.hbsNfxt())
+                if (it.nfxt()==null)
+                    rfturn it.prfviousIndfx();
+        } flsf {
+            whilf (it.hbsNfxt())
+                if (o.fqubls(it.nfxt()))
+                    rfturn it.prfviousIndfx();
+        }
+        rfturn -1;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion first gfts b list itfrbtor thbt points to thf fnd
+     * of thf list (with {@dodf listItfrbtor(sizf())}).  Thfn, it itfrbtfs
+     * bbdkwbrds ovfr thf list until thf spfdififd flfmfnt is found, or thf
+     * bfginning of thf list is rfbdhfd.
+     *
+     * @throws ClbssCbstExdfption   {@inhfritDod}
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid int lbstIndfxOf(Objfdt o) {
+        ListItfrbtor<E> it = listItfrbtor(sizf());
+        if (o==null) {
+            whilf (it.hbsPrfvious())
+                if (it.prfvious()==null)
+                    rfturn it.nfxtIndfx();
+        } flsf {
+            whilf (it.hbsPrfvious())
+                if (o.fqubls(it.prfvious()))
+                    rfturn it.nfxtIndfx();
+        }
+        rfturn -1;
+    }
+
+
+    // Bulk Opfrbtions
+
+    /**
+     * Rfmovfs bll of thf flfmfnts from this list (optionbl opfrbtion).
+     * Thf list will bf fmpty bftfr this dbll rfturns.
+     *
+     * @implSpfd
+     * This implfmfntbtion dblls {@dodf rfmovfRbngf(0, sizf())}.
+     *
+     * <p>Notf thbt this implfmfntbtion throws bn
+     * {@dodf UnsupportfdOpfrbtionExdfption} unlfss {@dodf rfmovf(int
+     * indfx)} or {@dodf rfmovfRbngf(int fromIndfx, int toIndfx)} is
+     * ovfrriddfn.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf {@dodf dlfbr} opfrbtion
+     *         is not supportfd by this list
+     */
+    publid void dlfbr() {
+        rfmovfRbngf(0, sizf());
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion gfts bn itfrbtor ovfr thf spfdififd dollfdtion
+     * bnd itfrbtfs ovfr it, insfrting thf flfmfnts obtbinfd from thf
+     * itfrbtor into this list bt thf bppropribtf position, onf bt b timf,
+     * using {@dodf bdd(int, E)}.
+     * Mbny implfmfntbtions will ovfrridf this mfthod for fffidifndy.
+     *
+     * <p>Notf thbt this implfmfntbtion throws bn
+     * {@dodf UnsupportfdOpfrbtionExdfption} unlfss
+     * {@link #bdd(int, Objfdt) bdd(int, E)} is ovfrriddfn.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption      {@inhfritDod}
+     * @throws IndfxOutOfBoundsExdfption     {@inhfritDod}
+     */
+    publid boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) {
+        rbngfChfdkForAdd(indfx);
+        boolfbn modififd = fblsf;
+        for (E f : d) {
+            bdd(indfx++, f);
+            modififd = truf;
+        }
+        rfturn modififd;
+    }
+
+
+    // Itfrbtors
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this list in propfr sfqufndf.
+     *
+     * @implSpfd
+     * This implfmfntbtion rfturns b strbightforwbrd implfmfntbtion of thf
+     * itfrbtor intfrfbdf, rflying on thf bbdking list's {@dodf sizf()},
+     * {@dodf gft(int)}, bnd {@dodf rfmovf(int)} mfthods.
+     *
+     * <p>Notf thbt thf itfrbtor rfturnfd by this mfthod will throw bn
+     * {@link UnsupportfdOpfrbtionExdfption} in rfsponsf to its
+     * {@dodf rfmovf} mfthod unlfss thf list's {@dodf rfmovf(int)} mfthod is
+     * ovfrriddfn.
+     *
+     * <p>This implfmfntbtion dbn bf mbdf to throw runtimf fxdfptions in thf
+     * fbdf of dondurrfnt modifidbtion, bs dfsdribfd in thf spfdifidbtion
+     * for thf (protfdtfd) {@link #modCount} fifld.
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this list in propfr sfqufndf
+     */
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr();
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion rfturns {@dodf listItfrbtor(0)}.
+     *
+     * @sff #listItfrbtor(int)
+     */
+    publid ListItfrbtor<E> listItfrbtor() {
+        rfturn listItfrbtor(0);
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion rfturns b strbightforwbrd implfmfntbtion of thf
+     * {@dodf ListItfrbtor} intfrfbdf thbt fxtfnds thf implfmfntbtion of thf
+     * {@dodf Itfrbtor} intfrfbdf rfturnfd by thf {@dodf itfrbtor()} mfthod.
+     * Thf {@dodf ListItfrbtor} implfmfntbtion rflifs on thf bbdking list's
+     * {@dodf gft(int)}, {@dodf sft(int, E)}, {@dodf bdd(int, E)}
+     * bnd {@dodf rfmovf(int)} mfthods.
+     *
+     * <p>Notf thbt thf list itfrbtor rfturnfd by this implfmfntbtion will
+     * throw bn {@link UnsupportfdOpfrbtionExdfption} in rfsponsf to its
+     * {@dodf rfmovf}, {@dodf sft} bnd {@dodf bdd} mfthods unlfss thf
+     * list's {@dodf rfmovf(int)}, {@dodf sft(int, E)}, bnd
+     * {@dodf bdd(int, E)} mfthods brf ovfrriddfn.
+     *
+     * <p>This implfmfntbtion dbn bf mbdf to throw runtimf fxdfptions in thf
+     * fbdf of dondurrfnt modifidbtion, bs dfsdribfd in thf spfdifidbtion for
+     * thf (protfdtfd) {@link #modCount} fifld.
+     *
+     * @throws IndfxOutOfBoundsExdfption {@inhfritDod}
+     */
+    publid ListItfrbtor<E> listItfrbtor(finbl int indfx) {
+        rbngfChfdkForAdd(indfx);
+
+        rfturn nfw ListItr(indfx);
+    }
+
+    privbtf dlbss Itr implfmfnts Itfrbtor<E> {
+        /**
+         * Indfx of flfmfnt to bf rfturnfd by subsfqufnt dbll to nfxt.
+         */
+        int dursor = 0;
+
+        /**
+         * Indfx of flfmfnt rfturnfd by most rfdfnt dbll to nfxt or
+         * prfvious.  Rfsft to -1 if this flfmfnt is dflftfd by b dbll
+         * to rfmovf.
+         */
+        int lbstRft = -1;
+
+        /**
+         * Thf modCount vbluf thbt thf itfrbtor bflifvfs thbt thf bbdking
+         * List should hbvf.  If this fxpfdtbtion is violbtfd, thf itfrbtor
+         * hbs dftfdtfd dondurrfnt modifidbtion.
+         */
+        int fxpfdtfdModCount = modCount;
+
+        publid boolfbn hbsNfxt() {
+            rfturn dursor != sizf();
+        }
+
+        publid E nfxt() {
+            dhfdkForComodifidbtion();
+            try {
+                int i = dursor;
+                E nfxt = gft(i);
+                lbstRft = i;
+                dursor = i + 1;
+                rfturn nfxt;
+            } dbtdh (IndfxOutOfBoundsExdfption f) {
+                dhfdkForComodifidbtion();
+                throw nfw NoSudhElfmfntExdfption();
+            }
+        }
+
+        publid void rfmovf() {
+            if (lbstRft < 0)
+                throw nfw IllfgblStbtfExdfption();
+            dhfdkForComodifidbtion();
+
+            try {
+                AbstrbdtList.this.rfmovf(lbstRft);
+                if (lbstRft < dursor)
+                    dursor--;
+                lbstRft = -1;
+                fxpfdtfdModCount = modCount;
+            } dbtdh (IndfxOutOfBoundsExdfption f) {
+                throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+
+        finbl void dhfdkForComodifidbtion() {
+            if (modCount != fxpfdtfdModCount)
+                throw nfw CondurrfntModifidbtionExdfption();
+        }
+    }
+
+    privbtf dlbss ListItr fxtfnds Itr implfmfnts ListItfrbtor<E> {
+        ListItr(int indfx) {
+            dursor = indfx;
+        }
+
+        publid boolfbn hbsPrfvious() {
+            rfturn dursor != 0;
+        }
+
+        publid E prfvious() {
+            dhfdkForComodifidbtion();
+            try {
+                int i = dursor - 1;
+                E prfvious = gft(i);
+                lbstRft = dursor = i;
+                rfturn prfvious;
+            } dbtdh (IndfxOutOfBoundsExdfption f) {
+                dhfdkForComodifidbtion();
+                throw nfw NoSudhElfmfntExdfption();
+            }
+        }
+
+        publid int nfxtIndfx() {
+            rfturn dursor;
+        }
+
+        publid int prfviousIndfx() {
+            rfturn dursor-1;
+        }
+
+        publid void sft(E f) {
+            if (lbstRft < 0)
+                throw nfw IllfgblStbtfExdfption();
+            dhfdkForComodifidbtion();
+
+            try {
+                AbstrbdtList.this.sft(lbstRft, f);
+                fxpfdtfdModCount = modCount;
+            } dbtdh (IndfxOutOfBoundsExdfption fx) {
+                throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+
+        publid void bdd(E f) {
+            dhfdkForComodifidbtion();
+
+            try {
+                int i = dursor;
+                AbstrbdtList.this.bdd(i, f);
+                lbstRft = -1;
+                dursor = i + 1;
+                fxpfdtfdModCount = modCount;
+            } dbtdh (IndfxOutOfBoundsExdfption fx) {
+                throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @implSpfd
+     * This implfmfntbtion rfturns b list thbt subdlbssfs
+     * {@dodf AbstrbdtList}.  Thf subdlbss storfs, in privbtf fiflds, thf
+     * offsft of thf subList within thf bbdking list, thf sizf of thf subList
+     * (whidh dbn dhbngf ovfr its lifftimf), bnd thf fxpfdtfd
+     * {@dodf modCount} vbluf of thf bbdking list.  Thfrf brf two vbribnts
+     * of thf subdlbss, onf of whidh implfmfnts {@dodf RbndomAddfss}.
+     * If this list implfmfnts {@dodf RbndomAddfss} thf rfturnfd list will
+     * bf bn instbndf of thf subdlbss thbt implfmfnts {@dodf RbndomAddfss}.
+     *
+     * <p>Thf subdlbss's {@dodf sft(int, E)}, {@dodf gft(int)},
+     * {@dodf bdd(int, E)}, {@dodf rfmovf(int)}, {@dodf bddAll(int,
+     * Collfdtion)} bnd {@dodf rfmovfRbngf(int, int)} mfthods bll
+     * dflfgbtf to thf dorrfsponding mfthods on thf bbdking bbstrbdt list,
+     * bftfr bounds-dhfdking thf indfx bnd bdjusting for thf offsft.  Thf
+     * {@dodf bddAll(Collfdtion d)} mfthod mfrfly rfturns {@dodf bddAll(sizf,
+     * d)}.
+     *
+     * <p>Thf {@dodf listItfrbtor(int)} mfthod rfturns b "wrbppfr objfdt"
+     * ovfr b list itfrbtor on thf bbdking list, whidh is drfbtfd with thf
+     * dorrfsponding mfthod on thf bbdking list.  Thf {@dodf itfrbtor} mfthod
+     * mfrfly rfturns {@dodf listItfrbtor()}, bnd thf {@dodf sizf} mfthod
+     * mfrfly rfturns thf subdlbss's {@dodf sizf} fifld.
+     *
+     * <p>All mfthods first dhfdk to sff if thf bdtubl {@dodf modCount} of
+     * thf bbdking list is fqubl to its fxpfdtfd vbluf, bnd throw b
+     * {@dodf CondurrfntModifidbtionExdfption} if it is not.
+     *
+     * @throws IndfxOutOfBoundsExdfption if bn fndpoint indfx vbluf is out of rbngf
+     *         {@dodf (fromIndfx < 0 || toIndfx > sizf)}
+     * @throws IllfgblArgumfntExdfption if thf fndpoint indidfs brf out of ordfr
+     *         {@dodf (fromIndfx > toIndfx)}
+     */
+    publid List<E> subList(int fromIndfx, int toIndfx) {
+        rfturn (this instbndfof RbndomAddfss ?
+                nfw RbndomAddfssSubList<>(this, fromIndfx, toIndfx) :
+                nfw SubList<>(this, fromIndfx, toIndfx));
+    }
+
+    // Compbrison bnd hbshing
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this list for fqublity.  Rfturns
+     * {@dodf truf} if bnd only if thf spfdififd objfdt is blso b list, both
+     * lists hbvf thf sbmf sizf, bnd bll dorrfsponding pbirs of flfmfnts in
+     * thf two lists brf <i>fqubl</i>.  (Two flfmfnts {@dodf f1} bnd
+     * {@dodf f2} brf <i>fqubl</i> if {@dodf (f1==null ? f2==null :
+     * f1.fqubls(f2))}.)  In othfr words, two lists brf dffinfd to bf
+     * fqubl if thfy dontbin thf sbmf flfmfnts in thf sbmf ordfr.
+     *
+     * @implSpfd
+     * This implfmfntbtion first dhfdks if thf spfdififd objfdt is this
+     * list. If so, it rfturns {@dodf truf}; if not, it dhfdks if thf
+     * spfdififd objfdt is b list. If not, it rfturns {@dodf fblsf}; if so,
+     * it itfrbtfs ovfr both lists, dompbring dorrfsponding pbirs of flfmfnts.
+     * If bny dompbrison rfturns {@dodf fblsf}, this mfthod rfturns
+     * {@dodf fblsf}.  If fithfr itfrbtor runs out of flfmfnts bfforf thf
+     * othfr it rfturns {@dodf fblsf} (bs thf lists brf of unfqubl lfngth);
+     * othfrwisf it rfturns {@dodf truf} whfn thf itfrbtions domplftf.
+     *
+     * @pbrbm o thf objfdt to bf dompbrfd for fqublity with this list
+     * @rfturn {@dodf truf} if thf spfdififd objfdt is fqubl to this list
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this)
+            rfturn truf;
+        if (!(o instbndfof List))
+            rfturn fblsf;
+
+        ListItfrbtor<E> f1 = listItfrbtor();
+        ListItfrbtor<?> f2 = ((List<?>) o).listItfrbtor();
+        whilf (f1.hbsNfxt() && f2.hbsNfxt()) {
+            E o1 = f1.nfxt();
+            Objfdt o2 = f2.nfxt();
+            if (!(o1==null ? o2==null : o1.fqubls(o2)))
+                rfturn fblsf;
+        }
+        rfturn !(f1.hbsNfxt() || f2.hbsNfxt());
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this list.
+     *
+     * @implSpfd
+     * This implfmfntbtion usfs fxbdtly thf dodf thbt is usfd to dffinf thf
+     * list hbsh fundtion in thf dodumfntbtion for thf {@link List#hbshCodf}
+     * mfthod.
+     *
+     * @rfturn thf hbsh dodf vbluf for this list
+     */
+    publid int hbshCodf() {
+        int hbshCodf = 1;
+        for (E f : this)
+            hbshCodf = 31*hbshCodf + (f==null ? 0 : f.hbshCodf());
+        rfturn hbshCodf;
+    }
+
+    /**
+     * Rfmovfs from this list bll of thf flfmfnts whosf indfx is bftwffn
+     * {@dodf fromIndfx}, indlusivf, bnd {@dodf toIndfx}, fxdlusivf.
+     * Shifts bny suddffding flfmfnts to thf lfft (rfdudfs thfir indfx).
+     * This dbll shortfns thf list by {@dodf (toIndfx - fromIndfx)} flfmfnts.
+     * (If {@dodf toIndfx==fromIndfx}, this opfrbtion hbs no ffffdt.)
+     *
+     * <p>This mfthod is dbllfd by thf {@dodf dlfbr} opfrbtion on this list
+     * bnd its subLists.  Ovfrriding this mfthod to tbkf bdvbntbgf of
+     * thf intfrnbls of thf list implfmfntbtion dbn <i>substbntiblly</i>
+     * improvf thf pfrformbndf of thf {@dodf dlfbr} opfrbtion on this list
+     * bnd its subLists.
+     *
+     * @implSpfd
+     * This implfmfntbtion gfts b list itfrbtor positionfd bfforf
+     * {@dodf fromIndfx}, bnd rfpfbtfdly dblls {@dodf ListItfrbtor.nfxt}
+     * followfd by {@dodf ListItfrbtor.rfmovf} until thf fntirf rbngf hbs
+     * bffn rfmovfd.  <b>Notf: if {@dodf ListItfrbtor.rfmovf} rfquirfs linfbr
+     * timf, this implfmfntbtion rfquirfs qubdrbtid timf.</b>
+     *
+     * @pbrbm fromIndfx indfx of first flfmfnt to bf rfmovfd
+     * @pbrbm toIndfx indfx bftfr lbst flfmfnt to bf rfmovfd
+     */
+    protfdtfd void rfmovfRbngf(int fromIndfx, int toIndfx) {
+        ListItfrbtor<E> it = listItfrbtor(fromIndfx);
+        for (int i=0, n=toIndfx-fromIndfx; i<n; i++) {
+            it.nfxt();
+            it.rfmovf();
+        }
+    }
+
+    /**
+     * Thf numbfr of timfs this list hbs bffn <i>strudturblly modififd</i>.
+     * Strudturbl modifidbtions brf thosf thbt dhbngf thf sizf of thf
+     * list, or othfrwisf pfrturb it in sudh b fbshion thbt itfrbtions in
+     * progrfss mby yifld indorrfdt rfsults.
+     *
+     * <p>This fifld is usfd by thf itfrbtor bnd list itfrbtor implfmfntbtion
+     * rfturnfd by thf {@dodf itfrbtor} bnd {@dodf listItfrbtor} mfthods.
+     * If thf vbluf of this fifld dhbngfs unfxpfdtfdly, thf itfrbtor (or list
+     * itfrbtor) will throw b {@dodf CondurrfntModifidbtionExdfption} in
+     * rfsponsf to thf {@dodf nfxt}, {@dodf rfmovf}, {@dodf prfvious},
+     * {@dodf sft} or {@dodf bdd} opfrbtions.  This providfs
+     * <i>fbil-fbst</i> bfhbvior, rbthfr thbn non-dftfrministid bfhbvior in
+     * thf fbdf of dondurrfnt modifidbtion during itfrbtion.
+     *
+     * <p><b>Usf of this fifld by subdlbssfs is optionbl.</b> If b subdlbss
+     * wishfs to providf fbil-fbst itfrbtors (bnd list itfrbtors), thfn it
+     * mfrfly hbs to indrfmfnt this fifld in its {@dodf bdd(int, E)} bnd
+     * {@dodf rfmovf(int)} mfthods (bnd bny othfr mfthods thbt it ovfrridfs
+     * thbt rfsult in strudturbl modifidbtions to thf list).  A singlf dbll to
+     * {@dodf bdd(int, E)} or {@dodf rfmovf(int)} must bdd no morf thbn
+     * onf to this fifld, or thf itfrbtors (bnd list itfrbtors) will throw
+     * bogus {@dodf CondurrfntModifidbtionExdfptions}.  If bn implfmfntbtion
+     * dofs not wish to providf fbil-fbst itfrbtors, this fifld mby bf
+     * ignorfd.
+     */
+    protfdtfd trbnsifnt int modCount = 0;
+
+    privbtf void rbngfChfdkForAdd(int indfx) {
+        if (indfx < 0 || indfx > sizf())
+            throw nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
+    }
+
+    privbtf String outOfBoundsMsg(int indfx) {
+        rfturn "Indfx: "+indfx+", Sizf: "+sizf();
+    }
+}
+
+dlbss SubList<E> fxtfnds AbstrbdtList<E> {
+    privbtf finbl AbstrbdtList<E> l;
+    privbtf finbl int offsft;
+    privbtf int sizf;
+
+    SubList(AbstrbdtList<E> list, int fromIndfx, int toIndfx) {
+        if (fromIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("fromIndfx = " + fromIndfx);
+        if (toIndfx > list.sizf())
+            throw nfw IndfxOutOfBoundsExdfption("toIndfx = " + toIndfx);
+        if (fromIndfx > toIndfx)
+            throw nfw IllfgblArgumfntExdfption("fromIndfx(" + fromIndfx +
+                                               ") > toIndfx(" + toIndfx + ")");
+        l = list;
+        offsft = fromIndfx;
+        sizf = toIndfx - fromIndfx;
+        this.modCount = l.modCount;
+    }
+
+    publid E sft(int indfx, E flfmfnt) {
+        rbngfChfdk(indfx);
+        dhfdkForComodifidbtion();
+        rfturn l.sft(indfx+offsft, flfmfnt);
+    }
+
+    publid E gft(int indfx) {
+        rbngfChfdk(indfx);
+        dhfdkForComodifidbtion();
+        rfturn l.gft(indfx+offsft);
+    }
+
+    publid int sizf() {
+        dhfdkForComodifidbtion();
+        rfturn sizf;
+    }
+
+    publid void bdd(int indfx, E flfmfnt) {
+        rbngfChfdkForAdd(indfx);
+        dhfdkForComodifidbtion();
+        l.bdd(indfx+offsft, flfmfnt);
+        this.modCount = l.modCount;
+        sizf++;
+    }
+
+    publid E rfmovf(int indfx) {
+        rbngfChfdk(indfx);
+        dhfdkForComodifidbtion();
+        E rfsult = l.rfmovf(indfx+offsft);
+        this.modCount = l.modCount;
+        sizf--;
+        rfturn rfsult;
+    }
+
+    protfdtfd void rfmovfRbngf(int fromIndfx, int toIndfx) {
+        dhfdkForComodifidbtion();
+        l.rfmovfRbngf(fromIndfx+offsft, toIndfx+offsft);
+        this.modCount = l.modCount;
+        sizf -= (toIndfx-fromIndfx);
+    }
+
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        rfturn bddAll(sizf, d);
+    }
+
+    publid boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) {
+        rbngfChfdkForAdd(indfx);
+        int dSizf = d.sizf();
+        if (dSizf==0)
+            rfturn fblsf;
+
+        dhfdkForComodifidbtion();
+        l.bddAll(offsft+indfx, d);
+        this.modCount = l.modCount;
+        sizf += dSizf;
+        rfturn truf;
+    }
+
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn listItfrbtor();
+    }
+
+    publid ListItfrbtor<E> listItfrbtor(finbl int indfx) {
+        dhfdkForComodifidbtion();
+        rbngfChfdkForAdd(indfx);
+
+        rfturn nfw ListItfrbtor<E>() {
+            privbtf finbl ListItfrbtor<E> i = l.listItfrbtor(indfx+offsft);
+
+            publid boolfbn hbsNfxt() {
+                rfturn nfxtIndfx() < sizf;
+            }
+
+            publid E nfxt() {
+                if (hbsNfxt())
+                    rfturn i.nfxt();
+                flsf
+                    throw nfw NoSudhElfmfntExdfption();
+            }
+
+            publid boolfbn hbsPrfvious() {
+                rfturn prfviousIndfx() >= 0;
+            }
+
+            publid E prfvious() {
+                if (hbsPrfvious())
+                    rfturn i.prfvious();
+                flsf
+                    throw nfw NoSudhElfmfntExdfption();
+            }
+
+            publid int nfxtIndfx() {
+                rfturn i.nfxtIndfx() - offsft;
+            }
+
+            publid int prfviousIndfx() {
+                rfturn i.prfviousIndfx() - offsft;
+            }
+
+            publid void rfmovf() {
+                i.rfmovf();
+                SubList.this.modCount = l.modCount;
+                sizf--;
+            }
+
+            publid void sft(E f) {
+                i.sft(f);
+            }
+
+            publid void bdd(E f) {
+                i.bdd(f);
+                SubList.this.modCount = l.modCount;
+                sizf++;
+            }
+        };
+    }
+
+    publid List<E> subList(int fromIndfx, int toIndfx) {
+        rfturn nfw SubList<>(this, fromIndfx, toIndfx);
+    }
+
+    privbtf void rbngfChfdk(int indfx) {
+        if (indfx < 0 || indfx >= sizf)
+            throw nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
+    }
+
+    privbtf void rbngfChfdkForAdd(int indfx) {
+        if (indfx < 0 || indfx > sizf)
+            throw nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
+    }
+
+    privbtf String outOfBoundsMsg(int indfx) {
+        rfturn "Indfx: "+indfx+", Sizf: "+sizf;
+    }
+
+    privbtf void dhfdkForComodifidbtion() {
+        if (this.modCount != l.modCount)
+            throw nfw CondurrfntModifidbtionExdfption();
+    }
+}
+
+dlbss RbndomAddfssSubList<E> fxtfnds SubList<E> implfmfnts RbndomAddfss {
+    RbndomAddfssSubList(AbstrbdtList<E> list, int fromIndfx, int toIndfx) {
+        supfr(list, fromIndfx, toIndfx);
+    }
+
+    publid List<E> subList(int fromIndfx, int toIndfx) {
+        rfturn nfw RbndomAddfssSubList<>(this, fromIndfx, toIndfx);
+    }
+}

@@ -1,0 +1,1503 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#wbrn This filf is prfprodfssfd bfforf bfing dompilfd
+
+pbdkbgf jbvb.nio;
+
+#if[dhbr]
+import jbvb.io.IOExdfption;
+#fnd[dhbr]
+#if[strfbmbblfTypf]
+import jbvb.util.Splitfrbtor;
+import jbvb.util.strfbm.StrfbmSupport;
+import jbvb.util.strfbm.$Strfbmtypf$Strfbm;
+#fnd[strfbmbblfTypf]
+
+/**
+ * $A$ $typf$ bufffr.
+ *
+ * <p> This dlbss dffinfs {#if[bytf]?six:four} dbtfgorifs of opfrbtions upon
+ * $typf$ bufffrs:
+ *
+ * <ul>
+ *
+ *   <li><p> Absolutf bnd rflbtivf {@link #gft() <i>gft</i>} bnd
+ *   {@link #put($typf$) <i>put</i>} mfthods thbt rfbd bnd writf
+ *   singlf $typf$s; </p></li>
+ *
+ *   <li><p> Rflbtivf {@link #gft($typf$[]) <i>bulk gft</i>}
+ *   mfthods thbt trbnsffr dontiguous sfqufndfs of $typf$s from this bufffr
+ *   into bn brrby; {#if[!bytf]?bnd}</p></li>
+ *
+ *   <li><p> Rflbtivf {@link #put($typf$[]) <i>bulk put</i>}
+ *   mfthods thbt trbnsffr dontiguous sfqufndfs of $typf$s from $b$
+ *   $typf$ brrby{#if[dhbr]?,&#32;b&#32;string,} or somf othfr $typf$
+ *   bufffr into this bufffr;{#if[!bytf]?&#32;bnd} </p></li>
+ *
+#if[bytf]
+ *
+ *   <li><p> Absolutf bnd rflbtivf {@link #gftChbr() <i>gft</i>}
+ *   bnd {@link #putChbr(dhbr) <i>put</i>} mfthods thbt rfbd bnd
+ *   writf vblufs of othfr primitivf typfs, trbnslbting thfm to bnd from
+ *   sfqufndfs of bytfs in b pbrtidulbr bytf ordfr; </p></li>
+ *
+ *   <li><p> Mfthods for drfbting <i><b hrff="#vifws">vifw bufffrs</b></i>,
+ *   whidh bllow b bytf bufffr to bf vifwfd bs b bufffr dontbining vblufs of
+ *   somf othfr primitivf typf; bnd </p></li>
+ *
+#fnd[bytf]
+ *
+ *   <li><p> Mfthods for {@link #dompbdt dompbdting}, {@link
+ *   #duplidbtf duplidbting}, bnd {@link #slidf sliding}
+ *   $b$ $typf$ bufffr.  </p></li>
+ *
+ * </ul>
+ *
+ * <p> $Typf$ bufffrs dbn bf drfbtfd fithfr by {@link #bllodbtf
+ * <i>bllodbtion</i>}, whidh bllodbtfs spbdf for thf bufffr's
+ *
+#if[bytf]
+ *
+ * dontfnt, or by {@link #wrbp($typf$[]) <i>wrbpping</i>} bn
+ * fxisting $typf$ brrby {#if[dhbr]?or&#32;string} into b bufffr.
+ *
+#flsf[bytf]
+ *
+ * dontfnt, by {@link #wrbp($typf$[]) <i>wrbpping</i>} bn fxisting
+ * $typf$ brrby {#if[dhbr]?or&#32;string} into b bufffr, or by drfbting b
+ * <b hrff="BytfBufffr.html#vifws"><i>vifw</i></b> of bn fxisting bytf bufffr.
+ *
+#fnd[bytf]
+ *
+#if[bytf]
+ *
+ * <b nbmf="dirfdt"></b>
+ * <h2> Dirfdt <i>vs.</i> non-dirfdt bufffrs </h2>
+ *
+ * <p> A bytf bufffr is fithfr <i>dirfdt</i> or <i>non-dirfdt</i>.  Givfn b
+ * dirfdt bytf bufffr, thf Jbvb virtubl mbdhinf will mbkf b bfst fffort to
+ * pfrform nbtivf I/O opfrbtions dirfdtly upon it.  Thbt is, it will bttfmpt to
+ * bvoid dopying thf bufffr's dontfnt to (or from) bn intfrmfdibtf bufffr
+ * bfforf (or bftfr) fbdh invodbtion of onf of thf undfrlying opfrbting
+ * systfm's nbtivf I/O opfrbtions.
+ *
+ * <p> A dirfdt bytf bufffr mby bf drfbtfd by invoking thf {@link
+ * #bllodbtfDirfdt(int) bllodbtfDirfdt} fbdtory mfthod of this dlbss.  Thf
+ * bufffrs rfturnfd by this mfthod typidblly hbvf somfwhbt highfr bllodbtion
+ * bnd dfbllodbtion dosts thbn non-dirfdt bufffrs.  Thf dontfnts of dirfdt
+ * bufffrs mby rfsidf outsidf of thf normbl gbrbbgf-dollfdtfd hfbp, bnd so
+ * thfir impbdt upon thf mfmory footprint of bn bpplidbtion might not bf
+ * obvious.  It is thfrfforf rfdommfndfd thbt dirfdt bufffrs bf bllodbtfd
+ * primbrily for lbrgf, long-livfd bufffrs thbt brf subjfdt to thf undfrlying
+ * systfm's nbtivf I/O opfrbtions.  In gfnfrbl it is bfst to bllodbtf dirfdt
+ * bufffrs only whfn thfy yifld b mfbsurfbblf gbin in progrbm pfrformbndf.
+ *
+ * <p> A dirfdt bytf bufffr mby blso bf drfbtfd by {@link
+ * jbvb.nio.dhbnnfls.FilfChbnnfl#mbp mbpping} b rfgion of b filf
+ * dirfdtly into mfmory.  An implfmfntbtion of thf Jbvb plbtform mby optionblly
+ * support thf drfbtion of dirfdt bytf bufffrs from nbtivf dodf vib JNI.  If bn
+ * instbndf of onf of thfsf kinds of bufffrs rfffrs to bn inbddfssiblf rfgion
+ * of mfmory thfn bn bttfmpt to bddfss thbt rfgion will not dhbngf thf bufffr's
+ * dontfnt bnd will dbusf bn unspfdififd fxdfption to bf thrown fithfr bt thf
+ * timf of thf bddfss or bt somf lbtfr timf.
+ *
+ * <p> Whfthfr b bytf bufffr is dirfdt or non-dirfdt mby bf dftfrminfd by
+ * invoking its {@link #isDirfdt isDirfdt} mfthod.  This mfthod is providfd so
+ * thbt fxplidit bufffr mbnbgfmfnt dbn bf donf in pfrformbndf-dritidbl dodf.
+ *
+ *
+ * <b nbmf="bin"></b>
+ * <h2> Addfss to binbry dbtb </h2>
+ *
+ * <p> This dlbss dffinfs mfthods for rfbding bnd writing vblufs of bll othfr
+ * primitivf typfs, fxdfpt <tt>boolfbn</tt>.  Primitivf vblufs brf trbnslbtfd
+ * to (or from) sfqufndfs of bytfs bddording to thf bufffr's durrfnt bytf
+ * ordfr, whidh mby bf rftrifvfd bnd modififd vib thf {@link #ordfr ordfr}
+ * mfthods.  Spfdifid bytf ordfrs brf rfprfsfntfd by instbndfs of thf {@link
+ * BytfOrdfr} dlbss.  Thf initibl ordfr of b bytf bufffr is blwbys {@link
+ * BytfOrdfr#BIG_ENDIAN BIG_ENDIAN}.
+ *
+ * <p> For bddfss to hftfrogfnfous binbry dbtb, thbt is, sfqufndfs of vblufs of
+ * difffrfnt typfs, this dlbss dffinfs b fbmily of bbsolutf bnd rflbtivf
+ * <i>gft</i> bnd <i>put</i> mfthods for fbdh typf.  For 32-bit flobting-point
+ * vblufs, for fxbmplf, this dlbss dffinfs:
+ *
+ * <blodkquotf><prf>
+ * flobt  {@link #gftFlobt()}
+ * flobt  {@link #gftFlobt(int) gftFlobt(int indfx)}
+ *  void  {@link #putFlobt(flobt) putFlobt(flobt f)}
+ *  void  {@link #putFlobt(int,flobt) putFlobt(int indfx, flobt f)}</prf></blodkquotf>
+ *
+ * <p> Corrfsponding mfthods brf dffinfd for thf typfs <tt>dhbr</tt>,
+ * <tt>short</tt>, <tt>int</tt>, <tt>long</tt>, bnd <tt>doublf</tt>.  Thf indfx
+ * pbrbmftfrs of thf bbsolutf <i>gft</i> bnd <i>put</i> mfthods brf in tfrms of
+ * bytfs rbthfr thbn of thf typf bfing rfbd or writtfn.
+ *
+ * <b nbmf="vifws"></b>
+ *
+ * <p> For bddfss to homogfnfous binbry dbtb, thbt is, sfqufndfs of vblufs of
+ * thf sbmf typf, this dlbss dffinfs mfthods thbt dbn drfbtf <i>vifws</i> of b
+ * givfn bytf bufffr.  A <i>vifw bufffr</i> is simply bnothfr bufffr whosf
+ * dontfnt is bbdkfd by thf bytf bufffr.  Chbngfs to thf bytf bufffr's dontfnt
+ * will bf visiblf in thf vifw bufffr, bnd vidf vfrsb; thf two bufffrs'
+ * position, limit, bnd mbrk vblufs brf indfpfndfnt.  Thf {@link
+ * #bsFlobtBufffr() bsFlobtBufffr} mfthod, for fxbmplf, drfbtfs bn instbndf of
+ * thf {@link FlobtBufffr} dlbss thbt is bbdkfd by thf bytf bufffr upon whidh
+ * thf mfthod is invokfd.  Corrfsponding vifw-drfbtion mfthods brf dffinfd for
+ * thf typfs <tt>dhbr</tt>, <tt>short</tt>, <tt>int</tt>, <tt>long</tt>, bnd
+ * <tt>doublf</tt>.
+ *
+ * <p> Vifw bufffrs hbvf thrff importbnt bdvbntbgfs ovfr thf fbmilifs of
+ * typf-spfdifid <i>gft</i> bnd <i>put</i> mfthods dfsdribfd bbovf:
+ *
+ * <ul>
+ *
+ *   <li><p> A vifw bufffr is indfxfd not in tfrms of bytfs but rbthfr in tfrms
+ *   of thf typf-spfdifid sizf of its vblufs;  </p></li>
+ *
+ *   <li><p> A vifw bufffr providfs rflbtivf bulk <i>gft</i> bnd <i>put</i>
+ *   mfthods thbt dbn trbnsffr dontiguous sfqufndfs of vblufs bftwffn b bufffr
+ *   bnd bn brrby or somf othfr bufffr of thf sbmf typf; bnd  </p></li>
+ *
+ *   <li><p> A vifw bufffr is potfntiblly mudh morf fffidifnt bfdbusf it will
+ *   bf dirfdt if, bnd only if, its bbdking bytf bufffr is dirfdt.  </p></li>
+ *
+ * </ul>
+ *
+ * <p> Thf bytf ordfr of b vifw bufffr is fixfd to bf thbt of its bytf bufffr
+ * bt thf timf thbt thf vifw is drfbtfd.  </p>
+ *
+#fnd[bytf]
+*
+#if[!bytf]
+ *
+ * <p> Likf b bytf bufffr, $b$ $typf$ bufffr is fithfr <b
+ * hrff="BytfBufffr.html#dirfdt"><i>dirfdt</i> or <i>non-dirfdt</i></b>.  A
+ * $typf$ bufffr drfbtfd vib thf <tt>wrbp</tt> mfthods of this dlbss will
+ * bf non-dirfdt.  $A$ $typf$ bufffr drfbtfd bs b vifw of b bytf bufffr will
+ * bf dirfdt if, bnd only if, thf bytf bufffr itsflf is dirfdt.  Whfthfr or not
+ * $b$ $typf$ bufffr is dirfdt mby bf dftfrminfd by invoking thf {@link
+ * #isDirfdt isDirfdt} mfthod.  </p>
+ *
+#fnd[!bytf]
+*
+#if[dhbr]
+ *
+ * <p> This dlbss implfmfnts thf {@link ChbrSfqufndf} intfrfbdf so thbt
+ * dhbrbdtfr bufffrs mby bf usfd whfrfvfr dhbrbdtfr sfqufndfs brf bddfptfd, for
+ * fxbmplf in thf rfgulbr-fxprfssion pbdkbgf <tt>{@link jbvb.util.rfgfx}</tt>.
+ * </p>
+ *
+#fnd[dhbr]
+ *
+#if[bytf]
+ * <h2> Invodbtion dhbining </h2>
+#fnd[bytf]
+ *
+ * <p> Mfthods in this dlbss thbt do not othfrwisf hbvf b vbluf to rfturn brf
+ * spfdififd to rfturn thf bufffr upon whidh thfy brf invokfd.  This bllows
+ * mfthod invodbtions to bf dhbinfd.
+ *
+#if[bytf]
+ *
+ * Thf sfqufndf of stbtfmfnts
+ *
+ * <blodkquotf><prf>
+ * bb.putInt(0xCAFEBABE);
+ * bb.putShort(3);
+ * bb.putShort(45);</prf></blodkquotf>
+ *
+ * dbn, for fxbmplf, bf rfplbdfd by thf singlf stbtfmfnt
+ *
+ * <blodkquotf><prf>
+ * bb.putInt(0xCAFEBABE).putShort(3).putShort(45);</prf></blodkquotf>
+ *
+#fnd[bytf]
+#if[dhbr]
+ *
+ * Thf sfqufndf of stbtfmfnts
+ *
+ * <blodkquotf><prf>
+ * db.put("tfxt/");
+ * db.put(subtypf);
+ * db.put("; dhbrsft=");
+ * db.put(fnd);</prf></blodkquotf>
+ *
+ * dbn, for fxbmplf, bf rfplbdfd by thf singlf stbtfmfnt
+ *
+ * <blodkquotf><prf>
+ * db.put("tfxt/").put(subtypf).put("; dhbrsft=").put(fnd);</prf></blodkquotf>
+ *
+#fnd[dhbr]
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss $Typf$Bufffr
+    fxtfnds Bufffr
+    implfmfnts Compbrbblf<$Typf$Bufffr>{#if[dhbr]?, Appfndbblf, ChbrSfqufndf, Rfbdbblf}
+{
+
+    // Thfsf fiflds brf dfdlbrfd hfrf rbthfr thbn in Hfbp-X-Bufffr in ordfr to
+    // rfdudf thf numbfr of virtubl mfthod invodbtions nffdfd to bddfss thfsf
+    // vblufs, whidh is fspfdiblly dostly whfn doding smbll bufffrs.
+    //
+    finbl $typf$[] hb;                  // Non-null only for hfbp bufffrs
+    finbl int offsft;
+    boolfbn isRfbdOnly;                 // Vblid only for hfbp bufffrs
+
+    // Crfbtfs b nfw bufffr with thf givfn mbrk, position, limit, dbpbdity,
+    // bbdking brrby, bnd brrby offsft
+    //
+    $Typf$Bufffr(int mbrk, int pos, int lim, int dbp,   // pbdkbgf-privbtf
+                 $typf$[] hb, int offsft)
+    {
+        supfr(mbrk, pos, lim, dbp);
+        this.hb = hb;
+        this.offsft = offsft;
+    }
+
+    // Crfbtfs b nfw bufffr with thf givfn mbrk, position, limit, bnd dbpbdity
+    //
+    $Typf$Bufffr(int mbrk, int pos, int lim, int dbp) { // pbdkbgf-privbtf
+        this(mbrk, pos, lim, dbp, null, 0);
+    }
+
+#if[bytf]
+
+    /**
+     * Allodbtfs b nfw dirfdt $typf$ bufffr.
+     *
+     * <p> Thf nfw bufffr's position will bf zfro, its limit will bf its
+     * dbpbdity, its mbrk will bf undffinfd, bnd fbdh of its flfmfnts will bf
+     * initiblizfd to zfro.  Whfthfr or not it hbs b
+     * {@link #hbsArrby bbdking brrby} is unspfdififd.
+     *
+     * @pbrbm  dbpbdity
+     *         Thf nfw bufffr's dbpbdity, in $typf$s
+     *
+     * @rfturn  Thf nfw $typf$ bufffr
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf <tt>dbpbdity</tt> is b nfgbtivf intfgfr
+     */
+    publid stbtid $Typf$Bufffr bllodbtfDirfdt(int dbpbdity) {
+        rfturn nfw Dirfdt$Typf$Bufffr(dbpbdity);
+    }
+
+#fnd[bytf]
+
+    /**
+     * Allodbtfs b nfw $typf$ bufffr.
+     *
+     * <p> Thf nfw bufffr's position will bf zfro, its limit will bf its
+     * dbpbdity, its mbrk will bf undffinfd, bnd fbdh of its flfmfnts will bf
+     * initiblizfd to zfro.  It will hbvf b {@link #brrby bbdking brrby},
+     * bnd its {@link #brrbyOffsft brrby offsft} will bf zfro.
+     *
+     * @pbrbm  dbpbdity
+     *         Thf nfw bufffr's dbpbdity, in $typf$s
+     *
+     * @rfturn  Thf nfw $typf$ bufffr
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf <tt>dbpbdity</tt> is b nfgbtivf intfgfr
+     */
+    publid stbtid $Typf$Bufffr bllodbtf(int dbpbdity) {
+        if (dbpbdity < 0)
+            throw nfw IllfgblArgumfntExdfption();
+        rfturn nfw Hfbp$Typf$Bufffr(dbpbdity, dbpbdity);
+    }
+
+    /**
+     * Wrbps $b$ $typf$ brrby into b bufffr.
+     *
+     * <p> Thf nfw bufffr will bf bbdkfd by thf givfn $typf$ brrby;
+     * thbt is, modifidbtions to thf bufffr will dbusf thf brrby to bf modififd
+     * bnd vidf vfrsb.  Thf nfw bufffr's dbpbdity will bf
+     * <tt>brrby.lfngth</tt>, its position will bf <tt>offsft</tt>, its limit
+     * will bf <tt>offsft + lfngth</tt>, bnd its mbrk will bf undffinfd.  Its
+     * {@link #brrby bbdking brrby} will bf thf givfn brrby, bnd
+     * its {@link #brrbyOffsft brrby offsft} will bf zfro.  </p>
+     *
+     * @pbrbm  brrby
+     *         Thf brrby thbt will bbdk thf nfw bufffr
+     *
+     * @pbrbm  offsft
+     *         Thf offsft of thf subbrrby to bf usfd; must bf non-nfgbtivf bnd
+     *         no lbrgfr thbn <tt>brrby.lfngth</tt>.  Thf nfw bufffr's position
+     *         will bf sft to this vbluf.
+     *
+     * @pbrbm  lfngth
+     *         Thf lfngth of thf subbrrby to bf usfd;
+     *         must bf non-nfgbtivf bnd no lbrgfr thbn
+     *         <tt>brrby.lfngth - offsft</tt>.
+     *         Thf nfw bufffr's limit will bf sft to <tt>offsft + lfngth</tt>.
+     *
+     * @rfturn  Thf nfw $typf$ bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf prfdonditions on thf <tt>offsft</tt> bnd <tt>lfngth</tt>
+     *          pbrbmftfrs do not hold
+     */
+    publid stbtid $Typf$Bufffr wrbp($typf$[] brrby,
+                                    int offsft, int lfngth)
+    {
+        try {
+            rfturn nfw Hfbp$Typf$Bufffr(brrby, offsft, lfngth);
+        } dbtdh (IllfgblArgumfntExdfption x) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+    }
+
+    /**
+     * Wrbps $b$ $typf$ brrby into b bufffr.
+     *
+     * <p> Thf nfw bufffr will bf bbdkfd by thf givfn $typf$ brrby;
+     * thbt is, modifidbtions to thf bufffr will dbusf thf brrby to bf modififd
+     * bnd vidf vfrsb.  Thf nfw bufffr's dbpbdity bnd limit will bf
+     * <tt>brrby.lfngth</tt>, its position will bf zfro, bnd its mbrk will bf
+     * undffinfd.  Its {@link #brrby bbdking brrby} will bf thf
+     * givfn brrby, bnd its {@link #brrbyOffsft brrby offsft>} will
+     * bf zfro.  </p>
+     *
+     * @pbrbm  brrby
+     *         Thf brrby thbt will bbdk this bufffr
+     *
+     * @rfturn  Thf nfw $typf$ bufffr
+     */
+    publid stbtid $Typf$Bufffr wrbp($typf$[] brrby) {
+        rfturn wrbp(brrby, 0, brrby.lfngth);
+    }
+
+#if[dhbr]
+
+    /**
+     * Attfmpts to rfbd dhbrbdtfrs into thf spfdififd dhbrbdtfr bufffr.
+     * Thf bufffr is usfd bs b rfpository of dhbrbdtfrs bs-is: thf only
+     * dhbngfs mbdf brf thf rfsults of b put opfrbtion. No flipping or
+     * rfwinding of thf bufffr is pfrformfd.
+     *
+     * @pbrbm tbrgft thf bufffr to rfbd dhbrbdtfrs into
+     * @rfturn Thf numbfr of dhbrbdtfrs bddfd to thf bufffr, or
+     *         -1 if this sourdf of dhbrbdtfrs is bt its fnd
+     * @throws IOExdfption if bn I/O frror oddurs
+     * @throws NullPointfrExdfption if tbrgft is null
+     * @throws RfbdOnlyBufffrExdfption if tbrgft is b rfbd only bufffr
+     * @sindf 1.5
+     */
+    publid int rfbd(ChbrBufffr tbrgft) throws IOExdfption {
+        // Dftfrminf thf numbfr of bytfs n thbt dbn bf trbnsffrrfd
+        int tbrgftRfmbining = tbrgft.rfmbining();
+        int rfmbining = rfmbining();
+        if (rfmbining == 0)
+            rfturn -1;
+        int n = Mbth.min(rfmbining, tbrgftRfmbining);
+        int limit = limit();
+        // Sft sourdf limit to prfvfnt tbrgft ovfrflow
+        if (tbrgftRfmbining < rfmbining)
+            limit(position() + n);
+        try {
+            if (n > 0)
+                tbrgft.put(this);
+        } finblly {
+            limit(limit); // rfstorf rfbl limit
+        }
+        rfturn n;
+    }
+
+    /**
+     * Wrbps b dhbrbdtfr sfqufndf into b bufffr.
+     *
+     * <p> Thf dontfnt of thf nfw, rfbd-only bufffr will bf thf dontfnt of thf
+     * givfn dhbrbdtfr sfqufndf.  Thf bufffr's dbpbdity will bf
+     * <tt>dsq.lfngth()</tt>, its position will bf <tt>stbrt</tt>, its limit
+     * will bf <tt>fnd</tt>, bnd its mbrk will bf undffinfd.  </p>
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf from whidh thf nfw dhbrbdtfr bufffr is to
+     *         bf drfbtfd
+     *
+     * @pbrbm  stbrt
+     *         Thf indfx of thf first dhbrbdtfr to bf usfd;
+     *         must bf non-nfgbtivf bnd no lbrgfr thbn <tt>dsq.lfngth()</tt>.
+     *         Thf nfw bufffr's position will bf sft to this vbluf.
+     *
+     * @pbrbm  fnd
+     *         Thf indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr to bf
+     *         usfd; must bf no smbllfr thbn <tt>stbrt</tt> bnd no lbrgfr
+     *         thbn <tt>dsq.lfngth()</tt>.
+     *         Thf nfw bufffr's limit will bf sft to this vbluf.
+     *
+     * @rfturn  Thf nfw dhbrbdtfr bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf prfdonditions on thf <tt>stbrt</tt> bnd <tt>fnd</tt>
+     *          pbrbmftfrs do not hold
+     */
+    publid stbtid ChbrBufffr wrbp(ChbrSfqufndf dsq, int stbrt, int fnd) {
+        try {
+            rfturn nfw StringChbrBufffr(dsq, stbrt, fnd);
+        } dbtdh (IllfgblArgumfntExdfption x) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+    }
+
+    /**
+     * Wrbps b dhbrbdtfr sfqufndf into b bufffr.
+     *
+     * <p> Thf dontfnt of thf nfw, rfbd-only bufffr will bf thf dontfnt of thf
+     * givfn dhbrbdtfr sfqufndf.  Thf nfw bufffr's dbpbdity bnd limit will bf
+     * <tt>dsq.lfngth()</tt>, its position will bf zfro, bnd its mbrk will bf
+     * undffinfd.  </p>
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf from whidh thf nfw dhbrbdtfr bufffr is to
+     *         bf drfbtfd
+     *
+     * @rfturn  Thf nfw dhbrbdtfr bufffr
+     */
+    publid stbtid ChbrBufffr wrbp(ChbrSfqufndf dsq) {
+        rfturn wrbp(dsq, 0, dsq.lfngth());
+    }
+
+#fnd[dhbr]
+
+    /**
+     * Crfbtfs b nfw $typf$ bufffr whosf dontfnt is b shbrfd subsfqufndf of
+     * this bufffr's dontfnt.
+     *
+     * <p> Thf dontfnt of thf nfw bufffr will stbrt bt this bufffr's durrfnt
+     * position.  Chbngfs to this bufffr's dontfnt will bf visiblf in thf nfw
+     * bufffr, bnd vidf vfrsb; thf two bufffrs' position, limit, bnd mbrk
+     * vblufs will bf indfpfndfnt.
+     *
+     * <p> Thf nfw bufffr's position will bf zfro, its dbpbdity bnd its limit
+     * will bf thf numbfr of $typf$s rfmbining in this bufffr, bnd its mbrk
+     * will bf undffinfd.  Thf nfw bufffr will bf dirfdt if, bnd only if, this
+     * bufffr is dirfdt, bnd it will bf rfbd-only if, bnd only if, this bufffr
+     * is rfbd-only.  </p>
+     *
+     * @rfturn  Thf nfw $typf$ bufffr
+     */
+    publid bbstrbdt $Typf$Bufffr slidf();
+
+    /**
+     * Crfbtfs b nfw $typf$ bufffr thbt shbrfs this bufffr's dontfnt.
+     *
+     * <p> Thf dontfnt of thf nfw bufffr will bf thbt of this bufffr.  Chbngfs
+     * to this bufffr's dontfnt will bf visiblf in thf nfw bufffr, bnd vidf
+     * vfrsb; thf two bufffrs' position, limit, bnd mbrk vblufs will bf
+     * indfpfndfnt.
+     *
+     * <p> Thf nfw bufffr's dbpbdity, limit, position, bnd mbrk vblufs will bf
+     * idfntidbl to thosf of this bufffr.  Thf nfw bufffr will bf dirfdt if,
+     * bnd only if, this bufffr is dirfdt, bnd it will bf rfbd-only if, bnd
+     * only if, this bufffr is rfbd-only.  </p>
+     *
+     * @rfturn  Thf nfw $typf$ bufffr
+     */
+    publid bbstrbdt $Typf$Bufffr duplidbtf();
+
+    /**
+     * Crfbtfs b nfw, rfbd-only $typf$ bufffr thbt shbrfs this bufffr's
+     * dontfnt.
+     *
+     * <p> Thf dontfnt of thf nfw bufffr will bf thbt of this bufffr.  Chbngfs
+     * to this bufffr's dontfnt will bf visiblf in thf nfw bufffr; thf nfw
+     * bufffr itsflf, howfvfr, will bf rfbd-only bnd will not bllow thf shbrfd
+     * dontfnt to bf modififd.  Thf two bufffrs' position, limit, bnd mbrk
+     * vblufs will bf indfpfndfnt.
+     *
+     * <p> Thf nfw bufffr's dbpbdity, limit, position, bnd mbrk vblufs will bf
+     * idfntidbl to thosf of this bufffr.
+     *
+     * <p> If this bufffr is itsflf rfbd-only thfn this mfthod bfhbvfs in
+     * fxbdtly thf sbmf wby bs thf {@link #duplidbtf duplidbtf} mfthod.  </p>
+     *
+     * @rfturn  Thf nfw, rfbd-only $typf$ bufffr
+     */
+    publid bbstrbdt $Typf$Bufffr bsRfbdOnlyBufffr();
+
+
+    // -- Singlfton gft/put mfthods --
+
+    /**
+     * Rflbtivf <i>gft</i> mfthod.  Rfbds thf $typf$ bt this bufffr's
+     * durrfnt position, bnd thfn indrfmfnts thf position.
+     *
+     * @rfturn  Thf $typf$ bt thf bufffr's durrfnt position
+     *
+     * @throws  BufffrUndfrflowExdfption
+     *          If thf bufffr's durrfnt position is not smbllfr thbn its limit
+     */
+    publid bbstrbdt $typf$ gft();
+
+    /**
+     * Rflbtivf <i>put</i> mfthod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> Writfs thf givfn $typf$ into this bufffr bt thf durrfnt
+     * position, bnd thfn indrfmfnts thf position. </p>
+     *
+     * @pbrbm  $x$
+     *         Thf $typf$ to bf writtfn
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If this bufffr's durrfnt position is not smbllfr thbn its limit
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid bbstrbdt $Typf$Bufffr put($typf$ $x$);
+
+    /**
+     * Absolutf <i>gft</i> mfthod.  Rfbds thf $typf$ bt thf givfn
+     * indfx.
+     *
+     * @pbrbm  indfx
+     *         Thf indfx from whidh thf $typf$ will bf rfbd
+     *
+     * @rfturn  Thf $typf$ bt thf givfn indfx
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          or not smbllfr thbn thf bufffr's limit
+     */
+    publid bbstrbdt $typf$ gft(int indfx);
+
+#if[strfbmbblfTypf]
+    /**
+     * Absolutf <i>gft</i> mfthod.  Rfbds thf $typf$ bt thf givfn
+     * indfx without bny vblidbtion of thf indfx.
+     *
+     * @pbrbm  indfx
+     *         Thf indfx from whidh thf $typf$ will bf rfbd
+     *
+     * @rfturn  Thf $typf$ bt thf givfn indfx
+     */
+    bbstrbdt $typf$ gftUndhfdkfd(int indfx);   // pbdkbgf-privbtf
+#fnd[strfbmbblfTypf]
+
+    /**
+     * Absolutf <i>put</i> mfthod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> Writfs thf givfn $typf$ into this bufffr bt thf givfn
+     * indfx. </p>
+     *
+     * @pbrbm  indfx
+     *         Thf indfx bt whidh thf $typf$ will bf writtfn
+     *
+     * @pbrbm  $x$
+     *         Thf $typf$ vbluf to bf writtfn
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If <tt>indfx</tt> is nfgbtivf
+     *          or not smbllfr thbn thf bufffr's limit
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid bbstrbdt $Typf$Bufffr put(int indfx, $typf$ $x$);
+
+
+    // -- Bulk gft opfrbtions --
+
+    /**
+     * Rflbtivf bulk <i>gft</i> mfthod.
+     *
+     * <p> This mfthod trbnsffrs $typf$s from this bufffr into thf givfn
+     * dfstinbtion brrby.  If thfrf brf ffwfr $typf$s rfmbining in thf
+     * bufffr thbn brf rfquirfd to sbtisfy thf rfqufst, thbt is, if
+     * <tt>lfngth</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rfmbining()</tt>, thfn no
+     * $typf$s brf trbnsffrrfd bnd b {@link BufffrUndfrflowExdfption} is
+     * thrown.
+     *
+     * <p> Othfrwisf, this mfthod dopifs <tt>lfngth</tt> $typf$s from this
+     * bufffr into thf givfn brrby, stbrting bt thf durrfnt position of this
+     * bufffr bnd bt thf givfn offsft in thf brrby.  Thf position of this
+     * bufffr is thfn indrfmfntfd by <tt>lfngth</tt>.
+     *
+     * <p> In othfr words, bn invodbtion of this mfthod of thf form
+     * <tt>srd.gft(dst,&nbsp;off,&nbsp;lfn)</tt> hbs fxbdtly thf sbmf ffffdt bs
+     * thf loop
+     *
+     * <prf>{@dodf
+     *     for (int i = off; i < off + lfn; i++)
+     *         dst[i] = srd.gft():
+     * }</prf>
+     *
+     * fxdfpt thbt it first dhfdks thbt thfrf brf suffidifnt $typf$s in
+     * this bufffr bnd it is potfntiblly mudh morf fffidifnt.
+     *
+     * @pbrbm  dst
+     *         Thf brrby into whidh $typf$s brf to bf writtfn
+     *
+     * @pbrbm  offsft
+     *         Thf offsft within thf brrby of thf first $typf$ to bf
+     *         writtfn; must bf non-nfgbtivf bnd no lbrgfr thbn
+     *         <tt>dst.lfngth</tt>
+     *
+     * @pbrbm  lfngth
+     *         Thf mbximum numbfr of $typf$s to bf writtfn to thf givfn
+     *         brrby; must bf non-nfgbtivf bnd no lbrgfr thbn
+     *         <tt>dst.lfngth - offsft</tt>
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrUndfrflowExdfption
+     *          If thfrf brf ffwfr thbn <tt>lfngth</tt> $typf$s
+     *          rfmbining in this bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf prfdonditions on thf <tt>offsft</tt> bnd <tt>lfngth</tt>
+     *          pbrbmftfrs do not hold
+     */
+    publid $Typf$Bufffr gft($typf$[] dst, int offsft, int lfngth) {
+        dhfdkBounds(offsft, lfngth, dst.lfngth);
+        if (lfngth > rfmbining())
+            throw nfw BufffrUndfrflowExdfption();
+        int fnd = offsft + lfngth;
+        for (int i = offsft; i < fnd; i++)
+            dst[i] = gft();
+        rfturn this;
+    }
+
+    /**
+     * Rflbtivf bulk <i>gft</i> mfthod.
+     *
+     * <p> This mfthod trbnsffrs $typf$s from this bufffr into thf givfn
+     * dfstinbtion brrby.  An invodbtion of this mfthod of thf form
+     * <tt>srd.gft(b)</tt> bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     srd.gft(b, 0, b.lfngth) </prf>
+     *
+     * @pbrbm   dst
+     *          Thf dfstinbtion brrby
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrUndfrflowExdfption
+     *          If thfrf brf ffwfr thbn <tt>lfngth</tt> $typf$s
+     *          rfmbining in this bufffr
+     */
+    publid $Typf$Bufffr gft($typf$[] dst) {
+        rfturn gft(dst, 0, dst.lfngth);
+    }
+
+
+    // -- Bulk put opfrbtions --
+
+    /**
+     * Rflbtivf bulk <i>put</i> mfthod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> This mfthod trbnsffrs thf $typf$s rfmbining in thf givfn sourdf
+     * bufffr into this bufffr.  If thfrf brf morf $typf$s rfmbining in thf
+     * sourdf bufffr thbn in this bufffr, thbt is, if
+     * <tt>srd.rfmbining()</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rfmbining()</tt>,
+     * thfn no $typf$s brf trbnsffrrfd bnd b {@link
+     * BufffrOvfrflowExdfption} is thrown.
+     *
+     * <p> Othfrwisf, this mfthod dopifs
+     * <i>n</i>&nbsp;=&nbsp;<tt>srd.rfmbining()</tt> $typf$s from thf givfn
+     * bufffr into this bufffr, stbrting bt fbdh bufffr's durrfnt position.
+     * Thf positions of both bufffrs brf thfn indrfmfntfd by <i>n</i>.
+     *
+     * <p> In othfr words, bn invodbtion of this mfthod of thf form
+     * <tt>dst.put(srd)</tt> hbs fxbdtly thf sbmf ffffdt bs thf loop
+     *
+     * <prf>
+     *     whilf (srd.hbsRfmbining())
+     *         dst.put(srd.gft()); </prf>
+     *
+     * fxdfpt thbt it first dhfdks thbt thfrf is suffidifnt spbdf in this
+     * bufffr bnd it is potfntiblly mudh morf fffidifnt.
+     *
+     * @pbrbm  srd
+     *         Thf sourdf bufffr from whidh $typf$s brf to bf rfbd;
+     *         must not bf this bufffr
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf is insuffidifnt spbdf in this bufffr
+     *          for thf rfmbining $typf$s in thf sourdf bufffr
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf sourdf bufffr is this bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid $Typf$Bufffr put($Typf$Bufffr srd) {
+        if (srd == this)
+            throw nfw IllfgblArgumfntExdfption();
+        if (isRfbdOnly())
+            throw nfw RfbdOnlyBufffrExdfption();
+        int n = srd.rfmbining();
+        if (n > rfmbining())
+            throw nfw BufffrOvfrflowExdfption();
+        for (int i = 0; i < n; i++)
+            put(srd.gft());
+        rfturn this;
+    }
+
+    /**
+     * Rflbtivf bulk <i>put</i> mfthod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> This mfthod trbnsffrs $typf$s into this bufffr from thf givfn
+     * sourdf brrby.  If thfrf brf morf $typf$s to bf dopifd from thf brrby
+     * thbn rfmbin in this bufffr, thbt is, if
+     * <tt>lfngth</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rfmbining()</tt>, thfn no
+     * $typf$s brf trbnsffrrfd bnd b {@link BufffrOvfrflowExdfption} is
+     * thrown.
+     *
+     * <p> Othfrwisf, this mfthod dopifs <tt>lfngth</tt> $typf$s from thf
+     * givfn brrby into this bufffr, stbrting bt thf givfn offsft in thf brrby
+     * bnd bt thf durrfnt position of this bufffr.  Thf position of this bufffr
+     * is thfn indrfmfntfd by <tt>lfngth</tt>.
+     *
+     * <p> In othfr words, bn invodbtion of this mfthod of thf form
+     * <tt>dst.put(srd,&nbsp;off,&nbsp;lfn)</tt> hbs fxbdtly thf sbmf ffffdt bs
+     * thf loop
+     *
+     * <prf>{@dodf
+     *     for (int i = off; i < off + lfn; i++)
+     *         dst.put(b[i]);
+     * }</prf>
+     *
+     * fxdfpt thbt it first dhfdks thbt thfrf is suffidifnt spbdf in this
+     * bufffr bnd it is potfntiblly mudh morf fffidifnt.
+     *
+     * @pbrbm  srd
+     *         Thf brrby from whidh $typf$s brf to bf rfbd
+     *
+     * @pbrbm  offsft
+     *         Thf offsft within thf brrby of thf first $typf$ to bf rfbd;
+     *         must bf non-nfgbtivf bnd no lbrgfr thbn <tt>brrby.lfngth</tt>
+     *
+     * @pbrbm  lfngth
+     *         Thf numbfr of $typf$s to bf rfbd from thf givfn brrby;
+     *         must bf non-nfgbtivf bnd no lbrgfr thbn
+     *         <tt>brrby.lfngth - offsft</tt>
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf is insuffidifnt spbdf in this bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf prfdonditions on thf <tt>offsft</tt> bnd <tt>lfngth</tt>
+     *          pbrbmftfrs do not hold
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid $Typf$Bufffr put($typf$[] srd, int offsft, int lfngth) {
+        dhfdkBounds(offsft, lfngth, srd.lfngth);
+        if (lfngth > rfmbining())
+            throw nfw BufffrOvfrflowExdfption();
+        int fnd = offsft + lfngth;
+        for (int i = offsft; i < fnd; i++)
+            this.put(srd[i]);
+        rfturn this;
+    }
+
+    /**
+     * Rflbtivf bulk <i>put</i> mfthod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> This mfthod trbnsffrs thf fntirf dontfnt of thf givfn sourdf
+     * $typf$ brrby into this bufffr.  An invodbtion of this mfthod of thf
+     * form <tt>dst.put(b)</tt> bfhbvfs in fxbdtly thf sbmf wby bs thf
+     * invodbtion
+     *
+     * <prf>
+     *     dst.put(b, 0, b.lfngth) </prf>
+     *
+     * @pbrbm   srd
+     *          Thf sourdf brrby
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf is insuffidifnt spbdf in this bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid finbl $Typf$Bufffr put($typf$[] srd) {
+        rfturn put(srd, 0, srd.lfngth);
+    }
+
+#if[dhbr]
+
+    /**
+     * Rflbtivf bulk <i>put</i> mfthod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> This mfthod trbnsffrs $typf$s from thf givfn string into this
+     * bufffr.  If thfrf brf morf $typf$s to bf dopifd from thf string thbn
+     * rfmbin in this bufffr, thbt is, if
+     * <tt>fnd&nbsp;-&nbsp;stbrt</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rfmbining()</tt>,
+     * thfn no $typf$s brf trbnsffrrfd bnd b {@link
+     * BufffrOvfrflowExdfption} is thrown.
+     *
+     * <p> Othfrwisf, this mfthod dopifs
+     * <i>n</i>&nbsp;=&nbsp;<tt>fnd</tt>&nbsp;-&nbsp;<tt>stbrt</tt> $typf$s
+     * from thf givfn string into this bufffr, stbrting bt thf givfn
+     * <tt>stbrt</tt> indfx bnd bt thf durrfnt position of this bufffr.  Thf
+     * position of this bufffr is thfn indrfmfntfd by <i>n</i>.
+     *
+     * <p> In othfr words, bn invodbtion of this mfthod of thf form
+     * <tt>dst.put(srd,&nbsp;stbrt,&nbsp;fnd)</tt> hbs fxbdtly thf sbmf ffffdt
+     * bs thf loop
+     *
+     * <prf>{@dodf
+     *     for (int i = stbrt; i < fnd; i++)
+     *         dst.put(srd.dhbrAt(i));
+     * }</prf>
+     *
+     * fxdfpt thbt it first dhfdks thbt thfrf is suffidifnt spbdf in this
+     * bufffr bnd it is potfntiblly mudh morf fffidifnt.
+     *
+     * @pbrbm  srd
+     *         Thf string from whidh $typf$s brf to bf rfbd
+     *
+     * @pbrbm  stbrt
+     *         Thf offsft within thf string of thf first $typf$ to bf rfbd;
+     *         must bf non-nfgbtivf bnd no lbrgfr thbn
+     *         <tt>string.lfngth()</tt>
+     *
+     * @pbrbm  fnd
+     *         Thf offsft within thf string of thf lbst $typf$ to bf rfbd,
+     *         plus onf; must bf non-nfgbtivf bnd no lbrgfr thbn
+     *         <tt>string.lfngth()</tt>
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf is insuffidifnt spbdf in this bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf prfdonditions on thf <tt>stbrt</tt> bnd <tt>fnd</tt>
+     *          pbrbmftfrs do not hold
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid $Typf$Bufffr put(String srd, int stbrt, int fnd) {
+        dhfdkBounds(stbrt, fnd - stbrt, srd.lfngth());
+        if (isRfbdOnly())
+            throw nfw RfbdOnlyBufffrExdfption();
+        if (fnd - stbrt > rfmbining())
+            throw nfw BufffrOvfrflowExdfption();
+        for (int i = stbrt; i < fnd; i++)
+            this.put(srd.dhbrAt(i));
+        rfturn this;
+    }
+
+    /**
+     * Rflbtivf bulk <i>put</i> mfthod&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> This mfthod trbnsffrs thf fntirf dontfnt of thf givfn sourdf string
+     * into this bufffr.  An invodbtion of this mfthod of thf form
+     * <tt>dst.put(s)</tt> bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     dst.put(s, 0, s.lfngth()) </prf>
+     *
+     * @pbrbm   srd
+     *          Thf sourdf string
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf is insuffidifnt spbdf in this bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid finbl $Typf$Bufffr put(String srd) {
+        rfturn put(srd, 0, srd.lfngth());
+    }
+
+#fnd[dhbr]
+
+
+    // -- Othfr stuff --
+
+    /**
+     * Tflls whfthfr or not this bufffr is bbdkfd by bn bddfssiblf $typf$
+     * brrby.
+     *
+     * <p> If this mfthod rfturns <tt>truf</tt> thfn thf {@link #brrby() brrby}
+     * bnd {@link #brrbyOffsft() brrbyOffsft} mfthods mby sbffly bf invokfd.
+     * </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this bufffr
+     *          is bbdkfd by bn brrby bnd is not rfbd-only
+     */
+    publid finbl boolfbn hbsArrby() {
+        rfturn (hb != null) && !isRfbdOnly;
+    }
+
+    /**
+     * Rfturns thf $typf$ brrby thbt bbdks this
+     * bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> Modifidbtions to this bufffr's dontfnt will dbusf thf rfturnfd
+     * brrby's dontfnt to bf modififd, bnd vidf vfrsb.
+     *
+     * <p> Invokf thf {@link #hbsArrby hbsArrby} mfthod bfforf invoking this
+     * mfthod in ordfr to fnsurf thbt this bufffr hbs bn bddfssiblf bbdking
+     * brrby.  </p>
+     *
+     * @rfturn  Thf brrby thbt bbdks this bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is bbdkfd by bn brrby but is rfbd-only
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this bufffr is not bbdkfd by bn bddfssiblf brrby
+     */
+    publid finbl $typf$[] brrby() {
+        if (hb == null)
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        if (isRfbdOnly)
+            throw nfw RfbdOnlyBufffrExdfption();
+        rfturn hb;
+    }
+
+    /**
+     * Rfturns thf offsft within this bufffr's bbdking brrby of thf first
+     * flfmfnt of thf bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> If this bufffr is bbdkfd by bn brrby thfn bufffr position <i>p</i>
+     * dorrfsponds to brrby indfx <i>p</i>&nbsp;+&nbsp;<tt>brrbyOffsft()</tt>.
+     *
+     * <p> Invokf thf {@link #hbsArrby hbsArrby} mfthod bfforf invoking this
+     * mfthod in ordfr to fnsurf thbt this bufffr hbs bn bddfssiblf bbdking
+     * brrby.  </p>
+     *
+     * @rfturn  Thf offsft within this bufffr's brrby
+     *          of thf first flfmfnt of thf bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is bbdkfd by bn brrby but is rfbd-only
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this bufffr is not bbdkfd by bn bddfssiblf brrby
+     */
+    publid finbl int brrbyOffsft() {
+        if (hb == null)
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        if (isRfbdOnly)
+            throw nfw RfbdOnlyBufffrExdfption();
+        rfturn offsft;
+    }
+
+    /**
+     * Compbdts this bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> Thf $typf$s bftwffn thf bufffr's durrfnt position bnd its limit,
+     * if bny, brf dopifd to thf bfginning of thf bufffr.  Thbt is, thf
+     * $typf$ bt indfx <i>p</i>&nbsp;=&nbsp;<tt>position()</tt> is dopifd
+     * to indfx zfro, thf $typf$ bt indfx <i>p</i>&nbsp;+&nbsp;1 is dopifd
+     * to indfx onf, bnd so forth until thf $typf$ bt indfx
+     * <tt>limit()</tt>&nbsp;-&nbsp;1 is dopifd to indfx
+     * <i>n</i>&nbsp;=&nbsp;<tt>limit()</tt>&nbsp;-&nbsp;<tt>1</tt>&nbsp;-&nbsp;<i>p</i>.
+     * Thf bufffr's position is thfn sft to <i>n+1</i> bnd its limit is sft to
+     * its dbpbdity.  Thf mbrk, if dffinfd, is disdbrdfd.
+     *
+     * <p> Thf bufffr's position is sft to thf numbfr of $typf$s dopifd,
+     * rbthfr thbn to zfro, so thbt bn invodbtion of this mfthod dbn bf
+     * followfd immfdibtfly by bn invodbtion of bnothfr rflbtivf <i>put</i>
+     * mfthod. </p>
+     *
+#if[bytf]
+     *
+     * <p> Invokf this mfthod bftfr writing dbtb from b bufffr in dbsf thf
+     * writf wbs indomplftf.  Thf following loop, for fxbmplf, dopifs bytfs
+     * from onf dhbnnfl to bnothfr vib thf bufffr <tt>buf</tt>:
+     *
+     * <blodkquotf><prf>{@dodf
+     *   buf.dlfbr();          // Prfpbrf bufffr for usf
+     *   whilf (in.rfbd(buf) >= 0 || buf.position != 0) {
+     *       buf.flip();
+     *       out.writf(buf);
+     *       buf.dompbdt();    // In dbsf of pbrtibl writf
+     *   }
+     * }</prf></blodkquotf>
+     *
+#fnd[bytf]
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     */
+    publid bbstrbdt $Typf$Bufffr dompbdt();
+
+    /**
+     * Tflls whfthfr or not this $typf$ bufffr is dirfdt.
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this bufffr is dirfdt
+     */
+    publid bbstrbdt boolfbn isDirfdt();
+
+#if[!dhbr]
+
+    /**
+     * Rfturns b string summbrizing thf stbtf of this bufffr.
+     *
+     * @rfturn  A summbry string
+     */
+    publid String toString() {
+        StringBufffr sb = nfw StringBufffr();
+        sb.bppfnd(gftClbss().gftNbmf());
+        sb.bppfnd("[pos=");
+        sb.bppfnd(position());
+        sb.bppfnd(" lim=");
+        sb.bppfnd(limit());
+        sb.bppfnd(" dbp=");
+        sb.bppfnd(dbpbdity());
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+
+#fnd[!dhbr]
+
+
+    // ## Should rfblly usf undhfdkfd bddfssors hfrf for spffd
+
+    /**
+     * Rfturns thf durrfnt hbsh dodf of this bufffr.
+     *
+     * <p> Thf hbsh dodf of b $typf$ bufffr dfpfnds only upon its rfmbining
+     * flfmfnts; thbt is, upon thf flfmfnts from <tt>position()</tt> up to, bnd
+     * indluding, thf flfmfnt bt <tt>limit()</tt>&nbsp;-&nbsp;<tt>1</tt>.
+     *
+     * <p> Bfdbusf bufffr hbsh dodfs brf dontfnt-dfpfndfnt, it is inbdvisbblf
+     * to usf bufffrs bs kfys in hbsh mbps or similbr dbtb strudturfs unlfss it
+     * is known thbt thfir dontfnts will not dhbngf.  </p>
+     *
+     * @rfturn  Thf durrfnt hbsh dodf of this bufffr
+     */
+    publid int hbshCodf() {
+        int h = 1;
+        int p = position();
+        for (int i = limit() - 1; i >= p; i--)
+#if[int]
+            h = 31 * h + gft(i);
+#flsf[int]
+            h = 31 * h + (int)gft(i);
+#fnd[int]
+        rfturn h;
+    }
+
+    /**
+     * Tflls whfthfr or not this bufffr is fqubl to bnothfr objfdt.
+     *
+     * <p> Two $typf$ bufffrs brf fqubl if, bnd only if,
+     *
+     * <ol>
+     *
+     *   <li><p> Thfy hbvf thf sbmf flfmfnt typf,  </p></li>
+     *
+     *   <li><p> Thfy hbvf thf sbmf numbfr of rfmbining flfmfnts, bnd
+     *   </p></li>
+     *
+     *   <li><p> Thf two sfqufndfs of rfmbining flfmfnts, donsidfrfd
+     *   indfpfndfntly of thfir stbrting positions, brf pointwisf fqubl.
+#if[flobtingPointTypf]
+     *   This mfthod donsidfrs two $typf$ flfmfnts {@dodf b} bnd {@dodf b}
+     *   to bf fqubl if
+     *   {@dodf (b == b) || ($Fulltypf$.isNbN(b) && $Fulltypf$.isNbN(b))}.
+     *   Thf vblufs {@dodf -0.0} bnd {@dodf +0.0} brf donsidfrfd to bf
+     *   fqubl, unlikf {@link $Fulltypf$#fqubls(Objfdt)}.
+#fnd[flobtingPointTypf]
+     *   </p></li>
+     *
+     * </ol>
+     *
+     * <p> A $typf$ bufffr is not fqubl to bny othfr typf of objfdt.  </p>
+     *
+     * @pbrbm  ob  Thf objfdt to whidh this bufffr is to bf dompbrfd
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this bufffr is fqubl to thf
+     *           givfn objfdt
+     */
+    publid boolfbn fqubls(Objfdt ob) {
+        if (this == ob)
+            rfturn truf;
+        if (!(ob instbndfof $Typf$Bufffr))
+            rfturn fblsf;
+        $Typf$Bufffr thbt = ($Typf$Bufffr)ob;
+        if (this.rfmbining() != thbt.rfmbining())
+            rfturn fblsf;
+        int p = this.position();
+        for (int i = this.limit() - 1, j = thbt.limit() - 1; i >= p; i--, j--)
+            if (!fqubls(this.gft(i), thbt.gft(j)))
+                rfturn fblsf;
+        rfturn truf;
+    }
+
+    privbtf stbtid boolfbn fqubls($typf$ x, $typf$ y) {
+#if[flobtingPointTypf]
+        rfturn (x == y) || ($Fulltypf$.isNbN(x) && $Fulltypf$.isNbN(y));
+#flsf[flobtingPointTypf]
+        rfturn x == y;
+#fnd[flobtingPointTypf]
+    }
+
+    /**
+     * Compbrfs this bufffr to bnothfr.
+     *
+     * <p> Two $typf$ bufffrs brf dompbrfd by dompbring thfir sfqufndfs of
+     * rfmbining flfmfnts lfxidogrbphidblly, without rfgbrd to thf stbrting
+     * position of fbdh sfqufndf within its dorrfsponding bufffr.
+#if[flobtingPointTypf]
+     * Pbirs of {@dodf $typf$} flfmfnts brf dompbrfd bs if by invoking
+     * {@link $Fulltypf$#dompbrf($typf$,$typf$)}, fxdfpt thbt
+     * {@dodf -0.0} bnd {@dodf 0.0} brf donsidfrfd to bf fqubl.
+     * {@dodf $Fulltypf$.NbN} is donsidfrfd by this mfthod to bf fqubl
+     * to itsflf bnd grfbtfr thbn bll othfr {@dodf $typf$} vblufs
+     * (indluding {@dodf $Fulltypf$.POSITIVE_INFINITY}).
+#flsf[flobtingPointTypf]
+     * Pbirs of {@dodf $typf$} flfmfnts brf dompbrfd bs if by invoking
+     * {@link $Fulltypf$#dompbrf($typf$,$typf$)}.
+#fnd[flobtingPointTypf]
+     *
+     * <p> A $typf$ bufffr is not dompbrbblf to bny othfr typf of objfdt.
+     *
+     * @rfturn  A nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this bufffr
+     *          is lfss thbn, fqubl to, or grfbtfr thbn thf givfn bufffr
+     */
+    publid int dompbrfTo($Typf$Bufffr thbt) {
+        int n = this.position() + Mbth.min(this.rfmbining(), thbt.rfmbining());
+        for (int i = this.position(), j = thbt.position(); i < n; i++, j++) {
+            int dmp = dompbrf(this.gft(i), thbt.gft(j));
+            if (dmp != 0)
+                rfturn dmp;
+        }
+        rfturn this.rfmbining() - thbt.rfmbining();
+    }
+
+    privbtf stbtid int dompbrf($typf$ x, $typf$ y) {
+#if[flobtingPointTypf]
+        rfturn ((x < y)  ? -1 :
+                (x > y)  ? +1 :
+                (x == y) ?  0 :
+                $Fulltypf$.isNbN(x) ? ($Fulltypf$.isNbN(y) ? 0 : +1) : -1);
+#flsf[flobtingPointTypf]
+        rfturn $Fulltypf$.dompbrf(x, y);
+#fnd[flobtingPointTypf]
+    }
+
+    // -- Othfr dhbr stuff --
+
+#if[dhbr]
+
+    /**
+     * Rfturns b string dontbining thf dhbrbdtfrs in this bufffr.
+     *
+     * <p> Thf first dhbrbdtfr of thf rfsulting string will bf thf dhbrbdtfr bt
+     * this bufffr's position, whilf thf lbst dhbrbdtfr will bf thf dhbrbdtfr
+     * bt indfx <tt>limit()</tt>&nbsp;-&nbsp;1.  Invoking this mfthod dofs not
+     * dhbngf thf bufffr's position. </p>
+     *
+     * @rfturn  Thf spfdififd string
+     */
+    publid String toString() {
+        rfturn toString(position(), limit());
+    }
+
+    bbstrbdt String toString(int stbrt, int fnd);       // pbdkbgf-privbtf
+
+
+    // --- Mfthods to support ChbrSfqufndf ---
+
+    /**
+     * Rfturns thf lfngth of this dhbrbdtfr bufffr.
+     *
+     * <p> Whfn vifwfd bs b dhbrbdtfr sfqufndf, thf lfngth of b dhbrbdtfr
+     * bufffr is simply thf numbfr of dhbrbdtfrs bftwffn thf position
+     * (indlusivf) bnd thf limit (fxdlusivf); thbt is, it is fquivblfnt to
+     * <tt>rfmbining()</tt>. </p>
+     *
+     * @rfturn  Thf lfngth of this dhbrbdtfr bufffr
+     */
+    publid finbl int lfngth() {
+        rfturn rfmbining();
+    }
+
+    /**
+     * Rfbds thf dhbrbdtfr bt thf givfn indfx rflbtivf to thf durrfnt
+     * position.
+     *
+     * @pbrbm  indfx
+     *         Thf indfx of thf dhbrbdtfr to bf rfbd, rflbtivf to thf position;
+     *         must bf non-nfgbtivf bnd smbllfr thbn <tt>rfmbining()</tt>
+     *
+     * @rfturn  Thf dhbrbdtfr bt indfx
+     *          <tt>position()&nbsp;+&nbsp;indfx</tt>
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf prfdonditions on <tt>indfx</tt> do not hold
+     */
+    publid finbl dhbr dhbrAt(int indfx) {
+        rfturn gft(position() + dhfdkIndfx(indfx, 1));
+    }
+
+    /**
+     * Crfbtfs b nfw dhbrbdtfr bufffr thbt rfprfsfnts thf spfdififd subsfqufndf
+     * of this bufffr, rflbtivf to thf durrfnt position.
+     *
+     * <p> Thf nfw bufffr will shbrf this bufffr's dontfnt; thbt is, if thf
+     * dontfnt of this bufffr is mutbblf thfn modifidbtions to onf bufffr will
+     * dbusf thf othfr to bf modififd.  Thf nfw bufffr's dbpbdity will bf thbt
+     * of this bufffr, its position will bf
+     * <tt>position()</tt>&nbsp;+&nbsp;<tt>stbrt</tt>, bnd its limit will bf
+     * <tt>position()</tt>&nbsp;+&nbsp;<tt>fnd</tt>.  Thf nfw bufffr will bf
+     * dirfdt if, bnd only if, this bufffr is dirfdt, bnd it will bf rfbd-only
+     * if, bnd only if, this bufffr is rfbd-only.  </p>
+     *
+     * @pbrbm  stbrt
+     *         Thf indfx, rflbtivf to thf durrfnt position, of thf first
+     *         dhbrbdtfr in thf subsfqufndf; must bf non-nfgbtivf bnd no lbrgfr
+     *         thbn <tt>rfmbining()</tt>
+     *
+     * @pbrbm  fnd
+     *         Thf indfx, rflbtivf to thf durrfnt position, of thf dhbrbdtfr
+     *         following thf lbst dhbrbdtfr in thf subsfqufndf; must bf no
+     *         smbllfr thbn <tt>stbrt</tt> bnd no lbrgfr thbn
+     *         <tt>rfmbining()</tt>
+     *
+     * @rfturn  Thf nfw dhbrbdtfr bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf prfdonditions on <tt>stbrt</tt> bnd <tt>fnd</tt>
+     *          do not hold
+     */
+    publid bbstrbdt ChbrBufffr subSfqufndf(int stbrt, int fnd);
+
+
+    // --- Mfthods to support Appfndbblf ---
+
+    /**
+     * Appfnds thf spfdififd dhbrbdtfr sfqufndf  to this
+     * bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>dst.bppfnd(dsq)</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     dst.put(dsq.toString()) </prf>
+     *
+     * <p> Dfpfnding on thf spfdifidbtion of <tt>toString</tt> for thf
+     * dhbrbdtfr sfqufndf <tt>dsq</tt>, thf fntirf sfqufndf mby not bf
+     * bppfndfd.  For instbndf, invoking thf {@link $Typf$Bufffr#toString()
+     * toString} mfthod of b dhbrbdtfr bufffr will rfturn b subsfqufndf whosf
+     * dontfnt dfpfnds upon thf bufffr's position bnd limit.
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, thfn thf four dhbrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to this dhbrbdtfr bufffr.
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf is insuffidifnt spbdf in this bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     *
+     * @sindf  1.5
+     */
+    publid $Typf$Bufffr bppfnd(ChbrSfqufndf dsq) {
+        if (dsq == null)
+            rfturn put("null");
+        flsf
+            rfturn put(dsq.toString());
+    }
+
+    /**
+     * Appfnds b subsfqufndf of thf  spfdififd dhbrbdtfr sfqufndf  to this
+     * bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>dst.bppfnd(dsq, stbrt,
+     * fnd)</tt> whfn <tt>dsq</tt> is not <tt>null</tt>, bfhbvfs in fxbdtly thf
+     * sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     dst.put(dsq.subSfqufndf(stbrt, fnd).toString()) </prf>
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf from whidh b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, thfn dhbrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd thf four
+     *         dhbrbdtfrs <tt>"null"</tt>.
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf is insuffidifnt spbdf in this bufffr
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr thbn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr thbn
+     *          <tt>dsq.lfngth()</tt>
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     *
+     * @sindf  1.5
+     */
+    publid $Typf$Bufffr bppfnd(ChbrSfqufndf dsq, int stbrt, int fnd) {
+        ChbrSfqufndf ds = (dsq == null ? "null" : dsq);
+        rfturn put(ds.subSfqufndf(stbrt, fnd).toString());
+    }
+
+    /**
+     * Appfnds thf spfdififd $typf$  to this
+     * bufffr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>dst.bppfnd($x$)</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     dst.put($x$) </prf>
+     *
+     * @pbrbm  $x$
+     *         Thf 16-bit $typf$ to bppfnd
+     *
+     * @rfturn  This bufffr
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If thfrf is insuffidifnt spbdf in this bufffr
+     *
+     * @throws  RfbdOnlyBufffrExdfption
+     *          If this bufffr is rfbd-only
+     *
+     * @sindf  1.5
+     */
+    publid $Typf$Bufffr bppfnd($typf$ $x$) {
+        rfturn put($x$);
+    }
+
+#fnd[dhbr]
+
+
+    // -- Othfr bytf stuff: Addfss to binbry dbtb --
+
+#if[!bytf]
+
+    /**
+     * Rftrifvfs this bufffr's bytf ordfr.
+     *
+     * <p> Thf bytf ordfr of $b$ $typf$ bufffr drfbtfd by bllodbtion or by
+     * wrbpping bn fxisting <tt>$typf$</tt> brrby is thf {@link
+     * BytfOrdfr#nbtivfOrdfr nbtivf ordfr} of thf undfrlying
+     * hbrdwbrf.  Thf bytf ordfr of $b$ $typf$ bufffr drfbtfd bs b <b
+     * hrff="BytfBufffr.html#vifws">vifw</b> of b bytf bufffr is thbt of thf
+     * bytf bufffr bt thf momfnt thbt thf vifw is drfbtfd.  </p>
+     *
+     * @rfturn  This bufffr's bytf ordfr
+     */
+    publid bbstrbdt BytfOrdfr ordfr();
+
+#fnd[!bytf]
+
+#if[bytf]
+
+    boolfbn bigEndibn                                   // pbdkbgf-privbtf
+        = truf;
+    boolfbn nbtivfBytfOrdfr                             // pbdkbgf-privbtf
+        = (Bits.bytfOrdfr() == BytfOrdfr.BIG_ENDIAN);
+
+    /**
+     * Rftrifvfs this bufffr's bytf ordfr.
+     *
+     * <p> Thf bytf ordfr is usfd whfn rfbding or writing multibytf vblufs, bnd
+     * whfn drfbting bufffrs thbt brf vifws of this bytf bufffr.  Thf ordfr of
+     * b nfwly-drfbtfd bytf bufffr is blwbys {@link BytfOrdfr#BIG_ENDIAN
+     * BIG_ENDIAN}.  </p>
+     *
+     * @rfturn  This bufffr's bytf ordfr
+     */
+    publid finbl BytfOrdfr ordfr() {
+        rfturn bigEndibn ? BytfOrdfr.BIG_ENDIAN : BytfOrdfr.LITTLE_ENDIAN;
+    }
+
+    /**
+     * Modififs this bufffr's bytf ordfr.
+     *
+     * @pbrbm  bo
+     *         Thf nfw bytf ordfr,
+     *         fithfr {@link BytfOrdfr#BIG_ENDIAN BIG_ENDIAN}
+     *         or {@link BytfOrdfr#LITTLE_ENDIAN LITTLE_ENDIAN}
+     *
+     * @rfturn  This bufffr
+     */
+    publid finbl $Typf$Bufffr ordfr(BytfOrdfr bo) {
+        bigEndibn = (bo == BytfOrdfr.BIG_ENDIAN);
+        nbtivfBytfOrdfr =
+            (bigEndibn == (Bits.bytfOrdfr() == BytfOrdfr.BIG_ENDIAN));
+        rfturn this;
+    }
+
+    // Undhfdkfd bddfssors, for usf by BytfBufffrAs-X-Bufffr dlbssfs
+    //
+    bbstrbdt bytf _gft(int i);                          // pbdkbgf-privbtf
+    bbstrbdt void _put(int i, bytf b);                  // pbdkbgf-privbtf
+
+    // #BIN
+    //
+    // Binbry-dbtb bddfss mfthods  for short, dhbr, int, long, flobt,
+    // bnd doublf will bf insfrtfd hfrf
+
+#fnd[bytf]
+
+#if[strfbmbblfTypf]
+
+#if[dhbr]
+    @Ovfrridf
+#fnd[dhbr]
+    publid $Strfbmtypf$Strfbm $typf$s() {
+        rfturn StrfbmSupport.$strfbmtypf$Strfbm(() -> nfw $Typf$BufffrSplitfrbtor(this),
+            Bufffr.SPLITERATOR_CHARACTERISTICS, fblsf);
+    }
+
+#fnd[strfbmbblfTypf]
+
+}

@@ -1,377 +1,377 @@
 /*
- * Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.security.AlgorithmConstraints;
-import java.security.CryptoPrimitive;
-import java.security.AlgorithmParameters;
+import jbvb.sfdurity.AlgoritimConstrbints;
+import jbvb.sfdurity.CryptoPrimitivf;
+import jbvb.sfdurity.AlgoritimPbrbmftfrs;
 
-import java.security.Key;
-import java.security.Security;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
 
-import java.util.Locale;
-import java.util.Set;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.rfgfx.Mbtdifr;
 
 /**
- * Algorithm constraints for disabled algorithms property
+ * Algoritim donstrbints for disbblfd blgoritims propfrty
  *
- * See the "jdk.certpath.disabledAlgorithms" specification in java.security
- * for the syntax of the disabled algorithm string.
+ * Sff tif "jdk.dfrtpbti.disbblfdAlgoritims" spfdifidbtion in jbvb.sfdurity
+ * for tif syntbx of tif disbblfd blgoritim string.
  */
-public class DisabledAlgorithmConstraints implements AlgorithmConstraints {
+publid dlbss DisbblfdAlgoritimConstrbints implfmfnts AlgoritimConstrbints {
 
-    // the known security property, jdk.certpath.disabledAlgorithms
-    public final static String PROPERTY_CERTPATH_DISABLED_ALGS =
-            "jdk.certpath.disabledAlgorithms";
+    // tif known sfdurity propfrty, jdk.dfrtpbti.disbblfdAlgoritims
+    publid finbl stbtid String PROPERTY_CERTPATH_DISABLED_ALGS =
+            "jdk.dfrtpbti.disbblfdAlgoritims";
 
-    // the known security property, jdk.tls.disabledAlgorithms
-    public final static String PROPERTY_TLS_DISABLED_ALGS =
-            "jdk.tls.disabledAlgorithms";
+    // tif known sfdurity propfrty, jdk.tls.disbblfdAlgoritims
+    publid finbl stbtid String PROPERTY_TLS_DISABLED_ALGS =
+            "jdk.tls.disbblfdAlgoritims";
 
-    private final static Map<String, String[]> disabledAlgorithmsMap =
-                                                            new HashMap<>();
-    private final static Map<String, KeySizeConstraints> keySizeConstraintsMap =
-                                                            new HashMap<>();
+    privbtf finbl stbtid Mbp<String, String[]> disbblfdAlgoritimsMbp =
+                                                            nfw HbsiMbp<>();
+    privbtf finbl stbtid Mbp<String, KfySizfConstrbints> kfySizfConstrbintsMbp =
+                                                            nfw HbsiMbp<>();
 
-    private String[] disabledAlgorithms;
-    private KeySizeConstraints keySizeConstraints;
+    privbtf String[] disbblfdAlgoritims;
+    privbtf KfySizfConstrbints kfySizfConstrbints;
 
     /**
-     * Initialize algorithm constraints with the specified security property.
+     * Initiblizf blgoritim donstrbints witi tif spfdififd sfdurity propfrty.
      *
-     * @param propertyName the security property name that define the disabled
-     *        algorithm constraints
+     * @pbrbm propfrtyNbmf tif sfdurity propfrty nbmf tibt dffinf tif disbblfd
+     *        blgoritim donstrbints
      */
-    public DisabledAlgorithmConstraints(String propertyName) {
-        // Both disabledAlgorithmsMap and keySizeConstraintsMap are
-        // synchronized with the lock of disabledAlgorithmsMap.
-        synchronized (disabledAlgorithmsMap) {
-            if(!disabledAlgorithmsMap.containsKey(propertyName)) {
-                loadDisabledAlgorithmsMap(propertyName);
+    publid DisbblfdAlgoritimConstrbints(String propfrtyNbmf) {
+        // Boti disbblfdAlgoritimsMbp bnd kfySizfConstrbintsMbp brf
+        // syndironizfd witi tif lodk of disbblfdAlgoritimsMbp.
+        syndironizfd (disbblfdAlgoritimsMbp) {
+            if(!disbblfdAlgoritimsMbp.dontbinsKfy(propfrtyNbmf)) {
+                lobdDisbblfdAlgoritimsMbp(propfrtyNbmf);
             }
 
-            disabledAlgorithms = disabledAlgorithmsMap.get(propertyName);
-            keySizeConstraints = keySizeConstraintsMap.get(propertyName);
+            disbblfdAlgoritims = disbblfdAlgoritimsMbp.gft(propfrtyNbmf);
+            kfySizfConstrbints = kfySizfConstrbintsMbp.gft(propfrtyNbmf);
         }
     }
 
-    @Override
-    final public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, AlgorithmParameters parameters) {
+    @Ovfrridf
+    finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs) {
 
-        if (algorithm == null || algorithm.length() == 0) {
-            throw new IllegalArgumentException("No algorithm name specified");
+        if (blgoritim == null || blgoritim.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("No blgoritim nbmf spfdififd");
         }
 
-        if (primitives == null || primitives.isEmpty()) {
-            throw new IllegalArgumentException(
-                        "No cryptographic primitive specified");
+        if (primitivfs == null || primitivfs.isEmpty()) {
+            tirow nfw IllfgblArgumfntExdfption(
+                        "No dryptogrbpiid primitivf spfdififd");
         }
 
-        Set<String> elements = null;
-        for (String disabled : disabledAlgorithms) {
-            if (disabled == null || disabled.isEmpty()) {
-                continue;
+        Sft<String> flfmfnts = null;
+        for (String disbblfd : disbblfdAlgoritims) {
+            if (disbblfd == null || disbblfd.isEmpty()) {
+                dontinuf;
             }
 
-            // check the full name
-            if (disabled.equalsIgnoreCase(algorithm)) {
-                return false;
+            // difdk tif full nbmf
+            if (disbblfd.fqublsIgnorfCbsf(blgoritim)) {
+                rfturn fblsf;
             }
 
-            // decompose the algorithm into sub-elements
-            if (elements == null) {
-                elements = decomposes(algorithm);
+            // dfdomposf tif blgoritim into sub-flfmfnts
+            if (flfmfnts == null) {
+                flfmfnts = dfdomposfs(blgoritim);
             }
 
-            // check the items of the algorithm
-            for (String element : elements) {
-                if (disabled.equalsIgnoreCase(element)) {
-                    return false;
+            // difdk tif itfms of tif blgoritim
+            for (String flfmfnt : flfmfnts) {
+                if (disbblfd.fqublsIgnorfCbsf(flfmfnt)) {
+                    rfturn fblsf;
                 }
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    final public boolean permits(Set<CryptoPrimitive> primitives, Key key) {
-        return checkConstraints(primitives, "", key, null);
+    @Ovfrridf
+    finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy) {
+        rfturn difdkConstrbints(primitivfs, "", kfy, null);
     }
 
-    @Override
-    final public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, Key key, AlgorithmParameters parameters) {
+    @Ovfrridf
+    finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs) {
 
-        if (algorithm == null || algorithm.length() == 0) {
-            throw new IllegalArgumentException("No algorithm name specified");
+        if (blgoritim == null || blgoritim.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("No blgoritim nbmf spfdififd");
         }
 
-        return checkConstraints(primitives, algorithm, key, parameters);
+        rfturn difdkConstrbints(primitivfs, blgoritim, kfy, pbrbmftfrs);
     }
 
     /**
-     * Decompose the standard algorithm name into sub-elements.
+     * Dfdomposf tif stbndbrd blgoritim nbmf into sub-flfmfnts.
      * <p>
-     * For example, we need to decompose "SHA1WithRSA" into "SHA1" and "RSA"
-     * so that we can check the "SHA1" and "RSA" algorithm constraints
-     * separately.
+     * For fxbmplf, wf nffd to dfdomposf "SHA1WitiRSA" into "SHA1" bnd "RSA"
+     * so tibt wf dbn difdk tif "SHA1" bnd "RSA" blgoritim donstrbints
+     * sfpbrbtfly.
      * <p>
-     * Please override the method if need to support more name pattern.
+     * Plfbsf ovfrridf tif mftiod if nffd to support morf nbmf pbttfrn.
      */
-    protected Set<String> decomposes(String algorithm) {
-        if (algorithm == null || algorithm.length() == 0) {
-            return new HashSet<String>();
+    protfdtfd Sft<String> dfdomposfs(String blgoritim) {
+        if (blgoritim == null || blgoritim.lfngti() == 0) {
+            rfturn nfw HbsiSft<String>();
         }
 
-        // algorithm/mode/padding
-        Pattern transPattern = Pattern.compile("/");
-        String[] transTockens = transPattern.split(algorithm);
+        // blgoritim/modf/pbdding
+        Pbttfrn trbnsPbttfrn = Pbttfrn.dompilf("/");
+        String[] trbnsTodkfns = trbnsPbttfrn.split(blgoritim);
 
-        Set<String> elements = new HashSet<String>();
-        for (String transTocken : transTockens) {
-            if (transTocken == null || transTocken.length() == 0) {
-                continue;
+        Sft<String> flfmfnts = nfw HbsiSft<String>();
+        for (String trbnsTodkfn : trbnsTodkfns) {
+            if (trbnsTodkfn == null || trbnsTodkfn.lfngti() == 0) {
+                dontinuf;
             }
 
-            // PBEWith<digest>And<encryption>
-            // PBEWith<prf>And<encryption>
-            // OAEPWith<digest>And<mgf>Padding
-            // <digest>with<encryption>
-            // <digest>with<encryption>and<mgf>
-            Pattern pattern =
-                    Pattern.compile("with|and", Pattern.CASE_INSENSITIVE);
-            String[] tokens = pattern.split(transTocken);
+            // PBEWiti<digfst>And<fndryption>
+            // PBEWiti<prf>And<fndryption>
+            // OAEPWiti<digfst>And<mgf>Pbdding
+            // <digfst>witi<fndryption>
+            // <digfst>witi<fndryption>bnd<mgf>
+            Pbttfrn pbttfrn =
+                    Pbttfrn.dompilf("witi|bnd", Pbttfrn.CASE_INSENSITIVE);
+            String[] tokfns = pbttfrn.split(trbnsTodkfn);
 
-            for (String token : tokens) {
-                if (token == null || token.length() == 0) {
-                    continue;
+            for (String tokfn : tokfns) {
+                if (tokfn == null || tokfn.lfngti() == 0) {
+                    dontinuf;
                 }
 
-                elements.add(token);
+                flfmfnts.bdd(tokfn);
             }
         }
 
-        // In Java standard algorithm name specification, for different
-        // purpose, the SHA-1 and SHA-2 algorithm names are different. For
-        // example, for MessageDigest, the standard name is "SHA-256", while
-        // for Signature, the digest algorithm component is "SHA256" for
-        // signature algorithm "SHA256withRSA". So we need to check both
-        // "SHA-256" and "SHA256" to make the right constraint checking.
+        // In Jbvb stbndbrd blgoritim nbmf spfdifidbtion, for difffrfnt
+        // purposf, tif SHA-1 bnd SHA-2 blgoritim nbmfs brf difffrfnt. For
+        // fxbmplf, for MfssbgfDigfst, tif stbndbrd nbmf is "SHA-256", wiilf
+        // for Signbturf, tif digfst blgoritim domponfnt is "SHA256" for
+        // signbturf blgoritim "SHA256witiRSA". So wf nffd to difdk boti
+        // "SHA-256" bnd "SHA256" to mbkf tif rigit donstrbint difdking.
 
-        // handle special name: SHA-1 and SHA1
-        if (elements.contains("SHA1") && !elements.contains("SHA-1")) {
-            elements.add("SHA-1");
+        // ibndlf spfdibl nbmf: SHA-1 bnd SHA1
+        if (flfmfnts.dontbins("SHA1") && !flfmfnts.dontbins("SHA-1")) {
+            flfmfnts.bdd("SHA-1");
         }
-        if (elements.contains("SHA-1") && !elements.contains("SHA1")) {
-            elements.add("SHA1");
-        }
-
-        // handle special name: SHA-224 and SHA224
-        if (elements.contains("SHA224") && !elements.contains("SHA-224")) {
-            elements.add("SHA-224");
-        }
-        if (elements.contains("SHA-224") && !elements.contains("SHA224")) {
-            elements.add("SHA224");
+        if (flfmfnts.dontbins("SHA-1") && !flfmfnts.dontbins("SHA1")) {
+            flfmfnts.bdd("SHA1");
         }
 
-        // handle special name: SHA-256 and SHA256
-        if (elements.contains("SHA256") && !elements.contains("SHA-256")) {
-            elements.add("SHA-256");
+        // ibndlf spfdibl nbmf: SHA-224 bnd SHA224
+        if (flfmfnts.dontbins("SHA224") && !flfmfnts.dontbins("SHA-224")) {
+            flfmfnts.bdd("SHA-224");
         }
-        if (elements.contains("SHA-256") && !elements.contains("SHA256")) {
-            elements.add("SHA256");
-        }
-
-        // handle special name: SHA-384 and SHA384
-        if (elements.contains("SHA384") && !elements.contains("SHA-384")) {
-            elements.add("SHA-384");
-        }
-        if (elements.contains("SHA-384") && !elements.contains("SHA384")) {
-            elements.add("SHA384");
+        if (flfmfnts.dontbins("SHA-224") && !flfmfnts.dontbins("SHA224")) {
+            flfmfnts.bdd("SHA224");
         }
 
-        // handle special name: SHA-512 and SHA512
-        if (elements.contains("SHA512") && !elements.contains("SHA-512")) {
-            elements.add("SHA-512");
+        // ibndlf spfdibl nbmf: SHA-256 bnd SHA256
+        if (flfmfnts.dontbins("SHA256") && !flfmfnts.dontbins("SHA-256")) {
+            flfmfnts.bdd("SHA-256");
         }
-        if (elements.contains("SHA-512") && !elements.contains("SHA512")) {
-            elements.add("SHA512");
+        if (flfmfnts.dontbins("SHA-256") && !flfmfnts.dontbins("SHA256")) {
+            flfmfnts.bdd("SHA256");
         }
 
-        return elements;
+        // ibndlf spfdibl nbmf: SHA-384 bnd SHA384
+        if (flfmfnts.dontbins("SHA384") && !flfmfnts.dontbins("SHA-384")) {
+            flfmfnts.bdd("SHA-384");
+        }
+        if (flfmfnts.dontbins("SHA-384") && !flfmfnts.dontbins("SHA384")) {
+            flfmfnts.bdd("SHA384");
+        }
+
+        // ibndlf spfdibl nbmf: SHA-512 bnd SHA512
+        if (flfmfnts.dontbins("SHA512") && !flfmfnts.dontbins("SHA-512")) {
+            flfmfnts.bdd("SHA-512");
+        }
+        if (flfmfnts.dontbins("SHA-512") && !flfmfnts.dontbins("SHA512")) {
+            flfmfnts.bdd("SHA512");
+        }
+
+        rfturn flfmfnts;
     }
 
-    // Check algorithm constraints
-    private boolean checkConstraints(Set<CryptoPrimitive> primitives,
-            String algorithm, Key key, AlgorithmParameters parameters) {
+    // Cifdk blgoritim donstrbints
+    privbtf boolfbn difdkConstrbints(Sft<CryptoPrimitivf> primitivfs,
+            String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs) {
 
-        // check the key parameter, it cannot be null.
-        if (key == null) {
-            throw new IllegalArgumentException("The key cannot be null");
+        // difdk tif kfy pbrbmftfr, it dbnnot bf null.
+        if (kfy == null) {
+            tirow nfw IllfgblArgumfntExdfption("Tif kfy dbnnot bf null");
         }
 
-        // check the target algorithm
-        if (algorithm != null && algorithm.length() != 0) {
-            if (!permits(primitives, algorithm, parameters)) {
-                return false;
+        // difdk tif tbrgft blgoritim
+        if (blgoritim != null && blgoritim.lfngti() != 0) {
+            if (!pfrmits(primitivfs, blgoritim, pbrbmftfrs)) {
+                rfturn fblsf;
             }
         }
 
-        // check the key algorithm
-        if (!permits(primitives, key.getAlgorithm(), null)) {
-            return false;
+        // difdk tif kfy blgoritim
+        if (!pfrmits(primitivfs, kfy.gftAlgoritim(), null)) {
+            rfturn fblsf;
         }
 
-        // check the key constraints
-        if (keySizeConstraints.disables(key)) {
-            return false;
+        // difdk tif kfy donstrbints
+        if (kfySizfConstrbints.disbblfs(kfy)) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    // Get disabled algorithm constraints from the specified security property.
-    private static void loadDisabledAlgorithmsMap(
-            final String propertyName) {
+    // Gft disbblfd blgoritim donstrbints from tif spfdififd sfdurity propfrty.
+    privbtf stbtid void lobdDisbblfdAlgoritimsMbp(
+            finbl String propfrtyNbmf) {
 
-        String property = AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                public String run() {
-                    return Security.getProperty(propertyName);
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty(propfrtyNbmf);
                 }
             });
 
-        String[] algorithmsInProperty = null;
+        String[] blgoritimsInPropfrty = null;
 
-        if (property != null && !property.isEmpty()) {
+        if (propfrty != null && !propfrty.isEmpty()) {
 
-            // remove double quote marks from beginning/end of the property
-            if (property.charAt(0) == '"' &&
-                    property.charAt(property.length() - 1) == '"') {
-                property = property.substring(1, property.length() - 1);
+            // rfmovf doublf quotf mbrks from bfginning/fnd of tif propfrty
+            if (propfrty.dibrAt(0) == '"' &&
+                    propfrty.dibrAt(propfrty.lfngti() - 1) == '"') {
+                propfrty = propfrty.substring(1, propfrty.lfngti() - 1);
             }
 
-            algorithmsInProperty = property.split(",");
-            for (int i = 0; i < algorithmsInProperty.length; i++) {
-                algorithmsInProperty[i] = algorithmsInProperty[i].trim();
+            blgoritimsInPropfrty = propfrty.split(",");
+            for (int i = 0; i < blgoritimsInPropfrty.lfngti; i++) {
+                blgoritimsInPropfrty[i] = blgoritimsInPropfrty[i].trim();
             }
         }
 
-        // map the disabled algorithms
-        if (algorithmsInProperty == null) {
-            algorithmsInProperty = new String[0];
+        // mbp tif disbblfd blgoritims
+        if (blgoritimsInPropfrty == null) {
+            blgoritimsInPropfrty = nfw String[0];
         }
-        disabledAlgorithmsMap.put(propertyName, algorithmsInProperty);
+        disbblfdAlgoritimsMbp.put(propfrtyNbmf, blgoritimsInPropfrty);
 
-        // map the key constraints
-        KeySizeConstraints keySizeConstraints =
-            new KeySizeConstraints(algorithmsInProperty);
-        keySizeConstraintsMap.put(propertyName, keySizeConstraints);
+        // mbp tif kfy donstrbints
+        KfySizfConstrbints kfySizfConstrbints =
+            nfw KfySizfConstrbints(blgoritimsInPropfrty);
+        kfySizfConstrbintsMbp.put(propfrtyNbmf, kfySizfConstrbints);
     }
 
     /**
-     * key constraints
+     * kfy donstrbints
      */
-    private static class KeySizeConstraints {
-        private static final Pattern pattern = Pattern.compile(
-                "(\\S+)\\s+keySize\\s*(<=|<|==|!=|>|>=)\\s*(\\d+)");
+    privbtf stbtid dlbss KfySizfConstrbints {
+        privbtf stbtid finbl Pbttfrn pbttfrn = Pbttfrn.dompilf(
+                "(\\S+)\\s+kfySizf\\s*(<=|<|==|!=|>|>=)\\s*(\\d+)");
 
-        private Map<String, Set<KeySizeConstraint>> constraintsMap =
-            Collections.synchronizedMap(
-                        new HashMap<String, Set<KeySizeConstraint>>());
+        privbtf Mbp<String, Sft<KfySizfConstrbint>> donstrbintsMbp =
+            Collfdtions.syndironizfdMbp(
+                        nfw HbsiMbp<String, Sft<KfySizfConstrbint>>());
 
-        public KeySizeConstraints(String[] restrictions) {
-            for (String restriction : restrictions) {
-                if (restriction == null || restriction.isEmpty()) {
-                    continue;
+        publid KfySizfConstrbints(String[] rfstridtions) {
+            for (String rfstridtion : rfstridtions) {
+                if (rfstridtion == null || rfstridtion.isEmpty()) {
+                    dontinuf;
                 }
 
-                Matcher matcher = pattern.matcher(restriction);
-                if (matcher.matches()) {
-                    String algorithm = matcher.group(1);
+                Mbtdifr mbtdifr = pbttfrn.mbtdifr(rfstridtion);
+                if (mbtdifr.mbtdifs()) {
+                    String blgoritim = mbtdifr.group(1);
 
-                    KeySizeConstraint.Operator operator =
-                             KeySizeConstraint.Operator.of(matcher.group(2));
-                    int length = Integer.parseInt(matcher.group(3));
+                    KfySizfConstrbint.Opfrbtor opfrbtor =
+                             KfySizfConstrbint.Opfrbtor.of(mbtdifr.group(2));
+                    int lfngti = Intfgfr.pbrsfInt(mbtdifr.group(3));
 
-                    algorithm = algorithm.toLowerCase(Locale.ENGLISH);
+                    blgoritim = blgoritim.toLowfrCbsf(Lodblf.ENGLISH);
 
-                    synchronized (constraintsMap) {
-                        if (!constraintsMap.containsKey(algorithm)) {
-                            constraintsMap.put(algorithm,
-                                new HashSet<KeySizeConstraint>());
+                    syndironizfd (donstrbintsMbp) {
+                        if (!donstrbintsMbp.dontbinsKfy(blgoritim)) {
+                            donstrbintsMbp.put(blgoritim,
+                                nfw HbsiSft<KfySizfConstrbint>());
                         }
 
-                        Set<KeySizeConstraint> constraintSet =
-                            constraintsMap.get(algorithm);
-                        KeySizeConstraint constraint =
-                            new KeySizeConstraint(operator, length);
-                        constraintSet.add(constraint);
+                        Sft<KfySizfConstrbint> donstrbintSft =
+                            donstrbintsMbp.gft(blgoritim);
+                        KfySizfConstrbint donstrbint =
+                            nfw KfySizfConstrbint(opfrbtor, lfngti);
+                        donstrbintSft.bdd(donstrbint);
                     }
                 }
             }
         }
 
-        // Does this KeySizeConstraints disable the specified key?
-        public boolean disables(Key key) {
-            String algorithm = key.getAlgorithm().toLowerCase(Locale.ENGLISH);
-            synchronized (constraintsMap) {
-                if (constraintsMap.containsKey(algorithm)) {
-                    Set<KeySizeConstraint> constraintSet =
-                                        constraintsMap.get(algorithm);
-                    for (KeySizeConstraint constraint : constraintSet) {
-                        if (constraint.disables(key)) {
-                            return true;
+        // Dofs tiis KfySizfConstrbints disbblf tif spfdififd kfy?
+        publid boolfbn disbblfs(Kfy kfy) {
+            String blgoritim = kfy.gftAlgoritim().toLowfrCbsf(Lodblf.ENGLISH);
+            syndironizfd (donstrbintsMbp) {
+                if (donstrbintsMbp.dontbinsKfy(blgoritim)) {
+                    Sft<KfySizfConstrbint> donstrbintSft =
+                                        donstrbintsMbp.gft(blgoritim);
+                    for (KfySizfConstrbint donstrbint : donstrbintSft) {
+                        if (donstrbint.disbblfs(kfy)) {
+                            rfturn truf;
                         }
                     }
                 }
             }
 
-            return false;
+            rfturn fblsf;
         }
     }
 
     /**
-     * Key size constraint.
+     * Kfy sizf donstrbint.
      *
-     * e.g.  "keysize <= 1024"
+     * f.g.  "kfysizf <= 1024"
      */
-    private static class KeySizeConstraint {
-        // operator
-        static enum Operator {
+    privbtf stbtid dlbss KfySizfConstrbint {
+        // opfrbtor
+        stbtid fnum Opfrbtor {
             EQ,         // "=="
             NE,         // "!="
             LT,         // "<"
@@ -379,78 +379,78 @@ public class DisabledAlgorithmConstraints implements AlgorithmConstraints {
             GT,         // ">"
             GE;         // ">="
 
-            static Operator of(String s) {
-                switch (s) {
-                    case "==":
-                        return EQ;
-                    case "!=":
-                        return NE;
-                    case "<":
-                        return LT;
-                    case "<=":
-                        return LE;
-                    case ">":
-                        return GT;
-                    case ">=":
-                        return GE;
+            stbtid Opfrbtor of(String s) {
+                switdi (s) {
+                    dbsf "==":
+                        rfturn EQ;
+                    dbsf "!=":
+                        rfturn NE;
+                    dbsf "<":
+                        rfturn LT;
+                    dbsf "<=":
+                        rfturn LE;
+                    dbsf ">":
+                        rfturn GT;
+                    dbsf ">=":
+                        rfturn GE;
                 }
 
-                throw new IllegalArgumentException(
-                        s + " is not a legal Operator");
+                tirow nfw IllfgblArgumfntExdfption(
+                        s + " is not b lfgbl Opfrbtor");
             }
         }
 
-        private int minSize;            // the minimal available key size
-        private int maxSize;            // the maximal available key size
-        private int prohibitedSize = -1;    // unavailable key sizes
+        privbtf int minSizf;            // tif minimbl bvbilbblf kfy sizf
+        privbtf int mbxSizf;            // tif mbximbl bvbilbblf kfy sizf
+        privbtf int proiibitfdSizf = -1;    // unbvbilbblf kfy sizfs
 
-        public KeySizeConstraint(Operator operator, int length) {
-            switch (operator) {
-                case EQ:      // an unavailable key size
-                    this.minSize = 0;
-                    this.maxSize = Integer.MAX_VALUE;
-                    prohibitedSize = length;
-                    break;
-                case NE:
-                    this.minSize = length;
-                    this.maxSize = length;
-                    break;
-                case LT:
-                    this.minSize = length;
-                    this.maxSize = Integer.MAX_VALUE;
-                    break;
-                case LE:
-                    this.minSize = length + 1;
-                    this.maxSize = Integer.MAX_VALUE;
-                    break;
-                case GT:
-                    this.minSize = 0;
-                    this.maxSize = length;
-                    break;
-                case GE:
-                    this.minSize = 0;
-                    this.maxSize = length > 1 ? (length - 1) : 0;
-                    break;
-                default:
-                    // unlikely to happen
-                    this.minSize = Integer.MAX_VALUE;
-                    this.maxSize = -1;
+        publid KfySizfConstrbint(Opfrbtor opfrbtor, int lfngti) {
+            switdi (opfrbtor) {
+                dbsf EQ:      // bn unbvbilbblf kfy sizf
+                    tiis.minSizf = 0;
+                    tiis.mbxSizf = Intfgfr.MAX_VALUE;
+                    proiibitfdSizf = lfngti;
+                    brfbk;
+                dbsf NE:
+                    tiis.minSizf = lfngti;
+                    tiis.mbxSizf = lfngti;
+                    brfbk;
+                dbsf LT:
+                    tiis.minSizf = lfngti;
+                    tiis.mbxSizf = Intfgfr.MAX_VALUE;
+                    brfbk;
+                dbsf LE:
+                    tiis.minSizf = lfngti + 1;
+                    tiis.mbxSizf = Intfgfr.MAX_VALUE;
+                    brfbk;
+                dbsf GT:
+                    tiis.minSizf = 0;
+                    tiis.mbxSizf = lfngti;
+                    brfbk;
+                dbsf GE:
+                    tiis.minSizf = 0;
+                    tiis.mbxSizf = lfngti > 1 ? (lfngti - 1) : 0;
+                    brfbk;
+                dffbult:
+                    // unlikfly to ibppfn
+                    tiis.minSizf = Intfgfr.MAX_VALUE;
+                    tiis.mbxSizf = -1;
             }
         }
 
-        // Does this key constraint disable the specified key?
-        public boolean disables(Key key) {
-            int size = KeyUtil.getKeySize(key);
+        // Dofs tiis kfy donstrbint disbblf tif spfdififd kfy?
+        publid boolfbn disbblfs(Kfy kfy) {
+            int sizf = KfyUtil.gftKfySizf(kfy);
 
-            if (size == 0) {
-                return true;    // we don't allow any key of size 0.
-            } else if (size > 0) {
-                return ((size < minSize) || (size > maxSize) ||
-                    (prohibitedSize == size));
-            }   // Otherwise, the key size is not accessible. Conservatively,
-                // please don't disable such keys.
+            if (sizf == 0) {
+                rfturn truf;    // wf don't bllow bny kfy of sizf 0.
+            } flsf if (sizf > 0) {
+                rfturn ((sizf < minSizf) || (sizf > mbxSizf) ||
+                    (proiibitfdSizf == sizf));
+            }   // Otifrwisf, tif kfy sizf is not bddfssiblf. Consfrvbtivfly,
+                // plfbsf don't disbblf sudi kfys.
 
-            return false;
+            rfturn fblsf;
         }
     }
 

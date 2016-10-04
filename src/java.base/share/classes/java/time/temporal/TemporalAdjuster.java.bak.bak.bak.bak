@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import jbvb.timf.DbtfTimfExdfption;
+
+/**
+ * Strbtfgy for bdjusting b tfmporbl objfdt.
+ * <p>
+ * Adjustfrs brf b kfy tool for modifying tfmporbl objfdts.
+ * Thfy fxist to fxtfrnblizf thf prodfss of bdjustmfnt, pfrmitting difffrfnt
+ * bpprobdhfs, bs pfr thf strbtfgy dfsign pbttfrn.
+ * Exbmplfs might bf bn bdjustfr thbt sfts thf dbtf bvoiding wffkfnds, or onf thbt
+ * sfts thf dbtf to thf lbst dby of thf month.
+ * <p>
+ * Thfrf brf two fquivblfnt wbys of using b {@dodf TfmporblAdjustfr}.
+ * Thf first is to invokf thf mfthod on this intfrfbdf dirfdtly.
+ * Thf sfdond is to usf {@link Tfmporbl#with(TfmporblAdjustfr)}:
+ * <prf>
+ *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+ *   tfmporbl = thisAdjustfr.bdjustInto(tfmporbl);
+ *   tfmporbl = tfmporbl.with(thisAdjustfr);
+ * </prf>
+ * It is rfdommfndfd to usf thf sfdond bpprobdh, {@dodf with(TfmporblAdjustfr)},
+ * bs it is b lot dlfbrfr to rfbd in dodf.
+ * <p>
+ * Thf {@link TfmporblAdjustfrs} dlbss dontbins b stbndbrd sft of bdjustfrs,
+ * bvbilbblf bs stbtid mfthods.
+ * Thfsf indludf:
+ * <ul>
+ * <li>finding thf first or lbst dby of thf month
+ * <li>finding thf first dby of nfxt month
+ * <li>finding thf first or lbst dby of thf yfbr
+ * <li>finding thf first dby of nfxt yfbr
+ * <li>finding thf first or lbst dby-of-wffk within b month, sudh bs "first Wfdnfsdby in Junf"
+ * <li>finding thf nfxt or prfvious dby-of-wffk, sudh bs "nfxt Thursdby"
+ * </ul>
+ *
+ * @implSpfd
+ * This intfrfbdf plbdfs no rfstridtions on thf mutbbility of implfmfntbtions,
+ * howfvfr immutbbility is strongly rfdommfndfd.
+ *
+ * @sff TfmporblAdjustfrs
+ * @sindf 1.8
+ */
+@FundtionblIntfrfbdf
+publid intfrfbdf TfmporblAdjustfr {
+
+    /**
+     * Adjusts thf spfdififd tfmporbl objfdt.
+     * <p>
+     * This bdjusts thf spfdififd tfmporbl objfdt using thf logid
+     * fndbpsulbtfd in thf implfmfnting dlbss.
+     * Exbmplfs might bf bn bdjustfr thbt sfts thf dbtf bvoiding wffkfnds, or onf thbt
+     * sfts thf dbtf to thf lbst dby of thf month.
+     * <p>
+     * Thfrf brf two fquivblfnt wbys of using this mfthod.
+     * Thf first is to invokf this mfthod dirfdtly.
+     * Thf sfdond is to usf {@link Tfmporbl#with(TfmporblAdjustfr)}:
+     * <prf>
+     *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+     *   tfmporbl = thisAdjustfr.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.with(thisAdjustfr);
+     * </prf>
+     * It is rfdommfndfd to usf thf sfdond bpprobdh, {@dodf with(TfmporblAdjustfr)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
+     *
+     * @implSpfd
+     * Thf implfmfntbtion must tbkf thf input objfdt bnd bdjust it.
+     * Thf implfmfntbtion dffinfs thf logid of thf bdjustmfnt bnd is rfsponsiblf for
+     * dodumfnting thbt logid. It mby usf bny mfthod on {@dodf Tfmporbl} to
+     * qufry thf tfmporbl objfdt bnd pfrform thf bdjustmfnt.
+     * Thf rfturnfd objfdt must hbvf thf sbmf obsfrvbblf typf bs thf input objfdt
+     * <p>
+     * Thf input objfdt must not bf bltfrfd.
+     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
+     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf tfmporbl objfdts.
+     * <p>
+     * Thf input tfmporbl objfdt mby bf in b dblfndbr systfm othfr thbn ISO.
+     * Implfmfntbtions mby dhoosf to dodumfnt dompbtibility with othfr dblfndbr systfms,
+     * or rfjfdt non-ISO tfmporbl objfdts by {@link TfmporblQufrifs#dhronology() qufrying thf dhronology}.
+     * <p>
+     * This mfthod mby bf dbllfd from multiplf thrfbds in pbrbllfl.
+     * It must bf thrfbd-sbff whfn invokfd.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to bdjust, not null
+     * @rfturn bn objfdt of thf sbmf obsfrvbblf typf with thf bdjustmfnt mbdf, not null
+     * @throws DbtfTimfExdfption if unbblf to mbkf thf bdjustmfnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    Tfmporbl bdjustInto(Tfmporbl tfmporbl);
+
+}

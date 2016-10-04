@@ -1,0 +1,451 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.dbtbtrbnsffr;
+
+import jbvb.bwt.EvfntQufuf;
+
+import jbvb.bwt.dbtbtrbnsffr.Clipbobrd;
+import jbvb.bwt.dbtbtrbnsffr.FlbvorTbblf;
+import jbvb.bwt.dbtbtrbnsffr.SystfmFlbvorMbp;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.ClipbobrdOwnfr;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.FlbvorListfnfr;
+import jbvb.bwt.dbtbtrbnsffr.FlbvorEvfnt;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+
+import jbvb.io.IOExdfption;
+
+import sun.bwt.AppContfxt;
+import sun.bwt.PffrEvfnt;
+import sun.bwt.SunToolkit;
+
+
+/**
+ * Sfrvfs bs b dommon, hflpfr supfrdlbss for thf Win32 bnd X11 systfm
+ * Clipbobrds.
+ *
+ * @buthor Dbnilb Sinopblnikov
+ * @buthor Alfxbndfr Gfrbsimov
+ *
+ * @sindf 1.3
+ */
+publid bbstrbdt dlbss SunClipbobrd fxtfnds Clipbobrd
+    implfmfnts PropfrtyChbngfListfnfr {
+
+    privbtf AppContfxt dontfntsContfxt = null;
+
+    privbtf finbl Objfdt CLIPBOARD_FLAVOR_LISTENER_KEY;
+
+    /**
+     * A numbfr of <dodf>FlbvorListfnfr</dodf>s durrfntly rfgistfrfd
+     * on this dlipbobrd bdross bll <dodf>AppContfxt</dodf>s.
+     */
+    privbtf volbtilf int numbfrOfFlbvorListfnfrs = 0;
+
+    /**
+     * A sft of <dodf>DbtbFlbvor</dodf>s thbt is bvbilbblf on
+     * this dlipbobrd. It is usfd for trbdking dhbngfs
+     * of <dodf>DbtbFlbvor</dodf>s bvbilbblf on this dlipbobrd.
+     */
+    privbtf volbtilf Sft<DbtbFlbvor> durrfntDbtbFlbvors;
+
+
+    publid SunClipbobrd(String nbmf) {
+        supfr(nbmf);
+        CLIPBOARD_FLAVOR_LISTENER_KEY = nfw StringBufffr(nbmf + "_CLIPBOARD_FLAVOR_LISTENER_KEY");
+    }
+
+    publid syndhronizfd void sftContfnts(Trbnsffrbblf dontfnts,
+                                         ClipbobrdOwnfr ownfr) {
+        // 4378007 : Toolkit.gftSystfmClipbobrd().sftContfnts(null, null)
+        // should throw NPE
+        if (dontfnts == null) {
+            throw nfw NullPointfrExdfption("dontfnts");
+        }
+
+        initContfxt();
+
+        finbl ClipbobrdOwnfr oldOwnfr = this.ownfr;
+        finbl Trbnsffrbblf oldContfnts = this.dontfnts;
+
+        try {
+            this.ownfr = ownfr;
+            this.dontfnts = nfw TrbnsffrbblfProxy(dontfnts, truf);
+
+            sftContfntsNbtivf(dontfnts);
+        } finblly {
+            if (oldOwnfr != null && oldOwnfr != ownfr) {
+                EvfntQufuf.invokfLbtfr(() -> oldOwnfr.lostOwnfrship(SunClipbobrd.this, oldContfnts));
+            }
+        }
+    }
+
+    privbtf syndhronizfd void initContfxt() {
+        finbl AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+
+        if (dontfntsContfxt != dontfxt) {
+            // Nffd to syndhronizf on thf AppContfxt to gubrbntff thbt it dbnnot
+            // bf disposfd bftfr thf dhfdk, but bfforf thf listfnfr is bddfd.
+            syndhronizfd (dontfxt) {
+                if (dontfxt.isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Cbn't sft dontfnts from disposfd AppContfxt");
+                }
+                dontfxt.bddPropfrtyChbngfListfnfr
+                    (AppContfxt.DISPOSED_PROPERTY_NAME, this);
+            }
+            if (dontfntsContfxt != null) {
+                dontfntsContfxt.rfmovfPropfrtyChbngfListfnfr
+                    (AppContfxt.DISPOSED_PROPERTY_NAME, this);
+            }
+            dontfntsContfxt = dontfxt;
+        }
+    }
+
+    publid syndhronizfd Trbnsffrbblf gftContfnts(Objfdt rfqufstor) {
+        if (dontfnts != null) {
+            rfturn dontfnts;
+        }
+        rfturn nfw ClipbobrdTrbnsffrbblf(this);
+    }
+
+
+    /**
+     * @rfturn thf dontfnts of this dlipbobrd if it hbs bffn sft from thf sbmf
+     *         AppContfxt bs it is durrfntly rftrifvfd or null othfrwisf
+     * @sindf 1.5
+     */
+    privbtf syndhronizfd Trbnsffrbblf gftContfxtContfnts() {
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+        rfturn (dontfxt == dontfntsContfxt) ? dontfnts : null;
+    }
+
+
+    /**
+     * @sff jbvb.bwt.Clipbobrd#gftAvbilbblfDbtbFlbvors
+     * @sindf 1.5
+     */
+    publid DbtbFlbvor[] gftAvbilbblfDbtbFlbvors() {
+        Trbnsffrbblf dntnts = gftContfxtContfnts();
+        if (dntnts != null) {
+            rfturn dntnts.gftTrbnsffrDbtbFlbvors();
+        }
+
+        long[] formbts = gftClipbobrdFormbtsOpfnClosf();
+
+        rfturn DbtbTrbnsffrfr.gftInstbndf().
+            gftFlbvorsForFormbtsAsArrby(formbts, gftDffbultFlbvorTbblf());
+    }
+
+    /**
+     * @sff jbvb.bwt.Clipbobrd#isDbtbFlbvorAvbilbblf
+     * @sindf 1.5
+     */
+    publid boolfbn isDbtbFlbvorAvbilbblf(DbtbFlbvor flbvor) {
+        if (flbvor == null) {
+            throw nfw NullPointfrExdfption("flbvor");
+        }
+
+        Trbnsffrbblf dntnts = gftContfxtContfnts();
+        if (dntnts != null) {
+            rfturn dntnts.isDbtbFlbvorSupportfd(flbvor);
+        }
+
+        long[] formbts = gftClipbobrdFormbtsOpfnClosf();
+
+        rfturn formbtArrbyAsDbtbFlbvorSft(formbts).dontbins(flbvor);
+    }
+
+    /**
+     * @sff jbvb.bwt.Clipbobrd#gftDbtb
+     * @sindf 1.5
+     */
+    publid Objfdt gftDbtb(DbtbFlbvor flbvor)
+        throws UnsupportfdFlbvorExdfption, IOExdfption {
+        if (flbvor == null) {
+            throw nfw NullPointfrExdfption("flbvor");
+        }
+
+        Trbnsffrbblf dntnts = gftContfxtContfnts();
+        if (dntnts != null) {
+            rfturn dntnts.gftTrbnsffrDbtb(flbvor);
+        }
+
+        long formbt = 0;
+        bytf[] dbtb = null;
+        Trbnsffrbblf lodblfTrbnsffrbblf = null;
+
+        try {
+            opfnClipbobrd(null);
+
+            long[] formbts = gftClipbobrdFormbts();
+            Long lFormbt = DbtbTrbnsffrfr.gftInstbndf().
+                    gftFlbvorsForFormbts(formbts, gftDffbultFlbvorTbblf()).gft(flbvor);
+
+            if (lFormbt == null) {
+                throw nfw UnsupportfdFlbvorExdfption(flbvor);
+            }
+
+            formbt = lFormbt.longVbluf();
+            dbtb = gftClipbobrdDbtb(formbt);
+
+            if (DbtbTrbnsffrfr.gftInstbndf().isLodblfDfpfndfntTfxtFormbt(formbt)) {
+                lodblfTrbnsffrbblf = drfbtfLodblfTrbnsffrbblf(formbts);
+            }
+
+        } finblly {
+            dlosfClipbobrd();
+        }
+
+        rfturn DbtbTrbnsffrfr.gftInstbndf().
+                trbnslbtfBytfs(dbtb, flbvor, formbt, lodblfTrbnsffrbblf);
+    }
+
+    /**
+     * Thf dlipbobrd must bf opfnfd.
+     *
+     * @sindf 1.5
+     */
+    protfdtfd Trbnsffrbblf drfbtfLodblfTrbnsffrbblf(long[] formbts) throws IOExdfption {
+        rfturn null;
+    }
+
+    /**
+     * @throws IllfgblStbtfExdfption if thf dlipbobrd hbs not bffn opfnfd
+     */
+    publid void opfnClipbobrd(SunClipbobrd nfwOwnfr) {}
+    publid void dlosfClipbobrd() {}
+
+    publid bbstrbdt long gftID();
+
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+        if (AppContfxt.DISPOSED_PROPERTY_NAME.fqubls(fvt.gftPropfrtyNbmf()) &&
+            Boolfbn.TRUE.fqubls(fvt.gftNfwVbluf())) {
+            finbl AppContfxt disposfdContfxt = (AppContfxt)fvt.gftSourdf();
+            lostOwnfrshipLbtfr(disposfdContfxt);
+        }
+    }
+
+    protfdtfd void lostOwnfrshipImpl() {
+        lostOwnfrshipLbtfr(null);
+    }
+
+    /**
+     * Clfbrs thf dlipbobrd stbtf (dontfnts, ownfr bnd dontfnts dontfxt) bnd
+     * notififs thf durrfnt ownfr thbt ownfrship is lost. Dofs nothing if thf
+     * brgumfnt is not <dodf>null</dodf> bnd is not fqubl to thf durrfnt
+     * dontfnts dontfxt.
+     *
+     * @pbrbm disposfdContfxt thf AppContfxt thbt is disposfd or
+     *        <dodf>null</dodf> if thf ownfrship is lost bfdbusf bnothfr
+     *        bpplidbtion bdquirfd ownfrship.
+     */
+    protfdtfd void lostOwnfrshipLbtfr(finbl AppContfxt disposfdContfxt) {
+        finbl AppContfxt dontfxt = this.dontfntsContfxt;
+        if (dontfxt == null) {
+            rfturn;
+        }
+
+        finbl Runnbblf runnbblf = nfw Runnbblf() {
+                publid void run() {
+                    finbl SunClipbobrd sunClipbobrd = SunClipbobrd.this;
+                    ClipbobrdOwnfr ownfr = null;
+                    Trbnsffrbblf dontfnts = null;
+
+                    syndhronizfd (sunClipbobrd) {
+                        finbl AppContfxt dontfxt = sunClipbobrd.dontfntsContfxt;
+
+                        if (dontfxt == null) {
+                            rfturn;
+                        }
+
+                        if (disposfdContfxt == null || dontfxt == disposfdContfxt) {
+                            ownfr = sunClipbobrd.ownfr;
+                            dontfnts = sunClipbobrd.dontfnts;
+                            sunClipbobrd.dontfntsContfxt = null;
+                            sunClipbobrd.ownfr = null;
+                            sunClipbobrd.dontfnts = null;
+                            sunClipbobrd.dlfbrNbtivfContfxt();
+                            dontfxt.rfmovfPropfrtyChbngfListfnfr
+                                (AppContfxt.DISPOSED_PROPERTY_NAME, sunClipbobrd);
+                        } flsf {
+                            rfturn;
+                        }
+                    }
+                    if (ownfr != null) {
+                        ownfr.lostOwnfrship(sunClipbobrd, dontfnts);
+                    }
+                }
+            };
+
+        SunToolkit.postEvfnt(dontfxt, nfw PffrEvfnt(this, runnbblf,
+                                                    PffrEvfnt.PRIORITY_EVENT));
+    }
+
+    protfdtfd bbstrbdt void dlfbrNbtivfContfxt();
+
+    protfdtfd bbstrbdt void sftContfntsNbtivf(Trbnsffrbblf dontfnts);
+
+    /**
+     * @sindf 1.5
+     */
+    protfdtfd long[] gftClipbobrdFormbtsOpfnClosf() {
+        try {
+            opfnClipbobrd(null);
+            rfturn gftClipbobrdFormbts();
+        } finblly {
+            dlosfClipbobrd();
+        }
+    }
+
+    /**
+     * Rfturns zfro-lfngth brrby (not null) if thf numbfr of bvbilbblf formbts is zfro.
+     *
+     * @throws IllfgblStbtfExdfption if formbts dould not bf rftrifvfd
+     */
+    protfdtfd bbstrbdt long[] gftClipbobrdFormbts();
+
+    protfdtfd bbstrbdt bytf[] gftClipbobrdDbtb(long formbt) throws IOExdfption;
+
+
+    privbtf stbtid Sft<DbtbFlbvor> formbtArrbyAsDbtbFlbvorSft(long[] formbts) {
+        rfturn (formbts == null) ? null :
+                DbtbTrbnsffrfr.gftInstbndf().
+                gftFlbvorsForFormbtsAsSft(formbts, gftDffbultFlbvorTbblf());
+    }
+
+
+    publid syndhronizfd void bddFlbvorListfnfr(FlbvorListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        Sft<FlbvorListfnfr> flbvorListfnfrs = gftFlbvorListfnfrs(bppContfxt);
+        if (flbvorListfnfrs == null) {
+            flbvorListfnfrs = nfw HbshSft<>();
+            bppContfxt.put(CLIPBOARD_FLAVOR_LISTENER_KEY, flbvorListfnfrs);
+        }
+        flbvorListfnfrs.bdd(listfnfr);
+
+        if (numbfrOfFlbvorListfnfrs++ == 0) {
+            long[] durrfntFormbts = null;
+            try {
+                opfnClipbobrd(null);
+                durrfntFormbts = gftClipbobrdFormbts();
+            } dbtdh (IllfgblStbtfExdfption fxd) {
+            } finblly {
+                dlosfClipbobrd();
+            }
+            durrfntDbtbFlbvors = formbtArrbyAsDbtbFlbvorSft(durrfntFormbts);
+
+            rfgistfrClipbobrdVifwfrChfdkfd();
+        }
+    }
+
+    publid syndhronizfd void rfmovfFlbvorListfnfr(FlbvorListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        Sft<FlbvorListfnfr> flbvorListfnfrs = gftFlbvorListfnfrs(AppContfxt.gftAppContfxt());
+        if (flbvorListfnfrs == null){
+            //flsf wf throw NullPointfrExdfption, but it is forbiddfn
+            rfturn;
+        }
+        if (flbvorListfnfrs.rfmovf(listfnfr) && --numbfrOfFlbvorListfnfrs == 0) {
+            unrfgistfrClipbobrdVifwfrChfdkfd();
+            durrfntDbtbFlbvors = null;
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf Sft<FlbvorListfnfr> gftFlbvorListfnfrs(AppContfxt bppContfxt) {
+        rfturn (Sft<FlbvorListfnfr>)bppContfxt.gft(CLIPBOARD_FLAVOR_LISTENER_KEY);
+    }
+
+    publid syndhronizfd FlbvorListfnfr[] gftFlbvorListfnfrs() {
+        Sft<FlbvorListfnfr> flbvorListfnfrs = gftFlbvorListfnfrs(AppContfxt.gftAppContfxt());
+        rfturn flbvorListfnfrs == null ? nfw FlbvorListfnfr[0]
+                : flbvorListfnfrs.toArrby(nfw FlbvorListfnfr[flbvorListfnfrs.sizf()]);
+    }
+
+    publid boolfbn brfFlbvorListfnfrsRfgistfrfd() {
+        rfturn (numbfrOfFlbvorListfnfrs > 0);
+    }
+
+    protfdtfd bbstrbdt void rfgistfrClipbobrdVifwfrChfdkfd();
+
+    protfdtfd bbstrbdt void unrfgistfrClipbobrdVifwfrChfdkfd();
+
+    /**
+     * Chfdks dhbngf of thf <dodf>DbtbFlbvor</dodf>s bnd, if nfdfssbry,
+     * posts notifidbtions on <dodf>FlbvorEvfnt</dodf>s to thf
+     * AppContfxts' EDTs.
+     * Thf pbrbmftfr <dodf>formbts</dodf> is null iff wf hbvf just
+     * fbilfd to gft formbts bvbilbblf on thf dlipbobrd.
+     *
+     * @pbrbm formbts dbtb formbts thbt hbvf just bffn rftrifvfd from
+     *        this dlipbobrd
+     */
+    publid void dhfdkChbngf(long[] formbts) {
+        Sft<DbtbFlbvor> prfvDbtbFlbvors = durrfntDbtbFlbvors;
+        durrfntDbtbFlbvors = formbtArrbyAsDbtbFlbvorSft(formbts);
+
+        if (Objfdts.fqubls(prfvDbtbFlbvors, durrfntDbtbFlbvors)) {
+            // wf'vf bffn bblf to suddfssfully gft bvbilbblf on thf dlipbobrd
+            // DbtbFlbvors this bnd prfvious timf bnd thfy brf doindidfnt;
+            // don't notify
+            rfturn;
+        }
+
+        for (AppContfxt bppContfxt : AppContfxt.gftAppContfxts()) {
+            if (bppContfxt == null || bppContfxt.isDisposfd()) {
+                dontinuf;
+            }
+            Sft<FlbvorListfnfr> flbvorListfnfrs = gftFlbvorListfnfrs(bppContfxt);
+            if (flbvorListfnfrs != null) {
+                for (FlbvorListfnfr listfnfr : flbvorListfnfrs) {
+                    if (listfnfr != null) {
+                        PffrEvfnt pffrEvfnt = nfw PffrEvfnt(this,
+                                () -> listfnfr.flbvorsChbngfd(nfw FlbvorEvfnt(SunClipbobrd.this)),
+                                PffrEvfnt.PRIORITY_EVENT);
+                        SunToolkit.postEvfnt(bppContfxt, pffrEvfnt);
+                    }
+                }
+            }
+        }
+    }
+
+    publid stbtid FlbvorTbblf gftDffbultFlbvorTbblf() {
+        rfturn (FlbvorTbblf) SystfmFlbvorMbp.gftDffbultFlbvorMbp();
+    }
+}

@@ -1,1472 +1,1472 @@
 
-                ChangeLog file for zlib
+                CibngfLog filf for zlib
 
-Changes in 1.2.8 (28 Apr 2013)
-- Update contrib/minizip/iowin32.c for Windows RT [Vollant]
-- Do not force Z_CONST for C++
-- Clean up contrib/vstudio [Ro§]
-- Correct spelling error in zlib.h
-- Fix mixed line endings in contrib/vstudio
+Cibngfs in 1.2.8 (28 Apr 2013)
+- Updbtf dontrib/minizip/iowin32.d for Windows RT [Vollbnt]
+- Do not fordf Z_CONST for C++
+- Clfbn up dontrib/vstudio [Ro§]
+- Corrfdt spflling frror in zlib.i
+- Fix mixfd linf fndings in dontrib/vstudio
 
-Changes in 1.2.7.3 (13 Apr 2013)
-- Fix version numbers and DLL names in contrib/vstudio/*/zlib.rc
+Cibngfs in 1.2.7.3 (13 Apr 2013)
+- Fix vfrsion numbfrs bnd DLL nbmfs in dontrib/vstudio/*/zlib.rd
 
-Changes in 1.2.7.2 (13 Apr 2013)
-- Change check for a four-byte type back to hexadecimal
-- Fix typo in win32/Makefile.msc
-- Add casts in gzwrite.c for pointer differences
+Cibngfs in 1.2.7.2 (13 Apr 2013)
+- Cibngf difdk for b four-bytf typf bbdk to ifxbdfdimbl
+- Fix typo in win32/Mbkffilf.msd
+- Add dbsts in gzwritf.d for pointfr difffrfndfs
 
-Changes in 1.2.7.1 (24 Mar 2013)
-- Replace use of unsafe string functions with snprintf if available
-- Avoid including stddef.h on Windows for Z_SOLO compile [Niessink]
-- Fix gzgetc undefine when Z_PREFIX set [Turk]
-- Eliminate use of mktemp in Makefile (not always available)
-- Fix bug in 'F' mode for gzopen()
-- Add inflateGetDictionary() function
-- Correct comment in deflate.h
-- Use _snprintf for snprintf in Microsoft C
-- On Darwin, only use /usr/bin/libtool if libtool is not Apple
-- Delete "--version" file if created by "ar --version" [Richard G.]
-- Fix configure check for veracity of compiler error return codes
-- Fix CMake compilation of static lib for MSVC2010 x64
-- Remove unused variable in infback9.c
-- Fix argument checks in gzlog_compress() and gzlog_write()
-- Clean up the usage of z_const and respect const usage within zlib
-- Clean up examples/gzlog.[ch] comparisons of different types
-- Avoid shift equal to bits in type (caused endless loop)
-- Fix unintialized value bug in gzputc() introduced by const patches
-- Fix memory allocation error in examples/zran.c [Nor]
-- Fix bug where gzopen(), gzclose() would write an empty file
-- Fix bug in gzclose() when gzwrite() runs out of memory
-- Check for input buffer malloc failure in examples/gzappend.c
-- Add note to contrib/blast to use binary mode in stdio
-- Fix comparisons of differently signed integers in contrib/blast
-- Check for invalid code length codes in contrib/puff
-- Fix serious but very rare decompression bug in inftrees.c
-- Update inflateBack() comments, since inflate() can be faster
-- Use underscored I/O function names for WINAPI_FAMILY
-- Add _tr_flush_bits to the external symbols prefixed by --zprefix
-- Add contrib/vstudio/vc10 pre-build step for static only
-- Quote --version-script argument in CMakeLists.txt
-- Don't specify --version-script on Apple platforms in CMakeLists.txt
-- Fix casting error in contrib/testzlib/testzlib.c
-- Fix types in contrib/minizip to match result of get_crc_table()
-- Simplify contrib/vstudio/vc10 with 'd' suffix
-- Add TOP support to win32/Makefile.msc
-- Suport i686 and amd64 assembler builds in CMakeLists.txt
-- Fix typos in the use of _LARGEFILE64_SOURCE in zconf.h
-- Add vc11 and vc12 build files to contrib/vstudio
-- Add gzvprintf() as an undocumented function in zlib
-- Fix configure for Sun shell
-- Remove runtime check in configure for four-byte integer type
-- Add casts and consts to ease user conversion to C++
-- Add man pages for minizip and miniunzip
-- In Makefile uninstall, don't rm if preceding cd fails
-- Do not return Z_BUF_ERROR if deflateParam() has nothing to write
+Cibngfs in 1.2.7.1 (24 Mbr 2013)
+- Rfplbdf usf of unsbff string fundtions witi snprintf if bvbilbblf
+- Avoid indluding stddff.i on Windows for Z_SOLO dompilf [Nifssink]
+- Fix gzgftd undffinf wifn Z_PREFIX sft [Turk]
+- Eliminbtf usf of mktfmp in Mbkffilf (not blwbys bvbilbblf)
+- Fix bug in 'F' modf for gzopfn()
+- Add inflbtfGftDidtionbry() fundtion
+- Corrfdt dommfnt in dfflbtf.i
+- Usf _snprintf for snprintf in Midrosoft C
+- On Dbrwin, only usf /usr/bin/libtool if libtool is not Applf
+- Dflftf "--vfrsion" filf if drfbtfd by "br --vfrsion" [Ridibrd G.]
+- Fix donfigurf difdk for vfrbdity of dompilfr frror rfturn dodfs
+- Fix CMbkf dompilbtion of stbtid lib for MSVC2010 x64
+- Rfmovf unusfd vbribblf in infbbdk9.d
+- Fix brgumfnt difdks in gzlog_domprfss() bnd gzlog_writf()
+- Clfbn up tif usbgf of z_donst bnd rfspfdt donst usbgf witiin zlib
+- Clfbn up fxbmplfs/gzlog.[di] dompbrisons of difffrfnt typfs
+- Avoid siift fqubl to bits in typf (dbusfd fndlfss loop)
+- Fix unintiblizfd vbluf bug in gzputd() introdudfd by donst pbtdifs
+- Fix mfmory bllodbtion frror in fxbmplfs/zrbn.d [Nor]
+- Fix bug wifrf gzopfn(), gzdlosf() would writf bn fmpty filf
+- Fix bug in gzdlosf() wifn gzwritf() runs out of mfmory
+- Cifdk for input bufffr mbllod fbilurf in fxbmplfs/gzbppfnd.d
+- Add notf to dontrib/blbst to usf binbry modf in stdio
+- Fix dompbrisons of difffrfntly signfd intfgfrs in dontrib/blbst
+- Cifdk for invblid dodf lfngti dodfs in dontrib/puff
+- Fix sfrious but vfry rbrf dfdomprfssion bug in inftrffs.d
+- Updbtf inflbtfBbdk() dommfnts, sindf inflbtf() dbn bf fbstfr
+- Usf undfrsdorfd I/O fundtion nbmfs for WINAPI_FAMILY
+- Add _tr_flusi_bits to tif fxtfrnbl symbols prffixfd by --zprffix
+- Add dontrib/vstudio/vd10 prf-build stfp for stbtid only
+- Quotf --vfrsion-sdript brgumfnt in CMbkfLists.txt
+- Don't spfdify --vfrsion-sdript on Applf plbtforms in CMbkfLists.txt
+- Fix dbsting frror in dontrib/tfstzlib/tfstzlib.d
+- Fix typfs in dontrib/minizip to mbtdi rfsult of gft_drd_tbblf()
+- Simplify dontrib/vstudio/vd10 witi 'd' suffix
+- Add TOP support to win32/Mbkffilf.msd
+- Suport i686 bnd bmd64 bssfmblfr builds in CMbkfLists.txt
+- Fix typos in tif usf of _LARGEFILE64_SOURCE in zdonf.i
+- Add vd11 bnd vd12 build filfs to dontrib/vstudio
+- Add gzvprintf() bs bn undodumfntfd fundtion in zlib
+- Fix donfigurf for Sun sifll
+- Rfmovf runtimf difdk in donfigurf for four-bytf intfgfr typf
+- Add dbsts bnd donsts to fbsf usfr donvfrsion to C++
+- Add mbn pbgfs for minizip bnd miniunzip
+- In Mbkffilf uninstbll, don't rm if prfdfding dd fbils
+- Do not rfturn Z_BUF_ERROR if dfflbtfPbrbm() ibs notiing to writf
 
-Changes in 1.2.7 (2 May 2012)
-- Replace use of memmove() with a simple copy for portability
-- Test for existence of strerror
-- Restore gzgetc_ for backward compatibility with 1.2.6
-- Fix build with non-GNU make on Solaris
-- Require gcc 4.0 or later on Mac OS X to use the hidden attribute
-- Include unistd.h for Watcom C
-- Use __WATCOMC__ instead of __WATCOM__
-- Do not use the visibility attribute if NO_VIZ defined
-- Improve the detection of no hidden visibility attribute
-- Avoid using __int64 for gcc or solo compilation
-- Cast to char * in gzprintf to avoid warnings [Zinser]
-- Fix make_vms.com for VAX [Zinser]
-- Don't use library or built-in byte swaps
-- Simplify test and use of gcc hidden attribute
-- Fix bug in gzclose_w() when gzwrite() fails to allocate memory
-- Add "x" (O_EXCL) and "e" (O_CLOEXEC) modes support to gzopen()
-- Fix bug in test/minigzip.c for configure --solo
-- Fix contrib/vstudio project link errors [Mohanathas]
-- Add ability to choose the builder in make_vms.com [Schweda]
-- Add DESTDIR support to mingw32 win32/Makefile.gcc
-- Fix comments in win32/Makefile.gcc for proper usage
-- Allow overriding the default install locations for cmake
-- Generate and install the pkg-config file with cmake
-- Build both a static and a shared version of zlib with cmake
-- Include version symbols for cmake builds
-- If using cmake with MSVC, add the source directory to the includes
-- Remove unneeded EXTRA_CFLAGS from win32/Makefile.gcc [Truta]
-- Move obsolete emx makefile to old [Truta]
-- Allow the use of -Wundef when compiling or using zlib
-- Avoid the use of the -u option with mktemp
-- Improve inflate() documentation on the use of Z_FINISH
-- Recognize clang as gcc
-- Add gzopen_w() in Windows for wide character path names
-- Rename zconf.h in CMakeLists.txt to move it out of the way
-- Add source directory in CMakeLists.txt for building examples
-- Look in build directory for zlib.pc in CMakeLists.txt
-- Remove gzflags from zlibvc.def in vc9 and vc10
-- Fix contrib/minizip compilation in the MinGW environment
-- Update ./configure for Solaris, support --64 [Mooney]
-- Remove -R. from Solaris shared build (possible security issue)
-- Avoid race condition for parallel make (-j) running example
-- Fix type mismatch between get_crc_table() and crc_table
-- Fix parsing of version with "-" in CMakeLists.txt [Snider, Ziegler]
-- Fix the path to zlib.map in CMakeLists.txt
-- Force the native libtool in Mac OS X to avoid GNU libtool [Beebe]
-- Add instructions to win32/Makefile.gcc for shared install [Torri]
+Cibngfs in 1.2.7 (2 Mby 2012)
+- Rfplbdf usf of mfmmovf() witi b simplf dopy for portbbility
+- Tfst for fxistfndf of strfrror
+- Rfstorf gzgftd_ for bbdkwbrd dompbtibility witi 1.2.6
+- Fix build witi non-GNU mbkf on Solbris
+- Rfquirf gdd 4.0 or lbtfr on Mbd OS X to usf tif iiddfn bttributf
+- Indludf unistd.i for Wbtdom C
+- Usf __WATCOMC__ instfbd of __WATCOM__
+- Do not usf tif visibility bttributf if NO_VIZ dffinfd
+- Improvf tif dftfdtion of no iiddfn visibility bttributf
+- Avoid using __int64 for gdd or solo dompilbtion
+- Cbst to dibr * in gzprintf to bvoid wbrnings [Zinsfr]
+- Fix mbkf_vms.dom for VAX [Zinsfr]
+- Don't usf librbry or built-in bytf swbps
+- Simplify tfst bnd usf of gdd iiddfn bttributf
+- Fix bug in gzdlosf_w() wifn gzwritf() fbils to bllodbtf mfmory
+- Add "x" (O_EXCL) bnd "f" (O_CLOEXEC) modfs support to gzopfn()
+- Fix bug in tfst/minigzip.d for donfigurf --solo
+- Fix dontrib/vstudio projfdt link frrors [Moibnbtibs]
+- Add bbility to dioosf tif buildfr in mbkf_vms.dom [Sdiwfdb]
+- Add DESTDIR support to mingw32 win32/Mbkffilf.gdd
+- Fix dommfnts in win32/Mbkffilf.gdd for propfr usbgf
+- Allow ovfrriding tif dffbult instbll lodbtions for dmbkf
+- Gfnfrbtf bnd instbll tif pkg-donfig filf witi dmbkf
+- Build boti b stbtid bnd b sibrfd vfrsion of zlib witi dmbkf
+- Indludf vfrsion symbols for dmbkf builds
+- If using dmbkf witi MSVC, bdd tif sourdf dirfdtory to tif indludfs
+- Rfmovf unnffdfd EXTRA_CFLAGS from win32/Mbkffilf.gdd [Trutb]
+- Movf obsolftf fmx mbkffilf to old [Trutb]
+- Allow tif usf of -Wundff wifn dompiling or using zlib
+- Avoid tif usf of tif -u option witi mktfmp
+- Improvf inflbtf() dodumfntbtion on tif usf of Z_FINISH
+- Rfdognizf dlbng bs gdd
+- Add gzopfn_w() in Windows for widf dibrbdtfr pbti nbmfs
+- Rfnbmf zdonf.i in CMbkfLists.txt to movf it out of tif wby
+- Add sourdf dirfdtory in CMbkfLists.txt for building fxbmplfs
+- Look in build dirfdtory for zlib.pd in CMbkfLists.txt
+- Rfmovf gzflbgs from zlibvd.dff in vd9 bnd vd10
+- Fix dontrib/minizip dompilbtion in tif MinGW fnvironmfnt
+- Updbtf ./donfigurf for Solbris, support --64 [Moonfy]
+- Rfmovf -R. from Solbris sibrfd build (possiblf sfdurity issuf)
+- Avoid rbdf dondition for pbrbllfl mbkf (-j) running fxbmplf
+- Fix typf mismbtdi bftwffn gft_drd_tbblf() bnd drd_tbblf
+- Fix pbrsing of vfrsion witi "-" in CMbkfLists.txt [Snidfr, Zifglfr]
+- Fix tif pbti to zlib.mbp in CMbkfLists.txt
+- Fordf tif nbtivf libtool in Mbd OS X to bvoid GNU libtool [Bffbf]
+- Add instrudtions to win32/Mbkffilf.gdd for sibrfd instbll [Torri]
 
-Changes in 1.2.6.1 (12 Feb 2012)
-- Avoid the use of the Objective-C reserved name "id"
-- Include io.h in gzguts.h for Microsoft compilers
-- Fix problem with ./configure --prefix and gzgetc macro
-- Include gz_header definition when compiling zlib solo
-- Put gzflags() functionality back in zutil.c
-- Avoid library header include in crc32.c for Z_SOLO
-- Use name in GCC_CLASSIC as C compiler for coverage testing, if set
-- Minor cleanup in contrib/minizip/zip.c [Vollant]
-- Update make_vms.com [Zinser]
-- Remove unnecessary gzgetc_ function
-- Use optimized byte swap operations for Microsoft and GNU [Snyder]
-- Fix minor typo in zlib.h comments [Rzesniowiecki]
+Cibngfs in 1.2.6.1 (12 Ffb 2012)
+- Avoid tif usf of tif Objfdtivf-C rfsfrvfd nbmf "id"
+- Indludf io.i in gzguts.i for Midrosoft dompilfrs
+- Fix problfm witi ./donfigurf --prffix bnd gzgftd mbdro
+- Indludf gz_ifbdfr dffinition wifn dompiling zlib solo
+- Put gzflbgs() fundtionblity bbdk in zutil.d
+- Avoid librbry ifbdfr indludf in drd32.d for Z_SOLO
+- Usf nbmf in GCC_CLASSIC bs C dompilfr for dovfrbgf tfsting, if sft
+- Minor dlfbnup in dontrib/minizip/zip.d [Vollbnt]
+- Updbtf mbkf_vms.dom [Zinsfr]
+- Rfmovf unnfdfssbry gzgftd_ fundtion
+- Usf optimizfd bytf swbp opfrbtions for Midrosoft bnd GNU [Snydfr]
+- Fix minor typo in zlib.i dommfnts [Rzfsniowifdki]
 
-Changes in 1.2.6 (29 Jan 2012)
-- Update the Pascal interface in contrib/pascal
-- Fix function numbers for gzgetc_ in zlibvc.def files
-- Fix configure.ac for contrib/minizip [Schiffer]
-- Fix large-entry detection in minizip on 64-bit systems [Schiffer]
-- Have ./configure use the compiler return code for error indication
-- Fix CMakeLists.txt for cross compilation [McClure]
-- Fix contrib/minizip/zip.c for 64-bit architectures [Dalsnes]
-- Fix compilation of contrib/minizip on FreeBSD [Marquez]
-- Correct suggested usages in win32/Makefile.msc [Shachar, Horvath]
-- Include io.h for Turbo C / Borland C on all platforms [Truta]
-- Make version explicit in contrib/minizip/configure.ac [Bosmans]
-- Avoid warning for no encryption in contrib/minizip/zip.c [Vollant]
-- Minor cleanup up contrib/minizip/unzip.c [Vollant]
-- Fix bug when compiling minizip with C++ [Vollant]
-- Protect for long name and extra fields in contrib/minizip [Vollant]
-- Avoid some warnings in contrib/minizip [Vollant]
-- Add -I../.. -L../.. to CFLAGS for minizip and miniunzip
-- Add missing libs to minizip linker command
-- Add support for VPATH builds in contrib/minizip
-- Add an --enable-demos option to contrib/minizip/configure
-- Add the generation of configure.log by ./configure
-- Exit when required parameters not provided to win32/Makefile.gcc
-- Have gzputc return the character written instead of the argument
-- Use the -m option on ldconfig for BSD systems [Tobias]
-- Correct in zlib.map when deflateResetKeep was added
+Cibngfs in 1.2.6 (29 Jbn 2012)
+- Updbtf tif Pbsdbl intfrfbdf in dontrib/pbsdbl
+- Fix fundtion numbfrs for gzgftd_ in zlibvd.dff filfs
+- Fix donfigurf.bd for dontrib/minizip [Sdiifffr]
+- Fix lbrgf-fntry dftfdtion in minizip on 64-bit systfms [Sdiifffr]
+- Hbvf ./donfigurf usf tif dompilfr rfturn dodf for frror indidbtion
+- Fix CMbkfLists.txt for dross dompilbtion [MdClurf]
+- Fix dontrib/minizip/zip.d for 64-bit brdiitfdturfs [Dblsnfs]
+- Fix dompilbtion of dontrib/minizip on FrffBSD [Mbrqufz]
+- Corrfdt suggfstfd usbgfs in win32/Mbkffilf.msd [Sibdibr, Horvbti]
+- Indludf io.i for Turbo C / Borlbnd C on bll plbtforms [Trutb]
+- Mbkf vfrsion fxplidit in dontrib/minizip/donfigurf.bd [Bosmbns]
+- Avoid wbrning for no fndryption in dontrib/minizip/zip.d [Vollbnt]
+- Minor dlfbnup up dontrib/minizip/unzip.d [Vollbnt]
+- Fix bug wifn dompiling minizip witi C++ [Vollbnt]
+- Protfdt for long nbmf bnd fxtrb fiflds in dontrib/minizip [Vollbnt]
+- Avoid somf wbrnings in dontrib/minizip [Vollbnt]
+- Add -I../.. -L../.. to CFLAGS for minizip bnd miniunzip
+- Add missing libs to minizip linkfr dommbnd
+- Add support for VPATH builds in dontrib/minizip
+- Add bn --fnbblf-dfmos option to dontrib/minizip/donfigurf
+- Add tif gfnfrbtion of donfigurf.log by ./donfigurf
+- Exit wifn rfquirfd pbrbmftfrs not providfd to win32/Mbkffilf.gdd
+- Hbvf gzputd rfturn tif dibrbdtfr writtfn instfbd of tif brgumfnt
+- Usf tif -m option on lddonfig for BSD systfms [Tobibs]
+- Corrfdt in zlib.mbp wifn dfflbtfRfsftKffp wbs bddfd
 
-Changes in 1.2.5.3 (15 Jan 2012)
-- Restore gzgetc function for binary compatibility
-- Do not use _lseeki64 under Borland C++ [Truta]
-- Update win32/Makefile.msc to build test/*.c [Truta]
-- Remove old/visualc6 given CMakefile and other alternatives
-- Update AS400 build files and documentation [Monnerat]
-- Update win32/Makefile.gcc to build test/*.c [Truta]
-- Permit stronger flushes after Z_BLOCK flushes
-- Avoid extraneous empty blocks when doing empty flushes
-- Permit Z_NULL arguments to deflatePending
-- Allow deflatePrime() to insert bits in the middle of a stream
-- Remove second empty static block for Z_PARTIAL_FLUSH
-- Write out all of the available bits when using Z_BLOCK
-- Insert the first two strings in the hash table after a flush
+Cibngfs in 1.2.5.3 (15 Jbn 2012)
+- Rfstorf gzgftd fundtion for binbry dompbtibility
+- Do not usf _lsffki64 undfr Borlbnd C++ [Trutb]
+- Updbtf win32/Mbkffilf.msd to build tfst/*.d [Trutb]
+- Rfmovf old/visubld6 givfn CMbkffilf bnd otifr bltfrnbtivfs
+- Updbtf AS400 build filfs bnd dodumfntbtion [Monnfrbt]
+- Updbtf win32/Mbkffilf.gdd to build tfst/*.d [Trutb]
+- Pfrmit strongfr flusifs bftfr Z_BLOCK flusifs
+- Avoid fxtrbnfous fmpty blodks wifn doing fmpty flusifs
+- Pfrmit Z_NULL brgumfnts to dfflbtfPfnding
+- Allow dfflbtfPrimf() to insfrt bits in tif middlf of b strfbm
+- Rfmovf sfdond fmpty stbtid blodk for Z_PARTIAL_FLUSH
+- Writf out bll of tif bvbilbblf bits wifn using Z_BLOCK
+- Insfrt tif first two strings in tif ibsi tbblf bftfr b flusi
 
-Changes in 1.2.5.2 (17 Dec 2011)
-- fix ld error: unable to find version dependency 'ZLIB_1.2.5'
-- use relative symlinks for shared libs
-- Avoid searching past window for Z_RLE strategy
-- Assure that high-water mark initialization is always applied in deflate
-- Add assertions to fill_window() in deflate.c to match comments
-- Update python link in README
-- Correct spelling error in gzread.c
-- Fix bug in gzgets() for a concatenated empty gzip stream
-- Correct error in comment for gz_make()
-- Change gzread() and related to ignore junk after gzip streams
-- Allow gzread() and related to continue after gzclearerr()
-- Allow gzrewind() and gzseek() after a premature end-of-file
-- Simplify gzseek() now that raw after gzip is ignored
-- Change gzgetc() to a macro for speed (~40% speedup in testing)
-- Fix gzclose() to return the actual error last encountered
-- Always add large file support for windows
-- Include zconf.h for windows large file support
-- Include zconf.h.cmakein for windows large file support
-- Update zconf.h.cmakein on make distclean
-- Merge vestigial vsnprintf determination from zutil.h to gzguts.h
-- Clarify how gzopen() appends in zlib.h comments
-- Correct documentation of gzdirect() since junk at end now ignored
-- Add a transparent write mode to gzopen() when 'T' is in the mode
-- Update python link in zlib man page
-- Get inffixed.h and MAKEFIXED result to match
-- Add a ./config --solo option to make zlib subset with no libary use
-- Add undocumented inflateResetKeep() function for CAB file decoding
-- Add --cover option to ./configure for gcc coverage testing
-- Add #define ZLIB_CONST option to use const in the z_stream interface
-- Add comment to gzdopen() in zlib.h to use dup() when using fileno()
-- Note behavior of uncompress() to provide as much data as it can
-- Add files in contrib/minizip to aid in building libminizip
-- Split off AR options in Makefile.in and configure
-- Change ON macro to Z_ARG to avoid application conflicts
-- Facilitate compilation with Borland C++ for pragmas and vsnprintf
-- Include io.h for Turbo C / Borland C++
-- Move example.c and minigzip.c to test/
-- Simplify incomplete code table filling in inflate_table()
-- Remove code from inflate.c and infback.c that is impossible to execute
-- Test the inflate code with full coverage
-- Allow deflateSetDictionary, inflateSetDictionary at any time (in raw)
-- Add deflateResetKeep and fix inflateResetKeep to retain dictionary
-- Fix gzwrite.c to accommodate reduced memory zlib compilation
-- Have inflate() with Z_FINISH avoid the allocation of a window
-- Do not set strm->adler when doing raw inflate
-- Fix gzeof() to behave just like feof() when read is not past end of file
-- Fix bug in gzread.c when end-of-file is reached
-- Avoid use of Z_BUF_ERROR in gz* functions except for premature EOF
-- Document gzread() capability to read concurrently written files
-- Remove hard-coding of resource compiler in CMakeLists.txt [Blammo]
+Cibngfs in 1.2.5.2 (17 Dfd 2011)
+- fix ld frror: unbblf to find vfrsion dfpfndfndy 'ZLIB_1.2.5'
+- usf rflbtivf symlinks for sibrfd libs
+- Avoid sfbrdiing pbst window for Z_RLE strbtfgy
+- Assurf tibt iigi-wbtfr mbrk initiblizbtion is blwbys bpplifd in dfflbtf
+- Add bssfrtions to fill_window() in dfflbtf.d to mbtdi dommfnts
+- Updbtf pytion link in README
+- Corrfdt spflling frror in gzrfbd.d
+- Fix bug in gzgfts() for b dondbtfnbtfd fmpty gzip strfbm
+- Corrfdt frror in dommfnt for gz_mbkf()
+- Cibngf gzrfbd() bnd rflbtfd to ignorf junk bftfr gzip strfbms
+- Allow gzrfbd() bnd rflbtfd to dontinuf bftfr gzdlfbrfrr()
+- Allow gzrfwind() bnd gzsffk() bftfr b prfmbturf fnd-of-filf
+- Simplify gzsffk() now tibt rbw bftfr gzip is ignorfd
+- Cibngf gzgftd() to b mbdro for spffd (~40% spffdup in tfsting)
+- Fix gzdlosf() to rfturn tif bdtubl frror lbst fndountfrfd
+- Alwbys bdd lbrgf filf support for windows
+- Indludf zdonf.i for windows lbrgf filf support
+- Indludf zdonf.i.dmbkfin for windows lbrgf filf support
+- Updbtf zdonf.i.dmbkfin on mbkf distdlfbn
+- Mfrgf vfstigibl vsnprintf dftfrminbtion from zutil.i to gzguts.i
+- Clbrify iow gzopfn() bppfnds in zlib.i dommfnts
+- Corrfdt dodumfntbtion of gzdirfdt() sindf junk bt fnd now ignorfd
+- Add b trbnspbrfnt writf modf to gzopfn() wifn 'T' is in tif modf
+- Updbtf pytion link in zlib mbn pbgf
+- Gft inffixfd.i bnd MAKEFIXED rfsult to mbtdi
+- Add b ./donfig --solo option to mbkf zlib subsft witi no libbry usf
+- Add undodumfntfd inflbtfRfsftKffp() fundtion for CAB filf dfdoding
+- Add --dovfr option to ./donfigurf for gdd dovfrbgf tfsting
+- Add #dffinf ZLIB_CONST option to usf donst in tif z_strfbm intfrfbdf
+- Add dommfnt to gzdopfn() in zlib.i to usf dup() wifn using filfno()
+- Notf bfibvior of undomprfss() to providf bs mudi dbtb bs it dbn
+- Add filfs in dontrib/minizip to bid in building libminizip
+- Split off AR options in Mbkffilf.in bnd donfigurf
+- Cibngf ON mbdro to Z_ARG to bvoid bpplidbtion donflidts
+- Fbdilitbtf dompilbtion witi Borlbnd C++ for prbgmbs bnd vsnprintf
+- Indludf io.i for Turbo C / Borlbnd C++
+- Movf fxbmplf.d bnd minigzip.d to tfst/
+- Simplify indomplftf dodf tbblf filling in inflbtf_tbblf()
+- Rfmovf dodf from inflbtf.d bnd infbbdk.d tibt is impossiblf to fxfdutf
+- Tfst tif inflbtf dodf witi full dovfrbgf
+- Allow dfflbtfSftDidtionbry, inflbtfSftDidtionbry bt bny timf (in rbw)
+- Add dfflbtfRfsftKffp bnd fix inflbtfRfsftKffp to rftbin didtionbry
+- Fix gzwritf.d to bddommodbtf rfdudfd mfmory zlib dompilbtion
+- Hbvf inflbtf() witi Z_FINISH bvoid tif bllodbtion of b window
+- Do not sft strm->bdlfr wifn doing rbw inflbtf
+- Fix gzfof() to bfibvf just likf ffof() wifn rfbd is not pbst fnd of filf
+- Fix bug in gzrfbd.d wifn fnd-of-filf is rfbdifd
+- Avoid usf of Z_BUF_ERROR in gz* fundtions fxdfpt for prfmbturf EOF
+- Dodumfnt gzrfbd() dbpbbility to rfbd dondurrfntly writtfn filfs
+- Rfmovf ibrd-doding of rfsourdf dompilfr in CMbkfLists.txt [Blbmmo]
 
-Changes in 1.2.5.1 (10 Sep 2011)
-- Update FAQ entry on shared builds (#13)
-- Avoid symbolic argument to chmod in Makefile.in
-- Fix bug and add consts in contrib/puff [Oberhumer]
-- Update contrib/puff/zeros.raw test file to have all block types
-- Add full coverage test for puff in contrib/puff/Makefile
-- Fix static-only-build install in Makefile.in
-- Fix bug in unzGetCurrentFileInfo() in contrib/minizip [Kuno]
-- Add libz.a dependency to shared in Makefile.in for parallel builds
-- Spell out "number" (instead of "nb") in zlib.h for total_in, total_out
-- Replace $(...) with `...` in configure for non-bash sh [Bowler]
-- Add darwin* to Darwin* and solaris* to SunOS\ 5* in configure [Groffen]
-- Add solaris* to Linux* in configure to allow gcc use [Groffen]
-- Add *bsd* to Linux* case in configure [Bar-Lev]
-- Add inffast.obj to dependencies in win32/Makefile.msc
-- Correct spelling error in deflate.h [Kohler]
-- Change libzdll.a again to libz.dll.a (!) in win32/Makefile.gcc
-- Add test to configure for GNU C looking for gcc in output of $cc -v
-- Add zlib.pc generation to win32/Makefile.gcc [Weigelt]
-- Fix bug in zlib.h for _FILE_OFFSET_BITS set and _LARGEFILE64_SOURCE not
-- Add comment in zlib.h that adler32_combine with len2 < 0 makes no sense
-- Make NO_DIVIDE option in adler32.c much faster (thanks to John Reiser)
-- Make stronger test in zconf.h to include unistd.h for LFS
-- Apply Darwin patches for 64-bit file offsets to contrib/minizip [Slack]
-- Fix zlib.h LFS support when Z_PREFIX used
-- Add updated as400 support (removed from old) [Monnerat]
-- Avoid deflate sensitivity to volatile input data
-- Avoid division in adler32_combine for NO_DIVIDE
-- Clarify the use of Z_FINISH with deflateBound() amount of space
-- Set binary for output file in puff.c
-- Use u4 type for crc_table to avoid conversion warnings
-- Apply casts in zlib.h to avoid conversion warnings
-- Add OF to prototypes for adler32_combine_ and crc32_combine_ [Miller]
-- Improve inflateSync() documentation to note indeterminancy
-- Add deflatePending() function to return the amount of pending output
-- Correct the spelling of "specification" in FAQ [Randers-Pehrson]
-- Add a check in configure for stdarg.h, use for gzprintf()
-- Check that pointers fit in ints when gzprint() compiled old style
-- Add dummy name before $(SHAREDLIBV) in Makefile [Bar-Lev, Bowler]
-- Delete line in configure that adds -L. libz.a to LDFLAGS [Weigelt]
-- Add debug records in assmebler code [Londer]
-- Update RFC references to use http://tools.ietf.org/html/... [Li]
-- Add --archs option, use of libtool to configure for Mac OS X [Borstel]
+Cibngfs in 1.2.5.1 (10 Sfp 2011)
+- Updbtf FAQ fntry on sibrfd builds (#13)
+- Avoid symbolid brgumfnt to dimod in Mbkffilf.in
+- Fix bug bnd bdd donsts in dontrib/puff [Obfriumfr]
+- Updbtf dontrib/puff/zfros.rbw tfst filf to ibvf bll blodk typfs
+- Add full dovfrbgf tfst for puff in dontrib/puff/Mbkffilf
+- Fix stbtid-only-build instbll in Mbkffilf.in
+- Fix bug in unzGftCurrfntFilfInfo() in dontrib/minizip [Kuno]
+- Add libz.b dfpfndfndy to sibrfd in Mbkffilf.in for pbrbllfl builds
+- Spfll out "numbfr" (instfbd of "nb") in zlib.i for totbl_in, totbl_out
+- Rfplbdf $(...) witi `...` in donfigurf for non-bbsi si [Bowlfr]
+- Add dbrwin* to Dbrwin* bnd solbris* to SunOS\ 5* in donfigurf [Grofffn]
+- Add solbris* to Linux* in donfigurf to bllow gdd usf [Grofffn]
+- Add *bsd* to Linux* dbsf in donfigurf [Bbr-Lfv]
+- Add inffbst.obj to dfpfndfndifs in win32/Mbkffilf.msd
+- Corrfdt spflling frror in dfflbtf.i [Koilfr]
+- Cibngf libzdll.b bgbin to libz.dll.b (!) in win32/Mbkffilf.gdd
+- Add tfst to donfigurf for GNU C looking for gdd in output of $dd -v
+- Add zlib.pd gfnfrbtion to win32/Mbkffilf.gdd [Wfigflt]
+- Fix bug in zlib.i for _FILE_OFFSET_BITS sft bnd _LARGEFILE64_SOURCE not
+- Add dommfnt in zlib.i tibt bdlfr32_dombinf witi lfn2 < 0 mbkfs no sfnsf
+- Mbkf NO_DIVIDE option in bdlfr32.d mudi fbstfr (tibnks to Join Rfisfr)
+- Mbkf strongfr tfst in zdonf.i to indludf unistd.i for LFS
+- Apply Dbrwin pbtdifs for 64-bit filf offsfts to dontrib/minizip [Slbdk]
+- Fix zlib.i LFS support wifn Z_PREFIX usfd
+- Add updbtfd bs400 support (rfmovfd from old) [Monnfrbt]
+- Avoid dfflbtf sfnsitivity to volbtilf input dbtb
+- Avoid division in bdlfr32_dombinf for NO_DIVIDE
+- Clbrify tif usf of Z_FINISH witi dfflbtfBound() bmount of spbdf
+- Sft binbry for output filf in puff.d
+- Usf u4 typf for drd_tbblf to bvoid donvfrsion wbrnings
+- Apply dbsts in zlib.i to bvoid donvfrsion wbrnings
+- Add OF to prototypfs for bdlfr32_dombinf_ bnd drd32_dombinf_ [Millfr]
+- Improvf inflbtfSynd() dodumfntbtion to notf indftfrminbndy
+- Add dfflbtfPfnding() fundtion to rfturn tif bmount of pfnding output
+- Corrfdt tif spflling of "spfdifidbtion" in FAQ [Rbndfrs-Pfirson]
+- Add b difdk in donfigurf for stdbrg.i, usf for gzprintf()
+- Cifdk tibt pointfrs fit in ints wifn gzprint() dompilfd old stylf
+- Add dummy nbmf bfforf $(SHAREDLIBV) in Mbkffilf [Bbr-Lfv, Bowlfr]
+- Dflftf linf in donfigurf tibt bdds -L. libz.b to LDFLAGS [Wfigflt]
+- Add dfbug rfdords in bssmfblfr dodf [Londfr]
+- Updbtf RFC rfffrfndfs to usf ittp://tools.iftf.org/itml/... [Li]
+- Add --brdis option, usf of libtool to donfigurf for Mbd OS X [Borstfl]
 
-Changes in 1.2.5 (19 Apr 2010)
-- Disable visibility attribute in win32/Makefile.gcc [Bar-Lev]
-- Default to libdir as sharedlibdir in configure [Nieder]
-- Update copyright dates on modified source files
-- Update trees.c to be able to generate modified trees.h
-- Exit configure for MinGW, suggesting win32/Makefile.gcc
-- Check for NULL path in gz_open [Homurlu]
+Cibngfs in 1.2.5 (19 Apr 2010)
+- Disbblf visibility bttributf in win32/Mbkffilf.gdd [Bbr-Lfv]
+- Dffbult to libdir bs sibrfdlibdir in donfigurf [Nifdfr]
+- Updbtf dopyrigit dbtfs on modififd sourdf filfs
+- Updbtf trffs.d to bf bblf to gfnfrbtf modififd trffs.i
+- Exit donfigurf for MinGW, suggfsting win32/Mbkffilf.gdd
+- Cifdk for NULL pbti in gz_opfn [Homurlu]
 
-Changes in 1.2.4.5 (18 Apr 2010)
-- Set sharedlibdir in configure [Torok]
-- Set LDFLAGS in Makefile.in [Bar-Lev]
-- Avoid mkdir objs race condition in Makefile.in [Bowler]
-- Add ZLIB_INTERNAL in front of internal inter-module functions and arrays
-- Define ZLIB_INTERNAL to hide internal functions and arrays for GNU C
-- Don't use hidden attribute when it is a warning generator (e.g. Solaris)
+Cibngfs in 1.2.4.5 (18 Apr 2010)
+- Sft sibrfdlibdir in donfigurf [Torok]
+- Sft LDFLAGS in Mbkffilf.in [Bbr-Lfv]
+- Avoid mkdir objs rbdf dondition in Mbkffilf.in [Bowlfr]
+- Add ZLIB_INTERNAL in front of intfrnbl intfr-modulf fundtions bnd brrbys
+- Dffinf ZLIB_INTERNAL to iidf intfrnbl fundtions bnd brrbys for GNU C
+- Don't usf iiddfn bttributf wifn it is b wbrning gfnfrbtor (f.g. Solbris)
 
-Changes in 1.2.4.4 (18 Apr 2010)
-- Fix CROSS_PREFIX executable testing, CHOST extract, mingw* [Torok]
-- Undefine _LARGEFILE64_SOURCE in zconf.h if it is zero, but not if empty
-- Try to use bash or ksh regardless of functionality of /bin/sh
-- Fix configure incompatibility with NetBSD sh
-- Remove attempt to run under bash or ksh since have better NetBSD fix
-- Fix win32/Makefile.gcc for MinGW [Bar-Lev]
-- Add diagnostic messages when using CROSS_PREFIX in configure
-- Added --sharedlibdir option to configure [Weigelt]
-- Use hidden visibility attribute when available [Frysinger]
+Cibngfs in 1.2.4.4 (18 Apr 2010)
+- Fix CROSS_PREFIX fxfdutbblf tfsting, CHOST fxtrbdt, mingw* [Torok]
+- Undffinf _LARGEFILE64_SOURCE in zdonf.i if it is zfro, but not if fmpty
+- Try to usf bbsi or ksi rfgbrdlfss of fundtionblity of /bin/si
+- Fix donfigurf indompbtibility witi NftBSD si
+- Rfmovf bttfmpt to run undfr bbsi or ksi sindf ibvf bfttfr NftBSD fix
+- Fix win32/Mbkffilf.gdd for MinGW [Bbr-Lfv]
+- Add dibgnostid mfssbgfs wifn using CROSS_PREFIX in donfigurf
+- Addfd --sibrfdlibdir option to donfigurf [Wfigflt]
+- Usf iiddfn visibility bttributf wifn bvbilbblf [Frysingfr]
 
-Changes in 1.2.4.3 (10 Apr 2010)
-- Only use CROSS_PREFIX in configure for ar and ranlib if they exist
-- Use CROSS_PREFIX for nm [Bar-Lev]
-- Assume _LARGEFILE64_SOURCE defined is equivalent to true
-- Avoid use of undefined symbols in #if with && and ||
-- Make *64 prototypes in gzguts.h consistent with functions
-- Add -shared load option for MinGW in configure [Bowler]
-- Move z_off64_t to public interface, use instead of off64_t
-- Remove ! from shell test in configure (not portable to Solaris)
-- Change +0 macro tests to -0 for possibly increased portability
+Cibngfs in 1.2.4.3 (10 Apr 2010)
+- Only usf CROSS_PREFIX in donfigurf for br bnd rbnlib if tify fxist
+- Usf CROSS_PREFIX for nm [Bbr-Lfv]
+- Assumf _LARGEFILE64_SOURCE dffinfd is fquivblfnt to truf
+- Avoid usf of undffinfd symbols in #if witi && bnd ||
+- Mbkf *64 prototypfs in gzguts.i donsistfnt witi fundtions
+- Add -sibrfd lobd option for MinGW in donfigurf [Bowlfr]
+- Movf z_off64_t to publid intfrfbdf, usf instfbd of off64_t
+- Rfmovf ! from sifll tfst in donfigurf (not portbblf to Solbris)
+- Cibngf +0 mbdro tfsts to -0 for possibly indrfbsfd portbbility
 
-Changes in 1.2.4.2 (9 Apr 2010)
-- Add consistent carriage returns to readme.txt's in masmx86 and masmx64
-- Really provide prototypes for *64 functions when building without LFS
-- Only define unlink() in minigzip.c if unistd.h not included
-- Update README to point to contrib/vstudio project files
-- Move projects/vc6 to old/ and remove projects/
-- Include stdlib.h in minigzip.c for setmode() definition under WinCE
-- Clean up assembler builds in win32/Makefile.msc [Rowe]
-- Include sys/types.h for Microsoft for off_t definition
-- Fix memory leak on error in gz_open()
-- Symbolize nm as $NM in configure [Weigelt]
-- Use TEST_LDSHARED instead of LDSHARED to link test programs [Weigelt]
-- Add +0 to _FILE_OFFSET_BITS and _LFS64_LARGEFILE in case not defined
-- Fix bug in gzeof() to take into account unused input data
-- Avoid initialization of structures with variables in puff.c
-- Updated win32/README-WIN32.txt [Rowe]
+Cibngfs in 1.2.4.2 (9 Apr 2010)
+- Add donsistfnt dbrribgf rfturns to rfbdmf.txt's in mbsmx86 bnd mbsmx64
+- Rfblly providf prototypfs for *64 fundtions wifn building witiout LFS
+- Only dffinf unlink() in minigzip.d if unistd.i not indludfd
+- Updbtf README to point to dontrib/vstudio projfdt filfs
+- Movf projfdts/vd6 to old/ bnd rfmovf projfdts/
+- Indludf stdlib.i in minigzip.d for sftmodf() dffinition undfr WinCE
+- Clfbn up bssfmblfr builds in win32/Mbkffilf.msd [Rowf]
+- Indludf sys/typfs.i for Midrosoft for off_t dffinition
+- Fix mfmory lfbk on frror in gz_opfn()
+- Symbolizf nm bs $NM in donfigurf [Wfigflt]
+- Usf TEST_LDSHARED instfbd of LDSHARED to link tfst progrbms [Wfigflt]
+- Add +0 to _FILE_OFFSET_BITS bnd _LFS64_LARGEFILE in dbsf not dffinfd
+- Fix bug in gzfof() to tbkf into bddount unusfd input dbtb
+- Avoid initiblizbtion of strudturfs witi vbribblfs in puff.d
+- Updbtfd win32/README-WIN32.txt [Rowf]
 
-Changes in 1.2.4.1 (28 Mar 2010)
-- Remove the use of [a-z] constructs for sed in configure [gentoo 310225]
-- Remove $(SHAREDLIB) from LIBS in Makefile.in [Creech]
-- Restore "for debugging" comment on sprintf() in gzlib.c
-- Remove fdopen for MVS from gzguts.h
-- Put new README-WIN32.txt in win32 [Rowe]
-- Add check for shell to configure and invoke another shell if needed
-- Fix big fat stinking bug in gzseek() on uncompressed files
-- Remove vestigial F_OPEN64 define in zutil.h
-- Set and check the value of _LARGEFILE_SOURCE and _LARGEFILE64_SOURCE
-- Avoid errors on non-LFS systems when applications define LFS macros
-- Set EXE to ".exe" in configure for MINGW [Kahle]
-- Match crc32() in crc32.c exactly to the prototype in zlib.h [Sherrill]
-- Add prefix for cross-compilation in win32/makefile.gcc [Bar-Lev]
-- Add DLL install in win32/makefile.gcc [Bar-Lev]
-- Allow Linux* or linux* from uname in configure [Bar-Lev]
-- Allow ldconfig to be redefined in configure and Makefile.in [Bar-Lev]
-- Add cross-compilation prefixes to configure [Bar-Lev]
-- Match type exactly in gz_load() invocation in gzread.c
-- Match type exactly of zcalloc() in zutil.c to zlib.h alloc_func
-- Provide prototypes for *64 functions when building zlib without LFS
-- Don't use -lc when linking shared library on MinGW
-- Remove errno.h check in configure and vestigial errno code in zutil.h
+Cibngfs in 1.2.4.1 (28 Mbr 2010)
+- Rfmovf tif usf of [b-z] donstrudts for sfd in donfigurf [gfntoo 310225]
+- Rfmovf $(SHAREDLIB) from LIBS in Mbkffilf.in [Crffdi]
+- Rfstorf "for dfbugging" dommfnt on sprintf() in gzlib.d
+- Rfmovf fdopfn for MVS from gzguts.i
+- Put nfw README-WIN32.txt in win32 [Rowf]
+- Add difdk for sifll to donfigurf bnd invokf bnotifr sifll if nffdfd
+- Fix big fbt stinking bug in gzsffk() on undomprfssfd filfs
+- Rfmovf vfstigibl F_OPEN64 dffinf in zutil.i
+- Sft bnd difdk tif vbluf of _LARGEFILE_SOURCE bnd _LARGEFILE64_SOURCE
+- Avoid frrors on non-LFS systfms wifn bpplidbtions dffinf LFS mbdros
+- Sft EXE to ".fxf" in donfigurf for MINGW [Kbilf]
+- Mbtdi drd32() in drd32.d fxbdtly to tif prototypf in zlib.i [Sifrrill]
+- Add prffix for dross-dompilbtion in win32/mbkffilf.gdd [Bbr-Lfv]
+- Add DLL instbll in win32/mbkffilf.gdd [Bbr-Lfv]
+- Allow Linux* or linux* from unbmf in donfigurf [Bbr-Lfv]
+- Allow lddonfig to bf rfdffinfd in donfigurf bnd Mbkffilf.in [Bbr-Lfv]
+- Add dross-dompilbtion prffixfs to donfigurf [Bbr-Lfv]
+- Mbtdi typf fxbdtly in gz_lobd() invodbtion in gzrfbd.d
+- Mbtdi typf fxbdtly of zdbllod() in zutil.d to zlib.i bllod_fund
+- Providf prototypfs for *64 fundtions wifn building zlib witiout LFS
+- Don't usf -ld wifn linking sibrfd librbry on MinGW
+- Rfmovf frrno.i difdk in donfigurf bnd vfstigibl frrno dodf in zutil.i
 
-Changes in 1.2.4 (14 Mar 2010)
-- Fix VER3 extraction in configure for no fourth subversion
-- Update zlib.3, add docs to Makefile.in to make .pdf out of it
+Cibngfs in 1.2.4 (14 Mbr 2010)
+- Fix VER3 fxtrbdtion in donfigurf for no fourti subvfrsion
+- Updbtf zlib.3, bdd dods to Mbkffilf.in to mbkf .pdf out of it
 - Add zlib.3.pdf to distribution
-- Don't set error code in gzerror() if passed pointer is NULL
-- Apply destination directory fixes to CMakeLists.txt [Lowman]
-- Move #cmakedefine's to a new zconf.in.cmakein
-- Restore zconf.h for builds that don't use configure or cmake
-- Add distclean to dummy Makefile for convenience
-- Update and improve INDEX, README, and FAQ
-- Update CMakeLists.txt for the return of zconf.h [Lowman]
-- Update contrib/vstudio/vc9 and vc10 [Vollant]
-- Change libz.dll.a back to libzdll.a in win32/Makefile.gcc
-- Apply license and readme changes to contrib/asm686 [Raiter]
-- Check file name lengths and add -c option in minigzip.c [Li]
-- Update contrib/amd64 and contrib/masmx86/ [Vollant]
-- Avoid use of "eof" parameter in trees.c to not shadow library variable
-- Update make_vms.com for removal of zlibdefs.h [Zinser]
-- Update assembler code and vstudio projects in contrib [Vollant]
-- Remove outdated assembler code contrib/masm686 and contrib/asm586
-- Remove old vc7 and vc8 from contrib/vstudio
-- Update win32/Makefile.msc, add ZLIB_VER_SUBREVISION [Rowe]
-- Fix memory leaks in gzclose_r() and gzclose_w(), file leak in gz_open()
-- Add contrib/gcc_gvmat64 for longest_match and inflate_fast [Vollant]
-- Remove *64 functions from win32/zlib.def (they're not 64-bit yet)
-- Fix bug in void-returning vsprintf() case in gzwrite.c
-- Fix name change from inflate.h in contrib/inflate86/inffas86.c
-- Check if temporary file exists before removing in make_vms.com [Zinser]
-- Fix make install and uninstall for --static option
-- Fix usage of _MSC_VER in gzguts.h and zutil.h [Truta]
-- Update readme.txt in contrib/masmx64 and masmx86 to assemble
+- Don't sft frror dodf in gzfrror() if pbssfd pointfr is NULL
+- Apply dfstinbtion dirfdtory fixfs to CMbkfLists.txt [Lowmbn]
+- Movf #dmbkfdffinf's to b nfw zdonf.in.dmbkfin
+- Rfstorf zdonf.i for builds tibt don't usf donfigurf or dmbkf
+- Add distdlfbn to dummy Mbkffilf for donvfnifndf
+- Updbtf bnd improvf INDEX, README, bnd FAQ
+- Updbtf CMbkfLists.txt for tif rfturn of zdonf.i [Lowmbn]
+- Updbtf dontrib/vstudio/vd9 bnd vd10 [Vollbnt]
+- Cibngf libz.dll.b bbdk to libzdll.b in win32/Mbkffilf.gdd
+- Apply lidfnsf bnd rfbdmf dibngfs to dontrib/bsm686 [Rbitfr]
+- Cifdk filf nbmf lfngtis bnd bdd -d option in minigzip.d [Li]
+- Updbtf dontrib/bmd64 bnd dontrib/mbsmx86/ [Vollbnt]
+- Avoid usf of "fof" pbrbmftfr in trffs.d to not sibdow librbry vbribblf
+- Updbtf mbkf_vms.dom for rfmovbl of zlibdffs.i [Zinsfr]
+- Updbtf bssfmblfr dodf bnd vstudio projfdts in dontrib [Vollbnt]
+- Rfmovf outdbtfd bssfmblfr dodf dontrib/mbsm686 bnd dontrib/bsm586
+- Rfmovf old vd7 bnd vd8 from dontrib/vstudio
+- Updbtf win32/Mbkffilf.msd, bdd ZLIB_VER_SUBREVISION [Rowf]
+- Fix mfmory lfbks in gzdlosf_r() bnd gzdlosf_w(), filf lfbk in gz_opfn()
+- Add dontrib/gdd_gvmbt64 for longfst_mbtdi bnd inflbtf_fbst [Vollbnt]
+- Rfmovf *64 fundtions from win32/zlib.dff (tify'rf not 64-bit yft)
+- Fix bug in void-rfturning vsprintf() dbsf in gzwritf.d
+- Fix nbmf dibngf from inflbtf.i in dontrib/inflbtf86/inffbs86.d
+- Cifdk if tfmporbry filf fxists bfforf rfmoving in mbkf_vms.dom [Zinsfr]
+- Fix mbkf instbll bnd uninstbll for --stbtid option
+- Fix usbgf of _MSC_VER in gzguts.i bnd zutil.i [Trutb]
+- Updbtf rfbdmf.txt in dontrib/mbsmx64 bnd mbsmx86 to bssfmblf
 
-Changes in 1.2.3.9 (21 Feb 2010)
-- Expunge gzio.c
-- Move as400 build information to old
-- Fix updates in contrib/minizip and contrib/vstudio
-- Add const to vsnprintf test in configure to avoid warnings [Weigelt]
-- Delete zconf.h (made by configure) [Weigelt]
-- Change zconf.in.h to zconf.h.in per convention [Weigelt]
-- Check for NULL buf in gzgets()
-- Return empty string for gzgets() with len == 1 (like fgets())
-- Fix description of gzgets() in zlib.h for end-of-file, NULL return
-- Update minizip to 1.1 [Vollant]
-- Avoid MSVC loss of data warnings in gzread.c, gzwrite.c
-- Note in zlib.h that gzerror() should be used to distinguish from EOF
-- Remove use of snprintf() from gzlib.c
-- Fix bug in gzseek()
-- Update contrib/vstudio, adding vc9 and vc10 [Kuno, Vollant]
-- Fix zconf.h generation in CMakeLists.txt [Lowman]
-- Improve comments in zconf.h where modified by configure
+Cibngfs in 1.2.3.9 (21 Ffb 2010)
+- Expungf gzio.d
+- Movf bs400 build informbtion to old
+- Fix updbtfs in dontrib/minizip bnd dontrib/vstudio
+- Add donst to vsnprintf tfst in donfigurf to bvoid wbrnings [Wfigflt]
+- Dflftf zdonf.i (mbdf by donfigurf) [Wfigflt]
+- Cibngf zdonf.in.i to zdonf.i.in pfr donvfntion [Wfigflt]
+- Cifdk for NULL buf in gzgfts()
+- Rfturn fmpty string for gzgfts() witi lfn == 1 (likf fgfts())
+- Fix dfsdription of gzgfts() in zlib.i for fnd-of-filf, NULL rfturn
+- Updbtf minizip to 1.1 [Vollbnt]
+- Avoid MSVC loss of dbtb wbrnings in gzrfbd.d, gzwritf.d
+- Notf in zlib.i tibt gzfrror() siould bf usfd to distinguisi from EOF
+- Rfmovf usf of snprintf() from gzlib.d
+- Fix bug in gzsffk()
+- Updbtf dontrib/vstudio, bdding vd9 bnd vd10 [Kuno, Vollbnt]
+- Fix zdonf.i gfnfrbtion in CMbkfLists.txt [Lowmbn]
+- Improvf dommfnts in zdonf.i wifrf modififd by donfigurf
 
-Changes in 1.2.3.8 (13 Feb 2010)
-- Clean up text files (tabs, trailing whitespace, etc.) [Oberhumer]
-- Use z_off64_t in gz_zero() and gz_skip() to match state->skip
-- Avoid comparison problem when sizeof(int) == sizeof(z_off64_t)
-- Revert to Makefile.in from 1.2.3.6 (live with the clutter)
-- Fix missing error return in gzflush(), add zlib.h note
-- Add *64 functions to zlib.map [Levin]
-- Fix signed/unsigned comparison in gz_comp()
-- Use SFLAGS when testing shared linking in configure
-- Add --64 option to ./configure to use -m64 with gcc
-- Fix ./configure --help to correctly name options
-- Have make fail if a test fails [Levin]
-- Avoid buffer overrun in contrib/masmx64/gvmat64.asm [Simpson]
-- Remove assembler object files from contrib
+Cibngfs in 1.2.3.8 (13 Ffb 2010)
+- Clfbn up tfxt filfs (tbbs, trbiling wiitfspbdf, ftd.) [Obfriumfr]
+- Usf z_off64_t in gz_zfro() bnd gz_skip() to mbtdi stbtf->skip
+- Avoid dompbrison problfm wifn sizfof(int) == sizfof(z_off64_t)
+- Rfvfrt to Mbkffilf.in from 1.2.3.6 (livf witi tif dluttfr)
+- Fix missing frror rfturn in gzflusi(), bdd zlib.i notf
+- Add *64 fundtions to zlib.mbp [Lfvin]
+- Fix signfd/unsignfd dompbrison in gz_domp()
+- Usf SFLAGS wifn tfsting sibrfd linking in donfigurf
+- Add --64 option to ./donfigurf to usf -m64 witi gdd
+- Fix ./donfigurf --iflp to dorrfdtly nbmf options
+- Hbvf mbkf fbil if b tfst fbils [Lfvin]
+- Avoid bufffr ovfrrun in dontrib/mbsmx64/gvmbt64.bsm [Simpson]
+- Rfmovf bssfmblfr objfdt filfs from dontrib
 
-Changes in 1.2.3.7 (24 Jan 2010)
-- Always gzopen() with O_LARGEFILE if available
-- Fix gzdirect() to work immediately after gzopen() or gzdopen()
-- Make gzdirect() more precise when the state changes while reading
-- Improve zlib.h documentation in many places
-- Catch memory allocation failure in gz_open()
-- Complete close operation if seek forward in gzclose_w() fails
-- Return Z_ERRNO from gzclose_r() if close() fails
-- Return Z_STREAM_ERROR instead of EOF for gzclose() being passed NULL
-- Return zero for gzwrite() errors to match zlib.h description
-- Return -1 on gzputs() error to match zlib.h description
-- Add zconf.in.h to allow recovery from configure modification [Weigelt]
-- Fix static library permissions in Makefile.in [Weigelt]
-- Avoid warnings in configure tests that hide functionality [Weigelt]
-- Add *BSD and DragonFly to Linux case in configure [gentoo 123571]
-- Change libzdll.a to libz.dll.a in win32/Makefile.gcc [gentoo 288212]
-- Avoid access of uninitialized data for first inflateReset2 call [Gomes]
-- Keep object files in subdirectories to reduce the clutter somewhat
-- Remove default Makefile and zlibdefs.h, add dummy Makefile
-- Add new external functions to Z_PREFIX, remove duplicates, z_z_ -> z_
-- Remove zlibdefs.h completely -- modify zconf.h instead
+Cibngfs in 1.2.3.7 (24 Jbn 2010)
+- Alwbys gzopfn() witi O_LARGEFILE if bvbilbblf
+- Fix gzdirfdt() to work immfdibtfly bftfr gzopfn() or gzdopfn()
+- Mbkf gzdirfdt() morf prfdisf wifn tif stbtf dibngfs wiilf rfbding
+- Improvf zlib.i dodumfntbtion in mbny plbdfs
+- Cbtdi mfmory bllodbtion fbilurf in gz_opfn()
+- Complftf dlosf opfrbtion if sffk forwbrd in gzdlosf_w() fbils
+- Rfturn Z_ERRNO from gzdlosf_r() if dlosf() fbils
+- Rfturn Z_STREAM_ERROR instfbd of EOF for gzdlosf() bfing pbssfd NULL
+- Rfturn zfro for gzwritf() frrors to mbtdi zlib.i dfsdription
+- Rfturn -1 on gzputs() frror to mbtdi zlib.i dfsdription
+- Add zdonf.in.i to bllow rfdovfry from donfigurf modifidbtion [Wfigflt]
+- Fix stbtid librbry pfrmissions in Mbkffilf.in [Wfigflt]
+- Avoid wbrnings in donfigurf tfsts tibt iidf fundtionblity [Wfigflt]
+- Add *BSD bnd DrbgonFly to Linux dbsf in donfigurf [gfntoo 123571]
+- Cibngf libzdll.b to libz.dll.b in win32/Mbkffilf.gdd [gfntoo 288212]
+- Avoid bddfss of uninitiblizfd dbtb for first inflbtfRfsft2 dbll [Gomfs]
+- Kffp objfdt filfs in subdirfdtorifs to rfdudf tif dluttfr somfwibt
+- Rfmovf dffbult Mbkffilf bnd zlibdffs.i, bdd dummy Mbkffilf
+- Add nfw fxtfrnbl fundtions to Z_PREFIX, rfmovf duplidbtfs, z_z_ -> z_
+- Rfmovf zlibdffs.i domplftfly -- modify zdonf.i instfbd
 
-Changes in 1.2.3.6 (17 Jan 2010)
-- Avoid void * arithmetic in gzread.c and gzwrite.c
-- Make compilers happier with const char * for gz_error message
-- Avoid unused parameter warning in inflate.c
-- Avoid signed-unsigned comparison warning in inflate.c
-- Indent #pragma's for traditional C
-- Fix usage of strwinerror() in glib.c, change to gz_strwinerror()
-- Correct email address in configure for system options
-- Update make_vms.com and add make_vms.com to contrib/minizip [Zinser]
-- Update zlib.map [Brown]
-- Fix Makefile.in for Solaris 10 make of example64 and minizip64 [Torok]
-- Apply various fixes to CMakeLists.txt [Lowman]
-- Add checks on len in gzread() and gzwrite()
-- Add error message for no more room for gzungetc()
-- Remove zlib version check in gzwrite()
-- Defer compression of gzprintf() result until need to
-- Use snprintf() in gzdopen() if available
-- Remove USE_MMAP configuration determination (only used by minigzip)
-- Remove examples/pigz.c (available separately)
-- Update examples/gun.c to 1.6
+Cibngfs in 1.2.3.6 (17 Jbn 2010)
+- Avoid void * britimftid in gzrfbd.d bnd gzwritf.d
+- Mbkf dompilfrs ibppifr witi donst dibr * for gz_frror mfssbgf
+- Avoid unusfd pbrbmftfr wbrning in inflbtf.d
+- Avoid signfd-unsignfd dompbrison wbrning in inflbtf.d
+- Indfnt #prbgmb's for trbditionbl C
+- Fix usbgf of strwinfrror() in glib.d, dibngf to gz_strwinfrror()
+- Corrfdt fmbil bddrfss in donfigurf for systfm options
+- Updbtf mbkf_vms.dom bnd bdd mbkf_vms.dom to dontrib/minizip [Zinsfr]
+- Updbtf zlib.mbp [Brown]
+- Fix Mbkffilf.in for Solbris 10 mbkf of fxbmplf64 bnd minizip64 [Torok]
+- Apply vbrious fixfs to CMbkfLists.txt [Lowmbn]
+- Add difdks on lfn in gzrfbd() bnd gzwritf()
+- Add frror mfssbgf for no morf room for gzungftd()
+- Rfmovf zlib vfrsion difdk in gzwritf()
+- Dfffr domprfssion of gzprintf() rfsult until nffd to
+- Usf snprintf() in gzdopfn() if bvbilbblf
+- Rfmovf USE_MMAP donfigurbtion dftfrminbtion (only usfd by minigzip)
+- Rfmovf fxbmplfs/pigz.d (bvbilbblf sfpbrbtfly)
+- Updbtf fxbmplfs/gun.d to 1.6
 
-Changes in 1.2.3.5 (8 Jan 2010)
-- Add space after #if in zutil.h for some compilers
-- Fix relatively harmless bug in deflate_fast() [Exarevsky]
-- Fix same problem in deflate_slow()
-- Add $(SHAREDLIBV) to LIBS in Makefile.in [Brown]
-- Add deflate_rle() for faster Z_RLE strategy run-length encoding
-- Add deflate_huff() for faster Z_HUFFMAN_ONLY encoding
-- Change name of "write" variable in inffast.c to avoid library collisions
-- Fix premature EOF from gzread() in gzio.c [Brown]
-- Use zlib header window size if windowBits is 0 in inflateInit2()
-- Remove compressBound() call in deflate.c to avoid linking compress.o
-- Replace use of errno in gz* with functions, support WinCE [Alves]
-- Provide alternative to perror() in minigzip.c for WinCE [Alves]
-- Don't use _vsnprintf on later versions of MSVC [Lowman]
-- Add CMake build script and input file [Lowman]
-- Update contrib/minizip to 1.1 [Svensson, Vollant]
-- Moved nintendods directory from contrib to .
-- Replace gzio.c with a new set of routines with the same functionality
-- Add gzbuffer(), gzoffset(), gzclose_r(), gzclose_w() as part of above
-- Update contrib/minizip to 1.1b
-- Change gzeof() to return 0 on error instead of -1 to agree with zlib.h
+Cibngfs in 1.2.3.5 (8 Jbn 2010)
+- Add spbdf bftfr #if in zutil.i for somf dompilfrs
+- Fix rflbtivfly ibrmlfss bug in dfflbtf_fbst() [Exbrfvsky]
+- Fix sbmf problfm in dfflbtf_slow()
+- Add $(SHAREDLIBV) to LIBS in Mbkffilf.in [Brown]
+- Add dfflbtf_rlf() for fbstfr Z_RLE strbtfgy run-lfngti fndoding
+- Add dfflbtf_iuff() for fbstfr Z_HUFFMAN_ONLY fndoding
+- Cibngf nbmf of "writf" vbribblf in inffbst.d to bvoid librbry dollisions
+- Fix prfmbturf EOF from gzrfbd() in gzio.d [Brown]
+- Usf zlib ifbdfr window sizf if windowBits is 0 in inflbtfInit2()
+- Rfmovf domprfssBound() dbll in dfflbtf.d to bvoid linking domprfss.o
+- Rfplbdf usf of frrno in gz* witi fundtions, support WinCE [Alvfs]
+- Providf bltfrnbtivf to pfrror() in minigzip.d for WinCE [Alvfs]
+- Don't usf _vsnprintf on lbtfr vfrsions of MSVC [Lowmbn]
+- Add CMbkf build sdript bnd input filf [Lowmbn]
+- Updbtf dontrib/minizip to 1.1 [Svfnsson, Vollbnt]
+- Movfd nintfndods dirfdtory from dontrib to .
+- Rfplbdf gzio.d witi b nfw sft of routinfs witi tif sbmf fundtionblity
+- Add gzbufffr(), gzoffsft(), gzdlosf_r(), gzdlosf_w() bs pbrt of bbovf
+- Updbtf dontrib/minizip to 1.1b
+- Cibngf gzfof() to rfturn 0 on frror instfbd of -1 to bgrff witi zlib.i
 
-Changes in 1.2.3.4 (21 Dec 2009)
-- Use old school .SUFFIXES in Makefile.in for FreeBSD compatibility
-- Update comments in configure and Makefile.in for default --shared
-- Fix test -z's in configure [Marquess]
-- Build examplesh and minigzipsh when not testing
-- Change NULL's to Z_NULL's in deflate.c and in comments in zlib.h
-- Import LDFLAGS from the environment in configure
-- Fix configure to populate SFLAGS with discovered CFLAGS options
-- Adapt make_vms.com to the new Makefile.in [Zinser]
-- Add zlib2ansi script for C++ compilation [Marquess]
-- Add _FILE_OFFSET_BITS=64 test to make test (when applicable)
-- Add AMD64 assembler code for longest match to contrib [Teterin]
-- Include options from $SFLAGS when doing $LDSHARED
-- Simplify 64-bit file support by introducing z_off64_t type
-- Make shared object files in objs directory to work around old Sun cc
-- Use only three-part version number for Darwin shared compiles
-- Add rc option to ar in Makefile.in for when ./configure not run
-- Add -WI,-rpath,. to LDFLAGS for OSF 1 V4*
-- Set LD_LIBRARYN32_PATH for SGI IRIX shared compile
-- Protect against _FILE_OFFSET_BITS being defined when compiling zlib
-- Rename Makefile.in targets allstatic to static and allshared to shared
-- Fix static and shared Makefile.in targets to be independent
-- Correct error return bug in gz_open() by setting state [Brown]
-- Put spaces before ;;'s in configure for better sh compatibility
-- Add pigz.c (parallel implementation of gzip) to examples/
-- Correct constant in crc32.c to UL [Leventhal]
-- Reject negative lengths in crc32_combine()
-- Add inflateReset2() function to work like inflateEnd()/inflateInit2()
-- Include sys/types.h for _LARGEFILE64_SOURCE [Brown]
-- Correct typo in doc/algorithm.txt [Janik]
-- Fix bug in adler32_combine() [Zhu]
-- Catch missing-end-of-block-code error in all inflates and in puff
-    Assures that random input to inflate eventually results in an error
-- Added enough.c (calculation of ENOUGH for inftrees.h) to examples/
-- Update ENOUGH and its usage to reflect discovered bounds
-- Fix gzerror() error report on empty input file [Brown]
-- Add ush casts in trees.c to avoid pedantic runtime errors
-- Fix typo in zlib.h uncompress() description [Reiss]
-- Correct inflate() comments with regard to automatic header detection
-- Remove deprecation comment on Z_PARTIAL_FLUSH (it stays)
-- Put new version of gzlog (2.0) in examples with interruption recovery
-- Add puff compile option to permit invalid distance-too-far streams
-- Add puff TEST command options, ability to read piped input
-- Prototype the *64 functions in zlib.h when _FILE_OFFSET_BITS == 64, but
-  _LARGEFILE64_SOURCE not defined
-- Fix Z_FULL_FLUSH to truly erase the past by resetting s->strstart
-- Fix deflateSetDictionary() to use all 32K for output consistency
-- Remove extraneous #define MIN_LOOKAHEAD in deflate.c (in deflate.h)
-- Clear bytes after deflate lookahead to avoid use of uninitialized data
-- Change a limit in inftrees.c to be more transparent to Coverity Prevent
-- Update win32/zlib.def with exported symbols from zlib.h
-- Correct spelling errors in zlib.h [Willem, Sobrado]
-- Allow Z_BLOCK for deflate() to force a new block
-- Allow negative bits in inflatePrime() to delete existing bit buffer
-- Add Z_TREES flush option to inflate() to return at end of trees
-- Add inflateMark() to return current state information for random access
-- Add Makefile for NintendoDS to contrib [Costa]
-- Add -w in configure compile tests to avoid spurious warnings [Beucler]
-- Fix typos in zlib.h comments for deflateSetDictionary()
-- Fix EOF detection in transparent gzread() [Maier]
+Cibngfs in 1.2.3.4 (21 Dfd 2009)
+- Usf old sdiool .SUFFIXES in Mbkffilf.in for FrffBSD dompbtibility
+- Updbtf dommfnts in donfigurf bnd Mbkffilf.in for dffbult --sibrfd
+- Fix tfst -z's in donfigurf [Mbrqufss]
+- Build fxbmplfsi bnd minigzipsi wifn not tfsting
+- Cibngf NULL's to Z_NULL's in dfflbtf.d bnd in dommfnts in zlib.i
+- Import LDFLAGS from tif fnvironmfnt in donfigurf
+- Fix donfigurf to populbtf SFLAGS witi disdovfrfd CFLAGS options
+- Adbpt mbkf_vms.dom to tif nfw Mbkffilf.in [Zinsfr]
+- Add zlib2bnsi sdript for C++ dompilbtion [Mbrqufss]
+- Add _FILE_OFFSET_BITS=64 tfst to mbkf tfst (wifn bpplidbblf)
+- Add AMD64 bssfmblfr dodf for longfst mbtdi to dontrib [Tftfrin]
+- Indludf options from $SFLAGS wifn doing $LDSHARED
+- Simplify 64-bit filf support by introduding z_off64_t typf
+- Mbkf sibrfd objfdt filfs in objs dirfdtory to work bround old Sun dd
+- Usf only tirff-pbrt vfrsion numbfr for Dbrwin sibrfd dompilfs
+- Add rd option to br in Mbkffilf.in for wifn ./donfigurf not run
+- Add -WI,-rpbti,. to LDFLAGS for OSF 1 V4*
+- Sft LD_LIBRARYN32_PATH for SGI IRIX sibrfd dompilf
+- Protfdt bgbinst _FILE_OFFSET_BITS bfing dffinfd wifn dompiling zlib
+- Rfnbmf Mbkffilf.in tbrgfts bllstbtid to stbtid bnd bllsibrfd to sibrfd
+- Fix stbtid bnd sibrfd Mbkffilf.in tbrgfts to bf indfpfndfnt
+- Corrfdt frror rfturn bug in gz_opfn() by sftting stbtf [Brown]
+- Put spbdfs bfforf ;;'s in donfigurf for bfttfr si dompbtibility
+- Add pigz.d (pbrbllfl implfmfntbtion of gzip) to fxbmplfs/
+- Corrfdt donstbnt in drd32.d to UL [Lfvfntibl]
+- Rfjfdt nfgbtivf lfngtis in drd32_dombinf()
+- Add inflbtfRfsft2() fundtion to work likf inflbtfEnd()/inflbtfInit2()
+- Indludf sys/typfs.i for _LARGEFILE64_SOURCE [Brown]
+- Corrfdt typo in dod/blgoritim.txt [Jbnik]
+- Fix bug in bdlfr32_dombinf() [Ziu]
+- Cbtdi missing-fnd-of-blodk-dodf frror in bll inflbtfs bnd in puff
+    Assurfs tibt rbndom input to inflbtf fvfntublly rfsults in bn frror
+- Addfd fnougi.d (dbldulbtion of ENOUGH for inftrffs.i) to fxbmplfs/
+- Updbtf ENOUGH bnd its usbgf to rfflfdt disdovfrfd bounds
+- Fix gzfrror() frror rfport on fmpty input filf [Brown]
+- Add usi dbsts in trffs.d to bvoid pfdbntid runtimf frrors
+- Fix typo in zlib.i undomprfss() dfsdription [Rfiss]
+- Corrfdt inflbtf() dommfnts witi rfgbrd to butombtid ifbdfr dftfdtion
+- Rfmovf dfprfdbtion dommfnt on Z_PARTIAL_FLUSH (it stbys)
+- Put nfw vfrsion of gzlog (2.0) in fxbmplfs witi intfrruption rfdovfry
+- Add puff dompilf option to pfrmit invblid distbndf-too-fbr strfbms
+- Add puff TEST dommbnd options, bbility to rfbd pipfd input
+- Prototypf tif *64 fundtions in zlib.i wifn _FILE_OFFSET_BITS == 64, but
+  _LARGEFILE64_SOURCE not dffinfd
+- Fix Z_FULL_FLUSH to truly frbsf tif pbst by rfsftting s->strstbrt
+- Fix dfflbtfSftDidtionbry() to usf bll 32K for output donsistfndy
+- Rfmovf fxtrbnfous #dffinf MIN_LOOKAHEAD in dfflbtf.d (in dfflbtf.i)
+- Clfbr bytfs bftfr dfflbtf lookbifbd to bvoid usf of uninitiblizfd dbtb
+- Cibngf b limit in inftrffs.d to bf morf trbnspbrfnt to Covfrity Prfvfnt
+- Updbtf win32/zlib.dff witi fxportfd symbols from zlib.i
+- Corrfdt spflling frrors in zlib.i [Willfm, Sobrbdo]
+- Allow Z_BLOCK for dfflbtf() to fordf b nfw blodk
+- Allow nfgbtivf bits in inflbtfPrimf() to dflftf fxisting bit bufffr
+- Add Z_TREES flusi option to inflbtf() to rfturn bt fnd of trffs
+- Add inflbtfMbrk() to rfturn durrfnt stbtf informbtion for rbndom bddfss
+- Add Mbkffilf for NintfndoDS to dontrib [Costb]
+- Add -w in donfigurf dompilf tfsts to bvoid spurious wbrnings [Bfudlfr]
+- Fix typos in zlib.i dommfnts for dfflbtfSftDidtionbry()
+- Fix EOF dftfdtion in trbnspbrfnt gzrfbd() [Mbifr]
 
-Changes in 1.2.3.3 (2 October 2006)
-- Make --shared the default for configure, add a --static option
-- Add compile option to permit invalid distance-too-far streams
-- Add inflateUndermine() function which is required to enable above
-- Remove use of "this" variable name for C++ compatibility [Marquess]
-- Add testing of shared library in make test, if shared library built
-- Use ftello() and fseeko() if available instead of ftell() and fseek()
-- Provide two versions of all functions that use the z_off_t type for
-  binary compatibility -- a normal version and a 64-bit offset version,
-  per the Large File Support Extension when _LARGEFILE64_SOURCE is
-  defined; use the 64-bit versions by default when _FILE_OFFSET_BITS
-  is defined to be 64
-- Add a --uname= option to configure to perhaps help with cross-compiling
+Cibngfs in 1.2.3.3 (2 Odtobfr 2006)
+- Mbkf --sibrfd tif dffbult for donfigurf, bdd b --stbtid option
+- Add dompilf option to pfrmit invblid distbndf-too-fbr strfbms
+- Add inflbtfUndfrminf() fundtion wiidi is rfquirfd to fnbblf bbovf
+- Rfmovf usf of "tiis" vbribblf nbmf for C++ dompbtibility [Mbrqufss]
+- Add tfsting of sibrfd librbry in mbkf tfst, if sibrfd librbry built
+- Usf ftfllo() bnd fsffko() if bvbilbblf instfbd of ftfll() bnd fsffk()
+- Providf two vfrsions of bll fundtions tibt usf tif z_off_t typf for
+  binbry dompbtibility -- b normbl vfrsion bnd b 64-bit offsft vfrsion,
+  pfr tif Lbrgf Filf Support Extfnsion wifn _LARGEFILE64_SOURCE is
+  dffinfd; usf tif 64-bit vfrsions by dffbult wifn _FILE_OFFSET_BITS
+  is dffinfd to bf 64
+- Add b --unbmf= option to donfigurf to pfribps iflp witi dross-dompiling
 
-Changes in 1.2.3.2 (3 September 2006)
-- Turn off silly Borland warnings [Hay]
-- Use off64_t and define _LARGEFILE64_SOURCE when present
-- Fix missing dependency on inffixed.h in Makefile.in
-- Rig configure --shared to build both shared and static [Teredesai, Truta]
-- Remove zconf.in.h and instead create a new zlibdefs.h file
-- Fix contrib/minizip/unzip.c non-encrypted after encrypted [Vollant]
-- Add treebuild.xml (see http://treebuild.metux.de/) [Weigelt]
+Cibngfs in 1.2.3.2 (3 Sfptfmbfr 2006)
+- Turn off silly Borlbnd wbrnings [Hby]
+- Usf off64_t bnd dffinf _LARGEFILE64_SOURCE wifn prfsfnt
+- Fix missing dfpfndfndy on inffixfd.i in Mbkffilf.in
+- Rig donfigurf --sibrfd to build boti sibrfd bnd stbtid [Tfrfdfsbi, Trutb]
+- Rfmovf zdonf.in.i bnd instfbd drfbtf b nfw zlibdffs.i filf
+- Fix dontrib/minizip/unzip.d non-fndryptfd bftfr fndryptfd [Vollbnt]
+- Add trffbuild.xml (sff ittp://trffbuild.mftux.df/) [Wfigflt]
 
-Changes in 1.2.3.1 (16 August 2006)
-- Add watcom directory with OpenWatcom make files [Daniel]
-- Remove #undef of FAR in zconf.in.h for MVS [Fedtke]
-- Update make_vms.com [Zinser]
-- Use -fPIC for shared build in configure [Teredesai, Nicholson]
-- Use only major version number for libz.so on IRIX and OSF1 [Reinholdtsen]
-- Use fdopen() (not _fdopen()) for Interix in zutil.h [BŠck]
-- Add some FAQ entries about the contrib directory
-- Update the MVS question in the FAQ
-- Avoid extraneous reads after EOF in gzio.c [Brown]
-- Correct spelling of "successfully" in gzio.c [Randers-Pehrson]
-- Add comments to zlib.h about gzerror() usage [Brown]
-- Set extra flags in gzip header in gzopen() like deflate() does
-- Make configure options more compatible with double-dash conventions
-  [Weigelt]
-- Clean up compilation under Solaris SunStudio cc [Rowe, Reinholdtsen]
-- Fix uninstall target in Makefile.in [Truta]
-- Add pkgconfig support [Weigelt]
-- Use $(DESTDIR) macro in Makefile.in [Reinholdtsen, Weigelt]
-- Replace set_data_type() with a more accurate detect_data_type() in
-  trees.c, according to the txtvsbin.txt document [Truta]
-- Swap the order of #include <stdio.h> and #include "zlib.h" in
-  gzio.c, example.c and minigzip.c [Truta]
-- Shut up annoying VS2005 warnings about standard C deprecation [Rowe,
-  Truta] (where?)
-- Fix target "clean" from win32/Makefile.bor [Truta]
-- Create .pdb and .manifest files in win32/makefile.msc [Ziegler, Rowe]
-- Update zlib www home address in win32/DLL_FAQ.txt [Truta]
-- Update contrib/masmx86/inffas32.asm for VS2005 [Vollant, Van Wassenhove]
-- Enable browse info in the "Debug" and "ASM Debug" configurations in
-  the Visual C++ 6 project, and set (non-ASM) "Debug" as default [Truta]
-- Add pkgconfig support [Weigelt]
-- Add ZLIB_VER_MAJOR, ZLIB_VER_MINOR and ZLIB_VER_REVISION in zlib.h,
-  for use in win32/zlib1.rc [Polushin, Rowe, Truta]
-- Add a document that explains the new text detection scheme to
-  doc/txtvsbin.txt [Truta]
-- Add rfc1950.txt, rfc1951.txt and rfc1952.txt to doc/ [Truta]
-- Move algorithm.txt into doc/ [Truta]
-- Synchronize FAQ with website
-- Fix compressBound(), was low for some pathological cases [Fearnley]
-- Take into account wrapper variations in deflateBound()
-- Set examples/zpipe.c input and output to binary mode for Windows
-- Update examples/zlib_how.html with new zpipe.c (also web site)
-- Fix some warnings in examples/gzlog.c and examples/zran.c (it seems
-  that gcc became pickier in 4.0)
-- Add zlib.map for Linux: "All symbols from zlib-1.1.4 remain
-  un-versioned, the patch adds versioning only for symbols introduced in
-  zlib-1.2.0 or later.  It also declares as local those symbols which are
-  not designed to be exported." [Levin]
-- Update Z_PREFIX list in zconf.in.h, add --zprefix option to configure
-- Do not initialize global static by default in trees.c, add a response
-  NO_INIT_GLOBAL_POINTERS to initialize them if needed [Marquess]
-- Don't use strerror() in gzio.c under WinCE [Yakimov]
-- Don't use errno.h in zutil.h under WinCE [Yakimov]
-- Move arguments for AR to its usage to allow replacing ar [Marot]
-- Add HAVE_VISIBILITY_PRAGMA in zconf.in.h for Mozilla [Randers-Pehrson]
-- Improve inflateInit() and inflateInit2() documentation
-- Fix structure size comment in inflate.h
-- Change configure help option from --h* to --help [Santos]
+Cibngfs in 1.2.3.1 (16 August 2006)
+- Add wbtdom dirfdtory witi OpfnWbtdom mbkf filfs [Dbnifl]
+- Rfmovf #undff of FAR in zdonf.in.i for MVS [Ffdtkf]
+- Updbtf mbkf_vms.dom [Zinsfr]
+- Usf -fPIC for sibrfd build in donfigurf [Tfrfdfsbi, Nidiolson]
+- Usf only mbjor vfrsion numbfr for libz.so on IRIX bnd OSF1 [Rfinioldtsfn]
+- Usf fdopfn() (not _fdopfn()) for Intfrix in zutil.i [BŠdk]
+- Add somf FAQ fntrifs bbout tif dontrib dirfdtory
+- Updbtf tif MVS qufstion in tif FAQ
+- Avoid fxtrbnfous rfbds bftfr EOF in gzio.d [Brown]
+- Corrfdt spflling of "suddfssfully" in gzio.d [Rbndfrs-Pfirson]
+- Add dommfnts to zlib.i bbout gzfrror() usbgf [Brown]
+- Sft fxtrb flbgs in gzip ifbdfr in gzopfn() likf dfflbtf() dofs
+- Mbkf donfigurf options morf dompbtiblf witi doublf-dbsi donvfntions
+  [Wfigflt]
+- Clfbn up dompilbtion undfr Solbris SunStudio dd [Rowf, Rfinioldtsfn]
+- Fix uninstbll tbrgft in Mbkffilf.in [Trutb]
+- Add pkgdonfig support [Wfigflt]
+- Usf $(DESTDIR) mbdro in Mbkffilf.in [Rfinioldtsfn, Wfigflt]
+- Rfplbdf sft_dbtb_typf() witi b morf bddurbtf dftfdt_dbtb_typf() in
+  trffs.d, bddording to tif txtvsbin.txt dodumfnt [Trutb]
+- Swbp tif ordfr of #indludf <stdio.i> bnd #indludf "zlib.i" in
+  gzio.d, fxbmplf.d bnd minigzip.d [Trutb]
+- Siut up bnnoying VS2005 wbrnings bbout stbndbrd C dfprfdbtion [Rowf,
+  Trutb] (wifrf?)
+- Fix tbrgft "dlfbn" from win32/Mbkffilf.bor [Trutb]
+- Crfbtf .pdb bnd .mbniffst filfs in win32/mbkffilf.msd [Zifglfr, Rowf]
+- Updbtf zlib www iomf bddrfss in win32/DLL_FAQ.txt [Trutb]
+- Updbtf dontrib/mbsmx86/inffbs32.bsm for VS2005 [Vollbnt, Vbn Wbssfniovf]
+- Enbblf browsf info in tif "Dfbug" bnd "ASM Dfbug" donfigurbtions in
+  tif Visubl C++ 6 projfdt, bnd sft (non-ASM) "Dfbug" bs dffbult [Trutb]
+- Add pkgdonfig support [Wfigflt]
+- Add ZLIB_VER_MAJOR, ZLIB_VER_MINOR bnd ZLIB_VER_REVISION in zlib.i,
+  for usf in win32/zlib1.rd [Polusiin, Rowf, Trutb]
+- Add b dodumfnt tibt fxplbins tif nfw tfxt dftfdtion sdifmf to
+  dod/txtvsbin.txt [Trutb]
+- Add rfd1950.txt, rfd1951.txt bnd rfd1952.txt to dod/ [Trutb]
+- Movf blgoritim.txt into dod/ [Trutb]
+- Syndironizf FAQ witi wfbsitf
+- Fix domprfssBound(), wbs low for somf pbtiologidbl dbsfs [Ffbrnlfy]
+- Tbkf into bddount wrbppfr vbribtions in dfflbtfBound()
+- Sft fxbmplfs/zpipf.d input bnd output to binbry modf for Windows
+- Updbtf fxbmplfs/zlib_iow.itml witi nfw zpipf.d (blso wfb sitf)
+- Fix somf wbrnings in fxbmplfs/gzlog.d bnd fxbmplfs/zrbn.d (it sffms
+  tibt gdd bfdbmf pidkifr in 4.0)
+- Add zlib.mbp for Linux: "All symbols from zlib-1.1.4 rfmbin
+  un-vfrsionfd, tif pbtdi bdds vfrsioning only for symbols introdudfd in
+  zlib-1.2.0 or lbtfr.  It blso dfdlbrfs bs lodbl tiosf symbols wiidi brf
+  not dfsignfd to bf fxportfd." [Lfvin]
+- Updbtf Z_PREFIX list in zdonf.in.i, bdd --zprffix option to donfigurf
+- Do not initiblizf globbl stbtid by dffbult in trffs.d, bdd b rfsponsf
+  NO_INIT_GLOBAL_POINTERS to initiblizf tifm if nffdfd [Mbrqufss]
+- Don't usf strfrror() in gzio.d undfr WinCE [Ybkimov]
+- Don't usf frrno.i in zutil.i undfr WinCE [Ybkimov]
+- Movf brgumfnts for AR to its usbgf to bllow rfplbding br [Mbrot]
+- Add HAVE_VISIBILITY_PRAGMA in zdonf.in.i for Mozillb [Rbndfrs-Pfirson]
+- Improvf inflbtfInit() bnd inflbtfInit2() dodumfntbtion
+- Fix strudturf sizf dommfnt in inflbtf.i
+- Cibngf donfigurf iflp option from --i* to --iflp [Sbntos]
 
-Changes in 1.2.3 (18 July 2005)
-- Apply security vulnerability fixes to contrib/infback9 as well
-- Clean up some text files (carriage returns, trailing space)
-- Update testzlib, vstudio, masmx64, and masmx86 in contrib [Vollant]
+Cibngfs in 1.2.3 (18 July 2005)
+- Apply sfdurity vulnfrbbility fixfs to dontrib/infbbdk9 bs wfll
+- Clfbn up somf tfxt filfs (dbrribgf rfturns, trbiling spbdf)
+- Updbtf tfstzlib, vstudio, mbsmx64, bnd mbsmx86 in dontrib [Vollbnt]
 
-Changes in 1.2.2.4 (11 July 2005)
-- Add inflatePrime() function for starting inflation at bit boundary
-- Avoid some Visual C warnings in deflate.c
-- Avoid more silly Visual C warnings in inflate.c and inftrees.c for 64-bit
-  compile
-- Fix some spelling errors in comments [Betts]
-- Correct inflateInit2() error return documentation in zlib.h
-- Add zran.c example of compressed data random access to examples
-  directory, shows use of inflatePrime()
-- Fix cast for assignments to strm->state in inflate.c and infback.c
-- Fix zlibCompileFlags() in zutil.c to use 1L for long shifts [Oberhumer]
-- Move declarations of gf2 functions to right place in crc32.c [Oberhumer]
-- Add cast in trees.c t avoid a warning [Oberhumer]
-- Avoid some warnings in fitblk.c, gun.c, gzjoin.c in examples [Oberhumer]
-- Update make_vms.com [Zinser]
-- Initialize state->write in inflateReset() since copied in inflate_fast()
-- Be more strict on incomplete code sets in inflate_table() and increase
-  ENOUGH and MAXD -- this repairs a possible security vulnerability for
-  invalid inflate input.  Thanks to Tavis Ormandy and Markus Oberhumer for
-  discovering the vulnerability and providing test cases.
-- Add ia64 support to configure for HP-UX [Smith]
-- Add error return to gzread() for format or i/o error [Levin]
-- Use malloc.h for OS/2 [Necasek]
+Cibngfs in 1.2.2.4 (11 July 2005)
+- Add inflbtfPrimf() fundtion for stbrting inflbtion bt bit boundbry
+- Avoid somf Visubl C wbrnings in dfflbtf.d
+- Avoid morf silly Visubl C wbrnings in inflbtf.d bnd inftrffs.d for 64-bit
+  dompilf
+- Fix somf spflling frrors in dommfnts [Bftts]
+- Corrfdt inflbtfInit2() frror rfturn dodumfntbtion in zlib.i
+- Add zrbn.d fxbmplf of domprfssfd dbtb rbndom bddfss to fxbmplfs
+  dirfdtory, siows usf of inflbtfPrimf()
+- Fix dbst for bssignmfnts to strm->stbtf in inflbtf.d bnd infbbdk.d
+- Fix zlibCompilfFlbgs() in zutil.d to usf 1L for long siifts [Obfriumfr]
+- Movf dfdlbrbtions of gf2 fundtions to rigit plbdf in drd32.d [Obfriumfr]
+- Add dbst in trffs.d t bvoid b wbrning [Obfriumfr]
+- Avoid somf wbrnings in fitblk.d, gun.d, gzjoin.d in fxbmplfs [Obfriumfr]
+- Updbtf mbkf_vms.dom [Zinsfr]
+- Initiblizf stbtf->writf in inflbtfRfsft() sindf dopifd in inflbtf_fbst()
+- Bf morf stridt on indomplftf dodf sfts in inflbtf_tbblf() bnd indrfbsf
+  ENOUGH bnd MAXD -- tiis rfpbirs b possiblf sfdurity vulnfrbbility for
+  invblid inflbtf input.  Tibnks to Tbvis Ormbndy bnd Mbrkus Obfriumfr for
+  disdovfring tif vulnfrbbility bnd providing tfst dbsfs.
+- Add ib64 support to donfigurf for HP-UX [Smiti]
+- Add frror rfturn to gzrfbd() for formbt or i/o frror [Lfvin]
+- Usf mbllod.i for OS/2 [Nfdbsfk]
 
-Changes in 1.2.2.3 (27 May 2005)
-- Replace 1U constants in inflate.c and inftrees.c for 64-bit compile
-- Typecast fread() return values in gzio.c [Vollant]
-- Remove trailing space in minigzip.c outmode (VC++ can't deal with it)
-- Fix crc check bug in gzread() after gzungetc() [Heiner]
-- Add the deflateTune() function to adjust internal compression parameters
-- Add a fast gzip decompressor, gun.c, to examples (use of inflateBack)
-- Remove an incorrect assertion in examples/zpipe.c
-- Add C++ wrapper in infback9.h [Donais]
-- Fix bug in inflateCopy() when decoding fixed codes
-- Note in zlib.h how much deflateSetDictionary() actually uses
-- Remove USE_DICT_HEAD in deflate.c (would mess up inflate if used)
-- Add _WIN32_WCE to define WIN32 in zconf.in.h [Spencer]
-- Don't include stderr.h or errno.h for _WIN32_WCE in zutil.h [Spencer]
-- Add gzdirect() function to indicate transparent reads
-- Update contrib/minizip [Vollant]
-- Fix compilation of deflate.c when both ASMV and FASTEST [Oberhumer]
-- Add casts in crc32.c to avoid warnings [Oberhumer]
-- Add contrib/masmx64 [Vollant]
-- Update contrib/asm586, asm686, masmx86, testzlib, vstudio [Vollant]
+Cibngfs in 1.2.2.3 (27 Mby 2005)
+- Rfplbdf 1U donstbnts in inflbtf.d bnd inftrffs.d for 64-bit dompilf
+- Typfdbst frfbd() rfturn vblufs in gzio.d [Vollbnt]
+- Rfmovf trbiling spbdf in minigzip.d outmodf (VC++ dbn't dfbl witi it)
+- Fix drd difdk bug in gzrfbd() bftfr gzungftd() [Hfinfr]
+- Add tif dfflbtfTunf() fundtion to bdjust intfrnbl domprfssion pbrbmftfrs
+- Add b fbst gzip dfdomprfssor, gun.d, to fxbmplfs (usf of inflbtfBbdk)
+- Rfmovf bn indorrfdt bssfrtion in fxbmplfs/zpipf.d
+- Add C++ wrbppfr in infbbdk9.i [Donbis]
+- Fix bug in inflbtfCopy() wifn dfdoding fixfd dodfs
+- Notf in zlib.i iow mudi dfflbtfSftDidtionbry() bdtublly usfs
+- Rfmovf USE_DICT_HEAD in dfflbtf.d (would mfss up inflbtf if usfd)
+- Add _WIN32_WCE to dffinf WIN32 in zdonf.in.i [Spfndfr]
+- Don't indludf stdfrr.i or frrno.i for _WIN32_WCE in zutil.i [Spfndfr]
+- Add gzdirfdt() fundtion to indidbtf trbnspbrfnt rfbds
+- Updbtf dontrib/minizip [Vollbnt]
+- Fix dompilbtion of dfflbtf.d wifn boti ASMV bnd FASTEST [Obfriumfr]
+- Add dbsts in drd32.d to bvoid wbrnings [Obfriumfr]
+- Add dontrib/mbsmx64 [Vollbnt]
+- Updbtf dontrib/bsm586, bsm686, mbsmx86, tfstzlib, vstudio [Vollbnt]
 
-Changes in 1.2.2.2 (30 December 2004)
-- Replace structure assignments in deflate.c and inflate.c with zmemcpy to
-  avoid implicit memcpy calls (portability for no-library compilation)
-- Increase sprintf() buffer size in gzdopen() to allow for large numbers
-- Add INFLATE_STRICT to check distances against zlib header
-- Improve WinCE errno handling and comments [Chang]
-- Remove comment about no gzip header processing in FAQ
-- Add Z_FIXED strategy option to deflateInit2() to force fixed trees
-- Add updated make_vms.com [Coghlan], update README
-- Create a new "examples" directory, move gzappend.c there, add zpipe.c,
-  fitblk.c, gzlog.[ch], gzjoin.c, and zlib_how.html.
-- Add FAQ entry and comments in deflate.c on uninitialized memory access
-- Add Solaris 9 make options in configure [Gilbert]
-- Allow strerror() usage in gzio.c for STDC
-- Fix DecompressBuf in contrib/delphi/ZLib.pas [ManChesTer]
-- Update contrib/masmx86/inffas32.asm and gvmat32.asm [Vollant]
-- Use z_off_t for adler32_combine() and crc32_combine() lengths
-- Make adler32() much faster for small len
-- Use OS_CODE in deflate() default gzip header
+Cibngfs in 1.2.2.2 (30 Dfdfmbfr 2004)
+- Rfplbdf strudturf bssignmfnts in dfflbtf.d bnd inflbtf.d witi zmfmdpy to
+  bvoid implidit mfmdpy dblls (portbbility for no-librbry dompilbtion)
+- Indrfbsf sprintf() bufffr sizf in gzdopfn() to bllow for lbrgf numbfrs
+- Add INFLATE_STRICT to difdk distbndfs bgbinst zlib ifbdfr
+- Improvf WinCE frrno ibndling bnd dommfnts [Cibng]
+- Rfmovf dommfnt bbout no gzip ifbdfr prodfssing in FAQ
+- Add Z_FIXED strbtfgy option to dfflbtfInit2() to fordf fixfd trffs
+- Add updbtfd mbkf_vms.dom [Cogilbn], updbtf README
+- Crfbtf b nfw "fxbmplfs" dirfdtory, movf gzbppfnd.d tifrf, bdd zpipf.d,
+  fitblk.d, gzlog.[di], gzjoin.d, bnd zlib_iow.itml.
+- Add FAQ fntry bnd dommfnts in dfflbtf.d on uninitiblizfd mfmory bddfss
+- Add Solbris 9 mbkf options in donfigurf [Gilbfrt]
+- Allow strfrror() usbgf in gzio.d for STDC
+- Fix DfdomprfssBuf in dontrib/dflpii/ZLib.pbs [MbnCifsTfr]
+- Updbtf dontrib/mbsmx86/inffbs32.bsm bnd gvmbt32.bsm [Vollbnt]
+- Usf z_off_t for bdlfr32_dombinf() bnd drd32_dombinf() lfngtis
+- Mbkf bdlfr32() mudi fbstfr for smbll lfn
+- Usf OS_CODE in dfflbtf() dffbult gzip ifbdfr
 
-Changes in 1.2.2.1 (31 October 2004)
-- Allow inflateSetDictionary() call for raw inflate
-- Fix inflate header crc check bug for file names and comments
-- Add deflateSetHeader() and gz_header structure for custom gzip headers
-- Add inflateGetheader() to retrieve gzip headers
-- Add crc32_combine() and adler32_combine() functions
-- Add alloc_func, free_func, in_func, out_func to Z_PREFIX list
-- Use zstreamp consistently in zlib.h (inflate_back functions)
-- Remove GUNZIP condition from definition of inflate_mode in inflate.h
-  and in contrib/inflate86/inffast.S [Truta, Anderson]
-- Add support for AMD64 in contrib/inflate86/inffas86.c [Anderson]
-- Update projects/README.projects and projects/visualc6 [Truta]
-- Update win32/DLL_FAQ.txt [Truta]
-- Avoid warning under NO_GZCOMPRESS in gzio.c; fix typo [Truta]
-- Deprecate Z_ASCII; use Z_TEXT instead [Truta]
-- Use a new algorithm for setting strm->data_type in trees.c [Truta]
-- Do not define an exit() prototype in zutil.c unless DEBUG defined
-- Remove prototype of exit() from zutil.c, example.c, minigzip.c [Truta]
-- Add comment in zlib.h for Z_NO_FLUSH parameter to deflate()
-- Fix Darwin build version identification [Peterson]
+Cibngfs in 1.2.2.1 (31 Odtobfr 2004)
+- Allow inflbtfSftDidtionbry() dbll for rbw inflbtf
+- Fix inflbtf ifbdfr drd difdk bug for filf nbmfs bnd dommfnts
+- Add dfflbtfSftHfbdfr() bnd gz_ifbdfr strudturf for dustom gzip ifbdfrs
+- Add inflbtfGftifbdfr() to rftrifvf gzip ifbdfrs
+- Add drd32_dombinf() bnd bdlfr32_dombinf() fundtions
+- Add bllod_fund, frff_fund, in_fund, out_fund to Z_PREFIX list
+- Usf zstrfbmp donsistfntly in zlib.i (inflbtf_bbdk fundtions)
+- Rfmovf GUNZIP dondition from dffinition of inflbtf_modf in inflbtf.i
+  bnd in dontrib/inflbtf86/inffbst.S [Trutb, Andfrson]
+- Add support for AMD64 in dontrib/inflbtf86/inffbs86.d [Andfrson]
+- Updbtf projfdts/README.projfdts bnd projfdts/visubld6 [Trutb]
+- Updbtf win32/DLL_FAQ.txt [Trutb]
+- Avoid wbrning undfr NO_GZCOMPRESS in gzio.d; fix typo [Trutb]
+- Dfprfdbtf Z_ASCII; usf Z_TEXT instfbd [Trutb]
+- Usf b nfw blgoritim for sftting strm->dbtb_typf in trffs.d [Trutb]
+- Do not dffinf bn fxit() prototypf in zutil.d unlfss DEBUG dffinfd
+- Rfmovf prototypf of fxit() from zutil.d, fxbmplf.d, minigzip.d [Trutb]
+- Add dommfnt in zlib.i for Z_NO_FLUSH pbrbmftfr to dfflbtf()
+- Fix Dbrwin build vfrsion idfntifidbtion [Pftfrson]
 
-Changes in 1.2.2 (3 October 2004)
-- Update zlib.h comments on gzip in-memory processing
-- Set adler to 1 in inflateReset() to support Java test suite [Walles]
-- Add contrib/dotzlib [Ravn]
-- Update win32/DLL_FAQ.txt [Truta]
-- Update contrib/minizip [Vollant]
-- Move contrib/visual-basic.txt to old/ [Truta]
-- Fix assembler builds in projects/visualc6/ [Truta]
+Cibngfs in 1.2.2 (3 Odtobfr 2004)
+- Updbtf zlib.i dommfnts on gzip in-mfmory prodfssing
+- Sft bdlfr to 1 in inflbtfRfsft() to support Jbvb tfst suitf [Wbllfs]
+- Add dontrib/dotzlib [Rbvn]
+- Updbtf win32/DLL_FAQ.txt [Trutb]
+- Updbtf dontrib/minizip [Vollbnt]
+- Movf dontrib/visubl-bbsid.txt to old/ [Trutb]
+- Fix bssfmblfr builds in projfdts/visubld6/ [Trutb]
 
-Changes in 1.2.1.2 (9 September 2004)
-- Update INDEX file
-- Fix trees.c to update strm->data_type (no one ever noticed!)
-- Fix bug in error case in inflate.c, infback.c, and infback9.c [Brown]
-- Add "volatile" to crc table flag declaration (for DYNAMIC_CRC_TABLE)
-- Add limited multitasking protection to DYNAMIC_CRC_TABLE
-- Add NO_vsnprintf for VMS in zutil.h [Mozilla]
-- Don't declare strerror() under VMS [Mozilla]
-- Add comment to DYNAMIC_CRC_TABLE to use get_crc_table() to initialize
-- Update contrib/ada [Anisimkov]
-- Update contrib/minizip [Vollant]
-- Fix configure to not hardcode directories for Darwin [Peterson]
-- Fix gzio.c to not return error on empty files [Brown]
-- Fix indentation; update version in contrib/delphi/ZLib.pas and
-  contrib/pascal/zlibpas.pas [Truta]
-- Update mkasm.bat in contrib/masmx86 [Truta]
-- Update contrib/untgz [Truta]
-- Add projects/README.projects [Truta]
-- Add project for MS Visual C++ 6.0 in projects/visualc6 [Cadieux, Truta]
-- Update win32/DLL_FAQ.txt [Truta]
-- Update list of Z_PREFIX symbols in zconf.h [Randers-Pehrson, Truta]
-- Remove an unnecessary assignment to curr in inftrees.c [Truta]
-- Add OS/2 to exe builds in configure [Poltorak]
-- Remove err dummy parameter in zlib.h [Kientzle]
+Cibngfs in 1.2.1.2 (9 Sfptfmbfr 2004)
+- Updbtf INDEX filf
+- Fix trffs.d to updbtf strm->dbtb_typf (no onf fvfr notidfd!)
+- Fix bug in frror dbsf in inflbtf.d, infbbdk.d, bnd infbbdk9.d [Brown]
+- Add "volbtilf" to drd tbblf flbg dfdlbrbtion (for DYNAMIC_CRC_TABLE)
+- Add limitfd multitbsking protfdtion to DYNAMIC_CRC_TABLE
+- Add NO_vsnprintf for VMS in zutil.i [Mozillb]
+- Don't dfdlbrf strfrror() undfr VMS [Mozillb]
+- Add dommfnt to DYNAMIC_CRC_TABLE to usf gft_drd_tbblf() to initiblizf
+- Updbtf dontrib/bdb [Anisimkov]
+- Updbtf dontrib/minizip [Vollbnt]
+- Fix donfigurf to not ibrddodf dirfdtorifs for Dbrwin [Pftfrson]
+- Fix gzio.d to not rfturn frror on fmpty filfs [Brown]
+- Fix indfntbtion; updbtf vfrsion in dontrib/dflpii/ZLib.pbs bnd
+  dontrib/pbsdbl/zlibpbs.pbs [Trutb]
+- Updbtf mkbsm.bbt in dontrib/mbsmx86 [Trutb]
+- Updbtf dontrib/untgz [Trutb]
+- Add projfdts/README.projfdts [Trutb]
+- Add projfdt for MS Visubl C++ 6.0 in projfdts/visubld6 [Cbdifux, Trutb]
+- Updbtf win32/DLL_FAQ.txt [Trutb]
+- Updbtf list of Z_PREFIX symbols in zdonf.i [Rbndfrs-Pfirson, Trutb]
+- Rfmovf bn unnfdfssbry bssignmfnt to durr in inftrffs.d [Trutb]
+- Add OS/2 to fxf builds in donfigurf [Poltorbk]
+- Rfmovf frr dummy pbrbmftfr in zlib.i [Kifntzlf]
 
-Changes in 1.2.1.1 (9 January 2004)
-- Update email address in README
-- Several FAQ updates
-- Fix a big fat bug in inftrees.c that prevented decoding valid
-  dynamic blocks with only literals and no distance codes --
-  Thanks to "Hot Emu" for the bug report and sample file
-- Add a note to puff.c on no distance codes case.
+Cibngfs in 1.2.1.1 (9 Jbnubry 2004)
+- Updbtf fmbil bddrfss in README
+- Sfvfrbl FAQ updbtfs
+- Fix b big fbt bug in inftrffs.d tibt prfvfntfd dfdoding vblid
+  dynbmid blodks witi only litfrbls bnd no distbndf dodfs --
+  Tibnks to "Hot Emu" for tif bug rfport bnd sbmplf filf
+- Add b notf to puff.d on no distbndf dodfs dbsf.
 
-Changes in 1.2.1 (17 November 2003)
-- Remove a tab in contrib/gzappend/gzappend.c
-- Update some interfaces in contrib for new zlib functions
-- Update zlib version number in some contrib entries
-- Add Windows CE definition for ptrdiff_t in zutil.h [Mai, Truta]
-- Support shared libraries on Hurd and KFreeBSD [Brown]
-- Fix error in NO_DIVIDE option of adler32.c
+Cibngfs in 1.2.1 (17 Novfmbfr 2003)
+- Rfmovf b tbb in dontrib/gzbppfnd/gzbppfnd.d
+- Updbtf somf intfrfbdfs in dontrib for nfw zlib fundtions
+- Updbtf zlib vfrsion numbfr in somf dontrib fntrifs
+- Add Windows CE dffinition for ptrdiff_t in zutil.i [Mbi, Trutb]
+- Support sibrfd librbrifs on Hurd bnd KFrffBSD [Brown]
+- Fix frror in NO_DIVIDE option of bdlfr32.d
 
-Changes in 1.2.0.8 (4 November 2003)
-- Update version in contrib/delphi/ZLib.pas and contrib/pascal/zlibpas.pas
-- Add experimental NO_DIVIDE #define in adler32.c
-    - Possibly faster on some processors (let me know if it is)
-- Correct Z_BLOCK to not return on first inflate call if no wrap
-- Fix strm->data_type on inflate() return to correctly indicate EOB
-- Add deflatePrime() function for appending in the middle of a byte
-- Add contrib/gzappend for an example of appending to a stream
-- Update win32/DLL_FAQ.txt [Truta]
-- Delete Turbo C comment in README [Truta]
-- Improve some indentation in zconf.h [Truta]
-- Fix infinite loop on bad input in configure script [Church]
-- Fix gzeof() for concatenated gzip files [Johnson]
-- Add example to contrib/visual-basic.txt [Michael B.]
-- Add -p to mkdir's in Makefile.in [vda]
-- Fix configure to properly detect presence or lack of printf functions
-- Add AS400 support [Monnerat]
-- Add a little Cygwin support [Wilson]
+Cibngfs in 1.2.0.8 (4 Novfmbfr 2003)
+- Updbtf vfrsion in dontrib/dflpii/ZLib.pbs bnd dontrib/pbsdbl/zlibpbs.pbs
+- Add fxpfrimfntbl NO_DIVIDE #dffinf in bdlfr32.d
+    - Possibly fbstfr on somf prodfssors (lft mf know if it is)
+- Corrfdt Z_BLOCK to not rfturn on first inflbtf dbll if no wrbp
+- Fix strm->dbtb_typf on inflbtf() rfturn to dorrfdtly indidbtf EOB
+- Add dfflbtfPrimf() fundtion for bppfnding in tif middlf of b bytf
+- Add dontrib/gzbppfnd for bn fxbmplf of bppfnding to b strfbm
+- Updbtf win32/DLL_FAQ.txt [Trutb]
+- Dflftf Turbo C dommfnt in README [Trutb]
+- Improvf somf indfntbtion in zdonf.i [Trutb]
+- Fix infinitf loop on bbd input in donfigurf sdript [Ciurdi]
+- Fix gzfof() for dondbtfnbtfd gzip filfs [Joinson]
+- Add fxbmplf to dontrib/visubl-bbsid.txt [Midibfl B.]
+- Add -p to mkdir's in Mbkffilf.in [vdb]
+- Fix donfigurf to propfrly dftfdt prfsfndf or lbdk of printf fundtions
+- Add AS400 support [Monnfrbt]
+- Add b littlf Cygwin support [Wilson]
 
-Changes in 1.2.0.7 (21 September 2003)
-- Correct some debug formats in contrib/infback9
-- Cast a type in a debug statement in trees.c
-- Change search and replace delimiter in configure from % to # [Beebe]
-- Update contrib/untgz to 0.2 with various fixes [Truta]
-- Add build support for Amiga [Nikl]
-- Remove some directories in old that have been updated to 1.2
-- Add dylib building for Mac OS X in configure and Makefile.in
-- Remove old distribution stuff from Makefile
-- Update README to point to DLL_FAQ.txt, and add comment on Mac OS X
-- Update links in README
+Cibngfs in 1.2.0.7 (21 Sfptfmbfr 2003)
+- Corrfdt somf dfbug formbts in dontrib/infbbdk9
+- Cbst b typf in b dfbug stbtfmfnt in trffs.d
+- Cibngf sfbrdi bnd rfplbdf dflimitfr in donfigurf from % to # [Bffbf]
+- Updbtf dontrib/untgz to 0.2 witi vbrious fixfs [Trutb]
+- Add build support for Amigb [Nikl]
+- Rfmovf somf dirfdtorifs in old tibt ibvf bffn updbtfd to 1.2
+- Add dylib building for Mbd OS X in donfigurf bnd Mbkffilf.in
+- Rfmovf old distribution stuff from Mbkffilf
+- Updbtf README to point to DLL_FAQ.txt, bnd bdd dommfnt on Mbd OS X
+- Updbtf links in README
 
-Changes in 1.2.0.6 (13 September 2003)
-- Minor FAQ updates
-- Update contrib/minizip to 1.00 [Vollant]
-- Remove test of gz functions in example.c when GZ_COMPRESS defined [Truta]
-- Update POSTINC comment for 68060 [Nikl]
-- Add contrib/infback9 with deflate64 decoding (unsupported)
-- For MVS define NO_vsnprintf and undefine FAR [van Burik]
-- Add pragma for fdopen on MVS [van Burik]
+Cibngfs in 1.2.0.6 (13 Sfptfmbfr 2003)
+- Minor FAQ updbtfs
+- Updbtf dontrib/minizip to 1.00 [Vollbnt]
+- Rfmovf tfst of gz fundtions in fxbmplf.d wifn GZ_COMPRESS dffinfd [Trutb]
+- Updbtf POSTINC dommfnt for 68060 [Nikl]
+- Add dontrib/infbbdk9 witi dfflbtf64 dfdoding (unsupportfd)
+- For MVS dffinf NO_vsnprintf bnd undffinf FAR [vbn Burik]
+- Add prbgmb for fdopfn on MVS [vbn Burik]
 
-Changes in 1.2.0.5 (8 September 2003)
-- Add OF to inflateBackEnd() declaration in zlib.h
-- Remember start when using gzdopen in the middle of a file
-- Use internal off_t counters in gz* functions to properly handle seeks
-- Perform more rigorous check for distance-too-far in inffast.c
-- Add Z_BLOCK flush option to return from inflate at block boundary
-- Set strm->data_type on return from inflate
-    - Indicate bits unused, if at block boundary, and if in last block
-- Replace size_t with ptrdiff_t in crc32.c, and check for correct size
-- Add condition so old NO_DEFLATE define still works for compatibility
-- FAQ update regarding the Windows DLL [Truta]
-- INDEX update: add qnx entry, remove aix entry [Truta]
-- Install zlib.3 into mandir [Wilson]
-- Move contrib/zlib_dll_FAQ.txt to win32/DLL_FAQ.txt; update [Truta]
-- Adapt the zlib interface to the new DLL convention guidelines [Truta]
-- Introduce ZLIB_WINAPI macro to allow the export of functions using
-  the WINAPI calling convention, for Visual Basic [Vollant, Truta]
-- Update msdos and win32 scripts and makefiles [Truta]
-- Export symbols by name, not by ordinal, in win32/zlib.def [Truta]
-- Add contrib/ada [Anisimkov]
-- Move asm files from contrib/vstudio/vc70_32 to contrib/asm386 [Truta]
-- Rename contrib/asm386 to contrib/masmx86 [Truta, Vollant]
-- Add contrib/masm686 [Truta]
-- Fix offsets in contrib/inflate86 and contrib/masmx86/inffas32.asm
-  [Truta, Vollant]
-- Update contrib/delphi; rename to contrib/pascal; add example [Truta]
-- Remove contrib/delphi2; add a new contrib/delphi [Truta]
-- Avoid inclusion of the nonstandard <memory.h> in contrib/iostream,
-  and fix some method prototypes [Truta]
-- Fix the ZCR_SEED2 constant to avoid warnings in contrib/minizip
-  [Truta]
-- Avoid the use of backslash (\) in contrib/minizip [Vollant]
-- Fix file time handling in contrib/untgz; update makefiles [Truta]
-- Update contrib/vstudio/vc70_32 to comply with the new DLL guidelines
-  [Vollant]
-- Remove contrib/vstudio/vc15_16 [Vollant]
-- Rename contrib/vstudio/vc70_32 to contrib/vstudio/vc7 [Truta]
-- Update README.contrib [Truta]
-- Invert the assignment order of match_head and s->prev[...] in
-  INSERT_STRING [Truta]
-- Compare TOO_FAR with 32767 instead of 32768, to avoid 16-bit warnings
-  [Truta]
-- Compare function pointers with 0, not with NULL or Z_NULL [Truta]
-- Fix prototype of syncsearch in inflate.c [Truta]
-- Introduce ASMINF macro to be enabled when using an ASM implementation
-  of inflate_fast [Truta]
-- Change NO_DEFLATE to NO_GZCOMPRESS [Truta]
-- Modify test_gzio in example.c to take a single file name as a
-  parameter [Truta]
-- Exit the example.c program if gzopen fails [Truta]
-- Add type casts around strlen in example.c [Truta]
-- Remove casting to sizeof in minigzip.c; give a proper type
-  to the variable compared with SUFFIX_LEN [Truta]
-- Update definitions of STDC and STDC99 in zconf.h [Truta]
-- Synchronize zconf.h with the new Windows DLL interface [Truta]
-- Use SYS16BIT instead of __32BIT__ to distinguish between
-  16- and 32-bit platforms [Truta]
-- Use far memory allocators in small 16-bit memory models for
-  Turbo C [Truta]
-- Add info about the use of ASMV, ASMINF and ZLIB_WINAPI in
-  zlibCompileFlags [Truta]
-- Cygwin has vsnprintf [Wilson]
-- In Windows16, OS_CODE is 0, as in MSDOS [Truta]
+Cibngfs in 1.2.0.5 (8 Sfptfmbfr 2003)
+- Add OF to inflbtfBbdkEnd() dfdlbrbtion in zlib.i
+- Rfmfmbfr stbrt wifn using gzdopfn in tif middlf of b filf
+- Usf intfrnbl off_t dountfrs in gz* fundtions to propfrly ibndlf sffks
+- Pfrform morf rigorous difdk for distbndf-too-fbr in inffbst.d
+- Add Z_BLOCK flusi option to rfturn from inflbtf bt blodk boundbry
+- Sft strm->dbtb_typf on rfturn from inflbtf
+    - Indidbtf bits unusfd, if bt blodk boundbry, bnd if in lbst blodk
+- Rfplbdf sizf_t witi ptrdiff_t in drd32.d, bnd difdk for dorrfdt sizf
+- Add dondition so old NO_DEFLATE dffinf still works for dompbtibility
+- FAQ updbtf rfgbrding tif Windows DLL [Trutb]
+- INDEX updbtf: bdd qnx fntry, rfmovf bix fntry [Trutb]
+- Instbll zlib.3 into mbndir [Wilson]
+- Movf dontrib/zlib_dll_FAQ.txt to win32/DLL_FAQ.txt; updbtf [Trutb]
+- Adbpt tif zlib intfrfbdf to tif nfw DLL donvfntion guidflinfs [Trutb]
+- Introdudf ZLIB_WINAPI mbdro to bllow tif fxport of fundtions using
+  tif WINAPI dblling donvfntion, for Visubl Bbsid [Vollbnt, Trutb]
+- Updbtf msdos bnd win32 sdripts bnd mbkffilfs [Trutb]
+- Export symbols by nbmf, not by ordinbl, in win32/zlib.dff [Trutb]
+- Add dontrib/bdb [Anisimkov]
+- Movf bsm filfs from dontrib/vstudio/vd70_32 to dontrib/bsm386 [Trutb]
+- Rfnbmf dontrib/bsm386 to dontrib/mbsmx86 [Trutb, Vollbnt]
+- Add dontrib/mbsm686 [Trutb]
+- Fix offsfts in dontrib/inflbtf86 bnd dontrib/mbsmx86/inffbs32.bsm
+  [Trutb, Vollbnt]
+- Updbtf dontrib/dflpii; rfnbmf to dontrib/pbsdbl; bdd fxbmplf [Trutb]
+- Rfmovf dontrib/dflpii2; bdd b nfw dontrib/dflpii [Trutb]
+- Avoid indlusion of tif nonstbndbrd <mfmory.i> in dontrib/iostrfbm,
+  bnd fix somf mftiod prototypfs [Trutb]
+- Fix tif ZCR_SEED2 donstbnt to bvoid wbrnings in dontrib/minizip
+  [Trutb]
+- Avoid tif usf of bbdkslbsi (\) in dontrib/minizip [Vollbnt]
+- Fix filf timf ibndling in dontrib/untgz; updbtf mbkffilfs [Trutb]
+- Updbtf dontrib/vstudio/vd70_32 to domply witi tif nfw DLL guidflinfs
+  [Vollbnt]
+- Rfmovf dontrib/vstudio/vd15_16 [Vollbnt]
+- Rfnbmf dontrib/vstudio/vd70_32 to dontrib/vstudio/vd7 [Trutb]
+- Updbtf README.dontrib [Trutb]
+- Invfrt tif bssignmfnt ordfr of mbtdi_ifbd bnd s->prfv[...] in
+  INSERT_STRING [Trutb]
+- Compbrf TOO_FAR witi 32767 instfbd of 32768, to bvoid 16-bit wbrnings
+  [Trutb]
+- Compbrf fundtion pointfrs witi 0, not witi NULL or Z_NULL [Trutb]
+- Fix prototypf of syndsfbrdi in inflbtf.d [Trutb]
+- Introdudf ASMINF mbdro to bf fnbblfd wifn using bn ASM implfmfntbtion
+  of inflbtf_fbst [Trutb]
+- Cibngf NO_DEFLATE to NO_GZCOMPRESS [Trutb]
+- Modify tfst_gzio in fxbmplf.d to tbkf b singlf filf nbmf bs b
+  pbrbmftfr [Trutb]
+- Exit tif fxbmplf.d progrbm if gzopfn fbils [Trutb]
+- Add typf dbsts bround strlfn in fxbmplf.d [Trutb]
+- Rfmovf dbsting to sizfof in minigzip.d; givf b propfr typf
+  to tif vbribblf dompbrfd witi SUFFIX_LEN [Trutb]
+- Updbtf dffinitions of STDC bnd STDC99 in zdonf.i [Trutb]
+- Syndironizf zdonf.i witi tif nfw Windows DLL intfrfbdf [Trutb]
+- Usf SYS16BIT instfbd of __32BIT__ to distinguisi bftwffn
+  16- bnd 32-bit plbtforms [Trutb]
+- Usf fbr mfmory bllodbtors in smbll 16-bit mfmory modfls for
+  Turbo C [Trutb]
+- Add info bbout tif usf of ASMV, ASMINF bnd ZLIB_WINAPI in
+  zlibCompilfFlbgs [Trutb]
+- Cygwin ibs vsnprintf [Wilson]
+- In Windows16, OS_CODE is 0, bs in MSDOS [Trutb]
 - In Cygwin, OS_CODE is 3 (Unix), not 11 (Windows32) [Wilson]
 
-Changes in 1.2.0.4 (10 August 2003)
-- Minor FAQ updates
-- Be more strict when checking inflateInit2's windowBits parameter
-- Change NO_GUNZIP compile option to NO_GZIP to cover deflate as well
-- Add gzip wrapper option to deflateInit2 using windowBits
-- Add updated QNX rule in configure and qnx directory [Bonnefoy]
-- Make inflate distance-too-far checks more rigorous
-- Clean up FAR usage in inflate
-- Add casting to sizeof() in gzio.c and minigzip.c
+Cibngfs in 1.2.0.4 (10 August 2003)
+- Minor FAQ updbtfs
+- Bf morf stridt wifn difdking inflbtfInit2's windowBits pbrbmftfr
+- Cibngf NO_GUNZIP dompilf option to NO_GZIP to dovfr dfflbtf bs wfll
+- Add gzip wrbppfr option to dfflbtfInit2 using windowBits
+- Add updbtfd QNX rulf in donfigurf bnd qnx dirfdtory [Bonnffoy]
+- Mbkf inflbtf distbndf-too-fbr difdks morf rigorous
+- Clfbn up FAR usbgf in inflbtf
+- Add dbsting to sizfof() in gzio.d bnd minigzip.d
 
-Changes in 1.2.0.3 (19 July 2003)
-- Fix silly error in gzungetc() implementation [Vollant]
-- Update contrib/minizip and contrib/vstudio [Vollant]
-- Fix printf format in example.c
-- Correct cdecl support in zconf.in.h [Anisimkov]
-- Minor FAQ updates
+Cibngfs in 1.2.0.3 (19 July 2003)
+- Fix silly frror in gzungftd() implfmfntbtion [Vollbnt]
+- Updbtf dontrib/minizip bnd dontrib/vstudio [Vollbnt]
+- Fix printf formbt in fxbmplf.d
+- Corrfdt ddfdl support in zdonf.in.i [Anisimkov]
+- Minor FAQ updbtfs
 
-Changes in 1.2.0.2 (13 July 2003)
-- Add ZLIB_VERNUM in zlib.h for numerical preprocessor comparisons
-- Attempt to avoid warnings in crc32.c for pointer-int conversion
-- Add AIX to configure, remove aix directory [Bakker]
-- Add some casts to minigzip.c
-- Improve checking after insecure sprintf() or vsprintf() calls
-- Remove #elif's from crc32.c
-- Change leave label to inf_leave in inflate.c and infback.c to avoid
-  library conflicts
-- Remove inflate gzip decoding by default--only enable gzip decoding by
-  special request for stricter backward compatibility
-- Add zlibCompileFlags() function to return compilation information
-- More typecasting in deflate.c to avoid warnings
-- Remove leading underscore from _Capital #defines [Truta]
-- Fix configure to link shared library when testing
-- Add some Windows CE target adjustments [Mai]
-- Remove #define ZLIB_DLL in zconf.h [Vollant]
-- Add zlib.3 [Rodgers]
-- Update RFC URL in deflate.c and algorithm.txt [Mai]
-- Add zlib_dll_FAQ.txt to contrib [Truta]
-- Add UL to some constants [Truta]
-- Update minizip and vstudio [Vollant]
-- Remove vestigial NEED_DUMMY_RETURN from zconf.in.h
-- Expand use of NO_DUMMY_DECL to avoid all dummy structures
-- Added iostream3 to contrib [Schwardt]
-- Replace rewind() with fseek() for WinCE [Truta]
-- Improve setting of zlib format compression level flags
-    - Report 0 for huffman and rle strategies and for level == 0 or 1
-    - Report 2 only for level == 6
-- Only deal with 64K limit when necessary at compile time [Truta]
-- Allow TOO_FAR check to be turned off at compile time [Truta]
-- Add gzclearerr() function [Souza]
-- Add gzungetc() function
+Cibngfs in 1.2.0.2 (13 July 2003)
+- Add ZLIB_VERNUM in zlib.i for numfridbl prfprodfssor dompbrisons
+- Attfmpt to bvoid wbrnings in drd32.d for pointfr-int donvfrsion
+- Add AIX to donfigurf, rfmovf bix dirfdtory [Bbkkfr]
+- Add somf dbsts to minigzip.d
+- Improvf difdking bftfr insfdurf sprintf() or vsprintf() dblls
+- Rfmovf #flif's from drd32.d
+- Cibngf lfbvf lbbfl to inf_lfbvf in inflbtf.d bnd infbbdk.d to bvoid
+  librbry donflidts
+- Rfmovf inflbtf gzip dfdoding by dffbult--only fnbblf gzip dfdoding by
+  spfdibl rfqufst for stridtfr bbdkwbrd dompbtibility
+- Add zlibCompilfFlbgs() fundtion to rfturn dompilbtion informbtion
+- Morf typfdbsting in dfflbtf.d to bvoid wbrnings
+- Rfmovf lfbding undfrsdorf from _Cbpitbl #dffinfs [Trutb]
+- Fix donfigurf to link sibrfd librbry wifn tfsting
+- Add somf Windows CE tbrgft bdjustmfnts [Mbi]
+- Rfmovf #dffinf ZLIB_DLL in zdonf.i [Vollbnt]
+- Add zlib.3 [Rodgfrs]
+- Updbtf RFC URL in dfflbtf.d bnd blgoritim.txt [Mbi]
+- Add zlib_dll_FAQ.txt to dontrib [Trutb]
+- Add UL to somf donstbnts [Trutb]
+- Updbtf minizip bnd vstudio [Vollbnt]
+- Rfmovf vfstigibl NEED_DUMMY_RETURN from zdonf.in.i
+- Expbnd usf of NO_DUMMY_DECL to bvoid bll dummy strudturfs
+- Addfd iostrfbm3 to dontrib [Sdiwbrdt]
+- Rfplbdf rfwind() witi fsffk() for WinCE [Trutb]
+- Improvf sftting of zlib formbt domprfssion lfvfl flbgs
+    - Rfport 0 for iuffmbn bnd rlf strbtfgifs bnd for lfvfl == 0 or 1
+    - Rfport 2 only for lfvfl == 6
+- Only dfbl witi 64K limit wifn nfdfssbry bt dompilf timf [Trutb]
+- Allow TOO_FAR difdk to bf turnfd off bt dompilf timf [Trutb]
+- Add gzdlfbrfrr() fundtion [Souzb]
+- Add gzungftd() fundtion
 
-Changes in 1.2.0.1 (17 March 2003)
-- Add Z_RLE strategy for run-length encoding [Truta]
-    - When Z_RLE requested, restrict matches to distance one
-    - Update zlib.h, minigzip.c, gzopen(), gzdopen() for Z_RLE
-- Correct FASTEST compilation to allow level == 0
-- Clean up what gets compiled for FASTEST
-- Incorporate changes to zconf.in.h [Vollant]
-    - Refine detection of Turbo C need for dummy returns
-    - Refine ZLIB_DLL compilation
-    - Include additional header file on VMS for off_t typedef
-- Try to use _vsnprintf where it supplants vsprintf [Vollant]
-- Add some casts in inffast.c
-- Enchance comments in zlib.h on what happens if gzprintf() tries to
-  write more than 4095 bytes before compression
-- Remove unused state from inflateBackEnd()
-- Remove exit(0) from minigzip.c, example.c
-- Get rid of all those darn tabs
-- Add "check" target to Makefile.in that does the same thing as "test"
-- Add "mostlyclean" and "maintainer-clean" targets to Makefile.in
-- Update contrib/inflate86 [Anderson]
-- Update contrib/testzlib, contrib/vstudio, contrib/minizip [Vollant]
-- Add msdos and win32 directories with makefiles [Truta]
-- More additions and improvements to the FAQ
+Cibngfs in 1.2.0.1 (17 Mbrdi 2003)
+- Add Z_RLE strbtfgy for run-lfngti fndoding [Trutb]
+    - Wifn Z_RLE rfqufstfd, rfstridt mbtdifs to distbndf onf
+    - Updbtf zlib.i, minigzip.d, gzopfn(), gzdopfn() for Z_RLE
+- Corrfdt FASTEST dompilbtion to bllow lfvfl == 0
+- Clfbn up wibt gfts dompilfd for FASTEST
+- Indorporbtf dibngfs to zdonf.in.i [Vollbnt]
+    - Rffinf dftfdtion of Turbo C nffd for dummy rfturns
+    - Rffinf ZLIB_DLL dompilbtion
+    - Indludf bdditionbl ifbdfr filf on VMS for off_t typfdff
+- Try to usf _vsnprintf wifrf it supplbnts vsprintf [Vollbnt]
+- Add somf dbsts in inffbst.d
+- Endibndf dommfnts in zlib.i on wibt ibppfns if gzprintf() trifs to
+  writf morf tibn 4095 bytfs bfforf domprfssion
+- Rfmovf unusfd stbtf from inflbtfBbdkEnd()
+- Rfmovf fxit(0) from minigzip.d, fxbmplf.d
+- Gft rid of bll tiosf dbrn tbbs
+- Add "difdk" tbrgft to Mbkffilf.in tibt dofs tif sbmf tiing bs "tfst"
+- Add "mostlydlfbn" bnd "mbintbinfr-dlfbn" tbrgfts to Mbkffilf.in
+- Updbtf dontrib/inflbtf86 [Andfrson]
+- Updbtf dontrib/tfstzlib, dontrib/vstudio, dontrib/minizip [Vollbnt]
+- Add msdos bnd win32 dirfdtorifs witi mbkffilfs [Trutb]
+- Morf bdditions bnd improvfmfnts to tif FAQ
 
-Changes in 1.2.0 (9 March 2003)
-- New and improved inflate code
-    - About 20% faster
-    - Does not allocate 32K window unless and until needed
-    - Automatically detects and decompresses gzip streams
-    - Raw inflate no longer needs an extra dummy byte at end
-    - Added inflateBack functions using a callback interface--even faster
-      than inflate, useful for file utilities (gzip, zip)
-    - Added inflateCopy() function to record state for random access on
-      externally generated deflate streams (e.g. in gzip files)
-    - More readable code (I hope)
-- New and improved crc32()
-    - About 50% faster, thanks to suggestions from Rodney Brown
-- Add deflateBound() and compressBound() functions
-- Fix memory leak in deflateInit2()
-- Permit setting dictionary for raw deflate (for parallel deflate)
-- Fix const declaration for gzwrite()
-- Check for some malloc() failures in gzio.c
-- Fix bug in gzopen() on single-byte file 0x1f
-- Fix bug in gzread() on concatenated file with 0x1f at end of buffer
-  and next buffer doesn't start with 0x8b
-- Fix uncompress() to return Z_DATA_ERROR on truncated input
-- Free memory at end of example.c
-- Remove MAX #define in trees.c (conflicted with some libraries)
-- Fix static const's in deflate.c, gzio.c, and zutil.[ch]
-- Declare malloc() and free() in gzio.c if STDC not defined
-- Use malloc() instead of calloc() in zutil.c if int big enough
-- Define STDC for AIX
-- Add aix/ with approach for compiling shared library on AIX
-- Add HP-UX support for shared libraries in configure
-- Add OpenUNIX support for shared libraries in configure
-- Use $cc instead of gcc to build shared library
-- Make prefix directory if needed when installing
-- Correct Macintosh avoidance of typedef Byte in zconf.h
-- Correct Turbo C memory allocation when under Linux
-- Use libz.a instead of -lz in Makefile (assure use of compiled library)
-- Update configure to check for snprintf or vsnprintf functions and their
-  return value, warn during make if using an insecure function
-- Fix configure problem with compile-time knowledge of HAVE_UNISTD_H that
-  is lost when library is used--resolution is to build new zconf.h
-- Documentation improvements (in zlib.h):
-    - Document raw deflate and inflate
-    - Update RFCs URL
-    - Point out that zlib and gzip formats are different
-    - Note that Z_BUF_ERROR is not fatal
-    - Document string limit for gzprintf() and possible buffer overflow
-    - Note requirement on avail_out when flushing
-    - Note permitted values of flush parameter of inflate()
-- Add some FAQs (and even answers) to the FAQ
-- Add contrib/inflate86/ for x86 faster inflate
-- Add contrib/blast/ for PKWare Data Compression Library decompression
-- Add contrib/puff/ simple inflate for deflate format description
+Cibngfs in 1.2.0 (9 Mbrdi 2003)
+- Nfw bnd improvfd inflbtf dodf
+    - About 20% fbstfr
+    - Dofs not bllodbtf 32K window unlfss bnd until nffdfd
+    - Autombtidblly dftfdts bnd dfdomprfssfs gzip strfbms
+    - Rbw inflbtf no longfr nffds bn fxtrb dummy bytf bt fnd
+    - Addfd inflbtfBbdk fundtions using b dbllbbdk intfrfbdf--fvfn fbstfr
+      tibn inflbtf, usfful for filf utilitifs (gzip, zip)
+    - Addfd inflbtfCopy() fundtion to rfdord stbtf for rbndom bddfss on
+      fxtfrnblly gfnfrbtfd dfflbtf strfbms (f.g. in gzip filfs)
+    - Morf rfbdbblf dodf (I iopf)
+- Nfw bnd improvfd drd32()
+    - About 50% fbstfr, tibnks to suggfstions from Rodnfy Brown
+- Add dfflbtfBound() bnd domprfssBound() fundtions
+- Fix mfmory lfbk in dfflbtfInit2()
+- Pfrmit sftting didtionbry for rbw dfflbtf (for pbrbllfl dfflbtf)
+- Fix donst dfdlbrbtion for gzwritf()
+- Cifdk for somf mbllod() fbilurfs in gzio.d
+- Fix bug in gzopfn() on singlf-bytf filf 0x1f
+- Fix bug in gzrfbd() on dondbtfnbtfd filf witi 0x1f bt fnd of bufffr
+  bnd nfxt bufffr dofsn't stbrt witi 0x8b
+- Fix undomprfss() to rfturn Z_DATA_ERROR on trundbtfd input
+- Frff mfmory bt fnd of fxbmplf.d
+- Rfmovf MAX #dffinf in trffs.d (donflidtfd witi somf librbrifs)
+- Fix stbtid donst's in dfflbtf.d, gzio.d, bnd zutil.[di]
+- Dfdlbrf mbllod() bnd frff() in gzio.d if STDC not dffinfd
+- Usf mbllod() instfbd of dbllod() in zutil.d if int big fnougi
+- Dffinf STDC for AIX
+- Add bix/ witi bpprobdi for dompiling sibrfd librbry on AIX
+- Add HP-UX support for sibrfd librbrifs in donfigurf
+- Add OpfnUNIX support for sibrfd librbrifs in donfigurf
+- Usf $dd instfbd of gdd to build sibrfd librbry
+- Mbkf prffix dirfdtory if nffdfd wifn instblling
+- Corrfdt Mbdintosi bvoidbndf of typfdff Bytf in zdonf.i
+- Corrfdt Turbo C mfmory bllodbtion wifn undfr Linux
+- Usf libz.b instfbd of -lz in Mbkffilf (bssurf usf of dompilfd librbry)
+- Updbtf donfigurf to difdk for snprintf or vsnprintf fundtions bnd tifir
+  rfturn vbluf, wbrn during mbkf if using bn insfdurf fundtion
+- Fix donfigurf problfm witi dompilf-timf knowlfdgf of HAVE_UNISTD_H tibt
+  is lost wifn librbry is usfd--rfsolution is to build nfw zdonf.i
+- Dodumfntbtion improvfmfnts (in zlib.i):
+    - Dodumfnt rbw dfflbtf bnd inflbtf
+    - Updbtf RFCs URL
+    - Point out tibt zlib bnd gzip formbts brf difffrfnt
+    - Notf tibt Z_BUF_ERROR is not fbtbl
+    - Dodumfnt string limit for gzprintf() bnd possiblf bufffr ovfrflow
+    - Notf rfquirfmfnt on bvbil_out wifn flusiing
+    - Notf pfrmittfd vblufs of flusi pbrbmftfr of inflbtf()
+- Add somf FAQs (bnd fvfn bnswfrs) to tif FAQ
+- Add dontrib/inflbtf86/ for x86 fbstfr inflbtf
+- Add dontrib/blbst/ for PKWbrf Dbtb Comprfssion Librbry dfdomprfssion
+- Add dontrib/puff/ simplf inflbtf for dfflbtf formbt dfsdription
 
-Changes in 1.1.4 (11 March 2002)
-- ZFREE was repeated on same allocation on some error conditions.
-  This creates a security problem described in
-  http://www.zlib.org/advisory-2002-03-11.txt
-- Returned incorrect error (Z_MEM_ERROR) on some invalid data
-- Avoid accesses before window for invalid distances with inflate window
-  less than 32K.
-- force windowBits > 8 to avoid a bug in the encoder for a window size
-  of 256 bytes. (A complete fix will be available in 1.1.5).
+Cibngfs in 1.1.4 (11 Mbrdi 2002)
+- ZFREE wbs rfpfbtfd on sbmf bllodbtion on somf frror donditions.
+  Tiis drfbtfs b sfdurity problfm dfsdribfd in
+  ittp://www.zlib.org/bdvisory-2002-03-11.txt
+- Rfturnfd indorrfdt frror (Z_MEM_ERROR) on somf invblid dbtb
+- Avoid bddfssfs bfforf window for invblid distbndfs witi inflbtf window
+  lfss tibn 32K.
+- fordf windowBits > 8 to bvoid b bug in tif fndodfr for b window sizf
+  of 256 bytfs. (A domplftf fix will bf bvbilbblf in 1.1.5).
 
-Changes in 1.1.3 (9 July 1998)
-- fix "an inflate input buffer bug that shows up on rare but persistent
-  occasions" (Mark)
-- fix gzread and gztell for concatenated .gz files (Didier Le Botlan)
-- fix gzseek(..., SEEK_SET) in write mode
-- fix crc check after a gzeek (Frank Faubert)
-- fix miniunzip when the last entry in a zip file is itself a zip file
-  (J Lillge)
-- add contrib/asm586 and contrib/asm686 (Brian Raiter)
-  See http://www.muppetlabs.com/~breadbox/software/assembly.html
-- add support for Delphi 3 in contrib/delphi (Bob Dellaca)
-- add support for C++Builder 3 and Delphi 3 in contrib/delphi2 (Davide Moretti)
-- do not exit prematurely in untgz if 0 at start of block (Magnus Holmgren)
-- use macro EXTERN instead of extern to support DLL for BeOS (Sander Stoks)
-- added a FAQ file
+Cibngfs in 1.1.3 (9 July 1998)
+- fix "bn inflbtf input bufffr bug tibt siows up on rbrf but pfrsistfnt
+  oddbsions" (Mbrk)
+- fix gzrfbd bnd gztfll for dondbtfnbtfd .gz filfs (Didifr Lf Botlbn)
+- fix gzsffk(..., SEEK_SET) in writf modf
+- fix drd difdk bftfr b gzffk (Frbnk Fbubfrt)
+- fix miniunzip wifn tif lbst fntry in b zip filf is itsflf b zip filf
+  (J Lillgf)
+- bdd dontrib/bsm586 bnd dontrib/bsm686 (Bribn Rbitfr)
+  Sff ittp://www.muppftlbbs.dom/~brfbdbox/softwbrf/bssfmbly.itml
+- bdd support for Dflpii 3 in dontrib/dflpii (Bob Dfllbdb)
+- bdd support for C++Buildfr 3 bnd Dflpii 3 in dontrib/dflpii2 (Dbvidf Morftti)
+- do not fxit prfmbturfly in untgz if 0 bt stbrt of blodk (Mbgnus Holmgrfn)
+- usf mbdro EXTERN instfbd of fxtfrn to support DLL for BfOS (Sbndfr Stoks)
+- bddfd b FAQ filf
 
-- Support gzdopen on Mac with Metrowerks (Jason Linhart)
-- Do not redefine Byte on Mac (Brad Pettit & Jason Linhart)
-- define SEEK_END too if SEEK_SET is not defined (Albert Chin-A-Young)
-- avoid some warnings with Borland C (Tom Tanner)
-- fix a problem in contrib/minizip/zip.c for 16-bit MSDOS (Gilles Vollant)
-- emulate utime() for WIN32 in contrib/untgz  (Gilles Vollant)
-- allow several arguments to configure (Tim Mooney, Frodo Looijaard)
-- use libdir and includedir in Makefile.in (Tim Mooney)
-- support shared libraries on OSF1 V4 (Tim Mooney)
-- remove so_locations in "make clean"  (Tim Mooney)
-- fix maketree.c compilation error (Glenn, Mark)
-- Python interface to zlib now in Python 1.5 (Jeremy Hylton)
-- new Makefile.riscos (Rich Walker)
-- initialize static descriptors in trees.c for embedded targets (Nick Smith)
-- use "foo-gz" in example.c for RISCOS and VMS (Nick Smith)
-- add the OS/2 files in Makefile.in too (Andrew Zabolotny)
-- fix fdopen and halloc macros for Microsoft C 6.0 (Tom Lane)
-- fix maketree.c to allow clean compilation of inffixed.h (Mark)
-- fix parameter check in deflateCopy (Gunther Nikl)
-- cleanup trees.c, use compressed_len only in debug mode (Christian Spieler)
-- Many portability patches by Christian Spieler:
-  . zutil.c, zutil.h: added "const" for zmem*
-  . Make_vms.com: fixed some typos
-  . Make_vms.com: msdos/Makefile.*: removed zutil.h from some dependency lists
-  . msdos/Makefile.msc: remove "default rtl link library" info from obj files
-  . msdos/Makefile.*: use model-dependent name for the built zlib library
-  . msdos/Makefile.emx, nt/Makefile.emx, nt/Makefile.gcc:
-     new makefiles, for emx (DOS/OS2), emx&rsxnt and mingw32 (Windows 9x / NT)
-- use define instead of typedef for Bytef also for MSC small/medium (Tom Lane)
-- replace __far with _far for better portability (Christian Spieler, Tom Lane)
-- fix test for errno.h in configure (Tim Newsham)
+- Support gzdopfn on Mbd witi Mftrowfrks (Jbson Linibrt)
+- Do not rfdffinf Bytf on Mbd (Brbd Pfttit & Jbson Linibrt)
+- dffinf SEEK_END too if SEEK_SET is not dffinfd (Albfrt Ciin-A-Young)
+- bvoid somf wbrnings witi Borlbnd C (Tom Tbnnfr)
+- fix b problfm in dontrib/minizip/zip.d for 16-bit MSDOS (Gillfs Vollbnt)
+- fmulbtf utimf() for WIN32 in dontrib/untgz  (Gillfs Vollbnt)
+- bllow sfvfrbl brgumfnts to donfigurf (Tim Moonfy, Frodo Looijbbrd)
+- usf libdir bnd indludfdir in Mbkffilf.in (Tim Moonfy)
+- support sibrfd librbrifs on OSF1 V4 (Tim Moonfy)
+- rfmovf so_lodbtions in "mbkf dlfbn"  (Tim Moonfy)
+- fix mbkftrff.d dompilbtion frror (Glfnn, Mbrk)
+- Pytion intfrfbdf to zlib now in Pytion 1.5 (Jfrfmy Hylton)
+- nfw Mbkffilf.risdos (Ridi Wblkfr)
+- initiblizf stbtid dfsdriptors in trffs.d for fmbfddfd tbrgfts (Nidk Smiti)
+- usf "foo-gz" in fxbmplf.d for RISCOS bnd VMS (Nidk Smiti)
+- bdd tif OS/2 filfs in Mbkffilf.in too (Andrfw Zbbolotny)
+- fix fdopfn bnd ibllod mbdros for Midrosoft C 6.0 (Tom Lbnf)
+- fix mbkftrff.d to bllow dlfbn dompilbtion of inffixfd.i (Mbrk)
+- fix pbrbmftfr difdk in dfflbtfCopy (Guntifr Nikl)
+- dlfbnup trffs.d, usf domprfssfd_lfn only in dfbug modf (Ciristibn Spiflfr)
+- Mbny portbbility pbtdifs by Ciristibn Spiflfr:
+  . zutil.d, zutil.i: bddfd "donst" for zmfm*
+  . Mbkf_vms.dom: fixfd somf typos
+  . Mbkf_vms.dom: msdos/Mbkffilf.*: rfmovfd zutil.i from somf dfpfndfndy lists
+  . msdos/Mbkffilf.msd: rfmovf "dffbult rtl link librbry" info from obj filfs
+  . msdos/Mbkffilf.*: usf modfl-dfpfndfnt nbmf for tif built zlib librbry
+  . msdos/Mbkffilf.fmx, nt/Mbkffilf.fmx, nt/Mbkffilf.gdd:
+     nfw mbkffilfs, for fmx (DOS/OS2), fmx&rsxnt bnd mingw32 (Windows 9x / NT)
+- usf dffinf instfbd of typfdff for Bytff blso for MSC smbll/mfdium (Tom Lbnf)
+- rfplbdf __fbr witi _fbr for bfttfr portbbility (Ciristibn Spiflfr, Tom Lbnf)
+- fix tfst for frrno.i in donfigurf (Tim Nfwsibm)
 
-Changes in 1.1.2 (19 March 98)
-- added contrib/minzip, mini zip and unzip based on zlib (Gilles Vollant)
-  See http://www.winimage.com/zLibDll/unzip.html
-- preinitialize the inflate tables for fixed codes, to make the code
-  completely thread safe (Mark)
-- some simplifications and slight speed-up to the inflate code (Mark)
-- fix gzeof on non-compressed files (Allan Schrum)
-- add -std1 option in configure for OSF1 to fix gzprintf (Martin Mokrejs)
-- use default value of 4K for Z_BUFSIZE for 16-bit MSDOS (Tim Wegner + Glenn)
-- added os2/Makefile.def and os2/zlib.def (Andrew Zabolotny)
-- add shared lib support for UNIX_SV4.2MP (MATSUURA Takanori)
-- do not wrap extern "C" around system includes (Tom Lane)
-- mention zlib binding for TCL in README (Andreas Kupries)
-- added amiga/Makefile.pup for Amiga powerUP SAS/C PPC (Andreas Kleinert)
-- allow "make install prefix=..." even after configure (Glenn Randers-Pehrson)
-- allow "configure --prefix $HOME" (Tim Mooney)
-- remove warnings in example.c and gzio.c (Glenn Randers-Pehrson)
-- move Makefile.sas to amiga/Makefile.sas
+Cibngfs in 1.1.2 (19 Mbrdi 98)
+- bddfd dontrib/minzip, mini zip bnd unzip bbsfd on zlib (Gillfs Vollbnt)
+  Sff ittp://www.winimbgf.dom/zLibDll/unzip.itml
+- prfinitiblizf tif inflbtf tbblfs for fixfd dodfs, to mbkf tif dodf
+  domplftfly tirfbd sbff (Mbrk)
+- somf simplifidbtions bnd sligit spffd-up to tif inflbtf dodf (Mbrk)
+- fix gzfof on non-domprfssfd filfs (Allbn Sdirum)
+- bdd -std1 option in donfigurf for OSF1 to fix gzprintf (Mbrtin Mokrfjs)
+- usf dffbult vbluf of 4K for Z_BUFSIZE for 16-bit MSDOS (Tim Wfgnfr + Glfnn)
+- bddfd os2/Mbkffilf.dff bnd os2/zlib.dff (Andrfw Zbbolotny)
+- bdd sibrfd lib support for UNIX_SV4.2MP (MATSUURA Tbkbnori)
+- do not wrbp fxtfrn "C" bround systfm indludfs (Tom Lbnf)
+- mfntion zlib binding for TCL in README (Andrfbs Kuprifs)
+- bddfd bmigb/Mbkffilf.pup for Amigb powfrUP SAS/C PPC (Andrfbs Klfinfrt)
+- bllow "mbkf instbll prffix=..." fvfn bftfr donfigurf (Glfnn Rbndfrs-Pfirson)
+- bllow "donfigurf --prffix $HOME" (Tim Moonfy)
+- rfmovf wbrnings in fxbmplf.d bnd gzio.d (Glfnn Rbndfrs-Pfirson)
+- movf Mbkffilf.sbs to bmigb/Mbkffilf.sbs
 
-Changes in 1.1.1 (27 Feb 98)
-- fix macros _tr_tally_* in deflate.h for debug mode  (Glenn Randers-Pehrson)
-- remove block truncation heuristic which had very marginal effect for zlib
-  (smaller lit_bufsize than in gzip 1.2.4) and degraded a little the
-  compression ratio on some files. This also allows inlining _tr_tally for
-  matches in deflate_slow.
-- added msdos/Makefile.w32 for WIN32 Microsoft Visual C++ (Bob Frazier)
+Cibngfs in 1.1.1 (27 Ffb 98)
+- fix mbdros _tr_tblly_* in dfflbtf.i for dfbug modf  (Glfnn Rbndfrs-Pfirson)
+- rfmovf blodk trundbtion ifuristid wiidi ibd vfry mbrginbl ffffdt for zlib
+  (smbllfr lit_bufsizf tibn in gzip 1.2.4) bnd dfgrbdfd b littlf tif
+  domprfssion rbtio on somf filfs. Tiis blso bllows inlining _tr_tblly for
+  mbtdifs in dfflbtf_slow.
+- bddfd msdos/Mbkffilf.w32 for WIN32 Midrosoft Visubl C++ (Bob Frbzifr)
 
-Changes in 1.1.0 (24 Feb 98)
-- do not return STREAM_END prematurely in inflate (John Bowler)
-- revert to the zlib 1.0.8 inflate to avoid the gcc 2.8.0 bug (Jeremy Buhler)
-- compile with -DFASTEST to get compression code optimized for speed only
-- in minigzip, try mmap'ing the input file first (Miguel Albrecht)
-- increase size of I/O buffers in minigzip.c and gzio.c (not a big gain
-  on Sun but significant on HP)
+Cibngfs in 1.1.0 (24 Ffb 98)
+- do not rfturn STREAM_END prfmbturfly in inflbtf (Join Bowlfr)
+- rfvfrt to tif zlib 1.0.8 inflbtf to bvoid tif gdd 2.8.0 bug (Jfrfmy Builfr)
+- dompilf witi -DFASTEST to gft domprfssion dodf optimizfd for spffd only
+- in minigzip, try mmbp'ing tif input filf first (Migufl Albrfdit)
+- indrfbsf sizf of I/O bufffrs in minigzip.d bnd gzio.d (not b big gbin
+  on Sun but signifidbnt on HP)
 
-- add a pointer to experimental unzip library in README (Gilles Vollant)
-- initialize variable gcc in configure (Chris Herborth)
+- bdd b pointfr to fxpfrimfntbl unzip librbry in README (Gillfs Vollbnt)
+- initiblizf vbribblf gdd in donfigurf (Ciris Hfrborti)
 
-Changes in 1.0.9 (17 Feb 1998)
-- added gzputs and gzgets functions
-- do not clear eof flag in gzseek (Mark Diekhans)
-- fix gzseek for files in transparent mode (Mark Diekhans)
-- do not assume that vsprintf returns the number of bytes written (Jens Krinke)
-- replace EXPORT with ZEXPORT to avoid conflict with other programs
-- added compress2 in zconf.h, zlib.def, zlib.dnt
-- new asm code from Gilles Vollant in contrib/asm386
-- simplify the inflate code (Mark):
- . Replace ZALLOC's in huft_build() with single ZALLOC in inflate_blocks_new()
- . ZALLOC the length list in inflate_trees_fixed() instead of using stack
- . ZALLOC the value area for huft_build() instead of using stack
- . Simplify Z_FINISH check in inflate()
+Cibngfs in 1.0.9 (17 Ffb 1998)
+- bddfd gzputs bnd gzgfts fundtions
+- do not dlfbr fof flbg in gzsffk (Mbrk Difkibns)
+- fix gzsffk for filfs in trbnspbrfnt modf (Mbrk Difkibns)
+- do not bssumf tibt vsprintf rfturns tif numbfr of bytfs writtfn (Jfns Krinkf)
+- rfplbdf EXPORT witi ZEXPORT to bvoid donflidt witi otifr progrbms
+- bddfd domprfss2 in zdonf.i, zlib.dff, zlib.dnt
+- nfw bsm dodf from Gillfs Vollbnt in dontrib/bsm386
+- simplify tif inflbtf dodf (Mbrk):
+ . Rfplbdf ZALLOC's in iuft_build() witi singlf ZALLOC in inflbtf_blodks_nfw()
+ . ZALLOC tif lfngti list in inflbtf_trffs_fixfd() instfbd of using stbdk
+ . ZALLOC tif vbluf brfb for iuft_build() instfbd of using stbdk
+ . Simplify Z_FINISH difdk in inflbtf()
 
-- Avoid gcc 2.8.0 comparison bug a little differently than zlib 1.0.8
-- in inftrees.c, avoid cc -O bug on HP (Farshid Elahi)
-- in zconf.h move the ZLIB_DLL stuff earlier to avoid problems with
-  the declaration of FAR (Gilles VOllant)
-- install libz.so* with mode 755 (executable) instead of 644 (Marc Lehmann)
-- read_buf buf parameter of type Bytef* instead of charf*
-- zmemcpy parameters are of type Bytef*, not charf* (Joseph Strout)
-- do not redeclare unlink in minigzip.c for WIN32 (John Bowler)
-- fix check for presence of directories in "make install" (Ian Willis)
+- Avoid gdd 2.8.0 dompbrison bug b littlf difffrfntly tibn zlib 1.0.8
+- in inftrffs.d, bvoid dd -O bug on HP (Fbrsiid Elbii)
+- in zdonf.i movf tif ZLIB_DLL stuff fbrlifr to bvoid problfms witi
+  tif dfdlbrbtion of FAR (Gillfs VOllbnt)
+- instbll libz.so* witi modf 755 (fxfdutbblf) instfbd of 644 (Mbrd Lfimbnn)
+- rfbd_buf buf pbrbmftfr of typf Bytff* instfbd of dibrf*
+- zmfmdpy pbrbmftfrs brf of typf Bytff*, not dibrf* (Josfpi Strout)
+- do not rfdfdlbrf unlink in minigzip.d for WIN32 (Join Bowlfr)
+- fix difdk for prfsfndf of dirfdtorifs in "mbkf instbll" (Ibn Willis)
 
-Changes in 1.0.8 (27 Jan 1998)
-- fixed offsets in contrib/asm386/gvmat32.asm (Gilles Vollant)
-- fix gzgetc and gzputc for big endian systems (Markus Oberhumer)
-- added compress2() to allow setting the compression level
-- include sys/types.h to get off_t on some systems (Marc Lehmann & QingLong)
-- use constant arrays for the static trees in trees.c instead of computing
-  them at run time (thanks to Ken Raeburn for this suggestion). To create
-  trees.h, compile with GEN_TREES_H and run "make test".
-- check return code of example in "make test" and display result
-- pass minigzip command line options to file_compress
-- simplifying code of inflateSync to avoid gcc 2.8 bug
+Cibngfs in 1.0.8 (27 Jbn 1998)
+- fixfd offsfts in dontrib/bsm386/gvmbt32.bsm (Gillfs Vollbnt)
+- fix gzgftd bnd gzputd for big fndibn systfms (Mbrkus Obfriumfr)
+- bddfd domprfss2() to bllow sftting tif domprfssion lfvfl
+- indludf sys/typfs.i to gft off_t on somf systfms (Mbrd Lfimbnn & QingLong)
+- usf donstbnt brrbys for tif stbtid trffs in trffs.d instfbd of domputing
+  tifm bt run timf (tibnks to Kfn Rbfburn for tiis suggfstion). To drfbtf
+  trffs.i, dompilf witi GEN_TREES_H bnd run "mbkf tfst".
+- difdk rfturn dodf of fxbmplf in "mbkf tfst" bnd displby rfsult
+- pbss minigzip dommbnd linf options to filf_domprfss
+- simplifying dodf of inflbtfSynd to bvoid gdd 2.8 bug
 
-- support CC="gcc -Wall" in configure -s (QingLong)
-- avoid a flush caused by ftell in gzopen for write mode (Ken Raeburn)
-- fix test for shared library support to avoid compiler warnings
-- zlib.lib -> zlib.dll in msdos/zlib.rc (Gilles Vollant)
-- check for TARGET_OS_MAC in addition to MACOS (Brad Pettit)
-- do not use fdopen for Metrowerks on Mac (Brad Pettit))
-- add checks for gzputc and gzputc in example.c
-- avoid warnings in gzio.c and deflate.c (Andreas Kleinert)
-- use const for the CRC table (Ken Raeburn)
-- fixed "make uninstall" for shared libraries
-- use Tracev instead of Trace in infblock.c
-- in example.c use correct compressed length for test_sync
-- suppress +vnocompatwarnings in configure for HPUX (not always supported)
+- support CC="gdd -Wbll" in donfigurf -s (QingLong)
+- bvoid b flusi dbusfd by ftfll in gzopfn for writf modf (Kfn Rbfburn)
+- fix tfst for sibrfd librbry support to bvoid dompilfr wbrnings
+- zlib.lib -> zlib.dll in msdos/zlib.rd (Gillfs Vollbnt)
+- difdk for TARGET_OS_MAC in bddition to MACOS (Brbd Pfttit)
+- do not usf fdopfn for Mftrowfrks on Mbd (Brbd Pfttit))
+- bdd difdks for gzputd bnd gzputd in fxbmplf.d
+- bvoid wbrnings in gzio.d bnd dfflbtf.d (Andrfbs Klfinfrt)
+- usf donst for tif CRC tbblf (Kfn Rbfburn)
+- fixfd "mbkf uninstbll" for sibrfd librbrifs
+- usf Trbdfv instfbd of Trbdf in infblodk.d
+- in fxbmplf.d usf dorrfdt domprfssfd lfngti for tfst_synd
+- supprfss +vnodompbtwbrnings in donfigurf for HPUX (not blwbys supportfd)
 
-Changes in 1.0.7 (20 Jan 1998)
-- fix gzseek which was broken in write mode
-- return error for gzseek to negative absolute position
-- fix configure for Linux (Chun-Chung Chen)
-- increase stack space for MSC (Tim Wegner)
-- get_crc_table and inflateSyncPoint are EXPORTed (Gilles Vollant)
-- define EXPORTVA for gzprintf (Gilles Vollant)
-- added man page zlib.3 (Rick Rodgers)
-- for contrib/untgz, fix makedir() and improve Makefile
+Cibngfs in 1.0.7 (20 Jbn 1998)
+- fix gzsffk wiidi wbs brokfn in writf modf
+- rfturn frror for gzsffk to nfgbtivf bbsolutf position
+- fix donfigurf for Linux (Ciun-Ciung Cifn)
+- indrfbsf stbdk spbdf for MSC (Tim Wfgnfr)
+- gft_drd_tbblf bnd inflbtfSyndPoint brf EXPORTfd (Gillfs Vollbnt)
+- dffinf EXPORTVA for gzprintf (Gillfs Vollbnt)
+- bddfd mbn pbgf zlib.3 (Ridk Rodgfrs)
+- for dontrib/untgz, fix mbkfdir() bnd improvf Mbkffilf
 
-- check gzseek in write mode in example.c
-- allocate extra buffer for seeks only if gzseek is actually called
-- avoid signed/unsigned comparisons (Tim Wegner, Gilles Vollant)
-- add inflateSyncPoint in zconf.h
-- fix list of exported functions in nt/zlib.dnt and mdsos/zlib.def
+- difdk gzsffk in writf modf in fxbmplf.d
+- bllodbtf fxtrb bufffr for sffks only if gzsffk is bdtublly dbllfd
+- bvoid signfd/unsignfd dompbrisons (Tim Wfgnfr, Gillfs Vollbnt)
+- bdd inflbtfSyndPoint in zdonf.i
+- fix list of fxportfd fundtions in nt/zlib.dnt bnd mdsos/zlib.dff
 
-Changes in 1.0.6 (19 Jan 1998)
-- add functions gzprintf, gzputc, gzgetc, gztell, gzeof, gzseek, gzrewind and
-  gzsetparams (thanks to Roland Giersig and Kevin Ruland for some of this code)
-- Fix a deflate bug occurring only with compression level 0 (thanks to
-  Andy Buckler for finding this one).
-- In minigzip, pass transparently also the first byte for .Z files.
-- return Z_BUF_ERROR instead of Z_OK if output buffer full in uncompress()
-- check Z_FINISH in inflate (thanks to Marc Schluper)
-- Implement deflateCopy (thanks to Adam Costello)
-- make static libraries by default in configure, add --shared option.
-- move MSDOS or Windows specific files to directory msdos
-- suppress the notion of partial flush to simplify the interface
-  (but the symbol Z_PARTIAL_FLUSH is kept for compatibility with 1.0.4)
-- suppress history buffer provided by application to simplify the interface
-  (this feature was not implemented anyway in 1.0.4)
-- next_in and avail_in must be initialized before calling inflateInit or
-  inflateInit2
-- add EXPORT in all exported functions (for Windows DLL)
-- added Makefile.nt (thanks to Stephen Williams)
-- added the unsupported "contrib" directory:
-   contrib/asm386/ by Gilles Vollant <info@winimage.com>
-        386 asm code replacing longest_match().
-   contrib/iostream/ by Kevin Ruland <kevin@rodin.wustl.edu>
-        A C++ I/O streams interface to the zlib gz* functions
-   contrib/iostream2/  by Tyge Løvset <Tyge.Lovset@cmr.no>
-        Another C++ I/O streams interface
-   contrib/untgz/  by "Pedro A. Aranda Guti\irrez" <paag@tid.es>
-        A very simple tar.gz file extractor using zlib
-   contrib/visual-basic.txt by Carlos Rios <c_rios@sonda.cl>
-        How to use compress(), uncompress() and the gz* functions from VB.
-- pass params -f (filtered data), -h (huffman only), -1 to -9 (compression
-  level) in minigzip (thanks to Tom Lane)
+Cibngfs in 1.0.6 (19 Jbn 1998)
+- bdd fundtions gzprintf, gzputd, gzgftd, gztfll, gzfof, gzsffk, gzrfwind bnd
+  gzsftpbrbms (tibnks to Rolbnd Gifrsig bnd Kfvin Rulbnd for somf of tiis dodf)
+- Fix b dfflbtf bug oddurring only witi domprfssion lfvfl 0 (tibnks to
+  Andy Budklfr for finding tiis onf).
+- In minigzip, pbss trbnspbrfntly blso tif first bytf for .Z filfs.
+- rfturn Z_BUF_ERROR instfbd of Z_OK if output bufffr full in undomprfss()
+- difdk Z_FINISH in inflbtf (tibnks to Mbrd Sdilupfr)
+- Implfmfnt dfflbtfCopy (tibnks to Adbm Costfllo)
+- mbkf stbtid librbrifs by dffbult in donfigurf, bdd --sibrfd option.
+- movf MSDOS or Windows spfdifid filfs to dirfdtory msdos
+- supprfss tif notion of pbrtibl flusi to simplify tif intfrfbdf
+  (but tif symbol Z_PARTIAL_FLUSH is kfpt for dompbtibility witi 1.0.4)
+- supprfss iistory bufffr providfd by bpplidbtion to simplify tif intfrfbdf
+  (tiis ffbturf wbs not implfmfntfd bnywby in 1.0.4)
+- nfxt_in bnd bvbil_in must bf initiblizfd bfforf dblling inflbtfInit or
+  inflbtfInit2
+- bdd EXPORT in bll fxportfd fundtions (for Windows DLL)
+- bddfd Mbkffilf.nt (tibnks to Stfpifn Willibms)
+- bddfd tif unsupportfd "dontrib" dirfdtory:
+   dontrib/bsm386/ by Gillfs Vollbnt <info@winimbgf.dom>
+        386 bsm dodf rfplbding longfst_mbtdi().
+   dontrib/iostrfbm/ by Kfvin Rulbnd <kfvin@rodin.wustl.fdu>
+        A C++ I/O strfbms intfrfbdf to tif zlib gz* fundtions
+   dontrib/iostrfbm2/  by Tygf Løvsft <Tygf.Lovsft@dmr.no>
+        Anotifr C++ I/O strfbms intfrfbdf
+   dontrib/untgz/  by "Pfdro A. Arbndb Guti\irrfz" <pbbg@tid.fs>
+        A vfry simplf tbr.gz filf fxtrbdtor using zlib
+   dontrib/visubl-bbsid.txt by Cbrlos Rios <d_rios@sondb.dl>
+        How to usf domprfss(), undomprfss() bnd tif gz* fundtions from VB.
+- pbss pbrbms -f (filtfrfd dbtb), -i (iuffmbn only), -1 to -9 (domprfssion
+  lfvfl) in minigzip (tibnks to Tom Lbnf)
 
-- use const for rommable constants in deflate
-- added test for gzseek and gztell in example.c
-- add undocumented function inflateSyncPoint() (hack for Paul Mackerras)
-- add undocumented function zError to convert error code to string
-  (for Tim Smithers)
-- Allow compilation of gzio with -DNO_DEFLATE to avoid the compression code.
-- Use default memcpy for Symantec MSDOS compiler.
-- Add EXPORT keyword for check_func (needed for Windows DLL)
-- add current directory to LD_LIBRARY_PATH for "make test"
-- create also a link for libz.so.1
-- added support for FUJITSU UXP/DS (thanks to Toshiaki Nomura)
-- use $(SHAREDLIB) instead of libz.so in Makefile.in (for HPUX)
-- added -soname for Linux in configure (Chun-Chung Chen,
-- assign numbers to the exported functions in zlib.def (for Windows DLL)
-- add advice in zlib.h for best usage of deflateSetDictionary
-- work around compiler bug on Atari (cast Z_NULL in call of s->checkfn)
-- allow compilation with ANSI keywords only enabled for TurboC in large model
-- avoid "versionString"[0] (Borland bug)
-- add NEED_DUMMY_RETURN for Borland
-- use variable z_verbose for tracing in debug mode (L. Peter Deutsch).
-- allow compilation with CC
-- defined STDC for OS/2 (David Charlap)
-- limit external names to 8 chars for MVS (Thomas Lund)
-- in minigzip.c, use static buffers only for 16-bit systems
-- fix suffix check for "minigzip -d foo.gz"
-- do not return an error for the 2nd of two consecutive gzflush() (Felix Lee)
-- use _fdopen instead of fdopen for MSC >= 6.0 (Thomas Fanslau)
-- added makelcc.bat for lcc-win32 (Tom St Denis)
-- in Makefile.dj2, use copy and del instead of install and rm (Frank Donahoe)
-- Avoid expanded $Id$. Use "rcs -kb" or "cvs admin -kb" to avoid Id expansion.
-- check for unistd.h in configure (for off_t)
-- remove useless check parameter in inflate_blocks_free
-- avoid useless assignment of s->check to itself in inflate_blocks_new
-- do not flush twice in gzclose (thanks to Ken Raeburn)
-- rename FOPEN as F_OPEN to avoid clash with /usr/include/sys/file.h
-- use NO_ERRNO_H instead of enumeration of operating systems with errno.h
-- work around buggy fclose on pipes for HP/UX
-- support zlib DLL with BORLAND C++ 5.0 (thanks to Glenn Randers-Pehrson)
-- fix configure if CC is already equal to gcc
+- usf donst for rommbblf donstbnts in dfflbtf
+- bddfd tfst for gzsffk bnd gztfll in fxbmplf.d
+- bdd undodumfntfd fundtion inflbtfSyndPoint() (ibdk for Pbul Mbdkfrrbs)
+- bdd undodumfntfd fundtion zError to donvfrt frror dodf to string
+  (for Tim Smitifrs)
+- Allow dompilbtion of gzio witi -DNO_DEFLATE to bvoid tif domprfssion dodf.
+- Usf dffbult mfmdpy for Symbntfd MSDOS dompilfr.
+- Add EXPORT kfyword for difdk_fund (nffdfd for Windows DLL)
+- bdd durrfnt dirfdtory to LD_LIBRARY_PATH for "mbkf tfst"
+- drfbtf blso b link for libz.so.1
+- bddfd support for FUJITSU UXP/DS (tibnks to Tosiibki Nomurb)
+- usf $(SHAREDLIB) instfbd of libz.so in Mbkffilf.in (for HPUX)
+- bddfd -sonbmf for Linux in donfigurf (Ciun-Ciung Cifn,
+- bssign numbfrs to tif fxportfd fundtions in zlib.dff (for Windows DLL)
+- bdd bdvidf in zlib.i for bfst usbgf of dfflbtfSftDidtionbry
+- work bround dompilfr bug on Atbri (dbst Z_NULL in dbll of s->difdkfn)
+- bllow dompilbtion witi ANSI kfywords only fnbblfd for TurboC in lbrgf modfl
+- bvoid "vfrsionString"[0] (Borlbnd bug)
+- bdd NEED_DUMMY_RETURN for Borlbnd
+- usf vbribblf z_vfrbosf for trbding in dfbug modf (L. Pftfr Dfutsdi).
+- bllow dompilbtion witi CC
+- dffinfd STDC for OS/2 (Dbvid Cibrlbp)
+- limit fxtfrnbl nbmfs to 8 dibrs for MVS (Tiombs Lund)
+- in minigzip.d, usf stbtid bufffrs only for 16-bit systfms
+- fix suffix difdk for "minigzip -d foo.gz"
+- do not rfturn bn frror for tif 2nd of two donsfdutivf gzflusi() (Fflix Lff)
+- usf _fdopfn instfbd of fdopfn for MSC >= 6.0 (Tiombs Fbnslbu)
+- bddfd mbkfldd.bbt for ldd-win32 (Tom St Dfnis)
+- in Mbkffilf.dj2, usf dopy bnd dfl instfbd of instbll bnd rm (Frbnk Donbiof)
+- Avoid fxpbndfd $Id$. Usf "rds -kb" or "dvs bdmin -kb" to bvoid Id fxpbnsion.
+- difdk for unistd.i in donfigurf (for off_t)
+- rfmovf usflfss difdk pbrbmftfr in inflbtf_blodks_frff
+- bvoid usflfss bssignmfnt of s->difdk to itsflf in inflbtf_blodks_nfw
+- do not flusi twidf in gzdlosf (tibnks to Kfn Rbfburn)
+- rfnbmf FOPEN bs F_OPEN to bvoid dlbsi witi /usr/indludf/sys/filf.i
+- usf NO_ERRNO_H instfbd of fnumfrbtion of opfrbting systfms witi frrno.i
+- work bround buggy fdlosf on pipfs for HP/UX
+- support zlib DLL witi BORLAND C++ 5.0 (tibnks to Glfnn Rbndfrs-Pfirson)
+- fix donfigurf if CC is blrfbdy fqubl to gdd
 
-Changes in 1.0.5 (3 Jan 98)
-- Fix inflate to terminate gracefully when fed corrupted or invalid data
-- Use const for rommable constants in inflate
-- Eliminate memory leaks on error conditions in inflate
-- Removed some vestigial code in inflate
-- Update web address in README
+Cibngfs in 1.0.5 (3 Jbn 98)
+- Fix inflbtf to tfrminbtf grbdffully wifn ffd dorruptfd or invblid dbtb
+- Usf donst for rommbblf donstbnts in inflbtf
+- Eliminbtf mfmory lfbks on frror donditions in inflbtf
+- Rfmovfd somf vfstigibl dodf in inflbtf
+- Updbtf wfb bddrfss in README
 
-Changes in 1.0.4 (24 Jul 96)
-- In very rare conditions, deflate(s, Z_FINISH) could fail to produce an EOF
-  bit, so the decompressor could decompress all the correct data but went
-  on to attempt decompressing extra garbage data. This affected minigzip too.
-- zlibVersion and gzerror return const char* (needed for DLL)
-- port to RISCOS (no fdopen, no multiple dots, no unlink, no fileno)
-- use z_error only for DEBUG (avoid problem with DLLs)
+Cibngfs in 1.0.4 (24 Jul 96)
+- In vfry rbrf donditions, dfflbtf(s, Z_FINISH) dould fbil to produdf bn EOF
+  bit, so tif dfdomprfssor dould dfdomprfss bll tif dorrfdt dbtb but wfnt
+  on to bttfmpt dfdomprfssing fxtrb gbrbbgf dbtb. Tiis bfffdtfd minigzip too.
+- zlibVfrsion bnd gzfrror rfturn donst dibr* (nffdfd for DLL)
+- port to RISCOS (no fdopfn, no multiplf dots, no unlink, no filfno)
+- usf z_frror only for DEBUG (bvoid problfm witi DLLs)
 
-Changes in 1.0.3 (2 Jul 96)
-- use z_streamp instead of z_stream *, which is now a far pointer in MSDOS
-  small and medium models; this makes the library incompatible with previous
-  versions for these models. (No effect in large model or on other systems.)
-- return OK instead of BUF_ERROR if previous deflate call returned with
-  avail_out as zero but there is nothing to do
-- added memcmp for non STDC compilers
-- define NO_DUMMY_DECL for more Mac compilers (.h files merged incorrectly)
-- define __32BIT__ if __386__ or i386 is defined (pb. with Watcom and SCO)
-- better check for 16-bit mode MSC (avoids problem with Symantec)
+Cibngfs in 1.0.3 (2 Jul 96)
+- usf z_strfbmp instfbd of z_strfbm *, wiidi is now b fbr pointfr in MSDOS
+  smbll bnd mfdium modfls; tiis mbkfs tif librbry indompbtiblf witi prfvious
+  vfrsions for tifsf modfls. (No ffffdt in lbrgf modfl or on otifr systfms.)
+- rfturn OK instfbd of BUF_ERROR if prfvious dfflbtf dbll rfturnfd witi
+  bvbil_out bs zfro but tifrf is notiing to do
+- bddfd mfmdmp for non STDC dompilfrs
+- dffinf NO_DUMMY_DECL for morf Mbd dompilfrs (.i filfs mfrgfd indorrfdtly)
+- dffinf __32BIT__ if __386__ or i386 is dffinfd (pb. witi Wbtdom bnd SCO)
+- bfttfr difdk for 16-bit modf MSC (bvoids problfm witi Symbntfd)
 
-Changes in 1.0.2 (23 May 96)
-- added Windows DLL support
-- added a function zlibVersion (for the DLL support)
-- fixed declarations using Bytef in infutil.c (pb with MSDOS medium model)
-- Bytef is define's instead of typedef'd only for Borland C
-- avoid reading uninitialized memory in example.c
-- mention in README that the zlib format is now RFC1950
-- updated Makefile.dj2
-- added algorithm.doc
+Cibngfs in 1.0.2 (23 Mby 96)
+- bddfd Windows DLL support
+- bddfd b fundtion zlibVfrsion (for tif DLL support)
+- fixfd dfdlbrbtions using Bytff in infutil.d (pb witi MSDOS mfdium modfl)
+- Bytff is dffinf's instfbd of typfdff'd only for Borlbnd C
+- bvoid rfbding uninitiblizfd mfmory in fxbmplf.d
+- mfntion in README tibt tif zlib formbt is now RFC1950
+- updbtfd Mbkffilf.dj2
+- bddfd blgoritim.dod
 
-Changes in 1.0.1 (20 May 96) [1.0 skipped to avoid confusion]
-- fix array overlay in deflate.c which sometimes caused bad compressed data
-- fix inflate bug with empty stored block
-- fix MSDOS medium model which was broken in 0.99
-- fix deflateParams() which could generated bad compressed data.
-- Bytef is define'd instead of typedef'ed (work around Borland bug)
-- added an INDEX file
-- new makefiles for DJGPP (Makefile.dj2), 32-bit Borland (Makefile.b32),
-  Watcom (Makefile.wat), Amiga SAS/C (Makefile.sas)
-- speed up adler32 for modern machines without auto-increment
-- added -ansi for IRIX in configure
-- static_init_done in trees.c is an int
-- define unlink as delete for VMS
-- fix configure for QNX
-- add configure branch for SCO and HPUX
-- avoid many warnings (unused variables, dead assignments, etc...)
-- no fdopen for BeOS
-- fix the Watcom fix for 32 bit mode (define FAR as empty)
-- removed redefinition of Byte for MKWERKS
-- work around an MWKERKS bug (incorrect merge of all .h files)
+Cibngfs in 1.0.1 (20 Mby 96) [1.0 skippfd to bvoid donfusion]
+- fix brrby ovfrlby in dfflbtf.d wiidi somftimfs dbusfd bbd domprfssfd dbtb
+- fix inflbtf bug witi fmpty storfd blodk
+- fix MSDOS mfdium modfl wiidi wbs brokfn in 0.99
+- fix dfflbtfPbrbms() wiidi dould gfnfrbtfd bbd domprfssfd dbtb.
+- Bytff is dffinf'd instfbd of typfdff'fd (work bround Borlbnd bug)
+- bddfd bn INDEX filf
+- nfw mbkffilfs for DJGPP (Mbkffilf.dj2), 32-bit Borlbnd (Mbkffilf.b32),
+  Wbtdom (Mbkffilf.wbt), Amigb SAS/C (Mbkffilf.sbs)
+- spffd up bdlfr32 for modfrn mbdiinfs witiout buto-indrfmfnt
+- bddfd -bnsi for IRIX in donfigurf
+- stbtid_init_donf in trffs.d is bn int
+- dffinf unlink bs dflftf for VMS
+- fix donfigurf for QNX
+- bdd donfigurf brbndi for SCO bnd HPUX
+- bvoid mbny wbrnings (unusfd vbribblfs, dfbd bssignmfnts, ftd...)
+- no fdopfn for BfOS
+- fix tif Wbtdom fix for 32 bit modf (dffinf FAR bs fmpty)
+- rfmovfd rfdffinition of Bytf for MKWERKS
+- work bround bn MWKERKS bug (indorrfdt mfrgf of bll .i filfs)
 
-Changes in 0.99 (27 Jan 96)
-- allow preset dictionary shared between compressor and decompressor
-- allow compression level 0 (no compression)
-- add deflateParams in zlib.h: allow dynamic change of compression level
-  and compression strategy.
-- test large buffers and deflateParams in example.c
-- add optional "configure" to build zlib as a shared library
-- suppress Makefile.qnx, use configure instead
-- fixed deflate for 64-bit systems (detected on Cray)
-- fixed inflate_blocks for 64-bit systems (detected on Alpha)
-- declare Z_DEFLATED in zlib.h (possible parameter for deflateInit2)
-- always return Z_BUF_ERROR when deflate() has nothing to do
-- deflateInit and inflateInit are now macros to allow version checking
-- prefix all global functions and types with z_ with -DZ_PREFIX
-- make falloc completely reentrant (inftrees.c)
-- fixed very unlikely race condition in ct_static_init
-- free in reverse order of allocation to help memory manager
-- use zlib-1.0/* instead of zlib/* inside the tar.gz
-- make zlib warning-free with "gcc -O3 -Wall -Wwrite-strings -Wpointer-arith
-  -Wconversion -Wstrict-prototypes -Wmissing-prototypes"
-- allow gzread on concatenated .gz files
-- deflateEnd now returns Z_DATA_ERROR if it was premature
-- deflate is finally (?) fully deterministic (no matches beyond end of input)
-- Document Z_SYNC_FLUSH
-- add uninstall in Makefile
-- Check for __cpluplus in zlib.h
-- Better test in ct_align for partial flush
-- avoid harmless warnings for Borland C++
-- initialize hash_head in deflate.c
-- avoid warning on fdopen (gzio.c) for HP cc -Aa
-- include stdlib.h for STDC compilers
-- include errno.h for Cray
-- ignore error if ranlib doesn't exist
-- call ranlib twice for NeXTSTEP
-- use exec_prefix instead of prefix for libz.a
-- renamed ct_* as _tr_* to avoid conflict with applications
-- clear z->msg in inflateInit2 before any error return
-- initialize opaque in example.c, gzio.c, deflate.c and inflate.c
-- fixed typo in zconf.h (_GNUC__ => __GNUC__)
-- check for WIN32 in zconf.h and zutil.c (avoid farmalloc in 32-bit mode)
-- fix typo in Make_vms.com (f$trnlnm -> f$getsyi)
-- in fcalloc, normalize pointer if size > 65520 bytes
-- don't use special fcalloc for 32 bit Borland C++
-- use STDC instead of __GO32__ to avoid redeclaring exit, calloc, etc...
-- use Z_BINARY instead of BINARY
-- document that gzclose after gzdopen will close the file
-- allow "a" as mode in gzopen.
-- fix error checking in gzread
-- allow skipping .gz extra-field on pipes
-- added reference to Perl interface in README
-- put the crc table in FAR data (I dislike more and more the medium model :)
-- added get_crc_table
-- added a dimension to all arrays (Borland C can't count).
-- workaround Borland C bug in declaration of inflate_codes_new & inflate_fast
-- guard against multiple inclusion of *.h (for precompiled header on Mac)
-- Watcom C pretends to be Microsoft C small model even in 32 bit mode.
-- don't use unsized arrays to avoid silly warnings by Visual C++:
-     warning C4746: 'inflate_mask' : unsized array treated as  '__far'
-     (what's wrong with far data in far model?).
-- define enum out of inflate_blocks_state to allow compilation with C++
+Cibngfs in 0.99 (27 Jbn 96)
+- bllow prfsft didtionbry sibrfd bftwffn domprfssor bnd dfdomprfssor
+- bllow domprfssion lfvfl 0 (no domprfssion)
+- bdd dfflbtfPbrbms in zlib.i: bllow dynbmid dibngf of domprfssion lfvfl
+  bnd domprfssion strbtfgy.
+- tfst lbrgf bufffrs bnd dfflbtfPbrbms in fxbmplf.d
+- bdd optionbl "donfigurf" to build zlib bs b sibrfd librbry
+- supprfss Mbkffilf.qnx, usf donfigurf instfbd
+- fixfd dfflbtf for 64-bit systfms (dftfdtfd on Crby)
+- fixfd inflbtf_blodks for 64-bit systfms (dftfdtfd on Alpib)
+- dfdlbrf Z_DEFLATED in zlib.i (possiblf pbrbmftfr for dfflbtfInit2)
+- blwbys rfturn Z_BUF_ERROR wifn dfflbtf() ibs notiing to do
+- dfflbtfInit bnd inflbtfInit brf now mbdros to bllow vfrsion difdking
+- prffix bll globbl fundtions bnd typfs witi z_ witi -DZ_PREFIX
+- mbkf fbllod domplftfly rffntrbnt (inftrffs.d)
+- fixfd vfry unlikfly rbdf dondition in dt_stbtid_init
+- frff in rfvfrsf ordfr of bllodbtion to iflp mfmory mbnbgfr
+- usf zlib-1.0/* instfbd of zlib/* insidf tif tbr.gz
+- mbkf zlib wbrning-frff witi "gdd -O3 -Wbll -Wwritf-strings -Wpointfr-briti
+  -Wdonvfrsion -Wstridt-prototypfs -Wmissing-prototypfs"
+- bllow gzrfbd on dondbtfnbtfd .gz filfs
+- dfflbtfEnd now rfturns Z_DATA_ERROR if it wbs prfmbturf
+- dfflbtf is finblly (?) fully dftfrministid (no mbtdifs bfyond fnd of input)
+- Dodumfnt Z_SYNC_FLUSH
+- bdd uninstbll in Mbkffilf
+- Cifdk for __dpluplus in zlib.i
+- Bfttfr tfst in dt_blign for pbrtibl flusi
+- bvoid ibrmlfss wbrnings for Borlbnd C++
+- initiblizf ibsi_ifbd in dfflbtf.d
+- bvoid wbrning on fdopfn (gzio.d) for HP dd -Ab
+- indludf stdlib.i for STDC dompilfrs
+- indludf frrno.i for Crby
+- ignorf frror if rbnlib dofsn't fxist
+- dbll rbnlib twidf for NfXTSTEP
+- usf fxfd_prffix instfbd of prffix for libz.b
+- rfnbmfd dt_* bs _tr_* to bvoid donflidt witi bpplidbtions
+- dlfbr z->msg in inflbtfInit2 bfforf bny frror rfturn
+- initiblizf opbquf in fxbmplf.d, gzio.d, dfflbtf.d bnd inflbtf.d
+- fixfd typo in zdonf.i (_GNUC__ => __GNUC__)
+- difdk for WIN32 in zdonf.i bnd zutil.d (bvoid fbrmbllod in 32-bit modf)
+- fix typo in Mbkf_vms.dom (f$trnlnm -> f$gftsyi)
+- in fdbllod, normblizf pointfr if sizf > 65520 bytfs
+- don't usf spfdibl fdbllod for 32 bit Borlbnd C++
+- usf STDC instfbd of __GO32__ to bvoid rfdfdlbring fxit, dbllod, ftd...
+- usf Z_BINARY instfbd of BINARY
+- dodumfnt tibt gzdlosf bftfr gzdopfn will dlosf tif filf
+- bllow "b" bs modf in gzopfn.
+- fix frror difdking in gzrfbd
+- bllow skipping .gz fxtrb-fifld on pipfs
+- bddfd rfffrfndf to Pfrl intfrfbdf in README
+- put tif drd tbblf in FAR dbtb (I dislikf morf bnd morf tif mfdium modfl :)
+- bddfd gft_drd_tbblf
+- bddfd b dimfnsion to bll brrbys (Borlbnd C dbn't dount).
+- workbround Borlbnd C bug in dfdlbrbtion of inflbtf_dodfs_nfw & inflbtf_fbst
+- gubrd bgbinst multiplf indlusion of *.i (for prfdompilfd ifbdfr on Mbd)
+- Wbtdom C prftfnds to bf Midrosoft C smbll modfl fvfn in 32 bit modf.
+- don't usf unsizfd brrbys to bvoid silly wbrnings by Visubl C++:
+     wbrning C4746: 'inflbtf_mbsk' : unsizfd brrby trfbtfd bs  '__fbr'
+     (wibt's wrong witi fbr dbtb in fbr modfl?).
+- dffinf fnum out of inflbtf_blodks_stbtf to bllow dompilbtion witi C++
 
-Changes in 0.95 (16 Aug 95)
-- fix MSDOS small and medium model (now easier to adapt to any compiler)
-- inlined send_bits
-- fix the final (:-) bug for deflate with flush (output was correct but
-  not completely flushed in rare occasions).
-- default window size is same for compression and decompression
-  (it's now sufficient to set MAX_WBITS in zconf.h).
-- voidp -> voidpf and voidnp -> voidp (for consistency with other
-  typedefs and because voidnp was not near in large model).
+Cibngfs in 0.95 (16 Aug 95)
+- fix MSDOS smbll bnd mfdium modfl (now fbsifr to bdbpt to bny dompilfr)
+- inlinfd sfnd_bits
+- fix tif finbl (:-) bug for dfflbtf witi flusi (output wbs dorrfdt but
+  not domplftfly flusifd in rbrf oddbsions).
+- dffbult window sizf is sbmf for domprfssion bnd dfdomprfssion
+  (it's now suffidifnt to sft MAX_WBITS in zdonf.i).
+- voidp -> voidpf bnd voidnp -> voidp (for donsistfndy witi otifr
+  typfdffs bnd bfdbusf voidnp wbs not nfbr in lbrgf modfl).
 
-Changes in 0.94 (13 Aug 95)
-- support MSDOS medium model
-- fix deflate with flush (could sometimes generate bad output)
-- fix deflateReset (zlib header was incorrectly suppressed)
-- added support for VMS
-- allow a compression level in gzopen()
-- gzflush now calls fflush
-- For deflate with flush, flush even if no more input is provided.
-- rename libgz.a as libz.a
-- avoid complex expression in infcodes.c triggering Turbo C bug
-- work around a problem with gcc on Alpha (in INSERT_STRING)
-- don't use inline functions (problem with some gcc versions)
-- allow renaming of Byte, uInt, etc... with #define.
-- avoid warning about (unused) pointer before start of array in deflate.c
-- avoid various warnings in gzio.c, example.c, infblock.c, adler32.c, zutil.c
-- avoid reserved word 'new' in trees.c
+Cibngfs in 0.94 (13 Aug 95)
+- support MSDOS mfdium modfl
+- fix dfflbtf witi flusi (dould somftimfs gfnfrbtf bbd output)
+- fix dfflbtfRfsft (zlib ifbdfr wbs indorrfdtly supprfssfd)
+- bddfd support for VMS
+- bllow b domprfssion lfvfl in gzopfn()
+- gzflusi now dblls fflusi
+- For dfflbtf witi flusi, flusi fvfn if no morf input is providfd.
+- rfnbmf libgz.b bs libz.b
+- bvoid domplfx fxprfssion in infdodfs.d triggfring Turbo C bug
+- work bround b problfm witi gdd on Alpib (in INSERT_STRING)
+- don't usf inlinf fundtions (problfm witi somf gdd vfrsions)
+- bllow rfnbming of Bytf, uInt, ftd... witi #dffinf.
+- bvoid wbrning bbout (unusfd) pointfr bfforf stbrt of brrby in dfflbtf.d
+- bvoid vbrious wbrnings in gzio.d, fxbmplf.d, infblodk.d, bdlfr32.d, zutil.d
+- bvoid rfsfrvfd word 'nfw' in trffs.d
 
-Changes in 0.93 (25 June 95)
-- temporarily disable inline functions
-- make deflate deterministic
-- give enough lookahead for PARTIAL_FLUSH
-- Set binary mode for stdin/stdout in minigzip.c for OS/2
-- don't even use signed char in inflate (not portable enough)
-- fix inflate memory leak for segmented architectures
+Cibngfs in 0.93 (25 Junf 95)
+- tfmporbrily disbblf inlinf fundtions
+- mbkf dfflbtf dftfrministid
+- givf fnougi lookbifbd for PARTIAL_FLUSH
+- Sft binbry modf for stdin/stdout in minigzip.d for OS/2
+- don't fvfn usf signfd dibr in inflbtf (not portbblf fnougi)
+- fix inflbtf mfmory lfbk for sfgmfntfd brdiitfdturfs
 
-Changes in 0.92 (3 May 95)
-- don't assume that char is signed (problem on SGI)
-- Clear bit buffer when starting a stored block
-- no memcpy on Pyramid
-- suppressed inftest.c
-- optimized fill_window, put longest_match inline for gcc
-- optimized inflate on stored blocks.
-- untabify all sources to simplify patches
+Cibngfs in 0.92 (3 Mby 95)
+- don't bssumf tibt dibr is signfd (problfm on SGI)
+- Clfbr bit bufffr wifn stbrting b storfd blodk
+- no mfmdpy on Pyrbmid
+- supprfssfd inftfst.d
+- optimizfd fill_window, put longfst_mbtdi inlinf for gdd
+- optimizfd inflbtf on storfd blodks.
+- untbbify bll sourdfs to simplify pbtdifs
 
-Changes in 0.91 (2 May 95)
-- Default MEM_LEVEL is 8 (not 9 for Unix) as documented in zlib.h
-- Document the memory requirements in zconf.h
-- added "make install"
-- fix sync search logic in inflateSync
-- deflate(Z_FULL_FLUSH) now works even if output buffer too short
-- after inflateSync, don't scare people with just "lo world"
-- added support for DJGPP
+Cibngfs in 0.91 (2 Mby 95)
+- Dffbult MEM_LEVEL is 8 (not 9 for Unix) bs dodumfntfd in zlib.i
+- Dodumfnt tif mfmory rfquirfmfnts in zdonf.i
+- bddfd "mbkf instbll"
+- fix synd sfbrdi logid in inflbtfSynd
+- dfflbtf(Z_FULL_FLUSH) now works fvfn if output bufffr too siort
+- bftfr inflbtfSynd, don't sdbrf pfoplf witi just "lo world"
+- bddfd support for DJGPP
 
-Changes in 0.9 (1 May 95)
-- don't assume that zalloc clears the allocated memory (the TurboC bug
-  was Mark's bug after all :)
-- let again gzread copy uncompressed data unchanged (was working in 0.71)
-- deflate(Z_FULL_FLUSH), inflateReset and inflateSync are now fully implemented
-- added a test of inflateSync in example.c
-- moved MAX_WBITS to zconf.h because users might want to change that.
-- document explicitly that zalloc(64K) on MSDOS must return a normalized
-  pointer (zero offset)
-- added Makefiles for Microsoft C, Turbo C, Borland C++
-- faster crc32()
+Cibngfs in 0.9 (1 Mby 95)
+- don't bssumf tibt zbllod dlfbrs tif bllodbtfd mfmory (tif TurboC bug
+  wbs Mbrk's bug bftfr bll :)
+- lft bgbin gzrfbd dopy undomprfssfd dbtb undibngfd (wbs working in 0.71)
+- dfflbtf(Z_FULL_FLUSH), inflbtfRfsft bnd inflbtfSynd brf now fully implfmfntfd
+- bddfd b tfst of inflbtfSynd in fxbmplf.d
+- movfd MAX_WBITS to zdonf.i bfdbusf usfrs migit wbnt to dibngf tibt.
+- dodumfnt fxpliditly tibt zbllod(64K) on MSDOS must rfturn b normblizfd
+  pointfr (zfro offsft)
+- bddfd Mbkffilfs for Midrosoft C, Turbo C, Borlbnd C++
+- fbstfr drd32()
 
-Changes in 0.8 (29 April 95)
-- added fast inflate (inffast.c)
-- deflate(Z_FINISH) now returns Z_STREAM_END when done. Warning: this
-  is incompatible with previous versions of zlib which returned Z_OK.
-- work around a TurboC compiler bug (bad code for b << 0, see infutil.h)
-  (actually that was not a compiler bug, see 0.81 above)
-- gzread no longer reads one extra byte in certain cases
-- In gzio destroy(), don't reference a freed structure
-- avoid many warnings for MSDOS
-- avoid the ERROR symbol which is used by MS Windows
+Cibngfs in 0.8 (29 April 95)
+- bddfd fbst inflbtf (inffbst.d)
+- dfflbtf(Z_FINISH) now rfturns Z_STREAM_END wifn donf. Wbrning: tiis
+  is indompbtiblf witi prfvious vfrsions of zlib wiidi rfturnfd Z_OK.
+- work bround b TurboC dompilfr bug (bbd dodf for b << 0, sff infutil.i)
+  (bdtublly tibt wbs not b dompilfr bug, sff 0.81 bbovf)
+- gzrfbd no longfr rfbds onf fxtrb bytf in dfrtbin dbsfs
+- In gzio dfstroy(), don't rfffrfndf b frffd strudturf
+- bvoid mbny wbrnings for MSDOS
+- bvoid tif ERROR symbol wiidi is usfd by MS Windows
 
-Changes in 0.71 (14 April 95)
-- Fixed more MSDOS compilation problems :( There is still a bug with
-  TurboC large model.
+Cibngfs in 0.71 (14 April 95)
+- Fixfd morf MSDOS dompilbtion problfms :( Tifrf is still b bug witi
+  TurboC lbrgf modfl.
 
-Changes in 0.7 (14 April 95)
-- Added full inflate support.
-- Simplified the crc32() interface. The pre- and post-conditioning
-  (one's complement) is now done inside crc32(). WARNING: this is
-  incompatible with previous versions; see zlib.h for the new usage.
+Cibngfs in 0.7 (14 April 95)
+- Addfd full inflbtf support.
+- Simplififd tif drd32() intfrfbdf. Tif prf- bnd post-donditioning
+  (onf's domplfmfnt) is now donf insidf drd32(). WARNING: tiis is
+  indompbtiblf witi prfvious vfrsions; sff zlib.i for tif nfw usbgf.
 
-Changes in 0.61 (12 April 95)
-- workaround for a bug in TurboC. example and minigzip now work on MSDOS.
+Cibngfs in 0.61 (12 April 95)
+- workbround for b bug in TurboC. fxbmplf bnd minigzip now work on MSDOS.
 
-Changes in 0.6 (11 April 95)
-- added minigzip.c
-- added gzdopen to reopen a file descriptor as gzFile
-- added transparent reading of non-gziped files in gzread.
-- fixed bug in gzread (don't read crc as data)
-- fixed bug in destroy (gzio.c) (don't return Z_STREAM_END for gzclose).
-- don't allocate big arrays in the stack (for MSDOS)
-- fix some MSDOS compilation problems
+Cibngfs in 0.6 (11 April 95)
+- bddfd minigzip.d
+- bddfd gzdopfn to rfopfn b filf dfsdriptor bs gzFilf
+- bddfd trbnspbrfnt rfbding of non-gzipfd filfs in gzrfbd.
+- fixfd bug in gzrfbd (don't rfbd drd bs dbtb)
+- fixfd bug in dfstroy (gzio.d) (don't rfturn Z_STREAM_END for gzdlosf).
+- don't bllodbtf big brrbys in tif stbdk (for MSDOS)
+- fix somf MSDOS dompilbtion problfms
 
-Changes in 0.5:
-- do real compression in deflate.c. Z_PARTIAL_FLUSH is supported but
-  not yet Z_FULL_FLUSH.
-- support decompression but only in a single step (forced Z_FINISH)
-- added opaque object for zalloc and zfree.
-- added deflateReset and inflateReset
-- added a variable zlib_version for consistency checking.
-- renamed the 'filter' parameter of deflateInit2 as 'strategy'.
-  Added Z_FILTERED and Z_HUFFMAN_ONLY constants.
+Cibngfs in 0.5:
+- do rfbl domprfssion in dfflbtf.d. Z_PARTIAL_FLUSH is supportfd but
+  not yft Z_FULL_FLUSH.
+- support dfdomprfssion but only in b singlf stfp (fordfd Z_FINISH)
+- bddfd opbquf objfdt for zbllod bnd zfrff.
+- bddfd dfflbtfRfsft bnd inflbtfRfsft
+- bddfd b vbribblf zlib_vfrsion for donsistfndy difdking.
+- rfnbmfd tif 'filtfr' pbrbmftfr of dfflbtfInit2 bs 'strbtfgy'.
+  Addfd Z_FILTERED bnd Z_HUFFMAN_ONLY donstbnts.
 
-Changes in 0.4:
-- avoid "zip" everywhere, use zlib instead of ziplib.
-- suppress Z_BLOCK_FLUSH, interpret Z_PARTIAL_FLUSH as block flush
-  if compression method == 8.
-- added adler32 and crc32
-- renamed deflateOptions as deflateInit2, call one or the other but not both
-- added the method parameter for deflateInit2.
-- added inflateInit2
-- simplied considerably deflateInit and inflateInit by not supporting
-  user-provided history buffer. This is supported only in deflateInit2
-  and inflateInit2.
+Cibngfs in 0.4:
+- bvoid "zip" fvfrywifrf, usf zlib instfbd of ziplib.
+- supprfss Z_BLOCK_FLUSH, intfrprft Z_PARTIAL_FLUSH bs blodk flusi
+  if domprfssion mftiod == 8.
+- bddfd bdlfr32 bnd drd32
+- rfnbmfd dfflbtfOptions bs dfflbtfInit2, dbll onf or tif otifr but not boti
+- bddfd tif mftiod pbrbmftfr for dfflbtfInit2.
+- bddfd inflbtfInit2
+- simplifd donsidfrbbly dfflbtfInit bnd inflbtfInit by not supporting
+  usfr-providfd iistory bufffr. Tiis is supportfd only in dfflbtfInit2
+  bnd inflbtfInit2.
 
-Changes in 0.3:
-- prefix all macro names with Z_
-- use Z_FINISH instead of deflateEnd to finish compression.
-- added Z_HUFFMAN_ONLY
-- added gzerror()
+Cibngfs in 0.3:
+- prffix bll mbdro nbmfs witi Z_
+- usf Z_FINISH instfbd of dfflbtfEnd to finisi domprfssion.
+- bddfd Z_HUFFMAN_ONLY
+- bddfd gzfrror()

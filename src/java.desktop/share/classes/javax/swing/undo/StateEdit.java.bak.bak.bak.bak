@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.undo;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+
+/**
+ * <P>StbtfEdit is b gfnfrbl fdit for objfdts thbt dhbngf stbtf.
+ * Objfdts bfing fditfd must donform to thf StbtfEditbblf intfrfbdf.</P>
+ *
+ * <P>This fdit dlbss works by bsking bn objfdt to storf it's stbtf in
+ * Hbshtbblfs bfforf bnd bftfr fditing oddurs.  Upon undo or rfdo thf
+ * objfdt is told to rfstorf it's stbtf from thfsf Hbshtbblfs.</P>
+ *
+ * A stbtf fdit is usfd bs follows:
+ * <PRE>
+ *      // Crfbtf thf fdit during thf "bfforf" stbtf of thf objfdt
+ *      StbtfEdit nfwEdit = nfw StbtfEdit(myObjfdt);
+ *      // Modify thf objfdt
+ *      myObjfdt.somfStbtfModifyingMfthod();
+ *      // "fnd" thf fdit whfn you brf donf modifying thf objfdt
+ *      nfwEdit.fnd();
+ * </PRE>
+ *
+ * <P><EM>Notf thbt whfn b StbtfEdit fnds, it rfmovfs rfdundbnt stbtf from
+ * thf Hbshtbblfs - A stbtf Hbshtbblf is not gubrbntffd to dontbin bll
+ * kfys/vblufs plbdfd into it whfn thf stbtf is storfd!</EM></P>
+ *
+ * @sff StbtfEditbblf
+ *
+ * @buthor Rby Rybn
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss StbtfEdit
+        fxtfnds AbstrbdtUndobblfEdit {
+
+    protfdtfd stbtid finbl String RCSID = "$Id: StbtfEdit.jbvb,v 1.6 1997/10/01 20:05:51 sbndipd Exp $";
+
+    //
+    // Attributfs
+    //
+
+    /**
+     * Thf objfdt bfing fditfd
+     */
+    protfdtfd StbtfEditbblf objfdt;
+
+    /**
+     * Thf stbtf informbtion prior to thf fdit
+     */
+    protfdtfd Hbshtbblf<Objfdt,Objfdt> prfStbtf;
+
+    /**
+     * Thf stbtf informbtion bftfr thf fdit
+     */
+    protfdtfd Hbshtbblf<Objfdt,Objfdt> postStbtf;
+
+    /**
+     * Thf undo/rfdo prfsfntbtion nbmf
+     */
+    protfdtfd String undoRfdoNbmf;
+
+    //
+    // Construdtors
+    //
+
+    /**
+     * Crfbtf bnd rfturn b nfw StbtfEdit.
+     *
+     * @pbrbm bnObjfdt Thf objfdt to wbtdh for dhbnging stbtf
+     *
+     * @sff StbtfEdit
+     */
+    publid StbtfEdit(StbtfEditbblf bnObjfdt) {
+        supfr();
+        init (bnObjfdt,null);
+    }
+
+    /**
+     * Crfbtf bnd rfturn b nfw StbtfEdit with b prfsfntbtion nbmf.
+     *
+     * @pbrbm bnObjfdt Thf objfdt to wbtdh for dhbnging stbtf
+     * @pbrbm nbmf Thf prfsfntbtion nbmf to bf usfd for this fdit
+     *
+     * @sff StbtfEdit
+     */
+    publid StbtfEdit(StbtfEditbblf bnObjfdt, String nbmf) {
+        supfr();
+        init (bnObjfdt,nbmf);
+    }
+
+    protfdtfd void init (StbtfEditbblf bnObjfdt, String nbmf) {
+        this.objfdt = bnObjfdt;
+        this.prfStbtf = nfw Hbshtbblf<Objfdt, Objfdt>(11);
+        this.objfdt.storfStbtf(this.prfStbtf);
+        this.postStbtf = null;
+        this.undoRfdoNbmf = nbmf;
+    }
+
+
+    //
+    // Opfrbtion
+    //
+
+
+    /**
+     * Gfts thf post-fdit stbtf of thf StbtfEditbblf objfdt bnd
+     * fnds thf fdit.
+     */
+    publid void fnd() {
+        this.postStbtf = nfw Hbshtbblf<Objfdt, Objfdt>(11);
+        this.objfdt.storfStbtf(this.postStbtf);
+        this.rfmovfRfdundbntStbtf();
+    }
+
+    /**
+     * Tflls thf fditfd objfdt to bpply thf stbtf prior to thf fdit
+     */
+    publid void undo() {
+        supfr.undo();
+        this.objfdt.rfstorfStbtf(prfStbtf);
+    }
+
+    /**
+     * Tflls thf fditfd objfdt to bpply thf stbtf bftfr thf fdit
+     */
+    publid void rfdo() {
+        supfr.rfdo();
+        this.objfdt.rfstorfStbtf(postStbtf);
+    }
+
+    /**
+     * Gfts thf prfsfntbtion nbmf for this fdit
+     */
+    publid String gftPrfsfntbtionNbmf() {
+        rfturn this.undoRfdoNbmf;
+    }
+
+
+    //
+    // Intfrnbl support
+    //
+
+    /**
+     * Rfmovf rfdundbnt kfy/vblufs in stbtf hbshtbblfs.
+     */
+    protfdtfd void rfmovfRfdundbntStbtf() {
+        Vfdtor<Objfdt> usflfssKfys = nfw Vfdtor<>();
+        Enumfrbtion<Objfdt> myKfys = prfStbtf.kfys();
+
+        // Lodbtf rfdundbnt stbtf
+        whilf (myKfys.hbsMorfElfmfnts()) {
+            Objfdt myKfy = myKfys.nfxtElfmfnt();
+            if (postStbtf.dontbinsKfy(myKfy) &&
+                postStbtf.gft(myKfy).fqubls(prfStbtf.gft(myKfy))) {
+                usflfssKfys.bddElfmfnt(myKfy);
+            }
+        }
+
+        // Rfmovf rfdundbnt stbtf
+        for (int i = usflfssKfys.sizf()-1; i >= 0; i--) {
+            Objfdt myKfy = usflfssKfys.flfmfntAt(i);
+            prfStbtf.rfmovf(myKfy);
+            postStbtf.rfmovf(myKfy);
+        }
+    }
+
+} // End of dlbss StbtfEdit

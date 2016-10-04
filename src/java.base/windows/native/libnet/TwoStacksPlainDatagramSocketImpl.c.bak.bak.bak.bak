@@ -1,0 +1,2562 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windows.h>
+#indludf <winsodk2.h>
+#indludf <ws2tdpip.h>
+#indludf <dtypf.h>
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <mbllod.h>
+#indludf <sys/typfs.h>
+
+#ifndff IPTOS_TOS_MASK
+#dffinf IPTOS_TOS_MASK 0x1f
+#fndif
+#ifndff IPTOS_PREC_MASK
+#dffinf IPTOS_PREC_MASK 0xf0
+#fndif
+
+#indludf "jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl.h"
+#indludf "jbvb_nft_SodkftOptions.h"
+#indludf "jbvb_nft_NftworkIntfrfbdf.h"
+
+#indludf "NftworkIntfrfbdf.h"
+#indludf "jvm.h"
+#indludf "jni_util.h"
+#indludf "nft_util.h"
+
+#dffinf IN_CLASSD(i)    (((long)(i) & 0xf0000000) == 0xf0000000)
+#dffinf IN_MULTICAST(i) IN_CLASSD(i)
+
+/************************************************************************
+ * TwoStbdksPlbinDbtbgrbmSodkftImpl
+ */
+
+stbtid jfifldID IO_fd_fdID;
+stbtid jfifldID pdsi_trbffidClbssID;
+jfifldID pdsi_fdID;
+jfifldID pdsi_fd1ID;
+jfifldID pdsi_fdusfID;
+jfifldID pdsi_lbstfdID;
+jfifldID pdsi_timfoutID;
+
+jfifldID pdsi_lodblPortID;
+jfifldID pdsi_donnfdtfd;
+
+stbtid jdlbss ib4_dlbzz;
+stbtid jmfthodID ib4_dtor;
+
+stbtid CRITICAL_SECTION sizfChfdkLodk;
+
+/* Windows OS vfrsion is XP or bfttfr */
+stbtid int xp_or_lbtfr = 0;
+/* Windows OS vfrsion is Windows 2000 or bfttfr */
+stbtid int w2k_or_lbtfr = 0;
+
+/*
+ * Notfs bbout UDP/IPV6 on Windows (XP bnd 2003 sfrvfr):
+ *
+ * fd blwbys points to thf IPv4 fd, bnd fd1 points to thf IPv6 fd.
+ * Both fds brf usfd whfn wf bind to b wild-dbrd bddrfss. Whfn b spfdifid
+ * bddrfss is usfd, only onf of thfm is usfd.
+ */
+
+/*
+ * Rfturns b jbvb.lbng.Intfgfr bbsfd on 'i'
+ */
+jobjfdt drfbtfIntfgfr(JNIEnv *fnv, int i) {
+    stbtid jdlbss i_dlbss;
+    stbtid jmfthodID i_dtrID;
+    stbtid jfifldID i_vblufID;
+
+    if (i_dlbss == NULL) {
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/lbng/Intfgfr");
+        CHECK_NULL_RETURN(d, NULL);
+        i_dtrID = (*fnv)->GftMfthodID(fnv, d, "<init>", "(I)V");
+        CHECK_NULL_RETURN(i_dtrID, NULL);
+        i_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL_RETURN(i_dlbss, NULL);
+    }
+
+    rfturn ( (*fnv)->NfwObjfdt(fnv, i_dlbss, i_dtrID, i) );
+}
+
+/*
+ * Rfturns b jbvb.lbng.Boolfbn bbsfd on 'b'
+ */
+jobjfdt drfbtfBoolfbn(JNIEnv *fnv, int b) {
+    stbtid jdlbss b_dlbss;
+    stbtid jmfthodID b_dtrID;
+    stbtid jfifldID b_vblufID;
+
+    if (b_dlbss == NULL) {
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/lbng/Boolfbn");
+        CHECK_NULL_RETURN(d, NULL);
+        b_dtrID = (*fnv)->GftMfthodID(fnv, d, "<init>", "(Z)V");
+        CHECK_NULL_RETURN(b_dtrID, NULL);
+        b_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL_RETURN(b_dlbss, NULL);
+    }
+
+    rfturn( (*fnv)->NfwObjfdt(fnv, b_dlbss, b_dtrID, (jboolfbn)(b!=0)) );
+}
+
+
+stbtid int gftFD(JNIEnv *fnv, jobjfdt this) {
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+
+    if (fdObj == NULL) {
+        rfturn -1;
+    }
+    rfturn (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+}
+
+stbtid int gftFD1(JNIEnv *fnv, jobjfdt this) {
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+
+    if (fdObj == NULL) {
+        rfturn -1;
+    }
+    rfturn (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+}
+
+/*
+ * This fundtion rfturns JNI_TRUE if thf dbtbgrbm sizf fxdffds thf undfrlying
+ * providfr's bbility to sfnd to thf tbrgft bddrfss. Thf following OS
+ * odditifs hbvf bffn obsfrvfd :-
+ *
+ * 1. On Windows 95/98 if wf try to sfnd b dbtbgrbm > 12k to bn bpplidbtion
+ *    on thf sbmf mbdhinf thfn thf sfnd will fbil silfntly.
+ *
+ * 2. On Windows ME if wf try to sfnd b dbtbgrbm > supportfd by undfrlying
+ *    providfr thfn sfnd will not rfturn bn frror.
+ *
+ * 3. On Windows NT/2000 if wf fxdffds thf mbximum sizf thfn sfnd will fbil
+ *    with WSAEADDRNOTAVAIL.
+ *
+ * 4. On Windows 95/98 if wf fxdffd thf mbximum sizf whfn sfnding to
+ *    bnothfr mbdhinf thfn WSAEINVAL is rfturnfd.
+ *
+ */
+jboolfbn fxdffdSizfLimit(JNIEnv *fnv, jint fd, jint bddr, jint sizf)
+{
+#dffinf DEFAULT_MSG_SIZE        65527
+    stbtid jboolfbn initDonf;
+    stbtid jboolfbn is95or98;
+    stbtid int mbxmsg;
+
+    typfdff strudt _nftbddr  {          /* Windows 95/98 only */
+        unsignfd long bddr;
+        strudt _nftbddr *nfxt;
+    } nftbddr;
+    stbtid nftbddr *bddrList;
+    nftbddr *durr;
+
+    /*
+     * First timf wf brf dbllfd wf must dftfrminf whidh OS this is bnd blso
+     * gft thf mbximum sizf supportfd by thf undfrlying providfr.
+     *
+     * In bddition on 95/98 wf must fnumfrbtf our IP bddrfssfs.
+     */
+    if (!initDonf) {
+        EntfrCritidblSfdtion(&sizfChfdkLodk);
+
+        if (initDonf) {
+            /* bnothfr thrfbd got thfrf first */
+            LfbvfCritidblSfdtion(&sizfChfdkLodk);
+
+        } flsf {
+            OSVERSIONINFO vfr;
+            int lfn;
+
+            /*
+             * Stfp 1: Dftfrminf whidh OS this is.
+             */
+            vfr.dwOSVfrsionInfoSizf = sizfof(vfr);
+            GftVfrsionEx(&vfr);
+
+            is95or98 = JNI_FALSE;
+            if (vfr.dwPlbtformId == VER_PLATFORM_WIN32_WINDOWS &&
+                vfr.dwMbjorVfrsion == 4 &&
+                (vfr.dwMinorVfrsion == 0 || vfr.dwMinorVfrsion == 10)) {
+
+                is95or98 = JNI_TRUE;
+            }
+
+            /*
+             * Stfp 2: Dftfrminf thf mbximum dbtbgrbm supportfd by thf
+             * undfrlying providfr. On Windows 95 if winsodk hbsn't bffn
+             * upgrbdfd (if: unsupportfd donfigurbtion) thfn wf bssumf
+             * thf dffbult 64k limit.
+             */
+            lfn = sizfof(mbxmsg);
+            if (NET_GftSodkOpt(fd, SOL_SOCKET, SO_MAX_MSG_SIZE, (dhbr *)&mbxmsg, &lfn) < 0) {
+                mbxmsg = DEFAULT_MSG_SIZE;
+            }
+
+            /*
+             * Stfp 3: On Windows 95/98 thfn fnumfrbtf thf IP bddrfssfs on
+             * this mbdhinf. This is nfddfsbry bfdbusf wf nffd to dhfdk if thf
+             * dbtbgrbm is bfing sfnt to bn bpplidbtion on thf sbmf mbdhinf.
+             */
+            if (is95or98) {
+                dhbr hostnbmf[255];
+                strudt hostfnt *hp;
+
+                if (gfthostnbmf(hostnbmf, sizfof(hostnbmf)) == -1) {
+                    LfbvfCritidblSfdtion(&sizfChfdkLodk);
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Unbblf to obtbin hostnbmf");
+                    rfturn JNI_TRUE;
+                }
+                hp = (strudt hostfnt *)gfthostbynbmf(hostnbmf);
+                if (hp != NULL) {
+                    strudt in_bddr **bddrp = (strudt in_bddr **) hp->h_bddr_list;
+
+                    whilf (*bddrp != (strudt in_bddr *) 0) {
+                        durr = (nftbddr *)mbllod(sizfof(nftbddr));
+                        if (durr == NULL) {
+                            whilf (bddrList != NULL) {
+                                durr = bddrList->nfxt;
+                                frff(bddrList);
+                                bddrList = durr;
+                            }
+                            LfbvfCritidblSfdtion(&sizfChfdkLodk);
+                            JNU_ThrowOutOfMfmoryError(fnv, "Nbtivf hfbp bllodbtion fbilfd");
+                            rfturn JNI_TRUE;
+                        }
+                        durr->bddr = htonl((*bddrp)->S_un.S_bddr);
+                        durr->nfxt = bddrList;
+                        bddrList = durr;
+                        bddrp++;
+                    }
+                }
+            }
+
+            /*
+             * Stfp 4: initiblizbtion is donf so sft flbg bnd unlodk ds
+             */
+            initDonf = JNI_TRUE;
+            LfbvfCritidblSfdtion(&sizfChfdkLodk);
+        }
+    }
+
+    /*
+     * Now fxbminf thf sizf of thf dbtbgrbm :-
+     *
+     * (b) If fxdffds sizf of sfrvidf providfr rfturn 'fblsf' to indidbtf thbt
+     *     wf fxdffd thf limit.
+     * (b) If not 95/98 thfn rfturn 'truf' to indidbtf thbt thf sizf is okby.
+     * (d) On 95/98 if thf sizf is <12k wf brf okby.
+     * (d) On 95/98 if sizf > 12k thfn dhfdk if thf dfstinbtion is thf durrfnt
+     *     mbdhinf.
+     */
+    if (sizf > mbxmsg) {        /* stfp (b) */
+        rfturn JNI_TRUE;
+    }
+    if (!is95or98) {            /* stfp (b) */
+        rfturn JNI_FALSE;
+    }
+    if (sizf <= 12280) {        /* stfp (d) */
+        rfturn JNI_FALSE;
+    }
+
+    /* stfp (d) */
+
+    if ((bddr & 0x7f000000) == 0x7f000000) {
+        rfturn JNI_TRUE;
+    }
+    durr = bddrList;
+    whilf (durr != NULL) {
+        if (durr->bddr == bddr) {
+            rfturn JNI_TRUE;
+        }
+        durr = durr->nfxt;
+    }
+    rfturn JNI_FALSE;
+}
+
+/*
+ * Rfturn JNI_TRUE if this Windows fdition supports ICMP Port Unrfbdhbblf
+ */
+__inlinf stbtid jboolfbn supportPortUnrfbdhbblf() {
+    stbtid jboolfbn initDonf;
+    stbtid jboolfbn portUnrfbdhbblfSupportfd;
+
+    if (!initDonf) {
+        OSVERSIONINFO vfr;
+        vfr.dwOSVfrsionInfoSizf = sizfof(vfr);
+        GftVfrsionEx(&vfr);
+        if (vfr.dwPlbtformId == VER_PLATFORM_WIN32_NT && vfr.dwMbjorVfrsion >= 5) {
+            portUnrfbdhbblfSupportfd = JNI_TRUE;
+        } flsf {
+            portUnrfbdhbblfSupportfd = JNI_FALSE;
+        }
+        initDonf = JNI_TRUE;
+    }
+    rfturn portUnrfbdhbblfSupportfd;
+}
+
+/*
+ * This fundtion "purgfs" bll outstbnding ICMP port unrfbdhbblf pbdkfts
+ * outstbnding on b sodkft bnd rfturns JNI_TRUE if bny ICMP mfssbgfs
+ * hbvf bffn purgfd. Thf rbtionbl for purging is to fmulbtf normbl BSD
+ * bfhbviour whfrfby rfdfiving b "donnfdtion rfsft" stbtus rfsfts thf
+ * sodkft.
+ */
+stbtid jboolfbn purgfOutstbndingICMP(JNIEnv *fnv, jobjfdt this, jint fd)
+{
+    jboolfbn got_idmp = JNI_FALSE;
+    dhbr buf[1];
+    fd_sft tbl;
+    strudt timfvbl t = { 0, 0 };
+    SOCKETADDRESS rmtbddr;
+    int bddrlfn = sizfof(rmtbddr);
+
+    mfmsft((dhbr *)&rmtbddr, 0, sizfof(rmtbddr));
+
+    /*
+     * A no-op if this OS dofsn't support it.
+     */
+    if (!supportPortUnrfbdhbblf()) {
+        rfturn JNI_FALSE;
+    }
+
+    /*
+     * Pffk bt thf qufuf to sff if thfrf is bn ICMP port unrfbdhbblf. If thfrf
+     * is thfn rfdfivf it.
+     */
+    FD_ZERO(&tbl);
+    FD_SET(fd, &tbl);
+    whilf(1) {
+        if (sflfdt(/*ignorfd*/fd+1, &tbl, 0, 0, &t) <= 0) {
+            brfbk;
+        }
+        if (rfdvfrom(fd, buf, 1, MSG_PEEK,
+                         (strudt sodkbddr *)&rmtbddr, &bddrlfn) != SOCKET_ERROR) {
+            brfbk;
+        }
+        if (WSAGftLbstError() != WSAECONNRESET) {
+            /* somf othfr frror - wf don't dbrf hfrf */
+            brfbk;
+        }
+
+        rfdvfrom(fd, buf, 1, 0,  (strudt sodkbddr *)&rmtbddr, &bddrlfn);
+        got_idmp = JNI_TRUE;
+    }
+
+    rfturn got_idmp;
+}
+
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_init(JNIEnv *fnv, jdlbss dls) {
+
+    OSVERSIONINFO vfr;
+    int vfrsion;
+    vfr.dwOSVfrsionInfoSizf = sizfof(vfr);
+    GftVfrsionEx(&vfr);
+
+    vfrsion = vfr.dwMbjorVfrsion * 10 + vfr.dwMinorVfrsion;
+    xp_or_lbtfr = (vfr.dwPlbtformId == VER_PLATFORM_WIN32_NT) && (vfrsion >= 51);
+    w2k_or_lbtfr = (vfr.dwPlbtformId == VER_PLATFORM_WIN32_NT) && (vfrsion >= 50);
+
+    /* gft fifldIDs */
+    pdsi_fdID = (*fnv)->GftFifldID(fnv, dls, "fd", "Ljbvb/io/FilfDfsdriptor;");
+    CHECK_NULL(pdsi_fdID);
+    pdsi_fd1ID = (*fnv)->GftFifldID(fnv, dls, "fd1", "Ljbvb/io/FilfDfsdriptor;");
+    CHECK_NULL(pdsi_fd1ID);
+    pdsi_timfoutID = (*fnv)->GftFifldID(fnv, dls, "timfout", "I");
+    CHECK_NULL(pdsi_timfoutID);
+    pdsi_fdusfID = (*fnv)->GftFifldID(fnv, dls, "fdusf", "I");
+    CHECK_NULL(pdsi_fdusfID);
+    pdsi_lbstfdID = (*fnv)->GftFifldID(fnv, dls, "lbstfd", "I");
+    CHECK_NULL(pdsi_lbstfdID);
+    pdsi_trbffidClbssID = (*fnv)->GftFifldID(fnv, dls, "trbffidClbss", "I");
+    CHECK_NULL(pdsi_trbffidClbssID);
+    pdsi_lodblPortID = (*fnv)->GftFifldID(fnv, dls, "lodblPort", "I");
+    CHECK_NULL(pdsi_lodblPortID);
+    pdsi_donnfdtfd = (*fnv)->GftFifldID(fnv, dls, "donnfdtfd", "Z");
+    CHECK_NULL(pdsi_donnfdtfd);
+
+    dls = (*fnv)->FindClbss(fnv, "jbvb/io/FilfDfsdriptor");
+    CHECK_NULL(dls);
+    IO_fd_fdID = NET_GftFilfDfsdriptorID(fnv);
+    CHECK_NULL(IO_fd_fdID);
+
+    ib4_dlbzz = (*fnv)->FindClbss(fnv, "jbvb/nft/Inft4Addrfss");
+    CHECK_NULL(ib4_dlbzz);
+    ib4_dlbzz = (*fnv)->NfwGlobblRff(fnv, ib4_dlbzz);
+    CHECK_NULL(ib4_dlbzz);
+    ib4_dtor = (*fnv)->GftMfthodID(fnv, ib4_dlbzz, "<init>", "()V");
+    CHECK_NULL(ib4_dtor);
+
+
+    InitiblizfCritidblSfdtion(&sizfChfdkLodk);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_bind0(JNIEnv *fnv, jobjfdt this,
+                                           jint port, jobjfdt bddrfssObj,
+                                           jboolfbn fxdlBind) {
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+
+    int fd, fd1, fbmily;
+    int ipv6_supportfd = ipv6_bvbilbblf();
+
+    SOCKETADDRESS ldlbddr;
+    int ldlbddrlfn = sizfof(ldlbddr);
+    int bddrfss;
+
+    mfmsft((dhbr *)&ldlbddr, 0, sizfof(ldlbddr));
+
+    fbmily = gftInftAddrfss_fbmily(fnv, bddrfssObj);
+    if (fbmily == IPv6 && !ipv6_supportfd) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Protodol fbmily not supportfd");
+        rfturn;
+    }
+
+    if (IS_NULL(fdObj) || (ipv6_supportfd && IS_NULL(fd1Obj))) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+        if (ipv6_supportfd) {
+            fd1 = (*fnv)->GftIntFifld(fnv, fd1Obj, IO_fd_fdID);
+        }
+    }
+    if (IS_NULL(bddrfssObj)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "brgumfnt bddrfss");
+        rfturn;
+    } flsf {
+        bddrfss = gftInftAddrfss_bddr(fnv, bddrfssObj);
+    }
+
+    if (NET_InftAddrfssToSodkbddr(fnv, bddrfssObj, port, (strudt sodkbddr *)&ldlbddr, &ldlbddrlfn, JNI_FALSE) != 0) {
+      rfturn;
+    }
+
+    if (ipv6_supportfd) {
+        strudt ipv6bind v6bind;
+        v6bind.bddr = &ldlbddr;
+        v6bind.ipv4_fd = fd;
+        v6bind.ipv6_fd = fd1;
+        if (NET_BindV6(&v6bind, fxdlBind) != -1) {
+            /* dhfdk if thf fds hbvf dhbngfd */
+            if (v6bind.ipv4_fd != fd) {
+                fd = v6bind.ipv4_fd;
+                if (fd == -1) {
+                    /* sodkft is dlosfd. */
+                    (*fnv)->SftObjfdtFifld(fnv, this, pdsi_fdID, NULL);
+                } flsf {
+                    /* sodkft wbs rf-drfbtfd */
+                    (*fnv)->SftIntFifld(fnv, fdObj, IO_fd_fdID, fd);
+                }
+            }
+            if (v6bind.ipv6_fd != fd1) {
+                fd1 = v6bind.ipv6_fd;
+                if (fd1 == -1) {
+                    /* sodkft is dlosfd. */
+                    (*fnv)->SftObjfdtFifld(fnv, this, pdsi_fd1ID, NULL);
+                } flsf {
+                    /* sodkft wbs rf-drfbtfd */
+                    (*fnv)->SftIntFifld(fnv, fd1Obj, IO_fd_fdID, fd1);
+                }
+            }
+        } flsf {
+            NET_ThrowCurrfnt (fnv, "Cbnnot bind");
+            rfturn;
+        }
+    } flsf {
+        if (NET_WinBind(fd, (strudt sodkbddr *)&ldlbddr, ldlbddrlfn, fxdlBind) == -1) {
+            if (WSAGftLbstError() == WSAEACCES) {
+                WSASftLbstError(WSAEADDRINUSE);
+            }
+            NET_ThrowCurrfnt(fnv, "Cbnnot bind");
+            rfturn;
+        }
+    }
+
+    if (port == 0) {
+        if (fd == -1) {
+            /* must bf bn IPV6 only sodkft. */
+            fd = fd1;
+        }
+        if (gftsodknbmf(fd, (strudt sodkbddr *)&ldlbddr, &ldlbddrlfn) == -1) {
+            NET_ThrowCurrfnt(fnv, "gftsodknbmf");
+            rfturn;
+        }
+        port = ntohs((u_short) GET_PORT (&ldlbddr));
+    }
+    (*fnv)->SftIntFifld(fnv, this, pdsi_lodblPortID, port);
+}
+
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    donnfdt0
+ * Signbturf: (Ljbvb/nft/InftAddrfss;I)V
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_donnfdt0(JNIEnv *fnv, jobjfdt this,
+                                               jobjfdt bddrfss, jint port) {
+    /* Thf objfdt's fifld */
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+    /* Thf fdObj'fd */
+    jint fd=-1, fd1=-1, fdd;
+    /* Thf pbdkftAddrfss bddrfss, fbmily bnd port */
+    jint bddr, fbmily;
+    SOCKETADDRESS rmtbddr;
+    int rmtbddrlfn;
+    int ipv6_supportfd = ipv6_bvbilbblf();
+
+    if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    }
+    if (!IS_NULL(fdObj)) {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    if (!IS_NULL(fd1Obj)) {
+        fd1 = (*fnv)->GftIntFifld(fnv, fd1Obj, IO_fd_fdID);
+    }
+
+    if (IS_NULL(bddrfss)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "bddrfss");
+        rfturn;
+    }
+
+    bddr = gftInftAddrfss_bddr(fnv, bddrfss);
+
+    fbmily = gftInftAddrfss_fbmily(fnv, bddrfss);
+    if (fbmily == IPv6 && !ipv6_supportfd) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Protodol fbmily not supportfd");
+        rfturn;
+    }
+
+    fdd = fbmily == IPv4? fd: fd1;
+
+    if (xp_or_lbtfr) {
+        /* SIO_UDP_CONNRESET fixfs b bug introdudfd in Windows 2000, whidh
+         * rfturns donnfdtion rfsft frrors on donnfdtfd UDP sodkfts (bs wfll
+         * bs donnfdtfd sodkfts). Thf solution is to only fnbblf this ffbturf
+         * whfn thf sodkft is donnfdtfd
+         */
+        DWORD x1, x2; /* ignorfd rfsult dodfs */
+        int rfs, t = TRUE;
+        rfs = WSAIodtl(fdd,SIO_UDP_CONNRESET,&t,sizfof(t),&x1,sizfof(x1),&x2,0,0);
+    }
+
+    if (NET_InftAddrfssToSodkbddr(fnv, bddrfss, port,(strudt sodkbddr *)&rmtbddr, &rmtbddrlfn, JNI_FALSE) != 0) {
+      rfturn;
+    }
+
+    if (donnfdt(fdd, (strudt sodkbddr *)&rmtbddr, sizfof(rmtbddr)) == -1) {
+        NET_ThrowCurrfnt(fnv, "donnfdt");
+        rfturn;
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    disdonnfdt0
+ * Signbturf: ()V
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_disdonnfdt0(JNIEnv *fnv, jobjfdt this, jint fbmily) {
+    /* Thf objfdt's fifld */
+    jobjfdt fdObj;
+    /* Thf fdObj'fd */
+    jint fd, lfn;
+    SOCKETADDRESS bddr;
+
+    if (fbmily == IPv4) {
+        fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+        lfn = sizfof (strudt sodkbddr_in);
+    } flsf {
+        fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+        lfn = sizfof (strudt SOCKADDR_IN6);
+    }
+
+    if (IS_NULL(fdObj)) {
+        /* disdonnfdt dofsn't throw bny fxdfptions */
+        rfturn;
+    }
+    fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+
+    mfmsft((dhbr *)&bddr, 0, lfn);
+    donnfdt(fd, (strudt sodkbddr *)&bddr, lfn);
+
+    /*
+     * usf SIO_UDP_CONNRESET
+     * to disbblf ICMP port unrfbdhbblf hbndling hfrf.
+     */
+    if (xp_or_lbtfr) {
+        DWORD x1 = 0, x2 = 0; /* ignorfd rfsult dodfs */
+        int t = FALSE;
+        WSAIodtl(fd,SIO_UDP_CONNRESET,&t,sizfof(t),&x1,sizfof(x1),&x2,0,0);
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    sfnd
+ * Signbturf: (Ljbvb/nft/DbtbgrbmPbdkft;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_sfnd(JNIEnv *fnv, jobjfdt this,
+                                           jobjfdt pbdkft) {
+
+    dhbr BUF[MAX_BUFFER_LEN];
+    dhbr *fullPbdkft;
+    jobjfdt fdObj;
+    jint fd;
+
+    jobjfdt ibObj;
+    jint bddrfss;
+    jint fbmily;
+
+    jint pbdkftBufffrOffsft, pbdkftBufffrLfn, pbdkftPort;
+    jbytfArrby pbdkftBufffr;
+    jboolfbn donnfdtfd;
+
+    SOCKETADDRESS rmtbddr;
+    SOCKETADDRESS *bddrp = &rmtbddr;
+    int bddrlfn = 0;
+
+    mfmsft((dhbr *)&rmtbddr, 0, sizfof(rmtbddr));
+
+    if (IS_NULL(pbdkft)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "null pbdkft");
+        rfturn;
+    }
+
+    ibObj = (*fnv)->GftObjfdtFifld(fnv, pbdkft, dp_bddrfssID);
+
+    pbdkftPort = (*fnv)->GftIntFifld(fnv, pbdkft, dp_portID);
+    pbdkftBufffrOffsft = (*fnv)->GftIntFifld(fnv, pbdkft, dp_offsftID);
+    pbdkftBufffr = (jbytfArrby)(*fnv)->GftObjfdtFifld(fnv, pbdkft, dp_bufID);
+    donnfdtfd = (*fnv)->GftBoolfbnFifld(fnv, this, pdsi_donnfdtfd);
+
+    if (IS_NULL(ibObj) || IS_NULL(pbdkftBufffr)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "null bddrfss || null bufffr");
+        rfturn;
+    }
+
+    fbmily = gftInftAddrfss_fbmily(fnv, ibObj);
+    if (fbmily == IPv4) {
+        fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    } flsf {
+        if (!ipv6_bvbilbblf()) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Protodol not bllowfd");
+            rfturn;
+        }
+        fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+    }
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    }
+    fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+
+    pbdkftBufffrLfn = (*fnv)->GftIntFifld(fnv, pbdkft, dp_lfngthID);
+    /* Notf: thf bufffr nffdn't bf grfbtfr thbn 65,536 (0xFFFF)...
+     * thf mbximum sizf of bn IP pbdkft. Anything biggfr is trundbtfd bnywby.
+     */
+    if (pbdkftBufffrLfn > MAX_PACKET_LEN) {
+        pbdkftBufffrLfn = MAX_PACKET_LEN;
+    }
+
+    if (donnfdtfd) {
+        bddrp = 0; /* brg to sfndto () null in this dbsf */
+        bddrlfn = 0;
+    } flsf {
+      if (NET_InftAddrfssToSodkbddr(fnv, ibObj, pbdkftPort, (strudt sodkbddr *)&rmtbddr, &bddrlfn, JNI_FALSE) != 0) {
+        rfturn;
+      }
+    }
+
+    if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+
+        /*
+         * On 95/98 if wf try to sfnd b dbtbgrbm >12k to bn bpplidbtion
+         * on thf sbmf mbdhinf thfn this will fbil silfntly. Thus wf
+         * dbtdh this situbtion hfrf so thbt wf dbn throw bn fxdfption
+         * whfn this brisfs.
+         * On ME if wf try to sfnd b dbtbgrbm with b sizf grfbtfr thbn
+         * thbt supportfd by thf sfrvidf providfr thfn no frror is
+         * rfturnfd.
+         */
+        if (!w2k_or_lbtfr) { /* bvoid this dhfdk on Win 2K or bfttfr. Dofs not work with IPv6.
+                      * Chfdk is not nfdfssbry on thfsf OSfs */
+            if (donnfdtfd) {
+                bddrfss = gftInftAddrfss_bddr(fnv, ibObj);
+            } flsf {
+                bddrfss = ntohl(rmtbddr.him4.sin_bddr.s_bddr);
+            }
+
+            if (fxdffdSizfLimit(fnv, fd, bddrfss, pbdkftBufffrLfn)) {
+                if (!((*fnv)->ExdfptionOddurrfd(fnv))) {
+                    NET_ThrowNfw(fnv, WSAEMSGSIZE, "Dbtbgrbm sfnd fbilfd");
+                }
+                rfturn;
+            }
+        }
+
+        /* Whfn JNI-ifying thf JDK's IO routinfs, wf turnfd
+         * rfbds bnd writfs of bytf brrbys of sizf grfbtfr
+         * thbn 2048 bytfs into sfvfrbl opfrbtions of sizf 2048.
+         * This sbvfs b mbllod()/mfmdpy()/frff() for big
+         * bufffrs.  This is OK for filf IO bnd TCP, but thbt
+         * strbtfgy violbtfs thf sfmbntids of b dbtbgrbm protodol.
+         * (onf big sfnd) != (sfvfrbl smbllfr sfnds).  So hfrf
+         * wf *must* bllod thf bufffr.  Notf it nffdn't bf biggfr
+         * thbn 65,536 (0xFFFF) thf mbx sizf of bn IP pbdkft.
+         * bnything biggfr is trundbtfd bnywby.
+         */
+        fullPbdkft = (dhbr *)mbllod(pbdkftBufffrLfn);
+        if (!fullPbdkft) {
+            JNU_ThrowOutOfMfmoryError(fnv, "Sfnd buf nbtivf hfbp bllodbtion fbilfd");
+            rfturn;
+        }
+    } flsf {
+        fullPbdkft = &(BUF[0]);
+    }
+
+    (*fnv)->GftBytfArrbyRfgion(fnv, pbdkftBufffr, pbdkftBufffrOffsft, pbdkftBufffrLfn,
+                               (jbytf *)fullPbdkft);
+    if (sfndto(fd, fullPbdkft, pbdkftBufffrLfn, 0,
+               (strudt sodkbddr *)bddrp, bddrlfn) == SOCKET_ERROR) {
+         NET_ThrowCurrfnt(fnv, "Dbtbgrbm sfnd fbilfd");
+    }
+
+    if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+        frff(fullPbdkft);
+    }
+}
+
+/*
+ * dhfdk whidh sodkft wbs lbst sfrvidfd whfn thfrf wbs dbtb on both sodkfts.
+ * Only dbll this if surf thbt thfrf is dbtb on both sodkfts.
+ */
+stbtid int dhfdkLbstFD (JNIEnv *fnv, jobjfdt this, int fd, int fd1) {
+    int nfxtfd, lbstfd = (*fnv)->GftIntFifld(fnv, this, pdsi_lbstfdID);
+    if (lbstfd == -1) {
+        /* brbitrbry. Choosf fd */
+        (*fnv)->SftIntFifld(fnv, this, pdsi_lbstfdID, fd);
+        rfturn fd;
+    } flsf {
+        if (lbstfd == fd) {
+            nfxtfd = fd1;
+        } flsf {
+            nfxtfd = fd;
+        }
+        (*fnv)->SftIntFifld(fnv, this, pdsi_lbstfdID, nfxtfd);
+        rfturn nfxtfd;
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    pffk
+ * Signbturf: (Ljbvb/nft/InftAddrfss;)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_pffk(JNIEnv *fnv, jobjfdt this,
+                                           jobjfdt bddrfssObj) {
+
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jint timfout = (*fnv)->GftIntFifld(fnv, this, pdsi_timfoutID);
+    jint fd;
+
+    /* Thf bddrfss bnd fbmily fiflds of bddrfssObj */
+    jint bddrfss, fbmily;
+
+    int n;
+    strudt sodkbddr_in rfmotf_bddr;
+    jint rfmotf_bddrsizf = sizfof (rfmotf_bddr);
+    dhbr buf[1];
+    BOOL rftry;
+    jlong prfvTimf = 0;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Sodkft dlosfd");
+        rfturn -1;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+        if (fd < 0) {
+           JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                           "sodkft dlosfd");
+           rfturn -1;
+        }
+    }
+    if (IS_NULL(bddrfssObj)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "Null bddrfss in pffk()");
+    } flsf {
+        bddrfss = gftInftAddrfss_bddr(fnv, bddrfssObj);
+        /* Wf only hbndlf IPv4 for now. Will support IPv6 ondf its in thf os */
+        fbmily = AF_INET;
+    }
+
+    do {
+        rftry = FALSE;
+
+        /*
+         * If b timfout hbs bffn spfdififd thfn wf sflfdt on thf sodkft
+         * wbiting for b rfbd fvfnt or b timfout.
+         */
+        if (timfout) {
+            int rft;
+            prfvTimf = JVM_CurrfntTimfMillis(fnv, 0);
+            rft = NET_Timfout (fd, timfout);
+            if (rft == 0) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                "Pffk timfd out");
+                rfturn rft;
+            } flsf if (rft == -1) {
+                NET_ThrowCurrfnt(fnv, "timfout in dbtbgrbm sodkft pffk");
+                rfturn rft;
+            }
+        }
+
+        /* now try thf pffk */
+        n = rfdvfrom(fd, buf, 1, MSG_PEEK,
+                         (strudt sodkbddr *)&rfmotf_bddr, &rfmotf_bddrsizf);
+
+        if (n == SOCKET_ERROR) {
+            if (WSAGftLbstError() == WSAECONNRESET) {
+                jboolfbn donnfdtfd;
+
+                /*
+                 * An idmp port unrfbdhbblf - wf must rfdfivf this bs Windows
+                 * dofs not rfsft thf stbtf of thf sodkft until this hbs bffn
+                 * rfdfivfd.
+                 */
+                purgfOutstbndingICMP(fnv, this, fd);
+
+                donnfdtfd =  (*fnv)->GftBoolfbnFifld(fnv, this, pdsi_donnfdtfd);
+                if (donnfdtfd) {
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdhbblfExdfption",
+                                       "ICMP Port Unrfbdhbblf");
+                    rfturn 0;
+                }
+
+                /*
+                 * If b timfout wbs spfdififd thfn wf nffd to bdjust it bfdbusf
+                 * wf mby hbvf usfd up somf of thf timfout bffor thf idmp port
+                 * unrfbdhbblf brrivfd.
+                 */
+                if (timfout) {
+                    jlong nfwTimf = JVM_CurrfntTimfMillis(fnv, 0);
+                    timfout -= (jint)(nfwTimf - prfvTimf);
+                    if (timfout <= 0) {
+                        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                "Rfdfivf timfd out");
+                        rfturn 0;
+                    }
+                    prfvTimf = nfwTimf;
+                }
+
+                /* Nffd to rftry thf rfdv */
+                rftry = TRUE;
+            }
+        }
+    } whilf (rftry);
+
+    if (n == SOCKET_ERROR && WSAGftLbstError() != WSAEMSGSIZE) {
+        NET_ThrowCurrfnt(fnv, "Dbtbgrbm pffk fbilfd");
+        rfturn 0;
+    }
+    sftInftAddrfss_bddr(fnv, bddrfssObj, ntohl(rfmotf_bddr.sin_bddr.s_bddr));
+    sftInftAddrfss_fbmily(fnv, bddrfssObj, IPv4);
+
+    /* rfturn port */
+    rfturn ntohs(rfmotf_bddr.sin_port);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_pffkDbtb(JNIEnv *fnv, jobjfdt this,
+                                           jobjfdt pbdkft) {
+
+     dhbr BUF[MAX_BUFFER_LEN];
+    dhbr *fullPbdkft;
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+    jint timfout = (*fnv)->GftIntFifld(fnv, this, pdsi_timfoutID);
+
+    jbytfArrby pbdkftBufffr;
+    jint pbdkftBufffrOffsft, pbdkftBufffrLfn;
+
+    int fd, fd1, fdusf, nsodkfts=0, frrorCodf;
+    int port;
+
+    int dhfdkBoth = 0;
+    int n;
+    SOCKETADDRESS rfmotf_bddr;
+    jint rfmotf_bddrsizf=sizfof(rfmotf_bddr);
+    BOOL rftry;
+    jlong prfvTimf = 0;
+
+    if (!IS_NULL(fdObj)) {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+        if (fd < 0) {
+           JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                           "sodkft dlosfd");
+           rfturn -1;
+        }
+        nsodkfts = 1;
+    }
+
+    if (!IS_NULL(fd1Obj)) {
+        fd1 = (*fnv)->GftIntFifld(fnv, fd1Obj, IO_fd_fdID);
+        if (fd1 < 0) {
+           JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                           "sodkft dlosfd");
+           rfturn -1;
+        }
+        nsodkfts ++;
+    }
+
+    switdh (nsodkfts) {
+      dbsf 0:
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                       "sodkft dlosfd");
+        rfturn -1;
+      dbsf 1:
+        if (!IS_NULL(fdObj)) {
+           fdusf = fd;
+        } flsf {
+           fdusf = fd1;
+        }
+        brfbk;
+      dbsf 2:
+        dhfdkBoth = TRUE;
+        brfbk;
+    }
+
+    if (IS_NULL(pbdkft)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "pbdkft");
+        rfturn -1;
+    }
+
+    pbdkftBufffr = (*fnv)->GftObjfdtFifld(fnv, pbdkft, dp_bufID);
+
+    if (IS_NULL(pbdkftBufffr)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "pbdkft bufffr");
+        rfturn -1;
+    }
+
+    pbdkftBufffrOffsft = (*fnv)->GftIntFifld(fnv, pbdkft, dp_offsftID);
+    pbdkftBufffrLfn = (*fnv)->GftIntFifld(fnv, pbdkft, dp_bufLfngthID);
+
+    if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+
+        /* Whfn JNI-ifying thf JDK's IO routinfs, wf turnfd
+         * rfbd's bnd writf's of bytf brrbys of sizf grfbtfr
+         * thbn 2048 bytfs into sfvfrbl opfrbtions of sizf 2048.
+         * This sbvfs b mbllod()/mfmdpy()/frff() for big
+         * bufffrs.  This is OK for filf IO bnd TCP, but thbt
+         * strbtfgy violbtfs thf sfmbntids of b dbtbgrbm protodol.
+         * (onf big sfnd) != (sfvfrbl smbllfr sfnds).  So hfrf
+         * wf *must* bllod thf bufffr.  Notf it nffdn't bf biggfr
+         * thbn 65,536 (0xFFFF) thf mbx sizf of bn IP pbdkft.
+         * bnything biggfr is trundbtfd bnywby.
+         */
+        fullPbdkft = (dhbr *)mbllod(pbdkftBufffrLfn);
+        if (!fullPbdkft) {
+            JNU_ThrowOutOfMfmoryError(fnv, "Nbtivf hfbp bllodbtion fbilfd");
+            rfturn -1;
+        }
+    } flsf {
+        fullPbdkft = &(BUF[0]);
+    }
+
+    do {
+        int rft;
+        rftry = FALSE;
+
+        /*
+         * If b timfout hbs bffn spfdififd thfn wf sflfdt on thf sodkft
+         * wbiting for b rfbd fvfnt or b timfout.
+         */
+        if (dhfdkBoth) {
+            int t = timfout == 0 ? -1: timfout;
+            prfvTimf = JVM_CurrfntTimfMillis(fnv, 0);
+            rft = NET_Timfout2 (fd, fd1, t, &fdusf);
+            /* bll subsfqufnt dblls to rfdv() or sflfdt() will usf thf sbmf fd
+             * for this dbll to pffk() */
+            if (rft <= 0) {
+                if (rft == 0) {
+                    JNU_ThrowByNbmf(fnv,JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                        "Pffk timfd out");
+                } flsf if (rft == -1) {
+                    NET_ThrowCurrfnt(fnv, "timfout in dbtbgrbm sodkft pffk");
+                }
+                if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+                    frff(fullPbdkft);
+                }
+                rfturn -1;
+            }
+            if (rft == 2) {
+                fdusf = dhfdkLbstFD (fnv, this, fd, fd1);
+            }
+            dhfdkBoth = FALSE;
+        } flsf if (timfout) {
+            if (prfvTimf == 0) {
+                prfvTimf = JVM_CurrfntTimfMillis(fnv, 0);
+            }
+            rft = NET_Timfout (fdusf, timfout);
+            if (rft <= 0) {
+                if (rft == 0) {
+                    JNU_ThrowByNbmf(fnv,JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                    "Rfdfivf timfd out");
+                } flsf if (rft == -1) {
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                    "Sodkft dlosfd");
+                }
+                if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+                    frff(fullPbdkft);
+                }
+                rfturn -1;
+            }
+        }
+
+        /* rfdfivf thf pbdkft */
+        n = rfdvfrom(fdusf, fullPbdkft, pbdkftBufffrLfn, MSG_PEEK,
+                         (strudt sodkbddr *)&rfmotf_bddr, &rfmotf_bddrsizf);
+        port = (int) ntohs ((u_short) GET_PORT((SOCKETADDRESS *)&rfmotf_bddr));
+        if (n == SOCKET_ERROR) {
+            if (WSAGftLbstError() == WSAECONNRESET) {
+                jboolfbn donnfdtfd;
+
+                /*
+                 * An idmp port unrfbdhbblf - wf must rfdfivf this bs Windows
+                 * dofs not rfsft thf stbtf of thf sodkft until this hbs bffn
+                 * rfdfivfd.
+                 */
+                purgfOutstbndingICMP(fnv, this, fdusf);
+
+                donnfdtfd = (*fnv)->GftBoolfbnFifld(fnv, this, pdsi_donnfdtfd);
+                if (donnfdtfd) {
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdhbblfExdfption",
+                                       "ICMP Port Unrfbdhbblf");
+
+                    if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+                        frff(fullPbdkft);
+                    }
+                    rfturn -1;
+                }
+
+                /*
+                 * If b timfout wbs spfdififd thfn wf nffd to bdjust it bfdbusf
+                 * wf mby hbvf usfd up somf of thf timfout bffor thf idmp port
+                 * unrfbdhbblf brrivfd.
+                 */
+                if (timfout) {
+                    jlong nfwTimf = JVM_CurrfntTimfMillis(fnv, 0);
+                    timfout -= (jint)(nfwTimf - prfvTimf);
+                    if (timfout <= 0) {
+                        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                "Rfdfivf timfd out");
+                        if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+                            frff(fullPbdkft);
+                        }
+                        rfturn -1;
+                    }
+                    prfvTimf = nfwTimf;
+                }
+                rftry = TRUE;
+            }
+        }
+    } whilf (rftry);
+
+    /* trundbtf thf dbtb if thf pbdkft's lfngth is too smbll */
+    if (n > pbdkftBufffrLfn) {
+        n = pbdkftBufffrLfn;
+    }
+    if (n < 0) {
+        frrorCodf = WSAGftLbstError();
+        /* dhfdk to sff if it's bfdbusf thf bufffr wbs too smbll */
+        if (frrorCodf == WSAEMSGSIZE) {
+            /* it is bfdbusf thf bufffr is too smbll. It's UDP, it's
+             * unrflibblf, it's bll good. disdbrd thf rfst of thf
+             * dbtb..
+             */
+            n = pbdkftBufffrLfn;
+        } flsf {
+            /* fbilurf */
+            (*fnv)->SftIntFifld(fnv, pbdkft, dp_lfngthID, 0);
+        }
+    }
+    if (n == -1) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "sodkft dlosfd");
+    } flsf if (n == -2) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVAIOPKG "IntfrruptfdIOExdfption",
+                        "opfrbtion intfrruptfd");
+    } flsf if (n < 0) {
+        NET_ThrowCurrfnt(fnv, "Dbtbgrbm rfdfivf fbilfd");
+    } flsf {
+        jobjfdt pbdkftAddrfss;
+
+        /*
+         * Chfdk if thfrf is bn InftAddrfss blrfbdy bssodibtfd with this
+         * pbdkft. If so wf dhfdk if it is thf sbmf sourdf bddrfss. Wf
+         * dbn't updbtf bny fxisting InftAddrfss bfdbusf it is immutbblf
+         */
+        pbdkftAddrfss = (*fnv)->GftObjfdtFifld(fnv, pbdkft, dp_bddrfssID);
+        if (pbdkftAddrfss != NULL) {
+            if (!NET_SodkbddrEqublsInftAddrfss(fnv, (strudt sodkbddr *)
+                                                &rfmotf_bddr, pbdkftAddrfss)) {
+                /* fordf b nfw InftAddrfss to bf drfbtfd */
+                pbdkftAddrfss = NULL;
+            }
+        }
+        if (pbdkftAddrfss == NULL) {
+            pbdkftAddrfss = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)
+                                &rfmotf_bddr, &port);
+            /* stuff thf nfw Inftbddrfss in thf pbdkft */
+            (*fnv)->SftObjfdtFifld(fnv, pbdkft, dp_bddrfssID, pbdkftAddrfss);
+        }
+
+        /* populbtf thf pbdkft */
+        (*fnv)->SftBytfArrbyRfgion(fnv, pbdkftBufffr, pbdkftBufffrOffsft, n,
+                                   (jbytf *)fullPbdkft);
+        (*fnv)->SftIntFifld(fnv, pbdkft, dp_portID, port);
+        (*fnv)->SftIntFifld(fnv, pbdkft, dp_lfngthID, n);
+    }
+
+    /* mbkf surf rfdfivf() pidks up thf right fd */
+    (*fnv)->SftIntFifld(fnv, this, pdsi_fdusfID, fdusf);
+
+    if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+        frff(fullPbdkft);
+    }
+    rfturn port;
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    rfdfivf
+ * Signbturf: (Ljbvb/nft/DbtbgrbmPbdkft;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_rfdfivf0(JNIEnv *fnv, jobjfdt this,
+                                              jobjfdt pbdkft) {
+
+    dhbr BUF[MAX_BUFFER_LEN];
+    dhbr *fullPbdkft;
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+    jint timfout = (*fnv)->GftIntFifld(fnv, this, pdsi_timfoutID);
+    jbytfArrby pbdkftBufffr;
+    jint pbdkftBufffrOffsft, pbdkftBufffrLfn;
+    int ipv6_supportfd = ipv6_bvbilbblf();
+
+    /* bs b rfsult of thf dhbngfs for ipv6, pffk() or pffkDbtb()
+     * must bf dbllfd prior to rfdfivf() so thbt fdusf dbn bf sft.
+     */
+    int fd, fd1, fdusf, frrorCodf;
+
+    int n, nsodkfts=0;
+    SOCKETADDRESS rfmotf_bddr;
+    jint rfmotf_bddrsizf=sizfof(rfmotf_bddr);
+    BOOL rftry;
+    jlong prfvTimf = 0, sflfdtTimf=0;
+    jboolfbn donnfdtfd;
+
+    if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    }
+
+    if (!IS_NULL(fdObj)) {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+        nsodkfts ++;
+    }
+    if (!IS_NULL(fd1Obj)) {
+        fd1 = (*fnv)->GftIntFifld(fnv, fd1Obj, IO_fd_fdID);
+        nsodkfts ++;
+    }
+
+    if (nsodkfts == 2) { /* nffd to dhoosf onf of thfm */
+        /* wbs fdusf sft in pffk? */
+        fdusf = (*fnv)->GftIntFifld(fnv, this, pdsi_fdusfID);
+        if (fdusf == -1) {
+            /* not sft in pffk(), must sflfdt on both sodkfts */
+            int rft, t = (timfout == 0) ? -1: timfout;
+            rft = NET_Timfout2 (fd, fd1, t, &fdusf);
+            if (rft == 2) {
+                fdusf = dhfdkLbstFD (fnv, this, fd, fd1);
+            } flsf if (rft <= 0) {
+                if (rft == 0) {
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                    "Rfdfivf timfd out");
+                } flsf if (rft == -1) {
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                    "Sodkft dlosfd");
+                }
+                rfturn;
+            }
+        }
+    } flsf if (!ipv6_supportfd) {
+        fdusf = fd;
+    } flsf if (IS_NULL(fdObj)) {
+        /* ipv6 supportfd: bnd this sodkft bound to bn IPV6 only bddrfss */
+        fdusf = fd1;
+    } flsf {
+        /* ipv6 supportfd: bnd this sodkft bound to bn IPV4 only bddrfss */
+        fdusf = fd;
+    }
+
+    if (IS_NULL(pbdkft)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "pbdkft");
+        rfturn;
+    }
+
+    pbdkftBufffr = (*fnv)->GftObjfdtFifld(fnv, pbdkft, dp_bufID);
+
+    if (IS_NULL(pbdkftBufffr)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "pbdkft bufffr");
+        rfturn;
+    }
+
+    pbdkftBufffrOffsft = (*fnv)->GftIntFifld(fnv, pbdkft, dp_offsftID);
+    pbdkftBufffrLfn = (*fnv)->GftIntFifld(fnv, pbdkft, dp_bufLfngthID);
+
+    if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+
+        /* Whfn JNI-ifying thf JDK's IO routinfs, wf turnfd
+         * rfbd's bnd writf's of bytf brrbys of sizf grfbtfr
+         * thbn 2048 bytfs into sfvfrbl opfrbtions of sizf 2048.
+         * This sbvfs b mbllod()/mfmdpy()/frff() for big
+         * bufffrs.  This is OK for filf IO bnd TCP, but thbt
+         * strbtfgy violbtfs thf sfmbntids of b dbtbgrbm protodol.
+         * (onf big sfnd) != (sfvfrbl smbllfr sfnds).  So hfrf
+         * wf *must* bllod thf bufffr.  Notf it nffdn't bf biggfr
+         * thbn 65,536 (0xFFFF) thf mbx sizf of bn IP pbdkft.
+         * bnything biggfr is trundbtfd bnywby.
+         */
+        fullPbdkft = (dhbr *)mbllod(pbdkftBufffrLfn);
+        if (!fullPbdkft) {
+            JNU_ThrowOutOfMfmoryError(fnv, "Rfdfivf buf nbtivf hfbp bllodbtion fbilfd");
+            rfturn;
+        }
+    } flsf {
+        fullPbdkft = &(BUF[0]);
+    }
+
+
+
+    /*
+     * If this Windows fdition supports ICMP port unrfbdhbblf bnd if wf
+     * brf not donnfdtfd thfn wf nffd to know if b timfout hbs bffn spfdififd
+     * bnd if so wf nffd to pidk up thf durrfnt timf. Thfsf brf rfquirfd in
+     * ordfr to implfmfnt thf sfmbntids of timfout, viz :-
+     * timfout sft to t1 but ICMP port unrfbdhbblf brrivfs in t2 whfrf
+     * t2 < t1. In this dbsf wf must disdbrd thf ICMP pbdkfts bnd thfn
+     * wbit for thf nfxt pbdkft up to b mbximum of t1 minus t2.
+     */
+    donnfdtfd = (*fnv)->GftBoolfbnFifld(fnv, this, pdsi_donnfdtfd);
+    if (supportPortUnrfbdhbblf() && !donnfdtfd && timfout &&!ipv6_supportfd) {
+        prfvTimf = JVM_CurrfntTimfMillis(fnv, 0);
+    }
+
+    if (timfout && nsodkfts == 1) {
+        int rft;
+        rft = NET_Timfout(fdusf, timfout);
+        if (rft <= 0) {
+            if (rft == 0) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                "Rfdfivf timfd out");
+            } flsf if (rft == -1) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                "Sodkft dlosfd");
+            }
+            if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+                frff(fullPbdkft);
+            }
+            rfturn;
+        }
+    }
+
+    /*
+     * Loop only if wf disdbrding ICMP port unrfbdhbblf pbdkfts
+     */
+    do {
+        rftry = FALSE;
+
+        /* rfdfivf thf pbdkft */
+        n = rfdvfrom(fdusf, fullPbdkft, pbdkftBufffrLfn, 0,
+                         (strudt sodkbddr *)&rfmotf_bddr, &rfmotf_bddrsizf);
+
+        if (n == SOCKET_ERROR) {
+            if (WSAGftLbstError() == WSAECONNRESET) {
+                /*
+                 * An idmp port unrfbdhbblf hbs bffn rfdfivfd - donsumf bny othfr
+                 * outstbnding pbdkfts.
+                 */
+                purgfOutstbndingICMP(fnv, this, fdusf);
+
+                /*
+                 * If donnfdtfd throw b PortUnrfbdhbblfExdfption
+                 */
+
+                if (donnfdtfd) {
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdhbblfExdfption",
+                                       "ICMP Port Unrfbdhbblf");
+
+                    if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+                        frff(fullPbdkft);
+                    }
+
+                    rfturn;
+                }
+
+                /*
+                 * If b timfout wbs spfdififd thfn wf nffd to bdjust it bfdbusf
+                 * wf mby hbvf usfd up somf of thf timfout bfforf thf idmp port
+                 * unrfbdhbblf brrivfd.
+                 */
+                if (timfout) {
+                    int rft;
+                    jlong nfwTimf = JVM_CurrfntTimfMillis(fnv, 0);
+                    timfout -= (jint)(nfwTimf - prfvTimf);
+                    prfvTimf = nfwTimf;
+
+                    if (timfout <= 0) {
+                        rft = 0;
+                    } flsf {
+                        rft = NET_Timfout(fdusf, timfout);
+                    }
+
+                    if (rft <= 0) {
+                        if (rft == 0) {
+                            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                            "Rfdfivf timfd out");
+                        } flsf if (rft == -1) {
+                            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                            "Sodkft dlosfd");
+                        }
+                        if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+                            frff(fullPbdkft);
+                        }
+                        rfturn;
+                    }
+                }
+
+                /*
+                 * An ICMP port unrfbdhbblf wbs rfdfivfd but wf brf
+                 * not donnfdtfd so ignorf it.
+                 */
+                rftry = TRUE;
+            }
+        }
+    } whilf (rftry);
+
+    /* trundbtf thf dbtb if thf pbdkft's lfngth is too smbll */
+    if (n > pbdkftBufffrLfn) {
+        n = pbdkftBufffrLfn;
+    }
+    if (n < 0) {
+        frrorCodf = WSAGftLbstError();
+        /* dhfdk to sff if it's bfdbusf thf bufffr wbs too smbll */
+        if (frrorCodf == WSAEMSGSIZE) {
+            /* it is bfdbusf thf bufffr is too smbll. It's UDP, it's
+             * unrflibblf, it's bll good. disdbrd thf rfst of thf
+             * dbtb..
+             */
+            n = pbdkftBufffrLfn;
+        } flsf {
+            /* fbilurf */
+            (*fnv)->SftIntFifld(fnv, pbdkft, dp_lfngthID, 0);
+        }
+    }
+    if (n == -1) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "sodkft dlosfd");
+    } flsf if (n == -2) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVAIOPKG "IntfrruptfdIOExdfption",
+                        "opfrbtion intfrruptfd");
+    } flsf if (n < 0) {
+        NET_ThrowCurrfnt(fnv, "Dbtbgrbm rfdfivf fbilfd");
+    } flsf {
+        int port = 0;
+        jobjfdt pbdkftAddrfss;
+
+        /*
+         * Chfdk if thfrf is bn InftAddrfss blrfbdy bssodibtfd with this
+         * pbdkft. If so wf dhfdk if it is thf sbmf sourdf bddrfss. Wf
+         * dbn't updbtf bny fxisting InftAddrfss bfdbusf it is immutbblf
+         */
+        pbdkftAddrfss = (*fnv)->GftObjfdtFifld(fnv, pbdkft, dp_bddrfssID);
+
+        if (pbdkftAddrfss != NULL) {
+            if (!NET_SodkbddrEqublsInftAddrfss(fnv, (strudt sodkbddr *)&rfmotf_bddr, pbdkftAddrfss)) {
+                /* fordf b nfw InftAddrfss to bf drfbtfd */
+                pbdkftAddrfss = NULL;
+            }
+        }
+        if (pbdkftAddrfss == NULL) {
+            pbdkftAddrfss = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&rfmotf_bddr, &port);
+            /* stuff thf nfw Inftbddrfss in thf pbdkft */
+            (*fnv)->SftObjfdtFifld(fnv, pbdkft, dp_bddrfssID, pbdkftAddrfss);
+        } flsf {
+            /* only gft thf nfw port numbfr */
+            port = NET_GftPortFromSodkbddr((strudt sodkbddr *)&rfmotf_bddr);
+        }
+        /* populbtf thf pbdkft */
+        (*fnv)->SftBytfArrbyRfgion(fnv, pbdkftBufffr, pbdkftBufffrOffsft, n,
+                                   (jbytf *)fullPbdkft);
+        (*fnv)->SftIntFifld(fnv, pbdkft, dp_portID, port);
+        (*fnv)->SftIntFifld(fnv, pbdkft, dp_lfngthID, n);
+    }
+    if (pbdkftBufffrLfn > MAX_BUFFER_LEN) {
+        frff(fullPbdkft);
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    dbtbgrbmSodkftCrfbtf
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_dbtbgrbmSodkftCrfbtf(JNIEnv *fnv,
+                                                           jobjfdt this) {
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+
+    int fd, fd1;
+    int t = TRUE;
+    DWORD x1, x2; /* ignorfd rfsult dodfs */
+    int ipv6_supportfd = ipv6_bvbilbblf();
+
+    int brg = -1;
+
+    if (IS_NULL(fdObj) || (ipv6_supportfd && IS_NULL(fd1Obj))) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd =  (int) sodkft (AF_INET, SOCK_DGRAM, 0);
+    }
+    if (fd == SOCKET_ERROR) {
+        NET_ThrowCurrfnt(fnv, "Sodkft drfbtion fbilfd");
+        rfturn;
+    }
+    SftHbndlfInformbtion((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
+    (*fnv)->SftIntFifld(fnv, fdObj, IO_fd_fdID, fd);
+    NET_SftSodkOpt(fd, SOL_SOCKET, SO_BROADCAST, (dhbr*)&t, sizfof(BOOL));
+
+    if (ipv6_supportfd) {
+        /* SIO_UDP_CONNRESET fixfs b bug introdudfd in Windows 2000, whidh
+         * rfturns donnfdtion rfsft frrors un donnfdtfd UDP sodkfts (bs wfll
+         * bs donnfdtfd sodkfts. Thf solution is to only fnbblf this ffbturf
+         * whfn thf sodkft is donnfdtfd
+         */
+        t = FALSE;
+        WSAIodtl(fd,SIO_UDP_CONNRESET,&t,sizfof(t),&x1,sizfof(x1),&x2,0,0);
+        t = TRUE;
+        fd1 = sodkft (AF_INET6, SOCK_DGRAM, 0);
+        if (fd1 == SOCKET_ERROR) {
+            NET_ThrowCurrfnt(fnv, "Sodkft drfbtion fbilfd");
+            rfturn;
+        }
+        NET_SftSodkOpt(fd1, SOL_SOCKET, SO_BROADCAST, (dhbr*)&t, sizfof(BOOL));
+        t = FALSE;
+        WSAIodtl(fd1,SIO_UDP_CONNRESET,&t,sizfof(t),&x1,sizfof(x1),&x2,0,0);
+        (*fnv)->SftIntFifld(fnv, fd1Obj, IO_fd_fdID, fd1);
+        SftHbndlfInformbtion((HANDLE)(UINT_PTR)fd1, HANDLE_FLAG_INHERIT, FALSE);
+    } flsf {
+        /* drop thf sfdond fd */
+        (*fnv)->SftObjfdtFifld(fnv, this, pdsi_fd1ID, NULL);
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    dbtbgrbmSodkftClosf
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_dbtbgrbmSodkftClosf(JNIEnv *fnv,
+                                                          jobjfdt this) {
+    /*
+     * REMIND: PUT A LOCK AROUND THIS CODE
+     */
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+    int ipv6_supportfd = ipv6_bvbilbblf();
+    int fd=-1, fd1=-1;
+
+    if (IS_NULL(fdObj) && (!ipv6_supportfd || IS_NULL(fd1Obj))) {
+        rfturn;
+    }
+
+    if (!IS_NULL(fdObj)) {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+        if (fd != -1) {
+            (*fnv)->SftIntFifld(fnv, fdObj, IO_fd_fdID, -1);
+            NET_SodkftClosf(fd);
+        }
+    }
+
+    if (ipv6_supportfd && fd1Obj != NULL) {
+        fd1 = (*fnv)->GftIntFifld(fnv, fd1Obj, IO_fd_fdID);
+        if (fd1 == -1) {
+            rfturn;
+        }
+        (*fnv)->SftIntFifld(fnv, fd1Obj, IO_fd_fdID, -1);
+        NET_SodkftClosf(fd1);
+    }
+}
+
+/*
+ * dhfdk thf bddrfssfs bttbdhfd to thf NftworkIntfrfbdf objfdt
+ * bnd rfturn thf first onf (of thf rfqufstfd fbmily Ipv4 or Ipv6)
+ * in *ibddr
+ */
+
+stbtid int gftInftAddrFromIf (JNIEnv *fnv, int fbmily, jobjfdt nif, jobjfdt *ibddr)
+{
+    jobjfdtArrby bddrArrby;
+    stbtid jfifldID ni_bddrsID=0;
+    jsizf lfn;
+    jobjfdt bddr;
+    int i;
+
+    if (ni_bddrsID == NULL ) {
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/NftworkIntfrfbdf");
+        CHECK_NULL_RETURN (d, -1);
+        ni_bddrsID = (*fnv)->GftFifldID(fnv, d, "bddrs",
+                                        "[Ljbvb/nft/InftAddrfss;");
+        CHECK_NULL_RETURN (ni_bddrsID, -1);
+    }
+
+    bddrArrby = (*fnv)->GftObjfdtFifld(fnv, nif, ni_bddrsID);
+    lfn = (*fnv)->GftArrbyLfngth(fnv, bddrArrby);
+
+    /*
+     * Chfdk thbt thfrf is bt lfbst onf bddrfss bound to this
+     * intfrfbdf.
+     */
+    if (lfn < 1) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+            "bbd brgumfnt for IP_MULTICAST_IF2: No IP bddrfssfs bound to intfrfbdf");
+        rfturn -1;
+    }
+    for (i=0; i<lfn; i++) {
+        int fbm;
+        bddr = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, bddrArrby, i);
+        fbm = gftInftAddrfss_fbmily(fnv, bddr);
+        if (fbm == fbmily) {
+            *ibddr = bddr;
+            rfturn 0;
+        }
+    }
+    rfturn -1;
+}
+
+stbtid int gftInft4AddrFromIf (JNIEnv *fnv, jobjfdt nif, strudt in_bddr *ibddr)
+{
+    jobjfdt bddr;
+
+    int rft = gftInftAddrFromIf (fnv, IPv4, nif, &bddr);
+    if (rft == -1) {
+        rfturn -1;
+    }
+
+    ibddr->s_bddr = htonl(gftInftAddrfss_bddr(fnv, bddr));
+    rfturn 0;
+}
+
+/* Gft thf multidbsting indfx from thf intfrfbdf */
+
+stbtid int gftIndfxFromIf (JNIEnv *fnv, jobjfdt nif) {
+    stbtid jfifldID ni_indfxID;
+
+    if (ni_indfxID == NULL) {
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/NftworkIntfrfbdf");
+        CHECK_NULL_RETURN(d, -1);
+        ni_indfxID = (*fnv)->GftFifldID(fnv, d, "indfx", "I");
+        CHECK_NULL_RETURN(ni_indfxID, -1);
+    }
+
+    rfturn (*fnv)->GftIntFifld(fnv, nif, ni_indfxID);
+}
+
+stbtid int isAdbptfrIpv6Enbblfd(JNIEnv *fnv, int indfx) {
+  fxtfrn int gftAllIntfrfbdfsAndAddrfssfs (JNIEnv *fnv, nftif **nftifPP);
+  nftif *ifList, *durr;
+  int ipv6Enbblfd = 0;
+  if (gftAllIntfrfbdfsAndAddrfssfs (fnv, &ifList) < 0) {
+      rfturn ipv6Enbblfd;
+  }
+
+  /* sfbrdh by indfx */
+  durr = ifList;
+  whilf (durr != NULL) {
+      if (indfx == durr->indfx) {
+          brfbk;
+      }
+      durr = durr->nfxt;
+  }
+
+  /* if found ipv6Indfx != 0 thfn intfrfbdf is donfigurfd with IPV6 */
+  if ((durr != NULL) && (durr->ipv6Indfx !=0)) {
+      ipv6Enbblfd = 1;
+  }
+
+  /* rflfbsf thf intfrfbdf list */
+  frff_nftif(ifList);
+
+  rfturn ipv6Enbblfd;
+}
+
+/*
+ * Sfts thf multidbst intfrfbdf.
+ *
+ * SodkftOptions.IP_MULTICAST_IF (brgumfnt is bn InftAddrfss) :-
+ *      IPv4:   sft outgoing multidbst intfrfbdf using
+ *              IPPROTO_IP/IP_MULTICAST_IF
+ *
+ *      IPv6:   Gft thf intfrfbdf to whidh thf
+ *              InftAddrfss is bound
+ *              bnd do sbmf bs SodkOptions.IF_MULTICAST_IF2
+ *
+ * SodkOptions.IF_MULTICAST_IF2 (brgumfnt is b NftworkIntfrfbdf ) :-
+ *      For fbdh stbdk:
+ *      IPv4:   Obtbin IP bddrfss bound to nftwork intfrfbdf
+ *              (NftworkIntfrfbdf.bddrfs[0])
+ *              sft outgoing multidbst intfrfbdf using
+ *              IPPROTO_IP/IP_MULTICAST_IF
+ *
+ *      IPv6:   Obtbin NftworkIntfrfbdf.indfx
+ *              Sft outgoing multidbst intfrfbdf using
+ *              IPPROTO_IPV6/IPV6_MULTICAST_IF
+ *
+ */
+stbtid void sftMultidbstIntfrfbdf(JNIEnv *fnv, jobjfdt this, int fd, int fd1,
+                                  jint opt, jobjfdt vbluf)
+{
+    int ipv6_supportfd = ipv6_bvbilbblf();
+
+    if (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF) {
+        /*
+         * vbluf is bn InftAddrfss.
+         * On IPv4 systfm usf IP_MULTICAST_IF sodkft option
+         * On IPv6 systfm gft thf NftworkIntfrfbdf thbt this IP
+         * bddrfss is bound to bnd usf thf IPV6_MULTICAST_IF
+         * option instfbd of IP_MULTICAST_IF
+         */
+        if (ipv6_supportfd) {
+            stbtid jdlbss ni_dlbss;
+            if (ni_dlbss == NULL) {
+                jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/NftworkIntfrfbdf");
+                CHECK_NULL(d);
+                ni_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+                CHECK_NULL(ni_dlbss);
+            }
+
+            vbluf = Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByInftAddrfss0(fnv, ni_dlbss, vbluf);
+            if (vbluf == NULL) {
+                if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                         "bbd brgumfnt for IP_MULTICAST_IF"
+                         ": bddrfss not bound to bny intfrfbdf");
+                }
+                rfturn;
+            }
+            opt = jbvb_nft_SodkftOptions_IP_MULTICAST_IF2;
+        } flsf {
+            strudt in_bddr in;
+
+            in.s_bddr = htonl(gftInftAddrfss_bddr(fnv, vbluf));
+            if (sftsodkopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
+                               (donst dhbr*)&in, sizfof(in)) < 0) {
+                NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                 "Error sftting sodkft option");
+            }
+            rfturn;
+        }
+    }
+
+    if (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF2) {
+        /*
+         * vbluf is b NftworkIntfrfbdf.
+         * On IPv6 systfm gft thf indfx of thf intfrfbdf bnd usf thf
+         * IPV6_MULTICAST_IF sodkft option
+         * On IPv4 systfm fxtrbdt bddr[0] bnd usf thf IP_MULTICAST_IF
+         * option. For IPv6 both must bf donf.
+         */
+        if (ipv6_supportfd) {
+            stbtid jfifldID ni_indfxID;
+            strudt in_bddr in;
+            int indfx;
+
+            if (ni_indfxID == NULL) {
+                jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/NftworkIntfrfbdf");
+                CHECK_NULL(d);
+                ni_indfxID = (*fnv)->GftFifldID(fnv, d, "indfx", "I");
+                CHECK_NULL(ni_indfxID);
+            }
+            indfx = (*fnv)->GftIntFifld(fnv, vbluf, ni_indfxID);
+
+            if ( isAdbptfrIpv6Enbblfd(fnv, indfx) != 0 ) {
+                if (sftsodkopt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_IF,
+                               (donst dhbr*)&indfx, sizfof(indfx)) < 0) {
+                    if (frrno == EINVAL && indfx > 0) {
+                        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                            "IPV6_MULTICAST_IF fbilfd (intfrfbdf hbs IPv4 "
+                            "bddrfss only?)");
+                    } flsf {
+                        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                   "Error sftting sodkft option");
+                    }
+                    rfturn;
+                }
+            }
+            /* If thfrf brf bny IPv4 bddrfssfs on this intfrfbdf thfn
+             * rfpfbt thf opfrbtion on thf IPv4 fd */
+
+            if (gftInft4AddrFromIf (fnv, vbluf, &in) < 0) {
+                rfturn;
+            }
+            if (sftsodkopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
+                               (donst dhbr*)&in, sizfof(in)) < 0) {
+                NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                 "Error sftting sodkft option");
+            }
+            rfturn;
+        } flsf {
+            strudt in_bddr in;
+
+            if (gftInft4AddrFromIf (fnv, vbluf, &in) < 0) {
+                if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                    rfturn;
+                }
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "no InftAddrfss instbndfs of rfqufstfd typf");
+                rfturn;
+            }
+
+            if (sftsodkopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
+                               (donst dhbr*)&in, sizfof(in)) < 0) {
+                NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                               "Error sftting sodkft option");
+            }
+            rfturn;
+        }
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    sodkftNbtivfSftOption
+ * Signbturf: (ILjbvb/lbng/Objfdt;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_sodkftNbtivfSftOption(JNIEnv *fnv,jobjfdt this,
+                                                      jint opt,jobjfdt vbluf) {
+
+    int fd=-1, fd1=-1;
+    int lfvflv4 = 0, lfvflv6 = 0, optnbmfv4 = 0, optnbmfv6 = 0, optlfn = 0;
+    union {
+        int i;
+        dhbr d;
+    } optvbl = { 0 };
+    int ipv6_supportfd = ipv6_bvbilbblf();
+    fd = gftFD(fnv, this);
+
+    if (ipv6_supportfd) {
+        fd1 = gftFD1(fnv, this);
+    }
+    if (fd < 0 && fd1 < 0) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "sodkft dlosfd");
+        rfturn;
+    }
+
+    if ((opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF) ||
+        (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF2)) {
+
+        sftMultidbstIntfrfbdf(fnv, this, fd, fd1, opt, vbluf);
+        rfturn;
+    }
+
+    /*
+     * Mbp thf Jbvb lfvfl sodkft option to thf plbtform spfdifid
+     * lfvfl(s) bnd option nbmf(s).
+     */
+    if (fd1 != -1) {
+        if (NET_MbpSodkftOptionV6(opt, &lfvflv6, &optnbmfv6)) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Invblid option");
+            rfturn;
+        }
+    }
+    if (fd != -1) {
+        if (NET_MbpSodkftOption(opt, &lfvflv4, &optnbmfv4)) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Invblid option");
+            rfturn;
+        }
+    }
+
+    switdh (opt) {
+        dbsf jbvb_nft_SodkftOptions_SO_SNDBUF :
+        dbsf jbvb_nft_SodkftOptions_SO_RCVBUF :
+        dbsf jbvb_nft_SodkftOptions_IP_TOS :
+            {
+                jdlbss dls;
+                jfifldID fid;
+
+                dls = (*fnv)->FindClbss(fnv, "jbvb/lbng/Intfgfr");
+                CHECK_NULL(dls);
+                fid =  (*fnv)->GftFifldID(fnv, dls, "vbluf", "I");
+                CHECK_NULL(fid);
+
+                optvbl.i = (*fnv)->GftIntFifld(fnv, vbluf, fid);
+                optlfn = sizfof(optvbl.i);
+            }
+            brfbk;
+
+        dbsf jbvb_nft_SodkftOptions_SO_REUSEADDR:
+        dbsf jbvb_nft_SodkftOptions_SO_BROADCAST:
+        dbsf jbvb_nft_SodkftOptions_IP_MULTICAST_LOOP:
+            {
+                jdlbss dls;
+                jfifldID fid;
+                jboolfbn on;
+
+                dls = (*fnv)->FindClbss(fnv, "jbvb/lbng/Boolfbn");
+                CHECK_NULL(dls);
+                fid =  (*fnv)->GftFifldID(fnv, dls, "vbluf", "Z");
+                CHECK_NULL(fid);
+
+                on = (*fnv)->GftBoolfbnFifld(fnv, vbluf, fid);
+                optvbl.i = (on ? 1 : 0);
+                /*
+                 * sftLoopbbdkModf (truf) disbblfs IP_MULTICAST_LOOP rbthfr
+                 * thbn fnbbling it.
+                 */
+                if (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_LOOP) {
+                    optvbl.i = !optvbl.i;
+                }
+                optlfn = sizfof(optvbl.i);
+            }
+            brfbk;
+
+        dffbult :
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                "Sodkft option not supportfd by PlbinDbtbgrbmSodkftImp");
+            brfbk;
+
+    }
+
+    if (fd1 != -1) {
+        if (NET_SftSodkOpt(fd1, lfvflv6, optnbmfv6, (void *)&optvbl, optlfn) < 0) {
+            NET_ThrowCurrfnt(fnv, "sftsodkopt IPv6");
+            rfturn;
+        }
+    }
+    if (fd != -1) {
+        if (NET_SftSodkOpt(fd, lfvflv4, optnbmfv4, (void *)&optvbl, optlfn) < 0) {
+            NET_ThrowCurrfnt(fnv, "sftsodkopt");
+            rfturn;
+        }
+    }
+}
+
+/*
+ *
+ * dbllfd by gftMultidbstIntfrfbdf to rftrifvf b NftworkIntfrfbdf
+ * donfigurfd for IPv4.
+ * Thf ipv4Modf pbrbmftfr, is b dlosft boolfbn, whidh bllows for b NULL rfturn,
+ * or fordfs thf drfbtion of b NftworkIntfrfbdf objfdt with null dbtb.
+ * It rflbtfs to its dblling dontfxt in gftMultidbstIntfrfbdf.
+ * ipv4Modf == 1, thf dontfxt is IPV4 prodfssing only.
+ * ipv4Modf == 0, thf dontfxt is IPV6 prodfssing
+ *
+ */
+stbtid jobjfdt gftIPv4NftworkIntfrfbdf (JNIEnv *fnv, jobjfdt this, int fd, jint opt, int ipv4Modf) {
+        stbtid jdlbss inft4_dlbss;
+        stbtid jmfthodID inft4_dtrID;
+
+        stbtid jdlbss ni_dlbss; stbtid jmfthodID ni_dtrID;
+        stbtid jfifldID ni_indfxID;
+        stbtid jfifldID ni_bddrsID;
+
+        jobjfdtArrby bddrArrby;
+        jobjfdt bddr;
+        jobjfdt ni;
+
+        strudt in_bddr in;
+        strudt in_bddr *inP = &in;
+        int lfn = sizfof(strudt in_bddr);
+        if (gftsodkopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
+                           (dhbr *)inP, &lfn) < 0) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                             "Error gftting sodkft option");
+            rfturn NULL;
+        }
+
+        /*
+         * Construdt bnd populbtf bn Inft4Addrfss
+         */
+        if (inft4_dlbss == NULL) {
+            jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/Inft4Addrfss");
+            CHECK_NULL_RETURN(d, NULL);
+            inft4_dtrID = (*fnv)->GftMfthodID(fnv, d, "<init>", "()V");
+            CHECK_NULL_RETURN(inft4_dtrID, NULL);
+            inft4_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+            CHECK_NULL_RETURN(inft4_dlbss, NULL);
+        }
+        bddr = (*fnv)->NfwObjfdt(fnv, inft4_dlbss, inft4_dtrID, 0);
+        CHECK_NULL_RETURN(bddr, NULL);
+
+        sftInftAddrfss_bddr(fnv, bddr, ntohl(in.s_bddr));
+
+        /*
+         * For IP_MULTICAST_IF rfturn InftAddrfss
+         */
+        if (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF) {
+            rfturn bddr;
+        }
+
+        /*
+         * For IP_MULTICAST_IF2 wf gft thf NftworkIntfrfbdf for
+         * this bddrfss bnd rfturn it
+         */
+        if (ni_dlbss == NULL) {
+            jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/NftworkIntfrfbdf");
+            CHECK_NULL_RETURN(d, NULL);
+            ni_dtrID = (*fnv)->GftMfthodID(fnv, d, "<init>", "()V");
+            CHECK_NULL_RETURN(ni_dtrID, NULL);
+            ni_indfxID = (*fnv)->GftFifldID(fnv, d, "indfx", "I");
+            CHECK_NULL_RETURN(ni_indfxID, NULL);
+            ni_bddrsID = (*fnv)->GftFifldID(fnv, d, "bddrs",
+                                            "[Ljbvb/nft/InftAddrfss;");
+            CHECK_NULL_RETURN(ni_bddrsID, NULL);
+            ni_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+            CHECK_NULL_RETURN(ni_dlbss, NULL);
+        }
+        ni = Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByInftAddrfss0(fnv, ni_dlbss, bddr);
+        if (ni) {
+            rfturn ni;
+        }
+        if (ipv4Modf) {
+            ni = (*fnv)->NfwObjfdt(fnv, ni_dlbss, ni_dtrID, 0);
+            CHECK_NULL_RETURN(ni, NULL);
+
+            (*fnv)->SftIntFifld(fnv, ni, ni_indfxID, -1);
+            bddrArrby = (*fnv)->NfwObjfdtArrby(fnv, 1, inft4_dlbss, NULL);
+            CHECK_NULL_RETURN(bddrArrby, NULL);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bddrArrby, 0, bddr);
+            (*fnv)->SftObjfdtFifld(fnv, ni, ni_bddrsID, bddrArrby);
+        } flsf {
+            ni = NULL;
+        }
+        rfturn ni;
+}
+
+/*
+ * Rfturn thf multidbst intfrfbdf:
+ *
+ * SodkftOptions.IP_MULTICAST_IF
+ *      IPv4:   Qufry IPPROTO_IP/IP_MULTICAST_IF
+ *              Crfbtf InftAddrfss
+ *              IP_MULTICAST_IF rfturns strudt ip_mrfqn on 2.2
+ *              kfrnfl but strudt in_bddr on 2.4 kfrnfl
+ *      IPv6:   Qufry IPPROTO_IPV6 / IPV6_MULTICAST_IF or
+ *              obtbin from impl is Linux 2.2 kfrnfl
+ *              If indfx == 0 rfturn InftAddrfss rfprfsfnting
+ *              bnyLodblAddrfss.
+ *              If indfx > 0 qufry NftworkIntfrfbdf by indfx
+ *              bnd rfturns bddrs[0]
+ *
+ * SodkftOptions.IP_MULTICAST_IF2
+ *      IPv4:   Qufry IPPROTO_IP/IP_MULTICAST_IF
+ *              Qufry NftworkIntfrfbdf by IP bddrfss bnd
+ *              rfturn thf NftworkIntfrfbdf thbt thf bddrfss
+ *              is bound too.
+ *      IPv6:   Qufry IPPROTO_IPV6 / IPV6_MULTICAST_IF
+ *              (fxdfpt Linux .2 kfrnfl)
+ *              Qufry NftworkIntfrfbdf by indfx bnd
+ *              rfturn NftworkIntfrfbdf.
+ */
+jobjfdt gftMultidbstIntfrfbdf(JNIEnv *fnv, jobjfdt this, int fd, int fd1, jint opt) {
+    jboolfbn isIPV4 = !ipv6_bvbilbblf() || fd1 == -1;
+
+    /*
+     * IPv4 implfmfntbtion
+     */
+    if (isIPV4) {
+        jobjfdt nftObjfdt = NULL; // rfturn is fithfr bn bddr or b nftif
+        nftObjfdt = gftIPv4NftworkIntfrfbdf(fnv, this, fd, opt, 1);
+        rfturn nftObjfdt;
+    }
+
+    /*
+     * IPv6 implfmfntbtion
+     */
+    if ((opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF) ||
+        (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF2)) {
+
+        stbtid jdlbss ni_dlbss;
+        stbtid jmfthodID ni_dtrID;
+        stbtid jfifldID ni_indfxID;
+        stbtid jfifldID ni_bddrsID;
+        stbtid jdlbss ib_dlbss;
+        stbtid jmfthodID ib_bnyLodblAddrfssID;
+
+        int indfx;
+        int lfn = sizfof(indfx);
+
+        jobjfdtArrby bddrArrby;
+        jobjfdt bddr;
+        jobjfdt ni;
+
+        {
+            if (gftsodkopt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_IF,
+                               (dhbr*)&indfx, &lfn) < 0) {
+                NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                               "Error gftting sodkft option");
+                rfturn NULL;
+            }
+        }
+
+        if (ni_dlbss == NULL) {
+            jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/NftworkIntfrfbdf");
+            CHECK_NULL_RETURN(d, NULL);
+            ni_dtrID = (*fnv)->GftMfthodID(fnv, d, "<init>", "()V");
+            CHECK_NULL_RETURN(ni_dtrID, NULL);
+            ni_indfxID = (*fnv)->GftFifldID(fnv, d, "indfx", "I");
+            CHECK_NULL_RETURN(ni_indfxID, NULL);
+            ni_bddrsID = (*fnv)->GftFifldID(fnv, d, "bddrs",
+                                            "[Ljbvb/nft/InftAddrfss;");
+            CHECK_NULL_RETURN(ni_bddrsID, NULL);
+
+            ib_dlbss = (*fnv)->FindClbss(fnv, "jbvb/nft/InftAddrfss");
+            CHECK_NULL_RETURN(ib_dlbss, NULL);
+            ib_dlbss = (*fnv)->NfwGlobblRff(fnv, ib_dlbss);
+            CHECK_NULL_RETURN(ib_dlbss, NULL);
+            ib_bnyLodblAddrfssID = (*fnv)->GftStbtidMfthodID(fnv,
+                                                             ib_dlbss,
+                                                             "bnyLodblAddrfss",
+                                                             "()Ljbvb/nft/InftAddrfss;");
+            CHECK_NULL_RETURN(ib_bnyLodblAddrfssID, NULL);
+            ni_dlbss = (*fnv)->NfwGlobblRff(fnv, d);
+            CHECK_NULL_RETURN(ni_dlbss, NULL);
+        }
+
+        /*
+         * If multidbst to b spfdifid intfrfbdf thfn rfturn thf
+         * intfrfbdf (for IF2) or thf bny bddrfss on thbt intfrfbdf
+         * (for IF).
+         */
+        if (indfx > 0) {
+            ni = Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByIndfx0(fnv, ni_dlbss,
+                                                                   indfx);
+            if (ni == NULL) {
+                dhbr frrmsg[255];
+                sprintf(frrmsg,
+                        "IPV6_MULTICAST_IF rfturnfd indfx to unrfdognizfd intfrfbdf: %d",
+                        indfx);
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", frrmsg);
+                rfturn NULL;
+            }
+
+            /*
+             * For IP_MULTICAST_IF2 rfturn thf NftworkIntfrfbdf
+             */
+            if (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF2) {
+                rfturn ni;
+            }
+
+            /*
+             * For IP_MULTICAST_IF rfturn bddrs[0]
+             */
+            bddrArrby = (*fnv)->GftObjfdtFifld(fnv, ni, ni_bddrsID);
+            if ((*fnv)->GftArrbyLfngth(fnv, bddrArrby) < 1) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                    "IPV6_MULTICAST_IF rfturnfd intfrfbdf without IP bindings");
+                rfturn NULL;
+            }
+
+            bddr = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, bddrArrby, 0);
+            rfturn bddr;
+        } flsf if (indfx == 0) { // indfx == 0 typidblly mfbns IPv6 not donfigurfd on thf intfrfbdfs
+            // fblling bbdk to trfbt intfrfbdf bs donfigurfd for IPv4
+            jobjfdt nftObjfdt = NULL;
+            nftObjfdt = gftIPv4NftworkIntfrfbdf(fnv, this, fd, opt, 0);
+            if (nftObjfdt != NULL) {
+                rfturn nftObjfdt;
+            }
+        }
+
+        /*
+         * Multidbst to bny bddrfss - rfturn bnyLodblAddrfss
+         * or b NftworkIntfrfbdf with bddrs[0] sft to bnyLodblAddrfss
+         */
+
+        bddr = (*fnv)->CbllStbtidObjfdtMfthod(fnv, ib_dlbss, ib_bnyLodblAddrfssID,
+                                              NULL);
+        if (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF) {
+            rfturn bddr;
+        }
+
+        ni = (*fnv)->NfwObjfdt(fnv, ni_dlbss, ni_dtrID, 0);
+        CHECK_NULL_RETURN(ni, NULL);
+        (*fnv)->SftIntFifld(fnv, ni, ni_indfxID, -1);
+        bddrArrby = (*fnv)->NfwObjfdtArrby(fnv, 1, ib_dlbss, NULL);
+        CHECK_NULL_RETURN(bddrArrby, NULL);
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bddrArrby, 0, bddr);
+        (*fnv)->SftObjfdtFifld(fnv, ni, ni_bddrsID, bddrArrby);
+        rfturn ni;
+    }
+    rfturn NULL;
+}
+
+
+/*
+ * Rfturns rflfvbnt info bs b jint.
+ *
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    sodkftGftOption
+ * Signbturf: (I)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_sodkftGftOption(JNIEnv *fnv, jobjfdt this,
+                                                      jint opt) {
+
+    int fd=-1, fd1=-1;
+    int lfvfl, optnbmf, optlfn;
+    union {
+        int i;
+    } optvbl = {0};
+    int ipv6_supportfd = ipv6_bvbilbblf();
+
+    fd = gftFD(fnv, this);
+    if (ipv6_supportfd) {
+        fd1 = gftFD1(fnv, this);
+    }
+
+    if (fd < 0 && fd1 < 0) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn NULL;
+    }
+
+    /*
+     * Hbndlf IP_MULTICAST_IF sfpbrbtfly
+     */
+    if (opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF ||
+        opt == jbvb_nft_SodkftOptions_IP_MULTICAST_IF2) {
+        rfturn gftMultidbstIntfrfbdf(fnv, this, fd, fd1, opt);
+    }
+
+    /*
+     * Mbp thf Jbvb lfvfl sodkft option to thf plbtform spfdifid
+     * lfvfl bnd option nbmf.
+     */
+    if (NET_MbpSodkftOption(opt, &lfvfl, &optnbmf)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Invblid option");
+        rfturn NULL;
+    }
+
+    if (fd == -1) {
+        if (NET_MbpSodkftOptionV6(opt, &lfvfl, &optnbmf)) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Invblid option");
+            rfturn NULL;
+        }
+        fd = fd1; /* must bf IPv6 only */
+    }
+
+    optlfn = sizfof(optvbl.i);
+    if (NET_GftSodkOpt(fd, lfvfl, optnbmf, (void *)&optvbl, &optlfn) < 0) {
+        dhbr frrmsg[255];
+        sprintf(frrmsg, "frror gftting sodkft option: %s\n", strfrror(frrno));
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", frrmsg);
+        rfturn NULL;
+    }
+
+    switdh (opt) {
+        dbsf jbvb_nft_SodkftOptions_SO_BROADCAST:
+        dbsf jbvb_nft_SodkftOptions_SO_REUSEADDR:
+            rfturn drfbtfBoolfbn(fnv, optvbl.i);
+
+        dbsf jbvb_nft_SodkftOptions_IP_MULTICAST_LOOP:
+            /* gftLoopbbdkModf() rfturns truf if IP_MULTICAST_LOOP is disbblfd */
+            rfturn drfbtfBoolfbn(fnv, !optvbl.i);
+
+        dbsf jbvb_nft_SodkftOptions_SO_SNDBUF:
+        dbsf jbvb_nft_SodkftOptions_SO_RCVBUF:
+        dbsf jbvb_nft_SodkftOptions_IP_TOS:
+            rfturn drfbtfIntfgfr(fnv, optvbl.i);
+
+        dffbult :
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                "Sodkft option not supportfd by TwoStbdksPlbinDbtbgrbmSodkftImpl");
+            rfturn NULL;
+
+    }
+}
+
+/*
+ * Rfturns lodbl bddrfss of thf sodkft.
+ *
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    sodkftLodblAddrfss
+ * Signbturf: (I)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_sodkftLodblAddrfss(JNIEnv *fnv, jobjfdt this,
+                                                      jint fbmily) {
+
+    int fd=-1, fd1=-1;
+    SOCKETADDRESS him;
+    int lfn = 0;
+    int port;
+    jobjfdt ibObj;
+    int ipv6_supportfd = ipv6_bvbilbblf();
+
+    fd = gftFD(fnv, this);
+    if (ipv6_supportfd) {
+        fd1 = gftFD1(fnv, this);
+    }
+
+    if (fd < 0 && fd1 < 0) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn NULL;
+    }
+
+    /* find out lodbl IP bddrfss */
+
+    lfn = sizfof (strudt sodkbddr_in);
+
+    /* fbmily==-1 whfn sodkft is not donnfdtfd */
+    if ((fbmily == IPv6) || (fbmily == -1 && fd == -1)) {
+        fd = fd1; /* must bf IPv6 only */
+        lfn = sizfof (strudt SOCKADDR_IN6);
+    }
+
+    if (fd == -1) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn NULL;
+    }
+
+    if (gftsodknbmf(fd, (strudt sodkbddr *)&him, &lfn) == -1) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                       "Error gftting sodkft nbmf");
+        rfturn NULL;
+    }
+    ibObj = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&him, &port);
+
+    rfturn ibObj;
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    sftTimfToLivf
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_sftTimfToLivf(JNIEnv *fnv, jobjfdt this,
+                                                    jint ttl) {
+
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+    int fd = -1, fd1 = -1;
+    int ittl = (int)ttl;
+
+    if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+      if (!IS_NULL(fdObj)) {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+      }
+      if (!IS_NULL(fd1Obj)) {
+        fd1 = (*fnv)->GftIntFifld(fnv, fd1Obj, IO_fd_fdID);
+      }
+    }
+
+    /* sftsodkopt to bf dorrfdt ttl */
+    if (fd >= 0) {
+      if (NET_SftSodkOpt(fd, IPPROTO_IP, IP_MULTICAST_TTL, (dhbr*)&ittl,
+                         sizfof (ittl)) < 0) {
+        NET_ThrowCurrfnt(fnv, "sft IP_MULTICAST_TTL fbilfd");
+      }
+    }
+
+    if (fd1 >= 0) {
+      if (NET_SftSodkOpt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, (dhbr *)&ittl,
+                         sizfof(ittl)) <0) {
+        NET_ThrowCurrfnt(fnv, "sft IPV6_MULTICAST_HOPS fbilfd");
+      }
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    sftTTL
+ * Signbturf: (B)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_sftTTL(JNIEnv *fnv, jobjfdt this,
+                                             jbytf ttl) {
+    Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_sftTimfToLivf(fnv, this,
+                                                        (jint)ttl & 0xFF);
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    gftTimfToLivf
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_gftTimfToLivf(JNIEnv *fnv, jobjfdt this) {
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+    int fd = -1, fd1 = -1;
+    int ttl = 0;
+    int lfn = sizfof(ttl);
+
+    if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn -1;
+    } flsf {
+      if (!IS_NULL(fdObj)) {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+      }
+      if (!IS_NULL(fd1Obj)) {
+        fd1 = (*fnv)->GftIntFifld(fnv, fd1Obj, IO_fd_fdID);
+      }
+    }
+
+    /* gftsodkopt of ttl */
+    if (fd >= 0) {
+      if (NET_GftSodkOpt(fd, IPPROTO_IP, IP_MULTICAST_TTL, (dhbr*)&ttl, &lfn) < 0) {
+        NET_ThrowCurrfnt(fnv, "gft IP_MULTICAST_TTL fbilfd");
+        rfturn -1;
+      }
+      rfturn (jint)ttl;
+    }
+    if (fd1 >= 0) {
+      if (NET_GftSodkOpt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, (dhbr*)&ttl, &lfn) < 0) {
+        NET_ThrowCurrfnt(fnv, "gft IP_MULTICAST_TTL fbilfd");
+        rfturn -1;
+      }
+      rfturn (jint)ttl;
+    }
+    rfturn -1;
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    gftTTL
+ * Signbturf: ()B
+ */
+JNIEXPORT jbytf JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_gftTTL(JNIEnv *fnv, jobjfdt this) {
+    int rfsult = Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_gftTimfToLivf(fnv, this);
+
+    rfturn (jbytf)rfsult;
+}
+
+/* join/lfbvf thf nbmfd group on thf nbmfd intfrfbdf, or if no intfrfbdf spfdififd
+ * thfn thf intfrfbdf sft with sftIntfrfbd(), or thf dffbult intfrfbdf othfrwisf */
+
+stbtid void mdbst_join_lfbvf(JNIEnv *fnv, jobjfdt this,
+                             jobjfdt ibObj, jobjfdt niObj,
+                             jboolfbn join)
+{
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fdID);
+    jobjfdt fd1Obj = (*fnv)->GftObjfdtFifld(fnv, this, pdsi_fd1ID);
+    jint fd = -1, fd1 = -1;
+
+    SOCKETADDRESS nbmf;
+    strudt ip_mrfq mnbmf;
+    strudt ipv6_mrfq mnbmf6;
+
+    strudt in_bddr in;
+    DWORD ifindfx = 0;
+
+    int lfn, fbmily;
+    int ipv6_supportfd = ipv6_bvbilbblf();
+    int dmd ;
+
+    mfmsft((dhbr *)&in, 0, sizfof(in));
+    mfmsft((dhbr *)&nbmf, 0, sizfof(nbmf));
+
+    if (IS_NULL(fdObj) && IS_NULL(fd1Obj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    }
+    if (!IS_NULL(fdObj)) {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    if (ipv6_supportfd && !IS_NULL(fd1Obj)) {
+        fd1 = (*fnv)->GftIntFifld(fnv, fd1Obj, IO_fd_fdID);
+    }
+
+    if (IS_NULL(ibObj)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "bddrfss");
+        rfturn;
+    }
+
+    if (NET_InftAddrfssToSodkbddr(fnv, ibObj, 0, (strudt sodkbddr *)&nbmf, &lfn, JNI_FALSE) != 0) {
+      rfturn;
+    }
+
+    /* Sft thf multidbst group bddrfss in thf ip_mrfq fifld
+     * fvfntublly this dhfdk should bf donf by thf sfdurity mbnbgfr
+     */
+    fbmily = nbmf.him.sb_fbmily;
+
+    if (fbmily == AF_INET) {
+        int bddrfss = nbmf.him4.sin_bddr.s_bddr;
+        if (!IN_MULTICAST(ntohl(bddrfss))) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "not in multidbst");
+            rfturn;
+        }
+        mnbmf.imr_multibddr.s_bddr = bddrfss;
+        if (fd < 0) {
+          JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Cbn't join bn IPv4 group on bn IPv6 only sodkft");
+          rfturn;
+        }
+        if (IS_NULL(niObj)) {
+            lfn = sizfof (in);
+            if (NET_GftSodkOpt(fd, IPPROTO_IP, IP_MULTICAST_IF,
+                           (dhbr *)&in, &lfn) < 0) {
+                NET_ThrowCurrfnt(fnv, "gft IP_MULTICAST_IF fbilfd");
+                rfturn;
+            }
+            mnbmf.imr_intfrfbdf.s_bddr = in.s_bddr;
+        } flsf {
+            if (gftInft4AddrFromIf (fnv, niObj, &mnbmf.imr_intfrfbdf) != 0) {
+                NET_ThrowCurrfnt(fnv, "no Inft4Addrfss bssodibtfd with intfrfbdf");
+                rfturn;
+            }
+        }
+
+        dmd = join ? IP_ADD_MEMBERSHIP: IP_DROP_MEMBERSHIP;
+
+        /* Join thf multidbst group */
+        if (NET_SftSodkOpt(fd, IPPROTO_IP, dmd, (dhbr *) &mnbmf, sizfof (mnbmf)) < 0) {
+            if (WSAGftLbstError() == WSAENOBUFS) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                    "IP_ADD_MEMBERSHIP fbilfd (out of hbrdwbrf filtfrs?)");
+            } flsf {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption","frror sftting options");
+            }
+        }
+    } flsf /* AF_INET6 */ {
+        if (ipv6_supportfd) {
+            strudt in6_bddr *bddrfss;
+            bddrfss = &nbmf.him6.sin6_bddr;
+            if (!IN6_IS_ADDR_MULTICAST(bddrfss)) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "not in6 multidbst");
+                rfturn;
+            }
+            mnbmf6.ipv6mr_multibddr = *bddrfss;
+        } flsf {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "IPv6 not supportfd");
+            rfturn;
+        }
+        if (fd1 < 0) {
+          JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Cbn't join bn IPv6 group on b IPv4 sodkft");
+          rfturn;
+        }
+        if (IS_NULL(niObj)) {
+            lfn = sizfof (ifindfx);
+            if (NET_GftSodkOpt(fd1, IPPROTO_IPV6, IPV6_MULTICAST_IF, &ifindfx, &lfn) < 0) {
+                NET_ThrowCurrfnt(fnv, "gft IPV6_MULTICAST_IF fbilfd");
+                rfturn;
+            }
+        } flsf {
+            ifindfx = gftIndfxFromIf (fnv, niObj);
+            if (ifindfx == -1) {
+                NET_ThrowCurrfnt(fnv, "gft ifindfx fbilfd");
+                rfturn;
+            }
+        }
+        mnbmf6.ipv6mr_intfrfbdf = ifindfx;
+        dmd = join ? IPV6_ADD_MEMBERSHIP: IPV6_DROP_MEMBERSHIP;
+
+        /* Join thf multidbst group */
+        if (NET_SftSodkOpt(fd1, IPPROTO_IPV6, dmd, (dhbr *) &mnbmf6, sizfof (mnbmf6)) < 0) {
+            if (WSAGftLbstError() == WSAENOBUFS) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                    "IP_ADD_MEMBERSHIP fbilfd (out of hbrdwbrf filtfrs?)");
+            } flsf {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption","frror sftting options");
+            }
+        }
+    }
+
+    rfturn;
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    join
+ * Signbturf: (Ljbvb/nft/InftAddrfss;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_join(JNIEnv *fnv, jobjfdt this,
+                                           jobjfdt ibObj, jobjfdt niObj)
+{
+    mdbst_join_lfbvf (fnv, this, ibObj, niObj, JNI_TRUE);
+}
+
+/*
+ * Clbss:     jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * Mfthod:    lfbvf
+ * Signbturf: (Ljbvb/nft/InftAddrfss;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_TwoStbdksPlbinDbtbgrbmSodkftImpl_lfbvf(JNIEnv *fnv, jobjfdt this,
+                                            jobjfdt ibObj, jobjfdt niObj)
+{
+    mdbst_join_lfbvf (fnv, this, ibObj, niObj, JNI_FALSE);
+}

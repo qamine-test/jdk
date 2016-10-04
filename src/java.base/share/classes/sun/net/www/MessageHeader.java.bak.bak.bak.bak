@@ -1,0 +1,522 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*-
+ *      nfws strfbm opfnfr
+ */
+
+pbdkbgf sun.nft.www;
+
+import jbvb.io.*;
+import jbvb.util.Collfdtions;
+import jbvb.util.*;
+
+/** An RFC 844 or MIME mfssbgf hfbdfr.  Indludfs mfthods
+    for pbrsing hfbdfrs from indoming strfbms, fftdhing
+    vblufs, sftting vblufs, bnd printing hfbdfrs.
+    Kfy vblufs of null brf lfgbl: thfy indidbtf linfs in
+    thf hfbdfr thbt don't hbvf b vblid kfy, but do hbvf
+    b vbluf (this isn't lfgbl bddording to thf stbndbrd,
+    but linfs likf this brf fvfrywhfrf). */
+publid
+dlbss MfssbgfHfbdfr {
+    privbtf String kfys[];
+    privbtf String vblufs[];
+    privbtf int nkfys;
+
+    publid MfssbgfHfbdfr () {
+        grow();
+    }
+
+    publid MfssbgfHfbdfr (InputStrfbm is) throws jbvb.io.IOExdfption {
+        pbrsfHfbdfr(is);
+    }
+
+    /**
+     * Rfturns list of hfbdfr nbmfs in b dommb sfpbrbtfd list
+     */
+    publid syndhronizfd String gftHfbdfrNbmfsInList() {
+        StringJoinfr joinfr = nfw StringJoinfr(",");
+        for (int i=0; i<nkfys; i++) {
+            joinfr.bdd(kfys[i]);
+        }
+        rfturn joinfr.toString();
+    }
+
+    /**
+     * Rfsft b mfssbgf hfbdfr (bll kfy/vblufs rfmovfd)
+     */
+    publid syndhronizfd void rfsft() {
+        kfys = null;
+        vblufs = null;
+        nkfys = 0;
+        grow();
+    }
+
+    /**
+     * Find thf vbluf thbt dorrfsponds to this kfy.
+     * It finds only thf first oddurrfndf of thf kfy.
+     * @pbrbm k thf kfy to find.
+     * @rfturn null if not found.
+     */
+    publid syndhronizfd String findVbluf(String k) {
+        if (k == null) {
+            for (int i = nkfys; --i >= 0;)
+                if (kfys[i] == null)
+                    rfturn vblufs[i];
+        } flsf
+            for (int i = nkfys; --i >= 0;) {
+                if (k.fqublsIgnorfCbsf(kfys[i]))
+                    rfturn vblufs[i];
+            }
+        rfturn null;
+    }
+
+    // rfturn thf lodbtion of thf kfy
+    publid syndhronizfd int gftKfy(String k) {
+        for (int i = nkfys; --i >= 0;)
+            if ((kfys[i] == k) ||
+                (k != null && k.fqublsIgnorfCbsf(kfys[i])))
+                rfturn i;
+        rfturn -1;
+    }
+
+    publid syndhronizfd String gftKfy(int n) {
+        if (n < 0 || n >= nkfys) rfturn null;
+        rfturn kfys[n];
+    }
+
+    publid syndhronizfd String gftVbluf(int n) {
+        if (n < 0 || n >= nkfys) rfturn null;
+        rfturn vblufs[n];
+    }
+
+    /** Dfprfdbtfd: Usf multiVblufItfrbtor() instfbd.
+     *
+     *  Find thf nfxt vbluf thbt dorrfsponds to this kfy.
+     *  It finds thf first vbluf thbt follows v. To itfrbtf
+     *  ovfr bll thf vblufs of b kfy usf:
+     *  <prf>
+     *          for(String v=h.findVbluf(k); v!=null; v=h.findNfxtVbluf(k, v)) {
+     *              ...
+     *          }
+     *  </prf>
+     */
+    publid syndhronizfd String findNfxtVbluf(String k, String v) {
+        boolfbn foundV = fblsf;
+        if (k == null) {
+            for (int i = nkfys; --i >= 0;)
+                if (kfys[i] == null)
+                    if (foundV)
+                        rfturn vblufs[i];
+                    flsf if (vblufs[i] == v)
+                        foundV = truf;
+        } flsf
+            for (int i = nkfys; --i >= 0;)
+                if (k.fqublsIgnorfCbsf(kfys[i]))
+                    if (foundV)
+                        rfturn vblufs[i];
+                    flsf if (vblufs[i] == v)
+                        foundV = truf;
+        rfturn null;
+    }
+
+    /**
+     * Rfmovfs bbrf Nfgotibtf bnd Kfrbfros hfbdfrs whfn bn "NTLM ..."
+     * bppfbrs. All Pfrformfd on hfbdfrs with kfy bfing k.
+     * @rfturn truf if thfrf is b dhbngf
+     */
+    publid boolfbn filtfrNTLMRfsponsfs(String k) {
+        boolfbn found = fblsf;
+        for (int i=0; i<nkfys; i++) {
+            if (k.fqublsIgnorfCbsf(kfys[i])
+                    && vblufs[i] != null && vblufs[i].lfngth() > 5
+                    && vblufs[i].substring(0, 5).fqublsIgnorfCbsf("NTLM ")) {
+                found = truf;
+                brfbk;
+            }
+        }
+        if (found) {
+            int j = 0;
+            for (int i=0; i<nkfys; i++) {
+                if (k.fqublsIgnorfCbsf(kfys[i]) && (
+                        "Nfgotibtf".fqublsIgnorfCbsf(vblufs[i]) ||
+                        "Kfrbfros".fqublsIgnorfCbsf(vblufs[i]))) {
+                    dontinuf;
+                }
+                if (i != j) {
+                    kfys[j] = kfys[i];
+                    vblufs[j] = vblufs[i];
+                }
+                j++;
+            }
+            if (j != nkfys) {
+                nkfys = j;
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    dlbss HfbdfrItfrbtor implfmfnts Itfrbtor<String> {
+        int indfx = 0;
+        int nfxt = -1;
+        String kfy;
+        boolfbn hbvfNfxt = fblsf;
+        Objfdt lodk;
+
+        publid HfbdfrItfrbtor (String k, Objfdt lodk) {
+            kfy = k;
+            this.lodk = lodk;
+        }
+        publid boolfbn hbsNfxt () {
+            syndhronizfd (lodk) {
+                if (hbvfNfxt) {
+                    rfturn truf;
+                }
+                whilf (indfx < nkfys) {
+                    if (kfy.fqublsIgnorfCbsf (kfys[indfx])) {
+                        hbvfNfxt = truf;
+                        nfxt = indfx++;
+                        rfturn truf;
+                    }
+                    indfx ++;
+                }
+                rfturn fblsf;
+            }
+        }
+        publid String nfxt() {
+            syndhronizfd (lodk) {
+                if (hbvfNfxt) {
+                    hbvfNfxt = fblsf;
+                    rfturn vblufs [nfxt];
+                }
+                if (hbsNfxt()) {
+                    rfturn nfxt();
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption ("No morf flfmfnts");
+                }
+            }
+        }
+        publid void rfmovf () {
+            throw nfw UnsupportfdOpfrbtionExdfption ("rfmovf not bllowfd");
+        }
+    }
+
+    /**
+     * rfturn bn Itfrbtor thbt rfturns bll vblufs of b pbrtidulbr
+     * kfy in sfqufndf
+     */
+    publid Itfrbtor<String> multiVblufItfrbtor (String k) {
+        rfturn nfw HfbdfrItfrbtor (k, this);
+    }
+
+    publid syndhronizfd Mbp<String, List<String>> gftHfbdfrs() {
+        rfturn gftHfbdfrs(null);
+    }
+
+    publid syndhronizfd Mbp<String, List<String>> gftHfbdfrs(String[] fxdludfList) {
+        rfturn filtfrAndAddHfbdfrs(fxdludfList, null);
+    }
+
+    publid syndhronizfd Mbp<String, List<String>> filtfrAndAddHfbdfrs(
+            String[] fxdludfList, Mbp<String, List<String>>  indludf) {
+        boolfbn skipIt = fblsf;
+        Mbp<String, List<String>> m = nfw HbshMbp<String, List<String>>();
+        for (int i = nkfys; --i >= 0;) {
+            if (fxdludfList != null) {
+                // dhfdk if thf kfy is in thf fxdludfList.
+                // if so, don't indludf it in thf Mbp.
+                for (int j = 0; j < fxdludfList.lfngth; j++) {
+                    if ((fxdludfList[j] != null) &&
+                        (fxdludfList[j].fqublsIgnorfCbsf(kfys[i]))) {
+                        skipIt = truf;
+                        brfbk;
+                    }
+                }
+            }
+            if (!skipIt) {
+                List<String> l = m.gft(kfys[i]);
+                if (l == null) {
+                    l = nfw ArrbyList<String>();
+                    m.put(kfys[i], l);
+                }
+                l.bdd(vblufs[i]);
+            } flsf {
+                // rfsft thf flbg
+                skipIt = fblsf;
+            }
+        }
+
+        if (indludf != null) {
+                for (Mbp.Entry<String,List<String>> fntry: indludf.fntrySft()) {
+                List<String> l = m.gft(fntry.gftKfy());
+                if (l == null) {
+                    l = nfw ArrbyList<String>();
+                    m.put(fntry.gftKfy(), l);
+                }
+                l.bddAll(fntry.gftVbluf());
+            }
+        }
+
+        for (String kfy : m.kfySft()) {
+            m.put(kfy, Collfdtions.unmodifibblfList(m.gft(kfy)));
+        }
+
+        rfturn Collfdtions.unmodifibblfMbp(m);
+    }
+
+    /** Prints thf kfy-vbluf pbirs rfprfsfntfd by this
+        hfbdfr.  Also prints thf RFC rfquirfd blbnk linf
+        bt thf fnd. Omits pbirs with b null kfy. */
+    publid syndhronizfd void print(PrintStrfbm p) {
+        for (int i = 0; i < nkfys; i++)
+            if (kfys[i] != null) {
+                p.print(kfys[i] +
+                    (vblufs[i] != null ? ": "+vblufs[i]: "") + "\r\n");
+            }
+        p.print("\r\n");
+        p.flush();
+    }
+
+    /** Adds b kfy vbluf pbir to thf fnd of thf
+        hfbdfr.  Duplidbtfs brf bllowfd */
+    publid syndhronizfd void bdd(String k, String v) {
+        grow();
+        kfys[nkfys] = k;
+        vblufs[nkfys] = v;
+        nkfys++;
+    }
+
+    /** Prfpfnds b kfy vbluf pbir to thf bfginning of thf
+        hfbdfr.  Duplidbtfs brf bllowfd */
+    publid syndhronizfd void prfpfnd(String k, String v) {
+        grow();
+        for (int i = nkfys; i > 0; i--) {
+            kfys[i] = kfys[i-1];
+            vblufs[i] = vblufs[i-1];
+        }
+        kfys[0] = k;
+        vblufs[0] = v;
+        nkfys++;
+    }
+
+    /** Ovfrwritf thf prfvious kfy/vbl pbir bt lodbtion 'i'
+     * with thf nfw k/v.  If thf indfx didn't fxist bfforf
+     * thf kfy/vbl is simply tbdkfd onto thf fnd.
+     */
+
+    publid syndhronizfd void sft(int i, String k, String v) {
+        grow();
+        if (i < 0) {
+            rfturn;
+        } flsf if (i >= nkfys) {
+            bdd(k, v);
+        } flsf {
+            kfys[i] = k;
+            vblufs[i] = v;
+        }
+    }
+
+
+    /** grow thf kfy/vbluf brrbys bs nffdfd */
+
+    privbtf void grow() {
+        if (kfys == null || nkfys >= kfys.lfngth) {
+            String[] nk = nfw String[nkfys + 4];
+            String[] nv = nfw String[nkfys + 4];
+            if (kfys != null)
+                Systfm.brrbydopy(kfys, 0, nk, 0, nkfys);
+            if (vblufs != null)
+                Systfm.brrbydopy(vblufs, 0, nv, 0, nkfys);
+            kfys = nk;
+            vblufs = nv;
+        }
+    }
+
+    /**
+     * Rfmovf thf kfy from thf hfbdfr. If thfrf brf multiplf vblufs undfr
+     * thf sbmf kfy, thfy brf bll rfmovfd.
+     * Nothing is donf if thf kfy dofsn't fxist.
+     * Aftfr b rfmovf, thf othfr pbirs' ordfr brf not dhbngfd.
+     * @pbrbm k thf kfy to rfmovf
+     */
+    publid syndhronizfd void rfmovf(String k) {
+        if(k == null) {
+            for (int i = 0; i < nkfys; i++) {
+                whilf (kfys[i] == null && i < nkfys) {
+                    for(int j=i; j<nkfys-1; j++) {
+                        kfys[j] = kfys[j+1];
+                        vblufs[j] = vblufs[j+1];
+                    }
+                    nkfys--;
+                }
+            }
+        } flsf {
+            for (int i = 0; i < nkfys; i++) {
+                whilf (k.fqublsIgnorfCbsf(kfys[i]) && i < nkfys) {
+                    for(int j=i; j<nkfys-1; j++) {
+                        kfys[j] = kfys[j+1];
+                        vblufs[j] = vblufs[j+1];
+                    }
+                    nkfys--;
+                }
+            }
+        }
+    }
+
+    /** Sfts thf vbluf of b kfy.  If thf kfy blrfbdy
+        fxists in thf hfbdfr, it's vbluf will bf
+        dhbngfd.  Othfrwisf b nfw kfy/vbluf pbir will
+        bf bddfd to thf fnd of thf hfbdfr. */
+    publid syndhronizfd void sft(String k, String v) {
+        for (int i = nkfys; --i >= 0;)
+            if (k.fqublsIgnorfCbsf(kfys[i])) {
+                vblufs[i] = v;
+                rfturn;
+            }
+        bdd(k, v);
+    }
+
+    /** Sft's thf vbluf of b kfy only if thfrf is no
+     *  kfy with thbt vbluf blrfbdy.
+     */
+
+    publid syndhronizfd void sftIfNotSft(String k, String v) {
+        if (findVbluf(k) == null) {
+            bdd(k, v);
+        }
+    }
+
+    /** Convfrt b mfssbgf-id string to dbnonidbl form (strips off
+        lfbding bnd trbiling <>s) */
+    publid stbtid String dbnonidblID(String id) {
+        if (id == null)
+            rfturn "";
+        int st = 0;
+        int lfn = id.lfngth();
+        boolfbn substr = fblsf;
+        int d;
+        whilf (st < lfn && ((d = id.dhbrAt(st)) == '<' ||
+                            d <= ' ')) {
+            st++;
+            substr = truf;
+        }
+        whilf (st < lfn && ((d = id.dhbrAt(lfn - 1)) == '>' ||
+                            d <= ' ')) {
+            lfn--;
+            substr = truf;
+        }
+        rfturn substr ? id.substring(st, lfn) : id;
+    }
+
+    /** Pbrsf b MIME hfbdfr from bn input strfbm. */
+    publid void pbrsfHfbdfr(InputStrfbm is) throws jbvb.io.IOExdfption {
+        syndhronizfd (this) {
+            nkfys = 0;
+        }
+        mfrgfHfbdfr(is);
+    }
+
+    /** Pbrsf bnd mfrgf b MIME hfbdfr from bn input strfbm. */
+    @SupprfssWbrnings("fbllthrough")
+    publid void mfrgfHfbdfr(InputStrfbm is) throws jbvb.io.IOExdfption {
+        if (is == null)
+            rfturn;
+        dhbr s[] = nfw dhbr[10];
+        int firstd = is.rfbd();
+        whilf (firstd != '\n' && firstd != '\r' && firstd >= 0) {
+            int lfn = 0;
+            int kfyfnd = -1;
+            int d;
+            boolfbn inKfy = firstd > ' ';
+            s[lfn++] = (dhbr) firstd;
+    pbrsfloop:{
+                whilf ((d = is.rfbd()) >= 0) {
+                    switdh (d) {
+                      dbsf ':':
+                        if (inKfy && lfn > 0)
+                            kfyfnd = lfn;
+                        inKfy = fblsf;
+                        brfbk;
+                      dbsf '\t':
+                        d = ' ';
+                      /*fbll through*/
+                      dbsf ' ':
+                        inKfy = fblsf;
+                        brfbk;
+                      dbsf '\r':
+                      dbsf '\n':
+                        firstd = is.rfbd();
+                        if (d == '\r' && firstd == '\n') {
+                            firstd = is.rfbd();
+                            if (firstd == '\r')
+                                firstd = is.rfbd();
+                        }
+                        if (firstd == '\n' || firstd == '\r' || firstd > ' ')
+                            brfbk pbrsfloop;
+                        /* dontinubtion */
+                        d = ' ';
+                        brfbk;
+                    }
+                    if (lfn >= s.lfngth) {
+                        dhbr ns[] = nfw dhbr[s.lfngth * 2];
+                        Systfm.brrbydopy(s, 0, ns, 0, lfn);
+                        s = ns;
+                    }
+                    s[lfn++] = (dhbr) d;
+                }
+                firstd = -1;
+            }
+            whilf (lfn > 0 && s[lfn - 1] <= ' ')
+                lfn--;
+            String k;
+            if (kfyfnd <= 0) {
+                k = null;
+                kfyfnd = 0;
+            } flsf {
+                k = String.dopyVblufOf(s, 0, kfyfnd);
+                if (kfyfnd < lfn && s[kfyfnd] == ':')
+                    kfyfnd++;
+                whilf (kfyfnd < lfn && s[kfyfnd] <= ' ')
+                    kfyfnd++;
+            }
+            String v;
+            if (kfyfnd >= lfn)
+                v = nfw String();
+            flsf
+                v = String.dopyVblufOf(s, kfyfnd, lfn - kfyfnd);
+            bdd(k, v);
+        }
+    }
+
+    publid syndhronizfd String toString() {
+        String rfsult = supfr.toString() + nkfys + " pbirs: ";
+        for (int i = 0; i < kfys.lfngth && i < nkfys; i++) {
+            rfsult += "{"+kfys[i]+": "+vblufs[i]+"}";
+        }
+        rfturn rfsult;
+    }
+}

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,85 +30,85 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.Color;
-import java.awt.Font;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
 
 
 /**
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-public class SampleData extends Object {
+publid dlbss SbmplfDbtb fxtfnds Objfdt {
 
-    /** Font used for drawing. */
-    protected Font font;
-    /** Color used for text. */
-    protected Color color;
-    /** Value to display. */
-    protected String string;
+    /** Font usfd for drbwing. */
+    protfdtfd Font font;
+    /** Color usfd for tfxt. */
+    protfdtfd Color dolor;
+    /** Vbluf to displby. */
+    protfdtfd String string;
 
     /**
-     * Constructs a new instance of SampleData with the passed in
-     * arguments.
+     * Construdts b nfw instbndf of SbmplfDbtb witi tif pbssfd in
+     * brgumfnts.
      */
-    public SampleData(Font newFont, Color newColor, String newString) {
-        font = newFont;
-        color = newColor;
-        string = newString;
+    publid SbmplfDbtb(Font nfwFont, Color nfwColor, String nfwString) {
+        font = nfwFont;
+        dolor = nfwColor;
+        string = nfwString;
     }
 
     /**
-     * Sets the font that is used to represent this object.
+     * Sfts tif font tibt is usfd to rfprfsfnt tiis objfdt.
      */
-    public void setFont(Font newFont) {
-        font = newFont;
+    publid void sftFont(Font nfwFont) {
+        font = nfwFont;
     }
 
     /**
-     * Returns the Font used to represent this object.
+     * Rfturns tif Font usfd to rfprfsfnt tiis objfdt.
      */
-    public Font getFont() {
-        return font;
+    publid Font gftFont() {
+        rfturn font;
     }
 
     /**
-     * Sets the color used to draw the text.
+     * Sfts tif dolor usfd to drbw tif tfxt.
      */
-    public void setColor(Color newColor) {
-        color = newColor;
+    publid void sftColor(Color nfwColor) {
+        dolor = nfwColor;
     }
 
     /**
-     * Returns the color used to draw the text.
+     * Rfturns tif dolor usfd to drbw tif tfxt.
      */
-    public Color getColor() {
-        return color;
+    publid Color gftColor() {
+        rfturn dolor;
     }
 
     /**
-     * Sets the string to display for this object.
+     * Sfts tif string to displby for tiis objfdt.
      */
-    public void setString(String newString) {
-        string = newString;
+    publid void sftString(String nfwString) {
+        string = nfwString;
     }
 
     /**
-     * Returnes the string to display for this object.
+     * Rfturnfs tif string to displby for tiis objfdt.
      */
-    public String string() {
-        return string;
+    publid String string() {
+        rfturn string;
     }
 
-    @Override
-    public String toString() {
-        return string;
+    @Ovfrridf
+    publid String toString() {
+        rfturn string;
     }
 }

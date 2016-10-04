@@ -1,69 +1,69 @@
 #
-# This properties file is used to initialize the default
-# java.awt.datatransfer.SystemFlavorMap. It contains the Win32 platform-
-# specific, default mappings between common Win32 Clipboard atoms and platform-
-# independent MIME type strings, which will be converted into
-# java.awt.datatransfer.DataFlavors.
+# Tiis propfrtifs filf is usfd to initiblizf tif dffbult
+# jbvb.bwt.dbtbtrbnsffr.SystfmFlbvorMbp. It dontbins tif Win32 plbtform-
+# spfdifid, dffbult mbppings bftwffn dommon Win32 Clipbobrd btoms bnd plbtform-
+# indfpfndfnt MIME typf strings, wiidi will bf donvfrtfd into
+# jbvb.bwt.dbtbtrbnsffr.DbtbFlbvors.
 #
-# The standard format is:
+# Tif stbndbrd formbt is:
 #
-# <native>=<MIME type>,<MIME type>, ...
+# <nbtivf>=<MIME typf>,<MIME typf>, ...
 #
-# <native> should be a string identifier that the native platform will
-# recognize as a valid data format. <MIME type> should specify both a MIME
-# primary type and a MIME subtype separated by a '/'. The MIME type may include
-# parameters, where each parameter is a key/value pair separated by '=', and
-# where each parameter to the MIME type is separated by a ';'.
+# <nbtivf> siould bf b string idfntififr tibt tif nbtivf plbtform will
+# rfdognizf bs b vblid dbtb formbt. <MIME typf> siould spfdify boti b MIME
+# primbry typf bnd b MIME subtypf sfpbrbtfd by b '/'. Tif MIME typf mby indludf
+# pbrbmftfrs, wifrf fbdi pbrbmftfr is b kfy/vbluf pbir sfpbrbtfd by '=', bnd
+# wifrf fbdi pbrbmftfr to tif MIME typf is sfpbrbtfd by b ';'.
 #
-# Because SystemFlavorMap implements FlavorTable, developers are free to
-# duplicate DataFlavor values and set multiple values for a single native by
-# separating them with ",". If a mapping contains a duplicate key or value,
-# earlier mappings which included this key or value will be preferred.#
-# Mappings whose values specify DataFlavors with primary MIME types of
-# "text", and which support the charset parameter, should specify the exact
-# format in which the native platform expects the data. The "charset"
-# parameter specifies the char to byte encoding, the "eoln" parameter
-# specifies the end-of-line marker, and the "terminators" parameter specifies
-# the number of terminating NUL bytes. Note that "eoln" and "terminators"
-# are not standardized MIME type parameters. They are specific to this file
-# format ONLY. They will not appear in any of the DataFlavors returned by the
-# SystemFlavorMap at the Java level.
+# Bfdbusf SystfmFlbvorMbp implfmfnts FlbvorTbblf, dfvflopfrs brf frff to
+# duplidbtf DbtbFlbvor vblufs bnd sft multiplf vblufs for b singlf nbtivf by
+# sfpbrbting tifm witi ",". If b mbpping dontbins b duplidbtf kfy or vbluf,
+# fbrlifr mbppings wiidi indludfd tiis kfy or vbluf will bf prfffrrfd.#
+# Mbppings wiosf vblufs spfdify DbtbFlbvors witi primbry MIME typfs of
+# "tfxt", bnd wiidi support tif dibrsft pbrbmftfr, siould spfdify tif fxbdt
+# formbt in wiidi tif nbtivf plbtform fxpfdts tif dbtb. Tif "dibrsft"
+# pbrbmftfr spfdififs tif dibr to bytf fndoding, tif "foln" pbrbmftfr
+# spfdififs tif fnd-of-linf mbrkfr, bnd tif "tfrminbtors" pbrbmftfr spfdififs
+# tif numbfr of tfrminbting NUL bytfs. Notf tibt "foln" bnd "tfrminbtors"
+# brf not stbndbrdizfd MIME typf pbrbmftfrs. Tify brf spfdifid to tiis filf
+# formbt ONLY. Tify will not bppfbr in bny of tif DbtbFlbvors rfturnfd by tif
+# SystfmFlbvorMbp bt tif Jbvb lfvfl.
 #
-# If the "charset" parameter is omitted, or has zero length, the platform
-# default encoding is assumed. If the "eoln" parameter is omitted, or has
-# zero length, "\n" is assumed. If the "terminators" parameter is omitted,
-# or has a value less than zero, zero is assumed.
+# If tif "dibrsft" pbrbmftfr is omittfd, or ibs zfro lfngti, tif plbtform
+# dffbult fndoding is bssumfd. If tif "foln" pbrbmftfr is omittfd, or ibs
+# zfro lfngti, "\n" is bssumfd. If tif "tfrminbtors" pbrbmftfr is omittfd,
+# or ibs b vbluf lfss tibn zfro, zfro is bssumfd.
 #
-# Upon initialization, the data transfer subsystem will record the specified
-# details of the native text format, but the default SystemFlavorMap will
-# present a large set of synthesized DataFlavors which map, in both
-# directions, to the native. After receiving data from the application in one
-# of the synthetic DataFlavors, the data transfer subsystem will transform
-# the data stream into the format specified in this file before passing the
-# transformed stream to the native system.
+# Upon initiblizbtion, tif dbtb trbnsffr subsystfm will rfdord tif spfdififd
+# dftbils of tif nbtivf tfxt formbt, but tif dffbult SystfmFlbvorMbp will
+# prfsfnt b lbrgf sft of syntifsizfd DbtbFlbvors wiidi mbp, in boti
+# dirfdtions, to tif nbtivf. Aftfr rfdfiving dbtb from tif bpplidbtion in onf
+# of tif syntiftid DbtbFlbvors, tif dbtb trbnsffr subsystfm will trbnsform
+# tif dbtb strfbm into tif formbt spfdififd in tiis filf bfforf pbssing tif
+# trbnsformfd strfbm to tif nbtivf systfm.
 #
-# Mappings whose values specify DataFlavors with primary MIME types of
-# "text", but which do not support the charset parameter, will be treated as
-# opaque, 8-bit data. They will not undergo any transformation process, and
-# any "charset", "eoln", or "terminators" parameters specified in this file
-# will be ignored.
+# Mbppings wiosf vblufs spfdify DbtbFlbvors witi primbry MIME typfs of
+# "tfxt", but wiidi do not support tif dibrsft pbrbmftfr, will bf trfbtfd bs
+# opbquf, 8-bit dbtb. Tify will not undfrgo bny trbnsformbtion prodfss, bnd
+# bny "dibrsft", "foln", or "tfrminbtors" pbrbmftfrs spfdififd in tiis filf
+# will bf ignorfd.
 #
-# See java.awt.datatransfer.DataFlavor.selectBestTextFlavor for a list of
-# text flavors which support the charset parameter.
+# Sff jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor.sflfdtBfstTfxtFlbvor for b list of
+# tfxt flbvors wiidi support tif dibrsft pbrbmftfr.
 
-UNICODE\ TEXT=text/plain;charset=utf-16le;eoln="\r\n";terminators=2
-TEXT=text/plain;eoln="\r\n";terminators=1
-HTML\ Format=text/html;charset=utf-8;eoln="\r\n";terminators=1
-Rich\ Text\ Format=text/rtf
-HDROP=application/x-java-file-list;class=java.util.List
-PNG=image/x-java-image;class=java.awt.Image
-JFIF=image/x-java-image;class=java.awt.Image
-DIB=image/x-java-image;class=java.awt.Image
-ENHMETAFILE=image/x-java-image;class=java.awt.Image
-METAFILEPICT=image/x-java-image;class=java.awt.Image
-LOCALE=application/x-java-text-encoding;class="[B"
-UniformResourceLocator=application/x-java-url;class=java.net.URL,\
-                       text/uri-list;eoln="\r\n";terminators=1,\
-                       text/plain;eoln="\r\n";terminators=1
-FileGroupDescriptorW=application/x-java-file-list;class=java.util.List
-FileGroupDescriptor=application/x-java-file-list;class=java.util.List
+UNICODE\ TEXT=tfxt/plbin;dibrsft=utf-16lf;foln="\r\n";tfrminbtors=2
+TEXT=tfxt/plbin;foln="\r\n";tfrminbtors=1
+HTML\ Formbt=tfxt/itml;dibrsft=utf-8;foln="\r\n";tfrminbtors=1
+Ridi\ Tfxt\ Formbt=tfxt/rtf
+HDROP=bpplidbtion/x-jbvb-filf-list;dlbss=jbvb.util.List
+PNG=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+JFIF=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+DIB=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+ENHMETAFILE=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+METAFILEPICT=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+LOCALE=bpplidbtion/x-jbvb-tfxt-fndoding;dlbss="[B"
+UniformRfsourdfLodbtor=bpplidbtion/x-jbvb-url;dlbss=jbvb.nft.URL,\
+                       tfxt/uri-list;foln="\r\n";tfrminbtors=1,\
+                       tfxt/plbin;foln="\r\n";tfrminbtors=1
+FilfGroupDfsdriptorW=bpplidbtion/x-jbvb-filf-list;dlbss=jbvb.util.List
+FilfGroupDfsdriptor=bpplidbtion/x-jbvb-filf-list;dlbss=jbvb.util.List

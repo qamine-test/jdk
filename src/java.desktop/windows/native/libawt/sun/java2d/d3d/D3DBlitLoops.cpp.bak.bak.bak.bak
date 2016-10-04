@@ -1,0 +1,1131 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf "jlong.h"
+
+#indludf "D3DPipflinf.h"
+
+#indludf "SurfbdfDbtb.h"
+#indludf "D3DBlitLoops.h"
+#indludf "D3DRfndfrQufuf.h"
+#indludf "D3DSurfbdfDbtb.h"
+#indludf "GrbphidsPrimitivfMgr.h"
+
+#indludf "IntArgb.h"
+#indludf "IntArgbPrf.h"
+#indludf "IntRgb.h"
+#indludf "IntBgr.h"
+#indludf "Ushort555Rgb.h"
+#indludf "Ushort565Rgb.h"
+#indludf "BytfIndfxfd.h"
+
+
+fxtfrn "C" BlitFund IntArgbToIntArgbPrfConvfrt;
+fxtfrn "C" BlitFund IntArgbPrfToIntArgbConvfrt;
+fxtfrn "C" BlitFund IntArgbBmToIntArgbConvfrt;
+fxtfrn "C" BlitFund IntRgbToIntArgbConvfrt;
+fxtfrn "C" BlitFund ThrffBytfBgrToIntArgbConvfrt;
+fxtfrn "C" BlitFund Ushort565RgbToIntArgbConvfrt;
+fxtfrn "C" BlitFund Ushort555RgbToIntArgbConvfrt;
+fxtfrn "C" BlitFund IntBgrToIntArgbConvfrt;
+fxtfrn "C" BlitFund AnyIntIsomorphidCopy;
+fxtfrn "C" BlitFund BytfIndfxfdToIntArgbConvfrt;
+fxtfrn "C" BlitFund BytfIndfxfdToIntArgbPrfConvfrt;
+
+#dffinf GETMIN(v1, v2)    (((v1) > (t=(v2))) && ((v1) = t))
+#dffinf GETMAX(v1, v2)    (((v1) < (t=(v2))) && ((v1) = t))
+
+#ifdff D3D_PPL_DLL
+
+JNIEXPORT void JNICALL
+SurfbdfDbtb_IntfrsfdtBounds(SurfbdfDbtbBounds *dst, SurfbdfDbtbBounds *srd)
+{
+    int t;
+    GETMAX(dst->x1, srd->x1);
+    GETMAX(dst->y1, srd->y1);
+    GETMIN(dst->x2, srd->x2);
+    GETMIN(dst->y2, srd->y2);
+}
+
+JNIEXPORT void JNICALL
+SurfbdfDbtb_IntfrsfdtBoundsXYXY(SurfbdfDbtbBounds *bounds,
+                                jint x1, jint y1, jint x2, jint y2)
+{
+    int t;
+    GETMAX(bounds->x1, x1);
+    GETMAX(bounds->y1, y1);
+    GETMIN(bounds->x2, x2);
+    GETMIN(bounds->y2, y2);
+}
+
+JNIEXPORT void JNICALL
+SurfbdfDbtb_IntfrsfdtBoundsXYWH(SurfbdfDbtbBounds *bounds,
+                                jint x, jint y, jint w, jint h)
+{
+    w = (w <= 0) ? x : x+w;
+    if (w < x) {
+        w = 0x7fffffff;
+    }
+    if (bounds->x1 < x) {
+        bounds->x1 = x;
+    }
+    if (bounds->x2 > w) {
+        bounds->x2 = w;
+    }
+    h = (h <= 0) ? y : y+h;
+    if (h < y) {
+        h = 0x7fffffff;
+    }
+    if (bounds->y1 < y) {
+        bounds->y1 = y;
+    }
+    if (bounds->y2 > h) {
+        bounds->y2 = h;
+    }
+}
+
+JNIEXPORT void JNICALL
+SurfbdfDbtb_IntfrsfdtBlitBounds(SurfbdfDbtbBounds *srd,
+                                SurfbdfDbtbBounds *dst,
+                                jint dx, jint dy)
+{
+    int t;
+    GETMAX(dst->x1, srd->x1 + dx);
+    GETMAX(dst->y1, srd->y1 + dy);
+    GETMIN(dst->x2, srd->x2 + dx);
+    GETMIN(dst->y2, srd->y2 + dy);
+    GETMAX(srd->x1, dst->x1 - dx);
+    GETMAX(srd->y1, dst->y1 - dy);
+    GETMIN(srd->x2, dst->x2 - dx);
+    GETMIN(srd->y2, dst->y2 - dy);
+}
+
+#fndif /* D3D_PPL_DLL */
+
+D3DPIPELINE_API HRESULT
+D3DBL_CopySurfbdfToIntArgbImbgf(IDirfdt3DSurfbdf9 *pSurfbdf,
+                                SurfbdfDbtbRbsInfo *pDstInfo,
+                                jint srdx, jint srdy,
+                                jint srdWidth, jint srdHfight,
+                                jint dstx, jint dsty)
+{
+    HRESULT rfs = S_OK;
+    D3DLOCKED_RECT lodkfdRfdt;
+    RECT r = { srdx, srdy, srdx+srdWidth, srdy+srdHfight };
+    D3DSURFACE_DESC dfsd;
+    SurfbdfDbtbRbsInfo srdInfo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBL_CopySurfbdfToIntArgbImbgf");
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                " rfdt={%-4d, %-4d, %-4d, %-4d}",
+                r.lfft, r.top, r.right, r.bottom);
+
+    rfs = pSurfbdf->LodkRfdt(&lodkfdRfdt, &r, D3DLOCK_NOSYSLOCK);
+    RETURN_STATUS_IF_FAILED(rfs);
+    pSurfbdf->GftDfsd(&dfsd);
+
+    ZfroMfmory(&srdInfo, sizfof(SurfbdfDbtbRbsInfo));
+    // srdInfo.bounds.x1 = 0;
+    // srdInfo.bounds.y1 = 0;
+    srdInfo.bounds.x2 = srdWidth;
+    srdInfo.bounds.y2 = srdHfight;
+    srdInfo.sdbnStridf = lodkfdRfdt.Pitdh;
+
+    void *pSrdBbsf = lodkfdRfdt.pBits;
+    void *pDstBbsf = PtrCoord(pDstInfo->rbsBbsf,
+                              dstx, pDstInfo->pixflStridf,
+                              dsty, pDstInfo->sdbnStridf);
+
+    switdh (dfsd.Formbt) {
+        dbsf D3DFMT_A8R8G8B8:
+            srdInfo.pixflStridf = 4;
+            IntArgbPrfToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                       srdWidth, srdHfight,
+                                       &srdInfo, pDstInfo, NULL, NULL);
+            brfbk;
+        dbsf D3DFMT_X8R8G8B8:
+            srdInfo.pixflStridf = 4;
+            IntRgbToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                   srdWidth, srdHfight,
+                                   &srdInfo, pDstInfo, NULL, NULL);
+            brfbk;
+        dbsf D3DFMT_X8B8G8R8:
+            srdInfo.pixflStridf = 4;
+            IntBgrToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                   srdWidth, srdHfight,
+                                   &srdInfo, pDstInfo, NULL, NULL);
+            brfbk;
+        dbsf D3DFMT_X1R5G5B5:
+            srdInfo.pixflStridf = 2;
+            Ushort555RgbToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                         srdWidth, srdHfight,
+                                         &srdInfo, pDstInfo, NULL, NULL);
+            brfbk;
+        dbsf D3DFMT_R5G6B5:
+            srdInfo.pixflStridf = 2;
+            Ushort565RgbToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                         srdWidth, srdHfight,
+                                         &srdInfo, pDstInfo, NULL, NULL);
+            brfbk;
+        dffbult:
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                "D3DBL_CopySurfbdfToIntArgbImbgf: unknown formbt %d",
+                dfsd.Formbt);
+    }
+
+    rfturn pSurfbdf->UnlodkRfdt();
+}
+
+D3DPIPELINE_API HRESULT
+D3DBL_CopyImbgfToIntXrgbSurfbdf(SurfbdfDbtbRbsInfo *pSrdInfo,
+                                int srdtypf,
+                                D3DRfsourdf *pDstSurfbdfRfs,
+                                jint srdx, jint srdy,
+                                jint srdWidth, jint srdHfight,
+                                jint dstx, jint dsty)
+{
+    HRESULT rfs = S_OK;
+    D3DLOCKED_RECT lodkfdRfdt;
+    RECT r = { dstx, dsty, dstx+srdWidth, dsty+srdHfight };
+    RECT *pR = &r;
+    SurfbdfDbtbRbsInfo dstInfo;
+    IDirfdt3DSurfbdf9 *pDstSurfbdf = pDstSurfbdfRfs->GftSurfbdf();
+    D3DSURFACE_DESC *pDfsd = pDstSurfbdfRfs->GftDfsd();
+    DWORD dwLodkFlbgs = D3DLOCK_NOSYSLOCK;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBL_CopyImbgfToIntXrgbSurfbdf");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                " srdtypf=%d rfdt={%-4d, %-4d, %-4d, %-4d}",
+                srdtypf, r.lfft, r.top, r.right, r.bottom);
+
+    if (pDfsd->Usbgf == D3DUSAGE_DYNAMIC) {
+        // it is sbff to lodk with disdbrd bfdbusf wf don't dbrf bbout thf
+        // dontfnts of dynbmid tfxturfs, bnd somf drivfrs brf hbppifr if
+        // dynbmid tfxturfs brf blwbys lodkfd with DISCARD
+        dwLodkFlbgs |= D3DLOCK_DISCARD;
+        pR = NULL;
+    } flsf {
+        // in non-DYNAMIC dbsf wf lodk thf fxbdt rfdt so thfrf's no nffd to
+        // offsft thf dfstinbtion pointfr
+        dstx = 0;
+        dsty = 0;
+    }
+
+    rfs = pDstSurfbdf->LodkRfdt(&lodkfdRfdt, pR, dwLodkFlbgs);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    ZfroMfmory(&dstInfo, sizfof(SurfbdfDbtbRbsInfo));
+    // dstInfo.bounds.x1 = 0;
+    // dstInfo.bounds.y1 = 0;
+    dstInfo.bounds.x2 = srdWidth;
+    dstInfo.bounds.y2 = srdHfight;
+    dstInfo.sdbnStridf = lodkfdRfdt.Pitdh;
+    dstInfo.pixflStridf = 4;
+
+    void *pSrdBbsf = PtrCoord(pSrdInfo->rbsBbsf,
+                              srdx, pSrdInfo->pixflStridf,
+                              srdy, pSrdInfo->sdbnStridf);
+    void *pDstBbsf = PtrCoord(lodkfdRfdt.pBits,
+                              dstx, dstInfo.pixflStridf,
+                              dsty, dstInfo.sdbnStridf);
+
+    switdh (srdtypf) {
+        dbsf ST_INT_ARGB:
+            IntArgbToIntArgbPrfConvfrt(pSrdBbsf, pDstBbsf,
+                                       srdWidth, srdHfight,
+                                       pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_INT_ARGB_PRE:
+            AnyIntIsomorphidCopy(pSrdBbsf, pDstBbsf,
+                                 srdWidth, srdHfight,
+                                 pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_INT_RGB:
+            IntRgbToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                   srdWidth, srdHfight,
+                                   pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_INT_ARGB_BM:
+            // REMIND: wf don't hbvf sudh sw loop
+            // so this pbth is disbblfd for now on jbvb lfvfl
+//            IntArgbBmToIntArgbPrfConvfrt(pSrdBbsf, pDstBbsf,
+//                                         srdWidth, srdHfight,
+//                                         pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_INT_BGR:
+            IntBgrToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                   srdWidth, srdHfight,
+                                   pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_3BYTE_BGR:
+            ThrffBytfBgrToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                         srdWidth, srdHfight,
+                                         pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_USHORT_555_RGB:
+            Ushort555RgbToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                         srdWidth, srdHfight,
+                                         pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_USHORT_565_RGB:
+            Ushort565RgbToIntArgbConvfrt(pSrdBbsf, pDstBbsf,
+                                         srdWidth, srdHfight,
+                                         pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_BYTE_INDEXED:
+            BytfIndfxfdToIntArgbPrfConvfrt(pSrdBbsf, pDstBbsf,
+                                           srdWidth, srdHfight,
+                                           pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dbsf ST_BYTE_INDEXED_BM:
+            // REMIND: wf don't hbvf sudh sw loop
+            // so this pbth is disbblfd for now on jbvb lfvfl
+//            BytfIndfxfdBmToIntArgbPrfConvfrt(pSrdBbsf, pDstBbsf,
+//                                             srdWidth, srdHfight,
+//                                             pSrdInfo, &dstInfo, NULL, NULL);
+            brfbk;
+        dffbult:
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                           "D3DBL_CopyImbgfToIntXrgbSurfbdf: unknown typf %d",
+                           srdtypf);
+    }
+
+    rfturn pDstSurfbdf->UnlodkRfdt();
+}
+
+/**
+ * Innfr loop usfd for dopying b sourdf "rfndfr-to" D3D "Surfbdf" to b
+ * dfstinbtion D3D "Surfbdf".  Notf thbt thf sbmf surfbdf dbn
+ * not bf usfd bs both thf sourdf bnd dfstinbtion, bs is thf dbsf in b dopyArfb()
+ * opfrbtion.  This mfthod is invokfd from D3DBlitLoops_IsoBlit().
+ *
+ * Thf stbndbrd StrftdhRfdt() mfdhbnism is usfd to dopy thf sourdf rfgion
+ * into thf dfstinbtion rfgion.  If thf rfgions hbvf difffrfnt dimfnsions,
+ * thf sourdf will bf sdblfd into thf dfstinbtion bs bppropribtf (only
+ * nfbrfst nfighbor filtfring will bf bpplifd for simplf sdblf opfrbtions).
+ */
+HRESULT
+D3DBlitSurfbdfToSurfbdf(D3DContfxt *d3dd, D3DSDOps *srdOps, D3DSDOps *dstOps,
+                        D3DTEXTUREFILTERTYPE hint,
+                        jint sx1, jint sy1, jint sx2, jint sy2,
+                        jint dx1, jint dy1, jint dx2, jint dy2)
+{
+    IDirfdt3DSurfbdf9 *pSrd, *pDst;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBlitSurfbdfToSurfbdf");
+
+    RETURN_STATUS_IF_NULL(srdOps->pRfsourdf, E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps->pRfsourdf, E_FAIL);
+    RETURN_STATUS_IF_NULL(pSrd = srdOps->pRfsourdf->GftSurfbdf(), E_FAIL);
+    RETURN_STATUS_IF_NULL(pDst = dstOps->pRfsourdf->GftSurfbdf(), E_FAIL);
+
+    d3dd->UpdbtfStbtf(STATE_OTHEROP);
+    IDirfdt3DDfvidf9 *pd3dDfvidf = d3dd->Gft3DDfvidf();
+
+    // nffd to dlip thf dfstinbtion bounds,
+    // othfrwisf StrftdhRfdt dould fbil
+    jint sw    = sx2 - sx1;
+    jint sh    = sy2 - sy1;
+    jdoublf dw = dx2 - dx1;
+    jdoublf dh = dy2 - dy1;
+
+    SurfbdfDbtbBounds dstBounds;
+    dstBounds.x1 = dx1;
+    dstBounds.y1 = dy1;
+    dstBounds.x2 = dx2;
+    dstBounds.y2 = dy2;
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&dstBounds, 0, 0,
+                                    dstOps->width, dstOps->hfight);
+    if (d3dd->GftClipTypf() == CLIP_RECT) {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  rfdt dlip, dlip dfst mbnublly");
+        RECT dlipRfdt;
+        pd3dDfvidf->GftSdissorRfdt(&dlipRfdt);
+        SurfbdfDbtb_IntfrsfdtBoundsXYXY(&dstBounds,
+                                        dlipRfdt.lfft, dlipRfdt.top,
+                                        dlipRfdt.right, dlipRfdt.bottom);
+    }
+
+    if (dstBounds.x1 != dx1) {
+        sx1 += (int)((dstBounds.x1 - dx1) * (sw / dw));
+    }
+    if (dstBounds.y1 != dy1) {
+        sy1 += (int)((dstBounds.y1 - dy1) * (sh / dh));
+    }
+    if (dstBounds.x2 != dx2) {
+        sx2 += (int)((dstBounds.x2 - dx2) * (sw / dw));
+    }
+    if (dstBounds.y2 != dy2) {
+        sy2 += (int)((dstBounds.y2 - dy2) * (sh / dh));
+    }
+
+    // dhfdk if thf rfdts brf fmpty (StrftdhRfdt will fbil if so)
+    if (dstBounds.x1 >= dstBounds.x2 || dstBounds.y1 >= dstBounds.y2 ||
+        sx1 >= sx2 || sy1 >= sy2)
+    {
+        rfturn S_OK;
+    }
+
+    RECT srdRfdt = { sx1, sy1, sx2, sy2 };
+    RECT dstRfdt = { dstBounds.x1, dstBounds.y1, dstBounds.x2, dstBounds.y2 };
+
+    rfturn pd3dDfvidf->StrftdhRfdt(pSrd, &srdRfdt, pDst, &dstRfdt, hint);
+}
+
+/**
+ * A donvfnifndf mfthod for issuing DrbwTfxturf dblls dfpfnding on thf
+ * hint. Sff dftbilfd fxplbnbtion bflow.
+ */
+stbtid inlinf HRESULT
+D3DDrbwTfxturfWithHint(D3DContfxt *d3dd, D3DTEXTUREFILTERTYPE hint,
+                       jint srdWidth, jint srdHfight,
+                       flobt tw, flobt th,
+                       jint sx1, jint sy1, jint sx2, jint sy2,
+                       flobt dx1, flobt dy1, flobt dx2, flobt dy2,
+                       flobt tx1, flobt ty1, flobt tx2, flobt ty2)
+{
+    HRESULT rfs;
+
+    if (hint == D3DTEXF_LINEAR &&
+        (srdWidth != tw  || srdHfight != th ||
+         srdWidth != sx2 || srdHfight != sy2 ))
+    {
+        /*
+         * Whfn thf imbgf bounds brf smbllfr thbn thf bounds of thf
+         * tfxturf thbt thf imbgf rfsidfs in, D3DTEXF_LINEAR will usf pixfls
+         * from outsidf thf vblid imbgf bounds, whidh dould rfsult in gbrbbgf
+         * pixfls showing up bt thf fdgfs of thf trbnsformfd rfsult.  Wf sft
+         * thf tfxturf wrbp modf to D3DTADDRESS_CLAMP, whidh solvfs thf problfm
+         * for thf top bnd lfft fdgfs.  But whfn thf sourdf bounds do not
+         * mbtdh thf tfxturf bounds, wf nffd to pfrform this bs b four-pbrt
+         * opfrbtion in ordfr to prfvfnt thf filtfr usfd by D3D from using
+         * invblid pixfls bt thf bottom bnd right fdgfs.
+         *
+         * Notf thbt wf only nffd to bpply this tfdhniquf whfn thf sourdf
+         * bounds brf fqubl to thf bdtubl imbgf bounds.  If thf sourdf bounds
+         * fbll within thf imbgf bounds thfrf is no nffd to bpply this hbdk
+         * bfdbusf thf filtfr usfd by D3D will bddfss vblid pixfls.
+         * Likfwisf, if thf imbgf bounds brf fqubl to thf tfxturf bounds,
+         * thfn thf fdgf donditions brf hbndlfd propfrly by D3DTADDRESS_CLAMP.
+         */
+
+        // Thfsf vblufs rfprfsfnt thf bottom-right dornfr of sourdf tfxturf
+        // rfgion pullfd in by 1/2 of b sourdf tfxfl.
+        flobt tx2bdj = tx2 - (1.0f / (2.0f * tw));
+        flobt ty2bdj = ty2 - (1.0f / (2.0f * th));
+
+        // Thfsf vblufs rfprfsfnt thf bbovf doordinbtfs pullfd in by b
+        // tiny frbdtion.  As bn fxbmplf, if wf sbmplf thf tiny brfb from
+        // tx2bdj2 to tx2bdj, thf rfsult should bf thf solid dolor bt thf
+        // tfxfl dfntfr dorrfsponding to tx2bdj.
+        flobt tx2bdj2 = tx2bdj - 0.0001f;
+        flobt ty2bdj2 = ty2bdj - 0.0001f;
+
+        // Thfsf vblufs rfprfsfnt thf bottom-right dornfr of thf dfstinbtion
+        // rfgion pullfd in by 1/2 of b dfstinbtion pixfl.
+        flobt dx2bdj = dx2 - 0.5f;
+        flobt dy2bdj = dy2 - 0.5f;
+
+        // First, rfndfr b mbjority of thf sourdf tfxturf, from thf top-lfft
+        // dornfr to thf bottom-right, but not indluding thf right or bottom
+        // fdgfs.
+        d3dd->pVCbdhfr->DrbwTfxturf(dx1, dy1, dx2bdj, dy2bdj,
+                                    tx1, ty1, tx2bdj, ty2bdj);
+
+        // Sfdond, rfndfr thf rfmbining slivfr on thf right fdgf.
+        d3dd->pVCbdhfr->DrbwTfxturf(dx2bdj, dy1, dx2, dy2bdj,
+                                    tx2bdj2, ty1, tx2bdj, ty2bdj);
+
+        // Third, rfndfr thf rfmbining slivfr on thf bottom fdgf.
+        d3dd->pVCbdhfr->DrbwTfxturf(dx1, dy2bdj, dx2bdj, dy2,
+                                    tx1, ty2bdj2, tx2bdj, ty2bdj);
+
+        // Finblly, rfndfr thf rfmbining spfdk bt thf bottom-right dornfr.
+        rfs = d3dd->pVCbdhfr->DrbwTfxturf(dx2bdj, dy2bdj, dx2, dy2,
+                                          tx2bdj2, ty2bdj2, tx2bdj, ty2bdj);
+    } flsf {
+        /*
+         * As mfntionfd bbovf, wf dbn issuf b simplf tfxturfd qubd if:
+         *   - thf hint is D3DTEXF_POINT or
+         *   - thf sourdf bounds brf suffidifntly insidf thf tfxturf bounds or
+         *   - thf imbgf bounds brf fqubl to thf tfxturf bounds (bs is thf
+         *     dbsf whfn thf imbgf hbs powfr-of-two dimfnsions, or whfn thf
+         *     dfvidf supports non-pow2 tfxturfs)
+         */
+        rfs =  d3dd->pVCbdhfr->DrbwTfxturf(dx1, dy1, dx2, dy2,
+                                           tx1, ty1, tx2, ty2);
+    }
+    rfturn rfs;
+}
+
+/**
+ * Innfr loop usfd for dopying b sourdf D3D "Tfxturf" to b dfstinbtion
+ * D3D "Surfbdf".  This mfthod is invokfd from D3DBlitLoops_IsoBlit().
+ *
+ * This mfthod will dopy, sdblf, or trbnsform thf sourdf tfxturf into thf
+ * dfstinbtion dfpfnding on thf trbnsform stbtf, bs fstbblishfd in
+ * bnd D3DContfxt::SftTrbnsform().  If thf sourdf tfxturf is
+ * trbnsformfd in bny wby whfn rfndfrfd into thf dfstinbtion, thf filtfring
+ * mfthod bpplifd is dftfrminfd by thf hint pbrbmftfr.
+ */
+stbtid HRESULT
+D3DBlitTfxturfToSurfbdf(D3DContfxt *d3dd,
+                        D3DSDOps *srdOps, D3DSDOps *dstOps,
+                        jboolfbn rtt, D3DTEXTUREFILTERTYPE hint,
+                        jint sx1, jint sy1, jint sx2, jint sy2,
+                        flobt dx1, flobt dy1, flobt dx2, flobt dy2)
+{
+    HRESULT rfs;
+    IDirfdt3DTfxturf9 *pSrd;
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+    flobt tx1, ty1, tx2, ty2;
+    flobt tw, th;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBlitTfxturfToSurfbdf");
+
+    RETURN_STATUS_IF_NULL(srdOps->pRfsourdf, E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps->pRfsourdf, E_FAIL);
+
+    if ((pSrd = srdOps->pRfsourdf->GftTfxturf()) == NULL ||
+        FAILED(rfs = d3dd->BfginSdfnf(STATE_TEXTUREOP)   ||
+        FAILED(rfs = d3dd->SftTfxturf(pSrd))))
+    {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "D3DBlitTfxturfToSurfbdf: BfginSdfnf or SftTfxturf fbilfd");
+        rfturn rfs;
+    }
+
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MAGFILTER, hint);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MINFILTER, hint);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+
+    tw = (flobt)srdOps->pRfsourdf->GftDfsd()->Width;
+    th = (flobt)srdOps->pRfsourdf->GftDfsd()->Hfight;
+
+    // donvfrt thf sourdf bounds into thf rbngf [0,1]
+    tx1 = ((flobt)sx1) / tw;
+    ty1 = ((flobt)sy1) / th;
+    tx2 = ((flobt)sx2) / tw;
+    ty2 = ((flobt)sy2) / th;
+
+    rfturn D3DDrbwTfxturfWithHint(d3dd, hint,
+                                  srdOps->width, srdOps->hfight,
+                                  tw, th,
+                                  sx1, sy1, sx2, sy2,
+                                  dx1, dy1, dx2, dy2,
+                                  tx1, ty1, tx2, ty2);
+}
+
+/**
+ * Innfr loop usfd for dopying b sourdf systfm mfmory ("Sw") surfbdf or
+ * D3D "Surfbdf" to b dfstinbtion D3D "Surfbdf", using bn D3D tfxturf
+ * tilf bs bn intfrmfdibtf surfbdf.  This mfthod is invokfd from
+ * D3DBlitLoops_Blit() for "Sw" surfbdfs bnd D3DBlitLoops_IsoBlit() for
+ * "Surfbdf" surfbdfs.
+ *
+ * This mfthod is usfd to trbnsform thf sourdf surfbdf into thf dfstinbtion.
+ * Pixfl rfdtbnglfs dbnnot bf brbitrbrily trbnsformfd.  Howfvfr, tfxturf
+ * mbppfd qubds do rfspfdt thf modflvifw trbnsform mbtrix, so wf usf
+ * tfxturfs hfrf to pfrform thf trbnsform opfrbtion.  This mfthod usfs b
+ * tilf-bbsfd bpprobdh in whidh b smbll subrfgion of thf sourdf surfbdf is
+ * dopifd into b dbdhfd tfxturf tilf.  Thf tfxturf tilf is thfn mbppfd
+ * into thf bppropribtf lodbtion in thf dfstinbtion surfbdf.
+ *
+ */
+D3DPIPELINE_API HRESULT
+D3DBlitToSurfbdfVibTfxturf(D3DContfxt *d3dd, SurfbdfDbtbRbsInfo *srdInfo,
+                           int srdtypf, D3DSDOps *srdOps,
+                           jboolfbn swsurfbdf, jint hint,
+                           jint sx1, jint sy1, jint sx2, jint sy2,
+                           jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    doublf tx1, ty1, tx2, ty2;
+    doublf dx, dy, dw, dh, ddw, ddh;
+    jint tw, th;
+    jint sx, sy, sw, sh;
+    HRESULT rfs = S_OK;
+    D3DRfsourdf *pBlitTfxturfRfs = NULL;
+    IDirfdt3DTfxturf9 *pBlitTfxturf = NULL;
+    IDirfdt3DSurfbdf9 *pBlitSurfbdf = NULL, *pSrd = NULL;
+    D3DTEXTUREFILTERTYPE fhint =
+            (hint == D3DSD_XFORM_BILINEAR) ? D3DTEXF_LINEAR : D3DTEXF_POINT;
+    fhint = d3dd->IsTfxturfFiltfringSupportfd(fhint) ? fhint : D3DTEXF_NONE;
+
+    if (swsurfbdf) {
+        rfs = d3dd->GftRfsourdfMbnbgfr()->GftBlitTfxturf(&pBlitTfxturfRfs);
+    } flsf {
+        RETURN_STATUS_IF_NULL(srdOps->pRfsourdf, E_FAIL);
+        RETURN_STATUS_IF_NULL(pSrd = srdOps->pRfsourdf->GftSurfbdf(), E_FAIL);
+
+        rfs = d3dd->GftRfsourdfMbnbgfr()->
+                GftBlitRTTfxturf(D3DC_BLIT_TILE_SIZE, D3DC_BLIT_TILE_SIZE,
+                                 srdOps->pRfsourdf->GftDfsd()->Formbt,
+                                 &pBlitTfxturfRfs);
+    }
+    if (FAILED(rfs)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "D3DBlitToSurfbdfVibTfxturf: dould not init blit tilf");
+        rfturn rfs;
+    }
+    pBlitSurfbdf = pBlitTfxturfRfs->GftSurfbdf();
+    pBlitTfxturf = pBlitTfxturfRfs->GftTfxturf();
+
+    D3DSURFACE_DESC *pDfsd = pBlitTfxturfRfs->GftDfsd();
+
+    tx1 = 0.0f;
+    ty1 = 0.0f;
+    tw = pDfsd->Width;
+    th = pDfsd->Hfight;
+    ddw = (dx2-dx1) / (((doublf)(sx2-sx1)) / tw);
+    ddh = (dy2-dy1) / (((doublf)(sy2-sy1)) / th);
+
+    rfs = d3dd->BfginSdfnf(STATE_TEXTUREOP);
+    RETURN_STATUS_IF_FAILED(rfs);
+    rfs = d3dd->SftTfxturf(pBlitTfxturf);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    IDirfdt3DDfvidf9 *pd3dDfvidf = d3dd->Gft3DDfvidf();
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MAGFILTER, fhint);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MINFILTER, fhint);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+
+    for (sy = sy1, dy = dy1; sy < sy2; sy += th, dy += ddh) {
+        sh = ((sy + th) > sy2) ? (sy2 - sy) : th;
+        dh = ((dy + ddh) > dy2) ? (dy2 - dy) : ddh;
+
+        for (sx = sx1, dx = dx1; sx < sx2; sx += tw, dx += ddw) {
+            sw = ((sx + tw) > sx2) ? (sx2 - sx) : tw;
+            dw = ((dx + ddw) > dx2) ? (dx2 - dx) : ddw;
+
+            tx2 = ((doublf)sw) / tw;
+            ty2 = ((doublf)sh) / th;
+
+            if (swsurfbdf) {
+                D3DBL_CopyImbgfToIntXrgbSurfbdf(srdInfo,
+                        srdtypf, pBlitTfxturfRfs,
+                        sx, sy, sw, sh,
+                        0, 0);
+            } flsf {
+                RECT srdRfdt = { (LONG)sx, (LONG)sy,
+                                 (LONG)(sx+dw), (LONG)(sy+dh) };
+                RECT dstRfdt = { 0l, 0l, (LONG)dw, (LONG)dh };
+                pd3dDfvidf->StrftdhRfdt(pSrd,
+                                        &srdRfdt, pBlitSurfbdf, &dstRfdt,
+                                        D3DTEXF_NONE);
+            }
+            D3DDrbwTfxturfWithHint(d3dd, fhint,
+                   tw, th,
+                   (flobt)tw, (flobt)th,
+                   sx, sy, sw, sh,
+                   (flobt)dx, (flobt)dy, (flobt)(dx+dw), (flobt)(dy+dh),
+                   (flobt)tx1, (flobt)ty1, (flobt)tx2, (flobt)ty2);
+            rfs = d3dd->pVCbdhfr->Rfndfr();
+        }
+    }
+    rfturn rfs;
+}
+
+/**
+ * Innfr loop usfd for dopying b sourdf systfm mfmory ("Sw") surfbdf to b
+ * dfstinbtion D3D "Tfxturf".  This mfthod is invokfd from
+ * D3DBlitLoops_Blit().
+ *
+ * Thf sourdf surfbdf is ffffdtivfly lobdfd into thf D3D tfxturf objfdt,
+ * whidh must hbvf blrfbdy bffn initiblizfd by D3DSD_initTfxturf().  Notf
+ * thbt this mfthod is only dbpbblf of dopying thf sourdf surfbdf into thf
+ * dfstinbtion surfbdf (i.f. no sdbling or gfnfrbl trbnsform is bllowfd).
+ * This rfstridtion should not bf bn issuf bs this mfthod is only usfd
+ * durrfntly to dbdhf b stbtid systfm mfmory imbgf into bn D3D tfxturf in
+ * b hiddfn-bddflfrbtion situbtion.
+ */
+stbtid HRESULT
+D3DBlitSwToTfxturf(D3DContfxt *d3dd,
+                   SurfbdfDbtbRbsInfo *srdInfo, int srdtypf,
+                   D3DSDOps *dstOps,
+                   jint sx1, jint sy1, jint sx2, jint sy2)
+{
+    RETURN_STATUS_IF_NULL(dstOps->pRfsourdf, E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps->pRfsourdf->GftSurfbdf(), E_FAIL);
+
+    rfturn D3DBL_CopyImbgfToIntXrgbSurfbdf(srdInfo, srdtypf,
+                                           dstOps->pRfsourdf,
+                                           sx1, sy1, sx2-sx1, sy2-sy1,
+                                           0, 0);
+}
+
+/**
+ * Gfnfrbl blit mfthod for dopying b nbtivf D3D surfbdf (of typf "Surfbdf"
+ * or "Tfxturf") to bnothfr D3D "Surfbdf".  If tfxturf is JNI_TRUE, this
+ * mfthod will invokf thf Tfxturf->Surfbdf innfr loop; othfrwisf, onf of thf
+ * Surfbdf->Surfbdf innfr loops will bf invokfd, dfpfnding on thf trbnsform
+ * stbtf.
+ */
+D3DPIPELINE_API HRESULT
+D3DBlitLoops_IsoBlit(JNIEnv *fnv,
+                     D3DContfxt *d3dd, jlong pSrdOps, jlong pDstOps,
+                     jboolfbn xform, jint hint,
+                     jboolfbn tfxturf, jboolfbn rtt,
+                     jint sx1, jint sy1, jint sx2, jint sy2,
+                     jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    D3DSDOps *srdOps = (D3DSDOps *)jlong_to_ptr(pSrdOps);
+    D3DSDOps *dstOps = (D3DSDOps *)jlong_to_ptr(pDstOps);
+    SurfbdfDbtbRbsInfo srdInfo;
+    jint sw    = sx2 - sx1;
+    jint sh    = sy2 - sy1;
+    jdoublf dw = dx2 - dx1;
+    jdoublf dh = dy2 - dy1;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBlitLoops_IsoBlit");
+
+    if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DBlitLoops_IsoBlit: invblid dimfnsions");
+        rfturn E_FAIL;
+    }
+
+    RETURN_STATUS_IF_NULL(srdOps, E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps, E_FAIL);
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+    RETURN_STATUS_IF_NULL(d3dd->Gft3DDfvidf(), E_FAIL);
+
+    srdInfo.bounds.x1 = sx1;
+    srdInfo.bounds.y1 = sy1;
+    srdInfo.bounds.x2 = sx2;
+    srdInfo.bounds.y2 = sy2;
+
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdInfo.bounds,
+                                    0, 0, srdOps->width, srdOps->hfight);
+
+
+    HRESULT rfs = S_OK;
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
+    {
+        if (srdInfo.bounds.x1 != sx1) {
+            dx1 += (srdInfo.bounds.x1 - sx1) * (dw / sw);
+            sx1 = srdInfo.bounds.x1;
+        }
+        if (srdInfo.bounds.y1 != sy1) {
+            dy1 += (srdInfo.bounds.y1 - sy1) * (dh / sh);
+            sy1 = srdInfo.bounds.y1;
+        }
+        if (srdInfo.bounds.x2 != sx2) {
+            dx2 += (srdInfo.bounds.x2 - sx2) * (dw / sw);
+            sx2 = srdInfo.bounds.x2;
+        }
+        if (srdInfo.bounds.y2 != sy2) {
+            dy2 += (srdInfo.bounds.y2 - sy2) * (dh / sh);
+            sy2 = srdInfo.bounds.y2;
+        }
+
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  tfxturf=%d hint=%d", tfxturf, hint);
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
+                    sx1, sy1, sx2, sy2);
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
+                    dx1, dy1, dx2, dy2);
+
+        D3DTEXTUREFILTERTYPE fhint =
+            (hint == D3DSD_XFORM_BILINEAR) ? D3DTEXF_LINEAR : D3DTEXF_POINT;
+        if (tfxturf) {
+            fhint = d3dd->IsTfxturfFiltfringSupportfd(fhint) ?
+                fhint : D3DTEXF_NONE;
+            rfs = D3DBlitTfxturfToSurfbdf(d3dd, srdOps, dstOps, rtt, fhint,
+                                          sx1, sy1, sx2, sy2,
+                                          (flobt)dx1, (flobt)dy1,
+                                          (flobt)dx2, (flobt)dy2);
+        } flsf {
+            // StrftdhRfdt dofs not do dompositing or dlipping
+            IDirfdt3DDfvidf9 *pd3dDfvidf = d3dd->Gft3DDfvidf();
+            DWORD bbEnbblfd = 0;
+
+            pd3dDfvidf->GftRfndfrStbtf(D3DRS_ALPHABLENDENABLE, &bbEnbblfd);
+            J2dTrbdfLn3(J2D_TRACE_VERBOSE, "  xform=%d dlip=%d bbEnbblfd=%d",
+                        xform, d3dd->GftClipTypf(), bbEnbblfd);
+            if (!xform && d3dd->GftClipTypf() != CLIP_SHAPE && !bbEnbblfd) {
+                fhint = d3dd->IsStrftdhRfdtFiltfringSupportfd(fhint) ?
+                    fhint : D3DTEXF_NONE;
+
+                rfs = D3DBlitSurfbdfToSurfbdf(d3dd, srdOps, dstOps, fhint,
+                                              sx1, sy1, sx2, sy2,
+                                              (int)dx1, (int)dy1,
+                                               (int)dx2, (int)dy2);
+            } flsf {
+                rfs = D3DBlitToSurfbdfVibTfxturf(d3dd, &srdInfo,
+                                                 // surfbdf typf is unusfd hfrf
+                                                 ST_INT_ARGB_PRE,
+                                                 srdOps,
+                                                 JNI_FALSE, hint,
+                                                 sx1, sy1, sx2, sy2,
+                                                 dx1, dy1, dx2, dy2);
+            }
+        }
+    }
+    rfturn rfs;
+}
+
+/**
+ * Gfnfrbl blit mfthod for dopying b systfm mfmory ("Sw") surfbdf to b nbtivf
+ * D3D surfbdf (of typf "Surfbdf" or "Tfxturf").  If tfxturf is JNI_TRUE,
+ * this mfthod will invokf thf Sw->Tfxturf innfr loop; othfrwisf, onf of thf
+ * Sw->Surfbdf innfr loops will bf invokfd, dfpfnding on thf trbnsform stbtf.
+ */
+HRESULT
+D3DBlitLoops_Blit(JNIEnv *fnv,
+                  D3DContfxt *d3dd, jlong pSrdOps, jlong pDstOps,
+                  jboolfbn xform, jint hint,
+                  jint srdtypf, jboolfbn tfxturf,
+                  jint sx1, jint sy1, jint sx2, jint sy2,
+                  jdoublf dx1, jdoublf dy1, jdoublf dx2, jdoublf dy2)
+{
+    SurfbdfDbtbOps *srdOps = (SurfbdfDbtbOps *)jlong_to_ptr(pSrdOps);
+    D3DSDOps *dstOps = (D3DSDOps *)jlong_to_ptr(pDstOps);
+    SurfbdfDbtbRbsInfo srdInfo;
+    HRESULT rfs = S_OK;
+    jint sw    = sx2 - sx1;
+    jint sh    = sy2 - sy1;
+    jdoublf dw = dx2 - dx1;
+    jdoublf dh = dy2 - dy1;
+    jint lodkFlbgs = SD_LOCK_READ;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBlitLoops_Blit");
+
+    if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0 || srdtypf < 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DBlitLoops_Blit: invblid dimfnsions or srdtypf");
+        rfturn E_FAIL;
+    }
+
+    RETURN_STATUS_IF_NULL(srdOps, E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps, E_FAIL);
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+    RETURN_STATUS_IF_NULL(d3dd->Gft3DDfvidf(), E_FAIL);
+
+    srdInfo.bounds.x1 = sx1;
+    srdInfo.bounds.y1 = sy1;
+    srdInfo.bounds.x2 = sx2;
+    srdInfo.bounds.y2 = sy2;
+
+    if (srdtypf == ST_BYTE_INDEXED || srdtypf == ST_BYTE_INDEXED_BM) {
+        lodkFlbgs |= SD_LOCK_LUT;
+    }
+    if (srdOps->Lodk(fnv, srdOps, &srdInfo, lodkFlbgs) != SD_SUCCESS) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DBlitLoops_Blit: dould not bdquirf lodk");
+        rfturn E_FAIL;
+    }
+
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
+    {
+        srdOps->GftRbsInfo(fnv, srdOps, &srdInfo);
+        if (srdInfo.rbsBbsf) {
+            if (srdInfo.bounds.x1 != sx1) {
+                dx1 += (srdInfo.bounds.x1 - sx1) * (dw / sw);
+                sx1 = srdInfo.bounds.x1;
+            }
+            if (srdInfo.bounds.y1 != sy1) {
+                dy1 += (srdInfo.bounds.y1 - sy1) * (dh / sh);
+                sy1 = srdInfo.bounds.y1;
+            }
+            if (srdInfo.bounds.x2 != sx2) {
+                dx2 += (srdInfo.bounds.x2 - sx2) * (dw / sw);
+                sx2 = srdInfo.bounds.x2;
+            }
+            if (srdInfo.bounds.y2 != sy2) {
+                dy2 += (srdInfo.bounds.y2 - sy2) * (dh / sh);
+                sy2 = srdInfo.bounds.y2;
+            }
+
+            J2dTrbdfLn3(J2D_TRACE_VERBOSE, "  tfxturf=%d srdtypf=%d hint=%d",
+                        tfxturf, srdtypf, hint);
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx1=%d sy1=%d sx2=%d sy2=%d",
+                        sx1, sy1, sx2, sy2);
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  dx1=%f dy1=%f dx2=%f dy2=%f",
+                        dx1, dy1, dx2, dy2);
+
+            if (tfxturf) {
+                // Thfsf doordinbtfs will blwbys bf intfgfrs sindf wf
+                // only fvfr do b strbight dopy from sw to tfxturf.
+                // Thus thfsf dbsts brf "sbff" - no loss of prfdision.
+                rfs = D3DBlitSwToTfxturf(d3dd, &srdInfo, srdtypf, dstOps,
+                                        (jint)dx1, (jint)dy1,
+                                        (jint)dx2, (jint)dy2);
+            } flsf {
+                rfs = D3DBlitToSurfbdfVibTfxturf(d3dd, &srdInfo, srdtypf, NULL,
+                                                 JNI_TRUE, hint,
+                                                 sx1, sy1, sx2, sy2,
+                                                 dx1, dy1, dx2, dy2);
+            }
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, srdOps, &srdInfo);
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+    rfturn rfs;
+}
+
+/**
+ * Spfdiblizfd blit mfthod for dopying b nbtivf D3D "Surfbdf" (pbufffr,
+ * window, ftd.) to b systfm mfmory ("Sw") surfbdf.
+ */
+HRESULT
+D3DBlitLoops_SurfbdfToSwBlit(JNIEnv *fnv, D3DContfxt *d3dd,
+                             jlong pSrdOps, jlong pDstOps, jint dsttypf,
+                             jint srdx, jint srdy, jint dstx, jint dsty,
+                             jint width, jint hfight)
+{
+    D3DSDOps *srdOps = (D3DSDOps *)jlong_to_ptr(pSrdOps);
+    SurfbdfDbtbOps *dstOps = (SurfbdfDbtbOps *)jlong_to_ptr(pDstOps);
+    SurfbdfDbtbRbsInfo srdInfo, dstInfo;
+    HRESULT rfs = S_OK;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBlitLoops_SurfbdfToSwBlit");
+
+    if (width <= 0 || hfight <= 0) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+            "D3DBlitLoops_SurfbdfToSwBlit: dimfnsions brf non-positivf");
+        rfturn S_OK;
+    }
+
+    RETURN_STATUS_IF_NULL(srdOps, E_FAIL);
+    RETURN_STATUS_IF_NULL(srdOps->pRfsourdf, E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps, E_FAIL);
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+    RETURN_STATUS_IF_NULL(d3dd->Gft3DDfvidf(), E_FAIL);
+
+    srdInfo.bounds.x1 = srdx;
+    srdInfo.bounds.y1 = srdy;
+    srdInfo.bounds.x2 = srdx + width;
+    srdInfo.bounds.y2 = srdy + hfight;
+    dstInfo.bounds.x1 = dstx;
+    dstInfo.bounds.y1 = dsty;
+    dstInfo.bounds.x2 = dstx + width;
+    dstInfo.bounds.y2 = dsty + hfight;
+
+    if (dstOps->Lodk(fnv, dstOps, &dstInfo, SD_LOCK_WRITE) != SD_SUCCESS) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+            "D3DBlitLoops_SurfbdfToSwBlit: dould not bdquirf dst lodk");
+        rfturn S_OK;
+    }
+
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdInfo.bounds,
+                                    0, 0, srdOps->width, srdOps->hfight);
+    SurfbdfDbtb_IntfrsfdtBlitBounds(&dstInfo.bounds, &srdInfo.bounds,
+                                    srdx - dstx, srdy - dsty);
+
+    if (srdInfo.bounds.x2 > srdInfo.bounds.x1 &&
+        srdInfo.bounds.y2 > srdInfo.bounds.y1)
+    {
+        dstOps->GftRbsInfo(fnv, dstOps, &dstInfo);
+        if (dstInfo.rbsBbsf) {
+            IDirfdt3DDfvidf9 *pd3dDfvidf = d3dd->Gft3DDfvidf();
+            IDirfdt3DSurfbdf9 *pSrd = srdOps->pRfsourdf->GftSurfbdf();
+            D3DFORMAT srdFmt = srdOps->pRfsourdf->GftDfsd()->Formbt;
+            UINT srdw = srdOps->pRfsourdf->GftDfsd()->Width;
+            UINT srdh = srdOps->pRfsourdf->GftDfsd()->Hfight;
+            D3DRfsourdf *pLodkbblfRfs;
+
+            srdx = srdInfo.bounds.x1;
+            srdy = srdInfo.bounds.y1;
+            dstx = dstInfo.bounds.x1;
+            dsty = dstInfo.bounds.y1;
+            width = srdInfo.bounds.x2 - srdInfo.bounds.x1;
+            hfight = srdInfo.bounds.y2 - srdInfo.bounds.y1;
+
+            J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  sx=%d sy=%d w=%d h=%d",
+                        srdx, srdy, width, hfight);
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
+                        dstx, dsty);
+
+            d3dd->UpdbtfStbtf(STATE_OTHEROP);
+
+            // if wf rfbd morf thbn 50% of thf imbgf it is fbstfr
+            // to gft thf wholf thing (50% is pullfd out of b hbt)
+            BOOL fullRfbd = ((width * hfight) >= (srdw * srdh * 0.5f));
+            UINT lodkSrdX = 0, lodkSrdY = 0;
+
+            if (fullRfbd) {
+                // rfbd wholf surfbdf into b sysmfm surfbdf
+                lodkSrdX = srdx;
+                lodkSrdY = srdy;
+                // thf dfst surfbdf must hbvf thf sbmf dimfnsions bnd formbt bs
+                // thf sourdf, GftBlitOSPSurfbdf fnsurfs thbt
+                rfs = d3dd->GftRfsourdfMbnbgfr()->
+                    GftBlitOSPSurfbdf(srdw, srdh, srdFmt, &pLodkbblfRfs);
+            } flsf {
+                // wf first dopy thf sourdf rfgion to b tfmp
+                // rfndfr tbrgft surfbdf of thf sbmf formbt bs thf
+                // sourdf, thfn dopy thf pixfls to thf
+                // tbrgft bufffrfd imbgf surfbdf
+                rfs = d3dd->GftRfsourdfMbnbgfr()->
+                    GftLodkbblfRTSurfbdf(width, hfight, srdFmt, &pLodkbblfRfs);
+            }
+            if (SUCCEEDED(rfs)) {
+                IDirfdt3DSurfbdf9 *pTmpSurfbdf = pLodkbblfRfs->GftSurfbdf();
+
+                if (fullRfbd) {
+                    rfs = pd3dDfvidf->GftRfndfrTbrgftDbtb(pSrd, pTmpSurfbdf);
+                } flsf {
+                    RECT srdRfdt = { srdx, srdy, srdx+width, srdy+hfight};
+                    RECT dstRfdt = { 0l, 0l, width, hfight };
+
+                    rfs = pd3dDfvidf->StrftdhRfdt(pSrd,
+                                                  &srdRfdt, pTmpSurfbdf,
+                                                  &dstRfdt, D3DTEXF_NONE);
+                }
+
+                if (SUCCEEDED(rfs)) {
+                    rfs = D3DBL_CopySurfbdfToIntArgbImbgf(
+                            pTmpSurfbdf,                       /* srd surfbdf */
+                            &dstInfo,                          /* dst info    */
+                            lodkSrdX, lodkSrdY, width, hfight, /* srd rfdt    */
+                            dstx, dsty);                       /* dst doords  */
+                }
+            }
+        }
+        SurfbdfDbtb_InvokfRflfbsf(fnv, dstOps, &dstInfo);
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, dstOps, &dstInfo);
+    rfturn rfs;
+}
+
+HRESULT
+D3DBlitLoops_CopyArfb(JNIEnv *fnv,
+                      D3DContfxt *d3dd, D3DSDOps *dstOps,
+                      jint x, jint y, jint width, jint hfight,
+                      jint dx, jint dy)
+{
+    SurfbdfDbtbBounds srdBounds, dstBounds;
+    HRESULT rfs = S_OK;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBlitLoops_CopyArfb");
+
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps, E_FAIL);
+    RETURN_STATUS_IF_NULL(dstOps->pRfsourdf, E_FAIL);
+
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  x=%d y=%d w=%d h=%d",
+                x, y, width, hfight);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  dx=%d dy=%d",
+                dx, dy);
+
+    IDirfdt3DDfvidf9 *pd3dDfvidf = d3dd->Gft3DDfvidf();
+    RETURN_STATUS_IF_NULL(pd3dDfvidf, E_FAIL);
+    ClipTypf dlipTypf = d3dd->GftClipTypf();
+
+    srdBounds.x1 = x;
+    srdBounds.y1 = y;
+    srdBounds.x2 = srdBounds.x1 + width;
+    srdBounds.y2 = srdBounds.y1 + hfight;
+    dstBounds.x1 = x + dx;
+    dstBounds.y1 = y + dy;
+    dstBounds.x2 = dstBounds.x1 + width;
+    dstBounds.y2 = dstBounds.y1 + hfight;
+
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&srdBounds,
+                                    0, 0, dstOps->width, dstOps->hfight);
+    if (dlipTypf == CLIP_RECT) {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  rfdt dlip, dlip dfst mbnublly");
+        RECT dlipRfdt;
+        pd3dDfvidf->GftSdissorRfdt(&dlipRfdt);
+        SurfbdfDbtb_IntfrsfdtBoundsXYXY(&dstBounds,
+                                        dlipRfdt.lfft, dlipRfdt.top,
+                                        dlipRfdt.right, dlipRfdt.bottom);
+    }
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&dstBounds,
+                                    0, 0, dstOps->width, dstOps->hfight);
+    SurfbdfDbtb_IntfrsfdtBlitBounds(&dstBounds, &srdBounds, -dx, -dy);
+
+    if (dstBounds.x1 < dstBounds.x2 && dstBounds.y1 < dstBounds.y2) {
+        jint sx1 = srdBounds.x1, sy1 = srdBounds.y1,
+             sx2 = srdBounds.x2, sy2 = srdBounds.y2;
+        jint dx1 = dstBounds.x1, dy1 = dstBounds.y1,
+             dx2 = dstBounds.x2, dy2 = dstBounds.y2;
+        jint dw = dx2 - dx1, dh = dy2 - dy1;
+
+        IDirfdt3DTfxturf9 *pBlitTfxturf = NULL;
+        IDirfdt3DSurfbdf9 *pBlitSurfbdf = NULL;
+        D3DRfsourdf *pBlitTfxturfRfs;
+
+        rfs = d3dd->GftRfsourdfMbnbgfr()->
+            GftBlitRTTfxturf(dw, dh,
+                             dstOps->pRfsourdf->GftDfsd()->Formbt,
+                             &pBlitTfxturfRfs);
+        if (SUCCEEDED(rfs)) {
+            pBlitSurfbdf = pBlitTfxturfRfs->GftSurfbdf();
+            pBlitTfxturf = pBlitTfxturfRfs->GftTfxturf();
+        }
+        if (!pBlitTfxturf || !pBlitSurfbdf) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "D3DBlitLoops_CopyArfb: dould not init blit tilf");
+            rfturn E_FAIL;
+        }
+
+        // flush thf rfndfring first
+        d3dd->UpdbtfStbtf(STATE_OTHEROP);
+
+        // REMIND: sff if wf dould blwbys usf tfxturf mbpping;
+        // thf bssumption hfrf is thbt StrftdhRfdt is fbstfr,
+        // if it's not, thfn wf should blwbys usf tfxturf mbpping
+
+        // from srd surfbdf to thf tfmp tfxturf
+        RECT srdRfdt =    { sx1, sy1, sx2, sy2 };
+        RECT tmpDstRfdt = { 0l, 0l,  0+dw,  0+dh };
+        rfs = pd3dDfvidf->StrftdhRfdt(dstOps->pRfsourdf->GftSurfbdf(), &srdRfdt,
+                                      pBlitSurfbdf, &tmpDstRfdt,
+                                      D3DTEXF_NONE);
+        if (dlipTypf != CLIP_SHAPE) {
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, "  rfdt or no dlip, usf StrftdhRfdt");
+            // just do strftdh rfdt to thf dfstinbtion
+            RECT dstRfdt = { dx1, dy1, dx2, dy2 };
+            // from tfmp surfbdf to thf dfstinbtion
+            rfs = pd3dDfvidf->StrftdhRfdt(pBlitSurfbdf, &tmpDstRfdt,
+                                          dstOps->pRfsourdf->GftSurfbdf(),
+                                          &dstRfdt,
+                                          D3DTEXF_NONE);
+        } flsf {
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, "  shbpf dlip, usf tfxturf mbpping");
+            // shbpf dlip - hbvf to usf tfxturf mbpping
+            D3DTEXTUREFILTERTYPE fhint =
+                d3dd->IsTfxturfFiltfringSupportfd(D3DTEXF_NONE) ?
+                    D3DTEXF_NONE: D3DTEXF_POINT;
+            pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MAGFILTER, fhint);
+            pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MINFILTER, fhint);
+            rfs = d3dd->BfginSdfnf(STATE_TEXTUREOP);
+            RETURN_STATUS_IF_FAILED(rfs);
+            rfs = d3dd->SftTfxturf(pBlitTfxturf);
+
+            flobt tx2 = (flobt)dw/(flobt)pBlitTfxturfRfs->GftDfsd()->Width;
+            flobt ty2 = (flobt)dh/(flobt)pBlitTfxturfRfs->GftDfsd()->Hfight;
+            rfs = d3dd->pVCbdhfr->DrbwTfxturf(
+                                (flobt)dx1, (flobt)dy1, (flobt)dx2, (flobt)dy2,
+                                0.0f, 0.0f, tx2, ty2);
+        }
+    }
+    rfturn rfs;
+}

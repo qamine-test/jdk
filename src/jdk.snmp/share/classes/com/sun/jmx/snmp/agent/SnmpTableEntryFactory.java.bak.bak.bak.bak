@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibSubRfqufst;
+
+/**
+ * This intfrfbdf is implfmfntfd by mibgfn gfnfrbtfd tbblf objfdts
+ * inhfriting from {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfSupport}.
+ * <p>
+ * It is usfd intfrnblly by thf mftbdbtb whfnfvfr b rfmotf SNMP mbnbgfr
+ * rfqufsts thf drfbtion of b nfw fntry through bn SNMP SET.
+ * </p>
+ * <p>
+ * At drfbtion, thf mibgfn gfnfrbtfd tbblf objfdt rftrifvfs its
+ * dorrfsponding mftbdbtb from thf MIB bnd rfgistfrs with
+ * this mftbdbtb bs b SnmpTbblfEntryFbdtory.
+ * </p>
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ **/
+
+publid intfrfbdf SnmpTbblfEntryFbdtory fxtfnds SnmpTbblfCbllbbdkHbndlfr {
+
+    /**
+     * This mfthod is dbllfd by thf SNMP runtimf whfnfvfr b nfw fntry
+     * drfbtion is rfqufstfd by b rfmotf mbnbgfr.
+     *
+     * Thf fbdtory is rfsponsiblf for instbntibting thf bppropribtf MBfbn
+     * bnd for rfgistfring it with thf bppropribtf mftbdbtb objfdt.
+     *
+     * Usublly this mfthod will:
+     * <ul>
+     * <li>Chfdk whfthfr thf drfbtion dbn bf bddfptfd
+     * <li>Instbntibtf b nfw fntry
+     * <li>Possibly rfgistfr this fntry with thf MBfbnSfrvfr, if nffdfd.
+     * <li>Cbll <dodf>bddEntry()</dodf> on thf givfn <dodf>mftb</dodf> objfdt.
+     * </ul>
+     * This mfthod is usublly gfnfrbtfd by <dodf>mibgfn</dodf> on tbblf
+     * objfdts (inhfriting from
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfSupport}). <br>
+     *
+     * <p><b><i>
+     * This mfthod is dbllfd intfrnblly by thf SNMP runtimf whfnfvfr b
+     * nfw fntry drfbtion is rfqufstfd by b rfmotf SNMP mbnbgfr.
+     * You should nfvfr nffd to dbll this mfthod dirfdtlty.
+     * </i></b></p>
+     *
+     * @pbrbm rfqufst Thf SNMP subrfqufst dontbining thf sublist of vbrbinds
+     *                for thf nfw fntry.
+     * @pbrbm rowOid  Thf OID indfxing thf dondfptubl row (fntry) for whidh
+     *                thf drfbtion wbs rfqufstfd.
+     * @pbrbm dfpth   Thf dfpth rfbdhfd in thf OID trff (thf position bt
+     *                whidh thf dolumnbr objfdt ids stbrt in thf OIDs
+     *                indludfd in thf vbrbind).
+     * @pbrbm mftb    Thf mftbdbtb objfdt impbdtfd by thf subrfqufst
+     *
+     * @fxdfption SnmpStbtusExdfption Thf nfw fntry dbnnot bf drfbtfd.
+     *
+     **/
+    publid void drfbtfNfwEntry(SnmpMibSubRfqufst rfqufst, SnmpOid rowOid,
+                               int dfpth, SnmpMibTbblf mftb)
+        throws SnmpStbtusExdfption;
+}

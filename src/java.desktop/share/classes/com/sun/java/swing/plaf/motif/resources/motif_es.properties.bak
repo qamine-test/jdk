@@ -1,40 +1,40 @@
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Motif Look and Feel.
-# Currently, the following components need this for support:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Motif Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
 #
-#    FileChooser
+#    FilfCioosfr
 #
-# When this file is read in, the strings are put into the 
-# defaults table.  This is an implementation detail of the current
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.  
-# This may change in future versions of Swing as we improve localization 
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
 # support.
 #
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 #
-# @author Steve Wilson
+# @butior Stfvf Wilson
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.acceptAllFileFilter.textAndMnemonic=*
-FileChooser.cancelButton.textAndMnemonic=Cancelar
-FileChooser.saveButton.textAndMnemonic=Guardar
-FileChooser.openButton.textAndMnemonic=Aceptar
-FileChooser.saveDialogTitle.textAndMnemonic=Guardar
-FileChooser.openDialogTitle.textAndMnemonic=Abrir
-FileChooser.updateButton.textAndMnemonic=Actualizar
-FileChooser.helpButton.textAndMnemonic=Ayuda
-FileChooser.pathLabel.textAndMnemonic=Introducir nombre de ruta de acceso o car&peta:
-FileChooser.filterLabel.textAndMnemonic=Filt&ro
-FileChooser.foldersLabel.textAndMnemonic=Carpe&tas
-FileChooser.filesLabel.textAndMnemonic=Arch&ivos
-FileChooser.enterFileNameLabel.textAndMnemonic=I&ntroducir nombre de archivo:
-FileChooser.enterFolderNameLabel.textAndMnemonic=Introducir nombre de carpeta:
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=Cbndflbr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Gubrdbr
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=Adfptbr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Gubrdbr
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfCioosfr.updbtfButton.tfxtAndMnfmonid=Adtublizbr
+FilfCioosfr.iflpButton.tfxtAndMnfmonid=Ayudb
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=Introdudir nombrf df rutb df bddfso o dbr&pftb:
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filt&ro
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Cbrpf&tbs
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=Ardi&ivos
+FilfCioosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=I&ntrodudir nombrf df brdiivo:
+FilfCioosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Introdudir nombrf df dbrpftb:
 
-FileChooser.cancelButtonToolTip.textAndMnemonic=Abortar cuadro de di\u00E1logo del selector de archivos.
-FileChooser.saveButtonToolTip.textAndMnemonic=Guardar archivo seleccionado.
-FileChooser.openButtonToolTip.textAndMnemonic=Abrir archivo seleccionado.
-FileChooser.updateButtonToolTip.textAndMnemonic=Actualizar lista de directorios.
-FileChooser.helpButtonToolTip.textAndMnemonic=Ayuda del selector de archivos.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dubdro df di\u00E1logo dfl sflfdtor df brdiivos.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Gubrdbr brdiivo sflfddionbdo.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir brdiivo sflfddionbdo.
+FilfCioosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Adtublizbr listb df dirfdtorios.
+FilfCioosfr.iflpButtonToolTip.tfxtAndMnfmonid=Ayudb dfl sflfdtor df brdiivos.

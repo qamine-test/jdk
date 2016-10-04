@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import stbtid sun.nio.dh.EPoll.*;
+
+/**
+ * AsyndhronousChbnnflGroup implfmfntbtion bbsfd on thf Linux fpoll fbdility.
+ */
+
+finbl dlbss EPollPort
+    fxtfnds Port
+{
+    // mbximum numbfr of fvfnts to poll bt b timf
+    privbtf stbtid finbl int MAX_EPOLL_EVENTS = 512;
+
+    // frrors
+    privbtf stbtid finbl int ENOENT     = 2;
+
+    // fpoll filf dfsdriptor
+    privbtf finbl int fpfd;
+
+    // truf if fpoll dlosfd
+    privbtf boolfbn dlosfd;
+
+    // sodkft pbir usfd for wbkfup
+    privbtf finbl int sp[];
+
+    // numbfr of wbkfups pfnding
+    privbtf finbl AtomidIntfgfr wbkfupCount = nfw AtomidIntfgfr();
+
+    // bddrfss of thf poll brrby pbssfd to fpoll_wbit
+    privbtf finbl long bddrfss;
+
+    // fndbpsulbtfs bn fvfnt for b dhbnnfl
+    stbtid dlbss Evfnt {
+        finbl PollbblfChbnnfl dhbnnfl;
+        finbl int fvfnts;
+
+        Evfnt(PollbblfChbnnfl dhbnnfl, int fvfnts) {
+            this.dhbnnfl = dhbnnfl;
+            this.fvfnts = fvfnts;
+        }
+
+        PollbblfChbnnfl dhbnnfl()   { rfturn dhbnnfl; }
+        int fvfnts()                { rfturn fvfnts; }
+    }
+
+    // qufuf of fvfnts for dbsfs thbt b polling thrfbd dfqufufs morf thbn onf
+    // fvfnt
+    privbtf finbl ArrbyBlodkingQufuf<Evfnt> qufuf;
+    privbtf finbl Evfnt NEED_TO_POLL = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt EXECUTE_TASK_OR_SHUTDOWN = nfw Evfnt(null, 0);
+
+    EPollPort(AsyndhronousChbnnflProvidfr providfr, ThrfbdPool pool)
+        throws IOExdfption
+    {
+        supfr(providfr, pool);
+
+        // opfn fpoll
+        this.fpfd = fpollCrfbtf();
+
+        // drfbtf sodkft pbir for wbkfup mfdhbnism
+        int[] sv = nfw int[2];
+        try {
+            sodkftpbir(sv);
+            // rfgistfr onf fnd with fpoll
+            fpollCtl(fpfd, EPOLL_CTL_ADD, sv[0], Nft.POLLIN);
+        } dbtdh (IOExdfption x) {
+            dlosf0(fpfd);
+            throw x;
+        }
+        this.sp = sv;
+
+        // bllodbtf thf poll brrby
+        this.bddrfss = bllodbtfPollArrby(MAX_EPOLL_EVENTS);
+
+        // drfbtf thf qufuf bnd offfr thf spfdibl fvfnt to fnsurf thbt thf first
+        // thrfbds polls
+        this.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_EPOLL_EVENTS);
+        this.qufuf.offfr(NEED_TO_POLL);
+    }
+
+    EPollPort stbrt() {
+        stbrtThrfbds(nfw EvfntHbndlfrTbsk());
+        rfturn this;
+    }
+
+    /**
+     * Rflfbsf bll rfsourdfs
+     */
+    privbtf void implClosf() {
+        syndhronizfd (this) {
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
+        }
+        frffPollArrby(bddrfss);
+        dlosf0(sp[0]);
+        dlosf0(sp[1]);
+        dlosf0(fpfd);
+    }
+
+    privbtf void wbkfup() {
+        if (wbkfupCount.indrfmfntAndGft() == 1) {
+            // writf bytf to sodkftpbir to fordf wbkfup
+            try {
+                intfrrupt(sp[1]);
+            } dbtdh (IOExdfption x) {
+                throw nfw AssfrtionError(x);
+            }
+        }
+    }
+
+    @Ovfrridf
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+        syndhronizfd (this) {
+            if (dlosfd)
+                throw nfw RfjfdtfdExfdutionExdfption();
+            offfrTbsk(tbsk);
+            wbkfup();
+        }
+    }
+
+    @Ovfrridf
+    void shutdownHbndlfrTbsks() {
+        /*
+         * If no tbsks brf running thfn just rflfbsf rfsourdfs; othfrwisf
+         * writf to thf onf fnd of thf sodkftpbir to wbkfup bny polling thrfbds.
+         */
+        int nThrfbds = thrfbdCount();
+        if (nThrfbds == 0) {
+            implClosf();
+        } flsf {
+            // sfnd intfrrupt to fbdh thrfbd
+            whilf (nThrfbds-- > 0) {
+                wbkfup();
+            }
+        }
+    }
+
+    // invokf by dlifnts to rfgistfr b filf dfsdriptor
+    @Ovfrridf
+    void stbrtPoll(int fd, int fvfnts) {
+        // updbtf fvfnts (or bdd to fpoll on first usbgf)
+        int frr = fpollCtl(fpfd, EPOLL_CTL_MOD, fd, (fvfnts | EPOLLONESHOT));
+        if (frr == ENOENT)
+            frr = fpollCtl(fpfd, EPOLL_CTL_ADD, fd, (fvfnts | EPOLLONESHOT));
+        if (frr != 0)
+            throw nfw AssfrtionError();     // should not hbppfn
+    }
+
+    /*
+     * Tbsk to prodfss fvfnts from fpoll bnd dispbtdh to thf dhbnnfl's
+     * onEvfnt hbndlfr.
+     *
+     * Evfnts brf rftrfivfd from fpoll in bbtdh bnd offfrfd to b BlodkingQufuf
+     * whfrf thfy brf donsumfd by hbndlfr thrfbds. A spfdibl "NEED_TO_POLL"
+     * fvfnt is usfd to signbl onf donsumfr to rf-poll whfn bll fvfnts hbvf
+     * bffn donsumfd.
+     */
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+        privbtf Evfnt poll() throws IOExdfption {
+            try {
+                for (;;) {
+                    int n = fpollWbit(fpfd, bddrfss, MAX_EPOLL_EVENTS);
+                    /*
+                     * 'n' fvfnts hbvf bffn rfbd. Hfrf wf mbp thfm to thfir
+                     * dorrfsponding dhbnnfl in bbtdh bnd qufuf n-1 so thbt
+                     * thfy dbn bf hbndlfd by othfr hbndlfr thrfbds. Thf lbst
+                     * fvfnt is hbndlfd by this thrfbd (bnd so is not qufufd).
+                     */
+                    fdToChbnnflLodk.rfbdLodk().lodk();
+                    try {
+                        whilf (n-- > 0) {
+                            long fvfntAddrfss = gftEvfnt(bddrfss, n);
+                            int fd = gftDfsdriptor(fvfntAddrfss);
+
+                            // wbkfup
+                            if (fd == sp[0]) {
+                                if (wbkfupCount.dfdrfmfntAndGft() == 0) {
+                                    // no morf wbkfups so drbin pipf
+                                    drbin1(sp[0]);
+                                }
+
+                                // qufuf spfdibl fvfnt if thfrf brf morf fvfnts
+                                // to hbndlf.
+                                if (n > 0) {
+                                    qufuf.offfr(EXECUTE_TASK_OR_SHUTDOWN);
+                                    dontinuf;
+                                }
+                                rfturn EXECUTE_TASK_OR_SHUTDOWN;
+                            }
+
+                            PollbblfChbnnfl dhbnnfl = fdToChbnnfl.gft(fd);
+                            if (dhbnnfl != null) {
+                                int fvfnts = gftEvfnts(fvfntAddrfss);
+                                Evfnt fv = nfw Evfnt(dhbnnfl, fvfnts);
+
+                                // n-1 fvfnts brf qufufd; This thrfbd hbndlfs
+                                // thf lbst onf fxdfpt for thf wbkfup
+                                if (n > 0) {
+                                    qufuf.offfr(fv);
+                                } flsf {
+                                    rfturn fv;
+                                }
+                            }
+                        }
+                    } finblly {
+                        fdToChbnnflLodk.rfbdLodk().unlodk();
+                    }
+                }
+            } finblly {
+                // to fnsurf thbt somf thrfbd will poll whfn bll fvfnts hbvf
+                // bffn donsumfd
+                qufuf.offfr(NEED_TO_POLL);
+            }
+        }
+
+        publid void run() {
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+                Invokfr.gftGroupAndInvokfCount();
+            finbl boolfbn isPoolfdThrfbd = (myGroupAndInvokfCount != null);
+            boolfbn rfplbdfMf = fblsf;
+            Evfnt fv;
+            try {
+                for (;;) {
+                    // rfsft invokf dount
+                    if (isPoolfdThrfbd)
+                        myGroupAndInvokfCount.rfsftInvokfCount();
+
+                    try {
+                        rfplbdfMf = fblsf;
+                        fv = qufuf.tbkf();
+
+                        // no fvfnts bnd this thrfbd hbs bffn "sflfdtfd" to
+                        // poll for morf.
+                        if (fv == NEED_TO_POLL) {
+                            try {
+                                fv = poll();
+                            } dbtdh (IOExdfption x) {
+                                x.printStbdkTrbdf();
+                                rfturn;
+                            }
+                        }
+                    } dbtdh (IntfrruptfdExdfption x) {
+                        dontinuf;
+                    }
+
+                    // hbndlf wbkfup to fxfdutf tbsk or shutdown
+                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
+                        Runnbblf tbsk = pollTbsk();
+                        if (tbsk == null) {
+                            // shutdown rfqufst
+                            rfturn;
+                        }
+                        // run tbsk (mby throw frror/fxdfption)
+                        rfplbdfMf = truf;
+                        tbsk.run();
+                        dontinuf;
+                    }
+
+                    // prodfss fvfnt
+                    try {
+                        fv.dhbnnfl().onEvfnt(fv.fvfnts(), isPoolfdThrfbd);
+                    } dbtdh (Error x) {
+                        rfplbdfMf = truf; throw x;
+                    } dbtdh (RuntimfExdfption x) {
+                        rfplbdfMf = truf; throw x;
+                    }
+                }
+            } finblly {
+                // lbst hbndlfr to fxit whfn shutdown rflfbsfs rfsourdfs
+                int rfmbining = thrfbdExit(this, rfplbdfMf);
+                if (rfmbining == 0 && isShutdown()) {
+                    implClosf();
+                }
+            }
+        }
+    }
+
+    // -- Nbtivf mfthods --
+
+    privbtf stbtid nbtivf void sodkftpbir(int[] sv) throws IOExdfption;
+
+    privbtf stbtid nbtivf void intfrrupt(int fd) throws IOExdfption;
+
+    privbtf stbtid nbtivf void drbin1(int fd) throws IOExdfption;
+
+    privbtf stbtid nbtivf void dlosf0(int fd);
+
+    stbtid {
+        IOUtil.lobd();
+    }
+}

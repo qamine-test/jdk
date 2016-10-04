@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: URIReference.java,v 1.4 2005/05/10 15:47:42 mullan Exp $
+ * $Id: URIRfffrfndf.jbvb,v 1.4 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbdkbgf jbvbx.xml.drypto;
 
 /**
- * Identifies a data object via a URI-Reference, as specified by
- * <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.
+ * Idfntififs b dbtb objfdt vib b URI-Rfffrfndf, bs spfdififd by
+ * <b irff="ittp://www.iftf.org/rfd/rfd2396.txt">RFC 2396</b>.
  *
- * <p>Note that some subclasses may not have a <code>type</code> attribute
- * and for objects of those types, the {@link #getType} method always returns
- * <code>null</code>.
+ * <p>Notf tibt somf subdlbssfs mby not ibvf b <dodf>typf</dodf> bttributf
+ * bnd for objfdts of tiosf typfs, tif {@link #gftTypf} mftiod blwbys rfturns
+ * <dodf>null</dodf>.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see URIDereferencer
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff URIDfrfffrfndfr
  */
-public interface URIReference {
+publid intfrfbdf URIRfffrfndf {
 
     /**
-     * Returns the URI of the referenced data object.
+     * Rfturns tif URI of tif rfffrfndfd dbtb objfdt.
      *
-     * @return the URI of the data object in RFC 2396 format (may be
-     *    <code>null</code> if not specified)
+     * @rfturn tif URI of tif dbtb objfdt in RFC 2396 formbt (mby bf
+     *    <dodf>null</dodf> if not spfdififd)
      */
-    String getURI();
+    String gftURI();
 
     /**
-     * Returns the type of data referenced by this URI.
+     * Rfturns tif typf of dbtb rfffrfndfd by tiis URI.
      *
-     * @return the type (a URI) of the data object (may be <code>null</code>
-     *    if not specified)
+     * @rfturn tif typf (b URI) of tif dbtb objfdt (mby bf <dodf>null</dodf>
+     *    if not spfdififd)
      */
-    String getType();
+    String gftTypf();
 }

@@ -1,0 +1,153 @@
+." Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+."
+." This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." publishfd by thf Frff Softwbrf Foundbtion.
+."
+." This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+." ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+." vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+." bddompbnifd this dodf).
+."
+." You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+." 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+." Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+."
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+." qufstions.
+."
+.TH bpt 1 "10 Mby 2011"
+
+.LP
+.SH "NAME"
+.LP
+.LP
+\f2bpt\fP \- bnnotbtion prodfssing tool
+.LP
+.SH "SYNOPSIS"
+.LP
+.LP
+\f2bpt [\-dlbsspbth \fP\f2dlbsspbth\fP] [\-sourdfpbth \f2sourdfpbth\fP] [\-d \f2dirfdtory\fP] [\-s \f2dirfdtory\fP] [\-fbdtorypbth \f2pbth\fP] [\-fbdtory \f2dlbss\fP] [\-print] [\-nodompilf] [\-A\f2kfy\fP[\f2=vbl\fP] ...] [\f2jbvbd option\fP] sourdffilfs [@filfs]
+.LP
+.SH "PARAMETERS"
+.LP
+.LP
+Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs whidh bpply to b spfdifid option, sff OPTIONS bflow.
+.LP
+.RS 3
+.TP 3
+sourdffilfs
+Zfro or morf sourdf filfs to bf prodfssfd.
+.TP 3
+@filfs
+Onf or morf filfs thbt list sourdf filfs or othfr options
+.RE
+
+.LP
+.SH "DESCRIPTION"
+.LP
+.LP
+\f3Notf\fP: Thf \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in thf pbdkbgf \f2dom.sun.mirror\fP hbvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in thf nfxt mbjor JDK rflfbsf. Usf thf options bvbilbblf in thf \f2jbvbd(1)\fP tool bnd thf APIs dontbinfd in thf pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
+.LP
+.LP
+Thf tool \f2bpt\fP, bnnotbtion prodfssing tool, indludfs rfflfdtivf APIs bnd supporting infrbstrudturf to prodfss progrbm bnnotbtions. Thf \f2bpt\fP rfflfdtivf APIs providf b build\-timf, sourdf\-bbsfd, rfbd\-only vifw of progrbm strudturf. Thfsf rfflfdtivf APIs brf dfsignfd to dlfbnly modfl thf Jbvb(TM) progrbmming lbngubgf's typf systfm bftfr thf bddition of gfnfrids. First, \f2bpt\fP runs bnnotbtion prodfssors thbt dbn produdf nfw sourdf dodf bnd othfr filfs. Nfxt, \f2bpt\fP dbn dbusf dompilbtion of both originbl bnd gfnfrbtfd sourdf filfs, fbsing dfvflopmfnt. Thf rfflfdtivf APIs bnd othfr APIs usfd to intfrbdt with thf tool brf subpbdkbgfs of \f2dom.sun.mirror\fP.
+.LP
+.LP
+A fullfr disdussion of how thf tool opfrbtfs bs wfll bs instrudtions for dfvfloping with \f2bpt\fP brf in
+.nb
+\f4Gftting Stbrtfd with \fP\f4bpt\fP. @
+.fi
+http://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdhnotfs/guidfs/bpt/GfttingStbrtfd.html
+.LP
+.SH "OPTIONS"
+.LP
+.SS
+bpt spfdifid options
+.LP
+.RS 3
+.TP 3
+\-s dir
+Spfdify thf dirfdtory root undfr whidh prodfssor\-gfnfrbtfd sourdf filfs will bf plbdfd; filfs brf plbdfd in subdirfdtorifs bbsfd on pbdkbgf nbmfspbdf.
+.TP 3
+\-nodompilf
+Do not dompilf sourdf filfs to dlbss filfs.
+.TP 3
+\-print
+Print out tfxtubl rfprfsfntbtion of spfdififd typfs; pfrform no bnnotbtion prodfssing or dompilbtion.
+.TP 3
+\-A[kfy[=vbl]]
+Options to pbss to bnnotbtion prodfssors \-\- thfsf brf not intfrprftfd by \f2bpt\fP dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors
+.TP 3
+\-fbdtorypbth pbth
+Spfdify whfrf to find bnnotbtion prodfssor fbdtorifs; if this option is usfd, thf dlbsspbth is \f2not\fP sfbrdhfd for fbdtorifs.
+.TP 3
+\-fbdtory dlbssnbmf
+Nbmf of bnnotbtion prodfssor fbdtory to usf; bypbssfs dffbult disdovfry prodfss
+.TP 3
+\-vfrsion
+Print vfrsion informbtion.
+.TP 3
+\-X
+Displby informbtion bbout non\-stbndbrd options.
+.RE
+
+.LP
+.SS
+Options shbrfd with jbvbd
+.LP
+.RS 3
+.TP 3
+\-d dir
+Spfdify whfrf to plbdf prodfssor bnd jbvbd gfnfrbtfd dlbss filfs
+.TP 3
+\-dp pbth or \-dlbsspbth pbth
+Spfdify whfrf to find usfr dlbss filfs bnd bnnotbtion prodfssor fbdtorifs. If \f2\-fbdtorypbth\fP is givfn, thf dlbsspbth is not sfbrdhfd for fbdtorifs.
+.RE
+
+.LP
+.LP
+Consult thf jbvbd(1) mbn pbgf for informbtion on \f2jbvbd\fP options.
+.LP
+.SS
+Non\-Stbndbrd Options
+.LP
+.RS 3
+.TP 3
+\-XListAnnotbtionTypfs
+List found bnnotbtion typfs.
+.TP 3
+\-XListDfdlbrbtions
+List spfdififd bnd indludfd dfdlbrbtions.
+.TP 3
+\-XPrintAptRounds
+Print informbtion bbout initibl bnd rfdursivf \f2bpt\fP rounds.
+.TP 3
+\-XPrintFbdtoryInfo
+Print informbtion bbout whidh bnnotbtions b fbdtory is bskfd to prodfss.
+.TP 3
+\-XdlbssfsAsDfdls
+Trfbt both dlbss bnd sourdf filfs bs dfdlbrbtions to prodfss.
+.RE
+
+.LP
+.LP
+\f3Notf\fP: Bfdbusf thfsf options brf non\-stbndbrd, thfy brf subjfdt to dhbngf without notidf.
+.LP
+.SH "NOTES"
+.LP
+.LP
+Thf \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in thf pbdkbgf \f2dom.sun.mirror\fP hbvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in thf nfxt mbjor JDK rflfbsf. Usf thf options bvbilbblf in thf \f2jbvbd(1)\fP tool bnd thf APIs dontbinfd in thf pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
+.LP
+.SH "SEE ALSO"
+.LP
+.RS 3
+.TP 2
+o
+jbvbd(1), jbvb(1)
+.RE
+
+.LP
+

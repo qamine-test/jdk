@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
+
+/**
+ * A filf bttributf vifw thbt providfs b vifw of b filf's usfr-dffinfd
+ * bttributfs, somftimfs known bs <fm>fxtfndfd bttributfs</fm>. Usfr-dffinfd
+ * filf bttributfs brf usfd to storf mftbdbtb with b filf thbt is not mfbningful
+ * to thf filf systfm. It is primbrily intfndfd for filf systfm implfmfntbtions
+ * thbt support sudh b dbpbbility dirfdtly but mby bf fmulbtfd. Thf dftbils of
+ * sudh fmulbtion brf highly implfmfntbtion spfdifid bnd thfrfforf not spfdififd.
+ *
+ * <p> This {@dodf FilfAttributfVifw} providfs b vifw of b filf's usfr-dffinfd
+ * bttributfs bs b sft of nbmf/vbluf pbirs, whfrf thf bttributf nbmf is
+ * rfprfsfntfd by b {@dodf String}. An implfmfntbtion mby rfquirf to fndodf bnd
+ * dfdodf from thf plbtform or filf systfm rfprfsfntbtion whfn bddfssing thf
+ * bttributf. Thf vbluf hbs opbquf dontfnt. This bttributf vifw dffinfs thf
+ * {@link #rfbd rfbd} bnd {@link #writf writf} mfthods to rfbd thf vbluf into
+ * or writf from b {@link BytfBufffr}. This {@dodf FilfAttributfVifw} is not
+ * intfndfd for usf whfrf thf sizf of bn bttributf vbluf is lbrgfr thbn {@link
+ * Intfgfr#MAX_VALUE}.
+ *
+ * <p> Usfr-dffinfd bttributfs mby bf usfd in somf implfmfntbtions to storf
+ * sfdurity rflbtfd bttributfs so donsfqufntly, in thf dbsf of thf dffbult
+ * providfr bt lfbst, bll mfthods thbt bddfss usfr-dffinfd bttributfs rfquirf thf
+ * {@dodf RuntimfPfrmission("bddfssUsfrDffinfdAttributfs")} pfrmission whfn b
+ * sfdurity mbnbgfr is instbllfd.
+ *
+ * <p> Thf {@link jbvb.nio.filf.FilfStorf#supportsFilfAttributfVifw
+ * supportsFilfAttributfVifw} mfthod mby bf usfd to tfst if b spfdifid {@link
+ * jbvb.nio.filf.FilfStorf FilfStorf} supports thf storbgf of usfr-dffinfd
+ * bttributfs.
+ *
+ * <p> Whfrf dynbmid bddfss to filf bttributfs is rfquirfd, thf {@link
+ * jbvb.nio.filf.Filfs#gftAttributf gftAttributf} mfthod mby bf usfd to rfbd
+ * thf bttributf vbluf. Thf bttributf vbluf is rfturnfd bs b bytf brrby (bytf[]).
+ * Thf {@link jbvb.nio.filf.Filfs#sftAttributf sftAttributf} mfthod mby bf usfd
+ * to writf thf vbluf of b usfr-dffinfd bttributf from b bufffr (bs if by
+ * invoking thf {@link #writf writf} mfthod), or bytf brrby (bytf[]).
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf UsfrDffinfdFilfAttributfVifw
+    fxtfnds FilfAttributfVifw
+{
+    /**
+     * Rfturns thf nbmf of this bttributf vifw. Attributf vifws of this typf
+     * hbvf thf nbmf {@dodf "usfr"}.
+     */
+    @Ovfrridf
+    String nbmf();
+
+    /**
+     * Rfturns b list dontbining thf nbmfs of thf usfr-dffinfd bttributfs.
+     *
+     * @rfturn  An unmodifibblf list dontbining thf nbmfs of thf filf's
+     *          usfr-dffinfd
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link
+     *          RuntimfPfrmission}<tt>("bddfssUsfrDffinfdAttributfs")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd} mfthod
+     *          dfnifs rfbd bddfss to thf filf.
+     */
+    List<String> list() throws IOExdfption;
+
+    /**
+     * Rfturns thf sizf of thf vbluf of b usfr-dffinfd bttributf.
+     *
+     * @pbrbm   nbmf
+     *          Thf bttributf nbmf
+     *
+     * @rfturn  Thf sizf of thf bttributf vbluf, in bytfs.
+     *
+     * @throws  ArithmftidExdfption
+     *          If thf sizf of thf bttributf is lbrgfr thbn {@link Intfgfr#MAX_VALUE}
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link
+     *          RuntimfPfrmission}<tt>("bddfssUsfrDffinfdAttributfs")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd} mfthod
+     *          dfnifs rfbd bddfss to thf filf.
+     */
+    int sizf(String nbmf) throws IOExdfption;
+
+    /**
+     * Rfbd thf vbluf of b usfr-dffinfd bttributf into b bufffr.
+     *
+     * <p> This mfthod rfbds thf vbluf of thf bttributf into thf givfn bufffr
+     * bs b sfqufndf of bytfs, fbiling if thf numbfr of bytfs rfmbining in
+     * thf bufffr is insuffidifnt to rfbd thf domplftf bttributf vbluf. Thf
+     * numbfr of bytfs trbnsffrrfd into thf bufffr is {@dodf n}, whfrf {@dodf n}
+     * is thf sizf of thf bttributf vbluf. Thf first bytf in thf sfqufndf is bt
+     * indfx {@dodf p} bnd thf lbst bytf is bt indfx {@dodf p + n - 1}, whfrf
+     * {@dodf p} is thf bufffr's position. Upon rfturn thf bufffr's position
+     * will bf fqubl to {@dodf p + n}; its limit will not hbvf dhbngfd.
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf wbnt to rfbd b filf's MIME typf thbt is storfd bs b usfr-dffinfd
+     * bttributf with thf nbmf "{@dodf usfr.mimftypf}".
+     * <prf>
+     *    UsfrDffinfdFilfAttributfVifw vifw =
+     *        Filfs.gftFilfAttributfVifw(pbth, UsfrDffinfdFilfAttributfVifw.dlbss);
+     *    String nbmf = "usfr.mimftypf";
+     *    BytfBufffr buf = BytfBufffr.bllodbtf(vifw.sizf(nbmf));
+     *    vifw.rfbd(nbmf, buf);
+     *    buf.flip();
+     *    String vbluf = Chbrsft.dffbultChbrsft().dfdodf(buf).toString();
+     * </prf>
+     *
+     * @pbrbm   nbmf
+     *          Thf bttributf nbmf
+     * @pbrbm   dst
+     *          Thf dfstinbtion bufffr
+     *
+     * @rfturn  Thf numbfr of bytfs rfbd, possibly zfro
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf dfstinbtion bufffr is rfbd-only
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs or thfrf is insuffidifnt spbdf in thf
+     *          dfstinbtion bufffr for thf bttributf vbluf
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link
+     *          RuntimfPfrmission}<tt>("bddfssUsfrDffinfdAttributfs")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd} mfthod
+     *          dfnifs rfbd bddfss to thf filf.
+     *
+     * @sff #sizf
+     */
+    int rfbd(String nbmf, BytfBufffr dst) throws IOExdfption;
+
+    /**
+     * Writfs thf vbluf of b usfr-dffinfd bttributf from b bufffr.
+     *
+     * <p> This mfthod writfs thf vbluf of thf bttributf from b givfn bufffr bs
+     * b sfqufndf of bytfs. Thf sizf of thf vbluf to trbnsffr is {@dodf r},
+     * whfrf {@dodf r} is thf numbfr of bytfs rfmbining in thf bufffr, thbt is
+     * {@dodf srd.rfmbining()}. Thf sfqufndf of bytfs is trbnsffrrfd from thf
+     * bufffr stbrting bt indfx {@dodf p}, whfrf {@dodf p} is thf bufffr's
+     * position. Upon rfturn, thf bufffr's position will bf fqubl to {@dodf
+     * p + n}, whfrf {@dodf n} is thf numbfr of bytfs trbnsffrrfd; its limit
+     * will not hbvf dhbngfd.
+     *
+     * <p> If bn bttributf of thf givfn nbmf blrfbdy fxists thfn its vbluf is
+     * rfplbdfd. If thf bttributf dofs not fxist thfn it is drfbtfd. If it
+     * implfmfntbtion spfdifid if b tfst to dhfdk for thf fxistfndf of thf
+     * bttributf bnd thf drfbtion of bttributf brf btomid with rfspfdt to othfr
+     * filf systfm bdtivitifs.
+     *
+     * <p> Whfrf thfrf is insuffidifnt spbdf to storf thf bttributf, or thf
+     * bttributf nbmf or vbluf fxdffd bn implfmfntbtion spfdifid mbximum sizf
+     * thfn bn {@dodf IOExdfption} is thrown.
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf wbnt to writf b filf's MIME typf bs b usfr-dffinfd bttributf:
+     * <prf>
+     *    UsfrDffinfdFilfAttributfVifw vifw =
+     *        FIlfs.gftFilfAttributfVifw(pbth, UsfrDffinfdFilfAttributfVifw.dlbss);
+     *    vifw.writf("usfr.mimftypf", Chbrsft.dffbultChbrsft().fndodf("tfxt/html"));
+     * </prf>
+     *
+     * @pbrbm   nbmf
+     *          Thf bttributf nbmf
+     * @pbrbm   srd
+     *          Thf bufffr dontbining thf bttributf vbluf
+     *
+     * @rfturn  Thf numbfr of bytfs writtfn, possibly zfro
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link
+     *          RuntimfPfrmission}<tt>("bddfssUsfrDffinfdAttributfs")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod dfnifs writf bddfss to thf filf.
+     */
+    int writf(String nbmf, BytfBufffr srd) throws IOExdfption;
+
+    /**
+     * Dflftfs b usfr-dffinfd bttributf.
+     *
+     * @pbrbm   nbmf
+     *          Thf bttributf nbmf
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs or thf bttributf dofs not fxist
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link
+     *          RuntimfPfrmission}<tt>("bddfssUsfrDffinfdAttributfs")</tt>
+     *          or its {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf}
+     *          mfthod dfnifs writf bddfss to thf filf.
+     */
+    void dflftf(String nbmf) throws IOExdfption;
+}
